@@ -10,18 +10,20 @@ options:
   header_encoding: ASCII
   platform: n64
   undefined_funcs_auto: True
-  undefined_funcs_auto_path: build/auto/undefined_funcs_auto.txt
+  undefined_funcs_auto_path: build/auto/undefined_funcs_auto.ld
   undefined_syms_auto: True
-  undefined_syms_auto_path: build/auto/undefined_syms_auto.txt
-  symbol_addrs_path: symbol_addrs.txt
-  undefined_syms_path: undefined_syms.txt
+  undefined_syms_auto_path: build/auto/undefined_syms_auto.ld
+  symbol_addrs_path: linker_scripts/symbol_addrs.txt
   asm_path: asm
-  # src_path: src
+  src_path: src
   build_path: build
+  asset_path: bin
   # extensions_path: tools/splat_ext
   mips_abi_float_regs: o32
   # section_order: [".text", ".data", ".rodata", ".bss"]
   # auto_all_sections: [".data", ".rodata", ".bss"]
+  do_c_func_detection: False
+  o_as_suffix: True
 segments:
   - name: header
     type: header
