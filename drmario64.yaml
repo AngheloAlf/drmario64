@@ -1,0 +1,40 @@
+name: Dr.Mario 64 (North America)
+sha1: a130d3622ce40e0158db2da4247101f6e92206fc
+options:
+  basename: drmario64
+  target_path: baserom.z64
+  ld_script_path: build/drmario64.ld
+  base_path: .
+  compiler: GCC
+  find_file_boundaries: True
+  header_encoding: ASCII
+  platform: n64
+  undefined_funcs_auto: True
+  undefined_funcs_auto_path: build/auto/undefined_funcs_auto.txt
+  undefined_syms_auto: True
+  undefined_syms_auto_path: build/auto/undefined_syms_auto.txt
+  symbol_addrs_path: symbol_addrs.txt
+  undefined_syms_path: undefined_syms.txt
+  asm_path: asm
+  # src_path: src
+  build_path: build
+  # extensions_path: tools/splat_ext
+  mips_abi_float_regs: o32
+  # section_order: [".text", ".data", ".rodata", ".bss"]
+  # auto_all_sections: [".data", ".rodata", ".bss"]
+segments:
+  - name: header
+    type: header
+    start: 0x0
+  - name: boot
+    type: bin
+    start: 0x40
+  - name: main
+    type: code
+    start: 0x1000
+    vram: 0x80000400
+    subsegments:
+      - [0x1000, asm]
+  - type: bin
+    start: 0xED90
+  - [0x400000]

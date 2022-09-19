@@ -1,0 +1,13 @@
+.vscode/
+asm/
+bin/
+assets/
+build/
+__pycache__/
+.make_options
+
+*.o
+
+*.z64
+*.n64
+*.v64
