@@ -179,7 +179,7 @@ extract:
 	$(RM) -r asm
 	$(PYTHON) $(SPLAT) $(SPLAT_YAML)
 
-diff-init: uncompressed
+diff-init:
 	$(RM) -rf expected/
 	mkdir -p expected/
 	cp -r $(BUILD_DIR) expected/$(BUILD_DIR)

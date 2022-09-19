@@ -24,19 +24,31 @@ options:
   # auto_all_sections: [".data", ".rodata", ".bss"]
   do_c_func_detection: False
   o_as_suffix: True
+  # gfx_ucode: 
+  mnemonic_ljust: 11
+  # shiftable: False
+  # create_elf_section_list_auto: False # ?
+  verbose: False
 segments:
   - name: header
     type: header
     start: 0x0
-  - name: boot
+  - name: ipl3
     type: bin
     start: 0x40
-  - name: main
+  - name: entry
     type: code
     start: 0x1000
     vram: 0x80000400
     subsegments:
-      - [0x1000, asm]
+      - [0x1000, asm, entry]
+  - name: boot
+    type: code
+    start: 0x1060
+    vram: 0x80000460
+    bss_size: 0x18DE0
+    subsegments:
+      - [0x1060, asm]
       - [0x1220, asm]
       - [0x2B90, asm]
       - [0x2F80, asm]
@@ -145,6 +157,9 @@ segments:
       - [0xE800, asm]
       - [0xE8B0, asm]
       - [0xEBC0, asm]
+      - start: 0x11A60
+        type: bss
+        vram: 0x80010E60
   - type: bin
-    start: 0xED90
+    start: 0x11A60
   - [0x400000]
