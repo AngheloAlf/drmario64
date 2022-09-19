@@ -25,7 +25,7 @@ options:
   do_c_func_detection: False
   o_as_suffix: True
   # gfx_ucode: 
-  mnemonic_ljust: 11
+  mnemonic_ljust: 12
   rom_address_padding: True
   # shiftable: False
   # create_elf_section_list_auto: False # ?
@@ -138,7 +138,7 @@ segments:
       - [0x00DCE0, asm]
       - [0x00DD60, asm]
       - [0x00DDE0, asm]
-      - [0x00DE80, asm]
+      - [0x00DE80, hasm, getcause]
       - [0x00DE90, asm]
       - [0x00DEA0, asm]
       - [0x00DEB0, asm]
