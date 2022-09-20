@@ -60,20 +60,31 @@ segments:
       - [0x003410, asm, epirawdma]
       - [0x003600, asm, epidma]
       - [0x0036A0, asm, cartrominit]
-      - [0x003820, asm]
-      - [0x003BE0, asm]
-      - [0x003CD0, asm]
-      - [0x003D80, asm]
-      - [0x003EC0, asm]
-      - [0x003F60, asm]
-      - [0x004CC0, asm]
-      - [0x004D00, asm]
-      - [0x005340, asm]
-      - [0x005350, asm]
-      - [0x005600, asm]
-      - [0x0056A0, asm]
-      - [0x0057F0, asm]
-      - [0x0059C0, asm]
+      - [0x003820, asm, devmgr] # func_80002FB4 is not a real function, bug on spimdisasm?
+      - [0x003BE0, asm] # flib did not find this one
+      - [0x003CD0, asm, pidma]
+      - [0x003D80, asm, aigetlen]
+      - [0x003D90, asm, aigetstat]
+      - [0x003DA0, asm, aisetfreq]
+      - [0x003EC0, asm, aisetnextbuf]
+      - [0x003F60, asm, env]
+      - [0x004C10, asm, sl]
+      - [0x004CC0, asm, heapinit]
+
+      - [0x004D00, asm, synthesizer] # haven't checked
+      - [0x005340, asm, syndelete] # haven't checked
+      - [0x005350, asm, synaddplayer] # haven't checked
+      - [0x0053A0, asm, synallocvoice] # haven't checked
+      - [0x005580, asm, synstopvoice] # haven't checked
+      - [0x005600, asm, synstartvoice] # haven't checked
+      - [0x0056A0, asm, synsetpitch] # haven't checked
+      - [0x005730, asm, synsetvol] # haven't checked
+      - [0x0057F0, asm, synsetfxmix] # haven't checked
+      - [0x005890, asm, synsetpan] # haven't checked
+      - [0x005920, asm, synallocfx] # haven't checked
+
+      - [0x0059C0, asm, invaldcache]
+      - [0x005A70, asm, writebackdcacheall]
       - [0x005AA0, asm]
       - [0x005D20, asm]
       - [0x006030, asm]
@@ -125,7 +136,8 @@ segments:
       - [0x009E60, asm]
       - [0x009EC0, asm]
       - [0x00A260, asm]
-      - [0x00A830, asm]
+      - [0x00A830, hasm, exceptasm]
+      - [0x00B1A0, hasm]
       - [0x00B230, asm]
       - [0x00B360, asm]
       - [0x00B5C0, asm]
@@ -155,7 +167,7 @@ segments:
       - [0x00E220, asm]
       - [0x00E330, asm]
       - [0x00E3A0, asm]
-      - [0x00E3C0, asm]
+      - [0x00E3C0, asm, si]
       - [0x00E3E0, asm]
       - [0x00E5C0, asm]
       - [0x00E800, asm]
@@ -165,12 +177,18 @@ segments:
       - [0x00F650, data, pimgr]
       - [0x00F680, data, cartrominit]
       - [0x00F690, data]
-      - [0x011640, rodata] # not sure about the start
-      - [0x011670, rodata]
-      - [0x0116D0, rodata]
+      - [0x00F6A0, data, aisetnextbuf]
+      - [0x00F6B0, data, env]
+      - [0x00F7B0, data, sl]
+      - [0x00F7C0, data]
+      # not sure about the rodata start
+      - [0x011640, rodata, devmgr] 
+      - [0x011660, rodata, aisetfreq]
+      - [0x011670, rodata, env] # a const array in the middle of doubles?
+      - [0x011760, rodata]
       - [0x0117E0, rodata]
       - [0x011880, rodata]
-      - [0x0118B0, rodata]
+      - [0x0118B0, rodata, exceptasm]
       - [0x011900, rodata]
       - [0x0119C0, rodata]
       - [0x0119F0, rodata]
