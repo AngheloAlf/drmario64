@@ -33,6 +33,7 @@ options:
   # shiftable: False
   # create_elf_section_list_auto: False # ?
   verbose: False
+  dump_symbols: True
 segments:
   - name: header
     type: header
