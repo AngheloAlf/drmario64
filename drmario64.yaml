@@ -13,7 +13,10 @@ options:
   undefined_funcs_auto_path: build/auto/undefined_funcs_auto.ld
   undefined_syms_auto: True
   undefined_syms_auto_path: build/auto/undefined_syms_auto.ld
-  symbol_addrs_path: linker_scripts/symbol_addrs.txt
+  symbol_addrs_path:
+    - linker_scripts/libultra_symbols.ld
+    - linker_scripts/hardware_regs.ld
+    - linker_scripts/symbol_addrs.txt
   asm_path: asm
   src_path: src
   build_path: build

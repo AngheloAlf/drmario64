@@ -151,7 +151,7 @@ O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
 DEP_FILES := $(O_FILES:.o=.asmproc.d)
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/auto $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS),$(BUILD_DIR)/$(dir)))
 
 
 #### Main Targets ###
@@ -204,11 +204,14 @@ $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x400000 $< $@
 # TODO: update header
 
-$(ELF): $(O_FILES) $(LD_SCRIPT) $(BUILD_DIR)/undefined_syms.ld
-	$(LD) $(LDFLAGS) -T $(BUILD_DIR)/undefined_syms.ld -T $(BUILD_DIR)/auto/undefined_syms_auto.ld -T $(BUILD_DIR)/auto/undefined_funcs_auto.ld -T $(LD_SCRIPT) -Map $(LD_MAP) -o $@
+$(ELF): $(O_FILES) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
+	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
+		-T $(BUILD_DIR)/auto/undefined_syms_auto.ld -T $(BUILD_DIR)/auto/undefined_funcs_auto.ld \
+		-T $(BUILD_DIR)/linker_scripts/libultra_symbols.ld -T $(BUILD_DIR)/linker_scripts/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/undefined_syms.ld \
+		-Map $(LD_MAP) -o $@
 
 
-$(BUILD_DIR)/undefined_syms.ld: linker_scripts/undefined_syms.ld
+$(BUILD_DIR)/%.ld: %.ld
 	$(CPP) $(CPPFLAGS) $< > $@
 
 
