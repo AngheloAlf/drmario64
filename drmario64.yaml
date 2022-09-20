@@ -53,11 +53,13 @@ segments:
       - [0x001220, asm]
       - [0x002B90, asm]
       - [0x002F80, asm]
-      - [0x0030A0, asm]
-      - [0x003120, asm]
-      - [0x003210, asm]
-      - [0x003600, asm]
-      - [0x0036A0, asm]
+      - [0x0030A0, asm, conteepprobe]
+      - [0x003120, asm, conteeplongwrite]
+      - [0x003210, asm, conteeplongread]
+      - [0x003280, asm, pimgr] # some unnamed symbols
+      - [0x003410, asm, epirawdma]
+      - [0x003600, asm, epidma]
+      - [0x0036A0, asm, cartrominit]
       - [0x003820, asm]
       - [0x003BE0, asm]
       - [0x003CD0, asm]
@@ -77,6 +79,7 @@ segments:
       - [0x006030, asm]
       - [0x0060F0, asm]
       - [0x006100, asm]
+      - [0x006250, asm, ortho]
       - [0x0064D0, asm]
       - [0x006850, asm]
       - [0x006B70, asm]
@@ -159,6 +162,9 @@ segments:
       - [0x00E8B0, asm]
       - [0x00EBC0, asm]
       - [0x00ED90, data]
+      - [0x00F650, data, pimgr]
+      - [0x00F680, data, cartrominit]
+      - [0x00F690, data]
       - [0x011640, rodata] # not sure about the start
       - [0x011670, rodata]
       - [0x0116D0, rodata]
@@ -170,8 +176,17 @@ segments:
       - [0x0119F0, rodata]
       - [0x011A50, rodata]
       - start: 0x011A60
+        name: 80010E60
         type: bss
         vram: 0x80010E60
+      - start: 0x011A60
+        name: cartrominit_ # bug on splat, linker uses the other file if there's a file with the same name
+        type: bss
+        vram: 0x8001F9B0
+      - start: 0x011A60
+        name: 8001FA30
+        type: bss
+        vram: 0x8001FA30
   - type: bin
     start: 0x011A60
   - [0x32CCA0] # after this there's just padding
