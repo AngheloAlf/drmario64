@@ -76,10 +76,10 @@ endif
 
 #### Tools ####
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-  $(error Please install or build $(MIPS_BINUTILS_PREFIX))
+	$(error Please install or build $(MIPS_BINUTILS_PREFIX))
 endif
 
-# TODO: set CC
+CC         := COMPILER_PATH=tools/gcc_kmc/$(DETECTED_OS)/2.7.2 tools/gcc_kmc/$(DETECTED_OS)/2.7.2/gcc
 
 AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
@@ -95,6 +95,7 @@ SPLAT_YAML ?= $(TARGET).yaml
 
 
 IINC       := -Iinclude
+IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-unknown-pragmas -Wno-missing-braces
@@ -102,7 +103,7 @@ ifneq ($(RUN_CC_CHECK),0)
 # Have CC_CHECK pretend to be a MIPS compiler
 	MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
 	CC_CHECK          := $(CC_CHECK_COMP) -fno-builtin -fsyntax-only -funsigned-char -fdiagnostics-color -std=gnu89 -D _LANGUAGE_C -D NON_MATCHING $(MIPS_BUILTIN_DEFS) $(IINC) $(CHECK_WARNINGS)
-	CC_CHECK += -m32
+	CC_CHECK          += -m32
 	ifneq ($(WERROR), 0)
 		CC_CHECK += -Werror
 	endif
@@ -110,14 +111,20 @@ else
 	CC_CHECK := @:
 endif
 
+STDERR_REDIRECTION :=
+
+
 # TODO: determine
-OPTFLAGS := -O2 -g3
-ASFLAGS := -march=vr4300 -32 $(IINC)
-MIPS_VERSION := -mips2
+OPTFLAGS        := -O2 -g3
+ASFLAGS         := -march=vr4300 -32 $(IINC)
+AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
+MIPS_VERSION    := -mips3
+GBIDEFINE       := -DF3DEX_GBI_2
+COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99 $(GBIDEFINE) -DNDEBUG -D_FINALROM
 
 # Surpress the warnings with -woff.
 # CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(IINC) -nostdinc -Wab,-r4300_mul -woff 624,649,838,712,516
-CFLAGS += -G 0 $(IINC)
+CFLAGS += -nostdinc -G 0 $(IINC) -mgp32 -mfp32 -D_LANGUAGE_C
 
 # Use relocations and abi fpr names in the dump
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
@@ -135,12 +142,15 @@ endif
 
 $(shell mkdir -p asm bin)
 
-SRC_DIRS := $(shell find src -type d)
-ASM_DIRS := $(shell find asm -type d)
-BIN_DIRS := $(shell find bin -type d)
+SRC_DIRS      := $(shell find src -type d)
+ASM_DIRS      := $(shell find asm -type d)
+BIN_DIRS      := $(shell find bin -type d)
+LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/src/voice")
 
-C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
-S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
+C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c)) \
+                 $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.c))
+S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s)) \
+                 $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.s))
 BIN_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.bin))
 O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
@@ -151,8 +161,19 @@ O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
 DEP_FILES := $(O_FILES:.o=.asmproc.d)
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS),$(BUILD_DIR)/$(dir)))
 
+# directory flags
+
+$(BUILD_DIR)/lib/ultralib/src/%.o: CFLAGS   += -w
+$(BUILD_DIR)/lib/ultralib/src/%.o: OPTFLAGS := -O3
+$(BUILD_DIR)/lib/ultralib/src/%.o: CPPFLAGS += -DNDEBUG -D_FINALROM
+$(BUILD_DIR)/lib/ultralib/src/%.o: CFLAGS   += -DNDEBUG -D_FINALROM
+$(BUILD_DIR)/lib/ultralib/src/%.o: CC_CHECK := @:
+# Redirect warnings
+$(BUILD_DIR)/lib/ultralib/src/%.o: STDERR_REDIRECTION := 2> /dev/null
+
+# $(BUILD_DIR)/lib/ultralib/src/mgu/%.o: CFLAGS += 
 
 #### Main Targets ###
 
@@ -163,17 +184,17 @@ ifeq ($(COMPARE),1)
 endif
 
 clean:
-	$(RM) -r $(BUILD_DIR)
+	$(RM) -r $(BUILD_DIR)/asm $(BUILD_DIR)/bin $(BUILD_DIR)/src
+
+libclean:
+	$(RM) -r $(BUILD_DIR)/lib
 
 distclean: clean
-	$(RM) -r asm/ bin/
-#	$(MAKE) -C tools distclean
+	$(RM) -r $(BUILD_DIR) asm/ bin/
+	$(MAKE) -C tools distclean
 
 setup:
-#	$(MAKE) -C tools
-#	python3 fixbaserom.py
-#	python3 extract_baserom.py
-#	python3 extract_assets.py -j$(N_THREADS)
+	$(MAKE) -C tools
 
 extract:
 	$(RM) -r asm
@@ -219,12 +240,12 @@ $(BUILD_DIR)/%.o: %.bin
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/%.o: %.s
-	$(CPP) $(CPPFLAGS) $(IINC) $< | $(AS) $(ASFLAGS) -o $@
+	$(CPP) $(CPPFLAGS) $(AS_DEFINES) $(IINC) -I $(dir $*) $< | $(AS) $(ASFLAGS) -o $@ $(STDERR_REDIRECTION)
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
 	$(CC_CHECK) $<
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) -I $(dir $*) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $< $(STDERR_REDIRECTION)
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)
 
