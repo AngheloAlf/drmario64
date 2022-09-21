@@ -53,7 +53,8 @@ segments:
     vram: 0x80000460
     bss_size: 0x18DE0
     subsegments:
-      - [0x001060, asm]
+      - [0x001060, c, boot_main]
+      - [0x0010F0, asm]
       - [0x001220, asm]
       - [0x002B90, asm]
       - [0x002F80, asm]

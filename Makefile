@@ -88,6 +88,7 @@ OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
 STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 GCC        := $(MIPS_BINUTILS_PREFIX)gcc
 CPP        := $(MIPS_BINUTILS_PREFIX)cpp
+STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 
 PYTHON     ?= python3
 SPLAT      ?=
@@ -124,7 +125,7 @@ COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99 $(GBIDEFINE) -DNDEBUG -D_FIN
 
 # Surpress the warnings with -woff.
 # CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(IINC) -nostdinc -Wab,-r4300_mul -woff 624,649,838,712,516
-CFLAGS += -nostdinc -G 0 $(IINC) -mgp32 -mfp32 -D_LANGUAGE_C
+CFLAGS += -nostdinc -G 0 $(IINC) -mgp32 -mfp32 -D_LANGUAGE_C -Wall
 
 # Use relocations and abi fpr names in the dump
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
@@ -143,7 +144,7 @@ endif
 $(shell mkdir -p asm bin)
 
 SRC_DIRS      := $(shell find src -type d)
-ASM_DIRS      := $(shell find asm -type d)
+ASM_DIRS      := $(shell find asm -type d -not -path "asm/nonmatchings/*")
 BIN_DIRS      := $(shell find bin -type d)
 LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/src/voice")
 
@@ -246,6 +247,7 @@ $(BUILD_DIR)/%.o: %.s
 $(BUILD_DIR)/%.o: %.c
 	$(CC_CHECK) $<
 	$(CC) -c $(CFLAGS) -I $(dir $*) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $< $(STDERR_REDIRECTION)
+	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)
 
