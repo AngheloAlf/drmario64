@@ -1,0 +1,39 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "include",
+                "lib/ultralib/include",
+                "lib/ultralib/include/gcc",
+                "lib/ultralib/include/PR",
+                "lib/ultralib/src"
+            ],
+            "defines": [
+                "NON_EQUIVALENT",
+                "NON_MATCHING",
+                "AVOID_UB",
+                "_LANGUAGE_C",
+                "F3DEX_GBI_2",
+                "_MIPS_SZLONG",
+                "__USE_ISOC99",
+                "NDEBUG",
+                "_FINALROM"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerPath": "/usr/bin/clang",
+            "intelliSenseMode": "linux-clang-x86",
+            "compilerArgs": [
+                "-m32",
+                "-nostdinc++",
+                "-Wincompatible-pointer-types",
+                "-Werror=incompatible-pointer-types"
+            ],
+            "cStandard": "gnu89"
+        }
+    ],
+    "version": 4
+}

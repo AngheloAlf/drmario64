@@ -1,0 +1,9 @@
+{
+    "search.useIgnoreFiles": false,
+    "search.exclude": {
+        "**/.git": true,
+        "build/**": true,
+        "expected/**": true,
+        "ctx.c": true,
+    }
+}
