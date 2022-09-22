@@ -99,7 +99,7 @@ IINC       := -Iinclude
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wno-unknown-pragmas -Wno-missing-braces
+CHECK_WARNINGS := -Wall -Wno-unknown-pragmas -Wno-missing-braces -Wno-int-conversion
 # TODO: fix on ultralib side
 CHECK_WARNINGS += -Wno-macro-redefined
 ifneq ($(RUN_CC_CHECK),0)

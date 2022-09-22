@@ -121,7 +121,7 @@ segments:
       - [0x0085B0, asm]
       - [0x0086A0, asm]
       - [0x008770, asm]
-      - [0x008890, asm]
+      - [0x008890, asm, stopthread]
       - [0x008950, asm]
       - [0x008990, asm]
       - [0x0089E0, asm]

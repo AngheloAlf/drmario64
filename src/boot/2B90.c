@@ -1,5 +1,7 @@
 #include "ultra64.h"
 #include "include_asm.h"
+#include "boot_functions.h"
+#include "boot_variables.h"
 
 
 INCLUDE_ASM("boot/2B90", func_80001F90);

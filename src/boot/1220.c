@@ -1,12 +1,9 @@
 #include "ultra64.h"
 #include "include_asm.h"
 #include "macros.h"
-#include "libc/stdint.h"
 #include "libc/stdbool.h"
-
-extern OSMesgQueue B_800151C0;
-extern OSMesg B_800151D8[1];
-extern s8 D_8000E1A0;
+#include "boot_functions.h"
+#include "boot_variables.h"
 
 void *func_80000620(romoffset_t segmentRom, void *segmentVram, size_t segmentSize) {
     size_t remainingSize;
