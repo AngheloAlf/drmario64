@@ -17,6 +17,7 @@ options:
     - linker_scripts/libultra_symbols.ld
     - linker_scripts/hardware_regs.ld
     - linker_scripts/symbol_addrs.txt
+    - linker_scripts/junk_symbols.txt
   asm_path: asm
   src_path: src
   build_path: build
@@ -225,6 +226,19 @@ segments:
         name: 8001FA30
         type: bss
         vram: 0x8001FA30
-  - type: bin
+  - name: segment_11A60
+    type: code
     start: 0x011A60
+    vram: 0x80029C40
+    subsegments:
+      - [0x011A60, data]
+  - name: segment_11A70
+    type: code
+    start: 0x011A70
+    vram: 0x80029C50
+    subsegments:
+      - [0x011A70, data]
+  - name: segment_4F980
+    type: bin
+    start: 0x04F980
   - [0x32CCA0] # after this there's just padding

@@ -1,0 +1,12 @@
+D_11A60 = 0x11A60; // defined:true
+D_11A70 = 0x11A70; // defined:true
+D_18DE0 = 0x18DE0; // defined:true ignore:true
+D_4F980 = 0x4F980; // defined:true ignore:true
+
+boot_BSS_START = 0x80010E60; // segment:entry
+
+// segment_11A60
+D_80029C40 = 0x80029C40; // defined:true
+D_80029C44 = 0x80029C44; // defined:true
+D_80029C48 = 0x80029C48; // defined:true
+D_80029C4C = 0x80029C4C; // defined:true

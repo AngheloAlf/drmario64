@@ -2,24 +2,18 @@
 #include "include_asm.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
+#include "segment_symbols.h"
 
-extern s32 D_11A60;
-extern s32 D_11A70;
-extern s32 D_11A70_;
-extern s32 D_4F980;
-extern s32 D_80029C40[];
-extern s32 D_80029C48;
-extern s32 D_80029C4C;
 // libultra
 extern OSMesg B_8001F8C0[];
 // ?
 extern void (*D_80029C44)();
 
 void func_800004F0(void *arg0) {
-    func_80000620(&D_11A60, D_80029C40, (u32)&D_11A70 - (u32)&D_11A60);
-    func_80002380(&D_11A70_, D_80029C40[0], (u32)&D_4F980 - (u32)&D_11A70_);
+    func_80000620(SEGMENT_ROM_START(segment_11A60), SEGMENT_START(segment_11A60), SEGMENT_ROM_SIZE(segment_11A60));
+    func_80002380(SEGMENT_ROM_START(segment_11A70), SEGMENT_START(segment_11A60)[0], SEGMENT_ROM_SIZE(segment_11A70));
 
-    bzero((void*)D_80029C48, D_80029C4C - D_80029C48);
+    bzero(SEGMENT_START(segment_11A60)[2], SEGMENT_START(segment_11A60)[3] - SEGMENT_START(segment_11A60)[2]);
     D_80029C44(arg0);
 }
 
