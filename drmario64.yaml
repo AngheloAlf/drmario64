@@ -25,7 +25,7 @@ options:
   mips_abi_float_regs: o32
   # section_order: [".text", ".data", ".rodata", ".bss"]
   # auto_all_sections: [".data", ".rodata", ".bss"]
-  do_c_func_detection: False
+  do_c_func_detection: True
   o_as_suffix: True
   # gfx_ucode: 
   mnemonic_ljust: 12
@@ -34,6 +34,10 @@ options:
   # create_elf_section_list_auto: False # ?
   verbose: False
   dump_symbols: True
+  generated_c_preamble: |
+    #include "ultra64.h"
+    #include "include_asm.h"
+  asm_inc_header:
 segments:
   - name: header
     type: header
@@ -54,7 +58,7 @@ segments:
     bss_size: 0x18DE0
     subsegments:
       - [0x001060, c, boot/boot_main]
-      - [0x0010F0, asm]
+      - [0x0010F0, c, boot/10F0]
       - [0x001220, asm]
       - [0x002B90, asm]
       - [0x002F80, asm]

@@ -1,7 +1,4 @@
-.macro glabel label
-    .global \label
-    \label:
-.endm
+.include "labels.inc"
 
 # COP0 register aliases
 
