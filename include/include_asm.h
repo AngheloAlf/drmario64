@@ -3,7 +3,7 @@
 
 #if !defined(SPLAT) && !defined(__CTX__) && !defined(PERMUTER)
 #ifndef INCLUDE_ASM
-#define INCLUDE_ASM(TYPE, FOLDER, NAME, ARGS...) \
+#define INCLUDE_ASM(FOLDER, NAME, ARGS...) \
    __asm__( \
         ".section .text\n" \
         "\t.set noat\n" \

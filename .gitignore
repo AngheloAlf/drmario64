@@ -6,6 +6,8 @@ build/
 __pycache__/
 .make_options
 
+ctx.c
+ctx.c.m2c
 *.o
 
 *.z64

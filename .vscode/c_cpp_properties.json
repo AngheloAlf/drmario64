@@ -16,10 +16,11 @@
                 "AVOID_UB",
                 "_LANGUAGE_C",
                 "F3DEX_GBI_2",
-                "_MIPS_SZLONG",
+                "_MIPS_SZLONG=32",
                 "__USE_ISOC99",
                 "NDEBUG",
-                "_FINALROM"
+                "_FINALROM",
+                "__USE_ISOC99"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true
