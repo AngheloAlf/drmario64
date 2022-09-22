@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "libc/stdint.h"
+#include "unk.h"
 
 
 // void func_80000460();
@@ -24,16 +25,16 @@ void *func_80000620(romoffset_t segmentRom, void *segmentVram, size_t segmentSiz
 // void func_80001620();
 // void func_80001D4C();
 // void func_80001EB4();
-// void func_80001F90();
+UNK_TYPE func_80001F90(romoffset_t segmentRom, UNK_TYPE arg1, size_t segmentSize);
 // void func_80001FD8();
 // void func_80002064();
-// void func_800020A0();
+UNK_TYPE func_800020A0(void);
 // void func_80002148();
-// void func_800021A0();
+void func_800021A0(void);
 // void func_800021CC();
 // void func_800022A8();
 // void func_80002300();
-// void func_80002380();
+void *func_80002380(romoffset_t segmentRom, UNK_TYPE arg1, romoffset_t segmentSize);
 // void func_800023B4();
 // void func_80002400();
 

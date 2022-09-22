@@ -15,9 +15,6 @@ extern OSMesg B_8001F8C0[];
 // ?
 extern void (*D_80029C44)();
 
-void *func_80002380(s32 *arg1, s32, u32);
-
-
 void func_800004F0(void *arg0) {
     func_80000620(&D_11A60, D_80029C40, (u32)&D_11A70 - (u32)&D_11A60);
     func_80002380(&D_11A70_, D_80029C40[0], (u32)&D_4F980 - (u32)&D_11A70_);

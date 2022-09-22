@@ -2,6 +2,8 @@
 #define BOOT_VARIABLES_H
 
 #include "ultra64.h"
+#include "libc/stdint.h"
+#include "unk.h"
 #include "alignment.h"
 
 // data
@@ -61,8 +63,8 @@ extern OSMesg B_800151D8[1];
 // extern UNK_TYPE B_8001B640;
 
 
-// extern UNK_TYPE B_80029C00;
-// extern UNK_TYPE B_80029C04;
+extern romoffset_t B_80029C00;
+extern size_t B_80029C04;
 extern OSMesgQueue B_80029C08;
 // extern UNK_TYPE B_80029C20;
 
