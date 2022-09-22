@@ -231,7 +231,7 @@ segments:
     start: 0x011A60
     vram: 0x80029C40
     subsegments:
-      - [0x011A60, data]
+      - [0x011A60, .data, segment_11A60/11A60]
   - name: segment_11A70
     type: code
     start: 0x011A70
