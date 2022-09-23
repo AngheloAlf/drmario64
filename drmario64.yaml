@@ -108,7 +108,7 @@ segments:
       - [0x006850, asm]
       - [0x006B70, asm]
       - [0x006D70, asm]
-      - [0x0071A0, hasm, bzero]
+      - [0x0071A0, .hasm, ../lib/ultralib/src/libc/bzero]
       - [0x007240, asm]
       - [0x0072D0, asm]
       - [0x007300, asm]
@@ -151,7 +151,7 @@ segments:
       - [0x009E60, asm]
       - [0x009EC0, asm, initialize]
       - [0x00A260, asm]
-      - [0x00A830, hasm, exceptasm]
+      - [0x00A830, hasm, exceptasm] # can't use ultralib's exceptasm yet
       - [0x00B1A0, hasm]
       - [0x00B230, asm]
       - [0x00B360, asm]
@@ -199,7 +199,8 @@ segments:
       - [0x00F7B0, data, sl]
       - [0x00F7C0, data]
       - [0x0111E0, data, initialize]
-      - [0x011200, data]
+      - [0x011200, data, exceptasm]
+      - [0x011230, data]
       - [0x0113E0, data, vi]
       - [0x011450, data]
       # not sure about the rodata start

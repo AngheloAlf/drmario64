@@ -200,7 +200,7 @@ __osEnqueueThread = 0x8000A3B4;
 __osPopThread = 0x8000A3FC;
 __osNop = 0x8000A40C; // was not detected by spimdisasm
 __osDispatchThread = 0x8000A414;
-// __osCleanupThread = 0x8000A590; // type:label
+__osCleanupThread = 0x8000A590; // type:label dead:true
 __osDisableInt = 0x8000A5A0;
 
 __osRestoreInt = 0x8000A610;
@@ -343,8 +343,9 @@ osViClock = 0x800105E8;
 __osShutdown = 0x800105EC;
 __OSGlobalIntMask = 0x800105F0;
 
-D_80010600 = 0x80010600;
-D_80010628 = 0x80010628;
+__osHwIntTable = 0x80010600;
+__osPiIntTable = 0x80010628;
+
 D_80010630 = 0x80010630;
 D_80010698 = 0x80010698;
 D_80010720 = 0x80010720;
