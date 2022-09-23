@@ -161,7 +161,8 @@ O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(BIN_FILES:.bin=.o),$(BUILD_DIR)/$f)
 
 # Automatic dependency files
-DEP_FILES := $(O_FILES:.o=.d)
+DEP_FILES := $(O_FILES:.o=.d) \
+             $(O_FILES:.o=.asmproc.d)
 
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS),$(BUILD_DIR)/$(dir)))
