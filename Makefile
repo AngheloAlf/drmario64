@@ -91,7 +91,7 @@ CPP        := $(MIPS_BINUTILS_PREFIX)cpp
 STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 
 PYTHON     ?= python3
-SPLAT      ?=
+SPLAT      ?= tools/splat/split.py
 SPLAT_YAML ?= $(TARGET).yaml
 
 
@@ -105,7 +105,8 @@ CHECK_WARNINGS += -Wno-macro-redefined
 ifneq ($(RUN_CC_CHECK),0)
 # Have CC_CHECK pretend to be a MIPS compiler
 	MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
-	CC_CHECK          := $(CC_CHECK_COMP) -Wextra -fno-builtin -fsyntax-only -funsigned-char -fdiagnostics-color -std=gnu89 -D_LANGUAGE_C -DNON_MATCHING $(MIPS_BUILTIN_DEFS)
+#	The -MMD flags additionaly creates a .d file with the same name as the .o file.
+	CC_CHECK          := $(CC_CHECK_COMP) -MMD -Wextra -fno-builtin -fsyntax-only -funsigned-char -fdiagnostics-color -std=gnu89 -D_LANGUAGE_C -DNON_MATCHING $(MIPS_BUILTIN_DEFS)
 	CC_CHECK          += -m32
 	ifneq ($(WERROR), 0)
 		CC_CHECK += -Werror
@@ -160,8 +161,7 @@ O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(BIN_FILES:.bin=.o),$(BUILD_DIR)/$f)
 
 # Automatic dependency files
-# (Only asm_processor dependencies and reloc dependencies are handled for now)
-DEP_FILES := $(O_FILES:.o=.asmproc.d)
+DEP_FILES := $(O_FILES:.o=.d)
 
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS),$(BUILD_DIR)/$(dir)))
@@ -245,14 +245,14 @@ $(BUILD_DIR)/%.o: %.s
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC_CHECK) $(IINC) $(CHECK_WARNINGS) $(COMMON_DEFINES) $<
+	$(CC_CHECK) $(IINC) $(CHECK_WARNINGS) $(COMMON_DEFINES) -o $@ $<
 	$(CC) -c $(CFLAGS) -I $(dir $*) $(COMMON_DEFINES) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $< $(STDERR_REDIRECTION)
 	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)
 
 
-# -include $(DEP_FILES)
+-include $(DEP_FILES)
 
 # Print target for debugging
 print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true
