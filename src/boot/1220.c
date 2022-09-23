@@ -1,6 +1,6 @@
 #include "ultra64.h"
 #include "include_asm.h"
-#include "macros.h"
+#include "macros_defines.h"
 #include "libc/stdbool.h"
 #include "boot_functions.h"
 #include "boot_variables.h"

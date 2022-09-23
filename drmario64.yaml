@@ -98,7 +98,8 @@ segments:
 
       - [0x0059C0, asm, invaldcache]
       - [0x005A70, asm, writebackdcacheall]
-      - [0x005AA0, asm]
+      - [0x005AA0, c, ../lib/ultralib/src/io/contquery]
+      - [0x005B40, asm]
       - [0x005D20, asm]
       - [0x006030, asm]
       - [0x0060F0, asm]
