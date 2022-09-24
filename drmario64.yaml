@@ -73,7 +73,7 @@ segments:
       - [0x003410, asm, epirawdma]
       - [0x003600, asm, epidma]
       - [0x0036A0, asm, cartrominit]
-      - [0x003820, asm, devmgr] # func_80002FB4 is not a real function, bug on spimdisasm?
+      - [0x003820, asm, devmgr]
       - [0x003BE0, asm] # flib did not find this one
       - [0x003CD0, asm, pidma]
       - [0x003D80, asm, aigetlen]
@@ -180,7 +180,7 @@ segments:
       - [0x00E090, asm]
       - [0x00E170, asm]
       - [0x00E1D0, asm]
-      - [0x00E220, asm, vi] # Problems with symbol addend at 8000D674
+      - [0x00E220, asm, vi]
       - [0x00E330, asm]
       - [0x00E3A0, asm]
       - [0x00E3C0, asm, si]
@@ -205,7 +205,7 @@ segments:
       - [0x0113E0, data, vi]
       - [0x011450, data]
       # not sure about the rodata start
-      - [0x011640, rodata, devmgr] 
+      - [0x011640, rodata, devmgr]
       - [0x011660, rodata, aisetfreq]
       - [0x011670, rodata, env] # a const array in the middle of doubles?
       - [0x011760, rodata]

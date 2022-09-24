@@ -39,7 +39,7 @@ __osEPiRawStartDma = 0x80002810;
 osEPiStartDma = 0x80002A00;
 osCartRomInit = 0x80002AA0;
 
-__osDevMgrMain = 0x80002C20; // size:0x3B8
+__osDevMgrMain = 0x80002C20;
 
 __osPiCreateAccessQueue = 0x80002FE0;
 __osPiGetAccess = 0x80003034;
@@ -194,14 +194,14 @@ __osEepStatus = 0x80009A90;
 
 __osExceptionPreamble = 0x80009C30;
 __osException = 0x80009C40;
-//handle_interrupt = 0x80009E48; // type:label
-send_mesg = 0x8000A1BC; // not real
-__osEnqueueAndYield = 0x8000A2AC; // not real
+handle_interrupt = 0x80009E48; // type:label
+send_mesg = 0x8000A1BC;
+__osEnqueueAndYield = 0x8000A2AC;
 __osEnqueueThread = 0x8000A3B4;
 __osPopThread = 0x8000A3FC;
 __osNop = 0x8000A40C; // was not detected by spimdisasm
 __osDispatchThread = 0x8000A414;
-__osCleanupThread = 0x8000A590; // type:label dead:true
+__osCleanupThread = 0x8000A590;
 __osDisableInt = 0x8000A5A0;
 
 __osRestoreInt = 0x8000A610;
@@ -355,7 +355,6 @@ D_80010770 = 0x80010770;
 D_80010798 = 0x80010798;
 
 vi = 0x800107E0; // size:0x60
-// D_80010810 is a fake symbol, but spimdisasm insists on making it
 __osViCurr = 0x80010840;
 __osViNext = 0x80010844;
 
@@ -422,7 +421,6 @@ B_8001D838 = 0x8001D838;
 B_8001D83C = 0x8001D83C;
 
 __Dom2SpeedParam = 0x8001D840; // size:0x74
-B_8001D8B4 = 0x8001D8B4; // fake symbol
 
 B_8001D8C0 = 0x8001D8C0;
 B_8001F8C0 = 0x8001F8C0;
