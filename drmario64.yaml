@@ -75,7 +75,7 @@ segments:
       - [0x003600, asm, epidma] # c
       - [0x0036A0, asm, cartrominit] # c
       - [0x003820, asm, devmgr] # c
-      - [0x003BE0, asm] # flib did not find this one
+      - [0x003BE0, asm, piacs]
       - [0x003CD0, asm, pidma] # c
       - [0x003D80, asm, aigetlen] # c
       - [0x003D90, asm, aigetstat] # c
@@ -130,7 +130,7 @@ segments:
       - [0x0079B0, asm, sptaskyielded] # c
       - [0x007A00, asm, sched] # c
       - [0x008410, asm, sirawdma] # c
-      - [0x0084C0, asm]
+      - [0x0084C0, asm, siacs]
       - [0x0085B0, asm, createthread] # c
       - [0x008680, asm, getthreadpri] # c
       - [0x0086A0, asm, setthreadpri] # c
@@ -143,7 +143,8 @@ segments:
       - [0x008A90, asm, settimer] # c
       - [0x008BC0, asm, timerintr] # c
       - [0x008EE0, hasm, probetlb]
-      - [0x008FA0, asm]
+      - [0x008FA0, asm, vigetcurrframebuf]
+      - [0x008FE0, asm, vigetnextframebuf]
       - [0x009020, asm, vimgr] # c
       - [0x009360, asm, visetevent] # c
       - [0x0093C0, asm, visetmode] # c
@@ -152,7 +153,7 @@ segments:
       - [0x0095D0, asm, viswapbuf] # c
       - [0x009620, asm, viswapcontext] # c
       - [0x009930, asm, viblack] # c
-      - [0x009990, asm]
+      - [0x009990, asm, nops_9990]
       - [0x0099A0, asm, mtxident] # c
       - [0x009A00, asm, mtxidentf] # c
       - [0x009A60, asm, mtxf2l] # c
@@ -163,7 +164,7 @@ segments:
       - [0x009D80, asm, translate] # c
       - [0x009E60, asm, translatef] # c
       - [0x009EC0, asm, initialize] # c
-      - [0x00A260, asm]
+      - [0x00A260, asm, conteepread]
       - [0x00A480, asm, conteepwrite] # c
       - [0x00A830, hasm, exceptasm] # can't use ultralib's exceptasm yet
       - [0x00B1A0, hasm, interrupt]
@@ -200,18 +201,14 @@ segments:
       - [0x00DF20, asm, spsetstat] # c
       - [0x00DF30, asm, spsetpc] # c
       - [0x00DF60, asm, sprawdma] # c
-      - [0x00DFF0, asm]
-      # - [0x00DFF0, asm, sirawread] # c
-      # - [0x00DFF0, asm, sprawread] # c
-      - [0x00E040, asm]
-      # - [0x00E040, asm, sirawwrite] # c
-      # - [0x00E040, asm, sprawwrite] # c
+      - [0x00DFF0, asm, sirawread] # c
+      - [0x00E040, asm, sirawwrite] # c
       - [0x00E090, asm, destroythread] # c
       - [0x00E170, hasm, maptlbrdb]
       - [0x00E1D0, hasm, unmaptlball]
       - [0x00E220, asm, vi] # c
       - [0x00E330, c, ../lib/ultralib/src/io/vigetcurrcontext]
-      - [0x00E340, asm, E340_nops]
+      - [0x00E340, asm, nops_E340]
       - [0x00E3A0, c, ../lib/ultralib/src/io/dp]
       - [0x00E3C0, c, ../lib/ultralib/src/io/si]
       # end of libultra?
