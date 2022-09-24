@@ -128,7 +128,7 @@ COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99 $(GBIDEFINE) -DNDEBUG -D_FIN
 
 # Surpress the warnings with -woff.
 # CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(IINC) -nostdinc -Wab,-r4300_mul -woff 624,649,838,712,516
-CFLAGS += -nostdinc -G 0 $(IINC) -mgp32 -mfp32 -D_LANGUAGE_C -Wall -Wno-missing-braces
+CFLAGS += -nostdinc -G 0 $(IINC) -mgp32 -mfp32 -D_LANGUAGE_C -w
 
 # Use relocations and abi fpr names in the dump
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32

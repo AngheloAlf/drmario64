@@ -193,6 +193,7 @@ segments:
       - [0x00E800, asm]
       - [0x00E8B0, asm]
       - [0x00EBC0, asm]
+
       - [0x00ED90, data]
       - [0x00F650, data, pimgr]
       - [0x00F680, data, cartrominit]
