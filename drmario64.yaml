@@ -40,6 +40,7 @@ options:
     #include "include_asm.h"
   asm_inc_header:
   use_legacy_include_asm: False
+  create_asm_dependencies: True
 segments:
   - name: header
     type: header
