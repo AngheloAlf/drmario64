@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "libc/stdint.h"
+#include "unknown_structs.h"
 #include "unk.h"
 
 
@@ -26,8 +27,8 @@ UNK_TYPE func_80000D0C(UNK_PTR arg0);
 s32 func_80001D4C(s32 *arg0);
 s32 func_80001EB4(void);
 UNK_TYPE func_80001F90(romoffset_t segmentRom, UNK_TYPE arg1, size_t segmentSize);
-u32 func_80001FD8(romoffset_t* arg0, u8* arg1, u32 arg2);
-// void func_80002064();
+size_t func_80001FD8(struct_80029C04* arg0, u8* arg1, size_t arg2);
+s32 func_80002064(s32 *arg0, u8 *arg1, s32 arg2);
 UNK_TYPE func_800020A0(void);
 s32 func_80002148(u8 *arg0, s32 arg1);
 void func_800021A0(void);

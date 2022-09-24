@@ -9,10 +9,11 @@
 extern UNK_TYPE B_8001D7F8;
 extern UNK_TYPE B_8001D7FC;
 
+
 #ifdef NON_MATCHING
 UNK_TYPE func_80001F90(romoffset_t segmentRom, UNK_TYPE arg1, size_t segmentSize) {
-    B_80029C00 = segmentRom;
-    B_80029C04 = segmentSize;
+    B_80029C00.segmentRom = segmentRom;
+    B_80029C00.segmentSize = segmentSize;
     B_8001D7F8 = arg1;
     B_8001D7FC = 0;
     func_800021A0();
@@ -23,7 +24,25 @@ UNK_TYPE func_80001F90(romoffset_t segmentRom, UNK_TYPE arg1, size_t segmentSize
 INCLUDE_ASM("boot/2B90", func_80001F90);
 #endif
 
-INCLUDE_ASM("boot/2B90", func_80001FD8);
+size_t func_80001FD8(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
+    size_t alignedSize;
+
+    if (blockSize > arg0->segmentSize) {
+        blockSize = arg0->segmentSize;
+    }
+
+    alignedSize = ALIGN8(blockSize);
+    if (alignedSize > 0) {
+        func_80000620(arg0->segmentRom, arg1, alignedSize);
+    }
+
+    arg0->segmentSize -= alignedSize;
+    arg0->segmentRom += alignedSize;
+    if ((s32) arg0->segmentSize < 0) {
+        arg0->segmentSize = 0;
+    }
+    return blockSize;
+}
 
 INCLUDE_ASM("boot/2B90", func_80002064);
 

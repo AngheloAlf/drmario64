@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "libc/stdint.h"
+#include "unknown_structs.h"
 #include "unk.h"
 #include "alignment.h"
 
@@ -63,8 +64,7 @@ extern OSMesg B_800151D8[1];
 // extern UNK_TYPE B_8001B640;
 
 
-extern romoffset_t B_80029C00;
-extern size_t B_80029C04;
+extern struct_80029C04 B_80029C00;
 extern OSMesgQueue B_80029C08;
 // extern UNK_TYPE B_80029C20;
 

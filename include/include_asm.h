@@ -1,7 +1,7 @@
 #ifndef INCLUDE_ASM_H
 #define INCLUDE_ASM_H
 
-#if !defined(SPLAT) && !defined(__CTX__) && !defined(PERMUTER)
+#if !defined(SPLAT) && !defined(M2CTX) && !defined(PERMUTER)
 #ifndef INCLUDE_ASM
 #define INCLUDE_ASM(FOLDER, NAME, ARGS...) \
    __asm__( \
@@ -23,7 +23,7 @@
 #endif
 __asm__(".include \"include/labels.inc\"\n");
 #else
-#define INCLUDE_ASM(TYPE, FOLDER, NAME, ARGS...)
+#define INCLUDE_ASM(FOLDER, NAME, ARGS...)
 #endif
 
 #endif

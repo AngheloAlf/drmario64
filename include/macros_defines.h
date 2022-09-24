@@ -1,12 +1,9 @@
 #ifndef MACROS_H
 #define MACROS_H
 
-#if !defined(__GNUC__) && !defined(__clang__)
+#if (!defined(__GNUC__) && !defined(__clang__)) || defined(M2CTX)
 #define __attribute__(x)
 #endif
-
-#define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
-#define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
 
 #if __STDC_VERSION__ >= 202000L
 #define CONST [[gnu::const]]
@@ -36,5 +33,13 @@
 #else
 #  define UNREACHABLE
 #endif
+
+
+#define ARRAY_COUNT(arr) (s32)(sizeof(arr) / sizeof(arr[0]))
+#define ARRAY_COUNTU(arr) (u32)(sizeof(arr) / sizeof(arr[0]))
+
+#define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
+#define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
+#define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
 
 #endif
