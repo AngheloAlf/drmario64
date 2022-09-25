@@ -13,5 +13,6 @@ ctx.c.m2c
 *.z64
 *.n64
 *.v64
+*.plf
 
 puzzle_collection/

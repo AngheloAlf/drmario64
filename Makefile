@@ -19,7 +19,7 @@ KEEP_MDEBUG ?= 0
 RUN_CC_CHECK ?= 1
 CC_CHECK_COMP ?= clang
 # Dump build object files
-OBJDUMP_BUILD ?= 0
+OBJDUMP_BUILD ?= 1
 # Number of threads to disassmble, extract, and compress with
 # N_THREADS ?= $(shell nproc)
 
@@ -186,7 +186,7 @@ ifeq ($(COMPARE),1)
 endif
 
 clean:
-	$(RM) -r $(BUILD_DIR)/asm $(BUILD_DIR)/bin $(BUILD_DIR)/src
+	$(RM) -r $(BUILD_DIR)/asm $(BUILD_DIR)/bin $(BUILD_DIR)/src $(ROM) $(ELF)
 
 libclean:
 	$(RM) -r $(BUILD_DIR)/lib
