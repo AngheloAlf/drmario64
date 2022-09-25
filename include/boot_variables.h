@@ -49,7 +49,7 @@ extern OSMesg B_800151D8[1];
 // extern UNK_TYPE B_8001A3F0;
 // extern UNK_TYPE B_8001A3F8;
 // extern UNK_TYPE B_8001A3FC;
-// extern UNK_TYPE B_8001A400;
+
 // extern UNK_TYPE B_8001A410;
 // extern UNK_TYPE B_8001A418;
 // extern UNK_TYPE B_8001B5D0;
