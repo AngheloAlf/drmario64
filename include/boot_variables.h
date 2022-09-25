@@ -51,21 +51,10 @@ extern OSMesg B_800151D8[1];
 // extern UNK_TYPE B_8001A3FC;
 
 // extern UNK_TYPE B_8001A410;
-// extern UNK_TYPE B_8001A418;
-// extern UNK_TYPE B_8001B5D0;
-// extern UNK_TYPE B_8001B5E8;
-// extern UNK_TYPE B_8001B600;
-// extern UNK_TYPE B_8001B602;
-// extern UNK_TYPE B_8001B604;
-// extern UNK_TYPE B_8001B618;
-// extern UNK_TYPE B_8001B61A;
-// extern UNK_TYPE B_8001B61C;
 // extern UNK_TYPE B_8001B630;
 // extern UNK_TYPE B_8001B640;
 
-
 extern struct_80029C04 B_80029C00;
 extern OSMesgQueue B_80029C08;
-// extern UNK_TYPE B_80029C20;
 
 #endif
