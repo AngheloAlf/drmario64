@@ -296,15 +296,14 @@ segments:
     type: zlib
     start: 0x011A70
     vram: 0x80029C50
+    decompressed_size: 0x899F0
     subsegments:
       - start: 0x000000
         name: code/000000
         type: asm
-        vram: 0x80029C50
       - start: 0x05AA40
         name: code/05AA40
         type: data
-        vram: 0x80084690
       - [0x0899F0]
   - name: segment_4F980 # assets?
     type: bin
