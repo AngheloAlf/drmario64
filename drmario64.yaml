@@ -298,13 +298,71 @@ segments:
     vram: 0x80029C50
     decompressed_size: 0x899F0
     subsegments:
-      - start: 0x000000
-        name: code/000000
-        type: asm
-      - start: 0x05AA40
-        name: code/05AA40
-        type: data
-      - [0x0899F0]
+      - [0x000000, asm, code/000000]
+      - [0x000280, asm, code/000280]
+      - [0x000960, asm, code/000960]
+      - [0x000E30, asm, code/000E30]
+      - [0x0020D0, asm, code/0020D0]
+      - [0x003520, asm, code/003520]
+      - [0x003ED0, asm, code/003ED0]
+      - [0x004BE0, asm, code/004BE0]
+      - [0x004EB0, asm, code/004EB0]
+      - [0x013150, asm, code/013150]
+      - [0x0131D0, asm, code/0131D0]
+      - [0x014590, asm, code/014590]
+      - [0x016DB0, asm, code/016DB0]
+      - [0x01C180, asm, code/01C180]
+      - [0x031BA0, asm, code/031BA0]
+      - [0x0332D0, asm, code/0332D0]
+      - [0x0344D0, asm, code/0344D0]
+      - [0x0365A0, asm, code/0365A0]
+      - [0x04C2E0, asm, code/04C2E0]
+      - [0x051A00, asm, code/051A00]
+      - [0x051FD0, asm, code/051FD0]
+      - [0x053610, asm, code/053610]
+      - [0x0537C0, asm, code/0537C0]
+      - [0x054610, asm, code/054610]
+      - [0x054DD0, asm, code/054DD0]
+      - [0x055C40, asm, code/055C40]
+      - [0x05A3D0, asm, code/05A3D0]
+      - [0x05A580, asm, code/05A580]
+      - [0x05A840, asm, code/05A840]
+      - [0x05AA40, data, code/05AA40]
+      - [0x082D90, rodata, code/082D90]
+      - [0x082DC0, rodata, code/082DC0]
+      - [0x083110, rodata, code/083110]
+      - [0x083150, rodata, code/083150]
+      - [0x083190, rodata, code/083190]
+      - [0x083240, rodata, code/083240]
+      - [0x083330, rodata, code/083330]
+      - [0x083500, rodata, code/083500]
+      - [0x0835C0, rodata, code/0835C0]
+      - [0x083B70, rodata, code/083B70]
+      - [0x083EF0, rodata, code/083EF0]
+      - [0x083F00, rodata, code/083F00]
+      - [0x083FC0, rodata, code/083FC0]
+      - [0x084040, rodata, code/084040]
+      - [0x084090, rodata, code/084090]
+      - [0x085C40, rodata, code/085C40]
+      - [0x0862B0, rodata, code/0862B0]
+      - [0x086820, rodata, code/086820]
+      - [0x086F20, rodata, code/086F20]
+      - [0x0870C0, rodata, code/0870C0]
+      - [0x087220, rodata, code/087220]
+      - [0x087420, rodata, code/087420]
+      - [0x087620, rodata, code/087620]
+      - [0x0876D0, rodata, code/0876D0]
+      - [0x087700, rodata, code/087700]
+      - [0x087730, rodata, code/087730]
+      - [0x0879B0, rodata, code/0879B0]
+      - [0x087D00, rodata, code/087D00]
+      - [0x087FC0, rodata, code/087FC0]
+      - [0x087FE0, rodata, code/087FE0]
+      - [0x0883A0, rodata, code/0883A0]
+      - [0x0897A0, rodata, code/0897A0]
+      - [0x0899E0, rodata, code/0899E0]
+      # TODO: bss
+      - [0x0899F0] # end
   - name: segment_4F980 # assets?
     type: bin
     start: 0x04F980
