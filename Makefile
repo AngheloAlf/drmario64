@@ -60,18 +60,15 @@ MAKE = make
 CPPFLAGS += -fno-dollars-in-identifiers -P
 LDFLAGS  := --no-check-sections --accept-unknown-input-arch --emit-relocs
 
+UNAME_S := $(shell uname -s)
 ifeq ($(OS),Windows_NT)
-	DETECTED_OS=windows
-else
-	UNAME_S := $(shell uname -s)
-	ifeq ($(UNAME_S),Linux)
-		DETECTED_OS=linux
-	endif
-	ifeq ($(UNAME_S),Darwin)
-		DETECTED_OS=macos
-		MAKE=gmake
-		CPPFLAGS += -xc++
-	endif
+	DETECTED_OS := windows
+else ifeq ($(UNAME_S),Linux)
+	DETECTED_OS := linux
+else ifeq ($(UNAME_S),Darwin)
+	DETECTED_OS := macos
+	MAKE := gmake
+	CPPFLAGS += -xc++
 endif
 
 #### Tools ####
@@ -199,7 +196,7 @@ setup:
 	$(MAKE) -C tools
 
 extract:
-	$(RM) -r asm
+	$(RM) -r asm bin
 	$(PYTHON) $(SPLAT) $(SPLAT_YAML)
 
 diff-init: all

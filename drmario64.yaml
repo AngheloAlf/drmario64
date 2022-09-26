@@ -63,7 +63,7 @@ segments:
       - [0x001060, c, boot/boot_main]
       - [0x0010F0, c, boot/10F0]
       - [0x001220, c, boot/1220]
-      - [0x002B90, c, boot/2B90]
+      - [0x002B90, c, boot/2B90] # decompressor?
       - [0x002F80, c, boot/2F80]
 
       # Start of libultra
@@ -286,19 +286,17 @@ segments:
         name: 8001FA30
         type: bss
         vram: 0x8001FA30
-  - name: segment_11A60
+  - name: dma_table
     type: code
     start: 0x011A60
     vram: 0x80029C40
     subsegments:
-      - [0x011A60, .data, segment_11A60/11A60]
-  - name: segment_11A70
-    type: code
+      - [0x011A60, .data, dma_table/dma_table]
+  - name: code # compressed
+    type: bin
     start: 0x011A70
     vram: 0x80029C50
-    subsegments:
-      - [0x011A70, data]
-  - name: segment_4F980
+  - name: segment_4F980 # assets?
     type: bin
     start: 0x04F980
   - [0x32CCA0] # after this there's just padding

@@ -5,8 +5,5 @@ D_4F980 = 0x4F980; // defined:true ignore:true
 
 boot_BSS_START = 0x80010E60; // segment:entry
 
-// segment_11A60
-D_80029C40 = 0x80029C40; // defined:true
-// D_80029C44 = 0x80029C44; // defined:true
-D_80029C48 = 0x80029C48; // defined:true
-D_80029C4C = 0x80029C4C; // defined:true
+// dma_table
+gDmaTable = 0x80029C40; // defined:true size:0x10
