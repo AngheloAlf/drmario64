@@ -27,6 +27,7 @@ sudo apt install make git build-essential clang binutils-mips-linux-gnu gcc-mips
 Copy your ROM and rename it to `baserom.z64`.
 
 ```bash
+make setup
 make extract
 make
 ```
