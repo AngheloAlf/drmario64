@@ -119,7 +119,7 @@ segments:
 
       - [0x0071A0, .hasm, ../lib/ultralib/src/libc/bzero]
       - [0x007240, asm, libultra/string] # c
-      - [0x0072D0, asm, liblibultra/rotaterpyultra/createmesgqueue] # c
+      - [0x0072D0, asm, libultra/rotaterpyultra/createmesgqueue] # c
       - [0x007300, asm, libultra/jammesg] # c
       - [0x007440, asm, libultra/recvmesg] # c
       - [0x007570, asm, libultra/sendmesg] # c
