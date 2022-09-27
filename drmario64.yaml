@@ -296,6 +296,7 @@ segments:
     start: 0x011A70
     vram: 0x80029C50
     decompressed_size: 0x899F0
+    bss_size: 0x70FD0
     subsegments:
       - [0x000000, asm, code/000000]
       - [0x000280, asm, code/000280]
@@ -360,6 +361,10 @@ segments:
       - [0x0883A0, rodata, code/0883A0]
       - [0x0897A0, rodata, code/0897A0]
       - [0x0899E0, rodata, code/0899E0]
+      - start: 0x0899F0
+        name: code/800B3640
+        type: bss
+        vram: 0x800B3640
       # TODO: bss
       - [0x0899F0] # end
   - name: segment_4F980 # assets?

@@ -239,7 +239,7 @@ $(BUILD_DIR)/%.o: %.bin
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/%.o: %.s
-	$(CPP) $(CPPFLAGS) $(COMMON_DEFINES) $(AS_DEFINES) $(IINC) -I $(dir $*) $< | $(AS) $(ASFLAGS) -o $@ $(STDERR_REDIRECTION)
+	$(CPP) $(CPPFLAGS) $(COMMON_DEFINES) $(AS_DEFINES) $(IINC) -I $(dir $*) $< | iconv --to-code=Shift-JIS | $(AS) $(ASFLAGS) -o $@ $(STDERR_REDIRECTION)
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
