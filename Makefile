@@ -189,7 +189,7 @@ libclean:
 	$(RM) -r $(BUILD_DIR)/lib
 
 distclean: clean
-	$(RM) -r $(BUILD_DIR) asm/ bin/
+	$(RM) -r $(BUILD_DIR) asm/ bin/ .splat/
 	$(MAKE) -C tools distclean
 
 setup:
