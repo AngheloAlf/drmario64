@@ -7,3 +7,9 @@ boot_BSS_START = 0x80010E60; // segment:entry
 
 // dma_table
 gDmaTable = 0x80029C40; // defined:true size:0x10
+
+D_80000000 = 0x80000000; // ignore:true
+D_80000004 = 0x80000004; // ignore:true
+D_80000008 = 0x80000008; // ignore:true
+D_8000000C = 0x8000000C; // ignore:true
+D_A0000000 = 0xA0000000; // ignore:true
