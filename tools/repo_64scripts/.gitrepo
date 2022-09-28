@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:Decompollaborate/64scripts.git
+	branch = main
+	commit = 8b03f4fbdefe4672cc1721bb621c17d260940611
+	parent = 1b3aa10ff7738eb66454182b4d0e729f9c81faa5
+	method = merge
+	cmdver = 0.4.3
