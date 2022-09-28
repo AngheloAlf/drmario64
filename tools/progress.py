@@ -10,7 +10,9 @@ filesList = get_map_functions_sizes.parseMapFile(MAP_FILE, "\n build/")
 # get_map_functions_sizes.printFunctionsCsv(filesList)
 
 totalSize = 0
+totalSize += 92816 # hardcode the size of the (de)compressed code segment for now
 undecompedSize = 0
+decompedSize = 0
 for file in filesList:
     functionList: list[get_map_functions_sizes.Function] = file.functions
     funcCount = len(functionList)
@@ -30,7 +32,8 @@ for file in filesList:
             undecompedSize += func.size
         elif funcAsmPath.exists():
             undecompedSize += func.size
+        else:
+            decompedSize += func.size
 
-decompedSize = totalSize - undecompedSize
 print(f"{decompedSize} / {totalSize}")
 print(f"{decompedSize / totalSize * 100:.4f}%")
