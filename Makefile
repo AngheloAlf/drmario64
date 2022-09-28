@@ -20,8 +20,6 @@ RUN_CC_CHECK ?= 1
 CC_CHECK_COMP ?= clang
 # Dump build object files
 OBJDUMP_BUILD ?= 1
-# Number of threads to disassmble, extract, and compress with
-# N_THREADS ?= $(shell nproc)
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -148,14 +146,17 @@ ASM_DIRS      := $(shell find asm -type d -not -path "asm/nonmatchings/*")
 BIN_DIRS      := $(shell find bin -type d)
 LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/src/voice")
 
-C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c)) \
-                 $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.c))
-S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s)) \
-                 $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.s))
+C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
+S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 BIN_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.bin))
 O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(BIN_FILES:.bin=.o),$(BUILD_DIR)/$f)
+
+LIBULTRA_C    := $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.c))
+LIBULTRA_S    := $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.s))
+LIBULTRA_O    := $(foreach f,$(LIBULTRA_C:.c=.o),$(BUILD_DIR)/$f) \
+                 $(foreach f,$(LIBULTRA_S:.s=.o),$(BUILD_DIR)/$f)
 
 # Automatic dependency files
 DEP_FILES := $(O_FILES:.o=.d) \
@@ -199,6 +200,9 @@ extract:
 	$(RM) -r asm bin
 	$(PYTHON) $(SPLAT) $(SPLAT_YAML)
 
+lib:
+	$(MAKE) -C lib
+
 diff-init: all
 	$(RM) -rf expected/
 	mkdir -p expected/
@@ -208,10 +212,11 @@ init:
 	$(MAKE) distclean
 	$(MAKE) setup
 	$(MAKE) extract
+	$(MAKE) lib
 	$(MAKE) all
 	$(MAKE) diff-init
 
-.PHONY: all clean distclean setup extract diff-init init
+.PHONY: all clean distclean setup extract lib diff-init init
 .DEFAULT_GOAL := all
 # Prevent removing intermediate files
 .SECONDARY:
@@ -224,7 +229,7 @@ $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x400000 $< $@
 # TODO: update header
 
-$(ELF): $(O_FILES) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
+$(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
 		-T $(BUILD_DIR)/auto/undefined_syms_auto.ld -T $(BUILD_DIR)/auto/undefined_funcs_auto.ld \
 		-T $(BUILD_DIR)/linker_scripts/libultra_symbols.ld -T $(BUILD_DIR)/linker_scripts/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/undefined_syms.ld \
@@ -248,6 +253,9 @@ $(BUILD_DIR)/%.o: %.c
 	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)
+
+$(BUILD_DIR)/lib/%.o:
+	$(error Library files has not been built, please run `$(MAKE) lib` first)
 
 
 -include $(DEP_FILES)

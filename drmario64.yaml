@@ -52,7 +52,7 @@ segments:
     start: 0x001000
     vram: 0x80000400
     subsegments:
-      - [0x001000, asm, entry]
+      - [0x001000, asm, entry/entrypoint]
   - name: boot
     type: code
     start: 0x001060
@@ -165,7 +165,7 @@ segments:
       - [0x009EC0, asm, libultra/initialize] # c
       - [0x00A260, asm, libultra/conteepread]
       - [0x00A480, asm, libultra/conteepwrite] # c
-      - [0x00A830, hasm, libultra/exceptasm] # can't use ultralib's exceptasm yet
+      - [0x00A830, .hasm, ../lib/ultralib/src/os/exceptasm]
       - [0x00B1A0, hasm, libultra/interrupt]
       - [0x00B230, hasm, libultra/setintmask]
       - [0x00B2D0, asm, libultra/setglobalintmask] # c
@@ -212,13 +212,13 @@ segments:
       - [0x00E3C0, c, ../lib/ultralib/src/io/si]
       # end of libultra
 
-      - [0x00E3E0, asm]
-      - [0x00E5C0, asm]
-      - [0x00E800, asm]
-      - [0x00E8B0, asm]
-      - [0x00EBC0, asm]
+      - [0x00E3E0, asm, boot/00E3E0]
+      - [0x00E5C0, asm, boot/00E5C0]
+      - [0x00E800, asm, boot/00E800]
+      - [0x00E8B0, asm, boot/00E8B0]
+      - [0x00EBC0, asm, boot/00EBC0]
 
-      - [0x00ED90, data]
+      - [0x00ED90, data, boot/00ED90]
 
       - [0x00F650, data, libultra/pimgr]
       - [0x00F680, data, libultra/cartrominit]
@@ -237,14 +237,14 @@ segments:
       - [0x010040, data, libultra/vimgr]
       - [0x010060, .data, ../lib/ultralib/src/io/vitbl]
       - [0x0111E0, data, libultra/initialize]
-      - [0x011200, data, libultra/exceptasm]
+      - [0x011200, .data, ../lib/ultralib/src/os/exceptasm]
       - [0x011230, .data, ../lib/ultralib/src/audio/drvrnew]
-      - [0x0113C0, data] # unreferenced
+      - [0x0113C0, data, boot/0113C0] # unreferenced
       - [0x0113E0, data, libultra/vi]
       - [0x011450, .data, ../lib/ultralib/src/vimodes/vimodentsclan1]
       - [0x0114A0, .data, ../lib/ultralib/src/vimodes/vimodepallan1]
       - [0x0114F0, .data, ../lib/ultralib/src/vimodes/vimodempallan1]
-      - [0x011540, data] # unreferenced
+      - [0x011540, data, boot/011540] # unreferenced
 
       # not sure about the rodata start
 
@@ -257,16 +257,16 @@ segments:
       - [0x011820, .rodata, ../lib/ultralib/src/gu/sinf]
       - [0x011880, .rodata, ../lib/ultralib/src/sched/sched]
       - [0x0118A0, .rodata, ../lib/ultralib/src/io/viswapcontext]
-      - [0x0118B0, rodata, libultra/exceptasm]
+      - [0x0118B0, .rodata, ../lib/ultralib/src/os/exceptasm]
       - [0x011900, rodata, libultra/setintmask]
       - [0x011980, .rodata, ../lib/ultralib/src/audio/drvrnew]
       - [0x0119C0, .rodata, ../lib/ultralib/src/audio/resample]
       - [0x0119F0, .rodata, ../lib/ultralib/src/audio/reverb]
       - [0x011A40, .rodata, ../lib/ultralib/src/gu/libm_vals]
-      - [0x011A50, rodata, E350]
+      - [0x011A50, rodata, boot/E350]
 
       - start: 0x011A60
-        name: 80010E60
+        name: boot/80010E60
         type: bss
         vram: 0x80010E60
       - start: 0x011A60
@@ -274,7 +274,7 @@ segments:
         type: bss
         vram: 0x800191E0
       - start: 0x011A60
-        name: 8001A3B0
+        name: boot/8001A3B0
         type: bss
         vram: 0x8001A3B0
       - start: 0x011A60
@@ -282,7 +282,7 @@ segments:
         type: bss
         vram: 0x8001F9B0
       - start: 0x011A60
-        name: 8001FA30
+        name: boot/8001FA30
         type: bss
         vram: 0x8001FA30
   - name: dma_table
