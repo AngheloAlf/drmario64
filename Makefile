@@ -141,12 +141,13 @@ endif
 
 #### Files ####
 
-$(shell mkdir -p asm bin)
+$(shell mkdir -p asm bin $(BUILD_DIR)/segments)
 
 SRC_DIRS      := $(shell find src -type d)
 ASM_DIRS      := $(shell find asm -type d -not -path "asm/nonmatchings/*")
 BIN_DIRS      := $(shell find bin -type d)
 LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/src/voice")
+SEGMENT_DIRS  := $(shell find $(BUILD_DIR)/segments -type d)
 
 C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c)) \
                  $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.c))
@@ -156,6 +157,9 @@ BIN_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.bin))
 O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(BIN_FILES:.bin=.o),$(BUILD_DIR)/$f)
+
+SEGMENT_LD    := $(foreach dir,$(SEGMENT_DIRS),$(wildcard $(dir)/*.ld))
+SEGMENT_O     := $(SEGMENT_LD:.ld=.o)
 
 # Automatic dependency files
 DEP_FILES := $(O_FILES:.o=.d) \
@@ -224,11 +228,15 @@ $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x400000 $< $@
 # TODO: update header
 
-$(ELF): $(O_FILES) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
+$(ELF): $(O_FILES) $(SEGMENT_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
 		-T $(BUILD_DIR)/auto/undefined_syms_auto.ld -T $(BUILD_DIR)/auto/undefined_funcs_auto.ld \
 		-T $(BUILD_DIR)/linker_scripts/libultra_symbols.ld -T $(BUILD_DIR)/linker_scripts/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/undefined_syms.ld \
 		-Map $(LD_MAP) -o $@
+
+# Incremental linking
+$(BUILD_DIR)/segments/%.o: $(BUILD_DIR)/segments/%.ld
+	$(LD) --relocatable $(LDFLAGS) -T $< -Map $(BUILD_DIR)/segments/$*.map -o $@
 
 
 $(BUILD_DIR)/%.ld: %.ld
