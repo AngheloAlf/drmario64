@@ -236,7 +236,11 @@ segments:
       - [0x00E5C0, asm, boot/00E5C0]
       - [0x00E800, asm, boot/00E800]
       - [0x00E8B0, asm, boot/00E8B0]
-      - [0x00EBC0, asm, boot/00EBC0]
+      - [0x00E8F0, hasm, libgcc/00E8F0]
+      - [0x00EBC0, hasm, libgcc/mmuldi3/divdi3]
+      - [0x00EC70, hasm, libgcc/mmuldi3/00EC70]
+      - [0x00ED30, hasm, libgcc/mmuldi3/udivdi3]
+      - [0x00ED50, hasm, libgcc/mmuldi3/mod_com]
 
       - [0x00ED90, data, boot/00ED90]
 
