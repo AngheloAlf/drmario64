@@ -75,7 +75,7 @@ distclean: clean
 .SECONDARY:
 
 $(BUILD_DIR)/%.o: %.s
-	$(CC) -c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) -x assembler-with-cpp $< -o $@
+	$(CC) -c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) -x assembler-with-cpp -o $@ $<
 	$(STRIP) $@ -N dummy-symbol-name
 
 $(BUILD_DIR)/%.o: %.c

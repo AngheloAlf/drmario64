@@ -94,36 +94,32 @@ IINC       := -Iinclude
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wno-unknown-pragmas -Wno-missing-braces -Wno-int-conversion
+CHECK_WARNINGS := -Wall -Wextra -Wno-unknown-pragmas -Wno-missing-braces -Wno-int-conversion
 # TODO: fix on ultralib side
 CHECK_WARNINGS += -Wno-macro-redefined
-ifneq ($(RUN_CC_CHECK),0)
 # Have CC_CHECK pretend to be a MIPS compiler
-	MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
+MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZPTR=32
+ifneq ($(RUN_CC_CHECK),0)
 #	The -MMD flags additionaly creates a .d file with the same name as the .o file.
-	CC_CHECK          := $(CC_CHECK_COMP) -MMD -Wextra -fno-builtin -fsyntax-only -funsigned-char -fdiagnostics-color -std=gnu89 -D_LANGUAGE_C -DNON_MATCHING $(MIPS_BUILTIN_DEFS)
-	CC_CHECK          += -m32
+	CC_CHECK          := $(CC_CHECK_COMP)
+	CC_CHECK_FLAGS    := -MMD -fno-builtin -fsyntax-only -funsigned-char -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING
 	ifneq ($(WERROR), 0)
-		CC_CHECK += -Werror
+		CHECK_WARNINGS += -Werror
 	endif
 else
-	CC_CHECK := @:
+	CC_CHECK          := @:
 endif
 
-STDERR_REDIRECTION :=
-
-
-# TODO: determine
 OPTFLAGS        := -O2 -g3
-ASFLAGS         := -march=vr4300 -32 $(IINC)
-AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
 MIPS_VERSION    := -mips3
+CFLAGS          += -nostdinc -G 0 -mgp32 -mfp32
+WARNINGS        := -w
+ASFLAGS         := -march=vr4300 -32
+COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
 GBIDEFINE       := -DF3DEX_GBI_2
-COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99 $(GBIDEFINE) -DNDEBUG -D_FINALROM
-
-# Surpress the warnings with -woff.
-# CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(IINC) -nostdinc -Wab,-r4300_mul -woff 624,649,838,712,516
-CFLAGS += -nostdinc -G 0 $(IINC) -mgp32 -mfp32 -D_LANGUAGE_C -w
+RELEASE_DEFINES := -DNDEBUG -D_FINALROM
+AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
+C_DEFINES       := -D_LANGUAGE_C
 
 # Use relocations and abi fpr names in the dump
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
@@ -164,16 +160,6 @@ DEP_FILES := $(O_FILES:.o=.d) \
 
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS),$(BUILD_DIR)/$(dir)))
-
-# directory flags
-
-$(BUILD_DIR)/lib/ultralib/src/%.o: CFLAGS   += -w
-$(BUILD_DIR)/lib/ultralib/src/%.o: OPTFLAGS := -O3
-$(BUILD_DIR)/lib/ultralib/src/%.o: CC_CHECK := @:
-# Redirect warnings
-$(BUILD_DIR)/lib/ultralib/src/%.o: STDERR_REDIRECTION := 2> /dev/null
-
-# $(BUILD_DIR)/lib/ultralib/src/mgu/%.o: CFLAGS += 
 
 #### Main Targets ###
 
@@ -244,12 +230,12 @@ $(BUILD_DIR)/%.o: %.bin
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/%.o: %.s
-	$(CPP) $(CPPFLAGS) $(COMMON_DEFINES) $(AS_DEFINES) $(IINC) -I $(dir $*) $< | $(AS) $(ASFLAGS) -o $@ $(STDERR_REDIRECTION)
+	$(CPP) $(CPPFLAGS) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | $(AS) $(ASFLAGS) $(IINC) -I $(dir $*) -o $@
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC_CHECK) $(IINC) $(CHECK_WARNINGS) $(COMMON_DEFINES) -o $@ $<
-	$(CC) -c $(CFLAGS) -I $(dir $*) $(COMMON_DEFINES) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $< $(STDERR_REDIRECTION)
+	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
+	$(CC) -c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -o $@ $<
 	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)
