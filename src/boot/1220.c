@@ -39,7 +39,7 @@ void *func_80000620(romoffset_t segmentRom, void *segmentVram, size_t segmentSiz
     return (uintptr_t)segmentVram + segmentSize;
 }
 
-INCLUDE_ASM("boot/1220", func_80000720);
+INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80000720);
 
 extern UNK_TYPE D_8000E324;
 extern UNK_TYPE B_800151E0[];
@@ -50,7 +50,7 @@ void func_8000075C(void) {
     D_8000E320 = B_800151E0;
 }
 
-INCLUDE_ASM("boot/1220", func_80000778);
+INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80000778);
 
 #ifdef NON_MATCHING
 UNK_TYPE func_80000D0C(void *arg0) {
@@ -67,18 +67,18 @@ UNK_TYPE func_80000D0C(void *arg0) {
     return 0;
 }
 #else
-INCLUDE_ASM("boot/1220", func_80000D0C);
+INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80000D0C);
 #endif
 
-INCLUDE_ASM("boot/1220", func_80000D48);
+INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80000D48);
 
-INCLUDE_ASM("boot/1220", func_80001260);
+INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80001260);
 
-INCLUDE_ASM("boot/1220", func_80001480);
+INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80001480);
 
-INCLUDE_ASM("boot/1220", func_80001620);
+INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80001620);
 
-INCLUDE_ASM("boot/1220", func_80001D4C);
+INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80001D4C);
 
 extern u32 B_8001F990;
 extern u32 B_8001D640;
