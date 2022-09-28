@@ -15,10 +15,10 @@ class CommonSegData(CommonSegCodeSubsegment, CommonSegGroup):
                 return self.sibling.out_path()
             else:
                 # Implied C file
-                return options.get_src_path() / self.dir / f"{self.name}.c"
+                return options.opts.src_path / self.dir / f"{self.name}.c"
         else:
             # ASM
-            return options.get_data_path() / self.dir / f"{self.name}.{self.type}.s"
+            return options.opts.data_path / self.dir / f"{self.name}.{self.type}.s"
 
     def scan(self, rom_bytes: bytes):
         CommonSegGroup.scan(self, rom_bytes)
@@ -48,7 +48,7 @@ class CommonSegData(CommonSegCodeSubsegment, CommonSegGroup):
                     f.write(self.spim_section.disassemble())
 
     def should_self_split(self) -> bool:
-        return options.mode_active("data")
+        return options.opts.is_mode_active("data")
 
     def should_split(self) -> bool:
         return True
@@ -82,13 +82,6 @@ class CommonSegData(CommonSegCodeSubsegment, CommonSegGroup):
             segment_rom_start,
             self.get_exclusive_ram_id(),
         )
-
-        for symbol_list in self.seg_symbols.values():
-            symbols.add_symbol_to_spim_section(self.spim_section, symbol_list[0])
-
-        for sym in symbols.all_symbols:
-            if sym.user_declared:
-                symbols.add_symbol_to_spim_section(self.spim_section, sym)
 
         self.spim_section.analyze()
         self.spim_section.setCommentOffset(self.rom_start)
