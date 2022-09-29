@@ -28,6 +28,17 @@ Copy your ROM and rename it to `baserom.z64`.
 
 ```bash
 make setup
+make lib
 make extract
 make
 ```
+
+## Contributing
+
+TODO: write some contributing guidelines.
+
+Work should be done hopefully per-file but smaller efforts are still appreciated. Just open a PR and try to address any review comments left by other contributors c:
+
+### Important note
+
+This matching decomp effort is being done leak-free. If you have looked/worked with leaked materials (i.e. gigaleak) then it's a shame but you can't contribute to this project.
