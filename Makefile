@@ -102,7 +102,7 @@ MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1
 ifneq ($(RUN_CC_CHECK),0)
 #	The -MMD flags additionaly creates a .d file with the same name as the .o file.
 	CC_CHECK          := $(CC_CHECK_COMP)
-	CC_CHECK_FLAGS    := -MMD -fno-builtin -fsyntax-only -funsigned-char -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING
+	CC_CHECK_FLAGS    := -MMD -fno-builtin -fsyntax-only -funsigned-char -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DCC_CHECK=1
 	ifneq ($(WERROR), 0)
 		CHECK_WARNINGS += -Werror
 	endif
@@ -162,7 +162,11 @@ DEP_FILES := $(O_FILES:.o=.d) \
 $(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
-$(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
+$(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1 -g
+
+# per file stuff
+# Non compliant C stuff
+$(BUILD_DIR)/src/libkmc/memmove.o: CC_CHECK := @:
 
 #### Main Targets ###
 

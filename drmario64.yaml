@@ -233,7 +233,8 @@ segments:
       # end of libultra
 
       - [0x00E3E0, c, libkmc/fmod]
-      - [0x00E5C0, asm, boot/00E5C0]
+      - [0x00E5C0, c, libkmc/memmove]
+      - [0x00E730, asm, boot/00E730]
       - [0x00E800, asm, boot/00E800]
       - [0x00E8B0, asm, boot/00E8B0]
       - [0x00E8F0, hasm, libkmc/00E8F0]
