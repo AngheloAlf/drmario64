@@ -6,42 +6,70 @@
 // TODO: try to match this function with C compliant code
 
 /* backward copy */
-void *_memmover(REG5 char *dest, REG1 char *src, REG4 size_t n) {
+
+void *_memmover(REG5 void *dest, REG1 void *src, REG4 size_t n) {
     REG2 char *d;
 #if FAST_SPEED /* { */
     REG3 size_t n1;
 
-    d=(char *)dest+n;
-    (char *)src +=n;
-    if (((char *)src - (char *)d)&BUS_ERR_ALLIGN) {
-	while(n--) {
-            *(--((BYTE *)d)) = *(--((BYTE *)src));
+    d = (char *)dest + n;
+    src = (s8 *)src + n;
+
+    if (((s8 *)src - (s8 *)d) & BUS_ERR_ALLIGN) {
+        while(n--) {
+            d -= sizeof(s8);
+            src -= sizeof(s8);
+            *((s8 *)d) = *((s8 *)src);
         }
-	return dest;
+        return dest;
     }
 
-    if (n==0) return dest;
-    if ((int)d&1) {
-    	*(--(BYTE *)d) = *(--(BYTE *)src);	/* ALLIGN 16bit */
-        --n;
+    if (n == 0) {
+        return dest;
     }
-    if (n>=2) {
-	if ((int)d&2) {
-	    *(--(WORD *)d) = *(--((WORD *)src));		/* ALLIGN 32bit */
-	    n -= 2;
-	}
+
+    if ((s32)d & sizeof(s8)) {
+        d -= sizeof(s8);
+        src -= sizeof(s8);
+        *((s8 *)d) = *((s8 *)src);        /* ALLIGN 16bit */
+        n -= sizeof(s8);
     }
-    n1 = n>>2;
+
+    if (n >= 2) {
+        if ((s32)d & sizeof(s16)) {
+            d -= sizeof(s16);
+            src -= sizeof(s16);
+            *((s16 *)d) = *(((s16 *)src));                /* ALLIGN 32bit */
+            n -= sizeof(s16);
+        }
+    }
+
+    n1 = n / sizeof(s32);
     while(n1--) {
-        *--((DWORD *)d) = *--((DWORD *)src);		/* 32bit copy */
+        d -= sizeof(s32);
+        src -= sizeof(s32);
+        *((s32 *)d) = *(((s32 *)src));                /* 32bit copy */
     }
-    if ((int)n&2) *--((WORD *)d) = *--((WORD *)src);
-    if ((int)n&1) *--(BYTE *)d = *--(BYTE *)src;
+
+    if ((s32)n & sizeof(s16)) {
+        d -= sizeof(s16);
+        src -= sizeof(s16);
+        *((s16 *)d) = *(((s16 *)src));
+    }
+
+    if ((s32)n & 1) {
+        d -= sizeof(s8);
+        src -= sizeof(s8);
+        *((s8 *)d) = *((s8 *)src);
+    }
+
 #else /* }{ */
-    d=(char *)dest+n;
-    (char *)src += n;
+    d = (char *)dest + n;
+    src = (s8 *)src + n;
     while(n--) {
-        *--((BYTE *)d) = *--((BYTE *)src);
+        d -= sizeof(s8);
+        src -= sizeof(s8);
+        *((s8 *)d) = *((s8 *)src);
     }
 #endif /* } */
     return dest;

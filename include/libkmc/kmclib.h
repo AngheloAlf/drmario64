@@ -28,21 +28,12 @@
 #define DWORD	long int
 #define UDWORD	unsigned long
 
-#ifdef CC_CHECK
-#define REG1
-#define REG2
-#define REG3
-#define REG4
-#define REG5
-#define REG6
-#else
 #define REG1	register
 #define REG2	register
 #define REG3	register
 #define REG4	register
 #define REG5	register
 #define REG6	register
-#endif
 #endif
 
 
