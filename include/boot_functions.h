@@ -41,7 +41,7 @@ void *func_80002380(romoffset_t segmentRom, UNK_TYPE arg1, romoffset_t segmentSi
 
 // void func_8000DB30();
 // void func_8000DBD0();
-// void func_8000DC00();
+
 // void func_8000DCB0();
 // void func_8000DCE4();
 
