@@ -236,8 +236,8 @@ segments:
       - [0x00E5C0, c, libkmc/memmove]
       - [0x00E730, asm, boot/00E730]
       - [0x00E800, c, libkmc/modf]
-      - [0x00E8B0, asm, boot/00E8B0]
-      - [0x00E8F0, hasm, libkmc/00E8F0]
+      - [0x00E8B0, c, libkmc/rand]
+      - [0x00E8F0, hasm, libkmc/mmuldi3/00E8F0]
       - [0x00EBC0, hasm, libkmc/mmuldi3/divdi3]
       - [0x00EC70, hasm, libkmc/mmuldi3/00EC70]
       - [0x00ED30, hasm, libkmc/mmuldi3/udivdi3]
@@ -292,6 +292,12 @@ segments:
 
       - [0x011A50, .rodata, libkmc/fmod]
 
+      # hacky way to ensure bss order
+      # - start: 0x011A60
+      #   name: boot/boot_bss
+      #   type: .bss
+      #   vram: 0x80010E60
+
       - start: 0x011A60
         name: boot/80010E60
         type: bss
@@ -304,6 +310,14 @@ segments:
         name: boot/8001A3B0
         type: bss
         vram: 0x8001A3B0
+      - start: 0x011A60
+        name: libkmc/rand
+        type: .bss
+        vram: 0x8001B630
+      - start: 0x011A60
+        name: boot/8001B640
+        type: bss
+        vram: 0x8001B640
       - start: 0x011A60
         name: libultra/cartrominit
         type: bss

@@ -1,5 +1,5 @@
-#ifndef MACROS_H
-#define MACROS_H
+#ifndef MACROS_DEFINES_H
+#define MACROS_DEFINES_H
 
 #if (!defined(__GNUC__) && !defined(__clang__)) || defined(M2CTX)
 #define __attribute__(x)
@@ -41,5 +41,7 @@
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
 #define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
+
+#define BSS __attribute__ ((section (".bss")))
 
 #endif

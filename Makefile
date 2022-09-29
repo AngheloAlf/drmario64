@@ -112,7 +112,7 @@ endif
 
 OPTFLAGS        := -O2 -g3
 MIPS_VERSION    := -mips3
-CFLAGS          += -nostdinc -G 0 -mgp32 -mfp32
+CFLAGS          += -nostdinc -G 0 -mgp32 -mfp32 -fno-common
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -32
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
@@ -163,6 +163,9 @@ $(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(S
 
 # directory flags
 $(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
+
+# per-file flags
+$(BUILD_DIR)/src/boot/boot_bss.o: CFLAGS += -fno-common
 
 #### Main Targets ###
 

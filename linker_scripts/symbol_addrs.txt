@@ -280,8 +280,8 @@ movmem = 0x8000DB0C;
 func_8000DB30 = 0x8000DB30;
 func_8000DBD0 = 0x8000DBD0;
 modf = 0x8000DC00;
-func_8000DCB0 = 0x8000DCB0;
-func_8000DCE4 = 0x8000DCE4;
+rand = 0x8000DCB0;
+srand = 0x8000DCE4;
 func_8000DCF0 = 0x8000DCF0;
 
 __muldi3 = 0x8000DDC4;
@@ -413,7 +413,9 @@ viEventQueue = 0x8001B5D0;
 viEventBuf = 0x8001B5E8;
 viRetraceMsg = 0x8001B600; // size:0x18
 viCounterMsg = 0x8001B618; // size:0x18
-B_8001B630 = 0x8001B630;
+
+sRandNext = 0x8001B630;
+
 B_8001B640 = 0x8001B640;
 B_8001D640 = 0x8001D640;
 __osBaseCounter = 0x8001D644;
