@@ -162,7 +162,7 @@ DEP_FILES := $(O_FILES:.o=.d) \
 $(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
-$(BUILD_DIR)/src/boot_O1/%.o: OPTFLAGS := -O1 -g3
+$(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
 
 #### Main Targets ###
 

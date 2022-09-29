@@ -269,10 +269,11 @@ __osViGetCurrentContext = 0x8000D730;
 __osDpDeviceBusy = 0x8000D7A0; // size:0x18
 __osSiDeviceBusy = 0x8000D7C0; // size:0x18
 
-func_8000D7E0 = 0x8000D7E0;
-func_8000D868 = 0x8000D868;
-func_8000D8C4 = 0x8000D8C4;
-func_8000D940 = 0x8000D940;
+__fint = 0x8000D7E0;
+fmod = 0x8000D868;
+ceil = 0x8000D8C4;
+floor = 0x8000D940;
+
 func_8000D9C0 = 0x8000D9C0;
 func_8000DAC4 = 0x8000DAC4;
 func_8000DB0C = 0x8000DB0C;
