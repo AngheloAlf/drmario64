@@ -232,7 +232,7 @@ segments:
       - [0x00E3C0, c, ../lib/ultralib/src/io/si]
       # end of libultra
 
-      - [0x00E3E0, asm, boot/00E3E0]
+      - [0x00E3E0, c, boot_O1/E3E0]
       - [0x00E5C0, asm, boot/00E5C0]
       - [0x00E800, asm, boot/00E800]
       - [0x00E8B0, asm, boot/00E8B0]
@@ -289,7 +289,7 @@ segments:
       - [0x0119F0, .rodata, ../lib/ultralib/src/audio/reverb]
       - [0x011A40, .rodata, ../lib/ultralib/src/gu/libm_vals]
 
-      - [0x011A50, rodata, boot/E350]
+      - [0x011A50, .rodata, boot_O1/E3E0]
 
       - start: 0x011A60
         name: boot/80010E60

@@ -161,6 +161,9 @@ DEP_FILES := $(O_FILES:.o=.d) \
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS),$(BUILD_DIR)/$(dir)))
 
+# directory flags
+$(BUILD_DIR)/src/boot_O1/%.o: OPTFLAGS := -O1 -g3
+
 #### Main Targets ###
 
 all: $(ROM)
@@ -241,8 +244,9 @@ $(BUILD_DIR)/%.o: %.c
 	$(RM_MDEBUG)
 
 $(BUILD_DIR)/lib/%.o:
+ifneq ($(PERMUTER), 1)
 	$(error Library files has not been built, please run `$(MAKE) lib` first)
-
+endif
 
 -include $(DEP_FILES)
 
