@@ -234,7 +234,7 @@ segments:
 
       - [0x00E3E0, c, libkmc/fmod]
       - [0x00E5C0, c, libkmc/memmove]
-      - [0x00E730, asm, boot/00E730]
+      - [0x00E730, c, libkmc/memset]
       - [0x00E800, c, libkmc/modf]
       - [0x00E8B0, c, libkmc/rand]
       - [0x00E8F0, hasm, libkmc/mmuldi3/00E8F0]
