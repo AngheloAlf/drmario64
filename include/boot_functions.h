@@ -41,8 +41,9 @@ void *func_80002380(romoffset_t segmentRom, UNK_TYPE arg1, romoffset_t segmentSi
 
 f64 func_8000D7E0(f64 arg0);
 f64 func_8000D868(f64 arg0, f64 arg1);
-// void func_8000D8C4();
-// void func_8000D940();
+f64 func_8000D8C4(f64 arg0);
+f64 func_8000D940(f64 arg0);
+
 // void func_8000D9C0();
 // void func_8000DAC4();
 // void func_8000DB0C();
