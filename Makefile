@@ -94,9 +94,7 @@ IINC       := -Iinclude
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wno-unknown-pragmas -Wno-missing-braces -Wno-int-conversion
-# TODO: fix on ultralib side
-CHECK_WARNINGS += -Wno-macro-redefined
+CHECK_WARNINGS := -Wall -Wextra -Wno-unknown-pragmas -Wno-int-conversion
 # Have CC_CHECK pretend to be a MIPS compiler
 MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZPTR=32
 ifneq ($(RUN_CC_CHECK),0)
