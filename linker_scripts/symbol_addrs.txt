@@ -269,24 +269,28 @@ __osViGetCurrentContext = 0x8000D730;
 __osDpDeviceBusy = 0x8000D7A0; // size:0x18
 __osSiDeviceBusy = 0x8000D7C0; // size:0x18
 
-func_8000D7E0 = 0x8000D7E0;
-func_8000D868 = 0x8000D868;
-func_8000D8C4 = 0x8000D8C4;
-func_8000D940 = 0x8000D940;
-func_8000D9C0 = 0x8000D9C0;
-func_8000DAC4 = 0x8000DAC4;
-func_8000DB0C = 0x8000DB0C;
-func_8000DB30 = 0x8000DB30;
-func_8000DBD0 = 0x8000DBD0;
-func_8000DC00 = 0x8000DC00;
-func_8000DCB0 = 0x8000DCB0;
-func_8000DCE4 = 0x8000DCE4;
+__fint = 0x8000D7E0;
+fmod = 0x8000D868;
+ceil = 0x8000D8C4;
+floor = 0x8000D940;
+
+_memmover = 0x8000D9C0;
+memmove = 0x8000DAC4;
+movmem = 0x8000DB0C;
+memset = 0x8000DB30;
+setmem = 0x8000DBD0;
+modf = 0x8000DC00;
+rand = 0x8000DCB0;
+srand = 0x8000DCE4;
 func_8000DCF0 = 0x8000DCF0;
-func_8000DDC4 = 0x8000DDC4;
-func_8000DDF8 = 0x8000DDF8;
-func_8000DEF4 = 0x8000DEF4;
-func_8000DFC0 = 0x8000DFC0;
+
+__muldi3 = 0x8000DDC4;
+div64_64 = 0x8000DDF8;
+div64_32 = 0x8000DEF4;
+__divdi3 = 0x8000DFC0;
+func_8000E070 = 0x8000E070;
 __udivdi3 = 0x8000E130;
+mod_com = 0x8000E150; // type:func
 
 
 // data
@@ -409,10 +413,12 @@ viEventQueue = 0x8001B5D0;
 viEventBuf = 0x8001B5E8;
 viRetraceMsg = 0x8001B600; // size:0x18
 viCounterMsg = 0x8001B618; // size:0x18
-B_8001B630 = 0x8001B630;
+
+sRandNext = 0x8001B630;
+
 B_8001B640 = 0x8001B640;
 B_8001D640 = 0x8001D640;
-B_8001D644 = 0x8001D644;
+__osBaseCounter = 0x8001D644;
 __osThreadSave = 0x8001D648;
 B_8001D7F8 = 0x8001D7F8;
 B_8001D7FC = 0x8001D7FC;
@@ -427,10 +433,9 @@ B_8001F8C0 = 0x8001F8C0;
 B_8001F988 = 0x8001F988;
 B_8001F98C = 0x8001F98C;
 B_8001F990 = 0x8001F990;
-B_8001F994 = 0x8001F994;
+__osMaxControllers = 0x8001F994;
 B_8001F998 = 0x8001F998;
-B_8001F9A0 = 0x8001F9A0;
-B_8001F9A4 = 0x8001F9A4;
+__osCurrentTime = 0x8001F9A0; // size:0x8
 B_8001F9A8 = 0x8001F9A8;
 
 __CartRomHandle = 0x8001F9B0; // size:0x74
@@ -446,7 +451,7 @@ B_8001FB00 = 0x8001FB00;
 __osContLastCmd = 0x8001FB04;
 __osEepromTimerMsg = 0x8001FB08;
 __osBaseTimer = 0x8001FB10;
-B_8001FB30 = 0x8001FB30;
+__osTimerCounter = 0x8001FB30;
 __osEepromTimer = 0x80021B40;
 __osEventStateTab = 0x80021B60; // size:0x78
 __osFinalrom = 0x80021BD8;

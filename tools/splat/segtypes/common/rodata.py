@@ -26,13 +26,6 @@ class CommonSegRodata(CommonSegData):
             self.get_exclusive_ram_id(),
         )
 
-        for symbol_list in self.seg_symbols.values():
-            symbols.add_symbol_to_spim_section(self.spim_section, symbol_list[0])
-
-        for sym in symbols.all_symbols:
-            if sym.user_declared:
-                symbols.add_symbol_to_spim_section(self.spim_section, sym)
-
         self.spim_section.analyze()
         self.spim_section.setCommentOffset(self.rom_start)
 
@@ -45,11 +38,11 @@ class CommonSegRodata(CommonSegData):
         # Disassemble the file itself
         super().split(rom_bytes)
 
-        if options.get_migrate_rodata_to_functions():
+        if options.opts.migrate_rodata_to_functions:
             if self.spim_section and (
                 not self.type.startswith(".") or self.partial_migration
             ):
-                path_folder = options.get_data_path() / self.dir
+                path_folder = options.opts.data_path / self.dir
                 path_folder.parent.mkdir(parents=True, exist_ok=True)
 
                 for rodataSym in self.spim_section.symbolList:

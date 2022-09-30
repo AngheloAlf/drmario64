@@ -7,6 +7,6 @@ void *func_80002380(romoffset_t segmentRom, UNK_TYPE arg1, romoffset_t segmentSi
     return ALIGN8(arg1 + func_80001F90(segmentRom, arg1, segmentSize));
 }
 
-INCLUDE_ASM("boot/2F80", func_800023B4);
+INCLUDE_ASM("asm/nonmatchings/boot/2F80", func_800023B4);
 
-INCLUDE_ASM("boot/2F80", func_80002400);
+INCLUDE_ASM("asm/nonmatchings/boot/2F80", func_80002400);

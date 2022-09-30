@@ -20,8 +20,6 @@ RUN_CC_CHECK ?= 1
 CC_CHECK_COMP ?= clang
 # Dump build object files
 OBJDUMP_BUILD ?= 1
-# Number of threads to disassmble, extract, and compress with
-# N_THREADS ?= $(shell nproc)
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -96,36 +94,32 @@ IINC       := -Iinclude
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wno-unknown-pragmas -Wno-missing-braces -Wno-int-conversion
+CHECK_WARNINGS := -Wall -Wextra -Wno-unknown-pragmas -Wno-missing-braces -Wno-int-conversion
 # TODO: fix on ultralib side
 CHECK_WARNINGS += -Wno-macro-redefined
-ifneq ($(RUN_CC_CHECK),0)
 # Have CC_CHECK pretend to be a MIPS compiler
-	MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZLONG=32 -D_MIPS_SZPTR=32
+MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZPTR=32
+ifneq ($(RUN_CC_CHECK),0)
 #	The -MMD flags additionaly creates a .d file with the same name as the .o file.
-	CC_CHECK          := $(CC_CHECK_COMP) -MMD -Wextra -fno-builtin -fsyntax-only -funsigned-char -fdiagnostics-color -std=gnu89 -D_LANGUAGE_C -DNON_MATCHING $(MIPS_BUILTIN_DEFS)
-	CC_CHECK          += -m32
+	CC_CHECK          := $(CC_CHECK_COMP)
+	CC_CHECK_FLAGS    := -MMD -fno-builtin -fsyntax-only -fsigned-char -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DCC_CHECK=1
 	ifneq ($(WERROR), 0)
-		CC_CHECK += -Werror
+		CHECK_WARNINGS += -Werror
 	endif
 else
-	CC_CHECK := @:
+	CC_CHECK          := @:
 endif
 
-STDERR_REDIRECTION :=
-
-
-# TODO: determine
 OPTFLAGS        := -O2 -g3
-ASFLAGS         := -march=vr4300 -32 $(IINC)
-AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
 MIPS_VERSION    := -mips3
+CFLAGS          += -nostdinc -G 0 -mgp32 -mfp32 -fno-common
+WARNINGS        := -w
+ASFLAGS         := -march=vr4300 -32
+COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
 GBIDEFINE       := -DF3DEX_GBI_2
-COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99 $(GBIDEFINE) -DNDEBUG -D_FINALROM
-
-# Surpress the warnings with -woff.
-# CFLAGS += -G 0 -non_shared -fullwarn -verbose -Xcpluscomm $(IINC) -nostdinc -Wab,-r4300_mul -woff 624,649,838,712,516
-CFLAGS += -nostdinc -G 0 $(IINC) -mgp32 -mfp32 -D_LANGUAGE_C -w
+RELEASE_DEFINES := -DNDEBUG -D_FINALROM
+AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
+C_DEFINES       := -D_LANGUAGE_C
 
 # Use relocations and abi fpr names in the dump
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
@@ -149,14 +143,17 @@ BIN_DIRS      := $(shell find bin -type d)
 LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/src/voice")
 SEGMENT_DIRS  := $(shell find $(BUILD_DIR)/segments -type d)
 
-C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c)) \
-                 $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.c))
-S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s)) \
-                 $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.s))
+C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
+S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 BIN_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.bin))
 O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(BIN_FILES:.bin=.o),$(BUILD_DIR)/$f)
+
+LIBULTRA_C    := $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.c))
+LIBULTRA_S    := $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.s))
+LIBULTRA_O    := $(foreach f,$(LIBULTRA_C:.c=.o),$(BUILD_DIR)/$f) \
+                 $(foreach f,$(LIBULTRA_S:.s=.o),$(BUILD_DIR)/$f)
 
 SEGMENT_LD    := $(foreach dir,$(SEGMENT_DIRS),$(wildcard $(dir)/*.ld))
 SEGMENT_O     := $(SEGMENT_LD:.ld=.o)
@@ -169,14 +166,10 @@ DEP_FILES := $(O_FILES:.o=.d) \
 $(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
+$(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
 
-$(BUILD_DIR)/lib/ultralib/src/%.o: CFLAGS   += -w
-$(BUILD_DIR)/lib/ultralib/src/%.o: OPTFLAGS := -O3
-$(BUILD_DIR)/lib/ultralib/src/%.o: CC_CHECK := @:
-# Redirect warnings
-$(BUILD_DIR)/lib/ultralib/src/%.o: STDERR_REDIRECTION := 2> /dev/null
-
-# $(BUILD_DIR)/lib/ultralib/src/mgu/%.o: CFLAGS += 
+# per-file flags
+$(BUILD_DIR)/src/boot/boot_bss.o: CFLAGS += -fno-common
 
 #### Main Targets ###
 
@@ -203,6 +196,9 @@ extract:
 	$(RM) -r asm bin
 	$(PYTHON) $(SPLAT) $(SPLAT_YAML)
 
+lib:
+	$(MAKE) -C lib
+
 diff-init: all
 	$(RM) -rf expected/
 	mkdir -p expected/
@@ -212,10 +208,11 @@ init:
 	$(MAKE) distclean
 	$(MAKE) setup
 	$(MAKE) extract
+	$(MAKE) lib
 	$(MAKE) all
 	$(MAKE) diff-init
 
-.PHONY: all clean distclean setup extract diff-init init
+.PHONY: all clean distclean setup extract lib diff-init init
 .DEFAULT_GOAL := all
 # Prevent removing intermediate files
 .SECONDARY:
@@ -228,7 +225,7 @@ $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x400000 $< $@
 # TODO: update header
 
-$(ELF): $(O_FILES) $(SEGMENT_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
+$(ELF): $(O_FILES) $(LIBULTRA_O) $(SEGMENT_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
 		-T $(BUILD_DIR)/auto/undefined_syms_auto.ld -T $(BUILD_DIR)/auto/undefined_funcs_auto.ld \
 		-T $(BUILD_DIR)/linker_scripts/libultra_symbols.ld -T $(BUILD_DIR)/linker_scripts/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/undefined_syms.ld \
@@ -247,16 +244,20 @@ $(BUILD_DIR)/%.o: %.bin
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/%.o: %.s
-	$(CPP) $(CPPFLAGS) $(COMMON_DEFINES) $(AS_DEFINES) $(IINC) -I $(dir $*) $< | iconv --to-code=Shift-JIS | $(AS) $(ASFLAGS) -o $@ $(STDERR_REDIRECTION)
+	$(CPP) $(CPPFLAGS) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | iconv --to-code=Shift-JIS | $(AS) $(ASFLAGS) $(IINC) -I $(dir $*) -o $@
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC_CHECK) $(IINC) $(CHECK_WARNINGS) $(COMMON_DEFINES) -o $@ $<
-	$(CC) -c $(CFLAGS) -I $(dir $*) $(COMMON_DEFINES) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $< $(STDERR_REDIRECTION)
+	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
+	$(CC) -c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -o $@ $<
 	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)
 
+$(BUILD_DIR)/lib/%.o:
+ifneq ($(PERMUTER), 1)
+	$(error Library files has not been built, please run `$(MAKE) lib` first)
+endif
 
 -include $(DEP_FILES)
 

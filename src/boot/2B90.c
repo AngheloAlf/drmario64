@@ -21,7 +21,7 @@ UNK_TYPE func_80001F90(romoffset_t segmentRom, UNK_TYPE arg1, size_t segmentSize
     return B_8001D7FC;
 }
 #else
-INCLUDE_ASM("boot/2B90", func_80001F90);
+INCLUDE_ASM("asm/nonmatchings/boot/2B90", func_80001F90);
 #endif
 
 size_t func_80001FD8(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
@@ -44,7 +44,7 @@ size_t func_80001FD8(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     return blockSize;
 }
 
-INCLUDE_ASM("boot/2B90", func_80002064);
+INCLUDE_ASM("asm/nonmatchings/boot/2B90", func_80002064);
 
 extern u32 B_8001F990;
 extern u32 B_8001D640;
@@ -81,7 +81,7 @@ s32 func_800020A0(void) {
     return 0;
 }
 
-INCLUDE_ASM("boot/2B90", func_80002148);
+INCLUDE_ASM("asm/nonmatchings/boot/2B90", func_80002148);
 
 extern s32 B_8001FAFC;
 extern s32 B_8001FB00;
@@ -114,7 +114,7 @@ s32 func_800021CC(s32 arg0) {
     return -1;
 }
 #else
-INCLUDE_ASM("boot/2B90", func_800021CC);
+INCLUDE_ASM("asm/nonmatchings/boot/2B90", func_800021CC);
 #endif
 
 void func_800022A8(s32 *arg0, u8 *arg1, s32 arg2) {
