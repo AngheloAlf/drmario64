@@ -3,7 +3,7 @@ sha1: a130d3622ce40e0158db2da4247101f6e92206fc
 options:
   basename: drmario64
   target_path: baserom.z64
-  ld_script_path: build/drmario64.ld
+  ld_script_path: build/drmario64_uncompressed.ld
   base_path: .
   compiler: GCC
   find_file_boundaries: True

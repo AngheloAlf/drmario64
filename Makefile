@@ -39,10 +39,10 @@ endif
 ### Output ###
 
 BUILD_DIR := build
-ROM       := $(BUILD_DIR)/$(TARGET).z64
-ELF       := $(BUILD_DIR)/$(TARGET).elf
-LD_SCRIPT := $(BUILD_DIR)/$(TARGET).ld
-LD_MAP    := $(BUILD_DIR)/$(TARGET).map
+ROM       := $(BUILD_DIR)/$(TARGET)_uncompressed.z64
+ELF       := $(BUILD_DIR)/$(TARGET)_uncompressed.elf
+LD_SCRIPT := $(BUILD_DIR)/$(TARGET)_uncompressed.ld
+LD_MAP    := $(BUILD_DIR)/$(TARGET)_uncompressed.map
 
 
 
@@ -156,7 +156,7 @@ LIBULTRA_O    := $(foreach f,$(LIBULTRA_C:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(LIBULTRA_S:.s=.o),$(BUILD_DIR)/$f)
 
 SEGMENT_LD    := $(foreach dir,$(SEGMENT_DIRS),$(wildcard $(dir)/*.ld))
-SEGMENT_O     := $(SEGMENT_LD:.ld=.o)
+SEGMENT_O     := $(SEGMENT_LD:.ld=.bin)
 
 # Automatic dependency files
 DEP_FILES := $(O_FILES:.o=.d) \
@@ -173,14 +173,22 @@ $(BUILD_DIR)/src/boot/boot_bss.o: CFLAGS += -fno-common
 
 #### Main Targets ###
 
-all: $(ROM)
-ifeq ($(COMPARE),1)
+all: uncompressed
+
+uncompressed: $(ROM)
+ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
+	@md5sum -c $(TARGET)_uncompressed.md5
+endif
+
+compressed: $(ROMC)
+ifneq ($(COMPARE),0)
+	@md5sum $(ROMC)
 	@md5sum -c $(TARGET).md5
 endif
 
 clean:
-	$(RM) -r $(BUILD_DIR)/asm $(BUILD_DIR)/bin $(BUILD_DIR)/src $(ROM) $(ELF)
+	$(RM) -r $(BUILD_DIR)/asm $(BUILD_DIR)/bin $(BUILD_DIR)/src $(ROM) $(ROMC) $(ELF)
 
 libclean:
 	$(RM) -r $(BUILD_DIR)/lib
@@ -212,7 +220,7 @@ init:
 	$(MAKE) all
 	$(MAKE) diff-init
 
-.PHONY: all clean distclean setup extract lib diff-init init
+.PHONY: all uncompressed clean distclean setup extract lib diff-init init
 .DEFAULT_GOAL := all
 # Prevent removing intermediate files
 .SECONDARY:
@@ -221,9 +229,12 @@ init:
 #### Various Recipes ####
 
 $(ROM): $(ELF)
-	$(OBJCOPY) -O binary $< $@
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x400000 $< $@
+#	$(OBJCOPY) -O binary $< $@
 # TODO: update header
+
+$(ROMC): $(ROM)
+	$(error ROM compression is not supported yet)
 
 $(ELF): $(O_FILES) $(LIBULTRA_O) $(SEGMENT_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
@@ -232,8 +243,9 @@ $(ELF): $(O_FILES) $(LIBULTRA_O) $(SEGMENT_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_s
 		-Map $(LD_MAP) -o $@
 
 # Incremental linking
-$(BUILD_DIR)/segments/%.o: $(BUILD_DIR)/segments/%.ld
-	$(LD) --relocatable $(LDFLAGS) -T $< -Map $(BUILD_DIR)/segments/$*.map -o $@
+$(BUILD_DIR)/segments/%.bin: $(BUILD_DIR)/segments/%.ld
+	$(LD) --relocatable $(LDFLAGS) -T $< -Map $(BUILD_DIR)/segments/$*.map -o $(BUILD_DIR)/segments/$*.o
+	$(OBJCOPY) -O binary $(BUILD_DIR)/segments/$*.o $@
 
 
 $(BUILD_DIR)/%.ld: %.ld

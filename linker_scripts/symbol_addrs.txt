@@ -521,3 +521,6 @@ __osSiAccessQueue = 0x80029C20;
 // __osTimerCounter = 0x8003FB30; // size:0x4
 // __osEepromTimerQ = 0x80049BE8; // size:0x18
 
+
+func_80029C50 = 0x80029C50;
+
