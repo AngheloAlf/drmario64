@@ -9,9 +9,7 @@ options:
   find_file_boundaries: True
   header_encoding: ASCII
   platform: n64
-  undefined_funcs_auto: True
   undefined_funcs_auto_path: build/auto/undefined_funcs_auto.ld
-  undefined_syms_auto: True
   undefined_syms_auto_path: build/auto/undefined_syms_auto.ld
   symbol_addrs_path:
     - linker_scripts/libultra_symbols.ld
@@ -32,7 +30,7 @@ options:
   mnemonic_ljust: 12
   rom_address_padding: True
   # create_elf_section_list_auto: False # ?
-  verbose: False
+  # verbose: False
   dump_symbols: True
   generated_c_preamble: |
     #include "ultra64.h"

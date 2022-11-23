@@ -1,8 +1,10 @@
 #include "dma_table.h"
 #include "segment_symbols.h"
 
+void func_80029C50(void* arg);
+
 // I have no reason to believe this is an array, but why not?
 
 DmaTableEntry gDmaTable[] = {
-    { SEGMENT_START(code), (void*)SEGMENT_START(code), SEGMENT_BSS_START(code), SEGMENT_BSS_END(code) },
+    { SEGMENT_START(code), func_80029C50, SEGMENT_BSS_START(code), SEGMENT_BSS_END(code) },
 };
