@@ -21,7 +21,7 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-mymap = "build/drmario64.map"
+mymap = "build/drmario64_uncompressed.map"
 if args.use_expected:
     mymap = f"expected/{mymap}"
 

@@ -2,8 +2,8 @@
 
 def apply(config, args):
     config['baseimg'] = 'baserom.z64'
-    config['myimg'] = 'build/drmario64.z64'
-    config['mapfile'] = 'build/drmario64.map'
+    config['myimg'] = 'build/drmario64_uncompressed.z64'
+    config['mapfile'] = 'build/drmario64_uncompressed.map'
     config['source_directories'] = ['./src','./include']
     config['objdump_flags'] = ['-M','reg-names=32']
     config['makeflags'] = ['KEEP_MDEBUG=1']

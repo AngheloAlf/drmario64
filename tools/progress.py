@@ -3,7 +3,7 @@
 from repo_64scripts import get_map_functions_sizes
 from pathlib import Path
 
-MAP_FILE = "build/drmario64.map"
+MAP_FILE = "build/drmario64_uncompressed.map"
 
 filesList = get_map_functions_sizes.parseMapFile(MAP_FILE, "\n build/")
 

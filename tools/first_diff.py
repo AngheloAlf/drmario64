@@ -35,10 +35,10 @@ if args.make:
     check_call(["make", "-j4", "COMPARE=0"])
 
 baseimg = f"baserom.z64"
-basemap = f"expected/build/drmario64.map"
+basemap = f"expected/build/drmario64_uncompressed.map"
 
-myimg = f"build/drmario64.z64"
-mymap = f"build/drmario64.map"
+myimg = f"build/drmario64_uncompressed.z64"
+mymap = f"build/drmario64_uncompressed.map"
 
 if not os.path.isfile(baseimg):
     print(f"{baseimg} must exist.")

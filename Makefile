@@ -43,7 +43,7 @@ ROM       := $(BUILD_DIR)/$(TARGET)_uncompressed.z64
 ELF       := $(BUILD_DIR)/$(TARGET)_uncompressed.elf
 LD_SCRIPT := $(BUILD_DIR)/$(TARGET)_uncompressed.ld
 LD_MAP    := $(BUILD_DIR)/$(TARGET)_uncompressed.map
-
+ROMC      := $(BUILD_DIR)/$(TARGET).z64
 
 
 #### Setup ####
@@ -85,9 +85,10 @@ GCC        := $(MIPS_BINUTILS_PREFIX)gcc
 CPP        := $(MIPS_BINUTILS_PREFIX)cpp
 STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 
-PYTHON     ?= python3
-SPLAT      ?= tools/splat/split.py
-SPLAT_YAML ?= $(TARGET).yaml
+SPLAT          ?= tools/splat/split.py
+SPLAT_YAML     ?= $(TARGET).yaml
+
+ROM_COMPRESSOR ?= tools/compressor/rom_compressor.py
 
 
 IINC       := -Iinclude
@@ -202,7 +203,7 @@ setup:
 
 extract:
 	$(RM) -r asm bin
-	$(PYTHON) $(SPLAT) $(SPLAT_YAML)
+	$(SPLAT) $(SPLAT_YAML)
 
 lib:
 	$(MAKE) -C lib
@@ -230,11 +231,11 @@ init:
 
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x400000 $< $@
-#	$(OBJCOPY) -O binary $< $@
 # TODO: update header
 
 $(ROMC): $(ROM)
-	$(error ROM compression is not supported yet)
+	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ROM:.z64=.elf) tools/compressor/compress_segments.csv 
+# TODO: update header
 
 $(ELF): $(O_FILES) $(LIBULTRA_O) $(SEGMENT_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
