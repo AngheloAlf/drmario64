@@ -9,7 +9,7 @@ extern OSMesg B_8001F8C0[];
 
 void func_800004F0(void *arg0) {
     func_80000620(SEGMENT_ROM_START(dma_table), gDmaTable, SEGMENT_ROM_SIZE(dma_table));
-    func_80002380(SEGMENT_ROM_START(code), gDmaTable[0].vram, SEGMENT_ROM_SIZE(code));
+    func_80002380(SEGMENT_ROM_START(code_compressed), gDmaTable[0].vram, SEGMENT_ROM_SIZE(code_compressed));
 
     bzero(gDmaTable[0].bssStart, gDmaTable[0].bssEnd - gDmaTable[0].bssStart);
     gDmaTable[0].entry(arg0);

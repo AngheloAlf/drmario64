@@ -13,6 +13,7 @@ from pathlib import Path
 
 @dataclasses.dataclass
 class SegmentEntry:
+    compressedName: str
     compressedPath: Path
     uncompressedPath: Path
     uncompressedHash: str
@@ -23,8 +24,8 @@ def readSegmentsCsv(segmentsPath: Path) -> dict[str, SegmentEntry]:
     segmentDict = {}
 
     for row in segmentsCsv:
-        name, comprPath, uncPath, segmentHash = row
-        segmentDict[f".{name}"] = SegmentEntry(Path(comprPath), Path(uncPath), segmentHash)
+        name, compressedName, comprPath, uncPath, segmentHash = row
+        segmentDict[f".{name}"] = SegmentEntry(compressedName, Path(comprPath), Path(uncPath), segmentHash)
 
     return segmentDict
 
@@ -63,14 +64,47 @@ def romCompressorMain():
     offset = 0
     sizeWrote = 0
 
+    segmentOffsets: dict[str, tuple[int, int]] = {}
+    relsOffetsToApply = {}
+    compressedRomValues = {}
+
     elfFile = spimdisasm.elf32.Elf32File(elfBytearray)
     with outPath.open("wb") as outRom:
         for entry in elfFile.sectionHeaders.sections:
             sectionEntryName = elfFile.shstrtab[entry.name]
 
+            if entry.type == spimdisasm.elf32.Elf32SectionHeaderType.REL.value:
+                if segmentDict.get(sectionEntryName) is None:
+                    # only apply relocs to uncompressed segments
+                    sectionRels = spimdisasm.elf32.Elf32Rels(sectionEntryName, elfBytearray, entry.offset, entry.size)
+                    referencedSegment = sectionEntryName.replace(".rel.", ".")
+                    for rel in sectionRels.relocations:
+
+                        if elfFile.symtab is not None:
+                            sym = elfFile.symtab[rel.rSym]
+                            # symValue = f"{sym.value:08X}"
+                            if elfFile.strtab is not None:
+                                symName = elfFile.strtab[sym.name]
+
+                                for segmentEntry in segmentDict.values():
+                                    compressedRomStart = f"{segmentEntry.compressedName}_ROM_START"
+                                    compressedRomEnd = f"{segmentEntry.compressedName}_ROM_END"
+
+                                    if symName == compressedRomStart or symName == compressedRomEnd:
+                                        relVram = rel.offset
+
+                                        rType = spimdisasm.elf32.Elf32Relocs.fromValue(rel.rType)
+                                        assert rType is not None
+
+                                        relRomOffset = relVram - segmentOffsets[referencedSegment][1] + segmentOffsets[referencedSegment][0]
+                                        relsOffetsToApply[relRomOffset] = (symName, rType)
+
+                                        break
+
             if entry.type != spimdisasm.elf32.Elf32SectionHeaderType.PROGBITS.value:
                 continue
-            # print(sectionEntryName, f"{offset:X}", f"{entry.size:X}")
+
+            segmentOffsets[sectionEntryName] = (offset, entry.addr)
 
             segmentEntry = segmentDict.get(sectionEntryName)
             if segmentEntry is None:
@@ -84,17 +118,39 @@ def romCompressorMain():
                     compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
                     assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
                     outRom.write(compressedBytearray)
+
+                    compressedRomStart = f"{segmentEntry.compressedName}_ROM_START"
+                    compressedRomEnd = f"{segmentEntry.compressedName}_ROM_END"
+                    compressedRomValues[compressedRomStart] = sizeWrote
+                    compressedRomValues[compressedRomEnd] = sizeWrote + len(compressedBytearray)
+
                     sizeWrote += len(compressedBytearray)
                 else:
                     assert False, "non-matching compression is not supported yet"
                     # sizeWrote += len(compressedBytearray)
             offset += entry.size
 
-        # print(f"{offset:X}")
-
         alignedSize = align8MB(sizeWrote)
         # pad
         outRom.write(bytearray((alignedSize - sizeWrote) * [0xFF]))
+
+        for relRomOffset, (symName, rType) in relsOffetsToApply.items():
+            value = compressedRomValues[symName]
+            print(f"{value:X}")
+            hiValue = value >> 16
+            loValue = value & 0xFFFF
+            if loValue >= 0x8000:
+                hiValue += 1
+
+            outRom.seek(relRomOffset)
+            if rType == spimdisasm.elf32.Elf32Relocs.MIPS_HI16:
+                outRom.seek(relRomOffset+2)
+                outRom.write(bytearray([hiValue >> 8, hiValue & 0xFF]))
+            elif rType == spimdisasm.elf32.Elf32Relocs.MIPS_LO16:
+                outRom.seek(relRomOffset+2)
+                outRom.write(bytearray([loValue >> 8, loValue & 0xFF]))
+            else:
+                assert False
 
 if __name__ == "__main__":
     romCompressorMain()
