@@ -364,9 +364,15 @@ segments:
       - [0x054610, asm, main_segment/054610]
       - [0x054DD0, asm, main_segment/054DD0]
       - [0x055C40, asm, main_segment/055C40]
-      - [0x05A3D0, asm, main_segment/05A3D0]
-      - [0x05A580, asm, main_segment/05A580]
-      - [0x05A840, asm, main_segment/05A840]
+
+      - [0x055DB0, asm, libmus/player]
+      - [0x059690, asm, libmus/player_fx]
+      - [0x059F70, asm, libmus/aud_dma]
+      - [0x05A3D0, asm, libmus/aud_sched]
+      - [0x05A580, asm, libmus/aud_thread]
+      - [0x05A840, asm, libmus/lib_memory]
+      - [0x05A980, asm, libmus/aud_samples]
+
       - [0x05AA40, data, main_segment/05AA40]
       - [0x082D90, .rodata, main_segment/000000]
       - [0x082DC0, rodata, main_segment/082DC0]
@@ -407,7 +413,13 @@ segments:
         vram: 0x800B3640
       # TODO: bss
       - [0x0899F0] # end
-  - name: segment_4F980 # assets?
+  - name: n64_wave_tables
     type: bin
     start: 0x04F980
+  - name: n64_ptr_tables_v2
+    type: bin
+    start: 0x169BE0
+  - name: segment_172130 # assets?
+    type: bin
+    start: 0x172130
   - [0x32CCA0] # after this there's just padding
