@@ -8,7 +8,7 @@
 
 
 // void func_80029C50();
-void func_80029ED0(struct_800EB670* arg0, u8 arg1, u8 arg2);
+void func_80029ED0(struct_800EB670* arg0, u8 arg1, u8 retraceCount);
 // void func_8002A0CC();
 // void func_8002A0D4();
 void func_8002A0DC(void*);
