@@ -22,7 +22,7 @@ def readFileAsBytearray(filepath: str) -> bytearray:
     with open(filepath, mode="rb") as f:
         return bytearray(f.read())
 
-filename = "bin/code.bin"
+filename = "bin/main_segment.bin"
 
 data = readFileAsBytearray(filename)
 decompressed = decompressZlib(data)

@@ -338,7 +338,7 @@ segments:
     bss_size: 0x70FD0
     subsegments:
       - [0x000000, asm, main_segment/000000]
-      - [0x000280, asm, main_segment/000280]
+      - [0x000280, c, main_segment/000280]
       - [0x000960, asm, main_segment/000960]
       - [0x000E30, asm, main_segment/000E30]
       - [0x0020D0, asm, main_segment/0020D0]
