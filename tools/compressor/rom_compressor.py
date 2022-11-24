@@ -9,6 +9,17 @@ import argparse
 import dataclasses
 import spimdisasm
 from pathlib import Path
+import zlib
+
+
+def compressZlib(data: bytearray) -> bytearray:
+    comp = zlib.compressobj(9, wbits=-zlib.MAX_WBITS)
+    output = bytearray()
+    output.extend(comp.compress(data))
+    # while comp.unconsumed_tail:
+    #     output.extend(comp.decompress(comp.unconsumed_tail))
+    output.extend(comp.flush())
+    return output
 
 
 @dataclasses.dataclass
@@ -114,20 +125,21 @@ def romCompressorMain():
             else:
                 # check if uncompressed segment matches
                 uncompressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.uncompressedPath)
+
                 if spimdisasm.common.Utils.getStrHash(uncompressedBytearray) == segmentEntry.uncompressedHash:
                     compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
                     assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
-                    outRom.write(compressedBytearray)
-
-                    compressedRomStart = f"{segmentEntry.compressedName}_ROM_START"
-                    compressedRomEnd = f"{segmentEntry.compressedName}_ROM_END"
-                    compressedRomValues[compressedRomStart] = sizeWrote
-                    compressedRomValues[compressedRomEnd] = sizeWrote + len(compressedBytearray)
-
-                    sizeWrote += len(compressedBytearray)
                 else:
-                    assert False, "non-matching compression is not supported yet"
-                    # sizeWrote += len(compressedBytearray)
+                    compressedBytearray = compressZlib(inRom[offset:offset+entry.size])
+
+                outRom.write(compressedBytearray)
+
+                compressedRomStart = f"{segmentEntry.compressedName}_ROM_START"
+                compressedRomEnd = f"{segmentEntry.compressedName}_ROM_END"
+                compressedRomValues[compressedRomStart] = sizeWrote
+                compressedRomValues[compressedRomEnd] = sizeWrote + len(compressedBytearray)
+
+                sizeWrote += len(compressedBytearray)
             offset += entry.size
 
         alignedSize = align8MB(sizeWrote)
@@ -136,7 +148,6 @@ def romCompressorMain():
 
         for relRomOffset, (symName, rType) in relsOffetsToApply.items():
             value = compressedRomValues[symName]
-            print(f"{value:X}")
             hiValue = value >> 16
             loValue = value & 0xFFFF
             if loValue >= 0x8000:

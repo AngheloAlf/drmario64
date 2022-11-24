@@ -157,7 +157,7 @@ LIBULTRA_O    := $(foreach f,$(LIBULTRA_C:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(LIBULTRA_S:.s=.o),$(BUILD_DIR)/$f)
 
 SEGMENT_LD    := $(foreach dir,$(SEGMENT_DIRS),$(wildcard $(dir)/*.ld))
-SEGMENT_O     := $(SEGMENT_LD:.ld=.bin)
+SEGMENT_BIN   := $(SEGMENT_LD:.ld=.bin)
 
 # Automatic dependency files
 DEP_FILES := $(O_FILES:.o=.d) \
@@ -237,14 +237,14 @@ $(ROMC): $(ROM)
 	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ROM:.z64=.elf) tools/compressor/compress_segments.csv 
 # TODO: update header
 
-$(ELF): $(O_FILES) $(LIBULTRA_O) $(SEGMENT_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
+$(ELF): $(O_FILES) $(LIBULTRA_O) $(SEGMENT_BIN) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
 		-T $(BUILD_DIR)/auto/undefined_syms_auto.ld -T $(BUILD_DIR)/auto/undefined_funcs_auto.ld \
 		-T $(BUILD_DIR)/linker_scripts/libultra_symbols.ld -T $(BUILD_DIR)/linker_scripts/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/undefined_syms.ld \
 		-Map $(LD_MAP) -o $@
 
 # Incremental linking
-$(BUILD_DIR)/segments/%.bin: $(BUILD_DIR)/segments/%.ld
+$(BUILD_DIR)/segments/%.bin: $(BUILD_DIR)/segments/%.ld $(O_FILES) $(LIBULTRA_O)
 	$(LD) --relocatable $(LDFLAGS) -T $< -Map $(BUILD_DIR)/segments/$*.map -o $(BUILD_DIR)/segments/$*.o
 	$(OBJCOPY) -O binary $(BUILD_DIR)/segments/$*.o $@
 
