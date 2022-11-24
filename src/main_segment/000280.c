@@ -35,30 +35,70 @@ void func_80029ED0(struct_800EB670* arg0, u8 viModeIndex, u8 retraceCount) {
 
     // TODO: determine the start of those 3 stacks
 
-    osCreateThread(&arg0->unk_158, 0x13, func_8002A0DC, arg0, &B_800F1CE0, 0x78);
+    osCreateThread(&arg0->unk_158, 0x13, (StartThreadFunc)func_8002A0DC, arg0, &B_800F1CE0, 0x78);
     osStartThread(&arg0->unk_158);
-    osCreateThread(&arg0->unk_308, 0x12, func_8002A2B8, arg0, &B_800FACE0, 0x6E);
+    osCreateThread(&arg0->unk_308, 0x12, (StartThreadFunc)func_8002A2B8, arg0, &B_800FACE0, 0x6E);
     osStartThread(&arg0->unk_308);
-    osCreateThread(&arg0->unk_4B8, 0x11, func_8002A4D8, arg0, &B_800EF440, 0x64);
+    osCreateThread(&arg0->unk_4B8, 0x11, (StartThreadFunc)func_8002A4D8, arg0, &B_800EF440, 0x64);
     osStartThread(&arg0->unk_4B8);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A0CC);
+UNK_TYPE func_8002A0CC(UNK_TYPE arg0) {
+    return arg0 + 4;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A0D4);
+UNK_TYPE func_8002A0D4(UNK_TYPE arg0) {
+    return arg0 + 0x3C;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A0DC);
+void func_8002A0DC(struct_800EB670 *arg) {
+    OSMesg msg = (OSMesg)0;
+
+    while (true) {
+        osRecvMesg(&arg->unk_074, &msg, OS_MESG_BLOCK);
+
+        D_80088100++;
+
+        switch ((u32)msg)  {
+            case 0x29A:
+                func_8002A26C(arg, arg);
+                osSetTime(0);
+                break;
+
+            case 0x29D:
+                func_8002A26C(arg, &arg->unk_002);
+                break;
+
+            default:
+                break;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A184);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A1DC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A26C);
+void func_8002A26C(struct_800EB670 *arg0, OSMesg msg) {
+    struct_800EB670_unk_668 *var_s0 = arg0->unk_668;
+
+    while (var_s0 != NULL) {
+        osSendMesg(var_s0->unk_4, msg, OS_MESG_NOBLOCK);
+        var_s0 = var_s0->unk_0;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A2B8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A3F4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A4D8);
+void func_8002A4D8(struct_800EB670 *arg0) {
+    while (true) {
+        OSMesg msg;
+
+        osRecvMesg(&arg0->unk_03C, &msg, OS_MESG_BLOCK);
+        func_8002A3F4(arg0, msg);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A51C);

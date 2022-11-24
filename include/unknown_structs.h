@@ -9,6 +9,11 @@ typedef struct struct_80029C04 {
     size_t segmentSize;
 } struct_80029C04;
 
+typedef struct struct_800EB670_unk_668 {
+    /* 0x0 */ struct struct_800EB670_unk_668 *unk_0;
+    /* 0x4 */ OSMesgQueue *unk_4;
+} struct_800EB670_unk_668; // size >= 0x8
+
 typedef struct struct_800EB670 {
     /* 0x000 */ s16 unk_000;
     /* 0x002 */ s16 unk_002;
@@ -28,13 +33,14 @@ typedef struct struct_800EB670 {
     /* 0x158 */ OSThread unk_158;
     /* 0x308 */ OSThread unk_308;
     /* 0x4B8 */ OSThread unk_4B8;
-    /* 0x668 */ UNK_TYPE unk_668;
+    /* 0x668 */ struct_800EB670_unk_668 *unk_668;
     /* 0x66C */ UNK_TYPE unk_66C;
     /* 0x670 */ UNK_TYPE unk_670;
     /* 0x674 */ UNK_TYPE unk_674;
     /* 0x678 */ UNK_TYPE unk_678;
 } struct_800EB670; // size >= 0x67C
 
+typedef void (*StartThreadFunc)(void *);
 
 
 #endif

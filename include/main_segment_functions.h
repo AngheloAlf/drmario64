@@ -11,13 +11,13 @@
 void func_80029ED0(struct_800EB670* arg0, u8 arg1, u8 retraceCount);
 // void func_8002A0CC();
 // void func_8002A0D4();
-void func_8002A0DC(void*);
+void func_8002A0DC(struct_800EB670*);
 // void func_8002A184();
 // void func_8002A1DC();
-// void func_8002A26C();
-void func_8002A2B8(void*);
-// void func_8002A3F4();
-void func_8002A4D8(void*);
+void func_8002A26C(struct_800EB670 *arg0, OSMesg msg);
+void func_8002A2B8(struct_800EB670*);
+void func_8002A3F4(struct_800EB670 *arg0, OSMesg arg1);
+void func_8002A4D8(struct_800EB670*);
 // void func_8002A51C();
 // void func_8002A5B0();
 // void func_8002A700();

@@ -13,7 +13,7 @@
 // extern UNK_TYPE D_80084760;
 // extern UNK_TYPE D_80085580;
 // extern UNK_TYPE D_80086910;
-// extern UNK_TYPE D_80088100;
+extern UNK_TYPE D_80088100;
 // extern UNK_TYPE D_80088104;
 // extern UNK_TYPE D_80088105;
 // extern UNK_TYPE D_80088110;
