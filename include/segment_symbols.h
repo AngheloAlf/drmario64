@@ -20,9 +20,9 @@
 #define SEGMENT_END(segment)   (segment ## _VRAM_END)
 #define SEGMENT_SIZE(segment)  ((uintptr_t)SEGMENT_END(segment) - (uintptr_t)SEGMENT_START(segment))
 
-#define SEGMENT_ROM_START(segment) (segment ## _ROM_START)
-#define SEGMENT_ROM_END(segment)   (segment ## _ROM_END)
-#define SEGMENT_ROM_SIZE(segment)  ((uintptr_t)SEGMENT_ROM_END(segment) - (uintptr_t)SEGMENT_ROM_START(segment))
+#define SEGMENT_ROM_START(segment) ((romoffset_t)segment ## _ROM_START)
+#define SEGMENT_ROM_END(segment)   ((romoffset_t)segment ## _ROM_END)
+#define SEGMENT_ROM_SIZE(segment)  (SEGMENT_ROM_END(segment) - SEGMENT_ROM_START(segment))
 
 #define SEGMENT_BSS_START(segment) (segment ## _BSS_START)
 #define SEGMENT_BSS_END(segment)   (segment ## _BSS_END)

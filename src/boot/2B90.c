@@ -6,15 +6,15 @@
 #include "libc/stdbool.h"
 
 // libultra?
-extern UNK_TYPE B_8001D7F8;
+extern void *B_8001D7F8;
 extern UNK_TYPE B_8001D7FC;
 
 
 #ifdef NON_MATCHING
-UNK_TYPE func_80001F90(romoffset_t segmentRom, UNK_TYPE arg1, size_t segmentSize) {
+UNK_TYPE func_80001F90(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
     B_80029C00.segmentRom = segmentRom;
     B_80029C00.segmentSize = segmentSize;
-    B_8001D7F8 = arg1;
+    B_8001D7F8 = dstAddr;
     B_8001D7FC = 0;
     func_800021A0();
     func_800020A0();
@@ -117,7 +117,7 @@ s32 func_800021CC(s32 arg0) {
 INCLUDE_ASM("asm/nonmatchings/boot/2B90", func_800021CC);
 #endif
 
-void func_800022A8(s32 *arg0, u8 *arg1, s32 arg2) {
+void func_800022A8(void **arg0, u8 *arg1, s32 arg2) {
     while (true) {
         s32 temp_v0 = func_80002064(arg0, arg1, arg2);
 

@@ -6,10 +6,10 @@
 typedef void (*SegmentEntryFunc)(void* arg);
 
 typedef struct DmaTableEntry {
-    /* 0x00 */ uintptr_t vram;
+    /* 0x00 */ void* vram;
     /* 0x04 */ SegmentEntryFunc entry;
-    /* 0x08 */ uintptr_t bssStart;
-    /* 0x0C */ uintptr_t bssEnd;
+    /* 0x08 */ void* bssStart;
+    /* 0x0C */ void* bssEnd;
 } DmaTableEntry; // size = 0x10
 
 extern DmaTableEntry gDmaTable[];

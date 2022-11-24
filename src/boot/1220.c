@@ -19,7 +19,7 @@ void *func_80000620(romoffset_t segmentRom, void *segmentVram, size_t segmentSiz
 
     remainingSize = segmentSize;
     currentRom = segmentRom;
-    currentVram = segmentVram;
+    currentVram = (uintptr_t)segmentVram;
 
     while (remainingSize > 0) {
         OSIoMesg mb;
@@ -29,14 +29,14 @@ void *func_80000620(romoffset_t segmentRom, void *segmentVram, size_t segmentSiz
             blkSize = 0x2000;
         }
 
-        osPiStartDma(&mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, currentVram, blkSize, &B_800151C0);
+        osPiStartDma(&mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, (void*)currentVram, blkSize, &B_800151C0);
         currentRom += blkSize;
         currentVram += blkSize;
         remainingSize -= blkSize;
         osRecvMesg(&B_800151C0, NULL, OS_MESG_BLOCK);
     }
 
-    return (uintptr_t)segmentVram + segmentSize;
+    return (void*)((uintptr_t)segmentVram + segmentSize);
 }
 
 INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80000720);
@@ -60,7 +60,7 @@ UNK_TYPE func_80000D0C(void *arg0) {
     while (arg0 != NULL) {
         temp_a0 = arg0 - 8;
         //temp_s0 = temp_a0->unk_4;
-        temp_s0 = ((s32*)temp_a0)[1];
+        temp_s0 = (void *)((s32*)temp_a0)[1];
         func_8000075C();
         arg0 = temp_s0;
     }

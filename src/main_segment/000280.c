@@ -22,10 +22,10 @@ void func_80029ED0(struct_800EB670* arg0, u8 arg1, u8 arg2) {
     osCreateViManager(0xFE);
     osViSetMode(&osViModeTable[arg1]);
     osViBlack(1U);
-    osViSetEvent(&arg0->unk_074, (void* )0x29A, arg2);
-    osSetEventMesg(4U, &arg0->unk_0AC, (void* )0x29B);
-    osSetEventMesg(9U, &arg0->unk_0E4, (void* )0x29C);
-    osSetEventMesg(0xEU, &arg0->unk_074, (void* )0x29D);
+    osViSetEvent(&arg0->unk_074, (OSMesg)0x29A, arg2);
+    osSetEventMesg(OS_EVENT_SP, &arg0->unk_0AC, (OSMesg)0x29B);
+    osSetEventMesg(OS_EVENT_DP, &arg0->unk_0E4, (OSMesg)0x29C);
+    osSetEventMesg(OS_EVENT_PRENMI, &arg0->unk_074, (OSMesg)0x29D);
     osCreateThread(&arg0->unk_158, 0x13, func_8002A0DC, arg0, &B_800F1CE0, 0x78);
     osStartThread(&arg0->unk_158);
     osCreateThread(&arg0->unk_308, 0x12, func_8002A2B8, arg0, &B_800FACE0, 0x6E);
