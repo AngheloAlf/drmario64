@@ -92,7 +92,7 @@ ROM_COMPRESSOR ?= tools/compressor/rom_compressor.py
 
 
 IINC       := -Iinclude
-IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src
+IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src -Ilib/libmus/src
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-unknown-pragmas -Wno-missing-braces
@@ -142,6 +142,7 @@ SRC_DIRS      := $(shell find src -type d)
 ASM_DIRS      := $(shell find asm -type d -not -path "asm/nonmatchings/*")
 BIN_DIRS      := $(shell find bin -type d)
 LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/src/voice")
+LIBMUS_DIRS   := $(shell find lib/libmus/src -type d)
 SEGMENT_DIRS  := $(shell find $(BUILD_DIR)/segments -type d)
 
 C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
@@ -164,7 +165,7 @@ DEP_FILES := $(O_FILES:.o=.d) \
              $(O_FILES:.o=.asmproc.d)
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
 $(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1

@@ -374,6 +374,10 @@ segments:
       - [0x05A980, asm, libmus/aud_samples]
 
       - [0x05AA40, data, main_segment/05AA40]
+
+      - [0x082000, data, libmus/player]
+      - [0x0820C0, data, main_segment/0820C0]
+
       - [0x082D90, .rodata, main_segment/000000]
       - [0x082DC0, rodata, main_segment/082DC0]
       - [0x083110, rodata, main_segment/083110]
