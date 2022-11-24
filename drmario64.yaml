@@ -338,7 +338,7 @@ segments:
     decompressed_size: 0x899F0
     bss_size: 0x70FD0
     subsegments:
-      - [0x000000, asm, main_segment/000000]
+      - [0x000000, c, main_segment/000000]
       - [0x000280, c, main_segment/000280]
       - [0x000960, asm, main_segment/000960]
       - [0x000E30, asm, main_segment/000E30]
@@ -368,7 +368,7 @@ segments:
       - [0x05A580, asm, main_segment/05A580]
       - [0x05A840, asm, main_segment/05A840]
       - [0x05AA40, data, main_segment/05AA40]
-      - [0x082D90, rodata, main_segment/082D90]
+      - [0x082D90, .rodata, main_segment/000000]
       - [0x082DC0, rodata, main_segment/082DC0]
       - [0x083110, rodata, main_segment/083110]
       - [0x083150, rodata, main_segment/083150]
