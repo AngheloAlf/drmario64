@@ -233,8 +233,8 @@ $(ROM): $(ELF)
 	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x400000 $< $@
 # TODO: update header
 
-$(ROMC): $(ROM)
-	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ROM:.z64=.elf) tools/compressor/compress_segments.csv 
+$(ROMC): $(ROM) tools/compressor/compress_segments.csv
+	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ROM:.z64=.elf) tools/compressor/compress_segments.csv
 # TODO: update header
 
 $(ELF): $(O_FILES) $(LIBULTRA_O) $(SEGMENT_BIN) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
