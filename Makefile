@@ -111,7 +111,7 @@ else
 	CC_CHECK          := @:
 endif
 
-OPTFLAGS        := -O2 -g3
+OPTFLAGS        := -O2
 MIPS_VERSION    := -mips3
 CFLAGS          += -nostdinc -G 0 -mgp32 -mfp32 -fno-common
 WARNINGS        := -w

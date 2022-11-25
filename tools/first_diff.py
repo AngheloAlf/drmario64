@@ -34,7 +34,7 @@ diff_count = args.count
 if args.make:
     check_call(["make", "-j4", "COMPARE=0"])
 
-baseimg = f"baserom.z64"
+baseimg = f"expected/build/drmario64_uncompressed.z64"
 basemap = f"expected/build/drmario64_uncompressed.map"
 
 myimg = f"build/drmario64_uncompressed.z64"

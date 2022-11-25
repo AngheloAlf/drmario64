@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 def apply(config, args):
-    config['baseimg'] = 'baserom.z64'
+    config['baseimg'] = 'expected/build/drmario64_uncompressed.z64'
     config['myimg'] = 'build/drmario64_uncompressed.z64'
     config['mapfile'] = 'build/drmario64_uncompressed.map'
     config['source_directories'] = ['./src','./include']
