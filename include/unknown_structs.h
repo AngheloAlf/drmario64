@@ -42,12 +42,29 @@ typedef struct struct_800EB670 {
 
 typedef void (*StartThreadFunc)(void *);
 
+typedef struct struct_800FAF98_unk_14 {
+    /* 0x0 */ UNK_TYPE4 unk_0;
+    /* 0x4 */ UNK_TYPE4 unk_4;
+    /* 0x8 */ UNK_TYPE4 unk_8;
+} struct_800FAF98_unk_14; // size = 0xC
+
 typedef struct struct_800FAF98 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0xC];
+    /* 0x00 */ UNK_TYPE unk_00;
+    /* 0x04 */ UNK_TYPE unk_04;
+    /* 0x08 */ UNK_TYPE unk_08;
     /* 0x0C */ void *unk_0C; // vram
-    /* 0x10 */ UNK_TYPE1 unk_10[0x1C];
+    /* 0x10 */ UNK_TYPE unk_10;
+    /* 0x14 */ struct_800FAF98_unk_14* unk_14;
+    /* 0x18 */ UNK_TYPE unk_18;
+    /* 0x1C */ UNK_TYPE unk_1C;
+    /* 0x20 */ UNK_TYPE unk_20;
+    /* 0x24 */ UNK_TYPE4 *unk_24;
+    /* 0x28 */ UNK_TYPE unk_28;
     /* 0x2C */ OSMesgQueue unk_2C;
-} struct_800FAF98; // size >= 0x44
+    /* 0x44 */ OSMesg unk_44[8];
+    /* 0x64 */ UNK_TYPE1 unk_64[0x58];
+    /* 0xBC */ UNK_TYPE unk_BC;
+} struct_800FAF98; // size >= 0xC0
 
 
 #endif
