@@ -42,5 +42,10 @@ typedef struct struct_800EB670 {
 
 typedef void (*StartThreadFunc)(void *);
 
+typedef struct struct_800FAF98 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0x2C];
+    /* 0x2C */ OSMesgQueue unk_2C;
+} struct_800FAF98; // size >= 0x44
+
 
 #endif

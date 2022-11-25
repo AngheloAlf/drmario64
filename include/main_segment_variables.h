@@ -781,7 +781,7 @@ extern s32 B_800FAD2C;
 // extern UNK_TYPE B_800FAF88;
 // extern UNK_TYPE B_800FAF92;
 // extern UNK_TYPE B_800FAF94;
-// extern UNK_TYPE B_800FAF98;
+extern struct_800FAF98 *B_800FAF98;
 // extern UNK_TYPE B_800FAF9C;
 // extern UNK_TYPE B_800FAFA0;
 // extern UNK_TYPE B_800FB3A0;
