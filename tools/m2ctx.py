@@ -17,7 +17,9 @@ CPP_FLAGS = [
     "-Ilib/ultralib/include/gcc",
     "-Ilib/ultralib/include/PR",
     "-Ilib/ultralib/src",
-    "-D_LANGUAGE_C"
+    "-Ilib/libmus/src",
+    "-Ilib/libmus/include",
+    "-D_LANGUAGE_C",
     "-DF3DEX_GBI_2",
     "-D__USE_ISOC99",
     "-DNDEBUG",
@@ -29,6 +31,7 @@ CPP_FLAGS = [
     "-D__asm__(test...)=",
     "-ffreestanding",
     "-DM2CTX",
+    "-DNON_MATCHING",
 ]
 
 def import_c_file(in_file) -> str:

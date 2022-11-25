@@ -92,7 +92,7 @@ ROM_COMPRESSOR ?= tools/compressor/rom_compressor.py
 
 
 IINC       := -Iinclude
-IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src -Ilib/libmus/src
+IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src -Ilib/libmus/include
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wno-unknown-pragmas -Wno-missing-braces

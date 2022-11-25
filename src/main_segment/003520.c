@@ -5,11 +5,21 @@
 #include "unk.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "PR/libmus.h"
 
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D170);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D3B0);
+bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank) {
+    struct_800FAF98 *temp_s0 = B_800FAF98;
+
+    if (MusAsk(MUSFLAG_SONGS) == 0) {
+        func_8002D8D0(segmentRom, temp_s0->unk_0C, segmentSize);
+        MusPtrBankInitialize(temp_s0->unk_0C, wbank);
+        return true;
+    }
+    return false;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D428);
 

@@ -3,6 +3,7 @@
 
 #include "ultra64.h"
 #include "libc/stdint.h"
+#include "libc/stdbool.h"
 #include "unknown_structs.h"
 #include "unk.h"
 
@@ -77,7 +78,7 @@ void func_8002B7A8(struct_800EB670 *arg0);
 // void func_8002CD08();
 // void func_8002CF04();
 // void func_8002D170();
-// void func_8002D3B0();
+bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank);
 // void func_8002D428();
 // void func_8002D4A4();
 // void func_8002D4F8();
