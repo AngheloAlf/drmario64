@@ -13,7 +13,7 @@ void func_80029ED0(struct_800EB670* arg0, u8 arg1, u8 retraceCount);
 // void func_8002A0CC();
 // void func_8002A0D4();
 void func_8002A0DC(struct_800EB670*);
-// void func_8002A184();
+void func_8002A184(void *arg0, struct_800FAF98_unk_64 *arg1, OSMesgQueue *arg2);
 // void func_8002A1DC();
 void func_8002A26C(struct_800EB670 *arg0, OSMesg msg);
 void func_8002A2B8(struct_800EB670*);

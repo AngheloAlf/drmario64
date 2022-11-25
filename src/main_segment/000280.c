@@ -5,6 +5,7 @@
 #include "macros_defines.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "audio/audio_stuff.h"
 
 
 void func_80029ED0(struct_800EB670* arg0, u8 viModeIndex, u8 retraceCount) {
@@ -75,7 +76,18 @@ void func_8002A0DC(struct_800EB670 *arg) {
     }
 }
 
+#if 0
+void func_8002A184(void *arg0, struct_800FAF98_unk_64 *arg1, OSMesgQueue *arg2) {
+    OSIntMask temp_v0 = osSetIntMask(1);
+
+    arg1->unk_4 = arg2;
+    arg1->unk_0 = (void *) arg0->unk_668;
+    arg0->unk_668 = arg1;
+    osSetIntMask(temp_v0);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A184);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A1DC);
 

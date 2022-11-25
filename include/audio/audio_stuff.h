@@ -16,7 +16,7 @@ typedef struct Audio_struct_800FAF98_unk_14 {
 } Audio_struct_800FAF98_unk_14; // size = 0xC
 
 typedef struct Audio_struct_800FAF98 {
-    /* 0x00 */ UNK_TYPE unk_00;
+    /* 0x00 */ UNK_PTR unk_00;
     /* 0x04 */ UNK_TYPE unk_04;
     /* 0x08 */ UNK_TYPE unk_08;
     /* 0x0C */ void *unk_0C; // vram
@@ -25,11 +25,15 @@ typedef struct Audio_struct_800FAF98 {
     /* 0x18 */ UNK_TYPE unk_18;
     /* 0x1C */ void *unk_1C;
     /* 0x20 */ UNK_TYPE unk_20;
-    /* 0x24 */ UNK_TYPE4 *unk_24;
-    /* 0x28 */ UNK_TYPE unk_28;
+    /* 0x24 */ musHandle *unk_24;
+    /* 0x28 */ s32 unk_28; // len of unk_24
     /* 0x2C */ OSMesgQueue unk_2C;
     /* 0x44 */ OSMesg unk_44[8];
-    /* 0x64 */ UNK_TYPE1 unk_64[0x58];
+    /* 0x64 */ struct_800FAF98_unk_64 unk_64;
+    /* 0x6C */ OSMesgQueue unk_6C;
+    /* 0x84 */ OSMesg unk_84[4];
+    /* 0x94 */ OSMesgQueue unk_94;
+    /* 0xAC */ OSMesg unk_AC[4];
     /* 0xBC */ UNK_TYPE unk_BC;
 } Audio_struct_800FAF98; // size >= 0xC0
 
@@ -79,30 +83,30 @@ void func_8002B7A8(struct_800EB670 *arg0);
 
 // void func_8002D170();
 bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank);
-// void func_8002D428();
-// void func_8002D4A4();
-// void func_8002D4F8();
+bool func_8002D428(s32 index, romoffset_t segmentRom, size_t segmentSize);
+void func_8002D4A4(s32 index);
+musHandle func_8002D4F8(s32 index);
 s32 func_8002D51C(s32 index);
-// void func_8002D554();
-// void func_8002D58C();
-// void func_8002D5C4();
-// void func_8002D5FC();
-// void func_8002D634();
-// void func_8002D66C();
+s32 func_8002D554(s32 index, s32 speed);
+s32 func_8002D58C(s32 index, s32 volume);
+s32 func_8002D5C4(s32 index, s32 pan);
+s32 func_8002D5FC(s32 index, s32 tempo);
+s32 func_8002D634(s32 index);
+s32 func_8002D66C(s32 index);
 bool func_8002D6A4(romoffset_t segmentRom, size_t segmentSize);
-// void func_8002D710();
-// void func_8002D720();
-// void func_8002D768();
-// void func_8002D7C4();
-// void func_8002D7E0();
-// void func_8002D810();
-// void func_8002D840();
-// void func_8002D870();
-// void func_8002D8A0();
+void *func_8002D710(void);
+void func_8002D720(s32 index, s32 number);
+void func_8002D768(s32 index, s32 number, s32 volume, s32 pan, s32 restartflag, s32 priority);
+s32 func_8002D7C4(s32 index);
+s32 func_8002D7E0(s32 index);
+s32 func_8002D810(s32 index, s32 speed);
+s32 func_8002D840(s32 index, s32 volume);
+s32 func_8002D870(s32 index, s32 pan);
+s32 func_8002D8A0(s32 index, f32 offset);
 void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize);
-// void func_8002D984();
-// void func_8002D9E4();
-// void func_8002DA48();
+void func_8002D984(void);
+void func_8002D9E4(void);
+void func_8002DA48(musTask *arg0);
 
 
 // data

@@ -103,23 +103,37 @@ void func_8002D4A4(s32 index) {
     temp_s1->unk_14[index].unk_8 = MusStartSong(temp_s1->unk_14[index].unk_0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D4F8);
-
-s32 func_8002D51C(s32 index) {
-    return MusHandleAsk((musHandle) gAudio_800FAF98->unk_14[index].unk_8);
+musHandle func_8002D4F8(s32 index) {
+    return gAudio_800FAF98->unk_14[index].unk_8;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D554);
+s32 func_8002D51C(s32 index) {
+    return MusHandleAsk(gAudio_800FAF98->unk_14[index].unk_8);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D58C);
+s32 func_8002D554(s32 index, s32 speed) {
+    return MusHandleStop(gAudio_800FAF98->unk_14[index].unk_8, speed);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D5C4);
+s32 func_8002D58C(s32 index, s32 volume) {
+    return MusHandleSetVolume(gAudio_800FAF98->unk_14[index].unk_8, volume);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D5FC);
+s32 func_8002D5C4(s32 index, s32 pan) {
+    return MusHandleSetPan(gAudio_800FAF98->unk_14[index].unk_8, pan);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D634);
+s32 func_8002D5FC(s32 index, s32 tempo) {
+    return MusHandleSetTempo(gAudio_800FAF98->unk_14[index].unk_8, tempo);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D66C);
+s32 func_8002D634(s32 index) {
+    return MusHandlePause(gAudio_800FAF98->unk_14[index].unk_8);
+}
+
+s32 func_8002D66C(s32 index) {
+    return MusHandleUnPause(gAudio_800FAF98->unk_14[index].unk_8);
+}
 
 bool func_8002D6A4(romoffset_t segmentRom, size_t segmentSize) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
@@ -132,23 +146,45 @@ bool func_8002D6A4(romoffset_t segmentRom, size_t segmentSize) {
     return false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D710);
+void *func_8002D710(void) {
+    return gAudio_800FAF98->unk_1C;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D720);
+void func_8002D720(s32 index, s32 number) {
+    Audio_struct_800FAF98 *temp_s1 = gAudio_800FAF98;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D768);
+    temp_s1->unk_24[index] = MusStartEffect(number);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D7C4);
+void func_8002D768(s32 index, s32 number, s32 volume, s32 pan, s32 restartflag, s32 priority) {
+    Audio_struct_800FAF98 *temp_s1 = gAudio_800FAF98;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D7E0);
+    temp_s1->unk_24[index] = MusStartEffect2(number, volume, pan, restartflag, priority);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D810);
+s32 func_8002D7C4(s32 index) {
+    return gAudio_800FAF98->unk_24[index];
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D840);
+s32 func_8002D7E0(s32 index) {
+    return MusHandleAsk(gAudio_800FAF98->unk_24[index]);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D870);
+s32 func_8002D810(s32 index, s32 speed) {
+    return MusHandleStop(gAudio_800FAF98->unk_24[index], speed);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D8A0);
+s32 func_8002D840(s32 index, s32 volume) {
+    return MusHandleSetVolume(gAudio_800FAF98->unk_24[index], volume);
+}
+
+s32 func_8002D870(s32 index, s32 pan) {
+    return MusHandleSetPan(gAudio_800FAF98->unk_24[index], pan);
+}
+
+s32 func_8002D8A0(s32 index, f32 offset) {
+    return MusHandleSetFreqOffset(gAudio_800FAF98->unk_24[index], offset);
+}
 
 void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize) {
     Audio_struct_800FAF98 *temp = gAudio_800FAF98;
@@ -174,8 +210,22 @@ void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D984);
+void func_8002D984(void) {
+    Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D9E4);
+    osCreateMesgQueue(&temp_s0->unk_6C, temp_s0->unk_84, ARRAY_COUNT(temp_s0->unk_84));
+    osCreateMesgQueue(&temp_s0->unk_94, temp_s0->unk_AC, ARRAY_COUNT(temp_s0->unk_AC));
+    func_8002A184(temp_s0->unk_00, &temp_s0->unk_64, &temp_s0->unk_6C);
+}
+
+void func_8002D9E4(void) {
+    s16 *sp10;
+    OSMesgQueue *temp_s0 = &gAudio_800FAF98->unk_6C;
+
+    do {
+        osRecvMesg(temp_s0, (OSMesg)&sp10, OS_MESG_BLOCK);
+        osRecvMesg(temp_s0, NULL, OS_MESG_NOBLOCK);
+    } while (*sp10 != 1);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002DA48);
