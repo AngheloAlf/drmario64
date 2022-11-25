@@ -348,12 +348,12 @@ segments:
       - [0x000E30, c, main_segment/000E30]
       - [0x0020D0, asm, main_segment/0020D0]
       - [0x003520, c, main_segment/003520]
-      - [0x003ED0, asm, main_segment/003ED0]
+      - [0x003ED0, c, main_segment/003ED0]
       - [0x004BE0, asm, main_segment/004BE0]
       - [0x004EB0, c, main_segment/004EB0]
       - [0x010D50, c, main_segment/010D50]
       - [0x013150, asm, main_segment/013150]
-      - [0x0131D0, asm, main_segment/0131D0]
+      - [0x0131D0, c, main_segment/0131D0]
       - [0x014590, asm, main_segment/014590]
       - [0x016DB0, c, main_segment/016DB0]
       - [0x01C180, asm, main_segment/01C180]
@@ -362,10 +362,10 @@ segments:
       - [0x0344D0, asm, main_segment/0344D0]
       - [0x0365A0, asm, main_segment/0365A0]
       - [0x04C2E0, asm, main_segment/04C2E0]
-      - [0x051A00, asm, main_segment/051A00]
-      - [0x051FD0, asm, main_segment/051FD0]
-      - [0x053610, asm, main_segment/053610]
-      - [0x0537C0, asm, main_segment/0537C0]
+      - [0x051A00, c, main_segment/051A00]
+      - [0x051FD0, c, main_segment/051FD0]
+      - [0x053610, c, main_segment/053610]
+      - [0x0537C0, c, main_segment/0537C0]
       - [0x054610, asm, main_segment/054610]
       - [0x054DD0, asm, main_segment/054DD0]
       - [0x055C40, asm, main_segment/055C40]
@@ -390,23 +390,23 @@ segments:
       - [0x0822E0, data, libmus/aud_thread]
 
       - [0x0822F0, rodata, rsp/aspMain]
+
       - [0x0825B0, rodata, main_segment/0825B0]
 
       - [0x082D90, .rodata, main_segment/000000]
       - [0x082DC0, rodata, main_segment/082DC0]
       - [0x0830A0, .rodata, main_segment/000E30]
-      - [0x0830D0, rodata, main_segment/0830D0]
-      - [0x083110, rodata, main_segment/083110]
-      - [0x083150, rodata, main_segment/083150]
-      - [0x083190, rodata, main_segment/083190]
-      - [0x083240, rodata, main_segment/083240]
-      - start: 0x083260
+      - start: 0x0830D0
+        name: main_segment/003ED0
+        type: .rodata
+        partial_migration: True
+      - start: 0x083240
         name: main_segment/004EB0
         type: .rodata
         partial_migration: True
       - [0x083500, .rodata, main_segment/010D50]
-      - [0x083540, rodata, main_segment/083540]
-      - [0x0835C0, rodata, main_segment/0835C0]
+      - [0x083540, .rodata, main_segment/0131D0]
+      - [0x083690, rodata, main_segment/083690]
       - [0x083B70, rodata, main_segment/083B70]
       - [0x083EF0, rodata, main_segment/083EF0]
       - [0x083F00, .rodata, main_segment/016DB0]
@@ -431,7 +431,11 @@ segments:
       - [0x087FE0, rodata, main_segment/087FE0]
       - [0x0883A0, rodata, main_segment/0883A0]
       - [0x0897A0, rodata, main_segment/0897A0]
+      - [0x089800, .rodata, main_segment/051A00]
+      - [0x089850, .rodata, main_segment/051FD0]
+      - [0x0898A0, .rodata, main_segment/0537C0]
 
+      - [0x089900, rodata, libmus/player]
       - [0x0899E0, .rodata, ../lib/libmus/src/player_fx]
 
       - start: 0x0899F0
