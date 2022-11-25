@@ -21,9 +21,20 @@
         "\t.size\t"#NAME",.end"#NAME"-"#NAME \
     );
 #endif
+#ifndef INCLUDE_RODATA
+#define INCLUDE_RODATA(FOLDER, NAME) \
+   __asm__( \
+        ".section .rodata\n" \
+        "\t.align\t2\n" \
+        "\t.globl\t"#NAME"\n" \
+        #NAME ":\n" \
+        "\t.include \""FOLDER"/"#NAME".s\"" \
+    );
+#endif
 __asm__(".include \"include/labels.inc\"\n");
 #else
 #define INCLUDE_ASM(FOLDER, NAME, ARGS...)
+#define INCLUDE_RODATA(FOLDER, NAME)
 #endif
 
 #endif

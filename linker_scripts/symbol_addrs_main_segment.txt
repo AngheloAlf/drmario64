@@ -1569,6 +1569,13 @@ aspMainDataStart = 0x800ABF40; // 0x0  (aud_thread, false)
 D_800AC200 = 0x800AC200;
 D_800AC620 = 0x800AC620;
 
+
+// rodata
+
+R_800AD080 = 0x800AD080;
+
+
+
 // bss
 
 B_800B3640 = 0x800B3640;
