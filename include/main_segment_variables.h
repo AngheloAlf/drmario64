@@ -565,7 +565,7 @@ extern s32 D_800AAD34;
 // extern UNK_TYPE B_800E5F04;
 extern Mtx B_800E5F08;
 // extern UNK_TYPE B_800E5F50;
-// extern UNK_TYPE B_800E8750;
+extern void *B_800E8750;
 extern void *B_800E87A8;
 // extern UNK_TYPE B_800E87AC;
 // extern UNK_TYPE B_800E87B0;

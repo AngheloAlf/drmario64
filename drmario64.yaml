@@ -248,6 +248,8 @@ segments:
 
       - [0x00ED90, data, boot/00ED90]
 
+      - [0x00F340, data, boot/rom_offsets]
+
       - [0x00F650, data, libultra/pimgr]
       - [0x00F680, data, libultra/cartrominit]
       - [0x00F690, data, libultra/piacs]
@@ -461,19 +463,87 @@ segments:
         name: main_segment/800E99D0
         type: bss
         vram: 0x800E99D0
+
   - name: n64_wave_tables
     type: bin
     start: 0x04F980
   - name: n64_ptr_tables_v2
     type: bin
     start: 0x169BE0
-  - name: segment_172130 # no idea what it is
+  - name: segment_172130
     type: bin
     start: 0x172130
+  - name: segment_172D60 # marker of the end of the previous segment
+    type: bin
+    start: 0x172D60
+
+  - name: segment_195620 # compressed
+    type: bin
+    start: 0x195620
+  - name: segment_1A0D40 # marker of the end of the previous segment
+    type: bin
+    start: 0x1A0D40
+
   - name: segment_1A3610 # compressed
     type: bin
     start: 0x1A3610
-  - name: segment_1B0E60 # no idea what it is
+  - name: segment_1B0E60 # marker of the end of the previous segment
     type: bin
     start: 0x1B0E60
+
+  - name: segment_21F6D0 # compressed
+    type: bin
+    start: 0x21F6D0
+  - name: segment_2264C0 # compressed
+    type: bin
+    start: 0x2264C0
+  - name: segment_22DA20 # compressed
+    type: bin
+    start: 0x22DA20
+  - name: segment_234CF0 # compressed
+    type: bin
+    start: 0x234CF0
+  - name: segment_23B7E0 # compressed
+    type: bin
+    start: 0x23B7E0
+  - name: segment_240160 # compressed
+    type: bin
+    start: 0x240160
+  - name: segment_245AE0 # compressed
+    type: bin
+    start: 0x245AE0
+  - name: segment_24E620 # compressed
+    type: bin
+    start: 0x24E620
+  - name: segment_257670 # compressed
+    type: bin
+    start: 0x257670
+  - name: segment_25E690 # compressed
+    type: bin
+    start: 0x25E690
+  - name: segment_266490 # marker of the end of the previous segment
+    type: bin
+    start: 0x266490
+
+  - name: segment_2CC150 # compressed
+    type: bin
+    start: 0x2CC150
+  - name: segment_2CEA50 # compressed
+    type: bin
+    start: 0x2CEA50
+  - name: segment_2D3E80 # marker of the end of the previous segment
+    type: bin
+    start: 0x2D3E80
+
+  - name: segment_2F8E80 # compressed
+    type: bin
+    start: 0x2F8E80
+  - name: segment_2F96A0 # marker of the end of the previous segment
+    type: bin
+    start: 0x2F96A0
+
+  - name: segment_329FF0 # compressed
+    type: bin
+    start: 0x329FF0
+
   - [0x32CCA0] # after this there's just padding

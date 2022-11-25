@@ -31,30 +31,31 @@ extern romoffset_t D_8000E744;
 // extern UNK_TYPE D_8000E754;
 // extern UNK_TYPE D_8000E758;
 // extern UNK_TYPE D_8000E75C;
-// extern UNK_TYPE D_8000E760;
-// extern UNK_TYPE D_8000E764;
+extern romoffset_t D_8000E760;
+extern romoffset_t D_8000E764;
 // extern UNK_TYPE D_8000E768;
 // extern UNK_TYPE D_8000E76C;
 // extern UNK_TYPE D_8000E770;
 // extern UNK_TYPE D_8000E774;
-// extern UNK_TYPE D_8000E778;
-// extern UNK_TYPE D_8000E77C;
+
+extern struct_8000E778 D_8000E778[0x30];
+
 extern romoffset_t gRomOffset_N64WaveTables_Start;
 extern romoffset_t gRomOffset_N64WaveTables_End;
 extern romoffset_t gRomOffset_N64PtrTables_Start;
 extern romoffset_t gRomOffset_N64PtrTables_End;
 // extern UNK_TYPE D_8000E848;
 // extern UNK_TYPE D_8000E84C;
-// extern UNK_TYPE D_8000E9B0;
-// extern UNK_TYPE D_8000E9B4;
-// extern UNK_TYPE D_8000E9D8;
-// extern UNK_TYPE D_8000E9DC;
-// extern UNK_TYPE D_8000E9E0;
-// extern UNK_TYPE D_8000E9E4;
-// extern UNK_TYPE D_8000EA40;
-// extern UNK_TYPE D_8000EA44;
-// extern UNK_TYPE D_8000EA48;
-// extern UNK_TYPE D_8000EA4C;
+extern romoffset_t D_8000E9B0;
+extern romoffset_t D_8000E9B4;
+extern romoffset_t D_8000E9D8;
+extern romoffset_t D_8000E9DC;
+extern romoffset_t D_8000E9E0;
+extern romoffset_t D_8000E9E4;
+extern romoffset_t D_8000EA40;
+extern romoffset_t D_8000EA44;
+extern romoffset_t D_8000EA48;
+extern romoffset_t D_8000EA4C;
 
 
 // bss

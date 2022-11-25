@@ -30,7 +30,14 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80076DB4);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800770E8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077170);
+void *func_80077170(s32 index, void *dstAddr) {
+    size_t size;
+
+    B_800E87A8 = dstAddr;
+    B_800E8750 = (void *) ALIGN16((uintptr_t)DecompressRomToRam(D_8000E778[index].unk_0, dstAddr, D_8000E778[index].unk_4 - D_8000E778[index].unk_0));
+    size = D_8000E764 - D_8000E760;
+    return (void *) ALIGN16((uintptr_t)DecompressRomToRam(D_8000E760, B_800E8750, size));
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800771EC);
 

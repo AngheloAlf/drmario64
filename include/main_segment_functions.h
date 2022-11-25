@@ -845,7 +845,7 @@ u32 func_8007657C(struct_800EB670 *);
 // void func_80076CCC();
 // void func_80076DB4();
 // void func_800770E8();
-// void func_80077170();
+void *func_80077170(s32 index, void *dstAddr);
 // void func_800771EC();
 // void func_800773F0();
 // void func_8007744C();
