@@ -14,6 +14,8 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_80040B10);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_80040BA4);
 
+INCLUDE_RODATA("asm/nonmatchings/main_segment/016DB0", D_800ADB40);
+
 INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_80040BB0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_80040D34);
@@ -115,5 +117,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_8004554C);
 INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_80045748);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_80045914);
+
+INCLUDE_RODATA("asm/nonmatchings/main_segment/016DB0", D_800ADBC0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_80045AAC);
