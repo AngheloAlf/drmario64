@@ -203,7 +203,7 @@ setup:
 	$(MAKE) -C tools
 
 extract:
-	$(RM) -r asm bin
+	$(RM) -r asm bin $(BUILD_DIR)/segments
 	$(SPLAT) $(SPLAT_YAML)
 
 lib:

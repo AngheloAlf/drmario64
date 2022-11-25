@@ -365,18 +365,25 @@ segments:
       - [0x054DD0, asm, main_segment/054DD0]
       - [0x055C40, asm, main_segment/055C40]
 
-      - [0x055DB0, asm, libmus/player]
-      - [0x059690, asm, libmus/player_fx]
-      - [0x059F70, asm, libmus/aud_dma]
-      - [0x05A3D0, asm, libmus/aud_sched]
-      - [0x05A580, asm, libmus/aud_thread]
-      - [0x05A840, asm, libmus/lib_memory]
-      - [0x05A980, asm, libmus/aud_samples]
+      - [0x055DB0, asm, libmus/player] # bss issues
+      - [0x059690, c, ../lib/libmus/src/player_fx]
+      - [0x059F70, asm, libmus/aud_dma] # bss issues
+      - [0x05A3D0, asm, libmus/aud_sched] # bss issues
+      - [0x05A580, asm, libmus/aud_thread] # bss issues
+      - [0x05A840, asm, libmus/lib_memory] # bss issues
+      - [0x05A980, asm, libmus/aud_samples] # bss issues
 
-      - [0x05AA40, data, main_segment/05AA40]
+      - [0x05AA40, data, rsp/rspboot]
+      - [0x05AB10, data, rsp/aspMain]
+      - [0x05B930, data, main_segment/05B930]
 
       - [0x082000, data, libmus/player]
-      - [0x0820C0, data, main_segment/0820C0]
+      - [0x0820C0, .data, ../lib/libmus/src/player_fx]
+      - [0x0822D0, data, libmus/aud_sched]
+      - [0x0822E0, data, libmus/aud_thread]
+
+      - [0x0822F0, rodata, rsp/aspMain]
+      - [0x0825B0, rodata, main_segment/0825B0]
 
       - [0x082D90, .rodata, main_segment/000000]
       - [0x082DC0, rodata, main_segment/082DC0]
@@ -410,13 +417,23 @@ segments:
       - [0x087FE0, rodata, main_segment/087FE0]
       - [0x0883A0, rodata, main_segment/0883A0]
       - [0x0897A0, rodata, main_segment/0897A0]
-      - [0x0899E0, rodata, main_segment/0899E0]
+
+      - [0x0899E0, .rodata, ../lib/libmus/src/player_fx]
+
       - start: 0x0899F0
         name: main_segment/800B3640
         type: bss
         vram: 0x800B3640
+      - start: 0x0899F0
+        name: libmus/aud_sched
+        type: bss
+        vram: 0x800E99C0
+      - start: 0x0899F0
+        name: main_segment/800E99D0
+        type: bss
+        vram: 0x800E99D0
       # TODO: bss
-      - [0x0899F0] # end
+      # - [0x0899F0] # end
   - name: n64_wave_tables
     type: bin
     start: 0x04F980
