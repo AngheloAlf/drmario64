@@ -43,9 +43,9 @@ typedef struct struct_800EB670 {
 typedef void (*StartThreadFunc)(void *);
 
 typedef struct struct_800FAF98_unk_14 {
-    /* 0x0 */ UNK_TYPE4 unk_0;
+    /* 0x0 */ void *unk_0;
     /* 0x4 */ UNK_TYPE4 unk_4;
-    /* 0x8 */ UNK_TYPE4 unk_8;
+    /* 0x8 */ u32 unk_8; // musHandle
 } struct_800FAF98_unk_14; // size = 0xC
 
 typedef struct struct_800FAF98 {
@@ -56,7 +56,7 @@ typedef struct struct_800FAF98 {
     /* 0x10 */ UNK_TYPE unk_10;
     /* 0x14 */ struct_800FAF98_unk_14* unk_14;
     /* 0x18 */ UNK_TYPE unk_18;
-    /* 0x1C */ UNK_TYPE unk_1C;
+    /* 0x1C */ void *unk_1C;
     /* 0x20 */ UNK_TYPE unk_20;
     /* 0x24 */ UNK_TYPE4 *unk_24;
     /* 0x28 */ UNK_TYPE unk_28;

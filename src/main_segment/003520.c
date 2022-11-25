@@ -38,8 +38,8 @@ s32 func_8002D170(struct_800EB670 *arg0, struct_800FAF98 *arg1, s32 arg2, s32 ar
         var_s1 = temp_v1 + arg4;
     }
 
-    temp_v0->unk_1C = (s32) ALIGN16((uintptr_t)var_s1);
-    temp_v0->unk_24 = (s32) ALIGN16((uintptr_t)temp_v0->unk_1C + arg3);
+    temp_v0->unk_1C = (void*) ALIGN16((uintptr_t)var_s1);
+    temp_v0->unk_24 = (void*) ALIGN16((uintptr_t)temp_v0->unk_1C + arg3);
     temp_v0->unk_20 = arg3;
     temp_v0->unk_28 = arg8;
 
@@ -88,13 +88,27 @@ bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank) {
     return false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D428);
+bool func_8002D428(s32 index, romoffset_t segmentRom, size_t segmentSize) {
+    struct_800FAF98 *temp_s1 = B_800FAF98;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D4A4);
+    if (func_8002D51C(index) != 0) {
+        return false;
+    }
+    func_8002D8D0(segmentRom, temp_s1->unk_14[index].unk_0, segmentSize);
+    return true;
+}
+
+void func_8002D4A4(s32 index) {
+    struct_800FAF98 *temp_s1 = B_800FAF98;
+
+    temp_s1->unk_14[index].unk_8 = MusStartSong(temp_s1->unk_14[index].unk_0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D4F8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D51C);
+s32 func_8002D51C(s32 index) {
+    return MusHandleAsk((musHandle) B_800FAF98->unk_14[index].unk_8);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D554);
 
@@ -108,7 +122,16 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D634);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D66C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D6A4);
+bool func_8002D6A4(romoffset_t segmentRom, size_t segmentSize) {
+    struct_800FAF98 *temp_s0 = B_800FAF98;
+
+    if (MusAsk(MUSFLAG_EFFECTS) == 0) {
+        func_8002D8D0(segmentRom, temp_s0->unk_1C, segmentSize);
+        MusFxBankInitialize(temp_s0->unk_1C);
+        return true;
+    }
+    return false;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D710);
 
