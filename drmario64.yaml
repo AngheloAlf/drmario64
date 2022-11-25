@@ -467,7 +467,13 @@ segments:
   - name: n64_ptr_tables_v2
     type: bin
     start: 0x169BE0
-  - name: segment_172130 # assets?
+  - name: segment_172130 # no idea what it is
     type: bin
     start: 0x172130
+  - name: segment_1A3610 # compressed
+    type: bin
+    start: 0x1A3610
+  - name: segment_1B0E60 # no idea what it is
+    type: bin
+    start: 0x1B0E60
   - [0x32CCA0] # after this there's just padding

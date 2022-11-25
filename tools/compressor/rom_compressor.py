@@ -6,38 +6,12 @@
 from __future__ import annotations
 
 import argparse
-import dataclasses
 import spimdisasm
 from pathlib import Path
-import zlib
+
+import compression_common
 
 
-def compressZlib(data: bytearray) -> bytearray:
-    comp = zlib.compressobj(9, wbits=-zlib.MAX_WBITS)
-    output = bytearray()
-    output.extend(comp.compress(data))
-    # while comp.unconsumed_tail:
-    #     output.extend(comp.decompress(comp.unconsumed_tail))
-    output.extend(comp.flush())
-    return output
-
-
-@dataclasses.dataclass
-class SegmentEntry:
-    compressedName: str
-    compressedPath: Path
-    uncompressedHash: str
-
-
-def readSegmentsCsv(segmentsPath: Path) -> dict[str, SegmentEntry]:
-    segmentsCsv = spimdisasm.common.Utils.readCsv(segmentsPath)
-    segmentDict = {}
-
-    for row in segmentsCsv:
-        name, compressedName, comprPath, segmentHash = row
-        segmentDict[f".{name}"] = SegmentEntry(compressedName, Path(comprPath), segmentHash)
-
-    return segmentDict
 
 def align(value: int, n: int) -> int:
     return (((value) + ((n)-1)) & ~((n)-1))
@@ -63,7 +37,7 @@ def romCompressorMain():
     elfPath = Path(args.elf)
     segmentsPath = Path(args.segments)
 
-    segmentDict = readSegmentsCsv(segmentsPath)
+    segmentDict = compression_common.readSegmentsCsv(segmentsPath)
 
     elfBytearray = spimdisasm.common.Utils.readFileAsBytearray(elfPath)
     assert len(elfBytearray) > 0, f"'{elfPath}' could not be opened"
@@ -130,7 +104,7 @@ def romCompressorMain():
                     compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
                     assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
                 else:
-                    compressedBytearray = compressZlib(uncompressedBytearray)
+                    compressedBytearray = compression_common.compressZlib(uncompressedBytearray)
 
                 outRom.write(compressedBytearray)
 
@@ -161,7 +135,7 @@ def romCompressorMain():
                 outRom.seek(relRomOffset+2)
                 outRom.write(bytearray([loValue >> 8, loValue & 0xFF]))
             else:
-                assert False
+                assert False, rType
 
 if __name__ == "__main__":
     romCompressorMain()
