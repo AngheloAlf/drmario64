@@ -61,7 +61,12 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/000E30", func_8002B370);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/000E30", func_8002B394);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/000E30", func_8002B490);
+void func_8002B490(s32 *arg0 UNUSED) {
+    B_800ED430 = 2;
+    B_800E9BB6 = 4;
+    D_80088124 = 0;
+    B_800FAD2C = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/000E30", func_8002B4BC);
 
@@ -73,8 +78,8 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/000E30", func_8002B728);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/000E30", func_8002B754);
 
-void func_8002B7A8(void *arg0) {
-    osCreateThread(&B_800EBD20, 5, func_8002B4BC, arg0, STACK_TOP(B_800F1E30), 0xF);
+void func_8002B7A8(struct_800EB670 *arg0) {
+    osCreateThread(&B_800EBD20, 5, (StartThreadFunc)func_8002B4BC, arg0, STACK_TOP(B_800F1E30), 0xF);
     osStartThread(&B_800EBD20);
 }
 
