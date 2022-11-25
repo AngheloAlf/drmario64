@@ -35,8 +35,8 @@ void func_800021A0(void);
 s32 func_800021CC(s32 arg0);
 void func_800022A8(void **arg0, u8 *arg1, s32 arg2);
 void func_80002300(void);
-void *func_80002380(romoffset_t segmentRom, void *dstAddr, romoffset_t segmentSize);
-// void func_800023B4();
-// void func_80002400();
+void *DecompressRomToRam(romoffset_t segmentRom, void *dstAddr, romoffset_t segmentSize);
+s32 func_800023B4(s32 arg0, s32 arg1, s32 arg2);
+f32 func_80002400(f32 arg0, f32 arg1, f32 arg2);
 
 #endif
