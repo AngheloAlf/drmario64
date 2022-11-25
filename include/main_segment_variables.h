@@ -5,6 +5,7 @@
 #include "libc/stdint.h"
 #include "unknown_structs.h"
 #include "unk.h"
+#include "alignment.h"
 
 
 // data
@@ -664,7 +665,7 @@ extern UNK_TYPE D_80088100;
 // extern UNK_TYPE B_800EBD14;
 // extern UNK_TYPE B_800EBD15;
 // extern UNK_TYPE B_800EBD16;
-// extern UNK_TYPE B_800EBD20;
+extern OSThread B_800EBD20;
 // extern UNK_TYPE B_800EBED0;
 // extern UNK_TYPE B_800EBEF0;
 // extern UNK_TYPE B_800EBEF2;
@@ -695,6 +696,7 @@ extern UNK_TYPE B_800F1CE0;
 // extern UNK_TYPE B_800F1DF8;
 // extern UNK_TYPE B_800F1E00;
 // extern UNK_TYPE B_800F1E20;
+extern STACK(B_800F1E30, 0x2000);
 // extern UNK_TYPE B_800F3E30;
 // extern UNK_TYPE B_800F3E32;
 // extern UNK_TYPE B_800F3E34;
