@@ -1,26 +1,25 @@
-#include "ultra64.h"
+#include "audio/audio_stuff.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "unk.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
-#include "PR/libmus.h"
 
-extern musSched D_800883F0;
 
 #ifdef NON_EQUIVALENT
-s32 func_8002D170(struct_800EB670 *arg0, struct_800FAF98 *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg7, s32 arg8) {
+s32 func_8002D170(struct_800EB670 *arg0, Audio_struct_800FAF98 *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg7, s32 arg8) {
     musConfig sp10;
     s32 temp_s1;
-    struct_800FAF98 *temp_v0;
+    Audio_struct_800FAF98 *temp_v0;
     s32 temp_v1;
     s32 var_a0;
     s32 i;
     s32 var_s1;
 
     temp_v0 = ALIGN16((uintptr_t)arg1);
-    B_800FAF98 = temp_v0;
+    gAudio_800FAF98 = temp_v0;
     temp_v0->unk_0C = ALIGN16((uintptr_t)&temp_v0->unk_BC);
     temp_v0->unk_04 = arg1;
     temp_v0->unk_08 = arg2;
@@ -74,11 +73,11 @@ s32 func_8002D170(struct_800EB670 *arg0, struct_800FAF98 *arg1, s32 arg2, s32 ar
     return MusInitialize(&sp10) + (temp_s1 - temp_v0->unk_04);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D170);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D170);
 #endif
 
 bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank) {
-    struct_800FAF98 *temp_s0 = B_800FAF98;
+    Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
     if (MusAsk(MUSFLAG_SONGS) == 0) {
         func_8002D8D0(segmentRom, temp_s0->unk_0C, segmentSize);
@@ -89,7 +88,7 @@ bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank) {
 }
 
 bool func_8002D428(s32 index, romoffset_t segmentRom, size_t segmentSize) {
-    struct_800FAF98 *temp_s1 = B_800FAF98;
+    Audio_struct_800FAF98 *temp_s1 = gAudio_800FAF98;
 
     if (func_8002D51C(index) != 0) {
         return false;
@@ -99,31 +98,31 @@ bool func_8002D428(s32 index, romoffset_t segmentRom, size_t segmentSize) {
 }
 
 void func_8002D4A4(s32 index) {
-    struct_800FAF98 *temp_s1 = B_800FAF98;
+    Audio_struct_800FAF98 *temp_s1 = gAudio_800FAF98;
 
     temp_s1->unk_14[index].unk_8 = MusStartSong(temp_s1->unk_14[index].unk_0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D4F8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D4F8);
 
 s32 func_8002D51C(s32 index) {
-    return MusHandleAsk((musHandle) B_800FAF98->unk_14[index].unk_8);
+    return MusHandleAsk((musHandle) gAudio_800FAF98->unk_14[index].unk_8);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D554);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D554);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D58C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D58C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D5C4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D5C4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D5FC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D5FC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D634);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D634);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D66C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D66C);
 
 bool func_8002D6A4(romoffset_t segmentRom, size_t segmentSize) {
-    struct_800FAF98 *temp_s0 = B_800FAF98;
+    Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
     if (MusAsk(MUSFLAG_EFFECTS) == 0) {
         func_8002D8D0(segmentRom, temp_s0->unk_1C, segmentSize);
@@ -133,26 +132,26 @@ bool func_8002D6A4(romoffset_t segmentRom, size_t segmentSize) {
     return false;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D710);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D710);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D720);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D720);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D768);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D768);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D7C4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D7C4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D7E0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D7E0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D810);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D810);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D840);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D840);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D870);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D870);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D8A0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D8A0);
 
 void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize) {
-    struct_800FAF98 *temp = B_800FAF98;
+    Audio_struct_800FAF98 *temp = gAudio_800FAF98;
     s32 remainingSize = segmentSize;
     romoffset_t currentRom = segmentRom;
     uintptr_t currentVram = (uintptr_t)segmentVram;
@@ -175,8 +174,8 @@ void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D984);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D984);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002D9E4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D9E4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/003520", func_8002DA48);
+INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002DA48);

@@ -345,9 +345,11 @@ segments:
       - [0x000000, c, main_segment/000000]
       - [0x000280, c, main_segment/000280]
       - [0x000960, c, main_segment/000960]
-      - [0x000E30, c, main_segment/000E30]
-      - [0x0020D0, c, main_segment/0020D0]
-      - [0x003520, c, main_segment/003520]
+
+      - [0x000E30, c, main_segment/audio/000E30]
+      - [0x0020D0, c, main_segment/0020D0] # audio?
+      - [0x003520, c, main_segment/audio/003520]
+
       - [0x003ED0, c, main_segment/003ED0]
       - [0x004BE0, c, main_segment/004BE0]
       - [0x004EB0, c, main_segment/004EB0]
@@ -395,7 +397,9 @@ segments:
 
       - [0x082D90, .rodata, main_segment/000000]
       - [0x082DC0, rodata, main_segment/082DC0]
-      - [0x0830A0, .rodata, main_segment/000E30]
+
+      - [0x0830A0, .rodata, main_segment/audio/000E30]
+
       - start: 0x0830D0
         name: main_segment/003ED0
         type: .rodata
