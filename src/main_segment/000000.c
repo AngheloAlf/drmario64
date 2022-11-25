@@ -1,5 +1,4 @@
 #include "ultra64.h"
-#include "libc/stdbool.h"
 #include "include_asm.h"
 #include "unk.h"
 #include "macros_defines.h"

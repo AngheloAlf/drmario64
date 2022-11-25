@@ -1,5 +1,11 @@
 #include "ultra64.h"
 #include "include_asm.h"
+#include "unk.h"
+#include "macros_defines.h"
+#include "boot_functions.h"
+#include "boot_variables.h"
+#include "main_segment_functions.h"
+#include "main_segment_variables.h"
 
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_80040A00);
@@ -102,7 +108,26 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_80044F18);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_8004502C);
 
+#if 0
+//? func_8004502C(s32, s32, s32);                     /* extern */
+
+s32 func_80045098(void **arg0, romoffset_t segmentRom, romoffset_t segmentRomEnd) {
+    s32 *temp_v0;
+    s32 temp_s0;
+    s32 temp_s1;
+
+    temp_s0 = ALIGN16((uintptr_t)*arg0);
+    *arg0 = DecompressRomToRam(segmentRom, (void *) temp_s0, segmentRomEnd - segmentRom);
+    temp_s1 = temp_s0->unk_0 + temp_s0;
+    temp_v0 = temp_s0->unk_4 + temp_s0;
+    temp_s0->unk_0 = temp_s1;
+    temp_s0->unk_4 = temp_v0;
+    func_8004502C(temp_s1, *temp_v0, temp_s0);
+    return temp_s1;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_80045098);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016DB0", func_80045110);
 

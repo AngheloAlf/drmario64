@@ -2,7 +2,10 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "unk.h"
+#include "boot_functions.h"
+#include "boot_variables.h"
+#include "main_segment_functions.h"
+#include "main_segment_variables.h"
 
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/04C2E0", D_800B3240);
@@ -43,9 +46,23 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077504);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800777E8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007780C);
+void *func_8007780C(void *dstAddr) {
+    void *temp_s0;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007786C);
+    dstAddr = (void*)ALIGN16((uintptr_t)dstAddr);
+    B_800E87A8 = dstAddr;
+    temp_s0 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E740, dstAddr, D_8000E744 - D_8000E740));
+    func_8007786C();
+    return temp_s0;
+}
+
+void func_8007786C(void) {
+    guOrtho(&B_800E5F08, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+    D_800AAD34 = 0x15E;
+    D_800AAD2C = 0;
+    D_800AAD08 = -0x59;
+    D_800AAD0C = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800778E8);
 
