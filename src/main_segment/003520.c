@@ -55,7 +55,7 @@ void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize
     struct_800FAF98 *temp = B_800FAF98;
     s32 remainingSize = segmentSize;
     romoffset_t currentRom = segmentRom;
-    uintptr_t currentVram = segmentVram;
+    uintptr_t currentVram = (uintptr_t)segmentVram;
 
     while (remainingSize != 0) {
         OSIoMesg mb;
@@ -66,7 +66,7 @@ void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize
             blkSize = 0x4000;
         }
 
-        osInvalDCache(currentVram, blkSize);
+        osInvalDCache((void *)currentVram, blkSize);
         osPiStartDma(&mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, (void *)currentVram, blkSize, &temp->unk_2C);
         osRecvMesg(&temp->unk_2C, &msg, OS_MESG_BLOCK);
         currentRom += blkSize;

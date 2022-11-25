@@ -98,7 +98,7 @@ void func_8002B7A8(struct_800EB670 *arg0);
 // void func_8002D840();
 // void func_8002D870();
 // void func_8002D8A0();
-// void func_8002D8D0();
+void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize);
 // void func_8002D984();
 // void func_8002D9E4();
 // void func_8002DA48();

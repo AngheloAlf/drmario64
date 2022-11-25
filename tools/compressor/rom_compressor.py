@@ -26,7 +26,6 @@ def compressZlib(data: bytearray) -> bytearray:
 class SegmentEntry:
     compressedName: str
     compressedPath: Path
-    uncompressedPath: Path
     uncompressedHash: str
 
 
@@ -35,8 +34,8 @@ def readSegmentsCsv(segmentsPath: Path) -> dict[str, SegmentEntry]:
     segmentDict = {}
 
     for row in segmentsCsv:
-        name, compressedName, comprPath, uncPath, segmentHash = row
-        segmentDict[f".{name}"] = SegmentEntry(compressedName, Path(comprPath), Path(uncPath), segmentHash)
+        name, compressedName, comprPath, segmentHash = row
+        segmentDict[f".{name}"] = SegmentEntry(compressedName, Path(comprPath), segmentHash)
 
     return segmentDict
 
@@ -118,19 +117,20 @@ def romCompressorMain():
             segmentOffsets[sectionEntryName] = (offset, entry.addr)
 
             segmentEntry = segmentDict.get(sectionEntryName)
+            segmentBytearray = inRom[offset:offset+entry.size]
             if segmentEntry is None:
                 # write as-is
-                outRom.write(inRom[offset:offset+entry.size])
+                outRom.write(segmentBytearray)
                 sizeWrote += entry.size
             else:
                 # check if uncompressed segment matches
-                uncompressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.uncompressedPath)
+                uncompressedBytearray = segmentBytearray
 
                 if spimdisasm.common.Utils.getStrHash(uncompressedBytearray) == segmentEntry.uncompressedHash:
                     compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
                     assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
                 else:
-                    compressedBytearray = compressZlib(inRom[offset:offset+entry.size])
+                    compressedBytearray = compressZlib(uncompressedBytearray)
 
                 outRom.write(compressedBytearray)
 

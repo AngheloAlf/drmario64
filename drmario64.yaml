@@ -42,6 +42,7 @@ options:
   asm_inc_header: ""
   use_legacy_include_asm: False
   create_asm_dependencies: True
+  string_encoding: SHIFT-JIS
 segments:
   - name: header
     type: header

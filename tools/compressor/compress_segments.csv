@@ -1,2 +1,2 @@
-segment name,compressed segment name,compressed path,uncompressed path,uncompressed md5 hash
-main_segment,main_segment_compressed,bin/main_segment.bin,build/segments/main_segment/main_segment.bin,95f3cf8e9175a7d525becc8e100ebbb8
+segment name,compressed segment name,compressed path,uncompressed hash
+main_segment,main_segment_compressed,bin/main_segment.bin,92ff8d1467cc45fadfd318080bb5ed68
