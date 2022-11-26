@@ -84,6 +84,7 @@ STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 GCC        := $(MIPS_BINUTILS_PREFIX)gcc
 CPP        := $(MIPS_BINUTILS_PREFIX)cpp
 STRIP      := $(MIPS_BINUTILS_PREFIX)strip
+ICONV      := iconv
 
 SPLAT          ?= tools/splat/split.py
 SPLAT_YAML     ?= $(TARGET).yaml
@@ -258,12 +259,12 @@ $(BUILD_DIR)/%.o: %.bin
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/%.o: %.s
-	$(CPP) $(CPPFLAGS) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | iconv --to-code=Shift-JIS | $(AS) $(ASFLAGS) $(IINC) -I $(dir $*) -o $@
+	$(CPP) $(CPPFLAGS) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | $(ICONV) --to-code=Shift-JIS | $(AS) $(ASFLAGS) $(IINC) -I $(dir $*) -o $@
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
 	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
-	$(CC) -c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -o $@ $<
+	$(ICONV) --to-code=Shift-JIS  $< | $(CC) -x c -c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -o $@ -
 	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)

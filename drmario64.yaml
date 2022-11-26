@@ -360,7 +360,7 @@ segments:
       - [0x0131D0, c, main_segment/0131D0]
       - [0x014590, asm, main_segment/014590]
       - [0x015710, c, main_segment/015710]
-      - [0x015EB0, asm, main_segment/015EB0]
+      - [0x015EB0, c, main_segment/015EB0]
       - [0x016DB0, c, main_segment/016DB0]
       - [0x01C180, asm, main_segment/01C180]
       - [0x031BA0, asm, main_segment/031BA0]
@@ -421,7 +421,7 @@ segments:
         partial_migration: True
       - start: 0x083D30
         name: main_segment/015EB0
-        type: rodata
+        type: .rodata
         partial_migration: True
       - start: 0x083EF0
         name: main_segment/016DB0

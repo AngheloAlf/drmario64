@@ -1585,6 +1585,7 @@ STR_800AD914 = 0x800AD914; // type:char force_not_migration:True
 STR_800AD91C = 0x800AD91C; // type:char force_not_migration:True
 STR_800AD928 = 0x800AD928; // type:char force_not_migration:True
 STR_800AD92C = 0x800AD92C; // type:char force_not_migration:True
+
 STR_800AD980 = 0x800AD980; // type:char force_not_migration:True
 STR_800AD98C = 0x800AD98C; // type:char force_not_migration:True
 STR_800AD994 = 0x800AD994; // type:char force_not_migration:True
