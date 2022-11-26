@@ -19,7 +19,7 @@
         "\t.end\t"#NAME"\n" \
         ".end"#NAME":\n" \
         "\t.size\t"#NAME",.end"#NAME"-"#NAME \
-    );
+    )
 #endif
 #ifndef INCLUDE_RODATA
 #define INCLUDE_RODATA(FOLDER, NAME) \
@@ -29,7 +29,7 @@
         "\t.globl\t"#NAME"\n" \
         #NAME ":\n" \
         "\t.include \""FOLDER"/"#NAME".s\"" \
-    );
+    )
 #endif
 __asm__(".include \"include/labels.inc\"\n");
 #else
