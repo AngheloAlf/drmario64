@@ -12,7 +12,11 @@
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AA80);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AAD8);
+void func_8002AAD8(struct_800FACE0_unk_08 *arg0, s32 arg1) {
+    arg0->unk_0 = 0;
+    arg0->unk_4 = arg1;
+    arg0->unk_8 = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AAE8);
 
@@ -39,7 +43,7 @@ void func_8002AD38(struct_800EB670 *arg0) {
     }
 
     temp = &gRomOffset_N64PtrTables_End;
-    func_8002D170(arg0, &B_800B3640, 0x31000, *temp - gRomOffset_N64PtrTables_Start, func_8002AA80(), 2, D_8000E84C - D_8000E848, 4, 0x32);
+    func_8002D170(arg0, &B_800B3640, 0x31000, *temp - gRomOffset_N64PtrTables_Start, func_8002AA80(), 2, D_8000E84C - D_8000E848, 4, 50);
 
     func_8002D3B0(gRomOffset_N64PtrTables_Start, *temp - gRomOffset_N64PtrTables_Start, (void*)gRomOffset_N64WaveTables_Start);
     func_8002D6A4(D_8000E848, D_8000E84C - D_8000E848);
@@ -47,9 +51,15 @@ void func_8002AD38(struct_800EB670 *arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AE58);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AF7C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AFA4);
+void func_8002AF7C(void) {
+    func_8002B0E4();
+    MusStop(MUSFLAG_EFFECTS | MUSFLAG_SONGS, 0);
+}
+
+s32 func_8002AFA4(void) {
+    return MusAsk(MUSFLAG_EFFECTS | MUSFLAG_SONGS) == 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AFC4);
 
@@ -63,7 +73,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B078);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B098);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B0E4);
+void func_8002B0E4(void) {
+    func_8002B100(0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B100);
 
@@ -94,18 +106,35 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B4BC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B5E4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B710);
+void func_8002B710(void) {
+    D_80088128 -= 1;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B728);
+void func_8002B728(void) {
+    if (D_80088124 == 4) {
+        func_80071A44();
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B754);
+void func_8002B754(void) {
+    osViSetYScale(1.0f);
+    D_80088128 += 2;
+    osViBlack(true);
+    func_80000468();
+    MusStop(MUSFLAG_EFFECTS | MUSFLAG_SONGS, 0);
+}
 
 void func_8002B7A8(struct_800EB670 *arg0) {
     osCreateThread(&B_800EBD20, 5, (StartThreadFunc)func_8002B4BC, arg0, STACK_TOP(B_800F1E30), 0xF);
     osStartThread(&B_800EBD20);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B800);
+s16 func_8002B800(void) {
+    s16 *sp10 = NULL;
+
+    osRecvMesg(&B_800F4898, (OSMesg*) &sp10, OS_MESG_BLOCK);
+    return *sp10;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B834);
 

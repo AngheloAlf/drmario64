@@ -803,7 +803,7 @@ u32 func_8006F684(struct_800EB670 *);
 // void func_8007023C();
 // void func_80070360();
 // void func_80071624();
-// void func_80071A44();
+void func_80071A44(void);
 u32 func_80071A4C(struct_800EB670 *);
 // void func_80071CE0();
 // void func_80071EF0();

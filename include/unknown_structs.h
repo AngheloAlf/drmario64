@@ -55,7 +55,9 @@ typedef struct struct_8000E778 {
 
 
 typedef struct struct_800FACE0_unk_08 {
-    /* 0x0 */ UNK_TYPE1 unk_0[0xC];
+    /* 0x0 */ UNK_TYPE unk_0;
+    /* 0x4 */ UNK_TYPE unk_4;
+    /* 0x8 */ UNK_TYPE unk_8;
 } struct_800FACE0_unk_08; // size = 0xC
 
 typedef struct struct_800FACE0 {

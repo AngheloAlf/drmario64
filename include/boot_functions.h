@@ -7,11 +7,12 @@
 #include "unk.h"
 
 
-// void func_80000460();
-// void func_80000468();
+void func_80000460(void);
+void func_80000468(void);
 void func_80000488(void* arg0);
-// void bootproc();
-// void func_800004F0();
+void bootproc(void);
+
+void func_800004F0(void *arg0);
 void func_80000580(void* arg0);
 
 // void func_80000604();

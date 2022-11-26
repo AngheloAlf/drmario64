@@ -10,21 +10,21 @@
 
 
 typedef struct Audio_struct_800FAF98_unk_14 {
-    /* 0x0 */ void *unk_0;
+    /* 0x0 */ struct Audio_struct_800FAF98_unk_14 *unk_0;
     /* 0x4 */ UNK_TYPE4 unk_4;
     /* 0x8 */ musHandle unk_8;
 } Audio_struct_800FAF98_unk_14; // size = 0xC
 
 typedef struct Audio_struct_800FAF98 {
-    /* 0x00 */ UNK_PTR unk_00;
+    /* 0x00 */ struct_800EB670 *unk_00;
     /* 0x04 */ UNK_TYPE unk_04;
     /* 0x08 */ UNK_TYPE unk_08;
     /* 0x0C */ void *unk_0C; // vram
-    /* 0x10 */ UNK_TYPE unk_10;
+    /* 0x10 */ size_t unk_10;
     /* 0x14 */ Audio_struct_800FAF98_unk_14* unk_14;
     /* 0x18 */ UNK_TYPE unk_18;
     /* 0x1C */ void *unk_1C;
-    /* 0x20 */ UNK_TYPE unk_20;
+    /* 0x20 */ size_t unk_20;
     /* 0x24 */ musHandle *unk_24;
     /* 0x28 */ s32 unk_28; // len of unk_24
     /* 0x2C */ OSMesgQueue unk_2C;
@@ -56,8 +56,8 @@ void func_8002AD38(struct_800EB670* arg0);
 // void func_8002B028();
 // void func_8002B078();
 // void func_8002B098();
-// void func_8002B0E4();
-// void func_8002B100();
+void func_8002B0E4(void);
+void func_8002B100(s32 arg0);
 // void func_8002B13C();
 // void func_8002B15C();
 // void func_8002B178();
@@ -81,7 +81,7 @@ void func_8002B7A8(struct_800EB670 *arg0);
 // void func_8002BC58();
 
 
-void func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, UNK_TYPE arg8);
+s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority);
 bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank);
 bool func_8002D428(s32 index, romoffset_t segmentRom, size_t segmentSize);
 void func_8002D4A4(s32 index);

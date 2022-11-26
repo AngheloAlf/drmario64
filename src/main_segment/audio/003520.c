@@ -10,14 +10,16 @@
 
 
 #ifdef NON_EQUIVALENT
-s32 func_8002D170(struct_800EB670 *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg7, s32 arg8) {
+s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority) {
     musConfig sp10;
     s32 temp_s1;
     Audio_struct_800FAF98 *temp_v0;
     s32 temp_v1;
     s32 var_a0;
     s32 i;
-    s32 var_s1;
+    Audio_struct_800FAF98_unk_14 *var_s1;
+    musSched *temp;
+    temp = &D_800883F0;
 
     temp_v0 = ALIGN16((uintptr_t)arg1);
     gAudio_800FAF98 = temp_v0;
@@ -28,8 +30,8 @@ s32 func_8002D170(struct_800EB670 *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg
     temp_v0->unk_10 = arg3;
     temp_v0->unk_14 = ALIGN16((uintptr_t)temp_v0->unk_0C + arg3);
     temp_v0->unk_18 = arg5;
-    var_s1 = &temp_v0->unk_14[arg5];
 
+    var_s1 = &temp_v0->unk_14[arg5];
     for (i = 0; i < temp_v0->unk_18; i++) {
         temp_v0->unk_14[i].unk_0 = ALIGN16((uintptr_t)var_s1);
         temp_v0->unk_14[i].unk_4 = arg4;
@@ -41,9 +43,9 @@ s32 func_8002D170(struct_800EB670 *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg
     temp_v0->unk_1C = (void*) ALIGN16((uintptr_t)var_s1);
     temp_v0->unk_24 = (void*) ALIGN16((uintptr_t)temp_v0->unk_1C + arg3);
     temp_v0->unk_20 = arg3;
-    temp_v0->unk_28 = arg8;
+    temp_v0->unk_28 = arg7;
 
-    temp_s1 = &temp_v0->unk_24[arg8];
+    temp_s1 = &temp_v0->unk_24[arg7];
     for (i = 0; i < temp_v0->unk_28; i++) {
         temp_v0->unk_24[i] = 0;
     }
@@ -62,15 +64,15 @@ s32 func_8002D170(struct_800EB670 *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg
     sp10.syn_num_dma_bufs = 0x20;
     sp10.control_flag = 0;
     sp10.sched = arg0;
-    sp10.thread_priority = arg8;
+    sp10.thread_priority = thread_priority;
     sp10.heap = temp_s1;
-    sp10.ptr = 0;
-    sp10.wbk = 0;
-    sp10.default_fxbank = 0;
+    sp10.ptr = NULL;
+    sp10.wbk = NULL;
+    sp10.default_fxbank = NULL;
     sp10.syn_dma_buf_size = 0x1000;
     sp10.syn_dma_buf_size = 0x280;
     sp10.heap_length = arg2 - (temp_s1 - temp_v0->unk_04);
-    MusSetScheduler(&D_800883F0);
+    MusSetScheduler(temp);
     return MusInitialize(&sp10) + (temp_s1 - temp_v0->unk_04);
 }
 #else
