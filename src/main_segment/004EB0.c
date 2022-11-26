@@ -275,7 +275,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_80039E14);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_80039F74);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/004EB0", R_800AD080);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/004EB0", RO_800AD080);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/004EB0", D_800AD098);
 

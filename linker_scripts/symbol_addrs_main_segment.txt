@@ -1572,7 +1572,7 @@ D_800AC620 = 0x800AC620;
 
 // rodata
 
-R_800AD080 = 0x800AD080;
+RO_800AD080 = 0x800AD080;
 
 STR_800AD7F0 = 0x800AD7F0; // type:char force_not_migration:True
 STR_800AD864 = 0x800AD864; // type:char force_not_migration:True
@@ -1632,7 +1632,9 @@ STR_800ADB10 = 0x800ADB10; // type:char force_not_migration:True
 STR_800ADB18 = 0x800ADB18; // type:char force_not_migration:True
 STR_800ADB24 = 0x800ADB24; // type:char force_not_migration:True
 
+RO_800B1950 = 0x800B1950; // type:s32
 
+RO_800B1990 = 0x800B1990; // size:0x18
 
 // bss
 
