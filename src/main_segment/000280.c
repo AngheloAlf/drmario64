@@ -44,7 +44,7 @@ void func_80029ED0(struct_800EB670* arg0, u8 viModeIndex, u8 retraceCount) {
     osStartThread(&arg0->unk_4B8);
 }
 
-UNK_TYPE func_8002A0CC(UNK_TYPE arg0) {
+UNK_TYPE func_8002A0CC(UNK_TYPE arg0, UNK_TYPE arg1 UNUSED) {
     return arg0 + 4;
 }
 

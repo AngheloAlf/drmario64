@@ -39,8 +39,8 @@ typedef struct Audio_struct_800FAF98 {
 
 /// 000E30.c
 
-// void func_8002AA80();
-// void func_8002AAD8();
+UNK_TYPE func_8002AA80();
+void func_8002AAD8(struct_800FACE0_unk_08 *arg0, UNK_TYPE arg1);
 // void func_8002AAE8();
 // void func_8002AB28();
 // void func_8002ABC0();
@@ -81,7 +81,7 @@ void func_8002B7A8(struct_800EB670 *arg0);
 // void func_8002BC58();
 
 
-// void func_8002D170();
+void func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, UNK_TYPE arg8);
 bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank);
 bool func_8002D428(s32 index, romoffset_t segmentRom, size_t segmentSize);
 void func_8002D4A4(s32 index);

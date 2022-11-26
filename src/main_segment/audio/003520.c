@@ -6,10 +6,11 @@
 #include "unk.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "PR/sched.h"
 
 
 #ifdef NON_EQUIVALENT
-s32 func_8002D170(struct_800EB670 *arg0, Audio_struct_800FAF98 *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg7, s32 arg8) {
+s32 func_8002D170(struct_800EB670 *arg0, void *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg7, s32 arg8) {
     musConfig sp10;
     s32 temp_s1;
     Audio_struct_800FAF98 *temp_v0;
@@ -228,4 +229,34 @@ void func_8002D9E4(void) {
     } while (*sp10 != 1);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002DA48);
+OSMesgQueue *func_8002A0CC(void *, Audio_struct_800FAF98 *);
+
+void func_8002DA48(musTask *musicTask) {
+    OSScTask scTask;
+    void *msg;
+    Audio_struct_800FAF98 *temp_a1 = gAudio_800FAF98;
+
+    scTask.list.t.data_ptr = musicTask->data;
+    scTask.list.t.data_size = musicTask->data_size;
+    scTask.list.t.ucode = musicTask->ucode;
+    scTask.list.t.ucode_data = musicTask->ucode_data;
+
+    scTask.msg = &msg;
+    scTask.list.t.type = M_AUDTASK;
+    scTask.list.t.ucode_boot_size = (uintptr_t)rspbootTextEnd - (uintptr_t)rspbootTextStart;
+    scTask.list.t.ucode_size = SP_UCODE_SIZE;
+    scTask.next = 0;
+    scTask.msgQ = &temp_a1->unk_94;
+    scTask.list.t.ucode_boot = (void *) rspbootTextStart;
+    scTask.list.t.flags = 0;
+    scTask.list.t.ucode_data_size = SP_UCODE_DATA_SIZE;
+    scTask.list.t.dram_stack = NULL;
+    scTask.list.t.dram_stack_size = 0;
+    scTask.list.t.output_buff = NULL;
+    scTask.list.t.output_buff_size = NULL;
+    scTask.list.t.yield_data_ptr = NULL;
+    scTask.list.t.yield_data_size = 0;
+
+    osSendMesg(func_8002A0CC(temp_a1->unk_00, temp_a1), &scTask, OS_MESG_BLOCK);
+    osRecvMesg(&temp_a1->unk_94, NULL, OS_MESG_BLOCK);
+}

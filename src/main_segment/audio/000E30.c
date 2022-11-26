@@ -4,6 +4,8 @@
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "unk.h"
+#include "boot_functions.h"
+#include "boot_variables.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
@@ -22,7 +24,26 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AC64);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002ACE0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AD38);
+void func_8002AD38(struct_800EB670 *arg0) {
+    s32 i;
+    struct_800FACE0 *ptr = &B_800FACE0;
+    romoffset_t *temp;
+    UNK_TYPE val = -1;
+
+    for (i = ARRAY_COUNT(ptr->unk_00)-1; i >= 0; i--) {
+        ptr->unk_00[i] = val;
+    }
+
+    for (i = 0; i < ARRAY_COUNT(ptr->unk_08); i++) {
+        func_8002AAD8(&ptr->unk_08[i], i);
+    }
+
+    temp = &gRomOffset_N64PtrTables_End;
+    func_8002D170(arg0, &B_800B3640, 0x31000, *temp - gRomOffset_N64PtrTables_Start, func_8002AA80(), 2, D_8000E84C - D_8000E848, 4, 0x32);
+
+    func_8002D3B0(gRomOffset_N64PtrTables_Start, *temp - gRomOffset_N64PtrTables_Start, (void*)gRomOffset_N64WaveTables_Start);
+    func_8002D6A4(D_8000E848, D_8000E84C - D_8000E848);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AE58);
 

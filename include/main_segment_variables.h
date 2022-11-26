@@ -444,7 +444,7 @@ extern s32 D_800AAD34;
 
 // bss
 
-// extern UNK_TYPE B_800B3640;
+extern UNK_TYPE B_800B3640;
 // extern UNK_TYPE B_800BFEF7;
 // extern UNK_TYPE B_800C00D2;
 // extern UNK_TYPE B_800DB40B;
@@ -759,7 +759,7 @@ extern STACK(B_800F1E30, 0x2000);
 // extern UNK_TYPE B_800F748C;
 // extern UNK_TYPE B_800F7490;
 // extern UNK_TYPE B_800F8C90;
-extern UNK_TYPE B_800FACE0;
+extern struct_800FACE0 B_800FACE0;
 // extern UNK_TYPE B_800FAD28;
 extern s32 B_800FAD2C;
 // extern UNK_TYPE B_800FAD30;
