@@ -869,7 +869,7 @@ void *func_80077FA4(void *dstAddr, bool arg1);
 // void func_80079B24();
 // void func_8007A154();
 // void func_8007A440();
-// void func_8007A9DC();
+void func_8007A9DC(void);
 UNK_TYPE func_8007AA84(struct_800EB670 *);
 // void func_8007AEBC();
 void func_8007AEF4(void);

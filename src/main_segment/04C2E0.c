@@ -73,7 +73,24 @@ void func_8007786C(void) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800778E8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077D68);
+void *func_80077D68(void *dstAddr, bool arg1) {
+    void *alignedAddress;
+    romoffset_t segmentRomStart;
+    romoffset_t segmentRomEnd;
+
+    D_800AAD2C = 0;
+    guOrtho(&B_800E5F08, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+    alignedAddress = (void*)ALIGN16((uintptr_t)dstAddr);
+    B_800E87A8 = alignedAddress;
+    if (arg1) {
+        segmentRomStart = D_8000E750;
+        segmentRomEnd = D_8000E754;
+    } else {
+        segmentRomStart = D_8000E748;
+        segmentRomEnd = D_8000E74C;
+    }
+    return (void*)ALIGN16((uintptr_t)DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077E2C);
 
