@@ -32,7 +32,7 @@ extern u32 D_80088128;
 // extern UNK_TYPE D_80088403;
 // extern UNK_TYPE D_80088404;
 // extern UNK_TYPE D_80088405;
-// extern UNK_TYPE D_80088406;
+extern u8 D_80088406;
 // extern UNK_TYPE D_80088407;
 // extern UNK_TYPE D_80088408;
 // extern UNK_TYPE D_80088409;

@@ -77,21 +77,38 @@ void func_8002B0E4(void) {
     func_8002B100(0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B100);
+void func_8002B100(s32 arg0) {
+    func_8002D554(arg0, 0);
+    B_800FACE0.unk_00[arg0] = -1;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B13C);
+s32 func_8002B13C(s32 arg0) {
+    return func_8002B15C(0, arg0);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B15C);
+s32 func_8002B15C(s32 arg0, s32 arg1) {
+    return func_8002D58C(arg0, arg1);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B178);
+bool func_8002B178(void) {
+    return func_8002B194(0);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B194);
+bool func_8002B194(s32 arg0) {
+    return func_8002D51C(arg0) == 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B1B4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B344);
+void func_8002B344(s32 arg0) {
+    if (D_80088406 < 6) {
+        func_8002B1B4(arg0);
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B370);
+s32 func_8002B370(void) {
+    return MusFxBankNumberOfEffects(func_8002D710());
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B394);
 
