@@ -95,16 +95,92 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B370);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B394);
 
-void func_8002B490(s32 *arg0 UNUSED) {
+void func_8002B490(UNK_PTR arg0 UNUSED) {
     B_800ED430 = 2;
     B_800E9BB6 = 4;
     D_80088124 = 0;
     B_800FAD2C = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B4BC);
+void func_8002B4BC(struct_800EB670 *arg0) {
+    s16 *sp10 = NULL;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B5E4);
+    D_80088128 = 0;
+    osCreateMesgQueue(&B_800F4898, B_800EBED0, ARRAY_COUNT(B_800EBED0));
+    func_8002A184(arg0, &B_800F48B0, &B_800F4898);
+    B_800FAF94 = func_8002A0D4(arg0);
+
+    while (true) {
+        osRecvMesg(&B_800F4898, (OSMesg*)&sp10, OS_MESG_BLOCK);
+
+        switch (*sp10) {
+            case 1:
+                func_8002B5E4();
+                break;
+
+            case 2:
+                func_8002B710();
+                break;
+
+            case 4:
+                func_8002B728();
+                break;
+
+            case 3:
+                func_8002B754();
+                break;
+        }
+    }
+}
+
+void func_8002B5E4(void) {
+    switch (D_80088124) {
+        case 0:
+            break;
+
+        case 1:
+            if (D_80088128 < 2) {
+                func_8007AEF4();
+            }
+            break;
+
+        case 2:
+            if (D_80088128 < 2) {
+                func_8007636C();
+            }
+            break;
+
+        case 3:
+            if (D_80088128 < 2) {
+                func_80075CF8();
+            }
+            break;
+
+        case 4:
+            if (D_80088128 == 0) {
+                func_8007023C();
+            }
+            break;
+
+        case 5:
+            if (D_80088128 < 2) {
+                func_8005B658();
+            }
+            break;
+
+        case 6:
+            if (D_80088128 < 2) {
+                func_80071CE0();
+            }
+            break;
+
+        case 7:
+            if (D_80088128 < 2) {
+                func_800767DC();
+            }
+            break;
+    }
+}
 
 void func_8002B710(void) {
     D_80088128 -= 1;

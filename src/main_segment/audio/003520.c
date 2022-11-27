@@ -231,8 +231,6 @@ void func_8002D9E4(void) {
     } while (*sp10 != 1);
 }
 
-OSMesgQueue *func_8002A0CC(void *, Audio_struct_800FAF98 *);
-
 void func_8002DA48(musTask *musicTask) {
     OSScTask scTask;
     void *msg;

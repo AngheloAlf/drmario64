@@ -44,12 +44,12 @@ void func_80029ED0(struct_800EB670* arg0, u8 viModeIndex, u8 retraceCount) {
     osStartThread(&arg0->unk_4B8);
 }
 
-UNK_TYPE func_8002A0CC(UNK_TYPE arg0, UNK_TYPE arg1 UNUSED) {
-    return arg0 + 4;
+OSMesgQueue *func_8002A0CC(struct_800EB670 *arg0, UNK_PTR arg1 UNUSED) {
+    return &arg0->unk_004;
 }
 
-UNK_TYPE func_8002A0D4(UNK_TYPE arg0) {
-    return arg0 + 0x3C;
+OSMesgQueue *func_8002A0D4(struct_800EB670 *arg0) {
+    return &arg0->unk_03C;
 }
 
 void func_8002A0DC(struct_800EB670 *arg) {
