@@ -29,15 +29,23 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AC64);
 
 #ifdef NON_EQUIVALENT
 // maybe equivalent, but too afraid to tell
-void func_8002ACE0(bool arg0) {
+/**
+ * Changes the audio configuration to stereo or mono
+ * 
+ * Patches the following statements in `alEnvmixerPull`:
+ * e->pan    = param->pan;
+ * e->pan = (s16) e->ctrlList->data.i;
+ */
+void func_8002ACE0(bool setStereo) {
     u32 *funcPtr = (u32*)alEnvmixerPull + 0x10C/4;
     u32 var_v0;
 
-    if (arg0) {
+    if (setStereo) {
         var_v0 = 0x8C82000C; // lw          $v0, 0xC($a0)
         *funcPtr = 0x92220012; // lbu         $v0, 0x12($s1)
         //D_8000346C.unk_0 = 0x92220012;
     } else {
+        // Set mono via changing the instructions to set the pan to 0x40
         var_v0 = 0x24020040; // addiu       $v0, $zero, 0x40
         *funcPtr = 0x24020040; // addiu       $v0, $zero, 0x40
     }
