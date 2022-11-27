@@ -142,23 +142,24 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007A154);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007A440);
 
-#ifdef NON_MATCHING
 void func_8007A9DC(void) {
-    romoffset_t segmentEnd;
+    void *ptr;
+    size_t segmentSize;
 
     B_800E87AC = D_800AAD3C;
 
-    B_800E8750 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768, B_800E87AC, D_8000E76C - D_8000E768));
+    segmentSize = D_8000E76C - D_8000E768;
+    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768, B_800E87AC, segmentSize));
+    B_800E8750 = ptr;
 
-    segmentEnd = D_8000E75C;
-    B_800E87A8 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E758, B_800E8750, segmentEnd - D_8000E758));
+    segmentSize = D_8000E75C - D_8000E758;
+    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E758, ptr, segmentSize));
+    B_800E87A8 = ptr;
 
-    segmentEnd = D_8000E74C;
-    B_800E87B0 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E748, B_800E87A8, segmentEnd - D_8000E748));
+    segmentSize = D_8000E74C - D_8000E748;
+    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E748, ptr, segmentSize));
+    B_800E87B0 = ptr;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007A9DC);
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007AA84);
 
