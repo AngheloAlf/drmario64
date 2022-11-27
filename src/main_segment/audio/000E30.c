@@ -51,7 +51,6 @@ void func_8002AD38(struct_800EB670 *arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AE58);
 
-
 void func_8002AF7C(void) {
     func_8002B0E4();
     MusStop(MUSFLAG_EFFECTS | MUSFLAG_SONGS, 0);
@@ -61,17 +60,42 @@ s32 func_8002AFA4(void) {
     return MusAsk(MUSFLAG_EFFECTS | MUSFLAG_SONGS) == 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AFC4);
+void func_8002AFC4(s32 arg0) {
+    func_8002AFE4(0, arg0);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AFE4);
+void func_8002AFE4(s32 arg0, s32 arg1) {
+    func_8002B028(arg0, arg1, 0);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B000);
+void func_8002B000(s32 arg0, s32 arg1) {
+    func_8002B028(0, arg0, arg1);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B028);
+void func_8002B028(s32 arg0, s32 arg1, s32 arg2) {
+    if (arg1 == B_800FACE0.unk_00[arg0]) {
+        return;
+    }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B078);
+    func_8002D554(arg0, arg2);
+    B_800FACE0.unk_00[arg0] = arg1;
+}
 
+void func_8002B078(s32 arg0) {
+    func_8002B098(0, arg0);
+}
+
+#ifdef NON_MATCHING
+void func_8002B098(s32 arg0, s32 arg1) {
+    if ((D_80088401 == 0) && (arg1 < 0xA) && (arg1 >= 0)) {
+        func_8002B100(arg0);
+    } else {
+        func_8002AFE4(arg0, arg1);
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B098);
+#endif
 
 void func_8002B0E4(void) {
     func_8002B100(0);

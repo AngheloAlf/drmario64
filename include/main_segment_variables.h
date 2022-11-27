@@ -27,7 +27,7 @@ extern u32 D_80088128;
 // extern UNK_TYPE D_800881E0;
 
 // extern UNK_TYPE D_80088400;
-// extern UNK_TYPE D_80088401;
+extern u8 D_80088401; // maybe part of a struct?
 // extern UNK_TYPE D_80088402;
 // extern UNK_TYPE D_80088403;
 // extern UNK_TYPE D_80088404;
