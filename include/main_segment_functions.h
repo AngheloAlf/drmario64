@@ -858,7 +858,7 @@ void func_8007786C(void);
 // void func_800778E8();
 // void func_80077D68();
 // void func_80077E2C();
-// void func_80077FA4();
+void *func_80077FA4(void *dstAddr, bool arg1);
 // void func_80078094();
 // void func_80078648();
 // void func_8007865C();

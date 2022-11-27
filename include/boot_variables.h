@@ -25,18 +25,18 @@ extern s8 D_8000E1A0;
 // extern UNK_TYPE D_8000E738;
 extern romoffset_t D_8000E740;
 extern romoffset_t D_8000E744;
-// extern UNK_TYPE D_8000E748;
-// extern UNK_TYPE D_8000E74C;
+extern romoffset_t D_8000E748;
+extern romoffset_t D_8000E74C;
 // extern UNK_TYPE D_8000E750;
 // extern UNK_TYPE D_8000E754;
-// extern UNK_TYPE D_8000E758;
-// extern UNK_TYPE D_8000E75C;
+extern romoffset_t D_8000E758;
+extern romoffset_t D_8000E75C;
 extern romoffset_t D_8000E760;
 extern romoffset_t D_8000E764;
-// extern UNK_TYPE D_8000E768;
-// extern UNK_TYPE D_8000E76C;
-// extern UNK_TYPE D_8000E770;
-// extern UNK_TYPE D_8000E774;
+extern romoffset_t D_8000E768;
+extern romoffset_t D_8000E76C;
+extern romoffset_t D_8000E770;
+extern romoffset_t D_8000E774;
 
 extern struct_8000E778 D_8000E778[0x30];
 

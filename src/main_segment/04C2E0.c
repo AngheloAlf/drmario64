@@ -77,7 +77,33 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077D68);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077E2C);
 
+#ifdef NON_MATCHING
+void *func_80077FA4(void *dstAddr, bool arg1) {
+    romoffset_t romOffsetStart;
+    romoffset_t romOffsetEnd;
+
+    if (arg1) {
+        B_800E59D8 = 0;
+        D_800AAD18 = -0x64;
+    } else {
+        B_800E59D8 = 0x2D0;
+        D_800AAD18 = 0x100;
+    }
+
+    B_800E59DC = 0;
+    guOrtho(&B_800E5F08, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+
+    B_800E59E0 = (void*)ALIGN16((uintptr_t)dstAddr);
+
+    B_800E59E4 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768, B_800E59E0, D_8000E76C - D_8000E768));
+
+    romOffsetEnd = D_8000E774;
+    romOffsetStart = D_8000E770;
+    return (void*) ALIGN16((uintptr_t)DecompressRomToRam(romOffsetStart, B_800E59E4, romOffsetEnd - romOffsetStart));
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077FA4);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80078094);
 
@@ -99,7 +125,23 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007A154);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007A440);
 
+#ifdef NON_MATCHING
+void func_8007A9DC(void) {
+    romoffset_t segmentEnd;
+
+    B_800E87AC = D_800AAD3C;
+
+    B_800E8750 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768, B_800E87AC, D_8000E76C - D_8000E768));
+
+    segmentEnd = D_8000E75C;
+    B_800E87A8 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E758, B_800E8750, segmentEnd - D_8000E758));
+
+    segmentEnd = D_8000E74C;
+    B_800E87B0 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E748, B_800E87A8, segmentEnd - D_8000E748));
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007A9DC);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007AA84);
 
