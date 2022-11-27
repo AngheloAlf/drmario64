@@ -8,6 +8,7 @@
 #include "boot_variables.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "audio/synthInternals.h"
 
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AA80);
@@ -26,7 +27,27 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002ABC0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AC64);
 
+#ifdef NON_EQUIVALENT
+// maybe equivalent, but too afraid to tell
+void func_8002ACE0(bool arg0) {
+    u32 *funcPtr = (u32*)alEnvmixerPull + 0x10C/4;
+    u32 var_v0;
+
+    if (arg0) {
+        var_v0 = 0x8C82000C; // lw          $v0, 0xC($a0)
+        *funcPtr = 0x92220012; // lbu         $v0, 0x12($s1)
+        //D_8000346C.unk_0 = 0x92220012;
+    } else {
+        var_v0 = 0x24020040; // addiu       $v0, $zero, 0x40
+        *funcPtr = 0x24020040; // addiu       $v0, $zero, 0x40
+    }
+    //D_8000346C.unk_1E0 = var_v0;
+    funcPtr[0x1E0/4] = var_v0;
+    osWritebackDCacheAll();
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002ACE0);
+#endif
 
 void func_8002AD38(struct_800EB670 *arg0) {
     s32 i;
