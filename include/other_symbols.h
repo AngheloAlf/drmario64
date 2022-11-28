@@ -11,5 +11,9 @@
 extern struct_80124610 D_80124610;
 extern struct_80205000 D_80205000;
 
+#define SCREEN_WIDTH  320
+#define SCREEN_HEIGHT 240
+
+extern u16 D_803B5000[2][SCREEN_HEIGHT * SCREEN_WIDTH];
 
 #endif

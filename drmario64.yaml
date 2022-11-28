@@ -392,8 +392,10 @@ segments:
 
       - [0x05AA40, data, rsp/rspboot]
       - [0x05AB10, data, rsp/aspMain]
+      - [0x05B930, data, rsp/f3dex2]
+      - [0x05CCC0, data, rsp/s2dex]
 
-      - [0x05B930, data, main_segment/05B930]
+      - [0x05E4B0, data, main_segment/05E4B0]
       - [0x05E7B0, data, main_segment/05E7B0]
       - [0x0633A0, data, main_segment/0633A0]
 
@@ -404,7 +406,8 @@ segments:
 
       - [0x0822F0, rodata, rsp/aspMain]
 
-      - [0x0825B0, rodata, main_segment/0825B0]
+      - [0x0825B0, rodata, rsp/f3dex2]
+      - [0x0829D0, rodata, rsp/s2dex]
 
       - [0x082D90, .rodata, main_segment/000000]
       - [0x082DC0, rodata, main_segment/082DC0]

@@ -1135,13 +1135,12 @@ rspbootTextStart = 0x80084690; // 0x0  (aud_sched, false)
 // rspbootTextEnd = 0x80084760; // 0x0  (aud_sched, false)
 aspMainTextStart = 0x80084760; // 0x0  (aud_thread, false)
 
-D_80085580 = 0x80085580;
-D_80086910 = 0x80086910;
+gspF3DEX2_fifoTextStart = 0x80085580;
+gspS2DEX_fifoTextStart = 0x80086910;
 D_80088100 = 0x80088100;
 D_80088104 = 0x80088104;
 D_80088105 = 0x80088105;
-D_80088110 = 0x80088110;
-D_80088114 = 0x80088114;
+D_80088110 = 0x80088110; // size:0x10
 D_80088120 = 0x80088120;
 D_80088124 = 0x80088124;
 D_80088128 = 0x80088128;
@@ -1566,8 +1565,8 @@ __libmus_current_sched = 0x800ABF2C; // 0x0  (aud_thread, false)
 last_task = 0x800ABF30;
 
 aspMainDataStart = 0x800ABF40; // 0x0  (aud_thread, false)
-D_800AC200 = 0x800AC200;
-D_800AC620 = 0x800AC620;
+gspF3DEX2_fifoDataStart = 0x800AC200;
+gspS2DEX_fifoDataStart = 0x800AC620;
 
 
 // rodata
@@ -1955,7 +1954,7 @@ B_800F7484 = 0x800F7484;
 B_800F7485 = 0x800F7485;
 B_800F7488 = 0x800F7488;
 B_800F748C = 0x800F748C;
-B_800F7490 = 0x800F7490;
+B_800F7490 = 0x800F7490; // size:0xC00
 
 __libmus_alglobals = 0x800F8C90; // 0x4C  (aud_thread, true)
 
@@ -1983,7 +1982,7 @@ B_800FAF92 = 0x800FAF92;
 B_800FAF94 = 0x800FAF94;
 gAudio_800FAF98 = 0x800FAF98;
 B_800FAF9C = 0x800FAF9C;
-B_800FAFA0 = 0x800FAFA0;
+B_800FAFA0 = 0x800FAFA0; // size:0x400
 B_800FB3A0 = 0x800FB3A0;
 B_800FB3A4 = 0x800FB3A4;
 B_800FB3A8 = 0x800FB3A8;

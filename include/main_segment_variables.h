@@ -3,6 +3,8 @@
 
 #include "ultra64.h"
 #include "libc/stdint.h"
+#include "libc/stdbool.h"
+#include "PR/sched.h"
 #include "unknown_structs.h"
 #include "unk.h"
 #include "alignment.h"
@@ -10,16 +12,12 @@
 
 // data
 
-// extern UNK_TYPE D_80084690;
-// extern UNK_TYPE D_80084760;
-// extern UNK_TYPE D_80085580;
-// extern UNK_TYPE D_80086910;
 extern UNK_TYPE D_80088100;
 // extern UNK_TYPE D_80088104;
 // extern UNK_TYPE D_80088105;
-// extern UNK_TYPE D_80088110;
+extern u64* D_80088110[][2];
 // extern UNK_TYPE D_80088114;
-// extern UNK_TYPE D_80088120;
+extern s32 D_80088120;
 extern s32 D_80088124;
 extern u32 D_80088128;
 // extern UNK_TYPE D_80088130;
@@ -440,8 +438,6 @@ extern void *D_800AAD3C;
 // extern UNK_TYPE D_800ABF2C;
 // extern UNK_TYPE D_800ABF30;
 // extern UNK_TYPE D_800ABF40;
-// extern UNK_TYPE D_800AC200;
-// extern UNK_TYPE D_800AC620;
 
 // bss
 
@@ -758,11 +754,11 @@ extern u16 B_800F6CD8[4];
 // extern UNK_TYPE B_800F7485;
 // extern UNK_TYPE B_800F7488;
 // extern UNK_TYPE B_800F748C;
-// extern UNK_TYPE B_800F7490;
+extern STACK(B_800F7490, 0xC00);
 // extern UNK_TYPE B_800F8C90;
 extern struct_800FACE0 B_800FACE0;
 // extern UNK_TYPE B_800FAD28;
-extern s32 B_800FAD2C;
+extern u32 B_800FAD2C;
 // extern UNK_TYPE B_800FAD30;
 extern UNK_TYPE1 B_800FAD31[4];
 // extern UNK_TYPE B_800FAD36;
@@ -778,13 +774,13 @@ extern UNK_TYPE1 B_800FAD31[4];
 // extern UNK_TYPE B_800FAE74;
 // extern UNK_TYPE B_800FAE78;
 // extern UNK_TYPE B_800FAE79;
-// extern UNK_TYPE B_800FAE80;
+extern OSScTask B_800FAE80[];
 extern u16 B_800FAF88[];
 // extern UNK_TYPE B_800FAF92;
 extern OSMesgQueue *B_800FAF94;
 
 // extern UNK_TYPE B_800FAF9C;
-// extern UNK_TYPE B_800FAFA0;
+extern STACK(B_800FAFA0, 0x400);
 // extern UNK_TYPE B_800FB3A0;
 // extern UNK_TYPE B_800FB3A4;
 // extern UNK_TYPE B_800FB3A8;
@@ -800,8 +796,8 @@ extern OSMesgQueue *B_800FAF94;
 // extern UNK_TYPE B_800FB3D0;
 // extern UNK_TYPE B_800FB670;
 extern u16 B_80113670[4][0x10];
-// extern UNK_TYPE B_801136F0;
-// extern UNK_TYPE B_801236F0;
+extern u64 B_801136F0[];
+extern u64 B_801236F0[];
 // extern UNK_TYPE B_80123700;
 // extern UNK_TYPE B_80123704;
 // extern UNK_TYPE B_80123706;

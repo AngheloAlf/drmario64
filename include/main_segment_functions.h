@@ -4,6 +4,7 @@
 #include "ultra64.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
+#include "PR/sched.h"
 #include "unknown_structs.h"
 #include "unk.h"
 

@@ -9,6 +9,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "audio/synthInternals.h"
+#include "other_symbols.h"
 
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AA80);
@@ -282,7 +283,38 @@ s16 func_8002B800(void) {
     return *sp10;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B834);
+void func_8002B834(OSScTask *scTask, u64 *data_ptr, size_t data_size, s32 arg3, u32 flags) {
+    scTask->list.t.type = M_GFXTASK;
+    scTask->list.t.flags = OS_SC_NEEDS_RSP | OS_SC_DRAM_DLIST;
+    scTask->list.t.data_ptr = data_ptr;
+    scTask->list.t.data_size = data_size;
+    scTask->list.t.ucode_boot = (void*)rspbootTextStart;
+    scTask->list.t.ucode_boot_size = (u8*)rspbootTextEnd - (u8*)rspbootTextStart;
+    scTask->list.t.ucode = D_80088110[arg3][0];
+    scTask->list.t.ucode_data = D_80088110[arg3][1];
+    scTask->list.t.ucode_data_size = SP_UCODE_DATA_SIZE;
+    scTask->list.t.dram_stack = B_800FAFA0;
+    scTask->list.t.dram_stack_size = sizeof(B_800FAFA0);
+    scTask->list.t.output_buff = B_801136F0;
+    scTask->list.t.output_buff_size = B_801236F0;
+    scTask->list.t.yield_data_ptr = B_800F7490;
+    scTask->list.t.yield_data_size = sizeof(B_800F7490);
+    scTask->next = NULL;
+    scTask->msgQ = &B_800F4898;
+    scTask->flags = flags;
+    if (flags & OS_SC_SWAPBUFFER) {
+        scTask->msg = &B_800ED430;
+        D_80088128++;
+    } else {
+        scTask->msg = &B_800E9BB6;
+    }
+    scTask->framebuffer = &D_803B5000[D_80088120];
+    osSendMesg(B_800FAF94, scTask, OS_MESG_BLOCK);
+    if (flags & OS_SC_SWAPBUFFER) {
+        D_80088120 ^= 1;
+    }
+    B_800FAD2C = (B_800FAD2C + 1) % 3;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B9D8);
 
