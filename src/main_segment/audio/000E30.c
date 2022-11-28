@@ -308,7 +308,7 @@ void func_8002B834(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3,
     } else {
         scTask->msg = &B_800E9BB6;
     }
-    scTask->framebuffer = &D_803B5000[D_80088120];
+    scTask->framebuffer = &gFramebuffers[D_80088120];
     osSendMesg(B_800FAF94, scTask, OS_MESG_BLOCK);
     if (flags & OS_SC_SWAPBUFFER) {
         D_80088120 ^= 1;
@@ -320,6 +320,19 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B9D8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002BAB8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002BBD8);
+void func_8002BBD8(u8 arg0) {
+    gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_80088150));
+    if (arg0) {
+        gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, 319, 239)
+    } else {
+        gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 12, 8, 307, 231);
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002BC58);
+void func_8002BC58(u8 arg0) {
+    gDPSetColorImage(B_800EBCF4++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[D_80088120]));
+    if (arg0) {
+        gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_800881B8));
+        gDPFillRectangle(B_800EBCF4++, 0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1);
+    }
+}

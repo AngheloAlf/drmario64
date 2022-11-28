@@ -5,7 +5,7 @@ main_segment_compressed_ROM_START = main_segment_ROM_START;
 main_segment_compressed_ROM_END = main_segment_ROM_END;
 
 
-D_803B5000 = 0x803B5000;
+gFramebuffers = 0x803B5000;
 
 // Ucode symbols
 

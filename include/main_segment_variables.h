@@ -22,7 +22,9 @@ extern s32 D_80088124;
 extern u32 D_80088128;
 // extern UNK_TYPE D_80088130;
 // extern UNK_TYPE D_80088140;
-// extern UNK_TYPE D_800881E0;
+extern Gfx D_80088150[];
+extern Gfx D_800881B8[];
+extern Gfx D_800881E0[];
 
 // extern UNK_TYPE D_80088400;
 extern u8 D_80088401; // maybe part of a struct?
@@ -38,7 +40,7 @@ extern u8 D_80088406;
 // extern UNK_TYPE D_8008840C;
 // extern UNK_TYPE D_8008840D;
 // extern UNK_TYPE D_8008840E;
-// extern UNK_TYPE D_8008840F;
+extern u8 D_8008840F;
 // extern UNK_TYPE D_80088410;
 // extern UNK_TYPE D_80088414;
 // extern UNK_TYPE D_80088418;
