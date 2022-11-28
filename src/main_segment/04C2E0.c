@@ -24,8 +24,8 @@ void func_80075F30(void) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80075F98);
 
 void func_8007636C(void) {
-    s32 test;
-    s32 var_v1;
+    s32 color;
+    s32 alpha;
     OSScTask *ptr;
 
     B_800EBCF4 = B_800FB670[D_80088120];
@@ -41,11 +41,11 @@ void func_8007636C(void) {
 
     D_800A739C = func_80078094(&B_800EBCF4, D_8008840F != 0);
 
-    test = 0xFF;
+    color = 255;
 
-    var_v1 = CLAMP(((B_800E59A4 - 0x7F) * 1.2) + 127.0, 0.0, 255.0);
-    if (var_v1 > 0) {
-        func_80040E3C(&B_800EBCF4, 0, 0, 0x140, 0xF0, test, test, test, var_v1);
+    alpha = CLAMP(((B_800E59A4 - 127) * 1.2) + 127.0, 0.0, 255.0);
+    if (alpha > 0) {
+        func_80040E3C(&B_800EBCF4, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color, color, color, alpha);
     }
 
     gDPFullSync(B_800EBCF4++);

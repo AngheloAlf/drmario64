@@ -3,6 +3,8 @@
 
 #include "libc/stdint.h"
 #include "unk.h"
+#include "alignment.h"
+
 
 typedef struct struct_80029C04 {
     romoffset_t segmentRom;
@@ -89,7 +91,21 @@ typedef struct struct_8005FC6C_arg0 {
 
 typedef struct struct_80205000 {
     /* 0x00 */ UNK_TYPE1 unk_00[UNK_SIZE];
-} struct_80205000; // size =
+} struct_80205000; // size = ?
 
+typedef struct struct_800EA290_unk_11EC {
+    /* 0x0 */ void (*unk_0)(s32);
+    /* 0x4 */ s32 unk_4;
+} struct_800EA290_unk_11EC; // size = 0x8
+
+typedef struct struct_800EA290 {
+    /* 0x0000 */ STACK(stack, 0x1000);
+    /* 0x1000 */ OSThread thread;
+    /* 0x11B0 */ OSMesgQueue mq;
+    /* 0x11C8 */ OSMesg msg[9];
+    /* 0x11EC */ struct_800EA290_unk_11EC unk_11EC[10];
+    /* 0x123C */ s32 unk_123C;
+    /* 0x1240 */ s32 unk_1240;
+} struct_800EA290; // size >= 0x1244
 
 #endif
