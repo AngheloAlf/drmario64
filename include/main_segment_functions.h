@@ -20,10 +20,11 @@ void func_8002A2B8(struct_800EB670*);
 void func_8002A3F4(struct_800EB670 *arg0, OSMesg arg1);
 void func_8002A4D8(struct_800EB670*);
 // void func_8002A51C();
+
 UNK_TYPE func_8002A5B0(UNK_TYPE);
 void func_8002A700(void);
-// void func_8002A8F8();
-s8 func_8002A954();
+void func_8002A8F8(u16 mask, u8 index);
+s32 func_8002A954();
 
 // void func_8002BD20();
 // void func_8002BEE4();

@@ -25,12 +25,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80075F98);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007636C);
 
+
 const char D_800B32A8[] RODATA = "This game is not designed~nfor use on this system.~z";
 const char D_800B3270[] RODATA = "There is no controller~nconnected. Please turn OFF~nthe Nintendo* 64 and insert~na controller in socket 1.~z";
 const char D_800B3318[] RODATA = "A Backup File is damaged.~nPress the A Button to delete this file.~z";
-
-extern u8 B_800EBD16;
-extern u16 B_800FAF88[];
 
 u32 func_8007657C(struct_800EB670 *arg0) {
     OSMesgQueue sp18;
@@ -68,7 +66,7 @@ u32 func_8007657C(struct_800EB670 *arg0) {
         func_8002A700();
         osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
         func_8005D428(temp_s0);
-        if ((B_800EBCF0 == 0xA) && (B_800FAF88[B_800EBD16] & 0x8000)) {
+        if ((B_800EBCF0 == 0xA) && (B_800FAF88[B_800EBD16[0]] & 0x8000)) {
             var_s1 = false;
             func_8002B1B4(0x46);
         }
