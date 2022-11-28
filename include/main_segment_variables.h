@@ -116,7 +116,8 @@ extern u8 D_80088406;
 // extern UNK_TYPE D_800899A8;
 // extern UNK_TYPE D_8008CF90;
 // extern UNK_TYPE D_8008CFA0;
-// extern UNK_TYPE D_8008CFE0;
+extern s32 D_8008CFE0;
+
 // extern UNK_TYPE D_8008CFF0;
 // extern UNK_TYPE D_8008CFF4;
 // extern UNK_TYPE D_8008CFF8;

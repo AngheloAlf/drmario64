@@ -21,6 +21,6 @@ void func_80000580(void* arg0) {
     osStartThread(&B_80011010);
 
     while (1) {
-        (*D_8000E190)();
+        D_8000E190();
     }
 }

@@ -395,6 +395,7 @@ segments:
 
       - [0x05B930, data, main_segment/05B930]
       - [0x05E7B0, data, main_segment/05E7B0]
+      - [0x0633A0, data, main_segment/0633A0]
 
       - [0x082000, data, libmus/player]
       - [0x0820C0, .data, ../lib/libmus/src/player_fx]

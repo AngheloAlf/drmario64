@@ -2,7 +2,10 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "unk.h"
+#include "boot_functions.h"
+#include "boot_variables.h"
+#include "main_segment_functions.h"
+#include "main_segment_variables.h"
 
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8002EB00);
@@ -287,8 +290,44 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8003A618);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8003A7E4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8003A89C);
+void *func_8003A89C(void *arg0, s32 arg1) {
+    D_8008CFE0 = arg1;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8003A8F4);
+    switch (D_8008CFE0) {
+        case 0x1:
+            arg0 = func_80039E14(arg0);
+            break;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8003A950);
+        case 0x2:
+            arg0 = func_8003A26C(arg0);
+            break;
+    }
+    return arg0;
+}
+
+s32 func_8003A8F4(void) {
+    s32 var_v1 = 0;
+
+    switch (D_8008CFE0) {
+        case 0x1:
+            var_v1 = func_80039F74();
+            break;
+
+        case 0x2:
+            var_v1 = func_8003A618();
+            break;
+    }
+    return var_v1;
+}
+
+void func_8003A950(UNK_PTR arg0) {
+    switch (D_8008CFE0) {
+        case 0x1:
+            func_8003A1B4(arg0);
+            break;
+
+        case 0x2:
+            func_8003A7E4(arg0);
+            break;
+    }
+}
