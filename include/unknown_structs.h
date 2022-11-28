@@ -76,6 +76,20 @@ typedef struct struct_80124610 {
     /* 0x64 */ UNK_TYPE1 unk_64[0x1C];
 } struct_80124610; // size = 0x80
 
+typedef struct struct_800EBEF0 {
+    /* 0x000 */ UNK_TYPE1 unk_000[0x550];
+} struct_800EBEF0; // size = 0x550
+
+typedef struct struct_8005FC6C_arg0 {
+    /* 0x000 */ UNK_TYPE4 unk_000;
+    /* 0x004 */ UNK_TYPE4 unk_004;
+    /* 0x008 */ UNK_TYPE4 unk_008;
+    /* 0x00C */ UNK_TYPE1 UNK_00C[0x2E8];
+} struct_8005FC6C_arg0; // size = 0x2F4
+
+typedef struct struct_80205000 {
+    /* 0x00 */ UNK_TYPE1 unk_00[UNK_SIZE];
+} struct_80205000; // size =
 
 
 #endif

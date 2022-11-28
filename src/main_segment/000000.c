@@ -7,9 +7,8 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
+#include "other_symbols.h"
 
-
-extern UNK_TYPE D_80205000;
 
 void func_80029C50(void) {
     func_80038BD8();

@@ -667,7 +667,7 @@ extern u32 B_800EBCF0;
 // extern UNK_TYPE B_800EBD16;
 extern OSThread B_800EBD20;
 extern OSMesg B_800EBED0[8];
-// extern UNK_TYPE B_800EBEF0;
+extern struct_800EBEF0 B_800EBEF0;
 // extern UNK_TYPE B_800EBEF2;
 // extern UNK_TYPE B_800EBEF3;
 // extern UNK_TYPE B_800EBEF4;

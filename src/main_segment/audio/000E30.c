@@ -165,7 +165,7 @@ s32 func_8002B370(void) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B394);
 
-void func_8002B490(UNK_PTR arg0 UNUSED) {
+void func_8002B490(struct_80205000 *arg0 UNUSED) {
     B_800ED430 = 2;
     B_800E9BB6 = 4;
     D_80088124 = 0;

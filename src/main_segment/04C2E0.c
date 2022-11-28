@@ -25,8 +25,6 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80075F98);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007636C);
 
-//INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007657C);
-
 const char D_800B32A8[] RODATA = "This game is not designed~nfor use on this system.~z";
 const char D_800B3270[] RODATA = "There is no controller~nconnected. Please turn OFF~nthe Nintendo* 64 and insert~na controller in socket 1.~z";
 const char D_800B3318[] RODATA = "A Backup File is damaged.~nPress the A Button to delete this file.~z";
@@ -228,7 +226,138 @@ void func_8007A9DC(void) {
     B_800E87B0 = ptr;
 }
 
+extern struct_80124610 B_800E59F0;
+extern s32 B_800E5A20;
+extern s32 B_800E5A24;
+extern s32 B_800E5A2C;
+extern s32 B_800E5A38;
+extern f32 B_800E5A44;
+extern struct_80124610 B_800E5A70;
+extern s32 B_800E5A90;
+extern s32 B_800E5A94;
+extern s32 B_800E5AA0;
+extern s32 B_800E5AA4;
+extern s32 B_800E5AAC;
+extern s32 B_800E5AB8;
+extern f32 B_800E5AC4;
+extern void B_800E5AF0;
+extern struct_80205000 *B_800E5EF0;
+extern s32 B_800E5EF4;
+extern s32 B_800E5EFC;
+extern s32 B_800E5F00;
+extern u16 B_800E5F04;
+extern s32 B_800E87B4;
+extern s16 B_800F6CDE[];
+extern s8 D_80088402;
+extern u8 D_80088409;
+extern void *D_800A8ACC;
+extern s32 D_800AAD10;
+extern s32 D_800AAD14;
+extern s32 D_800AAD1C;
+extern s32 D_800AAD20;
+extern s32 D_800AAD24;
+extern s32 D_800AAD28;
+extern struct_80205000 *D_800AAD38;
+extern struct_80205000 *D_800AAD40;
+extern UNK_TYPE4 D_800AAE00[];
+
+#ifdef NON_EQUIVALENT
+s32 func_8007AA84(struct_800EB670 *arg0) {
+    OSMesgQueue sp20;
+    void *sp38;
+    struct_800FAF98_unk_64 sp58;
+    s16 *var_v1;
+    s32 var_s1;
+    s32 var_s1_2;
+
+    osCreateMesgQueue(&sp20, &sp38, 8);
+    func_8002A184(arg0, &sp58, &sp20);
+    D_80088124 = 0;
+    D_800AAD40 = &D_80205000;
+    guPerspective(&B_800E5F08, &B_800E5F04, 45.0f, 1.3333334f, 1.0f, 1000.0f, 1.0f);
+    var_s1 = 3;
+    guOrtho(&B_800E5F08, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+
+    B_800E87B4 = 1;
+    while (var_s1 >= 0) {
+        B_800F6CDE[var_s1] = 0xF00;
+        var_s1 -= 1;
+    }
+
+    D_800AAD3C = &D_80205000 + 0x10000;
+    D_800AAD14 = 0x1E;
+    D_800A8ACC = &B_800E5AF0;
+    D_800AAD38 = &D_80205000;
+    D_80088100 = 0;
+    D_800AAD08 = 0;
+    D_800AAD0C = 0;
+    D_800AAD1C = 0;
+    D_800AAD10 = 0;
+    D_800AAD20 = 0;
+    D_800AAD24 = 0;
+    D_800AAD28 = 1;
+    B_800E5F00 = 0;
+    B_800E5EF4 = 0;
+    B_800E5EFC = 1;
+    func_8005CF78(&B_800E59F0, &D_800A8ACC, 0x10, 3, 0x42, 0xB1);
+    B_800E5A20 = 0xC;
+    B_800E5A24 = 0xC;
+    B_800E5A2C = 6;
+    B_800E5A38 = 0xE;
+    B_800E5EF0 = &D_80205000;
+    B_800E5A44 = 0.4f;
+    func_8005CFD4(&B_800E5A70, &B_800E5EF0, 0x77A, 0x14, 0xB, 0x28, 0x16);
+    B_800E5A94 = 1;
+    B_800E5AA0 = 0xC;
+    B_800E5AA4 = 0xC;
+    B_800E5AAC = 6;
+    B_800E5AB8 = 0xE;
+    B_800E5A90 = 1;
+    B_800E5AC4 = 0.25f;
+    func_8007A9DC();
+    func_8002A700();
+    func_8002AFC4(D_800AAE00[D_800AACEC]);
+
+    while (B_800E5EFC != 0) {
+        osRecvMesg(&sp20, NULL, 1);
+        func_8005D428(&B_800E59F0);
+        func_8005D428(&B_800E5A70);
+        if ((D_800AAD28 == 0) && (D_800AAD10 >= 0x5A)) {
+            B_800E5EFC = 0;
+        }
+        func_8002A700();
+        D_80088124 = 1;
+        func_8002AE58();
+    }
+
+    func_8002AF7C();
+    D_80088124 = 0;
+
+    while (true) {
+        if ((D_80088128 == 0) || (func_8002AFA4() != 0)) {
+            break;
+        }
+        osRecvMesg(&sp20, NULL, 1);
+        func_8002AE58();
+    }
+
+    var_s1_2 = 0;
+    while (var_s1_2 < 3) {
+        osRecvMesg(&sp20, NULL, 1);
+        var_s1_2 += 1;
+    }
+
+    func_8002A1DC(arg0, &sp58);
+    D_80088409 = (u8) D_800AACEC;
+    if ((s8) D_800AACEC >= 0xC) {
+        D_80088409 = D_800AACEC - 0xC;
+    }
+    D_80088402 = D_80088409 % 3;
+    return (D_80088409 / 3) * 3;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007AA84);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007AEBC);
 
