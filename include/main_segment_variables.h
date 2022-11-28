@@ -650,7 +650,7 @@ extern u32 B_800EB4F0;
 // extern UNK_TYPE B_800EB660;
 extern struct_800EB670 B_800EB670;
 extern u32 B_800EBCF0;
-// extern UNK_TYPE B_800EBCF4;
+extern Gfx* B_800EBCF4; // main display list head
 extern u16 B_800EBCF8[];
 // extern UNK_TYPE B_800EBD02;
 // extern UNK_TYPE B_800EBD03;
@@ -794,7 +794,7 @@ extern STACK(B_800FAFA0, 0x400);
 // extern UNK_TYPE B_800FB3C8;
 // extern UNK_TYPE B_800FB3CC;
 // extern UNK_TYPE B_800FB3D0;
-// extern UNK_TYPE B_800FB670;
+extern Gfx B_800FB670[][0x1000];
 extern u16 B_80113670[4][0x10];
 extern u64 B_801136F0[];
 extern u64 B_801236F0[];

@@ -118,7 +118,7 @@ CFLAGS          += -nostdinc -G 0 -mgp32 -mfp32 -fno-common -funsigned-char
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -32
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
-GBIDEFINE       := -DF3DEX_GBI_2
+GBI_DEFINES     := -DF3DEX_GBI_2
 RELEASE_DEFINES := -DNDEBUG -D_FINALROM
 AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
 C_DEFINES       := -D_LANGUAGE_C

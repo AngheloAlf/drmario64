@@ -86,7 +86,21 @@ u32 func_8007657C(struct_800EB670 *arg0) {
     return 3;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800767DC);
+void func_800767DC(void) {
+    struct_80124610* ptr;
+
+    B_800EBCF4 = B_800FB670[B_800FAD2C];
+    ptr = (void*)ALIGN16((uintptr_t)&D_80124610);
+    func_8002B9D8();
+    func_8002BAB8(1);
+    func_8005D78C(ptr, &B_800EBCF4);
+
+    gDPFullSync(B_800EBCF4++);
+    gSPEndDisplayList(B_800EBCF4++);
+
+    osWritebackDCacheAll();
+    func_8002B834(&B_800FAE80[B_800FAD2C], B_800FB670[B_800FAD2C], (B_800EBCF4 - B_800FB670[B_800FAD2C]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800768E0);
 

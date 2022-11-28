@@ -592,7 +592,7 @@ void func_8005CFD4(struct_80124610 *arg0, struct_80124610 **arg1, s32 arg2, s32 
 void func_8005D314(struct_80124610 *arg0, const char *arg1);
 // void func_8005D3F8();
 void func_8005D428(struct_80124610 *arg0);
-// void func_8005D78C();
+void func_8005D78C(struct_80124610 *, Gfx **);;
 // void func_8005E0B4();
 void func_8005E0BC(struct_80124610 *arg0);
 // void func_8005E0D0();

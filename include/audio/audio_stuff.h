@@ -75,9 +75,9 @@ void func_8002B728(void);
 void func_8002B754(void);
 void func_8002B7A8(struct_800EB670 *arg0);
 s16 func_8002B800(void);
-void func_8002B834(OSScTask *scTask, u64 *data_ptr, size_t data_size, s32 arg3, u32 flags);
-// void func_8002B9D8();
-// void func_8002BAB8();
+void func_8002B834(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags);
+void func_8002B9D8();
+void func_8002BAB8(UNK_TYPE);
 // void func_8002BBD8();
 // void func_8002BC58();
 

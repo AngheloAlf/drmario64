@@ -283,7 +283,7 @@ s16 func_8002B800(void) {
     return *sp10;
 }
 
-void func_8002B834(OSScTask *scTask, u64 *data_ptr, size_t data_size, s32 arg3, u32 flags) {
+void func_8002B834(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags) {
     scTask->list.t.type = M_GFXTASK;
     scTask->list.t.flags = OS_SC_NEEDS_RSP | OS_SC_DRAM_DLIST;
     scTask->list.t.data_ptr = data_ptr;
