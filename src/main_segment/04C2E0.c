@@ -23,41 +23,29 @@ void func_80075F30(void) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80075F98);
 
-#ifdef NON_MATCHING
-UNK_TYPE func_80040E3C(Gfx **arg0, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3, s32 arg4, u8 arg5, u8 arg6, u8 arg7, s32 arg8);
-s32 func_80078094(Gfx **, s32);
-
 void func_8007636C(void) {
-    f64 temp_f2;
-    s32 temp_a1;
+    s32 test;
     s32 var_v1;
     OSScTask *ptr;
 
-    temp_a1 = D_80088120;
-    B_800EBCF4 = B_800FB670[temp_a1];
+    B_800EBCF4 = B_800FB670[D_80088120];
 
-    ptr = &B_800FAE80[temp_a1];
+    ptr = &B_800FAE80[D_80088120];
     gSPSegment(B_800EBCF4++, 0x00, NULL);
     func_8002BBD8(1);
     func_8002BC58(1);
 
     gSPDisplayList(B_800EBCF4++, D_800881E0);
 
-    gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+    gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1);
 
     D_800A739C = func_80078094(&B_800EBCF4, D_8008840F != 0);
 
-    temp_f2 = ((B_800E59A4 - 0x7F) * 1.2) + 127.0;
+    test = 0xFF;
 
-    var_v1 = 0xFF;
-    if (temp_f2 < 0.0) {
-        var_v1 = 0;
-    } else if (!(temp_f2 > 255.0)) {
-        var_v1 = temp_f2;
-    }
-
+    var_v1 = CLAMP(((B_800E59A4 - 0x7F) * 1.2) + 127.0, 0.0, 255.0);
     if (var_v1 > 0) {
-        func_80040E3C(&B_800EBCF4, 0, 0, 0x140, 0xF0, 0xFF, 0xFF, 0xFF, var_v1);
+        func_80040E3C(&B_800EBCF4, 0, 0, 0x140, 0xF0, test, test, test, var_v1);
     }
 
     gDPFullSync(B_800EBCF4++);
@@ -66,9 +54,6 @@ void func_8007636C(void) {
 
     func_8002B834(ptr, B_800FB670[D_80088120], (B_800EBCF4 - B_800FB670[D_80088120]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007636C);
-#endif
 
 const char D_800B32A8[] RODATA = "This game is not designed~nfor use on this system.~z";
 const char D_800B3270[] RODATA = "There is no controller~nconnected. Please turn OFF~nthe Nintendo* 64 and insert~na controller in socket 1.~z";
