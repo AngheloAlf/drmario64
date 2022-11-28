@@ -41,8 +41,12 @@ class SegmentEntry:
 def readSegmentsCsv(segmentsPath: Path) -> dict[str, SegmentEntry]:
     segmentsCsv = spimdisasm.common.Utils.readCsv(segmentsPath)
     segmentDict = {}
+    header = True
 
     for row in segmentsCsv:
+        if header:
+            header = False
+            continue
         if len(row) == 0:
             continue
         name, compressedName, comprPath, segmentHash = row

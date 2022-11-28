@@ -25,6 +25,7 @@ def decompressorMain():
     segmentDict = compression_common.readSegmentsCsv(segmentsPath)
 
     for segmentName, entry in segmentDict.items():
+        # print(entry.compressedPath)
         data = spimdisasm.common.Utils.readFileAsBytearray(entry.compressedPath)
         assert len(data) > 0, f"'{entry.compressedPath}' could not be opened"
         decompressed = compression_common.decompressZlib(data)

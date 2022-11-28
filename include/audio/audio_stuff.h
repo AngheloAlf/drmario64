@@ -47,7 +47,7 @@ void func_8002AAD8(struct_800FACE0_unk_08 *arg0, UNK_TYPE arg1);
 // void func_8002AC64();
 void func_8002ACE0(bool setStereo);
 void func_8002AD38(struct_800EB670* arg0);
-// void func_8002AE58();
+void func_8002AE58(void);
 void func_8002AF7C(void);
 s32 func_8002AFA4(void);
 void func_8002AFC4(s32 arg0);

@@ -523,9 +523,15 @@ segments:
   - name: segment_1A3610 # compressed
     type: bin
     start: 0x1A3610
-  - name: segment_1B0E60 # marker of the end of the previous segment
+  - name: segment_1B0E60 # compressed
     type: bin
     start: 0x1B0E60
+  - name: segment_211E10 # compressed
+    type: bin
+    start: 0x211E10
+  - name: segment_212B20 # marker of the end of the previous segment
+    type: bin
+    start: 0x212B20
 
   - name: segment_21F6D0 # compressed
     type: bin

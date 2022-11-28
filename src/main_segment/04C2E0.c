@@ -6,17 +6,89 @@
 #include "boot_variables.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "audio/audio_stuff.h"
+#include "other_symbols.h"
 
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/04C2E0", D_800B3240);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80075F30);
+void func_80075F30(void) {
+    D_800A739C = 0;
+    B_800E59A0 = 0;
+    B_800E59A8 = -8;
+    D_80088401 = 0;
+    B_800E59A4 = -(B_800EB4F0 == 6) & 0xFF;
+    func_80077FA4(&D_80124610, B_800EB4F0 != 6);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80075F98);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007636C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007657C);
+//INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007657C);
+
+const char D_800B32A8[] RODATA = "This game is not designed~nfor use on this system.~z";
+const char D_800B3270[] RODATA = "There is no controller~nconnected. Please turn OFF~nthe Nintendo* 64 and insert~na controller in socket 1.~z";
+const char D_800B3318[] RODATA = "A Backup File is damaged.~nPress the A Button to delete this file.~z";
+
+extern u8 B_800EBD16;
+extern u16 B_800FAF88[];
+
+u32 func_8007657C(struct_800EB670 *arg0) {
+    OSMesgQueue sp18;
+    OSMesg sp30[8];
+    struct_800FAF98_unk_64 sp50;
+    void *sp58;
+    struct_80124610 *temp_s0 = (void*)ALIGN16((uintptr_t)&D_80124610);
+    bool var_s1 = true;
+
+    sp58 = (void*)((uintptr_t)temp_s0 + sizeof(struct_80124610));
+    bzero(temp_s0, sizeof(struct_80124610));
+    osCreateMesgQueue(&sp18, sp30, ARRAY_COUNT(sp30));
+    func_8002A184(arg0, &sp50, &sp18);
+
+    switch (B_800EBCF0) {
+        case 0x8:
+            func_8005CF78(temp_s0, &sp58, 0x40, 5, 0x40, 0x60);
+            func_8005D314(temp_s0, D_800B3270);
+            break;
+
+        case 0x9:
+            func_8005CF78(temp_s0, &sp58, 0x40, 5, 0x40, 0x72);
+            func_8005D314(temp_s0, D_800B32A8);
+            break;
+
+        case 0xA:
+            func_8005CF78(temp_s0, &sp58, 0x40, 5, 0x28, 0x6C);
+            func_8005D314(temp_s0, D_800B3318);
+            break;
+    }
+
+    func_8005E0BC(temp_s0);
+
+    while (var_s1) {
+        func_8002A700();
+        osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
+        func_8005D428(temp_s0);
+        if ((B_800EBCF0 == 0xA) && (B_800FAF88[B_800EBD16] & 0x8000)) {
+            var_s1 = false;
+            func_8002B1B4(0x46);
+        }
+        func_8002AE58();
+        D_80088124 = 7;
+    }
+
+    D_80088124 = 0;
+    while (D_80088128 != 0) {
+        osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
+    }
+
+    func_8002A1DC(arg0, &sp50);
+    if (B_800EBCF0 == 0xA) {
+        func_80038B18(0, 0);
+    }
+    return 3;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800767DC);
 
@@ -94,10 +166,8 @@ void *func_80077D68(void *dstAddr, bool arg1) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077E2C);
 
-#ifdef NON_MATCHING
 void *func_80077FA4(void *dstAddr, bool arg1) {
-    romoffset_t romOffsetStart;
-    romoffset_t romOffsetEnd;
+    size_t segmentSize;
 
     if (arg1) {
         B_800E59D8 = 0;
@@ -112,15 +182,12 @@ void *func_80077FA4(void *dstAddr, bool arg1) {
 
     B_800E59E0 = (void*)ALIGN16((uintptr_t)dstAddr);
 
-    B_800E59E4 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768, B_800E59E0, D_8000E76C - D_8000E768));
+    segmentSize = D_8000E76C - D_8000E768;
+    B_800E59E4 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768, B_800E59E0, segmentSize));
 
-    romOffsetEnd = D_8000E774;
-    romOffsetStart = D_8000E770;
-    return (void*) ALIGN16((uintptr_t)DecompressRomToRam(romOffsetStart, B_800E59E4, romOffsetEnd - romOffsetStart));
+    segmentSize = D_8000E774 - D_8000E770;
+    return (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E770, B_800E59E4, segmentSize));
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077FA4);
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80078094);
 
