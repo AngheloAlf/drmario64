@@ -797,7 +797,7 @@ void func_8005FC6C(struct_8005FC6C_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3);
 // void func_8006D254();
 void func_8006D620();
 // void func_8006D7B0();
-// void func_8006D870();
+void func_8006D870(void);
 // void func_8006D91C();
 // void func_8006E0EC();
 // void func_8006E80C();

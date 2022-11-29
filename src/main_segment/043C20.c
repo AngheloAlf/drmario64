@@ -6,6 +6,7 @@
 #include "boot_variables.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "rom_offsets.h"
 #include "other_symbols.h"
 
 
@@ -42,26 +43,24 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_8006D870);
 INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_8006D91C);
 
 #if 0
-UNK_TYPE func_80038BE0(void *, void **, s32);              /* extern */
-UNK_TYPE func_8005E36C(UNK_TYPE *, void **, s32);                 /* extern */
-UNK_TYPE func_8005E48C(UNK_TYPE *, UNK_TYPE);                            /* extern */
-UNK_TYPE func_8005EAFC(void *, void *);                    /* extern */
-UNK_TYPE func_8005EBA8(void *, void **);                   /* extern */
-UNK_TYPE func_80062B84(void *);                            /* extern */
-UNK_TYPE func_8006A938(UNK_TYPE);                                 /* extern */
-UNK_TYPE func_8007E2E0(void **);                           /* extern */
-UNK_TYPE func_8007E2FC(u8);                                /* extern */
-extern struct_80124610 *B_800E5980;
-extern UNK_TYPE B_800EF560;
-extern UNK_TYPE B_800EF608;
+? func_80038BE0(s8 *, struct_80124610 **, s32);     /* extern */
+? func_8005E36C(s8 *, struct_80124610 **, s32);     /* extern */
+? func_8005E48C(s8 *, ?);                           /* extern */
+? func_8005EAFC(s8 *, s8 *);                        /* extern */
+? func_8005EBA8(s8 *, struct_80124610 **);          /* extern */
+? func_80062B84(s8 *);                              /* extern */
+? func_8006A938(?);                                 /* extern */
+? func_8007E2E0(struct_80124610 **);                /* extern */
+? func_8007E2FC(u8);                                /* extern */
+extern ? B_800EF560;
+extern ? B_800EF608;
 extern u32 B_800EFCD0;
-extern void *B_800F3E50;
 extern u8 B_800FAE78;
 extern u8 B_8012372C;
-extern UNK_TYPE B_8012374C;
-extern UNK_TYPE B_8012374F;
-extern UNK_TYPE B_80123790;
-extern UNK_TYPE B_80123794;
+extern ? B_8012374C;
+extern ? B_8012374F;
+extern ? B_80123790;
+extern s8 B_80123794;
 extern s32 B_8012386C;
 extern u8 D_80088403;
 extern s8 D_80088408;
@@ -69,10 +68,6 @@ extern s32 D_80088414;
 extern s8 D_800A8AD0;
 
 void func_8006E0EC(void) {
-    UNK_TYPE *var_a0;
-    UNK_TYPE *var_a0_3;
-    UNK_TYPE *var_s2_2;
-    UNK_TYPE *var_s4;
     s32 temp_a2;
     s32 temp_a2_2;
     s32 temp_a2_3;
@@ -100,17 +95,21 @@ void func_8006E0EC(void) {
     s32 var_s2;
     s32 var_s2_3;
     s32 var_v1_2;
-    struct_80124610 *temp_s0;
+    s8 *temp_s0;
+    s8 *var_a0;
+    s8 *var_a0_3;
+    s8 *var_s2_2;
+    s8 *var_s4;
+    s8 *var_v0;
+    s8 *var_v0_2;
+    s8 *var_v1;
+    struct_800F3E50 *temp_s3;
+    struct_800F3E50 *var_a0_2;
     u16 temp_v0;
     u32 var_s1_2;
     u8 temp_v1_3;
     void *temp_a1;
-    void *temp_s3;
     void *temp_v0_2;
-    void *var_a0_2;
-    void *var_v0;
-    void *var_v0_2;
-    void *var_v1;
 
     temp_s3 = B_800F3E50;
     temp_s3->unk_3B0 = 0;
@@ -120,9 +119,9 @@ void func_8006E0EC(void) {
     if (B_800EBCF0 != 5) {
         temp_s3->unk_448 = func_80045098(&B_800E5980, D_8000EA40, D_8000EA44);
     }
-    temp_s3->unk_884 = (void *) B_800E5980;
+    temp_s3->unk_884 = (struct_80124610 *) B_800E5980;
     var_s1 = 1;
-    var_v1 = temp_s3 + 4;
+    var_v1 = &temp_s3->unk_000[4];
     B_800E5980 = DecompressRomToRam(D_8000E9E0, B_800E5980, D_8000E9E4 - D_8000E9E0);
     do {
         var_v1->unk_8AC = 0;
@@ -142,15 +141,15 @@ void func_8006E0EC(void) {
     var_s0 = 0x9D0;
     func_8007E2FC(D_80088403);
     do {
-        func_80062B84(temp_s3 + var_s0);
+        func_80062B84(&temp_s3->unk_000[var_s0]);
         var_s1_2 += 1;
         var_s0 += 0x2C;
     } while (var_s1_2 < 2U);
-    func_8005CFD4(temp_s3 + 0xA28, (struct_80124610 **) &B_800E5980, 0x100, 0xA, 5, 0, 0);
+    func_8005CFD4((struct_80124610 *) &temp_s3->unk_000[0xA28], &B_800E5980, 0x100, 0xA, 5, 0, 0);
     temp_a2 = temp_s3->unk_A70 * 2;
     temp_s3->unk_A50 = (s32) ((s32) (0x140 - (temp_s3->unk_A64 * 0x14)) >> 1);
     temp_s3->unk_A54 = (s32) ((s32) (0xF0 - temp_a2) >> 1);
-    func_80038BE0(temp_s3 + 0xAD8, &B_800E5980, temp_a2);
+    func_80038BE0(&temp_s3->unk_000[0xAD8], &B_800E5980, temp_a2);
     switch (B_800EFCD0) {                           /* switch 1 */
     case 0x0:                                       /* switch 1 */
         temp_a1 = (B_800FAE78 * 0xD0) + &B_800EF560;
@@ -182,23 +181,23 @@ block_23:
             var_s2 = 0x44C;
             temp_s3->unk_434 = func_80045098(&B_800E5980, gRomOffset_N64WaveTables_Start.unk_198, gRomOffset_N64WaveTables_Start.unk_19C);
             do {
-                func_8005E36C(temp_s3 + var_s2, &B_800E5980, var_s1_3 + 0x10);
+                func_8005E36C(&temp_s3->unk_000[var_s2], &B_800E5980, var_s1_3 + 0x10);
                 var_s1_3 += 1;
                 var_s2 += 0x40;
             } while (var_s1_3 < 3);
-            func_8005EBA8(temp_s3 + 0x50C, &B_800E5980);
+            func_8005EBA8(&temp_s3->unk_000[0x50C], &B_800E5980);
             var_s1_4 = 1;
             var_s0_2 = 0x630;
             do {
-                func_8005EAFC(temp_s3 + var_s0_2, temp_s3 + 0x50C);
+                func_8005EAFC(&temp_s3->unk_000[var_s0_2], &temp_s3->unk_000[0x50C]);
                 var_s1_4 += 1;
                 var_s0_2 += 0x124;
             } while (var_s1_4 < 3);
-            temp_s0 = temp_s3 + 0x91C;
-            func_8005CFD4(temp_s0, (struct_80124610 **) &B_800E5980, 0x1000, 0x14, 0xF, 0x28, 0xF);
+            temp_s0 = &temp_s3->unk_000[0x91C];
+            func_8005CFD4((struct_80124610 *) temp_s0, &B_800E5980, 0x1000, 0x14, 0xF, 0x28, 0xF);
             temp_s3->unk_940 = 1;
-            func_8005D314(temp_s0, &D_800A8AD0);
-            func_8005E0BC(temp_s0);
+            func_8005D314((struct_80124610 *) temp_s0, &D_800A8AD0);
+            func_8005E0BC((struct_80124610 *) temp_s0);
             temp_s3->unk_93C = 1;
             temp_s3->unk_938 = 0;
             B_800E5980 = func_8007780C(B_800E5980);
@@ -220,7 +219,7 @@ block_23:
             } while (var_s1_5 < 2);
             var_s1_6 = 1;
             if (D_80088408 == 0) {
-                var_v0 = temp_s3 + 4;
+                var_v0 = &temp_s3->unk_000[4];
                 do {
                     var_v0->unk_8B4 = 0;
                     var_s1_6 -= 1;
@@ -257,7 +256,7 @@ block_23:
                 var_a0_3 = var_s4;
             } while (var_s1_8 < 4);
             var_s1_9 = 3;
-            var_v0_2 = temp_s3 + 0xC;
+            var_v0_2 = &temp_s3->unk_000[0xC];
             do {
                 var_v0_2->unk_8CC = 0;
                 var_s1_9 -= 1;

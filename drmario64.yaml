@@ -71,6 +71,8 @@ segments:
       - [0x002B90, c, boot/2B90] # decompressor?
       - [0x002F80, c, boot/2F80]
 
+      - [0x0030A0, c, boot/rom_offsets]
+
       # Start of libultra
       - [0x0030A0, asm, libultra/io/conteepprobe] # c # references an extra symbol?
       - [0x003120, c, ../lib/ultralib/src/io/conteeplongwrite]
@@ -251,7 +253,7 @@ segments:
 
       - [0x00ED90, data, boot/00ED90]
 
-      - [0x00F340, data, boot/rom_offsets]
+      - [0x00F340, .data, boot/rom_offsets]
 
       - [0x00F650, data, libultra/pimgr]
       - [0x00F680, data, libultra/cartrominit]
@@ -602,17 +604,90 @@ segments:
   - name: segment_172130
     type: bin
     start: 0x172130
-  - name: segment_172D60 # marker of the end of the previous segment
+
+  - name: segment_172D60
     type: bin
     start: 0x172D60
+
+  - name: segment_1750C0
+    type: bin
+    start: 0x1750C0
+  - name: segment_177420
+    type: bin
+    start: 0x177420
+  - name: segment_179620
+    type: bin
+    start: 0x179620
+  - name: segment_17B790
+    type: bin
+    start: 0x17B790
+  - name: segment_17C1E0
+    type: bin
+    start: 0x17C1E0
+  - name: segment_17D130
+    type: bin
+    start: 0x17D130
+  - name: segment_17E090
+    type: bin
+    start: 0x17E090
+  - name: segment_181840
+    type: bin
+    start: 0x181840
+  - name: segment_184FF0
+    type: bin
+    start: 0x184FF0
+  - name: segment_186FF0
+    type: bin
+    start: 0x186FF0
+  - name: segment_188FF0
+    type: bin
+    start: 0x188FF0
+  - name: segment_189D40
+    type: bin
+    start: 0x189D40
+  - name: segment_18CB40
+    type: bin
+    start: 0x18CB40
+  - name: segment_18DB90
+    type: bin
+    start: 0x18DB90
+  - name: segment_18F160
+    type: bin
+    start: 0x18F160
+  - name: segment_1906E0
+    type: bin
+    start: 0x1906E0
+  - name: segment_1911D0
+    type: bin
+    start: 0x1911D0
+  - name: segment_1936C0
+    type: bin
+    start: 0x1936C0
+  - name: segment_1937F0
+    type: bin
+    start: 0x1937F0
+  - name: segment_194070
+    type: bin
+    start: 0x194070
+  - name: segment_194150
+    type: bin
+    start: 0x194150
+  - name: segment_194910
+    type: bin
+    start: 0x194910
+  - name: segment_195290
+    type: bin
+    start: 0x195290
 
   - name: segment_195620 # compressed
     type: bin
     start: 0x195620
-  - name: segment_1A0D40 # marker of the end of the previous segment
+  - name: segment_1A0D40
     type: bin
     start: 0x1A0D40
-
+  - name: segment_1A20C0
+    type: bin
+    start: 0x1A20C0
   - name: segment_1A3610 # compressed
     type: bin
     start: 0x1A3610
@@ -622,9 +697,12 @@ segments:
   - name: segment_211E10 # compressed
     type: bin
     start: 0x211E10
-  - name: segment_212B20 # marker of the end of the previous segment
+  - name: segment_212B20 # compressed
     type: bin
     start: 0x212B20
+  - name: segment_21B120 # compressed
+    type: bin
+    start: 0x21B120
 
   - name: segment_21F6D0 # compressed
     type: bin
@@ -656,9 +734,40 @@ segments:
   - name: segment_25E690 # compressed
     type: bin
     start: 0x25E690
-  - name: segment_266490 # marker of the end of the previous segment
+  - name: segment_266490
     type: bin
     start: 0x266490
+
+  - name: segment_26FDF0
+    type: bin
+    start: 0x26FDF0
+  - name: segment_27A310
+    type: bin
+    start: 0x27A310
+  - name: segment_2866D0
+    type: bin
+    start: 0x2866D0
+  - name: segment_2990C0
+    type: bin
+    start: 0x2990C0
+  - name: segment_29DE20
+    type: bin
+    start: 0x29DE20
+  - name: segment_2A2430
+    type: bin
+    start: 0x2A2430
+  - name: segment_2A93C0
+    type: bin
+    start: 0x2A93C0
+  - name: segment_2AF9A0
+    type: bin
+    start: 0x2AF9A0
+  - name: segment_2BD670
+    type: bin
+    start: 0x2BD670
+  - name: segment_2C9600
+    type: bin
+    start: 0x2C9600
 
   - name: segment_2CC150 # compressed
     type: bin
@@ -666,16 +775,82 @@ segments:
   - name: segment_2CEA50 # compressed
     type: bin
     start: 0x2CEA50
-  - name: segment_2D3E80 # marker of the end of the previous segment
+  - name: segment_2D3E80
     type: bin
     start: 0x2D3E80
-
+  - name: segment_2D7830
+    type: bin
+    start: 0x2D7830
+  - name: segment_2DC490
+    type: bin
+    start: 0x2DC490
+  - name: segment_2E6500
+    type: bin
+    start: 0x2E6500
   - name: segment_2F8E80 # compressed
     type: bin
     start: 0x2F8E80
-  - name: segment_2F96A0 # marker of the end of the previous segment
+  - name: segment_2F96A0
     type: bin
     start: 0x2F96A0
+
+  - name: segment_2FD060
+    type: bin
+    start: 0x2FD060
+  - name: segment_2FEC70
+    type: bin
+    start: 0x2FEC70
+  - name: segment_301920
+    type: bin
+    start: 0x301920
+  - name: segment_303A60
+    type: bin
+    start: 0x303A60
+  - name: segment_3057A0
+    type: bin
+    start: 0x3057A0
+  - name: segment_307ED0
+    type: bin
+    start: 0x307ED0
+  - name: segment_30A220
+    type: bin
+    start: 0x30A220
+  - name: segment_30BE80
+    type: bin
+    start: 0x30BE80
+  - name: segment_30E3A0
+    type: bin
+    start: 0x30E3A0
+  - name: segment_310250
+    type: bin
+    start: 0x310250
+  - name: segment_311DC0
+    type: bin
+    start: 0x311DC0
+  - name: segment_3142D0
+    type: bin
+    start: 0x3142D0
+  - name: segment_3165B0
+    type: bin
+    start: 0x3165B0
+  - name: segment_3185A0
+    type: bin
+    start: 0x3185A0
+  - name: segment_31AB50
+    type: bin
+    start: 0x31AB50
+  - name: segment_326990
+    type: bin
+    start: 0x326990
+  - name: segment_327CE0
+    type: bin
+    start: 0x327CE0
+  - name: segment_328B80
+    type: bin
+    start: 0x328B80
+  - name: segment_3299F0
+    type: bin
+    start: 0x3299F0
 
   - name: segment_329FF0 # compressed
     type: bin

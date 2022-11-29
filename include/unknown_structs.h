@@ -50,10 +50,6 @@ typedef struct struct_800FAF98_unk_64 {
     /* 0x4 */ OSMesgQueue *unk_4;
 } struct_800FAF98_unk_64; // size = 0x8
 
-typedef struct struct_8000E778 {
-    /* 0x0 */ romoffset_t unk_0;
-    /* 0x4 */ romoffset_t unk_4;
-} struct_8000E778; // size = 0x8
 
 
 typedef struct struct_800FACE0_unk_08 {
@@ -111,7 +107,6 @@ typedef struct struct_800EA290 {
 } struct_800EA290; // size >= 0x1244
 
 
-// maybe the same as struct_80124610?
 typedef struct struct_800F3E50 {
     /* 0x000 */ UNK_TYPE1 unk_000[0xB60];
 } struct_800F3E50; // size = 0xB60
