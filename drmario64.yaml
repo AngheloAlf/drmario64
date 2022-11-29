@@ -358,7 +358,7 @@ segments:
       - [0x010D50, c, main_segment/010D50]
       - [0x013150, c, main_segment/013150]
       - [0x0131D0, c, main_segment/0131D0]
-      - [0x014590, asm, main_segment/014590]
+      - [0x014590, c, main_segment/014590]
       - [0x015710, c, main_segment/015710]
       - [0x015EB0, c, main_segment/015EB0]
       - [0x016DB0, c, main_segment/016DB0]
@@ -371,8 +371,9 @@ segments:
       - [0x035AB0, c, main_segment/035AB0]
       - [0x0362B0, c, main_segment/0362B0]
       - [0x0365A0, c, main_segment/0365A0]
-      - [0x036620, asm, main_segment/036620]
-      - [0x03A790, asm, main_segment/03A790]
+      - [0x036620, c, main_segment/036620]
+      - [0x03A790, c, main_segment/03A790]
+      - [0x03CD50, asm, main_segment/03CD50]
       - [0x043C20, c, main_segment/043C20]
       - [0x048350, asm, main_segment/048350]
       - [0x048550, c, main_segment/048550]
@@ -410,7 +411,6 @@ segments:
       - [0x0822E0, data, libmus/aud_thread]
 
       - [0x0822F0, rodata, rsp/aspMain]
-
       - [0x0825B0, rodata, rsp/f3dex2]
       - [0x0829D0, rodata, rsp/s2dex]
 
@@ -429,7 +429,7 @@ segments:
         partial_migration: True
       - [0x083500, .rodata, main_segment/010D50]
       - [0x083540, .rodata, main_segment/0131D0]
-      - [0x083690, rodata, main_segment/083690] # main_segment/014590?
+      - [0x083690, .rodata, main_segment/014590]
       - start: 0x083B70
         name: main_segment/015710
         type: .rodata
@@ -480,9 +480,16 @@ segments:
         name: main_segment/0362B0
         type: .rodata
         partial_migration: True
-      - [0x087FE0, rodata, main_segment/036620]
-      - start: 0x088030
-        name: main_segment/088030
+      - start: 0x087FE0
+        name: main_segment/036620
+        type: .rodata
+        partial_migration: True
+      - start: 0x088270
+        name: main_segment/03A790
+        type: .rodata
+        partial_migration: True
+      - start: 0x0883E0
+        name: main_segment/03CD50
         type: rodata
         partial_migration: True
       - start: 0x088660
