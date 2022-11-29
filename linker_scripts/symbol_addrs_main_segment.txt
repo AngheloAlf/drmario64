@@ -1785,6 +1785,11 @@ RO_800AFCEC = 0x800AFCEC; // force_not_migration:True
 
 RO_800AFBEC = 0x800AFBEC; // force_not_migration:True
 
+RO_800B0A50 = 0x800B0A50; // force_not_migration:True
+
+RO_800B0B50 = 0x800B0B50; // force_not_migration:True
+RO_800B0B54 = 0x800B0B54; // force_not_migration:True
+
 RO_800B1950 = 0x800B1950; // type:s32
 
 RO_800B1990 = 0x800B1990; // size:0x18
