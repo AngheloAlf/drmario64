@@ -8,6 +8,8 @@
 #define ALIGN128(val) (((val) + 0x7F) & ~0x7F)
 #define ALIGN256(val) (((val) + 0xFF) & ~0xFF)
 
+#define ALIGN_PTR(ptr) ((void*)ALIGN16((uintptr_t)(ptr)))
+
 #ifdef __GNUC__
 #define ALIGNED8 __attribute__ ((aligned (8)))
 #else

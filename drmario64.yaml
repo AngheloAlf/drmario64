@@ -43,6 +43,9 @@ options:
   use_legacy_include_asm: False
   create_asm_dependencies: True
   string_encoding: SHIFT-JIS
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
 segments:
   - name: header
     type: header
@@ -579,6 +582,16 @@ segments:
         name: main_segment/800E99D0
         type: bss
         vram: 0x800E99D0
+
+      - start: 0x0899F0
+        name: libmus/aud_thread
+        type: bss
+        vram: 0x800F8C90
+
+      - start: 0x0899F0
+        name: main_segment/800F8CE0
+        type: bss
+        vram: 0x800F8CE0
 
   - name: n64_wave_tables
     type: bin

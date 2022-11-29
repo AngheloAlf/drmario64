@@ -68,7 +68,9 @@ typedef struct struct_800FACE0 {
 } struct_800FACE0; // size >= 0x38
 
 typedef struct struct_80124610 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0xC];
+    /* 0x00 */ UNK_TYPE4 unk_00;
+    /* 0x04 */ UNK_TYPE4 unk_04;
+    /* 0x08 */ UNK_TYPE1 unk_08[0x4];
     /* 0x0C */ char *unk_0C;
     /* 0x10 */ UNK_TYPE unk_10;
     /* 0x14 */ UNK_TYPE unk_14;
@@ -107,5 +109,11 @@ typedef struct struct_800EA290 {
     /* 0x123C */ s32 unk_123C;
     /* 0x1240 */ s32 unk_1240;
 } struct_800EA290; // size >= 0x1244
+
+
+// maybe the same as struct_80124610?
+typedef struct struct_800F3E50 {
+    /* 0x000 */ UNK_TYPE1 unk_000[0xB60];
+} struct_800F3E50; // size = 0xB60
 
 #endif

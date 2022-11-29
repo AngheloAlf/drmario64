@@ -34,13 +34,11 @@ void func_80029ED0(struct_800EB670* arg0, u8 viModeIndex, u8 retraceCount) {
     osSetEventMesg(OS_EVENT_DP, &arg0->unk_0E4, (OSMesg)0x29C);
     osSetEventMesg(OS_EVENT_PRENMI, &arg0->unk_074, (OSMesg)0x29D);
 
-    // TODO: determine the start of those 3 stacks
-
-    osCreateThread(&arg0->unk_158, 0x13, (StartThreadFunc)func_8002A0DC, arg0, &B_800F1CE0, 0x78);
+    osCreateThread(&arg0->unk_158, 0x13, (StartThreadFunc)func_8002A0DC, arg0, STACK_TOP(B_800EFCE0), 0x78);
     osStartThread(&arg0->unk_158);
-    osCreateThread(&arg0->unk_308, 0x12, (StartThreadFunc)func_8002A2B8, arg0, &B_800FACE0, 0x6E);
+    osCreateThread(&arg0->unk_308, 0x12, (StartThreadFunc)func_8002A2B8, arg0, STACK_TOP(B_800F8CE0), 0x6E);
     osStartThread(&arg0->unk_308);
-    osCreateThread(&arg0->unk_4B8, 0x11, (StartThreadFunc)func_8002A4D8, arg0, &B_800EF440, 0x64);
+    osCreateThread(&arg0->unk_4B8, 0x11, (StartThreadFunc)func_8002A4D8, arg0, STACK_TOP(B_800ED440), 0x64);
     osStartThread(&arg0->unk_4B8);
 }
 

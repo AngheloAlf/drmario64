@@ -292,7 +292,7 @@ void func_80040E3C(Gfx **arg0, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3, s32 
 // void func_80044E08();
 // void func_80044F18();
 // void func_8004502C();
-s32 func_80045098(UNK_PTR *arg0, romoffset_t segmentRom, romoffset_t segmentRomEnd);
+s32 func_80045098(struct_80124610 **arg0, romoffset_t segmentRom, romoffset_t segmentRomEnd);
 // void func_80045110();
 // void func_800451C4();
 // void func_800452B0();

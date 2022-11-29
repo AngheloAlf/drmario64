@@ -123,17 +123,17 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_8004502C);
 #if 0
 //? func_8004502C(s32, s32, s32);                     /* extern */
 
-s32 func_80045098(void **arg0, romoffset_t segmentRom, romoffset_t segmentRomEnd) {
+s32 func_80045098(struct_80124610 **arg0, u32 segmentRom, u32 segmentRomEnd) {
     s32 *temp_v0;
-    s32 temp_s0;
+    struct_80124610 *temp_s0;
     s32 temp_s1;
 
-    temp_s0 = ALIGN16((uintptr_t)*arg0);
+    temp_s0 = (void*)ALIGN16((uintptr_t)*arg0);
     *arg0 = DecompressRomToRam(segmentRom, (void *) temp_s0, segmentRomEnd - segmentRom);
-    temp_s1 = temp_s0->unk_0 + temp_s0;
-    temp_v0 = temp_s0->unk_4 + temp_s0;
-    temp_s0->unk_0 = temp_s1;
-    temp_s0->unk_4 = temp_v0;
+    temp_s1 = temp_s0->unk_00 + (uintptr_t)temp_s0;
+    temp_v0 = temp_s0->unk_04 + (uintptr_t)temp_s0;
+    temp_s0->unk_00 = temp_s1;
+    temp_s0->unk_04 = temp_v0;
     func_8004502C(temp_s1, *temp_v0, temp_s0);
     return temp_s1;
 }
