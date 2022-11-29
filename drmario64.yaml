@@ -363,7 +363,13 @@ segments:
       - [0x015EB0, c, main_segment/015EB0]
       - [0x016DB0, c, main_segment/016DB0]
       - [0x016F60, c, main_segment/016F60]
-      - [0x01C180, asm, main_segment/01C180]
+      - [0x01C180, c, main_segment/01C180]
+      - [0x01C600, c, main_segment/01C600]
+      - [0x01DAD0, c, main_segment/01DAD0]
+      - [0x01FC90, c, main_segment/01FC90]
+      - [0x020C10, c, main_segment/020C10]
+      - [0x0222C0, c, main_segment/0222C0]
+      - [0x024C90, asm, main_segment/024C90]
       - [0x031BA0, c, main_segment/031BA0]
       - [0x0332D0, c, main_segment/0332D0]
       - [0x0344D0, c, main_segment/0344D0]
@@ -445,11 +451,35 @@ segments:
         type: .rodata
         partial_migration: True
 
-      # 01C180
-      - [0x083FC0, rodata, main_segment/083FC0]
+      - [0x083FC0, .rodata, main_segment/01C180]
+
+      - [0x084000, rodata, main_segment/084000]
       - [0x084040, rodata, main_segment/084040]
-      - [0x084090, rodata, main_segment/084090]
+
+      - start: 0x084090
+        name: main_segment/01C600
+        type: .rodata
+        partial_migration: True
+      - start: 0x085A10
+        name: main_segment/01DAD0
+        type: .rodata
+        partial_migration: True
+
       - [0x085C40, rodata, main_segment/085C40]
+
+      - start: 0x085F20
+        name: main_segment/01FC90
+        type: .rodata
+        partial_migration: True
+      - start: 0x085F60
+        name: main_segment/020C10
+        type: .rodata
+        partial_migration: True
+      - start: 0x085FF0
+        name: main_segment/0222C0
+        type: .rodata
+        partial_migration: True
+
       - [0x0862B0, rodata, main_segment/0862B0]
       - [0x086820, rodata, main_segment/086820]
       - [0x086F20, rodata, main_segment/086F20]

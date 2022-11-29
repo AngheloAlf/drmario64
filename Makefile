@@ -159,7 +159,7 @@ LIBULTRA_O    := $(foreach f,$(LIBULTRA_C:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(LIBULTRA_S:.s=.o),$(BUILD_DIR)/$f)
 
 SEGMENT_LD    := $(foreach dir,$(SEGMENT_DIRS),$(wildcard $(dir)/*.ld))
-SEGMENT_BIN   := $(SEGMENT_LD:.ld=.bin)
+# SEGMENT_BIN   := $(SEGMENT_LD:.ld=.bin)
 
 # Automatic dependency files
 DEP_FILES := $(O_FILES:.o=.d) \
