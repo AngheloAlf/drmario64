@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:Decompollaborate/64scripts.git
 	branch = main
-	commit = 8b03f4fbdefe4672cc1721bb621c17d260940611
-	parent = 1b3aa10ff7738eb66454182b4d0e729f9c81faa5
+	commit = fcd4f2c3fc00b8c5d7188689dc6a94fe8d8d0911
+	parent = c235a139fa29423f63ad59ab5c50f6e5eff0c6e4
 	method = merge
 	cmdver = 0.4.3
