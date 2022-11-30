@@ -143,12 +143,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80076DB4);
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800770E8);
 
 void *func_80077170(s32 index, void *dstAddr) {
-    size_t size;
 
     B_800E87A8 = dstAddr;
-    B_800E8750 = (void *) ALIGN16((uintptr_t)DecompressRomToRam(D_8000E778[index].unk_0, dstAddr, D_8000E778[index].unk_4 - D_8000E778[index].unk_0));
-    size = D_8000E764 - D_8000E760;
-    return (void *) ALIGN16((uintptr_t)DecompressRomToRam(D_8000E760, B_800E8750, size));
+    B_800E8750 = (void *) ALIGN16((uintptr_t)DecompressRomToRam(D_8000E778[index].start, dstAddr, D_8000E778[index].end - D_8000E778[index].start));
+    return (void *) ALIGN16((uintptr_t)DecompressRomToRam(D_8000E760.start, B_800E8750, D_8000E760.end - D_8000E760.start));
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800771EC);
@@ -168,9 +166,8 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800777E8);
 void *func_8007780C(void *dstAddr) {
     void *temp_s0;
 
-    dstAddr = (void*)ALIGN16((uintptr_t)dstAddr);
-    B_800E87A8 = dstAddr;
-    temp_s0 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E740, dstAddr, D_8000E744 - D_8000E740));
+    B_800E87A8 = (void*)ALIGN16((uintptr_t)dstAddr);
+    temp_s0 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E740.start, B_800E87A8, D_8000E740.end - D_8000E740.start));
     func_8007786C();
     return temp_s0;
 }
@@ -195,11 +192,11 @@ void *func_80077D68(void *dstAddr, bool arg1) {
     alignedAddress = (void*)ALIGN16((uintptr_t)dstAddr);
     B_800E87A8 = alignedAddress;
     if (arg1) {
-        segmentRomStart = D_8000E750;
-        segmentRomEnd = D_8000E754;
+        segmentRomStart = D_8000E750.start;
+        segmentRomEnd = D_8000E750.end;
     } else {
-        segmentRomStart = D_8000E748;
-        segmentRomEnd = D_8000E74C;
+        segmentRomStart = D_8000E748.start;
+        segmentRomEnd = D_8000E748.end;
     }
     return (void*)ALIGN16((uintptr_t)DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
 }
@@ -207,8 +204,6 @@ void *func_80077D68(void *dstAddr, bool arg1) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077E2C);
 
 void *func_80077FA4(void *dstAddr, bool arg1) {
-    size_t segmentSize;
-
     if (arg1) {
         B_800E59D8 = 0;
         D_800AAD18 = -0x64;
@@ -221,12 +216,8 @@ void *func_80077FA4(void *dstAddr, bool arg1) {
     guOrtho(&B_800E5F08, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
 
     B_800E59E0 = (void*)ALIGN16((uintptr_t)dstAddr);
-
-    segmentSize = D_8000E76C - D_8000E768;
-    B_800E59E4 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768, B_800E59E0, segmentSize));
-
-    segmentSize = D_8000E774 - D_8000E770;
-    return (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E770, B_800E59E4, segmentSize));
+    B_800E59E4 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768.start, B_800E59E0, D_8000E768.end - D_8000E768.start));
+    return (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E770.start, B_800E59E4, D_8000E770.end - D_8000E770.start));
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80078094);
@@ -255,16 +246,16 @@ void func_8007A9DC(void) {
 
     B_800E87AC = D_800AAD3C;
 
-    segmentSize = D_8000E76C - D_8000E768;
-    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768, B_800E87AC, segmentSize));
+    segmentSize = D_8000E768.end - D_8000E768.start;
+    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768.start, B_800E87AC, segmentSize));
     B_800E8750 = ptr;
 
-    segmentSize = D_8000E75C - D_8000E758;
-    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E758, ptr, segmentSize));
+    segmentSize = D_8000E758.end - D_8000E758.start;
+    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E758.start, ptr, segmentSize));
     B_800E87A8 = ptr;
 
-    segmentSize = D_8000E74C - D_8000E748;
-    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E748, ptr, segmentSize));
+    segmentSize = D_8000E748.end - D_8000E748.start;
+    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E748.start, ptr, segmentSize));
     B_800E87B0 = ptr;
 }
 
