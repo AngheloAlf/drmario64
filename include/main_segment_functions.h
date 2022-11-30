@@ -29,10 +29,10 @@ s32 func_8002A954();
 
 // void func_8002BD20();
 void func_8002BEE4(TexturePtr tlut);
-// void func_8002BF90();
+void func_8002BF90(TexturePtr tlut, u32 pal);
 // void func_8002C048();
 // void func_8002C1E8();
-// void func_8002C388();
+void func_8002C388(TexturePtr texture, s32 width, s32 height, s32 uls, s32 ult, s32 lrs, s32 lrt);
 // void func_8002C4EC();
 // void func_8002C688();
 // void func_8002C7C0();
