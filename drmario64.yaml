@@ -251,7 +251,8 @@ segments:
       - [0x00ED30, hasm, libkmc/mmuldi3/udivdi3]
       - [0x00ED50, hasm, libkmc/mmuldi3/mod_com]
 
-      - [0x00ED90, data, boot/00ED90]
+      - [0x00ED90, .data, boot/boot_main]
+      - [0x00EDA0, data, boot/00EDA0]
 
       - [0x00F340, .data, boot/rom_offsets]
 

@@ -39,11 +39,22 @@ void *func_80000620(romoffset_t segmentRom, void *segmentVram, size_t segmentSiz
     return (void*)((uintptr_t)segmentVram + segmentSize);
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80000720);
-
 extern UNK_TYPE D_8000E324;
 extern UNK_TYPE B_800151E0[];
 extern UNK_TYPE* D_8000E320;
+
+void *func_80000720(s32 arg0) {
+    D_8000E324 += arg0;
+
+    if (D_8000E324 <= 0x4000) {
+        void *var_v0 = D_8000E320;
+
+        D_8000E320 = var_v0 + arg0;
+        return var_v0;
+    }
+
+    return NULL;
+}
 
 void func_8000075C(void) {
     D_8000E324 = 0;
@@ -80,7 +91,6 @@ INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80001620);
 
 INCLUDE_ASM("asm/nonmatchings/boot/1220", func_80001D4C);
 
-extern u32 B_8001F990;
 extern u32 B_8001D640;
 extern u32 B_8001F998;
 extern u32 B_8001F9A8;

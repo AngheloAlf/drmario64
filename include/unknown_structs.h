@@ -16,6 +16,13 @@ typedef struct struct_800EB670_unk_668 {
     /* 0x4 */ OSMesgQueue *unk_4;
 } struct_800EB670_unk_668; // size >= 0x8
 
+
+typedef struct struct_8001D7F8 {
+    /* 0x0 */ u8 *unk_0; // dstAddr
+    /* 0x4 */ size_t unk_4; // uncompressedSize
+} struct_8001D7F8; // size >= 0x8
+
+
 typedef struct struct_800EB670 {
     /* 0x000 */ s16 unk_000;
     /* 0x002 */ s16 unk_002;

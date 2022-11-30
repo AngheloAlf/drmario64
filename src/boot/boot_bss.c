@@ -89,9 +89,7 @@ u8 __osBaseCounter[0x04] BSS;
 
 u8 __osThreadSave[0x1B0] BSS;
 
-u8 B_8001D7F8[0x04] BSS;
-
-u8 B_8001D7FC[0x04] BSS;
+u8 B_8001D7F8[0x08] BSS;
 
 u8 __osContPifRam[0x38] BSS;
 
