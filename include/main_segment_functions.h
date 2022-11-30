@@ -28,7 +28,7 @@ void func_8002A8F8(u16 mask, u8 index);
 s32 func_8002A954();
 
 // void func_8002BD20();
-// void func_8002BEE4();
+void func_8002BEE4(TexturePtr tlut);
 // void func_8002BF90();
 // void func_8002C048();
 // void func_8002C1E8();
