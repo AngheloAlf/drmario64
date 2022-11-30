@@ -50,8 +50,8 @@ struct_8000E778 D_8000E778[] = {
 };
 
 struct_8000E838 D_8000E838[] = {
-    { 0x0004F980, 0x00169BE0 }, // N64WaveTables
-    { 0x00169BE0, 0x00172130 }, // N64PtrTables
+    { SEGMENT_ROM_START(n64_wave_tables), SEGMENT_ROM_END(n64_wave_tables) }, // N64WaveTables
+    { SEGMENT_ROM_START(n64_ptr_tables_v2), SEGMENT_ROM_END(n64_ptr_tables_v2) }, // N64PtrTables
     { 0x00172130, 0x00172D60 },
     { 0x00172D60, 0x001750C0 },
     { 0x00177420, 0x00179620 },

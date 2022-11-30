@@ -1,5 +1,5 @@
-segment name,compressed segment name,compressed path,uncompressed hash
-main_segment,main_segment_compressed,bin/main_segment.bin,92ff8d1467cc45fadfd318080bb5ed68
-# segment_1A3610,segment_1A3610_compressed,bin/segment_1A3610.bin,6f2ad0eaa54bf62a3950d35e787c7e87
-# segment_1B0E60,segment_1B0E60_compressed,bin/segment_1B0E60.bin,
-# segment_211E10,segment_211E10_compressed,bin/segment_211E10.bin,
+segment name,compressed path,uncompressed hash
+main_segment,bin/main_segment.bin,92ff8d1467cc45fadfd318080bb5ed68
+# segment_1A3610,bin/segment_1A3610.bin,6f2ad0eaa54bf62a3950d35e787c7e87
+# segment_1B0E60,bin/segment_1B0E60.bin,
+# segment_211E10,bin/segment_211E10.bin,

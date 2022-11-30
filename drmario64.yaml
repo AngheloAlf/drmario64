@@ -682,10 +682,10 @@ segments:
   - name: segment_195620 # compressed
     type: bin
     start: 0x195620
-  - name: segment_1A0D40
+  - name: segment_1A0D40 # compressed
     type: bin
     start: 0x1A0D40
-  - name: segment_1A20C0
+  - name: segment_1A20C0 # compressed
     type: bin
     start: 0x1A20C0
   - name: segment_1A3610 # compressed

@@ -33,7 +33,7 @@ def compressZlib(data: bytearray) -> bytearray:
 
 @dataclasses.dataclass
 class SegmentEntry:
-    compressedName: str
+    segmentName: str
     compressedPath: Path
     uncompressedHash: str
 
@@ -49,7 +49,7 @@ def readSegmentsCsv(segmentsPath: Path) -> dict[str, SegmentEntry]:
             continue
         if len(row) == 0:
             continue
-        name, compressedName, comprPath, segmentHash = row
-        segmentDict[f".{name}"] = SegmentEntry(compressedName, Path(comprPath), segmentHash)
+        name, comprPath, segmentHash = row
+        segmentDict[f".{name}"] = SegmentEntry(name, Path(comprPath), segmentHash)
 
     return segmentDict
