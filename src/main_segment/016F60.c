@@ -179,15 +179,74 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80041F94);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_8004216C);
 
+#ifdef NON_MATCHING
+void func_80042364(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, s32 arg5, s32 arg6, f32 arg7, f32 arg8, f32 arg9, f32 argA) {
+    struct_80041A54_arg0 sp10;
+
+    sp10.unk_00 = arg0;
+    sp10.unk_04 = 0;
+    sp10.unk_08 = arg1;
+    sp10.unk_0C = arg2;
+    sp10.unk_10 = arg3;
+    sp10.unk_14 = arg4;
+    sp10.unk_18 = arg5;
+    sp10.unk_1C = arg6;
+    sp10.unk_30 = func_80041F94;
+    sp10.unk_34 = func_8004216C;
+    sp10.unk_20 = arg7 * 4.0;
+    sp10.unk_24 = arg8 * 4.0;
+    sp10.unk_28 = arg9 * 4.0;
+    sp10.unk_2C = argA * 4.0;
+    if (arg4 < arg6) {
+        arg4 = arg6;
+    }
+    sp10.unk_38 = 0x660 / arg4;
+    sp10.unk_3C = func_80041DE0;
+    func_80041A54(&sp10);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042364);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042468);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042650);
+void func_80042650(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8) {
+    struct_80041A54_arg0 sp10;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_800427E0);
+    sp10.unk_00 = arg0;
+    sp10.unk_04 = 0;
+    sp10.unk_08 = arg1;
+    sp10.unk_0C = arg2;
+    sp10.unk_14 = arg1;
+    sp10.unk_18 = 0;
+    sp10.unk_1C = 0;
+    sp10.unk_34 = NULL;
+    sp10.unk_30 = func_80042468;
+    sp10.unk_3C = func_80041DE0;
+    sp10.unk_10 = arg4;
+    sp10.unk_20 = arg5 * 4.0;
+    sp10.unk_24 = arg6 * 4.0;
+    sp10.unk_28 = arg7 * 4.0;
+    sp10.unk_2C = arg8 * 4.0;
+    sp10.unk_38 = 0x1000 / arg1;
+    if (tlut != NULL) {
+        gDPLoadTLUT_pal16((*arg0)++, 0, tlut);
+    }
+    func_80041A54(&sp10);
+}
 
-void func_800429B8(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, s32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8) {
+void func_800427E0(struct_80041A54_arg0 *arg0) {
+    gDPLoadTextureBlock((*arg0->unk_00)++,
+        arg0->unk_10 + (arg0->unk_14 * arg0->unk_40),
+        G_IM_FMT_CI, G_IM_SIZ_8b,
+        arg0->unk_14, arg0->unk_48,
+        0,
+        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
+    );
+}
+
+void func_800429B8(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8) {
     struct_80041A54_arg0 sp10;
 
     sp10.unk_00 = arg0;

@@ -128,7 +128,7 @@ typedef struct struct_80041A54_arg0 {
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ s32 unk_10;
+    /* 0x10 */ UNK_PTR unk_10;
     /* 0x14 */ s32 unk_14;
     /* 0x18 */ s32 unk_18;
     /* 0x1C */ s32 unk_1C;
@@ -149,5 +149,11 @@ typedef struct struct_80041A54_arg0 {
     /* 0x58 */ UNK_TYPE1 unk_58[0x18];
 } struct_80041A54_arg0; // size >= 0x70?
 
+typedef struct struct_800E8750 {
+    /* 0x000 */ UNK_TYPE1 unk_000[0x10];
+    /* 0x000 */ UNK_TYPE unk_010;
+    /* 0x000 */ UNK_TYPE1 unk_014[0x1FC];
+    /* 0x210 */ UNK_TYPE unk_210;
+} struct_800E8750; // size >= 0x214
 
 #endif
