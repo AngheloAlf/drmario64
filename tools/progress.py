@@ -5,10 +5,15 @@
 
 from __future__ import annotations
 
+import argparse
 import dataclasses
 from pathlib import Path
 
 from repo_64scripts import get_map_functions_sizes
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", "--detailed", action="store_true")
+args = parser.parse_args()
 
 
 @dataclasses.dataclass
@@ -38,7 +43,10 @@ for file in filesList:
     if funcCount == 0:
         continue
 
-    folder = Path(file.name).parts[0]
+    if args.detailed:
+        folder = str(Path(*Path(file.name).parts[:-1]))
+    else:
+        folder = Path(file.name).parts[0]
     if folder not in progressPerFolder:
         progressPerFolder[folder] = ProgressStats()
 
@@ -58,10 +66,10 @@ for file in filesList:
             totalStats.decompedSize += func.size
             progressPerFolder[folder].decompedSize += func.size
 
-print(f"{'FolderName':<16}: {'DecompedSize':>12} / {'Total':>6} {'OfFolder':>10}%  ({'OfTotal':>8}%)")
+print(f"{'FolderName':<20}: {'DecompedSize':>12} / {'Total':>6} {'OfFolder':>10}%  ({'OfTotal':>20}%)")
 
-print(f"{'all':<16}: {totalStats.decompedSize:>12} / {totalStats.total:>6} {totalStats.decompedSize / totalStats.total * 100:>10.4f}%  ({totalStats.decompedSize / totalStats.total * 100:>8.4f}%)")
+print(f"{'all':<20}: {totalStats.decompedSize:>12} / {totalStats.total:>6} {totalStats.decompedSize / totalStats.total * 100:>10.4f}%  ({totalStats.decompedSize / totalStats.total * 100:>8.4f}% / {totalStats.total / totalStats.total * 100:>8.4f}%)")
 print()
 
 for folder, stats in progressPerFolder.items():
-    print(f"{folder:<16}: {stats.decompedSize:>12} / {stats.total:>6} {stats.decompedSize / stats.total * 100:>10.4f}%  ({stats.decompedSize / totalStats.total * 100:>8.4f}%)")
+    print(f"{folder:<20}: {stats.decompedSize:>12} / {stats.total:>6} {stats.decompedSize / stats.total * 100:>10.4f}%  ({stats.decompedSize / totalStats.total * 100:>8.4f}% / {stats.total / totalStats.total * 100:>8.4f}%)")
