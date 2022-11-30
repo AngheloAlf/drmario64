@@ -118,4 +118,36 @@ typedef struct struct_800F3E50 {
     /* 0x000 */ UNK_TYPE1 unk_000[0xB60];
 } struct_800F3E50; // size = 0xB60
 
+
+struct struct_80041A54_arg0;
+
+typedef void (*struct_80041A54_arg0_unk_30)(struct struct_80041A54_arg0 *arg0);
+
+typedef struct struct_80041A54_arg0 {
+    /* 0x00 */ Gfx **unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ s32 unk_14;
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 unk_1C;
+    /* 0x20 */ s32 unk_20;
+    /* 0x24 */ s32 unk_24;
+    /* 0x28 */ s32 unk_28;
+    /* 0x2C */ s32 unk_2C;
+    /* 0x30 */ struct_80041A54_arg0_unk_30 unk_30;
+    /* 0x34 */ struct_80041A54_arg0_unk_30 unk_34;
+    /* 0x38 */ s32 unk_38;
+    /* 0x3C */ struct_80041A54_arg0_unk_30 unk_3C;
+    /* 0x40 */ s32 unk_40;
+    /* 0x44 */ s32 unk_44;
+    /* 0x48 */ s32 unk_48;
+    /* 0x4C */ s32 unk_4C;
+    /* 0x50 */ s32 unk_50;
+    /* 0x54 */ s32 unk_54;
+    /* 0x58 */ UNK_TYPE1 unk_58[0x18];
+} struct_80041A54_arg0; // size >= 0x70?
+
+
 #endif

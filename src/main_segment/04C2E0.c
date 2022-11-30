@@ -140,7 +140,13 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80076CCC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80076DB4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800770E8);
+void func_800770E8(Gfx **arg0, s32 arg1) {
+    Gfx *sp28 = *arg0;
+
+    gSPDisplayList(sp28++, D_8008E6B8);
+    func_800429B8(&sp28, 0x148, 0xF0, arg1 + 0x10, arg1 + 0x210, 0.0f, 0.0f, 328.0f, 240.0f);
+    *arg0 = sp28;
+}
 
 void *func_80077170(s32 index, void *dstAddr) {
 
@@ -151,13 +157,40 @@ void *func_80077170(s32 index, void *dstAddr) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800771EC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800773F0);
+void func_800773F0(void) {
+    if (D_800AAD14 == 0) {
+        D_800AAD08 = 0;
+        D_800AAD20 = 1;
+        D_800AAD24 = 0;
+        D_800AAD0C++;
+    } else {
+        D_800AAD20 = 0;
+        D_800AAD14--;
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007744C);
+void func_8007744C(void) {
+    D_800AAD28 = 0;
+    D_800AAD10++;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007746C);
+void func_8007746C(void) {
+    func_8005D09C(&B_800E59F0);
+    D_800AAD1C = 0;
+    D_800AAD24 = 0;
+    D_800AAD08 = 0;
+    D_800AAD24 = 0;
+    D_800AAD0C++;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800774C4);
+UNK_TYPE func_800774C4(void) {
+    UNK_TYPE temp_v0 = func_8005E0B4(&B_800E59F0);
+
+    if (temp_v0 != 0) {
+        func_8007746C();
+    }
+    return temp_v0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077504);
 
@@ -259,7 +292,7 @@ void func_8007A9DC(void) {
     B_800E87B0 = ptr;
 }
 
-extern struct_80124610 B_800E59F0;
+
 extern s32 B_800E5A20;
 extern s32 B_800E5A24;
 extern s32 B_800E5A2C;

@@ -54,7 +54,124 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_800417B4);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_8004199C);
 
+#if 0
+void func_80041A54(struct_80041A54_arg0 *arg0) {
+    s32 sp10;
+    s32 sp14;
+    s32 temp_v0;
+    s32 temp_v0_2;
+    s32 temp_v0_3;
+    s32 var_a0;
+    s32 var_a2;
+    s32 var_s2;
+    s32 var_s3;
+    s32 var_s4;
+    s32 var_v0;
+    s32 var_v0_2;
+    s32 var_v0_3;
+    s32 var_v0_4;
+    void **temp_a0;
+    void **temp_a0_2;
+    void *temp_s1;
+    void *temp_v1;
+    void *temp_v1_2;
+
+    temp_v0 = arg0->unk_28;
+    var_a2 = -temp_v0;
+    if (temp_v0 < 0) {
+        var_v0 = -1;
+        goto block_4;
+    }
+    var_a2 = temp_v0;
+    if (temp_v0 > 0) {
+        var_v0 = 1;
+block_4:
+        sp10 = var_v0;
+        temp_v0_2 = arg0->unk_2C;
+        var_s2 = -temp_v0_2;
+        if (temp_v0_2 < 0) {
+            var_v0_2 = -1;
+            goto block_8;
+        }
+        var_s2 = temp_v0_2;
+        if (temp_v0_2 > 0) {
+            var_v0_2 = 1;
+block_8:
+            sp14 = var_v0_2;
+            if ((arg0->unk_4 == 0) && (var_a2 == (arg0->unk_8 * 4)) && (var_s2 == (arg0->unk_C * 4))) {
+                temp_a0 = arg0->unk_0;
+                temp_v1 = *temp_a0;
+                *temp_a0 = temp_v1 + 8;
+                temp_v1->unk_0 = 0xE3001201;
+                temp_v1->unk_4 = 0;
+                var_s3 = arg0->unk_38;
+                var_s4 = 0;
+            } else {
+                temp_a0_2 = arg0->unk_0;
+                temp_v1_2 = *temp_a0_2;
+                *temp_a0_2 = temp_v1_2 + 8;
+                temp_v1_2->unk_0 = 0xE3001201;
+                temp_v1_2->unk_4 = 0x2000;
+                var_s3 = arg0->unk_38 - 1;
+                var_s4 = -1;
+                if (var_s3 <= 0) {
+                    var_s3 = 1;
+                }
+            }
+            arg0->unk_4C = (s32) arg0->unk_20;
+            arg0->unk_54 = (s32) (arg0->unk_20 + var_a2);
+            temp_s1 = arg0 + 0x4C;
+            if (sp10 < 0) {
+                var_v0_3 = (arg0->unk_8 - 1) << 5;
+            } else {
+                var_v0_3 = 0;
+            }
+            temp_s1->unk_10 = var_v0_3;
+            temp_s1->unk_18 = (s32) ((s32) ((sp10 << 0xC) * arg0->unk_8) / var_a2);
+            arg0->unk_40 = 0;
+            if (arg0->unk_C > 0) {
+                do {
+                    var_a0 = arg0->unk_40 + arg0->unk_38;
+                    if (arg0->unk_C < var_a0) {
+                        var_a0 = arg0->unk_C;
+                    }
+                    arg0->unk_44 = var_a0;
+                    arg0->unk_48 = (s32) (var_a0 - arg0->unk_40);
+                    if (arg0->unk_10 != 0) {
+                        arg0->unk_30(arg0, arg0->unk_C);
+                    }
+                    if (arg0->unk_18 != 0) {
+                        arg0->unk_34(arg0);
+                    }
+                    if (sp14 < 0) {
+                        temp_s1->unk_4 = (s32) (arg0->unk_C - arg0->unk_44);
+                        temp_s1->unk_C = (s32) (arg0->unk_C - arg0->unk_40);
+                        temp_s1->unk_14 = (s32) (arg0->unk_48 - 1);
+                    } else {
+                        temp_s1->unk_4 = (s32) arg0->unk_40;
+                        temp_s1->unk_14 = 0;
+                        temp_s1->unk_C = (s32) arg0->unk_44;
+                    }
+                    temp_s1->unk_4 = (s32) (arg0->unk_24 + ((s32) (temp_s1->unk_4 * 4 * var_s2) / (s32) (arg0->unk_C * 4)));
+                    temp_s1->unk_14 = (s32) (temp_s1->unk_14 << 5);
+                    temp_s1->unk_C = (s32) (arg0->unk_24 + ((s32) (temp_s1->unk_C * 4 * var_s2) / (s32) (arg0->unk_C * 4)));
+                    var_v0_4 = (s32) ((sp14 << 0xC) * arg0->unk_C) / var_s2;
+                    temp_s1->unk_1C = var_v0_4;
+                    if (var_v0_4 < 0) {
+                        var_v0_4 += 0x3F;
+                    }
+                    temp_s1->unk_14 = (s32) (temp_s1->unk_14 - ((var_v0_4 >> 6) & var_s4));
+                    arg0->unk_3C(arg0);
+                    temp_v0_3 = arg0->unk_40 + var_s3;
+                    arg0->unk_40 = temp_v0_3;
+                } while (temp_v0_3 < arg0->unk_C);
+            }
+        }
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80041A54);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80041DE0);
 
@@ -70,7 +187,30 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042650);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_800427E0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_800429B8);
+void func_800429B8(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, s32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8) {
+    struct_80041A54_arg0 sp10;
+
+    sp10.unk_00 = arg0;
+    sp10.unk_04 = 0;
+    sp10.unk_30 = func_800427E0;
+    sp10.unk_08 = arg1;
+    sp10.unk_0C = arg2;
+    sp10.unk_14 = arg1;
+    sp10.unk_18 = 0;
+    sp10.unk_1C = 0;
+    sp10.unk_34 = NULL;
+    sp10.unk_3C = func_80041DE0;
+    sp10.unk_10 = arg4;
+    sp10.unk_20 = arg5 * 4.0;
+    sp10.unk_24 = arg6 * 4.0;
+    sp10.unk_28 = arg7 * 4.0;
+    sp10.unk_2C = arg8 * 4.0;
+    sp10.unk_38 = 0x800 / arg1;
+    if (tlut != NULL) {
+        gDPLoadTLUT_pal256((*arg0)++, tlut);
+    }
+    func_80041A54(&sp10);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042B48);
 
