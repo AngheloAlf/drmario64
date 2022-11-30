@@ -17,7 +17,7 @@ void func_80000488(void* arg0) {
 }
 
 void bootproc(void) {
-    __osInitialize_common(); // TODO: use osInitialize
+    osInitialize();
     osCreateThread(&B_80010E60, 1, func_80000580, NULL, &B_800131C0, 1);
     osStartThread(&B_80010E60);
 }
