@@ -38,27 +38,19 @@ size_t func_80001FD8(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     return blockSize;
 }
 
-#ifdef NON_MATCHING
 size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
-    u8 *var_v1;
-    u8 *temp_a3;
+    u8 *var_v1 = arg0->unk_0;
+    size_t i;
 
-    var_v1 = arg0->unk_0;
-    if (arg2 != 0) {
-        temp_a3 = &arg1[arg2];
-        do {
-            *var_v1 = *arg1;
-            arg1 += 1;
-            var_v1 += 1;
-        } while (arg1 < temp_a3);
+    for (i = 0; i < arg2; i++) {
+        *var_v1++ = arg1[i];
     }
+
     arg0->unk_0 = var_v1;
     arg0->unk_4 += arg2;
+
     return arg2;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/boot/2B90", func_80002064);
-#endif
 
 
 extern u32 B_8001D640;
