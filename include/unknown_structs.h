@@ -70,6 +70,8 @@ typedef struct struct_800FACE0 {
     /* 0x08 */ struct_800FACE0_unk_08 unk_08[4];
 } struct_800FACE0; // size >= 0x38
 
+// used for segments:
+// - segment_1B0E60
 typedef struct struct_80124610 {
     /* 0x00 */ UNK_TYPE4 unk_00;
     /* 0x04 */ UNK_TYPE4 unk_04;
@@ -189,5 +191,9 @@ typedef struct struct_8007F004_arg0 {
     /* 0x38 */ s32 unk_38;
     /* 0x3C */ s32 unk_3C;
 } struct_8007F004_arg0;
+
+typedef struct struct_800F1DF8 {
+    /* 0x0000 */ UNK_TYPE1 unk_0000[0x1400];
+} struct_800F1DF8; // size = 0x1400
 
 #endif

@@ -197,7 +197,116 @@ UNK_TYPE func_800774C4(void) {
     return temp_v0;
 }
 
+#ifdef NON_EQUIVALENT
+void func_80077504(Gfx **arg0, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
+    //Gfx *sp38;
+    //Gfx *temp_a0;
+    //Gfx *temp_a0_2;
+    Gfx *temp_t0;
+    //Gfx *temp_v1;
+    //Gfx *temp_v1_2;
+    //Gfx *temp_v1_3;
+    //Gfx *temp_v1_4;
+    f32 temp_f10;
+    f32 temp_f14;
+    f32 temp_f16;
+    s32 temp_a3;
+    s32 temp_f2;
+    s32 temp_f4_2;
+    s32 temp_f6;
+    s32 temp_f8;
+    s32 var_t1;
+    s32 var_v0;
+
+    temp_t0 = *arg0;
+    //sp38 = temp_t0;
+    if (arg3 < 0xFF) {
+        temp_a3 = arg3 & ((s32) ~arg3 >> 0x1F);
+        temp_f10 = (f32) ((f64) (f32) ((f64) (f32) temp_a3 / 18.0) * 64.0);
+        //sp38 = temp_t0 + 8;
+        temp_f16 = (f32) ((f64) (f32) arg1 - temp_f10 / 2.0);
+        //temp_t0->words.w0 = 0xE3001001;
+        //temp_t0->words.w1 = 0;
+        //sp38 = temp_t0 + 0x10;
+        temp_f14 = (f32) ((f64) (f32) arg2 - temp_f10 / 2.0);
+        //temp_t0->unk_8 = 0xFA000000;
+        //temp_t0->unk_C = 0xFF;
+        //sp38 = temp_t0 + 0x18;
+        //temp_t0->unk_10 = 0xE200001CU;
+        //temp_t0->unk_14 = 0x0F0A4000;
+        //sp38 = temp_t0 + 0x20;
+        //temp_t0->unk_18 = 0xFCFFFFFF;
+        //temp_t0->unk_1C = 0xFFFDF6FB;
+
+        gDPSetTextureLUT(temp_t0++, G_TT_NONE);
+        gDPSetPrimColor(temp_t0++, 0, 0, 0, 0, 0, 255);
+        gDPSetRenderMode(temp_t0++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+        gDPSetCombineMode(temp_t0++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+
+        temp_f8 = (s32) (temp_f16 + 1.0f);
+        temp_f6 = (s32) ((temp_f16 + temp_f10) - 1.0f);
+        temp_f4_2 = (s32) (temp_f14 + 1.0f);
+        temp_f2 = (s32) ((temp_f14 + temp_f10) - 1.0f);
+
+        //var_t1 = (temp_f10 < 1.0f);
+        //var_v0 = (temp_f10 < 1.0f);
+        // PROBLEM HERE
+        if (!(temp_a3 & -(((temp_f10 < 1.0f) | (temp_f10 < 1.0f))))) {
+            //sp38 = temp_t0 + 0x28;
+            //temp_t0->unk_20 = 0xF65003C0;
+            //temp_t0->unk_24 = 0;
+            gDPFillRectangle(temp_t0++, 0, 0, 320, 240);
+        } else {
+            if (temp_f8 > 0) {
+                //sp38 = temp_t0 + 0x28;
+                //temp_t0->unk_20 = (s32) (((temp_f8 & 0x3FF) << 0xE) | 0xF60003C0);
+                //temp_t0->unk_24 = 0;
+                gDPFillRectangle(temp_t0++, 0, 0, temp_f8, 240);
+            }
+            if (temp_f6 < 0x140) {
+                //temp_v1 = sp38;
+                //sp38 = temp_v1 + 8;
+                //temp_v1->words.w0 = 0xF65003C0;
+                //temp_v1->words.w1 = (temp_f6 & 0x3FF) << 0xE;
+                gDPFillRectangle(temp_t0++, temp_f6, 0, 320, 240);
+            }
+            if (temp_f4_2 > 0) {
+                //temp_a0 = sp38;
+                //sp38 = temp_a0 + 8;
+                //temp_a0->words.w0 = ((temp_f4_2 & 0x3FF) * 4) | 0xF6500000;
+                //temp_a0->words.w1 = 0;
+                gDPFillRectangle(temp_t0++, 0, 0, 320, temp_f4_2);
+            }
+            if (temp_f2 < 0xF0) {
+                //temp_v1_2 = sp38;
+                //sp38 = temp_v1_2 + 8;
+                //temp_v1_2->words.w0 = 0xF65003C0;
+                //temp_v1_2->words.w1 = (temp_f2 & 0x3FF) * 4;
+                gDPFillRectangle(temp_t0++, 0, temp_f2, 320, 240);
+            }
+            //temp_v1_3 = sp38;
+            //sp38 = temp_v1_3 + 8;
+            //temp_v1_3->words.w0 = 0xE200001C;
+            //temp_v1_3->words.w1 = 0x00504240;
+            //sp38 = temp_v1_3 + 0x10;
+            //temp_v1_3->unk_8 = 0xFCFFFFFF;
+            //temp_v1_3->unk_C = 0xFFFDF2F9;
+            gDPSetRenderMode(temp_t0++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+            gDPSetCombineLERP(temp_t0++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
+            func_80042FEC(&temp_t0, 0x40, 0x40, arg4, temp_f16, temp_f14, temp_f10, temp_f10);
+        }
+        //temp_v1_4 = sp38;
+        //temp_a0_2 = temp_v1_4 + 8;
+        //sp38 = temp_a0_2;
+        //temp_v1_4->words.w0 = 0xDE000000;
+        //temp_v1_4->words.w1 = (u32) D_8008E6B8;
+        gSPDisplayList(temp_t0++, D_8008E6B8);
+        *arg0 = temp_t0;
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077504);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800777E8);
 
@@ -259,8 +368,6 @@ void *func_80077FA4(void *dstAddr, bool arg1) {
 }
 
 #if 0
-UNK_TYPE func_80077504(Gfx **, UNK_TYPE, UNK_TYPE, s32, UNK_TYPE *);            /* extern */
-UNK_TYPE func_8007AEBC();                                  /* extern */
 s32 func_8007B650(Gfx **, struct_8007F004_arg0 *, void *, s32, void *); /* extern */
 extern void *B_800E59E8;
 extern void *B_800E59EC;
@@ -325,7 +432,7 @@ s32 func_80078094(Gfx **arg0, s32 arg1) {
         var_v0 = B_800E59E0->unk_84 & 0xFFFFFF;
         #else
         // TODO
-        B_800E59EC = B_800E59E0 + (((u32*)B_800E59E0)[0x84/4] & 0xFFFFFF);
+        B_800E59EC = B_800E59E8 + ((uintptr_t)B_800E59E0[0x84/4] & 0xFFFFFF);
         #endif
     } else {
         //spA0 = temp_a1 + 0x28;
@@ -333,12 +440,12 @@ s32 func_80078094(Gfx **arg0, s32 arg1) {
         //temp_a1->unk_24 = -1;
         gDPSetEnvColor(spA0++, 255, 255, 255, 255);
         #if 0
-        var_v0 = B_800E59E0->unk_0 & 0xFFFFFF;
+        var_v0 = B_800E59E0->unk_00 & 0xFFFFFF;
         #else
-        B_800E59EC = B_800E59E0 + (((u32*)B_800E59E0)[0/4] & 0xFFFFFF);
+        B_800E59EC = B_800E59E8 + ((uintptr_t)B_800E59E0[0x0/4] & 0xFFFFFF);
         #endif
     }
-    //B_800E59EC = var_v0 + B_800E59E0;
+    //B_800E59EC = var_v0 + (uintptr_t)B_800E59E0;
     func_8007F004(&sp60, 0, -0x3C0000, -0x03B60000);
     if ((D_800AAD18 > 0) && (B_800FAF88[*B_800EBD16] & 0xFF3F)) {
         if (temp_s2 != 0) {
@@ -383,6 +490,7 @@ s32 func_80078094(Gfx **arg0, s32 arg1) {
                 }
                 temp_v1_2 = var_s0_2 & ((s32) ~var_s0_2 >> 0x1F);
             }
+
             if (D_800AAD18 < -0x4C) {
                 var_s0_2 = 0xFF - (((D_800AAD18 + 0x4C) * -0xFF) / 24);
                 if (var_s0_2 >= 0x100) {
@@ -398,7 +506,7 @@ s32 func_80078094(Gfx **arg0, s32 arg1) {
             //temp_a1_2->words.w1 = 0;
             //temp_a1_2->unk_C = (s32) ((temp_v1_2 << 0x18) | (temp_v1_2 << 0x10) | (temp_v1_2 << 8) | 0xFF);
             //temp_a1_2->unk_10 = 0xE200001C;
-            //temp_a1_2->unk_14 = 0x504240;
+            //temp_a1_2->unk_14 = 0x00504240;
             //temp_a1_2->unk_18 = 0xFCFFFFFF;
             //temp_a1_2->unk_1C = 0xFFFDF2F9;
             //spA0 = temp_a1_2 + 8;
@@ -406,12 +514,12 @@ s32 func_80078094(Gfx **arg0, s32 arg1) {
             //spA0 = temp_a1_2 + 0x18;
             //spA0 = temp_a1_2 + 0x20;
             gDPSetTextureLUT(spA0++, G_TT_NONE);
-            gDPSetPrimColor(spA0++, 0, 0, temp_v1_2, temp_v1_2, temp_v1_2, 120);
+            gDPSetPrimColor(spA0++, 0, 0, temp_v1_2, temp_v1_2, temp_v1_2, 255);
             gDPSetRenderMode(spA0++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineLERP(spA0++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
 
             func_80042FEC(&spA0, sp30.unk_04, sp30.unk_08, sp30.unk_10, (f32) (0xA0 - (sp30.unk_04 / 2)), (f32) (0x78 - (sp30.unk_08 / 2)), (f32) sp30.unk_04, (f32) sp30.unk_08);
-            D_800AAD18 += + 1;
+            D_800AAD18 += 1;
         } else {
             D_800AAD18 += 5;
         }
@@ -420,7 +528,7 @@ s32 func_80078094(Gfx **arg0, s32 arg1) {
     if (B_800E59DC == 0) {
         var_v0_3 = 0x10;
     }
-    if ((B_800E59D8 & var_v0_3) && (B_800E59D8 >= 0x2D1) && (B_800E59DC == 0)) {
+    if ((B_800E59D8 & var_v0_3) && (B_800E59D8 > 0x2D0) && (B_800E59DC == 0)) {
         func_80076CA0(&sp30, B_800E59E4 + D_800A8AC4);
         func_80076CA0(&sp48, B_800E59E4 + D_800A8AC8);
         //spA0->words.w0 = 0xDE000000;
@@ -606,7 +714,10 @@ s32 func_8007AA84(struct_800EB670 *arg0) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007AA84);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007AEBC);
+void func_8007AEBC(void) {
+    B_800F1DF8 = &B_800E5F50[D_800AAD44];
+    D_800AAD44 ^= 1;
+}
 
 #if 0
 UNK_TYPE func_8002B834(OSScTask *, Gfx *, s32, UNK_TYPE, s32);    /* extern */
@@ -623,7 +734,6 @@ UNK_TYPE func_800796F4(Gfx **, UNK_TYPE, UNK_TYPE, UNK_TYPE, s32);              
 UNK_TYPE func_80079B24(Gfx **, UNK_TYPE, UNK_TYPE);                      /* extern */
 UNK_TYPE func_8007A154(Gfx **, UNK_TYPE, UNK_TYPE);                      /* extern */
 UNK_TYPE func_8007A440(Gfx **, UNK_TYPE);                         /* extern */
-UNK_TYPE func_8007AEBC(u32);                               /* extern */
 extern void *B_800E59E8;
 extern struct_80124610 B_800E5A70;
 extern f32 B_800E5ACC;
