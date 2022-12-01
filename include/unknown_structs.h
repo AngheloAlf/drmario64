@@ -128,7 +128,7 @@ typedef struct struct_80041A54_arg0 {
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ UNK_PTR unk_10;
+    /* 0x10 */ TexturePtr unk_10;
     /* 0x14 */ s32 unk_14;
     /* 0x18 */ s32 unk_18;
     /* 0x1C */ s32 unk_1C;

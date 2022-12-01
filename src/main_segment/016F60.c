@@ -175,9 +175,117 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80041A54);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80041DE0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80041F94);
+void func_80041F94(struct_80041A54_arg0 *arg0) {
+    gDPLoadTextureBlock((*arg0->unk_00)++,
+        (u16*)arg0->unk_10 + (arg0->unk_14 * arg0->unk_40),
+        G_IM_FMT_RGBA, G_IM_SIZ_16b,
+        arg0->unk_14, arg0->unk_48,
+        0,
+        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
+    );
+}
 
+#ifdef NON_EQUIVALENT
+void func_8004216C(struct_80041A54_arg0 *arg0) {
+    #if 0
+    Gfx **temp_a0;
+    Gfx **temp_a0_2;
+    Gfx **temp_a0_4;
+    Gfx **temp_v1;
+    Gfx **temp_v1_4;
+    Gfx **temp_v1_6;
+    Gfx **temp_v1_7;
+    Gfx *temp_a0_3;
+    Gfx *temp_a0_5;
+    Gfx *temp_a1;
+    Gfx *temp_a1_4;
+    Gfx *temp_v1_2;
+    Gfx *temp_v1_3;
+    Gfx *temp_v1_5;
+    s32 temp_a1_2;
+    s32 temp_a1_3;
+    s32 temp_v0;
+    s32 temp_v0_2;
+    s32 var_a2;
+    s32 var_t0;
+    s32 var_v0;
+    s32 var_v0_2;
+    s32 var_v1;
+
+    temp_v1 = arg0->unk_00;
+    temp_a1 = *temp_v1;
+    *temp_v1 = temp_a1 + 8;
+    temp_a1->words.w0 = 0xFD900000;
+    temp_a1->words.w1 = arg0->unk_18 + ((s32) (arg0->unk_1C * arg0->unk_40) / 2);
+    temp_a0 = arg0->unk_00;
+    temp_v1_2 = *temp_a0;
+    *temp_a0 = temp_v1_2 + 8;
+    temp_v1_2->words.w0 = 0xF590019A;
+    temp_v1_2->words.w1 = 0x07080200;
+    temp_a0_2 = arg0->unk_00;
+    temp_v1_3 = *temp_a0_2;
+    *temp_a0_2 = temp_v1_3 + 8;
+    temp_v1_3->words.w0 = 0xE6000000;
+    temp_v1_3->words.w1 = 0;
+    temp_v1_4 = arg0->unk_00;
+    temp_a0_3 = *temp_v1_4;
+    *temp_v1_4 = temp_a0_3 + 8;
+    temp_a0_3->words.w0 = 0xF3000000;
+    temp_a1_2 = arg0->unk_1C;
+    var_v0 = temp_a1_2;
+    if (temp_a1_2 < 0) {
+        var_v0 = temp_a1_2 + 0xF;
+    }
+    temp_v0 = var_v0 >> 4;
+    var_a2 = 0x800;
+    if (temp_v0 > 0) {
+        var_a2 = temp_v0 + 0x7FF;
+    }
+    temp_a1_3 = arg0->unk_1C;
+    var_v1 = ((s32) ((temp_a1_3 * arg0->unk_48) + 3) >> 2) - 1;
+    if (var_v1 >= 0x800) {
+        var_v1 = 0x7FF;
+    }
+    var_t0 = temp_a1_3;
+    if (temp_a1_3 < 0) {
+        var_t0 = temp_a1_3 + 0xF;
+    }
+    temp_v0_2 = var_t0 >> 4;
+    if (temp_v0_2 <= 0) {
+        var_v0_2 = var_a2 & 0xFFF;
+    } else {
+        var_v0_2 = (var_a2 / temp_v0_2) & 0xFFF;
+    }
+    temp_a0_3->words.w1 = ((var_v1 & 0xFFF) << 0xC) | 0x07000000 | var_v0_2;
+    temp_a0_4 = arg0->unk_00;
+    temp_v1_5 = *temp_a0_4;
+    *temp_a0_4 = temp_v1_5 + 8;
+    temp_v1_5->words.w0 = 0xE7000000;
+    temp_v1_5->words.w1 = 0;
+    temp_v1_6 = arg0->unk_00;
+    temp_a0_5 = *temp_v1_6;
+    *temp_v1_6 = temp_a0_5 + 8;
+    temp_a0_5->words.w1 = 0x01080200;
+    temp_a0_5->words.w0 = ((((s32) (((s32) arg0->unk_1C >> 1) + 7) >> 3) & 0x1FF) << 9) | 0xF580019A;
+    temp_v1_7 = arg0->unk_00;
+    temp_a1_4 = *temp_v1_7;
+    *temp_v1_7 = temp_a1_4 + 8;
+    temp_a1_4->words.w0 = 0xF2000000;
+    temp_a1_4->words.w1 = ((((arg0->unk_1C - 1) * 4) & 0xFFF) << 0xC) | ((((arg0->unk_48 - 1) * 4) & 0xFFF) | 0x01000000);
+    #endif
+    gDPLoadTextureBlock_4b((*arg0->unk_00)++,
+        arg0->unk_18 + (arg0->unk_1C * arg0->unk_40) / 2,
+        G_IM_FMT_I,
+        arg0->unk_1C, arg0->unk_48,
+        0,
+        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
+    );
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_8004216C);
+#endif
 
 #ifdef NON_MATCHING
 void func_80042364(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, s32 arg5, s32 arg6, f32 arg7, f32 arg8, f32 arg9, f32 argA) {
@@ -208,7 +316,16 @@ void func_80042364(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, s32 a
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042364);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042468);
+void func_80042468(struct_80041A54_arg0 *arg0) {
+    gDPLoadTextureBlock_4b((*arg0->unk_00)++,
+        arg0->unk_10 + ((arg0->unk_14 * arg0->unk_40) / 2),
+        G_IM_FMT_CI,
+        arg0->unk_14, arg0->unk_48,
+        0,
+        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
+    );
+}
 
 void func_80042650(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8) {
     struct_80041A54_arg0 sp10;
@@ -271,17 +388,105 @@ void func_800429B8(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4
     func_80041A54(&sp10);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042B48);
+void func_80042B48(struct_80041A54_arg0 *arg0) {
+    gDPLoadTextureBlock((*arg0->unk_00)++,
+        (u16*)arg0->unk_10 + (arg0->unk_14 * arg0->unk_40),
+        G_IM_FMT_RGBA, G_IM_SIZ_16b,
+        arg0->unk_14, arg0->unk_48,
+        0,
+        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
+    );
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042D20);
+void func_80042D20(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+    struct_80041A54_arg0 sp10;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042E04);
+    sp10.unk_00 = arg0;
+    sp10.unk_30 = func_80042B48;
+    sp10.unk_04 = 0;
+    sp10.unk_08 = arg1;
+    sp10.unk_0C = arg2;
+    sp10.unk_10 = arg3;
+    sp10.unk_14 = arg1;
+    sp10.unk_18 = 0;
+    sp10.unk_1C = 0;
+    sp10.unk_34 = NULL;
+    sp10.unk_3C = func_80041DE0;
+    sp10.unk_20 = arg4 * 4.0;
+    sp10.unk_24 = arg5 * 4.0;
+    sp10.unk_28 = arg6 * 4.0;
+    sp10.unk_2C = arg7 * 4.0;
+    sp10.unk_38 = 0x800 / arg1;
+    func_80041A54(&sp10);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042FEC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_800430D0);
+void func_80042E04(struct_80041A54_arg0 *arg0) {
+    gDPLoadTextureBlock_4b((*arg0->unk_00)++,
+        arg0->unk_10 + (arg0->unk_14 * arg0->unk_40)/2,
+        G_IM_FMT_I,
+        arg0->unk_14, arg0->unk_48,
+        0,
+        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
+    );
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_800432A8);
+void func_80042FEC(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+    struct_80041A54_arg0 sp10;
+
+    sp10.unk_00 = arg0;
+    sp10.unk_30 = func_80042E04;
+    sp10.unk_04 = 0;
+    sp10.unk_08 = arg1;
+    sp10.unk_0C = arg2;
+    sp10.unk_10 = arg3;
+    sp10.unk_14 = arg1;
+    sp10.unk_18 = 0;
+    sp10.unk_1C = 0;
+    sp10.unk_34 = NULL;
+    sp10.unk_3C = func_80041DE0;
+    sp10.unk_20 = arg4 * 4.0;
+    sp10.unk_24 = arg5 * 4.0;
+    sp10.unk_28 = arg6 * 4.0;
+    sp10.unk_2C = arg7 * 4.0;
+    sp10.unk_38 = 0x2000 / arg1;
+    func_80041A54(&sp10);
+}
+
+void func_800430D0(struct_80041A54_arg0 *arg0) {
+    gDPLoadTextureBlock((*arg0->unk_00)++,
+        arg0->unk_10 + (arg0->unk_14 * arg0->unk_40),
+        G_IM_FMT_I, G_IM_SIZ_8b,
+        arg0->unk_14, arg0->unk_48,
+        0,
+        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
+    );
+}
+
+void func_800432A8(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+    struct_80041A54_arg0 sp10;
+
+    sp10.unk_00 = arg0;
+    sp10.unk_30 = func_800430D0;
+    sp10.unk_04 = 0;
+    sp10.unk_08 = arg1;
+    sp10.unk_0C = arg2;
+    sp10.unk_10 = arg3;
+    sp10.unk_14 = arg1;
+    sp10.unk_18 = 0;
+    sp10.unk_1C = 0;
+    sp10.unk_34 = NULL;
+    sp10.unk_3C = func_80041DE0;
+    sp10.unk_20 = arg4 * 4.0;
+    sp10.unk_24 = arg5 * 4.0;
+    sp10.unk_28 = arg6 * 4.0;
+    sp10.unk_2C = arg7 * 4.0;
+    sp10.unk_38 = 0x1000 / arg1;
+    func_80041A54(&sp10);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_8004338C);
 

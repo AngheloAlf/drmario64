@@ -269,11 +269,11 @@ void func_80042650(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4
 void func_800427E0(struct_80041A54_arg0 *arg0);
 void func_800429B8(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
 void func_80042B48(struct_80041A54_arg0 *arg0);
-// void func_80042D20();
-// void func_80042E04();
-// void func_80042FEC();
-// void func_800430D0();
-// void func_800432A8();
+void func_80042D20(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
+void func_80042E04(struct_80041A54_arg0 *arg0);
+void func_80042FEC(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
+void func_800430D0(struct_80041A54_arg0 *arg0);
+void func_800432A8(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
 // void func_8004338C();
 // void func_8004371C();
 // void func_800438D0();
