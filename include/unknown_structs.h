@@ -149,11 +149,45 @@ typedef struct struct_80041A54_arg0 {
     /* 0x58 */ UNK_TYPE1 unk_58[0x18];
 } struct_80041A54_arg0; // size >= 0x70?
 
+// GraphBin?
 typedef struct struct_800E8750 {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x10];
-    /* 0x000 */ UNK_TYPE unk_010;
-    /* 0x000 */ UNK_TYPE1 unk_014[0x1FC];
+    /* 0x000 */ UNK_TYPE1 unk_000[0x8];
+    /* 0x008 */ u16 unk_008;
+    /* 0x00A */ u16 unk_00A;
+    /* 0x00C */ UNK_TYPE2 unk_00C;
+    /* 0x00E */ u8 unk_00E;
+    /* 0x00F */ UNK_TYPE1 unk_00F[0x1];
+    /* 0x010 */ UNK_TYPE unk_010;
+    /* 0x014 */ UNK_TYPE1 unk_014[0x1FC];
     /* 0x210 */ UNK_TYPE unk_210;
 } struct_800E8750; // size >= 0x214
+
+typedef struct struct_80076CA0_arg0 {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ UNK_PTR unk_0C;
+    /* 0x10 */ UNK_PTR unk_10;
+    /* 0x14 */ UNK_TYPE1 unk_14[0x4];
+} struct_80076CA0_arg0; // size = 0x18
+
+typedef struct struct_8007F004_arg0 {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ s32 unk_10;
+    /* 0x14 */ s32 unk_14;
+    /* 0x18 */ s32 unk_18;
+    /* 0x1C */ s32 unk_1C;
+    /* 0x20 */ s32 unk_20;
+    /* 0x24 */ s32 unk_24;
+    /* 0x28 */ s32 unk_28;
+    /* 0x2C */ s32 unk_2C;
+    /* 0x30 */ s32 unk_30;
+    /* 0x34 */ s32 unk_34;
+    /* 0x38 */ s32 unk_38;
+    /* 0x3C */ s32 unk_3C;
+} struct_8007F004_arg0;
 
 #endif
