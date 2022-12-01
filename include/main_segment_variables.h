@@ -247,7 +247,7 @@ extern u16 D_800A6D90[];
 extern s32 D_800A739C;
 // extern UNK_TYPE D_800A73C0;
 // extern UNK_TYPE D_800A76C0;
-// extern UNK_TYPE D_800A82C0;
+extern u8 D_800A82C0[];
 // extern UNK_TYPE D_800A8AC0;
 // extern UNK_TYPE D_800A8AC4;
 // extern UNK_TYPE D_800A8AC8;

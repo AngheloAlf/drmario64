@@ -97,14 +97,14 @@ def romCompressorMain():
                 sizeWrote += entry.size
             else:
                 # check if uncompressed segment matches
-                uncompressedBytearray = segmentBytearray
+                uncompressedHash = spimdisasm.common.Utils.getStrHash(segmentBytearray)
 
-                if spimdisasm.common.Utils.getStrHash(uncompressedBytearray) == segmentEntry.uncompressedHash:
+                if uncompressedHash == segmentEntry.uncompressedHash:
                     compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
                     assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
                 else:
-                    print("yikes")
-                    compressedBytearray = compression_common.compressZlib(uncompressedBytearray)
+                    print(f"Segment {sectionEntryName} doesn't match, should have hash '{uncompressedHash}' but has hash '{segmentEntry.uncompressedHash}'. Compressing...")
+                    compressedBytearray = compression_common.compressZlib(segmentBytearray)
 
                 outRom.write(compressedBytearray)
 

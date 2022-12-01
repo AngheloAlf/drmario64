@@ -308,7 +308,9 @@ void func_80077504(Gfx **arg0, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077504);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800777E8);
+void func_800777E8(Gfx **arg0, s32 arg1, s32 arg2, s32 arg3) {
+    func_80077504(arg0, arg1, arg2, arg3, &D_800A82C0);
+}
 
 void *func_8007780C(void *dstAddr) {
     void *temp_s0;
@@ -348,7 +350,62 @@ void *func_80077D68(void *dstAddr, bool arg1) {
     return (void*)ALIGN16((uintptr_t)DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
 }
 
+#if 0
+void func_80077E2C(Gfx **arg0, s32 arg1, s32 arg2) {
+    struct_8007F004_arg0 sp18;
+    Gfx *sp58;
+    Gfx *temp_a0;
+    Gfx *temp_s0;
+    Gfx *temp_v1;
+    Gfx *temp_v1_2;
+
+    func_8007AEBC();
+    temp_s0 = *arg0;
+    #if 0
+    sp58 = temp_s0 + 8;
+    temp_s0->words.w0 = 0xDB060000;
+    temp_s0->words.w1 = 0;
+    sp58 = temp_s0 + 0x10;
+    temp_s0->unk_8 = 0xDB060014;
+    temp_v1 = sp58;
+    temp_s0->unk_C = osVirtualToPhysical(B_800E87A8);
+    sp58 = temp_v1 + 8;
+    temp_v1->words.w1 = (u32) &D_E5F08;
+    temp_v1->words.w0 = 0xDA380007;
+    sp58 = temp_v1 + 0x10;
+    temp_v1->unk_C = D_8008E6B8;
+    temp_v1->unk_8 = 0xDE000000;
+    sp58 = temp_v1 + 0x18;
+    temp_v1->unk_14 = D_800AAD68;
+    temp_v1->unk_10 = 0xDE000000;
+    sp58 = temp_v1 + 0x20;
+    temp_v1->unk_18 = 0xED000000;
+    temp_v1->unk_1C = 0x004FC3BC;
+    #endif
+    gSPSegment(temp_s0++, 0x00, 0x00000000);
+    gSPSegment(temp_s0++, 0x05, osVirtualToPhysical(B_800E87A8));
+    gSPMatrix(temp_s0++, OS_K0_TO_PHYSICAL(&B_800E5F08), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPDisplayList(temp_s0++, D_8008E6B8);
+    gSPDisplayList(temp_s0++, D_800AAD68);
+    gDPSetScissor(temp_s0++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+
+    func_8007F004(&sp18, arg1 << 0xF, arg2 << 0xF, -0x03B60000);
+    if (func_8007B650(&sp58, &sp18, B_800E87A8, D_800AAD2C, B_800E87A8) == 1) {
+        D_800AAD2C = 0;
+    } else {
+        D_800AAD2C += 1;
+    }
+    //temp_v1_2 = sp58;
+    //temp_a0 = temp_v1_2 + 8;
+    //sp58 = temp_a0;
+    //temp_v1_2->words.w0 = 0xDE000000;
+    //temp_v1_2->words.w1 = (u32) D_8008E6B8;
+    gSPDisplayList(temp_s0++, D_8008E6B8);
+    *arg0 = temp_s0;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077E2C);
+#endif
 
 void *func_80077FA4(void *dstAddr, bool arg1) {
     if (arg1) {
