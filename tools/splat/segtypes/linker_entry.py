@@ -1,12 +1,14 @@
-from dataclasses import dataclass
-from functools import lru_cache
-from typing import Dict, Optional, OrderedDict, Union, List
-from pathlib import Path
-from segtypes.n64.palette import N64SegPalette
-from util import options
-from segtypes.segment import Segment
 import os
 import re
+from dataclasses import dataclass
+from functools import lru_cache
+from pathlib import Path
+from typing import Dict, List, Optional, OrderedDict, Union
+
+from util import options
+
+from segtypes.n64.palette import N64SegPalette
+from segtypes.segment import Segment
 
 # clean 'foo/../bar' to 'bar'
 @lru_cache(maxsize=None)
@@ -108,6 +110,7 @@ class LinkerEntry:
 class LinkerWriter:
     def __init__(self):
         self.linker_discard_section: bool = options.opts.ld_discard_section
+        # Used to store all the linker entries - build tools may want this information
         self.entries: List[LinkerEntry] = []
 
         self.buffer: List[str] = []
@@ -117,7 +120,7 @@ class LinkerWriter:
 
         self._writeln("SECTIONS")
         self._begin_block()
-        self._writeln(f"__romPos = 0;")
+        self._writeln("__romPos = 0;")
 
         if options.opts.gp is not None:
             self._writeln("_gp = " + f"0x{options.opts.gp:X};")
@@ -164,14 +167,10 @@ class LinkerWriter:
         for entry in entries:
             entering_bss = False
             leaving_bss = False
-            cur_section = entry.section
+            cur_section = entry.section_type
 
-            if cur_section == "linker":
-                self._end_block()
-                self._begin_segment(entry.segment)
-                continue
-            elif cur_section == "linker_offset":
-                self._write_symbol(f"{get_segment_cname(entry.segment)}_OFFSET", f".")
+            if cur_section == "linker_offset":
+                self._write_symbol(f"{get_segment_cname(entry.segment)}_OFFSET", ".")
                 continue
 
             for i, section in enumerate(section_labels.values()):
@@ -231,10 +230,10 @@ class LinkerWriter:
                 section_labels[cur_section].started = True
 
                 # Write THIS linker entry
-                self._writeln(f"{entry.object_path}({cur_section});")
+                self._writeln(f"{entry.object_path}({entry.section});")
             else:
                 # Write THIS linker entry
-                self._writeln(f"{entry.object_path}({cur_section});")
+                self._writeln(f"{entry.object_path}({entry.section});")
 
                 # If this is the last entry of its type, add the END marker for the section we're ending
                 if entry in last_seen_sections:
@@ -320,6 +319,8 @@ class LinkerWriter:
     def _begin_segment(self, segment: Segment):
         if segment.follows_vram_segment:
             vram_str = get_segment_cname(segment.follows_vram_segment) + "_VRAM_END "
+        elif segment.follows_vram_symbol:
+            vram_str = segment.follows_vram_symbol + " "
         else:
             vram_str = (
                 f"0x{segment.vram_start:X} "
@@ -339,6 +340,8 @@ class LinkerWriter:
     def _begin_bss_segment(self, segment: Segment, is_first: bool = False):
         if segment.follows_vram_segment:
             vram_str = get_segment_cname(segment.follows_vram_segment) + "_VRAM_END "
+        elif segment.follows_vram_symbol:
+            vram_str = segment.follows_vram_symbol + " "
         else:
             vram_str = (
                 f"0x{segment.vram_start:X} "

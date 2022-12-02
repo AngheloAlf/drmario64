@@ -5,12 +5,12 @@ Dumps out Vtx as a .inc.c file.
 Originally written by Mark Street (https://github.com/mkst)
 """
 
-import re
 import struct
 from pathlib import Path
-from util.log import error
 
 from util import options
+from util.log import error
+
 from segtypes.common.codesubsegment import CommonSegCodeSubsegment
 
 
@@ -22,12 +22,6 @@ class N64SegVtx(CommonSegCodeSubsegment):
         type,
         name,
         vram_start,
-        extract,
-        given_subalign,
-        exclusive_ram_id,
-        given_dir,
-        symbol_name_format,
-        symbol_name_format_no_rom,
         args,
         yaml,
     ):
@@ -37,12 +31,6 @@ class N64SegVtx(CommonSegCodeSubsegment):
             type,
             name,
             vram_start,
-            extract,
-            given_subalign,
-            exclusive_ram_id=exclusive_ram_id,
-            given_dir=given_dir,
-            symbol_name_format=symbol_name_format,
-            symbol_name_format_no_rom=symbol_name_format_no_rom,
             args=args,
             yaml=yaml,
         )
@@ -58,6 +46,9 @@ class N64SegVtx(CommonSegCodeSubsegment):
         self.file_text = self.disassemble_data(rom_bytes)
 
     def disassemble_data(self, rom_bytes):
+        assert isinstance(self.rom_start, int)
+        assert isinstance(self.rom_end, int)
+
         vertex_data = rom_bytes[self.rom_start : self.rom_end]
         segment_length = len(vertex_data)
         if (segment_length) % 16 != 0:

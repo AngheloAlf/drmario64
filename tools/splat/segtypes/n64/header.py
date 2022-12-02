@@ -1,5 +1,6 @@
-from segtypes.common.header import CommonSegHeader
 from util import options
+
+from segtypes.common.header import CommonSegHeader
 
 
 class N64SegHeader(CommonSegHeader):
@@ -7,7 +8,7 @@ class N64SegHeader(CommonSegHeader):
         encoding = options.opts.header_encoding
 
         header_lines = []
-        header_lines.append(f".section .data\n")
+        header_lines.append(".section .data\n")
         header_lines.append(
             self.get_line("word", rom_bytes[0x00:0x04], "PI BSB Domain 1 register")
         )
@@ -25,7 +26,7 @@ class N64SegHeader(CommonSegHeader):
 
         if encoding != "word":
             header_lines.append(
-                f'.ascii "'
+                '.ascii "'
                 + rom_bytes[0x20:0x34].decode(encoding).strip().ljust(20)
                 + '" /* Internal name */'
             )
