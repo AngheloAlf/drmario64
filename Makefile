@@ -27,8 +27,9 @@ MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
 
 
 
-BASEROM      := baserom.z64
-TARGET       := drmario64
+BASEROM              := baserom.z64
+BASEROM_UNCOMPRESSED := baserom_uncompressed.z64
+TARGET               := drmario64
 
 # Fail early if baserom does not exist
 ifeq ($(wildcard $(BASEROM)),)
@@ -86,10 +87,12 @@ CPP        := $(MIPS_BINUTILS_PREFIX)cpp
 STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 ICONV      := iconv
 
-SPLAT          ?= tools/splat/split.py
-SPLAT_YAML     ?= $(TARGET).yaml
+SPLAT             ?= tools/splat/split.py
+SPLAT_YAML        ?= $(TARGET).yaml
 
-ROM_COMPRESSOR ?= tools/compressor/rom_compressor.py
+ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
+ROM_DECOMPRESSOR  ?= tools/compressor/rom_decompressor.py
+SEGMENT_EXTRACTOR ?= tools/compressor/extract_compressed_segments.py
 
 
 IINC       := -Iinclude
@@ -200,6 +203,8 @@ distclean: clean
 
 setup:
 	$(MAKE) -C tools
+	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.csv
+	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.csv
 
 extract:
 	$(RM) -r asm bin $(BUILD_DIR)/segments

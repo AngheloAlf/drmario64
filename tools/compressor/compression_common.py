@@ -42,7 +42,7 @@ class SegmentEntry:
 
     @property
     def compressedPath(self) -> Path:
-        return Path("bin") / f"{self.segmentName}.bin"
+        return Path("bin") / f"{self.segmentName}_compressed.bin"
 
     @property
     def compressedSegmentSize(self) -> int:
