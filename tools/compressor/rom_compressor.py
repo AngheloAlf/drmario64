@@ -12,7 +12,6 @@ from pathlib import Path
 import compression_common
 
 
-
 def align(value: int, n: int) -> int:
     return (((value) + ((n)-1)) & ~((n)-1))
 

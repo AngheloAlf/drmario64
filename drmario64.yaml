@@ -606,77 +606,76 @@ segments:
     type: bin
     start: 0x172130
 
-  - name: segment_172D60
+  - name: segment_172D60 # not compressed?
     type: bin
     start: 0x172D60
-
-  - name: segment_1750C0
+  - name: segment_1750C0 # not compressed?
     type: bin
     start: 0x1750C0
-  - name: segment_177420
+  - name: segment_177420 # not compressed?
     type: bin
     start: 0x177420
-  - name: segment_179620
+  - name: segment_179620 # not compressed?
     type: bin
     start: 0x179620
-  - name: segment_17B790
+  - name: segment_17B790 # not compressed?
     type: bin
     start: 0x17B790
-  - name: segment_17C1E0
+  - name: segment_17C1E0 # not compressed?
     type: bin
     start: 0x17C1E0
-  - name: segment_17D130
+  - name: segment_17D130 # not compressed?
     type: bin
     start: 0x17D130
-  - name: segment_17E090
+  - name: segment_17E090 # not compressed?
     type: bin
     start: 0x17E090
-  - name: segment_181840
+  - name: segment_181840 # not compressed?
     type: bin
     start: 0x181840
-  - name: segment_184FF0
+  - name: segment_184FF0 # not compressed?
     type: bin
     start: 0x184FF0
-  - name: segment_186FF0
+  - name: segment_186FF0 # not compressed?
     type: bin
     start: 0x186FF0
-  - name: segment_188FF0
+  - name: segment_188FF0 # not compressed?
     type: bin
     start: 0x188FF0
-  - name: segment_189D40
+  - name: segment_189D40 # not compressed?
     type: bin
     start: 0x189D40
-  - name: segment_18CB40
+  - name: segment_18CB40 # not compressed?
     type: bin
     start: 0x18CB40
-  - name: segment_18DB90
+  - name: segment_18DB90 # not compressed?
     type: bin
     start: 0x18DB90
-  - name: segment_18F160
+  - name: segment_18F160 # not compressed?
     type: bin
     start: 0x18F160
-  - name: segment_1906E0
+  - name: segment_1906E0 # not compressed?
     type: bin
     start: 0x1906E0
-  - name: segment_1911D0
+  - name: segment_1911D0 # not compressed?
     type: bin
     start: 0x1911D0
-  - name: segment_1936C0
+  - name: segment_1936C0 # not compressed?
     type: bin
     start: 0x1936C0
-  - name: segment_1937F0
+  - name: segment_1937F0 # not compressed?
     type: bin
     start: 0x1937F0
-  - name: segment_194070
+  - name: segment_194070 # not compressed?
     type: bin
     start: 0x194070
-  - name: segment_194150
+  - name: segment_194150 # not compressed?
     type: bin
     start: 0x194150
-  - name: segment_194910
+  - name: segment_194910 # not compressed?
     type: bin
     start: 0x194910
-  - name: segment_195290
+  - name: segment_195290 # not compressed?
     type: bin
     start: 0x195290
 
@@ -704,7 +703,6 @@ segments:
   - name: segment_21B120 # compressed
     type: bin
     start: 0x21B120
-
   - name: segment_21F6D0 # compressed
     type: bin
     start: 0x21F6D0
@@ -735,124 +733,120 @@ segments:
   - name: segment_25E690 # compressed
     type: bin
     start: 0x25E690
-  - name: segment_266490
+  - name: segment_266490 # compressed
     type: bin
     start: 0x266490
-
-  - name: segment_26FDF0
+  - name: segment_26FDF0 # compressed
     type: bin
     start: 0x26FDF0
-  - name: segment_27A310
+  - name: segment_27A310 # compressed
     type: bin
     start: 0x27A310
-  - name: segment_2866D0
+  - name: segment_2866D0 # compressed
     type: bin
     start: 0x2866D0
-  - name: segment_2990C0
+  - name: segment_2990C0 # compressed
     type: bin
     start: 0x2990C0
-  - name: segment_29DE20
+  - name: segment_29DE20 # compressed
     type: bin
     start: 0x29DE20
-  - name: segment_2A2430
+  - name: segment_2A2430 # compressed
     type: bin
     start: 0x2A2430
-  - name: segment_2A93C0
+  - name: segment_2A93C0 # compressed
     type: bin
     start: 0x2A93C0
-  - name: segment_2AF9A0
+  - name: segment_2AF9A0 # compressed
     type: bin
     start: 0x2AF9A0
-  - name: segment_2BD670
+  - name: segment_2BD670 # compressed
     type: bin
     start: 0x2BD670
-  - name: segment_2C9600
+  - name: segment_2C9600 # compressed
     type: bin
     start: 0x2C9600
-
   - name: segment_2CC150 # compressed
     type: bin
     start: 0x2CC150
   - name: segment_2CEA50 # compressed
     type: bin
     start: 0x2CEA50
-  - name: segment_2D3E80
+  - name: segment_2D3E80 # compressed
     type: bin
     start: 0x2D3E80
-  - name: segment_2D7830
+  - name: segment_2D7830 # compressed
     type: bin
     start: 0x2D7830
-  - name: segment_2DC490
+  - name: segment_2DC490 # compressed
     type: bin
     start: 0x2DC490
-  - name: segment_2E6500
+  - name: segment_2E6500 # compressed
     type: bin
     start: 0x2E6500
   - name: segment_2F8E80 # compressed
     type: bin
     start: 0x2F8E80
-  - name: segment_2F96A0
+  - name: segment_2F96A0 # compressed
     type: bin
     start: 0x2F96A0
-
-  - name: segment_2FD060
+  - name: segment_2FD060 # compressed
     type: bin
     start: 0x2FD060
-  - name: segment_2FEC70
+  - name: segment_2FEC70 # compressed
     type: bin
     start: 0x2FEC70
-  - name: segment_301920
+  - name: segment_301920 # compressed
     type: bin
     start: 0x301920
-  - name: segment_303A60
+  - name: segment_303A60 # compressed
     type: bin
     start: 0x303A60
-  - name: segment_3057A0
+  - name: segment_3057A0 # compressed
     type: bin
     start: 0x3057A0
-  - name: segment_307ED0
+  - name: segment_307ED0 # compressed
     type: bin
     start: 0x307ED0
-  - name: segment_30A220
+  - name: segment_30A220 # compressed
     type: bin
     start: 0x30A220
-  - name: segment_30BE80
+  - name: segment_30BE80 # compressed
     type: bin
     start: 0x30BE80
-  - name: segment_30E3A0
+  - name: segment_30E3A0 # compressed
     type: bin
     start: 0x30E3A0
-  - name: segment_310250
+  - name: segment_310250 # compressed
     type: bin
     start: 0x310250
-  - name: segment_311DC0
+  - name: segment_311DC0 # compressed
     type: bin
     start: 0x311DC0
-  - name: segment_3142D0
+  - name: segment_3142D0 # compressed
     type: bin
     start: 0x3142D0
-  - name: segment_3165B0
+  - name: segment_3165B0 # compressed
     type: bin
     start: 0x3165B0
-  - name: segment_3185A0
+  - name: segment_3185A0 # compressed
     type: bin
     start: 0x3185A0
-  - name: segment_31AB50
+  - name: segment_31AB50 # compressed
     type: bin
     start: 0x31AB50
-  - name: segment_326990
+  - name: segment_326990 # compressed
     type: bin
     start: 0x326990
-  - name: segment_327CE0
+  - name: segment_327CE0 # compressed
     type: bin
     start: 0x327CE0
-  - name: segment_328B80
+  - name: segment_328B80 # compressed
     type: bin
     start: 0x328B80
-  - name: segment_3299F0
+  - name: segment_3299F0 # compressed
     type: bin
     start: 0x3299F0
-
   - name: segment_329FF0 # compressed
     type: bin
     start: 0x329FF0
