@@ -98,7 +98,45 @@ void func_8002A26C(struct_800EB670 *arg0, OSMesg msg) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A2B8);
+void func_8002A2B8(struct_800EB670 *arg0) {
+    OSMesg sp14 = NULL;
+    struct_8002A2B8_sp10 *sp10 = NULL;
+
+    while (true) {
+        struct_800EB670_unk_66C *temp_s2;
+        s32 var_s0;
+
+        osRecvMesg(&arg0->unk_004, (OSMesg *)&sp10, OS_MESG_BLOCK);
+        var_s0 = 0;
+        osWritebackDCacheAll();
+        temp_s2 = arg0->unk_66C;
+        if (temp_s2 != NULL) {
+            var_s0 = 2;
+            osSpTaskYield();
+            osRecvMesg(&arg0->unk_0AC, &sp14, OS_MESG_BLOCK);
+            if (osSpTaskYielded(&temp_s2->unk_10)) {
+                var_s0 = 1;
+            }
+        }
+
+        arg0->unk_670 = sp10;
+        osSpTaskLoad(&sp10->unk_10);
+        osSpTaskStartGo(&sp10->unk_10);
+        osRecvMesg(&arg0->unk_0AC, &sp14, OS_MESG_BLOCK);
+        arg0->unk_670 = NULL;
+        if (arg0->unk_674 != 0) {
+            osSendMesg(&arg0->unk_11C, &sp14, OS_MESG_BLOCK);
+        }
+
+        if (var_s0 == 1) {
+            osSpTaskLoad(&temp_s2->unk_10);
+            osSpTaskStartGo(&temp_s2->unk_10);
+        } else if (var_s0 == 2) {
+            osSendMesg(&arg0->unk_0AC, &sp14, OS_MESG_BLOCK);
+        }
+        osSendMesg(sp10->unk_50, sp10->unk_54, OS_MESG_BLOCK);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A3F4);
 

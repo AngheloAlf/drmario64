@@ -411,7 +411,7 @@ extern s32 D_800AAD44;
 // extern UNK_TYPE D_800AAD48;
 // extern UNK_TYPE D_800AAD4C;
 // extern UNK_TYPE D_800AAD50;
-// extern UNK_TYPE D_800AAD58;
+extern Vp D_800AAD58;
 extern Gfx D_800AAD68[];
 // extern UNK_TYPE D_800AAE00;
 // extern UNK_TYPE D_800AAE60;

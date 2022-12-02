@@ -24,6 +24,18 @@ typedef struct struct_8001D7F8 {
     /* 0x4 */ size_t unk_4; // uncompressedSize
 } struct_8001D7F8; // size >= 0x8
 
+typedef struct struct_800EB670_unk_66C {
+    /* 0x00 */ UNK_TYPE1 unk_00[0x10];
+    /* 0x40 */ OSTask unk_10;
+} struct_800EB670_unk_66C;  // size >= 0x50
+
+// Maybe the same one as struct_800EB670_unk_66C?
+typedef struct struct_8002A2B8_sp10 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0x10];
+    /* 0x40 */ OSTask unk_10;
+    /* 0x50 */ OSMesgQueue *unk_50;
+    /* 0x54 */ OSMesg *unk_54;
+} struct_8002A2B8_sp10; // size >= 0x58
 
 typedef struct struct_800EB670 {
     /* 0x000 */ s16 unk_000;
@@ -45,8 +57,8 @@ typedef struct struct_800EB670 {
     /* 0x308 */ OSThread unk_308;
     /* 0x4B8 */ OSThread unk_4B8;
     /* 0x668 */ struct_800EB670_unk_668 *unk_668;
-    /* 0x66C */ UNK_TYPE unk_66C;
-    /* 0x670 */ UNK_TYPE unk_670;
+    /* 0x66C */ struct_800EB670_unk_66C *unk_66C;
+    /* 0x670 */ struct_8002A2B8_sp10 *unk_670;
     /* 0x674 */ UNK_TYPE unk_674;
     /* 0x678 */ UNK_TYPE unk_678;
 } struct_800EB670; // size >= 0x67C
