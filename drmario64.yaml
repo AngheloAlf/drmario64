@@ -683,7 +683,7 @@ segments:
     type: bin
     start: 0x1E0D70
 
-  - name: segment_195620 # compressed
+  - name: segment_195620 # compressed # GraphBin
     type: bin
     start: 0x1E1100
   - name: segment_1A0D40 # compressed
@@ -698,43 +698,43 @@ segments:
   - name: segment_1B0E60 # compressed
     type: bin
     start: 0x2350E8
-  - name: segment_211E10 # compressed
+  - name: segment_211E10 # compressed # GraphBin
     type: bin
     start: 0x3621E8
-  - name: segment_212B20 # compressed
+  - name: segment_212B20 # compressed # GraphBin
     type: bin
     start: 0x364E58
-  - name: segment_21B120 # compressed
+  - name: segment_21B120 # compressed # GraphBin
     type: bin
     start: 0x3783E8
-  - name: segment_21F6D0 # compressed
+  - name: segment_21F6D0 # compressed # GraphBin
     type: bin
     start: 0x382C98
-  - name: segment_2264C0 # compressed
+  - name: segment_2264C0 # compressed # GraphBin
     type: bin
     start: 0x38F6A8
-  - name: segment_22DA20 # compressed
+  - name: segment_22DA20 # compressed # GraphBin
     type: bin
     start: 0x39C0B8
-  - name: segment_234CF0 # compressed
+  - name: segment_234CF0 # compressed # GraphBin
     type: bin
     start: 0x3A8AC8
-  - name: segment_23B7E0 # compressed
+  - name: segment_23B7E0 # compressed # GraphBin
     type: bin
     start: 0x3B54D8
-  - name: segment_240160 # compressed
+  - name: segment_240160 # compressed # GraphBin
     type: bin
     start: 0x3C1EE8
-  - name: segment_245AE0 # compressed
+  - name: segment_245AE0 # compressed # GraphBin
     type: bin
     start: 0x3CE8F8
-  - name: segment_24E620 # compressed
+  - name: segment_24E620 # compressed # GraphBin
     type: bin
     start: 0x3DB308
-  - name: segment_257670 # compressed
+  - name: segment_257670 # compressed # GraphBin
     type: bin
     start: 0x3E7D18
-  - name: segment_25E690 # compressed
+  - name: segment_25E690 # compressed # GraphBin
     type: bin
     start: 0x3F4728
   - name: segment_266490 # compressed

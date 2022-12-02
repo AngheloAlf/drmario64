@@ -8,7 +8,7 @@
 #include "alignment.h"
 
 
-extern struct_80124610 D_80124610;
+extern u8 D_80124610[];
 extern struct_80205000 D_80205000;
 
 #define SCREEN_WIDTH  320

@@ -23,7 +23,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005D0EC);
 #ifdef NON_MATCHING
 void func_8005D0EC(void *, void *);                    /* extern */
 
-void func_8005D314(struct_80124610 *arg0, const char *arg1) {
+void func_8005D314(struct_800E5A70 *arg0, const char *arg1) {
     s32 temp_a1;
     s32 temp_s1;
     s32 var_s2;

@@ -37,13 +37,11 @@ void func_8007636C(void) {
     func_8002BC58(1);
 
     gSPDisplayList(B_800EBCF4++, D_800881E0);
-
     gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1);
 
     D_800A739C = func_80078094(&B_800EBCF4, D_8008840F != 0);
 
     color = 255;
-
     alpha = CLAMP(((B_800E59A4 - 127) * 1.2) + 127.0, 0.0, 255.0);
     if (alpha > 0) {
         func_80040E3C(&B_800EBCF4, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color, color, color, alpha);
@@ -64,12 +62,12 @@ u32 func_8007657C(struct_800EB670 *arg0) {
     OSMesgQueue sp18;
     OSMesg sp30[8];
     struct_800FAF98_unk_64 sp50;
-    void *sp58;
-    struct_80124610 *temp_s0 = (void*)ALIGN16((uintptr_t)&D_80124610);
+    struct_800E5A70 *sp58;
+    struct_800E5A70 *temp_s0 = ALIGN_PTR(&D_80124610);
     bool var_s1 = true;
 
-    sp58 = (void*)((uintptr_t)temp_s0 + sizeof(struct_80124610));
-    bzero(temp_s0, sizeof(struct_80124610));
+    sp58 = &temp_s0[1];
+    bzero(temp_s0, sizeof(struct_800E5A70));
     osCreateMesgQueue(&sp18, sp30, ARRAY_COUNT(sp30));
     func_8002A184(arg0, &sp50, &sp18);
 
@@ -117,10 +115,10 @@ u32 func_8007657C(struct_800EB670 *arg0) {
 }
 
 void func_800767DC(void) {
-    struct_80124610* ptr;
+    struct_8005D78C_arg0* ptr;
 
     B_800EBCF4 = B_800FB670[B_800FAD2C];
-    ptr = (void*)ALIGN16((uintptr_t)&D_80124610);
+    ptr = ALIGN_PTR(&D_80124610);
     func_8002B9D8();
     func_8002BAB8(1);
     func_8005D78C(ptr, &B_800EBCF4);
@@ -644,7 +642,7 @@ extern s32 B_800E5A24;
 extern s32 B_800E5A2C;
 extern s32 B_800E5A38;
 extern f32 B_800E5A44;
-extern struct_80124610 B_800E5A70;
+extern struct_800E5A70 B_800E5A70;
 extern s32 B_800E5A90;
 extern s32 B_800E5A94;
 extern s32 B_800E5AA0;
