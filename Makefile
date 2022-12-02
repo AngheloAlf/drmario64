@@ -138,14 +138,13 @@ endif
 
 #### Files ####
 
-$(shell mkdir -p asm bin $(BUILD_DIR)/segments)
+$(shell mkdir -p asm bin)
 
 SRC_DIRS      := $(shell find src -type d)
 ASM_DIRS      := $(shell find asm -type d -not -path "asm/nonmatchings/*")
 BIN_DIRS      := $(shell find bin -type d)
 LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/src/voice")
 LIBMUS_DIRS   := $(shell find lib/libmus/src -type d)
-SEGMENT_DIRS  := $(shell find $(BUILD_DIR)/segments -type d)
 
 C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
@@ -159,8 +158,6 @@ LIBULTRA_S    := $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.s))
 LIBULTRA_O    := $(foreach f,$(LIBULTRA_C:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(LIBULTRA_S:.s=.o),$(BUILD_DIR)/$f)
 
-SEGMENT_LD    := $(foreach dir,$(SEGMENT_DIRS),$(wildcard $(dir)/*.ld))
-# SEGMENT_BIN   := $(SEGMENT_LD:.ld=.bin)
 
 # Automatic dependency files
 DEP_FILES := $(O_FILES:.o=.d) \
@@ -206,7 +203,7 @@ setup:
 	$(MAKE) -C tools
 
 extract:
-	$(RM) -r asm bin $(BUILD_DIR)/segments
+	$(RM) -r asm bin
 	$(SPLAT) $(SPLAT_YAML)
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.csv
 
@@ -226,7 +223,7 @@ init:
 	$(MAKE) all
 	$(MAKE) diff-init
 
-.PHONY: all uncompressed clean distclean setup extract lib diff-init init
+.PHONY: all compressed uncompressed clean distclean setup extract lib diff-init init
 .DEFAULT_GOAL := all
 # Prevent removing intermediate files
 .SECONDARY:
@@ -241,16 +238,11 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.csv
 	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ROM:.z64=.elf) tools/compressor/compress_segments.csv
 # TODO: update header
 
-$(ELF): $(O_FILES) $(LIBULTRA_O) $(SEGMENT_BIN) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
+$(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
 		-T $(BUILD_DIR)/auto/undefined_syms_auto.ld -T $(BUILD_DIR)/auto/undefined_funcs_auto.ld \
 		-T $(BUILD_DIR)/linker_scripts/libultra_symbols.ld -T $(BUILD_DIR)/linker_scripts/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/undefined_syms.ld \
 		-Map $(LD_MAP) -o $@
-
-# Incremental linking
-$(BUILD_DIR)/segments/%.bin: $(BUILD_DIR)/segments/%.ld $(O_FILES) $(LIBULTRA_O)
-	$(LD) --relocatable $(LDFLAGS) -T $< -Map $(BUILD_DIR)/segments/$*.map -o $(BUILD_DIR)/segments/$*.o
-	$(OBJCOPY) -O binary $(BUILD_DIR)/segments/$*.o $@
 
 
 $(BUILD_DIR)/%.ld: %.ld
