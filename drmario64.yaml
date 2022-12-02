@@ -64,6 +64,7 @@ segments:
     type: code
     start: 0x001060
     vram: 0x80000460
+    follows_vram: entry
     bss_size: 0x18DE0
     subsegments:
       - [0x001060, c, boot/boot_main]
@@ -342,12 +343,14 @@ segments:
     type: code
     start: 0x011A60
     vram: 0x80029C40
+    follows_vram: boot
     subsegments:
       - [0x011A60, .data, dma_table/dma_table]
   - name: main_segment # compressed
     type: code
     start: 0x011A70
     vram: 0x80029C50
+    follows_vram: dma_table
     decompressed_size: 0x899F0
     bss_size: 0x70FD0
     subsegments:
