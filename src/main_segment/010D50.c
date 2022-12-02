@@ -2,14 +2,22 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "unk.h"
+#include "main_segment_functions.h"
+#include "main_segment_variables.h"
 
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003A9A0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003ACB4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003AD88);
+void func_8003AD88(Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
+
+    func_8007AEBC();
+    gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&B_800E5818), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPSegment(gfx++, 0x05, osVirtualToPhysical(B_800E53CC));
+    *gfxP = gfx;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003AE08);
 

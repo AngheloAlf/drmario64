@@ -183,7 +183,7 @@ void func_8003A950(UNK_PTR arg0);
 
 // void func_8003A9A0();
 // void func_8003ACB4();
-// void func_8003AD88();
+void func_8003AD88(Gfx **gfxP);
 // void func_8003AE08();
 // void func_8003AEE4();
 // void func_8003B054();
