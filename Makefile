@@ -204,11 +204,11 @@ distclean: clean
 setup:
 	$(MAKE) -C tools
 	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.csv
-	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.csv
 
 extract:
 	$(RM) -r asm bin $(BUILD_DIR)/segments
 	$(SPLAT) $(SPLAT_YAML)
+	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.csv
 
 lib:
 	$(MAKE) -C lib
@@ -235,8 +235,7 @@ init:
 #### Various Recipes ####
 
 $(ROM): $(ELF)
-	$(OBJCOPY) -O binary --gap-fill 0xFF --pad-to 0x400000 $< $@
-# TODO: update header
+	$(OBJCOPY) -O binary $< $@
 
 $(ROMC): $(ROM) tools/compressor/compress_segments.csv
 	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ROM:.z64=.elf) tools/compressor/compress_segments.csv

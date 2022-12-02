@@ -50,16 +50,18 @@ def romDecompressorMain():
     sortedSegments.sort()
 
     with outPath.open("wb") as outRom:
+        offset = 0
         for entry in sortedSegments:
             # print(f"{entry.compressedRomOffset:X} {entry.compressedRomOffsetEnd:X}")
             segmentBytearray = inRom[entry.compressedRomOffset:entry.compressedRomOffsetEnd]
             if entry.compressed:
-                print(f"Range [0x{entry.compressedRomOffset:06X}:0x{entry.compressedRomOffsetEnd:06X}]: Decompressing")
+                print(f"Range [0x{entry.compressedRomOffset:06X}:0x{entry.compressedRomOffsetEnd:06X}]: Decompressing at offset 0x{offset:06X}")
                 outBytearray = compression_common.decompressZlib(segmentBytearray)
             else:
-                print(f"Range [0x{entry.compressedRomOffset:06X}:0x{entry.compressedRomOffsetEnd:06X}]: Writing as-is")
+                print(f"Range [0x{entry.compressedRomOffset:06X}:0x{entry.compressedRomOffsetEnd:06X}]: Writing as-is at offset 0x{offset:06X}")
                 outBytearray = segmentBytearray
             outRom.write(outBytearray)
+            offset += len(outBytearray)
 
 if __name__ == "__main__":
     romDecompressorMain()
