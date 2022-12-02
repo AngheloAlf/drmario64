@@ -43,7 +43,7 @@ typedef struct Audio_struct_800FAF98 {
 s32 func_8002AA80();
 void func_8002AAD8(struct_800FACE0_unk_08 *arg0, UNK_TYPE arg1);
 // void func_8002AAE8();
-bool func_8002AB28(UNK_PTR);
+bool func_8002AB28(struct_8002AB28_arg0 *arg0);
 // void func_8002ABC0();
 void func_8002AC64(struct_800FACE0_unk_08 *arg0);
 void func_8002ACE0(bool setStereo);

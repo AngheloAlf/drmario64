@@ -174,7 +174,7 @@ $(BUILD_DIR)/src/boot/boot_bss.o: CFLAGS += -fno-common
 
 #### Main Targets ###
 
-all: uncompressed
+all: compressed
 
 uncompressed: $(ROM)
 ifneq ($(COMPARE),0)

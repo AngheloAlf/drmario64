@@ -36,7 +36,16 @@ void func_8002AAD8(struct_800FACE0_unk_08 *arg0, s32 arg1) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AAE8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AB28);
+bool func_8002AB28(struct_8002AB28_arg0 *arg0) {
+    if ((arg0->unk_0 == NULL) || (func_8002D7E0(arg0->index) != 0)) {
+        return false;
+    }
+
+    func_8002D720(arg0->index, arg0->unk_0->unk_0);
+    func_8002D840(arg0->index, arg0->unk_0->volume);
+    func_8002D8A0(arg0->index, arg0->unk_0->unk_1 * 0.125);
+    return true;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002ABC0);
 
@@ -352,7 +361,19 @@ void func_8002B834(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3,
     B_800FAD2C = (B_800FAD2C + 1) % 3;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B9D8);
+void func_8002B9D8(void) {
+    gSPSegment(B_800EBCF4++, 0x00, 0x00000000);
+    gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_80088328));
+    gSPViewport(B_800EBCF4++, &D_80088130);
+
+    if (D_80088140 == 1) {
+        gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_80088228));
+        D_80088140 = 0;
+    }
+
+    gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_80088308));
+    gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002BAB8);
 

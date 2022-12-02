@@ -20,11 +20,14 @@ extern u64* D_80088110[][2];
 extern s32 D_80088120;
 extern s32 D_80088124;
 extern u32 D_80088128;
-// extern UNK_TYPE D_80088130;
-// extern UNK_TYPE D_80088140;
+extern Vp D_80088130;
+extern s32 D_80088140;
 extern Gfx D_80088150[];
 extern Gfx D_800881B8[];
 extern Gfx D_800881E0[];
+extern Gfx D_80088228[];
+extern Gfx D_80088308[];
+extern Gfx D_80088328[];
 
 // extern UNK_TYPE D_80088400;
 extern u8 D_80088401; // maybe part of a struct?

@@ -2,6 +2,8 @@
 #define UNKNOWN_STRUCTS_H
 
 #include "libc/stdint.h"
+#include "libc/stdbool.h"
+#include "gcc/stdlib.h"
 #include "unk.h"
 #include "alignment.h"
 
@@ -65,10 +67,25 @@ typedef struct struct_800FACE0_unk_08 {
     /* 0x8 */ UNK_TYPE unk_8;
 } struct_800FACE0_unk_08; // size = 0xC
 
+
+typedef struct struct_8002AB28_arg0_unk_0 {
+    /* 0x0 */ u8 unk_0;
+    /* 0x1 */ UNK_TYPE1 unk_1;
+    /* 0x2 */ UNK_TYPE1 unk_2;
+    /* 0x2 */ UNK_TYPE1 unk_3;
+    /* 0x4 */ UNK_TYPE1 unk_4[0x1];
+    /* 0x5 */ u8 volume;
+} struct_8002AB28_arg0_unk_0; // size >= 0x6
+
+typedef struct struct_8002AB28_arg0 {
+    /* 0x0 */ struct_8002AB28_arg0_unk_0 *unk_0;
+    /* 0x4 */ s32 index;
+} struct_8002AB28_arg0; // size >= 0x8
+
 typedef struct struct_800FACE0 {
     /* 0x00 */ UNK_TYPE unk_00[2];
     /* 0x08 */ struct_800FACE0_unk_08 unk_08[4];
-    /* 0x38 */ UNK_PTR unk_38[4];
+    /* 0x38 */ struct_8002AB28_arg0 *unk_38[4];
 } struct_800FACE0; // size >= 0x3C
 
 // used for segments:
