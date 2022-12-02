@@ -4,56 +4,146 @@
 #include "ultra64.h"
 #include "libc/stdint.h"
 
-#define DECLARE_SEGMENT(name)  \
+#define DECLARE_VRAM_SEGMENT(name) \
     extern u32 name ## _VRAM[]; \
-    extern u32 name ## _VRAM_END[];
+    extern u32 name ## _VRAM_END[]
 
-#define DECLARE_ROM_SEGMENT(name)   \
+#define DECLARE_ROM_SEGMENT(name) \
     extern u32 name ## _ROM_START[]; \
-    extern u32 name ## _ROM_END[];
+    extern u32 name ## _ROM_END[]
 
 #define DECLARE_BSS_SEGMENT(name)   \
     extern u32 name ## _BSS_START[]; \
-    extern u32 name ## _BSS_END[];
+    extern u32 name ## _BSS_END[]
 
-#define SEGMENT_START(segment) (segment ## _VRAM)
-#define SEGMENT_END(segment)   (segment ## _VRAM_END)
-#define SEGMENT_SIZE(segment)  ((uintptr_t)SEGMENT_END(segment) - (uintptr_t)SEGMENT_START(segment))
+#define DECLARE_SEGMENT(name) \
+    DECLARE_VRAM_SEGMENT(name); \
+    DECLARE_ROM_SEGMENT(name); \
+    DECLARE_BSS_SEGMENT(name)
 
-#define SEGMENT_ROM_START(segment) (segment ## _ROM_START)
-#define SEGMENT_ROM_END(segment)   (segment ## _ROM_END)
-#define SEGMENT_ROM_SIZE(segment)  ((uintptr_t)SEGMENT_ROM_END(segment) - (uintptr_t)SEGMENT_ROM_START(segment))
+#define SEGMENT_VRAM_START(segment) (segment ## _VRAM)
+#define SEGMENT_VRAM_END(segment)   (segment ## _VRAM_END)
+#define SEGMENT_VRAM_SIZE(segment)  ((uintptr_t)SEGMENT_VRAM_END(segment) - (uintptr_t)SEGMENT_VRAM_START(segment))
+
+#define SEGMENT_ROM_START(segment) ((romoffset_t)segment ## _ROM_START)
+#define SEGMENT_ROM_END(segment)   ((romoffset_t)segment ## _ROM_END)
+#define SEGMENT_ROM_SIZE(segment)  (SEGMENT_ROM_END(segment) - SEGMENT_ROM_START(segment))
 
 #define SEGMENT_BSS_START(segment) (segment ## _BSS_START)
 #define SEGMENT_BSS_END(segment)   (segment ## _BSS_END)
 #define SEGMENT_BSS_SIZE(segment)  ((uintptr_t)SEGMENT_BSS_END(segment) - (uintptr_t)SEGMENT_BSS_START(segment))
 
-DECLARE_SEGMENT(header)
-DECLARE_ROM_SEGMENT(header)
-DECLARE_BSS_SEGMENT(header)
+DECLARE_SEGMENT(header);
 
-DECLARE_SEGMENT(ipl3)
-DECLARE_ROM_SEGMENT(ipl3)
-DECLARE_BSS_SEGMENT(ipl3)
+DECLARE_SEGMENT(ipl3);
 
-DECLARE_SEGMENT(entry)
-DECLARE_ROM_SEGMENT(entry)
-DECLARE_BSS_SEGMENT(entry)
+DECLARE_SEGMENT(entry);
 
-DECLARE_SEGMENT(boot)
-DECLARE_ROM_SEGMENT(boot)
-DECLARE_BSS_SEGMENT(boot)
+DECLARE_SEGMENT(boot);
 
-DECLARE_SEGMENT(dma_table)
-DECLARE_ROM_SEGMENT(dma_table)
-DECLARE_BSS_SEGMENT(dma_table)
+DECLARE_SEGMENT(dma_table);
 
-DECLARE_SEGMENT(code)
-DECLARE_ROM_SEGMENT(code)
-DECLARE_BSS_SEGMENT(code)
+DECLARE_SEGMENT(main_segment);
 
-DECLARE_SEGMENT(segment_4F980)
-DECLARE_ROM_SEGMENT(segment_4F980)
-DECLARE_BSS_SEGMENT(segment_4F980)
+DECLARE_SEGMENT(n64_wave_tables);
+DECLARE_SEGMENT(n64_ptr_tables_v2);
+DECLARE_SEGMENT(segment_172130);
+
+DECLARE_SEGMENT(segment_172D60);
+DECLARE_SEGMENT(segment_1750C0);
+DECLARE_SEGMENT(segment_177420);
+DECLARE_SEGMENT(segment_179620);
+DECLARE_SEGMENT(segment_17B790);
+DECLARE_SEGMENT(segment_17C1E0);
+DECLARE_SEGMENT(segment_17D130);
+DECLARE_SEGMENT(segment_17E090);
+DECLARE_SEGMENT(segment_181840);
+DECLARE_SEGMENT(segment_184FF0);
+DECLARE_SEGMENT(segment_186FF0);
+DECLARE_SEGMENT(segment_188FF0);
+DECLARE_SEGMENT(segment_189D40);
+DECLARE_SEGMENT(segment_18CB40);
+DECLARE_SEGMENT(segment_18DB90);
+DECLARE_SEGMENT(segment_18F160);
+DECLARE_SEGMENT(segment_1906E0);
+DECLARE_SEGMENT(segment_1911D0);
+DECLARE_SEGMENT(segment_1936C0);
+DECLARE_SEGMENT(segment_1937F0);
+DECLARE_SEGMENT(segment_194070);
+DECLARE_SEGMENT(segment_194150);
+DECLARE_SEGMENT(segment_194910);
+DECLARE_SEGMENT(segment_195290);
+
+
+DECLARE_SEGMENT(segment_195620);
+DECLARE_SEGMENT(segment_1A0D40);
+DECLARE_SEGMENT(segment_1A20C0);
+DECLARE_SEGMENT(segment_1A3610);
+DECLARE_SEGMENT(segment_1B0E60);
+DECLARE_SEGMENT(segment_211E10);
+DECLARE_SEGMENT(segment_212B20);
+DECLARE_SEGMENT(segment_21B120);
+DECLARE_SEGMENT(segment_21F6D0);
+DECLARE_SEGMENT(segment_2264C0);
+DECLARE_SEGMENT(segment_22DA20);
+DECLARE_SEGMENT(segment_234CF0);
+DECLARE_SEGMENT(segment_23B7E0);
+DECLARE_SEGMENT(segment_240160);
+DECLARE_SEGMENT(segment_245AE0);
+DECLARE_SEGMENT(segment_24E620);
+DECLARE_SEGMENT(segment_257670);
+DECLARE_SEGMENT(segment_25E690);
+
+
+DECLARE_SEGMENT(segment_266490);
+DECLARE_SEGMENT(segment_26FDF0);
+DECLARE_SEGMENT(segment_27A310);
+DECLARE_SEGMENT(segment_2866D0);
+DECLARE_SEGMENT(segment_2990C0);
+DECLARE_SEGMENT(segment_29DE20);
+DECLARE_SEGMENT(segment_2A2430);
+DECLARE_SEGMENT(segment_2A93C0);
+DECLARE_SEGMENT(segment_2AF9A0);
+DECLARE_SEGMENT(segment_2BD670);
+DECLARE_SEGMENT(segment_2C9600);
+
+
+DECLARE_SEGMENT(segment_2CC150);
+DECLARE_SEGMENT(segment_2CEA50);
+
+DECLARE_SEGMENT(segment_2D3E80);
+DECLARE_SEGMENT(segment_2D7830);
+DECLARE_SEGMENT(segment_2DC490);
+DECLARE_SEGMENT(segment_2E6500);
+
+
+DECLARE_SEGMENT(segment_2F8E80);
+
+
+DECLARE_SEGMENT(segment_2F96A0);
+DECLARE_SEGMENT(segment_2FD060);
+DECLARE_SEGMENT(segment_2FEC70);
+DECLARE_SEGMENT(segment_301920);
+DECLARE_SEGMENT(segment_303A60);
+DECLARE_SEGMENT(segment_3057A0);
+DECLARE_SEGMENT(segment_307ED0);
+DECLARE_SEGMENT(segment_30A220);
+DECLARE_SEGMENT(segment_30BE80);
+DECLARE_SEGMENT(segment_30E3A0);
+DECLARE_SEGMENT(segment_310250);
+DECLARE_SEGMENT(segment_311DC0);
+DECLARE_SEGMENT(segment_3142D0);
+DECLARE_SEGMENT(segment_3165B0);
+DECLARE_SEGMENT(segment_3185A0);
+DECLARE_SEGMENT(segment_31AB50);
+DECLARE_SEGMENT(segment_326990);
+DECLARE_SEGMENT(segment_327CE0);
+DECLARE_SEGMENT(segment_328B80);
+DECLARE_SEGMENT(segment_3299F0);
+
+
+DECLARE_SEGMENT(segment_329FF0);
+
+
 
 #endif

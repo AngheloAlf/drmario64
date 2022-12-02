@@ -1,10 +1,11 @@
+from pathlib import Path
+from typing import Optional
+
 import spimdisasm
+from util import options, symbols
 
 from segtypes.common.codesubsegment import CommonSegCodeSubsegment
 from segtypes.common.group import CommonSegGroup
-from pathlib import Path
-from typing import Optional
-from util import options, symbols
 
 
 class CommonSegData(CommonSegCodeSubsegment, CommonSegGroup):
@@ -43,6 +44,9 @@ class CommonSegData(CommonSegCodeSubsegment, CommonSegGroup):
 
                 with open(path, "w", newline="\n") as f:
                     f.write('.include "macro.inc"\n\n')
+                    preamble = options.opts.generated_s_preamble
+                    if preamble:
+                        f.write(preamble + "\n")
                     f.write(f".section {self.get_linker_section()}\n\n")
 
                     f.write(self.spim_section.disassemble())
@@ -101,7 +105,7 @@ class CommonSegData(CommonSegCodeSubsegment, CommonSegGroup):
                         f"Data segment {self.name}, symbol at vram {symbol.contextSym.vram:X} is a jumptable, indicating the start of the rodata section _may_ be near here."
                     )
                     print(
-                        f"Please note the real start of the rodata section may be way before this point."
+                        "Please note the real start of the rodata section may be way before this point."
                     )
                     if symbol.contextSym.vromAddress is not None:
                         print(f"      - [0x{symbol.contextSym.vromAddress:X}, rodata]")

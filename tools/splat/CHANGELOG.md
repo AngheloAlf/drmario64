@@ -1,6 +1,53 @@
 # splat Release Notes
 
-# 0.12.0: Performance Boost
+### 0.12.7
+
+* Allow setting a different macro for jumptable labels with `asm_jtbl_label_macro`
+  * The currently recommended one is `jlabel` instead of `glabel`
+* Two new options for symbols: `force_migration` and `force_not_migration`
+  * Useful for weird cases where the disassembler decided a rodata symbol must (or must not) be migrated when it really shouldn't (or should)
+* Fix `str_encoding` defaulting to `False` instead of `None`
+* Output empty rules in generated dependency files to avoid issues when the function file does not exist anymore (i.e. when it gets matched)
+* Allow changing the `include_macro_inc` option in the yaml
+
+### 0.12.6
+
+* Adds two new N64-specific segments:
+  * IPL3: Allows setting its correct VRAM address without messing the global segment detection
+  * RSP: Allows disassembling using the RSP instruction set instead of the default one
+* PS2 was added as a new platform option.
+  * When this is selected the R5900 instruction set will be used when disassembling instead of the default one.
+
+### 0.12.5
+
+* Update minimal spimdisasm version to 1.7.1.
+* Fix spimdisasm>=1.7.0 non being able to see symbols which only are referenced by other data symbols.
+* An check was added to prevent segments marked with `exclusive_ram_id` have a vram address range which overlaps with segments not marked with said tag. If this happens it will be warned to the user.
+
+### 0.12.4
+
+* Fixed a bug involving the order of attributes in symbol_addrs preventing proper range searching during calls to `get_symbol`
+
+### 0.12.3: Initial Gamecube Support
+Initial support for Gamecube disk images has been set up! Disassembly is not currently supported, and a more comprehensive explanation of Gamecube support will come once that is finished.
+
+* The Symbol class is now hashable
+* Added the ability for segments to specify a file path (`path`) to receive that file's contents as their split input
+* The `generated_s_preamble` option now will be applied to data files created by spimdisasm
+* Rewrote symbol range check code to be more efficient
+* Fixed bug that allowed empty top-level segments of type `code`.
+* Fixed progress bars to properly update their descriptions
+* Fixed bug pertaining to symbols getting assigned to segments they shouldn't if their segment is given in symbol_addrs (`segment:`)
+
+### 0.12.2
+* Fixed bug where `given_dir` was possibly not a `Path`
+
+### 0.12.1
+* The constructor for `Segment` takes far fewer arguments now, which will affect (and hopefully simplify) any custom segments that are implemented.
+
+* The new option `string_encoding` can be set at the global or segment level and will influence the encoding for strings in rodata during disassembly. The default encoding used is EUC-JP, as it was previously.
+
+## 0.12.0: Performance Boost
 
 In this release, we bring many performance improvements, making splat dramatically faster. We have observed speedups of 10-20x, though your results may vary.
 

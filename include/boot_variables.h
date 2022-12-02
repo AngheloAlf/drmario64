@@ -21,9 +21,8 @@ extern s8 D_8000E1A0;
 // extern UNK_TYPE D_8000E31C;
 // extern UNK_TYPE D_8000E320;
 // extern UNK_TYPE D_8000E324;
-// extern UNK_TYPE D_8000E338;
-// extern UNK_TYPE D_8000E738;
-
+extern s32 D_8000E338[];
+extern u32 D_8000E738;
 
 // bss
 
@@ -53,7 +52,11 @@ extern OSMesg B_800151D8[1];
 // extern UNK_TYPE B_8001A410;
 // extern UNK_TYPE B_8001B640;
 
+extern u8 B_80021BE0[0x8000];
+extern size_t B_8001F990;
+
 extern struct_80029C04 B_80029C00;
 extern OSMesgQueue B_80029C08;
+
 
 #endif

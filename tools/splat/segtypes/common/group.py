@@ -1,7 +1,9 @@
 from typing import List, Optional
+
+from util import log
+
 from segtypes.common.segment import CommonSegment
 from segtypes.segment import RomAddr, Segment
-from util import log
 
 
 class CommonSegGroup(CommonSegment):
@@ -12,12 +14,6 @@ class CommonSegGroup(CommonSegment):
         type,
         name,
         vram_start,
-        extract,
-        given_subalign,
-        exclusive_ram_id,
-        given_dir,
-        symbol_name_format,
-        symbol_name_format_no_rom,
         args,
         yaml,
     ):
@@ -27,12 +23,6 @@ class CommonSegGroup(CommonSegment):
             type,
             name,
             vram_start,
-            extract,
-            given_subalign,
-            exclusive_ram_id=exclusive_ram_id,
-            given_dir=given_dir,
-            symbol_name_format=symbol_name_format,
-            symbol_name_format_no_rom=symbol_name_format_no_rom,
             args=args,
             yaml=yaml,
         )
@@ -55,7 +45,7 @@ class CommonSegGroup(CommonSegment):
         prev_start: RomAddr = -1
 
         for i, subsection_yaml in enumerate(yaml["subsegments"]):
-            # End of previous segment
+            # endpos marker
             if isinstance(subsection_yaml, list) and len(subsection_yaml) == 1:
                 continue
 
@@ -84,6 +74,8 @@ class CommonSegGroup(CommonSegment):
                 segment_class, subsection_yaml, start, end, vram
             )
             segment.parent = self
+            if segment.special_vram_segment:
+                self.special_vram_segment = True
 
             ret.append(segment)
             prev_start = start

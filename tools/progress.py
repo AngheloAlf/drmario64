@@ -1,39 +1,75 @@
 #!/usr/bin/env python3
 
-from repo_64scripts import get_map_functions_sizes
+# SPDX-FileCopyrightText: © 2022 AngheloAlf
+# SPDX-License-Identifier: MIT
+
+from __future__ import annotations
+
+import argparse
+import dataclasses
 from pathlib import Path
 
-MAP_FILE = "build/drmario64.map"
+from repo_64scripts import get_map_functions_sizes
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-d", "--detailed", action="store_true")
+args = parser.parse_args()
+
+
+@dataclasses.dataclass
+class ProgressStats:
+    undecompedSize: int = 0
+    decompedSize: int = 0
+
+    @property
+    def total(self) -> int:
+        return self.undecompedSize + self.decompedSize
+
+
+MAP_FILE = "build/drmario64_uncompressed.map"
 
 filesList = get_map_functions_sizes.parseMapFile(MAP_FILE, "\n build/")
+filesList = get_map_functions_sizes.removeDottedSymbols(filesList)
 
 # get_map_functions_sizes.printFunctionsCsv(filesList)
 
-totalSize = 0
-totalSize += 92816 # hardcode the size of the (de)compressed code segment for now
-undecompedSize = 0
-decompedSize = 0
+progressPerFolder: dict[str, ProgressStats] = dict()
+totalStats = ProgressStats()
+
 for file in filesList:
-    functionList: list[get_map_functions_sizes.Function] = file.functions
+    functionList = file.functions
     funcCount = len(functionList)
 
     if funcCount == 0:
         continue
 
+    if args.detailed:
+        folder = str(Path(*Path(file.name).parts[:-1]))
+    else:
+        folder = Path(file.name).parts[0]
+    if folder not in progressPerFolder:
+        progressPerFolder[folder] = ProgressStats()
+
     fullAsmFile = Path("asm") / f"{file.name}.s"
     wholeFileIsUndecomped = fullAsmFile.exists()
 
     for func in functionList:
-        totalSize += func.size
-
         funcAsmPath = Path("asm") / "nonmatchings" / file.name / f"{func.name}.s"
 
         if wholeFileIsUndecomped:
-            undecompedSize += func.size
+            totalStats.undecompedSize += func.size
+            progressPerFolder[folder].undecompedSize += func.size
         elif funcAsmPath.exists():
-            undecompedSize += func.size
+            totalStats.undecompedSize += func.size
+            progressPerFolder[folder].undecompedSize += func.size
         else:
-            decompedSize += func.size
+            totalStats.decompedSize += func.size
+            progressPerFolder[folder].decompedSize += func.size
 
-print(f"{decompedSize} / {totalSize}")
-print(f"{decompedSize / totalSize * 100:.4f}%")
+print(f"{'FolderName':<20}: {'DecompedSize':>12} / {'Total':>6} {'OfFolder':>10}%  ({'OfTotal':>20}%)")
+
+print(f"{'all':<20}: {totalStats.decompedSize:>12} / {totalStats.total:>6} {totalStats.decompedSize / totalStats.total * 100:>10.4f}%  ({totalStats.decompedSize / totalStats.total * 100:>8.4f}% / {totalStats.total / totalStats.total * 100:>8.4f}%)")
+print()
+
+for folder, stats in progressPerFolder.items():
+    print(f"{folder:<20}: {stats.decompedSize:>12} / {stats.total:>6} {stats.decompedSize / stats.total * 100:>10.4f}%  ({stats.decompedSize / totalStats.total * 100:>8.4f}% / {stats.total / totalStats.total * 100:>8.4f}%)")

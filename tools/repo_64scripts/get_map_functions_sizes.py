@@ -1,27 +1,39 @@
 #!/usr/bin/env python3
 
+from __future__ import annotations
+
 import argparse
-import math
-import os
+import dataclasses
 import re
 import collections
-from typing import List
+
 
 regex_fileDataEntry = re.compile(r"^\s+(?P<section>[^\s]+)\s+(?P<vram>0x[^\s]+)\s+(?P<size>0x[^\s]+)\s+(?P<name>[^\s]+)$")
 regex_functionEntry = re.compile(r"^\s+(?P<vram>0x[^\s]+)\s+(?P<name>[^\s]+)$")
 regex_label = re.compile(r"^(?P<name>L[0-9A-F]{8})$")
 
-File = collections.namedtuple("File", ["name", "vram", "size", "functions"])
-Function = collections.namedtuple("Function", ["name", "vram", "size"])
+@dataclasses.dataclass
+class Function:
+    name: str
+    vram: int
+    size: int
 
-def parseMapFile(mapPath: str, startingPoint: str) -> List[File]:
+@dataclasses.dataclass
+class File:
+    name: str
+    vram: int
+    size: int
+    functions: list[Function]
+
+
+def parseMapFile(mapPath: str, startingPoint: str) -> list[File]:
     with open(mapPath) as f:
         mapData = f.read()
         startIndex = mapData.find(startingPoint)
         mapData = mapData[startIndex:]
     # print(len(mapData))
 
-    filesList: List[File] = list()
+    filesList: list[File] = list()
 
     inFile = False
 
@@ -60,7 +72,7 @@ def parseMapFile(mapPath: str, startingPoint: str) -> List[File]:
                         inFile = True
                         filesList.append(File(name, vram, size, list()))
 
-    resultFileList: List[File] = list()
+    resultFileList: list[File] = list()
 
     for file in filesList:
         acummulatedSize = 0
@@ -90,8 +102,32 @@ def parseMapFile(mapPath: str, startingPoint: str) -> List[File]:
     return resultFileList
 
 
-def mixFolders(filesList: List[File]) -> List[File]:
-    newFileList: List[File] = list()
+def removeDottedSymbols(filesList: list[File]) -> list[File]:
+    resultFileList: list[File] = list()
+
+    for file in filesList:
+        newFile = File(file.name, file.vram, file.size, list())
+
+        lastFunc: Function|None = None
+
+        for func in file.functions:
+            newFunc = Function(func.name, func.vram, func.size)
+
+            if func.name.startswith("."):
+                assert lastFunc is not None, file
+                lastFunc.size += func.size
+                continue
+
+            lastFunc = newFunc
+            newFile.functions.append(newFunc)
+
+        resultFileList.append(newFile)
+
+    return resultFileList
+
+
+def mixFolders(filesList: list[File]) -> list[File]:
+    newFileList: list[File] = list()
 
     auxDict = collections.OrderedDict()
 
@@ -121,7 +157,7 @@ def mixFolders(filesList: List[File]) -> List[File]:
     return newFileList
 
 
-def printCsv(filesList: List[File], printVram: bool = True):
+def printCsv(filesList: list[File], printVram: bool = True):
     if printVram:
         print("VRAM,", end="")
     print("File,Num functions,Max size,Total size,Average size")
@@ -148,7 +184,7 @@ def printCsv(filesList: List[File], printVram: bool = True):
         print(f"{name},{funcCount},{maxSize},{size},{averageSize:0.2f}")
     return
 
-def printFunctionsCsv(filesList: List[File]):
+def printFunctionsCsv(filesList: list[File]):
     print("File,Function name,VRAM,Size in words")
 
     for file in filesList:

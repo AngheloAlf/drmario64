@@ -2,8 +2,9 @@ from pathlib import Path
 from typing import Type
 
 from n64img.image import Image
-from segtypes.n64.segment import N64Segment
 from util import log, options
+
+from segtypes.n64.segment import N64Segment
 
 
 class N64SegImg(N64Segment):
@@ -14,12 +15,6 @@ class N64SegImg(N64Segment):
         type,
         name,
         vram_start,
-        extract,
-        given_subalign,
-        exclusive_ram_id,
-        given_dir,
-        symbol_name_format,
-        symbol_name_format_no_rom,
         args,
         yaml,
         img_cls: Type[Image],
@@ -30,12 +25,6 @@ class N64SegImg(N64Segment):
             type,
             name,
             vram_start,
-            extract,
-            given_subalign,
-            exclusive_ram_id=exclusive_ram_id,
-            given_dir=given_dir,
-            symbol_name_format=symbol_name_format,
-            symbol_name_format_no_rom=symbol_name_format_no_rom,
             args=args,
             yaml=yaml,
         )
@@ -83,6 +72,9 @@ class N64SegImg(N64Segment):
     def split(self, rom_bytes):
         path = self.out_path()
         path.parent.mkdir(parents=True, exist_ok=True)
+
+        assert isinstance(self.rom_start, int)
+        assert isinstance(self.rom_end, int)
 
         self.n64img.data = rom_bytes[self.rom_start : self.rom_end]
         self.n64img.write(path)

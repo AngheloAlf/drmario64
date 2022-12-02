@@ -1,22 +1,21 @@
 name: Dr.Mario 64 (North America)
-sha1: a130d3622ce40e0158db2da4247101f6e92206fc
+sha1: 2a7c6dfc6e28d648c78945895d65e0146265860c
 options:
   basename: drmario64
-  target_path: baserom.z64
-  ld_script_path: build/drmario64.ld
+  target_path: baserom_uncompressed.z64
+  ld_script_path: build/drmario64_uncompressed.ld
   base_path: .
   compiler: GCC
   find_file_boundaries: True
   header_encoding: ASCII
   platform: n64
-  undefined_funcs_auto: True
   undefined_funcs_auto_path: build/auto/undefined_funcs_auto.ld
-  undefined_syms_auto: True
   undefined_syms_auto_path: build/auto/undefined_syms_auto.ld
   symbol_addrs_path:
     - linker_scripts/libultra_symbols.ld
     - linker_scripts/hardware_regs.ld
-    - linker_scripts/symbol_addrs.txt
+    - linker_scripts/symbol_addrs_boot.txt
+    - linker_scripts/symbol_addrs_main_segment.txt
     - linker_scripts/junk_symbols.txt
   asm_path: asm
   src_path: src
@@ -32,14 +31,22 @@ options:
   mnemonic_ljust: 12
   rom_address_padding: True
   # create_elf_section_list_auto: False # ?
-  verbose: False
+  # verbose: False
   dump_symbols: True
   generated_c_preamble: |
     #include "ultra64.h"
     #include "include_asm.h"
+    #include "macros_defines.h"
+    #include "unknown_structs.h"
+    #include "unk.h"
   asm_inc_header: ""
   use_legacy_include_asm: False
   create_asm_dependencies: True
+  string_encoding: SHIFT-JIS
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  include_macro_inc: False
 segments:
   - name: header
     type: header
@@ -57,6 +64,7 @@ segments:
     type: code
     start: 0x001060
     vram: 0x80000460
+    follows_vram: entry
     bss_size: 0x18DE0
     subsegments:
       - [0x001060, c, boot/boot_main]
@@ -64,6 +72,8 @@ segments:
       - [0x001220, c, boot/1220]
       - [0x002B90, c, boot/2B90] # decompressor?
       - [0x002F80, c, boot/2F80]
+
+      - [0x0030A0, c, boot/rom_offsets]
 
       # Start of libultra
       - [0x0030A0, asm, libultra/io/conteepprobe] # c # references an extra symbol?
@@ -243,7 +253,10 @@ segments:
       - [0x00ED30, hasm, libkmc/mmuldi3/udivdi3]
       - [0x00ED50, hasm, libkmc/mmuldi3/mod_com]
 
-      - [0x00ED90, data, boot/00ED90]
+      - [0x00ED90, .data, boot/boot_main]
+      - [0x00EDA0, data, boot/00EDA0]
+
+      - [0x00F340, .data, boot/rom_offsets]
 
       - [0x00F650, data, libultra/pimgr]
       - [0x00F680, data, libultra/cartrominit]
@@ -330,13 +343,516 @@ segments:
     type: code
     start: 0x011A60
     vram: 0x80029C40
+    follows_vram: boot
     subsegments:
       - [0x011A60, .data, dma_table/dma_table]
-  - name: code # compressed
-    type: bin
+  - name: main_segment # compressed
+    type: code
     start: 0x011A70
     vram: 0x80029C50
-  - name: segment_4F980 # assets?
+    follows_vram: dma_table
+    decompressed_size: 0x899F0
+    bss_size: 0x70FD0
+    subsegments:
+      - [0x011A70, c, main_segment/000000]
+      - [0x011CF0, c, main_segment/000280]
+      - [0x0123D0, c, main_segment/000960]
+
+      - [0x0128A0, c, main_segment/audio/000E30]
+      - [0x013B40, c, main_segment/graphics/0020D0]
+      - [0x014F90, c, main_segment/audio/003520]
+
+      - [0x015940, c, main_segment/003ED0]
+      - [0x016650, c, main_segment/004BE0]
+      - [0x016920, c, main_segment/004EB0]
+      - [0x0227C0, c, main_segment/010D50]
+      - [0x024BC0, c, main_segment/013150]
+      - [0x024C40, c, main_segment/0131D0]
+      - [0x026000, c, main_segment/014590]
+      - [0x027180, c, main_segment/015710]
+      - [0x027920, c, main_segment/015EB0]
+      - [0x028820, c, main_segment/016DB0]
+      - [0x0289D0, c, main_segment/016F60]
+      - [0x02DBF0, c, main_segment/01C180]
+      - [0x02E070, c, main_segment/01C600]
+      - [0x02F540, c, main_segment/01DAD0]
+      - [0x031700, c, main_segment/01FC90]
+      - [0x032680, c, main_segment/020C10]
+      - [0x033D30, c, main_segment/0222C0]
+      - [0x036700, c, main_segment/024C90]
+      - [0x03DB00, c, main_segment/02C090]
+      - [0x041800, c, main_segment/02FD90]
+      - [0x042540, c, main_segment/030AD0]
+      - [0x043610, c, main_segment/031BA0]
+      - [0x044D40, c, main_segment/0332D0]
+      - [0x045F40, c, main_segment/0344D0]
+      - [0x046300, c, main_segment/034890]
+      - [0x047520, c, main_segment/035AB0]
+      - [0x047D20, c, main_segment/0362B0]
+      - [0x048010, c, main_segment/0365A0]
+      - [0x048090, c, main_segment/036620]
+      - [0x04C200, c, main_segment/03A790]
+      - [0x04E7C0, c, main_segment/03CD50]
+      - [0x0517B0, c, main_segment/03FD40]
+      - [0x053090, c, main_segment/041620]
+      - [0x055690, c, main_segment/043C20]
+      - [0x059DC0, c, main_segment/048350]
+      - [0x059FC0, c, main_segment/048550]
+      - [0x05A0A0, c, main_segment/048630]
+      - [0x05D410, c, main_segment/04B9A0]
+      - [0x05DD50, c, main_segment/04C2E0]
+      - [0x063470, c, main_segment/051A00]
+      - [0x063A40, c, main_segment/051FD0]
+      - [0x065080, c, main_segment/053610]
+      - [0x065230, c, main_segment/0537C0]
+      - [0x066080, c, main_segment/054610]
+      - [0x066840, c, main_segment/054DD0]
+      - [0x0676B0, c, main_segment/055C40]
+
+      - [0x067820, asm, libmus/player] # bss issues
+      - [0x06B100, c, ../lib/libmus/src/player_fx]
+      - [0x06B9E0, asm, libmus/aud_dma] # bss issues
+      - [0x06BE40, asm, libmus/aud_sched] # bss issues
+      - [0x06BFF0, asm, libmus/aud_thread] # bss issues
+      - [0x06C2B0, asm, libmus/lib_memory] # bss issues
+      - [0x06C3F0, asm, libmus/aud_samples] # bss issues
+
+      - [0x06C4B0, data, rsp/rspboot]
+      - [0x06C580, data, rsp/aspMain]
+      - [0x06D3A0, data, rsp/f3dex2]
+      - [0x06E730, data, rsp/s2dex]
+
+      - [0x06FF20, data, main_segment/05E4B0]
+      - [0x070220, data, main_segment/05E7B0]
+      - [0x074E10, data, main_segment/0633A0]
+
+      - [0x093A70, data, libmus/player]
+      - [0x093B30, .data, ../lib/libmus/src/player_fx]
+      - [0x093D40, data, libmus/aud_sched]
+      - [0x093D50, data, libmus/aud_thread]
+
+      - [0x093D60, rodata, rsp/aspMain]
+      - [0x094020, rodata, rsp/f3dex2]
+      - [0x094440, rodata, rsp/s2dex]
+
+      - [0x094800, .rodata, main_segment/000000]
+      - [0x094830, rodata, main_segment/082DC0]
+
+      - [0x094B10, .rodata, main_segment/audio/000E30]
+
+      - start: 0x094B40
+        name: main_segment/003ED0
+        type: .rodata
+        partial_migration: True
+      - start: 0x094CB0
+        name: main_segment/004EB0
+        type: .rodata
+        partial_migration: True
+      - [0x094F70, .rodata, main_segment/010D50]
+      - [0x094FB0, .rodata, main_segment/0131D0]
+      - [0x095100, .rodata, main_segment/014590]
+      - start: 0x0955E0
+        name: main_segment/015710
+        type: .rodata
+        partial_migration: True
+      - start: 0x0957A0
+        name: main_segment/015EB0
+        type: .rodata
+        partial_migration: True
+      - start: 0x095960
+        name: main_segment/016F60
+        type: .rodata
+        partial_migration: True
+
+      - [0x095A30, .rodata, main_segment/01C180]
+
+      - [0x095A70, rodata, main_segment/084000]
+      - [0x095AB0, rodata, main_segment/084040]
+
+      - start: 0x095B00
+        name: main_segment/01C600
+        type: .rodata
+        partial_migration: True
+      - start: 0x097480
+        name: main_segment/01DAD0
+        type: .rodata
+        partial_migration: True
+
+      - [0x0976B0, rodata, main_segment/085C40]
+
+      - start: 0x097990
+        name: main_segment/01FC90
+        type: .rodata
+        partial_migration: True
+      - start: 0x0979D0
+        name: main_segment/020C10
+        type: .rodata
+        partial_migration: True
+      - start: 0x097A60
+        name: main_segment/0222C0
+        type: .rodata
+        partial_migration: True
+
+      - start: 0x097D20
+        name: main_segment/024C90
+        type: .rodata
+        partial_migration: True
+
+      - start: 0x098E90
+        name: main_segment/02C090
+        type: .rodata
+        partial_migration: True
+
+      - start: 0x099250
+        name: main_segment/02FD90
+        type: .rodata
+        partial_migration: True
+
+      - [0x099420, .rodata, main_segment/030AD0]
+
+      - start: 0x099770
+        name: main_segment/031BA0
+        type: .rodata
+        partial_migration: True
+      - start: 0x0997B0
+        name: main_segment/0332D0
+        type: .rodata
+        partial_migration: True
+      - start: 0x099880
+        name: main_segment/0344D0
+        type: .rodata
+        partial_migration: True
+      - start: 0x0999C0
+        name: main_segment/035AB0
+        type: .rodata
+        partial_migration: True
+      - start: 0x0999F0
+        name: main_segment/0362B0
+        type: .rodata
+        partial_migration: True
+      - start: 0x099A50
+        name: main_segment/036620
+        type: .rodata
+        partial_migration: True
+      - start: 0x099CE0
+        name: main_segment/03A790
+        type: .rodata
+        partial_migration: True
+      - start: 0x099E50
+        name: main_segment/03CD50
+        type: .rodata
+        partial_migration: True
+      - start: 0x099F00
+        name: main_segment/03FD40
+        type: .rodata
+        partial_migration: True
+      - start: 0x099F80
+        name: main_segment/041620
+        type: .rodata
+        partial_migration: True
+      - start: 0x09A0D0
+        name: main_segment/043C20
+        type: .rodata
+        partial_migration: True
+      - start: 0x09A220
+        name: main_segment/048350
+        type: .rodata
+        partial_migration: True
+      - start: 0x09A410
+        name: main_segment/048630
+        type: .rodata
+        partial_migration: True
+      - start: 0x09AFE0
+        name: main_segment/04B9A0
+        type: .rodata
+        partial_migration: True
+      - start: 0x09B060
+        name: main_segment/04C2E0
+        type: .rodata
+        partial_migration: True
+      - [0x09B270, .rodata, main_segment/051A00]
+      - [0x09B2C0, .rodata, main_segment/051FD0]
+      - [0x09B310, .rodata, main_segment/0537C0]
+
+      - [0x09B370, rodata, libmus/player]
+      - [0x09B450, .rodata, ../lib/libmus/src/player_fx]
+
+      - start: 0x09B460
+        name: main_segment/800B3640
+        type: bss
+        vram: 0x800B3640
+      - start: 0x09B460
+        name: libmus/aud_sched
+        type: bss
+        vram: 0x800E99C0
+      - start: 0x09B460
+        name: main_segment/800E99D0
+        type: bss
+        vram: 0x800E99D0
+
+      - start: 0x09B460
+        name: libmus/aud_thread
+        type: bss
+        vram: 0x800F8C90
+
+      - start: 0x09B460
+        name: main_segment/800F8CE0
+        type: bss
+        vram: 0x800F8CE0
+
+  - name: n64_wave_tables
     type: bin
-    start: 0x04F980
-  - [0x32CCA0] # after this there's just padding
+    start: 0x09B460
+  - name: n64_ptr_tables_v2
+    type: bin
+    start: 0x1B56C0
+  - name: segment_172130
+    type: bin
+    start: 0x1BDC10
+
+  - name: segment_172D60 # not compressed?
+    type: bin
+    start: 0x1BE840
+  - name: segment_1750C0 # not compressed?
+    type: bin
+    start: 0x1C0BA0
+  - name: segment_177420 # not compressed?
+    type: bin
+    start: 0x1C2F00
+  - name: segment_179620 # not compressed?
+    type: bin
+    start: 0x1C5100
+  - name: segment_17B790 # not compressed?
+    type: bin
+    start: 0x1C7270
+  - name: segment_17C1E0 # not compressed?
+    type: bin
+    start: 0x1C7CC0
+  - name: segment_17D130 # not compressed?
+    type: bin
+    start: 0x1C8C10
+  - name: segment_17E090 # not compressed?
+    type: bin
+    start: 0x1C9B70
+  - name: segment_181840 # not compressed?
+    type: bin
+    start: 0x1CD320
+  - name: segment_184FF0 # not compressed?
+    type: bin
+    start: 0x1D0AD0
+  - name: segment_186FF0 # not compressed?
+    type: bin
+    start: 0x1D2AD0
+  - name: segment_188FF0 # not compressed?
+    type: bin
+    start: 0x1D4AD0
+  - name: segment_189D40 # not compressed?
+    type: bin
+    start: 0x1D5820
+  - name: segment_18CB40 # not compressed?
+    type: bin
+    start: 0x1D8620
+  - name: segment_18DB90 # not compressed?
+    type: bin
+    start: 0x1D9670
+  - name: segment_18F160 # not compressed?
+    type: bin
+    start: 0x1DAC40
+  - name: segment_1906E0 # not compressed?
+    type: bin
+    start: 0x1DC1C0
+  - name: segment_1911D0 # not compressed?
+    type: bin
+    start: 0x1DCCB0
+  - name: segment_1936C0 # not compressed?
+    type: bin
+    start: 0x1DF1A0
+  - name: segment_1937F0 # not compressed?
+    type: bin
+    start: 0x1DF2D0
+  - name: segment_194070 # not compressed?
+    type: bin
+    start: 0x1DFB50
+  - name: segment_194150 # not compressed?
+    type: bin
+    start: 0x1DFC30
+  - name: segment_194910 # not compressed?
+    type: bin
+    start: 0x1E03F0
+  - name: segment_195290 # not compressed?
+    type: bin
+    start: 0x1E0D70
+
+  - name: segment_195620 # compressed
+    type: bin
+    start: 0x1E1100
+  - name: segment_1A0D40 # compressed
+    type: bin
+    start: 0x207A98
+  - name: segment_1A20C0 # compressed
+    type: bin
+    start: 0x20B528
+  - name: segment_1A3610 # compressed
+    type: bin
+    start: 0x20EFB8
+  - name: segment_1B0E60 # compressed
+    type: bin
+    start: 0x2350E8
+  - name: segment_211E10 # compressed
+    type: bin
+    start: 0x3621E8
+  - name: segment_212B20 # compressed
+    type: bin
+    start: 0x364E58
+  - name: segment_21B120 # compressed
+    type: bin
+    start: 0x3783E8
+  - name: segment_21F6D0 # compressed
+    type: bin
+    start: 0x382C98
+  - name: segment_2264C0 # compressed
+    type: bin
+    start: 0x38F6A8
+  - name: segment_22DA20 # compressed
+    type: bin
+    start: 0x39C0B8
+  - name: segment_234CF0 # compressed
+    type: bin
+    start: 0x3A8AC8
+  - name: segment_23B7E0 # compressed
+    type: bin
+    start: 0x3B54D8
+  - name: segment_240160 # compressed
+    type: bin
+    start: 0x3C1EE8
+  - name: segment_245AE0 # compressed
+    type: bin
+    start: 0x3CE8F8
+  - name: segment_24E620 # compressed
+    type: bin
+    start: 0x3DB308
+  - name: segment_257670 # compressed
+    type: bin
+    start: 0x3E7D18
+  - name: segment_25E690 # compressed
+    type: bin
+    start: 0x3F4728
+  - name: segment_266490 # compressed
+    type: bin
+    start: 0x401138
+  - name: segment_26FDF0 # compressed
+    type: bin
+    start: 0x411D18
+  - name: segment_27A310 # compressed
+    type: bin
+    start: 0x43A5E8
+  - name: segment_2866D0 # compressed
+    type: bin
+    start: 0x453DF8
+  - name: segment_2990C0 # compressed
+    type: bin
+    start: 0x47A708
+  - name: segment_29DE20 # compressed
+    type: bin
+    start: 0x486528
+  - name: segment_2A2430 # compressed
+    type: bin
+    start: 0x4903C8
+  - name: segment_2A93C0 # compressed
+    type: bin
+    start: 0x49DE88
+  - name: segment_2AF9A0 # compressed
+    type: bin
+    start: 0x4A7198
+  - name: segment_2BD670 # compressed
+    type: bin
+    start: 0x4C3858
+  - name: segment_2C9600 # compressed
+    type: bin
+    start: 0x4DEA98
+  - name: segment_2CC150 # compressed
+    type: bin
+    start: 0x4E6F58
+  - name: segment_2CEA50 # compressed
+    type: bin
+    start: 0x4F5568
+  - name: segment_2D3E80 # compressed
+    type: bin
+    start: 0x504A28
+  - name: segment_2D7830 # compressed
+    type: bin
+    start: 0x5160E8
+  - name: segment_2DC490 # compressed
+    type: bin
+    start: 0x528398
+  - name: segment_2E6500 # compressed
+    type: bin
+    start: 0x547308
+  - name: segment_2F8E80 # compressed
+    type: bin
+    start: 0x57A708
+  - name: segment_2F96A0 # compressed
+    type: bin
+    start: 0x57C148
+  - name: segment_2FD060 # compressed
+    type: bin
+    start: 0x58C4B8
+  - name: segment_2FEC70 # compressed
+    type: bin
+    start: 0x5925B8
+  - name: segment_301920 # compressed
+    type: bin
+    start: 0x5A35A8
+  - name: segment_303A60 # compressed
+    type: bin
+    start: 0x5ABFD8
+  - name: segment_3057A0 # compressed
+    type: bin
+    start: 0x5B6088
+  - name: segment_307ED0 # compressed
+    type: bin
+    start: 0x5BCCD8
+  - name: segment_30A220 # compressed
+    type: bin
+    start: 0x5CA108
+  - name: segment_30BE80 # compressed
+    type: bin
+    start: 0x5CF848
+  - name: segment_30E3A0 # compressed
+    type: bin
+    start: 0x5D8BE8
+  - name: segment_310250 # compressed
+    type: bin
+    start: 0x5E3818
+  - name: segment_311DC0 # compressed
+    type: bin
+    start: 0x5E89C8
+  - name: segment_3142D0 # compressed
+    type: bin
+    start: 0x5F5698
+  - name: segment_3165B0 # compressed
+    type: bin
+    start: 0x5FC1F8
+  - name: segment_3185A0 # compressed
+    type: bin
+    start: 0x605178
+  - name: segment_31AB50 # compressed
+    type: bin
+    start: 0x60BCD8
+  - name: segment_326990 # compressed
+    type: bin
+    start: 0x639468
+  - name: segment_327CE0 # compressed
+    type: bin
+    start: 0x63B058
+  - name: segment_328B80 # compressed
+    type: bin
+    start: 0x63C5F8
+  - name: segment_3299F0 # compressed
+    type: bin
+    start: 0x63DB98
+  - name: segment_329FF0 # compressed
+    type: bin
+    start: 0x63EED8
+
+  - [0x646E68]

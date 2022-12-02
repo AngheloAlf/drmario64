@@ -8,7 +8,9 @@
                 "lib/ultralib/include",
                 "lib/ultralib/include/gcc",
                 "lib/ultralib/include/PR",
-                "lib/ultralib/src"
+                "lib/ultralib/src",
+                "lib/libmus/src",
+                "lib/libmus/include"
             ],
             "defines": [
                 "NON_EQUIVALENT",

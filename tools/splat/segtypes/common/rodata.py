@@ -1,7 +1,7 @@
 import spimdisasm
+from util import compiler, options, symbols
 
 from segtypes.common.data import CommonSegData
-from util import symbols, options
 
 
 class CommonSegRodata(CommonSegData):
@@ -26,6 +26,15 @@ class CommonSegRodata(CommonSegData):
             self.get_exclusive_ram_id(),
         )
 
+        # Set rodata string encoding
+        # First check the global configuration
+        if options.opts.string_encoding is not None:
+            self.spim_section.stringEncoding = options.opts.string_encoding
+
+        # Then check the per-segment configuration in case we want to override the global one
+        if self.str_encoding is not None:
+            self.spim_section.stringEncoding = self.str_encoding
+
         self.spim_section.analyze()
         self.spim_section.setCommentOffset(self.rom_start)
 
@@ -39,18 +48,20 @@ class CommonSegRodata(CommonSegData):
         super().split(rom_bytes)
 
         if options.opts.migrate_rodata_to_functions:
-            if self.spim_section and (
-                not self.type.startswith(".") or self.partial_migration
-            ):
-                path_folder = options.opts.data_path / self.dir
-                path_folder.parent.mkdir(parents=True, exist_ok=True)
+            if self.spim_section is not None and self.partial_migration:
+                path_folder = options.opts.nonmatchings_path / self.dir / self.name
+                path_folder.mkdir(parents=True, exist_ok=True)
 
                 for rodataSym in self.spim_section.symbolList:
-                    if not rodataSym.isRdata():
+                    if rodataSym.shouldMigrate():
                         continue
 
                     path = path_folder / f"{rodataSym.getName()}.s"
                     with open(path, "w", newline="\n") as f:
-                        f.write('.include "macro.inc"\n\n')
-                        f.write(".section .rodata\n\n")
+                        if options.opts.include_macro_inc:
+                            f.write('.include "macro.inc"\n\n')
+                        preamble = options.opts.generated_s_preamble
+                        if preamble:
+                            f.write(preamble + "\n")
+                        f.write(f".section {self.get_linker_section()}\n\n")
                         f.write(rodataSym.disassemble())

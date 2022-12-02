@@ -35,7 +35,7 @@ CC         := COMPILER_PATH=../tools/gcc_kmc/$(DETECTED_OS)/2.7.2 ../tools/gcc_k
 STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 
 
-IINC       := -Iultralib/include -Iultralib/include/gcc -Iultralib/include/PR -Iultralib/src
+IINC       := -Iultralib/include -Iultralib/include/gcc -Iultralib/include/PR -Iultralib/src -Ilibmus/src
 
 OPTFLAGS        := -O3
 MIPS_VERSION    := -mips3
@@ -50,14 +50,23 @@ C_DEFINES       := -D_LANGUAGE_C
 #### Files ####
 
 SRC_DIRS      := $(shell find ultralib/src -type d -not -path "ultralib/src/voice")
+LIBMUS_DIRS   += $(shell find libmus/src -type d )
 
 C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f)
 
+O_FILES       += $(BUILD_DIR)/libmus/src/aud_dma.o \
+                 $(BUILD_DIR)/libmus/src/aud_sched.o \
+                 $(BUILD_DIR)/libmus/src/lib_memory.o \
+                 $(BUILD_DIR)/libmus/src/player.o \
+                 $(BUILD_DIR)/libmus/src/aud_samples.o \
+                 $(BUILD_DIR)/libmus/src/aud_thread.o \
+                 $(BUILD_DIR)/libmus/src/player_fx.o
+
 # create build directories
-$(shell mkdir -p $(foreach dir,$(SRC_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 
 #### Main Targets ###

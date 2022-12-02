@@ -5,24 +5,18 @@
 #include "macros_defines.h"
 #include "libc/stdbool.h"
 
-// libultra?
-extern UNK_TYPE B_8001D7F8;
-extern UNK_TYPE B_8001D7FC;
 
+extern struct_8001D7F8 B_8001D7F8;
 
-#ifdef NON_MATCHING
-UNK_TYPE func_80001F90(romoffset_t segmentRom, UNK_TYPE arg1, size_t segmentSize) {
+size_t func_80001F90(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
     B_80029C00.segmentRom = segmentRom;
     B_80029C00.segmentSize = segmentSize;
-    B_8001D7F8 = arg1;
-    B_8001D7FC = 0;
+    B_8001D7F8.unk_0 = dstAddr;
+    B_8001D7F8.unk_4 = 0;
     func_800021A0();
     func_800020A0();
-    return B_8001D7FC;
+    return B_8001D7F8.unk_4;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/boot/2B90", func_80001F90);
-#endif
 
 size_t func_80001FD8(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     size_t alignedSize;
@@ -44,9 +38,21 @@ size_t func_80001FD8(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     return blockSize;
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot/2B90", func_80002064);
+size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
+    u8 *var_v1 = arg0->unk_0;
+    size_t i;
 
-extern u32 B_8001F990;
+    for (i = 0; i < arg2; i++) {
+        *var_v1++ = arg1[i];
+    }
+
+    arg0->unk_0 = var_v1;
+    arg0->unk_4 += arg2;
+
+    return arg2;
+}
+
+
 extern u32 B_8001D640;
 extern u32 B_8001F998;
 extern u32 B_8001F9A8;
@@ -81,7 +87,21 @@ s32 func_800020A0(void) {
     return 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/boot/2B90", func_80002148);
+u32 func_80002148(u8 *arg0, size_t arg1) {
+    u32 var_a2 = -1;
+
+    if (arg0 != NULL) {
+        var_a2 = D_8000E738;
+        while (arg1 > 0){
+            var_a2 = D_8000E338[(var_a2 ^ *arg0) & 0xFF] ^ (var_a2 >> 8);
+            arg0 += 1;
+            arg1 -= 1;
+        }
+    }
+
+    D_8000E738 = var_a2;
+    return ~var_a2;
+}
 
 extern s32 B_8001FAFC;
 extern s32 B_8001FB00;
@@ -117,9 +137,9 @@ s32 func_800021CC(s32 arg0) {
 INCLUDE_ASM("asm/nonmatchings/boot/2B90", func_800021CC);
 #endif
 
-void func_800022A8(s32 *arg0, u8 *arg1, s32 arg2) {
+void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
     while (true) {
-        s32 temp_v0 = func_80002064(arg0, arg1, arg2);
+        size_t temp_v0 = func_80002064(arg0, arg1, arg2);
 
         if (temp_v0 == arg2) {
             return;
@@ -130,12 +150,10 @@ void func_800022A8(s32 *arg0, u8 *arg1, s32 arg2) {
     }
 }
 
-extern u8 B_80021BE0;
-
 void func_80002300(void) {
     if (B_8001F990 != 0) {
-        func_80002148(&B_80021BE0, B_8001F990);
-        func_800022A8(&B_8001D7F8, &B_80021BE0, B_8001F990);
+        func_80002148(B_80021BE0, B_8001F990);
+        func_800022A8(&B_8001D7F8, B_80021BE0, B_8001F990);
         B_8001FB00 += B_8001F990;
         B_8001F990 = 0;
     }
