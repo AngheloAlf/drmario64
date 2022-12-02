@@ -11,6 +11,8 @@ from pathlib import Path
 
 import compression_common
 
+BASEROM_HASH = "1a7936367413e5d6874abda6d623ad32"
+
 
 def romDecompressorMain():
     description = ""
@@ -30,6 +32,8 @@ def romDecompressorMain():
 
     inRom = spimdisasm.common.Utils.readFileAsBytearray(inPath)
     assert len(inRom) > 0, f"'{inPath}' could not be opened"
+
+    assert spimdisasm.common.Utils.getStrHash(inRom) == BASEROM_HASH
 
     sortedSegments = sorted(segmentDict.values())
 

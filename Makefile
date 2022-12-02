@@ -202,8 +202,8 @@ distclean: clean
 	$(MAKE) -C tools distclean
 
 setup:
-	$(MAKE) -C tools
 	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.csv
+	$(MAKE) -C tools
 
 extract:
 	$(RM) -r asm bin $(BUILD_DIR)/segments
