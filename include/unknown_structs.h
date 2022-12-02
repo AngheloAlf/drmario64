@@ -68,7 +68,8 @@ typedef struct struct_800FACE0_unk_08 {
 typedef struct struct_800FACE0 {
     /* 0x00 */ UNK_TYPE unk_00[2];
     /* 0x08 */ struct_800FACE0_unk_08 unk_08[4];
-} struct_800FACE0; // size >= 0x38
+    /* 0x38 */ UNK_PTR unk_38[4];
+} struct_800FACE0; // size >= 0x3C
 
 // used for segments:
 // - segment_1B0E60

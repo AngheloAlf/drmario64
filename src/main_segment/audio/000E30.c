@@ -13,7 +13,20 @@
 #include "other_symbols.h"
 
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AA80);
+extern s32 RO_800ACA20[24];
+
+s32 func_8002AA80(void) {
+    s32 ret = 0;
+    u32 i;
+
+    for (i = 0; i < ARRAY_COUNT(RO_800ACA20); i++) {
+        RomOffsetPair *pair = &D_8000E838[RO_800ACA20[i]];
+        s32 segmentSize = pair->end - pair->start;
+
+        ret = MAX(segmentSize, ret);
+    }
+    return ret;
+}
 
 void func_8002AAD8(struct_800FACE0_unk_08 *arg0, s32 arg1) {
     arg0->unk_0 = 0;
@@ -78,7 +91,31 @@ void func_8002AD38(struct_800EB670 *arg0) {
     func_8002D6A4(D_8000E838[2].start, D_8000E838[2].end - D_8000E838[2].start);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AE58);
+void func_8002AE58(void) {
+    struct_800FACE0 *var_s0 = &B_800FACE0;
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNT(var_s0->unk_00); i++) {
+        if ((var_s0->unk_00[i] >= 0) && func_8002B194(i)) {
+            RomOffsetPair *pair = &D_8000E838[RO_800ACA20[var_s0->unk_00[i]]];
+
+            func_8002D428(i, pair->start, pair->end - pair->start);
+            func_8002D4A4(i);
+            func_8002D58C(i, 0x80);
+            var_s0->unk_00[i] = -1;
+        }
+    }
+
+    for (i = 0; i < ARRAY_COUNT(var_s0->unk_08); i++) {
+        if (var_s0->unk_38[i] != NULL) {
+            if (func_8002AB28(var_s0->unk_38[i]) != NULL) {
+                var_s0->unk_38[i] = NULL;
+            }
+        } else {
+            func_8002AC64(&var_s0->unk_08[i]);
+        }
+    }
+}
 
 void func_8002AF7C(void) {
     func_8002B0E4();
