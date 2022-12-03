@@ -70,6 +70,7 @@ segments:
       - [0x001060, c, boot/boot_main]
       - [0x0010F0, c, boot/10F0]
       - [0x001220, c, boot/1220]
+      - [0x001320, c, boot/1320]
       - [0x002B90, c, boot/2B90] # decompressor?
       - [0x002F80, c, boot/2F80]
 
@@ -254,7 +255,8 @@ segments:
       - [0x00ED50, hasm, libkmc/mmuldi3/mod_com]
 
       - [0x00ED90, .data, boot/boot_main]
-      - [0x00EDA0, data, boot/00EDA0]
+      - [0x00EDA0, .data, boot/1220]
+      - [0x00EDB0, data, boot/00EDB0]
 
       - [0x00F340, .data, boot/rom_offsets]
 
@@ -283,7 +285,7 @@ segments:
       - [0x0114A0, .data, ../lib/ultralib/src/vimodes/vimodepallan1]
       - [0x0114F0, .data, ../lib/ultralib/src/vimodes/vimodempallan1]
   
-      - [0x011540, data, boot/011540] # unreferenced
+      - [0x011540, data, boot/011540]
 
       # not sure about the rodata start
 
