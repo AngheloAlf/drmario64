@@ -13,7 +13,7 @@
 // data
 
 extern UNK_TYPE D_80088100;
-// extern UNK_TYPE D_80088104;
+extern s8 D_80088104;
 // extern UNK_TYPE D_80088105;
 extern u64* D_80088110[][2];
 // extern UNK_TYPE D_80088114;

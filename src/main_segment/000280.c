@@ -74,23 +74,38 @@ void func_8002A0DC(struct_800EB670 *arg) {
     }
 }
 
-#if 0
-void func_8002A184(void *arg0, struct_800FAF98_unk_64 *arg1, OSMesgQueue *arg2) {
-    OSIntMask temp_v0 = osSetIntMask(1);
+void func_8002A184(struct_800EB670 *arg0, struct_800FAF98_unk_64 *arg1, OSMesgQueue *arg2) {
+    OSIntMask intMask = osSetIntMask(OS_IM_NONE);
 
     arg1->unk_4 = arg2;
-    arg1->unk_0 = (void *) arg0->unk_668;
+    arg1->unk_0 = arg0->unk_668;
     arg0->unk_668 = arg1;
-    osSetIntMask(temp_v0);
+    osSetIntMask(intMask);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A184);
-#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A1DC);
+void func_8002A1DC(struct_800EB670 *arg0, struct_800FAF98_unk_64 *arg1) {
+    struct_800FAF98_unk_64 *iter = arg0->unk_668;
+    struct_800FAF98_unk_64 *prev = NULL;
+    OSIntMask intMask = osSetIntMask(OS_IM_NONE);
+
+    while (iter != NULL) {
+        if (iter == arg1) {
+            if (prev != NULL) {
+                prev->unk_0 = iter->unk_0;
+            } else {
+                arg0->unk_668 = iter->unk_0;
+            }
+            break;
+        }
+        prev = iter;
+        iter = iter->unk_0;
+    }
+
+    osSetIntMask(intMask);
+}
 
 void func_8002A26C(struct_800EB670 *arg0, OSMesg msg) {
-    struct_800EB670_unk_668 *var_s0 = arg0->unk_668;
+    struct_800FAF98_unk_64 *var_s0 = arg0->unk_668;
 
     while (var_s0 != NULL) {
         osSendMesg(var_s0->unk_4, msg, OS_MESG_NOBLOCK);
@@ -138,7 +153,33 @@ void func_8002A2B8(struct_800EB670 *arg0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A3F4);
+void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
+    OSMesg sp10 = NULL;
+
+    func_8002A51C(arg0, arg1);
+    if (arg0->unk_670 != NULL) {
+        arg0->unk_674 = (s32) arg1;
+        osRecvMesg(&arg0->unk_11C, &sp10, OS_MESG_BLOCK);
+        arg0->unk_674 = 0;
+    }
+
+    arg0->unk_66C = arg1;
+    osSpTaskLoad(&arg1->unk_10);
+    osSpTaskStartGo(&arg1->unk_10);
+    osRecvMesg(&arg0->unk_0AC, &sp10, OS_MESG_BLOCK);
+    arg0->unk_66C = NULL;
+    osRecvMesg(&arg0->unk_0E4, &sp10, OS_MESG_BLOCK);
+    if (arg0->unk_678 != 0) {
+        osViBlack(false);
+        arg0->unk_678 = 0;
+    }
+    if (arg1->unk_08 & 0x40) {
+        osViSwapBuffer(arg1->unk_0C);
+        D_80088104 = 1;
+    }
+
+    osSendMesg(arg1->unk_50, arg1->unk_54, OS_MESG_BLOCK);
+}
 
 void func_8002A4D8(struct_800EB670 *arg0) {
     while (true) {
@@ -149,4 +190,16 @@ void func_8002A4D8(struct_800EB670 *arg0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/000280", func_8002A51C);
+void func_8002A51C(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
+    OSMesg sp18 = NULL;
+    void *framebuffer = arg1->unk_0C;
+
+    while ((osViGetCurrentFramebuffer() == framebuffer) || (osViGetNextFramebuffer() == framebuffer)) {
+        struct_800FAF98_unk_64 sp10;
+
+        func_8002A184(arg0, &sp10, &arg0->unk_11C);
+        osRecvMesg(&arg0->unk_11C, &sp18, OS_MESG_BLOCK);
+        func_8002A1DC(arg0, &sp10);
+    }
+
+}

@@ -13,10 +13,11 @@ typedef struct struct_80029C04 {
     size_t segmentSize;
 } struct_80029C04;
 
-typedef struct struct_800EB670_unk_668 {
-    /* 0x0 */ struct struct_800EB670_unk_668 *unk_0;
+
+typedef struct struct_800FAF98_unk_64 {
+    /* 0x0 */ struct struct_800FAF98_unk_64 *unk_0;
     /* 0x4 */ OSMesgQueue *unk_4;
-} struct_800EB670_unk_668; // size >= 0x8
+} struct_800FAF98_unk_64; // size = 0x8
 
 
 typedef struct struct_8001D7F8 {
@@ -25,8 +26,12 @@ typedef struct struct_8001D7F8 {
 } struct_8001D7F8; // size >= 0x8
 
 typedef struct struct_800EB670_unk_66C {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x10];
+    /* 0x00 */ UNK_TYPE1 unk_00[0x8];
+    /* 0x00 */ u32 unk_08;
+    /* 0x0C */ void *unk_0C; // framebuffer
     /* 0x40 */ OSTask unk_10;
+    /* 0x50 */ OSMesgQueue *unk_50;
+    /* 0x54 */ OSMesg *unk_54;
 } struct_800EB670_unk_66C;  // size >= 0x50
 
 // Maybe the same one as struct_800EB670_unk_66C?
@@ -56,7 +61,7 @@ typedef struct struct_800EB670 {
     /* 0x158 */ OSThread unk_158;
     /* 0x308 */ OSThread unk_308;
     /* 0x4B8 */ OSThread unk_4B8;
-    /* 0x668 */ struct_800EB670_unk_668 *unk_668;
+    /* 0x668 */ struct_800FAF98_unk_64 *unk_668;
     /* 0x66C */ struct_800EB670_unk_66C *unk_66C;
     /* 0x670 */ struct_8002A2B8_sp10 *unk_670;
     /* 0x674 */ UNK_TYPE unk_674;
@@ -64,12 +69,6 @@ typedef struct struct_800EB670 {
 } struct_800EB670; // size >= 0x67C
 
 typedef void (*StartThreadFunc)(void *);
-
-
-typedef struct struct_800FAF98_unk_64 {
-    /* 0x0 */ UNK_PTR unk_0;
-    /* 0x4 */ OSMesgQueue *unk_4;
-} struct_800FAF98_unk_64; // size = 0x8
 
 
 
@@ -226,5 +225,11 @@ typedef struct struct_8007F004_arg0 {
 typedef struct struct_800F1DF8 {
     /* 0x0000 */ UNK_TYPE1 unk_0000[0x1400];
 } struct_800F1DF8; // size = 0x1400
+
+typedef struct struct_8002A51C_arg1 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0xC];
+    /* 0x0C */ void *unk_0C;
+} struct_8002A51C_arg1; // size >= 0x10
+
 
 #endif
