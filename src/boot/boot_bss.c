@@ -101,7 +101,7 @@ u8 __Dom2SpeedParam[0x74] BSS;
 
 u8 D_8001D8B4[0x0C] BSS;
 
-u8 B_8001D8C0[0x2000] BSS;
+u8 sBootThreadStack[0x2000] BSS;
 
 u8 B_8001F8C0[0xC8] BSS;
 

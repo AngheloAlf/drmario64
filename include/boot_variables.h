@@ -6,6 +6,7 @@
 #include "unknown_structs.h"
 #include "unk.h"
 #include "alignment.h"
+#include "hasm.h"
 
 // data
 
@@ -51,6 +52,8 @@ extern OSMesg B_800151D8[1];
 
 // extern UNK_TYPE B_8001A410;
 // extern UNK_TYPE B_8001B640;
+
+extern STACK(sBootThreadStack, BOOT_STACK_SIZE);
 
 extern u8 B_80021BE0[0x8000];
 extern size_t B_8001F990;
