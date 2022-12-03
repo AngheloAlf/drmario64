@@ -63,7 +63,7 @@ u32 func_8007657C(struct_800EB670 *arg0) {
     OSMesg sp30[8];
     struct_800FAF98_unk_64 sp50;
     struct_800E5A70 *sp58;
-    struct_800E5A70 *temp_s0 = ALIGN_PTR(&D_80124610);
+    struct_800E5A70 *temp_s0 = ALIGN_PTR(D_80124610);
     bool var_s1 = true;
 
     sp58 = &temp_s0[1];

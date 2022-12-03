@@ -320,7 +320,7 @@ s32 func_8003A8F4(void) {
     return var_v1;
 }
 
-void func_8003A950(UNK_PTR arg0) {
+void func_8003A950(Gfx **arg0) {
     switch (D_8008CFE0) {
         case 0x1:
             func_8003A1B4(arg0);

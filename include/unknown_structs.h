@@ -115,9 +115,10 @@ typedef struct struct_8005D78C_arg0 {
     /* 0x0 */ UNK_TYPE1 unk_0[1];
 } struct_8005D78C_arg0; // size = ?
 
+
 typedef struct struct_800EBEF0 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x550];
-} struct_800EBEF0; // size = 0x550
+} struct_800EBEF0; // size = 0x550 // or maybe 0x1540, or an array of 4 elements
 
 typedef struct struct_8005FC6C_arg0 {
     /* 0x000 */ UNK_TYPE4 unk_000;
