@@ -6,6 +6,7 @@
 #include "boot_variables.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "audio/audio_stuff.h"
 
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8002EB00);
@@ -222,11 +223,34 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8003858C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_800386AC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_80038824);
+s32 func_80038824(void) {
+    func_800388E0();
+    if ((u32) (osEepromProbe(&B_800F3E38) - 1) >= 2) {
+        func_80038BD0(1);
+        return 1;
+    }
+    return func_80038A94();
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_80038878);
+s32 func_80038878(s32 arg0, s32 arg1) {
+    func_800388E0();
+    if (((u32) (osEepromProbe(&B_800F3E38) - 1) >= 2)) {
+        func_80038BD0(1);
+        return 1;
+    }
+    return func_80038B18(arg0, arg1);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_800388E0);
+void func_800388E0(void) {
+    s32 i;
+
+    func_800369BC();
+    func_8003678C(&B_800F7470);
+
+    for (i = 0; i < ARRAY_COUNT(B_800EF560); i++) {
+        func_80036818(B_800EF560[i].unk_00);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_80038938);
 
@@ -236,7 +260,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_80038A94);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_80038B18);
 
-void func_80038BD0(void) {
+void func_80038BD0(UNK_TYPE arg0 UNUSED) {
 }
 
 void func_80038BD8(void) {

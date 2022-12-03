@@ -19,7 +19,38 @@ void func_8003AD88(Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003AE08);
+UNK_TYPE func_8003AE08(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
+    struct_8007F004_arg0 sp18;
+    Gfx *gfx = *gfxP;
+    s32 var_a1;
+    s32 var_a2;
+    UNK_TYPE ret;
+
+    gSPDisplayList(gfx++, D_8008D0E8);
+
+    switch (B_800E53C0) {
+        case 1:
+            var_a1 = 0;
+            var_a2 = 0;
+            break;
+
+        case 2:
+            var_a1 = D_8008D0C0[arg1];
+            var_a2 = 0;
+            break;
+
+        default:
+            var_a1 = D_8008D0C8[arg1];
+            var_a2 = 0;
+            break;
+    }
+
+    func_8007F004(&sp18, var_a1 << 0xF, var_a2 << 0xF, -0x01F40000);
+    ret = func_8007B650(&gfx, &sp18, B_800E53F4, arg2, B_800E53CC);
+
+    *gfxP = gfx;
+    return ret;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003AEE4);
 

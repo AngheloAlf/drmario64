@@ -232,4 +232,12 @@ typedef struct struct_8002A51C_arg1 {
 } struct_8002A51C_arg1; // size >= 0x10
 
 
+typedef struct struct_800EF560 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0xD0];
+} struct_800EF560; // size = 0xD0
+
+typedef struct struct_800F7470 {
+    /* 0x0 */ UNK_TYPE1 unk_0[UNK_SIZE];
+} struct_800F7470; // size = ?
+
 #endif
