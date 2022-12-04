@@ -11,7 +11,6 @@ The build process has the following package requirements:
 * build-essential
 * clang
 * binutils-mips-linux-gnu
-* gcc-mips-linux-gnu
 * python3
 * pip3
 
@@ -19,18 +18,30 @@ Under Debian / Ubuntu (which we recommend using), you can install them with the 
 
 ```bash
 sudo apt update
-sudo apt install make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip
+sudo apt install make git build-essential clang binutils-mips-linux-gnu python3 python3-pip
+```
+
+This project uses [Splat](https://github.com/ethteck/splat/); to install the dependencies for it, run
+
+```bash
+pip install -r tools/splat/requirements.txt
 ```
 
 ## Building
 
-Copy your ROM and rename it to `baserom.z64`.
+Copy your big-endian Dr Mario 64 ROM into the repository's root directory and rename it to `baserom.z64`. Then run
 
 ```bash
 make setup
 make lib
 make extract
 make
+```
+
+to download the appropriate compiler versions, build libultra, extract data from the rom using splat, and build the files back into a rom. If successful, the last line of output should say
+
+```
+build/drmario64.z64: OK
 ```
 
 ## Contributing
