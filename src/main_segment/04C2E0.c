@@ -16,8 +16,8 @@ void func_80075F30(void) {
     B_800E59A0 = 0;
     B_800E59A8 = -8;
     D_80088401 = 0;
-    B_800E59A4 = -(B_800EB4F0 == 6) & 0xFF;
-    func_80077FA4(&D_80124610, B_800EB4F0 != 6);
+    B_800E59A4 = -(B_800EB4F0 == ENUM_800EBCF0_6) & 0xFF;
+    func_80077FA4(&D_80124610, B_800EB4F0 != ENUM_800EBCF0_6);
 }
 
 const u8 RO_800B3240[] = {
@@ -41,12 +41,12 @@ const u8 RO_800B3240[] = {
     0x15,
 };
 
-u32 func_80075F98(struct_800EB670 *arg0) {
+enum_800EBCF0 func_80075F98(struct_800EB670 *arg0) {
     OSMesgQueue sp10;
     OSMesg sp28[8];
     struct_800FAF98_unk_64 sp48;
     u32 var_s0 = 0;
-    s32 var_s1 = -(B_800EB4F0 == 6) & 0x63;
+    s32 var_s1 = -(B_800EB4F0 == ENUM_800EBCF0_6) & 0x63;
 
     osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
     func_8002A184(arg0, &sp48, &sp10);
@@ -109,14 +109,14 @@ u32 func_80075F98(struct_800EB670 *arg0) {
     func_8002A1DC(arg0, &sp48);
 
     if (var_s0 == 1) {
-        return 6;
+        return ENUM_800EBCF0_6;
     }
 
     if (var_s0 != 2) {
-        return 2;
+        return ENUM_800EBCF0_2;
     }
 
-    if (D_800A7390 == 0) {
+    if (D_800A7390 == ENUM_800EBCF0_0) {
         u32 temp = rand();
 
         D_800AACEC = RO_800B3240[temp % ARRAY_COUNT(RO_800B3240)];
@@ -136,18 +136,18 @@ u32 func_80075F98(struct_800EB670 *arg0) {
             D_800A7394 = 0;
         }
         D_800A7390 ^= 1;
-        return 1;
+        return ENUM_800EBCF0_1;
     }
 
-    if (D_800A7390 == 1) {
+    if (D_800A7390 == ENUM_800EBCF0_1) {
         D_80088410 = D_800A7398;
 
         D_800A7398++;
         if (D_800A7398 >= 4) {
             D_800A7398 = 0;
         }
-        D_800A7390 = 0;
-        return 4;
+        D_800A7390 = ENUM_800EBCF0_0;
+        return ENUM_800EBCF0_4;
     }
 
     return D_800A7390;
@@ -187,7 +187,7 @@ const char D_800B32A8[] RODATA = "This game is not designed~nfor use on this sys
 const char D_800B3270[] RODATA = "There is no controller~nconnected. Please turn OFF~nthe Nintendo* 64 and insert~na controller in socket 1.~z";
 const char D_800B3318[] RODATA = "A Backup File is damaged.~nPress the A Button to delete this file.~z";
 
-u32 func_8007657C(struct_800EB670 *arg0) {
+enum_800EBCF0 func_8007657C(struct_800EB670 *arg0) {
     OSMesgQueue sp18;
     OSMesg sp30[8];
     struct_800FAF98_unk_64 sp50;
@@ -201,19 +201,22 @@ u32 func_8007657C(struct_800EB670 *arg0) {
     func_8002A184(arg0, &sp50, &sp18);
 
     switch (B_800EBCF0) {
-        case 0x8:
+        case ENUM_800EBCF0_8:
             func_8005CF78(temp_s0, &sp58, 0x40, 5, 0x40, 0x60);
             func_8005D314(temp_s0, D_800B3270);
             break;
 
-        case 0x9:
+        case ENUM_800EBCF0_9:
             func_8005CF78(temp_s0, &sp58, 0x40, 5, 0x40, 0x72);
             func_8005D314(temp_s0, D_800B32A8);
             break;
 
-        case 0xA:
+        case ENUM_800EBCF0_10:
             func_8005CF78(temp_s0, &sp58, 0x40, 5, 0x28, 0x6C);
             func_8005D314(temp_s0, D_800B3318);
+            break;
+
+        default:
             break;
     }
 
@@ -223,7 +226,7 @@ u32 func_8007657C(struct_800EB670 *arg0) {
         func_8002A700();
         osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
         func_8005D428(temp_s0);
-        if ((B_800EBCF0 == 0xA) && (B_800FAF88[B_800EBD16[0]] & 0x8000)) {
+        if ((B_800EBCF0 == ENUM_800EBCF0_10) && (B_800FAF88[B_800EBD16[0]] & 0x8000)) {
             var_s1 = false;
             func_8002B1B4(0x46);
         }
@@ -237,10 +240,10 @@ u32 func_8007657C(struct_800EB670 *arg0) {
     }
 
     func_8002A1DC(arg0, &sp50);
-    if (B_800EBCF0 == 0xA) {
+    if (B_800EBCF0 == ENUM_800EBCF0_10) {
         func_80038B18(0, 0);
     }
-    return 3;
+    return ENUM_800EBCF0_3;
 }
 
 void func_800767DC(void) {

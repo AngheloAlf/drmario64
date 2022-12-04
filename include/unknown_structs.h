@@ -267,6 +267,20 @@ typedef struct struct_800E87C0_unk_00 {
 
 typedef struct struct_800E87C0 {
     /* 0x00 */ struct_800E87C0_unk_00 unk_00[8];
-} struct_800E87C0; // size = 0x40
+} struct_800E87C0; // size = 0x407
+
+typedef enum enum_800EBCF0 {
+    /*  0 */ ENUM_800EBCF0_0,
+    /*  1 */ ENUM_800EBCF0_1,
+    /*  2 */ ENUM_800EBCF0_2,
+    /*  3 */ ENUM_800EBCF0_3,
+    /*  4 */ ENUM_800EBCF0_4,
+    /*  5 */ ENUM_800EBCF0_5,
+    /*  6 */ ENUM_800EBCF0_6,
+    /*  7 */ ENUM_800EBCF0_7,
+    /*  8 */ ENUM_800EBCF0_8, // "no controller connected"
+    /*  9 */ ENUM_800EBCF0_9, // "game not designed for this system"
+    /* 10 */ ENUM_800EBCF0_10, // "backup file is damaged"
+} enum_800EBCF0;
 
 #endif
