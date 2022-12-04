@@ -11,8 +11,6 @@
 #include "other_symbols.h"
 
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/04C2E0", D_800B3240);
-
 void func_80075F30(void) {
     D_800A739C = 0;
     B_800E59A0 = 0;
@@ -22,7 +20,138 @@ void func_80075F30(void) {
     func_80077FA4(&D_80124610, B_800EB4F0 != 6);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80075F98);
+const u8 RO_800B3240[] = {
+    0x01,
+    0x02,
+    0x03,
+    0x04,
+    0x05,
+    0x06,
+    0x07,
+    0x08,
+    0x09,
+    0x0D,
+    0x0E,
+    0x0F,
+    0x10,
+    0x11,
+    0x12,
+    0x13,
+    0x14,
+    0x15,
+};
+
+u32 func_80075F98(struct_800EB670 *arg0) {
+    OSMesgQueue sp10;
+    OSMesg sp28[8];
+    struct_800FAF98_unk_64 sp48;
+    u32 var_s0 = 0;
+    s32 var_s1 = -(B_800EB4F0 == 6) & 0x63;
+
+    osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
+    func_8002A184(arg0, &sp48, &sp10);
+    func_8002E830(osGetCount());
+    func_80075F30();
+    B_800F1CE0 = func_8002A954();
+    osRecvMesg(&sp10, NULL, 1);
+    D_80088124 = 2;
+
+    while (var_s0 == 0) {
+        func_8002A700();
+        osRecvMesg(&sp10, NULL, 1);
+
+        B_800E59A4 = CLAMP(B_800E59A4 + B_800E59A8, 0, 0xFF);
+
+        switch (B_800E59A0) {
+            case 0:
+                var_s1++;
+                if (D_800A739C == -1) {
+                    B_800E59A0 = 7;
+                } else {
+                    if (var_s1 == 0x64) {
+                        func_8002AFC4(0xB);
+                    }
+                    if (D_800A739C == 1) {
+                        B_800E59A0 = 6;
+                    }
+                }
+                break;
+
+            case 6:
+            case 7:
+                B_800E59A8 = -B_800E59A8;
+                if (B_800E59A0 == 6) {
+                    var_s0 = 1;
+                } else if (B_800E59A0 == 7) {
+                    var_s0 = 2;
+                }
+            break;
+        }
+
+        func_8002AE58();
+    }
+
+    func_8002B0E4();
+
+    while ((func_8002AFA4() == 0) || (B_800E59A4 < 0xFF)) {
+        osRecvMesg(&sp10, NULL, 1);
+        func_8002AE58();
+
+        B_800E59A4 = CLAMP(B_800E59A4 + B_800E59A8, 0, 0xFF);
+    }
+
+    D_80088124 = 0;
+    while (D_80088128 != 0) {
+        osRecvMesg(&sp10, NULL, 1);
+        func_8002AE58();
+    }
+
+    func_8002A1DC(arg0, &sp48);
+
+    if (var_s0 == 1) {
+        return 6;
+    }
+
+    if (var_s0 != 2) {
+        return 2;
+    }
+
+    if (D_800A7390 == 0) {
+        u32 temp = rand();
+
+        D_800AACEC = RO_800B3240[temp % ARRAY_COUNT(RO_800B3240)];
+
+        if (D_800A7394 == 0) {
+            B_800EFCD0 = 4;
+        } else if (D_800A7394 == 1) {
+            B_800EFCD0 = 5;
+        } else if (D_800A7394 == 2) {
+            B_800EFCD0 = 6;
+        }
+
+        B_801236F0 = 0;
+
+        D_800A7394++;
+        if (D_800A7394 >= 3) {
+            D_800A7394 = 0;
+        }
+        D_800A7390 ^= 1;
+        return 1;
+    }
+
+    if (D_800A7390 == 1) {
+        D_80088410 = D_800A7398;
+
+        D_800A7398++;
+        if (D_800A7398 >= 4) {
+            D_800A7398 = 0;
+        }
+        D_800A7390 = 0;
+        return 4;
+    }
+
+    return D_800A7390;
+}
 
 void func_8007636C(void) {
     s32 color;

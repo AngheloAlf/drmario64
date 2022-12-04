@@ -1872,6 +1872,8 @@ RO_800B317C = 0x800B317C; // force_not_migration:True type:s32
 RO_800B3180 = 0x800B3180; // force_not_migration:True
 RO_800B31A0 = 0x800B31A0; // force_not_migration:True
 
+RO_800B3240 = 0x800B3240; // size:0x12
+
 // bss
 
 B_800B3640 = 0x800B3640;

@@ -45,7 +45,7 @@ void func_8002C4EC(TexturePtr texture, s32 width, s32 height);
 u32 func_8002DB20();
 // void func_8002DC10();
 u32 func_8002E230();
-// void func_8002E830();
+void func_8002E830(u32 arg0);
 // void func_8002E8B0();
 // void func_8002EB00();
 // void func_8002EB74();

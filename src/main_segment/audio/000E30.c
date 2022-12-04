@@ -341,7 +341,7 @@ void func_8002B834(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3,
     scTask->list.t.dram_stack = B_800FAFA0;
     scTask->list.t.dram_stack_size = sizeof(B_800FAFA0);
     scTask->list.t.output_buff = B_801136F0;
-    scTask->list.t.output_buff_size = B_801236F0;
+    scTask->list.t.output_buff_size = (u64*)&B_801236F0;
     scTask->list.t.yield_data_ptr = B_800F7490;
     scTask->list.t.yield_data_size = sizeof(B_800F7490);
     scTask->next = NULL;
