@@ -32,7 +32,7 @@ extern Gfx D_80088328[];
 // extern UNK_TYPE D_80088400;
 extern u8 D_80088401; // maybe part of a struct?
 // extern UNK_TYPE D_80088402;
-// extern UNK_TYPE D_80088403;
+extern u8 D_80088403; // maybe part of a struct?
 // extern UNK_TYPE D_80088404;
 // extern UNK_TYPE D_80088405;
 extern u8 D_80088406;
@@ -773,7 +773,7 @@ extern OSMesgQueue *B_800FAF94;
 // extern UNK_TYPE B_800FAF9C;
 extern STACK(B_800FAFA0, 0x400);
 // extern UNK_TYPE B_800FB3A0;
-// extern UNK_TYPE B_800FB3A4;
+extern u32 B_800FB3A4;
 // extern UNK_TYPE B_800FB3A8;
 // extern UNK_TYPE B_800FB3AC;
 // extern UNK_TYPE B_800FB3B0;

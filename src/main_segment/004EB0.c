@@ -13,7 +13,13 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8002EB00);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8002EB74);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8002ED14);
+void func_8002ED14(struct_80123700 *arg0) {
+    arg0->unk_23D = 0;
+    arg0->unk_241 = 0;
+    arg0->unk_237 = 0;
+    arg0->unk_238 = 0;
+    arg0->unk_239 = 0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8002ED2C);
 

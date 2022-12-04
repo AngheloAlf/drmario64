@@ -2,7 +2,8 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "unk.h"
+#include "main_segment_functions.h"
+#include "main_segment_variables.h"
 
 
 
@@ -45,7 +46,22 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/041620", func_8006D254);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/041620", func_8006D620);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/041620", func_8006D7B0);
+void func_8006D7B0(void) {
+    struct_800F3E50 *temp = B_800F3E50;
+    s32 i;
+
+    temp->unk_424++;
+    temp->unk_394 = CLAMP(temp->unk_394 + temp->unk_398, 0, 20);
+
+    for (i = 0; i < D_80088403; i++) {
+        if (B_80123700[i].unk_020 == 1) {
+            if ((temp->unk_3C4 != 0) && (B_800FB3A4 <= 0x57E03)) {
+                B_800FB3A4++;
+            }
+            break;
+        }
+    }
+}
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/041620", D_800B2294);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/041620", D_800B22AC);

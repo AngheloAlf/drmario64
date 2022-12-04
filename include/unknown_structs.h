@@ -147,7 +147,14 @@ typedef struct struct_800EA290 {
 
 
 typedef struct struct_800F3E50 {
-    /* 0x000 */ UNK_TYPE1 unk_000[0xB60];
+    /* 0x000 */ UNK_TYPE1 unk_000[0x394];
+    /* 0x394 */ s32 unk_394;
+    /* 0x398 */ s32 unk_398;
+    /* 0x39C */ UNK_TYPE1 unk_39C[0x28];
+    /* 0x3C4 */ s32 unk_3C4;
+    /* 0x3C8 */ UNK_TYPE1 unk_3C8[0x5C];
+    /* 0x424 */ s32 unk_424;
+    /* 0x428 */ UNK_TYPE1 unk_428[0x738];
 } struct_800F3E50; // size = 0xB60
 
 
@@ -284,7 +291,8 @@ typedef enum enum_800EBCF0 {
 } enum_800EBCF0;
 
 typedef struct struct_80123700 {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x24];
+    /* 0x000 */ UNK_TYPE1 unk_000[0x20];
+    /* 0x020 */ s32 unk_020;
     /* 0x024 */ UNK_TYPE1 unk_024[0x2];
     /* 0x026 */ s8 unk_026;
     /* 0x027 */ UNK_TYPE1 unk_027[0x1];
@@ -302,7 +310,19 @@ typedef struct struct_80123700 {
     /* 0x090 */ s32 unk_090;
     /* 0x094 */ UNK_TYPE1 unk_094[0xD8];
     /* 0x16C */ s32 unk_16C;
-    /* 0x0170 */ UNK_TYPE1 unk_170[0x254];
+    /* 0x170 */ UNK_TYPE1 unk_170[0xC4];
+    /* 0x234 */ UNK_TYPE1 unk_234[3];
+    /* 0x237 */ s8 unk_237;
+    /* 0x238 */ s8 unk_238;
+    /* 0x239 */ s8 unk_239;
+    /* 0x23A */ UNK_TYPE1 unk_23A[2];
+    /* 0x23C */ UNK_TYPE1 unk_23C[1];
+    /* 0x23D */ s8 unk_23D;
+    /* 0x23E */ UNK_TYPE1 unk_23E[2];
+    /* 0x240 */ UNK_TYPE1 unk_240[1];
+    /* 0x241 */ s8 unk_241;
+    /* 0x242 */ UNK_TYPE1 unk_242[2];
+    /* 0x244 */ UNK_TYPE1 unk_244[0x180];
 } struct_80123700; // size = 0x3C4
 
 #endif

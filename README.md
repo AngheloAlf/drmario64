@@ -24,12 +24,6 @@ sudo apt install make git build-essential clang binutils-mips-linux-gnu python3 
 This project uses [Splat](https://github.com/ethteck/splat/); to install the dependencies for it, run
 
 ```bash
-pip install -r tools/splat/requirements.txt
-```
-
-Also python tooling has their own package dependencies which are listed in the `requirements.txt` file. Those can be automatically installed using `pip`:
-
-```bash
 pip3 install -r requirements.txt
 ```
 

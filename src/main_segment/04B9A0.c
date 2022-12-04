@@ -2,7 +2,9 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "unk.h"
+#include "main_segment_functions.h"
+#include "main_segment_variables.h"
+#include "audio/audio_stuff.h"
 
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31C0);
