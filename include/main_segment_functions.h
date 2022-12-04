@@ -890,7 +890,7 @@ UNK_TYPE func_8007B650(Gfx **gfxP, struct_8007F004_arg0 *arg1, UNK_PTR arg2, UNK
 // void func_8007C0C4();
 // void func_8007C244();
 // void func_8007C480();
-// void func_8007C4AC();
+s16 func_8007C4AC(f32 arg0);
 // void func_8007C4D8();
 // void func_8007C540();
 // void func_8007C5A8();
@@ -928,17 +928,20 @@ UNK_TYPE func_8007B650(Gfx **gfxP, struct_8007F004_arg0 *arg1, UNK_PTR arg2, UNK
 // void func_8007E5C4();
 // void func_8007E638();
 // void func_8007E760();
+
 // void func_8007EA20();
 // void func_8007EA38();
 // void func_8007EA58();
 // void func_8007EAEC();
 // void func_8007EC54();
+// void func_8007EC98();
 // void func_8007EE18();
 void func_8007F004(struct_8007F004_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3);
-// void func_8007F04C();
+void func_8007F04C(struct_8007F04C_arg0* arg0, s32 arg1);
 // void func_8007F094();
 // void func_8007F420();
 // void func_8007F720();
+
 // void func_8007F890();
 // void func_8007F990();
 // void func_8007F9D0();
