@@ -6,7 +6,6 @@
 #include "main_segment_variables.h"
 
 
-#ifdef NON_MATCHING
 enum_800EBCF0 func_8002DB20(void) {
     enum_800EBCF0 ret = ENUM_800EBCF0_3;
     s32 i;
@@ -26,25 +25,20 @@ enum_800EBCF0 func_8002DB20(void) {
     B_800FAE78 = 8;
 
     switch (func_80038824()) {
+        case 0x2:
+            func_80038878(0, 0);
+            break;
+
         case 0x5:
             ret = ENUM_800EBCF0_10;
             break;
 
-        case 0x2:
-            func_80038878(0, 0);
-            //ret = ENUM_800EBCF0_3;
-            break;
-
         default:
-            //ret = ENUM_800EBCF0_3;
             break;
     }
 
     return ret;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/003ED0", func_8002DB20);
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/003ED0", func_8002DC10);
 

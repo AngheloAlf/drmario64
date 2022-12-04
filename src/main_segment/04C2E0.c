@@ -726,7 +726,6 @@ extern s32 B_800E5F00;
 extern u16 B_800E5F04;
 extern s32 B_800E87B4;
 extern s16 B_800F6CDE[];
-extern s8 D_80088402;
 extern u8 D_80088409;
 extern void *D_800A8ACC;
 extern s32 D_800AAD10;
