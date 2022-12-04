@@ -31,7 +31,7 @@ extern Gfx D_80088328[];
 
 // extern UNK_TYPE D_80088400;
 extern u8 D_80088401; // maybe part of a struct?
-// extern UNK_TYPE D_80088402;
+extern u8 D_80088402; // maybe part of a struct?
 extern u8 D_80088403; // maybe part of a struct?
 // extern UNK_TYPE D_80088404;
 // extern UNK_TYPE D_80088405;
@@ -707,7 +707,7 @@ extern u8 B_800F3E78[];
 // extern UNK_TYPE B_800F3E98;
 // extern UNK_TYPE B_800F3E9C;
 // extern UNK_TYPE B_800F3EA0;
-// extern UNK_TYPE B_800F4890;
+extern struct_800F4890 *B_800F4890;
 // extern UNK_TYPE B_800F4894;
 extern OSMesgQueue B_800F4898;
 extern struct_800FAF98_unk_64 B_800F48B0;

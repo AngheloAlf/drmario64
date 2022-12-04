@@ -816,7 +816,7 @@ void func_80071CE0(void);
 // void func_80071EF0();
 // void func_80071F0C();
 // void func_80071F14();
-// void func_80071FA0();
+void func_80071FA0(UNK_TYPE *arg0);
 // void func_80072028();
 // void func_800721A0();
 // void func_800721BC();

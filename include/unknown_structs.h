@@ -325,4 +325,16 @@ typedef struct struct_80123700 {
     /* 0x244 */ UNK_TYPE1 unk_244[0x180];
 } struct_80123700; // size = 0x3C4
 
+typedef struct struct_800F4890 {
+    /* 0x000 */ UNK_TYPE1 unk_000[0xC];
+    /* 0x00C */ s32 unk_00C;
+    /* 0x010 */ s32 unk_010;
+    /* 0x014 */ s32 unk_014;
+    /* 0x018 */ s32 unk_018;
+    /* 0x01C */ UNK_TYPE1 unk_01C[0x18];
+    /* 0x034 */ UNK_TYPE unk_034;
+    /* 0x038 */ UNK_TYPE1 unk_038[0x14C];
+    /* 0x184 */ s32 unk_184;
+} struct_800F4890; // size >= 0x188
+
 #endif
