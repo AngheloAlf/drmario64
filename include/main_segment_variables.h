@@ -251,9 +251,9 @@ extern s32 D_800A739C;
 // extern UNK_TYPE D_800A73C0;
 // extern UNK_TYPE D_800A76C0;
 extern u8 D_800A82C0[];
-// extern UNK_TYPE D_800A8AC0;
-// extern UNK_TYPE D_800A8AC4;
-// extern UNK_TYPE D_800A8AC8;
+extern UNK_TYPE D_800A8AC0; // probably part of a struct/array
+extern UNK_TYPE D_800A8AC4; // probably part of a struct/array
+extern UNK_TYPE D_800A8AC8; // probably part of a struct/array
 // extern UNK_TYPE D_800A8ACC;
 // extern UNK_TYPE D_800A8AD0;
 // extern UNK_TYPE D_800A923C;
@@ -537,8 +537,8 @@ extern s32 B_800E59D8;
 extern s32 B_800E59DC;
 extern void **B_800E59E0;
 extern void *B_800E59E4;
-// extern UNK_TYPE B_800E59E8;
-// extern UNK_TYPE B_800E59EC;
+extern void **B_800E59E8;
+extern void *B_800E59EC;
 extern struct_800E5A70 B_800E59F0;
 // extern UNK_TYPE B_800E5A70;
 // extern UNK_TYPE B_800E5A8C;
