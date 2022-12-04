@@ -283,4 +283,26 @@ typedef enum enum_800EBCF0 {
     /* 10 */ ENUM_800EBCF0_10, // "backup file is damaged"
 } enum_800EBCF0;
 
+typedef struct struct_80123700 {
+    /* 0x000 */ UNK_TYPE1 unk_000[0x24];
+    /* 0x024 */ UNK_TYPE1 unk_024[0x2];
+    /* 0x026 */ s8 unk_026;
+    /* 0x027 */ UNK_TYPE1 unk_027[0x1];
+    /* 0x028 */ UNK_TYPE1 unk_028[0x4];
+    /* 0x02C */ s8 unk_02C;
+    /* 0x02D */ UNK_TYPE1 unk_02D[0x3];
+    /* 0x030 */ UNK_TYPE1 unk_030[0x18];
+    /* 0x048 */ UNK_TYPE1 unk_048[0x3];
+    /* 0x04B */ s8 unk_04B;
+    /* 0x04C */ s8 unk_04C;
+    /* 0x04D */ s8 unk_04D;
+    /* 0x04E */ s8 unk_04E;
+    /* 0x04F */ s8 unk_04F;
+    /* 0x050 */ UNK_TYPE1 unk_050[0x40];
+    /* 0x090 */ s32 unk_090;
+    /* 0x094 */ UNK_TYPE1 unk_094[0xD8];
+    /* 0x16C */ s32 unk_16C;
+    /* 0x0170 */ UNK_TYPE1 unk_170[0x254];
+} struct_80123700; // size = 0x3C4
+
 #endif

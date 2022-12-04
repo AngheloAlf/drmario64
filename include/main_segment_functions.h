@@ -147,7 +147,7 @@ void func_800369BC(void);
 // void func_80038518();
 // void func_8003858C();
 // void func_800386AC();
-// void func_80038824();
+s32 func_80038824(void);
 s32 func_80038878(s32 arg0, s32 arg1);
 void func_800388E0(void);
 // void func_80038938();
