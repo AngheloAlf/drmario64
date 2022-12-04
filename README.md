@@ -27,6 +27,12 @@ This project uses [Splat](https://github.com/ethteck/splat/); to install the dep
 pip install -r tools/splat/requirements.txt
 ```
 
+Also python tooling has their own package dependencies which are listed in the `requirements.txt` file. Those can be automatically installed using `pip`:
+
+```bash
+pip3 install -r requirements.txt
+```
+
 ## Building
 
 Copy your big-endian Dr Mario 64 ROM into the repository's root directory and rename it to `baserom.z64`. Then run
