@@ -6,6 +6,7 @@
 import argparse
 import subprocess
 import requests
+import os
 from pathlib import Path
 
 import progress
@@ -60,12 +61,13 @@ def uploadProgressMain():
     for key, value in entries.items():
         print(f"\t{key}: {value}")
 
-    if not args.api_key:
+    api_key = args.api_key or os.environ.get("PROGRESS_API_KEY")
+    if not api_key:
         print("Missing api-key, exiting without uploading")
         return
 
     data = {
-        "api_key": args.api_key,
+        "api_key": api_key,
         "entries": [entries],
     }
     r = requests.post(url, json=data)

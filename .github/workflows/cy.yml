@@ -42,7 +42,9 @@ jobs:
     - name: Upload progress
       if: github.ref == 'refs/heads/master'
       continue-on-error: true
-      run: python3 tools/upload_progress.py https://progress.deco.mp/ drmario64 -v usa --api-key ${{ secrets.PROGRESS_API_KEY }}
+      env:
+        PROGRESS_API_KEY: ${{secrets.PROGRESS_API_KEY}}
+      run: python3 tools/upload_progress.py https://progress.deco.mp/ drmario64 -v usa
 
     - name: Upload map
       uses: actions/upload-artifact@v3
