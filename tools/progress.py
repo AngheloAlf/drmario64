@@ -11,10 +11,6 @@ from pathlib import Path
 
 from repo_64scripts import get_map_functions_sizes
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-d", "--detailed", action="store_true")
-args = parser.parse_args()
-
 
 @dataclasses.dataclass
 class ProgressStats:
@@ -26,50 +22,86 @@ class ProgressStats:
         return self.undecompedSize + self.decompedSize
 
 
-MAP_FILE = "build/drmario64_uncompressed.map"
+    @staticmethod
+    def printHeader():
+        print(f"{'FolderName':<20}: {'DecompedSize':>12} / {'Total':>6} {'OfFolder':>10}%  ({'OfTotal':>20}%)")
 
-filesList = get_map_functions_sizes.parseMapFile(MAP_FILE, "\n build/")
-filesList = get_map_functions_sizes.removeDottedSymbols(filesList)
+    def print(self, folder: str, totalStats: ProgressStats):
+        print(f"{folder:<20}: {self.decompedSize:>12} / {self.total:>6} {self.decompedSize / self.total * 100:>10.4f}%  ({self.decompedSize / totalStats.total * 100:>8.4f}% / {self.total / totalStats.total * 100:>8.4f}%)")
 
-# get_map_functions_sizes.printFunctionsCsv(filesList)
 
-progressPerFolder: dict[str, ProgressStats] = dict()
-totalStats = ProgressStats()
+def getFileListFromMap(mapFile: str) -> list[get_map_functions_sizes.File]:
+    filesList = get_map_functions_sizes.parseMapFile(mapFile, "\n build/")
+    return get_map_functions_sizes.removeDottedSymbols(filesList)
 
-for file in filesList:
-    functionList = file.functions
-    funcCount = len(functionList)
+def getProgressFromFileList(filesList: list[get_map_functions_sizes.File], detailed: bool, aliases: dict[str, str]) -> tuple[ProgressStats, dict[str, ProgressStats]]:
+    totalStats = ProgressStats()
+    progressPerFolder: dict[str, ProgressStats] = dict()
 
-    if funcCount == 0:
-        continue
+    for file in filesList:
+        functionList = file.functions
+        funcCount = len(functionList)
 
-    if args.detailed:
-        folder = str(Path(*Path(file.name).parts[:-1]))
-    else:
-        folder = Path(file.name).parts[0]
-    if folder not in progressPerFolder:
-        progressPerFolder[folder] = ProgressStats()
+        if funcCount == 0:
+            continue
 
-    fullAsmFile = Path("asm") / f"{file.name}.s"
-    wholeFileIsUndecomped = fullAsmFile.exists()
-
-    for func in functionList:
-        funcAsmPath = Path("asm") / "nonmatchings" / file.name / f"{func.name}.s"
-
-        if wholeFileIsUndecomped:
-            totalStats.undecompedSize += func.size
-            progressPerFolder[folder].undecompedSize += func.size
-        elif funcAsmPath.exists():
-            totalStats.undecompedSize += func.size
-            progressPerFolder[folder].undecompedSize += func.size
+        if detailed:
+            folder = str(Path(*Path(file.name).parts[:-1]))
         else:
-            totalStats.decompedSize += func.size
-            progressPerFolder[folder].decompedSize += func.size
+            folder = Path(file.name).parts[0]
 
-print(f"{'FolderName':<20}: {'DecompedSize':>12} / {'Total':>6} {'OfFolder':>10}%  ({'OfTotal':>20}%)")
+        if folder in aliases:
+            folder = aliases[folder]
 
-print(f"{'all':<20}: {totalStats.decompedSize:>12} / {totalStats.total:>6} {totalStats.decompedSize / totalStats.total * 100:>10.4f}%  ({totalStats.decompedSize / totalStats.total * 100:>8.4f}% / {totalStats.total / totalStats.total * 100:>8.4f}%)")
-print()
+        if folder not in progressPerFolder:
+            progressPerFolder[folder] = ProgressStats()
 
-for folder, stats in progressPerFolder.items():
-    print(f"{folder:<20}: {stats.decompedSize:>12} / {stats.total:>6} {stats.decompedSize / stats.total * 100:>10.4f}%  ({stats.decompedSize / totalStats.total * 100:>8.4f}% / {stats.total / totalStats.total * 100:>8.4f}%)")
+        fullAsmFile = Path("asm") / f"{file.name}.s"
+        wholeFileIsUndecomped = fullAsmFile.exists()
+
+        for func in functionList:
+            funcAsmPath = Path("asm") / "nonmatchings" / file.name / f"{func.name}.s"
+
+            if wholeFileIsUndecomped:
+                totalStats.undecompedSize += func.size
+                progressPerFolder[folder].undecompedSize += func.size
+            elif funcAsmPath.exists():
+                totalStats.undecompedSize += func.size
+                progressPerFolder[folder].undecompedSize += func.size
+            else:
+                totalStats.decompedSize += func.size
+                progressPerFolder[folder].decompedSize += func.size
+    return totalStats, progressPerFolder
+
+def getProgress(map: str, detailed: bool=False, aliases: dict[str, str]={}) -> tuple[ProgressStats, dict[str, ProgressStats]]:
+    filesList = getFileListFromMap(map)
+    # get_map_functions_sizes.printFunctionsCsv(filesList)
+    return getProgressFromFileList(filesList, detailed, aliases)
+
+
+def printProgressHeader():
+    print(f"{'FolderName':<20}: {'DecompedSize':>12} / {'Total':>6} {'OfFolder':>10}%  ({'OfTotal':>20}%)")
+
+def printProgressEntry(folder: str, statsEntry: ProgressStats, totalStats: ProgressStats):
+    print(f"{folder:<20}: {statsEntry.decompedSize:>12} / {statsEntry.total:>6} {statsEntry.decompedSize / statsEntry.total * 100:>10.4f}%  ({statsEntry.decompedSize / totalStats.total * 100:>8.4f}% / {statsEntry.total / totalStats.total * 100:>8.4f}%)")
+
+
+
+def progressMain():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-m", "--map", default="build/drmario64_uncompressed.map")
+    parser.add_argument("-d", "--detailed", action="store_true")
+
+    args = parser.parse_args()
+
+    totalStats, progressPerFolder = getProgress(args.map, args.detailed, {"ultralib": "libultra"})
+
+    ProgressStats.printHeader()
+    totalStats.print("all", totalStats)
+    print()
+
+    for folder, statsEntry in progressPerFolder.items():
+        statsEntry.print(folder, totalStats)
+
+if __name__ == "__main__":
+    progressMain()
