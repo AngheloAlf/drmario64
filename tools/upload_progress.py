@@ -32,7 +32,7 @@ def uploadProgressMain():
 
     args = parser.parse_args()
 
-    totalStats, progressPerFolder = progress.getProgress(args.map)
+    totalStats, progressPerFolder = progress.getProgress(args.map, aliases= {"ultralib": "libultra"})
 
     categories = {}
     categories["all"] = totalStats.decompedSize
