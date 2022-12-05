@@ -6,7 +6,6 @@
 import argparse
 import subprocess
 import requests
-import os
 from pathlib import Path
 
 import progress
@@ -18,15 +17,14 @@ def get_git_commit_timestamp() -> int:
 def get_git_commit_sha() -> str:
     return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
 
-def generate_url(base_url: str, project: str, version: str) -> str:
-    return str(Path(base_url) / "data" / project / version)
+def generate_url(base_url: str, project: str) -> str:
+    return str(Path(base_url) / "data" / project)
 
 
 def uploadProgressMain():
     parser = argparse.ArgumentParser()
     parser.add_argument("base_url", help="API base URL")
     parser.add_argument("project", help="Project slug")
-    parser.add_argument("version", help="Version slug")
     parser.add_argument("--api-key", help="API key")
     parser.add_argument("-m", "--map", default="build/drmario64_uncompressed.map")
 
@@ -54,14 +52,14 @@ def uploadProgressMain():
         "categories": {"rom": categories},
     }
 
-    url = generate_url(args.base_url, args.project, args.version)
+    url = generate_url(args.base_url, args.project)
 
     print("Publishing entries to", url)
 
     for key, value in entries.items():
         print(f"\t{key}: {value}")
 
-    api_key = args.api_key or os.environ.get("PROGRESS_API_KEY")
+    api_key = args.api_key
     if not api_key:
         print("Missing api-key, exiting without uploading")
         return
