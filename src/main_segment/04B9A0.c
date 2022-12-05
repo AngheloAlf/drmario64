@@ -87,7 +87,7 @@ enum_800EBCF0 func_80075A2C(struct_800EB670 *arg0) {
     func_8002AF7C();
     D_80088124 = 0;
 
-    while ((func_8002AFA4() == 0) || (D_80088128 != 0)) {
+    while (!func_8002AFA4() || (D_80088128 != 0)) {
         osRecvMesg(&sp10, NULL, 1);
         func_8002AE58();
     }

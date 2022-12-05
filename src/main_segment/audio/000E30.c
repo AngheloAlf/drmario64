@@ -28,15 +28,15 @@ s32 func_8002AA80(void) {
     return ret;
 }
 
-void func_8002AAD8(struct_800FACE0_unk_08 *arg0, s32 arg1) {
+void func_8002AAD8(struct_800FACE0_unk_08 *arg0, s32 index) {
     arg0->unk_0 = 0;
-    arg0->unk_4 = arg1;
+    arg0->index = index;
     arg0->unk_8 = 0;
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AAE8);
 
-bool func_8002AB28(struct_8002AB28_arg0 *arg0) {
+bool func_8002AB28(struct_800FACE0_unk_08 *arg0) {
     if ((arg0->unk_0 == NULL) || (func_8002D7E0(arg0->index) != 0)) {
         return false;
     }
@@ -131,7 +131,7 @@ void func_8002AF7C(void) {
     MusStop(MUSFLAG_EFFECTS | MUSFLAG_SONGS, 0);
 }
 
-s32 func_8002AFA4(void) {
+bool func_8002AFA4(void) {
     return MusAsk(MUSFLAG_EFFECTS | MUSFLAG_SONGS) == 0;
 }
 
@@ -197,7 +197,58 @@ bool func_8002B194(s32 arg0) {
     return func_8002D51C(arg0) == 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B1B4);
+extern struct_800ACA80 D_800ACA80[];
+
+void func_8002B1B4(s32 arg0) {
+    s32 i;
+    struct_800ACA80 *temp_a1 = &D_800ACA80[arg0];
+    struct_800FACE0 *var_a3 = &B_800FACE0;
+
+    for (i = 0; i < ARRAY_COUNT(var_a3->unk_08); i++) {
+        if (var_a3->unk_38[i] == NULL) {
+            continue;
+        }
+
+        if ((var_a3->unk_08[i].unk_0 != NULL) && (var_a3->unk_08[i].unk_0->unk_0 == temp_a1->unk_0)) {
+            return;
+        }
+    }
+
+    for (i = 0; i < ARRAY_COUNT(var_a3->unk_08); i++) {
+        if (var_a3->unk_38[i] != NULL) {
+            continue;
+        }
+
+        if (var_a3->unk_08[i].unk_0 == NULL) {
+            func_8002AAE8(&var_a3->unk_08[i], temp_a1);
+            var_a3->unk_38[i] = &var_a3->unk_08[i];
+            return;
+        }
+    }
+
+    for (i = 0; i < ARRAY_COUNT(var_a3->unk_08); i++) {
+        if (var_a3->unk_38[i] != NULL) {
+            continue;
+        }
+
+        if ((var_a3->unk_08[i].unk_0 != NULL) && (var_a3->unk_08[i].unk_0->unk_3 <= temp_a1->unk_3)) {
+            func_8002AAE8(&var_a3->unk_08[i], temp_a1);
+            var_a3->unk_38[i] = &var_a3->unk_08[i];
+            return;
+        }
+    }
+
+    for (i = 0; i < ARRAY_COUNT(var_a3->unk_08); i++) {
+        if (var_a3->unk_38[i] == NULL) {
+            continue;
+        }
+
+        if ((var_a3->unk_08[i].unk_0 != NULL) && (var_a3->unk_08[i].unk_0->unk_3 < temp_a1->unk_3)) {
+            func_8002AAE8(&var_a3->unk_08[i], temp_a1);
+            return;
+        }
+    }
+}
 
 void func_8002B344(s32 arg0) {
     if (D_80088406 < 6) {
@@ -380,7 +431,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002BAB8);
 void func_8002BBD8(u8 arg0) {
     gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_80088150));
     if (arg0) {
-        gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, 319, 239)
+        gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
     } else {
         gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 12, 8, 307, 231);
     }
