@@ -185,7 +185,11 @@ void func_8002AAD8(struct_800FACE0_unk_08 *arg0, s32 index) {
     arg0->unk_8 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AAE8);
+void func_8002AAE8(struct_800FACE0_unk_08 *arg0, const struct_800ACA80 *arg1) {
+    func_8002D810(arg0->index, 0);
+    arg0->unk_0 = arg1;
+    arg0->unk_8 = 0;
+}
 
 bool func_8002AB28(struct_800FACE0_unk_08 *arg0) {
     if ((arg0->unk_0 == NULL) || (func_8002D7E0(arg0->index) != 0)) {
@@ -351,49 +355,49 @@ bool func_8002B194(s32 arg0) {
 void func_8002B1B4(s32 arg0) {
     s32 i;
     const struct_800ACA80 *temp_a1 = &D_800ACA80[arg0];
-    struct_800FACE0 *var_a3 = &B_800FACE0;
+    struct_800FACE0 *ptr = &B_800FACE0;
 
-    for (i = 0; i < ARRAY_COUNT(var_a3->unk_08); i++) {
-        if (var_a3->unk_38[i] == NULL) {
+    for (i = 0; i < ARRAY_COUNT(ptr->unk_08); i++) {
+        if (ptr->unk_38[i] == NULL) {
             continue;
         }
 
-        if ((var_a3->unk_08[i].unk_0 != NULL) && (var_a3->unk_08[i].unk_0->unk_0 == temp_a1->unk_0)) {
+        if ((ptr->unk_08[i].unk_0 != NULL) && (ptr->unk_08[i].unk_0->unk_0 == temp_a1->unk_0)) {
             return;
         }
     }
 
-    for (i = 0; i < ARRAY_COUNT(var_a3->unk_08); i++) {
-        if (var_a3->unk_38[i] != NULL) {
+    for (i = 0; i < ARRAY_COUNT(ptr->unk_08); i++) {
+        if (ptr->unk_38[i] != NULL) {
             continue;
         }
 
-        if (var_a3->unk_08[i].unk_0 == NULL) {
-            func_8002AAE8(&var_a3->unk_08[i], temp_a1);
-            var_a3->unk_38[i] = &var_a3->unk_08[i];
+        if (ptr->unk_08[i].unk_0 == NULL) {
+            func_8002AAE8(&ptr->unk_08[i], temp_a1);
+            ptr->unk_38[i] = &ptr->unk_08[i];
             return;
         }
     }
 
-    for (i = 0; i < ARRAY_COUNT(var_a3->unk_08); i++) {
-        if (var_a3->unk_38[i] != NULL) {
+    for (i = 0; i < ARRAY_COUNT(ptr->unk_08); i++) {
+        if (ptr->unk_38[i] != NULL) {
             continue;
         }
 
-        if ((var_a3->unk_08[i].unk_0 != NULL) && (var_a3->unk_08[i].unk_0->unk_3 <= temp_a1->unk_3)) {
-            func_8002AAE8(&var_a3->unk_08[i], temp_a1);
-            var_a3->unk_38[i] = &var_a3->unk_08[i];
+        if ((ptr->unk_08[i].unk_0 != NULL) && (ptr->unk_08[i].unk_0->unk_3 <= temp_a1->unk_3)) {
+            func_8002AAE8(&ptr->unk_08[i], temp_a1);
+            ptr->unk_38[i] = &ptr->unk_08[i];
             return;
         }
     }
 
-    for (i = 0; i < ARRAY_COUNT(var_a3->unk_08); i++) {
-        if (var_a3->unk_38[i] == NULL) {
+    for (i = 0; i < ARRAY_COUNT(ptr->unk_08); i++) {
+        if (ptr->unk_38[i] == NULL) {
             continue;
         }
 
-        if ((var_a3->unk_08[i].unk_0 != NULL) && (var_a3->unk_08[i].unk_0->unk_3 < temp_a1->unk_3)) {
-            func_8002AAE8(&var_a3->unk_08[i], temp_a1);
+        if ((ptr->unk_08[i].unk_0 != NULL) && (ptr->unk_08[i].unk_0->unk_3 < temp_a1->unk_3)) {
+            func_8002AAE8(&ptr->unk_08[i], temp_a1);
             return;
         }
     }

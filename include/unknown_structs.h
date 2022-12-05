@@ -70,18 +70,17 @@ typedef struct struct_800EB670 {
 
 typedef void (*StartThreadFunc)(void *);
 
-
-typedef struct struct_800FACE0_unk_08_unk_0 {
+typedef struct struct_800ACA80 {
     /* 0x0 */ u8 unk_0;
-    /* 0x1 */ UNK_TYPE1 unk_1;
-    /* 0x2 */ UNK_TYPE1 unk_2;
+    /* 0x1 */ s8 unk_1;
+    /* 0x2 */ u8 unk_2;
     /* 0x3 */ u8 unk_3;
-    /* 0x4 */ UNK_TYPE1 unk_4[0x1];
+    /* 0x4 */ u8 unk_4;
     /* 0x5 */ u8 volume;
-} struct_800FACE0_unk_08_unk_0; // size > 0x6
+} struct_800ACA80; // size = 0x6
 
 typedef struct struct_800FACE0_unk_08 {
-    /* 0x0 */ struct_800FACE0_unk_08_unk_0 *unk_0;
+    /* 0x0 */ const struct_800ACA80 *unk_0;
     /* 0x4 */ s32 index;
     /* 0x8 */ UNK_TYPE unk_8;
 } struct_800FACE0_unk_08; // size = 0xC
@@ -337,14 +336,5 @@ typedef struct struct_800F4890 {
     /* 0x038 */ UNK_TYPE1 unk_038[0x14C];
     /* 0x184 */ s32 unk_184;
 } struct_800F4890; // size >= 0x188
-
-typedef struct struct_800ACA80 {
-    /* 0x0 */ u8 unk_0;
-    /* 0x1 */ s8 unk_1;
-    /* 0x2 */ s8 unk_2;
-    /* 0x3 */ u8 unk_3;
-    /* 0x4 */ s8 unk_4;
-    /* 0x5 */ s8 unk_5;
-} struct_800ACA80; // size = 0x6
 
 #endif
