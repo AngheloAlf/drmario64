@@ -438,9 +438,9 @@ segments:
       - [0x094440, rodata, rsp/s2dex]
 
       - [0x094800, .rodata, main_segment/000000]
-      - [0x094830, rodata, main_segment/082DC0]
+      # - [0x094830, rodata, main_segment/082DC0]
 
-      - [0x094B10, .rodata, main_segment/audio/000E30]
+      - [0x094830, .rodata, main_segment/audio/000E30]
 
       - start: 0x094B40
         name: main_segment/003ED0

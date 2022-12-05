@@ -41,8 +41,8 @@ typedef struct Audio_struct_800FAF98 {
 /// 000E30.c
 
 s32 func_8002AA80();
-void func_8002AAD8(struct_800FACE0_unk_08 *arg0, UNK_TYPE arg1);
-void func_8002AAE8(struct_800FACE0_unk_08 *arg0, UNK_PTR);
+void func_8002AAD8(struct_800FACE0_unk_08 *arg0, s32 index);
+void func_8002AAE8(struct_800FACE0_unk_08 *arg0, const struct_800ACA80 *arg1);
 bool func_8002AB28(struct_800FACE0_unk_08 *arg0);
 // void func_8002ABC0();
 void func_8002AC64(struct_800FACE0_unk_08 *arg0);
