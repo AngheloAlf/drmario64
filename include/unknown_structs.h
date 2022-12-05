@@ -105,7 +105,10 @@ typedef struct struct_800E5A70 {
     /* 0x10 */ UNK_TYPE unk_10;
     /* 0x14 */ UNK_TYPE unk_14;
     /* 0x18 */ UNK_TYPE unk_18;
-    /* 0x1C */ UNK_TYPE1 unk_1C[0x44];
+    /* 0x1C */ UNK_TYPE1 unk_1C[0x4];
+    /* 0x20 */ s32 unk_20;
+    /* 0x24 */ s32 unk_24;
+    /* 0x38 */ UNK_TYPE1 unk_28[0x38];
     /* 0x60 */ UNK_TYPE unk_60;
     /* 0x64 */ UNK_TYPE1 unk_64[0x1C];
 } struct_800E5A70; // size = 0x80
@@ -154,7 +157,12 @@ typedef struct struct_800F3E50 {
     /* 0x3C4 */ s32 unk_3C4;
     /* 0x3C8 */ UNK_TYPE1 unk_3C8[0x5C];
     /* 0x424 */ s32 unk_424;
-    /* 0x428 */ UNK_TYPE1 unk_428[0x738];
+    /* 0x428 */ UNK_TYPE1 unk_428[0x4F4];
+    /* 0x91C */ struct_800E5A70 unk_91C;
+    /* 0x99C */ UNK_TYPE1 unk_99C[0x10];
+    /* 0x9AC */ s32 unk_9AC;
+    /* 0x9B0 */ s32 unk_9B0;
+    /* 0x9B4 */ UNK_TYPE1 unk_9B4[0x1AC];
 } struct_800F3E50; // size = 0xB60
 
 

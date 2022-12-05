@@ -392,7 +392,7 @@ extern UNK_TYPE D_800A8AC8; // probably part of a struct/array
 // extern UNK_TYPE D_800AACD4;
 extern s32 D_800AACEC;
 // extern UNK_TYPE D_800AACF0;
-// extern UNK_TYPE D_800AAD04;
+extern char *D_800AAD04;
 extern s32 D_800AAD08;
 extern s32 D_800AAD0C;
 extern UNK_TYPE4 D_800AAD10;
@@ -516,7 +516,7 @@ extern Mtx B_800E5818;
 // extern UNK_TYPE B_800E5974;
 // extern UNK_TYPE B_800E5978;
 // extern UNK_TYPE B_800E597C;
-// extern UNK_TYPE B_800E5980;
+extern UNK_PTR B_800E5980;
 // extern UNK_TYPE B_800E5990;
 // extern UNK_TYPE B_800E5994;
 extern s32 B_800E59A0;

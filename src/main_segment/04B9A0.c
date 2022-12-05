@@ -20,14 +20,9 @@ enum_800EBCF0 func_80075A2C(struct_800EB670 *arg0) {
     OSMesg sp28[8];
     struct_800FAF98_unk_64 sp48;
     enum_800EBCF0 var_v0;
-    s32 temp_v0_2;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 var_a0;
     s32 i;
     s32 var_s3 = 1;
     s32 var_s4 = 0;
-    struct_80123700 *var_s0;
     struct_800F4890 *temp_s2;
 
     osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));

@@ -8,6 +8,7 @@
 #include "main_segment_variables.h"
 #include "rom_offsets.h"
 #include "other_symbols.h"
+#include "audio/audio_stuff.h"
 
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/043C20", D_800B22B0);
@@ -376,7 +377,92 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_80071624);
 void func_80071A44(void) {
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_80071A4C);
+enum_800EBCF0 func_80071A4C(struct_800EB670 *arg0) {
+    OSMesgQueue sp20;
+    OSMesg sp38[8];
+    struct_800FAF98_unk_64 sp58;
+    s32 temp_v1_3;
+    s32 temp_v1_5;
+    s32 var_a0;
+    bool var_s3;
+    struct_800F3E50 *temp_s2;
+    u8 temp_s1;
+
+    var_s3 = true;
+    osCreateMesgQueue(&sp20, sp38, ARRAY_COUNT(sp38));
+    func_8002A184(arg0, &sp58, &sp20);
+    func_8006D870();
+    temp_s2 = B_800F3E50;
+
+    func_8006E0EC();
+    B_800E5980 = func_80077D68(B_800E5980, false);
+    func_8005CFD4(&temp_s2->unk_91C, &B_800E5980, 0x1000, 0x12, 0x10, 0x34, 0x22);
+    func_8005D314(&temp_s2->unk_91C, D_800AAD04);
+    temp_s1 = D_80088401;
+    temp_s2->unk_91C.unk_20 = 1;
+    temp_s2->unk_91C.unk_24 = 1;
+    D_80088401 = 0;
+    func_8006D91C(false);
+    D_80088401 = temp_s1;
+    func_8002B078(0x17);
+
+    while (var_s3) {
+        osRecvMesg(&sp20, NULL, 1);
+        func_8002A700();
+
+        switch (temp_s2->unk_9AC) {
+            case 0x0:
+                if (temp_s2->unk_9B0 == 0xFF) {
+                    temp_s2->unk_9AC = 1;
+                } else {
+                    temp_v1_3 = temp_s2->unk_9B0 + 4;
+                    var_a0 = 0xFF;
+                    if (temp_v1_3 <= 0xFF) {
+                        var_a0 = temp_v1_3;
+                    }
+                    temp_s2->unk_9B0 = var_a0;
+                }
+                break;
+
+            case 0x1:
+                if (func_8005E0B4(&temp_s2->unk_91C) != 0) {
+                    temp_s2->unk_9AC++;
+                } else {
+                    func_8005D428(&temp_s2->unk_91C);
+                }
+                break;
+
+            case 0x2:
+                if (B_800FAF88[*B_800EBD16] & 0xFF3F) {
+                    temp_s2->unk_9AC = 3;
+                }
+                break;
+
+            case 0x3:
+                if (temp_s2->unk_9B0 == 0) {
+                    var_s3 = false;
+                } else {
+                    temp_v1_5 = temp_s2->unk_9B0 - 4;
+                    temp_s2->unk_9B0 = (temp_v1_5 & (~temp_v1_5 >> 0x1F));
+                }
+                break;
+        }
+
+        func_8002AE58();
+        D_80088124 = 6;
+    }
+
+    D_80088124 = 0;
+    func_8002AF7C();
+
+    while ((func_8002AFA4() == 0) || (D_80088128 != 0)) {
+        osRecvMesg(&sp20, NULL, 1);
+        func_8002AE58();
+    }
+
+    func_8002A1DC(arg0, &sp58);
+    return ENUM_800EBCF0_3;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_80071CE0);
 
