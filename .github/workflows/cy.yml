@@ -1,0 +1,40 @@
+name: Build
+
+# Build on every branch push, tag push, and pull request change:
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build repo
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout reposistory
+      uses: actions/checkout@v3
+
+    - name: Install package requirements
+      run: sudo apt install -y make git build-essential clang binutils-mips-linux-gnu python3 python3-pip
+
+    - name: Install Python Dependencies
+      run: pip3 install -r requirements.txt
+
+    - name: Get extra dependencies
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ secrets.SECRETREPO }}
+        token: ${{ secrets.SECRETTOKEN }}
+        path: deps_repo
+    - name: Get the dependency
+      run: cp deps_repo/drmario64/* .
+
+    - name: Setup
+      run: make setup -j $(nproc)
+
+    - name: Build libraries
+      run: make lib -j $(nproc)
+
+    - name: Disassemble and extraction
+      run: make extract -j $(nproc)
+
+    - name: Build Dr. Mario 64
+      run: make -j $(nproc) WERROR=1

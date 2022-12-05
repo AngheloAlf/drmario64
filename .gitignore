@@ -16,3 +16,5 @@ ctx.c.m2c
 *.plf
 
 puzzle_collection/
+
+deps_repo/
