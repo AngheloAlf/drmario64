@@ -11,6 +11,7 @@ The build process has the following package requirements:
 * build-essential
 * clang
 * binutils-mips-linux-gnu
+* gcc-mips-linux-gnu
 * python3
 * pip3
 
@@ -18,7 +19,7 @@ Under Debian / Ubuntu (which we recommend using), you can install them with the 
 
 ```bash
 sudo apt update
-sudo apt install make git build-essential clang binutils-mips-linux-gnu python3 python3-pip
+sudo apt install make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip
 ```
 
 This project uses [Splat](https://github.com/ethteck/splat/); to install the dependencies for it, run
