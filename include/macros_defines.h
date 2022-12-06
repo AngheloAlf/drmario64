@@ -45,4 +45,8 @@
 #define RODATA __attribute__ ((section (".rodata")))
 #define BSS __attribute__ ((section (".bss")))
 
+
+#define ALL_BUTTONS (A_BUTTON | B_BUTTON | L_TRIG | R_TRIG | Z_TRIG | START_BUTTON | U_JPAD | L_JPAD | R_JPAD | D_JPAD | U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS)
+
+
 #endif

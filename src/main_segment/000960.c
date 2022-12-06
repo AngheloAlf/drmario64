@@ -20,11 +20,11 @@ s32 func_8002A5B0(UNK_TYPE arg0 UNUSED) {
     osCreateMesgQueue(&B_800F3E38, B_800F3E60, ARRAY_COUNT(B_800F3E60));
     osSetEventMesg(OS_EVENT_SI, &B_800F3E38, NULL);
 
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < ARRAY_COUNT(gControllerPressedButtons); i++) {
         B_800F48C4[i] = 0;
-        B_800FAF88[i] = 0;
-        B_800F3E64[i] = 0;
-        B_800EBCF8[i] = 0;
+        gControllerPressedButtons[i] = 0;
+        gControllerPrevHoldButtons[i] = 0;
+        gControllerHoldButtons[i] = 0;
     }
 
     for (i = 0; i < 4; i++) {
@@ -56,16 +56,16 @@ void func_8002A700(void) {
         u16 j;
         u32 mask;
 
-        B_800EBCF8[i] = button;
+        gControllerHoldButtons[i] = button;
 
-        B_800FAF88[i] = ~B_800F3E64[i];
-        B_800FAF88[i] &= button;
+        gControllerPressedButtons[i] = ~gControllerPrevHoldButtons[i];
+        gControllerPressedButtons[i] &= button;
 
         B_800F48C4[i] = 0;
 
         for (j = 0, mask = 0x8000; j < ARRAY_COUNT(B_80113670[i]); j++, mask >>= 1) {
             if (B_800F6CD8[i] & mask) {
-                if (mask & B_800EBCF8[i]) {
+                if (mask & gControllerHoldButtons[i]) {
                     B_80113670[i][j]++;
                     if ((B_80113670[i][j] == 1) || ((B_80113670[i][j] >= B_800EF554) && (((B_80113670[i][j] - B_800EF554) % B_800F1E20) == 0))) {
                         B_800F48C4[i] |= mask;
@@ -76,7 +76,7 @@ void func_8002A700(void) {
             }
         }
 
-        B_800F3E64[i] = B_800EBCF8[i];
+        gControllerPrevHoldButtons[i] = gControllerHoldButtons[i];
     }
 }
 

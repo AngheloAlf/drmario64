@@ -593,6 +593,16 @@ segments:
         vram: 0x800E99D0
 
       - start: 0x09B460
+        name: libmus/aud_samples
+        type: bss
+        vram: 0x800E9BA0
+
+      - start: 0x09B460
+        name: main_segment/800E9BB0
+        type: bss
+        vram: 0x800E9BB0
+
+      - start: 0x09B460
         name: libmus/aud_thread
         type: bss
         vram: 0x800F8C90

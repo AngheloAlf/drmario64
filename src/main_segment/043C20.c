@@ -431,7 +431,7 @@ enum_800EBCF0 func_80071A4C(struct_800EB670 *arg0) {
                 break;
 
             case 0x2:
-                if (B_800FAF88[*B_800EBD16] & 0xFF3F) {
+                if (gControllerPressedButtons[B_800EBD16[0]] & ALL_BUTTONS) {
                     temp_s2->unk_9AC = 3;
                 }
                 break;

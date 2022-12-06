@@ -140,9 +140,9 @@ void func_8007636C(void) {
     s32 alpha;
     OSScTask *ptr;
 
-    B_800EBCF4 = B_800FB670[D_80088120];
+    B_800EBCF4 = B_800FB670[gCurrentFramebufferIndex];
 
-    ptr = &B_800FAE80[D_80088120];
+    ptr = &B_800FAE80[gCurrentFramebufferIndex];
     gSPSegment(B_800EBCF4++, 0x00, NULL);
     func_8002BBD8(1);
     func_8002BC58(1);
@@ -162,7 +162,7 @@ void func_8007636C(void) {
     gSPEndDisplayList(B_800EBCF4++);
     osWritebackDCacheAll();
 
-    func_8002B834(ptr, B_800FB670[D_80088120], (B_800EBCF4 - B_800FB670[D_80088120]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+    func_8002B834(ptr, B_800FB670[gCurrentFramebufferIndex], (B_800EBCF4 - B_800FB670[gCurrentFramebufferIndex]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
 
 const char D_800B32A8[] RODATA = "This game is not designed~nfor use on this system.~z";
@@ -208,7 +208,7 @@ enum_800EBCF0 func_8007657C(struct_800EB670 *arg0) {
         func_8002A700();
         osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
         func_8005D428(temp_s0);
-        if ((B_800EBCF0 == ENUM_800EBCF0_10) && (B_800FAF88[B_800EBD16[0]] & 0x8000)) {
+        if ((B_800EBCF0 == ENUM_800EBCF0_10) && (gControllerPressedButtons[B_800EBD16[0]] & A_BUTTON)) {
             var_s1 = false;
             func_8002B1B4(0x46);
         }
@@ -570,7 +570,7 @@ s32 func_80078094(Gfx **gfxP, s32 arg1) {
     }
 
     func_8007F004(&sp60, 0, -0x3C0000, -0x03B60000);
-    if ((D_800AAD18 > 0) && (B_800FAF88[B_800EBD16[0]] & 0xFF3F)) {
+    if ((D_800AAD18 > 0) && (gControllerPressedButtons[B_800EBD16[0]] & ALL_BUTTONS)) {
         if (temp_s2 != 0) {
             if (B_800E59DC == 0) {
                 func_8002B1B4(0x67);
@@ -999,10 +999,10 @@ block_32:
         func_80076DB4(&B_800EBCF4, D_800AAD14);
         if (B_800E5F00 == 2) {
             func_8005D78C(&B_800E5A70, &B_800EBCF4);
-            if (B_800FAF88[*B_800EBD16] & 0x1000) {
+            if (gControllerPressedButtons[*B_800EBD16] & 0x1000) {
                 B_800E5F00 = -1;
             }
-            if (B_800EBCF8[*B_800EBD16] & 0xC000) {
+            if (gControllerHoldButtons[*B_800EBD16] & 0xC000) {
                 var_f0 = 0.16666667f;
             } else {
                 var_f0 = 0.016666668f;

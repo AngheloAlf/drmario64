@@ -493,10 +493,10 @@ void func_8002B834(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3,
     } else {
         scTask->msg = &B_800E9BB6;
     }
-    scTask->framebuffer = &gFramebuffers[D_80088120];
+    scTask->framebuffer = &gFramebuffers[gCurrentFramebufferIndex];
     osSendMesg(B_800FAF94, scTask, OS_MESG_BLOCK);
     if (flags & OS_SC_SWAPBUFFER) {
-        D_80088120 ^= 1;
+        gCurrentFramebufferIndex ^= 1;
     }
     B_800FAD2C = (B_800FAD2C + 1) % 3;
 }
@@ -517,7 +517,7 @@ void func_8002B9D8(void) {
 
 void func_8002BAB8(u8 arg0) {
     gDPSetCycleType(B_800EBCF4++, G_CYC_FILL);
-    gDPSetColorImage(B_800EBCF4++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[D_80088120]));
+    gDPSetColorImage(B_800EBCF4++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
 
     if (arg0) {
         gDPSetFillColor(B_800EBCF4++, (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
@@ -538,7 +538,7 @@ void func_8002BBD8(u8 arg0) {
 }
 
 void func_8002BC58(u8 arg0) {
-    gDPSetColorImage(B_800EBCF4++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[D_80088120]));
+    gDPSetColorImage(B_800EBCF4++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
     if (arg0) {
         gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_800881B8));
         gDPFillRectangle(B_800EBCF4++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
