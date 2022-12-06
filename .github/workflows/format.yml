@@ -1,0 +1,13 @@
+name: Check format
+
+# Build on every branch push, tag push, and pull request change:
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Check format
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check format
+      run: ./tools/check_format.sh
