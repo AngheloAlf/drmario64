@@ -17,7 +17,7 @@ def get_git_commit_sha() -> str:
     return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
 
 def generate_url(base_url: str, project: str) -> str:
-    return "/".join([base_url, "data", project])
+    return "/".join([base_url, "data", project]) + "/"
 
 
 def uploadProgressMain():
