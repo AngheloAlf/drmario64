@@ -8,7 +8,7 @@
 #include "main_segment_variables.h"
 #include "rom_offsets.h"
 #include "audio/audio_stuff.h"
-#include "other_symbols.h"
+#include "buffers.h"
 
 void func_80075F30(void) {
     D_800A739C = 0;
@@ -700,7 +700,6 @@ extern s32 B_800E5AAC;
 extern s32 B_800E5AB8;
 extern f32 B_800E5AC4;
 extern void B_800E5AF0;
-extern struct_80205000 *B_800E5EF0;
 extern s32 B_800E5EF4;
 extern s32 B_800E5EFC;
 extern s32 B_800E5F00;
@@ -710,8 +709,6 @@ extern s16 B_800F6CDE[];
 extern u8 D_80088409;
 extern void *D_800A8ACC;
 
-extern struct_80205000 *D_800AAD38;
-extern struct_80205000 *D_800AAD40;
 extern UNK_TYPE4 D_800AAE00[];
 
 #ifdef NON_EQUIVALENT

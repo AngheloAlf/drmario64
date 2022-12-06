@@ -7,7 +7,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "rom_offsets.h"
-#include "other_symbols.h"
+#include "buffers.h"
 #include "audio/audio_stuff.h"
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/043C20", D_800B22B0);

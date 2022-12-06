@@ -100,10 +100,6 @@ typedef struct struct_8005FC6C_arg0 {
     /* 0x00C */ UNK_TYPE1 UNK_00C[0x2E8];
 } struct_8005FC6C_arg0; // size = 0x2F4
 
-typedef struct struct_80205000 {
-    /* 0x00 */ UNK_TYPE1 unk_00[UNK_SIZE];
-} struct_80205000; // size = ?
-
 typedef struct struct_800EA290_unk_11EC {
     /* 0x0 */ void (*unk_0)(s32);
     /* 0x4 */ s32 unk_4;

@@ -174,7 +174,7 @@ void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
     }
     if (arg1->unk_08 & 0x40) {
         osViSwapBuffer(arg1->unk_0C);
-        D_80088104 = 1;
+        D_80088104[0] = 1;
     }
 
     osSendMesg(arg1->unk_50, arg1->unk_54, OS_MESG_BLOCK);

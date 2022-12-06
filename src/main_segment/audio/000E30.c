@@ -10,7 +10,7 @@
 #include "main_segment_variables.h"
 #include "rom_offsets.h"
 #include "audio/synthInternals.h"
-#include "other_symbols.h"
+#include "buffers.h"
 
 const u8 RO_800ACA10[] = {
     0x5B, 0x51, 0x23, 0x28, 0x2D, 0x0F, 0x19, 0x14, 0x00, 0x05, 0x0A, 0x1E, 0x32, 0x56, 0x60,
@@ -351,7 +351,7 @@ void func_8002B394(void) {
     }
 }
 
-void func_8002B490(struct_80205000 *arg0 UNUSED) {
+void func_8002B490(UNK_PTR arg0 UNUSED) {
     B_800ED430 = 2;
     B_800E9BB6 = 4;
     D_80088124 = 0;

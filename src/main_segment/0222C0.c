@@ -69,7 +69,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFE2C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFE58);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFEA8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFEB0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFEB8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", RO_800AFEB8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFECC);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFED0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFEDC);

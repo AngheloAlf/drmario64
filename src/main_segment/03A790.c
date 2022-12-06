@@ -29,7 +29,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/03A790", func_80064F18);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/03A790", func_80065BC4);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/03A790", D_800B2020);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/03A790", RO_800B2020);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/03A790", D_800B202C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/03A790", func_800666FC);

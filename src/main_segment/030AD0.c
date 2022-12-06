@@ -5,7 +5,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
-#include "other_symbols.h"
+#include "buffers.h"
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/030AD0", func_8005A720);
 

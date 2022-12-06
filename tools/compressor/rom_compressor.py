@@ -12,6 +12,13 @@ from pathlib import Path
 import compression_common
 
 
+DEBUGGING = False
+
+def printDebug(*args, **kwargs):
+    if not DEBUGGING:
+        return
+    print(*args, **kwargs)
+
 def align(value: int, n: int) -> int:
     return (((value) + ((n)-1)) & ~((n)-1))
 
@@ -28,6 +35,7 @@ def romCompressorMain():
     parser.add_argument("out_rom", help="compressed output rom filename")
     parser.add_argument("elf", help="path to the uncompressed rom elf file")
     parser.add_argument("segments", help="path to segments file")
+    parser.add_argument("-d", "--debug", help="Enable debug prints", action="store_true")
 
     args = parser.parse_args()
 
@@ -35,6 +43,9 @@ def romCompressorMain():
     outPath = Path(args.out_rom)
     elfPath = Path(args.elf)
     segmentsPath = Path(args.segments)
+
+    global DEBUGGING
+    DEBUGGING = args.debug
 
     segmentDict = compression_common.readSegmentsCsv(segmentsPath)
 
@@ -79,6 +90,7 @@ def romCompressorMain():
                                     relsOffetsToApply[relRomOffset] = (symName, rType)
 
             if entry.type != spimdisasm.elf32.Elf32SectionHeaderType.PROGBITS.value:
+                printDebug(f"Skiping segment {sectionEntryName} because it isn't PROGBITS")
                 continue
 
             segmentOffsets[sectionEntryName] = (offset, entry.addr)
@@ -86,6 +98,8 @@ def romCompressorMain():
             romEndSymbol = f"{sectionEntryName[1:]}_ROM_END"
             #print(romStartSymbol)
             offsetStart = sizeWrote
+
+            printDebug(f"Segment {sectionEntryName}: offset=0x{offset:06X} entry.offset=0x{entry.offset:06X} entry.size=0x{entry.size:06X}")
 
             segmentEntry = segmentDict.get(sectionEntryName)
             segmentBytearray = inRom[offset:offset+entry.size]
@@ -102,7 +116,9 @@ def romCompressorMain():
                     compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
                     assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
                 else:
-                    print(f"Segment {sectionEntryName} doesn't match, should have hash '{uncompressedHash}' but has hash '{segmentEntry.uncompressedHash}'. Compressing...")
+                    spimdisasm.common.Utils.eprint(f"Segment {sectionEntryName} doesn't match, should have hash '{uncompressedHash}' but has hash '{segmentEntry.uncompressedHash}'.")
+                    printDebug(f"Segment {sectionEntryName} is at offset 0x{offset:06X} and has a size of 0x{entry.size:06X} (ends at offset 0x{offset+entry.size:06X}).")
+                    spimdisasm.common.Utils.eprint(f"Compressing...\n")
                     compressedBytearray = compression_common.compressZlib(segmentBytearray)
 
                 outRom.write(compressedBytearray)

@@ -1,5 +1,6 @@
-D_11A70_ = 0x11A70;
+D_E5F08 = B_800E5F08 - 0x80000000;
 
+D_8000346C = alEnvmixerPull + 0x10C;
 
 // Ucode symbols
 

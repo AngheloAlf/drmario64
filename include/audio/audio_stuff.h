@@ -90,7 +90,7 @@ void func_8002B1B4(s32 arg0);
 void func_8002B344(s32 arg0);
 s32 func_8002B370(void);
 void func_8002B394(void);
-void func_8002B490(struct_80205000 *arg0);
+void func_8002B490(UNK_PTR arg0);
 void func_8002B4BC(struct_800EB670 * arg0);
 void func_8002B5E4(void);
 void func_8002B710(void);
