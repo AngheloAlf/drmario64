@@ -31,11 +31,6 @@ BASEROM              := baserom.z64
 BASEROM_UNCOMPRESSED := baserom_uncompressed.z64
 TARGET               := drmario64
 
-# Fail early if baserom does not exist
-ifeq ($(wildcard $(BASEROM)),)
-$(error Baserom `$(BASEROM)' not found.)
-endif
-
 
 ### Output ###
 
