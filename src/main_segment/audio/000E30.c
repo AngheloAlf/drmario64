@@ -88,13 +88,21 @@ bool func_8002AB28(struct_800FACE0_unk_08 *arg0) {
         return false;
     }
 
-    func_8002D720(arg0->index, arg0->unk_0->unk_0);
+    func_8002D720(arg0->index, arg0->unk_0->number);
     func_8002D840(arg0->index, arg0->unk_0->volume);
-    func_8002D8A0(arg0->index, arg0->unk_0->unk_1 * 0.125);
+    func_8002D8A0(arg0->index, arg0->unk_0->offset * 0.125);
     return true;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002ABC0);
+bool func_8002ABC0(struct_800FACE0_unk_08 *arg0) {
+    if ((arg0->unk_0 == NULL) || (func_8002D7E0(arg0->index) != 0)) {
+        return false;
+    }
+
+    func_8002D768(arg0->index, arg0->unk_0->number, arg0->unk_0->volume, 0x80, true, arg0->unk_0->priority);
+    func_8002D8A0(arg0->index, arg0->unk_0->offset * 0.125);
+    return true;
+}
 
 void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
     if (arg0->unk_0 == NULL) {
@@ -224,17 +232,17 @@ void func_8002B078(s32 arg0) {
     func_8002B098(0, arg0);
 }
 
-#ifdef NON_MATCHING
 void func_8002B098(s32 arg0, s32 arg1) {
-    if ((D_80088401 == 0) && (arg1 < 0xA) && (arg1 >= 0)) {
-        func_8002B100(arg0);
-    } else {
-        func_8002AFE4(arg0, arg1);
+    if (D_80088401 == 0) {
+        if (arg1 < 10) {
+            if (arg1 >= 0) {
+                func_8002B100(arg0);
+                return;
+            }
+        }
     }
+    func_8002AFE4(arg0, arg1);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B098);
-#endif
 
 void func_8002B0E4(void) {
     func_8002B100(0);
@@ -271,7 +279,7 @@ void func_8002B1B4(s32 arg0) {
             continue;
         }
 
-        if ((ptr->unk_08[i].unk_0 != NULL) && (ptr->unk_08[i].unk_0->unk_0 == temp_a1->unk_0)) {
+        if ((ptr->unk_08[i].unk_0 != NULL) && (ptr->unk_08[i].unk_0->number == temp_a1->number)) {
             return;
         }
     }
@@ -293,7 +301,7 @@ void func_8002B1B4(s32 arg0) {
             continue;
         }
 
-        if ((ptr->unk_08[i].unk_0 != NULL) && (ptr->unk_08[i].unk_0->unk_3 <= temp_a1->unk_3)) {
+        if ((ptr->unk_08[i].unk_0 != NULL) && (ptr->unk_08[i].unk_0->priority <= temp_a1->priority)) {
             func_8002AAE8(&ptr->unk_08[i], temp_a1);
             ptr->unk_38[i] = &ptr->unk_08[i];
             return;
@@ -305,7 +313,7 @@ void func_8002B1B4(s32 arg0) {
             continue;
         }
 
-        if ((ptr->unk_08[i].unk_0 != NULL) && (ptr->unk_08[i].unk_0->unk_3 < temp_a1->unk_3)) {
+        if ((ptr->unk_08[i].unk_0 != NULL) && (ptr->unk_08[i].unk_0->priority < temp_a1->priority)) {
             func_8002AAE8(&ptr->unk_08[i], temp_a1);
             return;
         }
@@ -507,7 +515,18 @@ void func_8002B9D8(void) {
     gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002BAB8);
+void func_8002BAB8(u8 arg0) {
+    gDPSetCycleType(B_800EBCF4++, G_CYC_FILL);
+    gDPSetColorImage(B_800EBCF4++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[D_80088120]));
+
+    if (arg0) {
+        gDPSetFillColor(B_800EBCF4++, (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
+        gDPFillRectangle(B_800EBCF4++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+    }
+
+    gDPPipeSync(B_800EBCF4++);
+    gDPSetCycleType(B_800EBCF4++, G_CYC_1CYCLE);
+}
 
 void func_8002BBD8(u8 arg0) {
     gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_80088150));

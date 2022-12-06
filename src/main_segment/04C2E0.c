@@ -234,7 +234,7 @@ void func_800767DC(void) {
     B_800EBCF4 = B_800FB670[B_800FAD2C];
     ptr = ALIGN_PTR(&D_80124610);
     func_8002B9D8();
-    func_8002BAB8(1);
+    func_8002BAB8(true);
     func_8005D78C(ptr, &B_800EBCF4);
 
     gDPFullSync(B_800EBCF4++);

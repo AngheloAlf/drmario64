@@ -746,7 +746,7 @@ extern struct_800F7470 B_800F7470;
 // extern UNK_TYPE B_800F748C;
 extern STACK(B_800F7490, 0xC00);
 // extern UNK_TYPE B_800F8C90;
-extern struct_800FACE0 B_800FACE0;
+
 extern STACK(B_800F8CE0, 0x2000);
 // extern UNK_TYPE B_800FAD28;
 extern u32 B_800FAD2C;

@@ -70,27 +70,6 @@ typedef struct struct_800EB670 {
 
 typedef void (*StartThreadFunc)(void *);
 
-typedef struct struct_800ACA80 {
-    /* 0x0 */ u8 unk_0;
-    /* 0x1 */ s8 unk_1;
-    /* 0x2 */ u8 unk_2;
-    /* 0x3 */ u8 unk_3;
-    /* 0x4 */ u8 unk_4;
-    /* 0x5 */ u8 volume;
-} struct_800ACA80; // size = 0x6
-
-typedef struct struct_800FACE0_unk_08 {
-    /* 0x0 */ const struct_800ACA80 *unk_0;
-    /* 0x4 */ s32 index;
-    /* 0x8 */ UNK_TYPE unk_8;
-} struct_800FACE0_unk_08; // size = 0xC
-
-typedef struct struct_800FACE0 {
-    /* 0x00 */ UNK_TYPE unk_00[2];
-    /* 0x08 */ struct_800FACE0_unk_08 unk_08[4];
-    /* 0x38 */ struct_800FACE0_unk_08 *unk_38[4];
-} struct_800FACE0; // size >= 0x3C
-
 typedef struct struct_800E5A70 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x0C];
     /* 0x0C */ char *unk_0C;
