@@ -9,7 +9,19 @@
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0332D0", RO_800B1990);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005CF20);
+bool func_8005CF20(s32 arg0, u32 buttonMask) {
+    s32 i = 0;
+
+    while (i < 4) {
+        if ((arg0 >> i) & 1) {
+            if (B_800FAF88[B_800EBD16[i]] & buttonMask) {
+                break;
+            }
+        }
+        i++;
+    }
+    return i < 4;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005CF78);
 

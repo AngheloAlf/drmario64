@@ -587,7 +587,8 @@ bool func_8005BB24(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5)
 // void func_8005C548();
 // void func_8005C90C();
 // void func_8005C998();
-// void func_8005CF20();
+
+bool func_8005CF20(s32 arg0, u32 buttonMask);
 void func_8005CF78(struct_800E5A70 *arg0, struct_800E5A70 **arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
 void func_8005CFD4(struct_800E5A70 *arg0, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 void func_8005D09C(struct_800E5A70 *arg0);

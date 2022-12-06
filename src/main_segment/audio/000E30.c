@@ -12,8 +12,8 @@
 #include "audio/synthInternals.h"
 #include "other_symbols.h"
 
-const UNK_TYPE1 RO_800ACA10[] = {
-    0x5B, 0x51, 0x23, 0x28, 0x2D, 0x0F, 0x19, 0x14, 0x00, 0x05, 0x0A, 0x1E, 0x32, 0x56, 0x60, 0x00,
+const u8 RO_800ACA10[] = {
+    0x5B, 0x51, 0x23, 0x28, 0x2D, 0x0F, 0x19, 0x14, 0x00, 0x05, 0x0A, 0x1E, 0x32, 0x56, 0x60,
 };
 
 const s32 RO_800ACA20[] = {
@@ -96,7 +96,24 @@ bool func_8002AB28(struct_800FACE0_unk_08 *arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002ABC0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002AC64);
+void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
+    if (arg0->unk_0 == NULL) {
+        return;
+    }
+
+    if (func_8002D7E0(arg0->index) != 0) {
+        if (arg0->unk_0->unk_4 != 0) {
+            if (arg0->unk_8 < (arg0->unk_0->unk_4 * 6)) {
+                arg0->unk_8++;
+            } else {
+                func_8002D810(arg0->index, 0);
+                arg0->unk_0 = NULL;
+            }
+        }
+    } else {
+        arg0->unk_0 = NULL;
+    }
+}
 
 #ifdef NON_EQUIVALENT
 // maybe equivalent, but too afraid to tell
@@ -305,7 +322,26 @@ s32 func_8002B370(void) {
     return MusFxBankNumberOfEffects(func_8002D710());
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/000E30", func_8002B394);
+void func_8002B394(void) {
+    s32 sp10[4];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(sp10); i++) {
+        s32 j;
+
+        sp10[i] = rand() % ARRAY_COUNT(RO_800ACA10);
+        for (j = 0; j < i; j++) {
+            if (sp10[i] == sp10[j]) {
+                i -= 1;
+                break;
+            }
+        }
+    }
+
+    for (i = 0; i < ARRAY_COUNTU(sp10); i++) {
+        func_8002B1B4(RO_800ACA10[sp10[i]] + 3);
+    }
+}
 
 void func_8002B490(struct_80205000 *arg0 UNUSED) {
     B_800ED430 = 2;
