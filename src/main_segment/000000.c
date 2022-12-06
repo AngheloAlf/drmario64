@@ -9,7 +9,6 @@
 #include "audio/audio_stuff.h"
 #include "other_symbols.h"
 
-
 void func_80029C50(void) {
     func_80038BD8();
 
@@ -92,7 +91,7 @@ void func_80029C50(void) {
                 if (((D_800AACEC == 0) | (D_800AACEC == 0xC)) != 0) {
                     D_800AACEC += 1;
                     B_800EBCF0 = ENUM_800EBCF0_2;
-                } else if ((u32) (D_800AACEC - 0xA) >= 2U && (u32) (D_800AACEC - 0x16) >= 2U) {
+                } else if ((u32)(D_800AACEC - 0xA) >= 2U && (u32)(D_800AACEC - 0x16) >= 2U) {
                     B_800EBCF0 = ENUM_800EBCF0_1;
                 } else {
                     B_800EBCF0 = ENUM_800EBCF0_7;

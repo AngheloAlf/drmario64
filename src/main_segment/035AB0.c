@@ -6,8 +6,7 @@
 #include "boot_functions.h"
 #include "boot_variables.h"
 #include "main_segment_functions.h"
-#include "main_segment_variables.h" 
-
+#include "main_segment_variables.h"
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/035AB0", D_800B1BA0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/035AB0", D_800B1BBC);

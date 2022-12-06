@@ -1,7 +1,6 @@
 #include "ultra64.h"
 #include "macros_defines.h"
 
-
 u8 B_80010E60[0x1B0] BSS;
 
 u8 B_80011010[0x21B0] BSS;
@@ -14,7 +13,6 @@ u8 B_800151D8[0x08] BSS;
 
 u8 B_800151E0[0x4000] BSS;
 
-
 /* pimgr */
 
 u8 piThread[0x1B0] BSS;
@@ -26,8 +24,6 @@ u8 piEventQueue[0x18] BSS;
 u8 piEventBuf[0x08] BSS;
 
 /* pimgr */
-
-
 
 u8 piAccessBuf[0x10] BSS;
 
@@ -71,15 +67,11 @@ u8 viRetraceMsg[0x18] BSS;
 
 u8 viCounterMsg[0x18] BSS;
 
-
 /* rand */
 
 u8 sRandNext[0x10] BSS;
 
 /*  */
-
-
-
 
 u8 B_8001B640[0x2000] BSS;
 
@@ -119,7 +111,6 @@ u8 __osCurrentTime[0x08] BSS;
 
 u8 B_8001F9A8[0x08] BSS;
 
-
 /* cartrominit */
 
 u8 __CartRomHandle[0x74] BSS;
@@ -127,9 +118,6 @@ u8 __CartRomHandle[0x74] BSS;
 u8 D_8001FA24[0x0C] BSS;
 
 /* cartrominit */
-
-
-
 
 u8 B_8001FA30[0x3C] BSS;
 
@@ -168,5 +156,3 @@ u8 B_80029C00[0x08] BSS;
 u8 B_80029C08[0x18] BSS;
 
 u8 __osSiAccessQueue[0x20] BSS;
-
-

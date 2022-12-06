@@ -5,7 +5,6 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-
 enum_800EBCF0 func_8002DB20(void) {
     enum_800EBCF0 ret = ENUM_800EBCF0_3;
     s32 i;

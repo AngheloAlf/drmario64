@@ -12,13 +12,13 @@ f64 __fint(f64 x) {
     s32 exp;
 
     d.df = x;
-    exp = ((d.ui[EXP_INDEX]>>20) & 0x7FF) - 0x3FF; /* get exp */
+    exp = ((d.ui[EXP_INDEX] >> 20) & 0x7FF) - 0x3FF; /* get exp */
 
-    if(exp < 0) {
-        return 0.0;	/* x<1 */
+    if (exp < 0) {
+        return 0.0; /* x<1 */
     }
 
-    d.ull &= ((long long)0x8000000000000000LL) >> (exp+11);
+    d.ull &= ((long long)0x8000000000000000LL) >> (exp + 11);
     return d.df;
 }
 

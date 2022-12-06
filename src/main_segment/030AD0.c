@@ -6,7 +6,6 @@
 #include "main_segment_variables.h"
 #include "other_symbols.h"
 
-
 INCLUDE_ASM("asm/nonmatchings/main_segment/030AD0", func_8005A720);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/030AD0", func_8005A974);

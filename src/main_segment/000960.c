@@ -7,7 +7,6 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-
 s32 func_8002A5B0(UNK_TYPE arg0 UNUSED) {
     OSMesgQueue mq;
     OSMesg sp28[1];
@@ -31,7 +30,7 @@ s32 func_8002A5B0(UNK_TYPE arg0 UNUSED) {
     for (i = 0; i < 4; i++) {
         s32 j;
 
-        for (j = ARRAY_COUNT(B_80113670[i])-1; j >= 0; j--) {
+        for (j = ARRAY_COUNT(B_80113670[i]) - 1; j >= 0; j--) {
             B_80113670[i][j] = 0;
         }
 
@@ -85,7 +84,7 @@ void func_8002A8F8(u16 mask, u8 index) {
     s32 var_a0 = mask;
     s32 j;
 
-    for (j = ARRAY_COUNT(*B_80113670)-1; j >= 0; j--) {
+    for (j = ARRAY_COUNT(*B_80113670) - 1; j >= 0; j--) {
         if (var_a0 & 1) {
             break;
         }

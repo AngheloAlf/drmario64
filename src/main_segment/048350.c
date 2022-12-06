@@ -4,7 +4,6 @@
 #include "unknown_structs.h"
 #include "unk.h"
 
-
 INCLUDE_ASM("asm/nonmatchings/main_segment/048350", func_80071FA0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/048350", func_80072028);

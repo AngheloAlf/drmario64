@@ -5,7 +5,6 @@
 #include "boot_variables.h"
 #include "libc/math.h"
 
-
 void *DecompressRomToRam(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
     return (void *)ALIGN8((uintptr_t)dstAddr + func_80001F90(segmentRom, dstAddr, segmentSize));
 }

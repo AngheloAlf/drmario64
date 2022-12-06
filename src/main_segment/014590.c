@@ -4,7 +4,6 @@
 #include "unknown_structs.h"
 #include "unk.h"
 
-
 const char STR_800AD2E0[] = "MajorityRensa";
 
 const char STR_800AD2F0[] = "WidErase";
@@ -174,7 +173,6 @@ const char STR_800AD74C[] = "\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m
 const char STR_800AD790[] = "Man";
 
 const char STR_800AD794[] = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
-
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E1E0);
 

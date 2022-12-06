@@ -7,14 +7,13 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-
 void func_80040A00(void *arg0 UNUSED) {
     struct_800EA290 *ptr = &B_800EA290;
 
     while (true) {
         struct_800EA290_unk_11EC *sp10;
 
-        osRecvMesg(&ptr->mq, (OSMesg*)&sp10, OS_MESG_BLOCK);
+        osRecvMesg(&ptr->mq, (OSMesg *)&sp10, OS_MESG_BLOCK);
         sp10->unk_0(sp10->unk_4);
         ptr->unk_1240--;
     }

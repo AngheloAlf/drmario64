@@ -6,10 +6,9 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-
 #if 0
 void func_8002BD20(s32 red, s32 green, s32 blue, s32 alpha, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
-    #if 0
+#if 0
     Gfx *temp_a1;
     Gfx *temp_t3;
     Gfx *temp_v1_2;
@@ -56,7 +55,7 @@ void func_8002BD20(s32 red, s32 green, s32 blue, s32 alpha, s32 arg4, s32 arg5, 
     B_800EBCF4 = temp_v1_2 + 8;
     temp_v1_2->words.w0 = 0xF1000000;
     temp_v1_2->words.w1 = 0x04000400;
-    #endif
+#endif
 
     gDPPipeSync(B_800EBCF4++);
     gDPSetPrimColor(B_800EBCF4++, 0, 0, red, green, blue, alpha);
@@ -76,40 +75,23 @@ void func_8002BF90(TexturePtr tlut, u32 pal) {
 }
 
 void func_8002C048(TexturePtr texture, s32 width, s32 height) {
-    gDPLoadTextureBlock_4b(B_800EBCF4++,
-        texture,
-        G_IM_FMT_CI,
-        width, height,
-        0,
-        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
-        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
-    );
+    gDPLoadTextureBlock_4b(B_800EBCF4++, texture, G_IM_FMT_CI, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
+                           G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 void func_8002C1E8(TexturePtr texture, s32 width, s32 height) {
-    gDPLoadTextureBlock_4b(B_800EBCF4++,
-        texture,
-        G_IM_FMT_I,
-        width, height,
-        0,
-        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
-        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
-    );
+    gDPLoadTextureBlock_4b(B_800EBCF4++, texture, G_IM_FMT_I, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
+                           G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 void func_8002C388(TexturePtr texture, s32 width, s32 height UNUSED, s32 uls, s32 ult, s32 lrs, s32 lrt) {
-    gDPLoadTextureTile_4b(B_800EBCF4++, texture, G_IM_FMT_CI, width, height, uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureTile_4b(B_800EBCF4++, texture, G_IM_FMT_CI, width, height, uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                          G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 void func_8002C4EC(TexturePtr texture, s32 width, s32 height) {
-    gDPLoadTextureBlock(B_800EBCF4++,
-        texture,
-        G_IM_FMT_CI, G_IM_SIZ_8b,
-        width, height,
-        0,
-        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
-        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD
-    );
+    gDPLoadTextureBlock(B_800EBCF4++, texture, G_IM_FMT_CI, G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
+                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/graphics/0020D0", func_8002C688);

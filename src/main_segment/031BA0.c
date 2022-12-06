@@ -6,7 +6,6 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-
 INCLUDE_RODATA("asm/nonmatchings/main_segment/031BA0", RO_800B1950);
 
 s32 func_8005B7F0(const char *arg0) {
@@ -63,7 +62,8 @@ void func_8005B998(Gfx **gfxP) {
     func_8005B974(&gfx);
 
     gDPSetEnvColor(gfx++, 250, 250, 250, 255);
-    gDPLoadMultiTile_4b(gfx++, D_800A3A88, 0x019A, 1, G_IM_FMT_I, 12, 0, 0, 0, 11, 11, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadMultiTile_4b(gfx++, D_800A3A88, 0x019A, 1, G_IM_FMT_I, 12, 0, 0, 0, 11, 11, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
+                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     *gfxP = gfx;
 }

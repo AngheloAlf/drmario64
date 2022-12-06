@@ -7,8 +7,7 @@
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 
-
-void func_80029ED0(struct_800EB670* arg0, u8 viModeIndex, u8 retraceCount) {
+void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount) {
     arg0->unk_678 = 1;
     arg0->unk_000 = 1;
     arg0->unk_66C = 0;
@@ -58,7 +57,7 @@ void func_8002A0DC(struct_800EB670 *arg) {
 
         D_80088100++;
 
-        switch ((u32)msg)  {
+        switch ((u32)msg) {
             case 0x29A:
                 func_8002A26C(arg, arg);
                 osSetTime(0);
@@ -158,7 +157,7 @@ void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
 
     func_8002A51C(arg0, arg1);
     if (arg0->unk_670 != NULL) {
-        arg0->unk_674 = (s32) arg1;
+        arg0->unk_674 = (s32)arg1;
         osRecvMesg(&arg0->unk_11C, &sp10, OS_MESG_BLOCK);
         arg0->unk_674 = 0;
     }
@@ -201,5 +200,4 @@ void func_8002A51C(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
         osRecvMesg(&arg0->unk_11C, &sp18, OS_MESG_BLOCK);
         func_8002A1DC(arg0, &sp10);
     }
-
 }

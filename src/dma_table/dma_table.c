@@ -1,7 +1,7 @@
 #include "dma_table.h"
 #include "segment_symbols.h"
 
-void func_80029C50(void* arg);
+void func_80029C50(void *arg);
 
 // I have no reason to believe this is an array, but why not?
 

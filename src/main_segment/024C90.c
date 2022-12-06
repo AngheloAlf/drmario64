@@ -4,11 +4,9 @@
 #include "unknown_structs.h"
 #include "unk.h"
 
-
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004E8E0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004EB94);
-
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0028);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0038);
@@ -25,11 +23,9 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B00D8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B00E0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B00EC);
 
-
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004ED70);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004EEC8);
-
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0310);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0320);
@@ -56,7 +52,6 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0424);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B043C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0448);
 
-
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004F2D8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004F33C);
@@ -65,12 +60,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004F358);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800508BC);
 
-
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0940);
 
-
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80050B5C);
-
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0968);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B096C);
@@ -82,7 +74,6 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0A18);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0A1C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0A20);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0A24);
-
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800512AC);
 
@@ -102,7 +93,6 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800519EC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80051A28);
 
-
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", RO_800B0A50);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0A5C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0A6C);
@@ -112,7 +102,6 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0B14);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0B18);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0B1C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0B20);
-
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80051E94);
 
@@ -151,7 +140,6 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0C5C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800541CC);
 
-
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0D84);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0D94);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0D9C);
@@ -163,7 +151,6 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0DC4);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0DC8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0DD4);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0DD8);
-
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800544C4);
 

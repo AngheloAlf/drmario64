@@ -4,7 +4,6 @@
 #include "unknown_structs.h"
 #include "unk.h"
 
-
 INCLUDE_RODATA("asm/nonmatchings/main_segment/03A790", D_800B1EC0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/03A790", D_800B1ECC);
 

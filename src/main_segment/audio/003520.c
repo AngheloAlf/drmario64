@@ -8,9 +8,9 @@
 #include "main_segment_variables.h"
 #include "PR/sched.h"
 
-
 #ifdef NON_EQUIVALENT
-s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority) {
+s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7,
+                  OSPri thread_priority) {
     musConfig sp10;
     s32 temp_s1;
     Audio_struct_800FAF98 *temp_v0;
@@ -40,8 +40,8 @@ s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg
         var_s1 = temp_v1 + arg4;
     }
 
-    temp_v0->unk_1C = (void*) ALIGN16((uintptr_t)var_s1);
-    temp_v0->unk_24 = (void*) ALIGN16((uintptr_t)temp_v0->unk_1C + arg3);
+    temp_v0->unk_1C = (void *)ALIGN16((uintptr_t)var_s1);
+    temp_v0->unk_24 = (void *)ALIGN16((uintptr_t)temp_v0->unk_1C + arg3);
     temp_v0->unk_20 = arg3;
     temp_v0->unk_28 = arg7;
 
@@ -247,7 +247,7 @@ void func_8002DA48(musTask *musicTask) {
     scTask.list.t.ucode_size = SP_UCODE_SIZE;
     scTask.next = 0;
     scTask.msgQ = &temp_a1->unk_94;
-    scTask.list.t.ucode_boot = (void *) rspbootTextStart;
+    scTask.list.t.ucode_boot = (void *)rspbootTextStart;
     scTask.list.t.flags = 0;
     scTask.list.t.ucode_data_size = SP_UCODE_DATA_SIZE;
     scTask.list.t.dram_stack = NULL;

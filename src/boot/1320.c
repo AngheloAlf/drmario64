@@ -4,10 +4,9 @@
 #include "boot_functions.h"
 #include "boot_variables.h"
 
-
 extern UNK_TYPE D_8000E324;
 extern UNK_TYPE B_800151E0[];
-extern UNK_TYPE* D_8000E320;
+extern UNK_TYPE *D_8000E320;
 
 void *func_80000720(s32 arg0) {
     D_8000E324 += arg0;
@@ -36,8 +35,8 @@ UNK_TYPE func_80000D0C(void *arg0) {
 
     while (arg0 != NULL) {
         temp_a0 = arg0 - 8;
-        //temp_s0 = temp_a0->unk_4;
-        temp_s0 = (void *)((s32*)temp_a0)[1];
+        // temp_s0 = temp_a0->unk_4;
+        temp_s0 = (void *)((s32 *)temp_a0)[1];
         func_8000075C();
         arg0 = temp_s0;
     }

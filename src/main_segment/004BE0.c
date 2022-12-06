@@ -5,7 +5,6 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-
 void func_8002E830(u32 arg0) {
     B_800E4640[0] = arg0;
     D_80088480 = 1;

@@ -10,7 +10,6 @@
 #include "audio/audio_stuff.h"
 #include "other_symbols.h"
 
-
 void func_80075F30(void) {
     D_800A739C = 0;
     B_800E59A0 = 0;
@@ -21,24 +20,7 @@ void func_80075F30(void) {
 }
 
 const u8 RO_800B3240[] = {
-    0x01,
-    0x02,
-    0x03,
-    0x04,
-    0x05,
-    0x06,
-    0x07,
-    0x08,
-    0x09,
-    0x0D,
-    0x0E,
-    0x0F,
-    0x10,
-    0x11,
-    0x12,
-    0x13,
-    0x14,
-    0x15,
+    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15,
 };
 
 enum_800EBCF0 func_80075F98(struct_800EB670 *arg0) {
@@ -85,7 +67,7 @@ enum_800EBCF0 func_80075F98(struct_800EB670 *arg0) {
                 } else if (B_800E59A0 == 7) {
                     var_s0 = 2;
                 }
-            break;
+                break;
         }
 
         func_8002AE58();
@@ -166,7 +148,7 @@ void func_8007636C(void) {
     func_8002BC58(1);
 
     gSPDisplayList(B_800EBCF4++, D_800881E0);
-    gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1);
+    gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
     D_800A739C = func_80078094(&B_800EBCF4, D_8008840F != 0);
 
@@ -247,7 +229,7 @@ enum_800EBCF0 func_8007657C(struct_800EB670 *arg0) {
 }
 
 void func_800767DC(void) {
-    struct_8005D78C_arg0* ptr;
+    struct_8005D78C_arg0 *ptr;
 
     B_800EBCF4 = B_800FB670[B_800FAD2C];
     ptr = ALIGN_PTR(&D_80124610);
@@ -286,8 +268,8 @@ void func_800770E8(Gfx **arg0, struct_800E8750 *arg1) {
 
 void *func_80077170(s32 index, void *dstAddr) {
     B_800E87A8 = dstAddr;
-    B_800E8750 = (void *) ALIGN16((uintptr_t)DecompressRomToRam(D_8000E778[index].start, dstAddr, D_8000E778[index].end - D_8000E778[index].start));
-    return (void *) ALIGN16((uintptr_t)DecompressRomToRam(D_8000E760.start, B_800E8750, D_8000E760.end - D_8000E760.start));
+    B_800E8750 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E778[index].start, dstAddr, D_8000E778[index].end - D_8000E778[index].start));
+    return (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E760.start, B_800E8750, D_8000E760.end - D_8000E760.start));
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800771EC);
@@ -329,14 +311,14 @@ UNK_TYPE func_800774C4(void) {
 
 #ifdef NON_EQUIVALENT
 void func_80077504(Gfx **arg0, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
-    //Gfx *sp38;
-    //Gfx *temp_a0;
-    //Gfx *temp_a0_2;
+    // Gfx *sp38;
+    // Gfx *temp_a0;
+    // Gfx *temp_a0_2;
     Gfx *temp_t0;
-    //Gfx *temp_v1;
-    //Gfx *temp_v1_2;
-    //Gfx *temp_v1_3;
-    //Gfx *temp_v1_4;
+    // Gfx *temp_v1;
+    // Gfx *temp_v1_2;
+    // Gfx *temp_v1_3;
+    // Gfx *temp_v1_4;
     f32 temp_f10;
     f32 temp_f14;
     f32 temp_f16;
@@ -349,87 +331,87 @@ void func_80077504(Gfx **arg0, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
     s32 var_v0;
 
     temp_t0 = *arg0;
-    //sp38 = temp_t0;
+    // sp38 = temp_t0;
     if (arg3 < 0xFF) {
-        temp_a3 = arg3 & ((s32) ~arg3 >> 0x1F);
-        temp_f10 = (f32) ((f64) (f32) ((f64) (f32) temp_a3 / 18.0) * 64.0);
-        //sp38 = temp_t0 + 8;
-        temp_f16 = (f32) ((f64) (f32) arg1 - temp_f10 / 2.0);
-        //temp_t0->words.w0 = 0xE3001001;
-        //temp_t0->words.w1 = 0;
-        //sp38 = temp_t0 + 0x10;
-        temp_f14 = (f32) ((f64) (f32) arg2 - temp_f10 / 2.0);
-        //temp_t0->unk_8 = 0xFA000000;
-        //temp_t0->unk_C = 0xFF;
-        //sp38 = temp_t0 + 0x18;
-        //temp_t0->unk_10 = 0xE200001CU;
-        //temp_t0->unk_14 = 0x0F0A4000;
-        //sp38 = temp_t0 + 0x20;
-        //temp_t0->unk_18 = 0xFCFFFFFF;
-        //temp_t0->unk_1C = 0xFFFDF6FB;
+        temp_a3 = arg3 & ((s32)~arg3 >> 0x1F);
+        temp_f10 = (f32)((f64)(f32)((f64)(f32)temp_a3 / 18.0) * 64.0);
+        // sp38 = temp_t0 + 8;
+        temp_f16 = (f32)((f64)(f32)arg1 - temp_f10 / 2.0);
+        // temp_t0->words.w0 = 0xE3001001;
+        // temp_t0->words.w1 = 0;
+        // sp38 = temp_t0 + 0x10;
+        temp_f14 = (f32)((f64)(f32)arg2 - temp_f10 / 2.0);
+        // temp_t0->unk_8 = 0xFA000000;
+        // temp_t0->unk_C = 0xFF;
+        // sp38 = temp_t0 + 0x18;
+        // temp_t0->unk_10 = 0xE200001CU;
+        // temp_t0->unk_14 = 0x0F0A4000;
+        // sp38 = temp_t0 + 0x20;
+        // temp_t0->unk_18 = 0xFCFFFFFF;
+        // temp_t0->unk_1C = 0xFFFDF6FB;
 
         gDPSetTextureLUT(temp_t0++, G_TT_NONE);
         gDPSetPrimColor(temp_t0++, 0, 0, 0, 0, 0, 255);
         gDPSetRenderMode(temp_t0++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
         gDPSetCombineMode(temp_t0++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
 
-        temp_f8 = (s32) (temp_f16 + 1.0f);
-        temp_f6 = (s32) ((temp_f16 + temp_f10) - 1.0f);
-        temp_f4_2 = (s32) (temp_f14 + 1.0f);
-        temp_f2 = (s32) ((temp_f14 + temp_f10) - 1.0f);
+        temp_f8 = (s32)(temp_f16 + 1.0f);
+        temp_f6 = (s32)((temp_f16 + temp_f10) - 1.0f);
+        temp_f4_2 = (s32)(temp_f14 + 1.0f);
+        temp_f2 = (s32)((temp_f14 + temp_f10) - 1.0f);
 
-        //var_t1 = (temp_f10 < 1.0f);
-        //var_v0 = (temp_f10 < 1.0f);
+        // var_t1 = (temp_f10 < 1.0f);
+        // var_v0 = (temp_f10 < 1.0f);
         // PROBLEM HERE
         if (!(temp_a3 & -(((temp_f10 < 1.0f) | (temp_f10 < 1.0f))))) {
-            //sp38 = temp_t0 + 0x28;
-            //temp_t0->unk_20 = 0xF65003C0;
-            //temp_t0->unk_24 = 0;
+            // sp38 = temp_t0 + 0x28;
+            // temp_t0->unk_20 = 0xF65003C0;
+            // temp_t0->unk_24 = 0;
             gDPFillRectangle(temp_t0++, 0, 0, 320, 240);
         } else {
             if (temp_f8 > 0) {
-                //sp38 = temp_t0 + 0x28;
-                //temp_t0->unk_20 = (s32) (((temp_f8 & 0x3FF) << 0xE) | 0xF60003C0);
-                //temp_t0->unk_24 = 0;
+                // sp38 = temp_t0 + 0x28;
+                // temp_t0->unk_20 = (s32) (((temp_f8 & 0x3FF) << 0xE) | 0xF60003C0);
+                // temp_t0->unk_24 = 0;
                 gDPFillRectangle(temp_t0++, 0, 0, temp_f8, 240);
             }
             if (temp_f6 < 0x140) {
-                //temp_v1 = sp38;
-                //sp38 = temp_v1 + 8;
-                //temp_v1->words.w0 = 0xF65003C0;
-                //temp_v1->words.w1 = (temp_f6 & 0x3FF) << 0xE;
+                // temp_v1 = sp38;
+                // sp38 = temp_v1 + 8;
+                // temp_v1->words.w0 = 0xF65003C0;
+                // temp_v1->words.w1 = (temp_f6 & 0x3FF) << 0xE;
                 gDPFillRectangle(temp_t0++, temp_f6, 0, 320, 240);
             }
             if (temp_f4_2 > 0) {
-                //temp_a0 = sp38;
-                //sp38 = temp_a0 + 8;
-                //temp_a0->words.w0 = ((temp_f4_2 & 0x3FF) * 4) | 0xF6500000;
-                //temp_a0->words.w1 = 0;
+                // temp_a0 = sp38;
+                // sp38 = temp_a0 + 8;
+                // temp_a0->words.w0 = ((temp_f4_2 & 0x3FF) * 4) | 0xF6500000;
+                // temp_a0->words.w1 = 0;
                 gDPFillRectangle(temp_t0++, 0, 0, 320, temp_f4_2);
             }
             if (temp_f2 < 0xF0) {
-                //temp_v1_2 = sp38;
-                //sp38 = temp_v1_2 + 8;
-                //temp_v1_2->words.w0 = 0xF65003C0;
-                //temp_v1_2->words.w1 = (temp_f2 & 0x3FF) * 4;
+                // temp_v1_2 = sp38;
+                // sp38 = temp_v1_2 + 8;
+                // temp_v1_2->words.w0 = 0xF65003C0;
+                // temp_v1_2->words.w1 = (temp_f2 & 0x3FF) * 4;
                 gDPFillRectangle(temp_t0++, 0, temp_f2, 320, 240);
             }
-            //temp_v1_3 = sp38;
-            //sp38 = temp_v1_3 + 8;
-            //temp_v1_3->words.w0 = 0xE200001C;
-            //temp_v1_3->words.w1 = 0x00504240;
-            //sp38 = temp_v1_3 + 0x10;
-            //temp_v1_3->unk_8 = 0xFCFFFFFF;
-            //temp_v1_3->unk_C = 0xFFFDF2F9;
+            // temp_v1_3 = sp38;
+            // sp38 = temp_v1_3 + 8;
+            // temp_v1_3->words.w0 = 0xE200001C;
+            // temp_v1_3->words.w1 = 0x00504240;
+            // sp38 = temp_v1_3 + 0x10;
+            // temp_v1_3->unk_8 = 0xFCFFFFFF;
+            // temp_v1_3->unk_C = 0xFFFDF2F9;
             gDPSetRenderMode(temp_t0++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineLERP(temp_t0++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
             func_80042FEC(&temp_t0, 0x40, 0x40, arg4, temp_f16, temp_f14, temp_f10, temp_f10);
         }
-        //temp_v1_4 = sp38;
-        //temp_a0_2 = temp_v1_4 + 8;
-        //sp38 = temp_a0_2;
-        //temp_v1_4->words.w0 = 0xDE000000;
-        //temp_v1_4->words.w1 = (u32) D_8008E6B8;
+        // temp_v1_4 = sp38;
+        // temp_a0_2 = temp_v1_4 + 8;
+        // sp38 = temp_a0_2;
+        // temp_v1_4->words.w0 = 0xDE000000;
+        // temp_v1_4->words.w1 = (u32) D_8008E6B8;
         gSPDisplayList(temp_t0++, D_8008E6B8);
         *arg0 = temp_t0;
     }
@@ -445,8 +427,8 @@ void func_800777E8(Gfx **arg0, s32 arg1, s32 arg2, s32 arg3) {
 void *func_8007780C(void *dstAddr) {
     void *temp_s0;
 
-    B_800E87A8 = (void*)ALIGN16((uintptr_t)dstAddr);
-    temp_s0 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E740.start, B_800E87A8, D_8000E740.end - D_8000E740.start));
+    B_800E87A8 = (void *)ALIGN16((uintptr_t)dstAddr);
+    temp_s0 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E740.start, B_800E87A8, D_8000E740.end - D_8000E740.start));
     func_8007786C();
     return temp_s0;
 }
@@ -468,7 +450,7 @@ void *func_80077D68(void *dstAddr, bool arg1) {
 
     D_800AAD2C = 0;
     guOrtho(&B_800E5F08, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
-    alignedAddress = (void*)ALIGN16((uintptr_t)dstAddr);
+    alignedAddress = (void *)ALIGN16((uintptr_t)dstAddr);
     B_800E87A8 = alignedAddress;
     if (arg1) {
         segmentRomStart = D_8000E750.start;
@@ -477,7 +459,7 @@ void *func_80077D68(void *dstAddr, bool arg1) {
         segmentRomStart = D_8000E748.start;
         segmentRomEnd = D_8000E748.end;
     }
-    return (void*)ALIGN16((uintptr_t)DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
+    return (void *)ALIGN16((uintptr_t)DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
 }
 
 #if 0
@@ -491,7 +473,7 @@ void func_80077E2C(Gfx **arg0, s32 arg1, s32 arg2) {
 
     func_8007AEBC();
     temp_s0 = *arg0;
-    #if 0
+#if 0
     sp58 = temp_s0 + 8;
     temp_s0->words.w0 = 0xDB060000;
     temp_s0->words.w1 = 0;
@@ -511,7 +493,7 @@ void func_80077E2C(Gfx **arg0, s32 arg1, s32 arg2) {
     sp58 = temp_v1 + 0x20;
     temp_v1->unk_18 = 0xED000000;
     temp_v1->unk_1C = 0x004FC3BC;
-    #endif
+#endif
     gSPSegment(temp_s0++, 0x00, 0x00000000);
     gSPSegment(temp_s0++, 0x05, osVirtualToPhysical(B_800E87A8));
     gSPMatrix(temp_s0++, OS_K0_TO_PHYSICAL(&B_800E5F08), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
@@ -549,9 +531,9 @@ void *func_80077FA4(void *dstAddr, bool arg1) {
     B_800E59DC = 0;
     guOrtho(&B_800E5F08, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
 
-    B_800E59E0 = (void*)ALIGN16((uintptr_t)dstAddr);
-    B_800E59E4 = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768.start, B_800E59E0, D_8000E768.end - D_8000E768.start));
-    return (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E770.start, B_800E59E4, D_8000E770.end - D_8000E770.start));
+    B_800E59E0 = (void *)ALIGN16((uintptr_t)dstAddr);
+    B_800E59E4 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768.start, B_800E59E0, D_8000E768.end - D_8000E768.start));
+    return (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E770.start, B_800E59E4, D_8000E770.end - D_8000E770.start));
 }
 
 s32 func_80078094(Gfx **gfxP, s32 arg1) {
@@ -574,17 +556,17 @@ s32 func_80078094(Gfx **gfxP, s32 arg1) {
     gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&B_800E5F08), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPDisplayList(gfx++, D_8008E6B8);
     gSPDisplayList(gfx++, D_800AAD68);
-    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1);
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
     B_800E59E8 = B_800E59E0;
     if (arg1 != 0) {
         gDPSetEnvColor(gfx++, 183, 127, 95, 255);
 
-        B_800E59EC = (void*)((uintptr_t)B_800E59E0 + (((uintptr_t) B_800E59E0[0x21]) & 0xFFFFFF));
+        B_800E59EC = (void *)((uintptr_t)B_800E59E0 + (((uintptr_t)B_800E59E0[0x21]) & 0xFFFFFF));
     } else {
         gDPSetEnvColor(gfx++, 255, 255, 255, 255);
 
-        B_800E59EC = (void*)((((uintptr_t) B_800E59E0[0]) & 0xFFFFFF) + (uintptr_t)B_800E59E0);
+        B_800E59EC = (void *)((((uintptr_t)B_800E59E0[0]) & 0xFFFFFF) + (uintptr_t)B_800E59E0);
     }
 
     func_8007F004(&sp60, 0, -0x3C0000, -0x03B60000);
@@ -660,7 +642,7 @@ s32 func_80078094(Gfx **gfxP, s32 arg1) {
         func_80076CA0(&sp48, B_800E59E4 + D_800A8AC8);
 
         gSPDisplayList(gfx++, D_8008E650);
-        func_80042364(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, sp30.unk_04, (s32) sp48.unk_10, sp48.unk_04, 88.0f, 165.0f, sp30.unk_04, sp30.unk_08);
+        func_80042364(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, sp30.unk_04, (s32)sp48.unk_10, sp48.unk_04, 88.0f, 165.0f, sp30.unk_04, sp30.unk_08);
     }
 
     *gfxP = gfx;
@@ -692,18 +674,17 @@ void func_8007A9DC(void) {
     B_800E87AC = D_800AAD3C;
 
     segmentSize = D_8000E768.end - D_8000E768.start;
-    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768.start, B_800E87AC, segmentSize));
+    ptr = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768.start, B_800E87AC, segmentSize));
     B_800E8750 = ptr;
 
     segmentSize = D_8000E758.end - D_8000E758.start;
-    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E758.start, ptr, segmentSize));
+    ptr = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E758.start, ptr, segmentSize));
     B_800E87A8 = ptr;
 
     segmentSize = D_8000E748.end - D_8000E748.start;
-    ptr = (void*)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E748.start, ptr, segmentSize));
+    ptr = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E748.start, ptr, segmentSize));
     B_800E87B0 = ptr;
 }
-
 
 extern s32 B_800E5A20;
 extern s32 B_800E5A24;
@@ -825,8 +806,8 @@ s32 func_8007AA84(struct_800EB670 *arg0) {
     }
 
     func_8002A1DC(arg0, &sp58);
-    D_80088409 = (u8) D_800AACEC;
-    if ((s8) D_800AACEC >= 0xC) {
+    D_80088409 = (u8)D_800AACEC;
+    if ((s8)D_800AACEC >= 0xC) {
         D_80088409 = D_800AACEC - 0xC;
     }
     D_80088402 = D_80088409 % 3;

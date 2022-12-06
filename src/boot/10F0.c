@@ -15,7 +15,7 @@ void func_800004F0(void *arg0) {
     gDmaTable[0].entry(arg0);
 }
 
-void func_80000580(void* arg0) {
+void func_80000580(void *arg0) {
     osCreatePiManager(150, &B_80029C08, B_8001F8C0, 50);
     osCreateThread(&B_80011010, 3, func_800004F0, arg0, STACK_TOP(B_800131C0), 10);
     osStartThread(&B_80011010);

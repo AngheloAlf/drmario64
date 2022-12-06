@@ -8,7 +8,6 @@
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 
-
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8002EB00);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8002EB74);
@@ -231,7 +230,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_800386AC);
 
 s32 func_80038824(void) {
     func_800388E0();
-    if ((u32) (osEepromProbe(&B_800F3E38) - 1) >= 2) {
+    if ((u32)(osEepromProbe(&B_800F3E38) - 1) >= 2) {
         func_80038BD0(1);
         return 1;
     }
@@ -240,7 +239,7 @@ s32 func_80038824(void) {
 
 s32 func_80038878(s32 arg0, s32 arg1) {
     func_800388E0();
-    if (((u32) (osEepromProbe(&B_800F3E38) - 1) >= 2)) {
+    if (((u32)(osEepromProbe(&B_800F3E38) - 1) >= 2)) {
         func_80038BD0(1);
         return 1;
     }

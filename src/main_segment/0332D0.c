@@ -7,7 +7,6 @@
 #include "main_segment_variables.h"
 #include "gcc/memory.h"
 
-
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0332D0", RO_800B1990);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005CF20);
@@ -21,7 +20,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005D09C);
 INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005D0EC);
 
 #ifdef NON_MATCHING
-void func_8005D0EC(void *, void *);                    /* extern */
+void func_8005D0EC(void *, void *); /* extern */
 
 void func_8005D314(struct_800E5A70 *arg0, const char *arg1) {
     s32 temp_a1;
@@ -40,7 +39,7 @@ void func_8005D314(struct_800E5A70 *arg0, const char *arg1) {
 
     arg0->unk_18 -= arg0->unk_14;
     arg0->unk_14 = 0;
-    memmove(arg0->unk_0C + temp_s1, (void*)arg1, var_s2);
+    memmove(arg0->unk_0C + temp_s1, (void *)arg1, var_s2);
     temp_a1 = temp_s1 + var_s2;
     arg0->unk_0C[temp_a1] = 0x7E;
     temp_a1_2 = temp_a1 + arg0->unk_0C;

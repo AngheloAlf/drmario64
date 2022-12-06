@@ -5,7 +5,6 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-
 INCLUDE_ASM("asm/nonmatchings/main_segment/051FD0", func_8007BC20);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/051FD0", func_8007BC54);
@@ -23,7 +22,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/051FD0", func_8007C244);
 INCLUDE_ASM("asm/nonmatchings/main_segment/051FD0", func_8007C480);
 
 s16 func_8007C4AC(f32 arg0) {
-    return (f32) (arg0 * (0x10000 / 360.0));
+    return (f32)(arg0 * (0x10000 / 360.0));
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/051FD0", func_8007C4D8);

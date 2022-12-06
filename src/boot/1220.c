@@ -4,7 +4,6 @@
 #include "boot_functions.h"
 #include "boot_variables.h"
 
-
 s8 D_8000E1A0 = true;
 
 void *func_80000620(romoffset_t segmentRom, void *segmentVram, size_t segmentSize) {
@@ -31,12 +30,12 @@ void *func_80000620(romoffset_t segmentRom, void *segmentVram, size_t segmentSiz
             blkSize = 0x2000;
         }
 
-        osPiStartDma(&mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, (void*)currentVram, blkSize, &B_800151C0);
+        osPiStartDma(&mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, (void *)currentVram, blkSize, &B_800151C0);
         currentRom += blkSize;
         currentVram += blkSize;
         remainingSize -= blkSize;
         osRecvMesg(&B_800151C0, NULL, OS_MESG_BLOCK);
     }
 
-    return (void*)((uintptr_t)segmentVram + segmentSize);
+    return (void *)((uintptr_t)segmentVram + segmentSize);
 }

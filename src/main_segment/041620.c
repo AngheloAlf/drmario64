@@ -5,8 +5,6 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-
-
 INCLUDE_RODATA("asm/nonmatchings/main_segment/041620", D_800B2160);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/041620", D_800B2168);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/041620", D_800B2170);
@@ -16,7 +14,6 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/041620", D_800B2184);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/041620", D_800B2188);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/041620", D_800B218C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/041620", D_800B21D0);
-
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/041620", func_8006B270);
 

@@ -4,8 +4,6 @@
 #include "unknown_structs.h"
 #include "unk.h"
 
-
-
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFC40);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFC48);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFC4C);
@@ -67,7 +65,6 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/0222C0", func_8004D258);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/0222C0", func_8004D2A0);
 
-
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFE2C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFE58);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFEA8);
@@ -79,7 +76,6 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFEDC);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFEE0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFEE4);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0222C0", D_800AFEE8);
-
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/0222C0", func_8004D6DC);
 

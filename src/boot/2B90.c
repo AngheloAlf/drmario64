@@ -5,7 +5,6 @@
 #include "macros_defines.h"
 #include "libc/stdbool.h"
 
-
 extern struct_8001D7F8 B_8001D7F8;
 
 size_t func_80001F90(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
@@ -32,7 +31,7 @@ size_t func_80001FD8(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
 
     arg0->segmentSize -= alignedSize;
     arg0->segmentRom += alignedSize;
-    if ((s32) arg0->segmentSize < 0) {
+    if ((s32)arg0->segmentSize < 0) {
         arg0->segmentSize = 0;
     }
     return blockSize;
@@ -52,7 +51,6 @@ size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
     return arg2;
 }
 
-
 extern u32 B_8001D640;
 extern u32 B_8001F998;
 extern u32 B_8001F9A8;
@@ -60,10 +58,9 @@ extern u32 B_80029BE0;
 extern u32 B_8001F98C; // maybe volatile?
 extern u8 B_8001B640[0x2000];
 
-
 s32 func_800020A0(void) {
     u8 sp10[8];
-    u8 sp18[8*3] UNUSED;
+    u8 sp18[8 * 3] UNUSED;
     s32 temp_v0;
     s32 i;
 
@@ -92,7 +89,7 @@ u32 func_80002148(u8 *arg0, size_t arg1) {
 
     if (arg0 != NULL) {
         var_a2 = D_8000E738;
-        while (arg1 > 0){
+        while (arg1 > 0) {
             var_a2 = D_8000E338[(var_a2 ^ *arg0) & 0xFF] ^ (var_a2 >> 8);
             arg0 += 1;
             arg1 -= 1;
@@ -125,7 +122,7 @@ s32 func_800021CC(s32 arg0) {
         }
     }
 
-    if ( (B_8001F98C != 0) || (arg0 == 0)) {
+    if ((B_8001F98C != 0) || (arg0 == 0)) {
         B_8001FAFC += B_8001F98C;
         B_80029BE0 = 1;
         return B_8001B640[0];

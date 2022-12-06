@@ -10,7 +10,6 @@
 #include "other_symbols.h"
 #include "audio/audio_stuff.h"
 
-
 INCLUDE_RODATA("asm/nonmatchings/main_segment/043C20", D_800B22B0);
 
 #if 0
@@ -350,7 +349,6 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/043C20", D_800B2344);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/043C20", D_800B2348);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/043C20", D_800B2354);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/043C20", D_800B2358);
-
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_8006E80C);
 

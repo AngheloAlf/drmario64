@@ -4,7 +4,6 @@
 #include "unknown_structs.h"
 #include "unk.h"
 
-
 #if 0
 void func_8007EA20(vs32 *arg0, s32 arg1) {
     s32 temp;
@@ -56,7 +55,7 @@ void func_8007F004(struct_8007F004_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     arg0->unk_3C = 0x8000;
 }
 
-void func_8007F04C(struct_8007F04C_arg0* arg0, s32 arg1) {
+void func_8007F04C(struct_8007F04C_arg0 *arg0, s32 arg1) {
     arg0->unk_00 = arg1;
     arg0->unk_04 = 0;
     arg0->unk_08 = 0;

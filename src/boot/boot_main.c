@@ -2,7 +2,6 @@
 #include "boot_functions.h"
 #include "boot_variables.h"
 
-
 void func_80000460(void) {
 }
 
@@ -12,7 +11,7 @@ void func_80000468(void) {
     osStopThread(&B_80011010);
 }
 
-void func_80000488(void* arg0) {
+void func_80000488(void *arg0) {
     D_8000E190 = arg0;
 }
 

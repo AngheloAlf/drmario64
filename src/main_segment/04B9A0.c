@@ -6,7 +6,6 @@
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 
-
 INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31C0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31D8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31DC);
