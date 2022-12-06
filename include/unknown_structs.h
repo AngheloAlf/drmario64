@@ -316,4 +316,22 @@ typedef struct struct_800F4890 {
     /* 0x184 */ s32 unk_184;
 } struct_800F4890; // size >= 0x188
 
+typedef struct struct_800F3E5C {
+    /* 0x00000 */ struct_800EB670 *unk_00000;
+    /* 0x00004 */ struct_800FAF98_unk_64 unk_00004;
+    /* 0x0000C */ OSMesgQueue unk_0000C;
+    /* 0x00024 */ UNK_TYPE1 unk_00024[0x1119C];
+    /* 0x111C0 */ UNK_TYPE unk_111C0;
+    /* 0x111C4 */ UNK_TYPE unk_111C4;
+    /* 0x111C8 */ UNK_TYPE unk_111C8;
+    /* 0x111CC */ UNK_TYPE unk_111CC;
+    /* 0x111D0 */ UNK_TYPE1 unk_111D0[0x4];
+    /* 0x111D4 */ enum_800EBCF0 unk_111D4;
+    /* 0x111D8 */ UNK_TYPE unk_111D8;
+    /* 0x111DC */ f32 unk_111DC;
+    /* 0x111E0 */ UNK_TYPE1 unk_111E0[0x14];
+    /* 0x111F4 */ UNK_TYPE unk_111F4;
+    /* 0x111F8 */ UNK_TYPE1 unk_111F8[0x88];
+} struct_800F3E5C; // size = 0x11280
+
 #endif

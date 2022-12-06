@@ -2,7 +2,8 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "unk.h"
+#include "main_segment_functions.h"
+#include "main_segment_variables.h"
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/02FD90", D_800B1430);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/02FD90", D_800B1438);
@@ -21,7 +22,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_80059BC8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_80059C34);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_80059CA0);
+void func_80059CA0(struct_800F3E5C *arg0) {
+    osRecvMesg(&arg0->unk_0000C, NULL, OS_MESG_BLOCK);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_80059CC4);
 
@@ -81,7 +84,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_80059EB8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_80059F1C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_8005A2AC);
+void func_8005A2AC(struct_800F3E5C *arg0) {
+    func_8002A1DC(arg0->unk_00000, &arg0->unk_00004);
+    D_8008E8B4 = arg0->unk_111CC;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_8005A2EC);
 

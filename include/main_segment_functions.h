@@ -531,7 +531,7 @@ void func_800432A8(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
 // void func_80059B5C();
 // void func_80059BC8();
 // void func_80059C34();
-// void func_80059CA0();
+void func_80059CA0(struct_800F3E5C *arg0);
 // void func_80059CC4();
 // void func_80059CDC();
 // void func_80059CF4();
@@ -560,12 +560,12 @@ void func_800432A8(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
 // void func_80059E8C();
 // void func_80059E9C();
 // void func_80059EB8();
-// void func_80059F1C();
-// void func_8005A2AC();
+void func_80059F1C(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2);
+void func_8005A2AC(struct_800F3E5C *arg0);
 // void func_8005A2EC();
-// void func_8005A434();
-// void func_8005A720();
-// void func_8005A974();
+void func_8005A434(struct_800F3E5C *arg0);
+void func_8005A720(struct_800F3E5C *arg0);
+void func_8005A974(struct_800F3E5C *arg0);
 // void func_8005AD30();
 // void func_8005AEF4();
 enum_800EBCF0 func_8005B2D4(struct_800EB670 *);

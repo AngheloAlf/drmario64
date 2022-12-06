@@ -208,7 +208,7 @@ extern Gfx D_8008E748[];
 // extern UNK_TYPE D_8008E86C;
 // extern UNK_TYPE D_8008E870;
 // extern UNK_TYPE D_8008E87C;
-// extern UNK_TYPE D_8008E8B4;
+extern UNK_TYPE D_8008E8B4; // maybe part of a struct?
 // extern UNK_TYPE D_8008E8C0;
 // extern UNK_TYPE D_8008F800;
 // extern UNK_TYPE D_8008FB00;
@@ -689,7 +689,7 @@ extern OSMesgQueue B_800F3E38;
 extern struct_800F3E50 *B_800F3E50;
 // extern UNK_TYPE B_800F3E54;
 // extern UNK_TYPE B_800F3E56;
-// extern UNK_TYPE B_800F3E5C;
+extern struct_800F3E5C *B_800F3E5C;
 extern OSMesg B_800F3E60[1];
 extern u16 gControllerPrevHoldButtons[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800F3E6E;
