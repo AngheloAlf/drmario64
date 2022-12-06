@@ -68,7 +68,7 @@ void func_8002B344(s32 arg0);
 s32 func_8002B370(void);
 // void func_8002B394();
 void func_8002B490(struct_80205000 *arg0);
-void func_8002B4BC(struct_800EB670 *);
+void func_8002B4BC(struct_800EB670 * /*arg0*/);
 void func_8002B5E4(void);
 void func_8002B710(void);
 void func_8002B728(void);
@@ -107,8 +107,7 @@ s32 func_8002D8A0(s32 index, f32 offset);
 void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize);
 void func_8002D984(void);
 void func_8002D9E4(void);
-void func_8002DA48(musTask *arg0);
-
+void func_8002DA48(musTask *musicTask);
 
 // data
 

@@ -27,7 +27,7 @@ s32 func_80001620(void);
 s32 func_80001D4C(s32 *arg0);
 s32 func_80001EB4(void);
 size_t func_80001F90(romoffset_t segmentRom, void *dstAddr, size_t segmentSize);
-size_t func_80001FD8(struct_80029C04* arg0, u8* arg1, size_t arg2);
+size_t func_80001FD8(struct_80029C04 *arg0, u8 *arg1, size_t blockSize);
 size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2);
 UNK_TYPE func_800020A0(void);
 u32 func_80002148(u8 *arg0, size_t arg1);

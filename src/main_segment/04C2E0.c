@@ -709,12 +709,7 @@ extern s32 B_800E87B4;
 extern s16 B_800F6CDE[];
 extern u8 D_80088409;
 extern void *D_800A8ACC;
-extern s32 D_800AAD10;
-extern s32 D_800AAD14;
-extern s32 D_800AAD1C;
-extern s32 D_800AAD20;
-extern s32 D_800AAD24;
-extern s32 D_800AAD28;
+
 extern struct_80205000 *D_800AAD38;
 extern struct_80205000 *D_800AAD40;
 extern UNK_TYPE4 D_800AAE00[];
