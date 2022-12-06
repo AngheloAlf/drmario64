@@ -39,10 +39,10 @@ jobs:
     - name: Build Dr. Mario 64
       run: make -j $(nproc) WERROR=1
 
-    - name: Upload progress
+    - name: Upload frogress
       if: github.ref == 'refs/heads/master'
       continue-on-error: true
-      run: python3 tools/upload_progress.py https://progress.deco.mp drmario64 --api-key ${{ secrets.PROGRESS_API_KEY }}
+      run: python3 tools/upload_progress.py https://progress.deco.mp drmario64 usa --api-key ${{ secrets.PROGRESS_API_KEY }}
 
     - name: Upload map
       uses: actions/upload-artifact@v3

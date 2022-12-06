@@ -16,20 +16,21 @@ def get_git_commit_timestamp() -> int:
 def get_git_commit_sha() -> str:
     return subprocess.check_output(['git', 'rev-parse', 'HEAD']).decode('ascii').strip()
 
-def generate_url(base_url: str, project: str) -> str:
-    return "/".join([base_url, "data", project]) + "/"
+def generate_url(base_url: str, project: str, version: str) -> str:
+    return "/".join([base_url, "data", project, version]) + "/"
 
 
 def uploadProgressMain():
     parser = argparse.ArgumentParser()
     parser.add_argument("base_url", help="API base URL")
     parser.add_argument("project", help="Project slug")
+    parser.add_argument("version", help="Version slug")
     parser.add_argument("--api-key", help="API key")
     parser.add_argument("-m", "--map", default="build/drmario64_uncompressed.map")
 
     args = parser.parse_args()
 
-    totalStats, progressPerFolder = progress.getProgress(args.map, aliases= {"ultralib": "libultra"})
+    totalStats, progressPerFolder = progress.getProgress(args.map, aliases={"ultralib": "libultra"})
 
     categories = {}
     categories["all"] = totalStats.decompedSize
@@ -48,10 +49,10 @@ def uploadProgressMain():
     entries = {
         "timestamp": get_git_commit_timestamp(),
         "git_hash": get_git_commit_sha(),
-        "categories": {"rom": categories},
+        "categories": {"code": categories},
     }
 
-    url = generate_url(args.base_url, args.project)
+    url = generate_url(args.base_url, args.project, args.version)
 
     print("Publishing entries to", url)
 
