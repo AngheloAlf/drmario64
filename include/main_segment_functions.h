@@ -568,7 +568,7 @@ void func_8005A720(struct_800F3E5C *arg0);
 void func_8005A974(struct_800F3E5C *arg0);
 // void func_8005AD30();
 // void func_8005AEF4();
-enum_800EBCF0 func_8005B2D4(struct_800EB670 *);
+enum_800EBCF0 func_8005B2D4(struct_800EB670 * arg0);
 void func_8005B658(void);
 
 s32 func_8005B7F0(const char *arg0);

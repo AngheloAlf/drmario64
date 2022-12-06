@@ -15,20 +15,12 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/030AD0", func_8005AD30);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/030AD0", func_8005AEF4);
 
-#if 0
-extern s32 B_800EB4F4;
-extern s32 B_800EFCB0;
-//extern s16 B_800F6CD8[4];
-extern s32 D_8008E788;
-
 enum_800EBCF0 func_8005B2D4(struct_800EB670 *arg0) {
-    UNK_PTR sp10;
-    struct_800F3E5C *temp_s0;
+    UNK_PTR sp10 = D_80124610;
+    struct_800F3E5C *temp_s0 = ALIGN_PTR(D_80124610);
     s32 var_v1;
     u16 value;
 
-    sp10 = D_80124610;
-    temp_s0 = ALIGN_PTR(D_80124610);
     if (B_800EB4F0 == ENUM_800EBCF0_3) {
         D_8008E8B4 = 0;
         D_8008E788 = 0;
@@ -54,9 +46,6 @@ enum_800EBCF0 func_8005B2D4(struct_800EB670 *arg0) {
     func_8002AFC4(0xC);
 
     while ((temp_s0->unk_111D4 == ENUM_800EBCF0_6) || (temp_s0->unk_111DC < 1.0f)) {
-        s32 unk_111CC;
-        s32 unk_111D0;
-
         if (D_80088124 == 0) {
             while ((D_80088128 != 0) || (func_80040BA4() != 0)) {
                 func_80059CA0(temp_s0);
@@ -71,7 +60,7 @@ enum_800EBCF0 func_8005B2D4(struct_800EB670 *arg0) {
                 gControllerPressedButtons[var_v1] = 0;
                 gControllerPrevHoldButtons[var_v1] = 0;
                 gControllerHoldButtons[var_v1] = 0;
-            } 
+            }
         } else {
             func_8002A700();
         }
@@ -80,15 +69,12 @@ enum_800EBCF0 func_8005B2D4(struct_800EB670 *arg0) {
         func_8005A974(temp_s0);
         func_8002AE58();
 
-        unk_111CC = temp_s0->unk_111CC;
-        unk_111D0 = temp_s0->unk_111D0;
-
-        if (unk_111CC == unk_111D0) {
-            temp_s0->unk_111C8 = unk_111CC;
-            D_80088124 = 0;
-            temp_s0->unk_111CC = unk_111D0;
+        if (temp_s0->unk_111CC != temp_s0->unk_111D0) {
+            temp_s0->unk_111C8 = temp_s0->unk_111CC;
+            temp_s0->unk_111CC = temp_s0->unk_111D0;
             temp_s0->unk_111C4 = temp_s0->unk_111C0;
             temp_s0->unk_111C0 ^= 1;
+            D_80088124 = 0;
         } else {
             D_80088124 = 5;
         }
@@ -97,7 +83,7 @@ enum_800EBCF0 func_8005B2D4(struct_800EB670 *arg0) {
     D_80088124 = 5;
 
     while (temp_s0->unk_111F4 != 0xF) {
-        osRecvMesg(&temp_s0->unk_0000C, NULL, 1);
+        osRecvMesg(&temp_s0->unk_0000C, NULL, OS_MESG_BLOCK);
         func_8002AE58();
     }
 
@@ -105,16 +91,14 @@ enum_800EBCF0 func_8005B2D4(struct_800EB670 *arg0) {
     func_8002B0E4();
 
     while ((D_80088128 != 0) || !func_8002B178() || (func_80040BA4() != 0)) {
-        osRecvMesg(&temp_s0->unk_0000C, NULL, 1);
+        osRecvMesg(&temp_s0->unk_0000C, NULL, OS_MESG_BLOCK);
         func_8002AE58();
     }
 
     func_8005A2AC(temp_s0);
     func_80040AE4();
+
     return temp_s0->unk_111D4;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/030AD0", func_8005B2D4);
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/030AD0", func_8005B658);
