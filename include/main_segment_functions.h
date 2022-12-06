@@ -156,7 +156,7 @@ s32 func_80038A94(void);
 s32 func_80038B18(s32 arg0, s32 arg1);
 void func_80038BD0(UNK_TYPE arg0);
 void func_80038BD8(void);
-// void func_80038BE0();
+void func_80038BE0(UNK_TYPE *arg0, UNK_PTR *arg1);
 // void func_80038C38();
 // void func_80038C7C();
 // void func_80038CBC();
@@ -293,7 +293,7 @@ void func_800432A8(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
 // void func_80044E08();
 // void func_80044F18();
 // void func_8004502C();
-// s32 func_80045098(UNK_PTR *arg0, romoffset_t segmentRom, romoffset_t segmentRomEnd);
+UNK_TYPE func_80045098(UNK_PTR *arg0, romoffset_t segmentRom, romoffset_t segmentRomEnd);
 // void func_80045110();
 // void func_800451C4();
 // void func_800452B0();
@@ -313,7 +313,7 @@ void func_800432A8(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
 // void func_800460DC();
 // void func_8004613C();
 // void func_800461B0();
-// void func_80046250();
+void func_80046250(UNK_TYPE *arg0, UNK_TYPE arg1, UNK_TYPE arg2);
 // void func_80046368();
 // void func_80046408();
 // void func_800464BC();
@@ -340,7 +340,7 @@ void func_800432A8(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
 // void func_8004714C();
 // void func_800472D0();
 // void func_80047420();
-// void func_800474EC();
+void func_800474EC(UNK_TYPE *arg0, struct_800F3E5C *arg1, UNK_TYPE arg2, UNK_TYPE arg3);
 // void func_80047584();
 // void func_800475A8();
 // void func_80047720();

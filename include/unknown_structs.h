@@ -315,18 +315,28 @@ typedef struct struct_800F4890 {
     /* 0x184 */ s32 unk_184;
 } struct_800F4890; // size >= 0x188
 
+typedef struct struct_800F3E5C_unk_00048 {
+    /* 0x000 */ UNK_TYPE1 unk_000[0x400];
+} struct_800F3E5C_unk_00048; // size = 0x400
+
+typedef struct struct_800F3E5C_unk_00C48 {
+    /* 0x000 */ UNK_TYPE1 unk_000[0x800];
+} struct_800F3E5C_unk_00C48; // size = 0x800
+
 typedef struct struct_800F3E5C {
     /* 0x00000 */ struct_800EB670 *unk_00000;
     /* 0x00004 */ struct_800FAF98_unk_64 unk_00004;
     /* 0x0000C */ OSMesgQueue unk_0000C;
     /* 0x00024 */ OSMesg unk_00024[8];
-    /* 0x00044 */ UNK_TYPE1 unk_00044[0x2404];
-    /* 0x02448 */ UNK_TYPE4 unk_02448[3];
-    /* 0x02454 */ UNK_TYPE4 unk_02454[3];
+    /* 0x00044 */ UNK_TYPE1 unk_00044[4];
+    /* 0x00048 */ struct_800F3E5C_unk_00048 unk_00048[3];
+    /* 0x00C48 */ struct_800F3E5C_unk_00C48 unk_00C48[3];
+    /* 0x02448 */ struct_800F3E5C_unk_00048 *unk_02448[3];
+    /* 0x02454 */ struct_800F3E5C_unk_00C48 *unk_02454[3];
     /* 0x02460 */ UNK_PTR unk_02460;
     /* 0x02464 */ UNK_TYPE unk_02464;
-    /* 0x02468 */ UNK_TYPE4 unk_02468[2];
-    /* 0x02470 */ UNK_TYPE4 unk_02470[2];
+    /* 0x02468 */ UNK_PTR unk_02468[2];
+    /* 0x02470 */ UNK_PTR unk_02470[2];
     /* 0x02478 */ UNK_TYPE unk_02478;
     /* 0x0247C */ UNK_TYPE unk_0247C;
     /* 0x02480 */ UNK_TYPE1 unk_02480[4];
@@ -361,7 +371,8 @@ typedef struct struct_800F3E5C {
     /* 0x111EC */ UNK_TYPE unk_111EC;
     /* 0x111F0 */ UNK_TYPE unk_111F0;
     /* 0x111F4 */ UNK_TYPE unk_111F4;
-    /* 0x111F8 */ UNK_TYPE1 unk_111F8[0x88];
+    /* 0x111F8 */ UNK_TYPE unk_111F8;
+    /* 0x111FC */ UNK_TYPE1 unk_111FC[0x84];
 } struct_800F3E5C; // size = 0x11280
 
 #endif

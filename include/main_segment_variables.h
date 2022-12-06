@@ -41,7 +41,7 @@ extern u8 D_80088406;
 // extern UNK_TYPE D_8008840A;
 // extern UNK_TYPE D_8008840C;
 // extern UNK_TYPE D_8008840D;
-// extern UNK_TYPE D_8008840E;
+extern s8 D_8008840E; // maybe part of a struct?
 extern u8 D_8008840F;
 extern s8 D_80088410;
 // extern UNK_TYPE D_80088414;
