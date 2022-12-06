@@ -67,7 +67,7 @@ endif
 
 #### Tools ####
 ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-	$(error Please install or build $(MIPS_BINUTILS_PREFIX))
+$(error Please install or build $(MIPS_BINUTILS_PREFIX))
 endif
 
 CC         := COMPILER_PATH=tools/gcc_kmc/$(DETECTED_OS)/2.7.2 tools/gcc_kmc/$(DETECTED_OS)/2.7.2/gcc
