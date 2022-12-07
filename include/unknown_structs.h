@@ -337,6 +337,10 @@ typedef struct struct_800F3E5C_unk_02678_unk_590 {
     /* 0x03F4 */ UNK_TYPE1 unk_03F4[0x20D4];
 } struct_800F3E5C_unk_02678_unk_590; // size = 0x24C8
 
+typedef struct struct_800F3E5C_unk_02470 {
+    /* 0x00000 */ UNK_TYPE1 unk_00000[0x60000];
+} struct_800F3E5C_unk_02470; // size = 0x60000
+
 typedef struct struct_800F3E5C_unk_02678 {
     /* 0x0000 */ struct_800F3E5C_unk_02678_unk_0000 *unk_0000;
     /* 0x0004 */ UNK_TYPE unk_0004;
@@ -433,8 +437,8 @@ typedef struct struct_800F3E5C {
     /* 0x02454 */ struct_800F3E5C_unk_00C48 *unk_02454[3];
     /* 0x02460 */ UNK_PTR unk_02460;
     /* 0x02464 */ UNK_TYPE unk_02464;
-    /* 0x02468 */ UNK_PTR unk_02468[2];
-    /* 0x02470 */ UNK_PTR unk_02470[2];
+    /* 0x02468 */ struct_800F3E5C_unk_02470 *unk_02468[2];
+    /* 0x02470 */ struct_800F3E5C_unk_02470 *unk_02470[2];
     /* 0x02478 */ UNK_TYPE unk_02478;
     /* 0x0247C */ UNK_TYPE unk_0247C;
     /* 0x02480 */ UNK_TYPE1 unk_02480[4];
@@ -469,7 +473,7 @@ typedef struct struct_800F3E5C {
     /* 0x111E8 */ UNK_TYPE unk_111E8;
     /* 0x111EC */ UNK_TYPE unk_111EC;
     /* 0x111F0 */ UNK_TYPE unk_111F0;
-    /* 0x111F4 */ UNK_TYPE unk_111F4;
+    /* 0x111F4 */ UNK_TYPE unk_111F4; // thread priority?
     /* 0x111F8 */ UNK_TYPE unk_111F8;
     /* 0x111FC */ UNK_TYPE1 unk_111FC[0x84];
 } struct_800F3E5C; // size = 0x11280
