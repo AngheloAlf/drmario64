@@ -2,7 +2,11 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "unk.h"
+#include "boot_functions.h"
+#include "boot_variables.h"
+#include "main_segment_functions.h"
+#include "main_segment_variables.h"
+#include "audio/audio_stuff.h"
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_80055CE0);
 
@@ -109,13 +113,56 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/02C090", D_800B1370);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_80058A9C);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/02C090", D_800B13D0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/02C090", D_800B13F8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/02C090", D_800B13FC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_8005911C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_800592D4);
+void func_800592D4(struct_800F3E5C_unk_02678 *arg0) {
+    struct_800F3E5C_unk_02678_unk_590 *temp_s0 = &arg0->unk_590[arg0->unk_0014];
+    u16 pressedButton = func_80059E1C(arg0->unk_0000, 0);
+    s32 direction;
+    s32 var_s4;
+
+    func_80059E3C(arg0->unk_0000, 0);
+    direction = 0;
+    var_s4 = -1;
+    if ((arg0->unk_0364 == 0.0f) && (arg0->unk_0368 < 0.0f)) {
+        func_800585BC(arg0, 1, 0.0f);
+    }
+
+    if (!(temp_s0->unk_03C8 < 1.0f) && !(temp_s0->unk_03CC < 0.0f) && !(temp_s0->unk_03EC < 1.0f) && !(temp_s0->unk_03F0 < 0.0f)) {
+        if (arg0->unk_0008 == 0) {
+            if (pressedButton & (L_JPAD | L_TRIG)) {
+                direction--;
+            }
+            if (pressedButton & (R_JPAD | R_TRIG)) {
+                direction++;
+            }
+        }
+
+        if (pressedButton & B_BUTTON) {
+            func_80058838(arg0, arg0->unk_0014, -1, 1.0f);
+            var_s4 = 0x44;
+            func_80059E7C(arg0->unk_0000, 0);
+        } else if (direction != 0) {
+            arg0->unk_0010 = arg0->unk_000C;
+
+            arg0->unk_000C = func_800023B4(0, 3, arg0->unk_000C + direction);
+            var_s4 = 0x3F;
+            func_800586A4(arg0, arg0->unk_0014, -1, 1.0f, -(direction * 0x140));
+            arg0->unk_0018 = arg0->unk_0014;
+            arg0->unk_0014 = (arg0->unk_0014 + 1) & 1;
+            func_80058A9C(arg0, arg0->unk_0014, arg0->unk_0004, arg0->unk_000C);
+            func_800585BC(arg0, -1, 1.0f);
+            func_800586A4(arg0, arg0->unk_0014, 1, 0.0f, direction * 0x140);
+        }
+
+        if (var_s4 > -1) {
+            func_8002B1B4(var_s4);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_8005954C);
 

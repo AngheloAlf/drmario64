@@ -1798,6 +1798,8 @@ RO_800B0A50 = 0x800B0A50; // force_not_migration:True
 RO_800B0B50 = 0x800B0B50; // force_not_migration:True
 RO_800B0B54 = 0x800B0B54; // force_not_migration:True
 
+jtbl_800B13D0 = 0x800B13D0; // type:jtbl force_migration:True
+
 RO_800B1950 = 0x800B1950; // type:Gfx
 
 RO_800B1990 = 0x800B1990; // size:0x18
@@ -2189,8 +2191,7 @@ B_800F6C71 = 0x800F6C71;
 
 __muscontrol_flag = 0x800F6CD4; // 0x4  (player, true)
 
-B_800F6CD8 = 0x800F6CD8;
-B_800F6CDE = 0x800F6CDE;
+B_800F6CD8 = 0x800F6CD8; // size:0x8
 B_800F6CE0 = 0x800F6CE0;
 B_800F6CF0 = 0x800F6CF0;
 B_800F6CF1 = 0x800F6CF1;

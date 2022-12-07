@@ -726,7 +726,6 @@ extern OSContStatus B_800F5358[4];
 // extern UNK_TYPE B_800F6C71;
 // extern UNK_TYPE B_800F6CD4;
 extern u16 B_800F6CD8[4];
-// extern UNK_TYPE B_800F6CDE;
 // extern UNK_TYPE B_800F6CE0;
 // extern UNK_TYPE B_800F6CF0;
 // extern UNK_TYPE B_800F6CF1;
