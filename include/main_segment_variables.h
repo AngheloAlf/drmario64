@@ -442,6 +442,11 @@ extern u16 D_800AB440[];
 // extern UNK_TYPE D_800ABF30;
 // extern UNK_TYPE D_800ABF40;
 
+// rodata
+
+extern const Gfx RO_800ADC60[];
+
+
 // bss
 
 extern UNK_TYPE B_800B3640;

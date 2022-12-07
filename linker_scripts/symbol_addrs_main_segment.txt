@@ -1729,6 +1729,8 @@ STR_800ADB24 = 0x800ADB24; // type:char force_not_migration:True
 
 RO_800ADC50 = 0x800ADC50; // force_not_migration:True
 
+RO_800ADC60 = 0x800ADC60; // type:Gfx
+
 RO_800ADCE0 = 0x800ADCE0; // force_not_migration:True type:s32
 RO_800ADD3C = 0x800ADD3C; // force_not_migration:True
 RO_800ADD40 = 0x800ADD40; // force_not_migration:True

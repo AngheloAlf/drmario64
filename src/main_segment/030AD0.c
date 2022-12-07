@@ -85,7 +85,31 @@ void func_8005A720(struct_800F3E5C *arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/030AD0", func_8005A974);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/030AD0", func_8005AD30);
+void func_8005AD30(struct_800F3E5C *arg0, Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
+    UNK_TYPE *temp_s4 = &arg0->unk_024B8;
+    s32 temp_s3;
+    s32 i;
+    s32 var_s2;
+
+    func_80046844(temp_s4, &gfx);
+    func_80077E2C(&gfx, arg0->unk_024C4 + 0.0f, -arg0->unk_024C8 - 120.0f);
+
+    gSPDisplayList(gfx++, RO_800ADC60);
+    func_80046844(temp_s4, &gfx);
+
+    var_s2 = 0;
+    temp_s3 = func_80059D04(arg0, 2);
+    for (i = 0; i < 5; i++) {
+        var_s2 += func_80046C74(temp_s4, &gfx, temp_s3, var_s2, (i << 6), 0, 1.0f, 1.0f);
+    }
+
+    for (; i < 10; i++) {
+        var_s2 += func_80046C74(temp_s4, &gfx, temp_s3, var_s2, (i - 5) << 6, 200.0f, 1.0f, -1.0f);
+    }
+
+    *gfxP = gfx;
+}
 
 void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
     u8 color;

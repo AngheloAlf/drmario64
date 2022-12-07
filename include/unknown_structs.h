@@ -456,7 +456,10 @@ typedef struct struct_800F3E5C {
     /* 0x024B0 */ UNK_TYPE unk_024B0;
     /* 0x024B4 */ UNK_TYPE unk_024B4;
     /* 0x024B8 */ UNK_TYPE unk_024B8;
-    /* 0x024BC */ UNK_TYPE1 unk_024BC[0x8C];
+    /* 0x024BC */ UNK_TYPE1 unk_024BC[0x8];
+    /* 0x024C4 */ f32 unk_024C4;
+    /* 0x024C8 */ f32 unk_024C8;
+    /* 0x024CC */ UNK_TYPE1 unk_024CC[0x7C];
     /* 0x02548 */ UNK_TYPE unk_02548;
     /* 0x0254C */ UNK_TYPE1 unk_0254C[0x12C];
     /* 0x02678 */ struct_800F3E5C_unk_02678 unk_02678[2];
