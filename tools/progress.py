@@ -79,14 +79,6 @@ def getProgress(map: str, detailed: bool=False, aliases: dict[str, str]={}) -> t
     return getProgressFromFileList(filesList, detailed, aliases)
 
 
-def printProgressHeader():
-    print(f"{'FolderName':<20}: {'DecompedSize':>12} / {'Total':>6} {'OfFolder':>10}%  ({'OfTotal':>20}%)")
-
-def printProgressEntry(folder: str, statsEntry: ProgressStats, totalStats: ProgressStats):
-    print(f"{folder:<20}: {statsEntry.decompedSize:>12} / {statsEntry.total:>6} {statsEntry.decompedSize / statsEntry.total * 100:>10.4f}%  ({statsEntry.decompedSize / totalStats.total * 100:>8.4f}% / {statsEntry.total / totalStats.total * 100:>8.4f}%)")
-
-
-
 def progressMain():
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--map", default="build/drmario64_uncompressed.map")

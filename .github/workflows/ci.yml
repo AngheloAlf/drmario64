@@ -49,3 +49,12 @@ jobs:
       with:
         name: drmario64_uncompressed.map
         path: build/drmario64_uncompressed.map
+
+    - name: Generate PJ64 symbols file
+      run: python3 tools/mapToPj64syms.py
+
+    - name: Upload PJ64 symbols file
+      uses: actions/upload-artifact@v3
+      with:
+        name: DR.MARIO 64.sym
+        path: DR.MARIO 64.sym
