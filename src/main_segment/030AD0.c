@@ -7,7 +7,81 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/030AD0", func_8005A720);
+void func_8005A720(struct_800F3E5C *arg0) {
+    s32 index = arg0->unk_111C0;
+
+    if ((arg0->unk_111E0 > 0.0f) && (arg0->unk_111DC > 0.0f)) {
+        func_8005A2EC(arg0);
+        return;
+    }
+
+    switch (arg0->unk_111CC) {
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_0:
+            func_8004F358(&arg0->unk_02678[index]);
+            break;
+
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_4:
+            func_80051A28(&arg0->unk_02678[index]);
+            break;
+
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_7:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_10:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_13:
+            func_80052E48(&arg0->unk_02678[index]);
+            break;
+
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_17:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_21:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_26:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_30:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_34:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_41:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_43:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_45:
+            func_800556E0(&arg0->unk_02678[index]);
+            break;
+
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_16:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_20:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_25:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_29:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_33:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_40:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_42:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_44:
+            func_800541CC(&arg0->unk_02678[index]);
+            break;
+
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_3:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_6:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_9:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_12:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_15:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_19:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_24:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_28:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_32:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_63:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_64:
+            func_800560F0(&arg0->unk_02678[index]);
+            break;
+
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_49:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_50:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_51:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_52:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_53:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_54:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_56:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_57:
+        case ENUM_STRUCT_800F3E5C_UNK_111CC_58:
+            func_800592D4(&arg0->unk_02678[index]);
+            break;
+
+        default:
+            break;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/030AD0", func_8005A974);
 
