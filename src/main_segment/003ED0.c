@@ -5,8 +5,8 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-enum_800EBCF0 func_8002DB20(void) {
-    enum_800EBCF0 ret = ENUM_800EBCF0_3;
+enum_main_no func_8002DB20(void) {
+    enum_main_no ret = MAIN_NO_3;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(B_80123700); i++) {
@@ -29,7 +29,7 @@ enum_800EBCF0 func_8002DB20(void) {
             break;
 
         case 0x5:
-            ret = ENUM_800EBCF0_10;
+            ret = MAIN_NO_10;
             break;
 
         default:

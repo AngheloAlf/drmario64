@@ -86,7 +86,7 @@ s32 func_8002B13C(s32 arg0);
 s32 func_8002B15C(s32 arg0, s32 arg1);
 bool func_8002B178(void);
 bool func_8002B194(s32 arg0);
-void func_8002B1B4(s32 arg0);
+void dm_snd_play(s32 arg0);
 void func_8002B344(s32 arg0);
 s32 func_8002B370(void);
 void func_8002B394(void);
@@ -98,11 +98,11 @@ void func_8002B728(void);
 void func_8002B754(void);
 void func_8002B7A8(struct_800EB670 *arg0);
 s16 func_8002B800(void);
-void func_8002B834(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags);
-void func_8002B9D8();
-void func_8002BAB8(u8 arg0);
-void func_8002BBD8(u8 arg0);
-void func_8002BC58(u8 arg0);
+void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags);
+void F3RCPinitRtn();
+void F3ClearFZRtn(u8 arg0);
+void S2RDPinitRtn(u8 arg0);
+void S2ClearCFBRtn(u8 arg0);
 
 
 s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority);

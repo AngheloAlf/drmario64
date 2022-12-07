@@ -269,7 +269,10 @@ bool func_8002B194(s32 arg0) {
     return func_8002D51C(arg0) == 0;
 }
 
-void func_8002B1B4(s32 arg0) {
+/**
+ * Original name: dm_snd_play
+ */
+void dm_snd_play(s32 arg0) {
     s32 i;
     const struct_800ACA80 *temp_a1 = &D_800ACA80[arg0];
     struct_800FACE0 *ptr = &B_800FACE0;
@@ -322,7 +325,7 @@ void func_8002B1B4(s32 arg0) {
 
 void func_8002B344(s32 arg0) {
     if (D_80088406 < 6) {
-        func_8002B1B4(arg0);
+        dm_snd_play(arg0);
     }
 }
 
@@ -347,14 +350,14 @@ void func_8002B394(void) {
     }
 
     for (i = 0; i < ARRAY_COUNTU(sp10); i++) {
-        func_8002B1B4(RO_800ACA10[sp10[i]] + 3);
+        dm_snd_play(RO_800ACA10[sp10[i]] + 3);
     }
 }
 
 void func_8002B490(UNK_PTR arg0 UNUSED) {
     B_800ED430 = 2;
     B_800E9BB6 = 4;
-    D_80088124 = 0;
+    graphic_no = 0;
     B_800FAD2C = 0;
 }
 
@@ -390,7 +393,7 @@ void func_8002B4BC(struct_800EB670 *arg0) {
 }
 
 void func_8002B5E4(void) {
-    switch (D_80088124) {
+    switch (graphic_no) {
         case 0:
             break;
 
@@ -402,7 +405,7 @@ void func_8002B5E4(void) {
 
         case 2:
             if (D_80088128 < 2) {
-                func_8007636C();
+                dm_title_graphic();
             }
             break;
 
@@ -432,7 +435,7 @@ void func_8002B5E4(void) {
 
         case 7:
             if (D_80088128 < 2) {
-                func_800767DC();
+                graphic_boot_error();
             }
             break;
     }
@@ -443,7 +446,7 @@ void func_8002B710(void) {
 }
 
 void func_8002B728(void) {
-    if (D_80088124 == 4) {
+    if (graphic_no == 4) {
         func_80071A44();
     }
 }
@@ -468,7 +471,10 @@ s16 func_8002B800(void) {
     return *sp10;
 }
 
-void func_8002B834(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags) {
+/**
+ * Original name: gfxTaskStart
+ */
+void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags) {
     scTask->list.t.type = M_GFXTASK;
     scTask->list.t.flags = OS_SC_NEEDS_RSP | OS_SC_DRAM_DLIST;
     scTask->list.t.data_ptr = data_ptr;
@@ -501,46 +507,58 @@ void func_8002B834(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3,
     B_800FAD2C = (B_800FAD2C + 1) % 3;
 }
 
-void func_8002B9D8(void) {
-    gSPSegment(B_800EBCF4++, 0x00, 0x00000000);
-    gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_80088328));
-    gSPViewport(B_800EBCF4++, &D_80088130);
+/**
+ * Original name: F3RCPinitRtn
+ */
+void F3RCPinitRtn(void) {
+    gSPSegment(gGfxHead++, 0x00, 0x00000000);
+    gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_80088328));
+    gSPViewport(gGfxHead++, &D_80088130);
 
     if (D_80088140 == 1) {
-        gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_80088228));
+        gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_80088228));
         D_80088140 = 0;
     }
 
-    gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_80088308));
-    gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+    gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_80088308));
+    gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 }
 
-void func_8002BAB8(u8 arg0) {
-    gDPSetCycleType(B_800EBCF4++, G_CYC_FILL);
-    gDPSetColorImage(B_800EBCF4++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
+/**
+ * Original name: F3ClearFZRtn
+ */
+void F3ClearFZRtn(u8 arg0) {
+    gDPSetCycleType(gGfxHead++, G_CYC_FILL);
+    gDPSetColorImage(gGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
 
     if (arg0) {
-        gDPSetFillColor(B_800EBCF4++, (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
-        gDPFillRectangle(B_800EBCF4++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+        gDPSetFillColor(gGfxHead++, (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
+        gDPFillRectangle(gGfxHead++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 
-    gDPPipeSync(B_800EBCF4++);
-    gDPSetCycleType(B_800EBCF4++, G_CYC_1CYCLE);
+    gDPPipeSync(gGfxHead++);
+    gDPSetCycleType(gGfxHead++, G_CYC_1CYCLE);
 }
 
-void func_8002BBD8(u8 arg0) {
-    gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_80088150));
+/**
+ * Original name: S2RDPinitRtn
+ */
+void S2RDPinitRtn(u8 arg0) {
+    gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_80088150));
     if (arg0) {
-        gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+        gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
     } else {
-        gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 12, 8, 307, 231);
+        gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 12, 8, 307, 231);
     }
 }
 
-void func_8002BC58(u8 arg0) {
-    gDPSetColorImage(B_800EBCF4++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
+/**
+ * Original name: S2ClearCFBRtn
+ */
+void S2ClearCFBRtn(u8 arg0) {
+    gDPSetColorImage(gGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
     if (arg0) {
-        gSPDisplayList(B_800EBCF4++, OS_K0_TO_PHYSICAL(D_800881B8));
-        gDPFillRectangle(B_800EBCF4++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+        gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_800881B8));
+        gDPFillRectangle(gGfxHead++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 }

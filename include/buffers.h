@@ -9,7 +9,7 @@
 /**
  * Original name: Gzip_bufferp?
  */
-extern u8 D_80124610[];
+extern u8 Gzip_bufferp[];
 
 extern u8 D_80205000[];
 

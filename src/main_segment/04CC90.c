@@ -10,241 +10,7 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 
-void func_80075F30(void) {
-    D_800A739C = 0;
-    B_800E59A0 = 0;
-    B_800E59A8 = -8;
-    D_80088401 = 0;
-    B_800E59A4 = -(B_800EB4F0 == ENUM_800EBCF0_6) & 0xFF;
-    func_80077FA4(&D_80124610, B_800EB4F0 != ENUM_800EBCF0_6);
-}
-
-const u8 RO_800B3240[] = {
-    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15,
-};
-
-enum_800EBCF0 func_80075F98(struct_800EB670 *arg0) {
-    OSMesgQueue sp10;
-    OSMesg sp28[8];
-    struct_800FAF98_unk_64 sp48;
-    u32 var_s0 = 0;
-    s32 var_s1 = -(B_800EB4F0 == ENUM_800EBCF0_6) & 0x63;
-
-    osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
-    func_8002A184(arg0, &sp48, &sp10);
-    func_8002E830(osGetCount());
-    func_80075F30();
-    B_800F1CE0 = func_8002A954();
-    osRecvMesg(&sp10, NULL, 1);
-    D_80088124 = 2;
-
-    while (var_s0 == 0) {
-        func_8002A700();
-        osRecvMesg(&sp10, NULL, 1);
-
-        B_800E59A4 = CLAMP(B_800E59A4 + B_800E59A8, 0, 0xFF);
-
-        switch (B_800E59A0) {
-            case 0:
-                var_s1++;
-                if (D_800A739C == -1) {
-                    B_800E59A0 = 7;
-                } else {
-                    if (var_s1 == 0x64) {
-                        func_8002AFC4(0xB);
-                    }
-                    if (D_800A739C == 1) {
-                        B_800E59A0 = 6;
-                    }
-                }
-                break;
-
-            case 6:
-            case 7:
-                B_800E59A8 = -B_800E59A8;
-                if (B_800E59A0 == 6) {
-                    var_s0 = 1;
-                } else if (B_800E59A0 == 7) {
-                    var_s0 = 2;
-                }
-                break;
-        }
-
-        func_8002AE58();
-    }
-
-    func_8002B0E4();
-
-    while (!func_8002AFA4() || (B_800E59A4 < 0xFF)) {
-        osRecvMesg(&sp10, NULL, 1);
-        func_8002AE58();
-
-        B_800E59A4 = CLAMP(B_800E59A4 + B_800E59A8, 0, 0xFF);
-    }
-
-    D_80088124 = 0;
-    while (D_80088128 != 0) {
-        osRecvMesg(&sp10, NULL, 1);
-        func_8002AE58();
-    }
-
-    func_8002A1DC(arg0, &sp48);
-
-    if (var_s0 == 1) {
-        return ENUM_800EBCF0_6;
-    }
-
-    if (var_s0 != 2) {
-        return ENUM_800EBCF0_2;
-    }
-
-    if (D_800A7390 == ENUM_800EBCF0_0) {
-        u32 temp = rand();
-
-        D_800AACEC = RO_800B3240[temp % ARRAY_COUNT(RO_800B3240)];
-
-        if (D_800A7394 == 0) {
-            B_800EFCD0 = 4;
-        } else if (D_800A7394 == 1) {
-            B_800EFCD0 = 5;
-        } else if (D_800A7394 == 2) {
-            B_800EFCD0 = 6;
-        }
-
-        B_801236F0 = 0;
-
-        D_800A7394++;
-        if (D_800A7394 >= 3) {
-            D_800A7394 = 0;
-        }
-        D_800A7390 ^= 1;
-        return ENUM_800EBCF0_1;
-    }
-
-    if (D_800A7390 == ENUM_800EBCF0_1) {
-        D_80088410 = D_800A7398;
-
-        D_800A7398++;
-        if (D_800A7398 >= 4) {
-            D_800A7398 = 0;
-        }
-        D_800A7390 = ENUM_800EBCF0_0;
-        return ENUM_800EBCF0_4;
-    }
-
-    return D_800A7390;
-}
-
-void func_8007636C(void) {
-    s32 color;
-    s32 alpha;
-    OSScTask *ptr;
-
-    B_800EBCF4 = B_800FB670[gCurrentFramebufferIndex];
-
-    ptr = &B_800FAE80[gCurrentFramebufferIndex];
-    gSPSegment(B_800EBCF4++, 0x00, NULL);
-    func_8002BBD8(1);
-    func_8002BC58(1);
-
-    gSPDisplayList(B_800EBCF4++, D_800881E0);
-    gDPSetScissor(B_800EBCF4++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
-
-    D_800A739C = func_80078094(&B_800EBCF4, D_8008840F != 0);
-
-    color = 255;
-    alpha = CLAMP(((B_800E59A4 - 127) * 1.2) + 127.0, 0.0, 255.0);
-    if (alpha > 0) {
-        func_80040E3C(&B_800EBCF4, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color, color, color, alpha);
-    }
-
-    gDPFullSync(B_800EBCF4++);
-    gSPEndDisplayList(B_800EBCF4++);
-    osWritebackDCacheAll();
-
-    func_8002B834(ptr, B_800FB670[gCurrentFramebufferIndex], (B_800EBCF4 - B_800FB670[gCurrentFramebufferIndex]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
-}
-
-const char D_800B32A8[] RODATA = "This game is not designed~nfor use on this system.~z";
-const char D_800B3270[] RODATA = "There is no controller~nconnected. Please turn OFF~nthe Nintendo* 64 and insert~na controller in socket 1.~z";
-const char D_800B3318[] RODATA = "A Backup File is damaged.~nPress the A Button to delete this file.~z";
-
-enum_800EBCF0 func_8007657C(struct_800EB670 *arg0) {
-    OSMesgQueue sp18;
-    OSMesg sp30[8];
-    struct_800FAF98_unk_64 sp50;
-    UNK_PTR sp58;
-    struct_800E5A70 *temp_s0 = ALIGN_PTR(D_80124610);
-    bool var_s1 = true;
-
-    sp58 = &temp_s0[1];
-    bzero(temp_s0, sizeof(struct_800E5A70));
-    osCreateMesgQueue(&sp18, sp30, ARRAY_COUNT(sp30));
-    func_8002A184(arg0, &sp50, &sp18);
-
-    switch (B_800EBCF0) {
-        case ENUM_800EBCF0_8:
-            func_8005CF78(temp_s0, &sp58, 0x40, 5, 0x40, 0x60);
-            func_8005D314(temp_s0, D_800B3270);
-            break;
-
-        case ENUM_800EBCF0_9:
-            func_8005CF78(temp_s0, &sp58, 0x40, 5, 0x40, 0x72);
-            func_8005D314(temp_s0, D_800B32A8);
-            break;
-
-        case ENUM_800EBCF0_10:
-            func_8005CF78(temp_s0, &sp58, 0x40, 5, 0x28, 0x6C);
-            func_8005D314(temp_s0, D_800B3318);
-            break;
-
-        default:
-            break;
-    }
-
-    func_8005E0BC(temp_s0);
-
-    while (var_s1) {
-        func_8002A700();
-        osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
-        func_8005D428(temp_s0);
-        if ((B_800EBCF0 == ENUM_800EBCF0_10) && (gControllerPressedButtons[B_800EBD16[0]] & A_BUTTON)) {
-            var_s1 = false;
-            func_8002B1B4(0x46);
-        }
-        func_8002AE58();
-        D_80088124 = 7;
-    }
-
-    D_80088124 = 0;
-    while (D_80088128 != 0) {
-        osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
-    }
-
-    func_8002A1DC(arg0, &sp50);
-    if (B_800EBCF0 == ENUM_800EBCF0_10) {
-        func_80038B18(0, 0);
-    }
-    return ENUM_800EBCF0_3;
-}
-
-void func_800767DC(void) {
-    struct_8005D78C_arg0 *ptr;
-
-    B_800EBCF4 = B_800FB670[B_800FAD2C];
-    ptr = ALIGN_PTR(&D_80124610);
-    func_8002B9D8();
-    func_8002BAB8(true);
-    func_8005D78C(ptr, &B_800EBCF4);
-
-    gDPFullSync(B_800EBCF4++);
-    gSPEndDisplayList(B_800EBCF4++);
-
-    osWritebackDCacheAll();
-    func_8002B834(&B_800FAE80[B_800FAD2C], B_800FB670[B_800FAD2C], (B_800EBCF4 - B_800FB670[B_800FAD2C]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
-}
-
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800768E0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800768E0);
 
 void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1) {
     arg0->unk_04 = arg1->unk_008;
@@ -254,9 +20,9 @@ void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1) {
     arg0->unk_10 = &arg1->unk_210;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80076CCC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80076CCC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80076DB4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80076DB4);
 
 void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
     Gfx *gfx = *gfxP;
@@ -272,7 +38,7 @@ void *func_80077170(s32 index, void *dstAddr) {
     return (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E760.start, B_800E8750, D_8000E760.end - D_8000E760.start));
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800771EC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800771EC);
 
 void func_800773F0(void) {
     if (D_800AAD14 == 0) {
@@ -417,7 +183,7 @@ void func_80077504(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
     }
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077504);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80077504);
 #endif
 
 void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
@@ -441,7 +207,7 @@ void func_8007786C(void) {
     D_800AAD0C = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800778E8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800778E8);
 
 void *func_80077D68(void *dstAddr, bool arg1) {
     void *alignedAddress;
@@ -516,7 +282,7 @@ void func_80077E2C(Gfx **gfxP, s32 arg1, s32 arg2) {
     *arg0 = temp_s0;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077E2C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80077E2C);
 #endif
 
 void *func_80077FA4(void *dstAddr, bool arg1) {
@@ -536,7 +302,10 @@ void *func_80077FA4(void *dstAddr, bool arg1) {
     return (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E770.start, B_800E59E4, D_8000E770.end - D_8000E770.start));
 }
 
-s32 func_80078094(Gfx **gfxP, s32 arg1) {
+/**
+ * Original name: demo_title
+ */
+s32 demo_title(Gfx **gfxP, s32 arg1) {
     struct_80076CA0_arg0 sp30;
     struct_80076CA0_arg0 sp48;
     struct_8007F004_arg0 sp60;
@@ -573,7 +342,7 @@ s32 func_80078094(Gfx **gfxP, s32 arg1) {
     if ((D_800AAD18 > 0) && (gControllerPressedButtons[B_800EBD16[0]] & ALL_BUTTONS)) {
         if (temp_s2 != 0) {
             if (B_800E59DC == 0) {
-                func_8002B1B4(0x67);
+                dm_snd_play(0x67);
                 B_800E59DC = 1;
             }
         } else {
@@ -649,23 +418,23 @@ s32 func_80078094(Gfx **gfxP, s32 arg1) {
     return var_s3;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80078648);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80078648);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007865C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007865C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007873C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007873C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80078F78);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80078F78);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800791D0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800791D0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_800796F4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800796F4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80079B24);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80079B24);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007A154);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007A154);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007A440);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007A440);
 
 void func_8007A9DC(void) {
     void *ptr;
@@ -722,7 +491,7 @@ s32 func_8007AA84(struct_800EB670 *arg0) {
 
     osCreateMesgQueue(&sp20, &sp38, 8);
     func_8002A184(arg0, &sp58, &sp20);
-    D_80088124 = 0;
+    graphic_no = 0;
     D_800AAD40 = &D_80205000;
     guPerspective(&B_800E5F08, &B_800E5F04, 45.0f, 1.3333334f, 1.0f, 1000.0f, 1.0f);
     var_s1 = 3;
@@ -749,7 +518,7 @@ s32 func_8007AA84(struct_800EB670 *arg0) {
     B_800E5F00 = 0;
     B_800E5EF4 = 0;
     B_800E5EFC = 1;
-    func_8005CF78(&B_800E59F0, &D_800A8ACC, 0x10, 3, 0x42, 0xB1);
+    msgWnd_init(&B_800E59F0, &D_800A8ACC, 0x10, 3, 0x42, 0xB1);
     B_800E5A20 = 0xC;
     B_800E5A24 = 0xC;
     B_800E5A2C = 6;
@@ -765,8 +534,8 @@ s32 func_8007AA84(struct_800EB670 *arg0) {
     B_800E5A90 = 1;
     B_800E5AC4 = 0.25f;
     func_8007A9DC();
-    func_8002A700();
-    func_8002AFC4(D_800AAE00[D_800AACEC]);
+    joyProcCore();
+    func_8002AFC4(D_800AAE00[story_proc_no]);
 
     while (B_800E5EFC != 0) {
         osRecvMesg(&sp20, NULL, 1);
@@ -775,13 +544,13 @@ s32 func_8007AA84(struct_800EB670 *arg0) {
         if ((D_800AAD28 == 0) && (D_800AAD10 >= 0x5A)) {
             B_800E5EFC = 0;
         }
-        func_8002A700();
-        D_80088124 = 1;
+        joyProcCore();
+        graphic_no = 1;
         func_8002AE58();
     }
 
     func_8002AF7C();
-    D_80088124 = 0;
+    graphic_no = 0;
 
     while (true) {
         if ((D_80088128 == 0) || func_8002AFA4()) {
@@ -798,15 +567,15 @@ s32 func_8007AA84(struct_800EB670 *arg0) {
     }
 
     func_8002A1DC(arg0, &sp58);
-    D_80088409 = (u8)D_800AACEC;
-    if ((s8)D_800AACEC >= 0xC) {
-        D_80088409 = D_800AACEC - 0xC;
+    D_80088409 = (u8)story_proc_no;
+    if ((s8)story_proc_no >= 0xC) {
+        D_80088409 = story_proc_no - 0xC;
     }
     D_80088402 = D_80088409 % 3;
     return (D_80088409 / 3) * 3;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007AA84);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007AA84);
 #endif
 
 void func_8007AEBC(void) {
@@ -815,9 +584,9 @@ void func_8007AEBC(void) {
 }
 
 #if 0
-UNK_TYPE func_8002B834(OSScTask *, Gfx *, s32, UNK_TYPE, s32);    /* extern */
-UNK_TYPE func_8002BBD8(UNK_TYPE);                                 /* extern */
-UNK_TYPE func_8002BC58(UNK_TYPE, s32);                            /* extern */
+UNK_TYPE gfxTaskStart(OSScTask *, Gfx *, s32, UNK_TYPE, s32);    /* extern */
+UNK_TYPE S2RDPinitRtn(UNK_TYPE);                                 /* extern */
+UNK_TYPE S2ClearCFBRtn(UNK_TYPE, s32);                            /* extern */
 UNK_TYPE func_800768E0(Gfx **, s32);                       /* extern */
 UNK_TYPE func_80076DB4(Gfx **, s32);                       /* extern */
 UNK_TYPE func_800770E8(Gfx **, void *);                    /* extern */
@@ -856,89 +625,89 @@ void func_8007AEF4(void) {
     f32 var_f0;
     s32 temp_v0;
 
-    B_800EBCF4 = B_800FB670[B_800FAD2C];
+    gGfxHead = gGfxGlist[B_800FAD2C];
     temp_s1 = &B_800FAE80[B_800FAD2C];
     func_8007AEBC(B_800FAD2C);
-    temp_s0 = B_800EBCF4;
-    B_800EBCF4 = temp_s0 + 8;
+    temp_s0 = gGfxHead;
+    gGfxHead = temp_s0 + 8;
     temp_s0->words.w0 = 0xDB060000;
     temp_s0->words.w1 = 0;
-    B_800EBCF4 = temp_s0 + 0x10;
+    gGfxHead = temp_s0 + 0x10;
     temp_s0->unk_8 = 0xDB060014;
     temp_s0->unk_C = osVirtualToPhysical(D_800AAD3C);
     B_800E59E8 = D_800AAD3C;
-    func_8002BBD8(1);
-    temp_v1 = B_800EBCF4;
-    B_800EBCF4 = temp_v1 + 8;
+    S2RDPinitRtn(1);
+    temp_v1 = gGfxHead;
+    gGfxHead = temp_v1 + 8;
     temp_v1->words.w0 = 0xE7000000;
-    B_800EBCF4 = temp_v1 + 0x10;
+    gGfxHead = temp_v1 + 0x10;
     temp_v1->unk_C = 0x300000;
-    B_800EBCF4 = temp_v1 + 0x18;
-    B_800EBCF4 = temp_v1 + 0x20;
+    gGfxHead = temp_v1 + 0x18;
+    gGfxHead = temp_v1 + 0x20;
     temp_v1->unk_18 = 0xFB000000;
     temp_v1->words.w1 = 0;
     temp_v1->unk_8 = 0xE3000A01;
     temp_v1->unk_10 = 0xE3000A01;
     temp_v1->unk_14 = 0;
     temp_v1->unk_1C = -1;
-    func_8002BC58(1, 0xE3000A01);
-    temp_v1_2 = B_800EBCF4;
-    B_800EBCF4 = temp_v1_2 + 8;
+    S2ClearCFBRtn(1, 0xE3000A01);
+    temp_v1_2 = gGfxHead;
+    gGfxHead = temp_v1_2 + 8;
     temp_v1_2->words.w0 = 0xDA380007;
     temp_v1_2->words.w1 = (u32) &D_E5F08;
     if (D_800AAD10 > 0) {
-        func_800768E0(&B_800EBCF4, D_800AAD10);
+        func_800768E0(&gGfxHead, D_800AAD10);
         D_800AAD10 += 1;
     } else {
-        switch (D_800AACEC) {
+        switch (story_proc_no) {
         case 0x0:
         case 0xC:
-            func_80078F78(&B_800EBCF4, 1, 0);
+            func_80078F78(&gGfxHead, 1, 0);
             break;
         case 0xA:
-            func_80079B24(&B_800EBCF4, 0x14, 0x1B);
+            func_80079B24(&gGfxHead, 0x14, 0x1B);
             break;
         case 0xB:
-            func_80079B24(&B_800EBCF4, 0x16, 0x1C);
+            func_80079B24(&gGfxHead, 0x16, 0x1C);
             break;
         case 0x16:
-            func_8007A440(&B_800EBCF4, 0x17);
+            func_8007A440(&gGfxHead, 0x17);
             break;
         case 0x17:
-            func_8007A440(&B_800EBCF4, 0x19);
+            func_8007A440(&gGfxHead, 0x19);
             break;
         case 0x1:
-            func_8007873C(&B_800EBCF4, 1);
+            func_8007873C(&gGfxHead, 1);
             break;
         case 0x2:
-            func_800796F4(&B_800EBCF4, 2, 5, 3, 7);
+            func_800796F4(&gGfxHead, 2, 5, 3, 7);
             break;
         case 0x3:
             var_a1 = 5;
             var_a2 = 9;
 block_25:
-            B_800EBCF4 += 8;
-            B_800EBCF4->words.w0 = 0xFB000000;
-            B_800EBCF4->words.w1 = 0xAA96B9FF;
-            func_80078F78(&B_800EBCF4, var_a1, var_a2, 0xAA96B9FFU);
+            gGfxHead += 8;
+            gGfxHead->words.w0 = 0xFB000000;
+            gGfxHead->words.w1 = 0xAA96B9FF;
+            func_80078F78(&gGfxHead, var_a1, var_a2, 0xAA96B9FFU);
             break;
         case 0x4:
-            func_800791D0(&B_800EBCF4, 0x22, 0x1D, 7, 0xB);
+            func_800791D0(&gGfxHead, 0x22, 0x1D, 7, 0xB);
             break;
         case 0x5:
-            func_80078F78(&B_800EBCF4, 9, 0xD);
+            func_80078F78(&gGfxHead, 9, 0xD);
             break;
         case 0x6:
-            func_80078F78(&B_800EBCF4, 0xC, 0xF);
+            func_80078F78(&gGfxHead, 0xC, 0xF);
             break;
         case 0x7:
             var_a1_2 = 0x1E;
             if (D_8008840A == 0) {
 block_31:
-                func_80078F78(&B_800EBCF4, var_a1_2, 0x19);
+                func_80078F78(&gGfxHead, var_a1_2, 0x19);
             } else {
 block_32:
-                func_80078F78(&B_800EBCF4, 0xD, 0x11);
+                func_80078F78(&gGfxHead, 0xD, 0x11);
             }
             break;
         case 0x8:
@@ -949,29 +718,29 @@ block_32:
                 var_a1_3 = 0xE;
                 var_a2_2 = 0x12;
             }
-            func_800791D0(&B_800EBCF4, var_a1_3, var_a2_2, 0x10);
+            func_800791D0(&gGfxHead, var_a1_3, var_a2_2, 0x10);
             break;
         case 0x9:
-            func_80078F78(&B_800EBCF4, 0x12, 0x14);
+            func_80078F78(&gGfxHead, 0x12, 0x14);
             break;
         case 0xD:
-            func_8007873C(&B_800EBCF4, 0);
+            func_8007873C(&gGfxHead, 0);
             break;
         case 0xE:
-            func_800796F4(&B_800EBCF4, 2, 6, 4, 8);
+            func_800796F4(&gGfxHead, 2, 6, 4, 8);
             break;
         case 0xF:
             var_a1 = 6;
             var_a2 = 0xA;
             goto block_25;
         case 0x10:
-            func_800791D0(&B_800EBCF4, 0x22, 0x1D, 8, 0xC);
+            func_800791D0(&gGfxHead, 0x22, 0x1D, 8, 0xC);
             break;
         case 0x11:
-            func_80078F78(&B_800EBCF4, 0xA, 0xE);
+            func_80078F78(&gGfxHead, 0xA, 0xE);
             break;
         case 0x12:
-            func_80078F78(&B_800EBCF4, 0xB, 0x10);
+            func_80078F78(&gGfxHead, 0xB, 0x10);
             break;
         case 0x13:
             var_a1_2 = 0x1F;
@@ -987,15 +756,15 @@ block_32:
                 var_a1_4 = 0xF;
                 var_a2_3 = 0x12;
             }
-            func_800791D0(&B_800EBCF4, var_a1_4, var_a2_3, 0x11);
+            func_800791D0(&gGfxHead, var_a1_4, var_a2_3, 0x11);
             break;
         case 0x15:
-            func_8007A154(&B_800EBCF4, 0x13, 0x15);
+            func_8007A154(&gGfxHead, 0x13, 0x15);
             break;
         }
-        func_80076DB4(&B_800EBCF4, D_800AAD14);
+        func_80076DB4(&gGfxHead, D_800AAD14);
         if (B_800E5F00 == 2) {
-            func_8005D78C(&B_800E5A70, &B_800EBCF4);
+            msgWnd_draw(&B_800E5A70, &gGfxHead);
             if (gControllerPressedButtons[*B_800EBD16] & 0x1000) {
                 B_800E5F00 = -1;
             }
@@ -1006,40 +775,40 @@ block_32:
             }
             B_800E5ACC = var_f0;
         }
-        func_800770E8(&B_800EBCF4, B_800E8750);
+        func_800770E8(&gGfxHead, B_800E8750);
         if (D_800AAD20 != 0) {
-            func_8005D78C(&B_800E59F0, &B_800EBCF4);
-            temp_v1_3 = B_800EBCF4;
-            B_800EBCF4 = temp_v1_3 + 8;
+            msgWnd_draw(&B_800E59F0, &gGfxHead);
+            temp_v1_3 = gGfxHead;
+            gGfxHead = temp_v1_3 + 8;
             temp_v1_3->words.w0 = 0xED000000;
             temp_v1_3->words.w1 = 0x4FC3BC;
         }
     }
     if (B_800E5F00 < 0) {
-        temp_v1_4 = B_800EBCF4;
-        B_800EBCF4 = temp_v1_4 + 8;
+        temp_v1_4 = gGfxHead;
+        gGfxHead = temp_v1_4 + 8;
         temp_v1_4->words.w0 = 0xDE000000;
         temp_v1_4->words.w1 = (u32) D_8008E6B8;
-        func_80077504(&B_800EBCF4, 0xA0, 0x78, D_800AAD18, &D_800A82C0);
+        func_80077504(&gGfxHead, 0xA0, 0x78, D_800AAD18, &D_800A82C0);
         temp_v0 = D_800AAD18 - 4;
         D_800AAD18 = temp_v0;
         if (temp_v0 < -0x14) {
             B_800E5EFC = 0;
         }
     }
-    temp_v1_5 = B_800EBCF4;
+    temp_v1_5 = gGfxHead;
     D_800AAD08 += 1;
-    B_800EBCF4 = temp_v1_5 + 8;
+    gGfxHead = temp_v1_5 + 8;
     temp_v1_5->words.w0 = 0xE9000000;
-    B_800EBCF4 = temp_v1_5 + 0x10;
+    gGfxHead = temp_v1_5 + 0x10;
     temp_v1_5->words.w1 = 0;
     temp_v1_5->unk_8 = 0xDF000000;
     temp_v1_5->unk_C = 0;
     osWritebackDCacheAll();
-    func_8002B834(temp_s1, B_800FB670[B_800FAD2C], ((s32) ((B_800EBCF4 - B_800FB670) - (B_800FAD2C << 0xF)) >> 3) * 8, 0, 0x40);
+    gfxTaskStart(temp_s1, gGfxGlist[B_800FAD2C], ((s32) ((gGfxHead - gGfxGlist) - (B_800FAD2C << 0xF)) >> 3) * 8, 0, 0x40);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007AEF4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007AEF4);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_8007B62C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007B62C);

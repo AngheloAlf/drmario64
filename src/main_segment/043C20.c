@@ -19,8 +19,8 @@ void func_8006D870(void) {
     void *temp_v1;
     u32 i;
 
-    B_800E5980 = &D_80124610;
-    B_800F3E50 = ALIGN_PTR(&D_80124610);
+    B_800E5980 = &Gzip_bufferp;
+    B_800F3E50 = ALIGN_PTR(&Gzip_bufferp);
     bzero(B_800F3E50, sizeof(struct_800F3E50));
 
     B_800E5980 = &B_800F3E50[1];
@@ -54,7 +54,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_8006D91C);
 ? func_8007E2FC(u8);                                /* extern */
 extern ? B_800EF560;
 extern ? B_800EF608;
-extern u32 B_800EFCD0;
+extern u32 evs_gamesel;
 extern u8 B_800FAE78;
 extern u8 B_8012372C;
 extern ? B_8012374C;
@@ -116,7 +116,7 @@ void func_8006E0EC(void) {
     temp_s3->unk_878 = 0x7F;
     temp_s3->unk_430 = func_80045098(&B_800E5980, D_8000E9B0, D_8000E9B4);
     temp_s3->unk_444 = func_80045098(&B_800E5980, D_8000E9D8, D_8000E9DC);
-    if (B_800EBCF0 != 5) {
+    if (main_no != 5) {
         temp_s3->unk_448 = func_80045098(&B_800E5980, D_8000EA40, D_8000EA44);
     }
     temp_s3->unk_884 = (struct_80124610 *) B_800E5980;
@@ -150,7 +150,7 @@ void func_8006E0EC(void) {
     temp_s3->unk_A50 = (s32) ((s32) (0x140 - (temp_s3->unk_A64 * 0x14)) >> 1);
     temp_s3->unk_A54 = (s32) ((s32) (0xF0 - temp_a2) >> 1);
     func_80038BE0(&temp_s3->unk_000[0xAD8], &B_800E5980, temp_a2);
-    switch (B_800EFCD0) {                           /* switch 1 */
+    switch (evs_gamesel) {                           /* switch 1 */
     case 0x0:                                       /* switch 1 */
         temp_a1 = (B_800FAE78 * 0xD0) + &B_800EF560;
         if (B_800FAE78 == 8) {
@@ -170,7 +170,7 @@ void func_8006E0EC(void) {
             }
         }
 block_23:
-        switch (B_800EFCD0) {                       /* switch 2 */
+        switch (evs_gamesel) {                       /* switch 2 */
         case 0x0:                                   /* switch 2 */
         case 0x4:                                   /* switch 2 */
             temp_s3->unk_898 = 1;
@@ -196,8 +196,8 @@ block_23:
             temp_s0 = &temp_s3->unk_000[0x91C];
             func_8005CFD4((struct_80124610 *) temp_s0, &B_800E5980, 0x1000, 0x14, 0xF, 0x28, 0xF);
             temp_s3->unk_940 = 1;
-            func_8005D314((struct_80124610 *) temp_s0, &D_800A8AD0);
-            func_8005E0BC((struct_80124610 *) temp_s0);
+            msgWnd_addStr((struct_80124610 *) temp_s0, &D_800A8AD0);
+            msgWnd_skip((struct_80124610 *) temp_s0);
             temp_s3->unk_93C = 1;
             temp_s3->unk_938 = 0;
             B_800E5980 = func_8007780C(B_800E5980);
@@ -226,7 +226,7 @@ block_23:
                     var_v0 -= 4;
                 } while (var_s1_6 >= 0);
                 var_s1_7 = 0;
-                if (B_800EFCD0 == 1) {
+                if (evs_gamesel == 1) {
                     var_a0_2 = temp_s3;
                     do {
                         temp_v0 = *(&B_800EF608 + ((&B_800FAE78)[var_s1_7] * 0xD0));
@@ -375,7 +375,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_80071624);
 void func_80071A44(void) {
 }
 
-enum_800EBCF0 func_80071A4C(struct_800EB670 *arg0) {
+enum_main_no func_80071A4C(struct_800EB670 *arg0) {
     OSMesgQueue sp20;
     OSMesg sp38[8];
     struct_800FAF98_unk_64 sp58;
@@ -395,7 +395,7 @@ enum_800EBCF0 func_80071A4C(struct_800EB670 *arg0) {
     func_8006E0EC();
     B_800E5980 = func_80077D68(B_800E5980, false);
     func_8005CFD4(&temp_s2->unk_91C, &B_800E5980, 0x1000, 0x12, 0x10, 0x34, 0x22);
-    func_8005D314(&temp_s2->unk_91C, D_800AAD04);
+    msgWnd_addStr(&temp_s2->unk_91C, D_800AAD04);
     temp_s1 = D_80088401;
     temp_s2->unk_91C.unk_20 = 1;
     temp_s2->unk_91C.unk_24 = 1;
@@ -406,7 +406,7 @@ enum_800EBCF0 func_80071A4C(struct_800EB670 *arg0) {
 
     while (var_s3) {
         osRecvMesg(&sp20, NULL, 1);
-        func_8002A700();
+        joyProcCore();
 
         switch (temp_s2->unk_9AC) {
             case 0x0:
@@ -447,10 +447,10 @@ enum_800EBCF0 func_80071A4C(struct_800EB670 *arg0) {
         }
 
         func_8002AE58();
-        D_80088124 = 6;
+        graphic_no = 6;
     }
 
-    D_80088124 = 0;
+    graphic_no = 0;
     func_8002AF7C();
 
     while (!func_8002AFA4() || (D_80088128 != 0)) {
@@ -459,7 +459,7 @@ enum_800EBCF0 func_80071A4C(struct_800EB670 *arg0) {
     }
 
     func_8002A1DC(arg0, &sp58);
-    return ENUM_800EBCF0_3;
+    return MAIN_NO_3;
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_80071CE0);

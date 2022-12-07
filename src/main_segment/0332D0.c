@@ -23,7 +23,7 @@ bool func_8005CF20(s32 arg0, u32 buttonMask) {
     return i < 4;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005CF78);
+INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", msgWnd_init);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005CFD4);
 
@@ -34,7 +34,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005D0EC);
 #ifdef NON_MATCHING
 void func_8005D0EC(void *, void *); /* extern */
 
-void func_8005D314(struct_800E5A70 *arg0, const char *arg1) {
+/**
+ * Original name: msgWnd_addStr
+ */
+void msgWnd_addStr(struct_800E5A70 *arg0, const char *arg1) {
     s32 temp_a1;
     s32 temp_s1;
     s32 var_s2;
@@ -60,7 +63,7 @@ void func_8005D314(struct_800E5A70 *arg0, const char *arg1) {
     func_8005D0EC(arg0, temp_a1_2);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005D314);
+INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", msgWnd_addStr);
 #endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005D3F8);
@@ -69,11 +72,11 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005D428);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/0332D0", D_800B1A54);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005D78C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", msgWnd_draw);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005E0B4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005E0BC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", msgWnd_skip);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005E0D0);
 

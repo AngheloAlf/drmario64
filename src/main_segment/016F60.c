@@ -14,7 +14,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80040BB0);
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80040D34);
 
 #ifdef NON_EQUIVALENT
-void func_80040E3C(Gfx **gfxP, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 green, s32 blue, s32 alpha) {
+/**
+ * Original name: FillRectRGBA
+ */
+void FillRectRGBA(Gfx **gfxP, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 green, s32 blue, s32 alpha) {
     Gfx *temp_t2;
     Gfx *temp_t2_2;
     Gfx *temp_t2_3;
@@ -36,7 +39,7 @@ void func_80040E3C(Gfx **gfxP, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 gree
     // return -0x0A000000;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80040E3C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", FillRectRGBA);
 #endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80040F34);

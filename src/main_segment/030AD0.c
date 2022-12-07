@@ -120,10 +120,10 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
 
     color = CLAMP((s32)((((arg0->unk_111DC - 0.5) * 1.2) + 0.5) * 255.0), 0, 255);
 
-    gDPSetEnvColor(B_800EBCF4++, color, color, color, 255);
+    gDPSetEnvColor(gGfxHead++, color, color, color, 255);
 
     func_8005AD30(arg0, gfxP);
-    func_800475A8(&arg0->unk_02548, &B_800EBCF4);
+    func_800475A8(&arg0->unk_02548, &gGfxHead);
 
     for (i = 0; i < 2; i++) {
         enum_struct_800F3E5C_unk_111CC var_a0;
@@ -144,7 +144,7 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
             var_a0 = arg0->unk_111C8;
         }
 
-        gDPSetEnvColor(B_800EBCF4++, color, color, color, 255);
+        gDPSetEnvColor(gGfxHead++, color, color, color, 255);
 
         switch (var_a0) {
             case ENUM_STRUCT_800F3E5C_UNK_111CC_0:
@@ -214,19 +214,19 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
         }
     }
 
-    func_80038CBC(&arg0->unk_111F8, &B_800EBCF4);
+    func_80038CBC(&arg0->unk_111F8, &gGfxHead);
 
     arg0->unk_111E8 = 0;
     arg0->unk_111F0++;
 }
 
-enum_800EBCF0 func_8005B2D4(struct_800EB670 *arg0) {
-    UNK_PTR sp10 = D_80124610;
-    struct_800F3E5C *ptr = ALIGN_PTR(D_80124610);
+enum_main_no func_8005B2D4(struct_800EB670 *arg0) {
+    UNK_PTR sp10 = Gzip_bufferp;
+    struct_800F3E5C *ptr = ALIGN_PTR(Gzip_bufferp);
     s32 i;
     u16 value;
 
-    if (B_800EB4F0 == ENUM_800EBCF0_3) {
+    if (B_800EB4F0 == MAIN_NO_3) {
         D_8008E8B4 = 0;
         D_8008E788 = 0;
         B_800EB4F4 = 0;
@@ -238,20 +238,20 @@ enum_800EBCF0 func_8005B2D4(struct_800EB670 *arg0) {
     B_800F3E5C = ptr;
     func_80059F1C(ptr, &sp10, arg0);
 
-    B_800F1CE0 = func_8002A954();
+    evs_playmax = joyResponseCheck();
 
     value = 0xF30;
     for (i = 3; i >= 0; i--) {
         B_800F6CD8[i] = value;
     }
 
-    B_800EF554 = 0x18;
-    B_800F1E20 = 6;
-    B_800EBCF4 = B_800FB670[B_800FAD2C];
+    joycur1 = 0x18;
+    joycur2 = 6;
+    gGfxHead = gGfxGlist[B_800FAD2C];
     func_8002AFC4(0xC);
 
-    while ((ptr->unk_111D4 == ENUM_800EBCF0_6) || (ptr->unk_111DC < 1.0f)) {
-        if (D_80088124 == 0) {
+    while ((ptr->unk_111D4 == MAIN_NO_6) || (ptr->unk_111DC < 1.0f)) {
+        if (graphic_no == 0) {
             while ((D_80088128 != 0) || (func_80040BA4() != 0)) {
                 func_80059CA0(ptr);
             }
@@ -267,7 +267,7 @@ enum_800EBCF0 func_8005B2D4(struct_800EB670 *arg0) {
                 gControllerHoldButtons[i] = 0;
             }
         } else {
-            func_8002A700();
+            joyProcCore();
         }
         func_80059CA0(ptr);
         func_8005A720(ptr);
@@ -279,20 +279,20 @@ enum_800EBCF0 func_8005B2D4(struct_800EB670 *arg0) {
             ptr->unk_111CC = ptr->unk_111D0;
             ptr->unk_111C4 = ptr->unk_111C0;
             ptr->unk_111C0 ^= 1;
-            D_80088124 = 0;
+            graphic_no = 0;
         } else {
-            D_80088124 = 5;
+            graphic_no = 5;
         }
     }
 
-    D_80088124 = 5;
+    graphic_no = 5;
 
     while (ptr->unk_111F4 != 0xF) {
         osRecvMesg(&ptr->unk_0000C, NULL, OS_MESG_BLOCK);
         func_8002AE58();
     }
 
-    D_80088124 = 0;
+    graphic_no = 0;
     func_8002B0E4();
 
     while ((D_80088128 != 0) || !func_8002B178() || (func_80040BA4() != 0)) {
@@ -309,24 +309,24 @@ enum_800EBCF0 func_8005B2D4(struct_800EB670 *arg0) {
 void func_8005B658(void) {
     struct_800F3E5C *ptr = B_800F3E5C;
 
-    if ((ptr->unk_111D4 != ENUM_800EBCF0_6) && (ptr->unk_111DC == 1.0f)) {
+    if ((ptr->unk_111D4 != MAIN_NO_6) && (ptr->unk_111DC == 1.0f)) {
         osSetThreadPri(NULL, 0xF);
         ptr->unk_111F4 = 0xF;
         return;
     }
 
-    if (B_800EBCF4 != B_800FB670[B_800FAD2C]) {
-        gDPFullSync(B_800EBCF4++);
-        gSPEndDisplayList(B_800EBCF4++);
+    if (gGfxHead != gGfxGlist[B_800FAD2C]) {
+        gDPFullSync(gGfxHead++);
+        gSPEndDisplayList(gGfxHead++);
 
         osWritebackDCacheAll();
-        func_8002B834(&B_800FAE80[B_800FAD2C], B_800FB670[B_800FAD2C], (B_800EBCF4 - B_800FB670[B_800FAD2C]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
-        B_800EBCF4 = B_800FB670[B_800FAD2C];
+        gfxTaskStart(&B_800FAE80[B_800FAD2C], gGfxGlist[B_800FAD2C], (gGfxHead - gGfxGlist[B_800FAD2C]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+        gGfxHead = gGfxGlist[B_800FAD2C];
     }
 
     osSetThreadPri(NULL, 0xF);
-    func_8002B9D8();
-    func_8002BAB8(0);
-    func_8005AEF4(ptr, &B_800EBCF4);
+    F3RCPinitRtn();
+    F3ClearFZRtn(0);
+    func_8005AEF4(ptr, &gGfxHead);
     osSetThreadPri(NULL, 0x7F);
 }

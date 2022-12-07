@@ -1,3 +1,3 @@
 #include "buffers.h"
 
-u8 D_80124610[UNK_SIZE] BSS;
+u8 Gzip_bufferp[UNK_SIZE] BSS;

@@ -107,7 +107,7 @@ void func_80059F1C(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) 
         arg0->unk_02454[i] = &arg0->unk_00C48[i];
     }
 
-    sp10 = func_80077D68(sp10, D_8008840F != 0);
+    sp10 = func_80077D68(sp10, evs_level_21 != 0);
     arg0->unk_02478 = func_80045098(&sp10, pairArray[0x36].start, pairArray[0x36].end);
     arg0->unk_0247C = func_80045098(&sp10, pairArray[0x37].start, pairArray[0x37].end);
     arg0->unk_02484 = func_80045098(&sp10, pairArray[0x38].start, pairArray[0x38].end);
@@ -136,7 +136,7 @@ void func_80059F1C(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) 
     arg0->unk_111EC = 0;
     arg0->unk_111F0 = 0;
     arg0->unk_111C4 = -1;
-    arg0->unk_111D4 = ENUM_800EBCF0_6;
+    arg0->unk_111D4 = MAIN_NO_6;
     arg0->unk_111E4 = 1;
     arg0->unk_111E0 = -(1.0f / 30.0f);
     arg0->unk_111E8 = 1;

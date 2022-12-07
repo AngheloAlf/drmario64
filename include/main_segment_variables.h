@@ -16,8 +16,8 @@ extern UNK_TYPE D_80088100;
 extern s8 D_80088104[0xC]; // maybe smaller?
 extern u64* D_80088110[][2];
 // extern UNK_TYPE D_80088114;
-extern s32 gCurrentFramebufferIndex;
-extern s32 D_80088124;
+extern s32 gCurrentFramebufferIndex; /* Original name: wb_flag*/
+extern s32 graphic_no; /* Original name: graphic_no */
 extern u32 D_80088128;
 extern Vp D_80088130;
 extern s32 D_80088140;
@@ -42,7 +42,7 @@ extern u8 D_80088406;
 // extern UNK_TYPE D_8008840C;
 // extern UNK_TYPE D_8008840D;
 extern s8 D_8008840E; // maybe part of a struct?
-extern u8 D_8008840F;
+extern u8 evs_level_21; /* Original name: evs_level_21 */
 extern s8 D_80088410;
 // extern UNK_TYPE D_80088414;
 // extern UNK_TYPE D_80088418;
@@ -243,10 +243,10 @@ extern u16 D_800A6D90[];
 // extern UNK_TYPE D_800A7379;
 // extern UNK_TYPE D_800A737A;
 // extern UNK_TYPE D_800A737B;
-extern enum_800EBCF0 D_800A7390;
-extern s32 D_800A7394;
+extern enum_main_no D_800A7390;
+extern s32 title_demo_no; /* Original name: title_demo_no */
 extern s32 D_800A7398;
-extern s32 D_800A739C;
+extern s32 title_exit_flag; /* Original name: title_exit_flag */
 // extern UNK_TYPE D_800A73C0;
 // extern UNK_TYPE D_800A76C0;
 extern u8 D_800A82C0[];
@@ -389,7 +389,7 @@ extern UNK_TYPE D_800A8AC8; // probably part of a struct/array
 // extern UNK_TYPE D_800AACCC;
 // extern UNK_TYPE D_800AACD0;
 // extern UNK_TYPE D_800AACD4;
-extern s32 D_800AACEC;
+extern s32 story_proc_no; /* Original name: story_proc_no */
 // extern UNK_TYPE D_800AACF0;
 extern char *D_800AAD04;
 extern s32 D_800AAD08;
@@ -524,7 +524,7 @@ extern UNK_PTR B_800E5980;
 // extern UNK_TYPE B_800E5990;
 // extern UNK_TYPE B_800E5994;
 extern s32 B_800E59A0;
-extern s32 B_800E59A4;
+extern s32 title_fade_count; /* Original name: title_fade_count */
 extern s32 B_800E59A8;
 // extern UNK_TYPE B_800E59B0;
 // extern UNK_TYPE B_800E59B4;
@@ -637,7 +637,7 @@ extern struct_800EA290 B_800EA290;
 extern s32 B_800EB4CC;
 extern s32 B_800EB4D0;
 extern OSContPad B_800EB4D8[MAXCONTROLLERS];
-extern enum_800EBCF0 B_800EB4F0;
+extern enum_main_no B_800EB4F0;
 extern s32 B_800EB4F4;
 // extern UNK_TYPE B_800EB4F8;
 // extern UNK_TYPE B_800EB4F9;
@@ -647,8 +647,8 @@ extern s32 B_800EB4F4;
 // extern UNK_TYPE B_800EB64D;
 // extern UNK_TYPE B_800EB660;
 extern struct_800EB670 B_800EB670;
-extern enum_800EBCF0 B_800EBCF0;
-extern Gfx* B_800EBCF4; // main display list head
+extern enum_main_no main_no; /* Original name: main_no */
+extern Gfx* gGfxHead; /* Original name: gp */ // main display list head
 extern u16 gControllerHoldButtons[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800EBD02;
 // extern UNK_TYPE B_800EBD03;
@@ -672,19 +672,19 @@ extern UNK_PTR B_800EF440[2];
 // extern UNK_TYPE B_800EF54C;
 
 // extern UNK_TYPE B_800EF550;
-extern u16 B_800EF554;
+extern u16 joycur1; /* Original name: joycur1 */
 // extern UNK_TYPE B_800EF556;
 extern struct_800EF560 B_800EF560[9];
 
 extern s32 B_800EFCB0;
-extern s32 B_800EFCD0;
+extern s32 evs_gamesel; /* Original name: evs_gamesel */
 extern STACK(B_800EFCE0, 0x2000);
-extern u8 B_800F1CE0;
+extern u8 evs_playmax; /* Original name: evs_playmax */
 // extern UNK_TYPE B_800F1CE8;
 // extern UNK_TYPE B_800F1CE9;
 extern struct_800F1DF8 *B_800F1DF8;
 // extern UNK_TYPE B_800F1E00;
-extern u16 B_800F1E20;
+extern u16 joycur2; /* Original name: joycur2 */
 extern STACK(B_800F1E30, 0x2000);
 // extern UNK_TYPE B_800F3E30;
 // extern UNK_TYPE B_800F3E32;
@@ -786,8 +786,8 @@ extern u32 B_800FB3A4;
 // extern UNK_TYPE B_800FB3C8;
 // extern UNK_TYPE B_800FB3CC;
 // extern UNK_TYPE B_800FB3D0;
-extern Gfx B_800FB670[][0x1000];
-extern u16 B_80113670[4][0x10];
+extern Gfx gGfxGlist[][0x1000]; /* Original name: gfx_glist */
+extern u16 joycnt[4][0x10]; /* Original name: joycnt */
 extern u64 B_801136F0[];
 extern u32 B_801236F0;
 

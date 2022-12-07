@@ -159,7 +159,7 @@ void func_800592D4(struct_800F3E5C_unk_02678 *arg0) {
         }
 
         if (var_s4 > -1) {
-            func_8002B1B4(var_s4);
+            dm_snd_play(var_s4);
         }
     }
 }

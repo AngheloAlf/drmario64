@@ -243,7 +243,7 @@ s32 func_80038878(s32 arg0, s32 arg1) {
         func_80038BD0(1);
         return 1;
     }
-    return func_80038B18(arg0, arg1);
+    return EepRom_WriteAll(arg0, arg1);
 }
 
 void func_800388E0(void) {
@@ -263,7 +263,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_800389A8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_80038A94);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_80038B18);
+INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", EepRom_WriteAll);
 
 void func_80038BD0(UNK_TYPE arg0 UNUSED) {
 }

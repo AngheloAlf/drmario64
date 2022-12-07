@@ -14,11 +14,11 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31E0);
 INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", func_800755F0);
 
 #ifdef NON_MATCHING
-enum_800EBCF0 func_80075A2C(struct_800EB670 *arg0) {
+enum_main_no func_80075A2C(struct_800EB670 *arg0) {
     OSMesgQueue sp10;
     OSMesg sp28[8];
     struct_800FAF98_unk_64 sp48;
-    enum_800EBCF0 var_v0;
+    enum_main_no var_v0;
     s32 i;
     s32 var_s3 = 1;
     s32 var_s4 = 0;
@@ -34,7 +34,7 @@ enum_800EBCF0 func_80075A2C(struct_800EB670 *arg0) {
     }
 
     while (var_s4 == 0) {
-        func_8002A700();
+        joyProcCore();
         osRecvMesg(&sp10, NULL, 1);
         func_80071FA0(&temp_s2->unk_034);
         func_8006D7B0();
@@ -70,7 +70,7 @@ enum_800EBCF0 func_80075A2C(struct_800EB670 *arg0) {
             }
         }
         if (temp_s2->unk_00C == 0) {
-            s32 temp = ((-(B_800EB4F0 == ENUM_800EBCF0_3) & 0xFF3F) | 0x4000);
+            s32 temp = ((-(B_800EB4F0 == MAIN_NO_3) & 0xFF3F) | 0x4000);
 
             var_s3 &= -((gControllerPressedButtons[B_800EBD16[0]] & temp) == 0);
         }
@@ -80,11 +80,11 @@ enum_800EBCF0 func_80075A2C(struct_800EB670 *arg0) {
                 temp_s2->unk_010 = -temp_s2->unk_010;
             }
         }
-        D_80088124 = 3;
+        graphic_no = 3;
     }
 
     func_8002AF7C();
-    D_80088124 = 0;
+    graphic_no = 0;
 
     while (!func_8002AFA4() || (D_80088128 != 0)) {
         osRecvMesg(&sp10, NULL, 1);
@@ -93,9 +93,9 @@ enum_800EBCF0 func_80075A2C(struct_800EB670 *arg0) {
 
     func_8002A1DC(arg0, &sp48);
 
-    var_v0 = ENUM_800EBCF0_3;
-    if (B_800EB4F0 != ENUM_800EBCF0_3) {
-        var_v0 = ENUM_800EBCF0_6;
+    var_v0 = MAIN_NO_3;
+    if (B_800EB4F0 != MAIN_NO_3) {
+        var_v0 = MAIN_NO_6;
     }
     return var_v0;
 }

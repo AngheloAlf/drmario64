@@ -1,3 +1,7 @@
+/**
+ * Original filename: joy.c
+ */
+
 #include "ultra64.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -7,7 +11,10 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-s32 func_8002A5B0(UNK_TYPE arg0 UNUSED) {
+/**
+ * Original filename: joyInit
+ */
+s32 joyInit(s32 arg0 UNUSED) {
     OSMesgQueue mq;
     OSMesg sp28[1];
     u8 bitpattern;
@@ -27,11 +34,11 @@ s32 func_8002A5B0(UNK_TYPE arg0 UNUSED) {
         gControllerHoldButtons[i] = 0;
     }
 
-    for (i = 0; i < ARRAY_COUNT(B_80113670); i++) {
+    for (i = 0; i < ARRAY_COUNT(joycnt); i++) {
         s32 j;
 
-        for (j = ARRAY_COUNT(B_80113670[i]) - 1; j >= 0; j--) {
-            B_80113670[i][j] = 0;
+        for (j = ARRAY_COUNT(joycnt[i]) - 1; j >= 0; j--) {
+            joycnt[i][j] = 0;
         }
 
         B_800F6CD8[i] = 0;
@@ -39,19 +46,22 @@ s32 func_8002A5B0(UNK_TYPE arg0 UNUSED) {
         B_800FAD31[i] = 0;
     }
 
-    B_800EF554 = 0x14;
-    B_800F1E20 = 4;
+    joycur1 = 0x14;
+    joycur2 = 4;
     return 4;
 }
 
-void func_8002A700(void) {
+/**
+ * Original filename: joyProcCore
+ */
+void joyProcCore(void) {
     u16 i;
 
     osContStartReadData(&B_800F3E38);
     osRecvMesg(&B_800F3E38, NULL, OS_MESG_BLOCK);
     osContGetReadData(B_800EB4D8);
 
-    for (i = 0; i < ARRAY_COUNT(B_80113670); i++) {
+    for (i = 0; i < ARRAY_COUNT(joycnt); i++) {
         u16 button = B_800EB4D8[i].button;
         u16 j;
         u32 mask;
@@ -63,15 +73,15 @@ void func_8002A700(void) {
 
         B_800F48C4[i] = 0;
 
-        for (j = 0, mask = 0x8000; j < ARRAY_COUNT(B_80113670[i]); j++, mask >>= 1) {
+        for (j = 0, mask = 0x8000; j < ARRAY_COUNT(joycnt[i]); j++, mask >>= 1) {
             if (B_800F6CD8[i] & mask) {
                 if (mask & gControllerHoldButtons[i]) {
-                    B_80113670[i][j]++;
-                    if ((B_80113670[i][j] == 1) || ((B_80113670[i][j] >= B_800EF554) && (((B_80113670[i][j] - B_800EF554) % B_800F1E20) == 0))) {
+                    joycnt[i][j]++;
+                    if ((joycnt[i][j] == 1) || ((joycnt[i][j] >= joycur1) && (((joycnt[i][j] - joycur1) % joycur2) == 0))) {
                         B_800F48C4[i] |= mask;
                     }
                 } else {
-                    B_80113670[i][j] = 0;
+                    joycnt[i][j] = 0;
                 }
             }
         }
@@ -80,27 +90,32 @@ void func_8002A700(void) {
     }
 }
 
-void func_8002A8F8(u16 mask, u8 index) {
+/**
+ * Original filename: joyCursorFastSet
+ */
+void joyCursorFastSet(u16 mask, u8 index) {
     s32 var_a0 = mask;
     s32 j;
 
-    for (j = ARRAY_COUNT(*B_80113670) - 1; j >= 0; j--) {
+    for (j = ARRAY_COUNT(joycnt[0]) - 1; j >= 0; j--) {
         if (var_a0 & 1) {
             break;
         }
 
         var_a0 >>= 1;
     }
-    B_80113670[index][j] = B_800EF554 + B_800F1E20 - 1;
+    joycnt[index][j] = joycur1 + joycur2 - 1;
 }
 
 /**
  * Returns the amount of connected controllers
+ * 
+ * Original filename: joyResponseCheck
  */
-s32 func_8002A954(void) {
+s32 joyResponseCheck(void) {
     s32 connectedControllers = 0;
     OSContStatus padStatus[MAXCONTROLLERS];
-    s8 var_a2;
+    s8 j;
     s8 i;
 
     osContStartQuery(&B_800F3E38);
@@ -111,7 +126,7 @@ s32 func_8002A954(void) {
         B_800EBD16[i] = 4;
     }
 
-    var_a2 = 0;
+    j = 0;
     for (i = 0; i < 4; i++) {
         B_800F3E78[i] = 0;
         switch (padStatus[i].errno) {
@@ -121,9 +136,9 @@ s32 func_8002A954(void) {
             default:
                 if ((padStatus[i].type & CONT_TYPE_MASK) == CONT_TYPE_NORMAL) {
                     B_800F3E78[i] = 1;
-                    B_800EBD16[var_a2] = i;
+                    B_800EBD16[j] = i;
                     connectedControllers++;
-                    var_a2++;
+                    j++;
                 }
         }
     }
