@@ -19,22 +19,22 @@ void func_8006D870(void) {
     void *temp_v1;
     u32 i;
 
-    B_800E5980 = &Gzip_bufferp;
-    B_800F3E50 = ALIGN_PTR(&Gzip_bufferp);
+    heapTop = &Heap_bufferp;
+    B_800F3E50 = ALIGN_PTR(&Heap_bufferp);
     bzero(B_800F3E50, sizeof(struct_800F3E50));
 
-    B_800E5980 = &B_800F3E50[1];
+    heapTop = &B_800F3E50[1];
     i = 0;
     while (i < ARRAY_COUNT(B_800EF440)) {
-        temp_v1 = ALIGN_PTR(B_800E5980);
+        temp_v1 = ALIGN_PTR(heapTop);
         B_800EF440[i] = temp_v1;
-        B_800E5980 = temp_v1 + 0x2FB8;
+        heapTop = temp_v1 + 0x2FB8;
         i += 1;
 
     }
     temp_v0 = temp_v1 + 0x2FC0;
     B_800F48C0 = temp_v0;
-    B_800E5980 = temp_v0 + 0x3000;
+    heapTop = temp_v0 + 0x3000;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_8006D870);
@@ -67,7 +67,10 @@ extern s8 D_80088408;
 extern s32 D_80088414;
 extern s8 D_800A8AD0;
 
-void func_8006E0EC(void) {
+/**
+ * Original name: dm_game_init_static
+ */
+void dm_game_init_static(void) {
     s32 temp_a2;
     s32 temp_a2_2;
     s32 temp_a2_3;
@@ -114,15 +117,15 @@ void func_8006E0EC(void) {
     temp_s3 = B_800F3E50;
     temp_s3->unk_3B0 = 0;
     temp_s3->unk_878 = 0x7F;
-    temp_s3->unk_430 = func_80045098(&B_800E5980, D_8000E9B0, D_8000E9B4);
-    temp_s3->unk_444 = func_80045098(&B_800E5980, D_8000E9D8, D_8000E9DC);
+    temp_s3->unk_430 = tiLoadTexData(&heapTop, D_8000E9B0, D_8000E9B4);
+    temp_s3->unk_444 = tiLoadTexData(&heapTop, D_8000E9D8, D_8000E9DC);
     if (main_no != 5) {
-        temp_s3->unk_448 = func_80045098(&B_800E5980, D_8000EA40, D_8000EA44);
+        temp_s3->unk_448 = tiLoadTexData(&heapTop, D_8000EA40, D_8000EA44);
     }
-    temp_s3->unk_884 = (struct_80124610 *) B_800E5980;
+    temp_s3->unk_884 = (struct_80124610 *) heapTop;
     var_s1 = 1;
     var_v1 = &temp_s3->unk_000[4];
-    B_800E5980 = DecompressRomToRam(D_8000E9E0, B_800E5980, D_8000E9E4 - D_8000E9E0);
+    heapTop = DecompressRomToRam(D_8000E9E0, heapTop, D_8000E9E4 - D_8000E9E0);
     do {
         var_v1->unk_8AC = 0;
         var_s1 -= 1;
@@ -136,7 +139,7 @@ void func_8006E0EC(void) {
     temp_s3->unk_9B0 = 0;
     temp_s3->unk_9B4 = 0;
     temp_s3->unk_9B8 = 0;
-    func_8007E2E0(&B_800E5980);
+    func_8007E2E0(&heapTop);
     var_s1_2 = 0;
     var_s0 = 0x9D0;
     func_8007E2FC(D_80088403);
@@ -145,11 +148,11 @@ void func_8006E0EC(void) {
         var_s1_2 += 1;
         var_s0 += 0x2C;
     } while (var_s1_2 < 2U);
-    func_8005CFD4((struct_80124610 *) &temp_s3->unk_000[0xA28], &B_800E5980, 0x100, 0xA, 5, 0, 0);
+    msgWnd_init2((struct_80124610 *) &temp_s3->unk_000[0xA28], &heapTop, 0x100, 0xA, 5, 0, 0);
     temp_a2 = temp_s3->unk_A70 * 2;
     temp_s3->unk_A50 = (s32) ((s32) (0x140 - (temp_s3->unk_A64 * 0x14)) >> 1);
     temp_s3->unk_A54 = (s32) ((s32) (0xF0 - temp_a2) >> 1);
-    func_80038BE0(&temp_s3->unk_000[0xAD8], &B_800E5980, temp_a2);
+    func_80038BE0(&temp_s3->unk_000[0xAD8], &heapTop, temp_a2);
     switch (evs_gamesel) {                           /* switch 1 */
     case 0x0:                                       /* switch 1 */
         temp_a1 = (B_800FAE78 * 0xD0) + &B_800EF560;
@@ -174,18 +177,18 @@ block_23:
         case 0x0:                                   /* switch 2 */
         case 0x4:                                   /* switch 2 */
             temp_s3->unk_898 = 1;
-            func_8005E36C(&B_80123794, &B_800E5980, 0xF);
+            func_8005E36C(&B_80123794, &heapTop, 0xF);
             func_8005E48C(&B_80123794, 2);
             var_s1_3 = 0;
-            temp_s3->unk_438 = func_80045098(&B_800E5980, gRomOffset_N64WaveTables_Start.unk_180, gRomOffset_N64WaveTables_Start.unk_184);
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_180, gRomOffset_N64WaveTables_Start.unk_184);
             var_s2 = 0x44C;
-            temp_s3->unk_434 = func_80045098(&B_800E5980, gRomOffset_N64WaveTables_Start.unk_198, gRomOffset_N64WaveTables_Start.unk_19C);
+            temp_s3->unk_434 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_198, gRomOffset_N64WaveTables_Start.unk_19C);
             do {
-                func_8005E36C(&temp_s3->unk_000[var_s2], &B_800E5980, var_s1_3 + 0x10);
+                func_8005E36C(&temp_s3->unk_000[var_s2], &heapTop, var_s1_3 + 0x10);
                 var_s1_3 += 1;
                 var_s2 += 0x40;
             } while (var_s1_3 < 3);
-            func_8005EBA8(&temp_s3->unk_000[0x50C], &B_800E5980);
+            func_8005EBA8(&temp_s3->unk_000[0x50C], &heapTop);
             var_s1_4 = 1;
             var_s0_2 = 0x630;
             do {
@@ -194,13 +197,13 @@ block_23:
                 var_s0_2 += 0x124;
             } while (var_s1_4 < 3);
             temp_s0 = &temp_s3->unk_000[0x91C];
-            func_8005CFD4((struct_80124610 *) temp_s0, &B_800E5980, 0x1000, 0x14, 0xF, 0x28, 0xF);
+            msgWnd_init2((struct_80124610 *) temp_s0, &heapTop, 0x1000, 0x14, 0xF, 0x28, 0xF);
             temp_s3->unk_940 = 1;
             msgWnd_addStr((struct_80124610 *) temp_s0, &D_800A8AD0);
             msgWnd_skip((struct_80124610 *) temp_s0);
             temp_s3->unk_93C = 1;
             temp_s3->unk_938 = 0;
-            B_800E5980 = func_8007780C(B_800E5980);
+            heapTop = func_8007780C(heapTop);
             return;
         case 0x1:                                   /* switch 2 */
         case 0x3:                                   /* switch 2 */
@@ -214,7 +217,7 @@ block_23:
                 var_s2_2 += 0x3C4;
                 var_s0_3 += 0x3C4;
                 var_s1_5 += 1;
-                func_8005E36C(var_a0, &B_800E5980, temp_a2_2);
+                func_8005E36C(var_a0, &heapTop, temp_a2_2);
                 var_a0 = var_s2_2;
             } while (var_s1_5 < 2);
             var_s1_6 = 1;
@@ -236,23 +239,23 @@ block_23:
                     } while (var_s1_7 < 2);
                 }
             }
-            temp_s3->unk_438 = func_80045098(&B_800E5980, gRomOffset_N64WaveTables_Start.unk_180, gRomOffset_N64WaveTables_Start.unk_184);
-            temp_s3->unk_43C = func_80045098(&B_800E5980, gRomOffset_N64WaveTables_Start.unk_188, gRomOffset_N64WaveTables_Start.unk_18C);
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_180, gRomOffset_N64WaveTables_Start.unk_184);
+            temp_s3->unk_43C = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_188, gRomOffset_N64WaveTables_Start.unk_18C);
             return;
         case 0x2:                                   /* switch 2 */
         case 0x6:                                   /* switch 2 */
             var_s4 = &B_80123794;
             var_s1_8 = 0;
-            temp_s3->unk_438 = func_80045098(&B_800E5980, gRomOffset_N64WaveTables_Start.unk_180, gRomOffset_N64WaveTables_Start.unk_184);
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_180, gRomOffset_N64WaveTables_Start.unk_184);
             var_s2_3 = 0;
-            temp_s3->unk_440 = func_80045098(&B_800E5980, gRomOffset_N64WaveTables_Start.unk_190, gRomOffset_N64WaveTables_Start.unk_194);
+            temp_s3->unk_440 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_190, gRomOffset_N64WaveTables_Start.unk_194);
             var_a0_3 = &B_80123794;
             do {
                 temp_a2_3 = *(&B_80123790 + var_s2_3);
                 var_s4 += 0x3C4;
                 var_s2_3 += 0x3C4;
                 var_s1_8 += 1;
-                func_8005E36C(var_a0_3, &B_800E5980, temp_a2_3);
+                func_8005E36C(var_a0_3, &heapTop, temp_a2_3);
                 var_a0_3 = var_s4;
             } while (var_s1_8 < 4);
             var_s1_9 = 3;
@@ -337,7 +340,7 @@ block_57:
     }
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_8006E0EC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", dm_game_init_static);
 #endif
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/043C20", RO_800B2314);
@@ -356,7 +359,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_8006E884);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_8006F628);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_8006F684);
+INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", dm_game_main);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_8006F950);
 
@@ -375,7 +378,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/043C20", func_80071624);
 void func_80071A44(void) {
 }
 
-enum_main_no func_80071A4C(struct_800EB670 *arg0) {
+/**
+ * Original name: main_techmes
+ */
+enum_main_no main_techmes(struct_800EB670 *arg0) {
     OSMesgQueue sp20;
     OSMesg sp38[8];
     struct_800FAF98_unk_64 sp58;
@@ -392,10 +398,10 @@ enum_main_no func_80071A4C(struct_800EB670 *arg0) {
     func_8006D870();
     temp_s2 = B_800F3E50;
 
-    func_8006E0EC();
-    B_800E5980 = func_80077D68(B_800E5980, false);
-    func_8005CFD4(&temp_s2->unk_91C, &B_800E5980, 0x1000, 0x12, 0x10, 0x34, 0x22);
-    msgWnd_addStr(&temp_s2->unk_91C, D_800AAD04);
+    dm_game_init_static();
+    heapTop = init_menu_bg(heapTop, false);
+    msgWnd_init2(&temp_s2->unk_91C, &heapTop, 0x1000, 0x12, 0x10, 0x34, 0x22);
+    msgWnd_addStr(&temp_s2->unk_91C, EndingLastMessage);
     temp_s1 = D_80088401;
     temp_s2->unk_91C.unk_20 = 1;
     temp_s2->unk_91C.unk_24 = 1;
@@ -446,16 +452,16 @@ enum_main_no func_80071A4C(struct_800EB670 *arg0) {
                 break;
         }
 
-        func_8002AE58();
+        dm_audio_update();
         graphic_no = 6;
     }
 
     graphic_no = 0;
-    func_8002AF7C();
+    dm_audio_stop();
 
-    while (!func_8002AFA4() || (D_80088128 != 0)) {
+    while (!dm_audio_is_stopped() || (pendingGFX != 0)) {
         osRecvMesg(&sp20, NULL, 1);
-        func_8002AE58();
+        dm_audio_update();
     }
 
     func_8002A1DC(arg0, &sp58);

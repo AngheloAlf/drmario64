@@ -91,7 +91,10 @@ void func_80059E9C(struct_800F3E5C *arg0, enum_struct_800F3E5C_unk_111CC arg1) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_80059EB8);
 
-void func_80059F1C(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) {
+/**
+ * Original name: menuAll_init
+ */
+void menuAll_init(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) {
     UNK_PTR sp10 = *arg1;
     UNK_PTR temp_v0;
     s32 i;
@@ -107,22 +110,22 @@ void func_80059F1C(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) 
         arg0->unk_02454[i] = &arg0->unk_00C48[i];
     }
 
-    sp10 = func_80077D68(sp10, evs_level_21 != 0);
-    arg0->unk_02478 = func_80045098(&sp10, pairArray[0x36].start, pairArray[0x36].end);
-    arg0->unk_0247C = func_80045098(&sp10, pairArray[0x37].start, pairArray[0x37].end);
-    arg0->unk_02484 = func_80045098(&sp10, pairArray[0x38].start, pairArray[0x38].end);
-    arg0->unk_02488 = func_80045098(&sp10, pairArray[0x39].start, pairArray[0x39].end);
-    arg0->unk_0248C = func_80045098(&sp10, pairArray[0x3A].start, pairArray[0x3A].end);
-    arg0->unk_02490 = func_80045098(&sp10, pairArray[0x3B].start, pairArray[0x3B].end);
-    arg0->unk_02494 = func_80045098(&sp10, pairArray[0x3C].start, pairArray[0x3C].end);
-    arg0->unk_02498 = func_80045098(&sp10, pairArray[0x3D].start, pairArray[0x3D].end);
-    arg0->unk_0249C = func_80045098(&sp10, pairArray[0x3E].start, pairArray[0x3E].end);
-    arg0->unk_024A0 = func_80045098(&sp10, pairArray[0x3F].start, pairArray[0x3F].end);
-    arg0->unk_024A4 = func_80045098(&sp10, pairArray[0x2F].start, pairArray[0x2F].end);
-    arg0->unk_024A8 = func_80045098(&sp10, pairArray[0x30].start, pairArray[0x30].end);
-    arg0->unk_024AC = func_80045098(&sp10, pairArray[0x40].start, pairArray[0x40].end);
-    arg0->unk_024B0 = func_80045098(&sp10, pairArray[0x42].start, pairArray[0x42].end);
-    arg0->unk_024B4 = func_80045098(&sp10, pairArray[0x41].start, pairArray[0x41].end);
+    sp10 = init_menu_bg(sp10, evs_level_21 != 0);
+    arg0->unk_02478 = tiLoadTexData(&sp10, pairArray[0x36].start, pairArray[0x36].end);
+    arg0->unk_0247C = tiLoadTexData(&sp10, pairArray[0x37].start, pairArray[0x37].end);
+    arg0->unk_02484 = tiLoadTexData(&sp10, pairArray[0x38].start, pairArray[0x38].end);
+    arg0->unk_02488 = tiLoadTexData(&sp10, pairArray[0x39].start, pairArray[0x39].end);
+    arg0->unk_0248C = tiLoadTexData(&sp10, pairArray[0x3A].start, pairArray[0x3A].end);
+    arg0->unk_02490 = tiLoadTexData(&sp10, pairArray[0x3B].start, pairArray[0x3B].end);
+    arg0->unk_02494 = tiLoadTexData(&sp10, pairArray[0x3C].start, pairArray[0x3C].end);
+    arg0->unk_02498 = tiLoadTexData(&sp10, pairArray[0x3D].start, pairArray[0x3D].end);
+    arg0->unk_0249C = tiLoadTexData(&sp10, pairArray[0x3E].start, pairArray[0x3E].end);
+    arg0->unk_024A0 = tiLoadTexData(&sp10, pairArray[0x3F].start, pairArray[0x3F].end);
+    arg0->unk_024A4 = tiLoadTexData(&sp10, pairArray[0x2F].start, pairArray[0x2F].end);
+    arg0->unk_024A8 = tiLoadTexData(&sp10, pairArray[0x30].start, pairArray[0x30].end);
+    arg0->unk_024AC = tiLoadTexData(&sp10, pairArray[0x40].start, pairArray[0x40].end);
+    arg0->unk_024B0 = tiLoadTexData(&sp10, pairArray[0x42].start, pairArray[0x42].end);
+    arg0->unk_024B4 = tiLoadTexData(&sp10, pairArray[0x41].start, pairArray[0x41].end);
 
     func_80046250(&arg0->unk_024B8, 0, 0);
     func_800474EC(&arg0->unk_02548, arg0, 0x70, 0x12);
@@ -151,9 +154,9 @@ void func_80059F1C(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) 
         sp10 = temp_v0 + arg0->unk_02464;
     }
 
-    for (i = 0; i < ARRAY_COUNT(B_80123700); i++) {
-        B_80123700[i].unk_000 = 0;
-        B_80123700[i].unk_004 = 0;
+    for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
+        game_state_data[i].unk_000 = 0;
+        game_state_data[i].unk_004 = 0;
     }
 
     D_8008840E = 0;

@@ -7,9 +7,9 @@
 #include "macros_defines.h"
 
 /**
- * Original name: Gzip_bufferp?
+ * Original name: Heap_bufferp
  */
-extern u8 Gzip_bufferp[];
+extern u8 Heap_bufferp[];
 
 extern u8 D_80205000[];
 

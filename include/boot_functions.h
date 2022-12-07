@@ -26,17 +26,17 @@ s32 func_80001480(void);
 s32 func_80001620(void);
 s32 func_80001D4C(s32 *arg0);
 s32 func_80001EB4(void);
-size_t func_80001F90(romoffset_t segmentRom, void *dstAddr, size_t segmentSize);
+size_t expand_gzip(romoffset_t segmentRom, void *dstAddr, size_t segmentSize);
 size_t func_80001FD8(struct_80029C04 *arg0, u8 *arg1, size_t blockSize);
 size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2);
-UNK_TYPE func_800020A0(void);
+UNK_TYPE unzip(void);
 u32 func_80002148(u8 *arg0, size_t arg1);
-void func_800021A0(void);
+void clear_bufs(void);
 s32 func_800021CC(s32 arg0);
 void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2);
 void func_80002300(void);
 void *DecompressRomToRam(romoffset_t segmentRom, void *dstAddr, size_t segmentSize);
-s32 func_800023B4(s32 arg0, s32 arg1, s32 arg2);
-f32 func_80002400(f32 arg0, f32 arg1, f32 arg2);
+s32 WrapI(s32 arg0, s32 arg1, s32 arg2);
+f32 WrapF(f32 arg0, f32 arg1, f32 arg2);
 
 #endif

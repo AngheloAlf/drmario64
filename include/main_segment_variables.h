@@ -18,7 +18,7 @@ extern u64* D_80088110[][2];
 // extern UNK_TYPE D_80088114;
 extern s32 gCurrentFramebufferIndex; /* Original name: wb_flag*/
 extern s32 graphic_no; /* Original name: graphic_no */
-extern u32 D_80088128;
+extern u32 pendingGFX;
 extern Vp D_80088130;
 extern s32 D_80088140;
 extern Gfx D_80088150[];
@@ -391,7 +391,7 @@ extern UNK_TYPE D_800A8AC8; // probably part of a struct/array
 // extern UNK_TYPE D_800AACD4;
 extern s32 story_proc_no; /* Original name: story_proc_no */
 // extern UNK_TYPE D_800AACF0;
-extern char *D_800AAD04;
+extern char *EndingLastMessage; /* Original name: EndingLastMessage */
 extern s32 D_800AAD08;
 extern s32 D_800AAD0C;
 extern UNK_TYPE4 D_800AAD10;
@@ -401,7 +401,7 @@ extern UNK_TYPE4 D_800AAD1C;
 extern UNK_TYPE4 D_800AAD20;
 extern UNK_TYPE4 D_800AAD24;
 extern UNK_TYPE4 D_800AAD28;
-extern s32 D_800AAD2C;
+extern s32 bgtime; /* Original name: bgtime */
 extern s32 D_800AAD34;
 // extern UNK_TYPE D_800AAD38;
 extern void *D_800AAD3C;
@@ -520,7 +520,7 @@ extern Mtx B_800E5818;
 // extern UNK_TYPE B_800E5974;
 // extern UNK_TYPE B_800E5978;
 // extern UNK_TYPE B_800E597C;
-extern UNK_PTR B_800E5980;
+extern UNK_PTR heapTop; /* Original name: heapTop */
 // extern UNK_TYPE B_800E5990;
 // extern UNK_TYPE B_800E5994;
 extern s32 B_800E59A0;
@@ -559,11 +559,11 @@ extern struct_800E5A70 B_800E59F0;
 // extern UNK_TYPE B_800E5EF8;
 // extern UNK_TYPE B_800E5EFC;
 // extern UNK_TYPE B_800E5F00;
-// extern UNK_TYPE B_800E5F04;
-extern Mtx B_800E5F08;
+// extern UNK_TYPE story_norm;
+extern Mtx story_viewMtx; /* Original name: story_viewMtx */
 extern struct_800F1DF8 B_800E5F50[2];
 extern void *B_800E8750;
-extern void *B_800E87A8;
+extern void *bgGraphic; /* Original name: bgGraphic */
 extern void *B_800E87AC;
 extern void *B_800E87B0;
 // extern UNK_TYPE B_800E87B4;
@@ -637,7 +637,7 @@ extern struct_800EA290 B_800EA290;
 extern s32 B_800EB4CC;
 extern s32 B_800EB4D0;
 extern OSContPad B_800EB4D8[MAXCONTROLLERS];
-extern enum_main_no B_800EB4F0;
+extern enum_main_no main_old; /* Orignal name: main_old */
 extern s32 B_800EB4F4;
 // extern UNK_TYPE B_800EB4F8;
 // extern UNK_TYPE B_800EB4F9;
@@ -791,7 +791,7 @@ extern u16 joycnt[4][0x10]; /* Original name: joycnt */
 extern u64 B_801136F0[];
 extern u32 B_801236F0;
 
-extern struct_80123700 B_80123700[4];
+extern struct_80123700 game_state_data[4]; /* Original name: game_state_data */
 
 
 #endif

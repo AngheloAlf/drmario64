@@ -12,7 +12,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8002EB00);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8002EB74);
 
-void func_8002ED14(struct_80123700 *arg0) {
+/**
+ * aifMakeFlagSet
+ */
+void aifMakeFlagSet(struct_80123700 *arg0) {
     arg0->unk_23D = 0;
     arg0->unk_241 = 0;
     arg0->unk_237 = 0;
@@ -228,7 +231,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_8003858C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_800386AC);
 
-s32 func_80038824(void) {
+/**
+ * Original name: EepRom_Init
+ */
+s32 EepRom_Init(void) {
     func_800388E0();
     if ((u32)(osEepromProbe(&B_800F3E38) - 1) >= 2) {
         func_80038BD0(1);
@@ -237,7 +243,10 @@ s32 func_80038824(void) {
     return func_80038A94();
 }
 
-s32 func_80038878(s32 arg0, s32 arg1) {
+/**
+ * Original name: EepRom_InitFirst
+ */
+s32 EepRom_InitFirst(s32 arg0, s32 arg1) {
     func_800388E0();
     if (((u32)(osEepromProbe(&B_800F3E38) - 1) >= 2)) {
         func_80038BD0(1);

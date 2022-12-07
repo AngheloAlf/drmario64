@@ -396,7 +396,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_8004502C);
 #if 0
 //? func_8004502C(s32, s32, s32);                     /* extern */
 
-s32 func_80045098(struct_80124610 **arg0, u32 segmentRom, u32 segmentRomEnd) {
+/**
+ * Original name: tiLoadTexData
+ */
+s32 tiLoadTexData(struct_80124610 **arg0, u32 segmentRom, u32 segmentRomEnd) {
     s32 *temp_v0;
     struct_80124610 *temp_s0;
     s32 temp_s1;
@@ -411,7 +414,7 @@ s32 func_80045098(struct_80124610 **arg0, u32 segmentRom, u32 segmentRomEnd) {
     return temp_s1;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80045098);
+INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", tiLoadTexData);
 #endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80045110);

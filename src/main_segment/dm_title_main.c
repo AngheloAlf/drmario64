@@ -15,8 +15,8 @@ void func_80075F30(void) {
     B_800E59A0 = 0;
     B_800E59A8 = -8;
     D_80088401 = 0;
-    title_fade_count = -(B_800EB4F0 == MAIN_NO_6) & 0xFF;
-    func_80077FA4(&Gzip_bufferp, B_800EB4F0 != MAIN_NO_6);
+    title_fade_count = -(main_old == MAIN_NO_6) & 0xFF;
+    func_80077FA4(&Heap_bufferp, main_old != MAIN_NO_6);
 }
 
 /**
@@ -31,7 +31,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
     OSMesg sp28[8];
     struct_800FAF98_unk_64 sp48;
     u32 var_s0 = 0;
-    s32 var_s1 = -(B_800EB4F0 == MAIN_NO_6) & 0x63;
+    s32 var_s1 = -(main_old == MAIN_NO_6) & 0x63;
 
     osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
     func_8002A184(arg0, &sp48, &sp10);
@@ -73,22 +73,22 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
                 break;
         }
 
-        func_8002AE58();
+        dm_audio_update();
     }
 
     func_8002B0E4();
 
-    while (!func_8002AFA4() || (title_fade_count < 0xFF)) {
+    while (!dm_audio_is_stopped() || (title_fade_count < 0xFF)) {
         osRecvMesg(&sp10, NULL, 1);
-        func_8002AE58();
+        dm_audio_update();
 
         title_fade_count = CLAMP(title_fade_count + B_800E59A8, 0, 0xFF);
     }
 
     graphic_no = 0;
-    while (D_80088128 != 0) {
+    while (pendingGFX != 0) {
         osRecvMesg(&sp10, NULL, 1);
-        func_8002AE58();
+        dm_audio_update();
     }
 
     func_8002A1DC(arg0, &sp48);
@@ -191,7 +191,7 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
     OSMesg sp30[8];
     struct_800FAF98_unk_64 sp50;
     UNK_PTR sp58;
-    struct_800E5A70 *temp_s0 = ALIGN_PTR(Gzip_bufferp);
+    struct_800E5A70 *temp_s0 = ALIGN_PTR(Heap_bufferp);
     bool var_s1 = true;
 
     sp58 = &temp_s0[1];
@@ -229,12 +229,12 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
             var_s1 = false;
             dm_snd_play(0x46);
         }
-        func_8002AE58();
+        dm_audio_update();
         graphic_no = 7;
     }
 
     graphic_no = 0;
-    while (D_80088128 != 0) {
+    while (pendingGFX != 0) {
         osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
     }
 
@@ -252,7 +252,7 @@ void graphic_boot_error(void) {
     struct_8005D78C_arg0 *ptr;
 
     gGfxHead = gGfxGlist[B_800FAD2C];
-    ptr = ALIGN_PTR(&Gzip_bufferp);
+    ptr = ALIGN_PTR(&Heap_bufferp);
     F3RCPinitRtn();
     F3ClearFZRtn(true);
     msgWnd_draw(ptr, &gGfxHead);

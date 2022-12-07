@@ -172,7 +172,10 @@ void func_8002AD38(struct_800EB670 *arg0) {
     func_8002D6A4(D_8000E838[2].start, D_8000E838[2].end - D_8000E838[2].start);
 }
 
-void func_8002AE58(void) {
+/**
+ * Original name: dm_audio_update
+ */
+void dm_audio_update(void) {
     struct_800FACE0 *var_s0 = &B_800FACE0;
     s32 i;
 
@@ -198,12 +201,18 @@ void func_8002AE58(void) {
     }
 }
 
-void func_8002AF7C(void) {
+/**
+ * Original name: dm_audio_stop
+ */
+void dm_audio_stop(void) {
     func_8002B0E4();
     MusStop(MUSFLAG_EFFECTS | MUSFLAG_SONGS, 0);
 }
 
-bool func_8002AFA4(void) {
+/**
+ * Original name: dm_audio_is_stopped
+ */
+bool dm_audio_is_stopped(void) {
     return MusAsk(MUSFLAG_EFFECTS | MUSFLAG_SONGS) == 0;
 }
 
@@ -364,7 +373,7 @@ void func_8002B490(UNK_PTR arg0 UNUSED) {
 void func_8002B4BC(struct_800EB670 *arg0) {
     s16 *sp10 = NULL;
 
-    D_80088128 = 0;
+    pendingGFX = 0;
     osCreateMesgQueue(&B_800F4898, B_800EBED0, ARRAY_COUNT(B_800EBED0));
     func_8002A184(arg0, &B_800F48B0, &B_800F4898);
     B_800FAF94 = func_8002A0D4(arg0);
@@ -398,43 +407,43 @@ void func_8002B5E4(void) {
             break;
 
         case 1:
-            if (D_80088128 < 2) {
+            if (pendingGFX < 2) {
                 func_8007AEF4();
             }
             break;
 
         case 2:
-            if (D_80088128 < 2) {
+            if (pendingGFX < 2) {
                 dm_title_graphic();
             }
             break;
 
         case 3:
-            if (D_80088128 < 2) {
+            if (pendingGFX < 2) {
                 func_80075CF8();
             }
             break;
 
         case 4:
-            if (D_80088128 == 0) {
+            if (pendingGFX == 0) {
                 func_8007023C();
             }
             break;
 
         case 5:
-            if (D_80088128 < 2) {
+            if (pendingGFX < 2) {
                 func_8005B658();
             }
             break;
 
         case 6:
-            if (D_80088128 < 2) {
+            if (pendingGFX < 2) {
                 func_80071CE0();
             }
             break;
 
         case 7:
-            if (D_80088128 < 2) {
+            if (pendingGFX < 2) {
                 graphic_boot_error();
             }
             break;
@@ -442,7 +451,7 @@ void func_8002B5E4(void) {
 }
 
 void func_8002B710(void) {
-    D_80088128 -= 1;
+    pendingGFX -= 1;
 }
 
 void func_8002B728(void) {
@@ -453,7 +462,7 @@ void func_8002B728(void) {
 
 void func_8002B754(void) {
     osViSetYScale(1.0f);
-    D_80088128 += 2;
+    pendingGFX += 2;
     osViBlack(true);
     func_80000468();
     MusStop(MUSFLAG_EFFECTS | MUSFLAG_SONGS, 0);
@@ -495,7 +504,7 @@ void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, 
     scTask->flags = flags;
     if (flags & OS_SC_SWAPBUFFER) {
         scTask->msg = &B_800ED430;
-        D_80088128++;
+        pendingGFX++;
     } else {
         scTask->msg = &B_800E9BB6;
     }

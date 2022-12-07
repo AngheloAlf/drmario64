@@ -51,7 +51,7 @@ void func_8006D7B0(void) {
     temp->unk_394 = CLAMP(temp->unk_394 + temp->unk_398, 0, 20);
 
     for (i = 0; i < D_80088403; i++) {
-        if (B_80123700[i].unk_020 == 1) {
+        if (game_state_data[i].unk_020 == 1) {
             if ((temp->unk_3C4 != 0) && (B_800FB3A4 <= 0x57E03)) {
                 B_800FB3A4++;
             }

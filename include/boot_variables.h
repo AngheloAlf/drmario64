@@ -58,7 +58,7 @@ extern STACK(sBootThreadStack, BOOT_STACK_SIZE);
 extern u8 B_80021BE0[0x8000];
 extern size_t B_8001F990;
 
-extern struct_80029C04 B_80029C00;
+extern struct_80029C04 B_80029C00; /* Original name ifd */
 extern OSMesgQueue B_80029C08;
 
 

@@ -5,15 +5,21 @@
 #include "macros_defines.h"
 #include "libc/stdbool.h"
 
+/**
+ * Original name: ofd
+ */
 extern struct_8001D7F8 B_8001D7F8;
 
-size_t func_80001F90(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
+/**
+ * Original name: expand_gzip
+ */
+size_t expand_gzip(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
     B_80029C00.segmentRom = segmentRom;
     B_80029C00.segmentSize = segmentSize;
     B_8001D7F8.unk_0 = dstAddr;
     B_8001D7F8.unk_4 = 0;
-    func_800021A0();
-    func_800020A0();
+    clear_bufs();
+    unzip();
     return B_8001D7F8.unk_4;
 }
 
@@ -58,7 +64,10 @@ extern u32 B_80029BE0;
 extern u32 B_8001F98C; // maybe volatile?
 extern u8 B_8001B640[0x2000];
 
-s32 func_800020A0(void) {
+/**
+ * Original name: unzip
+ */
+s32 unzip(void) {
     u8 sp10[8];
     u8 sp18[8 * 3] UNUSED;
     s32 temp_v0;
@@ -103,7 +112,10 @@ u32 func_80002148(u8 *arg0, size_t arg1) {
 extern s32 B_8001FAFC;
 extern s32 B_8001FB00;
 
-void func_800021A0(void) {
+/**
+ * Original names: clear_bufs
+ */
+void clear_bufs(void) {
     B_8001F990 = 0;
     B_80029BE0 = 0;
     B_8001F98C = 0;

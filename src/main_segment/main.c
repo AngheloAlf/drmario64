@@ -60,11 +60,11 @@ void mainproc(void) {
 
         switch (main_no) {
             case MAIN_NO_0:
-                main_no = func_8002DB20();
+                main_no = main11();
                 break;
 
             case MAIN_NO_1:
-                main_no = func_8002E230();
+                main_no = main12();
                 break;
 
             case MAIN_NO_3:
@@ -72,19 +72,19 @@ void mainproc(void) {
                 break;
 
             case MAIN_NO_4:
-                main_no = func_80075A2C(&B_800EB670);
+                main_no = dm_manual_main(&B_800EB670);
                 break;
 
             case MAIN_NO_5:
-                main_no = func_8006F684(&B_800EB670);
+                main_no = dm_game_main(&B_800EB670);
                 break;
 
             case MAIN_NO_6:
-                main_no = func_8005B2D4(&B_800EB670);
+                main_no = main_menu(&B_800EB670);
                 break;
 
             case MAIN_NO_7:
-                main_no = func_80071A4C(&B_800EB670);
+                main_no = main_techmes(&B_800EB670);
                 break;
 
             case MAIN_NO_8:
@@ -94,7 +94,7 @@ void mainproc(void) {
                 break;
 
             case MAIN_NO_2:
-                func_8007AA84(&B_800EB670);
+                main_story(&B_800EB670);
                 if ((story_proc_no == 0) | (story_proc_no == 0xC)) {
                     story_proc_no++;
                     main_no = MAIN_NO_2;
@@ -106,6 +106,6 @@ void mainproc(void) {
                 break;
         }
 
-        B_800EB4F0 = temp_s0;
+        main_old = temp_s0;
     }
 }

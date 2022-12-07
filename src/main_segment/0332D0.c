@@ -25,7 +25,7 @@ bool func_8005CF20(s32 arg0, u32 buttonMask) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", msgWnd_init);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005CFD4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", msgWnd_init2);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/0332D0", func_8005D09C);
 

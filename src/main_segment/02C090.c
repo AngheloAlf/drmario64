@@ -148,7 +148,7 @@ void func_800592D4(struct_800F3E5C_unk_02678 *arg0) {
         } else if (direction != 0) {
             arg0->unk_0010 = arg0->unk_000C;
 
-            arg0->unk_000C = func_800023B4(0, 3, arg0->unk_000C + direction);
+            arg0->unk_000C = WrapI(0, 3, arg0->unk_000C + direction);
             var_s4 = 0x3F;
             func_800586A4(arg0, arg0->unk_0014, -1, 1.0f, -(direction * 0x140));
             arg0->unk_0018 = arg0->unk_0014;

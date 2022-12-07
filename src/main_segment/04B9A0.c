@@ -14,7 +14,10 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31E0);
 INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", func_800755F0);
 
 #ifdef NON_MATCHING
-enum_main_no func_80075A2C(struct_800EB670 *arg0) {
+/**
+ * Original name: dm_manual_main
+ */
+enum_main_no dm_manual_main(struct_800EB670 *arg0) {
     OSMesgQueue sp10;
     OSMesg sp28[8];
     struct_800FAF98_unk_64 sp48;
@@ -29,8 +32,8 @@ enum_main_no func_80075A2C(struct_800EB670 *arg0) {
     func_800755F0();
 
     temp_s2 = B_800F4890;
-    for (i = 0; i < ARRAY_COUNT(B_80123700); i++) {
-        func_8002ED14(&B_80123700[i]);
+    for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
+        aifMakeFlagSet(&game_state_data[i]);
     }
 
     while (var_s4 == 0) {
@@ -60,7 +63,7 @@ enum_main_no func_80075A2C(struct_800EB670 *arg0) {
                 break;
         }
         func_8002B13C(0x60);
-        func_8002AE58();
+        dm_audio_update();
         if (temp_s2->unk_018 != 0) {
             temp_s2->unk_014++;
             if (temp_s2->unk_014 >= temp_s2->unk_018) {
@@ -70,7 +73,7 @@ enum_main_no func_80075A2C(struct_800EB670 *arg0) {
             }
         }
         if (temp_s2->unk_00C == 0) {
-            s32 temp = ((-(B_800EB4F0 == MAIN_NO_3) & 0xFF3F) | 0x4000);
+            s32 temp = ((-(main_old == MAIN_NO_3) & 0xFF3F) | 0x4000);
 
             var_s3 &= -((gControllerPressedButtons[B_800EBD16[0]] & temp) == 0);
         }
@@ -83,24 +86,24 @@ enum_main_no func_80075A2C(struct_800EB670 *arg0) {
         graphic_no = 3;
     }
 
-    func_8002AF7C();
+    dm_audio_stop();
     graphic_no = 0;
 
-    while (!func_8002AFA4() || (D_80088128 != 0)) {
+    while (!dm_audio_is_stopped() || (pendingGFX != 0)) {
         osRecvMesg(&sp10, NULL, 1);
-        func_8002AE58();
+        dm_audio_update();
     }
 
     func_8002A1DC(arg0, &sp48);
 
     var_v0 = MAIN_NO_3;
-    if (B_800EB4F0 != MAIN_NO_3) {
+    if (main_old != MAIN_NO_3) {
         var_v0 = MAIN_NO_6;
     }
     return var_v0;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", func_80075A2C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", dm_manual_main);
 #endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", func_80075CF8);

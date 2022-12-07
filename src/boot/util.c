@@ -5,11 +5,17 @@
 #include "boot_variables.h"
 #include "libc/math.h"
 
+/**
+ * Original name: ExpandGZip
+ */
 void *DecompressRomToRam(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
-    return (void *)ALIGN8((uintptr_t)dstAddr + func_80001F90(segmentRom, dstAddr, segmentSize));
+    return (void *)ALIGN8((uintptr_t)dstAddr + expand_gzip(segmentRom, dstAddr, segmentSize));
 }
 
-s32 func_800023B4(s32 arg0, s32 arg1, s32 arg2) {
+/**
+ * Original name: WrapI
+ */
+s32 WrapI(s32 arg0, s32 arg1, s32 arg2) {
     s32 temp_a1 = arg1 - arg0;
     s32 var_v0;
 
@@ -20,7 +26,10 @@ s32 func_800023B4(s32 arg0, s32 arg1, s32 arg2) {
     return var_v0 + arg0;
 }
 
-f32 func_80002400(f32 arg0, f32 arg1, f32 arg2) {
+/**
+ * Original name: WrapF
+ */
+f32 WrapF(f32 arg0, f32 arg1, f32 arg2) {
     f32 var_f0_2;
     s32 var_v0;
     s32 var_v1;

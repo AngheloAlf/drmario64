@@ -220,13 +220,16 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
     arg0->unk_111F0++;
 }
 
-enum_main_no func_8005B2D4(struct_800EB670 *arg0) {
-    UNK_PTR sp10 = Gzip_bufferp;
-    struct_800F3E5C *ptr = ALIGN_PTR(Gzip_bufferp);
+/**
+ * Original name: main_menu
+ */
+enum_main_no main_menu(struct_800EB670 *arg0) {
+    UNK_PTR sp10 = Heap_bufferp;
+    struct_800F3E5C *ptr = ALIGN_PTR(Heap_bufferp);
     s32 i;
     u16 value;
 
-    if (B_800EB4F0 == MAIN_NO_3) {
+    if (main_old == MAIN_NO_3) {
         D_8008E8B4 = 0;
         D_8008E788 = 0;
         B_800EB4F4 = 0;
@@ -236,7 +239,7 @@ enum_main_no func_8005B2D4(struct_800EB670 *arg0) {
     sp10 = &ptr[1];
     bzero(ptr, sizeof(struct_800F3E5C));
     B_800F3E5C = ptr;
-    func_80059F1C(ptr, &sp10, arg0);
+    menuAll_init(ptr, &sp10, arg0);
 
     evs_playmax = joyResponseCheck();
 
@@ -252,7 +255,7 @@ enum_main_no func_8005B2D4(struct_800EB670 *arg0) {
 
     while ((ptr->unk_111D4 == MAIN_NO_6) || (ptr->unk_111DC < 1.0f)) {
         if (graphic_no == 0) {
-            while ((D_80088128 != 0) || (func_80040BA4() != 0)) {
+            while ((pendingGFX != 0) || (func_80040BA4() != 0)) {
                 func_80059CA0(ptr);
             }
 
@@ -272,7 +275,7 @@ enum_main_no func_8005B2D4(struct_800EB670 *arg0) {
         func_80059CA0(ptr);
         func_8005A720(ptr);
         func_8005A974(ptr);
-        func_8002AE58();
+        dm_audio_update();
 
         if (ptr->unk_111CC != ptr->unk_111D0) {
             ptr->unk_111C8 = ptr->unk_111CC;
@@ -289,15 +292,15 @@ enum_main_no func_8005B2D4(struct_800EB670 *arg0) {
 
     while (ptr->unk_111F4 != 0xF) {
         osRecvMesg(&ptr->unk_0000C, NULL, OS_MESG_BLOCK);
-        func_8002AE58();
+        dm_audio_update();
     }
 
     graphic_no = 0;
     func_8002B0E4();
 
-    while ((D_80088128 != 0) || !func_8002B178() || (func_80040BA4() != 0)) {
+    while ((pendingGFX != 0) || !func_8002B178() || (func_80040BA4() != 0)) {
         osRecvMesg(&ptr->unk_0000C, NULL, OS_MESG_BLOCK);
-        func_8002AE58();
+        dm_audio_update();
     }
 
     func_8005A2AC(ptr);

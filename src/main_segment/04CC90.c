@@ -33,7 +33,7 @@ void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
 }
 
 void *func_80077170(s32 index, void *dstAddr) {
-    B_800E87A8 = dstAddr;
+    bgGraphic = dstAddr;
     B_800E8750 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E778[index].start, dstAddr, D_8000E778[index].end - D_8000E778[index].start));
     return (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E760.start, B_800E8750, D_8000E760.end - D_8000E760.start));
 }
@@ -193,39 +193,39 @@ void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 void *func_8007780C(void *dstAddr) {
     void *temp_s0;
 
-    B_800E87A8 = (void *)ALIGN16((uintptr_t)dstAddr);
-    temp_s0 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E740.start, B_800E87A8, D_8000E740.end - D_8000E740.start));
+    bgGraphic = (void *)ALIGN16((uintptr_t)dstAddr);
+    temp_s0 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E740.start, bgGraphic, D_8000E740.end - D_8000E740.start));
     func_8007786C();
     return temp_s0;
 }
 
 void func_8007786C(void) {
-    guOrtho(&B_800E5F08, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+    guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
     D_800AAD34 = 0x15E;
-    D_800AAD2C = 0;
+    bgtime = 0;
     D_800AAD08 = -0x59;
     D_800AAD0C = 0;
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800778E8);
 
-void *func_80077D68(void *dstAddr, bool arg1) {
+void *init_menu_bg(void *dstAddr, bool arg1) {
     void *alignedAddress;
     romoffset_t segmentRomStart;
     romoffset_t segmentRomEnd;
 
-    D_800AAD2C = 0;
-    guOrtho(&B_800E5F08, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
-    alignedAddress = (void *)ALIGN16((uintptr_t)dstAddr);
-    B_800E87A8 = alignedAddress;
+    bgtime = 0;
+    guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+    alignedAddress = ALIGN_PTR(dstAddr);
+    bgGraphic = alignedAddress;
     if (arg1) {
-        segmentRomStart = D_8000E750.start;
-        segmentRomEnd = D_8000E750.end;
+        segmentRomStart = D_8000E750.start; // PTR_segment_menu_bg2_002b0070
+        segmentRomEnd = D_8000E750.end; // PTR_DAT_002b0074
     } else {
-        segmentRomStart = D_8000E748.start;
-        segmentRomEnd = D_8000E748.end;
+        segmentRomStart = D_8000E748.start; // PTR_segment_menu_bg_002b0068
+        segmentRomEnd = D_8000E748.end; // )PTR_DAT_002b006c
     }
-    return (void *)ALIGN16((uintptr_t)DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
+    return ALIGN_PTR(DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
 }
 
 #if 0
@@ -246,7 +246,7 @@ void func_80077E2C(Gfx **gfxP, s32 arg1, s32 arg2) {
     sp58 = temp_s0 + 0x10;
     temp_s0->unk_8 = 0xDB060014;
     temp_v1 = sp58;
-    temp_s0->unk_C = osVirtualToPhysical(B_800E87A8);
+    temp_s0->unk_C = osVirtualToPhysical(bgGraphic);
     sp58 = temp_v1 + 8;
     temp_v1->words.w1 = (u32) &D_E5F08;
     temp_v1->words.w0 = 0xDA380007;
@@ -261,17 +261,17 @@ void func_80077E2C(Gfx **gfxP, s32 arg1, s32 arg2) {
     temp_v1->unk_1C = 0x004FC3BC;
 #endif
     gSPSegment(temp_s0++, 0x00, 0x00000000);
-    gSPSegment(temp_s0++, 0x05, osVirtualToPhysical(B_800E87A8));
-    gSPMatrix(temp_s0++, OS_K0_TO_PHYSICAL(&B_800E5F08), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPSegment(temp_s0++, 0x05, osVirtualToPhysical(bgGraphic));
+    gSPMatrix(temp_s0++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPDisplayList(temp_s0++, D_8008E6B8);
     gSPDisplayList(temp_s0++, D_800AAD68);
     gDPSetScissor(temp_s0++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
 
     func_8007F004(&sp18, arg1 << 0xF, arg2 << 0xF, -0x03B60000);
-    if (func_8007B650(&sp58, &sp18, B_800E87A8, D_800AAD2C, B_800E87A8) == 1) {
-        D_800AAD2C = 0;
+    if (func_8007B650(&sp58, &sp18, bgGraphic, bgtime, bgGraphic) == 1) {
+        bgtime = 0;
     } else {
-        D_800AAD2C += 1;
+        bgtime += 1;
     }
     //temp_v1_2 = sp58;
     //temp_a0 = temp_v1_2 + 8;
@@ -295,7 +295,7 @@ void *func_80077FA4(void *dstAddr, bool arg1) {
     }
 
     B_800E59DC = 0;
-    guOrtho(&B_800E5F08, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+    guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
 
     B_800E59E0 = (void *)ALIGN16((uintptr_t)dstAddr);
     B_800E59E4 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768.start, B_800E59E0, D_8000E768.end - D_8000E768.start));
@@ -322,7 +322,7 @@ s32 demo_title(Gfx **gfxP, s32 arg1) {
     gSPSegment(gfx++, 0x00, 0x00000000);
     temp_s2 = (B_800E59D8 >= 0x2D0);
     gSPSegment(gfx++, 0x05, osVirtualToPhysical(B_800E59E0));
-    gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&B_800E5F08), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPDisplayList(gfx++, D_8008E6B8);
     gSPDisplayList(gfx++, D_800AAD68);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
@@ -448,7 +448,7 @@ void func_8007A9DC(void) {
 
     segmentSize = D_8000E758.end - D_8000E758.start;
     ptr = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E758.start, ptr, segmentSize));
-    B_800E87A8 = ptr;
+    bgGraphic = ptr;
 
     segmentSize = D_8000E748.end - D_8000E748.start;
     ptr = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E748.start, ptr, segmentSize));
@@ -472,7 +472,7 @@ extern void B_800E5AF0;
 extern s32 B_800E5EF4;
 extern s32 B_800E5EFC;
 extern s32 B_800E5F00;
-extern u16 B_800E5F04;
+extern u16 story_norm; /* Original name: story_norm */
 extern s32 B_800E87B4;
 extern s16 B_800F6CDE[];
 extern u8 D_80088409;
@@ -481,7 +481,10 @@ extern void *D_800A8ACC;
 extern UNK_TYPE4 D_800AAE00[];
 
 #ifdef NON_EQUIVALENT
-s32 func_8007AA84(struct_800EB670 *arg0) {
+/**
+ * Original name: main_story
+ */
+s32 main_story(struct_800EB670 *arg0) {
     OSMesgQueue sp20;
     void *sp38;
     struct_800FAF98_unk_64 sp58;
@@ -493,9 +496,9 @@ s32 func_8007AA84(struct_800EB670 *arg0) {
     func_8002A184(arg0, &sp58, &sp20);
     graphic_no = 0;
     D_800AAD40 = &D_80205000;
-    guPerspective(&B_800E5F08, &B_800E5F04, 45.0f, 1.3333334f, 1.0f, 1000.0f, 1.0f);
+    guPerspective(&story_viewMtx, &story_norm, 45.0f, 1.3333334f, 1.0f, 1000.0f, 1.0f);
     var_s1 = 3;
-    guOrtho(&B_800E5F08, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+    guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
 
     B_800E87B4 = 1;
     while (var_s1 >= 0) {
@@ -525,7 +528,7 @@ s32 func_8007AA84(struct_800EB670 *arg0) {
     B_800E5A38 = 0xE;
     B_800E5EF0 = &D_80205000;
     B_800E5A44 = 0.4f;
-    func_8005CFD4(&B_800E5A70, &B_800E5EF0, 0x77A, 0x14, 0xB, 0x28, 0x16);
+    msgWnd_init2(&B_800E5A70, &B_800E5EF0, 0x77A, 0x14, 0xB, 0x28, 0x16);
     B_800E5A94 = 1;
     B_800E5AA0 = 0xC;
     B_800E5AA4 = 0xC;
@@ -546,18 +549,18 @@ s32 func_8007AA84(struct_800EB670 *arg0) {
         }
         joyProcCore();
         graphic_no = 1;
-        func_8002AE58();
+        dm_audio_update();
     }
 
-    func_8002AF7C();
+    dm_audio_stop();
     graphic_no = 0;
 
     while (true) {
-        if ((D_80088128 == 0) || func_8002AFA4()) {
+        if ((pendingGFX == 0) || dm_audio_is_stopped()) {
             break;
         }
         osRecvMesg(&sp20, NULL, 1);
-        func_8002AE58();
+        dm_audio_update();
     }
 
     var_s1_2 = 0;
@@ -575,7 +578,7 @@ s32 func_8007AA84(struct_800EB670 *arg0) {
     return (D_80088409 / 3) * 3;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007AA84);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", main_story);
 #endif
 
 void func_8007AEBC(void) {
