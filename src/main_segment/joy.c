@@ -109,7 +109,7 @@ void joyCursorFastSet(u16 mask, u8 index) {
 
 /**
  * Returns the amount of connected controllers
- * 
+ *
  * Original filename: joyResponseCheck
  */
 s32 joyResponseCheck(void) {

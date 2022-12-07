@@ -220,10 +220,10 @@ void *init_menu_bg(void *dstAddr, bool arg1) {
     bgGraphic = alignedAddress;
     if (arg1) {
         segmentRomStart = D_8000E750.start; // PTR_segment_menu_bg2_002b0070
-        segmentRomEnd = D_8000E750.end; // PTR_DAT_002b0074
+        segmentRomEnd = D_8000E750.end;     // PTR_DAT_002b0074
     } else {
         segmentRomStart = D_8000E748.start; // PTR_segment_menu_bg_002b0068
-        segmentRomEnd = D_8000E748.end; // )PTR_DAT_002b006c
+        segmentRomEnd = D_8000E748.end;     // )PTR_DAT_002b006c
     }
     return ALIGN_PTR(DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
 }

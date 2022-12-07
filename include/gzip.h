@@ -43,10 +43,6 @@ void flush_window(void);
  */
 extern struct_8001D7F8 B_8001D7F8;
 
-extern u32 bk;
-extern u32 B_8001F998;
-extern u32 hufts;
-extern u32 inptr; /* Original name: inptr */
 extern u32 insize; // maybe volatile?
 extern u8 inbuf[0x2000];
 
