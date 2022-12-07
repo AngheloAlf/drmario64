@@ -258,12 +258,12 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80076CCC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80076DB4);
 
-void func_800770E8(Gfx **arg0, struct_800E8750 *arg1) {
-    Gfx *sp28 = *arg0;
+void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
+    Gfx *gfx = *gfxP;
 
-    gSPDisplayList(sp28++, D_8008E6B8);
-    func_800429B8(&sp28, 0x148, 0xF0, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
-    *arg0 = sp28;
+    gSPDisplayList(gfx++, D_8008E6B8);
+    func_800429B8(&gfx, 0x148, 0xF0, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
+    *gfxP = gfx;
 }
 
 void *func_80077170(s32 index, void *dstAddr) {
@@ -310,7 +310,7 @@ UNK_TYPE func_800774C4(void) {
 }
 
 #ifdef NON_EQUIVALENT
-void func_80077504(Gfx **arg0, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
+void func_80077504(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
     // Gfx *sp38;
     // Gfx *temp_a0;
     // Gfx *temp_a0_2;
@@ -330,7 +330,7 @@ void func_80077504(Gfx **arg0, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
     s32 var_t1;
     s32 var_v0;
 
-    temp_t0 = *arg0;
+    temp_t0 = *gfxP;
     // sp38 = temp_t0;
     if (arg3 < 0xFF) {
         temp_a3 = arg3 & ((s32)~arg3 >> 0x1F);
@@ -413,15 +413,15 @@ void func_80077504(Gfx **arg0, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
         // temp_v1_4->words.w0 = 0xDE000000;
         // temp_v1_4->words.w1 = (u32) D_8008E6B8;
         gSPDisplayList(temp_t0++, D_8008E6B8);
-        *arg0 = temp_t0;
+        *gfxP = temp_t0;
     }
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/main_segment/04C2E0", func_80077504);
 #endif
 
-void func_800777E8(Gfx **arg0, s32 arg1, s32 arg2, s32 arg3) {
-    func_80077504(arg0, arg1, arg2, arg3, &D_800A82C0);
+void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+    func_80077504(gfxP, arg1, arg2, arg3, &D_800A82C0);
 }
 
 void *func_8007780C(void *dstAddr) {
@@ -463,7 +463,7 @@ void *func_80077D68(void *dstAddr, bool arg1) {
 }
 
 #if 0
-void func_80077E2C(Gfx **arg0, s32 arg1, s32 arg2) {
+void func_80077E2C(Gfx **gfxP, s32 arg1, s32 arg2) {
     struct_8007F004_arg0 sp18;
     Gfx *sp58;
     Gfx *temp_a0;

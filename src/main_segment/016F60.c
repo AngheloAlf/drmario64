@@ -14,14 +14,14 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80040BB0);
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80040D34);
 
 #ifdef NON_EQUIVALENT
-void func_80040E3C(Gfx **arg0, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 green, s32 blue, s32 alpha) {
+void func_80040E3C(Gfx **gfxP, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 green, s32 blue, s32 alpha) {
     Gfx *temp_t2;
     Gfx *temp_t2_2;
     Gfx *temp_t2_3;
     s32 temp_a3;
     s32 temp_t0;
 
-    temp_t2 = *arg0;
+    temp_t2 = *gfxP;
     gSPDisplayList(temp_t2, D_8008E748);
     // temp_t2->words.w0 = 0xDE000000;
     // temp_t2->words.w1 = (u32) &D_8008E748;
@@ -32,7 +32,7 @@ void func_80040E3C(Gfx **arg0, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 gree
     // temp_t2_3->words.w0 = ((temp_a3 & ((s32) ~temp_a3 >> 0x1F) & 0x3FF) << 0xE) | (((temp_t0 & ((s32) ~temp_t0 >> 0x1F) & 0x3FF) * 4) | -0x0A000000);
     // temp_t2_3->words.w1 = ((arg1 & ((s32) ~arg1 >> 0x1F) & 0x3FF) << 0xE) | ((arg2 & ((s32) ~arg2 >> 0x1F) & 0x3FF) * 4);
     gDPFillRectangle(temp_t2 + 2, x0, y0, x0 + x1, y0 + y1);
-    *arg0 = temp_t2 + 2;
+    *gfxP = temp_t2 + 2;
     // return -0x0A000000;
 }
 #else
@@ -185,10 +185,10 @@ void func_8004216C(struct_80041A54_arg0 *arg0) {
 }
 
 #ifdef NON_MATCHING
-void func_80042364(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, s32 arg5, s32 arg6, f32 arg7, f32 arg8, f32 arg9, f32 argA) {
+void func_80042364(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, s32 arg5, s32 arg6, f32 arg7, f32 arg8, f32 arg9, f32 argA) {
     struct_80041A54_arg0 sp10;
 
-    sp10.unk_00 = arg0;
+    sp10.unk_00 = gfxP;
     sp10.unk_04 = 0;
     sp10.unk_08 = arg1;
     sp10.unk_0C = arg2;
@@ -218,10 +218,10 @@ void func_80042468(struct_80041A54_arg0 *arg0) {
                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
-void func_80042650(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8) {
+void func_80042650(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8) {
     struct_80041A54_arg0 sp10;
 
-    sp10.unk_00 = arg0;
+    sp10.unk_00 = gfxP;
     sp10.unk_04 = 0;
     sp10.unk_08 = arg1;
     sp10.unk_0C = arg2;
@@ -238,7 +238,7 @@ void func_80042650(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4
     sp10.unk_2C = arg8 * 4.0;
     sp10.unk_38 = 0x1000 / arg1;
     if (tlut != NULL) {
-        gDPLoadTLUT_pal16((*arg0)++, 0, tlut);
+        gDPLoadTLUT_pal16((*gfxP)++, 0, tlut);
     }
     func_80041A54(&sp10);
 }
@@ -248,10 +248,10 @@ void func_800427E0(struct_80041A54_arg0 *arg0) {
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
-void func_800429B8(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8) {
+void func_800429B8(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8) {
     struct_80041A54_arg0 sp10;
 
-    sp10.unk_00 = arg0;
+    sp10.unk_00 = gfxP;
     sp10.unk_04 = 0;
     sp10.unk_30 = func_800427E0;
     sp10.unk_08 = arg1;
@@ -268,7 +268,7 @@ void func_800429B8(Gfx **arg0, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4
     sp10.unk_2C = arg8 * 4.0;
     sp10.unk_38 = 0x800 / arg1;
     if (tlut != NULL) {
-        gDPLoadTLUT_pal256((*arg0)++, tlut);
+        gDPLoadTLUT_pal256((*gfxP)++, tlut);
     }
     func_80041A54(&sp10);
 }
@@ -278,10 +278,10 @@ void func_80042B48(struct_80041A54_arg0 *arg0) {
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
-void func_80042D20(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+void func_80042D20(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     struct_80041A54_arg0 sp10;
 
-    sp10.unk_00 = arg0;
+    sp10.unk_00 = gfxP;
     sp10.unk_30 = func_80042B48;
     sp10.unk_04 = 0;
     sp10.unk_08 = arg1;
@@ -305,10 +305,10 @@ void func_80042E04(struct_80041A54_arg0 *arg0) {
                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
-void func_80042FEC(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+void func_80042FEC(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     struct_80041A54_arg0 sp10;
 
-    sp10.unk_00 = arg0;
+    sp10.unk_00 = gfxP;
     sp10.unk_30 = func_80042E04;
     sp10.unk_04 = 0;
     sp10.unk_08 = arg1;
@@ -332,10 +332,10 @@ void func_800430D0(struct_80041A54_arg0 *arg0) {
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
-void func_800432A8(Gfx **arg0, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+void func_800432A8(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     struct_80041A54_arg0 sp10;
 
-    sp10.unk_00 = arg0;
+    sp10.unk_00 = gfxP;
     sp10.unk_30 = func_800430D0;
     sp10.unk_04 = 0;
     sp10.unk_08 = arg1;

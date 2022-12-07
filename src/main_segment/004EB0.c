@@ -349,14 +349,14 @@ s32 func_8003A8F4(void) {
     return var_v1;
 }
 
-void func_8003A950(Gfx **arg0) {
+void func_8003A950(Gfx **gfxP) {
     switch (D_8008CFE0) {
         case 0x1:
-            func_8003A1B4(arg0);
+            func_8003A1B4(gfxP);
             break;
 
         case 0x2:
-            func_8003A7E4(arg0);
+            func_8003A7E4(gfxP);
             break;
     }
 }
