@@ -1,6 +1,6 @@
 // text
 
-func_80029C50 = 0x80029C50;
+mainproc = 0x80029C50;
 func_80029ED0 = 0x80029ED0;
 func_8002A0CC = 0x8002A0CC;
 func_8002A0D4 = 0x8002A0D4;

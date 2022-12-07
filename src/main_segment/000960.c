@@ -27,7 +27,7 @@ s32 func_8002A5B0(UNK_TYPE arg0 UNUSED) {
         gControllerHoldButtons[i] = 0;
     }
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(B_80113670); i++) {
         s32 j;
 
         for (j = ARRAY_COUNT(B_80113670[i]) - 1; j >= 0; j--) {

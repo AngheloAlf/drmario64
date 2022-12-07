@@ -1,3 +1,7 @@
+/**
+ * Original filename: main.c
+ */
+
 #include "ultra64.h"
 #include "include_asm.h"
 #include "unk.h"
@@ -9,7 +13,10 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 
-void func_80029C50(void) {
+/**
+ * Original name: mainproc
+ */
+void mainproc(void) {
     func_80038BD8();
 
     switch (osTvType) {
@@ -88,8 +95,8 @@ void func_80029C50(void) {
 
             case ENUM_800EBCF0_2:
                 func_8007AA84(&B_800EB670);
-                if (((D_800AACEC == 0) | (D_800AACEC == 0xC)) != 0) {
-                    D_800AACEC += 1;
+                if ((D_800AACEC == 0) | (D_800AACEC == 0xC)) {
+                    D_800AACEC++;
                     B_800EBCF0 = ENUM_800EBCF0_2;
                 } else if ((u32)(D_800AACEC - 0xA) >= 2U && (u32)(D_800AACEC - 0x16) >= 2U) {
                     B_800EBCF0 = ENUM_800EBCF0_1;

@@ -357,7 +357,7 @@ segments:
     decompressed_size: 0x899F0
     bss_size: 0x70FD0
     subsegments:
-      - [0x011A70, c, main_segment/000000]
+      - [0x011A70, c, main_segment/main]
       - [0x011CF0, c, main_segment/000280]
       - [0x0123D0, c, main_segment/000960]
 
@@ -438,7 +438,7 @@ segments:
       - [0x094020, rodata, rsp/f3dex2]
       - [0x094440, rodata, rsp/s2dex]
 
-      - [0x094800, .rodata, main_segment/000000]
+      - [0x094800, .rodata, main_segment/main]
       # - [0x094830, rodata, main_segment/082DC0]
 
       - [0x094830, .rodata, main_segment/audio/000E30]

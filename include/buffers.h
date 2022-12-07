@@ -6,6 +6,9 @@
 #include "alignment.h"
 #include "macros_defines.h"
 
+/**
+ * Original name: Gzip_bufferp?
+ */
 extern u8 D_80124610[];
 
 extern u8 D_80205000[];

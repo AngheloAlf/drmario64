@@ -9,7 +9,7 @@
 #include "unk.h"
 
 
-// void func_80029C50();
+// void mainproc();
 
 void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount);
 OSMesgQueue *func_8002A0CC(struct_800EB670 *arg0, UNK_PTR arg1);
