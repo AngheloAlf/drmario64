@@ -7,8 +7,8 @@
 
 extern OSMesg B_8001F8C0[];
 
-void func_800004F0(void *arg0) {
-    func_80000620(SEGMENT_ROM_START(dma_table), gDmaTable, SEGMENT_ROM_SIZE(dma_table));
+void LoadMainSegment(void *arg0) {
+    DmaDataRomToRam(SEGMENT_ROM_START(dma_table), gDmaTable, SEGMENT_ROM_SIZE(dma_table));
     DecompressRomToRam(SEGMENT_ROM_START(main_segment), gDmaTable[0].vram, SEGMENT_ROM_SIZE(main_segment));
 
     bzero(gDmaTable[0].bssStart, gDmaTable[0].bssEnd - gDmaTable[0].bssStart);
@@ -17,7 +17,7 @@ void func_800004F0(void *arg0) {
 
 void func_80000580(void *arg0) {
     osCreatePiManager(150, &B_80029C08, B_8001F8C0, 50);
-    osCreateThread(&B_80011010, 3, func_800004F0, arg0, STACK_TOP(B_800131C0), 10);
+    osCreateThread(&B_80011010, 3, LoadMainSegment, arg0, STACK_TOP(B_800131C0), 10);
     osStartThread(&B_80011010);
 
     while (1) {

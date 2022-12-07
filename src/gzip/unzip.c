@@ -1,14 +1,8 @@
-#include "ultra64.h"
+#include "gzip.h"
 #include "include_asm.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
 #include "macros_defines.h"
-#include "libc/stdbool.h"
-
-/**
- * Original name: ofd
- */
-extern struct_8001D7F8 B_8001D7F8;
+#include "alignment.h"
+#include "boot_functions.h"
 
 /**
  * Original name: expand_gzip
@@ -23,7 +17,10 @@ size_t expand_gzip(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
     return B_8001D7F8.unk_4;
 }
 
-size_t func_80001FD8(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
+/**
+ * Original name: auRomDataRead
+ */
+size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     size_t alignedSize;
 
     if (blockSize > arg0->segmentSize) {
@@ -32,7 +29,7 @@ size_t func_80001FD8(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
 
     alignedSize = ALIGN8(blockSize);
     if (alignedSize > 0) {
-        func_80000620(arg0->segmentRom, arg1, alignedSize);
+        DmaDataRomToRam(arg0->segmentRom, arg1, alignedSize);
     }
 
     arg0->segmentSize -= alignedSize;
@@ -57,13 +54,6 @@ size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
     return arg2;
 }
 
-extern u32 B_8001D640;
-extern u32 B_8001F998;
-extern u32 B_8001F9A8;
-extern u32 B_80029BE0;
-extern u32 B_8001F98C; // maybe volatile?
-extern u8 B_8001B640[0x2000];
-
 /**
  * Original name: unzip
  */
@@ -73,8 +63,8 @@ s32 unzip(void) {
     s32 temp_v0;
     s32 i;
 
-    func_80002148(NULL, 0);
-    temp_v0 = func_80001EB4();
+    updcrc(NULL, 0);
+    temp_v0 = inflate();
 
     if (temp_v0 == 3) {
         return -1;
@@ -84,66 +74,69 @@ s32 unzip(void) {
     }
 
     for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-        if (B_80029BE0 < B_8001F98C) {
-            sp10[i] = B_8001B640[B_80029BE0++];
+        if (inptr < insize) {
+            sp10[i] = inbuf[inptr++];
         } else {
-            sp10[i] = func_800021CC(0);
+            sp10[i] = fill_inbuf(0);
         }
     }
     return 0;
 }
 
-u32 func_80002148(u8 *arg0, size_t arg1) {
+/**
+ * Original name: updcrc
+ */
+u32 updcrc(u8 *arg0, size_t arg1) {
     u32 var_a2 = -1;
 
     if (arg0 != NULL) {
-        var_a2 = D_8000E738;
+        var_a2 = crc_132;
         while (arg1 > 0) {
-            var_a2 = D_8000E338[(var_a2 ^ *arg0) & 0xFF] ^ (var_a2 >> 8);
+            var_a2 = crc_32_tab[(var_a2 ^ *arg0) & 0xFF] ^ (var_a2 >> 8);
             arg0 += 1;
             arg1 -= 1;
         }
     }
 
-    D_8000E738 = var_a2;
+    crc_132 = var_a2;
     return ~var_a2;
 }
-
-extern s32 B_8001FAFC;
-extern s32 B_8001FB00;
 
 /**
  * Original names: clear_bufs
  */
 void clear_bufs(void) {
     B_8001F990 = 0;
-    B_80029BE0 = 0;
-    B_8001F98C = 0;
+    inptr = 0;
+    insize = 0;
     B_8001FB00 = 0;
     B_8001FAFC = 0;
 }
 
 #ifdef NON_MATCHING
-s32 func_800021CC(s32 arg0) {
+/**
+ * Original name: fill_inbuf
+ */
+s32 fill_inbuf(s32 arg0) {
     u32 temp_v0;
 
-    for (B_8001F98C = 0; B_8001F98C < ARRAY_COUNT(B_8001B640); B_8001F98C += temp_v0) {
-        temp_v0 = func_80001FD8(&B_80029C00, &B_8001B640[B_8001F98C], ARRAY_COUNT(B_8001B640) - B_8001F98C);
+    for (insize = 0; insize < ARRAY_COUNT(inbuf); insize += temp_v0) {
+        temp_v0 = auRomDataRead(&B_80029C00, &inbuf[insize], ARRAY_COUNT(inbuf) - insize);
         if (temp_v0 + 1 <= 1) {
             break;
         }
     }
 
-    if ((B_8001F98C != 0) || (arg0 == 0)) {
-        B_8001FAFC += B_8001F98C;
-        B_80029BE0 = 1;
-        return B_8001B640[0];
+    if ((insize != 0) || (arg0 == 0)) {
+        B_8001FAFC += insize;
+        inptr = 1;
+        return inbuf[0];
     }
 
     return -1;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/boot/2B90", func_800021CC);
+INCLUDE_ASM("asm/nonmatchings/gzip/unzip", fill_inbuf);
 #endif
 
 void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
@@ -159,9 +152,12 @@ void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
     }
 }
 
-void func_80002300(void) {
+/**
+ * Original name: flush_window
+ */
+void flush_window(void) {
     if (B_8001F990 != 0) {
-        func_80002148(B_80021BE0, B_8001F990);
+        updcrc(B_80021BE0, B_8001F990);
         func_800022A8(&B_8001D7F8, B_80021BE0, B_8001F990);
         B_8001FB00 += B_8001F990;
         B_8001F990 = 0;

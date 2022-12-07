@@ -20,10 +20,6 @@ extern s8 D_8000E1A0;
 // extern UNK_TYPE D_8000E2F4;
 // extern UNK_TYPE D_8000E318;
 // extern UNK_TYPE D_8000E31C;
-// extern UNK_TYPE D_8000E320;
-// extern UNK_TYPE D_8000E324;
-extern s32 D_8000E338[];
-extern u32 D_8000E738;
 
 // bss
 
@@ -33,7 +29,7 @@ extern OSThread B_80011010;
 extern STACK(B_800131C0, 0x2000);
 extern OSMesgQueue B_800151C0;
 extern OSMesg B_800151D8[1];
-// extern UNK_TYPE B_800151E0;
+// extern UNK_TYPE gzip_mem_buff;
 // extern UNK_TYPE B_800191E0;
 // extern UNK_TYPE B_8001A390;
 // extern UNK_TYPE B_8001A3A8;
@@ -51,14 +47,10 @@ extern OSMesg B_800151D8[1];
 // extern UNK_TYPE B_8001A3FC;
 
 // extern UNK_TYPE B_8001A410;
-// extern UNK_TYPE B_8001B640;
+// extern UNK_TYPE inbuf;
 
 extern STACK(sBootThreadStack, BOOT_STACK_SIZE);
 
-extern u8 B_80021BE0[0x8000];
-extern size_t B_8001F990;
-
-extern struct_80029C04 B_80029C00; /* Original name ifd */
 extern OSMesgQueue B_80029C08;
 
 

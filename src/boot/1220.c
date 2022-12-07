@@ -6,7 +6,7 @@
 
 s8 D_8000E1A0 = true;
 
-void *func_80000620(romoffset_t segmentRom, void *segmentVram, size_t segmentSize) {
+void *DmaDataRomToRam(romoffset_t segmentRom, void *segmentVram, size_t segmentSize) {
     size_t remainingSize;
     romoffset_t currentRom;
     uintptr_t currentVram;

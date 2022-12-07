@@ -8,22 +8,11 @@
 #include "alignment.h"
 
 
-typedef struct struct_80029C04 {
-    romoffset_t segmentRom;
-    size_t segmentSize;
-} struct_80029C04;
-
-
 typedef struct struct_800FAF98_unk_64 {
     /* 0x0 */ struct struct_800FAF98_unk_64 *unk_0;
     /* 0x4 */ OSMesgQueue *unk_4;
 } struct_800FAF98_unk_64; // size = 0x8
 
-
-typedef struct struct_8001D7F8 {
-    /* 0x0 */ u8 *unk_0; // dstAddr
-    /* 0x4 */ size_t unk_4; // uncompressedSize
-} struct_8001D7F8; // size >= 0x8
 
 typedef struct struct_800EB670_unk_66C {
     /* 0x00 */ UNK_TYPE1 unk_00[0x8];

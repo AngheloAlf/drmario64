@@ -1,9 +1,9 @@
 #include "ultra64.h"
-#include "include_asm.h"
 #include "macros_defines.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
 #include "libc/math.h"
+#include "gzip.h"
 
 /**
  * Original name: ExpandGZip

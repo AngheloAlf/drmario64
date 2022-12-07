@@ -3,8 +3,6 @@ D_11A70 = 0x11A70; // defined:true
 D_18DE0 = 0x18DE0; // defined:true ignore:true
 D_4F980 = 0x4F980; // defined:true ignore:true
 
-boot_BSS_START = 0x80010E60; // segment:entry
-
 // dma_table
 gDmaTable = 0x80029C40; // defined:true size:0x10
 
