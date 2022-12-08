@@ -7,9 +7,70 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/016F60", D_800ADB40);
+/**
+ * Original name: _modes
+ */
+const s32 D_800ADB40[] = { G_SC_ODD_INTERLACE, G_SC_EVEN_INTERLACE, G_SC_NON_INTERLACE, G_SC_NON_INTERLACE };
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", gfxSetScissor);
+/**
+ * Original name: gfxSetScissor
+ */
+void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+    struct {
+        s32 ulx;
+        s32 uly;
+        s32 lrx;
+        s32 lry;
+    } corners;
+    Gfx *gfx = *gfxP;
+    s32 temp_v1;
+    s32 temp_v1_2;
+
+    if (arg2 >= 0) {
+        if (arg2 < 0x140) {
+            corners.ulx = arg2;
+        } else {
+            corners.ulx = 0x13F;
+        }
+    } else {
+        corners.ulx = 0;
+    }
+
+    if (arg3 >= 0) {
+        if (arg3 < 0xF0) {
+            corners.uly = arg3;
+        } else {
+            corners.uly = 0xEF;
+        }
+    } else {
+        corners.uly = 0;
+    }
+
+    temp_v1 = (arg2 + arg4) - 1;
+    if (temp_v1 >= 0) {
+        if (temp_v1 < 0x140) {
+            corners.lrx = temp_v1;
+        } else {
+            corners.lrx = 0x13F;
+        }
+    } else {
+        corners.lrx = 0;
+    }
+
+    temp_v1_2 = (arg3 + arg5) - 1;
+    if (temp_v1_2 >= 0) {
+        if (temp_v1_2 < 0xF0) {
+            corners.lry = temp_v1_2;
+        } else {
+            corners.lry = 0xEF;
+        }
+    } else {
+        corners.lry = 0;
+    }
+
+    gDPSetScissor(gfx++, D_800ADB40[arg1 % ARRAY_COUNTU(D_800ADB40)], corners.ulx, corners.uly, corners.lrx, corners.lry);
+    *gfxP = gfx;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80040D34);
 
