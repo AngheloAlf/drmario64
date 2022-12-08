@@ -15,13 +15,13 @@
  * Original name: _msgColorTbl
  */
 const Color_RGB8 sMessageColorTable[] = {
-    /* 0 */ { 0, 0, 0 }, // Black
-    /* 1 */ { 0, 0, 255 }, // Blue
-    /* 2 */ { 0, 200, 0 }, // Green
-    /* 3 */ { 0, 200, 200 }, // Cyan
-    /* 4 */ { 220, 50, 0 }, // Orange
-    /* 5 */ { 210, 0, 210 }, // Magenta
-    /* 6 */ { 220, 140, 0 }, // Orange 2
+    /* 0 */ { 0, 0, 0 },       // Black
+    /* 1 */ { 0, 0, 255 },     // Blue
+    /* 2 */ { 0, 200, 0 },     // Green
+    /* 3 */ { 0, 200, 200 },   // Cyan
+    /* 4 */ { 220, 50, 0 },    // Orange
+    /* 5 */ { 210, 0, 210 },   // Magenta
+    /* 6 */ { 220, 140, 0 },   // Orange 2
     /* 7 */ { 255, 255, 255 }, // White
 };
 
@@ -159,10 +159,10 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
     Gfx *gfx;
     s32 sp2C;
     s32 sp34;
-    //Gfx *temp_a2;
-    //Gfx *temp_a2_2;
-    //Gfx *temp_v1;
-    //Gfx *temp_v1_4;
+    // Gfx *temp_a2;
+    // Gfx *temp_a2_2;
+    // Gfx *temp_v1;
+    // Gfx *temp_v1_4;
     f32 var_f20;
     s32 temp_a0;
     s32 temp_a0_2;
@@ -170,7 +170,7 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
     s32 temp_a0_6;
     s32 temp_s4;
     s32 temp_s5;
-    s32 messageWidth;// temp_s6;
+    s32 messageWidth; // temp_s6;
     s32 temp_v0;
     s32 temp_v1_2;
     s32 temp_v1_3;
@@ -208,18 +208,19 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
         var_fp += 1;
         var_f20 = (1.0 - messageWnd->unk_58) * messageWnd->unk_48;
     }
-    //temp_a0_2 = var_s7 * 3;
-    //temp_a2 = gfx;
-    //gfx = temp_a2 + 8;
-    //temp_a2->words.w0 = 0xFA000000;
-    //temp_a2->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_a0_2) << 0x10) | (*(&sMessageColorTable->unk_2 + temp_a0_2) << 8) | (u8)messageWnd->unk_74;
+    // temp_a0_2 = var_s7 * 3;
+    // temp_a2 = gfx;
+    // gfx = temp_a2 + 8;
+    // temp_a2->words.w0 = 0xFA000000;
+    // temp_a2->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_a0_2) << 0x10) | (*(&sMessageColorTable->unk_2 +
+    // temp_a0_2) << 8) | (u8)messageWnd->unk_74;
     gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g, sMessageColorTable[var_s7].b, messageWnd->unk_74);
 
     if ((messageWnd->unk_30 == 0xC) || (messageWnd->unk_34 != 0xC) || (var_f20 != 0.0f)) {
-        //temp_v1 = gfx;
-        //gfx = temp_v1 + 8;
-        //temp_v1->words.w0 = 0xE3001201;
-        //temp_v1->words.w1 = 0x2000;
+        // temp_v1 = gfx;
+        // gfx = temp_v1 + 8;
+        // temp_v1->words.w0 = 0xE3001201;
+        // temp_v1->words.w1 = 0x2000;
         gDPSetTextureFilter(gfx++, G_TF_BILERP);
     }
 
@@ -229,7 +230,7 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
         }
 
         if (messageWnd->unk_0C[var_s0] == '~') {
-            switch (messageWnd->unk_0C[var_s0+1]) {
+            switch (messageWnd->unk_0C[var_s0 + 1]) {
                 case 'w':
                     break;
 
@@ -249,12 +250,13 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
                     break;
 
                 default:
-                    var_s7 = messageWnd->unk_0C[var_s0+1] - '0';
-                    //temp_a0_5 = var_s7 * 3;
-                    //temp_a2_2 = gfx;
-                    //gfx = temp_a2_2 + 8;
-                    //temp_a2_2->words.w0 = 0xFA000000;
-                    //temp_a2_2->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_a0_5) << 0x10) | (*(&sMessageColorTable->unk_2 + temp_a0_5) << 8) | (u8)messageWnd->unk_74;
+                    var_s7 = messageWnd->unk_0C[var_s0 + 1] - '0';
+                    // temp_a0_5 = var_s7 * 3;
+                    // temp_a2_2 = gfx;
+                    // gfx = temp_a2_2 + 8;
+                    // temp_a2_2->words.w0 = 0xFA000000;
+                    // temp_a2_2->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_a0_5) << 0x10) |
+                    // (*(&sMessageColorTable->unk_2 + temp_a0_5) << 8) | (u8)messageWnd->unk_74;
                     gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g, sMessageColorTable[var_s7].b, messageWnd->unk_74);
                     break;
             }
@@ -262,11 +264,11 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
             var_s0 += fontStr_nextChar(&messageWnd->unk_0C[var_s0]);
         } else {
             temp_s4 = fontStr_nextChar(&messageWnd->unk_0C[var_s0]);
-            temp_s5 = (s32) (((f32) fontStr_charSize(&messageWnd->unk_0C[var_s0], messageWnd->unk_20) * ((f32) temp_a0 / 12.0f)) + (f32) sp2C);
+            temp_s5 = (s32)(((f32)fontStr_charSize(&messageWnd->unk_0C[var_s0], messageWnd->unk_20) * ((f32)temp_a0 / 12.0f)) + (f32)sp2C);
             if (messageWnd->unk_24 != 0) {
-                #if 1
-                var_a2 = (s32) (messageWidth - ((u32*)((var_s3 * 0x10) + messageWnd->unk_04))[0x8/4]) >> 1;
-                #endif
+#if 1
+                var_a2 = (s32)(messageWidth - ((u32 *)((var_s3 * 0x10) + messageWnd->unk_04))[0x8 / 4]) >> 1;
+#endif
             } else {
                 var_a2 = 0;
             }
@@ -276,12 +278,16 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
                     if (messageWidth >= (var_s2 + temp_s5)) {
                         switch (messageWnd->unk_20) {
                             case 0:
-                                func_8005C4BC(&gfx, (f32) (messageWnd->unk_28 + var_s2 + var_a2), (f32) (s32) ((f32) (messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32) sp34, (f32) messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
+                                func_8005C4BC(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
+                                              (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)sp34,
+                                              (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
                                 break;
 
                             case 1:
                                 if (messageWnd->unk_20 == temp_s4) {
-                                    func_8005C90C(&gfx, (f32) (messageWnd->unk_28 + var_s2 + var_a2), (f32) (s32) ((f32) (messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32) sp34, (f32) messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
+                                    func_8005C90C(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
+                                                  (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)sp34,
+                                                  (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
                                 }
                                 break;
                         }
@@ -295,10 +301,14 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
                     if (messageWidth >= (var_s2 + temp_s5)) {
                         switch (messageWnd->unk_20) {
                             case 0:
-                                fontXX_draw(&gfx, (f32) (messageWnd->unk_28 + var_s2 + var_a2), (f32) (s32) ((f32) (messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32) messageWnd->unk_30, (f32) messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
+                                fontXX_draw(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
+                                            (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)messageWnd->unk_30,
+                                            (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
                                 break;
                             case 1:
-                                fontXX_draw2(&gfx, (f32) (messageWnd->unk_28 + var_s2 + var_a2), (f32) (s32) ((f32) (messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32) messageWnd->unk_30, (f32) messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
+                                fontXX_draw2(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
+                                             (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)messageWnd->unk_30,
+                                             (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
                                 break;
 
                             default:
@@ -322,29 +332,33 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
     } while (var_s3 < var_fp);
 
     if ((messageWnd->unk_6C != false) && (messageWnd->unk_58 == 0.0)) {
-        temp_a0_6 = (s32) (((f32) sins((messageWnd->unk_7C << 0xA) & 0xFC00) * 0.001953125f) + 191.0f) * messageWnd->unk_74;
-        //temp_v1_2 = var_s7 * 3;
-        //gfx->words.w0 = 0xFA000000;
-        //gfx->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_v1_2) << 0x10) | (*(&sMessageColorTable->unk_2 + temp_v1_2) << 8) | ((temp_a0_6 >> 8) & 0xFF);
-        //gfx += 8;
+        temp_a0_6 = (s32)(((f32)sins((messageWnd->unk_7C << 0xA) & 0xFC00) * 0.001953125f) + 191.0f) * messageWnd->unk_74;
+        // temp_v1_2 = var_s7 * 3;
+        // gfx->words.w0 = 0xFA000000;
+        // gfx->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_v1_2) << 0x10) | (*(&sMessageColorTable->unk_2 +
+        // temp_v1_2) << 8) | ((temp_a0_6 >> 8) & 0xFF); gfx += 8;
         gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g, sMessageColorTable[var_s7].b, temp_a0_6 >> 8);
 
         switch (messageWnd->unk_20) {
             case 0x0:
-                fontXX_draw(&gfx, (f32) (messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)), (f32) (s32) ((f32) (messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32) messageWnd->unk_30, (f32) messageWnd->unk_34, D_800B1A54);
+                fontXX_draw(&gfx, (f32)(messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)),
+                            (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)messageWnd->unk_30, (f32)messageWnd->unk_34,
+                            D_800B1A54);
                 break;
             case 0x1:
-                fontXX_draw2(&gfx, (f32) (messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)), (f32) (s32) ((f32) (messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32) messageWnd->unk_30, (f32) messageWnd->unk_34, D_800B1A54);
+                fontXX_draw2(&gfx, (f32)(messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)),
+                             (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)messageWnd->unk_30, (f32)messageWnd->unk_34,
+                             D_800B1A54);
                 break;
 
             default:
                 break;
         }
     }
-    //gfx->words.w0 = 0xED000000;
-    //gfx->words.w1 = 0x4F0000 | 0xC3BC;
-    //temp_v1_4 = gfx + 8;
-    //gfx = temp_v1_4;
+    // gfx->words.w0 = 0xED000000;
+    // gfx->words.w1 = 0x4F0000 | 0xC3BC;
+    // temp_v1_4 = gfx + 8;
+    // gfx = temp_v1_4;
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
     messageWnd->unk_7C += 1;
     *gfxP = gfx;
