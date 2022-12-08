@@ -17,21 +17,8 @@
 #include "buffers.h"
 
 const u8 RO_800ACA10[] = {
-    SND_INDEX_94 - 3,
-    SND_INDEX_84 - 3,
-    SND_INDEX_38 - 3,
-    SND_INDEX_43 - 3,
-    SND_INDEX_48 - 3,
-    SND_INDEX_18 - 3,
-    SND_INDEX_28 - 3,
-    SND_INDEX_23 - 3,
-    SND_INDEX_3 - 3,
-    SND_INDEX_8 - 3,
-    SND_INDEX_13 - 3,
-    SND_INDEX_33 - 3,
-    SND_INDEX_53 - 3,
-    SND_INDEX_89 - 3,
-    SND_INDEX_99 - 3,
+    SND_INDEX_94 - 3, SND_INDEX_84 - 3, SND_INDEX_38 - 3, SND_INDEX_43 - 3, SND_INDEX_48 - 3, SND_INDEX_18 - 3, SND_INDEX_28 - 3, SND_INDEX_23 - 3,
+    SND_INDEX_3 - 3,  SND_INDEX_8 - 3,  SND_INDEX_13 - 3, SND_INDEX_33 - 3, SND_INDEX_53 - 3, SND_INDEX_89 - 3, SND_INDEX_99 - 3,
 };
 
 const s32 RO_800ACA20[] = {
@@ -218,7 +205,7 @@ void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
  * Patches the following statements in `alEnvmixerPull`:
  * e->pan    = param->pan;
  * e->pan = (s16) e->ctrlList->data.i;
- * 
+ *
  * Original name: dm_audio_set_stereo
  */
 void dm_audio_set_stereo(bool setStereo) {
