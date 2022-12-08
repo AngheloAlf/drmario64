@@ -1,3 +1,7 @@
+/**
+ * Original filename: sound.c
+ */
+
 #include "audio/audio_stuff.h"
 
 #include "include_asm.h"

@@ -400,11 +400,11 @@ enum_main_no main_techmes(struct_800EB670 *arg0) {
 
     dm_game_init_static();
     heapTop = init_menu_bg(heapTop, false);
-    msgWnd_init2(&temp_s2->unk_91C, &heapTop, 0x1000, 0x12, 0x10, 0x34, 0x22);
-    msgWnd_addStr(&temp_s2->unk_91C, EndingLastMessage);
+    msgWnd_init2(&temp_s2->messageWnd, &heapTop, 0x1000, 0x12, 0x10, 0x34, 0x22);
+    msgWnd_addStr(&temp_s2->messageWnd, EndingLastMessage);
     temp_s1 = evs_seqence;
-    temp_s2->unk_91C.unk_20 = 1;
-    temp_s2->unk_91C.unk_24 = 1;
+    temp_s2->messageWnd.unk_20 = 1;
+    temp_s2->messageWnd.unk_24 = 1;
     evs_seqence = 0;
     func_8006D91C(false);
     evs_seqence = temp_s1;
@@ -429,10 +429,10 @@ enum_main_no main_techmes(struct_800EB670 *arg0) {
                 break;
 
             case 0x1:
-                if (func_8005E0B4(&temp_s2->unk_91C) != 0) {
+                if (msgWnd_isEnd(&temp_s2->messageWnd)) {
                     temp_s2->unk_9AC++;
                 } else {
-                    func_8005D428(&temp_s2->unk_91C);
+                    msgWnd_update(&temp_s2->messageWnd);
                 }
                 break;
 

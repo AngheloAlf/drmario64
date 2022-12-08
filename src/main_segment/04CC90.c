@@ -58,7 +58,7 @@ void func_8007744C(void) {
 }
 
 void func_8007746C(void) {
-    func_8005D09C(&B_800E59F0);
+    msgWnd_clear(&B_800E59F0);
     D_800AAD1C = 0;
     D_800AAD24 = 0;
     D_800AAD08 = 0;
@@ -67,7 +67,7 @@ void func_8007746C(void) {
 }
 
 UNK_TYPE func_800774C4(void) {
-    UNK_TYPE temp_v0 = func_8005E0B4(&B_800E59F0);
+    UNK_TYPE temp_v0 = msgWnd_isEnd(&B_800E59F0);
 
     if (temp_v0 != 0) {
         func_8007746C();
@@ -460,7 +460,7 @@ extern s32 B_800E5A24;
 extern s32 B_800E5A2C;
 extern s32 B_800E5A38;
 extern f32 B_800E5A44;
-extern struct_800E5A70 B_800E5A70;
+extern MessageWnd B_800E5A70;
 extern s32 B_800E5A90;
 extern s32 B_800E5A94;
 extern s32 B_800E5AA0;
@@ -542,8 +542,8 @@ s32 main_story(struct_800EB670 *arg0) {
 
     while (B_800E5EFC != 0) {
         osRecvMesg(&sp20, NULL, 1);
-        func_8005D428(&B_800E59F0);
-        func_8005D428(&B_800E5A70);
+        msgWnd_update(&B_800E59F0);
+        msgWnd_update(&B_800E5A70);
         if ((D_800AAD28 == 0) && (D_800AAD10 >= 0x5A)) {
             B_800E5EFC = 0;
         }

@@ -191,40 +191,40 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
     OSMesg sp30[8];
     struct_800FAF98_unk_64 sp50;
     UNK_PTR sp58;
-    struct_800E5A70 *temp_s0 = ALIGN_PTR(Heap_bufferp);
+    MessageWnd *messageWnd = ALIGN_PTR(Heap_bufferp);
     bool var_s1 = true;
 
-    sp58 = &temp_s0[1];
-    bzero(temp_s0, sizeof(struct_800E5A70));
+    sp58 = &messageWnd[1];
+    bzero(messageWnd, sizeof(MessageWnd));
     osCreateMesgQueue(&sp18, sp30, ARRAY_COUNT(sp30));
     func_8002A184(arg0, &sp50, &sp18);
 
     switch (main_no) {
         case MAIN_NO_8:
-            msgWnd_init(temp_s0, &sp58, 0x40, 5, 0x40, 0x60);
-            msgWnd_addStr(temp_s0, _mesBootContErr);
+            msgWnd_init(messageWnd, &sp58, 0x40, 5, 0x40, 0x60);
+            msgWnd_addStr(messageWnd, _mesBootContErr);
             break;
 
         case MAIN_NO_9:
-            msgWnd_init(temp_s0, &sp58, 0x40, 5, 0x40, 0x72);
-            msgWnd_addStr(temp_s0, D_800B32A8);
+            msgWnd_init(messageWnd, &sp58, 0x40, 5, 0x40, 0x72);
+            msgWnd_addStr(messageWnd, D_800B32A8);
             break;
 
         case MAIN_NO_10:
-            msgWnd_init(temp_s0, &sp58, 0x40, 5, 0x28, 0x6C);
-            msgWnd_addStr(temp_s0, _mesBootCSumErr);
+            msgWnd_init(messageWnd, &sp58, 0x40, 5, 0x28, 0x6C);
+            msgWnd_addStr(messageWnd, _mesBootCSumErr);
             break;
 
         default:
             break;
     }
 
-    msgWnd_skip(temp_s0);
+    msgWnd_skip(messageWnd);
 
     while (var_s1) {
         joyProcCore();
         osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
-        func_8005D428(temp_s0);
+        msgWnd_update(messageWnd);
         if ((main_no == MAIN_NO_10) && (gControllerPressedButtons[B_800EBD16[0]] & A_BUTTON)) {
             var_s1 = false;
             dm_snd_play(SND_INDEX_70);

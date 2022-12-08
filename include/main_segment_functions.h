@@ -589,21 +589,6 @@ bool func_8005BB24(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5)
 // void func_8005C90C();
 // void func_8005C998();
 
-bool func_8005CF20(s32 arg0, u32 buttonMask);
-void msgWnd_init(struct_800E5A70 *arg0, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5); /* Original name: msgWnd_init */
-void msgWnd_init2(struct_800E5A70 *arg0, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6); /* Original name: msgWnd_init2 */
-void func_8005D09C(struct_800E5A70 *arg0);
-// void func_8005D0EC();
-void msgWnd_addStr(struct_800E5A70 *arg0, const char *arg1);
-// void func_8005D3F8();
-void func_8005D428(struct_800E5A70 *arg0);
-void msgWnd_draw(struct_8005D78C_arg0 *, Gfx **); /* Original name: msgWnd_draw */
-UNK_TYPE func_8005E0B4(struct_800E5A70 *);
-void msgWnd_skip(struct_800E5A70 *arg0); /* Original name: msgWnd_skip */
-// void func_8005E0D0();
-// void func_8005E0D8();
-// void func_8005E0EC();
-// void func_8005E104();
 // void func_8005E120();
 // void func_8005E154();
 // void func_8005E174();

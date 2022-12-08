@@ -542,7 +542,7 @@ extern void **B_800E59E0;
 extern void *B_800E59E4;
 extern void **B_800E59E8;
 extern void *B_800E59EC;
-extern struct_800E5A70 B_800E59F0;
+extern MessageWnd B_800E59F0;
 // extern UNK_TYPE B_800E5A70;
 // extern UNK_TYPE B_800E5A8C;
 // extern UNK_TYPE B_800E5A90;
