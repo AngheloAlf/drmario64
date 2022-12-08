@@ -250,7 +250,7 @@ void func_80040AE4(void);
 void func_80040B10(void (*callback)(s32), s32 arg);
 s32 func_80040BA4(void);
 
-// void func_80040BB0();
+void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
 // void func_80040D34();
 void FillRectRGBA(Gfx **gfxP, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
 // void func_80040F34();
@@ -572,21 +572,21 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP);
 enum_main_no main_menu(struct_800EB670 * arg0);
 void graphic_menu(void);
 
-s32 func_8005B7F0(const char *arg0);
+s32 fontStr_nextChar(const char *arg0);
 s32 func_8005B858(const char *arg0);
-// void func_8005B898();
+s32 fontStr_charSize(char *arg0, s32 arg1);
 u16 func_8005B8D8(u8 arg0);
 // void func_8005B8F0();
 // void func_8005B940();
-void func_8005B974(Gfx **gfxP);
-void func_8005B998(Gfx **gfxP);
-// void func_8005BAAC();
+void font16_initDL(Gfx **gfxP);
+void font16_initDL2(Gfx **gfxP);
+UNK_TYPE fontXX_draw(Gfx **gfxP, f32, f32, f32, f32, char *);
 bool func_8005BB24(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
-// void func_8005BEA0();
+UNK_TYPE fontXX_draw2(Gfx **gfxP, f32, f32, f32, f32, char *);
 // void func_8005BF18();
-// void func_8005C4BC();
+UNK_TYPE func_8005C4BC(Gfx **gfxP, f32, f32, f32, f32, char *);
 // void func_8005C548();
-// void func_8005C90C();
+UNK_TYPE func_8005C90C(Gfx **gfxP, f32, f32, f32, f32, char *);
 // void func_8005C998();
 
 // void func_8005E120();

@@ -8,7 +8,7 @@
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/031BA0", RO_800B1950);
 
-s32 func_8005B7F0(const char *arg0) {
+s32 fontStr_nextChar(const char *arg0) {
     s32 var_v1;
 
     if (arg0[0] < 0x80) {
@@ -34,13 +34,13 @@ s32 func_8005B858(const char *arg0) {
     s32 var_s0 = 0;
 
     do {
-        temp_v0 = func_8005B7F0(arg0 + var_s0);
+        temp_v0 = fontStr_nextChar(arg0 + var_s0);
         var_s0 += temp_v0;
     } while (temp_v0 != 0);
     return var_s0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005B898);
+INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", fontStr_charSize);
 
 u16 func_8005B8D8(u8 arg0) {
     return D_800A6D90[arg0];
@@ -52,14 +52,14 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005B940);
 
 extern Gfx RO_800B1950[];
 
-void func_8005B974(Gfx **gfxP) {
+void font16_initDL(Gfx **gfxP) {
     gSPDisplayList((*gfxP)++, RO_800B1950);
 }
 
-void func_8005B998(Gfx **gfxP) {
+void font16_initDL2(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
-    func_8005B974(&gfx);
+    font16_initDL(&gfx);
 
     gDPSetEnvColor(gfx++, 250, 250, 250, 255);
     gDPLoadMultiTile_4b(gfx++, D_800A3A88, 0x019A, 1, G_IM_FMT_I, 12, 0, 0, 0, 11, 11, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
@@ -68,7 +68,7 @@ void func_8005B998(Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005BAAC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", fontXX_draw);
 
 #if 0
 bool func_8005BB24(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
@@ -194,7 +194,7 @@ bool func_8005BB24(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5)
 INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005BB24);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005BEA0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", fontXX_draw2);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005BF18);
 

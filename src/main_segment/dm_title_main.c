@@ -249,7 +249,7 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
  * Original name: graphic_boot_error
  */
 void graphic_boot_error(void) {
-    struct_8005D78C_arg0 *ptr;
+    MessageWnd *ptr;
 
     gGfxHead = gGfxGlist[B_800FAD2C];
     ptr = ALIGN_PTR(&Heap_bufferp);

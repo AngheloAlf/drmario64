@@ -9,7 +9,7 @@
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/016F60", D_800ADB40);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80040BB0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", gfxSetScissor);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80040D34);
 
