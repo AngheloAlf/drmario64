@@ -388,8 +388,8 @@ s32 dm_seq_set_volume(s32 arg0) {
 /**
  * Original name: _dm_seq_set_volume
  */
-s32 _dm_seq_set_volume(s32 arg0, s32 arg1) {
-    return func_8002D58C(arg0, arg1);
+s32 _dm_seq_set_volume(s32 arg0, s32 volume) {
+    return func_8002D58C(arg0, volume);
 }
 
 bool func_8002B178(void) {
