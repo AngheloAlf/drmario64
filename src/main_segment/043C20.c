@@ -402,13 +402,13 @@ enum_main_no main_techmes(struct_800EB670 *arg0) {
     heapTop = init_menu_bg(heapTop, false);
     msgWnd_init2(&temp_s2->unk_91C, &heapTop, 0x1000, 0x12, 0x10, 0x34, 0x22);
     msgWnd_addStr(&temp_s2->unk_91C, EndingLastMessage);
-    temp_s1 = D_80088401;
+    temp_s1 = evs_seqence;
     temp_s2->unk_91C.unk_20 = 1;
     temp_s2->unk_91C.unk_24 = 1;
-    D_80088401 = 0;
+    evs_seqence = 0;
     func_8006D91C(false);
-    D_80088401 = temp_s1;
-    func_8002B078(0x17);
+    evs_seqence = temp_s1;
+    dm_seq_play_in_game(0x17);
 
     while (var_s3) {
         osRecvMesg(&sp20, NULL, 1);

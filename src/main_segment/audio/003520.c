@@ -114,10 +114,16 @@ s32 func_8002D51C(s32 index) {
     return MusHandleAsk(gAudio_800FAF98->unk_14[index].unk_8);
 }
 
+/**
+ * _gc_songFadeSong / _gc_songStop
+ */
 s32 func_8002D554(s32 index, s32 speed) {
     return MusHandleStop(gAudio_800FAF98->unk_14[index].unk_8, speed);
 }
 
+/**
+ * _gc_songFadeSong
+ */
 s32 func_8002D58C(s32 index, s32 volume) {
     return MusHandleSetVolume(gAudio_800FAF98->unk_14[index].unk_8, volume);
 }

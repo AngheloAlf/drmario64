@@ -342,7 +342,7 @@ s32 demo_title(Gfx **gfxP, s32 arg1) {
     if ((D_800AAD18 > 0) && (gControllerPressedButtons[B_800EBD16[0]] & ALL_BUTTONS)) {
         if (temp_s2 != 0) {
             if (B_800E59DC == 0) {
-                dm_snd_play(0x67);
+                dm_snd_play(SND_INDEX_103);
                 B_800E59DC = 1;
             }
         } else {
@@ -538,7 +538,7 @@ s32 main_story(struct_800EB670 *arg0) {
     B_800E5AC4 = 0.25f;
     func_8007A9DC();
     joyProcCore();
-    func_8002AFC4(D_800AAE00[story_proc_no]);
+    dm_seq_play(D_800AAE00[story_proc_no]);
 
     while (B_800E5EFC != 0) {
         osRecvMesg(&sp20, NULL, 1);

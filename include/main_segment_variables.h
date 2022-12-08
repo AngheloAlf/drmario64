@@ -29,12 +29,12 @@ extern Gfx D_80088308[];
 extern Gfx D_80088328[];
 
 // extern UNK_TYPE D_80088400;
-extern u8 D_80088401; // maybe part of a struct?
+extern u8 evs_seqence; // maybe part of a struct?
 extern u8 D_80088402; // maybe part of a struct?
 extern u8 D_80088403; // maybe part of a struct?
 // extern UNK_TYPE D_80088404;
 // extern UNK_TYPE D_80088405;
-extern u8 D_80088406;
+extern u8 evs_gamespeed; /* Original name: evs_gamespeed */
 // extern UNK_TYPE D_80088407;
 // extern UNK_TYPE D_80088408;
 // extern UNK_TYPE D_80088409;

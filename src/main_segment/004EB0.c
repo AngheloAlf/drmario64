@@ -277,7 +277,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", EepRom_WriteAll);
 void func_80038BD0(UNK_TYPE arg0 UNUSED) {
 }
 
-void func_80038BD8(void) {
+/**
+ * Original name: EepRom_DumpDataSize
+ */
+void EepRom_DumpDataSize(void) {
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/004EB0", func_80038BE0);

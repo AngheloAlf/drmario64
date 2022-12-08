@@ -17,7 +17,7 @@
  * Original name: mainproc
  */
 void mainproc(void) {
-    func_80038BD8();
+    EepRom_DumpDataSize();
 
     switch (osTvType) {
         case OS_TV_NTSC:
@@ -41,9 +41,9 @@ void mainproc(void) {
             break;
     }
 
-    func_8002AD38(&B_800EB670);
-    func_8002B490(&D_80205000);
-    func_8002B7A8(&B_800EB670);
+    dm_audio_init_driver(&B_800EB670);
+    gfxInit(D_80205000);
+    gfxCreateGraphicThread(&B_800EB670);
     osViSetSpecialFeatures(OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_DITHER_OFF | OS_VI_GAMMA_OFF);
     joyInit(MAXCONTROLLERS);
     evs_playmax = joyResponseCheck();

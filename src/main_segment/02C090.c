@@ -122,11 +122,11 @@ void func_800592D4(struct_800F3E5C_unk_02678 *arg0) {
     struct_800F3E5C_unk_02678_unk_590 *temp_s0 = &arg0->unk_590[arg0->unk_0014];
     u16 pressedButton = func_80059E1C(arg0->unk_0000, 0);
     s32 direction;
-    s32 var_s4;
+    SndIndex sndIndex;
 
     func_80059E3C(arg0->unk_0000, 0);
     direction = 0;
-    var_s4 = -1;
+    sndIndex = SND_INDEX_INVALID;
     if ((arg0->unk_0364 == 0.0f) && (arg0->unk_0368 < 0.0f)) {
         func_800585BC(arg0, 1, 0.0f);
     }
@@ -143,13 +143,13 @@ void func_800592D4(struct_800F3E5C_unk_02678 *arg0) {
 
         if (pressedButton & B_BUTTON) {
             func_80058838(arg0, arg0->unk_0014, -1, 1.0f);
-            var_s4 = 0x44;
+            sndIndex = SND_INDEX_68;
             func_80059E7C(arg0->unk_0000, 0);
         } else if (direction != 0) {
             arg0->unk_0010 = arg0->unk_000C;
 
             arg0->unk_000C = WrapI(0, 3, arg0->unk_000C + direction);
-            var_s4 = 0x3F;
+            sndIndex = SND_INDEX_63;
             func_800586A4(arg0, arg0->unk_0014, -1, 1.0f, -(direction * 0x140));
             arg0->unk_0018 = arg0->unk_0014;
             arg0->unk_0014 = (arg0->unk_0014 + 1) & 1;
@@ -158,8 +158,8 @@ void func_800592D4(struct_800F3E5C_unk_02678 *arg0) {
             func_800586A4(arg0, arg0->unk_0014, 1, 0.0f, direction * 0x140);
         }
 
-        if (var_s4 > -1) {
-            dm_snd_play(var_s4);
+        if (sndIndex > -1) {
+            dm_snd_play(sndIndex);
         }
     }
 }

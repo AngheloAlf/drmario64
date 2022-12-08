@@ -251,7 +251,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     joycur1 = 0x18;
     joycur2 = 6;
     gGfxHead = gGfxGlist[B_800FAD2C];
-    func_8002AFC4(0xC);
+    dm_seq_play(0xC);
 
     while ((ptr->unk_111D4 == MAIN_NO_6) || (ptr->unk_111DC < 1.0f)) {
         if (graphic_no == 0) {
@@ -296,7 +296,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     }
 
     graphic_no = 0;
-    func_8002B0E4();
+    dm_seq_stop();
 
     while ((pendingGFX != 0) || !func_8002B178() || (func_80040BA4() != 0)) {
         osRecvMesg(&ptr->unk_0000C, NULL, OS_MESG_BLOCK);

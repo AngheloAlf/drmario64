@@ -357,7 +357,8 @@ segments:
       - [0x011CF0, c, main_segment/000280]
       - [0x0123D0, c, main_segment/joy]
 
-      - [0x0128A0, c, main_segment/audio/000E30]
+      - [0x0128A0, c, main_segment/sound]
+      - [0x0132B0, c, main_segment/graphic]
       - [0x013B40, c, main_segment/graphics/0020D0]
       - [0x014F90, c, main_segment/audio/003520]
 
@@ -436,9 +437,9 @@ segments:
       - [0x094440, rodata, rsp/s2dex]
 
       - [0x094800, .rodata, main_segment/main]
-      # - [0x094830, rodata, main_segment/082DC0]
 
-      - [0x094830, .rodata, main_segment/audio/000E30]
+      - [0x094830, .rodata, main_segment/sound]
+      - [0x094B20, .rodata, main_segment/graphic]
 
       - start: 0x094B40
         name: main_segment/main1x

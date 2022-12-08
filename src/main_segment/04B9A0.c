@@ -62,14 +62,14 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
                 var_s3 = func_80074330();
                 break;
         }
-        func_8002B13C(0x60);
+        dm_seq_set_volume(0x60);
         dm_audio_update();
         if (temp_s2->unk_018 != 0) {
             temp_s2->unk_014++;
             if (temp_s2->unk_014 >= temp_s2->unk_018) {
                 temp_s2->unk_014 = 0;
                 temp_s2->unk_018 = 0;
-                func_8002B078(D_80088402 * 2);
+                dm_seq_play_in_game(D_80088402 * 2);
             }
         }
         if (temp_s2->unk_00C == 0) {

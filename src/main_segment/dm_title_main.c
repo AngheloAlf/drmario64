@@ -14,7 +14,7 @@ void func_80075F30(void) {
     title_exit_flag = 0;
     B_800E59A0 = 0;
     B_800E59A8 = -8;
-    D_80088401 = 0;
+    evs_seqence = 0;
     title_fade_count = -(main_old == MAIN_NO_6) & 0xFF;
     func_80077FA4(&Heap_bufferp, main_old != MAIN_NO_6);
 }
@@ -54,7 +54,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
                     B_800E59A0 = 7;
                 } else {
                     if (var_s1 == 0x64) {
-                        func_8002AFC4(0xB);
+                        dm_seq_play(0xB);
                     }
                     if (title_exit_flag == 1) {
                         B_800E59A0 = 6;
@@ -76,7 +76,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
         dm_audio_update();
     }
 
-    func_8002B0E4();
+    dm_seq_stop();
 
     while (!dm_audio_is_stopped() || (title_fade_count < 0xFF)) {
         osRecvMesg(&sp10, NULL, 1);
@@ -227,7 +227,7 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
         func_8005D428(temp_s0);
         if ((main_no == MAIN_NO_10) && (gControllerPressedButtons[B_800EBD16[0]] & A_BUTTON)) {
             var_s1 = false;
-            dm_snd_play(0x46);
+            dm_snd_play(SND_INDEX_70);
         }
         dm_audio_update();
         graphic_no = 7;

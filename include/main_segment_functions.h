@@ -155,7 +155,7 @@ void func_800388E0(void);
 s32 func_80038A94(void);
 s32 EepRom_WriteAll(s32 arg0, s32 arg1); /* Original name: EepRom_WriteAll */
 void func_80038BD0(UNK_TYPE arg0);
-void func_80038BD8(void);
+void EepRom_DumpDataSize(void);
 void func_80038BE0(UNK_TYPE *arg0, UNK_PTR *arg1);
 // void func_80038C38();
 // void func_80038C7C();
