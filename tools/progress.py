@@ -24,10 +24,10 @@ class ProgressStats:
 
     @staticmethod
     def printHeader():
-        print(f"{'FolderName':<20}: {'DecompedSize':>12} / {'Total':>6} {'OfFolder':>10}%  ({'OfTotal':>20}%)")
+        print(f"{'FolderName':<28}: {'DecompedSize':>12} / {'Total':>6} {'OfFolder':>10}%  ({'OfTotal':>20}%)")
 
     def print(self, folder: str, totalStats: ProgressStats):
-        print(f"{folder:<20}: {self.decompedSize:>12} / {self.total:>6} {self.decompedSize / self.total * 100:>10.4f}%  ({self.decompedSize / totalStats.total * 100:>8.4f}% / {self.total / totalStats.total * 100:>8.4f}%)")
+        print(f"{folder:<28}: {self.decompedSize:>12} / {self.total:>6} {self.decompedSize / self.total * 100:>10.4f}%  ({self.decompedSize / totalStats.total * 100:>8.4f}% / {self.total / totalStats.total * 100:>8.4f}%)")
 
 
 def getFileListFromMap(mapFile: str) -> list[get_map_functions_sizes.File]:

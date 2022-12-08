@@ -494,7 +494,7 @@ s32 main_story(struct_800EB670 *arg0) {
 
     osCreateMesgQueue(&sp20, &sp38, 8);
     func_8002A184(arg0, &sp58, &sp20);
-    graphic_no = 0;
+    graphic_no = GRAPHIC_NO_0;
     D_800AAD40 = &D_80205000;
     guPerspective(&story_viewMtx, &story_norm, 45.0f, 1.3333334f, 1.0f, 1000.0f, 1.0f);
     var_s1 = 3;
@@ -548,12 +548,12 @@ s32 main_story(struct_800EB670 *arg0) {
             B_800E5EFC = 0;
         }
         joyProcCore();
-        graphic_no = 1;
+        graphic_no = GRAPHIC_NO_1;
         dm_audio_update();
     }
 
     dm_audio_stop();
-    graphic_no = 0;
+    graphic_no = GRAPHIC_NO_0;
 
     while (true) {
         if ((pendingGFX == 0) || dm_audio_is_stopped()) {
@@ -610,7 +610,7 @@ extern s8 D_8008840A;
 extern UNK_TYPE D_800A82C0;
 extern UNK_TYPE D_E5F08;
 
-void func_8007AEF4(void) {
+void graphic_story(void) {
     UNK_TYPE var_a1;
     UNK_TYPE var_a1_2;
     UNK_TYPE var_a1_3;
@@ -811,7 +811,7 @@ block_32:
     gfxTaskStart(temp_s1, gGfxGlist[B_800FAD2C], ((s32) ((gGfxHead - gGfxGlist) - (B_800FAD2C << 0xF)) >> 3) * 8, 0, 0x40);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007AEF4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", graphic_story);
 #endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007B62C);

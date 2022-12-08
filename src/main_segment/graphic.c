@@ -17,7 +17,7 @@
 void gfxInit(UNK_PTR arg0 UNUSED) {
     B_800ED430 = 2;
     B_800E9BB6 = 4;
-    graphic_no = 0;
+    graphic_no = GRAPHIC_NO_0;
     B_800FAD2C = 0;
 }
 
@@ -60,46 +60,46 @@ void gfxproc(struct_800EB670 *arg0) {
  */
 void gfxproc_onRetrace(void) {
     switch (graphic_no) {
-        case 0:
+        case GRAPHIC_NO_0:
             break;
 
-        case 1:
+        case GRAPHIC_NO_1:
             if (pendingGFX < 2) {
-                func_8007AEF4();
+                graphic_story();
             }
             break;
 
-        case 2:
+        case GRAPHIC_NO_2:
             if (pendingGFX < 2) {
                 dm_title_graphic();
             }
             break;
 
-        case 3:
+        case GRAPHIC_NO_3:
             if (pendingGFX < 2) {
-                func_80075CF8();
+                dm_manual_graphic();
             }
             break;
 
-        case 4:
+        case GRAPHIC_NO_4:
             if (pendingGFX == 0) {
-                func_8007023C();
+                dm_game_graphic();
             }
             break;
 
-        case 5:
+        case GRAPHIC_NO_5:
             if (pendingGFX < 2) {
-                func_8005B658();
+                graphic_menu();
             }
             break;
 
-        case 6:
+        case GRAPHIC_NO_6:
             if (pendingGFX < 2) {
-                func_80071CE0();
+                graphic_techmes();
             }
             break;
 
-        case 7:
+        case GRAPHIC_NO_7:
             if (pendingGFX < 2) {
                 graphic_boot_error();
             }
@@ -112,7 +112,7 @@ void func_8002B710(void) {
 }
 
 void func_8002B728(void) {
-    if (graphic_no == 4) {
+    if (graphic_no == GRAPHIC_NO_4) {
         func_80071A44();
     }
 }

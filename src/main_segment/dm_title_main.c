@@ -39,7 +39,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
     func_80075F30();
     evs_playmax = joyResponseCheck();
     osRecvMesg(&sp10, NULL, 1);
-    graphic_no = 2;
+    graphic_no = GRAPHIC_NO_2;
 
     while (var_s0 == 0) {
         joyProcCore();
@@ -85,7 +85,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
         title_fade_count = CLAMP(title_fade_count + B_800E59A8, 0, 0xFF);
     }
 
-    graphic_no = 0;
+    graphic_no = GRAPHIC_NO_0;
     while (pendingGFX != 0) {
         osRecvMesg(&sp10, NULL, 1);
         dm_audio_update();
@@ -230,10 +230,10 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
             dm_snd_play(SND_INDEX_70);
         }
         dm_audio_update();
-        graphic_no = 7;
+        graphic_no = GRAPHIC_NO_7;
     }
 
-    graphic_no = 0;
+    graphic_no = GRAPHIC_NO_0;
     while (pendingGFX != 0) {
         osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
     }

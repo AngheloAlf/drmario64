@@ -11,7 +11,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31D8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31DC);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31E0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", func_800755F0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", dm_manual_all_init);
 
 #ifdef NON_MATCHING
 /**
@@ -29,9 +29,9 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
 
     osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
     func_8002A184(arg0, &sp48, &sp10);
-    func_800755F0();
+    dm_manual_all_init();
 
-    temp_s2 = B_800F4890;
+    temp_s2 = watchManual;
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
         aifMakeFlagSet(&game_state_data[i]);
     }
@@ -83,11 +83,11 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
                 temp_s2->unk_010 = -temp_s2->unk_010;
             }
         }
-        graphic_no = 3;
+        graphic_no = GRAPHIC_NO_3;
     }
 
     dm_audio_stop();
-    graphic_no = 0;
+    graphic_no = GRAPHIC_NO_0;
 
     while (!dm_audio_is_stopped() || (pendingGFX != 0)) {
         osRecvMesg(&sp10, NULL, 1);
@@ -106,4 +106,4 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", dm_manual_main);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", func_80075CF8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", dm_manual_graphic);

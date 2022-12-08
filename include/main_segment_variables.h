@@ -17,7 +17,7 @@ extern s8 D_80088104[0xC]; // maybe smaller?
 extern u64* D_80088110[][2];
 // extern UNK_TYPE D_80088114;
 extern s32 gCurrentFramebufferIndex; /* Original name: wb_flag*/
-extern s32 graphic_no; /* Original name: graphic_no */
+extern enum_graphic_no graphic_no; /* Original name: graphic_no */
 extern u32 pendingGFX;
 extern Vp D_80088130;
 extern s32 D_80088140;
@@ -709,7 +709,7 @@ extern u8 B_800F3E78[];
 // extern UNK_TYPE B_800F3E98;
 // extern UNK_TYPE B_800F3E9C;
 // extern UNK_TYPE B_800F3EA0;
-extern struct_800F4890 *B_800F4890;
+extern struct_800F4890 *watchManual; /* Original name: watchManual */
 // extern UNK_TYPE B_800F4894;
 extern OSMesgQueue B_800F4898;
 extern struct_800FAF98_unk_64 B_800F48B0;

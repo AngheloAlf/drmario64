@@ -254,7 +254,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     dm_seq_play(0xC);
 
     while ((ptr->unk_111D4 == MAIN_NO_6) || (ptr->unk_111DC < 1.0f)) {
-        if (graphic_no == 0) {
+        if (graphic_no == GRAPHIC_NO_0) {
             while ((pendingGFX != 0) || (func_80040BA4() != 0)) {
                 func_80059CA0(ptr);
             }
@@ -282,20 +282,20 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
             ptr->unk_111CC = ptr->unk_111D0;
             ptr->unk_111C4 = ptr->unk_111C0;
             ptr->unk_111C0 ^= 1;
-            graphic_no = 0;
+            graphic_no = GRAPHIC_NO_0;
         } else {
-            graphic_no = 5;
+            graphic_no = GRAPHIC_NO_5;
         }
     }
 
-    graphic_no = 5;
+    graphic_no = GRAPHIC_NO_5;
 
     while (ptr->unk_111F4 != 0xF) {
         osRecvMesg(&ptr->unk_0000C, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
-    graphic_no = 0;
+    graphic_no = GRAPHIC_NO_0;
     dm_seq_stop();
 
     while ((pendingGFX != 0) || !func_8002B178() || (func_80040BA4() != 0)) {
@@ -309,7 +309,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     return ptr->unk_111D4;
 }
 
-void func_8005B658(void) {
+void graphic_menu(void) {
     struct_800F3E5C *ptr = B_800F3E5C;
 
     if ((ptr->unk_111D4 != MAIN_NO_6) && (ptr->unk_111DC == 1.0f)) {

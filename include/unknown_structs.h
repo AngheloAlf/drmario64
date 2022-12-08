@@ -454,4 +454,16 @@ typedef struct struct_800F3E5C {
     /* 0x111FC */ UNK_TYPE1 unk_111FC[0x84];
 } struct_800F3E5C; // size = 0x11280
 
+typedef enum enum_graphic_no {
+    /* 0 */ GRAPHIC_NO_0, // NONE?
+    /* 1 */ GRAPHIC_NO_1,
+    /* 2 */ GRAPHIC_NO_2,
+    /* 3 */ GRAPHIC_NO_3,
+    /* 4 */ GRAPHIC_NO_4,
+    /* 5 */ GRAPHIC_NO_5,
+    /* 6 */ GRAPHIC_NO_6,
+    /* 7 */ GRAPHIC_NO_7 // ERROR?
+} enum_graphic_no;
+
+
 #endif

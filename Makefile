@@ -248,6 +248,8 @@ $(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libult
 $(BUILD_DIR)/%.ld: %.ld
 	$(CPP) $(CPPFLAGS) $< > $@
 
+$(LD_SCRIPT): $(SPLAT_YAML)
+	$(SPLAT) $(SPLAT_YAML) --modes ld
 
 $(BUILD_DIR)/%.o: %.bin
 	$(OBJCOPY) -I binary -O elf32-big $< $@
