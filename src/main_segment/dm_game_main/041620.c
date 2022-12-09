@@ -43,7 +43,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", key_control_mai
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", func_8006D620);
 
-void func_8006D7B0(void) {
+void dm_effect_make(void) {
     struct_800F3E50 *temp = watchGame;
     s32 i;
 
@@ -52,8 +52,8 @@ void func_8006D7B0(void) {
 
     for (i = 0; i < evs_playcnt; i++) {
         if (game_state_data[i].unk_020 == 1) {
-            if ((temp->unk_3C4 != 0) && (B_800FB3A4 <= 0x57E03)) {
-                B_800FB3A4++;
+            if ((temp->unk_3C4 != 0) && (evs_game_time <= 0x57E03)) {
+                evs_game_time++;
             }
             break;
         }

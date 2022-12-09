@@ -66,10 +66,10 @@ void func_8007746C(void) {
     D_800AAD0C++;
 }
 
-UNK_TYPE func_800774C4(void) {
-    UNK_TYPE temp_v0 = msgWnd_isEnd(&B_800E59F0);
+bool func_800774C4(void) {
+    bool temp_v0 = msgWnd_isEnd(&B_800E59F0);
 
-    if (temp_v0 != 0) {
+    if (temp_v0) {
         func_8007746C();
     }
     return temp_v0;
@@ -579,7 +579,7 @@ s32 main_story(struct_800EB670 *arg0) {
     if ((s8)story_proc_no >= 0xC) {
         D_80088409 = story_proc_no - 0xC;
     }
-    D_80088402 = D_80088409 % 3;
+    evs_seqnumb = D_80088409 % 3;
     return (D_80088409 / 3) * 3;
 }
 #else

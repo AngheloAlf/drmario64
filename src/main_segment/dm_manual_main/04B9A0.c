@@ -44,7 +44,7 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
         joyProcCore();
         osRecvMesg(&sp10, NULL, 1);
         func_80071FA0(&temp_s2->unk_034);
-        func_8006D7B0();
+        dm_effect_make();
 
         temp_s2->unk_184++;
         if (temp_s2->unk_010 > 0) {
@@ -52,18 +52,18 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
         }
 
         temp_s2->unk_00C = CLAMP(temp_s2->unk_00C + temp_s2->unk_010, 0, 0xFF);
-        switch (D_80088410) {
+        switch (evs_manual_no) {
             case 0x0:
-                var_s3 = func_80072AB4();
+                var_s3 = dm_manual_1_main();
                 break;
             case 0x1:
-                var_s3 = func_800733AC();
+                var_s3 = dm_manual_2_main();
                 break;
             case 0x2:
-                var_s3 = func_800739D8();
+                var_s3 = dm_manual_3_main();
                 break;
             case 0x3:
-                var_s3 = func_80074330();
+                var_s3 = dm_manual_4_main();
                 break;
         }
         dm_seq_set_volume(0x60);
@@ -73,7 +73,7 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
             if (temp_s2->unk_014 >= temp_s2->unk_018) {
                 temp_s2->unk_014 = 0;
                 temp_s2->unk_018 = 0;
-                dm_seq_play_in_game(D_80088402 * 2);
+                dm_seq_play_in_game(evs_seqnumb * 2);
             }
         }
         if (temp_s2->unk_00C == 0) {

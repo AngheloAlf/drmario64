@@ -30,7 +30,7 @@ extern Gfx D_80088328[];
 
 // extern UNK_TYPE D_80088400;
 extern u8 evs_seqence; // maybe part of a struct?
-extern u8 D_80088402; // maybe part of a struct?
+extern u8 evs_seqnumb; // maybe part of a struct?
 extern u8 evs_playcnt; // maybe part of a struct?
 // extern UNK_TYPE D_80088404;
 // extern UNK_TYPE D_80088405;
@@ -43,7 +43,7 @@ extern u8 evs_gamespeed; /* Original name: evs_gamespeed */
 // extern UNK_TYPE D_8008840D;
 extern s8 D_8008840E; // maybe part of a struct?
 extern u8 evs_level_21; /* Original name: evs_level_21 */
-extern s8 D_80088410;
+extern s8 evs_manual_no;
 // extern UNK_TYPE D_80088414;
 // extern UNK_TYPE evs_vs_count;
 // extern UNK_TYPE D_8008841C;
@@ -243,9 +243,9 @@ extern s32 D_800A6FC4;
 // extern UNK_TYPE D_800A7379;
 // extern UNK_TYPE D_800A737A;
 // extern UNK_TYPE D_800A737B;
-extern enum_main_no D_800A7390;
+extern s32 title_demo_flg;
 extern s32 title_demo_no; /* Original name: title_demo_no */
-extern s32 D_800A7398;
+extern s32 title_manual_no;
 extern s32 title_exit_flag; /* Original name: title_exit_flag */
 // extern UNK_TYPE D_800A73C0;
 // extern UNK_TYPE D_800A76C0;
@@ -521,9 +521,9 @@ extern Mtx B_800E5818;
 extern UNK_PTR heapTop; /* Original name: heapTop */
 // extern UNK_TYPE B_800E5990;
 // extern UNK_TYPE B_800E5994;
-extern s32 B_800E59A0;
+extern s32 title_mode_type;
 extern s32 title_fade_count; /* Original name: title_fade_count */
-extern s32 B_800E59A8;
+extern s32 title_fade_step;
 // extern UNK_TYPE B_800E59B0;
 // extern UNK_TYPE B_800E59B4;
 // extern UNK_TYPE B_800E59B8;
@@ -772,7 +772,7 @@ extern OSMesgQueue *B_800FAF94;
 // extern UNK_TYPE B_800FAF9C;
 extern STACK(B_800FAFA0, 0x400);
 // extern UNK_TYPE B_800FB3A0;
-extern u32 B_800FB3A4;
+extern u32 evs_game_time;
 // extern UNK_TYPE B_800FB3A8;
 // extern UNK_TYPE B_800FB3AC;
 // extern UNK_TYPE B_800FB3B0;
@@ -787,7 +787,7 @@ extern u32 B_800FB3A4;
 extern Gfx gGfxGlist[][0x1000]; /* Original name: gfx_glist */
 extern u16 joycnt[4][0x10]; /* Original name: joycnt */
 extern u64 B_801136F0[];
-extern u32 B_801236F0;
+extern u32 evs_gamemode;
 
 extern struct_80123700 game_state_data[4]; /* Original name: game_state_data */
 

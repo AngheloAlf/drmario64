@@ -165,7 +165,7 @@ void dm_game_init_static(void) {
         case 0x4:                                   /* switch 1 */
             D_80088414 = 0xDD18;
         } else {
-            switch (*B_801236F0) {                  /* switch 3; irregular */
+            switch (*evs_gamemode) {                  /* switch 3; irregular */
             case 0x0:                               /* switch 3 */
                 D_80088414 = (temp_a1 + (B_8012372C * 8))->unk_4C;
                 break;

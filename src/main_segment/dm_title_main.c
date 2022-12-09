@@ -12,8 +12,8 @@
 
 void func_80075F30(void) {
     title_exit_flag = 0;
-    B_800E59A0 = 0;
-    B_800E59A8 = -8;
+    title_mode_type = 0;
+    title_fade_step = -8;
     evs_seqence = 0;
     title_fade_count = -(main_old == MAIN_NO_6) & 0xFF;
     init_title(&Heap_bufferp, main_old != MAIN_NO_6);
@@ -45,29 +45,29 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
         joyProcCore();
         osRecvMesg(&sp10, NULL, 1);
 
-        title_fade_count = CLAMP(title_fade_count + B_800E59A8, 0, 0xFF);
+        title_fade_count = CLAMP(title_fade_count + title_fade_step, 0, 0xFF);
 
-        switch (B_800E59A0) {
+        switch (title_mode_type) {
             case 0:
                 var_s1++;
                 if (title_exit_flag == -1) {
-                    B_800E59A0 = 7;
+                    title_mode_type = 7;
                 } else {
                     if (var_s1 == 0x64) {
                         dm_seq_play(0xB);
                     }
                     if (title_exit_flag == 1) {
-                        B_800E59A0 = 6;
+                        title_mode_type = 6;
                     }
                 }
                 break;
 
             case 6:
             case 7:
-                B_800E59A8 = -B_800E59A8;
-                if (B_800E59A0 == 6) {
+                title_fade_step = -title_fade_step;
+                if (title_mode_type == 6) {
                     var_s0 = 1;
-                } else if (B_800E59A0 == 7) {
+                } else if (title_mode_type == 7) {
                     var_s0 = 2;
                 }
                 break;
@@ -82,7 +82,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
         osRecvMesg(&sp10, NULL, 1);
         dm_audio_update();
 
-        title_fade_count = CLAMP(title_fade_count + B_800E59A8, 0, 0xFF);
+        title_fade_count = CLAMP(title_fade_count + title_fade_step, 0, 0xFF);
     }
 
     graphic_no = GRAPHIC_NO_0;
@@ -101,7 +101,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
         return MAIN_NO_2;
     }
 
-    if (D_800A7390 == MAIN_NO_0) {
+    if (title_demo_flg == 0) {
         u32 temp = rand();
 
         story_proc_no = _stageTbl[temp % ARRAY_COUNT(_stageTbl)];
@@ -114,28 +114,30 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
             evs_gamesel = 6;
         }
 
-        B_801236F0 = 0;
+        evs_gamemode = 0;
 
         title_demo_no++;
         if (title_demo_no >= 3) {
             title_demo_no = 0;
         }
-        D_800A7390 ^= 1;
+        title_demo_flg ^= 1;
         return MAIN_NO_1;
     }
 
-    if (D_800A7390 == MAIN_NO_1) {
-        D_80088410 = D_800A7398;
+    if (title_demo_flg == 1) {
+        evs_manual_no = title_manual_no;
 
-        D_800A7398++;
-        if (D_800A7398 >= 4) {
-            D_800A7398 = 0;
+        title_manual_no++;
+        if (title_manual_no >= 4) {
+            title_manual_no = 0;
         }
-        D_800A7390 = MAIN_NO_0;
+        title_demo_flg = 0;
         return MAIN_NO_4;
     }
 
-    return D_800A7390;
+#ifdef AVOID_UB
+    return title_demo_flg;
+#endif
 }
 
 /**
