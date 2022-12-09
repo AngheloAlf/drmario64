@@ -310,34 +310,14 @@ segments:
 
       - [0x011A50, .rodata, libkmc/fmod]
 
-      - start: 0x011A60
-        name: boot/80010E60
-        type: bss
-        vram: 0x80010E60
-      - start: 0x011A60
-        name: libultra/pimgr
-        type: bss
-        vram: 0x800191E0
-      - start: 0x011A60
-        name: boot/8001A3B0
-        type: bss
-        vram: 0x8001A3B0
-      - start: 0x011A60
-        name: libkmc/rand
-        type: .bss
-        vram: 0x8001B630
-      - start: 0x011A60
-        name: boot/8001B640
-        type: bss
-        vram: 0x8001B640
-      - start: 0x011A60
-        name: libultra/cartrominit
-        type: bss
-        vram: 0x8001F9B0
-      - start: 0x011A60
-        name: boot/8001FA30
-        type: bss
-        vram: 0x8001FA30
+      - { start: 0x011A60, type: bss, vram: 0x80010E60, name: boot/80010E60 }
+      - { start: 0x011A60, type: bss, vram: 0x800191E0, name: libultra/pimgr }
+      - { start: 0x011A60, type: bss, vram: 0x8001A3B0, name: boot/8001A3B0 }
+      - { start: 0x011A60, type: .bss, vram: 0x8001B630, name: libkmc/rand }
+      - { start: 0x011A60, type: bss, vram: 0x8001B640, name: boot/8001B640 }
+      - { start: 0x011A60, type: bss, vram: 0x8001F9B0, name: libultra/cartrominit }
+      - { start: 0x011A60, type: bss, vram: 0x8001FA30, name: boot/8001FA30 }
+
   - name: dma_table
     type: code
     start: 0x011A60
@@ -345,6 +325,7 @@ segments:
     follows_vram: boot
     subsegments:
       - [0x011A60, .data, dma_table/dma_table]
+
   - name: main_segment # compressed
     type: code
     start: 0x011A70
@@ -448,146 +429,56 @@ segments:
       - [0x094830, .rodata, main_segment/sound]
       - [0x094B20, .rodata, main_segment/graphic]
 
-      - start: 0x094B40
-        name: main_segment/main1x
-        type: .rodata
-        partial_migration: True
-      - start: 0x094CB0
-        name: main_segment/aiset
-        type: .rodata
-        partial_migration: True
-      - start: 0x094D70
-        name: main_segment/00C960
-        type: .rodata
-        partial_migration: True
+      - { start: 0x094B40, type: .rodata, partial_migration: True, name: main_segment/main1x }
+      - { start: 0x094CB0, type: .rodata, partial_migration: True, name: main_segment/aiset }
+      - { start: 0x094D70, type: .rodata, partial_migration: True, name: main_segment/00C960 }
       - [0x094F70, .rodata, main_segment/010D50]
       - [0x094FB0, .rodata, main_segment/0131D0]
       - [0x095100, .rodata, main_segment/014590]
-      - start: 0x0955E0
-        name: main_segment/015710
-        type: .rodata
-        partial_migration: True
-      - start: 0x0957A0
-        name: main_segment/015EB0
-        type: .rodata
-        partial_migration: True
-      - start: 0x095960
-        name: main_segment/016F60
-        type: .rodata
-        partial_migration: True
+      - { start: 0x0955E0, type: .rodata, partial_migration: True, name: main_segment/015710 }
+      - { start: 0x0957A0, type: .rodata, partial_migration: True, name: main_segment/015EB0 }
+      - { start: 0x095960, type: .rodata, partial_migration: True, name: main_segment/016F60 }
 
       - [0x095A30, .rodata, main_segment/01C180]
 
       - [0x095A70, rodata, main_segment/084000]
       - [0x095AB0, rodata, main_segment/084040]
 
-      - start: 0x095B00
-        name: main_segment/01C600
-        type: .rodata
-        partial_migration: True
-      - start: 0x097480
-        name: main_segment/01DAD0
-        type: .rodata
-        partial_migration: True
+      - { start: 0x095B00, type: .rodata, partial_migration: True, name: main_segment/01C600 }
+      - { start: 0x097480, type: .rodata, partial_migration: True, name: main_segment/01DAD0 }
 
       - [0x0976B0, rodata, main_segment/085C40]
 
-      - start: 0x097990
-        name: main_segment/01FC90
-        type: .rodata
-        partial_migration: True
-      - start: 0x0979D0
-        name: main_segment/020C10
-        type: .rodata
-        partial_migration: True
-      - start: 0x097A60
-        name: main_segment/0222C0
-        type: .rodata
-        partial_migration: True
+      - { start: 0x097990, type: .rodata, partial_migration: True, name: main_segment/01FC90 }
+      - { start: 0x0979D0, type: .rodata, partial_migration: True, name: main_segment/020C10 }
+      - { start: 0x097A60, type: .rodata, partial_migration: True, name: main_segment/0222C0 }
 
-      - start: 0x097D20
-        name: main_segment/024C90
-        type: .rodata
-        partial_migration: True
+      - { start: 0x097D20, type: .rodata, partial_migration: True, name: main_segment/024C90 }
 
-      - start: 0x098E90
-        name: main_segment/02C090
-        type: .rodata
-        partial_migration: True
+      - { start: 0x098E90, type: .rodata, partial_migration: True, name: main_segment/02C090 }
 
-      - start: 0x099250
-        name: main_segment/02FD90
-        type: .rodata
-        partial_migration: True
+      - { start: 0x099250, type: .rodata, partial_migration: True, name: main_segment/02FD90 }
 
       - [0x099420, .rodata, main_segment/030AD0]
 
-      - start: 0x099770
-        name: main_segment/font
-        type: .rodata
-        partial_migration: True
-      - start: 0x0997B0
-        name: main_segment/msgwnd
-        type: .rodata
-        partial_migration: True
-      - start: 0x099880
-        name: main_segment/0344D0
-        type: .rodata
-        partial_migration: True
-      - start: 0x0999C0
-        name: main_segment/035AB0
-        type: .rodata
-        partial_migration: True
-      - start: 0x0999F0
-        name: main_segment/0362B0
-        type: .rodata
-        partial_migration: True
-      - start: 0x099A50
-        name: main_segment/dm_game_main/036620
-        type: .rodata
-        partial_migration: True
-      - start: 0x099CE0
-        name: main_segment/dm_game_main/03A790
-        type: .rodata
-        partial_migration: True
-      - start: 0x099E50
-        name: main_segment/dm_game_main/03CD50
-        type: .rodata
-        partial_migration: True
-      - start: 0x099F00
-        name: main_segment/dm_game_main/03FD40
-        type: .rodata
-        partial_migration: True
-      - start: 0x099F80
-        name: main_segment/dm_game_main/041620
-        type: .rodata
-        partial_migration: True
-      - start: 0x09A0D0
-        name: main_segment/dm_game_main/043C20
-        type: .rodata
-        partial_migration: True
+      - { start: 0x099770, type: .rodata, partial_migration: True, name: main_segment/font }
+      - { start: 0x0997B0, type: .rodata, partial_migration: True, name: main_segment/msgwnd }
+      - { start: 0x099880, type: .rodata, partial_migration: True, name: main_segment/0344D0 }
+      - { start: 0x0999C0, type: .rodata, partial_migration: True, name: main_segment/035AB0 }
+      - { start: 0x0999F0, type: .rodata, partial_migration: True, name: main_segment/0362B0 }
+      - { start: 0x099A50, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/036620 }
+      - { start: 0x099CE0, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03A790 }
+      - { start: 0x099E50, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03CD50 }
+      - { start: 0x099F00, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03FD40 }
+      - { start: 0x099F80, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/041620 }
+      - { start: 0x09A0D0, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/043C20 }
 
-      - start: 0x09A220
-        name: main_segment/dm_manual_main/048350
-        type: .rodata
-        partial_migration: True
-      - start: 0x09A410
-        name: main_segment/dm_manual_main/048630
-        type: .rodata
-        partial_migration: True
-      - start: 0x09AFE0
-        name: main_segment/dm_manual_main/04B9A0
-        type: .rodata
-        partial_migration: True
+      - { start: 0x09A220, type: .rodata, partial_migration: True, name: main_segment/dm_manual_main/048350 }
+      - { start: 0x09A410, type: .rodata, partial_migration: True, name: main_segment/dm_manual_main/048630 }
+      - { start: 0x09AFE0, type: .rodata, partial_migration: True, name: main_segment/dm_manual_main/04B9A0 }
 
-      - start: 0x09B060
-        name: main_segment/dm_title_main
-        type: .rodata
-        partial_migration: True
-      - start: 0x09B180
-        name: main_segment/04CC90
-        type: .rodata
-        partial_migration: True
+      - { start: 0x09B060, type: .rodata, partial_migration: True, name: main_segment/dm_title_main }
+      - { start: 0x09B180, type: .rodata, partial_migration: True, name: main_segment/04CC90 }
       - [0x09B270, .rodata, main_segment/051A00]
       - [0x09B2C0, .rodata, main_segment/051FD0]
       - [0x09B310, .rodata, main_segment/0537C0]
@@ -595,38 +486,17 @@ segments:
       - [0x09B370, rodata, libmus/player]
       - [0x09B450, .rodata, ../lib/libmus/src/player_fx]
 
-      - start: 0x09B460
-        name: main_segment/800B3640
-        type: bss
-        vram: 0x800B3640
-      - start: 0x09B460
-        name: libmus/aud_sched
-        type: bss
-        vram: 0x800E99C0
-      - start: 0x09B460
-        name: main_segment/800E99D0
-        type: bss
-        vram: 0x800E99D0
+      - { start: 0x09B460, type: bss, vram: 0x800B3640, name: main_segment/800B3640 }
+      - { start: 0x09B460, type: bss, vram: 0x800E99C0, name: libmus/aud_sched }
+      - { start: 0x09B460, type: bss, vram: 0x800E99D0, name: main_segment/800E99D0 }
 
-      - start: 0x09B460
-        name: libmus/aud_samples
-        type: bss
-        vram: 0x800E9BA0
+      - { start: 0x09B460, type: bss, vram: 0x800E9BA0, name: libmus/aud_samples }
 
-      - start: 0x09B460
-        name: main_segment/800E9BB0
-        type: bss
-        vram: 0x800E9BB0
+      - { start: 0x09B460, type: bss, vram: 0x800E9BB0, name: main_segment/800E9BB0 }
 
-      - start: 0x09B460
-        name: libmus/aud_thread
-        type: bss
-        vram: 0x800F8C90
+      - { start: 0x09B460, type: bss, vram: 0x800F8C90, name: libmus/aud_thread }
 
-      - start: 0x09B460
-        name: main_segment/800F8CE0
-        type: bss
-        vram: 0x800F8CE0
+      - { start: 0x09B460, type: bss, vram: 0x800F8CE0, name: main_segment/800F8CE0 }
 
   - name: buffer1
     type: code
@@ -636,10 +506,7 @@ segments:
     bss_size: 0xE09F0
     subsegments:
       - [0x09B460, c, buffers/buffer1]
-      - start: 0x09B460
-        name: buffers/buffer1
-        type: .bss
-        vram: 0x80124610
+      - { start: 0x09B460, type: .bss, vram: 0x80124610, name: buffers/buffer1 }
 
   - name: buffer2
     type: code
@@ -648,10 +515,7 @@ segments:
     vram: 0x80205000
     subsegments:
       - [0x09B460, c, buffers/buffer2]
-      - start: 0x09B460
-        name: buffers/buffer2
-        type: .bss
-        vram: 0x80205000
+      - { start: 0x09B460, type: .bss, vram: 0x80205000, name: buffers/buffer2 }
 
   - name: framebuffer
     type: code
@@ -660,10 +524,7 @@ segments:
     vram: 0x803B5000 # 0x80400000 - bss_size
     subsegments:
       - [0x09B460, c, buffers/framebuffer]
-      - start: 0x09B460
-        name: buffers/framebuffer
-        type: .bss
-        vram: 0x803B5000
+      - { start: 0x09B460, type: .bss, vram: 0x803B5000, name: buffers/framebuffer }
 
   - name: n64_wave_tables
     type: bin
