@@ -34,7 +34,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", func_8007EC54);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", func_8007EC98);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", func_8007EE18);
+INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", matrixMulL);
 
 /**
  * Original name: makeTransrateMatrix
@@ -80,8 +80,8 @@ void makeScaleMatrix(Mtx *mtx, u32 scale) {
     mtx->m[3][3] = 0x8000;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", func_8007F094);
+INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", makeMatrix);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", func_8007F420);
+INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", matrixConv);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", func_8007F720);

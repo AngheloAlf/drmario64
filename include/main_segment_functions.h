@@ -877,7 +877,7 @@ UNK_TYPE lws_anim(Gfx **gfxP, Mtx *mtx, UNK_PTR arg2, UNK_TYPE arg3, UNK_PTR arg
 // void func_8007C0C4();
 // void func_8007C244();
 // void func_8007C480();
-s16 func_8007C4AC(f32 arg0);
+s16 angleF2S(f32 arg0);
 // void func_8007C4D8();
 // void func_8007C540();
 // void func_8007C5A8();
@@ -922,11 +922,11 @@ s16 func_8007C4AC(f32 arg0);
 // void func_8007EAEC();
 // void func_8007EC54();
 // void func_8007EC98();
-// void func_8007EE18();
+// void matrixMulL();
 void makeTransrateMatrix(Mtx *mtx, u32 x, u32 y, u32 z);
 void makeScaleMatrix(Mtx *mtx, u32 scale);
-// void func_8007F094();
-// void func_8007F420();
+// void makeMatrix();
+// void matrixConv();
 // void func_8007F720();
 
 // void func_8007F890();

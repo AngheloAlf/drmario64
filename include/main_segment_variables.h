@@ -404,7 +404,7 @@ extern s32 D_800AAD34;
 // extern UNK_TYPE D_800AAD38;
 extern void *D_800AAD3C;
 // extern UNK_TYPE D_800AAD40;
-extern s32 D_800AAD44;
+extern s32 objMtx_FF;
 // extern UNK_TYPE D_800AAD48;
 // extern UNK_TYPE D_800AAD4C;
 // extern UNK_TYPE D_800AAD50;
@@ -559,7 +559,7 @@ extern MessageWnd B_800E59F0;
 // extern UNK_TYPE B_800E5F00;
 // extern UNK_TYPE story_norm;
 extern Mtx story_viewMtx; /* Original name: story_viewMtx */
-extern struct_800F1DF8 B_800E5F50[2];
+extern struct_800F1DF8 story_objectMtx[2];
 extern void *B_800E8750;
 extern void *bgGraphic; /* Original name: bgGraphic */
 extern void *B_800E87AC;
@@ -680,7 +680,7 @@ extern STACK(B_800EFCE0, 0x2000);
 extern u8 evs_playmax; /* Original name: evs_playmax */
 // extern UNK_TYPE B_800F1CE8;
 // extern UNK_TYPE B_800F1CE9;
-extern struct_800F1DF8 *B_800F1DF8;
+extern struct_800F1DF8 *pObjectMtx;
 // extern UNK_TYPE B_800F1E00;
 extern u16 joycur2; /* Original name: joycur2 */
 extern STACK(B_800F1E30, 0x2000);
