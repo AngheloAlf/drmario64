@@ -415,6 +415,10 @@ segments:
       - [0x070220, data, main_segment/05E7B0]
       - [0x074E10, data, main_segment/0633A0]
 
+      - [0x0766E0, data, main_segment/font]
+
+      - [0x08EDA0, data, main_segment/07D330]
+
       - [0x093A70, data, libmus/player]
       - [0x093B30, .data, ../lib/libmus/src/player_fx]
       - [0x093D40, data, libmus/aud_sched]

@@ -48,7 +48,23 @@ u16 func_8005B8D8(u8 arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005B8F0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005B940);
+/**
+ * Original name: static _tbl
+ */
+extern char *D_800A6F70[];
+
+void ascii2index(s32 arg0, s32 arg1, s32 *arg2, s32 *arg3) {
+    char *ptr = D_800A6F70[arg1 % 2U];
+    s32 index = (arg0 % 0x80U) * 2;
+    char temp1;
+    char temp2;
+
+    temp1 = ptr[index + 0];
+    temp2 = ptr[index + 1];
+
+    *arg2 = temp1;
+    *arg3 = temp2;
+}
 
 extern Gfx RO_800B1950[];
 
@@ -71,7 +87,7 @@ void font16_initDL2(Gfx **gfxP) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontXX_draw);
 
 #if 0
-bool func_8005BB24(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
+bool fontXX_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
     s32 sp0;
     s32 sp4;
     s32 sp8;
@@ -191,7 +207,7 @@ bool func_8005BB24(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5)
     return false;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005BB24);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontXX_drawID);
 #endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontXX_draw2);
