@@ -82,7 +82,7 @@ UNK_TYPE func_8002EDDC();
 // void func_80035704();
 // void func_80035CF4();
 // void func_800362A0();
-// void func_80036560();
+// void aiCOM_MissTake();
 // void func_800365B0();
 // void func_800365C8();
 // void func_8003661C();

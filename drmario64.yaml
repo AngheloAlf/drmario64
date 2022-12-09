@@ -365,7 +365,8 @@ segments:
       - [0x015940, c, main_segment/main1x]
 
       - [0x016650, c, main_segment/004BE0]
-      - [0x016920, c, main_segment/004EB0]
+      - [0x016920, c, main_segment/aiset]
+      - [0x01E3D0, c, main_segment/00C960]
       - [0x0227C0, c, main_segment/010D50]
       - [0x024BC0, c, main_segment/013150]
       - [0x024C40, c, main_segment/0131D0]
@@ -450,7 +451,11 @@ segments:
         type: .rodata
         partial_migration: True
       - start: 0x094CB0
-        name: main_segment/004EB0
+        name: main_segment/aiset
+        type: .rodata
+        partial_migration: True
+      - start: 0x094D70
+        name: main_segment/00C960
         type: .rodata
         partial_migration: True
       - [0x094F70, .rodata, main_segment/010D50]
