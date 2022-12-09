@@ -461,13 +461,34 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_main2);
  */
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_main3);
 
+void dm_game_graphic(void) {
+    struct_800F3E50 *temp_s0 = watchGame;
+
+    if (temp_s0->unk_878 != 0x7F) {
+        osSetThreadPri(NULL, 0xF);
+        temp_s0->unk_878 = 0;
+        return;
+    }
+
+    RecWritingMsg_draw(&temp_s0->unk_AD8, &gGfxHead);
+
+    gDPFullSync(gGfxHead++);
+    gSPEndDisplayList(gGfxHead++);
+
+    osWritebackDCacheAll();
+
+    gfxTaskStart(&B_800FAE80[B_800FAD2C], gGfxGlist[B_800FAD2C], (gGfxHead - gGfxGlist[B_800FAD2C]) * sizeof(Gfx), 0,
+                 (temp_s0->unk_880 == 0) ? OS_SC_SWAPBUFFER : 0);
+    osSetThreadPri(NULL, 0xF);
+    dm_game_graphic2();
+    osSetThreadPri(NULL, 0x7F);
+}
+
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B23C4);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", RO_800B23CC);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B23D4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_graphic);
-
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", func_80070360);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_graphic2);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_graphic_onDoneSawp);
 
@@ -564,4 +585,35 @@ enum_main_no main_techmes(struct_800EB670 *arg0) {
     return MAIN_NO_3;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", graphic_techmes);
+void graphic_techmes(void) {
+    struct_800F3E50 *temp_s1 = watchGame;
+    UNK_TYPE sp28;
+    UNK_TYPE sp2C;
+
+    gGfxHead = gGfxGlist[B_800FAD2C];
+    sp28 = dm_get_mtx_buf();
+    sp2C = dm_get_vtx_buf();
+    F3RCPinitRtn();
+    F3ClearFZRtn(false);
+
+    gDPSetEnvColor(gGfxHead++, 0, 0, 0, 255);
+    gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, 255);
+
+    draw_menu_bg(&gGfxHead, 0, -0x78);
+
+    dm_draw_KaSaMaRu(&gGfxHead, &sp28, &sp2C, msgWnd_isSpeaking(&temp_s1->messageWnd), 0xC8, 0x80, 1, 0xFFU);
+    msgWnd_draw(&temp_s1->messageWnd, &gGfxHead);
+    if (temp_s1->unk_9AC == 2) {
+        push_any_key_draw(128, 192);
+    }
+
+    FillRectRGBA(&gGfxHead, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 255 - temp_s1->unk_9B0);
+
+    temp_s1->unk_424++;
+
+    gDPFullSync(gGfxHead++);
+    gSPEndDisplayList(gGfxHead++);
+
+    osWritebackDCacheAll();
+    gfxTaskStart(&B_800FAE80[B_800FAD2C], gGfxGlist[B_800FAD2C], (gGfxHead - gGfxGlist[B_800FAD2C]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+}

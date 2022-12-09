@@ -229,7 +229,7 @@ void *init_menu_bg(void *dstAddr, bool arg1) {
 }
 
 #if 0
-void func_80077E2C(Gfx **gfxP, s32 arg1, s32 arg2) {
+void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
     Mtx sp18;
     Gfx *sp58;
     Gfx *temp_a0;
@@ -282,7 +282,7 @@ void func_80077E2C(Gfx **gfxP, s32 arg1, s32 arg2) {
     *arg0 = temp_s0;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80077E2C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", draw_menu_bg);
 #endif
 
 /**

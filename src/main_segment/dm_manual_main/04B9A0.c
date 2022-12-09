@@ -110,4 +110,38 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main/04B9A0", dm_manual_main);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main/04B9A0", dm_manual_graphic);
+void dm_manual_graphic(void) {
+    UNK_TYPE sp28;
+    UNK_TYPE sp2C;
+    OSScTask *ptr;
+    s32 color;
+    s32 alpha;
+    struct_800F4890 *temp_s1 = watchManual;
+
+    gGfxHead = gGfxGlist[B_800FAD2C];
+    ptr = &B_800FAE80[B_800FAD2C];
+
+    sp28 = dm_get_mtx_buf();
+    sp2C = dm_get_vtx_buf();
+
+    gSPSegment(gGfxHead++, 0x00, 0x00000000);
+    F3RCPinitRtn();
+    F3ClearFZRtn(false);
+
+    gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+
+    dm_game_draw_snap_bg(&gGfxHead, &sp28, &sp2C, 0);
+    dm_manual_draw_fg(&sp28, &sp2C);
+
+    color = 255;
+    alpha = CLAMP((temp_s1->unk_00C - 127) * 1.2 + 127, 0, 255);
+    if (alpha > 0) {
+        FillRectRGBA(&gGfxHead, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color, color, color, alpha);
+    }
+
+    gDPFullSync(gGfxHead++);
+    gSPEndDisplayList(gGfxHead++);
+
+    osWritebackDCacheAll();
+    gfxTaskStart(ptr, gGfxGlist[B_800FAD2C], (gGfxHead - gGfxGlist[B_800FAD2C]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+}

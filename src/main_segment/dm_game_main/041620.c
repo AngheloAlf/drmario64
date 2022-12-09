@@ -25,7 +25,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", func_8006BC5C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", func_8006BD00);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", func_8006BDFC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", dm_draw_KaSaMaRu);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", func_8006C1D0);
 

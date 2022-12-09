@@ -90,6 +90,29 @@ typedef struct struct_800EA290 {
 } struct_800EA290; // size >= 0x1244
 
 
+typedef struct struct_800F3E50_unk_430_unk_B8 {
+    /* 0x0 */ UNK_TYPE1 unk_0[0x4];
+    /* 0x4 */ UNK_TYPE unk_4;
+} struct_800F3E50_unk_430_unk_B8; // size >= 0x8
+
+typedef struct struct_800F3E50_unk_430_unk_BC {
+    /* 0x0 */ u16 unk_0;
+    /* 0x2 */ u16 unk_2;
+} struct_800F3E50_unk_430_unk_BC; // size >= 0x4
+
+typedef struct struct_800F3E50_unk_430_unk_C0 {
+    /* 0x0 */ UNK_TYPE1 unk_0[0x4];
+    /* 0x4 */ UNK_TYPE unk_4;
+} struct_800F3E50_unk_430_unk_C0; // size >= 0x8
+
+typedef struct struct_800F3E50_unk_430 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0xB8];
+    /* 0xB8 */ struct_800F3E50_unk_430_unk_B8 *unk_B8;
+    /* 0xBC */ struct_800F3E50_unk_430_unk_BC *unk_BC;
+    /* 0xC0 */ struct_800F3E50_unk_430_unk_C0 *unk_C0;
+    /* 0xC4 */ u16 *unk_C4;
+} struct_800F3E50_unk_430; // size >= 0xC8
+
 typedef struct struct_800F3E50 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x38C];
     /* 0x38C */ UNK_TYPE unk_38C;
@@ -101,7 +124,9 @@ typedef struct struct_800F3E50 {
     /* 0x3C8 */ UNK_TYPE1 unk_3C8[0x58];
     /* 0x420 */ UNK_TYPE unk_420;
     /* 0x424 */ s32 unk_424;
-    /* 0x428 */ UNK_TYPE1 unk_428[0x450];
+    /* 0x428 */ UNK_TYPE1 unk_428[0x8];
+    /* 0x430 */ struct_800F3E50_unk_430 *unk_430;
+    /* 0x434 */ UNK_TYPE1 unk_434[0x444];
     /* 0x878 */ UNK_TYPE unk_878;
     /* 0x87C */ UNK_TYPE1 unk_87C[0x4];
     /* 0x880 */ UNK_TYPE unk_880;
@@ -110,15 +135,17 @@ typedef struct struct_800F3E50 {
     /* 0x99C */ UNK_TYPE1 unk_99C[0x10];
     /* 0x9AC */ s32 unk_9AC;
     /* 0x9B0 */ s32 unk_9B0;
-    /* 0x9B4 */ UNK_TYPE1 unk_9B4[0x1AC];
+    /* 0x9B4 */ UNK_TYPE1 unk_9B4[0x124];
+    /* 0xAD8 */ UNK_TYPE unk_AD8; // Maybe a substruct
+    /* 0xADC */ UNK_TYPE1 unk_ADC[0x84];
 } struct_800F3E50; // size = 0xB60
 
 
-struct struct_80041A54_arg0;
+struct StretchTexBlock_arg0;
 
-typedef void (*struct_80041A54_arg0_unk_30)(struct struct_80041A54_arg0 *arg0);
+typedef void (*StretchTexBlock_arg0_callback)(struct StretchTexBlock_arg0 *arg0);
 
-typedef struct struct_80041A54_arg0 {
+typedef struct StretchTexBlock_arg0 {
     /* 0x00 */ Gfx **unk_00;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
@@ -131,10 +158,10 @@ typedef struct struct_80041A54_arg0 {
     /* 0x24 */ s32 unk_24;
     /* 0x28 */ s32 unk_28;
     /* 0x2C */ s32 unk_2C;
-    /* 0x30 */ struct_80041A54_arg0_unk_30 unk_30;
-    /* 0x34 */ struct_80041A54_arg0_unk_30 unk_34;
+    /* 0x30 */ StretchTexBlock_arg0_callback unk_30;
+    /* 0x34 */ StretchTexBlock_arg0_callback unk_34;
     /* 0x38 */ s32 unk_38;
-    /* 0x3C */ struct_80041A54_arg0_unk_30 unk_3C;
+    /* 0x3C */ StretchTexBlock_arg0_callback unk_3C;
     /* 0x40 */ s32 unk_40;
     /* 0x44 */ s32 unk_44;
     /* 0x48 */ s32 unk_48;
@@ -142,7 +169,37 @@ typedef struct struct_80041A54_arg0 {
     /* 0x50 */ s32 unk_50;
     /* 0x54 */ s32 unk_54;
     /* 0x58 */ UNK_TYPE1 unk_58[0x18];
-} struct_80041A54_arg0; // size >= 0x70?
+} StretchTexBlock_arg0; // size >= 0x70?
+
+struct StretchTexTile_arg0;
+
+typedef void (*StretchTexTile_arg0_callback)(struct StretchTexTile_arg0 *arg0);
+
+typedef struct StretchTexTile_arg0 {
+    /* 0x00 */ Gfx **gfxP;
+    /* 0x04 */ UNK_TYPE unk_04;
+    /* 0x08 */ UNK_TYPE unk_08;
+    /* 0x0C */ UNK_TYPE unk_0C;
+    /* 0x10 */ UNK_TYPE unk_10;
+    /* 0x14 */ UNK_TYPE unk_14;
+    /* 0x18 */ UNK_TYPE unk_18;
+    /* 0x1C */ UNK_TYPE unk_1C;
+    /* 0x20 */ UNK_TYPE unk_20;
+    /* 0x24 */ UNK_TYPE unk_24;
+    /* 0x28 */ UNK_TYPE unk_28;
+    /* 0x2C */ UNK_TYPE unk_2C;
+    /* 0x30 */ UNK_TYPE unk_30;
+    /* 0x34 */ UNK_TYPE unk_34;
+    /* 0x38 */ UNK_TYPE unk_38;
+    /* 0x3C */ UNK_TYPE unk_3C;
+    /* 0x40 */ StretchTexTile_arg0_callback unk_40;
+    /* 0x44 */ StretchTexTile_arg0_callback unk_44;
+    /* 0x48 */ UNK_TYPE unk_48;
+    /* 0x4C */ StretchTexTile_arg0_callback unk_4C;
+    /* 0x50 */ UNK_TYPE unk_50;
+    /* 0x54 */ UNK_TYPE unk_54;
+    /* 0x58 */ UNK_TYPE1 unk_58[0x20];
+} StretchTexTile_arg0; // size = 0x78
 
 // GraphBin?
 typedef struct struct_800E8750 {

@@ -1,6 +1,7 @@
 #ifndef ALIGNMENT_H
 #define ALIGNMENT_H
 
+#define ALIGN4(val) (((val) + 3) & ~3)
 #define ALIGN8(val) (((val) + 7) & ~7)
 #define ALIGN16(val) (((val) + 0xF) & ~0xF)
 #define ALIGN32(val) (((val) + 0x1F) & ~0x1F)

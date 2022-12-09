@@ -93,7 +93,7 @@ void func_8005AD30(struct_800F3E5C *arg0, Gfx **gfxP) {
     s32 var_s2;
 
     func_80046844(temp_s4, &gfx);
-    func_80077E2C(&gfx, arg0->unk_024C4 + 0.0f, -arg0->unk_024C8 - 120.0f);
+    draw_menu_bg(&gfx, arg0->unk_024C4 + 0.0f, -arg0->unk_024C8 - 120.0f);
 
     gSPDisplayList(gfx++, RO_800ADC60);
     func_80046844(temp_s4, &gfx);
@@ -214,7 +214,7 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
         }
     }
 
-    func_80038CBC(&arg0->unk_111F8, &gGfxHead);
+    RecWritingMsg_draw(&arg0->unk_111F8, &gGfxHead);
 
     arg0->unk_111E8 = 0;
     arg0->unk_111F0++;

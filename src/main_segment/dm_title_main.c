@@ -161,7 +161,7 @@ void dm_title_graphic(void) {
     title_exit_flag = demo_title(&gGfxHead, evs_level_21 != 0);
 
     color = 255;
-    alpha = CLAMP(((title_fade_count - 127) * 1.2) + 127.0, 0.0, 255.0);
+    alpha = CLAMP((title_fade_count - 127) * 1.2 + 127, 0.0, 255.0);
     if (alpha > 0) {
         FillRectRGBA(&gGfxHead, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color, color, color, alpha);
     }
