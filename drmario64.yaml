@@ -359,7 +359,7 @@ segments:
 
       - [0x0128A0, c, main_segment/sound]
       - [0x0132B0, c, main_segment/graphic]
-      - [0x013B40, c, main_segment/graphics/0020D0]
+      - [0x013B40, c, main_segment/graphics/static]
       - [0x014F90, c, main_segment/audio/003520]
 
       - [0x015940, c, main_segment/main1x]
@@ -384,7 +384,7 @@ segments:
       - [0x03DB00, c, main_segment/02C090]
       - [0x041800, c, main_segment/02FD90]
       - [0x042540, c, main_segment/030AD0]
-      - [0x043610, c, main_segment/031BA0]
+      - [0x043610, c, main_segment/font]
       - [0x044D40, c, main_segment/msgwnd]
       - [0x045F40, c, main_segment/0344D0]
       - [0x046300, c, main_segment/034890]
@@ -516,7 +516,7 @@ segments:
       - [0x099420, .rodata, main_segment/030AD0]
 
       - start: 0x099770
-        name: main_segment/031BA0
+        name: main_segment/font
         type: .rodata
         partial_migration: True
       - start: 0x0997B0

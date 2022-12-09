@@ -6,7 +6,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/031BA0", RO_800B1950);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/font", RO_800B1950);
 
 s32 fontStr_nextChar(const char *arg0) {
     s32 var_v1;
@@ -40,15 +40,15 @@ s32 func_8005B858(const char *arg0) {
     return var_s0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", fontStr_charSize);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontStr_charSize);
 
 u16 func_8005B8D8(u8 arg0) {
     return D_800A6D90[arg0];
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005B8F0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005B8F0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005B940);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005B940);
 
 extern Gfx RO_800B1950[];
 
@@ -68,7 +68,7 @@ void font16_initDL2(Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", fontXX_draw);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontXX_draw);
 
 #if 0
 bool func_8005BB24(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
@@ -191,17 +191,17 @@ bool func_8005BB24(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5)
     return false;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005BB24);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005BB24);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", fontXX_draw2);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontXX_draw2);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005BF18);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005BF18);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005C4BC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005C4BC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005C548);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005C548);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005C90C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005C90C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/031BA0", func_8005C998);
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005C998);
