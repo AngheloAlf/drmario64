@@ -230,7 +230,7 @@ void *init_menu_bg(void *dstAddr, bool arg1) {
 
 #if 0
 void func_80077E2C(Gfx **gfxP, s32 arg1, s32 arg2) {
-    struct_8007F004_arg0 sp18;
+    Mtx sp18;
     Gfx *sp58;
     Gfx *temp_a0;
     Gfx *temp_s0;
@@ -311,7 +311,7 @@ void *init_title(void *dstAddr, bool arg1) {
 s32 demo_title(Gfx **gfxP, bool arg1) {
     struct_80076CA0_arg0 sp30;
     struct_80076CA0_arg0 sp48;
-    struct_8007F004_arg0 sp60;
+    Mtx sp60;
     Gfx *gfx;
     s32 temp_s2;
     s32 temp_v1_2;
@@ -341,7 +341,7 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
         lws_scene = (void *)((((uintptr_t)title_data[0]) & 0xFFFFFF) + (uintptr_t)title_data);
     }
 
-    makeTransrateMatrix(&sp60, 0, -0x3C0000, -0x03B60000);
+    makeTransrateMatrix(&sp60, 0, 0xFFC4 << 16, 0xFC4A << 16);
     if ((story_spot_cnt > 0) && (gControllerPressedButtons[B_800EBD16[0]] & ALL_BUTTONS)) {
         if (temp_s2 != 0) {
             if (title_wait == 0) {

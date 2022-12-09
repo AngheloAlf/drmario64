@@ -36,42 +36,48 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", func_8007EC98);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", func_8007EE18);
 
-void makeTransrateMatrix(struct_8007F004_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    arg0->unk_00 = 0x8000;
-    arg0->unk_04 = 0;
-    arg0->unk_08 = 0;
-    arg0->unk_0C = 0;
-    arg0->unk_10 = 0;
-    arg0->unk_14 = 0x8000;
-    arg0->unk_18 = 0;
-    arg0->unk_1C = 0;
-    arg0->unk_20 = 0;
-    arg0->unk_24 = 0;
-    arg0->unk_28 = 0x8000;
-    arg0->unk_2C = 0;
-    arg0->unk_30 = arg1;
-    arg0->unk_34 = arg2;
-    arg0->unk_38 = arg3;
-    arg0->unk_3C = 0x8000;
+/**
+ * Original name: makeTransrateMatrix
+ */
+void makeTransrateMatrix(Mtx *mtx, u32 x, u32 y, u32 z) {
+    mtx->m[0][0] = 0x8000;
+    mtx->m[0][1] = 0;
+    mtx->m[0][2] = 0;
+    mtx->m[0][3] = 0;
+    mtx->m[1][0] = 0;
+    mtx->m[1][1] = 0x8000;
+    mtx->m[1][2] = 0;
+    mtx->m[1][3] = 0;
+    mtx->m[2][0] = 0;
+    mtx->m[2][1] = 0;
+    mtx->m[2][2] = 0x8000;
+    mtx->m[2][3] = 0;
+    mtx->m[3][0] = x;
+    mtx->m[3][1] = y;
+    mtx->m[3][2] = z;
+    mtx->m[3][3] = 0x8000;
 }
 
-void makeScaleMatrix(struct_8007F04C_arg0 *arg0, s32 arg1) {
-    arg0->unk_00 = arg1;
-    arg0->unk_04 = 0;
-    arg0->unk_08 = 0;
-    arg0->unk_0C = 0;
-    arg0->unk_10 = 0;
-    arg0->unk_14 = arg1;
-    arg0->unk_18 = 0;
-    arg0->unk_1C = 0;
-    arg0->unk_20 = 0;
-    arg0->unk_24 = 0;
-    arg0->unk_28 = arg1;
-    arg0->unk_2C = 0;
-    arg0->unk_30 = 0;
-    arg0->unk_34 = 0;
-    arg0->unk_38 = 0;
-    arg0->unk_3C = 0x8000;
+/**
+ * Original name: makeScaleMatrix
+ */
+void makeScaleMatrix(Mtx *mtx, u32 scale) {
+    mtx->m[0][0] = scale;
+    mtx->m[0][1] = 0;
+    mtx->m[0][2] = 0;
+    mtx->m[0][3] = 0;
+    mtx->m[1][0] = 0;
+    mtx->m[1][1] = scale;
+    mtx->m[1][2] = 0;
+    mtx->m[1][3] = 0;
+    mtx->m[2][0] = 0;
+    mtx->m[2][1] = 0;
+    mtx->m[2][2] = scale;
+    mtx->m[2][3] = 0;
+    mtx->m[3][0] = 0;
+    mtx->m[3][1] = 0;
+    mtx->m[3][2] = 0;
+    mtx->m[3][3] = 0x8000;
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/054DD0", func_8007F094);

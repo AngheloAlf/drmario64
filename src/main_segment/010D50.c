@@ -19,7 +19,7 @@ void func_8003AD88(Gfx **gfxP) {
 }
 
 UNK_TYPE func_8003AE08(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
-    struct_8007F004_arg0 sp18;
+    Mtx mtx;
     Gfx *gfx = *gfxP;
     s32 var_a1;
     s32 var_a2;
@@ -44,8 +44,8 @@ UNK_TYPE func_8003AE08(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
             break;
     }
 
-    makeTransrateMatrix(&sp18, var_a1 << 0xF, var_a2 << 0xF, -0x01F40000);
-    ret = lws_anim(&gfx, &sp18, B_800E53F4, arg2, B_800E53CC);
+    makeTransrateMatrix(&mtx, var_a1 << 15, var_a2 << 15, 0xFE0C << 16);
+    ret = lws_anim(&gfx, &mtx, B_800E53F4, arg2, B_800E53CC);
 
     *gfxP = gfx;
     return ret;
