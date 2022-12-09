@@ -296,7 +296,7 @@ void func_800432A8(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
 UNK_TYPE tiLoadTexData(UNK_PTR *arg0, romoffset_t segmentRom, romoffset_t segmentRomEnd);
 // void func_80045110();
 // void func_800451C4();
-// void func_800452B0();
+// void tiStretchTexBlock();
 // void func_800453D8();
 // void func_8004554C();
 // void func_80045748();
@@ -804,7 +804,7 @@ void graphic_techmes(void);
 // void func_80071F0C();
 // void func_80071F14();
 void func_80071FA0(UNK_TYPE *arg0);
-// void func_80072028();
+// void tutolWnd_draw();
 // void func_800721A0();
 // void func_800721BC();
 // void func_800721D8();

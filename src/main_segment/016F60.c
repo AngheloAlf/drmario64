@@ -482,7 +482,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80045110);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_800451C4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_800452B0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", tiStretchTexBlock);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_800453D8);
 

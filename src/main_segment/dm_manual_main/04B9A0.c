@@ -1,3 +1,7 @@
+/**
+ * Part of dm_manual_main.c
+ */
+
 #include "ultra64.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -6,12 +10,12 @@
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31C0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31D8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31DC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/04B9A0", D_800B31E0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main/04B9A0", D_800B31C0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main/04B9A0", D_800B31D8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main/04B9A0", D_800B31DC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main/04B9A0", D_800B31E0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", dm_manual_all_init);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main/04B9A0", dm_manual_all_init);
 
 #ifdef NON_MATCHING
 /**
@@ -103,7 +107,7 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
     return var_v0;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", dm_manual_main);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main/04B9A0", dm_manual_main);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04B9A0", dm_manual_graphic);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main/04B9A0", dm_manual_graphic);

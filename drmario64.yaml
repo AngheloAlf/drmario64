@@ -401,10 +401,12 @@ segments:
       - [0x055690, c, main_segment/dm_game_main/043C20]
 
       - [0x059D10, c, main_segment/0482A0]
-      - [0x059DC0, c, main_segment/048350]
-      - [0x059FC0, c, main_segment/048550]
-      - [0x05A0A0, c, main_segment/048630]
-      - [0x05D410, c, main_segment/04B9A0]
+
+      - [0x059DC0, c, main_segment/dm_manual_main/048350]
+      - [0x059FC0, c, main_segment/dm_manual_main/048550]
+      - [0x05A0A0, c, main_segment/dm_manual_main/048630]
+      - [0x05D410, c, main_segment/dm_manual_main/04B9A0]
+
       - [0x05DD50, c, main_segment/dm_title_main]
       - [0x05E700, c, main_segment/04CC90]
       - [0x063470, c, main_segment/051A00]
@@ -564,18 +566,20 @@ segments:
         name: main_segment/dm_game_main/043C20
         type: .rodata
         partial_migration: True
+
       - start: 0x09A220
-        name: main_segment/048350
+        name: main_segment/dm_manual_main/048350
         type: .rodata
         partial_migration: True
       - start: 0x09A410
-        name: main_segment/048630
+        name: main_segment/dm_manual_main/048630
         type: .rodata
         partial_migration: True
       - start: 0x09AFE0
-        name: main_segment/04B9A0
+        name: main_segment/dm_manual_main/04B9A0
         type: .rodata
         partial_migration: True
+
       - start: 0x09B060
         name: main_segment/dm_title_main
         type: .rodata
