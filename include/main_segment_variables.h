@@ -31,12 +31,12 @@ extern Gfx D_80088328[];
 // extern UNK_TYPE D_80088400;
 extern u8 evs_seqence; // maybe part of a struct?
 extern u8 D_80088402; // maybe part of a struct?
-extern u8 D_80088403; // maybe part of a struct?
+extern u8 evs_playcnt; // maybe part of a struct?
 // extern UNK_TYPE D_80088404;
 // extern UNK_TYPE D_80088405;
 extern u8 evs_gamespeed; /* Original name: evs_gamespeed */
 // extern UNK_TYPE D_80088407;
-// extern UNK_TYPE D_80088408;
+// extern UNK_TYPE evs_story_flg;
 // extern UNK_TYPE D_80088409;
 // extern UNK_TYPE D_8008840A;
 // extern UNK_TYPE D_8008840C;
@@ -45,7 +45,7 @@ extern s8 D_8008840E; // maybe part of a struct?
 extern u8 evs_level_21; /* Original name: evs_level_21 */
 extern s8 D_80088410;
 // extern UNK_TYPE D_80088414;
-// extern UNK_TYPE D_80088418;
+// extern UNK_TYPE evs_vs_count;
 // extern UNK_TYPE D_8008841C;
 // extern UNK_TYPE D_8008841D;
 // extern UNK_TYPE D_80088430;
@@ -225,7 +225,7 @@ extern u16 D_800A6D90[];
 // extern UNK_TYPE D_800A6F90;
 // extern UNK_TYPE D_800A6F9C;
 // extern UNK_TYPE D_800A6FAC;
-// extern UNK_TYPE D_800A6FC4;
+extern s32 D_800A6FC4;
 // extern UNK_TYPE D_800A6FC8;
 // extern UNK_TYPE D_800A6FD8;
 // extern UNK_TYPE D_800A6FEC;
@@ -662,7 +662,7 @@ extern u16 gControllerHoldButtons[MAXCONTROLLERS+1];
 extern u8 B_800EBD16[];
 extern OSThread B_800EBD20;
 extern OSMesg B_800EBED0[8];
-extern struct_800EBEF0 B_800EBEF0;
+extern struct_800EBEF0 game_map_data[4];
 extern s16 B_800ED430;
 extern STACK(B_800ED440, 0x2000);
 extern UNK_PTR B_800EF440[2];
@@ -690,7 +690,7 @@ extern STACK(B_800F1E30, 0x2000);
 // extern UNK_TYPE B_800F3E32;
 // extern UNK_TYPE B_800F3E34;
 extern OSMesgQueue B_800F3E38;
-extern struct_800F3E50 *B_800F3E50;
+extern struct_800F3E50 *watchGame;
 // extern UNK_TYPE B_800F3E54;
 // extern UNK_TYPE B_800F3E56;
 extern struct_800F3E5C *B_800F3E5C;
@@ -713,7 +713,7 @@ extern struct_800F4890 *watchManual; /* Original name: watchManual */
 // extern UNK_TYPE B_800F4894;
 extern OSMesgQueue B_800F4898;
 extern struct_800FAF98_unk_64 B_800F48B0;
-extern UNK_TYPE2 B_800F48B8[4];
+extern UNK_TYPE2 joygam[4];
 extern UNK_PTR B_800F48C0;
 extern u16 B_800F48C4[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800F48D0;

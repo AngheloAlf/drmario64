@@ -13,7 +13,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80064628);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80064748);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80064848);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", countLeadingZeros);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_800648C0);
 

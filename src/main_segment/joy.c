@@ -42,7 +42,7 @@ s32 joyInit(s32 arg0 UNUSED) {
         }
 
         B_800F6CD8[i] = 0;
-        B_800F48B8[i] = 0;
+        joygam[i] = 0;
         B_800FAD31[i] = 0;
     }
 

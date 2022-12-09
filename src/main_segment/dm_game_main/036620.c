@@ -173,9 +173,9 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/036620", D_800B1EB8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80062FB8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800630F8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", backup_game_state);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80063238);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", resume_game_state);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80063378);
 

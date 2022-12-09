@@ -196,7 +196,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/00C960", func_80038BE0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/00C960", func_80038C38);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00C960", func_80038C7C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/00C960", RecWritingMsg_calc);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/00C960", func_80038CBC);
 

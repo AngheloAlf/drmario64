@@ -195,11 +195,11 @@ void *func_8007780C(void *dstAddr) {
 
     bgGraphic = (void *)ALIGN16((uintptr_t)dstAddr);
     temp_s0 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E740.start, bgGraphic, D_8000E740.end - D_8000E740.start));
-    func_8007786C();
+    init_coffee_break_cnt();
     return temp_s0;
 }
 
-void func_8007786C(void) {
+void init_coffee_break_cnt(void) {
     guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
     D_800AAD34 = 0x15E;
     bgtime = 0;

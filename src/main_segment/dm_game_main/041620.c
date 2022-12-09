@@ -37,20 +37,20 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", func_8006C88C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", func_8006D0E8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", func_8006D150);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", dm_make_key);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", func_8006D254);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", key_control_main);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/041620", func_8006D620);
 
 void func_8006D7B0(void) {
-    struct_800F3E50 *temp = B_800F3E50;
+    struct_800F3E50 *temp = watchGame;
     s32 i;
 
     temp->unk_424++;
     temp->unk_394 = CLAMP(temp->unk_394 + temp->unk_398, 0, 20);
 
-    for (i = 0; i < D_80088403; i++) {
+    for (i = 0; i < evs_playcnt; i++) {
         if (game_state_data[i].unk_020 == 1) {
             if ((temp->unk_3C4 != 0) && (B_800FB3A4 <= 0x57E03)) {
                 B_800FB3A4++;

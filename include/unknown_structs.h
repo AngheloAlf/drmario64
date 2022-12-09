@@ -91,14 +91,21 @@ typedef struct struct_800EA290 {
 
 
 typedef struct struct_800F3E50 {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x394];
+    /* 0x000 */ UNK_TYPE1 unk_000[0x38C];
+    /* 0x38C */ UNK_TYPE unk_38C;
+    /* 0x390 */ UNK_TYPE unk_390;
     /* 0x394 */ s32 unk_394;
     /* 0x398 */ s32 unk_398;
     /* 0x39C */ UNK_TYPE1 unk_39C[0x28];
     /* 0x3C4 */ s32 unk_3C4;
-    /* 0x3C8 */ UNK_TYPE1 unk_3C8[0x5C];
+    /* 0x3C8 */ UNK_TYPE1 unk_3C8[0x58];
+    /* 0x420 */ UNK_TYPE unk_420;
     /* 0x424 */ s32 unk_424;
-    /* 0x428 */ UNK_TYPE1 unk_428[0x4F4];
+    /* 0x428 */ UNK_TYPE1 unk_428[0x450];
+    /* 0x878 */ UNK_TYPE unk_878;
+    /* 0x87C */ UNK_TYPE1 unk_87C[0x4];
+    /* 0x880 */ UNK_TYPE unk_880;
+    /* 0x884 */ UNK_TYPE1 unk_884[0x98];
     /* 0x91C */ MessageWnd messageWnd;
     /* 0x99C */ UNK_TYPE1 unk_99C[0x10];
     /* 0x9AC */ s32 unk_9AC;

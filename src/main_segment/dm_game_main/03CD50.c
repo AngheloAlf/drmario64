@@ -8,7 +8,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_800669A0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_800669C4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80066F68);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", dm_game_main_1p);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_8006729C);
 
@@ -20,18 +20,18 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_800675C8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80067668);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80067834);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", dm_game_main_2p);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/03CD50", D_800B2068);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/03CD50", D_800B2070);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80067F58);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", dm_game_main_4p);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80068950);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", dm_game_demo_1p);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80068AA0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", dm_game_demo_2p);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80068C24);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", dm_game_demo_4p);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80068DC0);
 

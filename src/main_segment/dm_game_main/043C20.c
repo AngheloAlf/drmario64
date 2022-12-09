@@ -10,6 +10,7 @@
 #include "boot_variables.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "gcc/memory.h"
 #include "rom_offsets.h"
 #include "buffers.h"
 #include "audio/audio_stuff.h"
@@ -24,10 +25,10 @@ void func_8006D870(void) {
     u32 i;
 
     heapTop = &Heap_bufferp;
-    B_800F3E50 = ALIGN_PTR(&Heap_bufferp);
-    bzero(B_800F3E50, sizeof(struct_800F3E50));
+    watchGame = ALIGN_PTR(&Heap_bufferp);
+    bzero(watchGame, sizeof(struct_800F3E50));
 
-    heapTop = &B_800F3E50[1];
+    heapTop = &watchGame[1];
     i = 0;
     while (i < ARRAY_COUNT(B_800EF440)) {
         temp_v1 = ALIGN_PTR(heapTop);
@@ -44,12 +45,12 @@ void func_8006D870(void) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", func_8006D870);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", func_8006D91C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_init);
 
 #if 0
 ? func_80038BE0(s8 *, struct_80124610 **, s32);     /* extern */
 ? func_8005E36C(s8 *, struct_80124610 **, s32);     /* extern */
-? func_8005E48C(s8 *, ?);                           /* extern */
+? animeState_set(s8 *, ?);                           /* extern */
 ? func_8005EAFC(s8 *, s8 *);                        /* extern */
 ? func_8005EBA8(s8 *, struct_80124610 **);          /* extern */
 ? func_80062B84(s8 *);                              /* extern */
@@ -66,8 +67,8 @@ extern ? B_8012374F;
 extern ? B_80123790;
 extern s8 B_80123794;
 extern s32 B_8012386C;
-extern u8 D_80088403;
-extern s8 D_80088408;
+extern u8 evs_playcnt;
+extern s8 evs_story_flg;
 extern s32 D_80088414;
 extern s8 D_800A8AD0;
 
@@ -118,7 +119,7 @@ void dm_game_init_static(void) {
     void *temp_a1;
     void *temp_v0_2;
 
-    temp_s3 = B_800F3E50;
+    temp_s3 = watchGame;
     temp_s3->unk_3B0 = 0;
     temp_s3->unk_878 = 0x7F;
     temp_s3->unk_430 = tiLoadTexData(&heapTop, D_8000E9B0, D_8000E9B4);
@@ -146,7 +147,7 @@ void dm_game_init_static(void) {
     func_8007E2E0(&heapTop);
     var_s1_2 = 0;
     var_s0 = 0x9D0;
-    func_8007E2FC(D_80088403);
+    func_8007E2FC(evs_playcnt);
     do {
         func_80062B84(&temp_s3->unk_000[var_s0]);
         var_s1_2 += 1;
@@ -182,7 +183,7 @@ block_23:
         case 0x4:                                   /* switch 2 */
             temp_s3->unk_898 = 1;
             func_8005E36C(&B_80123794, &heapTop, 0xF);
-            func_8005E48C(&B_80123794, 2);
+            animeState_set(&B_80123794, 2);
             var_s1_3 = 0;
             temp_s3->unk_438 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_180, gRomOffset_N64WaveTables_Start.unk_184);
             var_s2 = 0x44C;
@@ -225,7 +226,7 @@ block_23:
                 var_a0 = var_s2_2;
             } while (var_s1_5 < 2);
             var_s1_6 = 1;
-            if (D_80088408 == 0) {
+            if (evs_story_flg == 0) {
                 var_v0 = &temp_s3->unk_000[4];
                 do {
                     var_v0->unk_8B4 = 0;
@@ -337,7 +338,7 @@ block_57:
     case 0x3:                                       /* switch 1 */
     case 0x5:                                       /* switch 1 */
     case 0x6:                                       /* switch 1 */
-        if (D_80088408 == 0) {
+        if (evs_story_flg == 0) {
             D_80088414 = 0;
         }
         goto block_23;
@@ -363,11 +364,102 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_draw_sn
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", func_8006F628);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_main);
+enum_main_no dm_game_main(struct_800EB670 *arg0) {
+    OSMesgQueue sp10;
+    OSMesg sp28[8];
+    struct_800FAF98_unk_64 sp48;
+    enum_main_no ret;
+    bool var_s2 = true;
+    s32 var_s4;
+    struct_800F3E50 *temp_s3;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", func_8006F950);
+    func_8006D0E8();
+    osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
+    func_8002A184(arg0, &sp48, &sp10);
+    func_80040A64();
+    func_8006D870();
+    temp_s3 = watchGame;
+    dm_game_init_static();
+    func_8006E80C();
+    temp_s3->unk_880 = 1;
+    dm_game_init(false);
+    backup_game_state(0);
+    D_800A6FC4 = 1;
+    gGfxHead = gGfxGlist[B_800FAD2C];
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", func_8006FFD0);
+    while (var_s2 || (temp_s3->unk_38C != 0x1E)) {
+        s16 *sp50;
+
+        osRecvMesg(&sp10, (OSMesg *)&sp50, OS_MESG_BLOCK);
+        if (sp10.validCount != 0) {
+            D_80088104[1] = 1;
+        }
+
+        if (*sp50 != 1) {
+            continue;
+        }
+
+        if (!var_s2) {
+            if (temp_s3->unk_390 < 0) {
+                temp_s3->unk_390 = -temp_s3->unk_390;
+            }
+        } else {
+            u16 temp_s1 = gControllerPressedButtons[0];
+            s32 i;
+
+            for (i = 0; var_s2 && (i < evs_gamespeed); i++) {
+                if (i != 0) {
+                    gControllerPressedButtons[0] = 0;
+                }
+                var_s4 = dm_game_main2();
+                var_s2 = var_s4 == 0;
+            }
+
+            gControllerPressedButtons[0] = temp_s1;
+            if (temp_s3->unk_420 != 0) {
+                dm_seq_set_volume(0x40);
+            }
+
+            dm_audio_update();
+            dm_game_graphic_onDoneSawp();
+            graphic_no = GRAPHIC_NO_4;
+        }
+    }
+
+    D_800A6FC4 = 0;
+    temp_s3->unk_878 = 0xF;
+
+    while (temp_s3->unk_878 != 0) {
+        osRecvMesg(&sp10, NULL, OS_MESG_BLOCK);
+        dm_audio_update();
+    }
+
+    graphic_no = GRAPHIC_NO_0;
+    memset(gFramebuffers[gCurrentFramebufferIndex ^ 1], 0xFF, sizeof(gFramebuffers[gCurrentFramebufferIndex ^ 1]));
+    dm_audio_stop();
+
+    while (!dm_audio_is_stopped() || (pendingGFX != 0)) {
+        osRecvMesg(&sp10, NULL, OS_MESG_BLOCK);
+        dm_audio_update();
+    }
+
+    ret = dm_game_main3(var_s4);
+    while (func_80040BA4() != 0) {
+        osRecvMesg(&sp10, NULL, OS_MESG_BLOCK);
+    }
+
+    func_80040AE4();
+    func_8002A1DC(arg0, &sp48);
+
+    return ret;
+}
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_main2);
+
+/**
+ * Original name: dm_game_main3
+ */
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_main3);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B23C4);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", RO_800B23CC);
@@ -377,7 +469,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_graphic
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", func_80070360);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", func_80071624);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_graphic_onDoneSawp);
 
 void func_80071A44(void) {
 }
@@ -400,7 +492,7 @@ enum_main_no main_techmes(struct_800EB670 *arg0) {
     osCreateMesgQueue(&sp20, sp38, ARRAY_COUNT(sp38));
     func_8002A184(arg0, &sp58, &sp20);
     func_8006D870();
-    temp_s2 = B_800F3E50;
+    temp_s2 = watchGame;
 
     dm_game_init_static();
     heapTop = init_menu_bg(heapTop, false);
@@ -410,7 +502,7 @@ enum_main_no main_techmes(struct_800EB670 *arg0) {
     temp_s2->messageWnd.unk_20 = 1;
     temp_s2->messageWnd.unk_24 = 1;
     evs_seqence = 0;
-    func_8006D91C(false);
+    dm_game_init(false);
     evs_seqence = temp_s1;
     dm_seq_play_in_game(0x17);
 
