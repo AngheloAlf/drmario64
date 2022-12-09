@@ -249,7 +249,7 @@ void func_8004216C(struct_80041A54_arg0 *arg0) {
 }
 
 #ifdef NON_MATCHING
-void func_80042364(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, s32 arg5, s32 arg6, f32 arg7, f32 arg8, f32 arg9, f32 argA) {
+void StretchAlphaTexBlock(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, s32 arg5, s32 arg6, f32 arg7, f32 arg8, f32 arg9, f32 argA) {
     struct_80041A54_arg0 sp10;
 
     sp10.unk_00 = gfxP;
@@ -274,7 +274,7 @@ void func_80042364(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, s32 a
     func_80041A54(&sp10);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80042364);
+INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", StretchAlphaTexBlock);
 #endif
 
 void func_80042468(struct_80041A54_arg0 *arg0) {
@@ -369,7 +369,7 @@ void func_80042E04(struct_80041A54_arg0 *arg0) {
                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
-void func_80042FEC(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+void StretchTexBlock4i(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     struct_80041A54_arg0 sp10;
 
     sp10.unk_00 = gfxP;

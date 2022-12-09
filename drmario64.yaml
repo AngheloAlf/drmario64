@@ -621,10 +621,10 @@ segments:
   - name: segment_1A3610 # compressed
     type: bin
     start: 0x20EFB8
-  - name: segment_1B0E60 # compressed
+  - name: segment_title_all # compressed
     type: bin
     start: 0x2350E8
-  - name: segment_211E10 # compressed # GraphBin
+  - name: segment_title_bmp # compressed # GraphBin
     type: bin
     start: 0x3621E8
   - name: segment_212B20 # compressed # GraphBin

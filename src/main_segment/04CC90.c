@@ -27,7 +27,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80076DB4);
 void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
     Gfx *gfx = *gfxP;
 
-    gSPDisplayList(gfx++, D_8008E6B8);
+    gSPDisplayList(gfx++, normal_texture_init_dl);
     func_800429B8(&gfx, 0x148, 0xF0, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
     *gfxP = gfx;
 }
@@ -76,7 +76,7 @@ UNK_TYPE func_800774C4(void) {
 }
 
 #ifdef NON_EQUIVALENT
-void func_80077504(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
+void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
     // Gfx *sp38;
     // Gfx *temp_a0;
     // Gfx *temp_a0_2;
@@ -171,23 +171,23 @@ void func_80077504(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
             // temp_v1_3->unk_C = 0xFFFDF2F9;
             gDPSetRenderMode(temp_t0++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineLERP(temp_t0++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
-            func_80042FEC(&temp_t0, 0x40, 0x40, arg4, temp_f16, temp_f14, temp_f10, temp_f10);
+            StretchTexBlock4i(&temp_t0, 0x40, 0x40, arg4, temp_f16, temp_f14, temp_f10, temp_f10);
         }
         // temp_v1_4 = sp38;
         // temp_a0_2 = temp_v1_4 + 8;
         // sp38 = temp_a0_2;
         // temp_v1_4->words.w0 = 0xDE000000;
-        // temp_v1_4->words.w1 = (u32) D_8008E6B8;
-        gSPDisplayList(temp_t0++, D_8008E6B8);
+        // temp_v1_4->words.w1 = (u32) normal_texture_init_dl;
+        gSPDisplayList(temp_t0++, normal_texture_init_dl);
         *gfxP = temp_t0;
     }
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80077504);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_spot);
 #endif
 
 void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
-    func_80077504(gfxP, arg1, arg2, arg3, &D_800A82C0);
+    story_spot(gfxP, arg1, arg2, arg3, &changestar_tex);
 }
 
 void *func_8007780C(void *dstAddr) {
@@ -237,7 +237,7 @@ void func_80077E2C(Gfx **gfxP, s32 arg1, s32 arg2) {
     Gfx *temp_v1;
     Gfx *temp_v1_2;
 
-    func_8007AEBC();
+    init_objMtx();
     temp_s0 = *arg0;
 #if 0
     sp58 = temp_s0 + 8;
@@ -251,7 +251,7 @@ void func_80077E2C(Gfx **gfxP, s32 arg1, s32 arg2) {
     temp_v1->words.w1 = (u32) &D_E5F08;
     temp_v1->words.w0 = 0xDA380007;
     sp58 = temp_v1 + 0x10;
-    temp_v1->unk_C = D_8008E6B8;
+    temp_v1->unk_C = normal_texture_init_dl;
     temp_v1->unk_8 = 0xDE000000;
     sp58 = temp_v1 + 0x18;
     temp_v1->unk_14 = D_800AAD68;
@@ -263,12 +263,12 @@ void func_80077E2C(Gfx **gfxP, s32 arg1, s32 arg2) {
     gSPSegment(temp_s0++, 0x00, 0x00000000);
     gSPSegment(temp_s0++, 0x05, osVirtualToPhysical(bgGraphic));
     gSPMatrix(temp_s0++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
-    gSPDisplayList(temp_s0++, D_8008E6B8);
+    gSPDisplayList(temp_s0++, normal_texture_init_dl);
     gSPDisplayList(temp_s0++, D_800AAD68);
     gDPSetScissor(temp_s0++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
 
-    func_8007F004(&sp18, arg1 << 0xF, arg2 << 0xF, -0x03B60000);
-    if (func_8007B650(&sp58, &sp18, bgGraphic, bgtime, bgGraphic) == 1) {
+    makeTransrateMatrix(&sp18, arg1 << 0xF, arg2 << 0xF, -0x03B60000);
+    if (lws_anim(&sp58, &sp18, bgGraphic, bgtime, bgGraphic) == 1) {
         bgtime = 0;
     } else {
         bgtime += 1;
@@ -277,35 +277,38 @@ void func_80077E2C(Gfx **gfxP, s32 arg1, s32 arg2) {
     //temp_a0 = temp_v1_2 + 8;
     //sp58 = temp_a0;
     //temp_v1_2->words.w0 = 0xDE000000;
-    //temp_v1_2->words.w1 = (u32) D_8008E6B8;
-    gSPDisplayList(temp_s0++, D_8008E6B8);
+    //temp_v1_2->words.w1 = (u32) normal_texture_init_dl;
+    gSPDisplayList(temp_s0++, normal_texture_init_dl);
     *arg0 = temp_s0;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80077E2C);
 #endif
 
-void *func_80077FA4(void *dstAddr, bool arg1) {
+/**
+ * Original name: init_title
+ */
+void *init_title(void *dstAddr, bool arg1) {
     if (arg1) {
-        B_800E59D8 = 0;
-        D_800AAD18 = -0x64;
+        title_time = 0;
+        story_spot_cnt = -0x64;
     } else {
-        B_800E59D8 = 0x2D0;
-        D_800AAD18 = 0x100;
+        title_time = 0x2D0;
+        story_spot_cnt = 0x100;
     }
 
-    B_800E59DC = 0;
+    title_wait = 0;
     guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
 
-    B_800E59E0 = (void *)ALIGN16((uintptr_t)dstAddr);
-    B_800E59E4 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768.start, B_800E59E0, D_8000E768.end - D_8000E768.start));
-    return (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E770.start, B_800E59E4, D_8000E770.end - D_8000E770.start));
+    title_data = ALIGN_PTR(dstAddr);
+    title_bmp_data = ALIGN_PTR(DecompressRomToRam(gSegmentRomOffset_segment_title_all.start, title_data, gSegmentRomOffset_segment_title_all.end - gSegmentRomOffset_segment_title_all.start));
+    return ALIGN_PTR(DecompressRomToRam(gSegmentRomOffset_segment_title_bmp.start, title_bmp_data, gSegmentRomOffset_segment_title_bmp.end - gSegmentRomOffset_segment_title_bmp.start));
 }
 
 /**
  * Original name: demo_title
  */
-s32 demo_title(Gfx **gfxP, s32 arg1) {
+s32 demo_title(Gfx **gfxP, bool arg1) {
     struct_80076CA0_arg0 sp30;
     struct_80076CA0_arg0 sp48;
     struct_8007F004_arg0 sp60;
@@ -315,103 +318,103 @@ s32 demo_title(Gfx **gfxP, s32 arg1) {
     s32 var_s3;
     s32 var_v0_3;
 
-    func_8007AEBC();
+    init_objMtx();
     var_s3 = 0;
     gfx = *gfxP;
 
     gSPSegment(gfx++, 0x00, 0x00000000);
-    temp_s2 = (B_800E59D8 >= 0x2D0);
-    gSPSegment(gfx++, 0x05, osVirtualToPhysical(B_800E59E0));
+    temp_s2 = (title_time >= 0x2D0);
+    gSPSegment(gfx++, 0x05, osVirtualToPhysical(title_data));
     gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
-    gSPDisplayList(gfx++, D_8008E6B8);
+    gSPDisplayList(gfx++, normal_texture_init_dl);
     gSPDisplayList(gfx++, D_800AAD68);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-    B_800E59E8 = B_800E59E0;
-    if (arg1 != 0) {
+    lws_data = title_data;
+    if (arg1) {
         gDPSetEnvColor(gfx++, 183, 127, 95, 255);
 
-        B_800E59EC = (void *)((uintptr_t)B_800E59E0 + (((uintptr_t)B_800E59E0[0x21]) & 0xFFFFFF));
+        lws_scene = (void *)((uintptr_t)title_data + (((uintptr_t)title_data[0x21]) & 0xFFFFFF));
     } else {
         gDPSetEnvColor(gfx++, 255, 255, 255, 255);
 
-        B_800E59EC = (void *)((((uintptr_t)B_800E59E0[0]) & 0xFFFFFF) + (uintptr_t)B_800E59E0);
+        lws_scene = (void *)((((uintptr_t)title_data[0]) & 0xFFFFFF) + (uintptr_t)title_data);
     }
 
-    func_8007F004(&sp60, 0, -0x3C0000, -0x03B60000);
-    if ((D_800AAD18 > 0) && (gControllerPressedButtons[B_800EBD16[0]] & ALL_BUTTONS)) {
+    makeTransrateMatrix(&sp60, 0, -0x3C0000, -0x03B60000);
+    if ((story_spot_cnt > 0) && (gControllerPressedButtons[B_800EBD16[0]] & ALL_BUTTONS)) {
         if (temp_s2 != 0) {
-            if (B_800E59DC == 0) {
+            if (title_wait == 0) {
                 dm_snd_play(SND_INDEX_103);
-                B_800E59DC = 1;
+                title_wait = 1;
             }
         } else {
-            B_800E59D8 = 0x2D0;
+            title_time = 0x2D0;
         }
     }
 
-    if (B_800E59DC > 0) {
-        B_800E59DC++;
-        if (B_800E59DC >= 0x3C) {
+    if (title_wait > 0) {
+        title_wait++;
+        if (title_wait >= 0x3C) {
             var_s3 = 1;
         }
     }
 
-    if (func_8007B650(&gfx, &sp60, B_800E59EC, B_800E59D8, B_800E59E0) == 1) {
+    if (lws_anim(&gfx, &sp60, lws_scene, title_time, title_data) == 1) {
         var_s3 = -1;
     }
 
-    gSPDisplayList(gfx++, D_8008E6B8);
-    if (D_800AAD18 > 0) {
-        B_800E59D8++;
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+    if (story_spot_cnt > 0) {
+        title_time++;
     }
 
-    if (D_800AAD18 < 0x100) {
-        gSPDisplayList(gfx++, D_8008E6B8);
-        func_80077504(&gfx, 0xA0, 0x78, D_800AAD18, D_800A82C0);
+    if (story_spot_cnt < 0x100) {
+        gSPDisplayList(gfx++, normal_texture_init_dl);
+        story_spot(&gfx, 0xA0, 0x78, story_spot_cnt, changestar_tex);
 
-        if (D_800AAD18 < 0) {
+        if (story_spot_cnt < 0) {
             temp_v1_2 = 0xFF;
-            if (D_800AAD18 > -0x18) {
-                temp_v1_2 = (D_800AAD18 * -0xFF) / 24;
+            if (story_spot_cnt > -0x18) {
+                temp_v1_2 = (story_spot_cnt * -0xFF) / 24;
                 if (temp_v1_2 > 0xFF) {
                     temp_v1_2 = 0xFF;
                 }
                 temp_v1_2 = temp_v1_2 & (~temp_v1_2 >> 0x1F);
             }
-            if (D_800AAD18 < -0x4C) {
-                temp_v1_2 = 0xFF - (((D_800AAD18 + 0x4C) * -0xFF) / 24);
+            if (story_spot_cnt < -0x4C) {
+                temp_v1_2 = 0xFF - (((story_spot_cnt + 0x4C) * -0xFF) / 24);
                 if (temp_v1_2 > 0xFF) {
                     temp_v1_2 = 0xFF;
                 }
                 temp_v1_2 = temp_v1_2 & (~temp_v1_2 >> 0x1F);
             }
 
-            func_80076CA0(&sp30, B_800E59E4 + D_800A8AC0);
+            func_80076CA0(&sp30, title_bmp_data + title_bmp_tbl[0]);
 
             gDPSetTextureLUT(gfx++, G_TT_NONE);
             gDPSetPrimColor(gfx++, 0, 0, temp_v1_2, temp_v1_2, temp_v1_2, 255);
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
 
-            func_80042FEC(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, (0xA0 - (sp30.unk_04 / 2)), (0x78 - (sp30.unk_08 / 2)), sp30.unk_04, sp30.unk_08);
-            D_800AAD18 += 1;
+            StretchTexBlock4i(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, (0xA0 - (sp30.unk_04 / 2)), (0x78 - (sp30.unk_08 / 2)), sp30.unk_04, sp30.unk_08);
+            story_spot_cnt += 1;
         } else {
-            D_800AAD18 += 5;
+            story_spot_cnt += 5;
         }
     }
 
     var_v0_3 = 1;
-    if (B_800E59DC == 0) {
+    if (title_wait == 0) {
         var_v0_3 = 0x10;
     }
 
-    if ((B_800E59D8 & var_v0_3) && (B_800E59D8 > 0x2D0) && (B_800E59DC == 0)) {
-        func_80076CA0(&sp30, B_800E59E4 + D_800A8AC4);
-        func_80076CA0(&sp48, B_800E59E4 + D_800A8AC8);
+    if ((title_time & var_v0_3) && (title_time > 0x2D0) && (title_wait == 0)) {
+        func_80076CA0(&sp30, title_bmp_data + title_bmp_tbl[1]);
+        func_80076CA0(&sp48, title_bmp_data + title_bmp_tbl[2]);
 
-        gSPDisplayList(gfx++, D_8008E650);
-        func_80042364(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, sp30.unk_04, (s32)sp48.unk_10, sp48.unk_04, 88.0f, 165.0f, sp30.unk_04, sp30.unk_08);
+        gSPDisplayList(gfx++, alpha_texture_init_dl);
+        StretchAlphaTexBlock(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, sp30.unk_04, (s32)sp48.unk_10, sp48.unk_04, 88.0f, 165.0f, sp30.unk_04, sp30.unk_08);
     }
 
     *gfxP = gfx;
@@ -442,8 +445,8 @@ void func_8007A9DC(void) {
 
     B_800E87AC = D_800AAD3C;
 
-    segmentSize = D_8000E768.end - D_8000E768.start;
-    ptr = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E768.start, B_800E87AC, segmentSize));
+    segmentSize = gSegmentRomOffset_segment_title_all.end - gSegmentRomOffset_segment_title_all.start;
+    ptr = (void *)ALIGN16((uintptr_t)DecompressRomToRam(gSegmentRomOffset_segment_title_all.start, B_800E87AC, segmentSize));
     B_800E8750 = ptr;
 
     segmentSize = D_8000E758.end - D_8000E758.start;
@@ -581,7 +584,10 @@ s32 main_story(struct_800EB670 *arg0) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", main_story);
 #endif
 
-void func_8007AEBC(void) {
+/**
+ * Original name: init_objMtx
+ */
+void init_objMtx(void) {
     B_800F1DF8 = &B_800E5F50[D_800AAD44];
     D_800AAD44 ^= 1;
 }
@@ -593,7 +599,7 @@ UNK_TYPE S2ClearCFBRtn(UNK_TYPE, s32);                            /* extern */
 UNK_TYPE func_800768E0(Gfx **, s32);                       /* extern */
 UNK_TYPE func_80076DB4(Gfx **, s32);                       /* extern */
 UNK_TYPE func_800770E8(Gfx **, void *);                    /* extern */
-UNK_TYPE func_80077504(Gfx **, UNK_TYPE, UNK_TYPE, s32, UNK_TYPE *);            /* extern */
+UNK_TYPE story_spot(Gfx **, UNK_TYPE, UNK_TYPE, s32, UNK_TYPE *);            /* extern */
 UNK_TYPE func_8007873C(Gfx **, UNK_TYPE);                         /* extern */
 UNK_TYPE func_80078F78(Gfx **, UNK_TYPE, UNK_TYPE, u32);                 /* extern */
 UNK_TYPE func_800791D0(Gfx **, UNK_TYPE, UNK_TYPE, UNK_TYPE, s32);              /* extern */
@@ -601,13 +607,13 @@ UNK_TYPE func_800796F4(Gfx **, UNK_TYPE, UNK_TYPE, UNK_TYPE, s32);              
 UNK_TYPE func_80079B24(Gfx **, UNK_TYPE, UNK_TYPE);                      /* extern */
 UNK_TYPE func_8007A154(Gfx **, UNK_TYPE, UNK_TYPE);                      /* extern */
 UNK_TYPE func_8007A440(Gfx **, UNK_TYPE);                         /* extern */
-extern void *B_800E59E8;
+extern void *lws_data;
 extern struct_80124610 B_800E5A70;
 extern f32 B_800E5ACC;
 extern s32 B_800E5EFC;
 extern s32 B_800E5F00;
 extern s8 D_8008840A;
-extern UNK_TYPE D_800A82C0;
+extern UNK_TYPE changestar_tex;
 extern UNK_TYPE D_E5F08;
 
 void graphic_story(void) {
@@ -630,7 +636,7 @@ void graphic_story(void) {
 
     gGfxHead = gGfxGlist[B_800FAD2C];
     temp_s1 = &B_800FAE80[B_800FAD2C];
-    func_8007AEBC(B_800FAD2C);
+    init_objMtx(B_800FAD2C);
     temp_s0 = gGfxHead;
     gGfxHead = temp_s0 + 8;
     temp_s0->words.w0 = 0xDB060000;
@@ -638,7 +644,7 @@ void graphic_story(void) {
     gGfxHead = temp_s0 + 0x10;
     temp_s0->unk_8 = 0xDB060014;
     temp_s0->unk_C = osVirtualToPhysical(D_800AAD3C);
-    B_800E59E8 = D_800AAD3C;
+    lws_data = D_800AAD3C;
     S2RDPinitRtn(1);
     temp_v1 = gGfxHead;
     gGfxHead = temp_v1 + 8;
@@ -791,10 +797,10 @@ block_32:
         temp_v1_4 = gGfxHead;
         gGfxHead = temp_v1_4 + 8;
         temp_v1_4->words.w0 = 0xDE000000;
-        temp_v1_4->words.w1 = (u32) D_8008E6B8;
-        func_80077504(&gGfxHead, 0xA0, 0x78, D_800AAD18, &D_800A82C0);
-        temp_v0 = D_800AAD18 - 4;
-        D_800AAD18 = temp_v0;
+        temp_v1_4->words.w1 = (u32) normal_texture_init_dl;
+        story_spot(&gGfxHead, 0xA0, 0x78, story_spot_cnt, &changestar_tex);
+        temp_v0 = story_spot_cnt - 4;
+        story_spot_cnt = temp_v0;
         if (temp_v0 < -0x14) {
             B_800E5EFC = 0;
         }

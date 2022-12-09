@@ -16,7 +16,7 @@ void func_80075F30(void) {
     B_800E59A8 = -8;
     evs_seqence = 0;
     title_fade_count = -(main_old == MAIN_NO_6) & 0xFF;
-    func_80077FA4(&Heap_bufferp, main_old != MAIN_NO_6);
+    init_title(&Heap_bufferp, main_old != MAIN_NO_6);
 }
 
 /**

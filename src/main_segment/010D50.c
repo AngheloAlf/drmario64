@@ -12,7 +12,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003ACB4);
 void func_8003AD88(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
-    func_8007AEBC();
+    init_objMtx();
     gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&B_800E5818), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPSegment(gfx++, 0x05, osVirtualToPhysical(B_800E53CC));
     *gfxP = gfx;
@@ -44,8 +44,8 @@ UNK_TYPE func_8003AE08(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
             break;
     }
 
-    func_8007F004(&sp18, var_a1 << 0xF, var_a2 << 0xF, -0x01F40000);
-    ret = func_8007B650(&gfx, &sp18, B_800E53F4, arg2, B_800E53CC);
+    makeTransrateMatrix(&sp18, var_a1 << 0xF, var_a2 << 0xF, -0x01F40000);
+    ret = lws_anim(&gfx, &sp18, B_800E53F4, arg2, B_800E53CC);
 
     *gfxP = gfx;
     return ret;

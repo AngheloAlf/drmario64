@@ -11,9 +11,9 @@ RomOffsetPair D_8000E758 = { SEGMENT_ROM_START(segment_212B20), SEGMENT_ROM_END(
 
 RomOffsetPair D_8000E760 = { SEGMENT_ROM_START(segment_21B120), SEGMENT_ROM_END(segment_21B120) };
 
-RomOffsetPair D_8000E768 = { SEGMENT_ROM_START(segment_1B0E60), SEGMENT_ROM_END(segment_1B0E60) };
+RomOffsetPair gSegmentRomOffset_segment_title_all = { SEGMENT_ROM_START(segment_title_all), SEGMENT_ROM_END(segment_title_all) };
 
-RomOffsetPair D_8000E770 = { SEGMENT_ROM_START(segment_211E10), SEGMENT_ROM_END(segment_211E10) };
+RomOffsetPair gSegmentRomOffset_segment_title_bmp = { SEGMENT_ROM_START(segment_title_bmp), SEGMENT_ROM_END(segment_title_bmp) };
 
 RomOffsetPair D_8000E778[] = {
     { 0x00000000, 0x00000000 },
