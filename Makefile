@@ -120,7 +120,7 @@ AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
 C_DEFINES       := -D_LANGUAGE_C
 
 # Use relocations and abi fpr names in the dump
-OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
+OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32 -Mno-aliases
 
 ifneq ($(OBJDUMP_BUILD), 0)
 	OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
