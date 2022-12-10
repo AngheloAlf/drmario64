@@ -117,9 +117,9 @@ void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1) {
     s32 var_s2;
     char *temp_a1_2;
 
-    temp_s1 = func_8005B858(messageWnd->unk_0C + messageWnd->unk_14);
+    temp_s1 = fontStr_length(messageWnd->unk_0C + messageWnd->unk_14);
 
-    var_s2 = func_8005B858(arg1);
+    var_s2 = fontStr_length(arg1);
     if (messageWnd->unk_10 < (temp_s1 + var_s2 + 2)) {
         var_s2 = (messageWnd->unk_10 - temp_s1) - 2;
     }
@@ -278,14 +278,14 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
                     if (messageWidth >= (var_s2 + temp_s5)) {
                         switch (messageWnd->unk_20) {
                             case 0:
-                                func_8005C4BC(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
-                                              (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)sp34,
-                                              (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
+                                fontAsc_draw(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
+                                             (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)sp34,
+                                             (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
                                 break;
 
                             case 1:
                                 if (messageWnd->unk_20 == temp_s4) {
-                                    func_8005C90C(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
+                                    fontAsc_draw2(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
                                                   (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)sp34,
                                                   (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
                                 }

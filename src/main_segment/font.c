@@ -7,8 +7,8 @@
 #include "main_segment_variables.h"
 
 typedef struct struct_800A6F70 {
-    /* 0x0 */ u8 unk_0;
-    /* 0x1 */ u8 unk_1;
+    /* 0x0 */ u8 index;
+    /* 0x1 */ u8 size;
 } struct_800A6F70; // size = 0x2
 
 struct_800A6F70 D_800A3AD0[0x80] = {
@@ -589,6 +589,13 @@ const Gfx RO_800B1950[] = {
 #include "main_segment/font/RO_800B1950.gfx.inc"
 };
 
+static inline char inline_fn(const char *arg0) {
+    return *arg0;
+}
+
+/**
+ * Original name: fontStr_nextChar
+ */
 s32 fontStr_nextChar(const char *arg0) {
     s32 var_v1;
 
@@ -610,7 +617,10 @@ s32 fontStr_nextChar(const char *arg0) {
     return var_v1;
 }
 
-s32 func_8005B858(const char *arg0) {
+/**
+ * Original name: fontStr_length
+ */
+s32 fontStr_length(const char *arg0) {
     s32 temp_v0;
     s32 var_s0 = 0;
 
@@ -621,13 +631,30 @@ s32 func_8005B858(const char *arg0) {
     return var_s0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontStr_charSize);
+/**
+ * Original name: fontStr_charSize
+ */
+s32 fontStr_charSize(const char *arg0, s32 arg1) {
+    s32 character = arg0[0];
+    s32 index;
+    s32 size;
+
+    if (character < 0x80) {
+        ascii2index(character, arg1, &index, &size);
+    } else {
+        size = 0xC;
+    }
+    return size;
+}
 
 u16 func_8005B8D8(u8 arg0) {
     return D_800A6D90[arg0];
 }
 
-u16 func_8005B8F0(const char *arg0) {
+/**
+ * Original name: font2index
+ */
+s32 font2index(const char *arg0) {
     s32 var_a1 = arg0[0];
 
     if ((arg0[0] - 0x81) < 0x1FU) {
@@ -641,25 +668,34 @@ u16 func_8005B8F0(const char *arg0) {
     return char_code_tbl[var_a1];
 }
 
-void ascii2index(s32 arg0, s32 arg1, s32 *arg2, s32 *arg3) {
-    struct_800A6F70 *ptr = D_800A6F70[arg1 % 2U];
+/**
+ * Original name: ascii2index
+ */
+void ascii2index(s32 character, s32 arg1, s32 *indexP, s32 *sizeP) {
+    struct_800A6F70 *ptr = D_800A6F70[arg1 % ARRAY_COUNTU(D_800A6F70)];
     struct_800A6F70 *ptr2;
-    char temp1;
-    char temp2;
+    char index;
+    char size;
 
-    ptr2 = &ptr[arg0 % 0x80U];
+    ptr2 = &ptr[character % 0x80U];
 
-    temp1 = ptr2->unk_0;
-    temp2 = ptr2->unk_1;
+    index = ptr2->index;
+    size = ptr2->size;
 
-    *arg2 = temp1;
-    *arg3 = temp2;
+    *indexP = index;
+    *sizeP = size;
 }
 
+/**
+ * Original name: font16_initDL
+ */
 void font16_initDL(Gfx **gfxP) {
     gSPDisplayList((*gfxP)++, RO_800B1950);
 }
 
+/**
+ * Original name: font16_initDL2
+ */
 void font16_initDL2(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -672,9 +708,17 @@ void font16_initDL2(Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontXX_draw);
+/**
+ * Original name: fontXX_draw
+ */
+bool fontXX_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
+    return fontXX_drawID(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
+}
 
 #if 0
+/**
+ * Original name: fontXX_drawID
+ */
 bool fontXX_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
     s32 sp0;
     s32 sp4;
@@ -798,11 +842,19 @@ bool fontXX_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5)
 INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontXX_drawID);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontXX_draw2);
+/**
+ * Original name: fontXX_draw2
+ */
+bool fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
+    return fontXX_drawID2(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
+}
 
 #if 0
 extern ? D_80094350;
 
+/**
+ * Original name: fontXX_drawID2
+ */
 bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
     s32 sp0;
     s32 sp4;
@@ -989,10 +1041,168 @@ bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5
 INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontXX_drawID2);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005C4BC);
+/**
+ * Original name: fontAsc_draw
+ */
+bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
+    s32 index;
+    s32 sp1C;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005C548);
+    ascii2index(inline_fn(arg5), 0, &index, &sp1C);
+    return fontAsc_drawID(gfxP, arg1, arg2, arg3, arg4, index);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005C90C);
+#if 0
+extern u8 D_8009F870[];
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", func_8005C998);
+/**
+ * Original name: fontAsc_drawID
+ */
+enum bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
+    s32 sp0;
+    s32 sp4;
+    s32 sp8;
+    s32 spC;
+    s32 sp10;
+    s32 sp14;
+    s32 sp18;
+    s32 sp1C;
+    Gfx *temp_a0;
+    Gfx *temp_a0_3;
+    Gfx *temp_a1;
+    Gfx *temp_v1;
+    Gfx *temp_v1_2;
+    Gfx *temp_v1_3;
+    Gfx *temp_v1_4;
+    Gfx *temp_v1_5;
+    Gfx *temp_v1_6;
+    Gfx *temp_v1_7;
+    s32 temp_a0_2;
+    s32 temp_a2;
+    s32 temp_t1;
+    s32 temp_v0;
+    s32 temp_v0_2;
+    s32 temp_v0_3;
+    s32 var_a0;
+    s32 var_v0;
+    s32 var_v0_2;
+
+    if (((arg3 <= 0.0f) || (arg4 <= 0.0f))) {
+        return false;
+    }
+    if (arg5 == 0) {
+        return false;
+    }
+    temp_v0 = arg5 - 1;
+    temp_t1 = -(temp_v0 & 1) & 0xC;
+    if (arg5 > 0) {
+        u8 *ptr = &D_8009F870[((temp_v0 & ~1) * 0xA * 0xC) >> 1];
+        temp_a2 = temp_t1 * 4;
+        temp_a0_2 = (temp_t1 + 0xB) * 4;
+#if 0
+        temp_a0 = *gfxP;
+        *gfxP = temp_a0 + 8;
+        temp_a0->words.w0 = 0xFD880004;
+        temp_a0->words.w1 = (u32) (((s32) ((temp_v0 & ~1) * 0xA * 0xC) >> 1) + D_8009F870);
+        temp_v1 = *gfxP;
+        *gfxP = temp_v1 + 8;
+        temp_v1->words.w0 = 0xF5880200;
+        temp_v1->words.w1 = 0x07080200;
+        temp_v1_2 = *gfxP;
+        *gfxP = temp_v1_2 + 8;
+        temp_v1_2->words.w0 = 0xE6000000;
+        temp_v1_2->words.w1 = 0;
+        temp_v1_3 = *gfxP;
+        *gfxP = temp_v1_3 + 8;
+        temp_v1_3->words.w0 = temp_a2 | 0xF4000000;
+        temp_v1_3->words.w1 = temp_a0_2 | 0x07000000 | 0x12000;
+        temp_v1_4 = *gfxP;
+        *gfxP = temp_v1_4 + 8;
+        temp_v1_4->words.w0 = 0xE7000000;
+        temp_v1_4->words.w1 = 0;
+        temp_v1_5 = *gfxP;
+        *gfxP = temp_v1_5 + 8;
+        temp_v1_5->words.w0 = 0xF5800200;
+        temp_v1_5->words.w1 = 0x80200;
+        temp_v1_6 = *gfxP;
+        *gfxP = temp_v1_6 + 8;
+        temp_v1_6->words.w0 = temp_a2 | 0xF2000000;
+        temp_v1_6->words.w1 = temp_a0_2 | 0x24000;
+#endif
+
+        gDPLoadTextureTile_4b((*gfxP)++, ptr, G_IM_FMT_I, 10, 12, 0, temp_t1, 9, (temp_t1 + 0xB), 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+        //gDPSetTextureImage((*gfxP)++, G_IM_FMT_I, G_IM_SIZ_8b, 5, 0xFFFFFFFF);
+        //gDPLoadSync((*gfxP)++);
+        //gDPLoadTile((*gfxP)++, G_TX_LOADTILE, 0, 0, 0x0012, 0);
+        //gDPPipeSync((*gfxP)++);
+        //gDPSetTile((*gfxP)++, G_IM_FMT_I, G_IM_SIZ_4b, 1, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
+        //gDPSetTileSize((*gfxP)++, G_TX_RENDERTILE, 0, temp_t1 * 4, 0x0024, (temp_t1 + 0xB) * 4);
+
+    }
+    sp10 = 0;
+    sp14 = temp_t1 << 5;
+    sp0 = (s32) (arg1 * 4.0f);
+    sp4 = (s32) (arg2 * 4.0f);
+    sp8 = (s32) ((arg1 + arg3) * 4.0f);
+    spC = (s32) ((arg2 + arg4) * 4.0f);
+    sp18 = (s32) (10240.0f / arg3);
+    sp1C = (s32) (12288.0f / arg4);
+#if 0
+    temp_a1 = *gfxP;
+    *gfxP = temp_a1 + 8;
+    temp_a1->words.w0 = ((sp8 & ((s32) ~(u16)sp8 >> 0x1F) & 0xFFF) << 0xC) | ((spC & ((s32) ~(u16)spC >> 0x1F) & 0xFFF) | 0xE4000000);
+    temp_a1->words.w1 = ((sp0 & ((s32) ~(u16)sp0 >> 0x1F) & 0xFFF) << 0xC) | (sp4 & ((s32) ~(u16)sp4 >> 0x1F) & 0xFFF);
+    temp_v1_7 = *gfxP;
+    *gfxP = temp_v1_7 + 8;
+    temp_v1_7->words.w0 = 0xE1000000;
+    if ((u16)sp0 >= 0) {
+        var_a0 = sp10 << 0x10;
+    } else {
+        if ((u16)sp18 < 0) {
+            var_v0_2 = (s32) ((u16)sp0 * (u16)sp1C) >> 7;
+            var_v1_2 = (s32) ~var_v0_2 >> 0x1F;
+        } else {
+            var_v0_2 = (s32) ((u16)sp0 * (u16)sp1C) >> 7;
+            var_v1_2 = -(var_v0_2 < 1);
+        }
+        var_a0 = (sp10 - (var_v0_2 & var_v1_2)) << 0x10;
+    }
+    if (sp4 >= 0) {
+        var_v0_3 = sp14 & 0xFFFF;
+    } else if ((u16)sp1C < 0) {
+        temp_v0_2 = (s32) ((s16) sp4 * (u16)sp1C) >> 7;
+        var_v0_3 = (sp14 - (temp_v0_2 & ((s32) ~temp_v0_2 >> 0x1F))) & 0xFFFF;
+    } else {
+        temp_v0_3 = (s32) ((s16) sp4 * (u16)sp1C) >> 7;
+        var_v0_3 = (sp14 - (temp_v0_3 & -(temp_v0_3 < 1))) & 0xFFFF;
+    }
+    temp_v1_7->words.w1 = var_a0 | var_v0_3;
+    temp_a0_3 = *gfxP;
+    *gfxP = temp_a0_3 + 8;
+    temp_a0_3->words.w0 = 0xF1000000;
+    temp_a0_3->words.w1 = ((u16)sp18 << 0x10) | (u16)sp1C;
+#endif
+    gSPTextureRectangle((*gfxP)++, sp0, sp4, sp8, spC, G_TX_RENDERTILE, sp10, sp14, sp18, sp1C);
+
+    return true;
+}
+#else
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontAsc_drawID);
+#endif
+
+/**
+ * Original name: fontAsc_draw2
+ */
+bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
+    s32 index;
+    s32 sp1C;
+
+    ascii2index(inline_fn(arg5), 1, &index, &sp1C);
+    return fontAsc_drawID2(gfxP, arg1, arg2, arg3, arg4, index);
+}
+
+/**
+ * Original name: fontAsc_drawID2
+ */
+INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontAsc_drawID2);

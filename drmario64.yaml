@@ -415,7 +415,16 @@ segments:
       - [0x070220, data, main_segment/05E7B0]
       - [0x074E10, data, main_segment/0633A0]
 
-      - [0x0766E0, data, main_segment/font_textures]
+      # - [0x0766E0, data, main_segment/font_textures]
+      - start: 0x0766E0
+        type: data
+        name: main_segment/font_textures
+        subsegments:
+          - [0x0766E0, i4, main_segment/font_textures/D_8008E8C0, 12, 3864]
+          - [0x07C170, i4, main_segment/font_textures/D_80094350, 24, 3864]
+          - [0x087690, i4, main_segment/font_textures/D_8009F870, 10, 1128]
+          - [0x088C98, i4, main_segment/font_textures/D_800A0E78, 20, 1128]
+          - [0x08B8A8, i4, main_segment/font_textures/D_800A3A88, 12, 12]
       - [0x08B8F0, .data, main_segment/font]
 
       - [0x08EDA0, data, main_segment/07D330]
