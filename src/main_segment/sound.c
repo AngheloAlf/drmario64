@@ -245,7 +245,8 @@ void dm_audio_init_driver(struct_800EB670 *arg0) {
         func_8002AAD8(&ptr->unk_08[i], i);
     }
 
-    func_8002D170(arg0, &B_800B3640, 0x31000, D_8000E838[1].end - D_8000E838[1].start, func_8002AA80(), 2, D_8000E838[2].end - D_8000E838[2].start, 4, 50);
+    func_8002D170(arg0, B_800B3640, sizeof(B_800B3640), D_8000E838[1].end - D_8000E838[1].start, func_8002AA80(), 2, D_8000E838[2].end - D_8000E838[2].start, 4,
+                  50);
 
     func_8002D3B0(D_8000E838[1].start, D_8000E838[1].end - D_8000E838[1].start, (void *)D_8000E838[0].start);
     func_8002D6A4(D_8000E838[2].start, D_8000E838[2].end - D_8000E838[2].start);

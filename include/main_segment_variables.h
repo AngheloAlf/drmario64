@@ -209,15 +209,13 @@ extern s32 D_8008E788;
 // extern UNK_TYPE D_8008E87C;
 extern UNK_TYPE D_8008E8B4; // maybe part of a struct?
 // extern UNK_TYPE D_8008E8C0;
-// extern UNK_TYPE D_8008F800;
-// extern UNK_TYPE D_8008FB00;
 // extern UNK_TYPE D_80094350;
 // extern UNK_TYPE D_8009F870;
 // extern UNK_TYPE D_800A0E78;
 extern u8 D_800A3A88[];
 // extern UNK_TYPE D_800A3AD0;
 // extern UNK_TYPE D_800A3BD0;
-extern UNK_TYPE2 D_800A3CD0[];
+extern u16 char_code_tbl[];
 extern u16 D_800A6D90[];
 // extern UNK_TYPE D_800A6F70;
 // extern UNK_TYPE D_800A6F80;
@@ -447,12 +445,7 @@ extern const Gfx RO_800ADC60[];
 
 // bss
 
-extern UNK_TYPE B_800B3640;
-// extern UNK_TYPE B_800BFEF7;
-// extern UNK_TYPE B_800C00D2;
-// extern UNK_TYPE B_800DB40B;
-// extern UNK_TYPE B_800DF300;
-// extern UNK_TYPE B_800E42B4;
+extern u8 B_800B3640[0x31000];
 extern u32 B_800E4640[0x270];
 // extern UNK_TYPE B_800E5000;
 // extern UNK_TYPE B_800E5008;

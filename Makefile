@@ -90,7 +90,7 @@ ROM_DECOMPRESSOR  ?= tools/compressor/rom_decompressor.py
 SEGMENT_EXTRACTOR ?= tools/compressor/extract_compressed_segments.py
 
 
-IINC       := -Iinclude
+IINC       := -Iinclude -Ibin
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src -Ilib/libmus/include
 
 # Check code syntax with host compiler

@@ -22,13 +22,13 @@ options:
   src_path: src
   build_path: build
   asset_path: bin
-  # extensions_path: tools/splat_ext
+  extensions_path: tools/splat_ext
   # mips_abi_float_regs: o32 # kmc does not like it :c
   # section_order: [".text", ".data", ".rodata", ".bss"]
   # auto_all_sections: [".data", ".rodata", ".bss"]
   do_c_func_detection: True
   o_as_suffix: True
-  gfx_ucode: f3dex
+  gfx_ucode: f3dex2
   mnemonic_ljust: 12
   rom_address_padding: True
   # create_elf_section_list_auto: False # ?
@@ -415,7 +415,8 @@ segments:
       - [0x070220, data, main_segment/05E7B0]
       - [0x074E10, data, main_segment/0633A0]
 
-      - [0x0766E0, data, main_segment/font]
+      - [0x0766E0, data, main_segment/font_textures]
+      - [0x08B8F0, .data, main_segment/font]
 
       - [0x08EDA0, data, main_segment/07D330]
 
@@ -465,7 +466,9 @@ segments:
 
       - [0x099420, .rodata, main_segment/030AD0]
 
-      - { start: 0x099770, type: .rodata, partial_migration: True, name: main_segment/font }
+      - [0x099770, gfx_var, main_segment/font/RO_800B1950]
+      - [0x099798, .rodata, main_segment/font]
+
       - { start: 0x0997B0, type: .rodata, partial_migration: True, name: main_segment/msgwnd }
       - { start: 0x099880, type: .rodata, partial_migration: True, name: main_segment/0344D0 }
       - { start: 0x0999C0, type: .rodata, partial_migration: True, name: main_segment/035AB0 }
