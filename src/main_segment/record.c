@@ -11,6 +11,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
+#include "recwritingmsg.h"
 
 const char eeprom_header[4] = "DM64";
 
@@ -415,20 +416,76 @@ void func_80038BD0(UNK_TYPE arg0 UNUSED) {
 void EepRom_DumpDataSize(void) {
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", RecWritingMsg_init);
+void RecWritingMsg_init(RecordWritingMessage *recMessage, UNK_PTR *arg1) {
+    msgWnd_init(&recMessage->messageWnd, arg1, 0x18, 2, 0, 0);
+    recMessage->messageWnd.unk_24 = 1;
+    RecWritingMsg_setPos(recMessage, 0, 0);
+    recMessage->unk_84 = 0x78;
+    recMessage->unk_80 = 0x78;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", RecWritingMsg_setStr);
+void RecWritingMsg_setStr(RecordWritingMessage *recMessage, const char *arg1) {
+    msgWnd_clear(&recMessage->messageWnd);
+    msgWnd_addStr(&recMessage->messageWnd, arg1);
+    msgWnd_skip(&recMessage->messageWnd);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", RecWritingMsg_calc);
+void RecWritingMsg_calc(RecordWritingMessage *recMessage) {
+    if (RecWritingMsg_isEnd(recMessage)) {
+        return;
+    }
 
+    msgWnd_update(&recMessage->messageWnd);
+    recMessage->unk_84++;
+}
+#if 0
+//extern u16 D_800897A0;
+//extern u16 D_800897A2;
+//extern UNK_TYPE D_800897A8;
+//extern UNK_TYPE D_800899A8;
+void RecWritingMsg_draw(RecordWritingMessage *recMessage, Gfx **gfxP) {
+    Gfx *gfx;
+    s32 temp_s0;
+    s32 temp_v0;
+    u32 temp_a1;
+
+    if (RecWritingMsg_isEnd(recMessage)) {
+        return;
+    }
+
+    gfx = *gfxP;
+    temp_s0 = msgWnd_getWidth(&recMessage->messageWnd);
+    temp_v0 = msgWnd_getHeight(&recMessage->messageWnd);
+
+    //gfx->words.w0 = 0xDE000000;
+    //gfx->words.w1 = (u32) normal_texture_init_dl;
+    //gfx += 8;
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    temp_a1 = D_800897A0 - temp_s0;
+    StretchTexTile8(&gfx, D_800897A0, D_800897A2, &D_800897A8, &D_800899A8, 0, 0, (s32) D_800897A0, (s32) D_800897A2, (f32) (recMessage->messageWnd.unk_28 - ((s32) (temp_a1 + (temp_a1 >> 0x1F)) >> 1)), (f32) (recMessage->messageWnd.unk_2C - ((s32) (D_800897A2 - temp_v0) / 2)), (f32) D_800897A0, (f32) D_800897A2);
+    msgWnd_draw(&recMessage->messageWnd, &gfx);
+    *gfxP = gfx;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/record", RecWritingMsg_draw);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", RecWritingMsg_start);
+void RecWritingMsg_start(RecordWritingMessage *recMessage) {
+    recMessage->unk_84 = 0;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", RecWritingMsg_end);
+void RecWritingMsg_end(RecordWritingMessage *recMessage) {
+    recMessage->unk_84 = recMessage->unk_80;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", RecWritingMsg_isEnd);
+bool RecWritingMsg_isEnd(RecordWritingMessage *recMessage) {
+    return (recMessage->unk_84 >= recMessage->unk_80);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", RecWritingMsg_setPos);
+void RecWritingMsg_setPos(RecordWritingMessage *recMessage, s32 arg1, s32 arg2) {
+    recMessage->messageWnd.unk_28 = arg1;
+    recMessage->messageWnd.unk_2C = arg2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/record", setSleepTimer);

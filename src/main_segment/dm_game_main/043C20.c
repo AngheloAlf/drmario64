@@ -470,7 +470,7 @@ void dm_game_graphic(void) {
         return;
     }
 
-    RecWritingMsg_draw(&temp_s0->unk_AD8, &gGfxHead);
+    RecWritingMsg_draw(&temp_s0->recMessage, &gGfxHead);
 
     gDPFullSync(gGfxHead++);
     gSPEndDisplayList(gGfxHead++);

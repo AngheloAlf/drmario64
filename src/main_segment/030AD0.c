@@ -214,7 +214,7 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
         }
     }
 
-    RecWritingMsg_draw(&arg0->unk_111F8, &gGfxHead);
+    RecWritingMsg_draw(&arg0->recMessage, &gGfxHead);
 
     arg0->unk_111E8 = 0;
     arg0->unk_111F0++;

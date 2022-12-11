@@ -466,7 +466,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80044238);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_800443F4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_800445C4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", StretchTexTile8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80044780);
 

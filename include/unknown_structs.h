@@ -9,6 +9,7 @@
 #include "unk.h"
 #include "alignment.h"
 #include "msgwnd.h"
+#include "recwritingmsg.h"
 
 
 typedef struct struct_800FAF98_unk_64 {
@@ -136,8 +137,7 @@ typedef struct struct_800F3E50 {
     /* 0x9AC */ s32 unk_9AC;
     /* 0x9B0 */ s32 unk_9B0;
     /* 0x9B4 */ UNK_TYPE1 unk_9B4[0x124];
-    /* 0xAD8 */ UNK_TYPE unk_AD8; // Maybe a substruct
-    /* 0xADC */ UNK_TYPE1 unk_ADC[0x84];
+    /* 0xAD8 */ RecordWritingMessage recMessage;
 } struct_800F3E50; // size = 0xB60
 
 
@@ -509,8 +509,7 @@ typedef struct struct_800F3E5C {
     /* 0x111EC */ UNK_TYPE unk_111EC;
     /* 0x111F0 */ UNK_TYPE unk_111F0;
     /* 0x111F4 */ UNK_TYPE unk_111F4; // thread priority?
-    /* 0x111F8 */ UNK_TYPE unk_111F8;
-    /* 0x111FC */ UNK_TYPE1 unk_111FC[0x84];
+    /* 0x111F8 */ RecordWritingMessage recMessage;
 } struct_800F3E5C; // size = 0x11280
 
 typedef enum enum_graphic_no {

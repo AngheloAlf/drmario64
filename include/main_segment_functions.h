@@ -156,14 +156,6 @@ s32 EepRom_ReadAll(void);
 s32 EepRom_WriteAll(s32 arg0, s32 arg1); /* Original name: EepRom_WriteAll */
 void func_80038BD0(UNK_TYPE arg0);
 void EepRom_DumpDataSize(void);
-void RecWritingMsg_init(UNK_TYPE *arg0, UNK_PTR *arg1);
-// void RecWritingMsg_setStr();
-// void RecWritingMsg_calc();
-void RecWritingMsg_draw(UNK_TYPE *arg0, Gfx **gfxP);
-// void RecWritingMsg_start();
-// void RecWritingMsg_end();
-// void RecWritingMsg_isEnd();
-// void RecWritingMsg_setPos();
 // void setSleepTimer();
 
 // void func_80038EF0();
@@ -286,7 +278,7 @@ void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32
 // void func_80044058();
 // void func_80044238();
 // void func_800443F4();
-// void func_800445C4();
+void StretchTexTile8(Gfx **gfxP, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3, UNK_TYPE arg4, UNK_TYPE arg5, UNK_TYPE arg6, UNK_TYPE arg7, UNK_TYPE arg8, f32 arg9, f32 argA, f32 argB, f32 argC);
 // void func_80044780();
 // void func_80044940();
 // void func_80044B18();
