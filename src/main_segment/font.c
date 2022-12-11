@@ -586,7 +586,7 @@ struct_800A6F70 *D_800A6F70[] = { D_800A3AD0, D_800A3BD0 };
  * Original name: static init_dl
  */
 const Gfx RO_800B1950[] = {
-#include "main_segment/font/RO_800B1950.gfx.inc"
+#include "main_segment/font/RO_800B1950.gfx.inc.c"
 };
 
 static inline char inline_fn(const char *arg0) {

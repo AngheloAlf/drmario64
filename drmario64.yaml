@@ -475,8 +475,12 @@ segments:
 
       - [0x099420, .rodata, main_segment/030AD0]
 
-      - [0x099770, gfx_var, main_segment/font/RO_800B1950]
-      - [0x099798, .rodata, main_segment/font]
+      - start: 0x099770
+        type: .rodata
+        name: main_segment/font
+        subsegments:
+        - { start: 0x099770, type: gfx, data_only: True, name: main_segment/font/RO_800B1950}
+        - [0x099798]
 
       - { start: 0x0997B0, type: .rodata, partial_migration: True, name: main_segment/msgwnd }
       - { start: 0x099880, type: .rodata, partial_migration: True, name: main_segment/0344D0 }
