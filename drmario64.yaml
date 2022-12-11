@@ -347,7 +347,9 @@ segments:
 
       - [0x016650, c, main_segment/004BE0]
       - [0x016920, c, main_segment/aiset]
-      - [0x01E3D0, c, main_segment/00C960]
+      - [0x01E3D0, c, main_segment/record]
+
+      - [0x020D10, c, main_segment/00F2A0]
       - [0x0227C0, c, main_segment/010D50]
       - [0x024BC0, c, main_segment/013150]
       - [0x024C40, c, main_segment/0131D0]
@@ -425,6 +427,7 @@ segments:
           - [0x087690, i4, main_segment/font_textures/D_8009F870, 10, 1128]
           - [0x088C98, i4, main_segment/font_textures/D_800A0E78, 20, 1128]
           - [0x08B8A8, i4, main_segment/font_textures/D_800A3A88, 12, 12]
+
       - [0x08B8F0, .data, main_segment/font]
 
       - [0x08EDA0, data, main_segment/07D330]
@@ -445,7 +448,9 @@ segments:
 
       - { start: 0x094B40, type: .rodata, partial_migration: True, name: main_segment/main1x }
       - { start: 0x094CB0, type: .rodata, partial_migration: True, name: main_segment/aiset }
-      - { start: 0x094D70, type: .rodata, partial_migration: True, name: main_segment/00C960 }
+      - { start: 0x094D60, type: .rodata, partial_migration: True, name: main_segment/record }
+
+      - { start: 0x094DD0, type: .rodata, partial_migration: True, name: main_segment/00F2A0 }
       - [0x094F70, .rodata, main_segment/010D50]
       - [0x094FB0, .rodata, main_segment/0131D0]
       - [0x095100, .rodata, main_segment/014590]
@@ -479,7 +484,7 @@ segments:
         type: .rodata
         name: main_segment/font
         subsegments:
-        - { start: 0x099770, type: gfx, data_only: True, name: main_segment/font/RO_800B1950}
+        - { start: 0x099770, type: gfx, data_only: True, name: main_segment/font/RO_800B1950 }
         - [0x099798]
 
       - { start: 0x0997B0, type: .rodata, partial_migration: True, name: main_segment/msgwnd }

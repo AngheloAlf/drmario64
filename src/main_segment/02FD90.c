@@ -145,7 +145,7 @@ void menuAll_init(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) {
     arg0->unk_111E8 = 1;
     arg0->unk_111F4 = 0x7F;
 
-    func_80038BE0(&arg0->unk_111F8, &sp10);
+    RecWritingMsg_init(&arg0->unk_111F8, &sp10);
     arg0->unk_02464 = sizeof(struct_800F3E5C_unk_02470);
 
     for (i = 0; i < ARRAY_COUNTU(arg0->unk_02470); i++) {

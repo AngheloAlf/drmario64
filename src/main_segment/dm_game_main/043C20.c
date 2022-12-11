@@ -48,7 +48,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", func_8006D870);
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_init);
 
 #if 0
-? func_80038BE0(s8 *, struct_80124610 **, s32);     /* extern */
+? RecWritingMsg_init(s8 *, struct_80124610 **, s32);     /* extern */
 ? func_8005E36C(s8 *, struct_80124610 **, s32);     /* extern */
 ? animeState_set(s8 *, ?);                           /* extern */
 ? func_8005EAFC(s8 *, s8 *);                        /* extern */
@@ -57,7 +57,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_init);
 ? func_8006A938(?);                                 /* extern */
 ? func_8007E2E0(struct_80124610 **);                /* extern */
 ? func_8007E2FC(u8);                                /* extern */
-extern ? B_800EF560;
+extern ? evs_mem_data;
 extern ? B_800EF608;
 extern u32 evs_gamesel;
 extern u8 B_800FAE78;
@@ -157,10 +157,10 @@ void dm_game_init_static(void) {
     temp_a2 = temp_s3->unk_A70 * 2;
     temp_s3->unk_A50 = (s32) ((s32) (0x140 - (temp_s3->unk_A64 * 0x14)) >> 1);
     temp_s3->unk_A54 = (s32) ((s32) (0xF0 - temp_a2) >> 1);
-    func_80038BE0(&temp_s3->unk_000[0xAD8], &heapTop, temp_a2);
+    RecWritingMsg_init(&temp_s3->unk_000[0xAD8], &heapTop, temp_a2);
     switch (evs_gamesel) {                           /* switch 1 */
     case 0x0:                                       /* switch 1 */
-        temp_a1 = (B_800FAE78 * 0xD0) + &B_800EF560;
+        temp_a1 = (B_800FAE78 * 0xD0) + &evs_mem_data;
         if (B_800FAE78 == 8) {
         case 0x4:                                   /* switch 1 */
             D_80088414 = 0xDD18;

@@ -28,24 +28,23 @@ extern Gfx D_80088228[];
 extern Gfx D_80088308[];
 extern Gfx D_80088328[];
 
-// extern UNK_TYPE D_80088400;
+extern s8 evs_stereo;
 extern u8 evs_seqence; // maybe part of a struct?
 extern u8 evs_seqnumb; // maybe part of a struct?
 extern u8 evs_playcnt; // maybe part of a struct?
 // extern UNK_TYPE D_80088404;
 // extern UNK_TYPE D_80088405;
 extern u8 evs_gamespeed; /* Original name: evs_gamespeed */
-// extern UNK_TYPE D_80088407;
+extern s8 evs_score_flag;
 // extern UNK_TYPE evs_story_flg;
 // extern UNK_TYPE D_80088409;
 // extern UNK_TYPE D_8008840A;
-// extern UNK_TYPE D_8008840C;
-// extern UNK_TYPE D_8008840D;
+extern EvsSecretFlags evs_secret_flg;
 extern s8 D_8008840E; // maybe part of a struct?
 extern u8 evs_level_21; /* Original name: evs_level_21 */
 extern s8 evs_manual_no;
 // extern UNK_TYPE D_80088414;
-// extern UNK_TYPE evs_vs_count;
+extern s32 evs_vs_count;
 // extern UNK_TYPE D_8008841C;
 // extern UNK_TYPE D_8008841D;
 // extern UNK_TYPE D_80088430;
@@ -665,7 +664,7 @@ extern UNK_PTR B_800EF440[2];
 // extern UNK_TYPE B_800EF550;
 extern u16 joycur1; /* Original name: joycur1 */
 // extern UNK_TYPE B_800EF556;
-extern struct_800EF560 B_800EF560[9];
+extern struct_800EF560 evs_mem_data[9];
 
 extern s32 B_800EFCB0;
 extern s32 evs_gamesel; /* Original name: evs_gamesel */
@@ -674,7 +673,7 @@ extern u8 evs_playmax; /* Original name: evs_playmax */
 // extern UNK_TYPE B_800F1CE8;
 // extern UNK_TYPE B_800F1CE9;
 extern struct_800F1DF8 *pObjectMtx;
-// extern UNK_TYPE B_800F1E00;
+extern s32 evs_default_name[];
 extern u16 joycur2; /* Original name: joycur2 */
 extern STACK(B_800F1E30, 0x2000);
 // extern UNK_TYPE B_800F3E30;
@@ -727,13 +726,7 @@ extern u16 B_800F6CD8[4];
 // extern UNK_TYPE B_800F6CF1;
 // extern UNK_TYPE B_800F6CF2;
 // extern UNK_TYPE B_800F72F0;
-extern struct_800F7470 B_800F7470;
-// extern UNK_TYPE B_800F7474;
-// extern UNK_TYPE B_800F7478;
-// extern UNK_TYPE B_800F747C;
-// extern UNK_TYPE B_800F7480;
-// extern UNK_TYPE B_800F7484;
-// extern UNK_TYPE B_800F7485;
+extern struct_800F7470 evs_cfg_4p;
 // extern UNK_TYPE B_800F7488;
 // extern UNK_TYPE B_800F748C;
 extern STACK(B_800F7490, 0xC00);

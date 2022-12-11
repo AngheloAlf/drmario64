@@ -233,13 +233,46 @@ typedef struct struct_8002A51C_arg1 {
 } struct_8002A51C_arg1; // size >= 0x10
 
 
+typedef struct struct_800EF560_unk_B4 {
+    /* 0x00 */ UNK_TYPE1 unk_00;
+    /* 0x01 */ UNK_TYPE1 unk_01;
+    /* 0x02 */ UNK_TYPE1 unk_02;
+    /* 0x03 */ UNK_TYPE1 unk_03;
+    /* 0x04 */ UNK_TYPE1 unk_04;
+    /* 0x05 */ UNK_TYPE1 unk_05;
+    /* 0x06 */ UNK_TYPE1 unk_06;
+    /* 0x07 */ UNK_TYPE1 unk_07;
+    /* 0x08 */ UNK_TYPE1 unk_08;
+    /* 0x09 */ UNK_TYPE1 unk_09;
+    /* 0x0A */ UNK_TYPE1 unk_0A;
+    /* 0x0B */ UNK_TYPE1 unk_0B;
+    /* 0x0C */ UNK_TYPE1 unk_0C;
+    /* 0x0D */ UNK_TYPE1 unk_0D;
+    /* 0x0E */ UNK_TYPE1 unk_0E;
+    /* 0x0F */ UNK_TYPE1 unk_0F;
+    /* 0x10 */ UNK_TYPE1 unk_10;
+    /* 0x11 */ UNK_TYPE1 unk_11;
+    /* 0x12 */ UNK_TYPE1 unk_12;
+    /* 0x13 */ UNK_TYPE1 unk_13;
+    /* 0x14 */ UNK_TYPE1 unk_14;
+    /* 0x15 */ UNK_TYPE1 unk_15;
+    /* 0x16 */ UNK_TYPE1 unk_16;
+    /* 0x17 */ UNK_TYPE1 unk_17;
+    /* 0x18 */ UNK_TYPE1 unk_18;
+    /* 0x19 */ UNK_TYPE1 unk_19;
+} struct_800EF560_unk_B4; // size >= 0x1A
+
 typedef struct struct_800EF560 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0xD0];
+    /* 0x00 */ UNK_TYPE1 unk_00[0xB4];
+    /* 0xB4 */ struct_800EF560_unk_B4 unk_B4;
+    /* 0xCE */ UNK_TYPE1 unk_CE[0x2]; // pad?
 } struct_800EF560; // size = 0xD0
 
 typedef struct struct_800F7470 {
-    /* 0x0 */ UNK_TYPE1 unk_0[UNK_SIZE];
-} struct_800F7470; // size = ?
+    /* 0x00 */ UNK_TYPE1 unk_00[5][4];
+    /* 0x14 */ UNK_TYPE1 unk_14;
+    /* 0x15 */ UNK_TYPE1 unk_15;
+} struct_800F7470; // size = 0x16
 
 typedef struct struct_800E87C0_unk_00 {
     /* 0x0 */ UNK_TYPE4 unk_0;
@@ -490,6 +523,20 @@ typedef enum enum_graphic_no {
     /* 6 */ GRAPHIC_NO_6,
     /* 7 */ GRAPHIC_NO_7 // ERROR?
 } enum_graphic_no;
+
+typedef struct EvsSecretFlags {
+    /* 0x0 */ s8 unk_0;
+    /* 0x1 */ s8 unk_1;
+} EvsSecretFlags; // size = 0x2
+
+typedef struct struct_800365B0_arg0 {
+    /* 0x00 */ UNK_PTR unk_00;
+    /* 0x04 */ UNK_TYPE4 unk_04;
+    /* 0x08 */ UNK_TYPE4 unk_08;
+    /* 0x0C */ UNK_TYPE4 unk_0C;
+    /* 0x10 */ UNK_TYPE4 unk_10;
+    /* 0x14 */ UNK_TYPE1 unk_14[0x4];
+} struct_800365B0_arg0; // size <= 0x18?
 
 
 #endif
