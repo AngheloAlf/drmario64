@@ -312,7 +312,7 @@ typedef struct struct_80123700 {
     /* 0x030 */ UNK_TYPE1 unk_030[0x18];
     /* 0x048 */ UNK_TYPE1 unk_048[0x3];
     /* 0x04B */ s8 unk_04B;
-    /* 0x04C */ s8 unk_04C;
+    /* 0x04C */ u8 unk_04C;
     /* 0x04D */ s8 unk_04D;
     /* 0x04E */ s8 unk_04E;
     /* 0x04F */ s8 unk_04F;
@@ -372,6 +372,16 @@ typedef struct struct_800F3E5C_unk_02678_unk_590 {
 typedef struct struct_800F3E5C_unk_02470 {
     /* 0x00000 */ UNK_TYPE1 unk_00000[0x60000];
 } struct_800F3E5C_unk_02470; // size = 0x60000
+
+typedef struct struct_800F3E5C_unk_024B8 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0xC];
+    /* 0x0C */ f32 unk_0C;
+    /* 0x10 */ f32 unk_10;
+    /* 0x14 */ UNK_TYPE1 unk_14[0x58];
+    /* 0x6C */ f32 unk_6C[3];
+    /* 0x78 */ UNK_TYPE1 unk_78[0x4];
+    /* 0x7C */ f32 unk_7C[3];
+} struct_800F3E5C_unk_024B8; // size >= 0x88
 
 typedef struct struct_800F3E5C_unk_02678 {
     /* 0x0000 */ struct_800F3E5C_unk_02678_unk_0000 *unk_0000;
@@ -487,17 +497,14 @@ typedef struct struct_800F3E5C {
     /* 0x024AC */ UNK_TYPE unk_024AC;
     /* 0x024B0 */ UNK_TYPE unk_024B0;
     /* 0x024B4 */ UNK_TYPE unk_024B4;
-    /* 0x024B8 */ UNK_TYPE unk_024B8;
-    /* 0x024BC */ UNK_TYPE1 unk_024BC[0x8];
-    /* 0x024C4 */ f32 unk_024C4;
-    /* 0x024C8 */ f32 unk_024C8;
-    /* 0x024CC */ UNK_TYPE1 unk_024CC[0x7C];
+    /* 0x024B8 */ struct_800F3E5C_unk_024B8 unk_024B8;
+    /* 0x02540 */ UNK_TYPE1 unk_02540[0x8];
     /* 0x02548 */ UNK_TYPE unk_02548;
     /* 0x0254C */ UNK_TYPE1 unk_0254C[0x12C];
     /* 0x02678 */ struct_800F3E5C_unk_02678 unk_02678[2];
     /* 0x111C0 */ UNK_TYPE unk_111C0;
     /* 0x111C4 */ UNK_TYPE unk_111C4;
-    /* 0x111C8 */ UNK_TYPE unk_111C8;
+    /* 0x111C8 */ enum_struct_800F3E5C_unk_111CC unk_111C8;
     /* 0x111CC */ enum_struct_800F3E5C_unk_111CC unk_111CC;
     /* 0x111D0 */ UNK_TYPE unk_111D0;
     /* 0x111D4 */ enum_main_no unk_111D4;
@@ -536,6 +543,16 @@ typedef struct struct_800365B0_arg0 {
     /* 0x10 */ UNK_TYPE4 unk_10;
     /* 0x14 */ UNK_TYPE1 unk_14[0x4];
 } struct_800365B0_arg0; // size <= 0x18?
+
+typedef enum enum_evs_gamesel {
+    /* 0 */ ENUM_EVS_GAMESEL_0,
+    /* 1 */ ENUM_EVS_GAMESEL_1,
+    /* 2 */ ENUM_EVS_GAMESEL_2,
+    /* 3 */ ENUM_EVS_GAMESEL_3,
+    /* 4 */ ENUM_EVS_GAMESEL_4,
+    /* 5 */ ENUM_EVS_GAMESEL_5,
+    /* 6 */ ENUM_EVS_GAMESEL_6
+} enum_evs_gamesel;
 
 
 #endif

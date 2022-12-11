@@ -385,7 +385,7 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
     dm_game_init(false);
     backup_game_state(0);
     D_800A6FC4 = 1;
-    gGfxHead = gGfxGlist[B_800FAD2C];
+    gGfxHead = gGfxGlist[gfx_gtask_no];
 
     while (var_s2 || (temp_s3->unk_38C != 0x1E)) {
         s16 *sp50;
@@ -477,7 +477,7 @@ void dm_game_graphic(void) {
 
     osWritebackDCacheAll();
 
-    gfxTaskStart(&B_800FAE80[B_800FAD2C], gGfxGlist[B_800FAD2C], (gGfxHead - gGfxGlist[B_800FAD2C]) * sizeof(Gfx), 0,
+    gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0,
                  (temp_s0->unk_880 == 0) ? OS_SC_SWAPBUFFER : 0);
     osSetThreadPri(NULL, 0xF);
     dm_game_graphic2();
@@ -590,7 +590,7 @@ void graphic_techmes(void) {
     UNK_TYPE sp28;
     UNK_TYPE sp2C;
 
-    gGfxHead = gGfxGlist[B_800FAD2C];
+    gGfxHead = gGfxGlist[gfx_gtask_no];
     sp28 = dm_get_mtx_buf();
     sp2C = dm_get_vtx_buf();
     F3RCPinitRtn();
@@ -615,5 +615,5 @@ void graphic_techmes(void) {
     gSPEndDisplayList(gGfxHead++);
 
     osWritebackDCacheAll();
-    gfxTaskStart(&B_800FAE80[B_800FAD2C], gGfxGlist[B_800FAD2C], (gGfxHead - gGfxGlist[B_800FAD2C]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+    gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }

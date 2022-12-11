@@ -24,7 +24,7 @@ void aifMakeFlagSet(struct_80123700 *arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002ED2C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002EDDC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifFirstInit);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002EFF0);
 

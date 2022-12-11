@@ -41,7 +41,7 @@ s32 joyInit(s32 arg0 UNUSED) {
             joycnt[i][j] = 0;
         }
 
-        B_800F6CD8[i] = 0;
+        joyflg[i] = 0;
         joygam[i] = 0;
         B_800FAD31[i] = 0;
     }
@@ -74,7 +74,7 @@ void joyProcCore(void) {
         B_800F48C4[i] = 0;
 
         for (j = 0, mask = 0x8000; j < ARRAY_COUNT(joycnt[i]); j++, mask >>= 1) {
-            if (B_800F6CD8[i] & mask) {
+            if (joyflg[i] & mask) {
                 if (mask & gControllerHoldButtons[i]) {
                     joycnt[i][j]++;
                     if ((joycnt[i][j] == 1) || ((joycnt[i][j] >= joycur1) && (((joycnt[i][j] - joycur1) % joycur2) == 0))) {

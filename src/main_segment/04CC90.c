@@ -636,9 +636,9 @@ void graphic_story(void) {
     f32 var_f0;
     s32 temp_v0;
 
-    gGfxHead = gGfxGlist[B_800FAD2C];
-    temp_s1 = &B_800FAE80[B_800FAD2C];
-    init_objMtx(B_800FAD2C);
+    gGfxHead = gGfxGlist[gfx_gtask_no];
+    temp_s1 = &B_800FAE80[gfx_gtask_no];
+    init_objMtx(gfx_gtask_no);
     temp_s0 = gGfxHead;
     gGfxHead = temp_s0 + 8;
     temp_s0->words.w0 = 0xDB060000;
@@ -816,7 +816,7 @@ block_32:
     temp_v1_5->unk_8 = 0xDF000000;
     temp_v1_5->unk_C = 0;
     osWritebackDCacheAll();
-    gfxTaskStart(temp_s1, gGfxGlist[B_800FAD2C], ((s32) ((gGfxHead - gGfxGlist) - (B_800FAD2C << 0xF)) >> 3) * 8, 0, 0x40);
+    gfxTaskStart(temp_s1, gGfxGlist[gfx_gtask_no], ((s32) ((gGfxHead - gGfxGlist) - (gfx_gtask_no << 0xF)) >> 3) * 8, 0, 0x40);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", graphic_story);

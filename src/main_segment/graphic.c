@@ -18,7 +18,7 @@ void gfxInit(UNK_PTR arg0 UNUSED) {
     B_800ED430 = 2;
     B_800E9BB6 = 4;
     graphic_no = GRAPHIC_NO_0;
-    B_800FAD2C = 0;
+    gfx_gtask_no = 0;
 }
 
 /**
@@ -173,7 +173,7 @@ void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, 
     if (flags & OS_SC_SWAPBUFFER) {
         gCurrentFramebufferIndex ^= 1;
     }
-    B_800FAD2C = (B_800FAD2C + 1) % 3;
+    gfx_gtask_no = (gfx_gtask_no + 1) % 3;
 }
 
 /**

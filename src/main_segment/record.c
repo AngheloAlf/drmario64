@@ -230,7 +230,7 @@ void dm_init_system_mem(void) {
 
     evs_stereo = true;
     dm_audio_set_stereo(evs_stereo);
-    evs_gamesel = 0;
+    evs_gamesel = ENUM_EVS_GAMESEL_0;
     evs_secret_flg.unk_1 = 0;
     evs_secret_flg.unk_0 = 0;
     evs_level_21 = 0;

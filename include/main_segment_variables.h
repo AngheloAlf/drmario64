@@ -58,7 +58,7 @@ extern s32 D_80088480;
 // extern UNK_TYPE D_800884C0;
 // extern UNK_TYPE D_800884D8;
 // extern UNK_TYPE D_800884F0;
-// extern UNK_TYPE D_80088508;
+extern s8 D_80088508;
 // extern UNK_TYPE D_8008850C;
 // extern UNK_TYPE D_80088524;
 // extern UNK_TYPE D_8008852C;
@@ -667,7 +667,7 @@ extern u16 joycur1; /* Original name: joycur1 */
 extern struct_800EF560 evs_mem_data[9];
 
 extern s32 B_800EFCB0;
-extern s32 evs_gamesel; /* Original name: evs_gamesel */
+extern enum_evs_gamesel evs_gamesel; /* Original name: evs_gamesel */
 extern STACK(B_800EFCE0, 0x2000);
 extern u8 evs_playmax; /* Original name: evs_playmax */
 // extern UNK_TYPE B_800F1CE8;
@@ -720,7 +720,7 @@ extern OSContStatus B_800F5358[4];
 // extern UNK_TYPE B_800F6C70;
 // extern UNK_TYPE B_800F6C71;
 // extern UNK_TYPE B_800F6CD4;
-extern u16 B_800F6CD8[4];
+extern u16 joyflg[MAXCONTROLLERS];
 // extern UNK_TYPE B_800F6CE0;
 // extern UNK_TYPE B_800F6CF0;
 // extern UNK_TYPE B_800F6CF1;
@@ -734,7 +734,7 @@ extern STACK(B_800F7490, 0xC00);
 
 extern STACK(B_800F8CE0, 0x2000);
 // extern UNK_TYPE B_800FAD28;
-extern u32 B_800FAD2C;
+extern u32 gfx_gtask_no;
 // extern UNK_TYPE B_800FAD30;
 extern UNK_TYPE1 B_800FAD31[4];
 // extern UNK_TYPE B_800FAD36;

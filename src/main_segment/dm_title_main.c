@@ -107,11 +107,11 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
         story_proc_no = _stageTbl[temp % ARRAY_COUNT(_stageTbl)];
 
         if (title_demo_no == 0) {
-            evs_gamesel = 4;
+            evs_gamesel = ENUM_EVS_GAMESEL_4;
         } else if (title_demo_no == 1) {
-            evs_gamesel = 5;
+            evs_gamesel = ENUM_EVS_GAMESEL_5;
         } else if (title_demo_no == 2) {
-            evs_gamesel = 6;
+            evs_gamesel = ENUM_EVS_GAMESEL_6;
         }
 
         evs_gamemode = 0;
@@ -253,7 +253,7 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
 void graphic_boot_error(void) {
     MessageWnd *ptr;
 
-    gGfxHead = gGfxGlist[B_800FAD2C];
+    gGfxHead = gGfxGlist[gfx_gtask_no];
     ptr = ALIGN_PTR(&Heap_bufferp);
     F3RCPinitRtn();
     F3ClearFZRtn(true);
@@ -263,5 +263,5 @@ void graphic_boot_error(void) {
     gSPEndDisplayList(gGfxHead++);
 
     osWritebackDCacheAll();
-    gfxTaskStart(&B_800FAE80[B_800FAD2C], gGfxGlist[B_800FAD2C], (gGfxHead - gGfxGlist[B_800FAD2C]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+    gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }

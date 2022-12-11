@@ -52,7 +52,7 @@ void mainproc(void) {
         main_no = MAIN_NO_8;
     }
 
-    func_8002EDDC();
+    aifFirstInit();
     func_80000488(func_8006D620);
 
     while (true) {

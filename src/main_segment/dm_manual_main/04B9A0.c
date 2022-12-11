@@ -118,8 +118,8 @@ void dm_manual_graphic(void) {
     s32 alpha;
     struct_800F4890 *temp_s1 = watchManual;
 
-    gGfxHead = gGfxGlist[B_800FAD2C];
-    ptr = &B_800FAE80[B_800FAD2C];
+    gGfxHead = gGfxGlist[gfx_gtask_no];
+    ptr = &B_800FAE80[gfx_gtask_no];
 
     sp28 = dm_get_mtx_buf();
     sp2C = dm_get_vtx_buf();
@@ -143,5 +143,5 @@ void dm_manual_graphic(void) {
     gSPEndDisplayList(gGfxHead++);
 
     osWritebackDCacheAll();
-    gfxTaskStart(ptr, gGfxGlist[B_800FAD2C], (gGfxHead - gGfxGlist[B_800FAD2C]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+    gfxTaskStart(ptr, gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
