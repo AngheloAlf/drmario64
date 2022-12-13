@@ -748,7 +748,7 @@ extern UNK_TYPE1 B_800FAD31[4];
 // extern UNK_TYPE B_800FAE6C;
 // extern UNK_TYPE B_800FAE70;
 // extern UNK_TYPE B_800FAE74;
-extern s8 B_800FAE78;
+extern s8 B_800FAE78[];
 extern s8 B_800FAE79;
 extern OSScTask B_800FAE80[];
 extern u16 gControllerPressedButtons[MAXCONTROLLERS+1];

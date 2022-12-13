@@ -42,11 +42,11 @@ void func_8002C4EC(TexturePtr texture, s32 width, s32 height);
 // void func_8002CD08();
 // void func_8002CF04();
 
-enum_main_no main11();
-// void adjust_story_ai();
-enum_main_no main12();
+enum_main_no main11(void);
+void adjust_story_ai(void);
+enum_main_no main12(void);
 void func_8002E830(u32 arg0);
-// void func_8002E8B0();
+u16 func_8002E8B0(s32);
 // void func_8002EB00();
 // void func_8002EB74();
 void aifMakeFlagSet(struct_80123700 *arg0);

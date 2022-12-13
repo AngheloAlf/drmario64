@@ -13,7 +13,6 @@ def splitPlfObjdumpMain():
     parser = argparse.ArgumentParser(description="Splits the output produced by `powerpc-linux-gnu-objdump --disassemble-all --reloc --line-numbers --wide`")
     parser.add_argument("objdump_output", help="Path to objdump output")
     parser.add_argument("output_folder", help="Folder path where processed files will be stored")
-    # parser.add_argument("-m", "--map", default="build/drmario64_uncompressed.map")
 
     args = parser.parse_args()
 
