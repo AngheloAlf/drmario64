@@ -52,7 +52,7 @@ extern s32 evs_vs_count;
 // extern UNK_TYPE D_80088433;
 // extern UNK_TYPE D_80088434;
 // extern UNK_TYPE D_8008846C;
-extern s32 D_80088480;
+extern s32 mti;
 // extern UNK_TYPE D_80088484;
 // extern UNK_TYPE D_800884A8;
 // extern UNK_TYPE D_800884C0;
@@ -445,7 +445,7 @@ extern const Gfx RO_800ADC60[];
 // bss
 
 extern u8 B_800B3640[0x31000];
-extern u32 B_800E4640[0x270];
+extern u32 mt[0x270];
 // extern UNK_TYPE B_800E5000;
 // extern UNK_TYPE B_800E5008;
 // extern UNK_TYPE B_800E5198;
@@ -558,9 +558,9 @@ extern void *B_800E87AC;
 extern void *B_800E87B0;
 // extern UNK_TYPE B_800E87B4;
 extern struct_800E87C0 B_800E87C0[0x40];
-// extern UNK_TYPE B_800E97C0;
-// extern UNK_TYPE B_800E97C8;
-// extern UNK_TYPE B_800E97CA;
+extern s32 randomindex;
+extern s32 randomtable[0x36];
+
 // extern UNK_TYPE B_800E98A0;
 // extern UNK_TYPE B_800E98B0;
 // extern UNK_TYPE B_800E98B8;

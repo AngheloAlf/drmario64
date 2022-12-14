@@ -24,6 +24,6 @@ void func_8005FC6C(struct_8005FC6C_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     arg0->unk_008 = arg3;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/035AB0", func_8005FCC4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/035AB0", _makeFlash_checkOrdre);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/035AB0", func_8005FE68);

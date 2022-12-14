@@ -32,7 +32,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/034890", func_8005EE64);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/034890", func_8005EE98);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/034890", func_8005EF50);
+INCLUDE_ASM("asm/nonmatchings/main_segment/034890", init_map_all);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/034890", func_8005EFC0);
 

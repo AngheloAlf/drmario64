@@ -35,7 +35,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
 
     osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
     func_8002A184(arg0, &sp48, &sp10);
-    func_8002E830(osGetCount());
+    sgenrand(osGetCount());
     func_80075F30();
     evs_playmax = joyResponseCheck();
     osRecvMesg(&sp10, NULL, 1);

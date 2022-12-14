@@ -5,14 +5,12 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-void func_8002E830(u32 arg0) {
-    B_800E4640[0] = arg0;
-    D_80088480 = 1;
+void sgenrand(u32 arg0) {
+    mt[0] = arg0;
 
-    while (D_80088480 < ARRAY_COUNT(B_800E4640)) {
-        B_800E4640[D_80088480] = B_800E4640[D_80088480 - 1] * 69069;
-        D_80088480++;
+    for (mti = 1; mti < ARRAY_COUNT(mt); mti++) {
+        mt[mti] = mt[mti - 1] * 69069;
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/004BE0", func_8002E8B0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/004BE0", genrand);

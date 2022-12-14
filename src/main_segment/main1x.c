@@ -193,7 +193,7 @@ enum_main_no main12() {
                 ptr = game_state_data;
 
                 do {
-                    game_state_data[i].unk_090 = func_8002E8B0(0xD);
+                    game_state_data[i].unk_090 = genrand(0xD);
 
                     arg2 = 0;
                     for (arg1 = 0; arg1 < 2; arg1++) {
@@ -222,7 +222,7 @@ enum_main_no main12() {
             D_8008840E = 0;
             for (i = 0; i < 4; i++) {
                 do {
-                    game_state_data[i].unk_090 = func_8002E8B0(0xD);
+                    game_state_data[i].unk_090 = genrand(0xD);
 
                     arg2 = 0;
                     for (arg1 = 0; arg1 < 4; arg1++) {
