@@ -9,10 +9,9 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-//f32 func_8007BC20(f32 arg0) {
-//    return sinf(arg0) / cosf(arg0);
-//}
-INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007BC20);
+f32 func_8007BC20(f32 arg0) {
+    return sinf(arg0) / cosf(arg0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007BC54);
 
@@ -32,7 +31,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007C480);
  * Original name: angleF2S
  */
 s16 angleF2S(f32 arg0) {
-    return (f32)(arg0 * (0x10000 / 360.0));
+    return (s32)(f32)(arg0 * (0x10000 / 360.0));
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007C4D8);
