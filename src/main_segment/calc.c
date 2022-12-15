@@ -9,9 +9,19 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-typedef union MtxF {
-    float mf[4][4];
-    u64 force_struct_alignment;
+// Currently only used in this file, consider moving to a header in future
+
+#define DEG_TO_RAD(x) ((x)*M_PI / 180.0)
+
+typedef float MtxF_t[4][4];
+
+typedef union {
+    MtxF_t mf;
+    struct {
+        // Note: The order displayed here is the transpose of the order in which matrices are typically written.
+        // For example, [xw, yw, zw] is the translation part of the matrix, not [wx, wy, wz].
+        float xx, yx, zx, wx, xy, yy, zy, wy, xz, yz, zz, wz, xw, yw, zw, ww;
+    };
 } MtxF;
 
 f32 func_8007C244(f32, f32);
@@ -25,12 +35,13 @@ f32 func_8007BC20(f32 arg0) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007BC54);
 
 /**
- * Creates a general rotation + translation matrix. Uses Y1 X2 Z3 Tait-Bryan angles (https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix)
+ * Creates a general rotation + translation matrix. Uses Y1 X2 Z3 Tait-Bryan angles (https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix).
+ * `rotX`, `rotY`, `rotZ` are in degrees.
  */
 void func_8007BD30(MtxF *m, f32 rotX, f32 rotY, f32 rotZ, f32 transX, f32 transY, f32 transZ) {
-    f32 a2 = (rotX * 3.141592653589793) / 180.0;
-    f32 a1 = (rotY * 3.141592653589793) / 180.0;
-    f32 a3 = (rotZ * 3.141592653589793) / 180.0;
+    f32 a2 = DEG_TO_RAD(rotX);
+    f32 a1 = DEG_TO_RAD(rotY);
+    f32 a3 = DEG_TO_RAD(rotZ);
     f32 s2 = sinf(a2);
     f32 s1 = sinf(a1);
     f32 s3 = sinf(a3);
@@ -71,8 +82,8 @@ void func_8007BEEC(s16 theta, s16 phi, f32 *x, f32 *y, f32 *z) {
 
     thetaRad = func_8007C480(theta);
     phiRad = func_8007C480(phi);
-    thetaRad = (thetaRad * 3.141592653589793) / 180.0;
-    phiRad = (phiRad * 3.141592653589793) / 180.0;
+    thetaRad = DEG_TO_RAD(thetaRad);
+    phiRad = DEG_TO_RAD(phiRad);
 
     sinTheta = sinf(thetaRad);
     sinPhi = sinf(phiRad);
@@ -92,6 +103,8 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007C244);
 
 /**
  * Original name most likely angleS2F
+ *
+ * Convert binary angle to float angle in degrees.
  */
 f32 func_8007C480(s16 arg0) {
     return ((f32)arg0) * (360.0 / 0x10000);
@@ -99,6 +112,8 @@ f32 func_8007C480(s16 arg0) {
 
 /**
  * Original name: angleF2S
+ *
+ * Convert float angle in degrees to a binary angle.
  */
 s16 angleF2S(f32 arg0) {
     return (s32)(f32)(arg0 * (0x10000 / 360.0));
@@ -154,7 +169,7 @@ void func_8007C5A8(Mtx *mtx, MtxF *mtxf) {
  * Rotate `(pointX, pointY)` about `(centreX, centreY)` by `angle` degrees, modifying in-place.
  */
 void func_8007C624(f32 angle, f32 centreX, f32 centreY, f32 *pointX, f32 *pointY) {
-    f32 angleRad = angle * (3.141592653589793 / 180.0);
+    f32 angleRad = angle * M_DTOR;
     f32 sin = sinf(angleRad);
     f32 cos = cosf(angleRad);
     f32 diffX = *pointX - centreX;
@@ -281,7 +296,7 @@ void randomize00(void) {
         randomtable[i] = newValue;
     }
 
-    for (i = 24; i < 55; i++) {
+    for (i = 24; i < ARRAY_COUNT(randomtable); i++) {
         oldValue1 = randomtable[i];
         oldValue2 = randomtable[i - 24];
         newValue = oldValue1 - oldValue2;
@@ -298,8 +313,8 @@ void randomseed(s32 seed) {
     s32 index;
 
     randomtable[54] = seed;
-    for (value = 1, i = 1; i < 55; i++) {
-        index = ((21 * i) % 55) - 1;
+    for (value = 1, i = 1; i < ARRAY_COUNT(randomtable); i++) {
+        index = ((21 * i) % ARRAY_COUNT(randomtable)) - 1;
         randomtable[index] = value;
         value = seed - value;
         if (value < 0) {
