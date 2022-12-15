@@ -1,45 +1,45 @@
 <!doctype html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<title>Dr. Mario 64 decompilation progress</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <head>
+        <meta charset="utf-8">
+        <title>Dr. Mario 64 decompilation progress</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" href="lib/uPlot/dist/uPlot.min.css">
-	</head>
-	<body>
-		<script src="lib/uPlot/dist/uPlot.iife.js"></script>
-		<script>
-			const prepareChartOpts = (title, alpha, series) => {
-				return {
-					title,
-					width: 800,
-					height: 600,
+        <link rel="stylesheet" href="lib/uPlot/dist/uPlot.min.css">
+    </head>
+    <body>
+        <script src="lib/uPlot/dist/uPlot.iife.js"></script>
+        <script>
+            const prepareChartOpts = (title, alpha, series) => {
+                return {
+                    title,
+                    width: 800,
+                    height: 600,
 
-					focus: {
-						alpha,
-					},
-					cursor: {
-						focus: {
-							prox: 30,
-						}
-					},
-					scales: {
-						x: {
-							time: true,
-						},
-						y: {
-							range: [0, 100]
-						}
-					},
-					series: [
-						{
-							label: "Date",
-						},
-						...series,
-					],
-				}
-			}
+                    focus: {
+                        alpha,
+                    },
+                    cursor: {
+                        focus: {
+                            prox: 30,
+                        }
+                    },
+                    scales: {
+                        x: {
+                            time: true,
+                        },
+                        y: {
+                            range: [0, 100]
+                        }
+                    },
+                    series: [
+                        {
+                            label: "Date",
+                        },
+                        ...series,
+                    ],
+                }
+            }
 
             const queryFrogressJson = async () => {
                 const response = await fetch('https://progress.deco.mp/data/drmario64/usa/code/?mode=all');
@@ -71,6 +71,6 @@
             }
 
             queryFrogressJson();
-		</script>
-	</body>
+        </script>
+    </body>
 </html>
