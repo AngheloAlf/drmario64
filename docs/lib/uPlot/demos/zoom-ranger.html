@@ -1,0 +1,119 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Zoom Ranger</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="../dist/uPlot.min.css">
+		<style>
+			.uplot {
+				display: block;
+				width: 800px;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="../dist/uPlot.iife.js"></script>
+		<script>
+			var loop = 100;
+
+			let data = [
+				Array(loop),
+				Array(loop),
+			];
+
+			for (var i = 0; i < loop; i++) {
+				let x = 2 * Math.PI * i / loop;
+				let y = Math.sin(x);
+
+				data[0][i] = x;
+				data[1][i] = y;
+			}
+
+			let initXmin = 1;
+			let initXmax = 4.5;
+
+			const rangerOpts = {
+				width: 800,
+				height: 100,
+				cursor: {
+					y: false,
+					points: {
+						show: false,
+					},
+					drag: {
+						setScale: false,
+						x: true,
+						y: false,
+					},
+					sync: {
+						key: "moo"
+					}
+				},
+				legend: {
+					show: false
+				},
+				scales: {
+					x: {
+						time: false,
+					},
+				},
+				series: [
+					{},
+					{
+						stroke: "red",
+					}
+				],
+				hooks: {
+					ready: [
+						uRanger => {
+							let left = Math.round(uRanger.valToPos(initXmin, 'x'));
+							let width = Math.round(uRanger.valToPos(initXmax, 'x')) - left;
+							let height = uRanger.bbox.height / devicePixelRatio;
+							uRanger.setSelect({left, width, height}, false);
+						}
+					]
+				}
+			};
+
+			let uRanger = new uPlot(rangerOpts, data, document.body);
+
+			const zoomedOpts = {
+			//	title: "Zoomed Area",
+				width: 800,
+				height: 400,
+				cursor: {
+					drag: {
+						x: true,
+						y: false
+					},
+					sync: {
+						key: "moo"
+					}
+				},
+				select: {
+					over: false,
+				},
+				scales: {
+					x: {
+						time: false,
+						min: initXmin,
+						max: initXmax,
+					},
+				},
+				series: [
+					{
+						label: "x",
+					},
+					{
+						label: "sin(x)",
+						stroke: "red",
+					}
+				]
+			};
+
+			let uZoomed = new uPlot(zoomedOpts, data, document.body);
+		</script>
+	</body>
+</html>

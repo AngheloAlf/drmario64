@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Zoom Ranger XY</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="../dist/uPlot.min.css">
+		<style>
+			.uplot {
+				display: block;
+				width: 800px;
+			}
+
+			.uplot .select {
+				background: rgba(127,0,256,0.3);
+			}
+		</style>
+	</head>
+	<body>
+		<script src="../dist/uPlot.iife.js"></script>
+		<script>
+			var loop = 100;
+
+			let data = [
+				Array(loop),
+				Array(loop),
+			];
+
+			for (var i = 0; i < loop; i++) {
+				let x = 2 * Math.PI * i / loop;
+				let y = Math.sin(x);
+
+				data[0][i] = x;
+				data[1][i] = y;
+			}
+
+			let initXmin =  1.0;
+			let initXmax =  4.5;
+		//	let initYmin = -1.5;
+		//	let initYmax =  1.5;
+
+			const rangerOpts = {
+				width: 800,
+				height: 100,
+				cursor: {
+					points: {
+						show: false,
+					},
+					drag: {
+						setScale: false,
+						x: true,
+						y: true,
+						dist: 10,
+						uni: 10
+					},
+					sync: {
+						key: "moo",
+						scales: ["x", "y"]
+					}
+				},
+				legend: {
+					show: false
+				},
+				scales: {
+					x: {
+						time: false,
+					},
+				//	y: {
+				//		auto: false,
+				//		min: initYmin,
+				//		max: initYmax,
+				//		range: () => [initYmin, initYmax],
+				//	},
+				},
+				series: [
+					{},
+					{
+						stroke: "purple",
+					}
+				],
+				hooks: {
+					ready: [
+						uRanger => {
+							let left = Math.round(uRanger.valToPos(initXmin, 'x'));
+							let width = Math.round(uRanger.valToPos(initXmax, 'x')) - left;
+							let height = uRanger.bbox.height / devicePixelRatio;
+							uRanger.setSelect({left, width, height}, false);
+						}
+					]
+				}
+			};
+
+			let uRanger = new uPlot(rangerOpts, data, document.body);
+
+			const zoomedOpts = {
+			//	title: "Zoomed Area",
+				width: 800,
+				height: 400,
+				cursor: {
+					drag: {
+						x: true,
+						y: true,
+						dist: 10,
+						uni: 20
+					},
+					sync: {
+						key: "moo",
+						scales: ["x", "y"]
+					}
+				},
+				select: {
+					over: false,
+				},
+				scales: {
+					x: {
+						time: false,
+						min: initXmin,
+						max: initXmax,
+					},
+				//	y: {
+				//		auto: false,
+				//		min: initYmin,
+				//		max: initYmax,
+				//		range: () => [initYmin, initYmax],
+				//	},
+				},
+				series: [
+					{
+						label: "x",
+					},
+					{
+						label: "sin(x)",
+						stroke: "purple",
+					}
+				]
+			};
+
+			let uZoomed = new uPlot(zoomedOpts, data, document.body);
+		</script>
+	</body>
+</html>

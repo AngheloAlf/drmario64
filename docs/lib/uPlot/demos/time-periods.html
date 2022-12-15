@@ -1,0 +1,282 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Time Periods</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="../dist/uPlot.min.css">
+		<style>
+			#heading {
+				text-align: center;
+				padding-bottom: 10px;
+			}
+
+			th canvas {
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="../dist/uPlot.iife.js"></script>
+		<script>
+			/* todo:
+				calendar date range select
+				legend type table, series.values
+				aggregate by day, week, month, year
+				simple stats
+
+				shift data to align with days of week
+				1am offset
+			*/
+
+			function aggDays(data) {
+				let data2 = [
+					data[0].slice(),
+					data[1],
+					data[2],
+					data[3],
+				];
+
+				data2[0][0] = 1546300800;
+
+				for (let i = 1; i < data2[0].length; i++)
+					data2[0][i] = 1546300800 + i * 3600;
+
+				let days = [];
+				let y19 = [];
+				let y18 = [];
+				let y17 = [];
+
+				let baseTs = data2[0][0];
+
+				curTs = baseTs;
+				let sum17 = 0;
+				let sum18 = 0;
+				let sum19 = 0;
+
+				let d = 3600 * 24;		// get breakpoints
+
+				data2[0].forEach((ts, i) => {
+					if (i > 0 && (ts - baseTs) % d == 0) {
+						days.push(curTs);
+						y19.push(sum19);
+						y18.push(sum18);
+						y17.push(sum17);
+
+						curTs = ts;
+						sum19 = data2[1][i];
+						sum18 = data2[2][i];
+						sum17 = data2[3][i];
+					}
+					else {
+						sum19 += data2[1][i];
+						sum18 += data2[2][i];
+						sum17 += data2[3][i];
+					}
+				});
+
+				days.push(curTs);
+				y19.push(sum19);
+				y18.push(sum18);
+				y17.push(sum17);
+
+				return [
+					days,
+					y19,
+					y18,
+					y17,
+				];
+			}
+
+			let longDateHourMin = uPlot.fmtDate('{YYYY}-{MM}-{DD} {h}:{mm}{aa}');
+
+			function tsRange(from, qty, incr) {
+				let ts = [from];
+				while (--qty)
+					ts.push(from += incr)
+				return ts;
+			}
+
+			const yrHours = 365 * 24;
+			const hrSecs = 3600;
+
+			let ts18 = tsRange(new Date(2018,0)/1000, yrHours, hrSecs);
+			let ts17 = tsRange(new Date(2017,0)/1000, yrHours, hrSecs);
+
+			fetch("./data/traffic.json").then(r => r.json()).then(data => {
+				let u = new uPlot({
+					title: "Hourly Users",
+				//	tzDate: ts => uPlot.tzDate(new Date(ts * 1e3), 'Etc/UTC'),
+				//	tzDate: ts => uPlot.tzDate(new Date(ts * 1e3), 'Europe/London'),
+					width: 1920,
+					height: 200,
+					axes: [
+						{
+					//		space: 100,
+						},
+						{
+							space: 20
+						}
+					],
+					series: [
+						{},
+						{
+							label: "2019",
+							stroke: "rgba(5, 141, 199, 1)",
+							fill:  "rgba(5, 141, 199, 0.1)",
+							values: (u, sidx, idx) => {
+							//	let date = self.tzDate(data[0][idx]);
+								let date = new Date(data[0][idx] * 1e3);
+
+								return {
+									Time: longDateHourMin(date),
+									Users: data[sidx][idx],
+								};
+							}
+						},
+						{
+							label: "2018",
+							stroke: "rgba(237, 126, 23, 1)",
+							values: (u, sidx, idx) => {
+								let date = new Date(ts18[idx] * 1e3);
+
+								return {
+									Time: longDateHourMin(date),
+									Users: data[sidx][idx],
+								};
+							}
+						},
+						{
+							label: "2017",
+							stroke: "rgba(255, 0, 0, 1)",
+							values: (u, sidx, idx) => {
+								let date = new Date(ts17[idx] * 1e3);
+
+								return {
+									Time: longDateHourMin(date),
+									Users: data[3][idx],
+								};
+							}
+						},
+					],
+				}, data, document.body);
+
+				function padWith0s(arr, len) {
+					return arr.concat(Array(len - arr.length).fill(0));
+				}
+
+				let jan0 = 0;
+				let jan1 = 743;
+				let feb0 = 744;
+				let feb1 = 1416;
+				let febLen = feb1 - feb0;
+
+				let tsJan = data[0].slice(jan0, jan1);
+				let tsFeb = data[0].slice(feb0, feb0 + (jan1 - jan0));
+
+				let data1 = [
+					tsFeb,
+					padWith0s(data[1].slice(feb0, feb1), jan1 - jan0),
+					data[1].slice(jan0, jan1)
+				];
+
+				let u1 = new uPlot({
+					title: "Feb vs Jan 2019",
+					width: 1920,
+					height: 200,
+					scales: {
+						"x2": {
+							from: "x",
+							range: (u, min, max) => [min - 3600 * 24 * 31, max - 3600 * 24 * 31]
+						}
+					},
+					axes: [
+						{},
+						{
+							space: 20
+						},
+						{
+							side: 2,
+							scale: "x2",
+							grid: {show: false},
+							stroke: "rgba(237, 126, 23, 1)",
+						},
+					],
+					series: [
+						{},
+						{
+							label: "Feb 2019",
+							stroke: "rgba(5, 141, 199, 1)",
+							fill:  "rgba(5, 141, 199, 0.1)",
+							values: (u, sidx, idx) => {
+								if (idx >= febLen) {
+									return {
+										Time: '---',
+										Users: '---',
+									};
+								}
+
+								let ts = tsFeb[idx];
+								let date = new Date(ts * 1e3);
+
+								return {
+									Time: longDateHourMin(date),
+									Users: data1[sidx][idx],
+								};
+							}
+						},
+						{
+							label: "Jan 2019",
+							stroke: "rgba(237, 126, 23, 1)",
+							values: (u, sidx, idx) => {
+							//	let date = self.tzDate(data[0][idx]);
+								let date = new Date(tsJan[idx] * 1e3);
+
+								return {
+									Time: longDateHourMin(date),
+									Users: data1[sidx][idx],
+								};
+							}
+						},
+					],
+				}, data1, document.body);
+
+				// tzDate normalization is useful for aggregated data, where aggregation
+				// ranges and ts need to land on exact 12am without DST shifting goofiness
+
+				let u2 = new uPlot({
+					title: "Daily Users",
+					tzDate: ts => uPlot.tzDate(new Date(ts * 1e3), 'Etc/UTC'),
+				//	tz: 'Etc/UTC',
+					width: 1920,
+					height: 200,
+					axes: [
+						{
+							space: 100,
+						},
+						{
+							space: 20
+						}
+					],
+					series: [
+						{},
+						{
+							label: "2019",
+							stroke: "rgba(5, 141, 199, 1)",
+							fill:  "rgba(5, 141, 199, 0.1)",
+						},
+						{
+							label: "2018",
+							stroke: "rgba(237, 126, 23, 1)",
+						},
+						{
+							label: "2017",
+							stroke: "rgba(255, 0, 0, 1)",
+						},
+					],
+				}, aggDays(data), document.body);
+			});
+		</script>
+	</body>
+</html>

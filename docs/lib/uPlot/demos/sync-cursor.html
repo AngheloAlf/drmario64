@@ -1,0 +1,272 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Sync Cursor</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="../dist/uPlot.min.css">
+		<style>
+			.uplot {
+				display: inline-block;
+				vertical-align: top;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="../dist/uPlot.iife.js"></script>
+		<h2 id="wait">Loading lib....</h2>
+
+		<button id="sync">Disable Sync</button>
+		<button id="sync-up-down">Disable mouseup/down Sync</button>
+
+		<br>
+
+		<script>
+			function round2(val) {
+				return Math.round(val * 100) / 100;
+			}
+
+			function round3(val) {
+				return Math.round(val * 1000) / 1000;
+			}
+
+			function prepData(packed) {
+				console.time('prep');
+
+				// epoch,idl,recv,send,read,writ,used,free
+
+				const numFields = packed[0];
+
+				packed = packed.slice(numFields + 1);
+
+				// 55,550 data points x 3 series = 166,650
+				let data = [
+					Array(packed.length/numFields),
+					Array(packed.length/numFields),
+					Array(packed.length/numFields),
+					Array(packed.length/numFields),
+				];
+
+				for (let i = 0, j = 0; i < packed.length; i += numFields, j++) {
+					data[0][j] = packed[i] * 60;
+					data[1][j] = round3(100 - packed[i+1]);
+					data[2][j] = round2(100 * packed[i+5] / (packed[i+5] + packed[i+6]));
+					data[3][j] = packed[i+3];
+				}
+
+				let _d = [
+					[
+						data[0].slice(0, 1000),
+						data[1].slice(0, 1000),			// CPU1
+						data[1].slice(1000, 2000),		// CPU2
+						data[1].slice(2000, 3000),		// CPU3
+					],
+					[
+						data[0].slice(0, 1000),
+						data[2].slice(0, 1000),			// RAM1
+						data[2].slice(1000, 2000),		// RAM2
+						data[2].slice(2000, 3000),		// RAM3
+					],
+					[
+						data[0].slice(0, 1000),
+						data[3].slice(0, 1000),			// TCP1
+						data[3].slice(1000, 2000),		// TCP2
+						data[3].slice(2000, 3000),		// TCP3
+					],
+				];
+
+				console.timeEnd('prep');
+
+				return _d;
+			}
+
+			function makeChart(data) {
+				console.time('chart');
+
+				let mooSync = uPlot.sync("moo");
+
+				let synced = true;
+				let syncBtn = document.getElementById('sync');
+
+				syncBtn.onclick = () => {
+					synced = !synced;
+
+					if (synced) {
+						mooSync.sub(uplot1);
+						mooSync.sub(uplot2);
+						mooSync.sub(uplot3);
+						syncBtn.textContent = 'Disable Sync';
+					}
+					else {
+						mooSync.unsub(uplot1);
+						mooSync.unsub(uplot2);
+						mooSync.unsub(uplot3);
+						syncBtn.textContent = 'Enable Sync';
+					}
+				};
+
+				let syncedUpDown = true;
+				let syncUpDownBtn = document.getElementById('sync-up-down');
+
+				function upDownFilter(type) {
+					return syncedUpDown || (type != "mouseup" && type != "mousedown");
+				}
+
+				syncUpDownBtn.onclick = () => {
+					syncedUpDown = !syncedUpDown;
+
+					if (syncedUpDown)
+						syncUpDownBtn.textContent = 'Disable mouseup/down Sync';
+					else
+						syncUpDownBtn.textContent = 'Enable mouseup/down Sync';
+				};
+
+				const matchSyncKeys = (own, ext) => own == ext;
+
+				const cursorOpts = {
+					lock: true,
+					focus: {
+						prox: 16,
+					},
+					sync: {
+						key: mooSync.key,
+						setSeries: true,
+						match: [matchSyncKeys, matchSyncKeys],
+						filters: {
+							pub: upDownFilter,
+						}
+					},
+				};
+
+				const opts = {
+					title: "CPU",
+					width: 1920,
+					height: 400,
+					focus: {
+						alpha: 0.3,
+					},
+					cursor: cursorOpts,
+					series: [
+						{},
+						{
+							label: "CPU 1",
+							value: (u, v) => v == null ? "-" : v.toFixed(1) + "%",
+							stroke: "red",
+						},
+						{
+							label: "CPU 2",
+							value: (u, v) => v == null ? "-" : v.toFixed(1) + "%",
+							stroke: "green",
+						},
+						{
+							label: "CPU 3",
+							value: (u, v) => v == null ? "-" : v.toFixed(1) + "%",
+							stroke: "blue",
+						}
+					],
+					axes: [
+						{},
+						{
+							values: (u, vals, space) => vals.map(v => +v.toFixed(1) + "%"),
+						},
+					],
+				};
+
+				let uplot1 = new uPlot(opts, data[0], document.body);
+
+				const opts2 = {
+					title: "RAM",
+					width: 940,
+					height: 400,
+					cursor: cursorOpts,
+					series: [
+						{},
+						{
+							label: "RAM 1",
+							value: (u, v) => v == null ? "-" : v.toFixed(1) + "%",
+							stroke: "red",
+						},
+						{
+							label: "RAM 2",
+							value: (u, v) => v == null ? "-" : v.toFixed(1) + "%",
+							stroke: "green",
+						},
+						{
+							label: "RAM 3",
+							value: (u, v) => v == null ? "-" : v.toFixed(1) + "%",
+							stroke: "blue",
+						}
+					],
+					axes: [
+						{},
+						{
+							values: (u, vals, space) => vals.map(v => +v.toFixed(1) + "%"),
+						},
+					]
+				};
+
+				let uplot2 = new uPlot(opts2, data[1], document.body);
+
+				const opts3 = {
+					title: "TCP",
+					width: 940,
+					height: 400,
+					cursor: cursorOpts,
+					series: [
+						{},
+						{
+							label: "TCP 1",
+							value: (u, v) => v == null ? "-" : v.toFixed(1) + " MB",
+							stroke: "red",
+							scale: "mb",
+						},
+						{
+							label: "TCP 2",
+							value: (u, v) => v == null ? "-" : v.toFixed(1) + " MB",
+							stroke: "green",
+							scale: "mb",
+						},
+						{
+							label: "TCP 3",
+							value: (u, v) => v == null ? "-" : v.toFixed(1) + " MB",
+							stroke: "blue",
+							scale: "mb",
+						}
+					],
+					axes: [
+						{},
+						{
+							values: (u, vals, space) => vals.map(v => +v.toFixed(1) + " MB"),
+							scale: "mb",
+						},
+					],
+				};
+
+				let uplot3 = new uPlot(opts3, data[2], document.body);
+
+				wait.textContent = "Done!";
+				console.timeEnd('chart');
+/*
+				setTimeout(() => {
+					uplot1.destroy();
+					delete uplot1;
+				}, 5000);
+
+				setTimeout(() => {
+					uplot2.destroy();
+					delete uplot2;
+				}, 10000);
+*/
+			}
+
+			let wait = document.getElementById("wait");
+			wait.textContent = "Fetching data.json (2.07MB)....";
+			fetch("../bench/data.json").then(r => r.json()).then(packed => {
+				wait.textContent = "Rendering...";
+				let data = prepData(packed);
+				setTimeout(() => makeChart(data), 0);
+			});
+		</script>
+	</body>
+</html>

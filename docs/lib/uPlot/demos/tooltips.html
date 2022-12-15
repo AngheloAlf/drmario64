@@ -1,0 +1,198 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Tooltips</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="../dist/uPlot.min.css">
+	</head>
+	<body>
+		<script src="../dist/uPlot.iife.js"></script>
+		<script>
+			function tooltipsPlugin(opts) {
+				let cursortt;
+				let seriestt;
+
+				function init(u, opts, data) {
+					let over = u.over;
+
+					let tt = cursortt = document.createElement("div");
+					tt.className = "tooltip";
+					tt.textContent = "(x,y)";
+					tt.style.pointerEvents = "none";
+					tt.style.position = "absolute";
+					tt.style.background = "rgba(0,0,255,0.1)";
+					over.appendChild(tt);
+
+					seriestt = opts.series.map((s, i) => {
+						if (i == 0) return;
+
+						let tt = document.createElement("div");
+						tt.className = "tooltip";
+						tt.textContent = "Tooltip!";
+						tt.style.pointerEvents = "none";
+						tt.style.position = "absolute";
+						tt.style.background = "rgba(0,0,0,0.1)";
+						tt.style.color = s.color;
+						over.appendChild(tt);
+						return tt;
+					});
+
+					function hideTips() {
+						cursortt.style.display = "none";
+						seriestt.forEach((tt, i) => {
+							if (i == 0) return;
+
+							tt.style.display = "none";
+						});
+					}
+
+					function showTips() {
+						cursortt.style.display = null;
+						seriestt.forEach((tt, i) => {
+							if (i == 0) return;
+
+							let s = u.series[i];
+							tt.style.display = s.show ? null : "none";
+						});
+					}
+
+					over.addEventListener("mouseleave", () => {
+						if (!u.cursor._lock) {
+						//	u.setCursor({left: -10, top: -10});
+							hideTips();
+						}
+					});
+
+					over.addEventListener("mouseenter", () => {
+						showTips();
+					});
+
+					if (u.cursor.left < 0)
+						hideTips();
+					else
+						showTips();
+				}
+
+				function setCursor(u) {
+					const {left, top, idx} = u.cursor;
+
+					opts?.cursorMemo?.set(left, top);
+
+					// this is here to handle if initial cursor position is set
+					// not great (can be optimized by doing more enter/leave state transition tracking)
+				//	if (left > 0)
+				//		u.cursortt.style.display = null;
+
+					cursortt.style.left = left + "px";
+					cursortt.style.top = top + "px";
+					cursortt.textContent = "(" + u.posToVal(left, "x").toFixed(2) + ", " + u.posToVal(top, "y").toFixed(2) + ")";
+
+					// can optimize further by not applying styles if idx did not change
+					seriestt.forEach((tt, i) => {
+						if (i == 0) return;
+
+						let s = u.series[i];
+
+						if (s.show) {
+							// this is here to handle if initial cursor position is set
+							// not great (can be optimized by doing more enter/leave state transition tracking)
+						//	if (left > 0)
+						//		tt.style.display = null;
+
+							let xVal = u.data[0][idx];
+							let yVal = u.data[i][idx];
+
+							tt.textContent = "(" + xVal + ", " + yVal + ")";
+
+							tt.style.left = Math.round(u.valToPos(xVal, 'x')) + "px";
+							tt.style.top = Math.round(u.valToPos(yVal, s.scale)) + "px";
+						}
+					});
+				}
+
+				return {
+					hooks: {
+						init,
+						setCursor,
+						setScale: [
+							(u, key) => {
+								console.log('setScale', key);
+							}
+						],
+						setSeries: [
+							(u, idx) => {
+								console.log('setSeries', idx);
+							}
+						],
+					},
+				};
+			}
+
+			function makeChart(cursorMemo) {
+				console.time('chart');
+
+				let opts = {
+					title: "Tooltips",
+					width: 600,
+					height: 400,
+					cursor: cursorMemo?.get(),
+					plugins: [
+						tooltipsPlugin({
+							cursorMemo,
+						}),
+					],
+					scales: {
+						x: {
+							time: false,
+						}
+					},
+					series: [
+						{},
+						{
+							label: "One",
+							stroke: "red",
+						},
+						{
+							label: "Two",
+							stroke: "blue",
+							show: false,
+						},
+					]
+				};
+
+				const data = [
+					[ 1, 2, 3, 4, 5, 6, 7],
+					[40,43,60,65,71,73,80],
+					[18,24,37,55,55,60,63],
+				];
+
+				let u = new uPlot(opts, data, document.body);
+
+				console.timeEnd('chart');
+
+				return u;
+			}
+
+			// save/restore cursor and tooltip state across re-inits
+			let cursLeft = -10;
+			let cursTop = -10;
+
+			const cursorMemo = {
+				set: (left, top) => {
+					cursLeft = left;
+					cursTop = top;
+				},
+				get: () => ({left: cursLeft, top: cursTop}),
+			};
+
+			let u = makeChart(cursorMemo);
+
+			setInterval(() => {
+				u.destroy();
+				u = makeChart(cursorMemo);
+			}, 2000);
+		</script>
+	</body>
+</html>

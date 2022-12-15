@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Cursor Focus</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="../dist/uPlot.min.css">
+	</head>
+	<body>
+		<script src="../dist/uPlot.iife.js"></script>
+		<script>
+			var loop = 130000;
+
+			let data = [
+				Array(loop),
+				Array(loop),
+				Array(loop),
+				Array(loop),
+			];
+
+			for (var i = 0; i < loop; i++) {
+				let x = 2 * Math.PI * i / loop;
+				let y = Math.sin(x);
+				let y2 = Math.cos(x);
+				let y3 = Math.log(x);
+
+				data[0][i] = x;
+				data[1][i] = y;
+				data[2][i] = y2;
+				data[3][i] = y3;
+			}
+
+			const prepareChartOpts = (title, alpha, series) => {
+				return {
+					title,
+					width: 1920,
+					height: 600,
+					hooks: {
+						setSeries: [
+							(u, seriesIdx) => {
+								console.log("focus!", seriesIdx);
+
+								u.series.forEach((s, i) => {
+									s.width = i == seriesIdx ? 2 : 1;
+								});
+							}
+						]
+					},
+					focus: {
+						alpha,
+					},
+					cursor: {
+						focus: {
+							prox: 30,
+						}
+					},
+					scales: {
+						x: {
+							time: false,
+						},
+						y: {
+							range: [-2, 2]
+						}
+					},
+					series: [
+						{
+							label: "x",
+						},
+						...series,
+					],
+				}
+			}
+
+			let u1 = new uPlot(prepareChartOpts('Cursor Focus', 0.3, [
+				{
+					label: "sin(x)",
+					stroke: "red",
+					fill: "rgba(255,0,0,0.1)",
+				},
+				{
+					label: "cos(x)",
+					stroke: "blue",
+					fill: "rgba(0,0,255,0.1)",
+				},
+				{
+					label: "log(x)",
+					stroke: "green",
+					fill: "rgba(0,255,0,0.1)",
+				}
+			]), data, document.body);
+
+			const focusColorSwitch = (focused, unfocused) => (u, idx) => {
+				const series = u.series[idx];
+				return series._focus === false ? unfocused : focused;
+			};
+
+			// setting alpha: 1.1 bypasses the internal (alpha == 1) check that skips redraw() on focus changes
+			let u2 = new uPlot(prepareChartOpts('Dynamic Focus', 1.1, [
+				{
+					label: "sin(x)",
+					stroke: focusColorSwitch("red", "black"),
+					fill: focusColorSwitch("rgba(255,0,0,0.1)", "rgba(0,0,0,0.1)"),
+				},
+				{
+					label: "cos(x)",
+					stroke: focusColorSwitch("blue", "black"),
+					fill: focusColorSwitch("rgba(0,0,255,0.1)", "rgba(0,0,0,0.1)"),
+				},
+				{
+					label: "log(x)",
+					stroke: focusColorSwitch("green", "black"),
+					fill: focusColorSwitch("rgba(0,255,0,0.1)", "rgba(0,0,0,0.1)"),
+				}
+			]), data, document.body);
+		</script>
+	</body>
+</html>

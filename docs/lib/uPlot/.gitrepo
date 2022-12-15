@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:leeoniya/uPlot.git
+	branch = master
+	commit = 9fc7bb4881c43eef11677661ad92b4320d7f8a13
+	parent = 43ceee09de1f32dd8732da73f8baeed0f67fe18c
+	method = merge
+	cmdver = 0.4.3

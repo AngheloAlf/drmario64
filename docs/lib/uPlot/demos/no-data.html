@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>No Data</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="../dist/uPlot.min.css">
+		<style>
+			.uplot {
+				display: inline-block;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="../dist/uPlot.iife.js"></script>
+		<script>
+			let opts = {
+				title: "Plot without data",
+				width: 800,
+				height: 400,
+				scales: {
+					x: {
+						range(u, dataMin, dataMax) {
+							if (dataMin == null)
+								return [1566453600, 1566497660];
+
+							return [dataMin, dataMax];
+						}
+					},
+					y: {
+						range(u, dataMin, dataMax) {
+							if (dataMin == null)
+								return [0, 100];
+
+							return uPlot.rangeNum(dataMin, dataMax, 0.1, true);
+						}
+					},
+				},
+				series: [
+					{},
+					{},
+				],
+			};
+
+			let u = new uPlot(opts, null, document.body);
+
+			let opts2 = {
+				title: "Plot without data 2",
+				width: 800,
+				height: 400,
+				scales: {x: {time: false}},
+				series: [{}, {stroke: "#000"}],
+			};
+
+			new uPlot(opts2, [], document.body);
+
+			new uPlot({
+				width: 800,
+				height: 400,
+				title: "1 point (time)",
+				series: [{}, {stroke: "#000"}],
+			}, [[1566453600],[1]], document.body);
+
+			let onePoint = [
+				[[-1], [  -1]],
+				[[-1], [   0]],
+				[[-1], [   1]],
+				[[ 0], [  -1]],
+				[[ 0], [   0]],
+				[[ 0], [   1]],
+				[[ 1], [  -1]],
+				[[ 1], [   0]],
+				[[ 1], [   1]],
+			];
+
+			onePoint.forEach(data => {
+				new uPlot({
+					width: 800,
+					height: 400,
+					title: "1 point - " + JSON.stringify(data),
+					scales: {x: {time: false}},
+					series: [{}, {stroke: "#000"}],
+				}, data, document.body);
+			})
+
+			let twoPointsFlat = [
+				[[0, 1], [-100, -100]],
+				[[0, 1], [ -10,  -10]],
+				[[0, 1], [  -1,   -1]],
+				[[0, 1], [-0.1, -0.1]],
+				[[0, 1], [   0,    0]],
+				[[0, 1], [ 0.1,  0.1]],
+				[[0, 1], [   1,    1]],
+				[[0, 1], [  10,   10]],
+				[[0, 1], [ 100,  100]],
+			];
+
+
+			let zeroPoints = [
+				null,
+				[],
+				[[]],
+				[[],[]],
+			];
+
+			let series = [
+				null,
+				[],
+				[{}],
+				[{},{}],
+			];
+		</script>
+	</body>
+</html>

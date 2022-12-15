@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Axis Autosize</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" href="../dist/uPlot.min.css">
+		<style>
+			.uplot {
+				background: #eee;
+			}
+
+			.u-under {
+				background: rgba(0,0,0,0.1);
+			}
+		</style>
+	</head>
+	<body>
+		<script src="../dist/uPlot.iife.js"></script>
+		<script>
+			function f(x) {
+				return Math.random() - 0.5 + Math.sin(x * 0.00002) * 40 + Math.sin(x * 0.001) * 5 + Math.sin(x * 0.1) * 2;
+			}
+
+			const points = 501;
+
+			function getData(max, mult) {
+				mult = mult || 1;
+
+				const data = [
+					Array(points),
+					Array(points)
+				];
+
+				for (let x = 0; x < max; x++) {
+					data[0][x] = x;
+					data[1][x] = f(x) * mult;
+				}
+
+				return data;
+			}
+
+			function autoPadRight(self, side, sidesWithAxes, cycleNum) {
+				let xAxis = self.axes[0];
+
+				let xVals = xAxis._values;
+
+				if (xVals != null) {
+					// bail out, force convergence
+					if (cycleNum > 2)
+						return self._padding[1];
+
+					let xSplits = xAxis._splits;
+					let rightSplit = xSplits[xSplits.length - 1];
+					let rightSplitCoord = self.valToPos(rightSplit, "x");
+					let leftPlotEdge = (self.bbox.left / devicePixelRatio);
+					let rightPlotEdge = leftPlotEdge + (self.bbox.width / devicePixelRatio);
+					let rightChartEdge = rightPlotEdge + self._padding[1];
+
+					let pxPerChar    = 8;
+					let rightVal     = xVals[xVals.length - 1] + "";
+					let valHalfWidth = pxPerChar * (rightVal.length / 2);
+
+					let rightValEdge = leftPlotEdge + rightSplitCoord + valHalfWidth;
+
+					if (rightValEdge >= rightChartEdge) {
+						return rightValEdge - rightPlotEdge;
+					}
+				}
+
+				// default size
+				return 8;
+			}
+
+			const opts = {
+				title: "Axis AutoSize",
+				width: 1048,
+				height: 600,
+				padding: [null, autoPadRight, null, null],
+				scales: {
+					x: {
+						time: false,
+					//	auto: false,
+					//	range: [0, 6],
+					},
+				},
+				series: [
+					{
+						label: "x",
+					},
+					{
+						label: "sin(x)",
+						stroke: "red",
+					}
+				],
+				axes: [
+					{
+						label: "X Axis Label",
+						labelSize: 20,
+						values(self, splits) {
+							return splits.map(s => s * mult);
+						}
+					},
+					{
+						label: "Y Axis Label",
+						labelGap: 8,
+						labelSize: 8 + 12 + 8,
+						stroke: "red",
+						size(self, values, axisIdx, cycleNum) {
+							let axis = self.axes[axisIdx];
+
+							// bail out, force convergence
+							if (cycleNum > 1)
+								return axis._size;
+
+							let axisSize = axis.ticks.size + axis.gap;
+
+							// find longest value
+							let longestVal = (values ?? []).reduce((acc, val) => (
+								val.length > acc.length ? val : acc
+							), "");
+
+							if (longestVal != "") {
+								self.ctx.font = axis.font[0];
+								axisSize += self.ctx.measureText(longestVal).width / devicePixelRatio;
+							}
+
+							return Math.ceil(axisSize);
+						},
+					}
+				],
+			};
+
+			let mult = 1;
+
+			let u = new uPlot(opts, getData(points, mult), document.body);
+
+			let it = setInterval(() => {
+				u.setData(getData(points, mult *= 10));
+
+				if (mult == 1e9)
+					clearInterval(it);
+			}, 500);
+		</script>
+	</body>
+</html>
