@@ -888,7 +888,7 @@ s16 angleF2S(f32 arg0);
 // void func_8007CFB4();
 void randomize00(void);
 // void randomseed();
-u16 irandom(void);
+s32 irandom(void);
 // void random();
 
 // void func_8007D260();
