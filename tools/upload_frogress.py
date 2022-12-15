@@ -24,7 +24,7 @@ def uploadProgressMain():
     args = parser.parse_args()
 
     version: str = args.version
-    category: str = "category"
+    category: str = "code"
     apikey: str = args.apikey
     mapPath: Path = args.map
 
