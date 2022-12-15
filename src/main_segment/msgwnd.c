@@ -196,7 +196,8 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
     }
 
     if (messageWnd->unk_78 != 0) {
-        gfxSetScissor(&gfx, 2, messageWnd->unk_28, messageWnd->unk_2C, msgWnd_getWidth(messageWnd), msgWnd_getHeight(messageWnd));
+        gfxSetScissor(&gfx, 2, messageWnd->unk_28, messageWnd->unk_2C, msgWnd_getWidth(messageWnd),
+                      msgWnd_getHeight(messageWnd));
     }
 
     var_s0 = messageWnd->unk_14;
@@ -212,9 +213,10 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
     // temp_a2 = gfx;
     // gfx = temp_a2 + 8;
     // temp_a2->words.w0 = 0xFA000000;
-    // temp_a2->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_a0_2) << 0x10) | (*(&sMessageColorTable->unk_2 +
-    // temp_a0_2) << 8) | (u8)messageWnd->unk_74;
-    gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g, sMessageColorTable[var_s7].b, messageWnd->unk_74);
+    // temp_a2->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_a0_2) <<
+    // 0x10) | (*(&sMessageColorTable->unk_2 + temp_a0_2) << 8) | (u8)messageWnd->unk_74;
+    gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g,
+                    sMessageColorTable[var_s7].b, messageWnd->unk_74);
 
     if ((messageWnd->unk_30 == 0xC) || (messageWnd->unk_34 != 0xC) || (var_f20 != 0.0f)) {
         // temp_v1 = gfx;
@@ -255,16 +257,20 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
                     // temp_a2_2 = gfx;
                     // gfx = temp_a2_2 + 8;
                     // temp_a2_2->words.w0 = 0xFA000000;
-                    // temp_a2_2->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_a0_5) << 0x10) |
+                    // temp_a2_2->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1
+                    // + temp_a0_5) << 0x10) |
                     // (*(&sMessageColorTable->unk_2 + temp_a0_5) << 8) | (u8)messageWnd->unk_74;
-                    gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g, sMessageColorTable[var_s7].b, messageWnd->unk_74);
+                    gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g,
+                                    sMessageColorTable[var_s7].b, messageWnd->unk_74);
                     break;
             }
 
             var_s0 += fontStr_nextChar(&messageWnd->unk_0C[var_s0]);
         } else {
             temp_s4 = fontStr_nextChar(&messageWnd->unk_0C[var_s0]);
-            temp_s5 = (s32)(((f32)fontStr_charSize(&messageWnd->unk_0C[var_s0], messageWnd->unk_20) * ((f32)temp_a0 / 12.0f)) + (f32)sp2C);
+            temp_s5 = (s32)(
+                ((f32)fontStr_charSize(&messageWnd->unk_0C[var_s0], messageWnd->unk_20) * ((f32)temp_a0 / 12.0f)) +
+                (f32)sp2C);
             if (messageWnd->unk_24 != 0) {
 #if 1
                 var_a2 = (s32)(messageWidth - ((u32 *)((var_s3 * 0x10) + messageWnd->unk_04))[0x8 / 4]) >> 1;
@@ -278,16 +284,18 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
                     if (messageWidth >= (var_s2 + temp_s5)) {
                         switch (messageWnd->unk_20) {
                             case 0:
-                                fontAsc_draw(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
-                                             (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)sp34,
-                                             (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
+                                fontAsc_draw(
+                                    &gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
+                                    (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
+                                    (f32)sp34, (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
                                 break;
 
                             case 1:
                                 if (messageWnd->unk_20 == temp_s4) {
-                                    fontAsc_draw2(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
-                                                  (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)sp34,
-                                                  (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
+                                    fontAsc_draw2(
+                                        &gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
+                                        (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
+                                        (f32)sp34, (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
                                 }
                                 break;
                         }
@@ -301,14 +309,16 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
                     if (messageWidth >= (var_s2 + temp_s5)) {
                         switch (messageWnd->unk_20) {
                             case 0:
-                                fontXX_draw(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
-                                            (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)messageWnd->unk_30,
-                                            (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
+                                fontXX_draw(
+                                    &gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
+                                    (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
+                                    (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
                                 break;
                             case 1:
-                                fontXX_draw2(&gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
-                                             (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)messageWnd->unk_30,
-                                             (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
+                                fontXX_draw2(
+                                    &gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
+                                    (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
+                                    (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
                                 break;
 
                             default:
@@ -332,23 +342,25 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
     } while (var_s3 < var_fp);
 
     if ((messageWnd->unk_6C != false) && (messageWnd->unk_58 == 0.0)) {
-        temp_a0_6 = (s32)(((f32)sins((messageWnd->unk_7C << 0xA) & 0xFC00) * 0.001953125f) + 191.0f) * messageWnd->unk_74;
+        temp_a0_6 =
+            (s32)(((f32)sins((messageWnd->unk_7C << 0xA) & 0xFC00) * 0.001953125f) + 191.0f) * messageWnd->unk_74;
         // temp_v1_2 = var_s7 * 3;
         // gfx->words.w0 = 0xFA000000;
-        // gfx->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_v1_2) << 0x10) | (*(&sMessageColorTable->unk_2 +
-        // temp_v1_2) << 8) | ((temp_a0_6 >> 8) & 0xFF); gfx += 8;
-        gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g, sMessageColorTable[var_s7].b, temp_a0_6 >> 8);
+        // gfx->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_v1_2) <<
+        // 0x10) | (*(&sMessageColorTable->unk_2 + temp_v1_2) << 8) | ((temp_a0_6 >> 8) & 0xFF); gfx += 8;
+        gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g,
+                        sMessageColorTable[var_s7].b, temp_a0_6 >> 8);
 
         switch (messageWnd->unk_20) {
             case 0x0:
                 fontXX_draw(&gfx, (f32)(messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)),
-                            (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)messageWnd->unk_30, (f32)messageWnd->unk_34,
-                            D_800B1A54);
+                            (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
+                            (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, D_800B1A54);
                 break;
             case 0x1:
                 fontXX_draw2(&gfx, (f32)(messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)),
-                             (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20), (f32)messageWnd->unk_30, (f32)messageWnd->unk_34,
-                             D_800B1A54);
+                             (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
+                             (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, D_800B1A54);
                 break;
 
             default:

@@ -438,7 +438,8 @@ void graphic_menu(void) {
         gSPEndDisplayList(gGfxHead++);
 
         osWritebackDCacheAll();
-        gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+        gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no],
+                     (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
         gGfxHead = gGfxGlist[gfx_gtask_no];
     }
 

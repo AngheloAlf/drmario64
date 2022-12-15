@@ -9,8 +9,8 @@
 #include "PR/sched.h"
 
 #ifdef NON_EQUIVALENT
-s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7,
-                  OSPri thread_priority) {
+s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5,
+                  size_t arg6, UNK_TYPE arg7, OSPri thread_priority) {
     musConfig sp10;
     s32 temp_s1;
     Audio_struct_800FAF98 *temp_v0;

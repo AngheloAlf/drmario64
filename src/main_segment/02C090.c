@@ -131,7 +131,8 @@ void func_800592D4(struct_800F3E5C_unk_02678 *arg0) {
         func_800585BC(arg0, 1, 0.0f);
     }
 
-    if (!(temp_s0->unk_03C8 < 1.0f) && !(temp_s0->unk_03CC < 0.0f) && !(temp_s0->unk_03EC < 1.0f) && !(temp_s0->unk_03F0 < 0.0f)) {
+    if (!(temp_s0->unk_03C8 < 1.0f) && !(temp_s0->unk_03CC < 0.0f) && !(temp_s0->unk_03EC < 1.0f) &&
+        !(temp_s0->unk_03F0 < 0.0f)) {
         if (arg0->unk_0008 == 0) {
             if (pressedButton & (L_JPAD | L_TRIG)) {
                 direction--;

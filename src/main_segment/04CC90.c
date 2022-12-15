@@ -34,8 +34,10 @@ void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
 
 void *func_80077170(s32 index, void *dstAddr) {
     bgGraphic = dstAddr;
-    B_800E8750 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E778[index].start, dstAddr, D_8000E778[index].end - D_8000E778[index].start));
-    return (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E760.start, B_800E8750, D_8000E760.end - D_8000E760.start));
+    B_800E8750 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E778[index].start, dstAddr,
+                                                               D_8000E778[index].end - D_8000E778[index].start));
+    return (void *)ALIGN16(
+        (uintptr_t)DecompressRomToRam(D_8000E760.start, B_800E8750, D_8000E760.end - D_8000E760.start));
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800771EC);
@@ -194,7 +196,8 @@ void *func_8007780C(void *dstAddr) {
     void *temp_s0;
 
     bgGraphic = (void *)ALIGN16((uintptr_t)dstAddr);
-    temp_s0 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E740.start, bgGraphic, D_8000E740.end - D_8000E740.start));
+    temp_s0 =
+        (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E740.start, bgGraphic, D_8000E740.end - D_8000E740.start));
     init_coffee_break_cnt();
     return temp_s0;
 }
@@ -301,10 +304,12 @@ void *init_title(void *dstAddr, bool arg1) {
     guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
 
     title_data = ALIGN_PTR(dstAddr);
-    title_bmp_data = ALIGN_PTR(DecompressRomToRam(gSegmentRomOffset_segment_title_all.start, title_data,
-                                                  gSegmentRomOffset_segment_title_all.end - gSegmentRomOffset_segment_title_all.start));
-    return ALIGN_PTR(DecompressRomToRam(gSegmentRomOffset_segment_title_bmp.start, title_bmp_data,
-                                        gSegmentRomOffset_segment_title_bmp.end - gSegmentRomOffset_segment_title_bmp.start));
+    title_bmp_data = ALIGN_PTR(
+        DecompressRomToRam(gSegmentRomOffset_segment_title_all.start, title_data,
+                           gSegmentRomOffset_segment_title_all.end - gSegmentRomOffset_segment_title_all.start));
+    return ALIGN_PTR(
+        DecompressRomToRam(gSegmentRomOffset_segment_title_bmp.start, title_bmp_data,
+                           gSegmentRomOffset_segment_title_bmp.end - gSegmentRomOffset_segment_title_bmp.start));
 }
 
 /**
@@ -399,7 +404,8 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
 
-            StretchTexBlock4i(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, (0xA0 - (sp30.unk_04 / 2)), (0x78 - (sp30.unk_08 / 2)), sp30.unk_04, sp30.unk_08);
+            StretchTexBlock4i(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, (0xA0 - (sp30.unk_04 / 2)),
+                              (0x78 - (sp30.unk_08 / 2)), sp30.unk_04, sp30.unk_08);
             story_spot_cnt += 1;
         } else {
             story_spot_cnt += 5;
@@ -416,7 +422,8 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
         func_80076CA0(&sp48, title_bmp_data + title_bmp_tbl[2]);
 
         gSPDisplayList(gfx++, alpha_texture_init_dl);
-        StretchAlphaTexBlock(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, sp30.unk_04, (s32)sp48.unk_10, sp48.unk_04, 88.0f, 165.0f, sp30.unk_04, sp30.unk_08);
+        StretchAlphaTexBlock(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, sp30.unk_04, (s32)sp48.unk_10, sp48.unk_04,
+                             88.0f, 165.0f, sp30.unk_04, sp30.unk_08);
     }
 
     *gfxP = gfx;
@@ -448,7 +455,8 @@ void func_8007A9DC(void) {
     B_800E87AC = D_800AAD3C;
 
     segmentSize = gSegmentRomOffset_segment_title_all.end - gSegmentRomOffset_segment_title_all.start;
-    ptr = (void *)ALIGN16((uintptr_t)DecompressRomToRam(gSegmentRomOffset_segment_title_all.start, B_800E87AC, segmentSize));
+    ptr = (void *)ALIGN16(
+        (uintptr_t)DecompressRomToRam(gSegmentRomOffset_segment_title_all.start, B_800E87AC, segmentSize));
     B_800E8750 = ptr;
 
     segmentSize = D_8000E758.end - D_8000E758.start;

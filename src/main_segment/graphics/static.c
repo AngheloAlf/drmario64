@@ -78,23 +78,24 @@ void func_8002BF90(TexturePtr tlut, u32 pal) {
 }
 
 void func_8002C048(TexturePtr texture, s32 width, s32 height) {
-    gDPLoadTextureBlock_4b(gGfxHead++, texture, G_IM_FMT_CI, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
-                           G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b(gGfxHead++, texture, G_IM_FMT_CI, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                           G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 void func_8002C1E8(TexturePtr texture, s32 width, s32 height) {
-    gDPLoadTextureBlock_4b(gGfxHead++, texture, G_IM_FMT_I, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
-                           G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b(gGfxHead++, texture, G_IM_FMT_I, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                           G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 void func_8002C388(TexturePtr texture, s32 width, s32 height UNUSED, s32 uls, s32 ult, s32 lrs, s32 lrt) {
-    gDPLoadTextureTile_4b(gGfxHead++, texture, G_IM_FMT_CI, width, height, uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
-                          G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureTile_4b(gGfxHead++, texture, G_IM_FMT_CI, width, height, uls, ult, lrs, lrt, 0,
+                          G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                          G_TX_NOLOD);
 }
 
 void func_8002C4EC(TexturePtr texture, s32 width, s32 height) {
-    gDPLoadTextureBlock(gGfxHead++, texture, G_IM_FMT_CI, G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
-                        G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(gGfxHead++, texture, G_IM_FMT_CI, G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/graphics/static", func_8002C688);

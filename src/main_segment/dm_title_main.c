@@ -170,7 +170,8 @@ void dm_title_graphic(void) {
     gSPEndDisplayList(gGfxHead++);
     osWritebackDCacheAll();
 
-    gfxTaskStart(ptr, gGfxGlist[gCurrentFramebufferIndex], (gGfxHead - gGfxGlist[gCurrentFramebufferIndex]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+    gfxTaskStart(ptr, gGfxGlist[gCurrentFramebufferIndex],
+                 (gGfxHead - gGfxGlist[gCurrentFramebufferIndex]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
 
 const char D_800B32A8[] RODATA = "This game is not designed~nfor use on this system.~z";
@@ -178,7 +179,8 @@ const char D_800B32A8[] RODATA = "This game is not designed~nfor use on this sys
 /**
  * Original name: _mesBootContErr
  */
-const char _mesBootContErr[] RODATA = "There is no controller~nconnected. Please turn OFF~nthe Nintendo* 64 and insert~na controller in socket 1.~z";
+const char _mesBootContErr[] RODATA =
+    "There is no controller~nconnected. Please turn OFF~nthe Nintendo* 64 and insert~na controller in socket 1.~z";
 
 /**
  * Original name: _mesBootCSumErr
@@ -263,5 +265,6 @@ void graphic_boot_error(void) {
     gSPEndDisplayList(gGfxHead++);
 
     osWritebackDCacheAll();
-    gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+    gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx),
+                 0, OS_SC_SWAPBUFFER);
 }

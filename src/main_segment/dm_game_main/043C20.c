@@ -477,8 +477,8 @@ void dm_game_graphic(void) {
 
     osWritebackDCacheAll();
 
-    gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0,
-                 (temp_s0->unk_880 == 0) ? OS_SC_SWAPBUFFER : 0);
+    gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx),
+                 0, (temp_s0->unk_880 == 0) ? OS_SC_SWAPBUFFER : 0);
     osSetThreadPri(NULL, 0xF);
     dm_game_graphic2();
     osSetThreadPri(NULL, 0x7F);
@@ -615,5 +615,6 @@ void graphic_techmes(void) {
     gSPEndDisplayList(gGfxHead++);
 
     osWritebackDCacheAll();
-    gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
+    gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx),
+                 0, OS_SC_SWAPBUFFER);
 }

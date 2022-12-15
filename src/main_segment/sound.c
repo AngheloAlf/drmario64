@@ -17,12 +17,14 @@
 #include "buffers.h"
 
 const u8 RO_800ACA10[] = {
-    SND_INDEX_94 - 3, SND_INDEX_84 - 3, SND_INDEX_38 - 3, SND_INDEX_43 - 3, SND_INDEX_48 - 3, SND_INDEX_18 - 3, SND_INDEX_28 - 3, SND_INDEX_23 - 3,
-    SND_INDEX_3 - 3,  SND_INDEX_8 - 3,  SND_INDEX_13 - 3, SND_INDEX_33 - 3, SND_INDEX_53 - 3, SND_INDEX_89 - 3, SND_INDEX_99 - 3,
+    SND_INDEX_94 - 3, SND_INDEX_84 - 3, SND_INDEX_38 - 3, SND_INDEX_43 - 3, SND_INDEX_48 - 3,
+    SND_INDEX_18 - 3, SND_INDEX_28 - 3, SND_INDEX_23 - 3, SND_INDEX_3 - 3,  SND_INDEX_8 - 3,
+    SND_INDEX_13 - 3, SND_INDEX_33 - 3, SND_INDEX_53 - 3, SND_INDEX_89 - 3, SND_INDEX_99 - 3,
 };
 
 const s32 RO_800ACA20[] = {
-    0x04, 0x09, 0x03, 0x08, 0x05, 0x0A, 0x06, 0x0B, 0x07, 0x0C, 0x0D, 0x0E, 0x0F, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x10, 0x1A,
+    0x04, 0x09, 0x03, 0x08, 0x05, 0x0A, 0x06, 0x0B, 0x07, 0x0C, 0x0D, 0x0E,
+    0x0F, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x10, 0x1A,
 };
 
 const SndEntry gSndsEntries[SND_INDEX_MAX] = {
@@ -245,8 +247,8 @@ void dm_audio_init_driver(struct_800EB670 *arg0) {
         func_8002AAD8(&ptr->unk_08[i], i);
     }
 
-    func_8002D170(arg0, B_800B3640, sizeof(B_800B3640), D_8000E838[1].end - D_8000E838[1].start, func_8002AA80(), 2, D_8000E838[2].end - D_8000E838[2].start, 4,
-                  50);
+    func_8002D170(arg0, B_800B3640, sizeof(B_800B3640), D_8000E838[1].end - D_8000E838[1].start, func_8002AA80(), 2,
+                  D_8000E838[2].end - D_8000E838[2].start, 4, 50);
 
     func_8002D3B0(D_8000E838[1].start, D_8000E838[1].end - D_8000E838[1].start, (void *)D_8000E838[0].start);
     func_8002D6A4(D_8000E838[2].start, D_8000E838[2].end - D_8000E838[2].start);

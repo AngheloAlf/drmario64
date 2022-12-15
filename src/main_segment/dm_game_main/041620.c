@@ -56,7 +56,8 @@ void func_8006D620(void) {
             for (i = 0; i < 2; i++) {
                 ptr = &game_state_data[i];
 
-                if (((ptr->unk_04C == 1) || (((ptr->unk_04C != 1) && (i == 0)) && (D_80088508 >= 0))) && (game_state_data[i].unk_020 == 1)) {
+                if (((ptr->unk_04C == 1) || (((ptr->unk_04C != 1) && (i == 0)) && (D_80088508 >= 0))) &&
+                    (game_state_data[i].unk_020 == 1)) {
                     func_8002EFF0(&game_state_data[i]);
                 }
             }
@@ -67,7 +68,8 @@ void func_8006D620(void) {
             for (i = 0; i < 4; i++) {
                 ptr = &game_state_data[i];
 
-                if (((ptr->unk_04C == 1) || (((ptr->unk_04C != 1) && (i == 0)) && (D_80088508 >= 0))) && (game_state_data[i].unk_020 == 1)) {
+                if (((ptr->unk_04C == 1) || (((ptr->unk_04C != 1) && (i == 0)) && (D_80088508 >= 0))) &&
+                    (game_state_data[i].unk_020 == 1)) {
                     func_8002EFF0(&game_state_data[i]);
                 }
             }

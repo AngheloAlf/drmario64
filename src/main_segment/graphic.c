@@ -198,7 +198,8 @@ void F3RCPinitRtn(void) {
  */
 void F3ClearFZRtn(u8 arg0) {
     gDPSetCycleType(gGfxHead++, G_CYC_FILL);
-    gDPSetColorImage(gGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
+    gDPSetColorImage(gGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH,
+                     osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
 
     if (arg0) {
         gDPSetFillColor(gGfxHead++, (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
@@ -225,7 +226,8 @@ void S2RDPinitRtn(u8 arg0) {
  * Original name: S2ClearCFBRtn
  */
 void S2ClearCFBRtn(u8 arg0) {
-    gDPSetColorImage(gGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
+    gDPSetColorImage(gGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH,
+                     osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
     if (arg0) {
         gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_800881B8));
         gDPFillRectangle(gGfxHead++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);

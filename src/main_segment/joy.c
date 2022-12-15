@@ -77,7 +77,8 @@ void joyProcCore(void) {
             if (joyflg[i] & mask) {
                 if (mask & gControllerHoldButtons[i]) {
                     joycnt[i][j]++;
-                    if ((joycnt[i][j] == 1) || ((joycnt[i][j] >= joycur1) && (((joycnt[i][j] - joycur1) % joycur2) == 0))) {
+                    if ((joycnt[i][j] == 1) ||
+                        ((joycnt[i][j] >= joycur1) && (((joycnt[i][j] - joycur1) % joycur2) == 0))) {
                         B_800F48C4[i] |= mask;
                     }
                 } else {

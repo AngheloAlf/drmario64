@@ -164,7 +164,8 @@ const char STR_800AD698[] = "  @m%c%05d";
 
 const char STR_800AD6A4[] = "\n\n@c2Wid@c7";
 
-const char STR_800AD6B0[] = "@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  @m%c%05d%%  @m%c%02d:%-3s  @m%c%05d\n\n";
+const char STR_800AD6B0[] = "@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  "
+                            "@m%c%05d%%  @m%c%02d:%-3s  @m%c%05d\n\n";
 
 const char STR_800AD728[] = "@c2\tLine2  Line3  Line4~8\n@c2Hei@c7";
 
