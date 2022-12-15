@@ -20,7 +20,10 @@ typedef union {
     struct {
         // Note: The order displayed here is the transpose of the order in which matrices are typically written.
         // For example, [xw, yw, zw] is the translation part of the matrix, not [wx, wy, wz].
-        float xx, yx, zx, wx, xy, yy, zy, wy, xz, yz, zz, wz, xw, yw, zw, ww;
+        float xx, yx, zx, wx, //
+            xy, yy, zy, wy,   //
+            xz, yz, zz, wz,   //
+            xw, yw, zw, ww;
     };
 } MtxF;
 
@@ -35,8 +38,8 @@ f32 func_8007BC20(f32 arg0) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007BC54);
 
 /**
- * Creates a general rotation + translation matrix. Uses Y1 X2 Z3 Tait-Bryan angles (https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix).
- * `rotX`, `rotY`, `rotZ` are in degrees.
+ * Creates a general rotation + translation matrix. Uses Y1 X2 Z3 Tait-Bryan angles
+ * (https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix). `rotX`, `rotY`, `rotZ` are in degrees.
  */
 void func_8007BD30(MtxF *m, f32 rotX, f32 rotY, f32 rotZ, f32 transX, f32 transY, f32 transZ) {
     f32 a2 = DEG_TO_RAD(rotX);
@@ -70,7 +73,8 @@ void func_8007BD30(MtxF *m, f32 rotX, f32 rotY, f32 rotZ, f32 transX, f32 transY
 }
 
 /**
- * convert a pair of binary angles theta, phi to spherical coordinates x, y, z; origin (0,0) -> (0,0,1) and theta points towards the downwards y direction
+ * convert a pair of binary angles theta, phi to spherical coordinates x, y, z; origin (0,0) -> (0,0,1) and theta points
+ * towards the downwards y direction
  */
 void func_8007BEEC(s16 theta, s16 phi, f32 *x, f32 *y, f32 *z) {
     f32 thetaRad;
@@ -220,8 +224,8 @@ void func_8007CBE4(MtxF *m, f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32
 }
 
 /**
- * Shift the vector `(inX, inY, inZ)` by the negative of the translational part of the matrix `m` and multiply it by the linear part of `m` and write to `(outX,
- * outY, outZ)`.
+ * Shift the vector `(inX, inY, inZ)` by the negative of the translational part of the matrix `m` and multiply it by the
+ * linear part of `m` and write to `(outX, outY, outZ)`.
  *
  * (This is equivalent to multiplying by the inverse of `m` if the linear part of `m` is orthogonal.)
  */
@@ -244,7 +248,8 @@ void func_8007CC68(MtxF *m, f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32
 /**
  * Multiply the vector `(inX, inY, inZ)` by the linear part of the matrix `m` and write to `(outX, outY, outZ)`.
  *
- * (This is equivalent to multiplying by the inverse of the linear part of `m`, if the linear part of `m` is orthogonal.)
+ * (This is equivalent to multiplying by the inverse of the linear part of `m`, if the linear part of `m` is
+ * orthogonal.)
  */
 void func_8007CCFC(MtxF *m, f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32 *outZ) {
     f32 vec[3];
