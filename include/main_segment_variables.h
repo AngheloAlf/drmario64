@@ -559,7 +559,7 @@ extern void *B_800E87B0;
 // extern UNK_TYPE B_800E87B4;
 extern struct_800E87C0 B_800E87C0[0x40];
 extern s32 randomindex;
-extern s32 randomtable[0x36];
+extern s32 randomtable[55];
 
 // extern UNK_TYPE B_800E98A0;
 // extern UNK_TYPE B_800E98B0;
