@@ -11,8 +11,11 @@ jobs:
     steps:
     - name: Checkout reposistory
       uses: actions/checkout@v3
-      with:
-        ref: ${{ github.event.pull_request.head.sha }} # Check out the code of the PR
+
+    # On pull_request_target Github checks out the master branch, so we need to merge the PR code "manually"
+    - name: Merge PR
+      if: github.event_name == 'pull_request_target'
+      run: git merge ${{ github.event.pull_request.head.sha }}
 
     - name: Install package requirements
       run: sudo apt-get install -y make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip clang-format-11 clang-tidy-11
