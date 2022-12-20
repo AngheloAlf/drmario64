@@ -371,8 +371,7 @@ segments:
       - [0x043610, c, main_segment/font]
       - [0x044D40, c, main_segment/msgwnd]
 
-      - [0x045F40, c, main_segment/char_anime/0344D0]
-      - [0x046300, c, main_segment/char_anime/034890]
+      - [0x045F40, c, main_segment/char_anime]
 
       - [0x046D70, c, main_segment/035300]
 
@@ -494,7 +493,7 @@ segments:
         - [0x099798]
 
       - { start: 0x0997B0, type: .rodata, partial_migration: True, name: main_segment/msgwnd }
-      - { start: 0x099880, type: .rodata, partial_migration: True, name: main_segment/char_anime/0344D0 }
+      - { start: 0x099880, type: .rodata, partial_migration: True, name: main_segment/char_anime }
       - { start: 0x0999C0, type: .rodata, partial_migration: True, name: main_segment/035AB0 }
       - { start: 0x0999F0, type: .rodata, partial_migration: True, name: main_segment/0362B0 }
       - { start: 0x099A50, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/036620 }

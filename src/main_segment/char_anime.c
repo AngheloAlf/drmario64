@@ -1,5 +1,5 @@
 /**
- * Originally part of char_anime.c
+ * Original filename char_anime.c
  */
 
 #include "ultra64.h"
@@ -12,13 +12,13 @@
 #include "boot_variables.h"
 #include "rom_offsets.h"
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime/0344D0", D_800B1A60);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime", D_800B1A60);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime/0344D0", D_800B1AB0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime", D_800B1AB0);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime/0344D0", D_800B1B00);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime", D_800B1B00);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime/0344D0", D_800B1B04);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime", D_800B1B04);
 
 void animeSeq_init(struct_800F3E50_unk_44C *arg0, UNK_TYPE4 *arg1, UNK_TYPE4 arg2) {
     arg0->unk_0C = arg1;
@@ -88,16 +88,16 @@ void animeSeq_update(struct_800F3E50_unk_44C *arg0, s32 arg1) {
     }
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime/0344D0", animeSeq_update);
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", animeSeq_update);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime/0344D0", func_8005E32C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E32C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime/0344D0", func_8005E358);
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E358);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime/0344D0", func_8005E36C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E36C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime/0344D0", func_8005E40C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E40C);
 
 void animeState_set(struct_800F3E50_unk_44C *arg0, UNK_TYPE4 arg1) {
     arg0->unk_20 = 0;
@@ -108,3 +108,31 @@ void animeState_update(struct_800F3E50_unk_44C *arg0) {
     animeSeq_update(arg0, arg0->unk_20 % 2U);
     arg0->unk_20++;
 }
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E4E0);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E4FC);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E5B0);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E67C);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E750);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E998);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005EAFC);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005EBA8);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005EBDC);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", animeSmog_stop);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", animeSmog_update);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005ED74);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005EE64);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005EE98);
