@@ -114,13 +114,15 @@ typedef struct struct_800F3E50_unk_430 {
     /* 0xC4 */ u16 *unk_C4;
 } struct_800F3E50_unk_430; // size >= 0xC8
 
-
+typedef struct struct_800F3E50_unk_44C_unk_0C {
+    /* 0x0 */ u8 *unk_0;
+} struct_800F3E50_unk_44C_unk_0C; // size >= 0x4
 
 // animeState?
 typedef struct struct_800F3E50_unk_44C {
     /* 0x00 */ UNK_TYPE1 unk_00[0x8];
     /* 0x08 */ UNK_TYPE4 unk_08;
-    /* 0x0C */ UNK_TYPE4 *unk_0C;
+    /* 0x0C */ struct_800F3E50_unk_44C_unk_0C *unk_0C;
     /* 0x10 */ UNK_TYPE4 unk_10;
     /* 0x14 */ UNK_TYPE4 unk_14;
     /* 0x18 */ UNK_TYPE4 unk_18;
@@ -129,8 +131,15 @@ typedef struct struct_800F3E50_unk_44C {
     /* 0x24 */ UNK_TYPE1 unk_24[0x1C];
 } struct_800F3E50_unk_44C; // size = 0x40
 
+typedef struct struct_800F3E50_unk_50C_unk_100 {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ s32 unk_4;
+} struct_800F3E50_unk_50C_unk_100; // size = 0x8
+
 typedef struct struct_800F3E50_unk_50C {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x124];
+    /* 0x000 */ struct_800F3E50_unk_44C unk_000[4];
+    /* 0x100 */ struct_800F3E50_unk_50C_unk_100 unk_100[4];
+    /* 0x120 */ UNK_TYPE4 unk_120;
 } struct_800F3E50_unk_50C; // size = 0x124
 
 typedef struct struct_800F3E50 {

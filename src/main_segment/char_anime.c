@@ -20,7 +20,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime", D_800B1B00);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime", D_800B1B04);
 
-void animeSeq_init(struct_800F3E50_unk_44C *arg0, UNK_TYPE4 *arg1, UNK_TYPE4 arg2) {
+void animeSeq_init(struct_800F3E50_unk_44C *arg0, struct_800F3E50_unk_44C_unk_0C *arg1, UNK_TYPE4 arg2) {
     arg0->unk_0C = arg1;
     arg0->unk_08 = -1;
     arg0->unk_10 = arg2;
@@ -91,7 +91,9 @@ void animeSeq_update(struct_800F3E50_unk_44C *arg0, s32 arg1) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", animeSeq_update);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E32C);
+bool func_8005E32C(struct_800F3E50_unk_44C *arg0) {
+    return arg0->unk_0C[arg0->unk_10].unk_0[arg0->unk_14] == 0xFF;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E358);
 
@@ -109,7 +111,9 @@ void animeState_update(struct_800F3E50_unk_44C *arg0) {
     arg0->unk_20++;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E4E0);
+bool func_8005E4E0(struct_800F3E50_unk_44C *arg0) {
+    return func_8005E32C(arg0);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005E4FC);
 
@@ -129,7 +133,27 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005EBDC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", animeSmog_stop);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", animeSmog_update);
+void animeSmog_update(struct_800F3E50_unk_50C *arg0) {
+    s32 temp_v1;
+    s32 var_a0;
+    u32 i;
+
+    for (i = 0; i < 4; i++) {
+        animeState_update(&arg0->unk_000[i]);
+        if ((arg0->unk_120 < 0xB4) && func_8005E4E0(&arg0->unk_000[i]) && (rand() % 16 == 0)) {
+            animeState_set(&arg0->unk_000[i], 0);
+            arg0->unk_100[i].unk_0 = (rand() % 20) - 10;
+            arg0->unk_100[i].unk_4 = (rand() % 20) - 10;
+        }
+    }
+
+    temp_v1 = arg0->unk_120 + 1;
+    var_a0 = 0xB4;
+    if (temp_v1 <= 0xB4) {
+        var_a0 = temp_v1;
+    }
+    arg0->unk_120 = var_a0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005ED74);
 
