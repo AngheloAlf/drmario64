@@ -25,7 +25,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_800649CC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80064E4C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80064F18);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", dm_game_main_cnt_1P);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80065BC4);
 

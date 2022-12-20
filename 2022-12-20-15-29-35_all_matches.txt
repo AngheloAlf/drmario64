@@ -1,0 +1,436 @@
+Number of s-files: 1237
+Number of checked s-files: 1237
+Number of decompiled duplicates found: 47
+Number of undecompiled duplicates found: 315
+Number of overall exact duplicates found: 20
+
+D_800B2138 - found 50 matches total:
+0.99 - D_8008D080 (decompiled)
+0.99 - D_8008E558 (decompiled)
+0.99 - D_800A7354 (decompiled)
+0.99 - title_bmp_tbl (decompiled)
+0.99 - D_800ACE78
+0.99 - D_800AFAEC (decompiled)
+0.99 - D_800AFAFC (decompiled)
+0.99 - D_800AFD00
+0.99 - D_800AFD10
+0.99 - D_800AFD20
+0.99 - D_800AFD30
+0.99 - D_800AFD40
+0.99 - D_800AFD50
+0.99 - D_800AFD60
+0.99 - D_800AFED0
+0.99 - D_800B0050
+0.99 - D_800B006C
+0.99 - D_800B00AC
+0.99 - D_800B00CC
+0.99 - D_800B00E0
+0.99 - D_800B0350
+0.99 - D_800B03EC
+0.99 - D_800B03F8
+0.99 - D_800B0404
+0.99 - D_800B0410
+0.99 - D_800B043C
+0.99 - D_800B09FC
+0.99 - D_800B0A0C
+0.99 - RO_800B0A50
+0.99 - D_800B0DB8
+0.99 - D_800B0DC8
+0.99 - D_800B1230
+0.99 - D_800B12D8
+0.99 - D_800B12E4
+0.99 - D_800B12FC
+0.99 - D_800B1308
+0.99 - D_800B13FC
+0.99 - D_800B1D1C
+0.99 - RO_800B1E80
+0.99 - D_800B1E90
+0.99 - RO_800B1EA0
+0.99 - D_800B1EC0
+0.99 - RO_800B2020
+0.99 - D_800B20EC
+0.99 - D_800B20F8
+0.99 - RO_800B2330
+0.99 - D_800B2358
+0.99 - D_800B23D4
+0.99 - RO_800B3134
+0.99 - RO_800B3144
+
+D_800ADB40 - found 33 matches total:
+0.99 - D_8000E740 (decompiled)
+0.99 - D_8000E748 (decompiled)
+0.99 - D_8000E750 (decompiled)
+0.99 - D_8000E758 (decompiled)
+0.99 - D_8000E760 (decompiled)
+0.99 - gSegmentRomOffset_segment_title_all (decompiled)
+0.99 - gSegmentRomOffset_segment_title_bmp (decompiled)
+0.99 - D_8000EA48 (decompiled)
+0.99 - osClockRate (decompiled)
+0.99 - B_80029C00 (decompiled)
+0.99 - func_8003E4AC
+0.99 - D_8008E598 (decompiled)
+0.99 - D_800ACE70
+0.99 - D_800AFBD8
+0.99 - D_800AFC40
+0.99 - D_800AFC5C
+0.99 - D_800AFD6C
+0.99 - D_800AFEA8
+0.99 - D_800AFEB0
+0.99 - D_800B008C
+0.99 - D_800B00D8
+0.99 - D_800B00EC
+0.99 - D_800B041C
+0.99 - D_800B0448
+0.99 - D_800B0B0C
+0.99 - D_800B0D94
+0.99 - D_800B1EB8
+0.99 - D_800B2068
+0.99 - D_800B2160
+0.99 - D_800B2168
+0.99 - D_800B2170
+0.99 - D_800B2178
+0.99 - D_800B23C4
+
+D_800B0A5C - found 30 matches total:
+0.99 - D_80088130 (decompiled)
+0.99 - D_80088574 (decompiled)
+0.99 - D_8008D0D8 (decompiled)
+0.99 - D_8008E370 (decompiled)
+0.99 - D_8008E5B4 (decompiled)
+0.99 - D_8008E778 (decompiled)
+0.99 - D_800A6F9C (decompiled)
+0.99 - D_800A6FC8 (decompiled)
+0.99 - D_800AAD58 (decompiled)
+0.99 - D_800ACF10
+0.99 - D_800AFB38 (decompiled)
+0.99 - D_800AFB90
+0.99 - D_800AFC4C
+0.99 - D_800AFC64
+0.99 - D_800AFCDC
+0.99 - D_800B0028
+0.99 - D_800B005C
+0.99 - D_800B0310
+0.99 - D_800B0A6C
+0.99 - D_800B1220
+0.99 - D_800B12A8
+0.99 - D_800B12B8
+0.99 - D_800B1320
+0.99 - D_800B1330
+0.99 - D_800B1350
+0.99 - D_800B1360
+0.99 - D_800B1C4C
+0.99 - D_800B1D08
+0.99 - RO_800B20D0
+0.99 - RO_800B247C
+
+func_80037780 - found 20 matches total:
+0.99 - osSpTaskYield (decompiled)
+0.99 - func_8003772C
+0.99 - func_80037748
+0.99 - func_80037764
+0.99 - func_800498C4
+0.99 - func_80056CAC
+0.99 - func_80056E1C
+0.99 - func_80057724
+0.99 - func_800578C8
+0.99 - func_80059E9C (decompiled)
+0.99 - func_80062990
+0.99 - func_800629AC
+0.99 - func_800629C8
+0.99 - func_80062A08
+0.99 - func_80062A24
+0.99 - func_80062A40
+0.99 - func_800721A0
+0.99 - func_800721BC
+0.99 - func_80072230
+0.99 - func_8007224C
+
+func_80062AE0 - found 15 matches total:
+1.00 - func_80062A8C
+1.00 - func_80062AA8
+1.00 - func_80062AC4
+1.00 - func_80062AFC
+1.00 - func_80062B18
+1.00 - func_80062B34
+0.99 - _dm_seq_play (decompiled)
+0.99 - dm_seq_stop (decompiled)
+0.99 - _dm_seq_set_volume (decompiled)
+0.99 - func_8002B178 (decompiled)
+0.99 - func_80037710
+0.99 - func_8004F33C
+0.99 - func_800560D4
+0.99 - func_8005E4E0
+0.99 - func_8006417C
+
+func_80059DB4 - found 15 matches total:
+0.99 - func_80059CF4
+0.99 - func_80059D04
+0.99 - func_80059D14
+0.99 - func_80059D24
+0.99 - func_80059D34
+0.99 - func_80059D44
+0.99 - func_80059D54
+0.99 - func_80059D64
+0.99 - func_80059D74
+0.99 - func_80059D84
+0.99 - func_80059D94
+0.99 - func_80059DA4
+0.99 - func_80059DC4
+0.99 - func_80059DD4
+0.99 - func_80059DE4
+
+D_800B00B8 - found 12 matches total:
+0.99 - D_800A6FAC (decompiled)
+0.99 - D_800A7360 (decompiled)
+0.99 - D_800AFAD8 (decompiled)
+0.99 - RO_800AFEB8
+0.99 - D_800AFEE8
+0.99 - D_800B0078
+0.99 - D_800B0364
+0.99 - D_800B03C4
+0.99 - D_800B03D8
+0.99 - D_800B11CC
+0.99 - D_800B1C5C
+0.99 - D_800B2120
+
+D_800B0424 - found 12 matches total:
+0.99 - D_800B0038
+0.99 - D_800B0094
+0.99 - D_800B0320
+0.99 - D_800B0338
+0.99 - D_800B0940
+0.99 - D_800B11E0
+0.99 - D_800B11F8
+0.99 - D_800B1ECC
+0.99 - D_800B21D0
+0.99 - D_800B2294
+0.99 - RO_800B3150
+0.99 - D_800B31C0
+
+D_800B0DD8 - found 9 matches total:
+0.99 - D_8008D08C (decompiled)
+0.99 - D_800AFB1C (decompiled)
+0.99 - D_800AFB4C (decompiled)
+0.99 - D_800AFC1C
+0.99 - D_800B0380
+0.99 - D_800B03A4
+0.99 - D_800B123C
+0.99 - D_800B1D60
+0.99 - RO_800B2314
+
+func_8004CCD0 - found 8 matches total:
+0.99 - func_8004B774
+0.99 - func_8004BB14
+0.99 - func_8004C820
+0.99 - func_8004E270
+0.99 - func_80051480
+0.99 - func_800529FC
+0.99 - func_8005380C
+0.99 - func_80055DFC
+
+func_80038340 - found 4 matches total:
+0.99 - func_80038168
+0.99 - func_80038254
+0.99 - func_8003842C
+0.99 - func_80038518
+
+func_80036E10 - found 4 matches total:
+0.99 - func_80036CFC
+0.99 - func_80036D58
+0.99 - func_80036DB4
+0.99 - func_80036E6C
+
+func_800383B4 - found 4 matches total:
+0.99 - func_800380F0
+0.99 - func_800381DC
+0.99 - func_800382C8
+0.99 - func_800384A0
+
+func_80037378 - found 3 matches total:
+0.99 - func_800373C8
+0.99 - func_80037418
+0.99 - func_80037468
+
+D_800B0C5C - found 3 matches total:
+0.99 - D_8000E1FC (decompiled)
+0.99 - D_8000E2B8 (decompiled)
+0.99 - D_800B1BD0
+
+func_80049034 - found 3 matches total:
+0.99 - func_80048634
+0.99 - func_8004A1F4
+0.99 - func_8004A814
+
+func_800465B8 - found 2 matches total:
+0.99 - func_8004655C
+0.99 - func_80046614
+
+func_80059CDC - found 2 matches total:
+0.99 - func_80059CC4
+0.99 - func_800628A4
+
+func_8004A160 - found 2 matches total:
+0.99 - func_80048FA0
+0.99 - func_8004A780
+
+D_800AFBB0 - found 2 matches total:
+0.99 - D_8008CFF8 (decompiled)
+0.99 - D_800B11A4
+
+func_800372E0 - found 2 matches total:
+0.99 - func_80037294
+0.99 - func_8003732C
+
+func_80045EF4 - found 2 matches total:
+0.99 - func_80046068
+0.99 - func_8004613C
+
+func_80043A14 - found 2 matches total:
+1.00 - func_80044940
+0.99 - func_800443F4
+
+func_80059C34 - found 2 matches total:
+0.99 - func_80059B5C
+0.99 - func_80059BC8
+
+RO_800AF3F8 - found 2 matches total:
+1.00 - RO_800AF3C4
+1.00 - RO_800AF42C
+
+RO_800B31A0 - found 2 matches total:
+0.99 - __osPreNMI (decompiled)
+0.99 - RO_800B3180
+
+func_8004ACF4 - found 2 matches total:
+0.99 - func_800490B8
+0.99 - func_80049578
+
+STR_800B2E24 - found 2 matches total:
+1.00 - STR_800B2A20
+0.99 - STR_800B27D4
+
+StretchTexTile8 - found 2 matches total:
+1.00 - func_80044780
+0.99 - func_80044238
+
+func_80045E94 - found 2 matches total:
+0.99 - func_80046008
+0.99 - func_800460DC
+
+D_800B1A60 - found 2 matches total:
+0.99 - D_800AFE58
+0.99 - D_800B1AB0
+
+func_8003B30C - found 2 matches total:
+0.99 - func_8003B1C4
+0.99 - func_8003B454
+
+D_800AF660 - found 2 matches total:
+0.99 - D_800AAE00 (decompiled)
+0.99 - RO_800ACA20 (decompiled)
+
+func_80045F68 - found 1 matches total:
+0.99 - func_800461B0
+
+draw_Tex - found 1 matches total:
+0.99 - func_8002C914
+
+func_80051974 - found 1 matches total:
+1.00 - func_80052DF0
+
+func_800551BC - found 1 matches total:
+0.99 - func_80055254
+
+func_800466B8 - found 1 matches total:
+0.99 - func_800466A0
+
+func_80044C28 - found 1 matches total:
+0.99 - func_80044058
+
+func_80059E5C - found 1 matches total:
+0.99 - func_80059E6C
+
+func_80072204 - found 1 matches total:
+0.99 - func_800721D8
+
+func_8003B054 - found 1 matches total:
+0.99 - func_8003AEE4
+
+func_80062BC4 - found 1 matches total:
+0.99 - func_80061184
+
+RO_800AE4C8 - found 1 matches total:
+1.00 - RO_800AE898
+
+func_8004AD84 - found 1 matches total:
+1.00 - func_800486C8
+
+STR_800B2ADC - found 1 matches total:
+1.00 - STR_800B2894
+
+RO_800AD080 - found 1 matches total:
+1.00 - D_800ACFB0
+
+D_800B096C - found 1 matches total:
+0.99 - D_800B0A7C
+
+func_80049080 - found 1 matches total:
+0.99 - func_80049540
+
+func_80044B18 - found 1 matches total:
+0.99 - func_80044E08
+
+D_800ACFC8 - found 1 matches total:
+0.99 - D_800AD098
+
+D_800B0B20 - found 1 matches total:
+0.99 - D_800B2070
+
+func_8004371C - found 1 matches total:
+0.99 - StretchTexBlock_ScisRect
+
+func_80059E8C - found 1 matches total:
+0.99 - func_80059E7C
+
+func_80041334 - found 1 matches total:
+0.99 - func_80041668
+
+func_80061A14 - found 1 matches total:
+0.99 - func_80061678
+
+STR_800B1CB8 - found 1 matches total:
+1.00 - RO_800AF4C4
+
+func_800409DC - found 1 matches total:
+0.99 - func_8007B62C
+
+func_80036808 - found 1 matches total:
+1.00 - func_800367E0
+
+RO_800ADD60 - found 1 matches total:
+0.99 - RO_800ADD40
+
+func_8005FC50 - found 1 matches total:
+0.99 - animeState_set
+
+func_8003CDF8 - found 1 matches total:
+0.99 - func_8003CDD4
+
+func_8003E6D8 - found 1 matches total:
+0.99 - func_80000468 (decompiled)
+
+func_80059AA4 - found 1 matches total:
+0.99 - func_80059A58
+
+func_8003C094 - found 1 matches total:
+0.99 - func_8003C1A4
+
+STR_800B1CE0 - found 1 matches total:
+1.00 - RO_800AF4EC
+
+func_80057898 - found 1 matches total:
+1.00 - func_80049894
+
+D_800AFD80 - found 1 matches total:
+0.99 - __muldi3 (decompiled)
+

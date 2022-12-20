@@ -58,7 +58,7 @@ extern s32 mti;
 // extern UNK_TYPE D_800884C0;
 // extern UNK_TYPE D_800884D8;
 // extern UNK_TYPE D_800884F0;
-extern s8 D_80088508;
+extern s8 aiDebugP1;
 // extern UNK_TYPE D_8008850C;
 // extern UNK_TYPE D_80088524;
 // extern UNK_TYPE D_8008852C;
@@ -562,7 +562,7 @@ extern s32 randomindex;
 extern s32 randomtable[55];
 
 // extern UNK_TYPE B_800E98A0;
-// extern UNK_TYPE B_800E98B0;
+// extern UNK_TYPE rec_buff;
 // extern UNK_TYPE B_800E98B8;
 // extern UNK_TYPE B_800E98BC;
 // extern UNK_TYPE B_800E98C0;

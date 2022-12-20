@@ -183,7 +183,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800633C0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800633FC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80063440);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_warning_h_line_se);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800634E8);
 

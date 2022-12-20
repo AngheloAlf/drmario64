@@ -28,4 +28,4 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/0344D0", func_8005E40C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/0344D0", animeState_set);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0344D0", func_8005E4A8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/0344D0", animeState_update);

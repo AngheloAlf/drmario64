@@ -6,7 +6,7 @@
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_800669A0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_800669C4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", dm_calc_big_virus_pos);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", dm_game_main_1p);
 

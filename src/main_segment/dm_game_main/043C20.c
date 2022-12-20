@@ -55,8 +55,8 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_init);
 ? func_8005EBA8(s8 *, struct_80124610 **);          /* extern */
 ? func_80062B84(s8 *);                              /* extern */
 ? func_8006A938(?);                                 /* extern */
-? func_8007E2E0(struct_80124610 **);                /* extern */
-? func_8007E2FC(u8);                                /* extern */
+? replay_record_init_buffer(struct_80124610 **);                /* extern */
+? replay_record_init(u8);                                /* extern */
 extern ? evs_mem_data;
 extern ? B_800EF608;
 extern u32 evs_gamesel;
@@ -144,10 +144,10 @@ void dm_game_init_static(void) {
     temp_s3->unk_9B0 = 0;
     temp_s3->unk_9B4 = 0;
     temp_s3->unk_9B8 = 0;
-    func_8007E2E0(&heapTop);
+    replay_record_init_buffer(&heapTop);
     var_s1_2 = 0;
     var_s0 = 0x9D0;
-    func_8007E2FC(evs_playcnt);
+    replay_record_init(evs_playcnt);
     do {
         func_80062B84(&temp_s3->unk_000[var_s0]);
         var_s1_2 += 1;

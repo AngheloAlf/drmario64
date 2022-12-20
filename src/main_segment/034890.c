@@ -24,7 +24,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/034890", func_8005EBDC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/034890", animeSmog_stop);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/034890", func_8005EC40);
+INCLUDE_ASM("asm/nonmatchings/main_segment/034890", animeSmog_update);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/034890", func_8005ED74);
 

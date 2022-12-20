@@ -396,7 +396,9 @@ segments:
       - [0x063A40, c, main_segment/calc]
       - [0x065080, c, main_segment/053610]
       - [0x065230, c, main_segment/0537C0]
-      - [0x066080, c, main_segment/054610]
+
+      - [0x066080, c, main_segment/replay]
+
       - [0x066840, c, main_segment/054DD0]
       - [0x0676B0, c, main_segment/055C40]
 
