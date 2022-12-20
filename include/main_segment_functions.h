@@ -582,15 +582,15 @@ bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5
 bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char * arg5);
 bool fontAsc_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
 
-// void func_8005E120();
-// void func_8005E154();
-// void func_8005E174();
+void animeSeq_init(struct_800F3E50_unk_44C *arg0, UNK_TYPE4 *arg1, UNK_TYPE4 arg2);
+void func_8005E154(struct_800F3E50_unk_44C *arg0, UNK_TYPE4 arg1);
+void animeSeq_update(struct_800F3E50_unk_44C *arg0, UNK_TYPE arg1);
 // void func_8005E32C();
 // void func_8005E358();
 // void func_8005E36C();
 // void func_8005E40C();
-// void animeState_set();
-// void animeState_update();
+void animeState_set(struct_800F3E50_unk_44C *arg0, UNK_TYPE4 arg1);
+void animeState_update(struct_800F3E50_unk_44C *arg0);
 // void func_8005E4E0();
 // void func_8005E4FC();
 // void func_8005E5B0();

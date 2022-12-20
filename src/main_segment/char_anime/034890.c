@@ -6,7 +6,11 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "unk.h"
+#include "main_segment_functions.h"
+#include "main_segment_variables.h"
+#include "boot_functions.h"
+#include "boot_variables.h"
+#include "rom_offsets.h"
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime/034890", func_8005E4E0);
 
