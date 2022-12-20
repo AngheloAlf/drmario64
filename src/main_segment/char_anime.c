@@ -134,8 +134,6 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005EBDC);
 INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", animeSmog_stop);
 
 void animeSmog_update(struct_800F3E50_unk_50C *arg0) {
-    s32 temp_v1;
-    s32 var_a0;
     u32 i;
 
     for (i = 0; i < 4; i++) {
@@ -147,12 +145,7 @@ void animeSmog_update(struct_800F3E50_unk_50C *arg0) {
         }
     }
 
-    temp_v1 = arg0->unk_120 + 1;
-    var_a0 = 0xB4;
-    if (temp_v1 <= 0xB4) {
-        var_a0 = temp_v1;
-    }
-    arg0->unk_120 = var_a0;
+    arg0->unk_120 = MIN_ALT(arg0->unk_120 + 1, 0xB4);
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", func_8005ED74);

@@ -45,6 +45,9 @@
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
 #define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
 
+#define MAX_ALT(a, b) ((b) > (a) ? (b) : (a))
+#define MIN_ALT(a, b) ((b) < (a) ? (b) : (a))
+
 #define RODATA __attribute__ ((section (".rodata")))
 #define BSS __attribute__ ((section (".bss")))
 
