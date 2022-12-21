@@ -7,6 +7,7 @@
 #include "PR/sched.h"
 #include "unknown_structs.h"
 #include "unk.h"
+#include "rom_offsets.h"
 
 
 // void mainproc();
@@ -833,7 +834,7 @@ void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1);
 // void func_80076CCC();
 // void func_80076DB4();
 // void func_800770E8();
-void *func_80077170(s32 index, void *dstAddr);
+void *func_80077170(BgRomDataIndex index, void *dstAddr);
 // void func_800771EC();
 void func_800773F0(void);
 void func_8007744C(void);

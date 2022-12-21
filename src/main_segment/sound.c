@@ -22,9 +22,12 @@ const u8 RO_800ACA10[] = {
     SND_INDEX_13 - 3, SND_INDEX_33 - 3, SND_INDEX_53 - 3, SND_INDEX_89 - 3, SND_INDEX_99 - 3,
 };
 
-const s32 RO_800ACA20[] = {
-    0x04, 0x09, 0x03, 0x08, 0x05, 0x0A, 0x06, 0x0B, 0x07, 0x0C, 0x0D, 0x0E,
-    0x0F, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x10, 0x1A,
+const RomDataTblIndex RO_800ACA20[] = {
+    ROMDATATBL_INDEX4,  ROMDATATBL_INDEX9,  ROMDATATBL_INDEX3,  ROMDATATBL_INDEX8,  ROMDATATBL_INDEX5,
+    ROMDATATBL_INDEX10, ROMDATATBL_INDEX6,  ROMDATATBL_INDEX11, ROMDATATBL_INDEX7,  ROMDATATBL_INDEX12,
+    ROMDATATBL_INDEX13, ROMDATATBL_INDEX14, ROMDATATBL_INDEX15, ROMDATATBL_INDEX17, ROMDATATBL_INDEX18,
+    ROMDATATBL_INDEX19, ROMDATATBL_INDEX20, ROMDATATBL_INDEX21, ROMDATATBL_INDEX22, ROMDATATBL_INDEX23,
+    ROMDATATBL_INDEX24, ROMDATATBL_INDEX25, ROMDATATBL_INDEX16, ROMDATATBL_INDEX26,
 };
 
 const SndEntry gSndsEntries[SND_INDEX_MAX] = {
@@ -247,11 +250,15 @@ void dm_audio_init_driver(struct_800EB670 *arg0) {
         func_8002AAD8(&ptr->unk_08[i], i);
     }
 
-    func_8002D170(arg0, B_800B3640, sizeof(B_800B3640), _romDataTbl[1].end - _romDataTbl[1].start, func_8002AA80(), 2,
-                  _romDataTbl[2].end - _romDataTbl[2].start, 4, 50);
+    func_8002D170(arg0, B_800B3640, sizeof(B_800B3640),
+                  _romDataTbl[ROMDATATBL_N64_PTR_TABLES].end - _romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
+                  func_8002AA80(), 2, _romDataTbl[ROMDATATBL_INDEX2].end - _romDataTbl[ROMDATATBL_INDEX2].start, 4, 50);
 
-    func_8002D3B0(_romDataTbl[1].start, _romDataTbl[1].end - _romDataTbl[1].start, (void *)_romDataTbl[0].start);
-    func_8002D6A4(_romDataTbl[2].start, _romDataTbl[2].end - _romDataTbl[2].start);
+    func_8002D3B0(_romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
+                  _romDataTbl[ROMDATATBL_N64_PTR_TABLES].end - _romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
+                  (void *)_romDataTbl[ROMDATATBL_N64_WAVE_TABLES].start);
+    func_8002D6A4(_romDataTbl[ROMDATATBL_INDEX2].start,
+                  _romDataTbl[ROMDATATBL_INDEX2].end - _romDataTbl[ROMDATATBL_INDEX2].start);
 }
 
 /**

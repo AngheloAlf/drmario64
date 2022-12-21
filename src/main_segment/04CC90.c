@@ -32,12 +32,12 @@ void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
     *gfxP = gfx;
 }
 
-void *func_80077170(s32 index, void *dstAddr) {
+void *func_80077170(BgRomDataIndex index, void *dstAddr) {
     bgGraphic = dstAddr;
     B_800E8750 =
         ALIGN_PTR(DecompressRomToRam(bgRomData[index].start, dstAddr, bgRomData[index].end - bgRomData[index].start));
-    return ALIGN_PTR(
-        DecompressRomToRam(storyRomData[4].start, B_800E8750, storyRomData[4].end - storyRomData[4].start));
+    return ALIGN_PTR(DecompressRomToRam(storyRomData[STORYROMDATA_WAKU2].start, B_800E8750,
+                                        storyRomData[STORYROMDATA_WAKU2].end - storyRomData[STORYROMDATA_WAKU2].start));
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800771EC);
@@ -196,8 +196,9 @@ void *init_coffee_break(void *dstAddr) {
     void *temp_s0;
 
     bgGraphic = ALIGN_PTR(dstAddr);
-    temp_s0 =
-        ALIGN_PTR(DecompressRomToRam(storyRomData[0].start, bgGraphic, storyRomData[0].end - storyRomData[0].start));
+    temp_s0 = ALIGN_PTR(
+        DecompressRomToRam(storyRomData[STORYROMDATA_COFFEE_01].start, bgGraphic,
+                           storyRomData[STORYROMDATA_COFFEE_01].end - storyRomData[STORYROMDATA_COFFEE_01].start));
     init_coffee_break_cnt();
     return temp_s0;
 }
@@ -222,11 +223,11 @@ void *init_menu_bg(void *dstAddr, bool arg1) {
     alignedAddress = ALIGN_PTR(dstAddr);
     bgGraphic = alignedAddress;
     if (arg1) {
-        segmentRomStart = storyRomData[2].start;
-        segmentRomEnd = storyRomData[2].end;
+        segmentRomStart = storyRomData[STORYROMDATA_MENU_BG2].start;
+        segmentRomEnd = storyRomData[STORYROMDATA_MENU_BG2].end;
     } else {
-        segmentRomStart = storyRomData[1].start;
-        segmentRomEnd = storyRomData[1].end;
+        segmentRomStart = storyRomData[STORYROMDATA_MENU_BG].start;
+        segmentRomEnd = storyRomData[STORYROMDATA_MENU_BG].end;
     }
     return ALIGN_PTR(DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
 }
@@ -304,10 +305,12 @@ void *init_title(void *dstAddr, bool arg1) {
     guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
 
     title_data = ALIGN_PTR(dstAddr);
-    title_bmp_data =
-        ALIGN_PTR(DecompressRomToRam(storyRomData[5].start, title_data, storyRomData[5].end - storyRomData[5].start));
+    title_bmp_data = ALIGN_PTR(
+        DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_ALL].start, title_data,
+                           storyRomData[STORYROMDATA_TITLE_ALL].end - storyRomData[STORYROMDATA_TITLE_ALL].start));
     return ALIGN_PTR(
-        DecompressRomToRam(storyRomData[6].start, title_bmp_data, storyRomData[6].end - storyRomData[6].start));
+        DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_BMP].start, title_bmp_data,
+                           storyRomData[STORYROMDATA_TITLE_BMP].end - storyRomData[STORYROMDATA_TITLE_BMP].start));
 }
 
 /**
@@ -451,13 +454,18 @@ void func_8007A9DC(void) {
 
     B_800E87AC = D_800AAD3C;
 
-    ptr = ALIGN_PTR(DecompressRomToRam(storyRomData[5].start, B_800E87AC, storyRomData[5].end - storyRomData[5].start));
+    ptr = ALIGN_PTR(
+        DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_ALL].start, B_800E87AC,
+                           storyRomData[STORYROMDATA_TITLE_ALL].end - storyRomData[STORYROMDATA_TITLE_ALL].start));
     B_800E8750 = ptr;
 
-    ptr = ALIGN_PTR(DecompressRomToRam(storyRomData[3].start, ptr, storyRomData[3].end - storyRomData[3].start));
+    ptr = ALIGN_PTR(DecompressRomToRam(storyRomData[STORYROMDATA_WAKU].start, ptr,
+                                       storyRomData[STORYROMDATA_WAKU].end - storyRomData[STORYROMDATA_WAKU].start));
     bgGraphic = ptr;
 
-    ptr = ALIGN_PTR(DecompressRomToRam(storyRomData[1].start, ptr, storyRomData[1].end - storyRomData[1].start));
+    ptr = ALIGN_PTR(
+        DecompressRomToRam(storyRomData[STORYROMDATA_MENU_BG].start, ptr,
+                           storyRomData[STORYROMDATA_MENU_BG].end - storyRomData[STORYROMDATA_MENU_BG].start));
     B_800E87B0 = ptr;
 }
 

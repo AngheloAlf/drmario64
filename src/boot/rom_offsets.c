@@ -4,7 +4,7 @@
 /**
  * Original name: storyRomData
  */
-RomOffsetPair storyRomData[] = {
+RomOffsetPair storyRomData[STORYROMDATA_MAX] = {
     { SEGMENT_ROM_START(segment_coffee01), SEGMENT_ROM_END(segment_coffee01) },
     { SEGMENT_ROM_START(segment_menu_bg), SEGMENT_ROM_END(segment_menu_bg) },
     { SEGMENT_ROM_START(segment_menu_bg2), SEGMENT_ROM_END(segment_menu_bg2) },
@@ -17,7 +17,7 @@ RomOffsetPair storyRomData[] = {
 /**
  * Original name: bgRomData
  */
-RomOffsetPair bgRomData[] = {
+RomOffsetPair bgRomData[BGROMDATA_MAX] = {
     { 0x00000000, 0x00000000 },
     { SEGMENT_ROM_START(segment_story_bg03), SEGMENT_ROM_END(segment_story_bg03) },
     { SEGMENT_ROM_START(segment_story_bg01), SEGMENT_ROM_END(segment_story_bg01) },
@@ -47,7 +47,7 @@ RomOffsetPair bgRomData[] = {
 /**
  * Original name: _romDataTbl
  */
-RomOffsetPair _romDataTbl[] = {
+RomOffsetPair _romDataTbl[ROMDATATBL_MAX] = {
     { SEGMENT_ROM_START(n64_wave_tables), SEGMENT_ROM_END(n64_wave_tables) },     // N64WaveTables
     { SEGMENT_ROM_START(n64_ptr_tables_v2), SEGMENT_ROM_END(n64_ptr_tables_v2) }, // N64PtrTables
     { SEGMENT_ROM_START(segment_172130), SEGMENT_ROM_END(segment_172130) },
