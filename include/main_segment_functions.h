@@ -587,7 +587,7 @@ void animeSeq_init(struct_800F3E50_unk_44C *arg0, struct_800F3E50_unk_44C_unk_0C
 void func_8005E154(struct_800F3E50_unk_44C *arg0, UNK_TYPE4 arg1);
 void animeSeq_update(struct_800F3E50_unk_44C *arg0, UNK_TYPE arg1);
 bool animeSeq_isEnd(struct_800F3E50_unk_44C *arg0);
-UNK_TYPE4 animeState_getDataSize(s32 arg0);
+size_t animeState_getDataSize(s32 arg0);
 void animeState_load(struct_800F3E50_unk_44C *arg0, UNK_PTR *arg1, UNK_TYPE arg2);
 void animeState_init(struct_800F3E50_unk_44C *arg0, struct_800F3E50_unk_44C_unk_0C *arg1, struct_800F3E50_unk_44C_unk_1C *arg2, UNK_TYPE4 arg3, UNK_TYPE4 arg4, UNK_TYPE4 arg5);
 void animeState_set(struct_800F3E50_unk_44C *arg0, UNK_TYPE4 arg1);
@@ -599,7 +599,7 @@ void animeState_initIntensityDL(struct_800F3E50_unk_44C *arg0, Gfx **gfxP);
 // void animeState_draw();
 void func_8005E998(struct_800F3E50_unk_44C *arg0, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
 void animeSmog_init(struct_800F3E50_unk_50C *arg0, struct_800F3E50_unk_50C *arg1);
-// void animeSmog_load();
+void animeSmog_load(struct_800F3E50_unk_50C *arg0, UNK_PTR *arg1);
 // void animeSmog_start();
 void animeSmog_stop(struct_800F3E50_unk_50C *arg0);
 void animeSmog_update(struct_800F3E50_unk_50C *arg0);

@@ -11,12 +11,90 @@
 #include "boot_functions.h"
 #include "boot_variables.h"
 #include "rom_offsets.h"
+#include "segment_symbols.h"
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime", RO_800B1A60);
+/**
+ * Original name: static _size
+ */
+const size_t RO_800B1A60[] = {
+    SEGMENT_DATA_SIZE_CONST(segment_anime_m),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_n),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_h),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_i),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_j),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_d),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_e),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_f),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_a),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_b),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_c),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_g),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_k),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_l),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_o),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_mario),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_virus_r),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_virus_y),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_virus_b),
+    SEGMENT_DATA_SIZE_CONST(segment_anime_smog),
+};
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime", RO_800B1AB0);
+/**
+ * Original name: static _addrTbl
+ */
+const RomDataTblIndex RO_800B1AB0[] = {
+    ROMDATATBL_ANIME_M,
+    ROMDATATBL_ANIME_N,
+    ROMDATATBL_ANIME_H,
+    ROMDATATBL_ANIME_I,
+    ROMDATATBL_ANIME_J,
+    ROMDATATBL_ANIME_D,
+    ROMDATATBL_ANIME_E,
+    ROMDATATBL_ANIME_F,
+    ROMDATATBL_ANIME_A,
+    ROMDATATBL_ANIME_B,
+    ROMDATATBL_ANIME_C,
+    ROMDATATBL_ANIME_G,
+    ROMDATATBL_ANIME_K,
+    ROMDATATBL_ANIME_L,
+    ROMDATATBL_ANIME_O,
+    ROMDATATBL_ANIME_MARIO,
+    ROMDATATBL_ANIME_VIRUS_R,
+    ROMDATATBL_ANIME_VIRUS_Y,
+    ROMDATATBL_ANIME_VIRUS_B,
+    ROMDATATBL_ANIME_SMOG,
+};
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/char_anime", RO_800B1B00);
+typedef struct struct_800B1B00 {
+    /* 0x0 */ UNK_TYPE4 unk_0;
+    /* 0x4 */ UNK_TYPE4 unk_4;
+} struct_800B1B00; // size = 0x8
+
+/**
+ * Original name: static _centerTbl
+ */
+const struct_800B1B00 RO_800B1B00[] = {
+    { 0x10, 0x2B },
+    { 0x19, 0x2C },
+    { 0x10, 0x29 },
+    { 0x16, 0x28 },
+    { 0x1A, 0x33 },
+    { 0x18, 0x28 },
+    { 0x18, 0x32 },
+    { 0x13, 0x28 },
+    { 0x20, 0x32 },
+    { 0x12, 0x2F },
+    { 0x20, 0x3E },
+    { 0x23, 0x3C },
+    { 0x14, 0x2F },
+    { 0x1E, 0x31 },
+    { 0x10, 0x2B },
+    { 0x20, 0x40 },
+    { 0x10, 0x10 },
+    { 0x10, 0x10 },
+    { 0x10, 0x10 },
+    { 0x10, 0x10 },
+};
 
 void animeSeq_init(struct_800F3E50_unk_44C *arg0, struct_800F3E50_unk_44C_unk_0C *arg1, UNK_TYPE4 arg2) {
     arg0->unk_0C = arg1;
@@ -83,20 +161,9 @@ bool animeSeq_isEnd(struct_800F3E50_unk_44C *arg0) {
     return arg0->unk_0C[arg0->unk_10].unk_0[arg0->unk_14] == 0xFF;
 }
 
-extern const UNK_TYPE4 RO_800B1A60[];
-
-UNK_TYPE4 animeState_getDataSize(s32 arg0) {
+size_t animeState_getDataSize(s32 arg0) {
     return RO_800B1A60[arg0];
 }
-
-extern const RomDataTblIndex RO_800B1AB0[];
-
-typedef struct struct_800B1B00 {
-    /* 0x0 */ UNK_TYPE4 unk_0;
-    /* 0x4 */ UNK_TYPE4 unk_4;
-} struct_800B1B00; // size = 0x8
-
-extern const struct_800B1B00 RO_800B1B00[];
 
 void animeState_load(struct_800F3E50_unk_44C *arg0, UNK_PTR *arg1, s32 arg2) {
     struct_800F3E50_unk_44C_unk_1C *sp18;
@@ -214,7 +281,7 @@ void animeSmog_init(struct_800F3E50_unk_50C *arg0, struct_800F3E50_unk_50C *arg1
 
     for (i = 0; i < ARRAY_COUNTU(arg0->unk_000); i++) {
         animeState_init(&arg0->unk_000[i], arg1->unk_000[0].unk_0C, arg1->unk_000[0].unk_1C, arg1->unk_000[0].unk_24,
-                        arg1->unk_000[0].unk_28, 0x13);
+                        arg1->unk_000[0].unk_28, 19);
         animeState_set(&arg0->unk_000[i], 2);
         arg0->unk_100[i].unk_4 = 0;
         arg0->unk_100[i].unk_0 = 0;
@@ -222,7 +289,10 @@ void animeSmog_init(struct_800F3E50_unk_50C *arg0, struct_800F3E50_unk_50C *arg1
     arg0->unk_120 = 0xB4;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", animeSmog_load);
+void animeSmog_load(struct_800F3E50_unk_50C *arg0, UNK_PTR *arg1) {
+    animeState_load(arg0->unk_000, arg1, 19);
+    animeSmog_init(arg0, arg0);
+}
 
 void animeSmog_start(struct_800F3E50_unk_50C *arg0) {
     arg0->unk_120 = 0;
