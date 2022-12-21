@@ -6,6 +6,31 @@
 #include "libc/stdbool.h"
 #include "unk.h"
 
+
+typedef enum CharAnimeMode {
+    /*  0 */ CHARANIMEMODE_M,
+    /*  1 */ CHARANIMEMODE_N,
+    /*  2 */ CHARANIMEMODE_H,
+    /*  3 */ CHARANIMEMODE_I,
+    /*  4 */ CHARANIMEMODE_J,
+    /*  5 */ CHARANIMEMODE_D,
+    /*  6 */ CHARANIMEMODE_E,
+    /*  7 */ CHARANIMEMODE_F,
+    /*  8 */ CHARANIMEMODE_A,
+    /*  9 */ CHARANIMEMODE_B,
+    /* 10 */ CHARANIMEMODE_C,
+    /* 11 */ CHARANIMEMODE_G,
+    /* 12 */ CHARANIMEMODE_K,
+    /* 13 */ CHARANIMEMODE_L,
+    /* 14 */ CHARANIMEMODE_O,
+    /* 15 */ CHARANIMEMODE_MARIO,
+    /* 16 */ CHARANIMEMODE_VIRUS_R,
+    /* 17 */ CHARANIMEMODE_VIRUS_Y,
+    /* 18 */ CHARANIMEMODE_VIRUS_B,
+    /* 19 */ CHARANIMEMODE_SMOG,
+    /* 20 */ CHARANIMEMODE_MAX
+} CharAnimeMode;
+
 typedef struct struct_800B1B00 {
     /* 0x0 */ UNK_TYPE4 unk_0;
     /* 0x4 */ UNK_TYPE4 unk_4;
@@ -46,11 +71,11 @@ typedef struct AnimeState {
     /* 0x1C */ AnimeState_unk_1C *unk_1C;
     /* 0x20 */ UNK_TYPE4 unk_20;
     /* 0x24 */ struct_800B1B00 unk_24;
-    /* 0x24 */ UNK_TYPE4 unk_2C;
-    /* 0x24 */ UNK_TYPE4 unk_30;
-    /* 0x24 */ UNK_TYPE4 unk_34;
-    /* 0x24 */ UNK_TYPE4 unk_38;
-    /* 0x24 */ UNK_TYPE4 unk_3C;
+    /* 0x2C */ CharAnimeMode animeMode;
+    /* 0x30 */ s32 primColorR;
+    /* 0x34 */ s32 primColorG;
+    /* 0x38 */ s32 primColorB;
+    /* 0x3C */ s32 primColorA;
 } AnimeState; // size = 0x40
 
 typedef struct AnimeSmog_unk_100 {
@@ -68,13 +93,13 @@ void animeSeq_init(AnimeSeq *animeSeq, AnimeSeq_unk_0C *arg1, UNK_TYPE4 arg2);
 void func_8005E154(AnimeState *animeState, UNK_TYPE4 arg1);
 void animeSeq_update(AnimeSeq *animeSeq, UNK_TYPE arg1);
 bool animeSeq_isEnd(AnimeSeq *animeSeq);
-size_t animeState_getDataSize(s32 arg0);
-void animeState_load(AnimeState *animeState, UNK_PTR *arg1, UNK_TYPE arg2);
+size_t animeState_getDataSize(CharAnimeMode animeMode);
+void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeMode);
 void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, AnimeState_unk_1C *arg2, UNK_TYPE4 arg3,
-                     UNK_TYPE4 arg4, UNK_TYPE4 arg5);
+                     UNK_TYPE4 arg4, CharAnimeMode animeMode);
 void animeState_set(AnimeState *animeState, UNK_TYPE4 arg1);
 void animeState_update(AnimeState *animeState);
-bool func_8005E4E0(AnimeState *animeState);
+bool animeState_isEnd(AnimeState *animeState);
 void animeState_initDL(AnimeState *animeState, Gfx **gfxP);
 void animeState_initDL2(AnimeState *animeState, Gfx **gfxP);
 void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP);

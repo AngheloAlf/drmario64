@@ -159,7 +159,7 @@ func_80062AE0 - found 15 matches total:
 0.99 - func_80037710
 0.99 - func_8004F33C
 0.99 - func_800560D4
-0.99 - func_8005E4E0
+0.99 - animeState_isEnd
 0.99 - func_8006417C
 
 func_80059DB4 - found 15 matches total:
