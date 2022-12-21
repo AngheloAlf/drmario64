@@ -583,30 +583,6 @@ bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5
 bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char * arg5);
 bool fontAsc_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
 
-void animeSeq_init(struct_800F3E50_unk_44C *arg0, struct_800F3E50_unk_44C_unk_0C *arg1, UNK_TYPE4 arg2);
-void func_8005E154(struct_800F3E50_unk_44C *arg0, UNK_TYPE4 arg1);
-void animeSeq_update(struct_800F3E50_unk_44C *arg0, UNK_TYPE arg1);
-bool animeSeq_isEnd(struct_800F3E50_unk_44C *arg0);
-size_t animeState_getDataSize(s32 arg0);
-void animeState_load(struct_800F3E50_unk_44C *arg0, UNK_PTR *arg1, UNK_TYPE arg2);
-void animeState_init(struct_800F3E50_unk_44C *arg0, struct_800F3E50_unk_44C_unk_0C *arg1, struct_800F3E50_unk_44C_unk_1C *arg2, UNK_TYPE4 arg3, UNK_TYPE4 arg4, UNK_TYPE4 arg5);
-void animeState_set(struct_800F3E50_unk_44C *arg0, UNK_TYPE4 arg1);
-void animeState_update(struct_800F3E50_unk_44C *arg0);
-bool func_8005E4E0(struct_800F3E50_unk_44C *arg0);
-void animeState_initDL(struct_800F3E50_unk_44C *arg0, Gfx **gfxP);
-void animeState_initDL2(struct_800F3E50_unk_44C *arg0, Gfx **gfxP);
-void animeState_initIntensityDL(struct_800F3E50_unk_44C *arg0, Gfx **gfxP);
-// void animeState_draw();
-void func_8005E998(struct_800F3E50_unk_44C *arg0, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
-void animeSmog_init(struct_800F3E50_unk_50C *arg0, struct_800F3E50_unk_50C *arg1);
-void animeSmog_load(struct_800F3E50_unk_50C *arg0, UNK_PTR *arg1);
-// void animeSmog_start();
-void animeSmog_stop(struct_800F3E50_unk_50C *arg0);
-void animeSmog_update(struct_800F3E50_unk_50C *arg0);
-// void animeSmog_draw();
-// void func_8005EE64();
-void loadAnimeSeq(UNK_PTR *arg0, struct_800F3E50_unk_44C_unk_1C **arg1, struct_800F3E50_unk_44C_unk_0C **arg2, romoffset_t romOffsetStart, romoffset_t romOffsetEnd);
-
 void init_map_all(struct_800EBEF0 *arg0);
 // void func_8005EFC0();
 // void func_8005F00C();

@@ -2,6 +2,8 @@
  * Original filename char_anime.c
  */
 
+#include "char_anime.h"
+
 #include "ultra64.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -64,11 +66,6 @@ const RomDataTblIndex RO_800B1AB0[] = {
     ROMDATATBL_ANIME_VIRUS_B,
     ROMDATATBL_ANIME_SMOG,
 };
-
-typedef struct struct_800B1B00 {
-    /* 0x0 */ UNK_TYPE4 unk_0;
-    /* 0x4 */ UNK_TYPE4 unk_4;
-} struct_800B1B00; // size = 0x8
 
 /**
  * Original name: static _centerTbl
@@ -179,12 +176,12 @@ void animeState_init(struct_800F3E50_unk_44C *arg0, struct_800F3E50_unk_44C_unk_
     animeSeq_init(arg0, arg1, 0);
     arg0->unk_1C = arg2;
     arg0->unk_20 = 0;
-    arg0->unk_24 = arg3;
+    arg0->unk_24.unk_0 = arg3;
     arg0->unk_30 = 0xFF;
     arg0->unk_34 = 0xFF;
     arg0->unk_38 = 0xFF;
     arg0->unk_3C = 0xFF;
-    arg0->unk_28 = arg4;
+    arg0->unk_24.unk_4 = arg4;
     arg0->unk_2C = arg5;
 }
 
@@ -257,14 +254,14 @@ void func_8005E998(struct_800F3E50_unk_44C *arg0, Gfx **gfxP, f32 arg2, f32 arg3
         struct_800F3E50_unk_44C_unk_1C *temp_a3 = &arg0->unk_1C[arg0->unk_18];
 
         if (arg4 < 0.0f) {
-            var_f0 = arg2 - (arg0->unk_24 - temp_a3->unk_4->unk_0) * arg4;
+            var_f0 = arg2 - (arg0->unk_24.unk_0 - temp_a3->unk_4->unk_0) * arg4;
         } else {
-            var_f0 = arg2 - arg0->unk_24 * arg4;
+            var_f0 = arg2 - arg0->unk_24.unk_0 * arg4;
         }
         if (arg5 < 0.0f) {
-            var_f0_2 = arg3 - (arg0->unk_28 - temp_a3->unk_4->unk_2) * arg5;
+            var_f0_2 = arg3 - (arg0->unk_24.unk_4 - temp_a3->unk_4->unk_2) * arg5;
         } else {
-            var_f0_2 = arg3 - arg0->unk_28 * arg5;
+            var_f0_2 = arg3 - arg0->unk_24.unk_4 * arg5;
         }
         func_80044E08(&gfx, temp_a3->unk_4->unk_0, temp_a3->unk_4->unk_2, temp_a3->unk_0->unk_4, 0, 0,
                       temp_a3->unk_4->unk_0, temp_a3->unk_4->unk_2, var_f0, var_f0_2, temp_a3->unk_4->unk_0 * arg4,
@@ -280,8 +277,8 @@ void animeSmog_init(struct_800F3E50_unk_50C *arg0, struct_800F3E50_unk_50C *arg1
     s32 i;
 
     for (i = 0; i < ARRAY_COUNTU(arg0->unk_000); i++) {
-        animeState_init(&arg0->unk_000[i], arg1->unk_000[0].unk_0C, arg1->unk_000[0].unk_1C, arg1->unk_000[0].unk_24,
-                        arg1->unk_000[0].unk_28, 19);
+        animeState_init(&arg0->unk_000[i], arg1->unk_000[0].unk_0C, arg1->unk_000[0].unk_1C, arg1->unk_000[0].unk_24.unk_0,
+                        arg1->unk_000[0].unk_24.unk_4, 19);
         animeState_set(&arg0->unk_000[i], 2);
         arg0->unk_100[i].unk_4 = 0;
         arg0->unk_100[i].unk_0 = 0;

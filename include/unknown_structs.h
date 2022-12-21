@@ -10,6 +10,7 @@
 #include "alignment.h"
 #include "msgwnd.h"
 #include "recwritingmsg.h"
+#include "char_anime.h"
 
 
 typedef struct struct_800FAF98_unk_64 {
@@ -113,57 +114,6 @@ typedef struct struct_800F3E50_unk_430 {
     /* 0xC0 */ struct_800F3E50_unk_430_unk_C0 *unk_C0;
     /* 0xC4 */ u16 *unk_C4;
 } struct_800F3E50_unk_430; // size >= 0xC8
-
-// this struct may not exist
-typedef struct struct_800F3E50_unk_44C_unk_0C {
-    /* 0x0 */ u8 *unk_0;
-} struct_800F3E50_unk_44C_unk_0C; // size >= 0x4
-
-typedef struct struct_800F3E50_unk_44C_unk_1C_unk_4 {
-    /* 0x0 */ u16 unk_0;
-    /* 0x2 */ u16 unk_2;
-} struct_800F3E50_unk_44C_unk_1C_unk_4; // size >= 0x4
-
-typedef struct struct_800F3E50_unk_44C_unk_1C_unk_0 {
-    /* 0x0 */ UNK_TYPE1 unk_0[0x4];
-    /* 0x4 */ UNK_TYPE4 unk_4;
-} struct_800F3E50_unk_44C_unk_1C_unk_0; // size >= 0x8
-
-typedef struct struct_800F3E50_unk_44C_unk_1C {
-    /* 0x0 */ struct_800F3E50_unk_44C_unk_1C_unk_0 *unk_0;
-    /* 0x4 */ struct_800F3E50_unk_44C_unk_1C_unk_4 *unk_4;
-} struct_800F3E50_unk_44C_unk_1C; // size = 0x8
-
-// animeState?
-typedef struct struct_800F3E50_unk_44C {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ UNK_TYPE4 unk_08;
-    /* 0x0C */ struct_800F3E50_unk_44C_unk_0C *unk_0C;
-    /* 0x10 */ UNK_TYPE4 unk_10;
-    /* 0x14 */ UNK_TYPE4 unk_14;
-    /* 0x18 */ UNK_TYPE4 unk_18;
-    /* 0x14 */ struct_800F3E50_unk_44C_unk_1C *unk_1C;
-    /* 0x20 */ UNK_TYPE4 unk_20;
-    /* 0x24 */ UNK_TYPE4 unk_24;
-    /* 0x24 */ UNK_TYPE4 unk_28;
-    /* 0x24 */ UNK_TYPE4 unk_2C;
-    /* 0x24 */ UNK_TYPE4 unk_30;
-    /* 0x24 */ UNK_TYPE4 unk_34;
-    /* 0x24 */ UNK_TYPE4 unk_38;
-    /* 0x24 */ UNK_TYPE4 unk_3C;
-} struct_800F3E50_unk_44C; // size = 0x40
-
-typedef struct struct_800F3E50_unk_50C_unk_100 {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ s32 unk_4;
-} struct_800F3E50_unk_50C_unk_100; // size = 0x8
-
-typedef struct struct_800F3E50_unk_50C {
-    /* 0x000 */ struct_800F3E50_unk_44C unk_000[4];
-    /* 0x100 */ struct_800F3E50_unk_50C_unk_100 unk_100[4];
-    /* 0x120 */ UNK_TYPE4 unk_120;
-} struct_800F3E50_unk_50C; // size = 0x124
 
 typedef struct struct_800F3E50 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x38C];
