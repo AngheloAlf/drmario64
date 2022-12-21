@@ -129,8 +129,8 @@ typedef struct struct_800F3E50 {
     /* 0x428 */ UNK_TYPE1 unk_428[0x8];
     /* 0x430 */ struct_800F3E50_unk_430 *unk_430;
     /* 0x434 */ UNK_TYPE1 unk_434[0x18];
-    /* 0x44C */ struct_800F3E50_unk_44C unk_44C[3];
-    /* 0x50C */ struct_800F3E50_unk_50C unk_50C[3];
+    /* 0x44C */ AnimeState animeStates[3];
+    /* 0x50C */ AnimeSmog animeSmogs[3];
     /* 0x878 */ UNK_TYPE unk_878;
     /* 0x87C */ UNK_TYPE1 unk_87C[0x4];
     /* 0x880 */ UNK_TYPE unk_880;
