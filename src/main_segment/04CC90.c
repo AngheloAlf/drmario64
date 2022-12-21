@@ -34,10 +34,9 @@ void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
 
 void *func_80077170(s32 index, void *dstAddr) {
     bgGraphic = dstAddr;
-    B_800E8750 = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E778[index].start, dstAddr,
-                                                               D_8000E778[index].end - D_8000E778[index].start));
-    return (void *)ALIGN16(
-        (uintptr_t)DecompressRomToRam(D_8000E760.start, B_800E8750, D_8000E760.end - D_8000E760.start));
+    B_800E8750 = ALIGN_PTR(DecompressRomToRam(bgRomData[index].start, dstAddr,
+                                                               bgRomData[index].end - bgRomData[index].start));
+    return ALIGN_PTR(DecompressRomToRam(storyRomData[4].start, B_800E8750, storyRomData[4].end - storyRomData[4].start));
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800771EC);
@@ -195,9 +194,8 @@ void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 void *init_coffee_break(void *dstAddr) {
     void *temp_s0;
 
-    bgGraphic = (void *)ALIGN16((uintptr_t)dstAddr);
-    temp_s0 =
-        (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E740.start, bgGraphic, D_8000E740.end - D_8000E740.start));
+    bgGraphic = ALIGN_PTR(dstAddr);
+    temp_s0 = ALIGN_PTR(DecompressRomToRam(storyRomData[0].start, bgGraphic, storyRomData[0].end - storyRomData[0].start));
     init_coffee_break_cnt();
     return temp_s0;
 }
@@ -222,11 +220,11 @@ void *init_menu_bg(void *dstAddr, bool arg1) {
     alignedAddress = ALIGN_PTR(dstAddr);
     bgGraphic = alignedAddress;
     if (arg1) {
-        segmentRomStart = D_8000E750.start; // PTR_segment_menu_bg2_002b0070
-        segmentRomEnd = D_8000E750.end;     // PTR_DAT_002b0074
+        segmentRomStart = storyRomData[2].start;
+        segmentRomEnd = storyRomData[2].end;
     } else {
-        segmentRomStart = D_8000E748.start; // PTR_segment_menu_bg_002b0068
-        segmentRomEnd = D_8000E748.end;     // )PTR_DAT_002b006c
+        segmentRomStart = storyRomData[1].start;
+        segmentRomEnd = storyRomData[1].end;
     }
     return ALIGN_PTR(DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
 }
@@ -305,11 +303,11 @@ void *init_title(void *dstAddr, bool arg1) {
 
     title_data = ALIGN_PTR(dstAddr);
     title_bmp_data = ALIGN_PTR(
-        DecompressRomToRam(gSegmentRomOffset_segment_title_all.start, title_data,
-                           gSegmentRomOffset_segment_title_all.end - gSegmentRomOffset_segment_title_all.start));
+        DecompressRomToRam(storyRomData[5].start, title_data,
+                           storyRomData[5].end - storyRomData[5].start));
     return ALIGN_PTR(
-        DecompressRomToRam(gSegmentRomOffset_segment_title_bmp.start, title_bmp_data,
-                           gSegmentRomOffset_segment_title_bmp.end - gSegmentRomOffset_segment_title_bmp.start));
+        DecompressRomToRam(storyRomData[6].start, title_bmp_data,
+                           storyRomData[6].end - storyRomData[6].start));
 }
 
 /**
@@ -450,21 +448,16 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007A440);
 
 void func_8007A9DC(void) {
     void *ptr;
-    size_t segmentSize;
 
     B_800E87AC = D_800AAD3C;
 
-    segmentSize = gSegmentRomOffset_segment_title_all.end - gSegmentRomOffset_segment_title_all.start;
-    ptr = (void *)ALIGN16(
-        (uintptr_t)DecompressRomToRam(gSegmentRomOffset_segment_title_all.start, B_800E87AC, segmentSize));
+    ptr = ALIGN_PTR(DecompressRomToRam(storyRomData[5].start, B_800E87AC, storyRomData[5].end - storyRomData[5].start));
     B_800E8750 = ptr;
 
-    segmentSize = D_8000E758.end - D_8000E758.start;
-    ptr = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E758.start, ptr, segmentSize));
+    ptr = ALIGN_PTR(DecompressRomToRam(storyRomData[3].start, ptr, storyRomData[3].end - storyRomData[3].start));
     bgGraphic = ptr;
 
-    segmentSize = D_8000E748.end - D_8000E748.start;
-    ptr = (void *)ALIGN16((uintptr_t)DecompressRomToRam(D_8000E748.start, ptr, segmentSize));
+    ptr = ALIGN_PTR(DecompressRomToRam(storyRomData[1].start, ptr, storyRomData[1].end - storyRomData[1].start));
     B_800E87B0 = ptr;
 }
 

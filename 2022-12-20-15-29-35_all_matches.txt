@@ -57,7 +57,7 @@ D_800B2138 - found 50 matches total:
 0.99 - RO_800B3144
 
 D_800ADB40 - found 33 matches total:
-0.99 - D_8000E740 (decompiled)
+0.99 - storyRomData (decompiled)
 0.99 - D_8000E748 (decompiled)
 0.99 - D_8000E750 (decompiled)
 0.99 - D_8000E758 (decompiled)

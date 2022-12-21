@@ -139,7 +139,7 @@ s32 func_8002AA80(void) {
     u32 i;
 
     for (i = 0; i < ARRAY_COUNT(RO_800ACA20); i++) {
-        RomOffsetPair *pair = &D_8000E838[RO_800ACA20[i]];
+        RomOffsetPair *pair = &_romDataTbl[RO_800ACA20[i]];
         s32 segmentSize = pair->end - pair->start;
 
         ret = MAX(segmentSize, ret);
@@ -247,11 +247,11 @@ void dm_audio_init_driver(struct_800EB670 *arg0) {
         func_8002AAD8(&ptr->unk_08[i], i);
     }
 
-    func_8002D170(arg0, B_800B3640, sizeof(B_800B3640), D_8000E838[1].end - D_8000E838[1].start, func_8002AA80(), 2,
-                  D_8000E838[2].end - D_8000E838[2].start, 4, 50);
+    func_8002D170(arg0, B_800B3640, sizeof(B_800B3640), _romDataTbl[1].end - _romDataTbl[1].start, func_8002AA80(), 2,
+                  _romDataTbl[2].end - _romDataTbl[2].start, 4, 50);
 
-    func_8002D3B0(D_8000E838[1].start, D_8000E838[1].end - D_8000E838[1].start, (void *)D_8000E838[0].start);
-    func_8002D6A4(D_8000E838[2].start, D_8000E838[2].end - D_8000E838[2].start);
+    func_8002D3B0(_romDataTbl[1].start, _romDataTbl[1].end - _romDataTbl[1].start, (void *)_romDataTbl[0].start);
+    func_8002D6A4(_romDataTbl[2].start, _romDataTbl[2].end - _romDataTbl[2].start);
 }
 
 /**
@@ -263,7 +263,7 @@ void dm_audio_update(void) {
 
     for (i = 0; i < ARRAY_COUNT(var_s0->unk_00); i++) {
         if ((var_s0->unk_00[i] >= 0) && func_8002B194(i)) {
-            RomOffsetPair *pair = &D_8000E838[RO_800ACA20[var_s0->unk_00[i]]];
+            RomOffsetPair *pair = &_romDataTbl[RO_800ACA20[var_s0->unk_00[i]]];
 
             func_8002D428(i, pair->start, pair->end - pair->start);
             func_8002D4A4(i);

@@ -10,15 +10,8 @@ typedef struct RomOffsetPair {
 } RomOffsetPair; // size = 0x8
 
 
-extern RomOffsetPair D_8000E740;
-extern RomOffsetPair D_8000E748;
-extern RomOffsetPair D_8000E750;
-extern RomOffsetPair D_8000E758;
-extern RomOffsetPair D_8000E760;
-extern RomOffsetPair gSegmentRomOffset_segment_title_all;
-extern RomOffsetPair gSegmentRomOffset_segment_title_bmp;
-extern RomOffsetPair D_8000E778[];
-extern RomOffsetPair D_8000E838[];
-extern RomOffsetPair D_8000EA48;
+extern RomOffsetPair storyRomData[];
+extern RomOffsetPair bgRomData[];
+extern RomOffsetPair _romDataTbl[];
 
 #endif

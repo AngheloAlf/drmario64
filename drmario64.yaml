@@ -639,16 +639,16 @@ segments:
     type: bin
     start: 0x1E0D70
 
-  - name: segment_195620 # compressed # GraphBin
+  - name: segment_game_etc # compressed # GraphBin
     type: bin
     start: 0x1E1100
-  - name: segment_1A0D40 # compressed
+  - name: segment_menu_bg # compressed
     type: bin
     start: 0x207A98
-  - name: segment_1A20C0 # compressed
+  - name: segment_menu_bg2 # compressed
     type: bin
     start: 0x20B528
-  - name: segment_1A3610 # compressed
+  - name: segment_coffee01 # compressed
     type: bin
     start: 0x20EFB8
   - name: segment_title_all # compressed
@@ -657,157 +657,157 @@ segments:
   - name: segment_title_bmp # compressed # GraphBin
     type: bin
     start: 0x3621E8
-  - name: segment_212B20 # compressed # GraphBin
+  - name: segment_waku # compressed # GraphBin
     type: bin
     start: 0x364E58
-  - name: segment_21B120 # compressed # GraphBin
+  - name: segment_waku2 # compressed # GraphBin
     type: bin
     start: 0x3783E8
-  - name: segment_21F6D0 # compressed # GraphBin
+  - name: segment_story_bg01 # compressed # GraphBin
     type: bin
     start: 0x382C98
-  - name: segment_2264C0 # compressed # GraphBin
+  - name: segment_story_bg02 # compressed # GraphBin
     type: bin
     start: 0x38F6A8
-  - name: segment_22DA20 # compressed # GraphBin
+  - name: segment_story_bg03 # compressed # GraphBin
     type: bin
     start: 0x39C0B8
-  - name: segment_234CF0 # compressed # GraphBin
+  - name: segment_story_bg04 # compressed # GraphBin
     type: bin
     start: 0x3A8AC8
-  - name: segment_23B7E0 # compressed # GraphBin
+  - name: segment_story_bg05 # compressed # GraphBin
     type: bin
     start: 0x3B54D8
-  - name: segment_240160 # compressed # GraphBin
+  - name: segment_story_bg07 # compressed # GraphBin
     type: bin
     start: 0x3C1EE8
-  - name: segment_245AE0 # compressed # GraphBin
+  - name: segment_story_bg08 # compressed # GraphBin
     type: bin
     start: 0x3CE8F8
-  - name: segment_24E620 # compressed # GraphBin
+  - name: segment_story_bg09 # compressed # GraphBin
     type: bin
     start: 0x3DB308
-  - name: segment_257670 # compressed # GraphBin
+  - name: segment_story_bg10 # compressed # GraphBin
     type: bin
     start: 0x3E7D18
-  - name: segment_25E690 # compressed # GraphBin
+  - name: segment_story_bg11 # compressed # GraphBin
     type: bin
     start: 0x3F4728
-  - name: segment_266490 # compressed
+  - name: segment_menu_char # compressed
     type: bin
     start: 0x401138
-  - name: segment_26FDF0 # compressed
+  - name: segment_menu_common # compressed
     type: bin
     start: 0x411D18
-  - name: segment_27A310 # compressed
+  - name: segment_menu_level # compressed
     type: bin
     start: 0x43A5E8
-  - name: segment_2866D0 # compressed
+  - name: segment_menu_main # compressed
     type: bin
     start: 0x453DF8
-  - name: segment_2990C0 # compressed
+  - name: segment_menu_name # compressed
     type: bin
     start: 0x47A708
-  - name: segment_29DE20 # compressed
+  - name: segment_menu_p2 # compressed
     type: bin
     start: 0x486528
-  - name: segment_2A2430 # compressed
+  - name: segment_menu_p4 # compressed
     type: bin
     start: 0x4903C8
-  - name: segment_2A93C0 # compressed
+  - name: segment_menu_rank # compressed
     type: bin
     start: 0x49DE88
-  - name: segment_2AF9A0 # compressed
+  - name: segment_menu_setup # compressed
     type: bin
     start: 0x4A7198
-  - name: segment_2BD670 # compressed
+  - name: segment_menu_story # compressed
     type: bin
     start: 0x4C3858
-  - name: segment_2C9600 # compressed
+  - name: segment_menu_cont # compressed
     type: bin
     start: 0x4DEA98
-  - name: segment_2CC150 # compressed
+  - name: segment_menu_kasa # compressed
     type: bin
     start: 0x4E6F58
-  - name: segment_2CEA50 # compressed
+  - name: segment_game_al # compressed
     type: bin
     start: 0x4F5568
-  - name: segment_2D3E80 # compressed
+  - name: segment_game_p1 # compressed
     type: bin
     start: 0x504A28
-  - name: segment_2D7830 # compressed
+  - name: segment_game_p2 # compressed
     type: bin
     start: 0x5160E8
-  - name: segment_2DC490 # compressed
+  - name: segment_game_p4 # compressed
     type: bin
     start: 0x528398
-  - name: segment_2E6500 # compressed
+  - name: segment_game_ls # compressed
     type: bin
     start: 0x547308
-  - name: segment_2F8E80 # compressed
+  - name: segment_game_item # compressed
     type: bin
     start: 0x57A708
-  - name: segment_2F96A0 # compressed
+  - name: segment_anime_a # compressed
     type: bin
     start: 0x57C148
-  - name: segment_2FD060 # compressed
+  - name: segment_anime_b # compressed
     type: bin
     start: 0x58C4B8
-  - name: segment_2FEC70 # compressed
+  - name: segment_anime_c # compressed
     type: bin
     start: 0x5925B8
-  - name: segment_301920 # compressed
+  - name: segment_anime_d # compressed
     type: bin
     start: 0x5A35A8
-  - name: segment_303A60 # compressed
+  - name: segment_anime_e # compressed
     type: bin
     start: 0x5ABFD8
-  - name: segment_3057A0 # compressed
+  - name: segment_anime_f # compressed
     type: bin
     start: 0x5B6088
-  - name: segment_307ED0 # compressed
+  - name: segment_anime_g # compressed
     type: bin
     start: 0x5BCCD8
-  - name: segment_30A220 # compressed
+  - name: segment_anime_h # compressed
     type: bin
     start: 0x5CA108
-  - name: segment_30BE80 # compressed
+  - name: segment_anime_i # compressed
     type: bin
     start: 0x5CF848
-  - name: segment_30E3A0 # compressed
+  - name: segment_anime_j # compressed
     type: bin
     start: 0x5D8BE8
-  - name: segment_310250 # compressed
+  - name: segment_anime_k # compressed
     type: bin
     start: 0x5E3818
-  - name: segment_311DC0 # compressed
+  - name: segment_anime_l # compressed
     type: bin
     start: 0x5E89C8
-  - name: segment_3142D0 # compressed
+  - name: segment_anime_m # compressed
     type: bin
     start: 0x5F5698
-  - name: segment_3165B0 # compressed
+  - name: segment_anime_n # compressed
     type: bin
     start: 0x5FC1F8
-  - name: segment_3185A0 # compressed
+  - name: segment_anime_o # compressed
     type: bin
     start: 0x605178
-  - name: segment_31AB50 # compressed
+  - name: segment_anime_mario # compressed
     type: bin
     start: 0x60BCD8
-  - name: segment_326990 # compressed
+  - name: segment_anime_virus_b # compressed
     type: bin
     start: 0x639468
-  - name: segment_327CE0 # compressed
+  - name: segment_anime_virus_r # compressed
     type: bin
     start: 0x63B058
-  - name: segment_328B80 # compressed
+  - name: segment_anime_virus_y # compressed
     type: bin
     start: 0x63C5F8
-  - name: segment_3299F0 # compressed
+  - name: segment_anime_smog # compressed
     type: bin
     start: 0x63DB98
-  - name: segment_329FF0 # compressed
+  - name: segment_tutorial_data # compressed
     type: bin
     start: 0x63EED8
 

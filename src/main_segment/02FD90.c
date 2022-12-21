@@ -98,7 +98,7 @@ void menuAll_init(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) {
     UNK_PTR sp10 = *arg1;
     UNK_PTR temp_v0;
     s32 i;
-    RomOffsetPair *pairArray = D_8000E838;
+    RomOffsetPair *pairArray = _romDataTbl;
 
     arg0->unk_00000 = arg2;
     arg0->unk_02460 = sp10;

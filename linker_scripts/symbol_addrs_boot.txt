@@ -309,16 +309,9 @@ D_8000E324 = 0x8000E324;
 crc_32_tab = 0x8000E338;
 crc_132 = 0x8000E738;
 
-D_8000E740 = 0x8000E740; // size:0x8
-D_8000E748 = 0x8000E748; // size:0x8
-D_8000E750 = 0x8000E750; // size:0x8
-D_8000E758 = 0x8000E758; // size:0x8
-D_8000E760 = 0x8000E760; // size:0x8
-gSegmentRomOffset_segment_title_all = 0x8000E768; // size:0x8
-gSegmentRomOffset_segment_title_bmp = 0x8000E770; // size:0x8
-D_8000E778 = 0x8000E778; // size:0xC0
-D_8000E838 = 0x8000E838; // size:0x210
-D_8000EA48 = 0x8000EA48; // size:0x8
+storyRomData = 0x8000E740; // size:0x38
+bgRomData = 0x8000E778; // size:0xC0
+_romDataTbl = 0x8000E838; // size:0x218
 
 __osPiDevMgr = 0x8000EA50; // size:0x1C
 __osPiTable = 0x8000EA6C;

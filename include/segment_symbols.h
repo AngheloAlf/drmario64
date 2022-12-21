@@ -75,74 +75,74 @@ DECLARE_SEGMENT(segment_194910);
 DECLARE_SEGMENT(segment_195290);
 
 
-DECLARE_SEGMENT(segment_195620);
-DECLARE_SEGMENT(segment_1A0D40);
-DECLARE_SEGMENT(segment_1A20C0);
-DECLARE_SEGMENT(segment_1A3610);
+DECLARE_SEGMENT(segment_game_etc);
+DECLARE_SEGMENT(segment_menu_bg);
+DECLARE_SEGMENT(segment_menu_bg2);
+DECLARE_SEGMENT(segment_coffee01);
 DECLARE_SEGMENT(segment_title_all);
 DECLARE_SEGMENT(segment_title_bmp);
-DECLARE_SEGMENT(segment_212B20);
-DECLARE_SEGMENT(segment_21B120);
-DECLARE_SEGMENT(segment_21F6D0);
-DECLARE_SEGMENT(segment_2264C0);
-DECLARE_SEGMENT(segment_22DA20);
-DECLARE_SEGMENT(segment_234CF0);
-DECLARE_SEGMENT(segment_23B7E0);
-DECLARE_SEGMENT(segment_240160);
-DECLARE_SEGMENT(segment_245AE0);
-DECLARE_SEGMENT(segment_24E620);
-DECLARE_SEGMENT(segment_257670);
-DECLARE_SEGMENT(segment_25E690);
+DECLARE_SEGMENT(segment_waku);
+DECLARE_SEGMENT(segment_waku2);
+DECLARE_SEGMENT(segment_story_bg01);
+DECLARE_SEGMENT(segment_story_bg02);
+DECLARE_SEGMENT(segment_story_bg03);
+DECLARE_SEGMENT(segment_story_bg04);
+DECLARE_SEGMENT(segment_story_bg05);
+DECLARE_SEGMENT(segment_story_bg07);
+DECLARE_SEGMENT(segment_story_bg08);
+DECLARE_SEGMENT(segment_story_bg09);
+DECLARE_SEGMENT(segment_story_bg10);
+DECLARE_SEGMENT(segment_story_bg11);
 
 
-DECLARE_SEGMENT(segment_266490);
-DECLARE_SEGMENT(segment_26FDF0);
-DECLARE_SEGMENT(segment_27A310);
-DECLARE_SEGMENT(segment_2866D0);
-DECLARE_SEGMENT(segment_2990C0);
-DECLARE_SEGMENT(segment_29DE20);
-DECLARE_SEGMENT(segment_2A2430);
-DECLARE_SEGMENT(segment_2A93C0);
-DECLARE_SEGMENT(segment_2AF9A0);
-DECLARE_SEGMENT(segment_2BD670);
-DECLARE_SEGMENT(segment_2C9600);
+DECLARE_SEGMENT(segment_menu_char);
+DECLARE_SEGMENT(segment_menu_common);
+DECLARE_SEGMENT(segment_menu_level);
+DECLARE_SEGMENT(segment_menu_main);
+DECLARE_SEGMENT(segment_menu_name);
+DECLARE_SEGMENT(segment_menu_p2);
+DECLARE_SEGMENT(segment_menu_p4);
+DECLARE_SEGMENT(segment_menu_rank);
+DECLARE_SEGMENT(segment_menu_setup);
+DECLARE_SEGMENT(segment_menu_story);
+DECLARE_SEGMENT(segment_menu_cont);
 
 
-DECLARE_SEGMENT(segment_2CC150);
-DECLARE_SEGMENT(segment_2CEA50);
+DECLARE_SEGMENT(segment_menu_kasa);
+DECLARE_SEGMENT(segment_game_al);
 
-DECLARE_SEGMENT(segment_2D3E80);
-DECLARE_SEGMENT(segment_2D7830);
-DECLARE_SEGMENT(segment_2DC490);
-DECLARE_SEGMENT(segment_2E6500);
-
-
-DECLARE_SEGMENT(segment_2F8E80);
+DECLARE_SEGMENT(segment_game_p1);
+DECLARE_SEGMENT(segment_game_p2);
+DECLARE_SEGMENT(segment_game_p4);
+DECLARE_SEGMENT(segment_game_ls);
 
 
-DECLARE_SEGMENT(segment_2F96A0);
-DECLARE_SEGMENT(segment_2FD060);
-DECLARE_SEGMENT(segment_2FEC70);
-DECLARE_SEGMENT(segment_301920);
-DECLARE_SEGMENT(segment_303A60);
-DECLARE_SEGMENT(segment_3057A0);
-DECLARE_SEGMENT(segment_307ED0);
-DECLARE_SEGMENT(segment_30A220);
-DECLARE_SEGMENT(segment_30BE80);
-DECLARE_SEGMENT(segment_30E3A0);
-DECLARE_SEGMENT(segment_310250);
-DECLARE_SEGMENT(segment_311DC0);
-DECLARE_SEGMENT(segment_3142D0);
-DECLARE_SEGMENT(segment_3165B0);
-DECLARE_SEGMENT(segment_3185A0);
-DECLARE_SEGMENT(segment_31AB50);
-DECLARE_SEGMENT(segment_326990);
-DECLARE_SEGMENT(segment_327CE0);
-DECLARE_SEGMENT(segment_328B80);
-DECLARE_SEGMENT(segment_3299F0);
+DECLARE_SEGMENT(segment_game_item);
 
 
-DECLARE_SEGMENT(segment_329FF0);
+DECLARE_SEGMENT(segment_anime_a);
+DECLARE_SEGMENT(segment_anime_b);
+DECLARE_SEGMENT(segment_anime_c);
+DECLARE_SEGMENT(segment_anime_d);
+DECLARE_SEGMENT(segment_anime_e);
+DECLARE_SEGMENT(segment_anime_f);
+DECLARE_SEGMENT(segment_anime_g);
+DECLARE_SEGMENT(segment_anime_h);
+DECLARE_SEGMENT(segment_anime_i);
+DECLARE_SEGMENT(segment_anime_j);
+DECLARE_SEGMENT(segment_anime_k);
+DECLARE_SEGMENT(segment_anime_l);
+DECLARE_SEGMENT(segment_anime_m);
+DECLARE_SEGMENT(segment_anime_n);
+DECLARE_SEGMENT(segment_anime_o);
+DECLARE_SEGMENT(segment_anime_mario);
+DECLARE_SEGMENT(segment_anime_virus_b);
+DECLARE_SEGMENT(segment_anime_virus_r);
+DECLARE_SEGMENT(segment_anime_virus_y);
+DECLARE_SEGMENT(segment_anime_smog);
+
+
+DECLARE_SEGMENT(segment_tutorial_data);
 
 
 
