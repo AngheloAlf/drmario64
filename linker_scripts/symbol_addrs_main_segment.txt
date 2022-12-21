@@ -1807,6 +1807,10 @@ RO_800B1950 = 0x800B1950; // type:Gfx
 
 sMessageColorTable = 0x800B1990; // size:0x18
 
+RO_800B1A60 = 0x800B1A60; // size:0x50
+RO_800B1AB0 = 0x800B1AB0; // size:0x50
+RO_800B1B00 = 0x800B1B00; // size:0xA0
+
 RO_800B1C80 = 0x800B1C80; // force_not_migration:True
 RO_800B1C8C = 0x800B1C8C; // force_not_migration:True
 RO_800B1C98 = 0x800B1C98; // force_not_migration:True
