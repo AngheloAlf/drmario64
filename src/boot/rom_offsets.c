@@ -10,8 +10,8 @@ RomOffsetPair storyRomData[] = {
     { SEGMENT_ROM_START(segment_menu_bg2), SEGMENT_ROM_END(segment_menu_bg2) },
     { SEGMENT_ROM_START(segment_waku), SEGMENT_ROM_END(segment_waku) },
     { SEGMENT_ROM_START(segment_waku2), SEGMENT_ROM_END(segment_waku2) },
-    { SEGMENT_ROM_START(segment_title_all),SEGMENT_ROM_END(segment_title_all) },
-    { SEGMENT_ROM_START(segment_title_bmp),SEGMENT_ROM_END(segment_title_bmp) },
+    { SEGMENT_ROM_START(segment_title_all), SEGMENT_ROM_END(segment_title_all) },
+    { SEGMENT_ROM_START(segment_title_bmp), SEGMENT_ROM_END(segment_title_bmp) },
 };
 
 /**

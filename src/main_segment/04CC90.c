@@ -34,9 +34,10 @@ void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
 
 void *func_80077170(s32 index, void *dstAddr) {
     bgGraphic = dstAddr;
-    B_800E8750 = ALIGN_PTR(DecompressRomToRam(bgRomData[index].start, dstAddr,
-                                                               bgRomData[index].end - bgRomData[index].start));
-    return ALIGN_PTR(DecompressRomToRam(storyRomData[4].start, B_800E8750, storyRomData[4].end - storyRomData[4].start));
+    B_800E8750 =
+        ALIGN_PTR(DecompressRomToRam(bgRomData[index].start, dstAddr, bgRomData[index].end - bgRomData[index].start));
+    return ALIGN_PTR(
+        DecompressRomToRam(storyRomData[4].start, B_800E8750, storyRomData[4].end - storyRomData[4].start));
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800771EC);
@@ -195,7 +196,8 @@ void *init_coffee_break(void *dstAddr) {
     void *temp_s0;
 
     bgGraphic = ALIGN_PTR(dstAddr);
-    temp_s0 = ALIGN_PTR(DecompressRomToRam(storyRomData[0].start, bgGraphic, storyRomData[0].end - storyRomData[0].start));
+    temp_s0 =
+        ALIGN_PTR(DecompressRomToRam(storyRomData[0].start, bgGraphic, storyRomData[0].end - storyRomData[0].start));
     init_coffee_break_cnt();
     return temp_s0;
 }
@@ -302,12 +304,10 @@ void *init_title(void *dstAddr, bool arg1) {
     guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
 
     title_data = ALIGN_PTR(dstAddr);
-    title_bmp_data = ALIGN_PTR(
-        DecompressRomToRam(storyRomData[5].start, title_data,
-                           storyRomData[5].end - storyRomData[5].start));
+    title_bmp_data =
+        ALIGN_PTR(DecompressRomToRam(storyRomData[5].start, title_data, storyRomData[5].end - storyRomData[5].start));
     return ALIGN_PTR(
-        DecompressRomToRam(storyRomData[6].start, title_bmp_data,
-                           storyRomData[6].end - storyRomData[6].start));
+        DecompressRomToRam(storyRomData[6].start, title_bmp_data, storyRomData[6].end - storyRomData[6].start));
 }
 
 /**
