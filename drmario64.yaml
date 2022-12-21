@@ -395,7 +395,7 @@ segments:
 
       - [0x05DD50, c, main_segment/dm_title_main]
       - [0x05E700, c, main_segment/04CC90]
-      - [0x063470, c, main_segment/051A00]
+      - [0x063470, c, main_segment/lws]
       - [0x063A40, c, main_segment/calc]
       - [0x065080, c, main_segment/053610]
       - [0x065230, c, main_segment/0537C0]
@@ -509,7 +509,7 @@ segments:
 
       - { start: 0x09B060, type: .rodata, partial_migration: True, name: main_segment/dm_title_main }
       - { start: 0x09B180, type: .rodata, partial_migration: True, name: main_segment/04CC90 }
-      - [0x09B270, .rodata, main_segment/051A00]
+      - [0x09B270, .rodata, main_segment/lws]
       - [0x09B2C0, .rodata, main_segment/calc]
       - [0x09B310, .rodata, main_segment/0537C0]
 
