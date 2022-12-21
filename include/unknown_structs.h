@@ -126,9 +126,15 @@ typedef struct struct_800F3E50_unk_44C {
     /* 0x10 */ UNK_TYPE4 unk_10;
     /* 0x14 */ UNK_TYPE4 unk_14;
     /* 0x18 */ UNK_TYPE4 unk_18;
-    /* 0x14 */ UNK_TYPE1 unk_1C[0x4];
+    /* 0x14 */ UNK_TYPE4 unk_1C;
     /* 0x20 */ UNK_TYPE4 unk_20;
-    /* 0x24 */ UNK_TYPE1 unk_24[0x1C];
+    /* 0x24 */ UNK_TYPE4 unk_24;
+    /* 0x24 */ UNK_TYPE4 unk_28;
+    /* 0x24 */ UNK_TYPE4 unk_2C;
+    /* 0x24 */ UNK_TYPE4 unk_30;
+    /* 0x24 */ UNK_TYPE4 unk_34;
+    /* 0x24 */ UNK_TYPE4 unk_38;
+    /* 0x24 */ UNK_TYPE4 unk_3C;
 } struct_800F3E50_unk_44C; // size = 0x40
 
 typedef struct struct_800F3E50_unk_50C_unk_100 {

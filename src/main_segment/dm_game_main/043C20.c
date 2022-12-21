@@ -49,10 +49,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_init);
 
 #if 0
 ? RecWritingMsg_init(s8 *, struct_80124610 **, s32);     /* extern */
-? func_8005E36C(s8 *, struct_80124610 **, s32);     /* extern */
+? animeState_load(s8 *, struct_80124610 **, s32);     /* extern */
 ? animeState_set(s8 *, ?);                           /* extern */
-? func_8005EAFC(s8 *, s8 *);                        /* extern */
-? func_8005EBA8(s8 *, struct_80124610 **);          /* extern */
+? animeSmog_init(s8 *, s8 *);                        /* extern */
+? animeSmog_load(s8 *, struct_80124610 **);          /* extern */
 ? func_80062B84(s8 *);                              /* extern */
 ? func_8006A938(?);                                 /* extern */
 ? replay_record_init_buffer(struct_80124610 **);                /* extern */
@@ -182,22 +182,22 @@ block_23:
         case 0x0:                                   /* switch 2 */
         case 0x4:                                   /* switch 2 */
             temp_s3->unk_898 = 1;
-            func_8005E36C(&B_80123794, &heapTop, 0xF);
+            animeState_load(&B_80123794, &heapTop, 0xF);
             animeState_set(&B_80123794, 2);
             var_s1_3 = 0;
             temp_s3->unk_438 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_180, gRomOffset_N64WaveTables_Start.unk_184);
             var_s2 = 0x44C;
             temp_s3->unk_434 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_198, gRomOffset_N64WaveTables_Start.unk_19C);
             do {
-                func_8005E36C(&temp_s3->unk_000[var_s2], &heapTop, var_s1_3 + 0x10);
+                animeState_load(&temp_s3->unk_000[var_s2], &heapTop, var_s1_3 + 0x10);
                 var_s1_3 += 1;
                 var_s2 += 0x40;
             } while (var_s1_3 < 3);
-            func_8005EBA8(&temp_s3->unk_000[0x50C], &heapTop);
+            animeSmog_load(&temp_s3->unk_000[0x50C], &heapTop);
             var_s1_4 = 1;
             var_s0_2 = 0x630;
             do {
-                func_8005EAFC(&temp_s3->unk_000[var_s0_2], &temp_s3->unk_000[0x50C]);
+                animeSmog_init(&temp_s3->unk_000[var_s0_2], &temp_s3->unk_000[0x50C]);
                 var_s1_4 += 1;
                 var_s0_2 += 0x124;
             } while (var_s1_4 < 3);
@@ -208,7 +208,7 @@ block_23:
             msgWnd_skip((struct_80124610 *) temp_s0);
             temp_s3->unk_93C = 1;
             temp_s3->unk_938 = 0;
-            heapTop = func_8007780C(heapTop);
+            heapTop = init_coffee_break(heapTop);
             return;
         case 0x1:                                   /* switch 2 */
         case 0x3:                                   /* switch 2 */
@@ -222,7 +222,7 @@ block_23:
                 var_s2_2 += 0x3C4;
                 var_s0_3 += 0x3C4;
                 var_s1_5 += 1;
-                func_8005E36C(var_a0, &heapTop, temp_a2_2);
+                animeState_load(var_a0, &heapTop, temp_a2_2);
                 var_a0 = var_s2_2;
             } while (var_s1_5 < 2);
             var_s1_6 = 1;
@@ -260,7 +260,7 @@ block_23:
                 var_s4 += 0x3C4;
                 var_s2_3 += 0x3C4;
                 var_s1_8 += 1;
-                func_8005E36C(var_a0_3, &heapTop, temp_a2_3);
+                animeState_load(var_a0_3, &heapTop, temp_a2_3);
                 var_a0_3 = var_s4;
             } while (var_s1_8 < 4);
             var_s1_9 = 3;

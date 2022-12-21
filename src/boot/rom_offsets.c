@@ -1,6 +1,7 @@
 #include "segment_symbols.h"
 #include "rom_offsets.h"
 
+// storyRomData
 RomOffsetPair D_8000E740 = { SEGMENT_ROM_START(segment_1A3610), SEGMENT_ROM_END(segment_1A3610) };
 
 RomOffsetPair D_8000E748 = { SEGMENT_ROM_START(segment_1A0D40), SEGMENT_ROM_END(segment_1A0D40) };

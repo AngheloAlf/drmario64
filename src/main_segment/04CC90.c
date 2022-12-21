@@ -192,7 +192,7 @@ void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     story_spot(gfxP, arg1, arg2, arg3, &changestar_tex);
 }
 
-void *func_8007780C(void *dstAddr) {
+void *init_coffee_break(void *dstAddr) {
     void *temp_s0;
 
     bgGraphic = (void *)ALIGN16((uintptr_t)dstAddr);
