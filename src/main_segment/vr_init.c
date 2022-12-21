@@ -1,3 +1,7 @@
+/**
+ * Original filename: vr_init.c
+ */
+
 #include "ultra64.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -13,4 +17,4 @@ void sgenrand(u32 arg0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/004BE0", genrand);
+INCLUDE_ASM("asm/nonmatchings/main_segment/vr_init", genrand);

@@ -46,8 +46,10 @@ void func_8002C4EC(TexturePtr texture, s32 width, s32 height);
 enum_main_no main11(void);
 void adjust_story_ai(void);
 enum_main_no main12(void);
+
 void sgenrand(u32 arg0);
 u16 genrand(s32);
+
 // void func_8002EB00();
 // void func_8002EB74();
 void aifMakeFlagSet(struct_80123700 *arg0);

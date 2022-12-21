@@ -104,7 +104,7 @@ void animeState_initDL(AnimeState *animeState, Gfx **gfxP);
 void animeState_initDL2(AnimeState *animeState, Gfx **gfxP);
 void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP);
 // void animeState_draw();
-void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
+void StretchTexTile4i(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
 void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig);
 void animeSmog_load(AnimeSmog *animeSmog, UNK_PTR *arg1);
 void animeSmog_start(AnimeSmog *animeSmog);

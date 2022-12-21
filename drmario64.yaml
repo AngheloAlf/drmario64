@@ -345,7 +345,7 @@ segments:
 
       - [0x015940, c, main_segment/main1x]
 
-      - [0x016650, c, main_segment/004BE0]
+      - [0x016650, c, main_segment/vr_init]
       - [0x016920, c, main_segment/aiset]
       - [0x01E3D0, c, main_segment/record]
 
