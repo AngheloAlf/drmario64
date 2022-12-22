@@ -637,7 +637,7 @@ extern u16 gControllerHoldButtons[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800EBD05;
 // extern UNK_TYPE B_800EBD07;
 // extern UNK_TYPE B_800EBD0B;
-extern s32 PlayTime; // maybe bool?
+extern u32 PlayTime;
 // extern UNK_TYPE B_800EBD14;
 // extern UNK_TYPE B_800EBD15;
 extern u8 B_800EBD16[];
@@ -698,7 +698,7 @@ extern UNK_TYPE2 joygam[4];
 extern UNK_PTR B_800F48C0;
 extern u16 B_800F48C4[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800F48D0;
-extern s32 MissRate; // maybe bool?
+extern s32 MissRate;
 extern OSContStatus B_800F5358[4];
 // extern UNK_TYPE B_800F5370;
 // extern UNK_TYPE B_800F5371;
@@ -713,10 +713,8 @@ extern OSContStatus B_800F5358[4];
 // extern UNK_TYPE B_800F6CD4;
 extern u16 joyflg[MAXCONTROLLERS];
 // extern UNK_TYPE B_800F6CE0;
-// extern UNK_TYPE virus_map_data;
-// extern UNK_TYPE B_800F6CF1;
-// extern UNK_TYPE B_800F6CF2;
-// extern UNK_TYPE virus_map_disp_order;
+extern struct_virus_map_data virus_map_data[4];
+extern struct_virus_map_disp_order virus_map_disp_order[4];
 extern struct_800F7470 evs_cfg_4p;
 extern s32 s_hard_mode; // maybe bool?
 // extern UNK_TYPE B_800F748C;

@@ -307,7 +307,7 @@ typedef struct struct_80123700 {
     /* 0x008 */ UNK_TYPE1 unk_008[0x18];
     /* 0x020 */ s32 unk_020;
     /* 0x024 */ UNK_TYPE1 unk_024[0x2];
-    /* 0x026 */ s8 unk_026;
+    /* 0x026 */ u8 unk_026;
     /* 0x027 */ UNK_TYPE1 unk_027[0x1];
     /* 0x028 */ UNK_TYPE1 unk_028[0x4];
     /* 0x02C */ s8 unk_02C;
@@ -566,5 +566,18 @@ typedef enum enum_evs_gamesel {
     /* 6 */ ENUM_EVS_GAMESEL_6
 } enum_evs_gamesel;
 
+typedef struct struct_virus_map_data_unk_000 {
+    /* 0x0 */ s8 unk_0;
+    /* 0x1 */ s8 unk_1;
+    /* 0x2 */ s8 unk_2;
+} struct_virus_map_data_unk_000; // size = 0x3
+
+typedef struct struct_virus_map_data {
+    /* 0x000 */ struct_virus_map_data_unk_000 unk_000[0x80];
+} struct_virus_map_data; // size = 0x180
+
+typedef struct struct_virus_map_disp_order {
+    /* 0x00 */ u8 unk_00[0x60];
+} struct_virus_map_disp_order; // size = 0x60
 
 #endif

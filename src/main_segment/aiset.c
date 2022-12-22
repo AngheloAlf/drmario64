@@ -12,7 +12,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002EB00);
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002EB74);
 
 /**
- * aifMakeFlagSet
+ * Original name: aifMakeFlagSet
  */
 void aifMakeFlagSet(struct_80123700 *arg0) {
     arg0->unk_23D = 0;
@@ -22,6 +22,9 @@ void aifMakeFlagSet(struct_80123700 *arg0) {
     arg0->unk_239 = 0;
 }
 
+/**
+ * Original name: aifGameInit
+ */
 void aifGameInit(void) {
     s32 i;
 
@@ -243,4 +246,15 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80035CF4);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_800362A0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aiCOM_MissTake);
+/**
+ * Original name: aiCOM_MissTake
+ */
+void aiCOM_MissTake(void) {
+    PlayTime++;
+
+    if (PlayTime > 18000) {
+        MissRate = (PlayTime - 18000) / 720;
+    } else {
+        MissRate = 0;
+    }
+}
