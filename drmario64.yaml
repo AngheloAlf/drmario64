@@ -357,7 +357,7 @@ segments:
       - [0x027180, c, main_segment/015710]
       - [0x027920, c, main_segment/015EB0]
       - [0x028820, c, main_segment/016DB0]
-      - [0x0289D0, c, main_segment/016F60]
+      - [0x0289D0, c, main_segment/tex_func]
       - [0x02DBF0, c, main_segment/01C180]
       - [0x02E070, c, main_segment/01C600]
       - [0x02F540, c, main_segment/01DAD0]
@@ -461,7 +461,7 @@ segments:
       - [0x095100, .rodata, main_segment/014590]
       - { start: 0x0955E0, type: .rodata, partial_migration: True, name: main_segment/015710 }
       - { start: 0x0957A0, type: .rodata, partial_migration: True, name: main_segment/015EB0 }
-      - { start: 0x095960, type: .rodata, partial_migration: True, name: main_segment/016F60 }
+      - { start: 0x095960, type: .rodata, partial_migration: True, name: main_segment/tex_func }
 
       - [0x095A30, .rodata, main_segment/01C180]
 
