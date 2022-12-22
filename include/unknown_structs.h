@@ -331,11 +331,20 @@ typedef struct struct_80123700 {
     /* 0x23A */ UNK_TYPE1 unk_23A[2];
     /* 0x23C */ UNK_TYPE1 unk_23C[1];
     /* 0x23D */ s8 unk_23D;
-    /* 0x23E */ UNK_TYPE1 unk_23E[2];
+    /* 0x23E */ s8 unk_23E;
+    /* 0x23F */ UNK_TYPE1 unk_23F[1];
     /* 0x240 */ UNK_TYPE1 unk_240[1];
     /* 0x241 */ s8 unk_241;
-    /* 0x242 */ UNK_TYPE1 unk_242[2];
-    /* 0x244 */ UNK_TYPE1 unk_244[0x180];
+    /* 0x242 */ s8 unk_242[0x10];
+    /* 0x252 */ UNK_TYPE1 unk_252[2];
+    /* 0x254 */ UNK_TYPE1 unk_254[0x1C];
+    /* 0x270 */ UNK_TYPE1 unk_270[2];
+    /* 0x272 */ s16 unk_272[0x10];
+    /* 0x292 */ s8 unk_292;
+    /* 0x293 */ UNK_TYPE1 unk_293[0x1];
+    /* 0x294 */ s8 unk_294;
+    /* 0x295 */ UNK_TYPE1 unk_295[0x3];
+    /* 0x298 */ UNK_TYPE1 unk_298[0x12C];
 } struct_80123700; // size = 0x3C4
 
 typedef struct struct_800F4890 {

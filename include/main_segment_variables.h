@@ -637,7 +637,7 @@ extern u16 gControllerHoldButtons[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800EBD05;
 // extern UNK_TYPE B_800EBD07;
 // extern UNK_TYPE B_800EBD0B;
-// extern UNK_TYPE PlayTime;
+extern s32 PlayTime; // maybe bool?
 // extern UNK_TYPE B_800EBD14;
 // extern UNK_TYPE B_800EBD15;
 extern u8 B_800EBD16[];
@@ -652,7 +652,7 @@ extern UNK_PTR B_800EF440[2];
 // extern UNK_TYPE B_800EF548;
 // extern UNK_TYPE B_800EF54C;
 
-// extern UNK_TYPE fool_mode;
+extern s32 fool_mode; // maybe bool?
 extern u16 joycur1; /* Original name: joycur1 */
 // extern UNK_TYPE B_800EF556;
 extern struct_800EF560 evs_mem_data[9];
@@ -698,7 +698,7 @@ extern UNK_TYPE2 joygam[4];
 extern UNK_PTR B_800F48C0;
 extern u16 B_800F48C4[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800F48D0;
-// extern UNK_TYPE MissRate;
+extern s32 MissRate; // maybe bool?
 extern OSContStatus B_800F5358[4];
 // extern UNK_TYPE B_800F5370;
 // extern UNK_TYPE B_800F5371;
@@ -718,7 +718,7 @@ extern u16 joyflg[MAXCONTROLLERS];
 // extern UNK_TYPE B_800F6CF2;
 // extern UNK_TYPE virus_map_disp_order;
 extern struct_800F7470 evs_cfg_4p;
-// extern UNK_TYPE s_hard_mode;
+extern s32 s_hard_mode; // maybe bool?
 // extern UNK_TYPE B_800F748C;
 extern STACK(B_800F7490, 0xC00);
 // extern UNK_TYPE B_800F8C90;
