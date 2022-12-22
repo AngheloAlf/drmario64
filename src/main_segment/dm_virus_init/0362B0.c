@@ -1,3 +1,7 @@
+/**
+ * Originally part of dm_virus_init.c
+ */
+
 #include "ultra64.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -8,7 +12,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/0362B0", D_800B1BD0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init/0362B0", D_800B1BD0);
 
 struct _m2c_stack_make_flash_virus_pos {
     /* 0x000 */ char pad_0[0x10];
@@ -18,4 +22,4 @@ struct _m2c_stack_make_flash_virus_pos {
     /* 0x310 */ char pad_310[0x30];
 }; /* size = 0x340 */
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0362B0", make_flash_virus_pos);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/0362B0", make_flash_virus_pos);
