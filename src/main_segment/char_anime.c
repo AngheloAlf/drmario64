@@ -385,7 +385,7 @@ void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 ar
 
         if (!animeState_isEnd(&animeSmog->unk_000[i])) {
             StretchTexTile4i(&animeSmog->unk_000[i], &gfx, arg2 + animeSmog->unk_100[i].unk_0 * arg4,
-                          arg3 + animeSmog->unk_100[i].unk_4 * arg5, arg4, arg5);
+                             arg3 + animeSmog->unk_100[i].unk_4 * arg5, arg4, arg5);
         }
     }
 

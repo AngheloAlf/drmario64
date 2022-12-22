@@ -478,7 +478,7 @@ extern s32 B_800E5A24;
 extern s32 B_800E5A2C;
 extern s32 B_800E5A38;
 extern f32 B_800E5A44;
-extern MessageWnd mess_roll_st;
+
 extern s32 B_800E5A90;
 extern s32 B_800E5A94;
 extern s32 B_800E5AA0;
