@@ -11,7 +11,7 @@
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", init_map_all);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005EFC0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", clear_map);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F00C);
 
@@ -34,7 +34,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F2B0)
 u32 func_8005F310(struct_virus_map_data *arg0, s32 arg1, s32 arg2) {
     struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
     u8 index = ((arg2 - 1) * 8) + arg1;
-    u32 value = ptr[index].unk_0;
+    u32 value = (u32)ptr[index].unk_0;
 
     return (~value) >> 31;
 }
@@ -45,31 +45,31 @@ bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3) {
         u8 unk_0;
         u8 unk_1;
     } dumb;
-    //u8 sp0;
-    //s8 sp1;
+    // u8 sp0;
+    // s8 sp1;
     u8 temp_t0;
     u16 new_var;
     struct_virus_map_data_unk_000 *temp_v1 = arg0->unk_000;
     temp_t0 = arg1 + ((arg2 - 1) * 8);
     if ((arg1 & 0xFFFF) >= 2U) {
-        if (temp_v1[temp_t0-1].unk_0 == arg3) {
-            if (temp_v1[temp_t0-2].unk_0 == temp_v1[temp_t0-1].unk_0) {
+        if (temp_v1[temp_t0 - 1].unk_0 == arg3) {
+            if (temp_v1[temp_t0 - 2].unk_0 == temp_v1[temp_t0 - 1].unk_0) {
                 return false;
             }
         }
     }
 
     if ((arg1 != 0) & (arg1 != 7)) {
-        if (temp_v1[temp_t0-1].unk_0 == arg3) {
-            if (temp_v1[temp_t0+1].unk_0 == temp_v1[temp_t0-1].unk_0) {
+        if (temp_v1[temp_t0 - 1].unk_0 == arg3) {
+            if (temp_v1[temp_t0 + 1].unk_0 == temp_v1[temp_t0 - 1].unk_0) {
                 return false;
             }
         }
     }
 
     if (arg1 < 6U) {
-        if (temp_v1[temp_t0+1].unk_0 == arg3) {
-            if (temp_v1[temp_t0+2].unk_0 == temp_v1[temp_t0+1].unk_0) {
+        if (temp_v1[temp_t0 + 1].unk_0 == arg3) {
+            if (temp_v1[temp_t0 + 2].unk_0 == temp_v1[temp_t0 + 1].unk_0) {
                 return false;
             }
         }
@@ -144,7 +144,8 @@ bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3) 
     return true;
 }
 
-void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data *virusMapDst, struct_virus_map_disp_order *virusDispOrderSrc, struct_virus_map_disp_order *virusDispOrderDst) {
+void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data *virusMapDst,
+                       struct_virus_map_disp_order *virusDispOrderSrc, struct_virus_map_disp_order *virusDispOrderDst) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(virusMapDst->unk_000); i++) {

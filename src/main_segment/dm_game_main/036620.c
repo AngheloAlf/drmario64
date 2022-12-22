@@ -6,11 +6,12 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "unk.h"
+#include "main_segment_functions.h"
+#include "main_segment_variables.h"
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80060270);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800602B8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_make_score);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/036620", D_800B1C4C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/036620", D_800B1C5C);
@@ -47,11 +48,31 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80060348);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80060424);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800604D8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", set_down_flg);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_8006075C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", go_down);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80060910);
+void erase_anime(struct_800EBEF0 *arg0) {
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNT(arg0->unk_000); i++) {
+        struct_800EBEF0_unk_000 *var_s0 = &arg0->unk_000[i];
+
+        if ((var_s0->unk_4 != 0) && (var_s0->unk_6 != 0)) {
+            var_s0->unk_2++;
+
+            if (var_s0->unk_8 >= 0) {
+                if (var_s0->unk_2 >= 0xF) {
+                    clear_map(arg0, var_s0->unk_0, var_s0->unk_1);
+                }
+            } else {
+                if (var_s0->unk_2 >= 7) {
+                    clear_map(arg0, var_s0->unk_0, var_s0->unk_1);
+                }
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800609B8);
 
@@ -75,33 +96,46 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061194);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_8006121C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_8006126C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_set_virus);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800613D0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061490);
+void func_80061490(struct_80123700 *arg0, struct_800EBEF0 *arg1) {
+    arg0->unk_036++;
+
+    if (arg0->unk_036 == 10) {
+        erase_anime(arg1);
+        arg0->unk_035++;
+    } else if (arg0->unk_036 > 26) {
+        erase_anime(arg1);
+        set_down_flg(arg1);
+        arg0->unk_00C = 8;
+        arg0->unk_035 = 0;
+        arg0->unk_036 = 14;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_8006151C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800615BC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_h_erase_chack);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061678);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_h_erase_chack_set);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800618B0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061954);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_w_erase_chack);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061A14);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_w_erase_chack_set);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061C50);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_h_ball_chack);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061D20);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_w_ball_chack);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061DB8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061E7C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061FE4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_calc_erase_score_pos);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800620FC);
 
@@ -171,7 +205,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80062EC0);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/036620", D_800B1EB8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80062FB8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", scoreNums_set);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", backup_game_state);
 
@@ -203,7 +237,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80064130);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_8006417C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80064198);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", retryMenu_input);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80064298);
 

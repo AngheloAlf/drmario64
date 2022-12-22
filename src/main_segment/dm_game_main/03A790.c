@@ -7,11 +7,11 @@
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/03A790", D_800B1EC0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/03A790", D_800B1ECC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_800643E0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", set_bottom_up_virus);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80064628);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", bottom_up_bottle_items);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80064748);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", add_taiQ_bonus_wait);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", countLeadingZeros);
 

@@ -65,8 +65,22 @@ typedef struct struct_800EB670 {
 typedef void (*StartThreadFunc)(void *);
 
 
+typedef struct struct_800EBEF0_unk_000 {
+    /* 0x0 */ s8 unk_0;
+    /* 0x1 */ s8 unk_1;
+    /* 0x2 */ s8 unk_2;
+    /* 0x3 */ s8 unk_3;
+    /* 0x4 */ s8 unk_4;
+    /* 0x5 */ s8 unk_5;
+    /* 0x6 */ s8 unk_6;
+    /* 0x7 */ s8 unk_7;
+    /* 0x8 */ s8 unk_8;
+    /* 0x9 */ s8 unk_9;
+} struct_800EBEF0_unk_000; // size = 0xA
+
 typedef struct struct_800EBEF0 {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x550];
+    /* 0x000 */ struct_800EBEF0_unk_000 unk_000[0x80];
+    /* 0x500 */ UNK_TYPE1 unk_500[0x50];
 } struct_800EBEF0; // size = 0x550 // or maybe 0x1540, or an array of 4 elements
 
 typedef struct struct_8005FC6C_arg0 {
@@ -304,7 +318,9 @@ typedef struct struct_80123700 {
     /* 0x000 */ UNK_TYPE unk_000;
     /* 0x004 */ UNK_TYPE2 unk_004;
     /* 0x006 */ UNK_TYPE1 unk_006[0x2];
-    /* 0x008 */ UNK_TYPE1 unk_008[0x18];
+    /* 0x008 */ UNK_TYPE1 unk_008[0x4];
+    /* 0x00C */ s32 unk_00C;
+    /* 0x010 */ UNK_TYPE1 unk_010[0x10];
     /* 0x020 */ s32 unk_020;
     /* 0x024 */ UNK_TYPE1 unk_024[0x2];
     /* 0x026 */ u8 unk_026;
@@ -312,7 +328,12 @@ typedef struct struct_80123700 {
     /* 0x028 */ UNK_TYPE1 unk_028[0x4];
     /* 0x02C */ s8 unk_02C;
     /* 0x02D */ UNK_TYPE1 unk_02D[0x3];
-    /* 0x030 */ UNK_TYPE1 unk_030[0x18];
+    /* 0x030 */ UNK_TYPE1 unk_030[4];
+    /* 0x034 */ UNK_TYPE1 unk_034[1];
+    /* 0x035 */ u8 unk_035;
+    /* 0x036 */ u8 unk_036;
+    /* 0x037 */ UNK_TYPE1 unk_037[1];
+    /* 0x038 */ UNK_TYPE1 unk_038[0x10];
     /* 0x048 */ UNK_TYPE1 unk_048[0x3];
     /* 0x04B */ s8 unk_04B;
     /* 0x04C */ u8 unk_04C;
