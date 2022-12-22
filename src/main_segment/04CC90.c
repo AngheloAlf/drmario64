@@ -10,7 +10,7 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800768E0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_zoomfade);
 
 void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1) {
     arg0->unk_04 = arg1->unk_008;
@@ -22,7 +22,7 @@ void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80076CCC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80076DB4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", curtain_proc_org);
 
 void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
     Gfx *gfx = *gfxP;
@@ -45,22 +45,22 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800771EC);
 void func_800773F0(void) {
     if (D_800AAD14 == 0) {
         D_800AAD08 = 0;
-        D_800AAD20 = 1;
+        story_message_on = 1;
         D_800AAD24 = 0;
         D_800AAD0C++;
     } else {
-        D_800AAD20 = 0;
+        story_message_on = 0;
         D_800AAD14--;
     }
 }
 
 void func_8007744C(void) {
     D_800AAD28 = 0;
-    D_800AAD10++;
+    story_zoom++;
 }
 
 void func_8007746C(void) {
-    msgWnd_clear(&B_800E59F0);
+    msgWnd_clear(&mess_st);
     D_800AAD1C = 0;
     D_800AAD24 = 0;
     D_800AAD08 = 0;
@@ -69,7 +69,7 @@ void func_8007746C(void) {
 }
 
 bool func_800774C4(void) {
-    bool temp_v0 = msgWnd_isEnd(&B_800E59F0);
+    bool temp_v0 = msgWnd_isEnd(&mess_st);
 
     if (temp_v0) {
         func_8007746C();
@@ -435,19 +435,19 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80078648);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007865C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007873C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_st_new_op);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80078F78);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_st_new);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800791D0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_st_new2_f);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800796F4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_st_new2);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80079B24);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_m_end);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007A154);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_st_new_w9);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007A440);
+INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_w_end);
 
 void func_8007A9DC(void) {
     void *ptr;
@@ -474,7 +474,7 @@ extern s32 B_800E5A24;
 extern s32 B_800E5A2C;
 extern s32 B_800E5A38;
 extern f32 B_800E5A44;
-extern MessageWnd B_800E5A70;
+extern MessageWnd mess_roll_st;
 extern s32 B_800E5A90;
 extern s32 B_800E5A94;
 extern s32 B_800E5AA0;
@@ -484,8 +484,8 @@ extern s32 B_800E5AB8;
 extern f32 B_800E5AC4;
 extern void B_800E5AF0;
 extern s32 B_800E5EF4;
-extern s32 B_800E5EFC;
-extern s32 B_800E5F00;
+extern s32 loop_flg;
+extern s32 story_staff_roll;
 extern u16 story_norm; /* Original name: story_norm */
 extern s32 B_800E87B4;
 extern s16 B_800F6CDE[];
@@ -528,21 +528,21 @@ s32 main_story(struct_800EB670 *arg0) {
     D_800AAD08 = 0;
     D_800AAD0C = 0;
     D_800AAD1C = 0;
-    D_800AAD10 = 0;
-    D_800AAD20 = 0;
+    story_zoom = 0;
+    story_message_on = 0;
     D_800AAD24 = 0;
     D_800AAD28 = 1;
-    B_800E5F00 = 0;
+    story_staff_roll = 0;
     B_800E5EF4 = 0;
-    B_800E5EFC = 1;
-    msgWnd_init(&B_800E59F0, &D_800A8ACC, 0x10, 3, 0x42, 0xB1);
+    loop_flg = 1;
+    msgWnd_init(&mess_st, &D_800A8ACC, 0x10, 3, 0x42, 0xB1);
     B_800E5A20 = 0xC;
     B_800E5A24 = 0xC;
     B_800E5A2C = 6;
     B_800E5A38 = 0xE;
     B_800E5EF0 = &D_80205000;
     B_800E5A44 = 0.4f;
-    msgWnd_init2(&B_800E5A70, &B_800E5EF0, 0x77A, 0x14, 0xB, 0x28, 0x16);
+    msgWnd_init2(&mess_roll_st, &B_800E5EF0, 0x77A, 0x14, 0xB, 0x28, 0x16);
     B_800E5A94 = 1;
     B_800E5AA0 = 0xC;
     B_800E5AA4 = 0xC;
@@ -554,12 +554,12 @@ s32 main_story(struct_800EB670 *arg0) {
     joyProcCore();
     dm_seq_play(D_800AAE00[story_proc_no]);
 
-    while (B_800E5EFC != 0) {
+    while (loop_flg != 0) {
         osRecvMesg(&sp20, NULL, 1);
-        msgWnd_update(&B_800E59F0);
-        msgWnd_update(&B_800E5A70);
-        if ((D_800AAD28 == 0) && (D_800AAD10 >= 0x5A)) {
-            B_800E5EFC = 0;
+        msgWnd_update(&mess_st);
+        msgWnd_update(&mess_roll_st);
+        if ((D_800AAD28 == 0) && (story_zoom >= 0x5A)) {
+            loop_flg = 0;
         }
         joyProcCore();
         graphic_no = GRAPHIC_NO_1;
@@ -607,23 +607,23 @@ void init_objMtx(void) {
 UNK_TYPE gfxTaskStart(OSScTask *, Gfx *, s32, UNK_TYPE, s32);    /* extern */
 UNK_TYPE S2RDPinitRtn(UNK_TYPE);                                 /* extern */
 UNK_TYPE S2ClearCFBRtn(UNK_TYPE, s32);                            /* extern */
-UNK_TYPE func_800768E0(Gfx **, s32);                       /* extern */
-UNK_TYPE func_80076DB4(Gfx **, s32);                       /* extern */
+UNK_TYPE story_zoomfade(Gfx **, s32);                       /* extern */
+UNK_TYPE curtain_proc_org(Gfx **, s32);                       /* extern */
 UNK_TYPE func_800770E8(Gfx **, void *);                    /* extern */
 UNK_TYPE story_spot(Gfx **, UNK_TYPE, UNK_TYPE, s32, UNK_TYPE *);            /* extern */
-UNK_TYPE func_8007873C(Gfx **, UNK_TYPE);                         /* extern */
-UNK_TYPE func_80078F78(Gfx **, UNK_TYPE, UNK_TYPE, u32);                 /* extern */
-UNK_TYPE func_800791D0(Gfx **, UNK_TYPE, UNK_TYPE, UNK_TYPE, s32);              /* extern */
-UNK_TYPE func_800796F4(Gfx **, UNK_TYPE, UNK_TYPE, UNK_TYPE, s32);              /* extern */
-UNK_TYPE func_80079B24(Gfx **, UNK_TYPE, UNK_TYPE);                      /* extern */
-UNK_TYPE func_8007A154(Gfx **, UNK_TYPE, UNK_TYPE);                      /* extern */
-UNK_TYPE func_8007A440(Gfx **, UNK_TYPE);                         /* extern */
+UNK_TYPE story_st_new_op(Gfx **, UNK_TYPE);                         /* extern */
+UNK_TYPE story_st_new(Gfx **, UNK_TYPE, UNK_TYPE, u32);                 /* extern */
+UNK_TYPE story_st_new2_f(Gfx **, UNK_TYPE, UNK_TYPE, UNK_TYPE, s32);              /* extern */
+UNK_TYPE story_st_new2(Gfx **, UNK_TYPE, UNK_TYPE, UNK_TYPE, s32);              /* extern */
+UNK_TYPE story_m_end(Gfx **, UNK_TYPE, UNK_TYPE);                      /* extern */
+UNK_TYPE story_st_new_w9(Gfx **, UNK_TYPE, UNK_TYPE);                      /* extern */
+UNK_TYPE story_w_end(Gfx **, UNK_TYPE);                         /* extern */
 extern void *lws_data;
-extern struct_80124610 B_800E5A70;
+extern struct_80124610 mess_roll_st;
 extern f32 B_800E5ACC;
-extern s32 B_800E5EFC;
-extern s32 B_800E5F00;
-extern s8 D_8008840A;
+extern s32 loop_flg;
+extern s32 story_staff_roll;
+extern s8 evs_story_level;
 extern UNK_TYPE changestar_tex;
 extern UNK_TYPE D_E5F08;
 
@@ -675,32 +675,32 @@ void graphic_story(void) {
     gGfxHead = temp_v1_2 + 8;
     temp_v1_2->words.w0 = 0xDA380007;
     temp_v1_2->words.w1 = (u32) &D_E5F08;
-    if (D_800AAD10 > 0) {
-        func_800768E0(&gGfxHead, D_800AAD10);
-        D_800AAD10 += 1;
+    if (story_zoom > 0) {
+        story_zoomfade(&gGfxHead, story_zoom);
+        story_zoom += 1;
     } else {
         switch (story_proc_no) {
         case 0x0:
         case 0xC:
-            func_80078F78(&gGfxHead, 1, 0);
+            story_st_new(&gGfxHead, 1, 0);
             break;
         case 0xA:
-            func_80079B24(&gGfxHead, 0x14, 0x1B);
+            story_m_end(&gGfxHead, 0x14, 0x1B);
             break;
         case 0xB:
-            func_80079B24(&gGfxHead, 0x16, 0x1C);
+            story_m_end(&gGfxHead, 0x16, 0x1C);
             break;
         case 0x16:
-            func_8007A440(&gGfxHead, 0x17);
+            story_w_end(&gGfxHead, 0x17);
             break;
         case 0x17:
-            func_8007A440(&gGfxHead, 0x19);
+            story_w_end(&gGfxHead, 0x19);
             break;
         case 0x1:
-            func_8007873C(&gGfxHead, 1);
+            story_st_new_op(&gGfxHead, 1);
             break;
         case 0x2:
-            func_800796F4(&gGfxHead, 2, 5, 3, 7);
+            story_st_new2(&gGfxHead, 2, 5, 3, 7);
             break;
         case 0x3:
             var_a1 = 5;
@@ -709,84 +709,84 @@ block_25:
             gGfxHead += 8;
             gGfxHead->words.w0 = 0xFB000000;
             gGfxHead->words.w1 = 0xAA96B9FF;
-            func_80078F78(&gGfxHead, var_a1, var_a2, 0xAA96B9FFU);
+            story_st_new(&gGfxHead, var_a1, var_a2, 0xAA96B9FFU);
             break;
         case 0x4:
-            func_800791D0(&gGfxHead, 0x22, 0x1D, 7, 0xB);
+            story_st_new2_f(&gGfxHead, 0x22, 0x1D, 7, 0xB);
             break;
         case 0x5:
-            func_80078F78(&gGfxHead, 9, 0xD);
+            story_st_new(&gGfxHead, 9, 0xD);
             break;
         case 0x6:
-            func_80078F78(&gGfxHead, 0xC, 0xF);
+            story_st_new(&gGfxHead, 0xC, 0xF);
             break;
         case 0x7:
             var_a1_2 = 0x1E;
-            if (D_8008840A == 0) {
+            if (evs_story_level == 0) {
 block_31:
-                func_80078F78(&gGfxHead, var_a1_2, 0x19);
+                story_st_new(&gGfxHead, var_a1_2, 0x19);
             } else {
 block_32:
-                func_80078F78(&gGfxHead, 0xD, 0x11);
+                story_st_new(&gGfxHead, 0xD, 0x11);
             }
             break;
         case 0x8:
-            if (D_8008840A == 0) {
+            if (evs_story_level == 0) {
                 var_a1_3 = 0x20;
                 var_a2_2 = 0x1A;
             } else {
                 var_a1_3 = 0xE;
                 var_a2_2 = 0x12;
             }
-            func_800791D0(&gGfxHead, var_a1_3, var_a2_2, 0x10);
+            story_st_new2_f(&gGfxHead, var_a1_3, var_a2_2, 0x10);
             break;
         case 0x9:
-            func_80078F78(&gGfxHead, 0x12, 0x14);
+            story_st_new(&gGfxHead, 0x12, 0x14);
             break;
         case 0xD:
-            func_8007873C(&gGfxHead, 0);
+            story_st_new_op(&gGfxHead, 0);
             break;
         case 0xE:
-            func_800796F4(&gGfxHead, 2, 6, 4, 8);
+            story_st_new2(&gGfxHead, 2, 6, 4, 8);
             break;
         case 0xF:
             var_a1 = 6;
             var_a2 = 0xA;
             goto block_25;
         case 0x10:
-            func_800791D0(&gGfxHead, 0x22, 0x1D, 8, 0xC);
+            story_st_new2_f(&gGfxHead, 0x22, 0x1D, 8, 0xC);
             break;
         case 0x11:
-            func_80078F78(&gGfxHead, 0xA, 0xE);
+            story_st_new(&gGfxHead, 0xA, 0xE);
             break;
         case 0x12:
-            func_80078F78(&gGfxHead, 0xB, 0x10);
+            story_st_new(&gGfxHead, 0xB, 0x10);
             break;
         case 0x13:
             var_a1_2 = 0x1F;
-            if (D_8008840A == 0) {
+            if (evs_story_level == 0) {
                 goto block_31;
             }
             goto block_32;
         case 0x14:
-            if (D_8008840A == 0) {
+            if (evs_story_level == 0) {
                 var_a1_4 = 0x20;
                 var_a2_3 = 0x1A;
             } else {
                 var_a1_4 = 0xF;
                 var_a2_3 = 0x12;
             }
-            func_800791D0(&gGfxHead, var_a1_4, var_a2_3, 0x11);
+            story_st_new2_f(&gGfxHead, var_a1_4, var_a2_3, 0x11);
             break;
         case 0x15:
-            func_8007A154(&gGfxHead, 0x13, 0x15);
+            story_st_new_w9(&gGfxHead, 0x13, 0x15);
             break;
         }
-        func_80076DB4(&gGfxHead, D_800AAD14);
-        if (B_800E5F00 == 2) {
-            msgWnd_draw(&B_800E5A70, &gGfxHead);
+        curtain_proc_org(&gGfxHead, D_800AAD14);
+        if (story_staff_roll == 2) {
+            msgWnd_draw(&mess_roll_st, &gGfxHead);
             if (gControllerPressedButtons[*B_800EBD16] & 0x1000) {
-                B_800E5F00 = -1;
+                story_staff_roll = -1;
             }
             if (gControllerHoldButtons[*B_800EBD16] & 0xC000) {
                 var_f0 = 0.16666667f;
@@ -796,15 +796,15 @@ block_32:
             B_800E5ACC = var_f0;
         }
         func_800770E8(&gGfxHead, B_800E8750);
-        if (D_800AAD20 != 0) {
-            msgWnd_draw(&B_800E59F0, &gGfxHead);
+        if (story_message_on != 0) {
+            msgWnd_draw(&mess_st, &gGfxHead);
             temp_v1_3 = gGfxHead;
             gGfxHead = temp_v1_3 + 8;
             temp_v1_3->words.w0 = 0xED000000;
             temp_v1_3->words.w1 = 0x4FC3BC;
         }
     }
-    if (B_800E5F00 < 0) {
+    if (story_staff_roll < 0) {
         temp_v1_4 = gGfxHead;
         gGfxHead = temp_v1_4 + 8;
         temp_v1_4->words.w0 = 0xDE000000;
@@ -813,7 +813,7 @@ block_32:
         temp_v0 = story_spot_cnt - 4;
         story_spot_cnt = temp_v0;
         if (temp_v0 < -0x14) {
-            B_800E5EFC = 0;
+            loop_flg = 0;
         }
     }
     temp_v1_5 = gGfxHead;

@@ -534,4 +534,4 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80045914);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/016F60", D_800ADBC0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", func_80045AAC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/016F60", drawCursorPattern);

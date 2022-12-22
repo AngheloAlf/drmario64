@@ -38,7 +38,7 @@ extern u8 evs_gamespeed; /* Original name: evs_gamespeed */
 extern s8 evs_score_flag;
 // extern UNK_TYPE evs_story_flg;
 // extern UNK_TYPE D_80088409;
-// extern UNK_TYPE D_8008840A;
+// extern UNK_TYPE evs_story_level;
 extern EvsSecretFlags evs_secret_flg;
 extern s8 D_8008840E; // maybe part of a struct?
 extern u8 evs_level_21; /* Original name: evs_level_21 */
@@ -389,11 +389,11 @@ extern s32 story_proc_no; /* Original name: story_proc_no */
 extern char *EndingLastMessage; /* Original name: EndingLastMessage */
 extern s32 D_800AAD08;
 extern s32 D_800AAD0C;
-extern UNK_TYPE4 D_800AAD10;
+extern UNK_TYPE4 story_zoom;
 extern UNK_TYPE4 D_800AAD14;
 extern s32 story_spot_cnt;
 extern UNK_TYPE4 D_800AAD1C;
-extern UNK_TYPE4 D_800AAD20;
+extern UNK_TYPE4 story_message_on;
 extern UNK_TYPE4 D_800AAD24;
 extern UNK_TYPE4 D_800AAD28;
 extern s32 bgtime; /* Original name: bgtime */
@@ -532,23 +532,14 @@ extern void **title_data;
 extern void *title_bmp_data;
 extern void **lws_data;
 extern void *lws_scene;
-extern MessageWnd B_800E59F0;
-// extern UNK_TYPE B_800E5A70;
-// extern UNK_TYPE B_800E5A8C;
-// extern UNK_TYPE B_800E5A90;
-// extern UNK_TYPE B_800E5A94;
-// extern UNK_TYPE B_800E5AA0;
-// extern UNK_TYPE B_800E5AA4;
-// extern UNK_TYPE B_800E5AAC;
-// extern UNK_TYPE B_800E5AB8;
-// extern UNK_TYPE B_800E5AC4;
-// extern UNK_TYPE B_800E5ACC;
+extern MessageWnd mess_st;
+extern MessageWnd mess_roll_st;
 // extern UNK_TYPE B_800E5AF0;
 // extern UNK_TYPE B_800E5EF0;
 // extern UNK_TYPE B_800E5EF4;
 // extern UNK_TYPE B_800E5EF8;
-// extern UNK_TYPE B_800E5EFC;
-// extern UNK_TYPE B_800E5F00;
+// extern UNK_TYPE loop_flg;
+// extern UNK_TYPE story_staff_roll;
 // extern UNK_TYPE story_norm;
 extern Mtx story_viewMtx; /* Original name: story_viewMtx */
 extern struct_800F1DF8 story_objectMtx[2];
