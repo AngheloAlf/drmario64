@@ -394,7 +394,9 @@ segments:
       - [0x05D410, c, main_segment/dm_manual_main/04B9A0]
 
       - [0x05DD50, c, main_segment/dm_title_main]
-      - [0x05E700, c, main_segment/04CC90]
+
+      - [0x05E700, c, main_segment/main_story]
+
       - [0x063470, c, main_segment/lws]
       - [0x063A40, c, main_segment/calc]
       - [0x065080, c, main_segment/053610]
@@ -508,7 +510,7 @@ segments:
       - { start: 0x09AFE0, type: .rodata, partial_migration: True, name: main_segment/dm_manual_main/04B9A0 }
 
       - { start: 0x09B060, type: .rodata, partial_migration: True, name: main_segment/dm_title_main }
-      - { start: 0x09B180, type: .rodata, partial_migration: True, name: main_segment/04CC90 }
+      - { start: 0x09B180, type: .rodata, partial_migration: True, name: main_segment/main_story }
       - [0x09B270, .rodata, main_segment/lws]
       - [0x09B2C0, .rodata, main_segment/calc]
       - [0x09B310, .rodata, main_segment/0537C0]

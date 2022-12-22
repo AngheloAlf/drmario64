@@ -1,3 +1,7 @@
+/**
+ * Original filename: main_story.c
+ */
+
 #include "ultra64.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -10,7 +14,7 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_zoomfade);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", story_zoomfade);
 
 void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1) {
     arg0->unk_04 = arg1->unk_008;
@@ -20,9 +24,9 @@ void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1) {
     arg0->unk_10 = &arg1->unk_210;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80076CCC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", func_80076CCC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", curtain_proc_org);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", curtain_proc_org);
 
 void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
     Gfx *gfx = *gfxP;
@@ -40,7 +44,7 @@ void *func_80077170(BgRomDataIndex index, void *dstAddr) {
                                         storyRomData[STORYROMDATA_WAKU2].end - storyRomData[STORYROMDATA_WAKU2].start));
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800771EC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", func_800771EC);
 
 void func_800773F0(void) {
     if (D_800AAD14 == 0) {
@@ -185,7 +189,7 @@ void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
     }
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_spot);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", story_spot);
 #endif
 
 void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
@@ -211,7 +215,7 @@ void init_coffee_break_cnt(void) {
     D_800AAD0C = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_800778E8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", func_800778E8);
 
 void *init_menu_bg(void *dstAddr, bool arg1) {
     void *alignedAddress;
@@ -286,7 +290,7 @@ void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
     *arg0 = temp_s0;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", draw_menu_bg);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", draw_menu_bg);
 #endif
 
 /**
@@ -431,23 +435,23 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     return var_s3;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_80078648);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", func_80078648);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007865C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", func_8007865C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_st_new_op);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", story_st_new_op);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_st_new);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", story_st_new);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_st_new2_f);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", story_st_new2_f);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_st_new2);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", story_st_new2);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_m_end);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", story_m_end);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_st_new_w9);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", story_st_new_w9);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", story_w_end);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", story_w_end);
 
 void func_8007A9DC(void) {
     void *ptr;
@@ -592,7 +596,7 @@ s32 main_story(struct_800EB670 *arg0) {
     return (D_80088409 / 3) * 3;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", main_story);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", main_story);
 #endif
 
 /**
@@ -828,7 +832,7 @@ block_32:
     gfxTaskStart(temp_s1, gGfxGlist[gfx_gtask_no], ((s32) ((gGfxHead - gGfxGlist) - (gfx_gtask_no << 0xF)) >> 3) * 8, 0, 0x40);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", graphic_story);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", graphic_story);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/04CC90", func_8007B62C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", func_8007B62C);
