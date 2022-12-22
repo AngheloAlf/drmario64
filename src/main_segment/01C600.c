@@ -118,4 +118,4 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/01C600", func_800474EC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/01C600", func_80047584);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/01C600", func_800475A8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/01C600", menuTitle_draw);

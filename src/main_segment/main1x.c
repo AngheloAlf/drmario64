@@ -67,7 +67,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE84);
  * Original name: main12
  */
 #if 0
-extern s8 D_80088409;
+extern s8 evs_story_no;
 extern s8 evs_story_level;
 extern u8 D_800ACE1C[];
 extern u8 D_800ACE28[];
@@ -121,9 +121,9 @@ enum_main_no main12() {
                     if (evs_story_level < 3) {
                         var_a1_2 = evs_story_level;
                     }
-                    ptr[i].unk_026 = D_800ACE2C[var_a1_2][D_80088409];
+                    ptr[i].unk_026 = D_800ACE2C[var_a1_2][evs_story_no];
                     ptr[i].unk_02C = 1;
-                    ptr[i].unk_090 = D_800ACE5C[temp_a3][D_80088409];
+                    ptr[i].unk_090 = D_800ACE5C[temp_a3][evs_story_no];
                     ptr[i].unk_04D = D_800ACE4C[ptr[i].unk_090];
                     ptr[i].unk_16C = var_a1_2;
                     ptr[i].unk_04C = 1;
@@ -131,7 +131,7 @@ enum_main_no main12() {
                     ptr[i].unk_04F = D_800ACE78[var_a1_2][i];
                 }
 
-                if ((evs_story_level > 0) && (D_80088409 == 7)) {
+                if ((evs_story_level > 0) && (evs_story_no == 7)) {
 
                     evs_gamesel = ENUM_EVS_GAMESEL_2;
                     evs_playcnt = 4;
@@ -156,7 +156,7 @@ enum_main_no main12() {
                 ptr->unk_04C = 0;
                 adjust_story_ai();
 
-                evs_seqnumb = D_800ACE1C[D_80088409];
+                evs_seqnumb = D_800ACE1C[evs_story_no];
                 evs_seqence = 1;
             } else {
                 ptr = game_state_data;

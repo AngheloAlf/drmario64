@@ -119,7 +119,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_get_mtx_buf)
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_get_vtx_buf);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80062920);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", initEtcWork);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80062978);
 

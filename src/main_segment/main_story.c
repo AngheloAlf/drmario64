@@ -493,7 +493,7 @@ extern s32 story_staff_roll;
 extern u16 story_norm; /* Original name: story_norm */
 extern s32 B_800E87B4;
 extern s16 B_800F6CDE[];
-extern u8 D_80088409;
+extern u8 evs_story_no;
 extern void *D_800A8ACC;
 
 extern UNK_TYPE4 D_800AAE00[];
@@ -588,12 +588,12 @@ s32 main_story(struct_800EB670 *arg0) {
     }
 
     func_8002A1DC(arg0, &sp58);
-    D_80088409 = (u8)story_proc_no;
+    evs_story_no = (u8)story_proc_no;
     if ((s8)story_proc_no >= 0xC) {
-        D_80088409 = story_proc_no - 0xC;
+        evs_story_no = story_proc_no - 0xC;
     }
-    evs_seqnumb = D_80088409 % 3;
-    return (D_80088409 / 3) * 3;
+    evs_seqnumb = evs_story_no % 3;
+    return (evs_story_no / 3) * 3;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_story", main_story);

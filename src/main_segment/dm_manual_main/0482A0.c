@@ -7,9 +7,9 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0482A0", func_80071EF0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main/0482A0", func_80071EF0);
 
 void func_80071F0C(void) {
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0482A0", func_80071F14);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main/0482A0", func_80071F14);

@@ -22,7 +22,7 @@ void aifMakeFlagSet(struct_80123700 *arg0) {
     arg0->unk_239 = 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002ED2C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifGameInit);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifFirstInit);
 

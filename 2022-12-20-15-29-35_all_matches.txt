@@ -410,7 +410,7 @@ func_80036808 - found 1 matches total:
 RO_800ADD60 - found 1 matches total:
 0.99 - RO_800ADD40
 
-func_8005FC50 - found 1 matches total:
+dm_virus_init - found 1 matches total:
 0.99 - animeState_set
 
 func_8003CDF8 - found 1 matches total:

@@ -37,7 +37,7 @@ extern u8 evs_playcnt; // maybe part of a struct?
 extern u8 evs_gamespeed; /* Original name: evs_gamespeed */
 extern s8 evs_score_flag;
 // extern UNK_TYPE evs_story_flg;
-// extern UNK_TYPE D_80088409;
+// extern UNK_TYPE evs_story_no;
 // extern UNK_TYPE evs_story_level;
 extern EvsSecretFlags evs_secret_flg;
 extern s8 D_8008840E; // maybe part of a struct?
@@ -652,7 +652,7 @@ extern UNK_PTR B_800EF440[2];
 // extern UNK_TYPE B_800EF548;
 // extern UNK_TYPE B_800EF54C;
 
-// extern UNK_TYPE B_800EF550;
+// extern UNK_TYPE fool_mode;
 extern u16 joycur1; /* Original name: joycur1 */
 // extern UNK_TYPE B_800EF556;
 extern struct_800EF560 evs_mem_data[9];
@@ -674,7 +674,7 @@ extern OSMesgQueue B_800F3E38;
 extern struct_800F3E50 *watchGame;
 // extern UNK_TYPE B_800F3E54;
 // extern UNK_TYPE B_800F3E56;
-extern struct_800F3E5C *B_800F3E5C;
+extern struct_800F3E5C *watchMenu;
 extern OSMesg B_800F3E60[1];
 extern u16 gControllerPrevHoldButtons[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800F3E6E;
@@ -713,12 +713,12 @@ extern OSContStatus B_800F5358[4];
 // extern UNK_TYPE B_800F6CD4;
 extern u16 joyflg[MAXCONTROLLERS];
 // extern UNK_TYPE B_800F6CE0;
-// extern UNK_TYPE B_800F6CF0;
+// extern UNK_TYPE virus_map_data;
 // extern UNK_TYPE B_800F6CF1;
 // extern UNK_TYPE B_800F6CF2;
-// extern UNK_TYPE B_800F72F0;
+// extern UNK_TYPE virus_map_disp_order;
 extern struct_800F7470 evs_cfg_4p;
-// extern UNK_TYPE B_800F7488;
+// extern UNK_TYPE s_hard_mode;
 // extern UNK_TYPE B_800F748C;
 extern STACK(B_800F7490, 0xC00);
 // extern UNK_TYPE B_800F8C90;

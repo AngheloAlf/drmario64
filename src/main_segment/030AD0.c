@@ -200,7 +200,7 @@ void func_8005A974(struct_800F3E5C *arg0) {
     arg0->unk_111EC++;
 }
 
-void func_8005AD30(struct_800F3E5C *arg0, Gfx **gfxP) {
+void menuAll_drawBg(struct_800F3E5C *arg0, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     struct_800F3E5C_unk_024B8 *temp_s4 = &arg0->unk_024B8;
     s32 temp_s3;
@@ -226,7 +226,7 @@ void func_8005AD30(struct_800F3E5C *arg0, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
+void menuAll_draw(struct_800F3E5C *arg0, Gfx **gfxP) {
     u8 color;
     s32 i;
 
@@ -237,8 +237,8 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
 
     gDPSetEnvColor(gGfxHead++, color, color, color, 255);
 
-    func_8005AD30(arg0, gfxP);
-    func_800475A8(&arg0->unk_02548, &gGfxHead);
+    menuAll_drawBg(arg0, gfxP);
+    menuTitle_draw(&arg0->unk_02548, &gGfxHead);
 
     for (i = 0; i < 2; i++) {
         enum_struct_800F3E5C_unk_111CC var_a0;
@@ -263,17 +263,17 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
 
         switch (var_a0) {
             case ENUM_STRUCT_800F3E5C_UNK_111CC_0:
-                func_800512AC(&arg0->unk_02678[index], gfxP);
+                menuMain_draw(&arg0->unk_02678[index], gfxP);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_4:
-                func_800522CC(&arg0->unk_02678[index], gfxP);
+                menuStory_draw(&arg0->unk_02678[index], gfxP);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_7:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_10:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_13:
-                func_8005348C(&arg0->unk_02678[index], gfxP);
+                menuLvSel_draw(&arg0->unk_02678[index], gfxP);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_17:
@@ -284,7 +284,7 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
             case ENUM_STRUCT_800F3E5C_UNK_111CC_41:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_43:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_45:
-                func_80055CE0(&arg0->unk_02678[index], gfxP);
+                menuPlay2_draw(&arg0->unk_02678[index], gfxP);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_16:
@@ -295,7 +295,7 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
             case ENUM_STRUCT_800F3E5C_UNK_111CC_40:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_42:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_44:
-                func_80054734(&arg0->unk_02678[index], gfxP);
+                menuChSel_draw(&arg0->unk_02678[index], gfxP);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_3:
@@ -309,7 +309,7 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
             case ENUM_STRUCT_800F3E5C_UNK_111CC_32:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_63:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_64:
-                func_80056990(&arg0->unk_02678[index], gfxP);
+                menuNmEnt_draw(&arg0->unk_02678[index], gfxP);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_49:
@@ -321,7 +321,7 @@ void func_8005AEF4(struct_800F3E5C *arg0, Gfx **gfxP) {
             case ENUM_STRUCT_800F3E5C_UNK_111CC_56:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_57:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_58:
-                func_800596B4(&arg0->unk_02678[index], gfxP);
+                menuRank_draw(&arg0->unk_02678[index], gfxP);
                 break;
 
             default:
@@ -353,7 +353,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     func_80040A64();
     sp10 = &ptr[1];
     bzero(ptr, sizeof(struct_800F3E5C));
-    B_800F3E5C = ptr;
+    watchMenu = ptr;
     menuAll_init(ptr, &sp10, arg0);
 
     evs_playmax = joyResponseCheck();
@@ -425,7 +425,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
 }
 
 void graphic_menu(void) {
-    struct_800F3E5C *ptr = B_800F3E5C;
+    struct_800F3E5C *ptr = watchMenu;
 
     if ((ptr->unk_111D4 != MAIN_NO_6) && (ptr->unk_111DC == 1.0f)) {
         osSetThreadPri(NULL, 0xF);
@@ -446,6 +446,6 @@ void graphic_menu(void) {
     osSetThreadPri(NULL, 0xF);
     F3RCPinitRtn();
     F3ClearFZRtn(0);
-    func_8005AEF4(ptr, &gGfxHead);
+    menuAll_draw(ptr, &gGfxHead);
     osSetThreadPri(NULL, 0x7F);
 }

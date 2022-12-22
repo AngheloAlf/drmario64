@@ -357,7 +357,9 @@ segments:
       - [0x027180, c, main_segment/015710]
       - [0x027920, c, main_segment/015EB0]
       - [0x028820, c, main_segment/016DB0]
+
       - [0x0289D0, c, main_segment/tex_func]
+
       - [0x02DBF0, c, main_segment/01C180]
       - [0x02E070, c, main_segment/01C600]
       - [0x02F540, c, main_segment/01DAD0]
@@ -368,6 +370,7 @@ segments:
       - [0x03DB00, c, main_segment/02C090]
       - [0x041800, c, main_segment/02FD90]
       - [0x042540, c, main_segment/030AD0]
+
       - [0x043610, c, main_segment/font]
       - [0x044D40, c, main_segment/msgwnd]
 
@@ -385,8 +388,7 @@ segments:
       - [0x053090, c, main_segment/dm_game_main/041620]
       - [0x055690, c, main_segment/dm_game_main/043C20]
 
-      - [0x059D10, c, main_segment/0482A0]
-
+      - [0x059D10, c, main_segment/dm_manual_main/0482A0]
       - [0x059DC0, c, main_segment/dm_manual_main/048350]
       - [0x059FC0, c, main_segment/dm_manual_main/048550]
       - [0x05A0A0, c, main_segment/dm_manual_main/048630]
@@ -403,7 +405,7 @@ segments:
 
       - [0x066080, c, main_segment/replay]
 
-      - [0x066840, c, main_segment/054DD0]
+      - [0x066840, c, main_segment/054DD0] # hasm?
       - [0x0676B0, c, main_segment/055C40]
 
       - [0x067820, asm, libmus/player] # bss issues

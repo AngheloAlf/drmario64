@@ -36,7 +36,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F33C)
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F54C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F634);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", dm_virus_map_copy);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F698);
 

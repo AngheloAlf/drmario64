@@ -8,7 +8,7 @@
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_80055CE0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", menuPlay2_draw);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_80055DFC);
 
@@ -22,7 +22,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/02C090", D_800B1168);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_80056824);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_80056990);
+INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", menuNmEnt_draw);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_80056C84);
 
@@ -167,4 +167,4 @@ void func_800592D4(struct_800F3E5C_unk_02678 *arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_8005954C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_800596B4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", menuRank_draw);

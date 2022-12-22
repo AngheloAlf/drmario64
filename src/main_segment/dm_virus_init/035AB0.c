@@ -19,7 +19,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init/035AB0", D_800B1BCC)
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035AB0", func_8005F700);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035AB0", func_8005FC50);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035AB0", dm_virus_init);
 
 void func_8005FC6C(struct_8005FC6C_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     bzero(arg0, sizeof(struct_8005FC6C_arg0));
