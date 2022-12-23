@@ -217,7 +217,7 @@ extern u8 D_800A3A88[];
 extern u16 char_code_tbl[];
 extern u16 D_800A6D90[];
 // extern UNK_TYPE D_800A6F70;
-// extern UNK_TYPE D_800A6F80;
+extern u8 virus_anime_table[];
 // extern UNK_TYPE D_800A6F8C;
 // extern UNK_TYPE D_800A6F90;
 // extern UNK_TYPE D_800A6F9C;

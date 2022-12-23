@@ -8,6 +8,8 @@
 #include "unknown_structs.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "boot_functions.h"
+#include "boot_variables.h"
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80060270);
 
@@ -92,11 +94,60 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800610E0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061184);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80061194);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", update_flash_virus_count);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_8006121C);
+u8 func_8006121C(struct_80123700 *arg0, struct_800EBEF0 *arg1, UNK_TYPE arg2) {
+    if (evs_gamemode == 1) {
+        arg0->unk_025 = update_flash_virus_count(arg0, arg1, arg2);
+    } else {
+        arg0->unk_025 = get_virus_count(arg1);
+    }
+    return arg0->unk_025;
+}
 
+#ifdef NON_EQUIVALENT
+void dm_set_virus(struct_80123700 *arg0, struct_800EBEF0 *arg1, struct_virus_map_data *arg2,
+                  struct_virus_map_disp_order *arg3) {
+    s32 temp_v0;
+
+    if (arg0->unk_014 != 2) {
+        return;
+    }
+
+    temp_v0 = dm_get_first_virus_count(evs_gamemode, arg0);
+
+    if (arg0->unk_024 < temp_v0) {
+        while (arg0->unk_024 < temp_v0) {
+            if (!(arg3->unk_00[arg0->unk_024] & 0x80)) {
+                break;
+            }
+
+            arg0->unk_024++;
+        }
+
+        if (arg0->unk_024 < temp_v0) {
+            u8 temp_a1;
+            temp_a1 = arg3->unk_00[arg0->unk_024];
+            arg3->unk_00[arg0->unk_024] = temp_a1 | 0x80;
+
+            set_virus(arg1, arg2->unk_000[temp_a1].unk_1, arg2->unk_000[temp_a1].unk_2, arg2->unk_000[temp_a1].unk_0,
+                      virus_anime_table[(arg2->unk_000[temp_a1].unk_0 * 4) + arg0->unk_027]);
+            if (arg0->unk_01C == 0x12) {
+                arg1->unk_000[temp_a1].unk_3 += 3;
+            }
+        }
+    }
+
+    if (arg0->unk_024 >= temp_v0) {
+        arg0->unk_014 = 1;
+        arg0->unk_00C = 2;
+    }
+
+    func_8006121C(arg0, arg1, 0);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", dm_set_virus);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_800613D0);
 
@@ -201,7 +252,21 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80062DD8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80062E84);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/036620", func_80062EC0);
+void func_80062EC0(struct_800F3E50_unk_0B8 *arg0) {
+    f32 val = 0.025f;
+    u32 i = 0;
+    s32 var_s0 = arg0->unk_A0;
+
+    while (i < ARRAY_COUNTU(arg0->unk_00)) {
+        struct_800F3E50_unk_0B8_unk_00 *temp_s1 = &arg0->unk_00[var_s0];
+
+        if (arg0->unk_00[WrapI(0, ARRAY_COUNTU(arg0->unk_00), var_s0 - 1)].unk_10 > 0.2) {
+            temp_s1->unk_10 = MIN(1.0f, temp_s1->unk_10 + val);
+        }
+        var_s0 = (var_s0 + 1) % ARRAY_COUNTU(arg0->unk_00);
+        i += 1;
+    }
+}
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/036620", D_800B1EB8);
 

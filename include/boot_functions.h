@@ -18,7 +18,7 @@ void func_80000580(void* arg0);
 void *DmaDataRomToRam(romoffset_t segmentRom, void *segmentVram, size_t segmentSize);
 
 void *DecompressRomToRam(romoffset_t segmentRom, void *dstAddr, size_t segmentSize);
-s32 WrapI(s32 arg0, s32 arg1, s32 arg2);
-f32 WrapF(f32 arg0, f32 arg1, f32 arg2);
+s32 WrapI(s32 start, s32 end, s32 value);
+f32 WrapF(f32 start, f32 end, f32 value);
 
 #endif

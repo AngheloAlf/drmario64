@@ -89,7 +89,7 @@ loop_1:
     }
 
     sp5F = *var_v0;
-    sp4F = func_8005F698(arg0, sp24);
+    sp4F = dm_get_first_virus_count(arg0, sp24);
 
     for (var_s0_3 = 0; var_s0_3 < 4; var_s0_3++) {
         sp10[var_s0_3] = (sp4F / 3) & 0xFF;

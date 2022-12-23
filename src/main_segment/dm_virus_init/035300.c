@@ -23,11 +23,31 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F0E4)
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F13C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F1E0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", get_virus_count);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F204);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F25C);
+void set_virus(struct_800EBEF0 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    struct_800EBEF0_unk_000 *temp_v1;
+    s32 var_t0;
+    s32 temp;
+
+    var_t0 = arg3;
+    if (var_t0 >= 3) {
+        var_t0 -= 3;
+    }
+
+    temp = (arg2 - 1) * 8;
+    temp_v1 = arg0->unk_000;
+
+    temp_v1[temp + arg1].unk_2 = arg4;
+    temp_v1[temp + arg1].unk_3 = arg3;
+    temp_v1[temp + arg1].unk_4 = 1;
+    temp_v1[temp + arg1].unk_5 = 0;
+    temp_v1[temp + arg1].unk_6 = 0;
+    temp_v1[temp + arg1].unk_8 = arg3;
+    temp_v1[temp + arg1].unk_7 = var_t0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F2B0);
 
@@ -162,7 +182,7 @@ void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data
     }
 }
 
-s32 func_8005F698(u32 arg0, struct_80123700 *arg1) {
+s32 dm_get_first_virus_count(u32 arg0, struct_80123700 *arg1) {
     s32 ret;
 
     switch (arg0) {

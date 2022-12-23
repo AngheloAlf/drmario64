@@ -15,34 +15,30 @@ void *DecompressRomToRam(romoffset_t segmentRom, void *dstAddr, size_t segmentSi
 /**
  * Original name: WrapI
  */
-s32 WrapI(s32 arg0, s32 arg1, s32 arg2) {
-    s32 temp_a1 = arg1 - arg0;
-    s32 var_v0;
+s32 WrapI(s32 start, s32 end, s32 value) {
+    s32 size = end - start;
 
-    var_v0 = (arg2 - arg0) % temp_a1;
-    if (var_v0 < 0) {
-        var_v0 += temp_a1;
+    value = (value - start) % size;
+    if (value < 0) {
+        value += size;
     }
-    return var_v0 + arg0;
+    return value + start;
 }
 
 /**
  * Original name: WrapF
  */
-f32 WrapF(f32 arg0, f32 arg1, f32 arg2) {
-    f32 var_f0_2;
-    s32 var_v0;
-    s32 var_v1;
+f32 WrapF(f32 start, f32 end, f32 value) {
+    if ((start <= value) && (value < end)) {
+        return value;
+    } else {
+        f32 size = end - start;
 
-    var_v0 = (arg0 <= arg2);
-    var_v1 = (arg2 < arg1);
-
-    if (!(var_v0 & var_v1)) {
-        var_f0_2 = fmod(arg2 - arg0, arg1 - arg0);
-        if (var_f0_2 < 0.0f) {
-            var_f0_2 += arg1 - arg0;
+        value = fmod(value - start, size);
+        if (value < 0.0f) {
+            value += size;
         }
-        arg2 = var_f0_2 + arg0;
+        value = value + start;
+        return value;
     }
-    return arg2;
 }
