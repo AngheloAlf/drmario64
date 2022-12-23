@@ -11,7 +11,6 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/03A790", D_800B1ECC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", set_bottom_up_virus);
 
-#ifdef NON_MATCHING
 bool bottom_up_bottle_items(struct_800EBEF0 *arg0) {
     s32 i;
     bool var_s4 = false;
@@ -27,16 +26,13 @@ bool bottom_up_bottle_items(struct_800EBEF0 *arg0) {
     }
 
     var = 0x80;
-    var_a3 = &arg0->unk_000[8];
-    for (i = 0; i < var; i++) {
-        arg0->unk_000[i] = var_a3[i];
+    for (i = 0, var_a3 = &arg0->unk_000[8]; i < var; i++, var_a3++) {
+        arg0->unk_000[i] = *var_a3;
         arg0->unk_000[i].unk_1--;
     }
 
-    var_s2 = 0;
-    var_s0 = arg0->unk_000;
     var += 8;
-    for (; i < var; i++, var_s2++) {
+    for (var_s2 = 0, var_s0 = arg0->unk_000; i < var; i++, var_s2++) {
         bzero(&var_s0[i], sizeof(struct_800EBEF0_unk_000));
         var_s0[i].unk_0 = var_s2;
         var_s0[i].unk_1 = 0x11;
@@ -44,9 +40,6 @@ bool bottom_up_bottle_items(struct_800EBEF0 *arg0) {
 
     return var_s4;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", bottom_up_bottle_items);
-#endif
 
 #ifdef NON_EQUIVALENT
 extern s32 D_800B1ECC[];
