@@ -95,7 +95,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_800649CC);
 
 void func_80064E4C(struct_80123700 *arg0) {
     struct_800F3E50 *ptr = watchGame;
-    u16 btn = gControllerPressedButtons[B_800EBD16[arg0->unk_04B]];
+    u16 btn = gControllerPressedButtons[main_joy[arg0->unk_04B]];
 
     if (ptr->unk_9C4 >= 0) {
         return;
@@ -493,7 +493,7 @@ block_47:
                 }
                 var_v0 = 0;
                 if (var_v0_2 == 0) {
-                    if (gControllerPressedButtons[B_800EBD16[arg2]] & 0xFF3F) {
+                    if (gControllerPressedButtons[main_joy[arg2]] & 0xFF3F) {
                         temp_v1_9 = arg0->unk_00C;
                         switch (temp_v1_9) {        /* switch 1; irregular */
                             case 0x1A:              /* switch 1 */
@@ -518,7 +518,7 @@ block_47:
             case 0x1B:
             case 0x1D:
                 var_s0_6 = arg2 * 2;
-                if (gControllerPressedButtons[B_800EBD16[arg2]] & 0xFF3F) {
+                if (gControllerPressedButtons[main_joy[arg2]] & 0xFF3F) {
                     func_80062DA4(&temp_s3->unk_000[(arg2 * 0x2C) + 0x9D0]);
                     var_s0_6 = arg2 * 2;
                 }
@@ -555,7 +555,7 @@ block_47:
                 }
                 var_v0 = 0;
                 if (var_v0_3 == 0) {
-                    if ((temp_s3->unk_AA8 < 0) && ((gControllerHoldButtons[*B_800EBD16] & 0x2230) == 0x2230)) {
+                    if ((temp_s3->unk_AA8 < 0) && ((gControllerHoldButtons[*main_joy] & 0x2230) == 0x2230)) {
                         switch (evs_gamemode) {     /* switch 4; irregular */
                             case 0x3:               /* switch 4 */
                                 var_s4 = 1;
@@ -587,7 +587,7 @@ block_129:
                         temp_s3->unk_AA8 = (s32) -temp_s3->unk_AA8;
                         goto block_173;
                     }
-                    if (gControllerPressedButtons[*B_800EBD16] != 0) {
+                    if (gControllerPressedButtons[*main_joy] != 0) {
                         temp_v0_5 = temp_s3->unk_AA8;
                         if (temp_v0_5 > 0) {
                             temp_s3->unk_AA8 = (s32) -temp_v0_5;

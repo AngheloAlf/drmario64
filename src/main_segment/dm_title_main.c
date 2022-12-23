@@ -233,7 +233,7 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
         joyProcCore();
         osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
         msgWnd_update(messageWnd);
-        if ((main_no == MAIN_NO_10) && (gControllerPressedButtons[B_800EBD16[0]] & A_BUTTON)) {
+        if ((main_no == MAIN_NO_10) && (gControllerPressedButtons[main_joy[0]] & A_BUTTON)) {
             var_s1 = false;
             dm_snd_play(SND_INDEX_70);
         }

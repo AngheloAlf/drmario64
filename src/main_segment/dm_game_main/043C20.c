@@ -554,7 +554,7 @@ enum_main_no main_techmes(struct_800EB670 *arg0) {
                 break;
 
             case 0x2:
-                if (gControllerPressedButtons[B_800EBD16[0]] & ALL_BUTTONS) {
+                if (gControllerPressedButtons[main_joy[0]] & ALL_BUTTONS) {
                     temp_s2->unk_9AC = 3;
                 }
                 break;

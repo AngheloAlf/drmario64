@@ -28,7 +28,7 @@ s32 joyInit(s32 arg0 UNUSED) {
     osSetEventMesg(OS_EVENT_SI, &B_800F3E38, NULL);
 
     for (i = 0; i < ARRAY_COUNT(gControllerPressedButtons); i++) {
-        B_800F48C4[i] = 0;
+        joycur[i] = 0;
         gControllerPressedButtons[i] = 0;
         gControllerPrevHoldButtons[i] = 0;
         gControllerHoldButtons[i] = 0;
@@ -71,7 +71,7 @@ void joyProcCore(void) {
         gControllerPressedButtons[i] = ~gControllerPrevHoldButtons[i];
         gControllerPressedButtons[i] &= button;
 
-        B_800F48C4[i] = 0;
+        joycur[i] = 0;
 
         for (j = 0, mask = 0x8000; j < ARRAY_COUNT(joycnt[i]); j++, mask >>= 1) {
             if (joyflg[i] & mask) {
@@ -79,7 +79,7 @@ void joyProcCore(void) {
                     joycnt[i][j]++;
                     if ((joycnt[i][j] == 1) ||
                         ((joycnt[i][j] >= joycur1) && (((joycnt[i][j] - joycur1) % joycur2) == 0))) {
-                        B_800F48C4[i] |= mask;
+                        joycur[i] |= mask;
                     }
                 } else {
                     joycnt[i][j] = 0;
@@ -124,7 +124,7 @@ s32 joyResponseCheck(void) {
     osContGetQuery(padStatus);
 
     for (i = 0; i < 4; i++) {
-        B_800EBD16[i] = 4;
+        main_joy[i] = 4;
     }
 
     j = 0;
@@ -137,7 +137,7 @@ s32 joyResponseCheck(void) {
             default:
                 if ((padStatus[i].type & CONT_TYPE_MASK) == CONT_TYPE_NORMAL) {
                     B_800F3E78[i] = 1;
-                    B_800EBD16[j] = i;
+                    main_joy[j] = i;
                     connectedControllers++;
                     j++;
                 }

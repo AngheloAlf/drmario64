@@ -30,7 +30,7 @@ bool func_8005CF20(s32 arg0, u32 buttonMask) {
 
     while (i < 4) {
         if ((arg0 >> i) & 1) {
-            if (gControllerPressedButtons[B_800EBD16[i]] & buttonMask) {
+            if (gControllerPressedButtons[main_joy[i]] & buttonMask) {
                 break;
             }
         }

@@ -640,7 +640,7 @@ extern u16 gControllerHoldButtons[MAXCONTROLLERS+1];
 extern u32 PlayTime;
 // extern UNK_TYPE B_800EBD14;
 // extern UNK_TYPE B_800EBD15;
-extern u8 B_800EBD16[];
+extern u8 main_joy[];
 extern OSThread B_800EBD20;
 extern OSMesg B_800EBED0[8];
 extern struct_800EBEF0 game_map_data[4];
@@ -696,7 +696,7 @@ extern OSMesgQueue B_800F4898;
 extern struct_800FAF98_unk_64 B_800F48B0;
 extern UNK_TYPE2 joygam[4];
 extern UNK_PTR B_800F48C0;
-extern u16 B_800F48C4[MAXCONTROLLERS+1];
+extern u16 joycur[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800F48D0;
 extern s32 MissRate;
 extern OSContStatus B_800F5358[4];
@@ -740,7 +740,7 @@ extern UNK_TYPE1 B_800FAD31[4];
 extern s8 B_800FAE78[];
 extern s8 B_800FAE79;
 extern OSScTask B_800FAE80[];
-extern u16 gControllerPressedButtons[MAXCONTROLLERS+1];
+extern u16 gControllerPressedButtons[MAXCONTROLLERS+1]; /* Original name: joyupd */
 // extern UNK_TYPE B_800FAF92;
 extern OSMesgQueue *B_800FAF94;
 

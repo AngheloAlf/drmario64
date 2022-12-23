@@ -66,15 +66,15 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_80059DE4);
 INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_80059DF4);
 
 u16 func_80059DFC(struct_800F3E5C_unk_02678_unk_0000 *arg0 UNUSED, s32 arg1) {
-    return gControllerHoldButtons[B_800EBD16[arg1]];
+    return gControllerHoldButtons[main_joy[arg1]];
 }
 
 u16 func_80059E1C(struct_800F3E5C_unk_02678_unk_0000 *arg0 UNUSED, s32 arg1) {
-    return gControllerPressedButtons[B_800EBD16[arg1]];
+    return gControllerPressedButtons[main_joy[arg1]];
 }
 
 u16 func_80059E3C(struct_800F3E5C_unk_02678_unk_0000 *arg0 UNUSED, s32 arg1) {
-    return B_800F48C4[B_800EBD16[arg1]];
+    return joycur[main_joy[arg1]];
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02FD90", func_80059E5C);

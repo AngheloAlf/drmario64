@@ -143,7 +143,13 @@ typedef struct struct_800F3E50 {
     /* 0x000 */ UNK_TYPE4 unk_000;
     /* 0x004 */ UNK_TYPE1 unk_004[0xB4];
     /* 0x0B8 */ struct_800F3E50_unk_0B8 unk_0B8[UNK_SIZE];
-    /* 0x15C */ UNK_TYPE1 unk_15C[0x230];
+    /* 0x15C */ UNK_TYPE1 unk_15C[0x1EC];
+    /* 0x348 */ UNK_TYPE4 unk_348[UNK_SIZE];
+    /* 0x34C */ UNK_TYPE1 unk_34C[0xC];
+    /* 0x358 */ UNK_TYPE4 unk_358[UNK_SIZE];
+    /* 0x35C */ UNK_TYPE1 unk_35C[0xC];
+    /* 0x368 */ UNK_TYPE4 unk_368[UNK_SIZE];
+    /* 0x36C */ UNK_TYPE1 unk_36C[0x20];
     /* 0x38C */ UNK_TYPE unk_38C;
     /* 0x390 */ UNK_TYPE unk_390;
     /* 0x394 */ s32 unk_394;

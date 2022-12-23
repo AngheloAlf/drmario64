@@ -79,7 +79,7 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
         if (temp_s2->unk_00C == 0) {
             s32 temp = ((-(main_old == MAIN_NO_3) & 0xFF3F) | 0x4000);
 
-            var_s3 &= -((gControllerPressedButtons[B_800EBD16[0]] & temp) == 0);
+            var_s3 &= -((gControllerPressedButtons[main_joy[0]] & temp) == 0);
         }
 
         if (var_s3 == 0) {

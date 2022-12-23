@@ -1811,6 +1811,8 @@ RO_800B1A60 = 0x800B1A60; // size:0x50
 RO_800B1AB0 = 0x800B1AB0; // size:0x50
 RO_800B1B00 = 0x800B1B00; // size:0xA0
 
+_retryMenu_itemCount = 0x800B1C78; // size:0x6
+
 RO_800B1C80 = 0x800B1C80; // force_not_migration:True
 RO_800B1C8C = 0x800B1C8C; // force_not_migration:True
 RO_800B1C98 = 0x800B1C98; // force_not_migration:True
@@ -2105,7 +2107,7 @@ B_800EBD0B = 0x800EBD0B;
 PlayTime = 0x800EBD10;
 B_800EBD14 = 0x800EBD14;
 B_800EBD15 = 0x800EBD15;
-B_800EBD16 = 0x800EBD16;
+main_joy = 0x800EBD16; // size:0x4
 B_800EBD20 = 0x800EBD20; // size:0x1B0
 B_800EBED0 = 0x800EBED0;
 game_map_data = 0x800EBEF0; // size:0x1540
@@ -2163,7 +2165,7 @@ B_800F4898 = 0x800F4898;
 B_800F48B0 = 0x800F48B0; // size:0x8
 joygam = 0x800F48B8;
 B_800F48C0 = 0x800F48C0;
-B_800F48C4 = 0x800F48C4; // size:0xA
+joycur = 0x800F48C4; // size:0xA
 B_800F48D0 = 0x800F48D0;
 MissRate = 0x800F5350;
 B_800F5358 = 0x800F5358;

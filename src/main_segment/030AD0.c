@@ -379,7 +379,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
 
         if (ptr->unk_111D8 > 0) {
             for (i = 0; i < MAXCONTROLLERS; i++) {
-                B_800F48C4[i] = 0;
+                joycur[i] = 0;
                 gControllerPressedButtons[i] = 0;
                 gControllerPrevHoldButtons[i] = 0;
                 gControllerHoldButtons[i] = 0;

@@ -354,7 +354,7 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     }
 
     makeTransrateMatrix(&sp60, 0, 0xFFC4 << 16, 0xFC4A << 16);
-    if ((story_spot_cnt > 0) && (gControllerPressedButtons[B_800EBD16[0]] & ALL_BUTTONS)) {
+    if ((story_spot_cnt > 0) && (gControllerPressedButtons[main_joy[0]] & ALL_BUTTONS)) {
         if (temp_s2 != 0) {
             if (title_wait == 0) {
                 dm_snd_play(SND_INDEX_103);
@@ -789,10 +789,10 @@ block_32:
         curtain_proc_org(&gGfxHead, D_800AAD14);
         if (story_staff_roll == 2) {
             msgWnd_draw(&mess_roll_st, &gGfxHead);
-            if (gControllerPressedButtons[*B_800EBD16] & 0x1000) {
+            if (gControllerPressedButtons[*main_joy] & 0x1000) {
                 story_staff_roll = -1;
             }
-            if (gControllerHoldButtons[*B_800EBD16] & 0xC000) {
+            if (gControllerHoldButtons[*main_joy] & 0xC000) {
                 var_f0 = 0.16666667f;
             } else {
                 var_f0 = 0.016666668f;

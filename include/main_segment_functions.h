@@ -690,7 +690,7 @@ void backup_game_state(UNK_TYPE arg0);
 // void func_8006408C();
 // void func_80064130();
 // void func_8006417C();
-// void retryMenu_input();
+s32 retryMenu_input(s32 arg0);
 // void func_80064298();
 // void func_8006431C();
 // void set_bottom_up_virus();

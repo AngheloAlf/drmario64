@@ -10,6 +10,7 @@
 #include "main_segment_variables.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
+#include "audio/audio_stuff.h"
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_800601F0);
 
@@ -65,7 +66,16 @@ UNK_TYPE dm_make_score(struct_80123700 *arg0, s32 arg1) {
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", D_800B1C4C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", D_800B1C5C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", D_800B1C74);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", D_800B1C78);
+
+const u8 _retryMenu_itemCount[] = {
+    2,
+    3,
+    2,
+    3,
+    2,
+    3,
+};
+
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", RO_800B1C80);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", RO_800B1C8C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", RO_800B1C98);
@@ -643,7 +653,38 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80064130);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_8006417C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", retryMenu_input);
+s32 retryMenu_input(s32 arg0) {
+    struct_800F3E50 *temp_s1 = watchGame;
+    SndIndex soundIndex = SND_INDEX_INVALID;
+    s32 ret = -1;
+    u16 temp_s0 = joycur[main_joy[arg0]];
+    u16 temp_s3 = gControllerPressedButtons[main_joy[arg0]];
+    s32 temp_v0_3;
+    u32 up;
+    u32 down;
+
+    temp_s1->unk_358[arg0] = WrapI(0, _retryMenu_itemCount[temp_s1->unk_348[arg0]], temp_s1->unk_358[arg0]);
+
+    up = (temp_s0 & U_JPAD);
+    up = up > 0;
+    down = (temp_s0 & D_JPAD);
+    down = down > 0;
+
+    temp_v0_3 = WrapI(0, _retryMenu_itemCount[temp_s1->unk_348[arg0]], temp_s1->unk_358[arg0] + (down - up));
+
+    if (temp_v0_3 != temp_s1->unk_358[arg0]) {
+        temp_s1->unk_358[arg0] = temp_v0_3;
+        soundIndex = SND_INDEX_64;
+    } else if (temp_s3 & (A_BUTTON | START_BUTTON)) {
+        ret = temp_s1->unk_368[arg0];
+    }
+
+    if (soundIndex > SND_INDEX_INVALID) {
+        dm_snd_play_in_game(soundIndex);
+    }
+
+    return ret;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80064298);
 
