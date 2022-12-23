@@ -339,7 +339,9 @@ typedef struct struct_80123700 {
     /* 0x000 */ UNK_TYPE unk_000;
     /* 0x004 */ UNK_TYPE2 unk_004;
     /* 0x006 */ UNK_TYPE1 unk_006[0x2];
-    /* 0x008 */ UNK_TYPE1 unk_008[0x4];
+    /* 0x008 */ UNK_TYPE1 unk_008[0x2];
+    /* 0x008 */ s8 unk_00A;
+    /* 0x008 */ UNK_TYPE1 unk_00B[0x1];
     /* 0x00C */ s32 unk_00C;
     /* 0x010 */ UNK_TYPE1 unk_010[0x4];
     /* 0x014 */ UNK_TYPE4 unk_014;
@@ -351,7 +353,7 @@ typedef struct struct_80123700 {
     /* 0x026 */ u8 unk_026;
     /* 0x027 */ u8 unk_027;
     /* 0x028 */ UNK_TYPE1 unk_028[0x4];
-    /* 0x02C */ s8 unk_02C;
+    /* 0x02C */ u8 unk_02C;
     /* 0x02D */ UNK_TYPE1 unk_02D[0x3];
     /* 0x030 */ UNK_TYPE1 unk_030[4];
     /* 0x034 */ UNK_TYPE1 unk_034[1];
@@ -361,7 +363,11 @@ typedef struct struct_80123700 {
     /* 0x038 */ UNK_TYPE1 unk_038[0x1];
     /* 0x039 */ u8 unk_039;
     /* 0x03A */ u8 unk_03A;
-    /* 0x03B */ UNK_TYPE1 unk_03B[0xD];
+    /* 0x03B */ UNK_TYPE1 unk_03B[0x1];
+    /* 0x03C */ u8 unk_03C[UNK_SIZE];
+    /* 0x03D */ UNK_TYPE1 unk_03D[0x2];
+    /* 0x03F */ u8 unk_03F;
+    /* 0x040 */ UNK_TYPE1 unk_040[0x8];
     /* 0x048 */ UNK_TYPE1 unk_048[0x3];
     /* 0x04B */ u8 unk_04B;
     /* 0x04C */ u8 unk_04C;
@@ -632,5 +638,10 @@ typedef struct struct_virus_map_data {
 typedef struct struct_virus_map_disp_order {
     /* 0x00 */ u8 unk_00[0x60];
 } struct_virus_map_disp_order; // size = 0x60
+
+typedef struct dm_calc_erase_score_pos_arg2 {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ s32 unk_4;
+} dm_calc_erase_score_pos_arg2; // size >= 0x8
 
 #endif

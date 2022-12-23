@@ -381,7 +381,6 @@ segments:
       - [0x047D20, c, main_segment/dm_virus_init/0362B0]
 
       - [0x048010, c, main_segment/dm_game_main/0365A0]
-      - [0x048090, c, main_segment/dm_game_main/036620]
       - [0x04C200, c, main_segment/dm_game_main/03A790]
       - [0x04E7C0, c, main_segment/dm_game_main/03CD50]
       - [0x0517B0, c, main_segment/dm_game_main/03FD40]
@@ -501,7 +500,7 @@ segments:
       - { start: 0x0999C0, type: .rodata, partial_migration: True, name: main_segment/dm_virus_init/035AB0 }
       - { start: 0x0999F0, type: .rodata, partial_migration: True, name: main_segment/dm_virus_init/0362B0 }
 
-      - { start: 0x099A50, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/036620 }
+      - { start: 0x099A50, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/0365A0 }
       - { start: 0x099CE0, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03A790 }
       - { start: 0x099E50, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03CD50 }
       - { start: 0x099F00, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03FD40 }

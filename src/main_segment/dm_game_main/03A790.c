@@ -4,13 +4,49 @@
 #include "unknown_structs.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "audio/audio_stuff.h"
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/03A790", D_800B1EC0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/03A790", D_800B1ECC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", set_bottom_up_virus);
 
+#ifdef NON_MATCHING
+bool bottom_up_bottle_items(struct_800EBEF0 *arg0) {
+    s32 i;
+    bool var_s4 = false;
+    s32 var_s2;
+    struct_800EBEF0_unk_000 *var_a3;
+    struct_800EBEF0_unk_000 *var_s0;
+    s32 var;
+
+    for (i = 0; i < 8; i++) {
+        if (arg0->unk_000[i].unk_4 != 0) {
+            var_s4 = true;
+        }
+    }
+
+    var = 0x80;
+    var_a3 = &arg0->unk_000[8];
+    for (i = 0; i < var; i++) {
+        arg0->unk_000[i] = var_a3[i];
+        arg0->unk_000[i].unk_1--;
+    }
+
+    var_s2 = 0;
+    var_s0 = arg0->unk_000;
+    var += 8;
+    for (; i < var; i++, var_s2++) {
+        bzero(&var_s0[i], sizeof(struct_800EBEF0_unk_000));
+        var_s0[i].unk_0 = var_s2;
+        var_s0[i].unk_1 = 0x11;
+    }
+
+    return var_s4;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", bottom_up_bottle_items);
+#endif
 
 #ifdef NON_EQUIVALENT
 extern s32 D_800B1ECC[];
@@ -105,18 +141,6 @@ void func_80064E4C(struct_80123700 *arg0) {
 }
 
 #if 0
-UNK_TYPE add_taiQ_bonus_wait(struct_80123700 *);           /* extern */
-s32 bottom_up_bottle_items(struct_800EBEF0 *);      /* extern */
-UNK_TYPE dm_calc_erase_score_pos(struct_80123700 *, struct_800EBEF0 *, s32 *); /* extern */
-UNK_TYPE dm_h_ball_chack(struct_800EBEF0 *);               /* extern */
-s32 dm_h_erase_chack(struct_800EBEF0 *);            /* extern */
-UNK_TYPE dm_h_erase_chack_set(struct_80123700 *, struct_800EBEF0 *); /* extern */
-s32 dm_make_score(struct_80123700 *);               /* extern */
-UNK_TYPE dm_set_virus(struct_80123700 *, struct_800EBEF0 *, struct_virus_map_data *, struct_virus_map_disp_order *); /* extern */
-UNK_TYPE dm_snd_play_in_game(s32);                         /* extern */
-UNK_TYPE dm_w_ball_chack(struct_800EBEF0 *);               /* extern */
-s32 dm_w_erase_chack(struct_800EBEF0 *);            /* extern */
-UNK_TYPE dm_w_erase_chack_set(struct_80123700 *, struct_800EBEF0 *); /* extern */
 s8 func_8005F13C(struct_800EBEF0 *, s8 *, s8 *, s8 *); /* extern */
 UNK_TYPE func_80060270(struct_80123700 *, s32);            /* extern */
 UNK_TYPE func_80060348(struct_80123700 *, s32);            /* extern */

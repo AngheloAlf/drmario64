@@ -36,9 +36,9 @@ extern u8 evs_playcnt; // maybe part of a struct?
 // extern UNK_TYPE D_80088405;
 extern u8 evs_gamespeed; /* Original name: evs_gamespeed */
 extern s8 evs_score_flag;
-// extern UNK_TYPE evs_story_flg;
+extern s8 evs_story_flg;
 // extern UNK_TYPE evs_story_no;
-// extern UNK_TYPE evs_story_level;
+extern s8 evs_story_level;
 extern EvsSecretFlags evs_secret_flg;
 extern s8 D_8008840E; // maybe part of a struct?
 extern u8 evs_level_21; /* Original name: evs_level_21 */
