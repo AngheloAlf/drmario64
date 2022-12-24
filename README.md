@@ -6,6 +6,8 @@
 
 Matching decomp of Dr. Mario 64
 
+[Progress graph :chart_with_upwards_trend:](https://angheloalf.github.io/drmario64/)
+
 ## Dependencies
 
 The build process has the following package requirements:
@@ -26,7 +28,7 @@ sudo apt update
 sudo apt install make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip
 ```
 
-This project uses [Splat](https://github.com/ethteck/splat/); to install the dependencies for it, run
+To install the dependencies Python dependencies run:
 
 ```bash
 pip3 install -r requirements.txt
