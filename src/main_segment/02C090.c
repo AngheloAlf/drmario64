@@ -12,15 +12,15 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", menuPlay2_draw);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_80055DFC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_80055E40);
+INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", menuNmEnt_init);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_800560D4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_800560F0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", menuNmEnt_input);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/02C090", D_800B1168);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_80056824);
+INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", menuNmEnt_update);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", menuNmEnt_draw);
 
@@ -116,9 +116,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_80058A9C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/02C090", D_800B13F8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/02C090", D_800B13FC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_8005911C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", menuRank_init);
 
-void func_800592D4(struct_800F3E5C_unk_02678 *arg0) {
+void menuRank_input(struct_800F3E5C_unk_02678 *arg0) {
     struct_800F3E5C_unk_02678_unk_590 *temp_s0 = &arg0->unk_590[arg0->unk_0014];
     u16 pressedButton = func_80059E1C(arg0->unk_0000, 0);
     s32 direction;
@@ -159,12 +159,12 @@ void func_800592D4(struct_800F3E5C_unk_02678 *arg0) {
             func_800586A4(arg0, arg0->unk_0014, 1, 0.0f, direction * 0x140);
         }
 
-        if (sndIndex > -1) {
+        if (sndIndex > SND_INDEX_INVALID) {
             dm_snd_play(sndIndex);
         }
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", func_8005954C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", menuRank_update);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/02C090", menuRank_draw);

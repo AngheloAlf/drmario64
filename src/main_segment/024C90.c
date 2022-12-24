@@ -25,7 +25,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B00EC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004ED70);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004EEC8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuMain_init);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0310);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0320);
@@ -56,9 +56,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004F2D8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004F33C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8004F358);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuMain_input);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800508BC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuMain_update);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0940);
 
@@ -83,7 +83,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80051480);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800514C4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80051540);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuStory_init);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80051974);
 
@@ -91,7 +91,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800519CC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800519EC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80051A28);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuStory_input);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", RO_800B0A50);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0A5C);
@@ -103,19 +103,19 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0B18);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0B1C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0B20);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80051E94);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuStory_update);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuStory_draw);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800529FC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80052A40);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuLvSel_init);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80052DF0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80052E48);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuLvSel_input);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80053194);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuLvSel_update);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuLvSel_draw);
 
@@ -124,7 +124,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_8005380C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", RO_800B0B50);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", RO_800B0B54);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80053850);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuChSel_init);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80053C2C);
 
@@ -138,7 +138,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800540B8);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0C5C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800541CC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuChSel_input);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0D84);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0D94);
@@ -152,13 +152,13 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0DC8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0DD4);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0DD8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800544C4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuChSel_update);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuChSel_draw);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80054A94);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80054B60);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuPlay2_init);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800550F4);
 
@@ -172,8 +172,8 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800552EC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80055598);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_800556E0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuPlay2_input);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", func_80055C08);
+INCLUDE_ASM("asm/nonmatchings/main_segment/024C90", menuPlay2_update);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/024C90", D_800B0F5C);

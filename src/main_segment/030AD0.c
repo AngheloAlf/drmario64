@@ -7,7 +7,7 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 
-void func_8005A720(struct_800F3E5C *arg0) {
+void menuAll_input(struct_800F3E5C *arg0) {
     s32 index = arg0->unk_111C0;
 
     if ((arg0->unk_111E0 > 0.0f) && (arg0->unk_111DC > 0.0f)) {
@@ -17,17 +17,17 @@ void func_8005A720(struct_800F3E5C *arg0) {
 
     switch (arg0->unk_111CC) {
         case ENUM_STRUCT_800F3E5C_UNK_111CC_0:
-            func_8004F358(&arg0->unk_02678[index]);
+            menuMain_input(&arg0->unk_02678[index]);
             break;
 
         case ENUM_STRUCT_800F3E5C_UNK_111CC_4:
-            func_80051A28(&arg0->unk_02678[index]);
+            menuStory_input(&arg0->unk_02678[index]);
             break;
 
         case ENUM_STRUCT_800F3E5C_UNK_111CC_7:
         case ENUM_STRUCT_800F3E5C_UNK_111CC_10:
         case ENUM_STRUCT_800F3E5C_UNK_111CC_13:
-            func_80052E48(&arg0->unk_02678[index]);
+            menuLvSel_input(&arg0->unk_02678[index]);
             break;
 
         case ENUM_STRUCT_800F3E5C_UNK_111CC_17:
@@ -38,7 +38,7 @@ void func_8005A720(struct_800F3E5C *arg0) {
         case ENUM_STRUCT_800F3E5C_UNK_111CC_41:
         case ENUM_STRUCT_800F3E5C_UNK_111CC_43:
         case ENUM_STRUCT_800F3E5C_UNK_111CC_45:
-            func_800556E0(&arg0->unk_02678[index]);
+            menuPlay2_input(&arg0->unk_02678[index]);
             break;
 
         case ENUM_STRUCT_800F3E5C_UNK_111CC_16:
@@ -49,7 +49,7 @@ void func_8005A720(struct_800F3E5C *arg0) {
         case ENUM_STRUCT_800F3E5C_UNK_111CC_40:
         case ENUM_STRUCT_800F3E5C_UNK_111CC_42:
         case ENUM_STRUCT_800F3E5C_UNK_111CC_44:
-            func_800541CC(&arg0->unk_02678[index]);
+            menuChSel_input(&arg0->unk_02678[index]);
             break;
 
         case ENUM_STRUCT_800F3E5C_UNK_111CC_3:
@@ -63,7 +63,7 @@ void func_8005A720(struct_800F3E5C *arg0) {
         case ENUM_STRUCT_800F3E5C_UNK_111CC_32:
         case ENUM_STRUCT_800F3E5C_UNK_111CC_63:
         case ENUM_STRUCT_800F3E5C_UNK_111CC_64:
-            func_800560F0(&arg0->unk_02678[index]);
+            menuNmEnt_input(&arg0->unk_02678[index]);
             break;
 
         case ENUM_STRUCT_800F3E5C_UNK_111CC_49:
@@ -75,7 +75,7 @@ void func_8005A720(struct_800F3E5C *arg0) {
         case ENUM_STRUCT_800F3E5C_UNK_111CC_56:
         case ENUM_STRUCT_800F3E5C_UNK_111CC_57:
         case ENUM_STRUCT_800F3E5C_UNK_111CC_58:
-            func_800592D4(&arg0->unk_02678[index]);
+            menuRank_input(&arg0->unk_02678[index]);
             break;
 
         default:
@@ -83,8 +83,7 @@ void func_8005A720(struct_800F3E5C *arg0) {
     }
 }
 
-// Maybe menuAll_update
-void func_8005A974(struct_800F3E5C *arg0) {
+void menuAll_update(struct_800F3E5C *arg0) {
     enum_struct_800F3E5C_unk_111CC var_a0;
     f32 temp_f2_2;
     f32 var_f2;
@@ -130,17 +129,17 @@ void func_8005A974(struct_800F3E5C *arg0) {
 
         switch (var_a0) {
             case ENUM_STRUCT_800F3E5C_UNK_111CC_0:
-                func_800508BC(&arg0->unk_02678[var_v1_2]);
+                menuMain_update(&arg0->unk_02678[var_v1_2]);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_4:
-                func_80051E94(&arg0->unk_02678[var_v1_2]);
+                menuStory_update(&arg0->unk_02678[var_v1_2]);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_7:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_10:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_13:
-                func_80053194(&arg0->unk_02678[var_v1_2]);
+                menuLvSel_update(&arg0->unk_02678[var_v1_2]);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_17:
@@ -151,7 +150,7 @@ void func_8005A974(struct_800F3E5C *arg0) {
             case ENUM_STRUCT_800F3E5C_UNK_111CC_41:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_43:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_45:
-                func_80055C08(&arg0->unk_02678[var_v1_2]);
+                menuPlay2_update(&arg0->unk_02678[var_v1_2]);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_16:
@@ -162,7 +161,7 @@ void func_8005A974(struct_800F3E5C *arg0) {
             case ENUM_STRUCT_800F3E5C_UNK_111CC_40:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_42:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_44:
-                func_800544C4(&arg0->unk_02678[var_v1_2]);
+                menuChSel_update(&arg0->unk_02678[var_v1_2]);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_3:
@@ -176,7 +175,7 @@ void func_8005A974(struct_800F3E5C *arg0) {
             case ENUM_STRUCT_800F3E5C_UNK_111CC_32:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_63:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_64:
-                func_80056824(&arg0->unk_02678[var_v1_2]);
+                menuNmEnt_update(&arg0->unk_02678[var_v1_2]);
                 break;
 
             case ENUM_STRUCT_800F3E5C_UNK_111CC_49:
@@ -188,7 +187,7 @@ void func_8005A974(struct_800F3E5C *arg0) {
             case ENUM_STRUCT_800F3E5C_UNK_111CC_56:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_57:
             case ENUM_STRUCT_800F3E5C_UNK_111CC_58:
-                func_8005954C(&arg0->unk_02678[var_v1_2]);
+                menuRank_update(&arg0->unk_02678[var_v1_2]);
                 break;
 
             default:
@@ -374,7 +373,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
                 func_80059CA0(ptr);
             }
 
-            func_8005A434(ptr);
+            menuAll_changeMenu(ptr);
         }
 
         if (ptr->unk_111D8 > 0) {
@@ -387,9 +386,10 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
         } else {
             joyProcCore();
         }
+
         func_80059CA0(ptr);
-        func_8005A720(ptr);
-        func_8005A974(ptr);
+        menuAll_input(ptr);
+        menuAll_update(ptr);
         dm_audio_update();
 
         if (ptr->unk_111CC != ptr->unk_111D0) {

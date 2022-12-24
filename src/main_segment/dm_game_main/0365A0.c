@@ -68,12 +68,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", D_800B1C5C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", D_800B1C74);
 
 const u8 _retryMenu_itemCount[] = {
-    2,
-    3,
-    2,
-    3,
-    2,
-    3,
+    2, 3, 2, 3, 2, 3,
 };
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", RO_800B1C80);

@@ -154,9 +154,8 @@ UNK_TYPE func_800635BC(struct_80123700 *, struct_800EBEF0 *); /* extern */
 UNK_TYPE func_80064E4C();                                  /* extern */
 UNK_TYPE func_8007E760(s8 *, s32, s32, u8, s32, s32, UNK_TYPE *); /* extern */
 UNK_TYPE go_down(struct_80123700 *, struct_800EBEF0 *, UNK_TYPE); /* extern */
-s32 retryMenu_input(s32);                           /* extern */
 UNK_TYPE scoreNums_set(s8 *, s32, u8, s32, s32);           /* extern */
-UNK_TYPE set_bottom_up_virus(struct_80123700 *, struct_800EBEF0 *); /* extern */
+
 extern UNK_TYPE B_800EF448;
 extern UNK_TYPE D_8008841C;
 extern s8 D_800A6FD8;
