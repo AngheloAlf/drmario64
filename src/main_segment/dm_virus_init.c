@@ -11,7 +11,22 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", init_map_all);
+void init_map_all(struct_800EBEF0 *arg0) {
+    s32 i;
+
+    bzero(arg0, sizeof(struct_800EBEF0));
+
+    for (i = 0; i < 0x11; i++) {
+        s32 j;
+
+        for (j = 0; j < 8; j++) {
+            struct_800EBEF0_unk_000 *temp_v1 = arg0->unk_000;
+
+            temp_v1[(i * 8) + j].unk_0 = j;
+            temp_v1[(i * 8) + j].unk_1 = i + 1;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", clear_map);
 
@@ -47,7 +62,13 @@ s32 get_virus_color_count(struct_800EBEF0 *arg0, s8 *arg1, s8 *arg2, s8 *arg3) {
     return count;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", get_virus_count);
+s32 get_virus_count(struct_800EBEF0 *arg0) {
+    s8 sp10;
+    s8 sp11;
+    s8 sp12;
+
+    return get_virus_color_count(arg0, &sp10, &sp11, &sp12);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F204);
 

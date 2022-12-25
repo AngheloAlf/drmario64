@@ -592,7 +592,7 @@ void clear_map(struct_800EBEF0 *arg0, UNK_TYPE arg1, UNK_TYPE arg2);
 // void func_8005F09C();
 // void func_8005F0E4();
 s32 get_virus_color_count(struct_800EBEF0 *arg0, s8 *arg1, s8 *arg2, s8 *arg3);
-UNK_TYPE get_virus_count(struct_800EBEF0 *arg0);
+s32 get_virus_count(struct_800EBEF0 *arg0);
 // void func_8005F204();
 void set_virus(struct_800EBEF0 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 u16 func_8005F2B0(void);
