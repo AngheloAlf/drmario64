@@ -23,10 +23,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F09C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F0E4);
 
-#if 0
-// rodata issues
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BA0);
+
 s32 get_virus_color_count(struct_800EBEF0 *arg0, s8 *arg1, s8 *arg2, s8 *arg3) {
-    s32 sp0[3] = {0, 0, 0};
+    s32 sp0[3] = { 0, 0, 0 };
     struct_800EBEF0_unk_000 *var_a0 = arg0->unk_000;
     s32 i;
     s32 count = 0;
@@ -46,9 +46,6 @@ s32 get_virus_color_count(struct_800EBEF0 *arg0, s8 *arg1, s8 *arg2, s8 *arg3) {
 
     return count;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", get_virus_color_count);
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", get_virus_count);
 
@@ -249,8 +246,6 @@ s32 func_8005F6F0(s32 arg0) {
     return D_800B1BC8[arg0];
 }
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BA0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BBC);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BC8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BCC);
 
