@@ -134,7 +134,7 @@ void func_80064E4C(struct_80123700 *arg0) {
 }
 
 #if 0
-s8 func_8005F13C(struct_800EBEF0 *, s8 *, s8 *, s8 *); /* extern */
+s8 get_virus_color_count(struct_800EBEF0 *, s8 *, s8 *, s8 *); /* extern */
 UNK_TYPE func_80060270(struct_80123700 *, s32);            /* extern */
 UNK_TYPE func_80060348(struct_80123700 *, s32);            /* extern */
 UNK_TYPE func_80060424(struct_80123700 *, struct_800EBEF0 *); /* extern */
@@ -300,7 +300,7 @@ block_173:
                     var_s4_2 = 0x44C;
                     var_s7 = 0x50C;
                     var_s1_3 = temp_s3;
-                    temp_s0_2 = temp_s0 - func_8005F13C(arg1, &temp_s3->unk_3C8[0x50], &temp_s3->unk_3C8[0x51], &temp_s3->unk_3C8[0x52]);
+                    temp_s0_2 = temp_s0 - get_virus_color_count(arg1, &temp_s3->unk_3C8[0x50], &temp_s3->unk_3C8[0x51], &temp_s3->unk_3C8[0x52]);
                     var_s0_2 = 0;
                     arg0->unk_024[1] = (u8) arg0->unk_024[1] - temp_s0_2;
                     arg0->unk_170 = (s32) (arg0->unk_170 + temp_s0_2);
@@ -457,7 +457,7 @@ block_47:
                     if (bottom_up_bottle_items(arg1) != 0) {
                         goto block_84;
                     }
-                    arg0->unk_024[1] = func_8005F13C(arg1, &temp_s3->unk_3C8[0x50], &temp_s3->unk_3C8[0x51], &temp_s3->unk_3C8[0x52]);
+                    arg0->unk_024[1] = get_virus_color_count(arg1, &temp_s3->unk_3C8[0x50], &temp_s3->unk_3C8[0x51], &temp_s3->unk_3C8[0x52]);
                     var_s0_5 = 0;
                     var_s6 = temp_s3;
                     var_s5 = 0;

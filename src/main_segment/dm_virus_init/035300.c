@@ -21,7 +21,32 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F09C)
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F0E4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F13C);
+#if 0
+// rodata issues
+s32 get_virus_color_count(struct_800EBEF0 *arg0, s8 *arg1, s8 *arg2, s8 *arg3) {
+    s32 sp0[3] = {0, 0, 0};
+    struct_800EBEF0_unk_000 *var_a0 = arg0->unk_000;
+    s32 i;
+    s32 count = 0;
+
+    for (i = 0; i < 0x80; i++) {
+        if (var_a0[i].unk_4 != 0) {
+            if ((var_a0[i].unk_6 == 0) && (var_a0[i].unk_8 >= 0)) {
+                sp0[var_a0[i].unk_7]++;
+                count++;
+            }
+        }
+    }
+
+    *arg1 = sp0[0];
+    *arg2 = sp0[1];
+    *arg3 = sp0[2];
+
+    return count;
+}
+#else
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", get_virus_color_count);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", get_virus_count);
 
@@ -49,7 +74,19 @@ void set_virus(struct_800EBEF0 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     temp_v1[temp + arg1].unk_7 = var_t0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init/035300", func_8005F2B0);
+u16 func_8005F2B0(void) {
+    u16 temp_v0 = random(6);
+    u16 var_v0;
+
+    if (temp_v0 == 0) {
+        var_v0 = random(5);
+    } else if (temp_v0 < 3) {
+        var_v0 = random(5) + 5;
+    } else {
+        var_v0 = random(7) + 10;
+    }
+    return var_v0;
+}
 
 u32 func_8005F310(struct_virus_map_data *arg0, s32 arg1, s32 arg2) {
     struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
