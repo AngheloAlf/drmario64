@@ -678,7 +678,7 @@ block_172:
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", dm_game_main_cnt_1P);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80065BC4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", dm_game_main_cnt);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/03A790", RO_800B2020);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/03A790", D_800B202C);

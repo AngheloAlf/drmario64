@@ -109,7 +109,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", go_down);
 void erase_anime(struct_800EBEF0 *arg0) {
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(arg0->unk_000); i++) {
+    for (i = 0; i < 0x10 * 8; i++) {
         struct_800EBEF0_unk_000 *var_s0 = &arg0->unk_000[i];
 
         if ((var_s0->unk_4 != 0) && (var_s0->unk_6 != 0)) {

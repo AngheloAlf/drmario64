@@ -79,9 +79,8 @@ typedef struct struct_800EBEF0_unk_000 {
 } struct_800EBEF0_unk_000; // size = 0xA
 
 typedef struct struct_800EBEF0 {
-    /* 0x000 */ struct_800EBEF0_unk_000 unk_000[0x80];
-    /* 0x500 */ UNK_TYPE1 unk_500[0x50];
-} struct_800EBEF0; // size = 0x550 // or maybe 0x1540, or an array of 4 elements
+    /* 0x000 */ struct_800EBEF0_unk_000 unk_000[0x11 * 8];
+} struct_800EBEF0; // size = 0x550
 
 typedef struct struct_8005FC6C_arg0 {
     /* 0x000 */ UNK_TYPE4 unk_000;
@@ -154,12 +153,15 @@ typedef struct struct_800F3E50 {
     /* 0x390 */ UNK_TYPE unk_390;
     /* 0x394 */ s32 unk_394;
     /* 0x398 */ s32 unk_398;
-    /* 0x39C */ UNK_TYPE1 unk_39C[0x28];
+    /* 0x39C */ UNK_TYPE1 unk_39C[0x10];
+    /* 0x3AC */ s32 unk_3AC;
+    /* 0x3B0 */ UNK_TYPE1 unk_3B0[0x14];
     /* 0x3C4 */ s32 unk_3C4;
     /* 0x3C8 */ f32 unk_3C8;
     /* 0x3CC */ UNK_TYPE1 unk_3CC[0x44];
     /* 0x410 */ UNK_TYPE unk_410;
-    /* 0x414 */ UNK_TYPE1 unk_414[0xC];
+    /* 0x414 */ UNK_TYPE1 unk_414[0x8];
+    /* 0x414 */ s32 unk_41C;
     /* 0x420 */ UNK_TYPE unk_420;
     /* 0x424 */ s32 unk_424;
     /* 0x428 */ UNK_TYPE1 unk_428[0x8];
