@@ -376,9 +376,9 @@ segments:
 
       - [0x045F40, c, main_segment/char_anime]
 
-      - [0x046D70, c, main_segment/dm_virus_init/035300]
-      - [0x047520, c, main_segment/dm_virus_init/035AB0]
-      - [0x047D20, c, main_segment/dm_virus_init/0362B0]
+      - [0x046D70, c, main_segment/dm_virus_init]
+      - [0x047520, c, main_segment/dm_virus_init]
+      - [0x047D20, c, main_segment/dm_virus_init]
 
       - [0x048010, c, main_segment/dm_game_main/0365A0]
       - [0x04C200, c, main_segment/dm_game_main/03A790]
@@ -497,8 +497,8 @@ segments:
       - { start: 0x0997B0, type: .rodata, partial_migration: True, name: main_segment/msgwnd }
       - { start: 0x099880, type: .rodata, partial_migration: True, name: main_segment/char_anime }
 
-      - { start: 0x0999C0, type: .rodata, partial_migration: True, name: main_segment/dm_virus_init/035AB0 }
-      - { start: 0x0999F0, type: .rodata, partial_migration: True, name: main_segment/dm_virus_init/0362B0 }
+      - { start: 0x0999C0, type: .rodata, partial_migration: True, name: main_segment/dm_virus_init }
+      - { start: 0x0999F0, type: .rodata, partial_migration: True, name: main_segment/dm_virus_init }
 
       - { start: 0x099A50, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/0365A0 }
       - { start: 0x099CE0, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03A790 }
