@@ -238,7 +238,65 @@ void dm_init_system_mem(void) {
     evs_score_flag = 1;
 }
 
+#ifdef NON_EQUIVALENT
+// maybe equivalent
+void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    s32 *temp_v1_2;
+    s32 temp_t0;
+    s32 temp_t1;
+    s32 temp_v1;
+    s32 var_a0;
+    s32 var_t2;
+    s32 var_v1;
+    struct_800EF560_unk_28 *temp_a0;
+    struct_800EF560 *temp_t3;
+    s32 var_v0;
+
+    arg4 = arg4 / 60;
+    temp_t3 = &evs_mem_data[arg0];
+
+    var_t2 = MIN(0x176F, arg4);
+
+    var_a0 = var_t2;
+    temp_v1 = arg5 - 1;
+    temp_t1 = temp_v1 & (~temp_v1 >> 0x1F);
+
+    if (arg6 == 0 && (arg2 < 3)) {
+        temp_a0 = &temp_t3->unk_28[arg2];
+        var_v0 = temp_a0->unk_8;
+        var_v1 = temp_t1;
+        if (var_v0 == temp_t1) {
+            var_v0 = temp_a0->unk_0;
+            var_v1 = arg3;
+            if (var_v0 == arg3) {
+                var_v0 = var_t2;
+                var_v0 = var_a0;
+                var_v1 = temp_a0->unk_4;
+            }
+        }
+        if (var_v0 < var_v1) {
+            temp_a0->unk_0 = arg3;
+            temp_a0->unk_4 = var_t2;
+            temp_a0->unk_8 = temp_t1;
+        }
+    }
+
+    temp_v1_2 = &temp_t3->unk_08[arg2][arg1];
+    var_a0 = *temp_v1_2;
+    if (var_a0 < temp_t1) {
+        var_a0 = temp_t1;
+    }
+    *temp_v1_2 = var_a0;
+    if (var_a0 >= 8) {
+        var_a0 = 7;
+    }
+    *temp_v1_2 = var_a0;
+
+    //temp_t3->unk_08[arg2][arg1] = CLAMP(temp_t3->unk_08[arg2][arg1], temp_t1, 7);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_story_sort_set);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_level_sort_set);
 

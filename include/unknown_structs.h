@@ -318,8 +318,18 @@ typedef struct struct_800EF560_unk_B4 {
     /* 0x19 */ UNK_TYPE1 unk_19;
 } struct_800EF560_unk_B4; // size >= 0x1A
 
+typedef struct struct_800EF560_unk_28 {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ s32 unk_4;
+    /* 0x8 */ u8 unk_8;
+} struct_800EF560_unk_28; // size = 0xC
+
 typedef struct struct_800EF560 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0xB4];
+    /* 0x00 */ UNK_TYPE1 unk_00[0x8];
+    /* 0x08 */ s32 unk_08[3][2];
+    /* 0x20 */ UNK_TYPE1 unk_20[0x8];
+    /* 0x28 */ struct_800EF560_unk_28 unk_28[3];
+    /* 0x4C */ UNK_TYPE1 unk_4C[0x68];
     /* 0xB4 */ struct_800EF560_unk_B4 unk_B4;
     /* 0xCE */ UNK_TYPE1 unk_CE[0x2]; // pad?
 } struct_800EF560; // size = 0xD0
