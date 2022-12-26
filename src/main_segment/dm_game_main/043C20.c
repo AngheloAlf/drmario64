@@ -60,7 +60,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_init);
 extern ? evs_mem_data;
 extern ? B_800EF608;
 extern u32 evs_gamesel;
-extern u8 B_800FAE78;
+extern u8 evs_select_name_no;
 extern u8 B_8012372C;
 extern ? B_8012374C;
 extern ? B_8012374F;
@@ -160,8 +160,8 @@ void dm_game_init_static(void) {
     RecWritingMsg_init(&temp_s3->unk_000[0xAD8], &heapTop, temp_a2);
     switch (evs_gamesel) {                           /* switch 1 */
     case 0x0:                                       /* switch 1 */
-        temp_a1 = (B_800FAE78 * 0xD0) + &evs_mem_data;
-        if (B_800FAE78 == 8) {
+        temp_a1 = (evs_select_name_no * 0xD0) + &evs_mem_data;
+        if (evs_select_name_no == 8) {
         case 0x4:                                   /* switch 1 */
             D_80088414 = 0xDD18;
         } else {
@@ -237,7 +237,7 @@ block_23:
                 if (evs_gamesel == 1) {
                     var_a0_2 = temp_s3;
                     do {
-                        temp_v0 = *(&B_800EF608 + ((&B_800FAE78)[var_s1_7] * 0xD0));
+                        temp_v0 = *(&B_800EF608 + ((&evs_select_name_no)[var_s1_7] * 0xD0));
                         var_s1_7 += 1;
                         var_a0_2->unk_8B4 = (s32) temp_v0;
                         var_a0_2 += 4;

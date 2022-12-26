@@ -23,8 +23,8 @@ enum_main_no main11(void) {
         game_state_data[i].unk_16C = 1;
     }
 
-    B_800FAE79 = 8;
-    B_800FAE78[0] = 8;
+    evs_select_name_no[1] = 8;
+    evs_select_name_no[0] = 8;
 
     switch (EepRom_Init()) {
         case 0x2:
@@ -170,7 +170,7 @@ enum_main_no main12() {
         case ENUM_EVS_GAMESEL_4:
             evs_playcnt = 1;
             evs_game_time = 0;
-            D_8008840E = 0;
+            evs_one_game_flg = 0;
             game_state_data[0].unk_04D = D_800ACE4C[0];
             game_state_data[0].unk_000 = 0;
             game_state_data[0].unk_04B = 0;
@@ -187,9 +187,9 @@ enum_main_no main12() {
         case ENUM_EVS_GAMESEL_5:
             evs_playcnt = 2;
             evs_story_flg = 0;
-            D_8008840E = 0;
+            evs_one_game_flg = 0;
             for (i = 0; i < 2; i++) {
-                B_800FAE78[i] = 8;
+                evs_select_name_no[i] = 8;
                 ptr = game_state_data;
 
                 do {
@@ -219,7 +219,7 @@ enum_main_no main12() {
         case ENUM_EVS_GAMESEL_6:
             evs_playcnt = 4;
             evs_story_flg = 0;
-            D_8008840E = 0;
+            evs_one_game_flg = 0;
             for (i = 0; i < 4; i++) {
                 do {
                     game_state_data[i].unk_090 = genrand(0xD);

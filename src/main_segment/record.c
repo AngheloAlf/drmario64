@@ -231,30 +231,30 @@ void dm_init_system_mem(void) {
     evs_stereo = true;
     dm_audio_set_stereo(evs_stereo);
     evs_gamesel = ENUM_EVS_GAMESEL_0;
-    evs_secret_flg.unk_1 = 0;
-    evs_secret_flg.unk_0 = 0;
+    evs_secret_flg[1] = 0;
+    evs_secret_flg[0] = 0;
     evs_level_21 = 0;
     evs_vs_count = 3;
     evs_score_flag = 1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80036A64);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_story_sort_set);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80036B6C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_level_sort_set);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80036BC8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_taiQ_sort_set);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80036C58);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_timeAt_sort_set);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80036CFC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_vscom_set);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80036D58);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_vc_fl_set);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80036DB4);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_vsman_set);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80036E10);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_vm_fl_set);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80036E6C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_vm_ta_set);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80036EC8);
 

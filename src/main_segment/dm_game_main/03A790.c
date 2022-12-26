@@ -85,13 +85,143 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", add_taiQ_bonus_
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", countLeadingZeros);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_800648C0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", dm_game_eep_write_callback);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80064940);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_8006498C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", dm_save_all);
+void dm_save_all(void) {
+    struct_80123700 *game_state_ptr = &game_state_data[0];
+    struct_800F3E50 *temp_s3 = watchGame;
+    s32 i;
+    s32 var_s1_2;
+
+    if ((temp_s3->unk_000 != 0) || (temp_s3->unk_3B0 != 0)) {
+        return;
+    }
+
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_2:
+            if (evs_story_flg != 0) {
+                s32 temp_arg5 = evs_story_no;
+
+                if (game_state_ptr->unk_020 == 5) {
+                    temp_arg5++;
+                }
+
+                dm_story_sort_set(evs_select_name_no[0], story_proc_no >= 0xC, evs_story_level, game_state_ptr->unk_000,
+                                  evs_game_time, temp_arg5, evs_one_game_flg);
+                temp_s3->unk_3B0 = 1;
+            }
+            break;
+
+        case ENUM_EVS_GAMESEL_1:
+            for (i = 0; i < 2; i++) {
+                switch (evs_gamemode) {
+                    case ENUM_EVS_GAMEMODE_0:
+                        dm_vsman_set(evs_select_name_no[i], temp_s3->unk_8AC[i], temp_s3->unk_8AC[i ^ 1]);
+                        break;
+                    case ENUM_EVS_GAMEMODE_1:
+                        dm_vm_fl_set(evs_select_name_no[i], temp_s3->unk_8AC[i], temp_s3->unk_8AC[i ^ 1]);
+                        break;
+                    case ENUM_EVS_GAMEMODE_3:
+                        dm_vm_ta_set(evs_select_name_no[i], temp_s3->unk_8AC[i], temp_s3->unk_8AC[i ^ 1]);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+
+            temp_s3->unk_3B0 = 1;
+            temp_s3->unk_8AC[1] = 0;
+            temp_s3->unk_8AC[0] = 0;
+            break;
+
+        case ENUM_EVS_GAMESEL_3:
+            if (evs_story_flg == 0) {
+                switch (evs_gamemode) {
+                    case ENUM_EVS_GAMEMODE_0:
+                        dm_vscom_set(evs_select_name_no[0], temp_s3->unk_8AC[0], temp_s3->unk_8AC[1]);
+                        break;
+
+                    case ENUM_EVS_GAMEMODE_1:
+                        dm_vc_fl_set(evs_select_name_no[0], temp_s3->unk_8AC[0], temp_s3->unk_8AC[1]);
+                        break;
+
+                    default:
+                        break;
+                }
+                temp_s3->unk_3B0 = 1;
+                temp_s3->unk_8AC[1] = 0;
+                temp_s3->unk_8AC[0] = 0;
+            } else {
+                struct_800EF560 *temp_a0 = &evs_mem_data[evs_select_name_no[0]];
+                s32 var_s0_2 = evs_story_no;
+                s32 temp_s1 = story_proc_no >= 0xC;
+
+                temp_a0->unk_B4.unk_02 = CLAMP(var_s0_2 - 1, 0, 7);
+
+                if (game_state_ptr->unk_020 == 5) {
+                    if ((var_s0_2 == 9) && (game_state_ptr->unk_004 == 0)) {
+                        evs_secret_flg[temp_s1] = 1;
+                    }
+                    if (func_8006498C(evs_story_level, var_s0_2, game_state_ptr->unk_004)) {
+                        var_s0_2++;
+                    } else if (var_s0_2 == 9) {
+                        var_s0_2++;
+                    }
+                }
+
+                dm_story_sort_set(evs_select_name_no[0], temp_s1, evs_story_level, game_state_ptr->unk_000,
+                                  evs_game_time, var_s0_2, evs_one_game_flg);
+
+                temp_s3->unk_3B0 = 1;
+            }
+            break;
+
+        case ENUM_EVS_GAMESEL_0:
+            switch (evs_gamemode) {
+                case ENUM_EVS_GAMEMODE_0:
+                    var_s1_2 = game_state_ptr->unk_026;
+                    if (game_state_ptr->unk_020 == 5) {
+                        if (var_s1_2 >= 0x15) {
+                            evs_level_21 = 1;
+                        }
+                        if (var_s1_2 < 0x63) {
+                            var_s1_2++;
+                        }
+                    }
+
+                    dm_level_sort_set(evs_select_name_no[0], game_state_ptr->unk_02C, game_state_ptr->unk_000,
+                                      var_s1_2);
+
+                    evs_mem_data[evs_select_name_no[0]].unk_B4.unk_04 = MIN(0x15, var_s1_2);
+                    break;
+
+                case ENUM_EVS_GAMEMODE_2:
+                    dm_taiQ_sort_set(evs_select_name_no[0], game_state_ptr->unk_16C, game_state_ptr->unk_000,
+                                     evs_game_time);
+                    break;
+
+                case ENUM_EVS_GAMEMODE_3:
+                    dm_timeAt_sort_set(evs_select_name_no[0], game_state_ptr->unk_16C, game_state_ptr->unk_000,
+                                       evs_game_time, game_state_ptr->unk_170);
+                    break;
+
+                default:
+                    break;
+            }
+            temp_s3->unk_3B0 = 1;
+            break;
+
+        default:
+            break;
+    }
+
+    func_80040B10(func_80064940, 0);
+}
 
 void func_80064E4C(struct_80123700 *arg0) {
     struct_800F3E50 *ptr = watchGame;
@@ -569,10 +699,10 @@ block_129:
                                 var_s4 = 2;
                                 goto block_129;
                         }
-                        if ((u8) *B_800FAE78 == 8) {
+                        if (evs_select_name_no[0] == 8) {
                             var_t0 = &D_800A7360;
                         } else {
-                            var_t0 = ((u8) *B_800FAE78 * 0xD0) + &evs_mem_data->unk_00[1];
+                            var_t0 = (evs_select_name_no[0] * 0xD0) + &evs_mem_data->unk_00[1];
                         }
                         if ((u8) temp_s3->unk_9B4[0xF8] == 0) {
                             func_8007E760(&temp_s3->unk_9B4[0xF8], var_s4 & 0xFF, var_s1 & 0xFF, (u8) arg0->unk_02C, arg0->unk_000 / 10, (evs_game_time / 6) & 0xFFFF, var_t0);

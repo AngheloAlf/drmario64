@@ -165,7 +165,7 @@ void menuAll_init(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) {
         game_state_data[i].unk_004 = 0;
     }
 
-    D_8008840E = 0;
+    evs_one_game_flg = 0;
     *arg1 = sp10;
 }
 

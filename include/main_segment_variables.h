@@ -29,18 +29,18 @@ extern Gfx D_80088308[];
 extern Gfx D_80088328[];
 
 extern s8 evs_stereo;
-extern u8 evs_seqence; // maybe part of a struct?
-extern u8 evs_seqnumb; // maybe part of a struct?
-extern u8 evs_playcnt; // maybe part of a struct?
+extern u8 evs_seqence;
+extern u8 evs_seqnumb;
+extern u8 evs_playcnt;
 // extern UNK_TYPE D_80088404;
 // extern UNK_TYPE D_80088405;
 extern u8 evs_gamespeed; /* Original name: evs_gamespeed */
 extern s8 evs_score_flag;
 extern s8 evs_story_flg;
-// extern UNK_TYPE evs_story_no;
+extern s8 evs_story_no;
 extern s8 evs_story_level;
-extern EvsSecretFlags evs_secret_flg;
-extern s8 D_8008840E; // maybe part of a struct?
+extern s8 evs_secret_flg[2];
+extern u8 evs_one_game_flg; // maybe part of a struct?
 extern u8 evs_level_21; /* Original name: evs_level_21 */
 extern s8 evs_manual_no;
 // extern UNK_TYPE D_80088414;
@@ -737,8 +737,7 @@ extern UNK_TYPE1 B_800FAD31[4];
 // extern UNK_TYPE B_800FAE6C;
 // extern UNK_TYPE B_800FAE70;
 // extern UNK_TYPE B_800FAE74;
-extern s8 B_800FAE78[];
-extern s8 B_800FAE79;
+extern u8 evs_select_name_no[2];
 extern OSScTask B_800FAE80[];
 extern u16 gControllerPressedButtons[MAXCONTROLLERS+1]; /* Original name: joyupd */
 // extern UNK_TYPE B_800FAF92;

@@ -234,11 +234,11 @@ func_80038340 - found 4 matches total:
 0.99 - func_8003842C
 0.99 - func_80038518
 
-func_80036E10 - found 4 matches total:
-0.99 - func_80036CFC
-0.99 - func_80036D58
-0.99 - func_80036DB4
-0.99 - func_80036E6C
+dm_vm_fl_set - found 4 matches total:
+0.99 - dm_vscom_set
+0.99 - dm_vc_fl_set
+0.99 - dm_vsman_set
+0.99 - dm_vm_ta_set
 
 func_800383B4 - found 4 matches total:
 0.99 - func_800380F0

@@ -157,7 +157,8 @@ typedef struct struct_800F3E50 {
     /* 0x398 */ s32 unk_398;
     /* 0x39C */ UNK_TYPE1 unk_39C[0x10];
     /* 0x3AC */ s32 unk_3AC;
-    /* 0x3B0 */ UNK_TYPE1 unk_3B0[0x14];
+    /* 0x3B0 */ s32 unk_3B0;
+    /* 0x3B4 */ UNK_TYPE1 unk_3B4[0x10];
     /* 0x3C4 */ s32 unk_3C4;
     /* 0x3C8 */ f32 unk_3C8;
     /* 0x3CC */ UNK_TYPE1 unk_3CC[0x44];
@@ -177,7 +178,9 @@ typedef struct struct_800F3E50 {
     /* 0x880 */ UNK_TYPE unk_880;
     /* 0x884 */ UNK_TYPE1 unk_884[0x4];
     /* 0x888 */ UNK_TYPE4 unk_888[UNK_SIZE];
-    /* 0x88C */ UNK_TYPE1 unk_88C[0x90];
+    /* 0x88C */ UNK_TYPE1 unk_88C[0x20];
+    /* 0x8AC */ s32 unk_8AC[2];
+    /* 0x8B4 */ UNK_TYPE1 unk_8B4[0x68];
     /* 0x91C */ MessageWnd messageWnd;
     /* 0x99C */ UNK_TYPE1 unk_99C[0x10];
     /* 0x9AC */ s32 unk_9AC;
@@ -352,7 +355,7 @@ typedef enum enum_main_no {
 
 typedef struct struct_80123700 {
     /* 0x000 */ UNK_TYPE unk_000;
-    /* 0x004 */ UNK_TYPE2 unk_004;
+    /* 0x004 */ u16 unk_004;
     /* 0x006 */ UNK_TYPE1 unk_006[0x2];
     /* 0x008 */ UNK_TYPE1 unk_008[0x2];
     /* 0x008 */ s8 unk_00A;
@@ -616,11 +619,6 @@ typedef enum enum_graphic_no {
     /* 6 */ GRAPHIC_NO_6,
     /* 7 */ GRAPHIC_NO_7 // ERROR?
 } enum_graphic_no;
-
-typedef struct EvsSecretFlags {
-    /* 0x0 */ s8 unk_0;
-    /* 0x1 */ s8 unk_1;
-} EvsSecretFlags; // size = 0x2
 
 typedef struct struct_800365B0_arg0 {
     /* 0x00 */ UNK_PTR unk_00;

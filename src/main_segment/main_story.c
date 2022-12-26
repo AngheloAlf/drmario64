@@ -493,7 +493,6 @@ extern s32 story_staff_roll;
 extern u16 story_norm; /* Original name: story_norm */
 extern s32 B_800E87B4;
 extern s16 B_800F6CDE[];
-extern u8 evs_story_no;
 extern void *D_800A8ACC;
 
 extern UNK_TYPE4 D_800AAE00[];
