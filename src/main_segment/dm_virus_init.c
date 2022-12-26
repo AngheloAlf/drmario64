@@ -239,12 +239,12 @@ void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data
     }
 }
 
-s32 dm_get_first_virus_count(u32 arg0, struct_80123700 *arg1) {
+s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_80123700 *arg1) {
     s32 ret;
 
-    switch (arg0) {
-        case 1:
-        case 3:
+    switch (evsGamemode) {
+        case ENUM_EVS_GAMEMODE_1:
+        case ENUM_EVS_GAMEMODE_3:
             ret = func_8005F6F0(arg1->unk_16C);
             break;
 

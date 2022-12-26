@@ -762,7 +762,7 @@ extern u32 evs_game_time;
 extern Gfx gGfxGlist[][0x1000]; /* Original name: gfx_glist */
 extern u16 joycnt[4][0x10]; /* Original name: joycnt */
 extern u64 B_801136F0[];
-extern u32 evs_gamemode;
+extern enum_evs_gamemode evs_gamemode;
 
 extern struct_80123700 game_state_data[4]; /* Original name: game_state_data */
 

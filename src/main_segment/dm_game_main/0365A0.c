@@ -149,7 +149,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80061184);
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", update_flash_virus_count);
 
 u8 func_8006121C(struct_80123700 *arg0, struct_800EBEF0 *arg1, UNK_TYPE arg2) {
-    if (evs_gamemode == 1) {
+    if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
         arg0->unk_025 = update_flash_virus_count(arg0, arg1, arg2);
     } else {
         arg0->unk_025 = get_virus_count(arg1);
@@ -552,7 +552,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", dm_get_vtx_buf)
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", initEtcWork);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80062978);
+void func_80062978(s32 index, s32 arg1) {
+    watchGame->unk_888[index] = arg1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80062990);
 
@@ -562,9 +564,13 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_800629C8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_800629E4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80062A08);
+void func_80062A08(s32 index) {
+    func_80062978(index, 0xB4);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80062A24);
+void func_80062A24(s32 index) {
+    func_80062978(index, 0xB4);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80062A40);
 
@@ -626,11 +632,66 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80063378);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_800633C0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_800633FC);
+void func_800633FC(void) {
+    if (watchGame->unk_000 != 0) {
+        replay_play_init();
+    } else {
+        replay_record_init(evs_playcnt);
+    }
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", dm_warning_h_line_se);
+void dm_warning_h_line_se(void) {
+    struct_800F3E50 *ptr = watchGame;
+    s32 var_a0 = 0;
+    s32 i;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_800634E8);
+    for (i = 0; i < evs_playcnt; i++) {
+        if (game_state_data[i].unk_020 == 1) {
+            var_a0 += game_state_data[i].unk_044 != 0;
+        }
+    }
+
+    if (var_a0 == 0) {
+        ptr->unk_428 = 0;
+    } else {
+        ptr->unk_428++;
+
+        if (ptr->unk_428 == 1) {
+            dm_snd_play_in_game(SND_INDEX_79);
+        } else if (ptr->unk_428 >= 300) {
+            ptr->unk_428 = 0;
+        }
+    }
+}
+
+void dm_play_count_down_se(void) {
+    s32 i;
+
+    if (evs_gamemode != ENUM_EVS_GAMEMODE_3) {
+        return;
+    }
+
+    for (i = 0; i < evs_playcnt; i++) {
+        if (game_state_data[i].unk_020 == 1) {
+            break;
+        }
+    }
+
+    if (i != evs_playcnt) {
+        s32 diff = i = 10800 - evs_game_time;
+        s32 temp2;
+        s32 temp1;
+
+        //! FAKE
+        temp2 = diff / 60;
+        i = diff % 60;
+        temp1 = i;
+
+        if ((temp1 == 0) && (temp2 > 0) && (temp2 < 0xB)) {
+            dm_snd_play_in_game(SND_INDEX_72);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_800635BC);
 
@@ -644,7 +705,20 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80063FF4);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_8006408C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80064130);
+void func_80064130(s32 arg0, s32 arg1) {
+    watchGame->unk_348[arg0] = arg1;
+    watchGame->unk_358[arg0] = 0;
+    watchGame->unk_368[arg0] = -1;
+
+    switch (watchGame->unk_348[arg0]) {
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+            watchGame->unk_358[arg0]++;
+            break;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_8006417C);
 

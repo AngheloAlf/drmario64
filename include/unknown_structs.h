@@ -148,7 +148,9 @@ typedef struct struct_800F3E50 {
     /* 0x358 */ UNK_TYPE4 unk_358[UNK_SIZE];
     /* 0x35C */ UNK_TYPE1 unk_35C[0xC];
     /* 0x368 */ UNK_TYPE4 unk_368[UNK_SIZE];
-    /* 0x36C */ UNK_TYPE1 unk_36C[0x20];
+    /* 0x36C */ UNK_TYPE1 unk_36C[0xC];
+    /* 0x378 */ UNK_TYPE4 unk_378;
+    /* 0x37C */ UNK_TYPE1 unk_37C[0x10];
     /* 0x38C */ UNK_TYPE unk_38C;
     /* 0x390 */ UNK_TYPE unk_390;
     /* 0x394 */ s32 unk_394;
@@ -164,7 +166,8 @@ typedef struct struct_800F3E50 {
     /* 0x414 */ s32 unk_41C;
     /* 0x420 */ UNK_TYPE unk_420;
     /* 0x424 */ s32 unk_424;
-    /* 0x428 */ UNK_TYPE1 unk_428[0x8];
+    /* 0x428 */ UNK_TYPE4 unk_428;
+    /* 0x42C */ UNK_TYPE1 unk_42C[0x4];
     /* 0x430 */ struct_800F3E50_unk_430 *unk_430;
     /* 0x434 */ UNK_TYPE1 unk_434[0x18];
     /* 0x44C */ AnimeState animeStates[3];
@@ -172,7 +175,9 @@ typedef struct struct_800F3E50 {
     /* 0x878 */ UNK_TYPE unk_878;
     /* 0x87C */ UNK_TYPE1 unk_87C[0x4];
     /* 0x880 */ UNK_TYPE unk_880;
-    /* 0x884 */ UNK_TYPE1 unk_884[0x98];
+    /* 0x884 */ UNK_TYPE1 unk_884[0x4];
+    /* 0x888 */ UNK_TYPE4 unk_888[UNK_SIZE];
+    /* 0x88C */ UNK_TYPE1 unk_88C[0x90];
     /* 0x91C */ MessageWnd messageWnd;
     /* 0x99C */ UNK_TYPE1 unk_99C[0x10];
     /* 0x9AC */ s32 unk_9AC;
@@ -180,7 +185,9 @@ typedef struct struct_800F3E50 {
     /* 0x9B4 */ UNK_TYPE1 unk_9B4[0xC];
     /* 0x9C0 */ UNK_TYPE4 unk_9C0;
     /* 0x9C4 */ UNK_TYPE4 unk_9C4;
-    /* 0x9C8 */ UNK_TYPE1 unk_9C8[0x60];
+    /* 0x9C8 */ UNK_TYPE1 unk_9C8[0x30];
+    /* 0x9F8 */ UNK_TYPE4 unk_9F8;
+    /* 0x9FC */ UNK_TYPE1 unk_9FC[0x2C];
     /* 0xA28 */ MessageWnd unk_A28;
     /* 0xAA8 */ UNK_TYPE1 unk_AA8[0x30];
     /* 0xAD8 */ RecordWritingMessage recMessage;
@@ -375,7 +382,8 @@ typedef struct struct_80123700 {
     /* 0x03C */ u8 unk_03C[UNK_SIZE];
     /* 0x03D */ UNK_TYPE1 unk_03D[0x2];
     /* 0x03F */ u8 unk_03F;
-    /* 0x040 */ UNK_TYPE1 unk_040[0x8];
+    /* 0x040 */ UNK_TYPE1 unk_040[0x4];
+    /* 0x040 */ UNK_TYPE unk_044;
     /* 0x048 */ UNK_TYPE1 unk_048[0x3];
     /* 0x04B */ u8 unk_04B;
     /* 0x04C */ u8 unk_04C;
@@ -388,7 +396,7 @@ typedef struct struct_80123700 {
     /* 0x0D4 */ UNK_TYPE1 unk_0D4[0x98];
     /* 0x16C */ s32 unk_16C;
     /* 0x170 */ UNK_TYPE4 unk_170;
-    /* 0x174 */ UNK_TYPE1 unk_174[0x4];
+    /* 0x174 */ UNK_TYPE4 unk_174;
     /* 0x178 */ UNK_TYPE unk_178;
     /* 0x17C */ UNK_TYPE1 unk_17C[0xB8];
     /* 0x234 */ UNK_TYPE1 unk_234[3];
@@ -651,5 +659,12 @@ typedef struct dm_calc_erase_score_pos_arg2 {
     /* 0x0 */ s32 unk_0;
     /* 0x4 */ s32 unk_4;
 } dm_calc_erase_score_pos_arg2; // size >= 0x8
+
+typedef enum enum_evs_gamemode {
+    /* 0 */ ENUM_EVS_GAMEMODE_0,
+    /* 1 */ ENUM_EVS_GAMEMODE_1,
+    /* 2 */ ENUM_EVS_GAMEMODE_2,
+    /* 3 */ ENUM_EVS_GAMEMODE_3
+} enum_evs_gamemode;
 
 #endif

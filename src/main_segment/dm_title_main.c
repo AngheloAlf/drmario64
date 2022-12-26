@@ -118,7 +118,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
             evs_gamesel = ENUM_EVS_GAMESEL_6;
         }
 
-        evs_gamemode = 0;
+        evs_gamemode = ENUM_EVS_GAMEMODE_0;
 
         title_demo_no++;
         if (title_demo_no >= 3) {

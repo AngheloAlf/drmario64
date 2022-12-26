@@ -51,7 +51,7 @@ void add_taiQ_bonus_wait(struct_80123700 *arg0) {
     struct_800F3E50 *ptr = watchGame;
     s32 *ptr2;
 
-    if (evs_gamemode != 2) {
+    if (evs_gamemode != ENUM_EVS_GAMEMODE_2) {
         return;
     }
 
@@ -91,7 +91,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80064940);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_8006498C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_800649CC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", dm_save_all);
 
 void func_80064E4C(struct_80123700 *arg0) {
     struct_800F3E50 *ptr = watchGame;
@@ -231,7 +231,7 @@ s32 dm_game_main_cnt_1P(struct_80123700 *arg0, struct_800EBEF0 *arg1, s32 arg2) 
     func_80064E4C();
     animeState_update(&arg0->unk_094);
     func_80062EC0(&temp_s3->unk_000[(arg2 * 0xA4) + 0xB8]);
-    if ((evs_gamemode != 3) || ((u32) evs_game_time < 0x2A30U) || (var_v0 = -1, (arg0->unk_020 != 1))) {
+    if ((evs_gamemode != ENUM_EVS_GAMEMODE_3) || ((u32) evs_game_time < 0x2A30U) || (var_v0 = -1, (arg0->unk_020 != 1))) {
         temp_v0 = arg0->unk_00C;
         switch (temp_v0) {
             case 0x1:
@@ -267,7 +267,7 @@ s32 dm_game_main_cnt_1P(struct_80123700 *arg0, struct_800EBEF0 *arg1, s32 arg2) 
                         var_s0 += 1;
                         var_s1_2 += 0x40;
                     } while (var_s0 < 3);
-                    if (evs_gamemode == 2) {
+                    if (evs_gamemode == ENUM_EVS_GAMEMODE_2) {
                         temp_s3->unk_410 = 0;
 block_84:
                         return -1;
@@ -340,7 +340,7 @@ block_39:
                     temp_v1 = (s8) (u8) arg0->unk_008[2] / 2;
                     scoreNums_set(&temp_s3->unk_000[(arg2 * 0xA4) + 0xB8], dm_make_score(arg0), (u8) arg0->unk_037[0], arg0->unk_006 + temp_v1 + sp20, arg0->unk_008 + temp_v1 + sp24);
                     if ((u8) arg0->unk_024[1] == 0) {
-                        if (evs_gamemode != 2) {
+                        if (evs_gamemode != ENUM_EVS_GAMEMODE_2) {
                             temp_a0 = (u8) arg0->unk_038[2];
                             arg0->unk_14 = 3;
                             arg0->unk_00C = 0xA;
@@ -352,7 +352,7 @@ block_39:
                         goto block_47;
                     }
 block_47:
-                    if (((u8) arg0->unk_024[1] < 4U) && (evs_gamemode != 2)) {
+                    if (((u8) arg0->unk_024[1] < 4U) && (evs_gamemode != ENUM_EVS_GAMEMODE_2)) {
                         if (temp_s3->unk_3C0 == 0) {
                             temp_s3->unk_3C0 = 1;
                             dm_snd_play_in_game(0x50);
@@ -556,16 +556,16 @@ block_47:
                 if (var_v0_3 == 0) {
                     if ((temp_s3->unk_AA8 < 0) && ((gControllerHoldButtons[*main_joy] & 0x2230) == 0x2230)) {
                         switch (evs_gamemode) {     /* switch 4; irregular */
-                            case 0x3:               /* switch 4 */
+                            case ENUM_EVS_GAMEMODE_3:               /* switch 4 */
                                 var_s4 = 1;
 block_129:
                                 var_s1 = (u8) arg0->unk_16C;
                                 break;
-                            case 0x0:               /* switch 4 */
+                            case ENUM_EVS_GAMEMODE_0:               /* switch 4 */
                                 var_s1 = arg0->unk_026;
                                 var_s4 = 0;
                                 break;
-                            case 0x2:               /* switch 4 */
+                            case ENUM_EVS_GAMEMODE_2:               /* switch 4 */
                                 var_s4 = 2;
                                 goto block_129;
                         }
@@ -687,4 +687,4 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_800666FC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_80066808);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", func_8006683C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03A790", dm_set_pause_and_volume);
