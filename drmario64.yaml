@@ -404,7 +404,8 @@ segments:
 
       - [0x066080, c, main_segment/replay]
 
-      - [0x066840, c, main_segment/054DD0] # hasm?
+      - [0x066840, hasm]
+
       - [0x0676B0, c, main_segment/055C40]
 
       - [0x067820, asm, libmus/player] # bss issues
