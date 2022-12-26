@@ -98,7 +98,7 @@ void func_8003678C(struct_800F7470 *arg0);
 // void func_80036808();
 void dm_init_save_mem(struct_800EF560 *arg0);
 void dm_init_system_mem(void);
-//void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 void dm_level_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void dm_taiQ_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 void dm_timeAt_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);

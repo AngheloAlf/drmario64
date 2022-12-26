@@ -239,13 +239,12 @@ void dm_init_system_mem(void) {
 }
 
 #ifdef NON_EQUIVALENT
+//#if 1
 // maybe equivalent
 void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    s32 *temp_v1_2;
     s32 temp_t0;
     s32 temp_t1;
     s32 temp_v1;
-    s32 var_a0;
     s32 var_t2;
     s32 var_v1;
     struct_800EF560_unk_28 *temp_a0;
@@ -257,9 +256,9 @@ void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg
 
     var_t2 = MIN(0x176F, arg4);
 
-    var_a0 = var_t2;
-    temp_v1 = arg5 - 1;
-    temp_t1 = temp_v1 & (~temp_v1 >> 0x1F);
+    //temp_v1 = arg5 - 1;
+    //temp_t1 = temp_v1 & (~temp_v1 >> 0x1F);
+    temp_t1 = MAX(arg5 - 1, 0);
 
     if (arg6 == 0 && (arg2 < 3)) {
         temp_a0 = &temp_t3->unk_28[arg2];
@@ -270,7 +269,7 @@ void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg
             var_v1 = arg3;
             if (var_v0 == arg3) {
                 var_v0 = var_t2;
-                var_v0 = var_a0;
+                var_v0 = var_t2;
                 var_v1 = temp_a0->unk_4;
             }
         }
@@ -281,18 +280,8 @@ void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg
         }
     }
 
-    temp_v1_2 = &temp_t3->unk_08[arg2][arg1];
-    var_a0 = *temp_v1_2;
-    if (var_a0 < temp_t1) {
-        var_a0 = temp_t1;
-    }
-    *temp_v1_2 = var_a0;
-    if (var_a0 >= 8) {
-        var_a0 = 7;
-    }
-    *temp_v1_2 = var_a0;
-
-    //temp_t3->unk_08[arg2][arg1] = CLAMP(temp_t3->unk_08[arg2][arg1], temp_t1, 7);
+    temp_t3->unk_08[arg2][arg1] = MAX(temp_t3->unk_08[arg2][arg1], temp_t1);
+    temp_t3->unk_08[arg2][arg1] = MIN(temp_t3->unk_08[arg2][arg1], 7);
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_story_sort_set);
