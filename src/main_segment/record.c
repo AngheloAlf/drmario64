@@ -256,8 +256,8 @@ void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg
 
     var_t2 = MIN(0x176F, arg4);
 
-    //temp_v1 = arg5 - 1;
-    //temp_t1 = temp_v1 & (~temp_v1 >> 0x1F);
+    // temp_v1 = arg5 - 1;
+    // temp_t1 = temp_v1 & (~temp_v1 >> 0x1F);
     temp_t1 = MAX(arg5 - 1, 0);
 
     if (arg6 == 0 && (arg2 < 3)) {
