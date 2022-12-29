@@ -48,6 +48,8 @@
 #define MAX_ALT(a, b) ((b) > (a) ? (b) : (a))
 #define MIN_ALT(a, b) ((b) < (a) ? (b) : (a))
 
+#define ASM_TEXT __asm__(".section .text")
+
 #define RODATA __attribute__ ((section (".rodata")))
 #define BSS __attribute__ ((section (".bss")))
 

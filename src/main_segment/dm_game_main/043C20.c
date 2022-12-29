@@ -35,7 +35,275 @@ void dm_game_init_heap(void) {
     heapTop = B_800F48C0 + temp;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_init);
+extern const u16 D_800B2294[][4];
+extern const u8 D_800B22AC[];
+extern const u8 D_800B22B0[];
+extern const f32 RO_800B1C80[];
+
+void dm_game_init(bool arg0) {
+    struct_800F3E50 *watchGameP = watchGame;
+    s32 i;
+    s32 j;
+    s32 var_a1;
+    s32 var_s4;
+    struct_80123700 *temp_s0_3;
+    struct_80123700 *var_s0_2;
+    struct_virus_map_data *var_s1_5;
+    struct_virus_map_disp_order *var_s3;
+
+    if (!arg0 || (watchGameP->unk_000 == 0)) {
+        watchGameP->unk_000 = 0;
+        watchGameP->unk_004 = (genrand(0xFFFF) + osGetTime()) * 0x10001;
+        watchGameP->unk_008 = irandom() + osGetTime();
+    }
+
+    sgenrand(watchGameP->unk_004);
+    randomseed(watchGameP->unk_008);
+
+    if (!arg0) {
+        for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_00C); i++) {
+            watchGameP->unk_03C[i] = 0;
+            watchGameP->unk_00C[i] = 0;
+        }
+
+        watchGameP->unk_06C = 0;
+        func_80069160(&watchGameP->unk_070, watchGameP->unk_00C, watchGameP->unk_03C);
+
+        // Redundant condition
+        if (!arg0) {
+            watchGameP->unk_378 = 0;
+        }
+    }
+
+    for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_0B8); i++) {
+        func_80062E84(&watchGameP->unk_0B8[i]);
+    }
+
+    for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_37C); i++) {
+        watchGameP->unk_37C[i] = 0;
+    }
+
+    watchGameP->unk_38C = 0x1E;
+    watchGameP->unk_390 = -1;
+
+    for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_39C); i++) {
+        watchGameP->unk_39C[i] = 1;
+    }
+
+    watchGameP->unk_3AC = 0;
+    watchGameP->unk_3B8 = 0;
+    watchGameP->unk_3B4 = 0;
+    watchGameP->unk_3C0 = 0;
+    watchGameP->unk_3BC = (evs_gamemode != ENUM_EVS_GAMEMODE_1 ? 2 : 0) | 1;
+    watchGameP->unk_3C4 = main_no != MAIN_NO_5;
+
+    for (i = 0, var_a1 = 1; i < ARRAY_COUNTU(watchGameP->unk_400); i++) {
+        watchGameP->unk_400[i] = 0;
+        watchGameP->unk_3E8[i] = var_a1;
+        watchGameP->unk_3F4[i] = 1.0f;
+        var_a1 += 0x78;
+    }
+
+    watchGameP->unk_3CC = 0;
+    watchGameP->unk_40C = 0;
+    watchGameP->unk_410 = 0;
+    watchGameP->unk_414 = 0;
+    watchGameP->unk_3C8 = 10.0f;
+
+    switch (evs_gamemode) {
+        case ENUM_EVS_GAMEMODE_2:
+            watchGameP->unk_3C8 = RO_800B1C80[game_state_data->unk_16C];
+            break;
+
+        default:
+            break;
+    }
+
+    for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_418); i++) {
+        watchGameP->unk_418[i] = 0;
+    }
+
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_4:
+        case ENUM_EVS_GAMESEL_5:
+        case ENUM_EVS_GAMESEL_6:
+            watchGameP->unk_41C = 0x708;
+            watchGameP->unk_420 = 1;
+            break;
+
+        default:
+            watchGameP->unk_41C = 0;
+            watchGameP->unk_420 = 0;
+            break;
+    }
+
+    watchGameP->unk_424 = 0;
+    watchGameP->unk_428 = 0;
+
+    if (!arg0) {
+        for (i = 0; i < ARRAY_COUNT(watchGameP->unk_89C); i++) {
+            watchGameP->unk_89C[i] = 0;
+        }
+    }
+
+    switch (evs_gamemode) {
+        case ENUM_EVS_GAMEMODE_2:
+        case ENUM_EVS_GAMEMODE_3:
+            evs_game_time = 0;
+            break;
+
+        default:
+            break;
+    }
+
+    dm_seq_play_in_game(evs_seqnumb * 2);
+    func_80060E10();
+
+    for (i = 0; i < ARRAY_COUNT(watchGameP->unk_8DC); i++) {
+        for (j = 0; j < ARRAY_COUNT(watchGameP->unk_8DC[i]); j++) {
+            watchGameP->unk_8DC[i][j] = -1;
+        }
+        j = 4;
+    }
+
+    watchGameP->unk_9C4 = -1;
+    watchGameP->unk_9C8 = -1;
+    watchGameP->unk_9CC = -1;
+    watchGameP->unk_9BC = 0;
+    watchGameP->unk_9C0 = 0;
+    watchGameP->unk_A28.unk_74 = 0;
+    watchGameP->unk_AA8 = -0x10;
+    bzero(&watchGameP->unk_AAC, sizeof(struct_800F3E50_unk_AAC));
+
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_0:
+        case ENUM_EVS_GAMESEL_4:
+            var_s4 = 0;
+            j = 0;
+            break;
+
+        case ENUM_EVS_GAMESEL_1:
+        case ENUM_EVS_GAMESEL_3:
+        case ENUM_EVS_GAMESEL_5:
+            var_s4 = 0;
+            j = 1;
+            break;
+
+        case ENUM_EVS_GAMESEL_2:
+        case ENUM_EVS_GAMESEL_6:
+            var_s4 = 1;
+            j = 2;
+            break;
+    }
+
+    temp_s0_3 = game_state_data;
+    for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
+        temp_s0_3[i].unk_008 = D_800B22AC[var_s4];
+        temp_s0_3[i].unk_00A = D_800B22B0[var_s4];
+        temp_s0_3[i].unk_006 = D_800B2294[j][i];
+    }
+
+    for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
+        temp_s0_3 = &game_state_data[i];
+
+        temp_s0_3->unk_04B = i;
+        temp_s0_3->unk_00C = 1;
+        temp_s0_3->unk_014 = 2;
+        temp_s0_3->unk_01C = 1;
+        temp_s0_3->unk_020 = 1;
+        temp_s0_3->unk_025 = 0;
+        temp_s0_3->unk_024 = 0;
+        temp_s0_3->unk_044 = 0;
+        temp_s0_3->unk_048 = 0;
+        temp_s0_3->unk_049 = 0;
+        temp_s0_3->unk_04A = 0;
+        temp_s0_3->unk_02D = GameSpeed[temp_s0_3->unk_02C];
+        temp_s0_3->unk_031 = 0;
+        temp_s0_3->unk_030 = 1;
+        temp_s0_3->unk_032 = 1;
+        temp_s0_3->unk_02E = 0;
+        temp_s0_3->unk_02F = 0;
+        temp_s0_3->unk_034 = 0;
+        func_80060FCC(temp_s0_3);
+        temp_s0_3->unk_027 = 0;
+        temp_s0_3->unk_029 = 0;
+        temp_s0_3->unk_028 = 1;
+        temp_s0_3->unk_035 = 0;
+        temp_s0_3->unk_036 = 0;
+        temp_s0_3->unk_037 = 0;
+        temp_s0_3->unk_038 = 0;
+        temp_s0_3->unk_03A = 0;
+        temp_s0_3->unk_039 = 0;
+        temp_s0_3->unk_168 = 0;
+        temp_s0_3->unk_170 = 0;
+        temp_s0_3->unk_174 = 0;
+
+        switch (evs_gamesel) {
+            case ENUM_EVS_GAMESEL_2:
+            case ENUM_EVS_GAMESEL_6:
+                temp_s0_3->unk_02B = 0xC;
+                temp_s0_3->unk_02A = 0;
+                break;
+
+            default:
+                temp_s0_3->unk_02B = 8;
+                temp_s0_3->unk_02A = 2;
+                break;
+        }
+
+        for (j = 0; j < ARRAY_COUNT(temp_s0_3->unk_03C); j++) {
+            temp_s0_3->unk_03C[j] = 0;
+        }
+
+        for (j = 0; j < ARRAY_COUNT(temp_s0_3->unk_050); j++) {
+            temp_s0_3->unk_050[j][0] = 0;
+            temp_s0_3->unk_050[j][1] = 0;
+        }
+
+        init_map_all(&game_map_data[i]);
+    }
+
+    var_s3 = virus_map_disp_order;
+    var_s1_5 = virus_map_data;
+    var_s0_2 = game_state_data;
+    for (i = 0; i < evs_playcnt; i++) {
+        dm_virus_init(evs_gamemode, &var_s0_2[i], &var_s1_5[i], &var_s3[i]);
+        if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+            make_flash_virus_pos(&var_s0_2[i], &var_s1_5[i], &var_s3[i]);
+        } else {
+            game_state_data[i].unk_164 = 0;
+        }
+    }
+
+    for (i = 0; i < evs_playcnt - 1; i++) {
+        for (j = i + 1; j < evs_playcnt; j++) {
+            if (game_state_data[i].unk_026 == game_state_data[j].unk_026) {
+                dm_virus_map_copy(&virus_map_data[i], &virus_map_data[j], &virus_map_disp_order[i], &virus_map_disp_order[j]);
+                if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+                    game_state_data[j].unk_164 = game_state_data[i].unk_164;
+                    bcopy(&game_state_data[i].unk_0D4, &game_state_data[j].unk_0D4, sizeof(struct_80123700_unk_0D4));
+                    bcopy(&game_state_data[i].unk_140, &game_state_data[j].unk_140, sizeof(struct_80123700_unk_140));
+                }
+                break;
+            }
+        }
+    }
+
+    initEtcWork();
+    aifGameInit();
+    s_hard_mode = 0;
+    fool_mode = 0;
+
+    if (evs_story_level == 3) {
+        if (evs_story_no == 7) {
+            fool_mode = 1;
+        } else {
+            s_hard_mode = 1;
+        }
+    }
+}
+
+const u32 rodataPadding_800B22D4 = 0;
 
 #if 0
 ? RecWritingMsg_init(s8 *, struct_80124610 **, s32);     /* extern */
@@ -348,7 +616,23 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B2348);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B2354);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B2358);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_init_snap_bg);
+ASM_TEXT;
+
+void dm_game_init_snap_bg(void) {
+    watchGame->unk_87C = (void*)ALIGN64((uintptr_t)heapTop);
+    heapTop = watchGame->unk_87C + 0x26700;
+    watchGame->unk_880 = 0;
+
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_0:
+        case ENUM_EVS_GAMESEL_4:
+            break;
+
+        default:
+            heapTop = func_80077170((BgRomDataIndex) story_proc_no, heapTop);
+            break;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_draw_snap_bg);
 

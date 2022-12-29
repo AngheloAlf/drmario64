@@ -282,7 +282,7 @@ void dm_h_erase_chack_set(struct_80123700 *arg0, struct_800EBEF0 *arg1) {
                     if (var_s1 >= 3) {
                         dm_make_erase_h_line(arg0, arg1, var_s5, var_s1, i);
                         if (arg0->unk_039 == 0) {
-                            arg0->unk_03F |= (1 << var_s2);
+                            arg0->unk_03C[3] |= (1 << var_s2);
                         }
                         arg0->unk_03C[var_s2]++;
                         arg0->unk_03A++;
@@ -303,7 +303,7 @@ void dm_h_erase_chack_set(struct_80123700 *arg0, struct_800EBEF0 *arg1) {
                         if (var_s1 >= 3) {
                             dm_make_erase_h_line(arg0, arg1, var_s5, var_s1, i);
                             if (arg0->unk_039 == 0) {
-                                arg0->unk_03F |= (1 << var_s2);
+                                arg0->unk_03C[3] |= (1 << var_s2);
                             }
                             arg0->unk_03C[var_s2]++;
                             arg0->unk_03A++;
@@ -314,7 +314,7 @@ void dm_h_erase_chack_set(struct_80123700 *arg0, struct_800EBEF0 *arg1) {
                 if (var_s1 >= 3) {
                     dm_make_erase_h_line(arg0, arg1, var_s5, var_s1, i);
                     if (arg0->unk_039 == 0) {
-                        arg0->unk_03F |= (1 << var_s2);
+                        arg0->unk_03C[3] |= (1 << var_s2);
                     }
                     arg0->unk_03C[var_s2]++;
                     arg0->unk_03A++;
@@ -399,7 +399,7 @@ void dm_w_erase_chack_set(struct_80123700 *arg0, struct_800EBEF0 *arg1) {
                     if (var_s1 >= 3) {
                         dm_make_erase_w_line(arg0, arg1, var_s6, var_s1, i);
                         if (arg0->unk_039 == 0) {
-                            arg0->unk_03F |= 1 << var_s3;
+                            arg0->unk_03C[3] |= 1 << var_s3;
                         }
                         arg0->unk_03C[var_s3]++;
                         arg0->unk_03A++;
@@ -419,7 +419,7 @@ void dm_w_erase_chack_set(struct_80123700 *arg0, struct_800EBEF0 *arg1) {
                         if (var_s1 >= 3) {
                             dm_make_erase_w_line(arg0, arg1, var_s6, var_s1, i);
                             if (arg0->unk_039 == 0) {
-                                arg0->unk_03F |= 1 << var_s3;
+                                arg0->unk_03C[3] |= 1 << var_s3;
                             }
                             arg0->unk_03C[var_s3]++;
                             arg0->unk_03A++;
@@ -430,7 +430,7 @@ void dm_w_erase_chack_set(struct_80123700 *arg0, struct_800EBEF0 *arg1) {
                 if (var_s1 >= 3) {
                     dm_make_erase_w_line(arg0, arg1, var_s6, var_s1, i);
                     if (arg0->unk_039 == 0) {
-                        arg0->unk_03F |= 1 << var_s3;
+                        arg0->unk_03C[3] |= 1 << var_s3;
                     }
                     arg0->unk_03C[var_s3]++;
                     arg0->unk_03A++;

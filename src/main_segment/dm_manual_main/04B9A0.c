@@ -130,20 +130,20 @@ void dm_manual_all_init(void) {
         struct_800F4890_unk_0E8 *temp;
 
         var_a0_2[i].unk_02C = 1;
-        var_a0_2[i].unk_02D[0] = gamespeed_ptr[1];
+        var_a0_2[i].unk_02D = gamespeed_ptr[1];
         var_a0_2[i].unk_04D = 0;
         var_a0_2[i].unk_04E = 2;
 
         switch (evs_manual_no) {
             case EVS_MANUAL_NO_2:
             case EVS_MANUAL_NO_5:
-                var_a0_2[i].unk_028[3] = 0xC;
-                var_a0_2[i].unk_028[2] = 0;
+                var_a0_2[i].unk_02B = 0xC;
+                var_a0_2[i].unk_02A = 0;
                 break;
 
             default:
-                var_a0_2[i].unk_028[3] = 8;
-                var_a0_2[i].unk_028[2] = 2;
+                var_a0_2[i].unk_02B = 8;
+                var_a0_2[i].unk_02A = 2;
                 break;
         }
 

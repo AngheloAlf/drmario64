@@ -110,6 +110,12 @@ typedef struct struct_800F3E50_unk_0B8_unk_00 {
     /* 0x10 */ f32 unk_10;
 } struct_800F3E50_unk_0B8_unk_00; // size = 0x14
 
+typedef struct struct_800F3E50_unk_070 {
+    /* 0x00 */ UNK_TYPE *unk_00;
+    /* 0x04 */ UNK_TYPE *unk_04;
+    /* 0x08 */ s32 unk_08[0x10];
+} struct_800F3E50_unk_070; // size = 0x48
+
 typedef struct struct_800F3E50_unk_0B8 {
     /* 0x00 */ struct_800F3E50_unk_0B8_unk_00 unk_00[8];
     /* 0xA0 */ UNK_TYPE4 unk_A0;
@@ -138,11 +144,19 @@ typedef struct struct_800F3E50_unk_430 {
     /* 0xC4 */ u16 *unk_C4;
 } struct_800F3E50_unk_430; // size >= 0xC8
 
+typedef struct struct_800F3E50_unk_AAC {
+    /* 0x00 */ UNK_TYPE1 unk_00[0x2A];
+} struct_800F3E50_unk_AAC; // size = 0x2A
+
 typedef struct struct_800F3E50 {
     /* 0x000 */ UNK_TYPE4 unk_000;
-    /* 0x004 */ UNK_TYPE1 unk_004[0xB4];
-    /* 0x0B8 */ struct_800F3E50_unk_0B8 unk_0B8[UNK_SIZE];
-    /* 0x15C */ UNK_TYPE1 unk_15C[0x1EC];
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
+    /* 0x00C */ s32 unk_00C[0xC];
+    /* 0x03C */ s32 unk_03C[0xC];
+    /* 0x06C */ s32 unk_06C;
+    /* 0x070 */ struct_800F3E50_unk_070 unk_070;
+    /* 0x0B8 */ struct_800F3E50_unk_0B8 unk_0B8[4];
     /* 0x348 */ UNK_TYPE4 unk_348[UNK_SIZE];
     /* 0x34C */ UNK_TYPE1 unk_34C[0xC];
     /* 0x358 */ UNK_TYPE4 unk_358[UNK_SIZE];
@@ -150,22 +164,31 @@ typedef struct struct_800F3E50 {
     /* 0x368 */ UNK_TYPE4 unk_368[UNK_SIZE];
     /* 0x36C */ UNK_TYPE1 unk_36C[0xC];
     /* 0x378 */ UNK_TYPE4 unk_378;
-    /* 0x37C */ UNK_TYPE1 unk_37C[0x10];
+    /* 0x37C */ s32 unk_37C[4];
     /* 0x38C */ UNK_TYPE unk_38C;
     /* 0x390 */ UNK_TYPE unk_390;
     /* 0x394 */ s32 unk_394;
     /* 0x398 */ s32 unk_398;
-    /* 0x39C */ UNK_TYPE1 unk_39C[0x10];
+    /* 0x39C */ s32 unk_39C[4];
     /* 0x3AC */ s32 unk_3AC;
     /* 0x3B0 */ s32 unk_3B0;
-    /* 0x3B4 */ UNK_TYPE1 unk_3B4[0x10];
+    /* 0x3B4 */ s32 unk_3B4;
+    /* 0x3B8 */ s32 unk_3B8;
+    /* 0x3BC */ s32 unk_3BC;
+    /* 0x3C0 */ s32 unk_3C0;
     /* 0x3C4 */ s32 unk_3C4;
     /* 0x3C8 */ f32 unk_3C8;
-    /* 0x3CC */ UNK_TYPE1 unk_3CC[0x44];
+    /* 0x3CC */ s32 unk_3CC;
+    /* 0x3D0 */ UNK_TYPE1 unk_3D0[0x18];
+    /* 0x3E8 */ f32 unk_3E8[3];
+    /* 0x3F4 */ f32 unk_3F4[3];
+    /* 0x400 */ UNK_TYPE4 unk_400[3];
+    /* 0x40C */ s32 unk_40C;
     /* 0x410 */ UNK_TYPE unk_410;
-    /* 0x414 */ UNK_TYPE1 unk_414[0x8];
-    /* 0x414 */ s32 unk_41C;
-    /* 0x420 */ UNK_TYPE unk_420;
+    /* 0x414 */ s32 unk_414;
+    /* 0x418 */ s8 unk_418[3];
+    /* 0x41C */ s32 unk_41C;
+    /* 0x420 */ s32 unk_420;
     /* 0x424 */ s32 unk_424;
     /* 0x428 */ UNK_TYPE4 unk_428;
     /* 0x42C */ UNK_TYPE1 unk_42C[0x4];
@@ -174,25 +197,31 @@ typedef struct struct_800F3E50 {
     /* 0x44C */ AnimeState animeStates[3];
     /* 0x50C */ AnimeSmog animeSmogs[3];
     /* 0x878 */ UNK_TYPE unk_878;
-    /* 0x87C */ UNK_TYPE1 unk_87C[0x4];
+    /* 0x87C */ void *unk_87C;
     /* 0x880 */ UNK_TYPE unk_880;
     /* 0x884 */ UNK_TYPE1 unk_884[0x4];
     /* 0x888 */ UNK_TYPE4 unk_888[UNK_SIZE];
-    /* 0x88C */ UNK_TYPE1 unk_88C[0x20];
+    /* 0x88C */ UNK_TYPE1 unk_88C[0x10];
+    /* 0x89C */ s32 unk_89C[4];
     /* 0x8AC */ s32 unk_8AC[2];
-    /* 0x8B4 */ UNK_TYPE1 unk_8B4[0x68];
+    /* 0x8B4 */ UNK_TYPE1 unk_8B4[0x28];
+    /* 0x8DC */ s32 unk_8DC[4][4];
     /* 0x91C */ MessageWnd messageWnd;
     /* 0x99C */ UNK_TYPE1 unk_99C[0x10];
     /* 0x9AC */ s32 unk_9AC;
     /* 0x9B0 */ s32 unk_9B0;
-    /* 0x9B4 */ UNK_TYPE1 unk_9B4[0xC];
+    /* 0x9B4 */ UNK_TYPE1 unk_9B4[0x8];
+    /* 0x9BC */ s32 unk_9BC;
     /* 0x9C0 */ UNK_TYPE4 unk_9C0;
     /* 0x9C4 */ UNK_TYPE4 unk_9C4;
-    /* 0x9C8 */ UNK_TYPE1 unk_9C8[0x30];
+    /* 0x9C8 */ s32 unk_9C8;
+    /* 0x9CC */ s32 unk_9CC;
+    /* 0x9D0 */ UNK_TYPE1 unk_9D0[0x28];
     /* 0x9F8 */ UNK_TYPE4 unk_9F8;
     /* 0x9FC */ UNK_TYPE1 unk_9FC[0x2C];
     /* 0xA28 */ MessageWnd unk_A28;
-    /* 0xAA8 */ UNK_TYPE1 unk_AA8[0x30];
+    /* 0xAA8 */ s32 unk_AA8;
+    /* 0xAAC */ struct_800F3E50_unk_AAC unk_AAC;
     /* 0xAD8 */ RecordWritingMessage recMessage;
 } struct_800F3E50; // size = 0xB60
 
@@ -363,6 +392,14 @@ typedef enum enum_main_no {
     /* 10 */ MAIN_NO_10, // "backup file is damaged"
 } enum_main_no;
 
+typedef struct struct_80123700_unk_0D4 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0x6C];
+} struct_80123700_unk_0D4; // size = 0x6C
+
+typedef struct struct_80123700_unk_140 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0x24];
+} struct_80123700_unk_140; // size = 0x24
+
 typedef struct struct_80123700 {
     /* 0x000 */ UNK_TYPE unk_000;
     /* 0x004 */ u16 unk_004;
@@ -380,33 +417,44 @@ typedef struct struct_80123700 {
     /* 0x025 */ u8 unk_025;
     /* 0x026 */ u8 unk_026;
     /* 0x027 */ u8 unk_027;
-    /* 0x028 */ UNK_TYPE1 unk_028[0x4];
+    /* 0x028 */ u8 unk_028;
+    /* 0x029 */ u8 unk_029;
+    /* 0x02A */ u8 unk_02A;
+    /* 0x02B */ u8 unk_02B;
     /* 0x02C */ u8 unk_02C;
-    /* 0x02D */ UNK_TYPE1 unk_02D[0x3];
-    /* 0x030 */ UNK_TYPE1 unk_030[4];
-    /* 0x034 */ UNK_TYPE1 unk_034[1];
+    /* 0x02D */ u8 unk_02D;
+    /* 0x02E */ u8 unk_02E;
+    /* 0x02F */ u8 unk_02F;
+    /* 0x030 */ u8 unk_030;
+    /* 0x031 */ u8 unk_031;
+    /* 0x032 */ u8 unk_032;
+    /* 0x033 */ u8 unk_033;
+    /* 0x034 */ u8 unk_034;
     /* 0x035 */ u8 unk_035;
     /* 0x036 */ u8 unk_036;
     /* 0x037 */ u8 unk_037;
-    /* 0x038 */ UNK_TYPE1 unk_038[0x1];
+    /* 0x038 */ u8 unk_038;
     /* 0x039 */ u8 unk_039;
     /* 0x03A */ u8 unk_03A;
     /* 0x03B */ UNK_TYPE1 unk_03B[0x1];
-    /* 0x03C */ u8 unk_03C[UNK_SIZE];
-    /* 0x03D */ UNK_TYPE1 unk_03D[0x2];
-    /* 0x03F */ u8 unk_03F;
+    /* 0x03C */ u8 unk_03C[4];
     /* 0x040 */ UNK_TYPE1 unk_040[0x4];
     /* 0x040 */ UNK_TYPE unk_044;
-    /* 0x048 */ UNK_TYPE1 unk_048[0x3];
+    /* 0x048 */ u8 unk_048;
+    /* 0x048 */ u8 unk_049;
+    /* 0x048 */ u8 unk_04A;
     /* 0x04B */ u8 unk_04B;
     /* 0x04C */ u8 unk_04C;
     /* 0x04D */ s8 unk_04D;
     /* 0x04E */ s8 unk_04E;
     /* 0x04F */ s8 unk_04F;
-    /* 0x050 */ UNK_TYPE1 unk_050[0x40];
+    /* 0x050 */ u16 unk_050[0x10][2];
     /* 0x090 */ s32 unk_090;
     /* 0x094 */ AnimeState unk_094;
-    /* 0x0D4 */ UNK_TYPE1 unk_0D4[0x98];
+    /* 0x0D4 */ struct_80123700_unk_0D4 unk_0D4;
+    /* 0x140 */ struct_80123700_unk_140 unk_140;
+    /* 0x164 */ s32 unk_164;
+    /* 0x168 */ s32 unk_168;
     /* 0x16C */ s32 unk_16C;
     /* 0x170 */ UNK_TYPE4 unk_170;
     /* 0x174 */ UNK_TYPE4 unk_174;
@@ -711,6 +759,7 @@ typedef enum enum_evs_gamemode {
     /* 3 */ ENUM_EVS_GAMEMODE_3
 } enum_evs_gamemode;
 
+// Maybe same enum as `BgRomDataIndex`
 typedef enum enum_story_proc_no {
     /*  0 */ STORY_PROC_NO_0,
     /*  1 */ STORY_PROC_NO_1,

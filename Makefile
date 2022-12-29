@@ -109,6 +109,7 @@ else
 endif
 
 OPTFLAGS        := -O2
+# OPTFLAGS        += -gdwarf
 MIPS_VERSION    := -mips3
 CFLAGS          += -nostdinc -G 0 -mgp32 -mfp32 -fno-common -funsigned-char
 WARNINGS        := -w

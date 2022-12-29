@@ -58,7 +58,7 @@ s32 dm_game_main_1p(void) {
             temp->unk_00C = 0x1A;
 
             temp_v0 = (0x2A30 - evs_game_time);
-            func_80062DD8(&temp_s5->unk_9C8[8], temp->unk_16C, 1, temp_v0 & (~temp_v0 >> 0x1F), temp->unk_174,
+            func_80062DD8(&temp_s5->unk_9D0, temp->unk_16C, 1, temp_v0 & (~temp_v0 >> 0x1F), temp->unk_174,
                           temp->unk_170, temp->unk_000);
         } else {
             temp->unk_014 = 3;
@@ -99,13 +99,13 @@ s32 dm_game_main_1p(void) {
         func_80062A08(temp->unk_04B);
         animeState_set(&temp->unk_094, 4);
         dm_seq_play_in_game(0x11);
-        temp->unk_028[3] = 1;
+        temp->unk_02B = 1;
         temp->unk_020 = 8;
         if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
             temp->unk_014 = 0x15;
             temp->unk_00C = 0x1C;
 
-            func_80062DD8(&temp_s5->unk_9C8[8], temp->unk_16C, 0, 0, temp->unk_174, temp->unk_170, temp->unk_000);
+            func_80062DD8(&temp_s5->unk_9D0, temp->unk_16C, 0, 0, temp->unk_174, temp->unk_170, temp->unk_000);
             temp_s5->unk_3C4 = 0;
         } else {
             temp->unk_014 = 4;
@@ -643,9 +643,18 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80068DE8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80068E24);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/03CD50", RO_800B20D0);
+void func_80069160(struct_800F3E50_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg2) {
+    s32 i;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80069160);
+    arg0->unk_00 = arg1;
+    arg0->unk_04 = arg2;
+
+    for (i = 0; i < ARRAY_COUNTU(arg0->unk_08); i++) {
+        arg0->unk_08[i] = 0;
+    }
+}
+
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/03CD50", RO_800B20D0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/03CD50", func_80069188);
 
