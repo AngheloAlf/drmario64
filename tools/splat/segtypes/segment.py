@@ -2,7 +2,7 @@ import importlib
 import importlib.util
 from pathlib import Path
 
-from typing import Any, Dict, List, Optional, Set, Type, TYPE_CHECKING, Union
+from typing import Dict, List, Optional, Set, Type, TYPE_CHECKING, Union
 
 from intervaltree import Interval, IntervalTree
 
@@ -12,8 +12,6 @@ from util.symbols import Symbol
 # circular import
 if TYPE_CHECKING:
     from segtypes.linker_entry import LinkerEntry
-
-RomAddr = Union[int, str]
 
 
 def parse_segment_vram(segment: Union[dict, list]) -> Optional[int]:
@@ -118,14 +116,16 @@ class Segment:
         )
 
     @staticmethod
-    def parse_segment_start(segment: Union[dict, list]) -> RomAddr:
+    def parse_segment_start(segment: Union[dict, list]) -> Optional[int]:
         if isinstance(segment, dict):
             s = segment.get("start", "auto")
         else:
             s = segment[0]
 
         if s == "auto":
-            return "auto"
+            return None
+        elif s == "...":
+            return None
         else:
             return int(s)
 
@@ -167,13 +167,20 @@ class Segment:
             return Path(segment["path"])
         return None
 
+    @staticmethod
+    def parse_segment_bss_contains_common(segment: Union[dict, list]) -> bool:
+        if isinstance(segment, dict) and "bss_contains_common" in segment:
+            return bool(segment["bss_contains_common"])
+        else:
+            return False
+
     def __init__(
         self,
-        rom_start: RomAddr,
-        rom_end: RomAddr,
+        rom_start: Optional[int],
+        rom_end: Optional[int],
         type: str,
         name: str,
-        vram_start: Any,
+        vram_start: Optional[int],
         args: list,
         yaml,
     ):
@@ -181,7 +188,7 @@ class Segment:
         self.rom_end = rom_end
         self.type = type
         self.name = name
-        self.vram_start = vram_start
+        self.vram_start: Optional[int] = vram_start
 
         self.align: Optional[int] = None
         self.given_subalign: int = options.opts.subalign
@@ -213,13 +220,14 @@ class Segment:
         self.yaml = yaml
 
         self.extract: bool = True
-        if self.rom_start == "auto":
+        if self.rom_start is None:
             self.extract = False
         elif self.type.startswith("."):
             self.extract = False
 
         self.warnings: List[str] = []
         self.did_run = False
+        self.bss_contains_common = Segment.parse_segment_bss_contains_common(yaml)
 
         # For segments which are not in the usual VRAM segment space, like N64's IPL3 which lives in 0xA4...
         self.special_vram_segment: bool = False
@@ -234,8 +242,8 @@ class Segment:
     def from_yaml(
         cls: Type["Segment"],
         yaml: Union[dict, list],
-        rom_start: RomAddr,
-        rom_end: RomAddr,
+        rom_start: Optional[int],
+        rom_end: Optional[int],
         vram=None,
     ):
         type = Segment.parse_segment_type(yaml)
@@ -265,6 +273,7 @@ class Segment:
         )
         ret.file_path = Segment.parse_segment_file_path(yaml)
 
+        ret.bss_contains_common = Segment.parse_segment_bss_contains_common(yaml)
         if not ret.follows_vram:
             ret.follows_vram = parse_segment_follows_vram(yaml)
 
