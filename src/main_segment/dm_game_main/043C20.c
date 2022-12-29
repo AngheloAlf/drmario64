@@ -278,7 +278,8 @@ void dm_game_init(bool arg0) {
     for (i = 0; i < evs_playcnt - 1; i++) {
         for (j = i + 1; j < evs_playcnt; j++) {
             if (game_state_data[i].unk_026 == game_state_data[j].unk_026) {
-                dm_virus_map_copy(&virus_map_data[i], &virus_map_data[j], &virus_map_disp_order[i], &virus_map_disp_order[j]);
+                dm_virus_map_copy(&virus_map_data[i], &virus_map_data[j], &virus_map_disp_order[i],
+                                  &virus_map_disp_order[j]);
                 if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
                     game_state_data[j].unk_164 = game_state_data[i].unk_164;
                     bcopy(&game_state_data[i].unk_0D4, &game_state_data[j].unk_0D4, sizeof(struct_80123700_unk_0D4));
@@ -619,7 +620,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B2358);
 ASM_TEXT;
 
 void dm_game_init_snap_bg(void) {
-    watchGame->unk_87C = (void*)ALIGN64((uintptr_t)heapTop);
+    watchGame->unk_87C = (void *)ALIGN64((uintptr_t)heapTop);
     heapTop = watchGame->unk_87C + 0x26700;
     watchGame->unk_880 = 0;
 
@@ -629,7 +630,7 @@ void dm_game_init_snap_bg(void) {
             break;
 
         default:
-            heapTop = func_80077170((BgRomDataIndex) story_proc_no, heapTop);
+            heapTop = func_80077170((BgRomDataIndex)story_proc_no, heapTop);
             break;
     }
 }
