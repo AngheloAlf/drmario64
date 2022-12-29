@@ -304,97 +304,40 @@ void dm_game_init(bool arg0) {
     }
 }
 
-const u32 rodataPadding_800B22D4 = 0;
-
-#if 0
-? RecWritingMsg_init(s8 *, struct_80124610 **, s32);     /* extern */
-? animeState_load(s8 *, struct_80124610 **, s32);     /* extern */
-? animeState_set(s8 *, ?);                           /* extern */
-? animeSmog_init(s8 *, s8 *);                        /* extern */
-? animeSmog_load(s8 *, struct_80124610 **);          /* extern */
-? func_80062B84(s8 *);                              /* extern */
-? func_8006A938(?);                                 /* extern */
-? replay_record_init_buffer(struct_80124610 **);                /* extern */
-? replay_record_init(u8);                                /* extern */
-extern ? evs_mem_data;
-extern ? B_800EF608;
-extern u32 evs_gamesel;
-extern u8 evs_select_name_no;
-extern u8 B_8012372C;
-extern ? B_8012374C;
-extern ? B_8012374F;
-extern ? B_80123790;
-extern s8 B_80123794;
-extern s32 B_8012386C;
-extern u8 evs_playcnt;
-extern s8 evs_story_flg;
 extern s32 D_80088414;
-extern s8 D_800A8AD0;
+extern char D_800A8AD0[];
 
+#ifdef NON_EQUIVALENT
+// looks equivalent but not completely sure
 /**
  * Original name: dm_game_init_static
  */
 void dm_game_init_static(void) {
-    s32 temp_a2;
-    s32 temp_a2_2;
-    s32 temp_a2_3;
-    s32 temp_v0_3;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 var_a0_4;
-    s32 var_a0_5;
-    s32 var_a0_6;
-    s32 var_s0;
-    s32 var_s0_2;
-    s32 var_s0_3;
+    // volatile unsigned int pad[4];
     s32 var_s1;
-    s32 var_s1_10;
-    s32 var_s1_11;
-    s32 var_s1_12;
-    s32 var_s1_13;
-    s32 var_s1_3;
-    s32 var_s1_4;
-    s32 var_s1_5;
-    s32 var_s1_6;
-    s32 var_s1_7;
-    s32 var_s1_8;
-    s32 var_s1_9;
-    s32 var_s2;
-    s32 var_s2_3;
-    s32 var_v1_2;
-    s8 *temp_s0;
-    s8 *var_a0;
-    s8 *var_a0_3;
-    s8 *var_s2_2;
-    s8 *var_s4;
-    s8 *var_v0;
-    s8 *var_v0_2;
-    s8 *var_v1;
+    struct_800EF560 *temp_a1;
     struct_800F3E50 *temp_s3;
-    struct_800F3E50 *var_a0_2;
-    u16 temp_v0;
-    u32 var_s1_2;
-    u8 temp_v1_3;
-    void *temp_a1;
-    void *temp_v0_2;
+    u32 temp_a0;
+    RomOffsetPair *romTableP;
 
+    romTableP = _romDataTbl;
     temp_s3 = watchGame;
+
     temp_s3->unk_3B0 = 0;
     temp_s3->unk_878 = 0x7F;
-    temp_s3->unk_430 = tiLoadTexData(&heapTop, D_8000E9B0, D_8000E9B4);
-    temp_s3->unk_444 = tiLoadTexData(&heapTop, D_8000E9D8, D_8000E9DC);
-    if (main_no != 5) {
-        temp_s3->unk_448 = tiLoadTexData(&heapTop, D_8000EA40, D_8000EA44);
+    temp_s3->unk_430 = tiLoadTexData(&heapTop, (romTableP + 0x178 / 8)->start, (romTableP + 0x178 / 8)->end);
+    temp_s3->unk_444 = tiLoadTexData(&heapTop, (romTableP + 0x1A0 / 8)->start, (romTableP + 0x1A0 / 8)->end);
+    if (main_no != MAIN_NO_5) {
+        temp_s3->unk_448 = tiLoadTexData(&heapTop, (romTableP + 0x208 / 8)->start, (romTableP + 0x208 / 8)->end);
     }
-    temp_s3->unk_884 = (struct_80124610 *) heapTop;
-    var_s1 = 1;
-    var_v1 = &temp_s3->unk_000[4];
-    heapTop = DecompressRomToRam(D_8000E9E0, heapTop, D_8000E9E4 - D_8000E9E0);
-    do {
-        var_v1->unk_8AC = 0;
-        var_s1 -= 1;
-        var_v1 -= 4;
-    } while (var_s1 >= 0);
+    temp_a0 = (romTableP + 0x1A8 / 8)->start;
+    temp_s3->unk_884 = heapTop;
+    heapTop = DecompressRomToRam(temp_a0, heapTop, (romTableP + 0x1A8 / 8)->end - temp_a0);
+
+    for (var_s1 = 0; var_s1 < 2; var_s1++) {
+        temp_s3->unk_8AC[var_s1] = 0;
+    }
+
     temp_s3->unk_394 = 0;
     temp_s3->unk_398 = 1;
     temp_s3->unk_898 = 2;
@@ -404,203 +347,163 @@ void dm_game_init_static(void) {
     temp_s3->unk_9B4 = 0;
     temp_s3->unk_9B8 = 0;
     replay_record_init_buffer(&heapTop);
-    var_s1_2 = 0;
-    var_s0 = 0x9D0;
     replay_record_init(evs_playcnt);
-    do {
-        func_80062B84(&temp_s3->unk_000[var_s0]);
-        var_s1_2 += 1;
-        var_s0 += 0x2C;
-    } while (var_s1_2 < 2U);
-    msgWnd_init2((struct_80124610 *) &temp_s3->unk_000[0xA28], &heapTop, 0x100, 0xA, 5, 0, 0);
-    temp_a2 = temp_s3->unk_A70 * 2;
-    temp_s3->unk_A50 = (s32) ((s32) (0x140 - (temp_s3->unk_A64 * 0x14)) >> 1);
-    temp_s3->unk_A54 = (s32) ((s32) (0xF0 - temp_a2) >> 1);
-    RecWritingMsg_init(&temp_s3->unk_000[0xAD8], &heapTop, temp_a2);
-    switch (evs_gamesel) {                           /* switch 1 */
-    case 0x0:                                       /* switch 1 */
-        temp_a1 = (evs_select_name_no * 0xD0) + &evs_mem_data;
-        if (evs_select_name_no == 8) {
-        case 0x4:                                   /* switch 1 */
+
+    for (var_s1 = 0; var_s1 < 2U; var_s1++) {
+        func_80062B84(&temp_s3->unk_9D0[var_s1]);
+    }
+
+    msgWnd_init2(&temp_s3->unk_A28, &heapTop, 0x100, 0xA, 5, 0, 0);
+    temp_s3->unk_A28.unk_28 = (s32)(0x140 - (temp_s3->unk_A28.unk_3C * 0x14)) >> 1;
+    temp_s3->unk_A28.unk_2C = (s32)(0xF0 - (temp_s3->unk_A28.unk_48 * 2)) >> 1;
+    RecWritingMsg_init(&temp_s3->recMessage, &heapTop);
+
+    switch (evs_gamesel) { /* switch 1 */
+        case ENUM_EVS_GAMESEL_4:
             D_80088414 = 0xDD18;
-        } else {
-            switch (*evs_gamemode) {                  /* switch 3; irregular */
-            case 0x0:                               /* switch 3 */
-                D_80088414 = (temp_a1 + (B_8012372C * 8))->unk_4C;
-                break;
-            case 0x2:                               /* switch 3 */
-                D_80088414 = (temp_a1 + (B_8012386C * 8))->unk_64;
-                break;
-            case 0x3:                               /* switch 3 */
-                D_80088414 = (temp_a1 + (B_8012386C * 0xC))->unk_7C;
-                break;
+            break;
+
+        case ENUM_EVS_GAMESEL_0: /* switch 1 */
+            temp_a1 = &evs_mem_data[evs_select_name_no[0]];
+            if (evs_select_name_no[0] == 8) {
+                D_80088414 = 0xDD18;
+            } else {
+                switch (evs_gamemode) {       /* switch 3; irregular */
+                    case ENUM_EVS_GAMEMODE_0: /* switch 3 */
+                        D_80088414 = temp_a1->unk_4C[game_state_data->unk_02C].unk_0;
+                        break;
+                    case ENUM_EVS_GAMEMODE_2: /* switch 3 */
+                        D_80088414 = temp_a1->unk_64[game_state_data->unk_16C].unk_0;
+                        break;
+                    case ENUM_EVS_GAMEMODE_3: /* switch 3 */
+                        D_80088414 = temp_a1->unk_7C[game_state_data->unk_16C].unk_0;
+                        break;
+                }
             }
-        }
-block_23:
-        switch (evs_gamesel) {                       /* switch 2 */
-        case 0x0:                                   /* switch 2 */
-        case 0x4:                                   /* switch 2 */
-            temp_s3->unk_898 = 1;
-            animeState_load(&B_80123794, &heapTop, 0xF);
-            animeState_set(&B_80123794, 2);
-            var_s1_3 = 0;
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_180, gRomOffset_N64WaveTables_Start.unk_184);
-            var_s2 = 0x44C;
-            temp_s3->unk_434 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_198, gRomOffset_N64WaveTables_Start.unk_19C);
-            do {
-                animeState_load(&temp_s3->unk_000[var_s2], &heapTop, var_s1_3 + 0x10);
-                var_s1_3 += 1;
-                var_s2 += 0x40;
-            } while (var_s1_3 < 3);
-            animeSmog_load(&temp_s3->unk_000[0x50C], &heapTop);
-            var_s1_4 = 1;
-            var_s0_2 = 0x630;
-            do {
-                animeSmog_init(&temp_s3->unk_000[var_s0_2], &temp_s3->unk_000[0x50C]);
-                var_s1_4 += 1;
-                var_s0_2 += 0x124;
-            } while (var_s1_4 < 3);
-            temp_s0 = &temp_s3->unk_000[0x91C];
-            msgWnd_init2((struct_80124610 *) temp_s0, &heapTop, 0x1000, 0x14, 0xF, 0x28, 0xF);
-            temp_s3->unk_940 = 1;
-            msgWnd_addStr((struct_80124610 *) temp_s0, &D_800A8AD0);
-            msgWnd_skip((struct_80124610 *) temp_s0);
-            temp_s3->unk_93C = 1;
-            temp_s3->unk_938 = 0;
-            heapTop = init_coffee_break(heapTop);
-            return;
-        case 0x1:                                   /* switch 2 */
-        case 0x3:                                   /* switch 2 */
-        case 0x5:                                   /* switch 2 */
-            var_s1_5 = 0;
-            var_s2_2 = &B_80123794;
-            var_s0_3 = 0;
-            var_a0 = &B_80123794;
-            do {
-                temp_a2_2 = *(&B_80123790 + var_s0_3);
-                var_s2_2 += 0x3C4;
-                var_s0_3 += 0x3C4;
-                var_s1_5 += 1;
-                animeState_load(var_a0, &heapTop, temp_a2_2);
-                var_a0 = var_s2_2;
-            } while (var_s1_5 < 2);
-            var_s1_6 = 1;
+            break;
+
+        case ENUM_EVS_GAMESEL_1: /* switch 1 */
+        case ENUM_EVS_GAMESEL_2: /* switch 1 */
+        case ENUM_EVS_GAMESEL_3: /* switch 1 */
+        case ENUM_EVS_GAMESEL_5: /* switch 1 */
+        case ENUM_EVS_GAMESEL_6: /* switch 1 */
             if (evs_story_flg == 0) {
-                var_v0 = &temp_s3->unk_000[4];
-                do {
-                    var_v0->unk_8B4 = 0;
-                    var_s1_6 -= 1;
-                    var_v0 -= 4;
-                } while (var_s1_6 >= 0);
-                var_s1_7 = 0;
-                if (evs_gamesel == 1) {
-                    var_a0_2 = temp_s3;
-                    do {
-                        temp_v0 = *(&B_800EF608 + ((&evs_select_name_no)[var_s1_7] * 0xD0));
-                        var_s1_7 += 1;
-                        var_a0_2->unk_8B4 = (s32) temp_v0;
-                        var_a0_2 += 4;
-                    } while (var_s1_7 < 2);
-                }
+                D_80088414 = 0;
             }
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_180, gRomOffset_N64WaveTables_Start.unk_184);
-            temp_s3->unk_43C = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_188, gRomOffset_N64WaveTables_Start.unk_18C);
+            break;
+
+        default:
             return;
-        case 0x2:                                   /* switch 2 */
-        case 0x6:                                   /* switch 2 */
-            var_s4 = &B_80123794;
-            var_s1_8 = 0;
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_180, gRomOffset_N64WaveTables_Start.unk_184);
-            var_s2_3 = 0;
-            temp_s3->unk_440 = tiLoadTexData(&heapTop, gRomOffset_N64WaveTables_Start.unk_190, gRomOffset_N64WaveTables_Start.unk_194);
-            var_a0_3 = &B_80123794;
+    }
+
+    switch (evs_gamesel) {       /* switch 2 */
+        case ENUM_EVS_GAMESEL_0: /* switch 2 */
+        case ENUM_EVS_GAMESEL_4: /* switch 2 */
+            temp_s3->unk_898 = 1;
+            animeState_load(&game_state_data->unk_094, &heapTop, CHARANIMEMODE_MARIO);
+            animeState_set(&game_state_data->unk_094, 2);
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180 / 8].start, romTableP[0x180 / 8].end);
+            temp_s3->unk_434 = tiLoadTexData(&heapTop, romTableP[0x198 / 8].start, romTableP[0x198 / 8].end);
+
+            for (var_s1 = 0; var_s1 < 3; var_s1++) {
+                animeState_load(&temp_s3->animeStates[var_s1], &heapTop, var_s1 + CHARANIMEMODE_VIRUS_R);
+            }
+
+            animeSmog_load(temp_s3->animeSmogs, &heapTop);
+            for (var_s1 = 1; var_s1 < 3; var_s1++) {
+                animeSmog_init(&temp_s3->animeSmogs[var_s1], &temp_s3->animeSmogs[0]);
+            }
+
+            msgWnd_init2(&temp_s3->messageWnd, &heapTop, 0x1000, 0x14, 0xF, 0x28, 0xF);
+            temp_s3->messageWnd.unk_24 = 1;
+            msgWnd_addStr(&temp_s3->messageWnd, D_800A8AD0);
+            msgWnd_skip(&temp_s3->messageWnd);
+            temp_s3->messageWnd.unk_20 = 1;
+            temp_s3->messageWnd.unk_1C = 0;
+            heapTop = init_coffee_break(heapTop, game_state_data[0].unk_02C);
+            break;
+
+        case ENUM_EVS_GAMESEL_1: /* switch 2 */
+        case ENUM_EVS_GAMESEL_3: /* switch 2 */
+        case ENUM_EVS_GAMESEL_5: /* switch 2 */
+            for (var_s1 = 0; var_s1 < 2; var_s1++) {
+                animeState_load(&game_state_data[var_s1].unk_094, &heapTop, game_state_data[var_s1].unk_090);
+            }
+
+            if (evs_story_flg == 0) {
+                for (var_s1 = 0; var_s1 < 2; var_s1++) {
+                    temp_s3->unk_8B4[var_s1] = 0;
+                }
+
+                switch (evs_gamesel) {
+                    case ENUM_EVS_GAMESEL_1:
+                        for (var_s1 = 0; var_s1 < ARRAY_COUNT(temp_s3->unk_8B4); var_s1++) {
+                            temp_s3->unk_8B4[var_s1] = evs_mem_data[evs_select_name_no[var_s1]].unk_A8;
+                        }
+                        break;
+                }
+            }
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180 / 8].start, romTableP[0x180 / 8].end);
+            temp_s3->unk_43C = tiLoadTexData(&heapTop, romTableP[0x188 / 8].start, romTableP[0x188 / 8].end);
+            break;
+
+        case ENUM_EVS_GAMESEL_2: /* switch 2 */
+        case ENUM_EVS_GAMESEL_6: /* switch 2 */
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180 / 8].start, romTableP[0x180 / 8].end);
+            temp_s3->unk_440 = tiLoadTexData(&heapTop, romTableP[0x190 / 8].start, romTableP[0x190 / 8].end);
+
+            var_s1 = 0;
             do {
-                temp_a2_3 = *(&B_80123790 + var_s2_3);
-                var_s4 += 0x3C4;
-                var_s2_3 += 0x3C4;
-                var_s1_8 += 1;
-                animeState_load(var_a0_3, &heapTop, temp_a2_3);
-                var_a0_3 = var_s4;
-            } while (var_s1_8 < 4);
-            var_s1_9 = 3;
-            var_v0_2 = &temp_s3->unk_000[0xC];
-            do {
-                var_v0_2->unk_8CC = 0;
-                var_s1_9 -= 1;
-                var_v0_2 -= 4;
-            } while (var_s1_9 >= 0);
-            var_s1_10 = 0;
-            var_a0_4 = 0;
-            do {
-                temp_v0_2 = (*(&B_8012374F + var_a0_4) * 4) + temp_s3;
-                var_s1_10 += 1;
-                temp_v0_2->unk_8CC = (s32) (temp_v0_2->unk_8CC + 1);
-                var_a0_4 += 0x3C4;
-            } while (var_s1_10 < 4);
+                animeState_load(&game_state_data[var_s1].unk_094, &heapTop, game_state_data[var_s1].unk_090);
+                var_s1 += 1;
+            } while (var_s1 < 4);
+
+            for (var_s1 = 0; var_s1 < 4; var_s1++) {
+                temp_s3->unk_8CC[var_s1] = 0;
+            }
+
+            for (var_s1 = 0; var_s1 < 4; var_s1++) {
+                temp_s3->unk_8CC[game_state_data[var_s1].unk_04F]++;
+            }
+
             temp_s3->unk_8BC = 0;
-            var_s1_11 = 0;
-            var_v1_2 = 0;
-            do {
-                var_s1_11 += 1;
-                if (*(&B_8012374C + var_v1_2) == 0) {
-                    temp_s3->unk_8BC = (s32) (temp_s3->unk_8BC + 1);
+
+            for (var_s1 = 0; var_s1 < 4; var_s1++) {
+                if (game_state_data[var_s1].unk_04C == 0) {
+                    temp_s3->unk_8BC++;
                 }
-                var_v1_2 += 0x3C4;
-            } while (var_s1_11 < 4);
-            temp_v1 = temp_s3->unk_8CC;
-            if (temp_v1 != 1) {
-                var_s1_12 = 0;
-                goto block_56;
             }
-            temp_v0_3 = temp_s3->unk_8D0;
-            var_s1_12 = 0;
-            if (temp_v0_3 == temp_v1) {
-                temp_v1_2 = temp_s3->unk_8D4;
-                if (temp_v1_2 == temp_v0_3) {
-                    if (temp_s3->unk_8D8 == temp_v1_2) {
-                        temp_s3->unk_8C0 = 0;
-                        return;
+
+            if (temp_s3->unk_8CC[0] == 1) {
+                if (temp_s3->unk_8D0 == temp_s3->unk_8CC[0]) {
+                    if (temp_s3->unk_8D4 == temp_s3->unk_8D0) {
+                        if (temp_s3->unk_8D8 == temp_s3->unk_8D4) {
+                            temp_s3->unk_8C0 = 0;
+                            return;
+                        }
                     }
-                    goto block_57;
                 }
             }
-block_56:
-block_57:
-            var_a0_5 = 0;
+
             temp_s3->unk_8C0 = 1;
             temp_s3->unk_8C8 = 0;
             temp_s3->unk_8C4 = 0;
-            do {
-                if (*(&B_8012374F + var_a0_5) == 0) {
-                    temp_s3->unk_8C4 = (s32) (temp_s3->unk_8C4 | (1 << var_s1_12));
+
+            for (var_s1 = 0; var_s1 < 4; var_s1++) {
+                if (game_state_data[var_s1].unk_04F == 0) {
+                    temp_s3->unk_8C4 |= (1 << var_s1);
                 }
-                var_s1_12 += 1;
-                var_a0_5 += 0x3C4;
-            } while (var_s1_12 < 4);
-            var_s1_13 = 0;
-            var_a0_6 = 0;
-            do {
-                temp_v1_3 = *(&B_8012374F + var_a0_6);
-                if (temp_v1_3 == 1) {
-                    temp_s3->unk_8C8 = (s32) (temp_s3->unk_8C8 | (temp_v1_3 << var_s1_13));
+            }
+
+            for (var_s1 = 0; var_s1 < 4; var_s1++) {
+                if (game_state_data[var_s1].unk_04F == 1) {
+                    temp_s3->unk_8C8 |= (game_state_data[var_s1].unk_04F << var_s1);
                 }
-                var_s1_13 += 1;
-                var_a0_6 += 0x3C4;
-            } while (var_s1_13 < 4);
-        default:                                    /* switch 1 */
-        default:                                    /* switch 2 */
-            return;
-        }
-        break;
-    case 0x1:                                       /* switch 1 */
-    case 0x2:                                       /* switch 1 */
-    case 0x3:                                       /* switch 1 */
-    case 0x5:                                       /* switch 1 */
-    case 0x6:                                       /* switch 1 */
-        if (evs_story_flg == 0) {
-            D_80088414 = 0;
-        }
-        goto block_23;
+            }
+            break;
+
+        default:
+            break;
     }
 }
 #else

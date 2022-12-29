@@ -83,7 +83,7 @@ s32 dm_game_main_1p(void) {
         switch (evs_gamemode) {
             case ENUM_EVS_GAMEMODE_3:
                 temp_s1 = game_state_data->unk_000;
-                game_state_data->unk_000 = temp_s5->unk_9F8;
+                game_state_data->unk_000 = temp_s5->unk_9D0[0].unk_28;
                 dm_save_all();
                 game_state_data->unk_000 = temp_s1;
                 break;

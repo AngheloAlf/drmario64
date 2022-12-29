@@ -144,6 +144,11 @@ typedef struct struct_800F3E50_unk_430 {
     /* 0xC4 */ u16 *unk_C4;
 } struct_800F3E50_unk_430; // size >= 0xC8
 
+typedef struct struct_800F3E50_unk_9D0 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0x28];
+    /* 0x28 */ s32 unk_28;
+} struct_800F3E50_unk_9D0; // size = 0x2C
+
 typedef struct struct_800F3E50_unk_AAC {
     /* 0x00 */ UNK_TYPE1 unk_00[0x2A];
 } struct_800F3E50_unk_AAC; // size = 0x2A
@@ -193,32 +198,45 @@ typedef struct struct_800F3E50 {
     /* 0x428 */ UNK_TYPE4 unk_428;
     /* 0x42C */ UNK_TYPE1 unk_42C[0x4];
     /* 0x430 */ struct_800F3E50_unk_430 *unk_430;
-    /* 0x434 */ UNK_TYPE1 unk_434[0x18];
+    /* 0x434 */ UNK_TYPE4 unk_434;
+    /* 0x448 */ UNK_TYPE4 unk_438;
+    /* 0x43C */ UNK_TYPE4 unk_43C;
+    /* 0x440 */ UNK_TYPE4 unk_440;
+    /* 0x444 */ UNK_TYPE4 unk_444;
+    /* 0x448 */ UNK_TYPE4 unk_448;
     /* 0x44C */ AnimeState animeStates[3];
     /* 0x50C */ AnimeSmog animeSmogs[3];
     /* 0x878 */ UNK_TYPE unk_878;
     /* 0x87C */ void *unk_87C;
     /* 0x880 */ UNK_TYPE unk_880;
-    /* 0x884 */ UNK_TYPE1 unk_884[0x4];
+    /* 0x884 */ UNK_PTR unk_884;
     /* 0x888 */ UNK_TYPE4 unk_888[UNK_SIZE];
-    /* 0x88C */ UNK_TYPE1 unk_88C[0x10];
+    /* 0x88C */ UNK_TYPE1 unk_88C[0xC];
+    /* 0x898 */ s32 unk_898;
     /* 0x89C */ s32 unk_89C[4];
     /* 0x8AC */ s32 unk_8AC[2];
-    /* 0x8B4 */ UNK_TYPE1 unk_8B4[0x28];
+    /* 0x8B4 */ s32 unk_8B4[2];
+    /* 0x8BC */ s32 unk_8BC;
+    /* 0x8C0 */ s32 unk_8C0;
+    /* 0x8C4 */ s32 unk_8C4;
+    /* 0x8C8 */ s32 unk_8C8;
+    /* 0x8CC */ s32 unk_8CC[UNK_SIZE];
+    /* 0x8D0 */ s32 unk_8D0;
+    /* 0x8D4 */ s32 unk_8D4;
+    /* 0x8D8 */ s32 unk_8D8;
     /* 0x8DC */ s32 unk_8DC[4][4];
     /* 0x91C */ MessageWnd messageWnd;
     /* 0x99C */ UNK_TYPE1 unk_99C[0x10];
     /* 0x9AC */ s32 unk_9AC;
     /* 0x9B0 */ s32 unk_9B0;
-    /* 0x9B4 */ UNK_TYPE1 unk_9B4[0x8];
+    /* 0x9B4 */ s32 unk_9B4;
+    /* 0x9B8 */ s32 unk_9B8;
     /* 0x9BC */ s32 unk_9BC;
     /* 0x9C0 */ UNK_TYPE4 unk_9C0;
     /* 0x9C4 */ UNK_TYPE4 unk_9C4;
     /* 0x9C8 */ s32 unk_9C8;
     /* 0x9CC */ s32 unk_9CC;
-    /* 0x9D0 */ UNK_TYPE1 unk_9D0[0x28];
-    /* 0x9F8 */ UNK_TYPE4 unk_9F8;
-    /* 0x9FC */ UNK_TYPE1 unk_9FC[0x2C];
+    /* 0x9D0 */ struct_800F3E50_unk_9D0 unk_9D0[2];
     /* 0xA28 */ MessageWnd unk_A28;
     /* 0xAA8 */ s32 unk_AA8;
     /* 0xAAC */ struct_800F3E50_unk_AAC unk_AAC;
@@ -353,12 +371,36 @@ typedef struct struct_800EF560_unk_28 {
     /* 0x8 */ u8 unk_8;
 } struct_800EF560_unk_28; // size = 0xC
 
+typedef struct struct_800EF560_unk_4C {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ UNK_TYPE unk_4;
+} struct_800EF560_unk_4C; // size = 0x8
+
+typedef struct struct_800EF560_unk_64 {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ UNK_TYPE unk_4;
+} struct_800EF560_unk_64; // size = 0x8
+
+typedef struct struct_800EF560_unk_7C {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ UNK_TYPE unk_4;
+    /* 0x4 */ UNK_TYPE unk_8;
+} struct_800EF560_unk_7C; // size = 0xC
+
 typedef struct struct_800EF560 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x8];
     /* 0x08 */ s32 unk_08[3][2];
     /* 0x20 */ UNK_TYPE1 unk_20[0x8];
     /* 0x28 */ struct_800EF560_unk_28 unk_28[3];
-    /* 0x4C */ UNK_TYPE1 unk_4C[0x68];
+    /* 0x4C */ struct_800EF560_unk_4C unk_4C[UNK_SIZE];
+    /* 0x54 */ UNK_TYPE1 unk_54[0x10];
+    /* 0x64 */ struct_800EF560_unk_64 unk_64[UNK_SIZE];
+    /* 0x6C */ UNK_TYPE1 unk_6C[0x10];
+    /* 0x7C */ struct_800EF560_unk_7C unk_7C[UNK_SIZE];
+    /* 0x88 */ UNK_TYPE1 unk_88[0x20];
+    /* 0xA8 */ u16 unk_A8;
+    /* 0xAA */ UNK_TYPE1 unk_AA[0x2];
+    /* 0xAC */ UNK_TYPE1 unk_AC[0x8];
     /* 0xB4 */ struct_800EF560_unk_B4 unk_B4;
     /* 0xCE */ UNK_TYPE1 unk_CE[0x2]; // pad?
 } struct_800EF560; // size = 0xD0
@@ -447,9 +489,9 @@ typedef struct struct_80123700 {
     /* 0x04C */ u8 unk_04C;
     /* 0x04D */ s8 unk_04D;
     /* 0x04E */ s8 unk_04E;
-    /* 0x04F */ s8 unk_04F;
+    /* 0x04F */ u8 unk_04F;
     /* 0x050 */ u16 unk_050[0x10][2];
-    /* 0x090 */ s32 unk_090;
+    /* 0x090 */ s32 unk_090; // CharAnimeMode?
     /* 0x094 */ AnimeState unk_094;
     /* 0x0D4 */ struct_80123700_unk_0D4 unk_0D4;
     /* 0x140 */ struct_80123700_unk_140 unk_140;
