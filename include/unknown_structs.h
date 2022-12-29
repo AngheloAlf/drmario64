@@ -435,6 +435,14 @@ typedef struct struct_80123700 {
     /* 0x298 */ UNK_TYPE1 unk_298[0x12C];
 } struct_80123700; // size = 0x3C4
 
+typedef struct struct_800F4890_unk_034 {
+    /* 0x00 */ s32 unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ f32 unk_0C;
+    /* 0x10 */ MessageWnd messageWnd;
+} struct_800F4890_unk_034; // size = 0x90
+
 typedef struct struct_800F4890_unk_0E8 {
     /* 0x0 */ u8 unk_0;
     /* 0x0 */ u8 unk_1;
@@ -462,8 +470,7 @@ typedef struct struct_800F4890 {
     /* 0x01C */ s32 unk_01C[4];
     /* 0x02C */ s32 unk_02C;
     /* 0x030 */ s32 unk_030;
-    /* 0x034 */ UNK_TYPE unk_034;
-    /* 0x038 */ UNK_TYPE1 unk_038[0x8C];
+    /* 0x034 */ struct_800F4890_unk_034 unk_034;
     /* 0x0C4 */ struct_800F4890_unk_0C4 unk_0C4[3];
     /* 0x0E8 */ struct_800F4890_unk_0E8 unk_0E8[4][4];
     /* 0x148 */ UNK_TYPE1 unk_148[0x4];
