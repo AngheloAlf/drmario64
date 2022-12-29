@@ -27,7 +27,9 @@ void func_80075F30(void) {
  * Original name: _stageTbl
  */
 const u8 _stageTbl[] = {
-    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0D, 0x0E, 0x0F, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15,
+    STORY_PROC_NO_1,  STORY_PROC_NO_2,  STORY_PROC_NO_3,  STORY_PROC_NO_4,  STORY_PROC_NO_5,  STORY_PROC_NO_6,
+    STORY_PROC_NO_7,  STORY_PROC_NO_8,  STORY_PROC_NO_9,  STORY_PROC_NO_13, STORY_PROC_NO_14, STORY_PROC_NO_15,
+    STORY_PROC_NO_16, STORY_PROC_NO_17, STORY_PROC_NO_18, STORY_PROC_NO_19, STORY_PROC_NO_20, STORY_PROC_NO_21,
 };
 
 enum_main_no dm_title_main(struct_800EB670 *arg0) {

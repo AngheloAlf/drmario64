@@ -847,10 +847,10 @@ dm_make_key = 0x8006D150;
 key_control_main = 0x8006D254;
 func_8006D620 = 0x8006D620;
 dm_effect_make = 0x8006D7B0;
-func_8006D870 = 0x8006D870;
+dm_game_init_heap = 0x8006D870;
 dm_game_init = 0x8006D91C;
 dm_game_init_static = 0x8006E0EC;
-func_8006E80C = 0x8006E80C;
+dm_game_init_snap_bg = 0x8006E80C;
 dm_game_draw_snap_bg = 0x8006E884;
 func_8006F628 = 0x8006F628;
 dm_game_main = 0x8006F684;
@@ -1173,9 +1173,7 @@ D_80088414 = 0x80088414;
 evs_vs_count = 0x80088418;
 D_8008841C = 0x8008841C;
 D_8008841D = 0x8008841D; // defined:True
-D_80088430 = 0x80088430;
-D_80088431 = 0x80088431; // defined:True
-D_80088433 = 0x80088433; // defined:True
+GameSpeed = 0x80088430; // size:0x4
 D_80088434 = 0x80088434;
 D_8008846C = 0x8008846C;
 mti = 0x80088480;
@@ -1906,6 +1904,11 @@ RO_800B317C = 0x800B317C; // force_not_migration:True type:s32
 RO_800B3180 = 0x800B3180; // force_not_migration:True
 RO_800B31A0 = 0x800B31A0; // force_not_migration:True
 
+map_x_table_1036 = 0x800B31C0; // size:0x18
+_seqTbl_1037 = 0x800B31D8; // size:0x2
+map_y_table_1038 = 0x800B31DC; // size:0x2
+size_table_1039 = 0x800B31E0; // size:0x2
+
 _stageTbl = 0x800B3240; // size:0x12
 
 // bss
@@ -1977,8 +1980,8 @@ B_800E5974 = 0x800E5974;
 B_800E5978 = 0x800E5978;
 B_800E597C = 0x800E597C;
 heapTop = 0x800E5980; // size:0x4
-B_800E5990 = 0x800E5990;
-B_800E5994 = 0x800E5994;
+_texAll = 0x800E5990;
+_texKaSa = 0x800E5994;
 title_mode_type = 0x800E59A0;
 title_fade_count = 0x800E59A4;
 title_fade_step = 0x800E59A8;

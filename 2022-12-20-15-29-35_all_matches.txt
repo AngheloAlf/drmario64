@@ -205,7 +205,7 @@ D_800B0424 - found 12 matches total:
 0.99 - D_800B21D0
 0.99 - D_800B2294
 0.99 - RO_800B3150
-0.99 - D_800B31C0
+0.99 - map_x_table_1036
 
 D_800B0DD8 - found 9 matches total:
 0.99 - D_8008D08C (decompiled)

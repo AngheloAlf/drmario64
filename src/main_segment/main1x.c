@@ -114,7 +114,7 @@ enum_main_no main12() {
 
         case ENUM_EVS_GAMESEL_3:
             if (evs_story_flg != 0) {
-                temp_a3 = (story_proc_no >= 0xC);
+                temp_a3 = (story_proc_no >= STORY_PROC_NO_12);
                 ptr = game_state_data;
                 for (i = 0; i < 4; i++) {
                     var_a1_2 = 2;

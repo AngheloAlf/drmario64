@@ -17,33 +17,23 @@
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B22B0);
 
-#if 0
-void func_8006D870(void) {
-    struct_800F3E50 *temp_a0;
-    void *temp_v0;
-    void *temp_v1;
+void dm_game_init_heap(void) {
     u32 i;
+    u32 temp = 0x3000;
 
     heapTop = &Heap_bufferp;
     watchGame = ALIGN_PTR(&Heap_bufferp);
     bzero(watchGame, sizeof(struct_800F3E50));
 
     heapTop = &watchGame[1];
-    i = 0;
-    while (i < ARRAY_COUNT(B_800EF440)) {
-        temp_v1 = ALIGN_PTR(heapTop);
-        B_800EF440[i] = temp_v1;
-        heapTop = temp_v1 + 0x2FB8;
-        i += 1;
-
+    for (i = 0; i < ARRAY_COUNT(B_800EF440); i++) {
+        B_800EF440[i] = ALIGN_PTR(heapTop);
+        heapTop = B_800EF440[i] + 0x2FB8;
     }
-    temp_v0 = temp_v1 + 0x2FC0;
-    B_800F48C0 = temp_v0;
-    heapTop = temp_v0 + 0x3000;
+
+    B_800F48C0 = heapTop + 8;
+    heapTop = B_800F48C0 + temp;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", func_8006D870);
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_init);
 
@@ -358,7 +348,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B2348);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B2354);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B2358);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", func_8006E80C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_init_snap_bg);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_draw_snap_bg);
 
@@ -377,10 +367,10 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
     osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
     func_8002A184(arg0, &sp48, &sp10);
     func_80040A64();
-    func_8006D870();
+    dm_game_init_heap();
     temp_s3 = watchGame;
     dm_game_init_static();
-    func_8006E80C();
+    dm_game_init_snap_bg();
     temp_s3->unk_880 = 1;
     dm_game_init(false);
     backup_game_state(0);
@@ -512,7 +502,7 @@ enum_main_no main_techmes(struct_800EB670 *arg0) {
     var_s3 = true;
     osCreateMesgQueue(&sp20, sp38, ARRAY_COUNT(sp38));
     func_8002A184(arg0, &sp58, &sp20);
-    func_8006D870();
+    dm_game_init_heap();
     temp_s2 = watchGame;
 
     dm_game_init_static();

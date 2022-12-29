@@ -366,8 +366,8 @@ typedef enum enum_main_no {
 typedef struct struct_80123700 {
     /* 0x000 */ UNK_TYPE unk_000;
     /* 0x004 */ u16 unk_004;
-    /* 0x006 */ UNK_TYPE1 unk_006[0x2];
-    /* 0x008 */ UNK_TYPE1 unk_008[0x2];
+    /* 0x006 */ u16 unk_006;
+    /* 0x008 */ u16 unk_008;
     /* 0x008 */ s8 unk_00A;
     /* 0x008 */ UNK_TYPE1 unk_00B[0x1];
     /* 0x00C */ s32 unk_00C;
@@ -435,17 +435,46 @@ typedef struct struct_80123700 {
     /* 0x298 */ UNK_TYPE1 unk_298[0x12C];
 } struct_80123700; // size = 0x3C4
 
+typedef struct struct_800F4890_unk_0E8 {
+    /* 0x0 */ u8 unk_0;
+    /* 0x0 */ u8 unk_1;
+    /* 0x0 */ u8 unk_2;
+    /* 0x0 */ u8 unk_3[3];
+} struct_800F4890_unk_0E8; // size = 0x6
+
+typedef struct struct_800F4890_unk_0C4 {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ s32 unk_4;
+    /* 0x4 */ s32 unk_8;
+} struct_800F4890_unk_0C4; // size = 0xC
+
+typedef struct struct_800F4890_unk_14C {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ s32 unk_4;
+} struct_800F4890_unk_14C; // size = 0x8
+
 typedef struct struct_800F4890 {
     /* 0x000 */ UNK_TYPE1 unk_000[0xC];
     /* 0x00C */ s32 unk_00C;
     /* 0x010 */ s32 unk_010;
     /* 0x014 */ s32 unk_014;
     /* 0x018 */ s32 unk_018;
-    /* 0x01C */ UNK_TYPE1 unk_01C[0x18];
+    /* 0x01C */ s32 unk_01C[4];
+    /* 0x02C */ s32 unk_02C;
+    /* 0x030 */ s32 unk_030;
     /* 0x034 */ UNK_TYPE unk_034;
-    /* 0x038 */ UNK_TYPE1 unk_038[0x14C];
+    /* 0x038 */ UNK_TYPE1 unk_038[0x8C];
+    /* 0x0C4 */ struct_800F4890_unk_0C4 unk_0C4[3];
+    /* 0x0E8 */ struct_800F4890_unk_0E8 unk_0E8[4][4];
+    /* 0x148 */ UNK_TYPE1 unk_148[0x4];
+    /* 0x14C */ struct_800F4890_unk_14C unk_14C[3];
+    /* 0x164 */ s32 unk_164;
+    /* 0x168 */ s32 unk_168;
+    /* 0x16C */ s32 unk_16C;
+    /* 0x170 */ s32 unk_170;
+    /* 0x174 */ s32 unk_174[4];
     /* 0x184 */ s32 unk_184;
-} struct_800F4890; // size >= 0x188
+} struct_800F4890; // size = 0x188
 
 typedef struct struct_800F3E5C_unk_00048 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x400];
@@ -674,5 +703,42 @@ typedef enum enum_evs_gamemode {
     /* 2 */ ENUM_EVS_GAMEMODE_2,
     /* 3 */ ENUM_EVS_GAMEMODE_3
 } enum_evs_gamemode;
+
+typedef enum enum_story_proc_no {
+    /*  0 */ STORY_PROC_NO_0,
+    /*  1 */ STORY_PROC_NO_1,
+    /*  2 */ STORY_PROC_NO_2,
+    /*  3 */ STORY_PROC_NO_3,
+    /*  4 */ STORY_PROC_NO_4,
+    /*  5 */ STORY_PROC_NO_5,
+    /*  6 */ STORY_PROC_NO_6,
+    /*  7 */ STORY_PROC_NO_7,
+    /*  8 */ STORY_PROC_NO_8,
+    /*  9 */ STORY_PROC_NO_9,
+    /* 10 */ STORY_PROC_NO_10,
+    /* 11 */ STORY_PROC_NO_11,
+    /* 12 */ STORY_PROC_NO_12,
+    /* 13 */ STORY_PROC_NO_13,
+    /* 14 */ STORY_PROC_NO_14,
+    /* 15 */ STORY_PROC_NO_15,
+    /* 16 */ STORY_PROC_NO_16,
+    /* 17 */ STORY_PROC_NO_17,
+    /* 18 */ STORY_PROC_NO_18,
+    /* 19 */ STORY_PROC_NO_19,
+    /* 20 */ STORY_PROC_NO_20,
+    /* 21 */ STORY_PROC_NO_21,
+    /* 22 */ STORY_PROC_NO_22,
+    /* 23 */ STORY_PROC_NO_23,
+    /* 24 */ STORY_PROC_NO_24
+} enum_story_proc_no;
+
+typedef enum enum_evs_manual_no {
+    /* 0 */ EVS_MANUAL_NO_0,
+    /* 1 */ EVS_MANUAL_NO_1,
+    /* 2 */ EVS_MANUAL_NO_2,
+    /* 3 */ EVS_MANUAL_NO_3,
+    /* 4 */ EVS_MANUAL_NO_4,
+    /* 5 */ EVS_MANUAL_NO_5
+} enum_evs_manual_no;
 
 #endif

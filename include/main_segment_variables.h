@@ -42,14 +42,16 @@ extern s8 evs_story_level;
 extern s8 evs_secret_flg[2];
 extern u8 evs_one_game_flg; // maybe part of a struct?
 extern u8 evs_level_21; /* Original name: evs_level_21 */
+#ifndef M2CTX
 extern s8 evs_manual_no;
+#else
+extern enum_evs_manual_no evs_manual_no;
+#endif
 // extern UNK_TYPE D_80088414;
 extern s32 evs_vs_count;
 // extern UNK_TYPE D_8008841C;
 // extern UNK_TYPE D_8008841D;
-// extern UNK_TYPE D_80088430;
-// extern UNK_TYPE D_80088431;
-// extern UNK_TYPE D_80088433;
+extern UNK_TYPE1 GameSpeed[4];
 // extern UNK_TYPE D_80088434;
 // extern UNK_TYPE D_8008846C;
 extern s32 mti;
@@ -384,7 +386,7 @@ extern UNK_TYPE title_bmp_tbl[3];
 // extern UNK_TYPE D_800AACCC;
 // extern UNK_TYPE D_800AACD0;
 // extern UNK_TYPE D_800AACD4;
-extern s32 story_proc_no; /* Original name: story_proc_no */
+extern enum_story_proc_no story_proc_no; /* Original name: story_proc_no */
 // extern UNK_TYPE D_800AACF0;
 extern char *EndingLastMessage; /* Original name: EndingLastMessage */
 extern s32 D_800AAD08;
@@ -511,8 +513,8 @@ extern Mtx B_800E5818;
 // extern UNK_TYPE B_800E5978;
 // extern UNK_TYPE B_800E597C;
 extern UNK_PTR heapTop; /* Original name: heapTop */
-// extern UNK_TYPE B_800E5990;
-// extern UNK_TYPE B_800E5994;
+extern UNK_TYPE _texAll;
+extern UNK_TYPE _texKaSa;
 extern s32 title_mode_type;
 extern s32 title_fade_count; /* Original name: title_fade_count */
 extern s32 title_fade_step;

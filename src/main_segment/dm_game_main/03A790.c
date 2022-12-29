@@ -110,8 +110,8 @@ void dm_save_all(void) {
                     temp_arg5++;
                 }
 
-                dm_story_sort_set(evs_select_name_no[0], story_proc_no >= 0xC, evs_story_level, game_state_ptr->unk_000,
-                                  evs_game_time, temp_arg5, evs_one_game_flg);
+                dm_story_sort_set(evs_select_name_no[0], (s32)story_proc_no >= STORY_PROC_NO_12, evs_story_level,
+                                  game_state_ptr->unk_000, evs_game_time, temp_arg5, evs_one_game_flg);
                 temp_s3->unk_3B0 = 1;
             }
             break;
@@ -159,7 +159,7 @@ void dm_save_all(void) {
             } else {
                 struct_800EF560 *temp_a0 = &evs_mem_data[evs_select_name_no[0]];
                 s32 var_s0_2 = evs_story_no;
-                s32 temp_s1 = story_proc_no >= 0xC;
+                s32 temp_s1 = (s32)story_proc_no >= STORY_PROC_NO_12;
 
                 temp_a0->unk_B4.unk_02 = CLAMP(var_s0_2 - 1, 0, 7);
 

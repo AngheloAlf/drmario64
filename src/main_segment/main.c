@@ -95,10 +95,11 @@ void mainproc(void) {
 
             case MAIN_NO_2:
                 main_story(&B_800EB670);
-                if ((story_proc_no == 0) | (story_proc_no == 0xC)) {
+                if ((story_proc_no == STORY_PROC_NO_0) | (story_proc_no == STORY_PROC_NO_12)) {
                     story_proc_no++;
                     main_no = MAIN_NO_2;
-                } else if ((u32)(story_proc_no - 0xA) >= 2U && (u32)(story_proc_no - 0x16) >= 2U) {
+                } else if ((story_proc_no - STORY_PROC_NO_10 >= STORY_PROC_NO_12 - STORY_PROC_NO_10) &&
+                           (story_proc_no - STORY_PROC_NO_22 >= STORY_PROC_NO_24 - STORY_PROC_NO_22)) {
                     main_no = MAIN_NO_1;
                 } else {
                     main_no = MAIN_NO_7;

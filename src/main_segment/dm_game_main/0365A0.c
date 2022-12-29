@@ -540,7 +540,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_8006258C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_800626A4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", dm_game_heap_top);
+UNK_PTR *dm_game_heap_top(void) {
+    return &heapTop;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_800628A4);
 

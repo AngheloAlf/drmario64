@@ -452,7 +452,33 @@ s32 EepRom_ReadAll(void) {
     return 5;
 }
 
+#if 0
+//? func_800365C8(? *, ? *, ?);                       /* extern */
+//? func_8003858C(? *);                               /* extern */
+//s32 func_800389A8(void *, ? *, ?, s32, s32);        /* extern */
+
+s32 EepRom_WriteAll(s32 arg0, s32 arg1) {
+    ? sp18;
+    ? sp30;
+    void *temp_v0;
+
+    temp_v0 = func_80038938(1);
+    if (temp_v0 == NULL) {
+        func_80038BD0(3);
+        return 3;
+    }
+    func_800365C8(&sp18, &sp30, 0x200);
+    func_8003858C(&sp18);
+    if (func_800389A8(temp_v0, &sp30, 0x200, arg0, arg1) == 0) {
+        bcopy(&sp30, temp_v0, 0x200);
+        return 0;
+    }
+    func_80038BD0(4);
+    return 4;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/record", EepRom_WriteAll);
+#endif
 
 void func_80038BD0(UNK_TYPE arg0 UNUSED) {
 }
