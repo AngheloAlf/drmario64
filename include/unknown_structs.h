@@ -220,10 +220,7 @@ typedef struct struct_800F3E50 {
     /* 0x8C0 */ s32 unk_8C0;
     /* 0x8C4 */ s32 unk_8C4;
     /* 0x8C8 */ s32 unk_8C8;
-    /* 0x8CC */ s32 unk_8CC[UNK_SIZE];
-    /* 0x8D0 */ s32 unk_8D0;
-    /* 0x8D4 */ s32 unk_8D4;
-    /* 0x8D8 */ s32 unk_8D8;
+    /* 0x8CC */ s32 unk_8CC[4];
     /* 0x8DC */ s32 unk_8DC[4][4];
     /* 0x91C */ MessageWnd messageWnd;
     /* 0x99C */ UNK_TYPE1 unk_99C[0x10];

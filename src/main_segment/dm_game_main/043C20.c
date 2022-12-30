@@ -112,7 +112,7 @@ void dm_game_init(bool arg0) {
 
     switch (evs_gamemode) {
         case ENUM_EVS_GAMEMODE_2:
-            watchGameP->unk_3C8 = _big_virus_def_wait[game_state_data->unk_16C];
+            watchGameP->unk_3C8 = _big_virus_def_wait[game_state_data[0].unk_16C];
             break;
 
         default:
@@ -304,35 +304,42 @@ void dm_game_init(bool arg0) {
     }
 }
 
-#ifdef NON_EQUIVALENT
-// looks equivalent but not completely sure
 /**
  * Original name: dm_game_init_static
  */
 void dm_game_init_static(void) {
-    // volatile unsigned int pad[4];
-    s32 var_s1;
+    struct_800F3E50 *temp_s3 = watchGame;
+    RomOffsetPair *romTableP = _romDataTbl;
     struct_800EF560 *temp_a1;
-    struct_800F3E50 *temp_s3;
-    u32 temp_a0;
-    RomOffsetPair *romTableP;
+    s32 i;
+    romoffset_t temp_a0;
+    romoffset_t start;
+    romoffset_t end;
+    UNK_TYPE result;
+    u32 pad[2] UNUSED;
+    s8 temp;
 
-    romTableP = _romDataTbl;
-    temp_s3 = watchGame;
+    start = _romDataTbl[ROMDATATBL_GAME_AL].start;
 
     temp_s3->unk_3B0 = 0;
     temp_s3->unk_878 = 0x7F;
-    temp_s3->unk_430 = tiLoadTexData(&heapTop, (romTableP + 0x178 / 8)->start, (romTableP + 0x178 / 8)->end);
-    temp_s3->unk_444 = tiLoadTexData(&heapTop, (romTableP + 0x1A0 / 8)->start, (romTableP + 0x1A0 / 8)->end);
+    end = _romDataTbl[ROMDATATBL_GAME_AL].end;
+    result = tiLoadTexData(&heapTop, start, end);
+    start = _romDataTbl[ROMDATATBL_GAME_ITEM].start;
+    // let's silence the warning for now...
+    temp_s3->unk_430 = (void*)result;
+    end = _romDataTbl[ROMDATATBL_GAME_ITEM].end;
+    temp_s3->unk_444 = tiLoadTexData(&heapTop, start, end);
     if (main_no != MAIN_NO_5) {
-        temp_s3->unk_448 = tiLoadTexData(&heapTop, (romTableP + 0x208 / 8)->start, (romTableP + 0x208 / 8)->end);
+        temp_s3->unk_448 = tiLoadTexData(&heapTop, _romDataTbl[ROMDATATBL_MENU_KASA].start, _romDataTbl[ROMDATATBL_MENU_KASA].end);
     }
-    temp_a0 = (romTableP + 0x1A8 / 8)->start;
-    temp_s3->unk_884 = heapTop;
-    heapTop = DecompressRomToRam(temp_a0, heapTop, (romTableP + 0x1A8 / 8)->end - temp_a0);
 
-    for (var_s1 = 0; var_s1 < 2; var_s1++) {
-        temp_s3->unk_8AC[var_s1] = 0;
+    temp_a0 = _romDataTbl[ROMDATATBL_GAME_ETC].start;
+    temp_s3->unk_884 = heapTop;
+    heapTop = DecompressRomToRam(temp_a0, heapTop, _romDataTbl[ROMDATATBL_GAME_ETC].end - temp_a0);
+
+    for (i = 0; i < ARRAY_COUNT(temp_s3->unk_8AC); i++) {
+        temp_s3->unk_8AC[i] = 0;
     }
 
     temp_s3->unk_394 = 0;
@@ -343,47 +350,52 @@ void dm_game_init_static(void) {
     temp_s3->unk_9B0 = 0;
     temp_s3->unk_9B4 = 0;
     temp_s3->unk_9B8 = 0;
+
     replay_record_init_buffer(&heapTop);
     replay_record_init(evs_playcnt);
 
-    for (var_s1 = 0; var_s1 < 2U; var_s1++) {
-        func_80062B84(&temp_s3->unk_9D0[var_s1]);
+    temp = 0;
+    for (i = 0; i < ARRAY_COUNTU(temp_s3->unk_9D0); i++) {
+        func_80062B84(&temp_s3->unk_9D0[i]);
     }
 
-    msgWnd_init2(&temp_s3->unk_A28, &heapTop, 0x100, 0xA, 5, 0, 0);
+    msgWnd_init2(&temp_s3->unk_A28, &heapTop, 0x100, 0xA, 5, temp, 0);
     temp_s3->unk_A28.unk_28 = (s32)(0x140 - (temp_s3->unk_A28.unk_3C * 0x14)) >> 1;
     temp_s3->unk_A28.unk_2C = (s32)(0xF0 - (temp_s3->unk_A28.unk_48 * 2)) >> 1;
     RecWritingMsg_init(&temp_s3->recMessage, &heapTop);
 
-    switch (evs_gamesel) { /* switch 1 */
+    switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_4:
             evs_high_score = 0xDD18;
             break;
 
-        case ENUM_EVS_GAMESEL_0: /* switch 1 */
+        case ENUM_EVS_GAMESEL_0:
             temp_a1 = &evs_mem_data[evs_select_name_no[0]];
             if (evs_select_name_no[0] == 8) {
                 evs_high_score = 0xDD18;
             } else {
-                switch (evs_gamemode) {       /* switch 3; irregular */
-                    case ENUM_EVS_GAMEMODE_0: /* switch 3 */
-                        evs_high_score = temp_a1->unk_4C[game_state_data->unk_02C].unk_0;
+                switch (evs_gamemode) {
+                    case ENUM_EVS_GAMEMODE_0:
+                        evs_high_score = temp_a1->unk_4C[game_state_data[0].unk_02C].unk_0;
                         break;
-                    case ENUM_EVS_GAMEMODE_2: /* switch 3 */
-                        evs_high_score = temp_a1->unk_64[game_state_data->unk_16C].unk_0;
+                    case ENUM_EVS_GAMEMODE_2:
+                        evs_high_score = temp_a1->unk_64[game_state_data[0].unk_16C].unk_0;
                         break;
-                    case ENUM_EVS_GAMEMODE_3: /* switch 3 */
-                        evs_high_score = temp_a1->unk_7C[game_state_data->unk_16C].unk_0;
+                    case ENUM_EVS_GAMEMODE_3:
+                        evs_high_score = temp_a1->unk_7C[game_state_data[0].unk_16C].unk_0;
+                        break;
+
+                    default:
                         break;
                 }
             }
             break;
 
-        case ENUM_EVS_GAMESEL_1: /* switch 1 */
-        case ENUM_EVS_GAMESEL_2: /* switch 1 */
-        case ENUM_EVS_GAMESEL_3: /* switch 1 */
-        case ENUM_EVS_GAMESEL_5: /* switch 1 */
-        case ENUM_EVS_GAMESEL_6: /* switch 1 */
+        case ENUM_EVS_GAMESEL_1:
+        case ENUM_EVS_GAMESEL_2:
+        case ENUM_EVS_GAMESEL_3:
+        case ENUM_EVS_GAMESEL_5:
+        case ENUM_EVS_GAMESEL_6:
             if (evs_story_flg == 0) {
                 evs_high_score = 0;
             }
@@ -393,22 +405,22 @@ void dm_game_init_static(void) {
             return;
     }
 
-    switch (evs_gamesel) {       /* switch 2 */
-        case ENUM_EVS_GAMESEL_0: /* switch 2 */
-        case ENUM_EVS_GAMESEL_4: /* switch 2 */
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_0:
+        case ENUM_EVS_GAMESEL_4:
             temp_s3->unk_898 = 1;
-            animeState_load(&game_state_data->unk_094, &heapTop, CHARANIMEMODE_MARIO);
-            animeState_set(&game_state_data->unk_094, 2);
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180 / 8].start, romTableP[0x180 / 8].end);
-            temp_s3->unk_434 = tiLoadTexData(&heapTop, romTableP[0x198 / 8].start, romTableP[0x198 / 8].end);
+            animeState_load(&game_state_data[0].unk_094, &heapTop, CHARANIMEMODE_MARIO);
+            animeState_set(&game_state_data[0].unk_094, 2);
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
+            temp_s3->unk_434 = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_LS].start, romTableP[ROMDATATBL_GAME_LS].end);
 
-            for (var_s1 = 0; var_s1 < 3; var_s1++) {
-                animeState_load(&temp_s3->animeStates[var_s1], &heapTop, var_s1 + CHARANIMEMODE_VIRUS_R);
+            for (i = 0; i < ARRAY_COUNT(temp_s3->animeStates); i++) {
+                animeState_load(&temp_s3->animeStates[i], &heapTop, i + CHARANIMEMODE_VIRUS_R);
             }
 
             animeSmog_load(temp_s3->animeSmogs, &heapTop);
-            for (var_s1 = 1; var_s1 < 3; var_s1++) {
-                animeSmog_init(&temp_s3->animeSmogs[var_s1], &temp_s3->animeSmogs[0]);
+            for (i = 1; i < ARRAY_COUNT(temp_s3->animeSmogs); i++) {
+                animeSmog_init(&temp_s3->animeSmogs[i], &temp_s3->animeSmogs[0]);
             }
 
             msgWnd_init2(&temp_s3->messageWnd, &heapTop, 0x1000, 0x14, 0xF, 0x28, 0xF);
@@ -420,61 +432,62 @@ void dm_game_init_static(void) {
             heapTop = init_coffee_break(heapTop, game_state_data[0].unk_02C);
             break;
 
-        case ENUM_EVS_GAMESEL_1: /* switch 2 */
-        case ENUM_EVS_GAMESEL_3: /* switch 2 */
-        case ENUM_EVS_GAMESEL_5: /* switch 2 */
-            for (var_s1 = 0; var_s1 < 2; var_s1++) {
-                animeState_load(&game_state_data[var_s1].unk_094, &heapTop, game_state_data[var_s1].unk_090);
+        case ENUM_EVS_GAMESEL_1:
+        case ENUM_EVS_GAMESEL_3:
+        case ENUM_EVS_GAMESEL_5:
+            for (i = 0; i < 2; i++) {
+                animeState_load(&game_state_data[i].unk_094, &heapTop, game_state_data[i].unk_090);
             }
 
             if (evs_story_flg == 0) {
-                for (var_s1 = 0; var_s1 < 2; var_s1++) {
-                    temp_s3->unk_8B4[var_s1] = 0;
+                for (i = 0; i < ARRAY_COUNT(temp_s3->unk_8B4); i++) {
+                    temp_s3->unk_8B4[i] = 0;
                 }
 
                 switch (evs_gamesel) {
                     case ENUM_EVS_GAMESEL_1:
-                        for (var_s1 = 0; var_s1 < ARRAY_COUNT(temp_s3->unk_8B4); var_s1++) {
-                            temp_s3->unk_8B4[var_s1] = evs_mem_data[evs_select_name_no[var_s1]].unk_A8;
+                        for (i = 0; i < ARRAY_COUNT(temp_s3->unk_8B4); i++) {
+                            temp_s3->unk_8B4[i] = evs_mem_data[evs_select_name_no[i]].unk_A8;
                         }
+                        break;
+
+                    default:
                         break;
                 }
             }
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180 / 8].start, romTableP[0x180 / 8].end);
-            temp_s3->unk_43C = tiLoadTexData(&heapTop, romTableP[0x188 / 8].start, romTableP[0x188 / 8].end);
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
+            temp_s3->unk_43C = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P2].start, romTableP[ROMDATATBL_GAME_P2].end);
             break;
 
-        case ENUM_EVS_GAMESEL_2: /* switch 2 */
-        case ENUM_EVS_GAMESEL_6: /* switch 2 */
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180 / 8].start, romTableP[0x180 / 8].end);
-            temp_s3->unk_440 = tiLoadTexData(&heapTop, romTableP[0x190 / 8].start, romTableP[0x190 / 8].end);
+        case ENUM_EVS_GAMESEL_2:
+        case ENUM_EVS_GAMESEL_6:
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
+            temp_s3->unk_440 = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P4].start, romTableP[ROMDATATBL_GAME_P4].end);
 
-            var_s1 = 0;
-            do {
-                animeState_load(&game_state_data[var_s1].unk_094, &heapTop, game_state_data[var_s1].unk_090);
-                var_s1 += 1;
-            } while (var_s1 < 4);
-
-            for (var_s1 = 0; var_s1 < 4; var_s1++) {
-                temp_s3->unk_8CC[var_s1] = 0;
+            for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
+                animeState_load(&game_state_data[i].unk_094, &heapTop, game_state_data[i].unk_090);
             }
 
-            for (var_s1 = 0; var_s1 < 4; var_s1++) {
-                temp_s3->unk_8CC[game_state_data[var_s1].unk_04F]++;
+            for (i = 0; i < ARRAY_COUNT(temp_s3->unk_8CC); i++) {
+                temp_s3->unk_8CC[i] = 0;
+            }
+
+            for (i = 0; i < ARRAY_COUNT(temp_s3->unk_8CC); i++) {
+                temp_s3->unk_8CC[game_state_data[i].unk_04F]++;
             }
 
             temp_s3->unk_8BC = 0;
 
-            for (var_s1 = 0; var_s1 < 4; var_s1++) {
-                if (game_state_data[var_s1].unk_04C == 0) {
+            for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
+                if (game_state_data[i].unk_04C == 0) {
                     temp_s3->unk_8BC++;
                 }
             }
 
             if (temp_s3->unk_8CC[0] == 1) {
-                if (temp_s3->unk_8D0 == temp_s3->unk_8CC[0]) {
-                    if (temp_s3->unk_8D4 == temp_s3->unk_8D0) {
-                        if (temp_s3->unk_8D8 == temp_s3->unk_8D4) {
+                if (temp_s3->unk_8CC[1] == temp_s3->unk_8CC[0]) {
+                    if (temp_s3->unk_8CC[2] == temp_s3->unk_8CC[1]) {
+                        if (temp_s3->unk_8CC[3] == temp_s3->unk_8CC[2]) {
                             temp_s3->unk_8C0 = 0;
                             return;
                         }
@@ -486,15 +499,15 @@ void dm_game_init_static(void) {
             temp_s3->unk_8C8 = 0;
             temp_s3->unk_8C4 = 0;
 
-            for (var_s1 = 0; var_s1 < 4; var_s1++) {
-                if (game_state_data[var_s1].unk_04F == 0) {
-                    temp_s3->unk_8C4 |= (1 << var_s1);
+            for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
+                if (game_state_data[i].unk_04F == 0) {
+                    temp_s3->unk_8C4 |= (1 << i);
                 }
             }
 
-            for (var_s1 = 0; var_s1 < 4; var_s1++) {
-                if (game_state_data[var_s1].unk_04F == 1) {
-                    temp_s3->unk_8C8 |= (game_state_data[var_s1].unk_04F << var_s1);
+            for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
+                if (game_state_data[i].unk_04F == 1) {
+                    temp_s3->unk_8C8 |= (game_state_data[i].unk_04F << i);
                 }
             }
             break;
@@ -503,9 +516,6 @@ void dm_game_init_static(void) {
             break;
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/043C20", dm_game_init_static);
-#endif
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", RO_800B2314);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", RO_800B2330);
