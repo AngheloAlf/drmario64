@@ -74,7 +74,8 @@ const u8 _retryMenu_itemCount[] = {
     2, 3, 2, 3, 2, 3,
 };
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", _big_virus_def_wait);
+const f32 _big_virus_def_wait[] = { 12.5f, 10.0f, 7.5f };
+
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", RO_800B1C8C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", RO_800B1C98);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", RO_800B1CA4);
@@ -2405,13 +2406,6 @@ void dm_effect_make(void) {
     }
 }
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", map_x_table_5383);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", map_y_table_5384);
-
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", size_table_5385);
-
-ASM_TEXT;
-
 void dm_game_init_heap(void) {
     u32 i;
     u32 temp = 0x3000;
@@ -2430,10 +2424,13 @@ void dm_game_init_heap(void) {
     heapTop = B_800F48C0 + temp;
 }
 
-extern const u16 map_x_table_5383[][4];
-extern const u8 map_y_table_5384[];
-extern const u8 size_table_5385[];
-extern const f32 _big_virus_def_wait[];
+const u16 map_x_table_5383[][4] = {
+    { 0x76, 0x76, 0x76, 0x76 },
+    { 0x1C, 0xD4, 0x1C, 0xD4 },
+    { 0x14, 0x5C, 0xA4, 0xEC },
+};
+const u8 map_y_table_5384[] = { 0x2E, 0x2E };
+const u8 size_table_5385[] = { 0xA, 8 };
 
 void dm_game_init(bool arg0) {
     struct_800F3E50 *watchGameP = watchGame;
