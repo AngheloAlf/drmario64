@@ -47,7 +47,7 @@ extern s8 evs_manual_no;
 #else
 extern enum_evs_manual_no evs_manual_no;
 #endif
-// extern UNK_TYPE D_80088414;
+extern s32 evs_high_score;
 extern s32 evs_vs_count;
 // extern UNK_TYPE D_8008841C;
 // extern UNK_TYPE D_8008841D;
@@ -251,7 +251,7 @@ extern s32 title_exit_flag; /* Original name: title_exit_flag */
 extern u8 changestar_tex[];
 extern UNK_TYPE title_bmp_tbl[3];
 // extern UNK_TYPE D_800A8ACC;
-// extern UNK_TYPE D_800A8AD0;
+extern char st_staffroll_txt[];
 // extern UNK_TYPE D_800A923C;
 // extern UNK_TYPE D_800A9278;
 // extern UNK_TYPE D_800A92C0;

@@ -619,7 +619,7 @@ UNK_TYPE set_down_flg(struct_800EBEF0 *arg0);
 // void func_800609B8();
 // void func_80060A6C();
 // void func_80060C1C();
-void func_80060E10(void);
+void dm_make_magazine(void);
 // void func_80060F60();
 // void func_80060FA0();
 void func_80060FCC(struct_80123700 *arg0);

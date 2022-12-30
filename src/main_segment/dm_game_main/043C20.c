@@ -15,7 +15,7 @@
 #include "buffers.h"
 #include "audio/audio_stuff.h"
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", D_800B22B0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/043C20", size_table_5385);
 
 void dm_game_init_heap(void) {
     u32 i;
@@ -35,10 +35,10 @@ void dm_game_init_heap(void) {
     heapTop = B_800F48C0 + temp;
 }
 
-extern const u16 D_800B2294[][4];
-extern const u8 D_800B22AC[];
-extern const u8 D_800B22B0[];
-extern const f32 RO_800B1C80[];
+extern const u16 map_x_table_5383[][4];
+extern const u8 map_y_table_5384[];
+extern const u8 size_table_5385[];
+extern const f32 _big_virus_def_wait[];
 
 void dm_game_init(bool arg0) {
     struct_800F3E50 *watchGameP = watchGame;
@@ -112,7 +112,7 @@ void dm_game_init(bool arg0) {
 
     switch (evs_gamemode) {
         case ENUM_EVS_GAMEMODE_2:
-            watchGameP->unk_3C8 = RO_800B1C80[game_state_data->unk_16C];
+            watchGameP->unk_3C8 = _big_virus_def_wait[game_state_data->unk_16C];
             break;
 
         default:
@@ -157,7 +157,7 @@ void dm_game_init(bool arg0) {
     }
 
     dm_seq_play_in_game(evs_seqnumb * 2);
-    func_80060E10();
+    dm_make_magazine();
 
     for (i = 0; i < ARRAY_COUNT(watchGameP->unk_8DC); i++) {
         for (j = 0; j < ARRAY_COUNT(watchGameP->unk_8DC[i]); j++) {
@@ -198,9 +198,9 @@ void dm_game_init(bool arg0) {
 
     temp_s0_3 = game_state_data;
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
-        temp_s0_3[i].unk_008 = D_800B22AC[var_s4];
-        temp_s0_3[i].unk_00A = D_800B22B0[var_s4];
-        temp_s0_3[i].unk_006 = D_800B2294[j][i];
+        temp_s0_3[i].unk_008 = map_y_table_5384[var_s4];
+        temp_s0_3[i].unk_00A = size_table_5385[var_s4];
+        temp_s0_3[i].unk_006 = map_x_table_5383[j][i];
     }
 
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
@@ -304,9 +304,6 @@ void dm_game_init(bool arg0) {
     }
 }
 
-extern s32 D_80088414;
-extern char D_800A8AD0[];
-
 #ifdef NON_EQUIVALENT
 // looks equivalent but not completely sure
 /**
@@ -360,23 +357,23 @@ void dm_game_init_static(void) {
 
     switch (evs_gamesel) { /* switch 1 */
         case ENUM_EVS_GAMESEL_4:
-            D_80088414 = 0xDD18;
+            evs_high_score = 0xDD18;
             break;
 
         case ENUM_EVS_GAMESEL_0: /* switch 1 */
             temp_a1 = &evs_mem_data[evs_select_name_no[0]];
             if (evs_select_name_no[0] == 8) {
-                D_80088414 = 0xDD18;
+                evs_high_score = 0xDD18;
             } else {
                 switch (evs_gamemode) {       /* switch 3; irregular */
                     case ENUM_EVS_GAMEMODE_0: /* switch 3 */
-                        D_80088414 = temp_a1->unk_4C[game_state_data->unk_02C].unk_0;
+                        evs_high_score = temp_a1->unk_4C[game_state_data->unk_02C].unk_0;
                         break;
                     case ENUM_EVS_GAMEMODE_2: /* switch 3 */
-                        D_80088414 = temp_a1->unk_64[game_state_data->unk_16C].unk_0;
+                        evs_high_score = temp_a1->unk_64[game_state_data->unk_16C].unk_0;
                         break;
                     case ENUM_EVS_GAMEMODE_3: /* switch 3 */
-                        D_80088414 = temp_a1->unk_7C[game_state_data->unk_16C].unk_0;
+                        evs_high_score = temp_a1->unk_7C[game_state_data->unk_16C].unk_0;
                         break;
                 }
             }
@@ -388,7 +385,7 @@ void dm_game_init_static(void) {
         case ENUM_EVS_GAMESEL_5: /* switch 1 */
         case ENUM_EVS_GAMESEL_6: /* switch 1 */
             if (evs_story_flg == 0) {
-                D_80088414 = 0;
+                evs_high_score = 0;
             }
             break;
 
@@ -416,7 +413,7 @@ void dm_game_init_static(void) {
 
             msgWnd_init2(&temp_s3->messageWnd, &heapTop, 0x1000, 0x14, 0xF, 0x28, 0xF);
             temp_s3->messageWnd.unk_24 = 1;
-            msgWnd_addStr(&temp_s3->messageWnd, D_800A8AD0);
+            msgWnd_addStr(&temp_s3->messageWnd, st_staffroll_txt);
             msgWnd_skip(&temp_s3->messageWnd);
             temp_s3->messageWnd.unk_20 = 1;
             temp_s3->messageWnd.unk_1C = 0;

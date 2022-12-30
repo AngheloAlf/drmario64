@@ -104,5 +104,5 @@ void dm_effect_make(void) {
     }
 }
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/041620", D_800B2294);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/041620", D_800B22AC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/041620", map_x_table_5383);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/041620", map_y_table_5384);

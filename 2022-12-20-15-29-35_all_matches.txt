@@ -203,7 +203,7 @@ D_800B0424 - found 12 matches total:
 0.99 - D_800B11F8
 0.99 - D_800B1ECC
 0.99 - D_800B21D0
-0.99 - D_800B2294
+0.99 - map_x_table_5383
 0.99 - RO_800B3150
 0.99 - map_x_table_1036
 

@@ -71,7 +71,7 @@ const u8 _retryMenu_itemCount[] = {
     2, 3, 2, 3, 2, 3,
 };
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", RO_800B1C80);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", _big_virus_def_wait);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", RO_800B1C8C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", RO_800B1C98);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main/0365A0", RO_800B1CA4);
@@ -134,7 +134,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80060A6C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80060C1C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80060E10);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", dm_make_magazine);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main/0365A0", func_80060F60);
 

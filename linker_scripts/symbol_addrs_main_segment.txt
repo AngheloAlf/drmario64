@@ -708,7 +708,7 @@ erase_anime = 0x80060910;
 func_800609B8 = 0x800609B8;
 func_80060A6C = 0x80060A6C;
 func_80060C1C = 0x80060C1C;
-func_80060E10 = 0x80060E10;
+dm_make_magazine = 0x80060E10;
 func_80060F60 = 0x80060F60;
 func_80060FA0 = 0x80060FA0;
 func_80060FCC = 0x80060FCC;
@@ -1169,7 +1169,7 @@ evs_secret_flg = 0x8008840C; // size:0x2
 evs_one_game_flg = 0x8008840E; // defined:True
 evs_level_21 = 0x8008840F; // defined:True
 evs_manual_no = 0x80088410;
-D_80088414 = 0x80088414;
+evs_high_score = 0x80088414;
 evs_vs_count = 0x80088418;
 D_8008841C = 0x8008841C;
 D_8008841D = 0x8008841D; // defined:True
@@ -1374,7 +1374,7 @@ D_800A76C0 = 0x800A76C0;
 changestar_tex = 0x800A82C0;
 title_bmp_tbl = 0x800A8AC0; // size:0xC
 D_800A8ACC = 0x800A8ACC;
-D_800A8AD0 = 0x800A8AD0; // type:char
+st_staffroll_txt = 0x800A8AD0; // type:char
 D_800A923C = 0x800A923C; // type:char
 D_800A9278 = 0x800A9278; // type:char
 D_800A92C0 = 0x800A92C0;
@@ -1794,6 +1794,8 @@ RO_800AFCEC = 0x800AFCEC; // force_not_migration:True
 
 RO_800AFBEC = 0x800AFBEC; // force_not_migration:True
 
+RO_800AFEB8 = 0x800AFEB8; // size:0x14
+
 RO_800B0A50 = 0x800B0A50; // force_not_migration:True
 
 RO_800B0B50 = 0x800B0B50; // force_not_migration:True
@@ -1811,7 +1813,7 @@ RO_800B1B00 = 0x800B1B00; // size:0xA0
 
 _retryMenu_itemCount = 0x800B1C78; // size:0x6
 
-RO_800B1C80 = 0x800B1C80; // force_not_migration:True
+_big_virus_def_wait = 0x800B1C80; // force_not_migration:True
 RO_800B1C8C = 0x800B1C8C; // force_not_migration:True
 RO_800B1C98 = 0x800B1C98; // force_not_migration:True
 RO_800B1CA4 = 0x800B1CA4; // force_not_migration:True size:0x20
@@ -1827,12 +1829,14 @@ RO_800B2020 = 0x800B2020; // size:0xC
 RO_800B20C8 = 0x800B20C8; // force_migration:True type:f64 size:8
 RO_800B20D0 = 0x800B20D0; // force_not_migration:True type:u8
 
+map_x_table_5383 = 0x800B2294;
+map_y_table_5384 = 0x800B22AC;
+size_table_5385 = 0x800B22B0;
+
 RO_800B2314 = 0x800B2314; // force_not_migration:True size:0x1C
 RO_800B2330 = 0x800B2330; // force_not_migration:True size:0xC
 
 RO_800B23CC = 0x800B23CC; // force_not_migration:True type:s32
-
-RO_800AFEB8 = 0x800AFEB8; // size:0x14
 
 RO_800B2448 = 0x800B2448; // size:0x24
 
