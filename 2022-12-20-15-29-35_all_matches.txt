@@ -329,7 +329,7 @@ D_800AF660 - found 2 matches total:
 0.99 - D_800AAE00 (decompiled)
 0.99 - RO_800ACA20 (decompiled)
 
-func_80045F68 - found 1 matches total:
+transFunc_finger - found 1 matches total:
 0.99 - func_800461B0
 
 draw_Tex - found 1 matches total:

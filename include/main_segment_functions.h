@@ -299,11 +299,11 @@ UNK_TYPE tiLoadTexData(UNK_PTR *arg0, romoffset_t segmentRom, romoffset_t segmen
 // void func_80045914();
 // void drawCursorPattern();
 // void func_80045DD0();
-// void func_80045E18();
+f32 func_80045E18(f32 arg0, f32 arg1);
 // void func_80045E48();
 // void func_80045E94();
 // void func_80045EF4();
-// void func_80045F68();
+// void transFunc_finger();
 // void func_80046008();
 // void func_80046068();
 // void func_800460DC();
