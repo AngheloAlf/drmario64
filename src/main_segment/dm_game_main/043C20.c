@@ -327,11 +327,12 @@ void dm_game_init_static(void) {
     result = tiLoadTexData(&heapTop, start, end);
     start = _romDataTbl[ROMDATATBL_GAME_ITEM].start;
     // let's silence the warning for now...
-    temp_s3->unk_430 = (void*)result;
+    temp_s3->unk_430 = (void *)result;
     end = _romDataTbl[ROMDATATBL_GAME_ITEM].end;
     temp_s3->unk_444 = tiLoadTexData(&heapTop, start, end);
     if (main_no != MAIN_NO_5) {
-        temp_s3->unk_448 = tiLoadTexData(&heapTop, _romDataTbl[ROMDATATBL_MENU_KASA].start, _romDataTbl[ROMDATATBL_MENU_KASA].end);
+        temp_s3->unk_448 =
+            tiLoadTexData(&heapTop, _romDataTbl[ROMDATATBL_MENU_KASA].start, _romDataTbl[ROMDATATBL_MENU_KASA].end);
     }
 
     temp_a0 = _romDataTbl[ROMDATATBL_GAME_ETC].start;
@@ -411,8 +412,10 @@ void dm_game_init_static(void) {
             temp_s3->unk_898 = 1;
             animeState_load(&game_state_data[0].unk_094, &heapTop, CHARANIMEMODE_MARIO);
             animeState_set(&game_state_data[0].unk_094, 2);
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
-            temp_s3->unk_434 = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_LS].start, romTableP[ROMDATATBL_GAME_LS].end);
+            temp_s3->unk_438 =
+                tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
+            temp_s3->unk_434 =
+                tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_LS].start, romTableP[ROMDATATBL_GAME_LS].end);
 
             for (i = 0; i < ARRAY_COUNT(temp_s3->animeStates); i++) {
                 animeState_load(&temp_s3->animeStates[i], &heapTop, i + CHARANIMEMODE_VIRUS_R);
@@ -455,14 +458,18 @@ void dm_game_init_static(void) {
                         break;
                 }
             }
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
-            temp_s3->unk_43C = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P2].start, romTableP[ROMDATATBL_GAME_P2].end);
+            temp_s3->unk_438 =
+                tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
+            temp_s3->unk_43C =
+                tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P2].start, romTableP[ROMDATATBL_GAME_P2].end);
             break;
 
         case ENUM_EVS_GAMESEL_2:
         case ENUM_EVS_GAMESEL_6:
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
-            temp_s3->unk_440 = tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P4].start, romTableP[ROMDATATBL_GAME_P4].end);
+            temp_s3->unk_438 =
+                tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
+            temp_s3->unk_440 =
+                tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P4].start, romTableP[ROMDATATBL_GAME_P4].end);
 
             for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
                 animeState_load(&game_state_data[i].unk_094, &heapTop, game_state_data[i].unk_090);
