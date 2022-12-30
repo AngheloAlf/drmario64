@@ -673,10 +673,10 @@ extern STACK(B_800F1E30, 0x2000);
 // extern UNK_TYPE B_800F3E32;
 // extern UNK_TYPE B_800F3E34;
 extern OSMesgQueue B_800F3E38;
-extern struct_800F3E50 *watchGame;
+extern struct_watchGame *watchGame;
 // extern UNK_TYPE B_800F3E54;
 // extern UNK_TYPE B_800F3E56;
-extern struct_800F3E5C *watchMenu;
+extern struct_watchMenu *watchMenu;
 extern OSMesg B_800F3E60[1];
 extern u16 gControllerPrevHoldButtons[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800F3E6E;
@@ -692,7 +692,7 @@ extern u8 B_800F3E78[];
 // extern UNK_TYPE B_800F3E98;
 // extern UNK_TYPE B_800F3E9C;
 // extern UNK_TYPE B_800F3EA0;
-extern struct_800F4890 *watchManual; /* Original name: watchManual */
+extern struct_watchManual *watchManual; /* Original name: watchManual */
 // extern UNK_TYPE B_800F4894;
 extern OSMesgQueue B_800F4898;
 extern struct_800FAF98_unk_64 B_800F48B0;
@@ -765,7 +765,7 @@ extern u16 joycnt[4][0x10]; /* Original name: joycnt */
 extern u64 B_801136F0[];
 extern enum_evs_gamemode evs_gamemode;
 
-extern struct_80123700 game_state_data[4]; /* Original name: game_state_data */
+extern struct_game_state_data game_state_data[4]; /* Original name: game_state_data */
 
 
 #endif

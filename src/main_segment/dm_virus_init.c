@@ -239,7 +239,7 @@ void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data
     }
 }
 
-s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_80123700 *arg1) {
+s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_game_state_data *arg1) {
     s32 ret;
 
     switch (evsGamemode) {
@@ -274,10 +274,10 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BCC);
 extern u8 D_800B1BCC[];
 extern u8 D_800B1BA0[];
 
-void _dm_virus_init(u32 arg0, struct_80123700 *arg1, struct_virus_map_data *arg2, struct_virus_map_disp_order *arg3, s32 arg4) {
+void _dm_virus_init(u32 arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2, struct_virus_map_disp_order *arg3, s32 arg4) {
     u16 sp10[4];
     u16 sp14;
-    struct_80123700 *sp24;
+    struct_game_state_data *sp24;
     struct_virus_map_data *sp2C;
     struct_virus_map_disp_order *sp34;
     u16 sp3E;
@@ -454,7 +454,8 @@ loop_1:
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", _dm_virus_init);
 #endif
 
-void dm_virus_init(u32 arg0, struct_80123700 *arg1, struct_virus_map_data *arg2, struct_virus_map_disp_order *arg3) {
+void dm_virus_init(u32 arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2,
+                   struct_virus_map_disp_order *arg3) {
     _dm_virus_init(arg0, arg1, arg2, arg3, 0);
 }
 

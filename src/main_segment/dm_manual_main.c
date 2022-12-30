@@ -219,11 +219,11 @@ const u8 map_y_table_1038[] = { 0x2E, 0x2E };
 const u8 size_table_1039[] = { 0xA, 8 };
 
 void dm_manual_all_init(void) {
-    struct_800F4890 *temp_v0_2;
+    struct_watchManual *temp_v0_2;
     s32 j;
     s32 i;
     s32 k;
-    struct_80123700 *var_a0_2;
+    struct_game_state_data *var_a0_2;
     void **headTopPtr;
 
     evs_seqnumb = _seqTbl_1037[evs_manual_no % ARRAY_COUNTU(_seqTbl_1037)];
@@ -257,7 +257,7 @@ void dm_manual_all_init(void) {
     watchManual = ALIGN_PTR(*headTopPtr);
 
     temp_v0_2 = watchManual;
-    bzero(temp_v0_2, sizeof(struct_800F4890));
+    bzero(temp_v0_2, sizeof(struct_watchManual));
 
     *headTopPtr = &watchManual[1];
 
@@ -380,7 +380,7 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
     s32 i;
     s32 var_s3 = 1;
     s32 var_s4 = 0;
-    struct_800F4890 *temp_s2;
+    struct_watchManual *temp_s2;
 
     osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
     func_8002A184(arg0, &sp48, &sp10);
@@ -470,7 +470,7 @@ void dm_manual_graphic(void) {
     OSScTask *ptr;
     s32 color;
     s32 alpha;
-    struct_800F4890 *temp_s1 = watchManual;
+    struct_watchManual *temp_s1 = watchManual;
 
     gGfxHead = gGfxGlist[gfx_gtask_no];
     ptr = &B_800FAE80[gfx_gtask_no];

@@ -779,7 +779,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059BC8);
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059C34);
 
 /* drMarioRetrace? */
-void func_80059CA0(struct_800F3E5C *arg0) {
+void func_80059CA0(struct_watchMenu *arg0) {
     osRecvMesg(&arg0->unk_0000C, NULL, OS_MESG_BLOCK);
 }
 
@@ -841,7 +841,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059E7C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059E8C);
 
-void menuTitle_setTitle(struct_800F3E5C *arg0, enum_struct_800F3E5C_unk_111CC arg1) {
+void menuTitle_setTitle(struct_watchMenu *arg0, enum_struct_800F3E5C_unk_111CC arg1) {
     func_80047420(&arg0->unk_02548, arg1);
 }
 
@@ -850,7 +850,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", _setFadeDir);
 /**
  * Original name: menuAll_init
  */
-void menuAll_init(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) {
+void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) {
     UNK_PTR sp10 = *arg1;
     UNK_PTR temp_v0;
     s32 i;
@@ -924,12 +924,12 @@ void menuAll_init(struct_800F3E5C *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) {
     *arg1 = sp10;
 }
 
-void func_8005A2AC(struct_800F3E5C *arg0) {
+void func_8005A2AC(struct_watchMenu *arg0) {
     func_8002A1DC(arg0->unk_00000, &arg0->unk_00004);
     D_8008E8B4 = arg0->unk_111CC;
 }
 
-void func_8005A2EC(struct_800F3E5C *arg0) {
+void func_8005A2EC(struct_watchMenu *arg0) {
     s32 index = arg0->unk_111C0;
 
     switch (arg0->unk_111CC) {
@@ -963,7 +963,7 @@ void func_8005A2EC(struct_800F3E5C *arg0) {
     }
 }
 
-void menuAll_changeMenu(struct_800F3E5C *arg0) {
+void menuAll_changeMenu(struct_watchMenu *arg0) {
     s32 index = arg0->unk_111C0;
 
     arg0->unk_02470[index] = arg0->unk_02468[index];
@@ -1045,7 +1045,7 @@ void menuAll_changeMenu(struct_800F3E5C *arg0) {
     }
 }
 
-void menuAll_input(struct_800F3E5C *arg0) {
+void menuAll_input(struct_watchMenu *arg0) {
     s32 index = arg0->unk_111C0;
 
     if ((arg0->unk_111E0 > 0.0f) && (arg0->unk_111DC > 0.0f)) {
@@ -1121,7 +1121,7 @@ void menuAll_input(struct_800F3E5C *arg0) {
     }
 }
 
-void menuAll_update(struct_800F3E5C *arg0) {
+void menuAll_update(struct_watchMenu *arg0) {
     enum_struct_800F3E5C_unk_111CC var_a0;
     f32 temp_f2_2;
     f32 var_f2;
@@ -1237,7 +1237,7 @@ void menuAll_update(struct_800F3E5C *arg0) {
     arg0->unk_111EC++;
 }
 
-void menuAll_drawBg(struct_800F3E5C *arg0, Gfx **gfxP) {
+void menuAll_drawBg(struct_watchMenu *arg0, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     struct_800F3E5C_unk_024B8 *temp_s4 = &arg0->unk_024B8;
     s32 temp_s3;
@@ -1263,7 +1263,7 @@ void menuAll_drawBg(struct_800F3E5C *arg0, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-void menuAll_draw(struct_800F3E5C *arg0, Gfx **gfxP) {
+void menuAll_draw(struct_watchMenu *arg0, Gfx **gfxP) {
     u8 color;
     s32 i;
 
@@ -1377,7 +1377,7 @@ void menuAll_draw(struct_800F3E5C *arg0, Gfx **gfxP) {
  */
 enum_main_no main_menu(struct_800EB670 *arg0) {
     UNK_PTR sp10 = Heap_bufferp;
-    struct_800F3E5C *ptr = ALIGN_PTR(Heap_bufferp);
+    struct_watchMenu *ptr = ALIGN_PTR(Heap_bufferp);
     s32 i;
     u16 value;
 
@@ -1389,7 +1389,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     }
     func_80040A64();
     sp10 = &ptr[1];
-    bzero(ptr, sizeof(struct_800F3E5C));
+    bzero(ptr, sizeof(struct_watchMenu));
     watchMenu = ptr;
     menuAll_init(ptr, &sp10, arg0);
 
@@ -1463,7 +1463,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
 }
 
 void graphic_menu(void) {
-    struct_800F3E5C *ptr = watchMenu;
+    struct_watchMenu *ptr = watchMenu;
 
     if ((ptr->unk_111D4 != MAIN_NO_6) && (ptr->unk_111DC == 1.0f)) {
         osSetThreadPri(NULL, 0xF);

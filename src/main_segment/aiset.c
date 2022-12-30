@@ -14,7 +14,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002EB74);
 /**
  * Original name: aifMakeFlagSet
  */
-void aifMakeFlagSet(struct_80123700 *arg0) {
+void aifMakeFlagSet(struct_game_state_data *arg0) {
     arg0->unk_23D = 0;
     arg0->unk_241 = 0;
     arg0->unk_237 = 0;

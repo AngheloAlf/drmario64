@@ -81,7 +81,7 @@ extern s8 evs_story_flg;
 
 __asm__(".section .text\n");
 enum_main_no main12() {
-    struct_80123700 *ptr;
+    struct_game_state_data *ptr;
     s32 arg1;
     s32 arg2;
     s32 temp_a3;

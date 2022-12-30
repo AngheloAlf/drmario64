@@ -105,63 +105,63 @@ typedef struct struct_800EA290 {
 } struct_800EA290; // size >= 0x1244
 
 
-typedef struct struct_800F3E50_unk_0B8_unk_00 {
+typedef struct struct_watchGame_unk_0B8_unk_00 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x10];
     /* 0x10 */ f32 unk_10;
-} struct_800F3E50_unk_0B8_unk_00; // size = 0x14
+} struct_watchGame_unk_0B8_unk_00; // size = 0x14
 
-typedef struct struct_800F3E50_unk_070 {
+typedef struct struct_watchGame_unk_070 {
     /* 0x00 */ UNK_TYPE *unk_00;
     /* 0x04 */ UNK_TYPE *unk_04;
     /* 0x08 */ s32 unk_08[0x10];
-} struct_800F3E50_unk_070; // size = 0x48
+} struct_watchGame_unk_070; // size = 0x48
 
-typedef struct struct_800F3E50_unk_0B8 {
-    /* 0x00 */ struct_800F3E50_unk_0B8_unk_00 unk_00[8];
+typedef struct struct_watchGame_unk_0B8 {
+    /* 0x00 */ struct_watchGame_unk_0B8_unk_00 unk_00[8];
     /* 0xA0 */ UNK_TYPE4 unk_A0;
-} struct_800F3E50_unk_0B8; // size = 0xA4
+} struct_watchGame_unk_0B8; // size = 0xA4
 
-typedef struct struct_800F3E50_unk_430_unk_B8 {
+typedef struct struct_watchGame_unk_430_unk_B8 {
     /* 0x0 */ UNK_TYPE1 unk_0[0x4];
     /* 0x4 */ UNK_TYPE unk_4;
-} struct_800F3E50_unk_430_unk_B8; // size >= 0x8
+} struct_watchGame_unk_430_unk_B8; // size >= 0x8
 
-typedef struct struct_800F3E50_unk_430_unk_BC {
+typedef struct struct_watchGame_unk_430_unk_BC {
     /* 0x0 */ u16 unk_0;
     /* 0x2 */ u16 unk_2;
-} struct_800F3E50_unk_430_unk_BC; // size >= 0x4
+} struct_watchGame_unk_430_unk_BC; // size >= 0x4
 
-typedef struct struct_800F3E50_unk_430_unk_C0 {
+typedef struct struct_watchGame_unk_430_unk_C0 {
     /* 0x0 */ UNK_TYPE1 unk_0[0x4];
     /* 0x4 */ UNK_TYPE unk_4;
-} struct_800F3E50_unk_430_unk_C0; // size >= 0x8
+} struct_watchGame_unk_430_unk_C0; // size >= 0x8
 
-typedef struct struct_800F3E50_unk_430 {
+typedef struct struct_watchGame_unk_430 {
     /* 0x00 */ UNK_TYPE1 unk_00[0xB8];
-    /* 0xB8 */ struct_800F3E50_unk_430_unk_B8 *unk_B8;
-    /* 0xBC */ struct_800F3E50_unk_430_unk_BC *unk_BC;
-    /* 0xC0 */ struct_800F3E50_unk_430_unk_C0 *unk_C0;
+    /* 0xB8 */ struct_watchGame_unk_430_unk_B8 *unk_B8;
+    /* 0xBC */ struct_watchGame_unk_430_unk_BC *unk_BC;
+    /* 0xC0 */ struct_watchGame_unk_430_unk_C0 *unk_C0;
     /* 0xC4 */ u16 *unk_C4;
-} struct_800F3E50_unk_430; // size >= 0xC8
+} struct_watchGame_unk_430; // size >= 0xC8
 
-typedef struct struct_800F3E50_unk_9D0 {
+typedef struct struct_watchGame_unk_9D0 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x28];
     /* 0x28 */ s32 unk_28;
-} struct_800F3E50_unk_9D0; // size = 0x2C
+} struct_watchGame_unk_9D0; // size = 0x2C
 
-typedef struct struct_800F3E50_unk_AAC {
+typedef struct struct_watchGame_unk_AAC {
     /* 0x00 */ UNK_TYPE1 unk_00[0x2A];
-} struct_800F3E50_unk_AAC; // size = 0x2A
+} struct_watchGame_unk_AAC; // size = 0x2A
 
-typedef struct struct_800F3E50 {
+typedef struct struct_watchGame {
     /* 0x000 */ UNK_TYPE4 unk_000;
     /* 0x004 */ s32 unk_004;
     /* 0x008 */ s32 unk_008;
     /* 0x00C */ s32 unk_00C[0xC];
     /* 0x03C */ s32 unk_03C[0xC];
     /* 0x06C */ s32 unk_06C;
-    /* 0x070 */ struct_800F3E50_unk_070 unk_070;
-    /* 0x0B8 */ struct_800F3E50_unk_0B8 unk_0B8[4];
+    /* 0x070 */ struct_watchGame_unk_070 unk_070;
+    /* 0x0B8 */ struct_watchGame_unk_0B8 unk_0B8[4];
     /* 0x348 */ UNK_TYPE4 unk_348[UNK_SIZE];
     /* 0x34C */ UNK_TYPE1 unk_34C[0xC];
     /* 0x358 */ UNK_TYPE4 unk_358[UNK_SIZE];
@@ -197,7 +197,7 @@ typedef struct struct_800F3E50 {
     /* 0x424 */ s32 unk_424;
     /* 0x428 */ UNK_TYPE4 unk_428;
     /* 0x42C */ UNK_TYPE1 unk_42C[0x4];
-    /* 0x430 */ struct_800F3E50_unk_430 *unk_430;
+    /* 0x430 */ struct_watchGame_unk_430 *unk_430;
     /* 0x434 */ UNK_TYPE4 unk_434;
     /* 0x448 */ UNK_TYPE4 unk_438;
     /* 0x43C */ UNK_TYPE4 unk_43C;
@@ -233,12 +233,12 @@ typedef struct struct_800F3E50 {
     /* 0x9C4 */ UNK_TYPE4 unk_9C4;
     /* 0x9C8 */ s32 unk_9C8;
     /* 0x9CC */ s32 unk_9CC;
-    /* 0x9D0 */ struct_800F3E50_unk_9D0 unk_9D0[2];
+    /* 0x9D0 */ struct_watchGame_unk_9D0 unk_9D0[2];
     /* 0xA28 */ MessageWnd unk_A28;
     /* 0xAA8 */ s32 unk_AA8;
-    /* 0xAAC */ struct_800F3E50_unk_AAC unk_AAC;
+    /* 0xAAC */ struct_watchGame_unk_AAC unk_AAC;
     /* 0xAD8 */ RecordWritingMessage recMessage;
-} struct_800F3E50; // size = 0xB60
+} struct_watchGame; // size = 0xB60
 
 
 struct StretchTexBlock_arg0;
@@ -439,7 +439,7 @@ typedef struct struct_80123700_unk_140 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x24];
 } struct_80123700_unk_140; // size = 0x24
 
-typedef struct struct_80123700 {
+typedef struct struct_game_state_data {
     /* 0x000 */ UNK_TYPE unk_000;
     /* 0x004 */ u16 unk_004;
     /* 0x006 */ u16 unk_006;
@@ -520,7 +520,7 @@ typedef struct struct_80123700 {
     /* 0x294 */ s8 unk_294;
     /* 0x295 */ UNK_TYPE1 unk_295[0x3];
     /* 0x298 */ UNK_TYPE1 unk_298[0x12C];
-} struct_80123700; // size = 0x3C4
+} struct_game_state_data; // size = 0x3C4
 
 typedef struct struct_800F4890_unk_034 {
     /* 0x00 */ s32 unk_00;
@@ -548,7 +548,7 @@ typedef struct struct_800F4890_unk_14C {
     /* 0x4 */ s32 unk_4;
 } struct_800F4890_unk_14C; // size = 0x8
 
-typedef struct struct_800F4890 {
+typedef struct struct_watchManual {
     /* 0x000 */ UNK_TYPE1 unk_000[0xC];
     /* 0x00C */ s32 unk_00C;
     /* 0x010 */ s32 unk_010;
@@ -568,7 +568,7 @@ typedef struct struct_800F4890 {
     /* 0x170 */ s32 unk_170;
     /* 0x174 */ s32 unk_174[4];
     /* 0x184 */ s32 unk_184;
-} struct_800F4890; // size = 0x188
+} struct_watchManual; // size = 0x188
 
 typedef struct struct_800F3E5C_unk_00048 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x400];
@@ -690,7 +690,7 @@ typedef enum enum_struct_800F3E5C_unk_111CC {
     /* 64 */ ENUM_STRUCT_800F3E5C_UNK_111CC_64,
 } enum_struct_800F3E5C_unk_111CC;
 
-typedef struct struct_800F3E5C {
+typedef struct struct_watchMenu {
     /* 0x00000 */ struct_800EB670 *unk_00000;
     /* 0x00004 */ struct_800FAF98_unk_64 unk_00004;
     /* 0x0000C */ OSMesgQueue unk_0000C;
@@ -740,7 +740,7 @@ typedef struct struct_800F3E5C {
     /* 0x111F0 */ UNK_TYPE unk_111F0;
     /* 0x111F4 */ UNK_TYPE unk_111F4; // thread priority?
     /* 0x111F8 */ RecordWritingMessage recMessage;
-} struct_800F3E5C; // size = 0x11280
+} struct_watchMenu; // size = 0x11280
 
 typedef enum enum_graphic_no {
     /* 0 */ GRAPHIC_NO_0, // NONE?
