@@ -377,8 +377,6 @@ segments:
       - [0x045F40, c, main_segment/char_anime]
 
       - [0x046D70, c, main_segment/dm_virus_init]
-      - [0x047520, c, main_segment/dm_virus_init]
-      - [0x047D20, c, main_segment/dm_virus_init]
 
       - [0x048010, c, main_segment/dm_game_main/0365A0]
       - [0x04C200, c, main_segment/dm_game_main/03A790]
@@ -453,40 +451,36 @@ segments:
 
       - [0x094830, .rodata, main_segment/sound]
       - [0x094B20, .rodata, main_segment/graphic]
-
       - { start: 0x094B40, type: .rodata, partial_migration: True, name: main_segment/main1x }
       - { start: 0x094CB0, type: .rodata, partial_migration: True, name: main_segment/aiset }
       - { start: 0x094D60, type: .rodata, partial_migration: True, name: main_segment/record }
 
       - { start: 0x094DD0, type: .rodata, partial_migration: True, name: main_segment/00F2A0 }
+
       - [0x094F70, .rodata, main_segment/010D50]
-      - [0x094FB0, .rodata, main_segment/0131D0]
-      - [0x095100, .rodata, main_segment/014590]
-      - { start: 0x0955E0, type: .rodata, partial_migration: True, name: main_segment/015710 }
-      - { start: 0x0957A0, type: .rodata, partial_migration: True, name: main_segment/015EB0 }
+      - [0x094FB0, .rodata, main_segment/0131D0] # probably fake split
+      - [0x095100, .rodata, main_segment/014590] # probably fake split
+      - { start: 0x0955E0, type: .rodata, partial_migration: True, name: main_segment/015710 } # probably fake split
+      - { start: 0x0957A0, type: .rodata, partial_migration: True, name: main_segment/015EB0 } # probably fake split
+
       - { start: 0x095960, type: .rodata, partial_migration: True, name: main_segment/tex_func }
 
       - [0x095A30, .rodata, main_segment/01C180]
+      - [0x095A70, rodata, main_segment/084000] # maybe fake split
 
-      - [0x095A70, rodata, main_segment/084000]
       - [0x095AB0, rodata, main_segment/084040]
 
       - { start: 0x095B00, type: .rodata, partial_migration: True, name: main_segment/01C600 }
-      - { start: 0x097480, type: .rodata, partial_migration: True, name: main_segment/01DAD0 }
+      - { start: 0x097480, type: .rodata, partial_migration: True, name: main_segment/01DAD0 } # probably fake split
 
       - [0x0976B0, rodata, main_segment/085C40]
-
-      - { start: 0x097990, type: .rodata, partial_migration: True, name: main_segment/01FC90 }
-      - { start: 0x0979D0, type: .rodata, partial_migration: True, name: main_segment/020C10 }
-      - { start: 0x097A60, type: .rodata, partial_migration: True, name: main_segment/0222C0 }
-
-      - { start: 0x097D20, type: .rodata, partial_migration: True, name: main_segment/024C90 }
-
-      - { start: 0x098E90, type: .rodata, partial_migration: True, name: main_segment/02C090 }
-
-      - { start: 0x099250, type: .rodata, partial_migration: True, name: main_segment/02FD90 }
-
-      - [0x099420, .rodata, main_segment/030AD0]
+      - { start: 0x097990, type: .rodata, partial_migration: True, name: main_segment/01FC90 } # probably fake split
+      - { start: 0x0979D0, type: .rodata, partial_migration: True, name: main_segment/020C10 } # probably fake split
+      - { start: 0x097A60, type: .rodata, partial_migration: True, name: main_segment/0222C0 } # probably fake split
+      - { start: 0x097D20, type: .rodata, partial_migration: True, name: main_segment/024C90 } # probably fake split
+      - { start: 0x098E90, type: .rodata, partial_migration: True, name: main_segment/02C090 } # probably fake split
+      - { start: 0x099250, type: .rodata, partial_migration: True, name: main_segment/02FD90 } # probably fake split
+      - [0x099420, .rodata, main_segment/030AD0] # probably fake split
 
       - start: 0x099770
         type: .rodata
@@ -499,18 +493,17 @@ segments:
       - { start: 0x099880, type: .rodata, partial_migration: True, name: main_segment/char_anime }
 
       - { start: 0x0999C0, type: .rodata, partial_migration: True, name: main_segment/dm_virus_init }
-      - { start: 0x0999F0, type: .rodata, partial_migration: True, name: main_segment/dm_virus_init }
 
       - { start: 0x099A50, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/0365A0 }
-      - { start: 0x099CE0, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03A790 }
-      - { start: 0x099E50, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03CD50 }
-      - { start: 0x099F00, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03FD40 }
-      - { start: 0x099F80, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/041620 }
-      - { start: 0x09A0D0, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/043C20 }
+      - { start: 0x099CE0, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03A790 } # probably fake split
+      - { start: 0x099E50, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03CD50 } # probably fake split
+      - { start: 0x099F00, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/03FD40 } # probably fake split
+      - { start: 0x099F80, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/041620 } # probably fake split
+      - { start: 0x09A0D0, type: .rodata, partial_migration: True, name: main_segment/dm_game_main/043C20 } # probably fake split
 
       - { start: 0x09A220, type: .rodata, partial_migration: True, name: main_segment/dm_manual_main/048350 }
-      - { start: 0x09A410, type: .rodata, partial_migration: True, name: main_segment/dm_manual_main/048630 }
-      - { start: 0x09AFE0, type: .rodata, partial_migration: True, name: main_segment/dm_manual_main/04B9A0 }
+      - { start: 0x09A410, type: .rodata, partial_migration: True, name: main_segment/dm_manual_main/048630 } # fake split
+      - { start: 0x09AFE0, type: .rodata, partial_migration: True, name: main_segment/dm_manual_main/04B9A0 } # fake split
 
       - { start: 0x09B060, type: .rodata, partial_migration: True, name: main_segment/dm_title_main }
       - { start: 0x09B180, type: .rodata, partial_migration: True, name: main_segment/main_story }
