@@ -250,8 +250,8 @@ segments:
       - [0x00E5C0, c, libkmc/memmove]
       - [0x00E730, c, libkmc/memset]
       - [0x00E800, c, libkmc/modf]
-      - [0x00E8B0, c, libkmc/rand] 
-      - [0x00E8F0, asm, libkmc/00E8F0]
+      - [0x00E8B0, c, libkmc/rand]
+      - [0x00E8F0, c, libkmc/strcpy]
       - [0x00E9C0, .hasm, ../src/libkmc/mmuldi3]
 
       - [0x00ED90, .data, boot/boot_main]

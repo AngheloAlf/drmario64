@@ -166,7 +166,7 @@ $(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(S
 $(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
 
 # per-file flags
-$(BUILD_DIR)/src/boot/boot_bss.o: CFLAGS += -fno-common
+
 
 #### Main Targets ###
 

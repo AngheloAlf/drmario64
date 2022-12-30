@@ -1,9 +1,6 @@
 #include "ultra64.h"
-#include "include_asm.h"
 #include "gcc/memory.h"
 #include "libkmc/kmclib.h"
-
-// TODO: try to match this function with C compliant code
 
 /* backward copy */
 
@@ -74,8 +71,6 @@ void *_memmover(REG5 void *dest, REG1 void *src, REG4 size_t n) {
 #endif /* } */
     return dest;
 }
-
-// void *_memmover(void *dest, void *src, size_t n);
 
 void *memmove(void *dest, void *src, size_t n) {
     if (dest <= src) {
