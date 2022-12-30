@@ -49,6 +49,7 @@
 #define MIN_ALT(a, b) ((b) < (a) ? (b) : (a))
 
 #define ASM_TEXT __asm__(".section .text")
+#define ASM_RODATA __asm__(".section .rodata")
 
 #define RODATA __attribute__ ((section (".rodata")))
 #define BSS __attribute__ ((section (".bss")))

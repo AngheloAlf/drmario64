@@ -24,22 +24,17 @@ options:
   asset_path: bin
   extensions_path: tools/splat_ext
   mips_abi_float_regs: o32
-  # section_order: [".text", ".data", ".rodata", ".bss"]
-  # auto_all_sections: [".data", ".rodata", ".bss"]
   do_c_func_detection: True
   o_as_suffix: True
   gfx_ucode: f3dex2
   mnemonic_ljust: 12
   rom_address_padding: True
-  # create_elf_section_list_auto: False # ?
-  # verbose: False
   dump_symbols: True
   generated_c_preamble: |
     #include "ultra64.h"
     #include "include_asm.h"
     #include "macros_defines.h"
     #include "unknown_structs.h"
-    #include "unk.h"
   asm_inc_header: ""
   use_legacy_include_asm: False
   create_asm_dependencies: True
@@ -347,12 +342,13 @@ segments:
       - [0x01E3D0, c, main_segment/record]
 
       - [0x020D10, c, main_segment/00F2A0]
+
       - [0x0227C0, c, main_segment/010D50]
       - [0x024BC0, c, main_segment/013150]
       - [0x024C40, c, main_segment/0131D0]
+
       - [0x026000, c, main_segment/014590]
-      - [0x027180, c, main_segment/015710]
-      - [0x027920, c, main_segment/015EB0]
+
       - [0x028820, c, main_segment/016DB0]
 
       - [0x0289D0, c, main_segment/tex_func]
@@ -437,13 +433,11 @@ segments:
       - { start: 0x094DD0, type: .rodata, partial_migration: True, name: main_segment/00F2A0 }
 
       - [0x094F70, .rodata, main_segment/010D50]
-      - [0x094FB0, .rodata, main_segment/0131D0] # probably fake split
-      - [0x095100, .rodata, main_segment/014590] # probably fake split
-      - { start: 0x0955E0, type: .rodata, partial_migration: True, name: main_segment/015710 } # probably fake split
-      - { start: 0x0957A0, type: .rodata, partial_migration: True, name: main_segment/015EB0 } # probably fake split
+      - [0x094FB0, .rodata, main_segment/0131D0]
+
+      - { start: 0x095100, type: .rodata, partial_migration: True, name: main_segment/014590 }
 
       - { start: 0x095960, type: .rodata, partial_migration: True, name: main_segment/tex_func }
-
       - { start: 0x095A30, type: .rodata, partial_migration: True, name: main_segment/main_menu }
 
       - start: 0x099770
