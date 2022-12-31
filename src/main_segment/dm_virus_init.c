@@ -32,7 +32,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", clear_map);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F00C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F074);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", get_map_info);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F09C);
 
@@ -70,7 +70,7 @@ s32 get_virus_count(struct_game_map_data *arg0) {
     return get_virus_color_count(arg0, &sp10, &sp11, &sp12);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F204);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", set_map);
 
 void set_virus(struct_game_map_data *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_800EBEF0_unk_000 *temp_v1;

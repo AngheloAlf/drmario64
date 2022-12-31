@@ -190,9 +190,58 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B3054);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B3078);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_attack_capsel_down);
+ASM_TEXT;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_800723EC);
+void dm_manual_attack_capsel_down(void) {
+    struct_watchManual *watchManualP = watchManual;
+    struct_game_map_data *gameMapDataP = game_map_data;
+    bool playSound = false;
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        watchManualP->unk_174[i]++;
+        if (watchManualP->unk_174[i] >= 0xE) {
+            s32 j;
+
+            watchManualP->unk_174[i] = 0;
+
+            for (j = 0; j < 4; j++) {
+                if (watchManualP->unk_0E8[i][j].unk_3[0] == 0) {
+                    continue;
+                }
+
+                if (get_map_info(&gameMapDataP[i], watchManualP->unk_0E8[i][j].unk_0,
+                                 watchManualP->unk_0E8[i][j].unk_1 + 1)) {
+                    set_map(&gameMapDataP[i], watchManualP->unk_0E8[i][j].unk_0, watchManualP->unk_0E8[i][j].unk_1, 4,
+                            watchManualP->unk_0E8[i][j].unk_2);
+                    watchManualP->unk_0E8[i][j].unk_3[0] = 0;
+                } else {
+                    playSound = true;
+
+                    if (watchManualP->unk_0E8[i][j].unk_1 < 0x10) {
+                        watchManualP->unk_0E8[i][j].unk_1++;
+                    }
+
+                    if (watchManualP->unk_0E8[i][j].unk_1 == 0x10) {
+                        set_map(&gameMapDataP[i], watchManualP->unk_0E8[i][j].unk_0, 0x10, 4,
+                                watchManualP->unk_0E8[i][j].unk_2);
+                        watchManualP->unk_0E8[i][j].unk_3[0] = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    if (playSound) {
+        dm_snd_play(SND_INDEX_55);
+    }
+}
+
+void func_800723EC(struct_game_state_data *gameStateDataP, struct_game_map_data *gameMapDataP, s32 arg2 UNUSED) {
+    if ((gameStateDataP->unk_014 != 1) & (gameStateDataP->unk_014 != 0xD)) {
+        dm_black_up(gameStateDataP, gameMapDataP);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80072428);
 

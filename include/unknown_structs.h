@@ -531,10 +531,10 @@ typedef struct struct_800F4890_unk_034 {
 } struct_800F4890_unk_034; // size = 0x90
 
 typedef struct struct_800F4890_unk_0E8 {
-    /* 0x0 */ u8 unk_0;
-    /* 0x0 */ u8 unk_1;
-    /* 0x0 */ u8 unk_2;
-    /* 0x0 */ u8 unk_3[3];
+    /* 0x0 */ s8 unk_0;
+    /* 0x0 */ s8 unk_1;
+    /* 0x0 */ s8 unk_2;
+    /* 0x0 */ s8 unk_3[3];
 } struct_800F4890_unk_0E8; // size = 0x6
 
 typedef struct struct_800F4890_unk_0C4 {
