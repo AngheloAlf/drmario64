@@ -439,7 +439,7 @@ typedef struct struct_game_state_data {
     /* 0x025 */ u8 unk_025;
     /* 0x026 */ u8 unk_026;
     /* 0x027 */ u8 unk_027;
-    /* 0x028 */ u8 unk_028;
+    /* 0x028 */ s8 unk_028;
     /* 0x029 */ u8 unk_029;
     /* 0x02A */ u8 unk_02A;
     /* 0x02B */ u8 unk_02B;

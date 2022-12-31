@@ -13,16 +13,16 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-void init_map_all(GameMapGrid *mapGridP) {
+void init_map_all(GameMapGrid *mapGrid) {
     s32 row;
 
-    bzero(mapGridP, sizeof(GameMapGrid));
+    bzero(mapGrid, sizeof(GameMapGrid));
 
     for (row = 0; row < GAME_MAP_ROWS; row++) {
         s32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            GameMapCell *cells = mapGridP->cells;
+            GameMapCell *cells = mapGrid->cells;
 
             cells[GAME_MAP_GET_INDEX(row, column)].unk_0 = column;
             cells[GAME_MAP_GET_INDEX(row, column)].unk_1 = row + 1;
@@ -34,8 +34,8 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", clear_map);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F00C);
 
-bool get_map_info(GameMapGrid *gameMapDataP, s32 column, s32 rowPlusOne) {
-    GameMapCell *cells = gameMapDataP->cells;
+bool get_map_info(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne) {
+    GameMapCell *cells = mapGrid->cells;
     s32 index = GAME_MAP_GET_INDEX(rowPlusOne - 1, column);
 
     return cells[index].unk_4 != 0;
@@ -47,9 +47,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F0E4);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BA0);
 
-s32 get_virus_color_count(GameMapGrid *mapGridP, s8 *arg1, s8 *arg2, s8 *arg3) {
+s32 get_virus_color_count(GameMapGrid *mapGrid, s8 *arg1, s8 *arg2, s8 *arg3) {
     s32 sp0[3] = { 0, 0, 0 };
-    GameMapCell *cells = mapGridP->cells;
+    GameMapCell *cells = mapGrid->cells;
     s32 i;
     s32 count = 0;
 
@@ -69,17 +69,36 @@ s32 get_virus_color_count(GameMapGrid *mapGridP, s8 *arg1, s8 *arg2, s8 *arg3) {
     return count;
 }
 
-s32 get_virus_count(GameMapGrid *mapGridP) {
+s32 get_virus_count(GameMapGrid *mapGrid) {
     s8 sp10;
     s8 sp11;
     s8 sp12;
 
-    return get_virus_color_count(mapGridP, &sp10, &sp11, &sp12);
+    return get_virus_color_count(mapGrid, &sp10, &sp11, &sp12);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", set_map);
+void set_map(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne, s32 arg3, s32 arg4) {
+    GameMapCell *cells = mapGrid->cells;
+    s32 index;
+    s32 var_t0;
 
-void set_virus(GameMapGrid *mapGridP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    var_t0 = arg4;
+    if (var_t0 >= 3) {
+        var_t0 -= 3;
+    }
+
+    index = GAME_MAP_GET_INDEX(rowPlusOne - 1, column);
+
+    cells[index].unk_2 = arg3;
+    cells[index].unk_3 = arg4;
+    cells[index].unk_4 = 1;
+    cells[index].unk_5 = 0;
+    cells[index].unk_6 = 0;
+    cells[index].unk_8 = -1;
+    cells[index].unk_7 = var_t0;
+}
+
+void set_virus(GameMapGrid *mapGrid, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     GameMapCell *cells;
     s32 var_t0;
     s32 temp;
@@ -90,7 +109,7 @@ void set_virus(GameMapGrid *mapGridP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     }
 
     temp = (arg2 - 1) * 8;
-    cells = mapGridP->cells;
+    cells = mapGrid->cells;
 
     cells[temp + arg1].unk_2 = arg4;
     cells[temp + arg1].unk_3 = arg3;
