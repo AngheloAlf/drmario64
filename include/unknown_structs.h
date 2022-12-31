@@ -65,23 +65,6 @@ typedef struct struct_800EB670 {
 typedef void (*StartThreadFunc)(void *);
 
 
-typedef struct struct_800EBEF0_unk_000 {
-    /* 0x0 */ s8 unk_0;
-    /* 0x1 */ s8 unk_1;
-    /* 0x2 */ s8 unk_2;
-    /* 0x3 */ u8 unk_3;
-    /* 0x4 */ s8 unk_4;
-    /* 0x5 */ s8 unk_5;
-    /* 0x6 */ s8 unk_6;
-    /* 0x7 */ s8 unk_7;
-    /* 0x8 */ s8 unk_8;
-    /* 0x9 */ s8 unk_9;
-} struct_800EBEF0_unk_000; // size = 0xA
-
-typedef struct struct_game_map_data {
-    /* 0x000 */ struct_800EBEF0_unk_000 unk_000[0x11 * 8];
-} struct_game_map_data; // size = 0x550
-
 typedef struct struct_8005FC6C_arg0 {
     /* 0x000 */ UNK_TYPE4 unk_000;
     /* 0x004 */ UNK_TYPE4 unk_004;

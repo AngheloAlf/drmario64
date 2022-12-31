@@ -645,7 +645,7 @@ extern u32 PlayTime;
 extern u8 main_joy[];
 extern OSThread B_800EBD20;
 extern OSMesg B_800EBED0[8];
-extern struct_game_map_data game_map_data[4];
+
 extern s16 B_800ED430;
 extern STACK(B_800ED440, 0x2000);
 extern UNK_PTR B_800EF440[2];

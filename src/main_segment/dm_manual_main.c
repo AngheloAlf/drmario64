@@ -194,7 +194,7 @@ ASM_TEXT;
 
 void dm_manual_attack_capsel_down(void) {
     struct_watchManual *watchManualP = watchManual;
-    struct_game_map_data *gameMapDataP = game_map_data;
+    GameMapGrid *mapGridP = game_map_data;
     bool playSound = false;
     s32 i;
 
@@ -210,9 +210,9 @@ void dm_manual_attack_capsel_down(void) {
                     continue;
                 }
 
-                if (get_map_info(&gameMapDataP[i], watchManualP->unk_0E8[i][j].unk_0,
+                if (get_map_info(&mapGridP[i], watchManualP->unk_0E8[i][j].unk_0,
                                  watchManualP->unk_0E8[i][j].unk_1 + 1)) {
-                    set_map(&gameMapDataP[i], watchManualP->unk_0E8[i][j].unk_0, watchManualP->unk_0E8[i][j].unk_1, 4,
+                    set_map(&mapGridP[i], watchManualP->unk_0E8[i][j].unk_0, watchManualP->unk_0E8[i][j].unk_1, 4,
                             watchManualP->unk_0E8[i][j].unk_2);
                     watchManualP->unk_0E8[i][j].unk_3[0] = 0;
                 } else {
@@ -223,7 +223,7 @@ void dm_manual_attack_capsel_down(void) {
                     }
 
                     if (watchManualP->unk_0E8[i][j].unk_1 == 0x10) {
-                        set_map(&gameMapDataP[i], watchManualP->unk_0E8[i][j].unk_0, 0x10, 4,
+                        set_map(&mapGridP[i], watchManualP->unk_0E8[i][j].unk_0, 0x10, 4,
                                 watchManualP->unk_0E8[i][j].unk_2);
                         watchManualP->unk_0E8[i][j].unk_3[0] = 0;
                     }
@@ -237,9 +237,9 @@ void dm_manual_attack_capsel_down(void) {
     }
 }
 
-void func_800723EC(struct_game_state_data *gameStateDataP, struct_game_map_data *gameMapDataP, s32 arg2 UNUSED) {
+void func_800723EC(struct_game_state_data *gameStateDataP, GameMapGrid *mapGridP, s32 arg2 UNUSED) {
     if ((gameStateDataP->unk_014 != 1) & (gameStateDataP->unk_014 != 0xD)) {
-        dm_black_up(gameStateDataP, gameMapDataP);
+        dm_black_up(gameStateDataP, mapGridP);
     }
 }
 
@@ -255,21 +255,21 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_1_main);
 s32 dm_manual_2_main(void) {
     struct_watchManual *watchManualP = watchManual;
     struct_game_state_data *gameStateDataP = game_state_data;
-    struct_game_map_data *gameMapDataP = game_map_data;
+    GameMapGrid *mapGridP = game_map_data;
     s32 ret = 1;
     s32 i;
 
     if (watchManualP->unk_16C != 0) {
-        dm_manual_main_cnt(gameStateDataP, gameMapDataP, 0, 1);
-        dm_manual_main_cnt(&gameStateDataP[1], &gameMapDataP[1], 1, 1);
-        dm_manual_make_key(gameStateDataP, gameMapDataP);
+        dm_manual_main_cnt(gameStateDataP, &mapGridP[0], 0, 1);
+        dm_manual_main_cnt(&gameStateDataP[1], &mapGridP[1], 1, 1);
+        dm_manual_make_key(gameStateDataP, mapGridP);
     }
 
-    func_800723EC(gameStateDataP, gameMapDataP, 0);
+    func_800723EC(gameStateDataP, mapGridP, 0);
     dm_manual_attack_capsel_down();
 
     for (i = 0; i < 2; i++) {
-        dm_virus_anime(&gameStateDataP[i], &gameMapDataP[i]);
+        dm_virus_anime(&gameStateDataP[i], &mapGridP[i]);
     }
 
     dm_warning_h_line_se();
@@ -291,7 +291,7 @@ s32 dm_manual_2_main(void) {
             break;
 
         case 0x1:
-            set_virus(gameMapDataP, virus_2_1[gameStateDataP->unk_025][1], virus_2_1[gameStateDataP->unk_025][2],
+            set_virus(mapGridP, virus_2_1[gameStateDataP->unk_025][1], virus_2_1[gameStateDataP->unk_025][2],
                       virus_2_1[gameStateDataP->unk_025][0],
                       virus_anime_table[virus_2_1[gameStateDataP->unk_025][0]][gameStateDataP->unk_027]);
 
