@@ -306,7 +306,7 @@ func_8004ACF4 - found 2 matches total:
 0.99 - func_80049578
 
 STR_800B2E24 - found 2 matches total:
-1.00 - STR_800B2A20
+1.00 - mes_2_9
 0.99 - STR_800B27D4
 
 StretchTexTile8 - found 2 matches total:
@@ -366,7 +366,7 @@ func_8004AD84 - found 1 matches total:
 1.00 - func_800486C8
 
 STR_800B2ADC - found 1 matches total:
-1.00 - STR_800B2894
+1.00 - mes_2_3
 
 RO_800AD080 - found 1 matches total:
 1.00 - D_800ACFB0

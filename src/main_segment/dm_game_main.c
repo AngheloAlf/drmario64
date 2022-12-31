@@ -110,7 +110,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", set_down_flg);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", go_down);
 
-void erase_anime(struct_800EBEF0 *arg0) {
+void erase_anime(struct_game_map_data *arg0) {
     s32 i;
 
     for (i = 0; i < 0x10 * 8; i++) {
@@ -144,7 +144,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80060F60);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80060FA0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80060FCC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_set_capsel);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_800610E0);
 
@@ -152,7 +152,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80061184);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", update_flash_virus_count);
 
-u8 func_8006121C(struct_game_state_data *arg0, struct_800EBEF0 *arg1, UNK_TYPE arg2) {
+u8 func_8006121C(struct_game_state_data *arg0, struct_game_map_data *arg1, UNK_TYPE arg2) {
     if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
         arg0->unk_025 = update_flash_virus_count(arg0, arg1, arg2);
     } else {
@@ -161,8 +161,9 @@ u8 func_8006121C(struct_game_state_data *arg0, struct_800EBEF0 *arg1, UNK_TYPE a
     return arg0->unk_025;
 }
 
-#ifdef NON_EQUIVALENT
-void dm_set_virus(struct_game_state_data *arg0, struct_800EBEF0 *arg1, struct_virus_map_data *arg2,
+#ifdef NON_MATCHING
+// regswap
+void dm_set_virus(struct_game_state_data *arg0, struct_game_map_data *arg1, struct_virus_map_data *arg2,
                   struct_virus_map_disp_order *arg3) {
     s32 temp_v0;
 
@@ -182,12 +183,12 @@ void dm_set_virus(struct_game_state_data *arg0, struct_800EBEF0 *arg1, struct_vi
         }
 
         if (arg0->unk_024 < temp_v0) {
-            u8 temp_a1;
-            temp_a1 = arg3->unk_00[arg0->unk_024];
-            arg3->unk_00[arg0->unk_024] = temp_a1 | 0x80;
+            u8 temp_a1 = arg3->unk_00[arg0->unk_024];
+
+            arg3->unk_00[arg0->unk_024] |= 0x80;
 
             set_virus(arg1, arg2->unk_000[temp_a1].unk_1, arg2->unk_000[temp_a1].unk_2, arg2->unk_000[temp_a1].unk_0,
-                      virus_anime_table[(arg2->unk_000[temp_a1].unk_0 * 4) + arg0->unk_027]);
+                      virus_anime_table[arg2->unk_000[temp_a1].unk_0][arg0->unk_027]);
             if (arg0->unk_01C == 0x12) {
                 arg1->unk_000[temp_a1].unk_3 += 3;
             }
@@ -205,9 +206,9 @@ void dm_set_virus(struct_game_state_data *arg0, struct_800EBEF0 *arg1, struct_vi
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_set_virus);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_800613D0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_virus_anime);
 
-void func_80061490(struct_game_state_data *arg0, struct_800EBEF0 *arg1) {
+void func_80061490(struct_game_state_data *arg0, struct_game_map_data *arg1) {
     arg0->unk_036++;
 
     if (arg0->unk_036 == 10) {
@@ -224,7 +225,7 @@ void func_80061490(struct_game_state_data *arg0, struct_800EBEF0 *arg1) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_make_erase_h_line);
 
-bool dm_h_erase_chack(struct_800EBEF0 *arg0) {
+bool dm_h_erase_chack(struct_game_map_data *arg0) {
     s32 i;
 
     for (i = 0; i < 8; i++) {
@@ -268,7 +269,7 @@ bool dm_h_erase_chack(struct_800EBEF0 *arg0) {
     return false;
 }
 
-void dm_h_erase_chack_set(struct_game_state_data *arg0, struct_800EBEF0 *arg1) {
+void dm_h_erase_chack_set(struct_game_state_data *arg0, struct_game_map_data *arg1) {
     s32 i;
 
     for (i = 0; i < 8; i++) {
@@ -342,7 +343,7 @@ void dm_h_erase_chack_set(struct_game_state_data *arg0, struct_800EBEF0 *arg1) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_make_erase_w_line);
 
-bool dm_w_erase_chack(struct_800EBEF0 *arg0) {
+bool dm_w_erase_chack(struct_game_map_data *arg0) {
     s32 i;
 
     for (i = 0; i < 0x10; i++) {
@@ -384,7 +385,7 @@ bool dm_w_erase_chack(struct_800EBEF0 *arg0) {
     return false;
 }
 
-void dm_w_erase_chack_set(struct_game_state_data *arg0, struct_800EBEF0 *arg1) {
+void dm_w_erase_chack_set(struct_game_state_data *arg0, struct_game_map_data *arg1) {
     s32 i;
 
     for (i = 0; i < 0x10; i++) {
@@ -457,7 +458,7 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, struct_800EBEF0 *arg1) {
 }
 
 #ifdef NON_MATCHING
-void dm_h_ball_chack(struct_800EBEF0 *arg0) {
+void dm_h_ball_chack(struct_game_map_data *arg0) {
     u32 i;
 
     for (i = 0; i < 8; i++) {
@@ -485,7 +486,7 @@ void dm_h_ball_chack(struct_800EBEF0 *arg0) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_h_ball_chack);
 #endif
 
-void dm_w_ball_chack(struct_800EBEF0 *arg0) {
+void dm_w_ball_chack(struct_game_map_data *arg0) {
     u32 i;
 
     for (i = 0; i < 0x10; i++) {
@@ -507,11 +508,12 @@ void dm_w_ball_chack(struct_800EBEF0 *arg0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80061DB8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_black_up);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80061E7C);
 
-void dm_calc_erase_score_pos(struct_game_state_data *arg0, struct_800EBEF0 *arg1, dm_calc_erase_score_pos_arg2 *arg2) {
+void dm_calc_erase_score_pos(struct_game_state_data *arg0, struct_game_map_data *arg1,
+                             dm_calc_erase_score_pos_arg2 *arg2) {
     s32 i;
     s32 var_t2 = 0;
 
@@ -770,7 +772,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", D_800B1ECC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", set_bottom_up_virus);
 
-bool bottom_up_bottle_items(struct_800EBEF0 *arg0) {
+bool bottom_up_bottle_items(struct_game_map_data *arg0) {
     s32 i;
     bool var_s4 = false;
     s32 var_s2;
@@ -1023,14 +1025,14 @@ void func_80064E4C(struct_game_state_data *arg0) {
 }
 
 #if 0
-s8 get_virus_color_count(struct_800EBEF0 *, s8 *, s8 *, s8 *); /* extern */
+s8 get_virus_color_count(struct_game_map_data *, s8 *, s8 *, s8 *); /* extern */
 UNK_TYPE func_80060270(struct_game_state_data *, s32);            /* extern */
 UNK_TYPE func_80060348(struct_game_state_data *, s32);            /* extern */
-UNK_TYPE func_80060424(struct_game_state_data *, struct_800EBEF0 *); /* extern */
+UNK_TYPE func_80060424(struct_game_state_data *, struct_game_map_data *); /* extern */
 UNK_TYPE func_80060FA0(s8 *, s32, s32, u32);               /* extern */
-UNK_TYPE func_80060FCC(struct_game_state_data *);                 /* extern */
+UNK_TYPE dm_set_capsel(struct_game_state_data *);                 /* extern */
 UNK_TYPE func_800610E0(struct_game_state_data *);                 /* extern */
-s32 func_80061184(struct_game_state_data *, struct_800EBEF0 *); /* extern */
+s32 func_80061184(struct_game_state_data *, struct_game_map_data *); /* extern */
 s32 func_80062AFC(s32);                             /* extern */
 s32 func_80062B18(s32);                             /* extern */
 s32 func_80062BC4(s8 *);                            /* extern */
@@ -1039,20 +1041,20 @@ UNK_TYPE func_80062DA4(s8 *);                              /* extern */
 UNK_TYPE func_80062EC0(s8 *);                              /* extern */
 UNK_TYPE func_80063378();                                  /* extern */
 UNK_TYPE func_800633C0();                                  /* extern */
-UNK_TYPE func_800635BC(struct_game_state_data *, struct_800EBEF0 *); /* extern */
+UNK_TYPE func_800635BC(struct_game_state_data *, struct_game_map_data *); /* extern */
 UNK_TYPE func_80064E4C();                                  /* extern */
 UNK_TYPE func_8007E760(s8 *, s32, s32, u8, s32, s32, UNK_TYPE *); /* extern */
-UNK_TYPE go_down(struct_game_state_data *, struct_800EBEF0 *, UNK_TYPE); /* extern */
+UNK_TYPE go_down(struct_game_state_data *, struct_game_map_data *, UNK_TYPE); /* extern */
 UNK_TYPE scoreNums_set(s8 *, s32, u8, s32, s32);           /* extern */
 
-extern UNK_TYPE B_800EF448;
+extern UNK_TYPE CapsMagazine;
 extern UNK_TYPE D_8008841C;
 extern s8 D_800A6FD8;
 extern UNK_TYPE D_800A7360;
 extern UNK_TYPE RO_800ACA10;
 extern UNK_TYPE RO_800B1C8C;
 
-s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, struct_800EBEF0 *arg1, s32 arg2) {
+s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, struct_game_map_data *arg1, s32 arg2) {
     s32 sp20;
     UNK_TYPE *var_t0;
     f32 temp_f4;
@@ -1133,7 +1135,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, struct_800EBEF0 *arg1, s32
                 arg0->unk_02D[2] = temp_v0_2;
                 var_v0 = 0;
                 if ((temp_v0_2 & 0xFF) == *(&D_8008841C + (u8) arg0->unk_02C)) {
-                    temp_a2 = &B_800EF448 + (u8) arg0->unk_030[3];
+                    temp_a2 = &CapsMagazine + (u8) arg0->unk_030[3];
                     temp_a2_2 = *temp_a2;
                     func_80060FA0(&arg0->unk_178, ((temp_a2_2 >> 4) - ((*temp_a2 / 48) * 3)) & 0xFF, (*temp_a2 % 3) & 0xFF, MULTU_HI(temp_a2_2, 0xAAAAAAAB));
                     arg0->unk_00C = 4;
@@ -1301,7 +1303,7 @@ block_47:
                     arg0->unk_174 = var_a0_2;
                 }
                 func_80060424(arg0, arg1);
-                func_80060FCC(arg0);
+                dm_set_capsel(arg0);
                 func_800610E0(arg0);
                 func_80060348(arg0, arg2);
                 animeState_set(&arg0->unk_094, 1);
@@ -1760,7 +1762,7 @@ s32 dm_game_main_2p(void) {
     s32 var_s5;
     s32 var_s6;
     s32 var_v0;
-    struct_800EBEF0 *var_a1;
+    struct_game_map_data *var_a1;
     struct_watchGame *temp_s7;
     struct_watchGame *var_s2_2;
     struct_game_state_data **var_a1_2;
@@ -2617,7 +2619,7 @@ void dm_game_init(bool arg0) {
         temp_s0_3->unk_02E = 0;
         temp_s0_3->unk_02F = 0;
         temp_s0_3->unk_034 = 0;
-        func_80060FCC(temp_s0_3);
+        dm_set_capsel(temp_s0_3);
         temp_s0_3->unk_027 = 0;
         temp_s0_3->unk_029 = 0;
         temp_s0_3->unk_028 = 1;

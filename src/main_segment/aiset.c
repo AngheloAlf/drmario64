@@ -184,7 +184,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifFirstInit);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002EFF0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002F180);
+INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifMake2);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002F2EC);
 

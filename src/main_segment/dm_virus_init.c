@@ -11,10 +11,10 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-void init_map_all(struct_800EBEF0 *arg0) {
+void init_map_all(struct_game_map_data *arg0) {
     s32 i;
 
-    bzero(arg0, sizeof(struct_800EBEF0));
+    bzero(arg0, sizeof(struct_game_map_data));
 
     for (i = 0; i < 0x11; i++) {
         s32 j;
@@ -40,7 +40,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F0E4);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BA0);
 
-s32 get_virus_color_count(struct_800EBEF0 *arg0, s8 *arg1, s8 *arg2, s8 *arg3) {
+s32 get_virus_color_count(struct_game_map_data *arg0, s8 *arg1, s8 *arg2, s8 *arg3) {
     s32 sp0[3] = { 0, 0, 0 };
     struct_800EBEF0_unk_000 *var_a0 = arg0->unk_000;
     s32 i;
@@ -62,7 +62,7 @@ s32 get_virus_color_count(struct_800EBEF0 *arg0, s8 *arg1, s8 *arg2, s8 *arg3) {
     return count;
 }
 
-s32 get_virus_count(struct_800EBEF0 *arg0) {
+s32 get_virus_count(struct_game_map_data *arg0) {
     s8 sp10;
     s8 sp11;
     s8 sp12;
@@ -72,7 +72,7 @@ s32 get_virus_count(struct_800EBEF0 *arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F204);
 
-void set_virus(struct_800EBEF0 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void set_virus(struct_game_map_data *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_800EBEF0_unk_000 *temp_v1;
     s32 var_t0;
     s32 temp;

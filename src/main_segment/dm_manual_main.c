@@ -38,6 +38,22 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80071FA0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", tutolWnd_draw);
 
+extern const UNK_TYPE D_800B2410;
+extern const UNK_TYPE D_800B2414;
+extern const UNK_TYPE D_800B2430;
+extern const UNK_TYPE D_800B2434;
+extern const u8 virus_2_1[][3];
+extern const u8 position_2_1[][4];
+extern const char mes_2_1[];
+extern const char mes_2_2[];
+extern const char mes_2_3[];
+extern const char mes_2_4[];
+extern const char mes_2_5[];
+extern const char mes_2_6[];
+extern const char mes_2_7[];
+extern const char mes_2_8[];
+extern const char mes_2_9[];
+
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", D_800B2408);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", D_800B240C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", D_800B2410);
@@ -58,9 +74,13 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2448);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", D_800B246C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", D_800B2474);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B247C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B248C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", D_800B24C8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B24D4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", virus_2_1);
+
+const u8 capsel_2_1[] = {
+    0x21, 0x02, 0x10, 0x12, 0x21, 0x00, 0x01, 0x20, 0x21, 0x12, 0x10, 0x10,
+};
+
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", position_2_1);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B24FC);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", D_800B2538);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2544);
@@ -102,23 +122,23 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2780);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B27D4);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2808);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_1);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B284C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_2);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2894);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_3);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B28DC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_4);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2914);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_5);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2958);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_6);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2994);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_7);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B29E0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_8);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2A20);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_9);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2A54);
 
@@ -170,19 +190,216 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B3054);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B3078);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80072280);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_attack_capsel_down);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_800723EC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80072428);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_8007248C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_main_cnt);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80072968);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_make_key);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_1_main);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_2_main);
+// probably returns bool
+s32 dm_manual_2_main(void) {
+    struct_watchManual *watchManualP = watchManual;
+    struct_game_state_data *gameStateDataP = game_state_data;
+    struct_game_map_data *gameMapDataP = game_map_data;
+    s32 ret = 1;
+    s32 i;
+
+    if (watchManualP->unk_16C != 0) {
+        dm_manual_main_cnt(gameStateDataP, gameMapDataP, 0, 1);
+        dm_manual_main_cnt(&gameStateDataP[1], &gameMapDataP[1], 1, 1);
+        dm_manual_make_key(gameStateDataP, gameMapDataP);
+    }
+
+    func_800723EC(gameStateDataP, gameMapDataP, 0);
+    dm_manual_attack_capsel_down();
+
+    for (i = 0; i < 2; i++) {
+        dm_virus_anime(&gameStateDataP[i], &gameMapDataP[i]);
+    }
+
+    dm_warning_h_line_se();
+
+    switch (watchManualP->unk_164) {
+        case 0x0:
+            func_80071EF0(&watchManualP->unk_034, D_800B2410, D_800B2414);
+            watchManualP->unk_000 = 1;
+            watchManualP->unk_004 = (s32)D_800B2430;
+            watchManualP->unk_008 = (s32)D_800B2434;
+            func_80072204(&watchManualP->unk_034);
+            watchManualP->unk_164 = 1;
+
+            for (i = 0; i < ARRAY_COUNTU(capsel_2_1); i++) {
+                CapsMagazine[i + 1] = capsel_2_1[i];
+            }
+            gameStateDataP->unk_032 = 1;
+            dm_set_capsel(gameStateDataP);
+            break;
+
+        case 0x1:
+            set_virus(gameMapDataP, virus_2_1[gameStateDataP->unk_025][1], virus_2_1[gameStateDataP->unk_025][2],
+                      virus_2_1[gameStateDataP->unk_025][0],
+                      virus_anime_table[virus_2_1[gameStateDataP->unk_025][0]][gameStateDataP->unk_027]);
+
+            gameStateDataP->unk_025++;
+            if (gameStateDataP->unk_025 >= 0x14U) {
+                watchManualP->unk_164 = 0xA;
+            }
+            break;
+
+        case 0xA:
+            func_800721D8(&watchManualP->unk_034);
+            func_800721BC(&watchManualP->unk_034, mes_2_1);
+            watchManualP->unk_164 = 0x30A;
+            watchManualP->unk_168 = 0x14;
+            break;
+
+        case 0x14:
+            func_800721A0(&watchManualP->unk_034);
+            func_800721BC(&watchManualP->unk_034, mes_2_2);
+            watchManualP->unk_164 = 0x30A;
+            watchManualP->unk_168 = 0x1E;
+            break;
+
+        case 0x1E:
+            func_800721A0(&watchManualP->unk_034);
+            func_800721BC(&watchManualP->unk_034, mes_2_3);
+            watchManualP->unk_164 = 0x30A;
+            watchManualP->unk_168 = 0x28;
+            break;
+
+        case 0x28:
+            func_800721A0(&watchManualP->unk_034);
+            func_800721BC(&watchManualP->unk_034, mes_2_4);
+            watchManualP->unk_164 = 0x30A;
+            watchManualP->unk_168 = 0x32;
+            break;
+
+        case 0x32:
+            func_800721A0(&watchManualP->unk_034);
+            func_800721BC(&watchManualP->unk_034, mes_2_5);
+            watchManualP->unk_164 = 0x30A;
+            watchManualP->unk_168 = 0x3C;
+            break;
+
+        case 0x3C:
+            func_800721A0(&watchManualP->unk_034);
+            func_800721BC(&watchManualP->unk_034, mes_2_6);
+            watchManualP->unk_164 = 0x30A;
+            watchManualP->unk_168 = 0x3D;
+            break;
+
+        case 0x3D:
+            gameStateDataP->unk_00C = 4;
+            watchManualP->unk_164 = 0x309;
+            watchManualP->unk_168 = 0x46;
+            break;
+
+        case 0x46:
+            func_800721A0(&watchManualP->unk_034);
+            func_800721BC(&watchManualP->unk_034, mes_2_7);
+            watchManualP->unk_164 = 0x30A;
+            watchManualP->unk_168 = 0x47;
+            break;
+
+        case 0x47:
+            watchManualP->unk_164 = 0x309;
+            watchManualP->unk_168 = 0x50;
+            break;
+
+        case 0x50:
+            watchManualP->unk_164 = 0x309;
+            watchManualP->unk_168 = 0x51;
+            break;
+
+        case 0x51:
+            func_800721A0(&watchManualP->unk_034);
+            func_800721BC(&watchManualP->unk_034, mes_2_8);
+            watchManualP->unk_164 = 0x30A;
+            watchManualP->unk_168 = 0x5A;
+            break;
+
+        case 0x5A:
+            func_800721A0(&watchManualP->unk_034);
+            func_800721BC(&watchManualP->unk_034, mes_2_9);
+            watchManualP->unk_164 = 0x30A;
+            watchManualP->unk_168 = 0x30C;
+            break;
+
+        case 0x309:
+            watchManualP->unk_16C = 1;
+            i = gameStateDataP->unk_032 - 2;
+            if (i < 0xAU) {
+                aifMake2(gameStateDataP, position_2_1[i][0], position_2_1[i][1], position_2_1[i][2],
+                         position_2_1[i][3]);
+            }
+
+            switch (watchManualP->unk_030) {
+                case 0:
+                    if (i == 2) {
+                        func_80072268(watchManualP->unk_0E8[1], 2, 2);
+                        func_80072268(&watchManualP->unk_0E8[1][1], 6, 0);
+                        watchManualP->unk_174[1] = 0;
+                        watchManualP->unk_164 = 0x30B;
+                        watchManualP->unk_030 += 1;
+                    }
+                    break;
+
+                case 1:
+                    if (i == 5) {
+                        func_80072268(watchManualP->unk_0E8[1], 2, 2);
+                        func_80072268(&watchManualP->unk_0E8[1][1], 4, 0);
+
+                        func_80072268(&watchManualP->unk_0E8[1][2], 6, 1);
+                        watchManualP->unk_174[1] = 0;
+                        watchManualP->unk_164 = 0x30B;
+                        watchManualP->unk_030 += 1;
+                    }
+                    break;
+
+                case 2:
+                    if (i == 0xA) {
+                        func_80072268(watchManualP->unk_0E8[1], 1, 0);
+                        func_80072268(&watchManualP->unk_0E8[1][1], 3, 1);
+                        func_80072268(&watchManualP->unk_0E8[1][2], 5, 0);
+                        func_80072268(&watchManualP->unk_0E8[1][3], 7, 2);
+                        watchManualP->unk_174[1] = 0;
+                        watchManualP->unk_164 = 0x30B;
+                        watchManualP->unk_030 += 1;
+                    }
+                    break;
+            }
+            break;
+
+        case 0x30A:
+            watchManualP->unk_16C = 0;
+            if (func_80072230(&watchManualP->unk_034)) {
+                watchManualP->unk_164 = watchManualP->unk_168;
+            }
+            break;
+
+        case 0x30B:
+            watchManualP->unk_16C = 0;
+            if (watchManualP->unk_0E8[1][1].unk_3[0] == 0) {
+                watchManualP->unk_164 = watchManualP->unk_168;
+            }
+            break;
+
+        case 0x30C:
+            ret = 0;
+            break;
+
+        default:
+            break;
+    }
+
+    return ret;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_3_main);
 

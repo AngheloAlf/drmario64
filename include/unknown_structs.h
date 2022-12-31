@@ -78,9 +78,9 @@ typedef struct struct_800EBEF0_unk_000 {
     /* 0x9 */ s8 unk_9;
 } struct_800EBEF0_unk_000; // size = 0xA
 
-typedef struct struct_800EBEF0 {
+typedef struct struct_game_map_data {
     /* 0x000 */ struct_800EBEF0_unk_000 unk_000[0x11 * 8];
-} struct_800EBEF0; // size = 0x550
+} struct_game_map_data; // size = 0x550
 
 typedef struct struct_8005FC6C_arg0 {
     /* 0x000 */ UNK_TYPE4 unk_000;
@@ -549,7 +549,9 @@ typedef struct struct_800F4890_unk_14C {
 } struct_800F4890_unk_14C; // size = 0x8
 
 typedef struct struct_watchManual {
-    /* 0x000 */ UNK_TYPE1 unk_000[0xC];
+    /* 0x000 */ s32 unk_000;
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
     /* 0x00C */ s32 unk_00C;
     /* 0x010 */ s32 unk_010;
     /* 0x014 */ s32 unk_014;
@@ -562,7 +564,7 @@ typedef struct struct_watchManual {
     /* 0x0E8 */ struct_800F4890_unk_0E8 unk_0E8[4][4];
     /* 0x148 */ UNK_TYPE1 unk_148[0x4];
     /* 0x14C */ struct_800F4890_unk_14C unk_14C[3];
-    /* 0x164 */ s32 unk_164;
+    /* 0x164 */ u32 unk_164;
     /* 0x168 */ s32 unk_168;
     /* 0x16C */ s32 unk_16C;
     /* 0x170 */ s32 unk_170;
