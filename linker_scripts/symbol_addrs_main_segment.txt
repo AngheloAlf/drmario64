@@ -676,7 +676,7 @@ func_8005EE64 = 0x8005EE64;
 loadAnimeSeq = 0x8005EE98;
 init_map_all = 0x8005EF50;
 clear_map = 0x8005EFC0;
-func_8005F00C = 0x8005F00C;
+clear_map_all = 0x8005F00C;
 get_map_info = 0x8005F074;
 func_8005F09C = 0x8005F09C;
 func_8005F0E4 = 0x8005F0E4;
@@ -734,8 +734,8 @@ func_800620FC = 0x800620FC;
 func_8006258C = 0x8006258C;
 func_800626A4 = 0x800626A4;
 dm_game_heap_top = 0x80062898;
-func_800628A4 = 0x800628A4;
-func_800628BC = 0x800628BC;
+get_virus_anime_state = 0x800628A4;
+get_virus_smog_state = 0x800628BC;
 dm_get_mtx_buf = 0x800628E4;
 dm_get_vtx_buf = 0x80062900;
 initEtcWork = 0x80062920;
@@ -876,7 +876,7 @@ func_8007224C = 0x8007224C;
 func_80072268 = 0x80072268;
 dm_manual_attack_capsel_down = 0x80072280;
 func_800723EC = 0x800723EC;
-func_80072428 = 0x80072428;
+dm_manual_update_virus_anime = 0x80072428;
 dm_manual_main_cnt = 0x8007248C;
 dm_manual_make_key = 0x80072968;
 dm_manual_1_main = 0x80072AB4;
@@ -1838,22 +1838,34 @@ RO_800B2330 = 0x800B2330; // force_not_migration:True size:0xC
 
 RO_800B23CC = 0x800B23CC; // force_not_migration:True type:s32
 
+RO_800B2408 = 0x800B2408;
+RO_800B240C = 0x800B240C;
+RO_800B2410 = 0x800B2410;
+RO_800B2414 = 0x800B2414;
+RO_800B2418 = 0x800B2418;
+RO_800B241C = 0x800B241C;
+RO_800B2420 = 0x800B2420;
+RO_800B2424 = 0x800B2424;
+RO_800B2428 = 0x800B2428;
+RO_800B242C = 0x800B242C;
+RO_800B2430 = 0x800B2430;
+RO_800B2434 = 0x800B2434;
+RO_800B2438 = 0x800B2438;
+RO_800B243C = 0x800B243C;
+RO_800B2440 = 0x800B2440;
+RO_800B2444 = 0x800B2444;
 RO_800B2448 = 0x800B2448; // size:0x24
-
+RO_800B246C = 0x800B246C;
+RO_800B2474 = 0x800B2474;
 RO_800B247C = 0x800B247C; // size:0x10
-
 virus_2_1 = 0x800B248C; // size:0x3C
-
 capsel_2_1 = 0x800B24C8; // size:0xC
-
 position_2_1 = 0x800B24D4; // size:0x28
-
 RO_800B24FC = 0x800B24FC; // size:0x3C
-
+RO_800B2538 = 0x800B2538;
 RO_800B2544 = 0x800B2544; // size:0x28
-
 RO_800B256C = 0x800B256C; // size:0x30
-
+RO_800B259C = 0x800B259C;
 RO_800B25B0 = 0x800B25B0; // size:0x40
 
 STR_800B25F0 = 0x800B25F0; // type:char force_not_migration:True

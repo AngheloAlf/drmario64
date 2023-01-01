@@ -10,13 +10,18 @@ typedef struct GameMapCell {
     /* 0x1 */ s8 unk_1; // row?
     /* 0x2 */ s8 unk_2;
     /* 0x3 */ u8 unk_3;
-    /* 0x4 */ s8 unk_4; // map_info?
-    /* 0x5 */ s8 unk_5;
-    /* 0x6 */ s8 unk_6;
-    /* 0x7 */ s8 unk_7; // virus color?
-    /* 0x8 */ s8 unk_8;
-    /* 0x9 */ s8 unk_9;
+    /* 0x4 */ s8 unk_4[6]; // map_info?
 } GameMapCell; // size = 0xA
+
+/**
+ * unk_4[0] // map_info?
+ * unk_4[1]
+ * unk_4[2]
+ * unk_4[3] // virus color?
+ * unk_4[4]
+ * unk_4[5]
+ */
+
 
 #define GAME_MAP_ROWS 17
 #define GAME_MAP_COLUMNS 8

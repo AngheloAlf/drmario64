@@ -267,7 +267,7 @@ func_800465B8 - found 2 matches total:
 
 func_80059CDC - found 2 matches total:
 0.99 - func_80059CC4
-0.99 - func_800628A4
+0.99 - get_virus_anime_state
 
 func_8004A160 - found 2 matches total:
 0.99 - func_80048FA0

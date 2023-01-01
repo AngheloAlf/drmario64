@@ -116,10 +116,10 @@ void erase_anime(GameMapGrid *mapGrid) {
     for (i = 0; i < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; i++) {
         GameMapCell *cell = &mapGrid->cells[i];
 
-        if ((cell->unk_4 != 0) && (cell->unk_6 != 0)) {
+        if ((cell->unk_4[0] != 0) && (cell->unk_4[2] != 0)) {
             cell->unk_2++;
 
-            if (cell->unk_8 >= 0) {
+            if (cell->unk_4[4] >= 0) {
                 if (cell->unk_2 >= 0xF) {
                     clear_map(mapGrid, cell->unk_0, cell->unk_1);
                 }
@@ -380,9 +380,9 @@ void dm_virus_anime(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
     }
 
     for (index = 0; index < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; index++) {
-        if ((mapGrid->cells[index].unk_4 != 0) && (mapGrid->cells[index].unk_6 == 0)) {
-            if (mapGrid->cells[index].unk_8 >= 0) {
-                mapGrid->cells[index].unk_2 = virus_anime_table[mapGrid->cells[index].unk_8][arg0->unk_027];
+        if ((mapGrid->cells[index].unk_4[0] != 0) && (mapGrid->cells[index].unk_4[2] == 0)) {
+            if (mapGrid->cells[index].unk_4[4] >= 0) {
+                mapGrid->cells[index].unk_2 = virus_anime_table[mapGrid->cells[index].unk_4[4]][arg0->unk_027];
             }
         }
     }
@@ -416,13 +416,13 @@ bool dm_h_erase_chack(GameMapGrid *mapGrid) {
         GameMapCell *cells = mapGrid->cells;
 
         for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
-            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4 != 0) {
-                if (cells[GAME_MAP_GET_INDEX(row, column)].unk_7 != var_a3) {
+            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
+                if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_a3) {
                     if (var_a1 < 3) {
                         if (row >= 0xD) {
                             break;
                         }
-                        var_a3 = cells[GAME_MAP_GET_INDEX(row, column)].unk_7;
+                        var_a3 = cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
                         var_a1 = 0;
                     } else {
                         return true;
@@ -462,8 +462,8 @@ void dm_h_erase_chack_set(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
         for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
             GameMapCell *cells = mapGrid->cells;
 
-            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4 != 0) {
-                if (cells[GAME_MAP_GET_INDEX(row, column)].unk_7 != var_s2) {
+            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
+                if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_s2) {
                     if (var_s1 >= 3) {
                         dm_make_erase_h_line(arg0, mapGrid, var_s5, var_s1, column);
                         if (arg0->unk_039 == 0) {
@@ -477,7 +477,7 @@ void dm_h_erase_chack_set(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
                         cells = mapGrid->cells;
 
                         var_s5 = row;
-                        var_s2 = cells[GAME_MAP_GET_INDEX(row, column)].unk_7;
+                        var_s2 = cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
                         var_s1 = 0;
                     } else {
                         var_fp = 1;
@@ -534,12 +534,12 @@ bool dm_w_erase_chack(GameMapGrid *mapGrid) {
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
             GameMapCell *cells = mapGrid->cells;
 
-            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4 != 0) {
-                if (cells[GAME_MAP_GET_INDEX(row, column)].unk_7 != var_a3) {
+            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
+                if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_a3) {
                     if (var_a1 >= 3) {
                         return true;
                     } else if (column < 5) {
-                        var_a3 = cells[GAME_MAP_GET_INDEX(row, column)].unk_7;
+                        var_a3 = cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
                         var_a1 = 0;
                     } else {
                         break;
@@ -579,8 +579,8 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
             s32 index = GAME_MAP_GET_INDEX(row, column);
             GameMapCell *cells = mapGrid->cells;
 
-            if (cells[index].unk_4 != 0) {
-                if (cells[index].unk_7 != var_s3) {
+            if (cells[index].unk_4[0] != 0) {
+                if (cells[index].unk_4[3] != var_s3) {
                     if (var_s1 >= 3) {
                         dm_make_erase_w_line(arg0, mapGrid, var_s6, var_s1, row);
                         if (arg0->unk_039 == 0) {
@@ -595,7 +595,7 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
                         cells = mapGrid->cells;
 
                         var_s6 = column;
-                        var_s3 = cells[index].unk_7;
+                        var_s3 = cells[index].unk_4[3];
                         var_s1 = 0;
                     }
                 } else {
@@ -647,7 +647,7 @@ void dm_h_ball_chack(GameMapGrid *mapGrid) {
         for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
             GameMapCell *cells = mapGrid->cells;
 
-            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4 != 0) {
+            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
                 if (cells[GAME_MAP_GET_INDEX(row, column)].unk_2 == 0) {
                     if (mapGrid->cells[GAME_MAP_GET_INDEX(row + 1, column)].unk_2 != 1) {
                         cells[GAME_MAP_GET_INDEX(row, column)].unk_2 = 4;
@@ -676,7 +676,7 @@ void dm_w_ball_chack(GameMapGrid *mapGrid) {
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
             GameMapCell *cells = mapGrid->cells;
 
-            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4 != 0) {
+            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
                 if (cells[GAME_MAP_GET_INDEX(row, column)].unk_2 == 2) {
                     if (cells[GAME_MAP_GET_INDEX(row, column + 1)].unk_2 != 3) {
                         cells[GAME_MAP_GET_INDEX(row, column)].unk_2 = 4;
@@ -707,7 +707,7 @@ void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapGrid *mapGrid,
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
             GameMapCell *cell = &mapGrid->cells[GAME_MAP_GET_INDEX_ALT(row, column)];
 
-            if (cell->unk_6 != 0) {
+            if (cell->unk_4[2] != 0) {
                 arg2->unk_0 += cell->unk_0;
                 arg2->unk_4 += cell->unk_1;
                 var_t2++;
@@ -731,9 +731,15 @@ UNK_PTR *dm_game_heap_top(void) {
     return &heapTop;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_800628A4);
+AnimeState *get_virus_anime_state(s32 arg0) {
+    return &watchGame->animeStates[arg0];
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_800628BC);
+AnimeSmog *get_virus_smog_state(s32 arg0) {
+    struct_watchGame *ptr = watchGame;
+
+    return &ptr->animeSmogs[arg0];
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_get_mtx_buf);
 
@@ -961,7 +967,7 @@ bool bottom_up_bottle_items(GameMapGrid *mapGrid) {
     s32 var;
 
     for (i = 0; i < GAME_MAP_COLUMNS; i++) {
-        if (mapGrid->cells[i].unk_4 != 0) {
+        if (mapGrid->cells[i].unk_4[0] != 0) {
             ret = true;
         }
     }

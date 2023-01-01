@@ -587,8 +587,8 @@ bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const cha
 bool fontAsc_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
 
 void init_map_all(GameMapGrid *mapGrid);
-void clear_map(GameMapGrid *mapGrid, UNK_TYPE arg1, UNK_TYPE arg2);
-// void func_8005F00C();
+void clear_map(GameMapGrid *mapGrid, s32 column, s32 row);
+void clear_map_all(GameMapGrid *mapGrid);
 bool get_map_info(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne);
 // void func_8005F09C();
 // void func_8005F0E4();
@@ -647,8 +647,8 @@ void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapGrid *mapGrid,
 // void func_8006258C();
 // void func_800626A4();
 UNK_PTR *dm_game_heap_top(void);
-// void func_800628A4();
-// void func_800628BC();
+AnimeState *get_virus_anime_state(s32 arg0);
+AnimeSmog *get_virus_smog_state(s32 arg0);
 UNK_TYPE dm_get_mtx_buf();
 UNK_TYPE dm_get_vtx_buf();
 void initEtcWork(void);
@@ -789,7 +789,7 @@ bool func_80072230(struct_800F4890_unk_034 *arg0);
 void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2);
 void dm_manual_attack_capsel_down(void);
 void func_800723EC(struct_game_state_data *gameStateDataP, GameMapGrid *mapGrid, s32 arg2);
-// void func_80072428();
+void dm_manual_update_virus_anime(struct_game_state_data *arg0);
 s32 dm_manual_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 arg2, s32 arg3);
 void dm_manual_make_key(struct_game_state_data *arg0, GameMapGrid *mapGrid);
 UNK_TYPE dm_manual_1_main(void);
