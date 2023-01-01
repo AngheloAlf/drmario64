@@ -315,7 +315,7 @@ args = parser.parse_args()
 
 if __name__ == "__main__":
     rom_bytes = read_rom()
-    map_syms = parse_map(os.path.join(root_dir, "build", "drmario64_uncompressed.map"))
+    map_syms = parse_map(os.path.join(root_dir, "build", "drmario64.map"))
     map_offsets = get_map_offsets(map_syms)
 
     s_files = get_all_s_files()

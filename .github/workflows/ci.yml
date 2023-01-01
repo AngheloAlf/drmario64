@@ -49,8 +49,8 @@ jobs:
     - name: Upload map
       uses: actions/upload-artifact@v3
       with:
-        name: drmario64_uncompressed.map
-        path: build/drmario64_uncompressed.map
+        name: drmario64.map
+        path: build/drmario64.map
 
     - name: Generate PJ64 symbols file
       run: python3 tools/pj64_syms.py

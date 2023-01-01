@@ -19,7 +19,7 @@ def uploadProgressMain():
     parser = argparse.ArgumentParser()
     parser.add_argument("version", help="Version slug")
     parser.add_argument("--apikey", help="API key")
-    parser.add_argument("-m", "--map", default="build/drmario64_uncompressed.map", type=Path)
+    parser.add_argument("-m", "--map", default="build/drmario64.map", type=Path)
 
     args = parser.parse_args()
 

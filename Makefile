@@ -36,9 +36,9 @@ TARGET               := drmario64
 
 BUILD_DIR := build
 ROM       := $(BUILD_DIR)/$(TARGET)_uncompressed.z64
-ELF       := $(BUILD_DIR)/$(TARGET)_uncompressed.elf
-LD_SCRIPT := $(BUILD_DIR)/$(TARGET)_uncompressed.ld
-LD_MAP    := $(BUILD_DIR)/$(TARGET)_uncompressed.map
+ELF       := $(BUILD_DIR)/$(TARGET).elf
+LD_MAP    := $(BUILD_DIR)/$(TARGET).map
+LD_SCRIPT := linker_scripts/$(TARGET).ld
 ROMC      := $(BUILD_DIR)/$(TARGET).z64
 
 
@@ -134,7 +134,7 @@ endif
 
 #### Files ####
 
-$(shell mkdir -p asm bin)
+$(shell mkdir -p asm bin linker_scripts/auto)
 
 SRC_DIRS      := $(shell find src -type d)
 ASM_DIRS      := $(shell find asm -type d -not -path "asm/nonmatchings/*")
@@ -160,7 +160,7 @@ DEP_FILES := $(O_FILES:.o=.d) \
              $(O_FILES:.o=.asmproc.d)
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/auto $(BUILD_DIR)/linker_scripts $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/linker_scripts $(BUILD_DIR)/linker_scripts/auto $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
 $(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
@@ -237,7 +237,7 @@ $(ROM): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 
 $(ROMC): $(ROM) tools/compressor/compress_segments.csv
-	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ROM:.z64=.elf) tools/compressor/compress_segments.csv
+	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ELF) tools/compressor/compress_segments.csv
 # TODO: update header
 
 $(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
@@ -248,9 +248,6 @@ $(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libult
 
 $(BUILD_DIR)/%.ld: %.ld
 	$(CPP) $(CPPFLAGS) $< > $@
-
-$(LD_SCRIPT): $(SPLAT_YAML)
-	$(SPLAT) $(SPLAT_YAML) --modes ld
 
 $(BUILD_DIR)/%.o: %.bin
 	$(OBJCOPY) -I binary -O elf32-big $< $@

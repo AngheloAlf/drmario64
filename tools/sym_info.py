@@ -10,8 +10,8 @@ import mapfile_parser
 from pathlib import Path
 
 
-BUILTMAP = Path(f"build/drmario64_uncompressed.map")
-EXPECTEDMAP = Path(f"expected/build/drmario64_uncompressed.map")
+BUILTMAP = Path(f"build/drmario64.map")
+EXPECTEDMAP = Path(f"expected/build/drmario64.map")
 
 def symInfoMain():
     parser = argparse.ArgumentParser(description="Display various information about a symbol or address.")

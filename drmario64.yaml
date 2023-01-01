@@ -3,14 +3,14 @@ sha1: 7e1bff364d631a1e56dd8c87524063decde139a7
 options:
   basename: drmario64
   target_path: baserom_uncompressed.z64
-  ld_script_path: build/drmario64_uncompressed.ld
+  ld_script_path: linker_scripts/drmario64.ld
   base_path: .
   compiler: GCC
   find_file_boundaries: True
   header_encoding: ASCII
   platform: n64
-  undefined_funcs_auto_path: build/auto/undefined_funcs_auto.ld
-  undefined_syms_auto_path: build/auto/undefined_syms_auto.ld
+  undefined_funcs_auto_path: linker_scripts/auto/undefined_funcs_auto.ld
+  undefined_syms_auto_path: linker_scripts/auto/undefined_syms_auto.ld
   symbol_addrs_path:
     - linker_scripts/libultra_symbols.ld
     - linker_scripts/hardware_regs.ld

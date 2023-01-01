@@ -11,10 +11,10 @@ from pathlib import Path
 
 
 BUILTROM = Path(f"build/drmario64_uncompressed.z64")
-BUILTMAP = Path(f"build/drmario64_uncompressed.map")
+BUILTMAP = Path(f"build/drmario64.map")
 
 EXPECTEDROM = Path(f"expected/build/drmario64_uncompressed.z64")
-EXPECTEDMAP = Path(f"expected/build/drmario64_uncompressed.map")
+EXPECTEDMAP = Path(f"expected/build/drmario64.map")
 
 def firstDiffMain():
     parser = argparse.ArgumentParser(description="Find the first difference(s) between the built ROM and the base ROM.")
