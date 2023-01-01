@@ -33,7 +33,7 @@ def romDecompressorMain():
     inRom = spimdisasm.common.Utils.readFileAsBytearray(inPath)
     assert len(inRom) > 0, f"'{inPath}' could not be opened"
 
-    assert spimdisasm.common.Utils.getStrHash(inRom) == BASEROM_HASH
+    assert spimdisasm.common.Utils.getStrHash(inRom) == BASEROM_HASH, f"Baserom's hash differs\n Expected '{BASEROM_HASH}', got {spimdisasm.common.Utils.getStrHash(inRom)}"
 
     sortedSegments = sorted(segmentDict.values())
 
@@ -64,6 +64,11 @@ def romDecompressorMain():
             else:
                 print(f"Range [0x{entry.compressedRomOffset:06X}:0x{entry.compressedRomOffsetEnd:06X}]: Writing as-is at offset 0x{offset:06X}")
                 outBytearray = segmentBytearray
+
+            # Align to a 0x10 boundary
+            while len(outBytearray) % 0x10 != 0:
+                outBytearray.append(0)
+
             outRom.write(outBytearray)
             offset += len(outBytearray)
 

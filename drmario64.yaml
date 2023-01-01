@@ -1,5 +1,5 @@
 name: Dr.Mario 64 (North America)
-sha1: 2a7c6dfc6e28d648c78945895d65e0146265860c
+sha1: 7e1bff364d631a1e56dd8c87524063decde139a7
 options:
   basename: drmario64
   target_path: baserom_uncompressed.z64
@@ -593,171 +593,171 @@ segments:
     start: 0x1E1100
   - name: segment_menu_bg # compressed
     type: bin
-    start: 0x207A98
+    start: 0x207AA0
   - name: segment_menu_bg2 # compressed
     type: bin
-    start: 0x20B528
+    start: 0x20B530
   - name: segment_coffee01 # compressed
     type: bin
-    start: 0x20EFB8
+    start: 0x20EFC0
   - name: segment_title_all # compressed
     type: bin
-    start: 0x2350E8
+    start: 0x2350F0
   - name: segment_title_bmp # compressed # GraphBin
     type: bin
-    start: 0x3621E8
+    start: 0x3621F0
   - name: segment_waku # compressed # GraphBin
     type: bin
-    start: 0x364E58
+    start: 0x364E60
   - name: segment_waku2 # compressed # GraphBin
     type: bin
-    start: 0x3783E8
+    start: 0x3783F0
   - name: segment_story_bg01 # compressed # GraphBin
     type: bin
-    start: 0x382C98
+    start: 0x382CA0
   - name: segment_story_bg02 # compressed # GraphBin
     type: bin
-    start: 0x38F6A8
+    start: 0x38F6B0
   - name: segment_story_bg03 # compressed # GraphBin
     type: bin
-    start: 0x39C0B8
+    start: 0x39C0C0
   - name: segment_story_bg04 # compressed # GraphBin
     type: bin
-    start: 0x3A8AC8
+    start: 0x3A8AD0
   - name: segment_story_bg05 # compressed # GraphBin
     type: bin
-    start: 0x3B54D8
+    start: 0x3B54E0
   - name: segment_story_bg07 # compressed # GraphBin
     type: bin
-    start: 0x3C1EE8
+    start: 0x3C1EF0
   - name: segment_story_bg08 # compressed # GraphBin
     type: bin
-    start: 0x3CE8F8
+    start: 0x3CE900
   - name: segment_story_bg09 # compressed # GraphBin
     type: bin
-    start: 0x3DB308
+    start: 0x3DB310
   - name: segment_story_bg10 # compressed # GraphBin
     type: bin
-    start: 0x3E7D18
+    start: 0x3E7D20
   - name: segment_story_bg11 # compressed # GraphBin
     type: bin
-    start: 0x3F4728
+    start: 0x3F4730
   - name: segment_menu_char # compressed
     type: bin
-    start: 0x401138
+    start: 0x401140
   - name: segment_menu_common # compressed
     type: bin
-    start: 0x411D18
+    start: 0x411D20
   - name: segment_menu_level # compressed
     type: bin
-    start: 0x43A5E8
+    start: 0x43A5F0
   - name: segment_menu_main # compressed
     type: bin
-    start: 0x453DF8
+    start: 0x453E00
   - name: segment_menu_name # compressed
     type: bin
-    start: 0x47A708
+    start: 0x47A710
   - name: segment_menu_p2 # compressed
     type: bin
-    start: 0x486528
+    start: 0x486530
   - name: segment_menu_p4 # compressed
     type: bin
-    start: 0x4903C8
+    start: 0x4903D0
   - name: segment_menu_rank # compressed
     type: bin
-    start: 0x49DE88
+    start: 0x49DE90
   - name: segment_menu_setup # compressed
     type: bin
-    start: 0x4A7198
+    start: 0x4A71A0
   - name: segment_menu_story # compressed
     type: bin
-    start: 0x4C3858
+    start: 0x4C3860
   - name: segment_menu_cont # compressed
     type: bin
-    start: 0x4DEA98
+    start: 0x4DEAA0
   - name: segment_menu_kasa # compressed
     type: bin
-    start: 0x4E6F58
+    start: 0x4E6F60
   - name: segment_game_al # compressed
     type: bin
-    start: 0x4F5568
+    start: 0x4F5570
   - name: segment_game_p1 # compressed
     type: bin
-    start: 0x504A28
+    start: 0x504A30
   - name: segment_game_p2 # compressed
     type: bin
-    start: 0x5160E8
+    start: 0x5160F0
   - name: segment_game_p4 # compressed
     type: bin
-    start: 0x528398
+    start: 0x5283A0
   - name: segment_game_ls # compressed
     type: bin
-    start: 0x547308
+    start: 0x547310
   - name: segment_game_item # compressed
     type: bin
-    start: 0x57A708
+    start: 0x57A710
   - name: segment_anime_a # compressed
     type: bin
-    start: 0x57C148
+    start: 0x57C150
   - name: segment_anime_b # compressed
     type: bin
-    start: 0x58C4B8
+    start: 0x58C4C0
   - name: segment_anime_c # compressed
     type: bin
-    start: 0x5925B8
+    start: 0x5925C0
   - name: segment_anime_d # compressed
     type: bin
-    start: 0x5A35A8
+    start: 0x5A35B0
   - name: segment_anime_e # compressed
     type: bin
-    start: 0x5ABFD8
+    start: 0x5ABFE0
   - name: segment_anime_f # compressed
     type: bin
-    start: 0x5B6088
+    start: 0x5B6090
   - name: segment_anime_g # compressed
     type: bin
-    start: 0x5BCCD8
+    start: 0x5BCCE0
   - name: segment_anime_h # compressed
     type: bin
-    start: 0x5CA108
+    start: 0x5CA110
   - name: segment_anime_i # compressed
     type: bin
-    start: 0x5CF848
+    start: 0x5CF850
   - name: segment_anime_j # compressed
     type: bin
-    start: 0x5D8BE8
+    start: 0x5D8BF0
   - name: segment_anime_k # compressed
     type: bin
-    start: 0x5E3818
+    start: 0x5E3820
   - name: segment_anime_l # compressed
     type: bin
-    start: 0x5E89C8
+    start: 0x5E89D0
   - name: segment_anime_m # compressed
     type: bin
-    start: 0x5F5698
+    start: 0x5F56A0
   - name: segment_anime_n # compressed
     type: bin
-    start: 0x5FC1F8
+    start: 0x5FC200
   - name: segment_anime_o # compressed
     type: bin
-    start: 0x605178
+    start: 0x605180
   - name: segment_anime_mario # compressed
     type: bin
-    start: 0x60BCD8
+    start: 0x60BCE0
   - name: segment_anime_virus_b # compressed
     type: bin
-    start: 0x639468
+    start: 0x639470
   - name: segment_anime_virus_r # compressed
     type: bin
-    start: 0x63B058
+    start: 0x63B060
   - name: segment_anime_virus_y # compressed
     type: bin
-    start: 0x63C5F8
+    start: 0x63C600
   - name: segment_anime_smog # compressed
     type: bin
-    start: 0x63DB98
+    start: 0x63DBA0
   - name: segment_tutorial_data # compressed
     type: bin
-    start: 0x63EED8
+    start: 0x63EEE0
 
   - [0x646E68]
