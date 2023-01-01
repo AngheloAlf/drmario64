@@ -98,7 +98,7 @@ D_800B0A5C - found 30 matches total:
 0.99 - D_8008E370 (decompiled)
 0.99 - D_8008E5B4 (decompiled)
 0.99 - D_8008E778 (decompiled)
-0.99 - D_800A6F9C (decompiled)
+0.99 - rotate_table_474 (decompiled)
 0.99 - D_800A6FC8 (decompiled)
 0.99 - D_800AAD58 (decompiled)
 0.99 - D_800ACF10
@@ -180,7 +180,7 @@ func_80059DB4 - found 15 matches total:
 0.99 - func_80059DE4
 
 D_800B00B8 - found 12 matches total:
-0.99 - D_800A6FAC (decompiled)
+0.99 - rotate_mtx_475 (decompiled)
 0.99 - D_800A7360 (decompiled)
 0.99 - D_800AFAD8 (decompiled)
 0.99 - RO_800AFEB8

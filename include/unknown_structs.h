@@ -427,8 +427,7 @@ typedef struct struct_game_state_data_unk_178 {
     /* 0x0 */ UNK_TYPE1 unk_1;
     /* 0x0 */ s8 unk_2;
     /* 0x0 */ UNK_TYPE1 unk_3;
-    /* 0x0 */ UNK_TYPE1 unk_4;
-    /* 0x0 */ UNK_TYPE1 unk_5;
+    /* 0x0 */ UNK_TYPE1 unk_4[2];
     /* 0x0 */ UNK_TYPE1 unk_6;
     /* 0x0 */ UNK_TYPE1 unk_7;
     /* 0x0 */ UNK_TYPE1 unk_8;
@@ -465,7 +464,7 @@ typedef struct struct_game_state_data {
     /* 0x031 */ u8 unk_031;
     /* 0x032 */ u8 unk_032;
     /* 0x033 */ u8 unk_033;
-    /* 0x034 */ u8 unk_034;
+    /* 0x034 */ s8 unk_034;
     /* 0x035 */ u8 unk_035;
     /* 0x036 */ u8 unk_036;
     /* 0x037 */ u8 unk_037;
