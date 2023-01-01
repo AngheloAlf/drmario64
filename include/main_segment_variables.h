@@ -52,7 +52,7 @@ extern s32 evs_vs_count;
 // extern UNK_TYPE D_8008841C;
 // extern UNK_TYPE D_8008841D;
 extern UNK_TYPE1 GameSpeed[4];
-// extern UNK_TYPE D_80088434;
+extern u8 FallSpeed[];
 // extern UNK_TYPE D_8008846C;
 extern s32 mti;
 // extern UNK_TYPE D_80088484;

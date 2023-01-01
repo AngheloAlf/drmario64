@@ -422,6 +422,20 @@ typedef struct struct_80123700_unk_140 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x24];
 } struct_80123700_unk_140; // size = 0x24
 
+typedef struct struct_game_state_data_unk_178 {
+    /* 0x0 */ UNK_TYPE1 unk_0;
+    /* 0x0 */ UNK_TYPE1 unk_1;
+    /* 0x0 */ s8 unk_2;
+    /* 0x0 */ UNK_TYPE1 unk_3;
+    /* 0x0 */ UNK_TYPE1 unk_4;
+    /* 0x0 */ UNK_TYPE1 unk_5;
+    /* 0x0 */ UNK_TYPE1 unk_6;
+    /* 0x0 */ UNK_TYPE1 unk_7;
+    /* 0x0 */ UNK_TYPE1 unk_8;
+    /* 0x0 */ UNK_TYPE1 unk_9;
+    /* 0x0 */ UNK_TYPE1 unk_A;
+} struct_game_state_data_unk_178; // size >= 0xB
+
 typedef struct struct_game_state_data {
     /* 0x000 */ UNK_TYPE unk_000;
     /* 0x004 */ u16 unk_004;
@@ -480,8 +494,9 @@ typedef struct struct_game_state_data {
     /* 0x16C */ s32 unk_16C;
     /* 0x170 */ UNK_TYPE4 unk_170;
     /* 0x174 */ UNK_TYPE4 unk_174;
-    /* 0x178 */ UNK_TYPE unk_178;
-    /* 0x17C */ UNK_TYPE1 unk_17C[0xB8];
+    /* 0x178 */ struct_game_state_data_unk_178 unk_178;
+    /* 0x183 */ UNK_TYPE1 unk_183[0x1];
+    /* 0x184 */ UNK_TYPE1 unk_184[0xB0];
     /* 0x234 */ UNK_TYPE1 unk_234[3];
     /* 0x237 */ s8 unk_237;
     /* 0x238 */ s8 unk_238;

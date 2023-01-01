@@ -134,9 +134,9 @@ void erase_anime(GameMapGrid *mapGrid) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_800609B8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80060A6C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", translate_capsel);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80060C1C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", rotate_capsel);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_make_magazine);
 

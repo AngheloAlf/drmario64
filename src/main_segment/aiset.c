@@ -240,7 +240,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80035494);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/aiset", D_800ACF20);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80035704);
+INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifKeyOut);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80035CF4);
 

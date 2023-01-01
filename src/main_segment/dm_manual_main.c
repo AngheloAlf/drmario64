@@ -262,7 +262,44 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80072428);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_main_cnt);
 
+#ifdef NON_MATCHING
+// regalloc
+void dm_manual_make_key(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
+    struct_watchManual *temp_s3 = watchManual;
+    struct_game_state_data_unk_178 *temp_s4;
+    u16 temp_s2;
+    s32 temp_v0;
+
+    aifKeyOut();
+
+    temp_s2 = joygam[arg0->unk_04B];
+    temp_s4 = &arg0->unk_178;
+
+    if (temp_s2 & 0x4000) {
+        rotate_capsel(mapGrid, temp_s4, -1);
+        temp_s3->unk_01C[3] = 8;
+    } else if (temp_s2 & 0x8000) {
+        rotate_capsel(mapGrid, temp_s4, 1);
+        temp_s3->unk_01C[2] = 8;
+    }
+
+    if (temp_s2 & 0x200) {
+        translate_capsel(mapGrid, arg0, -1, main_joy[arg0->unk_04B]);
+        temp_s3->unk_01C[0] = 8;
+    } else if (temp_s2 & 0x100) {
+        translate_capsel(mapGrid, arg0, 1, main_joy[arg0->unk_04B]);
+        temp_s3->unk_01C[1] = 8;
+    }
+
+    arg0->unk_030 = 1;
+    if ((temp_s2 & 0x400) && (temp_s4->unk_2 > 0)) {
+        temp_v0 = FallSpeed[arg0->unk_02D];
+        arg0->unk_030 = (temp_v0 >> 1) + (temp_v0 & 1);
+    }
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_make_key);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_1_main);
 
