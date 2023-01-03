@@ -522,7 +522,7 @@ typedef struct struct_game_state_data {
 typedef struct struct_800F4890_unk_034 {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
+    /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
     /* 0x10 */ MessageWnd messageWnd;
 } struct_800F4890_unk_034; // size = 0x90
