@@ -91,46 +91,24 @@ const s32 RO_800B2440 = 0xC4;
 const s32 RO_800B2444 = 0x70;
 
 const u8 virus_1_1[][3] = {
-    { 1, 1, 0x10 },
-    { 2, 2, 0xD },
-    { 2, 2, 0xE },
-    { 0, 5, 0xF },
-    { 0, 1, 6 },
-    { 0, 5, 6 },
-    { 2, 0, 6 },
-    { 2, 4, 6 },
-    { 1, 2, 6 },
-    { 1, 3, 6 },
-    { 1, 6, 6 },
-    { 1, 7, 6 },
+    { 1, 1, 0x10 }, { 2, 2, 0xD }, { 2, 2, 0xE }, { 0, 5, 0xF }, { 0, 1, 6 }, { 0, 5, 6 },
+    { 2, 0, 6 },    { 2, 4, 6 },   { 1, 2, 6 },   { 1, 3, 6 },   { 1, 6, 6 }, { 1, 7, 6 },
 };
 
 const u8 RO_800B246C[] = { 0x12, 0x20, 0, 0x10, 0x21 };
 const u8 RO_800B2474[] = { 0x21, 0x10, 0x20, 0, 0x21 };
 
-const u8 position_1_1[][4] = { { 3, 5, 1, 0 }, { 3, 3, 0, 0 }, { 3, 2, 0, 0 }, { 3, 1, 0, 0 }, };
+const u8 position_1_1[][4] = {
+    { 3, 5, 1, 0 },
+    { 3, 3, 0, 0 },
+    { 3, 2, 0, 0 },
+    { 3, 1, 0, 0 },
+};
 
 const u8 virus_2_1[][3] = {
-    { 0, 0, 0xE },
-    { 0, 2, 0xA },
-    { 0, 2, 0xB },
-    { 0, 5, 8 },
-    { 0, 5, 9 },
-    { 0, 6, 0xC },
-    { 0, 6, 0xE },
-    { 2, 3, 0xE },
-    { 2, 4, 7 },
-    { 2, 4, 8 },
-    { 2, 5, 0xB },
-    { 2, 5, 0xC },
-    { 2, 5, 0xE },
-    { 2, 5, 0xF },
-    { 1, 1, 7 },
-    { 1, 1, 0xA },
-    { 1, 1, 0xB },
-    { 1, 1, 0x10 },
-    { 1, 2, 0x10 },
-    { 1, 7, 0xF },
+    { 0, 0, 0xE }, { 0, 2, 0xA }, { 0, 2, 0xB }, { 0, 5, 8 },    { 0, 5, 9 },    { 0, 6, 0xC }, { 0, 6, 0xE },
+    { 2, 3, 0xE }, { 2, 4, 7 },   { 2, 4, 8 },   { 2, 5, 0xB },  { 2, 5, 0xC },  { 2, 5, 0xE }, { 2, 5, 0xF },
+    { 1, 1, 7 },   { 1, 1, 0xA }, { 1, 1, 0xB }, { 1, 1, 0x10 }, { 1, 2, 0x10 }, { 1, 7, 0xF },
 };
 
 const u8 capsel_2_1[] = {
@@ -138,115 +116,39 @@ const u8 capsel_2_1[] = {
 };
 
 const u8 position_2_1[][4] = {
-    { 4, 6, 0, 0 },
-    { 4, 5, 0, 1 },
-    { 7, 0xE, 1, 0 },
-    { 6, 0xB, 0, 1 },
-    { 5, 0xD, 0, 0 },
-    { 0, 0xD, 1, 0 },
-    { 0, 9, 0, 0 },
-    { 3, 0xD, 1, 0 },
-    { 2, 9, 0, 1 },
-    { 1, 8, 0, 0 },
+    { 4, 6, 0, 0 },   { 4, 5, 0, 1 }, { 7, 0xE, 1, 0 }, { 6, 0xB, 0, 1 }, { 5, 0xD, 0, 0 },
+    { 0, 0xD, 1, 0 }, { 0, 9, 0, 0 }, { 3, 0xD, 1, 0 }, { 2, 9, 0, 1 },   { 1, 8, 0, 0 },
 };
 
 const u8 virus_3_1[][3] = {
-    { 0, 0, 0xC },
-    { 0, 1, 0xD },
-    { 0, 1, 0xF },
-    { 0, 4, 0xF },
-    { 0, 6, 0xD },
-    { 0, 6, 8 },
-    { 0, 7, 0x10 },
-    { 2, 3, 8 },
-    { 2, 3, 9 },
-    { 2, 3, 0xB },
-    { 2, 3, 0xC },
-    { 2, 7, 0xE },
-    { 2, 7, 0xF },
-    { 1, 1, 0x10 },
-    { 1, 2, 8 },
-    { 1, 2, 0xC },
-    { 1, 4, 0xD },
-    { 1, 4, 0xE },
-    { 1, 4, 0x10 },
-    { 1, 5, 0x10 },
+    { 0, 0, 0xC }, { 0, 1, 0xD }, { 0, 1, 0xF }, { 0, 4, 0xF }, { 0, 6, 0xD },  { 0, 6, 8 },    { 0, 7, 0x10 },
+    { 2, 3, 8 },   { 2, 3, 9 },   { 2, 3, 0xB }, { 2, 3, 0xC }, { 2, 7, 0xE },  { 2, 7, 0xF },  { 1, 1, 0x10 },
+    { 1, 2, 8 },   { 1, 2, 0xC }, { 1, 4, 0xD }, { 1, 4, 0xE }, { 1, 4, 0x10 }, { 1, 5, 0x10 },
 };
 
-const u8 RO_800B2538[] = { 0x12, 0x22, 0x12, 0, 0x10, 2, 0x21, 0, 0x12, 1, 0, };
+const u8 RO_800B2538[] = {
+    0x12, 0x22, 0x12, 0, 0x10, 2, 0x21, 0, 0x12, 1, 0,
+};
 
 const u8 position_3_1[][4] = {
-    { 4, 0xC, 0, 0 },
-    { 3, 0xA, 0, 0 },
-    { 1, 0xB, 0, 1 },
-    { 1, 0xA, 1, 0 },
-    { 2, 0xA, 1, 0 },
-    { 6, 0xC, 0, 0 },
-    { 6, 0xB, 0, 1 },
-    { 6, 0xA, 1, 0 },
-    { 2, 0x10, 1, 1 },
-    { 3, 0x10, 1, 0 },
+    { 4, 0xC, 0, 0 }, { 3, 0xA, 0, 0 }, { 1, 0xB, 0, 1 }, { 1, 0xA, 1, 0 },  { 2, 0xA, 1, 0 },
+    { 6, 0xC, 0, 0 }, { 6, 0xB, 0, 1 }, { 6, 0xA, 1, 0 }, { 2, 0x10, 1, 1 }, { 3, 0x10, 1, 0 },
 };
 
-const u8 RO_800B256C[][3] = {
-    { 0, 0, 0xD },
-    { 0, 2, 7 },
-    { 0, 5, 0xA },
-    { 0, 5, 0xB },
-    { 0, 7, 0x10 },
-    { 2, 2, 0xE },
-    { 2, 2, 0xF },
-    { 2, 3, 0xA },
-    { 2, 3, 0xD },
-    { 2, 5, 8 },
-    { 1, 1, 0xD },
-    { 1, 4, 8 },
-    { 1, 4, 9 },
-    { 1, 5, 0xE },
-    { 1, 5, 0xF },
-    { 1, 6, 0xA },
+const u8 virus_4_1[][3] = {
+    { 0, 0, 0xD }, { 0, 2, 7 },   { 0, 5, 0xA }, { 0, 5, 0xB }, { 0, 7, 0x10 }, { 2, 2, 0xE },
+    { 2, 2, 0xF }, { 2, 3, 0xA }, { 2, 3, 0xD }, { 2, 5, 8 },   { 1, 1, 0xD },  { 1, 4, 8 },
+    { 1, 4, 9 },   { 1, 5, 0xE }, { 1, 5, 0xF }, { 1, 6, 0xA },
 };
 
 const u8 RO_800B259C[] = {
-    0x10,
-    0x11,
-    0x20,
-    1,
-    0x12,
-    0x20,
-    1,
-    0x10,
-    0,
-    0x20,
-    0,
-    0x21,
-    1,
-    0x20,
-    0x22,
-    0,
-    0x10,
-    0,
-    0,
-    0,
+    0x10, 0x11, 0x20, 1, 0x12, 0x20, 1, 0x10, 0, 0x20, 0, 0x21, 1, 0x20, 0x22, 0, 0x10,
 };
 
-const u8 RO_800B25B0[][4] = {
-    { 4, 7, 1, 0 },
-    { 5, 7, 0, 1 },
-    { 5, 6, 1, 0 },
-    { 5, 8, 0, 0 },
-    { 5, 7, 0, 1 },
-    { 3, 0xC, 1, 0 },
-    { 0, 0xC, 0, 0 },
-    { 1, 0xB, 1, 0 },
-    { 0, 0xB, 1, 0 },
-    { 2, 0xD, 1, 0 },
-    { 7, 0xF, 1, 0 },
-    { 6, 0xD, 0, 0 },
-    { 2, 6, 0, 0 },
-    { 3, 5, 1, 0 },
-    { 3, 3, 0, 0 },
-    { 2, 5, 1, 0 },
+const u8 position_4_1[][4] = {
+    { 4, 7, 1, 0 },   { 5, 7, 0, 1 },   { 5, 6, 1, 0 },   { 5, 8, 0, 0 },   { 5, 7, 0, 1 },   { 3, 0xC, 1, 0 },
+    { 0, 0xC, 0, 0 }, { 1, 0xB, 1, 0 }, { 0, 0xB, 1, 0 }, { 2, 0xD, 1, 0 }, { 7, 0xF, 1, 0 }, { 6, 0xD, 0, 0 },
+    { 2, 6, 0, 0 },   { 3, 5, 1, 0 },   { 3, 3, 0, 0 },   { 2, 5, 1, 0 },
 };
 
 const char mes_1_1[] = "~7Hello, everyone!~nI'm Paragoom.~w2~z";
@@ -313,25 +215,25 @@ const char mes_3_14[] = "~7time either you~nor your teammate~nsends garbage to~n
 
 const char mes_3_15[] = "~7That's all~nfor now! I'll~nsee you later!~w2~z";
 
-const char STR_800B2E58[] = "~7Now it's time~nfor me to give~nyou some advice.~w2~z";
+const char mes_4_1[] = "~7Now it's time~nfor me to give~nyou some advice.~w2~z";
 
-const char STR_800B2E90[] = "~7At first, it's~neasier to match~ncolors in a~nvertical row.~w2~z";
+const char mes_4_2[] = "~7At first, it's~neasier to match~ncolors in a~nvertical row.~w2~z";
 
-const char STR_800B2ED4[] = "~7But when you get~nbetter, try to~nmatch colors~nhorizontally, too.~w2~z";
+const char mes_4_3[] = "~7But when you get~nbetter, try to~nmatch colors~nhorizontally, too.~w2~z";
 
-const char STR_800B2F20[] = "~7A special melody~nplays when you've~ncleared a combo.~w2~z";
+const char mes_4_4[] = "~7A special melody~nplays when you've~ncleared a combo.~w2~z";
 
-const char STR_800B2F60[] = "~7Don't forget!~nVitamins begin to~nfall faster with~nevery tenth one.~w2~z";
+const char mes_4_5[] = "~7Don't forget!~nVitamins begin to~nfall faster with~nevery tenth one.~w2~z";
 
-const char STR_800B2FAC[] = "~7The music speeds~nup when few~nviruses remain.~w2~z";
+const char mes_4_6[] = "~7The music speeds~nup when few~nviruses remain.~w2~z";
 
-const char STR_800B2FE4[] = "~7When your bottle~nbegins to fill~nup, warning music~nwill begin.~w2~z";
+const char mes_4_7[] = "~7When your bottle~nbegins to fill~nup, warning music~nwill begin.~w2~z";
 
-const char STR_800B302C[] = "~7Danger!~nYou'd better~nhurry up!~w2~z";
+const char mes_4_8[] = "~7Danger!~nYou'd better~nhurry up!~w2~z";
 
-const char STR_800B3054[] = "~7That's it.~nNow get going!~w2~z";
+const char mes_4_9[] = "~7That's it.~nNow get going!~w2~z";
 
-const char STR_800B3078[] = "~7See you later!~nBye-bye!~w2~z";
+const char mes_4_10[] = "~7See you later!~nBye-bye!~w2~z";
 
 void dm_manual_attack_capsel_down(void) {
     struct_watchManual *watchManualP = watchManual;
@@ -1210,285 +1112,211 @@ bool dm_manual_3_main(void) {
     return ret;
 }
 
-#if 0
 bool dm_manual_4_main(void) {
-    enum bool var_s5;
-    enum bool var_v0;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_4;
-    s32 temp_v1_2;
-    s32 var_a0;
-    s32 var_s1_2;
-    s32 var_v0_2;
-    s8 *var_a1;
-    struct_800F4890_unk_034 *temp_s0;
-    struct_800F4890_unk_034 *temp_s0_2;
-    struct_800F4890_unk_034 *temp_s0_3;
-    struct_800F4890_unk_034 *temp_s0_4;
-    struct_800F4890_unk_034 *temp_s0_5;
-    struct_800F4890_unk_034 *temp_s0_6;
-    struct_800F4890_unk_034 *temp_s0_7;
-    struct_800F4890_unk_034 *temp_s0_8;
-    struct_watchManual *temp_s2;
-    struct_watchManual *var_v1;
-    u32 temp_s1;
-    u32 temp_v1;
-    u32 var_s1;
-    u32 var_s1_3;
-    u8 temp_a3;
-    u8 temp_v0_3;
+    struct_watchManual *temp_s2 = watchManual;
+    bool ret = true;
+    struct_game_state_data *gameStateData = game_state_data;
+    GameMapGrid *mapGrid = game_map_data;
+    bool var_v0_2;
+    s32 i;
 
-    temp_s2 = watchManual;
-    var_s5 = true;
-    var_s1 = 0;
-    var_v1 = temp_s2;
-    do {
-        temp_v0 = var_v1->unk_01C[0];
-        var_s1 += 1;
-        if (temp_v0 != -0x14) {
-            var_v1->unk_01C[0] = temp_v0 - 1;
+    for (i = 0; i < ARRAY_COUNTU(temp_s2->unk_01C); i++) {
+        if (temp_s2->unk_01C[i] != -0x14) {
+            temp_s2->unk_01C[i]--;
         }
-        var_v1 += 4;
-    } while (var_s1 < 4U);
+    }
+
     if (temp_s2->unk_16C != 0) {
-        dm_manual_main_cnt(game_state_data, game_map_data, 0, 0);
-        dm_manual_make_key(game_state_data, game_map_data);
+        dm_manual_main_cnt(gameStateData, mapGrid, 0, 0);
+        dm_manual_make_key(gameStateData, mapGrid);
     }
-    func_800723EC(game_state_data, game_map_data, 0);
-    dm_virus_anime(game_state_data, game_map_data);
-    dm_manual_update_virus_anime(game_state_data);
+    func_800723EC(gameStateData, mapGrid, 0);
+    dm_virus_anime(gameStateData, mapGrid);
+    dm_manual_update_virus_anime(gameStateData);
     dm_warning_h_line_se();
-    temp_v1 = temp_s2->unk_164;
-    var_a0 = 0x3C;
-    if (temp_v1 != (u32) 0x3C) {
-        var_s1_2 = 0x15;
-        if (temp_v1 < 0x3DU) {
-            if (temp_v1 != (u32) 0x15) {
-                if (temp_v1 < 0x16U) {
-                    switch (temp_v1) {             
-                        case 0x1:                  
-                            temp_v0_2 = game_state_data->unk_025 * 3;
-                            temp_a3 = *RO_800B256C[game_state_data->unk_025];
-                            set_virus(game_map_data, (s32) *(&RO_800B256C[0][1] + temp_v0_2), (s32) *(&RO_800B256C[0][2] + temp_v0_2), (s32) temp_a3, (s32) virus_anime_table[temp_a3][game_state_data->unk_027]);
-                            temp_v0_3 = game_state_data->unk_025 + 1;
-                            game_state_data->unk_025 = temp_v0_3;
-                            var_v0 = true;
-                            if ((u32) (temp_v0_3 & 0xFF) >= 0x10U) {
-                                temp_s2->unk_164 = 0xA;
-                                goto block_80;
-                            }
-                            /* Duplicate return node #81. Try simplifying control flow for better match */
-                            return var_v0;
-                        case 0x0:                  
-                            temp_s0 = &temp_s2->unk_034;
-                            func_80071EF0(temp_s0, RO_800B2408, RO_800B240C);
-                            var_s1_3 = 0;
-                            temp_s2->unk_000 = 1;
-                            temp_s2->unk_004 = RO_800B2428;
-                            temp_s2->unk_008 = RO_800B242C;
-                            func_80072204(temp_s0);
-                            temp_s2->unk_164 = (u32) 1;
-                            do {
-                                (CapsMagazine + 1)[var_s1_3] = RO_800B259C[var_s1_3];
-                                var_s1_3 += 1;
-                            } while (var_s1_3 < 0x11U);
-                            game_state_data->unk_032 = 1;
-                            dm_set_capsel(game_state_data);
-                            return true;
-                        case 0xA:                  
-                            temp_s0_2 = &temp_s2->unk_034;
-                            func_800721D8(temp_s0_2);
-                            func_800721BC(temp_s0_2, STR_800B2E58);
-                            temp_s2->unk_164 = 0x30A;
-                            temp_s2->unk_168 = 0x14;
-                            goto block_80;
-                        case 0x14:                 
-                            func_800721A0(&temp_s2->unk_034);
-                            var_a1 = STR_800B2E90;
-                            goto block_61;
-                        default:                   
-                            return true;
-                    }
-                } else {
-                    var_s1_2 = 0x29;
-                    if (temp_v1 != (u32) 0x29) {
-                        if (temp_v1 < 0x2AU) {
-                            switch (temp_v1) {     
-                                case 0x1E:         
-                                    temp_s0_3 = &temp_s2->unk_034;
-                                    func_800721A0(temp_s0_3);
-                                    func_800721BC(temp_s0_3, STR_800B2ED4);
-                                    temp_s2->unk_164 = 0x30A;
-                                    temp_s2->unk_168 = 0x28;
-                                    goto block_80;
-                                case 0x28:         
-                                    func_800721A0(&temp_s2->unk_034);
-                                    var_a1 = STR_800B2F20;
-                                    goto block_61;
-                                default:           
-                                    return true;
-                            }
-                        } else {
-                            switch (temp_v1) {     
-                                case 0x32:         
-                                    temp_s0_4 = &temp_s2->unk_034;
-                                    func_800721A0(temp_s0_4);
-                                    func_800721BC(temp_s0_4, STR_800B2F60);
-                                    temp_s2->unk_164 = 0x30A;
-                                    temp_s2->unk_168 = 0x33;
-                                    goto block_80;
-                                default:           
-                                    return true;
-                            }
-                        }
-                    } else {
-                        temp_s2->unk_164 = 0x309;
-                        temp_s2->unk_168 = 0x32;
-                        goto block_80;
-                    }
-                }
-            } else {
-                game_state_data->unk_00C = 4;
-                temp_s2->unk_164 = 0x309;
-                temp_s2->unk_168 = 0x1E;
-                goto block_80;
+
+    switch (temp_s2->unk_164) {
+        case 0x0:
+            func_80071EF0(&temp_s2->unk_034, RO_800B2408, RO_800B240C);
+            temp_s2->unk_000 = 1;
+            temp_s2->unk_004 = RO_800B2428;
+            temp_s2->unk_008 = RO_800B242C;
+            func_80072204(&temp_s2->unk_034);
+            temp_s2->unk_164 = 1;
+
+            for (i = 0; i < ARRAY_COUNTU(RO_800B259C); i++) {
+                CapsMagazine[i + 1] = RO_800B259C[i];
             }
-        } else {
-            var_s1_2 = 0x51;
-            if (temp_v1 != (u32) 0x51) {
-                var_a0 = 0x46;
-                if (temp_v1 < 0x52U) {
-                    if (temp_v1 != (u32) 0x46) {
-                        if (temp_v1 < 0x47U) {
-                            if (temp_v1 != 0x3D) {
-                                return true;
-                            }
-                        case 0x33:                 
-                            temp_s2->unk_164 = 0x309;
-                            temp_s2->unk_168 = var_a0;
-                            goto block_80;
-                        }
-                        switch (temp_v1) {         
-                            case 0x47:             
-                                temp_s2->unk_164 = 0x309;
-                                temp_s2->unk_168 = 0x50;
-                                goto block_80;
-                            case 0x50:             
-                                func_800721A0(&temp_s2->unk_034);
-                                var_a1 = STR_800B302C;
-block_61:
-                                func_800721BC(&temp_s2->unk_034, var_a1);
-                                temp_s2->unk_164 = 0x30A;
-                                temp_s2->unk_168 = var_s1_2;
-                                goto block_80;
-                            default:               
-                                return true;
-                        }
-                    } else {
-                        temp_s0_5 = &temp_s2->unk_034;
-                        func_800721A0(temp_s0_5);
-                        func_800721BC(temp_s0_5, STR_800B2FE4);
-                        temp_s2->unk_164 = 0x30A;
-                        temp_s2->unk_168 = 0x47;
-                        goto block_80;
-                    }
-                } else if (temp_v1 != 0x309) {
-                    if (temp_v1 < 0x30AU) {
-                        if (temp_v1 != 0x5A) {
-                            temp_s0_6 = &temp_s2->unk_034;
-                            if (temp_v1 != 0x64) {
-                                return true;
-                            }
-                            func_800721A0(temp_s0_6);
-                            func_800721BC(temp_s0_6, STR_800B3078);
-                            temp_s2->unk_164 = 0x30A;
-                            temp_s2->unk_168 = 0x30C;
-                            goto block_80;
-                        }
-                        temp_s0_7 = &temp_s2->unk_034;
-                        func_800721A0(temp_s0_7);
-                        func_800721BC(temp_s0_7, STR_800B3054);
-                        temp_s2->unk_164 = 0x30A;
-                        temp_s2->unk_168 = 0x64;
-                        goto block_80;
-                    }
-                    switch (temp_v1) {             
-                        case 0x30C:                
-                            var_s5 = false;
-                            goto block_80;
-                        case 0x30A:                
-                            temp_s2->unk_16C = 0;
-                            var_v0 = true;
-                            if (func_80072230(&temp_s2->unk_034) != false) {
-                                temp_s2->unk_164 = (u32) temp_s2->unk_168;
-                                goto block_80;
-                            }
-                            /* Duplicate return node #81. Try simplifying control flow for better match */
-                            return var_v0;
-                        default:                   
-                            return true;
-                    }
-                } else {
-                    temp_s2->unk_16C = 1;
-                    temp_s1 = game_state_data->unk_032 - 2;
-                    temp_v0_4 = temp_s1 * 4;
-                    if (temp_s1 < 0x10U) {
-                        aifMake2(game_state_data, (s32) *RO_800B25B0[temp_s1], (s32) *(&RO_800B25B0[0][1] + temp_v0_4), (s32) *(&RO_800B25B0[0][2] + temp_v0_4), (s32) *(&RO_800B25B0[0][3] + temp_v0_4));
-                    }
-                    temp_v1_2 = temp_s2->unk_030;
-                    switch (temp_v1_2) {
-                        case 0x0:
-                            var_v0_2 = temp_s1 == 3;
-                            break;
-                        case 0x1:
-                            var_v0_2 = temp_s1 == 5;
-                            break;
-                        case 0x2:
-                            var_v0_2 = temp_s1 == 0xA;
-                            break;
-                        case 0x3:
-                            var_v0_2 = temp_s1 == 0xC;
-                            break;
-                        case 0x4:
-                            var_v0_2 = temp_s1 == 0xF;
-                            break;
-                        case 0x5:
-                            var_v0_2 = temp_s1 == 0x10;
-                            break;
-                        default:
-                            var_v0_2 = 0;
-                            break;
-                    }
-                    var_v0 = true;
-                    if (var_v0_2 != 0) {
-                        temp_s2->unk_164 = (u32) temp_s2->unk_168;
-                        temp_s2->unk_030 += 1;
-                        goto block_80;
-                    }
-                    /* Duplicate return node #81. Try simplifying control flow for better match */
-                    return var_v0;
-                }
-            } else {
-                temp_s2->unk_164 = 0x309;
-                temp_s2->unk_168 = 0x5A;
-                goto block_80;
+
+            gameStateData->unk_032 = 1;
+            dm_set_capsel(gameStateData);
+            break;
+
+        case 0x1:
+            set_virus(mapGrid, virus_4_1[gameStateData->unk_025][1], virus_4_1[gameStateData->unk_025][2],
+                      virus_4_1[gameStateData->unk_025][0],
+                      virus_anime_table[virus_4_1[gameStateData->unk_025][0]][gameStateData->unk_027]);
+            gameStateData->unk_025++;
+            if (gameStateData->unk_025 >= 0x10U) {
+                temp_s2->unk_164 = 0xA;
             }
-        }
-    } else {
-        temp_s0_8 = &temp_s2->unk_034;
-        func_800721A0(temp_s0_8);
-        func_800721BC(temp_s0_8, STR_800B2FAC);
-        temp_s2->unk_164 = 0x30A;
-        temp_s2->unk_168 = 0x3D;
-block_80:
-        var_v0 = var_s5;
-        return var_v0;
+            break;
+
+        case 0xA:
+            func_800721D8(&temp_s2->unk_034);
+            func_800721BC(&temp_s2->unk_034, mes_4_1);
+            temp_s2->unk_164 = 0x30A;
+            temp_s2->unk_168 = 0x14;
+            break;
+
+        case 0x14:
+            func_800721A0(&temp_s2->unk_034);
+            func_800721BC(&temp_s2->unk_034, mes_4_2);
+            temp_s2->unk_164 = 0x30A;
+            temp_s2->unk_168 = 0x15;
+            break;
+
+        case 0x15:
+            gameStateData->unk_00C = 4;
+            temp_s2->unk_164 = 0x309;
+            temp_s2->unk_168 = 0x1E;
+            break;
+
+        case 0x1E:
+            func_800721A0(&temp_s2->unk_034);
+            func_800721BC(&temp_s2->unk_034, mes_4_3);
+            temp_s2->unk_164 = 0x30A;
+            temp_s2->unk_168 = 0x28;
+            break;
+
+        case 0x28:
+            func_800721A0(&temp_s2->unk_034);
+            func_800721BC(&temp_s2->unk_034, mes_4_4);
+            temp_s2->unk_164 = 0x30A;
+            temp_s2->unk_168 = 0x29;
+            break;
+
+        case 0x29:
+            temp_s2->unk_164 = 0x309;
+            temp_s2->unk_168 = 0x32;
+            break;
+
+        case 0x32:
+            func_800721A0(&temp_s2->unk_034);
+            func_800721BC(&temp_s2->unk_034, mes_4_5);
+            temp_s2->unk_164 = 0x30A;
+            temp_s2->unk_168 = 0x33;
+            break;
+
+        case 0x33:
+            temp_s2->unk_164 = 0x309;
+            temp_s2->unk_168 = 0x3C;
+            break;
+
+        case 0x3C:
+            func_800721A0(&temp_s2->unk_034);
+            func_800721BC(&temp_s2->unk_034, mes_4_6);
+            temp_s2->unk_164 = 0x30A;
+            temp_s2->unk_168 = 0x3D;
+            break;
+
+        case 0x3D:
+            temp_s2->unk_164 = 0x309;
+            temp_s2->unk_168 = 0x46;
+            break;
+
+        case 0x46:
+            func_800721A0(&temp_s2->unk_034);
+            func_800721BC(&temp_s2->unk_034, mes_4_7);
+            temp_s2->unk_164 = 0x30A;
+            temp_s2->unk_168 = 0x47;
+            break;
+
+        case 0x47:
+            temp_s2->unk_164 = 0x309;
+            temp_s2->unk_168 = 0x50;
+            break;
+
+        case 0x50:
+            func_800721A0(&temp_s2->unk_034);
+            func_800721BC(&temp_s2->unk_034, mes_4_8);
+            temp_s2->unk_164 = 0x30A;
+            temp_s2->unk_168 = 0x51;
+            break;
+
+        case 0x51:
+            temp_s2->unk_164 = 0x309;
+            temp_s2->unk_168 = 0x5A;
+            break;
+
+        case 0x5A:
+            func_800721A0(&temp_s2->unk_034);
+            func_800721BC(&temp_s2->unk_034, mes_4_9);
+            temp_s2->unk_164 = 0x30A;
+            temp_s2->unk_168 = 0x64;
+            break;
+
+        case 0x64:
+            func_800721A0(&temp_s2->unk_034);
+            func_800721BC(&temp_s2->unk_034, mes_4_10);
+            temp_s2->unk_164 = 0x30A;
+            temp_s2->unk_168 = 0x30C;
+            break;
+
+        case 0x309:
+            temp_s2->unk_16C = 1;
+            i = gameStateData->unk_032 - 2;
+            if (i < ARRAY_COUNTU(position_4_1)) {
+                aifMake2(gameStateData, position_4_1[i][0], position_4_1[i][1], position_4_1[i][2], position_4_1[i][3]);
+            }
+
+            switch (temp_s2->unk_030) {
+                case 0x0:
+                    var_v0_2 = i == 3;
+                    break;
+                case 0x1:
+                    var_v0_2 = i == 5;
+                    break;
+                case 0x2:
+                    var_v0_2 = i == 0xA;
+                    break;
+                case 0x3:
+                    var_v0_2 = i == 0xC;
+                    break;
+                case 0x4:
+                    var_v0_2 = i == 0xF;
+                    break;
+                case 0x5:
+                    var_v0_2 = i == 0x10;
+                    break;
+                default:
+                    var_v0_2 = false;
+                    break;
+            }
+
+            if (var_v0_2) {
+                temp_s2->unk_164 = temp_s2->unk_168;
+                temp_s2->unk_030++;
+            }
+            break;
+
+        case 0x30A:
+            temp_s2->unk_16C = 0;
+            if (func_80072230(&temp_s2->unk_034)) {
+                temp_s2->unk_164 = temp_s2->unk_168;
+            }
+            break;
+
+        case 0x30C:
+            ret = false;
+            break;
+
+        default:
+            break;
     }
+
+    return ret;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_4_main);
-#endif
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3130);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3134);
