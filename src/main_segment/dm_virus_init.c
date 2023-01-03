@@ -33,7 +33,7 @@ void init_map_all(GameMapGrid *mapGrid) {
 #ifdef NON_EQUIVALENT
 // not sure if equivalent
 void clear_map(GameMapGrid *mapGrid, s32 column, s32 row) {
-    s32 index = GAME_MAP_GET_INDEX(row-1, column);
+    s32 index = GAME_MAP_GET_INDEX(row - 1, column);
     GameMapCell *temp_v0 = mapGrid->cells;
     s32 var_v1;
 

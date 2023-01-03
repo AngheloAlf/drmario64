@@ -60,17 +60,16 @@ extern const s32 RO_800B2428;
 extern const s32 RO_800B242C;
 extern const u8 RO_800B246C[];
 extern const u8 RO_800B2474[];
-extern const u8 RO_800B2448[];
-extern const u8 RO_800B247C[];
-extern const s8 STR_800B25F0;
-extern const s8 STR_800B2618;
-extern const s8 STR_800B2664;
-extern const s8 STR_800B26B4;
-extern const s8 STR_800B26EC;
-extern const s8 STR_800B2738;
-extern const s8 STR_800B2780;
-extern const s8 STR_800B27D4;
-
+extern const u8 virus_1_1[][3];
+extern const u8 position_1_1[][4];
+extern const char mes_1_1[];
+extern const char mes_1_2[];
+extern const char mes_1_3[];
+extern const char mes_1_4[];
+extern const char mes_1_5[];
+extern const char mes_1_6[];
+extern const char mes_1_7[];
+extern const char mes_1_8[];
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2408);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B240C);
@@ -88,10 +87,10 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2438);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B243C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2440);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2444);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2448);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", virus_1_1);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B246C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2474);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B247C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", position_1_1);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", virus_2_1);
 
 const u8 capsel_2_1[] = {
@@ -139,21 +138,21 @@ void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_3[0] = 1;
 }
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B25F0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_1);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2618);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_2);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2664);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_3);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B26B4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_4);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B26EC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_5);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2738);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_6);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2780);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_7);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B27D4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_8);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_1);
 
@@ -328,380 +327,291 @@ void dm_manual_make_key(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_make_key);
 #endif
 
-#if 0
+#ifdef NON_MATCHING
 s32 dm_manual_1_main(void) {
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 var_s0_2;
-    s32 var_s3;
+    struct_watchManual *temp_s1 = watchManual;
+    struct_game_state_data *gameStateDataP = game_state_data;
+    s32 var_s6 = 1;
+    GameMapGrid *mapGrid = game_map_data;
     s32 var_s5;
-    s32 var_s6;
-    s32 var_v0;
-    s8 *var_a1;
-    s8 temp_a3;
-    s8 temp_v0_6;
-    struct_800F4890_unk_034 *temp_s0;
-    struct_800F4890_unk_034 *temp_s0_10;
-    struct_800F4890_unk_034 *temp_s0_5;
-    struct_800F4890_unk_034 *temp_s0_6;
-    struct_800F4890_unk_034 *temp_s0_7;
-    struct_800F4890_unk_034 *temp_s0_8;
-    struct_800F4890_unk_034 *temp_s0_9;
-    struct_watchManual *temp_s1;
-    struct_watchManual *var_v1;
     u32 temp_s0_4;
-    u32 temp_v1;
-    u32 var_s0;
-    u32 var_s0_3;
-    u32 var_s0_4;
-    u8 temp_a3_2;
-    u8 temp_s0_2;
-    u8 temp_s0_3;
-    u8 temp_v0_5;
+    s32 var_s0;
 
-    var_s5 = saved_reg_s5;
-    temp_s1 = watchManual;
-    var_s6 = 1;
-    var_s0 = 0;
-    var_v1 = temp_s1;
-    do {
-        temp_v0 = var_v1->unk_01C[0];
-        var_s0 += 1;
-        if (temp_v0 != -0x14) {
-            var_v1->unk_01C[0] = temp_v0 - 1;
+    struct_game_state_data_unk_178 *unk_178 = &gameStateDataP->unk_178;
+
+    // var_s5 = saved_reg_s5;
+
+    for (var_s0 = 0; var_s0 < ARRAY_COUNTU(temp_s1->unk_01C); var_s0++) {
+        if (temp_s1->unk_01C[var_s0] != -0x14) {
+            temp_s1->unk_01C[var_s0]--;
         }
-        var_v1 += 4;
-    } while (var_s0 < 4U);
-    if (temp_s1->unk_16C != 0) {
-        var_s5 = dm_manual_main_cnt(game_state_data, game_map_data, 0, 0);
-        dm_manual_make_key(game_state_data, game_map_data);
     }
-    func_800723EC(game_state_data, game_map_data, 0);
-    dm_virus_anime(game_state_data, game_map_data);
-    dm_manual_update_virus_anime(game_state_data);
+
+    if (temp_s1->unk_16C != 0) {
+        var_s5 = dm_manual_main_cnt(gameStateDataP, mapGrid, 0, 0);
+        dm_manual_make_key(gameStateDataP, mapGrid);
+    }
+
+    func_800723EC(gameStateDataP, mapGrid, 0);
+    dm_virus_anime(gameStateDataP, mapGrid);
+    dm_manual_update_virus_anime(gameStateDataP);
     dm_warning_h_line_se();
-    temp_v1 = temp_s1->unk_164;
-    if (temp_v1 != 0x35) {
-        if (temp_v1 >= 0x36U) {
-            var_s3 = 0x47;
-            if (temp_v1 != (u32) 0x47) {
-                if (temp_v1 < 0x48U) {
-                    if (temp_v1 != 0x3E) {
-                        if (temp_v1 < 0x3FU) {
-                            switch (temp_v1) {      /* switch 4; irregular */
-                                case 0x3C:          /* switch 4 */
-                                    temp_s0 = &temp_s1->unk_034;
-                                    temp_s1->unk_16C = 0;
-                                    func_800721A0(temp_s0);
-                                    func_800721BC(temp_s0, &STR_800B2738);
-                                    temp_s1->unk_164 = 0x30A;
-                                    temp_s1->unk_168 = 0x3D;
-                                    goto block_112;
-                                case 0x3D:          /* switch 4 */
-                                    temp_s1->unk_16C = 1;
-                                    aifMake2(game_state_data, 2, 0x10, 0, 0);
-                                    goto block_106;
-                                default:            /* switch 4 */
-                                    return 1;
-                            }
-                        } else {
-                            if (temp_v1 != 0x40) {
-                                if (temp_v1 >= 0x40U) {
-                                    if (temp_v1 != 0x46) {
-                                        return 1;
-                                    }
-                                    func_800721A0(&temp_s1->unk_034);
-                                    var_a1 = &STR_800B2780;
-                                    goto block_99;
-                                }
-                                var_v0 = 1;
-                                if (var_s5 == 1) {
-                                    clear_map_all(game_map_data);
-                                    var_s0_2 = 0;
-                                    temp_s1->unk_164 += 1;
-                                    game_state_data->unk_026 = 0xF;
-                                    _dm_virus_init(0U, game_state_data, virus_map_data, virus_map_disp_order, var_s5);
-                                    do {
-                                        animeState_set(get_virus_anime_state(var_s0_2), 0);
-                                        animeSmog_stop(get_virus_smog_state(var_s0_2));
-                                        var_s0_2 += 1;
-                                    } while (var_s0_2 < 3);
-                                    var_s0_3 = 0;
-                                    do {
-                                        (CapsMagazine + 1)[var_s0_3] = *(&D_800B2474 + var_s0_3);
-                                        var_s0_3 += 1;
-                                    } while (var_s0_3 < 5U);
-                                    game_state_data->unk_032 = 1;
-                                    dm_set_capsel(game_state_data);
-                                    game_state_data->unk_00C = 1;
-                                    game_state_data->unk_014 = 2;
-                                    game_state_data->unk_025 = 0;
-                                    goto block_112;
-                                }
-                                /* Duplicate return node #113. Try simplifying control flow for better match */
-                                return var_v0;
-                            }
-                            temp_s0_2 = virus_map_disp_order->unk_00[game_state_data->unk_025];
-                            temp_v0_2 = temp_s0_2 * 3;
-                            temp_a3 = virus_map_data->unk_000[temp_s0_2].unk_0;
-                            set_virus(game_map_data, (s32) *(&virus_map_data->unk_000[0].unk_1 + temp_v0_2), (s32) *(&virus_map_data->unk_000[0].unk_2 + temp_v0_2), (s32) temp_a3, (s32) virus_anime_table[temp_a3][game_state_data->unk_027]);
-                            temp_s0_3 = game_state_data->unk_025 + 1;
-                            game_state_data->unk_025 = temp_s0_3;
-                            var_v0 = 1;
-                            if ((temp_s0_3 & 0xFF) >= dm_get_first_virus_count(evs_gamemode, game_state_data)) {
-                                temp_s1->unk_164 = 0x46;
-                                goto block_112;
-                            }
-                            /* Duplicate return node #113. Try simplifying control flow for better match */
-                            return var_v0;
-                        }
-                    } else {
-                        var_v0 = 1;
-                        if (var_s5 == 6) {
-                            dm_seq_play(0xE);
-                            temp_s1->unk_014 = 0;
-                            temp_s1->unk_018 = 0x78;
-                            temp_s1->unk_164 += 1;
-                            goto block_112;
-                        }
-                        /* Duplicate return node #113. Try simplifying control flow for better match */
-                        return var_v0;
-                    }
-                } else if (temp_v1 != 0x4A) {
-                    if (temp_v1 < 0x4BU) {
-                        switch (temp_v1) {          /* switch 3; irregular */
-                            case 0x48:              /* switch 3 */
-                                temp_s0_4 = game_state_data->unk_032 - 2;
-                                temp_v0_3 = temp_s0_4 * 4;
-                                if (temp_s0_4 < 4U) {
-                                    aifMake2(game_state_data, (s32) *(&RO_800B247C + temp_v0_3), (s32) *(&RO_800B247C + 1 + temp_v0_3), (s32) *(&RO_800B247C + 2 + temp_v0_3), (s32) *(&RO_800B247C + 3 + temp_v0_3));
-                                    return 1;
-                                }
-                                temp_s1->unk_164 = 0x49;
-                                goto block_112;
-                            case 0x49:              /* switch 3 */
-                                var_v0 = 1;
-                                if (var_s5 == -1) {
-                                    dm_seq_play(0x11);
-                                    goto block_106;
-                                }
-                                /* Duplicate return node #113. Try simplifying control flow for better match */
-                                return var_v0;
-                            default:                /* switch 3 */
-                                return 1;
-                        }
-                    } else {
-                        if (temp_v1 != 0x30A) {
-                            if (temp_v1 < 0x30BU) {
-                                temp_s0_5 = &temp_s1->unk_034;
-                                if (temp_v1 != 0x50) {
-                                    return 1;
-                                }
-                                func_800721A0(temp_s0_5);
-                                func_800721BC(temp_s0_5, &STR_800B27D4);
-                                temp_s1->unk_164 = 0x30A;
-                                temp_s1->unk_168 = 0x30C;
-                                goto block_112;
-                            }
-                            if (temp_v1 == 0x30C) {
-                                var_s6 = 0;
-                                goto block_112;
-                            }
-                            return 1;
-                        }
-                        var_v0 = 1;
-                        if (func_80072230(&temp_s1->unk_034) != false) {
-                            temp_s1->unk_164 = (u32) temp_s1->unk_168;
-                            goto block_112;
-                        }
-                        /* Duplicate return node #113. Try simplifying control flow for better match */
-                        return var_v0;
-                    }
-                } else {
-                    var_v0 = 1;
-                    if (var_s5 == 0x64) {
-                        temp_s1->unk_164 = 0x50;
-                        goto block_112;
-                    }
-                    /* Duplicate return node #113. Try simplifying control flow for better match */
-                    return var_v0;
-                }
-            } else {
-                temp_s1->unk_16C = 1;
-                game_state_data->unk_00C = 4;
-                aifMakeFlagSet(game_state_data);
-                goto block_106;
+
+    switch (temp_s1->unk_164) {
+        case 0x0:
+            func_80071EF0(&temp_s1->unk_034, RO_800B2408, RO_800B240C);
+            temp_s1->unk_000 = 1;
+            temp_s1->unk_004 = RO_800B2428;
+            temp_s1->unk_008 = RO_800B242C;
+            func_80072204(&temp_s1->unk_034);
+            temp_s1->unk_164 += 1;
+
+            for (var_s0 = 0; var_s0 < 5U; var_s0++) {
+                CapsMagazine[var_s0 + 1] = RO_800B246C[var_s0];
             }
-        } else if (temp_v1 != (u32) 0x28) {
-            if (temp_v1 < 0x29U) {
-                if (temp_v1 != 0xA) {
-                    if (temp_v1 >= 0xBU) {
-                        if (temp_v1 != 0x14) {
-                            temp_s0_6 = &temp_s1->unk_034;
-                            if (temp_v1 != 0x1E) {
-                                return 1;
-                            }
-                            func_800721A0(temp_s0_6);
-                            func_800721BC(temp_s0_6, &STR_800B2664);
-                            temp_s1->unk_164 = 0x30A;
-                            temp_s1->unk_168 = 0x28;
-                            goto block_112;
-                        }
-                        temp_s0_7 = &temp_s1->unk_034;
-                        func_800721A0(temp_s0_7);
-                        func_800721BC(temp_s0_7, &STR_800B2618);
-                        temp_s1->unk_164 = 0x30A;
-                        temp_s1->unk_168 = 0x1E;
-                        goto block_112;
-                    }
-                    switch (temp_v1) {              /* switch 2; irregular */
-                        case 0x0:                   /* switch 2 */
-                            temp_s0_8 = &temp_s1->unk_034;
-                            func_80071EF0(temp_s0_8, D_800B2408, D_800B240C);
-                            temp_s1->unk_000 = 1;
-                            temp_s1->unk_004 = D_800B2428;
-                            temp_s1->unk_008 = D_800B242C;
-                            func_80072204(temp_s0_8);
-                            var_s0_4 = 0;
-                            temp_s1->unk_164 += 1;
-                            do {
-                                (CapsMagazine + 1)[var_s0_4] = *(&D_800B246C + var_s0_4);
-                                var_s0_4 += 1;
-                            } while (var_s0_4 < 5U);
-                            game_state_data->unk_032 = 1;
-                            dm_set_capsel(game_state_data);
-                            return 1;
-                        case 0x1:                   /* switch 2 */
-                            temp_v0_4 = game_state_data->unk_025 * 3;
-                            temp_a3_2 = *(&RO_800B2448 + temp_v0_4);
-                            set_virus(game_map_data, (s32) *(&RO_800B2448 + 1 + temp_v0_4), (s32) *(&RO_800B2448 + 2 + temp_v0_4), (s32) temp_a3_2, (s32) virus_anime_table[temp_a3_2][game_state_data->unk_027]);
-                            temp_v0_5 = game_state_data->unk_025 + 1;
-                            game_state_data->unk_025 = temp_v0_5;
-                            if ((u32) (temp_v0_5 & 0xFF) >= 4U) {
-                                temp_s1->unk_164 = 0xA;
-                                goto block_112;
-                            }
-                            return 1;
-                        default:                    /* switch 2 */
-                            return 1;
-                    }
-                } else {
-                    temp_s0_9 = &temp_s1->unk_034;
-                    func_800721D8(temp_s0_9);
-                    func_800721BC(temp_s0_9, &STR_800B25F0);
-                    temp_s1->unk_164 = 0x30A;
-                    temp_s1->unk_168 = 0x14;
-                    goto block_112;
-                }
-            } else if (temp_v1 != 0x2B) {
-                if (temp_v1 < 0x2CU) {
-                    switch (temp_v1) {              /* switch 1; irregular */
-                        case 0x29:                  /* switch 1 */
-                            temp_s1->unk_16C = 1;
-                            game_state_data->unk_00C = 4;
-                            aifMake2(game_state_data, 3, 0xC, 0, 0);
-                            goto block_106;
-                        case 0x2A:                  /* switch 1 */
-                            game_state_data->unk_030 = 1;
-                            temp_v0_6 = (u8) game_state_data->unk_178.unk_2 - 4;
-                            switch (temp_v0_6) {
-                                case 0x0:
-                                    var_v0 = 1;
-                                    if (game_state_data->unk_178.unk_2 == game_state_data->unk_178.unk_3) {
-block_72:
-                                        rotate_capsel(game_map_data, &game_state_data->unk_178, -1);
-                                        temp_s1->unk_01C[3] = 8;
-                                        goto block_112;
-                                    }
-                                    break;
-                                case 0x2:
-                                    if (game_state_data->unk_178.unk_2 != game_state_data->unk_178.unk_3) {
-                                        goto block_72;
-                                    }
-                                    goto block_112;
-                                case 0x4:
-                                    var_v0 = 1;
-                                    if (game_state_data->unk_178.unk_2 == game_state_data->unk_178.unk_3) {
-block_76:
-                                        rotate_capsel(game_map_data, &game_state_data->unk_178, 1);
-                                        temp_s1->unk_01C[2] = 8;
-                                        goto block_112;
-                                    }
-                                    break;
-                                case 0x6:
-                                    if (game_state_data->unk_178.unk_2 != game_state_data->unk_178.unk_3) {
-                                        goto block_76;
-                                    }
-                                    goto block_112;
-                                case 0x8:
-                                    aifMakeFlagSet(game_state_data);
-                                    aifMake2(game_state_data, 4, 0xE, 0, 0);
-                                    goto block_106;
-                            }
-                            /* Duplicate return node #113. Try simplifying control flow for better match */
-                            return var_v0;
-                        default:                    /* switch 1 */
-                            return 1;
-                    }
-                } else {
-                    var_s3 = 0x33;
-                    if (temp_v1 != (u32) 0x33) {
-                        if (temp_v1 < 0x34U) {
-                            if (temp_v1 != 0x32) {
-                                return 1;
-                            }
-                            temp_s1->unk_16C = 0;
-                            func_800721A0(&temp_s1->unk_034);
-                            var_a1 = &STR_800B26EC;
-block_99:
-                            func_800721BC(&temp_s1->unk_034, var_a1);
-                            temp_s1->unk_164 = 0x30A;
-                            temp_s1->unk_168 = var_s3;
-                            goto block_112;
-                        }
-                        var_v0 = 1;
-                        if ((u8) game_state_data->unk_23D == 0) {
-                            aifMake2(game_state_data, 5, 0xD, 1, 0);
-                            goto block_106;
-                        }
-                        /* Duplicate return node #113. Try simplifying control flow for better match */
-                        return var_v0;
-                    }
-                    temp_s1->unk_16C = 1;
-                    aifMake2(game_state_data, 2, 0xC, 1, 0);
-block_106:
-                    temp_s1->unk_164 += 1;
-                    goto block_112;
-                }
-            } else {
-                var_v0 = 1;
-                if ((u8) game_state_data->unk_23D == 0) {
-                    temp_s1->unk_164 = 0x32;
-                    goto block_112;
-                }
-                /* Duplicate return node #113. Try simplifying control flow for better match */
-                return var_v0;
+
+            gameStateDataP->unk_032 = 1;
+            dm_set_capsel(gameStateDataP);
+            break;
+
+        case 0x1:
+            set_virus(mapGrid, virus_1_1[gameStateDataP->unk_025][1], virus_1_1[gameStateDataP->unk_025][2],
+                      virus_1_1[gameStateDataP->unk_025][0],
+                      virus_anime_table[virus_1_1[gameStateDataP->unk_025][0]][gameStateDataP->unk_027]);
+
+            gameStateDataP->unk_025++;
+            if (gameStateDataP->unk_025 >= 4U) {
+                temp_s1->unk_164 = 0xA;
             }
-        } else {
-            temp_s0_10 = &temp_s1->unk_034;
-            func_800721A0(temp_s0_10);
-            func_800721BC(temp_s0_10, &STR_800B26B4);
+            break;
+
+        case 0xA:
+            func_800721D8(&temp_s1->unk_034);
+            func_800721BC(&temp_s1->unk_034, mes_1_1);
+            temp_s1->unk_164 = 0x30A;
+            temp_s1->unk_168 = 0x14;
+            break;
+
+        case 0x14:
+            func_800721A0(&temp_s1->unk_034);
+            func_800721BC(&temp_s1->unk_034, mes_1_2);
+            temp_s1->unk_164 = 0x30A;
+            temp_s1->unk_168 = 0x1E;
+            break;
+
+        case 0x1E:
+            func_800721A0(&temp_s1->unk_034);
+            func_800721BC(&temp_s1->unk_034, mes_1_3);
+            temp_s1->unk_164 = 0x30A;
+            temp_s1->unk_168 = 0x28;
+            break;
+
+        case 0x28U:
+            func_800721A0(&temp_s1->unk_034);
+            func_800721BC(&temp_s1->unk_034, mes_1_4);
             temp_s1->unk_164 = 0x30A;
             temp_s1->unk_168 = 0x29;
-            goto block_112;
+            break;
+
+        case 0x29:
+            temp_s1->unk_16C = 1;
+            gameStateDataP->unk_00C = 4;
+            aifMake2(gameStateDataP, 3, 0xC, 0, 0);
+            temp_s1->unk_164 += 1;
+            break;
+
+        case 0x2A:
+            gameStateDataP->unk_030 = 1;
+
+            switch (unk_178->unk_2) {
+                case 0x4:
+                    if (unk_178->unk_2 == unk_178->unk_3) {
+                        rotate_capsel(mapGrid, unk_178, -1);
+                        temp_s1->unk_01C[3] = 8;
+                    }
+                    break;
+
+                case 0x6:
+                    if (unk_178->unk_2 != unk_178->unk_3) {
+                        rotate_capsel(mapGrid, unk_178, -1);
+                        temp_s1->unk_01C[3] = 8;
+                    }
+                    break;
+
+                case 0x8:
+                    if (unk_178->unk_2 == unk_178->unk_3) {
+                        rotate_capsel(mapGrid, unk_178, 1);
+                        temp_s1->unk_01C[2] = 8;
+                    }
+                    break;
+
+                case 0xA:
+                    if (unk_178->unk_2 != unk_178->unk_3) {
+                        rotate_capsel(mapGrid, unk_178, 1);
+                        temp_s1->unk_01C[2] = 8;
+                    }
+                    break;
+
+                case 0xC:
+                    aifMakeFlagSet(gameStateDataP);
+                    aifMake2(gameStateDataP, 4, 0xE, 0, 0);
+                    temp_s1->unk_164 += 1;
+                    break;
+            }
+            break;
+
+        case 0x2B:
+            if (gameStateDataP->unk_23D == 0) {
+                temp_s1->unk_164 = 0x32;
+            }
+            break;
+
+        case 0x32:
+            temp_s1->unk_16C = 0;
+            func_800721A0(&temp_s1->unk_034);
+            func_800721BC(&temp_s1->unk_034, mes_1_5);
+            temp_s1->unk_164 = 0x30A;
+            temp_s1->unk_168 = 0x33;
+            break;
+
+        case 0x33:
+            temp_s1->unk_16C = 1;
+            aifMake2(gameStateDataP, 2, 0xC, 1, 0);
+            temp_s1->unk_164 += 1;
+            break;
+
+        case 0x34:
+            if (gameStateDataP->unk_23D == 0) {
+                aifMake2(gameStateDataP, 5, 0xD, 1, 0);
+                temp_s1->unk_164 += 1;
+            }
+            break;
+
+        case 0x35:
+            if (gameStateDataP->unk_23D == 0) {
+                temp_s1->unk_164 = 0x3C;
+            }
+            break;
+
+        case 0x3C:
+            temp_s1->unk_16C = 0;
+            func_800721A0(&temp_s1->unk_034);
+            func_800721BC(&temp_s1->unk_034, mes_1_6);
+            temp_s1->unk_164 = 0x30A;
+            temp_s1->unk_168 = 0x3D;
+            break;
+
+        case 0x3D:
+            temp_s1->unk_16C = 1;
+            aifMake2(gameStateDataP, 2, 0x10, 0, 0);
+            temp_s1->unk_164 += 1;
+            break;
+
+        case 0x3E:
+            if (var_s5 == 6) {
+                dm_seq_play(0xE);
+                temp_s1->unk_014 = 0;
+                temp_s1->unk_018 = 0x78;
+                temp_s1->unk_164 += 1;
+            }
+            break;
+
+        case 0x3F:
+            if (var_s5 == 1) {
+                clear_map_all(mapGrid);
+                temp_s1->unk_164 += 1;
+                gameStateDataP->unk_026 = 0xF;
+                _dm_virus_init(0, gameStateDataP, &virus_map_data[0], virus_map_disp_order, var_s5);
+
+                for (var_s0 = 0; var_s0 < 3; var_s0++) {
+                    animeState_set(get_virus_anime_state(var_s0), 0);
+                    animeSmog_stop(get_virus_smog_state(var_s0));
+                }
+
+                for (var_s0 = 0; var_s0 < 5U; var_s0++) {
+                    CapsMagazine[var_s0 + 1] = RO_800B2474[var_s0];
+                }
+
+                gameStateDataP->unk_032 = 1;
+                dm_set_capsel(gameStateDataP);
+                gameStateDataP->unk_00C = 1;
+                gameStateDataP->unk_014 = 2;
+                gameStateDataP->unk_025 = 0;
+            }
+            break;
+
+        case 0x40:
+
+        {
+            s32 index = virus_map_disp_order->unk_00[gameStateDataP->unk_025];
+
+            set_virus(mapGrid, virus_map_data[0].unk_000[index].unk_1, virus_map_data[0].unk_000[index].unk_2,
+                      virus_map_data[0].unk_000[index].unk_0,
+                      virus_anime_table[virus_map_data[0].unk_000[index].unk_0][gameStateDataP->unk_027]);
         }
-    } else {
-        var_v0 = 1;
-        if ((u8) game_state_data->unk_23D == 0) {
-            temp_s1->unk_164 = 0x3C;
-        default:
-block_112:
-            var_v0 = var_s6;
-        }
-        return var_v0;
+
+            gameStateDataP->unk_025++;
+            if (gameStateDataP->unk_025 >= dm_get_first_virus_count(evs_gamemode, gameStateDataP)) {
+                temp_s1->unk_164 = 0x46;
+            }
+            break;
+
+        case 0x46:
+            func_800721A0(&temp_s1->unk_034);
+            func_800721BC(&temp_s1->unk_034, mes_1_7);
+            temp_s1->unk_164 = 0x30A;
+            temp_s1->unk_168 = 0x47;
+            break;
+
+        case 0x47:
+            temp_s1->unk_16C = 1;
+            gameStateDataP->unk_00C = 4;
+            aifMakeFlagSet(gameStateDataP);
+            temp_s1->unk_164 += 1;
+            break;
+
+        case 0x48:
+            temp_s0_4 = gameStateDataP->unk_032 - 2;
+            if (temp_s0_4 < 4U) {
+                aifMake2(gameStateDataP, position_1_1[temp_s0_4][0], position_1_1[temp_s0_4][1],
+                         position_1_1[temp_s0_4][2], position_1_1[temp_s0_4][3]);
+            } else {
+                temp_s1->unk_164 = 0x49;
+            }
+            break;
+
+        case 0x49:
+            if (var_s5 == -1) {
+                dm_seq_play(0x11);
+                temp_s1->unk_164 += 1;
+            }
+            break;
+
+        case 0x4A:
+            if (var_s5 == 0x64) {
+                temp_s1->unk_164 = 0x50;
+            }
+            break;
+
+        case 0x50:
+            func_800721A0(&temp_s1->unk_034);
+            func_800721BC(&temp_s1->unk_034, mes_1_8);
+            temp_s1->unk_164 = 0x30A;
+            temp_s1->unk_168 = 0x30C;
+            break;
+
+        case 0x30A:
+            if (func_80072230(&temp_s1->unk_034)) {
+                temp_s1->unk_164 = temp_s1->unk_168;
+            }
+            break;
+
+        case 0x30C:
+            var_s6 = 0;
+            break;
     }
+
+    return var_s6;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_1_main);

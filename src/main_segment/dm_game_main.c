@@ -144,7 +144,8 @@ void translate_capsel(GameMapGrid *mapGrid, struct_game_state_data *arg1, s32 ar
 
     if (arg2 == 1) {
         if (arg1->unk_178.unk_0 == arg1->unk_178.unk_1) {
-            if ((arg1->unk_178.unk_1 < 7) && (get_map_info(mapGrid, arg1->unk_178.unk_1 + 1, arg1->unk_178.unk_2) != arg2)) {
+            if ((arg1->unk_178.unk_1 < 7) &&
+                (get_map_info(mapGrid, arg1->unk_178.unk_1 + 1, arg1->unk_178.unk_2) != arg2)) {
                 if (arg1->unk_178.unk_3 == 0) {
                     var_s1 = 1;
                 } else {
@@ -160,7 +161,8 @@ void translate_capsel(GameMapGrid *mapGrid, struct_game_state_data *arg1, s32 ar
         }
     } else if (arg2 == -1) {
         if (arg1->unk_178.unk_0 == arg1->unk_178.unk_1) {
-            if ((arg1->unk_178.unk_0 > 0) && (get_map_info(mapGrid, arg1->unk_178.unk_0 - 1, arg1->unk_178.unk_2) != true)) {
+            if ((arg1->unk_178.unk_0 > 0) &&
+                (get_map_info(mapGrid, arg1->unk_178.unk_0 - 1, arg1->unk_178.unk_2) != true)) {
                 if (arg1->unk_178.unk_3 != 0) {
                     if (get_map_info(mapGrid, arg1->unk_178.unk_0 - 1, arg1->unk_178.unk_3) != true) {
                         var_s1 = -1;

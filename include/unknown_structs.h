@@ -502,7 +502,7 @@ typedef struct struct_game_state_data {
     /* 0x239 */ s8 unk_239;
     /* 0x23A */ UNK_TYPE1 unk_23A[2];
     /* 0x23C */ UNK_TYPE1 unk_23C[1];
-    /* 0x23D */ s8 unk_23D;
+    /* 0x23D */ u8 unk_23D;
     /* 0x23E */ s8 unk_23E;
     /* 0x23F */ UNK_TYPE1 unk_23F[1];
     /* 0x240 */ UNK_TYPE1 unk_240[1];

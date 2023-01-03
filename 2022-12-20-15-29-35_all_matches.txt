@@ -121,7 +121,7 @@ D_800B0A5C - found 30 matches total:
 0.99 - D_800B1C4C
 0.99 - D_800B1D08
 0.99 - RO_800B20D0
-0.99 - RO_800B247C
+0.99 - position_1_1
 
 func_80037780 - found 20 matches total:
 0.99 - osSpTaskYield (decompiled)
@@ -307,7 +307,7 @@ func_8004ACF4 - found 2 matches total:
 
 STR_800B2E24 - found 2 matches total:
 1.00 - mes_2_9
-0.99 - STR_800B27D4
+0.99 - mes_1_8
 
 StretchTexTile8 - found 2 matches total:
 1.00 - func_80044780
