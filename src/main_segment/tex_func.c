@@ -504,7 +504,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_8004502C);
 /**
  * Original name: tiLoadTexData
  */
-s32 tiLoadTexData(struct_80124610 **arg0, u32 segmentRom, u32 segmentRomEnd) {
+TiTexData *tiLoadTexData(struct_80124610 **arg0, u32 segmentRom, u32 segmentRomEnd) {
     s32 *temp_v0;
     struct_80124610 *temp_s0;
     s32 temp_s1;

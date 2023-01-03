@@ -30,13 +30,42 @@ void func_80071F14(struct_800F4890_unk_034 *arg0, UNK_PTR *arg1) {
     arg0->messageWnd.unk_34 = 0xC;
     arg0->messageWnd.unk_3C = 5;
     arg0->messageWnd.unk_48 = 0xD;
-    arg0->messageWnd.unk_54 = 0.16666667f;
+    arg0->messageWnd.unk_54 = 1.0f / 6.0f;
     func_80071EF0(arg0, 0x20, 0x20);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80071FA0);
+void func_80071FA0(struct_800F4890_unk_034 *arg0) {
+    arg0->unk_08 = CLAMP(arg0->unk_08 + arg0->unk_0C, 0.0f, 1.0f);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", tutolWnd_draw);
+    if (arg0->unk_08 == 1.0) {
+        msgWnd_update(&arg0->messageWnd);
+    }
+}
+
+void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
+    s32 alpha = arg0->unk_08 * 255;
+
+    if (alpha == 0) {
+        return;
+    }
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+    gDPSetCombineMode(gfx++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+
+    if (alpha < 255) {
+        gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+    }
+
+    gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
+    tiStretchTexBlock(&gfx, &_texAll->unk_40, 0, arg0->unk_00, arg0->unk_04, _texAll->unk_44[0], _texAll->unk_44[1]);
+
+    if (arg0->unk_08 != 0.0f) {
+        arg0->messageWnd.unk_74 = alpha;
+        msgWnd_draw(&arg0->messageWnd, &gfx);
+    }
+    *gfxP = gfx;
+}
 
 void func_800721A0(struct_800F4890_unk_034 *arg0) {
     msgWnd_clear(&arg0->messageWnd);
@@ -297,7 +326,195 @@ void dm_manual_update_virus_anime(struct_game_state_data *arg0) {
     dm_calc_big_virus_pos(arg0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_main_cnt);
+s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapGrid *mapGrid, u8 arg2, s32 arg3 UNUSED) {
+    struct_watchManual *temp_s3 = watchManual;
+    s32 i;
+    s32 var_s0_3;
+
+    switch (gameStateData->unk_00C) {
+        case 0x1:
+        case 0x2:
+            return 3;
+
+        case 0x4:
+            dm_capsel_down(gameStateData, mapGrid);
+            break;
+
+        case 0x5:
+            if (dm_check_game_over(gameStateData, mapGrid)) {
+                gameStateData->unk_014 = 4;
+                gameStateData->unk_00C = 0xB;
+                return -1;
+            }
+
+            if (dm_h_erase_chack(mapGrid) || dm_w_erase_chack(mapGrid)) {
+                if (gameStateData->unk_049 == 0) {
+                    gameStateData->unk_00C = 6;
+                } else {
+                    gameStateData->unk_00C = 0x15;
+                }
+                gameStateData->unk_02F = 0;
+            } else if (gameStateData->unk_049 == 0) {
+                gameStateData->unk_00C = 9;
+            } else {
+                gameStateData->unk_00C = 0x16;
+            }
+            break;
+
+        case 0x6:
+            gameStateData->unk_02F++;
+            if (gameStateData->unk_02F >= 0x12U) {
+                gameStateData->unk_02F = 0;
+                gameStateData->unk_00C = 7;
+                dm_h_erase_chack_set(gameStateData, mapGrid);
+                dm_w_erase_chack_set(gameStateData, mapGrid);
+                dm_h_ball_chack(mapGrid);
+                dm_w_ball_chack(mapGrid);
+                gameStateData->unk_025 =
+                    get_virus_color_count(mapGrid, &temp_s3->unk_148[0], &temp_s3->unk_148[1], &temp_s3->unk_148[2]);
+
+                switch (evs_manual_no) {
+                    case EVS_MANUAL_NO_0:
+                    case EVS_MANUAL_NO_3:
+                        for (i = 0; i < ARRAY_COUNT(temp_s3->unk_14C); i++) {
+                            if (temp_s3->unk_148[i] == 0) {
+                                if (temp_s3->unk_14C[i].unk_0 == 0) {
+                                    temp_s3->unk_14C[i].unk_0 = 1;
+                                    animeState_set(get_virus_anime_state(i), 4);
+                                    animeSmog_start(get_virus_smog_state(i));
+                                    if (gameStateData->unk_025 != 0) {
+                                        dm_snd_play(SND_INDEX_74);
+                                    }
+                                }
+                            } else if (gameStateData->unk_03C[3] & (0x10 << i)) {
+                                animeState_set(get_virus_anime_state(i), 2);
+                                dm_snd_play(SND_INDEX_74);
+                            }
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+                gameStateData->unk_03C[3] &= 0xF;
+
+                if (gameStateData->unk_025 == 0) {
+                    dm_make_score(gameStateData);
+                    gameStateData->unk_014 = 3;
+                    gameStateData->unk_00C = 0xA;
+                    return 6;
+                }
+                if (((gameStateData->unk_025 != 0) && (gameStateData->unk_025 < 4U)) && (temp_s3->unk_170 == 0)) {
+                    temp_s3->unk_170 = 1;
+                    dm_snd_play(SND_INDEX_80);
+                    dm_seq_play_in_game((evs_seqnumb * 2) | 1);
+                }
+
+                gameStateData->unk_039++;
+                if (gameStateData->unk_03C[3] & 8) {
+                    gameStateData->unk_03C[3] &= ~8;
+                    dm_snd_play(SND_INDEX_56);
+                } else {
+                    dm_snd_play(SND_INDEX_61);
+                }
+            }
+            break;
+
+        case 0x7:
+            dm_capsel_erase_anime(gameStateData, mapGrid);
+            break;
+
+        case 0x8:
+            go_down(gameStateData, mapGrid, 0xE);
+            break;
+
+        case 0x9:
+            dm_attack_se(gameStateData, arg2);
+            dm_warning_h_line(gameStateData, mapGrid);
+            aifMakeFlagSet(gameStateData);
+            dm_set_capsel(gameStateData);
+            dm_capsel_speed_up(gameStateData);
+            gameStateData->unk_03A = 0;
+            gameStateData->unk_039 = 0;
+            gameStateData->unk_037 = 0;
+
+            for (i = 0; i < ARRAY_COUNT(gameStateData->unk_03C); i++) {
+                gameStateData->unk_03C[i] = 0;
+            }
+
+            gameStateData->unk_00C = 4;
+            break;
+
+        case 0xA:
+            temp_s3->unk_02C++;
+            if (temp_s3->unk_02C > 120) {
+                temp_s3->unk_02C = 0;
+                return 1;
+            }
+            break;
+
+        case 0xB:
+        case 0xD:
+        case 0xF:
+        case 0x11:
+            temp_s3->unk_02C++;
+            if (temp_s3->unk_02C > 120) {
+                temp_s3->unk_02C = 0;
+                return 0x64;
+            }
+            break;
+
+        case 0x15:
+            gameStateData->unk_02F++;
+            if (gameStateData->unk_02F >= 0x12U) {
+                gameStateData->unk_02F = 0;
+                gameStateData->unk_00C = 7;
+                dm_h_erase_chack_set(gameStateData, mapGrid);
+                dm_w_erase_chack_set(gameStateData, mapGrid);
+                dm_h_ball_chack(mapGrid);
+                dm_w_ball_chack(mapGrid);
+
+                gameStateData->unk_039 += 1;
+                if (gameStateData->unk_03C[3] & 8) {
+                    gameStateData->unk_03C[3] &= ~8;
+                } else {
+                    dm_snd_play(SND_INDEX_61);
+                }
+            }
+            break;
+
+        case 0x16:
+            dm_attack_se(gameStateData, arg2);
+            dm_warning_h_line(gameStateData, mapGrid);
+
+            var_s0_3 = true;
+            // reading i non initialized
+            if ((game_state_data[i].unk_04A != 0) && dm_broken_set(gameStateData, mapGrid)) {
+                gameStateData->unk_00C = 8;
+                var_s0_3 = false;
+            }
+            if (var_s0_3) {
+                dm_set_capsel(gameStateData);
+                dm_capsel_speed_up(gameStateData);
+                gameStateData->unk_03A = 0;
+                gameStateData->unk_039 = 0;
+                gameStateData->unk_037 = 0;
+
+                for (i = 0; i < ARRAY_COUNT(gameStateData->unk_03C); i++) {
+                    gameStateData->unk_03C[i] = 0;
+                }
+
+                gameStateData->unk_00C = 4;
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    return 0;
+}
 
 #ifdef NON_MATCHING
 // regalloc
@@ -1324,7 +1541,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3140);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3144);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3150);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80074954);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", draw_AB_guide);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80074B08);
 
@@ -1335,9 +1552,83 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B31A0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80074EF0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80074FE0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", disp_cont);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_draw_fg);
+extern const s32 RO_800B3178;
+extern const s32 RO_800B317C;
+
+void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
+    struct_watchManual *temp_s4 = watchManual;
+    s32 i;
+
+    switch (evs_manual_no) {
+        case EVS_MANUAL_NO_0:
+        case EVS_MANUAL_NO_3:
+            gSPDisplayList(gGfxHead++, normal_texture_init_dl);
+
+            tiStretchTexBlock(&gGfxHead, &_texAll->unk_38, 0, RO_800B3178, RO_800B317C, _texAll->unk_3C[0], _texAll->unk_3C[1]);
+            dm_draw_big_virus(&gGfxHead);
+            break;
+
+        default:
+            break;
+    }
+
+    switch (evs_manual_no) {                        /* irregular */
+        case EVS_MANUAL_NO_1:
+            dm_calc_bottle_2p();
+            dm_draw_bottle_2p(&gGfxHead);
+
+            for (i = 0; i < 2; i++) {
+                dm_game_graphic_p(&game_state_data[i], i, &game_map_data[i]);
+                func_80074EF0(&game_state_data[i], temp_s4->unk_0E8[i], 0);
+            }
+            break;
+
+        case EVS_MANUAL_NO_2:
+            for (i = 0; i < 4; i++) {
+                dm_game_graphic_p(&game_state_data[i], i, &game_map_data[i]);
+                func_80074EF0(&game_state_data[i], temp_s4->unk_0E8[i], 1);
+            }
+            break;
+
+        case EVS_MANUAL_NO_0:
+        case EVS_MANUAL_NO_3:
+            dm_game_graphic_p(game_state_data, 0, game_map_data);
+            disp_cont();
+            break;
+    }
+
+    dm_draw_KaSaMaRu(&gGfxHead, arg0, arg1, func_8007224C(&temp_s4->unk_034), temp_s4->unk_004, temp_s4->unk_008, temp_s4->unk_000, (s32) (temp_s4->unk_034.unk_08 * 255));
+    switch (evs_manual_no) {
+        case EVS_MANUAL_NO_0:
+        case EVS_MANUAL_NO_3:
+            if (main_old == MAIN_NO_3) {
+                push_any_key_draw(0xDC, 0xD2);
+            } else {
+                draw_AB_guide(0xC8, 0xCA);
+            }
+            break;
+
+        case EVS_MANUAL_NO_1:
+            if (main_old == MAIN_NO_3) {
+                push_any_key_draw(0x80, 0xD2);
+            } else {
+                draw_AB_guide(0x6E, 0xCA);
+            }
+            break;
+
+        case EVS_MANUAL_NO_2:
+            if (main_old == MAIN_NO_3) {
+                push_any_key_draw(0xE6, 0xD2);
+            } else {
+                draw_AB_guide(0x6E, 0xCA);
+            }
+            break;
+    }
+
+    tutolWnd_draw(&temp_s4->unk_034, &gGfxHead);
+}
 
 const u16 map_x_table_1036[][4] = {
     { 0x76, 0x76, 0x76, 0x76 },

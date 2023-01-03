@@ -19,9 +19,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_800601F0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80060270);
 
-UNK_TYPE dm_make_score(struct_game_state_data *arg0, s32 arg1) {
+UNK_TYPE dm_make_score(struct_game_state_data *arg0) {
     UNK_TYPE temp_v0;
-    s32 temp = arg1;
+    s32 temp;
 
     if (evs_story_flg != 0) {
         if (evs_story_level < 3) {
@@ -102,9 +102,9 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", D_800B1E90);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", RO_800B1E9C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", RO_800B1EA0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80060348);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_attack_se);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80060424);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_warning_h_line);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", set_down_flg);
 
@@ -303,9 +303,11 @@ void dm_set_capsel(struct_game_state_data *arg0) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_set_capsel);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_800610E0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_capsel_speed_up);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80061184);
+bool dm_check_game_over(struct_game_state_data *gameStateData, GameMapGrid *mapGrid UNUSED) {
+    return gameStateData->unk_020 == 4;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", update_flash_virus_count);
 
@@ -390,7 +392,7 @@ void dm_virus_anime(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
     }
 }
 
-void func_80061490(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
+void dm_capsel_erase_anime(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
     arg0->unk_036++;
 
     if (arg0->unk_036 == 10) {
@@ -694,7 +696,7 @@ void dm_w_ball_chack(GameMapGrid *mapGrid) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_black_up);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80061E7C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_broken_set);
 
 void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapGrid *mapGrid, dm_calc_erase_score_pos_arg2 *arg2) {
     s32 row;
@@ -890,7 +892,7 @@ void dm_play_count_down_se(void) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_800635BC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_capsel_down);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80063844);
 
@@ -1215,12 +1217,12 @@ void func_80064E4C(struct_game_state_data *arg0) {
 #if 0
 s8 get_virus_color_count(GameMapGrid *, s8 *, s8 *, s8 *); /* extern */
 UNK_TYPE func_80060270(struct_game_state_data *, s32);            /* extern */
-UNK_TYPE func_80060348(struct_game_state_data *, s32);            /* extern */
-UNK_TYPE func_80060424(struct_game_state_data *, GameMapGrid *); /* extern */
+UNK_TYPE dm_attack_se(struct_game_state_data *, s32);            /* extern */
+UNK_TYPE dm_warning_h_line(struct_game_state_data *, GameMapGrid *); /* extern */
 UNK_TYPE func_80060FA0(s8 *, s32, s32, u32);               /* extern */
 UNK_TYPE dm_set_capsel(struct_game_state_data *);                 /* extern */
-UNK_TYPE func_800610E0(struct_game_state_data *);                 /* extern */
-s32 func_80061184(struct_game_state_data *, GameMapGrid *); /* extern */
+UNK_TYPE dm_capsel_speed_up(struct_game_state_data *);                 /* extern */
+s32 dm_check_game_over(struct_game_state_data *, GameMapGrid *); /* extern */
 s32 func_80062AFC(s32);                             /* extern */
 s32 func_80062B18(s32);                             /* extern */
 s32 func_80062BC4(s8 *);                            /* extern */
@@ -1229,7 +1231,7 @@ UNK_TYPE func_80062DA4(s8 *);                              /* extern */
 UNK_TYPE func_80062EC0(s8 *);                              /* extern */
 UNK_TYPE func_80063378();                                  /* extern */
 UNK_TYPE func_800633C0();                                  /* extern */
-UNK_TYPE func_800635BC(struct_game_state_data *, GameMapGrid *); /* extern */
+UNK_TYPE dm_capsel_down(struct_game_state_data *, GameMapGrid *); /* extern */
 UNK_TYPE func_80064E4C();                                  /* extern */
 UNK_TYPE func_8007E760(s8 *, s32, s32, u8, s32, s32, UNK_TYPE *); /* extern */
 UNK_TYPE go_down(struct_game_state_data *, GameMapGrid *, UNK_TYPE); /* extern */
@@ -1328,14 +1330,14 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *arg1, s32 arg
                     func_80060FA0(&arg0->unk_178, ((temp_a2_2 >> 4) - ((*temp_a2 / 48) * 3)) & 0xFF, (*temp_a2 % 3) & 0xFF, MULTU_HI(temp_a2_2, 0xAAAAAAAB));
                     arg0->unk_00C = 4;
                     arg0->unk_02D[2] = 0x1E;
-                    func_800635BC(arg0, arg1);
+                    dm_capsel_down(arg0, arg1);
                     return 0;
                 }
                 /* Duplicate return node #174. Try simplifying control flow for better match */
                 return var_v0;
             case 0x5:
                 var_s0 = 0;
-                if (func_80061184(arg0, arg1) != 0) {
+                if (dm_check_game_over(arg0, arg1) != 0) {
                     var_s2 = 0x44C;
                     var_s1_2 = temp_s3;
                     do {
@@ -1467,7 +1469,7 @@ block_47:
                 /* Duplicate return node #174. Try simplifying control flow for better match */
                 return var_v0;
             case 0x7:
-                func_80061490(arg0, arg1);
+                dm_capsel_erase_anime(arg0, arg1);
                 return 0;
             case 0x8:
                 go_down(arg0, arg1, 0xE);
@@ -1490,10 +1492,10 @@ block_47:
                     }
                     arg0->unk_174 = var_a0_2;
                 }
-                func_80060424(arg0, arg1);
+                dm_warning_h_line(arg0, arg1);
                 dm_set_capsel(arg0);
-                func_800610E0(arg0);
-                func_80060348(arg0, arg2);
+                dm_capsel_speed_up(arg0);
+                dm_attack_se(arg0, arg2);
                 animeState_set(&arg0->unk_094, 1);
                 temp_v1_7 = arg0->unk_04C;
                 if ((temp_v1_7 == 1) || (((temp_v1_7 != 1) & (arg2 == 0)) && (aiDebugP1 >= 0))) {
@@ -2402,7 +2404,7 @@ bool dm_game_demo_4p(void) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80068DC0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80068DE8);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_game_get_capsel_pal);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80068E24);
 
@@ -2457,7 +2459,7 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
     s32 alpha;
     s32 var_a1_2;
     struct_watchGame_unk_430_unk_BC *temp_a2;
-    struct_watchGame_unk_430 *temp_a3;
+    TiTexData *temp_a3;
 
     alpha = sins((watchGameP->unk_424 << 0xA) & 0xFC00) * 0.0077819824f + 127;
     alpha = CLAMP(alpha, 0, 255);
@@ -2512,17 +2514,17 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_8006B270);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_8006B8E0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_8006BBEC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_calc_bottle_2p);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_8006BC5C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_draw_bottle_2p);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_8006BD00);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_draw_big_virus);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_draw_KaSaMaRu);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_8006C1D0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_8006C580);
+INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_game_graphic_p);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_8006C6FC);
 
@@ -2898,7 +2900,7 @@ void dm_game_init_static(void) {
     romoffset_t temp_a0;
     romoffset_t start;
     romoffset_t end;
-    UNK_TYPE result;
+    TiTexData *result;
     u32 pad[2] UNUSED;
     s8 temp;
 
@@ -2909,8 +2911,7 @@ void dm_game_init_static(void) {
     end = _romDataTbl[ROMDATATBL_GAME_AL].end;
     result = tiLoadTexData(&heapTop, start, end);
     start = _romDataTbl[ROMDATATBL_GAME_ITEM].start;
-    // let's silence the warning for now...
-    watchGameP->unk_430 = (void *)result;
+    watchGameP->unk_430 = result;
     end = _romDataTbl[ROMDATATBL_GAME_ITEM].end;
     watchGameP->unk_444 = tiLoadTexData(&heapTop, start, end);
     if (main_no != MAIN_NO_5) {

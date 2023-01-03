@@ -513,8 +513,8 @@ extern Mtx B_800E5818;
 // extern UNK_TYPE B_800E5978;
 // extern UNK_TYPE B_800E597C;
 extern UNK_PTR heapTop; /* Original name: heapTop */
-extern UNK_TYPE _texAll;
-extern UNK_TYPE _texKaSa;
+extern TiTexData *_texAll;
+extern TiTexData *_texKaSa;
 extern s32 title_mode_type;
 extern s32 title_fade_count; /* Original name: title_fade_count */
 extern s32 title_fade_step;

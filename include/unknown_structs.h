@@ -119,13 +119,18 @@ typedef struct struct_watchGame_unk_430_unk_C0 {
     /* 0x4 */ UNK_TYPE unk_4;
 } struct_watchGame_unk_430_unk_C0; // size >= 0x8
 
-typedef struct struct_watchGame_unk_430 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0xB8];
+typedef struct TiTexData {
+    /* 0x00 */ UNK_TYPE1 unk_00[0x38];
+    /* 0x38 */ UNK_TYPE4 unk_38;
+    /* 0x3C */ u16 *unk_3C;
+    /* 0x40 */ UNK_TYPE4 unk_40;
+    /* 0x44 */ u16 *unk_44;
+    /* 0x48 */ UNK_TYPE1 unk_48[0x70];
     /* 0xB8 */ struct_watchGame_unk_430_unk_B8 *unk_B8;
     /* 0xBC */ struct_watchGame_unk_430_unk_BC *unk_BC;
     /* 0xC0 */ struct_watchGame_unk_430_unk_C0 *unk_C0;
     /* 0xC4 */ u16 *unk_C4;
-} struct_watchGame_unk_430; // size >= 0xC8
+} TiTexData; // size >= 0xC8
 
 typedef struct struct_watchGame_unk_9D0 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x28];
@@ -180,13 +185,13 @@ typedef struct struct_watchGame {
     /* 0x424 */ s32 unk_424;
     /* 0x428 */ UNK_TYPE4 unk_428;
     /* 0x42C */ UNK_TYPE1 unk_42C[0x4];
-    /* 0x430 */ struct_watchGame_unk_430 *unk_430;
-    /* 0x434 */ UNK_TYPE4 unk_434;
-    /* 0x448 */ UNK_TYPE4 unk_438;
-    /* 0x43C */ UNK_TYPE4 unk_43C;
-    /* 0x440 */ UNK_TYPE4 unk_440;
-    /* 0x444 */ UNK_TYPE4 unk_444;
-    /* 0x448 */ UNK_TYPE4 unk_448;
+    /* 0x430 */ TiTexData *unk_430;
+    /* 0x434 */ TiTexData *unk_434;
+    /* 0x448 */ TiTexData *unk_438;
+    /* 0x43C */ TiTexData *unk_43C;
+    /* 0x440 */ TiTexData *unk_440;
+    /* 0x444 */ TiTexData *unk_444;
+    /* 0x448 */ TiTexData *unk_448;
     /* 0x44C */ AnimeState animeStates[3];
     /* 0x50C */ AnimeSmog animeSmogs[3];
     /* 0x878 */ UNK_TYPE unk_878;
@@ -567,7 +572,7 @@ typedef struct struct_watchManual {
     /* 0x034 */ struct_800F4890_unk_034 unk_034;
     /* 0x0C4 */ struct_800F4890_unk_0C4 unk_0C4[3];
     /* 0x0E8 */ struct_800F4890_unk_0E8 unk_0E8[4][4];
-    /* 0x148 */ UNK_TYPE1 unk_148[0x4];
+    /* 0x148 */ u8 unk_148[3];
     /* 0x14C */ struct_800F4890_unk_14C unk_14C[3];
     /* 0x164 */ u32 unk_164;
     /* 0x168 */ s32 unk_168;
@@ -711,22 +716,22 @@ typedef struct struct_watchMenu {
     /* 0x02464 */ UNK_TYPE unk_02464;
     /* 0x02468 */ struct_800F3E5C_unk_02470 *unk_02468[2];
     /* 0x02470 */ struct_800F3E5C_unk_02470 *unk_02470[2];
-    /* 0x02478 */ UNK_TYPE unk_02478;
-    /* 0x0247C */ UNK_TYPE unk_0247C;
+    /* 0x02478 */ TiTexData *unk_02478;
+    /* 0x0247C */ TiTexData *unk_0247C;
     /* 0x02480 */ UNK_TYPE1 unk_02480[4];
-    /* 0x02484 */ UNK_TYPE unk_02484;
-    /* 0x02488 */ UNK_TYPE unk_02488;
-    /* 0x0248C */ UNK_TYPE unk_0248C;
-    /* 0x02490 */ UNK_TYPE unk_02490;
-    /* 0x02494 */ UNK_TYPE unk_02494;
-    /* 0x02498 */ UNK_TYPE unk_02498;
-    /* 0x0249C */ UNK_TYPE unk_0249C;
-    /* 0x024A0 */ UNK_TYPE unk_024A0;
-    /* 0x024A4 */ UNK_TYPE unk_024A4;
-    /* 0x024A8 */ UNK_TYPE unk_024A8;
-    /* 0x024AC */ UNK_TYPE unk_024AC;
-    /* 0x024B0 */ UNK_TYPE unk_024B0;
-    /* 0x024B4 */ UNK_TYPE unk_024B4;
+    /* 0x02484 */ TiTexData *unk_02484;
+    /* 0x02488 */ TiTexData *unk_02488;
+    /* 0x0248C */ TiTexData *unk_0248C;
+    /* 0x02490 */ TiTexData *unk_02490;
+    /* 0x02494 */ TiTexData *unk_02494;
+    /* 0x02498 */ TiTexData *unk_02498;
+    /* 0x0249C */ TiTexData *unk_0249C;
+    /* 0x024A0 */ TiTexData *unk_024A0;
+    /* 0x024A4 */ TiTexData *unk_024A4;
+    /* 0x024A8 */ TiTexData *unk_024A8;
+    /* 0x024AC */ TiTexData *unk_024AC;
+    /* 0x024B0 */ TiTexData *unk_024B0;
+    /* 0x024B4 */ TiTexData *unk_024B4;
     /* 0x024B8 */ struct_800F3E5C_unk_024B8 unk_024B8;
     /* 0x02540 */ UNK_TYPE1 unk_02540[0x8];
     /* 0x02548 */ UNK_TYPE unk_02548;

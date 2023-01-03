@@ -357,7 +357,7 @@ func_8003B054 - found 1 matches total:
 0.99 - func_8003AEE4
 
 func_80062BC4 - found 1 matches total:
-0.99 - func_80061184
+0.99 - dm_check_game_over
 
 RO_800AE4C8 - found 1 matches total:
 1.00 - RO_800AE898

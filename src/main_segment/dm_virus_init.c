@@ -73,7 +73,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F0E4);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BA0);
 
-s32 get_virus_color_count(GameMapGrid *mapGrid, s8 *arg1, s8 *arg2, s8 *arg3) {
+s32 get_virus_color_count(GameMapGrid *mapGrid, u8 *arg1, u8 *arg2, u8 *arg3) {
     s32 sp0[3] = { 0, 0, 0 };
     GameMapCell *cells = mapGrid->cells;
     s32 i;
@@ -96,9 +96,9 @@ s32 get_virus_color_count(GameMapGrid *mapGrid, s8 *arg1, s8 *arg2, s8 *arg3) {
 }
 
 s32 get_virus_count(GameMapGrid *mapGrid) {
-    s8 sp10;
-    s8 sp11;
-    s8 sp12;
+    u8 sp10;
+    u8 sp11;
+    u8 sp12;
 
     return get_virus_color_count(mapGrid, &sp10, &sp11, &sp12);
 }
