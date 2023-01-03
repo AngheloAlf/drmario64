@@ -785,7 +785,7 @@ void func_800721BC(struct_800F4890_unk_034 *arg0, const char *arg1);
 void func_800721D8(struct_800F4890_unk_034 *arg0);
 void func_80072204(struct_800F4890_unk_034 *arg0);
 bool func_80072230(struct_800F4890_unk_034 *arg0);
-// void func_8007224C();
+bool func_8007224C(struct_800F4890_unk_034 *arg0);
 void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2);
 void dm_manual_attack_capsel_down(void);
 void func_800723EC(struct_game_state_data *gameStateDataP, GameMapGrid *mapGrid, s32 arg2);

@@ -38,100 +38,6 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80071FA0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", tutolWnd_draw);
 
-extern const UNK_TYPE RO_800B2410;
-extern const UNK_TYPE RO_800B2414;
-extern const UNK_TYPE RO_800B2430;
-extern const UNK_TYPE RO_800B2434;
-extern const u8 virus_2_1[][3];
-extern const u8 position_2_1[][4];
-extern const char mes_2_1[];
-extern const char mes_2_2[];
-extern const char mes_2_3[];
-extern const char mes_2_4[];
-extern const char mes_2_5[];
-extern const char mes_2_6[];
-extern const char mes_2_7[];
-extern const char mes_2_8[];
-extern const char mes_2_9[];
-
-extern const s32 RO_800B2408;
-extern const s32 RO_800B240C;
-extern const s32 RO_800B2428;
-extern const s32 RO_800B242C;
-extern const u8 RO_800B246C[];
-extern const u8 RO_800B2474[];
-extern const u8 virus_1_1[][3];
-extern const u8 position_1_1[][4];
-extern const char mes_1_1[];
-extern const char mes_1_2[];
-extern const char mes_1_3[];
-extern const char mes_1_4[];
-extern const char mes_1_5[];
-extern const char mes_1_6[];
-extern const char mes_1_7[];
-extern const char mes_1_8[];
-
-extern const s32 RO_800B2418;
-extern const s32 RO_800B241C;
-extern const s32 RO_800B2420;
-extern const s32 RO_800B2424;
-extern const s32 RO_800B2438;
-extern const s32 RO_800B243C;
-extern const s32 RO_800B2440;
-extern const s32 RO_800B2444;
-extern const u8 virus_3_1[][3];
-extern const u8 RO_800B2538[];
-extern const u8 position_3_1[][4];
-extern const char mes_3_1[];
-extern const char mes_3_2[];
-extern const char mes_3_3[];
-extern const char mes_3_4[];
-extern const char mes_3_5[];
-extern const char mes_3_6[];
-extern const char mes_3_7[];
-extern const char mes_3_8[];
-extern const char mes_3_9[];
-extern const char mes_3_10[];
-extern const char mes_3_11[];
-extern const char mes_3_12[];
-extern const char mes_3_13[];
-extern const char mes_3_14[];
-extern const char mes_3_15[];
-
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2408);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B240C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2410);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2414);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2418);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B241C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2420);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2424);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2428);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B242C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2430);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2434);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2438);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B243C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2440);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2444);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", virus_1_1);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B246C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2474);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", position_1_1);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", virus_2_1);
-
-const u8 capsel_2_1[] = {
-    0x21, 0x02, 0x10, 0x12, 0x21, 0x00, 0x01, 0x20, 0x21, 0x12, 0x10, 0x10,
-};
-
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", position_2_1);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", virus_3_1);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B2538);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", position_3_1);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B256C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B259C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B25B0);
-
 void func_800721A0(struct_800F4890_unk_034 *arg0) {
     msgWnd_clear(&arg0->messageWnd);
 }
@@ -156,7 +62,9 @@ bool func_80072230(struct_800F4890_unk_034 *arg0) {
     return msgWnd_isEnd(&arg0->messageWnd);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_8007224C);
+bool func_8007224C(struct_800F4890_unk_034 *arg0) {
+    return msgWnd_isSpeaking(&arg0->messageWnd);
+}
 
 void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_0 = arg1;
@@ -165,105 +73,265 @@ void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_3[0] = 1;
 }
 
-extern const u8 RO_800B256C[][3];
-extern const u8 RO_800B259C[];
-extern const u8 RO_800B25B0[][4];
-extern const char STR_800B2E58[];
-extern const char STR_800B2E90[];
-extern const char STR_800B2ED4[];
-extern const char STR_800B2F20[];
-extern const char STR_800B2F60[];
-extern const char STR_800B2FAC[];
-extern const char STR_800B2FE4[];
-extern const char STR_800B302C[];
-extern const char STR_800B3054[];
-extern const char STR_800B3078[];
+const s32 RO_800B2408 = 0xC8;
+const s32 RO_800B240C = 0x28;
+const s32 RO_800B2410 = 0x6C;
+const s32 RO_800B2414 = 0x28;
+const s32 RO_800B2418 = 0x24;
+const s32 RO_800B241C = 0x28;
+const s32 RO_800B2420 = 0xB4;
+const s32 RO_800B2424 = 0x28;
+const s32 RO_800B2428 = 0xD8;
+const s32 RO_800B242C = 0x70;
+const s32 RO_800B2430 = 0x7C;
+const s32 RO_800B2434 = 0x70;
+const s32 RO_800B2438 = 0x34;
+const s32 RO_800B243C = 0x70;
+const s32 RO_800B2440 = 0xC4;
+const s32 RO_800B2444 = 0x70;
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_1);
+const u8 virus_1_1[][3] = {
+    { 1, 1, 0x10 },
+    { 2, 2, 0xD },
+    { 2, 2, 0xE },
+    { 0, 5, 0xF },
+    { 0, 1, 6 },
+    { 0, 5, 6 },
+    { 2, 0, 6 },
+    { 2, 4, 6 },
+    { 1, 2, 6 },
+    { 1, 3, 6 },
+    { 1, 6, 6 },
+    { 1, 7, 6 },
+};
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_2);
+const u8 RO_800B246C[] = { 0x12, 0x20, 0, 0x10, 0x21 };
+const u8 RO_800B2474[] = { 0x21, 0x10, 0x20, 0, 0x21 };
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_3);
+const u8 position_1_1[][4] = { { 3, 5, 1, 0 }, { 3, 3, 0, 0 }, { 3, 2, 0, 0 }, { 3, 1, 0, 0 }, };
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_4);
+const u8 virus_2_1[][3] = {
+    { 0, 0, 0xE },
+    { 0, 2, 0xA },
+    { 0, 2, 0xB },
+    { 0, 5, 8 },
+    { 0, 5, 9 },
+    { 0, 6, 0xC },
+    { 0, 6, 0xE },
+    { 2, 3, 0xE },
+    { 2, 4, 7 },
+    { 2, 4, 8 },
+    { 2, 5, 0xB },
+    { 2, 5, 0xC },
+    { 2, 5, 0xE },
+    { 2, 5, 0xF },
+    { 1, 1, 7 },
+    { 1, 1, 0xA },
+    { 1, 1, 0xB },
+    { 1, 1, 0x10 },
+    { 1, 2, 0x10 },
+    { 1, 7, 0xF },
+};
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_5);
+const u8 capsel_2_1[] = {
+    0x21, 0x02, 0x10, 0x12, 0x21, 0x00, 0x01, 0x20, 0x21, 0x12, 0x10, 0x10,
+};
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_6);
+const u8 position_2_1[][4] = {
+    { 4, 6, 0, 0 },
+    { 4, 5, 0, 1 },
+    { 7, 0xE, 1, 0 },
+    { 6, 0xB, 0, 1 },
+    { 5, 0xD, 0, 0 },
+    { 0, 0xD, 1, 0 },
+    { 0, 9, 0, 0 },
+    { 3, 0xD, 1, 0 },
+    { 2, 9, 0, 1 },
+    { 1, 8, 0, 0 },
+};
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_7);
+const u8 virus_3_1[][3] = {
+    { 0, 0, 0xC },
+    { 0, 1, 0xD },
+    { 0, 1, 0xF },
+    { 0, 4, 0xF },
+    { 0, 6, 0xD },
+    { 0, 6, 8 },
+    { 0, 7, 0x10 },
+    { 2, 3, 8 },
+    { 2, 3, 9 },
+    { 2, 3, 0xB },
+    { 2, 3, 0xC },
+    { 2, 7, 0xE },
+    { 2, 7, 0xF },
+    { 1, 1, 0x10 },
+    { 1, 2, 8 },
+    { 1, 2, 0xC },
+    { 1, 4, 0xD },
+    { 1, 4, 0xE },
+    { 1, 4, 0x10 },
+    { 1, 5, 0x10 },
+};
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_1_8);
+const u8 RO_800B2538[] = { 0x12, 0x22, 0x12, 0, 0x10, 2, 0x21, 0, 0x12, 1, 0, };
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_1);
+const u8 position_3_1[][4] = {
+    { 4, 0xC, 0, 0 },
+    { 3, 0xA, 0, 0 },
+    { 1, 0xB, 0, 1 },
+    { 1, 0xA, 1, 0 },
+    { 2, 0xA, 1, 0 },
+    { 6, 0xC, 0, 0 },
+    { 6, 0xB, 0, 1 },
+    { 6, 0xA, 1, 0 },
+    { 2, 0x10, 1, 1 },
+    { 3, 0x10, 1, 0 },
+};
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_2);
+const u8 RO_800B256C[][3] = {
+    { 0, 0, 0xD },
+    { 0, 2, 7 },
+    { 0, 5, 0xA },
+    { 0, 5, 0xB },
+    { 0, 7, 0x10 },
+    { 2, 2, 0xE },
+    { 2, 2, 0xF },
+    { 2, 3, 0xA },
+    { 2, 3, 0xD },
+    { 2, 5, 8 },
+    { 1, 1, 0xD },
+    { 1, 4, 8 },
+    { 1, 4, 9 },
+    { 1, 5, 0xE },
+    { 1, 5, 0xF },
+    { 1, 6, 0xA },
+};
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_3);
+const u8 RO_800B259C[] = {
+    0x10,
+    0x11,
+    0x20,
+    1,
+    0x12,
+    0x20,
+    1,
+    0x10,
+    0,
+    0x20,
+    0,
+    0x21,
+    1,
+    0x20,
+    0x22,
+    0,
+    0x10,
+    0,
+    0,
+    0,
+};
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_4);
+const u8 RO_800B25B0[][4] = {
+    { 4, 7, 1, 0 },
+    { 5, 7, 0, 1 },
+    { 5, 6, 1, 0 },
+    { 5, 8, 0, 0 },
+    { 5, 7, 0, 1 },
+    { 3, 0xC, 1, 0 },
+    { 0, 0xC, 0, 0 },
+    { 1, 0xB, 1, 0 },
+    { 0, 0xB, 1, 0 },
+    { 2, 0xD, 1, 0 },
+    { 7, 0xF, 1, 0 },
+    { 6, 0xD, 0, 0 },
+    { 2, 6, 0, 0 },
+    { 3, 5, 1, 0 },
+    { 3, 3, 0, 0 },
+    { 2, 5, 1, 0 },
+};
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_5);
+const char mes_1_1[] = "~7Hello, everyone!~nI'm Paragoom.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_6);
+const char mes_1_2[] = "~7I'm here to tell~nyou how to play~nDr. Mario. Please~npay attention.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_7);
+const char mes_1_3[] = "~7It's all about~nvitamins! Toss 'em~ninto the bottle to~ndestroy viruses.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_8);
+const char mes_1_4[] = "~7Press the A and~nB Buttons to~nrotate capsules.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_2_9);
+const char mes_1_5[] = "~7Clear vitamins by~nmaking four or~nmore matching~ncolumns or rows.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_1);
+const char mes_1_6[] = "~7Clear a stage by~ndestroying all~nof the viruses~nin the bottle.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_2);
+const char mes_1_7[] = "~7If the bottle gets~nfilled all the way~nto the top, your~ngame will be over.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_3);
+const char mes_1_8[] = "~7That's all~nfor now. I'll~nsee you later!~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_4);
+const char mes_2_1[] = "~7Now I'll tell~nyou about the~nTwo-Player Vs.~ngame rules!~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_5);
+const char mes_2_2[] = "~7Destroy all the~nviruses faster~nthan your rival~ndoes to win.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_6);
+const char mes_2_3[] = "~7If your bottle~nfills up all the~nway to the top,~nyou'll lose.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_7);
+const char mes_2_4[] = "~7Clear combos~nto send garbage~nto your opponent.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_8);
+const char mes_2_5[] = "~7The more combos~nyou clear, the~nmore garbage~nyou'll send!~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_9);
+const char mes_2_6[] = "~7Clear two combos~nto send two~npieces of garbage.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_10);
+const char mes_2_7[] = "~7Clear three combos~nfor three pieces,~nfour combos for~nfour pieces.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_11);
+const char mes_2_8[] = "~7But four pieces~nis the most you~ncan send at one~ntime.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_12);
+const char mes_2_9[] = "~7That's all~nfor now! I'll~nsee you later!~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_13);
+const char mes_3_1[] = "~7Now I'll tell~nyou about the~nFour-Player Vs.~ngame rules!~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_14);
+const char mes_3_2[] = "~7Destroy all the~nviruses faster~nthan your foes~ndo to win.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", mes_3_15);
+const char mes_3_3[] = "~7If your bottle~nfills up all the~nway to the top,~nyou'll lose.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2E58);
+const char mes_3_4[] = "~7Clear combos~nto send garbage~nto your foes.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2E90);
+const char mes_3_5[] = "~7The color of the~ncombo you clear~ndetermines where~nyour garbage goes.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2ED4);
+const char mes_3_6[] = "~7If the combo is~nblue, the player~non your right gets~nyour garbage.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2F20);
+const char mes_3_7[] = "~7If the combo is~nyellow, it goes to~nthe second player~non your right.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2F60);
+const char mes_3_8[] = "~7If the combo is~nred, it goes to~nthe third player~non your right.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2FAC);
+const char mes_3_9[] = "~7Clear two colors~nat the same time~nto send garbage~nto two players.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B2FE4);
+const char mes_3_10[] = "~7If no one is on~nyour right, your~ngarbage goes~nto the far left.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B302C);
+const char mes_3_11[] = "~7When playing~nTeam Battle, the~ngarbage you send~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B3054);
+const char mes_3_12[] = "~7to your partner~ngoes into~nyour bank.~w2~z";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", STR_800B3078);
+const char mes_3_13[] = "~7The garbage in~nyour bank is~nautomatically~nadded to the next~w2~z";
 
-ASM_TEXT;
+const char mes_3_14[] = "~7time either you~nor your teammate~nsends garbage to~nyour opponents.~w2~z";
+
+const char mes_3_15[] = "~7That's all~nfor now! I'll~nsee you later!~w2~z";
+
+const char STR_800B2E58[] = "~7Now it's time~nfor me to give~nyou some advice.~w2~z";
+
+const char STR_800B2E90[] = "~7At first, it's~neasier to match~ncolors in a~nvertical row.~w2~z";
+
+const char STR_800B2ED4[] = "~7But when you get~nbetter, try to~nmatch colors~nhorizontally, too.~w2~z";
+
+const char STR_800B2F20[] = "~7A special melody~nplays when you've~ncleared a combo.~w2~z";
+
+const char STR_800B2F60[] = "~7Don't forget!~nVitamins begin to~nfall faster with~nevery tenth one.~w2~z";
+
+const char STR_800B2FAC[] = "~7The music speeds~nup when few~nviruses remain.~w2~z";
+
+const char STR_800B2FE4[] = "~7When your bottle~nbegins to fill~nup, warning music~nwill begin.~w2~z";
+
+const char STR_800B302C[] = "~7Danger!~nYou'd better~nhurry up!~w2~z";
+
+const char STR_800B3054[] = "~7That's it.~nNow get going!~w2~z";
+
+const char STR_800B3078[] = "~7See you later!~nBye-bye!~w2~z";
 
 void dm_manual_attack_capsel_down(void) {
     struct_watchManual *watchManualP = watchManual;
@@ -407,7 +475,7 @@ bool dm_manual_1_main(void) {
             func_80072204(&temp_s1->unk_034);
             temp_s1->unk_164 += 1;
 
-            for (var_s0 = 0; var_s0 < 5U; var_s0++) {
+            for (var_s0 = 0; var_s0 < ARRAY_COUNTU(RO_800B246C); var_s0++) {
                 CapsMagazine[var_s0 + 1] = RO_800B246C[var_s0];
             }
 
@@ -569,7 +637,7 @@ bool dm_manual_1_main(void) {
                     animeSmog_stop(get_virus_smog_state(var_s0));
                 }
 
-                for (var_s0 = 0; var_s0 < 5U; var_s0++) {
+                for (var_s0 = 0; var_s0 < ARRAY_COUNTU(RO_800B2474); var_s0++) {
                     CapsMagazine[var_s0 + 1] = RO_800B2474[var_s0];
                 }
 
@@ -613,7 +681,7 @@ bool dm_manual_1_main(void) {
 
         case 0x48:
             temp_s0_4 = gameStateDataP->unk_032 - 2;
-            if (temp_s0_4 < 4U) {
+            if (temp_s0_4 < ARRAY_COUNTU(position_1_1)) {
                 aifMake2(gameStateDataP, position_1_1[temp_s0_4][0], position_1_1[temp_s0_4][1],
                          position_1_1[temp_s0_4][2], position_1_1[temp_s0_4][3]);
             } else {
@@ -789,7 +857,7 @@ bool dm_manual_2_main(void) {
         case 0x309:
             watchManualP->unk_16C = 1;
             i = gameStateDataP->unk_032 - 2;
-            if (i < 0xAU) {
+            if (i < ARRAY_COUNTU(position_2_1)) {
                 aifMake2(gameStateDataP, position_2_1[i][0], position_2_1[i][1], position_2_1[i][2],
                          position_2_1[i][3]);
             }
@@ -891,7 +959,7 @@ bool dm_manual_3_main(void) {
             func_80072204(&temp_s2->unk_034);
             temp_s2->unk_164 = (u32)1;
 
-            for (i = 0; i < 0xBU; i++) {
+            for (i = 0; i < ARRAY_COUNTU(RO_800B2538); i++) {
                 CapsMagazine[i + 1] = RO_800B2538[i];
             }
 
@@ -1039,7 +1107,7 @@ bool dm_manual_3_main(void) {
         case 0x309:
             temp_s2->unk_16C = 1;
             i = gameStateData->unk_032 - 2;
-            if (i < 0xAU) {
+            if (i < ARRAY_COUNTU(position_3_1)) {
                 aifMake2(gameStateData, position_3_1[i][0], position_3_1[i][1], position_3_1[i][2], position_3_1[i][3]);
             }
 
