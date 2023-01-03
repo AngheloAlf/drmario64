@@ -51,13 +51,13 @@ enum_main_no main12(void);
 void sgenrand(u32 arg0);
 u16 genrand(s32);
 
-// void func_8002EB00();
-// void func_8002EB74();
+void func_8002EB00(struct_game_state_data *gameStateData);
+void aifMakeBlkWork(struct_game_state_data *gameStateData);
 void aifMakeFlagSet(struct_game_state_data *arg0);
 void aifGameInit(void);
 void aifFirstInit(void);
 void func_8002EFF0(struct_game_state_data *arg0);
-UNK_TYPE aifMake2(struct_game_state_data * arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+bool aifMake2(struct_game_state_data * gameStateData, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 // void func_8002F2EC();
 // void func_8002F924();
 // void func_8002F9CC();
@@ -73,7 +73,7 @@ UNK_TYPE aifMake2(struct_game_state_data * arg0, s32 arg1, s32 arg2, s32 arg3, s
 // void func_8003157C();
 // void func_800325AC();
 // void func_80033474();
-// void func_80034200();
+void aifFieldCopy(struct_game_state_data *gameStateData);
 // void func_80034310();
 // void func_80034380();
 // void func_80034798();
@@ -81,8 +81,8 @@ UNK_TYPE aifMake2(struct_game_state_data * arg0, s32 arg1, s32 arg2, s32 arg3, s
 // void func_80034D54();
 // void func_80034E80();
 // void func_8003510C();
-// void func_80035234();
-// void func_80035494();
+void aifReMoveCheck(void);
+void aifKeyMake(struct_game_state_data *gameStateData);
 void aifKeyOut(void);
 // void func_80035CF4();
 // void func_800362A0();

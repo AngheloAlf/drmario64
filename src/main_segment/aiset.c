@@ -9,7 +9,7 @@
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002EB00);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002EB74);
+INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifMakeBlkWork);
 
 /**
  * Original name: aifMakeFlagSet
@@ -184,7 +184,49 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifFirstInit);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002EFF0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifMake2);
+bool aifMake2(struct_game_state_data *gameStateData, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    u8 temp_v1;
+
+    if (gameStateData->unk_23D != 0) {
+        return false;
+    }
+
+    func_8002EB00(gameStateData);
+    aifMakeBlkWork(gameStateData);
+
+    MissRate = 0;
+    aiGoalX = gameStateData->unk_3BC + 1;
+
+    aiGoalY = gameStateData->unk_3BD;
+    if (aiGoalY == 0) {
+        aiGoalY++;
+    }
+
+    aipn = gameStateData->unk_298;
+    temp_v1 = gameStateData->unk_04E;
+    gameStateData->unk_23C = temp_v1;
+
+    if (FallSpeed[gameStateData->unk_3C0] > aiSlideFSpeed[aiSelSpeed][temp_v1]) {
+        aiMoveSF = 1;
+    } else {
+        aiMoveSF = 0;
+    }
+
+    aifFieldCopy(gameStateData);
+    aiFlag[1] = arg3 == 0;
+    aiFlag[2] = arg1 + 1;
+    aiFlag[3] = arg2;
+    aiFlag[4] = arg4 != 0;
+
+    aiFlagCnt = 1;
+    decide = 0;
+    aifReMoveCheck();
+    aifKeyMake(gameStateData);
+    gameStateData->unk_234 = 0;
+    gameStateData->unk_23D = 1;
+
+    return true;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002F2EC);
 
@@ -216,7 +258,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_800325AC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80033474);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80034200);
+INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifFieldCopy);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80034310);
 
@@ -232,11 +274,11 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80034E80);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8003510C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80035234);
+INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifReMoveCheck);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/aiset", D_800ACF10);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80035494);
+INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifKeyMake);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/aiset", D_800ACF20);
 

@@ -481,7 +481,7 @@ typedef struct struct_game_state_data {
     /* 0x04B */ u8 unk_04B;
     /* 0x04C */ u8 unk_04C;
     /* 0x04D */ s8 unk_04D;
-    /* 0x04E */ s8 unk_04E;
+    /* 0x04E */ u8 unk_04E;
     /* 0x04F */ u8 unk_04F;
     /* 0x050 */ u16 unk_050[0x10][2];
     /* 0x090 */ s32 unk_090; // CharAnimeMode?
@@ -496,12 +496,13 @@ typedef struct struct_game_state_data {
     /* 0x178 */ struct_game_state_data_unk_178 unk_178;
     /* 0x183 */ UNK_TYPE1 unk_183[0x1];
     /* 0x184 */ UNK_TYPE1 unk_184[0xB0];
-    /* 0x234 */ UNK_TYPE1 unk_234[3];
+    /* 0x234 */ u8 unk_234;
+    /* 0x235 */ UNK_TYPE1 unk_235[2];
     /* 0x237 */ s8 unk_237;
     /* 0x238 */ s8 unk_238;
     /* 0x239 */ s8 unk_239;
     /* 0x23A */ UNK_TYPE1 unk_23A[2];
-    /* 0x23C */ UNK_TYPE1 unk_23C[1];
+    /* 0x23C */ s8 unk_23C;
     /* 0x23D */ u8 unk_23D;
     /* 0x23E */ s8 unk_23E;
     /* 0x23F */ UNK_TYPE1 unk_23F[1];
@@ -516,7 +517,14 @@ typedef struct struct_game_state_data {
     /* 0x293 */ UNK_TYPE1 unk_293[0x1];
     /* 0x294 */ s8 unk_294;
     /* 0x295 */ UNK_TYPE1 unk_295[0x3];
-    /* 0x298 */ UNK_TYPE1 unk_298[0x12C];
+    /* 0x298 */ u8 unk_298;
+    /* 0x299 */ UNK_TYPE1 unk_299[0x3];
+    /* 0x29C */ UNK_TYPE1 unk_29C[0x120];
+    /* 0x3BC */ u8 unk_3BC;
+    /* 0x3BD */ u8 unk_3BD;
+    /* 0x3BE */ UNK_TYPE1 unk_3BE[0x2];
+    /* 0x3C0 */ u8 unk_3C0;
+    /* 0x3C1 */ UNK_TYPE1 unk_3C1[0x3];
 } struct_game_state_data; // size = 0x3C4
 
 typedef struct struct_800F4890_unk_034 {
