@@ -2275,8 +2275,12 @@ block_23:
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_game_main_2p);
 #endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", D_800B2068);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", D_800B2070);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_game_main", RO_800B2068);
+
+const u32 cap_pal_4164[][6] = {
+    { 8, 10, 6, 9, 11, 7 },
+    { 2, 4, 0, 3, 5, 1 },
+};
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_game_main_4p);
 
@@ -2404,7 +2408,9 @@ bool dm_game_demo_4p(void) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80068DC0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", dm_game_get_capsel_pal);
+TexturePtr **dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
+    return &watchGame->unk_444->unk_00[cap_pal_4164[arg0][arg1]].unk_0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80068E24);
 

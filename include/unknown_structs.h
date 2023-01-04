@@ -119,13 +119,14 @@ typedef struct struct_watchGame_unk_430_unk_C0 {
     /* 0x4 */ UNK_TYPE unk_4;
 } struct_watchGame_unk_430_unk_C0; // size >= 0x8
 
+typedef struct TiTexData_unk_00 {
+    /* 0x0 */ TexturePtr *unk_0;
+    /* 0x4 */ u16 *unk_4;
+} TiTexData_unk_00; // size = 0x8
+
 typedef struct TiTexData {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x38];
-    /* 0x38 */ UNK_TYPE4 unk_38;
-    /* 0x3C */ u16 *unk_3C;
-    /* 0x40 */ UNK_TYPE4 unk_40;
-    /* 0x44 */ u16 *unk_44;
-    /* 0x48 */ UNK_TYPE1 unk_48[0x70];
+    /* 0x00 */ TiTexData_unk_00 unk_00[11]; // guessed size
+    /* 0x58 */ UNK_TYPE1 unk_58[0x60];
     /* 0xB8 */ struct_watchGame_unk_430_unk_B8 *unk_B8;
     /* 0xBC */ struct_watchGame_unk_430_unk_BC *unk_BC;
     /* 0xC0 */ struct_watchGame_unk_430_unk_C0 *unk_C0;
@@ -443,8 +444,8 @@ typedef struct struct_game_state_data_unk_178 {
 typedef struct struct_game_state_data {
     /* 0x000 */ UNK_TYPE unk_000;
     /* 0x004 */ u16 unk_004;
-    /* 0x006 */ u16 unk_006;
-    /* 0x008 */ u16 unk_008;
+    /* 0x006 */ s16 unk_006;
+    /* 0x008 */ s16 unk_008;
     /* 0x008 */ s8 unk_00A;
     /* 0x008 */ UNK_TYPE1 unk_00B[0x1];
     /* 0x00C */ s32 unk_00C;

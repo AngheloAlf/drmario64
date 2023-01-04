@@ -384,7 +384,7 @@ D_800ACFC8 - found 1 matches total:
 0.99 - D_800AD098
 
 D_800B0B20 - found 1 matches total:
-0.99 - D_800B2070
+0.99 - cap_pal_4164
 
 func_8004371C - found 1 matches total:
 0.99 - StretchTexBlock_ScisRect

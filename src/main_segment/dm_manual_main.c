@@ -58,7 +58,8 @@ void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
     }
 
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
-    tiStretchTexBlock(&gfx, &_texAll->unk_40, 0, arg0->unk_00, arg0->unk_04, _texAll->unk_44[0], _texAll->unk_44[1]);
+    tiStretchTexBlock(&gfx, &_texAll->unk_00[8].unk_0, 0, arg0->unk_00, arg0->unk_04, _texAll->unk_00[8].unk_4[0],
+                      _texAll->unk_00[8].unk_4[1]);
 
     if (arg0->unk_08 != 0.0f) {
         arg0->messageWnd.unk_74 = alpha;
@@ -1550,7 +1551,25 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B317C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3180);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B31A0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80074EF0);
+ASM_TEXT;
+
+void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E8 *arg1, s32 arg2) {
+    s32 i;
+
+    for (i = 0; i < 3; i++) {
+        s32 j;
+
+        load_TexPal(**dm_game_get_capsel_pal(arg2, i));
+
+        for (j = 0; j < 4; j++) {
+            if ((arg1[j].unk_3[0] != 0) && (arg1[j].unk_2 == i)) {
+                draw_Tex(gameStateData->unk_006 + (arg1[j].unk_0 * gameStateData->unk_00A),
+                         gameStateData->unk_008 + (arg1[j].unk_1 * gameStateData->unk_00A), gameStateData->unk_00A,
+                         gameStateData->unk_00A, 0, gameStateData->unk_00A * 4);
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", disp_cont);
 
@@ -1566,7 +1585,8 @@ void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
         case EVS_MANUAL_NO_3:
             gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
-            tiStretchTexBlock(&gGfxHead, &_texAll->unk_38, 0, RO_800B3178, RO_800B317C, _texAll->unk_3C[0], _texAll->unk_3C[1]);
+            tiStretchTexBlock(&gGfxHead, &_texAll->unk_00[7].unk_0, 0, RO_800B3178, RO_800B317C,
+                              _texAll->unk_00[7].unk_4[0], _texAll->unk_00[7].unk_4[1]);
             dm_draw_big_virus(&gGfxHead);
             break;
 
@@ -1574,7 +1594,7 @@ void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
             break;
     }
 
-    switch (evs_manual_no) {                        /* irregular */
+    switch (evs_manual_no) { /* irregular */
         case EVS_MANUAL_NO_1:
             dm_calc_bottle_2p();
             dm_draw_bottle_2p(&gGfxHead);
@@ -1599,7 +1619,8 @@ void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
             break;
     }
 
-    dm_draw_KaSaMaRu(&gGfxHead, arg0, arg1, func_8007224C(&temp_s4->unk_034), temp_s4->unk_004, temp_s4->unk_008, temp_s4->unk_000, (s32) (temp_s4->unk_034.unk_08 * 255));
+    dm_draw_KaSaMaRu(&gGfxHead, arg0, arg1, func_8007224C(&temp_s4->unk_034), temp_s4->unk_004, temp_s4->unk_008,
+                     temp_s4->unk_000, (s32)(temp_s4->unk_034.unk_08 * 255));
     switch (evs_manual_no) {
         case EVS_MANUAL_NO_0:
         case EVS_MANUAL_NO_3:
