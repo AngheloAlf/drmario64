@@ -1570,13 +1570,18 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3150);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80074B08);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3178);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B317C);
+typedef struct struct__posContPanel {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ s32 unk_4;
+} struct__posContPanel;
 
-extern const s32 RO_800B3180[][2];
-extern const s32 RO_800B31A0[][2];
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3180);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B31A0);
+extern const struct__posContPanel _posContPanel;
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", _posContPanel);
+
+extern const s32 _posCircle_924[][2];
+extern const s32 _posFinger_925[][2];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", _posCircle_924);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", _posFinger_925);
 
 ASM_TEXT;
 
@@ -1598,79 +1603,95 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
     }
 }
 
-#if 0
+#ifdef NON_EQUIVALENT
+#define ABS(x) (((x) < 0) ? -(x) : (x))
+
+// disaster
 void disp_cont(void) {
-    Gfx *temp_v1;
-    Gfx *temp_v1_2;
-    s32 *temp_t0;
-    s32 temp_a0;
     s32 temp_s1;
     s32 temp_s2;
     s32 var_v0;
     s32 var_v1;
-    struct_watchManual *var_s3;
-    u16 *temp_a2;
-    u16 *temp_a2_2;
-    u16 temp_v1_3;
-    u16 var_a1;
-    u32 var_s4;
+    struct_watchManual *temp_s3 = watchManual;
+    s32 var_a1;
+    s32 var_s4;
+    s32 temp_a0;
+    TiTexData *new_var;
+    TiTexData_unk_00 *new_var2;
+    // Gfx **gfxP = &gGfxHead;
+    s32 *new_var3;
 
-    var_s3 = watchManual;
-    var_s4 = 0;
-    do {
-        if (var_s3->unk_01C[0] != -0x14) {
-            temp_v1 = gGfxHead;
-            temp_s1 = RO_800B3178.unk_0;
-            temp_s2 = RO_800B3178.unk_4;
-            temp_v1->unk_20 = 0xE3001001;
-            temp_v1->words.w1 = (u32) normal_texture_init_dl;
-            temp_v1->unk_18 = 0xFA000000;
-            temp_v1->unk_C = 0xFF2DFEFF;
-            temp_t0 = RO_800B3180[var_s4];
-            gGfxHead = temp_v1 + 8;
-            gGfxHead = temp_v1 + 0x10;
-            gGfxHead = temp_v1 + 0x18;
-            gGfxHead = temp_v1 + 0x20;
-            temp_v1->words.w0 = 0xDE000000;
-            temp_v1->unk_8 = 0xFCFF97FF;
-            temp_v1->unk_10 = 0xE200001C;
-            temp_v1->unk_14 = 0x504240;
-            temp_v1->unk_1C = 0xFF0000FF;
-            temp_v1->unk_24 = 0;
-            gGfxHead = temp_v1 + 0x28;
-            temp_a2 = _texAll->unk_00[6].unk_4;
-            StretchTexBlock4i(&gGfxHead, (s32) temp_a2->unk_0, (s32) temp_a2->unk_2, _texAll->unk_00[6].unk_0->unk_4, (f32) (temp_s1 + temp_t0->unk_0), (f32) (temp_s2 + temp_t0->unk_4), (f32) _texAll->unk_00[6].unk_4->unk_0, (f32) _texAll->unk_00[6].unk_4->unk_2);
-            temp_v1_2 = gGfxHead;
-            gGfxHead = temp_v1_2 + 8;
-            temp_v1_2->words.w0 = 0xDE000000;
-            temp_v1_2->words.w1 = (u32) alpha_texture_init_dl;
-            temp_a2_2 = _texAll->unk_00[4].unk_4;
-            temp_v1_3 = temp_a2_2->unk_0;
-            var_a1 = *_texAll->unk_00[5].unk_4;
-            if (temp_v1_3 < var_a1) {
-                var_a1 = temp_v1_3;
-            }
-            var_v1 = var_s3->unk_01C[0];
-            temp_a0 = temp_s2 + RO_800B31A0[var_s4]->unk_4;
-            if (var_v1 < 0) {
-                var_v1 = -var_v1;
-            }
-            var_v0 = temp_a0 - var_v1;
-            if (var_v1 >= 5) {
-                var_v0 = temp_a0 - 4;
-            }
-            StretchAlphaTexBlock(&gGfxHead, (s32) var_a1, (s32) temp_a2_2->unk_2, _texAll->unk_00[4].unk_0->unk_4, M2C_ERROR(Unable to find stack arg 0x10 in block), M2C_ERROR(Unable to find stack arg 0x14 in block), M2C_ERROR(Unable to find stack arg 0x18 in block), M2C_ERROR(Unable to find stack arg 0x1c in block), (f32) var_v0, (f32) var_a1, (f32) _texAll->unk_00[4].unk_4->unk_2);
+    for (var_s4 = 0; var_s4 < 4U; var_s4++) {
+
+        if (temp_s3->unk_01C[var_s4] != -0x14) {
+            s32 temp_arg4;
+            s32 temp_arg5;
+            s32 temp;
+            s32 *_posFinger_ptr;
+            TiTexData_unk_00 *temp_4;
+            TiTexData_unk_00 *temp_5;
+
+            // temp_s1 = _posContPanel[0];
+            // temp_s2 = _posContPanel[1];
+
+            gSPDisplayList(gGfxHead++, normal_texture_init_dl);
+            gDPSetCombineLERP(gGfxHead++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
+                              PRIMITIVE, 0);
+            gDPSetRenderMode(gGfxHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+            gDPSetPrimColor(gGfxHead++, 0, 0, 255, 0, 0, 255);
+            gDPSetTextureLUT(gGfxHead++, G_TT_NONE);
+
+            new_var3 = _posCircle_924[var_s4];
+            temp_arg4 = _posContPanel.unk_0 + new_var3[0];
+            temp_arg5 = _posContPanel.unk_4 + new_var3[1];
+            // temp_arg4 = _posContPanel.unk_0 + _posCircle_924[var_s4][0];
+            // temp_arg5 = _posContPanel.unk_4 + _posCircle_924[var_s4][1];
+
+            StretchTexBlock4i(&gGfxHead, _texAll->unk_00[6].unk_4[0], _texAll->unk_00[6].unk_4[1],
+                              _texAll->unk_00[6].unk_0->unk_4, temp_arg4, temp_arg5, _texAll->unk_00[6].unk_4[0],
+                              _texAll->unk_00[6].unk_4[1]);
+
+            gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
+
+            new_var2 = _texAll->unk_00;
+
+            temp_4 = &new_var2[4];
+            temp_5 = &new_var2[5];
+
+            // var_v1 = temp_s3->unk_01C[var_s4];
+            // if (var_v1 < 0) {
+            //    var_v1 = -var_v1;
+            //}
+            // var_v1 = (temp_s3->unk_01C[var_s4] < 0) ? -temp_s3->unk_01C[var_s4] : temp_s3->unk_01C[var_s4];
+            var_v1 = ABS(temp_s3->unk_01C[var_s4]);
+
+            _posFinger_ptr = _posFinger_925[var_s4];
+
+            // var_a1 = _texAll->unk_00[5].unk_4[0];
+            // if (_texAll->unk_00[4].unk_4[0] < var_a1) {
+            //    var_a1 = _texAll->unk_00[4].unk_4[0];
+            //}
+            var_a1 = MIN(temp_4->unk_4[0], temp_5->unk_4[0]);
+            // var_a1 = (new_var2[4].unk_4[0] < new_var2[5].unk_4[0]) ? (new_var2[4].unk_4[0]) : (new_var2[5].unk_4[0]);
+
+            // temp_a0 = _posContPanel[1] + _posFinger_925[var_s4][1];
+            // var_v0 = temp_a0 - var_v1;
+            // if (var_v1 > 4) {
+            //    var_v0 = temp_a0 - 4;
+            //}
+            // var_v0 = temp_a0 - MAX(var_v1, 4);
+            // var_v0 = (_posContPanel.unk_4 + _posFinger_925[var_s4][1]) - MAX(var_v1, 4);
+
+            StretchAlphaTexBlock(&gGfxHead, var_a1, temp_4->unk_4[1], temp_4->unk_0->unk_4, var_v1,
+                                 temp_5->unk_0->unk_4, temp_5->unk_4[0], (_posContPanel.unk_0 + _posFinger_ptr[0]),
+                                 (_posContPanel.unk_4 + _posFinger_ptr[1]) - MAX(var_v1, 4), var_a1, temp_4->unk_4[1]);
         }
-        var_s4 += 1;
-        var_s3 += 4;
-    } while (var_s4 < 4U);
+    }
 }
+
 #else
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", disp_cont);
 #endif
-
-extern const s32 RO_800B3178;
-extern const s32 RO_800B317C;
 
 void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
     struct_watchManual *temp_s4 = watchManual;
@@ -1681,7 +1702,7 @@ void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
         case EVS_MANUAL_NO_3:
             gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
-            tiStretchTexBlock(&gGfxHead, &_texAll->unk_00[7].unk_0, 0, RO_800B3178, RO_800B317C,
+            tiStretchTexBlock(&gGfxHead, &_texAll->unk_00[7].unk_0, 0, _posContPanel.unk_0, _posContPanel.unk_4,
                               _texAll->unk_00[7].unk_4[0], _texAll->unk_00[7].unk_4[1]);
             dm_draw_big_virus(&gGfxHead);
             break;

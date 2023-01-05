@@ -1919,10 +1919,9 @@ _pos_885 = 0x800B3140; // size:0x10 force_not_migration:True
 
 RO_800B3150 = 0x800B3150; // force_not_migration:True
 
-RO_800B3178 = 0x800B3178; // force_not_migration:True
-RO_800B317C = 0x800B317C; // force_not_migration:True type:s32
-RO_800B3180 = 0x800B3180; // force_not_migration:True
-RO_800B31A0 = 0x800B31A0; // force_not_migration:True
+_posContPanel = 0x800B3178; // force_not_migration:True type:s32 size:0x8
+_posCircle_924 = 0x800B3180; // force_not_migration:True
+_posFinger_925 = 0x800B31A0; // force_not_migration:True
 
 map_x_table_1036 = 0x800B31C0; // size:0x18
 _seqTbl_1037 = 0x800B31D8; // size:0x2

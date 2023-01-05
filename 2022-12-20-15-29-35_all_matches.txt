@@ -297,9 +297,9 @@ RO_800AF3F8 - found 2 matches total:
 1.00 - RO_800AF3C4
 1.00 - RO_800AF42C
 
-RO_800B31A0 - found 2 matches total:
+_posFinger_925 - found 2 matches total:
 0.99 - __osPreNMI (decompiled)
-0.99 - RO_800B3180
+0.99 - _posCircle_924
 
 func_8004ACF4 - found 2 matches total:
 0.99 - func_800490B8
