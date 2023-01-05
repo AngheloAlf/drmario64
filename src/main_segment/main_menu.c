@@ -102,9 +102,9 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF530);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046250);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046368);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuItem_updateTransScale);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046408);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuItem_updateColor);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800464BC);
 
@@ -672,7 +672,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8005806C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800581C8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800582FC);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuRankPanel_update);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800583C4);
 
@@ -723,8 +723,8 @@ void menuRank_input(struct_800F3E5C_unk_02678 *arg0) {
         func_800585BC(arg0, 1, 0.0f);
     }
 
-    if (!(temp_s0->unk_03C8 < 1.0f) && !(temp_s0->unk_03CC < 0.0f) && !(temp_s0->unk_03EC < 1.0f) &&
-        !(temp_s0->unk_03F0 < 0.0f)) {
+    if (!(temp_s0->unk_3A8[0].unk_020 < 1.0f) && !(temp_s0->unk_3A8[0].unk_024 < 0.0f) &&
+        !(temp_s0->unk_3A8[0].unk_044 < 1.0f) && !(temp_s0->unk_3A8[0].unk_048 < 0.0f)) {
         if (arg0->unk_0008 == 0) {
             if (pressedButton & (L_JPAD | L_TRIG)) {
                 direction--;
@@ -757,7 +757,43 @@ void menuRank_input(struct_800F3E5C_unk_02678 *arg0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuRank_update);
+void menuRank_update(struct_800F3E5C_unk_02678 *arg0) {
+    struct_800F3E5C_unk_02678_unk_032C *temp_v0 = _getRootItem(arg0->unk_0000);
+    s32 i;
+
+    func_800464BC(&arg0->unk_017C, temp_v0);
+    func_800464F8(&arg0->unk_020C[i], 2, temp_v0);
+
+    func_800464BC(&arg0->unk_032C, temp_v0);
+
+    func_800578C8(&arg0->unk_03BC, temp_v0);
+    func_800578C8(&arg0->unk_0458, &arg0->unk_032C);
+    func_800578C8(&arg0->unk_04F4, &arg0->unk_032C);
+
+    for (i = 0; i < 2; i++) {
+        s32 index;
+
+        switch (i) {
+            case 0:
+                index = arg0->unk_0018;
+                break;
+            case 1:
+                index = arg0->unk_0014;
+                break;
+        }
+
+        if (index >= 0) {
+            struct_800F3E5C_unk_02678_unk_590 *temp_s2 = &arg0->unk_590[index];
+            s32 j;
+
+            func_80057BE8(&temp_s2->unk_0004, &arg0->unk_017C);
+
+            for (j = 0; j < temp_s2->unk_0000; j++) {
+                menuRankPanel_update(&temp_s2->unk_3A8[j], &arg0->unk_017C);
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuRank_draw);
 
@@ -819,7 +855,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059DD4);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059DE4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059DF4);
+struct_800F3E5C_unk_02678_unk_032C *_getRootItem(struct_800F3E5C_unk_02678_unk_0000 *arg0) {
+    return &arg0->unk_24B8;
+}
 
 u16 func_80059DFC(struct_800F3E5C_unk_02678_unk_0000 *arg0 UNUSED, s32 arg1) {
     return gControllerHoldButtons[main_joy[arg1]];
