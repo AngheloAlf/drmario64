@@ -9,7 +9,13 @@
  * Original name: ExpandGZip
  */
 void *DecompressRomToRam(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
+#ifndef UNCOMPRESSED_ROM
     return (void *)ALIGN8((uintptr_t)dstAddr + expand_gzip(segmentRom, dstAddr, segmentSize));
+#else
+    // The simplest way to allow booting a ROM with uncompressed segments is to just DMA the segment instead of actually
+    // decompressing it
+    return (void *)ALIGN8((uintptr_t)DmaDataRomToRam(segmentRom, dstAddr, segmentSize));
+#endif
 }
 
 /**
