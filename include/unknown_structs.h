@@ -596,37 +596,85 @@ typedef struct struct_800F3E5C_unk_00C48 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x800];
 } struct_800F3E5C_unk_00C48; // size = 0x800
 
-typedef struct struct_800F3E5C_unk_02678_unk_032C {
-    /* 0x0 */ s32 unk_0;
-} struct_800F3E5C_unk_02678_unk_032C; // size >= 0x4
+typedef struct struct_800F3E5C_unk_024B8 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0xC];
+    /* 0x0C */ f32 unk_0C;
+    /* 0x10 */ f32 unk_10;
+    /* 0x14 */ UNK_TYPE1 unk_14[0x24];
+    /* 0x38 */ f32 unk_38;
+    /* 0x3C */ f32 unk_3C;
+    /* 0x40 */ UNK_TYPE1 unk_40[0x2C];
+    /* 0x6C */ f32 unk_6C[3];
+    /* 0x78 */ UNK_TYPE1 unk_78[0x4];
+    /* 0x7C */ f32 unk_7C[3];
+    /* 0x88 */ UNK_TYPE1 unk_88[0x8];
+} struct_800F3E5C_unk_024B8; // size = 0x90
 
 typedef struct struct_800F3E5C_unk_02678_unk_0000 {
     /* 0x0000 */ UNK_TYPE1 unk_0[0x24B8];
-    /* 0x24B8 */ struct_800F3E5C_unk_02678_unk_032C unk_24B8;
-} struct_800F3E5C_unk_02678_unk_0000; // size >= 0x24BC
+    /* 0x24B8 */ struct_800F3E5C_unk_024B8 unk_24B8;
+} struct_800F3E5C_unk_02678_unk_0000; // size >= 0x2548
 
 typedef struct struct_800F3E5C_unk_02678_unk_03BC {
-    /* 0x0 */ s32 unk_0;
-} struct_800F3E5C_unk_02678_unk_03BC; // size >= 0x4
+    /* 0x00 */ UNK_TYPE1 unk_00[0xC];
+    /* 0x0C */ struct_800F3E5C_unk_024B8 unk_0C;
+} struct_800F3E5C_unk_02678_unk_03BC; // size = 0x9C
 
 typedef struct struct_800F3E5C_unk_02678_unk_590_unk_0004 {
-    /* 0x0 */ UNK_TYPE1 unk_0[UNK_SIZE];
-} struct_800F3E5C_unk_02678_unk_590_unk_0004; // size >= 0x4
+    /* 0x00 */ UNK_TYPE1 unk_00[0x4];
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ struct_800F3E5C_unk_024B8 unk_08;
+    /* 0x98 */ struct_800F3E5C_unk_02678_unk_03BC unk_98[UNK_SIZE];
+} struct_800F3E5C_unk_02678_unk_590_unk_0004; // size >= 0x134
+
+typedef struct menuRankFig_update_arg0 {
+    /* 0x0 */ UNK_TYPE unk_0;
+} menuRankFig_update_arg0; // size >= 0x4
+
+typedef struct struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_008_unk_04 {
+    /* 0x0 */ UNK_TYPE unk_0;
+} struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_008_unk_04; // size >= 0x4
+
+typedef struct struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_008 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0x4];
+    /* 0x04 */ struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_008_unk_04 unk_04;
+} struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_008; // size >= 0x8
+
+typedef struct struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_09C {
+    /* 0x0 */ s32 unk_0;
+} struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_09C; // size >= 0x4
+
+typedef struct struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_134 {
+    /* 0x0 */ s32 unk_0;
+} struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_134; // size >= 0x4
 
 typedef struct struct_800F3E5C_unk_02678_unk_590_unk_3A8 {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x20];
+    /* 0x000 */ UNK_TYPE1 unk_000[0x4];
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_008 unk_008;
+    /* 0x010 */ UNK_TYPE1 unk_010[0x10];
     /* 0x020 */ f32 unk_020;
     /* 0x024 */ f32 unk_024;
     /* 0x028 */ UNK_TYPE1 unk_28[0x1C];
     /* 0x044 */ f32 unk_044;
     /* 0x048 */ f32 unk_048;
-    /* 0x04C */ UNK_TYPE1 unk_04C[0x3D8];
+    /* 0x04C */ UNK_TYPE1 unk_04C[0x50];
+    /* 0x09C */ struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_09C unk_09C;
+    /* 0x0A0 */ UNK_TYPE1 unk_0A0[0x94];
+    /* 0x134 */ struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_134 unk_134;
+    /* 0x138 */ UNK_TYPE1 unk_138[0x94];
+    /* 0x1CC */ menuRankFig_update_arg0 unk_1CC;
+    /* 0x1D0 */ UNK_TYPE1 unk_1D0[0xC4];
+    /* 0x294 */ menuRankFig_update_arg0 unk_294;
+    /* 0x298 */ UNK_TYPE1 unk_298[0xC4];
+    /* 0x35C */ menuRankFig_update_arg0 unk_35C;
+    /* 0x360 */ UNK_TYPE1 unk_360[0xC4];
 } struct_800F3E5C_unk_02678_unk_590_unk_3A8; // size = 0x424
 
 typedef struct struct_800F3E5C_unk_02678_unk_590 {
     /* 0x0000 */ s32 unk_0000;
     /* 0x0004 */ struct_800F3E5C_unk_02678_unk_590_unk_0004 unk_0004;
-    /* 0x0008 */ UNK_TYPE1 unk_0008[0x3A0];
+    /* 0x0138 */ UNK_TYPE1 unk_0138[0x270];
     /* 0x03A8 */ struct_800F3E5C_unk_02678_unk_590_unk_3A8 unk_3A8[UNK_SIZE];
     /* 0x07CC */ UNK_TYPE1 unk_07CC[0x1CFC];
 } struct_800F3E5C_unk_02678_unk_590; // size = 0x24C8
@@ -634,17 +682,6 @@ typedef struct struct_800F3E5C_unk_02678_unk_590 {
 typedef struct struct_800F3E5C_unk_02470 {
     /* 0x00000 */ UNK_TYPE1 unk_00000[0x60000];
 } struct_800F3E5C_unk_02470; // size = 0x60000
-
-typedef struct struct_800F3E5C_unk_024B8 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0xC];
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ f32 unk_10;
-    /* 0x14 */ UNK_TYPE1 unk_14[0x58];
-    /* 0x6C */ f32 unk_6C[3];
-    /* 0x78 */ UNK_TYPE1 unk_78[0x4];
-    /* 0x7C */ f32 unk_7C[3];
-    /* 0x88 */ UNK_TYPE1 unk_88[0x8];
-} struct_800F3E5C_unk_024B8; // size = 0x90
 
 typedef struct struct_800F3E5C_unk_02678 {
     /* 0x0000 */ struct_800F3E5C_unk_02678_unk_0000 *unk_0000;
@@ -655,21 +692,12 @@ typedef struct struct_800F3E5C_unk_02678 {
     /* 0x0014 */ UNK_TYPE unk_0014;
     /* 0x0018 */ UNK_TYPE unk_0018;
     /* 0x001C */ UNK_TYPE1 unk_001C[0x160];
-    /* 0x017C */ struct_800F3E5C_unk_02678_unk_032C unk_017C;
-    /* 0x0180 */ UNK_TYPE1 unk_0180[0x8C];
-    /* 0x020C */ struct_800F3E5C_unk_024B8 unk_020C[UNK_SIZE];
-    /* 0x029C */ UNK_TYPE1 unk_02A4[0x90];
-    /* 0x032C */ struct_800F3E5C_unk_02678_unk_032C unk_032C;
-    /* 0x0330 */ UNK_TYPE1 unk_0330[0x34];
-    /* 0x0364 */ f32 unk_0364;
-    /* 0x0368 */ f32 unk_0368;
-    /* 0x036C */ UNK_TYPE1 unk_036C[0x50];
+    /* 0x017C */ struct_800F3E5C_unk_024B8 unk_017C;
+    /* 0x020C */ struct_800F3E5C_unk_024B8 unk_020C[2]; // guessed size
+    /* 0x032C */ struct_800F3E5C_unk_024B8 unk_032C;
     /* 0x03BC */ struct_800F3E5C_unk_02678_unk_03BC unk_03BC;
-    /* 0x03C0 */ UNK_TYPE1 unk_03C0[0x98];
     /* 0x0458 */ struct_800F3E5C_unk_02678_unk_03BC unk_0458;
-    /* 0x045C */ UNK_TYPE1 unk_045C[0x98];
     /* 0x04F4 */ struct_800F3E5C_unk_02678_unk_03BC unk_04F4;
-    /* 0x04F8 */ UNK_TYPE1 unk_04F8[0x98];
     /* 0x0590 */ struct_800F3E5C_unk_02678_unk_590 unk_590[2];
     /* 0x4F20 */ UNK_TYPE1 unk_4F20[0x2684];
 } struct_800F3E5C_unk_02678; // size = 0x75A4
