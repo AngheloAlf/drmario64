@@ -1132,12 +1132,11 @@ __MusIntSamplesCurrent = 0x80084648; // 0x40  (aud_samples, true)
 
 // data
 
-rspbootTextStart = 0x80084690; // 0x0  (aud_sched, false)
-// rspbootTextEnd = 0x80084760; // 0x0  (aud_sched, false)
-aspMainTextStart = 0x80084760; // 0x0  (aud_thread, false)
+rspbootTextStart = 0x80084690; // name_end:rspbootTextEnd dont_allow_addend:True
+aspMainTextStart = 0x80084760; // name_end:aspMainTextEnd dont_allow_addend:True
 
-gspF3DEX2_fifoTextStart = 0x80085580;
-gspS2DEX_fifoTextStart = 0x80086910;
+gspF3DEX2_fifoTextStart = 0x80085580; // name_end:gspF3DEX2_fifoTextEnd dont_allow_addend:True
+gspS2DEX_fifoTextStart = 0x80086910; // name_end:gspS2DEX_fifoTextEnd dont_allow_addend:True
 
 D_80088100 = 0x80088100;
 D_80088104 = 0x80088104; // size:0xC
@@ -1564,9 +1563,9 @@ default_sched = 0x800ABF20;
 __libmus_current_sched = 0x800ABF2C; // 0x0  (aud_thread, false)
 last_task = 0x800ABF30;
 
-aspMainDataStart = 0x800ABF40; // 0x0  (aud_thread, false)
-gspF3DEX2_fifoDataStart = 0x800AC200;
-gspS2DEX_fifoDataStart = 0x800AC620;
+aspMainDataStart = 0x800ABF40; // name_end:aspMainDataEnd dont_allow_addend:True
+gspF3DEX2_fifoDataStart = 0x800AC200; // name_end:gspF3DEX2_fifoDataEnd dont_allow_addend:True
+gspS2DEX_fifoDataStart = 0x800AC620; // name_end:gspS2DEX_fifoDataEnd dont_allow_addend:True
 
 
 // rodata
