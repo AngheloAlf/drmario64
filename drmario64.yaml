@@ -15,9 +15,11 @@ options:
     - linker_scripts/libultra_symbols.ld
     - linker_scripts/hardware_regs.ld
     - linker_scripts/symbol_addrs_boot.txt
+    - linker_scripts/symbol_addrs_dma_table.txt
     - linker_scripts/symbol_addrs_main_segment.txt
     - linker_scripts/symbol_addrs_buffers.txt
     - linker_scripts/junk_symbols.txt
+    - linker_scripts/ignored_addresses.txt
   asm_path: asm
   src_path: src
   build_path: build

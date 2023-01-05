@@ -1934,7 +1934,7 @@ _stageTbl = 0x800B3240; // size:0x12
 
 // bss
 
-B_800B3640 = 0x800B3640; // The size is 0x31000, but there's a disassembly issue if the size is used
+B_800B3640 = 0x800B3640; // size:0x31000
 mt = 0x800E4640; // size:0x9C0
 B_800E5000 = 0x800E5000;
 B_800E5008 = 0x800E5008;
