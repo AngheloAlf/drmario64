@@ -1914,10 +1914,9 @@ mes_4_8 = 0x800B302C; // type:char force_not_migration:True
 mes_4_9 = 0x800B3054; // type:char force_not_migration:True
 mes_4_10 = 0x800B3078; // type:char force_not_migration:True
 
-RO_800B3130 = 0x800B3130; // force_not_migration:True
-RO_800B3134 = 0x800B3134; // force_not_migration:True
-RO_800B3140 = 0x800B3140; // force_not_migration:True
-RO_800B3144 = 0x800B3144; // force_not_migration:True
+_tex_884 = 0x800B3130; // size:0x10 force_not_migration:True
+_pos_885 = 0x800B3140; // size:0x10 force_not_migration:True
+
 RO_800B3150 = 0x800B3150; // force_not_migration:True
 
 RO_800B3178 = 0x800B3178; // force_not_migration:True

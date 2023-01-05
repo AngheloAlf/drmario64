@@ -2408,7 +2408,7 @@ bool dm_game_demo_4p(void) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80068DC0);
 
-TexturePtr **dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
+TiTexData_unk_00_unk_0 **dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
     return &watchGame->unk_444->unk_00[cap_pal_4164[arg0][arg1]].unk_0;
 }
 

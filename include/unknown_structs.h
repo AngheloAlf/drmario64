@@ -119,8 +119,13 @@ typedef struct struct_watchGame_unk_430_unk_C0 {
     /* 0x4 */ UNK_TYPE unk_4;
 } struct_watchGame_unk_430_unk_C0; // size >= 0x8
 
+typedef struct TiTexData_unk_00_unk_0 {
+    /* 0x0 */ TexturePtr unk_0;
+    /* 0x4 */ UNK_TYPE4 unk_4;
+} TiTexData_unk_00_unk_0; // size >= 0x8
+
 typedef struct TiTexData_unk_00 {
-    /* 0x0 */ TexturePtr *unk_0;
+    /* 0x0 */ TiTexData_unk_00_unk_0 *unk_0;
     /* 0x4 */ u16 *unk_4;
 } TiTexData_unk_00; // size = 0x8
 

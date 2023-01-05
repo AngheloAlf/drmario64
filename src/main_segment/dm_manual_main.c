@@ -1536,18 +1536,45 @@ bool dm_manual_4_main(void) {
     return ret;
 }
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3130);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3134);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3140);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3144);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3150);
+const s32 _tex_884[][2] = {
+    { 0, 2 },
+    { 1, 3 },
+};
+const s32 _pos_885[][2] = {
+    { 0, 0 },
+    { 0, 0xC },
+};
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", draw_AB_guide);
+void draw_AB_guide(s32 arg0, s32 arg1) {
+    s32 i;
+
+    gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
+    gDPSetCombineLERP(gGfxHead++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
+                      COMBINED);
+    gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, 255);
+
+    for (i = 0; i < 2U; i++) {
+        TiTexData_unk_00 *temp_a3 = &_texAll->unk_00[_tex_884[i][0]];
+        TiTexData_unk_00 *temp_a0 = &_texAll->unk_00[_tex_884[i][1]];
+        s32 var_t0;
+
+        var_t0 = MIN(temp_a3->unk_4[0], temp_a0->unk_4[0]);
+
+        StretchAlphaTexTile(&gGfxHead, var_t0, temp_a3->unk_4[1], temp_a3->unk_0->unk_4, temp_a3->unk_4[0],
+                            temp_a0->unk_0->unk_4, temp_a0->unk_4[0], 0, 0, var_t0, temp_a3->unk_4[1],
+                            arg0 + _pos_885[i][0], arg1 + _pos_885[i][1], var_t0, temp_a3->unk_4[1]);
+    }
+}
+
+INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3150);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80074B08);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3178);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B317C);
+
+extern const s32 RO_800B3180[][2];
+extern const s32 RO_800B31A0[][2];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3180);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B31A0);
 
@@ -1559,7 +1586,7 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
     for (i = 0; i < 3; i++) {
         s32 j;
 
-        load_TexPal(**dm_game_get_capsel_pal(arg2, i));
+        load_TexPal((*dm_game_get_capsel_pal(arg2, i))->unk_0);
 
         for (j = 0; j < 4; j++) {
             if ((arg1[j].unk_3[0] != 0) && (arg1[j].unk_2 == i)) {
@@ -1571,7 +1598,76 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
     }
 }
 
+#if 0
+void disp_cont(void) {
+    Gfx *temp_v1;
+    Gfx *temp_v1_2;
+    s32 *temp_t0;
+    s32 temp_a0;
+    s32 temp_s1;
+    s32 temp_s2;
+    s32 var_v0;
+    s32 var_v1;
+    struct_watchManual *var_s3;
+    u16 *temp_a2;
+    u16 *temp_a2_2;
+    u16 temp_v1_3;
+    u16 var_a1;
+    u32 var_s4;
+
+    var_s3 = watchManual;
+    var_s4 = 0;
+    do {
+        if (var_s3->unk_01C[0] != -0x14) {
+            temp_v1 = gGfxHead;
+            temp_s1 = RO_800B3178.unk_0;
+            temp_s2 = RO_800B3178.unk_4;
+            temp_v1->unk_20 = 0xE3001001;
+            temp_v1->words.w1 = (u32) normal_texture_init_dl;
+            temp_v1->unk_18 = 0xFA000000;
+            temp_v1->unk_C = 0xFF2DFEFF;
+            temp_t0 = RO_800B3180[var_s4];
+            gGfxHead = temp_v1 + 8;
+            gGfxHead = temp_v1 + 0x10;
+            gGfxHead = temp_v1 + 0x18;
+            gGfxHead = temp_v1 + 0x20;
+            temp_v1->words.w0 = 0xDE000000;
+            temp_v1->unk_8 = 0xFCFF97FF;
+            temp_v1->unk_10 = 0xE200001C;
+            temp_v1->unk_14 = 0x504240;
+            temp_v1->unk_1C = 0xFF0000FF;
+            temp_v1->unk_24 = 0;
+            gGfxHead = temp_v1 + 0x28;
+            temp_a2 = _texAll->unk_00[6].unk_4;
+            StretchTexBlock4i(&gGfxHead, (s32) temp_a2->unk_0, (s32) temp_a2->unk_2, _texAll->unk_00[6].unk_0->unk_4, (f32) (temp_s1 + temp_t0->unk_0), (f32) (temp_s2 + temp_t0->unk_4), (f32) _texAll->unk_00[6].unk_4->unk_0, (f32) _texAll->unk_00[6].unk_4->unk_2);
+            temp_v1_2 = gGfxHead;
+            gGfxHead = temp_v1_2 + 8;
+            temp_v1_2->words.w0 = 0xDE000000;
+            temp_v1_2->words.w1 = (u32) alpha_texture_init_dl;
+            temp_a2_2 = _texAll->unk_00[4].unk_4;
+            temp_v1_3 = temp_a2_2->unk_0;
+            var_a1 = *_texAll->unk_00[5].unk_4;
+            if (temp_v1_3 < var_a1) {
+                var_a1 = temp_v1_3;
+            }
+            var_v1 = var_s3->unk_01C[0];
+            temp_a0 = temp_s2 + RO_800B31A0[var_s4]->unk_4;
+            if (var_v1 < 0) {
+                var_v1 = -var_v1;
+            }
+            var_v0 = temp_a0 - var_v1;
+            if (var_v1 >= 5) {
+                var_v0 = temp_a0 - 4;
+            }
+            StretchAlphaTexBlock(&gGfxHead, (s32) var_a1, (s32) temp_a2_2->unk_2, _texAll->unk_00[4].unk_0->unk_4, M2C_ERROR(Unable to find stack arg 0x10 in block), M2C_ERROR(Unable to find stack arg 0x14 in block), M2C_ERROR(Unable to find stack arg 0x18 in block), M2C_ERROR(Unable to find stack arg 0x1c in block), (f32) var_v0, (f32) var_a1, (f32) _texAll->unk_00[4].unk_4->unk_2);
+        }
+        var_s4 += 1;
+        var_s3 += 4;
+    } while (var_s4 < 4U);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", disp_cont);
+#endif
 
 extern const s32 RO_800B3178;
 extern const s32 RO_800B317C;
