@@ -102,9 +102,47 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF530);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046250);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuItem_updateTransScale);
+void menuItem_updateTransScale(struct_800F3E5C_unk_024B8 *arg0, struct_800F3E5C_unk_024B8 *arg1) {
+    u32 i;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuItem_updateColor);
+    arg0->unk_08();
+    arg0->unk_2C(arg0);
+
+    if (arg1 == NULL) {
+        return;
+    }
+
+    for (i = 0; i < 2U; i++) {
+        f32 temp_ft0;
+
+        arg0->unk_0C[i] = arg0->unk_0C[i] * arg1->unk_30[i] + arg1->unk_0C[i];
+
+        temp_ft0 = arg0->unk_30[i] * arg1->unk_30[i];
+        arg0->unk_30[i] = temp_ft0;
+        arg0->unk_0C[i] = arg0->unk_0C[i] - (arg0->unk_00[i] * temp_ft0);
+    }
+}
+
+void menuItem_updateColor(struct_800F3E5C_unk_024B8 *arg0, struct_800F3E5C_unk_024B8 *arg1) {
+    u32 i;
+
+    arg0->unk_50();
+    if (arg1 == NULL) {
+        return;
+    }
+
+    if (!(arg0->unk_8C & 0x80000000)) {
+        for (i = 0; i < 3U; i++) {
+            arg0->unk_54[i] *= arg1->unk_54[i];
+        }
+    }
+
+    if (!(arg0->unk_8C & 0x40000000)) {
+        for (i = 3; i < 4U; i++) {
+            arg0->unk_54[i] *= arg1->unk_54[i];
+        }
+    }
+}
 
 void func_800464BC(struct_800F3E5C_unk_024B8 *arg0, struct_800F3E5C_unk_024B8 *arg1) {
     menuItem_updateTransScale(arg0, arg1);
@@ -643,7 +681,79 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80056E38);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80057014);
 
+#ifdef NON_EQUIVALENT
+void menuRankFig_update(menuRankFig_update_arg0 *arg0, struct_800F3E5C_unk_024B8 *arg1) {
+    s32 var_a0;
+    s32 var_t0;
+
+    var_t0 = arg0->unk_34;
+    switch (arg0->unk_04) {
+        case 0x7:
+            for (var_a0 = arg0->unk_08 - 1; var_a0 >= 0; var_a0--) {
+                arg0->unk_0C[var_a0] = (var_t0 % 10);
+                var_t0 /= 10;
+            }
+            break;
+
+        case 0x8:
+            arg0->unk_1C = var_t0 % 10;
+            arg0->unk_18 = (var_t0 / 10) % 6;
+            arg0->unk_14 = 0xF;
+            arg0->unk_10 = ((var_t0 / 10) / 6) % 10;
+            arg0->unk_0C[0] = (((var_t0 / 10) / 6) / 10) % 10;
+            break;
+
+        case 0x9:
+            arg0->unk_20 = 0x10;
+            arg0->unk_1C = var_t0 % 10;
+            arg0->unk_18 = 0x11;
+            arg0->unk_14 = (var_t0 / 10) % 10;
+            arg0->unk_10 = ((var_t0 / 10) / 10) % 10;
+            arg0->unk_0C[0] = (((var_t0 / 10) / 10) / 10) % 10;
+            break;
+
+        case 0xA:
+            arg0->unk_24 = var_t0 % 10;
+            arg0->unk_20 = (var_t0 / 10) % 10;
+            arg0->unk_1C = 0xB;
+            arg0->unk_18 = 0xC;
+            arg0->unk_14 = 0x12;
+            arg0->unk_10 = 0xC;
+            arg0->unk_0C[0] = 0xB;
+            break;
+
+        case 0xB:
+            arg0->unk_20 = var_t0 % 10;
+            arg0->unk_1C = 0xF;
+            arg0->unk_18 = (var_t0 / 10) % 10;
+            arg0->unk_14 = ((var_t0 / 10) / 10) % 6;
+            arg0->unk_10 = 0xF;
+            arg0->unk_0C[0] = (((var_t0 / 10) / 10) / 6) % 10;
+            break;
+
+        case 0xC:
+            arg0->unk_0C[0] = 0xA;
+            arg0->unk_10 = 0xB;
+            arg0->unk_14 = 0xC;
+            arg0->unk_18 = 0xD;
+            arg0->unk_1C = 0xE;
+            break;
+
+        case 0xD:
+            arg0->unk_0C[0] = 0xD;
+            arg0->unk_10 = 0xB;
+            arg0->unk_14 = 0xB;
+            break;
+
+        default:
+            break;
+    }
+
+    func_800464BC(&arg0->unk_38, arg1);
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuRankFig_update);
+#endif
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B11A4);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B11CC);
@@ -1344,7 +1454,7 @@ void menuAll_drawBg(struct_watchMenu *arg0, Gfx **gfxP) {
     s32 var_s2;
 
     func_80046844(temp_s4, &gfx);
-    draw_menu_bg(&gfx, arg0->unk_024B8.unk_0C + 0.0f, -arg0->unk_024B8.unk_10 - 120.0f);
+    draw_menu_bg(&gfx, arg0->unk_024B8.unk_0C[0] + 0.0f, -arg0->unk_024B8.unk_0C[1] - 120.0f);
 
     gSPDisplayList(gfx++, RO_800ADC60);
     func_80046844(temp_s4, &gfx);
