@@ -14,31 +14,84 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80045DD0);
+f32 func_80045DD0(f32 arg0, f32 arg1) {
+    return CLAMP(arg0 + arg1, 0.0f, 1.0f);
+}
 
 f32 func_80045E18(f32 arg0, f32 arg1) {
     return WrapF(0.0f, 1.0f, arg0 + arg1);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80045E48);
+f32 func_80045E48(f32 arg0) {
+    if (arg0 < 0.5) {
+        arg0 = SQ(arg0);
+    } else {
+        arg0 = 1.0 - arg0;
+        arg0 = 0.5 - SQ(arg0);
+    }
+
+    return 2.0f * arg0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80045E94);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80045EF4);
+void transFunc_curve(struct_watchMenu_unk_024B8 *arg0) {
+    u32 i;
+    f32 temp_ft0;
+    f32 temp_fv0;
+
+    temp_fv0 = func_80045DD0(arg0->unk_14, arg0->unk_18);
+    temp_ft0 = func_80045E48(temp_fv0);
+    arg0->unk_14 = temp_fv0;
+
+    for (i = 0; i < 2U; i++) {
+        arg0->unk_0C[i] = arg0->unk_1C[i] + ((arg0->unk_24[i] - arg0->unk_1C[i]) * temp_ft0);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", transFunc_finger);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046008);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046068);
+void scaleFunc_curve(struct_watchMenu_unk_024B8 *arg0) {
+    u32 i;
+    f32 temp_ft0;
+    f32 temp_fv0;
+
+    temp_fv0 = func_80045DD0(arg0->unk_38, arg0->unk_3C);
+    temp_ft0 = func_80045E48(temp_fv0);
+    arg0->unk_38 = temp_fv0;
+
+    for (i = 0; i < 2U; i++) {
+        arg0->unk_30[i] = arg0->unk_40[i] + ((arg0->unk_48[i] - arg0->unk_40[i]) * temp_ft0);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800460DC);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004613C);
+void colorFunc_curve(struct_watchMenu_unk_024B8 *arg0) {
+    u32 i;
+    f32 temp_ft0;
+    f32 temp_fv0;
+
+    temp_fv0 = func_80045DD0(arg0->unk_64, arg0->unk_68);
+    temp_ft0 = func_80045E48(temp_fv0);
+    arg0->unk_64 = temp_fv0;
+
+    for (i = 0; i < 4U; i++) {
+        arg0->unk_54[i] = arg0->unk_6C[i] + ((arg0->unk_7C[i] - arg0->unk_6C[i]) * temp_ft0);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800461B0);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800ADC50);
+const f32 color_251[] = {
+    0.5f,
+    0.5f,
+    0.5f,
+    1.0f,
+};
+
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800ADC60);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800ADC78);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800ADC90);
@@ -100,13 +153,55 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF518);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF52C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF530);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuItem_init);
+ASM_TEXT;
+
+void menuItem_init(struct_watchMenu_unk_024B8 *arg0, s32 arg1, s32 arg2) {
+    u32 i;
+
+    arg0->unk_00[0] = 0.0f;
+    arg0->unk_00[1] = 0.0f;
+
+    arg0->transCallback = transFunc_curve;
+
+    arg0->unk_24[0] = arg1;
+    arg0->unk_1C[0] = arg1;
+    arg0->unk_0C[0] = arg1;
+
+    arg0->unk_24[1] = arg2;
+    arg0->unk_1C[1] = arg2;
+    arg0->unk_0C[1] = arg2;
+
+    arg0->scaleCallback = scaleFunc_curve;
+    arg0->unk_14 = 1.0f;
+    arg0->unk_18 = 0.125f;
+    arg0->unk_38 = 1.0f;
+    arg0->unk_3C = 0.125f;
+
+    for (i = 0; i < 2U; i++) {
+        arg0->unk_30[i] = 1.0f;
+        arg0->unk_40[i] = 0.0f;
+        arg0->unk_48[i] = 1.0f;
+    }
+
+    arg0->colorCallback = colorFunc_curve;
+    arg0->unk_64 = 1.0f;
+    arg0->unk_68 = 0.125f;
+
+    for (i = 0; i < 4U; i++) {
+        arg0->unk_6C[i] = color_251[i];
+        arg0->unk_54[i] = 1.0f;
+        arg0->unk_7C[i] = 1.0f;
+    }
+
+    arg0->unk_8C &= ~0x80000000;
+    arg0->unk_8C &= ~0x40000000;
+}
 
 void menuItem_updateTransScale(struct_watchMenu_unk_024B8 *arg0, struct_watchMenu_unk_024B8 *arg1) {
     u32 i;
 
-    arg0->unk_08();
-    arg0->unk_2C(arg0);
+    arg0->transCallback(arg0);
+    arg0->scaleCallback(arg0);
 
     if (arg1 == NULL) {
         return;
@@ -126,7 +221,8 @@ void menuItem_updateTransScale(struct_watchMenu_unk_024B8 *arg0, struct_watchMen
 void menuItem_updateColor(struct_watchMenu_unk_024B8 *arg0, struct_watchMenu_unk_024B8 *arg1) {
     u32 i;
 
-    arg0->unk_50();
+    arg0->colorCallback(arg0);
+
     if (arg1 == NULL) {
         return;
     }
@@ -1403,11 +1499,11 @@ void menuAll_input(struct_watchMenu *arg0) {
 }
 
 void menuAll_update(struct_watchMenu *arg0) {
+    struct_watchMenu_unk_024B8 *var_v1 = &arg0->unk_024B8;
     enum_struct_watchMenu_unk_111CC var_a0;
     f32 temp_f2_2;
     f32 var_f2;
-    struct_watchMenu_unk_024B8 *var_v1 = &arg0->unk_024B8;
-    s32 var_s0;
+    s32 i;
     s32 var_v1_2;
 
     arg0->unk_111DC = CLAMP(arg0->unk_111DC + arg0->unk_111E0, 0.0f, 1.0f);
@@ -1422,16 +1518,16 @@ void menuAll_update(struct_watchMenu *arg0) {
     }
 
     temp_f2_2 = var_f2;
-    for (var_s0 = 0; var_s0 < ARRAY_COUNT(var_v1->unk_7C); var_s0++) {
-        var_v1->unk_7C[var_s0] = temp_f2_2;
-        var_v1->unk_6C[var_s0] = temp_f2_2;
+    for (i = 0; i < 3; i++) {
+        var_v1->unk_7C[i] = temp_f2_2;
+        var_v1->unk_6C[i] = temp_f2_2;
     }
 
     func_800464F8(&arg0->unk_024B8, 1, NULL);
     func_80047584(&arg0->unk_02548, &arg0->unk_024B8);
 
-    for (var_s0 = 0; var_s0 < 2; var_s0++) {
-        if (var_s0 != 0) {
+    for (i = 0; i < 2; i++) {
+        if (i != 0) {
             var_v1_2 = arg0->unk_111C0;
         } else {
             var_v1_2 = arg0->unk_111C4;
@@ -1440,7 +1536,7 @@ void menuAll_update(struct_watchMenu *arg0) {
             continue;
         }
 
-        if (var_s0 != 0) {
+        if (i != 0) {
             var_a0 = arg0->unk_111CC;
         } else {
             var_a0 = arg0->unk_111C8;

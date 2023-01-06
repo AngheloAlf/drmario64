@@ -48,6 +48,8 @@
 #define MAX_ALT(a, b) ((b) > (a) ? (b) : (a))
 #define MIN_ALT(a, b) ((b) < (a) ? (b) : (a))
 
+#define SQ(x) ((x) * (x))
+
 #define ASM_TEXT __asm__(".section .text")
 #define ASM_RODATA __asm__(".section .rodata")
 

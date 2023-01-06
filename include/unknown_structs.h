@@ -596,26 +596,33 @@ typedef struct struct_watchMenu_unk_00C48 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x800];
 } struct_watchMenu_unk_00C48; // size = 0x800
 
+struct struct_watchMenu_unk_024B8;
+
+typedef void (*struct_watchMenu_unk_024B8_TransCallback)(struct struct_watchMenu_unk_024B8 *);
+typedef void (*struct_watchMenu_unk_024B8_ScaleCallback)(struct struct_watchMenu_unk_024B8 *);
+typedef void (*struct_watchMenu_unk_024B8_ColorCallback)(struct struct_watchMenu_unk_024B8 *);
+
 // MenuItem?
 typedef struct struct_watchMenu_unk_024B8 {
     /* 0x00 */ f32 unk_00[2];
-    /* 0x08 */ UNK_FUN_PTR unk_08;
+    /* 0x08 */ struct_watchMenu_unk_024B8_TransCallback transCallback;
     /* 0x0C */ f32 unk_0C[2];
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ f32 unk_18;
-    /* 0x1C */ UNK_TYPE1 unk_1C[0x10];
-    /* 0x2C */ UNK_FUN_PTR unk_2C;
+    /* 0x1C */ f32 unk_1C[2];
+    /* 0x24 */ f32 unk_24[2];
+    /* 0x2C */ struct_watchMenu_unk_024B8_ScaleCallback scaleCallback;
     /* 0x30 */ f32 unk_30[2];
     /* 0x38 */ f32 unk_38;
     /* 0x3C */ f32 unk_3C;
-    /* 0x40 */ UNK_TYPE1 unk_40[0x10];
-    /* 0x50 */ UNK_FUN_PTR unk_50;
+    /* 0x40 */ f32 unk_40[2];
+    /* 0x48 */ f32 unk_48[2];
+    /* 0x50 */ struct_watchMenu_unk_024B8_ColorCallback colorCallback;
     /* 0x54 */ f32 unk_54[4];
-    /* 0x64 */ UNK_TYPE1 unk_64[0x8];
-    /* 0x6C */ f32 unk_6C[3];
-    /* 0x78 */ UNK_TYPE1 unk_78[0x4];
-    /* 0x7C */ f32 unk_7C[3];
-    /* 0x88 */ UNK_TYPE1 unk_88[0x4];
+    /* 0x64 */ f32 unk_64;
+    /* 0x68 */ f32 unk_68;
+    /* 0x6C */ f32 unk_6C[4];
+    /* 0x7C */ f32 unk_7C[4];
     /* 0x8C */ u32 unk_8C;
 } struct_watchMenu_unk_024B8; // size = 0x90
 

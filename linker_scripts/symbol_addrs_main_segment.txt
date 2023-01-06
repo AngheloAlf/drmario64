@@ -356,12 +356,12 @@ func_80045DD0 = 0x80045DD0;
 func_80045E18 = 0x80045E18;
 func_80045E48 = 0x80045E48;
 func_80045E94 = 0x80045E94;
-func_80045EF4 = 0x80045EF4;
+transFunc_curve = 0x80045EF4;
 transFunc_finger = 0x80045F68;
 func_80046008 = 0x80046008;
-func_80046068 = 0x80046068;
+scaleFunc_curve = 0x80046068;
 func_800460DC = 0x800460DC;
-func_8004613C = 0x8004613C;
+colorFunc_curve = 0x8004613C;
 func_800461B0 = 0x800461B0;
 menuItem_init = 0x80046250;
 menuItem_updateTransScale = 0x80046368;
@@ -1725,7 +1725,7 @@ STR_800ADB10 = 0x800ADB10; // type:char force_not_migration:True
 STR_800ADB18 = 0x800ADB18; // type:char force_not_migration:True
 STR_800ADB24 = 0x800ADB24; // type:char force_not_migration:True
 
-RO_800ADC50 = 0x800ADC50; // force_not_migration:True
+color_251 = 0x800ADC50; // force_not_migration:True
 
 RO_800ADC60 = 0x800ADC60; // type:Gfx
 

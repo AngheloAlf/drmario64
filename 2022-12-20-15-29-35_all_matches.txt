@@ -281,9 +281,9 @@ dm_data_mode_taiQ_sort - found 2 matches total:
 0.99 - dm_data_mode_level_sort
 0.99 - dm_data_mode_timeAt_sort
 
-func_80045EF4 - found 2 matches total:
-0.99 - func_80046068
-0.99 - func_8004613C
+transFunc_curve - found 2 matches total:
+0.99 - scaleFunc_curve
+0.99 - colorFunc_curve
 
 func_80043A14 - found 2 matches total:
 1.00 - func_80044940
