@@ -671,7 +671,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004ED70);
 // ? func_8004ED70(MenuRank *, u32, u32, s32); /* extern */
 // s32 func_80059E6C(struct_watchMenu *);              /* extern */
 
-void menuMain_init(MenuRank *arg0, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2) {
+void menuMain_init(MenuRank *menuRank, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2) {
     s32 var_s1_3;
     s32 *var_a0;
     s32 temp_v0;
@@ -879,7 +879,7 @@ extern ? D_800B043C;
 extern ? D_800B0448;
 extern ? RO_800AF3C4;
 
-void menuMain_input(MenuRank *arg0) {
+void menuMain_input(MenuRank *menuRank) {
     s32 sp10;
     void *sp1C;
     s32 sp24;
@@ -1813,7 +1813,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuMain_input);
 ? func_8004CFB8(s8 *, MenuItem *); /* extern */
 s32 func_8004EB94(MenuRank *, u32, s32); /* extern */
 
-void menuMain_update(MenuRank *arg0) {
+void menuMain_update(MenuRank *menuRank) {
     f32 temp_fv0;
     s32 temp_a0;
     s32 var_s0;
@@ -1969,7 +1969,7 @@ extern ? D_800B0B18;
 extern ? D_800B0B1C;
 extern ? D_800B0B20;
 
-void menuLvSel_init(MenuRank *arg0, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2) {
+void menuLvSel_init(MenuRank *menuRank, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2) {
     s32 temp_t0;
     s32 temp_t1;
     s32 temp_v0;
@@ -2118,7 +2118,7 @@ s32 func_80053C2C(MenuRank *, ?, u32, ?); /* extern */
 ? menuCursor_update(void *, void *);                /* extern */
 extern ? D_800B0D84;
 
-void menuChSel_update(MenuRank *arg0) {
+void menuChSel_update(MenuRank *menuRank) {
     s32 temp_v1;
     s32 temp_v1_2;
     s32 var_a1;
@@ -2268,7 +2268,7 @@ s32 menuItem_drawTex(s8 *, Gfx **, s32, ?);            /* extern */
 s32 _getTexName(MenuRank_unk_0000 *, ?); /* extern */
 extern ? D_8008E86C;
 
-void menuNmEnt_draw(MenuRank *arg0, Gfx **gfxP) {
+void menuNmEnt_draw(MenuRank *menuRank, Gfx **gfxP) {
     Gfx *sp18;
     f32 *sp1C;
     Gfx *temp_v0;
@@ -2571,94 +2571,94 @@ const s32 _lr_10544[][2] = {
     { 0xDD, 0x1E },
 };
 
-void menuRank_init(MenuRank *arg0, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2 UNUSED) {
+void menuRank_init(MenuRank *menuRank, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2 UNUSED) {
     u32 i;
 
     // TODO: figure out if this really contain a reference to struct_watchMenu
-    arg0->unk_0000 = (MenuRank_unk_0000 *)arg1;
-    arg0->unk_0004 = _getMode(arg1);
-    switch (arg0->unk_0004) {
+    menuRank->unk_0000 = (MenuRank_unk_0000 *)arg1;
+    menuRank->unk_0004 = _getMode(arg1);
+    switch (menuRank->unk_0004) {
         case 0x35:
         case 0x36:
         case 0x38:
         case 0x39:
         case 0x3A:
-            arg0->unk_0008 = 1;
+            menuRank->unk_0008 = 1;
             break;
 
         default:
-            arg0->unk_0008 = 0;
+            menuRank->unk_0008 = 0;
             break;
     }
 
-    arg0->unk_000C = 1;
-    arg0->unk_0010 = 1;
-    arg0->unk_0014 = 0;
-    arg0->unk_0018 = -1;
-    menuItem_init(&arg0->unk_017C, 0x23, 0x56);
+    menuRank->unk_000C = 1;
+    menuRank->unk_0010 = 1;
+    menuRank->unk_0014 = 0;
+    menuRank->unk_0018 = -1;
+    menuItem_init(&menuRank->unk_017C, 0x23, 0x56);
 
     for (i = 0; i < 2U; i++) {
-        menuItem_init(&arg0->unk_020C[i], _lr_10544[i][0], _lr_10544[i][1]);
+        menuItem_init(&menuRank->unk_020C[i], _lr_10544[i][0], _lr_10544[i][1]);
     }
 
-    switch (arg0->unk_0004) {
+    switch (menuRank->unk_0004) {
         case 0x31:
-            dm_data_mode_story_sort(&arg0->unk_001C);
+            dm_data_mode_story_sort(&menuRank->unk_001C);
             break;
 
         case 0x32:
-            dm_data_mode_level_sort(&arg0->unk_001C);
+            dm_data_mode_level_sort(&menuRank->unk_001C);
             break;
 
         case 0x33:
-            dm_data_mode_taiQ_sort(&arg0->unk_001C);
+            dm_data_mode_taiQ_sort(&menuRank->unk_001C);
             break;
 
         case 0x34:
-            dm_data_mode_timeAt_sort(&arg0->unk_001C);
+            dm_data_mode_timeAt_sort(&menuRank->unk_001C);
             break;
 
         case 0x35:
-            dm_data_vscom_sort(&arg0->unk_001C);
+            dm_data_vscom_sort(&menuRank->unk_001C);
             break;
 
         case 0x36:
-            dm_data_vc_fl_sort(&arg0->unk_001C);
+            dm_data_vc_fl_sort(&menuRank->unk_001C);
             break;
 
         case 0x38:
-            dm_data_vsman_sort(&arg0->unk_001C);
+            dm_data_vsman_sort(&menuRank->unk_001C);
             break;
 
         case 0x39:
-            dm_data_vm_fl_sort(&arg0->unk_001C);
+            dm_data_vm_fl_sort(&menuRank->unk_001C);
             break;
 
         case 0x3A:
-            dm_data_vm_ta_sort(&arg0->unk_001C);
+            dm_data_vm_ta_sort(&menuRank->unk_001C);
             break;
     }
 
-    menuRank_setPanel(arg0, arg0->unk_0014, arg0->unk_0004, arg0->unk_000C);
-    menuRank_setFrame(arg0, arg0->unk_0014, 1, 0.0f);
+    menuRank_setPanel(menuRank, menuRank->unk_0014, menuRank->unk_0004, menuRank->unk_000C);
+    menuRank_setFrame(menuRank, menuRank->unk_0014, 1, 0.0f);
 }
 
-void menuRank_input(MenuRank *arg0) {
-    MenuRank_unk_590 *temp_s0 = &arg0->unk_590[arg0->unk_0014];
-    u16 pressedButton = func_80059E1C(arg0->unk_0000, 0);
+void menuRank_input(MenuRank *menuRank) {
+    MenuRank_unk_590 *temp_s0 = &menuRank->unk_590[menuRank->unk_0014];
+    u16 pressedButton = func_80059E1C(menuRank->unk_0000, 0);
     s32 direction;
     SndIndex sndIndex;
 
-    func_80059E3C(arg0->unk_0000, 0);
+    func_80059E3C(menuRank->unk_0000, 0);
     direction = 0;
     sndIndex = SND_INDEX_INVALID;
-    if ((arg0->unk_032C.unk_38 == 0.0f) && (arg0->unk_032C.unk_3C < 0.0f)) {
-        func_800585BC(arg0, 1, 0.0f);
+    if ((menuRank->unk_032C.unk_38 == 0.0f) && (menuRank->unk_032C.unk_3C < 0.0f)) {
+        func_800585BC(menuRank, 1, 0.0f);
     }
 
     if (!(temp_s0->unk_3A8[0].unk_008.unk_04.unk_14 < 1.0f) && !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_18 < 0.0f) &&
         !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_38 < 1.0f) && !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_3C < 0.0f)) {
-        if (arg0->unk_0008 == 0) {
+        if (menuRank->unk_0008 == 0) {
             if (pressedButton & (L_JPAD | L_TRIG)) {
                 direction--;
             }
@@ -2668,20 +2668,20 @@ void menuRank_input(MenuRank *arg0) {
         }
 
         if (pressedButton & B_BUTTON) {
-            menuRank_setFrame(arg0, arg0->unk_0014, -1, 1.0f);
+            menuRank_setFrame(menuRank, menuRank->unk_0014, -1, 1.0f);
             sndIndex = SND_INDEX_68;
-            func_80059E7C(arg0->unk_0000, 0);
+            func_80059E7C(menuRank->unk_0000, 0);
         } else if (direction != 0) {
-            arg0->unk_0010 = arg0->unk_000C;
+            menuRank->unk_0010 = menuRank->unk_000C;
 
-            arg0->unk_000C = WrapI(0, 3, arg0->unk_000C + direction);
+            menuRank->unk_000C = WrapI(0, 3, menuRank->unk_000C + direction);
             sndIndex = SND_INDEX_63;
-            func_800586A4(arg0, arg0->unk_0014, -1, 1.0f, -(direction * 0x140));
-            arg0->unk_0018 = arg0->unk_0014;
-            arg0->unk_0014 = (arg0->unk_0014 + 1) & 1;
-            menuRank_setPanel(arg0, arg0->unk_0014, arg0->unk_0004, arg0->unk_000C);
-            func_800585BC(arg0, -1, 1.0f);
-            func_800586A4(arg0, arg0->unk_0014, 1, 0.0f, direction * 0x140);
+            func_800586A4(menuRank, menuRank->unk_0014, -1, 1.0f, -(direction * 0x140));
+            menuRank->unk_0018 = menuRank->unk_0014;
+            menuRank->unk_0014 = (menuRank->unk_0014 + 1) & 1;
+            menuRank_setPanel(menuRank, menuRank->unk_0014, menuRank->unk_0004, menuRank->unk_000C);
+            func_800585BC(menuRank, -1, 1.0f);
+            func_800586A4(menuRank, menuRank->unk_0014, 1, 0.0f, direction * 0x140);
         }
 
         if (sndIndex > SND_INDEX_INVALID) {
@@ -2690,39 +2690,39 @@ void menuRank_input(MenuRank *arg0) {
     }
 }
 
-void menuRank_update(MenuRank *arg0) {
-    MenuItem *temp_v0 = _getRootItem(arg0->unk_0000);
+void menuRank_update(MenuRank *menuRank) {
+    MenuItem *temp_v0 = _getRootItem(menuRank->unk_0000);
     s32 i;
 
-    func_800464BC(&arg0->unk_017C, temp_v0);
-    func_800464F8(&arg0->unk_020C[i], 2, temp_v0);
+    func_800464BC(&menuRank->unk_017C, temp_v0);
+    func_800464F8(&menuRank->unk_020C[i], 2, temp_v0);
 
-    func_800464BC(&arg0->unk_032C, temp_v0);
+    func_800464BC(&menuRank->unk_032C, temp_v0);
 
-    func_800578C8(&arg0->unk_03BC, temp_v0);
-    func_800578C8(&arg0->unk_0458, &arg0->unk_032C);
-    func_800578C8(&arg0->unk_04F4, &arg0->unk_032C);
+    func_800578C8(&menuRank->unk_03BC, temp_v0);
+    func_800578C8(&menuRank->unk_0458, &menuRank->unk_032C);
+    func_800578C8(&menuRank->unk_04F4, &menuRank->unk_032C);
 
     for (i = 0; i < 2; i++) {
         s32 index;
 
         switch (i) {
             case 0:
-                index = arg0->unk_0018;
+                index = menuRank->unk_0018;
                 break;
             case 1:
-                index = arg0->unk_0014;
+                index = menuRank->unk_0014;
                 break;
         }
 
         if (index >= 0) {
-            MenuRank_unk_590 *temp_s2 = &arg0->unk_590[index];
+            MenuRank_unk_590 *temp_s2 = &menuRank->unk_590[index];
             s32 j;
 
-            func_80057BE8(&temp_s2->unk_0004, &arg0->unk_017C);
+            func_80057BE8(&temp_s2->unk_0004, &menuRank->unk_017C);
 
             for (j = 0; j < temp_s2->unk_0000; j++) {
-                menuRankPanel_update(&temp_s2->unk_3A8[j], &arg0->unk_017C);
+                menuRankPanel_update(&temp_s2->unk_3A8[j], &menuRank->unk_017C);
             }
         }
     }
