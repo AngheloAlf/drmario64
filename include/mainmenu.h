@@ -102,44 +102,78 @@ typedef struct MenuItem {
     /* 0x54 */ f32 unk_54[4];
     /* 0x64 */ f32 unk_64;
     /* 0x68 */ f32 unk_68;
-    /* 0x6C */ f32 unk_6C[4];
-    /* 0x7C */ f32 unk_7C[4];
+    /* 0x6C */ f32 unk_6C[2][4];
     /* 0x8C */ u32 unk_8C;
 } MenuItem; // size = 0x90
 
 
-typedef struct MenuLvSel_unk_01B8 {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuLvSel_unk_01B8; // size >= 0x4
-
-typedef struct MenuLvSel_unk_0264 {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuLvSel_unk_0264; // size >= 0x4
-
-typedef struct MenuLvSel_unk_0564 {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuLvSel_unk_0564; // size >= 0x4
-
-typedef struct MenuLvSel_unk_0600 {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuLvSel_unk_0600; // size >= 0x4
-
-typedef struct MenuLvSel_unk_0614 {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuLvSel_unk_0614; // size >= 0x4
-
-typedef struct MenuLvSel_unk_0C64 {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuLvSel_unk_0C64; // size >= 0x4
-
-typedef struct MenuLvSel_unk_1504 {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuLvSel_unk_1504; // size >= 0x4
-
 typedef struct MenuLvSel_unk_162C {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x260];
+    /* 0x000 */ UNK_TYPE1 unk_000[0x1C];
+    /* 0x01C */ u32 unk_01C;
+    /* 0x020 */ UNK_TYPE1 unk_020[0x240];
 } MenuLvSel_unk_162C; // size = 0x260
 
+
+
+typedef struct MenuLvSel_unk_01B8_unk_14 {
+    /* 0x0 */ UNK_TYPE1 unk_0[0x8];
+} MenuLvSel_unk_01B8_unk_14; // size = 0x8
+
+typedef struct MenuLvSel_unk_01B8 {
+    /* 0x00 */ struct struct_watchMenu *unk_00;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ s32 unk_0C;
+    /* 0x10 */ u32 unk_10;
+    /* 0x14 */ MenuLvSel_unk_01B8_unk_14 unk_14;
+    /* 0x1C */ MenuItem unk_1C;
+} MenuLvSel_unk_01B8; // size >= 0xAC
+
+typedef struct MenuLvSel_unk_0264 {
+    /* 0x000 */ struct struct_watchMenu *unk_000;
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
+    /* 0x00C */ s32 unk_00C;
+    /* 0x010 */ MenuItem unk_010;
+    /* 0x0A0 */ MenuLvSel_unk_162C unk_0A0;
+} MenuLvSel_unk_0264; // size >= 0x300
+
+typedef struct MenuLvSel_unk_0564 {
+    /* 0x0 */ struct struct_watchMenu *unk_0;
+    /* 0x4 */ UNK_TYPE unk_4;
+    /* 0x8 */ UNK_TYPE unk_8;
+    /* 0xC */ MenuItem unk_C;
+} MenuLvSel_unk_0564; // size >= 0x9C
+
+typedef struct MenuLvSel_unk_0600 {
+    /* 0x000 */ struct struct_watchMenu *unk_000;
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
+    /* 0x00C */ s32 unk_00C;
+    /* 0x010 */ s32 unk_010;
+    /* 0x014 */ MenuItem unk_014;
+    /* 0x0A4 */ MenuItem unk_0A4[3];
+    /* 0x254 */ MenuItem unk_254[3];
+    /* 0x404 */ MenuLvSel_unk_162C unk_404;
+} MenuLvSel_unk_0600; // size >= 0x664
+
+typedef struct MenuLvSel_unk_0C64 {
+    /* 0x000 */ struct struct_watchMenu *unk_000;
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
+    /* 0x00C */ u32 unk_00C;
+    /* 0x010 */ MenuItem unk_010;
+    /* 0x0A0 */ MenuItem unk_0A0[5];
+    /* 0x370 */ MenuItem unk_370[5];
+    /* 0x640 */ MenuLvSel_unk_162C unk_640; // size 0x260
+} MenuLvSel_unk_0C64; // size >= 0x8A0
+
+typedef struct MenuLvSel_unk_1504 {
+    /* 0x000 */ struct struct_watchMenu *unk_000;
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ MenuItem unk_08;
+    /* 0x098 */ MenuItem unk_98;
+} MenuLvSel_unk_1504; // size >= 0x128
 
 typedef struct MenuRank_unk_001C {
     /* 0x0 */ UNK_TYPE unk_0;
@@ -223,30 +257,16 @@ typedef struct MenuLvSel {
     /* 0x0098 */ MenuItem unk_0098;
     /* 0x0128 */ MenuItem unk_0128;
     /* 0x01B8 */ MenuLvSel_unk_01B8 unk_01B8;
-    /* 0x01BC */ UNK_TYPE1 unk_01BC[0xA8];
     /* 0x0264 */ MenuLvSel_unk_0264 unk_0264;
-    /* 0x0268 */ UNK_TYPE1 unk_0268[0x4];
-    /* 0x026C */ s32 unk_026C;
-    /* 0x0270 */ UNK_TYPE1 unk_0270[0x4];
-    /* 0x0274 */ MenuLvSel_unk_0614 unk_0274;
-    /* 0x0278 */ UNK_TYPE1 unk_0278[0x2EC];
     /* 0x0564 */ MenuLvSel_unk_0564 unk_0564;
-    /* 0x0568 */ UNK_TYPE1 unk_0568[0x98];
     /* 0x0600 */ MenuLvSel_unk_0600 unk_0600;
-    /* 0x0604 */ UNK_TYPE1 unk_0604[0x10];
-    /* 0x0614 */ MenuLvSel_unk_0614 unk_0614;
-    /* 0x0618 */ UNK_TYPE1 unk_0618[0x64C];
     /* 0x0C64 */ MenuLvSel_unk_0C64 unk_0C64;
-    /* 0x0C68 */ UNK_TYPE1 unk_0C68[0x89C];
     /* 0x1504 */ MenuLvSel_unk_1504 unk_1504;
-    /* 0x1508 */ UNK_TYPE1 unk_1508[0x124];
     /* 0x162C */ MenuLvSel_unk_162C unk_162C[3];
     /* 0x1D4C */ MenuItem unk_1D4C;
     /* 0x1DDC */ MenuItem unk_1DDC;
     /* 0x1E6C */ MenuLvSel_unk_0564 unk_1E6C;
-    /* 0x1E70 */ UNK_TYPE1 unk_1E70[0x98];
     /* 0x1F08 */ MenuLvSel_unk_0600 unk_1F08;
-    /* 0x1F0C */ UNK_TYPE1 unk_1F0C[0x660];
     /* 0x256C */ s32 unk_256C;
     /* 0x2570 */ s32 unk_2570;
     /* 0x2574 */ UNK_TYPE1 unk_2574[0x5030];

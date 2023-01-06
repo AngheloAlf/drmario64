@@ -362,7 +362,7 @@ func_80046008 = 0x80046008;
 scaleFunc_curve = 0x80046068;
 func_800460DC = 0x800460DC;
 colorFunc_curve = 0x8004613C;
-func_800461B0 = 0x800461B0;
+colorFunc_cursor = 0x800461B0;
 menuItem_init = 0x80046250;
 menuItem_updateTransScale = 0x80046368;
 menuItem_updateColor = 0x80046408;
@@ -431,7 +431,7 @@ func_80049CD4 = 0x80049CD4;
 func_80049EA4 = 0x80049EA4;
 func_8004A160 = 0x8004A160;
 func_8004A1F4 = 0x8004A1F4;
-func_8004A240 = 0x8004A240;
+menuMusicItem_init = 0x8004A240;
 func_8004A3F4 = 0x8004A3F4;
 func_8004A4CC = 0x8004A4CC;
 func_8004A680 = 0x8004A680;
@@ -1786,8 +1786,11 @@ RO_800AF4C4 = 0x800AF4C4; // force_not_migration:True
 RO_800AF4EC = 0x800AF4EC; // force_not_migration:True
 RO_800AF514 = 0x800AF514; // force_not_migration:True
 RO_800AF518 = 0x800AF518; // force_not_migration:True
-RO_800AF52C = 0x800AF52C; // force_not_migration:True
+_musicItemColor = 0x800AF52C; // force_not_migration:True size:0x8
 RO_800AF530 = 0x800AF530; // force_not_migration:True
+
+_size_1542 = 0x800AFAD4; // size:0x18
+_type_1543 = 0x800AFAEC; // size:0xC
 
 RO_800AFB68 = 0x800AFB68; // size:0x8
 

@@ -79,11 +79,11 @@ void colorFunc_curve(MenuItem *arg0) {
     arg0->unk_64 = temp_fv0;
 
     for (i = 0; i < 4U; i++) {
-        arg0->unk_54[i] = arg0->unk_6C[i] + ((arg0->unk_7C[i] - arg0->unk_6C[i]) * temp_ft0);
+        arg0->unk_54[i] = arg0->unk_6C[0][i] + ((arg0->unk_6C[1][i] - arg0->unk_6C[0][i]) * temp_ft0);
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800461B0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", colorFunc_cursor);
 
 const f32 color_251[] = {
     0.5f,
@@ -155,7 +155,10 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF4C4);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF4EC);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF514);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF518);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF52C);
+
+extern u8 _musicItemColor[][4];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _musicItemColor);
+
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF530);
 
 ASM_TEXT;
@@ -193,9 +196,9 @@ void menuItem_init(MenuItem *arg0, s32 arg1, s32 arg2) {
     arg0->unk_68 = 0.125f;
 
     for (i = 0; i < 4U; i++) {
-        arg0->unk_6C[i] = color_251[i];
+        arg0->unk_6C[0][i] = color_251[i];
         arg0->unk_54[i] = 1.0f;
-        arg0->unk_7C[i] = 1.0f;
+        arg0->unk_6C[1][i] = 1.0f;
     }
 
     arg0->unk_8C &= ~0x80000000;
@@ -272,7 +275,12 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046688);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046694);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800466A0);
+void func_800466A0(MenuItem *arg0, f32 arg1, f32 arg2) {
+    arg0->unk_6C[0][3] = arg2;
+    arg0->unk_6C[0][2] = arg1;
+    arg0->unk_6C[0][1] = arg1;
+    arg0->unk_6C[0][0] = arg1;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800466B8);
 
@@ -380,7 +388,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800477BC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuCursor_init2);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800479A8);
+void func_800479A8(MenuLvSel_unk_162C *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
+                   s32 arg7) {
+    menuCursor_init2(arg0, arg1, arg2, 4, 0, arg3, arg4, arg5, arg6, arg7);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuCursor_update);
 
@@ -392,13 +403,39 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuCursor_draw2);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80048634);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80048680);
+void func_80048680(MenuLvSel_unk_1504 *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3) {
+    arg0->unk_000 = arg1;
+    arg0->unk_004 = 0;
+    menuItem_init(&arg0->unk_08, arg2, arg3);
+    menuItem_init(&arg0->unk_98, 4, 0x10);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800486C8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80048708);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80048B8C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AF890);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFAC8);
+
+extern const s32 _size_1542[][2];
+extern const s32 _type_1543[];
+
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _size_1542);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _type_1543);
+
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFAF8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFAFC);
+
+ASM_TEXT;
+
+void func_80048B8C(MenuLvSel_unk_0264 *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    arg0->unk_000 = arg1;
+    arg0->unk_004 = arg2;
+    arg0->unk_008 = 0x14;
+    arg0->unk_00C = arg4;
+    menuItem_init(&arg0->unk_010, arg5, arg6);
+    func_800479A8(&arg0->unk_0A0, arg1, _type_1543[arg2], arg3, -2, -2, _size_1542[arg2][0], _size_1542[arg2][1]);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80048C48);
 
@@ -434,17 +471,14 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80049754);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800497D0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80049894);
+void func_80049894(MenuLvSel_unk_0564 *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+    arg0->unk_0 = arg1;
+    arg0->unk_4 = arg2;
+    arg0->unk_8 = arg3;
+    menuItem_init(&arg0->unk_C, arg4, arg5);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800498C4);
-
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AF890);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFAC8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFAD4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFAD8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFAEC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFAF8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFAFC);
 
 const char D_800AFB08[] = "Ｙｅｓ";
 const char D_800AFB10[] = "Ｎｏ";
@@ -458,7 +492,91 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFB68);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800498E0);
 
+#if 0
+extern ? D_8008E778;
+extern ? D_800AFB48;
+extern ? D_800AFB4C;
+extern u8 RO_800AF514;
+extern ? RO_800AFB68;
+
+void menuSpeedItem_init(MenuLvSel_unk_0600 *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
+    s32 sp24;
+    MenuItem *var_s0_2;
+    f32 *var_a0;
+    f64 temp_fv0;
+    s32 temp_s6;
+    s32 temp_s7;
+    s32 temp_v0;
+    s32 temp_v0_2;
+    s32 var_s0;
+    s32 var_s1;
+    s32 var_s1_2;
+    u32 var_a1;
+    u32 var_a3;
+    u32 var_s2;
+    u32 var_s2_2;
+    u8 *var_a2;
+    u8 *var_s4;
+    u8 *var_v1;
+
+    var_s2 = 0;
+    var_s1 = 0;
+    sp24 = arg3;
+    arg0->unk_0 = (s32) arg1;
+    arg0->unk_4 = arg2;
+    arg0->unk_C = 1;
+    arg0->unk_10 = 0;
+    arg0->unk_8 = arg4;
+    var_s0 = 0xA4;
+    menuItem_init((MenuItem *) (arg0 + 0x14), arg5, arg6);
+    do {
+        menuItem_init(arg0 + var_s0, var_s1, 0);
+        var_s1 += arg7;
+        var_s2 += 1;
+        var_s0 += 0x90;
+    } while (var_s2 < 3U);
+    var_s4 = &RO_800AF514;
+    var_s2_2 = 0;
+    temp_v0 = arg2 * 2;
+    var_s1_2 = 0x254;
+    temp_s7 = *(&RO_800AFB68 + temp_v0) << 0x18;
+    temp_s6 = *(&RO_800AFB68 + 1 + temp_v0) << 0x18;
+    do {
+        var_s0_2 = arg0 + var_s1_2;
+        menuItem_init(var_s0_2, temp_s7 >> 0x18, temp_s6 >> 0x18);
+        var_a3 = 0;
+        var_a2 = var_s4;
+        var_s0_2->colorCallback = colorFunc_cursor;
+        var_s0_2->unk_68 = 0.03125f;
+loop_4:
+        var_a1 = 0;
+        var_a0 = var_s0_2->unk_6C[0];
+        var_v1 = var_a2;
+loop_5:
+        temp_fv0 = (f64) *var_v1 * 0.00392156862745098;
+        var_v1 += 1;
+        var_a1 += 1;
+        *var_a0 = (f32) temp_fv0;
+        var_a0 += 4;
+        if (var_a1 < 4U) {
+            goto loop_5;
+        }
+        var_a2 += 4;
+        var_a3 += 1;
+        var_s0_2 += 0x10;
+        if (var_a3 < 2U) {
+            goto loop_4;
+        }
+        var_s4 += 8;
+        var_s2_2 += 8;
+        var_s1_2 += 0x90;
+    } while (var_s2_2 < 0x18U);
+    temp_v0_2 = arg2 * 8;
+    func_800479A8((MenuLvSel_unk_162C *) (arg0 + 0x404), arg1, *(&D_8008E778 + (arg2 * 4)), sp24, -1, -1, *(&D_800AFB48 + temp_v0_2), *(&D_800AFB4C + temp_v0_2));
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuSpeedItem_init);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80049C54);
 
@@ -470,7 +588,40 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A160);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A1F4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A240);
+void menuMusicItem_init(MenuLvSel_unk_0C64 *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4) {
+    u32 i;
+
+    arg0->unk_000 = arg1;
+    arg0->unk_004 = arg2;
+    arg0->unk_008 = -1;
+    arg0->unk_00C |= 0x80000000;
+
+    menuItem_init(&arg0->unk_010, arg3, arg4);
+
+    for (i = 0; i < 5U; i++) {
+        menuItem_init(&arg0->unk_0A0[i], 0x27 * i, 0);
+    }
+
+    for (i = 0; i < 5U; i++) {
+        MenuItem *var_s0_2 = &arg0->unk_370[i];
+        u32 j;
+
+        menuItem_init(var_s0_2, -2, -2);
+        var_s0_2->colorCallback = colorFunc_cursor;
+        var_s0_2->unk_68 = 0.03125f;
+
+        for (j = 0; j < 2U; j++) {
+            u32 k;
+
+            for (k = 0; k < 4U; k++) {
+                var_s0_2->unk_6C[j][k] = _musicItemColor[j][k] * (1.0 / 255.0);
+            }
+        }
+    }
+
+    func_800479A8(&arg0->unk_640, arg1, 5, 0, -1, -1, 0x25, 0x10);
+    arg0->unk_640.unk_01C &= ~0x80000000;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A3F4);
 
@@ -493,7 +644,17 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC14);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC18);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC1C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A860);
+ASM_TEXT;
+
+void func_8004A860(MenuLvSel_unk_01B8 *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    arg0->unk_00 = arg1;
+    arg0->unk_04 = arg2;
+    arg0->unk_08 = arg3;
+    arg0->unk_0C = arg4;
+    arg0->unk_10 |= 0x80000000;
+    bzero(&arg0->unk_14, sizeof(MenuLvSel_unk_01B8_unk_14));
+    menuItem_init(&arg0->unk_1C, arg5, arg6);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A8D8);
 
@@ -1951,7 +2112,12 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuStory_update);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuStory_draw);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800529FC);
+void func_800529FC(MenuLvSel *menuLvSel, s32 arg1 UNUSED, f32 arg2) {
+    menuLvSel->unk_0008.unk_14 = arg2;
+    menuLvSel->unk_0008.unk_18 = 0.05f;
+    menuLvSel->unk_0008.unk_1C[1] = menuLvSel->unk_0008.unk_24[1] - 240.0f;
+    func_8004655C(&menuLvSel->unk_0008);
+}
 
 #ifdef NON_MATCHING
 void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2) {
@@ -1997,8 +2163,8 @@ void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *arg1, struct_watchMe
             // var_s2 = MIN(menuLvSel->unk_2570, temp_s5->unk_04);
             func_8004A860(&menuLvSel->unk_01B8, arg1, 1, 2, var_s2, 0x59, 5);
             func_80048B8C(&menuLvSel->unk_0264, arg1, 2, 0, var_s2, 0x99, 0xF);
-            func_800466A0(&menuLvSel->unk_0274, 1.0f, 0.5f);
-            menuLvSel->unk_026C = menuLvSel->unk_2570;
+            func_800466A0(&menuLvSel->unk_0264.unk_010, 1.0f, 0.5f);
+            menuLvSel->unk_0264.unk_008 = menuLvSel->unk_2570;
             break;
 
         default:
@@ -2008,8 +2174,8 @@ void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *arg1, struct_watchMe
     func_80049894(&menuLvSel->unk_0564, arg1, 1, temp_s5->unk_05, 0x44, 0x28);
     menuSpeedItem_init(&menuLvSel->unk_0600, arg1, 1, 0, temp_s5->unk_05, 0x82, 0x24, 0x2E);
 
-    func_800466A0(&menuLvSel->unk_0614, 1.0f, 0.5f);
-    func_8004A240(&menuLvSel->unk_0C64, arg1, temp_s5->unk_06, 0x46, 0x46);
+    func_800466A0(&menuLvSel->unk_0600.unk_014, 1.0f, 0.5f);
+    menuMusicItem_init(&menuLvSel->unk_0C64, arg1, temp_s5->unk_06, 0x46, 0x46);
     func_80048680(&menuLvSel->unk_1504, arg1, 0x19, 7);
 
     for (var_s2 = 0; var_s2 < 3U; var_s2++) {
@@ -2020,7 +2186,7 @@ void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *arg1, struct_watchMe
     menuItem_init(&menuLvSel->unk_1D4C, 0x56, 7);
     menuItem_init(&menuLvSel->unk_1DDC, 0x99, 8);
 
-    func_800529FC(menuLvSel, 1, 0);
+    func_800529FC(menuLvSel, 1, 0.0f);
     *arg2 = temp_s7;
 }
 #else
@@ -3075,8 +3241,8 @@ void menuAll_update(struct_watchMenu *arg0) {
 
     temp_f2_2 = var_f2;
     for (i = 0; i < 3; i++) {
-        var_v1->unk_7C[i] = temp_f2_2;
-        var_v1->unk_6C[i] = temp_f2_2;
+        var_v1->unk_6C[1][i] = temp_f2_2;
+        var_v1->unk_6C[0][i] = temp_f2_2;
     }
 
     func_800464F8(&arg0->unk_024B8, 1, NULL);

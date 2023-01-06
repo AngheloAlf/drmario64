@@ -10,7 +10,7 @@ D_800B2138 - found 50 matches total:
 0.99 - D_800A7354 (decompiled)
 0.99 - title_bmp_tbl (decompiled)
 0.99 - D_800ACE78
-0.99 - D_800AFAEC (decompiled)
+0.99 - _type_1543 (decompiled)
 0.99 - D_800AFAFC (decompiled)
 0.99 - D_800AFD00
 0.99 - D_800AFD10
@@ -330,7 +330,7 @@ D_800AF660 - found 2 matches total:
 0.99 - RO_800ACA20 (decompiled)
 
 transFunc_finger - found 1 matches total:
-0.99 - func_800461B0
+0.99 - colorFunc_cursor
 
 draw_Tex - found 1 matches total:
 0.99 - func_8002C914
