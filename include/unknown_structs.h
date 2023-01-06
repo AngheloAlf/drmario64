@@ -596,6 +596,7 @@ typedef struct struct_watchMenu_unk_00C48 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x800];
 } struct_watchMenu_unk_00C48; // size = 0x800
 
+// MenuItem?
 typedef struct struct_watchMenu_unk_024B8 {
     /* 0x00 */ f32 unk_00[2];
     /* 0x08 */ UNK_FUN_PTR unk_08;
@@ -689,17 +690,22 @@ typedef struct struct_watchMenu_unk_02470 {
     /* 0x00000 */ UNK_TYPE1 unk_00000[0x60000];
 } struct_watchMenu_unk_02470; // size = 0x60000
 
+typedef struct struct_watchMenu_unk_02678_unk_001C {
+    /* 0x0 */ UNK_TYPE unk_0;
+} struct_watchMenu_unk_02678_unk_001C; // size >= 0x4
+
 typedef struct struct_watchMenu_unk_02678 {
     /* 0x0000 */ struct_watchMenu_unk_02678_unk_0000 *unk_0000;
-    /* 0x0004 */ UNK_TYPE unk_0004;
+    /* 0x0004 */ u32 unk_0004;
     /* 0x0008 */ UNK_TYPE unk_0008;
     /* 0x000C */ UNK_TYPE unk_000C;
     /* 0x0010 */ UNK_TYPE unk_0010;
     /* 0x0014 */ UNK_TYPE unk_0014;
     /* 0x0018 */ UNK_TYPE unk_0018;
-    /* 0x001C */ UNK_TYPE1 unk_001C[0x160];
+    /* 0x001C */ struct_watchMenu_unk_02678_unk_001C unk_001C;
+    /* 0x0020 */ UNK_TYPE1 unk_0020[0x15C];
     /* 0x017C */ struct_watchMenu_unk_024B8 unk_017C;
-    /* 0x020C */ struct_watchMenu_unk_024B8 unk_020C[2]; // guessed size
+    /* 0x020C */ struct_watchMenu_unk_024B8 unk_020C[2];
     /* 0x032C */ struct_watchMenu_unk_024B8 unk_032C;
     /* 0x03BC */ struct_watchMenu_unk_02678_unk_03BC unk_03BC;
     /* 0x0458 */ struct_watchMenu_unk_02678_unk_03BC unk_0458;

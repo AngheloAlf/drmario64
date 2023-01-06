@@ -311,13 +311,13 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80036F70);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80037068);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80037248);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_data_mode_story_sort);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80037294);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_data_mode_level_sort);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_800372E0);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_data_mode_taiQ_sort);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_8003732C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_data_mode_timeAt_sort);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80037378);
 
@@ -329,15 +329,15 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80037468);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_800374B8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80037710);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_data_vscom_sort);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_8003772C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_data_vc_fl_sort);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80037748);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_data_vsman_sort);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80037764);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_data_vm_fl_sort);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_80037780);
+INCLUDE_ASM("asm/nonmatchings/main_segment/record", dm_data_vm_ta_sort);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/record", func_8003779C);
 

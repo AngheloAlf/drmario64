@@ -123,11 +123,11 @@ D_800B0A5C - found 30 matches total:
 0.99 - RO_800B20D0
 0.99 - position_1_1
 
-func_80037780 - found 20 matches total:
+dm_data_vm_ta_sort - found 20 matches total:
 0.99 - osSpTaskYield (decompiled)
-0.99 - func_8003772C
-0.99 - func_80037748
-0.99 - func_80037764
+0.99 - dm_data_vc_fl_sort
+0.99 - dm_data_vsman_sort
+0.99 - dm_data_vm_fl_sort
 0.99 - func_800498C4
 0.99 - func_80056CAC
 0.99 - func_80056E1C
@@ -156,7 +156,7 @@ func_80062AE0 - found 15 matches total:
 0.99 - dm_seq_stop (decompiled)
 0.99 - _dm_seq_set_volume (decompiled)
 0.99 - func_8002B178 (decompiled)
-0.99 - func_80037710
+0.99 - dm_data_vscom_sort
 0.99 - func_8004F33C
 0.99 - func_800560D4
 0.99 - animeState_isEnd
@@ -277,9 +277,9 @@ D_800AFBB0 - found 2 matches total:
 0.99 - D_8008CFF8 (decompiled)
 0.99 - D_800B11A4
 
-func_800372E0 - found 2 matches total:
-0.99 - func_80037294
-0.99 - func_8003732C
+dm_data_mode_taiQ_sort - found 2 matches total:
+0.99 - dm_data_mode_level_sort
+0.99 - dm_data_mode_timeAt_sort
 
 func_80045EF4 - found 2 matches total:
 0.99 - func_80046068
@@ -347,7 +347,7 @@ func_800466B8 - found 1 matches total:
 func_80044C28 - found 1 matches total:
 0.99 - func_80044058
 
-func_80059E5C - found 1 matches total:
+_getMode - found 1 matches total:
 0.99 - func_80059E6C
 
 func_80072204 - found 1 matches total:

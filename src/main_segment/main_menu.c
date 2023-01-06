@@ -100,7 +100,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF518);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF52C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF530);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046250);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuItem_init);
 
 void menuItem_updateTransScale(struct_watchMenu_unk_024B8 *arg0, struct_watchMenu_unk_024B8 *arg1) {
     u32 i;
@@ -863,7 +863,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B12FC);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1308);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1314);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80058838);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuRank_setFrame);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80058A24);
 
@@ -874,12 +874,84 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1350);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1360);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1370);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80058A9C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuRank_setPanel);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B13F8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B13FC);
+const s32 _lr_10544[][2] = {
+    { 0x23, 0x1E },
+    { 0xDD, 0x1E },
+};
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuRank_init);
+void menuRank_init(struct_watchMenu_unk_02678 *arg0, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2 UNUSED) {
+    u32 i;
+
+    // TODO: figure out if this really contain a reference to struct_watchMenu
+    arg0->unk_0000 = (struct_watchMenu_unk_02678_unk_0000 *)arg1;
+    arg0->unk_0004 = _getMode(arg1);
+    switch (arg0->unk_0004) {
+        case 0x35:
+        case 0x36:
+        case 0x38:
+        case 0x39:
+        case 0x3A:
+            arg0->unk_0008 = 1;
+            break;
+
+        default:
+            arg0->unk_0008 = 0;
+            break;
+    }
+
+    arg0->unk_000C = 1;
+    arg0->unk_0010 = 1;
+    arg0->unk_0014 = 0;
+    arg0->unk_0018 = -1;
+    menuItem_init(&arg0->unk_017C, 0x23, 0x56);
+
+    for (i = 0; i < 2U; i++) {
+        menuItem_init(&arg0->unk_020C[i], _lr_10544[i][0], _lr_10544[i][1]);
+    }
+
+    switch (arg0->unk_0004) {
+        case 0x31:
+            dm_data_mode_story_sort(&arg0->unk_001C);
+            break;
+
+        case 0x32:
+            dm_data_mode_level_sort(&arg0->unk_001C);
+            break;
+
+        case 0x33:
+            dm_data_mode_taiQ_sort(&arg0->unk_001C);
+            break;
+
+        case 0x34:
+            dm_data_mode_timeAt_sort(&arg0->unk_001C);
+            break;
+
+        case 0x35:
+            dm_data_vscom_sort(&arg0->unk_001C);
+            break;
+
+        case 0x36:
+            dm_data_vc_fl_sort(&arg0->unk_001C);
+            break;
+
+        case 0x38:
+            dm_data_vsman_sort(&arg0->unk_001C);
+            break;
+
+        case 0x39:
+            dm_data_vm_fl_sort(&arg0->unk_001C);
+            break;
+
+        case 0x3A:
+            dm_data_vm_ta_sort(&arg0->unk_001C);
+            break;
+    }
+
+    menuRank_setPanel(arg0, arg0->unk_0014, arg0->unk_0004, arg0->unk_000C);
+    menuRank_setFrame(arg0, arg0->unk_0014, 1, 0.0f);
+}
 
 void menuRank_input(struct_watchMenu_unk_02678 *arg0) {
     struct_watchMenu_unk_02678_unk_590 *temp_s0 = &arg0->unk_590[arg0->unk_0014];
@@ -906,7 +978,7 @@ void menuRank_input(struct_watchMenu_unk_02678 *arg0) {
         }
 
         if (pressedButton & B_BUTTON) {
-            func_80058838(arg0, arg0->unk_0014, -1, 1.0f);
+            menuRank_setFrame(arg0, arg0->unk_0014, -1, 1.0f);
             sndIndex = SND_INDEX_68;
             func_80059E7C(arg0->unk_0000, 0);
         } else if (direction != 0) {
@@ -917,7 +989,7 @@ void menuRank_input(struct_watchMenu_unk_02678 *arg0) {
             func_800586A4(arg0, arg0->unk_0014, -1, 1.0f, -(direction * 0x140));
             arg0->unk_0018 = arg0->unk_0014;
             arg0->unk_0014 = (arg0->unk_0014 + 1) & 1;
-            func_80058A9C(arg0, arg0->unk_0014, arg0->unk_0004, arg0->unk_000C);
+            menuRank_setPanel(arg0, arg0->unk_0014, arg0->unk_0004, arg0->unk_000C);
             func_800585BC(arg0, -1, 1.0f);
             func_800586A4(arg0, arg0->unk_0014, 1, 0.0f, direction * 0x140);
         }
@@ -1042,7 +1114,7 @@ u16 func_80059E3C(struct_watchMenu_unk_02678_unk_0000 *arg0 UNUSED, s32 arg1) {
     return joycur[main_joy[arg1]];
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059E5C);
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", _getMode);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059E6C);
 
@@ -1097,7 +1169,7 @@ void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) 
         tiLoadTexData(&sp10, pairArray[ROMDATATBL_TUTORIAL_KASA].start, pairArray[ROMDATATBL_TUTORIAL_KASA].end);
     arg0->unk_024B4 = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_KASA].start, pairArray[ROMDATATBL_MENU_KASA].end);
 
-    func_80046250(&arg0->unk_024B8, 0, 0);
+    menuItem_init(&arg0->unk_024B8, 0, 0);
     func_800474EC(&arg0->unk_02548, arg0, 0x70, 0x12);
 
     arg0->unk_111D0 = D_8008E8B4;
