@@ -110,7 +110,10 @@ typedef struct MenuItem {
 typedef struct MenuLvSel_unk_162C {
     /* 0x000 */ UNK_TYPE1 unk_000[0x1C];
     /* 0x01C */ u32 unk_01C;
-    /* 0x020 */ UNK_TYPE1 unk_020[0x240];
+    /* 0x020 */ MenuItem unk_020;
+    /* 0x0B0 */ MenuItem unk_0B0;
+    /* 0x140 */ MenuItem unk_140;
+    /* 0x1D0 */ MenuItem unk_1D0;
 } MenuLvSel_unk_162C; // size = 0x260
 
 

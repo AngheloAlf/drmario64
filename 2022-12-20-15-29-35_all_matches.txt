@@ -103,7 +103,7 @@ D_800B0A5C - found 30 matches total:
 0.99 - D_800AAD58 (decompiled)
 0.99 - D_800ACF10
 0.99 - D_800AFB38 (decompiled)
-0.99 - D_800AFB90
+0.99 - _seq_2327
 0.99 - D_800AFC4C
 0.99 - D_800AFC64
 0.99 - D_800AFCDC
@@ -389,8 +389,8 @@ D_800B0B20 - found 1 matches total:
 func_8004371C - found 1 matches total:
 0.99 - StretchTexBlock_ScisRect
 
-func_80059E8C - found 1 matches total:
-0.99 - func_80059E7C
+_setNextMain - found 1 matches total:
+0.99 - _setMode
 
 func_80041334 - found 1 matches total:
 0.99 - func_80041668

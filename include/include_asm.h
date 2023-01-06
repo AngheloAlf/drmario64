@@ -28,7 +28,8 @@
         "\t.align\t2\n" \
         "\t.globl\t"#NAME"\n" \
         #NAME ":\n" \
-        "\t.include \""FOLDER"/"#NAME".s\"" \
+        "\t.include \""FOLDER"/"#NAME".s\"\n" \
+        ".section .text" \
     )
 #endif
 __asm__(".include \"include/labels.inc\"\n");
