@@ -596,50 +596,49 @@ typedef struct struct_watchMenu_unk_00C48 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x800];
 } struct_watchMenu_unk_00C48; // size = 0x800
 
-struct struct_watchMenu_unk_024B8;
+struct MenuItem;
 
-typedef void (*struct_watchMenu_unk_024B8_TransCallback)(struct struct_watchMenu_unk_024B8 *);
-typedef void (*struct_watchMenu_unk_024B8_ScaleCallback)(struct struct_watchMenu_unk_024B8 *);
-typedef void (*struct_watchMenu_unk_024B8_ColorCallback)(struct struct_watchMenu_unk_024B8 *);
+typedef void (*MenuItem_TransCallback)(struct MenuItem *);
+typedef void (*MenuItem_ScaleCallback)(struct MenuItem *);
+typedef void (*MenuItem_ColorCallback)(struct MenuItem *);
 
-// MenuItem?
-typedef struct struct_watchMenu_unk_024B8 {
+typedef struct MenuItem {
     /* 0x00 */ f32 unk_00[2];
-    /* 0x08 */ struct_watchMenu_unk_024B8_TransCallback transCallback;
+    /* 0x08 */ MenuItem_TransCallback transCallback;
     /* 0x0C */ f32 unk_0C[2];
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ f32 unk_18;
     /* 0x1C */ f32 unk_1C[2];
     /* 0x24 */ f32 unk_24[2];
-    /* 0x2C */ struct_watchMenu_unk_024B8_ScaleCallback scaleCallback;
+    /* 0x2C */ MenuItem_ScaleCallback scaleCallback;
     /* 0x30 */ f32 unk_30[2];
     /* 0x38 */ f32 unk_38;
     /* 0x3C */ f32 unk_3C;
     /* 0x40 */ f32 unk_40[2];
     /* 0x48 */ f32 unk_48[2];
-    /* 0x50 */ struct_watchMenu_unk_024B8_ColorCallback colorCallback;
+    /* 0x50 */ MenuItem_ColorCallback colorCallback;
     /* 0x54 */ f32 unk_54[4];
     /* 0x64 */ f32 unk_64;
     /* 0x68 */ f32 unk_68;
     /* 0x6C */ f32 unk_6C[4];
     /* 0x7C */ f32 unk_7C[4];
     /* 0x8C */ u32 unk_8C;
-} struct_watchMenu_unk_024B8; // size = 0x90
+} MenuItem; // size = 0x90
 
 typedef struct struct_watchMenu_unk_02678_unk_0000 {
     /* 0x0000 */ UNK_TYPE1 unk_0[0x24B8];
-    /* 0x24B8 */ struct_watchMenu_unk_024B8 unk_24B8;
+    /* 0x24B8 */ MenuItem unk_24B8;
 } struct_watchMenu_unk_02678_unk_0000; // size >= 0x2548
 
 typedef struct struct_watchMenu_unk_02678_unk_03BC {
     /* 0x00 */ UNK_TYPE1 unk_00[0xC];
-    /* 0x0C */ struct_watchMenu_unk_024B8 unk_0C;
+    /* 0x0C */ MenuItem unk_0C;
 } struct_watchMenu_unk_02678_unk_03BC; // size = 0x9C
 
 typedef struct struct_watchMenu_unk_02678_unk_590_unk_0004 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x4];
     /* 0x04 */ s32 unk_04;
-    /* 0x08 */ struct_watchMenu_unk_024B8 unk_08;
+    /* 0x08 */ MenuItem unk_08;
     /* 0x98 */ struct_watchMenu_unk_02678_unk_03BC unk_98[UNK_SIZE];
 } struct_watchMenu_unk_02678_unk_590_unk_0004; // size >= 0x134
 
@@ -656,22 +655,22 @@ typedef struct menuRankFig_update_arg0 {
     /* 0x24 */ s32 unk_24;
     /* 0x28 */ UNK_TYPE1 unk_28[0xC];
     /* 0x34 */ s32 unk_34;
-    /* 0x38 */ struct_watchMenu_unk_024B8 unk_38;
+    /* 0x38 */ MenuItem unk_38;
 } menuRankFig_update_arg0; // size = 0xC8
 
 typedef struct struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_008 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x4];
-    /* 0x04 */ struct_watchMenu_unk_024B8 unk_04;
+    /* 0x04 */ MenuItem unk_04;
 } struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_008; // size = 0x94
 
 typedef struct struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_09C {
     /* 0x00 */ UNK_TYPE1 unk_00[0x8];
-    /* 0x08 */ struct_watchMenu_unk_024B8 unk_08;
+    /* 0x08 */ MenuItem unk_08;
 } struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_09C; // size = 0x98
 
 typedef struct struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_134 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x8];
-    /* 0x08 */ struct_watchMenu_unk_024B8 unk_08;
+    /* 0x08 */ MenuItem unk_08;
 } struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_134; // size = 0x98
 
 typedef struct struct_watchMenu_unk_02678_unk_590_unk_3A8 {
@@ -711,9 +710,9 @@ typedef struct struct_watchMenu_unk_02678 {
     /* 0x0018 */ UNK_TYPE unk_0018;
     /* 0x001C */ struct_watchMenu_unk_02678_unk_001C unk_001C;
     /* 0x0020 */ UNK_TYPE1 unk_0020[0x15C];
-    /* 0x017C */ struct_watchMenu_unk_024B8 unk_017C;
-    /* 0x020C */ struct_watchMenu_unk_024B8 unk_020C[2];
-    /* 0x032C */ struct_watchMenu_unk_024B8 unk_032C;
+    /* 0x017C */ MenuItem unk_017C;
+    /* 0x020C */ MenuItem unk_020C[2];
+    /* 0x032C */ MenuItem unk_032C;
     /* 0x03BC */ struct_watchMenu_unk_02678_unk_03BC unk_03BC;
     /* 0x0458 */ struct_watchMenu_unk_02678_unk_03BC unk_0458;
     /* 0x04F4 */ struct_watchMenu_unk_02678_unk_03BC unk_04F4;
@@ -819,7 +818,7 @@ typedef struct struct_watchMenu {
     /* 0x024AC */ TiTexData *unk_024AC;
     /* 0x024B0 */ TiTexData *unk_024B0;
     /* 0x024B4 */ TiTexData *unk_024B4;
-    /* 0x024B8 */ struct_watchMenu_unk_024B8 unk_024B8;
+    /* 0x024B8 */ MenuItem unk_024B8;
     /* 0x02548 */ UNK_TYPE unk_02548;
     /* 0x0254C */ UNK_TYPE1 unk_0254C[0x12C];
     /* 0x02678 */ struct_watchMenu_unk_02678 unk_02678[2];

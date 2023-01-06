@@ -381,10 +381,10 @@ func_800466D0 = 0x800466D0;
 func_80046734 = 0x80046734;
 func_800467E0 = 0x800467E0;
 func_80046844 = 0x80046844;
-func_80046A3C = 0x80046A3C;
-func_80046B18 = 0x80046B18;
+menuItem_outOfScreen = 0x80046A3C;
+menuItem_drawTex = 0x80046B18;
 func_80046C74 = 0x80046C74;
-func_80046D3C = 0x80046D3C;
+menuItem_drawAlphaTex = 0x80046D3C;
 func_80046F58 = 0x80046F58;
 func_80047074 = 0x80047074;
 func_8004714C = 0x8004714C;
@@ -397,9 +397,9 @@ func_80047720 = 0x80047720;
 func_800477BC = 0x800477BC;
 func_80047828 = 0x80047828;
 func_800479A8 = 0x800479A8;
-func_800479EC = 0x800479EC;
-func_80047AA4 = 0x80047AA4;
-func_80048444 = 0x80048444;
+menuCursor_update = 0x800479EC;
+menuCursor_draw1 = 0x80047AA4;
+menuCursor_draw2 = 0x80048444;
 func_80048634 = 0x80048634;
 func_80048680 = 0x80048680;
 func_800486C8 = 0x800486C8;
@@ -589,7 +589,7 @@ func_80059D04 = 0x80059D04;
 func_80059D14 = 0x80059D14;
 func_80059D24 = 0x80059D24;
 func_80059D34 = 0x80059D34;
-func_80059D44 = 0x80059D44;
+_getTexName = 0x80059D44;
 func_80059D54 = 0x80059D54;
 func_80059D64 = 0x80059D64;
 func_80059D74 = 0x80059D74;
@@ -1727,7 +1727,11 @@ STR_800ADB24 = 0x800ADB24; // type:char force_not_migration:True
 
 color_251 = 0x800ADC50; // force_not_migration:True
 
-RO_800ADC60 = 0x800ADC60; // type:Gfx
+fade_normal_texture_init_dl = 0x800ADC60; // type:Gfx
+
+fade_alpha_texture_init_dl = 0x800ADC78; // type:Gfx
+
+fade_intensity_texture_init_dl = 0x800ADC90; // type:Gfx
 
 RO_800ADCE0 = 0x800ADCE0; // force_not_migration:True type:s32
 RO_800ADD3C = 0x800ADD3C; // force_not_migration:True

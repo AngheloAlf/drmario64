@@ -168,7 +168,7 @@ func_80059DB4 - found 15 matches total:
 0.99 - func_80059D14
 0.99 - func_80059D24
 0.99 - func_80059D34
-0.99 - func_80059D44
+0.99 - _getTexName
 0.99 - func_80059D54
 0.99 - func_80059D64
 0.99 - func_80059D74
