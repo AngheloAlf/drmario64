@@ -333,11 +333,11 @@ typedef struct struct_800EF560_unk_B4 {
     /* 0x01 */ UNK_TYPE1 unk_01;
     /* 0x02 */ UNK_TYPE1 unk_02;
     /* 0x03 */ UNK_TYPE1 unk_03;
-    /* 0x04 */ UNK_TYPE1 unk_04;
-    /* 0x05 */ UNK_TYPE1 unk_05;
-    /* 0x06 */ UNK_TYPE1 unk_06;
-    /* 0x07 */ UNK_TYPE1 unk_07;
-    /* 0x08 */ UNK_TYPE1 unk_08;
+    /* 0x04 */ u8 unk_04;
+    /* 0x05 */ u8 unk_05;
+    /* 0x06 */ u8 unk_06;
+    /* 0x07 */ u8 unk_07;
+    /* 0x08 */ u8 unk_08;
     /* 0x09 */ UNK_TYPE1 unk_09;
     /* 0x0A */ UNK_TYPE1 unk_0A;
     /* 0x0B */ UNK_TYPE1 unk_0B;
@@ -365,7 +365,8 @@ typedef struct struct_800EF560_unk_28 {
 
 typedef struct struct_800EF560_unk_4C {
     /* 0x0 */ s32 unk_0;
-    /* 0x4 */ UNK_TYPE unk_4;
+    /* 0x4 */ u8 unk_4;
+    /* 0x5 */ UNK_TYPE1 unk_5[0x3]; // probably padding
 } struct_800EF560_unk_4C; // size = 0x8
 
 typedef struct struct_800EF560_unk_64 {
@@ -384,8 +385,7 @@ typedef struct struct_800EF560 {
     /* 0x08 */ s32 unk_08[3][2];
     /* 0x20 */ UNK_TYPE1 unk_20[0x8];
     /* 0x28 */ struct_800EF560_unk_28 unk_28[3];
-    /* 0x4C */ struct_800EF560_unk_4C unk_4C[UNK_SIZE];
-    /* 0x54 */ UNK_TYPE1 unk_54[0x10];
+    /* 0x4C */ struct_800EF560_unk_4C unk_4C[3]; // guessed
     /* 0x64 */ struct_800EF560_unk_64 unk_64[UNK_SIZE];
     /* 0x6C */ UNK_TYPE1 unk_6C[0x10];
     /* 0x7C */ struct_800EF560_unk_7C unk_7C[UNK_SIZE];
@@ -639,7 +639,7 @@ typedef struct struct_watchMenu {
     /* 0x111C4 */ UNK_TYPE unk_111C4;
     /* 0x111C8 */ enum_struct_watchMenu_unk_111CC unk_111C8;
     /* 0x111CC */ enum_struct_watchMenu_unk_111CC unk_111CC;
-    /* 0x111D0 */ UNK_TYPE unk_111D0;
+    /* 0x111D0 */ enum_struct_watchMenu_unk_111CC unk_111D0;
     /* 0x111D4 */ enum_main_no unk_111D4;
     /* 0x111D8 */ UNK_TYPE unk_111D8;
     /* 0x111DC */ f32 unk_111DC;

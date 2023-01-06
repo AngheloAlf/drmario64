@@ -208,7 +208,7 @@ extern s32 D_8008E788;
 // extern UNK_TYPE D_8008E86C;
 // extern UNK_TYPE D_8008E870;
 // extern UNK_TYPE D_8008E87C;
-extern UNK_TYPE D_8008E8B4; // maybe part of a struct?
+extern enum_struct_watchMenu_unk_111CC D_8008E8B4; // maybe part of a struct?
 // extern UNK_TYPE D_8008E8C0;
 // extern UNK_TYPE D_80094350;
 // extern UNK_TYPE D_8009F870;

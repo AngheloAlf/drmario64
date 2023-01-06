@@ -395,7 +395,7 @@ func_80047584 = 0x80047584;
 menuTitle_draw = 0x800475A8;
 func_80047720 = 0x80047720;
 func_800477BC = 0x800477BC;
-func_80047828 = 0x80047828;
+menuCursor_init2 = 0x80047828;
 func_800479A8 = 0x800479A8;
 menuCursor_update = 0x800479EC;
 menuCursor_draw1 = 0x80047AA4;
@@ -425,7 +425,7 @@ func_800497D0 = 0x800497D0;
 func_80049894 = 0x80049894;
 func_800498C4 = 0x800498C4;
 func_800498E0 = 0x800498E0;
-func_80049A5C = 0x80049A5C;
+menuSpeedItem_init = 0x80049A5C;
 func_80049C54 = 0x80049C54;
 func_80049CD4 = 0x80049CD4;
 func_80049EA4 = 0x80049EA4;
@@ -1800,6 +1800,8 @@ RO_800AFBEC = 0x800AFBEC; // force_not_migration:True
 RO_800AFEB8 = 0x800AFEB8; // size:0x14
 
 RO_800B0A50 = 0x800B0A50; // force_not_migration:True
+
+_cursor_7325 = 0x800B0B14; // size:0x30
 
 RO_800B0B50 = 0x800B0B50; // force_not_migration:True
 RO_800B0B54 = 0x800B0B54; // force_not_migration:True
