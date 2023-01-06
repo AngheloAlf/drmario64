@@ -588,15 +588,15 @@ typedef struct struct_watchManual {
     /* 0x184 */ s32 unk_184;
 } struct_watchManual; // size = 0x188
 
-typedef struct struct_800F3E5C_unk_00048 {
+typedef struct struct_watchMenu_unk_00048 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x400];
-} struct_800F3E5C_unk_00048; // size = 0x400
+} struct_watchMenu_unk_00048; // size = 0x400
 
-typedef struct struct_800F3E5C_unk_00C48 {
+typedef struct struct_watchMenu_unk_00C48 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x800];
-} struct_800F3E5C_unk_00C48; // size = 0x800
+} struct_watchMenu_unk_00C48; // size = 0x800
 
-typedef struct struct_800F3E5C_unk_024B8 {
+typedef struct struct_watchMenu_unk_024B8 {
     /* 0x00 */ f32 unk_00[2];
     /* 0x08 */ UNK_FUN_PTR unk_08;
     /* 0x0C */ f32 unk_0C[2];
@@ -616,24 +616,24 @@ typedef struct struct_800F3E5C_unk_024B8 {
     /* 0x7C */ f32 unk_7C[3];
     /* 0x88 */ UNK_TYPE1 unk_88[0x4];
     /* 0x8C */ u32 unk_8C;
-} struct_800F3E5C_unk_024B8; // size = 0x90
+} struct_watchMenu_unk_024B8; // size = 0x90
 
-typedef struct struct_800F3E5C_unk_02678_unk_0000 {
+typedef struct struct_watchMenu_unk_02678_unk_0000 {
     /* 0x0000 */ UNK_TYPE1 unk_0[0x24B8];
-    /* 0x24B8 */ struct_800F3E5C_unk_024B8 unk_24B8;
-} struct_800F3E5C_unk_02678_unk_0000; // size >= 0x2548
+    /* 0x24B8 */ struct_watchMenu_unk_024B8 unk_24B8;
+} struct_watchMenu_unk_02678_unk_0000; // size >= 0x2548
 
-typedef struct struct_800F3E5C_unk_02678_unk_03BC {
+typedef struct struct_watchMenu_unk_02678_unk_03BC {
     /* 0x00 */ UNK_TYPE1 unk_00[0xC];
-    /* 0x0C */ struct_800F3E5C_unk_024B8 unk_0C;
-} struct_800F3E5C_unk_02678_unk_03BC; // size = 0x9C
+    /* 0x0C */ struct_watchMenu_unk_024B8 unk_0C;
+} struct_watchMenu_unk_02678_unk_03BC; // size = 0x9C
 
-typedef struct struct_800F3E5C_unk_02678_unk_590_unk_0004 {
+typedef struct struct_watchMenu_unk_02678_unk_590_unk_0004 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x4];
     /* 0x04 */ s32 unk_04;
-    /* 0x08 */ struct_800F3E5C_unk_024B8 unk_08;
-    /* 0x98 */ struct_800F3E5C_unk_02678_unk_03BC unk_98[UNK_SIZE];
-} struct_800F3E5C_unk_02678_unk_590_unk_0004; // size >= 0x134
+    /* 0x08 */ struct_watchMenu_unk_024B8 unk_08;
+    /* 0x98 */ struct_watchMenu_unk_02678_unk_03BC unk_98[UNK_SIZE];
+} struct_watchMenu_unk_02678_unk_590_unk_0004; // size >= 0x134
 
 typedef struct menuRankFig_update_arg0 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x4];
@@ -648,49 +648,49 @@ typedef struct menuRankFig_update_arg0 {
     /* 0x24 */ s32 unk_24;
     /* 0x28 */ UNK_TYPE1 unk_28[0xC];
     /* 0x34 */ s32 unk_34;
-    /* 0x38 */ struct_800F3E5C_unk_024B8 unk_38;
+    /* 0x38 */ struct_watchMenu_unk_024B8 unk_38;
 } menuRankFig_update_arg0; // size = 0xC8
 
-typedef struct struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_008 {
+typedef struct struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_008 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x4];
-    /* 0x04 */ struct_800F3E5C_unk_024B8 unk_04;
-} struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_008; // size = 0x94
+    /* 0x04 */ struct_watchMenu_unk_024B8 unk_04;
+} struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_008; // size = 0x94
 
-typedef struct struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_09C {
+typedef struct struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_09C {
     /* 0x00 */ UNK_TYPE1 unk_00[0x8];
-    /* 0x08 */ struct_800F3E5C_unk_024B8 unk_08;
-} struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_09C; // size = 0x98
+    /* 0x08 */ struct_watchMenu_unk_024B8 unk_08;
+} struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_09C; // size = 0x98
 
-typedef struct struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_134 {
+typedef struct struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_134 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x8];
-    /* 0x08 */ struct_800F3E5C_unk_024B8 unk_08;
-} struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_134; // size = 0x98
+    /* 0x08 */ struct_watchMenu_unk_024B8 unk_08;
+} struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_134; // size = 0x98
 
-typedef struct struct_800F3E5C_unk_02678_unk_590_unk_3A8 {
+typedef struct struct_watchMenu_unk_02678_unk_590_unk_3A8 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x4];
     /* 0x004 */ s32 unk_004;
-    /* 0x008 */ struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_008 unk_008;
-    /* 0x09C */ struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_09C unk_09C;
-    /* 0x134 */ struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_134 unk_134;
+    /* 0x008 */ struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_008 unk_008;
+    /* 0x09C */ struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_09C unk_09C;
+    /* 0x134 */ struct_watchMenu_unk_02678_unk_590_unk_3A8_unk_134 unk_134;
     /* 0x1CC */ menuRankFig_update_arg0 unk_1CC;
     /* 0x294 */ menuRankFig_update_arg0 unk_294;
     /* 0x35C */ menuRankFig_update_arg0 unk_35C;
-} struct_800F3E5C_unk_02678_unk_590_unk_3A8; // size = 0x424
+} struct_watchMenu_unk_02678_unk_590_unk_3A8; // size = 0x424
 
-typedef struct struct_800F3E5C_unk_02678_unk_590 {
+typedef struct struct_watchMenu_unk_02678_unk_590 {
     /* 0x0000 */ s32 unk_0000;
-    /* 0x0004 */ struct_800F3E5C_unk_02678_unk_590_unk_0004 unk_0004;
+    /* 0x0004 */ struct_watchMenu_unk_02678_unk_590_unk_0004 unk_0004;
     /* 0x0138 */ UNK_TYPE1 unk_0138[0x270];
-    /* 0x03A8 */ struct_800F3E5C_unk_02678_unk_590_unk_3A8 unk_3A8[UNK_SIZE];
+    /* 0x03A8 */ struct_watchMenu_unk_02678_unk_590_unk_3A8 unk_3A8[UNK_SIZE];
     /* 0x07CC */ UNK_TYPE1 unk_07CC[0x1CFC];
-} struct_800F3E5C_unk_02678_unk_590; // size = 0x24C8
+} struct_watchMenu_unk_02678_unk_590; // size = 0x24C8
 
-typedef struct struct_800F3E5C_unk_02470 {
+typedef struct struct_watchMenu_unk_02470 {
     /* 0x00000 */ UNK_TYPE1 unk_00000[0x60000];
-} struct_800F3E5C_unk_02470; // size = 0x60000
+} struct_watchMenu_unk_02470; // size = 0x60000
 
-typedef struct struct_800F3E5C_unk_02678 {
-    /* 0x0000 */ struct_800F3E5C_unk_02678_unk_0000 *unk_0000;
+typedef struct struct_watchMenu_unk_02678 {
+    /* 0x0000 */ struct_watchMenu_unk_02678_unk_0000 *unk_0000;
     /* 0x0004 */ UNK_TYPE unk_0004;
     /* 0x0008 */ UNK_TYPE unk_0008;
     /* 0x000C */ UNK_TYPE unk_000C;
@@ -698,83 +698,83 @@ typedef struct struct_800F3E5C_unk_02678 {
     /* 0x0014 */ UNK_TYPE unk_0014;
     /* 0x0018 */ UNK_TYPE unk_0018;
     /* 0x001C */ UNK_TYPE1 unk_001C[0x160];
-    /* 0x017C */ struct_800F3E5C_unk_024B8 unk_017C;
-    /* 0x020C */ struct_800F3E5C_unk_024B8 unk_020C[2]; // guessed size
-    /* 0x032C */ struct_800F3E5C_unk_024B8 unk_032C;
-    /* 0x03BC */ struct_800F3E5C_unk_02678_unk_03BC unk_03BC;
-    /* 0x0458 */ struct_800F3E5C_unk_02678_unk_03BC unk_0458;
-    /* 0x04F4 */ struct_800F3E5C_unk_02678_unk_03BC unk_04F4;
-    /* 0x0590 */ struct_800F3E5C_unk_02678_unk_590 unk_590[2];
+    /* 0x017C */ struct_watchMenu_unk_024B8 unk_017C;
+    /* 0x020C */ struct_watchMenu_unk_024B8 unk_020C[2]; // guessed size
+    /* 0x032C */ struct_watchMenu_unk_024B8 unk_032C;
+    /* 0x03BC */ struct_watchMenu_unk_02678_unk_03BC unk_03BC;
+    /* 0x0458 */ struct_watchMenu_unk_02678_unk_03BC unk_0458;
+    /* 0x04F4 */ struct_watchMenu_unk_02678_unk_03BC unk_04F4;
+    /* 0x0590 */ struct_watchMenu_unk_02678_unk_590 unk_590[2];
     /* 0x4F20 */ UNK_TYPE1 unk_4F20[0x2684];
-} struct_800F3E5C_unk_02678; // size = 0x75A4
+} struct_watchMenu_unk_02678; // size = 0x75A4
 
-typedef enum enum_struct_800F3E5C_unk_111CC {
-    /*  0 */ ENUM_STRUCT_800F3E5C_UNK_111CC_0,
-    /*  1 */ ENUM_STRUCT_800F3E5C_UNK_111CC_1,
-    /*  2 */ ENUM_STRUCT_800F3E5C_UNK_111CC_2,
-    /*  3 */ ENUM_STRUCT_800F3E5C_UNK_111CC_3,
-    /*  4 */ ENUM_STRUCT_800F3E5C_UNK_111CC_4,
-    /*  5 */ ENUM_STRUCT_800F3E5C_UNK_111CC_5,
-    /*  6 */ ENUM_STRUCT_800F3E5C_UNK_111CC_6,
-    /*  7 */ ENUM_STRUCT_800F3E5C_UNK_111CC_7,
-    /*  8 */ ENUM_STRUCT_800F3E5C_UNK_111CC_8,
-    /*  9 */ ENUM_STRUCT_800F3E5C_UNK_111CC_9,
-    /* 10 */ ENUM_STRUCT_800F3E5C_UNK_111CC_10,
-    /* 11 */ ENUM_STRUCT_800F3E5C_UNK_111CC_11,
-    /* 12 */ ENUM_STRUCT_800F3E5C_UNK_111CC_12,
-    /* 13 */ ENUM_STRUCT_800F3E5C_UNK_111CC_13,
-    /* 14 */ ENUM_STRUCT_800F3E5C_UNK_111CC_14,
-    /* 15 */ ENUM_STRUCT_800F3E5C_UNK_111CC_15,
-    /* 16 */ ENUM_STRUCT_800F3E5C_UNK_111CC_16,
-    /* 17 */ ENUM_STRUCT_800F3E5C_UNK_111CC_17,
-    /* 18 */ ENUM_STRUCT_800F3E5C_UNK_111CC_18,
-    /* 19 */ ENUM_STRUCT_800F3E5C_UNK_111CC_19,
-    /* 20 */ ENUM_STRUCT_800F3E5C_UNK_111CC_20,
-    /* 21 */ ENUM_STRUCT_800F3E5C_UNK_111CC_21,
-    /* 22 */ ENUM_STRUCT_800F3E5C_UNK_111CC_22,
-    /* 23 */ ENUM_STRUCT_800F3E5C_UNK_111CC_23,
-    /* 24 */ ENUM_STRUCT_800F3E5C_UNK_111CC_24,
-    /* 25 */ ENUM_STRUCT_800F3E5C_UNK_111CC_25,
-    /* 26 */ ENUM_STRUCT_800F3E5C_UNK_111CC_26,
-    /* 27 */ ENUM_STRUCT_800F3E5C_UNK_111CC_27,
-    /* 28 */ ENUM_STRUCT_800F3E5C_UNK_111CC_28,
-    /* 29 */ ENUM_STRUCT_800F3E5C_UNK_111CC_29,
-    /* 30 */ ENUM_STRUCT_800F3E5C_UNK_111CC_30,
-    /* 31 */ ENUM_STRUCT_800F3E5C_UNK_111CC_31,
-    /* 32 */ ENUM_STRUCT_800F3E5C_UNK_111CC_32,
-    /* 33 */ ENUM_STRUCT_800F3E5C_UNK_111CC_33,
-    /* 34 */ ENUM_STRUCT_800F3E5C_UNK_111CC_34,
-    /* 35 */ ENUM_STRUCT_800F3E5C_UNK_111CC_35,
-    /* 36 */ ENUM_STRUCT_800F3E5C_UNK_111CC_36,
-    /* 37 */ ENUM_STRUCT_800F3E5C_UNK_111CC_37,
-    /* 38 */ ENUM_STRUCT_800F3E5C_UNK_111CC_38,
-    /* 39 */ ENUM_STRUCT_800F3E5C_UNK_111CC_39,
-    /* 40 */ ENUM_STRUCT_800F3E5C_UNK_111CC_40,
-    /* 41 */ ENUM_STRUCT_800F3E5C_UNK_111CC_41,
-    /* 42 */ ENUM_STRUCT_800F3E5C_UNK_111CC_42,
-    /* 43 */ ENUM_STRUCT_800F3E5C_UNK_111CC_43,
-    /* 44 */ ENUM_STRUCT_800F3E5C_UNK_111CC_44,
-    /* 45 */ ENUM_STRUCT_800F3E5C_UNK_111CC_45,
-    /* 46 */ ENUM_STRUCT_800F3E5C_UNK_111CC_46,
-    /* 47 */ ENUM_STRUCT_800F3E5C_UNK_111CC_47,
-    /* 48 */ ENUM_STRUCT_800F3E5C_UNK_111CC_48,
-    /* 49 */ ENUM_STRUCT_800F3E5C_UNK_111CC_49,
-    /* 50 */ ENUM_STRUCT_800F3E5C_UNK_111CC_50,
-    /* 51 */ ENUM_STRUCT_800F3E5C_UNK_111CC_51,
-    /* 52 */ ENUM_STRUCT_800F3E5C_UNK_111CC_52,
-    /* 53 */ ENUM_STRUCT_800F3E5C_UNK_111CC_53,
-    /* 54 */ ENUM_STRUCT_800F3E5C_UNK_111CC_54,
-    /* 55 */ ENUM_STRUCT_800F3E5C_UNK_111CC_55,
-    /* 56 */ ENUM_STRUCT_800F3E5C_UNK_111CC_56,
-    /* 57 */ ENUM_STRUCT_800F3E5C_UNK_111CC_57,
-    /* 58 */ ENUM_STRUCT_800F3E5C_UNK_111CC_58,
-    /* 59 */ ENUM_STRUCT_800F3E5C_UNK_111CC_59,
-    /* 60 */ ENUM_STRUCT_800F3E5C_UNK_111CC_60,
-    /* 61 */ ENUM_STRUCT_800F3E5C_UNK_111CC_61,
-    /* 62 */ ENUM_STRUCT_800F3E5C_UNK_111CC_62,
-    /* 63 */ ENUM_STRUCT_800F3E5C_UNK_111CC_63,
-    /* 64 */ ENUM_STRUCT_800F3E5C_UNK_111CC_64,
-} enum_struct_800F3E5C_unk_111CC;
+typedef enum enum_struct_watchMenu_unk_111CC {
+    /*  0 */ STRUCT_WATCHMENU_UNK_111CC_0,
+    /*  1 */ STRUCT_WATCHMENU_UNK_111CC_1,
+    /*  2 */ STRUCT_WATCHMENU_UNK_111CC_2,
+    /*  3 */ STRUCT_WATCHMENU_UNK_111CC_3,
+    /*  4 */ STRUCT_WATCHMENU_UNK_111CC_4,
+    /*  5 */ STRUCT_WATCHMENU_UNK_111CC_5,
+    /*  6 */ STRUCT_WATCHMENU_UNK_111CC_6,
+    /*  7 */ STRUCT_WATCHMENU_UNK_111CC_7,
+    /*  8 */ STRUCT_WATCHMENU_UNK_111CC_8,
+    /*  9 */ STRUCT_WATCHMENU_UNK_111CC_9,
+    /* 10 */ STRUCT_WATCHMENU_UNK_111CC_10,
+    /* 11 */ STRUCT_WATCHMENU_UNK_111CC_11,
+    /* 12 */ STRUCT_WATCHMENU_UNK_111CC_12,
+    /* 13 */ STRUCT_WATCHMENU_UNK_111CC_13,
+    /* 14 */ STRUCT_WATCHMENU_UNK_111CC_14,
+    /* 15 */ STRUCT_WATCHMENU_UNK_111CC_15,
+    /* 16 */ STRUCT_WATCHMENU_UNK_111CC_16,
+    /* 17 */ STRUCT_WATCHMENU_UNK_111CC_17,
+    /* 18 */ STRUCT_WATCHMENU_UNK_111CC_18,
+    /* 19 */ STRUCT_WATCHMENU_UNK_111CC_19,
+    /* 20 */ STRUCT_WATCHMENU_UNK_111CC_20,
+    /* 21 */ STRUCT_WATCHMENU_UNK_111CC_21,
+    /* 22 */ STRUCT_WATCHMENU_UNK_111CC_22,
+    /* 23 */ STRUCT_WATCHMENU_UNK_111CC_23,
+    /* 24 */ STRUCT_WATCHMENU_UNK_111CC_24,
+    /* 25 */ STRUCT_WATCHMENU_UNK_111CC_25,
+    /* 26 */ STRUCT_WATCHMENU_UNK_111CC_26,
+    /* 27 */ STRUCT_WATCHMENU_UNK_111CC_27,
+    /* 28 */ STRUCT_WATCHMENU_UNK_111CC_28,
+    /* 29 */ STRUCT_WATCHMENU_UNK_111CC_29,
+    /* 30 */ STRUCT_WATCHMENU_UNK_111CC_30,
+    /* 31 */ STRUCT_WATCHMENU_UNK_111CC_31,
+    /* 32 */ STRUCT_WATCHMENU_UNK_111CC_32,
+    /* 33 */ STRUCT_WATCHMENU_UNK_111CC_33,
+    /* 34 */ STRUCT_WATCHMENU_UNK_111CC_34,
+    /* 35 */ STRUCT_WATCHMENU_UNK_111CC_35,
+    /* 36 */ STRUCT_WATCHMENU_UNK_111CC_36,
+    /* 37 */ STRUCT_WATCHMENU_UNK_111CC_37,
+    /* 38 */ STRUCT_WATCHMENU_UNK_111CC_38,
+    /* 39 */ STRUCT_WATCHMENU_UNK_111CC_39,
+    /* 40 */ STRUCT_WATCHMENU_UNK_111CC_40,
+    /* 41 */ STRUCT_WATCHMENU_UNK_111CC_41,
+    /* 42 */ STRUCT_WATCHMENU_UNK_111CC_42,
+    /* 43 */ STRUCT_WATCHMENU_UNK_111CC_43,
+    /* 44 */ STRUCT_WATCHMENU_UNK_111CC_44,
+    /* 45 */ STRUCT_WATCHMENU_UNK_111CC_45,
+    /* 46 */ STRUCT_WATCHMENU_UNK_111CC_46,
+    /* 47 */ STRUCT_WATCHMENU_UNK_111CC_47,
+    /* 48 */ STRUCT_WATCHMENU_UNK_111CC_48,
+    /* 49 */ STRUCT_WATCHMENU_UNK_111CC_49,
+    /* 50 */ STRUCT_WATCHMENU_UNK_111CC_50,
+    /* 51 */ STRUCT_WATCHMENU_UNK_111CC_51,
+    /* 52 */ STRUCT_WATCHMENU_UNK_111CC_52,
+    /* 53 */ STRUCT_WATCHMENU_UNK_111CC_53,
+    /* 54 */ STRUCT_WATCHMENU_UNK_111CC_54,
+    /* 55 */ STRUCT_WATCHMENU_UNK_111CC_55,
+    /* 56 */ STRUCT_WATCHMENU_UNK_111CC_56,
+    /* 57 */ STRUCT_WATCHMENU_UNK_111CC_57,
+    /* 58 */ STRUCT_WATCHMENU_UNK_111CC_58,
+    /* 59 */ STRUCT_WATCHMENU_UNK_111CC_59,
+    /* 60 */ STRUCT_WATCHMENU_UNK_111CC_60,
+    /* 61 */ STRUCT_WATCHMENU_UNK_111CC_61,
+    /* 62 */ STRUCT_WATCHMENU_UNK_111CC_62,
+    /* 63 */ STRUCT_WATCHMENU_UNK_111CC_63,
+    /* 64 */ STRUCT_WATCHMENU_UNK_111CC_64,
+} enum_struct_watchMenu_unk_111CC;
 
 typedef struct struct_watchMenu {
     /* 0x00000 */ struct_800EB670 *unk_00000;
@@ -782,14 +782,14 @@ typedef struct struct_watchMenu {
     /* 0x0000C */ OSMesgQueue unk_0000C;
     /* 0x00024 */ OSMesg unk_00024[8];
     /* 0x00044 */ UNK_TYPE1 unk_00044[4];
-    /* 0x00048 */ struct_800F3E5C_unk_00048 unk_00048[3];
-    /* 0x00C48 */ struct_800F3E5C_unk_00C48 unk_00C48[3];
-    /* 0x02448 */ struct_800F3E5C_unk_00048 *unk_02448[3];
-    /* 0x02454 */ struct_800F3E5C_unk_00C48 *unk_02454[3];
+    /* 0x00048 */ struct_watchMenu_unk_00048 unk_00048[3];
+    /* 0x00C48 */ struct_watchMenu_unk_00C48 unk_00C48[3];
+    /* 0x02448 */ struct_watchMenu_unk_00048 *unk_02448[3];
+    /* 0x02454 */ struct_watchMenu_unk_00C48 *unk_02454[3];
     /* 0x02460 */ UNK_PTR unk_02460;
     /* 0x02464 */ UNK_TYPE unk_02464;
-    /* 0x02468 */ struct_800F3E5C_unk_02470 *unk_02468[2];
-    /* 0x02470 */ struct_800F3E5C_unk_02470 *unk_02470[2];
+    /* 0x02468 */ struct_watchMenu_unk_02470 *unk_02468[2];
+    /* 0x02470 */ struct_watchMenu_unk_02470 *unk_02470[2];
     /* 0x02478 */ TiTexData *unk_02478;
     /* 0x0247C */ TiTexData *unk_0247C;
     /* 0x02480 */ UNK_TYPE1 unk_02480[4];
@@ -806,14 +806,14 @@ typedef struct struct_watchMenu {
     /* 0x024AC */ TiTexData *unk_024AC;
     /* 0x024B0 */ TiTexData *unk_024B0;
     /* 0x024B4 */ TiTexData *unk_024B4;
-    /* 0x024B8 */ struct_800F3E5C_unk_024B8 unk_024B8;
+    /* 0x024B8 */ struct_watchMenu_unk_024B8 unk_024B8;
     /* 0x02548 */ UNK_TYPE unk_02548;
     /* 0x0254C */ UNK_TYPE1 unk_0254C[0x12C];
-    /* 0x02678 */ struct_800F3E5C_unk_02678 unk_02678[2];
+    /* 0x02678 */ struct_watchMenu_unk_02678 unk_02678[2];
     /* 0x111C0 */ UNK_TYPE unk_111C0;
     /* 0x111C4 */ UNK_TYPE unk_111C4;
-    /* 0x111C8 */ enum_struct_800F3E5C_unk_111CC unk_111C8;
-    /* 0x111CC */ enum_struct_800F3E5C_unk_111CC unk_111CC;
+    /* 0x111C8 */ enum_struct_watchMenu_unk_111CC unk_111C8;
+    /* 0x111CC */ enum_struct_watchMenu_unk_111CC unk_111CC;
     /* 0x111D0 */ UNK_TYPE unk_111D0;
     /* 0x111D4 */ enum_main_no unk_111D4;
     /* 0x111D8 */ UNK_TYPE unk_111D8;
