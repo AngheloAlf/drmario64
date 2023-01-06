@@ -627,13 +627,17 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuNmEnt_draw);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80056C84);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80056CAC);
+void func_80056CAC(struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_008 *arg0, struct_800F3E5C_unk_024B8 *arg1) {
+    func_800464BC(&arg0->unk_04, arg1);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80056CC8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80056DF0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80056E1C);
+void func_80056E1C(struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_09C *arg0, struct_800F3E5C_unk_024B8 *arg1) {
+    func_800464BC(&arg0->unk_08, arg1);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80056E38);
 
@@ -655,7 +659,11 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1220);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1230);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B123C);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80057724);
+ASM_TEXT;
+
+void func_80057724(struct_800F3E5C_unk_02678_unk_590_unk_3A8_unk_134 *arg0, struct_800F3E5C_unk_024B8 *arg1) {
+    func_800464BC(&arg0->unk_08, arg1);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80057740);
 
@@ -691,8 +699,8 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8005806C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800581C8);
 
-void menuRankPanel_update(struct_800F3E5C_unk_02678_unk_590_unk_3A8 *arg0, struct_800F3E5C_unk_024B8 *arg1 UNUSED) {
-    func_80056CAC(&arg0->unk_008);
+void menuRankPanel_update(struct_800F3E5C_unk_02678_unk_590_unk_3A8 *arg0, struct_800F3E5C_unk_024B8 *arg1) {
+    func_80056CAC(&arg0->unk_008, arg1);
     func_80056E1C(&arg0->unk_09C, &arg0->unk_008.unk_04);
     func_80057724(&arg0->unk_134, &arg0->unk_008.unk_04);
 
@@ -776,8 +784,8 @@ void menuRank_input(struct_800F3E5C_unk_02678 *arg0) {
         func_800585BC(arg0, 1, 0.0f);
     }
 
-    if (!(temp_s0->unk_3A8[0].unk_020 < 1.0f) && !(temp_s0->unk_3A8[0].unk_024 < 0.0f) &&
-        !(temp_s0->unk_3A8[0].unk_044 < 1.0f) && !(temp_s0->unk_3A8[0].unk_048 < 0.0f)) {
+    if (!(temp_s0->unk_3A8[0].unk_008.unk_04.unk_14 < 1.0f) && !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_18 < 0.0f) &&
+        !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_38 < 1.0f) && !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_3C < 0.0f)) {
         if (arg0->unk_0008 == 0) {
             if (pressedButton & (L_JPAD | L_TRIG)) {
                 direction--;
