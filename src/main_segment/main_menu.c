@@ -364,38 +364,55 @@ void func_80046844(MenuItem *item, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuItem_outOfScreen);
-
-#if 0
-? func_800453D8(Gfx **, TiTexData_unk_00_unk_0 **, s32, ?, s32, s32, s32, f32, f32, f32, f32);
-s32 menuItem_outOfScreen(u16, u16);
-
-? menuItem_drawTex(MenuItem *arg0, Gfx **arg1, TiTexData_unk_00_unk_0 **arg2, s32 arg3) {
-    ? var_v0;
-    void *temp_v0;
-
-    temp_v0 = arg2->unk_4;
-    var_v0 = 0;
-    if (menuItem_outOfScreen(temp_v0->unk_0, temp_v0->unk_2) == 0) {
-        func_80046844(arg0, arg1);
-        if (arg2->unk_4->unk_6 & 1) {
-            tiStretchTexBlock(arg1, arg2, arg3, arg0->unk_0C[0], arg0->unk_0C[1], (f32) arg2->unk_4->unk_0 * arg0->unk_30[0], (f32) arg2->unk_4->unk_2 * arg0->unk_30[1]);
-            return 1;
-        }
-        func_800453D8(arg1, arg2, arg3, 0, 0, (s32) arg2->unk_4->unk_0, (s32) arg2->unk_4->unk_2, arg0->unk_0C[0], arg0->unk_0C[1], (f32) arg2->unk_4->unk_0 * arg0->unk_30[0], (f32) arg2->unk_4->unk_2 * arg0->unk_30[1]);
-        var_v0 = 1;
-        /* Duplicate return node #4. Try simplifying control flow for better match */
-        return var_v0;
+bool menuItem_outOfScreen(MenuItem *item, s32 arg1, s32 arg2) {
+    if (item->color.v.a <= 0) {
+        return true;
     }
-    return var_v0;
+
+    if (item->unk_0C[0] >= SCREEN_WIDTH) {
+        return true;
+    }
+
+    if ((item->unk_0C[1] >= SCREEN_HEIGHT)) {
+        return true;
+    }
+
+    if (item->unk_0C[0] + arg1 * item->unk_30[0] < 0) {
+        return true;
+    }
+
+    if (item->unk_0C[1] + arg2 * item->unk_30[1] < 0) {
+        return true;
+    }
+
+    if (item->unk_30[0] == 0.0f) {
+        return true;
+    }
+
+    if (item->unk_30[1] == 0.0f) {
+        return true;
+    }
+
+    return false;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuItem_drawTex);
-#endif
+
+bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, TiTexDataEntry *arg2, s32 arg3) {
+    if (menuItem_outOfScreen(item, arg2->unk_4[0], arg2->unk_4[1])) {
+        return false;
+    }
+
+    func_80046844(item, gfxP);
+    if (arg2->unk_4[3] & 1) {
+        tiStretchTexBlock(gfxP, &arg2->unk_0, arg3, item->unk_0C[0], item->unk_0C[1], arg2->unk_4[0] * item->unk_30[0],
+                          arg2->unk_4[1] * item->unk_30[1]);
+    } else {
+        tiStretchTexTile(gfxP, arg2, arg3, 0, 0, arg2->unk_4[0], arg2->unk_4[1], item->unk_0C[0], item->unk_0C[1],
+                         arg2->unk_4[0] * item->unk_30[0], arg2->unk_4[1] * item->unk_30[1]);
+    }
+    return true;
+}
 
 #if 0
-s32 menuItem_drawTex(f32, MenuItem *);
-
 s32 func_80046C74(MenuItem *arg0, Gfx **gfxP, s32 arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     f32 sp10;
     f32 sp14;
@@ -824,129 +841,80 @@ void menuSpeedItem_update(MenuSpeedItem *arg0, MenuItem *arg1) {
     menuCursor_update(&arg0->unk_404, &arg0->unk_0A4[arg0->unk_008]);
 }
 
-#if 0
-s32 func_80059D64(s32, s32);                        /* extern */
-s32 func_80059D84(s32, s32);                        /* extern */
-s32 menuItem_drawTex(void *, void **, s32, s32);    /* extern */
-
-void menuSpeedItem_draw1(void **arg0, s32 arg1, void **arg2) {
-    void *sp10;
-    void **sp1C;
-    s32 sp24;
-    void **sp2C;
-    s32 sp34;
-    s32 var_a1;
-    s32 var_fp;
-    s32 var_s2;
-    s32 var_s3;
-    s32 var_s3_2;
-    s32 var_s3_3;
+void menuSpeedItem_draw1(MenuSpeedItem **speedItemP, s32 count, Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
+    TiTexDataEntry *var_s7;
+    MenuSpeedItem *speedItem;
+    MenuItem *item;
     s32 var_s6;
-    s32 var_s6_2;
-    s32 var_s6_3;
-    s32 var_s7;
-    u32 var_s1_3;
-    void **var_s1;
-    void **var_s1_2;
-    void **var_s5;
-    void *temp_v1;
-    void *temp_v1_2;
-    void *var_s0;
+    s32 index;
+    s32 i;
+    u32 j;
 
-    var_s0 = saved_reg_s0;
-    var_s7 = saved_reg_s7;
-    sp1C = arg0;
-    sp24 = arg1;
-    sp2C = arg2;
-    temp_v1 = *arg2;
-    sp10 = temp_v1 + 8;
-    temp_v1->unk_0 = 0xDE000000;
-    temp_v1->unk_4 = fade_normal_texture_init_dl;
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
     var_s6 = 0;
-    var_s3 = 0;
-    if (sp24 > 0) {
-        var_s1 = sp1C;
-        do {
-            var_s0 = *var_s1;
-            if ((var_s0->unk_4 == 3) && (var_s0->unk_10 != 0)) {
-                var_s7 = func_80059D84(var_s0->unk_0, 0xF);
-                var_s6 += menuItem_drawTex(var_s0 + 0x1C4, &sp10, var_s7, var_s6);
-            }
-            var_s3 += 1;
-            var_s1 += 4;
-        } while (var_s3 < sp24);
-    }
-    temp_v1_2 = sp10;
-    sp10 = temp_v1_2 + 8;
-    temp_v1_2->unk_0 = 0xDE000000;
-    temp_v1_2->unk_4 = fade_intensity_texture_init_dl;
-    var_s6_2 = 0;
-    var_s3_2 = 0;
-    if (sp24 > 0) {
-        var_s1_2 = sp1C;
-        do {
-            var_s0 = *var_s1_2;
-            if ((var_s0->unk_4 == 3) && (var_s0->unk_10 != 0)) {
-                var_s7 = func_80059D84(var_s0->unk_0, 0x17);
-                var_s6_2 += menuItem_drawTex(var_s0 + 0x374, &sp10, var_s7, var_s6_2);
-            }
-            var_s3_2 += 1;
-            var_s1_2 += 4;
-        } while (var_s3_2 < sp24);
-    }
-    var_s2 = 0;
-    do {
-        var_s1_3 = 0;
-        var_fp = 0x254;
-loop_14:
-        var_s6_3 = 0;
-        if ((var_s1_3 != 2) || (var_s0->unk_4 != 3) || (var_s0->unk_10 == 0)) {
-            var_s3_3 = 0;
-            if (sp24 > 0) {
-                var_s5 = sp1C;
-                sp34 = var_fp;
-                do {
-                    var_s0 = *var_s5;
-                    if (var_s0->unk_4 == var_s2) {
-                        switch (var_s2) {           /* irregular */
-                            default:
-                                var_a1 = var_s1_3 + 0x14;
-                                if (var_s2 != 3) {
+    for (index = 0; index < count; index++) {
+        speedItem = speedItemP[index];
+        item = &speedItem->unk_0A4[2];
 
-                                } else {
-block_33:
-                                    var_s7 = func_80059D84(var_s0->unk_0, var_a1);
-                                }
-                                break;
-                            case 0x0:
-                                var_s7 = func_80059D64(var_s0->unk_0, var_s1_3 + 6);
-                                break;
-                            case 0x1:
-                                var_a1 = var_s1_3 + 0x18;
-                                goto block_33;
-                            case 0x2:
-                                var_s7 = func_80059D64(var_s0->unk_0, var_s1_3 + 3);
-                                break;
-                        }
-                        var_s6_3 += menuItem_drawTex(var_s0 + sp34, &sp10, var_s7, var_s6_3);
+        if ((speedItem->unk_004 == 3) && (speedItem->unk_010 != 0)) {
+            var_s7 = _getTexSetup(speedItem->unk_000, 15);
+            var_s6 += menuItem_drawTex(item, &gfx, var_s7, var_s6);
+        }
+    }
+
+    gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
+
+    var_s6 = 0;
+    for (index = 0; index < count; index++) {
+        speedItem = speedItemP[index];
+        item = &speedItem->unk_254[2];
+
+        if ((speedItem->unk_004 == 3) && (speedItem->unk_010 != 0)) {
+            var_s7 = _getTexSetup(speedItem->unk_000, 23);
+            var_s6 += menuItem_drawTex(item, &gfx, var_s7, var_s6);
+        }
+    }
+
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 3U; j++) {
+            var_s6 = 0;
+            if ((j == 2) && (speedItem->unk_004 == 3) && (speedItem->unk_010 != 0)) {
+                continue;
+            }
+
+            for (index = 0; index < count; index++) {
+                speedItem = speedItemP[index];
+                item = &speedItem->unk_254[j];
+
+                if (speedItem->unk_004 == i) {
+                    switch (speedItem->unk_004) {
+                        case 0:
+                            var_s7 = _getTexP4(speedItem->unk_000, j + 6);
+                            break;
+
+                        case 1:
+                            var_s7 = _getTexSetup(speedItem->unk_000, j + 24);
+                            break;
+
+                        case 2:
+                            var_s7 = _getTexP4(speedItem->unk_000, j + 3);
+                            break;
+
+                        case 3:
+                            var_s7 = _getTexSetup(speedItem->unk_000, j + 20);
+                            break;
                     }
-                    var_s3_3 += 1;
-                    var_s5 += 4;
-                } while (var_s3_3 < sp24);
+
+                    var_s6 += menuItem_drawTex(item, &gfx, var_s7, var_s6);
+                }
             }
         }
-        var_s1_3 += 1;
-        var_fp += 0x90;
-        if (var_s1_3 < 3U) {
-            goto loop_14;
-        }
-        var_s2 += 1;
-    } while (var_s2 < 4);
-    *sp2C = sp10;
+    }
+
+    *gfxP = gfx;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuSpeedItem_draw1);
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A160);
 
@@ -2743,7 +2711,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuStory_update);
 
 #if 0
 ? animeState_draw(void *, Gfx **, f32, f32, f32, f32); /* extern */
-? func_800453D8(Gfx **, void *, ?, s32, s32, s32, s32, f32, f32, f32, f32); /* extern */
+? tiStretchTexTile(Gfx **, void *, ?, s32, s32, s32, s32, f32, f32, f32, f32); /* extern */
 ? func_8004714C(MenuItem *, Gfx **, void *, void *, s32, s32, s32); /* extern */
 ? func_80048634(MenuSpeedItem **, ?, Gfx **);       /* extern */
 ? func_8004A160(MenuSpeedItem **, ?, Gfx **);       /* extern */
@@ -2833,7 +2801,7 @@ void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
                 sp50 += 8;
                 sp50 = temp_v1_2;
                 temp_v0 = func_80059D94(menuStory->watchMenuRef, 0xC);
-                func_800453D8(&sp50, temp_v0, 0, 0, 0, (s32) temp_v0->unk_4->unk_0, (s32) temp_v0->unk_4->unk_2, temp_s2->unk_0C[0], temp_s2->unk_0C[1], (f32) temp_v0->unk_4->unk_0, (f32) temp_v0->unk_4->unk_2);
+                tiStretchTexTile(&sp50, temp_v0, 0, 0, 0, (s32) temp_v0->unk_4->unk_0, (s32) temp_v0->unk_4->unk_2, temp_s2->unk_0C[0], temp_s2->unk_0C[1], (f32) temp_v0->unk_4->unk_0, (f32) temp_v0->unk_4->unk_2);
                 temp_v1_3 = sp50;
                 sp50 = temp_v1_3 + 8;
                 sp50 = temp_v1_3 + 0x10;
@@ -2905,7 +2873,7 @@ void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
                 var_v0 = ((s32) (temp_fv1 - 2.1474836e9f) | 0x80000000) & 0xFF;
             }
             temp_a0->words.w1 = var_v0;
-            func_800453D8(&sp50, temp_s1, 0, var_s0_2, 0, temp_s3, (s32) temp_s1->unk_4->unk_2, temp_s2_2->unk_0C[0] + (f32) var_s0_2, temp_s2_2->unk_0C[1], (f32) temp_s3, (f32) temp_s1->unk_4->unk_2);
+            tiStretchTexTile(&sp50, temp_s1, 0, var_s0_2, 0, temp_s3, (s32) temp_s1->unk_4->unk_2, temp_s2_2->unk_0C[0] + (f32) var_s0_2, temp_s2_2->unk_0C[1], (f32) temp_s3, (f32) temp_s1->unk_4->unk_2);
         }
         var_s7_2 += 0x24;
         var_s4_3 += 1;
@@ -3264,7 +3232,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuLvSel_update);
 
 #if 0
 
-UNK_RET func_80046F58(MenuItem *, Gfx **, TiTexData_unk_00_unk_0 **, s32, s32, s32);
+UNK_RET func_80046F58(MenuItem *, Gfx **, TiTexDataEntry_unk_0 **, s32, s32, s32);
 UNK_RET func_80048634(MenuCursor **arg0, s32, Gfx **gxfP);
 UNK_RET menuBottle_draw(MenuBottle *, Gfx **gxfP);
 UNK_RET menuLvGauge_draw1(MenuLvGauge **, s32, Gfx **gxfP);
@@ -3275,8 +3243,8 @@ UNK_RET func_8004A160(MenuSpeedItem **, s32, Gfx **gxfP);
 UNK_RET menuMusicItem_draw1(MenuMusicItem **, s32, Gfx **gxfP);
 UNK_RET func_8004A780(MenuMusicItem **, s32, Gfx **gxfP);
 UNK_RET menuNumber_draw(MenuNumber **, s32, Gfx **gxfP);
-TiTexData_unk_00_unk_0 **_getTexLevel(struct_watchMenu *, s32);
-bool menuItem_drawTex(MenuItem *, Gfx **gfxP, TiTexData_unk_00_unk_0**, s32);
+TiTexDataEntry_unk_0 **_getTexLevel(struct_watchMenu *, s32);
+bool menuItem_drawTex(MenuItem *, Gfx **gfxP, TiTexDataEntry_unk_0**, s32);
 
 // matches, but types don't make sense
 void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
@@ -3287,7 +3255,7 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
     Gfx *gfx;
     f32 temp_fs0;
     u32 var_a1_2;
-    TiTexData_unk_00_unk_0 **a2;
+    TiTexDataEntry_unk_0 **a2;
 
     gfx = *gfxP;
 
@@ -4081,11 +4049,15 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", _getTexName);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059D54);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059D64);
+TiTexDataEntry *_getTexP4(struct_watchMenu *watchMenuRef, s32 arg1) {
+    return &watchMenuRef->unk_02494->unk_00[arg1];
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059D74);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059D84);
+TiTexDataEntry *_getTexSetup(struct_watchMenu *watchMenuRef, s32 index) {
+    return &watchMenuRef->unk_0249C->unk_00[index];
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059D94);
 

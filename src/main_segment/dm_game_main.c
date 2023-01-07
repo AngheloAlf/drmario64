@@ -2408,7 +2408,7 @@ bool dm_game_demo_4p(void) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_80068DC0);
 
-TiTexData_unk_00_unk_0 **dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
+TiTexDataEntry_unk_0 **dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
     return &watchGame->unk_444->unk_00[cap_pal_4164[arg0][arg1]].unk_0;
 }
 
@@ -2459,12 +2459,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_8006A098);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_8006A198);
 
-#ifdef NON_MATCHING
 void push_any_key_draw(s32 arg0, s32 arg1) {
     struct_watchGame *watchGameP = watchGame;
     s32 alpha;
     s32 var_a1_2;
-    struct_watchGame_unk_430_unk_BC *temp_a2;
     TiTexData *temp_a3;
 
     alpha = sins((watchGameP->unk_424 << 0xA) & 0xFC00) * 0.0077819824f + 127;
@@ -2476,19 +2474,14 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
     gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, alpha);
 
     temp_a3 = watchGameP->unk_430;
-    temp_a2 = temp_a3->unk_BC;
-    var_a1_2 = *temp_a3->unk_C4;
-    if (temp_a2->unk_0 < (u32)var_a1_2) {
-        var_a1_2 = temp_a2->unk_0;
-    }
 
-    StretchAlphaTexTile(&gGfxHead, var_a1_2, temp_a2->unk_2, temp_a3->unk_B8->unk_4, temp_a2->unk_0,
-                        temp_a3->unk_C0->unk_4, *temp_a3->unk_C4, 0, 0, var_a1_2, temp_a3->unk_BC->unk_2, arg0, arg1,
-                        var_a1_2, temp_a3->unk_BC->unk_2);
+    var_a1_2 = MIN(temp_a3->unk_00[0x17].unk_4[0], temp_a3->unk_00[0x18].unk_4[0]);
+
+    StretchAlphaTexTile(&gGfxHead, var_a1_2, temp_a3->unk_00[0x17].unk_4[1], temp_a3->unk_00[0x17].unk_0->unk_4,
+                        temp_a3->unk_00[0x17].unk_4[0], temp_a3->unk_00[0x18].unk_0->unk_4,
+                        temp_a3->unk_00[0x18].unk_4[0], 0, 0, var_a1_2, temp_a3->unk_00[0x17].unk_4[1], arg0, arg1,
+                        var_a1_2, temp_a3->unk_00[0x17].unk_4[1]);
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", push_any_key_draw);
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/dm_game_main", func_8006A480);
 

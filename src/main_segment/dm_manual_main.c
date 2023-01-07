@@ -1554,8 +1554,8 @@ void draw_AB_guide(s32 arg0, s32 arg1) {
     gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, 255);
 
     for (i = 0; i < 2U; i++) {
-        TiTexData_unk_00 *temp_a3 = &_texAll->unk_00[_tex_884[i][0]];
-        TiTexData_unk_00 *temp_a0 = &_texAll->unk_00[_tex_884[i][1]];
+        TiTexDataEntry *temp_a3 = &_texAll->unk_00[_tex_884[i][0]];
+        TiTexDataEntry *temp_a0 = &_texAll->unk_00[_tex_884[i][1]];
         s32 var_t0;
 
         var_t0 = MIN(temp_a3->unk_4[0], temp_a0->unk_4[0]);
@@ -1617,7 +1617,7 @@ void disp_cont(void) {
     s32 var_s4;
     s32 temp_a0;
     TiTexData *new_var;
-    TiTexData_unk_00 *new_var2;
+    TiTexDataEntry *new_var2;
     // Gfx **gfxP = &gGfxHead;
     s32 *new_var3;
 
@@ -1628,8 +1628,8 @@ void disp_cont(void) {
             s32 temp_arg5;
             s32 temp;
             s32 *_posFinger_ptr;
-            TiTexData_unk_00 *temp_4;
-            TiTexData_unk_00 *temp_5;
+            TiTexDataEntry *temp_4;
+            TiTexDataEntry *temp_5;
 
             // temp_s1 = _posContPanel[0];
             // temp_s2 = _posContPanel[1];
