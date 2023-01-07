@@ -109,7 +109,13 @@ typedef struct MenuItem {
 
 
 typedef struct MenuCursor {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x1C];
+    /* 0x000 */ struct struct_watchMenu *unk_000;
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
+    /* 0x00C */ s32 unk_00C;
+    /* 0x010 */ s32 unk_010;
+    /* 0x014 */ s32 unk_014;
+    /* 0x018 */ s32 unk_018;
     /* 0x01C */ u32 unk_01C;
     /* 0x020 */ MenuItem unk_020;
     /* 0x0B0 */ MenuItem unk_0B0;

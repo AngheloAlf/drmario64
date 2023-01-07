@@ -35,21 +35,33 @@ f32 func_80045E48(f32 arg0) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80045E94);
 
-void transFunc_curve(MenuItem *arg0) {
+void transFunc_curve(MenuItem *item) {
     u32 i;
     f32 temp_ft0;
     f32 temp_fv0;
 
-    temp_fv0 = func_80045DD0(arg0->unk_14, arg0->unk_18);
+    temp_fv0 = func_80045DD0(item->unk_14, item->unk_18);
     temp_ft0 = func_80045E48(temp_fv0);
-    arg0->unk_14 = temp_fv0;
+    item->unk_14 = temp_fv0;
 
     for (i = 0; i < 2U; i++) {
-        arg0->unk_0C[i] = arg0->unk_1C[i] + ((arg0->unk_24[i] - arg0->unk_1C[i]) * temp_ft0);
+        item->unk_0C[i] = item->unk_1C[i] + ((item->unk_24[i] - item->unk_1C[i]) * temp_ft0);
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", transFunc_finger);
+void transFunc_finger(MenuItem *item) {
+    u32 i;
+    f32 temp_fv0;
+    f32 temp_fv0_2;
+
+    temp_fv0 = func_80045E18(item->unk_14, item->unk_18);
+    temp_fv0_2 = (sinf(temp_fv0 * (2 * M_PI)) + 1.0) * 0.5;
+    item->unk_14 = temp_fv0;
+
+    for (i = 0; i < 2U; i++) {
+        item->unk_0C[i] = item->unk_1C[i] + (item->unk_24[i] - item->unk_1C[i]) * temp_fv0_2;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046008);
 
@@ -294,9 +306,15 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800465B8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046614);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046670);
+void func_80046670(MenuItem *item, f32 arg1, f32 arg2) {
+    item->unk_1C[0] = arg1;
+    item->unk_1C[1] = arg2;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004667C);
+void func_8004667C(MenuItem *item, f32 arg1, f32 arg2) {
+    item->unk_24[0] = arg1;
+    item->unk_24[1] = arg2;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046688);
 
@@ -309,11 +327,29 @@ void func_800466A0(MenuItem *item, f32 arg1, f32 arg2) {
     item->unk_6C[0][0] = arg1;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800466B8);
+void func_800466B8(MenuItem *item, f32 arg0, f32 arg1) {
+    item->unk_6C[1][3] = arg1;
+    item->unk_6C[1][2] = arg0;
+    item->unk_6C[1][1] = arg0;
+    item->unk_6C[1][0] = arg0;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800466D0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80046734);
+void func_80046734(MenuItem *item, f32 arg0, f32 arg1, f32 arg2) {
+    f32 sp10[] = { arg0, arg1, arg2 };
+    s32 i;
+
+    item->unk_68 = 0.03125f;
+    item->colorCallback = colorFunc_cursor;
+    func_800466A0(item, 0.5f, 1.0f);
+    func_800466B8(item, 1.0f, 1.0f);
+
+    for (i = 0; i < ARRAY_COUNT(sp10); i++) {
+        item->unk_6C[0][i] *= sp10[i];
+        item->unk_6C[1][i] = item->unk_6C[1][i] * sp10[i];
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800467E0);
 
@@ -413,37 +449,84 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80047584);
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuTitle_draw);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AF660);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AF6D8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AF6DC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AF6E0);
+
+extern f32 _color_1040[][3];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _color_1040);
+
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AF708);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80047720);
-
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800477BC);
-
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuCursor_init2);
-
-void func_800479A8(MenuCursor *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
-                   s32 arg7) {
-    menuCursor_init2(arg0, arg1, arg2, 4, 0, arg3, arg4, arg5, arg6, arg7);
+void func_80047720(MenuCursor *cursor, s32 arg1, s32 arg2) {
+    cursor->unk_140.transCallback = transFunc_finger;
+    cursor->unk_140.unk_18 = 0.03125f;
+    func_8004667C(&cursor->unk_140, arg1, arg2);
+    func_80046670(&cursor->unk_140, arg1 - 8, arg2);
 }
 
-void menuCursor_update(MenuCursor *arg0, MenuItem *arg1) {
+void func_800477BC(MenuCursor *cursor, s32 arg1, s32 arg2) {
+    func_8004667C(&cursor->unk_1D0, arg1, arg2);
+    func_80046670(&cursor->unk_1D0, arg1, arg2);
+}
+
+void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *arg1, u32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
+                      s32 arg7, s32 arg8, s32 arg9) {
+    MenuItem *temp_s1;
+    u32 i;
+
+    if (arg2 < 2U) {
+        arg2 = 3;
+    }
+
+    cursor->unk_000 = arg1;
+    cursor->unk_004 = arg2;
+    cursor->unk_008 = arg3;
+    cursor->unk_00C = arg4;
+    cursor->unk_010 = arg5;
+    cursor->unk_014 = arg8;
+    cursor->unk_018 = arg9;
+
+    cursor->unk_01C |= 0x80000000;
+    cursor->unk_01C &= ~0x40000000;
+    cursor->unk_01C &= ~0x20000000;
+    cursor->unk_01C |= 0x10000000;
+
+    menuItem_init(&cursor->unk_020, arg6, arg7);
+
+    temp_s1 = &cursor->unk_0B0;
+    menuItem_init(temp_s1, 0, 0);
+    func_80046734(temp_s1, _color_1040[arg5 % 4U][0], _color_1040[arg5 % 4U][1], _color_1040[arg5 % 4U][2]);
+    if (arg2 == 3) {
+        for (i = 0; i < ARRAY_COUNTU(*temp_s1->unk_6C); i++) {
+            temp_s1->unk_6C[0][i] = temp_s1->unk_6C[1][i];
+        }
+    }
+
+    menuItem_init(&cursor->unk_140, 0, 0);
+    func_80047720(cursor, -0x14, arg9 - 0xE);
+
+    menuItem_init(&cursor->unk_1D0, 0, 0);
+    func_800477BC(cursor, -0x10, arg9 - 0x16);
+}
+
+void func_800479A8(MenuCursor *cursor, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
+                   s32 arg7) {
+    menuCursor_init2(cursor, arg1, arg2, 4, 0, arg3, arg4, arg5, arg6, arg7);
+}
+
+void menuCursor_update(MenuCursor *cursor, MenuItem *arg1) {
     MenuItem *var_a0;
     u32 i;
 
-    func_800464BC(&arg0->unk_020, arg1);
-    var_a0 = &arg0->unk_0B0;
-    func_800464BC(var_a0, &arg0->unk_020);
-    if (!(arg0->unk_01C & 0x10000000)) {
+    func_800464BC(&cursor->unk_020, arg1);
+    var_a0 = &cursor->unk_0B0;
+    func_800464BC(var_a0, &cursor->unk_020);
+    if (!(cursor->unk_01C & 0x10000000)) {
         for (i = 0; i < 4U; i++) {
             var_a0->color.arr[i] = var_a0->unk_6C[1][i] * arg1->color.arr[i];
         }
     }
 
-    func_800464BC(&arg0->unk_140, &arg0->unk_020);
-    func_800464BC(&arg0->unk_1D0, &arg0->unk_020);
+    func_800464BC(&cursor->unk_140, &cursor->unk_020);
+    func_800464BC(&cursor->unk_1D0, &cursor->unk_020);
 }
 
 /**

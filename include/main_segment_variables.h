@@ -192,7 +192,7 @@ extern Gfx alpha_texture_init_dl[];
 extern Gfx normal_texture_init_dl[];
 // extern UNK_TYPE D_8008E728;
 extern Gfx D_8008E748[];
-// extern UNK_TYPE D_8008E770;
+extern char *D_8008E770[];
 // extern UNK_TYPE D_8008E778;
 extern s32 _menuMain_lastMode;
 // extern UNK_TYPE D_8008E78C;
