@@ -19,13 +19,13 @@ typedef enum enum_struct_watchMenu_unk_111CC {
     /*  4 */ STRUCT_WATCHMENU_UNK_111CC_MENUSTORY_4,
     /*  5 */ STRUCT_WATCHMENU_UNK_111CC_5,
     /*  6 */ STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_6,
-    /*  7 */ STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7,
+    /*  7 */ STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7, // Classic
     /*  8 */ STRUCT_WATCHMENU_UNK_111CC_8,
     /*  9 */ STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_9,
-    /* 10 */ STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10,
+    /* 10 */ STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10, // Marathon
     /* 11 */ STRUCT_WATCHMENU_UNK_111CC_11,
     /* 12 */ STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_12,
-    /* 13 */ STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13,
+    /* 13 */ STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13, // Score Attack
     /* 14 */ STRUCT_WATCHMENU_UNK_111CC_14,
     /* 15 */ STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_15,
     /* 16 */ STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_16,
@@ -61,16 +61,16 @@ typedef enum enum_struct_watchMenu_unk_111CC {
     /* 46 */ STRUCT_WATCHMENU_UNK_111CC_46,
     /* 47 */ STRUCT_WATCHMENU_UNK_111CC_47,
     /* 48 */ STRUCT_WATCHMENU_UNK_111CC_48,
-    /* 49 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_49,
-    /* 50 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_50,
-    /* 51 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_51,
-    /* 52 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_52,
-    /* 53 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_53,
-    /* 54 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_54,
+    /* 49 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_49, // Records / One Player / Story
+    /* 50 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_50, // Records / One Player / Classic
+    /* 51 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_51, // Records / One Player / Marathon
+    /* 52 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_52, // Records / One Player / Score Attack
+    /* 53 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_53, // Records / One Player / Vs.Computer
+    /* 54 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_54, // Records / One Player / Flash
     /* 55 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_55,
-    /* 56 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_56,
-    /* 57 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_57,
-    /* 58 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_58,
+    /* 56 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_56, // Records / Two Player / 2-Player Vs.
+    /* 57 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_57, // Records / Two Player / Flash
+    /* 58 */ STRUCT_WATCHMENU_UNK_111CC_MENURANK_58, // Records / Two Player / Score Attack
     /* 59 */ STRUCT_WATCHMENU_UNK_111CC_59,
     /* 60 */ STRUCT_WATCHMENU_UNK_111CC_60,
     /* 61 */ STRUCT_WATCHMENU_UNK_111CC_61,
@@ -107,48 +107,48 @@ typedef struct MenuItem {
 } MenuItem; // size = 0x90
 
 
-typedef struct MenuLvSel_unk_162C {
+typedef struct MenuCursor {
     /* 0x000 */ UNK_TYPE1 unk_000[0x1C];
     /* 0x01C */ u32 unk_01C;
     /* 0x020 */ MenuItem unk_020;
     /* 0x0B0 */ MenuItem unk_0B0;
     /* 0x140 */ MenuItem unk_140;
     /* 0x1D0 */ MenuItem unk_1D0;
-} MenuLvSel_unk_162C; // size = 0x260
+} MenuCursor; // size = 0x260
 
 
 
-typedef struct MenuLvSel_unk_01B8_unk_14 {
+typedef struct MenuNumber_unk_14 {
     /* 0x0 */ UNK_TYPE1 unk_0[0x8];
-} MenuLvSel_unk_01B8_unk_14; // size = 0x8
+} MenuNumber_unk_14; // size = 0x8
 
-typedef struct MenuLvSel_unk_01B8 {
+typedef struct MenuNumber {
     /* 0x00 */ struct struct_watchMenu *unk_00;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ s32 unk_0C;
     /* 0x10 */ u32 unk_10;
-    /* 0x14 */ MenuLvSel_unk_01B8_unk_14 unk_14;
+    /* 0x14 */ MenuNumber_unk_14 unk_14;
     /* 0x1C */ MenuItem unk_1C;
-} MenuLvSel_unk_01B8; // size >= 0xAC
+} MenuNumber; // size = 0xAC
 
-typedef struct MenuLvSel_unk_0264 {
+typedef struct MenuLvGauge {
     /* 0x000 */ struct struct_watchMenu *unk_000;
     /* 0x004 */ s32 unk_004;
     /* 0x008 */ s32 unk_008;
     /* 0x00C */ s32 unk_00C;
     /* 0x010 */ MenuItem unk_010;
-    /* 0x0A0 */ MenuLvSel_unk_162C unk_0A0;
-} MenuLvSel_unk_0264; // size >= 0x300
+    /* 0x0A0 */ MenuCursor unk_0A0;
+} MenuLvGauge; // size = 0x300
 
-typedef struct MenuLvSel_unk_0564 {
+typedef struct MenuSpeedAsk {
     /* 0x0 */ struct struct_watchMenu *unk_0;
     /* 0x4 */ UNK_TYPE unk_4;
     /* 0x8 */ UNK_TYPE unk_8;
     /* 0xC */ MenuItem unk_C;
-} MenuLvSel_unk_0564; // size >= 0x9C
+} MenuSpeedAsk; // size = 0x9C
 
-typedef struct MenuLvSel_unk_0600 {
+typedef struct MenuSpeedItem {
     /* 0x000 */ struct struct_watchMenu *unk_000;
     /* 0x004 */ s32 unk_004;
     /* 0x008 */ s32 unk_008;
@@ -157,10 +157,10 @@ typedef struct MenuLvSel_unk_0600 {
     /* 0x014 */ MenuItem unk_014;
     /* 0x0A4 */ MenuItem unk_0A4[3];
     /* 0x254 */ MenuItem unk_254[3];
-    /* 0x404 */ MenuLvSel_unk_162C unk_404;
-} MenuLvSel_unk_0600; // size >= 0x664
+    /* 0x404 */ MenuCursor unk_404;
+} MenuSpeedItem; // size = 0x664
 
-typedef struct MenuLvSel_unk_0C64 {
+typedef struct MenuMusicItem {
     /* 0x000 */ struct struct_watchMenu *unk_000;
     /* 0x004 */ s32 unk_004;
     /* 0x008 */ s32 unk_008;
@@ -168,15 +168,16 @@ typedef struct MenuLvSel_unk_0C64 {
     /* 0x010 */ MenuItem unk_010;
     /* 0x0A0 */ MenuItem unk_0A0[5];
     /* 0x370 */ MenuItem unk_370[5];
-    /* 0x640 */ MenuLvSel_unk_162C unk_640;
-} MenuLvSel_unk_0C64; // size >= 0x8A0
+    /* 0x640 */ MenuCursor unk_640;
+} MenuMusicItem; // size = 0x8A0
 
-typedef struct MenuLvSel_unk_1504 {
+typedef struct MenuBottle {
     /* 0x000 */ struct struct_watchMenu *unk_000;
     /* 0x004 */ s32 unk_004;
     /* 0x008 */ MenuItem unk_08;
     /* 0x098 */ MenuItem unk_98;
-} MenuLvSel_unk_1504; // size >= 0x128
+} MenuBottle; // size = 0x128
+
 
 typedef struct MenuRank_unk_001C {
     /* 0x0 */ UNK_TYPE unk_0;
@@ -256,20 +257,20 @@ typedef struct MenuStory {
 typedef struct MenuLvSel {
     /* 0x0000 */ struct struct_watchMenu *unk_0000;
     /* 0x0004 */ enum_struct_watchMenu_unk_111CC unk_0004;
-    /* 0x0008 */ MenuItem unk_0008;
-    /* 0x0098 */ MenuItem unk_0098;
-    /* 0x0128 */ MenuItem unk_0128;
-    /* 0x01B8 */ MenuLvSel_unk_01B8 unk_01B8;
-    /* 0x0264 */ MenuLvSel_unk_0264 unk_0264;
-    /* 0x0564 */ MenuLvSel_unk_0564 unk_0564;
-    /* 0x0600 */ MenuLvSel_unk_0600 unk_0600;
-    /* 0x0C64 */ MenuLvSel_unk_0C64 unk_0C64;
-    /* 0x1504 */ MenuLvSel_unk_1504 unk_1504;
-    /* 0x162C */ MenuLvSel_unk_162C unk_162C[3];
-    /* 0x1D4C */ MenuItem unk_1D4C;
-    /* 0x1DDC */ MenuItem unk_1DDC;
-    /* 0x1E6C */ MenuLvSel_unk_0564 unk_1E6C;
-    /* 0x1F08 */ MenuLvSel_unk_0600 unk_1F08;
+    /* 0x0008 */ MenuItem unk_0008; // root?
+    /* 0x0098 */ MenuItem unk_0098; // top panel?
+    /* 0x0128 */ MenuItem unk_0128; // bottom panel?
+    /* 0x01B8 */ MenuNumber virusLvlNumber;
+    /* 0x0264 */ MenuLvGauge virusLvlGauge;
+    /* 0x0564 */ MenuSpeedAsk speedIcon;
+    /* 0x0600 */ MenuSpeedItem speedSelector;
+    /* 0x0C64 */ MenuMusicItem musicSelector;
+    /* 0x1504 */ MenuBottle bottle;
+    /* 0x162C */ MenuCursor unk_162C[3];
+    /* 0x1D4C */ MenuItem capsuleSpeedIcon;
+    /* 0x1DDC */ MenuItem musicIcon;
+    /* 0x1E6C */ MenuSpeedAsk gameLvlIcon;
+    /* 0x1F08 */ MenuSpeedItem gameLvlSelector;
     /* 0x256C */ s32 unk_256C;
     /* 0x2570 */ s32 unk_2570;
     /* 0x2574 */ UNK_TYPE1 unk_2574[0x5030];
