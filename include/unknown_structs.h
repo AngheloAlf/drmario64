@@ -632,7 +632,7 @@ typedef struct struct_watchMenu {
     /* 0x024AC */ TiTexData *unk_024AC;
     /* 0x024B0 */ TiTexData *unk_024B0;
     /* 0x024B4 */ TiTexData *unk_024B4;
-    /* 0x024B8 */ MenuItem unk_024B8;
+    /* 0x024B8 */ MenuItem unk_024B8[1];
     /* 0x02548 */ UNK_TYPE unk_02548;
     /* 0x0254C */ UNK_TYPE1 unk_0254C[0x12C];
     /* 0x02678 */ MenusUnion unk_02678[2];

@@ -4,6 +4,7 @@
 #include "ultra64.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
+#include "color.h"
 #include "unk.h"
 
 
@@ -99,7 +100,7 @@ typedef struct MenuItem {
     /* 0x40 */ f32 unk_40[2];
     /* 0x48 */ f32 unk_48[2];
     /* 0x50 */ MenuItem_ColorCallback colorCallback;
-    /* 0x54 */ f32 unk_54[4];
+    /* 0x54 */ Color_RGBAf32 color;
     /* 0x64 */ f32 unk_64;
     /* 0x68 */ f32 unk_68;
     /* 0x6C */ f32 unk_6C[2][4];
@@ -258,8 +259,7 @@ typedef struct MenuLvSel {
     /* 0x0000 */ struct struct_watchMenu *unk_0000;
     /* 0x0004 */ MainMenuMode unk_0004;
     /* 0x0008 */ MenuItem unk_0008; // root?
-    /* 0x0098 */ MenuItem unk_0098; // top panel?
-    /* 0x0128 */ MenuItem unk_0128; // bottom panel?
+    /* 0x0098 */ MenuItem unk_0098[2]; // panels?
     /* 0x01B8 */ MenuNumber virusLvlNumber;
     /* 0x0264 */ MenuLvGauge virusLvlGauge;
     /* 0x0564 */ MenuSpeedAsk speedIcon;
