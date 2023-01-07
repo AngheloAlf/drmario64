@@ -589,6 +589,7 @@ typedef struct struct_watchManual {
     /* 0x184 */ s32 unk_184;
 } struct_watchManual; // size = 0x188
 
+
 typedef struct struct_watchMenu_unk_00048 {
     /* 0x000 */ UNK_TYPE1 unk_000[0x400];
 } struct_watchMenu_unk_00048; // size = 0x400
@@ -637,9 +638,9 @@ typedef struct struct_watchMenu {
     /* 0x02678 */ MenusUnion unk_02678[2];
     /* 0x111C0 */ UNK_TYPE unk_111C0;
     /* 0x111C4 */ UNK_TYPE unk_111C4;
-    /* 0x111C8 */ enum_struct_watchMenu_unk_111CC unk_111C8;
-    /* 0x111CC */ enum_struct_watchMenu_unk_111CC unk_111CC;
-    /* 0x111D0 */ enum_struct_watchMenu_unk_111CC unk_111D0;
+    /* 0x111C8 */ MainMenuMode unk_111C8;
+    /* 0x111CC */ MainMenuMode unk_111CC;
+    /* 0x111D0 */ MainMenuMode unk_111D0;
     /* 0x111D4 */ enum_main_no unk_111D4;
     /* 0x111D8 */ UNK_TYPE unk_111D8;
     /* 0x111DC */ f32 unk_111DC;
@@ -651,6 +652,7 @@ typedef struct struct_watchMenu {
     /* 0x111F4 */ UNK_TYPE unk_111F4; // thread priority?
     /* 0x111F8 */ RecordWritingMessage recMessage;
 } struct_watchMenu; // size = 0x11280
+
 
 typedef enum enum_graphic_no {
     /* 0 */ GRAPHIC_NO_0, // NONE?
@@ -745,5 +747,11 @@ typedef enum enum_evs_manual_no {
     /* 4 */ EVS_MANUAL_NO_4,
     /* 5 */ EVS_MANUAL_NO_5
 } enum_evs_manual_no;
+
+
+typedef struct struct__menuMain_lastSelect {
+    /* 0x00 */ s32 unk_00; // probably an enum
+    /* 0x04 */ UNK_TYPE1 unk_04[0x1C];
+} struct__menuMain_lastSelect; // size = 0x20
 
 #endif

@@ -1066,15 +1066,15 @@ void menuMain_init(MenuRank *menuRank, struct_watchMenu *arg1, struct_watchMenu_
 
     arg0->unk_0000 = (struct_watchMenu *) arg1;
     if (func_80059E6C(arg1) == 0x40) {
-        D_8008E788 = 0x3D;
+        _menuMain_lastMode = 0x3D;
         arg0->unk_0004 = (u32) 0x3D;
     } else {
-        arg0->unk_0004 = (u32) D_8008E788;
+        arg0->unk_0004 = (u32) _menuMain_lastMode;
     }
     var_s1 = 0;
-    var_a0 = &B_800EFCB0;
+    var_a0 = &_menuMain_lastSelect;
     var_v1 = arg0;
-    arg0->unk_0008 = B_800EB4F4;
+    arg0->unk_0008 = _menuMain_lastDepth;
     do {
         temp_v0 = *var_a0;
         var_a0 += 4;
@@ -1338,7 +1338,7 @@ void menuMain_input(MenuRank *menuRank) {
     sp1C = arg0 + ((arg0->unk_2300 * 0x678) + 0x3C);
     temp_s2 = _getKeyTrg(arg0->unk_0000, 0);
     if (_getMode((struct_watchMenu *) arg0->unk_0000) == 0) {
-        menuTitle_setTitle((struct_watchMenu *) arg0->unk_0000, (enum enum_struct_watchMenu_unk_111CC) arg0->unk_0004);
+        menuTitle_setTitle((struct_watchMenu *) arg0->unk_0000, (enum MainMenuMode) arg0->unk_0004);
     }
     temp_v0 = arg0->unk_0004;
     switch (temp_v0) {                              /* switch 1 */
@@ -2117,7 +2117,7 @@ block_242:
         }
         temp_a1 = arg0->unk_0004;
         var_a2_9 = 0;
-        if (temp_a1 != D_8008E788) {
+        if (temp_a1 != _menuMain_lastMode) {
             if (sp3C > 0) {
                 func_8004B2C8(&arg0->unk_590[0].unk_07CC[0x18FC], 1, (s32) arg0->unk_2670);
                 var_a2_9 = 0;
@@ -2159,10 +2159,10 @@ block_281:
                 }
             }
         }
-        var_a1_5 = &B_800EFCB0;
+        var_a1_5 = &_menuMain_lastSelect;
         var_a0_3 = arg0;
-        D_8008E788 = (s32) arg0->unk_0004;
-        B_800EB4F4 = arg0->unk_0008;
+        _menuMain_lastMode = (s32) arg0->unk_0004;
+        _menuMain_lastDepth = arg0->unk_0008;
         do {
             temp_v0_17 = var_a0_3->unk_000C;
             var_a0_3 += 4;
@@ -2362,17 +2362,17 @@ void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *arg1, struct_watchMe
     menuItem_init(&menuLvSel->unk_0128, 0, 0x5F);
 
     switch (menuLvSel->unk_0004) {
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10:
+        case MAINMENUMODE_MENULVSEL_10:
             func_80049894(&menuLvSel->gameLvlIcon, arg1, 3, temp_s5->unk_08, 0x44, 9);
             menuSpeedItem_init(&menuLvSel->gameLvlSelector, arg1, 3, 0, temp_s5->unk_08, 0x82, 5, 0x2E);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13:
+        case MAINMENUMODE_MENULVSEL_13:
             func_80049894(&menuLvSel->gameLvlIcon, arg1, 3, temp_s5->unk_07, 0x44, 9);
             menuSpeedItem_init(&menuLvSel->gameLvlSelector, arg1, 3, 0, temp_s5->unk_07, 0x82, 5, 0x2E);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
+        case MAINMENUMODE_MENULVSEL_7:
             var_s2 = menuLvSel->unk_2570;
             if (var_s2 >= temp_s5->unk_04) {
                 var_s2 = temp_s5->unk_04;
@@ -2450,12 +2450,12 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
     switch (menuLvSel->unk_256C) {
         case 0x0:
             switch (menuLvSel->unk_0004) {
-                case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10:
-                case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13:
+                case MAINMENUMODE_MENULVSEL_10:
+                case MAINMENUMODE_MENULVSEL_13:
                     func_80049C54(&menuLvSel->gameLvlSelector, 0);
                     break;
 
-                case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
+                case MAINMENUMODE_MENULVSEL_7:
                     func_80048C48(&menuLvSel->virusLvlGauge, 0);
                     break;
 
@@ -2465,7 +2465,7 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
             break;
 
         case 0x1:
-            func_80049C54(&menuLvSel->gameLvlSelector, 0);
+            func_80049C54(&menuLvSel->speedSelector, 0);
             break;
 
         case 0x2:
@@ -2479,20 +2479,20 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
             _setNextMain(menuLvSel->unk_0000, MAIN_NO_1);
 
             switch (menuLvSel->unk_0004) {
-                case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
+                case MAINMENUMODE_MENULVSEL_7:
                     gameStateData->unk_026 = menuLvSel->virusLvlGauge.unk_00C;
                     gameStateData->unk_02C = menuLvSel->speedSelector.unk_008;
                     temp_s5->unk_04 = menuLvSel->virusLvlGauge.unk_00C;
                     break;
 
-                case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10:
+                case MAINMENUMODE_MENULVSEL_10:
                     gameStateData->unk_026 = 0xA;
                     gameStateData->unk_02C = menuLvSel->speedSelector.unk_008;
                     gameStateData->unk_16C = menuLvSel->gameLvlSelector.unk_008;
                     temp_s5->unk_08 = menuLvSel->gameLvlSelector.unk_008;
                     break;
 
-                case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13:
+                case MAINMENUMODE_MENULVSEL_13:
                     gameStateData->unk_026 = _timeAttack_levelTable[menuLvSel->gameLvlSelector.unk_008];
                     gameStateData->unk_02C = menuLvSel->speedSelector.unk_008;
                     gameStateData->unk_16C = menuLvSel->gameLvlSelector.unk_008;
@@ -2510,7 +2510,7 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
             evs_seqence = evs_seqnumb != 4;
             sndIndex = SND_INDEX_62;
         } else if ((keyTrg & B_BUTTON) && (menuLvSel->unk_256C == 0)) {
-            _setMode(menuLvSel->unk_0000, STRUCT_WATCHMENU_UNK_111CC_MENUMAIN_0);
+            _setMode(menuLvSel->unk_0000, MAINMENUMODE_MENUMAIN_0);
             func_800529FC(menuLvSel, -1, 1.0f);
             if (menuLvSel->musicSelector.unk_008 >= 0) {
                 dm_seq_play_fade(0xC, 0x14);
@@ -2536,15 +2536,15 @@ void menuLvSel_update(MenuLvSel *menuLvSel) {
     u32 var_s2;
 
     switch (menuLvSel->unk_0004) {
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10:
+        case MAINMENUMODE_MENULVSEL_10:
             menuLvSel->bottle.unk_004 = menuLvSel->unk_0004;
             menuLvSel->gameLvlIcon.unk_8 = menuLvSel->gameLvlSelector.unk_008;
             break;
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13:
+        case MAINMENUMODE_MENULVSEL_13:
             menuLvSel->gameLvlIcon.unk_8 = menuLvSel->gameLvlSelector.unk_008;
             menuLvSel->bottle.unk_004 = _timeAttack_levelTable[menuLvSel->gameLvlSelector.unk_008];
             break;
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
+        case MAINMENUMODE_MENULVSEL_7:
             menuLvSel->virusLvlNumber.unk_0C = menuLvSel->virusLvlGauge.unk_00C;
             menuLvSel->bottle.unk_004 = menuLvSel->virusLvlGauge.unk_00C;
             break;
@@ -2554,13 +2554,13 @@ void menuLvSel_update(MenuLvSel *menuLvSel) {
     func_800464BC(&menuLvSel->unk_0008, temp_a1);
     func_800464F8(&menuLvSel->unk_0098, 2, &menuLvSel->unk_0008);
 
-    switch (menuLvSel->unk_0004) {                    /* switch 1; irregular */
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10: /* switch 1 */
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13: /* switch 1 */
+    switch (menuLvSel->unk_0004) {      /* switch 1; irregular */
+        case MAINMENUMODE_MENULVSEL_10: /* switch 1 */
+        case MAINMENUMODE_MENULVSEL_13: /* switch 1 */
             func_800498C4(&menuLvSel->gameLvlIcon, &menuLvSel->unk_0008);
             menuSpeedItem_update(&menuLvSel->gameLvlSelector, &menuLvSel->unk_0008);
             break;
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7: /* switch 1 */
+        case MAINMENUMODE_MENULVSEL_7: /* switch 1 */
             func_8004A8D8(&menuLvSel->virusLvlNumber, &menuLvSel->unk_0008);
             func_80048CC8(&menuLvSel->virusLvlGauge, &menuLvSel->unk_0008);
             break;
@@ -2581,16 +2581,16 @@ void menuLvSel_update(MenuLvSel *menuLvSel) {
     func_800464BC(&menuLvSel->musicIcon, &menuLvSel->unk_0128);
     temp_s2 = menuLvSel->unk_256C == 0;
 
-    switch (menuLvSel->unk_0004) {                   /* switch 2; irregular */
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7: /* switch 2 */
+    switch (menuLvSel->unk_0004) {     /* switch 2; irregular */
+        case MAINMENUMODE_MENULVSEL_7: /* switch 2 */
             menuLvSel->virusLvlGauge.unk_0A0.unk_01C &= 0xBFFFFFFF;
             menuLvSel->virusLvlGauge.unk_0A0.unk_01C |= (temp_s2 & 1) << 0x1E;
             menuLvSel->virusLvlGauge.unk_0A0.unk_01C &= 0xEFFFFFFF;
             menuLvSel->virusLvlGauge.unk_0A0.unk_01C |= ((temp_s2 & 1) << 0x1C);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10: /* switch 2 */
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13: /* switch 2 */
+        case MAINMENUMODE_MENULVSEL_10: /* switch 2 */
+        case MAINMENUMODE_MENULVSEL_13: /* switch 2 */
             menuLvSel->gameLvlSelector.unk_00C = temp_s2;
             menuLvSel->gameLvlSelector.unk_404.unk_01C &= 0xBFFFFFFF;
             menuLvSel->gameLvlSelector.unk_404.unk_01C |= ((temp_s2 & 1) << 0x1E);
@@ -2657,12 +2657,12 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
     switch (menuLvSel->unk_0004) {                              /* irregular */
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
+        case MAINMENUMODE_MENULVSEL_7:
             a2 = _getTexLevel(menuLvSel->unk_0000, 4);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10:
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13:
+        case MAINMENUMODE_MENULVSEL_10:
+        case MAINMENUMODE_MENULVSEL_13:
             a2 = _getTexLevel(menuLvSel->unk_0000, 5);
             break;
 
@@ -2680,7 +2680,7 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
     }
 
     switch (menuLvSel->unk_0004) {
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
+        case MAINMENUMODE_MENULVSEL_7:
             if (menuLvSel->unk_2570 >= 0x15) {
                 temp_fs0 = menuLvSel->unk_0098.unk_0C[0];
                 menuLvSel->unk_0098.unk_0C[0] = temp_fs0 + 222.0f;
@@ -2701,15 +2701,15 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
     menuSpeedItem_draw1(&aux.sp18[2], 1, &gfx);
 
     switch (menuLvSel->unk_0004) {
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10:
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13:
+        case MAINMENUMODE_MENULVSEL_10:
+        case MAINMENUMODE_MENULVSEL_13:
             aux.sp18[3] = &menuLvSel->gameLvlIcon;
             aux.sp18[4] = &menuLvSel->gameLvlSelector;
             menuSpeedAsk_draw(&aux.sp18[3], 1, &gfx);
             menuSpeedItem_draw1(&aux.sp18[4], 1, &gfx);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
+        case MAINMENUMODE_MENULVSEL_7:
             aux.sp18[3] = &menuLvSel->virusLvlNumber;
             aux.sp18[4] = &menuLvSel->virusLvlGauge;
             menuNumber_draw(&aux.sp18[3], 1, &gfx);
@@ -2729,12 +2729,12 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
     func_8004A160(&aux.sp18[2], 1, &gfx);
 
     switch (menuLvSel->unk_0004) {                            /* switch 1; irregular */
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10: /* switch 1 */
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13: /* switch 1 */
+        case MAINMENUMODE_MENULVSEL_10: /* switch 1 */
+        case MAINMENUMODE_MENULVSEL_13: /* switch 1 */
             func_8004A160(&aux.sp18[4], 1, &gfx);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7: /* switch 1 */
+        case MAINMENUMODE_MENULVSEL_7: /* switch 1 */
             func_80048FA0(&aux.sp18[4], 1, &gfx);
             break;
 
@@ -3273,39 +3273,39 @@ void menuRank_init(MenuRank *menuRank, struct_watchMenu *arg1, struct_watchMenu_
     }
 
     switch (menuRank->unk_0004) {
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_49:
+        case MAINMENUMODE_MENURANK_49:
             dm_data_mode_story_sort(&menuRank->unk_001C);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_50:
+        case MAINMENUMODE_MENURANK_50:
             dm_data_mode_level_sort(&menuRank->unk_001C);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_51:
+        case MAINMENUMODE_MENURANK_51:
             dm_data_mode_taiQ_sort(&menuRank->unk_001C);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_52:
+        case MAINMENUMODE_MENURANK_52:
             dm_data_mode_timeAt_sort(&menuRank->unk_001C);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_53:
+        case MAINMENUMODE_MENURANK_53:
             dm_data_vscom_sort(&menuRank->unk_001C);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_54:
+        case MAINMENUMODE_MENURANK_54:
             dm_data_vc_fl_sort(&menuRank->unk_001C);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_56:
+        case MAINMENUMODE_MENURANK_56:
             dm_data_vsman_sort(&menuRank->unk_001C);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_57:
+        case MAINMENUMODE_MENURANK_57:
             dm_data_vm_fl_sort(&menuRank->unk_001C);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_58:
+        case MAINMENUMODE_MENURANK_58:
             dm_data_vm_ta_sort(&menuRank->unk_001C);
             break;
 
@@ -3344,7 +3344,7 @@ void menuRank_input(MenuRank *menuRank) {
         if (pressedButton & B_BUTTON) {
             menuRank_setFrame(menuRank, menuRank->unk_0014, -1, 1.0f);
             sndIndex = SND_INDEX_68;
-            _setMode(menuRank->unk_0000, STRUCT_WATCHMENU_UNK_111CC_MENUMAIN_0);
+            _setMode(menuRank->unk_0000, MAINMENUMODE_MENUMAIN_0);
         } else if (direction != 0) {
             menuRank->unk_0010 = menuRank->unk_000C;
 
@@ -3478,13 +3478,13 @@ u16 _getKeyRep(struct_watchMenu *arg0 UNUSED, s32 arg1) {
     return joycur[main_joy[arg1]];
 }
 
-enum_struct_watchMenu_unk_111CC _getMode(struct_watchMenu *arg0) {
+MainMenuMode _getMode(struct_watchMenu *arg0) {
     return arg0->unk_111CC;
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059E6C);
 
-void _setMode(struct_watchMenu *arg0, enum_struct_watchMenu_unk_111CC arg1) {
+void _setMode(struct_watchMenu *arg0, MainMenuMode arg1) {
     arg0->unk_111D0 = arg1;
 }
 
@@ -3492,7 +3492,7 @@ void _setNextMain(struct_watchMenu *arg0, enum_main_no arg1) {
     arg0->unk_111D4 = arg1;
 }
 
-void menuTitle_setTitle(struct_watchMenu *arg0, enum_struct_watchMenu_unk_111CC arg1) {
+void menuTitle_setTitle(struct_watchMenu *arg0, MainMenuMode arg1) {
     func_80047420(&arg0->unk_02548, arg1);
 }
 
@@ -3552,9 +3552,9 @@ void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) 
     menuItem_init(&arg0->unk_024B8, 0, 0);
     func_800474EC(&arg0->unk_02548, arg0, 0x70, 0x12);
 
-    arg0->unk_111D0 = D_8008E8B4;
-    arg0->unk_111CC = D_8008E8B4;
-    arg0->unk_111C8 = D_8008E8B4;
+    arg0->unk_111D0 = _menuAll_lastMode;
+    arg0->unk_111CC = _menuAll_lastMode;
+    arg0->unk_111C8 = _menuAll_lastMode;
     arg0->unk_111DC = 1.0f;
     arg0->unk_111C0 = 0;
     arg0->unk_111D8 = 0;
@@ -3587,35 +3587,35 @@ void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) 
 
 void func_8005A2AC(struct_watchMenu *arg0) {
     func_8002A1DC(arg0->unk_00000, &arg0->unk_00004);
-    D_8008E8B4 = arg0->unk_111CC;
+    _menuAll_lastMode = arg0->unk_111CC;
 }
 
 void func_8005A2EC(struct_watchMenu *arg0) {
     s32 index = arg0->unk_111C0;
 
     switch (arg0->unk_111CC) {
-        case STRUCT_WATCHMENU_UNK_111CC_MENUMAIN_0:
+        case MAINMENUMODE_MENUMAIN_0:
             func_8004F2D8(&arg0->unk_02678[index].menuMain);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENUSTORY_4:
+        case MAINMENUMODE_MENUSTORY_4:
             func_80051974(&arg0->unk_02678[index].menuStory);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10:
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13:
+        case MAINMENUMODE_MENULVSEL_7:
+        case MAINMENUMODE_MENULVSEL_10:
+        case MAINMENUMODE_MENULVSEL_13:
             func_80052DF0(&arg0->unk_02678[index].menuLvSel);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_17:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_21:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_26:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_30:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_34:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_41:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_43:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_45:
+        case MAINMENUMODE_MENUPLAY2_17:
+        case MAINMENUMODE_MENUPLAY2_21:
+        case MAINMENUMODE_MENUPLAY2_26:
+        case MAINMENUMODE_MENUPLAY2_30:
+        case MAINMENUMODE_MENUPLAY2_34:
+        case MAINMENUMODE_MENUPLAY2_41:
+        case MAINMENUMODE_MENUPLAY2_43:
+        case MAINMENUMODE_MENUPLAY2_45:
             func_800550F4(&arg0->unk_02678[index].menuPlay2);
             break;
 
@@ -3634,70 +3634,70 @@ void menuAll_changeMenu(struct_watchMenu *arg0) {
     arg0->unk_111EC = 0;
     arg0->unk_111F0 = 0;
 
-    if (arg0->unk_111CC != STRUCT_WATCHMENU_UNK_111CC_MENUMAIN_0) {
+    if (arg0->unk_111CC != MAINMENUMODE_MENUMAIN_0) {
         menuTitle_setTitle(arg0, arg0->unk_111CC);
     }
 
     switch (arg0->unk_111CC) {
-        case STRUCT_WATCHMENU_UNK_111CC_MENUMAIN_0:
+        case MAINMENUMODE_MENUMAIN_0:
             menuMain_init(&arg0->unk_02678[index].menuMain, arg0, &arg0->unk_02470[index]);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENUSTORY_4:
+        case MAINMENUMODE_MENUSTORY_4:
             menuStory_init(&arg0->unk_02678[index].menuStory, arg0, &arg0->unk_02470[index]);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10:
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13:
+        case MAINMENUMODE_MENULVSEL_7:
+        case MAINMENUMODE_MENULVSEL_10:
+        case MAINMENUMODE_MENULVSEL_13:
             menuLvSel_init(&arg0->unk_02678[index].menuLvSel, arg0, &arg0->unk_02470[index]);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_17:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_21:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_26:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_30:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_34:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_41:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_43:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_45:
+        case MAINMENUMODE_MENUPLAY2_17:
+        case MAINMENUMODE_MENUPLAY2_21:
+        case MAINMENUMODE_MENUPLAY2_26:
+        case MAINMENUMODE_MENUPLAY2_30:
+        case MAINMENUMODE_MENUPLAY2_34:
+        case MAINMENUMODE_MENUPLAY2_41:
+        case MAINMENUMODE_MENUPLAY2_43:
+        case MAINMENUMODE_MENUPLAY2_45:
             menuPlay2_init(&arg0->unk_02678[index].menuPlay2, arg0, &arg0->unk_02470[index]);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_16:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_20:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_25:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_29:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_33:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_40:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_42:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_44:
+        case MAINMENUMODE_MENUCHSEL_16:
+        case MAINMENUMODE_MENUCHSEL_20:
+        case MAINMENUMODE_MENUCHSEL_25:
+        case MAINMENUMODE_MENUCHSEL_29:
+        case MAINMENUMODE_MENUCHSEL_33:
+        case MAINMENUMODE_MENUCHSEL_40:
+        case MAINMENUMODE_MENUCHSEL_42:
+        case MAINMENUMODE_MENUCHSEL_44:
             menuChSel_init(&arg0->unk_02678[index].menuChSel, arg0, &arg0->unk_02470[index]);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_3:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_6:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_9:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_12:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_15:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_19:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_24:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_28:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_32:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_63:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_64:
+        case MAINMENUMODE_MENUNMENT_3:
+        case MAINMENUMODE_MENUNMENT_6:
+        case MAINMENUMODE_MENUNMENT_9:
+        case MAINMENUMODE_MENUNMENT_12:
+        case MAINMENUMODE_MENUNMENT_15:
+        case MAINMENUMODE_MENUNMENT_19:
+        case MAINMENUMODE_MENUNMENT_24:
+        case MAINMENUMODE_MENUNMENT_28:
+        case MAINMENUMODE_MENUNMENT_32:
+        case MAINMENUMODE_MENUNMENT_63:
+        case MAINMENUMODE_MENUNMENT_64:
             menuNmEnt_init(&arg0->unk_02678[index].menuNmEnt, arg0, &arg0->unk_02470[index]);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_49:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_50:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_51:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_52:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_53:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_54:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_56:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_57:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_58:
+        case MAINMENUMODE_MENURANK_49:
+        case MAINMENUMODE_MENURANK_50:
+        case MAINMENUMODE_MENURANK_51:
+        case MAINMENUMODE_MENURANK_52:
+        case MAINMENUMODE_MENURANK_53:
+        case MAINMENUMODE_MENURANK_54:
+        case MAINMENUMODE_MENURANK_56:
+        case MAINMENUMODE_MENURANK_57:
+        case MAINMENUMODE_MENURANK_58:
             menuRank_init(&arg0->unk_02678[index].menuRank, arg0, &arg0->unk_02470[index]);
             break;
 
@@ -3715,65 +3715,65 @@ void menuAll_input(struct_watchMenu *arg0) {
     }
 
     switch (arg0->unk_111CC) {
-        case STRUCT_WATCHMENU_UNK_111CC_MENUMAIN_0:
+        case MAINMENUMODE_MENUMAIN_0:
             menuMain_input(&arg0->unk_02678[index].menuMain);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENUSTORY_4:
+        case MAINMENUMODE_MENUSTORY_4:
             menuStory_input(&arg0->unk_02678[index].menuStory);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10:
-        case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13:
+        case MAINMENUMODE_MENULVSEL_7:
+        case MAINMENUMODE_MENULVSEL_10:
+        case MAINMENUMODE_MENULVSEL_13:
             menuLvSel_input(&arg0->unk_02678[index].menuLvSel);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_17:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_21:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_26:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_30:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_34:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_41:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_43:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_45:
+        case MAINMENUMODE_MENUPLAY2_17:
+        case MAINMENUMODE_MENUPLAY2_21:
+        case MAINMENUMODE_MENUPLAY2_26:
+        case MAINMENUMODE_MENUPLAY2_30:
+        case MAINMENUMODE_MENUPLAY2_34:
+        case MAINMENUMODE_MENUPLAY2_41:
+        case MAINMENUMODE_MENUPLAY2_43:
+        case MAINMENUMODE_MENUPLAY2_45:
             menuPlay2_input(&arg0->unk_02678[index].menuPlay2);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_16:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_20:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_25:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_29:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_33:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_40:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_42:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_44:
+        case MAINMENUMODE_MENUCHSEL_16:
+        case MAINMENUMODE_MENUCHSEL_20:
+        case MAINMENUMODE_MENUCHSEL_25:
+        case MAINMENUMODE_MENUCHSEL_29:
+        case MAINMENUMODE_MENUCHSEL_33:
+        case MAINMENUMODE_MENUCHSEL_40:
+        case MAINMENUMODE_MENUCHSEL_42:
+        case MAINMENUMODE_MENUCHSEL_44:
             menuChSel_input(&arg0->unk_02678[index].menuChSel);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_3:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_6:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_9:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_12:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_15:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_19:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_24:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_28:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_32:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_63:
-        case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_64:
+        case MAINMENUMODE_MENUNMENT_3:
+        case MAINMENUMODE_MENUNMENT_6:
+        case MAINMENUMODE_MENUNMENT_9:
+        case MAINMENUMODE_MENUNMENT_12:
+        case MAINMENUMODE_MENUNMENT_15:
+        case MAINMENUMODE_MENUNMENT_19:
+        case MAINMENUMODE_MENUNMENT_24:
+        case MAINMENUMODE_MENUNMENT_28:
+        case MAINMENUMODE_MENUNMENT_32:
+        case MAINMENUMODE_MENUNMENT_63:
+        case MAINMENUMODE_MENUNMENT_64:
             menuNmEnt_input(&arg0->unk_02678[index].menuNmEnt);
             break;
 
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_49:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_50:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_51:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_52:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_53:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_54:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_56:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_57:
-        case STRUCT_WATCHMENU_UNK_111CC_MENURANK_58:
+        case MAINMENUMODE_MENURANK_49:
+        case MAINMENUMODE_MENURANK_50:
+        case MAINMENUMODE_MENURANK_51:
+        case MAINMENUMODE_MENURANK_52:
+        case MAINMENUMODE_MENURANK_53:
+        case MAINMENUMODE_MENURANK_54:
+        case MAINMENUMODE_MENURANK_56:
+        case MAINMENUMODE_MENURANK_57:
+        case MAINMENUMODE_MENURANK_58:
             menuRank_input(&arg0->unk_02678[index].menuRank);
             break;
 
@@ -3784,7 +3784,7 @@ void menuAll_input(struct_watchMenu *arg0) {
 
 void menuAll_update(struct_watchMenu *arg0) {
     MenuItem *var_v1 = &arg0->unk_024B8;
-    enum_struct_watchMenu_unk_111CC var_a0;
+    MainMenuMode var_a0;
     f32 temp_f2_2;
     f32 var_f2;
     s32 i;
@@ -3827,65 +3827,65 @@ void menuAll_update(struct_watchMenu *arg0) {
         }
 
         switch (var_a0) {
-            case STRUCT_WATCHMENU_UNK_111CC_MENUMAIN_0:
+            case MAINMENUMODE_MENUMAIN_0:
                 menuMain_update(&arg0->unk_02678[var_v1_2].menuMain);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENUSTORY_4:
+            case MAINMENUMODE_MENUSTORY_4:
                 menuStory_update(&arg0->unk_02678[var_v1_2].menuStory);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
-            case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10:
-            case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13:
+            case MAINMENUMODE_MENULVSEL_7:
+            case MAINMENUMODE_MENULVSEL_10:
+            case MAINMENUMODE_MENULVSEL_13:
                 menuLvSel_update(&arg0->unk_02678[var_v1_2].menuLvSel);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_17:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_21:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_26:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_30:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_34:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_41:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_43:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_45:
+            case MAINMENUMODE_MENUPLAY2_17:
+            case MAINMENUMODE_MENUPLAY2_21:
+            case MAINMENUMODE_MENUPLAY2_26:
+            case MAINMENUMODE_MENUPLAY2_30:
+            case MAINMENUMODE_MENUPLAY2_34:
+            case MAINMENUMODE_MENUPLAY2_41:
+            case MAINMENUMODE_MENUPLAY2_43:
+            case MAINMENUMODE_MENUPLAY2_45:
                 menuPlay2_update(&arg0->unk_02678[var_v1_2].menuPlay2);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_16:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_20:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_25:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_29:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_33:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_40:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_42:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_44:
+            case MAINMENUMODE_MENUCHSEL_16:
+            case MAINMENUMODE_MENUCHSEL_20:
+            case MAINMENUMODE_MENUCHSEL_25:
+            case MAINMENUMODE_MENUCHSEL_29:
+            case MAINMENUMODE_MENUCHSEL_33:
+            case MAINMENUMODE_MENUCHSEL_40:
+            case MAINMENUMODE_MENUCHSEL_42:
+            case MAINMENUMODE_MENUCHSEL_44:
                 menuChSel_update(&arg0->unk_02678[var_v1_2].menuChSel);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_3:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_6:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_9:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_12:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_15:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_19:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_24:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_28:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_32:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_63:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_64:
+            case MAINMENUMODE_MENUNMENT_3:
+            case MAINMENUMODE_MENUNMENT_6:
+            case MAINMENUMODE_MENUNMENT_9:
+            case MAINMENUMODE_MENUNMENT_12:
+            case MAINMENUMODE_MENUNMENT_15:
+            case MAINMENUMODE_MENUNMENT_19:
+            case MAINMENUMODE_MENUNMENT_24:
+            case MAINMENUMODE_MENUNMENT_28:
+            case MAINMENUMODE_MENUNMENT_32:
+            case MAINMENUMODE_MENUNMENT_63:
+            case MAINMENUMODE_MENUNMENT_64:
                 menuNmEnt_update(&arg0->unk_02678[var_v1_2].menuNmEnt);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_49:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_50:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_51:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_52:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_53:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_54:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_56:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_57:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_58:
+            case MAINMENUMODE_MENURANK_49:
+            case MAINMENUMODE_MENURANK_50:
+            case MAINMENUMODE_MENURANK_51:
+            case MAINMENUMODE_MENURANK_52:
+            case MAINMENUMODE_MENURANK_53:
+            case MAINMENUMODE_MENURANK_54:
+            case MAINMENUMODE_MENURANK_56:
+            case MAINMENUMODE_MENURANK_57:
+            case MAINMENUMODE_MENURANK_58:
                 menuRank_update(&arg0->unk_02678[var_v1_2].menuRank);
                 break;
 
@@ -3939,7 +3939,7 @@ void menuAll_draw(struct_watchMenu *arg0, Gfx **gfxP) {
     menuTitle_draw(&arg0->unk_02548, &gGfxHead);
 
     for (i = 0; i < 2; i++) {
-        enum_struct_watchMenu_unk_111CC var_a0;
+        MainMenuMode var_a0;
         s32 index;
 
         if (i != 0) {
@@ -3960,65 +3960,65 @@ void menuAll_draw(struct_watchMenu *arg0, Gfx **gfxP) {
         gDPSetEnvColor(gGfxHead++, color, color, color, 255);
 
         switch (var_a0) {
-            case STRUCT_WATCHMENU_UNK_111CC_MENUMAIN_0:
+            case MAINMENUMODE_MENUMAIN_0:
                 menuMain_draw(&arg0->unk_02678[index].menuMain, gfxP);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENUSTORY_4:
+            case MAINMENUMODE_MENUSTORY_4:
                 menuStory_draw(&arg0->unk_02678[index].menuStory, gfxP);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_7:
-            case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_10:
-            case STRUCT_WATCHMENU_UNK_111CC_MENULVSEL_13:
+            case MAINMENUMODE_MENULVSEL_7:
+            case MAINMENUMODE_MENULVSEL_10:
+            case MAINMENUMODE_MENULVSEL_13:
                 menuLvSel_draw(&arg0->unk_02678[index].menuLvSel, gfxP);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_17:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_21:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_26:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_30:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_34:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_41:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_43:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUPLAY2_45:
+            case MAINMENUMODE_MENUPLAY2_17:
+            case MAINMENUMODE_MENUPLAY2_21:
+            case MAINMENUMODE_MENUPLAY2_26:
+            case MAINMENUMODE_MENUPLAY2_30:
+            case MAINMENUMODE_MENUPLAY2_34:
+            case MAINMENUMODE_MENUPLAY2_41:
+            case MAINMENUMODE_MENUPLAY2_43:
+            case MAINMENUMODE_MENUPLAY2_45:
                 menuPlay2_draw(&arg0->unk_02678[index].menuPlay2, gfxP);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_16:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_20:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_25:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_29:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_33:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_40:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_42:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUCHSEL_44:
+            case MAINMENUMODE_MENUCHSEL_16:
+            case MAINMENUMODE_MENUCHSEL_20:
+            case MAINMENUMODE_MENUCHSEL_25:
+            case MAINMENUMODE_MENUCHSEL_29:
+            case MAINMENUMODE_MENUCHSEL_33:
+            case MAINMENUMODE_MENUCHSEL_40:
+            case MAINMENUMODE_MENUCHSEL_42:
+            case MAINMENUMODE_MENUCHSEL_44:
                 menuChSel_draw(&arg0->unk_02678[index].menuChSel, gfxP);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_3:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_6:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_9:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_12:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_15:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_19:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_24:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_28:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_32:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_63:
-            case STRUCT_WATCHMENU_UNK_111CC_MENUNMENT_64:
+            case MAINMENUMODE_MENUNMENT_3:
+            case MAINMENUMODE_MENUNMENT_6:
+            case MAINMENUMODE_MENUNMENT_9:
+            case MAINMENUMODE_MENUNMENT_12:
+            case MAINMENUMODE_MENUNMENT_15:
+            case MAINMENUMODE_MENUNMENT_19:
+            case MAINMENUMODE_MENUNMENT_24:
+            case MAINMENUMODE_MENUNMENT_28:
+            case MAINMENUMODE_MENUNMENT_32:
+            case MAINMENUMODE_MENUNMENT_63:
+            case MAINMENUMODE_MENUNMENT_64:
                 menuNmEnt_draw(&arg0->unk_02678[index].menuNmEnt, gfxP);
                 break;
 
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_49:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_50:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_51:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_52:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_53:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_54:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_56:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_57:
-            case STRUCT_WATCHMENU_UNK_111CC_MENURANK_58:
+            case MAINMENUMODE_MENURANK_49:
+            case MAINMENUMODE_MENURANK_50:
+            case MAINMENUMODE_MENURANK_51:
+            case MAINMENUMODE_MENURANK_52:
+            case MAINMENUMODE_MENURANK_53:
+            case MAINMENUMODE_MENURANK_54:
+            case MAINMENUMODE_MENURANK_56:
+            case MAINMENUMODE_MENURANK_57:
+            case MAINMENUMODE_MENURANK_58:
                 menuRank_draw(&arg0->unk_02678[index].menuRank, gfxP);
                 break;
 
@@ -4043,10 +4043,10 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     u16 value;
 
     if (main_old == MAIN_NO_3) {
-        D_8008E8B4 = 0;
-        D_8008E788 = 0;
-        B_800EB4F4 = 0;
-        B_800EFCB0 = 0;
+        _menuAll_lastMode = MAINMENUMODE_MENUMAIN_0;
+        _menuMain_lastMode = 0;
+        _menuMain_lastDepth = 0;
+        _menuMain_lastSelect.unk_00 = 0;
     }
     func_80040A64();
     sp10 = &ptr[1];

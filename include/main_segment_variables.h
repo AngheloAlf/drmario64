@@ -194,7 +194,7 @@ extern Gfx normal_texture_init_dl[];
 extern Gfx D_8008E748[];
 // extern UNK_TYPE D_8008E770;
 // extern UNK_TYPE D_8008E778;
-extern s32 D_8008E788;
+extern s32 _menuMain_lastMode;
 // extern UNK_TYPE D_8008E78C;
 // extern UNK_TYPE D_8008E79C;
 // extern UNK_TYPE D_8008E7B4;
@@ -208,7 +208,7 @@ extern s32 D_8008E788;
 // extern UNK_TYPE D_8008E86C;
 // extern UNK_TYPE D_8008E870;
 // extern UNK_TYPE D_8008E87C;
-extern enum_struct_watchMenu_unk_111CC D_8008E8B4; // maybe part of a struct?
+extern MainMenuMode _menuAll_lastMode;
 // extern UNK_TYPE D_8008E8C0;
 // extern UNK_TYPE D_80094350;
 // extern UNK_TYPE D_8009F870;
@@ -621,7 +621,7 @@ extern s32 B_800EB4CC;
 extern s32 B_800EB4D0;
 extern OSContPad B_800EB4D8[MAXCONTROLLERS];
 extern enum_main_no main_old; /* Orignal name: main_old */
-extern s32 B_800EB4F4;
+extern s32 _menuMain_lastDepth;
 // extern UNK_TYPE B_800EB4F8;
 // extern UNK_TYPE B_800EB4F9;
 // extern UNK_TYPE B_800EB50A;
@@ -658,7 +658,7 @@ extern u16 joycur1; /* Original name: joycur1 */
 extern s8 decide;
 extern struct_800EF560 evs_mem_data[9];
 
-extern s32 B_800EFCB0;
+extern struct__menuMain_lastSelect _menuMain_lastSelect;
 extern enum_evs_gamesel evs_gamesel; /* Original name: evs_gamesel */
 extern STACK(B_800EFCE0, 0x2000);
 extern u8 evs_playmax; /* Original name: evs_playmax */
