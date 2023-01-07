@@ -824,7 +824,129 @@ void menuSpeedItem_update(MenuSpeedItem *arg0, MenuItem *arg1) {
     menuCursor_update(&arg0->unk_404, &arg0->unk_0A4[arg0->unk_008]);
 }
 
+#if 0
+s32 func_80059D64(s32, s32);                        /* extern */
+s32 func_80059D84(s32, s32);                        /* extern */
+s32 menuItem_drawTex(void *, void **, s32, s32);    /* extern */
+
+void menuSpeedItem_draw1(void **arg0, s32 arg1, void **arg2) {
+    void *sp10;
+    void **sp1C;
+    s32 sp24;
+    void **sp2C;
+    s32 sp34;
+    s32 var_a1;
+    s32 var_fp;
+    s32 var_s2;
+    s32 var_s3;
+    s32 var_s3_2;
+    s32 var_s3_3;
+    s32 var_s6;
+    s32 var_s6_2;
+    s32 var_s6_3;
+    s32 var_s7;
+    u32 var_s1_3;
+    void **var_s1;
+    void **var_s1_2;
+    void **var_s5;
+    void *temp_v1;
+    void *temp_v1_2;
+    void *var_s0;
+
+    var_s0 = saved_reg_s0;
+    var_s7 = saved_reg_s7;
+    sp1C = arg0;
+    sp24 = arg1;
+    sp2C = arg2;
+    temp_v1 = *arg2;
+    sp10 = temp_v1 + 8;
+    temp_v1->unk_0 = 0xDE000000;
+    temp_v1->unk_4 = fade_normal_texture_init_dl;
+    var_s6 = 0;
+    var_s3 = 0;
+    if (sp24 > 0) {
+        var_s1 = sp1C;
+        do {
+            var_s0 = *var_s1;
+            if ((var_s0->unk_4 == 3) && (var_s0->unk_10 != 0)) {
+                var_s7 = func_80059D84(var_s0->unk_0, 0xF);
+                var_s6 += menuItem_drawTex(var_s0 + 0x1C4, &sp10, var_s7, var_s6);
+            }
+            var_s3 += 1;
+            var_s1 += 4;
+        } while (var_s3 < sp24);
+    }
+    temp_v1_2 = sp10;
+    sp10 = temp_v1_2 + 8;
+    temp_v1_2->unk_0 = 0xDE000000;
+    temp_v1_2->unk_4 = fade_intensity_texture_init_dl;
+    var_s6_2 = 0;
+    var_s3_2 = 0;
+    if (sp24 > 0) {
+        var_s1_2 = sp1C;
+        do {
+            var_s0 = *var_s1_2;
+            if ((var_s0->unk_4 == 3) && (var_s0->unk_10 != 0)) {
+                var_s7 = func_80059D84(var_s0->unk_0, 0x17);
+                var_s6_2 += menuItem_drawTex(var_s0 + 0x374, &sp10, var_s7, var_s6_2);
+            }
+            var_s3_2 += 1;
+            var_s1_2 += 4;
+        } while (var_s3_2 < sp24);
+    }
+    var_s2 = 0;
+    do {
+        var_s1_3 = 0;
+        var_fp = 0x254;
+loop_14:
+        var_s6_3 = 0;
+        if ((var_s1_3 != 2) || (var_s0->unk_4 != 3) || (var_s0->unk_10 == 0)) {
+            var_s3_3 = 0;
+            if (sp24 > 0) {
+                var_s5 = sp1C;
+                sp34 = var_fp;
+                do {
+                    var_s0 = *var_s5;
+                    if (var_s0->unk_4 == var_s2) {
+                        switch (var_s2) {           /* irregular */
+                            default:
+                                var_a1 = var_s1_3 + 0x14;
+                                if (var_s2 != 3) {
+
+                                } else {
+block_33:
+                                    var_s7 = func_80059D84(var_s0->unk_0, var_a1);
+                                }
+                                break;
+                            case 0x0:
+                                var_s7 = func_80059D64(var_s0->unk_0, var_s1_3 + 6);
+                                break;
+                            case 0x1:
+                                var_a1 = var_s1_3 + 0x18;
+                                goto block_33;
+                            case 0x2:
+                                var_s7 = func_80059D64(var_s0->unk_0, var_s1_3 + 3);
+                                break;
+                        }
+                        var_s6_3 += menuItem_drawTex(var_s0 + sp34, &sp10, var_s7, var_s6_3);
+                    }
+                    var_s3_3 += 1;
+                    var_s5 += 4;
+                } while (var_s3_3 < sp24);
+            }
+        }
+        var_s1_3 += 1;
+        var_fp += 0x90;
+        if (var_s1_3 < 3U) {
+            goto loop_14;
+        }
+        var_s2 += 1;
+    } while (var_s2 < 4);
+    *sp2C = sp10;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuSpeedItem_draw1);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A160);
 
@@ -2410,9 +2532,197 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80051480);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800514C4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuStory_init);
+#if 0
+? func_800466D0(s8 *);                              /* extern */
+? func_800467E0(s8 *);                              /* extern */
+? func_800513F0(s32, s32, u32, s32 *, s32 *);       /* extern */
+? func_80051480(MenuStory *, ?, ?);                 /* extern */
+void func_800514C4(s32);                            /* extern */
+extern ? D_800B09F8;
+extern ? D_800B09FC;
+extern ? D_800B0A08;
+extern ? D_800B0A0C;
+extern ? D_800B0A18;
+extern ? D_800B0A1C;
+extern ? D_800B0A20;
+extern ? D_800B0A24;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80051974);
+void menuStory_init(MenuStory *menuStory, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2) {
+    s32 sp20;
+    s32 sp24;
+    struct_watchMenu_unk_02470 **sp2C;
+    MenuCursor *temp_a0;
+    MenuCursor *var_a0_3;
+    MenuItem *temp_a0_2;
+    MenuItem *temp_a0_3;
+    MenuItem *temp_s0;
+    MenuItem *temp_s0_2;
+    MenuItem *var_a0_2;
+    MenuStory *temp_s3;
+    MenuStory *var_a0;
+    MenuStory *var_s0_2;
+    enum CharAnimeMode var_s1_3;
+    s32 temp_a1;
+    s32 temp_a1_2;
+    s32 temp_a2;
+    s32 temp_a2_2;
+    s32 temp_t0;
+    s32 temp_t1;
+    s32 temp_v0;
+    s32 temp_v0_3;
+    s32 temp_v0_4;
+    s32 temp_v1;
+    s32 temp_v1_2;
+    s32 var_s0;
+    s32 var_s0_3;
+    s32 var_s0_4;
+    s32 var_s0_5;
+    s32 var_s1_6;
+    s32 var_s2;
+    s32 var_s2_2;
+    s32 var_s2_4;
+    struct_800EF560 *var_v1;
+    struct_800EF560_unk_B4 *temp_s4;
+    struct_watchMenu_unk_02470 *var_fp;
+    u32 temp_a2_3;
+    u32 temp_v0_2;
+    u32 var_s1;
+    u32 var_s1_2;
+    u32 var_s1_4;
+    u32 var_s1_5;
+    u32 var_s1_7;
+    u32 var_s1_8;
+    u32 var_s2_3;
+
+    var_a0 = menuStory;
+    temp_s3 = var_a0;
+    sp2C = arg2;
+    var_fp = *arg2;
+    var_s1 = 0;
+    temp_s3->watchMenuRef = arg1;
+    var_v1 = &evs_mem_data[*evs_select_name_no];
+    temp_s4 = &var_v1->unk_B4;
+    do {
+        var_a0->unk_4 = (s32) (var_v1->unk_08[0][0] + 1);
+        temp_v0 = var_v1->unk_08[0][1];
+        var_s1 += 1;
+        var_v1 += 8;
+        var_a0->unk_8 = (s32) (temp_v0 + 1);
+        var_a0 += 8;
+    } while (var_s1 < 4U);
+    temp_s3->unk_24 = 0;
+    var_s1_2 = 0x160;
+    var_s0 = 0;
+    temp_s3->unk_34 = 0;
+    temp_s3->unk_28 = (s32) (u8) temp_s4->unk_03;
+    menuItem_init(&temp_s3->unk_0040, 0x19, 0x2F);
+    temp_s3->unk_28 = (s32) (u8) temp_s4->unk_03;
+    menuItem_init(&temp_s3->unk_00D0, 0x45, 0x12);
+    var_a0_2 = temp_s3->unk_0160;
+    do {
+        temp_a1 = *(&D_800B09F8 + var_s0);
+        temp_a2 = *(&D_800B09FC + var_s0);
+        var_s1_2 += 0x90;
+        var_s0 += 8;
+        menuItem_init(var_a0_2, temp_a1, temp_a2);
+        var_a0_2 = temp_s3 + var_s1_2;
+    } while (var_s1_2 < 0x280U);
+
+    var_s1_3 = CHARANIMEMODE_M;
+    var_s0_2 = temp_s3;
+    do {
+        var_s0_2->unk_38 = (s32) ((s32) &var_fp->unk_00000[0xF] & ~0xF);
+        temp_v0_2 = animeState_getDataSize(var_s1_3);
+        var_s1_3 += 1;
+        var_fp = var_s0_2->unk_38 + temp_v0_2;
+        var_s0_2 += 4;
+    } while ((u32) var_s1_3 < 2U);
+
+    func_80040B10(func_800514C4, (s32) temp_s3);
+    var_s1_4 = 0;
+    var_s0_3 = 0;
+    var_s2 = 0x300;
+    do {
+        temp_a0 = temp_s3 + var_s2;
+        temp_v0_3 = *(&D_800B09F8 + var_s0_3);
+        temp_v1 = *(&D_800B09FC + var_s0_3);
+        var_s0_3 += 8;
+        var_s2 += 0x260;
+        var_s1_4 += 1;
+        func_800479A8(temp_a0, arg1, 0, 0, temp_v0_3 - 0x18, temp_v1 - 0x2C, 0x30, 0x2F);
+    } while (var_s1_4 < 2U);
+    temp_s3->unk_2C = (s32) (u8) temp_s4->unk_00;
+    var_s1_5 = 0;
+    func_80049894(&temp_s3->unk_07C0, arg1, 3, (s32) (u8) temp_s4->unk_00, 0x45, 0x3D);
+    menuSpeedItem_init(&temp_s3->unk_085C, arg1, 3, 0, (s32) (u8) temp_s4->unk_00, 0x7D, 0x39, 0x34);
+    var_s2_2 = 0xFFC;
+    temp_s3->unk_085C.unk_010 = (u8) temp_s4->unk_01 != 0;
+    temp_s3->unk_30 = (s32) ((u8) temp_s4->unk_02 + 1);
+    func_8004A860(&temp_s3->unk_0EC0, arg1, 1, 1, (u8) temp_s4->unk_02 + 1, 0x65, 0x5A);
+    menuItem_init(&temp_s3->unk_0F6C, 0x10, 0x6E);
+    do {
+        temp_s0 = temp_s3 + var_s2_2;
+        menuItem_init(temp_s0, 0, 0);
+        func_800467E0(temp_s0);
+        temp_s0->unk_68 = 0.05f;
+        var_s1_5 += 1;
+        var_s2_2 += 0x90;
+    } while (var_s1_5 < 2U);
+    var_s2_3 = 0x111C;
+    var_s1_6 = 0;
+    do {
+        temp_s0_2 = temp_s3 + var_s2_3;
+        temp_a0_2 = temp_s0_2;
+        temp_a1_2 = *(&D_800B0A08 + var_s1_6);
+        temp_a2_2 = *(&D_800B0A0C + var_s1_6);
+        var_s2_3 += 0x90;
+        var_s1_6 += 8;
+        menuItem_init(temp_a0_2, temp_a1_2, temp_a2_2);
+        func_800466D0(temp_s0_2);
+    } while (var_s2_3 < 0x123CU);
+    var_s1_7 = 0;
+    var_s0_4 = 0x123C;
+    do {
+        temp_a2_3 = var_s1_7;
+        var_s1_7 += 1;
+        func_800513F0(temp_s3->unk_28, temp_s3->unk_30, temp_a2_3, &sp20, &sp24);
+        temp_a0_3 = temp_s3 + var_s0_4;
+        var_s0_4 += 0x90;
+        menuItem_init(temp_a0_3, sp20, sp24);
+    } while (var_s1_7 < 2U);
+    var_s1_8 = 0;
+    var_s0_5 = 0;
+    var_s2_4 = 0x135C;
+    temp_s3->unk_111C[0].unk_40[0] = -temp_s3->unk_111C[0].unk_40[0];
+    temp_s3->unk_111C[0].unk_48[0] = -temp_s3->unk_111C[0].unk_48[0];
+    var_a0_3 = temp_s3->unk_135C;
+    do {
+        temp_v0_4 = *(&D_800B0A18 + var_s0_5);
+        temp_v1_2 = *(&D_800B0A1C + var_s0_5);
+        temp_t0 = *(&D_800B0A20 + var_s0_5);
+        temp_t1 = *(&D_800B0A24 + var_s0_5);
+        var_s0_5 += 0x10;
+        var_s2_4 += 0x260;
+        var_s1_8 += 1;
+        func_800479A8(var_a0_3, arg1, 1, 0, temp_v0_4, temp_v1_2, temp_t0, temp_t1);
+        var_a0_3 = temp_s3 + var_s2_4;
+    } while (var_s1_8 < 3U);
+    func_80051480(temp_s3, 1, 0);
+    *sp2C = var_fp;
+}
+#else
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuStory_init);
+#endif
+
+void func_80051974(MenuStory *menuStory) {
+    u16 keyTrg = _getKeyTrg(menuStory->watchMenuRef, 0);
+
+    if (keyTrg & B_BUTTON) {
+        _setFadeDir(menuStory->watchMenuRef, -1);
+        _setNextMain(menuStory->watchMenuRef, MAIN_NO_6);
+        dm_snd_play(SND_INDEX_68);
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800519CC);
 
@@ -2431,7 +2741,230 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _cursor_7325);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuStory_update);
 
+#if 0
+? animeState_draw(void *, Gfx **, f32, f32, f32, f32); /* extern */
+? func_800453D8(Gfx **, void *, ?, s32, s32, s32, s32, f32, f32, f32, f32); /* extern */
+? func_8004714C(MenuItem *, Gfx **, void *, void *, s32, s32, s32); /* extern */
+? func_80048634(MenuSpeedItem **, ?, Gfx **);       /* extern */
+? func_8004A160(MenuSpeedItem **, ?, Gfx **);       /* extern */
+s32 func_800519EC(MenuStory *);                     /* extern */
+void *func_80059D94(struct_watchMenu *, s32);       /* extern */
+s32 menuItem_drawTex(MenuItem *, Gfx **, void *, s32); /* extern */
+s32 menuItem_outOfScreen(MenuItem *, s32, u16);     /* extern */
+? menuNumber_draw(MenuNumber **, ?, Gfx **);        /* extern */
+? menuSpeedAsk_draw(MenuNumber **, ?, Gfx **);      /* extern */
+? menuSpeedItem_draw1(MenuSpeedAsk **, ?, Gfx **);  /* extern */
+extern ? D_800B0A5C;
+extern ? D_800B0A6C;
+extern ? D_800B0A7C;
+extern ? D_800B0B0C;
+extern ? RO_800ADCE0;
+
+void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
+    MenuNumber *sp30;                               /* compiler-managed */
+    Gfx *sp50;
+    Gfx **sp5C;
+    Gfx *temp_a0;
+    Gfx *temp_v1;
+    Gfx *temp_v1_2;
+    Gfx *temp_v1_3;
+    Gfx *temp_v1_4;
+    Gfx *temp_v1_5;
+    Gfx *temp_v1_6;
+    Gfx *temp_v1_8;
+    MenuItem *temp_s2;
+    MenuItem *temp_s2_2;
+    MenuSpeedItem **var_a0;
+    f32 temp_fs0;
+    f32 temp_fs1;
+    f32 temp_fv1;
+    s32 temp_a1;
+    s32 temp_fv0;
+    s32 temp_s3;
+    s32 temp_v1_7;
+    s32 var_s0;
+    s32 var_s0_2;
+    s32 var_s0_3;
+    s32 var_s0_4;
+    s32 var_s2;
+    s32 var_s6;
+    s32 var_s6_2;
+    s32 var_s7;
+    s32 var_s7_2;
+    s32 var_v1;
+    u16 temp_a1_2;
+    u32 var_s4;
+    u32 var_s4_2;
+    u32 var_s4_3;
+    u32 var_s4_4;
+    u32 var_s4_5;
+    u32 var_s4_6;
+    u32 var_v0;
+    void *temp_a2;
+    void *temp_s0;
+    void *temp_s1;
+    void *temp_s1_2;
+    void *temp_s1_3;
+    void *temp_v0;
+
+    sp5C = gfxP;
+    var_s4 = 0;
+    temp_v1 = *sp5C;
+    var_s7 = 0x280;
+    temp_v1->words.w0 = 0xDE000000;
+    temp_v1->words.w1 = (u32) fade_normal_texture_init_dl;
+    var_s6 = 0x160;
+    sp50 = temp_v1 + 8;
+    menuItem_drawTex(&menuStory->unk_0040, &sp50, func_80059D94(menuStory->watchMenuRef, 6), 0);
+    do {
+        temp_s2 = menuStory + var_s6;
+        if (menuStory->unk_34 != 0) {
+            temp_fs0 = temp_s2->unk_0C[0];
+            temp_fs1 = temp_s2->unk_0C[1];
+            temp_s2->unk_0C[0] = temp_fs0 - 26.0f;
+            temp_s2->unk_0C[1] -= 48.0f;
+            if (menuItem_outOfScreen(temp_s2, 0x40, 0x40U) == 0) {
+                sp50->words.w0 = 0xFA000000;
+                sp50->unk_8 = 0xDE000000U;
+                sp50->unk_C = fade_intensity_texture_init_dl;
+                temp_fv0 = (s32) (temp_s2->unk_64 * 255.0f);
+                sp50->words.w1 = temp_fv0 | ~0xFF;
+                temp_v1_2 = sp50 + 0x10;
+                sp50 += 8;
+                sp50 = temp_v1_2;
+                temp_v0 = func_80059D94(menuStory->watchMenuRef, 0xC);
+                func_800453D8(&sp50, temp_v0, 0, 0, 0, (s32) temp_v0->unk_4->unk_0, (s32) temp_v0->unk_4->unk_2, temp_s2->unk_0C[0], temp_s2->unk_0C[1], (f32) temp_v0->unk_4->unk_0, (f32) temp_v0->unk_4->unk_2);
+                temp_v1_3 = sp50;
+                sp50 = temp_v1_3 + 8;
+                sp50 = temp_v1_3 + 0x10;
+                temp_s2->unk_0C[0] = temp_fs0 + 5.0f;
+                temp_s2->unk_0C[1] = temp_fs1 + 2.0f;
+                temp_v1_3->words.w0 = 0xDE000000;
+                temp_v1_3->words.w1 = (u32) &RO_800ADCE0;
+                temp_v1_3->unk_8 = 0xFA000000;
+                temp_v1_3->unk_C = (s32) ((temp_fv0 >> 1) & 0xFF);
+                temp_s0 = menuStory + var_s7;
+                animeState_draw(temp_s0, &sp50, temp_s2->unk_0C[0], temp_s2->unk_0C[1], 1.0f, 1.0f);
+                temp_v1_4 = sp50;
+                temp_s2->unk_0C[0] = temp_fs0;
+                temp_s2->unk_0C[1] = temp_fs1;
+                sp50 = temp_v1_4 + 8;
+                temp_v1_4->words.w0 = 0xDE000000;
+                temp_v1_4->words.w1 = (u32) fade_normal_texture_init_dl;
+                func_80046844(temp_s2, &sp50);
+                animeState_draw(temp_s0, &sp50, temp_s2->unk_0C[0], temp_s2->unk_0C[1], 1.0f, 1.0f);
+            }
+            temp_s2->unk_0C[0] = temp_fs0;
+            temp_s2->unk_0C[1] = temp_fs1;
+        }
+        var_s7 += 0x40;
+        var_s4 += 1;
+        var_s6 += 0x90;
+    } while (var_s4 < 2U);
+    var_s4_2 = 0;
+    temp_v1_5 = sp50;
+    var_s0 = 0xFFC;
+    sp50 = temp_v1_5 + 8;
+    temp_v1_5->words.w0 = 0xDE000000;
+    temp_v1_5->words.w1 = (u32) fade_normal_texture_init_dl;
+    sp50 = temp_v1_5 + 0x10;
+    temp_v1_5->unk_8 = 0xE200001C;
+    temp_v1_5->unk_C = 0x504240;
+    do {
+        temp_a1 = *((var_s4_2 * 4) + ((menuStory->unk_28 * 8) + &D_800B0A5C));
+        var_s4_2 += 1;
+        menuItem_drawTex(menuStory + var_s0, &sp50, func_80059D94(menuStory->watchMenuRef, temp_a1), 0);
+        var_s0 += 0x90;
+    } while (var_s4_2 < 2U);
+    var_s4_3 = 0;
+    temp_v1_6 = sp50;
+    var_s7_2 = 0;
+    var_s6_2 = 0xFFC;
+    sp50 = temp_v1_6 + 8;
+    temp_v1_6->words.w0 = 0xDE000000;
+    temp_v1_6->words.w1 = (u32) fade_intensity_texture_init_dl;
+    do {
+        temp_s2_2 = menuStory + var_s6_2;
+        temp_s1 = func_80059D94(menuStory->watchMenuRef, *((var_s4_3 * 4) + ((menuStory->unk_28 * 8) + &D_800B0A6C)));
+        temp_a2 = temp_s1->unk_4;
+        temp_a1_2 = temp_a2->unk_0;
+        var_s0_2 = ((func_800519EC(menuStory) * 4) + (var_s7_2 + ((menuStory->unk_28 * 0x48) + &D_800B0A7C)))->unk_-4;
+        temp_v1_7 = temp_a1_2 - 1;
+        if (temp_v1_7 < var_s0_2) {
+            var_s0_2 = temp_v1_7;
+        }
+        temp_s3 = temp_a1_2 - var_s0_2;
+        if (menuItem_outOfScreen(temp_s2_2, temp_s3, temp_a2->unk_2) == 0) {
+            temp_a0 = sp50;
+            temp_a0->words.w0 = 0xFA000000;
+            temp_fv1 = temp_s2_2->color.v.a * 127.0f;
+            sp50 = temp_a0 + 8;
+            if (!(temp_fv1 >= 2.1474836e9f)) {
+                var_v0 = (s32) temp_fv1 & 0xFF;
+            } else {
+                var_v0 = ((s32) (temp_fv1 - 2.1474836e9f) | 0x80000000) & 0xFF;
+            }
+            temp_a0->words.w1 = var_v0;
+            func_800453D8(&sp50, temp_s1, 0, var_s0_2, 0, temp_s3, (s32) temp_s1->unk_4->unk_2, temp_s2_2->unk_0C[0] + (f32) var_s0_2, temp_s2_2->unk_0C[1], (f32) temp_s3, (f32) temp_s1->unk_4->unk_2);
+        }
+        var_s7_2 += 0x24;
+        var_s4_3 += 1;
+        var_s6_2 += 0x90;
+    } while (var_s4_3 < 2U);
+    var_s4_4 = 0;
+    temp_v1_8 = sp50;
+    var_s0_3 = 0x123C;
+    sp50 = temp_v1_8 + 8;
+    temp_v1_8->words.w0 = 0xDE000000;
+    temp_v1_8->words.w1 = (u32) fade_normal_texture_init_dl;
+    sp50 = temp_v1_8 + 0x10;
+    temp_v1_8->unk_8 = 0xE200001C;
+    temp_v1_8->unk_C = 0x504240;
+    do {
+        var_s4_4 += 1;
+        menuItem_drawTex(menuStory + var_s0_3, &sp50, func_80059D94(menuStory->watchMenuRef, *((menuStory->unk_28 * 4) + &D_800B0B0C)), 0);
+        var_s0_3 += 0x90;
+    } while (var_s4_4 < 2U);
+    var_s2 = 0;
+    var_s4_5 = 0;
+    sp50->words.w0 = 0xE200001C;
+    sp50->words.w1 = 0x0F0A4000;
+    var_s0_4 = 0x111C;
+    sp50 += 8;
+    temp_s1_2 = func_80059D94(menuStory->watchMenuRef, 5);
+    do {
+        var_s2 += menuItem_drawTex(menuStory + var_s0_4, &sp50, temp_s1_2, var_s2);
+        var_s4_5 += 1;
+        var_s0_4 += 0x90;
+    } while (var_s4_5 < 2U);
+    sp30 = &menuStory->unk_0EC0;
+    menuNumber_draw(&sp30, 1, &sp50);
+    sp30 = &menuStory->unk_07C0;
+    menuSpeedAsk_draw(&sp30, 1, &sp50);
+    sp30 = &menuStory->unk_085C;
+    menuSpeedItem_draw1(&sp30, 1, &sp50);
+    sp50->words.w0 = 0xDE000000;
+    sp50->words.w1 = (u32) fade_alpha_texture_init_dl;
+    var_s4_6 = 0;
+    sp50 += 8;
+    temp_s1_3 = func_80059D94(menuStory->watchMenuRef, 1);
+    func_8004714C(&menuStory->unk_00D0, &sp50, temp_s1_3, func_80059D94(menuStory->watchMenuRef, 0), 0, 2, menuStory->unk_28);
+    var_a0 = &sp30;
+    var_v1 = 0x135C;
+    do {
+        *var_a0 = menuStory + var_v1;
+        var_a0 += 4;
+        var_s4_6 += 1;
+        var_v1 += 0x260;
+    } while (var_s4_6 < 3U);
+    func_80048634(&sp30, 3, &sp50);
+    sp30 = &menuStory->unk_085C;
+    func_8004A160(&sp30, 1, &sp50);
+    *sp5C = sp50;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuStory_draw);
+#endif
 
 void func_800529FC(MenuLvSel *menuLvSel, s32 arg1, f32 arg2) {
     menuLvSel->unk_0008.unk_14 = arg2;

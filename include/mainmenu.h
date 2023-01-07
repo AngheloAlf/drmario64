@@ -258,8 +258,22 @@ typedef struct MenuMain {
 } MenuMain; // size <= 0x75A4
 
 typedef struct MenuStory {
-    /* 0x0000 */ UNK_TYPE1 unk_0000[0x75A4];
-} MenuStory; // size <= 0x75A4
+    /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x0004 */ UNK_TYPE1 unk_0004[0x3C];
+    /* 0x0040 */ MenuItem unk_0040;
+    /* 0x00D0 */ MenuItem unk_00D0;
+    /* 0x0160 */ MenuItem unk_0160[2];
+    /* 0x0280 */ UNK_TYPE1 unk_0280[0x80];
+    /* 0x0300 */ MenuCursor unk_0300[2];
+    /* 0x07C0 */ MenuSpeedAsk unk_07C0;
+    /* 0x085C */ MenuSpeedItem unk_085C;
+    /* 0x0EC0 */ MenuNumber unk_0EC0;
+    /* 0x0F6C */ MenuItem unk_0F6C;
+    /* 0x0FFC */ MenuItem unk_0FFC[2];
+    /* 0x111C */ MenuItem unk_111C[2];
+    /* 0x123C */ MenuItem unk_123C[2];
+    /* 0x135C */ MenuCursor unk_135C[3];
+} MenuStory; // size = 0x2D3C
 
 typedef struct MenuLvSel {
     /* 0x0000 */ struct struct_watchMenu *unk_0000;
