@@ -240,9 +240,9 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.csv
 	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ELF) tools/compressor/compress_segments.csv
 # TODO: update header
 
-$(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/libultra_symbols.ld $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
+$(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
-		-T $(BUILD_DIR)/linker_scripts/libultra_symbols.ld -T $(BUILD_DIR)/linker_scripts/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/undefined_syms.ld \
+		-T $(BUILD_DIR)/linker_scripts/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/undefined_syms.ld \
 		-Map $(LD_MAP) -o $@
 
 
