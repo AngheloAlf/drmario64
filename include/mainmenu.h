@@ -168,7 +168,7 @@ typedef struct MenuLvSel_unk_0C64 {
     /* 0x010 */ MenuItem unk_010;
     /* 0x0A0 */ MenuItem unk_0A0[5];
     /* 0x370 */ MenuItem unk_370[5];
-    /* 0x640 */ MenuLvSel_unk_162C unk_640; // size 0x260
+    /* 0x640 */ MenuLvSel_unk_162C unk_640;
 } MenuLvSel_unk_0C64; // size >= 0x8A0
 
 typedef struct MenuLvSel_unk_1504 {
