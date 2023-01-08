@@ -25,9 +25,6 @@
 #define INCLUDE_RODATA(FOLDER, NAME) \
    __asm__( \
         ".section .rodata\n" \
-        "\t.align\t2\n" \
-        "\t.globl\t"#NAME"\n" \
-        #NAME ":\n" \
         "\t.include \""FOLDER"/"#NAME".s\"\n" \
         ".section .text" \
     )

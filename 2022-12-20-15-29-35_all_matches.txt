@@ -325,7 +325,7 @@ func_8003B30C - found 2 matches total:
 0.99 - func_8003B1C4
 0.99 - func_8003B454
 
-D_800AF660 - found 2 matches total:
+_menuCursor_cursor_4_pattern - found 2 matches total:
 0.99 - D_800AAE00 (decompiled)
 0.99 - RO_800ACA20 (decompiled)
 

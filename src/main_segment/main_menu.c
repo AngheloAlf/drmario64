@@ -112,9 +112,13 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", fade_alpha_texture_ini
 extern const Gfx fade_intensity_texture_init_dl[];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", fade_intensity_texture_init_dl);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800ADCB8);
+extern const Gfx fade_fillrect_init_dl[];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", fade_fillrect_init_dl);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800ADCE0);
+extern const Gfx fade_shadow_texture_init_dl[];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", fade_shadow_texture_init_dl);
+
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800ADD00);
 
 ASM_RODATA;
 
@@ -125,55 +129,55 @@ const u8 _timeAttack_levelTable[] = {
     0x00,
 };
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800ADD40);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800ADD60);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800ADD80);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800ADDBC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800ADDF0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800ADF2C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AE070);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AE1D8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AE33C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AE4C8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AE5E8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AE650);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AE66C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AE794);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AE898);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AE9B8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AE9CC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AEB3C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AED50);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AEEA4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AEED0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AEF04);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AEF38);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AEF74);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AEFE0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF014);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF048);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF070);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF09C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF0CC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF0FC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF134);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF16C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF18C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF1BC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF234);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF268);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF29C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF2E0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF304);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF324);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF390);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF3C4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF3F8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF42C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF460);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF498);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF4C4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AF4EC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800ADD40);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800ADD60);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800ADD80);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800ADDBC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800ADDF0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800ADF2C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AE070);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AE1D8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AE33C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AE4C8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AE5E8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AE650);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AE66C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AE794);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AE898);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AE9B8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AE9CC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AEB3C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AED50);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AEEA4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AEED0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AEF04);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AEF38);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AEF74);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AEFE0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF014);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF048);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF070);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF09C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF0CC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF0FC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF134);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF16C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF18C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF1BC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF234);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF268);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF29C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF2E0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF304);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF324);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF390);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF3C4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF3F8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF42C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF460);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF498);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF4C4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", STR_800AF4EC);
 
 extern const u8 _gameLvItemColor[][2][4];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _gameLvItemColor);
@@ -465,12 +469,12 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80047584);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuTitle_draw);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AF660);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _menuCursor_cursor_4_pattern);
 
 extern f32 _color_1040[][3];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _color_1040);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AF708);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _pnts_1106);
 
 void func_80047720(MenuCursor *cursor, s32 arg1, s32 arg2) {
     cursor->unk_140.transCallback = transFunc_finger;
@@ -546,17 +550,441 @@ void menuCursor_update(MenuCursor *cursor, MenuItem *arg1) {
     func_800464BC(&cursor->unk_1D0, &cursor->unk_020);
 }
 
+#if 0
+extern ? _menuCursor_cursor_4_pattern;
+extern ? _pnts_1106;
+
+void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
+    s32 sp10;
+    s32 sp14;
+    s32 sp18;
+    s32 sp1C;
+    s32 sp20;
+    s32 sp24;
+    s32 sp28;
+    s32 sp2C;
+    s32 sp30;
+    s32 sp34;
+    s32 sp38;
+    s32 sp40;
+    s32 sp44;
+    s32 sp48;
+    s32 sp50;
+    s32 sp54;
+    s32 sp58;
+    Gfx *sp60;
+    void **sp6C;
+    s32 sp74;
+    Gfx **sp7C;
+    s32 sp84;
+    void **spB4;
+    Gfx *temp_a0;
+    Gfx *temp_a0_3;
+    Gfx *temp_a1_3;
+    Gfx *temp_a3;
+    Gfx *temp_a3_2;
+    Gfx *temp_t0;
+    Gfx *temp_t0_2;
+    Gfx *temp_v0;
+    Gfx *temp_v1;
+    Gfx *temp_v1_7;
+    MenuItem *temp_s2;
+    f32 temp_fv1;
+    f32 temp_fv1_2;
+    s16 temp_a0_8;
+    s16 temp_t3;
+    s16 temp_v0_5;
+    s16 temp_v1_5;
+    s32 *temp_v0_2;
+    s32 *temp_v0_3;
+    s32 *temp_v0_4;
+    s32 *temp_v1_4;
+    s32 temp_a0_4;
+    s32 temp_a0_5;
+    s32 temp_a0_6;
+    s32 temp_a0_7;
+    s32 temp_a0_9;
+    s32 temp_a1_2;
+    s32 temp_a1_4;
+    s32 temp_a2;
+    s32 temp_a2_2;
+    s32 temp_ft0;
+    s32 temp_fv1_3;
+    s32 temp_v0_6;
+    s32 temp_v0_7;
+    s32 temp_v0_9;
+    s32 temp_v1_6;
+    s32 var_a1;
+    s32 var_a2;
+    s32 var_fp;
+    s32 var_s0;
+    s32 var_s0_2;
+    s32 var_s5;
+    s32 var_s6;
+    s32 var_s7;
+    s32 var_v0;
+    s32 var_v0_2;
+    s32 var_v0_3;
+    s32 var_v0_4;
+    s32 var_v1;
+    s32 var_v1_2;
+    s32 var_v1_3;
+    s32 var_v1_4;
+    u16 temp_v1_2;
+    u32 temp_a0_2;
+    u32 var_a0;
+    u32 var_s4;
+    void **var_t4;
+    void *temp_a1;
+    void *temp_s1;
+    void *temp_t1;
+    void *temp_v0_8;
+    void *temp_v1_3;
+
+    var_s0 = saved_reg_s0;
+    var_s5 = saved_reg_s5;
+    var_s6 = saved_reg_s6;
+    sp74 = arg1;
+    sp6C = arg0;
+    sp7C = arg2;
+    var_s4 = 0;
+    temp_v1 = *sp7C;
+    sp60 = temp_v1 + 8;
+    temp_v1->words.w0 = 0xDE000000;
+    temp_v1->words.w1 = (u32) fade_normal_texture_init_dl;
+    sp60 = temp_v1 + 0x10;
+    temp_v1->unk_8 = 0xE200001C;
+    temp_v1->unk_C = 0x504240;
+    sp60 = temp_v1 + 0x18;
+    temp_v1->unk_10 = 0xE3001001;
+    temp_v1->unk_14 = 0;
+    var_v0 = 0U < 9U;
+    do {
+        if (var_v0 != 0) {
+            switch (var_s4) {
+                case 0x0:
+                    var_s0 = 8;
+                    var_s5 = 4;
+                    break;
+                case 0x1:
+                    var_s0 = 6;
+                    var_s5 = 3;
+                    break;
+                case 0x2:
+                    var_s0 = 7;
+                    var_s5 = 0x10;
+                    break;
+                case 0x3:
+                    var_s5 = 0x10;
+                    sp84 = -1;
+                    break;
+                case 0x4:
+                    var_s0 = 9;
+                    break;
+                case 0x5:
+                    var_s0 = 0xA;
+                    break;
+                case 0x6:
+                    var_s0 = 0xB;
+                    break;
+                case 0x7:
+                    var_s0 = 0xC;
+                    break;
+                case 0x8:
+                    var_s0 = 0xD;
+                    break;
+            }
+        }
+        var_s7 = 0;
+        var_fp = 0;
+        if (sp74 > 0) {
+            spB4 = sp6C;
+            do {
+                temp_s1 = *spB4;
+                temp_s2 = temp_s1 + 0xB0;
+                if (temp_s1->unk_1C < 0) {
+                    var_t4 = spB4 + 4;
+                    if (var_s4 == temp_s1->unk_4) {
+                        if (menuItem_outOfScreen(temp_s2, temp_s1->unk_14, temp_s1->unk_18) == false) {
+                            if (var_s4 == 3) {
+                                if (!(temp_s1->unk_1C & 0x10000000)) {
+                                    var_s0 = 3;
+                                } else {
+                                    var_s0 = *(&_menuCursor_cursor_4_pattern + ((s32) (temp_s1->unk_114 * 29.0f) * 4)) + 3;
+                                }
+                                if (var_s0 != sp84) {
+                                    sp84 = var_s0;
+                                    var_s7 = 0;
+                                }
+                            }
+                            if (var_s7 == 0) {
+                                temp_a0 = sp60;
+                                var_s6 = func_80059D04(temp_s1->unk_0, var_s0);
+                                temp_a0->words.w0 = 0xFD900000;
+                                temp_a0->unk_8 = 0xF5900000;
+                                temp_a0->unk_10 = 0xE6000000;
+                                temp_a0->unk_C = 0x07080200;
+                                temp_a0->unk_14 = 0;
+                                temp_a0->unk_18 = 0xF3000000;
+                                temp_a0->words.w1 = var_s6->unk_0->unk_4;
+                                temp_a1 = var_s6->unk_4;
+                                sp60 = temp_a0 + 8;
+                                sp60 = temp_a0 + 0x10;
+                                temp_v0 = temp_a0 + 0x18;
+                                sp60 = temp_v0;
+                                sp60 = temp_a0 + 0x20;
+                                temp_v1_2 = temp_a1->unk_0;
+                                var_a2 = 0x800;
+                                temp_a0_2 = temp_v1_2 >> 4;
+                                if (temp_a0_2 != 0) {
+                                    var_a2 = temp_a0_2 + 0x7FF;
+                                }
+                                var_v1 = ((s32) ((temp_v1_2 * temp_a1->unk_2) + 3) >> 2) - 1;
+                                if (var_v1 >= 0x800) {
+                                    var_v1 = 0x7FF;
+                                }
+                                if (temp_a0_2 != 0) {
+                                    var_v0_2 = (var_a2 / (s32) temp_a0_2) & 0xFFF;
+                                } else {
+                                    var_v0_2 = var_a2 & 0xFFF;
+                                }
+                                temp_a0_3 = sp60;
+                                temp_v0->words.w1 = ((var_v1 & 0xFFF) << 0xC) | 0x07000000 | var_v0_2;
+                                temp_a0_3->words.w0 = 0xE7000000;
+                                temp_a0_3->words.w1 = 0;
+                                sp60 = temp_a0_3 + 8;
+                                sp60 = temp_a0_3 + 0x10;
+                                temp_a0_3->unk_C = 0x80200;
+                                temp_a0_3->unk_10 = 0xF2000000;
+                                temp_a0_3->unk_8 = (s32) (((((s32) (((u16) var_s6->unk_4->unk_0 >> 1) + 7) >> 3) & 0x1FF) << 9) | 0xF5800000);
+                                temp_v1_3 = var_s6->unk_4;
+                                sp60 = temp_a0_3 + 0x18;
+                                var_s7 += 1;
+                                temp_a0_3->unk_14 = (s32) (((((temp_v1_3->unk_0 - 1) * 4) & 0xFFF) << 0xC) | (((temp_v1_3->unk_2 - 1) * 4) & 0xFFF));
+                            }
+                            func_80046844(temp_s2, &sp60);
+                            if (var_s4 == 3) {
+                                sp10 = (s32) ((temp_s2->unk_0C[0] * 4.0f) - (f32) (var_s5 * 2));
+                                var_v1_2 = temp_s1->unk_14 + var_s5;
+                            } else {
+                                var_v1_2 = temp_s1->unk_14;
+                                sp10 = (s32) (temp_s2->unk_0C[0] * 4.0f);
+                            }
+                            var_s0_2 = var_s5;
+                            temp_a0_4 = var_v1_2 / 2;
+                            if (temp_a0_4 < var_s0_2) {
+                                var_s0_2 = temp_a0_4;
+                            }
+                            temp_a0_5 = sp10 + (s32) (temp_s2->unk_30[0] * 4.0f * (f32) var_v1_2);
+                            sp1C = temp_a0_5;
+                            temp_fv1 = (f32) var_s0_2;
+                            sp14 = sp10 + (s32) (temp_s2->unk_30[0] * 4.0f * temp_fv1);
+                            sp34 = (var_s0_2 - 1) << 5;
+                            sp30 = 0;
+                            sp38 = var_s0_2 << 5;
+                            sp18 = temp_a0_5 - (s32) (temp_s2->unk_30[0] * 4.0f * temp_fv1);
+                            if (var_s4 == 3) {
+                                sp20 = (s32) ((temp_s2->unk_0C[1] * 4.0f) - (f32) (var_s5 * 2));
+                                var_v1_3 = temp_s1->unk_18 + var_s5;
+                            } else {
+                                var_v1_3 = temp_s1->unk_18;
+                                sp20 = (s32) (temp_s2->unk_0C[1] * 4.0f);
+                            }
+                            var_s0 = var_s5;
+                            temp_a0_6 = var_v1_3 / 2;
+                            if (temp_a0_6 < var_s0) {
+                                var_s0 = temp_a0_6;
+                            }
+                            temp_a0_7 = sp20 + (s32) (temp_s2->unk_30[1] * 4.0f * (f32) var_v1_3);
+                            sp2C = temp_a0_7;
+                            temp_fv1_2 = (f32) var_s0;
+                            sp24 = sp20 + (s32) (temp_s2->unk_30[1] * 4.0f * temp_fv1_2);
+                            sp44 = (var_s0 - 1) << 5;
+                            sp48 = var_s0 << 5;
+                            sp50 = -0x400;
+                            sp40 = 0;
+                            sp54 = 0;
+                            sp58 = 0x400;
+                            sp28 = temp_a0_7 - (s32) (temp_s2->unk_30[1] * 4.0f * temp_fv1_2);
+                            if ((s32) var_s4 < 4) {
+                                var_s0 = 0;
+                                do {
+                                    temp_t1 = (var_s0 << 5) + &_pnts_1106;
+                                    temp_a3 = sp60;
+                                    temp_v0_2 = &(&sp10)[temp_t1->unk_8];
+                                    temp_t0 = temp_a3 + 8;
+                                    sp60 = temp_t0;
+                                    temp_v0_3 = &(&sp10)[temp_t1->unk_C];
+                                    temp_a3->words.w0 = ((temp_v0_2->unk_0 & ((s32) ~temp_v0_2->unk_2 >> 0x1F) & 0xFFF) << 0xC) | ((temp_v0_3->unk_10 & ((s32) ~temp_v0_3->unk_12 >> 0x1F) & 0xFFF) | 0xE4000000);
+                                    temp_v1_4 = &(&sp10)[temp_t1->unk_0];
+                                    temp_v0_4 = &(&sp10)[temp_t1->unk_4];
+                                    temp_a3->unk_8 = 0xE1000000;
+                                    temp_a3->words.w1 = ((temp_v1_4->unk_0 & ((s32) ~temp_v1_4->unk_2 >> 0x1F) & 0xFFF) << 0xC) | (temp_v0_4->unk_10 & ((s32) ~temp_v0_4->unk_12 >> 0x1F) & 0xFFF);
+                                    sp60 = temp_a3 + 0x10;
+                                    temp_a2 = (&sp10)[temp_t1->unk_14].unk_30;
+                                    temp_a0_8 = (&sp10)[temp_t1->unk_0].unk_2;
+                                    temp_a1_2 = (&sp10)[temp_t1->unk_10].unk_20;
+                                    if (temp_a0_8 >= 0) {
+                                        var_a1 = temp_a1_2 << 0x10;
+                                    } else {
+                                        temp_v0_5 = (&sp10)[temp_t1->unk_18].unk_42;
+                                        if (temp_v0_5 < 0) {
+                                            var_v1_4 = (s32) (temp_a0_8 * temp_v0_5) >> 7;
+                                            var_v0_3 = (s32) ~var_v1_4 >> 0x1F;
+                                        } else {
+                                            var_v1_4 = (s32) (temp_a0_8 * temp_v0_5) >> 7;
+                                            var_v0_3 = -(var_v1_4 < 1);
+                                        }
+                                        var_a1 = (temp_a1_2 - (var_v1_4 & var_v0_3)) << 0x10;
+                                    }
+                                    temp_a0_9 = (&sp10)[temp_t1->unk_4].unk_10;
+                                    var_v0_4 = temp_a2 & 0xFFFF;
+                                    if (temp_a0_9 < 0) {
+                                        temp_v1_5 = (&sp10)[temp_t1->unk_1C].unk_42;
+                                        if (temp_v1_5 < 0) {
+                                            temp_v0_6 = (s32) ((s16) temp_a0_9 * temp_v1_5) >> 7;
+                                            var_v0_4 = (temp_a2 - (temp_v0_6 & ((s32) ~temp_v0_6 >> 0x1F))) & 0xFFFF;
+                                        } else {
+                                            temp_v0_7 = (s32) ((s16) temp_a0_9 * temp_v1_5) >> 7;
+                                            var_v0_4 = (temp_a2 - (temp_v0_7 & -(temp_v0_7 < 1))) & 0xFFFF;
+                                        }
+                                    }
+                                    temp_a1_3 = sp60;
+                                    temp_t0->words.w1 = var_a1 | var_v0_4;
+                                    temp_a1_3->words.w0 = 0xF1000000;
+                                    var_s0 += 1;
+                                    sp60 = temp_a1_3 + 8;
+                                    temp_a1_3->words.w1 = ((&sp10)[temp_t1->unk_18].unk_42 << 0x10) | (&sp10)[temp_t1->unk_1C].unk_42;
+                                } while ((u32) var_s0 < 9U);
+                            } else {
+                                temp_v0_8 = var_s6->unk_4;
+                                temp_a3_2 = sp60;
+                                temp_t0_2 = temp_a3_2 + 8;
+                                temp_ft0 = (s32) temp_s2->unk_0C[0];
+                                temp_fv1_3 = (s32) temp_s2->unk_0C[1];
+                                sp60 = temp_t0_2;
+                                temp_t3 = temp_ft0 * 4;
+                                temp_a3_2->words.w1 = (((temp_ft0 * 4) & ((s32) ~temp_t3 >> 0x1F) & 0xFFC) << 0xC) | ((temp_fv1_3 * 4) & ((s32) ~(s16) (temp_fv1_3 * 4) >> 0x1F) & 0xFFC);
+                                sp60 = temp_a3_2 + 0x10;
+                                temp_a3_2->unk_8 = 0xE1000000;
+                                temp_a1_4 = temp_ft0 + temp_v0_8->unk_0;
+                                temp_a2_2 = temp_fv1_3 + temp_v0_8->unk_2;
+                                temp_a3_2->words.w0 = (((temp_a1_4 * 4) & ((s32) ~(s16) (temp_a1_4 * 4) >> 0x1F) & 0xFFC) << 0xC) | (((temp_a2_2 * 4) & ((s32) ~(s16) (temp_a2_2 * 4) >> 0x1F) & 0xFFC) | 0xE4000000);
+                                if (temp_t3 < 0) {
+                                    temp_v1_6 = temp_t3 * 8;
+                                    var_a0 = (temp_v1_6 & -(temp_v1_6 < 1)) * -0x10000;
+                                } else {
+                                    var_a0 = 0;
+                                }
+                                temp_t0_2->words.w1 = var_a0;
+                                if (temp_fv1_3 & 0x20000000) {
+                                    temp_v0_9 = (s32) (temp_fv1_3 << 0x12) >> 0xD;
+                                    temp_t0_2->words.w1 = var_a0 | (-(temp_v0_9 & -(temp_v0_9 < 1)) & 0xFFFF);
+                                }
+                                temp_v1_7 = sp60;
+                                sp60 = temp_v1_7 + 8;
+                                temp_v1_7->words.w0 = 0xF1000000;
+                                temp_v1_7->words.w1 = 0x04000400;
+                            }
+                        }
+                        goto block_65;
+                    }
+                } else {
+block_65:
+                    var_t4 = spB4 + 4;
+                }
+                spB4 = var_t4;
+                var_fp += 1;
+            } while (var_fp < sp74);
+        }
+        var_s4 += 1;
+        var_v0 = var_s4 < 9U;
+    } while ((s32) var_s4 < 9);
+    *sp7C = sp60;
+}
+#else
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", jtbl_800AF828);
+
 /**
  * Original name: menuCursor_draw1
  */
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuCursor_draw1);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AF83C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _type_1345);
 
 /**
  * Original name: menuCursor_draw2
  */
+#if 0
+s32 func_8004714C(void *, void **, TiTexDataEntry *, TiTexDataEntry *, s32, s32, s32); /* extern */
+s32 menuItem_drawAlphaTex(void *, void **, s32, s32, s32); /* extern */
+extern ? D_800AF83C;
+
+void menuCursor_draw2(void **arg0, s32 arg1, void **arg2) {
+    void *sp20;
+    void **sp2C;
+    TiTexDataEntry *temp_s1_2;
+    s32 temp_s1;
+    s32 temp_v0;
+    s32 temp_v1_2;
+    s32 var_s2;
+    s32 var_s3;
+    s32 var_s4_2;
+    s32 var_v0;
+    void **var_s4;
+    void **var_s5;
+    void *temp_s0;
+    void *temp_s0_2;
+    void *temp_v1;
+
+    sp2C = arg2;
+    temp_v1 = *arg2;
+    var_s3 = 0;
+    var_s2 = 0;
+    sp20 = temp_v1 + 8;
+    temp_v1->unk_0 = 0xDE000000;
+    temp_v1->unk_4 = fade_alpha_texture_init_dl;
+    if (arg1 > 0) {
+        var_s4 = arg0;
+        do {
+            temp_s0 = *var_s4;
+            if (temp_s0->unk_1C & 0x40000000) {
+                temp_s1 = func_80059D04(temp_s0->unk_0, 1);
+                var_s3 += menuItem_drawAlphaTex(temp_s0 + 0x140, &sp20, temp_s1, func_80059D04(temp_s0->unk_0, 0), var_s3);
+            }
+            var_s2 += 1;
+            var_s4 += 4;
+        } while (var_s2 < arg1);
+        var_s2 = 0;
+        var_s3 = 0;
+    }
+    do {
+        var_s4_2 = 0;
+        if (arg1 > 0) {
+            var_s5 = arg0;
+            do {
+                temp_s0_2 = *var_s5;
+                temp_v0 = temp_s0_2->unk_10;
+                if ((temp_v0 != 1) || (temp_v1_2 = temp_s0_2->unk_8, (temp_v1_2 != temp_v0)) || (var_v0 = 0xA, (temp_s0_2->unk_C != temp_v1_2))) {
+                    var_v0 = *((temp_s0_2->unk_10 * 4) + ((temp_s0_2->unk_8 * 0x10) + &D_800AF83C));
+                }
+                if ((((((u32) temp_s0_2->unk_1C >> 0x1D) ^ 1) & 1) | (var_s2 != var_v0)) == 0) {
+                    temp_s1_2 = _getTexSetup(temp_s0_2->unk_0, 8);
+                    var_s3 += func_8004714C(temp_s0_2 + 0x1D0, &sp20, temp_s1_2, _getTexSetup(temp_s0_2->unk_0, 1), var_s3, 0xB, var_s2);
+                }
+                var_s4_2 += 1;
+                var_s5 += 4;
+            } while (var_s4_2 < arg1);
+        }
+        var_s2 += 1;
+        var_s3 = 0;
+    } while (var_s2 < 0xB);
+    *sp2C = sp20;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuCursor_draw2);
+#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80048634);
 
@@ -572,9 +1000,184 @@ void func_800486C8(MenuBottle *arg0, MenuItem *arg1) {
     func_800464BC(&arg0->unk_98, &arg0->unk_08);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuBottle_draw);
+extern u16 cap_pos_1442[][0xD];
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AF890);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", cap_pos_1442);
+
+#if 0
+void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP, s32 arg2) {
+    Gfx *sp10;
+    Gfx *temp_a0;
+    Gfx *temp_a0_2;
+    Gfx *temp_a1_2;
+    Gfx *temp_a2_2;
+    Gfx *temp_v1;
+    Gfx *temp_v1_2;
+    Gfx *temp_v1_5;
+    MenuItem *temp_s1;
+    TiTexDataEntry *temp_t0;
+    s16 var_a2;
+    s16 var_t0;
+    s32 temp_fv1;
+    s32 temp_fv1_2;
+    s32 temp_v1_3;
+    s32 temp_v1_4;
+    s32 var_a0;
+    s32 var_a1;
+    s32 var_a3;
+    s32 var_t1;
+    s32 var_t2;
+    s32 var_t3;
+    s32 var_t5;
+    s32 var_t6;
+    s32 var_v0;
+    s32 var_v1;
+    u16 *temp_a3;
+    u16 *temp_v0;
+    u16 *var_t4;
+    u16 temp_a1;
+    u32 temp_a2;
+
+    temp_v1 = *gxfP;
+    sp10 = temp_v1 + 8;
+    temp_v1->words.w0 = 0xDE000000;
+    temp_v1->words.w1 = (u32) fade_normal_texture_init_dl;
+    if (arg2 != 0) {
+        temp_v1_2 = sp10;
+        temp_t0 = _getTexLevel(bottle->unk_000, 0);
+        temp_v1_2->words.w0 = 0xFD100000;
+        sp10 = temp_v1_2 + 8;
+        #if 0
+        temp_v1_2->unk_8 = 0xE8000000;
+        temp_v1_2->unk_20 = 0xF0000000;
+        temp_v1_2->unk_28 = 0xE7000000;
+        temp_v1_2->unk_C = 0;
+        temp_v1_2->unk_10 = 0xF5000100;
+        temp_v1_2->unk_14 = 0x07000000;
+        temp_v1_2->unk_18 = 0xE6000000;
+        temp_v1_2->unk_1C = 0;
+        temp_v1_2->unk_24 = 0x0703C000;
+        temp_v1_2->unk_2C = 0;
+        temp_v1_2->unk_30 = 0xFD500000;
+        #endif
+        temp_v1_2->words.w1 = (u32) temp_t0->unk_0->unk_0;
+        temp_a0 = temp_v1_2 + 0x48;
+        sp10 = temp_v1_2 + 0x10;
+        sp10 = temp_v1_2 + 0x18;
+        sp10 = temp_v1_2 + 0x20;
+        sp10 = temp_v1_2 + 0x28;
+        sp10 = temp_v1_2 + 0x30;
+        sp10 = temp_v1_2 + 0x38;
+        sp10 = temp_v1_2 + 0x40;
+        sp10 = temp_a0;
+        sp10 = temp_v1_2 + 0x50;
+        #if 0
+        temp_v1_2->unk_38 = 0xF5500000;
+        temp_v1_2->unk_3C = 0x07080200;
+        temp_v1_2->unk_40 = 0xE6000000;
+        temp_v1_2->unk_44 = 0;
+        temp_v1_2->unk_34 = (s32) temp_t0->unk_0->unk_4;
+        temp_v1_2->unk_48 = 0xF3000000;
+        temp_v0 = temp_t0->unk_4;
+        temp_a1 = temp_v0->unk_0;
+        #endif
+        temp_s1 = &bottle->unk_98;
+        temp_a2 = temp_a1 >> 4;
+        var_v1 = 0x800;
+        if (temp_a2 != 0) {
+            var_v1 = temp_a2 + 0x7FF;
+        }
+        #if 0
+        var_a1 = ((s32) ((temp_a1 * temp_v0->unk_2) + 3) >> 2) - 1;
+        #endif
+        if (var_a1 >= 0x800) {
+            var_a1 = 0x7FF;
+        }
+        if (temp_a2 != 0) {
+            var_v0 = (var_v1 / (s32) temp_a2) & 0xFFF;
+        } else {
+            var_v0 = var_v1 & 0xFFF;
+        }
+        temp_a2_2 = sp10;
+        temp_a0->words.w1 = ((var_a1 & 0xFFF) << 0xC) | 0x07000000 | var_v0;
+        temp_a2_2->words.w0 = 0xE7000000;
+        temp_a2_2->words.w1 = 0;
+        sp10 = temp_a2_2 + 8;
+        sp10 = temp_a2_2 + 0x10;
+        #if 0
+        temp_a2_2->unk_C = 0x80200;
+        temp_a2_2->unk_10 = 0xF2000000;
+        temp_a2_2->unk_8 = (s32) (((((s32) (((u16) temp_t0->unk_4->unk_0 >> 1) + 7) >> 3) & 0x1FF) << 9) | 0xF5400000);
+        #endif
+        temp_a3 = temp_t0->unk_4;
+        sp10 = temp_a2_2 + 0x18;
+        #if 0
+        temp_a2_2->unk_14 = (s32) (((((temp_a3->unk_0 - 1) * 4) & 0xFFF) << 0xC) | (((temp_a3->unk_2 - 1) * 4) & 0xFFF));
+        #endif
+        func_80046844(temp_s1, &sp10);
+        var_t3 = 0;
+        var_t6 = 1;
+        do {
+            var_t5 = 2;
+            var_t4 = (bottle->unk_004 * 0x1A) + D_800AF890;
+            temp_fv1 = (s32) temp_s1->unk_0C[1];
+            var_t0 = temp_fv1 * 4;
+            var_t2 = (temp_fv1 << 0x12) + 0x140000;
+loop_10:
+            var_a3 = 7;
+            temp_fv1_2 = (s32) temp_s1->unk_0C[0];
+            var_a2 = temp_fv1_2 * 4;
+            var_t1 = (temp_fv1_2 << 0x12) + 0x140000;
+loop_11:
+            if ((((s32) *var_t4 >> (var_a3 * 2)) & 3) == var_t6) {
+                temp_a0_2 = sp10;
+                temp_a1_2 = temp_a0_2 + 8;
+                sp10 = temp_a1_2;
+                temp_a0_2->words.w0 = (((var_a2 + 0x14) & ((s32) ~(var_t1 >> 0x10) >> 0x1F) & 0xFFF) << 0xC) | (((var_t0 + 0x14) & ((s32) ~(var_t2 >> 0x10) >> 0x1F) & 0xFFF) | 0xE4000000);
+                temp_a0_2->words.w1 = ((var_a2 & ((s32) ~var_a2 >> 0x1F) & 0xFFF) << 0xC) | (var_t0 & ((s32) ~var_t0 >> 0x1F) & 0xFFF);
+                sp10 = temp_a0_2 + 0x10;
+                #if 0
+                temp_a0_2->unk_8 = 0xE1000000;
+                #endif
+                if (var_a2 < 0) {
+                    temp_v1_3 = var_a2 * 8;
+                    var_a0 = (temp_v1_3 & -(temp_v1_3 < 1)) * -0x10000;
+                } else {
+                    var_a0 = 0;
+                }
+                if (var_t0 < 0) {
+                    temp_v1_4 = (s32) (var_t0 << 0xA) >> 7;
+                    temp_a1_2->words.w1 = var_a0 | ((var_t3 - (temp_v1_4 & -(temp_v1_4 < 1))) & 0xFFFF);
+                } else {
+                    temp_a1_2->words.w1 = var_a0 | (var_t3 & 0xFFFF);
+                }
+                temp_v1_5 = sp10;
+                sp10 = temp_v1_5 + 8;
+                temp_v1_5->words.w0 = 0xF1000000;
+                temp_v1_5->words.w1 = 0x04000400;
+            }
+            var_t1 += 0x140000;
+            var_a3 -= 1;
+            var_a2 += 0x14;
+            if (var_a3 >= 0) {
+                goto loop_11;
+            }
+            var_t2 += 0x140000;
+            var_t0 += 0x14;
+            var_t5 += 1;
+            var_t4 += 2;
+            if (var_t5 < 0xD) {
+                goto loop_10;
+            }
+            var_t6 += 1;
+            var_t3 += 0xA0;
+        } while (var_t6 < 4);
+    }
+    *gxfP = sp10;
+}
+#else
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuBottle_draw);
+#endif
 
 extern const f32 _lvGauge_step[];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _lvGauge_step);
@@ -585,8 +1188,8 @@ extern const s32 _type_1543[];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _size_1542);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _type_1543);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFAF8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFAFC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFAF8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFAFC);
 
 ASM_TEXT;
 
@@ -685,11 +1288,11 @@ void func_800498C4(MenuSpeedAsk *arg0, MenuItem *arg1) {
 const char D_800AFB08[] = "Ｙｅｓ";
 const char D_800AFB10[] = "Ｎｏ";
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFB18);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFB1C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFB38);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFB48);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFB4C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFB18);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFB1C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFB38);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFB48);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFB4C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFB68);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuSpeedAsk_draw);
@@ -1037,14 +1640,14 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A780);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A814);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFBB0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFBD8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFBB0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFBD8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFBE0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFBEC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFBF0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC14);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC18);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC1C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFBF0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC14);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC18);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC1C);
 
 ASM_TEXT;
 
@@ -1113,34 +1716,34 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004BC2C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004BEB4);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC40);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC48);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC4C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC5C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC64);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFC74);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFCDC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC40);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC48);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC4C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC5C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC64);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC74);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFCDC);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFCEC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFCF0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFCFC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD00);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD0C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD10);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD1C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD20);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD2C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD30);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD3C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD40);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD4C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD50);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD5C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD60);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD6C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD74);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD78);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD7C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFD80);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFCF0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFCFC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD00);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD0C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD10);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD1C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD20);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD2C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD30);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD3C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD40);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD4C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD50);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD5C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD60);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD6C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD74);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD78);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD7C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFD80);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004BF10);
 
@@ -1174,17 +1777,17 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004D258);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004D2A0);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFE2C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFE58);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFEA8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFEB0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFE2C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFE58);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEA8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEB0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEB8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFECC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFED0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFEDC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFEE0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFEE4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800AFEE8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFECC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFED0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEDC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEE0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEE4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEE8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004D6DC);
 
@@ -1210,20 +1813,20 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004E8E0);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004EB94);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0028);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0038);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0050);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B005C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B006C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0078);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B008C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0094);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B00AC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B00B8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B00CC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B00D8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B00E0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B00EC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0028);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0038);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0050);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B005C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B006C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0078);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B008C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0094);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B00AC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B00B8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B00CC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B00D8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B00E0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B00EC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004ED70);
 
@@ -1371,30 +1974,30 @@ block_14:
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuMain_init);
 #endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0310);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0320);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0338);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0350);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B035C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0360);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0364);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0378);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B037C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0380);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B039C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B03A0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B03A4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B03C0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B03C4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B03D8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B03EC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B03F8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0404);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0410);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B041C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0424);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B043C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0448);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0310);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0320);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0338);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0350);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B035C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0360);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0364);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0378);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B037C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0380);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B039C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B03A0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B03A4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B03C0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B03C4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B03D8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B03EC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B03F8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0404);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0410);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B041C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0424);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B043C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0448);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004F2D8);
 
@@ -2477,20 +3080,20 @@ void menuMain_update(MenuRank *menuRank) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuMain_update);
 #endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0940);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0940);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80050B5C);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0968);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B096C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B09F8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B09FC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0A08);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0A0C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0A18);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0A1C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0A20);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0A24);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0968);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B096C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B09F8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B09FC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A08);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A0C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A18);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A1C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A20);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A24);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuMain_draw);
 
@@ -2699,10 +3302,10 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800519EC);
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuStory_input);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A50);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0A5C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0A6C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0A7C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0B0C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A5C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A6C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A7C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0B0C);
 
 extern const s32 _cursor_7325[][4];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _cursor_7325);
@@ -2726,7 +3329,7 @@ extern ? D_800B0A5C;
 extern ? D_800B0A6C;
 extern ? D_800B0A7C;
 extern ? D_800B0B0C;
-extern ? RO_800ADCE0;
+extern ? fade_shadow_texture_init_dl;
 
 void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
     MenuNumber *sp30;                               /* compiler-managed */
@@ -2808,7 +3411,7 @@ void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
                 temp_s2->unk_0C[0] = temp_fs0 + 5.0f;
                 temp_s2->unk_0C[1] = temp_fs1 + 2.0f;
                 temp_v1_3->words.w0 = 0xDE000000;
-                temp_v1_3->words.w1 = (u32) &RO_800ADCE0;
+                temp_v1_3->words.w1 = (u32) &fade_shadow_texture_init_dl;
                 temp_v1_3->unk_8 = 0xFA000000;
                 temp_v1_3->unk_C = (s32) ((temp_fv0 >> 1) & 0xFF);
                 temp_s0 = menuStory + var_s7;
@@ -3357,21 +3960,21 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80053FBC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800540B8);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0C5C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0C5C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuChSel_input);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0D84);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0D94);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0D9C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0DA0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0DAC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0DB4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0DB8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0DC4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0DC8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0DD4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0DD8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0D84);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0D94);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0D9C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0DA0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0DAC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0DB4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0DB8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0DC4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0DC8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0DD4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0DD8);
 
 #if 0
 ? func_80046614(s8 *, s32);
@@ -3508,7 +4111,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuPlay2_input);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuPlay2_update);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B0F5C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0F5C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuPlay2_draw);
 
@@ -3520,7 +4123,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800560D4);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuNmEnt_input);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1168);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1168);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuNmEnt_update);
 
@@ -3708,19 +4311,19 @@ void menuRankFig_update(menuRankFig_update_arg0 *arg0, MenuItem *arg1) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuRankFig_update);
 #endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B11A4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B11CC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B11E0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B11F8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1210);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B11A4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B11CC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B11E0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B11F8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1210);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800574B4);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8005768C);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1220);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1230);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B123C);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1220);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1230);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B123C);
 
 ASM_TEXT;
 
@@ -3804,28 +4407,28 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800585BC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800586A4);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1290);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1298);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B12A8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B12B8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B12C8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B12D8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B12E4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B12F0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B12FC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1308);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1314);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1290);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1298);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B12A8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B12B8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B12C8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B12D8);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B12E4);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B12F0);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B12FC);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1308);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1314);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuRank_setFrame);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80058A24);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1320);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1330);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1340);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1350);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1360);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1370);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1320);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1330);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1340);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1350);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1360);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1370);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuRank_setPanel);
 
@@ -3995,8 +4598,8 @@ void menuRank_update(MenuRank *menuRank) {
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuRank_draw);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1430);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", D_800B1438);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1430);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B1438);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800599E0);
 

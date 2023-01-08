@@ -352,7 +352,7 @@ void menuCursor_update(MenuCursor *cursor, MenuItem *arg1);
 UNK_RET func_80048634(MenuCursor *cursorP[], s32, Gfx **gxfP);
 void func_80048680(MenuBottle *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3);
 void func_800486C8(MenuBottle *arg0, MenuItem *arg1);
-UNK_RET menuBottle_draw(MenuBottle *bottle, Gfx **gxfP);
+void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP);
 void func_80048B8C(MenuLvGauge *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4,
                    s32 arg5, s32 arg6);
 void func_80048C48(MenuLvGauge *arg0, s32 arg1);
