@@ -3230,38 +3230,24 @@ void menuLvSel_update(MenuLvSel *menuLvSel) {
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuLvSel_update);
 #endif
 
-#if 0
-
-UNK_RET func_80046F58(MenuItem *, Gfx **, TiTexDataEntry_unk_0 **, s32, s32, s32);
-UNK_RET func_80048634(MenuCursor **arg0, s32, Gfx **gxfP);
-UNK_RET menuBottle_draw(MenuBottle *, Gfx **gxfP);
-UNK_RET menuLvGauge_draw1(MenuLvGauge **, s32, Gfx **gxfP);
-UNK_RET func_80048FA0(MenuMusicItem **, s32, Gfx **gxfP);
-UNK_RET menuSpeedAsk_draw(MenuSpeedAsk **, s32, Gfx **gxfP);
-UNK_RET menuSpeedItem_draw1(MenuSpeedItem **, s32, Gfx **gxfP);
-UNK_RET func_8004A160(MenuSpeedItem **, s32, Gfx **gxfP);
-UNK_RET menuMusicItem_draw1(MenuMusicItem **, s32, Gfx **gxfP);
-UNK_RET func_8004A780(MenuMusicItem **, s32, Gfx **gxfP);
-UNK_RET menuNumber_draw(MenuNumber **, s32, Gfx **gxfP);
-TiTexDataEntry_unk_0 **_getTexLevel(struct_watchMenu *, s32);
-bool menuItem_drawTex(MenuItem *, Gfx **gfxP, TiTexDataEntry_unk_0**, s32);
-
-// matches, but types don't make sense
 void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
+    // struct required to force everything to go properly into the stack
     struct {
-        MenuMusicItem *sp18[5];
+        MenuMusicItem *sp18[1];
+        MenuSpeedAsk *sp1C[1];
+        MenuSpeedItem *sp20[1];
+        void *sp24[1];
+        void *sp28[1];
         MenuCursor *sp2C[3];
-    } aux;
-    Gfx *gfx;
+    } dumb;
+    Gfx *gfx = *gfxP;
     f32 temp_fs0;
-    u32 var_a1_2;
-    TiTexDataEntry_unk_0 **a2;
-
-    gfx = *gfxP;
+    u32 i;
+    TiTexDataEntry *a2;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    switch (menuLvSel->unk_0004) {                              /* irregular */
+    switch (menuLvSel->unk_0004) {
         case MAINMENUMODE_MENULVSEL_7:
             a2 = _getTexLevel(menuLvSel->unk_0000, 4);
             break;
@@ -3275,22 +3261,24 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
             break;
     }
 
-    menuItem_drawTex(&menuLvSel->unk_0098, &gfx, a2, 0);
-    menuItem_drawTex(&menuLvSel->unk_0128, &gfx, _getTexLevel(menuLvSel->unk_0000, 1), 0);
+    menuItem_drawTex(&menuLvSel->unk_0098[0], &gfx, a2, 0);
+    menuItem_drawTex(&menuLvSel->unk_0098[1], &gfx, _getTexLevel(menuLvSel->unk_0000, 1), 0);
     if (menuLvSel->speedSelector.unk_008 > 0) {
-        func_80046F58(&menuLvSel->capsuleSpeedIcon, &gfx, _getTexLevel(menuLvSel->unk_0000, 3), 0, 2, menuLvSel->speedSelector.unk_008 - 1);
+        func_80046F58(&menuLvSel->capsuleSpeedIcon, &gfx, _getTexLevel(menuLvSel->unk_0000, 3), 0, 2,
+                      menuLvSel->speedSelector.unk_008 - 1);
     }
     if (menuLvSel->musicSelector.unk_004 < 4) {
-        func_80046F58(&menuLvSel->musicIcon, &gfx, _getTexLevel(menuLvSel->unk_0000, 2), 0, 4, menuLvSel->musicSelector.unk_004);
+        func_80046F58(&menuLvSel->musicIcon, &gfx, _getTexLevel(menuLvSel->unk_0000, 2), 0, 4,
+                      menuLvSel->musicSelector.unk_004);
     }
 
     switch (menuLvSel->unk_0004) {
         case MAINMENUMODE_MENULVSEL_7:
             if (menuLvSel->unk_2570 >= 0x15) {
-                temp_fs0 = menuLvSel->unk_0098.unk_0C[0];
-                menuLvSel->unk_0098.unk_0C[0] = temp_fs0 + 222.0f;
-                menuItem_drawTex(&menuLvSel->unk_0098, &gfx, _getTexLevel(menuLvSel->unk_0000, 6), 0);
-                menuLvSel->unk_0098.unk_0C[0] = temp_fs0;
+                temp_fs0 = menuLvSel->unk_0098[0].unk_0C[0];
+                menuLvSel->unk_0098[0].unk_0C[0] = temp_fs0 + 222.0f;
+                menuItem_drawTex(&menuLvSel->unk_0098[0], &gfx, _getTexLevel(menuLvSel->unk_0000, 6), 0);
+                menuLvSel->unk_0098[0].unk_0C[0] = temp_fs0;
             }
             break;
 
@@ -3298,49 +3286,50 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
             break;
     }
 
-    aux.sp18[0] = &menuLvSel->musicSelector;
-    menuMusicItem_draw1(&aux.sp18[0], 1, &gfx);
-    aux.sp18[1] = &menuLvSel->speedIcon;
-    aux.sp18[2] = &menuLvSel->speedSelector;
-    menuSpeedAsk_draw(&aux.sp18[1], 1, &gfx);
-    menuSpeedItem_draw1(&aux.sp18[2], 1, &gfx);
+    dumb.sp18[0] = &menuLvSel->musicSelector;
+    menuMusicItem_draw1(dumb.sp18, ARRAY_COUNTU(dumb.sp18), &gfx);
+    dumb.sp1C[0] = &menuLvSel->speedIcon;
+    dumb.sp20[0] = &menuLvSel->speedSelector;
+    menuSpeedAsk_draw(dumb.sp1C, ARRAY_COUNTU(dumb.sp1C), &gfx);
+    menuSpeedItem_draw1(dumb.sp20, ARRAY_COUNTU(dumb.sp20), &gfx);
 
     switch (menuLvSel->unk_0004) {
         case MAINMENUMODE_MENULVSEL_10:
         case MAINMENUMODE_MENULVSEL_13:
-            aux.sp18[3] = &menuLvSel->gameLvlIcon;
-            aux.sp18[4] = &menuLvSel->gameLvlSelector;
-            menuSpeedAsk_draw(&aux.sp18[3], 1, &gfx);
-            menuSpeedItem_draw1(&aux.sp18[4], 1, &gfx);
+            dumb.sp24[0] = &menuLvSel->gameLvlIcon;
+            dumb.sp28[0] = &menuLvSel->gameLvlSelector;
+            menuSpeedAsk_draw((void *)dumb.sp24, ARRAY_COUNTU(dumb.sp24), &gfx);
+            menuSpeedItem_draw1((void *)dumb.sp28, ARRAY_COUNTU(dumb.sp28), &gfx);
             break;
 
         case MAINMENUMODE_MENULVSEL_7:
-            aux.sp18[3] = &menuLvSel->virusLvlNumber;
-            aux.sp18[4] = &menuLvSel->virusLvlGauge;
-            menuNumber_draw(&aux.sp18[3], 1, &gfx);
-            menuLvGauge_draw1(&aux.sp18[4], 1, &gfx);
+            dumb.sp24[0] = &menuLvSel->virusLvlNumber;
+            dumb.sp28[0] = &menuLvSel->virusLvlGauge;
+            menuNumber_draw((void *)dumb.sp24, ARRAY_COUNTU(dumb.sp24), &gfx);
+            menuLvGauge_draw1((void *)dumb.sp28, ARRAY_COUNTU(dumb.sp28), &gfx);
             break;
 
         default:
             break;
     }
 
-    for (var_a1_2 = 0; var_a1_2 < 3U; var_a1_2++) {
-        aux.sp2C[var_a1_2] = &menuLvSel->unk_162C[var_a1_2];
+    for (i = 0; i < ARRAY_COUNTU(dumb.sp2C); i++) {
+        dumb.sp2C[i] = &menuLvSel->unk_162C[i];
     }
 
-    func_80048634(aux.sp2C, 3, &gfx);
-    func_8004A780(&aux.sp18[0], 1, &gfx);
-    func_8004A160(&aux.sp18[2], 1, &gfx);
+    func_80048634(dumb.sp2C, ARRAY_COUNTU(dumb.sp2C), &gfx);
 
-    switch (menuLvSel->unk_0004) {                            /* switch 1; irregular */
-        case MAINMENUMODE_MENULVSEL_10: /* switch 1 */
-        case MAINMENUMODE_MENULVSEL_13: /* switch 1 */
-            func_8004A160(&aux.sp18[4], 1, &gfx);
+    func_8004A780(dumb.sp18, ARRAY_COUNTU(dumb.sp18), &gfx);
+    func_8004A160(dumb.sp20, ARRAY_COUNTU(dumb.sp20), &gfx);
+
+    switch (menuLvSel->unk_0004) {
+        case MAINMENUMODE_MENULVSEL_10:
+        case MAINMENUMODE_MENULVSEL_13:
+            func_8004A160((void *)dumb.sp28, 1, &gfx);
             break;
 
-        case MAINMENUMODE_MENULVSEL_7: /* switch 1 */
-            func_80048FA0(&aux.sp18[4], 1, &gfx);
+        case MAINMENUMODE_MENULVSEL_7:
+            func_80048FA0((void *)dumb.sp28, 1, &gfx);
             break;
 
         default:
@@ -3350,9 +3339,6 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
     menuBottle_draw(&menuLvSel->bottle, &gfx);
     *gfxP = gfx;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuLvSel_draw);
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8005380C);
 
@@ -4041,7 +4027,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059D04);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059D14);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", _getTexLevel);
+TiTexDataEntry *_getTexLevel(struct_watchMenu *watchMenuRef, s32 index) {
+    return &watchMenuRef->unk_02484->unk_00[index];
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059D34);
 
