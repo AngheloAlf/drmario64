@@ -348,7 +348,7 @@ func_80044C28 - found 1 matches total:
 0.99 - func_80044058
 
 _getMode - found 1 matches total:
-0.99 - func_80059E6C
+0.99 - _getModeOld
 
 func_80072204 - found 1 matches total:
 0.99 - func_800721D8

@@ -729,9 +729,4 @@ typedef enum enum_evs_manual_no {
 } enum_evs_manual_no;
 
 
-typedef struct struct__menuMain_lastSelect {
-    /* 0x00 */ s32 unk_00; // probably an enum
-    /* 0x04 */ UNK_TYPE1 unk_04[0x1C];
-} struct__menuMain_lastSelect; // size = 0x20
-
 #endif
