@@ -363,7 +363,7 @@ typedef struct MenuMain {
     /* 0x002C */ s32 unk_002C;
     /* 0x0030 */ s32 unk_0030;
     /* 0x0034 */ s32 unk_0034;
-    /* 0x0038 */ s32 unk_0038;
+    /* 0x0038 */ f32 unk_0038;
     /* 0x003C */ MenuMain_unk_003C unk_003C[2];
     /* 0x0D2C */ MenuNameSelPanel unk_0D2C;
     /* 0x17B4 */ MenuNameOpPanel unk_17B4;
