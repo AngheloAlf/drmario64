@@ -125,7 +125,15 @@ typedef struct MenuCursor {
     /* 0x010 */ s32 unk_010;
     /* 0x014 */ s32 unk_014;
     /* 0x018 */ s32 unk_018;
-    /* 0x01C */ u32 unk_01C;
+    /* 0x01C */ union {
+                    u32 w;
+                    struct {
+                        bool unk_31:1;
+                        bool unk_30:1;
+                        bool unk_29:1;
+                        bool unk_28:1;
+                    } b;
+                } unk_01C;
     /* 0x020 */ MenuItem unk_020;
     /* 0x0B0 */ MenuItem unk_0B0;
     /* 0x140 */ MenuItem unk_140;
@@ -180,7 +188,12 @@ typedef struct MenuMusicItem {
     /* 0x000 */ struct struct_watchMenu *unk_000;
     /* 0x004 */ s32 unk_004;
     /* 0x008 */ s32 unk_008;
-    /* 0x00C */ u32 unk_00C;
+    /* 0x00C */ union {
+                    u32 w;
+                    struct {
+                        bool unk_31 : 1;
+                    } b;
+                } unk_00C;
     /* 0x010 */ MenuItem unk_010;
     /* 0x0A0 */ MenuItem unk_0A0[5];
     /* 0x370 */ MenuItem unk_370[5];
@@ -277,12 +290,17 @@ typedef struct MenuMain_unk_003C {
 
 typedef struct MenuNameSelPanel {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004*/ s32 unk_004;
-    /* 0x008*/ s32 unk_008;
-    /* 0x00C*/ s32 unk_00C[2];
-    /* 0x014*/ s32 unk_014[2];
-    /* 0x01C*/ s32 unk_01C[2];
-    /* 0x024*/ u32 unk_024;
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
+    /* 0x00C */ s32 unk_00C[2];
+    /* 0x014 */ s32 unk_014[2];
+    /* 0x01C */ s32 unk_01C[2];
+    /* 0x024 */ union {
+                    u32 w;
+                    struct {
+                        u32 unk_31 : 1;
+                    } b;
+                } unk_024;
     /* 0x028 */ MenuItem unk_028;
     /* 0x0B8 */ MenuItem unk_0B8[9];
     /* 0x5C8 */ MenuCursor unk_5C8[2];

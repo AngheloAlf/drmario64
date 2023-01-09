@@ -506,10 +506,10 @@ void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *arg1, u32 arg2, s32 
     cursor->unk_014 = arg8;
     cursor->unk_018 = arg9;
 
-    cursor->unk_01C |= 0x80000000;
-    cursor->unk_01C &= ~0x40000000;
-    cursor->unk_01C &= ~0x20000000;
-    cursor->unk_01C |= 0x10000000;
+    cursor->unk_01C.b.unk_31 = true;
+    cursor->unk_01C.b.unk_30 = false;
+    cursor->unk_01C.b.unk_29 = false;
+    cursor->unk_01C.b.unk_28 = true;
 
     menuItem_init(&cursor->unk_020, arg6, arg7);
 
@@ -541,7 +541,7 @@ void menuCursor_update(MenuCursor *cursor, MenuItem *arg1) {
     func_800464BC(&cursor->unk_020, arg1);
     var_a0 = &cursor->unk_0B0;
     func_800464BC(var_a0, &cursor->unk_020);
-    if (!(cursor->unk_01C & 0x10000000)) {
+    if (!cursor->unk_01C.b.unk_28) {
         for (i = 0; i < 4U; i++) {
             var_a0->color.arr[i] = var_a0->unk_6C[1][i] * arg1->color.arr[i];
         }
@@ -1530,7 +1530,7 @@ void menuMusicItem_init(MenuMusicItem *arg0, struct_watchMenu *arg1, s32 arg2, s
     arg0->unk_000 = arg1;
     arg0->unk_004 = arg2;
     arg0->unk_008 = -1;
-    arg0->unk_00C |= 0x80000000;
+    arg0->unk_00C.b.unk_31 = true;
 
     menuItem_init(&arg0->unk_010, arg3, arg4);
 
@@ -1556,7 +1556,7 @@ void menuMusicItem_init(MenuMusicItem *arg0, struct_watchMenu *arg1, s32 arg2, s
     }
 
     func_800479A8(&arg0->unk_640, arg1, 5, 0, -1, -1, 0x25, 0x10);
-    arg0->unk_640.unk_01C &= ~0x80000000;
+    arg0->unk_640.unk_01C.b.unk_31 = 0;
 }
 
 extern const s32 _seq_2327[];
@@ -1609,7 +1609,7 @@ void menuMusicItem_update(MenuMusicItem *arg0, MenuItem *arg1) {
 
         func_800464BC(temp_s0_2, &arg0->unk_0A0[i]);
         if (i == arg0->unk_004) {
-            if (!(arg0->unk_00C & 0x80000000)) {
+            if (!arg0->unk_00C.b.unk_31) {
                 var_a1 = temp_s0_2->unk_6C[1];
             } else {
                 var_a1 = NULL;
@@ -1725,7 +1725,7 @@ void menuMainPanel_init(MenuMain_unk_003C *arg0, struct_watchMenu *watchMenuRef,
     }
 
     func_800479A8(&arg0->unk_418, watchMenuRef, 0, 0, 0, 0, 0x6A, 0x14);
-    arg0->unk_418.unk_01C |= 0x40000000;
+    arg0->unk_418.unk_01C.b.unk_30 = 1;
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004B8CC);
@@ -1741,10 +1741,8 @@ void func_8004BB14(MenuNameSelPanel *nameSelPanel, s32 arg1, f32 arg2) {
     func_8004655C(&nameSelPanel->unk_028, arg1);
 }
 
-#ifdef NON_MATCHING
 void menuNameSelPanel_clear(MenuNameSelPanel *nameSelPanel, bool arg1, s32 arg2) {
     s32 var_a3;
-    s8 temp;
 
     nameSelPanel->unk_004 = arg2;
     nameSelPanel->unk_008 = 0;
@@ -1759,20 +1757,13 @@ void menuNameSelPanel_clear(MenuNameSelPanel *nameSelPanel, bool arg1, s32 arg2)
         nameSelPanel->unk_01C[var_a3] = (evs_select_name_no[var_a3] & 1);
     }
 
-    nameSelPanel->unk_024 &= 0x7FFFFFFF;
-    temp = (arg1 != false);
-    nameSelPanel->unk_024 |= (temp << 31);
+    nameSelPanel->unk_024.b.unk_31 = (arg1 != false);
 
     for (var_a3 = 0; var_a3 < 2U; var_a3++) {
-        nameSelPanel->unk_5C8[var_a3].unk_01C |= 0x40000000;
-        temp = (nameSelPanel->unk_004 >= 2);
-        nameSelPanel->unk_5C8[var_a3].unk_01C &= 0xDFFFFFFF;
-        nameSelPanel->unk_5C8[var_a3].unk_01C |= (temp << 29);
+        nameSelPanel->unk_5C8[var_a3].unk_01C.b.unk_30 = true;
+        nameSelPanel->unk_5C8[var_a3].unk_01C.b.unk_29 = (nameSelPanel->unk_004 >= 2);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuNameSelPanel_clear);
-#endif
 
 void menuNameSelPanel_init(MenuNameSelPanel *nameSelPanel, struct_watchMenu *watchMenuRef, bool arg2, s32 arg3,
                            s32 arg4, s32 arg5) {
@@ -1877,7 +1868,7 @@ void menuNameOpPanel_init(MenuNameOpPanel *nameOpPanel, struct_watchMenu *watchM
     }
 
     func_800479A8(&nameOpPanel->unk_250, watchMenuRef, 0, 0, 0, 0, 0x69, 0x14);
-    nameOpPanel->unk_250.unk_01C |= 0x40000000;
+    nameOpPanel->unk_250.unk_01C.b.unk_30 = 1;
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004C974);
@@ -3971,43 +3962,47 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
     dm_snd_play(sndIndex);
 }
 
-#ifdef NON_EQUIVALENT
 void menuLvSel_update(MenuLvSel *menuLvSel) {
-    MenuItem *temp_a1 = _getRootItem(menuLvSel->unk_0000);
-    s32 temp_s2;
-    s32 temp_s2_2;
-    s32 temp_s2_3;
-    u32 temp_v0;
-    u32 var_s2;
+    MenuItem *rootItem = _getRootItem(menuLvSel->unk_0000);
+    s32 i;
 
     switch (menuLvSel->unk_0004) {
         case MAINMENUMODE_MENULVSEL_10:
             menuLvSel->bottle.unk_004 = menuLvSel->unk_0004;
             menuLvSel->gameLvlIcon.unk_8 = menuLvSel->gameLvlSelector.unk_008;
             break;
+
         case MAINMENUMODE_MENULVSEL_13:
             menuLvSel->gameLvlIcon.unk_8 = menuLvSel->gameLvlSelector.unk_008;
             menuLvSel->bottle.unk_004 = _timeAttack_levelTable[menuLvSel->gameLvlSelector.unk_008];
             break;
+
         case MAINMENUMODE_MENULVSEL_7:
             menuLvSel->virusLvlNumber.unk_0C = menuLvSel->virusLvlGauge.unk_00C;
             menuLvSel->bottle.unk_004 = menuLvSel->virusLvlGauge.unk_00C;
             break;
+
+        default:
+            break;
     }
 
     menuLvSel->speedIcon.unk_8 = menuLvSel->speedSelector.unk_008;
-    func_800464BC(&menuLvSel->unk_0008, temp_a1);
+    func_800464BC(&menuLvSel->unk_0008, rootItem);
     func_800464F8(menuLvSel->unk_0098, ARRAY_COUNT(menuLvSel->unk_0098), &menuLvSel->unk_0008);
 
-    switch (menuLvSel->unk_0004) {      /* switch 1; irregular */
-        case MAINMENUMODE_MENULVSEL_10: /* switch 1 */
-        case MAINMENUMODE_MENULVSEL_13: /* switch 1 */
+    switch (menuLvSel->unk_0004) {
+        case MAINMENUMODE_MENULVSEL_10:
+        case MAINMENUMODE_MENULVSEL_13:
             func_800498C4(&menuLvSel->gameLvlIcon, &menuLvSel->unk_0008);
             menuSpeedItem_update(&menuLvSel->gameLvlSelector, &menuLvSel->unk_0008);
             break;
-        case MAINMENUMODE_MENULVSEL_7: /* switch 1 */
+
+        case MAINMENUMODE_MENULVSEL_7:
             func_8004A8D8(&menuLvSel->virusLvlNumber, &menuLvSel->unk_0008);
             func_80048CC8(&menuLvSel->virusLvlGauge, &menuLvSel->unk_0008);
+            break;
+
+        default:
             break;
     }
 
@@ -4016,59 +4011,41 @@ void menuLvSel_update(MenuLvSel *menuLvSel) {
     menuMusicItem_update(&menuLvSel->musicSelector, &menuLvSel->unk_0008);
     func_800486C8(&menuLvSel->bottle, &menuLvSel->unk_0098[1]);
 
-    var_s2 = 0;
-    do {
-        menuCursor_update(&menuLvSel->unk_162C[var_s2], &menuLvSel->unk_0098[0]);
-        var_s2 += 1;
-    } while (var_s2 < 3U);
+    for (i = 0; i < ARRAY_COUNTU(menuLvSel->unk_162C); i++) {
+        menuCursor_update(&menuLvSel->unk_162C[i], &menuLvSel->unk_0098[0]);
+    }
 
     func_800464BC(&menuLvSel->capsuleSpeedIcon, &menuLvSel->unk_0098[1]);
     func_800464BC(&menuLvSel->musicIcon, &menuLvSel->unk_0098[1]);
-    temp_s2 = menuLvSel->unk_256C == 0;
 
-    switch (menuLvSel->unk_0004) {     /* switch 2; irregular */
-        case MAINMENUMODE_MENULVSEL_7: /* switch 2 */
-            menuLvSel->virusLvlGauge.unk_0A0.unk_01C &= 0xBFFFFFFF;
-            menuLvSel->virusLvlGauge.unk_0A0.unk_01C |= (temp_s2 & 1) << 0x1E;
-            menuLvSel->virusLvlGauge.unk_0A0.unk_01C &= 0xEFFFFFFF;
-            menuLvSel->virusLvlGauge.unk_0A0.unk_01C |= ((temp_s2 & 1) << 0x1C);
+    i = menuLvSel->unk_256C == 0;
+    switch (menuLvSel->unk_0004) {
+        case MAINMENUMODE_MENULVSEL_7:
+            menuLvSel->virusLvlGauge.unk_0A0.unk_01C.b.unk_30 = i;
+            menuLvSel->virusLvlGauge.unk_0A0.unk_01C.b.unk_28 = i;
             break;
 
-        case MAINMENUMODE_MENULVSEL_10: /* switch 2 */
-        case MAINMENUMODE_MENULVSEL_13: /* switch 2 */
-            menuLvSel->gameLvlSelector.unk_00C = temp_s2;
-            menuLvSel->gameLvlSelector.unk_404.unk_01C &= 0xBFFFFFFF;
-            menuLvSel->gameLvlSelector.unk_404.unk_01C |= ((temp_s2 & 1) << 0x1E);
+        case MAINMENUMODE_MENULVSEL_10:
+        case MAINMENUMODE_MENULVSEL_13:
+            menuLvSel->gameLvlSelector.unk_00C = i;
+            menuLvSel->gameLvlSelector.unk_404.unk_01C.b.unk_30 = i;
+            break;
+
+        default:
             break;
     }
+    menuLvSel->unk_162C[0].unk_01C.b.unk_31 = i;
 
-    temp_s2_2 = menuLvSel->unk_256C == 1;
-    menuLvSel->speedSelector.unk_00C = temp_s2_2;
+    i = menuLvSel->unk_256C == 1;
+    menuLvSel->speedSelector.unk_00C = i;
+    menuLvSel->speedSelector.unk_404.unk_01C.b.unk_30 = i;
+    menuLvSel->unk_162C[1].unk_01C.b.unk_31 = i;
 
-    menuLvSel->unk_162C[0].unk_01C &= 0x7FFFFFFF;
-    menuLvSel->unk_162C[0].unk_01C |= temp_s2 << 0x1F;
-
-    menuLvSel->speedSelector.unk_404.unk_01C &= 0xBFFFFFFF;
-    menuLvSel->speedSelector.unk_404.unk_01C |= temp_s2_2 << 0x1E;
-
-    menuLvSel->unk_162C[1].unk_01C &= 0x7FFFFFFF;
-    menuLvSel->unk_162C[1].unk_01C |= temp_s2_2 << 0x1F;
-
-    temp_s2_3 = menuLvSel->unk_256C == 2;
-    temp_v0 = temp_s2_3 << 0x1F;
-
-    menuLvSel->musicSelector.unk_640.unk_01C &= 0xBFFFFFFF;
-    menuLvSel->musicSelector.unk_640.unk_01C |= (temp_s2_3 << 0x1E);
-
-    menuLvSel->musicSelector.unk_00C &= 0x7FFFFFFF;
-    menuLvSel->musicSelector.unk_00C |= temp_v0;
-
-    menuLvSel->unk_162C[2].unk_01C &= 0x7FFFFFFF;
-    menuLvSel->unk_162C[2].unk_01C |= temp_v0;
+    i = menuLvSel->unk_256C == 2;
+    menuLvSel->musicSelector.unk_640.unk_01C.b.unk_30 = i;
+    menuLvSel->musicSelector.unk_00C.b.unk_31 = i;
+    menuLvSel->unk_162C[2].unk_01C.b.unk_31 = i;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuLvSel_update);
-#endif
 
 void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
     // struct required to force everything to go properly into the stack
