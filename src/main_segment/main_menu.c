@@ -1734,16 +1734,88 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004B98C);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004B9F0);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004BB14);
+void func_8004BB14(MenuNameSelPanel *nameSelPanel, s32 arg1, f32 arg2) {
+    nameSelPanel->unk_028.unk_14 = arg2;
+    nameSelPanel->unk_028.unk_18 = 0.05f;
+    nameSelPanel->unk_028.unk_1C[0] = nameSelPanel->unk_028.unk_24[0] - 320.0f;
+    func_8004655C(&nameSelPanel->unk_028, arg1);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004BB58);
+#ifdef NON_MATCHING
+void menuNameSelPanel_clear(MenuNameSelPanel *nameSelPanel, bool arg1, s32 arg2) {
+    s32 var_a3;
+    s8 temp;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuNameSelPanel_init);
+    nameSelPanel->unk_004 = arg2;
+    nameSelPanel->unk_008 = 0;
+
+    if (evs_select_name_no[0] == evs_select_name_no[1]) {
+        evs_select_name_no[1] = 8;
+    }
+
+    for (var_a3 = 0; var_a3 < 2; var_a3++) {
+        nameSelPanel->unk_00C[var_a3] = 0;
+        nameSelPanel->unk_014[var_a3] = evs_select_name_no[var_a3];
+        nameSelPanel->unk_01C[var_a3] = (evs_select_name_no[var_a3] & 1);
+    }
+
+    nameSelPanel->unk_024 &= 0x7FFFFFFF;
+    temp = (arg1 != false);
+    nameSelPanel->unk_024 |= (temp << 31);
+
+    for (var_a3 = 0; var_a3 < 2U; var_a3++) {
+        nameSelPanel->unk_5C8[var_a3].unk_01C |= 0x40000000;
+        temp = (nameSelPanel->unk_004 >= 2);
+        nameSelPanel->unk_5C8[var_a3].unk_01C &= 0xDFFFFFFF;
+        nameSelPanel->unk_5C8[var_a3].unk_01C |= (temp << 29);
+    }
+}
+#else
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuNameSelPanel_clear);
+#endif
+
+void menuNameSelPanel_init(MenuNameSelPanel *nameSelPanel, struct_watchMenu *watchMenuRef, bool arg2, s32 arg3,
+                           s32 arg4, s32 arg5) {
+    s32 i;
+
+    nameSelPanel->watchMenuRef = watchMenuRef;
+    menuItem_init(&nameSelPanel->unk_028, arg4, arg5);
+
+    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->unk_0B8) - 1; i++) {
+        menuItem_init(&nameSelPanel->unk_0B8[i], ((i % 2) * 60) + 6, ((i / 2) * 23) + 31);
+    }
+    menuItem_init(&nameSelPanel->unk_0B8[i], 0x24, 8);
+
+    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->unk_5C8); i++) {
+        MenuCursor *temp_s0 = &nameSelPanel->unk_5C8[i];
+
+        func_800479A8(temp_s0, watchMenuRef, 0, i, 0, 0, 0x38, 0x14);
+        if (i % 2U != 0) {
+            temp_s0->unk_0B0.unk_64 = WrapF(0.0f, 1.0f, temp_s0->unk_0B0.unk_64 + 0.5);
+            temp_s0->unk_140.unk_14 = WrapF(0.0f, 1.0f, temp_s0->unk_140.unk_14 + 0.5);
+
+            temp_s0->unk_140.unk_1C[0] += nameSelPanel->unk_5C8[i].unk_014 + 0x10;
+            temp_s0->unk_140.unk_24[0] += nameSelPanel->unk_5C8[i].unk_014 + 0x10;
+
+            temp_s0->unk_140.unk_40[0] = -temp_s0->unk_140.unk_40[0];
+            temp_s0->unk_140.unk_48[0] = -temp_s0->unk_140.unk_48[0];
+
+            temp_s0->unk_1D0.unk_14 = WrapF(0.0f, 1.0f, temp_s0->unk_1D0.unk_14 + 0.5);
+            temp_s0->unk_1D0.unk_1C[0] += nameSelPanel->unk_5C8[i].unk_014 + 0x10;
+            temp_s0->unk_1D0.unk_24[0] += nameSelPanel->unk_5C8[i].unk_014 + 0x10;
+        }
+    }
+
+    menuNameSelPanel_clear(nameSelPanel, arg2, arg3);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004BEB4);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC40);
+
+extern const u8 RO_800AFC48[];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC48);
+
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC4C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC5C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC64);
@@ -1781,7 +1853,32 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004C4BC);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004C820);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuNameOpPanel_init);
+void menuNameOpPanel_init(MenuNameOpPanel *nameOpPanel, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3,
+                          const u8 *arg4, s32 xPos, s32 yPos) {
+    u32 i;
+
+    nameOpPanel->watchMenuRef = watchMenuRef;
+    nameOpPanel->unk_004 = arg2;
+    nameOpPanel->unk_008 = arg3;
+
+    if (arg4 == NULL) {
+        arg4 = RO_800AFC48;
+    }
+
+    for (i = 0; i < ARRAY_COUNTU(nameOpPanel->unk_00C); i++) {
+        nameOpPanel->unk_00C[i] = arg4[i];
+    }
+
+    menuItem_init(&nameOpPanel->unk_010, xPos, yPos);
+    menuItem_init(&nameOpPanel->unk_0A0, 35, 8);
+
+    for (i = 0; i < ARRAY_COUNTU(nameOpPanel->unk_130); i++) {
+        menuItem_init(&nameOpPanel->unk_130[i], 11, 31 + 23 * i);
+    }
+
+    func_800479A8(&nameOpPanel->unk_250, watchMenuRef, 0, 0, 0, 0, 0x69, 0x14);
+    nameOpPanel->unk_250.unk_01C |= 0x40000000;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004C974);
 
@@ -2057,7 +2154,7 @@ void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, struct_wa
     menuNameSelPanel_init(&menuMain->unk_0D2C, watchMenuRef, menuMain->mode != MAINMENUMODE_61, i, 0x19, 0x3A);
     func_8004BB14(&menuMain->unk_0D2C, -1, 0.0f);
 
-    menuNameOpPanel_init(&menuMain->unk_17B4, menuMain->watchMenuRef, 0, 0, 0, 0x19, 0x3A);
+    menuNameOpPanel_init(&menuMain->unk_17B4, menuMain->watchMenuRef, 0, 0, NULL, 0x19, 0x3A);
     func_8004C820(&menuMain->unk_17B4, -1, 0.0f);
 
     menuSndSelPanel_init(&menuMain->unk_1C64, watchMenuRef, 0, 0x14, 0x3A);
@@ -2156,7 +2253,7 @@ s32 func_8004B43C(s8 *, ?, s32);
 ? func_8004B774(void *, ?, ?32);
 s32 func_8004B8CC(void *, ?, s32);
 ? func_8004BB14(f32 *, ?, ?32);
-? func_8004BB58(f32 *, s32, ?);
+? menuNameSelPanel_clear(f32 *, s32, ?);
 s32 func_8004C1F0(f32 *);
 ? func_8004C820(s8 *, ?, ?);
 s32 func_8004C974(s8 *, ?, s32);
@@ -3083,7 +3180,7 @@ block_281:
                     var_a2_10 = 2;
                 }
                 temp_s0_3 = &arg0->unk_590[0].unk_3A8[0].unk_35C.unk_38.unk_54[3];
-                func_8004BB58(temp_s0_3, arg0->unk_0004 != 0x3D, var_a2_10);
+                menuNameSelPanel_clear(temp_s0_3, arg0->unk_0004 != 0x3D, var_a2_10);
                 func_8004BB14(temp_s0_3, 1, temp_fs0);
                 var_a2_9 = 0;
             } else {

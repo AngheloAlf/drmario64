@@ -34,6 +34,7 @@ CPP_FLAGS = [
     "-DM2CTX",
     "-DNON_MATCHING",
     "-DosInitialize=__osInitialize_common",
+    "-D__STDC_VERSION__=198900L",
 ]
 
 def import_c_file(in_file) -> str:
