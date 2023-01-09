@@ -318,20 +318,41 @@ typedef struct MenuNameOpPanel {
 } MenuNameOpPanel; // size >= 0x4B0
 
 typedef struct MenuSndSelPanel {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuSndSelPanel; // size >= 0x4
+    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
+    /* 0x00C */ s32 unk_00C;
+    /* 0x010 */ s32 unk_010;
+    /* 0x014 */ MenuItem unk_014;
+    /* 0x0A4 */ MenuItem unk_0A4[4];
+    /* 0x2E4 */ MenuNumber unk_2E4[2];
+    /* 0x43C */ MenuCursor unk_43C;
+} MenuSndSelPanel; // size >= 0x69C
 
 typedef struct MenuCont {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuCont; // size >= 0x4
+    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x004 */ MenuItem unk_004;
+    /* 0x094 */ MenuItem unk_094[5];
+    /* 0x364 */ MenuItem unk_364[1];
+    /* 0x3F4 */ MenuItem unk_3F4[1];
+    /* 0x484 */ MenuItem unk_484[1];
+} MenuCont; // size >= 0x514
 
 typedef struct MenuYN {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuYN; // size >= 0x4
+    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ MenuItem unk_008;
+    /* 0x098 */ MenuItem unk_098[2];
+    /* 0x1B8 */ MenuCursor unk_1B8;
+    /* 0x418 */ MenuCursor unk_418;
+} MenuYN; // size = 0x678
 
 typedef struct MenuMes {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuMes; // size >= 0x4
+    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x004 */ MenuItem unk_004;
+    /* 0x094 */ MessageWnd unk_094;
+    /* 0x174 */ MenuCursor unk_174;
+} MenuMes; // size >= 0x3D4
 
 
 typedef struct MenuMain {
@@ -347,7 +368,6 @@ typedef struct MenuMain {
     /* 0x0D2C */ MenuNameSelPanel unk_0D2C;
     /* 0x17B4 */ MenuNameOpPanel unk_17B4;
     /* 0x1C64 */ MenuSndSelPanel unk_1C64;
-    /* 0x1C68 */ UNK_TYPE1 unk_1C68[0x698];
     /* 0x2300 */ s32 unk_2300;
     /* 0x2304 */ s32 unk_2304;
     /* 0x2308 */ MessageWnd unk_2308;
@@ -357,11 +377,9 @@ typedef struct MenuMain {
     /* 0x2538 */ MenuItem unk_2538;
     /* 0x25C8 */ MenuItem unk_25C8;
     /* 0x2658 */ MenuCont unk_2658;
-    /* 0x265C */ UNK_TYPE1 unk_265C[0x510];
     /* 0x2B6C */ MenuYN unk_2B6C;
-    /* 0x2B70 */ UNK_TYPE1 unk_2B70[0x674];
     /* 0x31E4 */ MenuMes unk_31E4;
-} MenuMain; // size >= 0x31E8
+} MenuMain; // size >= 0x35B8
 
 
 typedef struct MenuStory {
