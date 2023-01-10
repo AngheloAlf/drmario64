@@ -164,10 +164,10 @@ func_80062AE0 - found 15 matches total:
 
 func_80059DB4 - found 15 matches total:
 0.99 - func_80059CF4
-0.99 - func_80059D04
+0.99 - _getTexCommon
 0.99 - func_80059D14
 0.99 - _getTexLevel
-0.99 - func_80059D34
+0.99 - _getTexMain
 0.99 - _getTexName
 0.99 - func_80059D54
 0.99 - _getTexP4
@@ -177,7 +177,7 @@ func_80059DB4 - found 15 matches total:
 0.99 - func_80059DA4
 0.99 - func_80059DC4
 0.99 - func_80059DD4
-0.99 - func_80059DE4
+0.99 - _getTexKasa
 
 D_800B00B8 - found 12 matches total:
 0.99 - rotate_mtx_475 (decompiled)
@@ -265,8 +265,8 @@ func_800465B8 - found 2 matches total:
 0.99 - func_8004655C
 0.99 - func_80046614
 
-func_80059CDC - found 2 matches total:
-0.99 - func_80059CC4
+_getVtxPtr - found 2 matches total:
+0.99 - _getMtxPtr
 0.99 - get_virus_anime_state
 
 func_8004A160 - found 2 matches total:
@@ -310,7 +310,7 @@ mes_3_15 - found 2 matches total:
 0.99 - mes_1_8
 
 StretchTexTile8 - found 2 matches total:
-1.00 - func_80044780
+1.00 - RectTexTile8
 0.99 - func_80044238
 
 func_80045E94 - found 2 matches total:

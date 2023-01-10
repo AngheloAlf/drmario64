@@ -570,14 +570,6 @@ typedef struct struct_watchManual {
 } struct_watchManual; // size = 0x188
 
 
-typedef struct struct_watchMenu_unk_00048 {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x400];
-} struct_watchMenu_unk_00048; // size = 0x400
-
-typedef struct struct_watchMenu_unk_00C48 {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x800];
-} struct_watchMenu_unk_00C48; // size = 0x800
-
 typedef struct struct_watchMenu_unk_02470 {
     /* 0x00000 */ UNK_TYPE1 unk_00000[0x60000];
 } struct_watchMenu_unk_02470; // size = 0x60000
@@ -588,10 +580,10 @@ typedef struct struct_watchMenu {
     /* 0x0000C */ OSMesgQueue unk_0000C;
     /* 0x00024 */ OSMesg unk_00024[8];
     /* 0x00044 */ UNK_TYPE1 unk_00044[4];
-    /* 0x00048 */ struct_watchMenu_unk_00048 unk_00048[3];
-    /* 0x00C48 */ struct_watchMenu_unk_00C48 unk_00C48[3];
-    /* 0x02448 */ struct_watchMenu_unk_00048 *unk_02448[3];
-    /* 0x02454 */ struct_watchMenu_unk_00C48 *unk_02454[3];
+    /* 0x00048 */ Mtx unk_00048[3][0x10];
+    /* 0x00C48 */ Vtx unk_00C48[3][0x80];
+    /* 0x02448 */ Mtx *unk_02448[3];
+    /* 0x02454 */ Vtx *unk_02454[3];
     /* 0x02460 */ UNK_PTR unk_02460;
     /* 0x02464 */ UNK_TYPE unk_02464;
     /* 0x02468 */ struct_watchMenu_unk_02470 *unk_02468[2];

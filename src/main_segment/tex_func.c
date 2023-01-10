@@ -484,7 +484,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_800443F4);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", StretchTexTile8);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80044780);
+INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", RectTexTile8);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80044940);
 
@@ -494,7 +494,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80044C28);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80044E08);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80044F18);
+INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", RectTexTile4i);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_8004502C);
 

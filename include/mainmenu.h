@@ -6,6 +6,7 @@
 #include "libc/stdbool.h"
 #include "color.h"
 #include "unk.h"
+#include "msgwnd.h"
 
 
 struct MenuItem;
@@ -274,18 +275,18 @@ typedef struct MenuRank_unk_590 {
     /* 0x07CC */ UNK_TYPE1 unk_07CC[0x1CFC];
 } MenuRank_unk_590; // size = 0x24C8
 
-#define MENUMAIN_UNK_003C_UNK_LEN (6)
+#define MENUMAINPANEL_UNK_LEN (6)
 
-typedef struct MenuMain_unk_003C {
+typedef struct MenuMainPanel {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x004 */ UNK_TYPE1 unk_004[0x4];
     /* 0x008 */ s32 unk_008;
     /* 0x00C */ s32 unk_00C;
-    /* 0x010 */ s32 unk_010[MENUMAIN_UNK_003C_UNK_LEN];
+    /* 0x010 */ s32 unk_010[MENUMAINPANEL_UNK_LEN];
     /* 0x028 */ MenuItem unk_028;
-    /* 0x0B8 */ MenuItem unk_0B8[MENUMAIN_UNK_003C_UNK_LEN];
+    /* 0x0B8 */ MenuItem unk_0B8[MENUMAINPANEL_UNK_LEN];
     /* 0x418 */ MenuCursor unk_418;
-} MenuMain_unk_003C; // size = 0x678
+} MenuMainPanel; // size = 0x678
 
 
 typedef struct MenuNameSelPanel {
@@ -364,7 +365,7 @@ typedef struct MenuMain {
     /* 0x0030 */ s32 unk_0030;
     /* 0x0034 */ s32 unk_0034;
     /* 0x0038 */ f32 unk_0038;
-    /* 0x003C */ MenuMain_unk_003C unk_003C[2];
+    /* 0x003C */ MenuMainPanel unk_003C[2];
     /* 0x0D2C */ MenuNameSelPanel unk_0D2C;
     /* 0x17B4 */ MenuNameOpPanel unk_17B4;
     /* 0x1C64 */ MenuSndSelPanel unk_1C64;
