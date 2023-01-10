@@ -555,7 +555,7 @@ TiTexDataEntry *_getTexSetup(struct_watchMenu *watchMenuRef, s32 index);
 // void func_80059DB4();
 // void func_80059DC4();
 // void func_80059DD4();
-// void _getTexKasa();
+TiTexDataEntry *_getTexKasa(struct_watchMenu *watchMenuRef, s32 index);
 MenuItem *_getRootItem(struct_watchMenu *arg0);
 u16 func_80059DFC(struct_watchMenu *arg0, s32 arg1);
 u16 _getKeyTrg(struct_watchMenu *arg0, s32 arg1);

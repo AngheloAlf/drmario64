@@ -1307,7 +1307,43 @@ void func_800492D8(MenuYN *yn, MenuItem *parentItem) {
     menuCursor_update(&yn->unk_418, &yn->unk_008);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuYN_draw);
+void menuYN_draw(MenuYN *yn, Gfx **gfxP) {
+    MenuItem *item = &yn->unk_008;
+    MenuCursor *sp18;
+    Gfx *gfx;
+    s32 i;
+
+    gfx = *gfxP;
+    if (menuItem_outOfScreen(item, 0x50, 0x3C)) {
+        return;
+    }
+
+    sp18 = &yn->unk_418;
+    func_80048634(&sp18, 1, &gfx);
+
+    gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
+    gDPSetTextureFilter(gfx++, G_TF_BILERP);
+
+    gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, item->color.v.a * 255.0f);
+
+    for (i = 0; i < ARRAY_COUNTU(_yn_1767); i++) {
+        f32 var_fs0;
+        s32 j;
+
+        item = &yn->unk_098[i];
+        var_fs0 = item->unk_0C[0];
+
+        for (j = 0; j < _yn_1767[i][j]; j += 2) {
+            fontXX_draw(&gfx, var_fs0, item->unk_0C[1], 12.0f, 12.0f, &_yn_1767[i][j]);
+            var_fs0 += 20.0f;
+        }
+    }
+
+    sp18 = &yn->unk_1B8;
+    func_80048634(&sp18, 1, &gfx);
+
+    *gfxP = gfx;
+}
 
 void func_80049540(MenuMes *mes, s32 arg1, f32 arg2) {
     func_80046614(&mes->unk_004, arg1);
@@ -1358,7 +1394,24 @@ void func_80049754(MenuMes *mes, MenuItem *parentItem) {
     menuCursor_update(&mes->unk_174, &mes->unk_004);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800497D0);
+void func_800497D0(MenuMes *mes, Gfx **gfxP) {
+    MenuCursor *sp10;
+    Gfx *gfx;
+    MessageWnd *msgWnd = &mes->unk_094;
+
+    gfx = *gfxP;
+    if (menuItem_outOfScreen(&mes->unk_004,
+                             ((mes->unk_094.unk_38 - 2) * mes->unk_094.unk_3C) + mes->unk_094.unk_30 + 0xC,
+                             ((mes->unk_094.unk_44 - 1) * mes->unk_094.unk_48) + mes->unk_094.unk_34 + 0xC)) {
+        return;
+    }
+
+    sp10 = &mes->unk_174;
+    func_80048634(&sp10, 1, &gfx);
+    msgWnd_draw(msgWnd, &gfx);
+
+    *gfxP = gfx;
+}
 
 void func_80049894(MenuSpeedAsk *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
     arg0->unk_0 = arg1;
@@ -1736,8 +1789,11 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _posDesc_2860);
 extern const s32 _posLine_2861[][2];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _posLine_2861);
 
-extern s32 _desc_2915[];
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _desc_2915);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _line_2914);
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFC20);
+
+extern const s32 _panel_3220[];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _panel_3220);
 
 ASM_TEXT;
 
@@ -1863,7 +1919,68 @@ void func_8004B488(MenuCont *cont, MenuItem *parentItem) {
     func_800464BC(cont->unk_484, parentItem);
 }
 
+#if 0
+//? menuItem_drawAlphaTex(MenuItem *, Gfx **, TiTexDataEntry *, TiTexDataEntry *, s32); /* extern */
+
+void menuCont_draw(MenuCont *cont, Gfx **gfxP) {
+    Gfx *gfx;
+    Gfx *temp_v0;
+    MenuItem *temp_s1;
+    TiTexDataEntry *temp_s0;
+    TiTexDataEntry *temp_s0_2;
+    s32 *var_s3_2;
+    s32 *var_s4;
+    s32 temp_a1;
+    s32 temp_a1_2;
+    s32 var_s2;
+    s32 var_s2_2;
+
+    gfx = *gfxP;
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+    menuItem_drawTex(&cont->unk_004, &gfx, func_80059DD4(cont->watchMenuRef, 7), 0);
+
+    gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
+
+    var_s2 = 0;
+    do {
+        temp_s1 = &cont->unk_364[var_s2];
+        temp_a1 = _panel_3220[var_s2];
+        menuItem_drawTex(temp_s1, &gfx, func_80059DC4(cont->watchMenuRef, temp_a1), 0);
+        var_s2 += 1;
+    } while (var_s2 < 1U);
+
+    var_s2_2 = 0;
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+    gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+
+    temp_s0 = func_80059DC4(cont->watchMenuRef, 2, 0xE200001C);
+    do {
+        func_80046F58(&cont->unk_094[var_s2_2], &gfx, temp_s0, 0, 4, var_s2_2);
+        var_s2_2 += 1;
+    } while ((u32) var_s2_2 < 4U);
+
+    var_s3_2 = &(*_posLine_2861)[var_s2_2];
+
+    while ((u32) var_s2_2 < 5U) {
+        temp_a1_2 = *var_s3_2;
+        var_s3_2 += 4;
+        menuItem_drawTex(&cont->unk_094[var_s2_2], &gfx, func_80059DC4(cont->watchMenuRef, temp_a1_2), 0);
+        var_s2_2 += 1;
+    }
+
+    func_80046F58(cont->unk_3F4, &gfx, _getTexCommon(cont->watchMenuRef, 0xE), 0, 0x2F, 0x13);
+
+    gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
+
+    temp_s0_2 = func_80059DD4(cont->watchMenuRef, 1);
+    menuItem_drawAlphaTex(cont->unk_484, &gfx, temp_s0_2, func_80059DD4(cont->watchMenuRef, 3), 0);
+    *gfxP = gfx;
+}
+#else
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuCont_draw);
+#endif
 
 void func_8004B774(MenuMainPanel *arg0, s32 arg1, f32 arg2) {
     arg0->unk_028.unk_14 = arg2;
@@ -1910,7 +2027,7 @@ void menuMainPanel_draw(MenuMainPanel *arg0, Gfx **gfxP) {
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    temp_s4 = _getTexMain(arg0->watchMenuRef, _desc_2915[arg0->unk_008]);
+    temp_s4 = _getTexMain(arg0->watchMenuRef, _panel_3220[arg0->unk_008 - 2]);
     menuItem_drawTex(&arg0->unk_028, &gfx, temp_s4, 0);
 
     temp_s4 = _getTexCommon(arg0->watchMenuRef, 0xE);
@@ -3715,8 +3832,6 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _pat_6137);
 //? func_80043F18(Gfx **, s32 *, s32, s32, s32, s32, s32, s32, s32, s32, s32, s32, f32, f32, f32, f32); /* extern */
 //? RectTexTile8(Gfx **, s32 *, u16, u16, void *, s32, s32, s32, s32, s32, s32, s32, f32, f32); /* extern */
 //? RectTexTile4i(Gfx **, s32 *, u16, u16, s32, s32, s32, s32, s32, s32, s32, f32, f32); /* extern */
-//s32 *_getVtxPtr(struct_watchMenu *);             /* extern */
-//void *_getTexKasa(struct_watchMenu *, s32);       /* extern */
 
 void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
     f32 sp70;
@@ -5499,7 +5614,9 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059DC4);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80059DD4);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", _getTexKasa);
+TiTexDataEntry *_getTexKasa(struct_watchMenu *watchMenuRef, s32 index) {
+    return &watchMenuRef->unk_024B4->unk_00[index];
+}
 
 MenuItem *_getRootItem(struct_watchMenu *arg0) {
     return &arg0->unk_024B8[0];

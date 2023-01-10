@@ -395,9 +395,10 @@ segments:
       - [0x06D3A0, data, rsp/f3dex2]
       - [0x06E730, data, rsp/s2dex]
 
-      - [0x06FF20, data, main_segment/05E4B0]
-      - [0x070220, data, main_segment/05E7B0]
-      - [0x074E10, data, main_segment/0633A0]
+      - [0x06FF20, data, main_segment/06FF20]
+      - [0x070220, data, main_segment/070220]
+      - [0x074E10, data, main_segment/074E10]
+      - [0x076590, data, main_segment/main_menu]
 
       # - [0x0766E0, data, main_segment/font_textures]
       - start: 0x0766E0
@@ -412,7 +413,7 @@ segments:
 
       - [0x08B8F0, .data, main_segment/font]
 
-      - [0x08EDA0, data, main_segment/07D330]
+      - [0x08EDA0, data, main_segment/08EDA0]
 
       - [0x093A70, data, libmus/player]
       - [0x093B30, .data, ../lib/libmus/src/player_fx]
