@@ -398,7 +398,7 @@ segments:
       - [0x06FF20, data, main_segment/06FF20]
       - [0x070220, data, main_segment/070220]
       - [0x074E10, data, main_segment/074E10]
-      - [0x076590, data, main_segment/main_menu]
+      - [0x076590, .data, main_segment/main_menu]
 
       # - [0x0766E0, data, main_segment/font_textures]
       - start: 0x0766E0
