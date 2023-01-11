@@ -59,4 +59,24 @@ bool msgWnd_isScroll(MessageWnd *messageWnd);
 s32 msgWnd_getWidth(MessageWnd *messageWnd);
 s32 msgWnd_getHeight(MessageWnd *messageWnd);
 
+#define MSGWND_COLOR_BLACK   0
+#define MSGWND_COLOR_BLUE    1
+#define MSGWND_COLOR_GREEN   2
+#define MSGWND_COLOR_CYAN    3
+#define MSGWND_COLOR_ORANGE  4
+#define MSGWND_COLOR_MAGENTA 5
+#define MSGWND_COLOR_ORANGE2 6
+#define MSGWND_COLOR_WHITE   7
+
+#define MSGWND_COLOR_EXPAND0(color) #color
+#define MSGWND_COLOR_EXPAND1(color) MSGWND_COLOR_EXPAND0(color)
+#define MSGWND_COLOR(color)  MSGWND_COLOR_EXPAND1(MSGWND_COLOR_##color)
+
+#define MSG_W(time) "~w" #time
+#define MSG_H "~h"
+#define MSG_M "~m"
+#define MSG_NEWLINE "~n"
+#define MSG_END "~z"
+#define MSG_COLOR(color) "~" MSGWND_COLOR(color)
+
 #endif

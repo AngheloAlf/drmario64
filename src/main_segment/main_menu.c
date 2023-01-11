@@ -410,145 +410,446 @@ const u8 _timeAttack_levelTable[] = {
     0x00,
 };
 
-const char _mesP1[] = "This is the~none-player mode.~z";
+// clang-format off
+const char _mesP1[] =
+    "This is the" MSG_NEWLINE
+    "one-player mode." MSG_END;
 
-const char _mes2P[] = "This is the~ntwo-player mode.~z";
+const char _mes2P[] =
+    "This is the" MSG_NEWLINE
+    "two-player mode." MSG_END;
 
-const char _mes4P[] = "This is the~nmultiplayer mode~nfor up to~nfour players.~z";
+const char _mes4P[] =
+    "This is the" MSG_NEWLINE
+    "multiplayer mode" MSG_NEWLINE
+    "for up to" MSG_NEWLINE
+    "four players." MSG_END;
 
-const char _mesOpt[] = "Various setups~nand options are~navailable here.~z";
+const char _mesOpt[] =
+    "Various setups" MSG_NEWLINE
+    "and options are" MSG_NEWLINE
+    "available here." MSG_END;
 
 const char _mesSt[] =
-    "The thrilling tale~nof Dr. Mario and~nthe Cold Caper.~w2~hForce your foe to~nretire by sending~nthem "
-    "garbage~w2~hor destroy all~nof your own~nviruses to win.~w2~hOne more thing!~nPress any C Button~nduring game "
-    "play~nto see where the~w2~hcapsule will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+    "The thrilling tale" MSG_NEWLINE
+    "of Dr. Mario and" MSG_NEWLINE
+    "the Cold Caper." MSG_W(2) MSG_H
+    "Force your foe to" MSG_NEWLINE
+    "retire by sending" MSG_NEWLINE
+    "them garbage" MSG_W(2) MSG_H
+    "or destroy all" MSG_NEWLINE
+    "of your own" MSG_NEWLINE
+    "viruses to win." MSG_W(2) MSG_H
+    "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
 const char _mesLv[] =
-    "Continue playing~nuntil you fail~nto clear a stage.~w2~hDestroy all the~nviruses to clear~na stage.~w2~hThe "
-    "higher the~nlevel, the more~nviruses you have~nto destroy.~w2~hOne more thing!~nPress any C Button~nduring game "
-    "play~nto see where the~w2~hcapsule will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+    "Continue playing" MSG_NEWLINE
+    "until you fail" MSG_NEWLINE
+    "to clear a stage." MSG_W(2) MSG_H
+    "Destroy all the" MSG_NEWLINE
+    "viruses to clear" MSG_NEWLINE
+    "a stage." MSG_W(2) MSG_H
+    "The higher the" MSG_NEWLINE
+    "level, the more" MSG_NEWLINE
+    "viruses you have" MSG_NEWLINE
+    "to destroy." MSG_W(2)
+    MSG_H "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
-const char _mesVsCom[] = "This is your~nchance to play~nagainst the~ncomputer.~w2~hPlay against~nany character~nyou'd "
-                         "like.~w2~hForce your foe to~nretire by sending~nthem garbage~w2~hor destroy all~nof your "
-                         "own~nviruses to win.~w2~hOne more thing!~nPress any C Button~nduring game play~nto see where "
-                         "the~w2~hcapsule will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+const char _mesVsCom[] =
+    "This is your" MSG_NEWLINE
+    "chance to play" MSG_NEWLINE
+    "against the" MSG_NEWLINE
+    "computer." MSG_W(2) MSG_H
+    "Play against" MSG_NEWLINE
+    "any character" MSG_NEWLINE
+    "you'd like." MSG_W(2) MSG_H
+    "Force your foe to" MSG_NEWLINE
+    "retire by sending" MSG_NEWLINE
+    "them garbage" MSG_W(2) MSG_H
+    "or destroy all" MSG_NEWLINE
+    "of your own" MSG_NEWLINE
+    "viruses to win." MSG_W(2) MSG_H
+    "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
-const char _mesVcFlash[] = "Clear levels by~ndestroying the~nflashing viruses.~w2~hPlay against~nany character~nyou'd "
-                           "like.~w2~hForce your foe to~nretire by sending~nthem garbage~w2~hor destroy all~nof your "
-                           "own~nviruses to win.~w2~hOne more thing!~nPress any C Button~nduring game play~nto see "
-                           "where the~w2~hcapsule will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+const char _mesVcFlash[] =
+    "Clear levels by" MSG_NEWLINE
+    "destroying the" MSG_NEWLINE
+    "flashing viruses." MSG_W(2) MSG_H
+    "Play against" MSG_NEWLINE
+    "any character" MSG_NEWLINE
+    "you'd like." MSG_W(2) MSG_H
+    "Force your foe to" MSG_NEWLINE
+    "retire by sending" MSG_NEWLINE
+    "them garbage" MSG_W(2) MSG_H
+    "or destroy all" MSG_NEWLINE
+    "of your own" MSG_NEWLINE
+    "viruses to win." MSG_W(2) MSG_H
+    "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
 const char _mesLvTaiQ[] =
-    "Viruses multiply~nrapidly in this~nmode.~w2~hCompleting combos~nwill slow down~nthe speed of the~nvirus "
-    "growth.~w2~hDestroy the~nviruses to keep~nthe bottle clear.~w2~hPress the L Button~nto speed up "
-    "the~nmultiplication~nof the viruses.~w2~hOne more thing!~nPress any C Button~nduring game play~nto see where "
-    "the~w2~hcapsule will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+    "Viruses multiply" MSG_NEWLINE
+    "rapidly in this" MSG_NEWLINE
+    "mode." MSG_W(2) MSG_H
+    "Completing combos" MSG_NEWLINE
+    "will slow down" MSG_NEWLINE
+    "the speed of the" MSG_NEWLINE
+    "virus growth." MSG_W(2) MSG_H
+    "Destroy the" MSG_NEWLINE
+    "viruses to keep" MSG_NEWLINE
+    "the bottle clear." MSG_W(2) MSG_H
+    "Press the L Button" MSG_NEWLINE
+    "to speed up the" MSG_NEWLINE
+    "multiplication" MSG_NEWLINE
+    "of the viruses." MSG_W(2) MSG_H
+    "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
 const char _mesLvTimeAt[] =
-    "Try to get the~nhighest score~npossible in a set~namount of time.~w2~hAim for a high~nscore by~ndestroying "
-    "many~nviruses at once.~w2~hOne more thing!~nPress any C Button~nduring game play~nto see where the~w2~hcapsule "
-    "will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+    "Try to get the" MSG_NEWLINE
+    "highest score" MSG_NEWLINE
+    "possible in a set" MSG_NEWLINE
+    "amount of time." MSG_W(2) MSG_H
+    "Aim for a high" MSG_NEWLINE
+    "score by" MSG_NEWLINE
+    "destroying many" MSG_NEWLINE
+    "viruses at once." MSG_W(2) MSG_H
+    "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
 const char _mesNs1[] =
-    "Please input~nyour name.~w2~hPlease select NEW~nor GUEST if this~nis your first~ntime playing.~w2~h~z";
+    "Please input" MSG_NEWLINE
+    "your name." MSG_W(2) MSG_H
+    "Please select NEW" MSG_NEWLINE
+    "or GUEST if this" MSG_NEWLINE
+    "is your first" MSG_NEWLINE
+    "time playing." MSG_W(2) MSG_H MSG_END;
 
-const char _mesNs2[] = "Please input~nyour name.~z";
+const char _mesNs2[] =
+    "Please input" MSG_NEWLINE
+    "your name." MSG_END;
 
 const char _mesVsMan[] =
-    "Compete against~nanother player.~w2~hForce your foe to~nretire by sending~nthem garbage~w2~hor destroy all~nof "
-    "your own~nviruses to win.~w2~hOne more thing!~nPress any C Button~nduring game play~nto see where the~w2~hcapsule "
-    "will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+    "Compete against" MSG_NEWLINE
+    "another player." MSG_W(2) MSG_H
+    "Force your foe to" MSG_NEWLINE
+    "retire by sending" MSG_NEWLINE
+    "them garbage" MSG_W(2) MSG_H
+    "or destroy all" MSG_NEWLINE
+    "of your own" MSG_NEWLINE
+    "viruses to win." MSG_W(2) MSG_H
+    "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
-const char _mesVmFlash[] = "Clear levels~nby destroying the~nflashing viruses.~w2~hClear combos to~nsend garbage "
-                           "to~nyour opponent.~w2~hOne more thing!~nPress any C Button~nduring game play~nto see where "
-                           "the~w2~hcapsule will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+const char _mesVmFlash[] =
+    "Clear levels" MSG_NEWLINE
+    "by destroying the" MSG_NEWLINE
+    "flashing viruses." MSG_W(2) MSG_H
+    "Clear combos to" MSG_NEWLINE
+    "send garbage to" MSG_NEWLINE
+    "your opponent." MSG_W(2) MSG_H
+    "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
 const char _mesVmTimeAt[] =
-    "Try to get the~nhighest score~npossible in a set~namount of time.~w2~hAim for a high~nscore by~ndestroying "
-    "many~nviruses at once.~w2~hOne more thing!~nPress any C Button~nduring game play~nto see where the~w2~hcapsule "
-    "will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+    "Try to get the" MSG_NEWLINE
+    "highest score" MSG_NEWLINE
+    "possible in a set" MSG_NEWLINE
+    "amount of time." MSG_W(2) MSG_H
+    "Aim for a high" MSG_NEWLINE
+    "score by" MSG_NEWLINE
+    "destroying many" MSG_NEWLINE
+    "viruses at once." MSG_W(2) MSG_H
+    "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
-const char _mesVsNum[] = "How many players?~z";
+const char _mesVsNum[] =
+    "How many players?" MSG_END;
 
-const char _mesVs4P[] = "A four-player~nfree-for-all.~w2~hForce your foes to~nretire by sending~nthem garbage~w2~hor "
-                        "destroy all~nof your own~nviruses to win.~w2~hThe color of the~ncombos you clear~ndetermines "
-                        "where~nyour garbage goes.~w2~hOne more thing!~nPress any C Button~nduring game play~nto see "
-                        "where the~w2~hcapsule will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+const char _mesVs4P[] =
+    "A four-player" MSG_NEWLINE
+    "free-for-all." MSG_W(2) MSG_H
+    "Force your foes to" MSG_NEWLINE
+    "retire by sending" MSG_NEWLINE
+    "them garbage" MSG_W(2) MSG_H
+    "or destroy all" MSG_NEWLINE
+    "of your own" MSG_NEWLINE
+    "viruses to win." MSG_W(2) MSG_H
+    "The color of the" MSG_NEWLINE
+    "combos you clear" MSG_NEWLINE
+    "determines where" MSG_NEWLINE
+    "your garbage goes." MSG_W(2) MSG_H
+    "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
 const char _mes4PTag[] =
-    "A two-on-two~nbattle mode.~w2~hForce your foes to~nretire by sending~nthem garbage~w2~hor destroy all~nof your "
-    "own~nviruses to win.~w2~hThe color of the~ncombos you clear~ndetermines where~nyour garbage goes.~w2~hGarbage "
-    "sent to~nyour partner is~nplaced in your~w2~hteam bank. This~nis then added~nto later garbage~w2~hthat either you "
-    "or~nyour teammate sends~nto your foes.~w2~hOne more thing!~nPress any C Button~nduring game play~nto see where "
-    "the~w2~hcapsule will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+    "A two-on-two" MSG_NEWLINE
+    "battle mode." MSG_W(2) MSG_H
+    "Force your foes to" MSG_NEWLINE
+    "retire by sending" MSG_NEWLINE
+    "them garbage" MSG_W(2) MSG_H
+    "or destroy all" MSG_NEWLINE
+    "of your own" MSG_NEWLINE
+    "viruses to win." MSG_W(2) MSG_H
+    "The color of the" MSG_NEWLINE
+    "combos you clear" MSG_NEWLINE
+    "determines where" MSG_NEWLINE
+    "your garbage goes." MSG_W(2) MSG_H
+    "Garbage sent to" MSG_NEWLINE
+    "your partner is" MSG_NEWLINE
+    "placed in your" MSG_W(2) MSG_H
+    "team bank. This" MSG_NEWLINE
+    "is then added" MSG_NEWLINE
+    "to later garbage" MSG_W(2) MSG_H
+    "that either you or" MSG_NEWLINE
+    "your teammate sends" MSG_NEWLINE
+    "to your foes." MSG_W(2) MSG_H
+    "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
-const char _mes4PFlash[] = "Clear levels~nby destroying the~nflashing viruses.~w2~hYou can fill your~nrivals' "
-                           "screens~nwith garbage.~w2~hThe color of the~ncombos you clear~ndetermines where~nyour "
-                           "garbage goes.~w2~hOne more thing!~nPress any C Button~nduring game play~nto see where "
-                           "the~w2~hcapsule will land.~nPress the button~nagain to turn the~neffect OFF.~w2~h~z";
+const char _mes4PFlash[] =
+    "Clear levels" MSG_NEWLINE
+    "by destroying the" MSG_NEWLINE
+    "flashing viruses." MSG_W(2) MSG_H
+    "You can fill your" MSG_NEWLINE
+    "rivals' screens" MSG_NEWLINE
+    "with garbage." MSG_W(2) MSG_H
+    "The color of the" MSG_NEWLINE
+    "combos you clear" MSG_NEWLINE
+    "determines where" MSG_NEWLINE
+    "your garbage goes." MSG_W(2) MSG_H
+    "One more thing!" MSG_NEWLINE
+    "Press any C Button" MSG_NEWLINE
+    "during game play" MSG_NEWLINE
+    "to see where the" MSG_W(2) MSG_H
+    "capsule will land." MSG_NEWLINE
+    "Press the button" MSG_NEWLINE
+    "again to turn the" MSG_NEWLINE
+    "effect OFF." MSG_W(2) MSG_H MSG_END;
 
-const char _mesRec[] = "This is where~nyou view~ngame records.~z";
+const char _mesRec[] =
+    "This is where" MSG_NEWLINE
+    "you view" MSG_NEWLINE
+    "game records." MSG_END;
 
-const char _mesTutol[] = "This is where~nyou study rules~nand techniques.~z";
+const char _mesTutol[] =
+    "This is where" MSG_NEWLINE
+    "you study rules" MSG_NEWLINE
+    "and techniques." MSG_END;
 
-const char _mesName[] = "This is where~nyou change or~ndelete your name.~z";
+const char _mesName[] =
+    "This is where" MSG_NEWLINE
+    "you change or" MSG_NEWLINE
+    "delete your name." MSG_END;
 
-const char _mesVsCnt[] = "This is where you~nset the number of~ngames in a match.~z";
+const char _mesVsCnt[] =
+    "This is where you" MSG_NEWLINE
+    "set the number of" MSG_NEWLINE
+    "games in a match." MSG_END;
 
 const char _mesSnd[] =
-    "This is where you~nselect the~nsound settings.~w2~hYou can also~nlisten to game~nmusic and sounds.~w2~h~z";
+    "This is where you" MSG_NEWLINE
+    "select the" MSG_NEWLINE
+    "sound settings." MSG_W(2) MSG_H
+    "You can also" MSG_NEWLINE
+    "listen to game" MSG_NEWLINE
+    "music and sounds." MSG_W(2) MSG_H MSG_END;
 
-const char _mesBak[] = "This is where~nyou can delete~nall saved data.~z";
+const char _mesBak[] =
+    "This is where" MSG_NEWLINE
+    "you can delete" MSG_NEWLINE
+    "all saved data." MSG_END;
 
-const char _mesMisc[] = "This is where you~ncan set up other~ngame items.~z";
+const char _mesMisc[] =
+    "This is where you" MSG_NEWLINE
+    "can set up other" MSG_NEWLINE
+    "game items." MSG_END;
 
-const char _mesRecMs1[] = "Which records do~nyou want to view?~z";
+const char _mesRecMs1[] =
+    "Which records do" MSG_NEWLINE
+    "you want to view?" MSG_END;
 
-const char _mesRecMs2[] = "Which mode~nrecords do you~nwant to view?~z";
+const char _mesRecMs2[] =
+    "Which mode" MSG_NEWLINE
+    "records do you" MSG_NEWLINE
+    "want to view?" MSG_END;
 
-const char _mesRule1[] = "These are the~nbutton control~nexplanations.~z";
+const char _mesRule1[] =
+    "These are the" MSG_NEWLINE
+    "button control" MSG_NEWLINE
+    "explanations." MSG_END;
 
-const char _mesRule2[] = "This is an~nexplanation of~nbasic game play.~z";
+const char _mesRule2[] =
+    "This is an" MSG_NEWLINE
+    "explanation of" MSG_NEWLINE
+    "basic game play." MSG_END;
 
-const char _mesRule3[] = "These are~nexplanations of~nthe two-player~ngames.~z";
+const char _mesRule3[] =
+    "These are" MSG_NEWLINE
+    "explanations of" MSG_NEWLINE
+    "the two-player" MSG_NEWLINE
+    "games." MSG_END;
 
-const char _mesRule4[] = "These are~nexplanations of~nthe four-player~ngames.~z";
+const char _mesRule4[] =
+    "These are" MSG_NEWLINE
+    "explanations of" MSG_NEWLINE
+    "the four-player" MSG_NEWLINE
+    "games." MSG_END;
 
-const char _mesKotu[] = "Let me give~nyou some advice.~z";
+const char _mesKotu[] =
+    "Let me give" MSG_NEWLINE
+    "you some advice." MSG_END;
 
-const char _mesNameSel[] = "What are you~ngoing to do to~nthat file name?~z";
+const char _mesNameSel[] =
+    "What are you" MSG_NEWLINE
+    "going to do to" MSG_NEWLINE
+    "that file name?" MSG_END;
 
-const char _mesNameErase[] = "Delete that file~nname, and you~ndelete the game~ndata, too.~w2~hDo you really~nwant to "
-                             "delete~nthat file name?~w2~h~z";
+const char _mesNameErase[] =
+    "Delete that file" MSG_NEWLINE
+    "name, and you" MSG_NEWLINE
+    "delete the game" MSG_NEWLINE
+    "data, too." MSG_W(2) MSG_H
+    "Do you really" MSG_NEWLINE
+    "want to delete" MSG_NEWLINE
+    "that file name?" MSG_W(2) MSG_H MSG_END;
 
-const char _mesNameErase2[] = "The file name~nand game data~nhave been deleted.~z";
+const char _mesNameErase2[] =
+    "The file name" MSG_NEWLINE
+    "and game data" MSG_NEWLINE
+    "have been deleted." MSG_END;
 
-const char _mesVsCnt2[] = "Select the number~nof games to play~nin a match.~z";
+const char _mesVsCnt2[] =
+    "Select the number" MSG_NEWLINE
+    "of games to play" MSG_NEWLINE
+    "in a match." MSG_END;
 
-const char _mesSound[] = "Select with the~n+ Control Pad~nand confirm with~nthe A Button.~z";
+const char _mesSound[] =
+    "Select with the" MSG_NEWLINE
+    "+ Control Pad" MSG_NEWLINE
+    "and confirm with" MSG_NEWLINE
+    "the A Button." MSG_END;
 
-const char _mesStereo[] = "The music will~nplay in stereo.~z";
+const char _mesStereo[] =
+    "The music will" MSG_NEWLINE
+    "play in stereo." MSG_END;
 
-const char _mesMono[] = "The music will~nplay in mono.~z";
+const char _mesMono[] =
+    "The music will" MSG_NEWLINE
+    "play in mono." MSG_END;
 
 const char _mesDoErase[] =
-    "Delete all saved~ngame data at once.~w2~hDo you really~nwant to delete~nall of the~nsaved game data?~w2~h~z";
+    "Delete all saved" MSG_NEWLINE
+    "game data at once." MSG_W(2) MSG_H
+    "Do you really" MSG_NEWLINE
+    "want to delete" MSG_NEWLINE
+    "all of the" MSG_NEWLINE
+    "saved game data?" MSG_W(2) MSG_H MSG_END;
 
-const char _mesDoErase1[] = "All of the~nsaved game data~nhas been deleted.~z";
+const char _mesDoErase1[] =
+    "All of the" MSG_NEWLINE
+    "saved game data" MSG_NEWLINE
+    "has been deleted." MSG_END;
 
-const char _mesNoCont2[] = "Please power off and insert~nmore controllers.~z";
+const char _mesNoCont2[] =
+    "Please power off and insert" MSG_NEWLINE
+    "more controllers." MSG_END;
 
-const char _mesNoCont3[] = "Please power off and insert~nmore controllers.~z";
+const char _mesNoCont3[] =
+    "Please power off and insert" MSG_NEWLINE
+    "more controllers." MSG_END;
 
-const char _mesNoCont4[] = "Please power off and insert~nmore controllers.~z";
+const char _mesNoCont4[] =
+    "Please power off and insert" MSG_NEWLINE
+    "more controllers." MSG_END;
 
-const char _mesScore[] = "You can turn the~non-screen score~ndisplay ON or OFF.~z";
+const char _mesScore[] =
+    "You can turn the" MSG_NEWLINE
+    "on-screen score" MSG_NEWLINE
+    "display ON or OFF." MSG_END;
 
-const char _mesScoreOnOff[] = "Please choose a~nscore display~noption.~z";
+const char _mesScoreOnOff[] =
+    "Please choose a" MSG_NEWLINE
+    "score display" MSG_NEWLINE
+    "option." MSG_END;
 
-const char STR_800AF4C4[] = "Now saving.~nDo not turn power off.~z";
+const char STR_800AF4C4[] =
+    "Now saving." MSG_NEWLINE
+    "Do not turn power off." MSG_END;
 
-const char STR_800AF4EC[] = "Now deleting.~nDo not turn power off.~z";
+const char STR_800AF4EC[] =
+    "Now deleting." MSG_NEWLINE
+    "Do not turn power off." MSG_END;
+// clang-format on
 
 extern const u8 _gameLvItemColor[][2][4];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _gameLvItemColor);
@@ -1395,12 +1696,9 @@ void func_800492D8(MenuYN *yn, MenuItem *parentItem) {
     menuCursor_update(&yn->unk_418, &yn->unk_008);
 }
 
-const char RO_800AFB08[] = "Ｙｅｓ";
-const char RO_800AFB10[] = "Ｎｏ";
-
 const char *_yn_1767[] = {
-    RO_800AFB10, // No
-    RO_800AFB08, // Yes
+    "Ｎｏ",   // No
+    "Ｙｅｓ", // Yes
 };
 
 void menuYN_draw(MenuYN *yn, Gfx **gfxP) {

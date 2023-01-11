@@ -941,13 +941,19 @@ s32 fontStr_nextChar(const char *arg0) {
         if (arg0[0] == '~') {
             if (arg0[1] == 'z') {
                 var_v1 = 0;
+            } else if (arg0[1] == 'w') {
+                var_v1 = 3;
             } else {
-                var_v1 = (-(arg0[1] == 'w') & 3) | 2;
+                var_v1 = 2;
             }
         }
     } else {
+        char temp;
+
         var_v1 = 2;
-        if ((char)(arg0[0] + 0x5F) < 0x3F) {
+
+        temp = (arg0[0] + 0x5F);
+        if (temp < 0x3F) {
             var_v1 = 1;
         }
     }
