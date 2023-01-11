@@ -213,19 +213,20 @@ typedef struct MenuRank_unk_001C {
     /* 0x0 */ UNK_TYPE unk_0;
 } MenuRank_unk_001C; // size >= 0x4
 
-typedef struct MenuRank_unk_03BC {
-    /* 0x00 */ UNK_TYPE1 unk_00[0xC];
+typedef struct MenuRankLabel {
+    /* 0x00 */ UNK_TYPE1 unk_00[0x8];
+    /* 0x08 */ s32 unk_08;
     /* 0x0C */ MenuItem unk_0C;
-} MenuRank_unk_03BC; // size = 0x9C
+} MenuRankLabel; // size = 0x9C
 
-typedef struct MenuRank_unk_590_unk_0004 {
+typedef struct MenuRankHeader {
     /* 0x00 */ UNK_TYPE1 unk_00[0x4];
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ MenuItem unk_08;
-    /* 0x98 */ MenuRank_unk_03BC unk_98[UNK_SIZE];
-} MenuRank_unk_590_unk_0004; // size >= 0x134
+    /* 0x98 */ MenuRankLabel unk_98[UNK_SIZE];
+} MenuRankHeader; // size >= 0x134
 
-typedef struct menuRankFig_update_arg0 {
+typedef struct MenuRankFig {
     /* 0x00 */ UNK_TYPE1 unk_00[0x4];
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
@@ -239,40 +240,39 @@ typedef struct menuRankFig_update_arg0 {
     /* 0x28 */ UNK_TYPE1 unk_28[0xC];
     /* 0x34 */ s32 unk_34;
     /* 0x38 */ MenuItem unk_38;
-} menuRankFig_update_arg0; // size = 0xC8
+} MenuRankFig; // size = 0xC8
 
-typedef struct MenuRank_unk_590_unk_3A8_unk_008 {
+typedef struct MenuRankBase {
     /* 0x00 */ UNK_TYPE1 unk_00[0x4];
     /* 0x04 */ MenuItem unk_04;
-} MenuRank_unk_590_unk_3A8_unk_008; // size = 0x94
+} MenuRankBase; // size = 0x94
 
-typedef struct MenuRank_unk_590_unk_3A8_unk_09C {
+typedef struct MenuRankNum {
     /* 0x00 */ UNK_TYPE1 unk_00[0x8];
     /* 0x08 */ MenuItem unk_08;
-} MenuRank_unk_590_unk_3A8_unk_09C; // size = 0x98
+} MenuRankNum; // size = 0x98
 
-typedef struct MenuRank_unk_590_unk_3A8_unk_134 {
+typedef struct MenuRankName {
     /* 0x00 */ UNK_TYPE1 unk_00[0x8];
     /* 0x08 */ MenuItem unk_08;
-} MenuRank_unk_590_unk_3A8_unk_134; // size = 0x98
+} MenuRankName; // size = 0x98
 
-typedef struct MenuRank_unk_590_unk_3A8 {
+typedef struct MenuRankPanel {
     /* 0x000 */ UNK_TYPE1 unk_000[0x4];
     /* 0x004 */ s32 unk_004;
-    /* 0x008 */ MenuRank_unk_590_unk_3A8_unk_008 unk_008;
-    /* 0x09C */ MenuRank_unk_590_unk_3A8_unk_09C unk_09C;
-    /* 0x134 */ MenuRank_unk_590_unk_3A8_unk_134 unk_134;
-    /* 0x1CC */ menuRankFig_update_arg0 unk_1CC;
-    /* 0x294 */ menuRankFig_update_arg0 unk_294;
-    /* 0x35C */ menuRankFig_update_arg0 unk_35C;
-} MenuRank_unk_590_unk_3A8; // size = 0x424
+    /* 0x008 */ MenuRankBase unk_008;
+    /* 0x09C */ MenuRankNum unk_09C;
+    /* 0x134 */ MenuRankName unk_134;
+    /* 0x1CC */ MenuRankFig unk_1CC;
+    /* 0x294 */ MenuRankFig unk_294;
+    /* 0x35C */ MenuRankFig unk_35C;
+} MenuRankPanel; // size = 0x424
 
 typedef struct MenuRank_unk_590 {
     /* 0x0000 */ s32 unk_0000;
-    /* 0x0004 */ MenuRank_unk_590_unk_0004 unk_0004;
+    /* 0x0004 */ MenuRankHeader unk_0004;
     /* 0x0138 */ UNK_TYPE1 unk_0138[0x270];
-    /* 0x03A8 */ MenuRank_unk_590_unk_3A8 unk_3A8[UNK_SIZE];
-    /* 0x07CC */ UNK_TYPE1 unk_07CC[0x1CFC];
+    /* 0x03A8 */ MenuRankPanel unk_3A8[8];
 } MenuRank_unk_590; // size = 0x24C8
 
 #define MENUMAINPANEL_UNK_LEN (6)
@@ -370,7 +370,7 @@ typedef struct MenuMain {
     /* 0x17B4 */ MenuNameOpPanel unk_17B4;
     /* 0x1C64 */ MenuSndSelPanel unk_1C64;
     /* 0x2300 */ s32 unk_2300;
-    /* 0x2304 */ s32 unk_2304;
+    /* 0x2304 */ const char *unk_2304;
     /* 0x2308 */ MessageWnd unk_2308;
     /* 0x2388 */ MenuItem unk_2388;
     /* 0x2418 */ MenuItem unk_2418;
@@ -447,9 +447,9 @@ typedef struct MenuRank {
     /* 0x017C */ MenuItem unk_017C;
     /* 0x020C */ MenuItem unk_020C[2];
     /* 0x032C */ MenuItem unk_032C;
-    /* 0x03BC */ MenuRank_unk_03BC unk_03BC;
-    /* 0x0458 */ MenuRank_unk_03BC unk_0458;
-    /* 0x04F4 */ MenuRank_unk_03BC unk_04F4;
+    /* 0x03BC */ MenuRankLabel unk_03BC;
+    /* 0x0458 */ MenuRankLabel unk_0458;
+    /* 0x04F4 */ MenuRankLabel unk_04F4;
     /* 0x0590 */ MenuRank_unk_590 unk_590[2];
     /* 0x4F20 */ UNK_TYPE1 unk_4F20[0x2684];
 } MenuRank; // size <= 0x75A4
