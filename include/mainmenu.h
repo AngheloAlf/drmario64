@@ -7,6 +7,7 @@
 #include "color.h"
 #include "unk.h"
 #include "msgwnd.h"
+#include "char_anime.h"
 
 
 struct MenuItem;
@@ -356,7 +357,37 @@ typedef struct MenuMes {
 } MenuMes; // size >= 0x3D4
 
 typedef struct MenuPlay2Panel {
-    /* 0x0000 */ UNK_TYPE1 unk_0000[0x1920];
+    /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x0004 */ s32 unk_0004;
+    /* 0x0008 */ s32 unk_0008;
+    /* 0x000C */ s32 unk_000C;
+    /* 0x0010 */ s32 unk_0010;
+    /* 0x0014 */ s32 unk_0014;
+    /* 0x0018 */ s32 unk_0018;
+    /* 0x001C */ s32 unk_001C;
+    /* 0x0020 */ CharAnimeMode unk_0020;
+    /* 0x0024 */ s32 unk_0024;
+    /* 0x0028 */ s32 unk_0028;
+    /* 0x002C */ void *unk_002C;
+    /* 0x0030 */ union {
+                    u32 w;
+                    struct {
+                        u32 bit_31 : 1;
+                    } b;
+                } unk_0030;
+    ///* 0x0034 */ UNK_TYPE1 unk_0034[0x18EC];
+    /* 0x0034 */ MenuItem unk_0034;
+    /* 0x00C4 */ MenuItem unk_00C4;
+    /* 0x0154 */ MenuItem unk_0154;
+    /* 0x01E4 */ MenuNumber unk_01E4;
+    /* 0x0290 */ MenuLvGauge unk_0290;
+    /* 0x0590 */ MenuSpeedAsk unk_0590;
+    /* 0x062C */ MenuSpeedItem unk_062C;
+    /* 0x0C90 */ UNK_TYPE1 unk_0C90[0x40];
+    /* 0x0CD0 */ MenuItem unk_0CD0;
+    /* 0x0D60 */ MenuCursor unk_0D60[2];
+    /* 0x1220 */ MenuSpeedAsk unk_1220;
+    /* 0x12BC */ MenuSpeedItem unk_12BC;
 } MenuPlay2Panel; // size = 0x1920
 
 typedef struct MenuPlay2PanelSub {
