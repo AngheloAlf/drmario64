@@ -433,7 +433,7 @@ void menuSndSelPanel_init(MenuSndSelPanel *sndSelPanel, struct_watchMenu *watchM
 void func_8004CFB8(MenuSndSelPanel *sndSelPanel, MenuItem *parentItem);
 void menuSndSelPanel_draw(MenuSndSelPanel *sndSelPanel, Gfx **gfxP);
 // void func_8004D258();
-// void func_8004D2A0();
+void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **, s32, s32, s32, s32, bool, s32, s32, s32, s32, s32);
 // void func_8004D6DC();
 // void func_8004D734();
 // void func_8004D828();
@@ -441,7 +441,7 @@ void menuSndSelPanel_draw(MenuSndSelPanel *sndSelPanel, Gfx **gfxP);
 // void func_8004DD14();
 // void func_8004E270();
 // void func_8004E2B4();
-// void func_8004E2F4();
+void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **, s32, s32, s32, s32);
 // void func_8004E4F4();
 // void func_8004E764();
 // void func_8004E8E0();
@@ -480,8 +480,8 @@ void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *arg1, struct_watchMe
 void menuChSel_input(MenuChSel *menuChSel);
 void menuChSel_update(MenuChSel *menuChSel);
 void menuChSel_draw(MenuChSel *menuChSel, Gfx **gfxP);
-// void func_80054A94();
-void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2);
+void func_80054A94(MenuPlay2 *menuPlay2, s32, s32);
+void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
 void func_800550F4(MenuPlay2 *menuPlay2);
 // void func_80055154();
 // void func_800551BC();

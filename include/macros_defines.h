@@ -60,4 +60,8 @@
 #define ALL_BUTTONS (A_BUTTON | B_BUTTON | L_TRIG | R_TRIG | Z_TRIG | START_BUTTON | U_JPAD | L_JPAD | R_JPAD | D_JPAD | U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS)
 
 
+
+#define saved_reg_s5 0
+
+
 #endif

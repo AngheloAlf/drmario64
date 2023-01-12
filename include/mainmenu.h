@@ -355,6 +355,16 @@ typedef struct MenuMes {
     /* 0x174 */ MenuCursor unk_174;
 } MenuMes; // size >= 0x3D4
 
+typedef struct MenuPlay2Panel {
+    /* 0x0000 */ UNK_TYPE1 unk_0000[0x1920];
+} MenuPlay2Panel; // size = 0x1920
+
+typedef struct MenuPlay2PanelSub {
+    /* 0x0 */ UNK_TYPE1 unk_0[0x4];
+} MenuPlay2PanelSub; // size >= 0x4
+
+
+
 
 typedef struct MenuMain {
     /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
@@ -423,8 +433,18 @@ typedef struct MenuLvSel {
 } MenuLvSel; // size <= 0x75A4
 
 typedef struct MenuPlay2 {
-    /* 0x0000 */ UNK_TYPE1 unk_0000[0x75A4];
-} MenuPlay2; // size <= 0x75A4
+    /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x0004 */ s32 unk_0004;
+    /* 0x0008 */ s32 unk_0008;
+    /* 0x000C */ s32 unk_000C;
+    /* 0x0010 */ s32 unk_0010[4];
+    /* 0x0020 */ s32 unk_0020;
+    /* 0x0024 */ s32 unk_0024[4];
+    /* 0x0034 */ MenuItem unk_0034;
+    /* 0x00C4 */ s32 unk_00C4;
+    /* 0x00C8 */ MenuPlay2Panel unk_00C8[4];
+    /* 0x6548 */ MenuPlay2PanelSub unk_6548;
+} MenuPlay2; // size >= 0x654C && size <= 0x75A4
 
 typedef struct MenuChSel {
     /* 0x0000 */ UNK_TYPE1 unk_0000[0x75A4];
