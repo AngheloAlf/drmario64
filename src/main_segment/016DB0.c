@@ -14,7 +14,7 @@ void func_80040A00(void *arg0 UNUSED) {
         struct_800EA290_unk_11EC *sp10;
 
         osRecvMesg(&ptr->mq, (OSMesg *)&sp10, OS_MESG_BLOCK);
-        sp10->unk_0(sp10->unk_4);
+        sp10->callback(sp10->arg);
         ptr->unk_1240--;
     }
 }
@@ -39,15 +39,15 @@ void func_80040AE4(void) {
     D_8008E5D0 = 0;
 }
 
-void func_80040B10(void (*callback)(s32), s32 arg) {
+void func_80040B10(struct_800EA290_unk_11EC_callback callback, void *arg) {
     struct_800EA290 *ptr = &B_800EA290;
     struct_800EA290_unk_11EC *temp_a2_2;
 
     ptr->unk_1240++;
     temp_a2_2 = &ptr->unk_11EC[ptr->unk_123C];
     ptr->unk_123C = (ptr->unk_123C + 1) % ARRAY_COUNT(ptr->unk_11EC);
-    temp_a2_2->unk_0 = callback;
-    temp_a2_2->unk_4 = arg;
+    temp_a2_2->callback = callback;
+    temp_a2_2->arg = arg;
     osSendMesg(&ptr->mq, temp_a2_2, OS_MESG_BLOCK);
 }
 

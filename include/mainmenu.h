@@ -372,10 +372,10 @@ typedef struct MenuPlay2Panel {
     /* 0x0030 */ union {
                     u32 w;
                     struct {
-                        u32 bit_31 : 1;
+                        bool bit_31 : 1;
+                        bool bit_30 : 1;
                     } b;
                 } unk_0030;
-    ///* 0x0034 */ UNK_TYPE1 unk_0034[0x18EC];
     /* 0x0034 */ MenuItem unk_0034;
     /* 0x00C4 */ MenuItem unk_00C4;
     /* 0x0154 */ MenuItem unk_0154;
@@ -383,7 +383,7 @@ typedef struct MenuPlay2Panel {
     /* 0x0290 */ MenuLvGauge unk_0290;
     /* 0x0590 */ MenuSpeedAsk unk_0590;
     /* 0x062C */ MenuSpeedItem unk_062C;
-    /* 0x0C90 */ UNK_TYPE1 unk_0C90[0x40];
+    /* 0x0C90 */ AnimeState unk_0C90;
     /* 0x0CD0 */ MenuItem unk_0CD0;
     /* 0x0D60 */ MenuCursor unk_0D60[2];
     /* 0x1220 */ MenuSpeedAsk unk_1220;

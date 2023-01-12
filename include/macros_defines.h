@@ -28,6 +28,9 @@
 
 #if defined(_MSC_VER)
 #  define UNREACHABLE __assume(0)
+#elif __GNUC__== 2 && __GNUC_MINOR__ == 7
+// KMC
+#  define UNREACHABLE
 #elif defined(__GNUC__) || defined(__clang__)
 #  define UNREACHABLE __builtin_unreachable()
 #else

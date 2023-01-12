@@ -244,7 +244,7 @@ void func_80040A00(void *arg0);
 s32 func_80040A58(void);
 void func_80040A64(void);
 void func_80040AE4(void);
-void func_80040B10(void (*callback)(s32), s32 arg);
+void func_80040B10(struct_800EA290_unk_11EC_callback callback, void* arg);
 s32 func_80040BA4(void);
 
 void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
@@ -432,8 +432,8 @@ void menuSndSelPanel_init(MenuSndSelPanel *sndSelPanel, struct_watchMenu *watchM
 // void func_8004CE48();
 void func_8004CFB8(MenuSndSelPanel *sndSelPanel, MenuItem *parentItem);
 void menuSndSelPanel_draw(MenuSndSelPanel *sndSelPanel, Gfx **gfxP);
-void func_8004D258(s32);
-void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **, s32, s32, s32, s32, bool, s32, s32, s32, s32, s32);
+void func_8004D258(MenuPlay2Panel *arg);
+void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, bool arg7, CharAnimeMode arg8, s32 arg9, s32 argA, s32 argB, s32 argC);
 // void func_8004D6DC();
 // void func_8004D734();
 // void func_8004D828();
@@ -710,7 +710,7 @@ bool bottom_up_bottle_items(GameMapGrid *mapGrid);
 void add_taiQ_bonus_wait(struct_game_state_data *arg0);
 // void countLeadingZeros();
 // void dm_game_eep_write_callback();
-void func_80064940(s32);
+void func_80064940(void*);
 bool func_8006498C(s32 arg0, s32 arg1, s32 arg2);
 void dm_save_all(void);
 // void func_80064E4C();

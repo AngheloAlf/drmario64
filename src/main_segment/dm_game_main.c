@@ -1171,7 +1171,7 @@ void dm_save_all(void) {
             break;
     }
 
-    func_80040B10(func_80064940, 0);
+    func_80040B10(func_80064940, NULL);
 }
 
 void func_80064E4C(struct_game_state_data *arg0) {

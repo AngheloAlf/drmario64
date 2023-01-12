@@ -73,9 +73,11 @@ typedef struct struct_8005FC6C_arg0 {
     /* 0x00C */ UNK_TYPE1 UNK_00C[0x2E8];
 } struct_8005FC6C_arg0; // size = 0x2F4
 
+typedef void (*struct_800EA290_unk_11EC_callback)(void*);
+
 typedef struct struct_800EA290_unk_11EC {
-    /* 0x0 */ void (*unk_0)(s32);
-    /* 0x4 */ s32 unk_4;
+    /* 0x0 */ struct_800EA290_unk_11EC_callback callback;
+    /* 0x4 */ void *arg;
 } struct_800EA290_unk_11EC; // size = 0x8
 
 typedef struct struct_800EA290 {
@@ -473,7 +475,7 @@ typedef struct struct_game_state_data {
     /* 0x04E */ u8 unk_04E;
     /* 0x04F */ u8 unk_04F;
     /* 0x050 */ u16 unk_050[0x10][2];
-    /* 0x090 */ s32 unk_090; // CharAnimeMode?
+    /* 0x090 */ CharAnimeMode unk_090;
     /* 0x094 */ AnimeState unk_094;
     /* 0x0D4 */ struct_80123700_unk_0D4 unk_0D4;
     /* 0x140 */ struct_80123700_unk_140 unk_140;
