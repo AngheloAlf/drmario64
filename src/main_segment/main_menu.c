@@ -267,7 +267,12 @@ void func_800466B8(MenuItem *item, f32 arg0, f32 arg1) {
     item->unk_6C[1][0] = arg0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800466D0);
+void func_800466D0(MenuItem *item) {
+    item->colorCallback = colorFunc_cursor;
+    item->unk_68 = 0.03125f;
+    func_800466A0(item, 0.5f, 1.0f);
+    func_800466B8(item, 1.0f, 1.0f);
+}
 
 void func_80046734(MenuItem *item, f32 arg0, f32 arg1, f32 arg2) {
     f32 sp10[] = { arg0, arg1, arg2 };
@@ -2932,29 +2937,65 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004DA40);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004DD14);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004E270);
+void func_8004E270(MenuPlay2PanelSub *play2PanelSub, s32 arg1, f32 arg2) {
+    play2PanelSub->unk_010.unk_14 = arg2;
+    play2PanelSub->unk_010.unk_18 = 0.05f;
+    play2PanelSub->unk_010.unk_1C[1] = play2PanelSub->unk_010.unk_24[1] - 240.0f;
+    func_8004655C(&play2PanelSub->unk_010, arg1);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004E2B4);
-
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuPlay2PanelSub_init);
-
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004E4F4);
-
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004E764);
-
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004E8E0);
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFE2C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFE58);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEA8);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEB0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEB8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFECC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFED0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEDC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEE0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEE4);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFEE8);
+
+extern const s32 _bgCursor_4920[][2];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _bgCursor_4920);
+
+extern const s32 _cursor_4921[][4];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _cursor_4921);
+
+void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *watchMenuRef,
+                            struct_watchMenu_unk_02470 **arg2 UNUSED, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    s32 i;
+
+    play2PanelSub->watchMenuRef = watchMenuRef;
+    play2PanelSub->unk_004 = 0;
+    play2PanelSub->unk_008 = 0;
+    play2PanelSub->unk_00C = -1;
+
+    menuItem_init(&play2PanelSub->unk_010, arg5, arg6);
+    menuMusicItem_init(&play2PanelSub->unk_0A0, watchMenuRef, arg4, 0x46, 9);
+
+    func_8004A860(&play2PanelSub->unk_940, watchMenuRef, 1, 2, arg3, 0x60, 0x28);
+    func_80046688(&play2PanelSub->unk_940.unk_1C, 0.875f, 0.9375f);
+    func_80046694(&play2PanelSub->unk_940.unk_1C, 0.875f, 0.9375f);
+    menuItem_init(&play2PanelSub->unk_9EC, 0x9C, 0x30);
+
+    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_B9C); i++) {
+        menuItem_init(&play2PanelSub->unk_A7C[i], _bgCursor_4920[i][0], _bgCursor_4920[i][1]);
+        func_800466D0(&play2PanelSub->unk_A7C[i]);
+    }
+
+    play2PanelSub->unk_A7C[1].unk_40[0] = -play2PanelSub->unk_A7C[1].unk_40[0];
+    play2PanelSub->unk_A7C[1].unk_48[0] = -play2PanelSub->unk_A7C[1].unk_48[0];
+
+    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_B9C); i++) {
+        func_800479A8(&play2PanelSub->unk_B9C[i], watchMenuRef, 0, 0, _cursor_4921[i][0], _cursor_4921[i][1],
+                      _cursor_4921[i][2], _cursor_4921[i][3]);
+    }
+
+    func_8004E270(play2PanelSub, -1, 0.0f);
+}
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004E4F4);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004E764);
+
+INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004E8E0);
 
 MainMenuMode _menuMain_lastMode = MAINMENUMODE_MENUMAIN_0;
 
@@ -5584,16 +5625,6 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0D84);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0D94);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0D9C);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0DA0);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0DAC);
-
-extern const s32 _onaji_8534[][2];
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _onaji_8534);
-
-extern const s32 _panel2_8535[][2];
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _panel2_8535);
-
-extern const s32 _panel4_8536[][2];
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _panel4_8536);
 
 #if 0
 ? func_80046614(s8 *, s32);
@@ -5710,7 +5741,32 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuChSel_update);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuChSel_draw);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80054A94);
+const s32 _moveTbl_8521[] = {
+    0x140,
+    -0x140,
+};
+
+void func_80054A94(MenuPlay2 *menuPlay2, s32 arg1, f32 arg2) {
+    s32 i;
+
+    for (i = 0; i < menuPlay2->unk_00C4; i++) {
+        MenuPlay2Panel *temp_a0 = &menuPlay2->unk_00C8[i];
+
+        temp_a0->unk_0034.unk_1C[0] = temp_a0->unk_0034.unk_24[0] + _moveTbl_8521[i % ARRAY_COUNTU(_moveTbl_8521)];
+        temp_a0->unk_0034.unk_18 = 0.05f;
+        temp_a0->unk_0034.unk_14 = arg2;
+        func_8004655C(&temp_a0->unk_0034, arg1);
+    }
+}
+
+extern const s32 _onaji_8534[][2];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _onaji_8534);
+
+extern const s32 _panel2_8535[][2];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _panel2_8535);
+
+extern const s32 _panel4_8536[][2];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _panel4_8536);
 
 void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2) {
     struct_800EF560_unk_B4 *temp_s0;
@@ -5856,19 +5912,17 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, struct
     func_80054A94(menuPlay2, 1, 0);
 }
 
-#if 0
 void func_800550F4(MenuPlay2 *menuPlay2) {
-    if (_getKeyTrg(menuPlay2->unk_0, 0) & 0x4000) {
-        menuPlay2->unk_4 = 2;
-        menuPlay2->unk_6550 = 0;
-        _setFadeDir(menuPlay2->unk_0, -1);
-        _setNextMain(menuPlay2->unk_0, MAIN_NO_6);
+    u16 keyTrg = _getKeyTrg(menuPlay2->watchMenuRef, 0);
+
+    if (keyTrg & B_BUTTON) {
+        menuPlay2->unk_0004 = 2;
+        menuPlay2->unk_6548.unk_008 = 0;
+        _setFadeDir(menuPlay2->watchMenuRef, -1);
+        _setNextMain(menuPlay2->watchMenuRef, MAIN_NO_6);
         dm_snd_play(SND_INDEX_68);
     }
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800550F4);
-#endif
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80055154);
 
