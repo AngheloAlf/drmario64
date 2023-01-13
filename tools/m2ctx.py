@@ -33,8 +33,8 @@ CPP_FLAGS = [
     "-ffreestanding",
     "-DM2CTX",
     "-DNON_MATCHING",
-    "-DosInitialize=__osInitialize_common",
-    "-D__STDC_VERSION__=198900L",
+    "-D_OS_HOST_H_",
+    "-std=gnu89",
 ]
 
 def import_c_file(in_file) -> str:

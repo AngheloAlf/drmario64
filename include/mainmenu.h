@@ -178,7 +178,7 @@ typedef struct MenuSpeedItem {
     /* 0x000 */ struct struct_watchMenu *unk_000;
     /* 0x004 */ s32 unk_004;
     /* 0x008 */ s32 unk_008;
-    /* 0x00C */ s32 unk_00C;
+    /* 0x00C */ bool unk_00C;
     /* 0x010 */ s32 unk_010;
     /* 0x014 */ MenuItem unk_014;
     /* 0x0A4 */ MenuItem unk_0A4[3];
