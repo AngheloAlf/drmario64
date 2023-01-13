@@ -44,10 +44,11 @@ typedef struct AnimeSeq_unk_0C {
 typedef struct AnimeState_unk_1C_unk_4 {
     /* 0x0 */ u16 unk_0;
     /* 0x2 */ u16 unk_2;
-} AnimeState_unk_1C_unk_4; // size >= 0x4
+    /* 0x4 */ u16 unk_4;
+} AnimeState_unk_1C_unk_4; // size >= 0x8
 
 typedef struct AnimeState_unk_1C_unk_0 {
-    /* 0x0 */ UNK_TYPE1 unk_0[0x4];
+    /* 0x0 */ UNK_TYPE4 unk_0;
     /* 0x4 */ UNK_TYPE4 unk_4;
 } AnimeState_unk_1C_unk_0; // size >= 0x8
 
@@ -103,7 +104,7 @@ bool animeState_isEnd(AnimeState *animeState);
 void animeState_initDL(AnimeState *animeState, Gfx **gfxP);
 void animeState_initDL2(AnimeState *animeState, Gfx **gfxP);
 void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP);
-void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32, f32, f32, f32);
+void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 /*arg2*/, f32 /*arg3*/, f32 /*arg4*/, f32 /*arg5*/);
 void StretchTexTile4i(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
 void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig);
 void animeSmog_load(AnimeSmog *animeSmog, UNK_PTR *arg1);

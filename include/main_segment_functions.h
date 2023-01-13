@@ -280,7 +280,7 @@ void func_80043BEC(StretchTexTile_arg0 *arg0);
 void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9, s32 argA, f32 argB, f32 argC, f32 argD, f32 argE);
 // void func_80043F18();
 // void func_80044058();
-// void func_80044238();
+void StretchTexTile4(Gfx **gfxP, u16, u16, s32, s32, s32, s32, s32, s32, f32, f32, f32, f32);
 // void func_800443F4();
 void StretchTexTile8(Gfx **gfxP, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3, UNK_TYPE arg4, UNK_TYPE arg5, UNK_TYPE arg6, UNK_TYPE arg7, UNK_TYPE arg8, f32 arg9, f32 argA, f32 argB, f32 argC);
 // void RectTexTile8();

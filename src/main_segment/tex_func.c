@@ -478,7 +478,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80043F18);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80044058);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80044238);
+INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", StretchTexTile4);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_800443F4);
 

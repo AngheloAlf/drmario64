@@ -279,7 +279,52 @@ void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
 /**
  * Original name: animeState_draw
  */
-INCLUDE_ASM("asm/nonmatchings/main_segment/char_anime", animeState_draw);
+void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
+    Gfx *gfx = *gfxP;
+    AnimeState_unk_1C *temp_a3;
+    AnimeState_unk_1C *temp_t0;
+    f32 temp_ft0;
+    f32 var_fv0_2;
+
+    if (animeState->animeSeq.unk_18 < 0) {
+        return;
+    }
+
+    temp_t0 = animeState->unk_1C;
+    temp_a3 = &temp_t0[animeState->animeSeq.unk_18];
+    if (arg4 < 0.0f) {
+        temp_ft0 = arg2 - (animeState->unk_24.unk_0 - temp_a3->unk_4->unk_0) * arg4;
+    } else {
+        temp_ft0 = arg2 - animeState->unk_24.unk_0 * arg4;
+    }
+
+    if (arg5 < 0.0f) {
+        var_fv0_2 = (animeState->unk_24.unk_4 - temp_a3->unk_4->unk_2) * arg5;
+    } else {
+        var_fv0_2 = animeState->unk_24.unk_4 * arg5;
+    }
+
+    arg3 -= var_fv0_2;
+    if (animeState->animeMode == CHARANIMEMODE_MARIO) {
+        arg3 -= (temp_a3->unk_4->unk_2 - 0x40) * arg5;
+    }
+
+    switch (temp_a3->unk_4->unk_4) {
+        case 0x4:
+            StretchTexTile4(&gfx, temp_a3->unk_4->unk_0, temp_a3->unk_4->unk_2, temp_t0[0].unk_0->unk_0,
+                            temp_a3->unk_0->unk_4, 0, 0, temp_a3->unk_4->unk_0, temp_a3->unk_4->unk_2, temp_ft0, arg3,
+                            temp_a3->unk_4->unk_0 * arg4, temp_a3->unk_4->unk_2 * arg5);
+            break;
+
+        case 0x8:
+            StretchTexTile8(&gfx, temp_a3->unk_4->unk_0, temp_a3->unk_4->unk_2, temp_t0[0].unk_0->unk_0,
+                            temp_a3->unk_0->unk_4, 0, 0, temp_a3->unk_4->unk_0, temp_a3->unk_4->unk_2, temp_ft0, arg3,
+                            temp_a3->unk_4->unk_0 * arg4, temp_a3->unk_4->unk_2 * arg5);
+            break;
+    }
+
+    *gfxP = gfx;
+}
 
 #ifdef NON_MATCHING
 // float regalloc

@@ -311,7 +311,7 @@ mes_3_15 - found 2 matches total:
 
 StretchTexTile8 - found 2 matches total:
 1.00 - RectTexTile8
-0.99 - func_80044238
+0.99 - StretchTexTile4
 
 func_80045E94 - found 2 matches total:
 0.99 - func_80046008
