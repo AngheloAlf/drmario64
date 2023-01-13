@@ -169,7 +169,7 @@ func_80059DB4 - found 15 matches total:
 0.99 - _getTexLevel
 0.99 - _getTexMain
 0.99 - _getTexName
-0.99 - func_80059D54
+0.99 - _getTexP2
 0.99 - _getTexP4
 0.99 - _getTexRank
 0.99 - _getTexSetup

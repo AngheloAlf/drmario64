@@ -13,3 +13,6 @@ rom:0x03037C symbol:_type_1345 reloc:MIPS_LO16 addend:-0x10
 
 rom:0x0377F8 symbol:mes_5577 reloc:MIPS_HI16 addend:-0x4
 rom:0x037800 symbol:mes_5577 reloc:MIPS_LO16 addend:-0x4
+
+rom:0x035F28 symbol:_type_4602 reloc:MIPS_HI16 addend:-0x10
+rom:0x035F2C symbol:_type_4602 reloc:MIPS_LO16 addend:-0x10
