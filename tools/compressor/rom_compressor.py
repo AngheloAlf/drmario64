@@ -17,7 +17,9 @@ DEBUGGING = False
 def printDebug(*args, **kwargs):
     if not DEBUGGING:
         return
+    kwargs["flush"] = True
     print(*args, **kwargs)
+
 
 def align(value: int, n: int) -> int:
     return (((value) + ((n)-1)) & ~((n)-1))
@@ -60,7 +62,7 @@ def romCompressorMain():
 
     segmentOffsets: dict[str, tuple[int, int]] = {}
     relsOffetsToApply = {}
-    romOffsetValues = {}
+    romOffsetValues: dict[str, int] = {}
 
     elfFile = spimdisasm.elf32.Elf32File(elfBytearray)
     with outPath.open("wb") as outRom:
@@ -120,6 +122,13 @@ def romCompressorMain():
                     printDebug(f"Segment {sectionEntryName} is at offset 0x{offset:06X} and has a size of 0x{entry.size:06X} (ends at offset 0x{offset+entry.size:06X}).")
                     spimdisasm.common.Utils.eprint(f"Compressing...\n")
                     compressedBytearray = compression_common.compressZlib(segmentBytearray)
+
+                    # with open(f"{sectionEntryName}.bin", "wb") as compressedBinFile:
+                    #     compressedBinFile.write(compressedBytearray)
+
+                # Align to a 0x10 boundary
+                while len(compressedBytearray) % 0x10 != 0:
+                    compressedBytearray.append(0)
 
                 outRom.write(compressedBytearray)
 
