@@ -113,18 +113,19 @@ OPTFLAGS        := -O2
 MIPS_VERSION    := -mips3
 CFLAGS          += -nostdinc -G 0 -mgp32 -mfp32 -fno-common -funsigned-char
 WARNINGS        := -w
-ASFLAGS         := -march=vr4300 -32
+ASFLAGS         := -march=vr4300 -32 -G0
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
 GBI_DEFINES     := -DF3DEX_GBI_2
 RELEASE_DEFINES := -DNDEBUG -D_FINALROM
 AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
 C_DEFINES       := -D_LANGUAGE_C
+ENDIAN          := -EB
 
 # Use relocations and abi fpr names in the dump
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32 -Mno-aliases
 
 ifneq ($(OBJDUMP_BUILD), 0)
-	OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.s)
+	OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
 	OBJCOPY_BIN = $(OBJCOPY) -O binary $@ $@.bin
 else
 	OBJDUMP_CMD = @:
@@ -253,12 +254,12 @@ $(BUILD_DIR)/%.o: %.bin
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/%.o: %.s
-	$(CPP) $(CPPFLAGS) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | $(ICONV) --to-code=Shift-JIS | $(AS) $(ASFLAGS) $(IINC) -I $(dir $*) -o $@
+	$(CPP) $(CPPFLAGS) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | $(ICONV) --to-code=Shift-JIS | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -o $@
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
 	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
-	$(ICONV) --to-code=Shift-JIS  $< | $(CC) -x c -c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -o $@ -
+	$(ICONV) --to-code=Shift-JIS  $< | $(CC) -x c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -c -o $@ -
 	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)
