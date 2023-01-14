@@ -64,10 +64,13 @@
 
 
 
+#define saved_reg_s0 0
+#define saved_reg_s1 0
 #define saved_reg_s2 0
 #define saved_reg_s3 0
 #define saved_reg_s4 0
 #define saved_reg_s5 0
+#define saved_reg_s6 0
 
 
 #endif

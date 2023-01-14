@@ -271,7 +271,7 @@ _getVtxPtr - found 2 matches total:
 
 func_8004A160 - found 2 matches total:
 0.99 - func_80048FA0
-0.99 - func_8004A780
+0.99 - menuMusicItem_draw2
 
 D_800AFBB0 - found 2 matches total:
 0.99 - D_8008CFF8 (decompiled)

@@ -964,11 +964,23 @@ void menuCursor_update(MenuCursor *cursor, MenuItem *arg1) {
     func_800464BC(&cursor->unk_1D0, &cursor->unk_020);
 }
 
-#if 0
-extern ? _menuCursor_cursor_4_pattern;
-extern ? _pnts_1106;
+typedef struct struct__pnts_1106 {
+    /* 0x00 */ UNK_TYPE4 unk_00;
+    /* 0x04 */ UNK_TYPE4 unk_04;
+    /* 0x08 */ UNK_TYPE4 unk_08;
+    /* 0x0C */ UNK_TYPE4 unk_0C;
+    /* 0x10 */ UNK_TYPE4 unk_10;
+    /* 0x14 */ UNK_TYPE4 unk_14;
+    /* 0x18 */ UNK_TYPE4 unk_18;
+    /* 0x1C */ UNK_TYPE4 unk_1C;
+} struct__pnts_1106; // size = 0x20
 
-void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
+extern const struct__pnts_1106 _pnts_1106[];
+extern const s32 _menuCursor_cursor_4_pattern[];
+
+#if 0
+// there's an unknown struct array in the stack
+void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
     s32 sp10;
     s32 sp14;
     s32 sp18;
@@ -987,11 +999,11 @@ void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
     s32 sp54;
     s32 sp58;
     Gfx *sp60;
-    void **sp6C;
+    MenuCursor **sp6C;
     s32 sp74;
     Gfx **sp7C;
     s32 sp84;
-    void **spB4;
+    MenuCursor **spB4;
     Gfx *temp_a0;
     Gfx *temp_a0_3;
     Gfx *temp_a1_3;
@@ -1002,7 +1014,10 @@ void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
     Gfx *temp_v0;
     Gfx *temp_v1;
     Gfx *temp_v1_7;
+    MenuCursor **var_t4;
+    MenuCursor *temp_s1;
     MenuItem *temp_s2;
+    TiTexDataEntry *var_s6;
     f32 temp_fv1;
     f32 temp_fv1_2;
     s16 temp_a0_8;
@@ -1034,7 +1049,6 @@ void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
     s32 var_s0;
     s32 var_s0_2;
     s32 var_s5;
-    s32 var_s6;
     s32 var_s7;
     s32 var_v0;
     s32 var_v0_2;
@@ -1044,26 +1058,25 @@ void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
     s32 var_v1_2;
     s32 var_v1_3;
     s32 var_v1_4;
+    const struct__pnts_1106 *temp_t1;
+    u16 *temp_a1;
+    u16 *temp_v0_8;
+    u16 *temp_v1_3;
     u16 temp_v1_2;
     u32 temp_a0_2;
     u32 var_a0;
     u32 var_s4;
-    void **var_t4;
-    void *temp_a1;
-    void *temp_s1;
-    void *temp_t1;
-    void *temp_v0_8;
-    void *temp_v1_3;
 
     var_s0 = saved_reg_s0;
     var_s5 = saved_reg_s5;
     var_s6 = saved_reg_s6;
-    sp74 = arg1;
-    sp6C = arg0;
-    sp7C = arg2;
+    sp74 = count;
+    sp6C = cursorArr;
+    sp7C = gxfP;
     var_s4 = 0;
     temp_v1 = *sp7C;
     sp60 = temp_v1 + 8;
+#if 0
     temp_v1->words.w0 = 0xDE000000;
     temp_v1->words.w1 = (u32) fade_normal_texture_init_dl;
     sp60 = temp_v1 + 0x10;
@@ -1072,6 +1085,7 @@ void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
     sp60 = temp_v1 + 0x18;
     temp_v1->unk_10 = 0xE3001001;
     temp_v1->unk_14 = 0;
+#endif
     var_v0 = 0U < 9U;
     do {
         if (var_v0 != 0) {
@@ -1115,16 +1129,16 @@ void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
             spB4 = sp6C;
             do {
                 temp_s1 = *spB4;
-                temp_s2 = temp_s1 + 0xB0;
-                if (temp_s1->unk_1C < 0) {
+                temp_s2 = &temp_s1->unk_0B0;
+                if ((s32) temp_s1->unk_01C.w < 0) {
                     var_t4 = spB4 + 4;
-                    if (var_s4 == temp_s1->unk_4) {
-                        if (menuItem_outOfScreen(temp_s2, temp_s1->unk_14, temp_s1->unk_18) == false) {
+                    if (var_s4 == temp_s1->unk_004) {
+                        if (menuItem_outOfScreen(temp_s2, temp_s1->unk_014, temp_s1->unk_018) == false) {
                             if (var_s4 == 3) {
-                                if (!(temp_s1->unk_1C & 0x10000000)) {
+                                if (!(temp_s1->unk_01C.w & 0x10000000)) {
                                     var_s0 = 3;
                                 } else {
-                                    var_s0 = *(&_menuCursor_cursor_4_pattern + ((s32) (temp_s1->unk_114 * 29.0f) * 4)) + 3;
+                                    var_s0 = _menuCursor_cursor_4_pattern[(s32) (temp_s1->unk_0B0.unk_64 * 29.0f)] + 3;
                                 }
                                 if (var_s0 != sp84) {
                                     sp84 = var_s0;
@@ -1133,27 +1147,31 @@ void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
                             }
                             if (var_s7 == 0) {
                                 temp_a0 = sp60;
-                                var_s6 = _getTexCommon(temp_s1->unk_0, var_s0);
+                                var_s6 = _getTexCommon(temp_s1->unk_000, var_s0);
+#if 0
                                 temp_a0->words.w0 = 0xFD900000;
                                 temp_a0->unk_8 = 0xF5900000;
                                 temp_a0->unk_10 = 0xE6000000;
                                 temp_a0->unk_C = 0x07080200;
                                 temp_a0->unk_14 = 0;
                                 temp_a0->unk_18 = 0xF3000000;
-                                temp_a0->words.w1 = var_s6->unk_0->unk_4;
+                                temp_a0->words.w1 = (u32) var_s6->unk_0->unk_4;
+#endif
                                 temp_a1 = var_s6->unk_4;
                                 sp60 = temp_a0 + 8;
                                 sp60 = temp_a0 + 0x10;
                                 temp_v0 = temp_a0 + 0x18;
                                 sp60 = temp_v0;
                                 sp60 = temp_a0 + 0x20;
+#if 0
                                 temp_v1_2 = temp_a1->unk_0;
+#endif
                                 var_a2 = 0x800;
                                 temp_a0_2 = temp_v1_2 >> 4;
                                 if (temp_a0_2 != 0) {
                                     var_a2 = temp_a0_2 + 0x7FF;
                                 }
-                                var_v1 = ((s32) ((temp_v1_2 * temp_a1->unk_2) + 3) >> 2) - 1;
+                                var_v1 = ((s32) ((temp_v1_2 * temp_a1[1]) + 3) >> 2) - 1;
                                 if (var_v1 >= 0x800) {
                                     var_v1 = 0x7FF;
                                 }
@@ -1168,20 +1186,24 @@ void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
                                 temp_a0_3->words.w1 = 0;
                                 sp60 = temp_a0_3 + 8;
                                 sp60 = temp_a0_3 + 0x10;
+#if 0
                                 temp_a0_3->unk_C = 0x80200;
                                 temp_a0_3->unk_10 = 0xF2000000;
                                 temp_a0_3->unk_8 = (s32) (((((s32) (((u16) var_s6->unk_4->unk_0 >> 1) + 7) >> 3) & 0x1FF) << 9) | 0xF5800000);
+#endif
                                 temp_v1_3 = var_s6->unk_4;
                                 sp60 = temp_a0_3 + 0x18;
                                 var_s7 += 1;
+#if 0
                                 temp_a0_3->unk_14 = (s32) (((((temp_v1_3->unk_0 - 1) * 4) & 0xFFF) << 0xC) | (((temp_v1_3->unk_2 - 1) * 4) & 0xFFF));
+#endif
                             }
                             func_80046844(temp_s2, &sp60);
                             if (var_s4 == 3) {
                                 sp10 = (s32) ((temp_s2->unk_0C[0] * 4.0f) - (f32) (var_s5 * 2));
-                                var_v1_2 = temp_s1->unk_14 + var_s5;
+                                var_v1_2 = temp_s1->unk_014 + var_s5;
                             } else {
-                                var_v1_2 = temp_s1->unk_14;
+                                var_v1_2 = temp_s1->unk_014;
                                 sp10 = (s32) (temp_s2->unk_0C[0] * 4.0f);
                             }
                             var_s0_2 = var_s5;
@@ -1199,9 +1221,9 @@ void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
                             sp18 = temp_a0_5 - (s32) (temp_s2->unk_30[0] * 4.0f * temp_fv1);
                             if (var_s4 == 3) {
                                 sp20 = (s32) ((temp_s2->unk_0C[1] * 4.0f) - (f32) (var_s5 * 2));
-                                var_v1_3 = temp_s1->unk_18 + var_s5;
+                                var_v1_3 = temp_s1->unk_018 + var_s5;
                             } else {
-                                var_v1_3 = temp_s1->unk_18;
+                                var_v1_3 = temp_s1->unk_018;
                                 sp20 = (s32) (temp_s2->unk_0C[1] * 4.0f);
                             }
                             var_s0 = var_s5;
@@ -1223,20 +1245,20 @@ void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
                             if ((s32) var_s4 < 4) {
                                 var_s0 = 0;
                                 do {
-                                    temp_t1 = (var_s0 << 5) + &_pnts_1106;
+                                    temp_t1 = &_pnts_1106[var_s0];
                                     temp_a3 = sp60;
-                                    temp_v0_2 = &(&sp10)[temp_t1->unk_8];
+                                    temp_v0_2 = &(&sp10)[temp_t1->unk_08];
                                     temp_t0 = temp_a3 + 8;
                                     sp60 = temp_t0;
-                                    temp_v0_3 = &(&sp10)[temp_t1->unk_C];
+                                    temp_v0_3 = &(&sp10)[temp_t1->unk_0C];
                                     temp_a3->words.w0 = ((temp_v0_2->unk_0 & ((s32) ~temp_v0_2->unk_2 >> 0x1F) & 0xFFF) << 0xC) | ((temp_v0_3->unk_10 & ((s32) ~temp_v0_3->unk_12 >> 0x1F) & 0xFFF) | 0xE4000000);
-                                    temp_v1_4 = &(&sp10)[temp_t1->unk_0];
-                                    temp_v0_4 = &(&sp10)[temp_t1->unk_4];
+                                    temp_v1_4 = &(&sp10)[temp_t1->unk_00];
+                                    temp_v0_4 = &(&sp10)[temp_t1->unk_04];
                                     temp_a3->unk_8 = 0xE1000000;
                                     temp_a3->words.w1 = ((temp_v1_4->unk_0 & ((s32) ~temp_v1_4->unk_2 >> 0x1F) & 0xFFF) << 0xC) | (temp_v0_4->unk_10 & ((s32) ~temp_v0_4->unk_12 >> 0x1F) & 0xFFF);
                                     sp60 = temp_a3 + 0x10;
                                     temp_a2 = (&sp10)[temp_t1->unk_14].unk_30;
-                                    temp_a0_8 = (&sp10)[temp_t1->unk_0].unk_2;
+                                    temp_a0_8 = (&sp10)[temp_t1->unk_00].unk_2;
                                     temp_a1_2 = (&sp10)[temp_t1->unk_10].unk_20;
                                     if (temp_a0_8 >= 0) {
                                         var_a1 = temp_a1_2 << 0x10;
@@ -1251,7 +1273,7 @@ void menuCursor_draw1(void **arg0, s32 arg1, Gfx **arg2) {
                                         }
                                         var_a1 = (temp_a1_2 - (var_v1_4 & var_v0_3)) << 0x10;
                                     }
-                                    temp_a0_9 = (&sp10)[temp_t1->unk_4].unk_10;
+                                    temp_a0_9 = (&sp10)[temp_t1->unk_04].unk_10;
                                     var_v0_4 = temp_a2 & 0xFFFF;
                                     if (temp_a0_9 < 0) {
                                         temp_v1_5 = (&sp10)[temp_t1->unk_1C].unk_42;
@@ -1325,82 +1347,65 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", jtbl_800AF828);
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuCursor_draw1);
 #endif
 
+extern const s32 _type_1345[][4];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _type_1345);
 
 /**
  * Original name: menuCursor_draw2
  */
-#if 0
-s32 func_8004714C(void *, void **, TiTexDataEntry *, TiTexDataEntry *, s32, s32, s32);
-s32 menuItem_drawAlphaTex(void *, void **, s32, s32, s32);
-extern ? D_800AF83C;
-
-void menuCursor_draw2(void **arg0, s32 arg1, void **arg2) {
-    void *sp20;
-    void **sp2C;
-    TiTexDataEntry *temp_s1_2;
-    s32 temp_s1;
-    s32 temp_v0;
-    s32 temp_v1_2;
+#ifdef NON_MATCHING
+void menuCursor_draw2(MenuCursor *cursorArr[], s32 count, Gfx **gxfP) {
+    Gfx *gfx = *gxfP;
+    MenuCursor *temp_s0_2;
+    TiTexDataEntry *temp_s1;
     s32 var_s2;
     s32 var_s3;
     s32 var_s4_2;
     s32 var_v0;
-    void **var_s4;
-    void **var_s5;
-    void *temp_s0;
-    void *temp_s0_2;
-    void *temp_v1;
 
-    sp2C = arg2;
-    temp_v1 = *arg2;
+    gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
+
     var_s3 = 0;
-    var_s2 = 0;
-    sp20 = temp_v1 + 8;
-    temp_v1->unk_0 = 0xDE000000;
-    temp_v1->unk_4 = fade_alpha_texture_init_dl;
-    if (arg1 > 0) {
-        var_s4 = arg0;
-        do {
-            temp_s0 = *var_s4;
-            if (temp_s0->unk_1C & 0x40000000) {
-                temp_s1 = _getTexCommon(temp_s0->unk_0, 1);
-                var_s3 += menuItem_drawAlphaTex(temp_s0 + 0x140, &sp20, temp_s1, _getTexCommon(temp_s0->unk_0, 0), var_s3);
-            }
-            var_s2 += 1;
-            var_s4 += 4;
-        } while (var_s2 < arg1);
-        var_s2 = 0;
-        var_s3 = 0;
-    }
-    do {
-        var_s4_2 = 0;
-        if (arg1 > 0) {
-            var_s5 = arg0;
-            do {
-                temp_s0_2 = *var_s5;
-                temp_v0 = temp_s0_2->unk_10;
-                if ((temp_v0 != 1) || (temp_v1_2 = temp_s0_2->unk_8, (temp_v1_2 != temp_v0)) || (var_v0 = 0xA, (temp_s0_2->unk_C != temp_v1_2))) {
-                    var_v0 = *((temp_s0_2->unk_10 * 4) + ((temp_s0_2->unk_8 * 0x10) + &D_800AF83C));
-                }
-                if ((((((u32) temp_s0_2->unk_1C >> 0x1D) ^ 1) & 1) | (var_s2 != var_v0)) == 0) {
-                    temp_s1_2 = _getTexSetup(temp_s0_2->unk_0, 8);
-                    var_s3 += func_8004714C(temp_s0_2 + 0x1D0, &sp20, temp_s1_2, _getTexSetup(temp_s0_2->unk_0, 1), var_s3, 0xB, var_s2);
-                }
-                var_s4_2 += 1;
-                var_s5 += 4;
-            } while (var_s4_2 < arg1);
+
+    for (var_s2 = 0; var_s2 < count; var_s2++) {
+        temp_s0_2 = cursorArr[var_s2];
+        if (temp_s0_2->unk_01C.b.unk_30) {
+            temp_s1 = _getTexCommon(temp_s0_2->unk_000, 1);
+            var_s3 +=
+                menuItem_drawAlphaTex(&temp_s0_2->unk_140, &gfx, temp_s1, _getTexCommon(temp_s0_2->unk_000, 0), var_s3);
         }
-        var_s2 += 1;
+    }
+
+    for (var_s2 = 0; var_s2 < 0xB; var_s2++) {
         var_s3 = 0;
-    } while (var_s2 < 0xB);
-    *sp2C = sp20;
+
+        for (var_s4_2 = 0; var_s4_2 < count; var_s4_2++) {
+            temp_s0_2 = cursorArr[var_s4_2];
+            if ((temp_s0_2->unk_010 != 1) || (temp_s0_2->unk_008 != temp_s0_2->unk_010) ||
+                (temp_s0_2->unk_00C != temp_s0_2->unk_008)) {
+                var_v0 = _type_1345[temp_s0_2->unk_008 - 1][temp_s0_2->unk_010];
+            } else {
+                var_v0 = 0xA;
+            }
+
+            if (((!temp_s0_2->unk_01C.b.unk_29) | (var_s2 != var_v0)) == 0) {
+                temp_s1 = _getTexSetup(temp_s0_2->unk_000, 8);
+                var_s3 += func_8004714C(&temp_s0_2->unk_1D0, &gfx, temp_s1, _getTexSetup(temp_s0_2->unk_000, 1), var_s3,
+                                        0xB, var_s2);
+            }
+        }
+    }
+
+    *gxfP = gfx;
 }
 #else
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuCursor_draw2);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80048634);
+void func_80048634(MenuCursor *cursorArr[], s32 count, Gfx **gxfP) {
+    menuCursor_draw1(cursorArr, count, gxfP);
+    menuCursor_draw2(cursorArr, count, gxfP);
+}
 
 void func_80048680(MenuBottle *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3) {
     arg0->unk_000 = arg1;
@@ -1414,8 +1419,7 @@ void func_800486C8(MenuBottle *arg0, MenuItem *arg1) {
     func_800464BC(&arg0->unk_98, &arg0->unk_08);
 }
 
-extern u16 cap_pos_1442[][0xD];
-
+extern const u16 cap_pos_1442[][0xD];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", cap_pos_1442);
 
 #if 0
@@ -2147,11 +2151,47 @@ void menuMusicItem_update(MenuMusicItem *arg0, MenuItem *arg1) {
     menuCursor_update(&arg0->unk_640, &arg0->unk_0A0[arg0->unk_004]);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuMusicItem_draw1);
+void menuMusicItem_draw1(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP) {
+    Gfx *gfx = *gxfP;
+    s32 i;
+    s32 j;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A780);
+    gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004A814);
+    for (j = 0; j < ARRAY_COUNTU((*musicItemArr)->unk_370); j++) {
+        s32 var_s3 = 0;
+
+        for (i = 0; i < count; i++) {
+            MenuMusicItem *musicItem = musicItemArr[i];
+            MenuItem *item = &musicItem->unk_370[j];
+
+            var_s3 += menuItem_drawTex(item, &gfx, _getTexSetup(musicItem->unk_000, j + 0x1B), var_s3);
+        }
+    }
+
+    *gxfP = gfx;
+}
+
+void menuMusicItem_draw2(MenuMusicItem **musicItemArr, s32 count, Gfx **gxfP) {
+    Gfx *gfx = *gxfP;
+    MenuCursor *arr[count];
+    s32 i;
+
+    for (i = 0; i < count; i++) {
+        MenuMusicItem *musicItem = musicItemArr[i];
+
+        arr[i] = &musicItem->unk_640;
+    }
+
+    func_80048634(arr, count, &gfx);
+
+    *gxfP = gfx;
+}
+
+void func_8004A814(MenuMusicItem *musicItemArr[], s32 arg1, Gfx **gfxP) {
+    menuMusicItem_draw1(musicItemArr, arg1, gfxP);
+    menuMusicItem_draw2(musicItemArr, arg1, gfxP);
+}
 
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFBB0);
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800AFBD8);
@@ -3282,7 +3322,60 @@ void menuPlay2PanelSub_update(MenuPlay2PanelSub *play2PanelSub, MenuItem *parent
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuPlay2PanelSub_draw);
+void menuPlay2PanelSub_draw(MenuPlay2PanelSub *play2PanelSub, Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
+    void *arr[2 * 4];
+    MenuItem *temp_s1;
+    TiTexDataEntry *temp_s2;
+    s32 var_s4;
+    s32 i;
+    f32 temp_fs0;
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
+    temp_s2 = _getTexSetup(play2PanelSub->watchMenuRef, 0x12);
+    menuItem_drawTex(&play2PanelSub->unk_010, &gfx, temp_s2, 0);
+
+    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_B9C); i++) {
+        arr[i] = &play2PanelSub->unk_B9C[i];
+    }
+    func_80048634((void *)arr, ARRAY_COUNTU(play2PanelSub->unk_B9C), &gfx);
+
+    arr[0] = &play2PanelSub->unk_0A0;
+    func_8004A814((void *)arr, 1, &gfx);
+    arr[0] = &play2PanelSub->unk_940;
+    menuNumber_draw((void *)arr, 1, &gfx);
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
+    func_80046844(&play2PanelSub->unk_9EC, &gfx);
+    gfxSetScissor(&gfx, 2, play2PanelSub->unk_010.unk_0C[0] + play2PanelSub->unk_9EC.unk_24[0] - 16.0f,
+                  play2PanelSub->unk_010.unk_0C[1] + play2PanelSub->unk_9EC.unk_24[1], 0x68, 0x24);
+
+    temp_s2 = _getTexSetup(play2PanelSub->watchMenuRef, 0xE);
+    temp_fs0 = play2PanelSub->unk_9EC.unk_0C[0];
+    play2PanelSub->unk_9EC.unk_0C[0] += (play2PanelSub->unk_00C * 0x48);
+
+    temp_s1 = &play2PanelSub->unk_9EC;
+    for (i = 0; i < 4; i++) {
+        func_80046F58(temp_s1, &gfx, temp_s2, 0, 0xA,
+                      WrapI(0, 0xA, (play2PanelSub->unk_940.unk_0C + play2PanelSub->unk_00C + i) - 1));
+        temp_s1->unk_0C[0] += 72.0f;
+    }
+
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+    temp_s1->unk_0C[0] = temp_fs0;
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
+    temp_s2 = _getTexSetup(play2PanelSub->watchMenuRef, 0x10);
+
+    var_s4 = 0;
+    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_A7C); i++) {
+        var_s4 += menuItem_drawTex(&play2PanelSub->unk_A7C[i], &gfx, temp_s2, var_s4);
+    }
+
+    *gfxP = gfx;
+}
 
 MainMenuMode _menuMain_lastMode = MAINMENUMODE_MENUMAIN_0;
 
@@ -5866,7 +5959,7 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
 
     func_80048634(dumb.sp2C, ARRAY_COUNTU(dumb.sp2C), &gfx);
 
-    func_8004A780(dumb.sp18, ARRAY_COUNTU(dumb.sp18), &gfx);
+    menuMusicItem_draw2(dumb.sp18, ARRAY_COUNTU(dumb.sp18), &gfx);
     func_8004A160(dumb.sp20, ARRAY_COUNTU(dumb.sp20), &gfx);
 
     switch (menuLvSel->unk_0004) {

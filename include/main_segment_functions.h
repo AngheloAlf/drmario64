@@ -335,7 +335,7 @@ s32 func_80046C74(MenuItem *item, Gfx **gfxP, TiTexDataEntry *arg2, s32 arg3, f3
 s32 menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, TiTexDataEntry *, TiTexDataEntry *, s32);
 UNK_RET func_80046F58(MenuItem *item, Gfx **gfxP, TiTexDataEntry *, s32, s32, s32);
 // void func_80047074();
-// void func_8004714C();
+s32 func_8004714C(MenuItem *item, Gfx **gxfP, TiTexDataEntry *arg2, TiTexDataEntry *arg3, s32 arg4, s32 arg5, s32 arg6);
 // void func_800472D0();
 void func_80047420(UNK_TYPE *arg0, MainMenuMode arg1);
 void func_800474EC(UNK_TYPE *arg0, struct_watchMenu *arg1, UNK_TYPE arg2, UNK_TYPE arg3);
@@ -348,9 +348,9 @@ void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *arg1, u32 arg2, s32 
 void func_800479A8(MenuCursor *cursor, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
                    s32 arg7);
 void menuCursor_update(MenuCursor *cursor, MenuItem *arg1);
-// void menuCursor_draw1();
-// void menuCursor_draw2();
-UNK_RET func_80048634(MenuCursor *cursorP[], s32, Gfx **gxfP);
+void menuCursor_draw1(MenuCursor *cursorArr[], s32 count, Gfx **gxfP);
+void menuCursor_draw2(MenuCursor *cursorArr[], s32 count, Gfx **gxfP);
+void func_80048634(MenuCursor *cursorArr[], s32 /*count*/, Gfx **gxfP);
 void func_80048680(MenuBottle *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3);
 void func_800486C8(MenuBottle *arg0, MenuItem *arg1);
 void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP);
@@ -389,9 +389,9 @@ void menuMusicItem_init(MenuMusicItem *arg0, struct_watchMenu *arg1, s32 arg2, s
                         s32 arg4);
 void menuMusicItem_input(MenuMusicItem *arg0, s32 arg1);
 void menuMusicItem_update(MenuMusicItem *arg0, MenuItem *arg1);
-UNK_RET menuMusicItem_draw1(MenuMusicItem *musicItemP[], s32, Gfx **gxfP);
-UNK_RET func_8004A780(MenuMusicItem *musicItemP[], s32, Gfx **gxfP);
-// void func_8004A814();
+void menuMusicItem_draw1(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP);
+void menuMusicItem_draw2(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP);
+void func_8004A814(MenuMusicItem *musicItemArr[], s32 /*arg1*/, Gfx **gfxP);
 void func_8004A860(MenuNumber *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4,
                    s32 arg5, s32 arg6);
 void menuNumber_update(MenuNumber *arg0, MenuItem *arg1);
