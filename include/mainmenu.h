@@ -404,9 +404,9 @@ typedef struct MenuPlay2PanelSub {
 } MenuPlay2PanelSub; // size = 0x105C
 
 
-typedef struct MenuChSel_unk_1274 {
+typedef struct MenuComLvPanel {
     /* 0x000 */ UNK_TYPE1 unk_000[0x128];
-} MenuChSel_unk_1274; // size = 0x128
+} MenuComLvPanel; // size = 0x128
 
 
 
@@ -500,28 +500,23 @@ typedef struct MenuPlay2 {
 typedef struct MenuChSel {
     /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x0004 */ s32 unk_0004;
-    /* 0x0008 */ s32 unk_0008[UNK_SIZE];
-    /* 0x000C */ UNK_TYPE1 unk_000C[0xC];
-    /* 0x0018 */ s32 unk_0018[UNK_SIZE];
-    /* 0x001C */ UNK_TYPE1 unk_001C[0xC];
+    /* 0x0008 */ s32 unk_0008[4];
+    /* 0x0018 */ s32 unk_0018[4];
     /* 0x0028 */ s32 unk_0028;
     /* 0x002C */ s32 unk_002C;
     /* 0x0030 */ s32 unk_0030;
     /* 0x0034 */ s32 unk_0034;
     /* 0x0038 */ s32 unk_0038;
     /* 0x003C */ s32 unk_003C;
-    /* 0x0040 */ s32 unk_0040[UNK_SIZE];
-    /* 0x0044 */ UNK_TYPE1 unk_0044[0xC];
-    /* 0x0050 */ s32 unk_0050[UNK_SIZE];
-    /* 0x0054 */ UNK_TYPE1 unk_0054[0xC];
+    /* 0x0040 */ s32 unk_0040[4];
+    /* 0x0050 */ s32 unk_0050[4];
     /* 0x0060 */ s32 unk_0060;
-    /* 0x0064 */ s32 unk_0064[UNK_SIZE];
-    /* 0x0068 */ UNK_TYPE1 unk_0068[0xC];
+    /* 0x0064 */ s32 unk_0064[4];
     /* 0x0074 */ MenuItem unk_0074;
     /* 0x0104 */ MenuItem unk_0104;
     /* 0x0194 */ MenuItem unk_0194[15];
     /* 0x0A04 */ MenuItem unk_0A04[15];
-    /* 0x1274 */ MenuChSel_unk_1274 unk_1274[15];
+    /* 0x1274 */ MenuComLvPanel unk_1274[15];
     /* 0x23CC */ MenuCursor unk_23CC[4];
     /* 0x2D4C */
 } MenuChSel; // size >= 0x2D4C <= 0x75A4

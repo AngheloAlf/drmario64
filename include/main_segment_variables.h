@@ -39,7 +39,7 @@ extern s8 evs_score_flag;
 extern s8 evs_story_flg;
 extern s8 evs_story_no;
 extern s8 evs_story_level;
-extern s8 evs_secret_flg[2];
+extern u8 evs_secret_flg[2];
 extern u8 evs_one_game_flg; // maybe part of a struct?
 extern u8 evs_level_21; /* Original name: evs_level_21 */
 #ifndef M2CTX
