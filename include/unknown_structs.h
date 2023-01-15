@@ -311,10 +311,10 @@ typedef struct struct_8002A51C_arg1 {
 
 
 typedef struct struct_800EF560_unk_B4 {
-    /* 0x00 */ UNK_TYPE1 unk_00;
-    /* 0x01 */ UNK_TYPE1 unk_01;
-    /* 0x02 */ UNK_TYPE1 unk_02;
-    /* 0x03 */ UNK_TYPE1 unk_03;
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ u8 unk_02;
+    /* 0x03 */ u8 unk_03;
     /* 0x04 */ u8 unk_04;
     /* 0x05 */ u8 unk_05;
     /* 0x06 */ u8 unk_06;

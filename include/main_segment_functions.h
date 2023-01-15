@@ -338,23 +338,23 @@ UNK_RET func_80046F58(MenuItem *item, Gfx **gfxP, TiTexDataEntry *, s32, s32, s3
 s32 func_8004714C(MenuItem *item, Gfx **gxfP, TiTexDataEntry *arg2, TiTexDataEntry *arg3, s32 arg4, s32 arg5, s32 arg6);
 // void func_800472D0();
 void func_80047420(UNK_TYPE *arg0, MainMenuMode arg1);
-void func_800474EC(UNK_TYPE *arg0, struct_watchMenu *arg1, UNK_TYPE arg2, UNK_TYPE arg3);
+void func_800474EC(UNK_TYPE *arg0, struct_watchMenu *watchMenuRef, UNK_TYPE arg2, UNK_TYPE arg3);
 void func_80047584(UNK_TYPE *arg0, MenuItem *arg1);
 void menuTitle_draw(UNK_TYPE *arg0, Gfx **gfxP);
 void func_80047720(MenuCursor *cursor, s32 arg1, s32 arg2);
 void func_800477BC(MenuCursor *cursor, s32 arg1, s32 arg2);
-void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *arg1, u32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
+void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
                       s32 arg7, s32 arg8, s32 arg9);
-void func_800479A8(MenuCursor *cursor, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
+void func_800479A8(MenuCursor *cursor, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
                    s32 arg7);
 void menuCursor_update(MenuCursor *cursor, MenuItem *arg1);
 void menuCursor_draw1(MenuCursor *cursorArr[], s32 count, Gfx **gxfP);
 void menuCursor_draw2(MenuCursor *cursorArr[], s32 count, Gfx **gxfP);
 void func_80048634(MenuCursor *cursorArr[], s32 /*count*/, Gfx **gxfP);
-void func_80048680(MenuBottle *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3);
-void func_800486C8(MenuBottle *arg0, MenuItem *arg1);
+void func_80048680(MenuBottle *bottle, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3);
+void func_800486C8(MenuBottle *bottle, MenuItem *arg1);
 void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP);
-void func_80048B8C(MenuLvGauge *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4,
+void func_80048B8C(MenuLvGauge *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4,
                    s32 arg5, s32 arg6);
 void func_80048C48(MenuLvGauge *arg0, s32 arg1);
 void func_80048CC8(MenuLvGauge *arg0, MenuItem *arg1);
@@ -374,7 +374,7 @@ void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, struct_watchMenu
 // void func_8004970C();
 void func_80049754(MenuMes *mes, MenuItem *parentItem);
 void func_800497D0(MenuMes *mes, Gfx **gfxP);
-void func_80049894(MenuSpeedAsk *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4,
+void func_80049894(MenuSpeedAsk *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4,
                    s32 arg5);
 void func_800498C4(MenuSpeedAsk *arg0, MenuItem *arg1);
 UNK_RET menuSpeedAsk_draw(MenuSpeedAsk *speedAskP[], s32, Gfx **gxfP);
@@ -385,14 +385,14 @@ void menuSpeedItem_update(MenuSpeedItem *arg0, MenuItem *arg1);
 void menuSpeedItem_draw1(MenuSpeedItem **speedItemP, s32 count, Gfx **gfxP);
 UNK_RET func_8004A160(MenuSpeedItem *speedItemP[], s32, Gfx **gxfP);
 // void func_8004A1F4();
-void menuMusicItem_init(MenuMusicItem *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3,
+void menuMusicItem_init(MenuMusicItem *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3,
                         s32 arg4);
 void menuMusicItem_input(MenuMusicItem *arg0, s32 arg1);
 void menuMusicItem_update(MenuMusicItem *arg0, MenuItem *arg1);
 void menuMusicItem_draw1(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP);
 void menuMusicItem_draw2(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP);
 void func_8004A814(MenuMusicItem *musicItemArr[], s32 /*arg1*/, Gfx **gfxP);
-void func_8004A860(MenuNumber *arg0, struct_watchMenu *arg1, s32 arg2, s32 arg3, s32 arg4,
+void func_8004A860(MenuNumber *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4,
                    s32 arg5, s32 arg6);
 void menuNumber_update(MenuNumber *arg0, MenuItem *arg1);
 UNK_RET menuNumber_draw(MenuNumber *numberP[], s32 arg1, Gfx **gxfP);
@@ -433,7 +433,7 @@ void menuSndSelPanel_init(MenuSndSelPanel *sndSelPanel, struct_watchMenu *watchM
 // void func_8004CE48();
 void func_8004CFB8(MenuSndSelPanel *sndSelPanel, MenuItem *parentItem);
 void menuSndSelPanel_draw(MenuSndSelPanel *sndSelPanel, Gfx **gfxP);
-void func_8004D258(MenuPlay2Panel *play2Panel);
+void func_8004D258(void *arg);
 void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, bool arg7, CharAnimeMode arg8, s32 arg9, s32 argA, s32 argB, s32 argC);
 void menuPlay2Panel_copyConfig(MenuPlay2Panel *play2Panel, MenuPlay2Panel *arg1);
 void menuPlay2Panel_copyCursor(MenuPlay2Panel *play2Panel, MenuPlay2Panel *other);
@@ -457,10 +457,10 @@ void menuMain_input(MenuMain *menuMain);
 void menuMain_update(MenuMain *menuMain);
 void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP);
 void menuMain_draw(MenuMain *menuMain, Gfx **gfxP);
-// void func_800513F0();
-// void func_80051480();
-// void func_800514C4();
-void menuStory_init(MenuStory *menuStory, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2);
+void func_800513F0(s32 /*arg0*/, s32 /*arg1*/, s32 /*arg2*/, s32 *xP, s32 *yP);
+void func_80051480(MenuStory *menuStory, s32 /*arg1*/, f32 /*arg2*/);
+void func_800514C4(void *arg);
+void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
 void func_80051974(MenuStory *menuStory);
 // void func_800519CC();
 // void func_800519EC();
@@ -468,13 +468,13 @@ void menuStory_input(MenuStory *menuStory);
 void menuStory_update(MenuStory *menuStory);
 void menuStory_draw(MenuStory *menuStory, Gfx **gfxP);
 void func_800529FC(MenuLvSel *menuLvSel, s32 arg1, f32 arg2);
-void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2);
+void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
 void func_80052DF0(MenuLvSel *menuLvSel);
 void menuLvSel_input(MenuLvSel *menuLvSel);
 void menuLvSel_update(MenuLvSel *menuLvSel);
 void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP);
 // void func_8005380C();
-void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2);
+void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
 // void func_80053C2C();
 // void func_80053C84();
 // void func_80053CEC();
@@ -495,7 +495,7 @@ void menuPlay2_input(MenuPlay2 *menuPlay2);
 void menuPlay2_update(MenuPlay2 *menuPlay2);
 void menuPlay2_draw(MenuPlay2 *menuPlay2, Gfx **gfxP);
 // void func_80055DFC();
-void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2);
+void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
 // void func_800560D4();
 void menuNmEnt_input(MenuNmEnt *menuNmEnt);
 void menuNmEnt_update(MenuNmEnt *menuNmEnt);
@@ -530,7 +530,7 @@ void func_800586A4(MenuRank *menuRank, UNK_TYPE arg1, UNK_TYPE arg2, f32 arg3, f
 void menuRank_setFrame(MenuRank *menuRank, UNK_TYPE arg1, UNK_TYPE arg2, f32 arg3);
 // void func_80058A24();
 void menuRank_setPanel(MenuRank *menuRank, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3);
-void menuRank_init(MenuRank *menuRank, struct_watchMenu *arg1, struct_watchMenu_unk_02470 **arg2);
+void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
 void menuRank_input(MenuRank *menuRank);
 void menuRank_update(MenuRank *menuRank);
 void menuRank_draw(MenuRank *menuRank, Gfx **gfxP);
@@ -541,7 +541,7 @@ void menuRank_draw(MenuRank *menuRank, Gfx **gfxP);
 // void func_80059B5C();
 // void func_80059BC8();
 // void func_80059C34();
-void func_80059CA0(struct_watchMenu *arg0);
+void func_80059CA0(struct_watchMenu *watchMenuRef);
 Mtx **_getMtxPtr(struct_watchMenu *watchMenuRef);
 Vtx **_getVtxPtr(struct_watchMenu *watchMenuRef);
 // void func_80059CF4();
@@ -560,16 +560,16 @@ TiTexDataEntry *_getTexSetup(struct_watchMenu *watchMenuRef, s32 index);
 // void func_80059DC4();
 // void func_80059DD4();
 TiTexDataEntry *_getTexKasa(struct_watchMenu *watchMenuRef, s32 index);
-MenuItem *_getRootItem(struct_watchMenu *arg0);
-u16 func_80059DFC(struct_watchMenu *arg0, s32 arg1);
-u16 _getKeyTrg(struct_watchMenu *arg0, s32 arg1);
-u16 _getKeyRep(struct_watchMenu *arg0, s32 arg1);
-MainMenuMode _getMode(struct_watchMenu *arg0);
+MenuItem *_getRootItem(struct_watchMenu *watchMenuRef);
+u16 func_80059DFC(struct_watchMenu *watchMenuRef, s32 arg1);
+u16 _getKeyTrg(struct_watchMenu *watchMenuRef, s32 arg1);
+u16 _getKeyRep(struct_watchMenu *watchMenuRef, s32 arg1);
+MainMenuMode _getMode(struct_watchMenu *watchMenuRef);
 MainMenuMode _getModeOld(struct_watchMenu *watchMenuRef);
-void _setMode(struct_watchMenu *arg0, MainMenuMode arg1);
-void _setNextMain(struct_watchMenu *arg0, enum_main_no arg1);
-void menuTitle_setTitle(struct_watchMenu *arg0, MainMenuMode arg1);
-void _setFadeDir(struct_watchMenu *arg0, s32 arg1);
+void _setMode(struct_watchMenu *watchMenuRef, MainMenuMode arg1);
+void _setNextMain(struct_watchMenu *watchMenuRef, enum_main_no arg1);
+void menuTitle_setTitle(struct_watchMenu *watchMenuRef, MainMenuMode arg1);
+void _setFadeDir(struct_watchMenu *watchMenuRef, s32 arg1);
 void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, struct_800EB670 *arg2);
 void func_8005A2AC(struct_watchMenu *arg0);
 void func_8005A2EC(struct_watchMenu *arg0);

@@ -902,8 +902,8 @@ void func_800477BC(MenuCursor *cursor, s32 arg1, s32 arg2) {
     func_80046670(&cursor->unk_1D0, arg1, arg2);
 }
 
-void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
-                      s32 arg7, s32 arg8, s32 arg9) {
+void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3, s32 arg4, s32 arg5,
+                      s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
     MenuItem *temp_s1;
     u32 i;
 
@@ -1371,8 +1371,8 @@ void menuCursor_draw2(MenuCursor *cursorArr[], s32 count, Gfx **gxfP) {
         temp_s0_2 = cursorArr[var_s2];
         if (temp_s0_2->unk_01C.b.unk_30) {
             temp_s1 = _getTexCommon(temp_s0_2->watchMenuRef, 1);
-            var_s3 +=
-                menuItem_drawAlphaTex(&temp_s0_2->unk_140, &gfx, temp_s1, _getTexCommon(temp_s0_2->watchMenuRef, 0), var_s3);
+            var_s3 += menuItem_drawAlphaTex(&temp_s0_2->unk_140, &gfx, temp_s1,
+                                            _getTexCommon(temp_s0_2->watchMenuRef, 0), var_s3);
         }
     }
 
@@ -1390,8 +1390,8 @@ void menuCursor_draw2(MenuCursor *cursorArr[], s32 count, Gfx **gxfP) {
 
             if (((!temp_s0_2->unk_01C.b.unk_29) | (var_s2 != var_v0)) == 0) {
                 temp_s1 = _getTexSetup(temp_s0_2->watchMenuRef, 8);
-                var_s3 += func_8004714C(&temp_s0_2->unk_1D0, &gfx, temp_s1, _getTexSetup(temp_s0_2->watchMenuRef, 1), var_s3,
-                                        0xB, var_s2);
+                var_s3 += func_8004714C(&temp_s0_2->unk_1D0, &gfx, temp_s1, _getTexSetup(temp_s0_2->watchMenuRef, 1),
+                                        var_s3, 0xB, var_s2);
             }
         }
     }
@@ -1609,13 +1609,15 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _type_1543);
 extern s32 _yn_1691[][2];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _yn_1691);
 
-void func_80048B8C(MenuLvGauge *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+void func_80048B8C(MenuLvGauge *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5,
+                   s32 arg6) {
     arg0->watchMenuRef = watchMenuRef;
     arg0->unk_004 = arg2;
     arg0->unk_008 = 0x14;
     arg0->unk_00C = arg4;
     menuItem_init(&arg0->unk_010, arg5, arg6);
-    func_800479A8(&arg0->unk_0A0, watchMenuRef, _type_1543[arg2], arg3, -2, -2, _size_1542[arg2][0], _size_1542[arg2][1]);
+    func_800479A8(&arg0->unk_0A0, watchMenuRef, _type_1543[arg2], arg3, -2, -2, _size_1542[arg2][0],
+                  _size_1542[arg2][1]);
 }
 
 void func_80048C48(MenuLvGauge *arg0, s32 arg1) {
@@ -1855,8 +1857,8 @@ s32 _type_1949[] = {
     0x00000006,
 };
 
-void menuSpeedItem_init(MenuSpeedItem *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
-                        s32 arg7) {
+void menuSpeedItem_init(MenuSpeedItem *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5,
+                        s32 arg6, s32 arg7) {
     s32 i;
     s8 temp_s6;
     s8 temp_s7;
@@ -2411,6 +2413,7 @@ void menuMainPanel_init(MenuMainPanel *arg0, struct_watchMenu *watchMenuRef, s32
     arg0->unk_00C = WrapI(0, arg2, arg3);
 
     for (i = 0; i < ARRAY_COUNTU(arg0->unk_010); i++) {
+        //! @bug OoB read. End condition should be arg2
         arg0->unk_010[i] = arg4[i];
     }
 
@@ -2828,7 +2831,8 @@ void menuSndSelPanel_draw(MenuSndSelPanel *sndSelPanel, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-void func_8004D258(MenuPlay2Panel *play2Panel) {
+void func_8004D258(void *arg) {
+    MenuPlay2Panel *play2Panel = arg;
     void *sp10 = play2Panel->unk_002C;
 
     animeState_load(&play2Panel->unk_0C90, &sp10, play2Panel->unk_0020);
@@ -2944,7 +2948,7 @@ void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenu
         case 1:
             play2Panel->unk_002C = ALIGN_PTR(var_s6);
             var_s6 = play2Panel->unk_002C + animeState_getDataSize(arg8);
-            func_80040B10((struct_800EA290_unk_11EC_callback)func_8004D258, play2Panel);
+            func_80040B10(func_8004D258, play2Panel);
             break;
     }
 
@@ -5108,17 +5112,6 @@ block_21:
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuMain_drawKaSaMaRu);
 #endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0968);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B096C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B09F8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B09FC);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A08);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A0C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A18);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A1C);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A20);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", RO_800B0A24);
-
 void menuMain_draw(MenuMain *menuMain, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 i;
@@ -5147,193 +5140,160 @@ void menuMain_draw(MenuMain *menuMain, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800513F0);
+const s32 _pos_6413[][9][2] = {
+    {
+        { 32, 20 },
+        { 81, 7 },
+        { 130, 23 },
+        { 179, 17 },
+        { 32, 20 },
+        { 81, 20 },
+        { 130, 23 },
+        { 191, 14 },
+        { 191, 14 },
+    },
+    {
+        { 29, 19 },
+        { 78, 6 },
+        { 127, 22 },
+        { 176, 16 },
+        { 29, 19 },
+        { 101, 2 },
+        { 138, 20 },
+        { 188, 13 },
+        { 188, 13 },
+    },
+};
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80051480);
+void func_800513F0(s32 arg0, s32 arg1, s32 arg2, s32 *xP, s32 *yP) {
+    s32 var_v1 = 0;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800514C4);
+    switch (arg2) {
+        case 0:
+            var_v1 = CLAMP(arg1, 1, 4);
+            break;
 
-#if 0
-? func_800466D0(s8 *);
-? func_800467E0(s8 *);
-? func_800513F0(s32, s32, u32, s32 *, s32 *);
-? func_80051480(MenuStory *, ?, ?);
-void func_800514C4(s32);
-extern ? D_800B09F8;
-extern ? D_800B09FC;
-extern ? D_800B0A08;
-extern ? D_800B0A0C;
-extern ? D_800B0A18;
-extern ? D_800B0A1C;
-extern ? D_800B0A20;
-extern ? D_800B0A24;
+        case 1:
+            var_v1 = CLAMP(arg1, 5, 9);
+            break;
+    }
+
+    var_v1--;
+
+    *xP = _pos_6413[arg0][var_v1][0];
+    *yP = _pos_6413[arg0][var_v1][1];
+}
+
+void func_80051480(MenuStory *menuStory, s32 arg1, f32 arg2) {
+    menuStory->unk_0040.unk_14 = arg2;
+    menuStory->unk_0040.unk_18 = 0.05f;
+    menuStory->unk_0040.unk_1C[1] = menuStory->unk_0040.unk_24[1] - 240.0f;
+    func_8004655C(&menuStory->unk_0040, arg1);
+}
+
+void func_800514C4(void *arg) {
+    MenuStory *menuStory = arg;
+    CharAnimeMode var_s0;
+
+    for (var_s0 = CHARANIMEMODE_M; var_s0 < ARRAY_COUNTU(menuStory->unk_0038); var_s0++) {
+        void *sp10 = menuStory->unk_0038[var_s0];
+
+        animeState_load(&menuStory->unk_0280[var_s0], &sp10, var_s0);
+    }
+
+    menuStory->unk_0034 = true;
+}
+
+extern const s32 _posChar_6445[][2];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _posChar_6445);
+
+extern const s32 _posBgCursor_6446[][2];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _posBgCursor_6446);
+
+extern const s32 _cursor_6447[][4];
+INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _cursor_6447);
 
 void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2) {
-    s32 sp20;
-    s32 sp24;
-    struct_watchMenu_unk_02470 **sp2C;
-    MenuCursor *temp_a0;
-    MenuCursor *var_a0_3;
-    MenuItem *temp_a0_2;
-    MenuItem *temp_a0_3;
-    MenuItem *temp_s0;
-    MenuItem *temp_s0_2;
-    MenuItem *var_a0_2;
-    MenuStory *temp_s3;
-    MenuStory *var_a0;
-    MenuStory *var_s0_2;
-    enum CharAnimeMode var_s1_3;
-    s32 temp_a1;
-    s32 temp_a1_2;
-    s32 temp_a2;
-    s32 temp_a2_2;
-    s32 temp_t0;
-    s32 temp_t1;
-    s32 temp_v0;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s32 var_s0;
-    s32 var_s0_3;
-    s32 var_s0_4;
-    s32 var_s0_5;
-    s32 var_s1_6;
-    s32 var_s2;
-    s32 var_s2_2;
-    s32 var_s2_4;
-    struct_800EF560 *var_v1;
-    struct_800EF560_unk_B4 *temp_s4;
-    struct_watchMenu_unk_02470 *var_fp;
-    u32 temp_a2_3;
-    u32 temp_v0_2;
-    u32 var_s1;
-    u32 var_s1_2;
-    u32 var_s1_4;
-    u32 var_s1_5;
-    u32 var_s1_7;
-    u32 var_s1_8;
-    u32 var_s2_3;
+    struct_watchMenu_unk_02470 *var_fp = *arg2;
+    struct_800EF560 *var_v1 = &evs_mem_data[evs_select_name_no[0]];
+    struct_800EF560_unk_B4 *temp_s4 = &var_v1->unk_B4;
+    s32 i;
+    CharAnimeMode var_s1_3;
 
-    var_a0 = menuStory;
-    temp_s3 = var_a0;
-    sp2C = arg2;
-    var_fp = *arg2;
-    var_s1 = 0;
-    temp_s3->watchMenuRef = arg1;
-    var_v1 = &evs_mem_data[*evs_select_name_no];
-    temp_s4 = &var_v1->unk_B4;
-    do {
-        var_a0->unk_4 = (s32) (var_v1->unk_08[0][0] + 1);
-        temp_v0 = var_v1->unk_08[0][1];
-        var_s1 += 1;
-        var_v1 += 8;
-        var_a0->unk_8 = (s32) (temp_v0 + 1);
-        var_a0 += 8;
-    } while (var_s1 < 4U);
-    temp_s3->unk_24 = 0;
-    var_s1_2 = 0x160;
-    var_s0 = 0;
-    temp_s3->unk_34 = 0;
-    temp_s3->unk_28 = (s32) (u8) temp_s4->unk_03;
-    menuItem_init(&temp_s3->unk_0040, 0x19, 0x2F);
-    temp_s3->unk_28 = (s32) (u8) temp_s4->unk_03;
-    menuItem_init(&temp_s3->unk_00D0, 0x45, 0x12);
-    var_a0_2 = temp_s3->unk_0160;
-    do {
-        temp_a1 = *(&D_800B09F8 + var_s0);
-        temp_a2 = *(&D_800B09FC + var_s0);
-        var_s1_2 += 0x90;
-        var_s0 += 8;
-        menuItem_init(var_a0_2, temp_a1, temp_a2);
-        var_a0_2 = temp_s3 + var_s1_2;
-    } while (var_s1_2 < 0x280U);
+    menuStory->watchMenuRef = watchMenuRef;
 
-    var_s1_3 = CHARANIMEMODE_M;
-    var_s0_2 = temp_s3;
-    do {
-        var_s0_2->unk_38 = (s32) ((s32) &var_fp->unk_00000[0xF] & ~0xF);
+    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0004); i++) {
+        menuStory->unk_0004[i][0] = var_v1->unk_08[i][0] + 1;
+        menuStory->unk_0004[i][1] = var_v1->unk_08[i][1] + 1;
+    }
+
+    menuStory->unk_0024 = 0;
+    menuStory->unk_0028 = temp_s4->unk_03;
+    menuStory->unk_0034 = false;
+    menuItem_init(&menuStory->unk_0040, 0x19, 0x2F);
+    menuStory->unk_0028 = temp_s4->unk_03;
+    menuItem_init(&menuStory->unk_00D0, 0x45, 0x12);
+
+    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0160); i++) {
+        menuItem_init(&menuStory->unk_0160[i], _posChar_6445[i][0], _posChar_6445[i][1]);
+    }
+
+    for (var_s1_3 = CHARANIMEMODE_M; var_s1_3 < ARRAY_COUNTU(menuStory->unk_0038); var_s1_3++) {
+        size_t temp_v0_2;
+
+        menuStory->unk_0038[var_s1_3] = ALIGN_PTR(var_fp);
         temp_v0_2 = animeState_getDataSize(var_s1_3);
-        var_s1_3 += 1;
-        var_fp = var_s0_2->unk_38 + temp_v0_2;
-        var_s0_2 += 4;
-    } while ((u32) var_s1_3 < 2U);
+        var_fp = menuStory->unk_0038[var_s1_3] + temp_v0_2;
+    }
 
-    func_80040B10(func_800514C4, (s32) temp_s3);
-    var_s1_4 = 0;
-    var_s0_3 = 0;
-    var_s2 = 0x300;
-    do {
-        temp_a0 = temp_s3 + var_s2;
-        temp_v0_3 = *(&D_800B09F8 + var_s0_3);
-        temp_v1 = *(&D_800B09FC + var_s0_3);
-        var_s0_3 += 8;
-        var_s2 += 0x260;
-        var_s1_4 += 1;
-        func_800479A8(temp_a0, arg1, 0, 0, temp_v0_3 - 0x18, temp_v1 - 0x2C, 0x30, 0x2F);
-    } while (var_s1_4 < 2U);
-    temp_s3->unk_2C = (s32) (u8) temp_s4->unk_00;
-    var_s1_5 = 0;
-    func_80049894(&temp_s3->unk_07C0, arg1, 3, (s32) (u8) temp_s4->unk_00, 0x45, 0x3D);
-    menuSpeedItem_init(&temp_s3->unk_085C, arg1, 3, 0, (s32) (u8) temp_s4->unk_00, 0x7D, 0x39, 0x34);
-    var_s2_2 = 0xFFC;
-    temp_s3->unk_085C.unk_010 = (u8) temp_s4->unk_01 != 0;
-    temp_s3->unk_30 = (s32) ((u8) temp_s4->unk_02 + 1);
-    func_8004A860(&temp_s3->unk_0EC0, arg1, 1, 1, (u8) temp_s4->unk_02 + 1, 0x65, 0x5A);
-    menuItem_init(&temp_s3->unk_0F6C, 0x10, 0x6E);
-    do {
-        temp_s0 = temp_s3 + var_s2_2;
+    func_80040B10(func_800514C4, menuStory);
+
+    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0300); i++) {
+        func_800479A8(&menuStory->unk_0300[i], watchMenuRef, 0, 0, _posChar_6445[i][0] - 0x18,
+                      _posChar_6445[i][1] - 0x2C, 0x30, 0x2F);
+    }
+
+    menuStory->unk_002C = temp_s4->unk_00;
+    func_80049894(&menuStory->unk_07C0, watchMenuRef, 3, temp_s4->unk_00, 0x45, 0x3D);
+    menuSpeedItem_init(&menuStory->unk_085C, watchMenuRef, 3, 0, temp_s4->unk_00, 0x7D, 0x39, 0x34);
+    menuStory->unk_085C.unk_010 = temp_s4->unk_01 != 0;
+
+    menuStory->unk_0030 = temp_s4->unk_02 + 1;
+    func_8004A860(&menuStory->unk_0EC0, watchMenuRef, 1, 1, temp_s4->unk_02 + 1, 0x65, 0x5A);
+    menuItem_init(&menuStory->unk_0F6C, 0x10, 0x6E);
+
+    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0FFC); i++) {
+        MenuItem *temp_s0 = &menuStory->unk_0FFC[i];
+
         menuItem_init(temp_s0, 0, 0);
         func_800467E0(temp_s0);
         temp_s0->unk_68 = 0.05f;
-        var_s1_5 += 1;
-        var_s2_2 += 0x90;
-    } while (var_s1_5 < 2U);
-    var_s2_3 = 0x111C;
-    var_s1_6 = 0;
-    do {
-        temp_s0_2 = temp_s3 + var_s2_3;
-        temp_a0_2 = temp_s0_2;
-        temp_a1_2 = *(&D_800B0A08 + var_s1_6);
-        temp_a2_2 = *(&D_800B0A0C + var_s1_6);
-        var_s2_3 += 0x90;
-        var_s1_6 += 8;
-        menuItem_init(temp_a0_2, temp_a1_2, temp_a2_2);
-        func_800466D0(temp_s0_2);
-    } while (var_s2_3 < 0x123CU);
-    var_s1_7 = 0;
-    var_s0_4 = 0x123C;
-    do {
-        temp_a2_3 = var_s1_7;
-        var_s1_7 += 1;
-        func_800513F0(temp_s3->unk_28, temp_s3->unk_30, temp_a2_3, &sp20, &sp24);
-        temp_a0_3 = temp_s3 + var_s0_4;
-        var_s0_4 += 0x90;
-        menuItem_init(temp_a0_3, sp20, sp24);
-    } while (var_s1_7 < 2U);
-    var_s1_8 = 0;
-    var_s0_5 = 0;
-    var_s2_4 = 0x135C;
-    temp_s3->unk_111C[0].unk_40[0] = -temp_s3->unk_111C[0].unk_40[0];
-    temp_s3->unk_111C[0].unk_48[0] = -temp_s3->unk_111C[0].unk_48[0];
-    var_a0_3 = temp_s3->unk_135C;
-    do {
-        temp_v0_4 = *(&D_800B0A18 + var_s0_5);
-        temp_v1_2 = *(&D_800B0A1C + var_s0_5);
-        temp_t0 = *(&D_800B0A20 + var_s0_5);
-        temp_t1 = *(&D_800B0A24 + var_s0_5);
-        var_s0_5 += 0x10;
-        var_s2_4 += 0x260;
-        var_s1_8 += 1;
-        func_800479A8(var_a0_3, arg1, 1, 0, temp_v0_4, temp_v1_2, temp_t0, temp_t1);
-        var_a0_3 = temp_s3 + var_s2_4;
-    } while (var_s1_8 < 3U);
-    func_80051480(temp_s3, 1, 0);
-    *sp2C = var_fp;
+    }
+
+    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_111C); i++) {
+        menuItem_init(&menuStory->unk_111C[i], _posBgCursor_6446[i][0], _posBgCursor_6446[i][1]);
+        func_800466D0(&menuStory->unk_111C[i]);
+    }
+
+    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_123C); i++) {
+        s32 x;
+        s32 y;
+
+        func_800513F0(menuStory->unk_0028, menuStory->unk_0030, i, &x, &y);
+        menuItem_init(&menuStory->unk_123C[i], x, y);
+    }
+
+    menuStory->unk_111C[0].unk_40[0] = -menuStory->unk_111C[0].unk_40[0];
+    menuStory->unk_111C[0].unk_48[0] = -menuStory->unk_111C[0].unk_48[0];
+
+    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_135C); i++) {
+        func_800479A8(&menuStory->unk_135C[i], watchMenuRef, 1, 0, _cursor_6447[i][0], _cursor_6447[i][1],
+                      _cursor_6447[i][2], _cursor_6447[i][3]);
+    }
+
+    func_80051480(menuStory, 1, 0.0f);
+    *arg2 = var_fp;
 }
-#else
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuStory_init);
-#endif
 
 void func_80051974(MenuStory *menuStory) {
     u16 keyTrg = _getKeyTrg(menuStory->watchMenuRef, 0);
@@ -5654,8 +5614,8 @@ void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, struct
     func_80048680(&menuLvSel->bottle, watchMenuRef, 0x19, 7);
 
     for (var_s2 = 0; var_s2 < 3U; var_s2++) {
-        func_800479A8(&menuLvSel->unk_162C[var_s2], watchMenuRef, 1, 0, _cursor_7325[var_s2][0], _cursor_7325[var_s2][1],
-                      _cursor_7325[var_s2][2], _cursor_7325[var_s2][3]);
+        func_800479A8(&menuLvSel->unk_162C[var_s2], watchMenuRef, 1, 0, _cursor_7325[var_s2][0],
+                      _cursor_7325[var_s2][1], _cursor_7325[var_s2][2], _cursor_7325[var_s2][3]);
     }
 
     menuItem_init(&menuLvSel->capsuleSpeedIcon, 0x56, 7);

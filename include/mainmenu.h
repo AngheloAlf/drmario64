@@ -435,11 +435,18 @@ typedef struct MenuMain {
 
 typedef struct MenuStory {
     /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x0004 */ UNK_TYPE1 unk_0004[0x3C];
+    ///* 0x0004 */ UNK_TYPE1 unk_0004[0x3C];
+    /* 0x0004 */ s32 unk_0004[4][2];
+    /* 0x0024 */ s32 unk_0024;
+    /* 0x0028 */ s32 unk_0028;
+    /* 0x002C */ s32 unk_002C;
+    /* 0x0030 */ s32 unk_0030;
+    /* 0x0034 */ bool unk_0034;
+    /* 0x0038 */ void *unk_0038[2];
     /* 0x0040 */ MenuItem unk_0040;
     /* 0x00D0 */ MenuItem unk_00D0;
     /* 0x0160 */ MenuItem unk_0160[2];
-    /* 0x0280 */ UNK_TYPE1 unk_0280[0x80];
+    /* 0x0280 */ AnimeState unk_0280[2];
     /* 0x0300 */ MenuCursor unk_0300[2];
     /* 0x07C0 */ MenuSpeedAsk unk_07C0;
     /* 0x085C */ MenuSpeedItem unk_085C;
