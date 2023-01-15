@@ -1904,8 +1904,7 @@ RO_800B0A7C = 0x800B0A7C;
 RO_800B0B0C = 0x800B0B0C;
 _cursor_7325 = 0x800B0B14; // size:0x30
 
-RO_800B0B50 = 0x800B0B50; // force_not_migration:True
-RO_800B0B54 = 0x800B0B54; // force_not_migration:True
+_pos_7882 = 0x800B0B50; // size:0x20 force_not_migration:True
 RO_800B0C5C = 0x800B0C5C;
 RO_800B0D84 = 0x800B0D84;
 RO_800B0D94 = 0x800B0D94;

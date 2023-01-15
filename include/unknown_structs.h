@@ -323,15 +323,14 @@ typedef struct struct_800EF560_unk_B4 {
     /* 0x09 */ u8 unk_09[2];
     /* 0x0B */ u8 unk_0B[2];
     /* 0x0D */ u8 unk_0D[2];
-    /* 0x0F */ UNK_TYPE1 unk_0F;
-    /* 0x10 */ UNK_TYPE1 unk_10;
+    /* 0x0F */ u8 unk_0F[2];
     /* 0x11 */ u8 unk_11;
     /* 0x12 */ u8 unk_12;
     /* 0x13 */ u8 unk_13;
     /* 0x14 */ u8 unk_14;
     /* 0x15 */ u8 unk_15;
     /* 0x16 */ u8 unk_16;
-    /* 0x17 */ UNK_TYPE1 unk_17;
+    /* 0x17 */ u8 unk_17;
     /* 0x18 */ u8 unk_18;
     /* 0x19 */ u8 unk_19;
 } struct_800EF560_unk_B4; // size >= 0x1A

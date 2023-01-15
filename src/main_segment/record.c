@@ -56,8 +56,8 @@ void dm_init_config_save(struct_800EF560_unk_B4 *arg0) {
     arg0->unk_0B[1] = 0xA;
     arg0->unk_0D[0] = 1;
     arg0->unk_0D[1] = 1;
-    arg0->unk_0F = 0;
-    arg0->unk_10 = 1;
+    arg0->unk_0F[0] = 0;
+    arg0->unk_0F[1] = 1;
     arg0->unk_11 = 0;
     arg0->unk_12 = 0;
     arg0->unk_13 = 1;
