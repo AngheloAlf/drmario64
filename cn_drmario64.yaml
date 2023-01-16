@@ -1,0 +1,69 @@
+name: Dr.Mario 64 (China)
+sha1: e396df7729acc70c0e7ab988fca2b75ea167632d
+options:
+  basename: drmario64
+  target_path: cn_baserom.z64
+  ld_script_path: linker_scripts/cn/drmario64.ld
+  base_path: .
+  compiler: GCC
+  find_file_boundaries: True
+  header_encoding: ASCII
+  platform: n64
+  undefined_funcs_auto_path: linker_scripts/cn/auto/undefined_funcs_auto.ld
+  undefined_syms_auto_path: linker_scripts/cn/auto/undefined_syms_auto.ld
+  symbol_addrs_path:
+    - linker_scripts/cn/symbol_addrs_boot.txt
+    - linker_scripts/cn/symbol_addrs_dma_table.txt
+    - linker_scripts/cn/symbol_addrs_main_segment.txt
+    - linker_scripts/cn/symbol_addrs_buffers.txt
+    - linker_scripts/cn/ignored_addresses.txt
+  asm_path: asm/cn
+  src_path: src
+  build_path: build/cn
+  asset_path: bin/cn
+  extensions_path: tools/splat_ext
+  mips_abi_float_regs: o32
+  do_c_func_detection: True
+  o_as_suffix: True
+  gfx_ucode: f3dex2
+  mnemonic_ljust: 12
+  rom_address_padding: True
+  dump_symbols: True
+  generated_c_preamble: |
+    #include "ultra64.h"
+    #include "include_asm.h"
+    #include "macros_defines.h"
+    #include "unknown_structs.h"
+  asm_inc_header: ""
+  use_legacy_include_asm: False
+  create_asm_dependencies: True
+  string_encoding: SHIFT-JIS
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  include_macro_inc: False
+  libultra_symbols: True
+  hardware_regs: True
+segments:
+  - name: header
+    type: header
+    start: 0x000000
+  - name: ipl3
+    type: bin
+    start: 0x000040
+  - name: entry
+    type: code
+    start: 0x001000
+    vram: 0x80000400
+    subsegments:
+      - [0x001000, asm, entry/entry]
+  - name: boot
+    type: code
+    start: 0x001060
+    vram: 0x80000460
+    follows_vram: entry
+    subsegments:
+      - [0x001060, asm]
+  - type: bin
+    start: 0xF830
+  - [0x334000]
