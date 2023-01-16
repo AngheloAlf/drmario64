@@ -478,8 +478,8 @@ void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, struct
 // void func_80053C2C();
 // void func_80053C84();
 // void func_80053CEC();
-// void func_80053FBC();
-// void func_800540B8();
+void menuChSel_inputMan(MenuChSel *menuChSel);
+void menuChSel_inputCom(MenuChSel *menuChSel);
 void menuChSel_input(MenuChSel *menuChSel);
 void menuChSel_update(MenuChSel *menuChSel);
 void menuChSel_draw(MenuChSel *menuChSel, Gfx **gfxP);
