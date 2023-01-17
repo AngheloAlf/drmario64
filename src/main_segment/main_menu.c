@@ -6207,7 +6207,42 @@ void menuChSel_inputMan(MenuChSel *menuChSel) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuChSel_inputCom);
+void menuChSel_inputCom(MenuChSel *menuChSel) {
+    s32 temp_s2;
+    s32 temp_s3;
+    s32 i;
+    s32 var_s5;
+
+    var_s5 = 0;
+    for (i = 0; i < menuChSel->unk_0060; i++) {
+        temp_s2 = menuChSel->unk_0064[i];
+        temp_s3 = menuChSel->unk_0008[temp_s2];
+        if (menuChSel->unk_0018[temp_s2] == 1) {
+            var_s5 = temp_s2;
+            continue;
+        }
+
+        menuChSel_input1(menuChSel, temp_s2, 0);
+
+        switch (menuChSel->unk_0018[temp_s2]) {
+            case -0x1:
+                menuChSel->unk_0034 = -1;
+                menuChSel->unk_0038 = -1;
+                menuChSel->unk_0018[var_s5]--;
+                menuChSel->unk_0028--;
+                break;
+            case 0x0:
+                menuChSel->unk_0034 = temp_s3;
+                menuChSel->unk_0038 = temp_s2;
+                break;
+        }
+        break;
+    }
+
+    if (i == menuChSel->unk_0060) {
+        menuChSel->unk_0028++;
+    }
+}
 
 extern const s32 _charTbl_8108[];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _charTbl_8108);
@@ -6286,24 +6321,31 @@ void menuChSel_input(MenuChSel *menuChSel) {
         case MAINMENUMODE_MENUCHSEL_16:
             mode = MAINMENUMODE_MENUPLAY2_17;
             break;
+
         case MAINMENUMODE_MENUCHSEL_20:
             mode = MAINMENUMODE_MENUPLAY2_21;
             break;
+
         case MAINMENUMODE_MENUCHSEL_25:
             mode = MAINMENUMODE_MENUPLAY2_26;
             break;
+
         case MAINMENUMODE_MENUCHSEL_29:
             mode = MAINMENUMODE_MENUPLAY2_30;
             break;
+
         case MAINMENUMODE_MENUCHSEL_33:
             mode = MAINMENUMODE_MENUPLAY2_34;
             break;
+
         case MAINMENUMODE_MENUCHSEL_40:
             mode = MAINMENUMODE_MENUPLAY2_41;
             break;
+
         case MAINMENUMODE_MENUCHSEL_42:
             mode = MAINMENUMODE_MENUPLAY2_43;
             break;
+
         case MAINMENUMODE_MENUCHSEL_44:
             mode = MAINMENUMODE_MENUPLAY2_45;
             break;
