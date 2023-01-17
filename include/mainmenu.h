@@ -405,7 +405,9 @@ typedef struct MenuPlay2PanelSub {
 
 
 typedef struct MenuComLvPanel {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x128];
+    /* 0x000 */ UNK_TYPE1 unk_000[0x4];
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ UNK_TYPE1 unk_008[0x120];
 } MenuComLvPanel; // size = 0x128
 
 

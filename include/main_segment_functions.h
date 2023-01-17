@@ -397,10 +397,10 @@ void func_8004A860(MenuNumber *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s
 void menuNumber_update(MenuNumber *arg0, MenuItem *arg1);
 UNK_RET menuNumber_draw(MenuNumber *numberP[], s32 arg1, Gfx **gxfP);
 void func_8004AC98(MenuComLvPanel *arg0, s32, s32);
-// void func_8004ACF4();
+void func_8004ACF4(MenuComLvPanel *comLvPanel, s32 arg1);
 // void func_8004AD10();
 void func_8004AD3C(MenuComLvPanel *arg0, struct_watchMenu *watchMenuRef, s32, s32, s32);
-// void func_8004AD84();
+void func_8004AD84(MenuComLvPanel *comLvPanel, MenuItem *arg1);
 void menuComLvPanel_draw(MenuComLvPanel *comLvPanel[], s32 count, Gfx **gfxP);
 void menuCont_setFade(MenuCont *cont, s32 /*arg1*/, f32 /*arg2*/);
 void func_8004B2C8(MenuCont *cont, s32 /*arg1*/, s32 /*arg2*/);
