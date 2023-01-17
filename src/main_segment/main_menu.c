@@ -7006,9 +7006,76 @@ void menuPlay2_draw(MenuPlay2 *menuPlay2, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80055DFC);
+void func_80055DFC(MenuNmEnt *menuNmEnt, s32 arg1, f32 arg2) {
+    menuNmEnt->unk_003C.unk_14 = arg2;
+    menuNmEnt->unk_003C.unk_18 = 0.05f;
+    menuNmEnt->unk_003C.unk_1C[1] = menuNmEnt->unk_003C.unk_24[1] - 240.0f;
+    func_8004655C(&menuNmEnt->unk_003C, arg1);
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuNmEnt_init);
+void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2 UNUSED) {
+    s32 i;
+
+    menuNmEnt->watchMenuRef = watchMenuRef;
+
+    switch (_getMode(watchMenuRef)) {
+        case MAINMENUMODE_MENUNMENT_24:
+        case MAINMENUMODE_MENUNMENT_28:
+        case MAINMENUMODE_MENUNMENT_32:
+            menuNmEnt->unk_0008 = 2;
+            break;
+
+        default:
+            menuNmEnt->unk_0008 = 1;
+            break;
+    }
+
+    for (i = 0; i < menuNmEnt->unk_0008; i++) {
+        if (evs_select_name_no[i] != 8) {
+            u8 *ptr = &evs_mem_data[evs_select_name_no[i]].unk_00;
+
+            if (_getMode(watchMenuRef) == MAINMENUMODE_MENUNMENT_64) {
+                break;
+            }
+            if (!(*ptr & 1)) {
+                break;
+            }
+        }
+    }
+
+    menuNmEnt->unk_0004 = i;
+
+    for (i = 0; i < 2U; i++) {
+        menuNmEnt->unk_000C[i] = -1;
+        menuNmEnt->unk_0014[i] = 0;
+        menuNmEnt->unk_001C[i][0] = 0;
+        menuNmEnt->unk_001C[i][1] = 0;
+
+        if ((_getMode(watchMenuRef) == MAINMENUMODE_MENUNMENT_64) && (evs_select_name_no[i] != 8)) {
+            bcopy(evs_mem_data[evs_select_name_no[i]].unk_01, menuNmEnt->unk_002C[i], sizeof(menuNmEnt->unk_002C[i]));
+            menuNmEnt->unk_0034[i] = 0;
+        } else {
+            s32 j;
+
+            for (j = 0; j < ARRAY_COUNT(menuNmEnt->unk_002C[i]); j++) {
+                menuNmEnt->unk_002C[i][j] = 0;
+            }
+
+            menuNmEnt->unk_0034[i] = 0;
+        }
+    }
+
+    menuItem_init(&menuNmEnt->unk_003C, 29, 98);
+    menuItem_init(&menuNmEnt->unk_00CC, 47, -47);
+    menuItem_init(&menuNmEnt->unk_015C, 100, 5);
+    menuItem_init(&menuNmEnt->unk_01EC, 20, 7);
+    menuItem_init(&menuNmEnt->unk_027C, 0, 0);
+    func_800479A8(&menuNmEnt->unk_030C, watchMenuRef, 0, menuNmEnt->unk_0004, -2, -2, 0x10, 0x10);
+    menuNmEnt->unk_030C.unk_01C.b.unk_30 = true;
+    menuItem_init(&menuNmEnt->unk_056C, 59, 23);
+    menuItem_init(&menuNmEnt->unk_05FC, 0, 16);
+    func_80055DFC(menuNmEnt, 1, 0.0f);
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800560D4);
 

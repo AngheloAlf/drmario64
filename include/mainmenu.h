@@ -524,8 +524,23 @@ typedef struct MenuChSel {
 } MenuChSel; // size >= 0x2D4C <= 0x75A4
 
 typedef struct MenuNmEnt {
-    /* 0x0000 */ UNK_TYPE1 unk_0000[0x75A4];
-} MenuNmEnt; // size <= 0x75A4
+    /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x0004 */ s32 unk_0004;
+    /* 0x0008 */ s32 unk_0008;
+    /* 0x000C */ s32 unk_000C[2];
+    /* 0x0014 */ s32 unk_0014[2];
+    /* 0x001C */ s32 unk_001C[2][2];
+    /* 0x002C */ s8 unk_002C[2][4];
+    /* 0x0034 */ s32 unk_0034[2];
+    /* 0x003C */ MenuItem unk_003C;
+    /* 0x00CC */ MenuItem unk_00CC;
+    /* 0x015C */ MenuItem unk_015C;
+    /* 0x01EC */ MenuItem unk_01EC;
+    /* 0x027C */ MenuItem unk_027C;
+    /* 0x030C */ MenuCursor unk_030C;
+    /* 0x056C */ MenuItem unk_056C;
+    /* 0x05FC */ MenuItem unk_05FC;
+} MenuNmEnt; // size >= 0x68C <= 0x75A4
 
 typedef struct MenuRank {
     /* 0x0000 */ struct struct_watchMenu *watchMenuRef;

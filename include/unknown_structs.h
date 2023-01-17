@@ -359,7 +359,9 @@ typedef struct struct_800EF560_unk_7C {
 } struct_800EF560_unk_7C; // size = 0xC
 
 typedef struct struct_800EF560 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x8];
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ s8 unk_01[4];
+    /* 0x05 */ UNK_TYPE1 unk_05[0x3];
     /* 0x08 */ s32 unk_08[3][2];
     /* 0x20 */ UNK_TYPE1 unk_20[0x8];
     /* 0x28 */ struct_800EF560_unk_28 unk_28[3];

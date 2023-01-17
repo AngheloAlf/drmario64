@@ -494,7 +494,7 @@ void func_80055254(MenuPlay2 *menuPlay2, s32 /*arg1*/);
 void menuPlay2_input(MenuPlay2 *menuPlay2);
 void menuPlay2_update(MenuPlay2 *menuPlay2);
 void menuPlay2_draw(MenuPlay2 *menuPlay2, Gfx **gfxP);
-// void func_80055DFC();
+void func_80055DFC(MenuNmEnt *menuNmEnt, s32 arg1, f32 arg2);
 void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
 // void func_800560D4();
 void menuNmEnt_input(MenuNmEnt *menuNmEnt);
