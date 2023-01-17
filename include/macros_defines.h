@@ -78,6 +78,7 @@
 #define saved_reg_s4 0
 #define saved_reg_s5 0
 #define saved_reg_s6 0
+#define bitwise 
 
 
 #endif

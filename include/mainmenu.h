@@ -405,9 +405,10 @@ typedef struct MenuPlay2PanelSub {
 
 
 typedef struct MenuComLvPanel {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x4];
+    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x004 */ s32 unk_004;
-    /* 0x008 */ UNK_TYPE1 unk_008[0x120];
+    /* 0x008 */ MenuItem unk_008;
+    /* 0x098 */ MenuItem unk_098;
 } MenuComLvPanel; // size = 0x128
 
 
@@ -415,7 +416,7 @@ typedef struct MenuComLvPanel {
 typedef struct MenuMain {
     /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x0004 */ MainMenuMode mode;
-    /* 0x0008 */ UNK_TYPE4 unk_0008;
+    /* 0x0008 */ s32 unk_0008;
     /* 0x000C */ s32 unk_000C[8];
     /* 0x002C */ s32 unk_002C;
     /* 0x0030 */ s32 unk_0030;
@@ -441,7 +442,6 @@ typedef struct MenuMain {
 
 typedef struct MenuStory {
     /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
-    ///* 0x0004 */ UNK_TYPE1 unk_0004[0x3C];
     /* 0x0004 */ s32 unk_0004[4][2];
     /* 0x0024 */ s32 unk_0024;
     /* 0x0028 */ s32 unk_0028;
@@ -482,7 +482,6 @@ typedef struct MenuLvSel {
     /* 0x1F08 */ MenuSpeedItem gameLvlSelector;
     /* 0x256C */ s32 unk_256C;
     /* 0x2570 */ s32 unk_2570;
-    /* 0x2574 */ UNK_TYPE1 unk_2574[0x5030];
 } MenuLvSel; // size <= 0x75A4
 
 typedef struct MenuPlay2 {
@@ -520,7 +519,6 @@ typedef struct MenuChSel {
     /* 0x0A04 */ MenuItem unk_0A04[15];
     /* 0x1274 */ MenuComLvPanel unk_1274[15];
     /* 0x23CC */ MenuCursor unk_23CC[4];
-    /* 0x2D4C */
 } MenuChSel; // size >= 0x2D4C <= 0x75A4
 
 typedef struct MenuNmEnt {
