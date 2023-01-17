@@ -11,6 +11,7 @@ import sys
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = script_dir + "/../"
+asm_dir_template = root_dir + "asm/{version}/nonmatchings/"
 asm_dir = root_dir + "asm/nonmatchings/"
 
 
@@ -310,12 +311,15 @@ group.add_argument("-s", "--short", help="find MOST duplicates besides some very
 parser.add_argument("query", help="function or file", nargs='?', default=None)
 parser.add_argument("-t", "--threshold", help="score threshold between 0 and 1 (higher is more restrictive)", type=float, default=0.9, required=False)
 parser.add_argument("-n", "--num-out", help="number of functions to display", type=int, default=100, required=False)
+parser.add_argument("-v", "--version", help="Which version should be processed", required=False, default="usa")
 
 args = parser.parse_args()
 
+asm_dir = asm_dir_template.format(version=args.version)
+
 if __name__ == "__main__":
     rom_bytes = read_rom()
-    map_syms = parse_map(os.path.join(root_dir, "build", "drmario64.map"))
+    map_syms = parse_map(os.path.join(root_dir, "build", f"drmario64.{args.version}.map"))
     map_offsets = get_map_offsets(map_syms)
 
     s_files = get_all_s_files()

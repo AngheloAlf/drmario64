@@ -231,7 +231,7 @@ void dm_audio_set_stereo(bool setStereo) {
     osWritebackDCacheAll();
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/sound", dm_audio_set_stereo);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/sound", dm_audio_set_stereo);
 #endif
 
 /**

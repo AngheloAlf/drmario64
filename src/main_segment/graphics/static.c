@@ -63,7 +63,7 @@ void func_8002BD20(s32 red, s32 green, s32 blue, s32 alpha, s32 arg4, s32 arg5, 
     gSPTextureRectangle(gGfxHead++, arg4 << 2, arg5 << 2, (arg4 + arg6) << 2, (arg4 + arg7) << 2, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/graphics/static", func_8002BD20);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/graphics/static", func_8002BD20);
 #endif
 
 /**
@@ -98,15 +98,15 @@ void func_8002C4EC(TexturePtr texture, s32 width, s32 height) {
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/graphics/static", func_8002C688);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/graphics/static", func_8002C688);
 
 // gSPTextureRectangle?
-INCLUDE_ASM("asm/nonmatchings/main_segment/graphics/static", draw_Tex);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/graphics/static", draw_Tex);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/graphics/static", func_8002C914);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/graphics/static", func_8002C914);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/graphics/static", func_8002CA68);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/graphics/static", func_8002CA68);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/graphics/static", func_8002CD08);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/graphics/static", func_8002CD08);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/graphics/static", func_8002CF04);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/graphics/static", func_8002CF04);

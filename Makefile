@@ -26,20 +26,25 @@ OBJDUMP_BUILD ?= 1
 MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
 
 
+VERSION ?= usa
+ifneq ($(VERSION), usa)
+$(error Currently only 'usa' version is supported)
+endif
 
-BASEROM              := baserom.z64
-BASEROM_UNCOMPRESSED := baserom_uncompressed.z64
+
+BASEROM              := baserom.$(VERSION).z64
+BASEROM_UNCOMPRESSED := baserom_uncompressed.$(VERSION).z64
 TARGET               := drmario64
 
 
 ### Output ###
 
 BUILD_DIR := build
-ROM       := $(BUILD_DIR)/$(TARGET)_uncompressed.z64
-ELF       := $(BUILD_DIR)/$(TARGET).elf
-LD_MAP    := $(BUILD_DIR)/$(TARGET).map
-LD_SCRIPT := linker_scripts/$(TARGET).ld
-ROMC      := $(BUILD_DIR)/$(TARGET).z64
+ROM       := $(BUILD_DIR)/$(TARGET)_uncompressed.$(VERSION).z64
+ELF       := $(BUILD_DIR)/$(TARGET).$(VERSION).elf
+LD_MAP    := $(BUILD_DIR)/$(TARGET).$(VERSION).map
+LD_SCRIPT := linker_scripts/$(VERSION)/$(TARGET).ld
+ROMC      := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 
 
 #### Setup ####
@@ -83,14 +88,14 @@ STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 ICONV      := iconv
 
 SPLAT             ?= tools/splat/split.py
-SPLAT_YAML        ?= $(TARGET).yaml
+SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
 
 ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
 ROM_DECOMPRESSOR  ?= tools/compressor/rom_decompressor.py
 SEGMENT_EXTRACTOR ?= tools/compressor/extract_compressed_segments.py
 
 
-IINC       := -Iinclude -Ibin
+IINC       := -Iinclude -Ibin/$(VERSION)
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src -Ilib/libmus/include
 
 # Check code syntax with host compiler
@@ -135,10 +140,10 @@ endif
 
 #### Files ####
 
-$(shell mkdir -p asm bin linker_scripts/auto)
+$(shell mkdir -p asm bin linker_scripts/$(VERSION)/auto)
 
 SRC_DIRS      := $(shell find src -type d)
-ASM_DIRS      := $(shell find asm -type d -not -path "asm/nonmatchings/*")
+ASM_DIRS      := $(shell find asm -type d -not -path "asm/$(VERSION)/nonmatchings/*")
 BIN_DIRS      := $(shell find bin -type d)
 LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/src/voice")
 LIBMUS_DIRS   := $(shell find lib/libmus/src -type d)
@@ -161,7 +166,7 @@ DEP_FILES := $(O_FILES:.o=.d) \
              $(O_FILES:.o=.asmproc.d)
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/linker_scripts $(BUILD_DIR)/linker_scripts/auto $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/linker_scripts/$(VERSION)/auto $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
 $(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
@@ -176,13 +181,13 @@ all: compressed
 uncompressed: $(ROM)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
-	@md5sum -c $(TARGET)_uncompressed.md5
+	@md5sum -c $(TARGET)_uncompressed.$(VERSION).md5
 endif
 
 compressed: $(ROMC)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROMC)
-	@md5sum -c $(TARGET).md5
+	@md5sum -c $(TARGET).$(VERSION).md5
 endif
 
 clean:
@@ -193,16 +198,17 @@ libclean:
 
 distclean: clean
 	$(RM) -r $(BUILD_DIR) asm/ bin/ .splat/
+	$(RM) -r linker_scripts/$(VERSION)/auto $(LD_SCRIPT)
 	$(MAKE) -C tools distclean
 
 setup:
-	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.csv
+	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.$(VERSION).csv
 	$(MAKE) -C tools
 
 extract:
 	$(RM) -r asm bin
 	$(SPLAT) $(SPLAT_YAML)
-	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.csv
+	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv
 
 lib:
 	$(MAKE) -C lib
@@ -237,13 +243,13 @@ tidy:
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 
-$(ROMC): $(ROM) tools/compressor/compress_segments.csv
-	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ELF) tools/compressor/compress_segments.csv
+$(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
+	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ELF) tools/compressor/compress_segments.$(VERSION).csv
 # TODO: update header
 
-$(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
+$(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
-		-T $(BUILD_DIR)/linker_scripts/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/undefined_syms.ld \
+		-T $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld \
 		-Map $(LD_MAP) -o $@
 
 

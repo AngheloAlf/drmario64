@@ -553,7 +553,7 @@ void dm_manual_make_key(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
     }
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_make_key);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/dm_manual_main", dm_manual_make_key);
 #endif
 
 #ifdef NON_MATCHING
@@ -843,7 +843,7 @@ bool dm_manual_1_main(void) {
     return var_s6;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_1_main);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/dm_manual_main", dm_manual_1_main);
 #endif
 
 bool dm_manual_2_main(void) {
@@ -1566,9 +1566,9 @@ void draw_AB_guide(s32 arg0, s32 arg1) {
     }
 }
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", RO_800B3150);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/dm_manual_main", RO_800B3150);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", func_80074B08);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/dm_manual_main", func_80074B08);
 
 typedef struct struct__posContPanel {
     /* 0x0 */ s32 unk_0;
@@ -1576,12 +1576,12 @@ typedef struct struct__posContPanel {
 } struct__posContPanel;
 
 extern const struct__posContPanel _posContPanel;
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", _posContPanel);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/dm_manual_main", _posContPanel);
 
 extern const s32 _posCircle_924[][2];
 extern const s32 _posFinger_925[][2];
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", _posCircle_924);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_manual_main", _posFinger_925);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/dm_manual_main", _posCircle_924);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/dm_manual_main", _posFinger_925);
 
 ASM_TEXT;
 
@@ -1690,7 +1690,7 @@ void disp_cont(void) {
 }
 
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", disp_cont);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/dm_manual_main", disp_cont);
 #endif
 
 void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
@@ -2026,7 +2026,7 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
     return var_v0;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
 #endif
 
 void dm_manual_graphic(void) {

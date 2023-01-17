@@ -1182,7 +1182,7 @@ bool fontXX_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5)
     return false;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontXX_drawID);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/font", fontXX_drawID);
 #endif
 
 /**
@@ -1381,7 +1381,7 @@ bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5
     return 0;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontXX_drawID2);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/font", fontXX_drawID2);
 #endif
 
 /**
@@ -1531,7 +1531,7 @@ enum bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32
     return true;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontAsc_drawID);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/font", fontAsc_drawID);
 #endif
 
 /**
@@ -1548,4 +1548,4 @@ bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const cha
 /**
  * Original name: fontAsc_drawID2
  */
-INCLUDE_ASM("asm/nonmatchings/main_segment/font", fontAsc_drawID2);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/font", fontAsc_drawID2);

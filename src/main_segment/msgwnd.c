@@ -42,7 +42,7 @@ bool func_8005CF20(s32 arg0, u32 buttonMask) {
 /**
  * Original name: msgWnd_init
  */
-INCLUDE_ASM("asm/nonmatchings/main_segment/msgwnd", msgWnd_init);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/msgwnd", msgWnd_init);
 
 /**
  * Original name: msgWnd_init2
@@ -105,7 +105,7 @@ void msgWnd_clear(MessageWnd *messageWnd) {
 /**
  * Original name: msgWnd_layout
  */
-INCLUDE_ASM("asm/nonmatchings/main_segment/msgwnd", msgWnd_layout);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/msgwnd", msgWnd_layout);
 
 #ifdef NON_MATCHING
 /**
@@ -137,17 +137,17 @@ void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1) {
     msgWnd_layout(messageWnd, temp_a1_2);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/msgwnd", msgWnd_addStr);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/msgwnd", msgWnd_addStr);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/msgwnd", func_8005D3F8);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/msgwnd", func_8005D3F8);
 
 /**
  * Original name: msgWnd_update
  */
-INCLUDE_ASM("asm/nonmatchings/main_segment/msgwnd", msgWnd_update);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/msgwnd", msgWnd_update);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/msgwnd", D_800B1A54);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/msgwnd", D_800B1A54);
 
 extern UNK_TYPE1 D_800B1A54[];
 
@@ -376,7 +376,7 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
     *gfxP = gfx;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/msgwnd", msgWnd_draw);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/msgwnd", msgWnd_draw);
 #endif
 
 /**

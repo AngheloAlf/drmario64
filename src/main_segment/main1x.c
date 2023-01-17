@@ -45,23 +45,23 @@ enum_main_no main11(void) {
 /**
  * Original name: adjust_story_ai
  */
-INCLUDE_ASM("asm/nonmatchings/main_segment/main1x", adjust_story_ai);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/main1x", adjust_story_ai);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE1C);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/main1x", D_800ACE1C);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE28);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/main1x", D_800ACE28);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE2C);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/main1x", D_800ACE2C);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE4C);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/main1x", D_800ACE4C);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE5C);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/main1x", D_800ACE5C);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE70);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/main1x", D_800ACE70);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE78);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/main1x", D_800ACE78);
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE84);
+INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/main1x", D_800ACE84);
 
 /**
  * Original name: main12
@@ -249,5 +249,5 @@ enum_main_no main12() {
     return MAIN_NO_5;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/main1x", main12);
+INCLUDE_ASM("asm/usa/nonmatchings/main_segment/main1x", main12);
 #endif

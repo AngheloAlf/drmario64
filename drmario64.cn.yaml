@@ -2,7 +2,7 @@ name: Dr.Mario 64 (China)
 sha1: e396df7729acc70c0e7ab988fca2b75ea167632d
 options:
   basename: drmario64
-  target_path: cn_baserom.z64
+  target_path: baserom.cn.z64
   ld_script_path: linker_scripts/cn/drmario64.ld
   base_path: .
   compiler: GCC
@@ -19,7 +19,7 @@ options:
     - linker_scripts/cn/ignored_addresses.txt
   asm_path: asm/cn
   src_path: src
-  build_path: build/cn
+  build_path: build
   asset_path: bin/cn
   extensions_path: tools/splat_ext
   mips_abi_float_regs: o32
