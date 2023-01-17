@@ -349,7 +349,7 @@ func_800451C4 = 0x800451C4;
 tiStretchTexBlock = 0x800452B0;
 tiStretchTexTile = 0x800453D8;
 tiStretchTexItem = 0x8004554C;
-func_80045748 = 0x80045748;
+tiStretchAlphaTexItem = 0x80045748;
 func_80045914 = 0x80045914;
 drawCursorPattern = 0x80045AAC;
 func_80045DD0 = 0x80045DD0;
@@ -1725,6 +1725,8 @@ STR_800ADB0C = 0x800ADB0C; // type:char force_not_migration:True
 STR_800ADB10 = 0x800ADB10; // type:char force_not_migration:True
 STR_800ADB18 = 0x800ADB18; // type:char force_not_migration:True
 STR_800ADB24 = 0x800ADB24; // type:char force_not_migration:True
+
+_modes_96 = 0x800ADB40;
 
 color_251 = 0x800ADC50; // force_not_migration:True
 

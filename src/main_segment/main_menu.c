@@ -408,24 +408,27 @@ bool menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, TiTexDataEntry *arg2, TiT
     s32 var_s2 = MIN(arg2->unk_4[1], arg3->unk_4[1]);
 
     if (!menuItem_outOfScreen(item, var_s1, var_s2)) {
-        s32 sp40;
-        s32 sp44;
+        TexturePtr sp40;
+        TexturePtr sp44;
 
         func_80046844(item, gfxP);
 
         if (arg4 != 0) {
-            sp40 = 0;
-            sp44 = 0;
+            sp40 = NULL;
+            sp44 = NULL;
         } else {
             sp40 = arg2->unk_0->unk_4;
             sp44 = arg3->unk_0->unk_4;
         }
 
         if ((arg2->unk_4[3] & 1) && (arg3->unk_4[2] & 1)) {
-            StretchAlphaTexBlock(gfxP, var_s1, var_s2, sp40, arg2->unk_4[0], sp44, arg3->unk_4[0], item->unk_0C[0], item->unk_0C[1], var_s1 * item->unk_30[0], var_s2 * item->unk_30[1]);
+            StretchAlphaTexBlock(gfxP, var_s1, var_s2, sp40, arg2->unk_4[0], sp44, arg3->unk_4[0], item->unk_0C[0],
+                                 item->unk_0C[1], var_s1 * item->unk_30[0], var_s2 * item->unk_30[1]);
             return true;
         } else {
-            StretchAlphaTexTile(gfxP, var_s1, var_s2, arg2->unk_0->unk_4, arg2->unk_4[0], arg3->unk_0->unk_4, arg3->unk_4[0], 0, 0, var_s1, arg2->unk_4[1], item->unk_0C[0], item->unk_0C[1], var_s1 * item->unk_30[0], var_s2 * item->unk_30[1]);
+            StretchAlphaTexTile(gfxP, var_s1, var_s2, arg2->unk_0->unk_4, arg2->unk_4[0], arg3->unk_0->unk_4,
+                                arg3->unk_4[0], 0, 0, var_s1, arg2->unk_4[1], item->unk_0C[0], item->unk_0C[1],
+                                var_s1 * item->unk_30[0], var_s2 * item->unk_30[1]);
             return true;
         }
     }
@@ -444,13 +447,27 @@ bool func_80046F58(MenuItem *item, Gfx **gfxP, TiTexDataEntry *arg2, s32 arg3, s
     }
 
     func_80046844(item, gfxP);
-    tiStretchTexItem(gfxP, arg2, arg3, arg4, arg5, item->unk_0C[0], item->unk_0C[1], arg2->unk_4[0] * item->unk_30[0], temp_lo * item->unk_30[1]);
+    tiStretchTexItem(gfxP, arg2, arg3, arg4, arg5, item->unk_0C[0], item->unk_0C[1], arg2->unk_4[0] * item->unk_30[0],
+                     temp_lo * item->unk_30[1]);
     return true;
 }
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80047074);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8004714C);
+bool func_8004714C(MenuItem *item, Gfx **gxfP, TiTexDataEntry *arg2, TiTexDataEntry *arg3, s32 arg4, s32 arg5,
+                   s32 arg6) {
+    s32 var_s2 = MIN(arg2->unk_4[0], arg3->unk_4[0]);
+    s32 var_s1 = MIN(arg2->unk_4[1], arg3->unk_4[1]) / arg5;
+
+    if (menuItem_outOfScreen(item, var_s2, var_s1)) {
+        return false;
+    }
+
+    func_80046844(item, gxfP);
+    tiStretchAlphaTexItem(gxfP, arg2, arg3, arg4, arg5, arg6, item->unk_0C[0], item->unk_0C[1],
+                          var_s2 * item->unk_30[0], var_s1 * item->unk_30[1]);
+    return true;
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_800472D0);
 

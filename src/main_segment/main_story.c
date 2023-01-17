@@ -427,8 +427,8 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
         func_80076CA0(&sp48, title_bmp_data + title_bmp_tbl[2]);
 
         gSPDisplayList(gfx++, alpha_texture_init_dl);
-        StretchAlphaTexBlock(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, sp30.unk_04, (s32)sp48.unk_10, sp48.unk_04,
-                             88.0f, 165.0f, sp30.unk_04, sp30.unk_08);
+        StretchAlphaTexBlock(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, sp30.unk_04, sp48.unk_10, sp48.unk_04, 88.0f,
+                             165.0f, sp30.unk_04, sp30.unk_08);
     }
 
     *gfxP = gfx;

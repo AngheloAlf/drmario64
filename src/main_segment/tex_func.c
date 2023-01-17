@@ -12,9 +12,9 @@
 #include "main_segment_variables.h"
 
 /**
- * Original name: _modes
+ * Original name: _modes_96
  */
-const s32 D_800ADB40[] = { G_SC_ODD_INTERLACE, G_SC_EVEN_INTERLACE, G_SC_NON_INTERLACE, G_SC_NON_INTERLACE };
+const s32 _modes_96[] = { G_SC_ODD_INTERLACE, G_SC_EVEN_INTERLACE, G_SC_NON_INTERLACE, G_SC_NON_INTERLACE };
 
 /**
  * Original name: gfxSetScissor
@@ -72,8 +72,7 @@ void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
         corners.lry = 0;
     }
 
-    gDPSetScissor(gfx++, D_800ADB40[arg1 % ARRAY_COUNTU(D_800ADB40)], corners.ulx, corners.uly, corners.lrx,
-                  corners.lry);
+    gDPSetScissor(gfx++, _modes_96[arg1 % ARRAY_COUNTU(_modes_96)], corners.ulx, corners.uly, corners.lrx, corners.lry);
     *gfxP = gfx;
 }
 
@@ -257,8 +256,8 @@ void func_8004216C(StretchTexBlock_arg0 *arg0) {
 }
 
 #ifdef NON_MATCHING
-void StretchAlphaTexBlock(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, s32 arg4, s32 arg5, s32 arg6, f32 arg7,
-                          f32 arg8, f32 arg9, f32 argA) {
+void StretchAlphaTexBlock(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 arg4, TexturePtr arg5, s32 arg6,
+                          f32 arg7, f32 arg8, f32 arg9, f32 argA) {
     StretchTexBlock_arg0 sp10;
 
     sp10.unk_00 = gfxP;
@@ -444,8 +443,8 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80043A14);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80043BEC);
 
-void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8,
-                         s32 arg9, s32 argA, f32 argB, f32 argC, f32 argD, f32 argE) {
+void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 arg4, TexturePtr arg5, s32 arg6, s32 arg7,
+                         s32 arg8, s32 arg9, s32 argA, f32 argB, f32 argC, f32 argD, f32 argE) {
     StretchTexTile_arg0 sp10;
 
     sp10.gfxP = gfxP;
@@ -532,7 +531,7 @@ INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", tiStretchTexTile);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", tiStretchTexItem);
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80045748);
+INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", tiStretchAlphaTexItem);
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/tex_func", func_80045914);
 

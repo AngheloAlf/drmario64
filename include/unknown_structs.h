@@ -109,7 +109,7 @@ typedef struct struct_watchGame_unk_0B8 {
 
 typedef struct TiTexDataEntry_unk_0 {
     /* 0x0 */ TexturePtr unk_0;
-    /* 0x4 */ UNK_TYPE4 unk_4;
+    /* 0x4 */ TexturePtr unk_4;
 } TiTexDataEntry_unk_0; // size >= 0x8
 
 typedef struct TiTexDataEntry {
@@ -229,7 +229,7 @@ typedef struct StretchTexBlock_arg0 {
     /* 0x0C */ s32 unk_0C;
     /* 0x10 */ TexturePtr unk_10;
     /* 0x14 */ s32 unk_14;
-    /* 0x18 */ s32 unk_18;
+    /* 0x18 */ TexturePtr unk_18;
     /* 0x1C */ s32 unk_1C;
     /* 0x20 */ s32 unk_20;
     /* 0x24 */ s32 unk_24;
@@ -257,9 +257,9 @@ typedef struct StretchTexTile_arg0 {
     /* 0x04 */ UNK_TYPE unk_04;
     /* 0x08 */ UNK_TYPE unk_08;
     /* 0x0C */ UNK_TYPE unk_0C;
-    /* 0x10 */ UNK_TYPE unk_10;
+    /* 0x10 */ TexturePtr unk_10;
     /* 0x14 */ UNK_TYPE unk_14;
-    /* 0x18 */ UNK_TYPE unk_18;
+    /* 0x18 */ TexturePtr unk_18;
     /* 0x1C */ UNK_TYPE unk_1C;
     /* 0x20 */ UNK_TYPE unk_20;
     /* 0x24 */ UNK_TYPE unk_24;
@@ -296,7 +296,7 @@ typedef struct struct_80076CA0_arg0 {
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ UNK_PTR unk_0C;
-    /* 0x10 */ UNK_PTR unk_10;
+    /* 0x10 */ TexturePtr unk_10;
     /* 0x14 */ UNK_TYPE1 unk_14[0x4];
 } struct_80076CA0_arg0; // size = 0x18
 
