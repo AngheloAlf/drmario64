@@ -5940,7 +5940,12 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_8005380C);
+void func_8005380C(MenuChSel *menuChSel, s32 arg1, f32 arg2) {
+    menuChSel->unk_0074.unk_14 = arg2;
+    menuChSel->unk_0074.unk_18 = 0.05f;
+    menuChSel->unk_0074.unk_1C[1] = menuChSel->unk_0074.unk_24[1] - 240.0f;
+    func_8004655C(&menuChSel->unk_0074, arg1);
+}
 
 extern const s32 _pos_7882[][2];
 INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _pos_7882);
@@ -6053,13 +6058,154 @@ void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, struct
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuChSel_init);
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80053C2C);
+bool menuChSel_checkSelected(MenuChSel *menuChSel, s32 arg1, s32 arg2, s32 arg3) {
+    s32 i;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80053C84);
+    for (i = 0; i < menuChSel->unk_0004; i++) {
+        if ((i != arg1) && (menuChSel->unk_0008[i] == arg2)) {
+            if (menuChSel->unk_0018[i] >= arg3) {
+                return true;
+            }
+        }
+    }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", func_80053CEC);
+    return false;
+}
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuChSel_inputMan);
+bool func_80053C84(MenuChSel *menuChSel, s32 arg1, s32 arg2) {
+    if (menuChSel_checkSelected(menuChSel, arg1, arg2, 0)) {
+        return true;
+    }
+
+    if ((arg2 == 0xD) && (evs_secret_flg[1] == 0)) {
+        return true;
+    }
+
+    if ((arg2 == 0xE) && (evs_secret_flg[0] == 0)) {
+        return true;
+    }
+
+    return false;
+}
+
+void menuChSel_input1(MenuChSel *menuChSel, s32 arg1, s32 arg2) {
+    u16 keyRep = _getKeyRep(menuChSel->watchMenuRef, arg2);
+    u16 keyTrg = _getKeyTrg(menuChSel->watchMenuRef, arg2);
+    SndIndex soundIndex = SND_INDEX_INVALID;
+    u16 keyLvl = _getKeyLvl(menuChSel->watchMenuRef, arg2);
+
+    switch (menuChSel->unk_0018[arg1]) {
+        case -0x1:
+            menuChSel->unk_0018[arg1] = 0;
+
+            FALLTHROUGH;
+        case 0x0:
+            while (func_80053C84(menuChSel, arg1, menuChSel->unk_0008[arg1])) {
+                menuChSel->unk_0008[arg1] = WrapI(0, 0xF, menuChSel->unk_0008[arg1] + 1);
+            }
+
+            if (keyTrg & (A_BUTTON | START_BUTTON)) {
+                if ((keyLvl & L_TRIG) && (menuChSel->unk_0060 != 0)) {
+                    menuChSel->unk_002C = ((menuChSel->unk_002C == 0) || (menuChSel->unk_0030 != 1));
+                    menuChSel->unk_0030 = 1;
+                    soundIndex = SND_INDEX_62;
+                } else {
+                    menuChSel->unk_0018[arg1]++;
+                    soundIndex = SND_INDEX_62;
+                }
+            } else if (keyTrg & B_BUTTON) {
+                if ((keyLvl & L_TRIG) && (menuChSel->unk_0060 != 0)) {
+                    menuChSel->unk_002C = ((menuChSel->unk_002C == 0) || (menuChSel->unk_0030 != 2));
+                    menuChSel->unk_0030 = 2;
+                    soundIndex = SND_INDEX_62;
+                } else {
+                    menuChSel->unk_0018[arg1]--;
+                    soundIndex = SND_INDEX_68;
+                }
+            } else {
+                s32 var_a2 = menuChSel->unk_0008[arg1];
+                s32 temp_s4_2;
+                s32 temp_s6;
+
+                temp_s6 = 0;
+                if (keyRep & L_JPAD) {
+                    temp_s6--;
+                }
+                if (keyRep & R_JPAD) {
+                    temp_s6++;
+                }
+
+                temp_s4_2 = 0;
+                if (keyRep & U_JPAD) {
+                    temp_s4_2--;
+                }
+                if (keyRep & D_JPAD) {
+                    temp_s4_2++;
+                }
+
+                if (((temp_s6 != 0) || (temp_s4_2 != 0))) {
+                    s32 var_s2 = menuChSel->unk_0008[arg1] % 5;
+                    s32 var_s1 = menuChSel->unk_0008[arg1] / 5;
+                    s32 temp_s0;
+
+                    do {
+                        var_s2 = WrapI(0, 5, var_s2 + temp_s6);
+                        var_s1 = WrapI(0, 3, var_s1 + temp_s4_2);
+                        temp_s0 = var_s2 + (var_s1 * 5);
+                    } while (func_80053C84(menuChSel, arg1, temp_s0));
+                    var_a2 = temp_s0;
+                }
+
+                if (var_a2 != menuChSel->unk_0008[arg1]) {
+                    menuChSel->unk_0008[arg1] = var_a2;
+                    soundIndex = SND_INDEX_64;
+                }
+            }
+            break;
+
+        case 0x1:
+            if (keyTrg & B_BUTTON) {
+                menuChSel->unk_0018[arg1] = 0;
+                soundIndex = SND_INDEX_68;
+            }
+            break;
+    }
+
+    SND_PLAY_INDEX(soundIndex);
+}
+
+void menuChSel_inputMan(MenuChSel *menuChSel) {
+    s32 var_s3;
+    s32 var_s4;
+    s32 i;
+
+    var_s3 = 0;
+    var_s4 = 0;
+
+    for (i = 0; i < menuChSel->unk_003C; i++) {
+        menuChSel_input1(menuChSel, menuChSel->unk_0040[i], menuChSel->unk_0040[i]);
+
+        switch (menuChSel->unk_0018[menuChSel->unk_0040[i]]) {
+            case -0x1:
+                var_s3 += 1;
+                break;
+
+            case 0x1:
+                var_s4 += 1;
+                break;
+        }
+    }
+
+    if (var_s3 != 0) {
+        _setMode(menuChSel->watchMenuRef, MAINMENUMODE_MENUMAIN_0);
+        func_8005380C(menuChSel, -1, 1.0f);
+        menuChSel->unk_0028 -= 1;
+    }
+
+    if (var_s4 == menuChSel->unk_003C) {
+        menuChSel->unk_0028 += 1;
+    }
+}
 
 INCLUDE_ASM("asm/nonmatchings/main_segment/main_menu", menuChSel_inputCom);
 
@@ -6185,7 +6331,7 @@ INCLUDE_RODATA("asm/nonmatchings/main_segment/main_menu", _pos_8298);
 ? func_80046614(s8 *, s32);
 ? func_8004ACF4(void *, s32);
 ? func_8004AD84(void *, void *);
-s32 func_80053C2C(MenuRank *, ?, u32, ?);
+s32 menuChSel_checkSelected(MenuRank *, ?, u32, ?);
 ? menuCursor_update(void *, void *);
 extern ? D_800B0D84;
 
@@ -6227,7 +6373,7 @@ void menuChSel_update(MenuRank *menuRank) {
     var_s3 = 0x194;
     var_s0 = 0xA04;
     do {
-        if (func_80053C2C(arg0, -1, var_s2, 1) != 0) {
+        if (menuChSel_checkSelected(arg0, -1, var_s2, 1) != 0) {
             var_a1_2 = -1;
         } else {
             var_a1_2 = 1;
@@ -6622,7 +6768,7 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
         temp_a1 = menuPlay2->unk_0008;
         if (temp_a1 >= 0) {
             temp_s0 = _getKeyTrg(menuPlay2->watchMenuRef, temp_a1);
-            if ((func_80059DFC(menuPlay2->watchMenuRef, menuPlay2->unk_0008) & 0x10) && (temp_s0 & 0x9000)) {
+            if ((_getKeyLvl(menuPlay2->watchMenuRef, menuPlay2->unk_0008) & 0x10) && (temp_s0 & 0x9000)) {
                 var_a2 = 0;
                 if (menuPlay2->unk_00C4 > 0) {
                     var_v1 = 0xC8;
@@ -7914,7 +8060,7 @@ MenuItem *_getRootItem(struct_watchMenu *watchMenuRef) {
     return &watchMenuRef->unk_024B8[0];
 }
 
-u16 func_80059DFC(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
+u16 _getKeyLvl(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
     return gControllerHoldButtons[main_joy[arg1]];
 }
 

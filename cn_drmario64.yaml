@@ -46,7 +46,7 @@ options:
   hardware_regs: True
 segments:
   - name: header
-    type: header
+    type: data
     start: 0x000000
   - name: ipl3
     type: bin

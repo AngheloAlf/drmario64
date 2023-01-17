@@ -503,7 +503,7 @@ typedef struct MenuChSel {
     /* 0x0008 */ s32 unk_0008[4];
     /* 0x0018 */ s32 unk_0018[4];
     /* 0x0028 */ s32 unk_0028;
-    /* 0x002C */ s32 unk_002C;
+    /* 0x002C */ s32 unk_002C; // bool?
     /* 0x0030 */ s32 unk_0030;
     /* 0x0034 */ s32 unk_0034;
     /* 0x0038 */ s32 unk_0038;

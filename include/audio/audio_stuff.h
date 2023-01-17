@@ -256,4 +256,10 @@ extern struct_800FACE0 B_800FACE0;
 extern Audio_struct_800FAF98 *gAudio_800FAF98;
 
 
+#define SND_PLAY_INDEX(index) \
+    if (index > SND_INDEX_INVALID) { \
+        dm_snd_play(index); \
+    }
+
+
 #endif
