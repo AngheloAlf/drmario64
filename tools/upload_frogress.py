@@ -19,16 +19,15 @@ def uploadProgressMain():
     parser = argparse.ArgumentParser()
     parser.add_argument("version", help="Version slug")
     parser.add_argument("--apikey", help="API key")
-    parser.add_argument("-m", "--map", default="build/drmario64.us.map", type=Path)
 
     args = parser.parse_args()
 
     version: str = args.version
     category: str = "code"
     apikey: str = args.apikey
-    mapPath: Path = args.map
+    mapPath = Path("build") / f"drmario64.{args.version}.map"
 
-    totalStats, progressPerFolder = progress.getProgress(mapPath)
+    totalStats, progressPerFolder = progress.getProgress(mapPath, version)
 
     entries: dict[str, int] = mapfile_parser.frontends.upload_frogress.getFrogressEntriesFromStats(totalStats, progressPerFolder, verbose=True)
 

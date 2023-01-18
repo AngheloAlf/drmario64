@@ -10,23 +10,41 @@ import mapfile_parser
 from pathlib import Path
 
 
-ASMPATH = Path("asm") / "us"
-NONMATCHINGSPATH = ASMPATH / "nonmatchings"
+ASMPATH = Path("asm")
+VERSION = "us"
+NONMATCHINGS = "nonmatchings"
 
 
-def getProgress(mapPath: Path) -> tuple[mapfile_parser.ProgressStats, dict[str, mapfile_parser.ProgressStats]]:
+def getProgress(mapPath: Path, version: str) -> tuple[mapfile_parser.ProgressStats, dict[str, mapfile_parser.ProgressStats]]:
     mapFile = mapfile_parser.MapFile()
     mapFile.readMapFile(mapPath)
 
-    return mapFile.filterBySegmentType(".text").getProgress(ASMPATH, NONMATCHINGSPATH, aliases={"ultralib": "libultra"})
+    for file in mapFile:
+        if len(file.symbols) == 0:
+            continue
+
+        filepathParts = list(file.filepath.parts)
+        if version in filepathParts:
+            filepathParts.remove(version)
+        file.filepath = Path(*filepathParts)
+
+    nonMatchingsPath = ASMPATH / VERSION / NONMATCHINGS
+
+    return mapFile.filterBySegmentType(".text").getProgress(ASMPATH / VERSION, nonMatchingsPath, aliases={"ultralib": "libultra"})
 
 def progressMain():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--map", default="build/drmario64.us.map", type=Path)
+    parser.add_argument("-v", "--version", help="version to process", default="us")
 
     args = parser.parse_args()
 
-    totalStats, progressPerFolder = getProgress(args.map)
+    mapPath = Path("build") / f"drmario64.{args.version}.map"
+    print(mapPath)
+
+    global VERSION
+    VERSION = args.version
+
+    totalStats, progressPerFolder = getProgress(mapPath, args.version)
 
     mapfile_parser.progress_stats.printStats(totalStats, progressPerFolder)
 

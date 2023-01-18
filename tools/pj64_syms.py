@@ -12,13 +12,14 @@ from pathlib import Path
 
 def mapToPj64symsMain():
     parser = argparse.ArgumentParser()
+    parser.add_argument("-v", "--version", help="version to process", default="us")
     parser.add_argument("-o", "--output", default="DR.MARIO 64.sym", type=Path)
-    parser.add_argument("-m", "--map", default="build/drmario64.us.map", type=Path)
 
     args = parser.parse_args()
 
+    version: str = args.version
     output: Path = args.output
-    mapPath: Path = args.map
+    mapPath = Path("build") / f"drmario64.{version}.map"
 
     exit(mapfile_parser.frontends.pj64_syms.doPj64Syms(mapPath, output))
 
