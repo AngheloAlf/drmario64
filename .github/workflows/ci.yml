@@ -44,7 +44,7 @@ jobs:
     - name: Upload frogress
       if: github.ref == 'refs/heads/master'
       continue-on-error: true
-      run: python3 tools/upload_frogress.py usa --map build/drmario64.usa.map --apikey ${{ secrets.PROGRESS_API_KEY }}
+      run: python3 tools/upload_frogress.py us --map build/drmario64.us.map --apikey ${{ secrets.PROGRESS_API_KEY }}
 
     - name: Upload map
       uses: actions/upload-artifact@v3
