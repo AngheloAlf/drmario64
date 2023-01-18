@@ -50,7 +50,7 @@ def romCompressorMain():
     global DEBUGGING
     DEBUGGING = args.debug
 
-    segmentDict = compression_common.readSegmentsCsv(segmentsPath)
+    segmentDict = compression_common.readSegmentsCsv(segmentsPath, args.version)
 
     elfBytearray = spimdisasm.common.Utils.readFileAsBytearray(elfPath)
     assert len(elfBytearray) > 0, f"'{elfPath}' could not be opened"

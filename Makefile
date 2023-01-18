@@ -212,7 +212,7 @@ setup:
 extract:
 	$(RM) -r asm/$(VERSION) bin/$(VERSION)
 	$(SPLAT) $(SPLAT_YAML)
-	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv
+	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
 lib:
 	$(MAKE) -C lib

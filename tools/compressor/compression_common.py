@@ -38,11 +38,13 @@ class SegmentEntry:
     compressedRomOffsetEnd: int
     uncompressedHash: str
 
+    version: str
+
     compressed: bool = True
 
     @property
     def compressedPath(self) -> Path:
-        return Path("bin") / f"{self.segmentName}_compressed.bin"
+        return Path("bin") / self.version / "compressed_segments" / f"{self.segmentName}_compressed.bin"
 
     @property
     def compressedSegmentSize(self) -> int:
@@ -52,7 +54,7 @@ class SegmentEntry:
         return self.compressedRomOffset < other.compressedRomOffset
 
 
-def readSegmentsCsv(segmentsPath: Path) -> dict[str, SegmentEntry]:
+def readSegmentsCsv(segmentsPath: Path, version: str) -> dict[str, SegmentEntry]:
     segmentsCsv = spimdisasm.common.Utils.readCsv(segmentsPath)
     segmentDict = {}
     header = True
@@ -64,6 +66,6 @@ def readSegmentsCsv(segmentsPath: Path) -> dict[str, SegmentEntry]:
         if len(row) == 0:
             continue
         name, compressedRomOffset, compressedRomOffsetEnd, segmentHash = row
-        segmentDict[f".{name}"] = SegmentEntry(name, int(compressedRomOffset, 0), int(compressedRomOffsetEnd, 0), segmentHash)
+        segmentDict[f".{name}"] = SegmentEntry(name, int(compressedRomOffset, 0), int(compressedRomOffsetEnd, 0), segmentHash, version)
 
     return segmentDict

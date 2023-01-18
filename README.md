@@ -48,8 +48,14 @@ make
 to download the appropriate compiler versions, build libultra, extract data from the rom using splat, and build the files back into a rom. If successful, the last line of output should say
 
 ```bash
-build/drmario64.z64: OK
+build/drmario64.us.z64: OK
 ```
+
+### Other versions
+
+This repo also has experimental support for the iQue version of this game too.
+
+For building this place your ROM in the root of the repo and rename it to `baserom.cn.z64`. Pass `VERSION=cn` to the above make commands.
 
 ## Contributing
 

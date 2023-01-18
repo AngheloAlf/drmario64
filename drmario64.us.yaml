@@ -18,7 +18,7 @@ options:
     - linker_scripts/us/symbol_addrs_buffers.txt
     - linker_scripts/us/ignored_addresses.txt
   reloc_addrs_path:
-    - reloc_addrs.us.txt
+    - relocs/reloc_addrs.us.txt
   asm_path: asm/us
   src_path: src
   build_path: build
