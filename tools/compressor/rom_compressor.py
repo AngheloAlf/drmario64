@@ -37,6 +37,7 @@ def romCompressorMain():
     parser.add_argument("out_rom", help="compressed output rom filename")
     parser.add_argument("elf", help="path to the uncompressed rom elf file")
     parser.add_argument("segments", help="path to segments file")
+    parser.add_argument("version", help="version to process")
     parser.add_argument("-d", "--debug", help="Enable debug prints", action="store_true")
 
     args = parser.parse_args()
@@ -140,8 +141,9 @@ def romCompressorMain():
             offset += entry.size
 
         alignedSize = align8MB(sizeWrote)
-        # pad
-        outRom.write(bytearray((alignedSize - sizeWrote) * [0xFF]))
+        if args.version != "cn":
+            # pad
+            outRom.write(bytearray((alignedSize - sizeWrote) * [0xFF]))
 
         for relRomOffset, (symName, rType) in relsOffetsToApply.items():
             value = romOffsetValues[symName]

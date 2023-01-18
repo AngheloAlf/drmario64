@@ -27,8 +27,12 @@ MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
 
 
 VERSION ?= usa
-ifneq ($(VERSION), usa)
-$(error Currently only 'usa' version is supported)
+ifeq ($(VERSION),usa)
+else
+ifeq ($(VERSION),cn)
+else
+$(error Invalid VERSION variable detected. Please use either 'usa' or 'cn')
+endif
 endif
 
 
@@ -244,7 +248,7 @@ $(ROM): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 
 $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
-	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ELF) tools/compressor/compress_segments.$(VERSION).csv
+	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 # TODO: update header
 
 $(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld
