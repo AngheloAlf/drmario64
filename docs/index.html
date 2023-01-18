@@ -42,10 +42,10 @@
             }
 
             const queryFrogressJson = async () => {
-                const response = await fetch('https://progress.deco.mp/data/drmario64/usa/code/?mode=all');
+                const response = await fetch('https://progress.deco.mp/data/drmario64/us/code/?mode=all');
                 const frogressJson = await response.json(); //extract JSON from the http response
 
-                const codeJson = frogressJson["drmario64"]["usa"]["code"];
+                const codeJson = frogressJson["drmario64"]["us"]["code"];
                 console.log(codeJson);
                 let data = [
                     Array(codeJson.length),
