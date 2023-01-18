@@ -176,67 +176,129 @@ const char STR_800AD790[] RODATA = "Man";
 
 const char STR_800AD794[] RODATA = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E1E0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E208);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E278);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E3F0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E430);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E4AC);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E4B4);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E69C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E6D8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E6F8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E730);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E8C8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003EB20);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003ECDC);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003EEA4);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003F050);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003F360);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003F474);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003F568);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD7F0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD864);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD898);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD8CC);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD8E8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD8F4);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD904);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD914);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD91C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD928);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD92C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003F7DC);
+#endif
 
 ASM_RODATA;
 
@@ -312,13 +374,21 @@ const char STR_800ADA8C[] RODATA = "ｾﾝｾｲｺｳｹﾞｷ";
 
 ASM_TEXT;
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003FB00);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003FD0C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003FD88);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003FEE4);
+#endif
 
 ASM_RODATA;
 
@@ -344,14 +414,26 @@ const char STR_800ADB24[] RODATA = "@m%c@c%c%c:%s\n";
 
 ASM_TEXT;
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8004015C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_80040238);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_80040578);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_80040624);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_800409A0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_800409DC);
+#endif

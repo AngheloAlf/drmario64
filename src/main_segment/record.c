@@ -15,13 +15,17 @@
 
 const char eeprom_header[4] = "DM64";
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/record", RO_800ACF44);
+#endif
 
 extern const char _defName[];
 /**
  * Original name: static _defName
  */
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/record", _defName);
+#endif
 
 void func_800365B0(struct_800365B0_arg0 *arg0, UNK_PTR arg1, s32 arg2) {
     arg0->unk_00 = arg1;
@@ -31,11 +35,17 @@ void func_800365B0(struct_800365B0_arg0 *arg0, UNK_PTR arg1, s32 arg2) {
     arg0->unk_10 = 0;
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800365C8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_8003661C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800366A4);
+#endif
 
 /**
  * Original name: dm_init_config_save
@@ -84,13 +94,21 @@ void func_8003678C(struct_800F7470 *arg0) {
     arg0->unk_15 = 0;
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800367E0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800367F0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800367FC);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036808);
+#endif
 
 #if 0
 //? dm_init_config_save(s8 *);                              /* extern */
@@ -216,7 +234,9 @@ loop_2:
     dm_init_config_save(&arg0->unk_00[0xB4]);
 }
 #endif
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_init_save_mem);
+#endif
 
 /**
  * Original name: dm_init_system_mem
@@ -238,6 +258,7 @@ void dm_init_system_mem(void) {
     evs_score_flag = 1;
 }
 
+#if VERSION == VERSION_US
 #ifdef NON_EQUIVALENT
 //#if 1
 // maybe equivalent
@@ -286,108 +307,211 @@ void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_story_sort_set);
 #endif
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_level_sort_set);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_taiQ_sort_set);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_timeAt_sort_set);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vscom_set);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vc_fl_set);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vsman_set);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vm_fl_set);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vm_ta_set);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036EC8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036F1C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036F70);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037068);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_story_sort);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_level_sort);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_taiQ_sort);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_timeAt_sort);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037378);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800373C8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037418);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037468);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800374B8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vscom_sort);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vc_fl_sort);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vsman_sort);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vm_fl_sort);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vm_ta_sort);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_8003779C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037808);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800378B0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037950);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800379D4);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037A5C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037B74);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037C7C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037D40);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037DF0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037EB4);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037F64);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038038);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800380F0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038168);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800381DC);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038254);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800382C8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038340);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800383B4);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_8003842C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800384A0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038518);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_8003858C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800386AC);
+#endif
 
 /**
  * Original name: EepRom_Init
@@ -424,9 +548,13 @@ void EepRom_InitVars(void) {
     }
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038938);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800389A8);
+#endif
 
 s32 EepRom_ReadAll(void) {
     struct_800365B0_arg0 sp10;
@@ -452,6 +580,7 @@ s32 EepRom_ReadAll(void) {
     return 5;
 }
 
+#if VERSION == VERSION_US
 #if 0
 //? func_800365C8(? *, ? *, ?);                       /* extern */
 //? func_8003858C(? *);                               /* extern */
@@ -478,6 +607,7 @@ s32 EepRom_WriteAll(s32 arg0, s32 arg1) {
 }
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", EepRom_WriteAll);
+#endif
 #endif
 
 void func_80038BD0(UNK_TYPE arg0 UNUSED) {
@@ -511,6 +641,8 @@ void RecWritingMsg_calc(RecordWritingMessage *recMessage) {
     msgWnd_update(&recMessage->messageWnd);
     recMessage->unk_84++;
 }
+
+#if VERSION == VERSION_US
 #if 0
 //extern u16 D_800897A0;
 //extern u16 D_800897A2;
@@ -543,6 +675,7 @@ void RecWritingMsg_draw(RecordWritingMessage *recMessage, Gfx **gfxP) {
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", RecWritingMsg_draw);
 #endif
+#endif
 
 void RecWritingMsg_start(RecordWritingMessage *recMessage) {
     recMessage->unk_84 = 0;
@@ -561,4 +694,6 @@ void RecWritingMsg_setPos(RecordWritingMessage *recMessage, s32 arg1, s32 arg2) 
     recMessage->messageWnd.unk_2C = arg2;
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", setSleepTimer);
+#endif

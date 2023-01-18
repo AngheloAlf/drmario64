@@ -7,9 +7,13 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002EB00);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifMakeBlkWork);
+#endif
 
 /**
  * Original name: aifMakeFlagSet
@@ -47,6 +51,7 @@ void aifGameInit(void) {
     }
 }
 
+#if VERSION == VERSION_US
 #if 0
 typedef struct struct_800F48D0 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x1C0];
@@ -181,8 +186,11 @@ loop_2:
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFirstInit);
 #endif
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002EFF0);
+#endif
 
 bool aifMake2(struct_game_state_data *gameStateData, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u8 temp_v1;
@@ -228,65 +236,125 @@ bool aifMake2(struct_game_state_data *gameStateData, s32 arg1, s32 arg2, s32 arg
     return true;
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F2EC);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F924);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F9CC);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002FDF0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80030810);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800308FC);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800310C8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80031218);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003135C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800313F0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003145C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003151C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003157C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800325AC);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80033474);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFieldCopy);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034310);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034380);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034798);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034AB0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034D54);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034E80);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003510C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifReMoveCheck);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", D_800ACF10);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyMake);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", D_800ACF20);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyOut);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80035CF4);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800362A0);
+#endif
 
 /**
  * Original name: aiCOM_MissTake

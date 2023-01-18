@@ -922,9 +922,13 @@ struct_800A6F70 *D_800A6F70[] = { D_800A3AD0, D_800A3BD0 };
 /**
  * Original name: static init_dl
  */
+#if VERSION == VERSION_US
 const Gfx RO_800B1950[] = {
 #include "main_segment/font/RO_800B1950.gfx.inc.c"
 };
+#else
+extern const Gfx RO_800B1950[];
+#endif
 
 static inline char inline_fn(const char *arg0) {
     return *arg0;
@@ -1058,6 +1062,7 @@ bool fontXX_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char 
     return fontXX_drawID(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
 }
 
+#if VERSION == VERSION_US
 #if 0
 /**
  * Original name: fontXX_drawID
@@ -1184,6 +1189,7 @@ bool fontXX_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5)
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontXX_drawID);
 #endif
+#endif
 
 /**
  * Original name: fontXX_draw2
@@ -1192,6 +1198,7 @@ bool fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char
     return fontXX_drawID2(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
 }
 
+#if VERSION == VERSION_US
 #if 0
 extern ? D_80094350;
 
@@ -1383,6 +1390,7 @@ bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontXX_drawID2);
 #endif
+#endif
 
 /**
  * Original name: fontAsc_draw
@@ -1395,6 +1403,7 @@ bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char
     return fontAsc_drawID(gfxP, arg1, arg2, arg3, arg4, index);
 }
 
+#if VERSION == VERSION_US
 #if 0
 extern u8 D_8009F870[];
 
@@ -1533,6 +1542,7 @@ enum bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontAsc_drawID);
 #endif
+#endif
 
 /**
  * Original name: fontAsc_draw2
@@ -1548,4 +1558,6 @@ bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const cha
 /**
  * Original name: fontAsc_drawID2
  */
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontAsc_drawID2);
+#endif

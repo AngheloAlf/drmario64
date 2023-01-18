@@ -517,6 +517,7 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapGrid *mapGr
     return 0;
 }
 
+#if VERSION == VERSION_US
 #ifdef NON_MATCHING
 // regalloc
 void dm_manual_make_key(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
@@ -555,7 +556,9 @@ void dm_manual_make_key(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_make_key);
 #endif
+#endif
 
+#if VERSION == VERSION_US
 #ifdef NON_MATCHING
 bool dm_manual_1_main(void) {
     struct_watchManual *temp_s1 = watchManual;
@@ -844,6 +847,7 @@ bool dm_manual_1_main(void) {
 }
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_1_main);
+#endif
 #endif
 
 bool dm_manual_2_main(void) {
@@ -1566,9 +1570,13 @@ void draw_AB_guide(s32 arg0, s32 arg1) {
     }
 }
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", RO_800B3150);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", func_80074B08);
+#endif
 
 typedef struct struct__posContPanel {
     /* 0x0 */ s32 unk_0;
@@ -1576,12 +1584,18 @@ typedef struct struct__posContPanel {
 } struct__posContPanel;
 
 extern const struct__posContPanel _posContPanel;
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posContPanel);
+#endif
 
 extern const s32 _posCircle_924[][2];
 extern const s32 _posFinger_925[][2];
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posCircle_924);
+#endif
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posFinger_925);
+#endif
 
 ASM_TEXT;
 
@@ -1603,6 +1617,7 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
     }
 }
 
+#if VERSION == VERSION_US
 #ifdef NON_EQUIVALENT
 #define ABS(x) (((x) < 0) ? -(x) : (x))
 
@@ -1691,6 +1706,7 @@ void disp_cont(void) {
 
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", disp_cont);
+#endif
 #endif
 
 void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
@@ -1927,6 +1943,7 @@ void dm_manual_all_init(void) {
     temp_v0_2->unk_030 = 0;
 }
 
+#if VERSION == VERSION_US
 #ifdef NON_MATCHING
 /**
  * Original name: dm_manual_main
@@ -2027,6 +2044,7 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
 }
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
+#endif
 #endif
 
 void dm_manual_graphic(void) {

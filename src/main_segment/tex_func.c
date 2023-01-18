@@ -76,8 +76,11 @@ void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
     *gfxP = gfx;
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80040D34);
+#endif
 
+#if VERSION == VERSION_US
 #ifdef NON_EQUIVALENT
 /**
  * Original name: FillRectRGBA
@@ -107,21 +110,37 @@ void FillRectRGBA(Gfx **gfxP, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 green
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", FillRectRGBA);
 #endif
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80040F34);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_8004113C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80041334);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80041480);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80041668);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_800417B4);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_8004199C);
+#endif
 
+#if VERSION == VERSION_US
 #if 0
 void StretchTexBlock(StretchTexBlock_arg0 *arg0) {
     s32 sp10;
@@ -240,8 +259,11 @@ block_8:
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexBlock);
 #endif
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexBlock_ScisRect);
+#endif
 
 void func_80041F94(StretchTexBlock_arg0 *arg0) {
     gDPLoadTextureBlock((*arg0->unk_00)++, (u16 *)arg0->unk_10 + (arg0->unk_14 * arg0->unk_40), G_IM_FMT_RGBA,
@@ -255,6 +277,7 @@ void func_8004216C(StretchTexBlock_arg0 *arg0) {
                          G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
+#if VERSION == VERSION_US
 #ifdef NON_MATCHING
 void StretchAlphaTexBlock(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 arg4, TexturePtr arg5, s32 arg6,
                           f32 arg7, f32 arg8, f32 arg9, f32 argA) {
@@ -283,6 +306,7 @@ void StretchAlphaTexBlock(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 a
 }
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchAlphaTexBlock);
+#endif
 #endif
 
 void func_80042468(StretchTexBlock_arg0 *arg0) {
@@ -433,15 +457,25 @@ void func_800432A8(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
     StretchTexBlock(&sp10);
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexTile);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_8004371C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_800438D0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80043A14);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80043BEC);
+#endif
 
 void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 arg4, TexturePtr arg5, s32 arg6, s32 arg7,
                          s32 arg8, s32 arg9, s32 argA, f32 argB, f32 argC, f32 argD, f32 argE) {
@@ -473,30 +507,55 @@ void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 ar
     StretchTexTile(&sp10);
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80043F18);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80044058);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexTile4);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_800443F4);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexTile8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", RectTexTile8);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80044940);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80044B18);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80044C28);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80044E08);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", RectTexTile4i);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_8004502C);
+#endif
 
+#if VERSION == VERSION_US
 #if 0
 //? func_8004502C(s32, s32, s32);                     /* extern */
 
@@ -520,21 +579,40 @@ TiTexData *tiLoadTexData(struct_80124610 **arg0, u32 segmentRom, u32 segmentRomE
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiLoadTexData);
 #endif
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80045110);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_800451C4);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiStretchTexBlock);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiStretchTexTile);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiStretchTexItem);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiStretchAlphaTexItem);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80045914);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/tex_func", D_800ADBC0);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", drawCursorPattern);
+#endif

@@ -14,7 +14,9 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_zoomfade);
+#endif
 
 void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1) {
     arg0->unk_04 = arg1->unk_008;
@@ -24,9 +26,13 @@ void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1) {
     arg0->unk_10 = &arg1->unk_210;
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80076CCC);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", curtain_proc_org);
+#endif
 
 void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
     Gfx *gfx = *gfxP;
@@ -44,7 +50,9 @@ void *func_80077170(BgRomDataIndex index, void *dstAddr) {
                                         storyRomData[STORYROMDATA_WAKU2].end - storyRomData[STORYROMDATA_WAKU2].start));
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_800771EC);
+#endif
 
 void func_800773F0(void) {
     if (D_800AAD14 == 0) {
@@ -81,6 +89,7 @@ bool func_800774C4(void) {
     return temp_v0;
 }
 
+#if VERSION == VERSION_US
 #ifdef NON_EQUIVALENT
 void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
     // Gfx *sp38;
@@ -191,6 +200,7 @@ void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_spot);
 #endif
+#endif
 
 void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     story_spot(gfxP, arg1, arg2, arg3, &changestar_tex);
@@ -215,7 +225,9 @@ void init_coffee_break_cnt(void) {
     D_800AAD0C = 0;
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_800778E8);
+#endif
 
 void *init_menu_bg(void *dstAddr, bool arg1) {
     void *alignedAddress;
@@ -236,6 +248,7 @@ void *init_menu_bg(void *dstAddr, bool arg1) {
     return ALIGN_PTR(DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
 }
 
+#if VERSION == VERSION_US
 #if 0
 void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
     Mtx sp18;
@@ -291,6 +304,7 @@ void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
 }
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_menu_bg);
+#endif
 #endif
 
 /**
@@ -435,23 +449,41 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     return var_s3;
 }
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80078648);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_8007865C);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_op);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new2_f);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new2);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_m_end);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_w9);
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_w_end);
+#endif
 
 void func_8007A9DC(void) {
     void *ptr;
@@ -497,6 +529,7 @@ extern void *D_800A8ACC;
 
 extern UNK_TYPE4 D_800AAE00[];
 
+#if VERSION == VERSION_US
 #ifdef NON_EQUIVALENT
 /**
  * Original name: main_story
@@ -597,6 +630,7 @@ s32 main_story(struct_800EB670 *arg0) {
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", main_story);
 #endif
+#endif
 
 /**
  * Original name: init_objMtx
@@ -606,6 +640,7 @@ void init_objMtx(void) {
     objMtx_FF ^= 1;
 }
 
+#if VERSION == VERSION_US
 #if 0
 UNK_TYPE gfxTaskStart(OSScTask *, Gfx *, s32, UNK_TYPE, s32);    /* extern */
 UNK_TYPE S2RDPinitRtn(UNK_TYPE);                                 /* extern */
@@ -833,5 +868,8 @@ block_32:
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", graphic_story);
 #endif
+#endif
 
+#if VERSION == VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_8007B62C);
+#endif

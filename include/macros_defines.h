@@ -1,12 +1,10 @@
 #ifndef MACROS_DEFINES_H
 #define MACROS_DEFINES_H
 
+#include "version.h"
+
 #if (!defined(__GNUC__) && !defined(__clang__)) || defined(M2CTX)
 #define __attribute__(x)
-#endif
-
-#ifndef __IS_KMC__
-#define __IS_KMC__ (__GNUC__== 2 && __GNUC_MINOR__ == 7)
 #endif
 
 #if __STDC_VERSION__ >= 202000L

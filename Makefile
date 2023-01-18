@@ -27,14 +27,6 @@ MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
 
 
 VERSION ?= us
-ifeq ($(VERSION),us)
-else
-ifeq ($(VERSION),cn)
-else
-$(error Invalid VERSION variable detected. Please use either 'us' or 'cn')
-endif
-endif
-
 
 BASEROM              := baserom.$(VERSION).z64
 BASEROM_UNCOMPRESSED := baserom_uncompressed.$(VERSION).z64
@@ -53,10 +45,21 @@ ROMC      := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 
 #### Setup ####
 
+BUILD_DEFINES ?=
+
+ifeq ($(VERSION),us)
+	BUILD_DEFINES   += -DVERSION=VERSION_US
+else
+ifeq ($(VERSION),cn)
+	BUILD_DEFINES   += -DVERSION=VERSION_CN
+else
+$(error Invalid VERSION variable detected. Please use either 'us' or 'cn')
+endif
+endif
+
 ifeq ($(NON_MATCHING),1)
-	CFLAGS := -DNON_MATCHING -DAVOID_UB
-	CPPFLAGS := -DNON_MATCHING -DAVOID_UB
-	COMPARE := 0
+	BUILD_DEFINES   += -DNON_MATCHING -DAVOID_UB
+	COMPARE  := 0
 endif
 
 MAKE = make
@@ -259,18 +262,18 @@ $(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERS
 
 
 $(BUILD_DIR)/%.ld: %.ld
-	$(CPP) $(CPPFLAGS) $< > $@
+	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $< > $@
 
 $(BUILD_DIR)/%.o: %.bin
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/%.o: %.s
-	$(CPP) $(CPPFLAGS) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | $(ICONV) --to-code=Shift-JIS | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -o $@
+	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | $(ICONV) --to-code=Shift-JIS | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -o $@
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
 	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
-	$(ICONV) --to-code=Shift-JIS  $< | $(CC) -x c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -c -o $@ -
+	$(ICONV) --to-code=Shift-JIS  $< | $(CC) -x c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -c -o $@ -
 	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)
