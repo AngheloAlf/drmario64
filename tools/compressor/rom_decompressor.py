@@ -11,7 +11,10 @@ from pathlib import Path
 
 import compression_common
 
-BASEROM_HASH = "1a7936367413e5d6874abda6d623ad32"
+BASEROM_HASHES = {
+    "usa": "1a7936367413e5d6874abda6d623ad32",
+    "cn": "dd291b9c65420fd892107f6c665b7a45",
+}
 
 
 def romDecompressorMain():
@@ -21,6 +24,7 @@ def romDecompressorMain():
     parser.add_argument("in_rom", help="compressed input rom filename")
     parser.add_argument("out_rom", help="decompressed output rom filename")
     parser.add_argument("segments", help="path to segments file")
+    parser.add_argument("version", help="version to process")
 
     args = parser.parse_args()
 
@@ -33,7 +37,8 @@ def romDecompressorMain():
     inRom = spimdisasm.common.Utils.readFileAsBytearray(inPath)
     assert len(inRom) > 0, f"'{inPath}' could not be opened"
 
-    assert spimdisasm.common.Utils.getStrHash(inRom) == BASEROM_HASH, f"Baserom's hash differs\n Expected '{BASEROM_HASH}', got {spimdisasm.common.Utils.getStrHash(inRom)}"
+    romHash = spimdisasm.common.Utils.getStrHash(inRom)
+    assert romHash == BASEROM_HASHES[args.version], f"Baserom's hash differs\n Expected '{BASEROM_HASHES[args.version]}', got {romHash}"
 
     sortedSegments = sorted(segmentDict.values())
 
@@ -49,6 +54,11 @@ def romDecompressorMain():
         if entry.compressedRomOffsetEnd != sortedSegments[i+1].compressedRomOffset:
             newEntry = compression_common.SegmentEntry("", entry.compressedRomOffsetEnd, sortedSegments[i+1].compressedRomOffset, "", compressed=False)
             uncompressedSegments.append(newEntry)
+
+    lastCompressedSegment = sortedSegments[-1]
+    if lastCompressedSegment.compressedRomOffsetEnd != len(inRom):
+        newEntry = compression_common.SegmentEntry("", lastCompressedSegment.compressedRomOffsetEnd, len(inRom), "", compressed=False)
+        uncompressedSegments.append(newEntry)
 
     sortedSegments += uncompressedSegments
     sortedSegments.sort()

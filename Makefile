@@ -143,7 +143,7 @@ endif
 $(shell mkdir -p asm bin linker_scripts/$(VERSION)/auto)
 
 SRC_DIRS      := $(shell find src -type d)
-ASM_DIRS      := $(shell find asm -type d -not -path "asm/$(VERSION)/nonmatchings/*")
+ASM_DIRS      := $(shell find asm/$(VERSION) -type d -not -path "asm/$(VERSION)/nonmatchings/*")
 BIN_DIRS      := $(shell find bin -type d)
 LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/src/voice")
 LIBMUS_DIRS   := $(shell find lib/libmus/src -type d)
@@ -202,11 +202,11 @@ distclean: clean
 	$(MAKE) -C tools distclean
 
 setup:
-	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.$(VERSION).csv
+	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 	$(MAKE) -C tools
 
 extract:
-	$(RM) -r asm bin
+	$(RM) -r asm/$(VERSION) bin/$(VERSION)
 	$(SPLAT) $(SPLAT_YAML)
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv
 
@@ -249,6 +249,7 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 
 $(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
+		-T linker_scripts/$(VERSION)/auto/undefined_syms_auto.ld -T linker_scripts/$(VERSION)/auto/undefined_funcs_auto.ld \
 		-T $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld \
 		-Map $(LD_MAP) -o $@
 

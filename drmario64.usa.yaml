@@ -282,7 +282,7 @@ segments:
       - [0x011450, .data, ../lib/ultralib/src/vimodes/vimodentsclan1]
       - [0x0114A0, .data, ../lib/ultralib/src/vimodes/vimodepallan1]
       - [0x0114F0, .data, ../lib/ultralib/src/vimodes/vimodempallan1]
-  
+
       - [0x011540, data, boot/011540]
 
       # not sure about the rodata start
@@ -326,7 +326,6 @@ segments:
     start: 0x011A70
     vram: 0x80029C50
     follows_vram: dma_table
-    decompressed_size: 0x899F0
     bss_size: 0x70FD0
     subsegments:
       - [0x011A70, c, main_segment/main]

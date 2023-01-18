@@ -1,8 +1,8 @@
 name: Dr.Mario 64 (China)
-sha1: e396df7729acc70c0e7ab988fca2b75ea167632d
+sha1: 7b85ec088c28cd9e4f67a72c03634879f30a25c6
 options:
   basename: drmario64
-  target_path: baserom.cn.z64
+  target_path: baserom_uncompressed.cn.z64
   ld_script_path: linker_scripts/cn/drmario64.ld
   base_path: .
   compiler: GCC
@@ -39,15 +39,16 @@ options:
   create_asm_dependencies: True
   string_encoding: SHIFT-JIS
   asm_function_macro: glabel
-  asm_jtbl_label_macro: jlabel
+  # asm_jtbl_label_macro: jlabel
   asm_data_macro: dlabel
   include_macro_inc: False
-  libultra_symbols: True
-  hardware_regs: True
+  # libultra_symbols: True
+  # hardware_regs: True
 segments:
   - name: header
     type: data
     start: 0x000000
+    vram: 0
   - name: ipl3
     type: bin
     start: 0x000040
@@ -57,13 +58,42 @@ segments:
     vram: 0x80000400
     subsegments:
       - [0x001000, asm, entry/entry]
+
   - name: boot
     type: code
     start: 0x001060
     vram: 0x80000460
     follows_vram: entry
+    bss_size: 0x18ED0
     subsegments:
-      - [0x001060, asm]
-  - type: bin
-    start: 0xF830
-  - [0x334000]
+      - [0x001060, asm, boot/001060]
+      - [0x00F830, data, boot/00F830]
+
+      - [0x00FDE0, data, boot/rom_offsets]
+
+      - [0x0100F0, data, boot/0100F0]
+
+      # bss vram: 800118E0
+
+  - name: dma_table
+    type: code
+    start: 0x0124E0
+    vram: 0x8002A7B0
+    # follows_vram: boot
+    subsegments:
+      - [0x0124E0, data, dma_table/dma_table]
+
+  - name: main_segment # compressed
+    type: code
+    start: 0x0124F0
+    vram: 0x8002A7C0
+    # follows_vram: dma_table
+    bss_size: 0x716B0
+    subsegments:
+      - [0x0124F0, asm, main_segment/0124F0]
+      - [0x077160, data, main_segment/077160]
+      # bss vram: 0x800CA1C0
+
+  - [0x0B1EF0, bin]
+
+  - [0x38ED30]
