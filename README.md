@@ -2,7 +2,7 @@
 
 [Build Status]: <https://github.com/AngheloAlf/drmario64/actions/workflows/ci.yml/badge.svg>
 [actions]: <https://github.com/AngheloAlf/drmario64/actions/workflows/ci.yml>
-[Code Progress]: https://img.shields.io/endpoint?label=Code&url=https%3A%2F%2Fprogress.deco.mp%2Fdata%2Fdrmario64%2Fusa%2Fcode%2F%3Fmode%3Dshield%26measure%3Dall
+[Code Progress]: https://img.shields.io/endpoint?label=Code&url=https%3A%2F%2Fprogress.deco.mp%2Fdata%2Fdrmario64%2Fus%2Fcode%2F%3Fmode%3Dshield%26measure%3Dall
 
 Matching decomp of Dr. Mario 64
 
