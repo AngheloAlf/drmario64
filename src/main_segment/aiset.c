@@ -7,9 +7,9 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_8002EB00);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002EB00);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", aifMakeBlkWork);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifMakeBlkWork);
 
 /**
  * Original name: aifMakeFlagSet
@@ -179,10 +179,10 @@ loop_2:
     return aifGameInit(temp_a0, var_a1, var_a2, var_a3);
 }
 #else
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", aifFirstInit);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFirstInit);
 #endif
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_8002EFF0);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002EFF0);
 
 bool aifMake2(struct_game_state_data *gameStateData, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u8 temp_v1;
@@ -228,65 +228,65 @@ bool aifMake2(struct_game_state_data *gameStateData, s32 arg1, s32 arg2, s32 arg
     return true;
 }
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_8002F2EC);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F2EC);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_8002F924);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F924);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_8002F9CC);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F9CC);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_8002FDF0);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002FDF0);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_80030810);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80030810);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_800308FC);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800308FC);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_800310C8);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800310C8);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_80031218);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80031218);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_8003135C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003135C);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_800313F0);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800313F0);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_8003145C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003145C);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_8003151C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003151C);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_8003157C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003157C);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_800325AC);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800325AC);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_80033474);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80033474);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", aifFieldCopy);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFieldCopy);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_80034310);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034310);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_80034380);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034380);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_80034798);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034798);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_80034AB0);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034AB0);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_80034D54);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034D54);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_80034E80);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034E80);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_8003510C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003510C);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", aifReMoveCheck);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifReMoveCheck);
 
-INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/aiset", D_800ACF10);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", D_800ACF10);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", aifKeyMake);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyMake);
 
-INCLUDE_RODATA("asm/usa/nonmatchings/main_segment/aiset", D_800ACF20);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", D_800ACF20);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", aifKeyOut);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyOut);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_80035CF4);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80035CF4);
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/aiset", func_800362A0);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800362A0);
 
 /**
  * Original name: aiCOM_MissTake

@@ -1,28 +1,28 @@
 name: Dr.Mario 64 (North America)
-sha1: 7e1bff364d631a1e56dd8c87524063decde139a7
+sha1: 96ba0ce2f9e98e5790df120320cd3d1a3d7080d2
 options:
   basename: drmario64
-  target_path: baserom_uncompressed.usa.z64
-  ld_script_path: linker_scripts/usa/drmario64.ld
+  target_path: baserom_uncompressed.us.z64
+  ld_script_path: linker_scripts/us/drmario64.ld
   base_path: .
   compiler: GCC
   find_file_boundaries: True
   header_encoding: ASCII
   platform: n64
-  undefined_funcs_auto_path: linker_scripts/usa/auto/undefined_funcs_auto.ld
-  undefined_syms_auto_path: linker_scripts/usa/auto/undefined_syms_auto.ld
+  undefined_funcs_auto_path: linker_scripts/us/auto/undefined_funcs_auto.ld
+  undefined_syms_auto_path: linker_scripts/us/auto/undefined_syms_auto.ld
   symbol_addrs_path:
-    - linker_scripts/usa/symbol_addrs_boot.txt
-    - linker_scripts/usa/symbol_addrs_dma_table.txt
-    - linker_scripts/usa/symbol_addrs_main_segment.txt
-    - linker_scripts/usa/symbol_addrs_buffers.txt
-    - linker_scripts/usa/ignored_addresses.txt
+    - linker_scripts/us/symbol_addrs_boot.txt
+    - linker_scripts/us/symbol_addrs_dma_table.txt
+    - linker_scripts/us/symbol_addrs_main_segment.txt
+    - linker_scripts/us/symbol_addrs_buffers.txt
+    - linker_scripts/us/ignored_addresses.txt
   reloc_addrs_path:
-    - reloc_addrs.usa.txt
-  asm_path: asm/usa
+    - reloc_addrs.us.txt
+  asm_path: asm/us
   src_path: src
   build_path: build
-  asset_path: bin/usa
+  asset_path: bin/us
   extensions_path: tools/splat_ext
   mips_abi_float_regs: o32
   do_c_func_detection: True

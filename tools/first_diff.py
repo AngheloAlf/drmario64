@@ -14,7 +14,7 @@ def firstDiffMain():
     parser = argparse.ArgumentParser(description="Find the first difference(s) between the built ROM and the base ROM.")
 
     parser.add_argument("-c", "--count", type=int, default=5, help="find up to this many instruction difference(s)")
-    parser.add_argument("-v", "--version", help="Which version should be processed", default="usa")
+    parser.add_argument("-v", "--version", help="Which version should be processed", default="us")
 
     args = parser.parse_args()
 

@@ -17,4 +17,4 @@ void sgenrand(u32 arg0) {
     }
 }
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/vr_init", genrand);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/vr_init", genrand);

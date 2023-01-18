@@ -26,12 +26,12 @@ OBJDUMP_BUILD ?= 1
 MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
 
 
-VERSION ?= usa
-ifeq ($(VERSION),usa)
+VERSION ?= us
+ifeq ($(VERSION),us)
 else
 ifeq ($(VERSION),cn)
 else
-$(error Invalid VERSION variable detected. Please use either 'usa' or 'cn')
+$(error Invalid VERSION variable detected. Please use either 'us' or 'cn')
 endif
 endif
 

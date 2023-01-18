@@ -9,4 +9,4 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/lws", lws_anim);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/lws", lws_anim);

@@ -10,7 +10,7 @@ import mapfile_parser
 from pathlib import Path
 
 
-ASMPATH = Path("asm") / "usa"
+ASMPATH = Path("asm") / "us"
 NONMATCHINGSPATH = ASMPATH / "nonmatchings"
 
 
@@ -22,7 +22,7 @@ def getProgress(mapPath: Path) -> tuple[mapfile_parser.ProgressStats, dict[str, 
 
 def progressMain():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-m", "--map", default="build/drmario64.usa.map", type=Path)
+    parser.add_argument("-m", "--map", default="build/drmario64.us.map", type=Path)
 
     args = parser.parse_args()
 

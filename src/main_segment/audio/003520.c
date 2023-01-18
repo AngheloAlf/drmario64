@@ -76,7 +76,7 @@ s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg
     return MusInitialize(&sp10) + (temp_s1 - temp_v0->unk_04);
 }
 #else
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/audio/003520", func_8002D170);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/audio/003520", func_8002D170);
 #endif
 
 bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank) {

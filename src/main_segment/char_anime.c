@@ -353,7 +353,7 @@ void StretchTexTile4i(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f3
     }
 }
 #else
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/char_anime", StretchTexTile4i);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", StretchTexTile4i);
 #endif
 
 /**
@@ -437,9 +437,9 @@ void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 ar
     *gfxP = gfx;
 }
 
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/char_anime", func_8005EE64);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", func_8005EE64);
 
 /**
  * Original name: loadAnimeSeq
  */
-INCLUDE_ASM("asm/usa/nonmatchings/main_segment/char_anime", loadAnimeSeq);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", loadAnimeSeq);

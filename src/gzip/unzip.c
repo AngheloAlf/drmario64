@@ -136,7 +136,7 @@ s32 fill_inbuf(s32 arg0) {
     return -1;
 }
 #else
-INCLUDE_ASM("asm/usa/nonmatchings/gzip/unzip", fill_inbuf);
+INCLUDE_ASM("asm/us/nonmatchings/gzip/unzip", fill_inbuf);
 #endif
 
 void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {

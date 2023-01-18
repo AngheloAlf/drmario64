@@ -13,7 +13,7 @@ from pathlib import Path
 def mapToPj64symsMain():
     parser = argparse.ArgumentParser()
     parser.add_argument("-o", "--output", default="DR.MARIO 64.sym", type=Path)
-    parser.add_argument("-m", "--map", default="build/drmario64.usa.map", type=Path)
+    parser.add_argument("-m", "--map", default="build/drmario64.us.map", type=Path)
 
     args = parser.parse_args()
 

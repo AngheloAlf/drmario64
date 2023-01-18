@@ -20,7 +20,7 @@ void func_8000075C(void) {
     gzip_malloc_addr = gzip_mem_buff;
 }
 
-INCLUDE_ASM("asm/usa/nonmatchings/gzip/inflate", func_80000778);
+INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000778);
 
 #ifdef NON_MATCHING
 UNK_TYPE func_80000D0C(void *arg0) {
@@ -37,21 +37,21 @@ UNK_TYPE func_80000D0C(void *arg0) {
     return 0;
 }
 #else
-INCLUDE_ASM("asm/usa/nonmatchings/gzip/inflate", func_80000D0C);
+INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000D0C);
 #endif
 
-INCLUDE_ASM("asm/usa/nonmatchings/gzip/inflate", func_80000D48);
+INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000D48);
 
-INCLUDE_ASM("asm/usa/nonmatchings/gzip/inflate", func_80001260);
+INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001260);
 
-INCLUDE_ASM("asm/usa/nonmatchings/gzip/inflate", func_80001480);
+INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001480);
 
-INCLUDE_ASM("asm/usa/nonmatchings/gzip/inflate", func_80001620);
+INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001620);
 
 /**
  * Original name: inflate_block
  */
-INCLUDE_ASM("asm/usa/nonmatchings/gzip/inflate", inflate_block);
+INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", inflate_block);
 
 /**
  * Original name: inflate

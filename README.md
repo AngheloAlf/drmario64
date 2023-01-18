@@ -36,7 +36,7 @@ pip3 install -r requirements.txt
 
 ## Building
 
-Copy your big-endian Dr Mario 64 ROM into the repository's root directory and rename it to `baserom.usa.z64`. Then run
+Copy your big-endian Dr Mario 64 ROM into the repository's root directory and rename it to `baserom.us.z64`. Then run
 
 ```bash
 make setup

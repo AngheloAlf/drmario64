@@ -311,7 +311,7 @@ group.add_argument("-s", "--short", help="find MOST duplicates besides some very
 parser.add_argument("query", help="function or file", nargs='?', default=None)
 parser.add_argument("-t", "--threshold", help="score threshold between 0 and 1 (higher is more restrictive)", type=float, default=0.9, required=False)
 parser.add_argument("-n", "--num-out", help="number of functions to display", type=int, default=100, required=False)
-parser.add_argument("-v", "--version", help="Which version should be processed", required=False, default="usa")
+parser.add_argument("-v", "--version", help="Which version should be processed", required=False, default="us")
 
 args = parser.parse_args()
 
