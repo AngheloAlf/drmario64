@@ -341,3 +341,6 @@ __osEepromTimerQ = 0x8002A768; // 0x18  (controller, true)
 osStopThread = 0x80006F60;
 
 osCreatePiManager = 0x800095C0;
+
+gBootThreadStack = 0x8001E418; // size:0x2000
+

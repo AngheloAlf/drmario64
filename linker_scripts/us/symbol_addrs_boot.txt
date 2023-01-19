@@ -431,7 +431,7 @@ B_8001D83C = 0x8001D83C;
 
 __Dom2SpeedParam = 0x8001D840; // size:0x74
 
-sBootThreadStack = 0x8001D8C0; // size:0x2000
+gBootThreadStack = 0x8001D8C0; // size:0x2000
 B_8001F8C0 = 0x8001F8C0;
 B_8001F988 = 0x8001F988;
 insize = 0x8001F98C;

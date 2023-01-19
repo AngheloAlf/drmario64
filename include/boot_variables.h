@@ -49,7 +49,7 @@ extern OSMesg B_800151D8[1];
 // extern UNK_TYPE B_8001A410;
 // extern UNK_TYPE inbuf;
 
-extern STACK(sBootThreadStack, BOOT_STACK_SIZE);
+extern STACK(gBootThreadStack, BOOT_STACK_SIZE);
 
 extern OSMesgQueue B_80029C08;
 

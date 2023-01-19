@@ -64,7 +64,7 @@ segments:
     start: 0x001000
     vram: 0x80000400
     subsegments:
-      - [0x001000, asm, entry/entry]
+      - [0x001000, .hasm, ../../src/entry/entry]
 
   - name: boot
     type: code

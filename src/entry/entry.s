@@ -5,8 +5,8 @@
 .balign 16
 
 LEAF(entrypoint)
-    la      $t0, boot_BSS_START
-    la      $t1, boot_BSS_SIZE
+    LA($t0, boot_BSS_START)
+    LA($t1, boot_BSS_SIZE)
 
 .clear_bss:
     sw      $zero, 0x0($t0)
@@ -16,9 +16,13 @@ LEAF(entrypoint)
     bnez    $t1, .clear_bss
 
 .enter_program:
-    la      $t2, bootproc
-    lui     $sp, %hi(sBootThreadStack + BOOT_STACK_SIZE)
-    addiu   $sp, $sp, %lo(sBootThreadStack + BOOT_STACK_SIZE)
+#if VERSION_US
+    LA($t2, bootproc)
+#endif
+    LA($sp, gBootThreadStackTop)
+#if VERSION_CN
+    LA($t2, bootproc)
+#endif
     jr      $t2
 END(entrypoint)
 

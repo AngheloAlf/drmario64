@@ -1,6 +1,8 @@
 #ifndef HASM_H
 #define HASM_H
 
+#include "version.h"
+
 #ifdef _LANGUAGE_ASSEMBLY
 
 #define LEAF(x)                 \
@@ -30,6 +32,17 @@
     mflo        \dst
     .set reorder
 .endm
+
+#if VERSION_US
+#define LA(dst, address) \
+    lui         dst, %hi(address); \
+    addiu       dst, dst, %lo(address)
+#endif
+#if VERSION_CN
+#define LA(dst, address) \
+    lui         dst, address ## _HI; \
+    ori         dst, dst, address ## _LO
+#endif
 
 #endif
 
