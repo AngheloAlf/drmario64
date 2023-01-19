@@ -41,11 +41,11 @@
                 }
             }
 
-            const queryFrogressJson = async () => {
-                const response = await fetch('https://progress.deco.mp/data/drmario64/us/code/?mode=all');
+            const queryFrogressJson = async (version) => {
+                const response = await fetch("https://progress.deco.mp/data/drmario64/" + version + "/code/?mode=all");
                 const frogressJson = await response.json(); //extract JSON from the http response
 
-                const codeJson = frogressJson["drmario64"]["us"]["code"];
+                const codeJson = frogressJson["drmario64"][version]["code"];
                 console.log(codeJson);
                 let data = [
                     Array(codeJson.length),
@@ -61,7 +61,7 @@
                     data[1][i] = y;
                 }
 
-                let u1 = new uPlot(prepareChartOpts('Dr. Mario 64 decompilation progress', 0.3, [
+                let u1 = new uPlot(prepareChartOpts("Dr. Mario 64 " + version + " decompilation progress", 0.3, [
                     {
                         label: "Dr. Mario 64 %",
                         stroke: "red",
@@ -70,7 +70,15 @@
                 ]), data, document.body);
             }
 
-            queryFrogressJson();
+            const queryEveryVersion = async () => {
+                queryFrogressJson("us");
+                // This forces the us graph to appear above the cn one
+                await new Promise(r => setTimeout(r, 1000)); // 1 second
+                queryFrogressJson("cn");
+            }
+
+            queryEveryVersion();
+
         </script>
     </body>
 </html>
