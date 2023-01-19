@@ -37,6 +37,7 @@ def romCompressorMain():
     parser.add_argument("out_rom", help="compressed output rom filename")
     parser.add_argument("elf", help="path to the uncompressed rom elf file")
     parser.add_argument("segments", help="path to segments file")
+    parser.add_argument("version", help="version to process")
     parser.add_argument("-d", "--debug", help="Enable debug prints", action="store_true")
 
     args = parser.parse_args()
@@ -49,7 +50,7 @@ def romCompressorMain():
     global DEBUGGING
     DEBUGGING = args.debug
 
-    segmentDict = compression_common.readSegmentsCsv(segmentsPath)
+    segmentDict = compression_common.readSegmentsCsv(segmentsPath, args.version)
 
     elfBytearray = spimdisasm.common.Utils.readFileAsBytearray(elfPath)
     assert len(elfBytearray) > 0, f"'{elfPath}' could not be opened"
@@ -140,8 +141,9 @@ def romCompressorMain():
             offset += entry.size
 
         alignedSize = align8MB(sizeWrote)
-        # pad
-        outRom.write(bytearray((alignedSize - sizeWrote) * [0xFF]))
+        if args.version != "cn":
+            # pad
+            outRom.write(bytearray((alignedSize - sizeWrote) * [0xFF]))
 
         for relRomOffset, (symName, rType) in relsOffetsToApply.items():
             value = romOffsetValues[symName]

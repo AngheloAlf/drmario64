@@ -18,13 +18,14 @@ def extractCompressedSegmentsMain():
 
     parser.add_argument("in_rom", help="compressed input rom filename")
     parser.add_argument("segments", help="path to segments file")
+    parser.add_argument("version", help="version to process")
 
     args = parser.parse_args()
 
     inPath = Path(args.in_rom)
     segmentsPath = Path(args.segments)
 
-    segmentDict = compression_common.readSegmentsCsv(segmentsPath)
+    segmentDict = compression_common.readSegmentsCsv(segmentsPath, args.version)
 
     inRom = spimdisasm.common.Utils.readFileAsBytearray(inPath)
     assert len(inRom) > 0, f"'{inPath}' could not be opened"

@@ -17,4 +17,6 @@ void sgenrand(u32 arg0) {
     }
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/vr_init", genrand);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/vr_init", genrand);
+#endif

@@ -8,16 +8,30 @@
 #include "unknown_structs.h"
 #include "unk.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/replay", func_8007E260);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", func_8007E260);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/replay", replay_record_init_buffer);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", replay_record_init_buffer);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/replay", replay_record_init);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", replay_record_init);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/replay", replay_record);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", replay_record);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/replay", replay_play_init);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", replay_play_init);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/replay", replay_play);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", replay_play);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/replay", func_8007E760);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", func_8007E760);
+#endif

@@ -45,27 +45,46 @@ enum_main_no main11(void) {
 /**
  * Original name: adjust_story_ai
  */
-INCLUDE_ASM("asm/nonmatchings/main_segment/main1x", adjust_story_ai);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main1x", adjust_story_ai);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE1C);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE1C);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE28);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE28);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE2C);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE2C);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE4C);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE4C);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE5C);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE5C);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE70);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE70);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE78);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE78);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/main1x", D_800ACE84);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE84);
+#endif
 
 /**
  * Original name: main12
  */
+#if VERSION_US
 #if 0
 extern s8 evs_story_no;
 extern s8 evs_story_level;
@@ -249,5 +268,6 @@ enum_main_no main12() {
     return MAIN_NO_5;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/main1x", main12);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main1x", main12);
+#endif
 #endif

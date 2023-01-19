@@ -8,6 +8,7 @@
 #include "main_segment_variables.h"
 #include "PR/sched.h"
 
+#if VERSION_US
 #ifdef NON_EQUIVALENT
 s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5,
                   size_t arg6, UNK_TYPE arg7, OSPri thread_priority) {
@@ -76,7 +77,8 @@ s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg
     return MusInitialize(&sp10) + (temp_s1 - temp_v0->unk_04);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/audio/003520", func_8002D170);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/audio/003520", func_8002D170);
+#endif
 #endif
 
 bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank) {

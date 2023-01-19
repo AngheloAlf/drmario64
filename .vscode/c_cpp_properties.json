@@ -23,7 +23,8 @@
                 "__USE_ISOC99",
                 "NDEBUG",
                 "_FINALROM",
-                "__USE_ISOC99"
+                "__USE_ISOC99",
+                "VERSION_US=1"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true

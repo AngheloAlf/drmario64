@@ -3,10 +3,14 @@ asm/
 bin/
 assets/
 build/
-linker_scripts/auto/
+
+linker_scripts/us/auto/
 linker_scripts/cn/auto/
-linker_scripts/drmario64.ld
+linker_scripts/us/drmario64.ld
 linker_scripts/cn/drmario64.ld
+*_auto.ld
+drmario64.ld
+
 __pycache__/
 .make_options
 

@@ -37,8 +37,14 @@ CPP_FLAGS = [
     "-std=gnu89",
 ]
 
-def import_c_file(in_file) -> str:
+def import_c_file(in_file, version: str) -> str:
     in_file = os.path.relpath(in_file, root_dir)
+
+    if version == "us":
+        CPP_FLAGS.append("-DVERSION_US=1")
+    if version == "cn":
+        CPP_FLAGS.append("-DVERSION_CN=1")
+
     cpp_command = ["gcc", "-E", "-P", "-dM", *CPP_FLAGS, in_file]
     cpp_command2 = ["gcc", "-E", "-P", *CPP_FLAGS, in_file]
 
@@ -73,9 +79,10 @@ def main():
         "c_file",
         help="""File from which to create context""",
     )
+    parser.add_argument("-v", "--version", help="Which version should be processed", default="us")
     args = parser.parse_args()
 
-    output = import_c_file(args.c_file)
+    output = import_c_file(args.c_file, args.version)
 
     with open(os.path.join(root_dir, "ctx.c"), "w", encoding="UTF-8") as f:
         f.write(output)

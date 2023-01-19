@@ -1,0 +1,331 @@
+name: Dr.Mario 64 (China)
+sha1: 7b85ec088c28cd9e4f67a72c03634879f30a25c6
+options:
+  basename: drmario64
+  target_path: baserom_uncompressed.cn.z64
+  ld_script_path: linker_scripts/cn/drmario64.ld
+  base_path: .
+  compiler: GCC
+  find_file_boundaries: True
+  header_encoding: ASCII
+  platform: n64
+  undefined_funcs_auto_path: linker_scripts/cn/auto/undefined_funcs_auto.ld
+  undefined_syms_auto_path: linker_scripts/cn/auto/undefined_syms_auto.ld
+  symbol_addrs_path:
+    - linker_scripts/cn/symbol_addrs_boot.txt
+    - linker_scripts/cn/symbol_addrs_dma_table.txt
+    - linker_scripts/cn/symbol_addrs_main_segment.txt
+    - linker_scripts/cn/symbol_addrs_buffers.txt
+    - linker_scripts/cn/ignored_addresses.txt
+  reloc_addrs_path:
+    - relocs/reloc_addrs.cn.txt
+  asm_path: asm/cn
+  src_path: src
+  build_path: build
+  asset_path: bin/cn
+  extensions_path: tools/splat_ext
+  mips_abi_float_regs: o32
+  do_c_func_detection: True
+  o_as_suffix: True
+  gfx_ucode: f3dex2
+  mnemonic_ljust: 12
+  rom_address_padding: True
+  dump_symbols: True
+  generated_c_preamble: |
+    #include "ultra64.h"
+    #include "include_asm.h"
+    #include "macros_defines.h"
+    #include "unknown_structs.h"
+  asm_inc_header: ""
+  use_legacy_include_asm: False
+  create_asm_dependencies: True
+  string_encoding: SHIFT-JIS
+  asm_function_macro: glabel
+  # asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  include_macro_inc: False
+  # libultra_symbols: True
+  # hardware_regs: True
+segments:
+  - name: header
+    type: data
+    start: 0x000000
+    vram: 0
+
+  - name: ipl3
+    type: bin
+    start: 0x000040
+
+  - name: entry
+    type: code
+    start: 0x001000
+    vram: 0x80000400
+    subsegments:
+      - [0x001000, asm, entry/entry]
+
+  - name: boot
+    type: code
+    start: 0x001060
+    vram: 0x80000460
+    follows_vram: entry
+    bss_size: 0x18ED0
+    subsegments:
+      - [0x001060, c, boot/boot_main]
+      - [0x001290, asm, boot/001290]
+
+      - [0x001420, asm, boot/001420]
+      - [0x003520, asm, boot/003520]
+      - [0x003630, asm, boot/003630]
+      - [0x003740, asm, libultra/aigetlen]
+      - [0x003750, asm, libultra/aigetstat]
+      - [0x003760, asm, libultra/aisetfreq]
+      - [0x003860, asm, libultra/aisetnextbuf]
+      - [0x003900, asm, libultra/env]
+      - [0x004470, asm, libultra/sl]
+      - [0x004520, asm, libultra/heapinit]
+      - [0x004560, asm, libultra/synthesizer]
+      - [0x004BD0, asm, libultra/syndelete]
+      - [0x004BE0, asm, libultra/synaddplayer]
+      - [0x004C30, asm, libultra/synallocvoice]
+      - [0x004E20, asm, libultra/synstopvoice]
+      - [0x004EA0, asm, libultra/synstartvoice]
+      - [0x004F40, asm, libultra/synsetpitch]
+      - [0x004FD0, asm, libultra/synsetvol]
+      - [0x005090, asm, libultra/synsetfxmix]
+      - [0x005130, asm, libultra/synsetpan]
+      - [0x0051C0, asm, libultra/synallocfx]
+      - [0x005260, hasm, libultra/invaldcache]
+      - [0x005310, hasm, libultra/writebackdcacheall]
+      - [0x005340, asm, libultra/contquery]
+      - [0x0053F0, asm, libultra/contreaddata]
+      - [0x005670, asm, libultra/controller]
+      - [0x005A40, asm, libultra/contsetch]
+      - [0x005AA0, asm, boot/005AA0]
+      - [0x005B70, hasm, libultra/sqrtf]
+      - [0x005B80, asm, libultra/cosf]
+      - [0x005CB0, asm, libultra/ortho]
+      - [0x005E20, asm, libultra/perspective]
+      - [0x006020, asm, libultra/rotateRPY]
+      - [0x0061A0, asm, libultra/sinf]
+      - [0x006320, asm, libultra/sins]
+      - [0x006370, hasm, libultra/bcmp]
+      - [0x006480, hasm, libultra/bcopy]
+      - [0x0067A0, hasm, libultra/bzero]
+      - [0x006840, asm, libultra/string]
+      - [0x0068C0, asm, boot/0068C0]
+      - [0x006AA0, asm, libultra/sptask]
+      - [0x006CB0, asm, libultra/sptaskyield]
+      - [0x006CD0, asm, libultra/sptaskyielded]
+      - [0x006D20, asm, libultra/sched]
+      - [0x0076C0, asm, libultra/sirawdma]
+      - [0x0077A0, asm, boot/0077A0]
+      - [0x007B60, asm, boot/007B60]
+      - [0x007D60, asm, boot/007D60]
+      - [0x008480, hasm, libultra/probetlb]
+      - [0x008540, asm, boot/008540]
+      - [0x0088C0, asm, libultra/visetevent]
+      - [0x008920, asm, libultra/visetmode]
+      - [0x0089A0, asm, libultra/visetspecial]
+      - [0x008B20, asm, libultra/visetyscale]
+      - [0x008B70, asm, libultra/viswapbuf]
+      - [0x008BC0, asm, libultra/viswapcontext]
+      - [0x008ED0, asm, libultra/viblack]
+      - [0x008F30, asm, boot/008F30]
+      - [0x008F40, asm, libultra/mtxident]
+      - [0x008F90, asm, boot/008F90]
+      - [0x008FA0, asm, libultra/mtxidentf]
+      - [0x008FF0, asm, boot/008FF0]
+      - [0x009000, asm, libultra/mtxf2l]
+      - [0x009070, asm, boot/009070]
+      - [0x009080, asm, libultra/mtxl2f]
+      - [0x0090F0, asm, boot/0090F0]
+      - [0x009100, asm, libultra/mtxcatf]
+      - [0x0091F0, asm, boot/0091F0]
+      - [0x009200, asm, libultra/scale]
+      - [0x0092A0, asm, libultra/scalef]
+      - [0x0092F0, asm, boot/0092F0]
+      - [0x009300, asm, libultra/translate]
+      - [0x0093D0, asm, boot/0093D0]
+      - [0x0093E0, asm, libultra/translatef]
+      - [0x009430, asm, libultra/conteepprobe]
+      - [0x009490, asm, libultra/conteeplongwrite]
+      - [0x009580, asm, libultra/conteeplongread]
+      - [0x009600, asm, boot/009600]
+      - [0x00A080, hasm, libultra/interrupt]
+      - [0x00A110, hasm, libultra/setintmask]
+      - [0x00A1C0, asm, boot/00A1C0]
+      - [0x00A340, asm, libultra/epirawdma]
+
+      - [0x00A700, asm, boot/00A700]
+  #     - [0x00A700, asm, libultra/epiread] # ambiguous
+  #     - [0x00A700, asm, libultra/epiwrite] # ambiguous
+
+      - [0x00A760, asm, libultra/epidma]
+      - [0x00A800, asm, libultra/epilinkhandle]
+      - [0x00A850, asm, libultra/cartrominit]
+      - [0x00A9B0, asm, libultra/devmgr]
+      - [0x00AE50, asm, boot/00AE50]
+      - [0x00AF10, asm, libultra/skapi]
+      - [0x00B160, asm, boot/00B160]
+      - [0x00B2C0, asm, libultra/os/initialize]
+      - [0x00B850, asm, libultra/ai]
+      - [0x00B880, asm, libultra/drvrNew]
+      - [0x00C030, asm, libultra/load]
+      - [0x00CAC0, asm, libultra/auxbus]
+      - [0x00CBD0, asm, libultra/filter]
+      - [0x00CBF0, asm, libultra/mainbus]
+      - [0x00CD60, asm, libultra/resample]
+      - [0x00D000, asm, libultra/reverb]
+      - [0x00DB70, asm, libultra/save]
+      - [0x00DC50, asm, libultra/heapalloc]
+      - [0x00DCA0, asm, libultra/copy] # common form
+      - [0x00DCD0, hasm, libultra/invalicache]
+      - [0x00DD50, hasm, libultra/writebackdcache]
+      - [0x00DDD0, asm, boot/00DDD0]
+      - [0x00E190, asm, libultra/dpsetnextbuf]
+      - [0x00E230, hasm, libultra/getcause]
+      - [0x00E240, hasm, libultra/getsr]
+      - [0x00E250, hasm, libultra/setfpccsr]
+      - [0x00E260, hasm, libultra/setsr]
+      - [0x00E270, hasm, libultra/setwatchlo]
+      - [0x00E280, asm, boot/00E280]
+      - [0x00E430, asm, libultra/sp]
+      - [0x00E460, asm, libultra/spgetstat]
+      - [0x00E470, asm, libultra/spsetstat]
+      - [0x00E480, asm, libultra/spsetpc]
+      - [0x00E4B0, asm, libultra/sprawdma]
+  #     - [0x00E540, asm, libultra/sirawread] # ambiguous
+  #     - [0x00E540, asm, libultra/sprawread] # ambiguous
+  #     - [0x00E590, asm, libultra/sirawwrite] # ambiguous
+  #     - [0x00E590, asm, libultra/sprawwrite] # ambiguous
+      - [0x00E5E0, asm, boot/00E5E0]
+      - [0x00E8D0, hasm, libultra/maptlbrdb]
+      - [0x00E930, hasm, libultra/unmaptlball]
+      - [0x00E980, asm, libultra/vi]
+  #     - [0x00EA80, asm, libultra/getactivequeue] # ambiguous
+  #     - [0x00EA80, asm, libultra/getcurrfaultthread] # ambiguous
+  #     - [0x00EA80, asm, libultra/getmemsize] # ambiguous
+  #     - [0x00EA80, asm, libultra/pigettype] # ambiguous
+  #     - [0x00EA80, asm, libultra/vigetcurrcontext] # ambiguous
+  #     - [0x00EA80, asm, libultra/vigetnextcontext] # ambiguous
+      - [0x00EA90, asm, libultra/conteepread]
+      - [0x00EB40, asm, libultra/conteepwrite]
+      - [0x00EBF0, asm, boot/00EBF0]
+      - [0x00ECC0, asm, libultra/pirawdma]
+      - [0x00EDA0, asm, libultra/pigetcmdq]
+      - [0x00EDD0, asm, libultra/epirawread]
+      - [0x00EF50, asm, libultra/epirawwrite]
+      - [0x00F0D0, asm, libultra/dp]
+      - [0x00F100, asm, libultra/si]
+      - [0x00F130, asm, boot/00F130]
+      - [0x00F6A0, asm, boot/00F6A0]
+      - [0x00F6E0, asm, boot/00F6E0]
+      - [0x00F700, asm, boot/00F700]
+      - [0x00F760, asm, boot/00F760]
+      - [0x00F7A0, asm, boot/00F7A0]
+
+      - [0x00F830, .data, boot/boot_main]
+      - [0x00F840, data, boot/00F840]
+
+      - [0x00FDE0, data, boot/rom_offsets]
+
+      - [0x0100F0, data, boot/0100F0]
+
+      - [0x00120E0, rodata, boot/00120E0] # guess
+      - [0x0012180, rodata, boot/0012180]
+      - [0x00121E0, rodata, boot/00121E0]
+      - [0x0012240, rodata, boot/0012240]
+      - [0x0012260, rodata, boot/0012260]
+      - [0x00122B0, rodata, boot/00122B0]
+      - [0x00123D0, rodata, boot/00123D0]
+      - [0x00123E0, rodata, boot/00123E0]
+
+      - { start: 0x0124E0, type: bss, vram: 0x800118E0, name: boot/800118E0 }
+
+  - name: dma_table
+    type: code
+    start: 0x0124E0
+    vram: 0x8002A7B0
+    follows_vram: boot
+    subsegments:
+      - [0x0124E0, data, dma_table/dma_table]
+
+  - name: main_segment # compressed
+    type: code
+    start: 0x0124F0
+    vram: 0x8002A7C0
+    follows_vram: dma_table
+    bss_size: 0x716B0
+    subsegments:
+      - [0x0124F0, asm, main_segment/0124F0]
+
+      - [0x013AD0, asm, main_segment/013AD0]
+      - [0x0140A0, asm, main_segment/0140A0]
+      - [0x0156C0, asm, main_segment/0156C0]
+      - [0x016A80, asm, main_segment/016A80]
+      - [0x017640, asm, main_segment/017640]
+      - [0x0184C0, asm, main_segment/0184C0]
+      - [0x023880, asm, main_segment/023880]
+      - [0x025650, asm, main_segment/025650]
+      - [0x027D50, asm, main_segment/027D50]
+      - [0x027DF0, asm, main_segment/027DF0]
+      - [0x028350, asm, main_segment/028350]
+      - [0x02AC40, asm, main_segment/02AC40]
+      - [0x030390, asm, main_segment/030390]
+      - [0x049760, asm, main_segment/049760]
+      - [0x04C1E0, asm, main_segment/04C1E0]
+      - [0x04E5E0, asm, main_segment/04E5E0]
+      - [0x062E20, asm, main_segment/062E20]
+      - [0x067CE0, asm, main_segment/067CE0]
+      - [0x068960, asm, main_segment/068960]
+      - [0x06E1F0, asm, main_segment/06E1F0]
+      - [0x06E7E0, asm, main_segment/06E7E0]
+      - [0x06FF90, asm, main_segment/06FF90]
+      - [0x0710D0, asm, main_segment/0710D0]
+      - [0x071830, asm, main_segment/071830]
+      - [0x0726F0, asm, main_segment/0726F0]
+      - [0x072880, asm, main_segment/072880]
+      - [0x075D50, asm, main_segment/075D50]
+      - [0x076680, asm, main_segment/076680]
+
+      - [0x077160, data, main_segment/077160]
+
+      - [0x0AB7F0, rodata, main_segment/0AB7F0] # guess
+
+      - [0x0AB820, rodata, main_segment/0AB820]
+      - [0x0ABD40, rodata, main_segment/0ABD40]
+      - [0x0ABDB0, rodata, main_segment/0ABDB0]
+      - [0x0ABE80, rodata, main_segment/0ABE80]
+      - [0x0AC790, rodata, main_segment/0AC790]
+      - [0x0AC7A0, rodata, main_segment/0AC7A0]
+      - [0x0AC7F0, rodata, main_segment/0AC7F0]
+      - [0x0AC840, rodata, main_segment/0AC840]
+      - [0x0AC890, rodata, main_segment/0AC890]
+      - [0x0AD3E0, rodata, main_segment/0AD3E0]
+      - [0x0AD5D0, rodata, main_segment/0AD5D0]
+      - [0x0AD620, rodata, main_segment/0AD620]
+      - [0x0AD690, rodata, main_segment/0AD690]
+      - [0x0AD7E0, rodata, main_segment/0AD7E0]
+      - [0x0AD870, rodata, main_segment/0AD870]
+      - [0x0ADAA0, rodata, main_segment/0ADAA0]
+      - [0x0ADAD0, rodata, main_segment/0ADAD0]
+      - [0x0ADBF0, rodata, main_segment/0ADBF0]
+      - [0x0ADEE0, rodata, main_segment/0ADEE0]
+      - [0x0AF650, rodata, main_segment/0AF650]
+      - [0x0AF680, rodata, main_segment/0AF680]
+      - [0x0AFCE0, rodata, main_segment/0AFCE0]
+      - [0x0AFD10, rodata, main_segment/0AFD10]
+      - [0x0AFDD0, rodata, main_segment/0AFDD0]
+      - [0x0AFF90, rodata, main_segment/0AFF90]
+      - [0x0B06F0, rodata, main_segment/0B06F0]
+      - [0x0B12B0, rodata, main_segment/0B12B0]
+      - [0x0B1380, rodata, main_segment/0B1380]
+      - [0x0B13C0, rodata, main_segment/0B13C0]
+      - [0x0B1440, rodata, main_segment/0B1440]
+      - [0x0B1450, rodata, main_segment/0B1450]
+
+      - { start: 0x0B1EF0, type: bss, vram: 0x800CA1C0, name: boot/800CA1C0 }
+
+  - [0x0B1EF0, bin]
+
+  - [0x38ED30]

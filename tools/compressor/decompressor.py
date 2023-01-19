@@ -17,12 +17,13 @@ def decompressorMain():
     parser = argparse.ArgumentParser(description=description)
 
     parser.add_argument("segments", help="path to segments file")
+    parser.add_argument("version", help="version to process")
 
     args = parser.parse_args()
 
     segmentsPath = Path(args.segments)
 
-    segmentDict = compression_common.readSegmentsCsv(segmentsPath)
+    segmentDict = compression_common.readSegmentsCsv(segmentsPath, args.version)
 
     for segmentName, entry in segmentDict.items():
         # print(entry.compressedPath)

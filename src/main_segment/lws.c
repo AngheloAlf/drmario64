@@ -9,4 +9,6 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/lws", lws_anim);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/lws", lws_anim);
+#endif

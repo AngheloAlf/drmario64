@@ -35,7 +35,9 @@ f32 func_8007BC20(f32 arg0) {
     return sinf(arg0) / cosf(arg0);
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007BC54);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007BC54);
+#endif
 
 /**
  * Creates a general rotation + translation matrix. Uses Y1 X2 Z3 Tait-Bryan angles
@@ -99,11 +101,17 @@ void func_8007BEEC(s16 theta, s16 phi, f32 *x, f32 *y, f32 *z) {
     *z = cosTheta * cosPhi;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007BFE0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007BFE0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007C0C4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C0C4);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007C244);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C244);
+#endif
 
 /**
  * Original name most likely angleS2F
@@ -184,7 +192,9 @@ void func_8007C624(f32 angle, f32 centreX, f32 centreY, f32 *pointX, f32 *pointY
 }
 
 f32 func_8007C6D8(f32 arg0, f32 arg1);
-INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007C6D8);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C6D8);
+#endif
 
 /**
  * Calculate the distance between two points.
@@ -197,13 +207,21 @@ f32 func_8007C780(f32 aX, f32 aY, f32 aZ, f32 bX, f32 bY, f32 bZ) {
     return sqrtf((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ));
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007C7E8);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C7E8);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007C894);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C894);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007C9C8);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C9C8);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007CAFC);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007CAFC);
+#endif
 
 /**
  * Multiply the vector `(inX, inY, inZ)` by the matrix `m` and write to `(outX, outY, outZ)`.
@@ -263,7 +281,9 @@ void func_8007CCFC(MtxF *m, f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32
     *outZ = vec[2];
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/calc", func_8007CD78);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007CD78);
+#endif
 
 /**
  * Normalise a vector consisting of three passed floats in-place. Returns the length of the original vector.

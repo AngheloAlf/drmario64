@@ -176,67 +176,129 @@ const char STR_800AD790[] RODATA = "Man";
 
 const char STR_800AD794[] RODATA = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E1E0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E1E0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E208);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E208);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E278);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E278);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E3F0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E3F0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E430);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E430);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E4AC);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E4AC);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E4B4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E4B4);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E69C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E69C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E6D8);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E6D8);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E6F8);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E6F8);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E730);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E730);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003E8C8);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E8C8);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003EB20);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003EB20);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003ECDC);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003ECDC);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003EEA4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003EEA4);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003F050);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003F050);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003F360);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003F360);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003F474);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003F474);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003F568);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003F568);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/014590", STR_800AD7F0);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD7F0);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/014590", STR_800AD864);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD864);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/014590", STR_800AD898);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD898);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/014590", STR_800AD8CC);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD8CC);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/014590", STR_800AD8E8);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD8E8);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/014590", STR_800AD8F4);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD8F4);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/014590", STR_800AD904);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD904);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/014590", STR_800AD914);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD914);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/014590", STR_800AD91C);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD91C);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/014590", STR_800AD928);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD928);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/014590", STR_800AD92C);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/014590", STR_800AD92C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003F7DC);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003F7DC);
+#endif
 
 ASM_RODATA;
 
@@ -312,13 +374,21 @@ const char STR_800ADA8C[] RODATA = "ｾﾝｾｲｺｳｹﾞｷ";
 
 ASM_TEXT;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003FB00);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003FB00);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003FD0C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003FD0C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003FD88);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003FD88);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8003FEE4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003FEE4);
+#endif
 
 ASM_RODATA;
 
@@ -344,14 +414,26 @@ const char STR_800ADB24[] RODATA = "@m%c@c%c%c:%s\n";
 
 ASM_TEXT;
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_8004015C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8004015C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_80040238);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_80040238);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_80040578);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_80040578);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_80040624);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_80040624);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_800409A0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_800409A0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/014590", func_800409DC);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_800409DC);
+#endif

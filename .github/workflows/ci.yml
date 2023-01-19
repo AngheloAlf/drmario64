@@ -8,6 +8,11 @@ jobs:
     name: Build repo
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [us, cn]
+
     steps:
     - name: Checkout reposistory
       uses: actions/checkout@v3
@@ -30,33 +35,32 @@ jobs:
       run: cp deps_repo/drmario64/* .
 
     - name: Setup
-      run: make setup -j $(nproc)
+      run: make setup -j $(nproc) VERSION=${{ matrix.version }}
 
     - name: Build libraries
-      run: make lib -j $(nproc)
+      run: make lib -j $(nproc) VERSION=${{ matrix.version }}
 
     - name: Disassemble and extraction
-      run: make extract -j $(nproc)
+      run: make extract -j $(nproc) VERSION=${{ matrix.version }}
 
     - name: Build Dr. Mario 64
-      run: make -j $(nproc) WERROR=1
+      run: make -j $(nproc) WERROR=1 VERSION=${{ matrix.version }}
 
     - name: Upload frogress
       if: github.ref == 'refs/heads/master'
-      continue-on-error: true
-      run: python3 tools/upload_frogress.py us --apikey ${{ secrets.PROGRESS_API_KEY }}
+      run: python3 tools/upload_frogress.py ${{ matrix.version }} --apikey ${{ secrets.PROGRESS_API_KEY }}
 
     - name: Upload map
       uses: actions/upload-artifact@v3
       with:
-        name: drmario64.map
-        path: build/drmario64.map
+        name: drmario64.${{ matrix.version }}.map
+        path: build/drmario64.${{ matrix.version }}.map
 
     - name: Generate PJ64 symbols file
-      run: python3 tools/pj64_syms.py
+      run: python3 tools/pj64_syms.py --version ${{ matrix.version }} -o drmario.${{ matrix.version }}.sym
 
     - name: Upload PJ64 symbols file
       uses: actions/upload-artifact@v3
       with:
-        name: DR.MARIO 64.sym
-        path: DR.MARIO 64.sym
+        name: drmario.${{ matrix.version }}.sym
+        path: drmario.${{ matrix.version }}.sym

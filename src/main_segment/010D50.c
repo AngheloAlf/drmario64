@@ -5,9 +5,13 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003A9A0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003A9A0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003ACB4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003ACB4);
+#endif
 
 void func_8003AD88(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
@@ -51,32 +55,62 @@ UNK_TYPE func_8003AE08(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
     return ret;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003AEE4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003AEE4);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003B054);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003B054);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003B1C4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003B1C4);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003B30C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003B30C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003B454);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003B454);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003B59C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003B59C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003BA98);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003BA98);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003BEF8);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003BEF8);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003BFD8);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003BFD8);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003C094);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C094);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003C1A4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C1A4);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003C2B4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C2B4);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003C3C0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C3C0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003C600);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C600);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/010D50", func_8003C6F4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C6F4);
+#endif

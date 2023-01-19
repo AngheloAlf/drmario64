@@ -5,39 +5,73 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/00F2A0", D_800ACFB0);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", D_800ACFB0);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/00F2A0", D_800ACFC8);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", D_800ACFC8);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_80038EF0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_80038EF0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_8003901C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003901C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_800393DC);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_800393DC);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_800394A0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_800394A0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_8003974C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003974C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_80039BE0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_80039BE0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_80039D08);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_80039D08);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_80039E14);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_80039E14);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_80039F74);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_80039F74);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/00F2A0", RO_800AD080);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", RO_800AD080);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/00F2A0", D_800AD098);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", D_800AD098);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_8003A1B4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003A1B4);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_8003A26C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003A26C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_8003A618);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003A618);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/00F2A0", func_8003A7E4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003A7E4);
+#endif
 
 void *func_8003A89C(void *arg0, s32 arg1) {
     D_8008CFE0 = arg1;

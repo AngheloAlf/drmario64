@@ -26,28 +26,40 @@ OBJDUMP_BUILD ?= 1
 MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
 
 
+VERSION ?= us
 
-BASEROM              := baserom.z64
-BASEROM_UNCOMPRESSED := baserom_uncompressed.z64
+BASEROM              := baserom.$(VERSION).z64
+BASEROM_UNCOMPRESSED := baserom_uncompressed.$(VERSION).z64
 TARGET               := drmario64
 
 
 ### Output ###
 
 BUILD_DIR := build
-ROM       := $(BUILD_DIR)/$(TARGET)_uncompressed.z64
-ELF       := $(BUILD_DIR)/$(TARGET).elf
-LD_MAP    := $(BUILD_DIR)/$(TARGET).map
-LD_SCRIPT := linker_scripts/$(TARGET).ld
-ROMC      := $(BUILD_DIR)/$(TARGET).z64
+ROM       := $(BUILD_DIR)/$(TARGET)_uncompressed.$(VERSION).z64
+ELF       := $(BUILD_DIR)/$(TARGET).$(VERSION).elf
+LD_MAP    := $(BUILD_DIR)/$(TARGET).$(VERSION).map
+LD_SCRIPT := linker_scripts/$(VERSION)/$(TARGET).ld
+ROMC      := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 
 
 #### Setup ####
 
+BUILD_DEFINES ?=
+
+ifeq ($(VERSION),us)
+	BUILD_DEFINES   += -DVERSION_US=1
+else
+ifeq ($(VERSION),cn)
+	BUILD_DEFINES   += -DVERSION_CN=1
+else
+$(error Invalid VERSION variable detected. Please use either 'us' or 'cn')
+endif
+endif
+
 ifeq ($(NON_MATCHING),1)
-	CFLAGS := -DNON_MATCHING -DAVOID_UB
-	CPPFLAGS := -DNON_MATCHING -DAVOID_UB
-	COMPARE := 0
+	BUILD_DEFINES   += -DNON_MATCHING -DAVOID_UB
+	COMPARE  := 0
 endif
 
 MAKE = make
@@ -70,27 +82,31 @@ ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?),
 $(error Please install or build $(MIPS_BINUTILS_PREFIX))
 endif
 
+ifeq ($(VERSION),us)
 CC         := COMPILER_PATH=tools/gcc_kmc/$(DETECTED_OS)/2.7.2 tools/gcc_kmc/$(DETECTED_OS)/2.7.2/gcc
+endif
+ifeq ($(VERSION),cn)
+CC         := COMPILER_PATH=tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4 tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4/mips-linux-gcc
+endif
 
 AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 GCC        := $(MIPS_BINUTILS_PREFIX)gcc
 CPP        := $(MIPS_BINUTILS_PREFIX)cpp
 STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 ICONV      := iconv
 
 SPLAT             ?= tools/splat/split.py
-SPLAT_YAML        ?= $(TARGET).yaml
+SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
 
 ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
 ROM_DECOMPRESSOR  ?= tools/compressor/rom_decompressor.py
 SEGMENT_EXTRACTOR ?= tools/compressor/extract_compressed_segments.py
 
 
-IINC       := -Iinclude -Ibin
+IINC       := -Iinclude -Ibin/$(VERSION)
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/gcc -Ilib/ultralib/include/PR -Ilib/ultralib/src -Ilib/libmus/include
 
 # Check code syntax with host compiler
@@ -108,10 +124,17 @@ else
 	CC_CHECK          := @:
 endif
 
+ifeq ($(VERSION),us)
 OPTFLAGS        := -O2
 # OPTFLAGS        += -gdwarf
 MIPS_VERSION    := -mips3
-CFLAGS          += -nostdinc -G 0 -mgp32 -mfp32 -fno-common -funsigned-char
+endif
+ifeq ($(VERSION),cn)
+OPTFLAGS        := -O2 -ggdb
+MIPS_VERSION    := -mips2
+endif
+
+CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -fno-common -funsigned-char
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -32 -G0
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
@@ -135,10 +158,10 @@ endif
 
 #### Files ####
 
-$(shell mkdir -p asm bin linker_scripts/auto)
+$(shell mkdir -p asm bin linker_scripts/$(VERSION)/auto)
 
 SRC_DIRS      := $(shell find src -type d)
-ASM_DIRS      := $(shell find asm -type d -not -path "asm/nonmatchings/*")
+ASM_DIRS      := $(shell find asm/$(VERSION) -type d -not -path "asm/$(VERSION)/nonmatchings/*")
 BIN_DIRS      := $(shell find bin -type d)
 LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/src/voice")
 LIBMUS_DIRS   := $(shell find lib/libmus/src -type d)
@@ -161,7 +184,7 @@ DEP_FILES := $(O_FILES:.o=.d) \
              $(O_FILES:.o=.asmproc.d)
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/linker_scripts $(BUILD_DIR)/linker_scripts/auto $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/linker_scripts/$(VERSION)/auto $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
 $(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
@@ -176,13 +199,13 @@ all: compressed
 uncompressed: $(ROM)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
-	@md5sum -c $(TARGET)_uncompressed.md5
+	@md5sum -c $(TARGET)_uncompressed.$(VERSION).md5
 endif
 
 compressed: $(ROMC)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROMC)
-	@md5sum -c $(TARGET).md5
+	@md5sum -c $(TARGET).$(VERSION).md5
 endif
 
 clean:
@@ -193,16 +216,17 @@ libclean:
 
 distclean: clean
 	$(RM) -r $(BUILD_DIR) asm/ bin/ .splat/
+	$(RM) -r linker_scripts/$(VERSION)/auto $(LD_SCRIPT)
 	$(MAKE) -C tools distclean
 
 setup:
-	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.csv
+	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 	$(MAKE) -C tools
 
 extract:
-	$(RM) -r asm bin
+	$(RM) -r asm/$(VERSION) bin/$(VERSION)
 	$(SPLAT) $(SPLAT_YAML)
-	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.csv
+	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
 lib:
 	$(MAKE) -C lib
@@ -224,7 +248,7 @@ format:
 	clang-format-11 -i -style=file $(C_FILES)
 
 tidy:
-	clang-tidy-11 -p . --fix --fix-errors $(C_FILES) -- $(CC_CHECK_FLAGS) $(IINC) $(CHECK_WARNINGS) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS)
+	clang-tidy-11 -p . --fix --fix-errors $(C_FILES) -- $(CC_CHECK_FLAGS) $(IINC) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS)
 
 .PHONY: all compressed uncompressed clean distclean setup extract lib diff-init init format tidy
 .DEFAULT_GOAL := all
@@ -237,29 +261,30 @@ tidy:
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary $< $@
 
-$(ROMC): $(ROM) tools/compressor/compress_segments.csv
-	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ELF) tools/compressor/compress_segments.csv
+$(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
+	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 # TODO: update header
 
-$(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/hardware_regs.ld $(BUILD_DIR)/linker_scripts/undefined_syms.ld
+$(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
-		-T $(BUILD_DIR)/linker_scripts/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/undefined_syms.ld \
+		-T linker_scripts/$(VERSION)/auto/undefined_syms_auto.ld -T linker_scripts/$(VERSION)/auto/undefined_funcs_auto.ld \
+		-T $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld \
 		-Map $(LD_MAP) -o $@
 
 
 $(BUILD_DIR)/%.ld: %.ld
-	$(CPP) $(CPPFLAGS) $< > $@
+	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $< > $@
 
 $(BUILD_DIR)/%.o: %.bin
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/%.o: %.s
-	$(CPP) $(CPPFLAGS) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | $(ICONV) --to-code=Shift-JIS | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -o $@
+	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | $(ICONV) --to-code=Shift-JIS | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -o $@
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
-	$(ICONV) --to-code=Shift-JIS  $< | $(CC) -x c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -c -o $@ -
+	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
+	$(ICONV) --to-code=Shift-JIS  $< | $(CC) -x c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -c -o $@ -
 	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)

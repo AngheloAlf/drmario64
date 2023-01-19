@@ -30,6 +30,7 @@ void init_map_all(GameMapGrid *mapGrid) {
     }
 }
 
+#if VERSION_US
 #ifdef NON_EQUIVALENT
 // not sure if equivalent
 void clear_map(GameMapGrid *mapGrid, s32 column, s32 row) {
@@ -45,7 +46,8 @@ void clear_map(GameMapGrid *mapGrid, s32 column, s32 row) {
     }
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", clear_map);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", clear_map);
+#endif
 #endif
 
 void clear_map_all(GameMapGrid *mapGrid) {
@@ -67,11 +69,17 @@ bool get_map_info(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne) {
     return cells[index].unk_4[0] != 0;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F09C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005F09C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005F0E4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005F0E4);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BA0);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", D_800B1BA0);
+#endif
 
 s32 get_virus_color_count(GameMapGrid *mapGrid, u8 *arg1, u8 *arg2, u8 *arg3) {
     s32 sp0[3] = { 0, 0, 0 };
@@ -168,6 +176,7 @@ u32 func_8005F310(struct_virus_map_data *arg0, s32 arg1, s32 arg2) {
     return (~value) >> 31;
 }
 
+#if VERSION_US
 #ifdef NON_MATCHING
 bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3) {
     struct {
@@ -236,7 +245,8 @@ bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3) {
     return true;
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", dm_check_color);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", dm_check_color);
+#endif
 #endif
 
 bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3) {
@@ -319,9 +329,14 @@ s32 func_8005F6F0(s32 arg0) {
     return D_800B1BC8[arg0];
 }
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BC8);
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BCC);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", D_800B1BC8);
+#endif
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", D_800B1BCC);
+#endif
 
+#if VERSION_US
 #if 0
 extern u8 D_800B1BCC[];
 extern u8 D_800B1BA0[];
@@ -503,7 +518,8 @@ loop_1:
     }
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", _dm_virus_init);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", _dm_virus_init);
+#endif
 #endif
 
 void dm_virus_init(u32 arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2,
@@ -518,11 +534,17 @@ void func_8005FC6C(struct_8005FC6C_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     arg0->unk_008 = arg3;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", _makeFlash_checkOrdre);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", _makeFlash_checkOrdre);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", func_8005FE68);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005FE68);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/dm_virus_init", D_800B1BD0);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", D_800B1BD0);
+#endif
 
 struct _m2c_stack_make_flash_virus_pos {
     /* 0x000 */ char pad_0[0x10];
@@ -532,4 +554,6 @@ struct _m2c_stack_make_flash_virus_pos {
     /* 0x310 */ char pad_310[0x30];
 }; /* size = 0x340 */
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/dm_virus_init", make_flash_virus_pos);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", make_flash_virus_pos);
+#endif

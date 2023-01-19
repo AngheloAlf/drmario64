@@ -7,9 +7,13 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002EB00);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002EB00);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifMakeBlkWork);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifMakeBlkWork);
+#endif
 
 /**
  * Original name: aifMakeFlagSet
@@ -47,6 +51,7 @@ void aifGameInit(void) {
     }
 }
 
+#if VERSION_US
 #if 0
 typedef struct struct_800F48D0 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x1C0];
@@ -179,10 +184,13 @@ loop_2:
     return aifGameInit(temp_a0, var_a1, var_a2, var_a3);
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifFirstInit);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFirstInit);
+#endif
 #endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002EFF0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002EFF0);
+#endif
 
 bool aifMake2(struct_game_state_data *gameStateData, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u8 temp_v1;
@@ -228,65 +236,125 @@ bool aifMake2(struct_game_state_data *gameStateData, s32 arg1, s32 arg2, s32 arg
     return true;
 }
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002F2EC);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F2EC);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002F924);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F924);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002F9CC);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F9CC);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8002FDF0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002FDF0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80030810);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80030810);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_800308FC);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800308FC);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_800310C8);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800310C8);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80031218);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80031218);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8003135C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003135C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_800313F0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800313F0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8003145C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003145C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8003151C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003151C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8003157C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003157C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_800325AC);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800325AC);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80033474);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80033474);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifFieldCopy);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFieldCopy);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80034310);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034310);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80034380);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034380);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80034798);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034798);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80034AB0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034AB0);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80034D54);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034D54);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80034E80);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034E80);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_8003510C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003510C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifReMoveCheck);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifReMoveCheck);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/aiset", D_800ACF10);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", D_800ACF10);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifKeyMake);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyMake);
+#endif
 
-INCLUDE_RODATA("asm/nonmatchings/main_segment/aiset", D_800ACF20);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", D_800ACF20);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", aifKeyOut);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyOut);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_80035CF4);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80035CF4);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/aiset", func_800362A0);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800362A0);
+#endif
 
 /**
  * Original name: aiCOM_MissTake

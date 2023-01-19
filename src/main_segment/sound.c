@@ -202,6 +202,7 @@ void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
     }
 }
 
+#if VERSION_US
 #ifdef NON_EQUIVALENT
 // maybe equivalent, but too afraid to tell
 /**
@@ -231,7 +232,8 @@ void dm_audio_set_stereo(bool setStereo) {
     osWritebackDCacheAll();
 }
 #else
-INCLUDE_ASM("asm/nonmatchings/main_segment/sound", dm_audio_set_stereo);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/sound", dm_audio_set_stereo);
+#endif
 #endif
 
 /**

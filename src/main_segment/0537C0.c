@@ -4,20 +4,38 @@
 #include "unknown_structs.h"
 #include "unk.h"
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0537C0", func_8007D410);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/0537C0", func_8007D410);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0537C0", func_8007D4CC);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/0537C0", func_8007D4CC);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0537C0", func_8007D568);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/0537C0", func_8007D568);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0537C0", func_8007D644);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/0537C0", func_8007D644);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0537C0", func_8007D74C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/0537C0", func_8007D74C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0537C0", func_8007D83C);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/0537C0", func_8007D83C);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0537C0", func_8007DB78);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/0537C0", func_8007DB78);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0537C0", func_8007DD70);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/0537C0", func_8007DD70);
+#endif
 
-INCLUDE_ASM("asm/nonmatchings/main_segment/0537C0", func_8007DF64);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/0537C0", func_8007DF64);
+#endif

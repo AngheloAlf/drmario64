@@ -10,19 +10,20 @@ import mapfile_parser
 from pathlib import Path
 
 
-BUILTMAP = Path(f"build/drmario64.map")
-EXPECTEDMAP = Path(f"expected/build/drmario64.map")
 
 def symInfoMain():
     parser = argparse.ArgumentParser(description="Display various information about a symbol or address.")
     parser.add_argument("symname", help="symbol name or VROM/VRAM address to lookup")
     parser.add_argument("-e", "--expected", dest="use_expected", action="store_true", help="use the map file in expected/build/ instead of build/")
+    parser.add_argument("-v", "--version", help="Which version should be processed", default="us")
 
     args = parser.parse_args()
 
+    BUILTMAP = Path(f"build") / f"drmario64.{args.version}.map"
+
     mapPath = BUILTMAP
     if args.use_expected:
-        mapPath = EXPECTEDMAP
+        mapPath = "expected" / BUILTMAP
 
     mapfile_parser.frontends.sym_info.doSymInfo(mapPath, args.symname)
 
