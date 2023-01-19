@@ -1,4 +1,4 @@
-#include "ultra64.h"
+#include "libultra.h"
 #include "gcc/memory.h"
 #include "libkmc/kmclib.h"
 

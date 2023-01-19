@@ -1,4 +1,4 @@
-#include "ultra64.h"
+#include "libultra.h"
 #include "macros_defines.h"
 #include "boot_functions.h"
 #include "boot_variables.h"

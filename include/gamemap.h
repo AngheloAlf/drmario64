@@ -1,7 +1,7 @@
 #ifndef GAMEMAP_H
 #define GAMEMAP_H
 
-#include "ultra64.h"
+#include "libultra.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
 

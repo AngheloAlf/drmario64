@@ -1,7 +1,7 @@
 #ifndef MAIN_SEGMENT_VARIABLES_H
 #define MAIN_SEGMENT_VARIABLES_H
 
-#include "ultra64.h"
+#include "libultra.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
 #include "PR/sched.h"

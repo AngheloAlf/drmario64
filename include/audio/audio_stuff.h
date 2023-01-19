@@ -1,7 +1,7 @@
 #ifndef AUDIO_STUFF_H
 #define AUDIO_STUFF_H
 
-#include "ultra64.h"
+#include "libultra.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
 #include "PR/libmus.h"

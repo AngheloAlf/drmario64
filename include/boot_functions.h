@@ -1,7 +1,7 @@
 #ifndef BOOT_FUNCTIONS
 #define BOOT_FUNCTIONS
 
-#include "ultra64.h"
+#include "libultra.h"
 #include "libc/stdint.h"
 #include "unknown_structs.h"
 #include "unk.h"

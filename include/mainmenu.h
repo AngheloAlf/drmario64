@@ -1,7 +1,7 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
-#include "ultra64.h"
+#include "libultra.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
 #include "color.h"

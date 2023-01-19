@@ -1,7 +1,7 @@
 #ifndef BUFFERS_H
 #define BUFFERS_H
 
-#include "ultra64.h"
+#include "libultra.h"
 #include "unknown_structs.h"
 #include "alignment.h"
 #include "macros_defines.h"

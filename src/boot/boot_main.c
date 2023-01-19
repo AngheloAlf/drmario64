@@ -1,4 +1,4 @@
-#include "ultra64.h"
+#include "libultra.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
 #include "dma_table.h"

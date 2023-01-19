@@ -1,7 +1,7 @@
 #ifndef COLOR_H
 #define COLOR_H
 
-#include "ultra64.h"
+#include "libultra.h"
 
 typedef struct Color_RGB8 {
     /* 0x0 */ u8 r;

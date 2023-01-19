@@ -1,7 +1,7 @@
 #ifndef CHAR_ANIME_H
 #define CHAR_ANIME_H
 
-#include "ultra64.h"
+#include "libultra.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
 #include "unk.h"

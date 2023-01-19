@@ -3,10 +3,12 @@
 
 #include "version.h"
 
-#include "ultra64.h"
+#include "lib/ultralib/include/ultra64.h"
+#include "lib/ultralib/src/audio/synthInternals.h"
 // TODO: include different libultra headers depending on version
 #if VERSION_US
-//#include "ultra64.h"
+//#include "lib/ultralib/include/ultra64.h"
+//#include "lib/ultralib/src/audio/synthInternals.h"
 #endif
 #if VERSION_CN
 

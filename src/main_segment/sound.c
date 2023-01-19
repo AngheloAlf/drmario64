@@ -13,7 +13,6 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "rom_offsets.h"
-#include "audio/synthInternals.h"
 #include "buffers.h"
 
 const u8 RO_800ACA10[] = {

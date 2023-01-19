@@ -2,7 +2,7 @@
  * Original filename: msgwnd.c
  */
 
-#include "ultra64.h"
+#include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"

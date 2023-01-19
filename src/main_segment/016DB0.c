@@ -1,4 +1,4 @@
-#include "ultra64.h"
+#include "libultra.h"
 #include "include_asm.h"
 #include "unk.h"
 #include "macros_defines.h"

@@ -1,4 +1,4 @@
-#include "ultra64.h"
+#include "libultra.h"
 #include "libkmc/kmclib.h"
 #include "libc/stdbool.h"
 

@@ -1,7 +1,7 @@
 #ifndef BOOT_VARIABLES_H
 #define BOOT_VARIABLES_H
 
-#include "ultra64.h"
+#include "libultra.h"
 #include "libc/stdint.h"
 #include "unknown_structs.h"
 #include "unk.h"
