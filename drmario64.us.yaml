@@ -48,8 +48,12 @@ options:
   hardware_regs: True
 segments:
   - name: header
-    type: header
+    type: code
     start: 0x000000
+    vram: 0
+    subsegments:
+      - [0x000000, c, rom_header/rom_header]
+      - [0x000000, .data, rom_header/rom_header]
 
   - name: ipl3
     type: bin
