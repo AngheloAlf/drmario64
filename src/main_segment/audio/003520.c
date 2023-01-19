@@ -8,7 +8,7 @@
 #include "main_segment_variables.h"
 #include "PR/sched.h"
 
-#if VERSION == VERSION_US
+#if VERSION_US
 #ifdef NON_EQUIVALENT
 s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5,
                   size_t arg6, UNK_TYPE arg7, OSPri thread_priority) {

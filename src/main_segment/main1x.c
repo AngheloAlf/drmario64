@@ -45,46 +45,46 @@ enum_main_no main11(void) {
 /**
  * Original name: adjust_story_ai
  */
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main1x", adjust_story_ai);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE1C);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE28);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE2C);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE4C);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE5C);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE70);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE78);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE84);
 #endif
 
 /**
  * Original name: main12
  */
-#if VERSION == VERSION_US
+#if VERSION_US
 #if 0
 extern s8 evs_story_no;
 extern s8 evs_story_level;

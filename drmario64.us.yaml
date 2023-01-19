@@ -70,7 +70,6 @@ segments:
     bss_size: 0x18DE0
     subsegments:
       - [0x001060, c, boot/boot_main]
-      - [0x0010F0, c, boot/10F0]
       - [0x001220, c, boot/1220]
 
       - [0x001320, c, gzip/inflate]

@@ -24,7 +24,7 @@
                 "NDEBUG",
                 "_FINALROM",
                 "__USE_ISOC99",
-                "VERSION=VERSION_US"
+                "VERSION_US=1"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true

@@ -35,7 +35,7 @@ f32 func_8007BC20(f32 arg0) {
     return sinf(arg0) / cosf(arg0);
 }
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007BC54);
 #endif
 
@@ -101,15 +101,15 @@ void func_8007BEEC(s16 theta, s16 phi, f32 *x, f32 *y, f32 *z) {
     *z = cosTheta * cosPhi;
 }
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007BFE0);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C0C4);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C244);
 #endif
 
@@ -192,7 +192,7 @@ void func_8007C624(f32 angle, f32 centreX, f32 centreY, f32 *pointX, f32 *pointY
 }
 
 f32 func_8007C6D8(f32 arg0, f32 arg1);
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C6D8);
 #endif
 
@@ -207,19 +207,19 @@ f32 func_8007C780(f32 aX, f32 aY, f32 aZ, f32 bX, f32 bY, f32 bZ) {
     return sqrtf((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ));
 }
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C7E8);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C894);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C9C8);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007CAFC);
 #endif
 
@@ -281,7 +281,7 @@ void func_8007CCFC(MtxF *m, f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32
     *outZ = vec[2];
 }
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007CD78);
 #endif
 

@@ -1,3 +1,29 @@
+entrypoint = 0x80000400;
+
+func_80000460 = 0x80000460; // type:func
+func_80000468 = 0x80000468; // type:func
+func_80000488 = 0x80000498; // type:func
+bootproc = 0x800004A8; // type:func
+LoadMainSegment = 0x8000052C; // type:func
+func_80000580 = 0x800005E0; // type:func
+
+func_80000690 = 0x80000690; // type:func
+DmaDataRomToRam = 0x800006CC; // type:func
+
+DecompressRomToRam = 0x80002920;
+
+D_8000E190 = 0x8000EC30;
+
+B_80010E60 = 0x80011950;
+B_800131C0 = 0x80013CB0;
+
+B_8001F8C0 = 0x80020418;
+
+B_80029C08 = 0x8002A780;
+
+B_80011010 = 0x80011B00;
+
+
 osTvType = 0x80000300; // 0x0  (vi, false)
 osRomBase = 0x80000308; // 0x0  (pirawdma, false)
 __osBbEepromAddress = 0x8000035C; // 0x0  (conteepread, false)
@@ -173,7 +199,14 @@ skTest2 = 0x8000A4EC; // 0x1C  (skapi, true)
 skTest3 = 0x8000A508; // 0x1C  (skapi, true)
 skResetWindow = 0x8000A524; // 0x1C  (skapi, true)
 skValidateRls = 0x8000A540; // 0x1C  (skapi, true)
+
 // alHeapCheck = 0x8000A644; // 0x8  (heapcheck, true)
+
+__createSpeedParam = 0x8000A6C0;
+__osInitialize_common = 0x8000A774;
+__osInitialize_autodetect = 0x8000AC2C;
+
+
 __osAiDeviceBusy = 0x8000AC50; // 0x24  (ai, true)
 // osFlashChange = 0x8000AC6C; // 0x8  (flashchange, true)
 // osFlashClearStatus = 0x8000AC6C; // 0x8  (flashclearstatus, true)
@@ -304,3 +337,7 @@ __osContPifRam = 0x8001E360; // 0x40  (controller, true)
 __CartRomHandle = 0x800204E0; // 0x74  (cartrominit, true)
 __osEepromTimer = 0x80022650; // 0x0  (conteeplongwrite, false)
 __osEepromTimerQ = 0x8002A768; // 0x18  (controller, true)
+
+osStopThread = 0x80006F60;
+
+osCreatePiManager = 0x800095C0;

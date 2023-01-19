@@ -20,11 +20,11 @@ void func_8000075C(void) {
     gzip_malloc_addr = gzip_mem_buff;
 }
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000778);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 #ifdef NON_MATCHING
 UNK_TYPE func_80000D0C(void *arg0) {
     void *temp_a0;
@@ -44,26 +44,26 @@ INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000D0C);
 #endif
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000D48);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001260);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001480);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001620);
 #endif
 
 /**
  * Original name: inflate_block
  */
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", inflate_block);
 #endif
 

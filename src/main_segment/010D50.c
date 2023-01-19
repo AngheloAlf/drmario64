@@ -5,11 +5,11 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003A9A0);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003ACB4);
 #endif
 
@@ -55,62 +55,62 @@ UNK_TYPE func_8003AE08(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
     return ret;
 }
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003AEE4);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003B054);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003B1C4);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003B30C);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003B454);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003B59C);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003BA98);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003BEF8);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003BFD8);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C094);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C1A4);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C2B4);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C3C0);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C600);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/010D50", func_8003C6F4);
 #endif

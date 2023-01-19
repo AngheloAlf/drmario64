@@ -48,10 +48,10 @@ ROMC      := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 BUILD_DEFINES ?=
 
 ifeq ($(VERSION),us)
-	BUILD_DEFINES   += -DVERSION=VERSION_US
+	BUILD_DEFINES   += -DVERSION_US=1
 else
 ifeq ($(VERSION),cn)
-	BUILD_DEFINES   += -DVERSION=VERSION_CN
+	BUILD_DEFINES   += -DVERSION_CN=1
 else
 $(error Invalid VERSION variable detected. Please use either 'us' or 'cn')
 endif
@@ -82,13 +82,17 @@ ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?),
 $(error Please install or build $(MIPS_BINUTILS_PREFIX))
 endif
 
+ifeq ($(VERSION),us)
 CC         := COMPILER_PATH=tools/gcc_kmc/$(DETECTED_OS)/2.7.2 tools/gcc_kmc/$(DETECTED_OS)/2.7.2/gcc
+endif
+ifeq ($(VERSION),cn)
+CC         := COMPILER_PATH=tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4 tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4/mips-linux-gcc
+endif
 
 AS         := $(MIPS_BINUTILS_PREFIX)as
 LD         := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 GCC        := $(MIPS_BINUTILS_PREFIX)gcc
 CPP        := $(MIPS_BINUTILS_PREFIX)cpp
 STRIP      := $(MIPS_BINUTILS_PREFIX)strip
@@ -120,10 +124,17 @@ else
 	CC_CHECK          := @:
 endif
 
+ifeq ($(VERSION),us)
 OPTFLAGS        := -O2
 # OPTFLAGS        += -gdwarf
 MIPS_VERSION    := -mips3
-CFLAGS          += -nostdinc -G 0 -mgp32 -mfp32 -fno-common -funsigned-char
+endif
+ifeq ($(VERSION),cn)
+OPTFLAGS        := -O2 -ggdb
+MIPS_VERSION    := -mips2
+endif
+
+CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -fno-common -funsigned-char
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -32 -G0
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
@@ -237,7 +248,7 @@ format:
 	clang-format-11 -i -style=file $(C_FILES)
 
 tidy:
-	clang-tidy-11 -p . --fix --fix-errors $(C_FILES) -- $(CC_CHECK_FLAGS) $(IINC) $(CHECK_WARNINGS) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS)
+	clang-tidy-11 -p . --fix --fix-errors $(C_FILES) -- $(CC_CHECK_FLAGS) $(IINC) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS)
 
 .PHONY: all compressed uncompressed clean distclean setup extract lib diff-init init format tidy
 .DEFAULT_GOAL := all
@@ -272,7 +283,7 @@ $(BUILD_DIR)/%.o: %.s
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
+	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
 	$(ICONV) --to-code=Shift-JIS  $< | $(CC) -x c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -c -o $@ -
 	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)

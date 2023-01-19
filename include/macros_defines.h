@@ -19,7 +19,7 @@
 #else
 #define CONST __attribute__((const))
 #define DEPRECATED(reason) __attribute__((deprecated (reason)))
-#if __IS_KMC__
+#if __IS_KMC__ || __IS_EGCS__
 #define FALLTHROUGH
 #else
 #define FALLTHROUGH __attribute__((fallthrough))
@@ -34,7 +34,7 @@
 
 #if defined(_MSC_VER)
 #  define UNREACHABLE __assume(0)
-#elif __IS_KMC__
+#elif __IS_KMC__ || __IS_EGCS__
 #  define UNREACHABLE
 #elif defined(__GNUC__) || defined(__clang__)
 #  define UNREACHABLE __builtin_unreachable()

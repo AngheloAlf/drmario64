@@ -5,71 +5,71 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", D_800ACFB0);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", D_800ACFC8);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_80038EF0);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003901C);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_800393DC);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_800394A0);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003974C);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_80039BE0);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_80039D08);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_80039E14);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_80039F74);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", RO_800AD080);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", D_800AD098);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003A1B4);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003A26C);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003A618);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/00F2A0", func_8003A7E4);
 #endif
 

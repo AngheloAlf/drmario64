@@ -42,7 +42,7 @@ bool func_8005CF20(s32 arg0, u32 buttonMask) {
 /**
  * Original name: msgWnd_init
  */
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_init);
 #endif
 
@@ -107,11 +107,11 @@ void msgWnd_clear(MessageWnd *messageWnd) {
 /**
  * Original name: msgWnd_layout
  */
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_layout);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 #ifdef NON_MATCHING
 /**
  * Original name: msgWnd_addStr
@@ -146,24 +146,24 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_addStr);
 #endif
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", func_8005D3F8);
 #endif
 
 /**
  * Original name: msgWnd_update
  */
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_update);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/msgwnd", D_800B1A54);
 #endif
 
 extern UNK_TYPE1 D_800B1A54[];
 
-#if VERSION == VERSION_US
+#if VERSION_US
 #ifdef NON_EQUIVALENT
 /**
  * Original name: msgWnd_draw

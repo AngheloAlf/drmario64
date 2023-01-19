@@ -113,7 +113,7 @@ void clear_bufs(void) {
     B_8001FAFC = 0;
 }
 
-#if VERSION == VERSION_US
+#if VERSION_US
 #ifdef NON_MATCHING
 /**
  * Original name: fill_inbuf

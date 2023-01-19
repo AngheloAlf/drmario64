@@ -922,7 +922,7 @@ struct_800A6F70 *D_800A6F70[] = { D_800A3AD0, D_800A3BD0 };
 /**
  * Original name: static init_dl
  */
-#if VERSION == VERSION_US
+#if VERSION_US
 const Gfx RO_800B1950[] = {
 #include "main_segment/font/RO_800B1950.gfx.inc.c"
 };
@@ -1062,7 +1062,7 @@ bool fontXX_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char 
     return fontXX_drawID(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
 }
 
-#if VERSION == VERSION_US
+#if VERSION_US
 #if 0
 /**
  * Original name: fontXX_drawID
@@ -1198,7 +1198,7 @@ bool fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char
     return fontXX_drawID2(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
 }
 
-#if VERSION == VERSION_US
+#if VERSION_US
 #if 0
 extern ? D_80094350;
 
@@ -1403,7 +1403,7 @@ bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char
     return fontAsc_drawID(gfxP, arg1, arg2, arg3, arg4, index);
 }
 
-#if VERSION == VERSION_US
+#if VERSION_US
 #if 0
 extern u8 D_8009F870[];
 
@@ -1558,6 +1558,6 @@ bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const cha
 /**
  * Original name: fontAsc_drawID2
  */
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontAsc_drawID2);
 #endif

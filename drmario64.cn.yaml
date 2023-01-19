@@ -70,7 +70,9 @@ segments:
     follows_vram: entry
     bss_size: 0x18ED0
     subsegments:
-      - [0x001060, asm, boot/001060]
+      - [0x001060, c, boot/boot_main]
+      - [0x001290, asm, boot/001290]
+
       - [0x001420, asm, boot/001420]
       - [0x003520, asm, boot/003520]
       - [0x003630, asm, boot/003630]
@@ -165,7 +167,7 @@ segments:
       - [0x00AE50, asm, boot/00AE50]
       - [0x00AF10, asm, libultra/skapi]
       - [0x00B160, asm, boot/00B160]
-      - [0x00B2C0, asm, boot/00B2C0]
+      - [0x00B2C0, asm, libultra/os/initialize]
       - [0x00B850, asm, libultra/ai]
       - [0x00B880, asm, libultra/drvrNew]
       - [0x00C030, asm, libultra/load]
@@ -222,7 +224,8 @@ segments:
       - [0x00F760, asm, boot/00F760]
       - [0x00F7A0, asm, boot/00F7A0]
 
-      - [0x00F830, data, boot/00F830]
+      - [0x00F830, .data, boot/boot_main]
+      - [0x00F840, data, boot/00F840]
 
       - [0x00FDE0, data, boot/rom_offsets]
 

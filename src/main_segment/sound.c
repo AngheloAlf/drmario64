@@ -202,7 +202,7 @@ void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
     }
 }
 
-#if VERSION == VERSION_US
+#if VERSION_US
 #ifdef NON_EQUIVALENT
 // maybe equivalent, but too afraid to tell
 /**

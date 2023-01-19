@@ -4,14 +4,14 @@
 #include "unknown_structs.h"
 #include "unk.h"
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/013150", func_8003CDA0);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/013150", func_8003CDD4);
 #endif
 
-#if VERSION == VERSION_US
+#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/013150", func_8003CDF8);
 #endif

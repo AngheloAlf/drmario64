@@ -1,7 +1,6 @@
 #ifndef VERSION_H
 #define VERSION_H
 
-
 /**
  * Macros for checking specific compiler
  */
@@ -19,12 +18,13 @@
  * Version macros
  */
 
-#define VERSION_NONE 0
-#define VERSION_US   1
-#define VERSION_CN   2
-
-#ifndef VERSION
-#define VERSION VERSION_NONE
+#if defined(VERSION_US) && defined(VERSION_CN)
+#error "Only one version must be defined"
 #endif
+
+#if !defined(VERSION_US) && !defined(VERSION_CN)
+#error "A version must be selected"
+#endif
+
 
 #endif

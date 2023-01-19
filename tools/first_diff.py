@@ -21,7 +21,7 @@ def firstDiffMain():
     buildFolder = Path("build")
 
     BUILTROM = buildFolder / f"drmario64_uncompressed.{args.version}.z64"
-    BUILTMAP = buildFolder / f"drmario64.map"
+    BUILTMAP = buildFolder / f"drmario64.{args.version}.map"
 
     EXPECTEDROM = "expected" / BUILTROM
     EXPECTEDMAP = "expected" / BUILTMAP
