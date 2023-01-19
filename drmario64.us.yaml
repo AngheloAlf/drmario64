@@ -50,7 +50,7 @@ segments:
   - name: header
     type: code
     start: 0x000000
-    vram: 0
+    vram: 0x80000000
     subsegments:
       - [0x000000, c, rom_header/rom_header]
       - [0x000000, .data, rom_header/rom_header]

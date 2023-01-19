@@ -50,7 +50,7 @@ segments:
   - name: header
     type: code
     start: 0x000000
-    vram: 0
+    vram: 0x80000000
     subsegments:
       - [0x000000, c, rom_header/rom_header]
       - [0x000000, .data, rom_header/rom_header]
@@ -133,23 +133,17 @@ segments:
       - [0x008B70, asm, libultra/viswapbuf]
       - [0x008BC0, asm, libultra/viswapcontext]
       - [0x008ED0, asm, libultra/viblack]
-      - [0x008F30, asm, boot/008F30]
-      - [0x008F40, asm, libultra/mtxident]
-      - [0x008F90, asm, boot/008F90]
-      - [0x008FA0, asm, libultra/mtxidentf]
-      - [0x008FF0, asm, boot/008FF0]
-      - [0x009000, asm, libultra/mtxf2l]
-      - [0x009070, asm, boot/009070]
-      - [0x009080, asm, libultra/mtxl2f]
-      - [0x0090F0, asm, boot/0090F0]
-      - [0x009100, asm, libultra/mtxcatf]
-      - [0x0091F0, asm, boot/0091F0]
-      - [0x009200, asm, libultra/scale]
-      - [0x0092A0, asm, libultra/scalef]
-      - [0x0092F0, asm, boot/0092F0]
-      - [0x009300, asm, libultra/translate]
-      - [0x0093D0, asm, boot/0093D0]
-      - [0x0093E0, asm, libultra/translatef]
+
+      - [0x008F40, asm, libultra/mtxident] # 0x20 aligned
+      - [0x008FA0, asm, libultra/mtxidentf] # 0x20 aligned
+      - [0x009000, asm, libultra/mtxf2l] # 0x20 aligned
+      - [0x009080, asm, libultra/mtxl2f] # 0x20 aligned
+      - [0x009100, asm, libultra/mtxcatf] # 0x20 aligned
+      - [0x009200, asm, libultra/scale] # 0x20 aligned
+      - [0x0092A0, asm, libultra/scalef] # 0x20 aligned
+      - [0x009300, asm, libultra/translate] # 0x20 aligned
+      - [0x0093E0, asm, libultra/translatef] # 0x20 aligned
+
       - [0x009430, asm, libultra/conteepprobe]
       - [0x009490, asm, libultra/conteeplongwrite]
       - [0x009580, asm, libultra/conteeplongread]
@@ -170,6 +164,9 @@ segments:
       - [0x00AE50, asm, boot/00AE50]
       - [0x00AF10, asm, libultra/skapi]
       - [0x00B160, asm, boot/00B160]
+
+      - [0x00B250, asm, boot/nops_00B250]
+
       - [0x00B2C0, asm, libultra/os/initialize]
       - [0x00B850, asm, libultra/ai]
       - [0x00B880, asm, libultra/drvrNew]
