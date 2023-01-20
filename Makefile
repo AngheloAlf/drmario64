@@ -267,7 +267,6 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 
 $(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld $(BUILD_DIR)/linker_scripts/common_undef_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
-		-T linker_scripts/$(VERSION)/auto/undefined_syms_auto.ld -T linker_scripts/$(VERSION)/auto/undefined_funcs_auto.ld \
 		-T $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld -T $(BUILD_DIR)/linker_scripts/common_undef_syms.ld \
 		-Map $(LD_MAP) -o $@
 

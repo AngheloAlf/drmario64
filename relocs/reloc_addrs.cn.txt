@@ -1,0 +1,1 @@
+rom:0x00FED8 symbol:0x000571C0 reloc:MIPS_32
