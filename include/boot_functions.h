@@ -15,6 +15,10 @@ void bootproc(void);
 void LoadMainSegment(void *arg0);
 void func_80000580(void* arg0);
 
+#if VERSION_CN
+OSPiHandle *func_80000690(void);
+#endif
+
 void *DmaDataRomToRam(romoffset_t segmentRom, void *segmentVram, size_t segmentSize);
 
 void *DecompressRomToRam(romoffset_t segmentRom, void *dstAddr, size_t segmentSize);
