@@ -31,17 +31,17 @@ void *DmaDataRomToRam(romoffset_t segmentRom, void *segmentVram, size_t segmentS
     if (D_8000E1A0)
 #endif
 #if VERSION_CN
-    if (!D_8000EC44_cn)
+        if (!D_8000EC44_cn)
 #endif
-    {
-        osCreateMesgQueue(&B_800151C0, B_800151D8, ARRAY_COUNT(B_800151D8));
+        {
+            osCreateMesgQueue(&B_800151C0, B_800151D8, ARRAY_COUNT(B_800151D8));
 #if VERSION_US
-        D_8000E1A0 = false;
+            D_8000E1A0 = false;
 #endif
 #if VERSION_CN
-        D_8000EC44_cn = true;
+            D_8000EC44_cn = true;
 #endif
-    }
+        }
 
     osInvalDCache(segmentVram, segmentSize);
 
@@ -60,7 +60,7 @@ void *DmaDataRomToRam(romoffset_t segmentRom, void *segmentVram, size_t segmentS
 #if VERSION_CN
         mb.hdr.pri = 0;
         mb.hdr.retQueue = &B_800151C0;
-        mb.dramAddr = (void*)currentVram;
+        mb.dramAddr = (void *)currentVram;
         mb.devAddr = currentRom;
         mb.size = blkSize;
         osEPiStartDma(func_80000690(), &mb, OS_READ);
