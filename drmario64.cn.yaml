@@ -24,9 +24,7 @@ options:
   build_path: build
   asset_path: bin/cn
   extensions_path: tools/splat_ext
-  mips_abi_gpr: numeric
-  mips_abi_float_regs: numeric
-  # mips_abi_float_regs: o32
+  mips_abi_float_regs: o32
   do_c_func_detection: True
   o_as_suffix: True
   gfx_ucode: f3dex2

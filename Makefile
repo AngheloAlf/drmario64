@@ -72,7 +72,7 @@ ifeq ($(OS),Windows_NT)
 else ifeq ($(UNAME_S),Linux)
 	DETECTED_OS := linux
 else ifeq ($(UNAME_S),Darwin)
-	DETECTED_OS := macos
+	DETECTED_OS := mac
 	MAKE := gmake
 	CPPFLAGS += -xc++
 endif
@@ -83,20 +83,21 @@ $(error Please install or build $(MIPS_BINUTILS_PREFIX))
 endif
 
 ifeq ($(VERSION),us)
-CC         := COMPILER_PATH=tools/gcc_kmc/$(DETECTED_OS)/2.7.2 tools/gcc_kmc/$(DETECTED_OS)/2.7.2/gcc
+COMPILER_DIR    := tools/gcc_kmc/$(DETECTED_OS)/2.7.2
 endif
 ifeq ($(VERSION),cn)
-CC         := COMPILER_PATH=tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4 tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4/mips-linux-gcc
+COMPILER_DIR    := tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4
 endif
+CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
 
-AS         := $(MIPS_BINUTILS_PREFIX)as
-LD         := $(MIPS_BINUTILS_PREFIX)ld
-OBJCOPY    := $(MIPS_BINUTILS_PREFIX)objcopy
-OBJDUMP    := $(MIPS_BINUTILS_PREFIX)objdump
-GCC        := $(MIPS_BINUTILS_PREFIX)gcc
-CPP        := $(MIPS_BINUTILS_PREFIX)cpp
-STRIP      := $(MIPS_BINUTILS_PREFIX)strip
-ICONV      := iconv
+AS              := $(MIPS_BINUTILS_PREFIX)as
+LD              := $(MIPS_BINUTILS_PREFIX)ld
+OBJCOPY         := $(MIPS_BINUTILS_PREFIX)objcopy
+OBJDUMP         := $(MIPS_BINUTILS_PREFIX)objdump
+GCC             := $(MIPS_BINUTILS_PREFIX)gcc
+CPP             := $(MIPS_BINUTILS_PREFIX)cpp
+STRIP           := $(MIPS_BINUTILS_PREFIX)strip
+ICONV           := iconv
 
 SPLAT             ?= tools/splat/split.py
 SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
