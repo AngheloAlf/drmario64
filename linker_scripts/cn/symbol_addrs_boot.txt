@@ -22,7 +22,7 @@ func_80001760_cn = 0x80001760; // type:func
 func_8000194C_cn = 0x8000194C; // type:func
 func_800021C0_cn = 0x800021C0; // type:func
 func_80002394_cn = 0x80002394; // type:func
-func_80002480_cn = 0x80002480; // type:func
+expand_gzip = 0x80002480; // type:func
 func_800024E4_cn = 0x800024E4; // type:func
 func_80002578_cn = 0x80002578; // type:func
 func_800025B8_cn = 0x800025B8; // type:func
@@ -32,8 +32,8 @@ func_80002738_cn = 0x80002738; // type:func
 func_80002820_cn = 0x80002820; // type:func
 func_80002888_cn = 0x80002888; // type:func
 DecompressRomToRam = 0x80002920; // type:func
-func_80002964_cn = 0x80002964; // type:func
-func_800029A4_cn = 0x800029A4; // type:func
+WrapI = 0x80002964; // type:func
+WrapF = 0x800029A4; // type:func
 func_80002A30_cn = 0x80002A30; // type:func
 func_80002AE8_cn = 0x80002AE8; // type:func
 
@@ -288,7 +288,7 @@ func_8000EAA0_cn = 0x8000EAA0; // type:func
 func_8000EAE0_cn = 0x8000EAE0; // type:func
 func_8000EB00_cn = 0x8000EB00; // type:func
 func_8000EB10_cn = 0x8000EB10; // type:func
-func_8000EB60_cn = 0x8000EB60; // type:func
+fmod = 0x8000EB60; // type:func
 func_8000EBA0_cn = 0x8000EBA0; // type:func
 
 // text end

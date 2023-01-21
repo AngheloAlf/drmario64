@@ -136,6 +136,9 @@ MIPS_VERSION    := -mips2
 endif
 
 CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -fno-common -funsigned-char
+ifeq ($(VERSION),cn)
+CFLAGS          += -mcpu=4300
+endif
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -32 -G0
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99

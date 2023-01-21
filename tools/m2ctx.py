@@ -12,6 +12,7 @@ src_dir = root_dir + "src/"
 
 # Project-specific
 CPP_FLAGS = [
+    "-I.",
     "-Iinclude",
     "-Ibin",
     "-Ilib/ultralib/include",
