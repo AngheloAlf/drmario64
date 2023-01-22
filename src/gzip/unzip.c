@@ -20,7 +20,6 @@ size_t expand_gzip(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
 /**
  * Original name: auRomDataRead
  */
-#if VERSION_US
 size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     size_t alignedSize;
 
@@ -40,13 +39,7 @@ size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     }
     return blockSize;
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_800024E4_cn);
-#endif
-
-#if VERSION_US
 size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
     u8 *var_v1 = arg0->unk_0;
     size_t i;
@@ -60,16 +53,10 @@ size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
 
     return arg2;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_80002578_cn);
-#endif
 
 /**
  * Original name: unzip
  */
-#if VERSION_US
 s32 unzip(void) {
     u8 sp10[8];
     u8 sp18[8 * 3] UNUSED;
@@ -87,24 +74,14 @@ s32 unzip(void) {
     }
 
     for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-        if (inptr < insize) {
-            sp10[i] = inbuf[inptr++];
-        } else {
-            sp10[i] = fill_inbuf(0);
-        }
+        sp10[i] = (inptr < insize) ? inbuf[inptr++] : fill_inbuf(0);
     }
     return 0;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", unzip);
-#endif
 
 /**
  * Original name: updcrc
  */
-#if VERSION_US
 u32 updcrc(u8 *arg0, size_t arg1) {
     u32 var_a2 = -1;
 
@@ -120,11 +97,6 @@ u32 updcrc(u8 *arg0, size_t arg1) {
     crc_132 = var_a2;
     return ~var_a2;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_800026A8_cn);
-#endif
 
 /**
  * Original names: clear_bufs
@@ -172,27 +144,21 @@ INCLUDE_ASM("asm/us/nonmatchings/gzip/unzip", fill_inbuf);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_80002738_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", fill_inbuf);
 #endif
 
-#if VERSION_US
 void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
-    while (true) {
+    do {
         size_t temp_v0 = func_80002064(arg0, arg1, arg2);
 
         if (temp_v0 == arg2) {
-            return;
+            break;
         }
 
         arg2 -= temp_v0;
         arg1 += temp_v0;
-    }
+    } while (true);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_80002820_cn);
-#endif
 
 /**
  * Original name: flush_window
