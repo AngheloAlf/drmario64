@@ -51,7 +51,7 @@ ifeq ($(VERSION),us)
 	BUILD_DEFINES   += -DVERSION_US=1
 else
 ifeq ($(VERSION),cn)
-	BUILD_DEFINES   += -DVERSION_CN=1
+	BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1
 else
 $(error Invalid VERSION variable detected. Please use either 'us' or 'cn')
 endif

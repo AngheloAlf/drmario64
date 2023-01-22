@@ -276,7 +276,8 @@ segments:
     follows_vram: dma_table
     bss_size: 0x716B0
     subsegments:
-      - [0x0124F0, asm, main_segment/0124F0]
+      - [0x0124F0, c, main_segment/main]
+
       - [0x012830, asm, main_segment/012830]
 
       - [0x013AD0, asm, main_segment/013AD0]
@@ -313,7 +314,7 @@ segments:
 
       - [0x077160, data, main_segment/077160]
 
-      - [0x0AB7F0, rodata, main_segment/0AB7F0] # guess
+      - [0x0AB7F0, .rodata, main_segment/main]
 
       - [0x0AB820, rodata, main_segment/0AB820]
       - [0x0ABD40, rodata, main_segment/0ABD40]
