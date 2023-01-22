@@ -1,6 +1,6 @@
 // text
 
-func_8002A7C0_cn = 0x8002A7C0; // type:func
+mainproc = 0x8002A7C0; // type:func
 D_8002AB00_cn = 0x8002AB00; //
 func_8002ADEC_cn = 0x8002ADEC; // type:func
 func_8002ADF4_cn = 0x8002ADF4; // type:func

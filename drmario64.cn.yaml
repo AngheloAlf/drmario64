@@ -267,7 +267,7 @@ segments:
     vram: 0x8002A7B0
     follows_vram: boot
     subsegments:
-      - [0x0124E0, data, dma_table/dma_table]
+      - [0x0124E0, .data, dma_table/dma_table]
 
   - name: main_segment # compressed
     type: code
