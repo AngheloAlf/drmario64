@@ -66,7 +66,7 @@ D_800ADB40 - found 33 matches total:
 0.99 - gSegmentRomOffset_segment_title_bmp (decompiled)
 0.99 - D_8000EA48 (decompiled)
 0.99 - osClockRate (decompiled)
-0.99 - B_80029C00 (decompiled)
+0.99 - ifd (decompiled)
 0.99 - func_8003E4AC
 0.99 - D_8008E598 (decompiled)
 0.99 - D_800ACE70

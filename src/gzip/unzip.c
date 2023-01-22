@@ -8,18 +8,19 @@
  * Original name: expand_gzip
  */
 size_t expand_gzip(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
-    B_80029C00.segmentRom = segmentRom;
-    B_80029C00.segmentSize = segmentSize;
-    B_8001D7F8.unk_0 = dstAddr;
-    B_8001D7F8.unk_4 = 0;
+    ifd.segmentRom = segmentRom;
+    ifd.segmentSize = segmentSize;
+    ofd.unk_0 = dstAddr;
+    ofd.unk_4 = 0;
     clear_bufs();
     unzip();
-    return B_8001D7F8.unk_4;
+    return ofd.unk_4;
 }
 
 /**
  * Original name: auRomDataRead
  */
+#if VERSION_US
 size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     size_t alignedSize;
 
@@ -39,7 +40,13 @@ size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     }
     return blockSize;
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_800024E4_cn);
+#endif
+
+#if VERSION_US
 size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
     u8 *var_v1 = arg0->unk_0;
     size_t i;
@@ -53,10 +60,16 @@ size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
 
     return arg2;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_80002578_cn);
+#endif
 
 /**
  * Original name: unzip
  */
+#if VERSION_US
 s32 unzip(void) {
     u8 sp10[8];
     u8 sp18[8 * 3] UNUSED;
@@ -82,10 +95,16 @@ s32 unzip(void) {
     }
     return 0;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", unzip);
+#endif
 
 /**
  * Original name: updcrc
  */
+#if VERSION_US
 u32 updcrc(u8 *arg0, size_t arg1) {
     u32 var_a2 = -1;
 
@@ -101,17 +120,28 @@ u32 updcrc(u8 *arg0, size_t arg1) {
     crc_132 = var_a2;
     return ~var_a2;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_800026A8_cn);
+#endif
 
 /**
  * Original names: clear_bufs
  */
+#if VERSION_US
 void clear_bufs(void) {
-    B_8001F990 = 0;
+    outcnt = 0;
     inptr = 0;
     insize = 0;
-    B_8001FB00 = 0;
-    B_8001FAFC = 0;
+    bytes_out = 0;
+    bytes_in = 0;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", clear_bufs);
+#endif
 
 #if VERSION_US
 #ifdef NON_MATCHING
@@ -122,14 +152,14 @@ s32 fill_inbuf(s32 arg0) {
     u32 temp_v0;
 
     for (insize = 0; insize < ARRAY_COUNT(inbuf); insize += temp_v0) {
-        temp_v0 = auRomDataRead(&B_80029C00, &inbuf[insize], ARRAY_COUNT(inbuf) - insize);
+        temp_v0 = auRomDataRead(&ifd, &inbuf[insize], ARRAY_COUNT(inbuf) - insize);
         if (temp_v0 + 1 <= 1) {
             break;
         }
     }
 
     if ((insize != 0) || (arg0 == 0)) {
-        B_8001FAFC += insize;
+        bytes_in += insize;
         inptr = 1;
         return inbuf[0];
     }
@@ -141,6 +171,11 @@ INCLUDE_ASM("asm/us/nonmatchings/gzip/unzip", fill_inbuf);
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_80002738_cn);
+#endif
+
+#if VERSION_US
 void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
     while (true) {
         size_t temp_v0 = func_80002064(arg0, arg1, arg2);
@@ -153,15 +188,26 @@ void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
         arg1 += temp_v0;
     }
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_80002820_cn);
+#endif
 
 /**
  * Original name: flush_window
  */
+#if VERSION_US
 void flush_window(void) {
-    if (B_8001F990 != 0) {
-        updcrc(B_80021BE0, B_8001F990);
-        func_800022A8(&B_8001D7F8, B_80021BE0, B_8001F990);
-        B_8001FB00 += B_8001F990;
-        B_8001F990 = 0;
+    if (outcnt != 0) {
+        updcrc(window, outcnt);
+        func_800022A8(&ofd, window, outcnt);
+        bytes_out += outcnt;
+        outcnt = 0;
     }
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_80002888_cn);
+#endif

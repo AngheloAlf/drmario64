@@ -76,8 +76,11 @@ segments:
       - [0x001060, c, boot/boot_main]
       - [0x001290, c, boot/1220]
 
-      - [0x001420, asm, boot/001420]
+      - [0x001420, asm, gzip/inflate]
+      - [0x003080, c, gzip/unzip]
+
       - [0x003520, c, boot/util]
+
       - [0x003630, asm, boot/003630]
       - [0x003740, asm, libultra/aigetlen]
       - [0x003750, asm, libultra/aigetstat]

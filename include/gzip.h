@@ -41,13 +41,13 @@ void flush_window(void);
 /**
  * Original name: ofd
  */
-extern struct_8001D7F8 B_8001D7F8;
+extern struct_8001D7F8 ofd;
 
 extern u32 insize; // maybe volatile?
 extern u8 inbuf[0x2000];
 
-extern s32 B_8001FAFC;
-extern s32 B_8001FB00;
+extern s32 bytes_in;
+extern s32 bytes_out;
 
 extern UNK_TYPE D_8000E324;
 /**
@@ -73,13 +73,13 @@ extern u32 hufts;
  */
 extern u32 inptr;
 
-extern size_t B_8001F990;
+extern size_t outcnt;
 
-extern struct_80029C04 B_80029C00; /* Original name ifd */
+extern struct_80029C04 ifd; /* Original name ifd */
 
 extern s32 crc_32_tab[]; /* Original name: crc_32_tab */
 extern u32 crc_132; /* Original name: crc static symbol */
 
-extern u8 B_80021BE0[0x8000];
+extern u8 window[0x8000];
 
 #endif

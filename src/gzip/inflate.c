@@ -75,7 +75,7 @@ s32 inflate(void) {
     s32 ret;
     u32 var_s0 = 0;
 
-    B_8001F990 = 0;
+    outcnt = 0;
     bk = 0;
     B_8001F998 = 0;
     D_8000E324 = 0;
