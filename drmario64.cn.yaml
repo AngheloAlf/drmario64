@@ -76,7 +76,7 @@ segments:
       - [0x001060, c, boot/boot_main]
       - [0x001290, c, boot/1220]
 
-      - [0x001420, asm, gzip/inflate]
+      - [0x001420, c, gzip/inflate]
       - [0x003080, c, gzip/unzip]
 
       - [0x003520, c, boot/util]
@@ -220,11 +220,13 @@ segments:
       - [0x00EF50, asm, libultra/epirawwrite]
       - [0x00F0D0, asm, libultra/dp]
       - [0x00F100, asm, libultra/si]
+
       - [0x00F130, asm, boot/00F130]
       - [0x00F6A0, asm, boot/00F6A0]
       - [0x00F6E0, asm, boot/00F6E0]
       - [0x00F700, asm, boot/00F700]
-      - [0x00F760, asm, boot/00F760]
+
+      - [0x00F760, asm, boot/00F760] # fmod
       - [0x00F7A0, asm, boot/00F7A0]
 
       - [0x00F830, .data, boot/boot_main]

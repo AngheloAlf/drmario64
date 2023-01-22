@@ -175,5 +175,5 @@ void flush_window(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", func_80002888_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", flush_window);
 #endif

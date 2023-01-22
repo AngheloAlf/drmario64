@@ -2,6 +2,7 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 
+#if VERSION_US
 void *func_80000720(s32 arg0) {
     D_8000E324 += arg0;
 
@@ -14,14 +15,29 @@ void *func_80000720(s32 arg0) {
 
     return NULL;
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/inflate", func_80000820_cn);
+#endif
+
+#if VERSION_US
 void func_8000075C(void) {
     D_8000E324 = 0;
     gzip_malloc_addr = gzip_mem_buff;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/inflate", func_80000868_cn);
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000778);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/inflate", func_80000888_cn);
 #endif
 
 #if VERSION_US
@@ -44,20 +60,40 @@ INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000D0C);
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/inflate", func_80000E7C_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000D48);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/inflate", func_80000EC8_cn);
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001260);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/inflate", func_800014C4_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001480);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/inflate", func_80001760_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001620);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/inflate", func_8000194C_cn);
 #endif
 
 /**
@@ -65,6 +101,10 @@ INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001620);
  */
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", inflate_block);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/gzip/inflate", inflate_block);
 #endif
 
 /**
