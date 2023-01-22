@@ -237,7 +237,7 @@ segments:
       - [0x00DFF0, c, ../lib/ultralib/src/io/sirawread]
       - [0x00E040, c, ../lib/ultralib/src/io/sirawwrite]
 
-      - [0x00E090, c, ../lib/ultralib/src/os/destroythread] # c
+      - [0x00E090, c, ../lib/ultralib/src/os/destroythread]
       - [0x00E170, .hasm, ../../lib/ultralib/src/os/maptlbrdb]
       - [0x00E1D0, .hasm, ../../lib/ultralib/src/os/unmaptlball]
 

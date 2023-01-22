@@ -45,6 +45,7 @@ def import_c_file(in_file, version: str) -> str:
         CPP_FLAGS.append("-DVERSION_US=1")
     if version == "cn":
         CPP_FLAGS.append("-DVERSION_CN=1")
+        CPP_FLAGS.append("-DBBPLAYER=1")
 
     cpp_command = ["gcc", "-E", "-P", "-dM", *CPP_FLAGS, in_file]
     cpp_command2 = ["gcc", "-E", "-P", *CPP_FLAGS, in_file]

@@ -81,7 +81,8 @@ segments:
 
       - [0x003520, c, boot/util]
 
-      - [0x003630, asm, boot/003630]
+      - [0x003630, asm, boot/003630] # libultra?
+
       - [0x003740, asm, libultra/aigetlen]
       - [0x003750, asm, libultra/aigetstat]
       - [0x003760, asm, libultra/aisetfreq]
@@ -106,7 +107,7 @@ segments:
       - [0x0053F0, asm, libultra/contreaddata]
       - [0x005670, asm, libultra/controller]
       - [0x005A40, asm, libultra/contsetch]
-      - [0x005AA0, asm, boot/005AA0]
+      - [0x005AA0, asm, libultra/os/virtualtophysical]
       - [0x005B70, hasm, libultra/sqrtf]
       - [0x005B80, asm, libultra/cosf]
       - [0x005CB0, asm, libultra/ortho]
@@ -118,17 +119,26 @@ segments:
       - [0x006480, hasm, libultra/bcopy]
       - [0x0067A0, hasm, libultra/bzero]
       - [0x006840, asm, libultra/string]
-      - [0x0068C0, asm, boot/0068C0]
+      - [0x0068C0, asm, libultra/os/createmesgqueue]
+      - [0x006930, asm, libultra/os/recvmesg]
       - [0x006AA0, asm, libultra/sptask]
       - [0x006CB0, asm, libultra/sptaskyield]
       - [0x006CD0, asm, libultra/sptaskyielded]
       - [0x006D20, asm, libultra/sched]
       - [0x0076C0, asm, libultra/sirawdma]
-      - [0x0077A0, asm, boot/0077A0]
-      - [0x007B60, asm, boot/007B60]
-      - [0x007D60, asm, boot/007D60]
+      - [0x0077A0, asm, libultra/io/siacs]
+      - [0x007860, asm, libultra/os/createthread]
+      - [0x0079D0, asm, libultra/os/startthread]
+      - [0x007B60, asm, libultra/os/stopthread]
+      - [0x007C50, asm, libultra/os/thread]
+      - [0x007CB0, asm, libultra/os/gettime]
+      - [0x007D60, asm, libultra/os/settime]
+      - [0x007DA0, asm, libultra/os/settimer]
+      - [0x007F60, asm, libultra/os/timerintr]
       - [0x008480, hasm, libultra/probetlb]
-      - [0x008540, asm, boot/008540]
+      - [0x008540, asm, libultra/io/vigetcurrframebuf]
+      - [0x008580, asm, libultra/io/vigetnextframebuf]
+      - [0x0085C0, asm, libultra/io/vimgr]
       - [0x0088C0, asm, libultra/visetevent]
       - [0x008920, asm, libultra/visetmode]
       - [0x0089A0, asm, libultra/visetspecial]
@@ -150,25 +160,23 @@ segments:
       - [0x009430, asm, libultra/conteepprobe]
       - [0x009490, asm, libultra/conteeplongwrite]
       - [0x009580, asm, libultra/conteeplongread]
-      - [0x009600, asm, boot/009600]
+      - [0x009600, asm, libultra/os/exceptasm]
       - [0x00A080, hasm, libultra/interrupt]
       - [0x00A110, hasm, libultra/setintmask]
-      - [0x00A1C0, asm, boot/00A1C0]
+      - [0x00A1C0, asm, libultra/io/pimgr]
       - [0x00A340, asm, libultra/epirawdma]
 
-      - [0x00A700, asm, boot/00A700]
-  #     - [0x00A700, asm, libultra/epiread] # ambiguous
-  #     - [0x00A700, asm, libultra/epiwrite] # ambiguous
+      - [0x00A700, asm, libultra/io/epiwrite]
 
       - [0x00A760, asm, libultra/epidma]
       - [0x00A800, asm, libultra/epilinkhandle]
       - [0x00A850, asm, libultra/cartrominit]
       - [0x00A9B0, asm, libultra/devmgr]
-      - [0x00AE50, asm, boot/00AE50]
+      - [0x00AE50, asm, libultra/io/piacs]
       - [0x00AF10, asm, libultra/skapi]
-      - [0x00B160, asm, boot/00B160]
+      - [0x00B160, asm, boot/00B160] # no clue
 
-      - [0x00B250, asm, boot/nops_00B250]
+      - [0x00B250, asm, libultra/nops_00B250]
 
       - [0x00B2C0, asm, libultra/os/initialize]
       - [0x00B850, asm, libultra/ai]
@@ -184,36 +192,38 @@ segments:
       - [0x00DCA0, asm, libultra/copy] # common form
       - [0x00DCD0, hasm, libultra/invalicache]
       - [0x00DD50, hasm, libultra/writebackdcache]
-      - [0x00DDD0, asm, boot/00DDD0]
+      - [0x00DDD0, asm, libultra/os/jammesg]
+      - [0x00DF50, asm, libultra/os/sendmesg]
+      - [0x00E0C0, asm, libultra/os/seteventmesg]
       - [0x00E190, asm, libultra/dpsetnextbuf]
       - [0x00E230, hasm, libultra/getcause]
       - [0x00E240, hasm, libultra/getsr]
       - [0x00E250, hasm, libultra/setfpccsr]
       - [0x00E260, hasm, libultra/setsr]
       - [0x00E270, hasm, libultra/setwatchlo]
-      - [0x00E280, asm, boot/00E280]
+      - [0x00E280, asm, libultra/reg/_getcount]
+      - [0x00E380, asm, libultra/reg/_setcompare]
       - [0x00E430, asm, libultra/sp]
       - [0x00E460, asm, libultra/spgetstat]
       - [0x00E470, asm, libultra/spsetstat]
       - [0x00E480, asm, libultra/spsetpc]
       - [0x00E4B0, asm, libultra/sprawdma]
-  #     - [0x00E540, asm, libultra/sirawread] # ambiguous
-  #     - [0x00E540, asm, libultra/sprawread] # ambiguous
-  #     - [0x00E590, asm, libultra/sirawwrite] # ambiguous
-  #     - [0x00E590, asm, libultra/sprawwrite] # ambiguous
-      - [0x00E5E0, asm, boot/00E5E0]
+      - [0x00E540, asm, libultra/io/sirawread]
+      - [0x00E590, asm, libultra/io/sirawwrite]
+
+      - [0x00E5E0, asm, libultra/os/destroythread]
+      - [0x00E710, asm, libultra/os/getthreadid]
+      - [0x00E760, asm, libultra/os/setthreadpri]
+      - [0x00E870, asm, libultra/os/yieldthread]
       - [0x00E8D0, hasm, libultra/maptlbrdb]
       - [0x00E930, hasm, libultra/unmaptlball]
       - [0x00E980, asm, libultra/vi]
-  #     - [0x00EA80, asm, libultra/getactivequeue] # ambiguous
-  #     - [0x00EA80, asm, libultra/getcurrfaultthread] # ambiguous
-  #     - [0x00EA80, asm, libultra/getmemsize] # ambiguous
-  #     - [0x00EA80, asm, libultra/pigettype] # ambiguous
-  #     - [0x00EA80, asm, libultra/vigetcurrcontext] # ambiguous
-  #     - [0x00EA80, asm, libultra/vigetnextcontext] # ambiguous
+      - [0x00EA80, asm, libultra/io/vigetcurrcontext]
+
       - [0x00EA90, asm, libultra/conteepread]
       - [0x00EB40, asm, libultra/conteepwrite]
-      - [0x00EBF0, asm, boot/00EBF0]
+      - [0x00EBF0, asm, libultra/os/setglobalintmask]
+      - [0x00EC50, asm, libultra/os/resetglobalintmask]
       - [0x00ECC0, asm, libultra/pirawdma]
       - [0x00EDA0, asm, libultra/pigetcmdq]
       - [0x00EDD0, asm, libultra/epirawread]
@@ -221,6 +231,7 @@ segments:
       - [0x00F0D0, asm, libultra/dp]
       - [0x00F100, asm, libultra/si]
 
+      # libegcs?
       - [0x00F130, asm, boot/00F130]
       - [0x00F6A0, asm, boot/00F6A0]
       - [0x00F6E0, asm, boot/00F6E0]
@@ -229,6 +240,7 @@ segments:
       - [0x00F760, asm, boot/00F760] # fmod
       - [0x00F7A0, asm, boot/00F7A0]
 
+      # data
       - [0x00F830, .data, boot/boot_main]
       - [0x00F840, .data, boot/1220]
 
@@ -265,6 +277,7 @@ segments:
     bss_size: 0x716B0
     subsegments:
       - [0x0124F0, asm, main_segment/0124F0]
+      - [0x012830, asm, main_segment/012830]
 
       - [0x013AD0, asm, main_segment/013AD0]
       - [0x0140A0, asm, main_segment/0140A0]
@@ -294,6 +307,9 @@ segments:
       - [0x072880, asm, main_segment/072880]
       - [0x075D50, asm, main_segment/075D50]
       - [0x076680, asm, main_segment/076680]
+      - [0x076B10, asm, main_segment/076B10]
+      - [0x076F60, asm, main_segment/076F60]
+      - [0x0770A0, asm, main_segment/0770A0]
 
       - [0x077160, data, main_segment/077160]
 
