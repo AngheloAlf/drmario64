@@ -201,9 +201,6 @@ void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
     }
 }
 
-#if VERSION_US
-#ifdef NON_EQUIVALENT
-// maybe equivalent, but too afraid to tell
 /**
  * Changes the audio configuration to stereo or mono
  *
@@ -213,27 +210,22 @@ void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
  *
  * Original name: dm_audio_set_stereo
  */
-void dm_audio_set_stereo(bool setStereo) {
-    u32 *funcPtr = (u32 *)alEnvmixerPull + 0x10C / 4;
-    u32 var_v0;
+void dm_audio_set_stereo(bool setStereo UNUSED) {
+    u32 *funcPtr[2] UNUSED = { (u32 *)alEnvmixerPull + 0x10C / 4, (u32 *)alEnvmixerPull + 0x2EC / 4 };
 
+#if VERSION_US
     if (setStereo) {
-        var_v0 = 0x8C82000C;   // lw          $v0, 0xC($a0)
-        *funcPtr = 0x92220012; // lbu         $v0, 0x12($s1)
-        // D_8000346C.unk_0 = 0x92220012;
+        *funcPtr[0] = 0x92220012; // lbu         $v0, 0x12($s1)
+        *funcPtr[1] = 0x8C82000C; // lw          $v0, 0xC($a0)
     } else {
         // Set mono via changing the instructions to set the pan to 0x40
-        var_v0 = 0x24020040;   // addiu       $v0, $zero, 0x40
-        *funcPtr = 0x24020040; // addiu       $v0, $zero, 0x40
+        *funcPtr[0] = 0x24020040; // addiu       $v0, $zero, 0x40
+        *funcPtr[1] = 0x24020040; // addiu       $v0, $zero, 0x40
     }
-    // D_8000346C.unk_1E0 = var_v0;
-    funcPtr[0x1E0 / 4] = var_v0;
+#endif
+
     osWritebackDCacheAll();
 }
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/sound", dm_audio_set_stereo);
-#endif
-#endif
 
 /**
  * Original name: dm_audio_init_driver

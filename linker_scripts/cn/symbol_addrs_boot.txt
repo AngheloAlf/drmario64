@@ -44,7 +44,6 @@ osAiGetStatus = 0x80002B50; // type:func
 osAiSetFrequency = 0x80002B60; // type:func
 osAiSetNextBuffer = 0x80002C60; // type:func
 alEnvmixerPull = 0x80002D00; // type:func
-D_80002E0C_cn = 0x80002E0C; //
 alEnvmixerParam = 0x800031CC; // type:func
 _pullSubFrame = 0x80003294; // type:func
 _frexpf = 0x80003558; // type:func

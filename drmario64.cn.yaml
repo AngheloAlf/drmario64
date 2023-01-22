@@ -277,15 +277,14 @@ segments:
     bss_size: 0x716B0
     subsegments:
       - [0x0124F0, c, main_segment/main]
-
       - [0x012830, asm, main_segment/012830]
+      - [0x013AD0, asm, main_segment/joy]
 
-      - [0x013AD0, asm, main_segment/013AD0]
       - [0x0140A0, asm, main_segment/0140A0]
       - [0x0156C0, asm, main_segment/0156C0]
       - [0x016A80, asm, main_segment/016A80]
       - [0x017640, asm, main_segment/017640]
-      - [0x0184C0, asm, main_segment/0184C0]
+      - [0x0184C0, asm, main_segment/0184C0] # record?
       - [0x023880, asm, main_segment/023880]
       - [0x025650, asm, main_segment/025650]
       - [0x027D50, asm, main_segment/027D50]
