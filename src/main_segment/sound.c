@@ -15,7 +15,7 @@
 #include "rom_offsets.h"
 #include "buffers.h"
 
-const u8 RO_800ACA10[] = {
+const u8 _charSE_tbl[] = {
     SND_INDEX_94 - 3, SND_INDEX_84 - 3, SND_INDEX_38 - 3, SND_INDEX_43 - 3, SND_INDEX_48 - 3,
     SND_INDEX_18 - 3, SND_INDEX_28 - 3, SND_INDEX_23 - 3, SND_INDEX_3 - 3,  SND_INDEX_8 - 3,
     SND_INDEX_13 - 3, SND_INDEX_33 - 3, SND_INDEX_53 - 3, SND_INDEX_89 - 3, SND_INDEX_99 - 3,
@@ -136,7 +136,7 @@ const SndEntry gSndsEntries[SND_INDEX_MAX] = {
     /* SND_INDEX_103 */ { 0x67, 0x00, 0x00, 0x0A, 0x00, 0x78 },
 };
 
-s32 func_8002AA80(void) {
+s32 func_8002C370_cn(void) {
     s32 ret = 0;
     u32 i;
 
@@ -149,18 +149,31 @@ s32 func_8002AA80(void) {
     return ret;
 }
 
+#if VERSION_US
 void func_8002AAD8(struct_800FACE0_unk_08 *arg0, s32 index) {
     arg0->sndEntry = 0;
     arg0->index = index;
     arg0->unk_8 = 0;
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C3C4_cn);
+#endif
+
+#if VERSION_US
 void func_8002AAE8(struct_800FACE0_unk_08 *arg0, const SndEntry *arg1) {
     func_8002D810(arg0->index, 0);
     arg0->sndEntry = arg1;
     arg0->unk_8 = 0;
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C3D4_cn);
+#endif
+
+#if VERSION_US
 bool func_8002AB28(struct_800FACE0_unk_08 *arg0) {
     if ((arg0->sndEntry == NULL) || (func_8002D7E0(arg0->index) != 0)) {
         return false;
@@ -171,7 +184,13 @@ bool func_8002AB28(struct_800FACE0_unk_08 *arg0) {
     func_8002D8A0(arg0->index, arg0->sndEntry->offset * 0.125);
     return true;
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C424_cn);
+#endif
+
+#if VERSION_US
 bool func_8002ABC0(struct_800FACE0_unk_08 *arg0) {
     if ((arg0->sndEntry == NULL) || (func_8002D7E0(arg0->index) != 0)) {
         return false;
@@ -181,7 +200,13 @@ bool func_8002ABC0(struct_800FACE0_unk_08 *arg0) {
     func_8002D8A0(arg0->index, arg0->sndEntry->offset * 0.125);
     return true;
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C4E8_cn);
+#endif
+
+#if VERSION_US
 void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
     if (arg0->sndEntry == NULL) {
         return;
@@ -200,6 +225,11 @@ void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
         arg0->sndEntry = NULL;
     }
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C5A8_cn);
+#endif
 
 /**
  * Changes the audio configuration to stereo or mono
@@ -227,9 +257,14 @@ void dm_audio_set_stereo(bool setStereo UNUSED) {
     osWritebackDCacheAll();
 }
 
+//#if VERSION_CN
+//INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_audio_set_stereo);
+//#endif
+
 /**
  * Original name: dm_audio_init_driver
  */
+#if VERSION_US
 void dm_audio_init_driver(struct_800EB670 *arg0) {
     s32 i;
     struct_800FACE0 *ptr = &B_800FACE0;
@@ -253,10 +288,16 @@ void dm_audio_init_driver(struct_800EB670 *arg0) {
     func_8002D6A4(_romDataTbl[ROMDATATBL_INDEX2].start,
                   _romDataTbl[ROMDATATBL_INDEX2].end - _romDataTbl[ROMDATATBL_INDEX2].start);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_audio_init_driver);
+#endif
 
 /**
  * Original name: dm_audio_update
  */
+#if VERSION_US
 void dm_audio_update(void) {
     struct_800FACE0 *var_s0 = &B_800FACE0;
     s32 i;
@@ -282,46 +323,82 @@ void dm_audio_update(void) {
         }
     }
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C7BC_cn);
+#endif
 
 /**
  * Original name: dm_audio_stop
  */
+#if VERSION_US
 void dm_audio_stop(void) {
     dm_seq_stop();
     MusStop(MUSFLAG_EFFECTS | MUSFLAG_SONGS, 0);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C924_cn);
+#endif
 
 /**
  * Original name: dm_audio_is_stopped
  */
+#if VERSION_US
 bool dm_audio_is_stopped(void) {
     return MusAsk(MUSFLAG_EFFECTS | MUSFLAG_SONGS) == 0;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C964_cn);
+#endif
 
 /**
  * Original name: dm_seq_play
  */
+#if VERSION_US
 void dm_seq_play(s32 arg0) {
     _dm_seq_play(0, arg0);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C994_cn);
+#endif
 
 /**
  * Original name: _dm_seq_play
  */
+#if VERSION_US
 void _dm_seq_play(s32 arg0, s32 arg1) {
     _dm_seq_play_fade(arg0, arg1, 0);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C9C4_cn);
+#endif
 
 /**
  * Original name: dm_seq_play_fade
  */
+#if VERSION_US
 void dm_seq_play_fade(s32 arg0, s32 arg1) {
     _dm_seq_play_fade(0, arg0, arg1);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C9F0_cn);
+#endif
 
 /**
  * Original name: _dm_seq_play_fade
  */
+#if VERSION_US
 void _dm_seq_play_fade(s32 arg0, s32 arg1, s32 arg2) {
     if (arg1 == B_800FACE0.unk_00[arg0]) {
         return;
@@ -330,17 +407,29 @@ void _dm_seq_play_fade(s32 arg0, s32 arg1, s32 arg2) {
     func_8002D554(arg0, arg2);
     B_800FACE0.unk_00[arg0] = arg1;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CA28_cn);
+#endif
 
 /**
  * Original name: dm_seq_play_in_game
  */
+#if VERSION_US
 void dm_seq_play_in_game(s32 arg0) {
     _dm_seq_play_in_game(0, arg0);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CA8C_cn);
+#endif
 
 /**
  * Original name: dm_seq_play_in_game
  */
+#if VERSION_US
 void _dm_seq_play_in_game(s32 arg0, s32 arg1) {
     if (evs_seqence == 0) {
         if (arg1 < 10) {
@@ -352,47 +441,89 @@ void _dm_seq_play_in_game(s32 arg0, s32 arg1) {
     }
     _dm_seq_play(arg0, arg1);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CABC_cn);
+#endif
 
 /**
  * Original name: dm_seq_stop
  */
+#if VERSION_US
 void dm_seq_stop(void) {
     _dm_seq_stop(0);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CB1C_cn);
+#endif
 
 /**
  * Original name: _dm_seq_stop
  */
+#if VERSION_US
 void _dm_seq_stop(s32 arg0) {
     func_8002D554(arg0, 0);
     B_800FACE0.unk_00[arg0] = -1;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CB48_cn);
+#endif
 
 /**
  * Original name: dm_seq_set_volume
  */
+#if VERSION_US
 s32 dm_seq_set_volume(s32 arg0) {
     return _dm_seq_set_volume(0, arg0);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CB94_cn);
+#endif
 
 /**
  * Original name: _dm_seq_set_volume
  */
+#if VERSION_US
 s32 _dm_seq_set_volume(s32 arg0, s32 volume) {
     return func_8002D58C(arg0, volume);
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CBC4_cn);
+#endif
+
+#if VERSION_US
 bool func_8002B178(void) {
     return func_8002B194(0);
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CBEC_cn);
+#endif
+
+#if VERSION_US
 bool func_8002B194(s32 arg0) {
     return func_8002D51C(arg0) == 0;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CC18_cn);
+#endif
 
 /**
  * Original name: dm_snd_play
  */
+#if VERSION_US
 void dm_snd_play(SndIndex sndIndex) {
     s32 i;
     const SndEntry *temp_a1 = &gSndsEntries[sndIndex];
@@ -443,23 +574,41 @@ void dm_snd_play(SndIndex sndIndex) {
         }
     }
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CC44_cn);
+#endif
 
 /**
  * Original name: dm_snd_play_in_game
  */
+#if VERSION_US
 void dm_snd_play_in_game(SndIndex sndIndex) {
     if (evs_gamespeed < 6) {
         dm_snd_play(sndIndex);
     }
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CDEC_cn);
+#endif
+
+#if VERSION_US
 s32 func_8002B370(void) {
     return MusFxBankNumberOfEffects(func_8002D710());
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CE24_cn);
+#endif
 
 /**
  * Original name: dm_snd_play_strange_sound
  */
+#if VERSION_US
 void dm_snd_play_strange_sound(void) {
     s32 sp10[4];
     s32 i;
@@ -467,7 +616,7 @@ void dm_snd_play_strange_sound(void) {
     for (i = 0; i < ARRAY_COUNTU(sp10); i++) {
         s32 j;
 
-        sp10[i] = rand() % ARRAY_COUNT(RO_800ACA10);
+        sp10[i] = rand() % ARRAY_COUNT(_charSE_tbl);
         for (j = 0; j < i; j++) {
             if (sp10[i] == sp10[j]) {
                 i -= 1;
@@ -477,6 +626,11 @@ void dm_snd_play_strange_sound(void) {
     }
 
     for (i = 0; i < ARRAY_COUNTU(sp10); i++) {
-        dm_snd_play(RO_800ACA10[sp10[i]] + 3);
+        dm_snd_play(_charSE_tbl[sp10[i]] + 3);
     }
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CE60_cn);
+#endif

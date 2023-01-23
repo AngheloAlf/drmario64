@@ -1436,7 +1436,7 @@ extern UNK_TYPE CapsMagazine;
 extern UNK_TYPE D_8008841C;
 extern s8 D_800A6FD8;
 extern UNK_TYPE D_800A7360;
-extern UNK_TYPE RO_800ACA10;
+extern UNK_TYPE _charSE_tbl;
 extern UNK_TYPE RO_800B1C8C;
 
 s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *arg1, s32 arg2) {
@@ -1658,7 +1658,7 @@ block_47:
                     if (temp_v1_4 < 3) {
                         var_s0_3 = temp_v1_4;
                     }
-                    dm_snd_play_in_game(*(&RO_800ACA10 + arg0->unk_090) + var_s0_3);
+                    dm_snd_play_in_game(*(&_charSE_tbl + arg0->unk_090) + var_s0_3);
                     return 0;
                 }
                 /* Duplicate return node #174. Try simplifying control flow for better match */

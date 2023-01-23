@@ -314,18 +314,10 @@ gzip_malloc_addr = 0x8000EDC0; //
 D_8000E324 = 0x8000EDC4; //
 crc_32_tab = 0x8000EDD8; //
 crc_132 = 0x8000F1D8; //
-D_8000F1E0_cn = 0x8000F1E0; //
 
-// no section?
-D_8000F1E8_cn = 0x8000F1E8; //
-D_8000F1F0_cn = 0x8000F1F0; //
-D_8000F200_cn = 0x8000F200; //
-D_8000F208_cn = 0x8000F208; //
-D_8000F218_cn = 0x8000F218; //
-D_8000F2D8_cn = 0x8000F2D8; //
-D_8000F2E4_cn = 0x8000F2E4; //
-// no section? end
-
+storyRomData = 0x8000F1E0; // size:0x38
+bgRomData = 0x8000F218; // size:0xC0
+_romDataTbl = 0x8000F2D8; // size:0x218
 
 D_8000F4F0_cn = 0x8000F4F0; //
 D_8000F500_cn = 0x8000F500; //

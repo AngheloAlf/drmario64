@@ -1571,7 +1571,7 @@ gspS2DEX_fifoDataStart = 0x800AC620; // name_end:gspS2DEX_fifoDataEnd dont_allow
 
 // rodata
 
-RO_800ACA10 = 0x800ACA10;
+_charSE_tbl = 0x800ACA10;
 RO_800ACA20 = 0x800ACA20; // size:0x60
 gSndsEntries = 0x800ACA80;
 
