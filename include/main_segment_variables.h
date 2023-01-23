@@ -423,6 +423,11 @@ extern u16 D_800AB440[];
 // extern UNK_TYPE D_800ABF30;
 // extern UNK_TYPE D_800ABF40;
 
+#if VERSION_CN
+extern s32 D_80092F10_cn;
+#endif
+
+
 // rodata
 
 extern const Gfx fade_normal_texture_init_dl[];

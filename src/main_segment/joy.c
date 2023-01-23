@@ -14,6 +14,7 @@
 /**
  * Original filename: joyInit
  */
+#if VERSION_US
 s32 joyInit(s32 arg0 UNUSED) {
     OSMesgQueue mq;
     OSMesg sp28[1];
@@ -50,6 +51,11 @@ s32 joyInit(s32 arg0 UNUSED) {
     joycur2 = 4;
     return 4;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/joy", joyInit);
+#endif
 
 /**
  * Original filename: joyProcCore
@@ -57,19 +63,39 @@ s32 joyInit(s32 arg0 UNUSED) {
 void joyProcCore(void) {
     u16 i;
 
+#if VERSION_CN
+    s32 temp_s1 = D_80092F10_cn;
+
+    func_8002BC30_cn(4);
+#endif
+
     osContStartReadData(&B_800F3E38);
     osRecvMesg(&B_800F3E38, NULL, OS_MESG_BLOCK);
     osContGetReadData(B_800EB4D8);
 
     for (i = 0; i < ARRAY_COUNT(joycnt); i++) {
-        u16 button = B_800EB4D8[i].button;
         u16 j;
+
+#if VERSION_CN
+        u16 mask;
+#endif
+
+#if VERSION_US
         u32 mask;
+        u16 button = B_800EB4D8[i].button;
 
         gControllerHoldButtons[i] = button;
 
         gControllerPressedButtons[i] = ~gControllerPrevHoldButtons[i];
         gControllerPressedButtons[i] &= button;
+#endif
+
+#if VERSION_CN
+        gControllerHoldButtons[i] = B_800EB4D8[i].button;
+
+        gControllerPressedButtons[i] = ~gControllerPrevHoldButtons[i];
+        gControllerPressedButtons[i] &= B_800EB4D8[i].button;
+#endif
 
         joycur[i] = 0;
 
@@ -89,11 +115,77 @@ void joyProcCore(void) {
 
         gControllerPrevHoldButtons[i] = gControllerHoldButtons[i];
     }
+
+#if VERSION_CN
+    i = temp_s1 != 0;
+    if (D_80092F10_cn != 0) {
+        i++;
+    }
+
+    if (i == 1) {
+        D_80092F10_cn = temp_s1;
+        func_80002AE8_cn(D_80092F10_cn);
+    }
+
+    func_8002BD04_cn();
+#endif
 }
+
+#if 0
+void joyProcCore(void) {
+    s32 temp_s1 = D_80092F10_cn;
+    u16 i;
+
+    func_8002BC30_cn(4);
+    osContStartReadData(&B_800F3E38);
+    osRecvMesg(&B_800F3E38, NULL, 1);
+    osContGetReadData(B_800EB4D8);
+
+    for (i = 0; i < 4U; i++) {
+        u16 j;
+        u16 mask;
+
+        gControllerHoldButtons[i] = B_800EB4D8[i].button;
+
+        gControllerPressedButtons[i] = ~gControllerPrevHoldButtons[i];
+        gControllerPressedButtons[i] &= B_800EB4D8[i].button;
+
+        joycur[i] = 0;
+
+        for (j = 0, mask = 0x8000; j < 0x10U; j++, mask >>= 1) {
+            if (joyflg[i] & mask) {
+                if (gControllerHoldButtons[i] & mask) {
+                    joycnt[i][j]++;
+                    if ((joycnt[i][j] == 1) || ((joycnt[i][j] >= joycur1) && (((joycnt[i][j] - joycur1) % joycur2) == 0))) {
+                        joycur[i] |= mask;
+                    }
+                } else {
+                    joycnt[i][j] = 0;
+                }
+            }
+        }
+
+        gControllerPrevHoldButtons[i] = gControllerHoldButtons[i];
+    }
+
+    i = temp_s1 != 0;
+    if (D_80092F10_cn != 0) {
+        i++;
+    }
+
+    if (i == 1) {
+        D_80092F10_cn = temp_s1;
+        func_80002AE8_cn(D_80092F10_cn);
+    }
+
+    func_8002BD04_cn();
+}
+#endif
 
 /**
  * Original filename: joyCursorFastSet
  */
+#if VERSION_US
 void joyCursorFastSet(u16 mask, u8 index) {
     s32 var_a0 = mask;
     s32 j;
@@ -107,12 +199,18 @@ void joyCursorFastSet(u16 mask, u8 index) {
     }
     joycnt[index][j] = joycur1 + joycur2 - 1;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/joy", func_8002C1D0_cn);
+#endif
 
 /**
  * Returns the amount of connected controllers
  *
  * Original filename: joyResponseCheck
  */
+#if VERSION_US
 s32 joyResponseCheck(void) {
     s32 connectedControllers = 0;
     OSContStatus padStatus[MAXCONTROLLERS];
@@ -146,3 +244,8 @@ s32 joyResponseCheck(void) {
 
     return connectedControllers;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/joy", joyResponseCheck);
+#endif

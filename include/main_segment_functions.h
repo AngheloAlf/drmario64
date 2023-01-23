@@ -1059,5 +1059,10 @@ void makeScaleMatrix(Mtx *mtx, u32 scale);
 // void func_800845D4();
 // void func_80084648();
 
+#if VERSION_CN
+void func_8002BC30_cn(s32 arg0);
+void func_8002BD04_cn(void);
+#endif
+
 
 #endif

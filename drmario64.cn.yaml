@@ -280,7 +280,7 @@ segments:
     subsegments:
       - [0x0124F0, c, main_segment/main]
       - [0x012830, asm, main_segment/012830]
-      - [0x013AD0, asm, main_segment/joy]
+      - [0x013AD0, c, main_segment/joy]
 
       - [0x0140A0, c, main_segment/sound]
       - [0x014CB0, asm, main_segment/014CB0]

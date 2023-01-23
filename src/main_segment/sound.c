@@ -136,7 +136,7 @@ const SndEntry gSndsEntries[SND_INDEX_MAX] = {
     /* SND_INDEX_103 */ { 0x67, 0x00, 0x00, 0x0A, 0x00, 0x78 },
 };
 
-s32 func_8002C370_cn(void) {
+s32 func_8002AA80(void) {
     s32 ret = 0;
     u32 i;
 
@@ -256,10 +256,6 @@ void dm_audio_set_stereo(bool setStereo UNUSED) {
 
     osWritebackDCacheAll();
 }
-
-//#if VERSION_CN
-//INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_audio_set_stereo);
-//#endif
 
 /**
  * Original name: dm_audio_init_driver
