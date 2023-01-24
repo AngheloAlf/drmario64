@@ -1,6 +1,8 @@
 #ifndef ALIGNMENT_H
 #define ALIGNMENT_H
 
+#include "attributes.h"
+
 #define ALIGN4(val) (((val) + 3) & ~3)
 #define ALIGN8(val) (((val) + 7) & ~7)
 #define ALIGN16(val) (((val) + 0xF) & ~0xF)
@@ -11,18 +13,18 @@
 
 #define ALIGN_PTR(ptr) ((void*)ALIGN16((uintptr_t)(ptr)))
 
-#ifdef __GNUC__
+#ifndef ALIGNED8
 #define ALIGNED8 __attribute__ ((aligned (8)))
-#else
-#define ALIGNED8
 #endif
 
+#ifndef ALIGNOF
 #ifdef __sgi /* IDO compiler */
 #define ALIGNOF(x) __builtin_alignof(x)
 #elif (__STDC_VERSION__ >= 201112L) /* C11 */
 #define ALIGNOF(x) _Alignof(x)
 #else /* __GNUC__ */
 #define ALIGNOF(x) __alignof__(x)
+#endif
 #endif
 
 #define ALIGN_MASK(n) (~((n) - 1))
