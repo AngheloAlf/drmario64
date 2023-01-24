@@ -131,57 +131,6 @@ void joyProcCore(void) {
 #endif
 }
 
-#if 0
-void joyProcCore(void) {
-    s32 temp_s1 = D_80092F10_cn;
-    u16 i;
-
-    func_8002BC30_cn(4);
-    osContStartReadData(&B_800F3E38);
-    osRecvMesg(&B_800F3E38, NULL, 1);
-    osContGetReadData(B_800EB4D8);
-
-    for (i = 0; i < 4U; i++) {
-        u16 j;
-        u16 mask;
-
-        gControllerHoldButtons[i] = B_800EB4D8[i].button;
-
-        gControllerPressedButtons[i] = ~gControllerPrevHoldButtons[i];
-        gControllerPressedButtons[i] &= B_800EB4D8[i].button;
-
-        joycur[i] = 0;
-
-        for (j = 0, mask = 0x8000; j < 0x10U; j++, mask >>= 1) {
-            if (joyflg[i] & mask) {
-                if (gControllerHoldButtons[i] & mask) {
-                    joycnt[i][j]++;
-                    if ((joycnt[i][j] == 1) || ((joycnt[i][j] >= joycur1) && (((joycnt[i][j] - joycur1) % joycur2) == 0))) {
-                        joycur[i] |= mask;
-                    }
-                } else {
-                    joycnt[i][j] = 0;
-                }
-            }
-        }
-
-        gControllerPrevHoldButtons[i] = gControllerHoldButtons[i];
-    }
-
-    i = temp_s1 != 0;
-    if (D_80092F10_cn != 0) {
-        i++;
-    }
-
-    if (i == 1) {
-        D_80092F10_cn = temp_s1;
-        func_80002AE8_cn(D_80092F10_cn);
-    }
-
-    func_8002BD04_cn();
-}
-#endif
-
 /**
  * Original filename: joyCursorFastSet
  */
@@ -202,7 +151,7 @@ void joyCursorFastSet(u16 mask, u8 index) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/joy", func_8002C1D0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/joy", joyCursorFastSet);
 #endif
 
 /**

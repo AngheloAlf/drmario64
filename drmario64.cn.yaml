@@ -283,9 +283,10 @@ segments:
       - [0x013AD0, c, main_segment/joy]
 
       - [0x0140A0, c, main_segment/sound]
-      - [0x014CB0, asm, main_segment/014CB0]
-      - [0x0156C0, asm, main_segment/0156C0]
-      - [0x016A80, asm, main_segment/016A80]
+      - [0x014CB0, c, main_segment/graphic]
+      - [0x0156C0, c, main_segment/graphics/static]
+      - [0x016A80, asm, main_segment/audio/003520]
+
       - [0x017640, asm, main_segment/017640]
       - [0x0184C0, asm, main_segment/0184C0] # record?
       - [0x023880, asm, main_segment/023880]
@@ -307,7 +308,8 @@ segments:
       - [0x0710D0, asm, main_segment/0710D0]
       - [0x071830, asm, main_segment/071830]
       - [0x0726F0, asm, main_segment/0726F0]
-      - [0x072880, asm, main_segment/072880]
+
+      - [0x072880, asm, main_segment/072880] # libmus/player?
       - [0x075D50, asm, main_segment/075D50]
       - [0x076680, asm, main_segment/076680]
       - [0x076B10, asm, main_segment/076B10]
@@ -319,7 +321,8 @@ segments:
       - [0x0AB7F0, .rodata, main_segment/main]
 
       - [0x0AB820, .rodata, main_segment/sound]
-      - [0x0ABB00, rodata, main_segment/0ABB00]
+      - [0x0ABB00, .rodata, main_segment/graphic]
+      - [0x0ABB20, rodata, main_segment/0ABB20]
       - [0x0ABD40, rodata, main_segment/0ABD40]
       - [0x0ABDB0, rodata, main_segment/0ABDB0]
       - [0x0ABE80, rodata, main_segment/0ABE80]
