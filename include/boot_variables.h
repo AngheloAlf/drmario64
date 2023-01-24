@@ -26,6 +26,7 @@ extern s8 D_8000E1A0;
 
 extern OSThread B_80010E60;
 extern OSThread B_80011010;
+extern STACK(B_800111C0, 0x2000);
 extern STACK(B_800131C0, 0x2000);
 extern OSMesgQueue B_800151C0;
 extern OSMesg B_800151D8[1];

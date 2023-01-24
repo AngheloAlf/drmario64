@@ -9,7 +9,7 @@
 
 void func_80000460(void);
 void func_80000468(void);
-void func_80000488(void* arg0);
+void func_80000488(void (*arg0)());
 void bootproc(void);
 
 void LoadMainSegment(void *arg0);
