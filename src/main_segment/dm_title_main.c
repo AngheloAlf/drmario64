@@ -208,6 +208,7 @@ void dm_title_graphic(void) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_title_main", dm_title_graphic);
 #endif
 
+// clang-format off
 const char STR_800B32A8[] = ""
 #if VERSION_US
     "This game is not designed" MSG_NEWLINE
@@ -246,6 +247,7 @@ const char _mesBootCSumErr[] = ""
     "按A键删除这个文件。"
 #endif
     MSG_END;
+// clang-format on
 
 /**
  * Original name: main_boot_error
