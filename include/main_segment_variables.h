@@ -424,7 +424,7 @@ extern u16 D_800AB440[];
 // extern UNK_TYPE D_800ABF40;
 
 #if VERSION_CN
-extern s32 D_80092F10_cn;
+extern s32 D_80092F10_cn; // bool?
 #endif
 
 

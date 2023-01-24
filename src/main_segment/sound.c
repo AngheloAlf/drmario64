@@ -322,7 +322,7 @@ void dm_audio_update(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C7BC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_audio_update);
 #endif
 
 /**
@@ -349,7 +349,7 @@ bool dm_audio_is_stopped(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C964_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_audio_is_stopped);
 #endif
 
 /**
@@ -362,7 +362,7 @@ void dm_seq_play(s32 arg0) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C994_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_seq_play);
 #endif
 
 /**
@@ -453,7 +453,7 @@ void dm_seq_stop(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CB1C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_seq_stop);
 #endif
 
 /**

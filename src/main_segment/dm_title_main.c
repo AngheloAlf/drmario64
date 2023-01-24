@@ -14,37 +14,25 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 
-#if VERSION_US
 void func_80075F30(void) {
     title_exit_flag = 0;
     title_mode_type = 0;
+
+    title_fade_count = main_old == MAIN_NO_6 ? 0xFF : 0;
     title_fade_step = -8;
     evs_seqence = 0;
-    title_fade_count = -(main_old == MAIN_NO_6) & 0xFF;
-    init_title(&Heap_bufferp, main_old != MAIN_NO_6);
+    init_title(Heap_bufferp, main_old != MAIN_NO_6);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_title_main", func_80075F30);
-#endif
 
 /**
  * Original name: _stageTbl
  */
-#if VERSION_US
 const u8 _stageTbl[] = {
     STORY_PROC_NO_1,  STORY_PROC_NO_2,  STORY_PROC_NO_3,  STORY_PROC_NO_4,  STORY_PROC_NO_5,  STORY_PROC_NO_6,
     STORY_PROC_NO_7,  STORY_PROC_NO_8,  STORY_PROC_NO_9,  STORY_PROC_NO_13, STORY_PROC_NO_14, STORY_PROC_NO_15,
     STORY_PROC_NO_16, STORY_PROC_NO_17, STORY_PROC_NO_18, STORY_PROC_NO_19, STORY_PROC_NO_20, STORY_PROC_NO_21,
 };
-#endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_title_main", RO_800C94F0_cn);
-#endif
-
-#if VERSION_US
 /**
  * Original name: dm_title_main
  */
@@ -52,8 +40,8 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
     OSMesgQueue sp10;
     OSMesg sp28[8];
     struct_800FAF98_unk_64 sp48;
+    s32 var_s1 = (main_old == MAIN_NO_6) ? 0x63 : 0;
     u32 var_s0 = 0;
-    s32 var_s1 = -(main_old == MAIN_NO_6) & 0x63;
 
     osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
     func_8002A184(arg0, &sp48, &sp10);
@@ -61,42 +49,56 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
     func_80075F30();
     evs_playmax = joyResponseCheck();
     osRecvMesg(&sp10, NULL, 1);
+#if VERSION_US
     graphic_no = GRAPHIC_NO_2;
+#endif
 
-    while (var_s0 == 0) {
+    do {
         joyProcCore();
         osRecvMesg(&sp10, NULL, 1);
 
-        title_fade_count = CLAMP(title_fade_count + title_fade_step, 0, 0xFF);
+#if VERSION_CN
+        if (D_80092F10_cn != 0) {
+            graphic_no = GRAPHIC_NO_0;
+            dm_audio_update();
+        } else {
+#endif
+            title_fade_count = CLAMP(title_fade_count + title_fade_step, 0, 0xFF);
 
-        switch (title_mode_type) {
-            case 0:
-                var_s1++;
-                if (title_exit_flag == -1) {
-                    title_mode_type = 7;
-                } else {
-                    if (var_s1 == 0x64) {
-                        dm_seq_play(0xB);
+            switch (title_mode_type) {
+                case 0:
+                    var_s1++;
+                    if (title_exit_flag == -1) {
+                        title_mode_type = 7;
+                    } else {
+                        if (var_s1 == 0x64) {
+                            dm_seq_play(0xB);
+                        }
+                        if (title_exit_flag == 1) {
+                            title_mode_type = 6;
+                        }
                     }
-                    if (title_exit_flag == 1) {
-                        title_mode_type = 6;
-                    }
-                }
-                break;
+                    break;
 
-            case 6:
-            case 7:
-                title_fade_step = -title_fade_step;
-                if (title_mode_type == 6) {
-                    var_s0 = 1;
-                } else if (title_mode_type == 7) {
-                    var_s0 = 2;
-                }
-                break;
+                case 6:
+                case 7:
+                    title_fade_step = -title_fade_step;
+                    if (title_mode_type == 6) {
+                        var_s0 = 1;
+                    } else if (title_mode_type == 7) {
+                        var_s0 = 2;
+                    }
+                    break;
+            }
+
+            dm_audio_update();
+#if VERSION_CN
+            graphic_no = GRAPHIC_NO_2;
+#endif
+#if VERSION_CN
         }
-
-        dm_audio_update();
-    }
+#endif
+    } while (var_s0 == 0);
 
     dm_seq_stop();
 
@@ -161,16 +163,10 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
     return title_demo_flg;
 #endif
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_title_main", dm_title_main);
-#endif
 
 /**
  * Original name: dm_title_graphic
  */
-#if VERSION_US
 void dm_title_graphic(void) {
     s32 color;
     s32 alpha;
@@ -194,6 +190,10 @@ void dm_title_graphic(void) {
         FillRectRGBA(&gGfxHead, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color, color, color, alpha);
     }
 
+#if VERSION_CN
+    func_8002BD7C_cn(&gGfxHead, 0x20, 0xB4);
+#endif
+
     gDPFullSync(gGfxHead++);
     gSPEndDisplayList(gGfxHead++);
     osWritebackDCacheAll();
@@ -201,12 +201,6 @@ void dm_title_graphic(void) {
     gfxTaskStart(ptr, gGfxGlist[gCurrentFramebufferIndex],
                  (gGfxHead - gGfxGlist[gCurrentFramebufferIndex]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
-
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_title_main", dm_title_graphic);
-#endif
 
 // clang-format off
 const char STR_800B32A8[] = ""
@@ -252,7 +246,6 @@ const char _mesBootCSumErr[] = ""
 /**
  * Original name: main_boot_error
  */
-#if VERSION_US
 enum_main_no main_boot_error(struct_800EB670 *arg0) {
     OSMesgQueue sp18;
     OSMesg sp30[8];
@@ -291,13 +284,23 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
     while (var_s1) {
         joyProcCore();
         osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
-        msgWnd_update(messageWnd);
-        if ((main_no == MAIN_NO_10) && (gControllerPressedButtons[main_joy[0]] & A_BUTTON)) {
-            var_s1 = false;
-            dm_snd_play(SND_INDEX_70);
+
+#if VERSION_CN
+        if (D_80092F10_cn != 0) {
+            graphic_no = GRAPHIC_NO_0;
+            dm_audio_update();
+        } else {
+#endif
+            msgWnd_update(messageWnd);
+            if ((main_no == MAIN_NO_10) && (gControllerPressedButtons[main_joy[0]] & A_BUTTON)) {
+                var_s1 = false;
+                dm_snd_play(SND_INDEX_70);
+            }
+            dm_audio_update();
+            graphic_no = GRAPHIC_NO_7;
+#if VERSION_CN
         }
-        dm_audio_update();
-        graphic_no = GRAPHIC_NO_7;
+#endif
     }
 
     graphic_no = GRAPHIC_NO_0;
@@ -311,16 +314,10 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
     }
     return MAIN_NO_3;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_title_main", main_boot_error);
-#endif
 
 /**
  * Original name: graphic_boot_error
  */
-#if VERSION_US
 void graphic_boot_error(void) {
     MessageWnd *ptr;
 
@@ -337,8 +334,3 @@ void graphic_boot_error(void) {
     gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx),
                  0, OS_SC_SWAPBUFFER);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_title_main", graphic_boot_error);
-#endif

@@ -20,6 +20,8 @@ RUN_CC_CHECK ?= 1
 CC_CHECK_COMP ?= clang
 # Dump build object files
 OBJDUMP_BUILD ?= 1
+# 
+MULTISTEP_BUILD ?= 0
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -150,7 +152,7 @@ ICONV_FLAGS     := --from-code=UTF-8 --to-code=EUC-CN
 endif
 
 # Variable to simplify C compiler invocation
-C_COMPILER_FLAGS = -x c $(CFLAGS) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS)
+C_COMPILER_FLAGS = $(CFLAGS) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS)
 
 # Use relocations and abi fpr names in the dump
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32 -Mno-aliases
@@ -291,8 +293,13 @@ $(BUILD_DIR)/%.o: %.s
 
 $(BUILD_DIR)/%.o: %.c
 	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
+ifeq ($(MULTISTEP_BUILD), 0)
+	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -E $< | $(ICONV) $(ICONV_FLAGS) | $(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -c -o $@ -
+else
 	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -E $< | $(ICONV) $(ICONV_FLAGS) -o $(@:.o=.i)
-	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -c -o $@ $(@:.o=.i)
+	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -S -o $(@:.o=.s) $(@:.o=.i)
+	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -c -o $@ $(@:.o=.s)
+endif
 	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)
