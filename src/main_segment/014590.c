@@ -5,6 +5,8 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
+#if VERSION_US
+
 const char STR_800AD2E0[] RODATA = "MajorityRensa";
 
 const char STR_800AD2F0[] RODATA = "WidErase";
@@ -176,6 +178,8 @@ const char STR_800AD790[] RODATA = "Man";
 
 const char STR_800AD794[] RODATA = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
 
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003E1E0);
 #endif
@@ -302,6 +306,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003F7DC);
 
 ASM_RODATA;
 
+#if VERSION_US
+
 const char STR_800AD980[] RODATA = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
 
 const char STR_800AD98C[] RODATA = "ｸｯﾊﾟ";
@@ -372,6 +378,8 @@ const char STR_800ADA84[] RODATA = "ｶｳﾝﾀｰ";
 
 const char STR_800ADA8C[] RODATA = "ｾﾝｾｲｺｳｹﾞｷ";
 
+#endif
+
 ASM_TEXT;
 
 #if VERSION_US
@@ -392,6 +400,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/014590", func_8003FEE4);
 
 ASM_RODATA;
 
+#if VERSION_US
+
 const char STR_800ADAC8[] RODATA = "<ﾄｸｼｭ>";
 
 const char STR_800ADAD0[] RODATA = "<ｽﾋﾟｰﾄﾞ>";
@@ -411,6 +421,8 @@ const char STR_800ADB10[] RODATA = "@c2%s\n";
 const char STR_800ADB18[] RODATA = "@m%c@c%c%s\n";
 
 const char STR_800ADB24[] RODATA = "@m%c@c%c%c:%s\n";
+
+#endif
 
 ASM_TEXT;
 

@@ -229,7 +229,7 @@ void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, 
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", func_8002D428_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", gfxTaskStart);
 #endif
 
 #if VERSION_US
@@ -252,7 +252,7 @@ void F3RCPinitRtn(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", func_8002D5DC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", F3RCPinitRtn);
 #endif
 
 #if VERSION_US
@@ -275,7 +275,7 @@ void F3ClearFZRtn(u8 arg0) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", func_8002D6DC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", F3ClearFZRtn);
 #endif
 
 #if VERSION_US
@@ -293,7 +293,7 @@ void S2RDPinitRtn(u8 arg0) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", func_8002D818_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", S2RDPinitRtn);
 #endif
 
 #if VERSION_US
@@ -311,5 +311,5 @@ void S2ClearCFBRtn(u8 arg0) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", func_8002D8A8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", S2ClearCFBRtn);
 #endif

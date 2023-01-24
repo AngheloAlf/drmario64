@@ -290,7 +290,7 @@ func_8000E530_cn = 0x8000E530; // type:func
 func_8000EAA0_cn = 0x8000EAA0; // type:func
 func_8000EAE0_cn = 0x8000EAE0; // type:func
 func_8000EB00_cn = 0x8000EB00; // type:func
-func_8000EB10_cn = 0x8000EB10; // type:func
+rand = 0x8000EB10; // type:func
 fmod = 0x8000EB60; // type:func
 func_8000EBA0_cn = 0x8000EBA0; // type:func
 

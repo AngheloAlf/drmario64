@@ -125,20 +125,8 @@ else
 	CC_CHECK          := @:
 endif
 
-ifeq ($(VERSION),us)
-OPTFLAGS        := -O2
-# OPTFLAGS        += -gdwarf
-MIPS_VERSION    := -mips3
-endif
-ifeq ($(VERSION),cn)
-OPTFLAGS        := -O2 -ggdb
-MIPS_VERSION    := -mips2
-endif
-
 CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -fno-common -funsigned-char
-ifeq ($(VERSION),cn)
-CFLAGS          += -mcpu=4300
-endif
+
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -32 -G0
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
@@ -147,6 +135,22 @@ RELEASE_DEFINES := -DNDEBUG -D_FINALROM
 AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
 C_DEFINES       := -D_LANGUAGE_C
 ENDIAN          := -EB
+
+ifeq ($(VERSION),us)
+OPTFLAGS        := -O2
+# OPTFLAGS        += -gdwarf
+MIPS_VERSION    := -mips3
+ICONV_FLAGS     := --from-code=UTF-8 --to-code=Shift-JIS
+endif
+ifeq ($(VERSION),cn)
+CFLAGS          += -mcpu=4300
+OPTFLAGS        := -O2 -ggdb
+MIPS_VERSION    := -mips2
+ICONV_FLAGS     := --from-code=UTF-8 --to-code=EUC-CN
+endif
+
+# Variable to simplify C compiler invocation
+C_COMPILER_FLAGS :=  -x c $(CFLAGS) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS)
 
 # Use relocations and abi fpr names in the dump
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32 -Mno-aliases
@@ -282,12 +286,13 @@ $(BUILD_DIR)/%.o: %.bin
 	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/%.o: %.s
-	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | $(ICONV) --to-code=Shift-JIS | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -o $@
+	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $< | $(ICONV) $(ICONV_FLAGS) | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -o $@
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
 	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
-	$(ICONV) --to-code=Shift-JIS  $< | $(CC) -x c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -c -o $@ -
+	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -E $< | $(ICONV) $(ICONV_FLAGS) -o $(@:.o=.i)
+	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -c -o $@ $(@:.o=.i)
 	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)

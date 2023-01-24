@@ -23,7 +23,7 @@ extern Vp D_80088130;
 extern s32 D_80088140;
 extern Gfx D_80088150[];
 extern Gfx D_800881B8[];
-extern Gfx D_800881E0[];
+extern Gfx S2Spriteinit_dl[];
 extern Gfx D_80088228[];
 extern Gfx D_80088308[];
 extern Gfx D_80088328[];

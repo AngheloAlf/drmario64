@@ -573,7 +573,7 @@ void dm_snd_play(SndIndex sndIndex) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CC44_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_snd_play);
 #endif
 
 /**

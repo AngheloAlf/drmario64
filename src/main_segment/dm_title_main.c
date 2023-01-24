@@ -161,7 +161,7 @@ void dm_title_graphic(void) {
     S2RDPinitRtn(true);
     S2ClearCFBRtn(true);
 
-    gSPDisplayList(gGfxHead++, D_800881E0);
+    gSPDisplayList(gGfxHead++, S2Spriteinit_dl);
     gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
     title_exit_flag = demo_title(&gGfxHead, evs_level_21 != 0);
