@@ -300,7 +300,7 @@ segments:
       - [0x04C1E0, asm, main_segment/04C1E0]
       - [0x04E5E0, asm, main_segment/04E5E0]
       - [0x062E20, asm, main_segment/062E20]
-      - [0x067CE0, asm, main_segment/dm_title_main]
+      - [0x067CE0, c, main_segment/dm_title_main]
       - [0x068960, asm, main_segment/068960]
       - [0x06E1F0, asm, main_segment/06E1F0]
       - [0x06E7E0, asm, main_segment/06E7E0]
@@ -349,7 +349,7 @@ segments:
       - [0x0AFF90, rodata, main_segment/0AFF90]
       - [0x0B06F0, rodata, main_segment/0B06F0]
 
-      - { start: 0x0B1220, type: rodata, partial_migration: True, name: main_segment/dm_title_main }
+      - { start: 0x0B1220, type: .rodata, partial_migration: True, name: main_segment/dm_title_main }
 
       - [0x0B12B0, rodata, main_segment/0B12B0]
       - [0x0B1380, rodata, main_segment/0B1380]

@@ -2077,6 +2077,9 @@ map_y_table_1038 = 0x800B31DC; // size:0x2
 size_table_1039 = 0x800B31E0; // size:0x2
 
 _stageTbl = 0x800B3240; // size:0x12
+STR_800B32A8 = 0x800B32A8; // type:asciz force_not_migration:True
+_mesBootContErr = 0x800B32A8; // type:asciz force_not_migration:True
+_mesBootCSumErr = 0x800B3318; // type:asciz force_not_migration:True
 
 // bss
 

@@ -3,7 +3,7 @@
 
 #if !defined(SPLAT) && !defined(M2CTX) && !defined(PERMUTER)
 #ifndef INCLUDE_ASM
-#define INCLUDE_ASM(FOLDER, NAME, ARGS...) \
+#define INCLUDE_ASM(FOLDER, NAME) \
    __asm__( \
         ".section .text\n" \
         "\t.set noat\n" \
@@ -31,7 +31,7 @@
 #endif
 __asm__(".include \"include/labels.inc\"\n");
 #else
-#define INCLUDE_ASM(FOLDER, NAME, ARGS...)
+#define INCLUDE_ASM(FOLDER, NAME)
 #define INCLUDE_RODATA(FOLDER, NAME)
 #endif
 

@@ -14,6 +14,7 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 
+#if VERSION_US
 void func_80075F30(void) {
     title_exit_flag = 0;
     title_mode_type = 0;
@@ -22,16 +23,31 @@ void func_80075F30(void) {
     title_fade_count = -(main_old == MAIN_NO_6) & 0xFF;
     init_title(&Heap_bufferp, main_old != MAIN_NO_6);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_title_main", func_80075F30);
+#endif
 
 /**
  * Original name: _stageTbl
  */
+#if VERSION_US
 const u8 _stageTbl[] = {
     STORY_PROC_NO_1,  STORY_PROC_NO_2,  STORY_PROC_NO_3,  STORY_PROC_NO_4,  STORY_PROC_NO_5,  STORY_PROC_NO_6,
     STORY_PROC_NO_7,  STORY_PROC_NO_8,  STORY_PROC_NO_9,  STORY_PROC_NO_13, STORY_PROC_NO_14, STORY_PROC_NO_15,
     STORY_PROC_NO_16, STORY_PROC_NO_17, STORY_PROC_NO_18, STORY_PROC_NO_19, STORY_PROC_NO_20, STORY_PROC_NO_21,
 };
+#endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_title_main", RO_800C94F0_cn);
+#endif
+
+#if VERSION_US
+/**
+ * Original name: dm_title_main
+ */
 enum_main_no dm_title_main(struct_800EB670 *arg0) {
     OSMesgQueue sp10;
     OSMesg sp28[8];
@@ -145,10 +161,16 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
     return title_demo_flg;
 #endif
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_title_main", dm_title_main);
+#endif
 
 /**
  * Original name: dm_title_graphic
  */
+#if VERSION_US
 void dm_title_graphic(void) {
     s32 color;
     s32 alpha;
@@ -180,22 +202,55 @@ void dm_title_graphic(void) {
                  (gGfxHead - gGfxGlist[gCurrentFramebufferIndex]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
 
-const char D_800B32A8[] RODATA = "This game is not designed~nfor use on this system.~z";
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_title_main", dm_title_graphic);
+#endif
+
+const char STR_800B32A8[] = ""
+#if VERSION_US
+    "This game is not designed" MSG_NEWLINE
+    "for use on this system."
+#endif
+#if VERSION_CN
+    "本游戏不是为此系统设计的。"
+#endif
+    MSG_END;
 
 /**
  * Original name: _mesBootContErr
  */
-const char _mesBootContErr[] RODATA =
-    "There is no controller~nconnected. Please turn OFF~nthe Nintendo* 64 and insert~na controller in socket 1.~z";
+const char _mesBootContErr[] = ""
+#if VERSION_US
+    "There is no controller" MSG_NEWLINE
+    "connected. Please turn OFF" MSG_NEWLINE
+    "the Nintendo* 64 and insert" MSG_NEWLINE
+    "a controller in socket 1."
+#endif
+#if VERSION_CN
+    "没有连接"
+#endif
+    MSG_END;
 
 /**
  * Original name: _mesBootCSumErr
  */
-const char _mesBootCSumErr[] RODATA = "A Backup File is damaged.~nPress the A Button to delete this file.~z";
+const char _mesBootCSumErr[] = ""
+#if VERSION_US
+    "A Backup File is damaged." MSG_NEWLINE
+    "Press the A Button to delete this file."
+#endif
+#if VERSION_CN
+    "备份文件已损坏。" MSG_NEWLINE
+    "按A键删除这个文件。"
+#endif
+    MSG_END;
 
 /**
  * Original name: main_boot_error
  */
+#if VERSION_US
 enum_main_no main_boot_error(struct_800EB670 *arg0) {
     OSMesgQueue sp18;
     OSMesg sp30[8];
@@ -217,7 +272,7 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
 
         case MAIN_NO_9:
             msgWnd_init(messageWnd, &sp58, 0x40, 5, 0x40, 0x72);
-            msgWnd_addStr(messageWnd, D_800B32A8);
+            msgWnd_addStr(messageWnd, STR_800B32A8);
             break;
 
         case MAIN_NO_10:
@@ -254,10 +309,16 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
     }
     return MAIN_NO_3;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_title_main", main_boot_error);
+#endif
 
 /**
  * Original name: graphic_boot_error
  */
+#if VERSION_US
 void graphic_boot_error(void) {
     MessageWnd *ptr;
 
@@ -274,3 +335,8 @@ void graphic_boot_error(void) {
     gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx),
                  0, OS_SC_SWAPBUFFER);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_title_main", graphic_boot_error);
+#endif
