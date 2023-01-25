@@ -20,3 +20,7 @@ void sgenrand(u32 arg0) {
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/vr_init", genrand);
 #endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/vr_init", genrand);
+#endif

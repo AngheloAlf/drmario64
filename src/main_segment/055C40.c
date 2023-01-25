@@ -8,10 +8,22 @@
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/055C40", func_8007F890);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/055C40", func_8007F890);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/055C40", func_8007F990);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/055C40", func_8007F990);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/055C40", func_8007F9D0);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/055C40", func_8007F9D0);
 #endif

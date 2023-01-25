@@ -105,7 +105,7 @@ main11 = 0x8002F910; // type:func
 func_8002FA24_cn = 0x8002FA24; // type:func
 main12 = 0x800300B4; // type:func
 sgenrand = 0x80030790; // type:func
-func_80030814_cn = 0x80030814; // type:func
+genrand = 0x80030814; // type:func
 func_80030A90_cn = 0x80030A90; // type:func
 func_80030B0C_cn = 0x80030B0C; // type:func
 func_80030D0C_cn = 0x80030D0C; // type:func
@@ -1000,9 +1000,9 @@ func_8008A858_cn = 0x8008A858; // type:func
 func_8008A888_cn = 0x8008A888; // type:func
 func_8008A8C8_cn = 0x8008A8C8; // type:func
 func_8008A950_cn = 0x8008A950; // type:func
-func_8008A9C0_cn = 0x8008A9C0; // type:func
-func_8008AAD0_cn = 0x8008AAD0; // type:func
-func_8008AB18_cn = 0x8008AB18; // type:func
+func_8007F890 = 0x8008A9C0; // type:func
+func_8007F990 = 0x8008AAD0; // type:func
+func_8007F9D0 = 0x8008AB18; // type:func
 func_8008AB50_cn = 0x8008AB50; // type:func
 func_8008AB70_cn = 0x8008AB70; // type:func
 func_8008ABA0_cn = 0x8008ABA0; // type:func
@@ -1143,12 +1143,12 @@ func_8008F3E0_cn = 0x8008F3E0; // type:func
 
 // data
 
-D_8008F430_cn = 0x8008F430; //
-D_8008F500_cn = 0x8008F500; //
-D_8008F800_cn = 0x8008F800; //
-D_8008FB00_cn = 0x8008FB00; //
-D_80090320_cn = 0x80090320; //
-D_800916B0_cn = 0x800916B0; //
+rspbootTextStart = 0x8008F430; // size:0xD0 name_end:rspbootTextEnd dont_allow_addend:True
+aspMainTextStart = 0x8008F500; // size:0xE20 name_end:aspMainTextEnd dont_allow_addend:True
+
+gspF3DEX2_fifoTextStart = 0x80090320; // size:0x1390 name_end:gspF3DEX2_fifoTextEnd dont_allow_addend:True
+gspS2DEX_fifoTextStart = 0x800916B0; // size:0x17F0 name_end:gspS2DEX_fifoTextEnd dont_allow_addend:True
+
 D_80092EA0_cn = 0x80092EA0; //
 D_80092EA3_cn = 0x80092EA3; //
 D_80092EA4_cn = 0x80092EA4; //
@@ -1156,8 +1156,7 @@ D_80092EA5_cn = 0x80092EA5; //
 D_80092EA8_cn = 0x80092EA8; //
 D_80092EAC_cn = 0x80092EAC; //
 D_80092F10_cn = 0x80092F10; //
-D_80092F20_cn = 0x80092F20; //
-D_80092F24_cn = 0x80092F24; //
+D_80092F20_cn = 0x80092F20; // size:0x10
 gCurrentFramebufferIndex = 0x80092F30; //
 graphic_no = 0x80092F34; //
 pendingGFX = 0x80092F38; //
@@ -1193,7 +1192,7 @@ D_80093240_cn = 0x80093240; //
 D_80093243_cn = 0x80093243; //
 D_80093244_cn = 0x80093244; //
 D_8009327C_cn = 0x8009327C; //
-D_80093290_cn = 0x80093290; //
+mti = 0x80093290; //
 D_80093294_cn = 0x80093294; //
 D_800932B8_cn = 0x800932B8; //
 D_800932D0_cn = 0x800932D0; //
@@ -1725,6 +1724,7 @@ RO_800C4AF8_cn = 0x800C4AF8; //
 RO_800C4B10_cn = 0x800C4B10; //
 RO_800C4B38_cn = 0x800C4B38; //
 RO_800C4B60_cn = 0x800C4B60; //
+RO_800C4B80_cn = 0x800C4B80; //
 RO_800C4BBC_cn = 0x800C4BBC; //
 RO_800C4BC0_cn = 0x800C4BC0; //
 RO_800C4BD8_cn = 0x800C4BD8; //
@@ -2158,9 +2158,10 @@ RO_800C96F0_cn = 0x800C96F0; //
 RO_800C96F8_cn = 0x800C96F8; //
 RO_800C9700_cn = 0x800C9700; //
 RO_800C9710_cn = 0x800C9710; //
-RO_800C9720_cn = 0x800C9720; //
-RO_800C99E0_cn = 0x800C99E0; //
-RO_800C9E00_cn = 0x800C9E00; //
+
+aspMainDataStart = 0x800C9720; // size:0x2C0 name_end:aspMainDataEnd dont_allow_addend:True
+gspF3DEX2_fifoDataStart = 0x800C99E0; // size:0x420 name_end:gspF3DEX2_fifoDataEnd dont_allow_addend:True
+gspS2DEX_fifoDataStart = 0x800C9E00; // size:0x3C0 name_end:gspS2DEX_fifoDataEnd dont_allow_addend:True
 
 // rodata end
 
@@ -2239,7 +2240,7 @@ B_800CA2D0_cn = 0x800CA2D0; //
 B_800DB40B_cn = 0x800DB40B; //
 B_800DF300_cn = 0x800DF300; //
 B_800F0535_cn = 0x800F0535; //
-B_800FB2D0_cn = 0x800FB2D0; //
+mt = 0x800FB2D0; // size:0x9C0
 B_800FBC90_cn = 0x800FBC90; //
 B_800FBC94_cn = 0x800FBC94; //
 B_800FBE24_cn = 0x800FBE24; //

@@ -288,15 +288,18 @@ segments:
       - [0x016A80, asm, main_segment/audio/003520]
 
       - [0x017640, asm, main_segment/017640]
-      - [0x0184C0, asm, main_segment/0184C0] # record?
+      - [0x0184C0, c, main_segment/vr_init]
+      - [0x0187C0, asm, main_segment/0187C0] # record?
       - [0x023880, asm, main_segment/023880]
       - [0x025650, asm, main_segment/025650]
       - [0x027D50, asm, main_segment/027D50]
       - [0x027DF0, asm, main_segment/027DF0]
       - [0x028350, asm, main_segment/028350]
       - [0x02AC40, asm, main_segment/02AC40]
-      - [0x030390, asm, main_segment/030390]
+      - [0x030390, asm, main_segment/main_menu]
       - [0x049760, asm, main_segment/049760]
+      - [0x04AF00, asm, main_segment/msgwnd]
+
       - [0x04C1E0, asm, main_segment/04C1E0]
       - [0x04E5E0, asm, main_segment/04E5E0]
       - [0x062E20, asm, main_segment/062E20]
@@ -306,8 +309,10 @@ segments:
       - [0x06E7E0, asm, main_segment/06E7E0]
       - [0x06FF90, asm, main_segment/06FF90]
       - [0x0710D0, asm, main_segment/0710D0]
-      - [0x071830, asm, main_segment/071830]
-      - [0x0726F0, asm, main_segment/0726F0]
+
+      - [0x071830, hasm, main_segment/066840]
+
+      - [0x0726F0, c, main_segment/055C40]
 
       - [0x072880, asm, main_segment/072880] # libmus/player?
       - [0x075D50, asm, main_segment/075D50]
@@ -316,7 +321,16 @@ segments:
       - [0x076F60, asm, main_segment/076F60]
       - [0x0770A0, asm, main_segment/0770A0]
 
-      - [0x077160, data, main_segment/077160]
+      - [0x077160, data, rsp/rspboot]
+      - [0x077230, data, rsp/aspMain]
+      - [0x078050, data, rsp/f3dex2]
+      - [0x0793E0, data, rsp/s2dex]
+
+      - [0x07ABD0, data, main_segment/07ABD0]
+
+      - [0x0811F0, data, main_segment/main_menu]
+
+      - [0x081340, data, main_segment/081340]
 
       - [0x0AB7F0, .rodata, main_segment/main]
 
@@ -328,21 +342,9 @@ segments:
       - [0x0ABE80, rodata, main_segment/0ABE80]
       - [0x0AC790, rodata, main_segment/0AC790]
       - [0x0AC7A0, rodata, main_segment/0AC7A0]
-      - [0x0AC7F0, rodata, main_segment/0AC7F0]
-      - [0x0AC840, rodata, main_segment/0AC840]
-      - [0x0AC890, rodata, main_segment/0AC890]
-      - [0x0AD3E0, rodata, main_segment/0AD3E0]
-      - [0x0AD5D0, rodata, main_segment/0AD5D0]
-      - [0x0AD620, rodata, main_segment/0AD620]
-      - [0x0AD690, rodata, main_segment/0AD690]
-      - [0x0AD7E0, rodata, main_segment/0AD7E0]
-      - [0x0AD870, rodata, main_segment/0AD870]
-      - [0x0ADAA0, rodata, main_segment/0ADAA0]
-      - [0x0ADAD0, rodata, main_segment/0ADAD0]
-      - [0x0ADBF0, rodata, main_segment/0ADBF0]
-      - [0x0ADEE0, rodata, main_segment/0ADEE0]
-      - [0x0AF650, rodata, main_segment/0AF650]
-      - [0x0AF680, rodata, main_segment/0AF680]
+
+      - { start: 0x0AC7F0, type: rodata, partial_migration: True, name: main_segment/main_menu }
+
       - [0x0AFCE0, rodata, main_segment/0AFCE0]
       - [0x0AFD10, rodata, main_segment/0AFD10]
       - [0x0AFDD0, rodata, main_segment/0AFDD0]
@@ -355,7 +357,10 @@ segments:
       - [0x0B1380, rodata, main_segment/0B1380]
       - [0x0B13C0, rodata, main_segment/0B13C0]
       - [0x0B1440, rodata, main_segment/0B1440]
-      - [0x0B1450, rodata, main_segment/0B1450]
+
+      - [0x0B1450, rodata, rsp/aspMain]
+      - [0x0B1710, rodata, rsp/f3dex2]
+      - [0x0B1B30, rodata, rsp/s2dex]
 
       - { start: 0x0B1EF0, type: bss, vram: 0x800CA1C0, name: boot/800CA1C0 }
 
