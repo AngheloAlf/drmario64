@@ -2,6 +2,7 @@
  * Original filename: graphic.c
  */
 
+#include "graphic.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "boot_functions.h"
@@ -11,25 +12,36 @@
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 #include "buffers.h"
+#include "gs2dex.h"
+
+void *D_80088110[][2] = {
+    { gspF3DEX2_fifoTextStart, gspF3DEX2_fifoDataStart },
+    { gspS2DEX_fifoTextStart, gspS2DEX_fifoDataStart },
+};
+
+/**
+ *  Original name: wb_flag
+ */
+s32 gCurrentFramebufferIndex = 0;
+
+/**
+ *  Original name: graphic_no
+ */
+enum_graphic_no graphic_no = GRAPHIC_NO_0;
+
+u32 pendingGFX = 0;
 
 /**
  * Original name: gfxInit
  */
-#if VERSION_US
-void gfxInit(UNK_PTR arg0 UNUSED) {
+void gfxInit(void *arg0 UNUSED) {
     B_800ED430 = 2;
     B_800E9BB6 = 4;
     graphic_no = GRAPHIC_NO_0;
     gfx_gtask_no = 0;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", gfxInit);
-#endif
 
 #if VERSION_US
-
 /**
  * Original name: gfxproc
  */
@@ -190,47 +202,51 @@ s16 func_8002B800(void) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", func_8002D3E4_cn);
 #endif
 
-#if VERSION_US
 /**
  * Original name: gfxTaskStart
  */
 void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags) {
-    scTask->list.t.type = M_GFXTASK;
-    scTask->list.t.flags = OS_SC_NEEDS_RSP | OS_SC_DRAM_DLIST;
     scTask->list.t.data_ptr = data_ptr;
     scTask->list.t.data_size = data_size;
+
+    scTask->list.t.type = M_GFXTASK;
+    scTask->list.t.flags = OS_SC_NEEDS_RSP | OS_SC_DRAM_DLIST;
+
     scTask->list.t.ucode_boot = (void *)rspbootTextStart;
     scTask->list.t.ucode_boot_size = (u8 *)rspbootTextEnd - (u8 *)rspbootTextStart;
+
     scTask->list.t.ucode = D_80088110[arg3][0];
     scTask->list.t.ucode_data = D_80088110[arg3][1];
     scTask->list.t.ucode_data_size = SP_UCODE_DATA_SIZE;
+
     scTask->list.t.dram_stack = B_800FAFA0;
     scTask->list.t.dram_stack_size = sizeof(B_800FAFA0);
+
     scTask->list.t.output_buff = B_801136F0;
-    scTask->list.t.output_buff_size = (u64 *)&evs_gamemode;
+    scTask->list.t.output_buff_size = STACK_TOP(B_801136F0);
+
     scTask->list.t.yield_data_ptr = B_800F7490;
     scTask->list.t.yield_data_size = sizeof(B_800F7490);
+
     scTask->next = NULL;
-    scTask->msgQ = &B_800F4898;
     scTask->flags = flags;
+    scTask->msgQ = &B_800F4898;
+
     if (flags & OS_SC_SWAPBUFFER) {
         scTask->msg = &B_800ED430;
         pendingGFX++;
     } else {
         scTask->msg = &B_800E9BB6;
     }
+
     scTask->framebuffer = &gFramebuffers[gCurrentFramebufferIndex];
     osSendMesg(B_800FAF94, scTask, OS_MESG_BLOCK);
     if (flags & OS_SC_SWAPBUFFER) {
         gCurrentFramebufferIndex ^= 1;
     }
-    gfx_gtask_no = (gfx_gtask_no + 1) % 3;
-}
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", gfxTaskStart);
-#endif
+    gfx_gtask_no = INC_WRAP(gfx_gtask_no, GTASK_NO_MAX);
+}
 
 #if VERSION_US
 /**

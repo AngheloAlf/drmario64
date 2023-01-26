@@ -41,7 +41,7 @@ options:
   create_asm_dependencies: True
   string_encoding: EUC-CN
   asm_function_macro: glabel
-  # asm_jtbl_label_macro: jlabel
+  asm_jtbl_label_macro: jlabel
   asm_data_macro: dlabel
   include_macro_inc: False
   libultra_symbols: True
@@ -287,7 +287,7 @@ segments:
       - [0x0156C0, c, main_segment/graphics/static]
       - [0x016A80, asm, main_segment/audio/003520]
 
-      - [0x017640, asm, main_segment/017640]
+      - [0x017640, asm, main_segment/main1x]
       - [0x0184C0, c, main_segment/vr_init]
       - [0x0187C0, asm, main_segment/0187C0] # record?
       - [0x023880, asm, main_segment/023880]
@@ -326,7 +326,9 @@ segments:
       - [0x078050, data, rsp/f3dex2]
       - [0x0793E0, data, rsp/s2dex]
 
-      - [0x07ABD0, data, main_segment/07ABD0]
+      - [0x07ABD0, .data, main_segment/000280]
+      - [0x07AC50, .data, main_segment/graphic]
+      - [0x07AC70, data, main_segment/07AC70]
 
       - [0x0811F0, data, main_segment/main_menu]
 

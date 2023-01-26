@@ -11,6 +11,7 @@
 #include "boot_functions.h"
 #include "boot_variables.h"
 #include "audio/audio_stuff.h"
+#include "graphic.h"
 
 void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_00 = arg1;

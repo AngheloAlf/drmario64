@@ -12,6 +12,7 @@
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 #include "buffers.h"
+#include "graphic.h"
 
 /**
  * Original name: mainproc

@@ -32,6 +32,7 @@
 #define ASM_TEXT __asm__(".section .text")
 #define ASM_RODATA __asm__(".section .rodata")
 
+#define INC_WRAP(value, limit) (((value) + 1) % (u32)(limit))
 
 #define ALL_BUTTONS (A_BUTTON | B_BUTTON | L_TRIG | R_TRIG | Z_TRIG | START_BUTTON | U_JPAD | L_JPAD | R_JPAD | D_JPAD | U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS)
 

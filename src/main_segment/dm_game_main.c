@@ -14,6 +14,7 @@
 #include "rom_offsets.h"
 #include "buffers.h"
 #include "audio/audio_stuff.h"
+#include "graphic.h"
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800601F0);

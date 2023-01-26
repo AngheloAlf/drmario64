@@ -64,7 +64,7 @@ void joyProcCore(void) {
     u16 i;
 
 #if VERSION_CN
-    s32 temp_s1 = D_80092F10_cn;
+    bool temp_s1 = D_80092F10_cn;
 
     func_8002BC30_cn(4);
 #endif
@@ -117,12 +117,12 @@ void joyProcCore(void) {
     }
 
 #if VERSION_CN
-    i = temp_s1 != 0;
-    if (D_80092F10_cn != 0) {
+    i = !!temp_s1;
+    if (D_80092F10_cn) {
         i++;
     }
 
-    if (i == 1) {
+    if (i == true) {
         D_80092F10_cn = temp_s1;
         func_80002AE8_cn(D_80092F10_cn);
     }

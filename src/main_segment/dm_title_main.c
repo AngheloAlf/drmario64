@@ -13,6 +13,7 @@
 #include "rom_offsets.h"
 #include "audio/audio_stuff.h"
 #include "buffers.h"
+#include "graphic.h"
 
 void func_80075F30(void) {
     title_exit_flag = 0;
@@ -58,7 +59,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
         osRecvMesg(&sp10, NULL, 1);
 
 #if VERSION_CN
-        if (D_80092F10_cn != 0) {
+        if (D_80092F10_cn) {
             graphic_no = GRAPHIC_NO_0;
             dm_audio_update();
         } else {
@@ -286,7 +287,7 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
         osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
 
 #if VERSION_CN
-        if (D_80092F10_cn != 0) {
+        if (D_80092F10_cn) {
             graphic_no = GRAPHIC_NO_0;
             dm_audio_update();
         } else {

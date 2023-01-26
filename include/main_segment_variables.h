@@ -12,13 +12,15 @@
 
 // data
 
-extern UNK_TYPE D_80088100;
-extern s8 D_80088104[2];
-extern u64* D_80088110[][2];
-// extern UNK_TYPE D_80088114;
-extern s32 gCurrentFramebufferIndex; /* Original name: wb_flag*/
-extern enum_graphic_no graphic_no; /* Original name: graphic_no */
-extern u32 pendingGFX;
+extern s32 D_80088100;
+extern s8 D_80088104[];
+#if VERSION_CN
+extern s32 D_80092EA8_cn;
+extern bool D_80092EAC_cn;
+// u32 D_80092EB0_cn[];
+extern bool D_80092F10_cn;
+#endif
+
 extern Vp D_80088130;
 extern s32 D_80088140;
 extern Gfx D_80088150[];
@@ -423,13 +425,6 @@ extern u16 D_800AB440[];
 // extern UNK_TYPE D_800ABF30;
 // extern UNK_TYPE D_800ABF40;
 
-#if VERSION_CN
-extern s32 D_80092EA8_cn;
-extern bool D_80092EAC_cn; // struct?
-
-extern s32 D_80092F10_cn; // bool?
-#endif
-
 
 // rodata
 
@@ -709,7 +704,6 @@ extern STACK(B_800F7490, 0xC00);
 
 extern STACK(B_800F8CE0, 0x2000);
 // extern UNK_TYPE B_800FAD28;
-extern u32 gfx_gtask_no;
 // extern UNK_TYPE B_800FAD30;
 extern UNK_TYPE1 B_800FAD31[4];
 extern s16 aiGoalY;
@@ -744,9 +738,12 @@ extern u32 evs_game_time;
 // extern UNK_TYPE B_800FB3C8;
 // extern UNK_TYPE B_800FB3CC;
 // extern UNK_TYPE B_800FB3D0;
-extern Gfx gGfxGlist[][0x1000]; /* Original name: gfx_glist */
+
+// TODO: replace 3 with GTASK_NO_MAX
+extern Gfx gGfxGlist[3][0x1000]; /* Original name: gfx_glist */
+
 extern u16 joycnt[4][0x10]; /* Original name: joycnt */
-extern u64 B_801136F0[];
+extern STACK(B_801136F0, 0x10000);
 extern enum_evs_gamemode evs_gamemode;
 
 extern struct_game_state_data game_state_data[4]; /* Original name: game_state_data */

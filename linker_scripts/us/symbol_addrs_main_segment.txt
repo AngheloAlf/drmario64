@@ -2399,7 +2399,7 @@ B_800FB3CC = 0x800FB3CC;
 B_800FB3D0 = 0x800FB3D0;
 gGfxGlist = 0x800FB670;
 joycnt = 0x80113670;
-B_801136F0 = 0x801136F0;
+B_801136F0 = 0x801136F0; // size:0x10000
 evs_gamemode = 0x801236F0;
 
 game_state_data = 0x80123700; // size:0xF10

@@ -199,19 +199,6 @@ void dm_snd_play(SndIndex sndIndex);
 void dm_snd_play_in_game(SndIndex sndIndex);
 s32 func_8002B370(void);
 void dm_snd_play_strange_sound(void);
-void gfxInit(UNK_PTR arg0);
-void gfxproc(struct_800EB670 * arg0);
-void gfxproc_onRetrace(void);
-void func_8002B710(void);
-void func_8002B728(void);
-void func_8002B754(void);
-void gfxCreateGraphicThread(struct_800EB670 *arg0);
-s16 func_8002B800(void);
-void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags);
-void F3RCPinitRtn();
-void F3ClearFZRtn(u8 arg0);
-void S2RDPinitRtn(u8 arg0);
-void S2ClearCFBRtn(u8 arg0);
 
 
 s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority);

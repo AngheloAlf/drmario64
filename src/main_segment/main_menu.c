@@ -14,6 +14,7 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 #include "libc/assert.h"
+#include "graphic.h"
 
 f32 func_80045DD0(f32 arg0, f32 arg1) {
     return CLAMP(arg0 + arg1, 0.0f, 1.0f);

@@ -626,18 +626,6 @@ typedef struct struct_watchMenu {
     /* 0x111F8 */ RecordWritingMessage recMessage;
 } struct_watchMenu; // size = 0x11280
 
-
-typedef enum enum_graphic_no {
-    /* 0 */ GRAPHIC_NO_0, // NONE?
-    /* 1 */ GRAPHIC_NO_1,
-    /* 2 */ GRAPHIC_NO_2,
-    /* 3 */ GRAPHIC_NO_3,
-    /* 4 */ GRAPHIC_NO_4,
-    /* 5 */ GRAPHIC_NO_5,
-    /* 6 */ GRAPHIC_NO_6,
-    /* 7 */ GRAPHIC_NO_7 // ERROR?
-} enum_graphic_no;
-
 typedef struct struct_800365B0_arg0 {
     /* 0x00 */ UNK_PTR unk_00;
     /* 0x04 */ UNK_TYPE4 unk_04;

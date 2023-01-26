@@ -402,7 +402,9 @@ segments:
       - [0x06D3A0, data, rsp/f3dex2]
       - [0x06E730, data, rsp/s2dex]
 
-      - [0x06FF20, data, main_segment/06FF20]
+      - [0x06FF20, .data, main_segment/000280]
+      - [0x06FF30, .data, main_segment/graphic]
+      - [0x06FF50, data, main_segment/06FF50]
       - [0x070220, data, main_segment/070220]
       - [0x074E10, data, main_segment/074E10]
       - [0x076590, .data, main_segment/main_menu]
