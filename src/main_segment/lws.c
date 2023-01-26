@@ -12,3 +12,7 @@
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/lws", lws_anim);
 #endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/lws", lws_anim);
+#endif

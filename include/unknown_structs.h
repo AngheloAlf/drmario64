@@ -1,6 +1,7 @@
 #ifndef UNKNOWN_STRUCTS_H
 #define UNKNOWN_STRUCTS_H
 
+#include "version.h"
 #include "libultra.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
@@ -719,6 +720,20 @@ typedef enum enum_evs_manual_no {
     /* 4 */ EVS_MANUAL_NO_4,
     /* 5 */ EVS_MANUAL_NO_5
 } enum_evs_manual_no;
+
+#if VERSION_CN
+typedef struct struct_8010ACB0_cn {
+    /* 0x000 */ s32 unk_000;
+    /* 0x000 */ s32 unk_004;
+    /* 0x008 */ u64 unk_008;
+    /* 0x010 */ u64 unk_010[8];
+    /* 0x050 */ u64 unk_050[8];
+    /* 0x090 */ u64 unk_090[8];
+    /* 0x0D0 */ u64 unk_0D0[4];
+    /* 0x0F0 */ u64 unk_0F0[4];
+    /* 0x110 */ UNK_TYPE1 unk_110[0x8];
+} struct_8010ACB0_cn; // size = 0x118
+#endif
 
 
 #endif

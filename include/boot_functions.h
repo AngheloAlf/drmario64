@@ -27,4 +27,8 @@ OSPiHandle *func_80000690(void);
 s32 func_80002AE8_cn(s32 arg0);
 #endif
 
+#ifdef M2CTX
+u64 __udivdi3(u64, u64);
+#endif
+
 #endif

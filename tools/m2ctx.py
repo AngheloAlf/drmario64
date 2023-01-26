@@ -81,7 +81,7 @@ def main():
         "c_file",
         help="""File from which to create context""",
     )
-    parser.add_argument("-v", "--version", help="Which version should be processed", default="us")
+    parser.add_argument("-v", "--version", help="Which version should be processed", default="us", choices=["us", "cn"])
     args = parser.parse_args()
 
     output = import_c_file(args.c_file, args.version)

@@ -13,7 +13,7 @@
 // data
 
 extern UNK_TYPE D_80088100;
-extern s8 D_80088104[0xC]; // maybe smaller?
+extern s8 D_80088104[2];
 extern u64* D_80088110[][2];
 // extern UNK_TYPE D_80088114;
 extern s32 gCurrentFramebufferIndex; /* Original name: wb_flag*/
@@ -424,6 +424,9 @@ extern u16 D_800AB440[];
 // extern UNK_TYPE D_800ABF40;
 
 #if VERSION_CN
+extern s32 D_80092EA8_cn;
+extern bool D_80092EAC_cn; // struct?
+
 extern s32 D_80092F10_cn; // bool?
 #endif
 
@@ -748,5 +751,10 @@ extern enum_evs_gamemode evs_gamemode;
 
 extern struct_game_state_data game_state_data[4]; /* Original name: game_state_data */
 
+#ifdef VERSION_CN
+extern struct_8010ACB0_cn *B_800CA234_cn;
+extern struct_8010ACB0_cn *B_800CA298_cn;
+extern struct_8010ACB0_cn B_8010ACB0_cn[]; // maybe length 4?
+#endif
 
 #endif

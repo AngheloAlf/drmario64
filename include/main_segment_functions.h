@@ -21,7 +21,7 @@ void func_8002A184(struct_800EB670 *arg0, struct_800FAF98_unk_64 *arg1, OSMesgQu
 void func_8002A1DC(struct_800EB670 *arg0, struct_800FAF98_unk_64 *arg1);
 void func_8002A26C(struct_800EB670 *arg0, OSMesg msg);
 void func_8002A2B8(struct_800EB670 * arg0);
-//void func_8002A3F4(struct_800EB670 *arg0, OSMesg arg1);
+void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1);
 void func_8002A4D8(struct_800EB670 * arg0);
 void func_8002A51C(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1);
 
@@ -1060,6 +1060,9 @@ void makeScaleMatrix(Mtx *mtx, u32 scale);
 // void func_80084648();
 
 #if VERSION_CN
+void func_8002B8B4_cn(void);
+void func_8002B910_cn();
+
 void func_8002BC30_cn(s32 arg0);
 void func_8002BD04_cn(void);
 
