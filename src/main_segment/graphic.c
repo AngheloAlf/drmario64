@@ -41,7 +41,6 @@ void gfxInit(void *arg0 UNUSED) {
     gfx_gtask_no = 0;
 }
 
-#if VERSION_US
 /**
  * Original name: gfxproc
  */
@@ -75,17 +74,15 @@ void gfxproc(struct_800EB670 *arg0) {
         }
     }
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", func_8002CFB0_cn);
-#endif
-
-#if VERSION_US
 /**
  * Original name: gfxproc_onRetrace
  */
 void gfxproc_onRetrace(void) {
+#if VERSION_CN
+    func_8002BC30_cn(3);
+#endif
+
     switch (graphic_no) {
         case GRAPHIC_NO_0:
             break;
@@ -132,36 +129,22 @@ void gfxproc_onRetrace(void) {
             }
             break;
     }
-}
-#endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", D_8002D110_cn);
+    func_8002BD04_cn();
 #endif
+}
 
-#if VERSION_US
 void func_8002B710(void) {
-    pendingGFX -= 1;
+    pendingGFX--;
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", func_8002D29C_cn);
-#endif
-
-#if VERSION_US
 void func_8002B728(void) {
     if (graphic_no == GRAPHIC_NO_4) {
         func_80071A44();
     }
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", func_8002D2B8_cn);
-#endif
-
-#if VERSION_US
 void func_8002B754(void) {
     osViSetYScale(1.0f);
     pendingGFX += 2;
@@ -169,13 +152,7 @@ void func_8002B754(void) {
     func_80000468();
     MusStop(MUSFLAG_EFFECTS | MUSFLAG_SONGS, 0);
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", func_8002D2F0_cn);
-#endif
-
-#if VERSION_US
 /**
  * Original name: gfxCreateGraphicThread
  */
@@ -183,24 +160,13 @@ void gfxCreateGraphicThread(struct_800EB670 *arg0) {
     osCreateThread(&B_800EBD20, 5, (StartThreadFunc)gfxproc, arg0, STACK_TOP(B_800F1E30), 0xF);
     osStartThread(&B_800EBD20);
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", gfxCreateGraphicThread);
-#endif
-
-#if VERSION_US
 s16 func_8002B800(void) {
     s16 *sp10 = NULL;
 
     osRecvMesg(&B_800F4898, (OSMesg *)&sp10, OS_MESG_BLOCK);
     return *sp10;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", func_8002D3E4_cn);
-#endif
 
 /**
  * Original name: gfxTaskStart
@@ -248,7 +214,6 @@ void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, 
     gfx_gtask_no = INC_WRAP(gfx_gtask_no, GTASK_NO_MAX);
 }
 
-#if VERSION_US
 /**
  * Original name: F3RCPinitRtn
  */
@@ -265,13 +230,7 @@ void F3RCPinitRtn(void) {
     gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_80088308));
     gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", F3RCPinitRtn);
-#endif
-
-#if VERSION_US
 /**
  * Original name: F3ClearFZRtn
  */
@@ -288,13 +247,7 @@ void F3ClearFZRtn(u8 arg0) {
     gDPPipeSync(gGfxHead++);
     gDPSetCycleType(gGfxHead++, G_CYC_1CYCLE);
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", F3ClearFZRtn);
-#endif
-
-#if VERSION_US
 /**
  * Original name: S2RDPinitRtn
  */
@@ -306,13 +259,7 @@ void S2RDPinitRtn(u8 arg0) {
         gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 12, 8, 307, 231);
     }
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", S2RDPinitRtn);
-#endif
-
-#if VERSION_US
 /**
  * Original name: S2ClearCFBRtn
  */
@@ -324,8 +271,3 @@ void S2ClearCFBRtn(u8 arg0) {
         gDPFillRectangle(gGfxHead++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphic", S2ClearCFBRtn);
-#endif

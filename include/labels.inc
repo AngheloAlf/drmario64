@@ -12,6 +12,7 @@
 .macro jlabel label
 #if VERSION_CN
     .global \label
+    .type \label, @function
 #endif
     \label:
 .endm
