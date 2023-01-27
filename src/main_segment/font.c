@@ -11,6 +11,7 @@ typedef struct struct_800A6F70 {
     /* 0x1 */ u8 size;
 } struct_800A6F70; // size = 0x2
 
+#if VERSION_US
 struct_800A6F70 D_800A3AD0[0x80] = {
     /* 0x00 ''   */ { 0x5F, 0xFF },
     /* 0x01 ''   */ { 0x5F, 0xFF },
@@ -918,25 +919,25 @@ u16 D_800A6D90[0xF0] = {
 
  */
 struct_800A6F70 *D_800A6F70[] = { D_800A3AD0, D_800A3BD0 };
+#endif
 
 /**
  * Original name: static init_dl
  */
-#if VERSION_US
-const Gfx RO_800B1950[] = {
-#include "main_segment/font/RO_800B1950.gfx.inc.c"
+const Gfx init_dl_135[] = {
+#include "main_segment/font/init_dl_135.gfx.inc.c"
 };
-#else
-extern const Gfx RO_800B1950[];
-#endif
 
+#if VERSION_US
 static inline char inline_fn(const char *arg0) {
     return *arg0;
 }
+#endif
 
 /**
  * Original name: fontStr_nextChar
  */
+#if VERSION_US
 s32 fontStr_nextChar(const char *arg0) {
     s32 var_v1;
 
@@ -963,10 +964,12 @@ s32 fontStr_nextChar(const char *arg0) {
     }
     return var_v1;
 }
+#endif
 
 /**
  * Original name: fontStr_length
  */
+#if VERSION_US
 s32 fontStr_length(const char *arg0) {
     s32 temp_v0;
     s32 var_s0 = 0;
@@ -977,10 +980,12 @@ s32 fontStr_length(const char *arg0) {
     } while (temp_v0 != 0);
     return var_s0;
 }
+#endif
 
 /**
  * Original name: fontStr_charSize
  */
+#if VERSION_US
 s32 fontStr_charSize(const char *arg0, s32 arg1) {
     s32 character = arg0[0];
     s32 index;
@@ -993,14 +998,18 @@ s32 fontStr_charSize(const char *arg0, s32 arg1) {
     }
     return size;
 }
+#endif
 
+#if VERSION_US
 u16 func_8005B8D8(u8 arg0) {
     return D_800A6D90[arg0];
 }
+#endif
 
 /**
  * Original name: font2index
  */
+#if VERSION_US
 s32 font2index(const char *arg0) {
     s32 var_a1 = arg0[0];
 
@@ -1014,10 +1023,12 @@ s32 font2index(const char *arg0) {
 
     return char_code_tbl[var_a1];
 }
+#endif
 
 /**
  * Original name: ascii2index
  */
+#if VERSION_US
 void ascii2index(s32 character, s32 arg1, s32 *indexP, s32 *sizeP) {
     struct_800A6F70 *ptr = D_800A6F70[arg1 % ARRAY_COUNTU(D_800A6F70)];
     struct_800A6F70 *ptr2;
@@ -1032,35 +1043,43 @@ void ascii2index(s32 character, s32 arg1, s32 *indexP, s32 *sizeP) {
     *indexP = index;
     *sizeP = size;
 }
+#endif
 
 /**
  * Original name: font16_initDL
  */
+#if VERSION_US
 void font16_initDL(Gfx **gfxP) {
-    gSPDisplayList((*gfxP)++, RO_800B1950);
+    gSPDisplayList((*gfxP)++, init_dl_135);
 }
+#endif
 
 /**
  * Original name: font16_initDL2
  */
+#if VERSION_US
 void font16_initDL2(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
     font16_initDL(&gfx);
 
     gDPSetEnvColor(gfx++, 250, 250, 250, 255);
-    gDPLoadMultiTile_4b(gfx++, D_800A3A88, 0x019A, 1, G_IM_FMT_I, 12, 0, 0, 0, 11, 11, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadMultiTile_4b(gfx++, font_grade_tex, 0x019A, 1, G_IM_FMT_I, 12, 0, 0, 0, 11, 11, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
 
     *gfxP = gfx;
 }
+#endif
 
 /**
  * Original name: fontXX_draw
  */
+#if VERSION_US
 bool fontXX_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
     return fontXX_drawID(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
 }
+#endif
 
 #if VERSION_US
 #if 0
@@ -1194,9 +1213,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontXX_drawID);
 /**
  * Original name: fontXX_draw2
  */
+#if VERSION_US
 bool fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
     return fontXX_drawID2(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
 }
+#endif
 
 #if VERSION_US
 #if 0
@@ -1395,6 +1416,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontXX_drawID2);
 /**
  * Original name: fontAsc_draw
  */
+#if VERSION_US
 bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
     s32 index;
     s32 sp1C;
@@ -1402,6 +1424,7 @@ bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char
     ascii2index(inline_fn(arg5), 0, &index, &sp1C);
     return fontAsc_drawID(gfxP, arg1, arg2, arg3, arg4, index);
 }
+#endif
 
 #if VERSION_US
 #if 0
@@ -1547,6 +1570,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontAsc_drawID);
 /**
  * Original name: fontAsc_draw2
  */
+#if VERSION_US
 bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
     s32 index;
     s32 sp1C;
@@ -1554,10 +1578,30 @@ bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const cha
     ascii2index(inline_fn(arg5), 1, &index, &sp1C);
     return fontAsc_drawID2(gfxP, arg1, arg2, arg3, arg4, index);
 }
+#endif
 
 /**
  * Original name: fontAsc_drawID2
  */
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontAsc_drawID2);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80061A30_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", fontStr_length);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80061AF8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80061B48_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80061B64_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80061C44_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80061C78_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80061CA0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80061E04_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80061E94_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_800621E0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80062270_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_800627E8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_8006288C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80062C2C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/font", func_80062CD0_cn);
 #endif

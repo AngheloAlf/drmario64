@@ -1336,7 +1336,7 @@ D_8008FB00 = 0x8008FB00; // ignore:true
 D_80094350 = 0x80094350;
 D_8009F870 = 0x8009F870;
 D_800A0E78 = 0x800A0E78;
-D_800A3A88 = 0x800A3A88;
+font_grade_tex = 0x800A3A88;
 D_800A3AD0 = 0x800A3AD0; // type:u8
 D_800A3BD0 = 0x800A3BD0; // type:u8
 char_code_tbl = 0x800A3CD0;
@@ -1950,7 +1950,7 @@ jtbl_800B13D0 = 0x800B13D0; // type:jtbl force_migration:True
 
 _lr_10544 = 0x800B13F8; // size:0x10
 
-RO_800B1950 = 0x800B1950; // type:Gfx
+init_dl_135 = 0x800B1950; // type:Gfx
 
 sMessageColorTable = 0x800B1990; // size:0x18
 

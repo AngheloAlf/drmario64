@@ -158,7 +158,7 @@ void func_8002AAD8(struct_800FACE0_unk_08 *arg0, s32 index) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C3C4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002AAD8);
 #endif
 
 #if VERSION_US
@@ -260,14 +260,12 @@ void dm_audio_set_stereo(bool setStereo UNUSED) {
 /**
  * Original name: dm_audio_init_driver
  */
-#if VERSION_US
 void dm_audio_init_driver(struct_800EB670 *arg0) {
     s32 i;
     struct_800FACE0 *ptr = &B_800FACE0;
-    UNK_TYPE val = -1;
 
-    for (i = ARRAY_COUNT(ptr->unk_00) - 1; i >= 0; i--) {
-        ptr->unk_00[i] = val;
+    for (i = 0; i < ARRAY_COUNT(ptr->unk_00); i++) {
+        ptr->unk_00[i] = -1;
     }
 
     for (i = 0; i < ARRAY_COUNT(ptr->unk_08); i++) {
@@ -284,11 +282,6 @@ void dm_audio_init_driver(struct_800EB670 *arg0) {
     func_8002D6A4(_romDataTbl[ROMDATATBL_INDEX2].start,
                   _romDataTbl[ROMDATATBL_INDEX2].end - _romDataTbl[ROMDATATBL_INDEX2].start);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_audio_init_driver);
-#endif
 
 /**
  * Original name: dm_audio_update

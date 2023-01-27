@@ -199,7 +199,7 @@ extern Gfx D_8008E748[];
 // extern UNK_TYPE D_80094350;
 // extern UNK_TYPE D_8009F870;
 // extern UNK_TYPE D_800A0E78;
-extern u8 D_800A3A88[];
+extern u8 font_grade_tex[];
 // extern UNK_TYPE D_800A3AD0;
 // extern UNK_TYPE D_800A3BD0;
 extern u16 char_code_tbl[];

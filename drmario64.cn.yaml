@@ -285,9 +285,9 @@ segments:
       - [0x0140A0, c, main_segment/sound]
       - [0x014CB0, c, main_segment/graphic]
       - [0x0156C0, c, main_segment/graphics/static]
-      - [0x016A80, asm, main_segment/audio/003520]
+      - [0x016A80, c, main_segment/audio/003520]
 
-      - [0x017640, asm, main_segment/main1x]
+      - [0x017640, c, main_segment/main1x]
       - [0x0184C0, c, main_segment/vr_init]
       - [0x0187C0, asm, main_segment/0187C0] # record?
       - [0x023880, asm, main_segment/023880]
@@ -297,7 +297,7 @@ segments:
       - [0x028350, asm, main_segment/028350]
       - [0x02AC40, asm, main_segment/02AC40]
       - [0x030390, asm, main_segment/main_menu]
-      - [0x049760, asm, main_segment/049760]
+      - [0x049760, c, main_segment/font]
       - [0x04AF00, asm, main_segment/msgwnd]
 
       - [0x04C1E0, asm, main_segment/04C1E0]
@@ -338,7 +338,8 @@ segments:
 
       - [0x0AB820, .rodata, main_segment/sound]
       - [0x0ABB00, .rodata, main_segment/graphic]
-      - [0x0ABB20, rodata, main_segment/0ABB20]
+      - { start: 0x0ABB20, type: .rodata, partial_migration: True, name: main_segment/main1x }
+      - [0x0ABCB0, rodata, main_segment/0ABCB0]
       - [0x0ABD40, rodata, main_segment/0ABD40]
       - [0x0ABDB0, rodata, main_segment/0ABDB0]
       - [0x0ABE80, rodata, main_segment/0ABE80]
@@ -347,7 +348,12 @@ segments:
 
       - { start: 0x0AC7F0, type: rodata, partial_migration: True, name: main_segment/main_menu }
 
-      - [0x0AFCE0, rodata, main_segment/0AFCE0]
+      - start: 0x0AFCE0
+        type: .rodata
+        name: main_segment/font
+        subsegments:
+        - { start: 0x0AFCE0, type: gfx, data_only: True, name: main_segment/font/init_dl_135 }
+
       - [0x0AFD10, rodata, main_segment/0AFD10]
       - [0x0AFDD0, rodata, main_segment/0AFDD0]
       - [0x0AFF90, rodata, main_segment/0AFF90]

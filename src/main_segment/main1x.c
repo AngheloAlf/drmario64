@@ -23,8 +23,7 @@ enum_main_no main11(void) {
         game_state_data[i].unk_16C = 1;
     }
 
-    evs_select_name_no[1] = 8;
-    evs_select_name_no[0] = 8;
+    evs_select_name_no[0] = evs_select_name_no[1] = 8;
 
     switch (EepRom_Init()) {
         case 0x2:
@@ -47,6 +46,10 @@ enum_main_no main11(void) {
  */
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main1x", adjust_story_ai);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main1x", adjust_story_ai);
 #endif
 
 #if VERSION_US
@@ -79,6 +82,17 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE78);
 
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE84);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3EEC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3EF8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3EFC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3F1C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3F2C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3F40_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3F48_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3F54_cn);
 #endif
 
 /**
@@ -270,4 +284,8 @@ enum_main_no main12() {
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main1x", main12);
 #endif
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main1x", main12);
 #endif

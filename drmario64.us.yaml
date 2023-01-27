@@ -418,7 +418,7 @@ segments:
           - [0x07C170, i4, main_segment/font_textures/D_80094350, 24, 3864]
           - [0x087690, i4, main_segment/font_textures/D_8009F870, 10, 1128]
           - [0x088C98, i4, main_segment/font_textures/D_800A0E78, 20, 1128]
-          - [0x08B8A8, i4, main_segment/font_textures/D_800A3A88, 12, 12]
+          - [0x08B8A8, i4, main_segment/font_textures/font_grade_tex, 12, 12]
 
       - [0x08B8F0, .data, main_segment/font]
 
@@ -455,7 +455,7 @@ segments:
         type: .rodata
         name: main_segment/font
         subsegments:
-        - { start: 0x099770, type: gfx, data_only: True, name: main_segment/font/RO_800B1950 }
+        - { start: 0x099770, type: gfx, data_only: True, name: main_segment/font/init_dl_135 }
         - [0x099798]
 
       - { start: 0x0997B0, type: .rodata, partial_migration: True, name: main_segment/msgwnd }

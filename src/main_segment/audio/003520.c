@@ -81,6 +81,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/audio/003520", func_8002D170);
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002D170);
+#endif
+
 bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
@@ -89,9 +93,11 @@ bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank) {
         MusPtrBankInitialize(temp_s0->unk_0C, wbank);
         return true;
     }
+
     return false;
 }
 
+#if VERSION_US
 bool func_8002D428(s32 index, romoffset_t segmentRom, size_t segmentSize) {
     Audio_struct_800FAF98 *temp_s1 = gAudio_800FAF98;
 
@@ -145,6 +151,29 @@ s32 func_8002D634(s32 index) {
 s32 func_8002D66C(s32 index) {
     return MusHandleUnPause(gAudio_800FAF98->unk_14[index].unk_8);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F03C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F0D4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F138_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F15C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F1A4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F1EC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F234_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F27C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F2C4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F30C_cn);
+#endif
 
 bool func_8002D6A4(romoffset_t segmentRom, size_t segmentSize) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
@@ -157,6 +186,7 @@ bool func_8002D6A4(romoffset_t segmentRom, size_t segmentSize) {
     return false;
 }
 
+#if VERSION_US
 void *func_8002D710(void) {
     return gAudio_800FAF98->unk_1C;
 }
@@ -196,7 +226,29 @@ s32 func_8002D870(s32 index, s32 pan) {
 s32 func_8002D8A0(s32 index, f32 offset) {
     return MusHandleSetFreqOffset(gAudio_800FAF98->unk_24[index], offset);
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F3E4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F3F4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F44C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F4B8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F4D4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F514_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F554_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F594_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F5D4_cn);
+#endif
+
+#if VERSION_US
 void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize) {
     Audio_struct_800FAF98 *temp = gAudio_800FAF98;
     s32 remainingSize = segmentSize;
@@ -220,7 +272,13 @@ void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize
         currentVram += blkSize;
     }
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002D8D0);
+#endif
+
+#if VERSION_US
 void func_8002D984(void) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
@@ -268,3 +326,12 @@ void func_8002DA48(musTask *musicTask) {
     osSendMesg(func_8002A0CC(temp_a1->unk_00, temp_a1), &scTask, OS_MESG_BLOCK);
     osRecvMesg(&temp_a1->unk_94, NULL, OS_MESG_BLOCK);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F704_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F78C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F80C_cn);
+#endif

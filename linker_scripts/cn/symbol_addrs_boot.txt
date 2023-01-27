@@ -292,7 +292,7 @@ func_8000EAE0_cn = 0x8000EAE0; // type:func
 func_8000EB00_cn = 0x8000EB00; // type:func
 rand = 0x8000EB10; // type:func
 fmod = 0x8000EB60; // type:func
-func_8000EBA0_cn = 0x8000EBA0; // type:func
+memmove = 0x8000EBA0; // type:func
 
 // text end
 
