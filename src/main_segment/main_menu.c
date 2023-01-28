@@ -511,7 +511,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", fade_shadow_texture
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800ADD00);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", FLT_800ADD00);
 #endif
 
 ASM_RODATA;
