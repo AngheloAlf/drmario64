@@ -6,6 +6,7 @@
 
 // TODO: mix this file with dm_game_main
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_800668B0_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_80066930_cn);
@@ -422,3 +423,4 @@ void func_80071A44(void) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", main_techmes);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", graphic_techmes);
+#endif
