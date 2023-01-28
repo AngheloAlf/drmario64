@@ -313,10 +313,16 @@ segments:
       - [0x067CE0, c, main_segment/dm_title_main]
 
       - [0x068960, asm, main_segment/068960]
+
       - [0x06E1F0, c, main_segment/lws]
       - [0x06E7E0, asm, main_segment/06E7E0]
       - [0x06FF90, asm, main_segment/06FF90]
-      - [0x0710D0, asm, main_segment/0710D0]
+
+      - [0x071060, c, main_segment/066080]
+
+      - [0x0710D0, c, main_segment/replay]
+
+      - [0x071550, c, main_segment/066580]
 
       - [0x071830, hasm, main_segment/066840]
 

@@ -2,6 +2,15 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
+#include "main_segment_functions.h"
+#include "main_segment_variables.h"
+#include "boot_functions.h"
+#include "boot_variables.h"
+#include "gcc/memory.h"
+#include "rom_offsets.h"
+#include "buffers.h"
+#include "audio/audio_stuff.h"
+#include "graphic.h"
 #include "msgwnd.h"
 
 // TODO: mix this file with dm_game_main
@@ -186,7 +195,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main_cn", RO_800C84DC_c
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_80069C48_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_80069D94_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", backup_game_state);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_80069ED4_cn);
 
@@ -366,7 +375,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_800747A8_cn
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_80074998_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_800752A8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_8006D0E8);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_80075318_cn);
 
@@ -380,11 +389,11 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main_cn", RO_800C8870_c
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_80075A28_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_80075AE0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", dm_game_init_heap);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_80075B9C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", dm_game_init);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_8007671C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", dm_game_init_static);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main_cn", RO_800C88D4_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main_cn", RO_800C88F0_cn);
@@ -405,7 +414,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", dm_game_main);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_800783AC_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", func_80078B9C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main_cn", dm_game_main3);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main_cn", RO_800C8984_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main_cn", RO_800C898C_cn);

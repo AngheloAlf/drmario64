@@ -329,7 +329,7 @@ void dm_audio_stop(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C924_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_audio_stop);
 #endif
 
 /**

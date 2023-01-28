@@ -383,7 +383,11 @@ segments:
       - [0x065080, c, main_segment/053610]
       - [0x065230, c, main_segment/0537C0]
 
-      - [0x066080, c, main_segment/replay]
+      - [0x066080, c, main_segment/066080]
+
+      - [0x066100, c, main_segment/replay]
+
+      - [0x066580, c, main_segment/066580]
 
       - [0x066840, hasm, main_segment/066840]
 
