@@ -108,6 +108,8 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82C8_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82D4_cn);
 #endif
 
+ASM_RODATA;
+
 // clang-format off
 #if VERSION_US
 /**

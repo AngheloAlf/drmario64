@@ -1960,6 +1960,8 @@ _size_122 = 0x800B1A60; // size:0x50
 _addrTbl_124 = 0x800B1AB0; // size:0x50
 _centerTbl_125 = 0x800B1B00; // size:0xA0
 
+_n_343 = 0x800B1BC8; //
+
 _retryMenu_itemCount = 0x800B1C78; // size:0x6
 
 _big_virus_def_wait = 0x800B1C80; // force_not_migration:True
