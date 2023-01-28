@@ -30,15 +30,18 @@ typedef union {
 f32 func_8007C244(f32, f32);
 f32 func_8007C480(s16 arg0);
 
+#if VERSION_US
 // "tanf"
 f32 func_8007BC20(f32 arg0) {
     return sinf(arg0) / cosf(arg0);
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007BC54);
 #endif
 
+#if VERSION_US
 /**
  * Creates a general rotation + translation matrix. Uses Y1 X2 Z3 Tait-Bryan angles
  * (https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix). `rotX`, `rotY`, `rotZ` are in degrees.
@@ -100,6 +103,7 @@ void func_8007BEEC(s16 theta, s16 phi, f32 *x, f32 *y, f32 *z) {
     *y = -sinTheta;
     *z = cosTheta * cosPhi;
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007BFE0);
@@ -113,6 +117,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C0C4);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C244);
 #endif
 
+#if VERSION_US
 /**
  * Original name most likely angleS2F
  *
@@ -121,6 +126,18 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C244);
 f32 func_8007C480(s16 arg0) {
     return ((f32)arg0) * (360.0 / 0x10000);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80086AB0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80086B08_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80086BE4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80086DBC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80086EFC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80086FF8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087140_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087318_cn);
+#endif
 
 /**
  * Original name: angleF2S
@@ -131,6 +148,7 @@ s16 angleF2S(f32 arg0) {
     return (s32)(f32)(arg0 * (0x10000 / 360.0));
 }
 
+#if VERSION_US
 /**
  * Convert an Mtx to an MtxF.
  */
@@ -190,12 +208,14 @@ void func_8007C624(f32 angle, f32 centreX, f32 centreY, f32 *pointX, f32 *pointY
     *pointX = (diffX * cos) - (diffY * sin) + centreX;
     *pointY = (diffY * cos) + (diffX * sin) + centreY;
 }
+#endif
 
 f32 func_8007C6D8(f32 arg0, f32 arg1);
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C6D8);
 #endif
 
+#if VERSION_US
 /**
  * Calculate the distance between two points.
  */
@@ -206,6 +226,7 @@ f32 func_8007C780(f32 aX, f32 aY, f32 aZ, f32 bX, f32 bY, f32 bZ) {
 
     return sqrtf((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ));
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C7E8);
@@ -223,6 +244,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C9C8);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007CAFC);
 #endif
 
+#if VERSION_US
 /**
  * Multiply the vector `(inX, inY, inZ)` by the matrix `m` and write to `(outX, outY, outZ)`.
  *
@@ -280,6 +302,7 @@ void func_8007CCFC(MtxF *m, f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32
     *outY = vec[1];
     *outZ = vec[2];
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007CD78);
@@ -288,6 +311,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007CD78);
 /**
  * Normalise a vector consisting of three passed floats in-place. Returns the length of the original vector.
  */
+#if VERSION_US
 f32 func_8007CFB4(f32 *x, f32 *y, f32 *z) {
     f32 tempX = *x;
     f32 tempY = *y;
@@ -305,6 +329,9 @@ f32 func_8007CFB4(f32 *x, f32 *y, f32 *z) {
     return length;
 }
 
+/**
+ * Original name: randomize00
+ */
 void randomize00(void) {
     s32 oldValue1;
     s32 oldValue2;
@@ -332,6 +359,9 @@ void randomize00(void) {
     }
 }
 
+/**
+ * Original name: randomseed
+ */
 void randomseed(s32 seed) {
     s32 value;
     s32 i;
@@ -367,6 +397,32 @@ s32 irandom(void) {
     return (u16)randomtable[randomindex];
 }
 
+/**
+ * Original name: random
+ */
 s32 random(s32 arg0) {
     return arg0 * irandom() >> 0x10;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087368_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087400_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087498_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087544_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087614_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_800876E4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087748_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_800877DC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_800878DC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087A40_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087B6C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087C0C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087CB8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087D48_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087F84_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80088044_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_800880D0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_800881B4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_8008821C_cn);
+#endif
