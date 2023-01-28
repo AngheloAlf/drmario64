@@ -84,11 +84,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005F0E4);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", D_800B1BA0);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", RO_800B1BA0);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", D_800B1BA0);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", RO_800B1BA0);
 #endif
 
 #if VERSION_US
@@ -373,10 +373,10 @@ s32 dm_get_first_virus_count_in_new_mode(s32 arg0) {
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", D_800B1BCC);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", RO_800B1BCC);
 #endif
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", D_800B1BCC);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", RO_800B1BCC);
 #endif
 
 #if VERSION_US
@@ -590,11 +590,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005FE68);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", D_800B1BD0);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", RO_800B1BD0);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", D_800B1BD0);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", RO_800B1BD0);
 #endif
 
 struct _m2c_stack_make_flash_virus_pos {

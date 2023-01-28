@@ -333,7 +333,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifReMoveCheck);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", D_800ACF10);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", RO_800ACF10);
 #endif
 
 #if VERSION_US
@@ -341,7 +341,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyMake);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", D_800ACF20);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", RO_800ACF20);
 #endif
 
 #if VERSION_US

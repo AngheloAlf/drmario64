@@ -610,7 +610,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80045914);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/tex_func", D_800ADBC0);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/tex_func", RO_800ADBC0);
 #endif
 
 #if VERSION_US

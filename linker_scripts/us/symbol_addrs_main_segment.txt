@@ -1571,15 +1571,69 @@ gspS2DEX_fifoDataStart = 0x800AC620; // name_end:gspS2DEX_fifoDataEnd dont_allow
 
 // rodata
 
+jtbl_800AC9E0 = 0x800AC9E0; // type:jtbl
 _charSE_tbl = 0x800ACA10;
 RO_800ACA20 = 0x800ACA20; // size:0x60
 gSndsEntries = 0x800ACA80;
+
+RO_800ACCF0 = 0x800ACCF0; // type:f64
+RO_800ACCF8 = 0x800ACCF8; // type:f64
+jtbl_800ACD00 = 0x800ACD00; // type:jtbl
+jtbl_800ACD20 = 0x800ACD20; // type:jtbl
+jtbl_800ACD60 = 0x800ACD60; // type:jtbl
+jtbl_800ACDA0 = 0x800ACDA0; // type:jtbl
+jtbl_800ACDE0 = 0x800ACDE0; // type:jtbl
+RO_800ACE1C = 0x800ACE1C;
+RO_800ACE28 = 0x800ACE28;
+RO_800ACE2C = 0x800ACE2C;
+RO_800ACE4C = 0x800ACE4C;
+RO_800ACE5C = 0x800ACE5C;
+RO_800ACE70 = 0x800ACE70;
+RO_800ACE78 = 0x800ACE78;
+RO_800ACE84 = 0x800ACE84;
+jtbl_800ACE90 = 0x800ACE90; // type:jtbl
+RO_800ACEB0 = 0x800ACEB0; // type:f64
+jtbl_800ACEB8 = 0x800ACEB8; // type:jtbl
+jtbl_800ACEE8 = 0x800ACEE8; // type:jtbl
+RO_800ACF10 = 0x800ACF10;
+RO_800ACF20 = 0x800ACF20;
 
 eeprom_header = 0x800ACF40;
 RO_800ACF44 = 0x800ACF44;
 _defName = 0x800ACF48;
 
+jtbl_800ACF50 = 0x800ACF50; // type:jtbl
+jtbl_800ACF68 = 0x800ACF68; // type:jtbl
+jtbl_800ACF80 = 0x800ACF80; // type:jtbl
+jtbl_800ACF98 = 0x800ACF98; // type:jtbl
+RO_800ACFB0 = 0x800ACFB0;
+RO_800ACFC8 = 0x800ACFC8;
+RO_800AD068 = 0x800AD068; // type:f64
+RO_800AD070 = 0x800AD070; // type:f64
+RO_800AD078 = 0x800AD078; // type:f64
 RO_800AD080 = 0x800AD080;
+RO_800AD098 = 0x800AD098;
+RO_800AD138 = 0x800AD138; // type:f64
+RO_800AD140 = 0x800AD140; // type:f64
+RO_800AD150 = 0x800AD150; // type:f64
+RO_800AD158 = 0x800AD158; // type:f64
+RO_800AD160 = 0x800AD160; // type:f64
+RO_800AD168 = 0x800AD168; // type:f64
+RO_800AD170 = 0x800AD170; // type:f64
+RO_800AD178 = 0x800AD178; // type:f64
+RO_800AD180 = 0x800AD180; // type:f64
+RO_800AD188 = 0x800AD188; // type:f64
+RO_800AD190 = 0x800AD190;
+RO_800AD194 = 0x800AD194;
+RO_800AD198 = 0x800AD198; // type:f64
+RO_800AD1A0 = 0x800AD1A0; // type:f64
+RO_800AD1A8 = 0x800AD1A8; // type:f64
+RO_800AD1B0 = 0x800AD1B0; // type:f64
+RO_800AD1B8 = 0x800AD1B8; // type:f64
+RO_800AD1C0 = 0x800AD1C0;
+
+jtbl_800AD1C8 = 0x800AD1C8; // type:jtbl
+jtbl_800AD210 = 0x800AD210; // type:jtbl
 
 STR_800AD2E0 = 0x800AD2E0; // type:char force_not_migration:True
 STR_800AD2F0 = 0x800AD2F0; // type:char force_not_migration:True
@@ -1667,6 +1721,7 @@ STR_800AD74C = 0x800AD74C; // type:char force_not_migration:True
 STR_800AD790 = 0x800AD790; // type:char force_not_migration:True
 STR_800AD794 = 0x800AD794; // type:char force_not_migration:True
 
+jtbl_800AD7C0 = 0x800AD7C0; // type:jtbl
 
 STR_800AD7F0 = 0x800AD7F0; // type:char force_not_migration:True
 STR_800AD864 = 0x800AD864; // type:char force_not_migration:True
@@ -1679,6 +1734,8 @@ STR_800AD914 = 0x800AD914; // type:char force_not_migration:True
 STR_800AD91C = 0x800AD91C; // type:char force_not_migration:True
 STR_800AD928 = 0x800AD928; // type:char force_not_migration:True
 STR_800AD92C = 0x800AD92C; // type:char force_not_migration:True
+
+jtbl_800AD950 = 0x800AD950; // type:jtbl
 
 STR_800AD980 = 0x800AD980; // type:char force_not_migration:True
 STR_800AD98C = 0x800AD98C; // type:char force_not_migration:True
@@ -1715,6 +1772,9 @@ STR_800ADA7C = 0x800ADA7C; // type:char force_not_migration:True
 STR_800ADA80 = 0x800ADA80; // type:char force_not_migration:True
 STR_800ADA84 = 0x800ADA84; // type:char force_not_migration:True
 STR_800ADA8C = 0x800ADA8C; // type:char force_not_migration:True
+
+jtbl_800ADA98 = 0x800ADA98; // type:jtbl
+
 STR_800ADAC8 = 0x800ADAC8; // type:char force_not_migration:True
 STR_800ADAD0 = 0x800ADAD0; // type:char force_not_migration:True
 STR_800ADADC = 0x800ADADC; // type:char force_not_migration:True
@@ -1727,7 +1787,30 @@ STR_800ADB18 = 0x800ADB18; // type:char force_not_migration:True
 STR_800ADB24 = 0x800ADB24; // type:char force_not_migration:True
 
 _modes_96 = 0x800ADB40;
+RO_800ADB50 = 0x800ADB50; // type:f64
+RO_800ADB58 = 0x800ADB58; // type:f64
+RO_800ADB60 = 0x800ADB60; // type:f64
+RO_800ADB68 = 0x800ADB68; // type:f64
+RO_800ADB70 = 0x800ADB70; // type:f64
+RO_800ADB78 = 0x800ADB78; // type:f64
+RO_800ADB80 = 0x800ADB80; // type:f64
+RO_800ADB88 = 0x800ADB88; // type:f64
+RO_800ADB90 = 0x800ADB90; // type:f64
+RO_800ADB98 = 0x800ADB98; // type:f64
+RO_800ADBA0 = 0x800ADBA0; // type:f64
+RO_800ADBA8 = 0x800ADBA8; // type:f64
+RO_800ADBB0 = 0x800ADBB0; // type:f64
+RO_800ADBB8 = 0x800ADBB8; // type:f64
+RO_800ADBC0 = 0x800ADBC0;
 
+RO_800ADC10 = 0x800ADC10; // type:f64
+RO_800ADC18 = 0x800ADC18; // type:f64
+RO_800ADC20 = 0x800ADC20; // type:f64
+RO_800ADC28 = 0x800ADC28; // type:f64
+RO_800ADC30 = 0x800ADC30; // type:f64
+RO_800ADC38 = 0x800ADC38; // type:f64
+RO_800ADC40 = 0x800ADC40; // type:f64
+RO_800ADC48 = 0x800ADC48; // type:f64
 color_251 = 0x800ADC50; // force_not_migration:True
 
 
@@ -1790,6 +1873,7 @@ STR_800AF4EC = 0x800AF4EC; // force_not_migration:True type:asciz
 _gameLvItemColor = 0x800AF514; // force_not_migration:True size:0x18
 _musicItemColor = 0x800AF52C; // force_not_migration:True size:0x8
 RO_800AF530 = 0x800AF530; // force_not_migration:True
+jtbl_800AF538 = 0x800AF538; // type:jtbl
 
 _menuCursor_cursor_4_pattern = 0x800AF660; // size:0x78
 
@@ -1818,7 +1902,15 @@ _size_1948 = 0x800AFB48; // size:0x20
 
 _pos_1959 = 0x800AFB68; // size:0x8
 
+RO_800AFB70 = 0x800AFB70; // type:f64
+RO_800AFB78 = 0x800AFB78; // type:f64
+RO_800AFB80 = 0x800AFB80; // type:f64
+RO_800AFB88 = 0x800AFB88; // type:f64
+
 _seq_2327 = 0x800AFB90;
+
+RO_800AFBA0 = 0x800AFBA0; // type:f64
+RO_800AFBA8 = 0x800AFBA8; // type:f64
 
 RO_800AFBB0 = 0x800AFBB0;
 RO_800AFBD8 = 0x800AFBD8;
@@ -1829,6 +1921,7 @@ _posLine_2861 = 0x800AFC14; // size:0x8
 _line_2914 = 0x800AFC1C; // size:0x4
 RO_800AFC20 = 0x800AFC20;
 _panel_3220 = 0x800AFC24; // size:0x14
+RO_800AFC38 = 0x800AFC38; // type:f64
 _texEndOrGuest_3608 = 0x800AFC40; // size:0x8
 RO_800AFC48 = 0x800AFC48;
 _panel_3859 = 0x800AFC4C;
@@ -1846,6 +1939,7 @@ _glvAsk_4314 = 0x800AFD4C; // size:0x10
 _glvItem_4315 = 0x800AFD5C; // size:0x10
 _okY_4316 = 0x800AFD6C; // size:0x8
 _cursor_4317 = 0x800AFD74; // size:0x40
+jtbl_800AFDB8 = 0x800AFDB8; // type:jtbl
 _charTbl_4601 = 0x800AFE2C; // size:0x3C
 _type_4602 = 0x800AFE68; // size:0x40
 _texPanelP4_4617 = 0x800AFEA8; // size:0x8
@@ -1855,6 +1949,7 @@ RO_800AFEB8 = 0x800AFEB8; // size:0x14
 
 _bgCursor_4920 = 0x800AFECC; // size:0x10
 _cursor_4921 = 0x800AFEDC; // size:0x20
+jtbl_800AFF00 = 0x800AFF00; // type:jtbl
 _root_5339 = 0x800B0028; // size:0x10
 _play1_5340 = 0x800B0038;
 _play2_5341 = 0x800B0050;
@@ -1869,6 +1964,8 @@ _count_5349 = 0x800B00CC;
 _backup_5350 = 0x800B00D8;
 _misc_5351 = 0x800B00E0;
 _score_5352 = 0x800B00EC;
+jtbl_800B00F8 = 0x800B00F8; // type:jtbl
+jtbl_800B0220 = 0x800B0220; // type:jtbl
 RO_800B0310 = 0x800B0310;
 RO_800B0320 = 0x800B0320;
 RO_800B0338 = 0x800B0338;
@@ -1893,12 +1990,23 @@ RO_800B041C = 0x800B041C;
 RO_800B0424 = 0x800B0424;
 RO_800B043C = 0x800B043C;
 RO_800B0448 = 0x800B0448;
+jtbl_800B0450 = 0x800B0450; // type:jtbl
+jtbl_800B0470 = 0x800B0470; // type:jtbl
+jtbl_800B0588 = 0x800B0588; // type:jtbl
+jtbl_800B06B0 = 0x800B06B0; // type:jtbl
+jtbl_800B06F8 = 0x800B06F8; // type:jtbl
+jtbl_800B07E8 = 0x800B07E8; // type:jtbl
+jtbl_800B08D8 = 0x800B08D8; // type:jtbl
+RO_800B0938 = 0x800B0938; // type:f64
 _pat_6137 = 0x800B0940; // size:0x18
+RO_800B0958 = 0x800B0958; // type:f64
+RO_800B0960 = 0x800B0960; // type:f64
 _pos_6413 = 0x800B0968; // size:0x90
 _posChar_6445 = 0x800B09F8; // size:0x10
 _posBgCursor_6446 = 0x800B0A08; // size:0x10
-_cursor_6447 = 0x800B0A18; // size:30
+_cursor_6447 = 0x800B0A18; // size:0x1E
 
+RO_800B0A48 = 0x800B0A48; // type:f64
 RO_800B0A50 = 0x800B0A50; // force_not_migration:True
 RO_800B0A5C = 0x800B0A5C;
 RO_800B0A6C = 0x800B0A6C;
@@ -1907,7 +2015,11 @@ RO_800B0B0C = 0x800B0B0C;
 _cursor_7325 = 0x800B0B14; // size:0x30
 
 _pos_7882 = 0x800B0B50; // size:0x20 force_not_migration:True
+jtbl_800B0B70 = 0x800B0B70; // type:jtbl
+jtbl_800B0BE8 = 0x800B0BE8; // type:jtbl
 _charTbl_8108 = 0x800B0C5C; // size:0x3C
+jtbl_800B0C98 = 0x800B0C98; // type:jtbl
+jtbl_800B0D10 = 0x800B0D10; // type:jtbl
 RO_800B0D84 = 0x800B0D84;
 _tex_8297 = 0x800B0D94; // size:0x8
 _pos_8298 = 0x800B0D9C; // type:s32 size:0x10
@@ -1915,16 +2027,26 @@ _moveTbl_8521 = 0x800B0DAC; // type:s32
 _onaji_8534 = 0x800B0DB4; // size:0x10
 _panel2_8535 = 0x800B0DC4; // size:0x10
 _panel4_8536 = 0x800B0DD4; // size:0x20
+jtbl_800B0DF8 = 0x800B0DF8; // type:jtbl
+jtbl_800B0E70 = 0x800B0E70; // type:jtbl
+jtbl_800B0EE8 = 0x800B0EE8; // type:jtbl
 RO_800B0F5C = 0x800B0F5C; // type:u8
+jtbl_800B1070 = 0x800B1070; // type:jtbl
 RO_800B1168 = 0x800B1168;
+RO_800B1180 = 0x800B1180; // type:f64
+jtbl_800B1188 = 0x800B1188; // type:jtbl
 _posX_0_9712 = 0x800B11A4;
 _posX_1_9713 = 0x800B11CC;
 _posX_2_9714 = 0x800B11E0;
 _posX_4_9715 = 0x800B11F8;
 RO_800B1210 = 0x800B1210;
+RO_800B1218 = 0x800B1218; // type:f64
 RO_800B1220 = 0x800B1220;
 RO_800B1230 = 0x800B1230;
 RO_800B123C = 0x800B123C;
+jtbl_800B1258 = 0x800B1258; // type:jtbl
+jtbl_800B1270 = 0x800B1270; // type:jtbl
+RO_800B1288 = 0x800B1288; // type:f64
 RO_800B1290 = 0x800B1290; // type:s32
 RO_800B1298 = 0x800B1298;
 RO_800B12A8 = 0x800B12A8;
@@ -1942,26 +2064,57 @@ RO_800B1340 = 0x800B1340;
 RO_800B1350 = 0x800B1350;
 RO_800B1360 = 0x800B1360;
 RO_800B1370 = 0x800B1370;
-RO_800B1430 = 0x800B1430;
-_dir_10660 = 0x800B1438; // size:0x8
 
-
+jtbl_800B1380 = 0x800B1380; // type:jtbl
+jtbl_800B13A8 = 0x800B13A8; // type:jtbl
 jtbl_800B13D0 = 0x800B13D0; // type:jtbl force_migration:True
 
 _lr_10544 = 0x800B13F8; // size:0x10
 
+jtbl_800B1408 = 0x800B1408; // type:jtbl
+RO_800B1430 = 0x800B1430;
+_dir_10660 = 0x800B1438; // size:0x8
+jtbl_800B1440 = 0x800B1440; // type:jtbl
+jtbl_800B14F8 = 0x800B14F8; // type:jtbl
+jtbl_800B1600 = 0x800B1600; // type:jtbl
+RO_800B1708 = 0x800B1708; // type:f64
+RO_800B1710 = 0x800B1710; // type:f64
+RO_800B1718 = 0x800B1718; // type:f64
+jtbl_800B1720 = 0x800B1720; // type:jtbl
+RO_800B1828 = 0x800B1828; // type:f64
+RO_800B1830 = 0x800B1830; // type:f64
+RO_800B1838 = 0x800B1838; // type:f64
+jtbl_800B1840 = 0x800B1840; // type:jtbl
+
 init_dl_135 = 0x800B1950; // type:Gfx
 
+RO_800B1978 = 0x800B1978; // type:f64
+RO_800B1980 = 0x800B1980; // type:f64
+RO_800B1988 = 0x800B1988; // type:f64
 sMessageColorTable = 0x800B1990; // size:0x18
 
+jtbl_800B19A8 = 0x800B19A8; // type:jtbl
+RO_800B19F8 = 0x800B19F8; // type:f64
+RO_800B1A00 = 0x800B1A00; // type:f64
+jtbl_800B1A08 = 0x800B1A08; // type:jtbl
 RO_800B1A54 = 0x800B1A54; //
 
+RO_800B1A58 = 0x800B1A58; // type:f64
 _size_122 = 0x800B1A60; // size:0x50
 _addrTbl_124 = 0x800B1AB0; // size:0x50
 _centerTbl_125 = 0x800B1B00; // size:0xA0
+RO_800B1BA0 = 0x800B1BA0;
+RO_800B1BBC = 0x800B1BBC;
 
 _n_343 = 0x800B1BC8; //
 
+RO_800B1BCC = 0x800B1BCC;
+RO_800B1BD0 = 0x800B1BD0;
+jtbl_800B1C10 = 0x800B1C10; // type:jtbl
+jtbl_800B1C30 = 0x800B1C30; // type:jtbl
+RO_800B1C4C = 0x800B1C4C;
+RO_800B1C5C = 0x800B1C5C;
+RO_800B1C74 = 0x800B1C74;
 _retryMenu_itemCount = 0x800B1C78; // size:0x6
 
 _big_virus_def_wait = 0x800B1C80; // force_not_migration:True
@@ -1971,28 +2124,115 @@ RO_800B1CA4 = 0x800B1CA4; // force_not_migration:True size:0x20
 
 _mesWriting = 0x800B1CB8; // type:char force_not_migration:True
 STR_800B1CE0 = 0x800B1CE0; // type:char force_not_migration:True
+
+RO_800B1D08 = 0x800B1D08;
+RO_800B1D18 = 0x800B1D18;
+RO_800B1D1C = 0x800B1D1C;
+RO_800B1D28 = 0x800B1D28;
+RO_800B1D2C = 0x800B1D2C;
+RO_800B1D30 = 0x800B1D30;
+RO_800B1D5C = 0x800B1D5C;
+RO_800B1D60 = 0x800B1D60;
+RO_800B1D7C = 0x800B1D7C;
+RO_800B1D80 = 0x800B1D80;
+RO_800B1D84 = 0x800B1D84;
+RO_800B1D88 = 0x800B1D88;
+RO_800B1D8C = 0x800B1D8C;
+RO_800B1DBC = 0x800B1DBC;
+RO_800B1E7C = 0x800B1E7C;
 RO_800B1E80 = 0x800B1E80; // force_not_migration:True type:s32
+RO_800B1E8C = 0x800B1E8C;
+RO_800B1E90 = 0x800B1E90;
 RO_800B1E9C = 0x800B1E9C; // force_not_migration:True type:s32
 RO_800B1EA0 = 0x800B1EA0; // force_not_migration:True type:s32
 
+RO_800B1EB0 = 0x800B1EB0;
+RO_800B1EB8 = 0x800B1EB8;
+RO_800B1EC0 = 0x800B1EC0;
+RO_800B1ECC = 0x800B1ECC;
+RO_800B1EE8 = 0x800B1EE8; // type:f64
+jtbl_800B1EF0 = 0x800B1EF0; // type:jtbl
+RO_800B1F68 = 0x800B1F68; // type:f64
+jtbl_800B1F70 = 0x800B1F70; // type:jtbl
+jtbl_800B1FF0 = 0x800B1FF0; // type:jtbl
+jtbl_800B2008 = 0x800B2008; // type:jtbl
 RO_800B2020 = 0x800B2020; // size:0xC
 
+RO_800B202C = 0x800B202C;
+RO_800B2030 = 0x800B2030; // type:f64
+RO_800B2038 = 0x800B2038; // type:f64
+RO_800B2040 = 0x800B2040; // type:f64
+RO_800B2048 = 0x800B2048; // type:f64
+jtbl_800B2050 = 0x800B2050; // type:jtbl
 RO_800B2068 = 0x800B2068;
 
 cap_pal_4164 = 0x800B2070; // size:0x30
 
+RO_800B20A0 = 0x800B20A0; // type:f64
+RO_800B20A8 = 0x800B20A8; // type:f64
+RO_800B20B0 = 0x800B20B0; // type:f64
+RO_800B20B8 = 0x800B20B8; // type:f64
+RO_800B20C0 = 0x800B20C0; // type:f64
 RO_800B20C8 = 0x800B20C8; // force_migration:True type:f64 size:8
 RO_800B20D0 = 0x800B20D0; // force_not_migration:True type:u8
+
+RO_800B20E0 = 0x800B20E0;
+RO_800B20EC = 0x800B20EC;
+RO_800B20F8 = 0x800B20F8;
+RO_800B2104 = 0x800B2104;
+RO_800B2108 = 0x800B2108;
+RO_800B210C = 0x800B210C;
+RO_800B2114 = 0x800B2114;
+RO_800B211C = 0x800B211C;
+RO_800B2120 = 0x800B2120;
+RO_800B2134 = 0x800B2134;
+RO_800B2138 = 0x800B2138;
+RO_800B2148 = 0x800B2148; // type:f64
+RO_800B2150 = 0x800B2150; // type:f64
+RO_800B2158 = 0x800B2158; // type:f64
+RO_800B2160 = 0x800B2160;
+RO_800B2168 = 0x800B2168;
+RO_800B2170 = 0x800B2170;
+RO_800B2178 = 0x800B2178;
+RO_800B2180 = 0x800B2180;
+RO_800B2184 = 0x800B2184;
+RO_800B2188 = 0x800B2188;
+RO_800B218C = 0x800B218C;
+RO_800B21D0 = 0x800B21D0;
+
+RO_800B21E8 = 0x800B21E8; // type:f64
+RO_800B21F0 = 0x800B21F0; // type:f64
+jtbl_800B21F8 = 0x800B21F8; // type:jtbl
+jtbl_800B2250 = 0x800B2250; // type:jtbl
+jtbl_800B2278 = 0x800B2278; // type:jtbl
 
 map_x_table_5383 = 0x800B2294;
 map_y_table_5384 = 0x800B22AC;
 size_table_5385 = 0x800B22B0;
 
+jtbl_800B22B8 = 0x800B22B8; // type:jtbl
+jtbl_800B22D8 = 0x800B22D8; // type:jtbl
+jtbl_800B22F8 = 0x800B22F8; // type:jtbl
+
 RO_800B2314 = 0x800B2314; // force_not_migration:True size:0x1C
 RO_800B2330 = 0x800B2330; // force_not_migration:True size:0xC
+RO_800B233C = 0x800B233C;
+RO_800B2340 = 0x800B2340;
+RO_800B2344 = 0x800B2344;
+RO_800B2348 = 0x800B2348;
+RO_800B2354 = 0x800B2354;
+RO_800B2358 = 0x800B2358;
+
+jtbl_800B2368 = 0x800B2368; // type:jtbl
+jtbl_800B2388 = 0x800B2388; // type:jtbl
+jtbl_800B23A8 = 0x800B23A8; // type:jtbl
+RO_800B23C4 = 0x800B23C4;
 
 RO_800B23CC = 0x800B23CC; // force_not_migration:True type:s32
 
+RO_800B23D4 = 0x800B23D4;
+jtbl_800B23E0 = 0x800B23E0; // type:jtbl
+RO_800B2400 = 0x800B2400; // type:f64
 RO_800B2408 = 0x800B2408;
 RO_800B240C = 0x800B240C;
 RO_800B2410 = 0x800B2410;
@@ -2066,11 +2306,16 @@ mes_4_8 = 0x800B302C; // type:char force_not_migration:True
 mes_4_9 = 0x800B3054; // type:char force_not_migration:True
 mes_4_10 = 0x800B3078; // type:char force_not_migration:True
 
+jtbl_800B3098 = 0x800B3098; // type:jtbl
+jtbl_800B30F0 = 0x800B30F0; // type:jtbl
+jtbl_800B3118 = 0x800B3118; // type:jtbl
 _tex_884 = 0x800B3130; // size:0x10 force_not_migration:True
 _pos_885 = 0x800B3140; // size:0x10 force_not_migration:True
 
 RO_800B3150 = 0x800B3150; // force_not_migration:True
 
+RO_800B3168 = 0x800B3168; // type:f64
+RO_800B3170 = 0x800B3170; // type:f64
 _posContPanel = 0x800B3178; // force_not_migration:True type:s32 size:0x8
 _posCircle_924 = 0x800B3180; // force_not_migration:True
 _posFinger_925 = 0x800B31A0; // force_not_migration:True
@@ -2080,10 +2325,99 @@ _seqTbl_1037 = 0x800B31D8; // size:0x2
 map_y_table_1038 = 0x800B31DC; // size:0x2
 size_table_1039 = 0x800B31E0; // size:0x2
 
+jtbl_800B31E8 = 0x800B31E8; // type:jtbl
+RO_800B3200 = 0x800B3200; // type:f64
+RO_800B3208 = 0x800B3208; // type:f64
+jtbl_800B3210 = 0x800B3210; // type:jtbl
+RO_800B3228 = 0x800B3228; // type:f64
+RO_800B3230 = 0x800B3230; // type:f64
+RO_800B3238 = 0x800B3238; // type:f64
 _stageTbl = 0x800B3240; // size:0x12
-STR_800B32A8 = 0x800B32A8; // type:asciz force_not_migration:True
+RO_800B3258 = 0x800B3258; // type:f64
+RO_800B3260 = 0x800B3260; // type:f64
+RO_800B3268 = 0x800B3268; // type:f64
+RO_800B3270 = 0x800B3270;
+
 _mesBootContErr = 0x800B32A8; // type:asciz force_not_migration:True
 _mesBootCSumErr = 0x800B3318; // type:asciz force_not_migration:True
+RO_800B3360 = 0x800B3360; // type:f64
+RO_800B3368 = 0x800B3368; // type:f64
+RO_800B3370 = 0x800B3370; // type:f64
+RO_800B3378 = 0x800B3378; // type:f64
+RO_800B3380 = 0x800B3380; // type:f64
+RO_800B3388 = 0x800B3388; // type:f64
+RO_800B3390 = 0x800B3390; // type:f64
+RO_800B3398 = 0x800B3398; // type:f64
+RO_800B33A0 = 0x800B33A0; // type:f64
+RO_800B33A8 = 0x800B33A8; // type:f64
+RO_800B33B0 = 0x800B33B0; // type:f64
+RO_800B33B8 = 0x800B33B8; // type:f64
+RO_800B33C0 = 0x800B33C0; // type:f64
+RO_800B33C8 = 0x800B33C8; // type:f64
+RO_800B33D0 = 0x800B33D0; // type:f64
+jtbl_800B33D8 = 0x800B33D8; // type:jtbl
+jtbl_800B33F0 = 0x800B33F0; // type:jtbl
+RO_800B3450 = 0x800B3450; // type:f64
+RO_800B3458 = 0x800B3458; // type:f64
+RO_800B3460 = 0x800B3460; // type:f64
+RO_800B3468 = 0x800B3468; // type:f64
+RO_800B3470 = 0x800B3470; // type:f64
+RO_800B3478 = 0x800B3478; // type:f64
+RO_800B3480 = 0x800B3480; // type:f64
+RO_800B3488 = 0x800B3488; // type:f64
+RO_800B3490 = 0x800B3490; // type:f64
+RO_800B3498 = 0x800B3498; // type:f64
+RO_800B34A0 = 0x800B34A0; // type:f64
+RO_800B34A8 = 0x800B34A8; // type:f64
+RO_800B34B0 = 0x800B34B0; // type:f64
+RO_800B34B8 = 0x800B34B8; // type:f64
+RO_800B34C0 = 0x800B34C0; // type:f64
+RO_800B34C8 = 0x800B34C8; // type:f64
+RO_800B34D0 = 0x800B34D0; // type:f64
+RO_800B34D8 = 0x800B34D8; // type:f64
+RO_800B34E0 = 0x800B34E0; // type:f64
+RO_800B34E8 = 0x800B34E8; // type:f64
+RO_800B34F0 = 0x800B34F0; // type:f64
+RO_800B34F8 = 0x800B34F8; // type:f64
+RO_800B3500 = 0x800B3500; // type:f64
+RO_800B3508 = 0x800B3508; // type:f64
+RO_800B3510 = 0x800B3510; // type:f64
+RO_800B3518 = 0x800B3518; // type:f64
+RO_800B3520 = 0x800B3520; // type:f64
+RO_800B3528 = 0x800B3528; // type:f64
+RO_800B3530 = 0x800B3530; // type:f64
+RO_800B3538 = 0x800B3538; // type:f64
+RO_800B3540 = 0x800B3540; // type:f64
+RO_800B3548 = 0x800B3548; // type:f64
+RO_800B3550 = 0x800B3550; // type:f64
+RO_800B3558 = 0x800B3558; // type:f64
+RO_800B3560 = 0x800B3560; // type:f64
+RO_800B3568 = 0x800B3568; // type:f64
+RO_800B3570 = 0x800B3570; // type:f64
+RO_800B3578 = 0x800B3578; // type:f64
+RO_800B3580 = 0x800B3580; // type:f64
+RO_800B3588 = 0x800B3588; // type:f64
+RO_800B3590 = 0x800B3590; // type:f64
+RO_800B3598 = 0x800B3598; // type:f64
+RO_800B35A0 = 0x800B35A0; // type:f64
+RO_800B35A8 = 0x800B35A8; // type:f64
+RO_800B35B0 = 0x800B35B0; // type:f64
+RO_800B35B8 = 0x800B35B8; // type:f64
+RO_800B35C0 = 0x800B35C0; // type:f64
+RO_800B35C8 = 0x800B35C8; // type:f64
+RO_800B35D0 = 0x800B35D0; // type:f64
+RO_800B35D8 = 0x800B35D8; // type:f64
+RO_800B35E0 = 0x800B35E0; // type:f64
+RO_800B35E8 = 0x800B35E8; // type:f64
+RO_800B35F0 = 0x800B35F0; // type:f64
+RO_800B35F8 = 0x800B35F8; // type:f64
+RO_800B3600 = 0x800B3600; // type:f64
+RO_800B3608 = 0x800B3608; // type:f64
+RO_800B3610 = 0x800B3610; // type:f64
+RO_800B3618 = 0x800B3618; // type:f64
+RO_800B3620 = 0x800B3620; // type:f64
+RO_800B3630 = 0x800B3630; // type:f64
+RO_800B3638 = 0x800B3638; // type:f64
 
 // bss
 

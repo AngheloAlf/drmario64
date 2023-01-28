@@ -72,13 +72,13 @@ UNK_TYPE dm_make_score(struct_game_state_data *arg0) {
 }
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1C4C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1C4C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1C5C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1C5C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1C74);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1C74);
 #endif
 
 const u8 _retryMenu_itemCount[] = {
@@ -146,58 +146,58 @@ const char STR_800B1CE0[] =
 // clang-format on
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D08);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D08);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D18);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D18);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D1C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D1C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D28);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D28);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D2C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D2C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D30);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D30);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D5C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D5C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D60);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D60);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D7C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D7C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D80);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D80);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D84);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D84);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D88);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D88);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D8C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D8C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1DBC);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1DBC);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1E7C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E7C);
 #endif
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E80);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1E8C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E8C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1E90);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E90);
 #endif
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E9C);
@@ -1034,7 +1034,7 @@ void func_80062EC0(struct_watchGame_unk_0B8 *arg0) {
 }
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1EB8);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1EB8);
 #endif
 
 #if 0
@@ -1210,10 +1210,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006431C);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1EC0);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1EC0);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1ECC);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1ECC);
 #endif
 
 #if VERSION_US
@@ -2036,7 +2036,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_main_cnt);
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2020);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B202C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B202C);
 #endif
 
 #if VERSION_US
@@ -2749,37 +2749,37 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006967C);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B20E0);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B20E0);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B20EC);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B20EC);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B20F8);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B20F8);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2104);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2104);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2108);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2108);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B210C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B210C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2114);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2114);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B211C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B211C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2120);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2120);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2134);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2134);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2138);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2138);
 #endif
 
 #if VERSION_US
@@ -2863,31 +2863,31 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006B0A4);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2160);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2160);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2168);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2168);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2170);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2170);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2178);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2178);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2180);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2180);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2184);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2184);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2188);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2188);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B218C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B218C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B21D0);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B21D0);
 #endif
 
 #if VERSION_US
@@ -3522,22 +3522,22 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2330);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B233C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B233C);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2340);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2340);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2344);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2344);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2348);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2348);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2354);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2354);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B2358);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2358);
 #endif
 
 ASM_TEXT;
@@ -3691,13 +3691,13 @@ void dm_game_graphic(void) {
 }
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B23C4);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B23C4);
 #endif
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B23CC);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B23D4);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B23D4);
 #endif
 
 #if VERSION_US

@@ -6,11 +6,11 @@
 #include "main_segment_variables.h"
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", D_800ACFB0);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", RO_800ACFB0);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", D_800ACFC8);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", RO_800ACFC8);
 #endif
 
 #if VERSION_US
@@ -54,7 +54,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", RO_800AD080);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", D_800AD098);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/00F2A0", RO_800AD098);
 #endif
 
 #if VERSION_US

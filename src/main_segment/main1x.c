@@ -53,35 +53,35 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main1x", adjust_story_ai);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE1C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE1C);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE28);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE28);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE2C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE2C);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE4C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE4C);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE5C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE5C);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE70);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE70);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE78);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE78);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", D_800ACE84);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE84);
 #endif
 
 #if VERSION_CN
