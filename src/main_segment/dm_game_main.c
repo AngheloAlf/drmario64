@@ -96,12 +96,53 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1C98);
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1CA4);
 #endif
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", STR_800B1CB8);
+
+#if 0
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C827C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C828C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82A4_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82A8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82B0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82BC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82C8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82D4_cn);
 #endif
+
+// clang-format off
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", STR_800B1CE0);
+/**
+ * Original name: _mesWriting
+ */
+const char _mesWriting[] =
+    "Now saving." MSG_NEWLINE
+    "Do not turn power off."
+    MSG_END;
 #endif
+
+#if VERSION_US
+const char STR_800B1CE0[] =
+    "Now deleting." MSG_NEWLINE
+    "Do not turn power off."
+    MSG_END;
+#endif
+
+#if 0
+#if VERSION_CN
+const char _mesWriting[] =
+    "存储中" MSG_NEWLINE
+    "请勿关闭电源."
+    MSG_END;
+#endif
+
+#if VERSION_CN
+const char STR_800B1CE0[] =
+    "删除中" MSG_NEWLINE
+    "请勿关闭电源."
+    MSG_END;
+#endif
+#endif
+// clang-format on
+
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1D08);
 #endif
@@ -161,6 +202,28 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E9C);
 #endif
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1EA0);
+#endif
+
+#if 0
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8318_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8328_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C832C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8338_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8340_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8348_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C836C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C838C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8394_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8398_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C83B4_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C83FC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C848C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C849C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C84AC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C84C0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C84C8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C84D0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C84DC_cn);
 #endif
 
 #if VERSION_US
@@ -970,6 +1033,13 @@ void func_80062EC0(struct_watchGame_unk_0B8 *arg0) {
 
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", D_800B1EB8);
+#endif
+
+#if 0
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8620_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C862C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8630_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8638_cn);
 #endif
 
 #if VERSION_US

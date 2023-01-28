@@ -25,6 +25,7 @@ const Color_RGB8 sMessageColorTable[] = {
     /* 7 */ { 255, 255, 255 }, // White
 };
 
+#if VERSION_US
 bool func_8005CF20(s32 arg0, u32 buttonMask) {
     s32 i = 0;
 
@@ -156,13 +157,26 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", func_8005D3F8);
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_update);
 #endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/msgwnd", D_800B1A54);
 #endif
 
-extern UNK_TYPE1 D_800B1A54[];
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_800631D0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_init);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80063298_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80063368_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_layout);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_addStr);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_8006371C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_update);
+#endif
 
+ASM_RODATA;
+const char RO_800B1A54[] = {
+    0x81,
+    0xA5,
+};
+
+#if VERSION_US
 #if VERSION_US
 #ifdef NON_EQUIVALENT
 /**
@@ -368,12 +382,12 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
             case 0x0:
                 fontXX_draw(&gfx, (f32)(messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)),
                             (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
-                            (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, D_800B1A54);
+                            (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, RO_800B1A54);
                 break;
             case 0x1:
                 fontXX_draw2(&gfx, (f32)(messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)),
                              (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
-                             (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, D_800B1A54);
+                             (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, RO_800B1A54);
                 break;
 
             default:
@@ -436,3 +450,14 @@ s32 msgWnd_getWidth(MessageWnd *messageWnd) {
 s32 msgWnd_getHeight(MessageWnd *messageWnd) {
     return messageWnd->unk_44 * messageWnd->unk_48;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_draw);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80064444_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_skip);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80064460_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80064468_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_8006447C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80064494_cn);
+#endif

@@ -690,7 +690,7 @@ dm_check_color = 0x8005F33C;
 dm_check_color_2 = 0x8005F54C;
 dm_virus_map_copy = 0x8005F634;
 dm_get_first_virus_count = 0x8005F698;
-func_8005F6F0 = 0x8005F6F0;
+dm_get_first_virus_count_in_new_mode = 0x8005F6F0;
 _dm_virus_init = 0x8005F700;
 dm_virus_init = 0x8005FC50;
 func_8005FC6C = 0x8005FC6C;
@@ -1954,9 +1954,11 @@ init_dl_135 = 0x800B1950; // type:Gfx
 
 sMessageColorTable = 0x800B1990; // size:0x18
 
-RO_800B1A60 = 0x800B1A60; // size:0x50
-RO_800B1AB0 = 0x800B1AB0; // size:0x50
-RO_800B1B00 = 0x800B1B00; // size:0xA0
+RO_800B1A54 = 0x800B1A54; //
+
+_size_122 = 0x800B1A60; // size:0x50
+_addrTbl_124 = 0x800B1AB0; // size:0x50
+_centerTbl_125 = 0x800B1B00; // size:0xA0
 
 _retryMenu_itemCount = 0x800B1C78; // size:0x6
 
@@ -1965,7 +1967,7 @@ RO_800B1C8C = 0x800B1C8C; // force_not_migration:True
 RO_800B1C98 = 0x800B1C98; // force_not_migration:True
 RO_800B1CA4 = 0x800B1CA4; // force_not_migration:True size:0x20
 
-STR_800B1CB8 = 0x800B1CB8; // type:char force_not_migration:True
+_mesWriting = 0x800B1CB8; // type:char force_not_migration:True
 STR_800B1CE0 = 0x800B1CE0; // type:char force_not_migration:True
 RO_800B1E80 = 0x800B1E80; // force_not_migration:True type:s32
 RO_800B1E9C = 0x800B1E9C; // force_not_migration:True type:s32

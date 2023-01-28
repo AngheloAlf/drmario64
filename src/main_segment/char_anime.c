@@ -18,7 +18,7 @@
 /**
  * Original name: static _size
  */
-const size_t RO_800B1A60[CHARANIMEMODE_MAX] = {
+const size_t _size_122[CHARANIMEMODE_MAX] = {
     SEGMENT_DATA_SIZE_CONST(segment_anime_m),       // CHARANIMEMODE_M
     SEGMENT_DATA_SIZE_CONST(segment_anime_n),       // CHARANIMEMODE_N
     SEGMENT_DATA_SIZE_CONST(segment_anime_h),       // CHARANIMEMODE_H
@@ -44,7 +44,7 @@ const size_t RO_800B1A60[CHARANIMEMODE_MAX] = {
 /**
  * Original name: static _addrTbl
  */
-const RomDataTblIndex RO_800B1AB0[CHARANIMEMODE_MAX] = {
+const RomDataTblIndex _addrTbl_124[CHARANIMEMODE_MAX] = {
     ROMDATATBL_ANIME_M,       // CHARANIMEMODE_M
     ROMDATATBL_ANIME_N,       // CHARANIMEMODE_N
     ROMDATATBL_ANIME_H,       // CHARANIMEMODE_H
@@ -70,7 +70,7 @@ const RomDataTblIndex RO_800B1AB0[CHARANIMEMODE_MAX] = {
 /**
  * Original name: static _centerTbl
  */
-const struct_800B1B00 RO_800B1B00[CHARANIMEMODE_MAX] = {
+const struct_800B1B00 _centerTbl_125[CHARANIMEMODE_MAX] = {
     { 0x10, 0x2B }, // CHARANIMEMODE_M
     { 0x19, 0x2C }, // CHARANIMEMODE_N
     { 0x10, 0x29 }, // CHARANIMEMODE_H
@@ -96,6 +96,7 @@ const struct_800B1B00 RO_800B1B00[CHARANIMEMODE_MAX] = {
 /**
  * Original name: animeSeq_init
  */
+#if VERSION_US
 void animeSeq_init(AnimeSeq *animeSeq, AnimeSeq_unk_0C *arg1, UNK_TYPE4 arg2) {
     animeSeq->unk_0C = arg1;
     animeSeq->unk_08 = -1;
@@ -104,14 +105,18 @@ void animeSeq_init(AnimeSeq *animeSeq, AnimeSeq_unk_0C *arg1, UNK_TYPE4 arg2) {
     animeSeq->unk_18 = -1;
     animeSeq_update(animeSeq, 0);
 }
+#endif
 
+#if VERSION_US
 void func_8005E154(AnimeState *animeState, UNK_TYPE4 arg1) {
     animeSeq_init(&animeState->animeSeq, animeState->animeSeq.unk_0C, arg1);
 }
+#endif
 
 /**
  * Original name: animeSeq_update
  */
+#if VERSION_US
 void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
 
     while (arg1 >= 0) {
@@ -158,36 +163,45 @@ void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
         }
     }
 }
+#endif
 
 /**
  * Original name: animeSeq_isEnd
  */
+#if VERSION_US
 bool animeSeq_isEnd(AnimeSeq *animeSeq) {
     return animeSeq->unk_0C[animeSeq->unk_10].unk_0[animeSeq->unk_14] == 0xFF;
 }
+#endif
 
 /**
  * Original name: animeState_getDataSize
  */
+#if VERSION_US
 size_t animeState_getDataSize(CharAnimeMode animeMode) {
-    return RO_800B1A60[animeMode];
+    return _size_122[animeMode];
 }
+#endif
 
 /**
  * Original name: animeState_load
  */
+#if VERSION_US
 void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeMode) {
     AnimeState_unk_1C *sp18;
     AnimeSeq_unk_0C *sp1C;
-    RomDataTblIndex index = RO_800B1AB0[animeMode];
+    RomDataTblIndex index = _addrTbl_124[animeMode];
 
     loadAnimeSeq(arg1, &sp18, &sp1C, _romDataTbl[index].start, _romDataTbl[index].end);
-    animeState_init(animeState, sp1C, sp18, RO_800B1B00[animeMode].unk_0, RO_800B1B00[animeMode].unk_4, animeMode);
+    animeState_init(animeState, sp1C, sp18, _centerTbl_125[animeMode].unk_0, _centerTbl_125[animeMode].unk_4,
+                    animeMode);
 }
+#endif
 
 /**
  * Original name: animeState_init
  */
+#if VERSION_US
 void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, AnimeState_unk_1C *arg2, UNK_TYPE4 arg3,
                      UNK_TYPE4 arg4, CharAnimeMode animeMode) {
     animeSeq_init(&animeState->animeSeq, arg1, 0);
@@ -201,30 +215,38 @@ void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, AnimeState_u
     animeState->primColorB = 255;
     animeState->primColorA = 255;
 }
+#endif
 
 /**
  * Original name: animeState_set
  */
+#if VERSION_US
 void animeState_set(AnimeState *animeState, UNK_TYPE4 arg1) {
     animeState->unk_20 = 0;
     func_8005E154(animeState, arg1);
 }
+#endif
 
 /**
  * Original name: animeState_update
  */
+#if VERSION_US
 void animeState_update(AnimeState *animeState) {
     animeSeq_update(&animeState->animeSeq, animeState->unk_20 % 2U);
     animeState->unk_20++;
 }
+#endif
 
+#if VERSION_US
 bool animeState_isEnd(AnimeState *animeState) {
     return animeSeq_isEnd(&animeState->animeSeq);
 }
+#endif
 
 /**
  * Original name: animeState_initDL
  */
+#if VERSION_US
 void animeState_initDL(AnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -239,10 +261,12 @@ void animeState_initDL(AnimeState *animeState, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
+#endif
 
 /**
  * Original name: animeState_initDL2
  */
+#if VERSION_US
 void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -257,10 +281,12 @@ void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
     }
     *gfxP = gfx;
 }
+#endif
 
 /**
  * Original name: animeState_initIntensityDL
  */
+#if VERSION_US
 void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -275,10 +301,12 @@ void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
+#endif
 
 /**
  * Original name: animeState_draw
  */
+#if VERSION_US
 void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     Gfx *gfx = *gfxP;
     AnimeState_unk_1C *temp_a3;
@@ -325,6 +353,7 @@ void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32
 
     *gfxP = gfx;
 }
+#endif
 
 #if VERSION_US
 #ifdef NON_MATCHING
@@ -361,6 +390,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", StretchTexTile4i);
 /**
  * Original name: animeSmog_init
  */
+#if VERSION_US
 void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig) {
     s32 i;
 
@@ -373,25 +403,31 @@ void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig) {
     }
     animeSmog->unk_120 = 0xB4;
 }
+#endif
 
 /**
  * Original name: animeSmog_load
  */
+#if VERSION_US
 void animeSmog_load(AnimeSmog *animeSmog, UNK_PTR *arg1) {
     animeState_load(animeSmog->unk_000, arg1, CHARANIMEMODE_SMOG);
     animeSmog_init(animeSmog, animeSmog);
 }
+#endif
 
 /**
  * Original name: animeSmog_start
  */
+#if VERSION_US
 void animeSmog_start(AnimeSmog *animeSmog) {
     animeSmog->unk_120 = 0;
 }
+#endif
 
 /**
  * Original name: animeSmog_stop
  */
+#if VERSION_US
 void animeSmog_stop(AnimeSmog *animeSmog) {
     u32 i;
 
@@ -401,10 +437,12 @@ void animeSmog_stop(AnimeSmog *animeSmog) {
 
     animeSmog->unk_120 = 0xB4;
 }
+#endif
 
 /**
  * Original name: animeSmog_update
  */
+#if VERSION_US
 void animeSmog_update(AnimeSmog *animeSmog) {
     u32 i;
 
@@ -419,10 +457,12 @@ void animeSmog_update(AnimeSmog *animeSmog) {
 
     animeSmog->unk_120 = MIN_ALT(animeSmog->unk_120 + 1, 0xB4);
 }
+#endif
 
 /**
  * Original name: animeSmog_draw
  */
+#if VERSION_US
 void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     Gfx *gfx = *gfxP;
     u32 i;
@@ -438,6 +478,7 @@ void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 ar
 
     *gfxP = gfx;
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", func_8005EE64);
@@ -448,4 +489,30 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", func_8005EE64);
  */
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", loadAnimeSeq);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800644B0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800644F4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064524_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800646F0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006471C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064734_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800647F0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064880_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800648AC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800648F4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006491C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800649D0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064A9C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064B8C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064DC0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064F14_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064FEC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006503C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80065044_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800650B0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80065230_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80065364_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80065390_cn);
 #endif

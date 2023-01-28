@@ -13,6 +13,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
+#if VERSION_US
 void init_map_all(GameMapGrid *mapGrid) {
     s32 row;
 
@@ -29,6 +30,7 @@ void init_map_all(GameMapGrid *mapGrid) {
         }
     }
 }
+#endif
 
 #if VERSION_US
 #ifdef NON_EQUIVALENT
@@ -50,6 +52,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", clear_map);
 #endif
 #endif
 
+#if VERSION_US
 void clear_map_all(GameMapGrid *mapGrid) {
     s32 row;
 
@@ -61,13 +64,16 @@ void clear_map_all(GameMapGrid *mapGrid) {
         }
     }
 }
+#endif
 
+#if VERSION_US
 bool get_map_info(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne) {
     GameMapCell *cells = mapGrid->cells;
     s32 index = GAME_MAP_GET_INDEX(rowPlusOne - 1, column);
 
     return cells[index].unk_4[0] != 0;
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005F09C);
@@ -81,6 +87,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005F0E4);
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", D_800B1BA0);
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", D_800B1BA0);
+#endif
+
+#if VERSION_US
 s32 get_virus_color_count(GameMapGrid *mapGrid, u8 *arg1, u8 *arg2, u8 *arg3) {
     s32 sp0[3] = { 0, 0, 0 };
     GameMapCell *cells = mapGrid->cells;
@@ -102,7 +113,9 @@ s32 get_virus_color_count(GameMapGrid *mapGrid, u8 *arg1, u8 *arg2, u8 *arg3) {
 
     return count;
 }
+#endif
 
+#if VERSION_US
 s32 get_virus_count(GameMapGrid *mapGrid) {
     u8 sp10;
     u8 sp11;
@@ -110,7 +123,9 @@ s32 get_virus_count(GameMapGrid *mapGrid) {
 
     return get_virus_color_count(mapGrid, &sp10, &sp11, &sp12);
 }
+#endif
 
+#if VERSION_US
 void set_map(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne, s32 arg3, s32 arg4) {
     GameMapCell *cells = mapGrid->cells;
     s32 index;
@@ -131,7 +146,9 @@ void set_map(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne, s32 arg3, s32 arg
     cells[index].unk_4[4] = -1;
     cells[index].unk_4[3] = var_t0;
 }
+#endif
 
+#if VERSION_US
 void set_virus(GameMapGrid *mapGrid, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     GameMapCell *cells;
     s32 var_t0;
@@ -153,7 +170,9 @@ void set_virus(GameMapGrid *mapGrid, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     cells[temp + arg1].unk_4[4] = arg3;
     cells[temp + arg1].unk_4[3] = var_t0;
 }
+#endif
 
+#if VERSION_US
 u16 func_8005F2B0(void) {
     u16 temp_v0 = random(6);
     u16 var_v0;
@@ -167,7 +186,9 @@ u16 func_8005F2B0(void) {
     }
     return var_v0;
 }
+#endif
 
+#if VERSION_US
 u32 func_8005F310(struct_virus_map_data *arg0, s32 arg1, s32 arg2) {
     struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
     u8 index = ((arg2 - 1) * 8) + arg1;
@@ -175,6 +196,7 @@ u32 func_8005F310(struct_virus_map_data *arg0, s32 arg1, s32 arg2) {
 
     return (~value) >> 31;
 }
+#endif
 
 #if VERSION_US
 #ifdef NON_MATCHING
@@ -249,6 +271,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", dm_check_color);
 #endif
 #endif
 
+#if VERSION_US
 bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3) {
     struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
     u8 temp_t0;
@@ -282,7 +305,9 @@ bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3) 
 
     return true;
 }
+#endif
 
+#if VERSION_US
 void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data *virusMapDst,
                        struct_virus_map_disp_order *virusDispOrderSrc, struct_virus_map_disp_order *virusDispOrderDst) {
     s32 i;
@@ -300,14 +325,16 @@ void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data
         virusDispOrderDst->unk_00[i] = virusDispOrderSrc->unk_00[i];
     }
 }
+#endif
 
+#if VERSION_US
 s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_game_state_data *arg1) {
     s32 ret;
 
     switch (evsGamemode) {
         case ENUM_EVS_GAMEMODE_1:
         case ENUM_EVS_GAMEMODE_3:
-            ret = func_8005F6F0(arg1->unk_16C);
+            ret = dm_get_first_virus_count_in_new_mode(arg1->unk_16C);
             break;
 
         default:
@@ -322,18 +349,34 @@ s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_game_state_da
 
     return ret;
 }
+#endif
 
-extern u8 D_800B1BC8[];
+extern const u8 _n_343[];
 
-s32 func_8005F6F0(s32 arg0) {
-    return D_800B1BC8[arg0];
-}
+/**
+ * Original name: _n_343
+ */
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", _n_343);
+#endif
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", _n_343);
+#endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", D_800B1BC8);
+/**
+ * Original name: dm_get_first_virus_count_in_new_mode
+ */
+s32 dm_get_first_virus_count_in_new_mode(s32 arg0) {
+    return _n_343[arg0];
+}
 #endif
+
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", D_800B1BCC);
+#endif
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", D_800B1BCC);
 #endif
 
 #if VERSION_US
@@ -522,17 +565,21 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", _dm_virus_init);
 #endif
 #endif
 
+#if VERSION_US
 void dm_virus_init(u32 arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2,
                    struct_virus_map_disp_order *arg3) {
     _dm_virus_init(arg0, arg1, arg2, arg3, 0);
 }
+#endif
 
+#if VERSION_US
 void func_8005FC6C(struct_8005FC6C_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
     bzero(arg0, sizeof(struct_8005FC6C_arg0));
     arg0->unk_000 = arg1;
     arg0->unk_004 = arg2;
     arg0->unk_008 = arg3;
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", _makeFlash_checkOrdre);
@@ -546,6 +593,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005FE68);
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", D_800B1BD0);
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", D_800B1BD0);
+#endif
+
 struct _m2c_stack_make_flash_virus_pos {
     /* 0x000 */ char pad_0[0x10];
     /* 0x010 */ struct_8005FC6C_arg0 sp10;
@@ -556,4 +607,30 @@ struct _m2c_stack_make_flash_virus_pos {
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", make_flash_virus_pos);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065470_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800654F4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_8006553C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800655B4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800655EC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065638_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800656A0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800657A0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800657D4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_8006582C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065880_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065910_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065950_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065B20_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065BEC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065C78_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_get_first_virus_count_in_new_mode);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065CEC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_8006626C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80066298_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80066300_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800664DC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_8006656C_cn);
 #endif

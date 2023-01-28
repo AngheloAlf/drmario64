@@ -398,7 +398,7 @@ func_80041334 - found 1 matches total:
 dm_w_erase_chack_set - found 1 matches total:
 0.99 - dm_h_erase_chack_set
 
-STR_800B1CB8 - found 1 matches total:
+_mesWriting - found 1 matches total:
 1.00 - RO_800AF4C4
 
 func_800409DC - found 1 matches total:

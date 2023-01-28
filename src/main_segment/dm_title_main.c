@@ -217,7 +217,7 @@ const char STR_800B32A8[] = ""
 /**
  * Original name: _mesBootContErr
  */
-const char _mesBootContErr[] = ""
+const char _mesBootContErr[] =
 #if VERSION_US
     "There is no controller" MSG_NEWLINE
     "connected. Please turn OFF" MSG_NEWLINE
@@ -232,7 +232,7 @@ const char _mesBootContErr[] = ""
 /**
  * Original name: _mesBootCSumErr
  */
-const char _mesBootCSumErr[] = ""
+const char _mesBootCSumErr[] =
 #if VERSION_US
     "A Backup File is damaged." MSG_NEWLINE
     "Press the A Button to delete this file."

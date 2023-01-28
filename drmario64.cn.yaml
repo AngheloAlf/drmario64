@@ -296,14 +296,22 @@ segments:
       - [0x027DF0, asm, main_segment/027DF0]
       - [0x028350, asm, main_segment/028350]
       - [0x02AC40, asm, main_segment/02AC40]
-      - [0x030390, asm, main_segment/main_menu]
-      - [0x049760, c, main_segment/font]
-      - [0x04AF00, asm, main_segment/msgwnd]
 
-      - [0x04C1E0, asm, main_segment/04C1E0]
-      - [0x04E5E0, asm, main_segment/04E5E0]
-      - [0x062E20, asm, main_segment/062E20]
+      - [0x030390, asm, main_segment/main_menu]
+
+      - [0x049760, c, main_segment/font]
+      - [0x04AF00, c, main_segment/msgwnd]
+
+      - [0x04C1E0, c, main_segment/char_anime]
+
+      - [0x04D1A0, c, main_segment/dm_virus_init]
+
+      - [0x04E5E0, c, main_segment/dm_game_main_cn]
+
+      - [0x062E20, asm, main_segment/dm_manual_main]
+
       - [0x067CE0, c, main_segment/dm_title_main]
+
       - [0x068960, asm, main_segment/068960]
       - [0x06E1F0, c, main_segment/lws]
       - [0x06E7E0, asm, main_segment/06E7E0]
@@ -354,9 +362,13 @@ segments:
         subsegments:
         - { start: 0x0AFCE0, type: gfx, data_only: True, name: main_segment/font/init_dl_135 }
 
-      - [0x0AFD10, rodata, main_segment/0AFD10]
-      - [0x0AFDD0, rodata, main_segment/0AFDD0]
-      - [0x0AFF90, rodata, main_segment/0AFF90]
+      - { start: 0x0AFD10, type: .rodata, partial_migration: True, name: main_segment/msgwnd }
+      - { start: 0x0AFDD0, type: .rodata, partial_migration: True, name: main_segment/char_anime }
+
+      - { start: 0x0AFF10, type: .rodata, partial_migration: True, name: main_segment/dm_virus_init }
+
+      - { start: 0x0AFF90, type: .rodata, partial_migration: True, name: main_segment/dm_game_main_cn }
+
       - [0x0B06F0, rodata, main_segment/0B06F0]
 
       - { start: 0x0B1220, type: .rodata, partial_migration: True, name: main_segment/dm_title_main }

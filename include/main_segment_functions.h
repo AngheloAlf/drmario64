@@ -616,7 +616,7 @@ bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3);
 bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3);
 void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data *virusMapDst, struct_virus_map_disp_order *virusDispOrderSrc, struct_virus_map_disp_order *virusDispOrderDst);
 s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_game_state_data *arg1);
-s32 func_8005F6F0(s32 arg0);
+s32 dm_get_first_virus_count_in_new_mode(s32 arg0);
 void _dm_virus_init(u32 arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2, struct_virus_map_disp_order *arg3, UNK_TYPE arg4);
 void dm_virus_init(u32 arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2, struct_virus_map_disp_order *arg3);
 void func_8005FC6C(struct_8005FC6C_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3);
