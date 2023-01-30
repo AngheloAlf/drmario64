@@ -4,7 +4,7 @@
 #if !defined(SPLAT) && !defined(M2CTX) && !defined(PERMUTER)
 #ifndef INCLUDE_ASM
 #define INCLUDE_ASM(FOLDER, NAME) \
-   __asm__( \
+    __asm__( \
         ".section .text\n" \
         "\t.set noat\n" \
         "\t.set noreorder\n" \
@@ -25,7 +25,7 @@
 #endif
 #ifndef INCLUDE_RODATA
 #define INCLUDE_RODATA(FOLDER, NAME) \
-   __asm__( \
+    __asm__( \
         ".section .rodata\n" \
         "\t.include \""FOLDER"/"#NAME".s\"\n" \
         ".section .text" \
@@ -33,8 +33,12 @@
 #endif
 __asm__(".include \"include/labels.inc\"\n");
 #else
+#ifndef INCLUDE_ASM
 #define INCLUDE_ASM(FOLDER, NAME)
+#endif
+#ifndef INCLUDE_RODATA
 #define INCLUDE_RODATA(FOLDER, NAME)
+#endif
 #endif
 
 #endif

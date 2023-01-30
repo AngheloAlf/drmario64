@@ -18,6 +18,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifMakeBlkWork);
 /**
  * Original name: aifMakeFlagSet
  */
+#if VERSION_US
 void aifMakeFlagSet(struct_game_state_data *arg0) {
     arg0->unk_23D = 0;
     arg0->unk_241 = 0;
@@ -25,10 +26,12 @@ void aifMakeFlagSet(struct_game_state_data *arg0) {
     arg0->unk_238 = 0;
     arg0->unk_239 = 0;
 }
+#endif
 
 /**
  * Original name: aifGameInit
  */
+#if VERSION_US
 void aifGameInit(void) {
     s32 i;
 
@@ -50,6 +53,7 @@ void aifGameInit(void) {
         }
     }
 }
+#endif
 
 #if VERSION_US
 #if 0
@@ -192,6 +196,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFirstInit);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002EFF0);
 #endif
 
+#if VERSION_US
 bool aifMake2(struct_game_state_data *gameStateData, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u8 temp_v1;
 
@@ -235,6 +240,7 @@ bool aifMake2(struct_game_state_data *gameStateData, s32 arg1, s32 arg2, s32 arg
 
     return true;
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F2EC);
@@ -354,6 +360,82 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80035CF4);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800362A0);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030A90_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030B0C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030D0C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030D24_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifFirstInit);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80031014_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80031230_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800313D4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80031A54_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80031AF0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80032008_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800329A0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80032A84_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80033280_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800333BC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800334F4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80033578_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800335E0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800336A4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80033700_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80034824_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800357CC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036558_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036690_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036710_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036BD4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036EE4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800371B0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800372E8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80037598_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800376C8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_8003793C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80037BBC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80038190_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80038778_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/aiset", RO_800C3FD8_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/aiset", RO_800ACF20);
 #endif
 
 /**

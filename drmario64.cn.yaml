@@ -288,8 +288,11 @@ segments:
       - [0x016A80, c, main_segment/audio/003520]
 
       - [0x017640, c, main_segment/main1x]
+
       - [0x0184C0, c, main_segment/vr_init]
-      - [0x0187C0, asm, main_segment/0187C0] # record?
+      - [0x0187C0, c, main_segment/aiset]
+      - [0x0207B0, c, main_segment/record]
+
       - [0x023880, asm, main_segment/023880]
       - [0x025650, asm, main_segment/025650]
       - [0x027D50, asm, main_segment/027D50]
@@ -353,8 +356,9 @@ segments:
       - [0x0AB820, .rodata, main_segment/sound]
       - [0x0ABB00, .rodata, main_segment/graphic]
       - { start: 0x0ABB20, type: .rodata, partial_migration: True, name: main_segment/main1x }
-      - [0x0ABCB0, rodata, main_segment/0ABCB0]
-      - [0x0ABD40, rodata, main_segment/0ABD40]
+      - { start: 0x0ABCB0, type: .rodata, partial_migration: True, name: main_segment/aiset }
+      - { start: 0x0ABD40, type: .rodata, partial_migration: True, name: main_segment/record }
+
       - [0x0ABDB0, rodata, main_segment/0ABDB0]
       - [0x0ABE80, rodata, main_segment/0ABE80]
       - [0x0AC790, rodata, main_segment/0AC790]
@@ -383,8 +387,9 @@ segments:
       - [0x0B1330, .rodata, main_segment/calc]
 
       - [0x0B1380, rodata, main_segment/0B1380]
-      - [0x0B13C0, rodata, main_segment/0B13C0]
-      - [0x0B1440, rodata, main_segment/0B1440]
+
+      - [0x0B13C0, rodata, main_segment/072880]
+      - [0x0B1440, rodata, main_segment/075D50]
 
       - [0x0B1450, rodata, rsp/aspMain]
       - [0x0B1710, rodata, rsp/f3dex2]

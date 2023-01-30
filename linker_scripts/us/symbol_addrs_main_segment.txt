@@ -1596,7 +1596,7 @@ DBL_800ACEB0 = 0x800ACEB0; // type:f64
 jtbl_800ACEB8 = 0x800ACEB8; // type:jtbl
 jtbl_800ACEE8 = 0x800ACEE8; // type:jtbl
 RO_800ACF10 = 0x800ACF10; //
-RO_800ACF20 = 0x800ACF20; //
+RO_800ACF20 = 0x800ACF20; // size:0x20
 
 eeprom_header = 0x800ACF40; //
 RO_800ACF44 = 0x800ACF44; //
