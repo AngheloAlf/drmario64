@@ -442,7 +442,7 @@ segments:
       - [0x094830, .rodata, main_segment/sound]
       - [0x094B20, .rodata, main_segment/graphic]
       - { start: 0x094B40, type: .rodata, partial_migration: True, name: main_segment/main1x }
-      - { start: 0x094CB0, type: .rodata, partial_migration: True, name: main_segment/aiset }
+      - { start: 0x094CD0, type: .rodata, partial_migration: True, name: main_segment/aiset }
       - { start: 0x094D60, type: .rodata, partial_migration: True, name: main_segment/record }
 
       - { start: 0x094DD0, type: .rodata, partial_migration: True, name: main_segment/00F2A0 }
