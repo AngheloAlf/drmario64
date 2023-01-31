@@ -300,7 +300,7 @@ segments:
       - [0x027DF0, asm, main_segment/027DF0]
 
       - [0x028350, asm, main_segment/028350]
-      - [0x02AC40, asm, main_segment/02AC40]
+      - [0x02AC40, c, main_segment/028820]
 
       - [0x02AE30, c, main_segment/tex_func]
 
