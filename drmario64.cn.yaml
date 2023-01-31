@@ -297,9 +297,9 @@ segments:
 
       - [0x025650, c, main_segment/0227C0_cn]
       - [0x027D50, c, main_segment/024BC0_cn]
-      - [0x027DF0, asm, main_segment/027DF0]
+      - [0x027DF0, c, main_segment/026000]
 
-      - [0x028350, asm, main_segment/028350]
+      - [0x028350, c, main_segment/026550_cn]
       - [0x02AC40, c, main_segment/028820]
 
       - [0x02AE30, c, main_segment/tex_func]
@@ -363,10 +363,10 @@ segments:
       - { start: 0x0ABCB0, type: .rodata, partial_migration: True, name: main_segment/aiset }
       - { start: 0x0ABD40, type: .rodata, partial_migration: True, name: main_segment/record }
 
-      - [0x0ABDB0, .rodata, main_segment/020D10_cn]
-      - [0x0ABF20, .rodata, main_segment/0227C0_cn]
-      - [0x0ABF30, rodata, main_segment/026000_cn]
-      - [0x0AC790, .rodata, main_segment/tex_func]
+      - { start: 0x0ABDB0, type: .rodata, partial_migration: True, name: main_segment/020D10_cn }
+      - { start: 0x0ABF20, type: .rodata, partial_migration: True, name: main_segment/0227C0_cn }
+      - { start: 0x0ABF30, type: .rodata, partial_migration: True, name: main_segment/026550_cn }
+      - { start: 0x0AC790, type: .rodata, partial_migration: True, name: main_segment/tex_func }
 
       - { start: 0x0AC7F0, type: rodata, partial_migration: True, name: main_segment/main_menu }
 
