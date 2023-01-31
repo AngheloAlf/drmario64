@@ -319,7 +319,7 @@ segments:
 
       - [0x06E1F0, c, main_segment/lws]
       - [0x06E7E0, c, main_segment/calc]
-      - [0x06FF90, asm, main_segment/06FF90]
+      - [0x06FF90, c, main_segment/065080] # weird alignment
 
       - [0x071060, c, main_segment/066080]
 
@@ -386,7 +386,7 @@ segments:
       - [0x0B12B0, rodata, main_segment/0B12B0] # main_story?
       - [0x0B1330, .rodata, main_segment/calc]
 
-      - [0x0B1380, rodata, main_segment/0B1380]
+      - [0x0B1380, .rodata, main_segment/065080]
 
       - [0x0B13C0, rodata, main_segment/072880]
       - [0x0B1440, rodata, main_segment/075D50]

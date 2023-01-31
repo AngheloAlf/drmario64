@@ -380,8 +380,7 @@ segments:
 
       - [0x063470, c, main_segment/lws]
       - [0x063A40, c, main_segment/calc]
-      - [0x065080, c, main_segment/053610]
-      - [0x065230, c, main_segment/0537C0]
+      - [0x065080, c, main_segment/065080] # weird alignment
 
       - [0x066080, c, main_segment/066080]
 
@@ -475,7 +474,7 @@ segments:
       - { start: 0x09B180, type: .rodata, partial_migration: True, name: main_segment/main_story }
       - [0x09B270, .rodata, main_segment/lws]
       - [0x09B2C0, .rodata, main_segment/calc]
-      - [0x09B310, .rodata, main_segment/0537C0]
+      - [0x09B310, .rodata, main_segment/065080]
 
       - [0x09B370, rodata, libmus/player]
       - [0x09B450, .rodata, ../lib/libmus/src/player_fx]
