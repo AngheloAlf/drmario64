@@ -356,6 +356,7 @@ segments:
       - [0x024C40, c, main_segment/024C40]
 
       - [0x026000, c, main_segment/026000]
+      - [0x026550, c, main_segment/026550]
 
       - [0x028820, c, main_segment/028820]
 
@@ -449,7 +450,7 @@ segments:
       - [0x094F70, .rodata, main_segment/0227C0]
       - [0x094FB0, .rodata, main_segment/024C40]
 
-      - { start: 0x095100, type: .rodata, partial_migration: True, name: main_segment/026000 }
+      - { start: 0x095100, type: .rodata, partial_migration: True, name: main_segment/026550 }
 
       - { start: 0x095960, type: .rodata, partial_migration: True, name: main_segment/tex_func }
       - { start: 0x095A30, type: .rodata, partial_migration: True, name: main_segment/main_menu }
