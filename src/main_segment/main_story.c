@@ -18,6 +18,7 @@
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_zoomfade);
 #endif
 
+#if VERSION_US
 void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1) {
     arg0->unk_04 = arg1->unk_008;
     arg0->unk_08 = arg1->unk_00A;
@@ -25,6 +26,7 @@ void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1) {
     arg0->unk_0C = &arg1->unk_010;
     arg0->unk_10 = &arg1->unk_210;
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80076CCC);
@@ -34,6 +36,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80076CCC);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", curtain_proc_org);
 #endif
 
+#if VERSION_US
 void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
     Gfx *gfx = *gfxP;
 
@@ -49,11 +52,13 @@ void *func_80077170(BgRomDataIndex index, void *dstAddr) {
     return ALIGN_PTR(DecompressRomToRam(storyRomData[STORYROMDATA_WAKU2].start, B_800E8750,
                                         storyRomData[STORYROMDATA_WAKU2].end - storyRomData[STORYROMDATA_WAKU2].start));
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_800771EC);
 #endif
 
+#if VERSION_US
 void func_800773F0(void) {
     if (D_800AAD14 == 0) {
         D_800AAD08 = 0;
@@ -88,6 +93,7 @@ bool func_800774C4(void) {
     }
     return temp_v0;
 }
+#endif
 
 #if VERSION_US
 #ifdef NON_EQUIVALENT
@@ -202,6 +208,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_spot);
 #endif
 #endif
 
+#if VERSION_US
 void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     story_spot(gfxP, arg1, arg2, arg3, &changestar_tex);
 }
@@ -224,11 +231,13 @@ void init_coffee_break_cnt(void) {
     D_800AAD08 = -0x59;
     D_800AAD0C = 0;
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_800778E8);
 #endif
 
+#if VERSION_US
 void *init_menu_bg(void *dstAddr, bool arg1) {
     void *alignedAddress;
     romoffset_t segmentRomStart;
@@ -247,6 +256,7 @@ void *init_menu_bg(void *dstAddr, bool arg1) {
     }
     return ALIGN_PTR(DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
 }
+#endif
 
 #if VERSION_US
 #if 0
@@ -307,6 +317,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_menu_bg);
 #endif
 #endif
 
+#if VERSION_US
 /**
  * Original name: init_title
  */
@@ -448,6 +459,7 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     *gfxP = gfx;
     return var_s3;
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80078648);
@@ -485,6 +497,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_w9);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_w_end);
 #endif
 
+#if VERSION_US
 void func_8007A9DC(void) {
     void *ptr;
 
@@ -504,6 +517,7 @@ void func_8007A9DC(void) {
                            storyRomData[STORYROMDATA_MENU_BG].end - storyRomData[STORYROMDATA_MENU_BG].start));
     B_800E87B0 = ptr;
 }
+#endif
 
 extern s32 B_800E5A20;
 extern s32 B_800E5A24;
@@ -632,6 +646,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", main_story);
 #endif
 #endif
 
+#if VERSION_US
 /**
  * Original name: init_objMtx
  */
@@ -639,6 +654,7 @@ void init_objMtx(void) {
     pObjectMtx = &story_objectMtx[objMtx_FF];
     objMtx_FF ^= 1;
 }
+#endif
 
 #if VERSION_US
 #if 0
@@ -872,4 +888,74 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", graphic_story);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_8007B62C);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80080C30_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081050_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_8008107C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081160_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081470_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081508_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800815A8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081814_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081874_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081898_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800818FC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081954_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081C54_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081C88_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081D04_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081D90_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800822C8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800823A8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", init_title);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", demo_title);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082D5C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082D70_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082E74_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80083810_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80083AE0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800840FC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800845C8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80084C70_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80084FD8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800855EC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", main_story);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80085BE8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", graphic_story);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_8008648C_cn);
 #endif

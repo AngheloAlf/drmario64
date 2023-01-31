@@ -293,10 +293,12 @@ segments:
       - [0x0187C0, c, main_segment/aiset]
       - [0x0207B0, c, main_segment/record]
 
-      - [0x023880, asm, main_segment/023880]
-      - [0x025650, asm, main_segment/025650]
-      - [0x027D50, asm, main_segment/027D50]
+      - [0x023880, c, main_segment/020D10_cn]
+
+      - [0x025650, c, main_segment/0227C0_cn]
+      - [0x027D50, c, main_segment/024BC0_cn]
       - [0x027DF0, asm, main_segment/027DF0]
+
       - [0x028350, asm, main_segment/028350]
       - [0x02AC40, asm, main_segment/02AC40]
 
@@ -315,7 +317,7 @@ segments:
 
       - [0x067CE0, c, main_segment/dm_title_main]
 
-      - [0x068960, asm, main_segment/068960]
+      - [0x068960, c, main_segment/main_story]
 
       - [0x06E1F0, c, main_segment/lws]
       - [0x06E7E0, c, main_segment/calc]
@@ -359,8 +361,9 @@ segments:
       - { start: 0x0ABCB0, type: .rodata, partial_migration: True, name: main_segment/aiset }
       - { start: 0x0ABD40, type: .rodata, partial_migration: True, name: main_segment/record }
 
-      - [0x0ABDB0, rodata, main_segment/0ABDB0]
-      - [0x0ABE80, rodata, main_segment/0ABE80]
+      - [0x0ABDB0, .rodata, main_segment/020D10_cn]
+      - [0x0ABF20, .rodata, main_segment/0227C0_cn]
+      - [0x0ABF30, rodata, main_segment/026000_cn]
       - [0x0AC790, rodata, main_segment/0AC790]
       - [0x0AC7A0, rodata, main_segment/0AC7A0]
 
@@ -383,7 +386,7 @@ segments:
 
       - { start: 0x0B1220, type: .rodata, partial_migration: True, name: main_segment/dm_title_main }
 
-      - [0x0B12B0, rodata, main_segment/0B12B0] # main_story?
+      - [0x0B12B0, .rodata, main_segment/main_story]
       - [0x0B1330, .rodata, main_segment/calc]
 
       - [0x0B1380, .rodata, main_segment/065080]
