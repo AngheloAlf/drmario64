@@ -3,7 +3,6 @@
 #include "macros_defines.h"
 #include "unknown_structs.h"
 
-
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003BB50_cn);
 #endif

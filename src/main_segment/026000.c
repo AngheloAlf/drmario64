@@ -45,7 +45,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026000", func_8003E6D8);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/026000", func_8003E6F8);
 #endif
 
-
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_800400C0_cn);
 #endif
