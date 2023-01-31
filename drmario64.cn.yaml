@@ -311,7 +311,7 @@ segments:
 
       - [0x04E5E0, c, main_segment/dm_game_main_cn]
 
-      - [0x062E20, asm, main_segment/dm_manual_main]
+      - [0x062E20, c, main_segment/dm_manual_main]
 
       - [0x067CE0, c, main_segment/dm_title_main]
 
@@ -379,7 +379,7 @@ segments:
 
       - { start: 0x0AFF90, type: .rodata, partial_migration: True, name: main_segment/dm_game_main_cn }
 
-      - [0x0B06F0, rodata, main_segment/0B06F0]
+      - { start: 0x0B06F0, type: .rodata, partial_migration: True, name: main_segment/dm_manual_main }
 
       - { start: 0x0B1220, type: .rodata, partial_migration: True, name: main_segment/dm_title_main }
 

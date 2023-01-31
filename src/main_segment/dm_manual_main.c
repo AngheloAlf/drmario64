@@ -12,17 +12,25 @@
 #include "boot_variables.h"
 #include "audio/audio_stuff.h"
 #include "graphic.h"
+#include "msgwnd.h"
 
+#if VERSION_US
 void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_00 = arg1;
     arg0->unk_04 = arg2;
     arg0->messageWnd.unk_28 = arg1 + 8;
     arg0->messageWnd.unk_2C = arg2 + 8;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B0F0_cn);
+#endif
 
 void func_80071F0C(void) {
 }
 
+#if VERSION_US
 void func_80071F14(struct_800F4890_unk_034 *arg0, UNK_PTR *arg1) {
     arg0->unk_08 = 0;
     arg0->unk_0C = -0.0625f;
@@ -103,7 +111,37 @@ void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_2 = arg2;
     arg0->unk_3[0] = 1;
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B114_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B1BC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B234_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B3C4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B3F0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B41C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B440_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B464_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B490_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B4BC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B4D4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B6C4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B704_cn);
+#endif
+
+#if VERSION_US
 const s32 RO_800B2408 = 0xC8;
 const s32 RO_800B240C = 0x28;
 const s32 RO_800B2410 = 0x6C;
@@ -181,91 +219,577 @@ const u8 position_4_1[][4] = {
     { 0, 0xC, 0, 0 }, { 1, 0xB, 1, 0 }, { 0, 0xB, 1, 0 }, { 2, 0xD, 1, 0 }, { 7, 0xF, 1, 0 }, { 6, 0xD, 0, 0 },
     { 2, 6, 0, 0 },   { 3, 5, 1, 0 },   { 3, 3, 0, 0 },   { 2, 5, 1, 0 },
 };
+#endif
 
-const char mes_1_1[] = "~7Hello, everyone!~nI'm Paragoom.~w2~z";
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89C0_cn);
 
-const char mes_1_2[] = "~7I'm here to tell~nyou how to play~nDr. Mario. Please~npay attention.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89C8_cn);
 
-const char mes_1_3[] = "~7It's all about~nvitamins! Toss 'em~ninto the bottle to~ndestroy viruses.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89D0_cn);
 
-const char mes_1_4[] = "~7Press the A and~nB Buttons to~nrotate capsules.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89D8_cn);
 
-const char mes_1_5[] = "~7Clear vitamins by~nmaking four or~nmore matching~ncolumns or rows.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89E0_cn);
 
-const char mes_1_6[] = "~7Clear a stage by~ndestroying all~nof the viruses~nin the bottle.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89E8_cn);
 
-const char mes_1_7[] = "~7If the bottle gets~nfilled all the way~nto the top, your~ngame will be over.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89F0_cn);
 
-const char mes_1_8[] = "~7That's all~nfor now. I'll~nsee you later!~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89F8_cn);
 
-const char mes_2_1[] = "~7Now I'll tell~nyou about the~nTwo-Player Vs.~ngame rules!~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A00_cn);
 
-const char mes_2_2[] = "~7Destroy all the~nviruses faster~nthan your rival~ndoes to win.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A24_cn);
 
-const char mes_2_3[] = "~7If your bottle~nfills up all the~nway to the top,~nyou'll lose.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A2C_cn);
 
-const char mes_2_4[] = "~7Clear combos~nto send garbage~nto your opponent.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A34_cn);
 
-const char mes_2_5[] = "~7The more combos~nyou clear, the~nmore garbage~nyou'll send!~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A44_cn);
 
-const char mes_2_6[] = "~7Clear two combos~nto send two~npieces of garbage.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A80_cn);
 
-const char mes_2_7[] = "~7Clear three combos~nfor three pieces,~nfour combos for~nfour pieces.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A8C_cn);
 
-const char mes_2_8[] = "~7But four pieces~nis the most you~ncan send at one~ntime.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8AB4_cn);
 
-const char mes_2_9[] = "~7That's all~nfor now! I'll~nsee you later!~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8AF0_cn);
 
-const char mes_3_1[] = "~7Now I'll tell~nyou about the~nFour-Player Vs.~ngame rules!~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8AFC_cn);
 
-const char mes_3_2[] = "~7Destroy all the~nviruses faster~nthan your foes~ndo to win.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8B24_cn);
 
-const char mes_3_3[] = "~7If your bottle~nfills up all the~nway to the top,~nyou'll lose.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8B54_cn);
 
-const char mes_3_4[] = "~7Clear combos~nto send garbage~nto your foes.~w2~z";
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8B68_cn);
+#endif
 
-const char mes_3_5[] = "~7The color of the~ncombo you clear~ndetermines where~nyour garbage goes.~w2~z";
+#if VERSION_US
+const char mes_1_1[] = MSG_COLOR(WHITE)
+    "Hello, everyone!" MSG_NEWLINE
+    "I'm Paragoom."
+    MSG_W(2) MSG_END;
 
-const char mes_3_6[] = "~7If the combo is~nblue, the player~non your right gets~nyour garbage.~w2~z";
+const char mes_1_2[] = MSG_COLOR(WHITE)
+    "I'm here to tell" MSG_NEWLINE
+    "you how to play" MSG_NEWLINE
+    "Dr. Mario. Please" MSG_NEWLINE
+    "pay attention."
+    MSG_W(2) MSG_END;
 
-const char mes_3_7[] = "~7If the combo is~nyellow, it goes to~nthe second player~non your right.~w2~z";
+const char mes_1_3[] = MSG_COLOR(WHITE)
+    "It's all about" MSG_NEWLINE
+    "vitamins! Toss 'em" MSG_NEWLINE
+    "into the bottle to" MSG_NEWLINE
+    "destroy viruses."
+    MSG_W(2) MSG_END;
 
-const char mes_3_8[] = "~7If the combo is~nred, it goes to~nthe third player~non your right.~w2~z";
+const char mes_1_4[] = MSG_COLOR(WHITE)
+    "Press the A and" MSG_NEWLINE
+    "B Buttons to" MSG_NEWLINE
+    "rotate capsules."
+    MSG_W(2) MSG_END;
 
-const char mes_3_9[] = "~7Clear two colors~nat the same time~nto send garbage~nto two players.~w2~z";
+const char mes_1_5[] = MSG_COLOR(WHITE)
+    "Clear vitamins by" MSG_NEWLINE
+    "making four or" MSG_NEWLINE
+    "more matching" MSG_NEWLINE
+    "columns or rows."
+    MSG_W(2) MSG_END;
 
-const char mes_3_10[] = "~7If no one is on~nyour right, your~ngarbage goes~nto the far left.~w2~z";
+const char mes_1_6[] = MSG_COLOR(WHITE)
+    "Clear a stage by" MSG_NEWLINE
+    "destroying all" MSG_NEWLINE
+    "of the viruses" MSG_NEWLINE
+    "in the bottle."
+    MSG_W(2) MSG_END;
 
-const char mes_3_11[] = "~7When playing~nTeam Battle, the~ngarbage you send~w2~z";
+const char mes_1_7[] = MSG_COLOR(WHITE)
+    "If the bottle gets" MSG_NEWLINE
+    "filled all the way" MSG_NEWLINE
+    "to the top, your" MSG_NEWLINE
+    "game will be over."
+    MSG_W(2) MSG_END;
 
-const char mes_3_12[] = "~7to your partner~ngoes into~nyour bank.~w2~z";
+const char mes_1_8[] = MSG_COLOR(WHITE)
+    "That's all" MSG_NEWLINE
+    "for now. I'll" MSG_NEWLINE
+    "see you later!"
+    MSG_W(2) MSG_END;
 
-const char mes_3_13[] = "~7The garbage in~nyour bank is~nautomatically~nadded to the next~w2~z";
+const char mes_2_1[] = MSG_COLOR(WHITE)
+    "Now I'll tell" MSG_NEWLINE
+    "you about the" MSG_NEWLINE
+    "Two-Player Vs." MSG_NEWLINE
+    "game rules!"
+    MSG_W(2) MSG_END;
 
-const char mes_3_14[] = "~7time either you~nor your teammate~nsends garbage to~nyour opponents.~w2~z";
+const char mes_2_2[] = MSG_COLOR(WHITE)
+    "Destroy all the" MSG_NEWLINE
+    "viruses faster" MSG_NEWLINE
+    "than your rival" MSG_NEWLINE
+    "does to win."
+    MSG_W(2) MSG_END;
 
-const char mes_3_15[] = "~7That's all~nfor now! I'll~nsee you later!~w2~z";
+const char mes_2_3[] = MSG_COLOR(WHITE)
+    "If your bottle" MSG_NEWLINE
+    "fills up all the" MSG_NEWLINE
+    "way to the top," MSG_NEWLINE
+    "you'll lose."
+    MSG_W(2) MSG_END;
 
-const char mes_4_1[] = "~7Now it's time~nfor me to give~nyou some advice.~w2~z";
+const char mes_2_4[] = MSG_COLOR(WHITE)
+    "Clear combos" MSG_NEWLINE
+    "to send garbage" MSG_NEWLINE
+    "to your opponent."
+    MSG_W(2) MSG_END;
 
-const char mes_4_2[] = "~7At first, it's~neasier to match~ncolors in a~nvertical row.~w2~z";
+const char mes_2_5[] = MSG_COLOR(WHITE)
+    "The more combos" MSG_NEWLINE
+    "you clear, the" MSG_NEWLINE
+    "more garbage" MSG_NEWLINE
+    "you'll send!"
+    MSG_W(2) MSG_END;
 
-const char mes_4_3[] = "~7But when you get~nbetter, try to~nmatch colors~nhorizontally, too.~w2~z";
+const char mes_2_6[] = MSG_COLOR(WHITE)
+    "Clear two combos" MSG_NEWLINE
+    "to send two" MSG_NEWLINE
+    "pieces of garbage."
+    MSG_W(2) MSG_END;
 
-const char mes_4_4[] = "~7A special melody~nplays when you've~ncleared a combo.~w2~z";
+const char mes_2_7[] = MSG_COLOR(WHITE)
+    "Clear three combos" MSG_NEWLINE
+    "for three pieces," MSG_NEWLINE
+    "four combos for" MSG_NEWLINE
+    "four pieces."
+    MSG_W(2) MSG_END;
 
-const char mes_4_5[] = "~7Don't forget!~nVitamins begin to~nfall faster with~nevery tenth one.~w2~z";
+const char mes_2_8[] = MSG_COLOR(WHITE)
+    "But four pieces" MSG_NEWLINE
+    "is the most you" MSG_NEWLINE
+    "can send at one" MSG_NEWLINE
+    "time."
+    MSG_W(2) MSG_END;
 
-const char mes_4_6[] = "~7The music speeds~nup when few~nviruses remain.~w2~z";
+const char mes_2_9[] = MSG_COLOR(WHITE)
+    "That's all" MSG_NEWLINE
+    "for now! I'll" MSG_NEWLINE
+    "see you later!"
+    MSG_W(2) MSG_END;
 
-const char mes_4_7[] = "~7When your bottle~nbegins to fill~nup, warning music~nwill begin.~w2~z";
+const char mes_3_1[] = MSG_COLOR(WHITE)
+    "Now I'll tell" MSG_NEWLINE
+    "you about the" MSG_NEWLINE
+    "Four-Player Vs." MSG_NEWLINE
+    "game rules!"
+    MSG_W(2) MSG_END;
 
-const char mes_4_8[] = "~7Danger!~nYou'd better~nhurry up!~w2~z";
+const char mes_3_2[] = MSG_COLOR(WHITE)
+    "Destroy all the" MSG_NEWLINE
+    "viruses faster" MSG_NEWLINE
+    "than your foes" MSG_NEWLINE
+    "do to win."
+    MSG_W(2) MSG_END;
 
-const char mes_4_9[] = "~7That's it.~nNow get going!~w2~z";
+const char mes_3_3[] = MSG_COLOR(WHITE)
+    "If your bottle" MSG_NEWLINE
+    "fills up all the" MSG_NEWLINE
+    "way to the top," MSG_NEWLINE
+    "you'll lose."
+    MSG_W(2) MSG_END;
 
-const char mes_4_10[] = "~7See you later!~nBye-bye!~w2~z";
+const char mes_3_4[] = MSG_COLOR(WHITE)
+    "Clear combos" MSG_NEWLINE
+    "to send garbage" MSG_NEWLINE
+    "to your foes."
+    MSG_W(2) MSG_END;
 
+const char mes_3_5[] = MSG_COLOR(WHITE)
+    "The color of the" MSG_NEWLINE
+    "combo you clear" MSG_NEWLINE
+    "determines where" MSG_NEWLINE
+    "your garbage goes."
+    MSG_W(2) MSG_END;
+
+const char mes_3_6[] = MSG_COLOR(WHITE)
+    "If the combo is" MSG_NEWLINE
+    "blue, the player" MSG_NEWLINE
+    "on your right gets" MSG_NEWLINE
+    "your garbage."
+    MSG_W(2) MSG_END;
+
+const char mes_3_7[] = MSG_COLOR(WHITE)
+    "If the combo is" MSG_NEWLINE
+    "yellow, it goes to" MSG_NEWLINE
+    "the second player" MSG_NEWLINE
+    "on your right."
+    MSG_W(2) MSG_END;
+
+const char mes_3_8[] = MSG_COLOR(WHITE)
+    "If the combo is" MSG_NEWLINE
+    "red, it goes to" MSG_NEWLINE
+    "the third player" MSG_NEWLINE
+    "on your right."
+    MSG_W(2) MSG_END;
+
+const char mes_3_9[] = MSG_COLOR(WHITE)
+    "Clear two colors" MSG_NEWLINE
+    "at the same time" MSG_NEWLINE
+    "to send garbage" MSG_NEWLINE
+    "to two players."
+    MSG_W(2) MSG_END;
+
+const char mes_3_10[] = MSG_COLOR(WHITE)
+    "If no one is on" MSG_NEWLINE
+    "your right, your" MSG_NEWLINE
+    "garbage goes" MSG_NEWLINE
+    "to the far left."
+    MSG_W(2) MSG_END;
+
+const char mes_3_11[] = MSG_COLOR(WHITE)
+    "When playing" MSG_NEWLINE
+    "Team Battle, the" MSG_NEWLINE
+    "garbage you send"
+    MSG_W(2) MSG_END;
+
+const char mes_3_12[] = MSG_COLOR(WHITE)
+    "to your partner" MSG_NEWLINE
+    "goes into" MSG_NEWLINE
+    "your bank."
+    MSG_W(2) MSG_END;
+
+const char mes_3_13[] = MSG_COLOR(WHITE)
+    "The garbage in" MSG_NEWLINE
+    "your bank is" MSG_NEWLINE
+    "automatically" MSG_NEWLINE
+    "added to the next"
+    MSG_W(2) MSG_END;
+
+const char mes_3_14[] = MSG_COLOR(WHITE)
+    "time either you" MSG_NEWLINE
+    "or your teammate" MSG_NEWLINE
+    "sends garbage to" MSG_NEWLINE
+    "your opponents."
+    MSG_W(2) MSG_END;
+
+const char mes_3_15[] = MSG_COLOR(WHITE)
+    "That's all" MSG_NEWLINE
+    "for now! I'll" MSG_NEWLINE
+    "see you later!"
+    MSG_W(2) MSG_END;
+
+const char mes_4_1[] = MSG_COLOR(WHITE)
+    "Now it's time" MSG_NEWLINE
+    "for me to give" MSG_NEWLINE
+    "you some advice."
+    MSG_W(2) MSG_END;
+
+const char mes_4_2[] = MSG_COLOR(WHITE)
+    "At first, it's" MSG_NEWLINE
+    "easier to match" MSG_NEWLINE
+    "colors in a" MSG_NEWLINE
+    "vertical row."
+    MSG_W(2) MSG_END;
+
+const char mes_4_3[] = MSG_COLOR(WHITE)
+    "But when you get" MSG_NEWLINE
+    "better, try to" MSG_NEWLINE
+    "match colors" MSG_NEWLINE
+    "horizontally, too."
+    MSG_W(2) MSG_END;
+
+const char mes_4_4[] = MSG_COLOR(WHITE)
+    "A special melody" MSG_NEWLINE
+    "plays when you've" MSG_NEWLINE
+    "cleared a combo."
+    MSG_W(2) MSG_END;
+
+const char mes_4_5[] = MSG_COLOR(WHITE)
+    "Don't forget!" MSG_NEWLINE
+    "Vitamins begin to" MSG_NEWLINE
+    "fall faster with" MSG_NEWLINE
+    "every tenth one."
+    MSG_W(2) MSG_END;
+
+const char mes_4_6[] = MSG_COLOR(WHITE)
+    "The music speeds" MSG_NEWLINE
+    "up when few" MSG_NEWLINE
+    "viruses remain."
+    MSG_W(2) MSG_END;
+
+const char mes_4_7[] = MSG_COLOR(WHITE)
+    "When your bottle" MSG_NEWLINE
+    "begins to fill" MSG_NEWLINE
+    "up, warning music" MSG_NEWLINE
+    "will begin."
+    MSG_W(2) MSG_END;
+
+const char mes_4_8[] = MSG_COLOR(WHITE)
+    "Danger!" MSG_NEWLINE
+    "You'd better" MSG_NEWLINE
+    "hurry up!"
+    MSG_W(2) MSG_END;
+
+const char mes_4_9[] = MSG_COLOR(WHITE)
+    "That's it." MSG_NEWLINE
+    "Now get going!"
+    MSG_W(2) MSG_END;
+
+const char mes_4_10[] = MSG_COLOR(WHITE)
+    "See you later!" MSG_NEWLINE
+    "Bye-bye!"
+    MSG_W(2) MSG_END;
+
+#endif
+
+#if VERSION_CN
+const char mes_1_1[] = MSG_COLOR(WHITE)
+    "大家好！" MSG_NEWLINE
+    "我是帕拉贡。"
+    MSG_W(2) MSG_END;
+
+const char mes_1_2[] = MSG_COLOR(WHITE)
+    "我在这里告诉你" MSG_NEWLINE
+    "如何玩马力欧医" MSG_NEWLINE
+    "生。" MSG_NEWLINE
+    "请注意! "
+    MSG_W(2) MSG_END;
+
+const char mes_1_3[] = MSG_COLOR(WHITE)
+    "这个游戏是把维" MSG_NEWLINE
+    "生素药丸扔进瓶" MSG_NEWLINE
+    "子消灭病毒。" MSG_W(2)
+    MSG_END
+    "这个游戏是把维" MSG_NEWLINE
+    "生素药丸扔进瓶" MSG_NEWLINE
+    "子消灭病毒。"
+    MSG_W(2) MSG_END;
+
+const char mes_1_4[] = MSG_COLOR(WHITE)
+    "按Ａ和Ｂ键旋转" MSG_NEWLINE
+    "药丸。"
+    MSG_W(2) MSG_END;
+
+const char mes_1_5[] = MSG_COLOR(WHITE)
+    "纵向或横向排列" MSG_NEWLINE
+    "四个或以上同色" MSG_NEWLINE
+    "药丸可以消除它" MSG_NEWLINE
+    "们。"
+    MSG_W(2) MSG_END;
+
+const char mes_1_6[] = MSG_COLOR(WHITE)
+    "消灭瓶中所有病" MSG_NEWLINE
+    "毒就可以过关。"
+    MSG_W(2) MSG_END;
+
+const char mes_1_7[] = MSG_COLOR(WHITE)
+    "如果瓶子装满的" MSG_NEWLINE
+    "话，游戏就结束" MSG_NEWLINE
+    "了。"
+    MSG_W(2) MSG_END;
+
+const char mes_1_8[] = MSG_COLOR(WHITE)
+    "就先到这里吧，" MSG_NEWLINE
+    "等会儿见！"
+    MSG_W(2) MSG_END;
+
+const char mes_2_1[] = MSG_COLOR(WHITE)
+    "现在让我向你介" MSG_NEWLINE
+    "绍二人对战的游" MSG_NEWLINE
+    "戏规则。"
+    MSG_W(2) MSG_END;
+
+const char mes_2_2[] = MSG_COLOR(WHITE)
+    "要赢得比赛，就" MSG_NEWLINE
+    "要比对手更快地" MSG_NEWLINE
+    "消灭病毒。"
+    MSG_W(2) MSG_END;
+
+const char mes_2_3[] = MSG_COLOR(WHITE)
+    "如果你的瓶子装" MSG_NEWLINE
+    "满到瓶口的话，" MSG_NEWLINE
+    "你就输了。"
+    MSG_W(2) MSG_END;
+
+const char mes_2_4[] = MSG_COLOR(WHITE)
+    "完成连消可以把" MSG_NEWLINE
+    "垃圾送给对手。"
+    MSG_W(2) MSG_END;
+
+const char mes_2_5[] = MSG_COLOR(WHITE)
+    "连消次数越多," MSG_NEWLINE
+    "送出去的垃圾就" MSG_NEWLINE
+    "越多！"
+    MSG_W(2) MSG_END;
+
+const char mes_2_6[] = MSG_COLOR(WHITE)
+    "完成两次连消送" MSG_NEWLINE
+    "出两个垃圾。"
+    MSG_W(2) MSG_END;
+
+const char mes_2_7[] = MSG_COLOR(WHITE)
+    "完成三次连消送" MSG_NEWLINE
+    "出三个垃圾。完" MSG_NEWLINE
+    "成四次连消送出" MSG_NEWLINE
+    "四个垃圾。"
+    MSG_W(2) MSG_END;
+
+const char mes_2_8[] = MSG_COLOR(WHITE)
+    "一次最多送出四" MSG_NEWLINE
+    "个垃圾。"
+    MSG_W(2) MSG_END;
+
+const char mes_2_9[] = MSG_COLOR(WHITE)
+    "就先到这里吧，" MSG_NEWLINE
+    "等会儿见！"
+    MSG_W(2) MSG_END;
+
+const char mes_3_1[] = MSG_COLOR(WHITE)
+    "现在让我向你介" MSG_NEWLINE
+    "绍四人对战的游" MSG_NEWLINE
+    "戏规则。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_2[] = MSG_COLOR(WHITE)
+    "要赢得比赛，就" MSG_NEWLINE
+    "要比对手更快地" MSG_NEWLINE
+    "消灭病毒。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_3[] = MSG_COLOR(WHITE)
+    "如果你的瓶子装" MSG_NEWLINE
+    "满到瓶口的话，" MSG_NEWLINE
+    "你就输了。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_4[] = MSG_COLOR(WHITE)
+    "完成连消可以把" MSG_NEWLINE
+    "垃圾送给对手。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_5[] = MSG_COLOR(WHITE)
+    "连消的颜色决定" MSG_NEWLINE
+    "你的垃圾会送到" MSG_NEWLINE
+    "哪里去。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_6[] = MSG_COLOR(WHITE)
+    "如果是蓝色，在" MSG_NEWLINE
+    "你右边的玩家会" MSG_NEWLINE
+    "收到垃圾。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_7[] = MSG_COLOR(WHITE)
+    "如果是黄色，在" MSG_NEWLINE
+    "你右边的第二个" MSG_NEWLINE
+    "玩家会收到垃圾。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_8[] = MSG_COLOR(WHITE)
+    "如果是红色，在" MSG_NEWLINE
+    "你右边的第三个" MSG_NEWLINE
+    "玩家会收到垃圾。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_9[] = MSG_COLOR(WHITE)
+    "一次消掉两种颜" MSG_NEWLINE
+    "色可以让两个玩" MSG_NEWLINE
+    "家收到垃圾。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_10[] = MSG_COLOR(WHITE)
+    "如果在你右边的" MSG_NEWLINE
+    "没有人你送出的" MSG_NEWLINE
+    "垃圾就到最左边。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_11[] = MSG_COLOR(WHITE)
+    "在分组对战模式" MSG_NEWLINE
+    "下，你送给同伴" MSG_NEWLINE
+    "的垃圾。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_12[] = MSG_COLOR(WHITE)
+    "会送到你们的" MSG_NEWLINE
+    "储备箱，"
+    MSG_W(2) MSG_END;
+
+const char mes_3_13[] = MSG_COLOR(WHITE)
+    "储备箱中的垃圾" MSG_NEWLINE
+    "会自动加到"
+    MSG_W(2) MSG_END;
+
+const char mes_3_14[] = MSG_COLOR(WHITE)
+    "下一次你或你的" MSG_NEWLINE
+    "同伴送给对手的" MSG_NEWLINE
+    "垃圾中。"
+    MSG_W(2) MSG_END;
+
+const char mes_3_15[] = MSG_COLOR(WHITE)
+    "就先到这里吧，" MSG_NEWLINE
+    "等会儿见！"
+    MSG_W(2) MSG_END;
+
+const char mes_4_1[] = MSG_COLOR(WHITE)
+    "现在我要给你一" MSG_NEWLINE
+    "些提示。"
+    MSG_W(2) MSG_END;
+
+const char mes_4_2[] = MSG_COLOR(WHITE)
+    "首先，纵向拼出" MSG_NEWLINE
+    "同色药丸更容易。"
+    MSG_W(2) MSG_END;
+
+const char mes_4_3[] = MSG_COLOR(WHITE)
+    "但当你的技巧熟" MSG_NEWLINE
+    "练后，尽量也横" MSG_NEWLINE
+    "向拼色。"
+    MSG_W(2) MSG_END;
+
+const char mes_4_4[] = MSG_COLOR(WHITE)
+    "你完成连消时，" MSG_NEWLINE
+    "会播放一段特别" MSG_NEWLINE
+    "的旋律。"
+    MSG_W(2) MSG_END;
+
+const char mes_4_5[] = MSG_COLOR(WHITE)
+    "别忘了！每过十" MSG_NEWLINE
+    "个药丸下落的速" MSG_NEWLINE
+    "度会加快。"
+    MSG_W(2) MSG_END;
+
+const char mes_4_6[] = MSG_COLOR(WHITE)
+    "当剩下的病毒不" MSG_NEWLINE
+    "多时，音乐的速" MSG_NEWLINE
+    "度会加快。"
+    MSG_W(2) MSG_END;
+
+const char mes_4_7[] = MSG_COLOR(WHITE)
+    "当你的瓶子快要" MSG_NEWLINE
+    "装满时，会开始" MSG_NEWLINE
+    "出现警告音乐。"
+    MSG_W(2) MSG_END;
+
+const char mes_4_8[] = MSG_COLOR(WHITE)
+    "危险！" MSG_NEWLINE
+    "你最好加快速度！"
+    MSG_W(2) MSG_END;
+
+const char mes_4_9[] = MSG_COLOR(WHITE)
+    "我要说的都说了。" MSG_NEWLINE
+    "现在开始游戏吧！"
+    MSG_W(2) MSG_END;
+
+const char mes_4_10[] = MSG_COLOR(WHITE)
+    "后会有期！" MSG_NEWLINE
+    "再见！"
+    MSG_W(2) MSG_END;
+
+#endif
+
+
+#if VERSION_US
 void dm_manual_attack_capsel_down(void) {
     struct_watchManual *watchManualP = watchManual;
     GameMapGrid *mapGrid = game_map_data;
@@ -517,6 +1041,7 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapGrid *mapGr
 
     return 0;
 }
+#endif
 
 #if VERSION_US
 #ifdef NON_MATCHING
@@ -851,6 +1376,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_1_main)
 #endif
 #endif
 
+#if VERSION_US
 bool dm_manual_2_main(void) {
     struct_watchManual *watchManualP = watchManual;
     struct_game_state_data *gameStateDataP = game_state_data;
@@ -1570,6 +2096,7 @@ void draw_AB_guide(s32 arg0, s32 arg1) {
                             arg0 + _pos_885[i][0], arg1 + _pos_885[i][1], var_t0, temp_a3->unk_4[1]);
     }
 }
+#endif
 
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", RO_800B3150);
@@ -1598,6 +2125,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posCircle_924
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posFinger_925);
 #endif
 
+#if VERSION_US
 ASM_TEXT;
 
 void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E8 *arg1, s32 arg2) {
@@ -1617,6 +2145,7 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
         }
     }
 }
+#endif
 
 #if VERSION_US
 #ifdef NON_EQUIVALENT
@@ -1710,6 +2239,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", disp_cont);
 #endif
 #endif
 
+#if VERSION_US
 void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
     struct_watchManual *temp_s4 = watchManual;
     s32 i;
@@ -1943,6 +2473,7 @@ void dm_manual_all_init(void) {
     temp_v0_2->unk_16C = 0;
     temp_v0_2->unk_030 = 0;
 }
+#endif
 
 #if VERSION_US
 #ifdef NON_MATCHING
@@ -2048,6 +2579,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
 #endif
 #endif
 
+#if VERSION_US
 void dm_manual_graphic(void) {
     UNK_TYPE sp28;
     UNK_TYPE sp2C;
@@ -2083,3 +2615,55 @@ void dm_manual_graphic(void) {
     osWritebackDCacheAll();
     gfxTaskStart(ptr, gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
+#endif
+
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B7A8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BE38_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BFC0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007CAFC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007D2CC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007DE1C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E580_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93E8_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93F8_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9408_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E774_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007EBC4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007ED08_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007F010_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9428_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9430_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9450_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9470_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9488_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C948C_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9490_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007F408_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_graphic);
+#endif

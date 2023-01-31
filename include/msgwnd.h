@@ -70,13 +70,13 @@ s32 msgWnd_getHeight(MessageWnd *messageWnd);
 
 #define MSGWND_COLOR_EXPAND0(color) #color
 #define MSGWND_COLOR_EXPAND1(color) MSGWND_COLOR_EXPAND0(color)
-#define MSGWND_COLOR(color)  MSGWND_COLOR_EXPAND1(MSGWND_COLOR_##color)
+#define MSGWND_COLOR_EXPAND2(color) MSGWND_COLOR_EXPAND1(MSGWND_COLOR_##color)
 
 #define MSG_W(time) "~w" #time
 #define MSG_H "~h"
 #define MSG_M "~m"
 #define MSG_NEWLINE "~n"
 #define MSG_END "~z"
-#define MSG_COLOR(color) "~" MSGWND_COLOR(color)
+#define MSG_COLOR(color) "~" MSGWND_COLOR_EXPAND2(color)
 
 #endif
