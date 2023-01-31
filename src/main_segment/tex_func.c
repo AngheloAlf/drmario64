@@ -11,6 +11,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
+#if VERSION_US
 /**
  * Original name: _modes_96
  */
@@ -75,6 +76,7 @@ void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
     gDPSetScissor(gfx++, _modes_96[arg1 % ARRAY_COUNTU(_modes_96)], corners.ulx, corners.uly, corners.lrx, corners.lry);
     *gfxP = gfx;
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80040D34);
@@ -265,6 +267,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexBlock);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexBlock_ScisRect);
 #endif
 
+#if VERSION_US
 void func_80041F94(StretchTexBlock_arg0 *arg0) {
     gDPLoadTextureBlock((*arg0->unk_00)++, (u16 *)arg0->unk_10 + (arg0->unk_14 * arg0->unk_40), G_IM_FMT_RGBA,
                         G_IM_SIZ_16b, arg0->unk_14, arg0->unk_48, 0, G_TX_NOMIRROR | G_TX_CLAMP,
@@ -276,6 +279,7 @@ void func_8004216C(StretchTexBlock_arg0 *arg0) {
                          arg0->unk_1C, arg0->unk_48, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                          G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
+#endif
 
 #if VERSION_US
 #ifdef NON_MATCHING
@@ -309,6 +313,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchAlphaTexBlock);
 #endif
 #endif
 
+#if VERSION_US
 void func_80042468(StretchTexBlock_arg0 *arg0) {
     gDPLoadTextureBlock_4b((*arg0->unk_00)++, arg0->unk_10 + ((arg0->unk_14 * arg0->unk_40) / 2), G_IM_FMT_CI,
                            arg0->unk_14, arg0->unk_48, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
@@ -456,6 +461,7 @@ void func_800432A8(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
     sp10.unk_38 = 0x1000 / arg1;
     StretchTexBlock(&sp10);
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexTile);
@@ -477,6 +483,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80043A14);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80043BEC);
 #endif
 
+#if VERSION_US
 void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 arg4, TexturePtr arg5, s32 arg6, s32 arg7,
                          s32 arg8, s32 arg9, s32 argA, f32 argB, f32 argC, f32 argD, f32 argE) {
     StretchTexTile_arg0 sp10;
@@ -506,6 +513,7 @@ void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 ar
 
     StretchTexTile(&sp10);
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80043F18);
@@ -615,4 +623,114 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/tex_func", RO_800ADBC0);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", drawCursorPattern);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043100_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043274_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", FillRectRGBA);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043444_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043634_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004383C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800439B0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043BA8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043D1C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043F14_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043FE0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80044360_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800444D4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800446BC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800448C4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800449DC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80044BD4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80044D8C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80044F74_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004512C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80045314_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80045408_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80045600_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800456F4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800458DC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800459D0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80045D6C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80045EE0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80046030_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004621C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80046420_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004656C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800466BC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800468B0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80046A94_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80046C78_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80046E5C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047044_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047230_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047350_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047544_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047664_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047788_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", tiLoadTexData);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047894_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004795C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047A64_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047BC0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047D6C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047F90_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80048174_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80048324_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/tex_func", RO_800C4A60_cn);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/tex_func", RO_800C4A70_cn);
 #endif
