@@ -30,7 +30,10 @@ def parse_segment_align(segment: Union[dict, list]) -> Optional[int]:
 def parse_segment_subalign(segment: Union[dict, list]) -> int:
     default = options.opts.subalign
     if isinstance(segment, dict):
-        return int(segment.get("subalign", default))
+        subalign = segment.get("subalign", default)
+        if subalign != None:
+            subalign = int(subalign)
+        return subalign
     return default
 
 
@@ -213,6 +216,7 @@ class Segment:
 
         self.parent: Optional[Segment] = None
         self.sibling: Optional[Segment] = None
+        self.rodata_sibling: Optional[Segment] = None
         self.follows_vram_segment: Optional[Segment] = None
         self.file_path: Optional[Path] = None
 
@@ -283,6 +287,21 @@ class Segment:
         if not ret.align:
             ret.align = parse_segment_align(yaml)
         return ret
+
+    # For executable segments (.text); like c, asm or hasm
+    @staticmethod
+    def is_text() -> bool:
+        return False
+
+    # For readonly segments (.rodata); like rodata or rdata
+    @staticmethod
+    def is_rodata() -> bool:
+        return False
+
+    # For segments which does not take space in ROM; like bss
+    @staticmethod
+    def is_noload() -> bool:
+        return False
 
     @property
     def needs_symbols(self) -> bool:

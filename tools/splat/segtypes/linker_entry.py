@@ -10,6 +10,7 @@ from util import options
 from segtypes.n64.palette import N64SegPalette
 from segtypes.segment import Segment
 
+
 # clean 'foo/../bar' to 'bar'
 @lru_cache(maxsize=None)
 def clean_up_path(path: Path) -> Path:
@@ -335,9 +336,11 @@ class LinkerWriter:
 
         self._write_symbol(f"{name}_VRAM", f"ADDR(.{name})")
 
-        self._writeln(
-            f".{name} {vram_str}: AT({name}_ROM_START) SUBALIGN({segment.subalign})"
-        )
+        line = f".{name} {vram_str}: AT({name}_ROM_START)"
+        if segment.subalign != None:
+            line += f" SUBALIGN({segment.subalign})"
+
+        self._writeln(line)
         self._begin_block()
 
     def _begin_bss_segment(self, segment: Segment, is_first: bool = False):
@@ -361,7 +364,11 @@ class LinkerWriter:
         else:
             addr_str = "(NOLOAD)"
 
-        self._writeln(f".{name} {addr_str} : SUBALIGN({segment.subalign})")
+        line = f".{name} {addr_str} :"
+        if segment.subalign != None:
+            line += f" SUBALIGN({segment.subalign})"
+
+        self._writeln(line)
         self._begin_block()
 
     def _end_segment(

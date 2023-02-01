@@ -10,6 +10,7 @@ from segtypes.common.code import CommonSegCode
 
 from segtypes.segment import Segment
 
+
 # abstract class for c, asm, data, etc
 class CommonSegCodeSubsegment(Segment):
     def __init__(self, *args, **kwargs):
@@ -18,11 +19,6 @@ class CommonSegCodeSubsegment(Segment):
         vram = segment.parse_segment_vram(self.yaml)
         if vram is not None:
             self.vram_start = vram
-        self.partial_migration: bool = (
-            self.yaml.get("partial_migration", False)
-            if isinstance(self.yaml, dict)
-            else False
-        )
 
         self.str_encoding: Optional[str] = (
             self.yaml.get("str_encoding", None) if isinstance(self.yaml, dict) else None
@@ -197,6 +193,6 @@ class CommonSegCodeSubsegment(Segment):
         )
 
     def should_split(self) -> bool:
-        return self.extract and (
-            self.partial_migration or options.opts.is_mode_active("code")
-        )
+        return (
+            self.extract and options.opts.is_mode_active("code") and self.should_scan()
+        )  # only split if the segment was scanned first

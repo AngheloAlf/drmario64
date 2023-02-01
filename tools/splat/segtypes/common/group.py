@@ -43,6 +43,7 @@ class CommonSegGroup(CommonSegment):
             return ret
 
         prev_start: Optional[int] = -1
+        last_rom_end = 0
 
         for i, subsection_yaml in enumerate(yaml["subsegments"]):
             # endpos marker
@@ -70,6 +71,12 @@ class CommonSegGroup(CommonSegment):
                 assert isinstance(start, int)
                 vram = self.get_most_parent().rom_to_ram(start)
 
+            if segment_class.is_noload():
+                # Pretend bss's rom address is after the last actual rom segment
+                start = last_rom_end
+                # and it has a rom size of zero
+                end = last_rom_end
+
             segment: Segment = Segment.from_yaml(
                 segment_class, subsection_yaml, start, end, vram
             )
@@ -79,6 +86,8 @@ class CommonSegGroup(CommonSegment):
 
             ret.append(segment)
             prev_start = start
+            if end is not None:
+                last_rom_end = end
 
         return ret
 
@@ -116,7 +125,7 @@ class CommonSegGroup(CommonSegment):
 
         return c
 
-    def get_subsegment_for_ram(self, addr) -> Optional[Segment]:
+    def get_subsegment_for_ram(self, addr: int) -> Optional[Segment]:
         for sub in self.subsegments:
             if sub.contains_vram(addr):
                 return sub

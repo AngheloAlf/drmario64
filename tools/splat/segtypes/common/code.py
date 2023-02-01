@@ -218,6 +218,8 @@ class CommonSegCode(CommonSegGroup):
 
         inserts = self.find_inserts(found_sections)
 
+        last_rom_end = 0
+
         for i, subsection_yaml in enumerate(segment_yaml["subsegments"]):
             # endpos marker
             if isinstance(subsection_yaml, list) and len(subsection_yaml) == 1:
@@ -265,10 +267,20 @@ class CommonSegCode(CommonSegGroup):
                 assert isinstance(start, int)
                 vram = self.get_most_parent().rom_to_ram(start)
 
+            if segment_class.is_noload():
+                # Pretend bss's rom address is after the last actual rom segment
+                start = last_rom_end
+                # and it has a rom size of zero
+                end = last_rom_end
+
             segment: Segment = Segment.from_yaml(
                 segment_class, subsection_yaml, start, end, vram
             )
+
             segment.sibling = base_segments.get(segment.name, None)
+            if segment.is_rodata() and segment.sibling is not None:
+                segment.sibling.rodata_sibling = segment
+
             segment.parent = self
             if segment.special_vram_segment:
                 self.special_vram_segment = True
@@ -285,11 +297,12 @@ class CommonSegCode(CommonSegGroup):
             segment.bss_contains_common = self.bss_contains_common
             ret.append(segment)
 
-            # todo change
-            if typ in CODE_TYPES:
+            if segment.is_text():
                 base_segments[segment.name] = segment
 
             prev_start = start
+            if end is not None:
+                last_rom_end = end
 
         # Add the automatic all_ sections
         orig_len = len(ret)
