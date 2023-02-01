@@ -2,12 +2,12 @@
  * Original filename: aiset.c
  *
  * List of known original function names:
- * - aifMakeBlkWork -
- * - aifMakeFlagSet -
- * - aifGameInit -
- * - aifFirstInit -
- * - aifMake -
- * - aifMake2 -
+ * - aifMakeBlkWork
+ * - aifMakeFlagSet
+ * - aifGameInit
+ * - aifFirstInit
+ * - aifMake
+ * - aifMake2
  * - aiHiruSideLineEraser
  * - aifEraseLineCore
  * - aifRensaCheckCore
@@ -21,19 +21,19 @@
  * - aifSearchLineMS
  * - aiHiruAllPriSet
  * - aiSetCharacter
- * - aifFieldCopy -
+ * - aifFieldCopy
  * - aifPlaceSearch
  * - aifMoveCheck
  * - aifTRecur
  * - aifTRecurUP
  * - aifYRecur
  * - aifYRecurUP
- * - aifReMoveCheck -
- * - aifKeyMake -
- * - aifKeyOut -
+ * - aifReMoveCheck
+ * - aifKeyMake
+ * - aifKeyOut
  * - search_flash_3
  * - flash_special
- * - aiCOM_MissTake -
+ * - aiCOM_MissTake
  */
 
 #include "aif.h"
@@ -47,7 +47,6 @@
 #include "main_segment_variables.h"
 #include "gamemap.h"
 
-#if VERSION_US
 // no original name :c
 void func_8002EB00(struct_game_state_data *gameStateDataRef) {
     gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.unk_0;
@@ -65,12 +64,10 @@ void func_8002EB00(struct_game_state_data *gameStateDataRef) {
         game_state_data[0].unk_04E = game_state_data[1].unk_04E;
     }
 }
-#endif
 
 /**
  * Original name: aifMakeBlkWork
  */
-#if VERSION_US
 void aifMakeBlkWork(struct_game_state_data *gameStateDataRef) {
     s32 column;
     s32 row;
@@ -103,12 +100,10 @@ void aifMakeBlkWork(struct_game_state_data *gameStateDataRef) {
         gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_3 - 1][gameStateDataRef->unk_178.unk_1][1] = 3;
     }
 }
-#endif
 
 /**
  * Original name: aifMakeFlagSet
  */
-#if VERSION_US
 void aifMakeFlagSet(struct_game_state_data *gameStateDataRef) {
     gameStateDataRef->unk_23D = 0;
     gameStateDataRef->unk_241 = 0;
@@ -116,12 +111,11 @@ void aifMakeFlagSet(struct_game_state_data *gameStateDataRef) {
     gameStateDataRef->unk_238 = 0;
     gameStateDataRef->unk_239 = 0;
 }
-#endif
 
 /**
  * Original name: aifGameInit
  */
-#if VERSION_US
+
 void aifGameInit(void) {
     s32 i;
 
@@ -143,17 +137,6 @@ void aifGameInit(void) {
         }
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030A90_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030B0C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030D0C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030D24_cn);
-#endif
 
 #if VERSION_US
 /**
@@ -1007,7 +990,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800357CC_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036558_cn);
 #endif
 
-#if VERSION_US
 // no original name :c
 void func_80034310(void) {
     s32 column;
@@ -1021,11 +1003,6 @@ void func_80034310(void) {
         }
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80034310);
-#endif
 
 #if VERSION_US
 /**
@@ -1075,6 +1052,119 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", RO_800ACF10);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyMake);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036710_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036BD4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036EE4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800371B0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800372E8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80037598_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800376C8_cn);
+#endif
+
+#if VERSION_CN
+#if 0
+//s8 func_800329A0_cn(void *, void *, u8 *, u8 *);    /* extern */
+extern f32 B_800CA1C4_cn;
+extern u8 decide;
+extern u8 B_800CA22A_cn;
+extern u8 B_800CA254_cn;
+extern u8 B_800CA2AA_cn;
+extern ? aiFlag;
+extern u8 B_8010DF34_cn;
+extern ? D_800932B8_cn;
+extern ? RO_800C3FD8_cn;
+
+void func_8003793C_cn(void *arg0) {
+    s32 temp_v1_2;
+    s32 var_t1;
+    s32 var_v0;
+    s32 var_v0_2;
+    u8 *var_a0_2;
+    u8 *var_a2;
+    u8 *var_a3;
+    u8 *var_t0;
+    u8 temp_v0_2;
+    u8 temp_v0_3;
+    u8 temp_v1;
+    void *temp_a1;
+    void *temp_v0;
+    void *var_a0;
+    void *var_v1;
+
+    temp_a1 = arg0 + 0x190;
+    var_a0 = temp_a1;
+    var_v1 = (decide << 6) + &aiFlag;
+    temp_v0 = var_v1 + 0x40;
+    do {
+        var_a0->unk_0 = (s32) var_v1->unk_0;
+        var_a0->unk_4 = (s32) var_v1->unk_4;
+        var_a0->unk_8 = (s32) var_v1->unk_8;
+        var_a0->unk_C = (s32) var_v1->unk_C;
+        var_v1 += 0x10;
+        var_a0 += 0x10;
+    } while (var_v1 != temp_v0);
+    var_t1 = 0;
+    var_t0 = arg0 + 0x1D1;
+    var_a3 = &B_8010DF34_cn + 1;
+    var_a2 = arg0 + 0x1D0;
+    var_a0_2 = &B_8010DF34_cn;
+    do {
+        temp_v0_2 = *var_a0_2;
+        var_a0_2 += 2;
+        var_t1 += 1;
+        *var_a2 = temp_v0_2;
+        temp_v1 = *var_a3;
+        var_a3 += 2;
+        var_a2 += 2;
+        *var_t0 = temp_v1;
+        var_t0 += 2;
+    } while (var_t1 < 0x32);
+    arg0->unk_23F = (u8) *(((B_800CA254_cn - 1) * 2) + &B_8010DF34_cn);
+    arg0->unk_240 = (u8) (&B_8010DF34_cn + ((B_800CA254_cn - 1) * 2))->unk_1;
+    arg0->unk_1CF = func_800329A0_cn(arg0, temp_a1, var_a2, var_a3);
+    temp_v1_2 = ((((sp + ((arg0->unk_194 * 4) + (arg0->unk_191 * 8)))->unk_18 - (arg0->unk_241 - 0x28)) + arg0->unk_237) - B_800CA22A_cn) + arg0->unk_238;
+    var_v0 = temp_v1_2;
+    if (temp_v1_2 < 0) {
+        var_v0 = temp_v1_2 + 3;
+    }
+    temp_v0_3 = temp_v1_2 - ((var_v0 >> 2) * 4);
+    arg0->unk_237 = temp_v0_3;
+    arg0->unk_241 = temp_v0_3;
+    arg0->unk_238 = (u8) B_800CA22A_cn;
+    arg0->unk_235 = 2;
+    arg0->unk_236 = 1;
+    arg0->unk_293 = (u8) B_800CA2AA_cn;
+    var_v0_2 = 0x64;
+    if (!(B_800CA1C4_cn > 100.0f)) {
+        if (B_800CA1C4_cn >= 2.1474836e9f) {
+            var_v0_2 = (s32) (B_800CA1C4_cn - 2.1474836e9f) | 0x80000000;
+        } else {
+            var_v0_2 = (s32) B_800CA1C4_cn;
+        }
+    }
+    arg0->unk_294 = (s8) var_v0_2;
+    if ((u32) (genrand((s32) *(&D_800932B8_cn + (arg0->unk_23C + ((s8) B_800CA2AA_cn * 3)))) & 0xFF) >= 7U) {
+        arg0->unk_23A = 0;
+        return;
+    }
+    arg0->unk_23A = 1;
+    arg0->unk_23B = genrand(5);
+}
+#else
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/aiset", RO_800C3FD8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_8003793C_cn);
+#endif
+#endif
+
+
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", wave_tbl_2879);
 #endif
@@ -1095,31 +1185,13 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", flash_special);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036710_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036BD4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036EE4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800371B0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800372E8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80037598_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800376C8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_8003793C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/aiset", wave_tbl_2879);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80037BBC_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80038190_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80038778_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/aiset", RO_800C3FD8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/aiset", wave_tbl_2879);
 #endif
 
 /**
