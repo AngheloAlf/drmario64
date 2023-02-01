@@ -13,6 +13,7 @@
 #include "audio/audio_stuff.h"
 #include "graphic.h"
 #include "msgwnd.h"
+#include "aif.h"
 
 #if VERSION_US
 void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {

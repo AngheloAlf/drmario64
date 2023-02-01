@@ -15,6 +15,7 @@
 #include "buffers.h"
 #include "audio/audio_stuff.h"
 #include "graphic.h"
+#include "aif.h"
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800601F0);
@@ -2959,7 +2960,7 @@ void func_8006D620(void) {
 
                 if (((ptr->unk_04C == 1) || (((ptr->unk_04C != 1) && (i == 0)) && (aiDebugP1 >= 0))) &&
                     (game_state_data[i].unk_020 == 1)) {
-                    func_8002EFF0(&game_state_data[i]);
+                    aifMake(&game_state_data[i]);
                 }
             }
             break;
@@ -2971,7 +2972,7 @@ void func_8006D620(void) {
 
                 if (((ptr->unk_04C == 1) || (((ptr->unk_04C != 1) && (i == 0)) && (aiDebugP1 >= 0))) &&
                     (game_state_data[i].unk_020 == 1)) {
-                    func_8002EFF0(&game_state_data[i]);
+                    aifMake(&game_state_data[i]);
                 }
             }
             break;
@@ -2979,7 +2980,7 @@ void func_8006D620(void) {
         case ENUM_EVS_GAMESEL_0:
         case ENUM_EVS_GAMESEL_4:
             if ((game_state_data->unk_04C == 1) || (aiDebugP1 >= 0)) {
-                func_8002EFF0(&game_state_data[0]);
+                aifMake(&game_state_data[0]);
             }
             break;
 

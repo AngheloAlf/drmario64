@@ -1,3 +1,42 @@
+/**
+ * Original filename: aiset.c
+ *
+ * List of known original function names:
+ * - aifMakeBlkWork -
+ * - aifMakeFlagSet -
+ * - aifGameInit -
+ * - aifFirstInit -
+ * - aifMake -
+ * - aifMake2 -
+ * - aiHiruSideLineEraser
+ * - aifEraseLineCore
+ * - aifRensaCheckCore
+ * - aifRensaCheck
+ * - aifSearchLineCore
+ * - aifMiniPointK3
+ * - aifMiniAloneCapNumber
+ * - aifMiniAloneCapNumberW
+ * - flash_virus
+ * - search_Vflash
+ * - aifSearchLineMS
+ * - aiHiruAllPriSet
+ * - aiSetCharacter
+ * - aifFieldCopy -
+ * - aifPlaceSearch
+ * - aifMoveCheck
+ * - aifTRecur
+ * - aifTRecurUP
+ * - aifYRecur
+ * - aifYRecurUP
+ * - aifReMoveCheck -
+ * - aifKeyMake -
+ * - aifKeyOut -
+ * - search_flash_3
+ * - flash_special
+ * - aiCOM_MissTake -
+ */
+
+#include "aif.h"
 #include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -7,22 +46,22 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "gamemap.h"
-#include "aif.h"
 
 #if VERSION_US
-void func_8002EB00(struct_game_state_data *gameStateData) {
-    gameStateData->unk_3BC = gameStateData->unk_178.unk_0;
-    gameStateData->unk_3BD = gameStateData->unk_178.unk_2;
-    gameStateData->unk_3C1[0] = (s8)gameStateData->unk_02F;
-    gameStateData->unk_3C0 = gameStateData->unk_02D;
-    gameStateData->unk_3BE[0] = (s8)(u8)gameStateData->unk_178.unk_6;
-    gameStateData->unk_3BE[1] = (s8)(u8)gameStateData->unk_178.unk_7;
-    gameStateData->unk_299[2] = (s8)gameStateData->unk_025;
-    gameStateData->unk_299[1] = (s8)gameStateData->unk_026;
-    gameStateData->unk_299[0] = gameStateData->unk_014 == 0x12;
-    gameStateData->unk_298 = gameStateData->unk_04B;
+// no original name :c
+void func_8002EB00(struct_game_state_data *gameStateDataRef) {
+    gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.unk_0;
+    gameStateDataRef->unk_3BD = gameStateDataRef->unk_178.unk_2;
+    gameStateDataRef->unk_3C1[0] = (s8)gameStateDataRef->unk_02F;
+    gameStateDataRef->unk_3C0 = gameStateDataRef->unk_02D;
+    gameStateDataRef->unk_3BE[0] = (s8)(u8)gameStateDataRef->unk_178.unk_6;
+    gameStateDataRef->unk_3BE[1] = (s8)(u8)gameStateDataRef->unk_178.unk_7;
+    gameStateDataRef->unk_299[2] = (s8)gameStateDataRef->unk_025;
+    gameStateDataRef->unk_299[1] = (s8)gameStateDataRef->unk_026;
+    gameStateDataRef->unk_299[0] = gameStateDataRef->unk_014 == 0x12;
+    gameStateDataRef->unk_298 = gameStateDataRef->unk_04B;
 
-    if (gameStateData->unk_298 == 0) {
+    if (gameStateDataRef->unk_298 == 0) {
         game_state_data[0].unk_04E = game_state_data[1].unk_04E;
     }
 }
@@ -32,36 +71,36 @@ void func_8002EB00(struct_game_state_data *gameStateData) {
  * Original name: aifMakeBlkWork
  */
 #if VERSION_US
-void aifMakeBlkWork(struct_game_state_data *gameStateData) {
+void aifMakeBlkWork(struct_game_state_data *gameStateDataRef) {
     s32 column;
     s32 row;
 
     for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-        gameStateData->unk_29C[0][column][0] = 10;
-        gameStateData->unk_29C[0][column][1] = 3;
+        gameStateDataRef->unk_29C[0][column][0] = 10;
+        gameStateDataRef->unk_29C[0][column][1] = 3;
     }
 
     for (row = 1; row < GAME_MAP_ROWS; row++) {
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
             s32 index = GAME_MAP_GET_INDEX(row - 1, column);
 
-            if (game_map_data[gameStateData->unk_298].cells[index].unk_4[0] != 0) {
-                gameStateData->unk_29C[row][column][0] =
-                    capsGCnv_122[game_map_data[gameStateData->unk_298].cells[index].unk_2];
-                gameStateData->unk_29C[row][column][1] =
-                    capsCCnv_123[game_map_data[gameStateData->unk_298].cells[index].unk_3];
+            if (game_map_data[gameStateDataRef->unk_298].cells[index].unk_4[0] != 0) {
+                gameStateDataRef->unk_29C[row][column][0] =
+                    capsGCnv_122[game_map_data[gameStateDataRef->unk_298].cells[index].unk_2];
+                gameStateDataRef->unk_29C[row][column][1] =
+                    capsCCnv_123[game_map_data[gameStateDataRef->unk_298].cells[index].unk_3];
             } else {
-                gameStateData->unk_29C[row][column][0] = 10;
-                gameStateData->unk_29C[row][column][1] = 3;
+                gameStateDataRef->unk_29C[row][column][0] = 10;
+                gameStateDataRef->unk_29C[row][column][1] = 3;
             }
         }
     }
 
-    if (gameStateData->unk_178.unk_2 != 0) {
-        gameStateData->unk_29C[gameStateData->unk_178.unk_2 - 1][gameStateData->unk_178.unk_0][0] = 10;
-        gameStateData->unk_29C[gameStateData->unk_178.unk_2 - 1][gameStateData->unk_178.unk_0][1] = 3;
-        gameStateData->unk_29C[gameStateData->unk_178.unk_3 - 1][gameStateData->unk_178.unk_1][0] = 10;
-        gameStateData->unk_29C[gameStateData->unk_178.unk_3 - 1][gameStateData->unk_178.unk_1][1] = 3;
+    if (gameStateDataRef->unk_178.unk_2 != 0) {
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2 - 1][gameStateDataRef->unk_178.unk_0][0] = 10;
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2 - 1][gameStateDataRef->unk_178.unk_0][1] = 3;
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_3 - 1][gameStateDataRef->unk_178.unk_1][0] = 10;
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_3 - 1][gameStateDataRef->unk_178.unk_1][1] = 3;
     }
 }
 #endif
@@ -70,12 +109,12 @@ void aifMakeBlkWork(struct_game_state_data *gameStateData) {
  * Original name: aifMakeFlagSet
  */
 #if VERSION_US
-void aifMakeFlagSet(struct_game_state_data *arg0) {
-    arg0->unk_23D = 0;
-    arg0->unk_241 = 0;
-    arg0->unk_237 = 0;
-    arg0->unk_238 = 0;
-    arg0->unk_239 = 0;
+void aifMakeFlagSet(struct_game_state_data *gameStateDataRef) {
+    gameStateDataRef->unk_23D = 0;
+    gameStateDataRef->unk_241 = 0;
+    gameStateDataRef->unk_237 = 0;
+    gameStateDataRef->unk_238 = 0;
+    gameStateDataRef->unk_239 = 0;
 }
 #endif
 
@@ -106,7 +145,20 @@ void aifGameInit(void) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030A90_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030B0C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030D0C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030D24_cn);
+#endif
+
 #if VERSION_US
+/**
+ * Original name: aifFirstInit
+ */
 #if 0
 typedef struct struct_800F48D0 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x1C0];
@@ -243,40 +295,98 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFirstInit);
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifFirstInit);
+#endif
+
+/**
+ * Original name: aifMake
+ */
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002EFF0);
+void aifMake(struct_game_state_data *gameStateDataRef) {
+    pGameState = gameStateDataRef;
+
+    if (gameStateDataRef->unk_23D == 0) {
+        func_8002EB00(gameStateDataRef);
+        aifMakeBlkWork(gameStateDataRef);
+
+        aiGoalX = gameStateDataRef->unk_3BC + 1;
+
+        aiGoalY = gameStateDataRef->unk_3BD;
+        if (aiGoalY == 0) {
+            aiGoalY++;
+        }
+
+        aipn = gameStateDataRef->unk_298;
+        gameStateDataRef->unk_23C = gameStateDataRef->unk_04E;
+        if (FallSpeed[gameStateDataRef->unk_3C0] > aiSlideFSpeed[aiSelSpeed][gameStateDataRef->unk_23C]) {
+            aiMoveSF = 1;
+        } else {
+            aiMoveSF = 0;
+        }
+
+        aifFieldCopy(gameStateDataRef);
+        aifPlaceSearch();
+        aifMoveCheck();
+        delpos_cnt = 0;
+
+        if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+            s32 var_v1;
+
+            flash_special();
+            last_flash = 0;
+
+            for (var_v1 = 0; var_v1 < pGameState->unk_164; var_v1++) {
+                if (pGameState->unk_0D4.unk_00[var_v1].unk_8 >= 0) {
+                    last_flash++;
+                }
+            }
+        }
+
+        aiSetCharacter(gameStateDataRef);
+        aiHiruAllPriSet(gameStateDataRef);
+        aiHiruSideLineEraser(gameStateDataRef);
+        aifReMoveCheck();
+        aifKeyMake(gameStateDataRef);
+        gameStateDataRef->unk_234 = 0;
+        gameStateDataRef->unk_23D = 1;
+    }
+}
 #endif
 
 #if VERSION_US
-bool aifMake2(struct_game_state_data *gameStateData, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+/**
+ * Original name: aifMake2
+ */
+bool aifMake2(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     u8 temp_v1;
 
-    if (gameStateData->unk_23D != 0) {
+    if (gameStateDataRef->unk_23D != 0) {
         return false;
     }
 
-    func_8002EB00(gameStateData);
-    aifMakeBlkWork(gameStateData);
+    func_8002EB00(gameStateDataRef);
+    aifMakeBlkWork(gameStateDataRef);
 
     MissRate = 0;
-    aiGoalX = gameStateData->unk_3BC + 1;
+    aiGoalX = gameStateDataRef->unk_3BC + 1;
 
-    aiGoalY = gameStateData->unk_3BD;
+    aiGoalY = gameStateDataRef->unk_3BD;
     if (aiGoalY == 0) {
         aiGoalY++;
     }
 
-    aipn = gameStateData->unk_298;
-    temp_v1 = gameStateData->unk_04E;
-    gameStateData->unk_23C = temp_v1;
+    aipn = gameStateDataRef->unk_298;
+    temp_v1 = gameStateDataRef->unk_04E;
+    gameStateDataRef->unk_23C = temp_v1;
 
-    if (FallSpeed[gameStateData->unk_3C0] > aiSlideFSpeed[aiSelSpeed][temp_v1]) {
+    if (FallSpeed[gameStateDataRef->unk_3C0] > aiSlideFSpeed[aiSelSpeed][temp_v1]) {
         aiMoveSF = 1;
     } else {
         aiMoveSF = 0;
     }
 
-    aifFieldCopy(gameStateData);
+    aifFieldCopy(gameStateDataRef);
     aiFlag[1] = arg3 == 0;
     aiFlag[2] = arg1 + 1;
     aiFlag[3] = arg2;
@@ -285,16 +395,19 @@ bool aifMake2(struct_game_state_data *gameStateData, s32 arg1, s32 arg2, s32 arg
     aiFlagCnt = 1;
     decide = 0;
     aifReMoveCheck();
-    aifKeyMake(gameStateData);
-    gameStateData->unk_234 = 0;
-    gameStateData->unk_23D = 1;
+    aifKeyMake(gameStateDataRef);
+    gameStateDataRef->unk_234 = 0;
+    gameStateDataRef->unk_23D = 1;
 
     return true;
 }
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F2EC);
+/**
+ * Original name: aiHiruSideLineEraser
+ */
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aiHiruSideLineEraser);
 #endif
 
 #if VERSION_US
@@ -346,16 +459,24 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003157C);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800325AC);
+/**
+ * Original name: aiHiruAllPriSet
+ */
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80033474);
+/**
+ * Original name: aiSetCharacter
+ */
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aiSetCharacter);
 #endif
 
 #if VERSION_US
+/**
+ * Original name: aifFieldCopy
+ */
 #if 0
-
 typedef struct struct_800EB4F8 {
     /* 0x00 */ u8 unk_00;
     /* 0x01 */ u8 unk_01;
@@ -375,7 +496,7 @@ extern u8 B_800EB64C[][8][2];
 extern u8 B_800EBD15;
 extern u8 aiFieldData[][8][2];
 
-void aifFieldCopy(struct_game_state_data *gameStateData) {
+void aifFieldCopy(struct_game_state_data *gameStateDataRef) {
     s32 var_a1;
     s32 var_a2;
     s32 var_a3;
@@ -388,8 +509,8 @@ void aifFieldCopy(struct_game_state_data *gameStateData) {
     u8 temp_v0_2;
     u8 *temp_a0;
 
-    aiNext[0] = (u8) gameStateData->unk_3BE[0];
-    aiNext[1] = (u8) gameStateData->unk_3BE[1];
+    aiNext[0] = (u8) gameStateDataRef->unk_3BE[0];
+    aiNext[1] = (u8) gameStateDataRef->unk_3BE[1];
     var_t0 = 0;
     var_t1 = 2;
     while (var_t0 < 8) {
@@ -398,10 +519,10 @@ void aifFieldCopy(struct_game_state_data *gameStateData) {
         var_a1 = var_t1;
 
         while (var_a3 < 0x11) {
-            temp_v0 = gameStateData->unk_29C[var_a3][var_t0][1];
+            temp_v0 = gameStateDataRef->unk_29C[var_a3][var_t0][1];
             aiFieldData[var_a3][var_t0][0] = temp_v0;
             aiRecurData[var_a3].unk_00 = temp_v0;
-            temp_v0_2 = gameStateData->unk_29C[var_a3][var_t0][0];
+            temp_v0_2 = gameStateDataRef->unk_29C[var_a3][var_t0][0];
             aiFieldData[var_a3][var_t0][1] = temp_v0_2;
             B_800EB4F9[var_a1] = temp_v0_2;
             var_a2 += 0x10;
@@ -432,84 +553,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFieldCopy);
 #endif
 #endif
 
-#if VERSION_US
-void func_80034310(void) {
-    s32 column;
-
-    for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-        s32 row;
-
-        for (row = 0; row < GAME_MAP_ROWS; row++) {
-            aiRecurData[row][column + 1].unk_0 = aiFieldData[row][column].unk_0;
-            aiRecurData[row][column + 1].unk_1 = aiFieldData[row][column].unk_1;
-        }
-    }
-}
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034380);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034798);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034AB0);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034D54);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034E80);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003510C);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifReMoveCheck);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", RO_800ACF10);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyMake);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", RO_800ACF20);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyOut);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80035CF4);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_800362A0);
-#endif
-
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030A90_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030B0C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030D0C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80030D24_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifFirstInit);
-
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80031014_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80031230_cn);
@@ -545,9 +589,96 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80034824_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800357CC_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036558_cn);
+#endif
 
+#if VERSION_US
+// no original name :c
+void func_80034310(void) {
+    s32 column;
+
+    for (column = 0; column < GAME_MAP_COLUMNS; column++) {
+        s32 row;
+
+        for (row = 0; row < GAME_MAP_ROWS; row++) {
+            aiRecurData[row][column + 1].unk_0 = aiFieldData[row][column].unk_0;
+            aiRecurData[row][column + 1].unk_1 = aiFieldData[row][column].unk_1;
+        }
+    }
+}
+#endif
+
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80034310);
+#endif
 
+#if VERSION_US
+/**
+ * Original name: aifPlaceSearch
+ */
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifPlaceSearch);
+#endif
+
+#if VERSION_US
+/**
+ * Original name: aifMoveCheck
+ */
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifMoveCheck);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034AB0);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034D54);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034E80);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003510C);
+#endif
+
+#if VERSION_US
+/**
+ * Original name: aifReMoveCheck
+ */
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifReMoveCheck);
+#endif
+
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", RO_800ACF10);
+#endif
+
+#if VERSION_US
+/**
+ * Original name: aifKeyMake
+ */
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyMake);
+#endif
+
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", RO_800ACF20);
+#endif
+
+#if VERSION_US
+/**
+ * Original name: aifKeyOut
+ */
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyOut);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80035CF4);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", flash_special);
+#endif
+
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036710_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036BD4_cn);

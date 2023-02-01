@@ -407,8 +407,15 @@ typedef enum enum_main_no {
     /* 10 */ MAIN_NO_10, // "backup file is damaged"
 } enum_main_no;
 
+// not sure about this struct
+typedef struct struct_80123700_unk_0D4_unk_00 {
+    /* 0x0 */ UNK_TYPE1 unk_0[0x8];
+    /* 0x8 */ s32 unk_8;
+} struct_80123700_unk_0D4_unk_00; // size = 0xC
+
 typedef struct struct_80123700_unk_0D4 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x6C];
+    /* 0x00 */ struct_80123700_unk_0D4_unk_00 unk_00[UNK_SIZE];
+    /* 0x00 */ UNK_TYPE1 unk_0C[0x60];
 } struct_80123700_unk_0D4; // size = 0x6C
 
 typedef struct struct_80123700_unk_140 {
@@ -495,7 +502,7 @@ typedef struct struct_game_state_data {
     /* 0x238 */ s8 unk_238;
     /* 0x239 */ s8 unk_239;
     /* 0x23A */ UNK_TYPE1 unk_23A[2];
-    /* 0x23C */ s8 unk_23C;
+    /* 0x23C */ u8 unk_23C;
     /* 0x23D */ u8 unk_23D;
     /* 0x23E */ s8 unk_23E;
     /* 0x23F */ UNK_TYPE1 unk_23F[1];

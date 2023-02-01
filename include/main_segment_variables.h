@@ -435,11 +435,11 @@ extern const Gfx fade_normal_texture_init_dl[];
 
 extern u8 B_800B3640[0x31000];
 extern u32 mt[0x270];
-// extern UNK_TYPE B_800E5000;
+extern struct_game_state_data *pGameState;
 // extern UNK_TYPE B_800E5008;
-// extern UNK_TYPE B_800E5198;
+extern s32 delpos_cnt;
 // extern UNK_TYPE B_800E519C;
-// extern UNK_TYPE B_800E51A0;
+extern s32 last_flash;
 // extern UNK_TYPE B_800E51B0;
 // extern UNK_TYPE B_800E53B0;
 extern s32 B_800E53C0;
@@ -723,7 +723,7 @@ extern OSMesgQueue *B_800FAF94;
 
 // extern UNK_TYPE B_800FAF9C;
 extern STACK(B_800FAFA0, 0x400);
-extern s8 aiMoveSF;
+extern s8 aiMoveSF; // maybe bool?
 extern u32 evs_game_time;
 // extern UNK_TYPE B_800FB3A8;
 // extern UNK_TYPE B_800FB3AC;
