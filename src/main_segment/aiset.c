@@ -875,81 +875,34 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aiSetCharacter);
 /**
  * Original name: aifFieldCopy
  */
-#if 0
-typedef struct struct_800EB4F8 {
-    /* 0x00 */ u8 unk_00;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 unk_02;
-    /* 0x03 */ u8 unk_03;
-    /* 0x04 */ u8 unk_04;
-    /* 0x05 */ u8 unk_05;
-    /* 0x06 */ UNK_TYPE1 unk_06[2];
-    /* 0x08 */ UNK_TYPE1 unk_08[0xC];
-} struct_800EB4F8; // size = 0x14
-
-extern struct_800EB4F8 aiRecurData[];
-extern u8 B_800EB4F9[];
-extern u8 B_800EB50A;
-extern u8 B_800EB50B;
-extern u8 B_800EB64C[][8][2];
-extern u8 B_800EBD15;
-extern u8 aiFieldData[][8][2];
-
 void aifFieldCopy(struct_game_state_data *gameStateDataRef) {
-    s32 var_a1;
-    s32 var_a2;
-    s32 var_a3;
-    s32 var_a3_2;
-    s32 var_t0;
-    s32 var_t1;
-    s32 var_v1;
-    s32 var_v1_2;
-    u8 temp_v0;
-    u8 temp_v0_2;
-    u8 *temp_a0;
+    s32 column;
+    s32 row;
 
-    aiNext[0] = (u8) gameStateDataRef->unk_3BE[0];
-    aiNext[1] = (u8) gameStateDataRef->unk_3BE[1];
-    var_t0 = 0;
-    var_t1 = 2;
-    while (var_t0 < 8) {
-        var_a3 = 0;
-        var_a2 = var_t0;
-        var_a1 = var_t1;
+    aiNext[0] = gameStateDataRef->unk_3BE[0];
+    aiNext[1] = gameStateDataRef->unk_3BE[1];
 
-        while (var_a3 < 0x11) {
-            temp_v0 = gameStateDataRef->unk_29C[var_a3][var_t0][1];
-            aiFieldData[var_a3][var_t0][0] = temp_v0;
-            aiRecurData[var_a3].unk_00 = temp_v0;
-            temp_v0_2 = gameStateDataRef->unk_29C[var_a3][var_t0][0];
-            aiFieldData[var_a3][var_t0][1] = temp_v0_2;
-            B_800EB4F9[var_a1] = temp_v0_2;
-            var_a2 += 0x10;
-            var_a1 += 0x14;
-            var_a3 += 1;
+    for (column = 0; column < GAME_MAP_COLUMNS; column++) {
+        for (row = 0; row < GAME_MAP_ROWS; row++) {
+            aiRecurData[row][column + 1].unk_0 = aiFieldData[row][column].unk_0 =
+                gameStateDataRef->unk_29C[row][column][1];
+            aiRecurData[row][column + 1].unk_1 = aiFieldData[row][column].unk_1 =
+                gameStateDataRef->unk_29C[row][column][0];
         }
-        var_t0 += 1;
-        var_t1 += 2;
     }
 
-    var_v1 = 0;
-    do {
-        B_800EB64C[0][var_v1][0] = 0xFF;
-        B_800EB64C[0][var_v1][1] = 0xFF;
-        var_v1 += 1;
-    } while (var_v1 < 0x14/2);
-    var_a3_2 = 0;
-    do {
-        aiRecurData[var_a3_2].unk_00 = 0xFF;
-        aiRecurData[var_a3_2].unk_01 = 0xFF;
-        aiRecurData[var_a3_2].unk_02 = 0xFF;
-        aiRecurData[var_a3_2].unk_03 = 0xFF;
-        var_a3_2 += 1;
-    } while (var_a3_2 < 0x12);
+    for (column = 0; column < ARRAY_COUNT(*aiRecurData); column++) {
+        aiRecurData[ARRAY_COUNTU(aiRecurData) - 1][column].unk_0 = 0xFF;
+        aiRecurData[ARRAY_COUNTU(aiRecurData) - 1][column].unk_1 = 0xFF;
+    }
+
+    for (row = 0; row < ARRAY_COUNT(aiRecurData); row++) {
+        aiRecurData[row][0].unk_0 = 0xFF;
+        aiRecurData[row][0].unk_1 = 0xFF;
+        aiRecurData[row][ARRAY_COUNTU(aiRecurData[row]) - 1].unk_0 = 0xFF;
+        aiRecurData[row][ARRAY_COUNTU(aiRecurData[row]) - 1].unk_1 = 0xFF;
+    }
 }
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFieldCopy);
-#endif
 #endif
 
 #if VERSION_CN
@@ -1019,7 +972,75 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifMoveCheck);
 #endif
 
 #if VERSION_US
+#if 0
+? aifTRecurUP(s32, s8, s32);                        /* extern */
+extern u8 success;
+extern u8 aiRootCnt;
+extern ? aiRoot;
+
+void aifTRecur(s8 arg0, s8 arg1, s32 arg2) {
+    s32 temp_a0_2;
+    s32 temp_a0_3;
+    s32 temp_a0_4;
+    s32 temp_a0_5;
+    s32 temp_a1;
+    s32 temp_a2;
+    s8 temp_a0;
+    s8 temp_a1_2;
+    s8 temp_a1_3;
+
+    *(aiRecurData + (((arg0 & 0xFF) * 2) + ((arg1 & 0xFF) * 0x14))) = 0xF;
+    if (((arg0 & 0xFF) == (u16) aiGoalX) && ((arg1 & 0xFF) == (u16) aiGoalY)) {
+        success = 1;
+    }
+    temp_a0 = arg0 & 0xFF;
+    if (success != 1) {
+        temp_a2 = temp_a0 * 2;
+        temp_a1 = arg1 & 0xFF;
+        if ((*(aiRecurData + (temp_a2 + ((temp_a1 - 1) * 0x14))) == 3) && ((&aiRecurData[0][0].unk_1)[temp_a2 + ((temp_a1 - 2) * 0x14)] == 0xA)) {
+            aifTRecur(temp_a0, (arg1 - 1) & 0xFF, arg2 & 0xFF);
+        }
+        if (success != 1) {
+            temp_a0_2 = ((arg0 & 0xFF) + 1) * 2;
+            temp_a1_2 = arg1 & 0xFF;
+            if ((*(aiRecurData + (temp_a0_2 + (temp_a1_2 * 0x14))) == 3) && ((&aiRecurData[0][0].unk_1)[temp_a0_2 + ((temp_a1_2 - 1) * 0x14)] == 0xA)) {
+                temp_a0_3 = arg0 + 1;
+                if ((u8) aiMoveSF != 0) {
+                    aifTRecur(temp_a0_3 & 0xFF, temp_a1_2, arg2 & 0xFF);
+                } else {
+                    aifTRecurUP(temp_a0_3 & 0xFF, temp_a1_2, arg2 & 0xFF);
+                }
+            }
+            if (success != 1) {
+                temp_a0_4 = ((arg0 & 0xFF) - 1) * 2;
+                temp_a1_3 = arg1 & 0xFF;
+                if ((*(aiRecurData + (temp_a0_4 + (temp_a1_3 * 0x14))) == 3) && ((&aiRecurData[0][0].unk_1)[temp_a0_4 + ((temp_a1_3 - 1) * 0x14)] == 0xA)) {
+                    temp_a0_5 = arg0 - 1;
+                    if ((u8) aiMoveSF != 0) {
+                        aifTRecur(temp_a0_5 & 0xFF, temp_a1_3, arg2 & 0xFF);
+                    } else {
+                        aifTRecurUP(temp_a0_5 & 0xFF, temp_a1_3, arg2 & 0xFF);
+                    }
+                }
+                if (success == 1) {
+                    goto block_20;
+                }
+            } else {
+                goto block_20;
+            }
+        } else {
+            goto block_20;
+        }
+    } else {
+block_20:
+        *(&aiRoot + (aiRootCnt * 2)) = arg0;
+        *(&B_800F6C71 + (aiRootCnt * 2)) = arg1;
+        aiRootCnt += 1;
+    }
+}
+#else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifTRecur);
+#endif
 #endif
 
 #if VERSION_US
@@ -1049,7 +1070,82 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", RO_800ACF10);
 /**
  * Original name: aifKeyMake
  */
+#if 0
+//s8 aifRensaCheck(struct_game_state_data *, s8 *, void *, s8 *); /* extern */
+extern f32 aiRootP;
+extern u8 aiRollFinal;
+extern u8 aiVirusLevel[][3];
+extern u8 aiRoot[][2];
+
+extern s32 _aiFlag[UNK_SIZE][4][4];
+
+void aifKeyMake(struct_game_state_data *gameStateDataRef) {
+    s32 sp10[][2] = {{1,3},{0,2},};
+    s32 (*var_a2)[4];
+    s32 *var_a3;
+    s32 temp_v1;
+    s32 var_v0;
+    s32 var_v0_2;
+    s32 var_v1;
+    s8 temp_v0_2;
+    u8 temp_v0;
+    s32 i;
+    s32 j;
+
+    i = 0;
+
+    var_a2 = _aiFlag[(u8) decide];
+    do {
+        gameStateDataRef->unk_190[i][0] = var_a2[i][0];
+        gameStateDataRef->unk_190[i][1] = var_a2[i][1];
+        gameStateDataRef->unk_190[i][2] = var_a2[i][2];
+        gameStateDataRef->unk_190[i][3] = var_a2[i][3];
+        i++;
+    } while (i < 4);
+
+    i = 0;
+    do {
+        gameStateDataRef->unk_1D0[i][0] = aiRoot[i][0];
+        gameStateDataRef->unk_1D0[i][1] = aiRoot[i][1];
+        i += 1;
+    } while (i < 0x64/2);
+
+    gameStateDataRef->unk_23F[0] = aiRoot[aiRootCnt - 1][0];
+    gameStateDataRef->unk_240[0] = aiRoot[aiRootCnt - 1][1];
+    // ??
+    gameStateDataRef->unk_1D0[0][-1] = aifRensaCheck(gameStateDataRef, gameStateDataRef->unk_190[0]);
+
+    temp_v1 = ((((sp10[(u8)gameStateDataRef->unk_184[0xD]][(u8)gameStateDataRef->unk_184[0x10]]) - ((u8) gameStateDataRef->unk_241 - 0x28)) + (u8) gameStateDataRef->unk_237) - aiRollFinal) + (u8) gameStateDataRef->unk_238;
+    var_v0 = temp_v1;
+    if (temp_v1 < 0) {
+        var_v0 = temp_v1 + 3;
+    }
+    temp_v0_2 = temp_v1 - ((var_v0 >> 2) * 4);
+    gameStateDataRef->unk_237 = temp_v0_2;
+    gameStateDataRef->unk_241 = temp_v0_2;
+    gameStateDataRef->unk_238 = (s8) aiRollFinal;
+    gameStateDataRef->unk_235[0] = 2;
+    gameStateDataRef->unk_235[1] = 1;
+    gameStateDataRef->unk_293[0] = (s8) (u8) aiSelSpeed;
+
+    //if (!(aiRootP > 100.0f)) {
+    //    gameStateDataRef->unk_294 = aiRootP;
+    //} else {
+    //    gameStateDataRef->unk_294 = (s8) 100;
+    //}
+
+    gameStateDataRef->unk_294 = MIN(100, aiRootP);
+
+    if ((u32) (genrand((s32) aiVirusLevel[aiSelSpeed][gameStateDataRef->unk_23C]) & 0xFF) >= 7U) {
+        gameStateDataRef->unk_23A[0] = 0;
+    } else {
+        gameStateDataRef->unk_23A[0] = 1;
+        gameStateDataRef->unk_23A[1] = genrand(5);
+    }
+}
+#else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyMake);
+#endif
 #endif
 
 #if VERSION_CN
@@ -1163,7 +1259,6 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/aiset", RO_800C3FD8_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_8003793C_cn);
 #endif
 #endif
-
 
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", wave_tbl_2879);

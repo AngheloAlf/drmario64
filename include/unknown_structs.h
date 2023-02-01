@@ -495,7 +495,9 @@ typedef struct struct_game_state_data {
     /* 0x174 */ UNK_TYPE4 unk_174;
     /* 0x178 */ struct_game_state_data_unk_178 unk_178;
     /* 0x183 */ UNK_TYPE1 unk_183[0x1];
-    /* 0x184 */ UNK_TYPE1 unk_184[0xB0];
+    /* 0x184 */ UNK_TYPE1 unk_184[0xC];
+    /* 0x190 */ s32 unk_190[4][4];
+    /* 0x1D0 */ u8 unk_1D0[0x32][2];
     /* 0x234 */ u8 unk_234;
     /* 0x235 */ UNK_TYPE1 unk_235[2];
     /* 0x237 */ s8 unk_237;
@@ -515,7 +517,7 @@ typedef struct struct_game_state_data {
     /* 0x272 */ s16 unk_272[0x10];
     /* 0x292 */ s8 unk_292;
     /* 0x293 */ UNK_TYPE1 unk_293[0x1];
-    /* 0x294 */ s8 unk_294;
+    /* 0x294 */ u8 unk_294;
     /* 0x295 */ UNK_TYPE1 unk_295[0x3];
     /* 0x298 */ u8 unk_298;
     /* 0x299 */ UNK_TYPE1 unk_299[0x3];
