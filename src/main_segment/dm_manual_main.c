@@ -1090,7 +1090,7 @@ void dm_manual_make_key(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
     u16 temp_s2;
     s32 temp_v0;
 
-    aifKeyOut();
+    aifKeyOut(arg0);
 
     temp_s2 = joygam[arg0->unk_04B];
     temp_s4 = &arg0->unk_178;

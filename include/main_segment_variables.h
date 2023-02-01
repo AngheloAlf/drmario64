@@ -653,7 +653,7 @@ extern struct_800F1DF8 *pObjectMtx;
 extern s32 evs_default_name[];
 extern u16 joycur2; /* Original name: joycur2 */
 extern STACK(B_800F1E30, 0x2000);
-// extern UNK_TYPE B_800F3E30;
+// extern UNK_TYPE aiHiErB;
 // extern UNK_TYPE B_800F3E32;
 // extern UNK_TYPE B_800F3E34;
 extern OSMesgQueue B_800F3E38;
@@ -670,7 +670,7 @@ extern u16 gControllerPrevHoldButtons[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800F3E73;
 // extern UNK_TYPE B_800F3E77;
 extern u8 B_800F3E78[];
-// extern UNK_TYPE B_800F3E7C;
+// extern UNK_TYPE aiHiErY;
 // extern UNK_TYPE B_800F3E90;
 // extern UNK_TYPE B_800F3E94;
 // extern UNK_TYPE B_800F3E98;
@@ -701,12 +701,12 @@ extern STACK(B_800F7490, 0xC00);
 // extern UNK_TYPE B_800F8C90;
 
 extern STACK(B_800F8CE0, 0x2000);
-// extern UNK_TYPE B_800FAD28;
+// extern UNK_TYPE aiHiErR;
 // extern UNK_TYPE B_800FAD30;
 extern UNK_TYPE1 B_800FAD31[4];
 extern s16 aiGoalY;
 extern u8 aipn;
-// extern UNK_TYPE B_800FAD40;
+// extern UNK_TYPE aif_field;
 // extern UNK_TYPE B_800FAD41;
 // extern UNK_TYPE B_800FAE50;
 // extern UNK_TYPE B_800FAE60;
@@ -721,7 +721,7 @@ extern u16 gControllerPressedButtons[MAXCONTROLLERS+1]; /* Original name: joyupd
 extern s8 aiSelSpeed;
 extern OSMesgQueue *B_800FAF94;
 
-// extern UNK_TYPE B_800FAF9C;
+// extern UNK_TYPE aiHiEraseCtr;
 extern STACK(B_800FAFA0, 0x400);
 extern s8 aiMoveSF; // maybe bool?
 extern u32 evs_game_time;
