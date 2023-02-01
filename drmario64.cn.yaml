@@ -359,16 +359,16 @@ segments:
 
       - [0x0AB820, .rodata, main_segment/sound]
       - [0x0ABB00, .rodata, main_segment/graphic]
-      - { start: 0x0ABB20, type: .rodata, partial_migration: True, name: main_segment/main1x }
-      - { start: 0x0ABCB0, type: .rodata, partial_migration: True, name: main_segment/aiset }
-      - { start: 0x0ABD40, type: .rodata, partial_migration: True, name: main_segment/record }
+      - [0x0ABB20, .rodata, main_segment/main1x]
+      - [0x0ABCB0, .rodata, main_segment/aiset]
+      - [0x0ABD40, .rodata, main_segment/record]
 
-      - { start: 0x0ABDB0, type: .rodata, partial_migration: True, name: main_segment/020D10_cn }
-      - { start: 0x0ABF20, type: .rodata, partial_migration: True, name: main_segment/0227C0_cn }
-      - { start: 0x0ABF30, type: .rodata, partial_migration: True, name: main_segment/026550_cn }
-      - { start: 0x0AC790, type: .rodata, partial_migration: True, name: main_segment/tex_func }
+      - [0x0ABDB0, .rodata, main_segment/020D10_cn]
+      - [0x0ABF20, .rodata, main_segment/0227C0_cn]
+      - [0x0ABF30, .rodata, main_segment/026550_cn]
+      - [0x0AC790, .rodata, main_segment/tex_func]
 
-      - { start: 0x0AC7F0, type: .rodata, partial_migration: True, name: main_segment/main_menu_cn }
+      - [0x0AC7F0, .rodata, main_segment/main_menu_cn]
 
       - start: 0x0AFCE0
         type: .rodata
@@ -376,16 +376,16 @@ segments:
         subsegments:
         - { start: 0x0AFCE0, type: gfx, data_only: True, name: main_segment/font/init_dl_135 }
 
-      - { start: 0x0AFD10, type: .rodata, partial_migration: True, name: main_segment/msgwnd }
-      - { start: 0x0AFDD0, type: .rodata, partial_migration: True, name: main_segment/char_anime }
+      - [0x0AFD10, .rodata, main_segment/msgwnd]
+      - [0x0AFDD0, .rodata, main_segment/char_anime]
 
-      - { start: 0x0AFF10, type: .rodata, partial_migration: True, name: main_segment/dm_virus_init }
+      - [0x0AFF10, .rodata, main_segment/dm_virus_init]
 
-      - { start: 0x0AFF90, type: .rodata, partial_migration: True, name: main_segment/dm_game_main_cn }
+      - [0x0AFF90, .rodata, main_segment/dm_game_main_cn]
 
-      - { start: 0x0B06F0, type: .rodata, partial_migration: True, name: main_segment/dm_manual_main }
+      - [0x0B06F0, .rodata, main_segment/dm_manual_main]
 
-      - { start: 0x0B1220, type: .rodata, partial_migration: True, name: main_segment/dm_title_main }
+      - [0x0B1220, .rodata, main_segment/dm_title_main]
 
       - [0x0B12B0, .rodata, main_segment/main_story]
       - [0x0B1330, .rodata, main_segment/calc]
