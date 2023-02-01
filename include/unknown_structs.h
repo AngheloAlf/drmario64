@@ -416,8 +416,8 @@ typedef struct struct_80123700_unk_140 {
 } struct_80123700_unk_140; // size = 0x24
 
 typedef struct struct_game_state_data_unk_178 {
-    /* 0x0 */ UNK_TYPE1 unk_0;
-    /* 0x0 */ UNK_TYPE1 unk_1;
+    /* 0x0 */ s8 unk_0;
+    /* 0x0 */ s8 unk_1;
     /* 0x0 */ s8 unk_2;
     /* 0x0 */ UNK_TYPE1 unk_3;
     /* 0x0 */ UNK_TYPE1 unk_4[2];
@@ -512,7 +512,8 @@ typedef struct struct_game_state_data {
     /* 0x295 */ UNK_TYPE1 unk_295[0x3];
     /* 0x298 */ u8 unk_298;
     /* 0x299 */ UNK_TYPE1 unk_299[0x3];
-    /* 0x29C */ UNK_TYPE1 unk_29C[0x120];
+    /* 0x29C */ u8 unk_29C[17][8][2]; // [GAME_MAP_ROWS][GAME_MAP_COLUMNS][2]
+    /* 0x34C */ UNK_TYPE1 unk_3AC[0x10];
     /* 0x3BC */ u8 unk_3BC;
     /* 0x3BD */ u8 unk_3BD;
     /* 0x3BE */ UNK_TYPE1 unk_3BE[0x2];

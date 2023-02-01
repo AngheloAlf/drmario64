@@ -6,13 +6,64 @@
 #include "boot_variables.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "gamemap.h"
+#include "aif.h"
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002EB00);
+void func_8002EB00(struct_game_state_data *gameStateData) {
+    gameStateData->unk_3BC = gameStateData->unk_178.unk_0;
+    gameStateData->unk_3BD = gameStateData->unk_178.unk_2;
+    gameStateData->unk_3C1[0] = (s8)gameStateData->unk_02F;
+    gameStateData->unk_3C0 = gameStateData->unk_02D;
+    gameStateData->unk_3BE[0] = (s8)(u8)gameStateData->unk_178.unk_6;
+    gameStateData->unk_3BE[1] = (s8)(u8)gameStateData->unk_178.unk_7;
+    gameStateData->unk_299[2] = (s8)gameStateData->unk_025;
+    gameStateData->unk_299[1] = (s8)gameStateData->unk_026;
+    gameStateData->unk_299[0] = gameStateData->unk_014 == 0x12;
+    gameStateData->unk_298 = gameStateData->unk_04B;
+
+    if (gameStateData->unk_298 == 0) {
+        game_state_data[0].unk_04E = game_state_data[1].unk_04E;
+    }
+}
 #endif
 
+/**
+ * Original name: aifMakeBlkWork
+ */
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifMakeBlkWork);
+void aifMakeBlkWork(struct_game_state_data *gameStateData) {
+    s32 column;
+    s32 row;
+
+    for (column = 0; column < GAME_MAP_COLUMNS; column++) {
+        gameStateData->unk_29C[0][column][0] = 10;
+        gameStateData->unk_29C[0][column][1] = 3;
+    }
+
+    for (row = 1; row < GAME_MAP_ROWS; row++) {
+        for (column = 0; column < GAME_MAP_COLUMNS; column++) {
+            s32 index = GAME_MAP_GET_INDEX(row - 1, column);
+
+            if (game_map_data[gameStateData->unk_298].cells[index].unk_4[0] != 0) {
+                gameStateData->unk_29C[row][column][0] =
+                    capsGCnv_122[game_map_data[gameStateData->unk_298].cells[index].unk_2];
+                gameStateData->unk_29C[row][column][1] =
+                    capsCCnv_123[game_map_data[gameStateData->unk_298].cells[index].unk_3];
+            } else {
+                gameStateData->unk_29C[row][column][0] = 10;
+                gameStateData->unk_29C[row][column][1] = 3;
+            }
+        }
+    }
+
+    if (gameStateData->unk_178.unk_2 != 0) {
+        gameStateData->unk_29C[gameStateData->unk_178.unk_2 - 1][gameStateData->unk_178.unk_0][0] = 10;
+        gameStateData->unk_29C[gameStateData->unk_178.unk_2 - 1][gameStateData->unk_178.unk_0][1] = 3;
+        gameStateData->unk_29C[gameStateData->unk_178.unk_3 - 1][gameStateData->unk_178.unk_1][0] = 10;
+        gameStateData->unk_29C[gameStateData->unk_178.unk_3 - 1][gameStateData->unk_178.unk_1][1] = 3;
+    }
+}
 #endif
 
 /**
@@ -303,11 +354,97 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80033474);
 #endif
 
 #if VERSION_US
+#if 0
+
+typedef struct struct_800EB4F8 {
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ u8 unk_02;
+    /* 0x03 */ u8 unk_03;
+    /* 0x04 */ u8 unk_04;
+    /* 0x05 */ u8 unk_05;
+    /* 0x06 */ UNK_TYPE1 unk_06[2];
+    /* 0x08 */ UNK_TYPE1 unk_08[0xC];
+} struct_800EB4F8; // size = 0x14
+
+extern struct_800EB4F8 aiRecurData[];
+extern u8 B_800EB4F9[];
+extern u8 B_800EB50A;
+extern u8 B_800EB50B;
+extern u8 B_800EB64C[][8][2];
+extern u8 B_800EBD15;
+extern u8 aiFieldData[][8][2];
+
+void aifFieldCopy(struct_game_state_data *gameStateData) {
+    s32 var_a1;
+    s32 var_a2;
+    s32 var_a3;
+    s32 var_a3_2;
+    s32 var_t0;
+    s32 var_t1;
+    s32 var_v1;
+    s32 var_v1_2;
+    u8 temp_v0;
+    u8 temp_v0_2;
+    u8 *temp_a0;
+
+    aiNext[0] = (u8) gameStateData->unk_3BE[0];
+    aiNext[1] = (u8) gameStateData->unk_3BE[1];
+    var_t0 = 0;
+    var_t1 = 2;
+    while (var_t0 < 8) {
+        var_a3 = 0;
+        var_a2 = var_t0;
+        var_a1 = var_t1;
+
+        while (var_a3 < 0x11) {
+            temp_v0 = gameStateData->unk_29C[var_a3][var_t0][1];
+            aiFieldData[var_a3][var_t0][0] = temp_v0;
+            aiRecurData[var_a3].unk_00 = temp_v0;
+            temp_v0_2 = gameStateData->unk_29C[var_a3][var_t0][0];
+            aiFieldData[var_a3][var_t0][1] = temp_v0_2;
+            B_800EB4F9[var_a1] = temp_v0_2;
+            var_a2 += 0x10;
+            var_a1 += 0x14;
+            var_a3 += 1;
+        }
+        var_t0 += 1;
+        var_t1 += 2;
+    }
+
+    var_v1 = 0;
+    do {
+        B_800EB64C[0][var_v1][0] = 0xFF;
+        B_800EB64C[0][var_v1][1] = 0xFF;
+        var_v1 += 1;
+    } while (var_v1 < 0x14/2);
+    var_a3_2 = 0;
+    do {
+        aiRecurData[var_a3_2].unk_00 = 0xFF;
+        aiRecurData[var_a3_2].unk_01 = 0xFF;
+        aiRecurData[var_a3_2].unk_02 = 0xFF;
+        aiRecurData[var_a3_2].unk_03 = 0xFF;
+        var_a3_2 += 1;
+    } while (var_a3_2 < 0x12);
+}
+#else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFieldCopy);
+#endif
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_80034310);
+void func_80034310(void) {
+    s32 column;
+
+    for (column = 0; column < GAME_MAP_COLUMNS; column++) {
+        s32 row;
+
+        for (row = 0; row < GAME_MAP_ROWS; row++) {
+            aiRecurData[row][column + 1].unk_0 = aiFieldData[row][column].unk_0;
+            aiRecurData[row][column + 1].unk_1 = aiFieldData[row][column].unk_1;
+        }
+    }
+}
 #endif
 
 #if VERSION_US
@@ -409,7 +546,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_800357CC_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036558_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036690_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80034310);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80036710_cn);
 

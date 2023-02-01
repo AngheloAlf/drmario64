@@ -63,8 +63,8 @@ extern s32 mti;
 extern u8 aiSlideFSpeed[][3];
 // extern UNK_TYPE D_800884F0;
 extern s8 aiDebugP1;
-// extern UNK_TYPE D_8008850C;
-// extern UNK_TYPE D_80088524;
+extern u8 capsGCnv_122[];
+extern u8 capsCCnv_123[];
 // extern UNK_TYPE D_8008852C;
 // extern UNK_TYPE D_80088534;
 // extern UNK_TYPE D_80088535;
@@ -609,7 +609,7 @@ extern s32 B_800EB4D0;
 extern OSContPad B_800EB4D8[MAXCONTROLLERS];
 extern enum_main_no main_old; /* Orignal name: main_old */
 extern s32 _menuMain_lastDepth;
-// extern UNK_TYPE B_800EB4F8;
+
 // extern UNK_TYPE B_800EB4F9;
 // extern UNK_TYPE B_800EB50A;
 // extern UNK_TYPE B_800EB50B;
@@ -627,8 +627,7 @@ extern u16 gControllerHoldButtons[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800EBD07;
 // extern UNK_TYPE B_800EBD0B;
 extern u32 PlayTime;
-// extern UNK_TYPE B_800EBD14;
-// extern UNK_TYPE B_800EBD15;
+extern u8 aiNext[]; // maybe a struct?
 extern u8 main_joy[];
 extern OSThread B_800EBD20;
 extern OSMesg B_800EBED0[8];
@@ -649,7 +648,6 @@ extern s32 _menuMain_lastSelect[8]; // probably an enum
 extern enum_evs_gamesel evs_gamesel; /* Original name: evs_gamesel */
 extern STACK(B_800EFCE0, 0x2000);
 extern u8 evs_playmax; /* Original name: evs_playmax */
-// extern UNK_TYPE B_800F1CE8;
 // extern UNK_TYPE B_800F1CE9;
 extern struct_800F1DF8 *pObjectMtx;
 extern s32 evs_default_name[];

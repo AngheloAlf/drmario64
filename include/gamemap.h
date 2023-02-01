@@ -9,7 +9,7 @@ typedef struct GameMapCell {
     /* 0x0 */ s8 unk_0; // column?
     /* 0x1 */ s8 unk_1; // row?
     /* 0x2 */ s8 unk_2;
-    /* 0x3 */ u8 unk_3;
+    /* 0x3 */ s8 unk_3;
     /* 0x4 */ s8 unk_4[6]; // map_info?
 } GameMapCell; // size = 0xA
 
