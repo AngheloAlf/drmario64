@@ -123,13 +123,10 @@ typedef struct TiTexData {
 } TiTexData; // size >= 0xC8
 
 typedef struct struct_watchGame_unk_9D0 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x28];
+    /* 0x00 */ UNK_TYPE1 unk_00[0x24];
+    /* 0x24 */ s32 unk_24;
     /* 0x28 */ s32 unk_28;
 } struct_watchGame_unk_9D0; // size = 0x2C
-
-typedef struct struct_watchGame_unk_AAC {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x2A];
-} struct_watchGame_unk_AAC; // size = 0x2A
 
 typedef struct struct_watchGame {
     /* 0x000 */ UNK_TYPE4 unk_000;
@@ -165,11 +162,11 @@ typedef struct struct_watchGame {
     /* 0x3D0 */ UNK_TYPE1 unk_3D0[0x18];
     /* 0x3E8 */ f32 unk_3E8[3];
     /* 0x3F4 */ f32 unk_3F4[3];
-    /* 0x400 */ UNK_TYPE4 unk_400[3];
+    /* 0x400 */ UNK_TYPE4 unk_400[3]; // bool?
     /* 0x40C */ s32 unk_40C;
     /* 0x410 */ UNK_TYPE unk_410;
     /* 0x414 */ s32 unk_414;
-    /* 0x418 */ s8 unk_418[3];
+    /* 0x418 */ u8 unk_418[3];
     /* 0x41C */ s32 unk_41C;
     /* 0x420 */ s32 unk_420;
     /* 0x424 */ s32 unk_424;
@@ -214,7 +211,7 @@ typedef struct struct_watchGame {
     /* 0x9D0 */ struct_watchGame_unk_9D0 unk_9D0[2];
     /* 0xA28 */ MessageWnd unk_A28;
     /* 0xAA8 */ s32 unk_AA8;
-    /* 0xAAC */ struct_watchGame_unk_AAC unk_AAC;
+    /* 0xAAC */ char unk_AAC[42]; // passwordPrompt?
     /* 0xAD8 */ RecordWritingMessage recMessage;
 } struct_watchGame; // size = 0xB60
 
@@ -436,7 +433,7 @@ typedef struct struct_game_state_data_unk_178 {
 } struct_game_state_data_unk_178; // size >= 0xB
 
 typedef struct struct_game_state_data {
-    /* 0x000 */ UNK_TYPE unk_000;
+    /* 0x000 */ u32 unk_000;
     /* 0x004 */ u16 unk_004;
     /* 0x006 */ s16 unk_006;
     /* 0x008 */ s16 unk_008;

@@ -379,7 +379,7 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     }
 
     makeTransrateMatrix(&sp60, 0, 0xFFC4 << 16, 0xFC4A << 16);
-    if ((story_spot_cnt > 0) && (gControllerPressedButtons[main_joy[0]] & ALL_BUTTONS)) {
+    if ((story_spot_cnt > 0) && (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON)) {
         if (temp_s2 != 0) {
             if (title_wait == 0) {
                 dm_snd_play(SND_INDEX_103);

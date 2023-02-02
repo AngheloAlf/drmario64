@@ -2578,7 +2578,7 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
         }
 
         if (temp_s2->unk_00C == 0) {
-            s32 buttonMask = (main_old == MAIN_NO_3) ? ALL_BUTTONS : B_BUTTON;
+            s32 buttonMask = (main_old == MAIN_NO_3) ? ANY_BUTTON : B_BUTTON;
 
             if (var_s3 && (gControllerPressedButtons[main_joy[0]] & buttonMask)) {
                 var_s3 = true;

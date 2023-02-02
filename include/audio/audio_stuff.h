@@ -233,6 +233,11 @@ void func_8002DA48(musTask *musicTask);
 extern musSched D_800883F0;
 
 
+// rodata
+
+extern const u8 _charSE_tbl[];
+
+
 // bss
 
 /**

@@ -7,7 +7,7 @@
 
 #ifndef __cplusplus
 
-#if (__STDC_VERSION__ >= 201112L) /* C11 */
+#if (__STDC_VERSION__ >= 201112L) && !defined(PERMUTER)
 #define bool _Bool
 #define true 1
 #define false 0
