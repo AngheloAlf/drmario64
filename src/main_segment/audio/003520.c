@@ -6,6 +6,7 @@
 #include "unk.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "boot_functions.h"
 #include "PR/sched.h"
 
 #if VERSION_US
@@ -97,7 +98,6 @@ bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank) {
     return false;
 }
 
-#if VERSION_US
 bool func_8002D428(s32 index, romoffset_t segmentRom, size_t segmentSize) {
     Audio_struct_800FAF98 *temp_s1 = gAudio_800FAF98;
 
@@ -136,6 +136,7 @@ s32 func_8002D58C(s32 index, s32 volume) {
     return MusHandleSetVolume(gAudio_800FAF98->unk_14[index].unk_8, volume);
 }
 
+#if VERSION_US
 s32 func_8002D5C4(s32 index, s32 pan) {
     return MusHandleSetPan(gAudio_800FAF98->unk_14[index].unk_8, pan);
 }
@@ -154,18 +155,6 @@ s32 func_8002D66C(s32 index) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F03C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F0D4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F138_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F15C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F1A4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F1EC_cn);
-
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F234_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F27C_cn);
@@ -186,7 +175,6 @@ bool func_8002D6A4(romoffset_t segmentRom, size_t segmentSize) {
     return false;
 }
 
-#if VERSION_US
 void *func_8002D710(void) {
     return gAudio_800FAF98->unk_1C;
 }
@@ -226,29 +214,7 @@ s32 func_8002D870(s32 index, s32 pan) {
 s32 func_8002D8A0(s32 index, f32 offset) {
     return MusHandleSetFreqOffset(gAudio_800FAF98->unk_24[index], offset);
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F3E4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F3F4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F44C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F4B8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F4D4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F514_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F554_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F594_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F5D4_cn);
-#endif
-
-#if VERSION_US
 void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize) {
     Audio_struct_800FAF98 *temp = gAudio_800FAF98;
     s32 remainingSize = segmentSize;
@@ -258,27 +224,33 @@ void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize
     while (remainingSize != 0) {
         OSIoMesg mb;
         OSMesg msg;
-        size_t blkSize = remainingSize;
-
-        if (remainingSize > 0x4000) {
-            blkSize = 0x4000;
-        }
+        size_t blkSize = MIN(remainingSize, 0x4000);
 
         osInvalDCache((void *)currentVram, blkSize);
+
+        #if VERSION_US
         osPiStartDma(&mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, (void *)currentVram, blkSize, &temp->unk_2C);
         osRecvMesg(&temp->unk_2C, &msg, OS_MESG_BLOCK);
         currentRom += blkSize;
         remainingSize -= blkSize;
+        #endif
+
+        #if VERSION_CN
+        mb.hdr.pri = 0;
+        mb.hdr.retQueue = &temp->unk_2C;
+        mb.dramAddr = (void*)currentVram;
+        mb.devAddr = currentRom;
+        mb.size = blkSize;
+        osEPiStartDma(func_80000690_cn(), &mb, 0);
+        currentRom += blkSize;
+        remainingSize -= blkSize;
+        osRecvMesg(&temp->unk_2C, &msg, OS_MESG_BLOCK);
+        #endif
+
         currentVram += blkSize;
     }
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002D8D0);
-#endif
-
-#if VERSION_US
 void func_8002D984(void) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
@@ -297,6 +269,7 @@ void func_8002D9E4(void) {
     } while (*sp10 != 1);
 }
 
+#if VERSION_US
 void func_8002DA48(musTask *musicTask) {
     OSScTask scTask;
     void *msg;
@@ -329,9 +302,5 @@ void func_8002DA48(musTask *musicTask) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F704_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F78C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F80C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002DA48);
 #endif

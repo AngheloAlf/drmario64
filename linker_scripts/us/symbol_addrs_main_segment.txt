@@ -2656,7 +2656,7 @@ B_800F3E70 = 0x800F3E70; //
 B_800F3E71 = 0x800F3E71; //
 B_800F3E73 = 0x800F3E73; //
 B_800F3E77 = 0x800F3E77; //
-B_800F3E78 = 0x800F3E78; //
+link_joy = 0x800F3E78; //
 aiHiErY = 0x800F3E7C; //
 B_800F3E90 = 0x800F3E90; //
 B_800F3E94 = 0x800F3E94; //
@@ -2691,11 +2691,11 @@ __libmus_alglobals = 0x800F8C90; // size:0x4C
 
 B_800F8CE0 = 0x800F8CE0; // size:0x2000
 
-B_800FACE0 = 0x800FACE0; //
+sound_song_id = 0x800FACE0; //
 aiHiErR = 0x800FAD28; //
 gfx_gtask_no = 0x800FAD2C; //
 B_800FAD30 = 0x800FAD30; //
-B_800FAD31 = 0x800FAD31; //
+joygmf = 0x800FAD31; //
 aiGoalY = 0x800FAD36; // size:0x2
 aipn = 0x800FAD38; // size:0x1
 aif_field = 0x800FAD40; // size:0x110

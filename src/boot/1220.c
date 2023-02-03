@@ -7,7 +7,7 @@
 #if VERSION_CN
 OSPiHandle *D_8000EC40_cn = NULL;
 
-OSPiHandle *func_80000690(void) {
+OSPiHandle *func_80000690_cn(void) {
     if (D_8000EC40_cn == NULL) {
         D_8000EC40_cn = osCartRomInit();
     }
@@ -63,7 +63,7 @@ void *DmaDataRomToRam(romoffset_t segmentRom, void *segmentVram, size_t segmentS
         mb.dramAddr = (void *)currentVram;
         mb.devAddr = currentRom;
         mb.size = blkSize;
-        osEPiStartDma(func_80000690(), &mb, OS_READ);
+        osEPiStartDma(func_80000690_cn(), &mb, OS_READ);
 #endif
 
         currentRom += blkSize;

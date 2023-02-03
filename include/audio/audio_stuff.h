@@ -243,7 +243,7 @@ extern const u8 _charSE_tbl[];
 /**
  * Original name: sound_song_seqNo
  */
-extern struct_800FACE0 B_800FACE0;
+extern struct_800FACE0 sound_song_id;
 
 extern Audio_struct_800FAF98 *gAudio_800FAF98;
 

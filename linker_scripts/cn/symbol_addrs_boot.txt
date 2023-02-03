@@ -9,7 +9,7 @@ bootproc = 0x800004A8; // type:func
 LoadMainSegment = 0x8000052C; // type:func
 func_80000580 = 0x800005E0; // type:func
 
-func_80000690 = 0x80000690; // type:func
+func_80000690_cn = 0x80000690; // type:func
 DmaDataRomToRam = 0x800006CC; // type:func
 
 func_80000820_cn = 0x80000820; // type:func

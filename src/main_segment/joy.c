@@ -14,7 +14,6 @@
 /**
  * Original filename: joyInit
  */
-#if VERSION_US
 s32 joyInit(s32 arg0 UNUSED) {
     OSMesgQueue mq;
     OSMesg sp28[1];
@@ -38,24 +37,19 @@ s32 joyInit(s32 arg0 UNUSED) {
     for (i = 0; i < ARRAY_COUNT(joycnt); i++) {
         s32 j;
 
-        for (j = ARRAY_COUNT(joycnt[i]) - 1; j >= 0; j--) {
+        for (j = 0; j < ARRAY_COUNT(joycnt[i]); j++) {
             joycnt[i][j] = 0;
         }
 
         joyflg[i] = 0;
         joygam[i] = 0;
-        B_800FAD31[i] = 0;
+        joygmf[i] = 0;
     }
 
     joycur1 = 0x14;
     joycur2 = 4;
     return 4;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/joy", joyInit);
-#endif
 
 /**
  * Original filename: joyProcCore
@@ -134,7 +128,6 @@ void joyProcCore(void) {
 /**
  * Original filename: joyCursorFastSet
  */
-#if VERSION_US
 void joyCursorFastSet(u16 mask, u8 index) {
     s32 var_a0 = mask;
     s32 j;
@@ -148,18 +141,12 @@ void joyCursorFastSet(u16 mask, u8 index) {
     }
     joycnt[index][j] = joycur1 + joycur2 - 1;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/joy", joyCursorFastSet);
-#endif
 
 /**
  * Returns the amount of connected controllers
  *
  * Original filename: joyResponseCheck
  */
-#if VERSION_US
 s32 joyResponseCheck(void) {
     s32 connectedControllers = 0;
     OSContStatus padStatus[MAXCONTROLLERS];
@@ -175,15 +162,16 @@ s32 joyResponseCheck(void) {
     }
 
     j = 0;
-    for (i = 0; i < 4; i++) {
-        B_800F3E78[i] = 0;
+    for (i = 0; i < ARRAY_COUNT(padStatus); i++) {
+        link_joy[i] = false;
+
         switch (padStatus[i].errno) {
             case CONT_NO_RESPONSE_ERROR:
                 break;
 
             default:
                 if ((padStatus[i].type & CONT_TYPE_MASK) == CONT_TYPE_NORMAL) {
-                    B_800F3E78[i] = 1;
+                    link_joy[i] = true;
                     main_joy[j] = i;
                     connectedControllers++;
                     j++;
@@ -193,8 +181,3 @@ s32 joyResponseCheck(void) {
 
     return connectedControllers;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/joy", joyResponseCheck);
-#endif
