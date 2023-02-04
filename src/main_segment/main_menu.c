@@ -3829,7 +3829,7 @@ bool menuMain_setMsgStr(MenuMain *menuMain, MainMenuMode mode, s32 arg2) {
 
     for (i = 0; i < ARRAY_COUNTU(_loopTbl_5287); i++) {
         if ((var_s1 == _loopTbl_5287[i]) && msgWnd_isEnd(&menuMain->unk_2308)) {
-            menuMain->unk_2304 = 0;
+            menuMain->unk_2304 = NULL;
         }
     }
 

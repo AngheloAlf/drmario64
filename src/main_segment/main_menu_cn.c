@@ -102,139 +102,143 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C4B60_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C4B80_cn);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C4BBC_cn);
+#endif
 
+#if VERSION_CN
 ASM_RODATA;
 
-const char STR_800C4BC0_cn[] = "这是单人游戏模式。~z";
+const char _mesP1[] = "这是单人游戏模式。~z";
 
-const char STR_800C4BD8_cn[] = "这是双人游戏模式。~z";
+const char _mes2P[] = "这是双人游戏模式。~z";
 
-const char STR_800C4BF0_cn[] = "这是最多四人的多人~n游戏模式。~z";
+const char _mes4P[] = "这是最多四人的多人~n游戏模式。~z";
 
-const char STR_800C4C14_cn[] = "这里有各种游戏设定~n和选项。~z";
+const char _mesOpt[] = "这里有各种游戏设定~n和选项。~z";
 
-const char STR_800C4C34_cn[] =
+const char _mesSt[] =
     "发生在马力欧医生和~n感冒狂人之间的精彩~n故事。~w2~h通过送给对手垃圾,~n逼迫他们退出游戏。~w2~h或消灭自己所有的病~"
     "n毒来赢得胜利。 "
     "~w2~h再补充一点！~n游戏中可以按任意~n一个Ｃ键来观察药丸~n落下的位置，~w2~h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C4D24_cn[] =
+const char _mesLv[] =
     "持续游戏直到在一局~n中失败。~w2~h消灭所有病毒才能过~n关。~w2~h游戏难度等级越高,~n需要消灭的病毒就越~n多。~w2~"
     "h再补充一点！~n游戏中可以按任意~n一个Ｃ键来观察药丸~n落下的位置，~w2~h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C4DFC_cn[] =
+const char _mesVsCom[] =
     "这是你和电脑对抗的~n机会。~w2~h选定任意一个你喜欢~n的对手开始游戏。~w2~h通过送给对手垃圾, "
     "~n逼迫他们退出游戏。~w2~h或消灭自己所有的~n病毒来赢得胜利。 "
     "~w2~h再补充一点！~n游戏中可以按任意~n一个Ｃ键来观察药丸~n落下的位置，~w2~h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C4F00_cn[] =
+const char _mesVcFlash[] =
     "消灭所有的闪光病毒~n以取胜。~w2~h选定任意一个你喜欢~n的对手开始游戏。~w2~h通过送给对手垃圾, "
     "~n逼迫他们退出游戏~w2~h或消灭自己所有的病~n毒来赢得胜利。 "
     "~w2~h再补充一点！~n游戏中可以按任意~n一个Ｃ键来观察药丸~n落下的位置，~w2~h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C5004_cn[] =
+const char _mesLvTaiQ[] =
     "在这个模式中病毒会~n高速繁殖。~w2~h连消病毒可以降低~n它们的繁殖速度。~w2~h消灭病毒以保持瓶子~n清洁。~w2~"
     "h按L键可以加快病毒~n的繁殖。~w2~h再补充一点！~n游戏中可以按任意~n一个Ｃ键来观察药丸~n落下的位置，~w2~"
     "h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C50F8_cn[] =
+const char _mesLvTimeAt[] =
     "尽力在限定时间内争~n取最高分。~w2~h同时消灭很多病毒可~n争取最高分。~w2~h再补充一点！~n游戏中可以按任意~"
     "n一个Ｃ键来观察药丸~n落下的位置，~w2~h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C51AC_cn[] = "请输入你的名字。~w2~h如果是第一次游戏，~n请选择：~n新游戏或玩家。~w2~h~z";
+const char _mesNs1[] = "请输入你的名字。~w2~h如果是第一次游戏，~n请选择：~n新游戏或玩家。~w2~h~z";
 
-const char STR_800C51F8_cn[] = "请输入你的名字。~z";
+const char _mesNs2[] = "请输入你的名字。~z";
 
-const char STR_800C520C_cn[] =
+const char _mesVsMan[] =
     "和另外一个玩家比赛。~w2~h通过送给对手垃圾,~n逼迫他们退出游戏~w2~h或消灭自己所有的病~n毒来赢得胜利。 "
     "~w2~h再补充一点！~n游戏中可以按任意~n一个Ｃ键来观察药丸~n落下的位置，~w2~h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C52E0_cn[] =
+const char _mesVmFlash[] =
     "消灭所有的闪光病毒~n以取胜。~w2~h完成连消能送给对手垃圾。~w2~h再补充一点！~n游戏中可以按任意~n一个Ｃ键来观察药丸~"
     "n落下的位置，~w2~h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C5388_cn[] =
+const char _mesVmTimeAt[] =
     "尽力在限定时间内取~n得最高分。~w2~h一次消灭多个病毒可~n得高分。~w2~h再补充一点！~n游戏中可以按任意~"
     "n一个Ｃ键来观察药丸~n落下的位置，~w2~h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C5438_cn[] = "有多少玩家？~z";
+const char _mesVsNum[] = "有多少玩家？~z";
 
-const char STR_800C5448_cn[] =
+const char _mesVs4P[] =
     "四人自由比赛。~w2~h通过送给对手垃圾,~n逼迫他们退出游戏~w2~h或消灭自己所有的病~n毒来赢得胜利。 "
     "~w2~h连消的颜色决定你的~n垃圾药丸送到哪里去。~w2~h再补充一点！~n游戏中可以按任意~n一个Ｃ键来观察药丸~"
     "n落下的位置，~w2~h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C5544_cn[] =
+const char _mes4PTag[] =
     "二对二模式。~w2~h通过送给对手垃圾, ~n逼迫他们退出游戏，~w2~h或消灭自己所有的病~n毒来赢得胜利。 "
     "~w2~h连消的颜色决定你的~n垃圾药丸送到哪里去。~w2~h送给同伴的垃圾药丸~n放置在你们~w2~h小型垃圾箱中，然后~n又加入到~"
     "w2~h你或你的同伴随后送~n给对手的垃圾中去。~w2~h再补充一点！~n游戏中可以按任意~n一个Ｃ键来观察药丸~n落下的位置，~"
     "w2~h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C56B0_cn[] =
+const char _mes4PFlash[] =
     "消灭所有的闪光病毒~n以取胜。~w2~h你可以将对手的屏幕~n塞满垃圾。~w2~h连消的颜色决定你的~n垃圾药丸送到哪里去。~w2~"
     "h再补充一点！~n游戏中可以按任意~n一个Ｃ键来观察药丸~n落下的位置，~w2~h再按一次可以取消这~n个效果。~w2~h~z";
 
-const char STR_800C578C_cn[] = "在这里可以看游戏纪~n录。~z";
+const char _mesRec[] = "在这里可以看游戏纪~n录。~z";
 
-const char STR_800C57A8_cn[] = "在这里可以学习游戏~n规则和技巧。~z";
+const char _mesTutol[] = "在这里可以学习游戏~n规则和技巧。~z";
 
-const char STR_800C57CC_cn[] = "在这里可以更改或删~n除你的名字。~z";
+const char _mesName[] = "在这里可以更改或删~n除你的名字。~z";
 
-const char STR_800C57F0_cn[] = "在这里可以设置一盘~n比赛的局数。~z";
+const char _mesVsCnt[] = "在这里可以设置一盘~n比赛的局数。~z";
 
-const char STR_800C5814_cn[] = "在这里可以进行声音~n设置。~w2~h你也可以欣赏游戏音~n乐和音效。~w2~h~z";
+const char _mesSnd[] = "在这里可以进行声音~n设置。~w2~h你也可以欣赏游戏音~n乐和音效。~w2~h~z";
 
-const char STR_800C585C_cn[] = "在这里可以删除所有~n存档。~z";
+const char _mesBak[] = "在这里可以删除所有~n存档。~z";
 
-const char STR_800C587C_cn[] = "在这里可以设置其他~n游戏项目。~z";
+const char _mesMisc[] = "在这里可以设置其他~n游戏项目。~z";
 
-const char STR_800C58A0_cn[] = "你想看哪一条纪录？~z";
+const char _mesRecMs1[] = "你想看哪一条纪录？~z";
 
-const char STR_800C58B8_cn[] = "你想看哪个模式的~n纪录？~z";
+const char _mesRecMs2[] = "你想看哪个模式的~n纪录？~z";
 
-const char STR_800C58D4_cn[] = "这些是控制键的~n讲解。~z";
+const char _mesRule1[] = "这些是控制键的~n讲解。~z";
 
-const char STR_800C58F0_cn[] = "这是游戏的基本~n讲解。~z";
+const char _mesRule2[] = "这是游戏的基本~n讲解。~z";
 
-const char STR_800C590C_cn[] = "这些是双人游戏的~n讲解。~z";
+const char _mesRule3[] = "这些是双人游戏的~n讲解。~z";
 
-const char STR_800C5928_cn[] = "这些是四人游戏的~n讲解。~z";
+const char _mesRule4[] = "这些是四人游戏的~n讲解。~z";
 
-const char STR_800C5944_cn[] = "让我来给你一些~n提示。~z";
+const char _mesKotu[] = "让我来给你一些~n提示。~z";
 
-const char STR_800C5960_cn[] = "你想对那个名字进行~n什么操作？~z";
+const char _mesNameSel[] = "你想对那个名字进行~n什么操作？~z";
 
-const char STR_800C5984_cn[] =
+const char _mesNameErase[] =
     "如果你删除那个名字，~n那么就把相关的游戏~n数据也一同删掉了。~w2~h你真的想删除这个~n名字?~w2~h~z";
 
-const char STR_800C59E4_cn[] = "名字和游戏数据删除~n完毕。~z";
+const char _mesNameErase2[] = "名字和游戏数据删除~n完毕。~z";
 
-const char STR_800C5A04_cn[] = "选择一盘比赛中的~n局数。 ~z";
+const char _mesVsCnt2[] = "选择一盘比赛中的~n局数。 ~z";
 
-const char STR_800C5A20_cn[] = "用十字键选择，~nA键确定。~z";
+const char _mesSound[] = "用十字键选择，~nA键确定。~z";
 
-const char STR_800C5A3C_cn[] = "音乐以立体声播放。~z";
+const char _mesStereo[] = "音乐以立体声播放。~z";
 
-const char STR_800C5A54_cn[] = "音乐以单声道播放。~z";
+const char _mesMono[] = "音乐以单声道播放。~z";
 
-const char STR_800C5A6C_cn[] = "删除所有的游戏数据。~w2~h你真的想删除所有的~n游戏数据吗？~w2~h~z";
+const char _mesDoErase[] = "删除所有的游戏数据。~w2~h你真的想删除所有的~n游戏数据吗？~w2~h~z";
 
-const char STR_800C5AB0_cn[] = "所有存储的游戏数据~n删除完毕。~z";
+const char _mesDoErase1[] = "所有存储的游戏数据~n删除完毕。~z";
 
-const char STR_800C5AD4_cn[] = "请关闭电源，插入更~n多共游机。~z";
+const char _mesNoCont2[] = "请关闭电源，插入更~n多共游机。~z";
 
-const char STR_800C5AF8_cn[] = "请关闭电源，插入更~n多共游机。~z";
+const char _mesNoCont3[] = "请关闭电源，插入更~n多共游机。~z";
 
-const char STR_800C5B1C_cn[] = "请关闭电源，插入更~n多共游机。~z";
+const char _mesNoCont4[] = "请关闭电源，插入更~n多共游机。~z";
 
-const char STR_800C5B40_cn[] = "你可以打开或关闭屏~n幕上的得分显示。~z";
+const char _mesScore[] = "你可以打开或关闭屏~n幕上的得分显示。~z";
 
-const char STR_800C5B68_cn[] = "请选择得分显示模式。~z";
+const char _mesScoreOnOff[] = "请选择得分显示模式。~z";
 
 const char STR_800C5B80_cn[] = "存储中~n请勿关闭电源.~z";
 
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C5B98_cn);
+const char STR_800C5B98_cn[] = "删除中~n请勿关闭电源.~z";
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C5BB0_cn);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C5BB4_cn);
@@ -334,13 +338,17 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C6170_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C6184_cn);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C6190_cn);
+#endif
 
+#if VERSION_CN
 ASM_RODATA;
 
-const char STR_800C61A0_cn[] = "确定";
+const char STR_800AFB08[] = "确定";
 
-const char STR_800C61A8_cn[] = "取消";
+const char STR_800AFB10[] = "取消";
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C61B0_cn);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C61B4_cn);
@@ -552,9 +560,127 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C6548_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C655C_cn);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C656C_cn);
+#endif
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu_cn", func_80052944_cn);
+#if VERSION_CN
+extern const char *_tblMain_5279[];
+extern const char *_tblPlay1_5280[];
+extern const char *_tblPlay2_5281[];
+extern const char *_tblBaTyp_5282[];
+extern const char *_tblOpt_5283[];
+extern const char *_tblTutol_5284[];
+extern const char *_tblSound_5285[];
+extern const char *_tblMisc_5286[];
+extern const char *_loopTbl_5287[];
 
+bool menuMain_setMsgStr(MenuMain *menuMain, enum MainMenuMode mode, s32 arg2) {
+    bool var_s4 = false;
+    const char **var_a3 = NULL;
+    const char *var_s2 = NULL;
+    s32 var_s1;
+
+    switch (mode) {
+        case MAINMENUMODE_MENUMAIN_0:
+            var_a3 = _tblMain_5279;
+            break;
+        case MAINMENUMODE_1:
+            var_a3 = _tblPlay1_5280;
+            break;
+        case MAINMENUMODE_22:
+            var_a3 = _tblPlay2_5281;
+            break;
+        case MAINMENUMODE_35:
+            var_s2 = _mesVsNum;
+            break;
+        case MAINMENUMODE_46:
+            var_a3 = _tblOpt_5283;
+            break;
+        case MAINMENUMODE_70:
+            var_a3 = _tblMisc_5286;
+            break;
+        case MAINMENUMODE_73:
+            var_s2 = _mesScoreOnOff;
+            break;
+        case MAINMENUMODE_36:
+        case MAINMENUMODE_37:
+        case MAINMENUMODE_38:
+        case MAINMENUMODE_39:
+            var_a3 = _tblBaTyp_5282;
+            break;
+        case MAINMENUMODE_59:
+            var_a3 = _tblTutol_5284;
+            break;
+        case MAINMENUMODE_71:
+            var_s2 = _tblSound_5285[menuMain->unk_1C64.unk_004];
+            break;
+        case MAINMENUMODE_47:
+            var_s2 = _mesRecMs1;
+            break;
+        case MAINMENUMODE_48:
+        case MAINMENUMODE_MENURANK_55:
+            var_s2 = _mesRecMs2;
+            break;
+        case MAINMENUMODE_62:
+            var_s2 = _mesNameSel;
+            break;
+        case MAINMENUMODE_65:
+            var_s2 = _mesNameErase;
+            break;
+        case MAINMENUMODE_66:
+            var_s2 = _mesNameErase2;
+            break;
+        case MAINMENUMODE_72:
+            var_s2 = _mesVsCnt2;
+            break;
+        case MAINMENUMODE_67:
+        case MAINMENUMODE_68:
+            var_s2 = _mesDoErase;
+            break;
+        case MAINMENUMODE_69:
+            var_s2 = _mesDoErase1;
+            break;
+        case MAINMENUMODE_2:
+        case MAINMENUMODE_5:
+        case MAINMENUMODE_8:
+        case MAINMENUMODE_11:
+        case MAINMENUMODE_14:
+        case MAINMENUMODE_18:
+        case MAINMENUMODE_23:
+        case MAINMENUMODE_27:
+        case MAINMENUMODE_31:
+            var_s2 = _mesNs1;
+            break;
+        case MAINMENUMODE_61:
+            var_s2 = _mesNs2;
+            break;
+
+        default:
+            break;
+    }
+    if (var_a3 != NULL) {
+        var_s2 = var_a3[arg2];
+    }
+    var_s1 = 0;
+    while (var_s1 < 0x10U) {
+        if ((var_s2 == _loopTbl_5287[var_s1]) && msgWnd_isEnd(&menuMain->unk_2308)) {
+            menuMain->unk_2304 = NULL;
+        }
+        var_s1 += 1;
+    }
+
+    if (var_s2 != menuMain->unk_2304) {
+        msgWnd_clear(&menuMain->unk_2308);
+        if (var_s2 != NULL) {
+            msgWnd_addStr(&menuMain->unk_2308, var_s2);
+            var_s4 = true;
+        }
+        menuMain->unk_2304 = var_s2;
+    }
+    return var_s4;
+}
+#endif
+
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C66B8_cn);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C66C8_cn);
@@ -765,7 +891,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu_cn", func_8005B208_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu_cn", func_8005B56C_cn);
 
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C75D4_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800B0F5C);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu_cn", func_8005B594_cn);
 
@@ -793,13 +919,13 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu_cn", func_8005C8B0_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu_cn", func_8005CC68_cn);
 
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C781C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", _posX_0_9712);
 
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C7844_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", _posX_1_9713);
 
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C7858_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", _posX_2_9714);
 
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C7870_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", _posX_4_9715);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu_cn", RO_800C7888_cn);
 

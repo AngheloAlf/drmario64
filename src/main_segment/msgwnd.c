@@ -163,7 +163,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_update);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_800631D0_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_init);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_init2);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80063368_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_clear);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_layout);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_addStr);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_8006371C_cn);
@@ -454,7 +454,7 @@ s32 msgWnd_getHeight(MessageWnd *messageWnd) {
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_draw);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80064444_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_isEnd);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_skip);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80064460_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80064468_cn);
