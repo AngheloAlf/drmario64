@@ -304,7 +304,7 @@ segments:
 
       - [0x02AE30, c, main_segment/tex_func]
 
-      - [0x030390, c, main_segment/main_menu_cn]
+      - [0x030390, c, main_segment/main_menu]
 
       - [0x049760, c, main_segment/font]
       - [0x04AF00, c, main_segment/msgwnd]
@@ -351,7 +351,7 @@ segments:
       - [0x07AC50, .data, main_segment/graphic]
       - [0x07AC70, data, main_segment/07AC70]
 
-      - [0x0811F0, data, main_segment/main_menu_cn]
+      - [0x0811F0, data, main_segment/main_menu]
 
       - [0x081340, data, main_segment/081340]
 
@@ -368,7 +368,7 @@ segments:
       - [0x0ABF30, .rodata, main_segment/026550_cn]
       - [0x0AC790, .rodata, main_segment/tex_func]
 
-      - [0x0AC7F0, .rodata, main_segment/main_menu_cn]
+      - [0x0AC7F0, .rodata, main_segment/main_menu]
 
       - start: 0x0AFCE0
         type: .rodata

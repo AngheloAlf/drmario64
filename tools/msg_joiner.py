@@ -51,7 +51,7 @@ assert len(usMsgs) == len(cnMsgs)
 for i, (symName, usEntry) in enumerate(usMsgs):
     cnEntry = cnMsgs[i][1]
 
-    print(f"const char {symName}[] = MSG_COLOR(WHITE)")
+    print(f"const char {symName}[] =")
 
     print(f"#if VERSION_US")
     for line in usEntry:
@@ -63,6 +63,6 @@ for i, (symName, usEntry) in enumerate(usMsgs):
         print(f"    {line}")
     print(f"#endif")
 
-    print(f"    MSG_W(2) MSG_END;")
+    print(f"    MSG_END;")
     print()
 
