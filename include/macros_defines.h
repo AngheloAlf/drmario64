@@ -30,7 +30,9 @@
 #define SQ(x) ((x) * (x))
 
 #define ASM_TEXT __asm__(".section .text")
+#define ASM_DATA __asm__(".section .data")
 #define ASM_RODATA __asm__(".section .rodata")
+#define ASM_BSS __asm__(".section .bss")
 
 #define INC_WRAP(value, limit) (((value) + 1) % (u32)(limit))
 

@@ -336,7 +336,7 @@ void func_80049540(MenuMes *mes, s32 /*arg1*/, f32 /*arg2*/);
 // void func_80049578();
 void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 ** /*arg2*/, s32 /*arg3*/,
                   s32 /*arg4*/, s32 /*arg5*/, s32 /*arg6*/);
-// void func_8004970C();
+void func_8004970C(MenuMes *mes, const char *arg1);
 void func_80049754(MenuMes *mes, MenuItem *parentItem);
 void func_800497D0(MenuMes *mes, Gfx **gfxP);
 void func_80049894(MenuSpeedAsk *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4,
