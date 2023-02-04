@@ -649,7 +649,8 @@ typedef enum enum_evs_gamesel {
     /* 3 */ ENUM_EVS_GAMESEL_3,
     /* 4 */ ENUM_EVS_GAMESEL_4,
     /* 5 */ ENUM_EVS_GAMESEL_5,
-    /* 6 */ ENUM_EVS_GAMESEL_6
+    /* 6 */ ENUM_EVS_GAMESEL_6,
+    /* 7 */ ENUM_EVS_GAMESEL_MAX
 } enum_evs_gamesel;
 
 typedef struct struct_virus_map_data_unk_000 {

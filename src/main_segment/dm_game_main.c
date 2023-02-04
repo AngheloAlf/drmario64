@@ -65,6 +65,9 @@ UNK_TYPE dm_make_score(struct_game_state_data *arg0) {
             case ENUM_EVS_GAMESEL_6:
                 temp = arg0->unk_02C;
                 break;
+
+            default:
+                break;
         }
     }
 
@@ -3058,6 +3061,9 @@ void dm_game_init(bool arg0) {
         case ENUM_EVS_GAMESEL_6:
             var_s4 = 1;
             j = 2;
+            break;
+
+        default:
             break;
     }
 

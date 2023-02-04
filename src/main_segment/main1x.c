@@ -53,46 +53,111 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main1x", adjust_story_ai);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE1C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _seqTbl_224);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE28);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _demoSeqTbl_225);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE2C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", StoryVirLv_226);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE4C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _charToAi_227);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE5C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _stageToChar_tbl_228);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE70);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _story4PChar_tbl_229);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE78);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _team_flg_230);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", RO_800ACE84);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", GameSize_231);
 #endif
+
+extern const u8 _seqTbl_224[];
+extern const u8 _demoSeqTbl_225[];
+extern const u8 StoryVirLv_226[][10];
+extern const u8 _charToAi_227[];
+extern const s8 _stageToChar_tbl_228[][10];
+extern const s8 _story4PChar_tbl_229[][4];
+extern const u8 _team_flg_230[][4];
+extern const u8 GameSize_231[ENUM_EVS_GAMESEL_MAX];
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3EEC_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3EF8_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3EFC_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3F1C_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3F2C_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3F40_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3F48_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main1x", RO_800C3F54_cn);
+
+ASM_RODATA;
+const u8 _seqTbl_224[] = {
+    0x03, 0x02, 0x03, 0x02, 0x03, 0x02, 0x03, 0x02, 0x04, 0x02,
+};
+
+const u8 _demoSeqTbl_225[] = {
+    0,
+    1,
+};
+
+const u8 StoryVirLv_226[][10] = {
+    { 0x00, 0x02, 0x03, 0x03, 0x04, 0x04, 0x05, 0x05, 0x06, 0x06 },
+    { 0x00, 0x05, 0x06, 0x06, 0x07, 0x07, 0x08, 0x08, 0x09, 0x09 },
+    { 0x00, 0x0B, 0x0C, 0x0C, 0x0D, 0x0D, 0x0E, 0x0E, 0x0F, 0x0F },
+};
+
+const u8 _charToAi_227[] = {
+    0x00, // CHARANIMEMODE_M
+    0x00, // CHARANIMEMODE_N
+    0x03, // CHARANIMEMODE_H
+    0x01, // CHARANIMEMODE_I
+    0x03, // CHARANIMEMODE_J
+    0x06, // CHARANIMEMODE_D
+    0x07, // CHARANIMEMODE_E
+    0x04, // CHARANIMEMODE_F
+    0x05, // CHARANIMEMODE_A
+    0x02, // CHARANIMEMODE_B
+    0x08, // CHARANIMEMODE_C
+    0x09, // CHARANIMEMODE_G
+    0x0A, // CHARANIMEMODE_K
+    0x0B, // CHARANIMEMODE_L
+    0x0B, // CHARANIMEMODE_O
+};
+
+const s8 _stageToChar_tbl_228[][10] = {
+    { CHARANIMEMODE_M, CHARANIMEMODE_N, CHARANIMEMODE_I, CHARANIMEMODE_B, CHARANIMEMODE_H, CHARANIMEMODE_F,
+      CHARANIMEMODE_D, CHARANIMEMODE_C, CHARANIMEMODE_K, CHARANIMEMODE_L },
+
+    { CHARANIMEMODE_M, CHARANIMEMODE_M, CHARANIMEMODE_I, CHARANIMEMODE_B, CHARANIMEMODE_J, CHARANIMEMODE_A,
+      CHARANIMEMODE_E, CHARANIMEMODE_C, CHARANIMEMODE_K, CHARANIMEMODE_O },
+};
+
+const s8 _story4PChar_tbl_229[][4] = {
+    { CHARANIMEMODE_M, CHARANIMEMODE_N, CHARANIMEMODE_G, CHARANIMEMODE_C },
+
+    { CHARANIMEMODE_N, CHARANIMEMODE_M, CHARANIMEMODE_G, CHARANIMEMODE_C },
+};
+
+const u8 _team_flg_230[][4] = {
+    { 0x00, 0x01, 0x02, 0x03 },
+    { 0x00, 0x01, 0x02, 0x03 },
+    { 0x00, 0x01, 0x02, 0x03 },
+};
+
+const u8 GameSize_231[ENUM_EVS_GAMESEL_MAX] = {
+    0x01, // ENUM_EVS_GAMESEL_0
+    0x02, // ENUM_EVS_GAMESEL_1
+    0x04, // ENUM_EVS_GAMESEL_2
+    0x02, // ENUM_EVS_GAMESEL_3
+    0x01, // ENUM_EVS_GAMESEL_4
+    0x02, // ENUM_EVS_GAMESEL_5
+    0x04, // ENUM_EVS_GAMESEL_6
+};
 #endif
 
 /**
@@ -287,5 +352,181 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main1x", main12);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main1x", main12);
+extern s32 B_800CA2B8_cn;
+extern s8 D_8009321E_cn;
+
+enum_main_no main12(void) {
+    enum_main_no ret;
+    s32 i;
+    s32 var_a1_3;
+    s32 j;
+
+    evs_playcnt = GameSize_231[evs_gamesel];
+
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_0:
+            game_state_data[0].unk_04C = 0;
+            evs_story_flg = 0;
+            ret = MAIN_NO_5;
+            break;
+
+        case ENUM_EVS_GAMESEL_1:
+            ret = MAIN_NO_5;
+            evs_story_flg = 0;
+            for (i = 0; i < 2; i++) {
+                game_state_data[i].unk_04C = 0;
+            }
+            break;
+
+        case ENUM_EVS_GAMESEL_2:
+            for (i = 0; i < 4; i++) {
+                game_state_data[i].unk_04D = _charToAi_227[game_state_data[i].unk_090];
+            }
+            ret = MAIN_NO_5;
+            break;
+
+        case ENUM_EVS_GAMESEL_3:
+            if (evs_story_flg != 0) {
+                s32 temp_s2 = ((s32)story_proc_no >= 0xC);
+
+                for (i = 0; i < 4; i++) {
+                    CharAnimeMode temp_a0;
+
+                    j = MIN(ARRAY_COUNT(StoryVirLv_226) - 1, evs_story_level);
+
+                    game_state_data[i].unk_026 = StoryVirLv_226[j][evs_story_no];
+                    temp_a0 = _stageToChar_tbl_228[temp_s2][evs_story_no];
+                    game_state_data[i].unk_02C = 1;
+                    game_state_data[i].unk_090 = temp_a0;
+                    game_state_data[i].unk_04C = 1;
+                    game_state_data[i].unk_04E = j;
+                    game_state_data[i].unk_04D = _charToAi_227[temp_a0];
+                    game_state_data[i].unk_04F = _team_flg_230[j][i];
+                    game_state_data[i].unk_16C = j;
+                }
+
+                if ((evs_story_level > 0) && (evs_story_no == 7)) {
+                    evs_gamesel = ENUM_EVS_GAMESEL_2;
+                    evs_playcnt = 4;
+
+                    for (i = 0; i < 4; i++) {
+                        struct_game_state_data *ptr = game_state_data;
+                        CharAnimeMode temp_v0_2 = _story4PChar_tbl_229[temp_s2][i];
+
+                        ptr[i].unk_090 = temp_v0_2;
+                        ptr[i].unk_04D = _charToAi_227[temp_v0_2];
+                        if (evs_story_level < 3) {
+                            ptr[i].unk_04E = 0;
+                        }
+                    }
+
+                    game_state_data[0].unk_04C = 0;
+                } else {
+                    evs_playcnt = 2;
+                    game_state_data[0].unk_090 = temp_s2;
+                    game_state_data[0].unk_04C = 0;
+                }
+
+                adjust_story_ai();
+                evs_seqence = 1;
+                evs_seqnumb = _seqTbl_224[evs_story_no];
+            } else {
+                game_state_data[0].unk_04C = 0;
+                game_state_data[1].unk_04C = 1;
+                game_state_data[1].unk_04D = _charToAi_227[game_state_data[1].unk_090];
+            }
+
+            ret = MAIN_NO_5;
+            break;
+
+        case ENUM_EVS_GAMESEL_4:
+            evs_playcnt = 1;
+            B_800CA2B8_cn = 0;
+            D_8009321E_cn = 0;
+            game_state_data->unk_000 = 0;
+            game_state_data->unk_04B = 0;
+            game_state_data->unk_04C = 1;
+            game_state_data->unk_04E = 1;
+            game_state_data->unk_026 = 0xA;
+            game_state_data->unk_02C = 1;
+            game_state_data->unk_090 = CHARANIMEMODE_M;
+            evs_seqence = 1;
+            game_state_data->unk_04D = _charToAi_227[0];
+            evs_seqnumb = _demoSeqTbl_225[rand() & 2];
+            ret = MAIN_NO_5;
+            break;
+
+        case ENUM_EVS_GAMESEL_5:
+            evs_playcnt = 2;
+            evs_story_flg = 0;
+            D_8009321E_cn = 0;
+
+            for (i = 0; i < 2; i++) {
+                evs_select_name_no[i] = 8;
+
+                do {
+                    game_state_data[i].unk_090 = genrand(0xD);
+                    var_a1_3 = 0;
+
+                    for (j = 0; j < 2; j++) {
+                        if ((i != j) && (game_state_data[i].unk_090 == game_state_data[j].unk_090)) {
+                            var_a1_3++;
+                        }
+                    }
+
+                } while (var_a1_3 != 0);
+
+                game_state_data[i].unk_000 = CHARANIMEMODE_M;
+                game_state_data[i].unk_04B = i;
+                game_state_data[i].unk_04C = 1;
+                game_state_data[i].unk_04D = _charToAi_227[game_state_data[i].unk_090];
+                game_state_data[i].unk_04E = 1;
+                game_state_data[i].unk_026 = 0xA;
+                game_state_data[i].unk_02C = 1;
+            }
+
+            evs_seqence = 1;
+            evs_seqnumb = _demoSeqTbl_225[rand() & 2];
+            ret = MAIN_NO_5;
+            break;
+
+        case ENUM_EVS_GAMESEL_6:
+            evs_playcnt = 4;
+            evs_story_flg = 0;
+            D_8009321E_cn = 0;
+
+            for (i = 0; i < 4; i++) {
+                do {
+                    game_state_data[i].unk_090 = genrand(0xD);
+                    var_a1_3 = 0;
+
+                    for (j = 0; j < 4; j++) {
+                        if ((i != j) && (game_state_data[i].unk_090 == game_state_data[j].unk_090)) {
+                            var_a1_3++;
+                        }
+                    }
+                } while (var_a1_3 != 0);
+
+                game_state_data[i].unk_000 = CHARANIMEMODE_M;
+                game_state_data[i].unk_04B = i;
+                game_state_data[i].unk_04C = 1;
+                game_state_data[i].unk_04D = _charToAi_227[game_state_data[i].unk_090];
+                game_state_data[i].unk_04E = 1;
+                game_state_data[i].unk_04F = i;
+                game_state_data[i].unk_026 = 0xA;
+                game_state_data[i].unk_02C = 1;
+            }
+
+            evs_seqence = 1;
+            evs_seqnumb = _demoSeqTbl_225[rand() & 2];
+            ret = MAIN_NO_5;
+            break;
+
+        default:
+            UNREACHABLE;
+            break;
+    }
+
+    return ret;
+}
 #endif

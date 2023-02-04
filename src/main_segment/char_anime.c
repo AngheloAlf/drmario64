@@ -455,7 +455,7 @@ void animeSmog_update(AnimeSmog *animeSmog) {
         }
     }
 
-    animeSmog->unk_120 = MIN_ALT(animeSmog->unk_120 + 1, 0xB4);
+    animeSmog->unk_120 = MIN(0xB4, animeSmog->unk_120 + 1);
 }
 #endif
 

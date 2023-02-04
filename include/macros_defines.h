@@ -24,9 +24,6 @@
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
 #define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
 
-#define MAX_ALT(a, b) ((b) > (a) ? (b) : (a))
-#define MIN_ALT(a, b) ((b) < (a) ? (b) : (a))
-
 #define SQ(x) ((x) * (x))
 
 #define ASM_TEXT __asm__(".section .text")
