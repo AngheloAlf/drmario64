@@ -3366,7 +3366,6 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _panel_3220);
 #if 0
 //? menuItem_drawAlphaTex(MenuItem *, Gfx **, TiTexDataEntry *, TiTexDataEntry *, s32); /* extern */
 
-#if VERSION_US
 void menuCont_draw(MenuCont *cont, Gfx **gfxP) {
     Gfx *gfx;
     Gfx *temp_v0;
@@ -3438,6 +3437,7 @@ void func_8004B774(MenuMainPanel *mainPanel, s32 arg1, f32 arg2) {
 }
 #endif
 
+#if VERSION_US
 void menuMainPanel_init(MenuMainPanel *mainPanel, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, const s32 *arg4,
                         s32 arg5, s32 arg6) {
     s32 i;
@@ -8347,7 +8347,6 @@ s32 func_8004E4F4(MenuPlay2PanelSub *, ?);          /* extern */
 ? func_80055598(MenuPlay2 *);                       /* extern */
 extern ? RO_800AFEB8;
 
-#if VERSION_US
 void menuPlay2_input(MenuPlay2 *menuPlay2) {
     MenuPlay2 *var_v1_2;
     MenuPlay2PanelSub *temp_s0_2;
@@ -8723,7 +8722,6 @@ const u8 *_nameEntry_charTable[] = {
 extern ? __ctype_map;
 extern ? _nameEntry_charTable;
 
-#if VERSION_US
 void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
     s32 sp14;
     s32 sp1C;
@@ -9021,7 +9019,6 @@ s32 menuItem_drawTex(s8 *, Gfx **, s32, ?);
 ? func_80048634(f32 **, ?, Gfx **);
 s32 _getTexName(struct_watchMenu *, ?);
 
-#if VERSION_US
 void menuNmEnt_draw(MenuRank *menuRank, Gfx **gfxP) {
     Gfx *sp18;
     f32 *sp1C;
@@ -9848,6 +9845,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059C34);
 #endif
 
 /* drMarioRetrace? */
+#if VERSION_US
 void func_80059CA0(struct_watchMenu *watchMenuRef) {
     osRecvMesg(&watchMenuRef->unk_0000C, NULL, OS_MESG_BLOCK);
 }
@@ -10014,6 +10012,7 @@ void _setFadeDir(struct_watchMenu *watchMenuRef, s32 arg1) {
 /**
  * Original name: menuAll_init
  */
+#if VERSION_US
 void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) {
     UNK_PTR sp10 = *arg1;
     UNK_PTR temp_v0;
@@ -10554,6 +10553,7 @@ void menuAll_draw(struct_watchMenu *arg0, Gfx **gfxP) {
 /**
  * Original name: main_menu
  */
+#if VERSION_US
 enum_main_no main_menu(struct_800EB670 *arg0) {
     UNK_PTR sp10 = Heap_bufferp;
     struct_watchMenu *ptr = ALIGN_PTR(Heap_bufferp);
