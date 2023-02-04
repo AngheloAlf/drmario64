@@ -228,24 +228,24 @@ void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize
 
         osInvalDCache((void *)currentVram, blkSize);
 
-        #if VERSION_US
+#if VERSION_US
         osPiStartDma(&mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, (void *)currentVram, blkSize, &temp->unk_2C);
         osRecvMesg(&temp->unk_2C, &msg, OS_MESG_BLOCK);
         currentRom += blkSize;
         remainingSize -= blkSize;
-        #endif
+#endif
 
-        #if VERSION_CN
+#if VERSION_CN
         mb.hdr.pri = 0;
         mb.hdr.retQueue = &temp->unk_2C;
-        mb.dramAddr = (void*)currentVram;
+        mb.dramAddr = (void *)currentVram;
         mb.devAddr = currentRom;
         mb.size = blkSize;
         osEPiStartDma(func_80000690_cn(), &mb, 0);
         currentRom += blkSize;
         remainingSize -= blkSize;
         osRecvMesg(&temp->unk_2C, &msg, OS_MESG_BLOCK);
-        #endif
+#endif
 
         currentVram += blkSize;
     }

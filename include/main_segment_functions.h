@@ -864,11 +864,6 @@ s32 random(s32 arg0);
 // void func_8007DD70();
 // void func_8007DF64();
 // void func_8007E260();
-void replay_record_init_buffer(UNK_PTR *arg0);
-void replay_record_init(s32 playcount);
-// void replay_record();
-void replay_play_init(void);
-// void replay_play();
 
 u8 *func_8007E760(char *dst, u8 arg1, u8 arg2, u8 arg3, s32 arg4, u16 arg5, u8 *arg6);
 

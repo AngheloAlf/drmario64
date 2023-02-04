@@ -2530,7 +2530,7 @@ B_800E87C0 = 0x800E87C0; //
 randomindex = 0x800E97C0; //
 randomtable = 0x800E97C8; // size:0xDC
 
-rec_buff = 0x800E98B0; //
+rec_buff = 0x800E98B0; // size:0x4
 B_800E98B8 = 0x800E98B8; //
 B_800E98BC = 0x800E98BC; //
 B_800E98C0 = 0x800E98C0; //
