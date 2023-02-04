@@ -2531,16 +2531,14 @@ randomindex = 0x800E97C0; //
 randomtable = 0x800E97C8; // size:0xDC
 
 rec_buff = 0x800E98B0; // size:0x4
-B_800E98B8 = 0x800E98B8; //
-B_800E98BC = 0x800E98BC; //
-B_800E98C0 = 0x800E98C0; //
-B_800E98C4 = 0x800E98C4; //
-B_800E98C8 = 0x800E98C8; //
-B_800E98D0 = 0x800E98D0; //
-B_800E98E0 = 0x800E98E0; //
-B_800E98F0 = 0x800E98F0; //
-B_800E9900 = 0x800E9900; //
-B_800E9904 = 0x800E9904; //
+pRecBuff = 0x800E98B8; // size:0x10
+oldCont = 0x800E98C8; // size:0x8
+RecPos = 0x800E98D0; // size:0x10
+PlayPos = 0x800E98E0; // size:0x10
+WaitTime = 0x800E98F0; // size:0x10
+max_rec = 0x800E9900; // size:0x4
+replay_player = 0x800E9904; // size:0x4
+
 B_800E9910 = 0x800E9910; //
 B_800E9914 = 0x800E9914; //
 B_800E9918 = 0x800E9918; //

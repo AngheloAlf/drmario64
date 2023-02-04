@@ -7,16 +7,10 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "unk.h"
 
 /**
  * Original name: replay_record_init_buffer
  */
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", replay_record_init_buffer);
-#endif
-
-#if VERSION_CN
 void replay_record_init_buffer(void **arg0) {
     void *temp_v0;
 
@@ -24,16 +18,10 @@ void replay_record_init_buffer(void **arg0) {
     rec_buff = temp_v0;
     *arg0 = temp_v0 + REPLAY_TOTAL_BUFF_SIZE;
 }
-#endif
 
 /**
  * Original name: replay_record_init
  */
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", replay_record_init);
-#endif
-
-#if VERSION_CN
 void replay_record_init(s32 arg0) {
     s32 i;
 
@@ -77,20 +65,15 @@ void replay_record_init(s32 arg0) {
 
     max_rec -= 2;
 }
-#endif
 
 /**
  * Original name: replay_record
  */
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", replay_record);
-#endif
-
-#if VERSION_CN
-bool replay_record(s32 arg0, s32 arg1, UNK_TYPE arg2 UNUSED, s32 arg3) {
+bool replay_record(s32 arg0, u32 arg1) {
     u16 temp_a1;
-    bool var_t1;
+    u8 var_t1;
     u8 *temp_t3;
+    u8 a3; //! @bug a3 is used uninitialized
 
     var_t1 = false;
     temp_t3 = pRecBuff[arg0];
@@ -100,24 +83,24 @@ bool replay_record(s32 arg0, s32 arg1, UNK_TYPE arg2 UNUSED, s32 arg3) {
     }
 
     if (oldCont[arg0] != temp_a1) {
-        arg3 = 0;
+        a3 = 0;
         if (temp_a1 & 0x200) {
-            arg3 = (arg3 | 1) & 0xFF;
+            a3 |= 1;
         }
         if (temp_a1 & 0x100) {
-            arg3 = (arg3 | 2) & 0xFF;
+            a3 |= 2;
         }
         if (temp_a1 & 0x400) {
-            arg3 = (arg3 | 4) & 0xFF;
+            a3 |= 4;
         }
         if (temp_a1 & 0x8000) {
-            arg3 = (arg3 | 0x10) & 0xFF;
+            a3 |= 0x10;
         }
         if (temp_a1 & 0x4000) {
-            arg3 = (arg3 | 0x20) & 0xFF;
+            a3 |= 0x20;
         }
         if (temp_a1 & 0x30) {
-            arg3 = (arg3 | 8) & 0xFF;
+            a3 |= 8;
         }
         oldCont[arg0] = temp_a1;
         var_t1 = true;
@@ -127,7 +110,7 @@ bool replay_record(s32 arg0, s32 arg1, UNK_TYPE arg2 UNUSED, s32 arg3) {
         if (var_t1) {
             temp_t3[RecPos[arg0]] = WaitTime[arg0];
             RecPos[arg0]++;
-            temp_t3[RecPos[arg0]] = arg3;
+            temp_t3[RecPos[arg0]] = a3;
             RecPos[arg0]++;
             WaitTime[arg0] = 0;
         } else if (WaitTime[arg0] == 0xFF) {
@@ -148,16 +131,10 @@ bool replay_record(s32 arg0, s32 arg1, UNK_TYPE arg2 UNUSED, s32 arg3) {
 
     return true;
 }
-#endif
 
 /**
  * Original name: replay_play_init
  */
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", replay_play_init);
-#endif
-
-#if VERSION_CN
 void replay_play_init(void) {
     s32 i;
 
@@ -167,19 +144,14 @@ void replay_play_init(void) {
         oldCont[i] = 0;
     }
 }
-#endif
 
 /**
  * Original name: replay_play
  */
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/replay", replay_play);
-#endif
-
-#if VERSION_CN
-u16 replay_play(s32 arg0, UNK_TYPE arg1 UNUSED, UNK_TYPE arg2 UNUSED, s32 arg3) {
+u16 replay_play(s32 arg0) {
     u8 *temp_t0 = pRecBuff[arg0];
-    bool var_a0;
+    u8 var_a0;
+    u8 a3; //! @bug a3 is used uninitialized
 
     if (WaitTime[arg0] == 0) {
         if (temp_t0[PlayPos[arg0]] == 0x80) {
@@ -190,11 +162,11 @@ u16 replay_play(s32 arg0, UNK_TYPE arg1 UNUSED, UNK_TYPE arg2 UNUSED, s32 arg3) 
     var_a0 = false;
 
     if (WaitTime[arg0] == 0) {
-        arg3 = temp_t0[PlayPos[arg0]];
+        a3 = temp_t0[PlayPos[arg0]];
         PlayPos[arg0]++;
-        var_a0 = arg3 != 0x40;
         WaitTime[arg0] = temp_t0[PlayPos[arg0]];
         PlayPos[arg0]++;
+        var_a0 = a3 != 0x40;
     } else {
         WaitTime[arg0]--;
     }
@@ -202,22 +174,22 @@ u16 replay_play(s32 arg0, UNK_TYPE arg1 UNUSED, UNK_TYPE arg2 UNUSED, s32 arg3) 
     if (var_a0) {
         u16 var_a0_2 = 0;
 
-        if (arg3 & 1) {
-            var_a0_2 = (var_a0_2 | 0x200);
+        if (a3 & 1) {
+            var_a0_2 |= 0x200;
         }
-        if (arg3 & 2) {
-            var_a0_2 = (var_a0_2 | 0x100);
+        if (a3 & 2) {
+            var_a0_2 |= 0x100;
         }
-        if (arg3 & 4) {
+        if (a3 & 4) {
             var_a0_2 |= 0x400;
         }
-        if (arg3 & 8) {
+        if (a3 & 8) {
             var_a0_2 |= 0x30;
         }
-        if (arg3 & 0x10) {
+        if (a3 & 0x10) {
             var_a0_2 |= 0x8000;
         }
-        if (arg3 & 0x20) {
+        if (a3 & 0x20) {
             var_a0_2 |= 0x4000;
         }
         oldCont[arg0] = var_a0_2;
@@ -225,4 +197,3 @@ u16 replay_play(s32 arg0, UNK_TYPE arg1 UNUSED, UNK_TYPE arg2 UNUSED, s32 arg3) 
 
     return oldCont[arg0];
 }
-#endif

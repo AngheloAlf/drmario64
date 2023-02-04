@@ -21,8 +21,8 @@ extern s32 replay_player;
 
 void replay_record_init_buffer(void **arg0);
 void replay_record_init(s32 arg0);
-bool replay_record(s32 arg0, s32 arg1, UNK_TYPE arg2, s32 arg3);
+bool replay_record(s32 arg0, u32 arg1);
 void replay_play_init(void);
-u16 replay_play(s32 arg0, UNK_TYPE arg1, UNK_TYPE arg2, s32 arg3);
+u16 replay_play(s32 arg0);
 
 #endif
