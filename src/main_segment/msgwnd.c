@@ -456,7 +456,7 @@ s32 msgWnd_getHeight(MessageWnd *messageWnd) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_draw);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_isEnd);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_skip);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80064460_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_isSpeaking);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80064468_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_8006447C_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80064494_cn);

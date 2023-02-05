@@ -925,7 +925,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081D90_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800822C8_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800823A8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", draw_menu_bg);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", init_title);
 
