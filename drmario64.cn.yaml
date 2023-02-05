@@ -313,7 +313,7 @@ segments:
 
       - [0x04D1A0, c, main_segment/dm_virus_init]
 
-      - [0x04E5E0, c, main_segment/dm_game_main_cn]
+      - [0x04E5E0, c, main_segment/dm_game_main]
 
       - [0x062E20, c, main_segment/dm_manual_main]
 
@@ -381,7 +381,7 @@ segments:
 
       - [0x0AFF10, .rodata, main_segment/dm_virus_init]
 
-      - [0x0AFF90, .rodata, main_segment/dm_game_main_cn]
+      - [0x0AFF90, .rodata, main_segment/dm_game_main]
 
       - [0x0B06F0, .rodata, main_segment/dm_manual_main]
 
