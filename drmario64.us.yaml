@@ -46,6 +46,7 @@ options:
   include_macro_inc: False
   libultra_symbols: True
   hardware_regs: True
+  auto_all_sections: []
 segments:
   - name: header
     type: code

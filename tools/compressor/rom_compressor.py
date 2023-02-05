@@ -106,6 +106,9 @@ def romCompressorMain():
 
             segmentEntry = segmentDict.get(sectionEntryName)
             segmentBytearray = inRom[offset:offset+entry.size]
+
+            assert len(segmentBytearray) == entry.size, f"{sectionEntryName}: 0x{len(segmentBytearray):X} 0x{entry.size:X}"
+
             if segmentEntry is None:
                 # write as-is
                 outRom.write(segmentBytearray)

@@ -1565,10 +1565,8 @@ bool func_8006498C(s32 storyLevel, s32 storyNumber, s32 arg2) {
     } else if (storyNumber == 8) {
         if (storyLevel >= 3) {
             var_v1 = true;
-        } else if (storyLevel > 0) {
-            if (arg2 == 0) {
-                var_v1 = true;
-            }
+        } else if ((storyLevel > 0) && (arg2 == 0)) {
+            var_v1 = true;
         }
     }
 
