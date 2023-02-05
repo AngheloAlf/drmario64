@@ -49,7 +49,708 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main1x", adjust_story_ai);
 #endif
 
 #if VERSION_CN
+#if 0
+//extern ? B_8010084C_cn;
+//extern ? B_80100CF0_cn;
+
+// ai_char_data // size = 0x6C0
+
+typedef struct struct_ai_char_data {
+    /* 0x00 */ UNK_TYPE1 unk_00;
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ UNK_TYPE1 unk_02[0x2];
+    /* 0x04 */ UNK_TYPE1 unk_04[0x8];
+    /* 0x02 */ UNK_TYPE1 unk_0C[0x2];
+    /* 0x02 */ u8 unk_0E;
+    /* 0x02 */ UNK_TYPE1 unk_0F[0x1];
+    /* 0x02 */ UNK_TYPE1 unk_10[0x10];
+    /* 0x02 */ u8 unk_20;
+    /* 0x04 */ UNK_TYPE1 unk_21[0x3];
+    /* 0x02 */ UNK_TYPE1 unk_24[0x18];
+    /* 0x3C */ u8 unk_3C;
+    /* 0x3D */ u8 unk_3D;
+    /* 0x3E */ UNK_TYPE1 unk_3E;
+    /* 0x3E */ UNK_TYPE1 unk_3F[0x1];
+    /* 0x40 */ UNK_TYPE1 unk_40[0x2C];
+} struct_ai_char_data; // size = 0x6C
+
+extern struct_ai_char_data ai_char_data[0x10];
+
+void adjust_story_ai(void) {
+
+    #if 0
+    ? *var_v1;
+    ? *var_v1_2;
+    s32 var_t1;
+    s32 var_v0;
+    s8 var_v0_3;
+    s8 var_v0_4;
+    s8 var_v0_5;
+    s8 var_v0_6;
+    u32 temp_v1_3;
+    u32 temp_v1_4;
+    u32 temp_v1_5;
+    u32 temp_v1_6;
+    void *temp_a1;
+    void *temp_a3;
+    void *temp_v1;
+    void *temp_v1_2;
+    void *var_a0;
+    void *var_a0_2;
+    void *var_a2;
+    void *var_v0_2;
+    #endif
+    struct_game_state_data * gameStateDataP = game_state_data;
+
+    s32 i; // t1
+    //s32 v0;
+
+
+    for (i = 0; i < evs_playcnt; i++) {
+        struct_game_state_data *ptr; // a3
+
+        ptr = &gameStateDataP[i];
+
+        if (ptr->unk_04C != 1) {
+            continue;
+        }
+
+        ai_char_data[i] = ai_char_data[ptr->unk_04D];
+
+
+        switch (evs_story_level) {          /* switch 5; irregular */
+            case 0x0:                       /* switch 5 */
+                switch (ptr->unk_090) {        /* switch 1 */
+                    case 0x0:               /* switch 1 */
+                    case 0x1:               /* switch 1 */
+                        if (evs_story_no == 1) {
+                            #if 0
+                            var_v1 = &B_8010084C_cn;
+                            var_a0 = temp_a1;
+                            if (((s32) temp_a1 | (s32) &B_8010084C_cn) & 3) {
+                                do {
+                                    var_a0->unk_0 = (unaligned s32) var_v1->unk_0;
+                                    var_a0->unk_4 = (unaligned s32) var_v1->unk_4;
+                                    var_a0->unk_8 = (unaligned s32) var_v1->unk_8;
+                                    var_a0->unk_C = (unaligned s32) var_v1->unk_C;
+                                    var_v1 += 0x10;
+                                    var_a0 += 0x10;
+                                } while (var_v1 != (&B_8010084C_cn + 0x60));
+                            } else {
+                                do {
+                                    var_a0->unk_0 = (s32) var_v1->unk_0;
+                                    var_a0->unk_4 = (s32) var_v1->unk_4;
+                                    var_a0->unk_8 = (s32) var_v1->unk_8;
+                                    var_a0->unk_C = (s32) var_v1->unk_C;
+                                    var_v1 += 0x10;
+                                    var_a0 += 0x10;
+                                } while (var_v1 != (&B_8010084C_cn + 0x60));
+                            }
+
+                            var_a0->unk_0 = (unaligned s32) var_v1->unk_0;
+                            var_a0->unk_4 = (unaligned s32) var_v1->unk_4;
+                            var_a0->unk_8 = (unaligned s32) var_v1->unk_8;
+                            temp_a1->unk_1 = 1;
+                            #endif
+                            ai_char_data[i] = ai_char_data[0xB];
+                            ai_char_data[i].unk_01 = 1;
+                        }
+                        break;
+                    case 0xC:               /* switch 1 */
+                    #if 0
+                        temp_a1->unk_1 = 1;
+                        temp_a1->unk_3C = 0;
+                        temp_a1->unk_3E = 0;
+                        #endif
+                        ai_char_data[i].unk_01 = 1;
+                        ai_char_data[i].unk_3C = 0;
+                        ai_char_data[i].unk_3D = 0;
+                        break;
+                    case 0xD:               /* switch 1 */
+                    case 0xE:               /* switch 1 */
+                    #if 0
+                        temp_a1->unk_1 = 2;
+                        temp_a1->unk_3C = 0;
+                        #endif
+                        ai_char_data[i].unk_01 = 2;
+                        ai_char_data[i].unk_3C = 0;
+                        break;
+                    case 0x6:               /* switch 2 */
+                    #if 0
+                        temp_a1->unk_3C = 0;
+                        #endif
+                        ai_char_data[i].unk_3C = 0;
+                        break;
+                    case 0xA:               /* switch 1 */
+                    case 0x9:               /* switch 4 */
+                    case 0x8:               /* switch 2 */
+                    //case 0xA:               /* switch 3 */
+                    #if 0
+                        temp_a1->unk_1 = 2;
+                        #endif
+                        ai_char_data[i].unk_01 = 2;
+                        break;
+                }
+                break;
+            case 0x3:                       /* switch 5 */
+                switch (ptr->unk_090) {        /* switch 4 */
+                    case 0x0:               /* switch 4 */
+                    case 0x1:               /* switch 4 */
+                    #if 0
+                        if (evs_story_no == 1) {
+                            var_v1_2 = &B_8010084C_cn;
+                            var_a0_2 = temp_a1;
+                            if (((s32) temp_a1 | (s32) &B_8010084C_cn) & 3) {
+                                do {
+                                    var_a0_2->unk_0 = (unaligned s32) var_v1_2->unk_0;
+                                    var_a0_2->unk_4 = (unaligned s32) var_v1_2->unk_4;
+                                    var_a0_2->unk_8 = (unaligned s32) var_v1_2->unk_8;
+                                    var_a0_2->unk_C = (unaligned s32) var_v1_2->unk_C;
+                                    var_v1_2 += 0x10;
+                                    var_a0_2 += 0x10;
+                                } while (var_v1_2 != (&B_8010084C_cn + 0x60));
+                            } else {
+                                do {
+                                    var_a0_2->unk_0 = (s32) var_v1_2->unk_0;
+                                    var_a0_2->unk_4 = (s32) var_v1_2->unk_4;
+                                    var_a0_2->unk_8 = (s32) var_v1_2->unk_8;
+                                    var_a0_2->unk_C = (s32) var_v1_2->unk_C;
+                                    var_v1_2 += 0x10;
+                                    var_a0_2 += 0x10;
+                                } while (var_v1_2 != (&B_8010084C_cn + 0x60));
+                            }
+                            var_a0_2->unk_0 = (unaligned s32) var_v1_2->unk_0;
+                            var_a0_2->unk_4 = (unaligned s32) var_v1_2->unk_4;
+                            var_a0_2->unk_8 = (unaligned s32) var_v1_2->unk_8;
+                            temp_a1->unk_3D = 0;
+                        case 0x5:           /* switch 2 */
+                        case 0x7:           /* switch 2 */
+                        case 0xA:           /* switch 2 */
+                        }
+                        temp_a1->unk_1 = 1;
+                        #endif
+                        if (evs_story_no == 1) {
+                            ai_char_data[i] = ai_char_data[0xB];
+                        }
+                        ai_char_data[i].unk_01 = 1;
+                        break;
+                    case 0x3:               /* switch 4 */
+                    #if 0
+                        temp_a1->unk_1 = 2;
+                        temp_a1->unk_3D = 0;
+                        #endif
+                        ai_char_data[i].unk_01 = 2;
+                        ai_char_data[i].unk_3D = 0;
+                        break;
+                    case 0x8:               /* switch 4 */
+                    //case 0x8:               /* switch 3 */
+                    #if 0
+                        temp_a1->unk_1 = 5;
+                        #endif
+                        ai_char_data[i].unk_01 = 5;
+                        break;
+                    case 0x5:               /* switch 4 */
+                    #if 0
+                        temp_a1->unk_1 = 4;
+                        #endif
+                        ai_char_data[i].unk_01 = 4;
+                        break;
+                    case 0x2:               /* switch 4 */
+                    case 0x4:               /* switch 4 */
+                    case 0x6:               /* switch 4 */
+                    case 0x7:               /* switch 4 */
+                    #if 0
+                        temp_a1->unk_1 = 3;
+                        #endif
+                        ai_char_data[i].unk_01 = 3;
+                        break;
+                    case 0xC:               /* switch 4 */
+                    #if 0
+                        temp_a1->unk_1 = 5;
+                        temp_a1->unk_3D = 0;
+                        #endif
+                        ai_char_data[i].unk_01 = 5;
+                        ai_char_data[i].unk_3D = 0;
+                        break;
+                    case 0xD:               /* switch 4 */
+                    case 0xE:               /* switch 4 */
+                    #if 0
+                        temp_a1->unk_1 = 5;
+                        temp_a1->unk_3C = 6;
+                        #endif
+                        ai_char_data[i].unk_01 = 5;
+                        ai_char_data[i].unk_3C = 6;
+                        break;
+                }
+                break;
+            case 0x1:                       /* switch 5 */
+                switch (ptr->unk_090) {        /* switch 2 */
+                    case 0x0:               /* switch 2 */
+                    case 0x1:               /* switch 2 */
+                    #if 0
+                        if (evs_story_no != 1) {
+                            temp_a1->unk_1 = 1;
+                            temp_a1->unk_3D = 0;
+                        } else {
+                            var_v1 = &B_8010084C_cn;
+                            var_a0 = temp_a1;
+                            if (((s32) temp_a1 | (s32) &B_8010084C_cn) & 3) {
+                                do {
+                                    var_a0->unk_0 = (unaligned s32) var_v1->unk_0;
+                                    var_a0->unk_4 = (unaligned s32) var_v1->unk_4;
+                                    var_a0->unk_8 = (unaligned s32) var_v1->unk_8;
+                                    var_a0->unk_C = (unaligned s32) var_v1->unk_C;
+                                    var_v1 += 0x10;
+                                    var_a0 += 0x10;
+                                } while (var_v1 != (&B_8010084C_cn + 0x60));
+                            } else {
+                                do {
+                                    var_a0->unk_0 = (s32) var_v1->unk_0;
+                                    var_a0->unk_4 = (s32) var_v1->unk_4;
+                                    var_a0->unk_8 = (s32) var_v1->unk_8;
+                                    var_a0->unk_C = (s32) var_v1->unk_C;
+                                    var_v1 += 0x10;
+                                    var_a0 += 0x10;
+                                } while (var_v1 != (&B_8010084C_cn + 0x60));
+                            }
+                            var_a0->unk_0 = (unaligned s32) var_v1->unk_0;
+                            var_a0->unk_4 = (unaligned s32) var_v1->unk_4;
+                            var_a0->unk_8 = (unaligned s32) var_v1->unk_8;
+                            temp_a1->unk_1 = 1;
+                        }
+                        #endif
+                        if (evs_story_no != 1) {
+                            ai_char_data[i].unk_01 = 1;
+                            ai_char_data[i].unk_3D = 0;
+                        } else {
+                            ai_char_data[i] = ai_char_data[0xB];
+                            ai_char_data[i].unk_01 = 1;
+                        }
+                        break;
+                    case 0xB:               /* switch 2 */
+                    #if 0
+                        var_v0_6 = 1;
+                        temp_a1->unk_1 = var_v0_6;
+                        temp_a1->unk_3C = 0;
+                        temp_a1->unk_3D = 0;
+                        #endif
+                        ai_char_data[i].unk_01 = 1;
+                        ai_char_data[i].unk_3C = 0;
+                        ai_char_data[i].unk_3D = 0;
+                        break;
+                    case 0xC:               /* switch 2 */
+                    #if 0
+                        var_v0_3 = 2;
+                        temp_a1->unk_1 = var_v0_3;
+                        temp_a1->unk_3C = 0;
+                        temp_a1->unk_3E = 0;
+                        #endif
+                        ai_char_data[i].unk_3C = 0;
+                        ai_char_data[i].unk_3E = 0;
+                        break;
+                    case 0xD:               /* switch 2 */
+                    case 0xE:               /* switch 2 */
+                    #if 0
+                        var_v0_4 = 2;
+                        temp_a1->unk_1 = var_v0_4;
+                        temp_a1->unk_3C = 0;
+                        #endif
+                        ai_char_data[i].unk_01 = 2;
+                        ai_char_data[i].unk_3C = 0;
+                        break;
+                }
+                break;
+            case 0x2:                       /* switch 5 */
+                switch (ptr->unk_090) {        /* switch 3 */
+                    case 0x0:               /* switch 3 */
+                    case 0x1:               /* switch 3 */
+                    #if 0
+                        var_v0_5 = 2;
+                        if (evs_story_no == 1) {
+                            var_v1 = &B_8010084C_cn;
+                            var_a0 = temp_a1;
+                            if (((s32) temp_a1 | (s32) &B_8010084C_cn) & 3) {
+                                do {
+                                    var_a0->unk_0 = (unaligned s32) var_v1->unk_0;
+                                    var_a0->unk_4 = (unaligned s32) var_v1->unk_4;
+                                    var_a0->unk_8 = (unaligned s32) var_v1->unk_8;
+                                    var_a0->unk_C = (unaligned s32) var_v1->unk_C;
+                                    var_v1 += 0x10;
+                                    var_a0 += 0x10;
+                                } while (var_v1 != (&B_8010084C_cn + 0x60));
+                            } else {
+                                do {
+                                    var_a0->unk_0 = (s32) var_v1->unk_0;
+                                    var_a0->unk_4 = (s32) var_v1->unk_4;
+                                    var_a0->unk_8 = (s32) var_v1->unk_8;
+                                    var_a0->unk_C = (s32) var_v1->unk_C;
+                                    var_v1 += 0x10;
+                                    var_a0 += 0x10;
+                                } while (var_v1 != (&B_8010084C_cn + 0x60));
+                            }
+                            var_a0->unk_0 = (unaligned s32) var_v1->unk_0;
+                            var_a0->unk_4 = (unaligned s32) var_v1->unk_4;
+                            var_a0->unk_8 = (unaligned s32) var_v1->unk_8;
+                            temp_a1->unk_1 = 1;
+                            break;
+                        }
+                        temp_a1->unk_1 = var_v0_5;
+                        temp_a1->unk_3D = 0;
+                        #endif
+                        if (evs_story_no == 1) {
+                            ai_char_data[i] = ai_char_data[0xB];
+                        } else {
+                            ai_char_data[i].unk_01 = 2;
+                            ai_char_data[i].unk_3D = 0;
+                        }
+                        break;
+                    case 0x3:               /* switch 3 */
+                    #if 0
+                        var_v0_5 = 2;
+                        temp_a1->unk_1 = var_v0_5;
+                        temp_a1->unk_3D = 0;
+                        #endif
+                        ai_char_data[i].unk_01 = 2;
+                        ai_char_data[i].unk_3D = 0;
+                        break;
+
+                    case 0x9:               /* switch 3 */
+                    #if 0
+                        temp_a1->unk_1 = 2;
+                        temp_a1->unk_3E = 0;
+                    #endif
+                        ai_char_data[i].unk_01 = 2;
+                        ai_char_data[i].unk_3E = 0;
+                        break;
+                    case 0x7:               /* switch 3 */
+                    #if 0
+                        var_v0_5 = 3;
+                        temp_a1->unk_1 = var_v0_5;
+                        temp_a1->unk_3D = 0;
+                        #endif
+                        ai_char_data[i].unk_01 = 3;
+                        ai_char_data[i].unk_3D = 0;
+                        break;
+                    case 0xB:               /* switch 3 */
+                    #if 0
+                        var_v0_6 = 2;
+                        temp_a1->unk_1 = var_v0_6;
+                        temp_a1->unk_3C = 0;
+                        temp_a1->unk_3D = 0;
+                        #endif
+                        ai_char_data[i].unk_01 = 2;
+                        ai_char_data[i].unk_3C = 0;
+                        ai_char_data[i].unk_3C = 0;
+                        break;
+                    case 0xC:               /* switch 3 */
+                    #if 0
+                        temp_a1->unk_1 = 3;
+                        temp_a1->unk_0 = 0;
+                        temp_a1->unk_E = 2;
+                        temp_a1->unk_20 = 0xF;
+                        temp_a1->unk_3E = 2;
+                        #endif
+                        ai_char_data[i].unk_01 = 3;
+                        ai_char_data[i].unk_00 = 0;
+                        ai_char_data[i].unk_0E = 2;
+                        ai_char_data[i].unk_20 = 0xF;
+                        ai_char_data[i].unk_3E = 2;
+                        break;
+                    case 0x2:               /* switch 3 */
+                    case 0x4:               /* switch 3 */
+                    case 0xD:               /* switch 3 */
+                    case 0xE:               /* switch 3 */
+                    #if 0
+                        var_v0_4 = 3;
+                        temp_a1->unk_1 = var_v0_4;
+                        temp_a1->unk_3C = 0;
+                    #endif
+                        ai_char_data[i].unk_01 = 3;
+                        ai_char_data[i].unk_3C = 0;
+                        break;
+                }
+                break;
+        }
+    }
+
+    #if 0
+    var_t1 = 0;
+    if (evs_playcnt != 0) {
+        var_v0 = 0 * 0x10;
+        do {
+            temp_a3 = ((((var_v0 - var_t1) * 0x10) + var_t1) * 4) + game_state_data;
+            temp_a1 = (var_t1 * 0x6C) + &B_80100CF0_cn;
+            if (temp_a3->unk_4C == 1) {
+                var_v0_2 = (temp_a3->unk_4D * 0x6C) + (&B_80100CF0_cn - 0x510);
+                var_a2 = temp_a1;
+                if (((s32) var_v0_2 | (s32) temp_a1) & 3) {
+                    temp_v1 = var_v0_2 + 0x60;
+                    do {
+                        var_a2->unk_0 = (unaligned s32) var_v0_2->unk_0;
+                        var_a2->unk_4 = (unaligned s32) var_v0_2->unk_4;
+                        var_a2->unk_8 = (unaligned s32) var_v0_2->unk_8;
+                        var_a2->unk_C = (unaligned s32) var_v0_2->unk_C;
+                        var_v0_2 += 0x10;
+                        var_a2 += 0x10;
+                    } while (var_v0_2 != temp_v1);
+                } else {
+                    temp_v1_2 = var_v0_2 + 0x60;
+                    do {
+                        var_a2->unk_0 = (s32) var_v0_2->unk_0;
+                        var_a2->unk_4 = (s32) var_v0_2->unk_4;
+                        var_a2->unk_8 = (s32) var_v0_2->unk_8;
+                        var_a2->unk_C = (s32) var_v0_2->unk_C;
+                        var_v0_2 += 0x10;
+                        var_a2 += 0x10;
+                    } while (var_v0_2 != temp_v1_2);
+                }
+                var_a2->unk_0 = (unaligned s32) var_v0_2->unk_0;
+                var_a2->unk_4 = (unaligned s32) var_v0_2->unk_4;
+                var_a2->unk_8 = (unaligned s32) var_v0_2->unk_8;
+                temp_a3->unk_4D = (u8) (var_t1 + 0xC);
+                switch (evs_story_level) {          /* switch 5; irregular */
+                    case 0x0:                       /* switch 5 */
+                        temp_v1_3 = temp_a3->unk_90;
+                        switch (temp_v1_3) {        /* switch 1 */
+                            case 0x0:               /* switch 1 */
+                            case 0x1:               /* switch 1 */
+                                if (evs_story_no == 1) {
+                                    var_v1 = &B_8010084C_cn;
+                                    var_a0 = temp_a1;
+                                    if (((s32) temp_a1 | (s32) &B_8010084C_cn) & 3) {
+                                        do {
+                                            var_a0->unk_0 = (unaligned s32) var_v1->unk_0;
+                                            var_a0->unk_4 = (unaligned s32) var_v1->unk_4;
+                                            var_a0->unk_8 = (unaligned s32) var_v1->unk_8;
+                                            var_a0->unk_C = (unaligned s32) var_v1->unk_C;
+                                            var_v1 += 0x10;
+                                            var_a0 += 0x10;
+                                        } while (var_v1 != (&B_8010084C_cn + 0x60));
+                                    } else {
+                                        do {
+                                            var_a0->unk_0 = (s32) var_v1->unk_0;
+                                            var_a0->unk_4 = (s32) var_v1->unk_4;
+                                            var_a0->unk_8 = (s32) var_v1->unk_8;
+                                            var_a0->unk_C = (s32) var_v1->unk_C;
+                                            var_v1 += 0x10;
+                                            var_a0 += 0x10;
+                                        } while (var_v1 != (&B_8010084C_cn + 0x60));
+                                    }
+block_59:
+                                    var_a0->unk_0 = (unaligned s32) var_v1->unk_0;
+                                    var_a0->unk_4 = (unaligned s32) var_v1->unk_4;
+                                    var_a0->unk_8 = (unaligned s32) var_v1->unk_8;
+                                    temp_a1->unk_1 = 1;
+                                }
+                                break;
+                            case 0xC:               /* switch 1 */
+                                var_v0_3 = 1;
+block_47:
+                                temp_a1->unk_1 = var_v0_3;
+                                temp_a1->unk_3C = 0;
+                                temp_a1->unk_3E = 0;
+                                break;
+                            case 0xD:               /* switch 1 */
+                            case 0xE:               /* switch 1 */
+                                var_v0_4 = 2;
+block_67:
+                                temp_a1->unk_1 = var_v0_4;
+                            case 0x6:               /* switch 2 */
+                                temp_a1->unk_3C = 0;
+                                break;
+                            case 0xA:               /* switch 1 */
+                            case 0x9:               /* switch 4 */
+                            case 0x8:               /* switch 2 */
+                            case 0xA:               /* switch 3 */
+                                temp_a1->unk_1 = 2;
+                                break;
+                        }
+                        break;
+                    case 0x3:                       /* switch 5 */
+                        temp_v1_4 = temp_a3->unk_90;
+                        switch (temp_v1_4) {        /* switch 4 */
+                            case 0x0:               /* switch 4 */
+                            case 0x1:               /* switch 4 */
+                                if (evs_story_no == 1) {
+                                    var_v1_2 = &B_8010084C_cn;
+                                    var_a0_2 = temp_a1;
+                                    if (((s32) temp_a1 | (s32) &B_8010084C_cn) & 3) {
+                                        do {
+                                            var_a0_2->unk_0 = (unaligned s32) var_v1_2->unk_0;
+                                            var_a0_2->unk_4 = (unaligned s32) var_v1_2->unk_4;
+                                            var_a0_2->unk_8 = (unaligned s32) var_v1_2->unk_8;
+                                            var_a0_2->unk_C = (unaligned s32) var_v1_2->unk_C;
+                                            var_v1_2 += 0x10;
+                                            var_a0_2 += 0x10;
+                                        } while (var_v1_2 != (&B_8010084C_cn + 0x60));
+                                    } else {
+                                        do {
+                                            var_a0_2->unk_0 = (s32) var_v1_2->unk_0;
+                                            var_a0_2->unk_4 = (s32) var_v1_2->unk_4;
+                                            var_a0_2->unk_8 = (s32) var_v1_2->unk_8;
+                                            var_a0_2->unk_C = (s32) var_v1_2->unk_C;
+                                            var_v1_2 += 0x10;
+                                            var_a0_2 += 0x10;
+                                        } while (var_v1_2 != (&B_8010084C_cn + 0x60));
+                                    }
+                                    var_a0_2->unk_0 = (unaligned s32) var_v1_2->unk_0;
+                                    var_a0_2->unk_4 = (unaligned s32) var_v1_2->unk_4;
+                                    var_a0_2->unk_8 = (unaligned s32) var_v1_2->unk_8;
+                                    temp_a1->unk_3D = 0;
+                                case 0x5:           /* switch 2 */
+                                case 0x7:           /* switch 2 */
+                                case 0xA:           /* switch 2 */
+                                }
+                                temp_a1->unk_1 = 1;
+                                break;
+                            case 0x3:               /* switch 4 */
+                                var_v0_5 = 2;
+block_87:
+                                temp_a1->unk_1 = var_v0_5;
+                                temp_a1->unk_3D = 0;
+                                break;
+                            case 0x8:               /* switch 4 */
+                            case 0x8:               /* switch 3 */
+                                temp_a1->unk_1 = 5;
+                                break;
+                            case 0x5:               /* switch 4 */
+                                temp_a1->unk_1 = 4;
+                                break;
+                            case 0x2:               /* switch 4 */
+                            case 0x4:               /* switch 4 */
+                            case 0x6:               /* switch 4 */
+                            case 0x7:               /* switch 4 */
+                                temp_a1->unk_1 = 3;
+                                break;
+                            case 0xC:               /* switch 4 */
+                                var_v0_5 = 5;
+                                goto block_87;
+                            case 0xD:               /* switch 4 */
+                            case 0xE:               /* switch 4 */
+                                temp_a1->unk_1 = 5;
+                                temp_a1->unk_3C = 6;
+                                break;
+                        }
+                        break;
+                    case 0x1:                       /* switch 5 */
+                        temp_v1_5 = temp_a3->unk_90;
+                        switch (temp_v1_5) {        /* switch 2 */
+                            case 0x0:               /* switch 2 */
+                            case 0x1:               /* switch 2 */
+                                if (evs_story_no != 1) {
+                                    temp_a1->unk_1 = 1;
+                                    temp_a1->unk_3D = 0;
+                                } else {
+                                    var_v1 = &B_8010084C_cn;
+                                    var_a0 = temp_a1;
+                                    if (((s32) temp_a1 | (s32) &B_8010084C_cn) & 3) {
+                                        do {
+                                            var_a0->unk_0 = (unaligned s32) var_v1->unk_0;
+                                            var_a0->unk_4 = (unaligned s32) var_v1->unk_4;
+                                            var_a0->unk_8 = (unaligned s32) var_v1->unk_8;
+                                            var_a0->unk_C = (unaligned s32) var_v1->unk_C;
+                                            var_v1 += 0x10;
+                                            var_a0 += 0x10;
+                                        } while (var_v1 != (&B_8010084C_cn + 0x60));
+                                    } else {
+                                        do {
+                                            var_a0->unk_0 = (s32) var_v1->unk_0;
+                                            var_a0->unk_4 = (s32) var_v1->unk_4;
+                                            var_a0->unk_8 = (s32) var_v1->unk_8;
+                                            var_a0->unk_C = (s32) var_v1->unk_C;
+                                            var_v1 += 0x10;
+                                            var_a0 += 0x10;
+                                        } while (var_v1 != (&B_8010084C_cn + 0x60));
+                                    }
+                                    goto block_59;
+                                }
+                                break;
+                            case 0xB:               /* switch 2 */
+                                var_v0_6 = 1;
+block_64:
+                                temp_a1->unk_1 = var_v0_6;
+                                temp_a1->unk_3C = 0;
+                                temp_a1->unk_3D = 0;
+                                break;
+                            case 0xC:               /* switch 2 */
+                                var_v0_3 = 2;
+                                goto block_47;
+                            case 0xD:               /* switch 2 */
+                            case 0xE:               /* switch 2 */
+                                var_v0_4 = 2;
+                                goto block_67;
+                        }
+                        break;
+                    case 0x2:                       /* switch 5 */
+                        temp_v1_6 = temp_a3->unk_90;
+                        switch (temp_v1_6) {        /* switch 3 */
+                            case 0x0:               /* switch 3 */
+                            case 0x1:               /* switch 3 */
+                                var_v0_5 = 2;
+                                if (evs_story_no == 1) {
+                                    var_v1 = &B_8010084C_cn;
+                                    var_a0 = temp_a1;
+                                    if (((s32) temp_a1 | (s32) &B_8010084C_cn) & 3) {
+                                        do {
+                                            var_a0->unk_0 = (unaligned s32) var_v1->unk_0;
+                                            var_a0->unk_4 = (unaligned s32) var_v1->unk_4;
+                                            var_a0->unk_8 = (unaligned s32) var_v1->unk_8;
+                                            var_a0->unk_C = (unaligned s32) var_v1->unk_C;
+                                            var_v1 += 0x10;
+                                            var_a0 += 0x10;
+                                        } while (var_v1 != (&B_8010084C_cn + 0x60));
+                                    } else {
+                                        do {
+                                            var_a0->unk_0 = (s32) var_v1->unk_0;
+                                            var_a0->unk_4 = (s32) var_v1->unk_4;
+                                            var_a0->unk_8 = (s32) var_v1->unk_8;
+                                            var_a0->unk_C = (s32) var_v1->unk_C;
+                                            var_v1 += 0x10;
+                                            var_a0 += 0x10;
+                                        } while (var_v1 != (&B_8010084C_cn + 0x60));
+                                    }
+                                    goto block_59;
+                                }
+                                goto block_87;
+                            case 0x3:               /* switch 3 */
+                                var_v0_5 = 2;
+                                goto block_87;
+                            case 0x9:               /* switch 3 */
+                                temp_a1->unk_1 = 2;
+                                temp_a1->unk_3E = 0;
+                                break;
+                            case 0x7:               /* switch 3 */
+                                var_v0_5 = 3;
+                                goto block_87;
+                            case 0xB:               /* switch 3 */
+                                var_v0_6 = 2;
+                                goto block_64;
+                            case 0xC:               /* switch 3 */
+                                temp_a1->unk_1 = 3;
+                                temp_a1->unk_0 = 0;
+                                temp_a1->unk_E = 2;
+                                temp_a1->unk_20 = 0xF;
+                                temp_a1->unk_3E = 2;
+                                break;
+                            case 0x2:               /* switch 3 */
+                            case 0x4:               /* switch 3 */
+                            case 0xD:               /* switch 3 */
+                            case 0xE:               /* switch 3 */
+                                var_v0_4 = 3;
+                                goto block_67;
+                        }
+                        break;
+                }
+            }
+            var_t1 += 1;
+            var_v0 = var_t1 * 0x10;
+        } while (var_t1 < (s32) evs_playcnt);
+    }
+    #endif
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main1x", adjust_story_ai);
+#endif
 #endif
 
 #if VERSION_US
