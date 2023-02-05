@@ -753,50 +753,8 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main1x", adjust_story_ai);
 #endif
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _seqTbl_224);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _demoSeqTbl_225);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", StoryVirLv_226);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _charToAi_227);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _stageToChar_tbl_228);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _story4PChar_tbl_229);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", _team_flg_230);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main1x", GameSize_231);
-#endif
-
-extern const u8 _seqTbl_224[];
-extern const u8 _demoSeqTbl_225[];
-extern const u8 StoryVirLv_226[][10];
-extern const u8 _charToAi_227[];
-extern const s8 _stageToChar_tbl_228[][10];
-extern const s8 _story4PChar_tbl_229[][4];
-extern const u8 _team_flg_230[][4];
-extern const u8 GameSize_231[ENUM_EVS_GAMESEL_MAX];
-
-#if VERSION_CN
-
 ASM_RODATA;
+
 const u8 _seqTbl_224[] = {
     0x03, 0x02, 0x03, 0x02, 0x03, 0x02, 0x03, 0x02, 0x04, 0x02,
 };
@@ -859,7 +817,6 @@ const u8 GameSize_231[ENUM_EVS_GAMESEL_MAX] = {
     0x02, // ENUM_EVS_GAMESEL_5
     0x04, // ENUM_EVS_GAMESEL_6
 };
-#endif
 
 /**
  * Original name: main12
