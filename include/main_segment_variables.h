@@ -746,7 +746,10 @@ extern enum_evs_gamemode evs_gamemode;
 
 extern struct_game_state_data game_state_data[4]; /* Original name: game_state_data */
 
+
 #ifdef VERSION_CN
+extern s32 D_800BEF08_cn;
+
 extern struct_8010ACB0_cn *B_800CA234_cn;
 extern struct_8010ACB0_cn *B_800CA298_cn;
 extern struct_8010ACB0_cn B_8010ACB0_cn[]; // maybe length 4?

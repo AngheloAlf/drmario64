@@ -25,6 +25,8 @@ options:
   asset_path: bin/cn
   extensions_path: tools/splat_ext
   mips_abi_float_regs: o32
+  # mips_abi_gpr: numeric
+  # mips_abi_float_regs: numeric
   do_c_func_detection: True
   o_as_suffix: True
   gfx_ucode: f3dex2
@@ -176,7 +178,7 @@ segments:
       - [0x00A9B0, asm, libultra/devmgr]
       - [0x00AE50, asm, libultra/io/piacs]
       - [0x00AF10, asm, libultra/skapi]
-      - [0x00B160, asm, boot/00B160] # no clue
+      - [0x00B160, asm, libultra/common] # name guessed from a later libultra version
 
       - [0x00B250, asm, libultra/nops_00B250]
 
@@ -234,13 +236,13 @@ segments:
       - [0x00F100, asm, libultra/si]
 
       # libegcs?
-      - [0x00F130, asm, boot/00F130]
+      - [0x00F130, asm, libegcs/libgcc2]
       - [0x00F6A0, asm, boot/00F6A0]
       - [0x00F6E0, asm, boot/00F6E0]
-      - [0x00F700, asm, boot/00F700]
+      - [0x00F700, asm, boot/00F700] # rand
 
       - [0x00F760, asm, boot/00F760] # fmod
-      - [0x00F7A0, asm, boot/00F7A0]
+      - [0x00F7A0, asm, boot/00F7A0] # memmove
 
       # data
       - [0x00F830, .data, boot/boot_main]
@@ -252,14 +254,14 @@ segments:
 
       - [0x0100F0, data, boot/0100F0]
 
-      - [0x00120E0, rodata, boot/00120E0] # guess
-      - [0x0012180, rodata, boot/0012180]
-      - [0x00121E0, rodata, boot/00121E0]
-      - [0x0012240, rodata, boot/0012240]
-      - [0x0012260, rodata, boot/0012260]
-      - [0x00122B0, rodata, boot/00122B0]
-      - [0x00123D0, rodata, boot/00123D0]
-      - [0x00123E0, rodata, boot/00123E0]
+      - [0x00120E0, rodata, boot/0120E0] # guess
+      - [0x0012180, rodata, boot/012180]
+      - [0x00121E0, rodata, boot/0121E0]
+      - [0x0012240, rodata, boot/012240]
+      - [0x0012260, rodata, boot/012260]
+      - [0x00122B0, rodata, boot/0122B0]
+      - [0x00123D0, rodata, boot/0123D0]
+      - [0x00123E0, rodata, boot/00F130]
 
       - { start: 0x0124E0, type: bss, vram: 0x800118E0, name: boot/800118E0 }
 

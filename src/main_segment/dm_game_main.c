@@ -3795,7 +3795,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006F628);
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006E11C_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006E6E8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_main_1p);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006EB00_cn);
 
@@ -3807,15 +3807,15 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006EEC8_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006EF8C_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006F198_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_main_2p);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006F9BC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_main_4p);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800704E8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_demo_1p);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070694_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_demo_2p);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8007083C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_demo_4p);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800709FC_cn);
 
@@ -3927,7 +3927,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8007540C_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006D620);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80075A28_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_effect_make);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_init_heap);
 
@@ -3941,7 +3941,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_init);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_init_static);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80076F74_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_init_snap_bg);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C88D4_cn);
 
@@ -3964,7 +3964,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80077004_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80077EC4_cn);
 #endif
 
-#if VERSION_US
 enum_main_no dm_game_main(struct_800EB670 *arg0) {
     OSMesgQueue sp10;
     OSMesg sp28[8];
@@ -3992,6 +3991,17 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
         s16 *sp50;
 
         osRecvMesg(&sp10, (OSMesg *)&sp50, OS_MESG_BLOCK);
+
+#if VERSION_CN
+        if (D_80092F10_cn != false) {
+            joyProcCore();
+            graphic_no = GRAPHIC_NO_0;
+            dm_audio_update();
+
+            continue;
+        }
+#endif
+
         if (sp10.validCount != 0) {
             D_80088104[1] = 1;
         }
@@ -4005,8 +4015,18 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
                 watchGameP->unk_390 = -watchGameP->unk_390;
             }
         } else {
-            u16 temp_s1 = gControllerPressedButtons[0];
+            u16 temp_s1;
             s32 i;
+
+#if VERSION_CN
+            if (gControllerPressedButtons[*main_joy] & 0x2000) {
+                D_80088104[1] = 0;
+                D_800BEF08_cn ^= 1;
+            }
+            func_8002BC30_cn(1);
+#endif
+
+            temp_s1 = gControllerPressedButtons[0];
 
             for (i = 0; var_s2 && (i < evs_gamespeed); i++) {
                 if (i != 0) {
@@ -4017,13 +4037,28 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
             }
 
             gControllerPressedButtons[0] = temp_s1;
+
+#if VERSION_CN
+            func_8002BD04_cn();
+#endif
+
             if (watchGameP->unk_420 != 0) {
                 dm_seq_set_volume(0x40);
             }
 
             dm_audio_update();
             dm_game_graphic_onDoneSawp();
+
+#if VERSION_US
             graphic_no = GRAPHIC_NO_4;
+#endif
+#if VERSION_CN
+            if (D_80092F10_cn) {
+                graphic_no = GRAPHIC_NO_0;
+            } else {
+                graphic_no = GRAPHIC_NO_4;
+            }
+#endif
         }
     }
 
@@ -4054,18 +4089,278 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
 
     return ret;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_main);
-#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_main2);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800783AC_cn);
+#if 0
+s32 dm_game_main2(void) {
+    s32 temp_s0_4;
+    s32 temp_v0;
+    s32 var_s0;
+    s32 var_s1;
+    s32 var_s1_2;
+    s32 var_s4;
+    s32 var_s4_3;
+    s32 var_v0;
+    struct_watchGame *temp_s3;
+    s32 temp_s0_2;
+
+    temp_s3 = watchGame;
+    var_s1 = 0;
+    if (temp_s3->unk_3B8 != 0) {
+        dm_seq_play_in_game((evs_seqnumb * 2) + 1);
+        temp_s3->unk_3B8 = 0;
+    }
+
+    dm_effect_make();
+    RecWritingMsg_calc(&temp_s3->recMessage);
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_0:
+            if (temp_s3->unk_9AC > 0) {
+                if (gControllerHoldButtons[*main_joy] & 0xC000) {
+                    temp_s3->messageWnd.unk_5C = 0.125f;
+                } else {
+                    temp_s3->messageWnd.unk_5C = 0.016666668f;
+                }
+
+                msgWnd_update(&temp_s3->messageWnd);
+                switch (temp_s3->unk_9AC) { /* switch 1; irregular */
+                    case 0x1: /* switch 1 */
+                        if (!(gControllerPressedButtons[*main_joy] & 0x1000)) {
+                            if (msgWnd_isScroll(&temp_s3->messageWnd) == 0) {
+                                temp_s3->unk_9AC = 2;
+                            }
+                        } else {
+                            temp_s3->unk_9AC = 0;
+                        }
+                        break;
+
+                    case 0x2:      /* switch 1 */
+                        if (temp_s3->unk_9B0 < 0x168) {
+                            temp_s3->unk_9B0++;
+                        } else if (gControllerPressedButtons[*main_joy] & 0xFF3F) {
+                            temp_s3->unk_9AC = 0;
+                        }
+                        break;
+                }
+
+                if (temp_s3->unk_9AC == 0) {
+                    dm_seq_play_in_game(evs_seqnumb * 2);
+                }
+
+                if (temp_s3->unk_9AC > 0) {
+                    var_v0 = 0;
+                    return var_v0;
+                }
+            }
+
+            var_s4_3 = dm_game_main_1p();
+            var_s1_2 = var_s4_3 < 3;
+
+            switch (var_s4_3) {
+                case 1:
+                    temp_s0_2 = game_state_data->unk_026;
+
+                    if ((temp_s0_2 == 0x15) || (temp_s0_2 == 0x18) ||
+                        ((temp_s0_2 >= 0x1E) && (temp_s0_2 == ((temp_s0_2 / 5) * 5)))) {
+                        temp_s3->unk_9AC = 1;
+                        if (temp_s0_2 >= 0x1E) {
+                            if (temp_s0_2 < 0x28) {
+                                temp_s3->unk_9B4 = 1;
+                            } else {
+                                temp_s3->unk_9B4 = 2;
+                            }
+                        } else {
+                            temp_s3->unk_9B4 = 0;
+                        }
+                        if (temp_s0_2 < 0x1E) {
+                            temp_s3->unk_9B8 = (temp_s0_2 - 0x15) / 3;
+                        } else {
+                            temp_s3->unk_9B8 = (temp_s0_2 / 5) & 1;
+                        }
+                    }
+
+                    if (temp_s3->unk_9AC == 1) {
+                        temp_s3->unk_9B0 = 0;
+                        init_coffee_break_cnt();
+                        msgWnd_clear(&temp_s3->messageWnd);
+                        msgWnd_addStr(&temp_s3->messageWnd, st_staffroll_txt);
+                        msgWnd_skip(&temp_s3->messageWnd);
+                    }
+
+                    if (game_state_data->unk_026 < 0x63U) {
+                        game_state_data->unk_026++;
+                    }
+                    break;
+
+                case 2:
+                    game_state_data->unk_000 = 0;
+                    var_s1_2 = 1;
+                    break;
+
+                case 9:
+                    var_s4_3 = 0;
+                    dm_game_init(true);
+                    var_s1_2 = 1;
+                    break;
+            }
+
+            //var_v0 = var_s4_3;
+            if ((var_s1_2 != 0) && (var_s4_3 > 0)) {
+                dm_game_init(true);
+                animeState_set(&game_state_data->unk_094, 2);
+
+                for (var_s0 = 0; var_s0 < 3; var_s0++) {
+                    animeState_set(&temp_s3->animeStates[var_s0], 0);
+                    animeSmog_stop(&temp_s3->animeSmogs[var_s0]);
+                }
+
+                temp_s0_4 = temp_s3->unk_9AC;
+                temp_s3->unk_9AC = 0;
+                backup_game_state(0);
+                temp_s3->unk_9AC = temp_s0_4;
+                if (temp_s3->unk_9AC > 0) {
+                    dm_seq_play_in_game(0x17);
+                }
+                var_v0 = 0;
+            }
+            break;
+
+        case ENUM_EVS_GAMESEL_1:
+        case ENUM_EVS_GAMESEL_3:
+            var_s4 = dm_game_main_2p();
+
+            for (var_s0 = 0; var_s0 < 2; var_s0++) {
+                temp_v0 = temp_s3->unk_89C[var_s0];
+                if (evs_story_flg != 0) {
+                    if (temp_v0 > 0) {
+                        var_s1 = 1;
+                    }
+                } else if (temp_v0 == evs_vs_count) {
+                    var_s1 = 1;
+                }
+            }
+
+            switch (var_s4) {
+                case -1:
+                    if (var_s1 == 0) {
+                        if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
+                            for (var_s0 = 0; var_s0 < 2; var_s0++) {
+                                game_state_data[var_s0].unk_000 = 0;
+                            }
+                        }
+                        dm_game_init(true);
+
+                        for (var_s0 = 0; var_s0 < 2; var_s0++) {
+                            animeState_set(&game_state_data[var_s0].unk_094, 0);
+                        }
+
+                        backup_game_state(0);
+                        var_v0 = 0;
+                    }
+                    break;
+
+                case 2:
+                    for (var_s0 = 0; var_s0 < 2; var_s0++) {
+                        game_state_data[var_s0].unk_000 = 0;
+                    }
+
+                    dm_game_init(false);
+
+                    for (var_s0 = 0; var_s0 < 2; var_s0++) {
+                        animeState_set(&game_state_data[var_s0].unk_094, 0);
+                    }
+
+                    backup_game_state(0);
+                    var_v0 = 0;
+                    break;
+
+                case 9:
+                    dm_game_init(true);
+                    var_v0 = 0;
+                    break;
+
+                //default:
+                //    var_v0 = var_s4;
+                //    break;
+            }
+            break;
+
+        case ENUM_EVS_GAMESEL_2:
+            var_s4 = dm_game_main_4p();
+
+            for (var_s0 = 0; var_s0 < 4; var_s0++) {
+                if (evs_story_flg != 0) {
+                    if (temp_s3->unk_89C[var_s0] > 0) {
+                        var_s1 = 1;
+                    }
+                } else if (temp_s3->unk_89C[var_s0] == evs_vs_count) {
+                    var_s1 = 1;
+                }
+            }
+
+            switch (var_s4) {
+                case -1:
+                    if (var_s1 == 0) {
+                        dm_game_init(true);
+
+                        for (var_s0 = 0; var_s0 < 4; var_s0++) {
+                            animeState_set(&game_state_data[var_s0].unk_094, 0);
+                        }
+
+                        backup_game_state(0);
+                        var_v0 = 0;
+                    }
+                    break;
+
+                case 2:
+                    for (var_s0 = 0; var_s0 < 2; var_s0++) {
+                        game_state_data[var_s0].unk_000 = 0;
+                    }
+
+                    dm_game_init(false);
+
+                    for (var_s0 = 0; var_s0 < 4; var_s0++) {
+                        animeState_set(&game_state_data[var_s0].unk_094, 0);
+                    }
+
+                    backup_game_state(0);
+                    var_v0 = 0;
+                    break;
+
+                case 9:
+                    dm_game_init(true);
+                    var_v0 = 0;
+                    //return var_v0;
+                    break;
+
+                //default:
+                //    var_v0 = var_s4 ;
+                //    break;
+            }
+            break;
+
+        case ENUM_EVS_GAMESEL_4:
+            var_v0 = dm_game_demo_1p();
+            break;
+
+        case ENUM_EVS_GAMESEL_5:
+            var_v0 = dm_game_demo_2p();
+            break;
+
+        case ENUM_EVS_GAMESEL_6:
+            var_v0 = dm_game_demo_4p();
+            break;
+    }
+
+    return var_v0;
+}
+#else
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_main2);
+#endif
 #endif
 
 /**
@@ -4223,7 +4518,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8994_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80078FCC_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8007A5D8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_graphic_onDoneSawp);
 #endif
 
 void func_80071A44(void) {

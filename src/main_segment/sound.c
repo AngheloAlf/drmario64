@@ -358,7 +358,7 @@ void dm_seq_play_in_game(s32 arg0) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CA8C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_seq_play_in_game);
 #endif
 
 /**
@@ -407,7 +407,7 @@ s32 dm_seq_set_volume(s32 arg0) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CB94_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_seq_set_volume);
 #endif
 
 /**

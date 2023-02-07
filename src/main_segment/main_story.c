@@ -919,7 +919,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081C54_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081C88_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081D04_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", init_coffee_break_cnt);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081D90_cn);
 
