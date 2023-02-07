@@ -2114,7 +2114,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
                     msgWnd_skip(&temp_s3->unk_A28);
                     temp_s3->unk_AA8 = -temp_s3->unk_AA8;
                 } else {
-                    if (gControllerPressedButtons[*main_joy] != 0) {
+                    if (gControllerPressedButtons[main_joy[0]] != 0) {
                         if (temp_s3->unk_AA8 > 0) {
                             temp_s3->unk_AA8 = -temp_s3->unk_AA8;
                         }
@@ -4019,7 +4019,7 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
             s32 i;
 
 #if VERSION_CN
-            if (gControllerPressedButtons[*main_joy] & 0x2000) {
+            if (gControllerPressedButtons[main_joy[0]] & 0x2000) {
                 D_80088104[1] = 0;
                 D_800BEF08_cn ^= 1;
             }
@@ -4095,19 +4095,15 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_main2);
 #endif
 
 #if VERSION_CN
-#if 0
+#ifdef NON_MATCHING
+// regalloc
 s32 dm_game_main2(void) {
-    s32 temp_s0_4;
-    s32 temp_v0;
+    s32 var_s4_2;
     s32 var_s0;
     s32 var_s1;
-    s32 var_s1_2;
-    s32 var_s4;
-    s32 var_s4_3;
-    s32 var_v0;
     struct_watchGame *temp_s3;
-    s32 temp_s0_2;
 
+    //var_s4_2 = saved_reg_s4;
     temp_s3 = watchGame;
     var_s1 = 0;
     if (temp_s3->unk_3B8 != 0) {
@@ -4117,20 +4113,21 @@ s32 dm_game_main2(void) {
 
     dm_effect_make();
     RecWritingMsg_calc(&temp_s3->recMessage);
+
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
             if (temp_s3->unk_9AC > 0) {
-                if (gControllerHoldButtons[*main_joy] & 0xC000) {
+                if (gControllerHoldButtons[main_joy[0]] & 0xC000) {
                     temp_s3->messageWnd.unk_5C = 0.125f;
                 } else {
                     temp_s3->messageWnd.unk_5C = 0.016666668f;
                 }
-
                 msgWnd_update(&temp_s3->messageWnd);
-                switch (temp_s3->unk_9AC) { /* switch 1; irregular */
-                    case 0x1: /* switch 1 */
-                        if (!(gControllerPressedButtons[*main_joy] & 0x1000)) {
-                            if (msgWnd_isScroll(&temp_s3->messageWnd) == 0) {
+
+                switch (temp_s3->unk_9AC) {
+                    case 0x1:
+                        if (!(gControllerPressedButtons[main_joy[0]] & 0x1000)) {
+                            if (!msgWnd_isScroll(&temp_s3->messageWnd)) {
                                 temp_s3->unk_9AC = 2;
                             }
                         } else {
@@ -4138,120 +4135,128 @@ s32 dm_game_main2(void) {
                         }
                         break;
 
-                    case 0x2:      /* switch 1 */
+                    case 0x2:
                         if (temp_s3->unk_9B0 < 0x168) {
                             temp_s3->unk_9B0++;
-                        } else if (gControllerPressedButtons[*main_joy] & 0xFF3F) {
+                        } else if (gControllerPressedButtons[main_joy[0]] & 0xFF3F) {
                             temp_s3->unk_9AC = 0;
                         }
                         break;
                 }
-
                 if (temp_s3->unk_9AC == 0) {
                     dm_seq_play_in_game(evs_seqnumb * 2);
                 }
-
-                if (temp_s3->unk_9AC > 0) {
-                    var_v0 = 0;
-                    return var_v0;
-                }
+                var_s4_2 = 0;
             }
 
-            var_s4_3 = dm_game_main_1p();
-            var_s1_2 = var_s4_3 < 3;
+            if (temp_s3->unk_9AC <= 0) {
+                var_s4_2 = dm_game_main_1p();
+                var_s1 = var_s4_2 < 3;
 
-            switch (var_s4_3) {
-                case 1:
-                    temp_s0_2 = game_state_data->unk_026;
+                switch (var_s4_2) {
+                    //case 0: // ?
+                    //    break;
 
-                    if ((temp_s0_2 == 0x15) || (temp_s0_2 == 0x18) ||
-                        ((temp_s0_2 >= 0x1E) && (temp_s0_2 == ((temp_s0_2 / 5) * 5)))) {
-                        temp_s3->unk_9AC = 1;
-                        if (temp_s0_2 >= 0x1E) {
-                            if (temp_s0_2 < 0x28) {
-                                temp_s3->unk_9B4 = 1;
+                    case 1:
+                        var_s0 = game_state_data[0].unk_026;
+                        if ((var_s0 == 0x15) || (var_s0 == 0x18) || ((var_s0 >= 0x1E) && (var_s0 == ((var_s0 / 5) * 5)))) {
+                            temp_s3->unk_9AC = 1;
+                            if (var_s0 >= 0x1E) {
+                                if (var_s0 < 0x28) {
+                                    temp_s3->unk_9B4 = 1;
+                                } else {
+                                    temp_s3->unk_9B4 = 2;
+                                }
                             } else {
-                                temp_s3->unk_9B4 = 2;
+                                temp_s3->unk_9B4 = 0;
                             }
-                        } else {
-                            temp_s3->unk_9B4 = 0;
+
+                            if (var_s0 < 0x1E) {
+                                temp_s3->unk_9B8 = (var_s0 - 0x15) / 3;
+                            } else {
+                                temp_s3->unk_9B8 = (var_s0 / 5) & 1;
+                            }
                         }
-                        if (temp_s0_2 < 0x1E) {
-                            temp_s3->unk_9B8 = (temp_s0_2 - 0x15) / 3;
-                        } else {
-                            temp_s3->unk_9B8 = (temp_s0_2 / 5) & 1;
+
+                        if (temp_s3->unk_9AC == 1) {
+                            temp_s3->unk_9B0 = 0;
+                            init_coffee_break_cnt();
+                            msgWnd_clear(&temp_s3->messageWnd);
+                            msgWnd_addStr(&temp_s3->messageWnd, st_staffroll_txt);
+                            msgWnd_skip(&temp_s3->messageWnd);
                         }
-                    }
 
-                    if (temp_s3->unk_9AC == 1) {
-                        temp_s3->unk_9B0 = 0;
-                        init_coffee_break_cnt();
-                        msgWnd_clear(&temp_s3->messageWnd);
-                        msgWnd_addStr(&temp_s3->messageWnd, st_staffroll_txt);
-                        msgWnd_skip(&temp_s3->messageWnd);
-                    }
+                        if (game_state_data[0].unk_026 < 0x63U) {
+                            game_state_data[0].unk_026++;
+                        }
+                        break;
 
-                    if (game_state_data->unk_026 < 0x63U) {
-                        game_state_data->unk_026++;
-                    }
-                    break;
+                    case 2:
+                        game_state_data[0].unk_000 = 0;
+                        var_s1 = 1;
+                        break;
 
-                case 2:
-                    game_state_data->unk_000 = 0;
-                    var_s1_2 = 1;
-                    break;
+                    case 9:
+                        var_s4_2 = 0;
+                        dm_game_init(true);
+                        var_s1 = 1;
+                        break;
 
-                case 9:
-                    var_s4_3 = 0;
+                    default:
+                        break;
+                }
+
+                // ?
+                if ((var_s1 != 0) && (var_s4_2 > 0)) {
+                    var_s4_2 = 0;
                     dm_game_init(true);
-                    var_s1_2 = 1;
-                    break;
-            }
+                    animeState_set(&game_state_data[0].unk_094, 2);
 
-            //var_v0 = var_s4_3;
-            if ((var_s1_2 != 0) && (var_s4_3 > 0)) {
-                dm_game_init(true);
-                animeState_set(&game_state_data->unk_094, 2);
+                    for (var_s0 = 0; var_s0 < 3; var_s0++) {
+                        animeState_set(&temp_s3->animeStates[var_s0], 0);
+                        animeSmog_stop(&temp_s3->animeSmogs[var_s0]);
+                    }
 
-                for (var_s0 = 0; var_s0 < 3; var_s0++) {
-                    animeState_set(&temp_s3->animeStates[var_s0], 0);
-                    animeSmog_stop(&temp_s3->animeSmogs[var_s0]);
+                    var_s0 = temp_s3->unk_9AC;
+                    temp_s3->unk_9AC = 0;
+                    backup_game_state(0);
+                    temp_s3->unk_9AC = var_s0;
+                    if (temp_s3->unk_9AC > 0) {
+                        dm_seq_play_in_game(0x17);
+                    }
                 }
-
-                temp_s0_4 = temp_s3->unk_9AC;
-                temp_s3->unk_9AC = 0;
-                backup_game_state(0);
-                temp_s3->unk_9AC = temp_s0_4;
-                if (temp_s3->unk_9AC > 0) {
-                    dm_seq_play_in_game(0x17);
-                }
-                var_v0 = 0;
             }
             break;
 
         case ENUM_EVS_GAMESEL_1:
         case ENUM_EVS_GAMESEL_3:
-            var_s4 = dm_game_main_2p();
+            var_s4_2 = dm_game_main_2p();
 
             for (var_s0 = 0; var_s0 < 2; var_s0++) {
-                temp_v0 = temp_s3->unk_89C[var_s0];
                 if (evs_story_flg != 0) {
-                    if (temp_v0 > 0) {
+                    if (temp_s3->unk_89C[var_s0] > 0) {
                         var_s1 = 1;
                     }
-                } else if (temp_v0 == evs_vs_count) {
+                } else if (temp_s3->unk_89C[var_s0] == evs_vs_count) {
                     var_s1 = 1;
                 }
             }
 
-            switch (var_s4) {
+            switch (var_s4_2) {
                 case -1:
                     if (var_s1 == 0) {
-                        if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
-                            for (var_s0 = 0; var_s0 < 2; var_s0++) {
-                                game_state_data[var_s0].unk_000 = 0;
-                            }
+                        var_s4_2 = 0;
+                        switch (evs_gamemode) {
+                            case ENUM_EVS_GAMEMODE_3:
+                                for (var_s0 = 0; var_s0 < 2; var_s0++) {
+                                    game_state_data[var_s0].unk_000 = 0;
+                                }
+                                break;
+
+                            default:
+                                break;
                         }
+
                         dm_game_init(true);
 
                         for (var_s0 = 0; var_s0 < 2; var_s0++) {
@@ -4259,11 +4264,11 @@ s32 dm_game_main2(void) {
                         }
 
                         backup_game_state(0);
-                        var_v0 = 0;
                     }
                     break;
 
                 case 2:
+                    var_s4_2 = 0;
                     for (var_s0 = 0; var_s0 < 2; var_s0++) {
                         game_state_data[var_s0].unk_000 = 0;
                     }
@@ -4275,22 +4280,20 @@ s32 dm_game_main2(void) {
                     }
 
                     backup_game_state(0);
-                    var_v0 = 0;
                     break;
 
                 case 9:
                     dm_game_init(true);
-                    var_v0 = 0;
+                    var_s4_2 = 0;
                     break;
 
-                //default:
-                //    var_v0 = var_s4;
-                //    break;
+                default:
+                    break;
             }
             break;
 
         case ENUM_EVS_GAMESEL_2:
-            var_s4 = dm_game_main_4p();
+            var_s4_2 = dm_game_main_4p();
 
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
                 if (evs_story_flg != 0) {
@@ -4302,61 +4305,61 @@ s32 dm_game_main2(void) {
                 }
             }
 
-            switch (var_s4) {
+            switch (var_s4_2) {
                 case -1:
                     if (var_s1 == 0) {
+                    var_s4_2 = 0;
                         dm_game_init(true);
-
                         for (var_s0 = 0; var_s0 < 4; var_s0++) {
                             animeState_set(&game_state_data[var_s0].unk_094, 0);
                         }
-
                         backup_game_state(0);
-                        var_v0 = 0;
                     }
                     break;
 
                 case 2:
+                    var_s4_2 = 0;
                     for (var_s0 = 0; var_s0 < 2; var_s0++) {
                         game_state_data[var_s0].unk_000 = 0;
                     }
 
                     dm_game_init(false);
 
+                    var_s0 = 0;
                     for (var_s0 = 0; var_s0 < 4; var_s0++) {
                         animeState_set(&game_state_data[var_s0].unk_094, 0);
                     }
 
                     backup_game_state(0);
-                    var_v0 = 0;
                     break;
 
                 case 9:
                     dm_game_init(true);
-                    var_v0 = 0;
-                    //return var_v0;
+                    var_s4_2 = 0;
                     break;
 
-                //default:
-                //    var_v0 = var_s4 ;
-                //    break;
+                default:
+                    break;
             }
             break;
 
         case ENUM_EVS_GAMESEL_4:
-            var_v0 = dm_game_demo_1p();
+            var_s4_2 = dm_game_demo_1p();
             break;
 
         case ENUM_EVS_GAMESEL_5:
-            var_v0 = dm_game_demo_2p();
+            var_s4_2 = dm_game_demo_2p();
             break;
 
         case ENUM_EVS_GAMESEL_6:
-            var_v0 = dm_game_demo_4p();
+            var_s4_2 = dm_game_demo_4p();
+            break;
+
+        default:
             break;
     }
 
-    return var_v0;
+    return var_s4_2;
 }
 #else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_main2);
