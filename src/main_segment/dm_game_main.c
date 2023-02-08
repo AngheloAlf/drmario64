@@ -3161,10 +3161,8 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
 
     var_a1_2 = MIN(temp1->unk_4[0], temp2->unk_4[0]);
 
-    StretchAlphaTexTile(&gGfxHead, var_a1_2, temp1->unk_4[1], temp1->unk_0->unk_4,
-                        temp1->unk_4[0], temp2->unk_0->unk_4,
-                        temp2->unk_4[0], 0, 0, var_a1_2, temp1->unk_4[1], arg0, arg1,
-                        var_a1_2, temp1->unk_4[1]);
+    StretchAlphaTexTile(&gGfxHead, var_a1_2, temp1->unk_4[1], temp1->unk_0->unk_4, temp1->unk_4[0], temp2->unk_0->unk_4,
+                        temp2->unk_4[0], 0, 0, var_a1_2, temp1->unk_4[1], arg0, arg1, var_a1_2, temp1->unk_4[1]);
 }
 
 #if VERSION_US
@@ -4008,11 +4006,12 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2358);
 
 ASM_TEXT;
 
-#if VERSION_US
 void dm_game_init_snap_bg(void) {
-    watchGame->unk_87C = (void *)ALIGN64((uintptr_t)heapTop);
-    heapTop = watchGame->unk_87C + 0x26700;
-    watchGame->unk_880 = 0;
+    struct_watchGame *watchGameP = watchGame;
+
+    watchGameP->unk_87C = (void *)ALIGN64((uintptr_t)heapTop);
+    heapTop = (void *)(((uintptr_t)watchGameP->unk_87C) + sizeof(struct_watchGame_unk_87C));
+    watchGameP->unk_880 = 0;
 
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
@@ -4024,11 +4023,6 @@ void dm_game_init_snap_bg(void) {
             break;
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_init_snap_bg);
-#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_draw_snap_bg);

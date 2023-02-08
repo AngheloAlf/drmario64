@@ -901,7 +901,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081160_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081470_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081508_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80077170);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800815A8_cn);
 

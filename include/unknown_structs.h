@@ -122,6 +122,11 @@ typedef struct TiTexData {
     /* 0x00 */ TiTexDataEntry unk_00[25]; // guessed size
 } TiTexData; // size >= 0xC8
 
+// SnapBg?
+typedef struct struct_watchGame_unk_87C {
+    /* 0x00000 */ UNK_TYPE1 unk_00000[0x26700];
+} struct_watchGame_unk_87C; // size = 0x26700
+
 typedef struct struct_watchGame_unk_9D0 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x24];
     /* 0x24 */ s32 unk_24;
@@ -182,8 +187,8 @@ typedef struct struct_watchGame {
     /* 0x44C */ AnimeState animeStates[3];
     /* 0x50C */ AnimeSmog animeSmogs[3];
     /* 0x878 */ UNK_TYPE unk_878;
-    /* 0x87C */ void *unk_87C;
-    /* 0x880 */ UNK_TYPE unk_880;
+    /* 0x87C */ struct_watchGame_unk_87C *unk_87C;
+    /* 0x880 */ s32 unk_880;
     /* 0x884 */ UNK_PTR unk_884;
     /* 0x888 */ UNK_TYPE4 unk_888[UNK_SIZE];
     /* 0x88C */ UNK_TYPE1 unk_88C[0xC];
