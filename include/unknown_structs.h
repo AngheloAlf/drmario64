@@ -92,6 +92,15 @@ typedef struct struct_800EA290 {
 } struct_800EA290; // size >= 0x1244
 
 
+typedef struct struct_800EF440 {
+    /* 0x0000 */ UNK_TYPE1 unk_0000[0x2FB8];
+} struct_800EF440; // size = 0x2FB8
+
+typedef struct struct_800F48C0 {
+    /* 0x0000 */ UNK_TYPE1 unk_0000[0x3000];
+} struct_800F48C0; // size = 0x3000
+
+
 typedef struct struct_watchGame_unk_0B8_unk_00 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x10];
     /* 0x10 */ f32 unk_10;

@@ -3432,29 +3432,18 @@ void dm_effect_make(void) {
     }
 }
 
-#if VERSION_US
 void dm_game_init_heap(void) {
-    u32 i;
-    u32 temp = 0x3000;
+    s32 i;
 
-    heapTop = &Heap_bufferp;
-    watchGame = ALIGN_PTR(&Heap_bufferp);
-    bzero(watchGame, sizeof(struct_watchGame));
+    heapTop = Heap_bufferp;
+    BUFFER_CALLOC(&watchGame, heapTop, sizeof(struct_watchGame));
 
-    heapTop = &watchGame[1];
-    for (i = 0; i < ARRAY_COUNT(B_800EF440); i++) {
-        B_800EF440[i] = ALIGN_PTR(heapTop);
-        heapTop = B_800EF440[i] + 0x2FB8;
+    for (i = 0; i < ARRAY_COUNTU(B_800EF440); i++) {
+        BUFFER_MALLOC(&B_800EF440[i], heapTop, sizeof(struct_800EF440));
     }
 
-    B_800F48C0 = heapTop + 8;
-    heapTop = B_800F48C0 + temp;
+    BUFFER_MALLOC(&B_800F48C0, heapTop, sizeof(struct_800F48C0));
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_init_heap);
-#endif
 
 #if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8854_cn);
@@ -4739,6 +4728,7 @@ s32 dm_game_main2(void) {
             break;
 
         default:
+            UNREACHABLE;
             break;
     }
 
