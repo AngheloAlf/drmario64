@@ -508,7 +508,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064A9C_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064B8C_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064DC0_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeSmog_init);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064FEC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeSmog_load);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006503C_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeSmog_stop);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800650B0_cn);

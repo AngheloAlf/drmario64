@@ -906,7 +906,7 @@ void aifFieldCopy(struct_game_state_data *gameStateDataRef) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80031014_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifMake);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80031230_cn);
 
