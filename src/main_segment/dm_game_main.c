@@ -3972,15 +3972,16 @@ void dm_game_init_static(void) {
 
     //! FAKE
     temp_s3->unk_878 = var_v0 = 0x7F;
-    temp_s3->unk_430 = tiLoadTexData(&heapTop, romTableP[0x178/8].start, romTableP[0x178/8].end);
-    temp_s3->unk_444 = tiLoadTexData(&heapTop, romTableP[0x1A0/8].start, romTableP[0x1A0/8].end);
+    temp_s3->unk_430 = tiLoadTexData(&heapTop, romTableP[0x178 / 8].start, romTableP[0x178 / 8].end);
+    temp_s3->unk_444 = tiLoadTexData(&heapTop, romTableP[0x1A0 / 8].start, romTableP[0x1A0 / 8].end);
     if (main_no != MAIN_NO_5) {
-        temp_s3->unk_448 = tiLoadTexData(&heapTop, romTableP[0x208/8].start, romTableP[0x208/8].end);
+        temp_s3->unk_448 = tiLoadTexData(&heapTop, romTableP[0x208 / 8].start, romTableP[0x208 / 8].end);
     }
 
     var_s1 = 0;
     temp_s3->unk_884 = heapTop;
-    heapTop = DecompressRomToRam(romTableP[0x1A8/8].start, temp_s3->unk_884, romTableP[0x1A8/8].end - romTableP[0x1A8/8].start);
+    heapTop = DecompressRomToRam(romTableP[0x1A8 / 8].start, temp_s3->unk_884,
+                                 romTableP[0x1A8 / 8].end - romTableP[0x1A8 / 8].start);
     do {
         temp_s3->unk_8AC[var_s1] = 0;
         var_s1 += 1;
@@ -4006,15 +4007,15 @@ void dm_game_init_static(void) {
     //! FAKE
     msgWnd_init2(&temp_s3->unk_A28, &heapTop, 0x100, 0xA, var_v0 = 5, 0, 0);
 
-    temp_s3->unk_A28.unk_28 = (s32) (0x140 - (temp_s3->unk_A28.unk_3C * 0x14)) >> 1;
-    temp_s3->unk_A28.unk_2C = (s32) (0xF0 - (temp_s3->unk_A28.unk_48 * 2)) >> 1;
+    temp_s3->unk_A28.unk_28 = (s32)(0x140 - (temp_s3->unk_A28.unk_3C * 0x14)) >> 1;
+    temp_s3->unk_A28.unk_2C = (s32)(0xF0 - (temp_s3->unk_A28.unk_48 * 2)) >> 1;
     RecWritingMsg_init(&temp_s3->recMessage, &heapTop);
-    switch (evs_gamesel) {                          /* switch 1 */
+    switch (evs_gamesel) { /* switch 1 */
         case ENUM_EVS_GAMESEL_4:
             evs_high_score = 0xDD18;
             break;
 
-        case ENUM_EVS_GAMESEL_0:                    /* switch 1 */
+        case ENUM_EVS_GAMESEL_0: /* switch 1 */
             temp_a3 = &evs_mem_data[evs_select_name_no[0]];
             if (evs_select_name_no[0] == 8) {
                 evs_high_score = 0xDD18;
@@ -4038,28 +4039,28 @@ void dm_game_init_static(void) {
             }
             break;
 
-        case ENUM_EVS_GAMESEL_1:                    /* switch 1 */
-        case ENUM_EVS_GAMESEL_2:                    /* switch 1 */
-        case ENUM_EVS_GAMESEL_3:                    /* switch 1 */
-        case ENUM_EVS_GAMESEL_5:                    /* switch 1 */
-        case ENUM_EVS_GAMESEL_6:                    /* switch 1 */
+        case ENUM_EVS_GAMESEL_1: /* switch 1 */
+        case ENUM_EVS_GAMESEL_2: /* switch 1 */
+        case ENUM_EVS_GAMESEL_3: /* switch 1 */
+        case ENUM_EVS_GAMESEL_5: /* switch 1 */
+        case ENUM_EVS_GAMESEL_6: /* switch 1 */
             if (evs_story_flg == 0) {
                 evs_high_score = 0;
             }
             break;
 
-        default:                                /* switch 1 */
+        default: /* switch 1 */
             return;
     }
 
-    switch (evs_gamesel) {              /* switch 2 */
-        case ENUM_EVS_GAMESEL_0:        /* switch 2 */
-        case ENUM_EVS_GAMESEL_4:        /* switch 2 */
+    switch (evs_gamesel) {       /* switch 2 */
+        case ENUM_EVS_GAMESEL_0: /* switch 2 */
+        case ENUM_EVS_GAMESEL_4: /* switch 2 */
             temp_s3->unk_898 = 1;
             animeState_load(&game_state_data[0].unk_094, &heapTop, CHARANIMEMODE_MARIO);
             animeState_set(&game_state_data[0].unk_094, 2);
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180/8].start, romTableP[0x180/8].end);
-            temp_s3->unk_434 = tiLoadTexData(&heapTop, romTableP[0x198/8].start, romTableP[0x198/8].end);
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180 / 8].start, romTableP[0x180 / 8].end);
+            temp_s3->unk_434 = tiLoadTexData(&heapTop, romTableP[0x198 / 8].start, romTableP[0x198 / 8].end);
 
             var_s1 = 0;
             do {
@@ -4083,9 +4084,9 @@ void dm_game_init_static(void) {
             heapTop = init_coffee_break(heapTop, game_state_data[0].unk_02C);
             break;
 
-        case ENUM_EVS_GAMESEL_1:        /* switch 2 */
-        case ENUM_EVS_GAMESEL_3:        /* switch 2 */
-        case ENUM_EVS_GAMESEL_5:        /* switch 2 */
+        case ENUM_EVS_GAMESEL_1: /* switch 2 */
+        case ENUM_EVS_GAMESEL_3: /* switch 2 */
+        case ENUM_EVS_GAMESEL_5: /* switch 2 */
             var_s1 = 0;
             do {
                 animeState_load(&game_state_data[var_s1].unk_094, &heapTop, game_state_data[var_s1].unk_090);
@@ -4106,14 +4107,14 @@ void dm_game_init_static(void) {
                     } while (var_s1 < 2);
                 }
             }
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180/8].start, romTableP[0x180/8].end);
-            temp_s3->unk_43C = tiLoadTexData(&heapTop, romTableP[0x188/8].start, romTableP[0x188/8].end);
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180 / 8].start, romTableP[0x180 / 8].end);
+            temp_s3->unk_43C = tiLoadTexData(&heapTop, romTableP[0x188 / 8].start, romTableP[0x188 / 8].end);
             break;
 
-        case ENUM_EVS_GAMESEL_2:        /* switch 2 */
-        case ENUM_EVS_GAMESEL_6:        /* switch 2 */
-            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180/8].start, romTableP[0x180/8].end);
-            temp_s3->unk_440 = tiLoadTexData(&heapTop, romTableP[0x190/8].start, romTableP[0x190/8].end);
+        case ENUM_EVS_GAMESEL_2: /* switch 2 */
+        case ENUM_EVS_GAMESEL_6: /* switch 2 */
+            temp_s3->unk_438 = tiLoadTexData(&heapTop, romTableP[0x180 / 8].start, romTableP[0x180 / 8].end);
+            temp_s3->unk_440 = tiLoadTexData(&heapTop, romTableP[0x190 / 8].start, romTableP[0x190 / 8].end);
             var_s1 = 0;
             do {
                 animeState_load(&game_state_data[var_s1].unk_094, &heapTop, game_state_data[var_s1].unk_090);
@@ -4140,7 +4141,6 @@ void dm_game_init_static(void) {
                 }
                 var_s1 += 1;
             } while (var_s1 < 4);
-
 
             if (temp_s3->unk_8CC[0] == 1) {
                 if (temp_s3->unk_8CC[1] == temp_s3->unk_8CC[0]) {

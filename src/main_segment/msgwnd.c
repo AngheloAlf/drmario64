@@ -39,6 +39,7 @@ bool func_8005CF20(s32 arg0, u32 buttonMask) {
     }
     return i < 4;
 }
+#endif
 
 /**
  * Original name: msgWnd_init
@@ -50,6 +51,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_init);
 /**
  * Original name: msgWnd_init2
  */
+#if VERSION_US
 void msgWnd_init2(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     char *temp;
 
@@ -104,6 +106,7 @@ void msgWnd_clear(MessageWnd *messageWnd) {
     messageWnd->unk_70 = 0;
     messageWnd->unk_7C = 0;
 }
+#endif
 
 /**
  * Original name: msgWnd_layout
@@ -157,7 +160,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", func_8005D3F8);
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_update);
 #endif
-#endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_800631D0_cn);
@@ -176,7 +178,6 @@ const char RO_800B1A54[] = {
     0xA5,
 };
 
-#if VERSION_US
 #if VERSION_US
 #ifdef NON_EQUIVALENT
 /**
@@ -410,7 +411,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_draw);
 /**
  * Original name: msgWnd_isEnd
  */
-
+#if VERSION_US
 bool msgWnd_isEnd(MessageWnd *messageWnd) {
     return messageWnd->hasEnded;
 }

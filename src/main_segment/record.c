@@ -800,6 +800,7 @@ void RecWritingMsg_calc(RecordWritingMessage *recMessage) {
     msgWnd_update(&recMessage->messageWnd);
     recMessage->unk_84++;
 }
+#endif
 
 #if VERSION_US
 #if 0
@@ -836,6 +837,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", RecWritingMsg_draw);
 #endif
 #endif
 
+#if VERSION_US
 void RecWritingMsg_start(RecordWritingMessage *recMessage) {
     recMessage->unk_84 = 0;
 }
