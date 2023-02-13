@@ -3958,10 +3958,9 @@ void dm_game_init_static(void) {
 #endif
 
 #if VERSION_CN
-#ifdef NON_MATCHING
-//#if 1
 void dm_game_init_static(void) {
     s32 pad[2] UNUSED;
+    s32 var_v0;
     RomOffsetPair *romTableP = _romDataTbl;
     s32 var_s1;
     struct_800EF560 *temp_a3;
@@ -3970,16 +3969,18 @@ void dm_game_init_static(void) {
     temp_s3 = watchGame;
 
     temp_s3->unk_3B0 = 0;
-    temp_s3->unk_878 = 0x7F;
+
+    //! FAKE
+    temp_s3->unk_878 = var_v0 = 0x7F;
     temp_s3->unk_430 = tiLoadTexData(&heapTop, romTableP[0x178/8].start, romTableP[0x178/8].end);
     temp_s3->unk_444 = tiLoadTexData(&heapTop, romTableP[0x1A0/8].start, romTableP[0x1A0/8].end);
     if (main_no != MAIN_NO_5) {
         temp_s3->unk_448 = tiLoadTexData(&heapTop, romTableP[0x208/8].start, romTableP[0x208/8].end);
     }
 
+    var_s1 = 0;
     temp_s3->unk_884 = heapTop;
     heapTop = DecompressRomToRam(romTableP[0x1A8/8].start, temp_s3->unk_884, romTableP[0x1A8/8].end - romTableP[0x1A8/8].start);
-    var_s1 = 0;
     do {
         temp_s3->unk_8AC[var_s1] = 0;
         var_s1 += 1;
@@ -4002,7 +4003,8 @@ void dm_game_init_static(void) {
         var_s1 += 1;
     } while (var_s1 < 2U);
 
-    msgWnd_init2(&temp_s3->unk_A28, &heapTop, 0x100, 0xA, 5, 0, 0);
+    //! FAKE
+    msgWnd_init2(&temp_s3->unk_A28, &heapTop, 0x100, 0xA, var_v0 = 5, 0, 0);
 
     temp_s3->unk_A28.unk_28 = (s32) (0x140 - (temp_s3->unk_A28.unk_3C * 0x14)) >> 1;
     temp_s3->unk_A28.unk_2C = (s32) (0xF0 - (temp_s3->unk_A28.unk_48 * 2)) >> 1;
@@ -4175,9 +4177,6 @@ void dm_game_init_static(void) {
             break;
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_init_static);
-#endif
 #endif
 
 #if VERSION_US
