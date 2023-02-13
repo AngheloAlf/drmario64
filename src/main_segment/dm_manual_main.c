@@ -2352,7 +2352,9 @@ void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
 
     tutolWnd_draw(&temp_s4->unk_034, &gGfxHead);
 }
+#endif
 
+#if VERSION_US
 const u16 map_x_table_1036[][4] = {
     { 0x76, 0x76, 0x76, 0x76 },
     { 0x1C, 0xD4, 0x1C, 0xD4 },
