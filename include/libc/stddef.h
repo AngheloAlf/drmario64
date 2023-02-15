@@ -23,7 +23,6 @@
     #ifdef __PTRDIFF_TYPE__
         typedef __PTRDIFF_TYPE__ ptrdiff_t;
     #else
-        typedef int ptrdiff_t;
         #if (_MIPS_SZLONG == 32)
             typedef int ptrdiff_t;
         #else
