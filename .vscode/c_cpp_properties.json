@@ -23,6 +23,7 @@
                 "NDEBUG",
                 "_FINALROM",
                 "__USE_ISOC99",
+                "__mips__",
                 "VERSION_US=1",
                 "VERSION_CN=1"
             ],

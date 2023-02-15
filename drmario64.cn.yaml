@@ -236,7 +236,7 @@ segments:
       - [0x00F100, asm, libultra/si]
 
       # libegcs?
-      - [0x00F130, asm, libegcs/libgcc2]
+      - [0x00F130, c, libegcs/libgcc2] # __udivdi3
       - [0x00F6A0, asm, boot/00F6A0]
       - [0x00F6E0, asm, boot/00F6E0]
       - [0x00F700, asm, boot/00F700] # rand
@@ -261,7 +261,7 @@ segments:
       - [0x0012260, rodata, boot/012260]
       - [0x00122B0, rodata, boot/0122B0]
       - [0x00123D0, rodata, boot/0123D0]
-      - [0x00123E0, rodata, boot/00F130]
+      - [0x00123E0, .rodata, libegcs/libgcc2]
 
       - { start: 0x0124E0, type: bss, vram: 0x800118E0, name: boot/800118E0 }
 
