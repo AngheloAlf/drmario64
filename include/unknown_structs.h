@@ -168,7 +168,7 @@ typedef struct struct_watchGame {
     /* 0x3B0 */ s32 unk_3B0;
     /* 0x3B4 */ s32 unk_3B4;
     /* 0x3B8 */ s32 unk_3B8;
-    /* 0x3BC */ s32 unk_3BC;
+    /* 0x3BC */ s32 unk_3BC; // enum_evs_gamemode?
     /* 0x3C0 */ s32 unk_3C0;
     /* 0x3C4 */ s32 unk_3C4;
     /* 0x3C8 */ f32 unk_3C8;

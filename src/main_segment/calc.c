@@ -422,7 +422,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087CB8_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087D48_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80087F84_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_80088044_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_800880D0_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_800881B4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", randomseed);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", irandom);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/calc", func_8008821C_cn);
 #endif

@@ -96,9 +96,14 @@ const u8 _retryMenu_itemCount[] = {
 };
 #endif
 
-#if VERSION_US
-const f32 _big_virus_def_wait[] = { 12.5f, 10.0f, 7.5f };
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C827C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C828C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82A4_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82A8_cn);
 #endif
+
+const f32 _big_virus_def_wait[] = { 12.5f, 10.0f, 7.5f };
 
 extern const f32 _big_virus_min_wait[];
 #if VERSION_US
@@ -136,13 +141,13 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800672AC_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800674B0_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800676D8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_make_magazine);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80067840_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80067880_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800678BC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_set_capsel);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800679EC_cn);
 
@@ -196,7 +201,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_get_mtx_buf);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_get_vtx_buf);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069464_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", initEtcWork);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800694C8_cn);
 
@@ -242,15 +247,10 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800699E8_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069A2C_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069B00_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062E84);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C827C_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C828C_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82A4_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82A8_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82B0_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82BC_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82C8_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82D4_cn);
@@ -3116,7 +3116,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8660_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070A5C_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070DB8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069160);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070DE4_cn);
 
@@ -3450,15 +3450,6 @@ void dm_game_init_heap(void) {
     BUFFER_MALLOC(&B_800F48C0, heapTop, sizeof(struct_800F48C0));
 }
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8854_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C886C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8870_cn);
-#endif
-
-#if VERSION_US
 const u16 map_x_table_5383[][4] = {
     { 0x76, 0x76, 0x76, 0x76 },
     { 0x1C, 0xD4, 0x1C, 0xD4 },
@@ -3466,14 +3457,11 @@ const u16 map_x_table_5383[][4] = {
 };
 const u8 map_y_table_5384[] = { 0x2E, 0x2E };
 const u8 size_table_5385[] = { 0xA, 8 };
-#endif
 
-#if VERSION_US
 void dm_game_init(bool arg0) {
     struct_watchGame *watchGameP = watchGame;
     s32 i;
     s32 j;
-    s32 var_a1;
     s32 var_s4;
     struct_game_state_data *temp_s0_3;
     struct_game_state_data *var_s0_2;
@@ -3523,14 +3511,13 @@ void dm_game_init(bool arg0) {
     watchGameP->unk_3B8 = 0;
     watchGameP->unk_3B4 = 0;
     watchGameP->unk_3C0 = 0;
-    watchGameP->unk_3BC = (evs_gamemode != ENUM_EVS_GAMEMODE_1 ? 2 : 0) | 1;
+    watchGameP->unk_3BC = (evs_gamemode == ENUM_EVS_GAMEMODE_1) ? 1 : 3;
     watchGameP->unk_3C4 = main_no != MAIN_NO_5;
 
-    for (i = 0, var_a1 = 1; i < ARRAY_COUNTU(watchGameP->unk_400); i++) {
+    for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_400); i++) {
         watchGameP->unk_400[i] = 0;
-        watchGameP->unk_3E8[i] = var_a1;
+        watchGameP->unk_3E8[i] = 1 + i * 120;
         watchGameP->unk_3F4[i] = 1.0f;
-        var_a1 += 0x78;
     }
 
     watchGameP->unk_3CC = 0;
@@ -3592,14 +3579,13 @@ void dm_game_init(bool arg0) {
         for (j = 0; j < ARRAY_COUNT(watchGameP->unk_8DC[i]); j++) {
             watchGameP->unk_8DC[i][j] = -1;
         }
-        j = 4;
     }
 
+    watchGameP->unk_9BC = 0;
+    watchGameP->unk_9C0 = 0;
     watchGameP->unk_9C4 = -1;
     watchGameP->unk_9C8 = -1;
     watchGameP->unk_9CC = -1;
-    watchGameP->unk_9BC = 0;
-    watchGameP->unk_9C0 = 0;
     watchGameP->unk_A28.unk_74 = 0;
     watchGameP->unk_AA8 = -0x10;
     bzero(watchGameP->unk_AAC, sizeof(watchGameP->unk_AAC));
@@ -3630,9 +3616,9 @@ void dm_game_init(bool arg0) {
 
     temp_s0_3 = game_state_data;
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
+        temp_s0_3[i].unk_006 = map_x_table_5383[j][i];
         temp_s0_3[i].unk_008 = map_y_table_5384[var_s4];
         temp_s0_3[i].unk_00A = size_table_5385[var_s4];
-        temp_s0_3[i].unk_006 = map_x_table_5383[j][i];
     }
 
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
@@ -3735,11 +3721,6 @@ void dm_game_init(bool arg0) {
         }
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_init);
-#endif
 
 /**
  * Original name: dm_game_init_static

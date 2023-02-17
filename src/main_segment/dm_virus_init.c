@@ -610,7 +610,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", make_flash_virus_p
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065470_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", init_map_all);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800654F4_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_8006553C_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800655B4_cn);
@@ -624,13 +624,13 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065880_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065910_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065950_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065B20_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065BEC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_virus_map_copy);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065C78_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_get_first_virus_count_in_new_mode);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065CEC_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_8006626C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_virus_init);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80066298_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80066300_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800664DC_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_8006656C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", make_flash_virus_pos);
 #endif
