@@ -41,7 +41,7 @@ void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
-    func_800429B8(&gfx, 0x148, 0xF0, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
+    func_800429B8(&gfx, 328, 240, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
     *gfxP = gfx;
 }
 

@@ -4032,8 +4032,7 @@ ASM_TEXT;
 void dm_game_init_snap_bg(void) {
     struct_watchGame *watchGameP = watchGame;
 
-    watchGameP->unk_87C = (void *)ALIGN64((uintptr_t)heapTop);
-    heapTop = (void *)(((uintptr_t)watchGameP->unk_87C) + sizeof(struct_watchGame_unk_87C));
+    BUFFER_MALLOC64(&watchGameP->unk_87C, heapTop, sizeof(struct_watchGame_unk_87C));
     watchGameP->unk_880 = 0;
 
     switch (evs_gamesel) {

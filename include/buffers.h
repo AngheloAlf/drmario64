@@ -19,6 +19,11 @@ void BUFFER_MALLOC(void **dst, void *buff, size_t size);
     (*dst) = ALIGN_PTR((buff)); \
     (buff) = (void *)((uintptr_t)*(dst) + (size))
 
+void BUFFER_MALLOC64(void **dst, void *buff, size_t size);
+#define BUFFER_MALLOC64(dst, buff, size) \
+    (*dst) = (void *)ALIGN64((uintptr_t)(buff)); \
+    (buff) = (void *)((uintptr_t)*(dst) + (size))
+
 void BUFFER_CALLOC(void **dst, void *buff, size_t size);
 #define BUFFER_CALLOC(dst, buff, size) \
     (*dst) = ALIGN_PTR((buff)); \
