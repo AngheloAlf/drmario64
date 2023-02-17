@@ -237,12 +237,12 @@ segments:
 
       # libegcs?
       - [0x00F130, c, libegcs/libgcc2] # __udivdi3
-      - [0x00F6A0, asm, boot/00F6A0]
-      - [0x00F6E0, asm, boot/00F6E0]
-      - [0x00F700, asm, boot/00F700] # rand
+      - [0x00F6A0, asm, libegcs/00F6A0]
+      - [0x00F6E0, asm, libegcs/00F6E0]
+      - [0x00F700, asm, libegcs/00F700] # rand
 
-      - [0x00F760, asm, boot/00F760] # fmod
-      - [0x00F7A0, asm, boot/00F7A0] # memmove
+      - [0x00F760, asm, libegcs/00F760] # fmod
+      - [0x00F7A0, asm, libegcs/00F7A0] # memmove
 
       # data
       - [0x00F830, .data, boot/boot_main]

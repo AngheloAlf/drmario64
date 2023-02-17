@@ -34,8 +34,7 @@ extern s8 evs_stereo;
 extern u8 evs_seqence;
 extern u8 evs_seqnumb;
 extern u8 evs_playcnt;
-// extern UNK_TYPE D_80088404;
-// extern UNK_TYPE D_80088405;
+extern u8 evs_keyrept[];
 extern u8 evs_gamespeed; /* Original name: evs_gamespeed */
 extern s8 evs_score_flag;
 extern s8 evs_story_flg;

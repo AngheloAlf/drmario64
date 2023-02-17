@@ -3347,13 +3347,18 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800747A8_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80074998_cn);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006D0E8);
-#endif
+void func_8006D0E8(void) {
+    s32 i;
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006D0E8);
-#endif
+    for (i = 0; i < MAXCONTROLLERS; i++) {
+        joyflg[i] = (0x8000 | 0x4000 | 0x800 | 0x400 | 0x200 | 0x100 | 0x8 | 0x4 | 0x2 | 0x1);
+        joygmf[i] = 1;
+        joygam[i] = 0;
+    }
+
+    joycur1 = evs_keyrept[0];
+    joycur2 = evs_keyrept[1];
+}
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_make_key);
@@ -4086,9 +4091,11 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
     struct_watchGame *watchGameP;
 
     func_8006D0E8();
+
     osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
     func_8002A184(arg0, &sp48, &sp10);
     func_80040A64();
+
     dm_game_init_heap();
     watchGameP = watchGame;
     dm_game_init_static();
