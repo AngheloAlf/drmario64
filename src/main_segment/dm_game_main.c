@@ -385,54 +385,6 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C84AC_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069B5C_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069C48_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", backup_game_state);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069ED4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A01C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A080_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A0C8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_warning_h_line_se);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A1E0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A2A8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A5B4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A644_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A860_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006AE60_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006AEF0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006AF8C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006AFE8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B014_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B184_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B238_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B328_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B5A0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B6D8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B7D0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B830_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B8FC_cn);
 #endif
 
 #if VERSION_US
@@ -1289,6 +1241,78 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", scoreNums_set);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", backup_game_state);
+#endif
+
+#if VERSION_CN
+void backup_game_state(s32 index) {
+    struct_800EF440 *ptr = B_800EF440[index];
+    s32 i;
+
+    ptr->unk_0000 = *watchGame;
+
+    for (i = 0; i < ARRAY_COUNTU(ptr->unk_0B60); i++) {
+        ptr->unk_0B60[i] = game_state_data[i];
+    }
+
+    for (i = 0; i < ARRAY_COUNTU(ptr->unk_1A70); i++) {
+        s32 j;
+
+        for (j = 0; j < ARRAY_COUNTU(game_map_data[i].cells); j++) {
+            ptr->unk_1A70[i].cells[j] = game_map_data[i].cells[j];
+        }
+    }
+
+    ptr->highScore = evs_high_score;
+    ptr->gameTime = evs_game_time;
+}
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069ED4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A01C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A080_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A0C8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_warning_h_line_se);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A1E0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A2A8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A5B4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A644_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A860_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006AE60_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006AEF0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006AF8C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006AFE8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B014_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B184_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B238_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B328_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B5A0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B6D8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B7D0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B830_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B8FC_cn);
 #endif
 
 #if VERSION_US

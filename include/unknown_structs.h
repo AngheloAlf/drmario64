@@ -13,6 +13,7 @@
 #include "recwritingmsg.h"
 #include "char_anime.h"
 #include "mainmenu.h"
+#include "gamemap.h"
 
 
 typedef struct struct_800FAF98_unk_64 {
@@ -91,10 +92,6 @@ typedef struct struct_800EA290 {
     /* 0x1240 */ s32 unk_1240;
 } struct_800EA290; // size >= 0x1244
 
-
-typedef struct struct_800EF440 {
-    /* 0x0000 */ UNK_TYPE1 unk_0000[0x2FB8];
-} struct_800EF440; // size = 0x2FB8
 
 typedef struct struct_800F48C0 {
     /* 0x0000 */ UNK_TYPE1 unk_0000[0x3000];
@@ -540,6 +537,15 @@ typedef struct struct_game_state_data {
     /* 0x3C0 */ u8 unk_3C0;
     /* 0x3C1 */ UNK_TYPE1 unk_3C1[0x3];
 } struct_game_state_data; // size = 0x3C4
+
+// GameStateBackup?
+typedef struct struct_800EF440 {
+    /* 0x0000 */ struct_watchGame unk_0000;
+    /* 0x0B60 */ struct_game_state_data unk_0B60[4];
+    /* 0x1A70 */ GameMapGrid unk_1A70[4];
+    /* 0x2FB0 */ s32 highScore;
+    /* 0x2FB4 */ s32 gameTime;
+} struct_800EF440; // size = 0x2FB8
 
 typedef struct struct_800F4890_unk_034 {
     /* 0x00 */ s32 unk_00;

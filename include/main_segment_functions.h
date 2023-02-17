@@ -655,7 +655,7 @@ s32 func_80062DD8(UNK_PTR arg0, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3, UNK
 void func_80062E84(struct_watchGame_unk_0B8 *arg0);
 void func_80062EC0(struct_watchGame_unk_0B8 *arg0);
 void scoreNums_set(struct_watchGame_unk_0B8 *, s32, u8, s32, s32);
-void backup_game_state(UNK_TYPE arg0);
+void backup_game_state(s32 index);
 // void resume_game_state();
 void func_80063378(void);
 void func_800633C0(void);
