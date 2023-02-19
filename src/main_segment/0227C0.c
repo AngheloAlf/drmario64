@@ -6,7 +6,7 @@
 #include "main_segment_variables.h"
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/0227C0", func_8003A9A0);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/0227C0", initEtcWork);
 #endif
 
 #if VERSION_US

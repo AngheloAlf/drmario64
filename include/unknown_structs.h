@@ -93,11 +93,6 @@ typedef struct struct_800EA290 {
 } struct_800EA290; // size >= 0x1244
 
 
-typedef struct struct_800F48C0 {
-    /* 0x0000 */ UNK_TYPE1 unk_0000[0x3000];
-} struct_800F48C0; // size = 0x3000
-
-
 typedef struct struct_watchGame_unk_0B8_unk_00 {
     /* 0x00 */ UNK_TYPE1 unk_00[0x10];
     /* 0x10 */ f32 unk_10;
@@ -539,13 +534,13 @@ typedef struct struct_game_state_data {
 } struct_game_state_data; // size = 0x3C4
 
 // GameStateBackup?
-typedef struct struct_800EF440 {
+typedef struct struct_gameBackup {
     /* 0x0000 */ struct_watchGame unk_0000;
     /* 0x0B60 */ struct_game_state_data unk_0B60[4];
     /* 0x1A70 */ GameMapGrid unk_1A70[4];
     /* 0x2FB0 */ s32 highScore;
     /* 0x2FB4 */ s32 gameTime;
-} struct_800EF440; // size = 0x2FB8
+} struct_gameBackup; // size = 0x2FB8
 
 typedef struct struct_800F4890_unk_034 {
     /* 0x00 */ s32 unk_00;

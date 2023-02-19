@@ -2278,7 +2278,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", disp_cont);
 #endif
 
 #if VERSION_US
-void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
+void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
     struct_watchManual *temp_s4 = watchManual;
     s32 i;
 
@@ -2296,7 +2296,7 @@ void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
             break;
     }
 
-    switch (evs_manual_no) { /* irregular */
+    switch (evs_manual_no) {
         case EVS_MANUAL_NO_1:
             dm_calc_bottle_2p();
             dm_draw_bottle_2p(&gGfxHead);
@@ -2321,7 +2321,7 @@ void dm_manual_draw_fg(s32 *arg0, s32 *arg1) {
             break;
     }
 
-    dm_draw_KaSaMaRu(&gGfxHead, arg0, arg1, func_8007224C(&temp_s4->unk_034), temp_s4->unk_004, temp_s4->unk_008,
+    dm_draw_KaSaMaRu(&gGfxHead, mtxP, vtxP, func_8007224C(&temp_s4->unk_034), temp_s4->unk_004, temp_s4->unk_008,
                      temp_s4->unk_000, (s32)(temp_s4->unk_034.unk_08 * 255));
     switch (evs_manual_no) {
         case EVS_MANUAL_NO_0:
@@ -2621,8 +2621,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
 
 #if VERSION_US
 void dm_manual_graphic(void) {
-    UNK_TYPE sp28;
-    UNK_TYPE sp2C;
+    Mtx *mtx;
+    Vtx *vtx;
     OSScTask *ptr;
     s32 color;
     s32 alpha;
@@ -2631,8 +2631,8 @@ void dm_manual_graphic(void) {
     gGfxHead = gGfxGlist[gfx_gtask_no];
     ptr = &B_800FAE80[gfx_gtask_no];
 
-    sp28 = dm_get_mtx_buf();
-    sp2C = dm_get_vtx_buf();
+    mtx = dm_get_mtx_buf();
+    vtx = dm_get_vtx_buf();
 
     gSPSegment(gGfxHead++, 0x00, 0x00000000);
     F3RCPinitRtn();
@@ -2640,8 +2640,8 @@ void dm_manual_graphic(void) {
 
     gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-    dm_game_draw_snap_bg(&gGfxHead, &sp28, &sp2C, 0);
-    dm_manual_draw_fg(&sp28, &sp2C);
+    dm_game_draw_snap_bg(&gGfxHead, &mtx, &vtx, 0);
+    dm_manual_draw_fg(&mtx, &vtx);
 
     color = 255;
     alpha = CLAMP((temp_s1->unk_00C - 127) * 1.2 + 127, 0, 255);

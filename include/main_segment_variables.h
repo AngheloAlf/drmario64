@@ -633,7 +633,7 @@ extern OSMesg B_800EBED0[8];
 
 extern s16 B_800ED430;
 extern STACK(B_800ED440, 0x2000);
-extern struct_800EF440 *B_800EF440[2];
+extern struct_gameBackup *gameBackup[2];
 extern u8 CapsMagazine[];
 // extern UNK_TYPE B_800EF548;
 // extern UNK_TYPE B_800EF54C;
@@ -680,7 +680,7 @@ extern u8 aiRootCnt;
 extern OSMesgQueue B_800F4898;
 extern struct_800FAF98_unk_64 B_800F48B0;
 extern UNK_TYPE2 joygam[4];
-extern struct_800F48C0 *B_800F48C0;
+
 extern u16 joycur[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800F48D0;
 extern s32 MissRate;

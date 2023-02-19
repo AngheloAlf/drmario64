@@ -2,6 +2,7 @@
  * Original filename: dm_game_main.c
  */
 
+#include "dm_game_main.h"
 #include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -174,58 +175,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800693D8_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800693E8_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069400_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_get_mtx_buf);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_get_vtx_buf);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", initEtcWork);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800694C8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800694E0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006950C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069538_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069564_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800695A0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800695CC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800695F8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069624_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069654_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006967C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800696A4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800696CC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800696F4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006971C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069744_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006976C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062B84);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800697F0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069800_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800699E8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069A2C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062E84);
 #endif
 
 #if VERSION_CN
@@ -363,28 +312,6 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E9C);
 
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1EA0);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8318_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8328_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C832C_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8338_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8340_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8348_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C836C_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C838C_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8394_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8398_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C83B4_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C83FC_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C848C_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C849C_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C84AC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069B5C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069C48_cn);
 #endif
 
 #if VERSION_US
@@ -1111,7 +1038,102 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_get_vtx_buf);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", initEtcWork);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80062920);
+#endif
+
+#if VERSION_CN
+Mtx *dm_get_mtx_buf(void) {
+    return gameGeom->mtxBuf[gfx_gtask_no];
+}
+#endif
+
+#if VERSION_CN
+Vtx *dm_get_vtx_buf(void) {
+    return gameGeom->vtxBuf[gfx_gtask_no];
+}
+#endif
+
+#if VERSION_CN
+void func_80062920(void) {
+    struct_watchGame *ptr = watchGame;
+    s32 i;
+
+    for (i = 0; i < evs_playcnt; i++) {
+        ptr->unk_888[i] = 0;
+    }
+
+    initEtcWork(ptr->unk_884, evs_playcnt);
+}
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800694C8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800694E0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006950C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069538_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069564_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800695A0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800695CC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800695F8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069624_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069654_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006967C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800696A4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800696CC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800696F4_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006971C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069744_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006976C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062B84);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800697F0_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069800_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800699E8_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069A2C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062E84);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8318_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8328_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C832C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8338_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8340_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8348_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C836C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C838C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8394_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8398_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C83B4_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C83FC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C848C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C849C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C84AC_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069B5C_cn);
+
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069C48_cn);
 #endif
 
 #if VERSION_US
@@ -1245,7 +1267,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", backup_game_state);
 
 #if VERSION_CN
 void backup_game_state(s32 index) {
-    struct_800EF440 *ptr = B_800EF440[index];
+    struct_gameBackup *ptr = gameBackup[index];
     s32 i;
 
     ptr->unk_0000 = *watchGame;
@@ -1274,7 +1296,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", resume_game_state);
 #if VERSION_CN
 // TODO: check if this function is resume_game_state
 void func_80069ED4_cn(s32 index) {
-    struct_800EF440 *ptr = B_800EF440[index];
+    struct_gameBackup *ptr = gameBackup[index];
     s32 i;
 
     *watchGame = ptr->unk_0000;
@@ -3365,7 +3387,111 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_draw_KaSaMaRu);
 #endif
 
 #if VERSION_CN
+#if 0
+? func_8004656C_cn(Gfx **, s32 *, s32, s32, s32, s32, void *, s32, s32, s32, s32, s32, s32, s32, f32, f32); /* extern */
+extern ? RO_800C8798_cn;
+
+void dm_draw_KaSaMaRu(Gfx **gfxP, s32 *arg1, s32 *arg2, enum bool messageIsSpeaking, s32 arg4, s32 arg5, s32 arg6, u32 arg7) {
+    f32 sp78;
+    f32 sp7C;
+    Gfx *sp88;
+    s32 sp8C;
+    Gfx *temp_a0;
+    Gfx *temp_a0_3;
+    Gfx *temp_a0_4;
+    Gfx *temp_a0_5;
+    Gfx *temp_a1;
+    Gfx *temp_a1_2;
+    Gfx *temp_t0;
+    Gfx *temp_v1;
+    Mtx *temp_s1_2;
+    Mtx *temp_s1_3;
+    TiTexData *temp_s2_2;
+    s32 temp_s1;
+    s32 var_v0;
+    struct_watchGame *temp_s2;
+    u16 *temp_a0_2;
+    u16 *temp_a2;
+    u16 var_s0;
+    u16 var_s3;
+    void *temp_a3;
+    void *temp_s4;
+
+    temp_s1 = *arg1;
+    temp_s2 = watchGame;
+    sp88 = *gfxP;
+    sp8C = *arg2;
+    guOrtho((Mtx *) temp_s1, 0.0f, 320.0f, 240.0f, 0.0f, 1.0f, 10.0f, 1.0f);
+    temp_t0 = sp88;
+    temp_t0->words.w1 = (u32) temp_s1;
+    temp_s1_2 = temp_s1 + 0x40;
+    sp88 = temp_t0 + 8;
+    temp_t0->words.w0 = 0xDA380007;
+    guTranslate(temp_s1_2, 0.0f, 0.0f, -5.0f);
+    temp_a0 = sp88;
+    sp88 = temp_a0 + 8;
+    temp_a0->words.w0 = 0xDA380005;
+    temp_a0->words.w1 = (u32) temp_s1_2;
+    guRotateRPYF((f32 (*)[4]) &sp48[0], 0.0f, (f32) ((1 - arg6) * 0x5A), sinf((f32) (2.0 * ((f64) WrapF(0.0f, 1.0f, (f32) ((f64) temp_s2->unk_424 * 0.0078125)) * 3.141592653589793))) * 4.0f * (f32) arg6);
+    var_v0 = WrapI(0, 6, (s32) ((u32) ((temp_s2->unk_424 & 0x7F) * 9) >> 4));
+    temp_s1_3 = temp_s1_2 + 0x40;
+    if (messageIsSpeaking == false) {
+        var_v0 = 0;
+    }
+    temp_s2_2 = temp_s2->unk_448;
+    temp_s4 = temp_s2_2 + ((*(&RO_800C8798_cn + (var_v0 * 4)) * 8) + 8);
+    temp_a3 = temp_s4->unk_4;
+    temp_a2 = temp_s2_2->unk_00[0].unk_4;
+    if ((u16) temp_a3->unk_0 < (u16) temp_a2->unk_0) {
+        var_s0 = temp_a3->unk_0;
+    } else {
+        var_s0 = temp_a2->unk_0;
+    }
+    temp_a0_2 = temp_s2_2->unk_00[0].unk_4;
+    if ((u16) temp_a3->unk_2 >= (u16) temp_a0_2->unk_2) {
+        var_s3 = temp_a0_2->unk_2;
+    } else {
+        var_s3 = temp_a3->unk_2;
+    }
+    temp_a0_3 = sp88;
+    sp88 = temp_a0_3 + 8;
+    temp_a0_3->words.w0 = 0xDE000000;
+    temp_a0_3->words.w1 = (u32) alpha_texture_init_dl;
+    temp_v1 = sp88;
+    sp88 = temp_v1 + 8;
+    temp_v1->words.w0 = 0xD940F9FA;
+    temp_v1->words.w1 = 0;
+    temp_a1 = sp88;
+    sp88 = temp_a1 + 8;
+    temp_a1->words.w0 = 0xFC11A7FF;
+    temp_a1->words.w1 = -0x1C8U;
+    temp_a0_4 = sp88;
+    sp88 = temp_a0_4 + 8;
+    temp_a0_4->words.w0 = 0xE3000C00;
+    temp_a0_4->words.w1 = 0;
+    temp_a1_2 = sp88;
+    sp88 = temp_a1_2 + 8;
+    temp_a1_2->words.w0 = 0xFA000000;
+    temp_a1_2->words.w1 = arg7 | ~0xFF;
+    if (arg6 <= 0) {
+        sp78 = (f32) (arg4 + var_s0);
+    } else {
+        sp78 = (f32) arg4;
+    }
+    sp7C = (f32) arg5;
+    guMtxF2L((f32 (*)[4]) &sp48[0], temp_s1_3);
+    temp_a0_5 = sp88;
+    sp88 = temp_a0_5 + 8;
+    temp_a0_5->words.w0 = 0xDA380003;
+    temp_a0_5->words.w1 = (u32) temp_s1_3;
+    func_8004656C_cn(&sp88, &sp8C, (s32) var_s0, (s32) var_s3, temp_s4->unk_0->unk_4, (s32) temp_s4->unk_4->unk_0, temp_s2_2->unk_00[0].unk_0->unk_4, (s32) temp_s2_2->unk_00[0].unk_4->unk_0, 0, 0, (s32) var_s0, (s32) var_s3, 0, 0, (f32) var_s0, (f32) var_s3);
+    *arg2 = sp8C;
+    *arg1 = (s32) (temp_s1_3 + 0x40);
+    *gfxP = sp88;
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_draw_KaSaMaRu);
+#endif
 #endif
 
 #if VERSION_US
@@ -3488,13 +3614,14 @@ void dm_game_init_heap(void) {
     s32 i;
 
     heapTop = Heap_bufferp;
+
     BUFFER_CALLOC(&watchGame, heapTop, sizeof(struct_watchGame));
 
-    for (i = 0; i < ARRAY_COUNTU(B_800EF440); i++) {
-        BUFFER_MALLOC(&B_800EF440[i], heapTop, sizeof(struct_800EF440));
+    for (i = 0; i < ARRAY_COUNTU(gameBackup); i++) {
+        BUFFER_MALLOC(&gameBackup[i], heapTop, sizeof(struct_gameBackup));
     }
 
-    BUFFER_MALLOC(&B_800F48C0, heapTop, sizeof(struct_800F48C0));
+    BUFFER_MALLOC(&gameGeom, heapTop, sizeof(struct_gameGeom));
 }
 
 const u16 map_x_table_5383[][4] = {
@@ -3755,7 +3882,7 @@ void dm_game_init(bool arg0) {
         }
     }
 
-    initEtcWork();
+    func_80062920();
     aifGameInit();
     s_hard_mode = 0;
     fool_mode = 0;
@@ -5067,12 +5194,12 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", main_techmes);
 
 void graphic_techmes(void) {
     struct_watchGame *watchGameP = watchGame;
-    UNK_TYPE sp28;
-    UNK_TYPE sp2C;
+    Mtx *mtx;
+    Vtx *vtx;
 
     gGfxHead = gGfxGlist[gfx_gtask_no];
-    sp28 = dm_get_mtx_buf();
-    sp2C = dm_get_vtx_buf();
+    mtx = dm_get_mtx_buf();
+    vtx = dm_get_vtx_buf();
     F3RCPinitRtn();
     F3ClearFZRtn(false);
 
@@ -5081,7 +5208,7 @@ void graphic_techmes(void) {
 
     draw_menu_bg(&gGfxHead, 0, -0x78);
 
-    dm_draw_KaSaMaRu(&gGfxHead, &sp28, &sp2C, msgWnd_isSpeaking(&watchGameP->messageWnd), 0xC8, 0x80, 1, 0xFFU);
+    dm_draw_KaSaMaRu(&gGfxHead, &mtx, &vtx, msgWnd_isSpeaking(&watchGameP->messageWnd), 0xC8, 0x80, 1, 0xFFU);
     msgWnd_draw(&watchGameP->messageWnd, &gGfxHead);
     if (watchGameP->unk_9AC == 2) {
         push_any_key_draw(128, 192);

@@ -4,7 +4,7 @@
 #include "unknown_structs.h"
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/0227C0_cn", func_8003D920_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/0227C0_cn", initEtcWork);
 #endif
 
 #if VERSION_CN

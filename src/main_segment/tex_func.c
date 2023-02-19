@@ -687,9 +687,72 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80046030_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004621C_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchAlphaTexTile);
+#endif
 
+#if VERSION_CN
+#if 0
+? func_800459D0_cn(s32 *, s32, s32, s32);           /* extern */
+extern ? func_80045EE0_cn;
+extern ? func_80046030_cn;
+extern ? func_8004621C_cn;
+
+void func_8004656C_cn(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9, s32 argA, s32 argB, f32 argC, f32 argD, f32 argE, f32 argF) {
+    s32 sp18;
+    s32 sp1C;
+    s32 sp20;
+    s32 sp24;
+    s32 sp28;
+    s32 sp2C;
+    s32 sp30;
+    s32 sp34;
+    s32 sp38;
+    s32 sp3C;
+    s32 sp40;
+    s32 sp44;
+    s32 sp48;
+    s32 sp4C;
+    s32 sp50;
+    s32 sp54;
+    ? *sp58;
+    ? *sp5C;
+    s32 sp60;
+    ? *sp64;
+    s32 temp_a2;
+    s32 var_a3;
+
+    sp1C = arg1;
+    sp58 = &func_80046030_cn;
+    sp5C = &func_8004621C_cn;
+    sp20 = arg2;
+    sp18 = arg0;
+    sp24 = arg3;
+    var_a3 = (arg7 + 0xF) & ~0xF;
+    sp28 = arg4;
+    sp34 = arg7;
+    sp2C = arg5;
+    sp30 = arg6;
+    sp3C = arg9;
+    sp40 = argA;
+    sp44 = argB;
+    sp38 = arg8;
+    temp_a2 = (arg5 + 3) & ~3;
+    sp48 = (s32) ((f64) argC * 4.0);
+    sp4C = (s32) ((f64) argD * 4.0);
+    sp50 = (s32) ((f64) argE * 4.0);
+    sp54 = (s32) ((f64) argF * 4.0);
+    if (var_a3 < temp_a2) {
+        var_a3 = temp_a2;
+    }
+    sp64 = &func_80045EE0_cn;
+    sp60 = 0x660 / var_a3;
+    func_800459D0_cn(&sp18, argB, temp_a2, var_a3);
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004656C_cn);
+#endif
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800466BC_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800468B0_cn);
