@@ -509,7 +509,7 @@ void dm_snd_play_in_game(SndIndex sndIndex) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CDEC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_snd_play_in_game);
 #endif
 
 #if VERSION_US

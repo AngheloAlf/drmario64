@@ -1267,17 +1267,88 @@ void backup_game_state(s32 index) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069ED4_cn);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", resume_game_state);
+#endif
 
+#if VERSION_CN
+// TODO: check if this function is resume_game_state
+void func_80069ED4_cn(s32 index) {
+    struct_800EF440 *ptr = B_800EF440[index];
+    s32 i;
+
+    *watchGame = ptr->unk_0000;
+
+    for (i = 0; i < ARRAY_COUNTU(ptr->unk_0B60); i++) {
+        game_state_data[i] = ptr->unk_0B60[i];
+    }
+
+    for (i = 0; i < ARRAY_COUNTU(ptr->unk_1A70); i++) {
+        s32 j;
+
+        for (j = 0; j < ARRAY_COUNTU(game_map_data[i].cells); j++) {
+            game_map_data[i].cells[j] = ptr->unk_1A70[i].cells[j];
+        }
+    }
+
+    evs_high_score = ptr->highScore;
+    evs_game_time = ptr->gameTime;
+}
+#endif
+
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A01C_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A080_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A0C8_cn);
+#endif
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_warning_h_line_se);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80063378);
+#endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800633C0);
+#endif
+
+#if VERSION_US
+void func_800633FC(void) {
+    if (watchGame->unk_000 != 0) {
+        replay_play_init();
+    } else {
+        replay_record_init(evs_playcnt);
+    }
+}
+#endif
+
+void dm_warning_h_line_se(void) {
+    struct_watchGame *watchGameP = watchGame;
+    s32 var_a0 = 0;
+    s32 i;
+
+    for (i = 0; i < evs_playcnt; i++) {
+        if (game_state_data[i].unk_020 == 1) {
+            if (game_state_data[i].unk_044 != 0) {
+                var_a0++;
+            }
+        }
+    }
+
+    if (var_a0 == 0) {
+        watchGameP->unk_428 = 0;
+    } else {
+        watchGameP->unk_428++;
+
+        if (watchGameP->unk_428 == 1) {
+            dm_snd_play_in_game(SND_INDEX_79);
+        } else if (watchGameP->unk_428 >= 300) {
+            watchGameP->unk_428 = 0;
+        }
+    }
+}
+
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A1E0_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A2A8_cn);
@@ -1313,54 +1384,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B7D0_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B830_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B8FC_cn);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", resume_game_state);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80063378);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800633C0);
-#endif
-
-#if VERSION_US
-void func_800633FC(void) {
-    if (watchGame->unk_000 != 0) {
-        replay_play_init();
-    } else {
-        replay_record_init(evs_playcnt);
-    }
-}
-#endif
-
-#if VERSION_US
-void dm_warning_h_line_se(void) {
-    struct_watchGame *watchGameP = watchGame;
-    s32 var_a0 = 0;
-    s32 i;
-
-    for (i = 0; i < evs_playcnt; i++) {
-        if (game_state_data[i].unk_020 == 1) {
-            var_a0 += game_state_data[i].unk_044 != 0;
-        }
-    }
-
-    if (var_a0 == 0) {
-        watchGameP->unk_428 = 0;
-    } else {
-        watchGameP->unk_428++;
-
-        if (watchGameP->unk_428 == 1) {
-            dm_snd_play_in_game(SND_INDEX_79);
-        } else if (watchGameP->unk_428 >= 300) {
-            watchGameP->unk_428 = 0;
-        }
-    }
-}
 #endif
 
 #if VERSION_US
@@ -4117,7 +4140,7 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
         osRecvMesg(&sp10, (OSMesg *)&sp50, OS_MESG_BLOCK);
 
 #if VERSION_CN
-        if (D_80092F10_cn != false) {
+        if (D_80092F10_cn) {
             joyProcCore();
             graphic_no = GRAPHIC_NO_0;
             dm_audio_update();
@@ -4143,7 +4166,7 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
             s32 i;
 
 #if VERSION_CN
-            if (gControllerPressedButtons[main_joy[0]] & 0x2000) {
+            if (gControllerPressedButtons[main_joy[0]] & Z_TRIG) {
                 D_80088104[1] = 0;
                 D_800BEF08_cn ^= 1;
             }
