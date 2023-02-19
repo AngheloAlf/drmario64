@@ -22,45 +22,45 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003ACB4);
 #endif
 
 #if VERSION_US
-void func_8003AD88(Gfx **gfxP) {
+void disp_logo_setup(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
     init_objMtx();
-    gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&B_800E5818), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
-    gSPSegment(gfx++, 0x05, osVirtualToPhysical(B_800E53CC));
+    gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&etc_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPSegment(gfx++, 0x05, osVirtualToPhysical(etcLwsAddress));
     *gfxP = gfx;
 }
 #endif
 
 #if VERSION_US
-UNK_TYPE func_8003AE08(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
+UNK_TYPE disp_count_logo(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
     Mtx mtx;
     Gfx *gfx = *gfxP;
     s32 var_a1;
     s32 var_a2;
     UNK_TYPE ret;
 
-    gSPDisplayList(gfx++, D_8008D0E8);
+    gSPDisplayList(gfx++, etc_setup);
 
-    switch (B_800E53C0) {
+    switch (binCount) {
         case 1:
             var_a1 = 0;
             var_a2 = 0;
             break;
 
         case 2:
-            var_a1 = D_8008D0C0[arg1];
+            var_a1 = x2p[arg1];
             var_a2 = 0;
             break;
 
         default:
-            var_a1 = D_8008D0C8[arg1];
+            var_a1 = x4p[arg1];
             var_a2 = 0;
             break;
     }
 
     makeTransrateMatrix(&mtx, var_a1 << 15, var_a2 << 15, 0xFE0C << 16);
-    ret = lws_anim(&gfx, &mtx, B_800E53F4, arg2, B_800E53CC);
+    ret = lws_anim(&gfx, &mtx, etcLwsTbl.unk_24, arg2, etcLwsAddress);
 
     *gfxP = gfx;
     return ret;
@@ -116,7 +116,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C2B4);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C3C0);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_timestop_logo);
 #endif
 
 #if VERSION_US

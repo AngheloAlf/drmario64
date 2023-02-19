@@ -139,7 +139,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_800417B4);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_8004199C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", CopyTexBlock16);
 #endif
 
 #if VERSION_US
@@ -676,7 +676,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800456F4_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800458DC_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800459D0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexTile);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80045D6C_cn);
 
@@ -691,12 +691,12 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchAlphaTexTile);
 
 #if VERSION_CN
 #if 0
-? func_800459D0_cn(s32 *, s32, s32, s32);           /* extern */
+? StretchTexTile(s32 *, s32, s32, s32);           /* extern */
 extern ? func_80045EE0_cn;
 extern ? func_80046030_cn;
 extern ? func_8004621C_cn;
 
-void func_8004656C_cn(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9, s32 argA, s32 argB, f32 argC, f32 argD, f32 argE, f32 argF) {
+void RectAlphaTexTile(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9, s32 argA, s32 argB, f32 argC, f32 argD, f32 argE, f32 argF) {
     s32 sp18;
     s32 sp1C;
     s32 sp20;
@@ -745,10 +745,10 @@ void func_8004656C_cn(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5
     }
     sp64 = &func_80045EE0_cn;
     sp60 = 0x660 / var_a3;
-    func_800459D0_cn(&sp18, argB, temp_a2, var_a3);
+    StretchTexTile(&sp18, argB, temp_a2, var_a3);
 }
 #else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004656C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", RectAlphaTexTile);
 #endif
 #endif
 

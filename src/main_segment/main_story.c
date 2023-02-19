@@ -234,7 +234,7 @@ void init_coffee_break_cnt(void) {
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_800778E8);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_coffee_break);
 #endif
 
 #if VERSION_US

@@ -3159,11 +3159,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80069ACC);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80069BCC);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_virus_number);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80069E20);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_count_number);
 #endif
 
 #if VERSION_US
@@ -3247,7 +3247,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A938);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A978);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006AC60);
 #endif
 
 #if VERSION_US
@@ -3388,7 +3388,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_draw_KaSaMaRu);
 
 #if VERSION_CN
 #if 0
-? func_8004656C_cn(Gfx **, s32 *, s32, s32, s32, s32, void *, s32, s32, s32, s32, s32, s32, s32, f32, f32); /* extern */
+? RectAlphaTexTile(Gfx **, s32 *, s32, s32, s32, s32, void *, s32, s32, s32, s32, s32, s32, s32, f32, f32); /* extern */
 extern ? RO_800C8798_cn;
 
 void dm_draw_KaSaMaRu(Gfx **gfxP, s32 *arg1, s32 *arg2, enum bool messageIsSpeaking, s32 arg4, s32 arg5, s32 arg6, u32 arg7) {
@@ -3484,7 +3484,7 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, s32 *arg1, s32 *arg2, enum bool messageIsSpeak
     sp88 = temp_a0_5 + 8;
     temp_a0_5->words.w0 = 0xDA380003;
     temp_a0_5->words.w1 = (u32) temp_s1_3;
-    func_8004656C_cn(&sp88, &sp8C, (s32) var_s0, (s32) var_s3, temp_s4->unk_0->unk_4, (s32) temp_s4->unk_4->unk_0, temp_s2_2->unk_00[0].unk_0->unk_4, (s32) temp_s2_2->unk_00[0].unk_4->unk_0, 0, 0, (s32) var_s0, (s32) var_s3, 0, 0, (f32) var_s0, (f32) var_s3);
+    RectAlphaTexTile(&sp88, &sp8C, (s32) var_s0, (s32) var_s3, temp_s4->unk_0->unk_4, (s32) temp_s4->unk_4->unk_0, temp_s2_2->unk_00[0].unk_0->unk_4, (s32) temp_s2_2->unk_00[0].unk_4->unk_0, 0, 0, (s32) var_s0, (s32) var_s3, 0, 0, (f32) var_s0, (f32) var_s3);
     *arg2 = sp8C;
     *arg1 = (s32) (temp_s1_3 + 0x40);
     *gfxP = sp88;
@@ -3503,11 +3503,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic_p);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006C6FC);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic_1p);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006C88C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic_effect);
 #endif
 
 #if VERSION_CN

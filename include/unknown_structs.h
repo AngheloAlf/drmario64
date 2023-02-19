@@ -732,6 +732,12 @@ typedef enum enum_evs_manual_no {
     /* 5 */ EVS_MANUAL_NO_5
 } enum_evs_manual_no;
 
+typedef struct struct_800E53D0 {
+    /* 0x00 */ UNK_TYPE1 unk_00[0x24];
+    /* 0x24 */ UNK_PTR unk_24;
+    /* 0x28 */ UNK_TYPE1 unk_28[0x18];
+} struct_800E53D0; // size = 0x40
+
 #if VERSION_CN
 typedef struct struct_8010ACB0_cn {
     /* 0x000 */ s32 unk_000;
