@@ -718,7 +718,7 @@ void push_any_key_draw(s32 arg0, s32 arg1);
 // void func_8006A480();
 // void func_8006A6E8();
 void func_8006A938(s32 arg0);
-// void func_8006AC60();
+// void func_8006A978();
 // void func_8006AC60();
 // void func_8006AE04();
 // void func_8006AEFC();

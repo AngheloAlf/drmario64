@@ -3247,7 +3247,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A938);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006AC60);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A978);
 #endif
 
 #if VERSION_US
