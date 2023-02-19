@@ -1452,7 +1452,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800638AC);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80063A80);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_set_attack_4p);
 #endif
 
 #if VERSION_US
@@ -3095,7 +3095,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80069188);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800691F8);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", starForce_draw);
 #endif
 
 #if VERSION_US

@@ -2,6 +2,7 @@
  * Original filename: game_etc.c
  */
 
+#include "game_etc.h"
 #include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -155,23 +156,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", initEtcWork);
 
 #if VERSION_CN
 #if 0
-extern s32 B_800CA1D0_cn;
-extern s32 attack_effect_idx;
+extern s32 attack_sprite_idx;
 extern void *B_800CA288_cn;
-extern s32 binCount;
 extern void *B_800FC048_cn;
 extern s32 *B_800FC04C_cn;
 extern void *B_800FC050_cn;
-extern s32 logo_ofsY;
+extern ? attack_sprite;
+extern ? D_80097EC8_cn;
 extern s32 etc_mode;
 extern f32 g_etc_work;
-extern ? B_800FC0A8_cn;
-extern ? B_800FC0C8_cn;
-extern ? B_800FC0E8_cn;
-extern Mtx etc_viewMtx;
-extern s32 B_8010B190_cn;
-extern s32 B_80112640_cn;
-extern ? D_80097EC8_cn;
+extern s32 logo_ofsY;
 
 void initEtcWork(void *arg0, s32 arg1) {
     s32 sp28;
@@ -253,10 +247,10 @@ void initEtcWork(void *arg0, s32 arg1) {
             var_t3 = var_a1 + (&g_etc_work + 0x90);
             var_t2 = var_a1 + (&g_etc_work + 0xB0);
             var_t1 = var_a1 + (&g_etc_work + 0xD0);
-            var_a3 = var_a1 + &B_800FC0C8_cn;
-            var_a2_2 = var_a1 + &B_800FC0E8_cn;
+            var_a3 = var_a1 + (&g_etc_work + 0x30);
+            var_a2_2 = var_a1 + (&g_etc_work + 0x50);
             temp_fv1 = (f32) *var_s1;
-            var_a0_2 = var_a1 + &B_800FC0A8_cn;
+            var_a0_2 = var_a1 + (&g_etc_work + 0x10);
             *var_t6 = (f32) *var_t8;
             *var_s0 = (f32) *var_t9;
             *var_s2 = temp_fv1 * 8.0f;
@@ -293,15 +287,15 @@ loop_14:
     }
     attack_effect_idx = 0;
     var_t0_3 = 0;
-    var_v1 = &B_80112640_cn;
+    var_v1 = &attack_effect->unk_20;
     do {
         *var_v1 = 0;
         var_t0_3 += 1;
         var_v1 += 0x2C;
     } while (var_t0_3 < 0x10);
-    B_800CA1D0_cn = 0;
+    attack_sprite_idx = 0;
     var_t0_4 = 0;
-    var_v1_2 = &B_8010B190_cn;
+    var_v1_2 = &attack_sprite + 0x10;
     do {
         *var_v1_2 = 0;
         var_t0_4 += 1;
@@ -415,14 +409,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C2B4);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_timestop_logo);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C600);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C6F4);
-#endif
-
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003DC5C_cn);
 #endif
@@ -487,10 +473,233 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003F43C_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003F568_cn);
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003F820_cn);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", add_attack_effect);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003F90C_cn);
+void add_attack_effect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    attack_effect[attack_effect_idx].unk_28 = arg0;
+    attack_effect[attack_effect_idx].unk_20 = 0x30;
+    attack_effect[attack_effect_idx].unk_24 = 0;
+    attack_effect[attack_effect_idx].unk_00 = arg1;
+    attack_effect[attack_effect_idx].unk_04 = arg2;
+    attack_effect[attack_effect_idx].unk_08 = arg1;
+    attack_effect[attack_effect_idx].unk_0C = arg2;
+    attack_effect[attack_effect_idx].unk_10 = arg3;
+    attack_effect[attack_effect_idx].unk_14 = arg4;
+    attack_effect[attack_effect_idx].unk_18 = arg1;
+    attack_effect[attack_effect_idx].unk_1C = arg2;
+
+    attack_effect_idx++;
+    if (attack_effect_idx >= ARRAY_COUNT(attack_effect)) {
+        attack_effect_idx = 0;
+    }
+}
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_attack_effect);
+#endif
+
+#if VERSION_CN
+#if 0
+? func_80045600_cn(Gfx **, ?, ?, s32, f32, f32, f32, f32); /* extern */
+extern s32 B_800CA288_cn;
+extern ? D_80097F90_cn;
+extern ? D_80097F98_cn;
+extern ? D_80097FC0_cn;
+extern ? D_80097FC8_cn;
+
+void disp_attack_effect(Gfx **gfxP) {
+    Gfx *sp28;
+    Gfx *temp_a0;
+    Gfx *temp_a1;
+    Gfx *temp_a3;
+    Gfx *temp_a3_3;
+    Gfx *temp_t0;
+    Gfx *temp_t0_2;
+    Gfx *temp_v0;
+    Gfx *temp_v1;
+    Gfx *temp_v1_2;
+    f32 temp_fs0;
+    f32 temp_fs0_2;
+    f32 temp_fs1;
+    f32 temp_ft0;
+    f32 temp_ft1;
+    f32 temp_ft2;
+    f32 var_fs4;
+    f64 temp_fv0;
+    s32 *temp_a3_2;
+    s32 *temp_fp;
+    s32 *temp_s0;
+    s32 *temp_s1;
+    s32 *temp_s7;
+    s32 *temp_t1;
+    s32 *var_s1;
+    s32 *var_s3;
+    s32 temp_a0_2;
+    s32 temp_a0_3;
+    s32 temp_a0_4;
+    s32 temp_v0_10;
+    s32 temp_v0_11;
+    s32 temp_v0_3;
+    s32 temp_v0_4;
+    s32 temp_v0_5;
+    s32 temp_v0_6;
+    s32 temp_v0_7;
+    s32 temp_v0_8;
+    s32 temp_v0_9;
+    s32 temp_v1_3;
+    s32 var_a1;
+    s32 var_a2;
+    s32 var_s0;
+    s32 var_s2;
+    s32 var_s5;
+    s32 var_s5_2;
+    s32 var_s6;
+    s32 var_s6_2;
+    s32 var_t1;
+    void *temp_v0_12;
+    void *temp_v0_2;
+
+    temp_a1 = *gfxP;
+    sp28 = temp_a1 + 8;
+    temp_a1->words.w0 = 0xDE000000;
+    temp_a1->words.w1 = (u32) normal_texture_init_dl;
+    temp_v1 = sp28;
+    sp28 = temp_v1 + 8;
+    temp_v1->words.w0 = 0xE3001001;
+    temp_v1->words.w1 = 0;
+    temp_a0 = sp28;
+    sp28 = temp_a0 + 8;
+    temp_a0->words.w0 = 0xE2001E01;
+    temp_a0->words.w1 = 0;
+    temp_v1_2 = sp28;
+    temp_v0 = temp_v1_2 + 8;
+    sp28 = temp_v0;
+    temp_v1_2->words.w0 = 0xE200001C;
+    temp_v1_2->words.w1 = 0x504240;
+    temp_v0->words.w0 = 0xFC50D2A1;
+    temp_v0->words.w1 = 0x33A5FEFF;
+    sp28 = temp_v0 + 8;
+    if ((binCount > 0) && (var_s5 = -1, ((binCount < 3) != 0))) {
+        var_fs4 = 50.0f;
+        var_s6 = 0;
+    } else {
+        var_fs4 = 30.0f;
+        var_s5 = -1;
+        var_s6 = 0;
+    }
+    var_s3 = &attack_effect->unk_20;
+    var_s2 = 0;
+    do {
+        temp_a0_2 = *var_s3;
+        if (temp_a0_2 > 0) {
+            temp_a0_3 = temp_a0_2 - 1;
+            temp_ft0 = (f32) temp_a0_3 / 48.0f;
+            temp_v0_2 = &attack_effect->unk_20 + var_s2;
+            *var_s3 = temp_a0_3;
+            temp_ft2 = temp_v0_2->unk_-C;
+            temp_ft1 = temp_v0_2->unk_-10;
+            temp_fs0 = temp_ft2 - (temp_ft0 * (temp_ft2 - temp_v0_2->unk_-14));
+            temp_fs1 = temp_ft1 - (temp_ft0 * (temp_ft1 - temp_v0_2->unk_-18));
+            temp_fs0_2 = temp_fs0 - (var_fs4 * sinf((f32) (((f64) temp_ft0 * 180.0 * 3.141592653589793) / 180.0)));
+            temp_s7 = var_s2 + (&attack_effect->unk_20 - 0x20);
+            temp_fv0 = (f64) temp_fs0_2 + 0.5;
+            temp_fp = var_s2 + (&attack_effect->unk_20 - 0x1C);
+            *temp_s7 = (s32) ((f64) temp_fs1 + 0.5);
+            *temp_fp = (s32) temp_fv0;
+            temp_a0_4 = *var_s3;
+            var_t1 = 0xF0;
+            if (temp_a0_4 >= 0x29) {
+                var_t1 = (0x30 - temp_a0_4) * 0x1E;
+            }
+            if (temp_a0_4 < 8) {
+                var_t1 = temp_a0_4 * 0x1E;
+            }
+            temp_s1 = var_s2 + (&attack_effect->unk_20 + 8);
+            if (*temp_s1 != var_s5) {
+                temp_a3 = sp28;
+                temp_a3->words.w0 = 0xFA000000;
+                sp28 = temp_a3 + 8;
+                temp_v0_3 = *temp_s1 * 0xC;
+                temp_a3->words.w1 = ((temp_v0_3 + &D_80097F90_cn)->unk_3 << 0x18) | ((&D_80097F90_cn + temp_v0_3)->unk_7 << 0x10) | ((temp_v0_3 + &D_80097F98_cn)->unk_3 << 8) | 0xFF;
+                temp_t0 = sp28;
+                temp_t0->words.w0 = 0xFB000000;
+                sp28 = temp_t0 + 8;
+                temp_v0_4 = *temp_s1 * 0xC;
+                temp_t0->words.w1 = ((temp_v0_4 + &D_80097FC0_cn)->unk_3 << 0x18) | ((&D_80097FC0_cn + temp_v0_4)->unk_7 << 0x10) | ((temp_v0_4 + &D_80097FC8_cn)->unk_3 << 8) | (var_t1 & 0xFF);
+                var_s5 = *temp_s1;
+            }
+            temp_s0 = var_s2 + (&attack_effect->unk_20 + 4);
+            func_80045600_cn(&sp28, 0x20, 0x20, B_800CA288_cn + ((*temp_s0 << 9) + 0x1800), temp_fs1, temp_fs0_2, 32.0f, 32.0f);
+            temp_v0_5 = *temp_s0 + 1;
+            *temp_s0 = temp_v0_5;
+            if (temp_v0_5 >= 8) {
+                *temp_s0 = 0;
+            }
+            if ((*var_s3 & 3) == 3) {
+                temp_v1_3 = attack_sprite_idx * 0x14;
+                *(temp_v1_3 + &attack_sprite->unk_10) = 0x10;
+                (&attack_sprite->unk_10 + temp_v1_3)->unk_-8 = (s32) *temp_s1;
+                (&attack_sprite->unk_10 + (attack_sprite_idx * 0x14))->unk_-4 = (s32) (rand() % 3);
+                temp_v0_6 = rand();
+                var_a1 = temp_v0_6;
+                if (temp_v0_6 < 0) {
+                    var_a1 = temp_v0_6 + 3;
+                }
+                attack_sprite[attack_sprite_idx].unk_00 = *temp_s7 + (temp_v0_6 - ((var_a1 >> 2) * 4));
+                temp_v0_7 = rand();
+                var_a2 = temp_v0_7;
+                temp_a3_2 = (attack_sprite_idx * 0x14) + (&attack_sprite->unk_10 - 0xC);
+                if (temp_v0_7 < 0) {
+                    var_a2 = temp_v0_7 + 3;
+                }
+                temp_v0_8 = attack_sprite_idx + 1;
+                attack_sprite_idx = temp_v0_8;
+                *temp_a3_2 = *temp_fp + (temp_v0_7 - ((var_a2 >> 2) * 4));
+                if (temp_v0_8 >= 0x80) {
+                    attack_sprite_idx = 0;
+                }
+            }
+        }
+        var_s3 += 0x2C;
+        var_s6 += 1;
+        var_s2 += 0x2C;
+    } while (var_s6 < 0x10);
+    var_s5_2 = -1;
+    var_s6_2 = 0;
+    var_s1 = &attack_sprite->unk_10;
+    var_s0 = 0;
+    do {
+        temp_v0_9 = *var_s1;
+        if (temp_v0_9 > 0) {
+            temp_t1 = var_s0 + (&attack_sprite->unk_10 - 8);
+            *var_s1 = temp_v0_9 - 1;
+            if (*temp_t1 != var_s5_2) {
+                temp_a3_3 = sp28;
+                temp_a3_3->words.w0 = 0xFA000000;
+                sp28 += 8;
+                temp_v0_10 = *temp_t1 * 0xC;
+                temp_a3_3->words.w1 = ((temp_v0_10 + &D_80097F90_cn)->unk_3 << 0x18) | ((&D_80097F90_cn + temp_v0_10)->unk_7 << 0x10) | ((temp_v0_10 + (&D_80097F90_cn + 8))->unk_3 << 8) | 0xFF;
+                temp_t0_2 = sp28;
+                temp_t0_2->words.w0 = 0xFB000000;
+                sp28 += 8;
+                temp_v0_11 = *temp_t1 * 0xC;
+                temp_t0_2->words.w1 = ((temp_v0_11 + &D_80097FC0_cn)->unk_3 << 0x18) | ((&D_80097FC0_cn + temp_v0_11)->unk_7 << 0x10) | ((temp_v0_11 + (&D_80097FC0_cn + 8))->unk_3 << 8) | 0xF0;
+                var_s5_2 = *temp_t1;
+            }
+            temp_v0_12 = &attack_sprite->unk_10 + var_s0;
+            func_80045600_cn(&sp28, 0x20, 0x20, B_800CA288_cn + (((temp_v0_12->unk_-4 * 4) + ((s32) *var_s1 / 2)) << 9), (f32) temp_v0_12->unk_-10, (f32) temp_v0_12->unk_-C, 32.0f, 32.0f);
+        }
+        var_s1 += 0x14;
+        var_s6_2 += 1;
+        var_s0 += 0x14;
+    } while (var_s6_2 < 0x80);
+    *gfxP = sp28;
+}
+#else
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_attack_effect);
+#endif
 #endif
