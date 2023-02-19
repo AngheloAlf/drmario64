@@ -352,7 +352,7 @@ segments:
 
       - [0x020D10, c, main_segment/020D10]
 
-      - [0x0227C0, c, main_segment/0227C0]
+      - [0x0227C0, c, main_segment/game_etc]
       - [0x024BC0, c, main_segment/024BC0]
       - [0x024C40, c, main_segment/024C40]
 
@@ -448,7 +448,7 @@ segments:
 
       - [0x094DD0, .rodata, main_segment/020D10]
 
-      - [0x094F70, .rodata, main_segment/0227C0]
+      - [0x094F70, .rodata, main_segment/game_etc]
       - [0x094FB0, .rodata, main_segment/024C40]
 
       - [0x095100, .rodata, main_segment/026550]

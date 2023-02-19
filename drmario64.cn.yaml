@@ -297,7 +297,7 @@ segments:
 
       - [0x023880, c, main_segment/020D10_cn]
 
-      - [0x025650, c, main_segment/0227C0_cn]
+      - [0x025650, c, main_segment/game_etc]
       - [0x027D50, c, main_segment/024BC0_cn]
       - [0x027DF0, c, main_segment/026000]
 
@@ -366,8 +366,10 @@ segments:
       - [0x0ABD40, .rodata, main_segment/record]
 
       - [0x0ABDB0, .rodata, main_segment/020D10_cn]
-      - [0x0ABF20, .rodata, main_segment/0227C0_cn]
+
+      - [0x0ABF20, .rodata, main_segment/game_etc]
       - [0x0ABF30, .rodata, main_segment/026550_cn]
+
       - [0x0AC790, .rodata, main_segment/tex_func]
 
       - [0x0AC7F0, .rodata, main_segment/main_menu]
