@@ -51,7 +51,7 @@ void initEtcWork(void *arg0, s32 arg1) {
     s32 var_v0;
     s32 var_v0_2;
     s8 *var_t7;
-    struct_800E53D0 *var_a2;
+    struct_etcLwsTbl *var_a2;
 
     if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
         logo_ofsY = 0x10;
@@ -158,7 +158,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", initEtcWork);
 #if 0
 extern s32 attack_sprite_idx;
 extern void *B_800CA288_cn;
-extern void *B_800FC048_cn;
+extern void *etcTexAddress;
 extern s32 *etcLwsAddress;
 extern void *etcLwsTbl;
 extern ? attack_sprite;
@@ -206,7 +206,7 @@ void initEtcWork(void *arg0, s32 arg1) {
     }
     var_a2 = &etcLwsTbl;
     binCount = arg1;
-    B_800FC048_cn = arg0;
+    etcTexAddress = arg0;
     temp_v1 = arg0 + D_80097EC8_cn.unk_0;
     var_a0 = temp_v1;
     etcLwsAddress = temp_v1;
@@ -312,7 +312,20 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003ACB4);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", init_pause_disp);
+void init_pause_disp(void) {
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        s32 j;
+
+        for (j = 0; j < 8; j++) {
+            g_etc_work[i].unk_10[j] = 0;
+            g_etc_work[i].unk_30[j] = g_etc_work[i].unk_50[j] = 0.0f;
+            g_etc_work[i].unk_70[j] = g_etc_work[i].unk_90[j] = g_etc_work[i].unk_B0[j] = g_etc_work[i].unk_D0[j] =
+                0xFF;
+        }
+    }
+}
 #endif
 
 void disp_logo_setup(Gfx **gfxP) {
@@ -351,18 +364,61 @@ UNK_TYPE disp_count_logo(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
     }
 
     makeTransrateMatrix(&mtx, var_a1 << 15, var_a2 << 15, 0xFE0C << 16);
-    ret = lws_anim(&gfx, &mtx, etcLwsTbl.unk_24, arg2, etcLwsAddress);
+    ret = lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[9], arg2, etcLwsAddress);
 
     *gfxP = gfx;
     return ret;
 }
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003AEE4);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_clear_logo);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_clear_logo);
+void disp_clear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
+    Gfx *gfx = *gfxP;
+    Mtx mtx;
+    u32 x;
+    u32 y;
+    struct_g_etc_work *temp_s0;
+
+    gSPDisplayList(gfx++, etc_setup);
+
+    temp_s0 = &g_etc_work[arg1];
+
+    switch (binCount) {
+        case 0x1:
+            x = -4;
+            y = 0;
+            break;
+
+        case 0x2:
+            x = x2p[arg1] - 4;
+            y = 0;
+            break;
+
+        default:
+            x = x4p[arg1] - 4;
+            y = 0;
+            break;
+    }
+
+    makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
+
+    if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0xA], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        temp_s0->unk_10[0] = 0x27;
+    }
+    temp_s0->unk_10[0]++;
+
+    if (arg2 != 0) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0xB], temp_s0->unk_10[1], etcLwsAddress) == 1) {
+            temp_s0->unk_10[1] = 0x3B;
+        }
+        temp_s0->unk_10[1]++;
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -370,7 +426,50 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B054);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_allclear_logo);
+void disp_allclear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
+    Gfx *gfx = *gfxP;
+    Mtx mtx;
+    u32 x;
+    u32 y;
+    struct_g_etc_work *temp_s0;
+
+    gSPDisplayList(gfx++, etc_setup);
+
+    temp_s0 = &g_etc_work[arg1];
+
+    switch (binCount) {
+        case 0x1:
+            x = -4;
+            y = 0;
+            break;
+
+        case 0x2:
+            x = x2p[arg1] - 4;
+            y = 0;
+            break;
+
+        default:
+            x = x4p[arg1] - 4;
+            y = 0;
+            break;
+    }
+
+    makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
+
+    if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0xD], temp_s0->unk_10[1], etcLwsAddress) == 1) {
+        temp_s0->unk_10[1] = 0x27;
+    }
+    temp_s0->unk_10[1]++;
+
+    if (arg2 != 0) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0xB], temp_s0->unk_10[2], etcLwsAddress) == 1) {
+            temp_s0->unk_10[2] = 0x3B;
+        }
+        temp_s0->unk_10[2]++;
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -378,23 +477,149 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B1C4);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_win_logo);
+void disp_win_logo(Gfx **gfxP, s32 arg1) {
+    Gfx *gfx = *gfxP;
+    Mtx mtx;
+    u32 x;
+    u32 y;
+    struct_g_etc_work *temp_s0;
+    UNK_PTR var_a2;
+
+    gSPDisplayList(gfx++, etc_setup);
+
+    temp_s0 = &g_etc_work[arg1];
+
+    switch (binCount) {
+        case 0x1:
+            x = 0;
+            y = 0;
+            break;
+
+        case 0x2:
+            x = x2p[arg1];
+            y = 0;
+            break;
+
+        default:
+            x = x4p[arg1];
+            y = 2;
+            break;
+    }
+
+    makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
+
+    if (binCount != 4) {
+        var_a2 = etcLwsTbl.unk_00[0];
+    } else {
+        var_a2 = etcLwsTbl.unk_00[1];
+    }
+    if (lws_anim(&gfx, &mtx, var_a2, temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        temp_s0->unk_10[0] = 0x3F;
+    }
+    temp_s0->unk_10[0]++;
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B30C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_lose_logo);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_lose_logo);
+void disp_lose_logo(Gfx **gfxP, s32 arg1) {
+    Gfx *gfx = *gfxP;
+    Mtx mtx;
+    u32 x;
+    u32 y;
+    struct_g_etc_work *temp_s0;
+    UNK_PTR var_a2;
+
+    gSPDisplayList(gfx++, etc_setup);
+
+    temp_s0 = &g_etc_work[arg1];
+
+    switch (binCount) {
+        case 0x1:
+            x = 0;
+            y = 0;
+            break;
+
+        case 0x2:
+            x = x2p[arg1];
+            y = 0;
+            break;
+
+        default:
+            x = x4p[arg1];
+            y = 2;
+            break;
+    }
+
+    makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
+
+    if (binCount != 4) {
+        var_a2 = etcLwsTbl.unk_00[2];
+    } else {
+        var_a2 = etcLwsTbl.unk_00[3];
+    }
+    if (lws_anim(&gfx, &mtx, var_a2, temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        temp_s0->unk_10[0] = 0x37;
+    }
+    temp_s0->unk_10[0]++;
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B454);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_draw_logo);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_draw_logo);
+void disp_draw_logo(Gfx **gfxP, s32 arg1) {
+    Gfx *gfx = *gfxP;
+    Mtx mtx;
+    u32 x;
+    u32 y;
+    struct_g_etc_work *temp_s0;
+    UNK_PTR var_a2;
+
+    gSPDisplayList(gfx++, etc_setup);
+
+    temp_s0 = &g_etc_work[arg1];
+
+    switch (binCount) {
+        case 0x1:
+            x = 0;
+            y = 0;
+            break;
+
+        case 0x2:
+            x = x2p[arg1];
+            y = 0;
+            break;
+
+        default:
+            x = x4p[arg1];
+            y = 2;
+            break;
+    }
+
+    makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
+
+    if (binCount != 4) {
+        var_a2 = etcLwsTbl.unk_00[4];
+    } else {
+        var_a2 = etcLwsTbl.unk_00[5];
+    }
+    if (lws_anim(&gfx, &mtx, var_a2, temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        temp_s0->unk_10[0] = 0xF;
+    }
+    temp_s0->unk_10[0]++;
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -402,7 +627,117 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B59C);
 #endif
 
 #if VERSION_CN
+#ifdef NON_EQUIVALENT
+s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    struct_get_gbi_stat_arg0 sp38;
+    struct_get_gbi_stat_arg0 sp50;
+    Mtx sp68;
+    s32 pad[4];
+    Gfx *gfx; // spC0
+    s32 var_a1;
+    s32 var_a2;
+    struct_g_etc_work *temp_s1;
+
+    gfx = *gfxP;
+
+    temp_s1 = &g_etc_work[arg1];
+
+    temp_s1->unk_30[7] = temp_s1->unk_00 + (temp_s1->unk_08 * 0.5) - 20;
+    temp_s1->unk_30[2] = temp_s1->unk_00 + (temp_s1->unk_08 * 0.5) - 31;
+
+    temp_s1->unk_50[7] = temp_s1->unk_04 + 10.0f;
+
+    if (pause_table[arg4].unk_00[0] == 2) {
+        temp_s1->unk_50[2] = (temp_s1->unk_04 + temp_s1->unk_0C - 35) - 2;
+    } else {
+        temp_s1->unk_50[2] = (temp_s1->unk_04 + temp_s1->unk_0C - 50) - 2;
+    }
+
+    gSPDisplayList(gfx++, etc_setup);
+
+    switch (binCount) {
+        case 1:
+            var_a1 = 0;
+            var_a2 = 0;
+            break;
+
+        case 2:
+            var_a1 = x2p[arg1];
+            var_a2 = 0;
+            break;
+
+        default:
+            // case 4:
+            var_a2 = 8;
+            var_a1 = x4p[arg1];
+            break;
+    }
+
+    makeTransrateMatrix(&sp68, var_a1 << 0xF, var_a2 << 0xF, 0xFE0C0000);
+    if (lws_anim(&gfx, &sp68, etcLwsTbl.unk_00[7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
+        temp_s1->unk_10[7] = 0x19;
+    }
+
+    gSPDisplayList(gfx++, alpha_texture_init_dl);
+
+    if (arg3 >= 0) {
+        if (temp_s1->unk_10[6] - 0x10 > 0) {
+            f32 var_fs0;
+            f32 var_fs1;
+
+            get_gbi_stat(&sp38, (uintptr_t)etcTexAddress + etc_parts_tbl[pause_table[arg4].unk_04]);
+            get_gbi_stat(&sp50, (uintptr_t)etcTexAddress + etc_parts_tbl[pause_table[arg4].unk_08]);
+            StretchAlphaTexBlock(&gfx, sp38.unk_04, sp38.unk_08, sp38.unk_10, sp38.unk_04, sp50.unk_10, sp50.unk_04,
+                                 temp_s1->unk_30[2], temp_s1->unk_50[2], (f32)sp38.unk_04, (f32)sp38.unk_08);
+            if (pause_table[arg4].unk_00[0] == 2) {
+                switch (arg3) {
+                    case 0x0:
+                        var_fs1 = temp_s1->unk_30[2];
+                        var_fs0 = temp_s1->unk_50[2] + 0.0f + 1.0f;
+                        break;
+                    case 0x1:
+                        var_fs1 = temp_s1->unk_30[2];
+                        var_fs0 = temp_s1->unk_50[2] + 16.0f - 2.0f;
+                        break;
+                }
+            } else {
+                switch (arg3) {
+                    case 0x0:
+                        var_fs1 = temp_s1->unk_30[2];
+                        var_fs0 = temp_s1->unk_50[2] + 0.0f - 1.0f;
+                        break;
+                    case 0x1:
+                        var_fs1 = temp_s1->unk_30[2];
+                        var_fs0 = temp_s1->unk_50[2] + 16.0f - 1.0f;
+                        break;
+                    case 0x2:
+                        var_fs1 = temp_s1->unk_30[2];
+                        var_fs0 = temp_s1->unk_50[2] + 31.0f - 1.0f;
+                        break;
+                }
+            }
+
+            if (temp_s1->unk_10[5] & 0x10) {
+                gSPDisplayList(gfx++, normal_texture_init_dl);
+                get_gbi_stat(&sp38, (uintptr_t)etcTexAddress + etc_parts_tbl[3]);
+                StretchTexBlock4(&gfx, sp38.unk_04, sp38.unk_08, sp38.unk_0C, sp38.unk_10, var_fs1, var_fs0,
+                                 sp38.unk_04, sp38.unk_08);
+            }
+        }
+    }
+
+    temp_s1->unk_10[5]++;
+    temp_s1->unk_10[6]++;
+    temp_s1->unk_10[7]++;
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    *gfxP = gfx;
+    return pause_table[arg4].unk_00[arg3 + 3];
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_pause_logo);
+#endif
 #endif
 
 #if VERSION_US
@@ -423,12 +758,12 @@ s32 disp_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
     cont_bg_flg = 0;
     temp_t0 = &g_etc_work[arg1];
-    temp_t0->unk_48 = temp_t0->unk_00 + temp_t0->unk_08 * 0.5 - 31;
+    temp_t0->unk_30[6] = temp_t0->unk_00 + temp_t0->unk_08 * 0.5 - 31;
 
     if (cont_table[arg3].unk_00 == 2) {
-        temp_t0->unk_68 = temp_t0->unk_04 + temp_t0->unk_0C - 35 - 2;
+        temp_t0->unk_50[6] = temp_t0->unk_04 + temp_t0->unk_0C - 35 - 2;
     } else {
-        temp_t0->unk_68 = temp_t0->unk_04 + temp_t0->unk_0C - 50 - 2;
+        temp_t0->unk_50[6] = temp_t0->unk_04 + temp_t0->unk_0C - 50 - 2;
     }
 
     return etc_continue_logo(gfxP, arg1, arg2, arg3);
@@ -440,7 +775,21 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003BFD8);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_continue_logo_score);
+void disp_continue_logo_score(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+    struct_g_etc_work *temp_t0;
+
+    cont_bg_flg = 1;
+    temp_t0 = &g_etc_work[arg1];
+    temp_t0->unk_30[6] = 129.0f;
+
+    if (cont_table[arg3].unk_00 == 2) {
+        temp_t0->unk_50[6] = (temp_t0->unk_04 + temp_t0->unk_0C - 35) - 2;
+    } else {
+        temp_t0->unk_50[6] = (temp_t0->unk_04 + temp_t0->unk_0C - 50) - 2;
+    }
+
+    etc_continue_logo(gfxP, arg1, arg2, arg3);
+}
 #endif
 
 #if VERSION_US
@@ -448,7 +797,43 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C094);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_gameover_logo);
+void disp_gameover_logo(Gfx **gfxP, s32 arg1) {
+    Gfx *gfx = *gfxP;
+    Mtx mtx;
+    u32 x;
+    u32 y;
+    struct_g_etc_work *temp_s0;
+
+    gSPDisplayList(gfx++, etc_setup);
+
+    temp_s0 = &g_etc_work[arg1];
+
+    switch (binCount) {
+        case 0x1:
+            x = -2;
+            y = 0;
+            break;
+
+        case 0x2:
+            x = x2p[arg1] - 2;
+            y = 0;
+            break;
+
+        default:
+            x = x4p[arg1] - 2;
+            y = 0;
+            break;
+    }
+
+    makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
+
+    if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[8], temp_s0->unk_10[1], etcLwsAddress) == 1) {
+        temp_s0->unk_10[1] = 0x39;
+    }
+    temp_s0->unk_10[1]++;
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -456,7 +841,43 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C1A4);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_timeover_logo);
+void disp_timeover_logo(Gfx **gfxP, s32 arg1) {
+    Gfx *gfx = *gfxP;
+    Mtx mtx;
+    u32 x;
+    u32 y;
+    struct_g_etc_work *temp_s0;
+
+    gSPDisplayList(gfx++, etc_setup);
+
+    temp_s0 = &g_etc_work[arg1];
+
+    switch (binCount) {
+        case 0x1:
+            x = -2;
+            y = 0;
+            break;
+
+        case 0x2:
+            x = x2p[arg1] - 2;
+            y = 0;
+            break;
+
+        default:
+            x = x4p[arg1] - 2;
+            y = 0;
+            break;
+    }
+
+    makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
+
+    if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0xC], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        temp_s0->unk_10[0] = 0x39;
+    }
+    temp_s0->unk_10[0]++;
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -464,7 +885,43 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C2B4);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_retire_logo);
+void disp_retire_logo(Gfx **gfxP, s32 arg1) {
+    Gfx *gfx = *gfxP;
+    Mtx mtx;
+    u32 x;
+    u32 y;
+    struct_g_etc_work *temp_s0;
+
+    gSPDisplayList(gfx++, etc_setup);
+
+    temp_s0 = &g_etc_work[arg1];
+
+    switch (binCount) {
+        case 0x1:
+            x = -2;
+            y = 0;
+            break;
+
+        case 0x2:
+            x = x2p[arg1];
+            y = 0;
+            break;
+
+        default:
+            x = x4p[arg1];
+            y = 0;
+            break;
+    }
+
+    makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
+
+    if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0x6], temp_s0->unk_10[2], etcLwsAddress) == 1) {
+        temp_s0->unk_10[2] = 0x8B;
+    }
+    temp_s0->unk_10[2]++;
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -472,7 +929,34 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_timestop_logo);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_timestop_logo);
+void disp_timestop_logo(Gfx **gfxP, s32 arg1) {
+    Gfx *gfx = *gfxP;
+    struct_g_etc_work *temp_s3 = &g_etc_work[arg1];
+    struct_get_gbi_stat_arg0 sp30;
+
+    get_gbi_stat(&sp30, etcTexAddress + etc_parts_tbl[0xB]);
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+    gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+    gDPSetCombineLERP(gfx++, 0, 0, 0, 0, 0, 0, 0, TEXEL0, 0, 0, 0, 0, 0, 0, 0, TEXEL0);
+    gDPSetTextureLUT(gfx++, G_TT_NONE);
+
+    StretchTexBlock4i(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, 43.0f, 157.0f, (f32)sp30.unk_04, (f32)sp30.unk_08);
+    get_gbi_stat(&sp30, etcTexAddress + etc_parts_tbl[0xA]);
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    StretchTexBlock4(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_0C, sp30.unk_10, 43.0f, 157.0f, (f32)sp30.unk_04,
+                     (f32)sp30.unk_08);
+    if (temp_s3->unk_10[4] & 0x10) {
+        get_gbi_stat(&sp30, etcTexAddress + etc_parts_tbl[0xC]);
+        StretchTexBlock4(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_0C, sp30.unk_10, 37.0f, 175.0f, (f32)sp30.unk_04,
+                         (f32)sp30.unk_08);
+    }
+    temp_s3->unk_10[4]++;
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -506,7 +990,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_attack_effect);
 
 #if VERSION_CN
 #if 0
-? func_80045600_cn(Gfx **, ?, ?, s32, f32, f32, f32, f32); /* extern */
 extern s32 B_800CA288_cn;
 extern ? D_80097F90_cn;
 extern ? D_80097F98_cn;
@@ -635,7 +1118,7 @@ void disp_attack_effect(Gfx **gfxP) {
                 var_s5 = *temp_s1;
             }
             temp_s0 = var_s2 + (&attack_effect->unk_20 + 4);
-            func_80045600_cn(&sp28, 0x20, 0x20, B_800CA288_cn + ((*temp_s0 << 9) + 0x1800), temp_fs1, temp_fs0_2, 32.0f, 32.0f);
+            StretchTexBlock4i(&sp28, 0x20, 0x20, B_800CA288_cn + ((*temp_s0 << 9) + 0x1800), temp_fs1, temp_fs0_2, 32.0f, 32.0f);
             temp_v0_5 = *temp_s0 + 1;
             *temp_s0 = temp_v0_5;
             if (temp_v0_5 >= 8) {
@@ -693,7 +1176,7 @@ void disp_attack_effect(Gfx **gfxP) {
                 var_s5_2 = *temp_t1;
             }
             temp_v0_12 = &attack_sprite->unk_10 + var_s0;
-            func_80045600_cn(&sp28, 0x20, 0x20, B_800CA288_cn + (((temp_v0_12->unk_-4 * 4) + ((s32) *var_s1 / 2)) << 9), (f32) temp_v0_12->unk_-10, (f32) temp_v0_12->unk_-C, 32.0f, 32.0f);
+            StretchTexBlock4i(&sp28, 0x20, 0x20, B_800CA288_cn + (((temp_v0_12->unk_-4 * 4) + ((s32) *var_s1 / 2)) << 9), (f32) temp_v0_12->unk_-10, (f32) temp_v0_12->unk_-C, 32.0f, 32.0f);
         }
         var_s1 += 0x14;
         var_s6_2 += 1;

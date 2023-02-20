@@ -46,6 +46,8 @@
 #define saved_reg_s6 0
 #define saved_reg_s7 0
 #define bitwise
+#define saved_reg_f20 0.0f
+#define saved_reg_f22 0.0f
 
 
 #endif

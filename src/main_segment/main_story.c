@@ -18,15 +18,17 @@
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_zoomfade);
 #endif
 
-#if VERSION_US
-void func_80076CA0(struct_80076CA0_arg0 *arg0, struct_800E8750 *arg1) {
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80080C30_cn);
+#endif
+
+void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_800E8750 *arg1) {
     arg0->unk_04 = arg1->unk_008;
     arg0->unk_08 = arg1->unk_00A;
     arg0->unk_00 = arg1->unk_00E;
     arg0->unk_0C = &arg1->unk_010;
     arg0->unk_10 = &arg1->unk_210;
 }
-#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80076CCC);
@@ -346,8 +348,8 @@ void *init_title(void *dstAddr, bool arg1) {
  * Original name: demo_title
  */
 s32 demo_title(Gfx **gfxP, bool arg1) {
-    struct_80076CA0_arg0 sp30;
-    struct_80076CA0_arg0 sp48;
+    struct_get_gbi_stat_arg0 sp30;
+    struct_get_gbi_stat_arg0 sp48;
     Mtx sp60;
     Gfx *gfx;
     s32 temp_s2;
@@ -427,7 +429,7 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
                 temp_v1_2 = temp_v1_2 & (~temp_v1_2 >> 0x1F);
             }
 
-            func_80076CA0(&sp30, title_bmp_data + title_bmp_tbl[0]);
+            get_gbi_stat(&sp30, title_bmp_data + title_bmp_tbl[0]);
 
             gDPSetTextureLUT(gfx++, G_TT_NONE);
             gDPSetPrimColor(gfx++, 0, 0, temp_v1_2, temp_v1_2, temp_v1_2, 255);
@@ -448,8 +450,8 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     }
 
     if ((title_time & var_v0_3) && (title_time > 0x2D0) && (title_wait == 0)) {
-        func_80076CA0(&sp30, title_bmp_data + title_bmp_tbl[1]);
-        func_80076CA0(&sp48, title_bmp_data + title_bmp_tbl[2]);
+        get_gbi_stat(&sp30, title_bmp_data + title_bmp_tbl[1]);
+        get_gbi_stat(&sp48, title_bmp_data + title_bmp_tbl[2]);
 
         gSPDisplayList(gfx++, alpha_texture_init_dl);
         StretchAlphaTexBlock(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, sp30.unk_04, sp48.unk_10, sp48.unk_04, 88.0f,
@@ -891,10 +893,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_8007B62C);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80080C30_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081050_cn);
-
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_8008107C_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081160_cn);

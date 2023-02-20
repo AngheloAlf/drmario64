@@ -314,14 +314,14 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchAlphaTexBlock);
 #endif
 
 #if VERSION_US
-void func_80042468(StretchTexBlock_arg0 *arg0) {
+void StretchTexBlock4_LoadTex(StretchTexBlock_arg0 *arg0) {
     gDPLoadTextureBlock_4b((*arg0->unk_00)++, arg0->unk_10 + ((arg0->unk_14 * arg0->unk_40) / 2), G_IM_FMT_CI,
                            arg0->unk_14, arg0->unk_48, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
-void func_80042650(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7,
-                   f32 arg8) {
+void StretchTexBlock4(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7,
+                      f32 arg8) {
     StretchTexBlock_arg0 sp10;
 
     sp10.unk_00 = gfxP;
@@ -332,7 +332,7 @@ void func_80042650(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4
     sp10.unk_18 = 0;
     sp10.unk_1C = 0;
     sp10.unk_34 = NULL;
-    sp10.unk_30 = func_80042468;
+    sp10.unk_30 = StretchTexBlock4_LoadTex;
     sp10.unk_3C = StretchTexBlock_ScisRect;
     sp10.unk_10 = arg4;
     sp10.unk_20 = arg5 * 4.0;
@@ -654,11 +654,11 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800444D4_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800446BC_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800448C4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchAlphaTexBlock);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800449DC_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80044BD4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexBlock4);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80044D8C_cn);
 
@@ -670,7 +670,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80045314_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80045408_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80045600_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexBlock4i);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800456F4_cn);
 

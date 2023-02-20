@@ -321,9 +321,9 @@ D_800B1A60 - found 2 matches total:
 0.99 - D_800AFE58
 0.99 - D_800B1AB0
 
-func_8003B30C - found 2 matches total:
+disp_lose_logo - found 2 matches total:
 0.99 - func_8003B1C4
-0.99 - func_8003B454
+0.99 - disp_draw_logo
 
 _menuCursor_cursor_4_pattern - found 2 matches total:
 0.99 - D_800AAE00 (decompiled)
@@ -354,7 +354,7 @@ func_80072204 - found 1 matches total:
 0.99 - func_800721D8
 
 func_8003B054 - found 1 matches total:
-0.99 - func_8003AEE4
+0.99 - disp_clear_logo
 
 func_80062BC4 - found 1 matches total:
 0.99 - dm_check_game_over

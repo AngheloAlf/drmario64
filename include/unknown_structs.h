@@ -295,14 +295,14 @@ typedef struct struct_800E8750 {
     /* 0x210 */ UNK_TYPE unk_210;
 } struct_800E8750; // size >= 0x214
 
-typedef struct struct_80076CA0_arg0 {
+typedef struct struct_get_gbi_stat_arg0 {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ UNK_PTR unk_0C;
     /* 0x10 */ TexturePtr unk_10;
     /* 0x14 */ UNK_TYPE1 unk_14[0x4];
-} struct_80076CA0_arg0; // size = 0x18
+} struct_get_gbi_stat_arg0; // size = 0x18
 
 typedef struct struct_800F1DF8 {
     /* 0x0000 */ UNK_TYPE1 unk_0000[0x1400];
@@ -731,12 +731,6 @@ typedef enum enum_evs_manual_no {
     /* 4 */ EVS_MANUAL_NO_4,
     /* 5 */ EVS_MANUAL_NO_5
 } enum_evs_manual_no;
-
-typedef struct struct_800E53D0 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x24];
-    /* 0x24 */ UNK_PTR unk_24;
-    /* 0x28 */ UNK_TYPE1 unk_28[0x18];
-} struct_800E53D0; // size = 0x40
 
 #if VERSION_CN
 typedef struct struct_8010ACB0_cn {

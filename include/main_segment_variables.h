@@ -444,8 +444,7 @@ extern s32 last_flash;
 extern s32 binCount;
 // extern UNK_TYPE B_800E53C4;
 // extern UNK_TYPE B_800E53C8;
-extern UNK_PTR etcLwsAddress;
-extern struct_800E53D0 etcLwsTbl;
+
 // extern UNK_TYPE logo_ofsY;
 // extern UNK_TYPE etc_mode;
 // extern UNK_TYPE B_800E5418;
