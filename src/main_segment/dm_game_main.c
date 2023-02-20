@@ -18,6 +18,7 @@
 #include "graphic.h"
 #include "aif.h"
 #include "replay.h"
+#include "game_etc.h"
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800601F0);

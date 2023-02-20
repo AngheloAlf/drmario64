@@ -159,8 +159,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", initEtcWork);
 extern s32 attack_sprite_idx;
 extern void *B_800CA288_cn;
 extern void *B_800FC048_cn;
-extern s32 *B_800FC04C_cn;
-extern void *B_800FC050_cn;
+extern s32 *etcLwsAddress;
+extern void *etcLwsTbl;
 extern ? attack_sprite;
 extern ? D_80097EC8_cn;
 extern s32 etc_mode;
@@ -204,12 +204,12 @@ void initEtcWork(void *arg0, s32 arg1) {
         logo_ofsY = 0;
         var_t0 = 0;
     }
-    var_a2 = &B_800FC050_cn;
+    var_a2 = &etcLwsTbl;
     binCount = arg1;
     B_800FC048_cn = arg0;
     temp_v1 = arg0 + D_80097EC8_cn.unk_0;
     var_a0 = temp_v1;
-    B_800FC04C_cn = temp_v1;
+    etcLwsAddress = temp_v1;
     B_800CA288_cn = arg0 + D_80097EC8_cn.unk_4;
     do {
         temp_v0 = *var_a0;
@@ -311,7 +311,10 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", initEtcWork);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003ACB4);
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", init_pause_disp);
+#endif
+
 void disp_logo_setup(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -320,9 +323,7 @@ void disp_logo_setup(Gfx **gfxP) {
     gSPSegment(gfx++, 0x05, osVirtualToPhysical(etcLwsAddress));
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
 UNK_TYPE disp_count_logo(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
     Mtx mtx;
     Gfx *gfx = *gfxP;
@@ -355,54 +356,115 @@ UNK_TYPE disp_count_logo(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
     *gfxP = gfx;
     return ret;
 }
-#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003AEE4);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_clear_logo);
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B054);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_allclear_logo);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B1C4);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_win_logo);
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B30C);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_lose_logo);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B454);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_draw_logo);
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B59C);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003BA98);
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_pause_logo);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003BEF8);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", etc_continue_logo);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", etc_continue_logo);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_continue_logo);
+#endif
+
+#if VERSION_CN
+s32 disp_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+    struct_g_etc_work *temp_t0;
+
+    cont_bg_flg = 0;
+    temp_t0 = &g_etc_work[arg1];
+    temp_t0->unk_48 = temp_t0->unk_00 + temp_t0->unk_08 * 0.5 - 31;
+
+    if (cont_table[arg3].unk_00 == 2) {
+        temp_t0->unk_68 = temp_t0->unk_04 + temp_t0->unk_0C - 35 - 2;
+    } else {
+        temp_t0->unk_68 = temp_t0->unk_04 + temp_t0->unk_0C - 50 - 2;
+    }
+
+    return etc_continue_logo(gfxP, arg1, arg2, arg3);
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003BFD8);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_continue_logo_score);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C094);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_gameover_logo);
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C1A4);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_timeover_logo);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C2B4);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_retire_logo);
 #endif
 
 #if VERSION_US
@@ -410,67 +472,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_timestop_logo);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003DC5C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003DD28_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003DDCC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003DEC4_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003E06C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003E214_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003E370_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003E4CC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003E628_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003EB68_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003F038_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003F120_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003F1DC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003F30C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003F43C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", func_8003F568_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", disp_timestop_logo);
 #endif
 
 #if VERSION_US

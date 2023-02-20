@@ -953,7 +953,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800855EC_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", main_story);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80085BE8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", init_objMtx);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", graphic_story);
 
