@@ -12,17 +12,17 @@
 
 #if VERSION_US
 #if 0
-extern void *B_800E53C8;
+extern void *etcTexAddress;
 extern s32 logo_ofsY;
 extern s32 etc_mode;
-extern ? B_800E5418;
+extern ? g_etc_work;
 extern ? B_800E541C;
 extern ? B_800E5420;
 extern ? B_800E5424;
 extern ?32 B_800E5428;
 extern ? B_800E54A8;
 extern s32 B_800EA284;
-extern s32 B_800EF548;
+extern s32 attack_effect_idx;
 extern ? B_800F3EA0;
 extern void *B_800F748C;
 extern ? B_800FB3C8;
@@ -62,7 +62,7 @@ void initEtcWork(void *arg0, s32 arg1) {
     }
     var_a2 = &etcLwsTbl;
     binCount = arg1;
-    B_800E53C8 = arg0;
+    etcTexAddress = arg0;
     var_a1 = arg0 + D_8008D0B8;
     etcLwsAddress = var_a1;
     B_800F748C = arg0 + D_8008D0BC;
@@ -95,7 +95,7 @@ void initEtcWork(void *arg0, s32 arg1) {
         var_t7 = &game_state_data->unk_00A;
         var_t6 = 0;
         do {
-            *(&B_800E5418 + var_t0) = (f32) *(&game_state_data->unk_006 + var_t6);
+            *(&g_etc_work + var_t0) = (f32) *(&game_state_data->unk_006 + var_t6);
             *(&B_800E541C + var_t0) = (f32) *(&game_state_data->unk_008 + var_t6);
             var_t3 = 0;
             var_t2 = var_s1;
@@ -136,7 +136,7 @@ loop_14:
             var_t6 += 0x3C4;
         } while (var_t5_2 < binCount);
     }
-    B_800EF548 = 0;
+    attack_effect_idx = 0;
     var_v0 = 0x294;
     do {
         *(&B_800FB3C8 + var_v0) = 0;
@@ -307,18 +307,13 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", initEtcWork);
 #endif
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003ACB4);
-#endif
-
-#if VERSION_CN
 void init_pause_disp(void) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
         s32 j;
 
-        for (j = 0; j < 8; j++) {
+        for (j = 0; j < G_ETC_WORK_VAL; j++) {
             g_etc_work[i].unk_10[j] = 0;
             g_etc_work[i].unk_30[j] = g_etc_work[i].unk_50[j] = 0.0f;
             g_etc_work[i].unk_70[j] = g_etc_work[i].unk_90[j] = g_etc_work[i].unk_B0[j] = g_etc_work[i].unk_D0[j] =
@@ -326,7 +321,6 @@ void init_pause_disp(void) {
         }
     }
 }
-#endif
 
 void disp_logo_setup(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
@@ -370,11 +364,6 @@ UNK_TYPE disp_count_logo(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
     return ret;
 }
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_clear_logo);
-#endif
-
-#if VERSION_CN
 void disp_clear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
@@ -419,13 +408,7 @@ void disp_clear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B054);
-#endif
-
-#if VERSION_CN
 void disp_allclear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
@@ -470,20 +453,13 @@ void disp_allclear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B1C4);
-#endif
-
-#if VERSION_CN
 void disp_win_logo(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
     u32 x;
     u32 y;
     struct_g_etc_work *temp_s0;
-    UNK_PTR var_a2;
 
     gSPDisplayList(gfx++, etc_setup);
 
@@ -509,31 +485,25 @@ void disp_win_logo(Gfx **gfxP, s32 arg1) {
     makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
 
     if (binCount != 4) {
-        var_a2 = etcLwsTbl.unk_00[0];
+        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+            temp_s0->unk_10[0] = 0x3F;
+        }
     } else {
-        var_a2 = etcLwsTbl.unk_00[1];
-    }
-    if (lws_anim(&gfx, &mtx, var_a2, temp_s0->unk_10[0], etcLwsAddress) == 1) {
-        temp_s0->unk_10[0] = 0x3F;
+        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[1], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+            temp_s0->unk_10[0] = 0x3F;
+        }
     }
     temp_s0->unk_10[0]++;
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_lose_logo);
-#endif
-
-#if VERSION_CN
 void disp_lose_logo(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
     u32 x;
     u32 y;
     struct_g_etc_work *temp_s0;
-    UNK_PTR var_a2;
 
     gSPDisplayList(gfx++, etc_setup);
 
@@ -559,31 +529,25 @@ void disp_lose_logo(Gfx **gfxP, s32 arg1) {
     makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
 
     if (binCount != 4) {
-        var_a2 = etcLwsTbl.unk_00[2];
+        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[2], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+            temp_s0->unk_10[0] = 0x37;
+        }
     } else {
-        var_a2 = etcLwsTbl.unk_00[3];
-    }
-    if (lws_anim(&gfx, &mtx, var_a2, temp_s0->unk_10[0], etcLwsAddress) == 1) {
-        temp_s0->unk_10[0] = 0x37;
+        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[3], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+            temp_s0->unk_10[0] = 0x37;
+        }
     }
     temp_s0->unk_10[0]++;
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_draw_logo);
-#endif
-
-#if VERSION_CN
 void disp_draw_logo(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
     u32 x;
     u32 y;
     struct_g_etc_work *temp_s0;
-    UNK_PTR var_a2;
 
     gSPDisplayList(gfx++, etc_setup);
 
@@ -609,21 +573,21 @@ void disp_draw_logo(Gfx **gfxP, s32 arg1) {
     makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
 
     if (binCount != 4) {
-        var_a2 = etcLwsTbl.unk_00[4];
+        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[4], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+            temp_s0->unk_10[0] = 0xF;
+        }
     } else {
-        var_a2 = etcLwsTbl.unk_00[5];
-    }
-    if (lws_anim(&gfx, &mtx, var_a2, temp_s0->unk_10[0], etcLwsAddress) == 1) {
-        temp_s0->unk_10[0] = 0xF;
+        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[5], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+            temp_s0->unk_10[0] = 0xF;
+        }
     }
     temp_s0->unk_10[0]++;
 
     *gfxP = gfx;
 }
-#endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003B59C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_pause_logo);
 #endif
 
 #if VERSION_CN
@@ -748,17 +712,18 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", etc_continue_logo);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", etc_continue_logo);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_continue_logo);
-#endif
-
-#if VERSION_CN
 s32 disp_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     struct_g_etc_work *temp_t0;
 
     cont_bg_flg = 0;
     temp_t0 = &g_etc_work[arg1];
+
+#if VERSION_US
+    temp_t0->unk_30[6] = temp_t0->unk_00 + temp_t0->unk_08 / 2.0 - 31;
+#endif
+#if VERSION_CN
     temp_t0->unk_30[6] = temp_t0->unk_00 + temp_t0->unk_08 * 0.5 - 31;
+#endif
 
     if (cont_table[arg3].unk_00 == 2) {
         temp_t0->unk_50[6] = temp_t0->unk_04 + temp_t0->unk_0C - 35 - 2;
@@ -768,13 +733,7 @@ s32 disp_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
     return etc_continue_logo(gfxP, arg1, arg2, arg3);
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003BFD8);
-#endif
-
-#if VERSION_CN
 void disp_continue_logo_score(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     struct_g_etc_work *temp_t0;
 
@@ -790,13 +749,7 @@ void disp_continue_logo_score(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
     etc_continue_logo(gfxP, arg1, arg2, arg3);
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C094);
-#endif
-
-#if VERSION_CN
 void disp_gameover_logo(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
@@ -834,13 +787,7 @@ void disp_gameover_logo(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C1A4);
-#endif
-
-#if VERSION_CN
 void disp_timeover_logo(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
@@ -878,13 +825,7 @@ void disp_timeover_logo(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", func_8003C2B4);
-#endif
-
-#if VERSION_CN
 void disp_retire_logo(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
@@ -922,13 +863,7 @@ void disp_retire_logo(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_timestop_logo);
-#endif
-
-#if VERSION_CN
 void disp_timestop_logo(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     struct_g_etc_work *temp_s3 = &g_etc_work[arg1];
@@ -957,13 +892,7 @@ void disp_timestop_logo(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", add_attack_effect);
-#endif
-
-#if VERSION_CN
 void add_attack_effect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     attack_effect[attack_effect_idx].unk_28 = arg0;
     attack_effect[attack_effect_idx].unk_20 = 0x30;
@@ -982,7 +911,6 @@ void add_attack_effect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         attack_effect_idx = 0;
     }
 }
-#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_attack_effect);

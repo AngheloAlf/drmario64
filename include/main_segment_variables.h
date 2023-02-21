@@ -125,10 +125,10 @@ extern s32 D_8008CFE0;
 // extern UNK_TYPE D_8008CFF0;
 // extern UNK_TYPE D_8008CFF4;
 // extern UNK_TYPE D_8008CFF8;
-// extern UNK_TYPE D_8008D020;
+// extern UNK_TYPE cont_table;
 // extern UNK_TYPE D_8008D024;
 // extern UNK_TYPE D_8008D028;
-// extern UNK_TYPE D_8008D080;
+// extern UNK_TYPE etc_parts_tbl;
 // extern UNK_TYPE D_8008D08C;
 // extern UNK_TYPE D_8008D0A8;
 // extern UNK_TYPE D_8008D0AC;
@@ -442,12 +442,12 @@ extern s32 last_flash;
 // extern UNK_TYPE B_800E51B0;
 // extern UNK_TYPE B_800E53B0;
 extern s32 binCount;
-// extern UNK_TYPE B_800E53C4;
-// extern UNK_TYPE B_800E53C8;
+// extern UNK_TYPE cont_bg_flg;
+// extern UNK_TYPE etcTexAddress;
 
 // extern UNK_TYPE logo_ofsY;
 // extern UNK_TYPE etc_mode;
-// extern UNK_TYPE B_800E5418;
+// extern UNK_TYPE g_etc_work;
 // extern UNK_TYPE B_800E541C;
 // extern UNK_TYPE B_800E5420;
 // extern UNK_TYPE B_800E5424;
@@ -621,7 +621,7 @@ extern s16 B_800ED430;
 extern STACK(B_800ED440, 0x2000);
 extern struct_gameBackup *gameBackup[2];
 extern u8 CapsMagazine[];
-// extern UNK_TYPE B_800EF548;
+// extern UNK_TYPE attack_effect_idx;
 // extern UNK_TYPE B_800EF54C;
 
 extern s32 fool_mode; // maybe bool?
@@ -710,7 +710,7 @@ extern OSMesgQueue *B_800FAF94;
 extern STACK(B_800FAFA0, 0x400);
 extern s8 aiMoveSF; // maybe bool?
 extern u32 evs_game_time;
-// extern UNK_TYPE B_800FB3A8;
+// extern UNK_TYPE attack_effect;
 // extern UNK_TYPE B_800FB3AC;
 // extern UNK_TYPE B_800FB3B0;
 // extern UNK_TYPE B_800FB3B4;

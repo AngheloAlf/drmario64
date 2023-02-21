@@ -5,7 +5,7 @@ Number of undecompiled duplicates found: 315
 Number of overall exact duplicates found: 20
 
 D_800B2138 - found 50 matches total:
-0.99 - D_8008D080 (decompiled)
+0.99 - etc_parts_tbl (decompiled)
 0.99 - D_8008E558 (decompiled)
 0.99 - D_800A7354 (decompiled)
 0.99 - title_bmp_tbl (decompiled)
@@ -322,7 +322,7 @@ D_800B1A60 - found 2 matches total:
 0.99 - D_800B1AB0
 
 disp_lose_logo - found 2 matches total:
-0.99 - func_8003B1C4
+0.99 - disp_win_logo
 0.99 - disp_draw_logo
 
 _menuCursor_cursor_4_pattern - found 2 matches total:
@@ -353,7 +353,7 @@ _getMode - found 1 matches total:
 func_80072204 - found 1 matches total:
 0.99 - func_800721D8
 
-func_8003B054 - found 1 matches total:
+disp_allclear_logo - found 1 matches total:
 0.99 - disp_clear_logo
 
 func_80062BC4 - found 1 matches total:
@@ -422,8 +422,8 @@ func_8003E6D8 - found 1 matches total:
 func_80059AA4 - found 1 matches total:
 0.99 - func_80059A58
 
-func_8003C094 - found 1 matches total:
-0.99 - func_8003C1A4
+disp_gameover_logo - found 1 matches total:
+0.99 - disp_timeover_logo
 
 STR_800B1CE0 - found 1 matches total:
 1.00 - RO_800AF4EC

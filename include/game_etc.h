@@ -32,18 +32,20 @@ typedef struct struct_attack_sprite {
     /* 0x10 */ UNK_TYPE4 unk_10;
 } struct_attack_sprite; // size = 0x14
 
+#define G_ETC_WORK_VAL 8
+
 typedef struct struct_g_etc_work {
     /* 0x00 */ f32 unk_00;
     /* 0x04 */ f32 unk_04;
     /* 0x08 */ f32 unk_08;
     /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ s32 unk_10[8];
-    /* 0x30 */ f32 unk_30[8];
-    /* 0x50 */ f32 unk_50[8];
-    /* 0x70 */ s32 unk_70[8];
-    /* 0x70 */ s32 unk_90[8];
-    /* 0x70 */ s32 unk_B0[8];
-    /* 0x70 */ s32 unk_D0[8];
+    /* 0x10 */ s32 unk_10[G_ETC_WORK_VAL];
+    /* 0x30 */ f32 unk_30[G_ETC_WORK_VAL];
+    /* 0x50 */ f32 unk_50[G_ETC_WORK_VAL];
+    /* 0x70 */ s32 unk_70[G_ETC_WORK_VAL];
+    /* 0x70 */ s32 unk_90[G_ETC_WORK_VAL];
+    /* 0x70 */ s32 unk_B0[G_ETC_WORK_VAL];
+    /* 0x70 */ s32 unk_D0[G_ETC_WORK_VAL];
 } struct_g_etc_work; // size = 0xF0
 
 typedef struct struct_cont_table {
@@ -81,21 +83,21 @@ extern UNK_TYPE4 etc_parts_tbl[];
 extern UNK_PTR etcTexAddress;
 
 void initEtcWork(UNK_PTR arg0, s32 arg1);
-// void func_8003ACB4();
+// void init_pause_disp();
 void disp_logo_setup(Gfx **gfxP);
 UNK_TYPE disp_count_logo(Gfx **gfxP, s32 arg1, UNK_TYPE arg2);
 void disp_clear_logo(Gfx **gfxP, s32 arg1, s32 arg2); // arg2 maybe bool?
-// void func_8003B054();
-// void func_8003B1C4();
+// void disp_allclear_logo();
+// void disp_win_logo();
 void disp_lose_logo(Gfx **gfxP, s32 arg1);
 // void disp_draw_logo();
-// void func_8003B59C();
+// void disp_pause_logo();
 s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
 s32 disp_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
-// void func_8003BFD8();
-// void func_8003C094();
-// void func_8003C1A4();
-// void func_8003C2B4();
+// void disp_continue_logo_score();
+// void disp_gameover_logo();
+// void disp_timeover_logo();
+// void disp_retire_logo();
 // void disp_timestop_logo();
 // void add_attack_effect();
 void disp_attack_effect(Gfx **gfxP);
