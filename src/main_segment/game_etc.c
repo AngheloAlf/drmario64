@@ -687,7 +687,7 @@ s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         if (temp_s2->unk_10[6] & 0x10) {
             gSPDisplayList(gfx++, normal_texture_init_dl);
 
-            get_gbi_stat(&sp38, (uintptr_t)etcTexAddress + etc_parts_tbl[3]);
+            get_gbi_stat(&sp38, (void *)((uintptr_t)etcTexAddress + etc_parts_tbl[3]));
             StretchTexBlock4(&gfx, sp38.unk_04, sp38.unk_08, sp38.unk_0C, sp38.unk_10, var_fs1, var_fs0, sp38.unk_04,
                              sp38.unk_08);
         }
