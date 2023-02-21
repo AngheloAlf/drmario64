@@ -1241,12 +1241,13 @@ cont_table = 0x80097E30; // size:0x60
 etc_parts_tbl = 0x80097E90; // size:0x40
 x2p = 0x80097ED0; //
 x4p = 0x80097ED8; //
-D_80097EE8_cn = 0x80097EE8; //
+etc_vp = 0x80097EE8; //
 etc_setup = 0x80097EF8; //
-D_80097F90_cn = 0x80097F90; //
-D_80097F98_cn = 0x80097F98; //
-D_80097FC0_cn = 0x80097FC0; //
-D_80097FC8_cn = 0x80097FC8; //
+col_prim_434 = 0x80097F90; // size:0x30
+col_env_435 = 0x80097FC0; // size:0x30
+
+D_80097FF0_cn = 0x80097FF0; //
+
 D_80098020_cn = 0x80098020; //
 D_80098F00_cn = 0x80098F00; //
 D_80098FE0_cn = 0x80098FE0; //

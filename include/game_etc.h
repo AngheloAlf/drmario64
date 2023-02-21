@@ -2,6 +2,7 @@
 #define GAME_ETC_H
 
 #include "libultra.h"
+#include "libc/stdbool.h"
 #include "libc/stdint.h"
 #include "unk.h"
 
@@ -49,8 +50,10 @@ typedef struct struct_g_etc_work {
 } struct_g_etc_work; // size = 0xF0
 
 typedef struct struct_cont_table {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ UNK_TYPE1 unk_04[0x14];
+    /* 0x00 */ s32 unk_00[UNK_SIZE];
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08;
+    /* 0x0C */ UNK_TYPE1 unk_0C[0xC];
 } struct_cont_table; // size = 0x18
 
 typedef struct struct_pause_table {
@@ -59,6 +62,9 @@ typedef struct struct_pause_table {
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ UNK_TYPE1 unk_0C[0xC];
 } struct_pause_table; // size = 0x18
+
+
+extern Mtx etc_viewMtx;
 
 extern s32 logo_ofsY;
 
@@ -74,13 +80,16 @@ extern struct_attack_sprite attack_sprite[0x80];
 extern struct_g_etc_work g_etc_work[];
 
 extern struct_cont_table cont_table[];
-extern s32 cont_bg_flg;
+extern bool cont_bg_flg;
 
 extern struct_pause_table pause_table[];
 
 extern UNK_TYPE4 etc_parts_tbl[];
 
 extern UNK_PTR etcTexAddress;
+
+extern void *attack_sprite_address;
+
 
 void initEtcWork(UNK_PTR arg0, s32 arg1);
 // void init_pause_disp();
@@ -94,7 +103,7 @@ void disp_lose_logo(Gfx **gfxP, s32 arg1);
 // void disp_pause_logo();
 s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
 s32 disp_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
-// void disp_continue_logo_score();
+s32 disp_continue_logo_score(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
 // void disp_gameover_logo();
 // void disp_timeover_logo();
 // void disp_retire_logo();
