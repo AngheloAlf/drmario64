@@ -53,7 +53,8 @@ typedef struct struct_cont_table {
     /* 0x00 */ s32 unk_00[UNK_SIZE];
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
-    /* 0x0C */ UNK_TYPE1 unk_0C[0xC];
+    /* 0x0C */ s32 unk_0C[UNK_SIZE];
+    /* 0x10 */ UNK_TYPE1 unk_10[0x8];
 } struct_cont_table; // size = 0x18
 
 typedef struct struct_pause_table {

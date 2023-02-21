@@ -94,7 +94,7 @@ D_800ADB40 - found 33 matches total:
 D_800B0A5C - found 30 matches total:
 0.99 - D_80088130 (decompiled)
 0.99 - D_80088574 (decompiled)
-0.99 - D_8008D0D8 (decompiled)
+0.99 - etc_vp (decompiled)
 0.99 - D_8008E370 (decompiled)
 0.99 - D_8008E5B4 (decompiled)
 0.99 - _type_1949 (decompiled)

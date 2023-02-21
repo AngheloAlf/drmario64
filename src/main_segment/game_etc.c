@@ -21,10 +21,10 @@ extern ? B_800E5420;
 extern ? B_800E5424;
 extern ?32 B_800E5428;
 extern ? B_800E54A8;
-extern s32 B_800EA284;
+extern s32 attack_sprite_idx;
 extern s32 attack_effect_idx;
 extern ? B_800F3EA0;
-extern void *B_800F748C;
+extern void *attack_sprite_address;
 extern ? B_800FB3C8;
 extern s32 D_8008D0B8;
 extern s32 D_8008D0BC;
@@ -65,7 +65,7 @@ void initEtcWork(void *arg0, s32 arg1) {
     etcTexAddress = arg0;
     var_a1 = arg0 + D_8008D0B8;
     etcLwsAddress = var_a1;
-    B_800F748C = arg0 + D_8008D0BC;
+    attack_sprite_address = arg0 + D_8008D0BC;
     do {
         temp_v1 = *var_a1;
         var_a1 += 4;
@@ -142,7 +142,7 @@ loop_14:
         *(&B_800FB3C8 + var_v0) = 0;
         var_v0 -= 0x2C;
     } while (var_v0 >= 0);
-    B_800EA284 = 0;
+    attack_sprite_idx = 0;
     var_v0_2 = 0x9EC;
     do {
         *(&B_800F3EA0 + var_v0_2) = 0;
@@ -201,7 +201,8 @@ void initEtcWork(void *arg0, s32 arg1) {
             g_etc_work[var_t0].unk_10[var_t5] = 0;
 
             g_etc_work[var_t0].unk_30[var_t5] = g_etc_work[var_t0].unk_50[var_t5] = 0.0f;
-            g_etc_work[var_t0].unk_70[var_t5] = g_etc_work[var_t0].unk_90[var_t5] = g_etc_work[var_t0].unk_B0[var_t5] = g_etc_work[var_t0].unk_D0[var_t5] = 0xFF;
+            g_etc_work[var_t0].unk_70[var_t5] = g_etc_work[var_t0].unk_90[var_t5] = g_etc_work[var_t0].unk_B0[var_t5] =
+                g_etc_work[var_t0].unk_D0[var_t5] = 0xFF;
 
             var_t5 += 1;
         }
@@ -637,12 +638,14 @@ s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
             if (binCount == 2) {
                 gSPDisplayList(gfx++, normal_texture_init_dl);
                 gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
-                gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, PRIMITIVE, 0, TEXEL0, 0, 0, 0, 0, PRIMITIVE, PRIMITIVE, 0, TEXEL0, 0);
+                gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, PRIMITIVE, 0, TEXEL0, 0, 0, 0, 0, PRIMITIVE, PRIMITIVE, 0,
+                                  TEXEL0, 0);
                 gDPSetTextureLUT(gfx++, G_TT_NONE);
                 gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, 160);
 
                 get_gbi_stat(&sp50, etcTexAddress + etc_parts_tbl[cont_table[arg3].unk_08]);
-                StretchTexBlock4i(&gfx, sp50.unk_04, sp50.unk_08, sp50.unk_10, temp_s2->unk_30[6] + 6.0f, temp_s2->unk_50[6] + 6.0f, sp50.unk_04, sp50.unk_08);
+                StretchTexBlock4i(&gfx, sp50.unk_04, sp50.unk_08, sp50.unk_10, temp_s2->unk_30[6] + 6.0f,
+                                  temp_s2->unk_50[6] + 6.0f, sp50.unk_04, sp50.unk_08);
             }
         }
 
@@ -650,7 +653,8 @@ s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
         get_gbi_stat(&sp38, etcTexAddress + etc_parts_tbl[cont_table[arg3].unk_04]);
         get_gbi_stat(&sp50, etcTexAddress + etc_parts_tbl[cont_table[arg3].unk_08]);
-        StretchAlphaTexBlock(&gfx, sp38.unk_04, sp38.unk_08, sp38.unk_10, sp38.unk_04, sp50.unk_10, sp50.unk_04, temp_s2->unk_30[6], temp_s2->unk_50[6], sp38.unk_04, sp38.unk_08);
+        StretchAlphaTexBlock(&gfx, sp38.unk_04, sp38.unk_08, sp38.unk_10, sp38.unk_04, sp50.unk_10, sp50.unk_04,
+                             temp_s2->unk_30[6], temp_s2->unk_50[6], sp38.unk_04, sp38.unk_08);
 
         if (cont_table[arg3].unk_00[0] == 2) {
             switch (arg2) {
@@ -683,8 +687,9 @@ s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         if (temp_s2->unk_10[6] & 0x10) {
             gSPDisplayList(gfx++, normal_texture_init_dl);
 
-            get_gbi_stat(&sp38, etcTexAddress + etc_parts_tbl[3]);
-            StretchTexBlock4(&gfx, sp38.unk_04, sp38.unk_08, sp38.unk_0C, sp38.unk_10, var_fs1, var_fs0, sp38.unk_04, sp38.unk_08);
+            get_gbi_stat(&sp38, (uintptr_t)etcTexAddress + etc_parts_tbl[3]);
+            StretchTexBlock4(&gfx, sp38.unk_04, sp38.unk_08, sp38.unk_0C, sp38.unk_10, var_fs1, var_fs0, sp38.unk_04,
+                             sp38.unk_08);
         }
     }
 
@@ -928,7 +933,8 @@ void disp_attack_effect(Gfx **gfxP) {
     gDPSetTextureLUT(gfx++, G_TT_NONE);
     gDPSetAlphaCompare(gfx++, G_AC_NONE);
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
-    gDPSetCombineLERP(gfx++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, ENVIRONMENT, 0, TEXEL0, 0, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, ENVIRONMENT, 0, TEXEL0, 0);
+    gDPSetCombineLERP(gfx++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, ENVIRONMENT, 0, TEXEL0, 0, ENVIRONMENT,
+                      PRIMITIVE, TEXEL0, PRIMITIVE, ENVIRONMENT, 0, TEXEL0, 0);
 
     switch (binCount) {
         case 1:
@@ -951,8 +957,10 @@ void disp_attack_effect(Gfx **gfxP) {
 
         temp_ft0 = attack_effect[var_s6].unk_20 / 48.0f;
 
-        temp_fs0 = attack_effect[var_s6].unk_14 - (temp_ft0 * (attack_effect[var_s6].unk_14 - attack_effect[var_s6].unk_0C));
-        temp_fs1 = attack_effect[var_s6].unk_10 - (temp_ft0 * (attack_effect[var_s6].unk_10 - attack_effect[var_s6].unk_08));
+        temp_fs0 =
+            attack_effect[var_s6].unk_14 - (temp_ft0 * (attack_effect[var_s6].unk_14 - attack_effect[var_s6].unk_0C));
+        temp_fs1 =
+            attack_effect[var_s6].unk_10 - (temp_ft0 * (attack_effect[var_s6].unk_10 - attack_effect[var_s6].unk_08));
 
         temp_fs0 -= (var_fs4 * sinf(((temp_ft0 * 180.0 * 3.141592653589793) / 180.0)));
 
@@ -969,14 +977,19 @@ void disp_attack_effect(Gfx **gfxP) {
 
         if (attack_effect[var_s6].unk_28 != var_s5) {
 
-            gDPSetPrimColor(gfx++, 0, 0, (u8)col_prim_434[attack_effect[var_s6].unk_28].r, (u8)col_prim_434[attack_effect[var_s6].unk_28].g, (u8)col_prim_434[attack_effect[var_s6].unk_28].b, 255);
+            gDPSetPrimColor(gfx++, 0, 0, (u8)col_prim_434[attack_effect[var_s6].unk_28].r,
+                            (u8)col_prim_434[attack_effect[var_s6].unk_28].g,
+                            (u8)col_prim_434[attack_effect[var_s6].unk_28].b, 255);
 
-            gDPSetEnvColor(gfx++, (u8)col_env_435[attack_effect[var_s6].unk_28].r, (u8)col_env_435[attack_effect[var_s6].unk_28].g, (u8)col_env_435[attack_effect[var_s6].unk_28].b, (var_t1 & 0xFF));
+            gDPSetEnvColor(gfx++, (u8)col_env_435[attack_effect[var_s6].unk_28].r,
+                           (u8)col_env_435[attack_effect[var_s6].unk_28].g,
+                           (u8)col_env_435[attack_effect[var_s6].unk_28].b, (var_t1 & 0xFF));
 
             var_s5 = attack_effect[var_s6].unk_28;
         }
 
-        StretchTexBlock4i(&gfx, 0x20, 0x20, attack_sprite_address + ((attack_effect[var_s6].unk_24 << 9) + 0x1800), temp_fs1, temp_fs0, 32.0f, 32.0f);
+        StretchTexBlock4i(&gfx, 0x20, 0x20, attack_sprite_address + ((attack_effect[var_s6].unk_24 << 9) + 0x1800),
+                          temp_fs1, temp_fs0, 32.0f, 32.0f);
 
         attack_effect[var_s6].unk_24++;
         if (attack_effect[var_s6].unk_24 >= 8) {
@@ -985,22 +998,21 @@ void disp_attack_effect(Gfx **gfxP) {
 
         if ((attack_effect[var_s6].unk_20 & 3) == 3) {
             attack_sprite[attack_sprite_idx].unk_10 = 0x10;
-            attack_sprite[attack_sprite_idx].unk_08 = (s32) attack_effect[var_s6].unk_28;
-            attack_sprite[attack_sprite_idx].unk_0C = (s32) (rand() % 3);
+            attack_sprite[attack_sprite_idx].unk_08 = (s32)attack_effect[var_s6].unk_28;
+            attack_sprite[attack_sprite_idx].unk_0C = (s32)(rand() % 3);
 
-            #if 0
+#if 0
             temp_v0_6 = rand();
             var_a1 = temp_v0_6;
             if (temp_v0_6 < 0) {
                 var_a1 = temp_v0_6 + 3;
             }
             attack_sprite[attack_sprite_idx].unk_00 = attack_effect[var_s6].unk_20 + (temp_v0_6 - ((var_a1 >> 2) * 4));
-            #else
-            attack_sprite[attack_sprite_idx].unk_00 = attack_effect[var_s6].unk_20 + (rand()%4);
-            #endif
+#else
+            attack_sprite[attack_sprite_idx].unk_00 = attack_effect[var_s6].unk_20 + (rand() % 4);
+#endif
 
-
-            #if 0
+#if 0
             temp_v0_7 = rand();
             var_a2 = temp_v0_7;
 
@@ -1009,9 +1021,9 @@ void disp_attack_effect(Gfx **gfxP) {
             }
 
             attack_sprite[attack_sprite_idx].unk_04 = attack_effect[var_s6].unk_04 + (temp_v0_7 - ((var_a2 >> 2) * 4));
-            #else
-            attack_sprite[attack_sprite_idx].unk_04 = attack_effect[var_s6].unk_04 + (rand() %4);
-            #endif
+#else
+            attack_sprite[attack_sprite_idx].unk_04 = attack_effect[var_s6].unk_04 + (rand() % 4);
+#endif
 
             attack_sprite_idx++;
             if (attack_sprite_idx >= 0x80) {
@@ -1030,13 +1042,20 @@ void disp_attack_effect(Gfx **gfxP) {
         attack_sprite[var_s6].unk_10--;
         if (attack_sprite[var_s6].unk_08 != var_s5) {
 
-            gDPSetPrimColor(gfx++, 0, 0, (u8)col_prim_434[attack_sprite[var_s6].unk_08].r, (u8)col_prim_434[attack_sprite[var_s6].unk_08].g, (u8)col_prim_434[attack_sprite[var_s6].unk_08].b, 255);
+            gDPSetPrimColor(gfx++, 0, 0, (u8)col_prim_434[attack_sprite[var_s6].unk_08].r,
+                            (u8)col_prim_434[attack_sprite[var_s6].unk_08].g,
+                            (u8)col_prim_434[attack_sprite[var_s6].unk_08].b, 255);
 
-            gDPSetEnvColor(gfx++, (u8)col_env_435[attack_sprite[var_s6].unk_08].r, (u8)col_env_435[attack_sprite[var_s6].unk_08].g, (u8)col_env_435[attack_sprite[var_s6].unk_08].b, 240);
+            gDPSetEnvColor(gfx++, (u8)col_env_435[attack_sprite[var_s6].unk_08].r,
+                           (u8)col_env_435[attack_sprite[var_s6].unk_08].g,
+                           (u8)col_env_435[attack_sprite[var_s6].unk_08].b, 240);
             var_s5 = attack_sprite[var_s6].unk_08;
         }
 
-        StretchTexBlock4i(&gfx, 0x20, 0x20, attack_sprite_address + (((attack_sprite[var_s6].unk_0C * 4) + ((s32) attack_sprite[var_s6].unk_10 / 2)) << 9), (f32) attack_sprite[var_s6].unk_00, (f32) attack_sprite[var_s6].unk_04, 32.0f, 32.0f);
+        StretchTexBlock4i(&gfx, 0x20, 0x20,
+                          attack_sprite_address +
+                              (((attack_sprite[var_s6].unk_0C * 4) + ((s32)attack_sprite[var_s6].unk_10 / 2)) << 9),
+                          (f32)attack_sprite[var_s6].unk_00, (f32)attack_sprite[var_s6].unk_04, 32.0f, 32.0f);
     }
     *gfxP = gfx;
 }

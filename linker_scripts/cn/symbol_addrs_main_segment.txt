@@ -1236,6 +1236,7 @@ D_800947B8_cn = 0x800947B8; //
 D_80097DA0_cn = 0x80097DA0; //
 D_80097DB0_cn = 0x80097DB0; //
 D_80097DF0_cn = 0x80097DF0; //
+
 pause_table = 0x80097E00; // size:0x30
 cont_table = 0x80097E30; // size:0x60
 etc_parts_tbl = 0x80097E90; // size:0x40

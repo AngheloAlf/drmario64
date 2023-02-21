@@ -411,7 +411,10 @@ segments:
       - [0x06FF30, .data, main_segment/graphic]
       - [0x06FF50, data, main_segment/06FF50]
       - [0x070220, data, main_segment/070220]
-      - [0x074E10, data, main_segment/074E10]
+
+      - [0x074E10, data, main_segment/game_etc]
+
+      - [0x075000, data, main_segment/075000]
       - [0x076590, .data, main_segment/main_menu]
 
       # - [0x0766E0, data, main_segment/font_textures]
@@ -481,17 +484,21 @@ segments:
       - [0x09B370, rodata, libmus/player]
       - [0x09B450, .rodata, ../lib/libmus/src/player_fx]
 
-      - { start: 0x09B460, type: bss, vram: 0x800B3640, name: main_segment/800B3640 }
-      - { start: 0x09B460, type: bss, vram: 0x800E99C0, name: libmus/aud_sched }
-      - { start: 0x09B460, type: bss, vram: 0x800E99D0, name: main_segment/800E99D0 }
+      - { type: bss, vram: 0x800B3640, name: main_segment/800B3640 }
 
-      - { start: 0x09B460, type: bss, vram: 0x800E9BA0, name: libmus/aud_samples }
+      - { type: bss, vram: 0x800E53C0, name: main_segment/game_etc }
 
-      - { start: 0x09B460, type: bss, vram: 0x800E9BB0, name: main_segment/800E9BB0 }
+      - { type: bss, vram: 0x800E5860, name: main_segment/800E5860 }
+      - { type: bss, vram: 0x800E99C0, name: libmus/aud_sched }
+      - { type: bss, vram: 0x800E99D0, name: main_segment/800E99D0 }
 
-      - { start: 0x09B460, type: bss, vram: 0x800F8C90, name: libmus/aud_thread }
+      - { type: bss, vram: 0x800E9BA0, name: libmus/aud_samples }
 
-      - { start: 0x09B460, type: bss, vram: 0x800F8CE0, name: main_segment/800F8CE0 }
+      - { type: bss, vram: 0x800E9BB0, name: main_segment/800E9BB0 }
+
+      - { type: bss, vram: 0x800F8C90, name: libmus/aud_thread }
+
+      - { type: bss, vram: 0x800F8CE0, name: main_segment/800F8CE0 }
 
   - name: buffer1
     type: code
