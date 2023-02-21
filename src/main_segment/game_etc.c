@@ -155,152 +155,68 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", initEtcWork);
 #endif
 
 #if VERSION_CN
-#if 0
-extern s32 attack_sprite_idx;
-extern void *B_800CA288_cn;
-extern void *etcTexAddress;
-extern s32 *etcLwsAddress;
-extern void *etcLwsTbl;
-extern ? attack_sprite;
-extern ? D_80097EC8_cn;
+#ifdef NON_MATCHING
+extern void *attack_sprite_address;
 extern s32 etc_mode;
-extern f32 g_etc_work;
-extern s32 logo_ofsY;
 
 void initEtcWork(void *arg0, s32 arg1) {
-    s32 sp28;
-    f32 *var_a2_2;
-    f32 *var_a3;
-    f32 *var_s0;
-    f32 *var_s2;
-    f32 *var_s3;
-    f32 *var_t6;
-    f32 temp_fv1;
-    s16 *var_t8;
-    s16 *var_t9;
-    s32 *temp_v1;
-    s32 *var_a0;
-    s32 *var_a0_2;
-    s32 *var_t1;
-    s32 *var_t2;
-    s32 *var_t3;
-    s32 *var_t4;
-    s32 *var_v1;
-    s32 *var_v1_2;
-    s32 temp_v0;
-    s32 var_a1;
     s32 var_t0;
-    s32 var_t0_2;
-    s32 var_t0_3;
-    s32 var_t0_4;
     s32 var_t5;
-    s8 *var_s1;
-    void **var_a2;
 
     if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
         logo_ofsY = 0x10;
-        var_t0 = 0;
     } else {
         logo_ofsY = 0;
-        var_t0 = 0;
     }
-    var_a2 = &etcLwsTbl;
+
     binCount = arg1;
     etcTexAddress = arg0;
-    temp_v1 = arg0 + D_80097EC8_cn.unk_0;
-    var_a0 = temp_v1;
-    etcLwsAddress = temp_v1;
-    B_800CA288_cn = arg0 + D_80097EC8_cn.unk_4;
-    do {
-        temp_v0 = *var_a0;
-        var_a0 += 4;
-        var_t0 += 1;
-        *var_a2 = (temp_v0 & 0xFFFFFF) + arg0 + D_80097EC8_cn.unk_0;
-        var_a2 += 4;
-    } while (var_t0 < 0xE);
-    if (binCount > 0) {
-        if (binCount >= 3) {
-            if (binCount != 4) {
+    etcLwsAddress = arg0 + etc_parts_tbl[0xE];
+    attack_sprite_address = arg0 + etc_parts_tbl[0xF];
 
-            } else {
-                etc_mode = 1;
-            }
-        } else {
+    for (var_t0 = 0; var_t0 < 0xE; var_t0++) {
+        etcLwsTbl.unk_00[var_t0] = ((uintptr_t)etcLwsAddress[var_t0] & 0xFFFFFF) + arg0 + etc_parts_tbl[0xE];
+    }
+
+    switch (binCount) {
+        case 1:
+        case 2:
             etc_mode = 0;
+            break;
+
+        case 4:
+            etc_mode = 1;
+            break;
+    }
+
+    guOrtho(&etc_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+
+    for (var_t0 = 0; var_t0 < binCount; var_t0++) {
+        g_etc_work[var_t0].unk_00 = game_state_data[var_t0].unk_006;
+        g_etc_work[var_t0].unk_04 = game_state_data[var_t0].unk_008;
+        g_etc_work[var_t0].unk_08 = game_state_data[var_t0].unk_00A * 8.0f;
+        g_etc_work[var_t0].unk_0C = game_state_data[var_t0].unk_00A * 17.0f;
+
+        var_t5 = 0;
+        while (var_t5 < 8) {
+            g_etc_work[var_t0].unk_10[var_t5] = 0;
+
+            g_etc_work[var_t0].unk_30[var_t5] = g_etc_work[var_t0].unk_50[var_t5] = 0.0f;
+            g_etc_work[var_t0].unk_70[var_t5] = g_etc_work[var_t0].unk_90[var_t5] = g_etc_work[var_t0].unk_B0[var_t5] = g_etc_work[var_t0].unk_D0[var_t5] = 0xFF;
+
+            var_t5 += 1;
         }
     }
-    guOrtho(&etc_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
-    var_t0_2 = 0;
-    if (binCount > 0) {
-        var_a1 = 0;
-        var_s3 = &g_etc_work + 0xC;
-        var_s2 = &g_etc_work + 8;
-        var_s1 = &game_state_data->unk_00A;
-        var_s0 = &g_etc_work + 4;
-        var_t9 = &game_state_data->unk_008;
-        var_t6 = &g_etc_work;
-        var_t8 = &game_state_data->unk_006;
-        sp28 = binCount;
-        do {
-            var_t5 = 0;
-            var_t4 = var_a1 + (&g_etc_work + 0x70);
-            var_t3 = var_a1 + (&g_etc_work + 0x90);
-            var_t2 = var_a1 + (&g_etc_work + 0xB0);
-            var_t1 = var_a1 + (&g_etc_work + 0xD0);
-            var_a3 = var_a1 + (&g_etc_work + 0x30);
-            var_a2_2 = var_a1 + (&g_etc_work + 0x50);
-            temp_fv1 = (f32) *var_s1;
-            var_a0_2 = var_a1 + (&g_etc_work + 0x10);
-            *var_t6 = (f32) *var_t8;
-            *var_s0 = (f32) *var_t9;
-            *var_s2 = temp_fv1 * 8.0f;
-            *var_s3 = temp_fv1 * 17.0f;
-loop_14:
-            *var_a0_2 = 0;
-            *var_a2_2 = 0.0f;
-            *var_a3 = 0.0f;
-            *var_t1 = 0xFF;
-            *var_t2 = 0xFF;
-            *var_t3 = 0xFF;
-            *var_t4 = 0xFF;
-            var_t4 += 4;
-            var_t3 += 4;
-            var_t2 += 4;
-            var_t1 += 4;
-            var_a3 += 4;
-            var_a2_2 += 4;
-            var_t5 += 1;
-            var_a0_2 += 4;
-            if (var_t5 < 8) {
-                goto loop_14;
-            }
-            var_a1 += 0xF0;
-            var_s3 += 0xF0;
-            var_s2 += 0xF0;
-            var_s1 += 0x3C4;
-            var_s0 += 0xF0;
-            var_t9 += 0x3C4;
-            var_t6 += 0xF0;
-            var_t0_2 += 1;
-            var_t8 += 0x3C4;
-        } while (var_t0_2 < sp28);
-    }
+
     attack_effect_idx = 0;
-    var_t0_3 = 0;
-    var_v1 = &attack_effect->unk_20;
-    do {
-        *var_v1 = 0;
-        var_t0_3 += 1;
-        var_v1 += 0x2C;
-    } while (var_t0_3 < 0x10);
+    for (var_t0 = 0; var_t0 < 0x10; var_t0++) {
+        attack_effect[var_t0].unk_20 = 0;
+    }
+
     attack_sprite_idx = 0;
-    var_t0_4 = 0;
-    var_v1_2 = &attack_sprite + 0x10;
-    do {
-        *var_v1_2 = 0;
-        var_t0_4 += 1;
-        var_v1_2 += 0x14;
-    } while (var_t0_4 < 0x80);
+    for (var_t0 = 0; var_t0 < 0x80; var_t0++) {
+        attack_sprite[var_t0].unk_10 = 0;
+    }
 }
 #else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/game_etc", initEtcWork);
@@ -918,7 +834,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_attack_effect);
 
 #if VERSION_CN
 #if 0
-extern s32 B_800CA288_cn;
+extern s32 attack_sprite_address;
 extern ? D_80097F90_cn;
 extern ? D_80097F98_cn;
 extern ? D_80097FC0_cn;
@@ -1046,7 +962,7 @@ void disp_attack_effect(Gfx **gfxP) {
                 var_s5 = *temp_s1;
             }
             temp_s0 = var_s2 + (&attack_effect->unk_20 + 4);
-            StretchTexBlock4i(&sp28, 0x20, 0x20, B_800CA288_cn + ((*temp_s0 << 9) + 0x1800), temp_fs1, temp_fs0_2, 32.0f, 32.0f);
+            StretchTexBlock4i(&sp28, 0x20, 0x20, attack_sprite_address + ((*temp_s0 << 9) + 0x1800), temp_fs1, temp_fs0_2, 32.0f, 32.0f);
             temp_v0_5 = *temp_s0 + 1;
             *temp_s0 = temp_v0_5;
             if (temp_v0_5 >= 8) {
@@ -1104,7 +1020,7 @@ void disp_attack_effect(Gfx **gfxP) {
                 var_s5_2 = *temp_t1;
             }
             temp_v0_12 = &attack_sprite->unk_10 + var_s0;
-            StretchTexBlock4i(&sp28, 0x20, 0x20, B_800CA288_cn + (((temp_v0_12->unk_-4 * 4) + ((s32) *var_s1 / 2)) << 9), (f32) temp_v0_12->unk_-10, (f32) temp_v0_12->unk_-C, 32.0f, 32.0f);
+            StretchTexBlock4i(&sp28, 0x20, 0x20, attack_sprite_address + (((temp_v0_12->unk_-4 * 4) + ((s32) *var_s1 / 2)) << 9), (f32) temp_v0_12->unk_-10, (f32) temp_v0_12->unk_-C, 32.0f, 32.0f);
         }
         var_s1 += 0x14;
         var_s6_2 += 1;

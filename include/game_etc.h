@@ -62,7 +62,7 @@ typedef struct struct_pause_table {
 
 extern s32 logo_ofsY;
 
-extern UNK_PTR etcLwsAddress;
+extern UNK_PTR *etcLwsAddress;
 extern struct_etcLwsTbl etcLwsTbl;
 
 extern s32 attack_effect_idx;
