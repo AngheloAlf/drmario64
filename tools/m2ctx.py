@@ -8,7 +8,6 @@ import tempfile
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = os.path.abspath(os.path.join(script_dir, ".."))
-src_dir = root_dir + "src/"
 
 # Project-specific
 CPP_FLAGS = [
@@ -47,11 +46,11 @@ def import_c_file(in_file, version: str) -> str:
         CPP_FLAGS.append("-DVERSION_CN=1")
         CPP_FLAGS.append("-DBBPLAYER=1")
 
-    cpp_command = ["gcc", "-E", "-P", "-dM", *CPP_FLAGS, in_file]
-    cpp_command2 = ["gcc", "-E", "-P", *CPP_FLAGS, in_file]
+    cpp_command = ["gcc", "-E", "-P", "-undef", "-dM", *CPP_FLAGS, in_file]
+    cpp_command2 = ["gcc", "-E", "-P", "-undef", *CPP_FLAGS, in_file]
 
     with tempfile.NamedTemporaryFile(suffix=".c") as tmp:
-        stock_macros = subprocess.check_output(["gcc", "-E", "-P", "-dM", tmp.name], cwd=root_dir, encoding="utf-8")
+        stock_macros = subprocess.check_output(["gcc", "-E", "-P", "-undef", "-dM", tmp.name], cwd=root_dir, encoding="utf-8")
 
     out_text = ""
     try:
@@ -75,7 +74,7 @@ def import_c_file(in_file, version: str) -> str:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="""Create a context file which can be used for mips_to_c"""
+        description="""Create a context file which can be used for m2c"""
     )
     parser.add_argument(
         "c_file",
