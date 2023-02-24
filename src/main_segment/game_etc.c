@@ -156,8 +156,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", initEtcWork);
 
 #if VERSION_CN
 #ifdef NON_MATCHING
-extern s32 etc_mode;
-
 void initEtcWork(void *arg0, s32 arg1) {
     s32 var_t0;
     s32 var_t5;
@@ -909,9 +907,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/game_etc", disp_attack_effect);
 
 #if VERSION_CN
 #ifdef NON_EQUIVALENT
-extern Color_RGB32 col_prim_434[];
-extern Color_RGB32 col_env_435[];
-
 void disp_attack_effect(Gfx **gfxP) {
     Gfx *gfx;
     f32 temp_fs0;
