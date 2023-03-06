@@ -10,7 +10,6 @@
 
 // data
 
-extern void (*D_8000E190)();
 extern s8 D_8000E1A0;
 // extern UNK_TYPE D_8000E1B0;
 // extern UNK_TYPE D_8000E1FC;
@@ -24,10 +23,6 @@ extern s8 D_8000E1A0;
 // bss
 
 
-extern OSThread B_80010E60;
-extern OSThread B_80011010;
-extern STACK(B_800111C0, 0x2000);
-extern STACK(B_800131C0, 0x2000);
 extern OSMesgQueue B_800151C0;
 extern OSMesg B_800151D8[1];
 // extern UNK_TYPE gzip_mem_buff;
@@ -51,8 +46,6 @@ extern OSMesg B_800151D8[1];
 // extern UNK_TYPE inbuf;
 
 extern STACK(gBootThreadStack, BOOT_STACK_SIZE);
-
-extern OSMesgQueue B_80029C08;
 
 
 #endif

@@ -11,18 +11,18 @@
 #include "gamemap.h"
 
 
-// void mainproc();
+void mainproc(void *arg);
 
 void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount);
 OSMesgQueue *func_8002A0CC(struct_800EB670 *arg0, UNK_PTR arg1);
 OSMesgQueue *func_8002A0D4(struct_800EB670 *arg0);
-void func_8002A0DC(struct_800EB670 *arg);
+void func_8002A0DC(void *arg);
 void func_8002A184(struct_800EB670 *arg0, struct_800FAF98_unk_64 *arg1, OSMesgQueue *arg2);
 void func_8002A1DC(struct_800EB670 *arg0, struct_800FAF98_unk_64 *arg1);
 void func_8002A26C(struct_800EB670 *arg0, OSMesg msg);
-void func_8002A2B8(struct_800EB670 * arg0);
+void func_8002A2B8(void * arg);
 void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1);
-void func_8002A4D8(struct_800EB670 * arg0);
+void func_8002A4D8(void *arg);
 void func_8002A51C(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1);
 
 UNK_TYPE joyInit(UNK_TYPE);

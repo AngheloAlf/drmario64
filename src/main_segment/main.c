@@ -18,7 +18,7 @@
 /**
  * Original name: mainproc
  */
-void mainproc(void) {
+void mainproc(void *arg UNUSED) {
     EepRom_DumpDataSize();
 
     switch (osTvType) {

@@ -45,13 +45,14 @@ void gfxInit(void *arg0 UNUSED) {
 /**
  * Original name: gfxproc
  */
-void gfxproc(struct_800EB670 *arg0) {
+void gfxproc(void *arg) {
+    struct_800EB670 *ptr = arg;
     s16 *sp10 = NULL;
 
     pendingGFX = 0;
     osCreateMesgQueue(&B_800F4898, B_800EBED0, ARRAY_COUNT(B_800EBED0));
-    func_8002A184(arg0, &B_800F48B0, &B_800F4898);
-    B_800FAF94 = func_8002A0D4(arg0);
+    func_8002A184(ptr, &B_800F48B0, &B_800F4898);
+    B_800FAF94 = func_8002A0D4(ptr);
 
     while (true) {
         osRecvMesg(&B_800F4898, (OSMesg *)&sp10, OS_MESG_BLOCK);
@@ -150,17 +151,16 @@ void func_8002B754(void) {
     osViSetYScale(1.0f);
     pendingGFX += 2;
     osViBlack(true);
-    func_80000468();
+    Main_StopThread();
     MusStop(MUSFLAG_EFFECTS | MUSFLAG_SONGS, 0);
 }
 
 /**
  * Original name: gfxCreateGraphicThread
  */
-void gfxCreateGraphicThread(struct_800EB670 *arg0) {
-    osCreateThread(&B_800EBD20, THREAD_ID_GRAPHIC, (StartThreadFunc)gfxproc, arg0, STACK_TOP(B_800F1E30),
-                   THREAD_PRI_GRAPHIC);
-    osStartThread(&B_800EBD20);
+void gfxCreateGraphicThread(void *arg0) {
+    osCreateThread(&sGraphicThread, THREAD_ID_GRAPHIC, gfxproc, arg0, STACK_TOP(sGraphicStack), THREAD_PRI_GRAPHIC);
+    osStartThread(&sGraphicThread);
 }
 
 s16 func_8002B800(void) {

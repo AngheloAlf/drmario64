@@ -3,7 +3,7 @@
 entrypoint = 0x80000400; // type:func
 
 Idle_Nop = 0x80000460; // type:func
-func_80000468 = 0x80000468; // type:func
+Main_StopThread = 0x80000468; // type:func
 func_80000488 = 0x80000498; // type:func
 bootproc = 0x800004A8; // type:func
 Main_ThreadEntry = 0x8000052C; // type:func
@@ -425,10 +425,10 @@ __osBbVCountWraps = 0x80011934; //
 B_80011938_cn = 0x80011938; //
 inptr = 0x8001193C; //
 ifd = 0x80011940; // size:0x8
-B_80010E60 = 0x80011950; //
-B_80011010 = 0x80011B00; //
-B_800111C0 = 0x80011CB0; // size:0x2000
-B_800131C0 = 0x80013CB0; // size:0x2000
+sIdleThread = 0x80011950; //
+sMainThread = 0x80011B00; //
+sIdleStack = 0x80011CB0; // size:0x2000
+sMainStack = 0x80013CB0; // size:0x2000
 B_800151C0 = 0x80015CB0; //
 B_800151D8 = 0x80015CC8; //
 gzip_mem_buff = 0x80015CD0; //
@@ -458,7 +458,7 @@ B_8001E3A8_cn = 0x8001E3A8; //
 
 gBootThreadStack = 0x8001E418; // size:0x2000
 
-B_8001F8C0 = 0x80020418; // size:0xC8
+sPiMgrCmdBuff = 0x80020418; // size:0xC8
 
 __CartRomHandle = 0x800204E0; // size:0x74
 
@@ -474,7 +474,7 @@ __osEepromTimer = 0x80022650; //
 __osEventStateTab = 0x80022670; //
 B_80022768_cn = 0x80022768; //
 __osEepromTimerQ = 0x8002A768; // size:0x18
-B_80029C08 = 0x8002A780; //
+sPiMgrCmdQueue = 0x8002A780; //
 B_8002A798_cn = 0x8002A798; //
 
 // bss end

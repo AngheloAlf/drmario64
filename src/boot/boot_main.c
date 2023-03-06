@@ -6,13 +6,20 @@
 #include "macros_defines.h"
 #include "dm_thread.h"
 
+void Idle_ThreadEntry(void *arg);
+
+extern OSThread sIdleThread;
+extern OSThread sMainThread;
+extern STACK(sIdleStack, 0x2000);
+extern STACK(sMainStack, 0x2000);
+
 void Idle_Nop(void) {
 }
 
-void (*D_8000E190)() = Idle_Nop;
+void (*D_8000E190)(void) = Idle_Nop;
 
-void func_80000468(void) {
-    osStopThread(&B_80011010);
+void Main_StopThread(void) {
+    osStopThread(&sMainThread);
 }
 
 void func_80000488(void (*arg0)()) {
@@ -21,39 +28,40 @@ void func_80000488(void (*arg0)()) {
 
 void bootproc(void) {
     osInitialize();
-    osCreateThread(&B_80010E60, THREAD_ID_IDLE_BOOT, Idle_ThreadEntry, NULL, STACK_TOP(B_800111C0),
+    osCreateThread(&sIdleThread, THREAD_ID_IDLE_BOOT, Idle_ThreadEntry, NULL, STACK_TOP(sIdleStack),
                    THREAD_PRI_IDLE_BOOT);
-    osStartThread(&B_80010E60);
+    osStartThread(&sIdleThread);
 }
 
-void Main_ThreadEntry(void *arg0) {
+void Main_ThreadEntry(void *arg) {
     romoffset_t mainSegmentStart;
 
-    DmaDataRomToRam(SEGMENT_ROM_START(dma_table), gDmaTable, SEGMENT_ROM_SIZE(dma_table));
+    DmaDataRomToRam(SEGMENT_ROM_START(dma_table), &gMainSegmentDmaInfo, SEGMENT_ROM_SIZE(dma_table));
 
     mainSegmentStart = SEGMENT_ROM_START(main_segment);
 
 #if VERSION_CN
     do {
 #endif
-        DecompressRomToRam(mainSegmentStart, gDmaTable[0].vram, SEGMENT_ROM_SIZE(main_segment));
+        DecompressRomToRam(mainSegmentStart, gMainSegmentDmaInfo.vram, SEGMENT_ROM_SIZE(main_segment));
 
-        bzero(gDmaTable[0].bssStart, gDmaTable[0].bssEnd - gDmaTable[0].bssStart);
+        bzero(gMainSegmentDmaInfo.bssStart, gMainSegmentDmaInfo.bssEnd - gMainSegmentDmaInfo.bssStart);
 #if VERSION_CN
     } while (0);
 #endif
 
-    gDmaTable[0].entry(arg0);
+    gMainSegmentDmaInfo.entry(arg);
 }
 
-extern OSMesg B_8001F8C0[50];
+extern OSMesg sPiMgrCmdBuff[50];
+extern OSMesgQueue sPiMgrCmdQueue;
 
-void Idle_ThreadEntry(void *arg0) {
-    osCreatePiManager(OS_PRIORITY_PIMGR, &B_80029C08, B_8001F8C0, ARRAY_COUNT(B_8001F8C0));
-    osCreateThread(&B_80011010, THREAD_ID_MAIN, Main_ThreadEntry, arg0, STACK_TOP(B_800131C0), THREAD_PRI_MAIN);
-    osStartThread(&B_80011010);
+void Idle_ThreadEntry(void *arg) {
+    osCreatePiManager(OS_PRIORITY_PIMGR, &sPiMgrCmdQueue, sPiMgrCmdBuff, ARRAY_COUNT(sPiMgrCmdBuff));
+    osCreateThread(&sMainThread, THREAD_ID_MAIN, Main_ThreadEntry, arg, STACK_TOP(sMainStack), THREAD_PRI_MAIN);
+    osStartThread(&sMainThread);
 
-    while (1) {
+    while (true) {
         D_8000E190();
     }
 }

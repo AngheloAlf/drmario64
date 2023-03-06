@@ -266,6 +266,8 @@ segments:
       - [0x00123E0, .rodata, libegcs/libgcc2]
 
       - { start: 0x0124E0, type: bss, vram: 0x800118E0, name: boot/800118E0 }
+      - { start: 0x0124E0, type: bss, vram: 0x80011950, name: boot/boot_main }
+      - { start: 0x0124E0, type: bss, vram: 0x80015CB0, name: boot/80015CB0 }
       - { start: 0x0124E0, type: bss, vram: 0x80019CD0, name: gateway/003630 }
       - { start: 0x0124E0, type: bss, vram: 0x80019D50, name: boot/80019D50 }
 

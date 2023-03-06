@@ -12,6 +12,6 @@ typedef struct DmaTableEntry {
     /* 0x0C */ void* bssEnd;
 } DmaTableEntry; // size = 0x10
 
-extern DmaTableEntry gDmaTable[];
+extern DmaTableEntry gMainSegmentDmaInfo;
 
 #endif

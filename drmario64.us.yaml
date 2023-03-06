@@ -312,7 +312,8 @@ segments:
 
       - [0x011A50, .rodata, libkmc/fmod]
 
-      - { start: 0x011A60, type: bss, vram: 0x80010E60, name: boot/80010E60 }
+      - { start: 0x011A60, type: bss, vram: 0x80010E60, name: boot/boot_main }
+      - { start: 0x011A60, type: bss, vram: 0x800151C0, name: boot/800151C0 }
       - { start: 0x011A60, type: bss, vram: 0x800191E0, name: libultra/pimgr }
       - { start: 0x011A60, type: bss, vram: 0x8001A3B0, name: boot/8001A3B0 }
       - { start: 0x011A60, type: .bss, vram: 0x8001B630, name: libkmc/rand }

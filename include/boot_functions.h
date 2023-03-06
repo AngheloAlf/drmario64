@@ -7,13 +7,8 @@
 #include "unk.h"
 
 
-void Idle_Nop(void);
-void func_80000468(void);
+void Main_StopThread(void);
 void func_80000488(void (*arg0)());
-void bootproc(void);
-
-void Main_ThreadEntry(void *arg0);
-void Idle_ThreadEntry(void* arg0);
 
 void *DmaDataRomToRam(romoffset_t segmentRom, void *segmentVram, size_t segmentSize);
 

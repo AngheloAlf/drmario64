@@ -4,7 +4,6 @@
 #include "libultra.h"
 
 struct OSScTask_s;
-struct struct_800EB670;
 
 #define GTASK_NO_MAX 3
 
@@ -20,12 +19,12 @@ typedef enum enum_graphic_no {
 } enum_graphic_no;
 
 void gfxInit(void *arg0);
-void gfxproc(struct struct_800EB670 * arg0);
+void gfxproc(void *arg);
 void gfxproc_onRetrace(void);
 void func_8002B710(void);
 void func_8002B728(void);
 void func_8002B754(void);
-void gfxCreateGraphicThread(struct struct_800EB670 *arg0);
+void gfxCreateGraphicThread(void *arg0);
 s16 func_8002B800(void);
 void gfxTaskStart(struct OSScTask_s *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags);
 void F3RCPinitRtn();

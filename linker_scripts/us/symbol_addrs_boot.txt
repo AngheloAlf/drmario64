@@ -1,7 +1,7 @@
 entrypoint = 0x80000400;
 
 Idle_Nop = 0x80000460;
-func_80000468 = 0x80000468;
+Main_StopThread = 0x80000468;
 func_80000488 = 0x80000488;
 bootproc = 0x80000494;
 Main_ThreadEntry = 0x800004F0;
@@ -386,10 +386,10 @@ __libm_qnan_f = 0x80010E40;
 
 // bss
 
-B_80010E60 = 0x80010E60;
-B_80011010 = 0x80011010;
-B_800111C0 = 0x800111C0; // size:0x2000
-B_800131C0 = 0x800131C0; // size:0x2000
+sIdleThread = 0x80010E60;
+sMainThread = 0x80011010;
+sIdleStack = 0x800111C0; // size:0x2000
+sMainStack = 0x800131C0; // size:0x2000
 B_800151C0 = 0x800151C0;
 B_800151D8 = 0x800151D8;
 gzip_mem_buff = 0x800151E0;
@@ -433,7 +433,7 @@ B_8001D83C = 0x8001D83C;
 __Dom2SpeedParam = 0x8001D840; // size:0x74
 
 gBootThreadStack = 0x8001D8C0; // size:0x2000
-B_8001F8C0 = 0x8001F8C0; // size:0xC8
+sPiMgrCmdBuff = 0x8001F8C0; // size:0xC8
 B_8001F988 = 0x8001F988;
 insize = 0x8001F98C;
 outcnt = 0x8001F990;
@@ -463,7 +463,7 @@ window = 0x80021BE0;
 inptr = 0x80029BE0;
 __osEepromTimerQ = 0x80029BE8;
 ifd = 0x80029C00; // size:0x8
-B_80029C08 = 0x80029C08;
+sPiMgrCmdQueue = 0x80029C08;
 __osSiAccessQueue = 0x80029C20;
 
 // bss end

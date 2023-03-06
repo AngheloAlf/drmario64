@@ -53,19 +53,16 @@ void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount) {
     osSetEventMesg(OS_EVENT_DP, &arg0->unk_0E4, (OSMesg)0x29C);
     osSetEventMesg(OS_EVENT_PRENMI, &arg0->unk_074, (OSMesg)0x29D);
 
-    osCreateThread(&arg0->unk_158, THREAD_ID_19, (StartThreadFunc)func_8002A0DC, arg0, STACK_TOP(B_800EFCE0),
-                   THREAD_PRI_19);
+    osCreateThread(&arg0->unk_158, THREAD_ID_19, func_8002A0DC, arg0, STACK_TOP(B_800EFCE0), THREAD_PRI_19);
     osStartThread(&arg0->unk_158);
 
 #if VERSION_CN
     func_8002B8B4_cn();
 #endif
 
-    osCreateThread(&arg0->unk_308, THREAD_ID_18, (StartThreadFunc)func_8002A2B8, arg0, STACK_TOP(B_800F8CE0),
-                   THREAD_PRI_18);
+    osCreateThread(&arg0->unk_308, THREAD_ID_18, func_8002A2B8, arg0, STACK_TOP(B_800F8CE0), THREAD_PRI_18);
     osStartThread(&arg0->unk_308);
-    osCreateThread(&arg0->unk_4B8, THREAD_ID_17, (StartThreadFunc)func_8002A4D8, arg0, STACK_TOP(B_800ED440),
-                   THREAD_PRI_17);
+    osCreateThread(&arg0->unk_4B8, THREAD_ID_17, func_8002A4D8, arg0, STACK_TOP(B_800ED440), THREAD_PRI_17);
     osStartThread(&arg0->unk_4B8);
 }
 
@@ -77,11 +74,12 @@ OSMesgQueue *func_8002A0D4(struct_800EB670 *arg0) {
     return &arg0->unk_03C;
 }
 
-void func_8002A0DC(struct_800EB670 *arg) {
-    OSMesg msg = (OSMesg)0;
+void func_8002A0DC(void *arg) {
+    struct_800EB670 *ptr = arg;
+    u32 msg = 0;
 
     while (true) {
-        osRecvMesg(&arg->unk_074, &msg, OS_MESG_BLOCK);
+        osRecvMesg(&ptr->unk_074, (OSMesg)&msg, OS_MESG_BLOCK);
 
 #if VERSION_CN
         if (!D_80092F10_cn) {
@@ -91,9 +89,9 @@ void func_8002A0DC(struct_800EB670 *arg) {
         }
 #endif
 
-        switch ((u32)msg) {
+        switch (msg) {
             case 0x29A:
-                func_8002A26C(arg, arg);
+                func_8002A26C(ptr, &ptr->unk_000);
                 osSetTime(0);
 
 #if VERSION_CN
@@ -102,7 +100,7 @@ void func_8002A0DC(struct_800EB670 *arg) {
                     D_80092EAC_cn = true;
                     B_800CA234_cn = &B_8010ACB0_cn[D_80092EA8_cn];
 
-                    D_80092EA8_cn = (D_80092EA8_cn + 1) % 4U;
+                    D_80092EA8_cn = INC_WRAP(D_80092EA8_cn, 4);
                     B_800CA298_cn = &B_8010ACB0_cn[D_80092EA8_cn];
                     B_800CA298_cn->unk_004 = 0;
                     B_800CA298_cn->unk_000 = 0;
@@ -112,7 +110,7 @@ void func_8002A0DC(struct_800EB670 *arg) {
                 break;
 
             case 0x29D:
-                func_8002A26C(arg, &arg->unk_002);
+                func_8002A26C(arg, &ptr->unk_002);
                 break;
 
             default:
@@ -160,9 +158,10 @@ void func_8002A26C(struct_800EB670 *arg0, OSMesg msg) {
     }
 }
 
-void func_8002A2B8(struct_800EB670 *arg0) {
+void func_8002A2B8(void *arg) {
     OSMesg sp14 = NULL;
     struct_8002A2B8_sp10 *sp10 = NULL;
+    struct_800EB670 *ptr = arg;
 
     while (true) {
         struct_800EB670_unk_66C *temp_s2;
@@ -171,14 +170,14 @@ void func_8002A2B8(struct_800EB670 *arg0) {
         s32 var_s7;
 #endif
 
-        osRecvMesg(&arg0->unk_004, (OSMesg *)&sp10, OS_MESG_BLOCK);
+        osRecvMesg(&ptr->unk_004, (OSMesg *)&sp10, OS_MESG_BLOCK);
         osWritebackDCacheAll();
-        temp_s2 = arg0->unk_66C;
+        temp_s2 = ptr->unk_66C;
 
         var_s0 = 0;
         if (temp_s2 != NULL) {
             osSpTaskYield();
-            osRecvMesg(&arg0->unk_0AC, &sp14, OS_MESG_BLOCK);
+            osRecvMesg(&ptr->unk_0AC, &sp14, OS_MESG_BLOCK);
 
             var_s0 = (osSpTaskYielded(&temp_s2->unk_10) != 0) ? 1 : 2;
         }
@@ -192,11 +191,11 @@ void func_8002A2B8(struct_800EB670 *arg0) {
         }
 #endif
 
-        arg0->unk_670 = sp10;
+        ptr->unk_670 = sp10;
         osSpTaskLoad(&sp10->unk_10);
         osSpTaskStartGo(&sp10->unk_10);
-        osRecvMesg(&arg0->unk_0AC, &sp14, OS_MESG_BLOCK);
-        arg0->unk_670 = NULL;
+        osRecvMesg(&ptr->unk_0AC, &sp14, OS_MESG_BLOCK);
+        ptr->unk_670 = NULL;
 
 #if VERSION_CN
         func_8002BD04_cn();
@@ -206,15 +205,15 @@ void func_8002A2B8(struct_800EB670 *arg0) {
         }
 #endif
 
-        if (arg0->unk_674 != 0) {
-            osSendMesg(&arg0->unk_11C, &sp14, OS_MESG_BLOCK);
+        if (ptr->unk_674 != 0) {
+            osSendMesg(&ptr->unk_11C, &sp14, OS_MESG_BLOCK);
         }
 
         if (var_s0 == 1) {
             osSpTaskLoad(&temp_s2->unk_10);
             osSpTaskStartGo(&temp_s2->unk_10);
         } else if (var_s0 == 2) {
-            osSendMesg(&arg0->unk_0AC, &sp14, OS_MESG_BLOCK);
+            osSendMesg(&ptr->unk_0AC, &sp14, OS_MESG_BLOCK);
         }
 
         osSendMesg(sp10->unk_50, sp10->unk_54, OS_MESG_BLOCK);
@@ -285,12 +284,14 @@ void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
     osSendMesg(arg1->unk_50, arg1->unk_54, OS_MESG_BLOCK);
 }
 
-void func_8002A4D8(struct_800EB670 *arg0) {
+void func_8002A4D8(void *arg) {
+    struct_800EB670 *ptr = arg;
+
     while (true) {
         OSMesg msg;
 
-        osRecvMesg(&arg0->unk_03C, &msg, OS_MESG_BLOCK);
-        func_8002A3F4(arg0, msg);
+        osRecvMesg(&ptr->unk_03C, &msg, OS_MESG_BLOCK);
+        func_8002A3F4(ptr, msg);
     }
 }
 

@@ -578,7 +578,7 @@ extern u16 gControllerHoldButtons[MAXCONTROLLERS+1];
 extern u32 PlayTime;
 extern u8 aiNext[]; // maybe a struct?
 extern u8 main_joy[];
-extern OSThread B_800EBD20;
+extern OSThread sGraphicThread;
 extern OSMesg B_800EBED0[8];
 
 extern s16 B_800ED430;
@@ -601,7 +601,7 @@ extern u8 evs_playmax; /* Original name: evs_playmax */
 extern struct_800F1DF8 *pObjectMtx;
 extern s32 evs_default_name[];
 extern u16 joycur2; /* Original name: joycur2 */
-extern STACK(B_800F1E30, 0x2000);
+extern STACK(sGraphicStack, 0x2000);
 // extern UNK_TYPE aiHiErB;
 // extern UNK_TYPE B_800F3E32;
 // extern UNK_TYPE aiRollFinal;

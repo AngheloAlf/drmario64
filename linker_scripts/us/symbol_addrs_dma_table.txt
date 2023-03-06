@@ -1,1 +1,1 @@
-gDmaTable = 0x80029C40; // defined:true size:0x10
+gMainSegmentDmaInfo = 0x80029C40; // defined:true size:0x10
