@@ -70,6 +70,9 @@ This matching decomp effort is being done leak-free. If you have looked/worked w
 
 ## License
 
-The repo is licensed under the [MIT license](LICENSE), except for files that may have its own license stated either in the top of the file or are in a folder which has its own `LICENSE` file.
+This repository is licensed under the [MIT license](LICENSE), except for 
+- files which declare a different license, and
+- folders that have their own `LICENSE` file.
+In such cases that license takes precedence.
 
-One notable exception is the `src/` folder, which is licensed under the [CC0 license](src/LICENSE).
+In particular, the `src/` folder is licensed under the [CC0 license](src/LICENSE).
