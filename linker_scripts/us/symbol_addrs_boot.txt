@@ -1,11 +1,11 @@
 entrypoint = 0x80000400;
 
-func_80000460 = 0x80000460;
+Idle_Nop = 0x80000460;
 func_80000468 = 0x80000468;
 func_80000488 = 0x80000488;
 bootproc = 0x80000494;
-LoadMainSegment = 0x800004F0;
-func_80000580 = 0x80000580;
+Main_ThreadEntry = 0x800004F0;
+Idle_ThreadEntry = 0x80000580;
 
 DmaDataRomToRam = 0x80000620;
 func_80000720 = 0x80000720;
@@ -433,7 +433,7 @@ B_8001D83C = 0x8001D83C;
 __Dom2SpeedParam = 0x8001D840; // size:0x74
 
 gBootThreadStack = 0x8001D8C0; // size:0x2000
-B_8001F8C0 = 0x8001F8C0;
+B_8001F8C0 = 0x8001F8C0; // size:0xC8
 B_8001F988 = 0x8001F988;
 insize = 0x8001F98C;
 outcnt = 0x8001F990;

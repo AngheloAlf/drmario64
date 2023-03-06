@@ -6,6 +6,7 @@
 #include "boot_variables.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "dm_thread.h"
 
 void func_80040A00(void *arg0 UNUSED) {
     struct_800EA290 *ptr = &B_800EA290;
@@ -29,7 +30,7 @@ void func_80040A64(void) {
     ptr->unk_123C = 0;
     ptr->unk_1240 = 0;
     osCreateMesgQueue(&ptr->mq, ptr->msg, ARRAY_COUNT(ptr->msg));
-    osCreateThread(&ptr->thread, 6, func_80040A00, NULL, STACK_TOP(ptr->stack), 2);
+    osCreateThread(&ptr->thread, THREAD_ID_6, func_80040A00, NULL, STACK_TOP(ptr->stack), THREAD_PRI_6);
     osStartThread(&ptr->thread);
     D_8008E5D0 = 1;
 }

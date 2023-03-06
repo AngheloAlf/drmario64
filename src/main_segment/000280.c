@@ -6,6 +6,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
+#include "dm_thread.h"
 
 s32 D_80088100 = 0;
 
@@ -52,16 +53,19 @@ void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount) {
     osSetEventMesg(OS_EVENT_DP, &arg0->unk_0E4, (OSMesg)0x29C);
     osSetEventMesg(OS_EVENT_PRENMI, &arg0->unk_074, (OSMesg)0x29D);
 
-    osCreateThread(&arg0->unk_158, 0x13, (StartThreadFunc)func_8002A0DC, arg0, STACK_TOP(B_800EFCE0), 0x78);
+    osCreateThread(&arg0->unk_158, THREAD_ID_19, (StartThreadFunc)func_8002A0DC, arg0, STACK_TOP(B_800EFCE0),
+                   THREAD_PRI_19);
     osStartThread(&arg0->unk_158);
 
 #if VERSION_CN
     func_8002B8B4_cn();
 #endif
 
-    osCreateThread(&arg0->unk_308, 0x12, (StartThreadFunc)func_8002A2B8, arg0, STACK_TOP(B_800F8CE0), 0x6E);
+    osCreateThread(&arg0->unk_308, THREAD_ID_18, (StartThreadFunc)func_8002A2B8, arg0, STACK_TOP(B_800F8CE0),
+                   THREAD_PRI_18);
     osStartThread(&arg0->unk_308);
-    osCreateThread(&arg0->unk_4B8, 0x11, (StartThreadFunc)func_8002A4D8, arg0, STACK_TOP(B_800ED440), 0x64);
+    osCreateThread(&arg0->unk_4B8, THREAD_ID_17, (StartThreadFunc)func_8002A4D8, arg0, STACK_TOP(B_800ED440),
+                   THREAD_PRI_17);
     osStartThread(&arg0->unk_4B8);
 }
 

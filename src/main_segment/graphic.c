@@ -13,6 +13,7 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 #include "gs2dex.h"
+#include "dm_thread.h"
 
 void *D_80088110[][2] = {
     { gspF3DEX2_fifoTextStart, gspF3DEX2_fifoDataStart },
@@ -157,7 +158,8 @@ void func_8002B754(void) {
  * Original name: gfxCreateGraphicThread
  */
 void gfxCreateGraphicThread(struct_800EB670 *arg0) {
-    osCreateThread(&B_800EBD20, 5, (StartThreadFunc)gfxproc, arg0, STACK_TOP(B_800F1E30), 0xF);
+    osCreateThread(&B_800EBD20, THREAD_ID_GRAPHIC, (StartThreadFunc)gfxproc, arg0, STACK_TOP(B_800F1E30),
+                   THREAD_PRI_GRAPHIC);
     osStartThread(&B_800EBD20);
 }
 

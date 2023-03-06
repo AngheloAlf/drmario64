@@ -3,11 +3,13 @@
 #include "boot_variables.h"
 #include "dma_table.h"
 #include "segment_symbols.h"
+#include "macros_defines.h"
+#include "dm_thread.h"
 
-void func_80000460(void) {
+void Idle_Nop(void) {
 }
 
-void (*D_8000E190)() = func_80000460;
+void (*D_8000E190)() = Idle_Nop;
 
 void func_80000468(void) {
     osStopThread(&B_80011010);
@@ -19,11 +21,12 @@ void func_80000488(void (*arg0)()) {
 
 void bootproc(void) {
     osInitialize();
-    osCreateThread(&B_80010E60, 1, func_80000580, NULL, STACK_TOP(B_800111C0), 1);
+    osCreateThread(&B_80010E60, THREAD_ID_IDLE_BOOT, Idle_ThreadEntry, NULL, STACK_TOP(B_800111C0),
+                   THREAD_PRI_IDLE_BOOT);
     osStartThread(&B_80010E60);
 }
 
-void LoadMainSegment(void *arg0) {
+void Main_ThreadEntry(void *arg0) {
     romoffset_t mainSegmentStart;
 
     DmaDataRomToRam(SEGMENT_ROM_START(dma_table), gDmaTable, SEGMENT_ROM_SIZE(dma_table));
@@ -43,11 +46,11 @@ void LoadMainSegment(void *arg0) {
     gDmaTable[0].entry(arg0);
 }
 
-extern OSMesg B_8001F8C0[];
+extern OSMesg B_8001F8C0[50];
 
-void func_80000580(void *arg0) {
-    osCreatePiManager(150, &B_80029C08, B_8001F8C0, 50);
-    osCreateThread(&B_80011010, 3, LoadMainSegment, arg0, STACK_TOP(B_800131C0), 10);
+void Idle_ThreadEntry(void *arg0) {
+    osCreatePiManager(OS_PRIORITY_PIMGR, &B_80029C08, B_8001F8C0, ARRAY_COUNT(B_8001F8C0));
+    osCreateThread(&B_80011010, THREAD_ID_MAIN, Main_ThreadEntry, arg0, STACK_TOP(B_800131C0), THREAD_PRI_MAIN);
     osStartThread(&B_80011010);
 
     while (1) {

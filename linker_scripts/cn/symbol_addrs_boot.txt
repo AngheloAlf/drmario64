@@ -2,12 +2,12 @@
 
 entrypoint = 0x80000400; // type:func
 
-func_80000460 = 0x80000460; // type:func
+Idle_Nop = 0x80000460; // type:func
 func_80000468 = 0x80000468; // type:func
 func_80000488 = 0x80000498; // type:func
 bootproc = 0x800004A8; // type:func
-LoadMainSegment = 0x8000052C; // type:func
-func_80000580 = 0x800005E0; // type:func
+Main_ThreadEntry = 0x8000052C; // type:func
+Idle_ThreadEntry = 0x800005E0; // type:func
 
 func_80000690_cn = 0x80000690; // type:func
 DmaDataRomToRam = 0x800006CC; // type:func
@@ -458,7 +458,7 @@ B_8001E3A8_cn = 0x8001E3A8; //
 
 gBootThreadStack = 0x8001E418; // size:0x2000
 
-B_8001F8C0 = 0x80020418; //
+B_8001F8C0 = 0x80020418; // size:0xC8
 
 __CartRomHandle = 0x800204E0; // size:0x74
 
