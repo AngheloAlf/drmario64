@@ -75,10 +75,11 @@ OSMesgQueue *func_8002A0D4(struct_800EB670 *arg0) {
 }
 
 void func_8002A0DC(void *arg) {
-    struct_800EB670 *ptr = arg;
     u32 msg = 0;
 
     while (true) {
+        struct_800EB670 *ptr = arg;
+
         osRecvMesg(&ptr->unk_074, (OSMesg)&msg, OS_MESG_BLOCK);
 
 #if VERSION_CN
