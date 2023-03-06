@@ -23,8 +23,6 @@ f32 WrapF(f32 start, f32 end, f32 value);
 
 #if VERSION_CN
 OSPiHandle *func_80000690_cn(void);
-
-s32 func_80002AE8_cn(bool arg0);
 #endif
 
 #ifdef M2CTX

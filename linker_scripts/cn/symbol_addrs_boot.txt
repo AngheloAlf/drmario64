@@ -34,8 +34,8 @@ flush_window = 0x80002888; // type:func
 DecompressRomToRam = 0x80002920; // type:func
 WrapI = 0x80002964; // type:func
 WrapF = 0x800029A4; // type:func
-func_80002A30_cn = 0x80002A30; // type:func
-func_80002AE8_cn = 0x80002AE8; // type:func
+Gateway_GetHandle = 0x80002A30; // type:func
+Gateway_80002AE8_cn = 0x80002AE8; // type:func
 
 osAiGetLength = 0x80002B40; // type:func
 
@@ -319,7 +319,7 @@ storyRomData = 0x8000F1E0; // size:0x38
 bgRomData = 0x8000F218; // size:0xC0
 _romDataTbl = 0x8000F2D8; // size:0x218
 
-D_8000F4F0_cn = 0x8000F4F0; //
+sGatewayInitialized = 0x8000F4F0; //
 D_8000F500_cn = 0x8000F500; //
 D_8000F510_cn = 0x8000F510; //
 
@@ -432,7 +432,7 @@ B_800131C0 = 0x80013CB0; // size:0x2000
 B_800151C0 = 0x80015CB0; //
 B_800151D8 = 0x80015CC8; //
 gzip_mem_buff = 0x80015CD0; //
-B_80019CD0_cn = 0x80019CD0; // size:0x74
+sGatewayHandle = 0x80019CD0; // size:0x74
 B_80019D50_cn = 0x80019D50; //
 B_80019D90_cn = 0x80019D90; //
 B_80019DA0_cn = 0x80019DA0; //

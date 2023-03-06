@@ -252,7 +252,9 @@ segments:
 
       - [0x00FDE0, .data, boot/rom_offsets]
 
-      - [0x0100F0, data, boot/0100F0]
+      - [0x0100F0, .data, gateway/003630]
+
+      - [0x010100, data, boot/010100] # libultra start?
 
       - [0x00120E0, rodata, boot/0120E0] # guess
       - [0x0012180, rodata, boot/012180]
@@ -264,6 +266,8 @@ segments:
       - [0x00123E0, .rodata, libegcs/libgcc2]
 
       - { start: 0x0124E0, type: bss, vram: 0x800118E0, name: boot/800118E0 }
+      - { start: 0x0124E0, type: bss, vram: 0x80019CD0, name: gateway/003630 }
+      - { start: 0x0124E0, type: bss, vram: 0x80019D50, name: boot/80019D50 }
 
   - name: dma_table
     type: code

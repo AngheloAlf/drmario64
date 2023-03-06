@@ -10,6 +10,7 @@
 #include "boot_variables.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "gateway.h"
 
 /**
  * Original filename: joyInit
@@ -118,7 +119,7 @@ void joyProcCore(void) {
 
     if (i == true) {
         D_80092F10_cn = temp_s1;
-        func_80002AE8_cn(D_80092F10_cn);
+        Gateway_80002AE8_cn(D_80092F10_cn);
     }
 
     func_8002BD04_cn();

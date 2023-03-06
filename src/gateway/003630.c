@@ -1,36 +1,45 @@
-#include "libultra.h"
+/**
+ * http://n64devkit.square7.ch/info/submission/gateway/01-01.html
+ */
+
+#include "gateway.h"
 #include "libc/stdbool.h"
 #include "macros_defines.h"
 
-extern OSPiHandle B_80019CD0_cn;
+bool sGatewayInitialized = false;
 
-extern bool D_8000F4F0_cn;
+extern OSPiHandle sGatewayHandle;
 
-OSPiHandle *func_80002A30_cn(void) {
-    if (D_8000F4F0_cn) {
-        return &B_80019CD0_cn;
+OSPiHandle *Gateway_GetHandle(void) {
+    if (sGatewayInitialized) {
+        return &sGatewayHandle;
     }
 
-    B_80019CD0_cn.type = 0;
-    B_80019CD0_cn.baseAddress = PHYS_TO_K1(0x0FF70000);
-    B_80019CD0_cn.latency = 5;
-    B_80019CD0_cn.pulse = 0xC;
-    B_80019CD0_cn.pageSize = 0xD;
-    B_80019CD0_cn.relDuration = 2;
-    B_80019CD0_cn.domain = 1;
-    B_80019CD0_cn.speed = 0;
-    bzero(&B_80019CD0_cn.transferInfo, sizeof(__OSTranxInfo));
-    osEPiLinkHandle(&B_80019CD0_cn);
-    D_8000F4F0_cn = true;
-    return &B_80019CD0_cn;
+    sGatewayHandle.type = 0;
+    sGatewayHandle.baseAddress = PHYS_TO_K1(GATEWAY_HALT_REG_START_ADDR);
+    sGatewayHandle.latency = GATEWAY_HALT_REG_LATENCY;
+    sGatewayHandle.pulse = GATEWAY_HALT_REG_PULSE;
+    sGatewayHandle.pageSize = GATEWAY_HALT_REG_PAGESIZE;
+    sGatewayHandle.relDuration = GATEWAY_HALT_REG_RELDURATION;
+    sGatewayHandle.domain = 1;
+    sGatewayHandle.speed = 0;
+    bzero(&sGatewayHandle.transferInfo, sizeof(__OSTranxInfo));
+    osEPiLinkHandle(&sGatewayHandle);
+    sGatewayInitialized = true;
+
+    return &sGatewayHandle;
 }
 
-void func_80002AE8_cn(s32 arg0) {
-    OSPiHandle *temp_v0 = func_80002A30_cn();
-    u32 var_a2 = 0xFFFFFFFF;
+#define SET   0xFFFFFFFF
+#define CLEAR 0
 
-    if (arg0 == 0) {
-        var_a2 = 0;
+s32 Gateway_80002AE8_cn(bool set) {
+    OSPiHandle *handle = Gateway_GetHandle();
+    u32 data = SET;
+
+    if (!set) {
+        data = CLEAR;
     }
-    osEPiWriteIo(temp_v0, 0x0FF70000U, var_a2);
+
+    return osEPiWriteIo(handle, GATEWAY_HALT_REG_START_ADDR, data);
 }
