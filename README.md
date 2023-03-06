@@ -67,3 +67,9 @@ Work should be done hopefully per-file but smaller efforts are still appreciated
 ### Important note
 
 This matching decomp effort is being done leak-free. If you have looked/worked with leaked materials (i.e. gigaleak) then it's a shame but you can't contribute to this project.
+
+## License
+
+The repo is licensed under the [MIT license](LICENSE), except for files that may have its own license stated either in the top of the file or are in a folder which has its own `LICENSE` file.
+
+One notable exception is the `src/` folder, which is licensed under the [CC0 license](src/LICENSE).
