@@ -30,7 +30,7 @@ OSPiHandle *Gateway_GetHandle(void) {
     return &sGatewayHandle;
 }
 
-#define SET   0xFFFFFFFF
+#define SET 0xFFFFFFFF
 #define CLEAR 0
 
 s32 Gateway_80002AE8_cn(bool set) {

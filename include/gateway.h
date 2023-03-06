@@ -2,6 +2,7 @@
 #define GATEWAY_H
 
 #include "libultra.h"
+#include "libc/stdbool.h"
 
 /**
  * http://n64devkit.square7.ch/info/submission/gateway/01-01.html
