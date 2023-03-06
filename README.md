@@ -70,9 +70,15 @@ This matching decomp effort is being done leak-free. If you have looked/worked w
 
 ## License
 
-This repository is licensed under the [MIT license](LICENSE), except for 
-- files which declare a different license, and
-- folders that have their own `LICENSE` file.
+This repository is licensed under the [MIT license](LICENSE), except for
+
+* files which declare a different license, and
+* folders that have their own `LICENSE` file.
+
 In such cases that license takes precedence.
 
 In particular, the `src/` folder is licensed under the [CC0 license](src/LICENSE).
+
+### Small note
+
+Besides the official licensing of the repo, the decomp team prefers that this codebase was not used to build binaries targetting non MIPS machines.
