@@ -81,4 +81,6 @@ In particular, the `src/` folder is licensed under the [CC0 license](src/LICENSE
 
 ### Small note
 
-Besides the official licensing of the repo, the decomp team prefers that this codebase was not used to build binaries targetting non MIPS machines.
+The intention of this project is to understand the inner workings of this game better, and to make it easier to modify its behaviour.
+
+As such, over and above the actual licensing of the repo, the decomp team requests that this codebase not be used to build binaries targeting non-MIPS machines ("porting").
