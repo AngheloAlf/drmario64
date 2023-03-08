@@ -79,7 +79,7 @@ In such cases that license takes precedence.
 
 In particular, the `src/` folder is licensed under the [CC0 license](src/LICENSE).
 
-### Small note
+### N.B.
 
 The intention of this project is to understand the inner workings of this game better, and to make it easier to modify its behaviour.
 
