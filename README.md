@@ -67,3 +67,20 @@ Work should be done hopefully per-file but smaller efforts are still appreciated
 ### Important note
 
 This matching decomp effort is being done leak-free. If you have looked/worked with leaked materials (i.e. gigaleak) then it's a shame but you can't contribute to this project.
+
+## License
+
+This repository is licensed under the [MIT license](LICENSE), except for
+
+* files which declare a different license, and
+* folders that have their own `LICENSE` file.
+
+In such cases that license takes precedence.
+
+In particular, the `src/` folder is licensed under the [CC0 license](src/LICENSE).
+
+### N.B.
+
+The intention of this project is to understand the inner workings of this game better, and to make it easier to modify its behaviour.
+
+As such, over and above the actual licensing of the repo, the decomp team requests that this codebase not be used to build binaries targeting non-MIPS machines ("porting").
