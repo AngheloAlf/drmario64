@@ -80,10 +80,17 @@
 #endif
 
 
+#if CC_CHECK
+#define TEXT
+#define DATA
+#define RODATA
+#define BSS
+#else
 #define TEXT   __attribute__((section (".text")))
 #define DATA   __attribute__((section (".data")))
 #define RODATA __attribute__((section (".rodata")))
 #define BSS    __attribute__((section (".bss")))
+#endif
 
 
 #endif
