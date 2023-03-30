@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+import re
 from typing import Dict, List, Optional, Set, TYPE_CHECKING
 
 import spimdisasm
@@ -16,12 +17,28 @@ all_symbols_dict: Dict[int, List["Symbol"]] = {}
 all_symbols_ranges = IntervalTree()
 ignored_addresses: Set[int] = set()
 to_mark_as_defined: Set[str] = set()
+appears_after_overlays_syms: List["Symbol"] = []
 
 # Initialize a spimdisasm context, used to store symbols and functions
 spim_context = spimdisasm.common.Context()
 
 TRUEY_VALS = ["true", "on", "yes", "y"]
 FALSEY_VALS = ["false", "off", "no", "n"]
+
+splat_sym_types = {"func", "jtbl", "jtbl_label", "label"}
+
+
+def check_valid_type(typename: str) -> bool:
+    if typename[0].isupper():
+        return True
+
+    if typename in splat_sym_types:
+        return True
+
+    if typename in spimdisasm.common.gKnownTypes:
+        return True
+
+    return False
 
 
 def is_truey(str: str) -> bool:
@@ -42,6 +59,15 @@ def add_symbol(sym: "Symbol"):
     # For larger symbols, add their ranges to interval trees for faster lookup
     if sym.size > 4:
         all_symbols_ranges.addi(sym.vram_start, sym.vram_end, sym)
+
+
+def to_cname(symbol_name: str) -> str:
+    symbol_name = re.sub(r"[^0-9a-zA-Z_]", "_", symbol_name)
+
+    if symbol_name[0] in ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]:
+        symbol_name = "_" + symbol_name
+
+    return symbol_name
 
 
 def initialize(all_segments: "List[Segment]"):
@@ -119,6 +145,23 @@ def initialize(all_segments: "List[Segment]"):
                                     # Non-Boolean attributes
                                     try:
                                         if attr_name == "type":
+                                            if not check_valid_type(attr_val):
+                                                log.parsing_error_preamble(
+                                                    path, line_num, line
+                                                )
+                                                log.write(
+                                                    f"Unrecognized symbol type in '{info}', it should be one of"
+                                                )
+                                                log.write(
+                                                    [
+                                                        *splat_sym_types,
+                                                        *spimdisasm.common.gKnownTypes,
+                                                    ]
+                                                )
+                                                log.write(
+                                                    "You may use a custom type that starts with a capital letter"
+                                                )
+                                                log.error("")
                                             type = attr_val
                                             sym.type = type
                                             continue
@@ -146,6 +189,12 @@ def initialize(all_segments: "List[Segment]"):
                                             continue
                                         if attr_name == "name_end":
                                             sym.given_name_end = attr_val
+                                            continue
+                                        if attr_name == "appears_after_overlays_addr":
+                                            sym.appears_after_overlays_addr = int(
+                                                attr_val, 0
+                                            )
+                                            appears_after_overlays_syms.append(sym)
                                             continue
                                     except:
                                         log.parsing_error_preamble(path, line_num, line)
@@ -500,6 +549,8 @@ class Symbol:
 
     _generated_default_name: Optional[str] = None
     _last_type: Optional[str] = None
+
+    appears_after_overlays_addr: Optional[int] = None
 
     def __str__(self):
         return self.name
