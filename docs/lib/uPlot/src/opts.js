@@ -29,6 +29,7 @@ import {
 	hexBlack,
 	WIDTH,
 	HEIGHT,
+	LEGEND_DISP,
 } from './strings';
 
 import {
@@ -329,7 +330,7 @@ export function timeSeriesStamp(stampCfg, fmtDate) {
 export const _timeSeriesStamp = '{YYYY}-{MM}-{DD} {h}:{mm}{aa}';
 
 export function timeSeriesVal(tzDate, stamp) {
-	return (self, val) => stamp(tzDate(val));
+	return (self, val, seriesIdx, dataIdx) => dataIdx == null ? LEGEND_DISP : stamp(tzDate(val));
 }
 
 export function legendStroke(self, seriesIdx) {
@@ -389,7 +390,7 @@ function cursorPointStroke(self, si) {
 
 function cursorPointSize(self, si) {
 	let sp = self.series[si].points;
-	return ptDia(sp.width, 1);
+	return sp.size;
 }
 
 function dataIdx(self, seriesIdx, cursorIdx) {
@@ -445,12 +446,18 @@ export const cursorOpts = {
 		y: false,
 		dist: 0,
 		uni: null,
+		click: (self, e) => {
+		//	e.preventDefault();
+			e.stopPropagation();
+			e.stopImmediatePropagation();
+		},
 		_x: false,
 		_y: false,
 	},
 
 	focus: {
 		prox: -1,
+		bias: 0,
 	},
 
 	left: -10,
@@ -481,7 +488,7 @@ const border = assign({}, axisLines, {
 
 const font      = '12px system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
 const labelFont = "bold " + font;
-export const lineMult = 1.5;		// font-size multiplier
+const lineGap = 1.5;	// font-size multiplier
 
 export const xAxisOpts = {
 	show: true,
@@ -502,6 +509,7 @@ export const xAxisOpts = {
 	ticks,
 	border,
 	font,
+	lineGap,
 	rotate: 0,
 };
 
@@ -551,14 +559,17 @@ export function logAxisSplits(self, axisIdx, scaleMin, scaleMax, foundIncr, foun
 
 	foundIncr = pow(logBase, exp);
 
-	if (exp < 0)
+	if (logBase == 10 && exp < 0)
 		foundIncr = roundDec(foundIncr, -exp);
 
 	let split = scaleMin;
 
 	do {
 		splits.push(split);
-		split = roundDec(split + foundIncr, fixedDec.get(foundIncr));
+		split = split + foundIncr;
+
+		if (logBase == 10)
+			split = roundDec(split, fixedDec.get(foundIncr));
 
 		if (split >= foundIncr * logBase)
 			foundIncr = split;
@@ -609,8 +620,8 @@ export function log10AxisValsFilt(self, splits, axisIdx, foundSpace, foundIncr) 
 	return splits.map(v => ((sc.distr == 4 && v == 0) || re.test(v)) ? v : null);
 }
 
-export function numSeriesVal(self, val) {
-	return val == null ? "" : fmtNum(val);
+export function numSeriesVal(self, val, seriesIdx, dataIdx) {
+	return dataIdx == null ? LEGEND_DISP : val == null ? "" : fmtNum(val);
 }
 
 export const yAxisOpts = {
@@ -632,6 +643,7 @@ export const yAxisOpts = {
 	ticks,
 	border,
 	font,
+	lineGap,
 	rotate: 0,
 };
 

@@ -62,6 +62,8 @@ import {
 	rangePad,
 	hasData,
 	numIntDigits,
+	isUndef,
+	guessDec,
 } from './utils';
 
 import {
@@ -82,7 +84,8 @@ import {
 	resize,
 	scroll,
 
-	dppxchange
+	dppxchange,
+	LEGEND_DISP
 } from './strings';
 
 import {
@@ -133,7 +136,6 @@ import {
 } from './fmtDate';
 
 import {
-	lineMult,
 	ptDia,
 	cursorOpts,
 
@@ -340,6 +342,12 @@ export default function uPlot(opts, data, then) {
 	const ctx = self.ctx = can.getContext("2d");
 
 	const wrap = placeDiv(WRAP, root);
+
+	FEAT_CURSOR && on("click", wrap, e => {
+		let didDrag = mouseLeft1 != mouseLeft0 || mouseTop1 != mouseTop0;
+		didDrag && drag.click(self, e);
+	}, true);
+
 	const under = self.under = placeDiv(UNDER, wrap);
 	wrap.appendChild(can);
 	const over = self.over = placeDiv(OVER, wrap);
@@ -553,7 +561,7 @@ export default function uPlot(opts, data, then) {
 		legendCols = multiValLegend ? getMultiVals(self, 1, 0) : {_: 0};
 
 		for (let k in legendCols)
-			NULL_LEGEND_VALUES[k] = "--";
+			NULL_LEGEND_VALUES[k] = LEGEND_DISP;
 	}
 
 	if (showLegend) {
@@ -864,6 +872,7 @@ export default function uPlot(opts, data, then) {
 	}
 
 	const focus = self.focus = assign({}, opts.focus || {alpha: 0.3}, FEAT_CURSOR && cursor.focus);
+
 	const cursorFocus = FEAT_CURSOR && focus.prox >= 0;
 
 	// series-intersection markers
@@ -904,7 +913,7 @@ export default function uPlot(opts, data, then) {
 			s.fill   = fnOrSelf(s.fill || null);
 			s._stroke = s._fill = s._paths = s._focus = null;
 
-			let _ptDia = ptDia(s.width, 1);
+			let _ptDia = ptDia(max(1, s.width), 1);
 			let points = s.points = assign({}, {
 				size: _ptDia,
 				width: max(1, _ptDia * .2),
@@ -997,6 +1006,13 @@ export default function uPlot(opts, data, then) {
 			axis.size   = fnOrSelf(axis.size);
 			axis.space  = fnOrSelf(axis.space);
 			axis.rotate = fnOrSelf(axis.rotate);
+
+			if (isArr(axis.incrs)) {
+				axis.incrs.forEach(incr => {
+					!fixedDec.has(incr) && fixedDec.set(incr, guessDec(incr));
+				});
+			}
+
 			axis.incrs  = fnOrSelf(axis.incrs  || (          sc.distr == 2 ? wholeIncrs : (isTime ? (ms == 1 ? timeIncrsMs : timeIncrsS) : numIncrs)));
 			axis.splits = fnOrSelf(axis.splits || (isTime && sc.distr == 1 ? _timeAxisSplits : sc.distr == 3 ? logAxisSplits : sc.distr == 4 ? asinhAxisSplits : numAxisSplits));
 
@@ -1480,10 +1496,12 @@ export default function uPlot(opts, data, then) {
 
 			let halfWid = width * pxRatio / 2;
 
-			if (s.min == 0)
+			let {min: scaleMin, max: scaleMax, dir: scaleDir } = scales[s.scale];
+
+			if (scaleDir == 1 ? s.min == scaleMin : s.max == scaleMax)
 				hgt += halfWid;
 
-			if (s.max == 0) {
+			if (scaleDir == 1 ? s.max == scaleMax : s.min == scaleMin) {
 				top -= halfWid;
 				hgt += halfWid;
 			}
@@ -1823,7 +1841,7 @@ export default function uPlot(opts, data, then) {
 
 			setFontStyle(font, fillStyle, textAlign, textBaseline);
 
-			let lineHeight = axis.font[1] * lineMult;
+			let lineHeight = axis.font[1] * axis.lineGap;
 
 			let canOffs = _splits.map(val => pxRound(getPos(val, scale, plotDim, plotOff)));
 
@@ -2021,7 +2039,10 @@ export default function uPlot(opts, data, then) {
 			shouldSetCursor = false;
 		}
 
-	//	if (FEAT_LEGEND && legend.show && legend.live && shouldSetLegend) {}
+		if (FEAT_LEGEND && legend.show && legend.live && shouldSetLegend) {
+			setLegend();
+			shouldSetLegend = false; // redundant currently
+		}
 
 		if (!ready) {
 			ready = true;
@@ -2367,12 +2388,20 @@ export default function uPlot(opts, data, then) {
 
 	function setLegend(opts, _fire) {
 		if (opts != null) {
-			let idx = opts.idx;
+			if (opts.idxs) {
+				opts.idxs.forEach((didx, sidx) => {
+					activeIdxs[sidx] = didx;
+				});
+			}
+			else if (!isUndef(opts.idx))
+				activeIdxs.fill(opts.idx);
 
-			legend.idx = idx;
-			series.forEach((s, sidx) => {
-				(sidx > 0 || !multiValLegend) && setLegendValues(sidx, idx);
-			});
+			legend.idx = activeIdxs[0];
+		}
+
+		for (let sidx = 0; sidx < series.length; sidx++) {
+			if (sidx > 0 || mode == 1 && !multiValLegend)
+				setLegendValues(sidx, activeIdxs[sidx]);
 		}
 
 		if (showLegend && legend.live)
@@ -2386,14 +2415,15 @@ export default function uPlot(opts, data, then) {
 	self.setLegend = setLegend;
 
 	function setLegendValues(sidx, idx) {
+		let s = series[sidx];
+		let src = sidx == 0 && xScaleDistr == 2 ? data0 : data[sidx];
 		let val;
 
-		if (idx == null)
-			val = NULL_LEGEND_VALUES;
+		if (multiValLegend)
+			val = s.values(self, sidx, idx) ?? NULL_LEGEND_VALUES;
 		else {
-			let s = series[sidx];
-			let src = sidx == 0 && xScaleDistr == 2 ? data0 : data[sidx];
-			val = multiValLegend ? s.values(self, sidx, idx) : {_: s.value(self, src[idx], sidx, idx)};
+			val = s.value(self, idx == null ? null : src[idx], sidx, idx);
+			val = val == null ? NULL_LEGEND_VALUES : {_: val};
 		}
 
 		legend.values[sidx] = val;
@@ -2438,11 +2468,8 @@ export default function uPlot(opts, data, then) {
 				setSeries(null, FOCUS_TRUE, true, src == null && syncOpts.setSeries);
 
 			if (FEAT_LEGEND && legend.live) {
-				activeIdxs.fill(null);
+				activeIdxs.fill(idx);
 				shouldSetLegend = true;
-
-				for (let i = 0; i < series.length; i++)
-					legend.values[i] = NULL_LEGEND_VALUES;
 			}
 		}
 		else {
@@ -2454,7 +2481,7 @@ export default function uPlot(opts, data, then) {
 				mouseXPos = scaleX.ori == 0 ? mouseLeft1 : mouseTop1;
 				valAtPosX = posToVal(mouseXPos, xScaleKey);
 				idx = closestIdx(valAtPosX, data[0], i0, i1);
-				xPos = incrRoundUp(valToPosX(data[0][idx], scaleX, xDim, 0), 0.5);
+				xPos = valToPosX(data[0][idx], scaleX, xDim, 0);
 			}
 
 			for (let i = mode == 2 ? 1 : 0; i < series.length; i++) {
@@ -2470,17 +2497,39 @@ export default function uPlot(opts, data, then) {
 
 				activeIdxs[i] = idx2;
 
-				let xPos2 = idx2 == idx ? xPos : incrRoundUp(valToPosX(mode == 1 ? data[0][idx2] : data[i][0][idx2], scaleX, xDim, 0), 0.5);
+				let xPos2 = incrRoundUp(idx2 == idx ? xPos : valToPosX(mode == 1 ? data[0][idx2] : data[i][0][idx2], scaleX, xDim, 0), 1);
 
 				if (i > 0 && s.show) {
-					let yPos = yVal2 == null ? -10 : incrRoundUp(valToPosY(yVal2, mode == 1 ? scales[s.scale] : scales[s.facets[1].scale], yDim, 0), 0.5);
+					let yPos = yVal2 == null ? -10 : incrRoundUp(valToPosY(yVal2, mode == 1 ? scales[s.scale] : scales[s.facets[1].scale], yDim, 0), 1);
 
-					if (yPos > 0 && mode == 1) {
+					if (cursorFocus && yPos >= 0 && mode == 1) {
 						let dist = abs(yPos - mouseTop1);
 
-						if (dist <= closestDist) {
-							closestDist = dist;
-							closestSeries = i;
+						if (dist < closestDist) {
+							let bias = focus.bias;
+
+							if (bias != 0) {
+								let mouseYPos = scaleX.ori == 1 ? mouseLeft1 : mouseTop1;
+								let mouseYVal = posToVal(mouseYPos, s.scale);
+
+								let seriesYValSign = yVal2     >= 0 ? 1 : -1;
+								let mouseYValSign  = mouseYVal >= 0 ? 1 : -1;
+
+								// with a focus bias, we will never cross zero when prox testing
+								// it's either closest towards zero, or closest away from zero
+								if (mouseYValSign == seriesYValSign && (
+									mouseYValSign == 1 ?
+										(bias == 1 ? yVal2 >= mouseYVal : yVal2 <= mouseYVal) :  // >= 0
+										(bias == 1 ? yVal2 <= mouseYVal : yVal2 >= mouseYVal)    //  < 0
+								)) {
+									closestDist = dist;
+									closestSeries = i;
+								}
+							}
+							else {
+								closestDist = dist;
+								closestSeries = i;
+							}
 						}
 					}
 
@@ -2521,13 +2570,6 @@ export default function uPlot(opts, data, then) {
 						elSize(cursorPts[i], ptWid, ptHgt, centered);
 						elTrans(cursorPts[i], ptLft, ptTop, plotWidCss, plotHgtCss);
 					}
-				}
-
-				if (FEAT_LEGEND && legend.live) {
-					if (!shouldSetLegend || i == 0 && multiValLegend)
-						continue;
-
-					setLegendValues(i, idx2);
 				}
 			}
 		}

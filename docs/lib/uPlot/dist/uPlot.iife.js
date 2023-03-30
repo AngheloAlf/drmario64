@@ -1,10 +1,10 @@
 /**
-* Copyright (c) 2022, Leon Sorokin
+* Copyright (c) 2023, Leon Sorokin
 * All rights reserved. (MIT Licensed)
 *
 * uPlot.js (μPlot)
 * A small, fast chart for time series, lines, areas, ohlc & bars
-* https://github.com/leeoniya/uPlot (v1.6.23)
+* https://github.com/leeoniya/uPlot (v1.6.24)
 */
 
 var uPlot = (function () {
@@ -56,6 +56,8 @@ var uPlot = (function () {
 
 	const change      = "change";
 	const dppxchange  = "dppxchange";
+
+	const LEGEND_DISP = "--";
 
 	const domEnv = typeof window != 'undefined';
 
@@ -277,12 +279,14 @@ var uPlot = (function () {
 		let maxIncr = pow(base, maxExp);
 
 		// fix values like Math.pow(10, -5) === 0.000009999999999999999
-		if (minExp < 0)
-			minIncr = roundDec(minIncr, -minExp);
-		if (maxExp < 0)
-			maxIncr = roundDec(maxIncr, -maxExp);
+		if (base == 10) {
+			if (minExp < 0)
+				minIncr = roundDec(minIncr, -minExp);
+			if (maxExp < 0)
+				maxIncr = roundDec(maxIncr, -maxExp);
+		}
 
-		if (fullMags) {
+		if (fullMags || base == 2) {
 			min = minIncr * minSign;
 			max = maxIncr * maxSign;
 		}
@@ -536,6 +540,7 @@ var uPlot = (function () {
 
 	const isArr = Array.isArray;
 	const isInt = Number.isInteger;
+	const isUndef = v => v === void 0;
 
 	function isStr(v) {
 		return typeof v == 'string';
@@ -1119,7 +1124,7 @@ var uPlot = (function () {
 	const _timeSeriesStamp = '{YYYY}-{MM}-{DD} {h}:{mm}{aa}';
 
 	function timeSeriesVal(tzDate, stamp) {
-		return (self, val) => stamp(tzDate(val));
+		return (self, val, seriesIdx, dataIdx) => dataIdx == null ? LEGEND_DISP : stamp(tzDate(val));
 	}
 
 	function legendStroke(self, seriesIdx) {
@@ -1179,7 +1184,7 @@ var uPlot = (function () {
 
 	function cursorPointSize(self, si) {
 		let sp = self.series[si].points;
-		return ptDia(sp.width, 1);
+		return sp.size;
 	}
 
 	function dataIdx(self, seriesIdx, cursorIdx) {
@@ -1235,12 +1240,18 @@ var uPlot = (function () {
 			y: false,
 			dist: 0,
 			uni: null,
+			click: (self, e) => {
+			//	e.preventDefault();
+				e.stopPropagation();
+				e.stopImmediatePropagation();
+			},
 			_x: false,
 			_y: false,
 		},
 
 		focus: {
 			prox: -1,
+			bias: 0,
 		},
 
 		left: -10,
@@ -1271,7 +1282,7 @@ var uPlot = (function () {
 
 	const font      = '12px system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"';
 	const labelFont = "bold " + font;
-	const lineMult = 1.5;		// font-size multiplier
+	const lineGap = 1.5;	// font-size multiplier
 
 	const xAxisOpts = {
 		show: true,
@@ -1292,6 +1303,7 @@ var uPlot = (function () {
 		ticks,
 		border,
 		font,
+		lineGap,
 		rotate: 0,
 	};
 
@@ -1341,14 +1353,17 @@ var uPlot = (function () {
 
 		foundIncr = pow(logBase, exp);
 
-		if (exp < 0)
+		if (logBase == 10 && exp < 0)
 			foundIncr = roundDec(foundIncr, -exp);
 
 		let split = scaleMin;
 
 		do {
 			splits.push(split);
-			split = roundDec(split + foundIncr, fixedDec.get(foundIncr));
+			split = split + foundIncr;
+
+			if (logBase == 10)
+				split = roundDec(split, fixedDec.get(foundIncr));
 
 			if (split >= foundIncr * logBase)
 				foundIncr = split;
@@ -1399,8 +1414,8 @@ var uPlot = (function () {
 		return splits.map(v => ((sc.distr == 4 && v == 0) || re.test(v)) ? v : null);
 	}
 
-	function numSeriesVal(self, val) {
-		return val == null ? "" : fmtNum(val);
+	function numSeriesVal(self, val, seriesIdx, dataIdx) {
+		return dataIdx == null ? LEGEND_DISP : val == null ? "" : fmtNum(val);
 	}
 
 	const yAxisOpts = {
@@ -1422,6 +1437,7 @@ var uPlot = (function () {
 		ticks,
 		border,
 		font,
+		lineGap,
 		rotate: 0,
 	};
 
@@ -1808,18 +1824,20 @@ var uPlot = (function () {
 			(p, x, y, w, h) => { p.rect(x, y, w, h); } :
 			(p, y, x, h, w) => { p.rect(x, y, w, h); };
 
-		return (p, x, y, w, h, r = 0) => {
-			if (r == 0)
+		// TODO (pending better browser support): https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/roundRect
+		return (p, x, y, w, h, endRad = 0, baseRad = 0) => {
+			if (endRad == 0 && baseRad == 0)
 				rect(p, x, y, w, h);
 			else {
-				r = min(r, w / 2, h / 2);
+				endRad  = min(endRad,  w / 2, h / 2);
+				baseRad = min(baseRad, w / 2, h / 2);
 
 				// adapted from https://stackoverflow.com/questions/1255512/how-to-draw-a-rounded-rectangle-using-html-canvas/7838871#7838871
-				moveTo(p, x + r, y);
-				arcTo(p, x + w, y, x + w, y + h, r);
-				arcTo(p, x + w, y + h, x, y + h, r);
-				arcTo(p, x, y + h, x, y, r);
-				arcTo(p, x, y, x + w, y, r);
+				moveTo(p, x + endRad, y);
+				arcTo(p, x + w, y, x + w, y + h, endRad);
+				arcTo(p, x + w, y + h, x, y + h, baseRad);
+				arcTo(p, x, y + h, x, y, baseRad);
+				arcTo(p, x, y, x + w, y, endRad);
 				p.closePath();
 			}
 		};
@@ -1954,12 +1972,15 @@ var uPlot = (function () {
 				let lftX   =  pixelForX(dataX[lftIdx]);
 				let rgtX   =  pixelForX(dataX[rgtIdx]);
 
+				let hasGap = false;
+
 				for (let i = dir == 1 ? idx0 : idx1; i >= idx0 && i <= idx1; i += dir) {
 					let x = pixelForX(dataX[i]);
+					let yVal = dataY[i];
 
 					if (x == accX) {
-						if (dataY[i] != null) {
-							outY = pixelForY(dataY[i]);
+						if (yVal != null) {
+							outY = pixelForY(yVal);
 
 							if (minY == inf) {
 								lineTo(stroke, x, outY);
@@ -1969,6 +1990,10 @@ var uPlot = (function () {
 							minY = min(outY, minY);
 							maxY = max(outY, maxY);
 						}
+						else {
+							if (yVal === null)
+								hasGap = true;
+						}
 					}
 					else {
 						if (minY != inf) {
@@ -1976,14 +2001,17 @@ var uPlot = (function () {
 							drawnAtX = accX;
 						}
 
-						if (dataY[i] != null) {
-							outY = pixelForY(dataY[i]);
+						if (yVal != null) {
+							outY = pixelForY(yVal);
 							lineTo(stroke, x, outY);
 							minY = maxY = inY = outY;
 						}
 						else {
 							minY = inf;
 							maxY = -inf;
+
+							if (yVal === null)
+								hasGap = true;
 						}
 
 						accX = x;
@@ -2009,7 +2037,7 @@ var uPlot = (function () {
 				//	console.time('gaps');
 					let gaps = [];
 
-					gaps.push(...findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps));
+					hasGap && gaps.push(...findGaps(dataX, dataY, idx0, idx1, dir, pixelForX, alignGaps));
 
 				//	console.timeEnd('gaps');
 
@@ -2154,7 +2182,14 @@ var uPlot = (function () {
 		const align = opts.align || 0;
 		const extraGap = (opts.gap || 0) * pxRatio;
 
-		const radius = ifNull(opts.radius, 0);
+		let ro = opts.radius;
+
+		ro =
+			// [valueRadius, baselineRadius]
+			ro == null ? [0, 0] :
+			typeof ro == 'number' ? [ro, 0] : ro;
+
+		const radiusFn = fnOrSelf(ro);
 
 		const gapFactor = 1 - size[0];
 		const maxWidth  = ifNull(size[1], inf) * pxRatio;
@@ -2168,6 +2203,13 @@ var uPlot = (function () {
 		return (u, seriesIdx, idx0, idx1) => {
 			return orient(u, seriesIdx, (series, dataX, dataY, scaleX, scaleY, valToPosX, valToPosY, xOff, yOff, xDim, yDim) => {
 				let pxRound = series.pxRound;
+
+				let valRadius, baseRadius;
+
+				if (scaleX.ori == 0)
+					[valRadius, baseRadius] = radiusFn(u, seriesIdx);
+				else
+					[baseRadius, valRadius] = radiusFn(u, seriesIdx);
 
 				const _dirX = scaleX.dir * (scaleX.ori == 0 ? 1 : -1);
 				const _dirY = scaleY.dir * (scaleY.ori == 1 ? 1 : -1);
@@ -2290,6 +2332,9 @@ var uPlot = (function () {
 					dataY0 = y0.values(u, seriesIdx, idx0, idx1);
 				}
 
+				let radVal = valRadius * barWid;
+				let radBase = baseRadius * barWid;
+
 				for (let i = _dirX == 1 ? idx0 : idx1; i >= idx0 && i <= idx1; i += _dirX) {
 					let yVal = dataY[i];
 
@@ -2322,18 +2367,19 @@ var uPlot = (function () {
 					// this includes the stroke
 					let barHgt = btm - top;
 
-					let r = radius * barWid;
-
 					if (yVal != null) {  // && yVal != fillToY (0 height bar)
+						let rv = yVal < 0 ? radBase : radVal;
+						let rb = yVal < 0 ? radVal : radBase;
+
 						if (multiPath) {
 							if (strokeWidth > 0 && strokeColors[i] != null)
-								rect(strokePaths.get(strokeColors[i]), lft, top + floor(strokeWidth / 2), barWid, max(0, barHgt - strokeWidth), r);
+								rect(strokePaths.get(strokeColors[i]), lft, top + floor(strokeWidth / 2), barWid, max(0, barHgt - strokeWidth), rv, rb);
 
 							if (fillColors[i] != null)
-								rect(fillPaths.get(fillColors[i]), lft, top + floor(strokeWidth / 2), barWid, max(0, barHgt - strokeWidth), r);
+								rect(fillPaths.get(fillColors[i]), lft, top + floor(strokeWidth / 2), barWid, max(0, barHgt - strokeWidth), rv, rb);
 						}
 						else
-							rect(stroke, lft, top + floor(strokeWidth / 2), barWid, max(0, barHgt - strokeWidth), r);
+							rect(stroke, lft, top + floor(strokeWidth / 2), barWid, max(0, barHgt - strokeWidth), rv, rb);
 
 						each(u, seriesIdx, i,
 							lft    - strokeWidth / 2,
@@ -2355,7 +2401,7 @@ var uPlot = (function () {
 
 						barHgt = btm - top;
 
-						rect(band, lft - strokeWidth / 2, top, barWid + strokeWidth, max(0, barHgt), 0);
+						rect(band, lft - strokeWidth / 2, top, barWid + strokeWidth, max(0, barHgt), 0, 0);  // radius here?
 					}
 				}
 
@@ -2678,6 +2724,12 @@ var uPlot = (function () {
 		const ctx = self.ctx = can.getContext("2d");
 
 		const wrap = placeDiv(WRAP, root);
+
+		on("click", wrap, e => {
+			let didDrag = mouseLeft1 != mouseLeft0 || mouseTop1 != mouseTop0;
+			didDrag && drag.click(self, e);
+		}, true);
+
 		const under = self.under = placeDiv(UNDER, wrap);
 		wrap.appendChild(can);
 		const over = self.over = placeDiv(OVER, wrap);
@@ -2887,7 +2939,7 @@ var uPlot = (function () {
 			legendCols = multiValLegend ? getMultiVals(self, 1, 0) : {_: 0};
 
 			for (let k in legendCols)
-				NULL_LEGEND_VALUES[k] = "--";
+				NULL_LEGEND_VALUES[k] = LEGEND_DISP;
 		}
 
 		if (showLegend) {
@@ -3198,6 +3250,7 @@ var uPlot = (function () {
 		}
 
 		const focus = self.focus = assign({}, opts.focus || {alpha: 0.3}, cursor.focus);
+
 		const cursorFocus = focus.prox >= 0;
 
 		// series-intersection markers
@@ -3238,7 +3291,7 @@ var uPlot = (function () {
 				s.fill   = fnOrSelf(s.fill || null);
 				s._stroke = s._fill = s._paths = s._focus = null;
 
-				let _ptDia = ptDia(s.width, 1);
+				let _ptDia = ptDia(max(1, s.width), 1);
 				let points = s.points = assign({}, {
 					size: _ptDia,
 					width: max(1, _ptDia * .2),
@@ -3331,6 +3384,13 @@ var uPlot = (function () {
 				axis.size   = fnOrSelf(axis.size);
 				axis.space  = fnOrSelf(axis.space);
 				axis.rotate = fnOrSelf(axis.rotate);
+
+				if (isArr(axis.incrs)) {
+					axis.incrs.forEach(incr => {
+						!fixedDec.has(incr) && fixedDec.set(incr, guessDec(incr));
+					});
+				}
+
 				axis.incrs  = fnOrSelf(axis.incrs  || (          sc.distr == 2 ? wholeIncrs : (isTime ? (ms == 1 ? timeIncrsMs : timeIncrsS) : numIncrs)));
 				axis.splits = fnOrSelf(axis.splits || (isTime && sc.distr == 1 ? _timeAxisSplits : sc.distr == 3 ? logAxisSplits : sc.distr == 4 ? asinhAxisSplits : numAxisSplits));
 
@@ -3814,10 +3874,12 @@ var uPlot = (function () {
 
 				let halfWid = width * pxRatio / 2;
 
-				if (s.min == 0)
+				let {min: scaleMin, max: scaleMax, dir: scaleDir } = scales[s.scale];
+
+				if (scaleDir == 1 ? s.min == scaleMin : s.max == scaleMax)
 					hgt += halfWid;
 
-				if (s.max == 0) {
+				if (scaleDir == 1 ? s.max == scaleMax : s.min == scaleMin) {
 					top -= halfWid;
 					hgt += halfWid;
 				}
@@ -4157,7 +4219,7 @@ var uPlot = (function () {
 
 				setFontStyle(font, fillStyle, textAlign, textBaseline);
 
-				let lineHeight = axis.font[1] * lineMult;
+				let lineHeight = axis.font[1] * axis.lineGap;
 
 				let canOffs = _splits.map(val => pxRound(getPos(val, scale, plotDim, plotOff)));
 
@@ -4355,7 +4417,10 @@ var uPlot = (function () {
 				shouldSetCursor = false;
 			}
 
-		//	if (FEAT_LEGEND && legend.show && legend.live && shouldSetLegend) {}
+			if (legend.show && legend.live && shouldSetLegend) {
+				setLegend();
+				shouldSetLegend = false; // redundant currently
+			}
 
 			if (!ready) {
 				ready = true;
@@ -4701,12 +4766,20 @@ var uPlot = (function () {
 
 		function setLegend(opts, _fire) {
 			if (opts != null) {
-				let idx = opts.idx;
+				if (opts.idxs) {
+					opts.idxs.forEach((didx, sidx) => {
+						activeIdxs[sidx] = didx;
+					});
+				}
+				else if (!isUndef(opts.idx))
+					activeIdxs.fill(opts.idx);
 
-				legend.idx = idx;
-				series.forEach((s, sidx) => {
-					(sidx > 0 || !multiValLegend) && setLegendValues(sidx, idx);
-				});
+				legend.idx = activeIdxs[0];
+			}
+
+			for (let sidx = 0; sidx < series.length; sidx++) {
+				if (sidx > 0 || mode == 1 && !multiValLegend)
+					setLegendValues(sidx, activeIdxs[sidx]);
 			}
 
 			if (showLegend && legend.live)
@@ -4720,14 +4793,15 @@ var uPlot = (function () {
 		self.setLegend = setLegend;
 
 		function setLegendValues(sidx, idx) {
+			let s = series[sidx];
+			let src = sidx == 0 && xScaleDistr == 2 ? data0 : data[sidx];
 			let val;
 
-			if (idx == null)
-				val = NULL_LEGEND_VALUES;
+			if (multiValLegend)
+				val = s.values(self, sidx, idx) ?? NULL_LEGEND_VALUES;
 			else {
-				let s = series[sidx];
-				let src = sidx == 0 && xScaleDistr == 2 ? data0 : data[sidx];
-				val = multiValLegend ? s.values(self, sidx, idx) : {_: s.value(self, src[idx], sidx, idx)};
+				val = s.value(self, idx == null ? null : src[idx], sidx, idx);
+				val = val == null ? NULL_LEGEND_VALUES : {_: val};
 			}
 
 			legend.values[sidx] = val;
@@ -4772,11 +4846,8 @@ var uPlot = (function () {
 					setSeries(null, FOCUS_TRUE, true, src == null && syncOpts.setSeries);
 
 				if (legend.live) {
-					activeIdxs.fill(null);
+					activeIdxs.fill(idx);
 					shouldSetLegend = true;
-
-					for (let i = 0; i < series.length; i++)
-						legend.values[i] = NULL_LEGEND_VALUES;
 				}
 			}
 			else {
@@ -4788,7 +4859,7 @@ var uPlot = (function () {
 					mouseXPos = scaleX.ori == 0 ? mouseLeft1 : mouseTop1;
 					valAtPosX = posToVal(mouseXPos, xScaleKey);
 					idx = closestIdx(valAtPosX, data[0], i0, i1);
-					xPos = incrRoundUp(valToPosX(data[0][idx], scaleX, xDim, 0), 0.5);
+					xPos = valToPosX(data[0][idx], scaleX, xDim, 0);
 				}
 
 				for (let i = mode == 2 ? 1 : 0; i < series.length; i++) {
@@ -4804,17 +4875,39 @@ var uPlot = (function () {
 
 					activeIdxs[i] = idx2;
 
-					let xPos2 = idx2 == idx ? xPos : incrRoundUp(valToPosX(mode == 1 ? data[0][idx2] : data[i][0][idx2], scaleX, xDim, 0), 0.5);
+					let xPos2 = incrRoundUp(idx2 == idx ? xPos : valToPosX(mode == 1 ? data[0][idx2] : data[i][0][idx2], scaleX, xDim, 0), 1);
 
 					if (i > 0 && s.show) {
-						let yPos = yVal2 == null ? -10 : incrRoundUp(valToPosY(yVal2, mode == 1 ? scales[s.scale] : scales[s.facets[1].scale], yDim, 0), 0.5);
+						let yPos = yVal2 == null ? -10 : incrRoundUp(valToPosY(yVal2, mode == 1 ? scales[s.scale] : scales[s.facets[1].scale], yDim, 0), 1);
 
-						if (yPos > 0 && mode == 1) {
+						if (cursorFocus && yPos >= 0 && mode == 1) {
 							let dist = abs(yPos - mouseTop1);
 
-							if (dist <= closestDist) {
-								closestDist = dist;
-								closestSeries = i;
+							if (dist < closestDist) {
+								let bias = focus.bias;
+
+								if (bias != 0) {
+									let mouseYPos = scaleX.ori == 1 ? mouseLeft1 : mouseTop1;
+									let mouseYVal = posToVal(mouseYPos, s.scale);
+
+									let seriesYValSign = yVal2     >= 0 ? 1 : -1;
+									let mouseYValSign  = mouseYVal >= 0 ? 1 : -1;
+
+									// with a focus bias, we will never cross zero when prox testing
+									// it's either closest towards zero, or closest away from zero
+									if (mouseYValSign == seriesYValSign && (
+										mouseYValSign == 1 ?
+											(bias == 1 ? yVal2 >= mouseYVal : yVal2 <= mouseYVal) :  // >= 0
+											(bias == 1 ? yVal2 <= mouseYVal : yVal2 >= mouseYVal)    //  < 0
+									)) {
+										closestDist = dist;
+										closestSeries = i;
+									}
+								}
+								else {
+									closestDist = dist;
+									closestSeries = i;
+								}
 							}
 						}
 
@@ -4855,13 +4948,6 @@ var uPlot = (function () {
 							elSize(cursorPts[i], ptWid, ptHgt, centered);
 							elTrans(cursorPts[i], ptLft, ptTop, plotWidCss, plotHgtCss);
 						}
-					}
-
-					if (legend.live) {
-						if (!shouldSetLegend || i == 0 && multiValLegend)
-							continue;
-
-						setLegendValues(i, idx2);
 					}
 				}
 			}

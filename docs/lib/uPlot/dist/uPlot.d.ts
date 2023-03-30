@@ -77,7 +77,7 @@ declare class uPlot {
 	setCursor(opts: {left: number, top: number}, fireHook?: boolean): void;
 
 	/** sets the legend to the values of the specified idx */
-	setLegend(opts: {idx: number}, fireHook?: boolean): void;
+	setLegend(opts: {idx?: number, idxs?: (number | null)[]}, fireHook?: boolean): void;
 
 	// TODO: include other series style opts which are dynamically pulled?
 	/** toggles series visibility or focus */
@@ -154,7 +154,7 @@ declare class uPlot {
 	/** helper function for grabbing proper drawing orientation vars and fns for a plot instance (all dims in canvas pixels) */
 	static orient(u: uPlot, seriesIdx: number, callback: uPlot.OrientCallback): any;
 
-	/** returns a pub/sub instance shared by all plots usng the provided key */
+	/** returns a pub/sub instance shared by all plots using the provided key */
 	static sync(key: string): uPlot.SyncPubSub;
 
 	/** cached devicePixelRatio (faster than reading it from window.devicePixelRatio) */
@@ -474,6 +474,8 @@ declare namespace uPlot {
 			dist?: number; // 0
 			/** when x & y are true, sets an upper drag limit in CSS px for adaptive/unidirectional behavior */
 			uni?: number; // null
+			/** post-drag "click" event proxy, default is to prevent these click events */
+			click?: (self: uPlot, e: MouseEvent) => void;
 		}
 
 		export namespace Sync {
@@ -511,8 +513,16 @@ declare namespace uPlot {
 		}
 
 		export interface Focus {
-			/** minimum cursor proximity to datapoint in CSS pixels for focus activation */
+			/** minimum cursor proximity to datapoint in CSS pixels for focus activation, disabled: < 0, enabled: <= 1e6 */
 			prox: number;
+			/** when non-zero, will only focus next series towards or away from zero */
+			bias?: FocusBias; // 0
+		}
+
+		export const enum FocusBias {
+			None          =  0,
+			AwayFromZero  =  1,
+			TowardsZero   = -1,
 		}
 	}
 
@@ -688,13 +698,18 @@ declare namespace uPlot {
 			stroke?: BarsPathBuilderFacet;
 		}
 
+		/** radii for bar end (at bar's value) and bar start (baseline, zero)  */
+		export type BarsPathBuilderRadii = [endRadius: number, baseRadius: number];
+
+		export type BarsPathBuilderRadius = number | BarsPathBuilderRadii | ((self: uPlot, seriesIdx: number) =>  BarsPathBuilderRadii);
+
 		export interface BarsPathBuilderOpts {
 			align?: -1 | 0 | 1; // 0
 
 			size?: [factor?: number, max?: number, min?: number];
 
 			// corner radius factor of bar size (0 - 0.5)
-			radius?: number; // 0
+			radius?: BarsPathBuilderRadius; // 0
 
 			/** fixed-size gap between bars in CSS pixels (reduces bar width) */
 			gap?: number;
@@ -809,9 +824,9 @@ declare namespace uPlot {
 
 		export type MinMaxIdxs = [minIdx: number, maxIdx: number];
 
-		export type Value = string | ((self: uPlot, rawValue: number, seriesIdx: number, idx: number) => string | number);
+		export type Value = string | ((self: uPlot, rawValue: number, seriesIdx: number, idx: number | null) => string | number);
 
-		export type Values = (self: uPlot, seriesIdx: number, idx: number) => object;
+		export type Values = (self: uPlot, seriesIdx: number, idx: number | null) => object;
 
 		export type FillTo = number | ((self: uPlot, seriesIdx: number, dataMin: number, dataMax: number) => number);
 
@@ -1003,6 +1018,9 @@ declare namespace uPlot {
 
 		/** font used for axis values */
 		font?: CanvasRenderingContext2D['font'];
+
+		/** font-size multiplier for multi-line axis values (similar to CSS line-height: 1.5em) */
+		lineGap?: number; // 1.5
 
 		/** color of axis label & values */
 		stroke?: Axis.Stroke;
