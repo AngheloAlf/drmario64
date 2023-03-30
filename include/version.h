@@ -18,12 +18,12 @@
  * Version macros
  */
 
-#if defined(VERSION_US) && defined(VERSION_CN)
-#error "Only one version must be defined"
+#if defined(VERSION_US) + defined(VERSION_CN) + defined(VERSION_GW) == 0
+#error "A version must be selected"
 #endif
 
-#if !defined(VERSION_US) && !defined(VERSION_CN)
-#error "A version must be selected"
+#if defined(VERSION_US) + defined(VERSION_CN) + defined(VERSION_GW) != 1
+#error "Only one version must be defined"
 #endif
 
 

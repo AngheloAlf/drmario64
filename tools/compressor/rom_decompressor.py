@@ -14,6 +14,7 @@ import compression_common
 BASEROM_HASHES = {
     "us": "1a7936367413e5d6874abda6d623ad32",
     "cn": "dd291b9c65420fd892107f6c665b7a45",
+    "gw": "697db27690b4f031cf91f28bc445a29f",
 }
 
 
@@ -38,7 +39,7 @@ def romDecompressorMain():
     assert len(inRom) > 0, f"'{inPath}' could not be opened"
 
     romHash = spimdisasm.common.Utils.getStrHash(inRom)
-    assert romHash == BASEROM_HASHES[args.version], f"Baserom's hash differs\n Expected '{BASEROM_HASHES[args.version]}', got {romHash}"
+    assert romHash == BASEROM_HASHES[args.version], f"Baserom's hash differs\n Expected '{BASEROM_HASHES[args.version]}', got '{romHash}'"
 
     sortedSegments = sorted(segmentDict.values())
 

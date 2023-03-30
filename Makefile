@@ -53,12 +53,12 @@ BUILD_DEFINES ?=
 
 ifeq ($(VERSION),us)
 	BUILD_DEFINES   += -DVERSION_US=1
-else
-ifeq ($(VERSION),cn)
+else ifeq ($(VERSION),cn)
 	BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1
+else ifeq ($(VERSION),gw)
+	BUILD_DEFINES   += -DVERSION_GW=1
 else
-$(error Invalid VERSION variable detected. Please use either 'us' or 'cn')
-endif
+$(error Invalid VERSION variable detected. Please use either 'us', 'cn' or 'gw')
 endif
 
 ifeq ($(NON_MATCHING),1)
@@ -86,7 +86,7 @@ ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?),
 $(error Please install or build $(MIPS_BINUTILS_PREFIX))
 endif
 
-ifeq ($(VERSION),us)
+ifeq ($(VERSION),$(filter $(VERSION), us gw))
 COMPILER_DIR    := tools/gcc_kmc/$(DETECTED_OS)/2.7.2
 endif
 ifeq ($(VERSION),cn)
@@ -140,7 +140,7 @@ AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
 C_DEFINES       := -D_LANGUAGE_C
 ENDIAN          := -EB
 
-ifeq ($(VERSION),us)
+ifeq ($(VERSION),$(filter $(VERSION), us gw))
 OPTFLAGS        := -O2
 # OPTFLAGS        += -gdwarf
 MIPS_VERSION    := -mips3

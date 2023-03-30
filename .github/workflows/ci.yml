@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: [us, cn]
+        version: [us, cn, gw]
 
     steps:
     - name: Checkout reposistory
