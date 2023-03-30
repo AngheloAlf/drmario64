@@ -57,8 +57,8 @@
                     let x = codeJson[i]["timestamp"];
                     let y = codeJson[i]["measures"]["all"] / codeJson[i]["measures"]["all/total"] * 100;
 
-                    data[0][i] = x;
-                    data[1][i] = y;
+                    data[0][codeJson.length - i - 1] = x;
+                    data[1][codeJson.length - i - 1] = y;
                 }
 
                 let u1 = new uPlot(prepareChartOpts("Dr. Mario 64 " + version + " decompilation progress", 0.3, [
