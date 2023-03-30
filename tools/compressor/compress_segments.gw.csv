@@ -1,1 +1,2 @@
 segment name,compressed rom offset start,compressed rom offset end,uncompressed hash
+main_segment,0x11BC0,0x50060,62a477824f9a6bafcc3b11e3b234b280

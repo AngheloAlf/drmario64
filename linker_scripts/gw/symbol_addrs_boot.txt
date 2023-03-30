@@ -1,0 +1,11 @@
+entrypoint = 0x80000400;
+
+
+bootproc = 0x80000494;
+
+
+
+
+
+
+gBootThreadStack = 0x8001DA90; // size:0x2000

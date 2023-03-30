@@ -1,8 +1,8 @@
 name: Dr.Mario 64 (Gateway 64 (NTSC))
-sha1: e63b10abfaa37aa8c7f37643d6d4e82fadb511fe
+sha1: 80c80474de1a74d529dc62526585c2a3d082b1e7
 options:
   basename: drmario64
-  target_path: baserom.gw.z64
+  target_path: baserom_uncompressed.gw.z64
   ld_script_path: linker_scripts/gw/drmario64.ld
   base_path: .
   compiler: GCC
@@ -61,9 +61,9 @@ segments:
     start: 0x1000
     vram: 0x80000400
     subsegments:
-      - [0x1000, hasm]
+      - [0x1000, hasm, entry/entry]
 
-  - name: main
+  - name: boot
     type: code
     start: 0x1060
     vram: 0x80000460
@@ -74,7 +74,25 @@ segments:
       - [0xEED0, data]
       - { start: 0x11BB0, type: bss, vram: 0x80010FB0 }
 
-  - type: bin
+  - name: dma_table
+    type: code
     start: 0x11BB0
-    follows_vram: main
+    vram: 0x80029E10
+    follows_vram: boot
+    subsegments:
+      - [0x11BB0, data, dma_table/dma_table]
+
+  - name: main_segment # compressed
+    type: code
+    start: 0x011BC0
+    vram: 0x80029E20
+    follows_vram: dma_table
+    bss_size: 0x717A0
+    subsegments:
+      - [0x011BC0, asm]
+      - [0x06D220, data] # guess
+
+  - type: bin
+    start: 0x09C240
+
   - [0x400000]

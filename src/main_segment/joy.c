@@ -75,7 +75,7 @@ void joyProcCore(void) {
         u16 mask;
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
         u32 mask;
         u16 button = B_800EB4D8[i].button;
 

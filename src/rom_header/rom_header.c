@@ -45,7 +45,7 @@ RomHeader gRomHeader = {
 #elif VERSION_CN
     'L',
 #else
-    '\0'
+    '\0',
 #endif
 
     // checksum1
