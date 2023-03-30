@@ -17,7 +17,10 @@ typedef struct RomHeader {
     /* 0x20 */ char gameName[20];
 
     /* 0x34 */ u32 unk_34;
-    /* 0x38 */ u32 unk_38;
+    /* 0x38 */ u8 unk_38;
+    /* 0x39 */ u8 unk_39;
+    /* 0x3A */ u8 unk_3A;
+    /* 0x3B */ u8 unk_3B;
     /* 0x3C */ char cartridgeId[2];
     /* 0x3E */ char countryCode;
     /* 0x3F */ u8 version;
@@ -40,7 +43,7 @@ RomHeader gRomHeader = {
     // revision
     20,
 // libultraVersion
-#if VERSION_US
+#if VERSION_US || VERSION_GW
     'K',
 #elif VERSION_CN
     'L',
@@ -58,7 +61,7 @@ RomHeader gRomHeader = {
     0x00000000,
 
 // gameName
-#if VERSION_US
+#if VERSION_US || VERSION_GW
     "DR.MARIO 64         ",
 #else
     "",
@@ -66,14 +69,20 @@ RomHeader gRomHeader = {
 
     // unk_34
     0x00000000,
-// unk_38
-#if VERSION_US
-    0x0000004E,
+    // unk_38
+    0,
+    // unk_39
+    0,
+    // unk_3A
+    0,
+// unk_3B
+#if VERSION_US || VERSION_GW
+    'N',
 #else
     0,
 #endif
 // cartridgeId
-#if VERSION_US
+#if VERSION_US || VERSION_GW
     "N6",
 #else
     "",
@@ -81,6 +90,8 @@ RomHeader gRomHeader = {
 // countryCode
 #if VERSION_US
     'E',
+#elif VERSION_GW
+    'G',
 #else
     0,
 #endif

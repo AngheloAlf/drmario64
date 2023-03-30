@@ -49,19 +49,23 @@ options:
   auto_all_sections: []
 segments:
   - name: header
-    type: header
-    start: 0x0
+    type: code
+    start: 0x000000
+    vram: 0x80000000
+    subsegments:
+      - [0x000000, c, rom_header/rom_header]
+      - [0x000000, .data, rom_header/rom_header]
 
   - name: ipl3
     type: bin
-    start: 0x40
+    start: 0x000040
 
   - name: entry
     type: code
-    start: 0x1000
+    start: 0x001000
     vram: 0x80000400
     subsegments:
-      - [0x1000, hasm, entry/entry]
+      - [0x001000, .hasm, ../../src/entry/entry]
 
   - name: boot
     type: code
@@ -70,9 +74,15 @@ segments:
     follows_vram: entry
     bss_size: 0x18E60
     subsegments:
-      - [0x1060, asm]
-      - [0xEED0, data]
-      - { start: 0x11BB0, type: bss, vram: 0x80010FB0 }
+      - [0x001060, asm, boot/001060]
+
+      - [0x00EED0, data, boot/00EED0]
+      - [0x00F480, data, boot/rom_offsets]
+      - [0x00F790, data, boot/00F790]
+
+      - [0x011790, rodata, boot/011790]
+
+      - { start: 0x11BB0, type: bss, vram: 0x80010FB0, name: boot/80010FB0 }
 
   - name: dma_table
     type: code
@@ -89,8 +99,13 @@ segments:
     follows_vram: dma_table
     bss_size: 0x717A0
     subsegments:
-      - [0x011BC0, asm]
-      - [0x06D220, data] # guess
+      - [0x011BC0, asm, main_segment/011BC0]
+
+      - [0x06D220, data, main_segment/06D220] # guess
+
+      - [0x0955E0, rodata, main_segment/0955E0]
+
+      - { start: 0x09C240, type: bss, vram: 0x800B44A0, name: main_segment/800B44A0 }
 
   - type: bin
     start: 0x09C240

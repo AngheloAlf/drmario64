@@ -33,7 +33,7 @@
     .set reorder
 .endm
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 #define LA(dst, address) \
     lui         dst, %hi(address); \
     addiu       dst, dst, %lo(address)
