@@ -924,7 +924,7 @@ struct_800A6F70 *D_800A6F70[] = { D_800A3AD0, D_800A3BD0 };
 /**
  * Original name: static init_dl
  */
-#if ! VERSION_GW
+#if !VERSION_GW
 const Gfx init_dl_135[] = {
 #include "main_segment/font/init_dl_135.gfx.inc.c"
 };
