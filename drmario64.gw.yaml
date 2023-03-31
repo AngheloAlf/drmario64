@@ -222,8 +222,8 @@ segments:
 #       - [0x00E470, asm, libultra/vigetcurrcontext] # c # ambiguous
 #       - [0x00E470, asm, libultra/vigetnextcontext] # c # ambiguous
       - [0x00E480, asm, boot/00E480]
-      - [0x00E4E0, asm, libultra/dp] # asm
-      - [0x00E500, asm, libultra/si] # asm
+      - [0x00E4E0, asm, libultra/dp] # c
+      - [0x00E500, asm, libultra/si] # c
 
       - [0x00E520, asm, boot/00E520]
 
