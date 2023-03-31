@@ -21,7 +21,7 @@ func_800014D0_gw = 0x800014D0; // type:func
 func_80001670_gw = 0x80001670; // type:func
 func_80001D9C_gw = 0x80001D9C; // type:func
 func_80001F04_gw = 0x80001F04; // type:func
-func_80001FE0_gw = 0x80001FE0; // type:func
+expand_gzip = 0x80001FE0; // type:func
 func_80002028_gw = 0x80002028; // type:func
 func_800020B4_gw = 0x800020B4; // type:func
 func_800020F0_gw = 0x800020F0; // type:func
@@ -31,13 +31,13 @@ func_8000221C_gw = 0x8000221C; // type:func
 func_800022F8_gw = 0x800022F8; // type:func
 func_80002350_gw = 0x80002350; // type:func
 DecompressRomToRam = 0x800023D0; // type:func
-func_80002404_gw = 0x80002404; // type:func
-func_80002450_gw = 0x80002450; // type:func
-func_800024F0_gw = 0x800024F0; // type:func
-func_800025A8_gw = 0x800025A8; // type:func
+WrapI = 0x80002404; // type:func
+WrapF = 0x80002450; // type:func
+Gateway_GetHandle = 0x800024F0; // type:func
+Gateway_80002AE8_cn = 0x800025A8; // type:func
 
 func_8000D920_gw = 0x8000D920; // type:func
-func_8000D9A8_gw = 0x8000D9A8; // type:func
+fmod = 0x8000D9A8; // type:func
 func_8000DA04_gw = 0x8000DA04; // type:func
 func_8000DA80_gw = 0x8000DA80; // type:func
 func_8000DB00_gw = 0x8000DB00; // type:func
@@ -78,7 +78,7 @@ storyRomData = 0x8000E880; // size:0x38
 bgRomData = 0x8000E8B8; // size:0xC0
 _romDataTbl = 0x8000E978; // size:0x218
 
-D_8000EB90_gw = 0x8000EB90; //
+sGatewayInitialized = 0x8000EB90; //
 
 D_80010A90_gw = 0x80010A90; // type:u8
 
@@ -98,15 +98,7 @@ sMainStack = 0x80013310; // size:0x2000
 B_80015310_gw = 0x80015310; //
 B_80015328_gw = 0x80015328; //
 B_80015330_gw = 0x80015330; //
-B_80019330_gw = 0x80019330; //
-B_80019334_gw = 0x80019334; // type:s8
-B_80019335_gw = 0x80019335; // type:s8
-B_80019336_gw = 0x80019336; // type:s8
-B_80019337_gw = 0x80019337; // type:s8
-B_80019338_gw = 0x80019338; // type:s8
-B_80019339_gw = 0x80019339; // type:s8
-B_8001933C_gw = 0x8001933C; //
-B_80019340_gw = 0x80019340; //
+sGatewayHandle = 0x80019330; // size:0x74
 
 B_800193B0_gw = 0x800193B0; //
 B_8001A560_gw = 0x8001A560; //

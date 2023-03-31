@@ -76,14 +76,15 @@ segments:
     bss_size: 0x18E60
     subsegments:
       - [0x001060, c, boot/boot_main]
-      - [0x001220, asm, boot/001220]
+      - [0x001220, asm, boot/1220]
 
       - [0x001370, asm, boot/001370]
       - [0x002BE0, asm, boot/002BE0]
-      - [0x002FD0, asm, boot/002FD0]
-      - [0x0030F0, asm, boot/0030F0]
+      - [0x002FD0, c, boot/util]
 
-      - [0x0031E0, c, boot/rom_offsets]
+      - [0x0030F0, c, boot/rom_offsets]
+
+      - [0x0030F0, c, gateway/003630]
 
       # libultra
       - [0x0031E0, asm, libultra/conteepprobe] # c
@@ -250,7 +251,9 @@ segments:
 
       - [0x00F480, .data, boot/rom_offsets]
 
-      - [0x00F790, data, boot/00F790]
+      - [0x00F790, .data, gateway/003630]
+
+      - [0x00F7A0, data, boot/00F7A0]
 
       - [0x011790, rodata, boot/011790]
       - [0x0117C0, rodata, boot/0117C0]
