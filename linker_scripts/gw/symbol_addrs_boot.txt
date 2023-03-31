@@ -2,14 +2,15 @@
 
 entrypoint = 0x80000400; // type:func
 
-func_80000460_gw = 0x80000460; // type:func
-func_80000468_gw = 0x80000468; // type:func
-func_80000488_gw = 0x80000488; // type:func
+Idle_Nop = 0x80000460; // type:func
+Main_StopThread = 0x80000468; // type:func
+func_80000488 = 0x80000488; // type:func
 bootproc = 0x80000494; // type:func
-func_800004F0_gw = 0x800004F0; // type:func
-func_80000580_gw = 0x80000580; // type:func
+Main_ThreadEntry = 0x800004F0; // type:func
+Idle_ThreadEntry = 0x80000580; // type:func
+
 func_80000620_gw = 0x80000620; // type:func
-func_80000658_gw = 0x80000658; // type:func
+DmaDataRomToRam = 0x80000658; // type:func
 func_80000770_gw = 0x80000770; // type:func
 func_800007AC_gw = 0x800007AC; // type:func
 func_800007C8_gw = 0x800007C8; // type:func
@@ -29,7 +30,7 @@ func_800021F0_gw = 0x800021F0; // type:func
 func_8000221C_gw = 0x8000221C; // type:func
 func_800022F8_gw = 0x800022F8; // type:func
 func_80002350_gw = 0x80002350; // type:func
-func_800023D0_gw = 0x800023D0; // type:func
+DecompressRomToRam = 0x800023D0; // type:func
 func_80002404_gw = 0x80002404; // type:func
 func_80002450_gw = 0x80002450; // type:func
 func_800024F0_gw = 0x800024F0; // type:func
@@ -57,7 +58,7 @@ func_8000E290_gw = 0x8000E290; // type:func
 
 // .data
 
-D_8000E2D0_gw = 0x8000E2D0; //
+D_8000E190 = 0x8000E2D0; //
 D_8000E2E0_gw = 0x8000E2E0; //
 D_8000E2E4_gw = 0x8000E2E4; //
 D_8000E2F0_gw = 0x8000E2F0; //
@@ -90,9 +91,10 @@ RO_DBL_80010FA8_gw = 0x80010FA8; // type:f64
 
 // .bss
 
-B_80010FB0_gw = 0x80010FB0; //
-B_80011160_gw = 0x80011160; //
-B_80013310_gw = 0x80013310; //
+sIdleThread = 0x80010FB0; //
+sMainThread = 0x80011160; //
+sIdleStack = 0x80011310; // size:0x2000
+sMainStack = 0x80013310; // size:0x2000
 B_80015310_gw = 0x80015310; //
 B_80015328_gw = 0x80015328; //
 B_80015330_gw = 0x80015330; //
@@ -145,7 +147,7 @@ B_8001DA16_gw = 0x8001DA16; // type:s8
 B_8001DA17_gw = 0x8001DA17; // type:s8
 B_8001DA18_gw = 0x8001DA18; // type:s8
 gBootThreadStack = 0x8001DA90; // size:0x2000
-B_8001FA90_gw = 0x8001FA90; //
+sPiMgrCmdBuff = 0x8001FA90; //
 
 B_8001FB5C_gw = 0x8001FB5C; //
 B_8001FB60_gw = 0x8001FB60; //
@@ -178,5 +180,5 @@ B_80029DB0_gw = 0x80029DB0; //
 
 B_80029DD0_gw = 0x80029DD0; //
 B_80029DD4_gw = 0x80029DD4; //
-B_80029DD8_gw = 0x80029DD8; //
+sPiMgrCmdQueue = 0x80029DD8; //
 B_80029DF0_gw = 0x80029DF0; //

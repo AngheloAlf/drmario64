@@ -75,7 +75,7 @@ segments:
     follows_vram: entry
     bss_size: 0x18E60
     subsegments:
-      - [0x001060, asm, boot/001060]
+      - [0x001060, c, boot/boot_main]
       - [0x001220, asm, boot/001220]
 
       - [0x001370, asm, boot/001370]
@@ -244,7 +244,9 @@ segments:
       - [0x00EE70, asm, boot/00EE70]
       - [0x00EE90, asm, boot/00EE90]
 
-      - [0x00EED0, data, boot/00EED0]
+      - [0x00EED0, .data, boot/boot_main]
+
+      - [0x00EEE0, data, boot/00EEE0]
 
       - [0x00F480, .data, boot/rom_offsets]
 
