@@ -77,11 +77,18 @@ segments:
     subsegments:
       - [0x001060, asm, boot/001060]
 
+      - [0x001220, asm, boot/001220]
+      - [0x001370, asm, boot/001370]
+      - [0x002BE0, asm, boot/002BE0]
+      - [0x002FD0, asm, boot/002FD0]
+      - [0x0030F0, asm, boot/0030F0]
+
       - [0x0031E0, asm, libultra/conteepprobe] # c
       - [0x003260, asm, libultra/conteeplongwrite] # c
       - [0x003350, asm, libultra/conteeplongread] # c
       - [0x0033C0, asm, libultra/pimgr] # c
       - [0x003550, asm, libultra/epirawdma] # c
+      - [0x003740, asm, boot/003740]
 #       - [0x003740, asm, libultra/epiread] # c # ambiguous
 #       - [0x003740, asm, libultra/epiwrite] # c # ambiguous
       - [0x0037A0, asm, libultra/epidma] # c
@@ -149,6 +156,7 @@ segments:
       - [0x008D00, asm, libultra/timerintr] # c
       - [0x009020, hasm, libultra/probetlb]
       - [0x0090E0, asm, boot/0090E0]
+      - [0x009120, asm, boot/009120]
       - [0x009160, asm, libultra/vimgr] # c
       - [0x0094A0, asm, libultra/visetevent] # c
       - [0x009500, asm, libultra/visetmode] # c
@@ -226,12 +234,25 @@ segments:
       - [0x00E500, asm, libultra/si] # c
 
       - [0x00E520, asm, boot/00E520]
+      - [0x00E700, asm, boot/00E700]
+      - [0x00E940, asm, boot/00E940]
+      - [0x00E9F0, asm, boot/00E9F0]
+      - [0x00ED00, asm, boot/00ED00]
+      - [0x00EE70, asm, boot/00EE70]
+      - [0x00EE90, asm, boot/00EE90]
 
       - [0x00EED0, data, boot/00EED0]
       - [0x00F480, data, boot/rom_offsets]
       - [0x00F790, data, boot/00F790]
 
       - [0x011790, rodata, boot/011790]
+      - [0x0117C0, rodata, boot/0117C0]
+      - [0x011930, rodata, boot/011930]
+      - [0x0119D0, rodata, boot/0119D0]
+      - [0x011A00, rodata, boot/011A00]
+      - [0x011A50, rodata, boot/011A50]
+      - [0x011B10, rodata, boot/011B10]
+      - [0x011BA0, rodata, boot/011BA0]
 
       - { start: 0x11BB0, type: bss, vram: 0x80010FB0, name: boot/80010FB0 }
 
@@ -251,14 +272,58 @@ segments:
     bss_size: 0x717A0
     subsegments:
       - [0x011BC0, asm, main_segment/011BC0]
+      - [0x011E40, asm, main_segment/011E40]
+      - [0x012CC0, asm, main_segment/012CC0]
+      - [0x014540, asm, main_segment/014540]
+      - [0x015990, asm, main_segment/015990]
+      - [0x016350, asm, main_segment/016350]
+      - [0x017060, asm, main_segment/017060]
+      - [0x017330, asm, main_segment/017330]
+      - [0x0255D0, asm, main_segment/0255D0]
+      - [0x025650, asm, main_segment/025650]
+      - [0x026A10, asm, main_segment/026A10]
+      - [0x029230, asm, main_segment/029230]
+      - [0x02E600, asm, main_segment/02E600]
+      - [0x044180, asm, main_segment/044180]
+      - [0x0458B0, asm, main_segment/0458B0]
+      - [0x046AB0, asm, main_segment/046AB0]
+      - [0x048B80, asm, main_segment/048B80]
+      - [0x05A9D0, asm, main_segment/05A9D0]
+      - [0x05F440, asm, main_segment/05F440]
+      - [0x0641E0, asm, main_segment/0641E0]
+      - [0x0647B0, asm, main_segment/0647B0]
+      - [0x065DF0, asm, main_segment/065DF0]
+      - [0x065FA0, asm, main_segment/065FA0]
+      - [0x066DF0, asm, main_segment/066DF0]
+      - [0x0675B0, asm, main_segment/0675B0]
+      - [0x068420, asm, main_segment/068420]
+      - [0x06CBB0, asm, main_segment/06CBB0]
+      - [0x06CD60, asm, main_segment/06CD60]
+      - [0x06D020, asm, main_segment/06D020]
 
       - [0x06D220, data, main_segment/06D220] # guess
 
       - [0x0955E0, rodata, main_segment/0955E0]
+      - [0x095610, rodata, main_segment/095610]
+      - [0x095BB0, rodata, main_segment/095BB0]
+      - [0x095D50, rodata, main_segment/095D50]
+      - [0x096740, rodata, main_segment/096740]
+      - [0x096750, rodata, main_segment/096750]
+      - [0x096810, rodata, main_segment/096810]
+      - [0x096890, rodata, main_segment/096890]
+      - [0x0968E0, rodata, main_segment/0968E0]
+      - [0x098490, rodata, main_segment/098490]
+      - [0x099770, rodata, main_segment/099770]
+      - [0x099F20, rodata, main_segment/099F20]
+      - [0x099F50, rodata, main_segment/099F50]
+      - [0x099F80, rodata, main_segment/099F80]
+      - [0x09A550, rodata, main_segment/09A550]
+      - [0x09A830, rodata, main_segment/09A830]
+      - [0x09C230, rodata, main_segment/09C230]
 
       - { start: 0x09C240, type: bss, vram: 0x800B44A0, name: main_segment/800B44A0 }
 
   - type: bin
     start: 0x09C240
 
-  - [0x400000]
+  - [0x379530]
