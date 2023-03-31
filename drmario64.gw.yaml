@@ -76,13 +76,16 @@ segments:
     bss_size: 0x18E60
     subsegments:
       - [0x001060, asm, boot/001060]
-
       - [0x001220, asm, boot/001220]
+
       - [0x001370, asm, boot/001370]
       - [0x002BE0, asm, boot/002BE0]
       - [0x002FD0, asm, boot/002FD0]
       - [0x0030F0, asm, boot/0030F0]
 
+      - [0x0031E0, c, boot/rom_offsets]
+
+      # libultra
       - [0x0031E0, asm, libultra/conteepprobe] # c
       - [0x003260, asm, libultra/conteeplongwrite] # c
       - [0x003350, asm, libultra/conteeplongread] # c
@@ -242,7 +245,9 @@ segments:
       - [0x00EE90, asm, boot/00EE90]
 
       - [0x00EED0, data, boot/00EED0]
-      - [0x00F480, data, boot/rom_offsets]
+
+      - [0x00F480, .data, boot/rom_offsets]
+
       - [0x00F790, data, boot/00F790]
 
       - [0x011790, rodata, boot/011790]
@@ -323,8 +328,88 @@ segments:
 
       - { start: 0x09C240, type: bss, vram: 0x800B44A0, name: main_segment/800B44A0 }
 
-  - type: bin
+  - name: n64_wave_tables # not compressed
+    type: bin
     start: 0x09C240
+  - name: n64_ptr_tables_v2 # not compressed
+    type: bin
+    start: 0x1B64A0
+  - name: segment_172130 # not compressed
+    type: bin
+    start: 0x1BE9F0
+
+  - name: segment_172D60 # not compressed
+    type: bin
+    start: 0x1BF620
+  - name: segment_1750C0 # not compressed
+    type: bin
+    start: 0x1C1980
+  - name: segment_177420 # not compressed
+    type: bin
+    start: 0x1C3CE0
+  - name: segment_179620 # not compressed
+    type: bin
+    start: 0x1C5EE0
+  - name: segment_17B790 # not compressed
+    type: bin
+    start: 0x1C8050
+  - name: segment_17C1E0 # not compressed
+    type: bin
+    start: 0x1C8AA0
+  - name: segment_17D130 # not compressed
+    type: bin
+    start: 0x1C99F0
+  - name: segment_17E090 # not compressed
+    type: bin
+    start: 0x1CA950
+  - name: segment_181840 # not compressed
+    type: bin
+    start: 0x1CE100
+  - name: segment_184FF0 # not compressed
+    type: bin
+    start: 0x1D18B0
+  - name: segment_186FF0 # not compressed
+    type: bin
+    start: 0x1D38B0
+  - name: segment_188FF0 # not compressed
+    type: bin
+    start: 0x1D58B0
+  - name: segment_189D40 # not compressed
+    type: bin
+    start: 0x1D6600
+  - name: segment_18CB40 # not compressed
+    type: bin
+    start: 0x1D9400
+  - name: segment_18DB90 # not compressed
+    type: bin
+    start: 0x1DA450
+  - name: segment_18F160 # not compressed
+    type: bin
+    start: 0x1DBA20
+  - name: segment_1906E0 # not compressed
+    type: bin
+    start: 0x1DCFA0
+  - name: segment_1911D0 # not compressed
+    type: bin
+    start: 0x1DDA90
+  - name: segment_1936C0 # not compressed
+    type: bin
+    start: 0x1DFF80
+  - name: segment_1937F0 # not compressed
+    type: bin
+    start: 0x1E00B0
+  - name: segment_194070 # not compressed
+    type: bin
+    start: 0x1E0930
+  - name: segment_194150 # not compressed
+    type: bin
+    start: 0x1E0A10
+  - name: segment_194910 # not compressed
+    type: bin
+    start: 0x1E11D0
+  - name: segment_195290 # not compressed
+    type: bin
+    start: 0x1E1B50
 
   - name: segment_game_etc # compressed
     type: bin
