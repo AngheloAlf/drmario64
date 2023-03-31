@@ -74,7 +74,155 @@ segments:
     follows_vram: entry
     bss_size: 0x18E60
     subsegments:
-      - [0x001060, asm, boot/001060]
+      - [0x0031E0, asm, libultra/conteepprobe] # c
+      - [0x003260, asm, libultra/conteeplongwrite] # c
+      - [0x003350, asm, libultra/conteeplongread] # c
+      - [0x0033C0, asm, libultra/pimgr] # c
+      - [0x003550, asm, libultra/epirawdma] # c
+#       - [0x003740, asm, libultra/epiread] # c # ambiguous
+#       - [0x003740, asm, libultra/epiwrite] # c # ambiguous
+      - [0x0037A0, asm, libultra/epidma] # c
+      - [0x003840, asm, libultra/epilinkhandle] # c
+      - [0x003890, asm, libultra/cartrominit] # c
+      - [0x003A10, asm, libultra/devmgr] # c
+      - [0x003DD0, asm, boot/003DD0]
+      - [0x003EC0, asm, libultra/aigetlen] # c
+      - [0x003ED0, asm, libultra/aigetstat] # c
+      - [0x003EE0, asm, libultra/aisetfreq] # c
+      - [0x004000, asm, libultra/aisetnextbuf] # c
+      - [0x0040A0, asm, libultra/env] # c
+      - [0x004D50, asm, libultra/sl] # c
+      - [0x004E00, asm, libultra/heapinit] # c
+      - [0x004E40, asm, libultra/synthesizer] # c
+      - [0x005480, asm, libultra/syndelete] # c
+      - [0x005490, asm, libultra/synaddplayer] # c
+      - [0x0054E0, asm, libultra/synallocvoice] # c
+      - [0x0056C0, asm, libultra/synstopvoice] # c
+      - [0x005740, asm, libultra/synstartvoice] # c
+      - [0x0057E0, asm, libultra/synsetpitch] # c
+      - [0x005870, asm, libultra/synsetvol] # c
+      - [0x005930, asm, libultra/synsetfxmix] # c
+      - [0x0059D0, asm, libultra/synsetpan] # c
+      - [0x005A60, asm, libultra/synallocfx] # c
+      - [0x005B00, hasm, invaldcache]
+      - [0x005BB0, hasm, writebackdcacheall]
+      - [0x005BE0, asm, libultra/contquery] # c
+      - [0x005C80, asm, libultra/contreaddata] # c
+      - [0x005E60, asm, libultra/controller] # c
+      - [0x006170, asm, libultra/contsetch] # c
+      - [0x0061D0, asm, libultra/virtualtophysical] # c
+      - [0x006230, hasm, sqrtf]
+      - [0x006240, asm, libultra/cosf] # c
+      - [0x006390, asm, libultra/ortho] # c
+      - [0x006610, asm, libultra/perspective] # c
+      - [0x006990, asm, libultra/rotaterpy] # c
+      - [0x006CB0, asm, libultra/sinf] # c
+      - [0x006E50, asm, libultra/sins] # c
+      - [0x006EB0, hasm, bcmp]
+      - [0x006FC0, hasm, bcopy]
+      - [0x0072E0, hasm, bzero]
+      - [0x007380, asm, libultra/string] # c
+      - [0x007410, asm, libultra/createmesgqueue] # c
+      - [0x007440, asm, libultra/jammesg] # c
+      - [0x007580, asm, libultra/recvmesg] # c
+      - [0x0076B0, asm, libultra/sendmesg] # c
+      - [0x0077E0, asm, libultra/seteventmesg] # c
+      - [0x007890, asm, libultra/sptask] # c
+      - [0x007AD0, asm, libultra/sptaskyield] # c
+      - [0x007AF0, asm, libultra/sptaskyielded] # c
+      - [0x007B40, asm, libultra/sched] # c
+      - [0x008550, asm, libultra/sirawdma] # c
+      - [0x008600, asm, boot/008600]
+      - [0x0086F0, asm, libultra/createthread] # c
+      - [0x0087C0, asm, libultra/getthreadpri] # c
+      - [0x0087E0, asm, libultra/setthreadpri] # c
+      - [0x0088B0, asm, libultra/startthread] # c
+      - [0x0089D0, asm, libultra/stopthread] # c
+      - [0x008A90, asm, libultra/thread] # c
+      - [0x008AD0, asm, libultra/yieldthread] # c
+      - [0x008B20, asm, libultra/gettime] # c
+      - [0x008BB0, asm, libultra/settime] # c
+      - [0x008BD0, asm, libultra/settimer] # c
+      - [0x008D00, asm, libultra/timerintr] # c
+      - [0x009020, hasm, probetlb]
+      - [0x0090E0, asm, boot/0090E0]
+      - [0x009160, asm, libultra/vimgr] # c
+      - [0x0094A0, asm, libultra/visetevent] # c
+      - [0x009500, asm, libultra/visetmode] # c
+      - [0x009550, asm, libultra/visetspecial] # c
+      - [0x0096C0, asm, libultra/visetyscale] # c
+      - [0x009710, asm, libultra/viswapbuf] # c
+      - [0x009760, asm, libultra/viswapcontext] # c
+      - [0x009A70, asm, libultra/viblack] # c
+      - [0x009AD0, asm, boot/009AD0]
+      - [0x009AE0, asm, libultra/mtxident] # c
+      - [0x009B40, asm, libultra/mtxidentf] # c
+      - [0x009BA0, asm, libultra/mtxf2l] # c
+      - [0x009C20, asm, libultra/mtxl2f] # c
+      - [0x009CA0, asm, libultra/mtxcatf] # c
+      - [0x009DA0, asm, libultra/scale] # c
+      - [0x009E60, asm, libultra/scalef] # c
+      - [0x009EC0, asm, libultra/translate] # c
+      - [0x009FA0, asm, libultra/translatef] # c
+      - [0x00A000, asm, libultra/initialize] # c
+      - [0x00A3A0, asm, libultra/conteepread] # c
+      - [0x00A5C0, asm, libultra/conteepwrite] # c
+      - [0x00A970, hasm, exceptasm]
+      - [0x00B2E0, hasm, interrupt]
+      - [0x00B370, hasm, setintmask]
+      - [0x00B410, asm, libultra/setglobalintmask] # c
+      - [0x00B450, asm, libultra/resetglobalintmask] # c
+      - [0x00B4A0, asm, libultra/pirawdma] # c
+      - [0x00B570, asm, libultra/pigetcmdq] # c
+      - [0x00B590, asm, libultra/epirawread] # c
+      - [0x00B700, asm, libultra/epirawwrite] # c
+      - [0x00B870, asm, libultra/ai] # c
+      - [0x00B890, asm, libultra/drvrnew] # c
+      - [0x00C0C0, asm, libultra/load] # c
+      - [0x00CBD0, asm, libultra/auxbus] # c
+      - [0x00CCE0, asm, libultra/filter] # c
+      - [0x00CD00, asm, libultra/mainbus] # c
+      - [0x00CE70, asm, libultra/resample] # c
+      - [0x00D120, asm, libultra/reverb] # c
+      - [0x00DCC0, asm, libultra/save] # c
+      - [0x00DD90, asm, libultra/heapalloc] # c
+      - [0x00DDE0, asm, libultra/copy] # c # common form
+      - [0x00DE20, hasm, invalicache]
+      - [0x00DEA0, hasm, writebackdcache]
+      - [0x00DF20, asm, libultra/dpsetnextbuf] # c
+      - [0x00DFC0, hasm, getcause]
+      - [0x00DFD0, hasm, getcount]
+      - [0x00DFE0, hasm, getsr]
+      - [0x00DFF0, hasm, setcompare]
+      - [0x00E000, hasm, setfpccsr]
+      - [0x00E010, hasm, setsr]
+      - [0x00E020, hasm, setwatchlo]
+      - [0x00E030, asm, libultra/sp] # c
+      - [0x00E050, asm, libultra/spgetstat] # c
+      - [0x00E060, asm, libultra/spsetstat] # c
+      - [0x00E070, asm, libultra/spsetpc] # c
+      - [0x00E0A0, asm, libultra/sprawdma] # c
+      - [0x00E130, asm, boot/00E130]
+#       - [0x00E130, asm, libultra/sirawread] # c # ambiguous
+#       - [0x00E130, asm, libultra/sprawread] # c # ambiguous
+      - [0x00E180, asm, boot/00E180]
+#       - [0x00E180, asm, libultra/sirawwrite] # c # ambiguous
+#       - [0x00E180, asm, libultra/sprawwrite] # c # ambiguous
+      - [0x00E1D0, asm, libultra/destroythread] # c
+      - [0x00E2B0, hasm, maptlbrdb]
+      - [0x00E310, hasm, unmaptlball]
+      - [0x00E360, asm, libultra/vi] # c
+      - [0x00E470, asm, boot/00E470]
+#       - [0x00E470, asm, libultra/getactivequeue] # c # ambiguous
+#       - [0x00E470, asm, libultra/getcurrfaultthread] # c # ambiguous
+#       - [0x00E470, asm, libultra/pigettype] # c # ambiguous
+#       - [0x00E470, asm, libultra/vigetcurrcontext] # c # ambiguous
+#       - [0x00E470, asm, libultra/vigetnextcontext] # c # ambiguous
+      - [0x00E480, asm, boot/00E480]
+      - [0x00E4E0, asm, libultra/dp] # asm
+      - [0x00E500, asm, libultra/si] # asm
+
+      - [0x00E520, asm, boot/00E520]
 
       - [0x00EED0, data, boot/00EED0]
       - [0x00F480, data, boot/rom_offsets]
