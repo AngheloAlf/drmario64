@@ -75,7 +75,7 @@ segments:
     bss_size: 0x18DE0
     subsegments:
       - [0x001060, c, boot/boot_main]
-      - [0x001220, c, boot/1220]
+      - [0x001220, c, boot/dmadata]
 
       - [0x001320, c, gzip/inflate]
       - [0x002B90, c, gzip/unzip]
@@ -260,7 +260,7 @@ segments:
       - [0x00E9C0, .hasm, ../../src/libkmc/mmuldi3]
 
       - [0x00ED90, .data, boot/boot_main]
-      - [0x00EDA0, .data, boot/1220]
+      - [0x00EDA0, .data, boot/dmadata]
       - [0x00EDB0, data, boot/00EDB0]
 
       - [0x00F340, .data, boot/rom_offsets]

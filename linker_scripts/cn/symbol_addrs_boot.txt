@@ -9,8 +9,8 @@ bootproc = 0x800004A8; // type:func
 Main_ThreadEntry = 0x8000052C; // type:func
 Idle_ThreadEntry = 0x800005E0; // type:func
 
-func_80000690_cn = 0x80000690; // type:func
-DmaDataRomToRam = 0x800006CC; // type:func
+DmaData_80000690_cn = 0x80000690; // type:func
+DmaData_RomToRam = 0x800006CC; // type:func
 
 func_80000820_cn = 0x80000820; // type:func
 func_80000868_cn = 0x80000868; // type:func
@@ -301,7 +301,7 @@ memmove = 0x8000EBA0; // type:func
 
 D_8000E190 = 0x8000EC30; //
 D_8000EC40_cn = 0x8000EC40; //
-D_8000EC44_cn = 0x8000EC44; //
+sDmaDataIsInitialized = 0x8000EC44; //
 D_8000EC50_cn = 0x8000EC50; //
 D_8000EC9C_cn = 0x8000EC9C; //
 D_8000ECDC_cn = 0x8000ECDC; //

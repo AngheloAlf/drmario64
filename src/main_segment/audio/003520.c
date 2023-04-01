@@ -241,7 +241,7 @@ void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize
         mb.dramAddr = (void *)currentVram;
         mb.devAddr = currentRom;
         mb.size = blkSize;
-        osEPiStartDma(func_80000690_cn(), &mb, 0);
+        osEPiStartDma(DmaData_80000690_cn(), &mb, 0);
         currentRom += blkSize;
         remainingSize -= blkSize;
         osRecvMesg(&temp->unk_2C, &msg, OS_MESG_BLOCK);

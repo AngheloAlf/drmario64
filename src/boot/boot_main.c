@@ -36,7 +36,7 @@ void bootproc(void) {
 void Main_ThreadEntry(void *arg) {
     romoffset_t mainSegmentStart;
 
-    DmaDataRomToRam(SEGMENT_ROM_START(dma_table), &gMainSegmentDmaInfo, SEGMENT_ROM_SIZE(dma_table));
+    DmaData_RomToRam(SEGMENT_ROM_START(dma_table), &gMainSegmentDmaInfo, SEGMENT_ROM_SIZE(dma_table));
 
     mainSegmentStart = SEGMENT_ROM_START(main_segment);
 

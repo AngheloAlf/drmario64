@@ -10,7 +10,7 @@
 
 // data
 
-extern s8 D_8000E1A0;
+extern s8 sDmaDataNeedsInitialization;
 // extern UNK_TYPE D_8000E1B0;
 // extern UNK_TYPE D_8000E1FC;
 // extern UNK_TYPE D_8000E23C;

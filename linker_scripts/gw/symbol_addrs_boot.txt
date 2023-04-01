@@ -9,8 +9,8 @@ bootproc = 0x80000494; // type:func
 Main_ThreadEntry = 0x800004F0; // type:func
 Idle_ThreadEntry = 0x80000580; // type:func
 
-func_80000620_gw = 0x80000620; // type:func
-DmaDataRomToRam = 0x80000658; // type:func
+DmaData_80000690_cn = 0x80000620; // type:func
+DmaData_RomToRam = 0x80000658; // type:func
 func_80000770_gw = 0x80000770; // type:func
 func_800007AC_gw = 0x800007AC; // type:func
 func_800007C8_gw = 0x800007C8; // type:func
@@ -60,7 +60,7 @@ func_8000E290_gw = 0x8000E290; // type:func
 
 D_8000E190 = 0x8000E2D0; //
 D_8000E2E0_gw = 0x8000E2E0; //
-D_8000E2E4_gw = 0x8000E2E4; //
+sDmaDataIsInitialized = 0x8000E2E4; //
 D_8000E2F0_gw = 0x8000E2F0; //
 D_8000E33C_gw = 0x8000E33C; //
 D_8000E37C_gw = 0x8000E37C; //
@@ -95,8 +95,8 @@ sIdleThread = 0x80010FB0; //
 sMainThread = 0x80011160; //
 sIdleStack = 0x80011310; // size:0x2000
 sMainStack = 0x80013310; // size:0x2000
-B_80015310_gw = 0x80015310; //
-B_80015328_gw = 0x80015328; //
+B_800151C0 = 0x80015310; //
+B_800151D8 = 0x80015328; //
 B_80015330_gw = 0x80015330; //
 sGatewayHandle = 0x80019330; // size:0x74
 

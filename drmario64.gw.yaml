@@ -76,7 +76,7 @@ segments:
     bss_size: 0x18E60
     subsegments:
       - [0x001060, c, boot/boot_main]
-      - [0x001220, asm, boot/1220]
+      - [0x001220, c, boot/dmadata]
 
       - [0x001370, asm, boot/001370]
       - [0x002BE0, asm, boot/002BE0]
@@ -246,8 +246,9 @@ segments:
       - [0x00EE90, asm, boot/00EE90]
 
       - [0x00EED0, .data, boot/boot_main]
+      - [0x00EEE0, .data, boot/dmadata]
 
-      - [0x00EEE0, data, boot/00EEE0]
+      - [0x00EEF0, data, boot/00EEF0]
 
       - [0x00F480, .data, boot/rom_offsets]
 
