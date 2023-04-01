@@ -22,12 +22,12 @@ bool sDmaDataIsInitialized = false;
 #define DMADATA_SET_INITIALIZED sDmaDataIsInitialized = true
 
 #define DMADATA_COPY_BLOCK(mb, currentRom, currentVram, blkSize) \
-        (mb)->hdr.pri = OS_MESG_PRI_NORMAL; \
-        (mb)->hdr.retQueue = &B_800151C0; \
-        (mb)->dramAddr = (void *)currentVram; \
-        (mb)->devAddr = currentRom; \
-        (mb)->size = blkSize; \
-        osEPiStartDma(DmaData_80000690_cn(), mb, OS_READ)
+    (mb)->hdr.pri = OS_MESG_PRI_NORMAL;                          \
+    (mb)->hdr.retQueue = &B_800151C0;                            \
+    (mb)->dramAddr = (void *)currentVram;                        \
+    (mb)->devAddr = currentRom;                                  \
+    (mb)->size = blkSize;                                        \
+    osEPiStartDma(DmaData_80000690_cn(), mb, OS_READ)
 #endif
 
 #if VERSION_US
@@ -37,7 +37,7 @@ s8 sDmaDataNeedsInitialization = true;
 #define DMADATA_SET_INITIALIZED sDmaDataNeedsInitialization = false
 
 #define DMADATA_COPY_BLOCK(mb, currentRom, currentVram, blkSize) \
-        osPiStartDma(mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, (void *)currentVram, blkSize, &B_800151C0)
+    osPiStartDma(mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, (void *)currentVram, blkSize, &B_800151C0)
 #endif
 
 void *DmaData_RomToRam(romoffset_t segmentRom, void *segmentVram, size_t segmentSize) {
