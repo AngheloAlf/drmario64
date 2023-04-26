@@ -16,7 +16,7 @@ LEAF(entrypoint)
     bnez    $t1, .clear_bss
 
 .enter_program:
-#if VERSION_US
+#if VERSION_US || VERSION_GW
     LA($t2, bootproc)
 #endif
     LA($sp, gBootThreadStackTop)

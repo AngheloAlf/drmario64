@@ -1,0 +1,5 @@
+Heap_bufferp = 0x80125C40; // size:0xDF3C0
+
+D_80205000 = 0x80205000; // size:0x1B0000
+
+gFramebuffers = 0x803B5000; // size:0x4B000

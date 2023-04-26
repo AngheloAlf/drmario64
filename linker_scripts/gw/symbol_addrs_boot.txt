@@ -1,0 +1,176 @@
+// .text
+
+entrypoint = 0x80000400; // type:func
+
+Idle_Nop = 0x80000460; // type:func
+Main_StopThread = 0x80000468; // type:func
+func_80000488 = 0x80000488; // type:func
+bootproc = 0x80000494; // type:func
+Main_ThreadEntry = 0x800004F0; // type:func
+Idle_ThreadEntry = 0x80000580; // type:func
+
+DmaData_80000690_cn = 0x80000620; // type:func
+DmaData_RomToRam = 0x80000658; // type:func
+func_80000770_gw = 0x80000770; // type:func
+func_800007AC_gw = 0x800007AC; // type:func
+func_800007C8_gw = 0x800007C8; // type:func
+func_80000D5C_gw = 0x80000D5C; // type:func
+func_80000D98_gw = 0x80000D98; // type:func
+func_800012B0_gw = 0x800012B0; // type:func
+func_800014D0_gw = 0x800014D0; // type:func
+func_80001670_gw = 0x80001670; // type:func
+func_80001D9C_gw = 0x80001D9C; // type:func
+func_80001F04_gw = 0x80001F04; // type:func
+expand_gzip = 0x80001FE0; // type:func
+func_80002028_gw = 0x80002028; // type:func
+func_800020B4_gw = 0x800020B4; // type:func
+func_800020F0_gw = 0x800020F0; // type:func
+func_80002198_gw = 0x80002198; // type:func
+func_800021F0_gw = 0x800021F0; // type:func
+func_8000221C_gw = 0x8000221C; // type:func
+func_800022F8_gw = 0x800022F8; // type:func
+func_80002350_gw = 0x80002350; // type:func
+DecompressRomToRam = 0x800023D0; // type:func
+WrapI = 0x80002404; // type:func
+WrapF = 0x80002450; // type:func
+Gateway_GetHandle = 0x800024F0; // type:func
+Gateway_80002AE8_cn = 0x800025A8; // type:func
+
+func_8000D920_gw = 0x8000D920; // type:func
+fmod = 0x8000D9A8; // type:func
+func_8000DA04_gw = 0x8000DA04; // type:func
+func_8000DA80_gw = 0x8000DA80; // type:func
+func_8000DB00_gw = 0x8000DB00; // type:func
+func_8000DC04_gw = 0x8000DC04; // type:func
+func_8000DC4C_gw = 0x8000DC4C; // type:func
+func_8000DC70_gw = 0x8000DC70; // type:func
+func_8000DD10_gw = 0x8000DD10; // type:func
+func_8000DD40_gw = 0x8000DD40; // type:func
+func_8000DDF0_gw = 0x8000DDF0; // type:func
+func_8000DE24_gw = 0x8000DE24; // type:func
+func_8000DE30_gw = 0x8000DE30; // type:func
+func_8000DF04_gw = 0x8000DF04; // type:func
+func_8000DF38_gw = 0x8000DF38; // type:func
+func_8000E034_gw = 0x8000E034; // type:func
+__udivdi3 = 0x8000E270; // type:func
+func_8000E290_gw = 0x8000E290; // type:func
+
+
+// .data
+
+D_8000E190 = 0x8000E2D0; //
+D_8000E2E0_gw = 0x8000E2E0; //
+sDmaDataIsInitialized = 0x8000E2E4; //
+D_8000E2F0_gw = 0x8000E2F0; //
+D_8000E33C_gw = 0x8000E33C; //
+D_8000E37C_gw = 0x8000E37C; //
+D_8000E3BC_gw = 0x8000E3BC; //
+D_8000E3F8_gw = 0x8000E3F8; //
+D_8000E434_gw = 0x8000E434; // type:u16
+D_8000E458_gw = 0x8000E458; //
+D_8000E45C_gw = 0x8000E45C; //
+D_8000E460_gw = 0x8000E460; //
+D_8000E464_gw = 0x8000E464; //
+D_8000E478_gw = 0x8000E478; //
+D_8000E878_gw = 0x8000E878; //
+
+storyRomData = 0x8000E880; // size:0x38
+bgRomData = 0x8000E8B8; // size:0xC0
+_romDataTbl = 0x8000E978; // size:0x218
+
+sGatewayInitialized = 0x8000EB90; //
+
+D_80010A90_gw = 0x80010A90; // type:u8
+
+
+// .rodata
+
+RO_DBL_80010FA0_gw = 0x80010FA0; // type:f64
+RO_DBL_80010FA8_gw = 0x80010FA8; // type:f64
+
+
+// .bss
+
+sIdleThread = 0x80010FB0; //
+sMainThread = 0x80011160; //
+sIdleStack = 0x80011310; // size:0x2000
+sMainStack = 0x80013310; // size:0x2000
+B_800151C0 = 0x80015310; //
+B_800151D8 = 0x80015328; //
+B_80015330_gw = 0x80015330; //
+sGatewayHandle = 0x80019330; // size:0x74
+
+B_800193B0_gw = 0x800193B0; //
+B_8001A560_gw = 0x8001A560; //
+B_8001A578_gw = 0x8001A578; //
+B_8001A580_gw = 0x8001A580; //
+B_8001A590_gw = 0x8001A590; //
+B_8001A594_gw = 0x8001A594; //
+B_8001A5A0_gw = 0x8001A5A0; //
+B_8001A5A8_gw = 0x8001A5A8; //
+B_8001A5AC_gw = 0x8001A5AC; //
+B_8001A5B0_gw = 0x8001A5B0; //
+B_8001A5B8_gw = 0x8001A5B8; //
+B_8001A5BC_gw = 0x8001A5BC; //
+B_8001A5C0_gw = 0x8001A5C0; //
+B_8001A5C8_gw = 0x8001A5C8; //
+B_8001A5CC_gw = 0x8001A5CC; //
+B_8001A5D0_gw = 0x8001A5D0; //
+B_8001A5E0_gw = 0x8001A5E0; //
+B_8001A5E8_gw = 0x8001A5E8; //
+B_8001B7A0_gw = 0x8001B7A0; //
+B_8001B7B8_gw = 0x8001B7B8; //
+B_8001B7D0_gw = 0x8001B7D0; // type:s16
+B_8001B7D2_gw = 0x8001B7D2; // type:s8
+B_8001B7D4_gw = 0x8001B7D4; //
+B_8001B7E8_gw = 0x8001B7E8; // type:s16
+B_8001B7EA_gw = 0x8001B7EA; // type:s8
+B_8001B7EC_gw = 0x8001B7EC; //
+B_8001B800_gw = 0x8001B800; //
+B_8001B810_gw = 0x8001B810; // type:u8
+B_8001D810_gw = 0x8001D810; //
+
+B_8001D9C8_gw = 0x8001D9C8; //
+B_8001D9CC_gw = 0x8001D9CC; //
+
+B_8001DA14_gw = 0x8001DA14; // type:s8
+B_8001DA15_gw = 0x8001DA15; // type:s8
+B_8001DA16_gw = 0x8001DA16; // type:s8
+B_8001DA17_gw = 0x8001DA17; // type:s8
+B_8001DA18_gw = 0x8001DA18; // type:s8
+gBootThreadStack = 0x8001DA90; // size:0x2000
+sPiMgrCmdBuff = 0x8001FA90; //
+
+B_8001FB5C_gw = 0x8001FB5C; //
+B_8001FB60_gw = 0x8001FB60; //
+
+B_8001FB65_gw = 0x8001FB65; //
+B_8001FB68_gw = 0x8001FB68; //
+
+B_8001FB78_gw = 0x8001FB78; //
+
+B_8001FBF4_gw = 0x8001FBF4; //
+
+B_8001FC5C_gw = 0x8001FC5C; // type:s8
+B_8001FC5D_gw = 0x8001FC5D; // type:s8
+B_8001FC5E_gw = 0x8001FC5E; // type:s8
+B_8001FC5F_gw = 0x8001FC5F; // type:s8
+B_8001FC60_gw = 0x8001FC60; // type:s8
+B_8001FCCC_gw = 0x8001FCCC; //
+B_8001FCD0_gw = 0x8001FCD0; //
+
+B_8001FCD5_gw = 0x8001FCD5; //
+
+B_8001FCDC_gw = 0x8001FCDC; //
+B_8001FCE0_gw = 0x8001FCE0; //
+
+B_8001FD04_gw = 0x8001FD04; //
+
+B_80021DAC_gw = 0x80021DAC; //
+B_80021DB0_gw = 0x80021DB0; // type:s8
+B_80029DB0_gw = 0x80029DB0; //
+
+B_80029DD0_gw = 0x80029DD0; //
+B_80029DD4_gw = 0x80029DD4; //
+sPiMgrCmdQueue = 0x80029DD8; //
+B_80029DF0_gw = 0x80029DF0; //

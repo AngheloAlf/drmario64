@@ -1,9 +1,10 @@
-# Dr. Mario 64 [![Build Status]][actions] ![Code us Progress] ![Code cn Progress]
+# Dr. Mario 64 [![Build Status]][actions] ![Code us Progress] ![Code cn Progress] ![Code gw Progress]
 
 [Build Status]: <https://github.com/AngheloAlf/drmario64/actions/workflows/ci.yml/badge.svg>
 [actions]: <https://github.com/AngheloAlf/drmario64/actions/workflows/ci.yml>
 [Code us Progress]: https://img.shields.io/endpoint?label=Code%20us&url=https%3A%2F%2Fprogress.deco.mp%2Fdata%2Fdrmario64%2Fus%2Fcode%2F%3Fmode%3Dshield%26measure%3Dall
 [Code cn Progress]: https://img.shields.io/endpoint?label=Code%20cn&url=https%3A%2F%2Fprogress.deco.mp%2Fdata%2Fdrmario64%2Fcn%2Fcode%2F%3Fmode%3Dshield%26measure%3Dall
+[Code gw Progress]: https://img.shields.io/endpoint?label=Code%20gw&url=https%3A%2F%2Fprogress.deco.mp%2Fdata%2Fdrmario64%2Fgw%2Fcode%2F%3Fmode%3Dshield%26measure%3Dall
 
 Matching decomp of Dr. Mario 64
 
@@ -54,9 +55,9 @@ build/drmario64.us.z64: OK
 
 ### Other versions
 
-This repo also has experimental support for the iQue version of this game too.
+This repository has experimental support for the iQue and the Gateway versions of this game too.
 
-For building this place your ROM in the root of the repo and rename it to `baserom.cn.z64`. Pass `VERSION=cn` to the above make commands.
+To build any of this versions place your ROM in the root of the repo and rename it to `baserom.cn.z64` or `baserom.gw.z64`. Pass `VERSION=cn` or `VERSION=gw` to the above make commands.
 
 ## Contributing
 

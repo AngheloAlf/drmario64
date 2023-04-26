@@ -29,7 +29,7 @@ size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
 
     alignedSize = ALIGN8(blockSize);
     if (alignedSize > 0) {
-        DmaDataRomToRam(arg0->segmentRom, arg1, alignedSize);
+        DmaData_RomToRam(arg0->segmentRom, arg1, alignedSize);
     }
 
     arg0->segmentSize -= alignedSize;

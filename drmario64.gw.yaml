@@ -1,0 +1,621 @@
+name: Dr.Mario 64 (Gateway 64 (NTSC))
+sha1: c71398ec500763b563f065c9eea61d47025b66ba
+options:
+  basename: drmario64
+  target_path: baserom_uncompressed.gw.z64
+  ld_script_path: linker_scripts/gw/drmario64.ld
+  base_path: .
+  compiler: GCC
+  find_file_boundaries: True
+  header_encoding: ASCII
+  platform: n64
+  undefined_funcs_auto_path: linker_scripts/gw/auto/undefined_funcs_auto.ld
+  undefined_syms_auto_path: linker_scripts/gw/auto/undefined_syms_auto.ld
+  symbol_addrs_path:
+    - linker_scripts/gw/symbol_addrs_boot.txt
+    - linker_scripts/gw/symbol_addrs_libultra.txt
+    - linker_scripts/gw/symbol_addrs_dma_table.txt
+    - linker_scripts/gw/symbol_addrs_main_segment.txt
+    - linker_scripts/gw/symbol_addrs_buffers.txt
+    - linker_scripts/gw/ignored_addresses.txt
+  reloc_addrs_path:
+    - relocs/reloc_addrs.gw.txt
+  asm_path: asm/gw
+  src_path: src
+  build_path: build
+  asset_path: bin/gw
+  extensions_path: tools/splat_ext
+  mips_abi_float_regs: o32
+  do_c_func_detection: True
+  o_as_suffix: True
+  gfx_ucode: f3dex2
+  mnemonic_ljust: 12
+  rom_address_padding: True
+  dump_symbols: True
+  generated_c_preamble: |
+    #include "libultra.h"
+    #include "include_asm.h"
+    #include "macros_defines.h"
+    #include "unknown_structs.h"
+  asm_inc_header: ""
+  use_legacy_include_asm: False
+  create_asm_dependencies: True
+  string_encoding: SHIFT-JIS
+  asm_function_macro: glabel
+  asm_jtbl_label_macro: jlabel
+  asm_data_macro: dlabel
+  include_macro_inc: False
+  libultra_symbols: True
+  hardware_regs: True
+  auto_all_sections: []
+segments:
+  - name: header
+    type: code
+    start: 0x000000
+    vram: 0x80000000
+    subsegments:
+      - [0x000000, c, rom_header/rom_header]
+      - [0x000000, .data, rom_header/rom_header]
+
+  - name: ipl3
+    type: bin
+    start: 0x000040
+
+  - name: entry
+    type: code
+    start: 0x001000
+    vram: 0x80000400
+    subsegments:
+      - [0x001000, .hasm, ../../src/entry/entry]
+
+  - name: boot
+    type: code
+    start: 0x1060
+    vram: 0x80000460
+    follows_vram: entry
+    bss_size: 0x18E60
+    subsegments:
+      - [0x001060, c, boot/boot_main]
+      - [0x001220, c, boot/dmadata]
+
+      - [0x001370, asm, boot/001370]
+      - [0x002BE0, asm, boot/002BE0]
+      - [0x002FD0, c, boot/util]
+
+      - [0x0030F0, c, boot/rom_offsets]
+
+      - [0x0030F0, c, gateway/003630]
+
+      # libultra
+      - [0x0031E0, asm, libultra/conteepprobe] # c
+      - [0x003260, asm, libultra/conteeplongwrite] # c
+      - [0x003350, asm, libultra/conteeplongread] # c
+      - [0x0033C0, asm, libultra/pimgr] # c
+      - [0x003550, asm, libultra/epirawdma] # c
+      - [0x003740, asm, boot/003740]
+#       - [0x003740, asm, libultra/epiread] # c # ambiguous
+#       - [0x003740, asm, libultra/epiwrite] # c # ambiguous
+      - [0x0037A0, asm, libultra/epidma] # c
+      - [0x003840, asm, libultra/epilinkhandle] # c
+      - [0x003890, asm, libultra/cartrominit] # c
+      - [0x003A10, asm, libultra/devmgr] # c
+      - [0x003DD0, asm, boot/003DD0]
+      - [0x003EC0, asm, libultra/aigetlen] # c
+      - [0x003ED0, asm, libultra/aigetstat] # c
+      - [0x003EE0, asm, libultra/aisetfreq] # c
+      - [0x004000, asm, libultra/aisetnextbuf] # c
+      - [0x0040A0, asm, libultra/env] # c
+      - [0x004D50, asm, libultra/sl] # c
+      - [0x004E00, asm, libultra/heapinit] # c
+      - [0x004E40, asm, libultra/synthesizer] # c
+      - [0x005480, asm, libultra/syndelete] # c
+      - [0x005490, asm, libultra/synaddplayer] # c
+      - [0x0054E0, asm, libultra/synallocvoice] # c
+      - [0x0056C0, asm, libultra/synstopvoice] # c
+      - [0x005740, asm, libultra/synstartvoice] # c
+      - [0x0057E0, asm, libultra/synsetpitch] # c
+      - [0x005870, asm, libultra/synsetvol] # c
+      - [0x005930, asm, libultra/synsetfxmix] # c
+      - [0x0059D0, asm, libultra/synsetpan] # c
+      - [0x005A60, asm, libultra/synallocfx] # c
+      - [0x005B00, hasm, libultra/invaldcache]
+      - [0x005BB0, hasm, libultra/writebackdcacheall]
+      - [0x005BE0, asm, libultra/contquery] # c
+      - [0x005C80, asm, libultra/contreaddata] # c
+      - [0x005E60, asm, libultra/controller] # c
+      - [0x006170, asm, libultra/contsetch] # c
+      - [0x0061D0, asm, libultra/virtualtophysical] # c
+      - [0x006230, hasm, libultra/sqrtf]
+      - [0x006240, asm, libultra/cosf] # c
+      - [0x006390, asm, libultra/ortho] # c
+      - [0x006610, asm, libultra/perspective] # c
+      - [0x006990, asm, libultra/rotaterpy] # c
+      - [0x006CB0, asm, libultra/sinf] # c
+      - [0x006E50, asm, libultra/sins] # c
+      - [0x006EB0, hasm, libultra/bcmp]
+      - [0x006FC0, hasm, libultra/bcopy]
+      - [0x0072E0, hasm, libultra/bzero]
+      - [0x007380, asm, libultra/string] # c
+      - [0x007410, asm, libultra/createmesgqueue] # c
+      - [0x007440, asm, libultra/jammesg] # c
+      - [0x007580, asm, libultra/recvmesg] # c
+      - [0x0076B0, asm, libultra/sendmesg] # c
+      - [0x0077E0, asm, libultra/seteventmesg] # c
+      - [0x007890, asm, libultra/sptask] # c
+      - [0x007AD0, asm, libultra/sptaskyield] # c
+      - [0x007AF0, asm, libultra/sptaskyielded] # c
+      - [0x007B40, asm, libultra/sched] # c
+      - [0x008550, asm, libultra/sirawdma] # c
+      - [0x008600, asm, boot/008600]
+      - [0x0086F0, asm, libultra/createthread] # c
+      - [0x0087C0, asm, libultra/getthreadpri] # c
+      - [0x0087E0, asm, libultra/setthreadpri] # c
+      - [0x0088B0, asm, libultra/startthread] # c
+      - [0x0089D0, asm, libultra/stopthread] # c
+      - [0x008A90, asm, libultra/thread] # c
+      - [0x008AD0, asm, libultra/yieldthread] # c
+      - [0x008B20, asm, libultra/gettime] # c
+      - [0x008BB0, asm, libultra/settime] # c
+      - [0x008BD0, asm, libultra/settimer] # c
+      - [0x008D00, asm, libultra/timerintr] # c
+      - [0x009020, hasm, libultra/probetlb]
+      - [0x0090E0, asm, boot/0090E0]
+      - [0x009120, asm, boot/009120]
+      - [0x009160, asm, libultra/vimgr] # c
+      - [0x0094A0, asm, libultra/visetevent] # c
+      - [0x009500, asm, libultra/visetmode] # c
+      - [0x009550, asm, libultra/visetspecial] # c
+      - [0x0096C0, asm, libultra/visetyscale] # c
+      - [0x009710, asm, libultra/viswapbuf] # c
+      - [0x009760, asm, libultra/viswapcontext] # c
+      - [0x009A70, asm, libultra/viblack] # c
+      - [0x009AD0, asm, boot/009AD0]
+      - [0x009AE0, asm, libultra/mtxident] # c
+      - [0x009B40, asm, libultra/mtxidentf] # c
+      - [0x009BA0, asm, libultra/mtxf2l] # c
+      - [0x009C20, asm, libultra/mtxl2f] # c
+      - [0x009CA0, asm, libultra/mtxcatf] # c
+      - [0x009DA0, asm, libultra/scale] # c
+      - [0x009E60, asm, libultra/scalef] # c
+      - [0x009EC0, asm, libultra/translate] # c
+      - [0x009FA0, asm, libultra/translatef] # c
+      - [0x00A000, asm, libultra/initialize] # c
+      - [0x00A3A0, asm, libultra/conteepread] # c
+      - [0x00A5C0, asm, libultra/conteepwrite] # c
+      - [0x00A970, hasm, libultra/exceptasm]
+      - [0x00B2E0, hasm, libultra/interrupt]
+      - [0x00B370, hasm, libultra/setintmask]
+      - [0x00B410, asm, libultra/setglobalintmask] # c
+      - [0x00B450, asm, libultra/resetglobalintmask] # c
+      - [0x00B4A0, asm, libultra/pirawdma] # c
+      - [0x00B570, asm, libultra/pigetcmdq] # c
+      - [0x00B590, asm, libultra/epirawread] # c
+      - [0x00B700, asm, libultra/epirawwrite] # c
+      - [0x00B870, asm, libultra/ai] # c
+      - [0x00B890, asm, libultra/drvrnew] # c
+      - [0x00C0C0, asm, libultra/load] # c
+      - [0x00CBD0, asm, libultra/auxbus] # c
+      - [0x00CCE0, asm, libultra/filter] # c
+      - [0x00CD00, asm, libultra/mainbus] # c
+      - [0x00CE70, asm, libultra/resample] # c
+      - [0x00D120, asm, libultra/reverb] # c
+      - [0x00DCC0, asm, libultra/save] # c
+      - [0x00DD90, asm, libultra/heapalloc] # c
+      - [0x00DDE0, asm, libultra/copy] # c # common form
+      - [0x00DE20, hasm, libultra/invalicache]
+      - [0x00DEA0, hasm, libultra/writebackdcache]
+      - [0x00DF20, asm, libultra/dpsetnextbuf] # c
+      - [0x00DFC0, hasm, libultra/getcause]
+      - [0x00DFD0, hasm, libultra/getcount]
+      - [0x00DFE0, hasm, libultra/getsr]
+      - [0x00DFF0, hasm, libultra/setcompare]
+      - [0x00E000, hasm, libultra/setfpccsr]
+      - [0x00E010, hasm, libultra/setsr]
+      - [0x00E020, hasm, libultra/setwatchlo]
+      - [0x00E030, asm, libultra/sp] # c
+      - [0x00E050, asm, libultra/spgetstat] # c
+      - [0x00E060, asm, libultra/spsetstat] # c
+      - [0x00E070, asm, libultra/spsetpc] # c
+      - [0x00E0A0, asm, libultra/sprawdma] # c
+      - [0x00E130, asm, boot/00E130]
+#       - [0x00E130, asm, libultra/sirawread] # c # ambiguous
+#       - [0x00E130, asm, libultra/sprawread] # c # ambiguous
+      - [0x00E180, asm, boot/00E180]
+#       - [0x00E180, asm, libultra/sirawwrite] # c # ambiguous
+#       - [0x00E180, asm, libultra/sprawwrite] # c # ambiguous
+      - [0x00E1D0, asm, libultra/destroythread] # c
+      - [0x00E2B0, hasm, libultra/maptlbrdb]
+      - [0x00E310, hasm, libultra/unmaptlball]
+      - [0x00E360, asm, libultra/vi] # c
+      - [0x00E470, asm, boot/00E470]
+#       - [0x00E470, asm, libultra/getactivequeue] # c # ambiguous
+#       - [0x00E470, asm, libultra/getcurrfaultthread] # c # ambiguous
+#       - [0x00E470, asm, libultra/pigettype] # c # ambiguous
+#       - [0x00E470, asm, libultra/vigetcurrcontext] # c # ambiguous
+#       - [0x00E470, asm, libultra/vigetnextcontext] # c # ambiguous
+      - [0x00E480, asm, boot/00E480]
+      - [0x00E4E0, asm, libultra/dp] # c
+      - [0x00E500, asm, libultra/si] # c
+
+      - [0x00E520, asm, boot/00E520]
+      - [0x00E700, asm, boot/00E700]
+      - [0x00E940, asm, boot/00E940]
+      - [0x00E9F0, asm, boot/00E9F0]
+      - [0x00ED00, asm, boot/00ED00]
+      - [0x00EE70, asm, boot/00EE70]
+      - [0x00EE90, asm, boot/00EE90]
+
+      - [0x00EED0, .data, boot/boot_main]
+      - [0x00EEE0, .data, boot/dmadata]
+
+      - [0x00EEF0, data, boot/00EEF0]
+
+      - [0x00F480, .data, boot/rom_offsets]
+
+      - [0x00F790, .data, gateway/003630]
+
+      - [0x00F7A0, data, boot/00F7A0]
+
+      - [0x011790, rodata, boot/011790]
+      - [0x0117C0, rodata, boot/0117C0]
+      - [0x011930, rodata, boot/011930]
+      - [0x0119D0, rodata, boot/0119D0]
+      - [0x011A00, rodata, boot/011A00]
+      - [0x011A50, rodata, boot/011A50]
+      - [0x011B10, rodata, boot/011B10]
+      - [0x011BA0, rodata, boot/011BA0]
+
+      - { start: 0x11BB0, type: bss, vram: 0x80010FB0, name: boot/80010FB0 }
+
+  - name: dma_table
+    type: code
+    start: 0x11BB0
+    vram: 0x80029E10
+    follows_vram: boot
+    subsegments:
+      - [0x11BB0, data, dma_table/dma_table]
+
+  - name: main_segment # compressed
+    type: code
+    start: 0x011BC0
+    vram: 0x80029E20
+    follows_vram: dma_table
+    bss_size: 0x717A0
+    subsegments:
+      - [0x011BC0, asm, main_segment/011BC0]
+      - [0x011E40, asm, main_segment/011E40]
+      - [0x012CC0, asm, main_segment/012CC0]
+      - [0x014540, asm, main_segment/014540]
+      - [0x015990, asm, main_segment/015990]
+      - [0x016350, asm, main_segment/016350]
+      - [0x017060, asm, main_segment/017060]
+      - [0x017330, asm, main_segment/017330]
+      - [0x0255D0, asm, main_segment/0255D0]
+      - [0x025650, asm, main_segment/025650]
+      - [0x026A10, asm, main_segment/026A10]
+      - [0x029230, asm, main_segment/029230]
+      - [0x02E600, asm, main_segment/02E600]
+      - [0x044180, asm, main_segment/044180]
+      - [0x0458B0, asm, main_segment/0458B0]
+      - [0x046AB0, asm, main_segment/046AB0]
+      - [0x048B80, asm, main_segment/048B80]
+      - [0x05A9D0, asm, main_segment/05A9D0]
+      - [0x05F440, asm, main_segment/05F440]
+      - [0x0641E0, asm, main_segment/0641E0]
+      - [0x0647B0, asm, main_segment/0647B0]
+      - [0x065DF0, asm, main_segment/065DF0]
+      - [0x065FA0, asm, main_segment/065FA0]
+      - [0x066DF0, asm, main_segment/066DF0]
+      - [0x0675B0, asm, main_segment/0675B0]
+      - [0x068420, asm, main_segment/068420]
+      - [0x06CBB0, asm, main_segment/06CBB0]
+      - [0x06CD60, asm, main_segment/06CD60]
+      - [0x06D020, asm, main_segment/06D020]
+
+      - [0x06D220, data, main_segment/06D220] # guess
+      - [0x070D50, data, main_segment/070D50]
+
+      - [0x0955E0, rodata, main_segment/0955E0]
+      - [0x095610, rodata, main_segment/095610]
+      - [0x095BB0, rodata, main_segment/095BB0]
+      - [0x095D50, rodata, main_segment/095D50]
+      - [0x096740, rodata, main_segment/096740]
+      - [0x096750, rodata, main_segment/096750]
+      - [0x096810, rodata, main_segment/096810]
+      - [0x096890, rodata, main_segment/096890]
+      - [0x0968E0, rodata, main_segment/0968E0]
+      - [0x098490, rodata, main_segment/098490]
+      - [0x099770, rodata, main_segment/099770]
+      - [0x099F20, rodata, main_segment/099F20]
+      - [0x099F50, rodata, main_segment/099F50]
+      - [0x099F80, rodata, main_segment/099F80]
+      - [0x09A550, rodata, main_segment/09A550]
+      - [0x09A830, rodata, main_segment/09A830]
+      - [0x09C230, rodata, main_segment/09C230]
+
+      - { start: 0x09C240, type: bss, vram: 0x800B44A0, name: main_segment/800B44A0 }
+
+  - name: buffer1
+    type: code
+    start: 0x09C240
+    vram: 0x80125C40
+    follows_vram: main_segment
+    bss_size: 0xDF3C0
+    subsegments:
+      - [0x09C240, c, buffers/buffer1]
+      - { start: 0x09C240, type: .bss, vram: 0x80125C40, name: buffers/buffer1 }
+
+  - name: buffer2
+    type: code
+    start: 0x09C240
+    bss_size: 0x1B0000
+    vram: 0x80205000
+    subsegments:
+      - [0x09C240, c, buffers/buffer2]
+      - { start: 0x09C240, type: .bss, vram: 0x80205000, name: buffers/buffer2 }
+
+  - name: framebuffer
+    type: code
+    start: 0x09C240
+    bss_size: 0x4B000 # SCREEN_WIDTH * SCREEN_HEIGHT * 2 * sizeof(u16)
+    vram: 0x803B5000 # 0x80400000 - bss_size
+    subsegments:
+      - [0x09C240, c, buffers/framebuffer]
+      - { start: 0x09C240, type: .bss, vram: 0x803B5000, name: buffers/framebuffer }
+
+  - name: n64_wave_tables # not compressed
+    type: bin
+    start: 0x09C240
+  - name: n64_ptr_tables_v2 # not compressed
+    type: bin
+    start: 0x1B64A0
+  - name: segment_172130 # not compressed
+    type: bin
+    start: 0x1BE9F0
+
+  - name: segment_172D60 # not compressed
+    type: bin
+    start: 0x1BF620
+  - name: segment_1750C0 # not compressed
+    type: bin
+    start: 0x1C1980
+  - name: segment_177420 # not compressed
+    type: bin
+    start: 0x1C3CE0
+  - name: segment_179620 # not compressed
+    type: bin
+    start: 0x1C5EE0
+  - name: segment_17B790 # not compressed
+    type: bin
+    start: 0x1C8050
+  - name: segment_17C1E0 # not compressed
+    type: bin
+    start: 0x1C8AA0
+  - name: segment_17D130 # not compressed
+    type: bin
+    start: 0x1C99F0
+  - name: segment_17E090 # not compressed
+    type: bin
+    start: 0x1CA950
+  - name: segment_181840 # not compressed
+    type: bin
+    start: 0x1CE100
+  - name: segment_184FF0 # not compressed
+    type: bin
+    start: 0x1D18B0
+  - name: segment_186FF0 # not compressed
+    type: bin
+    start: 0x1D38B0
+  - name: segment_188FF0 # not compressed
+    type: bin
+    start: 0x1D58B0
+  - name: segment_189D40 # not compressed
+    type: bin
+    start: 0x1D6600
+  - name: segment_18CB40 # not compressed
+    type: bin
+    start: 0x1D9400
+  - name: segment_18DB90 # not compressed
+    type: bin
+    start: 0x1DA450
+  - name: segment_18F160 # not compressed
+    type: bin
+    start: 0x1DBA20
+  - name: segment_1906E0 # not compressed
+    type: bin
+    start: 0x1DCFA0
+  - name: segment_1911D0 # not compressed
+    type: bin
+    start: 0x1DDA90
+  - name: segment_1936C0 # not compressed
+    type: bin
+    start: 0x1DFF80
+  - name: segment_1937F0 # not compressed
+    type: bin
+    start: 0x1E00B0
+  - name: segment_194070 # not compressed
+    type: bin
+    start: 0x1E0930
+  - name: segment_194150 # not compressed
+    type: bin
+    start: 0x1E0A10
+  - name: segment_194910 # not compressed
+    type: bin
+    start: 0x1E11D0
+  - name: segment_195290 # not compressed
+    type: bin
+    start: 0x1E1B50
+
+  - name: segment_game_etc # compressed
+    type: bin
+    start: 0x1E1EE0
+  - name: segment_menu_bg # compressed
+    type: bin
+    start: 0x208880
+  - name: segment_menu_bg2 # compressed
+    type: bin
+    start: 0x20C310
+  - name: segment_coffee01 # compressed
+    type: bin
+    start: 0x20FDA0
+  - name: segment_title_all # compressed
+    type: bin
+    start: 0x235ED0
+  - name: segment_title_bmp # compressed
+    type: bin
+    start: 0x362FD0
+  - name: segment_waku # compressed
+    type: bin
+    start: 0x365C40
+  - name: segment_waku2 # compressed
+    type: bin
+    start: 0x3791D0
+  - name: segment_story_bg01 # compressed
+    type: bin
+    start: 0x383A80
+  - name: segment_story_bg02 # compressed
+    type: bin
+    start: 0x390490
+  - name: segment_story_bg03 # compressed
+    type: bin
+    start: 0x39CEA0
+  - name: segment_story_bg04 # compressed
+    type: bin
+    start: 0x3A98B0
+  - name: segment_story_bg05 # compressed
+    type: bin
+    start: 0x3B62C0
+  - name: segment_story_bg07 # compressed
+    type: bin
+    start: 0x3C2CD0
+  - name: segment_story_bg08 # compressed
+    type: bin
+    start: 0x3CF6E0
+  - name: segment_story_bg09 # compressed
+    type: bin
+    start: 0x3DC0F0
+  - name: segment_story_bg10 # compressed
+    type: bin
+    start: 0x3E8B00
+  - name: segment_story_bg11 # compressed
+    type: bin
+    start: 0x3F5510
+  - name: segment_menu_char # compressed
+    type: bin
+    start: 0x401F20
+  - name: segment_menu_common # compressed
+    type: bin
+    start: 0x412B00
+  - name: segment_menu_level # compressed
+    type: bin
+    start: 0x43B3D0
+  - name: segment_menu_main # compressed
+    type: bin
+    start: 0x454BE0
+  - name: segment_menu_name # compressed
+    type: bin
+    start: 0x47B4F0
+  - name: segment_menu_p2 # compressed
+    type: bin
+    start: 0x487310
+  - name: segment_menu_p4 # compressed
+    type: bin
+    start: 0x4911B0
+  - name: segment_menu_rank # compressed
+    type: bin
+    start: 0x49EC70
+  - name: segment_menu_setup # compressed
+    type: bin
+    start: 0x4A7F80
+  - name: segment_menu_story # compressed
+    type: bin
+    start: 0x4C4640
+  - name: segment_menu_cont # compressed
+    type: bin
+    start: 0x4DF880
+  - name: segment_menu_kasa # compressed
+    type: bin
+    start: 0x4E7D40
+  - name: segment_game_al # compressed
+    type: bin
+    start: 0x4F6350
+  - name: segment_game_p1 # compressed
+    type: bin
+    start: 0x505810
+  - name: segment_game_p2 # compressed
+    type: bin
+    start: 0x516ED0
+  - name: segment_game_p4 # compressed
+    type: bin
+    start: 0x529180
+  - name: segment_game_ls # compressed
+    type: bin
+    start: 0x5480F0
+  - name: segment_game_item # compressed
+    type: bin
+    start: 0x57B4F0
+  - name: segment_anime_a # compressed
+    type: bin
+    start: 0x57CF30
+  - name: segment_anime_b # compressed
+    type: bin
+    start: 0x58D2A0
+  - name: segment_anime_c # compressed
+    type: bin
+    start: 0x5933A0
+  - name: segment_anime_d # compressed
+    type: bin
+    start: 0x5A4390
+  - name: segment_anime_e # compressed
+    type: bin
+    start: 0x5ACDC0
+  - name: segment_anime_f # compressed
+    type: bin
+    start: 0x5B6E70
+  - name: segment_anime_g # compressed
+    type: bin
+    start: 0x5BDAC0
+  - name: segment_anime_h # compressed
+    type: bin
+    start: 0x5CAEF0
+  - name: segment_anime_i # compressed
+    type: bin
+    start: 0x5D0630
+  - name: segment_anime_j # compressed
+    type: bin
+    start: 0x5D99D0
+  - name: segment_anime_k # compressed
+    type: bin
+    start: 0x5E4600
+  - name: segment_anime_l # compressed
+    type: bin
+    start: 0x5E97B0
+  - name: segment_anime_m # compressed
+    type: bin
+    start: 0x5F6480
+  - name: segment_anime_n # compressed
+    type: bin
+    start: 0x5FCFE0
+  - name: segment_anime_o # compressed
+    type: bin
+    start: 0x605F60
+  - name: segment_anime_mario # compressed
+    type: bin
+    start: 0x60CAC0
+  - name: segment_anime_virus_b # compressed
+    type: bin
+    start: 0x63A250
+  - name: segment_anime_virus_r # compressed
+    type: bin
+    start: 0x63BE40
+  - name: segment_anime_virus_y # compressed
+    type: bin
+    start: 0x63D3E0
+  - name: segment_anime_smog # compressed
+    type: bin
+    start: 0x63E980
+  - name: segment_tutorial_data # compressed
+    type: bin
+    start: 0x63FCC0
+
+  - [0x647C50]

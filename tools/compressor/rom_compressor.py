@@ -93,7 +93,7 @@ def romCompressorMain():
                                     relsOffetsToApply[relRomOffset] = (symName, rType)
 
             if entry.type != spimdisasm.elf32.Elf32SectionHeaderType.PROGBITS.value:
-                printDebug(f"Skiping segment {sectionEntryName} because it isn't PROGBITS")
+                printDebug(f"Skiping segment '{sectionEntryName}' because it isn't PROGBITS")
                 continue
 
             segmentOffsets[sectionEntryName] = (offset, entry.addr)
@@ -102,17 +102,18 @@ def romCompressorMain():
             #print(romStartSymbol)
             offsetStart = sizeWrote
 
-            printDebug(f"Segment {sectionEntryName}: offset=0x{offset:06X} entry.offset=0x{entry.offset:06X} entry.size=0x{entry.size:06X}")
+            printDebug(f"Segment '{sectionEntryName}': offset=0x{offset:06X} entry.offset=0x{entry.offset:06X} entry.size=0x{entry.size:06X}")
 
             segmentEntry = segmentDict.get(sectionEntryName)
             segmentBytearray = inRom[offset:offset+entry.size]
 
-            assert len(segmentBytearray) == entry.size, f"{sectionEntryName}: 0x{len(segmentBytearray):X} 0x{entry.size:X}"
+            assert len(segmentBytearray) == entry.size, f"'{sectionEntryName}': 0x{len(segmentBytearray):X} 0x{entry.size:X}"
 
             if segmentEntry is None:
                 # write as-is
-                outRom.write(segmentBytearray)
                 offsetEnd = entry.size + offsetStart
+                printDebug(f"Writing as is the segment '{sectionEntryName}' at rom offset 0x{offsetStart:06X} to 0x{offsetEnd:06X}.")
+                outRom.write(segmentBytearray)
                 sizeWrote += entry.size
             else:
                 # check if uncompressed segment matches
@@ -122,21 +123,22 @@ def romCompressorMain():
                     compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
                     assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
                 else:
-                    spimdisasm.common.Utils.eprint(f"Segment {sectionEntryName} doesn't match, should have hash '{segmentEntry.uncompressedHash}' but has hash '{uncompressedHash}'.")
-                    printDebug(f"Segment {sectionEntryName} is at offset 0x{offset:06X} and has a size of 0x{entry.size:06X} (ends at offset 0x{offset+entry.size:06X}).")
+                    spimdisasm.common.Utils.eprint(f"Segment '{sectionEntryName}' doesn't match, should have hash '{segmentEntry.uncompressedHash}' but has hash '{uncompressedHash}'.")
+                    printDebug(f"Segment '{sectionEntryName}' is at offset 0x{offset:06X} and has a size of 0x{entry.size:06X} (ends at offset 0x{offset+entry.size:06X}).")
                     spimdisasm.common.Utils.eprint(f"Compressing...\n")
                     compressedBytearray = compression_common.compressZlib(segmentBytearray)
 
-                    # with open(f"{sectionEntryName}.bin", "wb") as compressedBinFile:
+                    # with open(f"'{sectionEntryName}'.bin", "wb") as compressedBinFile:
                     #     compressedBinFile.write(compressedBytearray)
 
                 # Align to a 0x10 boundary
                 while len(compressedBytearray) % 0x10 != 0:
                     compressedBytearray.append(0)
 
-                outRom.write(compressedBytearray)
-
                 offsetEnd = offsetStart + len(compressedBytearray)
+                outRom.write(compressedBytearray)
+                printDebug(f"Writing compressed the segment '{sectionEntryName}' at rom offset 0x{offsetStart:06X} to 0x{offsetEnd:06X}.")
+
                 sizeWrote += len(compressedBytearray)
 
             romOffsetValues[romStartSymbol] = offsetStart

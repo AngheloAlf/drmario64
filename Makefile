@@ -53,12 +53,12 @@ BUILD_DEFINES ?=
 
 ifeq ($(VERSION),us)
 	BUILD_DEFINES   += -DVERSION_US=1
-else
-ifeq ($(VERSION),cn)
+else ifeq ($(VERSION),cn)
 	BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1
+else ifeq ($(VERSION),gw)
+	BUILD_DEFINES   += -DVERSION_GW=1
 else
-$(error Invalid VERSION variable detected. Please use either 'us' or 'cn')
-endif
+$(error Invalid VERSION variable detected. Please use either 'us', 'cn' or 'gw')
 endif
 
 ifeq ($(NON_MATCHING),1)
@@ -86,7 +86,7 @@ ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?),
 $(error Please install or build $(MIPS_BINUTILS_PREFIX))
 endif
 
-ifeq ($(VERSION),us)
+ifeq ($(VERSION),$(filter $(VERSION), us gw))
 COMPILER_DIR    := tools/gcc_kmc/$(DETECTED_OS)/2.7.2
 endif
 ifeq ($(VERSION),cn)
@@ -116,6 +116,11 @@ IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/incl
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized
+
+ifeq ($(VERSION), gw)
+CHECK_WARNINGS += -Wno-unused-variable -Wno-unused-but-set-variable
+endif
+
 # Have CC_CHECK pretend to be a MIPS compiler
 MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZPTR=32
 ifneq ($(RUN_CC_CHECK),0)
@@ -140,7 +145,7 @@ AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
 C_DEFINES       := -D_LANGUAGE_C
 ENDIAN          := -EB
 
-ifeq ($(VERSION),us)
+ifeq ($(VERSION),$(filter $(VERSION), us gw))
 OPTFLAGS        := -O2
 # OPTFLAGS        += -gdwarf
 MIPS_VERSION    := -mips3

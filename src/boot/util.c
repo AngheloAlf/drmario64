@@ -14,7 +14,7 @@ void *DecompressRomToRam(romoffset_t segmentRom, void *dstAddr, size_t segmentSi
 #else
     // The simplest way to allow booting a ROM with uncompressed segments is to just DMA the segment instead of actually
     // decompressing it
-    return (void *)ALIGN8((uintptr_t)DmaDataRomToRam(segmentRom, dstAddr, segmentSize));
+    return (void *)ALIGN8((uintptr_t)DmaData_RomToRam(segmentRom, dstAddr, segmentSize));
 #endif
 }
 

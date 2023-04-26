@@ -76,7 +76,7 @@ segments:
     bss_size: 0x18ED0
     subsegments:
       - [0x001060, c, boot/boot_main]
-      - [0x001290, c, boot/1220]
+      - [0x001290, c, boot/dmadata]
 
       - [0x001420, c, gzip/inflate]
       - [0x003080, c, gzip/unzip]
@@ -246,7 +246,7 @@ segments:
 
       # data
       - [0x00F830, .data, boot/boot_main]
-      - [0x00F840, .data, boot/1220]
+      - [0x00F840, .data, boot/dmadata]
 
       - [0x00F850, data, boot/00F850]
 

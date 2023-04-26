@@ -7,7 +7,7 @@ bootproc = 0x80000494;
 Main_ThreadEntry = 0x800004F0;
 Idle_ThreadEntry = 0x80000580;
 
-DmaDataRomToRam = 0x80000620;
+DmaData_RomToRam = 0x80000620;
 func_80000720 = 0x80000720;
 func_8000075C = 0x8000075C;
 func_80000778 = 0x80000778;
@@ -295,7 +295,7 @@ __umoddi3 = 0x8000E150; // type:func
 // data
 
 D_8000E190 = 0x8000E190;
-D_8000E1A0 = 0x8000E1A0; // size:0x1
+sDmaDataNeedsInitialization = 0x8000E1A0; // size:0x1
 D_8000E1B0 = 0x8000E1B0;
 D_8000E1FC = 0x8000E1FC;
 D_8000E23C = 0x8000E23C;
