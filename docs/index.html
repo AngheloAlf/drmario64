@@ -72,9 +72,8 @@
 
             const queryEveryVersion = async () => {
                 queryFrogressJson("us");
-                // This forces the us graph to appear above the cn one
-                await new Promise(r => setTimeout(r, 1000)); // 1 second
                 queryFrogressJson("cn");
+                queryFrogressJson("gw");
             }
 
             queryEveryVersion();

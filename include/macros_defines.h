@@ -5,7 +5,7 @@
 
 #if defined(_MSC_VER)
 #  define UNREACHABLE __assume(0)
-#elif __IS_KMC__ || __IS_EGCS__
+#elif __IS_OLD_COMP__
 #  define UNREACHABLE
 #elif defined(__GNUC__) || defined(__clang__)
 #  define UNREACHABLE __builtin_unreachable()

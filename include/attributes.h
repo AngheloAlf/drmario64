@@ -30,7 +30,7 @@
 #ifndef FALLTHROUGH
     #if __STDC_VERSION__ >= 202000L
         #define FALLTHROUGH [[fallthrough]]
-    #elif __IS_KMC__ || __IS_EGCS__
+    #elif __IS_OLD_COMP__
         #define FALLTHROUGH
     #else
         #define FALLTHROUGH __attribute__((fallthrough))
