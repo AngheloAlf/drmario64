@@ -20,6 +20,9 @@
 #include "replay.h"
 #include "game_etc.h"
 
+// TODO: Just to avoid warnings when building GW
+#if VERSION_US || VERSION_CN
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800601F0);
 #endif
@@ -5510,3 +5513,5 @@ void graphic_techmes(void) {
     gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx),
                  0, OS_SC_SWAPBUFFER);
 }
+
+#endif

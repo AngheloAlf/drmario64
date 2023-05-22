@@ -9,6 +9,9 @@
 #include "boot_functions.h"
 #include "PR/sched.h"
 
+// TODO: Just to avoid warnings when building GW
+#if VERSION_US || VERSION_CN
+
 #if VERSION_US
 #ifdef NON_EQUIVALENT
 s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5,
@@ -303,4 +306,6 @@ void func_8002DA48(musTask *musicTask) {
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002DA48);
+#endif
+
 #endif
