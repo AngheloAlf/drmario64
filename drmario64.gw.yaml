@@ -273,7 +273,7 @@ segments:
     vram: 0x80029E10
     follows_vram: boot
     subsegments:
-      - [0x11BB0, data, dma_table/dma_table]
+      - [0x11BB0, .data, dma_table/dma_table]
 
   - name: main_segment # compressed
     type: code
@@ -282,9 +282,10 @@ segments:
     follows_vram: dma_table
     bss_size: 0x717A0
     subsegments:
-      - [0x011BC0, asm, main_segment/011BC0]
+      - [0x011BC0, c, main_segment/main]
       - [0x011E40, asm, main_segment/011E40]
-      - [0x012CC0, asm, main_segment/012CC0]
+      - [0x012CC0, c, main_segment/joy]
+      - [0x013290, asm, main_segment/013290]
       - [0x014540, asm, main_segment/014540]
       - [0x015990, asm, main_segment/015990]
       - [0x016350, asm, main_segment/016350]
@@ -315,7 +316,7 @@ segments:
       - [0x06D220, data, main_segment/06D220] # guess
       - [0x070D50, data, main_segment/070D50]
 
-      - [0x0955E0, rodata, main_segment/0955E0]
+      - [0x0955E0, .rodata, main_segment/main]
       - [0x095610, rodata, main_segment/095610]
       - [0x095BB0, rodata, main_segment/095BB0]
       - [0x095D50, rodata, main_segment/095D50]

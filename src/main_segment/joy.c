@@ -58,8 +58,12 @@ s32 joyInit(s32 arg0 UNUSED) {
 void joyProcCore(void) {
     u16 i;
 
-#if VERSION_CN
-    bool temp_s1 = D_80092F10_cn;
+#if VERSION_GW
+    bool pressingOppositeDirections = false;
+#endif
+
+#if VERSION_CN || VERSION_GW
+    bool temp = D_80092F10_cn;
 
     func_8002BC30_cn(4);
 #endif
@@ -67,6 +71,26 @@ void joyProcCore(void) {
     osContStartReadData(&B_800F3E38);
     osRecvMesg(&B_800F3E38, NULL, OS_MESG_BLOCK);
     osContGetReadData(B_800EB4D8);
+
+#if VERSION_GW
+    for (i = 0; i < MAXCONTROLLERS; i++) {
+        if (CHECK_FLAG_ALL(B_800EB4D8[i].button, U_JPAD | D_JPAD)) {
+            temp = true;
+            pressingOppositeDirections = true;
+        } else if (CHECK_FLAG_ALL(B_800EB4D8[i].button, L_JPAD | R_JPAD)) {
+            temp = false;
+            pressingOppositeDirections = true;
+        }
+    }
+
+    if (pressingOppositeDirections) {
+        for (i = 0; i < MAXCONTROLLERS; i++) {
+            B_800EB4D8[i].button = 0;
+            B_800EB4D8[i].stick_x = 0;
+            B_800EB4D8[i].stick_y = 0;
+        }
+    }
+#endif
 
     for (i = 0; i < ARRAY_COUNT(joycnt); i++) {
         u16 j;
@@ -77,7 +101,7 @@ void joyProcCore(void) {
 
 #if VERSION_US || VERSION_GW
         u32 mask;
-        u16 button = B_800EB4D8[i].button;
+        u32 button = B_800EB4D8[i].button;
 
         gControllerHoldButtons[i] = button;
 
@@ -111,14 +135,14 @@ void joyProcCore(void) {
         gControllerPrevHoldButtons[i] = gControllerHoldButtons[i];
     }
 
-#if VERSION_CN
-    i = !!temp_s1;
+#if VERSION_CN || VERSION_GW
+    i = !!temp;
     if (D_80092F10_cn) {
         i++;
     }
 
-    if (i == true) {
-        D_80092F10_cn = temp_s1;
+    if (i == 1) {
+        D_80092F10_cn = temp;
         Gateway_80002AE8_cn(D_80092F10_cn);
     }
 

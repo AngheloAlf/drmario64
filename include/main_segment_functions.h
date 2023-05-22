@@ -1003,10 +1003,14 @@ void makeScaleMatrix(Mtx *mtx, u32 scale);
 #if VERSION_CN
 void func_8002B8B4_cn(void);
 void func_8002B910_cn();
+#endif
 
+#if VERSION_CN || VERSION_GW
 void func_8002BC30_cn(s32 arg0);
 void func_8002BD04_cn(void);
+#endif
 
+#if VERSION_CN
 void func_8002BD7C_cn(Gfx **gfxP, s32 arg1, s32 arg2);
 #endif
 

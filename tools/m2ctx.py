@@ -42,9 +42,11 @@ def import_c_file(in_file, version: str) -> str:
 
     if version == "us":
         CPP_FLAGS.append("-DVERSION_US=1")
-    if version == "cn":
+    elif version == "cn":
         CPP_FLAGS.append("-DVERSION_CN=1")
         CPP_FLAGS.append("-DBBPLAYER=1")
+    elif version == "gw":
+        CPP_FLAGS.append("-DVERSION_GW=1")
 
     cpp_command = ["gcc", "-E", "-P", "-undef", "-dM", *CPP_FLAGS, in_file]
     cpp_command2 = ["gcc", "-E", "-P", "-undef", *CPP_FLAGS, in_file]
@@ -80,7 +82,7 @@ def main():
         "c_file",
         help="""File from which to create context""",
     )
-    parser.add_argument("-v", "--version", help="Which version should be processed", default="us", choices=["us", "cn"])
+    parser.add_argument("-v", "--version", help="Which version should be processed", default="us", choices=["us", "cn", "gw"])
     args = parser.parse_args()
 
     output = import_c_file(args.c_file, args.version)

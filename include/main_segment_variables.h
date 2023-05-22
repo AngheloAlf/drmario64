@@ -18,6 +18,8 @@ extern s8 D_80088104[];
 extern s32 D_80092EA8_cn;
 extern bool D_80092EAC_cn;
 // u32 D_80092EB0_cn[];
+#endif
+#if VERSION_CN || VERSION_GW
 extern bool D_80092F10_cn;
 #endif
 
