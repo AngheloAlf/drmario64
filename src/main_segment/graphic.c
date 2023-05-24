@@ -15,6 +15,7 @@
 #include "gs2dex.h"
 #include "dm_thread.h"
 
+#if VERSION_US || VERSION_CN
 void *D_80088110[][2] = {
     { gspF3DEX2_fifoTextStart, gspF3DEX2_fifoDataStart },
     { gspS2DEX_fifoTextStart, gspS2DEX_fifoDataStart },
@@ -31,6 +32,8 @@ s32 gCurrentFramebufferIndex = 0;
 enum_graphic_no graphic_no = GRAPHIC_NO_0;
 
 u32 pendingGFX = 0;
+
+#endif
 
 /**
  * Original name: gfxInit
@@ -81,7 +84,7 @@ void gfxproc(void *arg) {
  * Original name: gfxproc_onRetrace
  */
 void gfxproc_onRetrace(void) {
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
     func_8002BC30_cn(3);
 #endif
 
@@ -132,7 +135,7 @@ void gfxproc_onRetrace(void) {
             break;
     }
 
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
     func_8002BD04_cn();
 #endif
 }
@@ -163,6 +166,7 @@ void gfxCreateGraphicThread(void *arg0) {
     osStartThread(&sGraphicThread);
 }
 
+#if VERSION_US || VERSION_CN
 s16 func_8002B800(void) {
     s16 *sp10 = NULL;
 
@@ -273,3 +277,18 @@ void S2ClearCFBRtn(u8 arg0) {
         gDPFillRectangle(gGfxHead++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 }
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C280_gw);
+
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C2B4_gw);
+
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C458_gw);
+
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C538_gw);
+
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C658_gw);
+
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C6D8_gw);
+#endif
