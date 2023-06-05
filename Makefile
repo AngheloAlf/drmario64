@@ -309,7 +309,6 @@ else
 	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) $(COMP_VERBOSE_FLAG) -S -o $(@:.o=.s) $(@:.o=.i)
 	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $(@:.o=.s)
 endif
-	$(STRIP) $@ -N dummy-symbol-name
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)
 

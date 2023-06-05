@@ -39,12 +39,12 @@ distclean: clean
 .PHONY: all clean distclean
 
 $(KMC_GCC): | $(KMC_DIR)
-	wget https://github.com/decompals/mips-gcc-2.7.2/releases/download/main/gcc-2.7.2-$(DETECTED_OS).tar.gz
+	wget https://github.com/decompals/mips-gcc-2.7.2/releases/latest/download/gcc-2.7.2-$(DETECTED_OS).tar.gz
 	tar xf gcc-2.7.2-$(DETECTED_OS).tar.gz -C $(KMC_DIR)
 	$(RM) gcc-2.7.2-$(DETECTED_OS).tar.gz
 
 $(KMC_BINUTILS): | $(KMC_DIR)
-	wget https://github.com/decompals/mips-binutils-2.6/releases/download/main/binutils-2.6-$(DETECTED_OS).tar.gz
+	wget https://github.com/decompals/mips-binutils-2.6/releases/latest/download/binutils-2.6-$(DETECTED_OS).tar.gz
 	tar xf binutils-2.6-$(DETECTED_OS).tar.gz -C $(KMC_DIR)
 	$(RM) binutils-2.6-$(DETECTED_OS).tar.gz
 
