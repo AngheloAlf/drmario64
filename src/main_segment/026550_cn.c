@@ -230,147 +230,75 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550_cn", func_8004206C_cn);
 
 ASM_RODATA;
 
-const char STR_800C48A0_cn[] = "踢剌窘诉傲";
+const char STR_800C48A0_cn[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
 
-const char STR_800C48AC_cn[] = "腐蔬";
+const char STR_800C48AC_cn[] = "ｸｯﾊﾟ";
 
-const u8 STR_800C48B4_cn[] = {
-    0xB6, 0xD2, 0xAF, 0xB8, 0x00, 0x00, 0x00, 0x00,
-};
+const char STR_800C48B4_cn[] = "ｶﾒｯｸ";
 
-const u8 STR_800C48BC_cn[] = {
-    0xCA, 0xDF, 0xAF, 0xB8, 0xDD, 0xCC, 0xD7, 0xDC, 0xB0, 0x00, 0x00, 0x00,
-};
+const char STR_800C48BC_cn[] = "ﾊﾟｯｸﾝﾌﾗﾜｰ";
 
-const u8 STR_800C48C8_cn[] = {
-    0xC3,
-    0xDA,
-    0xBB,
-    0x00,
-};
+const char STR_800C48C8_cn[] = "ﾃﾚｻ";
 
-const u8 STR_800C48CC_cn[] = {
-    0xCA, 0xC5, 0xC1, 0xAC, 0xDD, 0x00, 0x00, 0x00,
-};
+const char STR_800C48CC_cn[] = "ﾊﾅﾁｬﾝ";
 
-const char STR_800C48D4_cn[] = "踢弁咦筒伟";
+const char STR_800C48D4_cn[] = "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ";
 
-const char STR_800C48E0_cn[] = "廉厶甙";
+const char STR_800C48E0_cn[] = "ﾁｮﾛﾌﾟｰ";
 
-const char STR_800C48E8_cn[] = "踢柑吒";
+const char STR_800C48E8_cn[] = "ﾌﾟｸﾌﾟｸ";
 
-const u8 STR_800C48F0_cn[] = {
-    0xCE, 0xDE, 0xD1, 0xCD, 0xB2, 0x00, 0x00, 0x00,
-};
+const char STR_800C48F0_cn[] = "ﾎﾞﾑﾍｲ";
 
-const char STR_800C48F8_cn[] = "珊珊";
+const char STR_800C48F8_cn[] = "ﾉｺﾉｺ";
 
-const u8 STR_800C4900_cn[] = {
-    0xCF,
-    0xD8,
-    0xB5,
-    0x00,
-};
+const char STR_800C4900_cn[] = "ﾏﾘｵ";
 
-const u8 STR_800C4904_cn[] = {
-    0xD6, 0xBA, 0xBD, 0xDE, 0xB7, 0x00, 0x00, 0x00,
-};
+const char STR_800C4904_cn[] = "ﾖｺｽﾞｷ";
 
-const u8 STR_800C490C_cn[] = {
-    0xC0, 0xDE, 0xB2, 0xDA, 0xDD, 0xBB, 0xC8, 0xD7, 0xB2, 0x00, 0x00, 0x00,
-};
+const char STR_800C490C_cn[] = "ﾀﾞｲﾚﾝｻﾈﾗｲ";
 
-const u8 STR_800C4918_cn[] = {
-    0xBA, 0xB3, 0xB9, 0xDE, 0xB7, 0x00, 0x00, 0x00,
-};
+const char STR_800C4918_cn[] = "ｺｳｹﾞｷ";
 
-const u8 STR_800C4920_cn[] = {
-    0xCA, 0xDE, 0xD7, 0xDD, 0xBD, 0x00, 0x00, 0x00,
-};
+const char STR_800C4920_cn[] = "ﾊﾞﾗﾝｽ";
 
-const char STR_800C4928_cn[] = "剿甙霓";
+const char STR_800C4928_cn[] = "ｽﾋﾟｰﾄﾞ";
 
-const u8 STR_800C4930_cn[] = {
-    0xD3, 0xAF, 0xC4, 0xD3, 0xCA, 0xD4, 0xB2, 0x00,
-};
+const char STR_800C4930_cn[] = "ﾓｯﾄﾓﾊﾔｲ";
 
-const u8 STR_800C4938_cn[] = {
-    0xCB, 0xBC, 0xDE, 0xAE, 0xB3, 0xC6, 0xCA, 0xD4, 0xB2, 0x00, 0x00, 0x00,
-};
+const char STR_800C4938_cn[] = "ﾋｼﾞｮｳﾆﾊﾔｲ";
 
-const u8 STR_800C4944_cn[] = {
-    0xCA,
-    0xD4,
-    0xB2,
-    0x00,
-};
+const char STR_800C4944_cn[] = "ﾊﾔｲ";
 
-const u8 STR_800C4948_cn[] = {
-    0xCC,
-    0xC2,
-    0xB3,
-    0x00,
-};
+const char STR_800C4948_cn[] = "ﾌﾂｳ";
 
-const u8 STR_800C494C_cn[] = {
-    0xB5,
-    0xBF,
-    0xB2,
-    0x00,
-};
+const char STR_800C494C_cn[] = "ｵｿｲ";
 
-const u8 STR_800C4950_cn[] = {
-    0xCB, 0xBC, 0xDE, 0xAE, 0xB3, 0xC6, 0xB5, 0xBF, 0xB2, 0x00, 0x00, 0x00,
-};
+const char STR_800C4950_cn[] = "ﾋｼﾞｮｳﾆｵｿｲ";
 
-const char STR_800C495C_cn[] = "棉太倌";
+const char STR_800C495C_cn[] = "ﾃﾞﾌｫﾙﾄ";
 
-const char STR_800C4964_cn[] = "挡盒";
+const char STR_800C4964_cn[] = "ｵｲｺﾐ";
 
-const u8 STR_800C496C_cn[] = {
-    0xC3,
-    0xC7,
-    0xB7,
-    0x00,
-};
+const char STR_800C496C_cn[] = "ﾃﾇｷ";
 
-const char STR_800C4970_cn[] = "挡惫拶";
+const char STR_800C4970_cn[] = "ｵｲｱｹﾞﾙ";
 
-const char STR_800C4978_cn[] = "剿甙霓悲踢";
+const char STR_800C4978_cn[] = "ｽﾋﾟｰﾄﾞｱｯﾌﾟ";
 
-const u8 STR_800C4984_cn[] = {
-    0xC4, 0xDE, 0xB3, 0xD6, 0xB3, 0x00, 0x00, 0x00,
-};
+const char STR_800C4984_cn[] = "ﾄﾞｳﾖｳ";
 
-const u8 STR_800C498C_cn[] = {
-    0xC1, 0xAE, 0xB3, 0xCA, 0xC2, 0x00, 0x00, 0x00,
-};
+const char STR_800C498C_cn[] = "ﾁｮｳﾊﾂ";
 
-const u8 STR_800C4994_cn[] = {
-    0xB8, 0xD9, 0xB8, 0xD9, 0xCF, 0xDC, 0xBD, 0x00,
-};
+const char STR_800C4994_cn[] = "ｸﾙｸﾙﾏﾜｽ";
 
-const u8 STR_800C499C_cn[] = {
-    0xCF,
-    0xD6,
-    0xB2,
-    0x00,
-};
+const char STR_800C499C_cn[] = "ﾏﾖｲ";
 
-const u8 STR_800C49A0_cn[] = {
-    0xD7,
-    0xAF,
-    0xB8,
-    0x00,
-};
+const char STR_800C49A0_cn[] = "ﾗｯｸ";
 
-const u8 STR_800C49A4_cn[] = {
-    0xB6, 0xB3, 0xDD, 0xC0, 0xB0, 0x00, 0x00, 0x00,
-};
+const char STR_800C49A4_cn[] = "ｶｳﾝﾀｰ";
 
-const u8 STR_800C49AC_cn[] = {
-    0xBE, 0xDD, 0xBE, 0xB2, 0xBA, 0xB3, 0xB9, 0xDE, 0xB7, 0x00, 0x00, 0x00,
-};
+const char STR_800C49AC_cn[] = "ｾﾝｾｲｺｳｹﾞｷ";
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550_cn", func_800421E0_cn);
 
@@ -388,22 +316,17 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550_cn", func_80042EDC_cn);
 
 ASM_RODATA;
 
-const char STR_800C49E8_cn[] = "<母辑>";
+const char STR_800C49E8_cn[] = "<ﾄｸｼｭ>";
 
-const char STR_800C49F0_cn[] = "<剿甙霓>";
+const char STR_800C49F0_cn[] = "<ｽﾋﾟｰﾄﾞ>";
 
-const char STR_800C49FC_cn[] = "<静陡>";
+const char STR_800C49FC_cn[] = "<ｾｲｶｸ>";
 
-const char STR_800C4A04_cn[] = "<番赘腊>";
+const char STR_800C4A04_cn[] = "<ｷｬﾗｸﾀｰ>";
 
-const u8 STR_800C4A10_cn[] = {
-    0x40, 0x63, 0x32, 0x5B, 0xB7, 0xAC, 0xD7, 0xB8, 0xC0, 0xB0,
-    0xB4, 0xC3, 0xDE, 0xA8, 0xAF, 0xC4, 0x5D, 0x0A, 0x0A, 0x00,
-};
+const char STR_800C4A10_cn[] = "@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n";
 
-const u8 STR_800C4A24_cn[] = {
-    0x40, 0x63, 0x32, 0xC2, 0xD6, 0xBB, 0x20, 0x00,
-};
+const char STR_800C4A24_cn[] = "@c2ﾂﾖｻ ";
 
 const char STR_800C4A2C_cn[] = "%c";
 
