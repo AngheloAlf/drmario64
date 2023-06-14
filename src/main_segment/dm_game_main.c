@@ -247,10 +247,6 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D18);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D1C);
-#endif
-
-#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D28);
 #endif
 
@@ -283,15 +279,11 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D84);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D88);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posP4TeamStarX);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D8C);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1DBC);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posP4CharStarX);
 #endif
 
 #if VERSION_US
@@ -299,23 +291,11 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E7C);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E80);
-#endif
-
-#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E8C);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E90);
-#endif
-
-#if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E9C);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1EA0);
 #endif
 
 #if VERSION_US
@@ -3551,7 +3531,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006AEFC);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006B0A4);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_story_board);
 #endif
 
 #if VERSION_US
@@ -3591,7 +3571,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B21D0);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006B270);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_vsmode_board);
 #endif
 
 #if VERSION_US
@@ -5358,8 +5338,654 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B23CC);
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B23D4);
 #endif
 
+extern const s32 RO_800B1D08[];
+extern const s32 RO_800B1D18[][2];
+extern const s32 RO_800B1D28;
+extern const s32 RO_800B1D2C;
+extern const s32 RO_800B1D30[];
+extern const s32 RO_800B1D84[][2];
+extern const s32 _posP4TeamStarX[][2][3];
+extern const s32 _posP4CharStarX[][4][3];
+
+extern const s32 RO_800B1E7C[][2];
+extern const s32 RO_800B1E8C[][2];
+extern const UNK_TYPE RO_800B1E90;
+extern const s32 RO_800B1E9C[][2];
+extern const s32 RO_800B23C4[];
+extern const s32 RO_800B23CC[];
+extern const UNK_TYPE RO_800B23D4;
+
 #if VERSION_US
+#if 0
+s32 countLeadingZeros(); /* extern */
+//? dm_game_graphic_1p(struct_game_state_data*, ?, GameMapGrid*); /* extern */
+//? dm_game_graphic_effect(struct_game_state_data*, s32, ?); /* extern */
+//? drawCursorPattern(Gfx**, u16, u16, ?, s32, s32, s32, s32, s32); /* extern */
+//? draw_coffee_break(Gfx**, s32, s32, s32);          /* extern */
+//? draw_count_number(Gfx**, ?, ?, s32, s32, s32);    /* extern */
+void draw_virus_number(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 arg5); /* extern */
+//? func_800409A0();                                  /* extern */
+//? func_800409DC(Gfx**);                             /* extern */
+//? func_80069188(struct_watchGame_unk_070*, s32);    /* extern */
+void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
+//? func_8006A098(Gfx**, u32, s32, s32);              /* extern */
+//? func_8006A198(Gfx**, s32, s32, s32);              /* extern */
+//? func_8006A480(Gfx**, ?, ?);                       /* extern */
+//? func_8006A6E8(Gfx**, s32, s32);                   /* extern */
+//? func_8006A978(Gfx**, s32);                        /* extern */
+//? draw_story_board(Gfx**, ?, s32, s32, s32);           /* extern */
+//? draw_vsmode_board(Gfx**, ?, s32, s32, s32);           /* extern */
+//? func_8006F628(Gfx**);                             /* extern */
+//? func_80076CCC(Gfx**, s32);                        /* extern */
+//? starForce_draw(struct_watchGame_unk_070*, Gfx**, s32); /* extern */
+
+void dm_game_graphic2(void) {
+    s32 sp6C;
+    s32 sp68;
+    struct_watchGame *sp64;
+    TiTexDataEntry *sp60;
+    s32 sp54;
+    s32 sp4C;
+    Vtx *sp44;
+    Mtx *sp40;
+    AnimeState *temp_a0_3;
+    AnimeState *temp_a0_4;
+    AnimeState *var_a0_2;
+    AnimeState *var_a0_3;
+    AnimeState *var_s0_7;
+    AnimeState *var_s2_6;
+    GameMapGrid *var_s2;
+    Gfx *temp_a0_2;
+    Gfx *temp_v0_2;
+    Gfx *temp_v1_10;
+    Gfx *temp_v1_13;
+    Gfx *temp_v1_15;
+    Gfx *temp_v1_3;
+    Gfx *temp_v1_4;
+    Gfx *temp_v1_7;
+    MessageWnd *temp_s0_3;
+    TiTexData *temp_a0_5;
+    TiTexData *temp_a1;
+    TiTexData *temp_v1_12;
+    TiTexDataEntry *temp_s7;
+    TiTexDataEntry *temp_s7_2;
+    TiTexDataEntry *var_s7;
+    TiTexDataEntry *var_t1;
+    enum enum_evs_gamemode temp_v1_5;
+    enum enum_evs_gamesel temp_v1_2;
+    f32 temp_ft0;
+    f32 temp_fv0;
+    f32 temp_fv1;
+    s32 temp_a2_2;
+    s32 temp_a2_3;
+    s32 temp_a3;
+    s32 temp_a3_2;
+    s32 temp_a3_3;
+    s32 temp_a3_4;
+    s32 temp_a3_5;
+    s32 temp_a3_6;
+    s32 temp_s0;
+    s32 temp_s1;
+    s32 temp_s1_2;
+    s32 temp_s1_3;
+    s32 temp_s2;
+    s32 temp_s4;
+    s32 temp_s5;
+    s32 temp_s5_2;
+    s32 temp_v0;
+    s32 temp_v0_4;
+    s32 temp_v0_6;
+    s32 temp_v1_11;
+    s32 temp_v1_14;
+    s32 temp_v1_16;
+    s32 temp_v1_17;
+    s32 temp_v1_18;
+    s32 temp_v1_6;
+    s32 temp_v1_8;
+    s32 temp_v1_9;
+    s32 var_a0;
+    s32 var_a1;
+    s32 var_a3;
+    s32 var_s0_10;
+    s32 var_s0_11;
+    s32 var_s0_12;
+    s32 var_s0_2;
+    s32 var_s0_3;
+    s32 var_s0_5;
+    s32 var_s0_8;
+    s32 var_s1;
+    s32 var_s1_2;
+    s32 var_s2_11;
+    s32 var_s2_12;
+    s32 var_s2_2;
+    s32 var_s2_3;
+    s32 var_s2_5;
+    s32 var_s2_7;
+    s32 var_s2_8;
+    s32 var_s2_9;
+    s32 var_s3_2;
+    s32 var_s3_4;
+    s32 var_s5;
+    s32 var_s5_2;
+    s32 var_t3;
+    s32 var_t4;
+    s32 var_t5;
+    s32 var_v0;
+    s32 var_v1;
+    s32 *var_s2_10;
+    s32 *var_s2_4;
+    s32 *var_s3_3;
+    s32 *var_s4;
+    s32 *var_s4_2;
+    struct_game_state_data *var_s0;
+    struct_game_state_data *var_s0_6;
+    struct_game_state_data *var_s2_13;
+    struct_watchGame *temp_fp;
+    struct_watchGame *var_s0_4;
+    struct_watchGame *var_s0_9;
+    struct_watchGame *var_s1_6;
+    struct_watchGame *var_s3;
+    struct_watchGame *var_s4_3;
+    struct_watchGame *var_s4_4;
+    struct_watchGame *var_t2;
+    u16 temp_a1_4;
+    u16 temp_a1_7;
+    u16 temp_a2;
+    u16 *temp_a1_2;
+    u16 *temp_a1_6;
+    u16 *temp_t0;
+    u16 *temp_v0_3;
+    u16 *temp_v0_5;
+    u16 *temp_v0_7;
+    u32 temp_a0;
+    u32 temp_s6_2;
+    u32 var_s1_11;
+    u32 var_s1_4;
+    u8 temp_a1_3;
+    u8 temp_a1_5;
+    s32 temp_s3;
+
+    temp_fp = watchGame;
+
+    gGfxHead = gGfxGlist[gfx_gtask_no];
+
+    temp_s3 = game_state_data->unk_00C == 0x20 || game_state_data->unk_00C == 0x21;
+    sp40 = dm_get_mtx_buf();
+    sp44 = dm_get_vtx_buf();
+
+    gSPSegment(gGfxHead++, 0x00, 0x00000000);
+
+    F3RCPinitRtn();
+    gfxSetScissor(&gGfxHead, 2, 0, 0, 0x140, 0xF0);
+    F3ClearFZRtn(temp_s3);
+    if (temp_s3 == 0) {
+        if (temp_fp->unk_394 < 0x14) {
+            dm_game_draw_snap_bg(&gGfxHead, &sp40, &sp44, 1);
+        } else if (temp_fp->unk_9AC == 0) {
+            func_8006F628(&gGfxHead);
+        }
+    }
+
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_1:
+        case ENUM_EVS_GAMESEL_3:
+        case ENUM_EVS_GAMESEL_5:
+            temp_s5 = temp_fp->unk_394;
+            temp_s0 = temp_s5 < 0x14;
+            temp_s2 = temp_fp->unk_880 == 0;
+            if (temp_s3 == 0) {
+                if (temp_fp->unk_880 != 0) {
+                    temp_fp->unk_394 = 0x14;
+                }
+                dm_calc_bottle_2p();
+                if (temp_s0 != 0) {
+                    dm_draw_bottle_2p(&gGfxHead);
+                }
+                temp_s1 = (0x14 - temp_fp->unk_394) * 6;
+                if (evs_story_flg != 0) {
+                    draw_story_board(&gGfxHead, 0, -temp_s1, temp_s0, temp_s2);
+                } else {
+                    draw_vsmode_board(&gGfxHead, 0, -temp_s1, temp_s0, temp_s2);
+                }
+
+                temp_fp->unk_394 = temp_s5;
+            }
+            break;
+    }
+
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_1:
+        case ENUM_EVS_GAMESEL_2:
+        case ENUM_EVS_GAMESEL_3:
+        case ENUM_EVS_GAMESEL_5:
+        case ENUM_EVS_GAMESEL_6:
+            if ((temp_s3 == 0) && (temp_fp->unk_880 == 0)) {
+                for (var_s1 = 0; var_s1 < evs_playcnt; var_s1++) {
+                    dm_virus_anime(&game_state_data[var_s1], &game_map_data[var_s1]);
+                    dm_game_graphic_p(&game_state_data[var_s1], var_s1, &game_map_data[var_s1]);
+                }
+            }
+            break;
+    }
+
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_0:
+        case ENUM_EVS_GAMESEL_4:
+            if (temp_s3 == 0) {
+                if (temp_fp->unk_880 != 0) {
+                    temp_fp->unk_880 = 0;
+                    return;
+                }
+
+                disp_logo_setup(&gGfxHead);
+                temp_a3 = temp_fp->unk_9AC;
+                if (temp_a3 > 0) {
+                    draw_coffee_break(&gGfxHead, temp_fp->unk_9B4, temp_fp->unk_9B8, temp_a3 >= 2);
+                    msgWnd_draw(&temp_fp->messageWnd, &gGfxHead);
+                    if (temp_fp->unk_9B0 == 0x168) {
+                        push_any_key_draw(0x80, 0xC0);
+                    }
+                } else {
+                    animeState_initDL(&game_state_data->unk_094, &gGfxHead);
+                    animeState_draw(&game_state_data->unk_094, &gGfxHead, 250.0f, 84.0f, 1.0f, 1.0f);
+
+                    dm_virus_anime(&game_state_data[0], game_map_data);
+                    dm_game_graphic_1p(&game_state_data[0], 0, game_map_data);
+                    func_8006A978(&gGfxHead, temp_fp->unk_378);
+
+                    gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
+
+                    draw_count_number(&gGfxHead, 0, 7, evs_high_score, 0x1D, 0x27);
+                    draw_count_number(&gGfxHead, 0, 7, game_state_data->unk_000, 0x1D, 0x43);
+
+                    gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
+
+                    if (evs_gamemode == ENUM_EVS_GAMEMODE_0) {
+                        draw_virus_number(&gGfxHead, game_state_data->unk_026, 0xFE, 0x7E, 1.0f, 1.0f);
+                    }
+
+                    switch (evs_gamemode) {       /* switch 2; irregular */
+                        case ENUM_EVS_GAMEMODE_2: /* switch 2 */
+                        case ENUM_EVS_GAMEMODE_0: /* switch 2 */
+                            func_8006A098(&gGfxHead, evs_game_time, RO_800B1D28, RO_800B1D2C);
+                            break;
+                        case ENUM_EVS_GAMEMODE_3: /* switch 2 */
+                            temp_s1_2 = 0x2A30 - evs_game_time;
+                            func_8006A198(&gGfxHead, (temp_s1_2 & ((s32)~temp_s1_2 >> 0x1F)) + 5, RO_800B1D28,
+                                          RO_800B1D2C);
+                            break;
+                    }
+
+                    switch (evs_gamemode) {
+                        case ENUM_EVS_GAMEMODE_2:
+                            var_s1_2 = game_state_data->unk_170;
+                            break;
+
+                        default:
+                            var_s1_2 = game_state_data->unk_025;
+                            break;
+                    }
+
+                    draw_virus_number(&gGfxHead, var_s1_2, 0xFE, 0xD2, 1.0f, 1.0f);
+                    dm_draw_big_virus(&gGfxHead);
+                    dm_game_graphic_effect(game_state_data, 0, 0);
+                    if (temp_fp->unk_410 != 0) {
+                        disp_timestop_logo(&gGfxHead, 0);
+                    }
+                }
+            }
+            break;
+
+        case ENUM_EVS_GAMESEL_1:
+        case ENUM_EVS_GAMESEL_3:
+        case ENUM_EVS_GAMESEL_5:
+            if (temp_s3 == 0) {
+                if (temp_fp->unk_880 != 0) {
+                    temp_fp->unk_880 = 0;
+                    return;
+                }
+
+                disp_logo_setup(&gGfxHead);
+
+                gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
+
+                for (var_s1 = 0; var_s1 < 2; var_s1++) {
+                    draw_virus_number(&gGfxHead, game_state_data[var_s1].unk_025, RO_800B1E8C[var_s1][0],
+                                      RO_800B1E8C[var_s1][1], 1.0f, 1.0f);
+                }
+
+                if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
+                    temp_s1_3 = 0x2A30 - evs_game_time;
+                    func_8006A198(&gGfxHead, (temp_s1_3 & ((s32)~temp_s1_3 >> 0x1F)) + 5, 0x9A, 0xA7);
+                } else {
+                    func_8006A098(&gGfxHead, evs_game_time, 0x9A, 0xA7);
+                }
+
+                if (evs_story_flg != 0) {
+                    var_s2_3 = 0;
+                    for (var_s1 = 0; var_s1 < 2U; var_s1++) {
+                        if (temp_fp->unk_89C[var_s1] == 0) {
+                            func_800695A8(&gGfxHead, RO_800B1D18[var_s1][0], RO_800B1D18[var_s1][1], var_s2_3++);
+                        }
+                    }
+                } else {
+                    for (var_s1 = 0; var_s1 < 2; var_s1++) {
+                        temp_v0_4 = RO_800B23C4[var_s1];
+                        temp_a3_4 = temp_fp->unk_8B4[var_s1];
+                        draw_count_number(&gGfxHead, 0, 2, temp_a3_4, temp_v0_4, 0x98);
+                    }
+
+                    var_s2_5 = 0;
+                    for (var_s1 = 0; var_s1 < 2; var_s1++) {
+                        var_s0_5 = temp_fp->unk_89C[var_s1];
+                        while (var_s0_5 < evs_vs_count) {
+                            func_800695A8(&gGfxHead, RO_800B1D30[var_s1],
+                                          *((var_s0_5 * 4) + ((evs_vs_count * 0xC) + &RO_800B1D2C)), var_s2_5);
+                            var_s0_5 += 1;
+                            var_s2_5 += 1;
+                        }
+                    }
+                }
+
+                if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+                    var_s7 = &temp_fp->unk_43C->unk_00[7];
+                } else {
+                    var_s7 = &temp_fp->unk_43C->unk_00[0xF];
+                }
+
+                temp_v0_5 = var_s7->unk_4;
+                temp_v1_12 = temp_fp->unk_43C;
+
+                StretchAlphaTexBlock(&gGfxHead, temp_v0_5[0], (s32)temp_v0_5[1], var_s7->unk_0->unk_4, temp_v0_5[0],
+                                     temp_v1_12->unk_00[1].unk_0->unk_4, (s32)*temp_v1_12->unk_00[1].unk_4, 131.0f,
+                                     181.0f, (f32)var_s7->unk_4[0], (f32)var_s7->unk_4[1]);
+
+                func_80069188(&temp_fp->unk_070, temp_fp->unk_06C);
+                starForce_draw(&temp_fp->unk_070, &gGfxHead, temp_fp->unk_06C);
+
+                for (var_s1 = 0; var_s1 < 2; var_s1++) {
+                    animeState_initDL(&game_state_data[var_s1].unk_094, &gGfxHead);
+
+                    animeState_draw(&game_state_data[var_s1].unk_094, &gGfxHead, RO_800B1E9C[var_s1][0],
+                                    RO_800B1E9C[var_s1][1], RO_800B23CC[var_s1], 1.0f);
+                }
+
+                for (var_s1 = 0; var_s1 < 2; var_s1++) {
+                    dm_game_graphic_effect(&game_state_data[var_s1], var_s1, 0);
+                }
+
+                gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
+            }
+            break;
+
+        case ENUM_EVS_GAMESEL_2:
+        case ENUM_EVS_GAMESEL_6:
+            if (temp_s3 == 0) {
+                if (temp_fp->unk_880 != 0) {
+                    temp_fp->unk_880 = 0;
+                    return;
+                }
+
+                for (var_s1 = 0; var_s1 < 4; var_s1++) {
+                    animeState_initDL(&game_state_data[var_s1].unk_094, &gGfxHead);
+                    animeState_draw(&game_state_data[var_s1].unk_094, &gGfxHead, RO_800B1D84[var_s1][0] + 0x14,
+                                    RO_800B1D84[var_s1][1] + 0x28, 1.0f, 1.0f);
+                }
+
+                disp_logo_setup(&gGfxHead);
+
+                gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
+                for (var_s1 = 0; var_s1 < 4; var_s1++) {
+                    draw_virus_number(&gGfxHead, game_state_data[var_s1].unk_025, RO_800B1D84[var_s1][0] + 0x32,
+                                      RO_800B1D84[var_s1][1] + 0x1D, 1.0f, 1.0f);
+                }
+
+                if (evs_story_flg != 0) {
+                    func_8006A098(&gGfxHead, evs_game_time, 0x3B, 0x12);
+
+                    var_s2_9 = 0;
+                    for (var_s1 = 0; var_s1 < 4U; var_s1++) {
+                        if (temp_fp->unk_89C[var_s1] == 0) {
+                            func_800695A8(&gGfxHead, RO_800B1D08[var_s1], 0xD, var_s2_9++);
+                        }
+                    }
+                } else if (temp_fp->unk_8C0 != 0) {
+                    temp_a0_5 = temp_fp->unk_440;
+                    temp_a1_6 = temp_a0_5->unk_00[0xE].unk_4;
+                    var_t3 = 0;
+                    temp_s7_2 = &temp_a0_5->unk_00[0xE];
+                    var_t1 = &temp_a0_5->unk_00[0x16];
+
+                    temp_s6_2 = (u16)temp_a1_6[0] >> 1;
+                    temp_s4 = (temp_a1_6[1] / 3) & 0xFFFF;
+
+                    var_s1 = 0;
+                    while (var_s1 < 2) {
+                        var_s0_10 = 0;
+                        var_t4 = var_t3;
+                        temp_s5_2 = var_s1 * 8;
+                        var_s3_4 = 0;
+
+                        while (var_s0_10 < 4) {
+                            temp_v1_16 = temp_fp->unk_8DC[var_s1][var_s0_10];
+                            if (temp_v1_16 >= 0) {
+                                temp_v0_7 = temp_s7_2->unk_4;
+
+                                temp_a1_7 = temp_v0_7[0];
+
+                                StretchAlphaTexTile(&gGfxHead, (s32)temp_a1_7, (s32)temp_v0_7[1],
+                                                    temp_s7_2->unk_0->unk_4, (s32)temp_a1_7, var_t1->unk_0->unk_4,
+                                                    (s32)*var_t1->unk_4, var_t4,
+                                                    temp_s4 * *((temp_v1_16 * 4) + &RO_800B23D4), (s32)temp_s6_2,
+                                                    temp_s4, (f32)(RO_800B1E7C[temp_s5_2][0] + var_s3_4),
+                                                    (f32)(RO_800B1E7C[temp_s5_2][1]), (f32)temp_s6_2, (f32)temp_s4);
+                            }
+
+                            var_s3_4 += 9;
+                            var_s0_10 += 1;
+                        }
+
+                        var_t3 += temp_s6_2;
+                        var_s1 += 1;
+                    }
+
+                    var_s2_11 = 0;
+
+                    var_s5 = 0;
+                    for (var_s1 = 0; var_s1 < 2; var_s1++) {
+                        var_s0_11 = temp_fp->unk_89C[var_s1];
+                        while (var_s0_11 < evs_vs_count) {
+                            func_800695A8(
+                                &gGfxHead,
+                                _posP4TeamStarX[evs_vs_count][var_s1][var_s0_11], 0xD, var_s2_11);
+                            var_s0_11 += 1;
+                            var_s2_11 += 1;
+                        }
+                        var_s5 += 0xC;
+                    }
+                } else {
+                    var_s2_12 = 0;
+                    var_s5_2 = 0;
+
+                    for (var_s1 = 0; var_s1 < 4; var_s1++) {
+                        var_s0_12 = temp_fp->unk_89C[var_s1];
+                        while (var_s0_12 < evs_vs_count) {
+                            func_800695A8(
+                                &gGfxHead,
+                                _posP4CharStarX[evs_vs_count][var_s1][var_s0_12], 0xD, var_s2_12);
+                            var_s0_12 += 1;
+                            var_s2_12 += 1;
+                        }
+                        var_s5_2 += 0xC;
+                    }
+                }
+
+                func_80069188(&temp_fp->unk_070, temp_fp->unk_06C);
+                starForce_draw(&temp_fp->unk_070, &gGfxHead, temp_fp->unk_06C);
+
+                for (var_s1 = 0; var_s1 < 4; var_s1++) {
+                    dm_game_graphic_effect(&game_state_data[var_s1], var_s1, 1);
+                }
+
+                disp_attack_effect(&gGfxHead);
+            }
+            break;
+    }
+
+    if (temp_fp->unk_880 != 0) {
+        temp_fp->unk_880 = 0;
+        return;
+    }
+
+    switch (game_state_data->unk_00C) {
+        case 0x21:
+            func_8003FD0C(&gGfxHead);
+            func_8003FB00();
+            break;
+        case 0x20:
+            func_800409A0();
+            func_800409DC(&gGfxHead);
+            break;
+    }
+
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_4:
+        case ENUM_EVS_GAMESEL_5:
+        case ENUM_EVS_GAMESEL_6:
+            func_8006A480(&gGfxHead, 0x6A, 0xAA);
+            break;
+    }
+
+    if ((temp_fp->unk_000 != 0) && (countLeadingZeros() == 0)) {
+        switch (evs_gamesel) {       /* switch 1; irregular */
+            case ENUM_EVS_GAMESEL_0: /* switch 1 */
+            case ENUM_EVS_GAMESEL_2: /* switch 1 */
+                sp4C = 0x1E;
+                var_t5 = 0x14;
+
+                sp54 = var_t5;
+                break;
+            case ENUM_EVS_GAMESEL_1: /* switch 1 */
+            case ENUM_EVS_GAMESEL_3: /* switch 1 */
+                sp4C = 0x80;
+                var_t5 = 0x90;
+                sp54 = var_t5;
+                break;
+        }
+        func_8006A6E8(&gGfxHead, sp4C, sp54);
+    }
+
+    if (temp_fp->unk_A28.unk_74 > 0) {
+        temp_v0_2 = gGfxHead;
+        temp_a1 = temp_fp->unk_430;
+        gGfxHead = temp_v0_2 + 8;
+        temp_v0_2->words.w0 = 0xDE000000;
+        temp_v0_2->words.w1 = (u32)normal_texture_init_dl;
+        gGfxHead = temp_v0_2 + 0x10;
+        gGfxHead = temp_v0_2 + 0x18;
+        gGfxHead = temp_v0_2 + 0x20;
+#if 0
+        temp_v0_2->unk_8 = 0xFCFF97FF;
+        temp_v0_2->unk_C = 0xFF2DFEFF;
+        temp_v0_2->unk_10 = 0xE200001C;
+        temp_v0_2->unk_14 = 0x504240;
+        temp_v0_2->unk_18 = 0xFA000000;
+        temp_v0_2->unk_1C = (s32) (temp_fp->unk_A9F | ~0x37FF);
+        temp_v0_2->unk_20 = 0xE3001001;
+        temp_v0_2->unk_24 = 0;
+        temp_v0_2->unk_28 = 0xFD900000;
+        temp_v0_2->unk_2C = (void* ) temp_a1->unk_00[0xC].unk_0->unk_4;
+        temp_v0_2->unk_30 = 0xF5900000;
+        temp_v0_2->unk_34 = 0x07000000;
+        temp_v0_2->unk_38 = 0xE6000000;
+        temp_v0_2->unk_3C = 0;
+        temp_v0_2->unk_40 = 0xF3000000;
+#endif
+        temp_t0 = temp_a1->unk_00[0xC].unk_4;
+        var_a3 = 0x800;
+        gGfxHead = temp_v0_2 + 0x28;
+        gGfxHead = temp_v0_2 + 0x30;
+        gGfxHead = temp_v0_2 + 0x38;
+        temp_v1_7 = temp_v0_2 + 0x40;
+        gGfxHead = temp_v1_7;
+        gGfxHead = temp_v0_2 + 0x48;
+
+        temp_a2 = temp_t0[0];
+
+        temp_s7 = &temp_a1->unk_00[0xC];
+        temp_a0 = temp_a2 >> 4;
+        if (temp_a0 != 0) {
+            var_a3 = temp_a0 + 0x7FF;
+        }
+
+        var_v1 = ((s32) ((temp_a2 * temp_t0[1]) + 3) >> 2) - 1;
+
+        if (var_v1 >= 0x800) {
+            var_v1 = 0x7FF;
+        }
+        if (temp_a0 != 0) {
+            var_v0 = (var_a3 / (s32)temp_a0) & 0xFFF;
+        } else {
+            var_v0 = var_a3 & 0xFFF;
+        }
+        temp_a0_2 = gGfxHead;
+        temp_v1_7->words.w1 = ((var_v1 & 0xFFF) << 0xC) | 0x07000000 | var_v0;
+        temp_a0_2->words.w0 = 0xE7000000;
+        temp_a0_2->words.w1 = 0;
+        gGfxHead = temp_a0_2 + 8;
+        gGfxHead = temp_a0_2 + 0x10;
+#if 0
+        temp_a0_2->unk_10 = 0xF2000000;
+        temp_a0_2->unk_C = 0;
+        temp_a0_2->unk_8 = (s32) (((((s32) (((u16) temp_s7->unk_4->unk_0 >> 1) + 7) >> 3) & 0x1FF) << 9) | 0xF5800000);
+#endif
+        temp_a1_2 = temp_s7->unk_4;
+        gGfxHead = temp_a0_2 + 0x18;
+#if 0
+        temp_a0_2->unk_14 = (s32) (((((temp_a1_2->unk_0 - 1) * 4) & 0xFFF) << 0xC) | (((temp_a1_2->unk_2 - 1) * 4) & 0xFFF));
+#endif
+        temp_v0_3 = temp_s7->unk_4;
+        drawCursorPattern(&gGfxHead, temp_v0_3[0], temp_v0_3[1], 0x10, 0x10, temp_fp->unk_A28.unk_28 - 6,
+                          temp_fp->unk_A28.unk_2C - 6, (temp_fp->unk_A28.unk_3C * 0x14) + 0xC,
+                          (temp_fp->unk_A28.unk_48 * 3) + 0xC);
+
+        temp_s0_3 = &temp_fp->unk_A28;
+        msgWnd_update(temp_s0_3);
+        msgWnd_draw(temp_s0_3, &gGfxHead);
+    }
+
+    temp_v1_8 = temp_fp->unk_A28.unk_74 + temp_fp->unk_AA8;
+    if (temp_v1_8 >= 0) {
+        var_a0 = 0xFF;
+        if (temp_v1_8 < 0x100) {
+            var_a0 = temp_v1_8;
+        }
+    } else {
+        var_a0 = 0;
+    }
+    temp_fp->unk_A28.unk_74 = var_a0;
+
+    temp_v1_9 = temp_fp->unk_38C + temp_fp->unk_390;
+    if (temp_v1_9 >= 0) {
+        var_a1 = 0x1E;
+        if (temp_v1_9 < 0x1F) {
+            var_a1 = temp_v1_9;
+        }
+    } else {
+        var_a1 = 0;
+    }
+    temp_fp->unk_38C = var_a1;
+
+    func_80076CCC(&gGfxHead, var_a1);
+
+    if (temp_fp->unk_880 != 0) {
+        temp_fp->unk_880 = 0;
+        return;
+    }
+}
+#else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic2);
+#endif
 #endif
 
 #if VERSION_US
