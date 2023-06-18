@@ -5351,24 +5351,6 @@ extern const s32 RO_800B23D4[];
 
 #if VERSION_US
 #if 0
-//? dm_game_graphic_1p(struct_game_state_data*, ?, GameMapGrid*);
-//? dm_game_graphic_effect(struct_game_state_data*, s32, ?);
-//? drawCursorPattern(Gfx**, u16, u16, ?, s32, s32, s32, s32, s32);
-//? draw_coffee_break(Gfx**, s32, s32, s32);
-//? draw_count_number(Gfx**, ?, ?, s32, s32, s32);
-//? func_800409A0();
-//? func_800409DC(Gfx**);
-//? func_80069188(struct_watchGame_unk_070*, s32);
-//? func_8006A098(Gfx**, u32, s32, s32);
-//? func_8006A198(Gfx**, s32, s32, s32);
-//? func_8006A480(Gfx**, ?, ?);
-//? func_8006A6E8(Gfx**, s32, s32);
-//? func_8006A978(Gfx**, s32);
-//? draw_story_board(Gfx**, ?, s32, s32, s32);
-//? draw_vsmode_board(Gfx**, ?, s32, s32, s32);
-//? func_8006F628(Gfx**);
-//? func_80076CCC(Gfx**, s32);
-//? starForce_draw(struct_watchGame_unk_070*, Gfx**, s32);
 
 #define HELP  do {*(vu32*)0x1234 = 0x4567;} while(0)
 

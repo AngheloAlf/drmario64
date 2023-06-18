@@ -31,6 +31,7 @@ void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_800E8750 *arg1) {
 }
 
 #if VERSION_US
+// maybe curtain_proc?
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80076CCC);
 #endif
 
