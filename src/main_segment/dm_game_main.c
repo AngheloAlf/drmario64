@@ -5352,7 +5352,10 @@ extern const s32 RO_800B23D4[];
 #if VERSION_US
 #if 0
 
-#define HELP  do {*(vu32*)0x1234 = 0x4567;} while(0)
+#define HELP                      \
+    do {                          \
+        *(vu32 *)0x1234 = 0x4567; \
+    } while (0)
 
 void dm_game_graphic2(void) {
     s32 sp6C;
@@ -5816,7 +5819,7 @@ void dm_game_graphic2(void) {
         } else {
             var_v0 = var_a3 & 0xFFF;
         }
-        #if 0
+#if 0
         temp_a0_2 = gGfxHead;
         temp_v0_2->unk_44 = ((var_v1 & 0xFFF) << 0xC) | 0x07000000 | var_v0;
         temp_a0_2->words.w0 = 0xE7000000;
