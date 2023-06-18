@@ -2,6 +2,7 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
+#include "boot_functions.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
@@ -339,7 +340,69 @@ const char STR_800ADA8C[] RODATA = "ｾﾝｾｲｺｳｹﾞｷ";
 ASM_TEXT;
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003FB00);
+void func_8003FB00(void) {
+    s32 temp_s0 = joycur[0];
+    s32 temp;
+
+    temp = 0;
+    if (gControllerPressedButtons[0] & L_CBUTTONS) {
+        temp--;
+    }
+    if (gControllerPressedButtons[0] & R_CBUTTONS) {
+        temp++;
+    }
+
+    B_800E5930 = WrapI(0, 3, B_800E5930 + temp);
+
+    temp = 0;
+    if (temp_s0 & L_TRIG) {
+        temp--;
+    }
+    if (temp_s0 & R_TRIG) {
+        temp++;
+    }
+
+    switch (B_800E5930) {
+        case 0x0:
+            B_800E5918 = WrapI(0, 0x1F, B_800E5918 + temp);
+            func_8003EB20();
+            func_8003F050(0, 0x10, 0x10);
+            func_8003ECDC();
+            break;
+
+        case 0x1:
+            B_800E5924 = WrapI(0, 0x1C, B_800E5924 + temp);
+            if (temp > 0) {
+                if (B_800E5924 == 0) {
+                    B_800E592C = WrapI(0, 0x10, B_800E592C + 4);
+                    if (B_800E592C != 0) {
+                        B_800E5924 = 0xC;
+                    }
+                } else if (B_800E5924 == 0xC) {
+                    B_800E592C = 0;
+                }
+            } else if (temp < 0) {
+                if (B_800E5924 == 0xB) {
+                    if (B_800E592C != 0) {
+                        B_800E5924 = 0x1B;
+                        B_800E592C = WrapI(0, 0x10, B_800E592C - 4);
+                    }
+                } else if (B_800E5924 == 0x1B) {
+                    B_800E592C = 0xC;
+                }
+            }
+
+            func_8003F360();
+            func_8003F7DC(0, 0x10, 0x10);
+            func_8003F474();
+            break;
+
+        case 0x2:
+            B_800E5914 = WrapI(0, 0x54, B_800E5914 + temp);
+            func_8003E8C8(0, 0x10, 0x10);
+            break;
+    }
+}
 #endif
 
 #if VERSION_US
