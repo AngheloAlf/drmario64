@@ -82,6 +82,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_800405D4_cn);
 #endif
 
 #if VERSION_CN
-void func_80040604_cn(const char *fmt, ...) {
+void func_80040604_cn(const char *fmt UNUSED, ...) {
 }
 #endif
