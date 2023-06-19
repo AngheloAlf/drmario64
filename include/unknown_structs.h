@@ -746,5 +746,12 @@ typedef struct struct_8010ACB0_cn {
 } struct_8010ACB0_cn; // size = 0x118
 #endif
 
+typedef enum enum_800E5930 {
+    /* 0 */ ENUM_800E5930_0,
+    /* 1 */ ENUM_800E5930_1,
+    /* 2 */ ENUM_800E5930_2,
+    /* 3 */ ENUM_800E5930_MAX
+} enum_800E5930;
+
 
 #endif

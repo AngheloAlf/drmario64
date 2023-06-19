@@ -19,7 +19,101 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003E8C8);
 #endif
 
 #if VERSION_CN
+#if 0
+? func_8004058C_cn(?*, s32, s32, s32);              /* extern */
+? func_800405D4_cn();                               /* extern */
+? func_80040604_cn(s8*, s32, u8);                   /* extern */
+extern s32 D_800991D0_cn;
+extern s32 D_800991E0_cn;
+extern s32 D_800991F0_cn;
+extern ? func_80040620_cn;
+
+void func_8003E8C8(s32 arg0, s32 arg1, s32 arg2) {
+    s32 temp_a1;
+    s32 temp_s3;
+    s32 var_s0_3;
+    s32 var_s1;
+    s32 var_s1_2;
+    s32 var_s2;
+    s32 var_s3;
+    s32 var_s4;
+    s32 var_s5;
+    s32 var_s5_2;
+    s32 var_s5_3;
+    s32 var_s7;
+    s32* var_s0;
+    s32* var_s0_2;
+    s32* var_s6;
+
+    temp_s3 = arg2 + 8;
+    func_8004058C_cn(&func_80040620_cn, arg1, temp_s3);
+    func_80040604_cn(STR_800C447C_cn);
+    var_s5 = 0;
+    var_s0 = &D_800991E0_cn;
+    do {
+        var_s5 += 1;
+        func_80040604_cn(STR_800C4480_cn, *var_s0);
+        var_s0 += 4;
+    } while (var_s5 < 4);
+    func_800405D4_cn();
+    func_8004058C_cn((?* ) arg0, (s32) &func_80040620_cn, arg1 + 0x2A, temp_s3);
+    func_80040604_cn(STR_800C447C_cn);
+    var_s5_2 = 0;
+    var_s1 = 0;
+    do {
+        var_s0_2 = &D_800991F0_cn;
+loop_4:
+        var_s1 += 1;
+        func_80040604_cn(STR_800C448C_cn, *var_s0_2);
+        var_s0_2 += 4;
+        if (var_s1 < 3) {
+            goto loop_4;
+        }
+        var_s5_2 += 1;
+        var_s1 = 0;
+    } while (var_s5_2 < 4);
+    func_800405D4_cn();
+    func_8004058C_cn((?* ) arg0, (s32) &func_80040620_cn, arg1 + 0x54, arg2);
+    func_80040604_cn(STR_800C4494_cn);
+    func_800405D4_cn();
+    func_8004058C_cn((?* ) arg0, (s32) &func_80040620_cn, arg1 + 0x5A, temp_s3);
+    var_s5_3 = 0;
+    var_s6 = &D_800991D0_cn;
+    var_s7 = 0;
+    do {
+        var_s1_2 = 0;
+        var_s4 = var_s7;
+loop_8:
+        var_s3 = 1;
+        var_s2 = 3;
+        var_s0_3 = var_s4;
+loop_9:
+        temp_a1 = var_s0_3;
+        var_s0_3 += 1;
+        var_s3 += 1;
+        func_80040604_cn(STR_800C44BC_cn, temp_a1, *(var_s2 + *var_s6 + var_s1_2));
+        var_s2 += 3;
+        if (var_s3 < 8) {
+            goto loop_9;
+        }
+        func_80040604_cn(STR_800C44C8_cn);
+        var_s1_2 += 1;
+        var_s4 += 7;
+        if (var_s1_2 < 3) {
+            goto loop_8;
+        }
+        var_s6 += 4;
+        var_s5_3 += 1;
+        var_s7 += 0x15;
+    } while (var_s5_3 < 4);
+    func_800405D4_cn();
+    func_8004058C_cn((?* ) arg0, (s32) &func_80040620_cn, arg1, arg2 + 0xC8);
+    func_80040604_cn(STR_800C44CC_cn);
+    func_800405D4_cn();
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003E8C8);
+#endif
 #endif
 
 #if VERSION_US
@@ -898,7 +992,7 @@ void func_8003FB00(void) {
         temp++;
     }
 
-    B_800E5930 = WrapI(0, 3, B_800E5930 + temp);
+    B_800E5930 = WrapI(0, ENUM_800E5930_MAX, B_800E5930 + temp);
 
     temp = 0;
     if (temp_s0 & L_TRIG) {
@@ -909,14 +1003,14 @@ void func_8003FB00(void) {
     }
 
     switch (B_800E5930) {
-        case 0x0:
+        case ENUM_800E5930_0:
             B_800E5918 = WrapI(0, 0x1F, B_800E5918 + temp);
             func_8003EB20();
-            func_8003F050(0, 0x10, 0x10);
+            func_8003F050(NULL, 0x10, 0x10);
             func_8003ECDC();
             break;
 
-        case 0x1:
+        case ENUM_800E5930_1:
             B_800E5924 = WrapI(0, 0x1C, B_800E5924 + temp);
             if (temp > 0) {
                 if (B_800E5924 == 0) {
@@ -939,13 +1033,13 @@ void func_8003FB00(void) {
             }
 
             func_8003F360();
-            func_8003F7DC(0, 0x10, 0x10);
+            func_8003F7DC(NULL, 0x10, 0x10);
             func_8003F474();
             break;
 
-        case 0x2:
+        case ENUM_800E5930_2:
             B_800E5914 = WrapI(0, 0x54, B_800E5914 + temp);
-            func_8003E8C8(0, 0x10, 0x10);
+            func_8003E8C8(NULL, 0x10, 0x10);
             break;
     }
 }
@@ -956,7 +1050,21 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003FD0C);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_80041FC0_cn);
+void func_8003FD0C(Gfx **gxfP) {
+    switch (B_800E5930) {
+        case ENUM_800E5930_0:
+            func_8003F050(gxfP, 0x10, 0x10);
+            break;
+
+        case ENUM_800E5930_1:
+            func_8003F7DC(gxfP, 0x10, 0x10);
+            break;
+
+        case ENUM_800E5930_2:
+            func_8003E8C8(gxfP, 0x10, 0x10);
+            break;
+    }
+}
 #endif
 
 #if VERSION_US
