@@ -6,6 +6,72 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
+// TODO: move to a header
+void func_80040604_cn(const char *fmt, ...);
+
+// extern UNK_TYPE D_8008E370;
+// extern UNK_TYPE D_8008E380;
+// extern UNK_TYPE D_8008E398;
+// extern UNK_TYPE D_8008E3B8;
+// extern UNK_TYPE D_8008E3BC;
+// extern UNK_TYPE D_8008E3C0;
+// extern UNK_TYPE D_8008E400;
+// extern UNK_TYPE D_8008E420;
+// extern UNK_TYPE D_8008E454;
+// extern UNK_TYPE D_8008E480;
+// extern UNK_TYPE D_8008E490;
+// extern UNK_TYPE D_8008E4A0;
+// extern UNK_TYPE D_8008E4AC;
+// extern UNK_TYPE D_8008E4DC;
+// extern UNK_TYPE D_8008E4F0;
+// extern UNK_TYPE D_8008E508;
+// extern UNK_TYPE D_8008E538;
+// extern UNK_TYPE D_8008E540;
+// extern UNK_TYPE D_8008E548;
+// extern UNK_TYPE D_8008E554;
+// extern UNK_TYPE D_8008E558;
+// extern UNK_TYPE D_8008E564;
+// extern UNK_TYPE D_8008E568;
+// extern UNK_TYPE D_8008E574;
+// extern UNK_TYPE D_8008E57C;
+// extern UNK_TYPE D_8008E584;
+// extern UNK_TYPE D_8008E590;
+// extern UNK_TYPE D_8008E598;
+// extern UNK_TYPE D_8008E5A0;
+// extern UNK_TYPE D_8008E5B0;
+// extern UNK_TYPE D_8008E5B4;
+
+// extern UNK_TYPE D_800990C0_cn;
+// extern UNK_TYPE D_800990D0_cn;
+// extern UNK_TYPE D_800990E8_cn;
+// extern UNK_TYPE D_80099108_cn;
+// extern UNK_TYPE D_80099110_cn;
+// extern UNK_TYPE D_80099150_cn;
+// extern UNK_TYPE D_80099170_cn;
+// extern UNK_TYPE D_800991A4_cn;
+// extern UNK_TYPE D_800991D0_cn;
+// extern UNK_TYPE D_800991E0_cn;
+// extern UNK_TYPE D_800991F0_cn;
+// extern UNK_TYPE D_800991FC_cn;
+// extern UNK_TYPE D_8009922C_cn;
+// extern UNK_TYPE D_80099240_cn;
+// extern UNK_TYPE D_80099258_cn;
+// extern UNK_TYPE D_80099288_cn;
+// extern UNK_TYPE D_80099290_cn;
+// extern UNK_TYPE D_80099298_cn;
+// extern UNK_TYPE D_800992A4_cn;
+// extern UNK_TYPE D_800992A8_cn;
+// extern UNK_TYPE D_800992B4_cn;
+// extern UNK_TYPE D_800992B8_cn;
+// extern UNK_TYPE D_800992C4_cn;
+// extern UNK_TYPE D_800992CC_cn;
+// extern UNK_TYPE D_800992D4_cn;
+// extern UNK_TYPE D_800992E0_cn;
+// extern UNK_TYPE D_800992E8_cn;
+// extern UNK_TYPE D_800992F0_cn;
+// extern UNK_TYPE D_80099300_cn;
+// extern UNK_TYPE D_80099304_cn;
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003E730);
 #endif
@@ -22,7 +88,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003E8C8);
 #if 0
 ? func_8004058C_cn(?*, s32, s32, s32);              /* extern */
 ? func_800405D4_cn();                               /* extern */
-? func_80040604_cn(s8*, s32, u8);                   /* extern */
 extern s32 D_800991D0_cn;
 extern s32 D_800991E0_cn;
 extern s32 D_800991F0_cn;
@@ -253,7 +318,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003F050);
 #if 0
 //? func_8004058C_cn(?*, s32, s32);                   /* extern */
 //? func_800405D4_cn();                               /* extern */
-//? func_80040604_cn(s8*, s32, s16, s32, s32, s32, s32, s32, s32, s32, s32, s32, s32, s32); /* extern */
 extern ? D_800990D0_cn;
 extern ? D_800990E8_cn;
 extern ? D_80099108_cn;
@@ -867,7 +931,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003F7DC);
 #if 0
 //? func_8004058C_cn(?*, s32, s32);                   /* extern */
 //? func_800405D4_cn();                               /* extern */
-//? func_80040604_cn(s8*, s32, s16, s32, s32, s32, s32, s32, s32, s32, s32, s32); /* extern */
 extern ? B_800E58C0;
 extern ? D_800990D0_cn;
 extern s32 D_800990E8_cn;
@@ -1258,29 +1321,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_80040578);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_80040624);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_80040624);
-#endif
-
-#if VERSION_US || VERSION_CN
-void func_800409A0(void) {
-    func_80040578();
-    func_8004015C();
-    func_80040624(NULL, 0x20, 0x20);
-    func_80040238();
-}
-#endif
-
-#if VERSION_US || VERSION_CN
-void func_800409DC(Gfx **gfxP) {
-    func_80040624(gfxP, 0x20, 0x20);
-}
-#endif
-
-#if VERSION_US
 ASM_RODATA;
 const char STR_800ADAC8[] RODATA = "<ﾄｸｼｭ>";
 
@@ -1325,4 +1365,158 @@ const char STR_800C4A30_cn[] = "@c2%s\n";
 const char STR_800C4A38_cn[] = "@m%c@c%c%s\n";
 
 const char STR_800C4A44_cn[] = "@m%c@c%c%c:%s\n";
+#endif
+
+extern const char *D_800992F0_cn[];
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_80040624);
+#endif
+
+#if VERSION_CN
+UNK_TYPE func_8004058C_cn(Gfx **gfxP, UNK_FUN_PTR arg1, s32 arg2, s32 arg3);
+UNK_TYPE func_800405D4_cn(void);
+s32 func_800421E0_cn(void);
+void func_8004206C_cn(UNK_TYPE arg0, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3);
+
+#ifdef NON_MATCHING
+extern s32 B_800FC584_cn;
+
+typedef struct struct_800FC588_cn {
+    /* 0x0 */ s8 unk_0;
+    /* 0x1 */ s8 unk_1;
+    /* 0x2 */ u16 unk_2;
+} struct_800FC588_cn; // size = 0x4
+extern struct_800FC588_cn B_800FC588_cn[];
+
+extern s8 B_800FC5B8_cn;
+extern s8 B_800FC5B9_cn;
+extern UNK_TYPE4 *D_80099298_cn[];
+extern UNK_TYPE *D_800992A4_cn;
+extern s32 D_800992A8_cn[];
+extern s32 D_80099300_cn;
+extern s32 D_80099304_cn[];
+
+// regalloc
+void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
+    s32 var_a2;
+    s32 var_s0;
+    s32 var_s1;
+    s32 var_s1_2;
+    s32 var_s3;
+    s32 var_s7;
+    struct_800FC588_cn *temp_s5;
+
+    temp_s5 = &B_800FC588_cn[B_800FC584_cn];
+
+    // CLAMP?
+    if ((func_800421E0_cn() / 10) < 0) {
+        var_s1 = 0;
+    } else if ((func_800421E0_cn() / 10) > 10) {
+        var_s1 = 0xA;
+    } else {
+        var_s1 = func_800421E0_cn() / 10;
+    }
+
+    func_8004058C_cn(gfxP, (void*)func_8004206C_cn, arg1, arg2);
+    func_80040604_cn(STR_800C4A10_cn);
+    func_80040604_cn(STR_800C4A24_cn);
+
+    var_s0 = 0;
+    while (var_s0 < var_s1) {
+        func_80040604_cn(STR_800C4A2C_cn, 0x83);
+        var_s0 += 1;
+    }
+
+    while (var_s0 < 0xA) {
+        func_80040604_cn(STR_800C4A2C_cn, 0x82);
+        var_s0 += 1;
+    }
+
+    func_800405D4_cn();
+
+    arg1 += 6;
+    arg2 += 0x20;
+
+    for (var_s0 = 0; var_s0 < 4; var_s0++) {
+        func_8004058C_cn(gfxP, (void*)func_8004206C_cn, arg1, arg2);
+
+        func_80040604_cn(STR_800C4A30_cn, D_800992F0_cn[var_s0]);
+
+        var_s3 = var_s0 << 5;
+
+        for (var_s1_2 = 0; var_s1_2 < D_800992A8_cn[var_s0]; var_s1_2++) {
+            var_a2 = 0x37;
+
+            switch (var_s0) {
+                case 0:
+                    if (var_s1_2 == B_800FC584_cn) {
+                        var_a2 = 0x33;
+                    }
+                    break;
+
+                case 1:
+                    if (var_s1_2 == temp_s5->unk_0) {
+                        var_a2 = 0x33;
+                    } else if (var_s1_2 == B_800FC5B8_cn) {
+                        var_a2 = D_80099300_cn;
+                    }
+                    break;
+
+                case 2:
+                    if (var_s1_2 == temp_s5->unk_1) {
+                        var_a2 = 0x33;
+                    } else if (var_s1_2 == B_800FC5B9_cn) {
+                        var_a2 = D_80099300_cn;
+                    }
+                    break;
+
+                case 3:
+                    var_s7 = 0x80;
+                    if (((temp_s5->unk_2 >> var_s1_2) % 2) != 0) {
+                        var_a2 = 0x33;
+                        var_s7 = 0x81;
+                    } else if (var_s1_2 == 0xB) {
+                        var_a2 = D_80099300_cn;
+                    }
+                    break;
+            }
+
+            switch (var_s0) {
+                case 0:
+                case 1:
+                case 2:
+                    func_80040604_cn(STR_800C4A38_cn, var_s3, var_a2, D_80099298_cn[var_s0][var_s1_2]);
+                    var_s3++;
+                    break;
+
+                case 3:
+                    func_80040604_cn(STR_800C4A44_cn, var_s3, var_a2, var_s7, D_800992A4_cn[var_s1_2]);
+                    var_s3++;
+                    break;
+            }
+        }
+
+        func_800405D4_cn();
+        arg1 += D_80099304_cn[var_s0] * 6;
+    }
+}
+#else
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_80040624);
+#endif
+#endif
+
+#if VERSION_US || VERSION_CN
+void func_800409A0(void) {
+    func_80040578();
+    func_8004015C();
+    func_80040624(NULL, 0x20, 0x20);
+    func_80040238();
+}
+#endif
+
+#if VERSION_US || VERSION_CN
+void func_800409DC(Gfx **gfxP) {
+    func_80040624(gfxP, 0x20, 0x20);
+}
 #endif
