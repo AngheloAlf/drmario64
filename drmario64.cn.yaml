@@ -364,6 +364,10 @@ segments:
       - [0x07FD20, data, main_segment/07FD20]
       - [0x07FD50, data, main_segment/07FD50]
 
+      - [0x080DF0, data, main_segment/026550]
+
+      - [0x081050, data, main_segment/081050]
+
       - [0x0811F0, .data, main_segment/main_menu]
 
       - [0x081340, data, main_segment/081340]

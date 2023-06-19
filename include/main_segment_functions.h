@@ -178,10 +178,10 @@ void func_8003FB00(void);
 void func_8003FD0C(Gfx** gxfP);
 // void func_8003FD88();
 // void func_8003FEE4();
-// void func_8004015C();
-// void func_80040238();
-// void func_80040578();
-// void func_80040624();
+void func_8004015C(void);
+void func_80040238(void);
+void func_80040578(void);
+void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2);
 void func_800409A0(void);
 void func_800409DC(Gfx **gfxP);
 

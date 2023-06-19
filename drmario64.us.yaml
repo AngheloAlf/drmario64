@@ -416,6 +416,10 @@ segments:
       - [0x074E10, data, main_segment/game_etc]
 
       - [0x075000, data, main_segment/075000]
+
+      - [0x076190, data, main_segment/026550]
+
+      - [0x0763F0, data, main_segment/0763F0]
       - [0x076590, .data, main_segment/main_menu]
 
       # - [0x0766E0, data, main_segment/font_textures]
