@@ -74,14 +74,14 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_80040390_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_8004058C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_8003E69C);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_800405D4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_8003E6D8);
 #endif
 
 #if VERSION_CN
-void func_80040604_cn(const char *fmt UNUSED, ...) {
+void func_8003E6F8(const char *fmt UNUSED, ...) {
 }
 #endif
