@@ -162,7 +162,7 @@ void func_8003A950(Gfx **gfxP);
 // void func_8003E4AC();
 // void func_8003E4B4();
 UNK_TYPE func_8003E69C(Gfx **gfxP, UNK_FUN_PTR arg1, s32 arg2, s32 arg3);
-UNK_TYPE func_8003E6D8(void);
+void func_8003E6D8(void);
 void func_8003E6F8(const char *fmt, ...);
 // void func_8003E730();
 void func_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2);
