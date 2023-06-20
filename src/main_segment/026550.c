@@ -25,7 +25,7 @@
 // extern UNK_TYPE D_8008E538;
 // extern UNK_TYPE D_8008E540;
 extern s32 *D_8008E548[];
-// extern UNK_TYPE D_8008E558;
+extern s32 D_8008E558[];
 // extern UNK_TYPE D_8008E564;
 // extern UNK_TYPE D_8008E568;
 // extern UNK_TYPE D_8008E574;
@@ -54,8 +54,8 @@ extern s32 D_8008E5B4[];
 // extern UNK_TYPE D_80099258_cn;
 // extern UNK_TYPE D_80099288_cn;
 // extern UNK_TYPE D_80099290_cn;
-extern s32 *D_8008E548[];
-extern s32 D_8008E558[];
+//! extern s32 *D_8008E548[];
+//! extern s32 D_8008E558[];
 // extern UNK_TYPE D_800992B4_cn;
 // extern UNK_TYPE D_800992B8_cn;
 // extern UNK_TYPE D_800992C4_cn;
@@ -63,10 +63,9 @@ extern s32 D_8008E558[];
 // extern UNK_TYPE D_800992D4_cn;
 // extern UNK_TYPE D_800992E0_cn;
 // extern UNK_TYPE D_800992E8_cn;
-extern const char *D_8008E5A0[];
-extern s32 D_8008E5B0;
-extern s32 D_8008E5B4[];
-
+//! extern const char *D_8008E5A0[];
+//! extern s32 D_8008E5B0;
+//! extern s32 D_8008E5B4[];
 
 // bss
 
@@ -78,15 +77,12 @@ typedef struct struct_800FC588_cn {
     /* 0x2 */ u16 unk_2;
 } struct_800FC588_cn; // size = 0x4
 extern struct_800FC588_cn B_800E5938[];
-extern struct_800FC588_cn B_800E5938[];
 
 typedef struct struct_800E5968 {
     /* 0x0 */ s8 unk_0;
     /* 0x1 */ s8 unk_1;
 } struct_800E5968; // size = 0x2
 extern struct_800E5968 B_800E5968;
-
-extern s32 B_800E5934;
 
 extern s32 B_800E596C;
 extern s32 B_800E5970[];
