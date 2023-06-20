@@ -4,6 +4,7 @@
 #include "unknown_structs.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "libc/stdarg.h"
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/026000", func_8003E1E0);
@@ -39,10 +40,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026000", func_8003E69C);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/026000", func_8003E6D8);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026000", func_8003E6F8);
 #endif
 
 #if VERSION_CN
@@ -81,7 +78,19 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_8003E69C);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_8003E6D8);
 #endif
 
-#if VERSION_CN
+void func_8003D6D0(UNK_TYPE *arg0, const char *fmt, va_list args);
+extern UNK_TYPE D_8008E364;
+
+#if VERSION_US || VERSION_CN
 void func_8003E6F8(const char *fmt UNUSED, ...) {
+#if VERSION_US
+    va_list args;
+
+    va_start(args, fmt);
+
+    func_8003D6D0(&D_8008E364, fmt, args);
+
+    va_end(args);
+#endif
 }
 #endif
