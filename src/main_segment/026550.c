@@ -62,7 +62,7 @@ UNK_TYPE func_800405D4_cn(void);
 // extern UNK_TYPE D_80099290_cn;
 // extern UNK_TYPE D_80099298_cn;
 // extern UNK_TYPE D_800992A4_cn;
-extern s32 D_800992A8_cn[];
+extern s32 D_8008E558[];
 // extern UNK_TYPE D_800992B4_cn;
 // extern UNK_TYPE D_800992B8_cn;
 // extern UNK_TYPE D_800992C4_cn;
@@ -192,14 +192,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003E8C8);
 #endif
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003EB20);
-#endif
-
-#if VERSION_CN
-extern s32 B_800FC56C_cn;
-extern u16 B_800FC56E_cn;
-extern u16 B_800FC572_cn;
+extern s32 B_800E591C;
 typedef struct struct_800F48D0 {
     /* 0x00 */ UNK_TYPE2 unk_00;
     /* 0x02 */ UNK_TYPE2 unk_02;
@@ -232,12 +225,13 @@ typedef struct struct_800F48D0 {
 } struct_800F48D0; // size = 0x38
 extern struct_800F48D0 B_800F48D0[][8];
 
+#if VERSION_US || VERSION_CN
 void func_8003EB20(void) {
-    struct_800F48D0 *temp_a1 = &B_800F48D0[B_800FC56C_cn][B_800E5920];
+    struct_800F48D0 *temp_a1 = &B_800F48D0[B_800E591C][B_800E5920];
     s16 *temp_v0 = B_800E58C0;
 
-    *temp_v0++ = B_800FC56E_cn;
-    *temp_v0++ = B_800FC572_cn;
+    *temp_v0++ = B_800E591C;
+    *temp_v0++ = B_800E5920;
     *temp_v0++ = temp_a1->unk_00;
     *temp_v0++ = temp_a1->unk_02;
     *temp_v0++ = temp_a1->unk_04;
@@ -270,16 +264,13 @@ void func_8003EB20(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003ECDC);
-#endif
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void func_8003ECDC(void) {
     s16 *temp_v0 = B_800E58C0;
-    struct_800F48D0 *temp_a0 = &B_800F48D0[B_800FC56C_cn][B_800E5920];
+    struct_800F48D0 *temp_a0 = &B_800F48D0[B_800E591C][B_800E5920];
 
-    B_800FC56C_cn = *temp_v0++;
+    B_800E591C = *temp_v0++;
     B_800E5920 = *temp_v0++;
     temp_a0->unk_00 = *temp_v0++;
     temp_a0->unk_02 = *temp_v0++;
@@ -433,11 +424,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003F050);
 #endif
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003F360);
-#endif
-
-#if VERSION_CN
 extern s32 B_800E5928;
 typedef struct struct_801007E0_cn {
     /* 0x00 */ UNK_TYPE1 unk_00;
@@ -455,6 +441,7 @@ typedef struct struct_801007E0_cn {
 } struct_801007E0_cn; // size = 0x6C
 extern struct_801007E0_cn B_800E9BC0[];
 
+#if VERSION_US || VERSION_CN
 void func_8003F360(void) {
     struct_801007E0_cn *temp_a1 = &B_800E9BC0[B_800E5928];
     s16 *var_a3 = B_800E58C0;
@@ -478,11 +465,7 @@ void func_8003F360(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003F474);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void func_8003F474(void) {
     struct_801007E0_cn *temp_t3 = &B_800E9BC0[B_800E5928];
     s16 *var_t1 = B_800E58C0;
@@ -1119,11 +1102,7 @@ void func_8003FB00(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003FD0C);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void func_8003FD0C(Gfx **gxfP) {
     switch (B_800E5930) {
         case ENUM_800E5930_0:
@@ -1150,8 +1129,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003FD88);
 //? func_800400E8_cn(s32, ?, struct_800FC588_cn *, s32); /* extern */
 //? func_800402AC_cn(s32, s32, s32, ?);               /* extern */
 extern s32 B_800FC560_cn;
-extern s32 B_800FC5BC_cn;
-extern s32 B_800FC5C0_cn[];
+extern s32 B_800E596C;
+extern s32 B_800E5970[];
 
 void func_8004206C_cn(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_a0;
@@ -1162,8 +1141,8 @@ void func_8004206C_cn(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     temp_a0 = arg3 >> 5;
     temp_a2 = &B_800FC588_cn[B_800FC584_cn];
     temp_a3 = arg3 & 0x1F;
-    if (temp_a0 == B_800FC5BC_cn) {
-        if (temp_a3 == *(B_800FC5C0_cn + (temp_a0 * 4))) {
+    if (temp_a0 == B_800E596C) {
+        if (temp_a3 == *(B_800E5970 + (temp_a0 * 4))) {
             if (arg0 != 0) {
                 temp_v0 = B_800FC560_cn + 1;
                 B_800FC560_cn = temp_v0;
@@ -1174,16 +1153,16 @@ void func_8004206C_cn(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
             } else if (*gControllerPressedButtons & 0x8000) {
                 switch (temp_a0) {                  /* irregular */
                     case 0x0:
-                        B_800FC584_cn = B_800FC5C0_cn.unk_0;
+                        B_800FC584_cn = B_800E5970.unk_0;
                         return;
                     case 0x1:
-                        temp_a2->unk_0 = (s8) B_800FC5C0_cn.unk_7;
+                        temp_a2->unk_0 = (s8) B_800E5970.unk_7;
                         break;
                     case 0x2:
-                        temp_a2->unk_1 = (s8) B_800FC5C0_cn.unk_B;
+                        temp_a2->unk_1 = (s8) B_800E5970.unk_B;
                         break;
                     case 0x3:
-                        temp_a2->unk_2 ^= 1 << B_800FC5C0_cn.unk_C;
+                        temp_a2->unk_2 ^= 1 << B_800E5970.unk_C;
                         break;
                 }
             }
@@ -1482,7 +1461,7 @@ void func_8004015C(void) {
     u16 *var_t3;
 
     var_a2 = 0;
-    if (*D_800992A8_cn > 0) {
+    if (*D_8008E558 > 0) {
         var_t5 = &D_80093EF0_cn + 1;
         var_t4 = &D_80093EF0_cn + 0xB;
         var_t3 = &B_800FC588_cn->unk_2;
@@ -1508,7 +1487,7 @@ void func_8004015C(void) {
             var_t0 += 4;
             var_a2 += 1;
             var_a3 += 0x6C;
-        } while (var_a2 < *D_800992A8_cn);
+        } while (var_a2 < *D_8008E558);
     }
     B_800FC50C_cn = 1;
 }
@@ -1525,14 +1504,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_80040238);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_80040238);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_80040578);
-#endif
+extern s32 B_800E596C;
+extern s32 B_800E5970[];
 
-#if VERSION_CN
-extern s32 B_800FC5BC_cn;
-extern s32 B_800FC5C0_cn[];
-
+#if VERSION_US || VERSION_CN
 void func_80040578(void) {
     s32 vertical = 0;
     s32 horizontal = 0;
@@ -1551,8 +1526,8 @@ void func_80040578(void) {
         vertical++;
     }
 
-    B_800FC5BC_cn = WrapI(0, 4, B_800FC5BC_cn + horizontal);
-    B_800FC5C0_cn[B_800FC5BC_cn] = WrapI(0, D_800992A8_cn[B_800FC5BC_cn], B_800FC5C0_cn[B_800FC5BC_cn] + vertical);
+    B_800E596C = WrapI(0, 4, B_800E596C + horizontal);
+    B_800E5970[B_800E596C] = WrapI(0, D_8008E558[B_800E596C], B_800E5970[B_800E596C] + vertical);
 }
 #endif
 
@@ -1669,7 +1644,7 @@ void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
 
         var_s3 = var_s0 << 5;
 
-        for (var_s1_2 = 0; var_s1_2 < D_800992A8_cn[var_s0]; var_s1_2++) {
+        for (var_s1_2 = 0; var_s1_2 < D_8008E558[var_s0]; var_s1_2++) {
             var_a2 = 0x37;
 
             switch (var_s0) {
