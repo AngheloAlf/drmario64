@@ -278,8 +278,28 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFirstInit);
 #endif
 #endif
 
+extern struct_801007E0_cn D_80093EF0_cn[];
+
+extern struct_800F48D0 D_80093470_cn[6][8];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifFirstInit);
+void aifFirstInit(void) {
+    s32 i;
+
+    for (i = 0; i < 8; i++) {
+        s32 j;
+
+        for (j = 0; j < 6; j++) {
+            B_800F48D0[j][i] = D_80093470_cn[j][i];
+        }
+    }
+
+    for (i = 0; i < 0x10; i++) {
+        B_800E9BC0[i] = D_80093EF0_cn[i];
+    }
+
+    aifGameInit();
+}
 #endif
 
 /**

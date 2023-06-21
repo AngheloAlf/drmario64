@@ -1,7 +1,12 @@
 #ifndef LIBC_STDARG_H
 #define LIBC_STDARG_H
 
-#if __IS_OLD_COMP__
+#if defined(SPLAT) || defined(M2CTX) || defined(PERMUTER)
+#define va_list char*
+#define va_start(__AP, __LASTARG)
+#define va_arg(__AP, __type) 0
+#define va_end(__AP)
+#elif __IS_OLD_COMP__
 #include "gcc/stdarg.h"
 #else
 #define va_list __builtin_va_list

@@ -753,6 +753,53 @@ typedef enum enum_800E5930 {
     /* 3 */ ENUM_800E5930_MAX
 } enum_800E5930;
 
+typedef struct struct_800F48D0 {
+    /* 0x00 */ UNK_TYPE2 unk_00;
+    /* 0x02 */ UNK_TYPE2 unk_02;
+    /* 0x04 */ UNK_TYPE2 unk_04;
+    /* 0x06 */ UNK_TYPE2 unk_06;
+    /* 0x08 */ UNK_TYPE2 unk_08;
+    /* 0x0A */ UNK_TYPE2 unk_0A;
+    /* 0x0C */ UNK_TYPE2 unk_0C;
+    /* 0x0E */ UNK_TYPE2 unk_0E;
+    /* 0x10 */ UNK_TYPE2 unk_10;
+    /* 0x12 */ UNK_TYPE2 unk_12;
+    /* 0x14 */ UNK_TYPE2 unk_14;
+    /* 0x16 */ UNK_TYPE2 unk_16;
+    /* 0x18 */ UNK_TYPE2 unk_18;
+    /* 0x1A */ UNK_TYPE2 unk_1A;
+    /* 0x1C */ UNK_TYPE2 unk_1C;
+    /* 0x1E */ UNK_TYPE2 unk_1E;
+    /* 0x20 */ UNK_TYPE2 unk_20;
+    /* 0x22 */ UNK_TYPE2 unk_22;
+    /* 0x24 */ UNK_TYPE2 unk_24;
+    /* 0x26 */ UNK_TYPE2 unk_26;
+    /* 0x28 */ UNK_TYPE2 unk_28;
+    /* 0x2A */ UNK_TYPE2 unk_2A;
+    /* 0x2C */ UNK_TYPE2 unk_2C;
+    /* 0x2E */ UNK_TYPE2 unk_2E;
+    /* 0x30 */ UNK_TYPE2 unk_30;
+    /* 0x32 */ UNK_TYPE2 unk_32;
+    /* 0x34 */ UNK_TYPE2 unk_34;
+    /* 0x36 */ UNK_TYPE2 unk_36;
+} struct_800F48D0; // size = 0x38
+
+
+
+typedef struct struct_801007E0_cn {
+    /* 0x00 */ UNK_TYPE1 unk_00;
+    /* 0x01 */ UNK_TYPE1 unk_01;
+    /* 0x02 */ UNK_TYPE2 unk_02;
+    /* 0x04 */ s8 unk_04[8];
+    /* 0x0C */ s8 unk_0C[4];
+    /* 0x10 */ UNK_TYPE1 unk_10[0xC];
+    /* 0x1C */ UNK_TYPE2 unk_1C[4];
+    /* 0x24 */ UNK_TYPE1 unk_24[0x18];
+    /* 0x3C */ UNK_TYPE1 unk_3C[4];
+    /* 0x40 */ UNK_TYPE1 unk_40[0xC];
+    /* 0x4C */ UNK_TYPE2 unk_4C[4];
+    /* 0x50 */ UNK_TYPE1 unk_54[0x18];
+} struct_801007E0_cn; // size = 0x6C
 
 // varargs stuff
 

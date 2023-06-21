@@ -549,7 +549,7 @@ extern s32 randomtable[55];
 // extern UNK_TYPE aiRootP;
 // extern UNK_TYPE B_800E9BB4;
 extern s16 B_800E9BB6;
-// extern UNK_TYPE B_800E9BC0;
+extern struct_801007E0_cn B_800E9BC0[];
 // extern UNK_TYPE B_800EA0D0;
 extern u8 success;
 // extern UNK_TYPE attack_sprite_idx;
@@ -634,7 +634,7 @@ extern struct_800FAF98_unk_64 B_800F48B0;
 extern UNK_TYPE2 joygam[4];
 
 extern u16 joycur[MAXCONTROLLERS+1];
-// extern UNK_TYPE B_800F48D0;
+extern struct_800F48D0 B_800F48D0[6][8];
 extern s32 MissRate;
 extern OSContStatus B_800F5358[4];
 extern u8 aiFlag[];

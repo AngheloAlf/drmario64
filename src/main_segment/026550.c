@@ -52,8 +52,8 @@ extern s32 D_8008E5B4[];
 // extern UNK_TYPE D_8009922C_cn;
 // extern UNK_TYPE D_80099240_cn;
 // extern UNK_TYPE D_80099258_cn;
-// extern UNK_TYPE D_80099288_cn;
-// extern UNK_TYPE D_80099290_cn;
+extern UNK_TYPE1 D_80099288_cn[];
+extern UNK_TYPE1 D_80099290_cn[];
 //! extern s32 *D_8008E548[];
 //! extern s32 D_8008E558[];
 // extern UNK_TYPE D_800992B4_cn;
@@ -61,11 +61,13 @@ extern s32 D_8008E5B4[];
 // extern UNK_TYPE D_800992C4_cn;
 // extern UNK_TYPE D_800992CC_cn;
 // extern UNK_TYPE D_800992D4_cn;
-// extern UNK_TYPE D_800992E0_cn;
-// extern UNK_TYPE D_800992E8_cn;
+extern UNK_TYPE1 D_800992E0_cn[];
+extern UNK_TYPE1 D_800992E8_cn[];
 //! extern const char *D_8008E5A0[];
 //! extern s32 D_8008E5B0;
 //! extern s32 D_8008E5B4[];
+
+extern struct_801007E0_cn D_80093EF0_cn[];
 
 // bss
 
@@ -88,54 +90,10 @@ extern s32 B_800E596C;
 extern s32 B_800E5970[];
 
 extern s32 B_800E591C;
-typedef struct struct_800F48D0 {
-    /* 0x00 */ UNK_TYPE2 unk_00;
-    /* 0x02 */ UNK_TYPE2 unk_02;
-    /* 0x04 */ UNK_TYPE2 unk_04;
-    /* 0x06 */ UNK_TYPE2 unk_06;
-    /* 0x08 */ UNK_TYPE2 unk_08;
-    /* 0x0A */ UNK_TYPE2 unk_0A;
-    /* 0x0C */ UNK_TYPE2 unk_0C;
-    /* 0x0E */ UNK_TYPE2 unk_0E;
-    /* 0x10 */ UNK_TYPE2 unk_10;
-    /* 0x12 */ UNK_TYPE2 unk_12;
-    /* 0x14 */ UNK_TYPE2 unk_14;
-    /* 0x16 */ UNK_TYPE2 unk_16;
-    /* 0x18 */ UNK_TYPE2 unk_18;
-    /* 0x1A */ UNK_TYPE2 unk_1A;
-    /* 0x1C */ UNK_TYPE2 unk_1C;
-    /* 0x1E */ UNK_TYPE2 unk_1E;
-    /* 0x20 */ UNK_TYPE2 unk_20;
-    /* 0x22 */ UNK_TYPE2 unk_22;
-    /* 0x24 */ UNK_TYPE2 unk_24;
-    /* 0x26 */ UNK_TYPE2 unk_26;
-    /* 0x28 */ UNK_TYPE2 unk_28;
-    /* 0x2A */ UNK_TYPE2 unk_2A;
-    /* 0x2C */ UNK_TYPE2 unk_2C;
-    /* 0x2E */ UNK_TYPE2 unk_2E;
-    /* 0x30 */ UNK_TYPE2 unk_30;
-    /* 0x32 */ UNK_TYPE2 unk_32;
-    /* 0x34 */ UNK_TYPE2 unk_34;
-    /* 0x36 */ UNK_TYPE2 unk_36;
-} struct_800F48D0; // size = 0x38
-extern struct_800F48D0 B_800F48D0[][8];
 
 extern s32 B_800E5928;
-typedef struct struct_801007E0_cn {
-    /* 0x00 */ UNK_TYPE1 unk_00;
-    /* 0x01 */ UNK_TYPE1 unk_01;
-    /* 0x02 */ UNK_TYPE2 unk_02;
-    /* 0x04 */ s8 unk_04[8];
-    /* 0x0C */ s8 unk_0C[4];
-    /* 0x10 */ UNK_TYPE1 unk_10[0xC];
-    /* 0x1C */ UNK_TYPE2 unk_1C[4];
-    /* 0x24 */ UNK_TYPE1 unk_24[0x18];
-    /* 0x3C */ UNK_TYPE1 unk_3C[4];
-    /* 0x40 */ UNK_TYPE1 unk_40[0xC];
-    /* 0x4C */ UNK_TYPE2 unk_4C[4];
-    /* 0x50 */ UNK_TYPE1 unk_54[0x18];
-} struct_801007E0_cn; // size = 0x6C
-extern struct_801007E0_cn B_800E9BC0[];
+
+extern s32 B_800FC50C_cn;
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003E730);
@@ -1447,56 +1405,28 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8004015C);
 #endif
 
 #if VERSION_CN
-#if 0
-extern s32 B_800FC50C_cn;
-extern ? D_80093EF0_cn;
-extern ? D_800992E0_cn;
-extern ? D_800992E8_cn;
-
 void func_8004015C(void) {
-    s32 var_a2;
-    s8 *var_a3;
-    s8 *var_t1;
-    s8 *var_t2;
-    s8 *var_t4;
-    s8 *var_t5;
-    struct_800FC588_cn *var_t0;
-    u16 *var_t3;
+    struct_800E5968 *temp = &B_800E5968;
+    s32 i;
 
-    var_a2 = 0;
-    if (*D_8008E558 > 0) {
-        var_t5 = &D_80093EF0_cn + 1;
-        var_t4 = &D_80093EF0_cn + 0xB;
-        var_t3 = &B_800E5938->unk_2;
-        var_t2 = &B_800E5938->unk_1;
-        var_t1 = &B_800E9BC0->unk_01;
-        var_t0 = B_800E5938;
-        var_a3 = &B_800E9BC0->unk_04[7];
-        do {
-            var_t0->unk_0 = (s8) *(*var_a3 + &D_800992E0_cn);
-            *var_t2 = (s8) *(*var_t1 + &D_800992E8_cn);
-            if (B_800FC50C_cn == 0) {
-                *var_t3 = 0x800;
-            }
-            if (var_a2 == B_800E5934) {
-                B_800E5968.unk_0 = (s8) *(*var_t4 + &D_800992E0_cn);
-                B_800E5968.unk_1 = (u8) *(*var_t5 + &D_800992E8_cn);
-            }
-            var_t5 += 0x6C;
-            var_t4 += 0x6C;
-            var_t3 += 4;
-            var_t2 += 4;
-            var_t1 += 0x6C;
-            var_t0 += 4;
-            var_a2 += 1;
-            var_a3 += 0x6C;
-        } while (var_a2 < *D_8008E558);
+    for (i = 0; i < D_8008E558[0]; i++) {
+        B_800E5938[i].unk_0 = D_800992E0_cn[B_800E9BC0[i].unk_04[7]];
+        B_800E5938[i].unk_1 = D_800992E8_cn[B_800E9BC0[i].unk_01];
+
+        if (B_800FC50C_cn == 0) {
+            B_800E5938[i].unk_2 = 0x800;
+        }
+
+        if (i == B_800E5934) {
+            struct_801007E0_cn *new_var = D_80093EF0_cn;
+
+            temp->unk_0 = D_800992E0_cn[new_var[i].unk_04[7]];
+            temp->unk_1 = D_800992E8_cn[new_var[i].unk_01];
+        }
     }
+
     B_800FC50C_cn = 1;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8004015C);
-#endif
 #endif
 
 #if VERSION_US
@@ -1504,7 +1434,250 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_80040238);
 #endif
 
 #if VERSION_CN
+#if 0
+void func_80040238(void) {
+    s32 sp8;
+    s16 *temp_a0_2;
+    s16 *temp_t0_2;
+    s16 *var_a0;
+    s16 *var_a0_2;
+    s16 *var_a1;
+    s16 *var_t0;
+    s32 *temp_s6;
+    s32 temp_a0;
+    s32 temp_a0_3;
+    s32 temp_a1;
+    s32 var_s4;
+    s32 var_s5;
+    s32 var_t2;
+    s32 var_t3;
+    s32 var_t3_2;
+    s32 var_t3_3;
+    s32 var_t3_4;
+    s32 var_v0;
+    s8 *temp_a3;
+    s8 *temp_t1;
+    s8 *temp_v0;
+    s8 *var_a2;
+    s8 *var_a3;
+    struct_800FC588_cn *temp_t9;
+    u16 *var_t4;
+    u16 *var_t5;
+    u16 *var_t6;
+    u16 *var_t7;
+    u16 temp_a2_2;
+    u16 temp_t0;
+    u8 *temp_v0_2;
+    u8 *temp_v1;
+    struct_801007E0_cn *temp_a2;
+    struct_801007E0_cn *temp_t8;
+
+    var_s5 = 0;
+    if (*D_8008E558 > 0) {
+        temp_s6 = D_8008E558 + 0xC;
+        sp8 = *D_8008E558;
+        var_s4 = 0;
+        do {
+            temp_a2 = var_s4 + D_80093EF0_cn;
+            temp_t8 = var_s4 + B_800E9BC0;
+            temp_t9 = &B_800E5938[var_s5];
+
+            for (var_t3 = 0; var_t3 < 8; var_t3++) {
+                temp_v0 = &(&B_800E9BC0->unk_04[var_s4])[var_t3];
+                *temp_v0 = (s8) *(temp_t9->unk_0 + D_80099288_cn);
+            }
+
+            var_t2 = 0;
+            temp_t8->unk_01 = (u8) *(temp_t9->unk_1 + D_80099290_cn);
+            if (temp_t9->unk_2 & 0x800) {
+                var_t3_2 = 0;
+                var_t7 = temp_a2 + 0x4C;
+                var_t6 = temp_a2 + 0x1C;
+                var_t5 = temp_t8 + 0x4C;
+                var_t4 = temp_t8 + 0x1C;
+                while (var_t3_2 < 4) {
+                    temp_a3 = &(&B_800E9BC0->unk_0C[var_s4])[var_t2];
+                    temp_t1 = &(&B_800E9BC0->unk_3C[var_s4])[var_t2];
+                    var_t2 += 1;
+                    temp_t0 = *var_t7;
+                    var_t7 += 2;
+                    temp_a2_2 = *var_t6;
+                    var_t6 += 2;
+                    temp_v0_2 = temp_a2 + 0xC + var_t3_2;
+                    temp_v1 = temp_a2 + 0x3C + var_t3_2;
+                    var_t3_2 += 1;
+                    *temp_a3 = (s8) *temp_v0_2;
+                    *var_t4 = temp_a2_2;
+                    *temp_t1 = (s8) *temp_v1;
+                    *var_t5 = temp_t0;
+                    var_t5 += 2;
+                    var_t4 += 2;
+                }
+            }
+
+            var_t3_3 = 0;
+            if (*temp_s6 > 0) {
+                temp_a0 = var_t2 * 2;
+                var_t0 = temp_a0 + (temp_t8 + 0x4C);
+                var_a3 = &(&B_800E9BC0->unk_3C[var_s4])[var_t2];
+                var_a0 = temp_a0 + (temp_t8 + 0x1C);
+                var_a2 = &(&B_800E9BC0->unk_0C[var_s4])[var_t2];
+                var_v0 = 1 << 0;
+                do {
+                    temp_a1 = temp_t9->unk_2 & var_v0;
+                    switch (temp_a1) {              /* irregular */
+                        case 0x1:
+                            *var_a2 = 0xC;
+                            *var_a0 = 5;
+                            *var_a3 = 4;
+                            *var_t0 = 1;
+                            temp_t0_2 = var_t0 + 2;
+                            temp_a0_2 = var_a0 + 2;
+                            var_a2[1] = 0xC;
+                            *temp_a0_2 = 5;
+                            var_a3[1] = 8;
+                            *temp_t0_2 = 1;
+                            var_t0 = temp_t0_2 + 2;
+#if 0
+                            var_a3 = &var_a3[1].unk_1;
+#endif
+                            var_a0 = temp_a0_2 + 2;
+#if 0
+                            var_a2 = &var_a2[1].unk_1;
+#endif
+                            var_t2 += 2;
+                            break;
+                        case 0x2:
+                            *var_a2 = 3;
+                            *var_a0 = 0;
+                            *var_a3 = 8;
+                            *var_t0 = 7;
+                            var_t0 += 2;
+                            var_a3 += 1;
+                            var_a0 += 2;
+                            var_a2 += 1;
+                            var_t2 += 1;
+                            break;
+                        case 0x10:
+                            *var_a2 = (s8) 1;
+                            *var_a0 = 0;
+                            *var_a3 = (s8) 1;
+                            *var_t0 = 0;
+                            var_t0 += 2;
+                            var_a3 += 1;
+                            var_a0 += 2;
+                            var_a2 += 1;
+                            var_t2 += 1;
+                            break;
+                        case 0x80:
+                            *var_a2 = (s8) 1;
+                            *var_a0 = 0;
+                            *var_a3 = (s8) 7;
+                            *var_t0 = 0;
+                            var_t0 += 2;
+                            var_a3 += 1;
+                            var_a0 += 2;
+                            var_a2 += 1;
+                            var_t2 += 1;
+                            break;
+                        case 0x4:
+#if 0
+                            temp_t8->unk_2 = 0x32;
+#endif
+                            break;
+                        case 0x8:
+                            *var_a2 = 2;
+                            *var_a0 = 0x21;
+                            *var_a3 = 2;
+                            *var_t0 = 0;
+                            var_t0 += 2;
+                            var_a3 += 1;
+                            var_a0 += 2;
+                            var_a2 += 1;
+                            var_t2 += 1;
+                            break;
+                        case 0x20:
+                            *var_a2 = (s8) 5;
+                            *var_a0 = 5;
+                            *var_a3 = (s8) 1;
+                            *var_t0 = 0;
+                            var_t0 += 2;
+                            var_a3 += 1;
+                            var_a0 += 2;
+                            var_a2 += 1;
+                            var_t2 += 1;
+                            break;
+                        case 0x40:
+                            *var_a2 = 3;
+                            *var_a0 = 0;
+                            *var_a3 = 3;
+                            *var_t0 = 1;
+                            var_t0 += 2;
+                            var_a3 += 1;
+                            var_a0 += 2;
+                            var_a2 += 1;
+                            var_t2 += 1;
+                            break;
+                        case 0x100:
+                            *var_a2 = 4;
+                            *var_a0 = 5;
+                            *var_a3 = 6;
+                            *var_t0 = 1;
+                            var_t0 += 2;
+                            var_a3 += 1;
+                            var_a0 += 2;
+                            var_a2 += 1;
+                            var_t2 += 1;
+                            break;
+                        case 0x200:
+                            *var_a2 = (s8) 5;
+                            *var_a0 = 5;
+                            *var_a3 = (s8) 5;
+                            *var_t0 = 1;
+                            var_t0 += 2;
+                            var_a3 += 1;
+                            var_a0 += 2;
+                            var_a2 += 1;
+                            var_t2 += 1;
+                            break;
+                        case 0x400:
+                            *var_a2 = 0xA;
+                            *var_a0 = 0xA;
+                            *var_a3 = 4;
+                            *var_t0 = 1;
+                            var_t0 += 2;
+                            var_a3 += 1;
+                            var_a0 += 2;
+                            var_a2 += 1;
+                            var_t2 += 1;
+                            break;
+                    }
+                    var_t3_3 += 1;
+                    var_v0 = 1 << var_t3_3;
+                } while (var_t3_3 < *temp_s6);
+            }
+            var_t3_4 = var_t2;
+            if (var_t3_4 < 0x10) {
+                temp_a0_3 = var_t3_4 * 2;
+                var_a1 = temp_a0_3 + (temp_t8 + 0x4C);
+                var_a0_2 = temp_a0_3 + (temp_t8 + 0x1C);
+                for (; var_t3_4 < 0x10; var_t3_4++) {
+                    (&B_800E9BC0->unk_0C[var_s4])[var_t3_4] = 0;
+                    *var_a0_2 = 0;
+                    (&B_800E9BC0->unk_3C[var_s4])[var_t3_4] = 0;
+                    *var_a1 = 0;
+                    var_a1 += 2;
+                    var_a0_2 += 2;
+                }
+            }
+            var_s5 += 1;
+            var_s4 += 0x6C;
+        } while (var_s5 < sp8);
+    }
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_80040238);
+#endif
 #endif
 
 #if VERSION_US || VERSION_CN
