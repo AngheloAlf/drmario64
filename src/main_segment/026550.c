@@ -22,8 +22,8 @@
 // extern UNK_TYPE D_8008E4DC;
 // extern UNK_TYPE D_8008E4F0;
 // extern UNK_TYPE D_8008E508;
-// extern UNK_TYPE D_8008E538;
-// extern UNK_TYPE D_8008E540;
+extern UNK_TYPE1 D_8008E538[];
+extern UNK_TYPE1 D_8008E540[];
 extern s32 *D_8008E548[];
 extern s32 D_8008E558[];
 // extern UNK_TYPE D_8008E564;
@@ -52,7 +52,7 @@ extern s32 D_8008E5B4[];
 // extern UNK_TYPE D_8009922C_cn;
 // extern UNK_TYPE D_80099240_cn;
 // extern UNK_TYPE D_80099258_cn;
-extern UNK_TYPE1 D_80099288_cn[];
+//! extern UNK_TYPE1 D_8008E538[];
 extern UNK_TYPE1 D_80099290_cn[];
 //! extern s32 *D_8008E548[];
 //! extern s32 D_8008E558[];
@@ -1404,250 +1404,137 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_80040238);
 #endif
 
 #if VERSION_CN
-#if 0
 void func_80040238(void) {
-    s32 sp8;
-    s16 *temp_a0_2;
-    s16 *temp_t0_2;
-    s16 *var_a0;
-    s16 *var_a0_2;
-    s16 *var_a1;
-    s16 *var_t0;
-    s32 *temp_s6;
-    s32 temp_a0;
-    s32 temp_a0_3;
-    s32 temp_a1;
-    s32 var_s4;
-    s32 var_s5;
-    s32 var_t2;
-    s32 var_t3;
-    s32 var_t3_2;
-    s32 var_t3_3;
-    s32 var_t3_4;
-    s32 var_v0;
-    s8 *temp_a3;
-    s8 *temp_t1;
-    s8 *temp_v0;
-    s8 *var_a2;
-    s8 *var_a3;
-    struct_800E5938 *temp_t9;
-    u16 *var_t4;
-    u16 *var_t5;
-    u16 *var_t6;
-    u16 *var_t7;
-    u16 temp_a2_2;
-    u16 temp_t0;
-    u8 *temp_v0_2;
-    u8 *temp_v1;
-    struct_ai_char_data *temp_a2;
-    struct_ai_char_data *temp_t8;
+    s32 i;
 
-    var_s5 = 0;
-    if (*D_8008E558 > 0) {
-        temp_s6 = D_8008E558 + 0xC;
-        sp8 = *D_8008E558;
-        var_s4 = 0;
-        do {
-            temp_a2 = var_s4 + ai_char_data_org;
-            temp_t8 = var_s4 + ai_char_data;
-            temp_t9 = &B_800E5938[var_s5];
+    for (i = 0; i < D_8008E558[0]; i++) {
+        struct_ai_char_data *temp_a2 = &ai_char_data_org[i];
+        struct_ai_char_data *temp_t8 = &ai_char_data[i];
+        struct_800E5938 *temp_t9 = &B_800E5938[i];
+        s32 j;
+        s32 index;
 
-            for (var_t3 = 0; var_t3 < 8; var_t3++) {
-                temp_v0 = &(&ai_char_data->unk_04[var_s4])[var_t3];
-                *temp_v0 = (s8) *(temp_t9->unk_0 + D_80099288_cn);
-            }
+        for (j = 0; j < 8; j++) {
+            temp_t8->unk_04[j] = D_8008E538[temp_t9->unk_0];
+        }
 
-            var_t2 = 0;
-            temp_t8->unk_01 = (u8) *(temp_t9->unk_1 + D_80099290_cn);
-            if (temp_t9->unk_2 & 0x800) {
-                var_t3_2 = 0;
-                var_t7 = temp_a2 + 0x4C;
-                var_t6 = temp_a2 + 0x1C;
-                var_t5 = temp_t8 + 0x4C;
-                var_t4 = temp_t8 + 0x1C;
-                while (var_t3_2 < 4) {
-                    temp_a3 = &(&ai_char_data->unk_0C[var_s4])[var_t2];
-                    temp_t1 = &(&ai_char_data->unk_3C[var_s4])[var_t2];
-                    var_t2 += 1;
-                    temp_t0 = *var_t7;
-                    var_t7 += 2;
-                    temp_a2_2 = *var_t6;
-                    var_t6 += 2;
-                    temp_v0_2 = temp_a2 + 0xC + var_t3_2;
-                    temp_v1 = temp_a2 + 0x3C + var_t3_2;
-                    var_t3_2 += 1;
-                    *temp_a3 = (s8) *temp_v0_2;
-                    *var_t4 = temp_a2_2;
-                    *temp_t1 = (s8) *temp_v1;
-                    *var_t5 = temp_t0;
-                    var_t5 += 2;
-                    var_t4 += 2;
-                }
-            }
+        //! FAKE: renaming D_80099290_cn to D_8008E540 produces different codegen
+        temp_t8->unk_01 = D_80099290_cn[temp_t9->unk_1];
 
-            var_t3_3 = 0;
-            if (*temp_s6 > 0) {
-                temp_a0 = var_t2 * 2;
-                var_t0 = temp_a0 + (temp_t8 + 0x4C);
-                var_a3 = &(&ai_char_data->unk_3C[var_s4])[var_t2];
-                var_a0 = temp_a0 + (temp_t8 + 0x1C);
-                var_a2 = &(&ai_char_data->unk_0C[var_s4])[var_t2];
-                var_v0 = 1 << 0;
-                do {
-                    temp_a1 = temp_t9->unk_2 & var_v0;
-                    switch (temp_a1) {              /* irregular */
-                        case 0x1:
-                            *var_a2 = 0xC;
-                            *var_a0 = 5;
-                            *var_a3 = 4;
-                            *var_t0 = 1;
-                            temp_t0_2 = var_t0 + 2;
-                            temp_a0_2 = var_a0 + 2;
-                            var_a2[1] = 0xC;
-                            *temp_a0_2 = 5;
-                            var_a3[1] = 8;
-                            *temp_t0_2 = 1;
-                            var_t0 = temp_t0_2 + 2;
-#if 0
-                            var_a3 = &var_a3[1].unk_1;
-#endif
-                            var_a0 = temp_a0_2 + 2;
-#if 0
-                            var_a2 = &var_a2[1].unk_1;
-#endif
-                            var_t2 += 2;
-                            break;
-                        case 0x2:
-                            *var_a2 = 3;
-                            *var_a0 = 0;
-                            *var_a3 = 8;
-                            *var_t0 = 7;
-                            var_t0 += 2;
-                            var_a3 += 1;
-                            var_a0 += 2;
-                            var_a2 += 1;
-                            var_t2 += 1;
-                            break;
-                        case 0x10:
-                            *var_a2 = (s8) 1;
-                            *var_a0 = 0;
-                            *var_a3 = (s8) 1;
-                            *var_t0 = 0;
-                            var_t0 += 2;
-                            var_a3 += 1;
-                            var_a0 += 2;
-                            var_a2 += 1;
-                            var_t2 += 1;
-                            break;
-                        case 0x80:
-                            *var_a2 = (s8) 1;
-                            *var_a0 = 0;
-                            *var_a3 = (s8) 7;
-                            *var_t0 = 0;
-                            var_t0 += 2;
-                            var_a3 += 1;
-                            var_a0 += 2;
-                            var_a2 += 1;
-                            var_t2 += 1;
-                            break;
-                        case 0x4:
-#if 0
-                            temp_t8->unk_2 = 0x32;
-#endif
-                            break;
-                        case 0x8:
-                            *var_a2 = 2;
-                            *var_a0 = 0x21;
-                            *var_a3 = 2;
-                            *var_t0 = 0;
-                            var_t0 += 2;
-                            var_a3 += 1;
-                            var_a0 += 2;
-                            var_a2 += 1;
-                            var_t2 += 1;
-                            break;
-                        case 0x20:
-                            *var_a2 = (s8) 5;
-                            *var_a0 = 5;
-                            *var_a3 = (s8) 1;
-                            *var_t0 = 0;
-                            var_t0 += 2;
-                            var_a3 += 1;
-                            var_a0 += 2;
-                            var_a2 += 1;
-                            var_t2 += 1;
-                            break;
-                        case 0x40:
-                            *var_a2 = 3;
-                            *var_a0 = 0;
-                            *var_a3 = 3;
-                            *var_t0 = 1;
-                            var_t0 += 2;
-                            var_a3 += 1;
-                            var_a0 += 2;
-                            var_a2 += 1;
-                            var_t2 += 1;
-                            break;
-                        case 0x100:
-                            *var_a2 = 4;
-                            *var_a0 = 5;
-                            *var_a3 = 6;
-                            *var_t0 = 1;
-                            var_t0 += 2;
-                            var_a3 += 1;
-                            var_a0 += 2;
-                            var_a2 += 1;
-                            var_t2 += 1;
-                            break;
-                        case 0x200:
-                            *var_a2 = (s8) 5;
-                            *var_a0 = 5;
-                            *var_a3 = (s8) 5;
-                            *var_t0 = 1;
-                            var_t0 += 2;
-                            var_a3 += 1;
-                            var_a0 += 2;
-                            var_a2 += 1;
-                            var_t2 += 1;
-                            break;
-                        case 0x400:
-                            *var_a2 = 0xA;
-                            *var_a0 = 0xA;
-                            *var_a3 = 4;
-                            *var_t0 = 1;
-                            var_t0 += 2;
-                            var_a3 += 1;
-                            var_a0 += 2;
-                            var_a2 += 1;
-                            var_t2 += 1;
-                            break;
-                    }
-                    var_t3_3 += 1;
-                    var_v0 = 1 << var_t3_3;
-                } while (var_t3_3 < *temp_s6);
+        index = 0;
+
+        if (temp_t9->unk_2 & 0x800) {
+            for (j = 0; j < 4; j++) {
+                temp_t8->unk_0C[index] = temp_a2->unk_0C[j];
+                temp_t8->unk_1C[index] = temp_a2->unk_1C[j];
+                temp_t8->unk_3C[index] = temp_a2->unk_3C[j];
+                temp_t8->unk_4C[index] = temp_a2->unk_4C[j];
+                index++;
             }
-            var_t3_4 = var_t2;
-            if (var_t3_4 < 0x10) {
-                temp_a0_3 = var_t3_4 * 2;
-                var_a1 = temp_a0_3 + (temp_t8 + 0x4C);
-                var_a0_2 = temp_a0_3 + (temp_t8 + 0x1C);
-                for (; var_t3_4 < 0x10; var_t3_4++) {
-                    (&ai_char_data->unk_0C[var_s4])[var_t3_4] = 0;
-                    *var_a0_2 = 0;
-                    (&ai_char_data->unk_3C[var_s4])[var_t3_4] = 0;
-                    *var_a1 = 0;
-                    var_a1 += 2;
-                    var_a0_2 += 2;
-                }
+        }
+
+        for (j = 0; j < D_8008E558[3]; j++) {
+            switch (temp_t9->unk_2 & (1 << j)) {
+                case 0x1:
+                    temp_t8->unk_0C[index] = 0xC;
+                    temp_t8->unk_1C[index] = 5;
+                    temp_t8->unk_3C[index] = 4;
+                    temp_t8->unk_4C[index] = 1;
+                    index++;
+
+                    temp_t8->unk_0C[index] = 0xC;
+                    temp_t8->unk_1C[index] = 5;
+                    temp_t8->unk_3C[index] = 8;
+                    temp_t8->unk_4C[index] = 1;
+                    index++;
+                    break;
+
+                case 0x2:
+                    temp_t8->unk_0C[index] = 3;
+                    temp_t8->unk_1C[index] = 0;
+                    temp_t8->unk_3C[index] = 8;
+                    temp_t8->unk_4C[index] = 7;
+                    index++;
+                    break;
+
+                case 0x4:
+                    temp_t8->unk_02 = 0x32;
+                    break;
+
+                case 0x8:
+                    temp_t8->unk_0C[index] = 2;
+                    temp_t8->unk_1C[index] = 0x21;
+                    temp_t8->unk_3C[index] = 2;
+                    temp_t8->unk_4C[index] = 0;
+                    index++;
+                    break;
+
+                case 0x10:
+                    temp_t8->unk_0C[index] = 1;
+                    temp_t8->unk_1C[index] = 0;
+                    temp_t8->unk_3C[index] = 1;
+                    temp_t8->unk_4C[index] = 0;
+                    index++;
+                    break;
+
+                case 0x20:
+                    temp_t8->unk_0C[index] = 5;
+                    temp_t8->unk_1C[index] = 5;
+                    temp_t8->unk_3C[index] = 1;
+                    temp_t8->unk_4C[index] = 0;
+                    index++;
+                    break;
+
+                case 0x40:
+                    temp_t8->unk_0C[index] = 3;
+                    temp_t8->unk_1C[index] = 0;
+                    temp_t8->unk_3C[index] = 3;
+                    temp_t8->unk_4C[index] = 1;
+                    index++;
+                    break;
+
+                case 0x80:
+                    temp_t8->unk_0C[index] = 1;
+                    temp_t8->unk_1C[index] = 0;
+                    temp_t8->unk_3C[index] = 7;
+                    temp_t8->unk_4C[index] = 0;
+                    index++;
+                    break;
+
+                case 0x100:
+                    temp_t8->unk_0C[index] = 4;
+                    temp_t8->unk_1C[index] = 5;
+                    temp_t8->unk_3C[index] = 6;
+                    temp_t8->unk_4C[index] = 1;
+                    index++;
+                    break;
+
+                case 0x200:
+                    temp_t8->unk_0C[index] = 5;
+                    temp_t8->unk_1C[index] = 5;
+                    temp_t8->unk_3C[index] = 5;
+                    temp_t8->unk_4C[index] = 1;
+                    index++;
+                    break;
+
+                case 0x400:
+                    temp_t8->unk_0C[index] = 0xA;
+                    temp_t8->unk_1C[index] = 0xA;
+                    temp_t8->unk_3C[index] = 4;
+                    temp_t8->unk_4C[index] = 1;
+                    index++;
+                    break;
             }
-            var_s5 += 1;
-            var_s4 += 0x6C;
-        } while (var_s5 < sp8);
+        }
+
+        for (j = index; j < 0x10; j++) {
+            temp_t8->unk_0C[j] = 0;
+            temp_t8->unk_1C[j] = 0;
+            temp_t8->unk_3C[j] = 0;
+            temp_t8->unk_4C[j] = 0;
+        }
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_80040238);
-#endif
 #endif
 
 #if VERSION_US || VERSION_CN
