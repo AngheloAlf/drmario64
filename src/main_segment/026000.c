@@ -64,7 +64,17 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_800400C0_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_800400E8_cn);
+extern Color_RGB8 D_80099090_cn[];
+
+void func_8003E208(Gfx **gfxP, s32 index) {
+    Gfx *gfx = *gfxP;
+    Color_RGB8 *color = &D_80099090_cn[index % 8U];
+
+    gDPPipeSync(gfx++);
+    gDPSetPrimColor(gfx++, 0, 0, color->r, color->g, color->b, 255);
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_CN
@@ -72,7 +82,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_80040158_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_800402AC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_8003E3F0);
 #endif
 
 #if VERSION_CN
@@ -88,7 +98,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026000", func_80040390_cn);
 #endif
 
 #if VERSION_US
-s32 func_8003E69C(Gfx **gfxP, UNK_FUN_PTR arg1, s32 arg2, s32 arg3) {
+s32 func_8003E69C(Gfx **gfxP, func_8003E69C_arg1 arg1, s32 arg2, s32 arg3) {
     return func_8003CDA0(&D_8008E364, gfxP, arg1, arg2, arg3);
 }
 #endif

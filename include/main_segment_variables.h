@@ -431,7 +431,7 @@ extern s16 B_800E58C0[];
 // extern UNK_TYPE B_800E58C2;
 // extern UNK_TYPE B_800E58C4;
 // extern UNK_TYPE B_800E58C6;
-// extern UNK_TYPE B_800E5910;
+extern s32 B_800E5910;
 extern s32 B_800E5914;
 extern s32 B_800E5918;
 extern s32 B_800E591C;
@@ -445,9 +445,6 @@ extern struct_800E5938 B_800E5938[];
 extern struct_800E5968 B_800E5968;
 extern s32 B_800E596C;
 extern s32 B_800E5970[];
-// extern UNK_TYPE B_800E5974;
-// extern UNK_TYPE B_800E5978;
-// extern UNK_TYPE B_800E597C;
 extern UNK_PTR heapTop; /* Original name: heapTop */
 extern TiTexData *_texAll;
 extern TiTexData *_texKaSa;

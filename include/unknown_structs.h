@@ -815,6 +815,8 @@ typedef struct struct_800E5968 {
     /* 0x1 */ s8 unk_1;
 } struct_800E5968; // size = 0x2
 
+typedef void (*func_8003E69C_arg1)(Gfx **, s32, s32, s32);
+
 // varargs stuff
 
 #include "libc/stdarg.h"

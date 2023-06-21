@@ -9,7 +9,6 @@ typedef struct Color_RGB8 {
     /* 0x2 */ u8 b;
 } Color_RGB8; // size = 0x3
 
-
 typedef struct Color_RGB32 {
     /* 0x00 */ s32 r;
     /* 0x04 */ s32 g;
