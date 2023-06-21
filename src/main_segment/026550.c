@@ -26,11 +26,10 @@ extern UNK_TYPE1 D_8008E538[];
 extern UNK_TYPE1 D_8008E540[];
 extern s32 *D_8008E548[];
 extern s32 D_8008E558[];
-// extern UNK_TYPE D_8008E564;
-// extern UNK_TYPE D_8008E568;
-// extern UNK_TYPE D_8008E574;
-// extern UNK_TYPE D_8008E57C;
-// extern UNK_TYPE D_8008E584;
+extern s8 D_8008E568[];
+extern s8 D_8008E574[];
+extern s8 D_8008E57C[];
+extern s8 D_8008E584[];
 extern UNK_TYPE1 D_8008E590[];
 extern UNK_TYPE1 D_8008E598[];
 extern const char *D_8008E5A0[];
@@ -56,11 +55,10 @@ extern s32 D_8008E5B4[];
 extern UNK_TYPE1 D_80099290_cn[];
 //! extern s32 *D_8008E548[];
 //! extern s32 D_8008E558[];
-// extern UNK_TYPE D_800992B4_cn;
-// extern UNK_TYPE D_800992B8_cn;
-// extern UNK_TYPE D_800992C4_cn;
-// extern UNK_TYPE D_800992CC_cn;
-// extern UNK_TYPE D_800992D4_cn;
+//! extern s8 D_8008E568[];
+//! extern s8 D_8008E574[];
+//! extern s8 D_8008E57C[];
+//! extern s8 D_8008E584[];
 //! extern UNK_TYPE1 D_8008E590[];
 //! extern UNK_TYPE1 D_8008E598[];
 //! extern const char *D_8008E5A0[];
@@ -1255,121 +1253,123 @@ const char STR_800C49A4_cn[] = "ｶｳﾝﾀｰ";
 const char STR_800C49AC_cn[] = "ｾﾝｾｲｺｳｹﾞｷ";
 #endif
 
-ASM_TEXT;
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003FEE4);
-#endif
-
-s32 func_8003FEE4(void);
-#if VERSION_CN
-#if 0
-extern s32 D_800992B4_cn;
-extern u8 D_800992B8_cn[];
-extern u8 D_800992C4_cn[];
-extern u8 D_800992CC_cn[];
-extern u8 D_800992D4_cn[];
-
+#if VERSION_US || VERSION_CN
 s32 func_8003FEE4(void) {
-    struct_800E5938 sp8;
-    s32 temp_a0;
-    s32 var_a2;
-    s32 var_v0;
-    s8 var_t1;
-    u16 temp_v0;
-    u16 var_a3;
-    u16 var_t2;
-    u32 var_a2_2;
+    s32 var_t1 = 0;
+    struct_800E5938 sp8 = B_800E5938[B_800E5934];
+    s32 i;
 
-    s32 a1;
+    for (i = 0; i < D_8008E558[3]; i++) {
+        s32 var_a1;
 
-    var_a2 = 0;
-    var_t1 = 0;
-#if 1
-    sp8 = B_800E5938[B_800E5934];
-#endif
-    var_t2 = sp8.unk_2;
-    var_a3 = var_t2;
-    while (var_a2 < D_800992B4_cn) {
-        temp_a0 = var_t2 & (1 << var_a2);
-        switch (temp_a0) {                      /* switch 1; irregular */
-            case 0x20:                          /* switch 1 */
-            case 0x40:                          /* switch 1 */
-            case 0x4:                           /* switch 1 */
+        switch (sp8.unk_2 & (1 << i)) {
+            case 0x1:
+                var_a1 = (sp8.unk_0 == 2) && (sp8.unk_1 >= 4);
                 break;
-            case 0x1:                           /* switch 1 */
-                if (sp8.unk_0 == 2) {
 
-                }
+            case 0x2:
+                var_a1 = sp8.unk_0 == 2;
                 break;
-            case 0x2:                           /* switch 1 */
+
+            case 0x4:
                 break;
-            case 0x200:                         /* switch 1 */
+
+            case 0x8:
                 break;
-            case 0x800:                         /* switch 1 */
+
+            case 0x10:
+                break;
+
+            case 0x20:
+                break;
+
+            case 0x40:
+                break;
+
+            case 0x80:
+                var_a1 = (sp8.unk_1 >= 4);
+                break;
+
+            case 0x100:
+                var_a1 = (sp8.unk_1 >= 4);
+                break;
+
+            case 0x200:
+                var_a1 = sp8.unk_1 < 2;
+                break;
+
+            case 0x400:
+                var_a1 = (sp8.unk_1 >= 4);
+                break;
+
+            case 0x800:
                 switch (B_800E5934) {
                     case 0x0:
-                    case 0x2:
-                    case 0x3:
-                    case 0x6:
-                    case 0xB:
                         break;
-                    case 0x1:
-                        break;
-                    case 0x4:
-                        break;
-                    case 0x5:
-                        break;
-                    case 0x7:
-                        break;
-                    case 0x8:
-                        break;
-                    case 0x100:                 /* switch 1 */
-                    case 0x400:                 /* switch 1 */
-                    case 0x9:
-                    case 0x80:                  /* switch 1 */
-                        break;
-                    case 0xA:
-                        if ((sp8.unk_1 >= 4) || (var_a3 & 0x402)) {
 
+                    case 0x1:
+                        var_a1 = sp8.unk_2 & 0x58;
+                        break;
+
+                    case 0x4:
+                        var_a1 = sp8.unk_1 == 5;
+                        break;
+
+                    case 0x5:
+                        var_a1 = sp8.unk_2 & 0x10;
+                        break;
+
+                    case 0x7:
+                        var_a1 = sp8.unk_2 & 0x80;
+                        break;
+
+                    case 0x8:
+                        var_a1 = sp8.unk_2 & 8;
+                        break;
+
+                    case 0x9:
+                        var_a1 = (sp8.unk_1 >= 4);
+                        break;
+
+                    case 0xA:
+                        var_a1 = 0;
+                        if ((sp8.unk_1 >= 4) || (sp8.unk_2 & 0x402)) {
+                            var_a1 = 1;
                         }
+                        break;
+
+                    case 0xB:
                         break;
                 }
                 break;
         }
-        if (a1 != 0) {
-            temp_v0 = var_a3 & ~(1 << var_a2);
-            sp8.unk_2 = temp_v0;
-            var_t2 = temp_v0 & 0xFFFF;
-            var_a3 = var_t2;
+
+        //! @bug: reading variable maybe not set
+        if (var_a1 != 0) {
+            sp8.unk_2 &= ~(1 << i);
         }
-        var_a2 += 1;
     }
 
-    if (var_a3 & 0x800) {
-        var_t1 = *(D_800992B8_cn + B_800E5934);
+    if (sp8.unk_2 & 0x800) {
+        var_t1 += D_8008E568[B_800E5934];
     }
-    if ((s8) (u8) sp8.unk_0 >= 0) {
-        var_t1 += *(D_800992C4_cn + (s8) (u8) sp8.unk_0);
-    }
-    var_a2_2 = 0;
-    if ((s8) (u8) sp8.unk_1 >= 0) {
-        var_t1 += *(D_800992CC_cn + (s8) (u8) sp8.unk_1);
-    }
-    var_v0 = (s32) var_t2 >> 0U;
-    do {
-        if (var_v0 & 1) {
-            var_t1 += *(var_a2_2 + D_800992D4_cn);
-        }
-        var_a2_2 += 1;
-        var_v0 = (s32) var_t2 >> var_a2_2;
-    } while (var_a2_2 < 0xCU);
 
-    return (s32) var_t1;
+    if (sp8.unk_0 >= 0) {
+        var_t1 += D_8008E574[sp8.unk_0];
+    }
+
+    if (sp8.unk_1 >= 0) {
+        var_t1 += D_8008E57C[sp8.unk_1];
+    }
+
+    for (i = 0; i < 0xCU; i++) {
+        if ((sp8.unk_2 >> i) & 1) {
+            var_t1 += D_8008E584[i];
+        }
+    }
+
+    return var_t1;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003FEE4);
-#endif
 #endif
 
 #if VERSION_US || VERSION_CN

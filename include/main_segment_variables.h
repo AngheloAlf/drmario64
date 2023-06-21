@@ -156,7 +156,6 @@ extern struct_8008E364 D_8008E364;
 // extern UNK_TYPE D_8008E540;
 // extern UNK_TYPE D_8008E548;
 // extern UNK_TYPE D_8008E558;
-// extern UNK_TYPE D_8008E564;
 // extern UNK_TYPE D_8008E568;
 // extern UNK_TYPE D_8008E574;
 // extern UNK_TYPE D_8008E57C;
