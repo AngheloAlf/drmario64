@@ -138,164 +138,23 @@ void aifGameInit(void) {
     }
 }
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 /**
  * Original name: aifFirstInit
  */
-#if 0
-typedef struct struct_800F48D0 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x1C0];
-} struct_800F48D0; // size = 0x1C0
-
-typedef struct struct_80088660 {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x1C0];
-} struct_80088660; // size = 0x1C0
-
-typedef struct struct_800890E0_unk_00 {
-    /* 0x00 */ UNK_TYPE4 unk_00;
-    /* 0x00 */ UNK_TYPE4 unk_04;
-    /* 0x00 */ UNK_TYPE4 unk_08;
-    /* 0x00 */ UNK_TYPE4 unk_0C;
-} struct_800890E0_unk_00; // size = 0x10
-
-typedef struct struct_800E9BC0 {
-    /* 0x00 */ struct_800890E0_unk_00 unk_00[6];
-    /* 0x60 */ UNK_TYPE1 unk_00[0xC];
-} struct_800E9BC0; // size = 0x6C
-
-typedef struct struct_800890E0 {
-    /* 0x00 */ struct_800890E0_unk_00 unk_00[6];
-    /* 0x60 */ UNK_TYPE1 unk_00[0xC];
-} struct_800890E0; // size = 0x6C
-
-//s32 func_8002ED2C(?, s32, ? *, ? *);                /* extern */
-extern struct_800E9BC0 B_800E9BC0[];
-extern struct_800F48D0 B_800F48D0[];
-extern struct_80088660 D_80088660[];
-extern struct_800890E0 D_800890E0[];
-
-void aifFirstInit(void) {
-    struct_800890E0_unk_00 *var_a2;
-    struct_800890E0_unk_00 *var_a3;
-    struct_800890E0 *var_t0;
-    struct_800F48D0 *var_t1;
-    struct_80088660 *var_t2;
-    struct_800E9BC0 *var_t2_2;
-    ? temp_a0;
-    s32 var_a1;
-    s32 var_t3;
-    s32 var_t5;
-    s32 var_t5_2;
-    s32 var_t6;
-    void *temp_t0;
-    void *var_a2_2;
-    void *var_a3_2;
-
-    var_t5 = 0;
-    var_t6 = 0;
-    do {
-        var_t3 = 0;
-        var_t2 = &D_80088660;
-        var_t1 = &B_800F48D0;
-loop_2:
-        var_a3_2 = var_t6 + var_t1;
-        var_a2_2 = var_t6 + var_t2;
-        temp_t0 = var_a2_2 + 0x30;
-        if (((s32) var_a2_2 | (s32) var_a3_2) & 3) {
-            do {
-                var_a3_2->unk_0 = (unaligned s32) var_a2_2->unk_0;
-                var_a3_2->unk_4 = (unaligned s32) var_a2_2->unk_4;
-                var_a3_2->unk_8 = (unaligned s32) var_a2_2->unk_8;
-                var_a3_2->unk_C = (unaligned s32) var_a2_2->unk_C;
-                var_a2_2 += 0x10;
-                var_a3_2 += 0x10;
-            } while (var_a2_2 != temp_t0);
-        } else {
-            do {
-                var_a3_2->unk_0 = (s32) var_a2_2->unk_0;
-                var_a3_2->unk_4 = (s32) var_a2_2->unk_4;
-                var_a3_2->unk_8 = (s32) var_a2_2->unk_8;
-                var_a3_2->unk_C = (s32) var_a2_2->unk_C;
-                var_a2_2 += 0x10;
-                var_a3_2 += 0x10;
-            } while (var_a2_2 != temp_t0);
-        }
-        var_a3_2->unk_0 = (unaligned s32) var_a2_2->unk_0;
-        var_a3_2->unk_4 = (unaligned s32) var_a2_2->unk_4;
-        var_t2 += 0x1C0;
-        var_t3 += 1;
-        var_t1 += 0x1C0;
-        if (var_t3 < 6) {
-            goto loop_2;
-        }
-        var_t5 += 1;
-        var_t6 += 0x38;
-    } while (var_t5 < 8);
-
-    var_t5_2 = 0;
-    var_t0 = &D_800890E0;
-    var_t2_2 = &B_800E9BC0;
-    do {
-        var_a3 = var_t2_2;
-        var_a2 = var_t0;
-        if (((s32) var_t0 | (s32) var_t2_2) & 3) {
-            do {
-                //var_a1 = (unaligned s32) var_a2->unk_C;
-                //var_a3->unk_0 = (unaligned s32) var_a2->unk_0;
-                //var_a3->unk_4 = (unaligned s32) var_a2->unk_4;
-                //var_a3->unk_8 = (unaligned s32) var_a2->unk_8;
-                var_a1 = var_a2->unk_0C;
-                var_a3->unk_00 = var_a2->unk_00;
-                var_a3->unk_04 = var_a2->unk_04;
-                var_a3->unk_08 = var_a2->unk_08;
-                var_a3->unk_0C = var_a1;
-                var_a2 += 0x10;
-                var_a3 += 0x10;
-            } while (var_a2 != (var_t0 + 0x60));
-        } else {
-            do {
-                var_a1 = var_a2->unk_0C;
-                var_a3->unk_00 = (s32) var_a2->unk_00;
-                var_a3->unk_04 = (s32) var_a2->unk_04;
-                var_a3->unk_08 = (s32) var_a2->unk_08;
-                var_a3->unk_0C = var_a1;
-                var_a2 += 0x10;
-                var_a3 += 0x10;
-            } while (var_a2 != (var_t0 + 0x60));
-        }
-        temp_a0 = (unaligned s32) var_a2->unk_8;
-        var_a3->unk_0 = (unaligned s32) var_a2->unk_0;
-        var_a3->unk_4 = (unaligned s32) var_a2->unk_4;
-        var_a3->unk_8 = temp_a0;
-        var_t0 += 0x6C;
-        var_t5_2 += 1;
-        var_t2_2 += 0x6C;
-    } while (var_t5_2 < 0x10);
-    return aifGameInit(temp_a0, var_a1, var_a2, var_a3);
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifFirstInit);
-#endif
-#endif
-
-extern struct_801007E0_cn D_80093EF0_cn[];
-
-extern struct_800F48D0 D_80093470_cn[6][8];
-
-#if VERSION_CN
 void aifFirstInit(void) {
     s32 i;
 
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < AI_PARAM_LEN2; i++) {
         s32 j;
 
-        for (j = 0; j < 6; j++) {
-            B_800F48D0[j][i] = D_80093470_cn[j][i];
+        for (j = 0; j < AI_PARAM_LEN1; j++) {
+            ai_param[j][i] = ai_param_org[j][i];
         }
     }
 
-    for (i = 0; i < 0x10; i++) {
-        B_800E9BC0[i] = D_80093EF0_cn[i];
+    for (i = 0; i < AI_CHAR_DATA_LEN; i++) {
+        ai_char_data[i] = ai_char_data_org[i];
     }
 
     aifGameInit();

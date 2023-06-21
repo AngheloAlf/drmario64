@@ -31,8 +31,8 @@ extern s32 D_8008E558[];
 // extern UNK_TYPE D_8008E574;
 // extern UNK_TYPE D_8008E57C;
 // extern UNK_TYPE D_8008E584;
-// extern UNK_TYPE D_8008E590;
-// extern UNK_TYPE D_8008E598;
+extern UNK_TYPE1 D_8008E590[];
+extern UNK_TYPE1 D_8008E598[];
 extern const char *D_8008E5A0[];
 extern s32 D_8008E5B0;
 extern s32 D_8008E5B4[];
@@ -61,39 +61,11 @@ extern UNK_TYPE1 D_80099290_cn[];
 // extern UNK_TYPE D_800992C4_cn;
 // extern UNK_TYPE D_800992CC_cn;
 // extern UNK_TYPE D_800992D4_cn;
-extern UNK_TYPE1 D_800992E0_cn[];
-extern UNK_TYPE1 D_800992E8_cn[];
+//! extern UNK_TYPE1 D_8008E590[];
+//! extern UNK_TYPE1 D_8008E598[];
 //! extern const char *D_8008E5A0[];
 //! extern s32 D_8008E5B0;
 //! extern s32 D_8008E5B4[];
-
-extern struct_801007E0_cn D_80093EF0_cn[];
-
-// bss
-
-extern s32 B_800E5934;
-
-typedef struct struct_800FC588_cn {
-    /* 0x0 */ s8 unk_0;
-    /* 0x1 */ s8 unk_1;
-    /* 0x2 */ u16 unk_2;
-} struct_800FC588_cn; // size = 0x4
-extern struct_800FC588_cn B_800E5938[];
-
-typedef struct struct_800E5968 {
-    /* 0x0 */ s8 unk_0;
-    /* 0x1 */ s8 unk_1;
-} struct_800E5968; // size = 0x2
-extern struct_800E5968 B_800E5968;
-
-extern s32 B_800E596C;
-extern s32 B_800E5970[];
-
-extern s32 B_800E591C;
-
-extern s32 B_800E5928;
-
-extern s32 B_800FC50C_cn;
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003E730);
@@ -206,7 +178,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003E8C8);
 
 #if VERSION_US || VERSION_CN
 void func_8003EB20(void) {
-    struct_800F48D0 *temp_a1 = &B_800F48D0[B_800E591C][B_800E5920];
+    struct_ai_param *temp_a1 = &ai_param[B_800E591C][B_800E5920];
     s16 *temp_v0 = B_800E58C0;
 
     *temp_v0++ = B_800E591C;
@@ -246,7 +218,7 @@ void func_8003EB20(void) {
 #if VERSION_US || VERSION_CN
 void func_8003ECDC(void) {
     s16 *temp_v0 = B_800E58C0;
-    struct_800F48D0 *temp_a0 = &B_800F48D0[B_800E591C][B_800E5920];
+    struct_ai_param *temp_a0 = &ai_param[B_800E591C][B_800E5920];
 
     B_800E591C = *temp_v0++;
     B_800E5920 = *temp_v0++;
@@ -404,7 +376,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003F050);
 
 #if VERSION_US || VERSION_CN
 void func_8003F360(void) {
-    struct_801007E0_cn *temp_a1 = &B_800E9BC0[B_800E5928];
+    struct_ai_char_data *temp_a1 = &ai_char_data[B_800E5928];
     s16 *var_a3 = B_800E58C0;
     s32 i;
 
@@ -428,7 +400,7 @@ void func_8003F360(void) {
 
 #if VERSION_US || VERSION_CN
 void func_8003F474(void) {
-    struct_801007E0_cn *temp_t3 = &B_800E9BC0[B_800E5928];
+    struct_ai_char_data *temp_t3 = &ai_char_data[B_800E5928];
     s16 *var_t1 = B_800E58C0;
     s32 i;
 
@@ -1087,7 +1059,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003FD88);
 
 #if VERSION_CN
 #if 0
-//? func_800400E8_cn(s32, ?, struct_800FC588_cn *, s32); /* extern */
+//? func_800400E8_cn(s32, ?, struct_800E5938 *, s32); /* extern */
 //? func_800402AC_cn(s32, s32, s32, ?);               /* extern */
 extern s32 B_800FC560_cn;
 extern s32 B_800E596C;
@@ -1097,7 +1069,7 @@ void func_8003FD88(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_a0;
     s32 temp_a3;
     s32 temp_v0;
-    struct_800FC588_cn *temp_a2;
+    struct_800E5938 *temp_a2;
 
     temp_a0 = arg3 >> 5;
     temp_a2 = &B_800E5938[B_800E5934];
@@ -1299,7 +1271,7 @@ extern u8 D_800992CC_cn[];
 extern u8 D_800992D4_cn[];
 
 s32 func_8003FEE4(void) {
-    struct_800FC588_cn sp8;
+    struct_800E5938 sp8;
     s32 temp_a0;
     s32 var_a2;
     s32 var_v0;
@@ -1400,32 +1372,30 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003FEE4);
 #endif
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8004015C);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void func_8004015C(void) {
     struct_800E5968 *temp = &B_800E5968;
     s32 i;
 
     for (i = 0; i < D_8008E558[0]; i++) {
-        B_800E5938[i].unk_0 = D_800992E0_cn[B_800E9BC0[i].unk_04[7]];
-        B_800E5938[i].unk_1 = D_800992E8_cn[B_800E9BC0[i].unk_01];
+        struct_ai_char_data *temp2 = &ai_char_data_org[i];
+        struct_ai_char_data *var_a1 = &ai_char_data[i];
+        struct_800E5938 *var_v1 = &B_800E5938[i];
 
-        if (B_800FC50C_cn == 0) {
-            B_800E5938[i].unk_2 = 0x800;
+        var_v1->unk_0 = D_8008E590[var_a1->unk_04[7]];
+        var_v1->unk_1 = D_8008E598[var_a1->unk_01];
+
+        if (!B_800E58BC) {
+            var_v1->unk_2 = 0x800;
         }
 
         if (i == B_800E5934) {
-            struct_801007E0_cn *new_var = D_80093EF0_cn;
-
-            temp->unk_0 = D_800992E0_cn[new_var[i].unk_04[7]];
-            temp->unk_1 = D_800992E8_cn[new_var[i].unk_01];
+            temp->unk_0 = D_8008E590[temp2->unk_04[7]];
+            temp->unk_1 = D_8008E598[temp2->unk_01];
         }
     }
 
-    B_800FC50C_cn = 1;
+    B_800E58BC = true;
 }
 #endif
 
@@ -1460,7 +1430,7 @@ void func_80040238(void) {
     s8 *temp_v0;
     s8 *var_a2;
     s8 *var_a3;
-    struct_800FC588_cn *temp_t9;
+    struct_800E5938 *temp_t9;
     u16 *var_t4;
     u16 *var_t5;
     u16 *var_t6;
@@ -1469,8 +1439,8 @@ void func_80040238(void) {
     u16 temp_t0;
     u8 *temp_v0_2;
     u8 *temp_v1;
-    struct_801007E0_cn *temp_a2;
-    struct_801007E0_cn *temp_t8;
+    struct_ai_char_data *temp_a2;
+    struct_ai_char_data *temp_t8;
 
     var_s5 = 0;
     if (*D_8008E558 > 0) {
@@ -1478,12 +1448,12 @@ void func_80040238(void) {
         sp8 = *D_8008E558;
         var_s4 = 0;
         do {
-            temp_a2 = var_s4 + D_80093EF0_cn;
-            temp_t8 = var_s4 + B_800E9BC0;
+            temp_a2 = var_s4 + ai_char_data_org;
+            temp_t8 = var_s4 + ai_char_data;
             temp_t9 = &B_800E5938[var_s5];
 
             for (var_t3 = 0; var_t3 < 8; var_t3++) {
-                temp_v0 = &(&B_800E9BC0->unk_04[var_s4])[var_t3];
+                temp_v0 = &(&ai_char_data->unk_04[var_s4])[var_t3];
                 *temp_v0 = (s8) *(temp_t9->unk_0 + D_80099288_cn);
             }
 
@@ -1496,8 +1466,8 @@ void func_80040238(void) {
                 var_t5 = temp_t8 + 0x4C;
                 var_t4 = temp_t8 + 0x1C;
                 while (var_t3_2 < 4) {
-                    temp_a3 = &(&B_800E9BC0->unk_0C[var_s4])[var_t2];
-                    temp_t1 = &(&B_800E9BC0->unk_3C[var_s4])[var_t2];
+                    temp_a3 = &(&ai_char_data->unk_0C[var_s4])[var_t2];
+                    temp_t1 = &(&ai_char_data->unk_3C[var_s4])[var_t2];
                     var_t2 += 1;
                     temp_t0 = *var_t7;
                     var_t7 += 2;
@@ -1519,9 +1489,9 @@ void func_80040238(void) {
             if (*temp_s6 > 0) {
                 temp_a0 = var_t2 * 2;
                 var_t0 = temp_a0 + (temp_t8 + 0x4C);
-                var_a3 = &(&B_800E9BC0->unk_3C[var_s4])[var_t2];
+                var_a3 = &(&ai_char_data->unk_3C[var_s4])[var_t2];
                 var_a0 = temp_a0 + (temp_t8 + 0x1C);
-                var_a2 = &(&B_800E9BC0->unk_0C[var_s4])[var_t2];
+                var_a2 = &(&ai_char_data->unk_0C[var_s4])[var_t2];
                 var_v0 = 1 << 0;
                 do {
                     temp_a1 = temp_t9->unk_2 & var_v0;
@@ -1662,9 +1632,9 @@ void func_80040238(void) {
                 var_a1 = temp_a0_3 + (temp_t8 + 0x4C);
                 var_a0_2 = temp_a0_3 + (temp_t8 + 0x1C);
                 for (; var_t3_4 < 0x10; var_t3_4++) {
-                    (&B_800E9BC0->unk_0C[var_s4])[var_t3_4] = 0;
+                    (&ai_char_data->unk_0C[var_s4])[var_t3_4] = 0;
                     *var_a0_2 = 0;
-                    (&B_800E9BC0->unk_3C[var_s4])[var_t3_4] = 0;
+                    (&ai_char_data->unk_3C[var_s4])[var_t3_4] = 0;
                     *var_a1 = 0;
                     var_a1 += 2;
                     var_a0_2 += 2;
@@ -1740,7 +1710,7 @@ const char STR_800ADB24[] = "@m%c@c%c%c:%s\n";
 
 #if VERSION_US || VERSION_CN
 void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
-    struct_800FC588_cn *temp_s5 = &B_800E5938[B_800E5934];
+    struct_800E5938 *temp_s5 = &B_800E5938[B_800E5934];
     s32 var_s0 = CLAMP(func_8003FEE4() / 10, 0, 10);
     s32 var_a2;
     s32 var_s0_2;

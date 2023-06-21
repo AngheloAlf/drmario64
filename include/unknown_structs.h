@@ -753,7 +753,7 @@ typedef enum enum_800E5930 {
     /* 3 */ ENUM_800E5930_MAX
 } enum_800E5930;
 
-typedef struct struct_800F48D0 {
+typedef struct struct_ai_param {
     /* 0x00 */ UNK_TYPE2 unk_00;
     /* 0x02 */ UNK_TYPE2 unk_02;
     /* 0x04 */ UNK_TYPE2 unk_04;
@@ -782,11 +782,12 @@ typedef struct struct_800F48D0 {
     /* 0x32 */ UNK_TYPE2 unk_32;
     /* 0x34 */ UNK_TYPE2 unk_34;
     /* 0x36 */ UNK_TYPE2 unk_36;
-} struct_800F48D0; // size = 0x38
+} struct_ai_param; // size = 0x38
 
+#define AI_PARAM_LEN1 6
+#define AI_PARAM_LEN2 8
 
-
-typedef struct struct_801007E0_cn {
+typedef struct struct_ai_char_data {
     /* 0x00 */ UNK_TYPE1 unk_00;
     /* 0x01 */ UNK_TYPE1 unk_01;
     /* 0x02 */ UNK_TYPE2 unk_02;
@@ -799,7 +800,20 @@ typedef struct struct_801007E0_cn {
     /* 0x40 */ UNK_TYPE1 unk_40[0xC];
     /* 0x4C */ UNK_TYPE2 unk_4C[4];
     /* 0x50 */ UNK_TYPE1 unk_54[0x18];
-} struct_801007E0_cn; // size = 0x6C
+} struct_ai_char_data; // size = 0x6C
+
+#define AI_CHAR_DATA_LEN 16
+
+typedef struct struct_800E5938 {
+    /* 0x0 */ s8 unk_0;
+    /* 0x1 */ s8 unk_1;
+    /* 0x2 */ u16 unk_2;
+} struct_800E5938; // size = 0x4
+
+typedef struct struct_800E5968 {
+    /* 0x0 */ s8 unk_0;
+    /* 0x1 */ s8 unk_1;
+} struct_800E5968; // size = 0x2
 
 // varargs stuff
 
