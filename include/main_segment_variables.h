@@ -131,10 +131,11 @@ extern s32 D_8008CFE0;
 // extern UNK_TYPE D_8008D2D0;
 // extern UNK_TYPE D_8008D500;
 // extern UNK_TYPE D_8008E1B0;
-// extern UNK_TYPE D_8008E290;
+extern Gfx D_8008E290[];
 // extern UNK_TYPE D_8008E340;
 // extern UNK_TYPE D_8008E358;
-// extern UNK_TYPE D_8008E364;
+extern struct_8008E364 D_8008E364;
+
 // extern UNK_TYPE D_8008E370;
 // extern UNK_TYPE D_8008E380;
 // extern UNK_TYPE D_8008E398;

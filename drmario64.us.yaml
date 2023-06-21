@@ -417,6 +417,8 @@ segments:
 
       - [0x075000, data, main_segment/075000]
 
+      - [0x075FD0, data, main_segment/026000]
+
       - [0x076190, data, main_segment/026550]
 
       - [0x0763F0, data, main_segment/0763F0]
