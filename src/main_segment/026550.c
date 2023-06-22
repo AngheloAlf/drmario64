@@ -15,9 +15,9 @@
 // extern UNK_TYPE D_8008E400;
 // extern UNK_TYPE D_8008E420;
 // extern UNK_TYPE D_8008E454;
-// extern UNK_TYPE D_8008E480;
-// extern UNK_TYPE D_8008E490;
-// extern UNK_TYPE D_8008E4A0;
+extern u8 *D_8008E480[];
+extern const char *D_8008E490[];
+extern const char *D_8008E4A0[];
 // extern UNK_TYPE D_8008E4AC;
 // extern UNK_TYPE D_8008E4DC;
 // extern UNK_TYPE D_8008E4F0;
@@ -36,7 +36,6 @@ extern const char *D_8008E5A0[];
 extern s32 D_8008E5B0;
 extern s32 D_8008E5B4[];
 
-
 // extern UNK_TYPE D_800990C0_cn;
 extern const char *D_800990D0_cn[];
 extern const char *D_800990E8_cn[];
@@ -45,9 +44,9 @@ extern const char *D_80099110_cn[];
 // extern UNK_TYPE D_80099150_cn;
 // extern UNK_TYPE D_80099170_cn;
 // extern UNK_TYPE D_800991A4_cn;
-// extern UNK_TYPE D_800991D0_cn;
-// extern UNK_TYPE D_800991E0_cn;
-// extern UNK_TYPE D_800991F0_cn;
+//! extern u8 *D_8008E480[];
+//! extern const char *D_8008E490[];
+//! extern const char *D_8008E4A0[];
 // extern UNK_TYPE D_800991FC_cn;
 // extern UNK_TYPE D_8009922C_cn;
 // extern UNK_TYPE D_80099240_cn;
@@ -374,19 +373,19 @@ const char STR_800C446C_cn[] = "DownS";
 
 const char STR_800C4474_cn[] = "VirusLv";
 
-const char STR_800C447C_cn[] = "@c2";
+const char STR_800AD55C[] = "@c2";
 
-const char STR_800C4480_cn[] = "%s\n\n\n\n\n\n";
+const char STR_800AD560[] = "%s\n\n\n\n\n\n";
 
-const char STR_800C448C_cn[] = "%6s\n\n";
+const char STR_800AD56C[] = "%6s\n\n";
 
-const char STR_800C4494_cn[] = "@c2S_er Slow Fast F_er Fest N_Wt F_NW";
+const char STR_800AD574[] = "@c2S_er Slow Fast F_er Fest N_Wt F_NW";
 
-const char STR_800C44BC_cn[] = "@m%c%03d  ";
+const char STR_800AD59C[] = "@m%c%03d  ";
 
-const char STR_800C44C8_cn[] = "\n\n";
+const char STR_800AD5A8[] = "\n\n";
 
-const char STR_800C44CC_cn[] = "@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->";
+const char STR_800AD5AC[] = "@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->";
 
 const char STR_800C44F4_cn[] = "@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n";
 
@@ -414,12 +413,14 @@ const char STR_800C46B0_cn[] = "Man";
 const char STR_800C46B4_cn[] = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
 #endif
 
+void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003E730);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_80040620_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003E730);
 #endif
 
 #if VERSION_US
@@ -427,95 +428,50 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003E8C8);
 #endif
 
 #if VERSION_CN
-#if 0
-? func_8003E69C(?*, s32, s32, s32);              /* extern */
-? func_8003E6D8();                               /* extern */
-extern s32 D_800991D0_cn;
-extern s32 D_800991E0_cn;
-extern s32 D_800991F0_cn;
-extern ? func_80040620_cn;
-
-void func_8003E8C8(s32 arg0, s32 arg1, s32 arg2) {
-    s32 temp_a1;
-    s32 temp_s3;
-    s32 var_s0_3;
+#ifdef NON_MATCHING
+void func_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2) {
     s32 var_s1;
-    s32 var_s1_2;
-    s32 var_s2;
-    s32 var_s3;
-    s32 var_s4;
     s32 var_s5;
-    s32 var_s5_2;
-    s32 var_s5_3;
-    s32 var_s7;
-    s32* var_s0;
-    s32* var_s0_2;
-    s32* var_s6;
 
-    temp_s3 = arg2 + 8;
-    func_8003E69C(&func_80040620_cn, arg1, temp_s3);
-    func_8003E6F8(STR_800C447C_cn);
-    var_s5 = 0;
-    var_s0 = &D_800991E0_cn;
-    do {
-        var_s5 += 1;
-        func_8003E6F8(STR_800C4480_cn, *var_s0);
-        var_s0 += 4;
-    } while (var_s5 < 4);
+    func_8003E69C(gxfP, func_8003E730, arg1, arg2 + 8);
+    func_8003E6F8(STR_800AD55C);
+
+    for (var_s5 = 0; var_s5 < 4; var_s5++) {
+        func_8003E6F8(STR_800AD560, D_8008E490[var_s5]);
+    }
+
     func_8003E6D8();
-    func_8003E69C((?* ) arg0, (s32) &func_80040620_cn, arg1 + 0x2A, temp_s3);
-    func_8003E6F8(STR_800C447C_cn);
-    var_s5_2 = 0;
-    var_s1 = 0;
-    do {
-        var_s0_2 = &D_800991F0_cn;
-loop_4:
-        var_s1 += 1;
-        func_8003E6F8(STR_800C448C_cn, *var_s0_2);
-        var_s0_2 += 4;
-        if (var_s1 < 3) {
-            goto loop_4;
+    func_8003E69C(gxfP, func_8003E730, arg1 + 0x2A, arg2 + 8);
+    func_8003E6F8(STR_800AD55C);
+
+    for (var_s5 = 0; var_s5 < 4; var_s5++) {
+        for (var_s1 = 0; var_s1 < 3; var_s1++) {
+            func_8003E6F8(STR_800AD56C, D_8008E4A0[var_s1]);
         }
-        var_s5_2 += 1;
-        var_s1 = 0;
-    } while (var_s5_2 < 4);
+    }
+
     func_8003E6D8();
-    func_8003E69C((?* ) arg0, (s32) &func_80040620_cn, arg1 + 0x54, arg2);
-    func_8003E6F8(STR_800C4494_cn);
+    func_8003E69C(gxfP, func_8003E730, arg1 + 0x54, arg2);
+    func_8003E6F8(STR_800AD574);
     func_8003E6D8();
-    func_8003E69C((?* ) arg0, (s32) &func_80040620_cn, arg1 + 0x5A, temp_s3);
-    var_s5_3 = 0;
-    var_s6 = &D_800991D0_cn;
-    var_s7 = 0;
-    do {
-        var_s1_2 = 0;
-        var_s4 = var_s7;
-loop_8:
-        var_s3 = 1;
-        var_s2 = 3;
-        var_s0_3 = var_s4;
-loop_9:
-        temp_a1 = var_s0_3;
-        var_s0_3 += 1;
-        var_s3 += 1;
-        func_8003E6F8(STR_800C44BC_cn, temp_a1, *(var_s2 + *var_s6 + var_s1_2));
-        var_s2 += 3;
-        if (var_s3 < 8) {
-            goto loop_9;
+    func_8003E69C(gxfP, func_8003E730, arg1 + 0x5A, arg2 + 8);
+
+    for (var_s5 = 0; var_s5 < 4; var_s5++) {
+        for (var_s1 = 0; var_s1 < 3; var_s1++) {
+            s32 var_s3;
+
+            for (var_s3 = 1; var_s3 < 8; var_s3++) {
+                func_8003E6F8(STR_800AD59C, var_s5 * 0x15 + var_s1 * 7 + var_s3 - 1,
+                              D_8008E480[var_s5][var_s3 * 3 + var_s1]);
+            }
+
+            func_8003E6F8(STR_800AD5A8);
         }
-        func_8003E6F8(STR_800C44C8_cn);
-        var_s1_2 += 1;
-        var_s4 += 7;
-        if (var_s1_2 < 3) {
-            goto loop_8;
-        }
-        var_s6 += 4;
-        var_s5_3 += 1;
-        var_s7 += 0x15;
-    } while (var_s5_3 < 4);
+    }
+
     func_8003E6D8();
-    func_8003E69C((?* ) arg0, (s32) &func_80040620_cn, arg1, arg2 + 0xC8);
-    func_8003E6F8(STR_800C44CC_cn);
+    func_8003E69C(gxfP, func_8003E730, arg1, arg2 + 0xC8);
+    func_8003E6F8(STR_800AD5AC);
     func_8003E6D8();
 }
 #else
@@ -644,7 +600,8 @@ void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
     const char *a0;
 
     func_8003E69C(gxfP, func_80040EAC_cn, arg1, arg2);
-    func_8003E6F8(STR_800C44F4_cn, 0, B_800E58C0[0], D_800990D0_cn[B_800E58C0[0]], 1, B_800E58C0[1], D_800990E8_cn[B_800E58C0[1]]);
+    func_8003E6F8(STR_800C44F4_cn, 0, B_800E58C0[0], D_800990D0_cn[B_800E58C0[0]], 1, B_800E58C0[1],
+                  D_800990E8_cn[B_800E58C0[1]]);
     func_8003E6F8(STR_800C4534_cn);
 
     var_s1 = 2;
@@ -659,7 +616,7 @@ void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
         }
     }
 
-    func_8003E6F8(STR_800C44C8_cn);
+    func_8003E6F8(STR_800AD5A8);
     func_8003E6F8(STR_800C4584_cn);
     var_s2 = &B_800E58C0[var_s1];
 
@@ -674,10 +631,11 @@ void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
         func_8003E6F8(STR_800C45B8_cn, var_s1++, *var_s2++);
     }
 
-    func_8003E6F8(STR_800C44C8_cn);
+    func_8003E6F8(STR_800AD5A8);
     temp_v0 = &B_800E58C0[var_s1];
 
-    func_8003E6F8(STR_800C45D0_cn, var_s1, temp_v0[0], var_s1 + 1, temp_v0[1], var_s1 + 2, temp_v0[2], var_s1 + 3, temp_v0[3], var_s1 + 4, temp_v0[4], D_80099108_cn[temp_v0[4]], var_s1 + 5, temp_v0[5]);
+    func_8003E6F8(STR_800C45D0_cn, var_s1, temp_v0[0], var_s1 + 1, temp_v0[1], var_s1 + 2, temp_v0[2], var_s1 + 3,
+                  temp_v0[3], var_s1 + 4, temp_v0[4], D_80099108_cn[temp_v0[4]], var_s1 + 5, temp_v0[5]);
     func_8003E6F8(STR_800C4648_cn);
 
     var_s1 = var_s1 + 6;
@@ -939,7 +897,7 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
             func_8003E6F8(STR_800C483C_cn, temp_s0_2, B_800E58C0[temp_s0_2].unk_0);
             var_s0 = temp_s0_2 + 1;
         }
-        func_8003E6F8(STR_800C44C8_cn);
+        func_8003E6F8(STR_800AD5A8);
         var_s3_2 += 1;
     } while (var_s3_2 < 4);
     func_8003E6F8(STR_800C4848_cn);
