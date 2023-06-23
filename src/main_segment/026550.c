@@ -1016,60 +1016,32 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003F7DC);
 #endif
 
 #if VERSION_CN
-#if 0
 void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
-    ? var_a3;
-    s16 *temp_v0_2;
-    s16 *var_s5;
-    s16 *var_s6;
-    s16 temp_a2_2;
-    s16 temp_a3_2;
-    s16 temp_t2;
-    s16 temp_t3;
-    s16 temp_v0;
-    s16 temp_v0_3;
-    s32 temp_a3;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_t4;
-    s32 var_s0;
-    s32 var_s0_2;
-    s32 var_s3;
-    s32 var_s3_2;
-    s8 **var_s1;
-    s8 **var_s2;
-    s8 *temp_a2;
+    s16 *new_var = B_800E58C0;
+    s32 var_s0 = 0;
+    s32 i;
 
     func_8003E69C(gxfP, func_8004168C_cn, arg1, arg2);
-    var_s0 = 4;
-    var_s3 = 0;
-    var_s6 = B_800E58C0 + 0xA;
-    var_s5 = B_800E58C0 + 8;
-    func_8003E6F8(STR_800C4710_cn, 0, B_800E58C0->unk_0, D_80099110_cn[B_800E58C0->unk_0], 1, (s32) B_800E58C0->unk_2, D_80099108_cn[B_800E58C0->unk_2], 2, (s32) B_800E58C0->unk_4, D_80099150_cn[B_800E58C0->unk_4], 3, (s32) B_800E58C0->unk_6);
-    var_s2 = D_800990E8_cn + 4;
-    var_s1 = D_800990E8_cn;
-    do {
-        temp_a3 = var_s0;
-        temp_t3 = *var_s6;
-        var_s6 += 4;
-        temp_t2 = *var_s5;
-        var_s5 += 4;
-        temp_t4 = var_s0 + 1;
+
+    func_8003E6F8(STR_800C4710_cn, var_s0, new_var[var_s0], D_80099110_cn[new_var[var_s0]], var_s0 + 1,
+                  new_var[var_s0 + 1], D_80099108_cn[new_var[var_s0 + 1]], var_s0 + 2, new_var[var_s0 + 2],
+                  D_80099150_cn[new_var[var_s0 + 2]], var_s0 + 3, new_var[var_s0 + 3]);
+    var_s0 += 4;
+
+    for (i = 0; i < 4; i++) {
+        func_8003E6F8(STR_800C4784_cn, D_800990E8_cn[2 * i], D_800990E8_cn[2 * i + 1], var_s0, new_var[var_s0],
+                      D_800990D0_cn[new_var[var_s0]], var_s0 + 1, new_var[var_s0 + 1],
+                      D_800990D0_cn[new_var[var_s0 + 1]]);
         var_s0 += 2;
-        temp_a2 = *var_s2;
-        var_s2 += 8;
-        var_s3 += 1;
-        func_8003E6F8(STR_800C4784_cn, *var_s1, temp_a2, temp_a3, (s32) temp_t2, D_800990D0_cn[temp_t2], temp_t4, (s32) temp_t3, D_800990D0_cn[temp_t3]);
-        var_s1 += 8;
-    } while (var_s3 < 4);
+    }
+
     func_8003E6F8(STR_800C47B8_cn);
-    var_s3_2 = 0;
-    do {
-        temp_s0 = var_s0 + 1;
-        temp_a3_2 = B_800E58C0[var_s0];
-        func_8003E6F8(STR_800C47EC_cn, B_800E592C + var_s3_2 + 1, var_s0, temp_a3_2, D_80099170_cn[temp_a3_2]);
-        temp_v0 = B_800E58C0[temp_s0].unk_-2;
-        switch (temp_v0) {
+
+    for (i = 0; i < 4; i++) {
+        func_8003E6F8(STR_800C47EC_cn, B_800E592C + i + 1, var_s0, new_var[var_s0], D_80099170_cn[new_var[var_s0]]);
+
+        var_s0++;
+        switch (new_var[var_s0 - 1]) {
             case 0x0:
             case 0x1:
             case 0x3:
@@ -1078,41 +1050,40 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
             case 0x8:
             case 0x9:
             case 0xB:
-                func_8003E6F8(STR_800C4808_cn, temp_s0);
-                var_s0_2 = temp_s0 + 1;
+                func_8003E6F8(STR_800C4808_cn, var_s0);
                 break;
+
             default:
-                temp_v0_2 = &B_800E58C0[temp_s0];
-                if (temp_v0_2->unk_-2 == 2) {
-                    var_a3 = 0x25;
-                } else {
-                    var_a3 = 0x20;
-                }
-                func_8003E6F8(STR_800C4814_cn, temp_s0, temp_v0_2->unk_0, var_a3);
-                var_s0_2 = temp_s0 + 1;
+                func_8003E6F8(STR_800C4814_cn, var_s0, new_var[var_s0], (new_var[var_s0 - 1] == 2) ? 0x25 : 0x20);
                 break;
         }
-        temp_a2_2 = B_800E58C0[var_s0_2];
-        temp_s0_2 = var_s0_2 + 1;
-        func_8003E6F8(STR_800C4824_cn, var_s0_2, temp_a2_2, D_800991A4_cn[temp_a2_2]);
-        temp_v0_3 = B_800E58C0[temp_s0_2].unk_-2;
-        if ((temp_v0_3 < 3) && (temp_v0_3 >= 0)) {
-            func_8003E6F8(STR_800C4834_cn, temp_s0_2);
-            var_s0 = temp_s0_2 + 1;
-        } else {
-            func_8003E6F8(STR_800C483C_cn, temp_s0_2, B_800E58C0[temp_s0_2].unk_0);
-            var_s0 = temp_s0_2 + 1;
+
+        var_s0++;
+
+        func_8003E6F8(STR_800C4824_cn, var_s0, new_var[var_s0], D_800991A4_cn[new_var[var_s0]]);
+
+        var_s0++;
+        switch (new_var[var_s0 - 1]) {
+            case 0:
+            case 1:
+            case 2:
+                func_8003E6F8(STR_800C4834_cn, var_s0);
+                break;
+
+            default:
+                func_8003E6F8(STR_800C483C_cn, var_s0, new_var[var_s0]);
+                break;
         }
+
+        var_s0++;
+
         func_8003E6F8(STR_800AD5A8);
-        var_s3_2 += 1;
-    } while (var_s3_2 < 4);
+    }
+
     func_8003E6F8(STR_800C4848_cn);
     func_8003E6F8(STR_800C484C_cn);
     func_8003E6D8();
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003F7DC);
-#endif
 #endif
 
 #if VERSION_US || VERSION_CN
