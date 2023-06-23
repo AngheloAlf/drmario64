@@ -6,15 +6,14 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-// extern UNK_TYPE D_8008E370;
-// extern UNK_TYPE D_8008E380;
-// extern UNK_TYPE D_8008E398;
-// extern UNK_TYPE D_8008E3B8;
-// extern UNK_TYPE D_8008E3BC;
-// extern UNK_TYPE D_8008E3C0;
-// extern UNK_TYPE D_8008E400;
-// extern UNK_TYPE D_8008E420;
-// extern UNK_TYPE D_8008E454;
+extern s32 D_8008E370[];
+extern const char *D_8008E380[];
+extern const char *D_8008E398[];
+extern const char *D_8008E3B8[];
+extern const char *D_8008E3C0[];
+extern const char *D_8008E400[];
+extern const char *D_8008E420[];
+extern const char *D_8008E454[];
 extern u8 *D_8008E480[];
 extern const char *D_8008E490[];
 extern const char *D_8008E4A0[];
@@ -36,14 +35,14 @@ extern const char *D_8008E5A0[];
 extern s32 D_8008E5B0;
 extern s32 D_8008E5B4[];
 
-extern s32 D_800990C0_cn[];
-extern const char *D_800990D0_cn[];
-extern const char *D_800990E8_cn[];
-extern const char *D_80099108_cn[];
-extern const char *D_80099110_cn[];
-extern const char *D_80099150_cn[];
-extern const char *D_80099170_cn[];
-extern const char *D_800991A4_cn[];
+//! extern s32 D_8008E370[];
+//! extern const char *D_8008E380[];
+//! extern const char *D_8008E398[];
+//! extern const char *D_8008E3B8[];
+//! extern const char *D_8008E3C0[];
+//! extern const char *D_8008E400[];
+//! extern const char *D_8008E420[];
+//! extern const char *D_8008E454[];
 //! extern u8 *D_8008E480[];
 //! extern const char *D_8008E490[];
 //! extern const char *D_8008E4A0[];
@@ -65,181 +64,177 @@ extern UNK_TYPE1 D_80099290_cn[];
 //! extern s32 D_8008E5B0;
 //! extern s32 D_8008E5B4[];
 
-extern s32 B_800FC500_cn;
-extern s32 B_800FC504_cn;
-extern s32 B_800FC508_cn;
-
 #if VERSION_US
-const char STR_800AD2E0[] RODATA = "MajorityRensa";
+const char STR_800AD2E0[] = "MajorityRensa";
 
-const char STR_800AD2F0[] RODATA = "WidErase";
+const char STR_800AD2F0[] = "WidErase";
 
-const char STR_800AD2FC[] RODATA = "Rensa&Attack";
+const char STR_800AD2FC[] = "Rensa&Attack";
 
-const char STR_800AD30C[] RODATA = "Rensa&Erase";
+const char STR_800AD30C[] = "Rensa&Erase";
 
-const char STR_800AD318[] RODATA = "SmallRensa";
+const char STR_800AD318[] = "SmallRensa";
 
-const char STR_800AD324[] RODATA = "FastErase";
+const char STR_800AD324[] = "FastErase";
 
-const char STR_800AD330[] RODATA = "Normal";
+const char STR_800AD330[] = "Normal";
 
-const char STR_800AD338[] RODATA = "Badline1";
+const char STR_800AD338[] = "Badline1";
 
-const char STR_800AD344[] RODATA = "Badline2";
+const char STR_800AD344[] = "Badline2";
 
-const char STR_800AD350[] RODATA = "LastVsn";
+const char STR_800AD350[] = "LastVsn";
 
-const char STR_800AD358[] RODATA = "LastVsnh";
+const char STR_800AD358[] = "LastVsnh";
 
-const char STR_800AD364[] RODATA = "Last";
+const char STR_800AD364[] = "Last";
 
-const char STR_800AD36C[] RODATA = "Narrow";
+const char STR_800AD36C[] = "Narrow";
 
-const char STR_800AD374[] RODATA = "Dead";
+const char STR_800AD374[] = "Dead";
 
-const char STR_800AD37C[] RODATA = "On";
+const char STR_800AD37C[] = "On";
 
-const char STR_800AD380[] RODATA = "Off";
+const char STR_800AD380[] = "Off";
 
-const char STR_800AD384[] RODATA = "Plain4";
+const char STR_800AD384[] = "Plain4";
 
-const char STR_800AD38C[] RODATA = "Plain3";
+const char STR_800AD38C[] = "Plain3";
 
-const char STR_800AD394[] RODATA = "Plain2";
+const char STR_800AD394[] = "Plain2";
 
-const char STR_800AD39C[] RODATA = "Plain1";
+const char STR_800AD39C[] = "Plain1";
 
-const char STR_800AD3A4[] RODATA = "Peach";
+const char STR_800AD3A4[] = "Peach";
 
-const char STR_800AD3AC[] RODATA = "Koopa";
+const char STR_800AD3AC[] = "Koopa";
 
-const char STR_800AD3B4[] RODATA = "Kamek";
+const char STR_800AD3B4[] = "Kamek";
 
-const char STR_800AD3BC[] RODATA = "PakkunFlower";
+const char STR_800AD3BC[] = "PakkunFlower";
 
-const char STR_800AD3CC[] RODATA = "Telesa";
+const char STR_800AD3CC[] = "Telesa";
 
-const char STR_800AD3D4[] RODATA = "Hanachan";
+const char STR_800AD3D4[] = "Hanachan";
 
-const char STR_800AD3E0[] RODATA = "Heihoo";
+const char STR_800AD3E0[] = "Heihoo";
 
-const char STR_800AD3E8[] RODATA = "Chiropoo";
+const char STR_800AD3E8[] = "Chiropoo";
 
-const char STR_800AD3F4[] RODATA = "PukuPuku";
+const char STR_800AD3F4[] = "PukuPuku";
 
-const char STR_800AD400[] RODATA = "Bomhei";
+const char STR_800AD400[] = "Bomhei";
 
-const char STR_800AD408[] RODATA = "NokoNoko";
+const char STR_800AD408[] = "NokoNoko";
 
-const char STR_800AD414[] RODATA = "Mario";
+const char STR_800AD414[] = "Mario";
 
-const char STR_800AD41C[] RODATA = "FasterNW";
+const char STR_800AD41C[] = "FasterNW";
 
-const char STR_800AD428[] RODATA = "NoWait";
+const char STR_800AD428[] = "NoWait";
 
-const char STR_800AD430[] RODATA = "Fastest";
+const char STR_800AD430[] = "Fastest";
 
-const char STR_800AD438[] RODATA = "Faster";
+const char STR_800AD438[] = "Faster";
 
-const char STR_800AD440[] RODATA = "Fast";
+const char STR_800AD440[] = "Fast";
 
-const char STR_800AD448[] RODATA = "Slow";
+const char STR_800AD448[] = "Slow";
 
-const char STR_800AD450[] RODATA = "Slower";
+const char STR_800AD450[] = "Slower";
 
-const char STR_800AD458[] RODATA = "SpSlow";
+const char STR_800AD458[] = "SpSlow";
 
-const char STR_800AD460[] RODATA = "PreemPtive";
+const char STR_800AD460[] = "PreemPtive";
 
-const char STR_800AD46C[] RODATA = "Rensa";
+const char STR_800AD46C[] = "Rensa";
 
-const char STR_800AD474[] RODATA = "Hard";
+const char STR_800AD474[] = "Hard";
 
-const char STR_800AD47C[] RODATA = "Easy";
+const char STR_800AD47C[] = "Easy";
 
-const char STR_800AD484[] RODATA = "Pile";
+const char STR_800AD484[] = "Pile";
 
-const char STR_800AD48C[] RODATA = "Few Vir";
+const char STR_800AD48C[] = "Few Vir";
 
-const char STR_800AD494[] RODATA = "Many Vir";
+const char STR_800AD494[] = "Many Vir";
 
-const char STR_800AD4A0[] RODATA = "Damage";
+const char STR_800AD4A0[] = "Damage";
 
-const char STR_800AD4A8[] RODATA = "Random";
+const char STR_800AD4A8[] = "Random";
 
-const char STR_800AD4B0[] RODATA = "Unconditional";
+const char STR_800AD4B0[] = "Unconditional";
 
-const char STR_800AD4C0[] RODATA = "--------------";
+const char STR_800AD4C0[] = "--------------";
 
-const char STR_800AD4D0[] RODATA = "Lose";
+const char STR_800AD4D0[] = "Lose";
 
-const char STR_800AD4D8[] RODATA = "be Erase";
+const char STR_800AD4D8[] = "be Erase";
 
-const char STR_800AD4E4[] RODATA = "be Attack";
+const char STR_800AD4E4[] = "be Attack";
 
-const char STR_800AD4F0[] RODATA = "Rapid";
+const char STR_800AD4F0[] = "Rapid";
 
-const char STR_800AD4F8[] RODATA = "beNoWait";
+const char STR_800AD4F8[] = "beNoWait";
 
-const char STR_800AD504[] RODATA = "beSlow";
+const char STR_800AD504[] = "beSlow";
 
-const char STR_800AD50C[] RODATA = "beFast";
+const char STR_800AD50C[] = "beFast";
 
-const char STR_800AD514[] RODATA = "Not Move";
+const char STR_800AD514[] = "Not Move";
 
-const char STR_800AD520[] RODATA = "Waver";
+const char STR_800AD520[] = "Waver";
 
-const char STR_800AD528[] RODATA = "Rotate";
+const char STR_800AD528[] = "Rotate";
 
-const char STR_800AD530[] RODATA = "----------";
+const char STR_800AD530[] = "----------";
 
-const char STR_800AD53C[] RODATA = "SlideFS";
+const char STR_800AD53C[] = "SlideFS";
 
-const char STR_800AD544[] RODATA = "SlideS";
+const char STR_800AD544[] = "SlideS";
 
-const char STR_800AD54C[] RODATA = "DownS";
+const char STR_800AD54C[] = "DownS";
 
-const char STR_800AD554[] RODATA = "VirusLv";
+const char STR_800AD554[] = "VirusLv";
 
-const char STR_800AD55C[] RODATA = "@c2";
+const char STR_800AD55C[] = "@c2";
 
-const char STR_800AD560[] RODATA = "%s\n\n\n\n\n\n";
+const char STR_800AD560[] = "%s\n\n\n\n\n\n";
 
-const char STR_800AD56C[] RODATA = "%6s\n\n";
+const char STR_800AD56C[] = "%6s\n\n";
 
-const char STR_800AD574[] RODATA = "@c2S_er Slow Fast F_er Fest N_Wt F_NW";
+const char STR_800AD574[] = "@c2S_er Slow Fast F_er Fest N_Wt F_NW";
 
-const char STR_800AD59C[] RODATA = "@m%c%03d  ";
+const char STR_800AD59C[] = "@m%c%03d  ";
 
-const char STR_800AD5A8[] RODATA = "\n\n";
+const char STR_800AD5A8[] = "\n\n";
 
-const char STR_800AD5AC[] RODATA = "@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->";
+const char STR_800AD5AC[] = "@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->";
 
-const char STR_800AD5D4[] RODATA = "@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n";
+const char STR_800AD5D4[] = "@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n";
 
-const char STR_800AD614[] RODATA = "@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7";
+const char STR_800AD614[] = "@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7";
 
-const char STR_800AD648[] RODATA = " @m%c%05d%% ";
+const char STR_800AD648[] = " @m%c%05d%% ";
 
-const char STR_800AD658[] RODATA = " @m%c%05d ";
+const char STR_800AD658[] = " @m%c%05d ";
 
-const char STR_800AD664[] RODATA = "@c2\tALNB   FC     FV     C      V\n@c2Hei@c7  -----";
+const char STR_800AD664[] = "@c2\tALNB   FC     FV     C      V\n@c2Hei@c7  -----";
 
-const char STR_800AD698[] RODATA = "  @m%c%05d";
+const char STR_800AD698[] = "  @m%c%05d";
 
-const char STR_800AD6A4[] RODATA = "\n\n@c2Wid@c7";
+const char STR_800AD6A4[] = "\n\n@c2Wid@c7";
 
-const char STR_800AD6B0[] RODATA = "@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  "
+const char STR_800AD6B0[] = "@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  "
                                    "@m%c%05d%%  @m%c%02d:%-3s  @m%c%05d\n\n";
 
-const char STR_800AD728[] RODATA = "@c2\tLine2  Line3  Line4~8\n@c2Hei@c7";
+const char STR_800AD728[] = "@c2\tLine2  Line3  Line4~8\n@c2Hei@c7";
 
-const char STR_800AD74C[] RODATA = "\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m%c%03d:%-14s\n\n\n\n\n";
+const char STR_800AD74C[] = "\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m%c%03d:%-14s\n\n\n\n\n";
 
-const char STR_800AD790[] RODATA = "Man";
+const char STR_800AD790[] = "Man";
 
-const char STR_800AD794[] RODATA = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
+const char STR_800AD794[] = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
 #endif
 
 #if VERSION_CN
@@ -417,13 +412,7 @@ const char STR_800C46B0_cn[] = "Man";
 const char STR_800C46B4_cn[] = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
 #endif
 
-void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003E730);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     u16 buttonPressed = gControllerPressedButtons[0];
     u16 buttonCurrent = joycur[0];
@@ -435,7 +424,7 @@ void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            func_8003E3F0(gfxP, arg1 + ((2 - B_800FC500_cn) * 6), arg2 + 8, 0x5E);
+            func_8003E3F0(gfxP, arg1 + ((2 - B_800E58B0) * 6), arg2 + 8, 0x5E);
         }
     } else {
         s32 var_t0;
@@ -449,7 +438,7 @@ void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
             var_t0--;
         }
 
-        B_800FC500_cn = CLAMP(B_800FC500_cn + var_t0, 0, 2);
+        B_800E58B0 = CLAMP(B_800E58B0 + var_t0, 0, 2);
 
         var_t0 = 0;
         if (buttonCurrent & U_JPAD) {
@@ -460,7 +449,7 @@ void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         }
 
         temp_a3 = D_8008E480[arg3 / 21] + (((arg3 % 7) * 3) + 3) + ((arg3 / 7) - (arg3 / 21 * 3));
-        *temp_a3 = CLAMP(*temp_a3 + (var_t0 * D_800990C0_cn[B_800FC500_cn]), 0, 0x1E);
+        *temp_a3 = CLAMP(*temp_a3 + (var_t0 * D_8008E370[B_800E58B0]), 0, 30);
     }
 }
 #endif
@@ -599,16 +588,12 @@ void func_8003ECDC(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003EEA4);
-#endif
-
-#if VERSION_CN
-void func_80040EAC_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+#if VERSION_US || VERSION_CN
+void func_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     u16 buttonPressed = gControllerPressedButtons[0];
     u16 buttonCurrent = joycur[0];
-    s16 var_t0;
-    s16 var_t2;
+    s32 var_t0;
+    s32 var_t2;
     s32 var_t1;
 
     if (arg3 != B_800E5918) {
@@ -638,7 +623,7 @@ void func_80040EAC_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            func_8003E3F0(gfxP, arg1 + (((var_t1 - B_800FC504_cn) - 1) * 6), arg2 + 8, 0x5E);
+            func_8003E3F0(gfxP, arg1 + (((var_t1 - B_800E58B4) - 1) * 6), arg2 + 8, 0x5E);
         }
     } else {
         s32 var_a1;
@@ -651,7 +636,7 @@ void func_80040EAC_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
             var_a1 -= 1;
         }
 
-        B_800FC504_cn = CLAMP(B_800FC504_cn + var_a1, 0, var_t1 - 1);
+        B_800E58B4 = CLAMP(B_800E58B4 + var_a1, 0, var_t1 - 1);
 
         var_a1 = 0;
         if (buttonCurrent & U_JPAD) {
@@ -661,7 +646,7 @@ void func_80040EAC_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
             var_a1 -= 1;
         }
 
-        B_800E58C0[arg3] = CLAMP(B_800E58C0[arg3] + D_800990C0_cn[B_800FC504_cn] * var_a1, var_t2, var_t0);
+        B_800E58C0[arg3] = CLAMP(B_800E58C0[arg3] + D_8008E370[B_800E58B4] * var_a1, var_t2, var_t0);
     }
 }
 #endif
@@ -699,9 +684,9 @@ void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
 
     const char *a0;
 
-    func_8003E69C(gxfP, func_80040EAC_cn, arg1, arg2);
-    func_8003E6F8(STR_800C44F4_cn, 0, B_800E58C0[0], D_800990D0_cn[B_800E58C0[0]], 1, B_800E58C0[1],
-                  D_800990E8_cn[B_800E58C0[1]]);
+    func_8003E69C(gxfP, func_8003EEA4, arg1, arg2);
+    func_8003E6F8(STR_800C44F4_cn, 0, B_800E58C0[0], D_8008E380[B_800E58C0[0]], 1, B_800E58C0[1],
+                  D_8008E398[B_800E58C0[1]]);
     func_8003E6F8(STR_800C4534_cn);
 
     var_s1 = 2;
@@ -735,7 +720,7 @@ void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
     temp_v0 = &B_800E58C0[var_s1];
 
     func_8003E6F8(STR_800C45D0_cn, var_s1, temp_v0[0], var_s1 + 1, temp_v0[1], var_s1 + 2, temp_v0[2], var_s1 + 3,
-                  temp_v0[3], var_s1 + 4, temp_v0[4], D_80099108_cn[temp_v0[4]], var_s1 + 5, temp_v0[5]);
+                  temp_v0[3], var_s1 + 4, temp_v0[4], D_8008E3B8[temp_v0[4]], var_s1 + 5, temp_v0[5]);
     func_8003E6F8(STR_800C4648_cn);
 
     var_s1 = var_s1 + 6;
@@ -754,7 +739,7 @@ void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
     temp_v0_2 = &B_800E58C0[var_s1];
     v1 = temp_v0_2[1];
     if (v1 != 0) {
-        arg5 = D_80099110_cn[temp_v0_2[1] - 1];
+        arg5 = D_8008E3C0[temp_v0_2[1] - 1];
     } else {
         arg5 = STR_800C46B0_cn;
     }
@@ -817,16 +802,12 @@ void func_8003F474(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003F568);
-#endif
-
-#if VERSION_CN
-void func_8004168C_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+#if VERSION_US || VERSION_CN
+void func_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     u16 buttonPressed = gControllerPressedButtons[0];
     u16 buttonCurrent = joycur[0];
-    s16 var_t1;
-    s16 var_t4;
+    s32 var_t1;
+    s32 var_t4;
     s32 var_t0;
     s32 var_t5;
     s32 var_t6;
@@ -886,7 +867,7 @@ void func_8004168C_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            func_8003E3F0(gfxP, arg1 + (((var_t0 - B_800FC508_cn) - 1) * 6), arg2 + 8, 0x5E);
+            func_8003E3F0(gfxP, arg1 + (((var_t0 - B_800E58B8) - 1) * 6), arg2 + 8, 0x5E);
         }
     } else {
         s32 var_a2 = 1;
@@ -900,7 +881,7 @@ void func_8004168C_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
             var_a1 -= 1;
         }
 
-        B_800FC508_cn = CLAMP(B_800FC508_cn + var_a1, 0, var_t0 - 1);
+        B_800E58B8 = CLAMP(B_800E58B8 + var_a1, 0, var_t0 - 1);
 
         if (var_t5 != 0) {
             switch (B_800E58C0[arg3 - 1]) {
@@ -934,111 +915,60 @@ void func_8004168C_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
                 var_a1 -= 1;
             }
 
-            B_800E58C0[arg3] = CLAMP(B_800E58C0[arg3] + D_800990C0_cn[B_800FC508_cn] * var_a1, var_t4, var_t1);
+            B_800E58C0[arg3] = CLAMP(B_800E58C0[arg3] + D_8008E370[B_800E58B8] * var_a1, var_t4, var_t1);
         }
     }
 }
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/026550", STR_800AD7F0);
+#if VERSION_US || VERSION_CN
+const char STR_800AD7F0[] = "@c2Character         WaitAttack Speed       Luck\n@c7 @m%c%02d:%-14s @m%c%02d:%-3s     @m%c%02d:%-8s @m%c%03d%%\n\n";
+
+const char STR_800AD864[] = "@c2%-18s %-18s\n@c7 @m%c%02d:%-14s  @m%c%02d:%-14s\n\n";
+
+const char STR_800AD898[] = "@c2  ExCondition        Sub   ExEffect       Sub\n";
+
+const char STR_800AD8CC[] = "@c2%02d @c7@m%c%03d:%-14s ";
+
+const char STR_800AD8E8[] = "@m%c---   ";
+
+const char STR_800AD8F4[] = "@m%c%03d%c  ";
+
+const char STR_800AD904[] = "@m%c%03d:%-10s ";
+
+const char STR_800AD914[] = "@m%c---";
+
+const char STR_800AD91C[] = "@m%c%03d";
+
+const char STR_800AD928[] = "\n";
+
+const char STR_800AD92C[] = "@c3<- LogicMenu\t\t\t\t\t\tSpeedMenu ->";
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/026550", STR_800AD864);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/026550", STR_800AD898);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/026550", STR_800AD8CC);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/026550", STR_800AD8E8);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/026550", STR_800AD8F4);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/026550", STR_800AD904);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/026550", STR_800AD914);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/026550", STR_800AD91C);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/026550", STR_800AD928);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/026550", STR_800AD92C);
-#endif
-
-#if VERSION_CN
-ASM_RODATA;
-
-const char STR_800C4710_cn[] = "@c2Character         WaitAttack Speed       Luck\n@c7 @m%c%02d:%-14s @m%c%02d:%-3s     "
-                               "@m%c%02d:%-8s @m%c%03d%%\n\n";
-
-const char STR_800C4784_cn[] = "@c2%-18s %-18s\n@c7 @m%c%02d:%-14s  @m%c%02d:%-14s\n\n";
-
-const char STR_800C47B8_cn[] = "@c2  ExCondition        Sub   ExEffect       Sub\n";
-
-const char STR_800C47EC_cn[] = "@c2%02d @c7@m%c%03d:%-14s ";
-
-const char STR_800C4808_cn[] = "@m%c---   ";
-
-const char STR_800C4814_cn[] = "@m%c%03d%c  ";
-
-const char STR_800C4824_cn[] = "@m%c%03d:%-10s ";
-
-const char STR_800C4834_cn[] = "@m%c---";
-
-const char STR_800C483C_cn[] = "@m%c%03d";
-
-const char STR_800C4848_cn[] = "\n";
-
-const char STR_800C484C_cn[] = "@c3<- LogicMenu\t\t\t\t\t\tSpeedMenu ->";
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003F7DC);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
     s16 *new_var = B_800E58C0;
     s32 var_s0 = 0;
     s32 i;
 
-    func_8003E69C(gxfP, func_8004168C_cn, arg1, arg2);
+    func_8003E69C(gxfP, func_8003F568, arg1, arg2);
 
-    func_8003E6F8(STR_800C4710_cn, var_s0, new_var[var_s0], D_80099110_cn[new_var[var_s0]], var_s0 + 1,
-                  new_var[var_s0 + 1], D_80099108_cn[new_var[var_s0 + 1]], var_s0 + 2, new_var[var_s0 + 2],
-                  D_80099150_cn[new_var[var_s0 + 2]], var_s0 + 3, new_var[var_s0 + 3]);
+    func_8003E6F8(STR_800AD7F0, var_s0, new_var[var_s0], D_8008E3C0[new_var[var_s0]], var_s0 + 1,
+                  new_var[var_s0 + 1], D_8008E3B8[new_var[var_s0 + 1]], var_s0 + 2, new_var[var_s0 + 2],
+                  D_8008E400[new_var[var_s0 + 2]], var_s0 + 3, new_var[var_s0 + 3]);
     var_s0 += 4;
 
     for (i = 0; i < 4; i++) {
-        func_8003E6F8(STR_800C4784_cn, D_800990E8_cn[2 * i], D_800990E8_cn[2 * i + 1], var_s0, new_var[var_s0],
-                      D_800990D0_cn[new_var[var_s0]], var_s0 + 1, new_var[var_s0 + 1],
-                      D_800990D0_cn[new_var[var_s0 + 1]]);
+        func_8003E6F8(STR_800AD864, D_8008E398[2 * i], D_8008E398[2 * i + 1], var_s0, new_var[var_s0],
+                      D_8008E380[new_var[var_s0]], var_s0 + 1, new_var[var_s0 + 1],
+                      D_8008E380[new_var[var_s0 + 1]]);
         var_s0 += 2;
     }
 
-    func_8003E6F8(STR_800C47B8_cn);
+    func_8003E6F8(STR_800AD898);
 
     for (i = 0; i < 4; i++) {
-        func_8003E6F8(STR_800C47EC_cn, B_800E592C + i + 1, var_s0, new_var[var_s0], D_80099170_cn[new_var[var_s0]]);
+        func_8003E6F8(STR_800AD8CC, B_800E592C + i + 1, var_s0, new_var[var_s0], D_8008E420[new_var[var_s0]]);
 
         var_s0++;
         switch (new_var[var_s0 - 1]) {
@@ -1050,28 +980,28 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
             case 0x8:
             case 0x9:
             case 0xB:
-                func_8003E6F8(STR_800C4808_cn, var_s0);
+                func_8003E6F8(STR_800AD8E8, var_s0);
                 break;
 
             default:
-                func_8003E6F8(STR_800C4814_cn, var_s0, new_var[var_s0], (new_var[var_s0 - 1] == 2) ? 0x25 : 0x20);
+                func_8003E6F8(STR_800AD8F4, var_s0, new_var[var_s0], (new_var[var_s0 - 1] == 2) ? 0x25 : 0x20);
                 break;
         }
 
         var_s0++;
 
-        func_8003E6F8(STR_800C4824_cn, var_s0, new_var[var_s0], D_800991A4_cn[new_var[var_s0]]);
+        func_8003E6F8(STR_800AD904, var_s0, new_var[var_s0], D_8008E454[new_var[var_s0]]);
 
         var_s0++;
         switch (new_var[var_s0 - 1]) {
             case 0:
             case 1:
             case 2:
-                func_8003E6F8(STR_800C4834_cn, var_s0);
+                func_8003E6F8(STR_800AD914, var_s0);
                 break;
 
             default:
-                func_8003E6F8(STR_800C483C_cn, var_s0, new_var[var_s0]);
+                func_8003E6F8(STR_800AD91C, var_s0, new_var[var_s0]);
                 break;
         }
 
@@ -1080,8 +1010,8 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
         func_8003E6F8(STR_800AD5A8);
     }
 
-    func_8003E6F8(STR_800C4848_cn);
-    func_8003E6F8(STR_800C484C_cn);
+    func_8003E6F8(STR_800AD928);
+    func_8003E6F8(STR_800AD92C);
     func_8003E6D8();
 }
 #endif
@@ -1170,11 +1100,7 @@ void func_8003FD0C(Gfx **gxfP) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003FD88);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     u16 button = gControllerPressedButtons[0];
     struct_800E5938 *temp_a2 = &B_800E5938[B_800E5934];
@@ -1217,83 +1143,79 @@ void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 }
 #endif
 
-ASM_RODATA;
-
 #if VERSION_US
-const char STR_800AD980[] RODATA = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
+const char STR_800AD980[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
 
-const char STR_800AD98C[] RODATA = "ｸｯﾊﾟ";
+const char STR_800AD98C[] = "ｸｯﾊﾟ";
 
-const char STR_800AD994[] RODATA = "ｶﾒｯｸ";
+const char STR_800AD994[] = "ｶﾒｯｸ";
 
-const char STR_800AD99C[] RODATA = "ﾊﾟｯｸﾝﾌﾗﾜｰ";
+const char STR_800AD99C[] = "ﾊﾟｯｸﾝﾌﾗﾜｰ";
 
-const char STR_800AD9A8[] RODATA = "ﾃﾚｻ";
+const char STR_800AD9A8[] = "ﾃﾚｻ";
 
-const char STR_800AD9AC[] RODATA = "ﾊﾅﾁｬﾝ";
+const char STR_800AD9AC[] = "ﾊﾅﾁｬﾝ";
 
-const char STR_800AD9B4[] RODATA = "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ";
+const char STR_800AD9B4[] = "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ";
 
-const char STR_800AD9C0[] RODATA = "ﾁｮﾛﾌﾟｰ";
+const char STR_800AD9C0[] = "ﾁｮﾛﾌﾟｰ";
 
-const char STR_800AD9C8[] RODATA = "ﾌﾟｸﾌﾟｸ";
+const char STR_800AD9C8[] = "ﾌﾟｸﾌﾟｸ";
 
-const char STR_800AD9D0[] RODATA = "ﾎﾞﾑﾍｲ";
+const char STR_800AD9D0[] = "ﾎﾞﾑﾍｲ";
 
-const char STR_800AD9D8[] RODATA = "ﾉｺﾉｺ";
+const char STR_800AD9D8[] = "ﾉｺﾉｺ";
 
-const char STR_800AD9E0[] RODATA = "ﾏﾘｵ";
+const char STR_800AD9E0[] = "ﾏﾘｵ";
 
-const char STR_800AD9E4[] RODATA = "ﾖｺｽﾞｷ";
+const char STR_800AD9E4[] = "ﾖｺｽﾞｷ";
 
-const char STR_800AD9EC[] RODATA = "ﾀﾞｲﾚﾝｻﾈﾗｲ";
+const char STR_800AD9EC[] = "ﾀﾞｲﾚﾝｻﾈﾗｲ";
 
-const char STR_800AD9F8[] RODATA = "ｺｳｹﾞｷ";
+const char STR_800AD9F8[] = "ｺｳｹﾞｷ";
 
-const char STR_800ADA00[] RODATA = "ﾊﾞﾗﾝｽ";
+const char STR_800ADA00[] = "ﾊﾞﾗﾝｽ";
 
-const char STR_800ADA08[] RODATA = "ｽﾋﾟｰﾄﾞ";
+const char STR_800ADA08[] = "ｽﾋﾟｰﾄﾞ";
 
-const char STR_800ADA10[] RODATA = "ﾓｯﾄﾓﾊﾔｲ";
+const char STR_800ADA10[] = "ﾓｯﾄﾓﾊﾔｲ";
 
-const char STR_800ADA18[] RODATA = "ﾋｼﾞｮｳﾆﾊﾔｲ";
+const char STR_800ADA18[] = "ﾋｼﾞｮｳﾆﾊﾔｲ";
 
-const char STR_800ADA24[] RODATA = "ﾊﾔｲ";
+const char STR_800ADA24[] = "ﾊﾔｲ";
 
-const char STR_800ADA28[] RODATA = "ﾌﾂｳ";
+const char STR_800ADA28[] = "ﾌﾂｳ";
 
-const char STR_800ADA2C[] RODATA = "ｵｿｲ";
+const char STR_800ADA2C[] = "ｵｿｲ";
 
-const char STR_800ADA30[] RODATA = "ﾋｼﾞｮｳﾆｵｿｲ";
+const char STR_800ADA30[] = "ﾋｼﾞｮｳﾆｵｿｲ";
 
-const char STR_800ADA3C[] RODATA = "ﾃﾞﾌｫﾙﾄ";
+const char STR_800ADA3C[] = "ﾃﾞﾌｫﾙﾄ";
 
-const char STR_800ADA44[] RODATA = "ｵｲｺﾐ";
+const char STR_800ADA44[] = "ｵｲｺﾐ";
 
-const char STR_800ADA4C[] RODATA = "ﾃﾇｷ";
+const char STR_800ADA4C[] = "ﾃﾇｷ";
 
-const char STR_800ADA50[] RODATA = "ｵｲｱｹﾞﾙ";
+const char STR_800ADA50[] = "ｵｲｱｹﾞﾙ";
 
-const char STR_800ADA58[] RODATA = "ｽﾋﾟｰﾄﾞｱｯﾌﾟ";
+const char STR_800ADA58[] = "ｽﾋﾟｰﾄﾞｱｯﾌﾟ";
 
-const char STR_800ADA64[] RODATA = "ﾄﾞｳﾖｳ";
+const char STR_800ADA64[] = "ﾄﾞｳﾖｳ";
 
-const char STR_800ADA6C[] RODATA = "ﾁｮｳﾊﾂ";
+const char STR_800ADA6C[] = "ﾁｮｳﾊﾂ";
 
-const char STR_800ADA74[] RODATA = "ｸﾙｸﾙﾏﾜｽ";
+const char STR_800ADA74[] = "ｸﾙｸﾙﾏﾜｽ";
 
-const char STR_800ADA7C[] RODATA = "ﾏﾖｲ";
+const char STR_800ADA7C[] = "ﾏﾖｲ";
 
-const char STR_800ADA80[] RODATA = "ﾗｯｸ";
+const char STR_800ADA80[] = "ﾗｯｸ";
 
-const char STR_800ADA84[] RODATA = "ｶｳﾝﾀｰ";
+const char STR_800ADA84[] = "ｶｳﾝﾀｰ";
 
-const char STR_800ADA8C[] RODATA = "ｾﾝｾｲｺｳｹﾞｷ";
+const char STR_800ADA8C[] = "ｾﾝｾｲｺｳｹﾞｷ";
 #endif
 
 #if VERSION_CN
-ASM_RODATA;
-
 const char STR_800C48A0_cn[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
 
 const char STR_800C48AC_cn[] = "ｸｯﾊﾟ";
@@ -1512,10 +1434,13 @@ void func_8004015C(void) {
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_80040238);
+#define D_8008E540_ARR D_8008E540
+#endif
+#if VERSION_CN
+#define D_8008E540_ARR D_80099290_cn
 #endif
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void func_80040238(void) {
     s32 i;
 
@@ -1531,7 +1456,7 @@ void func_80040238(void) {
         }
 
         //! FAKE: renaming D_80099290_cn to D_8008E540 produces different codegen
-        temp_t8->unk_01 = D_80099290_cn[temp_t9->unk_1];
+        temp_t8->unk_01 = D_8008E540_ARR[temp_t9->unk_1];
 
         index = 0;
 
