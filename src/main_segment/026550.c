@@ -827,7 +827,6 @@ void func_8004168C_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     u16 buttonCurrent = joycur[0];
     s16 var_t1;
     s16 var_t4;
-    s32 temp_v1;
     s32 var_t0;
     s32 var_t5;
     s32 var_t6;
