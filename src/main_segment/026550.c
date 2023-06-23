@@ -226,7 +226,7 @@ const char STR_800AD698[] = "  @m%c%05d";
 const char STR_800AD6A4[] = "\n\n@c2Wid@c7";
 
 const char STR_800AD6B0[] = "@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  "
-                                   "@m%c%05d%%  @m%c%02d:%-3s  @m%c%05d\n\n";
+                            "@m%c%05d%%  @m%c%02d:%-3s  @m%c%05d\n\n";
 
 const char STR_800AD728[] = "@c2\tLine2  Line3  Line4~8\n@c2Hei@c7";
 
@@ -922,7 +922,8 @@ void func_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 #endif
 
 #if VERSION_US || VERSION_CN
-const char STR_800AD7F0[] = "@c2Character         WaitAttack Speed       Luck\n@c7 @m%c%02d:%-14s @m%c%02d:%-3s     @m%c%02d:%-8s @m%c%03d%%\n\n";
+const char STR_800AD7F0[] = "@c2Character         WaitAttack Speed       Luck\n@c7 @m%c%02d:%-14s @m%c%02d:%-3s     "
+                            "@m%c%02d:%-8s @m%c%03d%%\n\n";
 
 const char STR_800AD864[] = "@c2%-18s %-18s\n@c7 @m%c%02d:%-14s  @m%c%02d:%-14s\n\n";
 
@@ -953,15 +954,14 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
 
     func_8003E69C(gxfP, func_8003F568, arg1, arg2);
 
-    func_8003E6F8(STR_800AD7F0, var_s0, new_var[var_s0], D_8008E3C0[new_var[var_s0]], var_s0 + 1,
-                  new_var[var_s0 + 1], D_8008E3B8[new_var[var_s0 + 1]], var_s0 + 2, new_var[var_s0 + 2],
-                  D_8008E400[new_var[var_s0 + 2]], var_s0 + 3, new_var[var_s0 + 3]);
+    func_8003E6F8(STR_800AD7F0, var_s0, new_var[var_s0], D_8008E3C0[new_var[var_s0]], var_s0 + 1, new_var[var_s0 + 1],
+                  D_8008E3B8[new_var[var_s0 + 1]], var_s0 + 2, new_var[var_s0 + 2], D_8008E400[new_var[var_s0 + 2]],
+                  var_s0 + 3, new_var[var_s0 + 3]);
     var_s0 += 4;
 
     for (i = 0; i < 4; i++) {
         func_8003E6F8(STR_800AD864, D_8008E398[2 * i], D_8008E398[2 * i + 1], var_s0, new_var[var_s0],
-                      D_8008E380[new_var[var_s0]], var_s0 + 1, new_var[var_s0 + 1],
-                      D_8008E380[new_var[var_s0 + 1]]);
+                      D_8008E380[new_var[var_s0]], var_s0 + 1, new_var[var_s0 + 1], D_8008E380[new_var[var_s0 + 1]]);
         var_s0 += 2;
     }
 
