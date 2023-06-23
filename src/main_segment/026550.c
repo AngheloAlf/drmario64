@@ -36,14 +36,14 @@ extern const char *D_8008E5A0[];
 extern s32 D_8008E5B0;
 extern s32 D_8008E5B4[];
 
-// extern UNK_TYPE D_800990C0_cn;
+extern s32 D_800990C0_cn[];
 extern const char *D_800990D0_cn[];
 extern const char *D_800990E8_cn[];
 extern const char *D_80099108_cn[];
 extern const char *D_80099110_cn[];
-// extern UNK_TYPE D_80099150_cn;
-// extern UNK_TYPE D_80099170_cn;
-// extern UNK_TYPE D_800991A4_cn;
+extern const char *D_80099150_cn[];
+extern const char *D_80099170_cn[];
+extern const char *D_800991A4_cn[];
 //! extern u8 *D_8008E480[];
 //! extern const char *D_8008E490[];
 //! extern const char *D_8008E4A0[];
@@ -64,6 +64,10 @@ extern UNK_TYPE1 D_80099290_cn[];
 //! extern const char *D_8008E5A0[];
 //! extern s32 D_8008E5B0;
 //! extern s32 D_8008E5B4[];
+
+extern s32 B_800FC500_cn;
+extern s32 B_800FC504_cn;
+extern s32 B_800FC508_cn;
 
 #if VERSION_US
 const char STR_800AD2E0[] RODATA = "MajorityRensa";
@@ -420,7 +424,45 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003E730);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003E730);
+void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+    u16 buttonPressed = gControllerPressedButtons[0];
+    u16 buttonCurrent = joycur[0];
+
+    if (arg3 != B_800E5914) {
+        return;
+    }
+
+    if (gfxP != NULL) {
+        B_800E5910++;
+        if (B_800E5910 & 0x10) {
+            func_8003E3F0(gfxP, arg1 + ((2 - B_800FC500_cn) * 6), arg2 + 8, 0x5E);
+        }
+    } else {
+        s32 var_t0;
+        u8 *temp_a3;
+
+        var_t0 = 0;
+        if (buttonPressed & L_JPAD) {
+            var_t0++;
+        }
+        if (buttonPressed & R_JPAD) {
+            var_t0--;
+        }
+
+        B_800FC500_cn = CLAMP(B_800FC500_cn + var_t0, 0, 2);
+
+        var_t0 = 0;
+        if (buttonCurrent & U_JPAD) {
+            var_t0++;
+        }
+        if (buttonCurrent & D_JPAD) {
+            var_t0--;
+        }
+
+        temp_a3 = D_8008E480[arg3 / 21] + (((arg3 % 7) * 3) + 3) + ((arg3 / 7) - (arg3 / 21 * 3));
+        *temp_a3 = CLAMP(*temp_a3 + (var_t0 * D_800990C0_cn[B_800FC500_cn]), 0, 0x1E);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -562,8 +604,66 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003EEA4);
 #endif
 
 #if VERSION_CN
-void func_80040EAC_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_80040EAC_cn);
+void func_80040EAC_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+    u16 buttonPressed = gControllerPressedButtons[0];
+    u16 buttonCurrent = joycur[0];
+    s16 var_t0;
+    s16 var_t2;
+    s32 var_t1;
+
+    if (arg3 != B_800E5918) {
+        return;
+    }
+
+    var_t2 = 0;
+    var_t1 = 2;
+    if (arg3 == 0) {
+        var_t0 = 5;
+    } else if (arg3 == 1) {
+        var_t0 = 7;
+    } else if (arg3 == 0x15) {
+        var_t0 = 1;
+    } else if (arg3 < 0x1D) {
+        var_t2 = -0x270F;
+        var_t0 = 0x270F;
+        var_t1 = 5;
+    } else if (arg3 == 0x1D) {
+        var_t0 = 0x14;
+        var_t1 = 3;
+    } else if (arg3 == 0x1E) {
+        var_t0 = 0x10;
+        var_t1 = 3;
+    }
+
+    if (gfxP != NULL) {
+        B_800E5910++;
+        if (B_800E5910 & 0x10) {
+            func_8003E3F0(gfxP, arg1 + (((var_t1 - B_800FC504_cn) - 1) * 6), arg2 + 8, 0x5E);
+        }
+    } else {
+        s32 var_a1;
+
+        var_a1 = 0;
+        if (buttonPressed & L_JPAD) {
+            var_a1++;
+        }
+        if (buttonPressed & R_JPAD) {
+            var_a1 -= 1;
+        }
+
+        B_800FC504_cn = CLAMP(B_800FC504_cn + var_a1, 0, var_t1 - 1);
+
+        var_a1 = 0;
+        if (buttonCurrent & U_JPAD) {
+            var_a1++;
+        }
+        if (buttonCurrent & D_JPAD) {
+            var_a1 -= 1;
+        }
+
+        B_800E58C0[arg3] = CLAMP(B_800E58C0[arg3] + D_800990C0_cn[B_800FC504_cn] * var_a1, var_t2, var_t0);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -721,9 +821,124 @@ void func_8003F474(void) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003F568);
 #endif
 
-void func_8004168C_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8004168C_cn);
+void func_8004168C_cn(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+    u16 buttonPressed = gControllerPressedButtons[0];
+    u16 buttonCurrent = joycur[0];
+    s16 var_t1;
+    s16 var_t4;
+    s32 temp_v1;
+    s32 var_t0;
+    s32 var_t5;
+    s32 var_t6;
+
+    if (arg3 != B_800E5924) {
+        return;
+    }
+
+    var_t5 = 0;
+    var_t6 = 0;
+    var_t4 = 0;
+    var_t0 = 2;
+
+    if (arg3 == 0) {
+        var_t1 = 0xF;
+    } else if (arg3 == 1) {
+        var_t1 = 1;
+    } else if (arg3 == 2) {
+        var_t4 = 1;
+        var_t1 = 7;
+    } else if (arg3 == 3) {
+        var_t4 = -0x64;
+        var_t1 = 0x64;
+        var_t0 = 3;
+    } else if (arg3 < 0xC) {
+        var_t1 = 5;
+    } else if (arg3 < 0x1B) {
+        switch ((arg3 - 0xC) & 3) {
+            case 0:
+                var_t1 = 0xC;
+                var_t0 = 3;
+                break;
+
+            case 1:
+                var_t1 = 0x3E7;
+                var_t5 = 1;
+                var_t0 = 3;
+                break;
+
+            case 2:
+                var_t1 = 0xA;
+                var_t0 = 3;
+                break;
+
+            case 3:
+                var_t1 = 0x3E7;
+                var_t6 = 1;
+                var_t0 = 3;
+                break;
+
+            default:
+                var_t0 = 3;
+                break;
+        }
+    }
+
+    if (gfxP != NULL) {
+        B_800E5910++;
+        if (B_800E5910 & 0x10) {
+            func_8003E3F0(gfxP, arg1 + (((var_t0 - B_800FC508_cn) - 1) * 6), arg2 + 8, 0x5E);
+        }
+    } else {
+        s32 var_a2 = 1;
+        s32 var_a1;
+
+        var_a1 = 0;
+        if (buttonPressed & L_JPAD) {
+            var_a1++;
+        }
+        if (buttonPressed & R_JPAD) {
+            var_a1 -= 1;
+        }
+
+        B_800FC508_cn = CLAMP(B_800FC508_cn + var_a1, 0, var_t0 - 1);
+
+        if (var_t5 != 0) {
+            switch (B_800E58C0[arg3 - 1]) {
+                case 0x0:
+                case 0x1:
+                case 0x3:
+                case 0x6:
+                case 0x7:
+                case 0x8:
+                case 0x9:
+                case 0xB:
+                    var_a2 = 0;
+                    break;
+            }
+        } else if (var_t6 != 0) {
+            switch (B_800E58C0[arg3 - 1]) {
+                case 0x0:
+                case 0x1:
+                case 0x2:
+                    var_a2 = 0;
+                    break;
+            }
+        }
+
+        if (var_a2 != 0) {
+            var_a1 = 0;
+            if (buttonCurrent & U_JPAD) {
+                var_a1++;
+            }
+            if (buttonCurrent & D_JPAD) {
+                var_a1 -= 1;
+            }
+
+            B_800E58C0[arg3] = CLAMP(B_800E58C0[arg3] + D_800990C0_cn[B_800FC508_cn] * var_a1, var_t4, var_t1);
+        }
+    }
+}
 #endif
 
 #if VERSION_US
@@ -803,14 +1018,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003F7DC);
 
 #if VERSION_CN
 #if 0
-extern ? D_800990D0_cn;
-extern s32 D_800990E8_cn;
-extern ? D_80099108_cn;
-extern ? D_80099110_cn;
-extern ? D_80099150_cn;
-extern ? D_80099170_cn;
-extern ? D_800991A4_cn;
-
 void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
     ? var_a3;
     s16 *temp_v0_2;
@@ -822,9 +1029,6 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
     s16 temp_t3;
     s16 temp_v0;
     s16 temp_v0_3;
-    s32 *var_s1;
-    s32 *var_s2;
-    s32 temp_a2;
     s32 temp_a3;
     s32 temp_s0;
     s32 temp_s0_2;
@@ -833,15 +1037,18 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
     s32 var_s0_2;
     s32 var_s3;
     s32 var_s3_2;
+    s8 **var_s1;
+    s8 **var_s2;
+    s8 *temp_a2;
 
-    func_8003E69C(gxfP, (void (*)(Gfx **, s32, s32, s32)) func_8004168C_cn, arg1, arg2);
+    func_8003E69C(gxfP, func_8004168C_cn, arg1, arg2);
     var_s0 = 4;
     var_s3 = 0;
     var_s6 = B_800E58C0 + 0xA;
     var_s5 = B_800E58C0 + 8;
-    func_8003E6F8(STR_800C4710_cn, 0, B_800E58C0->unk_0, *(&D_80099110_cn + (B_800E58C0->unk_0 * 4)), 1, (s32) B_800E58C0->unk_2, *(&D_80099108_cn + (B_800E58C0->unk_2 * 4)), 2, (s32) B_800E58C0->unk_4, *(&D_80099150_cn + (B_800E58C0->unk_4 * 4)), 3, (s32) B_800E58C0->unk_6);
-    var_s2 = &D_800990E8_cn + 4;
-    var_s1 = &D_800990E8_cn;
+    func_8003E6F8(STR_800C4710_cn, 0, B_800E58C0->unk_0, D_80099110_cn[B_800E58C0->unk_0], 1, (s32) B_800E58C0->unk_2, D_80099108_cn[B_800E58C0->unk_2], 2, (s32) B_800E58C0->unk_4, D_80099150_cn[B_800E58C0->unk_4], 3, (s32) B_800E58C0->unk_6);
+    var_s2 = D_800990E8_cn + 4;
+    var_s1 = D_800990E8_cn;
     do {
         temp_a3 = var_s0;
         temp_t3 = *var_s6;
@@ -853,7 +1060,7 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
         temp_a2 = *var_s2;
         var_s2 += 8;
         var_s3 += 1;
-        func_8003E6F8(STR_800C4784_cn, *var_s1, temp_a2, temp_a3, (s32) temp_t2, *((temp_t2 * 4) + &D_800990D0_cn), temp_t4, (s32) temp_t3, *((temp_t3 * 4) + &D_800990D0_cn));
+        func_8003E6F8(STR_800C4784_cn, *var_s1, temp_a2, temp_a3, (s32) temp_t2, D_800990D0_cn[temp_t2], temp_t4, (s32) temp_t3, D_800990D0_cn[temp_t3]);
         var_s1 += 8;
     } while (var_s3 < 4);
     func_8003E6F8(STR_800C47B8_cn);
@@ -861,7 +1068,7 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
     do {
         temp_s0 = var_s0 + 1;
         temp_a3_2 = B_800E58C0[var_s0];
-        func_8003E6F8(STR_800C47EC_cn, B_800E592C + var_s3_2 + 1, var_s0, temp_a3_2, *((temp_a3_2 * 4) + &D_80099170_cn));
+        func_8003E6F8(STR_800C47EC_cn, B_800E592C + var_s3_2 + 1, var_s0, temp_a3_2, D_80099170_cn[temp_a3_2]);
         temp_v0 = B_800E58C0[temp_s0].unk_-2;
         switch (temp_v0) {
             case 0x0:
@@ -888,7 +1095,7 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
         }
         temp_a2_2 = B_800E58C0[var_s0_2];
         temp_s0_2 = var_s0_2 + 1;
-        func_8003E6F8(STR_800C4824_cn, var_s0_2, temp_a2_2, *((temp_a2_2 * 4) + &D_800991A4_cn));
+        func_8003E6F8(STR_800C4824_cn, var_s0_2, temp_a2_2, D_800991A4_cn[temp_a2_2]);
         temp_v0_3 = B_800E58C0[temp_s0_2].unk_-2;
         if ((temp_v0_3 < 3) && (temp_v0_3 >= 0)) {
             func_8003E6F8(STR_800C4834_cn, temp_s0_2);
