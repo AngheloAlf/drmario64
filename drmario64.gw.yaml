@@ -295,6 +295,9 @@ segments:
       - [0x0255D0, asm, main_segment/0255D0]
       - [0x025650, asm, main_segment/025650]
       - [0x026A10, asm, main_segment/026A10]
+
+      - [0x026F60, c, main_segment/026550]
+
       - [0x029230, asm, main_segment/029230]
       - [0x02E600, asm, main_segment/02E600]
       - [0x044180, asm, main_segment/044180]
@@ -317,12 +320,19 @@ segments:
       - [0x06D220, data, main_segment/06D220] # guess
       - [0x070D50, data, main_segment/070D50]
 
+      - [0x076F70, data, main_segment/026550]
+
+      - [0x0771D0, data, main_segment/0771D0]
+
       - [0x0955E0, .rodata, main_segment/main]
       - [0x095610, .rodata, main_segment/sound]
       - [0x095900, .rodata, main_segment/graphic]
       - [0x095920, rodata, main_segment/095920]
       - [0x095BB0, rodata, main_segment/095BB0]
       - [0x095D50, rodata, main_segment/095D50]
+
+      - [0x095EE0, .rodata, main_segment/026550]
+
       - [0x096740, rodata, main_segment/096740]
       - [0x096750, rodata, main_segment/096750]
       - [0x096810, rodata, main_segment/096810]

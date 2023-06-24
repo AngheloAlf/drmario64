@@ -6,6 +6,461 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F1C0_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE140_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE150_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE15C_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE16C_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE178_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE184_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE190_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE198_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1A4_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1B0_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1B8_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1C4_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1CC_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1D4_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1DC_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1E0_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1E4_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1EC_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1F4_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1FC_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE204_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE20C_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE214_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE21C_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE22C_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE234_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE240_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE248_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE254_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE260_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE268_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE274_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE27C_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE288_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE290_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE298_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2A0_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2A8_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2B0_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2B8_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2C0_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2CC_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2D4_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2DC_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2E4_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2EC_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2F4_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE300_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE308_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE310_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE320_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE330_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE338_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE344_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE350_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE358_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE364_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE36C_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE374_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE380_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE388_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE390_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE39C_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3A4_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3AC_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3B4_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F358_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F5B0_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F76C_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F934_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3C0_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3CC_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3D4_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3FC_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE408_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE40C_gw);
+
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FAE0_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FDF0_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FF04_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FFF8_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004026C_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040590_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004079C_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040818_gw);
+#endif
+
+#if VERSION_GW
+ASM_RODATA;
+
+const char RO_STR_800AE7E0_gw[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
+
+const char RO_STR_800AE7EC_gw[] = "ｸｯﾊﾟ";
+
+const char RO_STR_800AE7F4_gw[] = "ｶﾒｯｸ";
+
+const char RO_STR_800AE7FC_gw[] = "ﾊﾟｯｸﾝﾌﾗﾜｰ";
+
+const char RO_STR_800AE808_gw[] = "ﾃﾚｻ";
+
+const char RO_STR_800AE80C_gw[] = "ﾊﾅﾁｬﾝ";
+
+const char RO_STR_800AE814_gw[] = "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ";
+
+const char RO_STR_800AE820_gw[] = "ﾁｮﾛﾌﾟｰ";
+
+const char RO_STR_800AE828_gw[] = "ﾌﾟｸﾌﾟｸ";
+
+const char RO_STR_800AE830_gw[] = "ﾎﾞﾑﾍｲ";
+
+const char RO_STR_800AE838_gw[] = "ﾉｺﾉｺ";
+
+const char RO_STR_800AE840_gw[] = "ﾏﾘｵ";
+
+const char RO_STR_800AE844_gw[] = "ﾖｺｽﾞｷ";
+
+const char RO_STR_800AE84C_gw[] = "ﾀﾞｲﾚﾝｻﾈﾗｲ";
+
+const char RO_STR_800AE858_gw[] = "ｺｳｹﾞｷ";
+
+const char RO_STR_800AE860_gw[] = "ﾊﾞﾗﾝｽ";
+
+const char RO_STR_800AE868_gw[] = "ｽﾋﾟｰﾄﾞ";
+
+const char RO_STR_800AE870_gw[] = "ﾓｯﾄﾓﾊﾔｲ";
+
+const char RO_STR_800AE878_gw[] = "ﾋｼﾞｮｳﾆﾊﾔｲ";
+
+const char RO_STR_800AE884_gw[] = "ﾊﾔｲ";
+
+const char RO_STR_800AE888_gw[] = "ﾌﾂｳ";
+
+const char RO_STR_800AE88C_gw[] = "ｵｿｲ";
+
+const char RO_STR_800AE890_gw[] = "ﾋｼﾞｮｳﾆｵｿｲ";
+
+const char RO_STR_800AE89C_gw[] = "ﾃﾞﾌｫﾙﾄ";
+
+const char RO_STR_800AE8A4_gw[] = "ｵｲｺﾐ";
+
+const char RO_STR_800AE8AC_gw[] = "ﾃﾇｷ";
+
+const char RO_STR_800AE8B0_gw[] = "ｵｲｱｹﾞﾙ";
+
+const char RO_STR_800AE8B8_gw[] = "ｽﾋﾟｰﾄﾞｱｯﾌﾟ";
+
+const char RO_STR_800AE8C4_gw[] = "ﾄﾞｳﾖｳ";
+
+const char RO_STR_800AE8CC_gw[] = "ﾁｮｳﾊﾂ";
+
+const char RO_STR_800AE8D4_gw[] = "ｸﾙｸﾙﾏﾜｽ";
+
+const char RO_STR_800AE8DC_gw[] = "ﾏﾖｲ";
+
+const char RO_STR_800AE8E0_gw[] = "ﾗｯｸ";
+
+const char RO_STR_800AE8E4_gw[] = "ｶｳﾝﾀｰ";
+
+const char RO_STR_800AE8EC_gw[] = "ｾﾝｾｲｺｳｹﾞｷ";
+
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040974_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040BEC_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040CC8_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80041008_gw);
+#endif
+
+#if VERSION_GW
+ASM_RODATA;
+
+const char RO_STR_800AE928_gw[] = "<ﾄｸｼｭ>";
+
+const char RO_STR_800AE930_gw[] = "<ｽﾋﾟｰﾄﾞ>";
+
+const char RO_STR_800AE93C_gw[] = "<ｾｲｶｸ>";
+
+const char RO_STR_800AE944_gw[] = "<ｷｬﾗｸﾀｰ>";
+
+const char RO_STR_800AE950_gw[] = "@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n";
+
+const char RO_STR_800AE964_gw[] = "@c2ﾂﾖｻ ";
+
+const char RO_STR_800AE96C_gw[] = "%c";
+
+const char RO_STR_800AE970_gw[] = "@c2%s\n";
+
+const char RO_STR_800AE978_gw[] = "@m%c@c%c%s\n";
+
+const char RO_STR_800AE984_gw[] = "@m%c@c%c%c:%s\n";
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_800410B4_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80041430_gw);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004146C_gw);
+#endif
+
 #if VERSION_US || VERSION_CN
 s32 D_8008E370[] = {
     0x00000001,
