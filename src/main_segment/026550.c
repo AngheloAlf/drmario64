@@ -414,15 +414,15 @@ INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040974_gw);
 #endif
 
 #if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040BEC_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004015C);
 #endif
 
 #if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040CC8_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040238);
 #endif
 
 #if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80041008_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040578);
 #endif
 
 #if VERSION_GW
@@ -450,15 +450,7 @@ const char RO_STR_800AE984_gw[] = "@m%c@c%c%c:%s\n";
 #endif
 
 #if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_800410B4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80041430_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004146C_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040624);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -2071,17 +2063,13 @@ void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
 }
 #endif
 
-#if VERSION_US || VERSION_CN
 void func_800409A0(void) {
     func_80040578();
     func_8004015C();
     func_80040624(NULL, 0x20, 0x20);
     func_80040238();
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800409DC(Gfx **gfxP) {
     func_80040624(gfxP, 0x20, 0x20);
 }
-#endif
