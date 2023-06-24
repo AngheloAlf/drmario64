@@ -320,7 +320,7 @@ segments:
       - [0x06D220, data, main_segment/06D220] # guess
       - [0x070D50, data, main_segment/070D50]
 
-      - [0x076F70, data, main_segment/026550]
+      - [0x076F70, .data, main_segment/026550]
 
       - [0x0771D0, data, main_segment/0771D0]
 

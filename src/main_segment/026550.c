@@ -6,16 +6,13 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-#if VERSION_US || VERSION_CN
 s32 D_8008E370[] = {
     0x00000001,
     0x0000000A,
     0x00000064,
     0x000003E8,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char STR_800AD2E0[] = "MajorityRensa";
 
 const char STR_800AD2F0[] = "WidErase";
@@ -31,9 +28,7 @@ const char STR_800AD324[] = "FastErase";
 const char *D_8008E380[] = {
     STR_800AD324, STR_800AD318, STR_800AD30C, STR_800AD2FC, STR_800AD2F0, STR_800AD2E0,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char STR_800AD330[] = "Normal";
 
 const char STR_800AD338[] = "Badline1";
@@ -53,9 +48,7 @@ const char STR_800AD374[] = "Dead";
 const char *D_8008E398[] = {
     STR_800AD374, STR_800AD36C, STR_800AD364, STR_800AD358, STR_800AD350, STR_800AD344, STR_800AD338, STR_800AD330,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char STR_800AD37C[] = "On";
 
 const char STR_800AD380[] = "Off";
@@ -64,9 +57,7 @@ const char *D_8008E3B8[] = {
     STR_800AD380,
     STR_800AD37C,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char STR_800AD384[] = "Plain4";
 
 const char STR_800AD38C[] = "Plain3";
@@ -103,9 +94,7 @@ const char *D_8008E3C0[] = {
     STR_800AD414, STR_800AD408, STR_800AD400, STR_800AD3F4, STR_800AD3E8, STR_800AD3E0, STR_800AD3D4, STR_800AD3CC,
     STR_800AD3BC, STR_800AD3B4, STR_800AD3AC, STR_800AD3A4, STR_800AD39C, STR_800AD394, STR_800AD38C, STR_800AD384,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char STR_800AD41C[] = "FasterNW";
 
 const char STR_800AD428[] = "NoWait";
@@ -125,9 +114,7 @@ const char STR_800AD458[] = "SpSlow";
 const char *D_8008E400[] = {
     STR_800AD458, STR_800AD450, STR_800AD448, STR_800AD440, STR_800AD438, STR_800AD430, STR_800AD428, STR_800AD41C,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char STR_800AD460[] = "PreemPtive";
 
 const char STR_800AD46C[] = "Rensa";
@@ -157,9 +144,7 @@ const char *D_8008E420[] = {
     STR_800AD364, // reused from other array
     STR_800AD46C, STR_800AD460,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char STR_800AD4D0[] = "Lose";
 
 const char STR_800AD4D8[] = "be Erase";
@@ -186,9 +171,7 @@ const char *D_8008E454[] = {
     STR_800AD530, STR_800AD528, STR_800AD520, STR_800AD514, STR_800AD50C, STR_800AD504,
     STR_800AD4F8, STR_800AD4F0, STR_800AD4E4, STR_800AD4D8, STR_800AD4D0,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 typedef u8 (*D_8008E480_type)[3];
 
 D_8008E480_type D_8008E480[] = {
@@ -197,9 +180,7 @@ D_8008E480_type D_8008E480[] = {
     D_800884F0,
     aiSlideFSpeed,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char STR_800AD53C[] = "SlideFS";
 
 const char STR_800AD544[] = "SlideS";
@@ -214,7 +195,6 @@ const char *D_8008E490[] = {
     STR_800AD544,
     STR_800AD53C,
 };
-#endif
 
 #if VERSION_US || VERSION_CN
 void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
@@ -262,277 +242,12 @@ void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F1C0_gw);
 #endif
 
-#if VERSION_US || VERSION_CN
+ASM_DATA;
 const char *D_8008E4A0[] = {
     STR_800AD47C,
     STR_800AD330,
     STR_800AD474,
 };
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD2E0);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD2F0);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD2FC);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD30C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD318);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD324);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD330);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD338);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD344);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD350);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD358);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD364);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD36C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD374);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD37C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD380);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD384);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD38C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD394);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD39C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3A4);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3AC);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3B4);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3BC);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3CC);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3D4);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3E0);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3E8);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3F4);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD400);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD408);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD414);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD41C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD428);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD430);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD438);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD440);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD448);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD450);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD458);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD460);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD46C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD474);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD47C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD484);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD48C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD494);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4A0);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4A8);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4B0);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4C0);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4D0);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4D8);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4E4);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4F0);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4F8);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD504);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD50C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD514);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD520);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD528);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD530);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD53C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD544);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD54C);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD554);
-#endif
 
 #if VERSION_US || VERSION_CN
 const char STR_800AD55C[] = "@c2";
@@ -1347,7 +1062,8 @@ void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004079C_gw);
 #endif
 
-#if VERSION_US || VERSION_CN
+ASM_RODATA;
+
 const char STR_800AD980[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
 
 const char STR_800AD98C[] = "ｸｯﾊﾟ";
@@ -1376,9 +1092,7 @@ const char *D_8008E4AC[] = {
     STR_800AD9E0, STR_800AD9D8, STR_800AD9D0, STR_800AD9C8, STR_800AD9C0, STR_800AD9B4,
     STR_800AD9AC, STR_800AD9A8, STR_800AD99C, STR_800AD994, STR_800AD98C, STR_800AD980,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char STR_800AD9E4[] = "ﾖｺｽﾞｷ";
 
 const char STR_800AD9EC[] = "ﾀﾞｲﾚﾝｻﾈﾗｲ";
@@ -1392,9 +1106,7 @@ const char STR_800ADA08[] = "ｽﾋﾟｰﾄﾞ";
 const char *D_8008E4DC[] = {
     STR_800ADA08, STR_800ADA00, STR_800AD9F8, STR_800AD9EC, STR_800AD9E4,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char STR_800ADA10[] = "ﾓｯﾄﾓﾊﾔｲ";
 
 const char STR_800ADA18[] = "ﾋｼﾞｮｳﾆﾊﾔｲ";
@@ -1410,9 +1122,7 @@ const char STR_800ADA30[] = "ﾋｼﾞｮｳﾆｵｿｲ";
 const char *D_8008E4F0[] = {
     STR_800ADA30, STR_800ADA2C, STR_800ADA28, STR_800ADA24, STR_800ADA18, STR_800ADA10,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char STR_800ADA3C[] = "ﾃﾞﾌｫﾙﾄ";
 
 const char STR_800ADA44[] = "ｵｲｺﾐ";
@@ -1441,87 +1151,10 @@ const char *D_8008E508[] = {
     STR_800ADA8C, STR_800ADA84, STR_800ADA80, STR_800ADA7C, STR_800ADA74, STR_800ADA6C,
     STR_800ADA64, STR_800ADA58, STR_800ADA50, STR_800ADA4C, STR_800ADA44, STR_800ADA3C,
 };
-#endif
 
-#if VERSION_GW
-ASM_RODATA;
-
-const char STR_800AD980[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
-
-const char STR_800AD98C[] = "ｸｯﾊﾟ";
-
-const char STR_800AD994[] = "ｶﾒｯｸ";
-
-const char STR_800AD99C[] = "ﾊﾟｯｸﾝﾌﾗﾜｰ";
-
-const char STR_800AD9A8[] = "ﾃﾚｻ";
-
-const char STR_800AD9AC[] = "ﾊﾅﾁｬﾝ";
-
-const char STR_800AD9B4[] = "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ";
-
-const char STR_800AD9C0[] = "ﾁｮﾛﾌﾟｰ";
-
-const char STR_800AD9C8[] = "ﾌﾟｸﾌﾟｸ";
-
-const char STR_800AD9D0[] = "ﾎﾞﾑﾍｲ";
-
-const char STR_800AD9D8[] = "ﾉｺﾉｺ";
-
-const char STR_800AD9E0[] = "ﾏﾘｵ";
-
-const char STR_800AD9E4[] = "ﾖｺｽﾞｷ";
-
-const char STR_800AD9EC[] = "ﾀﾞｲﾚﾝｻﾈﾗｲ";
-
-const char STR_800AD9F8[] = "ｺｳｹﾞｷ";
-
-const char STR_800ADA00[] = "ﾊﾞﾗﾝｽ";
-
-const char STR_800ADA08[] = "ｽﾋﾟｰﾄﾞ";
-
-const char STR_800ADA10[] = "ﾓｯﾄﾓﾊﾔｲ";
-
-const char STR_800ADA18[] = "ﾋｼﾞｮｳﾆﾊﾔｲ";
-
-const char STR_800ADA24[] = "ﾊﾔｲ";
-
-const char STR_800ADA28[] = "ﾌﾂｳ";
-
-const char STR_800ADA2C[] = "ｵｿｲ";
-
-const char STR_800ADA30[] = "ﾋｼﾞｮｳﾆｵｿｲ";
-
-const char STR_800ADA3C[] = "ﾃﾞﾌｫﾙﾄ";
-
-const char STR_800ADA44[] = "ｵｲｺﾐ";
-
-const char STR_800ADA4C[] = "ﾃﾇｷ";
-
-const char STR_800ADA50[] = "ｵｲｱｹﾞﾙ";
-
-const char STR_800ADA58[] = "ｽﾋﾟｰﾄﾞｱｯﾌﾟ";
-
-const char STR_800ADA64[] = "ﾄﾞｳﾖｳ";
-
-const char STR_800ADA6C[] = "ﾁｮｳﾊﾂ";
-
-const char STR_800ADA74[] = "ｸﾙｸﾙﾏﾜｽ";
-
-const char STR_800ADA7C[] = "ﾏﾖｲ";
-
-const char STR_800ADA80[] = "ﾗｯｸ";
-
-const char STR_800ADA84[] = "ｶｳﾝﾀｰ";
-
-const char STR_800ADA8C[] = "ｾﾝｾｲｺｳｹﾞｷ";
-#endif
-
-#if VERSION_US || VERSION_CN
 s8 D_8008E538[] = {
     0x00, 0x02, 0x03, 0x05, 0x04, 0x00, 0x00, 0x00,
 };
-#endif
 
 #if VERSION_CN
 #define D_8008E540_ARR D_80099290_cn
@@ -1529,13 +1162,10 @@ s8 D_8008E538[] = {
 #define D_8008E540_ARR D_8008E540
 #endif
 
-#if VERSION_US || VERSION_CN
 s8 D_8008E540_ARR[] = {
     0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x00, 0x00,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const char **D_8008E548[] = {
     D_8008E4AC,
     D_8008E4DC,
@@ -1565,7 +1195,6 @@ s8 D_8008E57C[] = {
 s8 D_8008E584[] = {
     0x06, 0x04, 0x0A, 0xFE, 0xFE, 0xFE, 0xF6, 0x04, 0x02, 0xFA, 0x04, 0x00,
 };
-#endif
 
 #if VERSION_US || VERSION_CN
 s32 func_8003FEE4(void) {
@@ -1690,7 +1319,7 @@ s32 func_8003FEE4(void) {
 INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040818_gw);
 #endif
 
-#if VERSION_US || VERSION_CN
+ASM_DATA;
 s8 D_8008E590[] = {
     0x00, 0x00, 0x01, 0x02, 0x04, 0x03, 0x00, 0x00,
 };
@@ -1698,7 +1327,6 @@ s8 D_8008E590[] = {
 s8 D_8008E598[] = {
     0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x05,
 };
-#endif
 
 #if VERSION_US || VERSION_CN
 void func_8004015C(void) {
@@ -1901,19 +1529,8 @@ INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040238);
 INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040578);
 #endif
 
-#if VERSION_GW
 ASM_RODATA;
 
-const char STR_800ADAC8[] = "<ﾄｸｼｭ>";
-
-const char STR_800ADAD0[] = "<ｽﾋﾟｰﾄﾞ>";
-
-const char STR_800ADADC[] = "<ｾｲｶｸ>";
-
-const char STR_800ADAE4[] = "<ｷｬﾗｸﾀｰ>";
-#endif
-
-#if VERSION_US || VERSION_CN
 const char STR_800ADAC8[] = "<ﾄｸｼｭ>";
 
 const char STR_800ADAD0[] = "<ｽﾋﾟｰﾄﾞ>";
@@ -1937,7 +1554,6 @@ s32 D_8008E5B4[] = {
     0x0000000A,
     0x0000000E,
 };
-#endif
 
 #if VERSION_US || VERSION_CN
 const char STR_800ADAF0[] = "@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n";
