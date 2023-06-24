@@ -6,453 +6,6 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F1C0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE140_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE150_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE15C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE16C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE178_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE184_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE190_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE198_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1A4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1B0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1B8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1C4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1CC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1D4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1DC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1E0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1E4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1EC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1F4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE1FC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE204_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE20C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE214_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE21C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE22C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE234_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE240_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE248_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE254_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE260_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE268_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE274_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE27C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE288_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE290_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE298_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2A0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2A8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2B0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2B8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2C0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2CC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2D4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2DC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2E4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2EC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE2F4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE300_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE308_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE310_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE320_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE330_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE338_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE344_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE350_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE358_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE364_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE36C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE374_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE380_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE388_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE390_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE39C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3A4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3AC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3B4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F358_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F5B0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F76C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F934_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3C0_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3CC_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3D4_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3FC_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE408_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE40C_gw);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FAE0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FDF0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FF04_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FFF8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004026C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040590_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004079C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040818_gw);
-#endif
-
-#if VERSION_GW
-ASM_RODATA;
-
-const char RO_STR_800AE7E0_gw[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
-
-const char RO_STR_800AE7EC_gw[] = "ｸｯﾊﾟ";
-
-const char RO_STR_800AE7F4_gw[] = "ｶﾒｯｸ";
-
-const char RO_STR_800AE7FC_gw[] = "ﾊﾟｯｸﾝﾌﾗﾜｰ";
-
-const char RO_STR_800AE808_gw[] = "ﾃﾚｻ";
-
-const char RO_STR_800AE80C_gw[] = "ﾊﾅﾁｬﾝ";
-
-const char RO_STR_800AE814_gw[] = "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ";
-
-const char RO_STR_800AE820_gw[] = "ﾁｮﾛﾌﾟｰ";
-
-const char RO_STR_800AE828_gw[] = "ﾌﾟｸﾌﾟｸ";
-
-const char RO_STR_800AE830_gw[] = "ﾎﾞﾑﾍｲ";
-
-const char RO_STR_800AE838_gw[] = "ﾉｺﾉｺ";
-
-const char RO_STR_800AE840_gw[] = "ﾏﾘｵ";
-
-const char RO_STR_800AE844_gw[] = "ﾖｺｽﾞｷ";
-
-const char RO_STR_800AE84C_gw[] = "ﾀﾞｲﾚﾝｻﾈﾗｲ";
-
-const char RO_STR_800AE858_gw[] = "ｺｳｹﾞｷ";
-
-const char RO_STR_800AE860_gw[] = "ﾊﾞﾗﾝｽ";
-
-const char RO_STR_800AE868_gw[] = "ｽﾋﾟｰﾄﾞ";
-
-const char RO_STR_800AE870_gw[] = "ﾓｯﾄﾓﾊﾔｲ";
-
-const char RO_STR_800AE878_gw[] = "ﾋｼﾞｮｳﾆﾊﾔｲ";
-
-const char RO_STR_800AE884_gw[] = "ﾊﾔｲ";
-
-const char RO_STR_800AE888_gw[] = "ﾌﾂｳ";
-
-const char RO_STR_800AE88C_gw[] = "ｵｿｲ";
-
-const char RO_STR_800AE890_gw[] = "ﾋｼﾞｮｳﾆｵｿｲ";
-
-const char RO_STR_800AE89C_gw[] = "ﾃﾞﾌｫﾙﾄ";
-
-const char RO_STR_800AE8A4_gw[] = "ｵｲｺﾐ";
-
-const char RO_STR_800AE8AC_gw[] = "ﾃﾇｷ";
-
-const char RO_STR_800AE8B0_gw[] = "ｵｲｱｹﾞﾙ";
-
-const char RO_STR_800AE8B8_gw[] = "ｽﾋﾟｰﾄﾞｱｯﾌﾟ";
-
-const char RO_STR_800AE8C4_gw[] = "ﾄﾞｳﾖｳ";
-
-const char RO_STR_800AE8CC_gw[] = "ﾁｮｳﾊﾂ";
-
-const char RO_STR_800AE8D4_gw[] = "ｸﾙｸﾙﾏﾜｽ";
-
-const char RO_STR_800AE8DC_gw[] = "ﾏﾖｲ";
-
-const char RO_STR_800AE8E0_gw[] = "ﾗｯｸ";
-
-const char RO_STR_800AE8E4_gw[] = "ｶｳﾝﾀｰ";
-
-const char RO_STR_800AE8EC_gw[] = "ｾﾝｾｲｺｳｹﾞｷ";
-
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040974_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004015C);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040238);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040578);
-#endif
-
-#if VERSION_GW
-ASM_RODATA;
-
-const char RO_STR_800AE928_gw[] = "<ﾄｸｼｭ>";
-
-const char RO_STR_800AE930_gw[] = "<ｽﾋﾟｰﾄﾞ>";
-
-const char RO_STR_800AE93C_gw[] = "<ｾｲｶｸ>";
-
-const char RO_STR_800AE944_gw[] = "<ｷｬﾗｸﾀｰ>";
-
-const char RO_STR_800AE950_gw[] = "@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n";
-
-const char RO_STR_800AE964_gw[] = "@c2ﾂﾖｻ ";
-
-const char RO_STR_800AE96C_gw[] = "%c";
-
-const char RO_STR_800AE970_gw[] = "@c2%s\n";
-
-const char RO_STR_800AE978_gw[] = "@m%c@c%c%s\n";
-
-const char RO_STR_800AE984_gw[] = "@m%c@c%c%c:%s\n";
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040624);
-#endif
-
 #if VERSION_US || VERSION_CN
 s32 D_8008E370[] = {
     0x00000001,
@@ -705,12 +258,280 @@ void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 }
 #endif
 
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F1C0_gw);
+#endif
+
 #if VERSION_US || VERSION_CN
 const char *D_8008E4A0[] = {
     STR_800AD47C,
     STR_800AD330,
     STR_800AD474,
 };
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD2E0);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD2F0);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD2FC);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD30C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD318);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD324);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD330);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD338);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD344);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD350);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD358);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD364);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD36C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD374);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD37C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD380);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD384);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD38C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD394);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD39C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3A4);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3AC);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3B4);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3BC);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3CC);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3D4);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3E0);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3E8);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD3F4);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD400);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD408);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD414);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD41C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD428);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD430);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD438);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD440);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD448);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD450);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD458);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD460);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD46C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD474);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD47C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD484);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD48C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD494);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4A0);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4A8);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4B0);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4C0);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4D0);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4D8);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4E4);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4F0);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD4F8);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD504);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD50C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD514);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD520);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD528);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD530);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD53C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD544);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD54C);
+#endif
+
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", STR_800AD554);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -785,6 +606,10 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003E8C8);
 #endif
 #endif
 
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F358_gw);
+#endif
+
 #if VERSION_US || VERSION_CN
 void func_8003EB20(void) {
     struct_ai_param *temp_a1 = &ai_param[B_800E591C][B_800E5920];
@@ -824,6 +649,10 @@ void func_8003EB20(void) {
 }
 #endif
 
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F5B0_gw);
+#endif
+
 #if VERSION_US || VERSION_CN
 void func_8003ECDC(void) {
     s16 *temp_v0 = B_800E58C0;
@@ -861,6 +690,10 @@ void func_8003ECDC(void) {
     evs_gamespeed = *temp_v0++;
     aiDebugP1 = *temp_v0++ - 1;
 }
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F76C_gw);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -924,6 +757,10 @@ void func_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         B_800E58C0[arg3] = CLAMP(B_800E58C0[arg3] + D_8008E370[B_800E58B4] * var_a1, var_t2, var_t0);
     }
 }
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F934_gw);
 #endif
 
 #if VERSION_US
@@ -1083,6 +920,22 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003F050);
 #endif
 #endif
 
+#if VERSION_GW
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3C0_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3CC_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3D4_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3FC_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE408_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE40C_gw);
+
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FAE0_gw);
+#endif
+
 #if VERSION_US || VERSION_CN
 void func_8003F360(void) {
     struct_ai_char_data *temp_a1 = &ai_char_data[B_800E5928];
@@ -1107,6 +960,10 @@ void func_8003F360(void) {
 }
 #endif
 
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FDF0_gw);
+#endif
+
 #if VERSION_US || VERSION_CN
 void func_8003F474(void) {
     struct_ai_char_data *temp_t3 = &ai_char_data[B_800E5928];
@@ -1129,6 +986,10 @@ void func_8003F474(void) {
         temp_t3->unk_4C[i] = *var_t1++;
     }
 }
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FF04_gw);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1250,6 +1111,10 @@ void func_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 }
 #endif
 
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FFF8_gw);
+#endif
+
 #if VERSION_US || VERSION_CN
 const char STR_800AD7F0[] = "@c2Character         WaitAttack Speed       Luck\n@c7 @m%c%02d:%-14s @m%c%02d:%-3s     "
                             "@m%c%02d:%-8s @m%c%03d%%\n\n";
@@ -1343,6 +1208,10 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
 }
 #endif
 
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004026C_gw);
+#endif
+
 #if VERSION_US || VERSION_CN
 void func_8003FB00(void) {
     s32 temp_s0 = joycur[0];
@@ -1409,6 +1278,10 @@ void func_8003FB00(void) {
 }
 #endif
 
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040590_gw);
+#endif
+
 #if VERSION_US || VERSION_CN
 void func_8003FD0C(Gfx **gxfP) {
     switch (B_800E5930) {
@@ -1468,6 +1341,10 @@ void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
 }
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004079C_gw);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1564,6 +1441,80 @@ const char *D_8008E508[] = {
     STR_800ADA8C, STR_800ADA84, STR_800ADA80, STR_800ADA7C, STR_800ADA74, STR_800ADA6C,
     STR_800ADA64, STR_800ADA58, STR_800ADA50, STR_800ADA4C, STR_800ADA44, STR_800ADA3C,
 };
+#endif
+
+#if VERSION_GW
+ASM_RODATA;
+
+const char STR_800AD980[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
+
+const char STR_800AD98C[] = "ｸｯﾊﾟ";
+
+const char STR_800AD994[] = "ｶﾒｯｸ";
+
+const char STR_800AD99C[] = "ﾊﾟｯｸﾝﾌﾗﾜｰ";
+
+const char STR_800AD9A8[] = "ﾃﾚｻ";
+
+const char STR_800AD9AC[] = "ﾊﾅﾁｬﾝ";
+
+const char STR_800AD9B4[] = "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ";
+
+const char STR_800AD9C0[] = "ﾁｮﾛﾌﾟｰ";
+
+const char STR_800AD9C8[] = "ﾌﾟｸﾌﾟｸ";
+
+const char STR_800AD9D0[] = "ﾎﾞﾑﾍｲ";
+
+const char STR_800AD9D8[] = "ﾉｺﾉｺ";
+
+const char STR_800AD9E0[] = "ﾏﾘｵ";
+
+const char STR_800AD9E4[] = "ﾖｺｽﾞｷ";
+
+const char STR_800AD9EC[] = "ﾀﾞｲﾚﾝｻﾈﾗｲ";
+
+const char STR_800AD9F8[] = "ｺｳｹﾞｷ";
+
+const char STR_800ADA00[] = "ﾊﾞﾗﾝｽ";
+
+const char STR_800ADA08[] = "ｽﾋﾟｰﾄﾞ";
+
+const char STR_800ADA10[] = "ﾓｯﾄﾓﾊﾔｲ";
+
+const char STR_800ADA18[] = "ﾋｼﾞｮｳﾆﾊﾔｲ";
+
+const char STR_800ADA24[] = "ﾊﾔｲ";
+
+const char STR_800ADA28[] = "ﾌﾂｳ";
+
+const char STR_800ADA2C[] = "ｵｿｲ";
+
+const char STR_800ADA30[] = "ﾋｼﾞｮｳﾆｵｿｲ";
+
+const char STR_800ADA3C[] = "ﾃﾞﾌｫﾙﾄ";
+
+const char STR_800ADA44[] = "ｵｲｺﾐ";
+
+const char STR_800ADA4C[] = "ﾃﾇｷ";
+
+const char STR_800ADA50[] = "ｵｲｱｹﾞﾙ";
+
+const char STR_800ADA58[] = "ｽﾋﾟｰﾄﾞｱｯﾌﾟ";
+
+const char STR_800ADA64[] = "ﾄﾞｳﾖｳ";
+
+const char STR_800ADA6C[] = "ﾁｮｳﾊﾂ";
+
+const char STR_800ADA74[] = "ｸﾙｸﾙﾏﾜｽ";
+
+const char STR_800ADA7C[] = "ﾏﾖｲ";
+
+const char STR_800ADA80[] = "ﾗｯｸ";
+
+const char STR_800ADA84[] = "ｶｳﾝﾀｰ";
+
+const char STR_800ADA8C[] = "ｾﾝｾｲｺｳｹﾞｷ";
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1735,6 +1686,10 @@ s32 func_8003FEE4(void) {
 }
 #endif
 
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040818_gw);
+#endif
+
 #if VERSION_US || VERSION_CN
 s8 D_8008E590[] = {
     0x00, 0x00, 0x01, 0x02, 0x04, 0x03, 0x00, 0x00,
@@ -1770,6 +1725,10 @@ void func_8004015C(void) {
 
     B_800E58BC = true;
 }
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040974_gw);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1930,6 +1889,30 @@ void func_80040578(void) {
 }
 #endif
 
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004015C);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040238);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040578);
+#endif
+
+#if VERSION_GW
+ASM_RODATA;
+
+const char STR_800ADAC8[] = "<ﾄｸｼｭ>";
+
+const char STR_800ADAD0[] = "<ｽﾋﾟｰﾄﾞ>";
+
+const char STR_800ADADC[] = "<ｾｲｶｸ>";
+
+const char STR_800ADAE4[] = "<ｷｬﾗｸﾀｰ>";
+#endif
+
 #if VERSION_US || VERSION_CN
 const char STR_800ADAC8[] = "<ﾄｸｼｭ>";
 
@@ -1968,9 +1951,7 @@ const char STR_800ADB10[] = "@c2%s\n";
 const char STR_800ADB18[] = "@m%c@c%c%s\n";
 
 const char STR_800ADB24[] = "@m%c@c%c%c:%s\n";
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
     struct_800E5938 *temp_s5 = &B_800E5938[B_800E5934];
     s32 var_s0 = CLAMP(func_8003FEE4() / 10, 0, 10);
@@ -2061,6 +2042,24 @@ void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
         arg1 += D_8008E5B4[var_s1] * 6;
     }
 }
+#endif
+
+#if VERSION_GW
+ASM_RODATA;
+
+const char RO_STR_800AE950_gw[] = "@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n";
+
+const char RO_STR_800AE964_gw[] = "@c2ﾂﾖｻ ";
+
+const char RO_STR_800AE96C_gw[] = "%c";
+
+const char RO_STR_800AE970_gw[] = "@c2%s\n";
+
+const char RO_STR_800AE978_gw[] = "@m%c@c%c%s\n";
+
+const char RO_STR_800AE984_gw[] = "@m%c@c%c%c:%s\n";
+
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040624);
 #endif
 
 void func_800409A0(void) {

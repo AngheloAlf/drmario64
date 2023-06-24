@@ -419,7 +419,7 @@ segments:
 
       - [0x075FD0, data, main_segment/026000]
 
-      - [0x076190, .data, main_segment/026550]
+      - [0x076190, data, main_segment/026550]
 
       - [0x0763F0, data, main_segment/0763F0]
       - [0x076590, .data, main_segment/main_menu]
