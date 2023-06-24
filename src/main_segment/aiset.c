@@ -1053,7 +1053,7 @@ extern u8 B_800CA254_cn;
 extern u8 B_800CA2AA_cn;
 extern ? aiFlag;
 extern u8 B_8010DF34_cn;
-extern ? D_800932B8_cn;
+extern ? aiVirusLevel;
 extern ? RO_800C3FD8_cn;
 
 void func_8003793C_cn(void *arg0) {
@@ -1125,7 +1125,7 @@ void func_8003793C_cn(void *arg0) {
         }
     }
     arg0->unk_294 = (s8) var_v0_2;
-    if ((u32) (genrand((s32) *(&D_800932B8_cn + (arg0->unk_23C + ((s8) B_800CA2AA_cn * 3)))) & 0xFF) >= 7U) {
+    if ((u32) (genrand((s32) *(&aiVirusLevel + (arg0->unk_23C + ((s8) B_800CA2AA_cn * 3)))) & 0xFF) >= 7U) {
         arg0->unk_23A = 0;
         return;
     }

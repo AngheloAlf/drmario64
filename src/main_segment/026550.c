@@ -6,65 +6,16 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
-extern s32 D_8008E370[];
-extern const char *D_8008E380[];
-extern const char *D_8008E398[];
-extern const char *D_8008E3B8[];
-extern const char *D_8008E3C0[];
-extern const char *D_8008E400[];
-extern const char *D_8008E420[];
-extern const char *D_8008E454[];
-extern u8 *D_8008E480[];
-extern const char *D_8008E490[];
-extern const char *D_8008E4A0[];
-// extern UNK_TYPE D_8008E4AC;
-// extern UNK_TYPE D_8008E4DC;
-// extern UNK_TYPE D_8008E4F0;
-// extern UNK_TYPE D_8008E508;
-extern UNK_TYPE1 D_8008E538[];
-extern UNK_TYPE1 D_8008E540[];
-extern s32 *D_8008E548[];
-extern s32 D_8008E558[];
-extern s8 D_8008E568[];
-extern s8 D_8008E574[];
-extern s8 D_8008E57C[];
-extern s8 D_8008E584[];
-extern UNK_TYPE1 D_8008E590[];
-extern UNK_TYPE1 D_8008E598[];
-extern const char *D_8008E5A0[];
-extern s32 D_8008E5B0;
-extern s32 D_8008E5B4[];
+#if VERSION_US || VERSION_CN
+s32 D_8008E370[] = {
+    0x00000001,
+    0x0000000A,
+    0x00000064,
+    0x000003E8,
+};
+#endif
 
-//! extern s32 D_8008E370[];
-//! extern const char *D_8008E380[];
-//! extern const char *D_8008E398[];
-//! extern const char *D_8008E3B8[];
-//! extern const char *D_8008E3C0[];
-//! extern const char *D_8008E400[];
-//! extern const char *D_8008E420[];
-//! extern const char *D_8008E454[];
-//! extern u8 *D_8008E480[];
-//! extern const char *D_8008E490[];
-//! extern const char *D_8008E4A0[];
-// extern UNK_TYPE D_800991FC_cn;
-// extern UNK_TYPE D_8009922C_cn;
-// extern UNK_TYPE D_80099240_cn;
-// extern UNK_TYPE D_80099258_cn;
-//! extern UNK_TYPE1 D_8008E538[];
-extern UNK_TYPE1 D_80099290_cn[];
-//! extern s32 *D_8008E548[];
-//! extern s32 D_8008E558[];
-//! extern s8 D_8008E568[];
-//! extern s8 D_8008E574[];
-//! extern s8 D_8008E57C[];
-//! extern s8 D_8008E584[];
-//! extern UNK_TYPE1 D_8008E590[];
-//! extern UNK_TYPE1 D_8008E598[];
-//! extern const char *D_8008E5A0[];
-//! extern s32 D_8008E5B0;
-//! extern s32 D_8008E5B4[];
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const char STR_800AD2E0[] = "MajorityRensa";
 
 const char STR_800AD2F0[] = "WidErase";
@@ -77,6 +28,12 @@ const char STR_800AD318[] = "SmallRensa";
 
 const char STR_800AD324[] = "FastErase";
 
+const char *D_8008E380[] = {
+    STR_800AD324, STR_800AD318, STR_800AD30C, STR_800AD2FC, STR_800AD2F0, STR_800AD2E0,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 const char STR_800AD330[] = "Normal";
 
 const char STR_800AD338[] = "Badline1";
@@ -93,10 +50,23 @@ const char STR_800AD36C[] = "Narrow";
 
 const char STR_800AD374[] = "Dead";
 
+const char *D_8008E398[] = {
+    STR_800AD374, STR_800AD36C, STR_800AD364, STR_800AD358, STR_800AD350, STR_800AD344, STR_800AD338, STR_800AD330,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 const char STR_800AD37C[] = "On";
 
 const char STR_800AD380[] = "Off";
 
+const char *D_8008E3B8[] = {
+    STR_800AD380,
+    STR_800AD37C,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 const char STR_800AD384[] = "Plain4";
 
 const char STR_800AD38C[] = "Plain3";
@@ -129,6 +99,13 @@ const char STR_800AD408[] = "NokoNoko";
 
 const char STR_800AD414[] = "Mario";
 
+const char *D_8008E3C0[] = {
+    STR_800AD414, STR_800AD408, STR_800AD400, STR_800AD3F4, STR_800AD3E8, STR_800AD3E0, STR_800AD3D4, STR_800AD3CC,
+    STR_800AD3BC, STR_800AD3B4, STR_800AD3AC, STR_800AD3A4, STR_800AD39C, STR_800AD394, STR_800AD38C, STR_800AD384,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 const char STR_800AD41C[] = "FasterNW";
 
 const char STR_800AD428[] = "NoWait";
@@ -145,6 +122,12 @@ const char STR_800AD450[] = "Slower";
 
 const char STR_800AD458[] = "SpSlow";
 
+const char *D_8008E400[] = {
+    STR_800AD458, STR_800AD450, STR_800AD448, STR_800AD440, STR_800AD438, STR_800AD430, STR_800AD428, STR_800AD41C,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 const char STR_800AD460[] = "PreemPtive";
 
 const char STR_800AD46C[] = "Rensa";
@@ -167,6 +150,16 @@ const char STR_800AD4B0[] = "Unconditional";
 
 const char STR_800AD4C0[] = "--------------";
 
+const char *D_8008E420[] = {
+    STR_800AD4C0, STR_800AD4B0, STR_800AD4A8, STR_800AD4A0, STR_800AD494, STR_800AD48C, STR_800AD484, STR_800AD47C,
+    STR_800AD330, // reused from other array
+    STR_800AD474,
+    STR_800AD364, // reused from other array
+    STR_800AD46C, STR_800AD460,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 const char STR_800AD4D0[] = "Lose";
 
 const char STR_800AD4D8[] = "be Erase";
@@ -189,6 +182,24 @@ const char STR_800AD528[] = "Rotate";
 
 const char STR_800AD530[] = "----------";
 
+const char *D_8008E454[] = {
+    STR_800AD530, STR_800AD528, STR_800AD520, STR_800AD514, STR_800AD50C, STR_800AD504,
+    STR_800AD4F8, STR_800AD4F0, STR_800AD4E4, STR_800AD4D8, STR_800AD4D0,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
+typedef u8 (*D_8008E480_type)[3];
+
+D_8008E480_type D_8008E480[] = {
+    aiVirusLevel,
+    D_800884C0,
+    D_800884F0,
+    aiSlideFSpeed,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 const char STR_800AD53C[] = "SlideFS";
 
 const char STR_800AD544[] = "SlideS";
@@ -197,219 +208,12 @@ const char STR_800AD54C[] = "DownS";
 
 const char STR_800AD554[] = "VirusLv";
 
-const char STR_800AD55C[] = "@c2";
-
-const char STR_800AD560[] = "%s\n\n\n\n\n\n";
-
-const char STR_800AD56C[] = "%6s\n\n";
-
-const char STR_800AD574[] = "@c2S_er Slow Fast F_er Fest N_Wt F_NW";
-
-const char STR_800AD59C[] = "@m%c%03d  ";
-
-const char STR_800AD5A8[] = "\n\n";
-
-const char STR_800AD5AC[] = "@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->";
-
-const char STR_800AD5D4[] = "@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n";
-
-const char STR_800AD614[] = "@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7";
-
-const char STR_800AD648[] = " @m%c%05d%% ";
-
-const char STR_800AD658[] = " @m%c%05d ";
-
-const char STR_800AD664[] = "@c2\tALNB   FC     FV     C      V\n@c2Hei@c7  -----";
-
-const char STR_800AD698[] = "  @m%c%05d";
-
-const char STR_800AD6A4[] = "\n\n@c2Wid@c7";
-
-const char STR_800AD6B0[] = "@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  "
-                            "@m%c%05d%%  @m%c%02d:%-3s  @m%c%05d\n\n";
-
-const char STR_800AD728[] = "@c2\tLine2  Line3  Line4~8\n@c2Hei@c7";
-
-const char STR_800AD74C[] = "\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m%c%03d:%-14s\n\n\n\n\n";
-
-const char STR_800AD790[] = "Man";
-
-const char STR_800AD794[] = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
-#endif
-
-#if VERSION_CN
-ASM_RODATA;
-
-const char STR_800C4200_cn[] = "MajorityRensa";
-
-const char STR_800C4210_cn[] = "WidErase";
-
-const char STR_800C421C_cn[] = "Rensa&Attack";
-
-const char STR_800C422C_cn[] = "Rensa&Erase";
-
-const char STR_800C4238_cn[] = "SmallRensa";
-
-const char STR_800C4244_cn[] = "FastErase";
-
-const char STR_800C4250_cn[] = "Normal";
-
-const char STR_800C4258_cn[] = "Badline1";
-
-const char STR_800C4264_cn[] = "Badline2";
-
-const char STR_800C4270_cn[] = "LastVsn";
-
-const char STR_800C4278_cn[] = "LastVsnh";
-
-const char STR_800C4284_cn[] = "Last";
-
-const char STR_800C428C_cn[] = "Narrow";
-
-const char STR_800C4294_cn[] = "Dead";
-
-const char STR_800C429C_cn[] = "On";
-
-const char STR_800C42A0_cn[] = "Off";
-
-const char STR_800C42A4_cn[] = "Plain4";
-
-const char STR_800C42AC_cn[] = "Plain3";
-
-const char STR_800C42B4_cn[] = "Plain2";
-
-const char STR_800C42BC_cn[] = "Plain1";
-
-const char STR_800C42C4_cn[] = "Peach";
-
-const char STR_800C42CC_cn[] = "Koopa";
-
-const char STR_800C42D4_cn[] = "Kamek";
-
-const char STR_800C42DC_cn[] = "PakkunFlower";
-
-const char STR_800C42EC_cn[] = "Telesa";
-
-const char STR_800C42F4_cn[] = "Hanachan";
-
-const char STR_800C4300_cn[] = "Heihoo";
-
-const char STR_800C4308_cn[] = "Chiropoo";
-
-const char STR_800C4314_cn[] = "PukuPuku";
-
-const char STR_800C4320_cn[] = "Bomhei";
-
-const char STR_800C4328_cn[] = "NokoNoko";
-
-const char STR_800C4334_cn[] = "Mario";
-
-const char STR_800C433C_cn[] = "FasterNW";
-
-const char STR_800C4348_cn[] = "NoWait";
-
-const char STR_800C4350_cn[] = "Fastest";
-
-const char STR_800C4358_cn[] = "Faster";
-
-const char STR_800C4360_cn[] = "Fast";
-
-const char STR_800C4368_cn[] = "Slow";
-
-const char STR_800C4370_cn[] = "Slower";
-
-const char STR_800C4378_cn[] = "SpSlow";
-
-const char STR_800C4380_cn[] = "PreemPtive";
-
-const char STR_800C438C_cn[] = "Rensa";
-
-const char STR_800C4394_cn[] = "Hard";
-
-const char STR_800C439C_cn[] = "Easy";
-
-const char STR_800C43A4_cn[] = "Pile";
-
-const char STR_800C43AC_cn[] = "Few Vir";
-
-const char STR_800C43B4_cn[] = "Many Vir";
-
-const char STR_800C43C0_cn[] = "Damage";
-
-const char STR_800C43C8_cn[] = "Random";
-
-const char STR_800C43D0_cn[] = "Unconditional";
-
-const char STR_800C43E0_cn[] = "--------------";
-
-const char STR_800C43F0_cn[] = "Lose";
-
-const char STR_800C43F8_cn[] = "be Erase";
-
-const char STR_800C4404_cn[] = "be Attack";
-
-const char STR_800C4410_cn[] = "Rapid";
-
-const char STR_800C4418_cn[] = "beNoWait";
-
-const char STR_800C4424_cn[] = "beSlow";
-
-const char STR_800C442C_cn[] = "beFast";
-
-const char STR_800C4434_cn[] = "Not Move";
-
-const char STR_800C4440_cn[] = "Waver";
-
-const char STR_800C4448_cn[] = "Rotate";
-
-const char STR_800C4450_cn[] = "----------";
-
-const char STR_800C445C_cn[] = "SlideFS";
-
-const char STR_800C4464_cn[] = "SlideS";
-
-const char STR_800C446C_cn[] = "DownS";
-
-const char STR_800C4474_cn[] = "VirusLv";
-
-const char STR_800AD55C[] = "@c2";
-
-const char STR_800AD560[] = "%s\n\n\n\n\n\n";
-
-const char STR_800AD56C[] = "%6s\n\n";
-
-const char STR_800AD574[] = "@c2S_er Slow Fast F_er Fest N_Wt F_NW";
-
-const char STR_800AD59C[] = "@m%c%03d  ";
-
-const char STR_800AD5A8[] = "\n\n";
-
-const char STR_800AD5AC[] = "@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->";
-
-const char STR_800C44F4_cn[] = "@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n";
-
-const char STR_800C4534_cn[] = "@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7";
-
-const char STR_800C4568_cn[] = " @m%c%05d%% ";
-
-const char STR_800C4578_cn[] = " @m%c%05d ";
-
-const char STR_800C4584_cn[] = "@c2\tALNB   FC     FV     C      V\n@c2Hei@c7  -----";
-
-const char STR_800C45B8_cn[] = "  @m%c%05d";
-
-const char STR_800C45C4_cn[] = "\n\n@c2Wid@c7";
-
-const char STR_800C45D0_cn[] = "@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  "
-                               "@m%c%05d%%  @m%c%02d:%-3s  @m%c%05d\n\n";
-
-const char STR_800C4648_cn[] = "@c2\tLine2  Line3  Line4~8\n@c2Hei@c7";
-
-const char STR_800C466C_cn[] = "\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m%c%03d:%-14s\n\n\n\n\n";
-
-const char STR_800C46B0_cn[] = "Man";
-
-const char STR_800C46B4_cn[] = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
+const char *D_8008E490[] = {
+    STR_800AD554,
+    STR_800AD54C,
+    STR_800AD544,
+    STR_800AD53C,
+};
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -448,10 +252,34 @@ void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
             var_t0--;
         }
 
-        temp_a3 = D_8008E480[arg3 / 21] + (((arg3 % 7) * 3) + 3) + ((arg3 / 7) - (arg3 / 21 * 3));
+        temp_a3 = &D_8008E480[arg3 / 21][(arg3 % 7) + 1][(arg3 / 7) - (arg3 / 21 * 3)];
         *temp_a3 = CLAMP(*temp_a3 + (var_t0 * D_8008E370[B_800E58B0]), 0, 30);
     }
 }
+#endif
+
+#if VERSION_US || VERSION_CN
+const char *D_8008E4A0[] = {
+    STR_800AD47C,
+    STR_800AD330,
+    STR_800AD474,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
+const char STR_800AD55C[] = "@c2";
+
+const char STR_800AD560[] = "%s\n\n\n\n\n\n";
+
+const char STR_800AD56C[] = "%6s\n\n";
+
+const char STR_800AD574[] = "@c2S_er Slow Fast F_er Fest N_Wt F_NW";
+
+const char STR_800AD59C[] = "@m%c%03d  ";
+
+const char STR_800AD5A8[] = "\n\n";
+
+const char STR_800AD5AC[] = "@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->";
 #endif
 
 #if VERSION_US
@@ -649,6 +477,60 @@ void func_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         B_800E58C0[arg3] = CLAMP(B_800E58C0[arg3] + D_8008E370[B_800E58B4] * var_a1, var_t2, var_t0);
     }
 }
+#endif
+
+#if VERSION_US
+const char STR_800AD5D4[] = "@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n";
+
+const char STR_800AD614[] = "@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7";
+
+const char STR_800AD648[] = " @m%c%05d%% ";
+
+const char STR_800AD658[] = " @m%c%05d ";
+
+const char STR_800AD664[] = "@c2\tALNB   FC     FV     C      V\n@c2Hei@c7  -----";
+
+const char STR_800AD698[] = "  @m%c%05d";
+
+const char STR_800AD6A4[] = "\n\n@c2Wid@c7";
+
+const char STR_800AD6B0[] = "@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  "
+                            "@m%c%05d%%  @m%c%02d:%-3s  @m%c%05d\n\n";
+
+const char STR_800AD728[] = "@c2\tLine2  Line3  Line4~8\n@c2Hei@c7";
+
+const char STR_800AD74C[] = "\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m%c%03d:%-14s\n\n\n\n\n";
+
+const char STR_800AD790[] = "Man";
+
+const char STR_800AD794[] = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
+#endif
+
+#if VERSION_CN
+const char STR_800C44F4_cn[] = "@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n";
+
+const char STR_800C4534_cn[] = "@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7";
+
+const char STR_800C4568_cn[] = " @m%c%05d%% ";
+
+const char STR_800C4578_cn[] = " @m%c%05d ";
+
+const char STR_800C4584_cn[] = "@c2\tALNB   FC     FV     C      V\n@c2Hei@c7  -----";
+
+const char STR_800C45B8_cn[] = "  @m%c%05d";
+
+const char STR_800C45C4_cn[] = "\n\n@c2Wid@c7";
+
+const char STR_800C45D0_cn[] = "@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  "
+                               "@m%c%05d%%  @m%c%02d:%-3s  @m%c%05d\n\n";
+
+const char STR_800C4648_cn[] = "@c2\tLine2  Line3  Line4~8\n@c2Hei@c7";
+
+const char STR_800C466C_cn[] = "\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m%c%03d:%-14s\n\n\n\n\n";
+
+const char STR_800C46B0_cn[] = "Man";
+
+const char STR_800C46B4_cn[] = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
 #endif
 
 #if VERSION_US
@@ -944,9 +826,7 @@ const char STR_800AD91C[] = "@m%c%03d";
 const char STR_800AD928[] = "\n";
 
 const char STR_800AD92C[] = "@c3<- LogicMenu\t\t\t\t\t\tSpeedMenu ->";
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
     s16 *new_var = B_800E58C0;
     s32 var_s0 = 0;
@@ -1143,7 +1023,7 @@ void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const char STR_800AD980[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
 
 const char STR_800AD98C[] = "ｸｯﾊﾟ";
@@ -1168,6 +1048,13 @@ const char STR_800AD9D8[] = "ﾉｺﾉｺ";
 
 const char STR_800AD9E0[] = "ﾏﾘｵ";
 
+const char *D_8008E4AC[] = {
+    STR_800AD9E0, STR_800AD9D8, STR_800AD9D0, STR_800AD9C8, STR_800AD9C0, STR_800AD9B4,
+    STR_800AD9AC, STR_800AD9A8, STR_800AD99C, STR_800AD994, STR_800AD98C, STR_800AD980,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 const char STR_800AD9E4[] = "ﾖｺｽﾞｷ";
 
 const char STR_800AD9EC[] = "ﾀﾞｲﾚﾝｻﾈﾗｲ";
@@ -1178,6 +1065,12 @@ const char STR_800ADA00[] = "ﾊﾞﾗﾝｽ";
 
 const char STR_800ADA08[] = "ｽﾋﾟｰﾄﾞ";
 
+const char *D_8008E4DC[] = {
+    STR_800ADA08, STR_800ADA00, STR_800AD9F8, STR_800AD9EC, STR_800AD9E4,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 const char STR_800ADA10[] = "ﾓｯﾄﾓﾊﾔｲ";
 
 const char STR_800ADA18[] = "ﾋｼﾞｮｳﾆﾊﾔｲ";
@@ -1190,6 +1083,12 @@ const char STR_800ADA2C[] = "ｵｿｲ";
 
 const char STR_800ADA30[] = "ﾋｼﾞｮｳﾆｵｿｲ";
 
+const char *D_8008E4F0[] = {
+    STR_800ADA30, STR_800ADA2C, STR_800ADA28, STR_800ADA24, STR_800ADA18, STR_800ADA10,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 const char STR_800ADA3C[] = "ﾃﾞﾌｫﾙﾄ";
 
 const char STR_800ADA44[] = "ｵｲｺﾐ";
@@ -1213,78 +1112,61 @@ const char STR_800ADA80[] = "ﾗｯｸ";
 const char STR_800ADA84[] = "ｶｳﾝﾀｰ";
 
 const char STR_800ADA8C[] = "ｾﾝｾｲｺｳｹﾞｷ";
+
+const char *D_8008E508[] = {
+    STR_800ADA8C, STR_800ADA84, STR_800ADA80, STR_800ADA7C, STR_800ADA74, STR_800ADA6C,
+    STR_800ADA64, STR_800ADA58, STR_800ADA50, STR_800ADA4C, STR_800ADA44, STR_800ADA3C,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
+s8 D_8008E538[] = {
+    0x00, 0x02, 0x03, 0x05, 0x04, 0x00, 0x00, 0x00,
+};
 #endif
 
 #if VERSION_CN
-const char STR_800C48A0_cn[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
+#define D_8008E540_ARR D_80099290_cn
+#else
+#define D_8008E540_ARR D_8008E540
+#endif
 
-const char STR_800C48AC_cn[] = "ｸｯﾊﾟ";
+#if VERSION_US || VERSION_CN
+s8 D_8008E540_ARR[] = {
+    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x00, 0x00,
+};
+#endif
 
-const char STR_800C48B4_cn[] = "ｶﾒｯｸ";
+#if VERSION_US || VERSION_CN
+const char **D_8008E548[] = {
+    D_8008E4AC,
+    D_8008E4DC,
+    D_8008E4F0,
+    D_8008E508,
+};
 
-const char STR_800C48BC_cn[] = "ﾊﾟｯｸﾝﾌﾗﾜｰ";
+s32 D_8008E558[] = {
+    0x0000000C,
+    0x00000005,
+    0x00000006,
+    0x0000000C,
+};
 
-const char STR_800C48C8_cn[] = "ﾃﾚｻ";
+s8 D_8008E568[] = {
+    0x00, 0xF2, 0x00, 0x00, 0x02, 0xFE, 0x00, 0x02, 0xFE, 0x04, 0x02, 0x00,
+};
 
-const char STR_800C48CC_cn[] = "ﾊﾅﾁｬﾝ";
+s8 D_8008E574[] = {
+    0x21, 0x28, 0x19, 0x0A, 0x22, 0x00, 0x00, 0x00,
+};
 
-const char STR_800C48D4_cn[] = "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ";
+s8 D_8008E57C[] = {
+    0x00, 0x08, 0x10, 0x18, 0x20, 0x28, 0x00, 0x00,
+};
 
-const char STR_800C48E0_cn[] = "ﾁｮﾛﾌﾟｰ";
-
-const char STR_800C48E8_cn[] = "ﾌﾟｸﾌﾟｸ";
-
-const char STR_800C48F0_cn[] = "ﾎﾞﾑﾍｲ";
-
-const char STR_800C48F8_cn[] = "ﾉｺﾉｺ";
-
-const char STR_800C4900_cn[] = "ﾏﾘｵ";
-
-const char STR_800C4904_cn[] = "ﾖｺｽﾞｷ";
-
-const char STR_800C490C_cn[] = "ﾀﾞｲﾚﾝｻﾈﾗｲ";
-
-const char STR_800C4918_cn[] = "ｺｳｹﾞｷ";
-
-const char STR_800C4920_cn[] = "ﾊﾞﾗﾝｽ";
-
-const char STR_800C4928_cn[] = "ｽﾋﾟｰﾄﾞ";
-
-const char STR_800C4930_cn[] = "ﾓｯﾄﾓﾊﾔｲ";
-
-const char STR_800C4938_cn[] = "ﾋｼﾞｮｳﾆﾊﾔｲ";
-
-const char STR_800C4944_cn[] = "ﾊﾔｲ";
-
-const char STR_800C4948_cn[] = "ﾌﾂｳ";
-
-const char STR_800C494C_cn[] = "ｵｿｲ";
-
-const char STR_800C4950_cn[] = "ﾋｼﾞｮｳﾆｵｿｲ";
-
-const char STR_800C495C_cn[] = "ﾃﾞﾌｫﾙﾄ";
-
-const char STR_800C4964_cn[] = "ｵｲｺﾐ";
-
-const char STR_800C496C_cn[] = "ﾃﾇｷ";
-
-const char STR_800C4970_cn[] = "ｵｲｱｹﾞﾙ";
-
-const char STR_800C4978_cn[] = "ｽﾋﾟｰﾄﾞｱｯﾌﾟ";
-
-const char STR_800C4984_cn[] = "ﾄﾞｳﾖｳ";
-
-const char STR_800C498C_cn[] = "ﾁｮｳﾊﾂ";
-
-const char STR_800C4994_cn[] = "ｸﾙｸﾙﾏﾜｽ";
-
-const char STR_800C499C_cn[] = "ﾏﾖｲ";
-
-const char STR_800C49A0_cn[] = "ﾗｯｸ";
-
-const char STR_800C49A4_cn[] = "ｶｳﾝﾀｰ";
-
-const char STR_800C49AC_cn[] = "ｾﾝｾｲｺｳｹﾞｷ";
+s8 D_8008E584[] = {
+    0x06, 0x04, 0x0A, 0xFE, 0xFE, 0xFE, 0xF6, 0x04, 0x02, 0xFA, 0x04, 0x00,
+};
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1407,6 +1289,16 @@ s32 func_8003FEE4(void) {
 #endif
 
 #if VERSION_US || VERSION_CN
+s8 D_8008E590[] = {
+    0x00, 0x00, 0x01, 0x02, 0x04, 0x03, 0x00, 0x00,
+};
+
+s8 D_8008E598[] = {
+    0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x05,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 void func_8004015C(void) {
     struct_800E5968 *temp = &B_800E5968;
     s32 i;
@@ -1431,13 +1323,6 @@ void func_8004015C(void) {
 
     B_800E58BC = true;
 }
-#endif
-
-#if VERSION_US
-#define D_8008E540_ARR D_8008E540
-#endif
-#if VERSION_CN
-#define D_8008E540_ARR D_80099290_cn
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1598,7 +1483,7 @@ void func_80040578(void) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const char STR_800ADAC8[] = "<ﾄｸｼｭ>";
 
 const char STR_800ADAD0[] = "<ｽﾋﾟｰﾄﾞ>";
@@ -1606,16 +1491,22 @@ const char STR_800ADAD0[] = "<ｽﾋﾟｰﾄﾞ>";
 const char STR_800ADADC[] = "<ｾｲｶｸ>";
 
 const char STR_800ADAE4[] = "<ｷｬﾗｸﾀｰ>";
-#endif
 
-#if VERSION_CN
-const char STR_800C49E8_cn[] = "<ﾄｸｼｭ>";
+const char *D_8008E5A0[] = {
+    STR_800ADAE4,
+    STR_800ADADC,
+    STR_800ADAD0,
+    STR_800ADAC8,
+};
 
-const char STR_800C49F0_cn[] = "<ｽﾋﾟｰﾄﾞ>";
+s32 D_8008E5B0 = 0x00000035;
 
-const char STR_800C49FC_cn[] = "<ｾｲｶｸ>";
-
-const char STR_800C4A04_cn[] = "<ｷｬﾗｸﾀｰ>";
+s32 D_8008E5B4[] = {
+    0x0000000B,
+    0x0000000A,
+    0x0000000A,
+    0x0000000E,
+};
 #endif
 
 #if VERSION_US || VERSION_CN
