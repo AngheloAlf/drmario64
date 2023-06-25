@@ -107,20 +107,6 @@ const char *D_8008E4A0[] = {
     "Hard",
 };
 
-const char STR_800AD55C[] = "@c2";
-
-const char STR_800AD560[] = "%s\n\n\n\n\n\n";
-
-const char STR_800AD56C[] = "%6s\n\n";
-
-const char STR_800AD574[] = "@c2S_er Slow Fast F_er Fest N_Wt F_NW";
-
-const char STR_800AD59C[] = "@m%c%03d  ";
-
-const char STR_800AD5A8[] = "\n\n";
-
-const char STR_800AD5AC[] = "@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->";
-
 void func_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2) {
     func_8003E69C_arg1 temp = func_8003E730;
     s32 i;
@@ -128,27 +114,27 @@ void func_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2) {
 
     func_8003E69C(gxfP, temp, arg1, arg2 + 8);
 
-    func_8003E6F8(STR_800AD55C);
+    func_8003E6F8("@c2");
 
     for (i = 0; i < ARRAY_COUNT(D_8008E490); i++) {
-        func_8003E6F8(STR_800AD560, D_8008E490[i]);
+        func_8003E6F8("%s\n\n\n\n\n\n", D_8008E490[i]);
     }
 
     func_8003E6D8();
     func_8003E69C(gxfP, temp, arg1 + 0x2A, arg2 + 8);
 
-    func_8003E6F8(STR_800AD55C);
+    func_8003E6F8("@c2");
 
     for (i = 0; i < 4; i++) {
         for (j = 0; j < ARRAY_COUNT(D_8008E4A0); j++) {
-            func_8003E6F8(STR_800AD56C, D_8008E4A0[j]);
+            func_8003E6F8("%6s\n\n", D_8008E4A0[j]);
         }
     }
 
     func_8003E6D8();
     func_8003E69C(gxfP, temp, arg1 + 0x54, arg2);
 
-    func_8003E6F8(STR_800AD574);
+    func_8003E6F8("@c2S_er Slow Fast F_er Fest N_Wt F_NW");
 
     func_8003E6D8();
     func_8003E69C(gxfP, temp, arg1 + 0x5A, arg2 + 8);
@@ -158,16 +144,16 @@ void func_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2) {
             s32 k;
 
             for (k = 1; k < 8; k++) {
-                func_8003E6F8(STR_800AD59C, 0x15 * i + 7 * j + k - 1, D_8008E480[i][k][j]);
+                func_8003E6F8("@m%c%03d  ", 0x15 * i + 7 * j + k - 1, D_8008E480[i][k][j]);
             }
 
-            func_8003E6F8(STR_800AD5A8);
+            func_8003E6F8("\n\n");
         }
     }
 
     func_8003E6D8();
     func_8003E69C(gxfP, temp, arg1, arg2 + 0xC8);
-    func_8003E6F8(STR_800AD5AC);
+    func_8003E6F8("@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->");
     func_8003E6D8();
 }
 
@@ -306,31 +292,6 @@ void func_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-const char STR_800AD5D4[] = "@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n";
-
-const char STR_800AD614[] = "@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7";
-
-const char STR_800AD648[] = " @m%c%05d%% ";
-
-const char STR_800AD658[] = " @m%c%05d ";
-
-const char STR_800AD664[] = "@c2\tALNB   FC     FV     C      V\n@c2Hei@c7  -----";
-
-const char STR_800AD698[] = "  @m%c%05d";
-
-const char STR_800AD6A4[] = "\n\n@c2Wid@c7";
-
-const char STR_800AD6B0[] = "@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  "
-                            "@m%c%05d%%  @m%c%02d:%-3s  @m%c%05d\n\n";
-
-const char STR_800AD728[] = "@c2\tLine2  Line3  Line4~8\n@c2Hei@c7";
-
-const char STR_800AD74C[] = "\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m%c%03d:%-14s\n\n\n\n\n";
-
-const char STR_800AD790[] = "Man";
-
-const char STR_800AD794[] = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
-
 void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
     s16 *temp = B_800E58C0;
     s32 index = 0;
@@ -338,58 +299,59 @@ void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
 
     func_8003E69C(gxfP, func_8003EEA4, arg1, arg2);
 
-    func_8003E6F8(STR_800AD5D4, index, temp[index + 0], D_8008E380[temp[index + 0]], index + 1, temp[index + 1],
-                  D_8008E398[temp[index + 1]]);
+    func_8003E6F8("@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n", index, temp[index + 0],
+                  D_8008E380[temp[index + 0]], index + 1, temp[index + 1], D_8008E398[temp[index + 1]]);
     index += 2;
 
-    func_8003E6F8(STR_800AD614);
+    func_8003E6F8("@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7");
 
     for (i = 0; i < 6; i++) {
-        func_8003E6F8(((i == 3) || (i == 4)) ? STR_800AD648 : STR_800AD658, index, temp[index]);
+        func_8003E6F8(((i == 3) || (i == 4)) ? " @m%c%05d%% " : " @m%c%05d ", index, temp[index]);
         index++;
     }
 
-    func_8003E6F8(STR_800AD5A8);
-    func_8003E6F8(STR_800AD664);
+    func_8003E6F8("\n\n");
+    func_8003E6F8("@c2\tALNB   FC     FV     C      V\n@c2Hei@c7  -----");
 
     for (i = 1; i < 5; i++) {
-        func_8003E6F8(STR_800AD698, index, temp[index]);
+        func_8003E6F8("  @m%c%05d", index, temp[index]);
         index++;
     }
 
-    func_8003E6F8(STR_800AD6A4);
+    func_8003E6F8("\n\n@c2Wid@c7");
 
     for (i = 0; i < 5; i++) {
-        func_8003E6F8(STR_800AD698, index, temp[index]);
+        func_8003E6F8("  @m%c%05d", index, temp[index]);
         index++;
     }
 
-    func_8003E6F8(STR_800AD5A8);
+    func_8003E6F8("\n\n");
 
-    func_8003E6F8(STR_800AD6B0, index, temp[index + 0], index + 1, temp[index + 1], index + 2, temp[index + 2],
-                  index + 3, temp[index + 3], index + 4, temp[index + 4], D_8008E3B8[temp[index + 4]], index + 5,
-                  temp[index + 5]);
+    func_8003E6F8("@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  @m%c%05d%%  "
+                  "@m%c%02d:%-3s  @m%c%05d\n\n",
+                  index, temp[index + 0], index + 1, temp[index + 1], index + 2, temp[index + 2], index + 3,
+                  temp[index + 3], index + 4, temp[index + 4], D_8008E3B8[temp[index + 4]], index + 5, temp[index + 5]);
     index += 6;
 
-    func_8003E6F8(STR_800AD728);
+    func_8003E6F8("@c2\tLine2  Line3  Line4~8\n@c2Hei@c7");
 
     for (i = 0; i < 3; i++) {
-        func_8003E6F8(STR_800AD698, index, temp[index]);
+        func_8003E6F8("  @m%c%05d", index, temp[index]);
         index++;
     }
 
-    func_8003E6F8(STR_800AD6A4);
+    func_8003E6F8("\n\n@c2Wid@c7");
 
     for (i = 0; i < 3; i++) {
-        func_8003E6F8(STR_800AD698, index, temp[index]);
+        func_8003E6F8("  @m%c%05d", index, temp[index]);
         index++;
     }
 
-    func_8003E6F8(STR_800AD74C, index, temp[index], index + 1, temp[index + 1],
-                  (temp[index + 1] != 0) ? D_8008E3C0[temp[index + 1] - 1] : STR_800AD790);
+    func_8003E6F8("\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m%c%03d:%-14s\n\n\n\n\n", index, temp[index],
+                  index + 1, temp[index + 1], (temp[index + 1] != 0) ? D_8008E3C0[temp[index + 1] - 1] : "Man");
     index += 2;
 
-    func_8003E6F8(STR_800AD794);
+    func_8003E6F8("@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->");
     func_8003E6D8();
 }
 
@@ -554,29 +516,6 @@ void func_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-const char STR_800AD7F0[] = "@c2Character         WaitAttack Speed       Luck\n@c7 @m%c%02d:%-14s @m%c%02d:%-3s     "
-                            "@m%c%02d:%-8s @m%c%03d%%\n\n";
-
-const char STR_800AD864[] = "@c2%-18s %-18s\n@c7 @m%c%02d:%-14s  @m%c%02d:%-14s\n\n";
-
-const char STR_800AD898[] = "@c2  ExCondition        Sub   ExEffect       Sub\n";
-
-const char STR_800AD8CC[] = "@c2%02d @c7@m%c%03d:%-14s ";
-
-const char STR_800AD8E8[] = "@m%c---   ";
-
-const char STR_800AD8F4[] = "@m%c%03d%c  ";
-
-const char STR_800AD904[] = "@m%c%03d:%-10s ";
-
-const char STR_800AD914[] = "@m%c---";
-
-const char STR_800AD91C[] = "@m%c%03d";
-
-const char STR_800AD928[] = "\n";
-
-const char STR_800AD92C[] = "@c3<- LogicMenu\t\t\t\t\t\tSpeedMenu ->";
-
 void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
     s16 *new_var = B_800E58C0;
     s32 var_s0 = 0;
@@ -584,21 +523,25 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
 
     func_8003E69C(gxfP, func_8003F568, arg1, arg2);
 
-    func_8003E6F8(STR_800AD7F0, var_s0, new_var[var_s0], D_8008E3C0[new_var[var_s0]], var_s0 + 1, new_var[var_s0 + 1],
+    func_8003E6F8("@c2Character         WaitAttack Speed       Luck\n@c7 @m%c%02d:%-14s @m%c%02d:%-3s     "
+                  "@m%c%02d:%-8s @m%c%03d%%\n\n",
+                  var_s0, new_var[var_s0], D_8008E3C0[new_var[var_s0]], var_s0 + 1, new_var[var_s0 + 1],
                   D_8008E3B8[new_var[var_s0 + 1]], var_s0 + 2, new_var[var_s0 + 2], D_8008E400[new_var[var_s0 + 2]],
                   var_s0 + 3, new_var[var_s0 + 3]);
     var_s0 += 4;
 
     for (i = 0; i < 4; i++) {
-        func_8003E6F8(STR_800AD864, D_8008E398[2 * i], D_8008E398[2 * i + 1], var_s0, new_var[var_s0],
-                      D_8008E380[new_var[var_s0]], var_s0 + 1, new_var[var_s0 + 1], D_8008E380[new_var[var_s0 + 1]]);
+        func_8003E6F8("@c2%-18s %-18s\n@c7 @m%c%02d:%-14s  @m%c%02d:%-14s\n\n", D_8008E398[2 * i],
+                      D_8008E398[2 * i + 1], var_s0, new_var[var_s0], D_8008E380[new_var[var_s0]], var_s0 + 1,
+                      new_var[var_s0 + 1], D_8008E380[new_var[var_s0 + 1]]);
         var_s0 += 2;
     }
 
-    func_8003E6F8(STR_800AD898);
+    func_8003E6F8("@c2  ExCondition        Sub   ExEffect       Sub\n");
 
     for (i = 0; i < 4; i++) {
-        func_8003E6F8(STR_800AD8CC, B_800E592C + i + 1, var_s0, new_var[var_s0], D_8008E420[new_var[var_s0]]);
+        func_8003E6F8("@c2%02d @c7@m%c%03d:%-14s ", B_800E592C + i + 1, var_s0, new_var[var_s0],
+                      D_8008E420[new_var[var_s0]]);
 
         var_s0++;
         switch (new_var[var_s0 - 1]) {
@@ -610,38 +553,38 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
             case 0x8:
             case 0x9:
             case 0xB:
-                func_8003E6F8(STR_800AD8E8, var_s0);
+                func_8003E6F8("@m%c---   ", var_s0);
                 break;
 
             default:
-                func_8003E6F8(STR_800AD8F4, var_s0, new_var[var_s0], (new_var[var_s0 - 1] == 2) ? 0x25 : 0x20);
+                func_8003E6F8("@m%c%03d%c  ", var_s0, new_var[var_s0], (new_var[var_s0 - 1] == 2) ? 0x25 : 0x20);
                 break;
         }
 
         var_s0++;
 
-        func_8003E6F8(STR_800AD904, var_s0, new_var[var_s0], D_8008E454[new_var[var_s0]]);
+        func_8003E6F8("@m%c%03d:%-10s ", var_s0, new_var[var_s0], D_8008E454[new_var[var_s0]]);
 
         var_s0++;
         switch (new_var[var_s0 - 1]) {
             case 0:
             case 1:
             case 2:
-                func_8003E6F8(STR_800AD914, var_s0);
+                func_8003E6F8("@m%c---", var_s0);
                 break;
 
             default:
-                func_8003E6F8(STR_800AD91C, var_s0, new_var[var_s0]);
+                func_8003E6F8("@m%c%03d", var_s0, new_var[var_s0]);
                 break;
         }
 
         var_s0++;
 
-        func_8003E6F8(STR_800AD5A8);
+        func_8003E6F8("\n\n");
     }
 
-    func_8003E6F8(STR_800AD928);
-    func_8003E6F8(STR_800AD92C);
+    func_8003E6F8("\n");
+    func_8003E6F8("@c3<- LogicMenu\t\t\t\t\t\tSpeedMenu ->");
     func_8003E6D8();
 }
 
@@ -1146,18 +1089,6 @@ s32 D_8008E5B4[] = {
     0x0000000E,
 };
 
-const char STR_800ADAF0[] = "@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n";
-
-const char STR_800ADB04[] = "@c2ﾂﾖｻ ";
-
-const char STR_800ADB0C[] = "%c";
-
-const char STR_800ADB10[] = "@c2%s\n";
-
-const char STR_800ADB18[] = "@m%c@c%c%s\n";
-
-const char STR_800ADB24[] = "@m%c@c%c%c:%s\n";
-
 void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
     struct_800E5938 *temp_s5 = &B_800E5938[B_800E5934];
     s32 var_s0 = CLAMP(func_8003FEE4() / 10, 0, 10);
@@ -1169,15 +1100,15 @@ void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     func_8003E69C(gfxP, func_8003FD88, arg1, arg2);
 
-    func_8003E6F8(STR_800ADAF0);
-    func_8003E6F8(STR_800ADB04);
+    func_8003E6F8("@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n");
+    func_8003E6F8("@c2ﾂﾖｻ ");
 
     for (var_s1 = 0; var_s1 < var_s0; var_s1++) {
-        func_8003E6F8(STR_800ADB0C, 0x83);
+        func_8003E6F8("%c", 0x83);
     }
 
     for (; var_s1 < 10; var_s1++) {
-        func_8003E6F8(STR_800ADB0C, 0x82);
+        func_8003E6F8("%c", 0x82);
     }
 
     func_8003E6D8();
@@ -1188,7 +1119,7 @@ void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
     for (var_s1 = 0; var_s1 < 4; var_s1++) {
         func_8003E69C(gfxP, func_8003FD88, arg1, arg2);
 
-        func_8003E6F8(STR_800ADB10, D_8008E5A0[var_s1]);
+        func_8003E6F8("@c2%s\n", D_8008E5A0[var_s1]);
 
         var_s2 = var_s1 << 5;
 
@@ -1233,12 +1164,12 @@ void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
                 case 0:
                 case 1:
                 case 2:
-                    func_8003E6F8(STR_800ADB18, var_s2, var_a2, D_8008E548[var_s1][var_s0_2]);
+                    func_8003E6F8("@m%c@c%c%s\n", var_s2, var_a2, D_8008E548[var_s1][var_s0_2]);
                     var_s2 += 1;
                     break;
 
                 case 3:
-                    func_8003E6F8(STR_800ADB24, var_s2, var_a2, var_s7, D_8008E548[var_s1][var_s0_2]);
+                    func_8003E6F8("@m%c@c%c%c:%s\n", var_s2, var_a2, var_s7, D_8008E548[var_s1][var_s0_2]);
                     var_s2 += 1;
                     break;
             }
