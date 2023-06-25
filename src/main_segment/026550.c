@@ -27,8 +27,8 @@ const char *D_8008E3B8[] = {
 };
 
 const char *D_8008E3C0[] = {
-    "Mario", "NokoNoko", "Bomhei", "PukuPuku", "Chiropoo", "Heihoo", "Hanachan", "Telesa",
-    "PakkunFlower", "Kamek", "Koopa", "Peach", "Plain1", "Plain2", "Plain3", "Plain4",
+    "Mario",        "NokoNoko", "Bomhei", "PukuPuku", "Chiropoo", "Heihoo", "Hanachan", "Telesa",
+    "PakkunFlower", "Kamek",    "Koopa",  "Peach",    "Plain1",   "Plain2", "Plain3",   "Plain4",
 };
 
 const char *D_8008E400[] = {
@@ -36,16 +36,13 @@ const char *D_8008E400[] = {
 };
 
 const char *D_8008E420[] = {
-    "--------------", "Unconditional", "Random", "Damage", "Many Vir", "Few Vir", "Pile", "Easy",
-    "Normal",
-    "Hard",
-    "Last",
-    "Rensa", "PreemPtive",
+    "--------------", "Unconditional", "Random", "Damage", "Many Vir", "Few Vir",    "Pile",
+    "Easy",           "Normal",        "Hard",   "Last",   "Rensa",    "PreemPtive",
 };
 
 const char *D_8008E454[] = {
-    "----------", "Rotate", "Waver", "Not Move", "beFast", "beSlow",
-    "beNoWait", "Rapid", "be Attack", "be Erase", "Lose",
+    "----------", "Rotate", "Waver",     "Not Move", "beFast", "beSlow",
+    "beNoWait",   "Rapid",  "be Attack", "be Erase", "Lose",
 };
 
 typedef u8 (*D_8008E480_type)[3];
@@ -341,7 +338,8 @@ void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
 
     func_8003E69C(gxfP, func_8003EEA4, arg1, arg2);
 
-    func_8003E6F8(STR_800AD5D4, index, temp[index + 0], D_8008E380[temp[index + 0]], index + 1, temp[index + 1], D_8008E398[temp[index + 1]]);
+    func_8003E6F8(STR_800AD5D4, index, temp[index + 0], D_8008E380[temp[index + 0]], index + 1, temp[index + 1],
+                  D_8008E398[temp[index + 1]]);
     index += 2;
 
     func_8003E6F8(STR_800AD614);
@@ -769,8 +767,7 @@ void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 }
 
 const char *D_8008E4AC[] = {
-    "ﾏﾘｵ", "ﾉｺﾉｺ", "ﾎﾞﾑﾍｲ", "ﾌﾟｸﾌﾟｸ", "ﾁｮﾛﾌﾟｰ", "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ",
-    "ﾊﾅﾁｬﾝ", "ﾃﾚｻ", "ﾊﾟｯｸﾝﾌﾗﾜｰ", "ｶﾒｯｸ", "ｸｯﾊﾟ", "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ",
+    "ﾏﾘｵ", "ﾉｺﾉｺ", "ﾎﾞﾑﾍｲ", "ﾌﾟｸﾌﾟｸ", "ﾁｮﾛﾌﾟｰ", "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ", "ﾊﾅﾁｬﾝ", "ﾃﾚｻ", "ﾊﾟｯｸﾝﾌﾗﾜｰ", "ｶﾒｯｸ", "ｸｯﾊﾟ", "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ",
 };
 
 const char *D_8008E4DC[] = {
@@ -782,8 +779,7 @@ const char *D_8008E4F0[] = {
 };
 
 const char *D_8008E508[] = {
-    "ｾﾝｾｲｺｳｹﾞｷ", "ｶｳﾝﾀｰ", "ﾗｯｸ", "ﾏﾖｲ", "ｸﾙｸﾙﾏﾜｽ", "ﾁｮｳﾊﾂ",
-    "ﾄﾞｳﾖｳ", "ｽﾋﾟｰﾄﾞｱｯﾌﾟ", "ｵｲｱｹﾞﾙ", "ﾃﾇｷ", "ｵｲｺﾐ", "ﾃﾞﾌｫﾙﾄ",
+    "ｾﾝｾｲｺｳｹﾞｷ", "ｶｳﾝﾀｰ", "ﾗｯｸ", "ﾏﾖｲ", "ｸﾙｸﾙﾏﾜｽ", "ﾁｮｳﾊﾂ", "ﾄﾞｳﾖｳ", "ｽﾋﾟｰﾄﾞｱｯﾌﾟ", "ｵｲｱｹﾞﾙ", "ﾃﾇｷ", "ｵｲｺﾐ", "ﾃﾞﾌｫﾙﾄ",
 };
 
 s8 D_8008E538[] = {
