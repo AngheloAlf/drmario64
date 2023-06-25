@@ -256,46 +256,44 @@ const char STR_800AD5A8[] = "\n\n";
 
 const char STR_800AD5AC[] = "@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->";
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003E8C8);
-#endif
-
-#if VERSION_CN
-#ifdef NON_MATCHING
 void func_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2) {
-    s32 var_s1;
-    s32 var_s5;
+    func_8003E69C_arg1 temp = func_8003E730;
+    s32 i;
+    s32 j;
 
-    func_8003E69C(gxfP, func_8003E730, arg1, arg2 + 8);
+    func_8003E69C(gxfP, temp, arg1, arg2 + 8);
+
     func_8003E6F8(STR_800AD55C);
 
-    for (var_s5 = 0; var_s5 < 4; var_s5++) {
-        func_8003E6F8(STR_800AD560, D_8008E490[var_s5]);
+    for (i = 0; i < ARRAY_COUNT(D_8008E490); i++) {
+        func_8003E6F8(STR_800AD560, D_8008E490[i]);
     }
 
     func_8003E6D8();
-    func_8003E69C(gxfP, func_8003E730, arg1 + 0x2A, arg2 + 8);
+    func_8003E69C(gxfP, temp, arg1 + 0x2A, arg2 + 8);
+
     func_8003E6F8(STR_800AD55C);
 
-    for (var_s5 = 0; var_s5 < 4; var_s5++) {
-        for (var_s1 = 0; var_s1 < 3; var_s1++) {
-            func_8003E6F8(STR_800AD56C, D_8008E4A0[var_s1]);
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < ARRAY_COUNT(D_8008E4A0); j++) {
+            func_8003E6F8(STR_800AD56C, D_8008E4A0[j]);
         }
     }
 
     func_8003E6D8();
-    func_8003E69C(gxfP, func_8003E730, arg1 + 0x54, arg2);
+    func_8003E69C(gxfP, temp, arg1 + 0x54, arg2);
+
     func_8003E6F8(STR_800AD574);
+
     func_8003E6D8();
-    func_8003E69C(gxfP, func_8003E730, arg1 + 0x5A, arg2 + 8);
+    func_8003E69C(gxfP, temp, arg1 + 0x5A, arg2 + 8);
 
-    for (var_s5 = 0; var_s5 < 4; var_s5++) {
-        for (var_s1 = 0; var_s1 < 3; var_s1++) {
-            s32 var_s3;
+    for (i = 0; i < ARRAY_COUNT(D_8008E480); i++) {
+        for (j = 0; j < ARRAY_COUNT(*D_8008E480[i]); j++) {
+            s32 k;
 
-            for (var_s3 = 1; var_s3 < 8; var_s3++) {
-                func_8003E6F8(STR_800AD59C, var_s5 * 0x15 + var_s1 * 7 + var_s3 - 1,
-                              D_8008E480[var_s5][var_s3 * 3 + var_s1]);
+            for (k = 1; k < 8; k++) {
+                func_8003E6F8(STR_800AD59C, 0x15 * i + 7 * j + k - 1, D_8008E480[i][k][j]);
             }
 
             func_8003E6F8(STR_800AD5A8);
@@ -303,18 +301,10 @@ void func_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2) {
     }
 
     func_8003E6D8();
-    func_8003E69C(gxfP, func_8003E730, arg1, arg2 + 0xC8);
+    func_8003E69C(gxfP, temp, arg1, arg2 + 0xC8);
     func_8003E6F8(STR_800AD5AC);
     func_8003E6D8();
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003E8C8);
-#endif
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003E8C8);
-#endif
 
 void func_8003EB20(void) {
     struct_ai_param *temp_a1 = &ai_param[B_800E591C][B_800E5920];
