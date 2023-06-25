@@ -441,7 +441,6 @@ void func_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-#if VERSION_US
 const char STR_800AD5D4[] = "@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n";
 
 const char STR_800AD614[] = "@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7";
@@ -466,165 +465,67 @@ const char STR_800AD74C[] = "\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m
 const char STR_800AD790[] = "Man";
 
 const char STR_800AD794[] = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
-#endif
 
-#if VERSION_CN
-const char STR_800C44F4_cn[] = "@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n";
-
-const char STR_800C4534_cn[] = "@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7";
-
-const char STR_800C4568_cn[] = " @m%c%05d%% ";
-
-const char STR_800C4578_cn[] = " @m%c%05d ";
-
-const char STR_800C4584_cn[] = "@c2\tALNB   FC     FV     C      V\n@c2Hei@c7  -----";
-
-const char STR_800C45B8_cn[] = "  @m%c%05d";
-
-const char STR_800C45C4_cn[] = "\n\n@c2Wid@c7";
-
-const char STR_800C45D0_cn[] = "@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  "
-                               "@m%c%05d%%  @m%c%02d:%-3s  @m%c%05d\n\n";
-
-const char STR_800C4648_cn[] = "@c2\tLine2  Line3  Line4~8\n@c2Hei@c7";
-
-const char STR_800C466C_cn[] = "\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m%c%03d:%-14s\n\n\n\n\n";
-
-const char STR_800C46B0_cn[] = "Man";
-
-const char STR_800C46B4_cn[] = "@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->";
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003F050);
-#endif
-
-#if VERSION_CN
-#ifdef NON_EQUIVALENT
-// maybe equivalent, hard to tell
 void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
-    s16 *temp_v0;
-    s16 *temp_v0_2;
-    s16 *var_s2;
-    s16 *var_s2_2;
-    s16 *var_s2_3;
-    s16 *var_s2_4;
-    s16 *var_s2_5;
-    s16 temp_a2;
-    s16 temp_a2_2;
-    s16 temp_a2_3;
-    s16 temp_a2_4;
-    s16 temp_t5;
-    s32 var_s0;
-    s32 var_s0_2;
-    s32 var_s0_3;
-    s32 var_s0_4;
-    s32 var_s0_5;
-    s32 var_s1;
-    s32 var_s1_2;
-    s8 *var_a0;
-    s32 v1;
-    const char *arg5;
-
-    const char *a0;
+    s16 *temp = B_800E58C0;
+    s32 index = 0;
+    s32 i;
 
     func_8003E69C(gxfP, func_8003EEA4, arg1, arg2);
-    func_8003E6F8(STR_800C44F4_cn, 0, B_800E58C0[0], D_8008E380[B_800E58C0[0]], 1, B_800E58C0[1],
-                  D_8008E398[B_800E58C0[1]]);
-    func_8003E6F8(STR_800C4534_cn);
 
-    var_s1 = 2;
-    var_s0 = 0;
+    func_8003E6F8(STR_800AD5D4, 0, temp[0], D_8008E380[temp[0]], 1, temp[1], D_8008E398[temp[1]]);
+    index += 2;
 
-    var_s2 = &B_800E58C0[var_s1];
-    for (; var_s0 < 6; var_s0++) {
-        if ((var_s0 == 3) || (var_s0 == 4)) {
-            func_8003E6F8(STR_800C4568_cn, var_s1++, *var_s2++);
-        } else {
-            func_8003E6F8(STR_800C4578_cn, var_s1++, *var_s2++);
-        }
+    func_8003E6F8(STR_800AD614);
+
+    for (i = 0; i < 6; i++) {
+        func_8003E6F8(((i == 3) || (i == 4)) ? STR_800AD648 : STR_800AD658, index, temp[index]);
+        index++;
     }
 
     func_8003E6F8(STR_800AD5A8);
-    func_8003E6F8(STR_800C4584_cn);
-    var_s2 = &B_800E58C0[var_s1];
+    func_8003E6F8(STR_800AD664);
 
-    for (var_s0 = 1; var_s0 < 5; var_s0++) {
-        func_8003E6F8(STR_800C45B8_cn, var_s1++, var_s2[var_s0]);
+    for (i = 1; i < 5; i++) {
+        func_8003E6F8(STR_800AD698, index, temp[index]);
+        index++;
     }
 
-    func_8003E6F8(STR_800C45C4_cn);
+    func_8003E6F8(STR_800AD6A4);
 
-    var_s2 = &B_800E58C0[var_s1];
-    for (var_s0 = 0; var_s0 < 5; var_s0++) {
-        func_8003E6F8(STR_800C45B8_cn, var_s1++, *var_s2++);
+    for (i = 0; i < 5; i++) {
+        func_8003E6F8(STR_800AD698, index, temp[index]);
+        index++;
     }
 
     func_8003E6F8(STR_800AD5A8);
-    temp_v0 = &B_800E58C0[var_s1];
 
-    func_8003E6F8(STR_800C45D0_cn, var_s1, temp_v0[0], var_s1 + 1, temp_v0[1], var_s1 + 2, temp_v0[2], var_s1 + 3,
-                  temp_v0[3], var_s1 + 4, temp_v0[4], D_8008E3B8[temp_v0[4]], var_s1 + 5, temp_v0[5]);
-    func_8003E6F8(STR_800C4648_cn);
+    func_8003E6F8(STR_800AD6B0, index, temp[index + 0], index + 1, temp[index + 1], index + 2, temp[index + 2],
+                  index + 3, temp[index + 3], index + 4, temp[index + 4], D_8008E3B8[temp[index + 4]], index + 5,
+                  temp[index + 5]);
+    index += 6;
 
-    var_s1 = var_s1 + 6;
-    var_s2 = &B_800E58C0[var_s1];
-    for (var_s0 = 0; var_s0 < 3; var_s0++) {
-        func_8003E6F8(STR_800C45B8_cn, var_s1++, *var_s2++);
+    func_8003E6F8(STR_800AD728);
+
+    for (i = 0; i < 3; i++) {
+        func_8003E6F8(STR_800AD698, index, temp[index]);
+        index++;
     }
 
-    func_8003E6F8(STR_800C45C4_cn);
+    func_8003E6F8(STR_800AD6A4);
 
-    var_s2 = &B_800E58C0[var_s1];
-    for (var_s0 = 0; var_s0 < 3; var_s0++) {
-        func_8003E6F8(STR_800C45B8_cn, var_s1++, *var_s2++);
+    for (i = 0; i < 3; i++) {
+        func_8003E6F8(STR_800AD698, index, temp[index]);
+        index++;
     }
 
-    temp_v0_2 = &B_800E58C0[var_s1];
-    v1 = temp_v0_2[1];
-    if (v1 != 0) {
-        arg5 = D_8008E3C0[temp_v0_2[1] - 1];
-    } else {
-        arg5 = STR_800C46B0_cn;
-    }
+    func_8003E6F8(STR_800AD74C, index, temp[index], index + 1, temp[index + 1],
+                  (temp[index + 1] != 0) ? D_8008E3C0[temp[index + 1] - 1] : STR_800AD790);
+    index += 2;
 
-    func_8003E6F8(STR_800C466C_cn, var_s1, temp_v0_2[0], var_s1 + 1, v1, arg5);
-
-    func_8003E6F8(STR_800C46B4_cn);
+    func_8003E6F8(STR_800AD794);
     func_8003E6D8();
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003F050);
-#endif
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE434_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE474_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE4A8_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE4B8_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE4C4_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE4F8_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE504_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE510_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE588_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE5AC_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE5F0_gw);
-
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE5F4_gw);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F050);
-#endif
 
 void func_8003F360(void) {
     struct_ai_char_data *temp_a1 = &ai_char_data[B_800E5928];
@@ -998,8 +899,6 @@ void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
 }
-
-ASM_RODATA;
 
 const char STR_800AD980[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
 
