@@ -24,6 +24,10 @@ OBJDUMP_BUILD ?= 1
 MULTISTEP_BUILD ?= 0
 # If non-zero, passes -v to compiler
 COMPILER_VERBOSE ?= 0
+# If non-zero touching an assembly file will rebuild any file that depends on it
+DEP_ASM ?= 1
+# If non-zero touching an included file will rebuild any file that depends on it
+DEP_INCLUDE ?= 1
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -199,8 +203,15 @@ LIBULTRA_O    := $(foreach f,$(LIBULTRA_C:.c=.o),$(BUILD_DIR)/$f) \
 
 
 # Automatic dependency files
-DEP_FILES := $(O_FILES:.o=.d) \
-             $(O_FILES:.o=.asmproc.d)
+DEP_FILES := 
+
+ifneq ($(DEP_ASM), 0)
+	DEP_FILES += $(O_FILES:.o=.asmproc.d)
+endif
+
+ifneq ($(DEP_INCLUDE), 0)
+	DEP_FILES += $(O_FILES:.o=.d)
+endif
 
 # create build directories
 $(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/linker_scripts/$(VERSION)/auto $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))

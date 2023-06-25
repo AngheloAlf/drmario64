@@ -196,7 +196,6 @@ const char *D_8008E490[] = {
     STR_800AD53C,
 };
 
-#if VERSION_US || VERSION_CN
 void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     u16 buttonPressed = gControllerPressedButtons[0];
     u16 buttonCurrent = joycur[0];
@@ -236,20 +235,13 @@ void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         *temp_a3 = CLAMP(*temp_a3 + (var_t0 * D_8008E370[B_800E58B0]), 0, 30);
     }
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F1C0_gw);
-#endif
-
-ASM_DATA;
 const char *D_8008E4A0[] = {
     STR_800AD47C,
     STR_800AD330,
     STR_800AD474,
 };
 
-#if VERSION_US || VERSION_CN
 const char STR_800AD55C[] = "@c2";
 
 const char STR_800AD560[] = "%s\n\n\n\n\n\n";
@@ -263,7 +255,6 @@ const char STR_800AD59C[] = "@m%c%03d  ";
 const char STR_800AD5A8[] = "\n\n";
 
 const char STR_800AD5AC[] = "@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->";
-#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/026550", func_8003E8C8);
@@ -322,10 +313,9 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003E8C8);
 #endif
 
 #if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F358_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003E8C8);
 #endif
 
-#if VERSION_US || VERSION_CN
 void func_8003EB20(void) {
     struct_ai_param *temp_a1 = &ai_param[B_800E591C][B_800E5920];
     s16 *temp_v0 = B_800E58C0;
@@ -362,13 +352,7 @@ void func_8003EB20(void) {
     *temp_v0++ = evs_gamespeed;
     *temp_v0++ = aiDebugP1 + 1;
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F5B0_gw);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_8003ECDC(void) {
     s16 *temp_v0 = B_800E58C0;
     struct_ai_param *temp_a0 = &ai_param[B_800E591C][B_800E5920];
@@ -405,13 +389,7 @@ void func_8003ECDC(void) {
     evs_gamespeed = *temp_v0++;
     aiDebugP1 = *temp_v0++ - 1;
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F76C_gw);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     u16 buttonPressed = gControllerPressedButtons[0];
     u16 buttonCurrent = joycur[0];
@@ -472,11 +450,6 @@ void func_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         B_800E58C0[arg3] = CLAMP(B_800E58C0[arg3] + D_8008E370[B_800E58B4] * var_a1, var_t2, var_t0);
     }
 }
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F934_gw);
-#endif
 
 #if VERSION_US
 const char STR_800AD5D4[] = "@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n";
@@ -636,22 +609,33 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/026550", func_8003F050);
 #endif
 
 #if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3C0_gw);
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE434_gw);
 
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3CC_gw);
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE474_gw);
 
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3D4_gw);
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE4A8_gw);
 
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE3FC_gw);
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE4B8_gw);
 
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE408_gw);
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE4C4_gw);
 
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE40C_gw);
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE4F8_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FAE0_gw);
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE504_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE510_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE588_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE5AC_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE5F0_gw);
+
+INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/026550", RO_STR_800AE5F4_gw);
+
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003F050);
 #endif
 
-#if VERSION_US || VERSION_CN
 void func_8003F360(void) {
     struct_ai_char_data *temp_a1 = &ai_char_data[B_800E5928];
     s16 *var_a3 = B_800E58C0;
@@ -673,13 +657,7 @@ void func_8003F360(void) {
         *var_a3++ = temp_a1->unk_4C[i];
     }
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FDF0_gw);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_8003F474(void) {
     struct_ai_char_data *temp_t3 = &ai_char_data[B_800E5928];
     s16 *var_t1 = B_800E58C0;
@@ -701,13 +679,7 @@ void func_8003F474(void) {
         temp_t3->unk_4C[i] = *var_t1++;
     }
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FF04_gw);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     u16 buttonPressed = gControllerPressedButtons[0];
     u16 buttonCurrent = joycur[0];
@@ -824,13 +796,7 @@ void func_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8003FFF8_gw);
-#endif
-
-#if VERSION_US || VERSION_CN
 const char STR_800AD7F0[] = "@c2Character         WaitAttack Speed       Luck\n@c7 @m%c%02d:%-14s @m%c%02d:%-3s     "
                             "@m%c%02d:%-8s @m%c%03d%%\n\n";
 
@@ -921,13 +887,7 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
     func_8003E6F8(STR_800AD92C);
     func_8003E6D8();
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004026C_gw);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_8003FB00(void) {
     s32 temp_s0 = joycur[0];
     s32 temp;
@@ -991,13 +951,7 @@ void func_8003FB00(void) {
             break;
     }
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040590_gw);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_8003FD0C(Gfx **gxfP) {
     switch (B_800E5930) {
         case ENUM_800E5930_0:
@@ -1013,9 +967,7 @@ void func_8003FD0C(Gfx **gxfP) {
             break;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     u16 button = gControllerPressedButtons[0];
     struct_800E5938 *temp_a2 = &B_800E5938[B_800E5934];
@@ -1056,11 +1008,6 @@ void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
 }
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004079C_gw);
-#endif
 
 ASM_RODATA;
 
@@ -1196,7 +1143,6 @@ s8 D_8008E584[] = {
     0x06, 0x04, 0x0A, 0xFE, 0xFE, 0xFE, 0xF6, 0x04, 0x02, 0xFA, 0x04, 0x00,
 };
 
-#if VERSION_US || VERSION_CN
 s32 func_8003FEE4(void) {
     s32 var_t1 = 0;
     struct_800E5938 sp8 = B_800E5938[B_800E5934];
@@ -1313,13 +1259,7 @@ s32 func_8003FEE4(void) {
 
     return var_t1;
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040818_gw);
-#endif
-
-ASM_DATA;
 s8 D_8008E590[] = {
     0x00, 0x00, 0x01, 0x02, 0x04, 0x03, 0x00, 0x00,
 };
@@ -1328,7 +1268,6 @@ s8 D_8008E598[] = {
     0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x05,
 };
 
-#if VERSION_US || VERSION_CN
 void func_8004015C(void) {
     struct_800E5968 *temp = &B_800E5968;
     s32 i;
@@ -1353,13 +1292,7 @@ void func_8004015C(void) {
 
     B_800E58BC = true;
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040974_gw);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_80040238(void) {
     s32 i;
 
@@ -1483,7 +1416,7 @@ void func_80040238(void) {
             }
         }
 
-        for (j = index; j < 0x10; j++) {
+        for (j = index; j < STRUCT_AI_CHAR_DATA_LEN; j++) {
             temp_t8->unk_0C[j] = 0;
             temp_t8->unk_1C[j] = 0;
             temp_t8->unk_3C[j] = 0;
@@ -1491,9 +1424,7 @@ void func_80040238(void) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80040578(void) {
     s32 vertical = 0;
     s32 horizontal = 0;
@@ -1515,21 +1446,6 @@ void func_80040578(void) {
     B_800E596C = WrapI(0, 4, B_800E596C + horizontal);
     B_800E5970[B_800E596C] = WrapI(0, D_8008E558[B_800E596C], B_800E5970[B_800E596C] + vertical);
 }
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_8004015C);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040238);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040578);
-#endif
-
-ASM_RODATA;
 
 const char STR_800ADAC8[] = "<ﾄｸｼｭ>";
 
@@ -1555,7 +1471,6 @@ s32 D_8008E5B4[] = {
     0x0000000E,
 };
 
-#if VERSION_US || VERSION_CN
 const char STR_800ADAF0[] = "@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n";
 
 const char STR_800ADB04[] = "@c2ﾂﾖｻ ";
@@ -1658,25 +1573,6 @@ void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
         arg1 += D_8008E5B4[var_s1] * 6;
     }
 }
-#endif
-
-#if VERSION_GW
-ASM_RODATA;
-
-const char RO_STR_800AE950_gw[] = "@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n";
-
-const char RO_STR_800AE964_gw[] = "@c2ﾂﾖｻ ";
-
-const char RO_STR_800AE96C_gw[] = "%c";
-
-const char RO_STR_800AE970_gw[] = "@c2%s\n";
-
-const char RO_STR_800AE978_gw[] = "@m%c@c%c%s\n";
-
-const char RO_STR_800AE984_gw[] = "@m%c@c%c%c:%s\n";
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/026550", func_80040624);
-#endif
 
 void func_800409A0(void) {
     func_80040578();
