@@ -13,163 +13,39 @@ s32 D_8008E370[] = {
     0x000003E8,
 };
 
-const char STR_800AD2E0[] = "MajorityRensa";
-
-const char STR_800AD2F0[] = "WidErase";
-
-const char STR_800AD2FC[] = "Rensa&Attack";
-
-const char STR_800AD30C[] = "Rensa&Erase";
-
-const char STR_800AD318[] = "SmallRensa";
-
-const char STR_800AD324[] = "FastErase";
-
 const char *D_8008E380[] = {
-    STR_800AD324, STR_800AD318, STR_800AD30C, STR_800AD2FC, STR_800AD2F0, STR_800AD2E0,
+    "FastErase", "SmallRensa", "Rensa&Erase", "Rensa&Attack", "WidErase", "MajorityRensa",
 };
-
-const char STR_800AD330[] = "Normal";
-
-const char STR_800AD338[] = "Badline1";
-
-const char STR_800AD344[] = "Badline2";
-
-const char STR_800AD350[] = "LastVsn";
-
-const char STR_800AD358[] = "LastVsnh";
-
-const char STR_800AD364[] = "Last";
-
-const char STR_800AD36C[] = "Narrow";
-
-const char STR_800AD374[] = "Dead";
 
 const char *D_8008E398[] = {
-    STR_800AD374, STR_800AD36C, STR_800AD364, STR_800AD358, STR_800AD350, STR_800AD344, STR_800AD338, STR_800AD330,
+    "Dead", "Narrow", "Last", "LastVsnh", "LastVsn", "Badline2", "Badline1", "Normal",
 };
-
-const char STR_800AD37C[] = "On";
-
-const char STR_800AD380[] = "Off";
 
 const char *D_8008E3B8[] = {
-    STR_800AD380,
-    STR_800AD37C,
+    "Off",
+    "On",
 };
-
-const char STR_800AD384[] = "Plain4";
-
-const char STR_800AD38C[] = "Plain3";
-
-const char STR_800AD394[] = "Plain2";
-
-const char STR_800AD39C[] = "Plain1";
-
-const char STR_800AD3A4[] = "Peach";
-
-const char STR_800AD3AC[] = "Koopa";
-
-const char STR_800AD3B4[] = "Kamek";
-
-const char STR_800AD3BC[] = "PakkunFlower";
-
-const char STR_800AD3CC[] = "Telesa";
-
-const char STR_800AD3D4[] = "Hanachan";
-
-const char STR_800AD3E0[] = "Heihoo";
-
-const char STR_800AD3E8[] = "Chiropoo";
-
-const char STR_800AD3F4[] = "PukuPuku";
-
-const char STR_800AD400[] = "Bomhei";
-
-const char STR_800AD408[] = "NokoNoko";
-
-const char STR_800AD414[] = "Mario";
 
 const char *D_8008E3C0[] = {
-    STR_800AD414, STR_800AD408, STR_800AD400, STR_800AD3F4, STR_800AD3E8, STR_800AD3E0, STR_800AD3D4, STR_800AD3CC,
-    STR_800AD3BC, STR_800AD3B4, STR_800AD3AC, STR_800AD3A4, STR_800AD39C, STR_800AD394, STR_800AD38C, STR_800AD384,
+    "Mario", "NokoNoko", "Bomhei", "PukuPuku", "Chiropoo", "Heihoo", "Hanachan", "Telesa",
+    "PakkunFlower", "Kamek", "Koopa", "Peach", "Plain1", "Plain2", "Plain3", "Plain4",
 };
-
-const char STR_800AD41C[] = "FasterNW";
-
-const char STR_800AD428[] = "NoWait";
-
-const char STR_800AD430[] = "Fastest";
-
-const char STR_800AD438[] = "Faster";
-
-const char STR_800AD440[] = "Fast";
-
-const char STR_800AD448[] = "Slow";
-
-const char STR_800AD450[] = "Slower";
-
-const char STR_800AD458[] = "SpSlow";
 
 const char *D_8008E400[] = {
-    STR_800AD458, STR_800AD450, STR_800AD448, STR_800AD440, STR_800AD438, STR_800AD430, STR_800AD428, STR_800AD41C,
+    "SpSlow", "Slower", "Slow", "Fast", "Faster", "Fastest", "NoWait", "FasterNW",
 };
-
-const char STR_800AD460[] = "PreemPtive";
-
-const char STR_800AD46C[] = "Rensa";
-
-const char STR_800AD474[] = "Hard";
-
-const char STR_800AD47C[] = "Easy";
-
-const char STR_800AD484[] = "Pile";
-
-const char STR_800AD48C[] = "Few Vir";
-
-const char STR_800AD494[] = "Many Vir";
-
-const char STR_800AD4A0[] = "Damage";
-
-const char STR_800AD4A8[] = "Random";
-
-const char STR_800AD4B0[] = "Unconditional";
-
-const char STR_800AD4C0[] = "--------------";
 
 const char *D_8008E420[] = {
-    STR_800AD4C0, STR_800AD4B0, STR_800AD4A8, STR_800AD4A0, STR_800AD494, STR_800AD48C, STR_800AD484, STR_800AD47C,
-    STR_800AD330, // reused from other array
-    STR_800AD474,
-    STR_800AD364, // reused from other array
-    STR_800AD46C, STR_800AD460,
+    "--------------", "Unconditional", "Random", "Damage", "Many Vir", "Few Vir", "Pile", "Easy",
+    "Normal",
+    "Hard",
+    "Last",
+    "Rensa", "PreemPtive",
 };
 
-const char STR_800AD4D0[] = "Lose";
-
-const char STR_800AD4D8[] = "be Erase";
-
-const char STR_800AD4E4[] = "be Attack";
-
-const char STR_800AD4F0[] = "Rapid";
-
-const char STR_800AD4F8[] = "beNoWait";
-
-const char STR_800AD504[] = "beSlow";
-
-const char STR_800AD50C[] = "beFast";
-
-const char STR_800AD514[] = "Not Move";
-
-const char STR_800AD520[] = "Waver";
-
-const char STR_800AD528[] = "Rotate";
-
-const char STR_800AD530[] = "----------";
-
 const char *D_8008E454[] = {
-    STR_800AD530, STR_800AD528, STR_800AD520, STR_800AD514, STR_800AD50C, STR_800AD504,
-    STR_800AD4F8, STR_800AD4F0, STR_800AD4E4, STR_800AD4D8, STR_800AD4D0,
+    "----------", "Rotate", "Waver", "Not Move", "beFast", "beSlow",
+    "beNoWait", "Rapid", "be Attack", "be Erase", "Lose",
 };
 
 typedef u8 (*D_8008E480_type)[3];
@@ -181,19 +57,11 @@ D_8008E480_type D_8008E480[] = {
     aiSlideFSpeed,
 };
 
-const char STR_800AD53C[] = "SlideFS";
-
-const char STR_800AD544[] = "SlideS";
-
-const char STR_800AD54C[] = "DownS";
-
-const char STR_800AD554[] = "VirusLv";
-
 const char *D_8008E490[] = {
-    STR_800AD554,
-    STR_800AD54C,
-    STR_800AD544,
-    STR_800AD53C,
+    "VirusLv",
+    "DownS",
+    "SlideS",
+    "SlideFS",
 };
 
 void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
@@ -237,9 +105,9 @@ void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 }
 
 const char *D_8008E4A0[] = {
-    STR_800AD47C,
-    STR_800AD330,
-    STR_800AD474,
+    "Easy",
+    "Normal",
+    "Hard",
 };
 
 const char STR_800AD55C[] = "@c2";
@@ -473,7 +341,7 @@ void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
 
     func_8003E69C(gxfP, func_8003EEA4, arg1, arg2);
 
-    func_8003E6F8(STR_800AD5D4, 0, temp[0], D_8008E380[temp[0]], 1, temp[1], D_8008E398[temp[1]]);
+    func_8003E6F8(STR_800AD5D4, index, temp[index + 0], D_8008E380[temp[index + 0]], index + 1, temp[index + 1], D_8008E398[temp[index + 1]]);
     index += 2;
 
     func_8003E6F8(STR_800AD614);
@@ -900,92 +768,22 @@ void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-const char STR_800AD980[] = "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ";
-
-const char STR_800AD98C[] = "ｸｯﾊﾟ";
-
-const char STR_800AD994[] = "ｶﾒｯｸ";
-
-const char STR_800AD99C[] = "ﾊﾟｯｸﾝﾌﾗﾜｰ";
-
-const char STR_800AD9A8[] = "ﾃﾚｻ";
-
-const char STR_800AD9AC[] = "ﾊﾅﾁｬﾝ";
-
-const char STR_800AD9B4[] = "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ";
-
-const char STR_800AD9C0[] = "ﾁｮﾛﾌﾟｰ";
-
-const char STR_800AD9C8[] = "ﾌﾟｸﾌﾟｸ";
-
-const char STR_800AD9D0[] = "ﾎﾞﾑﾍｲ";
-
-const char STR_800AD9D8[] = "ﾉｺﾉｺ";
-
-const char STR_800AD9E0[] = "ﾏﾘｵ";
-
 const char *D_8008E4AC[] = {
-    STR_800AD9E0, STR_800AD9D8, STR_800AD9D0, STR_800AD9C8, STR_800AD9C0, STR_800AD9B4,
-    STR_800AD9AC, STR_800AD9A8, STR_800AD99C, STR_800AD994, STR_800AD98C, STR_800AD980,
+    "ﾏﾘｵ", "ﾉｺﾉｺ", "ﾎﾞﾑﾍｲ", "ﾌﾟｸﾌﾟｸ", "ﾁｮﾛﾌﾟｰ", "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ",
+    "ﾊﾅﾁｬﾝ", "ﾃﾚｻ", "ﾊﾟｯｸﾝﾌﾗﾜｰ", "ｶﾒｯｸ", "ｸｯﾊﾟ", "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ",
 };
-
-const char STR_800AD9E4[] = "ﾖｺｽﾞｷ";
-
-const char STR_800AD9EC[] = "ﾀﾞｲﾚﾝｻﾈﾗｲ";
-
-const char STR_800AD9F8[] = "ｺｳｹﾞｷ";
-
-const char STR_800ADA00[] = "ﾊﾞﾗﾝｽ";
-
-const char STR_800ADA08[] = "ｽﾋﾟｰﾄﾞ";
 
 const char *D_8008E4DC[] = {
-    STR_800ADA08, STR_800ADA00, STR_800AD9F8, STR_800AD9EC, STR_800AD9E4,
+    "ｽﾋﾟｰﾄﾞ", "ﾊﾞﾗﾝｽ", "ｺｳｹﾞｷ", "ﾀﾞｲﾚﾝｻﾈﾗｲ", "ﾖｺｽﾞｷ",
 };
-
-const char STR_800ADA10[] = "ﾓｯﾄﾓﾊﾔｲ";
-
-const char STR_800ADA18[] = "ﾋｼﾞｮｳﾆﾊﾔｲ";
-
-const char STR_800ADA24[] = "ﾊﾔｲ";
-
-const char STR_800ADA28[] = "ﾌﾂｳ";
-
-const char STR_800ADA2C[] = "ｵｿｲ";
-
-const char STR_800ADA30[] = "ﾋｼﾞｮｳﾆｵｿｲ";
 
 const char *D_8008E4F0[] = {
-    STR_800ADA30, STR_800ADA2C, STR_800ADA28, STR_800ADA24, STR_800ADA18, STR_800ADA10,
+    "ﾋｼﾞｮｳﾆｵｿｲ", "ｵｿｲ", "ﾌﾂｳ", "ﾊﾔｲ", "ﾋｼﾞｮｳﾆﾊﾔｲ", "ﾓｯﾄﾓﾊﾔｲ",
 };
 
-const char STR_800ADA3C[] = "ﾃﾞﾌｫﾙﾄ";
-
-const char STR_800ADA44[] = "ｵｲｺﾐ";
-
-const char STR_800ADA4C[] = "ﾃﾇｷ";
-
-const char STR_800ADA50[] = "ｵｲｱｹﾞﾙ";
-
-const char STR_800ADA58[] = "ｽﾋﾟｰﾄﾞｱｯﾌﾟ";
-
-const char STR_800ADA64[] = "ﾄﾞｳﾖｳ";
-
-const char STR_800ADA6C[] = "ﾁｮｳﾊﾂ";
-
-const char STR_800ADA74[] = "ｸﾙｸﾙﾏﾜｽ";
-
-const char STR_800ADA7C[] = "ﾏﾖｲ";
-
-const char STR_800ADA80[] = "ﾗｯｸ";
-
-const char STR_800ADA84[] = "ｶｳﾝﾀｰ";
-
-const char STR_800ADA8C[] = "ｾﾝｾｲｺｳｹﾞｷ";
-
 const char *D_8008E508[] = {
-    STR_800ADA8C, STR_800ADA84, STR_800ADA80, STR_800ADA7C, STR_800ADA74, STR_800ADA6C,
-    STR_800ADA64, STR_800ADA58, STR_800ADA50, STR_800ADA4C, STR_800ADA44, STR_800ADA3C,
+    "ｾﾝｾｲｺｳｹﾞｷ", "ｶｳﾝﾀｰ", "ﾗｯｸ", "ﾏﾖｲ", "ｸﾙｸﾙﾏﾜｽ", "ﾁｮｳﾊﾂ",
+    "ﾄﾞｳﾖｳ", "ｽﾋﾟｰﾄﾞｱｯﾌﾟ", "ｵｲｱｹﾞﾙ", "ﾃﾇｷ", "ｵｲｺﾐ", "ﾃﾞﾌｫﾙﾄ",
 };
 
 s8 D_8008E538[] = {
@@ -1336,19 +1134,11 @@ void func_80040578(void) {
     B_800E5970[B_800E596C] = WrapI(0, D_8008E558[B_800E596C], B_800E5970[B_800E596C] + vertical);
 }
 
-const char STR_800ADAC8[] = "<ﾄｸｼｭ>";
-
-const char STR_800ADAD0[] = "<ｽﾋﾟｰﾄﾞ>";
-
-const char STR_800ADADC[] = "<ｾｲｶｸ>";
-
-const char STR_800ADAE4[] = "<ｷｬﾗｸﾀｰ>";
-
 const char *D_8008E5A0[] = {
-    STR_800ADAE4,
-    STR_800ADADC,
-    STR_800ADAD0,
-    STR_800ADAC8,
+    "<ｷｬﾗｸﾀｰ>",
+    "<ｾｲｶｸ>",
+    "<ｽﾋﾟｰﾄﾞ>",
+    "<ﾄｸｼｭ>",
 };
 
 s32 D_8008E5B0 = 0x00000035;
