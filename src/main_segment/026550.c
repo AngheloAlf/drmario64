@@ -1,3 +1,7 @@
+/**
+ * Characters debug menu
+ */
+
 #include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -710,19 +714,50 @@ void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 }
 
 const char *D_8008E4AC[] = {
-    "ﾏﾘｵ", "ﾉｺﾉｺ", "ﾎﾞﾑﾍｲ", "ﾌﾟｸﾌﾟｸ", "ﾁｮﾛﾌﾟｰ", "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ", "ﾊﾅﾁｬﾝ", "ﾃﾚｻ", "ﾊﾟｯｸﾝﾌﾗﾜｰ", "ｶﾒｯｸ", "ｸｯﾊﾟ", "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ",
+    "ﾏﾘｵ",        // "Mario"
+    "ﾉｺﾉｺ",       // "Koopa Troopa"
+    "ﾎﾞﾑﾍｲ",      // "Bob-omb"
+    "ﾌﾟｸﾌﾟｸ",     // "Cheep cheep"
+    "ﾁｮﾛﾌﾟｰ",     // "Monty Mole"
+    "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ", // "Fly Guy"
+    "ﾊﾅﾁｬﾝ",      // "Wiggler"
+    "ﾃﾚｻ",        // "Teresa", Boo?
+    "ﾊﾟｯｸﾝﾌﾗﾜｰ",  // "Piranha Plant"
+    "ｶﾒｯｸ",       // "Kamek"
+    "ｸｯﾊﾟ",       // "Bowser"
+    "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ", // "Princess Peach"
 };
 
 const char *D_8008E4DC[] = {
-    "ｽﾋﾟｰﾄﾞ", "ﾊﾞﾗﾝｽ", "ｺｳｹﾞｷ", "ﾀﾞｲﾚﾝｻﾈﾗｲ", "ﾖｺｽﾞｷ",
+    "ｽﾋﾟｰﾄﾞ",    // "Speed"
+    "ﾊﾞﾗﾝｽ",     // "Balance"
+    "ｺｳｹﾞｷ",     // "Attack"
+    "ﾀﾞｲﾚﾝｻﾈﾗｲ", // "Big chain"
+    "ﾖｺｽﾞｷ",     //
 };
 
 const char *D_8008E4F0[] = {
-    "ﾋｼﾞｮｳﾆｵｿｲ", "ｵｿｲ", "ﾌﾂｳ", "ﾊﾔｲ", "ﾋｼﾞｮｳﾆﾊﾔｲ", "ﾓｯﾄﾓﾊﾔｲ",
+    "ﾋｼﾞｮｳﾆｵｿｲ", // "Very slow"
+    "ｵｿｲ",       // "Slow"
+    "ﾌﾂｳ",       // "Normal"
+    "ﾊﾔｲ",       // "Quick"
+    "ﾋｼﾞｮｳﾆﾊﾔｲ", // "Very quick"
+    "ﾓｯﾄﾓﾊﾔｲ",   // "More quick"
 };
 
 const char *D_8008E508[] = {
-    "ｾﾝｾｲｺｳｹﾞｷ", "ｶｳﾝﾀｰ", "ﾗｯｸ", "ﾏﾖｲ", "ｸﾙｸﾙﾏﾜｽ", "ﾁｮｳﾊﾂ", "ﾄﾞｳﾖｳ", "ｽﾋﾟｰﾄﾞｱｯﾌﾟ", "ｵｲｱｹﾞﾙ", "ﾃﾇｷ", "ｵｲｺﾐ", "ﾃﾞﾌｫﾙﾄ",
+    "ｾﾝｾｲｺｳｹﾞｷ",  // "Preemptive attack"
+    "ｶｳﾝﾀｰ",      // "Counter"
+    "ﾗｯｸ",        // "Luck"
+    "ﾏﾖｲ",        // "Bewilderment"
+    "ｸﾙｸﾙﾏﾜｽ",    // "Rotate"
+    "ﾁｮｳﾊﾂ",      // "Provoke"
+    "ﾄﾞｳﾖｳ",      //
+    "ｽﾋﾟｰﾄﾞｱｯﾌﾟ", // "Speed up"
+    "ｵｲｱｹﾞﾙ",     //
+    "ﾃﾇｷ",        // "Shoddy"
+    "ｵｲｺﾐ",       //
+    "ﾃﾞﾌｫﾙﾄ",     // "Default"
 };
 
 s8 D_8008E538[] = {
@@ -1074,10 +1109,10 @@ void func_80040578(void) {
 }
 
 const char *D_8008E5A0[] = {
-    "<ｷｬﾗｸﾀｰ>",
-    "<ｾｲｶｸ>",
-    "<ｽﾋﾟｰﾄﾞ>",
-    "<ﾄｸｼｭ>",
+    "<ｷｬﾗｸﾀｰ>", // "<Character>"
+    "<ｾｲｶｸ>",   // "<Performance>"
+    "<ｽﾋﾟｰﾄﾞ>", // "<Speed>"
+    "<ﾄｸｼｭ>",   // "<Special>"
 };
 
 s32 D_8008E5B0 = 0x00000035;
@@ -1100,7 +1135,9 @@ void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     func_8003E69C(gfxP, func_8003FD88, arg1, arg2);
 
+    // "Character edit"
     func_8003E6F8("@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n");
+    // "Strength"?
     func_8003E6F8("@c2ﾂﾖｻ ");
 
     for (var_s1 = 0; var_s1 < var_s0; var_s1++) {
