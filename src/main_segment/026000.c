@@ -91,7 +91,8 @@ s32 func_8003E4B4(struct_8008E364 *arg0, char *arg1, s32 arg2) {
 
             case 'm':
                 if (temp_s0->unk_04 != NULL) {
-                    temp_s0->unk_04(temp_s0->gfxP, temp_s0->unk_08 + (temp_s0->unk_0C * 6), temp_s0->unk_0A + (temp_s0->unk_0E * 8), temp_s1);
+                    temp_s0->unk_04(temp_s0->gfxP, temp_s0->unk_08 + (temp_s0->unk_0C * 6),
+                                    temp_s0->unk_0A + (temp_s0->unk_0E * 8), temp_s1);
                 }
                 temp_s0->unk_10 = 0xFF;
                 break;
@@ -117,7 +118,8 @@ s32 func_8003E4B4(struct_8008E364 *arg0, char *arg1, s32 arg2) {
                 }
             } else {
                 if (temp_s0->gfxP != NULL) {
-                    func_8003E3F0(temp_s0->gfxP, temp_s0->unk_08 + temp_s0->unk_0C * 6, temp_s0->unk_0A + temp_s0->unk_0E * 8,  temp_s1);
+                    func_8003E3F0(temp_s0->gfxP, temp_s0->unk_08 + temp_s0->unk_0C * 6,
+                                  temp_s0->unk_0A + temp_s0->unk_0E * 8, temp_s1);
                 }
                 temp_s0->unk_0C++;
             }

@@ -196,18 +196,18 @@ char *func_8003D110(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4) {
             }
 
             sp10 = arg0;
-            dumb_loop:
-                if (sp10 >= 10.0) {
-                    var_s1 += 1;
-                    sp10 *= 0.1;
-                } else if (sp10 < 1.0) {
-                    var_s1 -= 1;
-                    sp10 *= 10.0;
-                } else {
-                    goto loop_end;
-                }
-                goto dumb_loop;
-            loop_end:;
+        dumb_loop:
+            if (sp10 >= 10.0) {
+                var_s1 += 1;
+                sp10 *= 0.1;
+            } else if (sp10 < 1.0) {
+                var_s1 -= 1;
+                sp10 *= 10.0;
+            } else {
+                goto loop_end;
+            }
+            goto dumb_loop;
+        loop_end:;
 
             var_s0 = B_800E5860;
             do {
