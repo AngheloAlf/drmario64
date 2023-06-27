@@ -6,6 +6,7 @@
 #include "gcc/memory.h"
 #include "gcc/string.h"
 #include "libc/stdarg.h"
+#include "libc/math.h"
 
 #if VERSION_US
 char *func_8003CE20(char arg0[0x100], u32 arg1, u32 arg2, char *arg3) {
@@ -112,128 +113,115 @@ void func_8003CFA8(char *arg0, u32 arg1, s32 arg2, char *arg3, s32 arg4, s32 arg
 }
 #endif
 
-#if VERSION_US
-#if 0
-f64 modf(f64, f64 *);                               /* extern */
-extern s8 B_800E5860;
-extern f64 D_8008D248;
-extern f64 D_8008D290;
+char *func_8003D110(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4);
+extern char B_800E5860[];
 
-s8 *func_8003D110(f64 arg0, f32 arg1, s32 arg2, s32 *arg3, s32 *arg4) {
-    f64 sp10;
+extern f64 D_8008D208[];
+extern f64 D_8008D250[];
+
+typedef union {
+    struct {
+        /* 0x0 */ u32 hi;
+        /* 0x4 */ u32 lo;
+    } word;
+    /* 0x0 */ f64 d;
+} du; // size = 0x8
+
+#if VERSION_US
+#ifdef NON_EQUIVALENT
+char *func_8003D110(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4) {
+    du var_fa0;
     f64 sp18;
-    f64 *var_a0;
-    f64 *var_a0_2;
-    f64 *var_v0_2;
-    f64 *var_v0_3;
-    f64 var_fa0;
-    s32 temp_v0;
     s32 var_a2;
     s32 var_s1;
     s32 var_s2;
-    s32 var_s3;
-    s32 var_v0;
     s32 var_v1;
-    s32 var_v1_2;
     s8 *var_s0;
-    s8 *var_s0_2;
 
-    var_fa0 = arg0;
-    var_s3 = arg2;
     var_s1 = 0;
     var_a2 = 0x100;
-    var_s2 = var_s3;
+    var_s2 = arg2;
     *arg4 = 0;
-    if (var_s3 >= 0x14) {
-        var_s3 = 0x14;
+    if (arg2 >= 0x14) {
+        arg2 = 0x14;
         var_s2 = 0x13;
     }
-    temp_v0 = (bitwise s32) arg1 & 0x7FF00000;
-    switch (temp_v0) {                              /* irregular */
+    var_fa0.d = arg0;
+
+    switch (var_fa0.word.hi & 0x7FF00000) { /* irregular */
         case 0x0:
-            var_s0 = &B_800E5860;
-            var_v1 = 0;
-            if (var_s3 > 0) {
-                do {
-                    *var_s0 = 0x30;
-                    var_v1 += 1;
-                    var_s0 += 1;
-                } while (var_v1 < var_s3);
+            var_s0 = B_800E5860;
+            for (var_v1 = 0; var_v1 < arg2; var_v1++) {
+                *var_s0++ = 0x30;
             }
-            var_v0 = 1;
-block_38:
-            *arg3 = var_v0;
-            return &B_800E5860;
+
+            *arg3 = 1;
+            break;
+
         case 0x7FF00000:
             *arg3 = 0x7FFFFFFF;
-            if (((bitwise s32) arg1 & 0xFFFFF) || ((bitwise s32) var_fa0 != 0)) {
-                B_800E5860 = (unaligned s32) *"NAN";
+            if ((var_fa0.word.hi & 0xFFFFF) || (var_fa0.word.lo != 0)) {
+                strcpy(B_800E5860, "NAN");
                 *arg4 = 0;
-                return &B_800E5860;
+            } else {
+                strcpy(B_800E5860, "INF");
             }
-            B_800E5860 = (unaligned s32) *"INF";
-            return &B_800E5860;
+            break;
+
         default:
-            if (var_fa0 < 0.0) {
+            if (arg0 < 0.0) {
                 *arg4 = 1;
-                var_fa0 = -var_fa0;
+                arg0 = -arg0;
             }
-            var_v1_2 = 8;
-            if (var_fa0 >= 1.0) {
-                var_a0 = &D_8008D290;
-                var_v0_2 = &D_8008D248;
-                do {
-                    if (*var_v0_2 <= var_fa0) {
+
+            if (arg0 >= 1.0) {
+                for (var_v1 = 8; var_v1 >= 0; var_v1--) {
+                    if (D_8008D208[var_v1] <= arg0) {
                         var_s1 += var_a2;
-                        var_fa0 *= *var_a0;
+                        arg0 *= D_8008D250[var_v1];
                     }
                     var_a2 = var_a2 >> 1;
-                    var_a0 -= 8;
-                    var_v1_2 -= 1;
-                    var_v0_2 -= 8;
-                } while (var_v1_2 >= 0);
+                }
             } else {
-                var_a0_2 = &D_8008D248;
-                var_v0_3 = &D_8008D290;
-                do {
-                    if (var_fa0 < *var_v0_3) {
+                for (var_v1 = 8; var_v1 >= 0; var_v1--) {
+                    if (arg0 < D_8008D250[var_v1]) {
                         var_s1 -= var_a2;
-                        var_fa0 *= *var_a0_2;
+                        arg0 *= D_8008D208[var_v1];
                     }
                     var_a2 = var_a2 >> 1;
-                    var_a0_2 -= 8;
-                    var_v1_2 -= 1;
-                    var_v0_3 -= 8;
-                } while (var_v1_2 >= 0);
+                }
                 var_s1 -= 1;
-                var_fa0 *= 10.0;
+                arg0 *= 10.0;
             }
-            sp10 = var_fa0;
-loop_29:
-            if (sp10 >= 10.0) {
-                var_s1 += 1;
-                sp10 *= 0.1;
-                goto loop_29;
+
+            while (true) {
+                if (arg0 >= 10.0) {
+                    var_s1 += 1;
+                    arg0 *= 0.1;
+                } else if (arg0 < 1.0) {
+                    var_s1 -= 1;
+                    arg0 *= 10.0;
+                } else {
+                    break;
+                }
             }
-            if (sp10 < 1.0) {
-                var_s1 -= 1;
-                sp10 *= 10.0;
-                goto loop_29;
-            }
-            var_s0_2 = &B_800E5860;
+
+            var_s0 = B_800E5860;
             do {
+                arg0 = modf(arg0, &sp18) * 10.0;
+                *var_s0++ = (s32)sp18 + 0x30;
                 var_s2 -= 1;
-                sp10 = modf(sp10, &sp18) * 10.0;
-                *var_s0_2 = (s32) sp18 + 0x30;
-                var_s0_2 += 1;
             } while (var_s2 >= 0);
-            if (var_s3 >= 0x14) {
-                var_v0 = var_s1 + 1;
+
+            if (arg2 >= 0x14) {
+                *arg3 = var_s1 + 1;
             } else {
-                var_v0 = func_8003CF2C(&B_800E5860, var_s1, var_s3) + 1;
+                *arg3 = func_8003CF2C(&B_800E5860, var_s1, arg2) + 1;
             }
-            goto block_38;
+            break;
     }
+
+    return B_800E5860;
 }
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/024C40", func_8003D110);
@@ -241,132 +229,117 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/024C40", func_8003D110);
 #endif
 
 #if VERSION_US
-#if 0
-s32 func_8003D110(?, s32);                          /* extern */
-extern s8 B_800E5860;
-
-s8 *func_8003D41C(s32 arg2, s32 *arg3, s32 arg4) {
+char *func_8003D41C(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4) {
     s32 temp_a1;
-    s32 temp_v1;
     s32 var_a2;
-    s32 var_a2_2;
-    s8 *var_v1;
+    char *temp_v1;
 
-    temp_v1 = func_8003D110(0x14, arg4);
+    temp_v1 = func_8003D110(arg0, 0x14, arg3, arg4);
     temp_a1 = *arg3;
-    if (temp_a1 != 0x7FFFFFFF) {
-        var_a2 = temp_a1 + arg2;
-        if (var_a2 >= 0) {
-            if (var_a2 < 0x14) {
-                *arg3 = func_8003CF2C(&B_800E5860, temp_a1, var_a2);
-            } else {
-                if (var_a2 >= 0x29) {
-                    var_a2 = 0x28;
-                }
-                var_a2_2 = var_a2 - 0x14;
-                var_v1 = temp_v1 + 0x14;
-                if (var_a2_2 > 0) {
-                    do {
-                        *var_v1 = 0x30;
-                        var_a2_2 -= 1;
-                        var_v1 += 1;
-                    } while (var_a2_2 > 0);
-                }
-            }
+    if (temp_a1 == 0x7FFFFFFF) {
+        return B_800E5860;
+    }
+
+    var_a2 = temp_a1 + arg2;
+    if (var_a2 < 0) {
+        return B_800E5860;
+    }
+
+    if (var_a2 < 0x14) {
+        *arg3 = func_8003CF2C(B_800E5860, temp_a1, var_a2);
+    } else {
+        var_a2 = MIN(var_a2, 40);
+
+        var_a2 -= 20;
+        temp_v1 += 20;
+        for (; var_a2 > 0; var_a2--) {
+            *temp_v1++ = '0';
         }
     }
-    return &B_800E5860;
+
+    return B_800E5860;
 }
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/024C40", func_8003D41C);
 #endif
-#endif
+
+char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5);
 
 #if VERSION_US
-#if 0
-s8 *func_8003D110(s32 *, s32 *);                    /* extern */
-
-s8 *func_8003D4C8(s32 arg2, s8 *arg3, s32 arg4, s32 arg5) {
+#ifdef NON_EQUIVALENT
+char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
     s32 sp18;
     s32 sp1C;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 var_s1;
-    s8 *var_a1;
-    s8 *var_s0;
-    s8 *var_s0_2;
+    char *var_a1;
+    char *var_s0;
 
-    var_a1 = func_8003D110(&sp18, &sp1C);
+    var_a1 = func_8003D110(arg0, arg2, &sp18, &sp1C);
     var_s0 = arg3;
     if (sp1C != 0) {
         *arg3 = 0x2D;
         var_s0 = arg3 + 1;
     }
+
     if (sp18 == 0x7FFFFFFF) {
         strcpy(var_s0, var_a1);
         return arg3;
     }
+
     if (sp18 <= 0) {
         if (sp18 >= -3) {
-            *var_s0 = 0x30;
-            var_s0[1] = 0x2E;
-            var_s0_2 = &var_s0[1].unk_1;
-            if (sp18 != 0) {
-                do {
-                    *var_s0_2 = 0x30;
-                    var_s0_2 += 1;
-                    temp_v0 = sp18 + 1;
-                    sp18 = temp_v0;
-                } while (temp_v0 != 0);
+            *var_s0++ = 0x30;
+            *var_s0++ = 0x2E;
+
+            while (sp18 != 0) {
+                *var_s0++ = 0x30;
+                sp18 = sp18 + 1;
             }
-            memcpy(var_s0_2, var_a1, (u32) arg2);
-            var_s0 = var_s0_2 + arg2;
-            goto block_10;
-        }
-        goto block_27;
-    }
-    if (sp18 < arg2) {
-        var_s1 = arg2 - 1;
-        if (var_s1 != -1) {
-loop_19:
-            *var_s0 = (s8) (u8) *var_a1;
-            var_a1 += 1;
-            var_s0 += 1;
-            temp_v0_2 = sp18 - 1;
-            sp18 = temp_v0_2;
-            if (temp_v0_2 == 0) {
-                *var_s0 = 0x2E;
-                var_s0 += 1;
-            }
-            var_s1 -= 1;
-            if (var_s1 != -1) {
-                goto loop_19;
-            }
-        }
-block_10:
-        if (arg5 != 0) {
-            var_s0->unk_0 = 0;
-        } else {
-            if (var_s0->unk_-1 == 0x30) {
-                do {
+
+            memcpy(var_s0, var_a1, (u32)arg2);
+            var_s0 = var_s0 + arg2;
+            if (arg5 != 0) {
+                var_s0[0] = 0;
+            } else {
+                while (var_s0[-1] == 0x30) {
                     var_s0 -= 1;
-                } while (var_s0->unk_-1 == 0x30);
+                }
+
+                var_s0[var_s0[-1] == 0x2E ? -1 : 0] = 0;
             }
-            *(var_s0 - (var_s0->unk_-1 == 0x2E)) = 0;
+            return arg3;
         }
+    } else if (sp18 < arg2) {
+        arg2 = arg2 - 1;
+        while (arg2 != -1) {
+            *var_s0++ = *var_a1++;
+            sp18--;
+            if (sp18 == 0) {
+                *var_s0++ = 0x2E;
+            }
+            arg2 -= 1;
+        }
+
+        if (arg5 != 0) {
+            var_s0[0] = 0;
+        } else {
+            while (var_s0[-1] == 0x30) {
+                var_s0 -= 1;
+            }
+
+            var_s0[var_s0[-1] == 0x2E ? -1 : 0] = 0;
+        }
+        return arg3;
     } else if ((arg2 + 1) >= sp18) {
-        memcpy(var_s0, var_a1, (u32) sp18);
+        memcpy(var_s0, var_a1, sp18);
         var_s0[arg2] = 0x30;
         if (arg5 == 0) {
             var_s0[sp18] = 0;
         } else {
             var_s0[sp18] = 0x2E;
-            var_s0[sp18].unk_1 = 0;
+            var_s0[sp18 + 1] = 0;
         }
-    } else {
-block_27:
-        func_8003CFA8(var_a1, (u32) arg2, sp18 - 1, var_s0, arg4, arg5);
+        return arg3;
     }
+
+    func_8003CFA8(var_a1, arg2, sp18 - 1, var_s0, arg4, arg5);
     return arg3;
 }
 #else

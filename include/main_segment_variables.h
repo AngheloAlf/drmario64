@@ -126,8 +126,6 @@ extern s32 D_8008CFE0;
 
 // extern UNK_TYPE D_8008D1E0;
 // extern UNK_TYPE D_8008D1F4;
-// extern UNK_TYPE D_8008D248;
-// extern UNK_TYPE D_8008D290;
 // extern UNK_TYPE D_8008D2D0;
 // extern UNK_TYPE D_8008D500;
 // extern UNK_TYPE D_8008E1B0;
