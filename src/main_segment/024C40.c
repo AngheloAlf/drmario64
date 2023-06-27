@@ -113,7 +113,6 @@ void func_8003CFA8(char *arg0, u32 arg1, s32 arg2, char *arg3, s32 arg4, s32 arg
 }
 #endif
 
-char *func_8003D110(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4);
 extern char B_800E5860[];
 
 extern f64 D_8008D208[];
@@ -128,15 +127,15 @@ typedef union {
 } du; // size = 0x8
 
 #if VERSION_US
-#ifdef NON_EQUIVALENT
 char *func_8003D110(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4) {
+    volatile f64 sp10;
     du var_fa0;
     f64 sp18;
     s32 var_a2;
     s32 var_s1;
     s32 var_s2;
     s32 var_v1;
-    s8 *var_s0;
+    char *var_s0;
 
     var_s1 = 0;
     var_a2 = 0x100;
@@ -148,7 +147,7 @@ char *func_8003D110(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4) {
     }
     var_fa0.d = arg0;
 
-    switch (var_fa0.word.hi & 0x7FF00000) { /* irregular */
+    switch (var_fa0.word.hi & 0x7FF00000) {
         case 0x0:
             var_s0 = B_800E5860;
             for (var_v1 = 0; var_v1 < arg2; var_v1++) {
@@ -163,8 +162,10 @@ char *func_8003D110(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4) {
             if ((var_fa0.word.hi & 0xFFFFF) || (var_fa0.word.lo != 0)) {
                 strcpy(B_800E5860, "NAN");
                 *arg4 = 0;
+                return B_800E5860;
             } else {
                 strcpy(B_800E5860, "INF");
+                return B_800E5860;
             }
             break;
 
@@ -194,38 +195,37 @@ char *func_8003D110(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4) {
                 arg0 *= 10.0;
             }
 
-            while (true) {
-                if (arg0 >= 10.0) {
+            sp10 = arg0;
+            dumb_loop:
+                if (sp10 >= 10.0) {
                     var_s1 += 1;
-                    arg0 *= 0.1;
-                } else if (arg0 < 1.0) {
+                    sp10 *= 0.1;
+                } else if (sp10 < 1.0) {
                     var_s1 -= 1;
-                    arg0 *= 10.0;
+                    sp10 *= 10.0;
                 } else {
-                    break;
+                    goto loop_end;
                 }
-            }
+                goto dumb_loop;
+            loop_end:;
 
             var_s0 = B_800E5860;
             do {
-                arg0 = modf(arg0, &sp18) * 10.0;
-                *var_s0++ = (s32)sp18 + 0x30;
-                var_s2 -= 1;
+                sp10 = modf(sp10, &sp18) * 10.0;
+                *var_s0++ = (s32)sp18 + '0';
+                var_s2--;
             } while (var_s2 >= 0);
 
-            if (arg2 >= 0x14) {
+            if (arg2 >= 20) {
                 *arg3 = var_s1 + 1;
             } else {
-                *arg3 = func_8003CF2C(&B_800E5860, var_s1, arg2) + 1;
+                *arg3 = func_8003CF2C(B_800E5860, var_s1, arg2) + 1;
             }
             break;
     }
 
     return B_800E5860;
 }
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/024C40", func_8003D110);
-#endif
 #endif
 
 #if VERSION_US
@@ -293,7 +293,7 @@ char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
                 sp18 = sp18 + 1;
             }
 
-            memcpy(var_s0, var_a1, (u32)arg2);
+            memcpy(var_s0, var_a1, arg2);
             var_s0 = var_s0 + arg2;
             if (arg5 != 0) {
                 var_s0[0] = 0;
@@ -304,6 +304,7 @@ char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
 
                 var_s0[var_s0[-1] == 0x2E ? -1 : 0] = 0;
             }
+
             return arg3;
         }
     } else if (sp18 < arg2) {
@@ -326,8 +327,9 @@ char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
 
             var_s0[var_s0[-1] == 0x2E ? -1 : 0] = 0;
         }
+
         return arg3;
-    } else if ((arg2 + 1) >= sp18) {
+    } else if (arg2 + 1 >= sp18) {
         memcpy(var_s0, var_a1, sp18);
         var_s0[arg2] = 0x30;
         if (arg5 == 0) {
@@ -336,6 +338,7 @@ char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
             var_s0[sp18] = 0x2E;
             var_s0[sp18 + 1] = 0;
         }
+
         return arg3;
     }
 

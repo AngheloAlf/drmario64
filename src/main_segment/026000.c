@@ -33,7 +33,7 @@ UNK_TYPE func_8003E430(struct_8008E364 *arg0, va_list args) {
     struct_8008E364_unk_4 *ptr = arg0->unk_4;
 
     ptr->gfxP = va_arg(args, Gfx **);
-    ptr->unk_04 = va_arg(args, UNK_FUN_PTR);
+    ptr->unk_04 = va_arg(args, struct_8008E364_unk_4_unk_04);
     ptr->unk_08 = va_arg(args, UNK_TYPE);
     ptr->unk_0A = va_arg(args, UNK_TYPE);
 
@@ -56,7 +56,75 @@ UNK_TYPE func_8003E4AC(void) {
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/026000", func_8003E4B4);
+s32 func_8003E4B4(struct_8008E364 *arg0, char *arg1, s32 arg2) {
+    s32 var_s3 = arg2;
+    struct_8008E364_unk_4 *temp_s0 = arg0->unk_4;
+
+    while (var_s3 > 0) {
+        s32 temp_v1;
+        s32 temp_s1;
+
+        var_s3--;
+        temp_v1 = temp_s0->unk_10;
+        temp_s1 = *arg1++;
+
+        switch (temp_v1) {
+            case '@':
+                switch (temp_s1) {
+                    case 'c':
+                    case 'm':
+                        temp_s0->unk_10 = temp_s1;
+                        break;
+
+                    default:
+                        temp_s0->unk_10 = 0;
+                        break;
+                }
+                break;
+
+            case 'c':
+                if (temp_s0->gfxP != NULL) {
+                    func_8003E208(temp_s0->gfxP, temp_s1 - '0');
+                }
+                temp_s0->unk_10 = 0xFF;
+                break;
+
+            case 'm':
+                if (temp_s0->unk_04 != NULL) {
+                    temp_s0->unk_04(temp_s0->gfxP, temp_s0->unk_08 + (temp_s0->unk_0C * 6), temp_s0->unk_0A + (temp_s0->unk_0E * 8), temp_s1);
+                }
+                temp_s0->unk_10 = 0xFF;
+                break;
+
+            default:
+                temp_s0->unk_10 = '\0';
+                break;
+        }
+
+        if (temp_s0->unk_10 == '\0') {
+            if (temp_s1 == '@') {
+                temp_s0->unk_10 = temp_s1;
+            } else if (temp_s1 < ' ') {
+                switch (temp_s1) {
+                    case '\t':
+                        temp_s0->unk_0C = (temp_s0->unk_0C + 4) & ~3;
+                        break;
+
+                    case '\n':
+                        temp_s0->unk_0C = 0;
+                        temp_s0->unk_0E++;
+                        break;
+                }
+            } else {
+                if (temp_s0->gfxP != NULL) {
+                    func_8003E3F0(temp_s0->gfxP, temp_s0->unk_08 + temp_s0->unk_0C * 6, temp_s0->unk_0A + temp_s0->unk_0E * 8,  temp_s1);
+                }
+                temp_s0->unk_0C++;
+            }
+        }
+    }
+    return arg2;
+}
 #endif
 
 #if VERSION_CN

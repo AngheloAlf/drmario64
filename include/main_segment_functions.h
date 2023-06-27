@@ -145,7 +145,7 @@ void func_8003A950(Gfx **gfxP);
 
 UNK_TYPE func_8003CDA0(struct_8008E364 *arg0, ...);
 UNK_TYPE func_8003CDD4(struct_8008E364 *arg0);
-// void func_8003CDF8();
+s32 func_8003CDF8(struct_8008E364 *arg0, char *arg1, s32 arg2);
 
 // void func_8003CE20();
 // void func_8003CE5C();
@@ -162,7 +162,7 @@ void func_8003E208(Gfx **gfxP, s32 index);
 void func_8003E3F0(Gfx **gfxP, s32, s32, s32 arg3);
 UNK_TYPE func_8003E430(struct_8008E364 *arg0, va_list args);
 s32 func_8003E4AC(void);
-// void func_8003E4B4();
+s32 func_8003E4B4(struct_8008E364 *arg0, char *arg1, s32 arg2);
 s32 func_8003E69C(Gfx **gfxP, func_8003E69C_arg1 arg1, s32 arg2, s32 arg3);
 void func_8003E6D8(void);
 void func_8003E6F8(const char *fmt, ...);

@@ -27,5 +27,7 @@ UNK_TYPE func_8003CDD4(struct_8008E364 *arg0) {
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/024BC0", func_8003CDF8);
+s32 func_8003CDF8(struct_8008E364 *arg0, char *arg1, s32 arg2) {
+    return arg0->unk_0->unk_8(arg0, arg1, arg2);
+}
 #endif
