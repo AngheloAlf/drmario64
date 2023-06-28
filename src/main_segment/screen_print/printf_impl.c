@@ -1,3 +1,9 @@
+/**
+ * printf implementation based on kmc's libgcc PRINTF.C
+ *
+ * The name is completely made up.
+ */
+
 #include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -74,7 +80,7 @@ s32 func_8003CF2C(char *arg0, s32 arg1, s32 arg2) {
 #endif
 
 #if VERSION_US
-void func_8003CFA8(char *arg0, u32 arg1, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
+void func_8003CFA8(char *arg0, s32 arg1, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
     arg1--;
     *arg3++ = *arg0++;
     *arg3++ = '.';
@@ -338,12 +344,13 @@ char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
 }
 #endif
 
-extern u8 D_80010940[];
+extern u8 __ctype_map[];
 extern char D_8008D1E0[];
 extern char D_8008D1F4[];
 
 #if VERSION_US
 #ifdef NON_MATCHING
+//#if 1
 int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
     char sp18[0x100];
     char sp118;
@@ -355,15 +362,13 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
     char sp12D;
     char sp12E;
     char sp12F;
-    // struct_8008E364 *sp134;
-    // s8 *sp13C;
     s32 sp144;
     s32 sp14C;
     s32 sp154;
     char *sp15C;
     s32 sp164;
-    f64 var_fa0;
-    f64 var_fs0;
+    double var_fa0;
+    double var_fs0;
     s32 var_a1;
     long long var_a2;
     s32 var_fp;
@@ -377,13 +382,9 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
     char *var_s0_3;
     char *var_s1;
     char *var_s2_3;
-    // s8 *var_s5;
     s32 var_s0;
 
-    // var_s5 = fmt;
     var_fp = 0;
-    // sp134 = arg0;
-    // sp13C = args;
 
     while (true) {
         sp118 = *fmt++;
@@ -392,7 +393,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
             if (sp118 == 0) {
                 return var_fp;
             }
-            if (D_80010940[sp118] & 0x80) {
+            if (__ctype_map[sp118] & 0x80) {
                 func_8003CDF8(arg0, &sp118, 1);
                 var_fp += 1;
                 sp118 = *fmt++;
@@ -439,7 +440,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
             sp118 = *fmt++;
         } else {
             var_s6 = 0;
-            while (D_80010940[sp118] & 8) {
+            while (__ctype_map[sp118] & 8) {
                 var_s6 = (var_s6 * 0xA) + (sp118 - 0x30);
                 sp118 = *fmt++;
             }
@@ -454,7 +455,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
                 sp118 = *fmt++;
             } else {
                 var_s4 = 0;
-                while (D_80010940[sp118] & 8) {
+                while (__ctype_map[sp118] & 8) {
                     var_s2 = (var_s2 * 0xA) + (sp118 - 0x30);
                     sp118 = *fmt++;
                 }
@@ -600,6 +601,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
 
             case 'E': // 0x45
             case 'e': // 0x65
+            {
                 var_fs0 = va_arg(args, double);
             block_83:
                 temp_a1 = func_8003D110(var_fs0, var_s4, &sp124, &sp128);
@@ -607,6 +609,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
                 if (sp128 != 0) {
                     var_s3 |= 0x100;
                 }
+
                 if (sp124 == 0x7FFFFFFF) {
                     strcpy(var_s0_3, temp_a1);
                 } else {
@@ -616,6 +619,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
                 var_s2 = 0;
                 sp154 = 1;
                 goto block_117;
+            }
 
             case 'G': // 0x47
             case 'g': // 0x67
@@ -806,6 +810,6 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
     }
 }
 #else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/024C40", func_8003D6D0);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/screen_print/printf_impl", func_8003D6D0);
 #endif
 #endif

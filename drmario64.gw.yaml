@@ -331,6 +331,8 @@ segments:
       - [0x095BB0, rodata, main_segment/095BB0]
       - [0x095D50, rodata, main_segment/095D50]
 
+      - [0x095D90, rodata, main_segment/095D90]
+
       - [0x095EE0, .rodata, main_segment/026550]
 
       - [0x096740, rodata, main_segment/096740]

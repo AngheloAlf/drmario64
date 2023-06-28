@@ -354,10 +354,11 @@ segments:
       - [0x020D10, c, main_segment/020D10]
 
       - [0x0227C0, c, main_segment/game_etc]
-      - [0x024BC0, c, main_segment/024BC0]
-      - [0x024C40, c, main_segment/024C40]
 
-      - [0x026000, c, main_segment/026000]
+      - [0x024BC0, c, main_segment/screen_print/024BC0]
+      - [0x024C40, c, main_segment/screen_print/printf_impl]
+      - [0x026000, c, main_segment/screen_print/026000]
+
       - [0x026550, c, main_segment/026550]
 
       - [0x028820, c, main_segment/028820]
@@ -417,7 +418,7 @@ segments:
 
       - [0x075000, data, main_segment/075000]
 
-      - [0x075FD0, data, main_segment/026000]
+      - [0x075FD0, data, main_segment/screen_print/026000]
 
       - [0x076190, .data, main_segment/026550]
 
@@ -459,7 +460,8 @@ segments:
       - [0x094DD0, .rodata, main_segment/020D10]
 
       - [0x094F70, .rodata, main_segment/game_etc]
-      - [0x094FB0, .rodata, main_segment/024C40]
+
+      - [0x094FB0, .rodata, main_segment/screen_print/printf_impl]
 
       - [0x095100, .rodata, main_segment/026550]
 

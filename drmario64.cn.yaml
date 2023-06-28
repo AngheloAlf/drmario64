@@ -305,7 +305,8 @@ segments:
 
       - [0x025650, c, main_segment/game_etc]
       - [0x027D50, c, main_segment/024BC0_cn]
-      - [0x027DF0, c, main_segment/026000]
+
+      - [0x027DF0, c, main_segment/screen_print/026000]
 
       - [0x028350, c, main_segment/026550]
       - [0x02AC40, c, main_segment/028820]
