@@ -14,6 +14,7 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 #include "libc/assert.h"
+#include "libc/ctype.h"
 #include "graphic.h"
 
 #if VERSION_US
@@ -8689,7 +8690,6 @@ const u8 *_nameEntry_charTable[] = {
 #if 0
 ? func_80055DFC(MenuNmEnt *, ?, ?);                 /* extern */
 ? func_80059B5C(struct_watchMenu *);                /* extern */
-extern ? __ctype_map;
 extern ? _nameEntry_charTable;
 
 void menuNmEnt_input(MenuNmEnt *menuNmEnt) {

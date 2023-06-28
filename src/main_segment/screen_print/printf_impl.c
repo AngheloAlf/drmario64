@@ -11,6 +11,7 @@
 #include "main_segment_functions.h"
 #include "gcc/memory.h"
 #include "gcc/string.h"
+#include "libc/ctype.h"
 #include "libc/stdarg.h"
 #include "libc/math.h"
 
@@ -344,7 +345,6 @@ char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
 }
 #endif
 
-extern u8 __ctype_map[];
 extern char D_8008D1E0[];
 extern char D_8008D1F4[];
 

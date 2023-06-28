@@ -290,9 +290,7 @@ segments:
       - [0x0114A0, .data, ../lib/ultralib/src/vimodes/vimodepallan1]
       - [0x0114F0, .data, ../lib/ultralib/src/vimodes/vimodempallan1]
 
-      - [0x011540, data, boot/011540]
-
-      # not sure about the rodata start
+      - [0x011540, .data, libkmc/ctype]
 
       - [0x011640, .rodata, ../lib/ultralib/src/io/devmgr]
       - [0x011660, .rodata, ../lib/ultralib/src/io/aisetfreq]

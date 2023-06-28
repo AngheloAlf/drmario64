@@ -80,7 +80,7 @@ _romDataTbl = 0x8000E978; // size:0x218
 
 sGatewayInitialized = 0x8000EB90; //
 
-D_80010A90_gw = 0x80010A90; // type:u8
+__ctype_map = 0x80010A90; // type:u8
 
 
 // .rodata

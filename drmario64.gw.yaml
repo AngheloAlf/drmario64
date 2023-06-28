@@ -256,6 +256,8 @@ segments:
 
       - [0x00F7A0, data, boot/00F7A0]
 
+      - [0x011690, .data, libkmc/ctype]
+
       - [0x011790, rodata, boot/011790]
       - [0x0117C0, rodata, boot/0117C0]
       - [0x011930, rodata, boot/011930]
@@ -293,7 +295,9 @@ segments:
       - [0x017060, asm, main_segment/017060]
       - [0x017330, asm, main_segment/017330]
       - [0x0255D0, asm, main_segment/0255D0]
-      - [0x025650, asm, main_segment/025650]
+
+      - [0x025650, asm, main_segment/screen_print/printf_impl]
+
       - [0x026A10, asm, main_segment/026A10]
 
       - [0x026F60, c, main_segment/026550]
@@ -331,7 +335,7 @@ segments:
       - [0x095BB0, rodata, main_segment/095BB0]
       - [0x095D50, rodata, main_segment/095D50]
 
-      - [0x095D90, rodata, main_segment/095D90]
+      - [0x095D90, rodata, main_segment/screen_print/printf_impl]
 
       - [0x095EE0, .rodata, main_segment/026550]
 
