@@ -261,10 +261,7 @@ char *func_8003D41C(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4) {
 }
 #endif
 
-char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5);
-
 #if VERSION_US
-#ifdef NON_EQUIVALENT
 char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
     s32 sp18;
     s32 sp1C;
@@ -295,15 +292,18 @@ char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
 
             memcpy(var_s0, var_a1, arg2);
             var_s0 = var_s0 + arg2;
-            if (arg5 != 0) {
-                var_s0[0] = 0;
-            } else {
+
+        label:
+            if (arg5 == 0) {
                 while (var_s0[-1] == 0x30) {
                     var_s0 -= 1;
                 }
 
-                var_s0[var_s0[-1] == 0x2E ? -1 : 0] = 0;
+                if (var_s0[-1] == 0x2E) {
+                    var_s0--;
+                }
             }
+            var_s0[0] = 0;
 
             return arg3;
         }
@@ -318,25 +318,16 @@ char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
             arg2 -= 1;
         }
 
-        if (arg5 != 0) {
-            var_s0[0] = 0;
-        } else {
-            while (var_s0[-1] == 0x30) {
-                var_s0 -= 1;
-            }
-
-            var_s0[var_s0[-1] == 0x2E ? -1 : 0] = 0;
-        }
-
-        return arg3;
+        goto label;
     } else if (arg2 + 1 >= sp18) {
         memcpy(var_s0, var_a1, sp18);
         var_s0[arg2] = 0x30;
+
         if (arg5 == 0) {
             var_s0[sp18] = 0;
         } else {
             var_s0[sp18] = 0x2E;
-            var_s0[sp18 + 1] = 0;
+            *(var_s0 + sp18 + 1) = 0;
         }
 
         return arg3;
@@ -345,9 +336,6 @@ char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
     func_8003CFA8(var_a1, arg2, sp18 - 1, var_s0, arg4, arg5);
     return arg3;
 }
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/024C40", func_8003D4C8);
-#endif
 #endif
 
 extern u8 D_80010940[];
@@ -709,7 +697,8 @@ void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
 
                 // what
                 // var_s0 = (sp - var_s1) + 0x118;
-                var_s0 = var_s1[-sp118];
+                // var_s0 = var_s1[-sp118];
+                var_s0 = (u32)&sp18[0x100] - (u32)var_s1;
 
             block_117:
                 var_s7 = 0;
