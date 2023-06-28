@@ -343,8 +343,8 @@ extern char D_8008D1E0[];
 extern char D_8008D1F4[];
 
 #if VERSION_US
-#if 0
-void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
+#ifdef NON_MATCHING
+int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
     char sp18[0x100];
     char sp118;
     s32 sp11C;
@@ -360,28 +360,23 @@ void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
     s32 sp144;
     s32 sp14C;
     s32 sp154;
-    s8 *sp15C;
+    char *sp15C;
     s32 sp164;
     f64 var_fa0;
     f64 var_fs0;
-    s32 temp_v1_6;
     s32 var_a1;
-    long var_a2;
+    long long var_a2;
     s32 var_fp;
     s32 var_s2;
     s32 var_s3;
     s32 var_s4;
     s32 var_s6;
     s32 var_s7;
-    s32 var_t1;
-    s32 var_v1;
-    s32 var_v1_2;
     s32 var_v1_3;
-    s8 *temp_a1;
-    s8 *var_s0_3;
-    s8 *var_s0_4;
-    s8 *var_s1;
-    s8 *var_s2_3;
+    char *temp_a1;
+    char *var_s0_3;
+    char *var_s1;
+    char *var_s2_3;
     // s8 *var_s5;
     s32 var_s0;
 
@@ -393,15 +388,14 @@ void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
     while (true) {
         sp118 = *fmt++;
 
-        if (sp118 == 0) {
-            return;
-        }
-
         if (sp118 != 0x25) {
+            if (sp118 == 0) {
+                return var_fp;
+            }
             if (D_80010940[sp118] & 0x80) {
                 func_8003CDF8(arg0, &sp118, 1);
-                sp118 = *fmt++;
                 var_fp += 1;
+                sp118 = *fmt++;
             }
             func_8003CDF8(arg0, &sp118, 1);
             var_fp += 1;
@@ -446,14 +440,14 @@ void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
         } else {
             var_s6 = 0;
             while (D_80010940[sp118] & 8) {
-                var_s6 = (var_s6 * 0xA) - 0x30 + sp118;
+                var_s6 = (var_s6 * 0xA) + (sp118 - 0x30);
                 sp118 = *fmt++;
             }
         }
 
         var_s2 = 0;
         var_s4 = 6;
-        if (sp118 == '.') {     // 0x2E
+        if (sp118 == '.') { // 0x2E
             sp118 = *fmt++;
             if (sp118 == '*') { // 0x2A
                 var_s2 = va_arg(args, int);
@@ -461,7 +455,7 @@ void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
             } else {
                 var_s4 = 0;
                 while (D_80010940[sp118] & 8) {
-                    var_s2 = (var_s2 * 0xA) - 0x30 + sp118;
+                    var_s2 = (var_s2 * 0xA) + (sp118 - 0x30);
                     sp118 = *fmt++;
                 }
             }
@@ -469,9 +463,9 @@ void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
             var_s4 = var_s2;
         }
 
-        sp15C = D_8008D1E0;
         sp154 = 0;
         sp144 = 0;
+        sp15C = D_8008D1E0;
         sp14C = 0xA;
 
     loop_26:
@@ -481,27 +475,29 @@ void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
                 sp144 = 1;
                 goto block_100;
 
+            case 'u': // 0x75
+                goto block_100;
+
             case 'o': // 0x6F
-                var_t1 = 8;
-                sp14C = var_t1;
+                sp14C = 8;
                 var_s3 &= ~0xA;
                 goto block_100;
 
             case 'X': // 0x58
                 sp15C = D_8008D1F4;
                 /* fallthrough */
+                FALLTHROUGH;
+
             case 'x': // 0x78
-                var_t1 = 0x10;
-                sp14C = var_t1;
+                sp14C = 0x10;
                 var_s3 &= ~0xA;
                 goto block_100;
 
-            case 'n': // 0x6E
-                {
-                    int *n = va_arg(args, int *);
-                    *n = var_fp;
-                }
-                break;
+            case 'c': // 0x63
+                var_s1 = sp18;
+                sp18[0] = va_arg(args, int);
+                var_s0 = 1;
+                goto block_151;
 
             case 's': // 0x73
                 var_s1 = va_arg(args, char *);
@@ -515,103 +511,106 @@ void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
                 }
                 goto block_151;
 
-            case 'E': // 0x45
-            case 'e': // 0x65
-                var_fs0 = va_arg(args, double);
-                goto block_83;
-
             case 'f': // 0x66
+            {
                 var_fs0 = va_arg(args, double);
 
                 var_s2_3 = func_8003D41C(var_fs0, var_s4, &sp11C, &sp120);
                 if (sp120 != 0) {
                     var_s3 |= 0x100;
                 }
-                var_s1 = &sp18[1];
+                var_s0_3 = var_s1 = &sp18[1];
                 if (sp11C == 0x7FFFFFFF) {
-                    strcpy(var_s1, var_s2_3);
+                    strcpy(var_s0_3, var_s2_3);
                 } else {
-                    temp_v1_6 = sp11C + var_s4;
                     if (sp11C <= 0) {
-                        var_s0_3 = &sp18[3];
-                        var_v1_2 = 0;
-                        sp18[1] = 0x30;
-                        sp18[2] = 0x2E;
+                        *var_s0_3++ = 0x30;
+                        *var_s0_3++ = 0x2E;
+                        var_v1_3 = 0;
                         while (sp11C != 0) {
-                            *var_s0_3 = 0x30;
-                            var_s0_3 += 1;
-                            var_v1_2 += 1;
+                            *var_s0_3++ = 0x30;
+                            var_v1_3 += 1;
                             sp11C = sp11C + 1;
-                            if (var_v1_2 == var_s4) {
-                                goto block_80;
+                            if (var_v1_3 == var_s4) {
+                                // goto block_80;
+                                break;
                             }
                         }
 
-                        while (var_v1_2 != var_s4) {
+                        while (var_v1_3 != var_s4) {
                             *var_s0_3++ = *var_s2_3++;
-                            var_v1_2 += 1;
+                            var_v1_3 += 1;
                         }
 
                         *var_s0_3 = 0;
-                    } else if (temp_v1_6 < 0x28) {
-                        memcpy(var_s1, var_s2_3, sp11C);
-                        var_s0_4 = &var_s1[sp11C];
-                        if (var_s4 != 0) {
-                            *var_s0_4 = 0x2E;
-                            var_s0_4 = var_s0_4 + 1;
-                            memcpy(var_s0_4, &var_s2_3[sp11C], var_s4);
-                        } else {
-                            if (sp164 != 0) {
-                                *var_s0_4 = 0x2E;
-                                var_s0_4 += 1;
-                            }
-                        }
-                        var_s0_4[var_s4] = 0;
-                    } else if (temp_v1_6 < 0xFF) {
-                        memcpy(var_s1, var_s2_3, 0x28);
-
-                        if (sp11C >= 0x29) {
-                            var_s0_3 = var_s1 + 0x28;
-                            var_v1_3 = sp11C - 0x28;
-                            while (var_v1_3 != 0) {
-                                *var_s0_3++ = 0x30;
-                                var_v1_3 -= 1;
-                            }
-                        } else {
-                            var_s0_3 = &var_s1[sp11C];
-                        }
-
+                    } else if (sp11C + var_s4 < 0x28) {
+                        memcpy(var_s0_3, var_s2_3, sp11C);
+                        var_s2_3 += sp11C;
+                        var_s0_3 += sp11C;
                         if (var_s4 != 0) {
                             *var_s0_3 = 0x2E;
                             var_s0_3 = var_s0_3 + 1;
-                            while (var_s4 != 0) {
-                                *var_s0_3++ = 0x30;
-                                var_s4 -= 1;
-                            }
-                            *var_s0_3 = 0;
+                            memcpy(var_s0_3, var_s2_3, var_s4);
                         } else {
                             if (sp164 != 0) {
                                 *var_s0_3 = 0x2E;
                                 var_s0_3 += 1;
                             }
-                        block_80:
-                            *var_s0_3 = 0;
                         }
+                        var_s0_3[var_s4] = 0;
+                    } else if (sp11C + var_s4 < 0xFF) {
+                        memcpy(var_s0_3, var_s2_3, 0x28);
+
+                        if (sp11C <= 0x28) {
+                            var_s0_3 += sp11C;
+                        } else {
+                            var_s0_3 += 0x28;
+                            var_v1_3 = sp11C - 0x28;
+                            do {
+                                *var_s0_3++ = 0x30;
+                                var_v1_3 -= 1;
+                            } while (var_v1_3 != 0);
+                        }
+
+                        if (var_s4 != 0) {
+                            *var_s0_3++ = 0x2E;
+                            var_v1_3 = var_s4;
+                            do {
+                                *var_s0_3++ = 0x30;
+                                var_v1_3 -= 1;
+                            } while (var_v1_3 != 0);
+                        } else {
+                            if (sp164 != 0) {
+                                *var_s0_3 = 0x2E;
+                                var_s0_3 += 1;
+                            }
+                        }
+                        *var_s0_3 = 0;
                     } else {
                         var_s4 = 0x14;
                         sp118 = 0x65;
-                    block_83:
-                        var_s1 = &sp18[1];
-                        temp_a1 = func_8003D110(var_fs0, var_s4, &sp124, &sp128);
-                        if (sp128 != 0) {
-                            var_s3 |= 0x100;
-                        }
-                        if (sp124 == 0x7FFFFFFF) {
-                            strcpy(var_s1, temp_a1);
-                        } else {
-                            func_8003CFA8(temp_a1, var_s4, sp124 - 1, var_s1, (s32)sp118, sp164);
-                        }
+                        goto block_83;
                     }
+                }
+                var_s0 = strlen(var_s1);
+                var_s2 = 0;
+                sp154 = 1;
+            }
+                goto block_117;
+
+            case 'E': // 0x45
+            case 'e': // 0x65
+                var_fs0 = va_arg(args, double);
+            block_83:
+                temp_a1 = func_8003D110(var_fs0, var_s4, &sp124, &sp128);
+                var_s0_3 = var_s1 = &sp18[1];
+                if (sp128 != 0) {
+                    var_s3 |= 0x100;
+                }
+                if (sp124 == 0x7FFFFFFF) {
+                    strcpy(var_s0_3, temp_a1);
+                } else {
+                    func_8003CFA8(temp_a1, var_s4, sp124 - 1, var_s0_3, sp118, sp164);
                 }
                 var_s0 = strlen(var_s1);
                 var_s2 = 0;
@@ -625,17 +624,19 @@ void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
                     var_s3 |= 0x100;
                     var_fa0 = -var_fa0;
                 }
-                sp154 = 1;
-                var_s2 = 0;
-                var_s1 = func_8003D4C8(var_fa0, var_s4, &sp18[1], sp118 - 2, sp164);
+                var_s1 = func_8003D4C8(var_fa0, var_s4, sp18 + 1, sp118 - 2, sp164);
                 var_s0 = strlen(var_s1);
+                var_s2 = 0;
+                sp154 = 1;
                 goto block_117;
 
-            case 'c': // 0x63
-                var_s1 = &sp18;
-                var_s0 = 1;
-                sp18[0] = va_arg(args, int);
-                goto block_151;
+            case 'n': // 0x6E
+            {
+                int *n = va_arg(args, int *);
+                *n = var_fp;
+            }
+                goto next;
+                break;
 
             case 'p': // 0x70
                 var_s3 = 0;
@@ -665,137 +666,143 @@ void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
             default:
                 func_8003CDF8(arg0, &sp118, 1);
                 var_fp += 1;
+                goto next;
                 break;
-
-            case 'u': // 0x75
-            block_100:
-                if (var_s2 != 0) {
-                    var_s3 &= ~4;
-                }
-                if (var_s3 & 0x20) {
-                    var_a2 = va_arg(args, long);
-                    if ((sp144 != 0) && (var_a2 < 0)) {
+        }
+        {
+        block_100:
+            if (var_s2 != 0) {
+                var_s3 &= ~4;
+            }
+            if (var_s3 & 0x20) {
+                var_a2 = va_arg(args, long long);
+                if (sp144 != 0) {
+                    if (var_a2 < 0) {
                         var_a2 = -var_a2;
                         var_s3 |= 0x100;
                     }
-                    var_s1 = func_8003CE5C(&sp18, var_a2, sp14C, sp15C);
-                } else {
-                    var_a1 = va_arg(args, int);
-                    if (var_s3 & 0x40) {
-                        if (sp144 != 0) {
-                            var_a1 = (s16)var_a1;
-                        } else {
-                            var_a1 = (u16)var_a1;
-                        }
+                }
+                var_s1 = func_8003CE5C(sp18, var_a2, sp14C, sp15C);
+            } else {
+                var_a1 = va_arg(args, int);
+                if (var_s3 & 0x40) {
+                    if (sp144 != 0) {
+                        var_a1 = (s16)var_a1;
+                    } else {
+                        var_a1 = (u16)var_a1;
                     }
-                    if ((sp144 != 0) && (var_a1 < 0)) {
+                }
+                if (sp144 != 0) {
+                    if (var_a1 < 0) {
                         var_a1 = -var_a1;
                         var_s3 |= 0x100;
                     }
-                    var_s1 = func_8003CE20(&sp18, var_a1, sp14C, sp15C);
                 }
+                var_s1 = func_8003CE20(sp18, var_a1, sp14C, sp15C);
+            }
 
-                // what
-                // var_s0 = (sp - var_s1) + 0x118;
-                // var_s0 = var_s1[-sp118];
-                var_s0 = (u32)&sp18[0x100] - (u32)var_s1;
+            // what
+            // var_s0 = (sp - var_s1) + 0x118;
+            // var_s0 = var_s1[-sp118];
+            var_s0 = (u32)&sp18[0x100] - (u32)var_s1;
 
-            block_117:
-                var_s7 = 0;
-                if (sp164 && (sp14C != 0xA)) {
-                    var_v1 = var_s3 & 5;
-                    if ((sp144 == 0) && (*var_s1 != 0x30)) {
-                        var_s7 = 1;
-                        if (sp14C == 0x10) {
-                            var_s7 = 2;
-                            var_v1 = var_s3 & 5;
-                        }
+        block_117:
+            var_s7 = 0;
+            if (sp164 && (sp14C != 0xA)) {
+                if ((sp144 == 0) && (*var_s1 != 0x30)) {
+                    var_s7 = 1;
+                    if (sp14C == 0x10) {
+                        var_s7 = 2;
                     }
-                } else {
-                    var_v1 = var_s3 & 5;
                 }
+            }
 
-                if (var_v1 == 4) {
-                    var_s2 = var_s6;
-                }
-                if (var_s2 != 0) {
-                    if (var_s3 & 0x10A) {
-                        var_s2 -= 1;
-                        if (sp154 != 0) {
-                            var_s6 -= 1;
-                            var_fp += 1;
-                            if (var_s3 & 0x100) {
-                                sp12C = 0x2D;
-                            } else if (var_s3 & 2) {
+            if ((var_s3 & 4) && !(var_s3 & 1)) {
+                var_s2 = var_s6;
+            }
+            if (var_s2 != 0) {
+                if (var_s3 & 0x10A) {
+                    var_s2 -= 1;
+                    if (sp154 != 0) {
+                        var_s6 -= 1;
+                        var_fp += 1;
+                        if (var_s3 & 0x100) {
+                            sp12C = 0x2D;
+                            func_8003CDF8(arg0, &sp12C, 1);
+                        } else {
+                            if (var_s3 & 2) {
                                 sp12C = 0x2B;
                             } else {
                                 sp12C = 0x20;
                             }
                             func_8003CDF8(arg0, &sp12C, 1);
-                            var_s3 &= ~0x10A;
                         }
-                    }
-                    var_s2 = var_s2 - var_s7;
-                    while ((s32)var_s0 < var_s2) {
-                        if (sp154 != 0) {
-                            sp12D = 0x30;
-                            func_8003CDF8(arg0, &sp12D, 1);
-                            var_s6 -= 1;
-                            var_fp += 1;
-                            var_s2 -= 1;
-                        } else {
-                            var_s1 -= 1;
-                            *var_s1 = 0x30;
-                            var_s0 += 1;
-                        }
+                        var_s3 &= ~0x10A;
                     }
                 }
-                if (var_s7 != 0) {
-                    var_s1 -= 1;
-                    if (var_s7 == 2) {
-                        *var_s1 = sp15C[0x10];
+                var_s2 = var_s2 - var_s7;
+                while (var_s0 < var_s2) {
+                    if (sp154 != 0) {
+                        sp12D = 0x30;
+                        func_8003CDF8(arg0, &sp12D, 1);
+                        var_s6 -= 1;
+                        var_fp += 1;
+                        var_s2 -= 1;
+                    } else {
                         var_s1 -= 1;
+                        *var_s1 = 0x30;
+                        var_s0 += 1;
                     }
-                    *var_s1 = 0x30;
-                    var_s0 += var_s7;
                 }
-                if (var_s3 & 0x10A) {
-                    var_s0 += 1;
+            }
+            if (var_s7 != 0) {
+                if (var_s7 == 2) {
                     var_s1 -= 1;
-                    if (var_s3 & 0x100) {
-                        *var_s1 = 0x2D;
-                    } else if (var_s3 & 2) {
+                    *var_s1 = sp15C[0x10];
+                }
+                var_s1 -= 1;
+                *var_s1 = 0x30;
+                var_s0 += var_s7;
+            }
+            if (var_s3 & 0x10A) {
+                var_s0 += 1;
+                var_s1 -= 1;
+                if (var_s3 & 0x100) {
+                    *var_s1 = 0x2D;
+                } else {
+                    if (var_s3 & 2) {
                         *var_s1 = 0x2B;
                     } else {
                         *var_s1 = 0x20;
                     }
                 }
+            }
 
-            block_151:
-                if (!(var_s3 & 1)) {
-                    while (var_s0 < var_s6) {
-                        sp12E = 0x20;
-                        func_8003CDF8(arg0, &sp12E, 1);
-                        var_s6 -= 1;
-                        var_fp += 1;
-                    }
-                }
-                var_s6 = var_s6 - var_s0;
-                var_fp += var_s0;
-                var_s0 = var_s0 - 1;
-                while (var_s0 != -1) {
-                    func_8003CDF8(arg0, var_s1, 1);
-                    var_s1 += 1;
-                    var_s0 -= 1;
-                }
-                while (var_s6 > 0) {
-                    sp12F = 0x20;
-                    func_8003CDF8(arg0, &sp12F, 1);
+        block_151:
+            if (!(var_s3 & 1)) {
+                while (var_s0 < var_s6) {
+                    sp12E = 0x20;
+                    func_8003CDF8(arg0, &sp12E, 1);
                     var_s6 -= 1;
                     var_fp += 1;
                 }
-                break;
+            }
+
+            var_s6 = var_s6 - var_s0;
+            var_fp += var_s0;
+            var_s0 = var_s0 - 1;
+            while (var_s0 != -1) {
+                func_8003CDF8(arg0, var_s1++, 1);
+                var_s0 -= 1;
+            }
+            while (var_s6 > 0) {
+                sp12F = 0x20;
+                func_8003CDF8(arg0, &sp12F, 1);
+                var_s6 -= 1;
+                var_fp += 1;
+            }
         }
+    next:;
     }
 }
 #else

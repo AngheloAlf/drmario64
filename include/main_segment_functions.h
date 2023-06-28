@@ -154,7 +154,7 @@ s32 func_8003CDF8(struct_8008E364 *arg0, char *arg1, s32 arg2);
 // void func_8003D110();
 // void func_8003D41C();
 // void func_8003D4C8();
-void func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args);
+int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args);
 
 void func_8003E1E0(Gfx **gfxP);
 void func_8003E208(Gfx **gfxP, s32 index);
