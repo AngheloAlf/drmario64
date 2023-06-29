@@ -22,6 +22,7 @@ The build process has the following package requirements:
 * gcc-mips-linux-gnu
 * python3
 * pip3
+* Rust
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
@@ -34,6 +35,12 @@ To install the dependencies Python dependencies run:
 
 ```bash
 pip3 install -r requirements.txt
+```
+
+To install Rust run the following command and follow the on-screen instructions
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 ```
 
 ## Building
