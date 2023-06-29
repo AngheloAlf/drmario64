@@ -14,6 +14,7 @@
 #include "libc/ctype.h"
 #include "libc/stdarg.h"
 #include "libc/math.h"
+#include "screen_print/printer.h"
 
 #if VERSION_US
 char *func_8003CE20(char arg0[0x100], u32 arg1, u32 arg2, char *arg3) {
@@ -350,7 +351,6 @@ extern char D_8008D1F4[];
 
 #if VERSION_US
 #ifdef NON_MATCHING
-//#if 1
 int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
     char sp18[0x100];
     char sp118;

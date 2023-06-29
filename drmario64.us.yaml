@@ -416,7 +416,13 @@ segments:
 
       - [0x075000, data, main_segment/075000]
 
-      - [0x075FD0, data, main_segment/screen_print/026000]
+      - start: 0x0750F0
+        type: data
+        name: main_segment/screen_print/026000
+        subsegments:
+        - [0x0750F0]
+        - { start: 0x0760B0, type: gfx, data_only: True, name: main_segment/screen_print/026000/D_8008E290 }
+        - [0x076160]
 
       - [0x076190, .data, main_segment/026550]
 

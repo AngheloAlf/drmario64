@@ -4,7 +4,21 @@
 #include "unknown_structs.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
-#include "libc/stdarg.h"
+#include "screen_print/026000.h"
+#include "screen_print/printf_impl.h"
+
+extern struct_8008E364_unk_4 B_800E5890;
+
+extern u8 D_8008D2D0[];
+extern u8 D_8008E1D0[];
+extern Gfx D_8008E290[];
+extern Color_RGB8 D_8008E340[];
+extern struct_8008E364_unk_0 D_8008E358;
+extern struct_8008E364 D_8008E364;
+
+#if VERSION_US
+
+#endif
 
 #if VERSION_US
 void func_8003E1E0(Gfx **gfxP) {
@@ -16,9 +30,14 @@ void func_8003E1E0(Gfx **gfxP) {
 }
 #endif
 
-extern Color_RGB8 D_8008E340[];
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_800400C0_cn);
+#endif
 
-#if VERSION_US
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003EC70_gw);
+#endif
+
 void func_8003E208(Gfx **gfxP, s32 index) {
     Gfx *gfx = *gfxP;
     Color_RGB8 *color = &D_8008E340[index % 8U];
@@ -28,7 +47,6 @@ void func_8003E208(Gfx **gfxP, s32 index) {
 
     *gfxP = gfx;
 }
-#endif
 
 void func_8003E278(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
 
@@ -40,7 +58,7 @@ void func_8003E278(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     gSPScisTextureRectangle(gfx++, arg1 + 6, arg2 + 8, arg1, arg2, G_TX_RENDERTILE, arg3 % 26, arg3 / 26, 0x0400, 0x0400);
 
     *gfxP = gfx;
-    #if 0
+#if 0
     Gfx *temp_t1;
     Gfx *temp_t1_2;
     Gfx *temp_t1_3;
@@ -81,31 +99,45 @@ void func_8003E278(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     temp_t1_3->words.w0 = 0xF1000000;
     temp_t1_3->words.w1 = 0x04000400;
     *gfxP = temp_t1_3 + 8;
-    #endif
+#endif
 }
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/screen_print/026000", func_8003E278);
 #endif
 #endif
 
-#if VERSION_US
-#ifdef NON_MATCHING
-extern s8 D_8008E1B0[];
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_80040158_cn);
+#endif
 
-void func_8003E3F0(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
-    if ((u32) (arg3 - 0x21) < 0xBFU) {
-        if (D_8008E1B0[arg3] != -1) {
-            func_8003E278(gfxP, arg1, arg2, D_8008E1B0[arg3]);
-        }
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003ED08_gw);
+#endif
+
+#if VERSION_US
+void func_8003E3F0(Gfx **gfxP, s32 arg1, s32 arg2, s32 character) {
+    s8 val = -1;
+
+    if (character - 0x20 - 1 >= 0xC0U - 1) {
+        return;
+    }
+
+    if (D_8008E1D0[character - 0x20] != val) {
+        func_8003E278(gfxP, arg1, arg2, D_8008E1D0[character - 0x20]);
     }
 }
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/screen_print/026000", func_8003E3F0);
 #endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_8003E3F0);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003E3F0);
 #endif
 
 #if VERSION_US
-UNK_TYPE func_8003E430(struct_8008E364 *arg0, va_list args) {
+s32 func_8003E430(struct_8008E364 *arg0, va_list args) {
     struct_8008E364_unk_4 *ptr = arg0->unk_4;
 
     ptr->gfxP = va_arg(args, Gfx **);
@@ -125,10 +157,26 @@ UNK_TYPE func_8003E430(struct_8008E364 *arg0, va_list args) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_800402F8_cn);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003EEC0_gw);
+#endif
+
 #if VERSION_US
-UNK_TYPE func_8003E4AC(void) {
+s32 func_8003E4AC(void) {
     return 0;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_80040388_cn);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003EF3C_gw);
 #endif
 
 #if VERSION_US
@@ -206,66 +254,23 @@ s32 func_8003E4B4(struct_8008E364 *arg0, char *arg1, s32 arg2) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_800400C0_cn);
-#endif
-
-#if VERSION_CN
-extern Color_RGB8 D_80099090_cn[];
-
-void func_8003E208(Gfx **gfxP, s32 index) {
-    Gfx *gfx = *gfxP;
-    Color_RGB8 *color = &D_80099090_cn[index % 8U];
-
-    gDPPipeSync(gfx++);
-    gDPSetPrimColor(gfx++, 0, 0, color->r, color->g, color->b, 255);
-
-    *gfxP = gfx;
-}
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_80040158_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_8003E3F0);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_800402F8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_80040388_cn);
-#endif
-
-#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_80040390_cn);
 #endif
 
-#if VERSION_US
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003EF44_gw);
+#endif
+
 s32 func_8003E69C(Gfx **gfxP, func_8003E69C_arg1 arg1, s32 arg2, s32 arg3) {
     return func_8003CDA0(&D_8008E364, gfxP, arg1, arg2, arg3);
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_8003E69C);
-#endif
-
-#if VERSION_US
 void func_8003E6D8(void) {
     func_8003CDD4(&D_8008E364);
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_8003E6D8);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_8003E6F8(const char *fmt UNUSED, ...) {
-#if VERSION_US
+#if VERSION_US || VERSION_GW
     va_list args;
 
     va_start(args, fmt);
@@ -275,4 +280,3 @@ void func_8003E6F8(const char *fmt UNUSED, ...) {
     va_end(args);
 #endif
 }
-#endif

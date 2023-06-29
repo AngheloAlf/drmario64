@@ -1,5 +1,5 @@
 /**
- * Characters debug menu
+ * Debug menu
  */
 
 #include "libultra.h"
@@ -9,6 +9,7 @@
 #include "boot_functions.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "screen_print/026000.h"
 
 s32 D_8008E370[] = {
     0x00000001,
@@ -76,7 +77,7 @@ void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            func_8003E3F0(gfxP, arg1 + ((2 - B_800E58B0) * 6), arg2 + 8, 0x5E);
+            func_8003E3F0(gfxP, arg1 + ((2 - B_800E58B0) * 6), arg2 + 8, '^');
         }
     } else {
         s32 var_t0;
@@ -269,7 +270,7 @@ void func_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            func_8003E3F0(gfxP, arg1 + (((var_t1 - B_800E58B4) - 1) * 6), arg2 + 8, 0x5E);
+            func_8003E3F0(gfxP, arg1 + (((var_t1 - B_800E58B4) - 1) * 6), arg2 + 8, '^');
         }
     } else {
         s32 var_a1;
@@ -467,7 +468,7 @@ void func_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            func_8003E3F0(gfxP, arg1 + (((var_t0 - B_800E58B8) - 1) * 6), arg2 + 8, 0x5E);
+            func_8003E3F0(gfxP, arg1 + (((var_t0 - B_800E58B8) - 1) * 6), arg2 + 8, '^');
         }
     } else {
         s32 var_a2 = 1;
@@ -690,9 +691,9 @@ void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
             func_8003E208(gfxP, 7);
-            func_8003E3F0(gfxP, arg1 - 6, arg2, 0x3E);
+            func_8003E3F0(gfxP, arg1 - 6, arg2, '>');
         }
-    } else if (button & 0x8000) {
+    } else if (button & A_BUTTON) {
         switch (temp_a0) {
             case 0x0:
                 B_800E5934 = B_800E5970[0];

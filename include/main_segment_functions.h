@@ -143,29 +143,6 @@ void *func_8003A89C(void *arg0, s32 arg1);
 s32 func_8003A8F4(void);
 void func_8003A950(Gfx **gfxP);
 
-UNK_TYPE func_8003CDA0(struct_8008E364 *arg0, ...);
-UNK_TYPE func_8003CDD4(struct_8008E364 *arg0);
-s32 func_8003CDF8(struct_8008E364 *arg0, char *arg1, s32 arg2);
-
-// void func_8003CE20();
-// void func_8003CE5C();
-// void func_8003CF2C();
-// void func_8003CFA8();
-// void func_8003D110();
-// void func_8003D41C();
-// void func_8003D4C8();
-int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args);
-
-void func_8003E1E0(Gfx **gfxP);
-void func_8003E208(Gfx **gfxP, s32 index);
-// void func_8003E278();
-void func_8003E3F0(Gfx **gfxP, s32, s32, s32 arg3);
-UNK_TYPE func_8003E430(struct_8008E364 *arg0, va_list args);
-s32 func_8003E4AC(void);
-s32 func_8003E4B4(struct_8008E364 *arg0, char *arg1, s32 arg2);
-s32 func_8003E69C(Gfx **gfxP, func_8003E69C_arg1 arg1, s32 arg2, s32 arg3);
-void func_8003E6D8(void);
-void func_8003E6F8(const char *fmt, ...);
 // void func_8003E730();
 void func_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2);
 void func_8003EB20(void);

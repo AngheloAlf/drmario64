@@ -259,8 +259,8 @@ disp_retire_logo = 0x8003F43C; // type:func
 disp_timestop_logo = 0x8003F568; // type:func
 add_attack_effect = 0x8003F820; // type:func
 disp_attack_effect = 0x8003F90C; // type:func
-func_80040020_cn = 0x80040020; // type:func
-func_80040060_cn = 0x80040060; // type:func
+func_8003CDA0 = 0x80040020; // type:func
+func_8003CDD4 = 0x80040060; // type:func
 func_8004008C_cn = 0x8004008C; // type:func
 func_800400C0_cn = 0x800400C0; // type:func
 func_8003E208 = 0x800400E8; // type:func
@@ -1249,12 +1249,12 @@ col_env_435 = 0x80097FC0; // size:0x30
 
 D_80097FF0_cn = 0x80097FF0; //
 
-D_80098020_cn = 0x80098020; //
-D_80098F00_cn = 0x80098F00; //
+D_80098020_cn = 0x80098020; // size:0xF00
+D_80098F20_cn = 0x80098F20; //
 D_80098FE0_cn = 0x80098FE0; //
-D_80099090_cn = 0x80099090; //
+D_8008E340 = 0x80099090; //
 D_800990A8_cn = 0x800990A8; //
-D_800990B4_cn = 0x800990B4; //
+D_8008E364 = 0x800990B4; //
 D_8008E370 = 0x800990C0; //
 D_8008E380 = 0x800990D0; //
 D_8008E398 = 0x800990E8; //
