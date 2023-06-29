@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:decompals/pigment.git
+	branch = main
+	commit = 285adb4bc549f674e6fbbb09829515545261809f
+	parent = 65a1abbb87cef12e4e36dd69316b19726aeb8233
+	method = merge
+	cmdver = 0.4.3
