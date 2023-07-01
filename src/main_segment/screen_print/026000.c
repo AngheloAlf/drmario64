@@ -9,14 +9,6 @@
 
 extern struct_8008E364_unk_4 B_800E5890;
 
-extern u8 D_8008D2D0[];
-extern u8 D_8008E1D0[];
-extern Gfx D_8008E290[];
-extern Color_RGB8 D_8008E340[];
-extern struct_8008E364_unk_0 D_8008E358;
-extern struct_8008E364 D_8008E364;
-
-#if VERSION_US
 u8 D_8008D2D0[] = {
 #include "main_segment/screen_print/026000/D_8008D2D0.i4.inc"
 };
@@ -236,8 +228,6 @@ struct_8008E364 D_8008E364 = {
     &B_800E5890,
 };
 
-#endif
-
 #if VERSION_US
 void func_8003E1E0(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
@@ -376,11 +366,11 @@ s32 func_8003E430(struct_8008E364 *arg0, va_list args) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_800402F8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_8003E430);
 #endif
 
 #if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003EEC0_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003E430);
 #endif
 
 #if VERSION_US
@@ -390,11 +380,11 @@ s32 func_8003E4AC(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_80040388_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_8003E4AC);
 #endif
 
 #if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003EF3C_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003E4AC);
 #endif
 
 #if VERSION_US
@@ -472,11 +462,11 @@ s32 func_8003E4B4(struct_8008E364 *arg0, char *arg1, size_t arg2) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_80040390_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/screen_print/026000", func_8003E4B4);
 #endif
 
 #if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003EF44_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/screen_print/026000", func_8003E4B4);
 #endif
 
 s32 func_8003E69C(Gfx **gfxP, func_8003E69C_arg1 arg1, s32 arg2, s32 arg3) {
