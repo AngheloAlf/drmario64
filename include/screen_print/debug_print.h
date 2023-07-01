@@ -25,7 +25,8 @@ void DebugPrint_Printf(const char *fmt, ...);
 #define DBGPRT_COLOR_EXPAND1(color) DBGPRT_COLOR_EXPAND0(color)
 #define DBGPRT_COLOR_EXPAND2(color) DBGPRT_COLOR_EXPAND1(DBGPRT_COLOR_##color)
 
-#define DBGPRT_COLOR(color) "@c" DBGPRT_COLOR_EXPAND2(color)
-#define DBGPRT_CALLBACK(color) "@m"
+#define DBGPRT_COLOR_RAW "@c"
+#define DBGPRT_COLOR(color) DBGPRT_COLOR_RAW DBGPRT_COLOR_EXPAND2(color)
+#define DBGPRT_CALLBACK "@m"
 
 #endif

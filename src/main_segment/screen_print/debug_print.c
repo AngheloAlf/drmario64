@@ -393,11 +393,11 @@ struct_8008E364 D_8008E364 = {
 };
 
 s32 DebugPrint_8003E69C(Gfx **gfxP, DebugPrint_8003E69C_arg1 arg1, s32 arg2, s32 arg3) {
-    return func_8003CDA0(&D_8008E364, gfxP, arg1, arg2, arg3);
+    return Printer_8003CDA0(&D_8008E364, gfxP, arg1, arg2, arg3);
 }
 
 void DebugPrint_8003E6D8(void) {
-    func_8003CDD4(&D_8008E364);
+    Printer_8003CDD4(&D_8008E364);
 }
 
 void DebugPrint_Printf(const char *fmt UNUSED, ...) {

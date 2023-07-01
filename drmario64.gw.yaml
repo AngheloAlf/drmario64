@@ -294,13 +294,12 @@ segments:
       - [0x016350, asm, main_segment/016350]
       - [0x017060, asm, main_segment/017060]
       - [0x017330, asm, main_segment/017330]
-      - [0x0255D0, asm, main_segment/0255D0]
 
+      - [0x0255D0, c, main_segment/screen_print/printer]
       - [0x025650, asm, main_segment/screen_print/printf_impl]
-
       - [0x026A10, c, main_segment/screen_print/debug_print]
 
-      - [0x026F60, c, main_segment/026550]
+      - [0x026F60, c, main_segment/debug_menu]
 
       - [0x029230, asm, main_segment/029230]
       - [0x02E600, asm, main_segment/02E600]
@@ -335,7 +334,7 @@ segments:
         - { start: 0x076E90, type: gfx, data_only: True, name: main_segment/screen_print/debug_print/D_8008E290 }
         - [0x076F70]
 
-      - [0x076F70, .data, main_segment/026550]
+      - [0x076F70, .data, main_segment/debug_menu]
 
       - [0x0771D0, data, main_segment/0771D0]
 
@@ -348,7 +347,7 @@ segments:
 
       - [0x095D90, rodata, main_segment/screen_print/printf_impl]
 
-      - [0x095EE0, .rodata, main_segment/026550]
+      - [0x095EE0, .rodata, main_segment/debug_menu]
 
       - [0x096740, rodata, main_segment/096740]
       - [0x096750, rodata, main_segment/096750]

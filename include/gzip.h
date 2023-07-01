@@ -4,10 +4,11 @@
 #include "libultra.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
+#include "other_types.h"
 #include "unk.h"
 
 typedef struct struct_80029C04 {
-    romoffset_t segmentRom;
+    RomOffset segmentRom;
     size_t segmentSize;
 } struct_80029C04;
 
@@ -28,7 +29,7 @@ s32 func_80001620(void);
 s32 inflate_block(s32 *arg0);
 s32 inflate(void);
 
-size_t expand_gzip(romoffset_t segmentRom, void *dstAddr, size_t segmentSize);
+size_t expand_gzip(RomOffset segmentRom, void *dstAddr, size_t segmentSize);
 size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize);
 size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2);
 UNK_TYPE unzip(void);

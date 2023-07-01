@@ -4,6 +4,7 @@
 #include "libultra.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
+#include "other_types.h"
 #include "unk.h"
 
 
@@ -113,6 +114,6 @@ void animeSmog_stop(AnimeSmog *animeSmog);
 void animeSmog_update(AnimeSmog *animeSmog);
 void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
 // void func_8005EE64();
-void loadAnimeSeq(UNK_PTR *arg0, AnimeState_unk_1C **arg1, AnimeSeq_unk_0C **arg2, romoffset_t romOffsetStart, romoffset_t romOffsetEnd);
+void loadAnimeSeq(UNK_PTR *arg0, AnimeState_unk_1C **arg1, AnimeSeq_unk_0C **arg2, RomOffset romOffsetStart, RomOffset romOffsetEnd);
 
 #endif

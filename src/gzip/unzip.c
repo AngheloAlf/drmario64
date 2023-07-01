@@ -7,7 +7,7 @@
 /**
  * Original name: expand_gzip
  */
-size_t expand_gzip(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
+size_t expand_gzip(RomOffset segmentRom, void *dstAddr, size_t segmentSize) {
     ifd.segmentRom = segmentRom;
     ifd.segmentSize = segmentSize;
     ofd.unk_0 = dstAddr;

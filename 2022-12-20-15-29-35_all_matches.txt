@@ -401,7 +401,7 @@ dm_w_erase_chack_set - found 1 matches total:
 _mesWriting - found 1 matches total:
 1.00 - RO_800AF4C4
 
-func_800409DC - found 1 matches total:
+DebugMenu_800409DC - found 1 matches total:
 0.99 - func_8007B62C
 
 func_80036808 - found 1 matches total:
@@ -413,8 +413,8 @@ RO_800ADD60 - found 1 matches total:
 dm_virus_init - found 1 matches total:
 0.99 - animeState_set
 
-func_8003CDF8 - found 1 matches total:
-0.99 - func_8003CDD4
+Printer_8003CDF8 - found 1 matches total:
+0.99 - Printer_8003CDD4
 
 DebugPrint_8003E6D8 - found 1 matches total:
 0.99 - Main_StopThread (decompiled)

@@ -143,27 +143,6 @@ void *func_8003A89C(void *arg0, s32 arg1);
 s32 func_8003A8F4(void);
 void func_8003A950(Gfx **gfxP);
 
-// void func_8003E730();
-void func_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2);
-void func_8003EB20(void);
-void func_8003ECDC(void);
-// void func_8003EEA4();
-void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2);
-void func_8003F360(void);
-void func_8003F474(void);
-// void func_8003F568();
-void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2);
-void func_8003FB00(void);
-void func_8003FD0C(Gfx** gxfP);
-void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
-// void func_8003FEE4();
-void func_8004015C(void);
-void func_80040238(void);
-void func_80040578(void);
-void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2);
-void func_800409A0(void);
-void func_800409DC(Gfx **gfxP);
-
 void func_80040A00(void *arg0);
 s32 func_80040A58(void);
 void func_80040A64(void);
@@ -214,7 +193,7 @@ void StretchTexTile8(Gfx **gfxP, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3, UN
 void func_80044E08(Gfx **gfxP, u16 arg1, u16 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, f32 arg8, f32 arg9, f32 argA, f32 argB);
 // void RectTexTile4i();
 // void func_8004502C();
-TiTexData *tiLoadTexData(UNK_PTR *arg0, romoffset_t segmentRom, romoffset_t segmentRomEnd);
+TiTexData *tiLoadTexData(UNK_PTR *arg0, RomOffset segmentRom, RomOffset segmentRomEnd);
 // void func_80045110();
 // void func_800451C4();
 void tiStretchTexBlock(Gfx **gfxP, TiTexDataEntry_unk_0 **arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);

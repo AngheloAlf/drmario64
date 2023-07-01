@@ -304,11 +304,11 @@ segments:
       - [0x023880, c, main_segment/020D10_cn]
 
       - [0x025650, c, main_segment/game_etc]
-      - [0x027D50, c, main_segment/024BC0_cn]
 
+      - [0x027D50, c, main_segment/screen_print/printer]
       - [0x027DF0, c, main_segment/screen_print/debug_print]
 
-      - [0x028350, c, main_segment/026550]
+      - [0x028350, c, main_segment/debug_menu]
       - [0x02AC40, c, main_segment/028820]
 
       - [0x02AE30, c, main_segment/tex_func]
@@ -373,7 +373,7 @@ segments:
         - { start: 0x080D10, type: gfx, data_only: True, name: main_segment/screen_print/debug_print/D_8008E290 }
         - [0x080DF0]
 
-      - [0x080DF0, .data, main_segment/026550]
+      - [0x080DF0, .data, main_segment/debug_menu]
 
       - [0x081050, data, main_segment/081050]
 
@@ -392,7 +392,7 @@ segments:
       - [0x0ABDB0, .rodata, main_segment/020D10_cn]
 
       - [0x0ABF20, .rodata, main_segment/game_etc]
-      - { start: 0x0ABF30, type: .rodata, name: main_segment/026550, str_encoding: shift-jis }
+      - { start: 0x0ABF30, type: .rodata, name: main_segment/debug_menu, str_encoding: shift-jis }
 
       - [0x0AC790, .rodata, main_segment/tex_func]
 

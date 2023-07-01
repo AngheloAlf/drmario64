@@ -89,7 +89,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/audio/003520", func_8002D170);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002D170);
 #endif
 
-bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank) {
+bool func_8002D3B0(RomOffset segmentRom, size_t segmentSize, void *wbank) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
     if (MusAsk(MUSFLAG_SONGS) == 0) {
@@ -101,7 +101,7 @@ bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank) {
     return false;
 }
 
-bool func_8002D428(s32 index, romoffset_t segmentRom, size_t segmentSize) {
+bool func_8002D428(s32 index, RomOffset segmentRom, size_t segmentSize) {
     Audio_struct_800FAF98 *temp_s1 = gAudio_800FAF98;
 
     if (func_8002D51C(index) != 0) {
@@ -167,7 +167,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F2C4_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/audio/003520", func_8002F30C_cn);
 #endif
 
-bool func_8002D6A4(romoffset_t segmentRom, size_t segmentSize) {
+bool func_8002D6A4(RomOffset segmentRom, size_t segmentSize) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
     if (MusAsk(MUSFLAG_EFFECTS) == 0) {
@@ -218,10 +218,10 @@ s32 func_8002D8A0(s32 index, f32 offset) {
     return MusHandleSetFreqOffset(gAudio_800FAF98->unk_24[index], offset);
 }
 
-void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize) {
+void func_8002D8D0(RomOffset segmentRom, void *segmentVram, size_t segmentSize) {
     Audio_struct_800FAF98 *temp = gAudio_800FAF98;
     s32 remainingSize = segmentSize;
-    romoffset_t currentRom = segmentRom;
+    RomOffset currentRom = segmentRom;
     uintptr_t currentVram = (uintptr_t)segmentVram;
 
     while (remainingSize != 0) {

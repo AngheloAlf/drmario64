@@ -36,8 +36,8 @@ typedef struct struct_8008E364 {
     /* 0x4 */ struct_8008E364_unk_4 *unk_4;
 } struct_8008E364; // size = 4
 
-s32 func_8003CDA0(struct_8008E364 *arg0, ...);
-s32 func_8003CDD4(struct_8008E364 *arg0);
-s32 func_8003CDF8(struct_8008E364 *arg0, char *arg1, size_t arg2);
+s32 Printer_8003CDA0(struct_8008E364 *arg0, ...);
+s32 Printer_8003CDD4(struct_8008E364 *arg0);
+s32 Printer_8003CDF8(struct_8008E364 *arg0, char *arg1, size_t arg2);
 
 #endif

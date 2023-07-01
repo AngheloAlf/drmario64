@@ -1,12 +1,12 @@
 #ifndef ROM_OFFSETS_H
 #define ROM_OFFSETS_H
 
-#include "libc/stdint.h"
+#include "other_types.h"
 
 
 typedef struct RomOffsetPair {
-    /* 0x0 */ romoffset_t start;
-    /* 0x4 */ romoffset_t end;
+    /* 0x0 */ RomOffset start;
+    /* 0x4 */ RomOffset end;
 } RomOffsetPair; // size = 0x8
 
 // Used to index storyRomData

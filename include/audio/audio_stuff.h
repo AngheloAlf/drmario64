@@ -202,8 +202,8 @@ void dm_snd_play_strange_sound(void);
 
 
 s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority);
-bool func_8002D3B0(romoffset_t segmentRom, size_t segmentSize, void *wbank);
-bool func_8002D428(s32 index, romoffset_t segmentRom, size_t segmentSize);
+bool func_8002D3B0(RomOffset segmentRom, size_t segmentSize, void *wbank);
+bool func_8002D428(s32 index, RomOffset segmentRom, size_t segmentSize);
 void func_8002D4A4(s32 index);
 musHandle func_8002D4F8(s32 index);
 s32 func_8002D51C(s32 index);
@@ -213,7 +213,7 @@ s32 func_8002D5C4(s32 index, s32 pan);
 s32 func_8002D5FC(s32 index, s32 tempo);
 s32 func_8002D634(s32 index);
 s32 func_8002D66C(s32 index);
-bool func_8002D6A4(romoffset_t segmentRom, size_t segmentSize);
+bool func_8002D6A4(RomOffset segmentRom, size_t segmentSize);
 void *func_8002D710(void);
 void func_8002D720(s32 index, s32 number);
 void func_8002D768(s32 index, s32 number, s32 volume, s32 pan, s32 restartflag, s32 priority);
@@ -223,7 +223,7 @@ s32 func_8002D810(s32 index, s32 speed);
 s32 func_8002D840(s32 index, s32 volume);
 s32 func_8002D870(s32 index, s32 pan);
 s32 func_8002D8A0(s32 index, f32 offset);
-void func_8002D8D0(romoffset_t segmentRom, void *segmentVram, size_t segmentSize);
+void func_8002D8D0(RomOffset segmentRom, void *segmentVram, size_t segmentSize);
 void func_8002D984(void);
 void func_8002D9E4(void);
 void func_8002DA48(musTask *musicTask);

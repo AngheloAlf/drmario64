@@ -10,6 +10,7 @@
 #include "boot_variables.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "util.h"
 #include "rom_offsets.h"
 #include "audio/audio_stuff.h"
 #include "buffers.h"
@@ -243,8 +244,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_coffee_break);
 #if VERSION_US
 void *init_menu_bg(void *dstAddr, bool arg1) {
     void *alignedAddress;
-    romoffset_t segmentRomStart;
-    romoffset_t segmentRomEnd;
+    RomOffset segmentRomStart;
+    RomOffset segmentRomEnd;
 
     bgtime = 0;
     guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);

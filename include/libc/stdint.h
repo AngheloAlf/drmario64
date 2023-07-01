@@ -5,8 +5,6 @@
 
 typedef s32 intptr_t;
 typedef u32 uintptr_t;
-typedef u32 romoffset_t;
-typedef void* TexturePtr;
 
 #define INT8_MIN    (-0x80)
 #define INT16_MIN   (-0x8000)

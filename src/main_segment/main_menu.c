@@ -10,6 +10,7 @@
 #include "main_segment_variables.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
+#include "util.h"
 #include "rom_offsets.h"
 #include "audio/audio_stuff.h"
 #include "buffers.h"

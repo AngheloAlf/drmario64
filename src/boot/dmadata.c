@@ -40,9 +40,9 @@ s8 sDmaDataNeedsInitialization = true;
     osPiStartDma(mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, (void *)currentVram, blkSize, &B_800151C0)
 #endif
 
-void *DmaData_RomToRam(romoffset_t segmentRom, void *segmentVram, size_t segmentSize) {
+void *DmaData_RomToRam(RomOffset segmentRom, void *segmentVram, size_t segmentSize) {
     size_t remainingSize;
-    romoffset_t currentRom;
+    RomOffset currentRom;
     uintptr_t currentVram;
 
     if (!DMADATA_IS_INITIALIZED) {

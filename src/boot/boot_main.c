@@ -5,6 +5,7 @@
 #include "segment_symbols.h"
 #include "macros_defines.h"
 #include "dm_thread.h"
+#include "util.h"
 
 void Idle_ThreadEntry(void *arg);
 
@@ -34,7 +35,7 @@ void bootproc(void) {
 }
 
 void Main_ThreadEntry(void *arg) {
-    romoffset_t mainSegmentStart;
+    RomOffset mainSegmentStart;
 
     DmaData_RomToRam(SEGMENT_ROM_START(dma_table), &gMainSegmentDmaInfo, SEGMENT_ROM_SIZE(dma_table));
 

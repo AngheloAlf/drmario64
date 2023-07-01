@@ -11,6 +11,7 @@
 #include "main_segment_variables.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
+#include "util.h"
 #include "gcc/memory.h"
 #include "rom_offsets.h"
 #include "buffers.h"
@@ -4170,10 +4171,10 @@ void dm_game_init_static(void) {
     s32 var_v0;
     s32 i;
     struct_800EF560 *temp_a3;
-    romoffset_t start;
-    romoffset_t end;
+    RomOffset start;
+    RomOffset end;
     TiTexData *result;
-    romoffset_t temp_a0;
+    RomOffset temp_a0;
     s8 temp;
 
 #if VERSION_US
@@ -5723,12 +5724,12 @@ void dm_game_graphic2(void) {
 
     switch (game_state_data->unk_00C) {
         case 0x21:
-            func_8003FD0C(&gGfxHead);
-            func_8003FB00();
+            DebugMenu_8003FD0C(&gGfxHead);
+            DebugMenu_8003FB00();
             break;
         case 0x20:
-            func_800409A0();
-            func_800409DC(&gGfxHead);
+            DebugMenu_800409A0();
+            DebugMenu_800409DC(&gGfxHead);
             break;
     }
 

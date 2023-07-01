@@ -1,14 +1,13 @@
-#include "libultra.h"
+#include "util.h"
 #include "macros_defines.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
 #include "libc/math.h"
 #include "gzip.h"
+#include "alignment.h"
 
 /**
  * Original name: ExpandGZip
  */
-void *DecompressRomToRam(romoffset_t segmentRom, void *dstAddr, size_t segmentSize) {
+void *DecompressRomToRam(RomOffset segmentRom, void *dstAddr, size_t segmentSize) {
 #ifndef UNCOMPRESSED_ROM
     return (void *)ALIGN8((uintptr_t)dstAddr + expand_gzip(segmentRom, dstAddr, segmentSize));
 #else

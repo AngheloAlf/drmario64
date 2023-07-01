@@ -6,6 +6,7 @@
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
 #include "gcc/stdlib.h"
+#include "other_types.h"
 #include "color.h"
 #include "unk.h"
 #include "alignment.h"
