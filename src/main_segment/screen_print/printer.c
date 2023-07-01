@@ -1,5 +1,5 @@
 // TODO: remove when ultralib repo has this definition
-#define _MIPS_SIM_ABI64		3
+#define _MIPS_SIM_ABI64 3
 
 #include "screen_print/printer.h"
 #include "include_asm.h"
