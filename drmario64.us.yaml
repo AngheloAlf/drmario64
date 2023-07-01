@@ -417,10 +417,11 @@ segments:
       - [0x075000, data, main_segment/075000]
 
       - start: 0x0750F0
-        type: data
+        type: .data
         name: main_segment/screen_print/026000
         subsegments:
-        - [0x0750F0]
+        - [0x0750F0, i4, main_segment/screen_print/026000/D_8008D2D0.i4, 160, 48]
+        - [0x075FF0]
         - { start: 0x0760B0, type: gfx, data_only: True, name: main_segment/screen_print/026000/D_8008E290 }
         - [0x076160]
 
@@ -434,11 +435,11 @@ segments:
         type: data
         name: main_segment/font_textures
         subsegments:
-          - [0x0766E0, i4, main_segment/font_textures/D_8008E8C0, 12, 3864]
-          - [0x07C170, i4, main_segment/font_textures/D_80094350, 24, 3864]
-          - [0x087690, i4, main_segment/font_textures/D_8009F870, 10, 1128]
-          - [0x088C98, i4, main_segment/font_textures/D_800A0E78, 20, 1128]
-          - [0x08B8A8, i4, main_segment/font_textures/font_grade_tex, 12, 12]
+          - [0x0766E0, i4, main_segment/font_textures/D_8008E8C0.i4, 12, 3864]
+          - [0x07C170, i4, main_segment/font_textures/D_80094350.i4, 24, 3864]
+          - [0x087690, i4, main_segment/font_textures/D_8009F870.i4, 10, 1128]
+          - [0x088C98, i4, main_segment/font_textures/D_800A0E78.i4, 20, 1128]
+          - [0x08B8A8, i4, main_segment/font_textures/font_grade_tex.i4, 12, 12]
 
       - [0x08B8F0, .data, main_segment/font]
 
