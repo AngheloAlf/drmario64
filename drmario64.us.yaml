@@ -355,7 +355,7 @@ segments:
 
       - [0x024BC0, c, main_segment/screen_print/024BC0]
       - [0x024C40, c, main_segment/screen_print/printf_impl]
-      - [0x026000, c, main_segment/screen_print/026000]
+      - [0x026000, c, main_segment/screen_print/debug_print]
 
       - [0x026550, c, main_segment/026550]
 
@@ -418,11 +418,11 @@ segments:
 
       - start: 0x0750F0
         type: .data
-        name: main_segment/screen_print/026000
+        name: main_segment/screen_print/debug_print
         subsegments:
-        - [0x0750F0, i4, main_segment/screen_print/026000/D_8008D2D0.i4, 160, 48]
+        - [0x0750F0, i4, main_segment/screen_print/debug_print/D_8008D2D0.i4, 160, 48]
         - [0x075FF0]
-        - { start: 0x0760B0, type: gfx, data_only: True, name: main_segment/screen_print/026000/D_8008E290 }
+        - { start: 0x0760B0, type: gfx, data_only: True, name: main_segment/screen_print/debug_print/D_8008E290 }
         - [0x076160]
 
       - [0x076190, .data, main_segment/026550]

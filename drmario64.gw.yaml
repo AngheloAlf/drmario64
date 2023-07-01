@@ -298,7 +298,7 @@ segments:
 
       - [0x025650, asm, main_segment/screen_print/printf_impl]
 
-      - [0x026A10, c, main_segment/screen_print/026000]
+      - [0x026A10, c, main_segment/screen_print/debug_print]
 
       - [0x026F60, c, main_segment/026550]
 
@@ -324,15 +324,15 @@ segments:
       - [0x06D220, data, main_segment/06D220] # guess
       - [0x070D50, data, main_segment/070D50]
 
-      - [0x075ED0, data, main_segment/screen_print/026000]
+      - [0x075ED0, data, main_segment/screen_print/debug_print]
 
       - start: 0x075ED0
         type: .data
-        name: main_segment/screen_print/026000
+        name: main_segment/screen_print/debug_print
         subsegments:
-        - [0x075ED0, i4, main_segment/screen_print/026000/D_8008D2D0.i4, 160, 48]
+        - [0x075ED0, i4, main_segment/screen_print/debug_print/D_8008D2D0.i4, 160, 48]
         - [0x076DD0]
-        - { start: 0x076E90, type: gfx, data_only: True, name: main_segment/screen_print/026000/D_8008E290 }
+        - { start: 0x076E90, type: gfx, data_only: True, name: main_segment/screen_print/debug_print/D_8008E290 }
         - [0x076F70]
 
       - [0x076F70, .data, main_segment/026550]

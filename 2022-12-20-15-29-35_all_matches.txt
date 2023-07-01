@@ -67,7 +67,7 @@ D_800ADB40 - found 33 matches total:
 0.99 - D_8000EA48 (decompiled)
 0.99 - osClockRate (decompiled)
 0.99 - ifd (decompiled)
-0.99 - func_8003E4AC
+0.99 - DebugPrint_8003E4AC
 0.99 - D_8008E598 (decompiled)
 0.99 - D_800ACE70
 0.99 - D_800AFBD8
@@ -416,7 +416,7 @@ dm_virus_init - found 1 matches total:
 func_8003CDF8 - found 1 matches total:
 0.99 - func_8003CDD4
 
-func_8003E6D8 - found 1 matches total:
+DebugPrint_8003E6D8 - found 1 matches total:
 0.99 - Main_StopThread (decompiled)
 
 func_80059AA4 - found 1 matches total:

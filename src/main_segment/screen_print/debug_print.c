@@ -4,13 +4,11 @@
 #include "unknown_structs.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
-#include "screen_print/026000.h"
+#include "screen_print/debug_print.h"
 #include "screen_print/printf_impl.h"
 
-extern struct_8008E364_unk_4 B_800E5890;
-
 u8 D_8008D2D0[] = {
-#include "main_segment/screen_print/026000/D_8008D2D0.i4.inc"
+#include "main_segment/screen_print/debug_print/D_8008D2D0.i4.inc"
 };
 
 #define FONT_COLS_PER_ROW (26)
@@ -219,7 +217,7 @@ D_8008E1D0_TYPE D_8008E1D0[] = {
 };
 
 Gfx D_8008E290[] = {
-#include "main_segment/screen_print/026000/D_8008E290.gfx.inc.c"
+#include "main_segment/screen_print/debug_print/D_8008E290.gfx.inc.c"
 };
 
 Color_RGB8 D_8008E340[] = {
@@ -233,18 +231,7 @@ Color_RGB8 D_8008E340[] = {
     /* 7 */ { 255, 255, 255 }, // White
 };
 
-struct_8008E364_unk_0 D_8008E358 = {
-    func_8003E430,
-    func_8003E4AC,
-    func_8003E4B4,
-};
-
-struct_8008E364 D_8008E364 = {
-    &D_8008E358,
-    &B_800E5890,
-};
-
-void func_8003E1E0(Gfx **gfxP) {
+void DebugPrint_8003E1E0(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, D_8008E290);
@@ -252,9 +239,9 @@ void func_8003E1E0(Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-void func_8003E208(Gfx **gfxP, s32 index) {
+void DebugPrint_SetColor(Gfx **gfxP, s32 colorIndex) {
     Gfx *gfx = *gfxP;
-    Color_RGB8 *color = &D_8008E340[index % ARRAY_COUNTU(D_8008E340)];
+    Color_RGB8 *color = &D_8008E340[colorIndex % ARRAY_COUNTU(D_8008E340)];
 
     gDPPipeSync(gfx++);
     gDPSetPrimColor(gfx++, 0, 0, color->r, color->g, color->b, 255);
@@ -263,7 +250,7 @@ void func_8003E208(Gfx **gfxP, s32 index) {
 }
 
 #if VERSION_US || VERSION_GW
-void func_8003E278(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+void DebugPrint_8003E278(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     Gfx *gfx = *gfxP;
     //! FAKE:
     s32 s UNUSED = (arg3 % FONT_COLS_PER_ROW) * 0xC0;
@@ -277,7 +264,7 @@ void func_8003E278(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 #endif
 
 #if VERSION_CN
-void func_8003E278(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+void DebugPrint_8003E278(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     Gfx *gfx = *gfxP;
     s32 s = (arg3 % FONT_COLS_PER_ROW) * 0xC0;
     s32 t = (arg3 / FONT_COLS_PER_ROW) * 0x100;
@@ -289,17 +276,17 @@ void func_8003E278(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 }
 #endif
 
-void func_8003E3F0(Gfx **gfxP, s32 arg1, s32 arg2, s32 character) {
+void DebugPrint_8003E3F0(Gfx **gfxP, s32 arg1, s32 arg2, s32 character) {
     if (character - 0x20 - 1 < ARRAY_COUNTU(D_8008E1D0) - 1) {
         s32 val = D_8008E1D0[character - 0x20];
 
         if (val != -1) {
-            func_8003E278(gfxP, arg1, arg2, val);
+            DebugPrint_8003E278(gfxP, arg1, arg2, val);
         }
     }
 }
 
-s32 func_8003E430(struct_8008E364 *arg0, va_list args) {
+s32 DebugPrint_8003E430(struct_8008E364 *arg0, va_list args) {
     struct_8008E364_unk_4 *ptr = arg0->unk_4;
 
     ptr->gfxP = va_arg(args, Gfx **);
@@ -309,20 +296,20 @@ s32 func_8003E430(struct_8008E364 *arg0, va_list args) {
 
     ptr->unk_0C = 0;
     ptr->unk_0E = 0;
-    ptr->unk_10 = 0;
+    ptr->unk_10 = '\0';
 
     if (ptr->gfxP != NULL) {
-        func_8003E1E0(ptr->gfxP);
+        DebugPrint_8003E1E0(ptr->gfxP);
     }
 
     return 0;
 }
 
-s32 func_8003E4AC(void) {
+s32 DebugPrint_8003E4AC(void) {
     return 0;
 }
 
-s32 func_8003E4B4(struct_8008E364 *arg0, char *arg1, size_t arg2) {
+s32 DebugPrint_8003E4B4(struct_8008E364 *arg0, char *arg1, size_t arg2) {
     s32 var_s3 = arg2;
     struct_8008E364_unk_4 *temp_s0 = arg0->unk_4;
 
@@ -348,7 +335,7 @@ s32 func_8003E4B4(struct_8008E364 *arg0, char *arg1, size_t arg2) {
 
             case 'c':
                 if (temp_s0->gfxP != NULL) {
-                    func_8003E208(temp_s0->gfxP, temp_s1 - '0');
+                    DebugPrint_SetColor(temp_s0->gfxP, temp_s1 - '0');
                 }
                 temp_s0->unk_10 = 0xFF;
                 break;
@@ -382,8 +369,8 @@ s32 func_8003E4B4(struct_8008E364 *arg0, char *arg1, size_t arg2) {
                 }
             } else {
                 if (temp_s0->gfxP != NULL) {
-                    func_8003E3F0(temp_s0->gfxP, temp_s0->unk_08 + temp_s0->unk_0C * 6,
-                                  temp_s0->unk_0A + temp_s0->unk_0E * 8, temp_s1);
+                    DebugPrint_8003E3F0(temp_s0->gfxP, temp_s0->unk_08 + temp_s0->unk_0C * 6,
+                                        temp_s0->unk_0A + temp_s0->unk_0E * 8, temp_s1);
                 }
                 temp_s0->unk_0C++;
             }
@@ -392,21 +379,34 @@ s32 func_8003E4B4(struct_8008E364 *arg0, char *arg1, size_t arg2) {
     return arg2;
 }
 
-s32 func_8003E69C(Gfx **gfxP, func_8003E69C_arg1 arg1, s32 arg2, s32 arg3) {
+struct_8008E364_unk_0 D_8008E358 = {
+    DebugPrint_8003E430,
+    DebugPrint_8003E4AC,
+    DebugPrint_8003E4B4,
+};
+
+extern struct_8008E364_unk_4 B_800E5890;
+
+struct_8008E364 D_8008E364 = {
+    &D_8008E358,
+    &B_800E5890,
+};
+
+s32 DebugPrint_8003E69C(Gfx **gfxP, DebugPrint_8003E69C_arg1 arg1, s32 arg2, s32 arg3) {
     return func_8003CDA0(&D_8008E364, gfxP, arg1, arg2, arg3);
 }
 
-void func_8003E6D8(void) {
+void DebugPrint_8003E6D8(void) {
     func_8003CDD4(&D_8008E364);
 }
 
-void func_8003E6F8(const char *fmt UNUSED, ...) {
+void DebugPrint_Printf(const char *fmt UNUSED, ...) {
 #if VERSION_US || VERSION_GW
     va_list args;
 
     va_start(args, fmt);
 
-    func_8003D6D0(&D_8008E364, fmt, args);
+    _kmcprt(&D_8008E364, fmt, args);
 
     va_end(args);
 #endif

@@ -15,82 +15,83 @@
 #include "libc/stdarg.h"
 #include "libc/math.h"
 #include "screen_print/printer.h"
+#include "libkmc/explog.h"
 
 #if VERSION_US
-char *func_8003CE20(char arg0[0x100], u32 arg1, u32 arg2, char *arg3) {
-    char *var_a0 = &arg0[0x100];
+char *cvt_radix(char buf[ABUFSIZE], unsigned int value, int radix, const char *binasc) {
+    buf += ABUFSIZE;
 
     do {
-        var_a0 -= 1;
-        *var_a0 = arg3[arg1 % arg2];
+        buf -= 1;
+        *buf = binasc[value % radix];
 
-        arg1 = arg1 / arg2;
-    } while (arg1 != 0);
+        value /= radix;
+    } while (value != 0);
 
-    return var_a0;
+    return buf;
 }
 #endif
 
 #if VERSION_US
-char *func_8003CE5C(char arg0[0x100], u64 arg2, s32 arg4, char *arg5) {
-    arg0 = &arg0[0x100];
+char *cvtl_radix(char buf[ABUFSIZE], unsigned long long value, int radix, const char *binasc) {
+    buf += ABUFSIZE;
 
     do {
-        vs32 index = arg2 % arg4;
+        volatile int index = value % radix;
 
-        arg0--;
-        *arg0 = arg5[index];
+        buf--;
+        *buf = binasc[index];
 
-        arg2 /= arg4;
-    } while (arg2 != 0);
+        value /= radix;
+    } while (value != 0);
 
-    return arg0;
+    return buf;
 }
 #endif
 
 #if VERSION_US
-s32 func_8003CF2C(char *arg0, s32 arg1, s32 arg2) {
-    char *temp_a3;
+int round_asc(char *p, int exp, int n) {
+    char *pbak;
 
-    arg0 = &arg0[arg2];
-    if (*arg0 < '5') {
-        *arg0 = '\0';
-        return arg1;
+    p = &p[n];
+    if (*p < '5') {
+        *p = '\0';
+        return exp;
     }
 
-    temp_a3 = arg0;
+    pbak = p;
 
-    arg2--;
-    *temp_a3 = '\0';
+    n--;
+    *pbak = '\0';
 
-    while (arg2 >= 0) {
-        arg0--;
-        arg2--;
-        if (*arg0 != '9') {
-            *arg0 = *arg0 + 1;
-            return arg1;
+    while (n >= 0) {
+        p--;
+        n--;
+        if (*p != '9') {
+            *p = *p + 1;
+            return exp;
         }
 
-        *arg0 = '0';
+        *p = '0';
     }
 
-    *arg0 = '1';
-    *temp_a3++ = '0';
-    *temp_a3++ = '\0';
-    return arg1 + 1;
+    *p = '1';
+    *pbak++ = '0';
+    *pbak++ = '\0';
+    return exp + 1;
 }
 #endif
 
 #if VERSION_US
-void func_8003CFA8(char *arg0, s32 arg1, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
-    arg1--;
-    *arg3++ = *arg0++;
+void eprt_sub(char *s, s32 ndig, s32 exp, char *arg3, s32 letter_e, s32 sharp_flg) {
+    ndig--;
+    *arg3++ = *s++;
     *arg3++ = '.';
 
-    memcpy(arg3, arg0, arg1);
-    arg3 = &arg3[arg1];
+    memcpy(arg3, s, ndig);
+    arg3 = &arg3[ndig];
 
-    if (arg5 == 0) {
+    if (sharp_flg == 0) {
         while (arg3[-1] == '0') {
             arg3--;
         }
@@ -100,31 +101,31 @@ void func_8003CFA8(char *arg0, s32 arg1, s32 arg2, char *arg3, s32 arg4, s32 arg
         }
     }
 
-    *arg3++ = arg4;
-    if (arg2 < 0) {
-        arg2 = -arg2;
+    *arg3++ = letter_e;
+    if (exp < 0) {
+        exp = -exp;
         *arg3++ = '-';
     } else {
         *arg3++ = '+';
     }
 
-    if (arg2 >= 100) {
-        *arg3++ = (arg2 / 100) + '0';
-        arg2 %= 100;
+    if (exp >= 100) {
+        *arg3++ = (exp / 100) + '0';
+        exp %= 100;
     }
 
-    *arg3++ = (arg2 / 10) + '0';
-    arg2 %= 10;
+    *arg3++ = (exp / 10) + '0';
+    exp %= 10;
 
-    *arg3++ = arg2 + '0';
+    *arg3++ = exp + '0';
     *arg3++ = '\0';
 }
 #endif
 
-extern char B_800E5860[];
+extern char fbuf[FBUF_SIZE];
 
-extern f64 D_8008D208[];
-extern f64 D_8008D250[];
+extern f64 _div_data[];
+extern f64 _mul_data[];
 
 typedef union {
     struct {
@@ -135,229 +136,219 @@ typedef union {
 } du; // size = 0x8
 
 #if VERSION_US
-char *func_8003D110(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4) {
-    volatile f64 sp10;
-    du var_fa0;
-    f64 sp18;
-    s32 var_a2;
-    s32 var_s1;
-    s32 var_s2;
-    s32 var_v1;
-    char *var_s0;
+char *ecvt(double x, int ndig, int *dec, int *sign) {
+    int exp = 0;
+    int exp_index = 0x100;
+    int ndig1 = ndig;
+    volatile double x1;
+    du val;
+    double ipart;
+    int i;
+    char *p;
 
-    var_s1 = 0;
-    var_a2 = 0x100;
-    var_s2 = arg2;
-    *arg4 = 0;
-    if (arg2 >= 0x14) {
-        arg2 = 0x14;
-        var_s2 = 0x13;
+    *sign = 0;
+
+    if (ndig > VALID_CT) {
+        ndig = VALID_CT + 1;
+        ndig1 = VALID_CT;
     }
-    var_fa0.d = arg0;
 
-    switch (var_fa0.word.hi & 0x7FF00000) {
+    val.d = x;
+
+    switch (val.word.hi & 0x7FF00000) {
         case 0x0:
-            var_s0 = B_800E5860;
-            for (var_v1 = 0; var_v1 < arg2; var_v1++) {
-                *var_s0++ = 0x30;
+            p = fbuf;
+            for (i = 0; i < ndig; i++) {
+                *p++ = '0';
             }
 
-            *arg3 = 1;
-            break;
+            *dec = 1;
+            return fbuf;
 
         case 0x7FF00000:
-            *arg3 = 0x7FFFFFFF;
-            if ((var_fa0.word.hi & 0xFFFFF) || (var_fa0.word.lo != 0)) {
-                strcpy(B_800E5860, "NAN");
-                *arg4 = 0;
-                return B_800E5860;
-            } else {
-                strcpy(B_800E5860, "INF");
-                return B_800E5860;
+            *dec = 0x7FFFFFFF;
+            if ((val.word.hi & 0xFFFFF) || (val.word.lo != 0)) {
+                strcpy(fbuf, "NAN");
+                *sign = 0;
+                return fbuf;
             }
-            break;
-
-        default:
-            if (arg0 < 0.0) {
-                *arg4 = 1;
-                arg0 = -arg0;
-            }
-
-            if (arg0 >= 1.0) {
-                for (var_v1 = 8; var_v1 >= 0; var_v1--) {
-                    if (D_8008D208[var_v1] <= arg0) {
-                        var_s1 += var_a2;
-                        arg0 *= D_8008D250[var_v1];
-                    }
-                    var_a2 = var_a2 >> 1;
-                }
-            } else {
-                for (var_v1 = 8; var_v1 >= 0; var_v1--) {
-                    if (arg0 < D_8008D250[var_v1]) {
-                        var_s1 -= var_a2;
-                        arg0 *= D_8008D208[var_v1];
-                    }
-                    var_a2 = var_a2 >> 1;
-                }
-                var_s1 -= 1;
-                arg0 *= 10.0;
-            }
-
-            sp10 = arg0;
-        dumb_loop:
-            if (sp10 >= 10.0) {
-                var_s1 += 1;
-                sp10 *= 0.1;
-            } else if (sp10 < 1.0) {
-                var_s1 -= 1;
-                sp10 *= 10.0;
-            } else {
-                goto loop_end;
-            }
-            goto dumb_loop;
-        loop_end:;
-
-            var_s0 = B_800E5860;
-            do {
-                sp10 = modf(sp10, &sp18) * 10.0;
-                *var_s0++ = (s32)sp18 + '0';
-                var_s2--;
-            } while (var_s2 >= 0);
-
-            if (arg2 >= 20) {
-                *arg3 = var_s1 + 1;
-            } else {
-                *arg3 = func_8003CF2C(B_800E5860, var_s1, arg2) + 1;
-            }
-            break;
+            strcpy(fbuf, "INF");
+            return fbuf;
     }
 
-    return B_800E5860;
-}
-#endif
-
-#if VERSION_US
-char *func_8003D41C(f64 arg0, s32 arg2, s32 *arg3, s32 *arg4) {
-    s32 temp_a1;
-    s32 var_a2;
-    char *temp_v1;
-
-    temp_v1 = func_8003D110(arg0, 0x14, arg3, arg4);
-    temp_a1 = *arg3;
-    if (temp_a1 == 0x7FFFFFFF) {
-        return B_800E5860;
+    if (x < 0.0) {
+        *sign = 1;
+        x = -x;
     }
 
-    var_a2 = temp_a1 + arg2;
-    if (var_a2 < 0) {
-        return B_800E5860;
-    }
-
-    if (var_a2 < 0x14) {
-        *arg3 = func_8003CF2C(B_800E5860, temp_a1, var_a2);
+    if (x >= 1.0) {
+        for (i = 8; i >= 0; i--) {
+            if (_div_data[i] <= x) {
+                exp += exp_index;
+                x *= _mul_data[i];
+            }
+            exp_index >>= 1;
+        }
     } else {
-        var_a2 = MIN(var_a2, 40);
-
-        var_a2 -= 20;
-        temp_v1 += 20;
-        for (; var_a2 > 0; var_a2--) {
-            *temp_v1++ = '0';
+        for (i = 8; i >= 0; i--) {
+            if (x < _mul_data[i]) {
+                exp -= exp_index;
+                x *= _div_data[i];
+            }
+            exp_index >>= 1;
         }
+        exp--;
+        x *= 10.0;
     }
 
-    return B_800E5860;
+    x1 = x;
+
+exp_loop:
+    if (x1 >= 10.0) {
+        exp += 1;
+        x1 *= 0.1;
+        goto exp_loop;
+    } else if (x1 < 1.0) {
+        exp -= 1;
+        x1 *= 10.0;
+        goto exp_loop;
+    }
+
+    p = fbuf;
+    do {
+        x1 = modf(x1, &ipart) * 10.0;
+        *p++ = (int)ipart + '0';
+        ndig1--;
+    } while (ndig1 >= 0);
+
+    if (ndig > VALID_CT) {
+        *dec = exp + 1;
+    } else {
+        *dec = round_asc(fbuf, exp, ndig) + 1;
+    }
+
+    return fbuf;
 }
 #endif
 
 #if VERSION_US
-char *func_8003D4C8(f64 arg0, s32 arg2, char *arg3, s32 arg4, s32 arg5) {
-    s32 sp18;
-    s32 sp1C;
-    char *var_a1;
-    char *var_s0;
+char *fcvt(double x, int ndig, int *dec, int *sign) {
+    char *p = ecvt(x, VALID_CT + 1, dec, sign);
+    int exp = *dec;
+    int epos;
 
-    var_a1 = func_8003D110(arg0, arg2, &sp18, &sp1C);
-    var_s0 = arg3;
-    if (sp1C != 0) {
-        *arg3 = 0x2D;
-        var_s0 = arg3 + 1;
+    if (exp == 0x7FFFFFFF) {
+        return fbuf;
     }
 
-    if (sp18 == 0x7FFFFFFF) {
-        strcpy(var_s0, var_a1);
-        return arg3;
+    epos = exp + ndig;
+    if (epos < 0) {
+        return fbuf;
     }
 
-    if (sp18 <= 0) {
-        if (sp18 >= -3) {
-            *var_s0++ = 0x30;
-            *var_s0++ = 0x2E;
+    if (epos <= VALID_CT) {
+        *dec = round_asc(fbuf, exp, epos);
+    } else {
+        epos = MIN(epos, FBUF_SIZE);
 
-            while (sp18 != 0) {
-                *var_s0++ = 0x30;
-                sp18 = sp18 + 1;
-            }
-
-            memcpy(var_s0, var_a1, arg2);
-            var_s0 = var_s0 + arg2;
-
-        label:
-            if (arg5 == 0) {
-                while (var_s0[-1] == 0x30) {
-                    var_s0 -= 1;
-                }
-
-                if (var_s0[-1] == 0x2E) {
-                    var_s0--;
-                }
-            }
-            var_s0[0] = 0;
-
-            return arg3;
+        epos -= VALID_CT + 1;
+        p += VALID_CT + 1;
+        for (; epos > 0; epos--) {
+            *p++ = '0';
         }
-    } else if (sp18 < arg2) {
-        arg2 = arg2 - 1;
-        while (arg2 != -1) {
-            *var_s0++ = *var_a1++;
-            sp18--;
-            if (sp18 == 0) {
-                *var_s0++ = 0x2E;
-            }
-            arg2 -= 1;
-        }
-
-        goto label;
-    } else if (arg2 + 1 >= sp18) {
-        memcpy(var_s0, var_a1, sp18);
-        var_s0[arg2] = 0x30;
-
-        if (arg5 == 0) {
-            var_s0[sp18] = 0;
-        } else {
-            var_s0[sp18] = 0x2E;
-            *(var_s0 + sp18 + 1) = 0;
-        }
-
-        return arg3;
     }
 
-    func_8003CFA8(var_a1, arg2, sp18 - 1, var_s0, arg4, arg5);
-    return arg3;
+    return fbuf;
 }
 #endif
 
-extern char D_8008D1E0[];
-extern char D_8008D1F4[];
+#if VERSION_US
+char *gcvt(double x, s32 ndig, char *bufp, s32 letter_e, s32 sharp_flg) {
+    int exp;
+    int sign;
+    char *p = ecvt(x, ndig, &exp, &sign);
+    char *q = bufp;
+
+    if (sign != 0) {
+        *bufp = '-';
+        q = bufp + 1;
+    }
+
+    if (exp == 0x7FFFFFFF) {
+        strcpy(q, p);
+        return bufp;
+    }
+
+    if (exp <= 0) {
+        if (exp > -4) {
+            *q++ = '0';
+            *q++ = '.';
+
+            while (exp != 0) {
+                *q++ = '0';
+                exp++;
+            }
+
+            memcpy(q, p, ndig);
+            q += ndig;
+
+        del_zero:
+            if (sharp_flg == 0) {
+                while (q[-1] == '0') {
+                    q -= 1;
+                }
+
+                if (q[-1] == '.') {
+                    q--;
+                }
+            }
+            q[0] = 0;
+
+            return bufp;
+        }
+    } else if (exp < ndig) {
+        ndig--;
+        while (ndig != -1) {
+            *q++ = *p++;
+            exp--;
+            if (exp == 0) {
+                *q++ = '.';
+            }
+            ndig--;
+        }
+
+        goto del_zero;
+    } else if (ndig + 1 >= exp) {
+        memcpy(q, p, exp);
+        q[ndig] = '0';
+
+        if (sharp_flg == 0) {
+            q[exp] = '\0';
+        } else {
+            q[exp] = '.';
+            *(q + exp + 1) = '\0';
+        }
+
+        return bufp;
+    }
+
+    eprt_sub(p, ndig, exp - 1, q, letter_e, sharp_flg);
+    return bufp;
+}
+#endif
+
+extern char basc[];
+extern char BASC[];
 
 #if VERSION_US
 #ifdef NON_MATCHING
-int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
-    char sp18[0x100];
+int _kmcprt(struct_8008E364 *arg0, const char *fmt, va_list args) {
+    char sp18[ABUFSIZE];
     char sp118;
-    s32 sp11C;
-    s32 sp120;
-    s32 sp124;
-    s32 sp128;
+    int sp11C;
+    int sp120;
+    int sp124;
+    int sp128;
     char sp12C;
     char sp12D;
     char sp12E;
@@ -374,7 +365,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
     s32 var_fp;
     s32 var_s2;
     s32 var_s3;
-    s32 var_s4;
+    int var_s4;
     s32 var_s6;
     s32 var_s7;
     s32 var_v1_3;
@@ -389,8 +380,9 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
     while (true) {
         sp118 = *fmt++;
 
-        if (sp118 != 0x25) {
+        if (sp118 != '%') {
             if (sp118 == 0) {
+                sp164 = 0;
                 return var_fp;
             }
             if (__ctype_map[sp118] & 0x80) {
@@ -466,7 +458,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
 
         sp154 = 0;
         sp144 = 0;
-        sp15C = D_8008D1E0;
+        sp15C = basc;
         sp14C = 0xA;
 
     loop_26:
@@ -485,7 +477,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
                 goto block_100;
 
             case 'X': // 0x58
-                sp15C = D_8008D1F4;
+                sp15C = BASC;
                 /* fallthrough */
                 FALLTHROUGH;
 
@@ -516,7 +508,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
             {
                 var_fs0 = va_arg(args, double);
 
-                var_s2_3 = func_8003D41C(var_fs0, var_s4, &sp11C, &sp120);
+                var_s2_3 = fcvt(var_fs0, var_s4, &sp11C, &sp120);
                 if (sp120 != 0) {
                     var_s3 |= 0x100;
                 }
@@ -604,7 +596,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
             {
                 var_fs0 = va_arg(args, double);
             block_83:
-                temp_a1 = func_8003D110(var_fs0, var_s4, &sp124, &sp128);
+                temp_a1 = ecvt(var_fs0, var_s4, &sp124, &sp128);
                 var_s0_3 = var_s1 = &sp18[1];
                 if (sp128 != 0) {
                     var_s3 |= 0x100;
@@ -613,7 +605,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
                 if (sp124 == 0x7FFFFFFF) {
                     strcpy(var_s0_3, temp_a1);
                 } else {
-                    func_8003CFA8(temp_a1, var_s4, sp124 - 1, var_s0_3, sp118, sp164);
+                    eprt_sub(temp_a1, var_s4, sp124 - 1, var_s0_3, sp118, sp164);
                 }
                 var_s0 = strlen(var_s1);
                 var_s2 = 0;
@@ -628,7 +620,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
                     var_s3 |= 0x100;
                     var_fa0 = -var_fa0;
                 }
-                var_s1 = func_8003D4C8(var_fa0, var_s4, sp18 + 1, sp118 - 2, sp164);
+                var_s1 = gcvt(var_fa0, var_s4, sp18 + 1, sp118 - 2, sp164);
                 var_s0 = strlen(var_s1);
                 var_s2 = 0;
                 sp154 = 1;
@@ -645,7 +637,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
             case 'p': // 0x70
                 var_s3 = 0;
                 var_s2 = 8;
-                sp15C = D_8008D1F4;
+                sp15C = BASC;
                 sp14C = 0x10;
                 goto block_100;
 
@@ -686,7 +678,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
                         var_s3 |= 0x100;
                     }
                 }
-                var_s1 = func_8003CE5C(sp18, var_a2, sp14C, sp15C);
+                var_s1 = cvtl_radix(sp18, var_a2, sp14C, sp15C);
             } else {
                 var_a1 = va_arg(args, int);
                 if (var_s3 & 0x40) {
@@ -702,7 +694,7 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
                         var_s3 |= 0x100;
                     }
                 }
-                var_s1 = func_8003CE20(sp18, var_a1, sp14C, sp15C);
+                var_s1 = cvt_radix(sp18, var_a1, sp14C, sp15C);
             }
 
             // what
@@ -810,6 +802,6 @@ int func_8003D6D0(struct_8008E364 *arg0, const char *fmt, va_list args) {
     }
 }
 #else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/screen_print/printf_impl", func_8003D6D0);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/screen_print/printf_impl", _kmcprt);
 #endif
 #endif

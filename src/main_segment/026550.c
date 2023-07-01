@@ -9,7 +9,7 @@
 #include "boot_functions.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
-#include "screen_print/026000.h"
+#include "screen_print/debug_print.h"
 
 s32 D_8008E370[] = {
     0x00000001,
@@ -77,7 +77,7 @@ void func_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            func_8003E3F0(gfxP, arg1 + ((2 - B_800E58B0) * 6), arg2 + 8, '^');
+            DebugPrint_8003E3F0(gfxP, arg1 + ((2 - B_800E58B0) * 6), arg2 + 8, '^');
         }
     } else {
         s32 var_t0;
@@ -113,53 +113,53 @@ const char *D_8008E4A0[] = {
 };
 
 void func_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2) {
-    func_8003E69C_arg1 temp = func_8003E730;
+    DebugPrint_8003E69C_arg1 temp = func_8003E730;
     s32 i;
     s32 j;
 
-    func_8003E69C(gxfP, temp, arg1, arg2 + 8);
+    DebugPrint_8003E69C(gxfP, temp, arg1, arg2 + 8);
 
-    func_8003E6F8("@c2");
+    DebugPrint_Printf("@c2");
 
     for (i = 0; i < ARRAY_COUNT(D_8008E490); i++) {
-        func_8003E6F8("%s\n\n\n\n\n\n", D_8008E490[i]);
+        DebugPrint_Printf("%s\n\n\n\n\n\n", D_8008E490[i]);
     }
 
-    func_8003E6D8();
-    func_8003E69C(gxfP, temp, arg1 + 0x2A, arg2 + 8);
+    DebugPrint_8003E6D8();
+    DebugPrint_8003E69C(gxfP, temp, arg1 + 0x2A, arg2 + 8);
 
-    func_8003E6F8("@c2");
+    DebugPrint_Printf("@c2");
 
     for (i = 0; i < 4; i++) {
         for (j = 0; j < ARRAY_COUNT(D_8008E4A0); j++) {
-            func_8003E6F8("%6s\n\n", D_8008E4A0[j]);
+            DebugPrint_Printf("%6s\n\n", D_8008E4A0[j]);
         }
     }
 
-    func_8003E6D8();
-    func_8003E69C(gxfP, temp, arg1 + 0x54, arg2);
+    DebugPrint_8003E6D8();
+    DebugPrint_8003E69C(gxfP, temp, arg1 + 0x54, arg2);
 
-    func_8003E6F8("@c2S_er Slow Fast F_er Fest N_Wt F_NW");
+    DebugPrint_Printf("@c2S_er Slow Fast F_er Fest N_Wt F_NW");
 
-    func_8003E6D8();
-    func_8003E69C(gxfP, temp, arg1 + 0x5A, arg2 + 8);
+    DebugPrint_8003E6D8();
+    DebugPrint_8003E69C(gxfP, temp, arg1 + 0x5A, arg2 + 8);
 
     for (i = 0; i < ARRAY_COUNT(D_8008E480); i++) {
         for (j = 0; j < ARRAY_COUNT(*D_8008E480[i]); j++) {
             s32 k;
 
             for (k = 1; k < 8; k++) {
-                func_8003E6F8("@m%c%03d  ", 0x15 * i + 7 * j + k - 1, D_8008E480[i][k][j]);
+                DebugPrint_Printf("@m%c%03d  ", 0x15 * i + 7 * j + k - 1, D_8008E480[i][k][j]);
             }
 
-            func_8003E6F8("\n\n");
+            DebugPrint_Printf("\n\n");
         }
     }
 
-    func_8003E6D8();
-    func_8003E69C(gxfP, temp, arg1, arg2 + 0xC8);
-    func_8003E6F8("@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->");
-    func_8003E6D8();
+    DebugPrint_8003E6D8();
+    DebugPrint_8003E69C(gxfP, temp, arg1, arg2 + 0xC8);
+    DebugPrint_Printf("@c3<- CharacterMenu\t\t\t\t\tLogicMenu ->");
+    DebugPrint_8003E6D8();
 }
 
 void func_8003EB20(void) {
@@ -270,7 +270,7 @@ void func_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            func_8003E3F0(gfxP, arg1 + (((var_t1 - B_800E58B4) - 1) * 6), arg2 + 8, '^');
+            DebugPrint_8003E3F0(gfxP, arg1 + (((var_t1 - B_800E58B4) - 1) * 6), arg2 + 8, '^');
         }
     } else {
         s32 var_a1;
@@ -302,62 +302,63 @@ void func_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
     s32 index = 0;
     s32 i;
 
-    func_8003E69C(gxfP, func_8003EEA4, arg1, arg2);
+    DebugPrint_8003E69C(gxfP, func_8003EEA4, arg1, arg2);
 
-    func_8003E6F8("@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n", index, temp[index + 0],
-                  D_8008E380[temp[index + 0]], index + 1, temp[index + 1], D_8008E398[temp[index + 1]]);
+    DebugPrint_Printf("@c2Logic             State\n@c7 @m%c%02d:%-14s @m%c%02d:%-14s\n\n", index, temp[index + 0],
+                      D_8008E380[temp[index + 0]], index + 1, temp[index + 1], D_8008E398[temp[index + 1]]);
     index += 2;
 
-    func_8003E6F8("@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7");
+    DebugPrint_Printf("@c2OLVrs  ErVrs  ErL1   HeiEr   WidEr   HeightP\n@c7");
 
     for (i = 0; i < 6; i++) {
-        func_8003E6F8(((i == 3) || (i == 4)) ? " @m%c%05d%% " : " @m%c%05d ", index, temp[index]);
+        DebugPrint_Printf(((i == 3) || (i == 4)) ? " @m%c%05d%% " : " @m%c%05d ", index, temp[index]);
         index++;
     }
 
-    func_8003E6F8("\n\n");
-    func_8003E6F8("@c2\tALNB   FC     FV     C      V\n@c2Hei@c7  -----");
+    DebugPrint_Printf("\n\n");
+    DebugPrint_Printf("@c2\tALNB   FC     FV     C      V\n@c2Hei@c7  -----");
 
     for (i = 1; i < 5; i++) {
-        func_8003E6F8("  @m%c%05d", index, temp[index]);
+        DebugPrint_Printf("  @m%c%05d", index, temp[index]);
         index++;
     }
 
-    func_8003E6F8("\n\n@c2Wid@c7");
+    DebugPrint_Printf("\n\n@c2Wid@c7");
 
     for (i = 0; i < 5; i++) {
-        func_8003E6F8("  @m%c%05d", index, temp[index]);
+        DebugPrint_Printf("  @m%c%05d", index, temp[index]);
         index++;
     }
 
-    func_8003E6F8("\n\n");
+    DebugPrint_Printf("\n\n");
 
-    func_8003E6F8("@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  @m%c%05d%%  "
-                  "@m%c%02d:%-3s  @m%c%05d\n\n",
-                  index, temp[index + 0], index + 1, temp[index + 1], index + 2, temp[index + 2], index + 3,
-                  temp[index + 3], index + 4, temp[index + 4], D_8008E3B8[temp[index + 4]], index + 5, temp[index + 5]);
+    DebugPrint_Printf("@c2OnVrs  Rensa  MRensa HiEr    WallP   ErOL3\n@c7 @m%c%05d  @m%c%05d  @m%c%05d  @m%c%05d%%  "
+                      "@m%c%02d:%-3s  @m%c%05d\n\n",
+                      index, temp[index + 0], index + 1, temp[index + 1], index + 2, temp[index + 2], index + 3,
+                      temp[index + 3], index + 4, temp[index + 4], D_8008E3B8[temp[index + 4]], index + 5,
+                      temp[index + 5]);
     index += 6;
 
-    func_8003E6F8("@c2\tLine2  Line3  Line4~8\n@c2Hei@c7");
+    DebugPrint_Printf("@c2\tLine2  Line3  Line4~8\n@c2Hei@c7");
 
     for (i = 0; i < 3; i++) {
-        func_8003E6F8("  @m%c%05d", index, temp[index]);
+        DebugPrint_Printf("  @m%c%05d", index, temp[index]);
         index++;
     }
 
-    func_8003E6F8("\n\n@c2Wid@c7");
+    DebugPrint_Printf("\n\n@c2Wid@c7");
 
     for (i = 0; i < 3; i++) {
-        func_8003E6F8("  @m%c%05d", index, temp[index]);
+        DebugPrint_Printf("  @m%c%05d", index, temp[index]);
         index++;
     }
 
-    func_8003E6F8("\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m%c%03d:%-14s\n\n\n\n\n", index, temp[index],
-                  index + 1, temp[index + 1], (temp[index + 1] != 0) ? D_8008E3C0[temp[index + 1] - 1] : "Man");
+    DebugPrint_Printf("\n\n@c2DebugSpeed PlayerCom\n@c7 @m%c%03d        @m%c%03d:%-14s\n\n\n\n\n", index, temp[index],
+                      index + 1, temp[index + 1], (temp[index + 1] != 0) ? D_8008E3C0[temp[index + 1] - 1] : "Man");
     index += 2;
 
-    func_8003E6F8("@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->");
-    func_8003E6D8();
+    DebugPrint_Printf("@c3<- SpeedMenu\t\t\t\t\tCharacterMenu ->");
+    DebugPrint_8003E6D8();
 }
 
 void func_8003F360(void) {
@@ -468,7 +469,7 @@ void func_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            func_8003E3F0(gfxP, arg1 + (((var_t0 - B_800E58B8) - 1) * 6), arg2 + 8, '^');
+            DebugPrint_8003E3F0(gfxP, arg1 + (((var_t0 - B_800E58B8) - 1) * 6), arg2 + 8, '^');
         }
     } else {
         s32 var_a2 = 1;
@@ -526,27 +527,27 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
     s32 var_s0 = 0;
     s32 i;
 
-    func_8003E69C(gxfP, func_8003F568, arg1, arg2);
+    DebugPrint_8003E69C(gxfP, func_8003F568, arg1, arg2);
 
-    func_8003E6F8("@c2Character         WaitAttack Speed       Luck\n@c7 @m%c%02d:%-14s @m%c%02d:%-3s     "
-                  "@m%c%02d:%-8s @m%c%03d%%\n\n",
-                  var_s0, new_var[var_s0], D_8008E3C0[new_var[var_s0]], var_s0 + 1, new_var[var_s0 + 1],
-                  D_8008E3B8[new_var[var_s0 + 1]], var_s0 + 2, new_var[var_s0 + 2], D_8008E400[new_var[var_s0 + 2]],
-                  var_s0 + 3, new_var[var_s0 + 3]);
+    DebugPrint_Printf("@c2Character         WaitAttack Speed       Luck\n@c7 @m%c%02d:%-14s @m%c%02d:%-3s     "
+                      "@m%c%02d:%-8s @m%c%03d%%\n\n",
+                      var_s0, new_var[var_s0], D_8008E3C0[new_var[var_s0]], var_s0 + 1, new_var[var_s0 + 1],
+                      D_8008E3B8[new_var[var_s0 + 1]], var_s0 + 2, new_var[var_s0 + 2], D_8008E400[new_var[var_s0 + 2]],
+                      var_s0 + 3, new_var[var_s0 + 3]);
     var_s0 += 4;
 
     for (i = 0; i < 4; i++) {
-        func_8003E6F8("@c2%-18s %-18s\n@c7 @m%c%02d:%-14s  @m%c%02d:%-14s\n\n", D_8008E398[2 * i],
-                      D_8008E398[2 * i + 1], var_s0, new_var[var_s0], D_8008E380[new_var[var_s0]], var_s0 + 1,
-                      new_var[var_s0 + 1], D_8008E380[new_var[var_s0 + 1]]);
+        DebugPrint_Printf("@c2%-18s %-18s\n@c7 @m%c%02d:%-14s  @m%c%02d:%-14s\n\n", D_8008E398[2 * i],
+                          D_8008E398[2 * i + 1], var_s0, new_var[var_s0], D_8008E380[new_var[var_s0]], var_s0 + 1,
+                          new_var[var_s0 + 1], D_8008E380[new_var[var_s0 + 1]]);
         var_s0 += 2;
     }
 
-    func_8003E6F8("@c2  ExCondition        Sub   ExEffect       Sub\n");
+    DebugPrint_Printf("@c2  ExCondition        Sub   ExEffect       Sub\n");
 
     for (i = 0; i < 4; i++) {
-        func_8003E6F8("@c2%02d @c7@m%c%03d:%-14s ", B_800E592C + i + 1, var_s0, new_var[var_s0],
-                      D_8008E420[new_var[var_s0]]);
+        DebugPrint_Printf("@c2%02d @c7@m%c%03d:%-14s ", B_800E592C + i + 1, var_s0, new_var[var_s0],
+                          D_8008E420[new_var[var_s0]]);
 
         var_s0++;
         switch (new_var[var_s0 - 1]) {
@@ -558,39 +559,39 @@ void func_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
             case 0x8:
             case 0x9:
             case 0xB:
-                func_8003E6F8("@m%c---   ", var_s0);
+                DebugPrint_Printf("@m%c---   ", var_s0);
                 break;
 
             default:
-                func_8003E6F8("@m%c%03d%c  ", var_s0, new_var[var_s0], (new_var[var_s0 - 1] == 2) ? 0x25 : 0x20);
+                DebugPrint_Printf("@m%c%03d%c  ", var_s0, new_var[var_s0], (new_var[var_s0 - 1] == 2) ? 0x25 : 0x20);
                 break;
         }
 
         var_s0++;
 
-        func_8003E6F8("@m%c%03d:%-10s ", var_s0, new_var[var_s0], D_8008E454[new_var[var_s0]]);
+        DebugPrint_Printf("@m%c%03d:%-10s ", var_s0, new_var[var_s0], D_8008E454[new_var[var_s0]]);
 
         var_s0++;
         switch (new_var[var_s0 - 1]) {
             case 0:
             case 1:
             case 2:
-                func_8003E6F8("@m%c---", var_s0);
+                DebugPrint_Printf("@m%c---", var_s0);
                 break;
 
             default:
-                func_8003E6F8("@m%c%03d", var_s0, new_var[var_s0]);
+                DebugPrint_Printf("@m%c%03d", var_s0, new_var[var_s0]);
                 break;
         }
 
         var_s0++;
 
-        func_8003E6F8("\n\n");
+        DebugPrint_Printf("\n\n");
     }
 
-    func_8003E6F8("\n");
-    func_8003E6F8("@c3<- LogicMenu\t\t\t\t\t\tSpeedMenu ->");
-    func_8003E6D8();
+    DebugPrint_Printf("\n");
+    DebugPrint_Printf("@c3<- LogicMenu\t\t\t\t\t\tSpeedMenu ->");
+    DebugPrint_8003E6D8();
 }
 
 void func_8003FB00(void) {
@@ -690,8 +691,8 @@ void func_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            func_8003E208(gfxP, 7);
-            func_8003E3F0(gfxP, arg1 - 6, arg2, '>');
+            DebugPrint_SetColor(gfxP, 7);
+            DebugPrint_8003E3F0(gfxP, arg1 - 6, arg2, '>');
         }
     } else if (button & A_BUTTON) {
         switch (temp_a0) {
@@ -1134,30 +1135,30 @@ void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
     s32 var_s2;
     s32 var_s7;
 
-    func_8003E69C(gfxP, func_8003FD88, arg1, arg2);
+    DebugPrint_8003E69C(gfxP, func_8003FD88, arg1, arg2);
 
     // "Character edit"
-    func_8003E6F8("@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n");
+    DebugPrint_Printf("@c2[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n");
     // "Strength"?
-    func_8003E6F8("@c2ﾂﾖｻ ");
+    DebugPrint_Printf("@c2ﾂﾖｻ ");
 
     for (var_s1 = 0; var_s1 < var_s0; var_s1++) {
-        func_8003E6F8("%c", 0x83);
+        DebugPrint_Printf("%c", 0x83);
     }
 
     for (; var_s1 < 10; var_s1++) {
-        func_8003E6F8("%c", 0x82);
+        DebugPrint_Printf("%c", 0x82);
     }
 
-    func_8003E6D8();
+    DebugPrint_8003E6D8();
 
     arg1 += 6;
     arg2 += 0x20;
 
     for (var_s1 = 0; var_s1 < 4; var_s1++) {
-        func_8003E69C(gfxP, func_8003FD88, arg1, arg2);
+        DebugPrint_8003E69C(gfxP, func_8003FD88, arg1, arg2);
 
-        func_8003E6F8("@c2%s\n", D_8008E5A0[var_s1]);
+        DebugPrint_Printf("@c2%s\n", D_8008E5A0[var_s1]);
 
         var_s2 = var_s1 << 5;
 
@@ -1202,18 +1203,18 @@ void func_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
                 case 0:
                 case 1:
                 case 2:
-                    func_8003E6F8("@m%c@c%c%s\n", var_s2, var_a2, D_8008E548[var_s1][var_s0_2]);
+                    DebugPrint_Printf("@m%c@c%c%s\n", var_s2, var_a2, D_8008E548[var_s1][var_s0_2]);
                     var_s2 += 1;
                     break;
 
                 case 3:
-                    func_8003E6F8("@m%c@c%c%c:%s\n", var_s2, var_a2, var_s7, D_8008E548[var_s1][var_s0_2]);
+                    DebugPrint_Printf("@m%c@c%c%c:%s\n", var_s2, var_a2, var_s7, D_8008E548[var_s1][var_s0_2]);
                     var_s2 += 1;
                     break;
             }
         }
 
-        func_8003E6D8();
+        DebugPrint_8003E6D8();
         arg1 += D_8008E5B4[var_s1] * 6;
     }
 }

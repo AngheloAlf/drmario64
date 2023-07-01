@@ -306,7 +306,7 @@ segments:
       - [0x025650, c, main_segment/game_etc]
       - [0x027D50, c, main_segment/024BC0_cn]
 
-      - [0x027DF0, c, main_segment/screen_print/026000]
+      - [0x027DF0, c, main_segment/screen_print/debug_print]
 
       - [0x028350, c, main_segment/026550]
       - [0x02AC40, c, main_segment/028820]
@@ -366,11 +366,11 @@ segments:
 
       - start: 0x07FD50
         type: .data
-        name: main_segment/screen_print/026000
+        name: main_segment/screen_print/debug_print
         subsegments:
-        - [0x07FD50, i4, main_segment/screen_print/026000/D_8008D2D0.i4, 160, 48]
+        - [0x07FD50, i4, main_segment/screen_print/debug_print/D_8008D2D0.i4, 160, 48]
         - [0x080C50]
-        - { start: 0x080D10, type: gfx, data_only: True, name: main_segment/screen_print/026000/D_8008E290 }
+        - { start: 0x080D10, type: gfx, data_only: True, name: main_segment/screen_print/debug_print/D_8008E290 }
         - [0x080DF0]
 
       - [0x080DF0, .data, main_segment/026550]

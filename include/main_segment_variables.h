@@ -124,8 +124,8 @@ extern struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN];
 // extern UNK_TYPE D_8008CFA0;
 extern s32 D_8008CFE0;
 
-// extern UNK_TYPE D_8008D1E0;
-// extern UNK_TYPE D_8008D1F4;
+// extern UNK_TYPE basc;
+// extern UNK_TYPE BASC;
 
 // extern UNK_TYPE D_8008E370;
 // extern UNK_TYPE D_8008E380;
@@ -410,7 +410,7 @@ extern s32 last_flash;
 // extern UNK_TYPE B_800E51B0;
 // extern UNK_TYPE B_800E53B0;
 
-// extern UNK_TYPE B_800E5860;
+// extern UNK_TYPE fbuf;
 // extern UNK_TYPE B_800E5890;
 extern s32 B_800E58B0;
 extern s32 B_800E58B4;
