@@ -120,7 +120,7 @@ SEGMENT_EXTRACTOR ?= tools/compressor/extract_compressed_segments.py
 PIGMENT           ?= tools/pigment/target/release/pigment
 
 
-IINC       := -Iinclude -Ibin/$(VERSION) -I.
+IINC       := -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I.
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/include
 
 # Check code syntax with host compiler
@@ -190,13 +190,16 @@ $(shell mkdir -p asm bin linker_scripts/$(VERSION)/auto)
 
 SRC_DIRS      := $(shell find src -type d)
 ASM_DIRS      := $(shell find asm/$(VERSION) -type d -not -path "asm/$(VERSION)/nonmatchings/*")
-BIN_DIRS      := $(shell find bin -type d)
+BIN_DIRS      := $(shell find bin/$(VERSION) -type d)
+
 LIBULTRA_DIRS := $(shell find lib/ultralib/src -type d -not -path "lib/ultralib/src/voice")
 LIBMUS_DIRS   := $(shell find lib/libmus/src -type d)
 
 C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS) $(SRC_DIRS),$(wildcard $(dir)/*.s))
 BIN_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.bin))
+PNG_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.png))
+
 O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(BIN_FILES:.bin=.o),$(BUILD_DIR)/$f)
@@ -205,6 +208,8 @@ LIBULTRA_C    := $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.c))
 LIBULTRA_S    := $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.s))
 LIBULTRA_O    := $(foreach f,$(LIBULTRA_C:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(LIBULTRA_S:.s=.o),$(BUILD_DIR)/$f)
+
+PNG_INC_FILES := $(foreach f,$(PNG_FILES:.png=.inc),$(BUILD_DIR)/$f)
 
 
 # Automatic dependency files
@@ -303,10 +308,19 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 # TODO: update header
 
-$(ELF): $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld $(BUILD_DIR)/linker_scripts/common_undef_syms.ld
+$(ELF): $(PNG_INC_FILES) $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld $(BUILD_DIR)/linker_scripts/common_undef_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
 		-T $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld -T $(BUILD_DIR)/linker_scripts/common_undef_syms.ld \
 		-Map $(LD_MAP) -o $@
+
+## Order-only prerequisites
+# These ensure e.g. the PNG_INC_FILES are built before the O_FILES.
+# The intermediate phony targets avoid quadratically-many dependencies between the targets and prerequisites.
+
+asset_files: $(PNG_INC_FILES)
+$(O_FILES): | asset_files
+
+.PHONY: asset_files
 
 
 $(BUILD_DIR)/%.ld: %.ld
@@ -335,6 +349,13 @@ $(BUILD_DIR)/lib/%.o:
 ifneq ($(PERMUTER), 1)
 	$(error Library files has not been built, please run `$(MAKE) lib` first)
 endif
+
+
+# Make inc files from assets
+
+build/%.inc: %.png
+	$(PIGMENT) --c-array -o $@ $< $(subst .,,$(suffix $*))
+
 
 -include $(DEP_FILES)
 

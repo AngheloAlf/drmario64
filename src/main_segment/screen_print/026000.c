@@ -18,7 +18,7 @@ extern struct_8008E364 D_8008E364;
 
 #if VERSION_US
 u8 D_8008D2D0[] = {
-#include "main_segment/screen_print/026000/D_8008D2D0.i4.inc.c"
+#include "main_segment/screen_print/026000/D_8008D2D0.i4.inc"
 };
 
 u8 D_8008E1D0[] = {
