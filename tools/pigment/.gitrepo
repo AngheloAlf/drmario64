@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:decompals/pigment.git
 	branch = main
-	commit = 285adb4bc549f674e6fbbb09829515545261809f
-	parent = 65a1abbb87cef12e4e36dd69316b19726aeb8233
+	commit = e48e272b6f904c827b91ce87329994f33df20abe
+	parent = 64b8ba0cb076b22bff9e51bd21bdc5fe30ccb627
 	method = merge
 	cmdver = 0.4.3
