@@ -5,23 +5,23 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 
-s32 Printer_8003CDA0(struct_8008E364 *arg0, ...) {
+s32 Printer_Open(Printer *printer, ...) {
     s32 ret;
     va_list args;
 
-    va_start(args, arg0);
+    va_start(args, printer);
 
-    ret = arg0->unk_0->unk_0(arg0, args);
+    ret = printer->callbacks->open(printer, args);
 
     va_end(args);
 
     return ret;
 }
 
-s32 Printer_8003CDD4(struct_8008E364 *arg0) {
-    return arg0->unk_0->unk_4();
+s32 Printer_Close(Printer *printer) {
+    return printer->callbacks->close();
 }
 
-s32 Printer_8003CDF8(struct_8008E364 *arg0, char *arg1, size_t arg2) {
-    return arg0->unk_0->unk_8(arg0, arg1, arg2);
+s32 Printer_PutChars(Printer *printer, const char *chars, size_t length) {
+    return printer->callbacks->putChars(printer, chars, length);
 }

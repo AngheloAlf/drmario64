@@ -3,13 +3,14 @@
 
 #include "printer.h"
 
-typedef void (*DebugPrint_8003E69C_arg1)(Gfx **, s32, s32, s32);
+#define DBGPRT_FONT_CHAR_WIDTH (6)
+#define DBGPRT_FONT_CHAR_HEIGHT (8)
 
 
 void DebugPrint_SetColor(Gfx **gfxP, s32 colorIndex);
-void DebugPrint_8003E3F0(Gfx **gfxP, s32 arg1, s32 arg2, s32 character);
-s32 DebugPrint_8003E69C(Gfx **gfxP, DebugPrint_8003E69C_arg1 arg1, s32 arg2, s32 arg3);
-void DebugPrint_8003E6D8(void);
+void DebugPrint_DrawCharacter(Gfx **gfxP, s32 x, s32 y, s32 character);
+s32 DebugPrint_Open(Gfx **gfxP, PrinterState_Callback callback, s32 posX, s32 posY);
+void DebugPrint_Close(void);
 void DebugPrint_Printf(const char *fmt, ...);
 
 #define DBGPRT_COLOR_BLACK   0

@@ -3,6 +3,6 @@
 
 #include "printer.h"
 
-int _kmcprt(struct_8008E364 *arg0, const char *fmt, va_list args);
+int _kmcprt(Printer *arg0, const char *fmt, va_list args);
 
 #endif

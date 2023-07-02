@@ -65,18 +65,19 @@ const char *D_8008E490[] = {
     "SlideFS",
 };
 
-void DebugMenu_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+void DebugMenu_8003E730(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
     u16 buttonPressed = gControllerPressedButtons[0];
     u16 buttonCurrent = joycur[0];
 
-    if (arg3 != B_800E5914) {
+    if (character != B_800E5914) {
         return;
     }
 
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            DebugPrint_8003E3F0(gfxP, arg1 + ((2 - B_800E58B0) * 6), arg2 + 8, '^');
+            DebugPrint_DrawCharacter(gfxP, posX + ((2 - B_800E58B0) * DBGPRT_FONT_CHAR_WIDTH),
+                                     posY + DBGPRT_FONT_CHAR_HEIGHT, '^');
         }
     } else {
         s32 var_t0;
@@ -100,7 +101,7 @@ void DebugMenu_8003E730(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
             var_t0--;
         }
 
-        temp_a3 = &D_8008E480[arg3 / 21][(arg3 % 7) + 1][(arg3 / 7) - (arg3 / 21 * 3)];
+        temp_a3 = &D_8008E480[character / 21][(character % 7) + 1][(character / 7) - (character / 21 * 3)];
         *temp_a3 = CLAMP(*temp_a3 + (var_t0 * D_8008E370[B_800E58B0]), 0, 30);
     }
 }
@@ -111,12 +112,12 @@ const char *D_8008E4A0[] = {
     "Hard",
 };
 
-void DebugMenu_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2) {
-    DebugPrint_8003E69C_arg1 temp = DebugMenu_8003E730;
+void DebugMenu_8003E8C8(Gfx **gxfP, s32 posX, s32 posY) {
+    PrinterState_Callback callback = DebugMenu_8003E730;
     s32 i;
     s32 j;
 
-    DebugPrint_8003E69C(gxfP, temp, arg1, arg2 + 8);
+    DebugPrint_Open(gxfP, callback, posX, posY + DBGPRT_FONT_CHAR_HEIGHT);
 
     DebugPrint_Printf(DBGPRT_COLOR(GREEN) "");
 
@@ -124,8 +125,9 @@ void DebugMenu_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2) {
         DebugPrint_Printf("%s\n\n\n\n\n\n", D_8008E490[i]);
     }
 
-    DebugPrint_8003E6D8();
-    DebugPrint_8003E69C(gxfP, temp, arg1 + 0x2A, arg2 + 8);
+    DebugPrint_Close();
+
+    DebugPrint_Open(gxfP, callback, posX + 7 * DBGPRT_FONT_CHAR_WIDTH, posY + DBGPRT_FONT_CHAR_HEIGHT);
 
     DebugPrint_Printf(DBGPRT_COLOR(GREEN) "");
 
@@ -135,13 +137,15 @@ void DebugMenu_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2) {
         }
     }
 
-    DebugPrint_8003E6D8();
-    DebugPrint_8003E69C(gxfP, temp, arg1 + 0x54, arg2);
+    DebugPrint_Close();
+
+    DebugPrint_Open(gxfP, callback, posX + 14 * DBGPRT_FONT_CHAR_WIDTH, posY);
 
     DebugPrint_Printf(DBGPRT_COLOR(GREEN) "S_er Slow Fast F_er Fest N_Wt F_NW");
 
-    DebugPrint_8003E6D8();
-    DebugPrint_8003E69C(gxfP, temp, arg1 + 0x5A, arg2 + 8);
+    DebugPrint_Close();
+
+    DebugPrint_Open(gxfP, callback, posX + 15 * DBGPRT_FONT_CHAR_WIDTH, posY + DBGPRT_FONT_CHAR_HEIGHT);
 
     for (i = 0; i < ARRAY_COUNT(D_8008E480); i++) {
         for (j = 0; j < ARRAY_COUNT(*D_8008E480[i]); j++) {
@@ -155,10 +159,11 @@ void DebugMenu_8003E8C8(Gfx **gxfP, s32 arg1, s32 arg2) {
         }
     }
 
-    DebugPrint_8003E6D8();
-    DebugPrint_8003E69C(gxfP, temp, arg1, arg2 + 0xC8);
+    DebugPrint_Close();
+
+    DebugPrint_Open(gxfP, callback, posX, posY + 25 * DBGPRT_FONT_CHAR_HEIGHT);
     DebugPrint_Printf(DBGPRT_COLOR(CYAN) "<- CharacterMenu\t\t\t\t\tLogicMenu ->");
-    DebugPrint_8003E6D8();
+    DebugPrint_Close();
 }
 
 void DebugMenu_8003EB20(void) {
@@ -235,33 +240,33 @@ void DebugMenu_8003ECDC(void) {
     aiDebugP1 = *temp_v0++ - 1;
 }
 
-void DebugMenu_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+void DebugMenu_8003EEA4(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
     u16 buttonPressed = gControllerPressedButtons[0];
     u16 buttonCurrent = joycur[0];
     s32 var_t0;
     s32 var_t2;
     s32 var_t1;
 
-    if (arg3 != B_800E5918) {
+    if (character != B_800E5918) {
         return;
     }
 
     var_t2 = 0;
     var_t1 = 2;
-    if (arg3 == 0) {
+    if (character == 0) {
         var_t0 = 5;
-    } else if (arg3 == 1) {
+    } else if (character == 1) {
         var_t0 = 7;
-    } else if (arg3 == 0x15) {
+    } else if (character == 0x15) {
         var_t0 = 1;
-    } else if (arg3 < 0x1D) {
+    } else if (character < 0x1D) {
         var_t2 = -0x270F;
         var_t0 = 0x270F;
         var_t1 = 5;
-    } else if (arg3 == 0x1D) {
+    } else if (character == 0x1D) {
         var_t0 = 0x14;
         var_t1 = 3;
-    } else if (arg3 == 0x1E) {
+    } else if (character == 0x1E) {
         var_t0 = 0x10;
         var_t1 = 3;
     }
@@ -269,7 +274,8 @@ void DebugMenu_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            DebugPrint_8003E3F0(gfxP, arg1 + (((var_t1 - B_800E58B4) - 1) * 6), arg2 + 8, '^');
+            DebugPrint_DrawCharacter(gfxP, posX + (((var_t1 - B_800E58B4) - 1) * DBGPRT_FONT_CHAR_WIDTH),
+                                     posY + DBGPRT_FONT_CHAR_HEIGHT, '^');
         }
     } else {
         s32 var_a1;
@@ -292,16 +298,16 @@ void DebugMenu_8003EEA4(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
             var_a1 -= 1;
         }
 
-        B_800E58C0[arg3] = CLAMP(B_800E58C0[arg3] + D_8008E370[B_800E58B4] * var_a1, var_t2, var_t0);
+        B_800E58C0[character] = CLAMP(B_800E58C0[character] + D_8008E370[B_800E58B4] * var_a1, var_t2, var_t0);
     }
 }
 
-void DebugMenu_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
+void DebugMenu_8003F050(Gfx **gxfP, s32 posX, s32 posY) {
     s16 *temp = B_800E58C0;
     s32 index = 0;
     s32 i;
 
-    DebugPrint_8003E69C(gxfP, DebugMenu_8003EEA4, arg1, arg2);
+    DebugPrint_Open(gxfP, DebugMenu_8003EEA4, posX, posY);
 
     DebugPrint_Printf(DBGPRT_COLOR(GREEN) "Logic             State\n" DBGPRT_COLOR(
                           WHITE) " " DBGPRT_CALLBACK "%c%02d:%-14s " DBGPRT_CALLBACK "%c%02d:%-14s\n\n",
@@ -364,7 +370,7 @@ void DebugMenu_8003F050(Gfx **gxfP, s32 arg1, s32 arg2) {
     index += 2;
 
     DebugPrint_Printf(DBGPRT_COLOR(CYAN) "<- SpeedMenu\t\t\t\t\tCharacterMenu ->");
-    DebugPrint_8003E6D8();
+    DebugPrint_Close();
 }
 
 void DebugMenu_8003F360(void) {
@@ -411,7 +417,7 @@ void DebugMenu_8003F474(void) {
     }
 }
 
-void DebugMenu_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+void DebugMenu_8003F568(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
     u16 buttonPressed = gControllerPressedButtons[0];
     u16 buttonCurrent = joycur[0];
     s32 var_t1;
@@ -420,7 +426,7 @@ void DebugMenu_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     s32 var_t5;
     s32 var_t6;
 
-    if (arg3 != B_800E5924) {
+    if (character != B_800E5924) {
         return;
     }
 
@@ -429,21 +435,21 @@ void DebugMenu_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     var_t4 = 0;
     var_t0 = 2;
 
-    if (arg3 == 0) {
+    if (character == 0) {
         var_t1 = 0xF;
-    } else if (arg3 == 1) {
+    } else if (character == 1) {
         var_t1 = 1;
-    } else if (arg3 == 2) {
+    } else if (character == 2) {
         var_t4 = 1;
         var_t1 = 7;
-    } else if (arg3 == 3) {
+    } else if (character == 3) {
         var_t4 = -0x64;
         var_t1 = 0x64;
         var_t0 = 3;
-    } else if (arg3 < 0xC) {
+    } else if (character < 0xC) {
         var_t1 = 5;
-    } else if (arg3 < 0x1B) {
-        switch ((arg3 - 0xC) & 3) {
+    } else if (character < 0x1B) {
+        switch ((character - 0xC) & 3) {
             case 0:
                 var_t1 = 0xC;
                 var_t0 = 3;
@@ -475,7 +481,8 @@ void DebugMenu_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (gfxP != NULL) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
-            DebugPrint_8003E3F0(gfxP, arg1 + (((var_t0 - B_800E58B8) - 1) * 6), arg2 + 8, '^');
+            DebugPrint_DrawCharacter(gfxP, posX + (((var_t0 - B_800E58B8) - 1) * DBGPRT_FONT_CHAR_WIDTH),
+                                     posY + DBGPRT_FONT_CHAR_HEIGHT, '^');
         }
     } else {
         s32 var_a2 = 1;
@@ -492,7 +499,7 @@ void DebugMenu_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         B_800E58B8 = CLAMP(B_800E58B8 + var_a1, 0, var_t0 - 1);
 
         if (var_t5 != 0) {
-            switch (B_800E58C0[arg3 - 1]) {
+            switch (B_800E58C0[character - 1]) {
                 case 0x0:
                 case 0x1:
                 case 0x3:
@@ -505,7 +512,7 @@ void DebugMenu_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
                     break;
             }
         } else if (var_t6 != 0) {
-            switch (B_800E58C0[arg3 - 1]) {
+            switch (B_800E58C0[character - 1]) {
                 case 0x0:
                 case 0x1:
                 case 0x2:
@@ -523,17 +530,17 @@ void DebugMenu_8003F568(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
                 var_a1 -= 1;
             }
 
-            B_800E58C0[arg3] = CLAMP(B_800E58C0[arg3] + D_8008E370[B_800E58B8] * var_a1, var_t4, var_t1);
+            B_800E58C0[character] = CLAMP(B_800E58C0[character] + D_8008E370[B_800E58B8] * var_a1, var_t4, var_t1);
         }
     }
 }
 
-void DebugMenu_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
+void DebugMenu_8003F7DC(Gfx **gxfP, s32 posX, s32 posY) {
     s16 *new_var = B_800E58C0;
     s32 var_s0 = 0;
     s32 i;
 
-    DebugPrint_8003E69C(gxfP, DebugMenu_8003F568, arg1, arg2);
+    DebugPrint_Open(gxfP, DebugMenu_8003F568, posX, posY);
 
     DebugPrint_Printf(DBGPRT_COLOR(GREEN) "Character         WaitAttack Speed       Luck\n" DBGPRT_COLOR(
                           WHITE) " " DBGPRT_CALLBACK "%c%02d:%-14s " DBGPRT_CALLBACK "%c%02d:%-3s     " DBGPRT_CALLBACK
@@ -601,7 +608,7 @@ void DebugMenu_8003F7DC(Gfx **gxfP, s32 arg1, s32 arg2) {
 
     DebugPrint_Printf("\n");
     DebugPrint_Printf(DBGPRT_COLOR(CYAN) "<- LogicMenu\t\t\t\t\t\tSpeedMenu ->");
-    DebugPrint_8003E6D8();
+    DebugPrint_Close();
 }
 
 void DebugMenu_8003FB00(void) {
@@ -684,11 +691,11 @@ void DebugMenu_8003FD0C(Gfx **gxfP) {
     }
 }
 
-void DebugMenu_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+void DebugMenu_8003FD88(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
     u16 button = gControllerPressedButtons[0];
     struct_800E5938 *temp_a2 = &B_800E5938[B_800E5934];
-    s32 temp_a0 = arg3 >> 5;
-    s32 temp_a3 = arg3 & 0x1F;
+    s32 temp_a0 = character >> 5;
+    s32 temp_a3 = character & 0x1F;
 
     if (temp_a0 != B_800E596C) {
         return;
@@ -702,7 +709,7 @@ void DebugMenu_8003FD88(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         B_800E5910++;
         if (B_800E5910 & 0x10) {
             DebugPrint_SetColor(gfxP, DBGPRT_COLOR_WHITE);
-            DebugPrint_8003E3F0(gfxP, arg1 - 6, arg2, '>');
+            DebugPrint_DrawCharacter(gfxP, posX - DBGPRT_FONT_CHAR_WIDTH, posY, '>');
         }
     } else if (button & A_BUTTON) {
         switch (temp_a0) {
@@ -924,7 +931,7 @@ s32 DebugMenu_8003FEE4(void) {
         var_t1 += D_8008E57C[sp8.unk_1];
     }
 
-    for (i = 0; i < 0xCU; i++) {
+    for (i = 0; i < ARRAY_COUNTU(D_8008E584); i++) {
         if ((sp8.unk_2 >> i) & 1) {
             var_t1 += D_8008E584[i];
         }
@@ -1130,13 +1137,13 @@ const char *D_8008E5A0[] = {
 s32 D_8008E5B0 = 0x00000035;
 
 s32 D_8008E5B4[] = {
-    0x0000000B,
-    0x0000000A,
-    0x0000000A,
-    0x0000000E,
+    11,
+    10,
+    10,
+    14,
 };
 
-void DebugMenu_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
+void DebugMenu_80040624(Gfx **gfxP, s32 posX, s32 posY) {
     struct_800E5938 *temp_s5 = &B_800E5938[B_800E5934];
     s32 var_s0 = CLAMP(DebugMenu_8003FEE4() / 10, 0, 10);
     s32 var_a2;
@@ -1145,7 +1152,7 @@ void DebugMenu_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
     s32 var_s2;
     s32 var_s7;
 
-    DebugPrint_8003E69C(gfxP, DebugMenu_8003FD88, arg1, arg2);
+    DebugPrint_Open(gfxP, DebugMenu_8003FD88, posX, posY);
 
     // "Character edit"
     DebugPrint_Printf(DBGPRT_COLOR(GREEN) "[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n");
@@ -1160,13 +1167,13 @@ void DebugMenu_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
         DebugPrint_Printf("%c", 0x82);
     }
 
-    DebugPrint_8003E6D8();
+    DebugPrint_Close();
 
-    arg1 += 6;
-    arg2 += 0x20;
+    posX += DBGPRT_FONT_CHAR_WIDTH;
+    posY += 4 * DBGPRT_FONT_CHAR_HEIGHT;
 
     for (var_s1 = 0; var_s1 < 4; var_s1++) {
-        DebugPrint_8003E69C(gfxP, DebugMenu_8003FD88, arg1, arg2);
+        DebugPrint_Open(gfxP, DebugMenu_8003FD88, posX, posY);
 
         DebugPrint_Printf(DBGPRT_COLOR(GREEN) "%s\n", D_8008E5A0[var_s1]);
 
@@ -1213,21 +1220,23 @@ void DebugMenu_80040624(Gfx **gfxP, s32 arg1, s32 arg2) {
                 case 0:
                 case 1:
                 case 2:
-                    DebugPrint_Printf(DBGPRT_CALLBACK "%c" DBGPRT_COLOR_RAW "%c%s\n", var_s2, var_a2,
-                                      D_8008E548[var_s1][var_s0_2]);
+                    DebugPrint_Printf(DBGPRT_CALLBACK "%c" DBGPRT_COLOR_RAW "%c"
+                                                      "%s\n",
+                                      var_s2, var_a2, D_8008E548[var_s1][var_s0_2]);
                     var_s2 += 1;
                     break;
 
                 case 3:
-                    DebugPrint_Printf(DBGPRT_CALLBACK "%c" DBGPRT_COLOR_RAW "%c%c:%s\n", var_s2, var_a2, var_s7,
-                                      D_8008E548[var_s1][var_s0_2]);
+                    DebugPrint_Printf(DBGPRT_CALLBACK "%c" DBGPRT_COLOR_RAW "%c"
+                                                      "%c:%s\n",
+                                      var_s2, var_a2, var_s7, D_8008E548[var_s1][var_s0_2]);
                     var_s2 += 1;
                     break;
             }
         }
 
-        DebugPrint_8003E6D8();
-        arg1 += D_8008E5B4[var_s1] * 6;
+        DebugPrint_Close();
+        posX += D_8008E5B4[var_s1] * DBGPRT_FONT_CHAR_WIDTH;
     }
 }
 

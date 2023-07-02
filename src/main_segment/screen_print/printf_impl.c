@@ -342,7 +342,7 @@ extern char BASC[];
 
 #if VERSION_US
 #ifdef NON_MATCHING
-int _kmcprt(struct_8008E364 *arg0, const char *fmt, va_list args) {
+int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
     char sp18[ABUFSIZE];
     char sp118;
     int sp11C;
@@ -386,11 +386,11 @@ int _kmcprt(struct_8008E364 *arg0, const char *fmt, va_list args) {
                 return var_fp;
             }
             if (__ctype_map[sp118] & 0x80) {
-                Printer_8003CDF8(arg0, &sp118, 1);
+                Printer_PutChars(arg0, &sp118, 1);
                 var_fp += 1;
                 sp118 = *fmt++;
             }
-            Printer_8003CDF8(arg0, &sp118, 1);
+            Printer_PutChars(arg0, &sp118, 1);
             var_fp += 1;
             continue;
         }
@@ -660,7 +660,7 @@ int _kmcprt(struct_8008E364 *arg0, const char *fmt, va_list args) {
                 goto loop_26;
 
             default:
-                Printer_8003CDF8(arg0, &sp118, 1);
+                Printer_PutChars(arg0, &sp118, 1);
                 var_fp += 1;
                 goto next;
                 break;
@@ -724,14 +724,14 @@ int _kmcprt(struct_8008E364 *arg0, const char *fmt, va_list args) {
                         var_fp += 1;
                         if (var_s3 & 0x100) {
                             sp12C = 0x2D;
-                            Printer_8003CDF8(arg0, &sp12C, 1);
+                            Printer_PutChars(arg0, &sp12C, 1);
                         } else {
                             if (var_s3 & 2) {
                                 sp12C = 0x2B;
                             } else {
                                 sp12C = 0x20;
                             }
-                            Printer_8003CDF8(arg0, &sp12C, 1);
+                            Printer_PutChars(arg0, &sp12C, 1);
                         }
                         var_s3 &= ~0x10A;
                     }
@@ -740,7 +740,7 @@ int _kmcprt(struct_8008E364 *arg0, const char *fmt, va_list args) {
                 while (var_s0 < var_s2) {
                     if (sp154 != 0) {
                         sp12D = 0x30;
-                        Printer_8003CDF8(arg0, &sp12D, 1);
+                        Printer_PutChars(arg0, &sp12D, 1);
                         var_s6 -= 1;
                         var_fp += 1;
                         var_s2 -= 1;
@@ -778,7 +778,7 @@ int _kmcprt(struct_8008E364 *arg0, const char *fmt, va_list args) {
             if (!(var_s3 & 1)) {
                 while (var_s0 < var_s6) {
                     sp12E = 0x20;
-                    Printer_8003CDF8(arg0, &sp12E, 1);
+                    Printer_PutChars(arg0, &sp12E, 1);
                     var_s6 -= 1;
                     var_fp += 1;
                 }
@@ -788,12 +788,12 @@ int _kmcprt(struct_8008E364 *arg0, const char *fmt, va_list args) {
             var_fp += var_s0;
             var_s0 = var_s0 - 1;
             while (var_s0 != -1) {
-                Printer_8003CDF8(arg0, var_s1++, 1);
+                Printer_PutChars(arg0, var_s1++, 1);
                 var_s0 -= 1;
             }
             while (var_s6 > 0) {
                 sp12F = 0x20;
-                Printer_8003CDF8(arg0, &sp12F, 1);
+                Printer_PutChars(arg0, &sp12F, 1);
                 var_s6 -= 1;
                 var_fp += 1;
             }

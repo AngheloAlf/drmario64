@@ -383,7 +383,7 @@ extern s32 last_flash;
 // extern UNK_TYPE B_800E53B0;
 
 // extern UNK_TYPE fbuf;
-// extern UNK_TYPE B_800E5890;
+// extern UNK_TYPE sPrinterState;
 extern s32 B_800E58B0;
 extern s32 B_800E58B4;
 extern s32 B_800E58B8;

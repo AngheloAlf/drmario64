@@ -28,6 +28,8 @@
                 "_FINALROM",
                 "__USE_ISOC99",
                 "__mips__",
+                "__MIPSEB__",
+                "_MIPS_SIM_ABI64=3",
                 "VERSION_US=1",
                 "VERSION_CN=1",
                 "VERSION_GW=1"

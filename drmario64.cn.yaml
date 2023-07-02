@@ -368,7 +368,7 @@ segments:
         type: .data
         name: main_segment/screen_print/debug_print
         subsegments:
-        - [0x07FD50, i4, main_segment/screen_print/debug_print/D_8008D2D0.i4, 160, 48]
+        - [0x07FD50, i4, main_segment/screen_print/debug_print/sDebugPrintFontTex.i4, 160, 48]
         - [0x080C50]
         - { start: 0x080D10, type: gfx, data_only: True, name: main_segment/screen_print/debug_print/D_8008E290 }
         - [0x080DF0]
