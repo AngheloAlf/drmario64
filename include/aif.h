@@ -55,6 +55,6 @@ void aifKeyMake(struct struct_game_state_data *gameStateDataRef);
 void aifKeyOut(struct struct_game_state_data *gameStateDataRef);
 // void search_flash_3();
 void flash_special(void);
-// void aiCOM_MissTake();
+void aiCOM_MissTake(void);
 
 #endif

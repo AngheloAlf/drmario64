@@ -21,6 +21,11 @@
 #include "replay.h"
 #include "game_etc.h"
 
+#if VERSION_US || CC_CHECK
+// The compiler needs to not see the declared functions to match the cn version
+#include "joy.h"
+#endif
+
 // TODO: Just to avoid warnings when building GW
 #if VERSION_US || VERSION_CN
 
@@ -1276,8 +1281,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", resume_game_state);
 #endif
 
 #if VERSION_CN
-// TODO: check if this function is resume_game_state
-void func_80069ED4_cn(s32 index) {
+void resume_game_state(s32 index) {
     struct_gameBackup *ptr = gameBackup[index];
     s32 i;
 
@@ -1717,7 +1721,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B5A0_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B6D8_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B7D0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", countLeadingZeros);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B830_cn);
 
@@ -3807,9 +3811,9 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", key_control_main);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80075318_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_make_key);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8007540C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", key_control_main);
 #endif
 
 void func_8006D620(void) {
@@ -5298,7 +5302,7 @@ enum_main_no dm_game_main3(s32 arg0) {
     return var_a1;
 }
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void dm_game_graphic(void) {
     struct_watchGame *watchGameP = watchGame;
 
@@ -5880,22 +5884,119 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic2);
 #endif
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic_onDoneSawp);
-#endif
-
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_graphic);
-
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8984_cn);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C898C_cn);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8994_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80078FCC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_graphic2);
+#endif
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_graphic_onDoneSawp);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic_onDoneSawp);
+#endif
+
+#if VERSION_CN
+void dm_game_graphic_onDoneSawp(void) {
+    struct_watchGame *watchGameP = watchGame;
+    s32 microseconds;
+    s32 i;
+    s32 j;
+
+    func_8002BA98_cn(0xD, 0);
+
+    microseconds = 13500;
+    microseconds -= OS_CYCLES_TO_USEC(osGetTime());
+
+    if (microseconds > 50) {
+        OSMesgQueue sp28;
+        OSTimer sp40;
+        OSMesg sp60[1];
+
+        osCreateMesgQueue(&sp28, sp60, ARRAY_COUNT(sp60));
+        osSetTimer(&sp40, OS_USEC_TO_CYCLES(microseconds), 0, &sp28, NULL);
+        osRecvMesg(&sp28, NULL, OS_MESG_BLOCK);
+    }
+
+    if (watchGameP->unk_3B0 != 0) {
+        for (i = 0; i < MAXCONTROLLERS; i++) {
+            joycur[i] = 0;
+            gControllerPressedButtons[i] = 0;
+            gControllerPrevHoldButtons[i] = 0;
+            gControllerHoldButtons[i] = 0;
+        }
+    } else {
+        joyProcCore();
+    }
+
+    func_8002BA98_cn(0, 0);
+
+    for (j = 0; j < evs_gamespeed; j++) {
+        bool var_s3 = false;
+        bool temp_s1 = countLeadingZeros();
+
+        dm_make_key();
+
+        for (i = 0; i < evs_playcnt; i++) {
+            if (game_state_data[i].unk_020 == 0xD) {
+                var_s3 = true;
+                break;
+            }
+        }
+
+        if (!var_s3 && (watchGameP->unk_3C4 != 0)) {
+            aiCOM_MissTake();
+        }
+
+        if ((watchGameP->unk_000 != 0) && !var_s3 && !temp_s1 && (watchGameP->unk_3C4 != 0)) {
+            for (i = 0; i < evs_playcnt; i++) {
+                joygam[i] = replay_play(i);
+            }
+
+            for (i = 0; i < evs_playcnt; i++) {
+                if (joygam[i] & START_BUTTON) {
+                    break;
+                }
+            }
+
+            if (i < evs_playcnt) {
+                dm_seq_set_volume(0x40);
+                resume_game_state(1);
+            }
+        }
+
+        watchGameP->unk_40C = (evs_gamemode == ENUM_EVS_GAMEMODE_2) && (joygam[0] & (L_TRIG | R_TRIG));
+
+        switch (evs_gamesel) {
+            case ENUM_EVS_GAMESEL_0:
+                key_control_main(&game_state_data[0], &game_map_data[0], 0, main_joy[0]);
+                break;
+
+            case ENUM_EVS_GAMESEL_1:
+            case ENUM_EVS_GAMESEL_3:
+                for (i = 0; i < 2; i++) {
+                    key_control_main(&game_state_data[i], &game_map_data[i], i, main_joy[i]);
+                }
+                break;
+
+            default:
+                for (i = 0; i < 4; i++) {
+                    key_control_main(&game_state_data[i], &game_map_data[i], i, main_joy[i]);
+                }
+                break;
+        }
+
+        if ((watchGameP->unk_000 == 0) && !var_s3) {
+            for (i = 0; i < evs_playcnt; i++) {
+                replay_record(i, joygam[i]);
+            }
+        }
+    }
+
+    func_8002BA98_cn(0xD, 0);
+}
 #endif
 
 void func_80071A44(void) {
@@ -5904,98 +6005,110 @@ void func_80071A44(void) {
 /**
  * Original name: main_techmes
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 enum_main_no main_techmes(struct_800EB670 *arg0) {
+    struct_watchGame *watchGameP;
+    bool var_s3 = true;
     OSMesgQueue sp20;
     OSMesg sp38[8];
     struct_800FAF98_unk_64 sp58;
-    s32 temp_v1_3;
-    s32 temp_v1_5;
-    s32 var_a0;
-    bool var_s3;
-    struct_watchGame *watchGameP;
     u8 temp_s1;
 
-    var_s3 = true;
     osCreateMesgQueue(&sp20, sp38, ARRAY_COUNT(sp38));
     func_8002A184(arg0, &sp58, &sp20);
     dm_game_init_heap();
     watchGameP = watchGame;
 
     dm_game_init_static();
+
     heapTop = init_menu_bg(heapTop, false);
     msgWnd_init2(&watchGameP->messageWnd, &heapTop, 0x1000, 0x12, 0x10, 0x34, 0x22);
     msgWnd_addStr(&watchGameP->messageWnd, EndingLastMessage);
-    temp_s1 = evs_seqence;
     watchGameP->messageWnd.unk_20 = 1;
     watchGameP->messageWnd.unk_24 = 1;
+
+    temp_s1 = evs_seqence;
     evs_seqence = 0;
     dm_game_init(false);
     evs_seqence = temp_s1;
+
     dm_seq_play_in_game(0x17);
 
     while (var_s3) {
-        osRecvMesg(&sp20, NULL, 1);
+        osRecvMesg(&sp20, NULL, OS_MESG_BLOCK);
         joyProcCore();
 
-        switch (watchGameP->unk_9AC) {
-            case 0x0:
-                if (watchGameP->unk_9B0 == 0xFF) {
-                    watchGameP->unk_9AC = 1;
-                } else {
-                    // TODO: MAX?
-                    temp_v1_3 = watchGameP->unk_9B0 + 4;
-                    var_a0 = 0xFF;
-                    if (temp_v1_3 <= 0xFF) {
-                        var_a0 = temp_v1_3;
+#if VERSION_CN
+        if (D_80092F10_cn) {
+            graphic_no = GRAPHIC_NO_0;
+            dm_audio_update();
+        } else {
+#endif
+            switch (watchGameP->unk_9AC) {
+                case 0x0:
+                    if (watchGameP->unk_9B0 == 0xFF) {
+                        watchGameP->unk_9AC = 1;
+                    } else {
+                        s32 temp_v1_3 = watchGameP->unk_9B0 + 4;
+                        s32 var_a0;
+
+                        if (temp_v1_3 <= 0xFF) {
+                            var_a0 = temp_v1_3;
+                        } else {
+                            var_a0 = 0xFF;
+                        }
+                        watchGameP->unk_9B0 = var_a0;
                     }
-                    watchGameP->unk_9B0 = var_a0;
-                }
-                break;
+                    break;
 
-            case 0x1:
-                if (msgWnd_isEnd(&watchGameP->messageWnd)) {
-                    watchGameP->unk_9AC++;
-                } else {
-                    msgWnd_update(&watchGameP->messageWnd);
-                }
-                break;
+                case 0x1:
+                    if (msgWnd_isEnd(&watchGameP->messageWnd)) {
+                        watchGameP->unk_9AC++;
+                    } else {
+                        msgWnd_update(&watchGameP->messageWnd);
+                    }
+                    break;
 
-            case 0x2:
-                if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
-                    watchGameP->unk_9AC = 3;
-                }
-                break;
+                case 0x2:
+                    if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
+                        watchGameP->unk_9AC = 3;
+                    }
+                    break;
 
-            case 0x3:
-                if (watchGameP->unk_9B0 == 0) {
-                    var_s3 = false;
-                } else {
-                    temp_v1_5 = watchGameP->unk_9B0 - 4;
-                    watchGameP->unk_9B0 = (temp_v1_5 & (~temp_v1_5 >> 0x1F));
-                }
-                break;
+                case 0x3:
+                    if (watchGameP->unk_9B0 == 0) {
+                        var_s3 = false;
+                    } else {
+                        s32 var_v0;
+
+                        var_v0 = watchGameP->unk_9B0 - 4;
+                        if (var_v0 < 0) {
+                            var_v0 = 0;
+                        }
+                        watchGameP->unk_9B0 = var_v0;
+                    }
+                    break;
+            }
+
+            dm_audio_update();
+            graphic_no = GRAPHIC_NO_6;
+
+#if VERSION_CN
         }
-
-        dm_audio_update();
-        graphic_no = GRAPHIC_NO_6;
+#endif
     }
 
     graphic_no = GRAPHIC_NO_0;
     dm_audio_stop();
 
     while (!dm_audio_is_stopped() || (pendingGFX != 0)) {
-        osRecvMesg(&sp20, NULL, 1);
+        osRecvMesg(&sp20, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
     func_8002A1DC(arg0, &sp58);
     return MAIN_NO_3;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", main_techmes);
 #endif
 
 void graphic_techmes(void) {

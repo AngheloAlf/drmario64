@@ -585,7 +585,7 @@ extern struct_watchManual *watchManual; /* Original name: watchManual */
 extern u8 aiRootCnt;
 extern OSMesgQueue B_800F4898;
 extern struct_800FAF98_unk_64 B_800F48B0;
-extern UNK_TYPE2 joygam[4];
+extern u16 joygam[4];
 
 extern u16 joycur[MAXCONTROLLERS+1];
 extern struct_ai_param ai_param[AI_PARAM_LEN1][AI_PARAM_LEN2];

@@ -430,7 +430,6 @@ segments:
       - [0x0763F0, data, main_segment/0763F0]
       - [0x076590, .data, main_segment/main_menu]
 
-      # - [0x0766E0, data, main_segment/font_textures]
       - start: 0x0766E0
         type: data
         name: main_segment/font_textures

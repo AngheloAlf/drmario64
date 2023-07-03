@@ -25,11 +25,6 @@ void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1);
 void func_8002A4D8(void *arg);
 void func_8002A51C(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1);
 
-UNK_TYPE joyInit(UNK_TYPE);
-void joyProcCore(void);
-void joyCursorFastSet(u16 mask, u8 index);
-s32 joyResponseCheck();
-
 void func_8002BD20(s32 red, s32 green, s32 blue, s32 alpha, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void load_TexPal(TexturePtr tlut);
 void func_8002BF90(TexturePtr tlut, u32 pal);
@@ -615,7 +610,7 @@ s32 retryMenu_input(s32 arg0);
 void set_bottom_up_virus(struct_game_state_data *arg0, GameMapGrid *mapGrid);
 bool bottom_up_bottle_items(GameMapGrid *mapGrid);
 void add_taiQ_bonus_wait(struct_game_state_data *arg0);
-s32 countLeadingZeros(void);
+bool countLeadingZeros(void);
 // void dm_game_eep_write_callback();
 void func_80064940(void*);
 bool func_8006498C(s32 storyLevel, s32 storyNumber, s32 arg2);
@@ -673,8 +668,8 @@ void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapG
 void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, GameMapGrid* mapGrid);
 void dm_game_graphic_effect(struct_game_state_data*gameStateDataRef, s32 arg1, s32 arg2);
 void func_8006D0E8(void);
-// void dm_make_key();
-// void key_control_main();
+void dm_make_key(void);
+void key_control_main(struct_game_state_data *gameStateData, GameMapGrid *mapGrid, s32, s32);
 void func_8006D620();
 void dm_effect_make(void);
 void dm_game_init_heap(void);
@@ -969,6 +964,8 @@ void func_8002BD04_cn(void);
 #endif
 
 #if VERSION_CN
+void func_8002BA98_cn(s32 arg0, s32 arg1);
+
 void func_8002BD7C_cn(Gfx **gfxP, s32 arg1, s32 arg2);
 #endif
 

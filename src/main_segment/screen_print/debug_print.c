@@ -18,12 +18,12 @@ u8 sDebugPrintFontTex[] = {
 #define FONT_MAP_GET_COL(value) ((value) / FONT_COLS_PER_ROW)
 
 #if VERSION_US || VERSION_GW
-#define sDebugPrintFontMap_TYPE u8
+#define FONTMAP_TYPE u8
 #else
-#define sDebugPrintFontMap_TYPE s8
+#define FONTMAP_TYPE s8
 #endif
 
-sDebugPrintFontMap_TYPE sDebugPrintFontMap[] = {
+FONTMAP_TYPE sDebugPrintFontMap[] = {
     /* 0x20 ' '  */ -1,
     /* 0x21 '!'  */ -1,
     /* 0x22 '"'  */ -1,
@@ -261,7 +261,7 @@ void DebugPrint_8003E278(Gfx **gfxP, s32 x, s32 y, s32 arg3) {
     gSPScisTextureRectangle(gfx++, x << 2, y << 2, (x + DBGPRT_FONT_CHAR_WIDTH) << 2,
                             (y + DBGPRT_FONT_CHAR_HEIGHT) << 2, G_TX_RENDERTILE,
                             FONT_MAP_GET_ROW(arg3) * (DBGPRT_FONT_CHAR_WIDTH << 5),
-                            FONT_MAP_GET_COL(arg3) * (DBGPRT_FONT_CHAR_HEIGHT << 5), 0x0400, 0x0400);
+                            FONT_MAP_GET_COL(arg3) * (DBGPRT_FONT_CHAR_HEIGHT << 5), 1 << 10, 1 << 10);
 
     *gfxP = gfx;
 }
@@ -274,7 +274,7 @@ void DebugPrint_8003E278(Gfx **gfxP, s32 x, s32 y, s32 arg3) {
     s32 t = FONT_MAP_GET_COL(arg3) * (DBGPRT_FONT_CHAR_HEIGHT << 5);
 
     gSPScisTextureRectangle(gfx++, x << 2, y << 2, (x + DBGPRT_FONT_CHAR_WIDTH) << 2,
-                            (y + DBGPRT_FONT_CHAR_HEIGHT) << 2, G_TX_RENDERTILE, s, t, 0x0400, 0x0400);
+                            (y + DBGPRT_FONT_CHAR_HEIGHT) << 2, G_TX_RENDERTILE, s, t, 1 << 10, 1 << 10);
 
     *gfxP = gfx;
 }
@@ -405,14 +405,14 @@ void DebugPrint_Close(void) {
     Printer_Close(&sPrinterInstance);
 }
 
-void DebugPrint_Printf(const char *fmt UNUSED, ...) {
-#if VERSION_US || VERSION_GW
+void DebugPrint_Printf(const char *fmt, ...) {
     va_list args;
 
     va_start(args, fmt);
 
+#if VERSION_US || VERSION_GW
     _kmcprt(&sPrinterInstance, fmt, args);
+#endif
 
     va_end(args);
-#endif
 }

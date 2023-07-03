@@ -14,6 +14,7 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 #include "graphic.h"
+#include "joy.h"
 
 void func_80075F30(void) {
     title_exit_flag = 0;

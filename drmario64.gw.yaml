@@ -323,8 +323,6 @@ segments:
       - [0x06D220, data, main_segment/06D220] # guess
       - [0x070D50, data, main_segment/070D50]
 
-      - [0x075ED0, data, main_segment/screen_print/debug_print]
-
       - start: 0x075ED0
         type: .data
         name: main_segment/screen_print/debug_print
