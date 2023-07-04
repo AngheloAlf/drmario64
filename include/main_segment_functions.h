@@ -617,7 +617,7 @@ bool func_8006498C(s32 storyLevel, s32 storyNumber, s32 arg2);
 void dm_save_all(void);
 void dm_query_pause_player(struct_game_state_data *arg0);
 s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 arg2);
-s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 index);
+s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, s32 index);
 // void func_800666FC();
 // void func_80066808();
 void dm_set_pause_and_volume(struct_game_state_data **arg0, s32 arg1);

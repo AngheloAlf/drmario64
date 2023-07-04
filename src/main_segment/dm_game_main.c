@@ -3301,81 +3301,80 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_main_cnt);
 #endif
 
 #if VERSION_CN
-#ifdef NON_EQUIVALENT
-// arg0 -> gameStateDataRef
-s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 index) {
+s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, s32 index) {
     struct_watchGame *temp_s1 = watchGame;
     dm_calc_erase_score_pos_arg2 sp20;
-    s32 sp28;
-    s32 temp_s4_2;
-    s32 var_a1;
-    s32 var_s6;
-    s32 var_s6_2;
-    s32 var_v1;
-    s32 var_v1_4;
+    s32 button = gControllerPressedButtons[main_joy[index]];
+    s32 i;
+    s32 j;
+    bool var_s6;
 
-    sp28 = gControllerPressedButtons[main_joy[index]];
-    dm_query_pause_player(arg0);
+    dm_query_pause_player(gameStateDataRef);
 
-    animeState_update(&arg0->unk_094);
+    animeState_update(&gameStateDataRef->unk_094);
 
     func_80062EC0(&temp_s1->unk_0B8[index]);
 
-    if ((arg0->unk_020 != 1) && (arg0->unk_020 != 0xD)) {
-        dm_black_up(arg0, mapGrid);
+    if ((gameStateDataRef->unk_020 != 1) && (gameStateDataRef->unk_020 != 0xD)) {
+        dm_black_up(gameStateDataRef, mapGrid);
     }
 
-    if ((evs_gamemode == ENUM_EVS_GAMEMODE_3) && (evs_game_time >= 0x2A30U) && (arg0->unk_020 == 1)) {
+    if ((evs_gamemode == ENUM_EVS_GAMEMODE_3) && (evs_game_time >= 10800) && (gameStateDataRef->unk_020 == 1)) {
         return -1;
     }
 
-    switch (arg0->unk_00C) { /* switch 1 */
-        case 0x1:            /* switch 1 */
-            dm_set_virus(arg0, mapGrid, &virus_map_data[index], &virus_map_disp_order[index]);
+    switch (gameStateDataRef->unk_00C) {
+        case 0x1:
+            dm_set_virus(gameStateDataRef, mapGrid, &virus_map_data[index], &virus_map_disp_order[index]);
             return 3;
 
-        case 0x2: /* switch 1 */
+        case 0x2:
             return 3;
 
-        case 0x5: /* switch 1 */
-            if (dm_check_game_over(arg0, mapGrid)) {
+        case 0x5:
+            if (dm_check_game_over(gameStateDataRef, mapGrid)) {
                 return -1;
             }
 
-            if ((dm_h_erase_chack(mapGrid) != false) || (dm_w_erase_chack(mapGrid) != false)) {
-                arg0->unk_00C = (arg0->unk_049 == 0) ? 6 : 0x15;
-                arg0->unk_02F = 0;
-            } else if (arg0->unk_049 == 0) {
-                arg0->unk_00C = 9;
+            if (dm_h_erase_chack(mapGrid) || dm_w_erase_chack(mapGrid)) {
+                gameStateDataRef->unk_00C = (gameStateDataRef->unk_049 == 0) ? 6 : 0x15;
+                gameStateDataRef->unk_02F = 0;
+            } else if (gameStateDataRef->unk_049 == 0) {
+                gameStateDataRef->unk_00C = 9;
             } else {
-                arg0->unk_00C = 0x16;
+                gameStateDataRef->unk_00C = 0x16;
             }
             break;
 
-        case 0x6: /* switch 1 */
-            arg0->unk_02F++;
-            if (arg0->unk_02F >= 0x12U) {
-                arg0->unk_00C = 7;
-                arg0->unk_02F = 0;
-                dm_h_erase_chack_set(arg0, mapGrid);
-                dm_w_erase_chack_set(arg0, mapGrid);
+        case 0x6:
+            gameStateDataRef->unk_02F++;
+            if (gameStateDataRef->unk_02F >= 0x12) {
+                s32 temp_s4_2;
+
+                gameStateDataRef->unk_00C = 7;
+                gameStateDataRef->unk_02F = 0;
+                dm_h_erase_chack_set(gameStateDataRef, mapGrid);
+                dm_w_erase_chack_set(gameStateDataRef, mapGrid);
                 dm_h_ball_chack(mapGrid);
                 dm_w_ball_chack(mapGrid);
-                temp_s4_2 = arg0->unk_025;
-                temp_s4_2 -= func_8006121C(arg0, mapGrid, 1);
-                arg0->unk_170 += temp_s4_2;
-                dm_calc_erase_score_pos(arg0, mapGrid, &sp20);
-                scoreNums_set(&temp_s1->unk_0B8[index], dm_make_score(arg0), arg0->unk_037,
-                              arg0->unk_006 + arg0->unk_00A / 2 + (s32)sp20.unk_0,
-                              arg0->unk_008 + arg0->unk_00A / 2 + sp20.unk_4);
 
-                if (arg0->unk_025 == 0) {
-                    if (arg0->unk_03B < arg0->unk_03A) {
-                        arg0->unk_03B = arg0->unk_03A;
+                temp_s4_2 = gameStateDataRef->unk_025;
+                temp_s4_2 -= func_8006121C(gameStateDataRef, mapGrid, 1);
+                gameStateDataRef->unk_170 += temp_s4_2;
+
+                dm_calc_erase_score_pos(gameStateDataRef, mapGrid, &sp20);
+
+                scoreNums_set(&temp_s1->unk_0B8[index], dm_make_score(gameStateDataRef), gameStateDataRef->unk_037,
+                              gameStateDataRef->unk_006 + gameStateDataRef->unk_00A / 2 + (s32)sp20.unk_0,
+                              gameStateDataRef->unk_008 + gameStateDataRef->unk_00A / 2 + sp20.unk_4);
+
+                if (gameStateDataRef->unk_025 == 0) {
+                    if (gameStateDataRef->unk_03B < gameStateDataRef->unk_03A) {
+                        gameStateDataRef->unk_03B = gameStateDataRef->unk_03A;
                     }
                     return 6;
                 }
-                if (temp_s1->unk_3BC >= arg0->unk_025) {
+                if (temp_s1->unk_3BC >= gameStateDataRef->unk_025) {
                     if (temp_s1->unk_3C0 == 0) {
                         temp_s1->unk_3C0 = 1;
                         dm_snd_play_in_game(SND_INDEX_80);
@@ -3385,15 +3384,15 @@ s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 ind
                         temp_s1->unk_3B8 = 1;
                     }
                 }
-                arg0->unk_039 += 1;
+                gameStateDataRef->unk_039 += 1;
 
-                switch (evs_gamesel) {       /* switch 2 */
-                    case ENUM_EVS_GAMESEL_1: /* switch 2 */
-                    case ENUM_EVS_GAMESEL_3: /* switch 2 */
-                    case ENUM_EVS_GAMESEL_5: /* switch 2 */
-                        if (arg0->unk_03A < 2U) {
-                            if (arg0->unk_03C[3] & 8) {
-                                arg0->unk_03C[3] &= ~8;
+                switch (evs_gamesel) {
+                    case ENUM_EVS_GAMESEL_1:
+                    case ENUM_EVS_GAMESEL_3:
+                    case ENUM_EVS_GAMESEL_5:
+                        if (gameStateDataRef->unk_03A < 2) {
+                            if (gameStateDataRef->unk_03C[3] & 8) {
+                                gameStateDataRef->unk_03C[3] &= ~8;
                                 if ((evs_gamemode == ENUM_EVS_GAMEMODE_1) && (temp_s4_2 != 0)) {
                                     dm_snd_play_in_game(SND_INDEX_102);
                                 } else {
@@ -3403,20 +3402,25 @@ s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 ind
                                 dm_snd_play_in_game(SND_INDEX_61);
                             }
                         } else {
-                            var_v1 = arg0->unk_03A - 2;
-                            var_v1 = MIN(var_v1, 2);
-                            dm_snd_play_in_game(_charSE_tbl[arg0->unk_090] + var_v1);
+                            s32 temp_v0_3 = gameStateDataRef->unk_03A - 2;
 
-                            if (arg0->unk_03C[3] & 8) {
-                                arg0->unk_03C[3] &= ~8;
+                            if (temp_v0_3 >= 3) {
+                                j = 2;
+                            } else {
+                                j = temp_v0_3;
+                            }
+                            dm_snd_play_in_game(_charSE_tbl[gameStateDataRef->unk_090] + j);
+
+                            if (gameStateDataRef->unk_03C[3] & 8) {
+                                gameStateDataRef->unk_03C[3] &= ~8;
                             }
                         }
                         break;
 
-                    case ENUM_EVS_GAMESEL_2: /* switch 2 */
-                    case ENUM_EVS_GAMESEL_6: /* switch 2 */
-                        if (arg0->unk_03C[3] & 8) {
-                            arg0->unk_03C[3] &= ~8;
+                    case ENUM_EVS_GAMESEL_2:
+                    case ENUM_EVS_GAMESEL_6:
+                        if (gameStateDataRef->unk_03C[3] & 8) {
+                            gameStateDataRef->unk_03C[3] &= ~8;
                             if ((evs_gamemode == ENUM_EVS_GAMEMODE_1) && (temp_s4_2 != 0)) {
                                 dm_snd_play_in_game(SND_INDEX_102);
                             } else {
@@ -3430,126 +3434,126 @@ s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 ind
             }
             break;
 
-        case 0x7: /* switch 1 */
-            dm_capsel_erase_anime(arg0, mapGrid);
+        case 0x7:
+            dm_capsel_erase_anime(gameStateDataRef, mapGrid);
             break;
 
-        case 0x8: /* switch 1 */
-            go_down(arg0, mapGrid, 0xE);
+        case 0x8:
+            go_down(gameStateDataRef, mapGrid, 0xE);
             break;
 
-        case 0x9: /* switch 1 */
-            var_s6 = 1;
-            if (arg0->unk_039 >= 2U) {
-                arg0->unk_174 = MIN((arg0->unk_174 + arg0->unk_039) - 1, 0x63);
+        case 0x9:
+            var_s6 = true;
+
+            if (gameStateDataRef->unk_039 >= 2) {
+                gameStateDataRef->unk_174 = MIN((gameStateDataRef->unk_174 + gameStateDataRef->unk_039) - 1, 0x63);
             }
 
-            dm_attack_se(arg0, index);
-            dm_warning_h_line(arg0, mapGrid);
-            switch (evs_gamesel) {       /* switch 3 */
-                case ENUM_EVS_GAMESEL_1: /* switch 3 */
-                case ENUM_EVS_GAMESEL_3: /* switch 3 */
-                case ENUM_EVS_GAMESEL_5: /* switch 3 */
+            dm_attack_se(gameStateDataRef, index);
+            dm_warning_h_line(gameStateDataRef, mapGrid);
+            switch (evs_gamesel) {
+                case ENUM_EVS_GAMESEL_1:
+                case ENUM_EVS_GAMESEL_3:
+                case ENUM_EVS_GAMESEL_5:
                     if (evs_gamemode != ENUM_EVS_GAMEMODE_3) {
-                        if (func_800638AC(arg0) != 0) {
-                            animeState_set(&arg0->unk_094, 1);
+                        if (func_800638AC(gameStateDataRef) != 0) {
+                            animeState_set(&gameStateDataRef->unk_094, 1);
                         }
 
-                        if (dm_broken_set(arg0, mapGrid) != false) {
-                            animeState_set(&arg0->unk_094, 2);
-                            var_s6 = 0;
-                            dm_snd_play_in_game(_charSE_tbl[arg0->unk_090] + 3);
-                            arg0->unk_00C = 8;
-                            if (arg0->unk_292 & 1) {
-                                arg0->unk_292 = arg0->unk_292 | 2;
+                        if (dm_broken_set(gameStateDataRef, mapGrid)) {
+                            animeState_set(&gameStateDataRef->unk_094, 2);
+                            var_s6 = false;
+                            dm_snd_play_in_game(_charSE_tbl[gameStateDataRef->unk_090] + 3);
+                            gameStateDataRef->unk_00C = 8;
+                            if (gameStateDataRef->unk_292 & 1) {
+                                gameStateDataRef->unk_292 |= 2;
                             } else {
-                                arg0->unk_292 = arg0->unk_292 | 1;
+                                gameStateDataRef->unk_292 |= 1;
                             }
                         }
                     }
                     break;
 
-                case ENUM_EVS_GAMESEL_2: /* switch 3 */
-                case ENUM_EVS_GAMESEL_6: /* switch 3 */
-                    if (dm_set_attack_4p(arg0) != 0) {
-                        animeState_set(&arg0->unk_094, 1);
+                case ENUM_EVS_GAMESEL_2:
+                case ENUM_EVS_GAMESEL_6:
+                    if (dm_set_attack_4p(gameStateDataRef) != 0) {
+                        animeState_set(&gameStateDataRef->unk_094, 1);
                     }
 
-                    if (dm_broken_set(arg0, mapGrid) != false) {
-                        animeState_set(&arg0->unk_094, 2);
-                        var_s6 = 0;
-                        arg0->unk_00C = 8;
-                        if (arg0->unk_292 & 1) {
-                            arg0->unk_292 |= 2;
+                    if (dm_broken_set(gameStateDataRef, mapGrid)) {
+                        animeState_set(&gameStateDataRef->unk_094, 2);
+                        var_s6 = false;
+                        gameStateDataRef->unk_00C = 8;
+                        if (gameStateDataRef->unk_292 & 1) {
+                            gameStateDataRef->unk_292 |= 2;
                         } else {
-                            arg0->unk_292 |= 1;
+                            gameStateDataRef->unk_292 |= 1;
                         }
                     }
                     break;
             }
 
-            if (var_s6 != 0) {
-                dm_set_capsel(arg0);
-                dm_capsel_speed_up(arg0);
-                if (arg0->unk_03B < arg0->unk_03A) {
-                    arg0->unk_03B = arg0->unk_03A;
-                }
-                arg0->unk_03A = 0;
-                arg0->unk_039 = 0;
-                arg0->unk_037 = 0;
-                arg0->unk_038 = 0;
-                var_a1 = 0;
-                while (var_a1 < 4) {
-                    arg0->unk_03C[var_a1] = 0;
-                    var_a1 += 1;
+            if (var_s6) {
+                dm_set_capsel(gameStateDataRef);
+                dm_capsel_speed_up(gameStateDataRef);
+                if (gameStateDataRef->unk_03B < gameStateDataRef->unk_03A) {
+                    gameStateDataRef->unk_03B = gameStateDataRef->unk_03A;
                 }
 
-                arg0->unk_00C = 4;
-                if ((arg0->unk_04C == 1) || ((index == 0) && (aiDebugP1 >= 0))) {
-                    aifMakeFlagSet(arg0);
+                gameStateDataRef->unk_03A = 0;
+                gameStateDataRef->unk_039 = 0;
+                gameStateDataRef->unk_037 = 0;
+                gameStateDataRef->unk_038 = 0;
+
+                for (i = 0; i < ARRAY_COUNT(gameStateDataRef->unk_03C); i++) {
+                    gameStateDataRef->unk_03C[i] = 0;
+                }
+
+                gameStateDataRef->unk_00C = 4;
+                if ((gameStateDataRef->unk_04C == 1) || ((index == 0) && (aiDebugP1 >= 0))) {
+                    aifMakeFlagSet(gameStateDataRef);
                 }
             }
             break;
 
-        case 0x1A: /* switch 1 */
+        case 0x1A:
             func_80062B18(index);
             break;
 
-        case 0x1C: /* switch 1 */
+        case 0x1C:
             func_80062AFC(index);
             break;
 
-        case 0x1E: /* switch 1 */
+        case 0x1E:
             func_80062B34(index);
             break;
 
-        case 0x1B: /* switch 1 */
-        case 0x1D: /* switch 1 */
-        case 0x1F: /* switch 1 */
-            if (gControllerPressedButtons[main_joy[index]] & 0xFF3F) {
+        case 0x1B:
+        case 0x1D:
+        case 0x1F:
+            if (gControllerPressedButtons[main_joy[index]] & ANY_BUTTON) {
                 func_80062DA4(&temp_s1->unk_9D0[index]);
             }
+
             timeAttackResult_update(&temp_s1->unk_9D0[index], 1);
-            func_80060270(arg0, temp_s1->unk_9D0[index].unk_24);
+            func_80060270(gameStateDataRef, temp_s1->unk_9D0[index].unk_24);
             temp_s1->unk_9D0[index].unk_24 = 0;
             break;
 
-        case 0xE:  /* switch 1 */
-        case 0x10: /* switch 1 */
-        case 0x12: /* switch 1 */
-            if (arg0->unk_00C == 0xE) {
+        case 0xE:
+        case 0x10:
+        case 0x12:
+            if (gameStateDataRef->unk_00C == 0xE) {
                 if (func_80062A8C(index) != 0) {
-                    goto end;
+                    break;
                 }
-            }
-            if (arg0->unk_00C == 0x10) {
+            } else if (gameStateDataRef->unk_00C == 0x10) {
                 if (func_80062AA8(index) != 0) {
-                    goto end;
+                    break;
                 }
-            }
-            if (arg0->unk_00C == 0x12) {
+            } else if (gameStateDataRef->unk_00C == 0x12) {
                 if (func_80062AC4(index) != 0) {
-                    goto end;
+                    break;
                 }
             }
 
@@ -3566,8 +3570,8 @@ s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 ind
 
                 case 2:
                     func_800633C0();
-                    if (arg0->unk_004 < 0x3E7U) {
-                        arg0->unk_004 += 1;
+                    if (gameStateDataRef->unk_004 < 999) {
+                        gameStateDataRef->unk_004++;
                     }
                     dm_snd_play_in_game(SND_INDEX_62);
                     return 2;
@@ -3578,88 +3582,81 @@ s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 ind
             }
             break;
 
-        case 0xD: /* switch 1 */
+        case 0xD:
             func_80062A8C(index);
             break;
 
-        case 0xF: /* switch 1 */
+        case 0xF:
             func_80062AA8(index);
             break;
 
-        case 0x11: /* switch 1 */
+        case 0x11:
             func_80062AC4(index);
             break;
 
-        case 0x13: /* switch 1 */
-            if ((sp28 & 0x1000) && (temp_s1->unk_000 == 0)) {
+        case 0x13:
+            if ((button & START_BUTTON) && (temp_s1->unk_000 == 0)) {
                 return 7;
             }
             break;
 
-        case 0x14: /* switch 1 */
-            arg0->unk_049 = 1;
+        case 0x14:
+            gameStateDataRef->unk_049 = 1;
             clear_map_all(mapGrid);
-            arg0->unk_025 = 0;
-            arg0->unk_024 = 0;
-            arg0->unk_02B = 0xC;
-            arg0->unk_044 = 0;
-            arg0->unk_02D = (u8)GameSpeed[arg0->unk_02C];
-            arg0->unk_031 = 0;
-            arg0->unk_030 = 1;
-            arg0->unk_032 = 1;
-            arg0->unk_02F = 0;
-            arg0->unk_02E = 0;
-            dm_set_capsel(arg0);
-            arg0->unk_035 = 0;
-            arg0->unk_036 = 0;
-            arg0->unk_037 = 0;
-            arg0->unk_038 = 0;
-            arg0->unk_03A = 0;
-            arg0->unk_039 = 0;
+            gameStateDataRef->unk_025 = 0;
+            gameStateDataRef->unk_024 = 0;
+            gameStateDataRef->unk_02B = 0xC;
+            gameStateDataRef->unk_044 = 0;
+            gameStateDataRef->unk_02D = GameSpeed[gameStateDataRef->unk_02C];
+            gameStateDataRef->unk_031 = 0;
+            gameStateDataRef->unk_030 = 1;
+            gameStateDataRef->unk_032 = 1;
+            gameStateDataRef->unk_02F = 0;
+            gameStateDataRef->unk_02E = 0;
+            dm_set_capsel(gameStateDataRef);
+            gameStateDataRef->unk_035 = 0;
+            gameStateDataRef->unk_036 = 0;
+            gameStateDataRef->unk_037 = 0;
+            gameStateDataRef->unk_038 = 0;
+            gameStateDataRef->unk_03A = 0;
+            gameStateDataRef->unk_039 = 0;
 
-            var_a1 = 0;
-            while (var_a1 < 4) {
-                arg0->unk_03C[var_a1] = 0;
-                var_a1 += 1;
+            for (i = 0; i < ARRAY_COUNT(gameStateDataRef->unk_03C); i++) {
+                gameStateDataRef->unk_03C[i] = 0;
             }
 
-            var_a1 = 0;
-            while (var_a1 < 0x10) {
-                arg0->unk_050[var_a1][0] = 0;
-                arg0->unk_050[var_a1][1] = 0;
-                var_a1 += 1;
+            for (i = 0; i < ARRAY_COUNT(gameStateDataRef->unk_050); i++) {
+                gameStateDataRef->unk_050[i][0] = 0;
+                gameStateDataRef->unk_050[i][1] = 0;
             }
 
-            arg0->unk_00C = 1;
-            arg0->unk_014 = 2;
+            gameStateDataRef->unk_00C = 1;
+            gameStateDataRef->unk_014 = 2;
 
-            var_a1 = 0;
-            while (var_a1 < ARRAY_COUNTU(virus_map_disp_order[index].unk_00)) {
-                virus_map_disp_order[index].unk_00[var_a1] &= ~0x80;
-                var_a1 += 1;
+            for (i = 0; i < ARRAY_COUNTU(virus_map_disp_order[index].unk_00); i++) {
+                virus_map_disp_order[index].unk_00[i] &= ~0x80;
             }
 
-            var_a1 = 0;
-            while (var_a1 < arg0->unk_164) {
-                arg0->unk_0D4.unk_00[var_a1].unk_8 = arg0->unk_140.unk_00[var_a1];
-                var_a1 += 1;
+            for (i = 0; i < gameStateDataRef->unk_164; i++) {
+                gameStateDataRef->unk_0D4.unk_00[i].unk_8 = gameStateDataRef->unk_140.unk_00[i];
             }
             break;
 
-        case 0x15: /* switch 1 */
-            arg0->unk_02F++;
-            if (arg0->unk_02F >= 0x12U) {
-                arg0->unk_02F = 0;
-                arg0->unk_00C = 7;
-                dm_h_erase_chack_set(arg0, mapGrid);
-                dm_w_erase_chack_set(arg0, mapGrid);
+        case 0x15:
+            gameStateDataRef->unk_02F++;
+            if (gameStateDataRef->unk_02F >= 0x12) {
+                gameStateDataRef->unk_02F = 0;
+                gameStateDataRef->unk_00C = 7;
+                dm_h_erase_chack_set(gameStateDataRef, mapGrid);
+                dm_w_erase_chack_set(gameStateDataRef, mapGrid);
                 dm_h_ball_chack(mapGrid);
                 dm_w_ball_chack(mapGrid);
-                arg0->unk_039 += 1;
-                func_8006121C(arg0, mapGrid, 1);
 
-                if (arg0->unk_03C[3] & 8) {
-                    arg0->unk_03C[3] &= ~8;
+                gameStateDataRef->unk_039++;
+                func_8006121C(gameStateDataRef, mapGrid, 1);
+
+                if (gameStateDataRef->unk_03C[3] & 8) {
+                    gameStateDataRef->unk_03C[3] &= ~8;
                     dm_snd_play_in_game(SND_INDEX_56);
                 } else {
                     dm_snd_play_in_game(SND_INDEX_61);
@@ -3667,44 +3664,41 @@ s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 ind
             }
             break;
 
-        case 0x16: /* switch 1 */
-            dm_warning_h_line(arg0, mapGrid);
-            var_s6_2 = 1;
-            if (arg0->unk_04A != 0) {
-                dm_attack_se(arg0, index);
-                dm_set_attack_4p(arg0);
-                animeState_set(&arg0->unk_094, 1);
-                if (dm_broken_set(arg0, mapGrid) != false) {
-                    arg0->unk_00C = 8;
-                    var_s6_2 = 0;
+        case 0x16:
+            dm_warning_h_line(gameStateDataRef, mapGrid);
+
+            var_s6 = true;
+            if (gameStateDataRef->unk_04A != 0) {
+                dm_attack_se(gameStateDataRef, index);
+                dm_set_attack_4p(gameStateDataRef);
+                animeState_set(&gameStateDataRef->unk_094, 1);
+                if (dm_broken_set(gameStateDataRef, mapGrid)) {
+                    gameStateDataRef->unk_00C = 8;
+                    var_s6 = false;
                 }
             } else {
-                var_v1_4 = 0;
-                while (var_v1_4 < 0x10) {
-                    arg0->unk_050[var_v1_4][0] = 0;
-                    arg0->unk_050[var_v1_4][1] = 0;
-                    var_v1_4 += 1;
+                for (j = 0; j < 0x10; j++) {
+                    gameStateDataRef->unk_050[j][0] = 0;
+                    gameStateDataRef->unk_050[j][1] = 0;
                 }
             }
 
-            if (var_s6_2 != 0) {
-                dm_set_capsel(arg0);
-                dm_capsel_speed_up(arg0);
-                arg0->unk_03A = 0;
-                arg0->unk_039 = 0;
-                arg0->unk_037 = 0;
-                arg0->unk_038 = 0;
+            if (var_s6) {
+                dm_set_capsel(gameStateDataRef);
+                dm_capsel_speed_up(gameStateDataRef);
+                gameStateDataRef->unk_03A = 0;
+                gameStateDataRef->unk_039 = 0;
+                gameStateDataRef->unk_037 = 0;
+                gameStateDataRef->unk_038 = 0;
 
-                var_a1 = 0;
-                while (var_a1 < 4) {
-                    arg0->unk_03C[var_a1] = 0;
-                    var_a1 += 1;
+                for (i = 0; i < ARRAY_COUNT(gameStateDataRef->unk_03C); i++) {
+                    gameStateDataRef->unk_03C[i] = 0;
                 }
-                arg0->unk_00C = 4;
+                gameStateDataRef->unk_00C = 4;
             }
             break;
 
-        case 0x18: /* switch 1 */
+        case 0x18:
             switch (retryMenu_input(index)) {
                 case 0:
                     if (temp_s1->unk_9C4 < 0) {
@@ -3714,8 +3708,8 @@ s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 ind
                     break;
 
                 case 1:
-                    if (arg0->unk_004 < 0x3E7U) {
-                        arg0->unk_004 += 1;
+                    if (gameStateDataRef->unk_004 < 999) {
+                        gameStateDataRef->unk_004++;
                     }
                     dm_snd_play_in_game(SND_INDEX_62);
                     return 2;
@@ -3729,12 +3723,8 @@ s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 ind
             break;
     }
 
-end:
     return 0;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_main_cnt);
-#endif
 #endif
 
 #if VERSION_CN
