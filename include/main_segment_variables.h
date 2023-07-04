@@ -540,7 +540,7 @@ extern OSMesg B_800EBED0[8];
 extern s16 B_800ED430;
 extern STACK(B_800ED440, 0x2000);
 extern struct_gameBackup *gameBackup[2];
-extern u8 CapsMagazine[];
+extern u8 CapsMagazine[0x100];
 // extern UNK_TYPE attack_effect_idx;
 // extern UNK_TYPE B_800EF54C;
 
