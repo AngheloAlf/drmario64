@@ -56,7 +56,7 @@ extern u8 FlyingCnt[];
 // extern UNK_TYPE D_8008841D;
 extern UNK_TYPE1 GameSpeed[4];
 extern u8 FallSpeed[];
-// extern UNK_TYPE D_8008846C;
+extern u8 D_8008846C[][6];
 extern s32 mti;
 // extern UNK_TYPE D_80088484;
 extern u8 aiVirusLevel[][3];

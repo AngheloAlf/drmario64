@@ -612,7 +612,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", make_flash_virus_p
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", init_map_all);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800654F4_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_8006553C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", clear_map_all);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800655B4_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800655EC_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065638_cn);
