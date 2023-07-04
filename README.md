@@ -34,7 +34,7 @@ sudo apt install make git build-essential clang binutils-mips-linux-gnu gcc-mips
 To install the dependencies Python dependencies run:
 
 ```bash
-pip3 install -r requirements.txt
+python3 -m pip install -U -r requirements.txt
 ```
 
 To install Rust run the following command and follow the on-screen instructions

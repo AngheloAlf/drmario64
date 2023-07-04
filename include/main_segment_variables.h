@@ -312,7 +312,7 @@ extern char st_staffroll_txt[];
 // extern UNK_TYPE D_800AACD0;
 // extern UNK_TYPE D_800AACD4;
 extern enum_story_proc_no story_proc_no; /* Original name: story_proc_no */
-// extern UNK_TYPE D_800AACF0;
+extern char STR_800AACF0[];
 extern char *EndingLastMessage; /* Original name: EndingLastMessage */
 extern s32 D_800AAD08;
 extern s32 D_800AAD0C;

@@ -173,10 +173,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_update);
 #endif
 
 ASM_RODATA;
-const char RO_800B1A54[] = {
-    0x81,
-    0xA5,
-};
+const char STR_800B1A54[] = "▼";
 
 #if VERSION_US
 #ifdef NON_EQUIVALENT
@@ -383,12 +380,12 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
             case 0x0:
                 fontXX_draw(&gfx, (f32)(messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)),
                             (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
-                            (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, RO_800B1A54);
+                            (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, STR_800B1A54);
                 break;
             case 0x1:
                 fontXX_draw2(&gfx, (f32)(messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)),
                              (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
-                             (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, RO_800B1A54);
+                             (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, STR_800B1A54);
                 break;
 
             default:

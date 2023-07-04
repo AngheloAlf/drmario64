@@ -234,6 +234,9 @@ $(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
 $(BUILD_DIR)/asm/cn/data/main_segment/debug_menu.rodata.o: ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
 $(BUILD_DIR)/src/main_segment/debug_menu.o:                ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
 
+$(BUILD_DIR)/asm/cn/data/main_segment/msgwnd.rodata.o: ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
+$(BUILD_DIR)/src/main_segment/msgwnd.o:                ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
+
 
 #### Main Targets ###
 

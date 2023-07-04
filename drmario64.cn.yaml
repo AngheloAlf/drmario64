@@ -42,6 +42,8 @@ options:
   use_legacy_include_asm: False
   create_asm_dependencies: True
   string_encoding: EUC-CN
+  data_string_encoding: EUC-CN
+  rodata_string_guesser_level: 2
   asm_function_macro: glabel
   asm_jtbl_label_macro: jlabel
   asm_data_macro: dlabel
@@ -404,7 +406,7 @@ segments:
         subsegments:
         - { start: 0x0AFCE0, type: gfx, data_only: True, name: main_segment/font/init_dl_135 }
 
-      - [0x0AFD10, .rodata, main_segment/msgwnd]
+      - { start: 0x0AFD10, type: .rodata, name: main_segment/msgwnd, str_encoding: shift-jis }
       - [0x0AFDD0, .rodata, main_segment/char_anime]
 
       - [0x0AFF10, .rodata, main_segment/dm_virus_init]

@@ -40,6 +40,8 @@ options:
   use_legacy_include_asm: False
   create_asm_dependencies: True
   string_encoding: SHIFT-JIS
+  data_string_encoding: SHIFT-JIS
+  rodata_string_guesser_level: 2
   asm_function_macro: glabel
   asm_jtbl_label_macro: jlabel
   asm_data_macro: dlabel

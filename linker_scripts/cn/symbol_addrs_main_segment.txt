@@ -1940,7 +1940,8 @@ RO_800C7E90_cn = 0x800C7E90; //
 RO_800C7E98_cn = 0x800C7E98; //
 init_dl_135 = 0x800C7FB0; //
 sMessageColorTable = 0x800C7FE0; // size:0x18
-RO_800B1A54 = 0x800C8094; //
+STR_800B1A54 = 0x800C8094; // force_not_migration:True type:asciz
+
 _size_122 = 0x800C80A0; //
 _addrTbl_124 = 0x800C80F0; //
 _centerTbl_125 = 0x800C8140; //

@@ -1495,7 +1495,7 @@ D_800AACCC = 0x800AACCC; //
 D_800AACD0 = 0x800AACD0; //
 D_800AACD4 = 0x800AACD4; //
 story_proc_no = 0x800AACEC; //
-D_800AACF0 = 0x800AACF0; // type:char
+STR_800AACF0 = 0x800AACF0; // type:asciz
 EndingLastMessage = 0x800AAD04; //
 D_800AAD08 = 0x800AAD08; //
 D_800AAD0C = 0x800AAD0C; //
@@ -2083,7 +2083,7 @@ jtbl_800B19A8 = 0x800B19A8; // type:jtbl
 DBL_800B19F8 = 0x800B19F8; // type:f64
 DBL_800B1A00 = 0x800B1A00; // type:f64
 jtbl_800B1A08 = 0x800B1A08; // type:jtbl
-RO_800B1A54 = 0x800B1A54; //
+STR_800B1A54 = 0x800B1A54; // force_not_migration:True type:asciz
 
 DBL_800B1A58 = 0x800B1A58; // type:f64
 _size_122 = 0x800B1A60; // size:0x50
