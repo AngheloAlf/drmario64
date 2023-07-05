@@ -74,7 +74,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
                         title_mode_type = 7;
                     } else {
                         if (var_s1 == 0x64) {
-                            dm_seq_play(0xB);
+                            dm_seq_play(SEQ_INDEX_11);
                         }
                         if (title_exit_flag == 1) {
                             title_mode_type = 6;

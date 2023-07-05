@@ -3430,6 +3430,9 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
                             dm_snd_play_in_game(SND_INDEX_61);
                         }
                         break;
+
+                    default:
+                        break;
                 }
             }
             break;
@@ -3491,6 +3494,9 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
                         }
                     }
                     break;
+
+                    default:
+                        break;
             }
 
             if (var_s6) {
@@ -3808,7 +3814,7 @@ s32 dm_game_main_1p(void) {
         s32 temp_s1;
 
         func_80062A24(temp->unk_04B);
-        dm_seq_play_in_game(0xE);
+        dm_seq_play_in_game(SEQ_INDEX_14);
         watchGameP->unk_3C4 = 0;
         temp->unk_020 = 5;
 
@@ -3859,7 +3865,7 @@ s32 dm_game_main_1p(void) {
     } else if (temp_s3 == -1) {
         func_80062A08(temp->unk_04B);
         animeState_set(&temp->unk_094, 4);
-        dm_seq_play_in_game(0x11);
+        dm_seq_play_in_game(SEQ_INDEX_17);
         temp->unk_02B = 1;
         temp->unk_020 = 8;
         if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
@@ -4057,7 +4063,7 @@ loop_27:
                     temp_t0 = var_s0_2->unk_0;
                     temp_v0 = 0x2A30 - evs_game_time;
                     func_80062DD8(temp_s7 + var_s2, temp_t0->unk_16C, 1, temp_v0 & ((s32) ~temp_v0 >> 0x1F), temp_t0->unk_174, var_s0_2->unk_0->unk_170, var_s0_2->unk_0->unk_000);
-                    _dm_seq_play_in_game(1, 0x10);
+                    _dm_seq_play_in_game(1, SEQ_INDEX_16);
                     var_s0_2 += 4;
                 } else {
                     sp3C += 1;
@@ -4138,7 +4144,7 @@ block_66:
                                 var_s1_6 += 1;
                                 var_s6 = func_800675C8(temp_a0_2, var_s6);
                             } while (var_s1_6 < 2);
-                            dm_seq_play_in_game(0x11);
+                            dm_seq_play_in_game(SEQ_INDEX_17);
                         } else if (sp3C != 0) {
                             var_s0_5 = &sp20;
                             do {
@@ -4226,7 +4232,7 @@ block_66:
                     }
                     temp_v1_3 = var_s0_2->unk_0;
                     func_80062DD8(temp_s7 + var_s2, temp_v1_3->unk_16C, 0, 0, temp_v1_3->unk_174, var_s0_2->unk_0->unk_170, var_s0_2->unk_0->unk_000);
-                    _dm_seq_play_in_game(1, 0x12);
+                    _dm_seq_play_in_game(1, SEQ_INDEX_18);
                 } else {
                     sp44 += 1;
                     var_s0_2->unk_0->unk_020 = 8;
@@ -5969,7 +5975,7 @@ s32 dm_game_main2(void) {
                     backup_game_state(0);
                     temp_s3->unk_9AC = temp_s0_4;
                     if (temp_s3->unk_9AC > 0) {
-                        dm_seq_play_in_game(0x17);
+                        dm_seq_play_in_game(SEQ_INDEX_23);
                         //return false;
                     }
                     break;
@@ -6259,7 +6265,7 @@ s32 dm_game_main2(void) {
                     backup_game_state(0);
                     temp_s3->unk_9AC = var_s0;
                     if (temp_s3->unk_9AC > 0) {
-                        dm_seq_play_in_game(0x17);
+                        dm_seq_play_in_game(SEQ_INDEX_23);
                     }
                 }
             }
@@ -7233,7 +7239,7 @@ enum_main_no main_techmes(struct_800EB670 *arg0) {
     dm_game_init(false);
     evs_seqence = temp_s1;
 
-    dm_seq_play_in_game(0x17);
+    dm_seq_play_in_game(SEQ_INDEX_23);
 
     while (var_s3) {
         osRecvMesg(&sp20, NULL, OS_MESG_BLOCK);

@@ -5878,7 +5878,7 @@ block_127:
                     temp_v1_6 = menuMain->mode;
                     switch (temp_v1_6) {            /* switch 10; irregular */
                         case MAINMENUMODE_47:       /* switch 10 */
-                            dm_seq_play_fade(0xD, 0x14);
+                            dm_seq_play_fade(SEQ_INDEX_13, 0x14);
                             break;
                         case MAINMENUMODE_72:       /* switch 10 */
                         case MAINMENUMODE_72:       /* switch 11 */
@@ -5990,7 +5990,7 @@ block_184:
                     var_s4 = SND_INDEX_68;
                     menuMain->mode = MAINMENUMODE_46;
                     menuMain->unk_0008 -= 1;
-                    dm_seq_play_fade(0xC, 0x14);
+                    dm_seq_play_fade(SEQ_INDEX_13, 0x14);
                 }
                 break;
             case MAINMENUMODE_48:
@@ -6113,7 +6113,7 @@ block_209:
                     sp44 -= 1;
                     menuMain->mode = MAINMENUMODE_70;
                     if (menuMain->unk_0034 != 0xC) {
-                        dm_seq_play_fade(0xC, 0x14);
+                        dm_seq_play_fade(0xC, 0x14); // SEQ_INDEX_12
                         menuMain->unk_0034 = 0xC;
                     }
                 }
@@ -7244,7 +7244,7 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
             _setMode(menuLvSel->watchMenuRef, MAINMENUMODE_MENUMAIN_0);
             func_800529FC(menuLvSel, -1, 1.0f);
             if (menuLvSel->musicSelector.unk_008 >= 0) {
-                dm_seq_play_fade(0xC, 0x14);
+                dm_seq_play_fade(SEQ_INDEX_12, 0x14);
             }
             sndIndex = SND_INDEX_68;
         }
@@ -8401,7 +8401,7 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
                                     } while (var_a2_2 < menuPlay2->unk_00C4);
                                 }
                                 if (menuPlay2->unk_6548.unk_0A0.unk_008 >= 0) {
-                                    dm_seq_play_fade(0xC, 0x14);
+                                    dm_seq_play_fade(SEQ_INDEX_12, 0x14);
                                     menuPlay2->unk_6548.unk_0A0.unk_008 = -1;
                                 }
                                 break;
@@ -10554,7 +10554,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     joycur1 = 0x18;
     joycur2 = 6;
     gGfxHead = gGfxGlist[gfx_gtask_no];
-    dm_seq_play(0xC);
+    dm_seq_play(SEQ_INDEX_12);
 
     while ((ptr->unk_111D4 == MAIN_NO_6) || (ptr->unk_111DC < 1.0f)) {
         if (graphic_no == GRAPHIC_NO_0) {

@@ -1306,7 +1306,7 @@ bool dm_manual_1_main(void) {
 
         case 0x3E:
             if (var_s5 == 6) {
-                dm_seq_play(0xE);
+                dm_seq_play(SEQ_INDEX_14);
                 temp_s1->unk_014 = 0;
                 temp_s1->unk_018 = 0x78;
                 temp_s1->unk_164 += 1;
@@ -1379,7 +1379,7 @@ bool dm_manual_1_main(void) {
 
         case 0x49:
             if (var_s5 == -1) {
-                dm_seq_play(0x11);
+                dm_seq_play(SEQ_INDEX_17);
                 temp_s1->unk_164 += 1;
             }
             break;

@@ -545,7 +545,7 @@ extern s32 B_800E87B4;
 extern s16 B_800F6CDE[];
 extern void *D_800A8ACC;
 
-extern UNK_TYPE4 D_800AAE00[];
+extern SeqIndex D_800AAE00[];
 
 #if VERSION_US
 #ifdef NON_EQUIVALENT

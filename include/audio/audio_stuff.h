@@ -157,6 +157,36 @@ typedef struct SndEntry {
     /* 0x5 */ u8 volume;
 } SndEntry; // size = 0x6
 
+typedef enum SeqIndex {
+    /* -1 */ SEQ_INDEX_NONE = -1,
+    /*  0 */ SEQ_INDEX_0,
+    /*  1 */ SEQ_INDEX_1,
+    /*  2 */ SEQ_INDEX_2,
+    /*  3 */ SEQ_INDEX_3,
+    /*  4 */ SEQ_INDEX_4,
+    /*  5 */ SEQ_INDEX_5,
+    /*  6 */ SEQ_INDEX_6,
+    /*  7 */ SEQ_INDEX_7,
+    /*  8 */ SEQ_INDEX_8,
+    /*  9 */ SEQ_INDEX_9,
+    /* 10 */ SEQ_INDEX_10,
+    /* 11 */ SEQ_INDEX_11,
+    /* 12 */ SEQ_INDEX_12,
+    /* 13 */ SEQ_INDEX_13,
+    /* 14 */ SEQ_INDEX_14,
+    /* 15 */ SEQ_INDEX_15,
+    /* 16 */ SEQ_INDEX_16,
+    /* 17 */ SEQ_INDEX_17,
+    /* 18 */ SEQ_INDEX_18,
+    /* 19 */ SEQ_INDEX_19,
+    /* 20 */ SEQ_INDEX_20,
+    /* 21 */ SEQ_INDEX_21,
+    /* 22 */ SEQ_INDEX_22,
+    /* 23 */ SEQ_INDEX_23,
+    /* 24 */ SEQ_INDEX_MAX
+} SeqIndex;
+
+
 typedef struct struct_800FACE0_unk_08 {
     /* 0x0 */ const SndEntry *sndEntry;
     /* 0x4 */ s32 index;
@@ -164,7 +194,7 @@ typedef struct struct_800FACE0_unk_08 {
 } struct_800FACE0_unk_08; // size = 0xC
 
 typedef struct struct_800FACE0 {
-    /* 0x00 */ UNK_TYPE unk_00[2];
+    /* 0x00 */ SeqIndex seqIndex[2];
     /* 0x08 */ struct_800FACE0_unk_08 unk_08[4];
     /* 0x38 */ struct_800FACE0_unk_08 *unk_38[4];
 } struct_800FACE0; // size >= 0x3C
@@ -183,12 +213,12 @@ void dm_audio_init_driver(struct_800EB670* arg0);
 void dm_audio_update(void);
 void dm_audio_stop(void);
 bool dm_audio_is_stopped(void);
-void dm_seq_play(s32 arg0);
-void _dm_seq_play(s32 arg0, s32 arg1);
-void dm_seq_play_fade(s32 arg0, s32 arg1);
-void _dm_seq_play_fade(s32 arg0, s32 arg1, s32 arg2);
-void dm_seq_play_in_game(s32 arg0);
-void _dm_seq_play_in_game(s32 arg0, s32 arg1);
+void dm_seq_play(SeqIndex seqIndex);
+void _dm_seq_play(s32 arg0, SeqIndex seqIndex);
+void dm_seq_play_fade(SeqIndex seqIndex, s32 arg1);
+void _dm_seq_play_fade(s32 arg0, SeqIndex seqIndex, s32 arg2);
+void dm_seq_play_in_game(SeqIndex seqIndex);
+void _dm_seq_play_in_game(s32 arg0, SeqIndex seqIndex);
 void dm_seq_stop(void);
 void _dm_seq_stop(s32 arg0);
 s32 dm_seq_set_volume(s32 arg0);
