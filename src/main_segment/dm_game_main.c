@@ -39,9 +39,9 @@ s32 func_800601F0(struct_game_state_data *gameStateDataRef, s32 arg1) {
     s32 var_a2;
 
     for (var_a2 = gameStateDataRef->unk_038; var_a2 < gameStateDataRef->unk_037; var_a2++) {
-        s32 var_v1 = MIN(var_a2, ARRAY_COUNT(D_8008846C[arg1]) - 1);
+        s32 var_v1 = MIN(var_a2, ARRAY_COUNT(Score1p[arg1]) - 1);
 
-        var_a3 += D_8008846C[arg1][var_v1] * 100;
+        var_a3 += Score1p[arg1][var_v1] * 100;
     }
 
     gameStateDataRef->unk_038 = gameStateDataRef->unk_037;
@@ -253,8 +253,36 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1E9C);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_attack_se);
 #endif
 
+extern s8 dm_chaine_se_table_vs_178[];
+extern s8 dm_chaine_se_table_4p_179[][3];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_attack_se);
+void dm_attack_se(struct_game_state_data *gameStateData, s32 arg1) {
+    s32 i;
+
+    if (gameStateData->unk_03A < 2) {
+        return;
+    }
+
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_0:
+            dm_snd_play_in_game(SND_INDEX_59);
+            break;
+
+        case ENUM_EVS_GAMESEL_1:
+        case ENUM_EVS_GAMESEL_3:
+            dm_snd_play_in_game(dm_chaine_se_table_vs_178[arg1]);
+            break;
+
+        case ENUM_EVS_GAMESEL_2:
+            for (i = 0; i < ARRAY_COUNT(dm_chaine_se_table_4p_179[arg1]); i++) {
+                if ((gameStateData->unk_03C[3] >> i) & 1) {
+                    dm_snd_play_in_game(dm_chaine_se_table_4p_179[arg1][i]);
+                }
+            }
+            break;
+    }
+}
 #endif
 
 #if VERSION_US
@@ -3495,8 +3523,8 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
                     }
                     break;
 
-                    default:
-                        break;
+                default:
+                    break;
             }
 
             if (var_s6) {
