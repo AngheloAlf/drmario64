@@ -137,8 +137,8 @@ typedef struct struct_watchGame_unk_9D0 {
     /* 0x04 */ UNK_TYPE unk_04;
     /* 0x08 */ UNK_TYPE unk_08;
     /* 0x0C */ UNK_TYPE unk_0C;
-    /* 0x10 */ UNK_TYPE1 unk_10[0x4];
-    /* 0x14 */ UNK_TYPE unk_14;
+    /* 0x10 */ UNK_TYPE unk_10;
+    /* 0x14 */ u32 unk_14;
     /* 0x18 */ UNK_TYPE unk_18;
     /* 0x1C */ UNK_TYPE unk_1C;
     /* 0x20 */ UNK_TYPE unk_20;
@@ -489,7 +489,8 @@ typedef struct struct_game_state_data {
     /* 0x03A */ u8 unk_03A;
     /* 0x03B */ u8 unk_03B;
     /* 0x03C */ u8 unk_03C[4];
-    /* 0x040 */ UNK_TYPE1 unk_040[0x4];
+    /* 0x040 */ u8 unk_040;
+    /* 0x041 */ UNK_TYPE1 unk_041[0x3];
     /* 0x040 */ UNK_TYPE unk_044;
     /* 0x048 */ u8 unk_048;
     /* 0x048 */ u8 unk_049;

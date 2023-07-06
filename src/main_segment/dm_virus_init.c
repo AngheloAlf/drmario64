@@ -67,6 +67,7 @@ void clear_map_all(GameMapGrid *mapGrid) {
 #endif
 
 #if VERSION_US
+// TODO: probably doesn't return bool
 bool get_map_info(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne) {
     GameMapCell *cells = mapGrid->cells;
     s32 index = GAME_MAP_GET_INDEX(rowPlusOne - 1, column);
@@ -617,15 +618,15 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", get_map_info);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800655EC_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065638_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800656A0_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800657A0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", get_virus_count);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", set_map);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_8006582C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", set_virus);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065880_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065910_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065950_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065B20_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_virus_map_copy);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065C78_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_get_first_virus_count);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_get_first_virus_count_in_new_mode);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065CEC_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_virus_init);
