@@ -1220,30 +1220,30 @@ bool dm_manual_1_main(void) {
         case 0x2A:
             gameStateDataP->unk_030 = 1;
 
-            switch (unk_178->unk_2) {
+            switch (unk_178->unk_2[0]) {
                 case 0x4:
-                    if (unk_178->unk_2 == unk_178->unk_3) {
+                    if (unk_178->unk_2[0] == unk_178->unk_2[1]) {
                         rotate_capsel(mapGrid, unk_178, -1);
                         temp_s1->unk_01C[3] = 8;
                     }
                     break;
 
                 case 0x6:
-                    if (unk_178->unk_2 != unk_178->unk_3) {
+                    if (unk_178->unk_2[0] != unk_178->unk_2[1]) {
                         rotate_capsel(mapGrid, unk_178, -1);
                         temp_s1->unk_01C[3] = 8;
                     }
                     break;
 
                 case 0x8:
-                    if (unk_178->unk_2 == unk_178->unk_3) {
+                    if (unk_178->unk_2[0] == unk_178->unk_2[1]) {
                         rotate_capsel(mapGrid, unk_178, 1);
                         temp_s1->unk_01C[2] = 8;
                     }
                     break;
 
                 case 0xA:
-                    if (unk_178->unk_2 != unk_178->unk_3) {
+                    if (unk_178->unk_2[0] != unk_178->unk_2[1]) {
                         rotate_capsel(mapGrid, unk_178, 1);
                         temp_s1->unk_01C[2] = 8;
                     }

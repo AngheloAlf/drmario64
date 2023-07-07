@@ -560,41 +560,41 @@ void translate_capsel(GameMapGrid *mapGrid, struct_game_state_data *arg1, s32 ar
     s32 var_s1 = 0;
     struct_game_state_data_unk_178 *temp_s5 = &arg1->unk_178;
 
-    if ((arg1->unk_178.unk_2 <= 0) || (arg1->unk_178.unk_8 == 0)) {
+    if ((arg1->unk_178.unk_2[0] <= 0) || (arg1->unk_178.unk_8 == 0)) {
         return;
     }
 
     if (arg2 == 1) {
-        if (arg1->unk_178.unk_0 == arg1->unk_178.unk_0[1]) {
+        if (arg1->unk_178.unk_0[0] == arg1->unk_178.unk_0[1]) {
             if ((arg1->unk_178.unk_0[1] < 7) &&
-                (get_map_info(mapGrid, arg1->unk_178.unk_0[1] + 1, arg1->unk_178.unk_2) != arg2)) {
+                (get_map_info(mapGrid, arg1->unk_178.unk_0[1] + 1, arg1->unk_178.unk_2[0]) != arg2)) {
                 if (arg1->unk_178.unk_2[1] == 0) {
                     var_s1 = 1;
                 } else {
-                    if (get_map_info(mapGrid, arg1->unk_178.unk_0 + 1, arg1->unk_178.unk_2[1]) != arg2) {
+                    if (get_map_info(mapGrid, arg1->unk_178.unk_0[0] + 1, arg1->unk_178.unk_2[1]) != arg2) {
                         var_s1 = 1;
                     }
                 }
             }
         } else if (arg1->unk_178.unk_0[1] < 7) {
-            if (get_map_info(mapGrid, arg1->unk_178.unk_0[1] + 1, arg1->unk_178.unk_2) != arg2) {
+            if (get_map_info(mapGrid, arg1->unk_178.unk_0[1] + 1, arg1->unk_178.unk_2[0]) != arg2) {
                 var_s1 = 1;
             }
         }
     } else if (arg2 == -1) {
-        if (arg1->unk_178.unk_0 == arg1->unk_178.unk_0[1]) {
-            if ((arg1->unk_178.unk_0 > 0) &&
-                (get_map_info(mapGrid, arg1->unk_178.unk_0 - 1, arg1->unk_178.unk_2) != true)) {
+        if (arg1->unk_178.unk_0[0] == arg1->unk_178.unk_0[1]) {
+            if ((arg1->unk_178.unk_0[0] > 0) &&
+                (get_map_info(mapGrid, arg1->unk_178.unk_0[0] - 1, arg1->unk_178.unk_2[0]) != true)) {
                 if (arg1->unk_178.unk_2[1] != 0) {
-                    if (get_map_info(mapGrid, arg1->unk_178.unk_0 - 1, arg1->unk_178.unk_2[1]) != true) {
+                    if (get_map_info(mapGrid, arg1->unk_178.unk_0[0] - 1, arg1->unk_178.unk_2[1]) != true) {
                         var_s1 = -1;
                     }
                 } else {
                     var_s1 = -1;
                 }
             }
-        } else if (arg1->unk_178.unk_0 > 0) {
-            if (get_map_info(mapGrid, arg1->unk_178.unk_0 - 1, arg1->unk_178.unk_2) != true) {
+        } else if (arg1->unk_178.unk_0[0] > 0) {
+            if (get_map_info(mapGrid, arg1->unk_178.unk_0[0] - 1, arg1->unk_178.unk_2[0]) != true) {
                 var_s1 = -1;
             }
         }
@@ -629,9 +629,9 @@ void rotate_capsel(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1, s
         return;
     }
 
-    if (arg1->unk_0 == arg1->unk_0[1]) {
-        if ((arg1->unk_0 == 7) || (get_map_info(mapGrid, arg1->unk_0 + 1, arg1->unk_2) == true)) {
-            if ((arg1->unk_0 != 0) && (get_map_info(mapGrid, arg1->unk_0 - 1, arg1->unk_2) != true)) {
+    if (arg1->unk_0[0] == arg1->unk_0[1]) {
+        if ((arg1->unk_0[0] == 7) || (get_map_info(mapGrid, arg1->unk_0[0] + 1, arg1->unk_2[0]) == true)) {
+            if ((arg1->unk_0[0] != 0) && (get_map_info(mapGrid, arg1->unk_0[0] - 1, arg1->unk_2[0]) != true)) {
                 var_s1 = 1;
                 arg1->unk_0[0]--;
             }
@@ -652,12 +652,12 @@ void rotate_capsel(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1, s
             }
         }
     } else {
-        if (arg1->unk_2 == 1) {
+        if (arg1->unk_2[0] == 1) {
             arg1->unk_0[1]--;
             var_s1 = -1;
         } else {
-            if (get_map_info(mapGrid, arg1->unk_0, arg1->unk_2 - 1) == true) {
-                if (get_map_info(mapGrid, arg1->unk_0 + 1, arg1->unk_2 - 1) != true) {
+            if (get_map_info(mapGrid, arg1->unk_0[0], arg1->unk_2[0] - 1) == true) {
+                if (get_map_info(mapGrid, arg1->unk_0[0] + 1, arg1->unk_2[0] - 1) != true) {
                     var_s1 = -1;
                     arg1->unk_0[0]++;
                 }
