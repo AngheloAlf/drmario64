@@ -439,17 +439,20 @@ typedef struct struct_80123700_unk_140 {
 } struct_80123700_unk_140; // size = 0x24
 
 typedef struct struct_game_state_data_unk_178 {
-    /* 0x0 */ s8 unk_0;
-    /* 0x0 */ s8 unk_1;
-    /* 0x0 */ s8 unk_2;
-    /* 0x0 */ s8 unk_3;
+    /* 0x0 */ s8 unk_0[2];
+    /* 0x0 */ s8 unk_2[2];
     /* 0x0 */ s8 unk_4[2];
     /* 0x0 */ s8 unk_6;
-    /* 0x0 */ s8 unk_7;
+    /* 0x0 */ u8 unk_7;
     /* 0x0 */ s8 unk_8;
     /* 0x0 */ s8 unk_9;
     /* 0x0 */ s8 unk_A;
 } struct_game_state_data_unk_178; // size = 0xB
+
+typedef struct struct_game_state_data_unk_050 {
+    /* 0x0 */ u16 unk_0;
+    /* 0x2 */ u16 unk_2;
+} struct_game_state_data_unk_050; // size = 0x4
 
 typedef struct struct_game_state_data {
     /* 0x000 */ u32 unk_000;
@@ -500,7 +503,7 @@ typedef struct struct_game_state_data {
     /* 0x04D */ s8 unk_04D;
     /* 0x04E */ u8 unk_04E;
     /* 0x04F */ u8 unk_04F;
-    /* 0x050 */ u16 unk_050[0x10][2];
+    /* 0x050 */ struct_game_state_data_unk_050 unk_050[0x10];
     /* 0x090 */ CharAnimeMode unk_090;
     /* 0x094 */ AnimeState unk_094;
     /* 0x0D4 */ struct_80123700_unk_0D4 unk_0D4;

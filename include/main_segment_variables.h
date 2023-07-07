@@ -608,7 +608,7 @@ extern STACK(B_800F7490, 0xC00);
 extern STACK(B_800F8CE0, 0x2000);
 // extern UNK_TYPE aiHiErR;
 // extern UNK_TYPE B_800FAD30;
-extern UNK_TYPE1 joygmf[4];
+extern u8 joygmf[4];
 extern s16 aiGoalY;
 extern u8 aipn;
 // extern UNK_TYPE aif_field;

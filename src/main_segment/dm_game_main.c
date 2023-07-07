@@ -25,6 +25,9 @@
 // The compiler needs to not see the declared functions to match the cn version
 #include "joy.h"
 #endif
+#if VERSION_CN && !CC_CHECK
+void joyCursorFastSet(u16 mask, u8 index);
+#endif
 
 // TODO: Just to avoid warnings when building GW
 #if VERSION_US || VERSION_CN
@@ -130,17 +133,16 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1C5C);
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1C74);
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", rotate_table_399);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", rotate_mtx_400);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _speed_561);
+#endif
+
+#if VERSION_US || VERSION_CN
 const u8 _retryMenu_itemCount[] = {
     2, 3, 2, 3, 2, 3,
 };
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C827C_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C828C_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _speed_561);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82A8_cn);
 #endif
 
 const f32 _big_virus_def_wait[] = { 12.5f, 10.0f, 7.5f };
@@ -505,16 +507,48 @@ void erase_anime(GameMapGrid *mapGrid) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", erase_anime);
 #endif
 
+void throw_rotate_capsel(struct_game_state_data_unk_178 *arg0);
+
+extern const s32 rotate_mtx_400[];
+extern const s32 rotate_table_399[];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80067200_cn);
+void throw_rotate_capsel(struct_game_state_data_unk_178 *arg0) {
+    s32 i;
+    s32 var_t0;
+    s32 temp_a2;
+    s32 v0;
+
+    if (arg0->unk_0[0] == arg0->unk_0[1]) {
+        v0 = arg0->unk_7;
+        temp_a2 = arg0->unk_6;
+
+        var_t0 = 1;
+        arg0->unk_0[1]++;
+        arg0->unk_2[1]++;
+        arg0->unk_6 = v0;
+        arg0->unk_7 = temp_a2;
+    } else {
+        var_t0 = -1;
+        arg0->unk_0[1]--;
+        arg0->unk_2[1]--;
+    }
+
+    for (i = 0; i < ARRAY_COUNT(arg0->unk_4); i++) {
+        temp_a2 = rotate_table_399[arg0->unk_4[i]];
+        temp_a2 += var_t0;
+
+        arg0->unk_4[i] = rotate_mtx_400[temp_a2];
+    }
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800672AC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", translate_capsel);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800674B0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", rotate_capsel);
 #endif
 
 #if VERSION_US
@@ -531,28 +565,28 @@ void translate_capsel(GameMapGrid *mapGrid, struct_game_state_data *arg1, s32 ar
     }
 
     if (arg2 == 1) {
-        if (arg1->unk_178.unk_0 == arg1->unk_178.unk_1) {
-            if ((arg1->unk_178.unk_1 < 7) &&
-                (get_map_info(mapGrid, arg1->unk_178.unk_1 + 1, arg1->unk_178.unk_2) != arg2)) {
-                if (arg1->unk_178.unk_3 == 0) {
+        if (arg1->unk_178.unk_0 == arg1->unk_178.unk_0[1]) {
+            if ((arg1->unk_178.unk_0[1] < 7) &&
+                (get_map_info(mapGrid, arg1->unk_178.unk_0[1] + 1, arg1->unk_178.unk_2) != arg2)) {
+                if (arg1->unk_178.unk_2[1] == 0) {
                     var_s1 = 1;
                 } else {
-                    if (get_map_info(mapGrid, arg1->unk_178.unk_0 + 1, arg1->unk_178.unk_3) != arg2) {
+                    if (get_map_info(mapGrid, arg1->unk_178.unk_0 + 1, arg1->unk_178.unk_2[1]) != arg2) {
                         var_s1 = 1;
                     }
                 }
             }
-        } else if (arg1->unk_178.unk_1 < 7) {
-            if (get_map_info(mapGrid, arg1->unk_178.unk_1 + 1, arg1->unk_178.unk_2) != arg2) {
+        } else if (arg1->unk_178.unk_0[1] < 7) {
+            if (get_map_info(mapGrid, arg1->unk_178.unk_0[1] + 1, arg1->unk_178.unk_2) != arg2) {
                 var_s1 = 1;
             }
         }
     } else if (arg2 == -1) {
-        if (arg1->unk_178.unk_0 == arg1->unk_178.unk_1) {
+        if (arg1->unk_178.unk_0 == arg1->unk_178.unk_0[1]) {
             if ((arg1->unk_178.unk_0 > 0) &&
                 (get_map_info(mapGrid, arg1->unk_178.unk_0 - 1, arg1->unk_178.unk_2) != true)) {
-                if (arg1->unk_178.unk_3 != 0) {
-                    if (get_map_info(mapGrid, arg1->unk_178.unk_0 - 1, arg1->unk_178.unk_3) != true) {
+                if (arg1->unk_178.unk_2[1] != 0) {
+                    if (get_map_info(mapGrid, arg1->unk_178.unk_0 - 1, arg1->unk_178.unk_2[1]) != true) {
                         var_s1 = -1;
                     }
                 } else {
@@ -569,8 +603,8 @@ void translate_capsel(GameMapGrid *mapGrid, struct_game_state_data *arg1, s32 ar
     if (var_s1 != 0) {
         dm_snd_play_in_game(SND_INDEX_65);
         arg1->unk_034 = 0;
-        temp_s5->unk_0 += var_s1;
-        temp_s5->unk_1 += var_s1;
+        temp_s5->unk_0[0] += var_s1;
+        temp_s5->unk_0[1] += var_s1;
     } else {
         if (arg1->unk_034 == 0) {
             arg1->unk_034 = 1;
@@ -595,19 +629,19 @@ void rotate_capsel(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1, s
         return;
     }
 
-    if (arg1->unk_0 == arg1->unk_1) {
+    if (arg1->unk_0 == arg1->unk_0[1]) {
         if ((arg1->unk_0 == 7) || (get_map_info(mapGrid, arg1->unk_0 + 1, arg1->unk_2) == true)) {
             if ((arg1->unk_0 != 0) && (get_map_info(mapGrid, arg1->unk_0 - 1, arg1->unk_2) != true)) {
                 var_s1 = 1;
-                arg1->unk_0--;
+                arg1->unk_0[0]--;
             }
         } else {
             var_s1 = 1;
-            arg1->unk_1++;
+            arg1->unk_0[1]++;
         }
 
         if (var_s1 != 0) {
-            arg1->unk_3++;
+            arg1->unk_2[1]++;
 
             if (arg2 == -1) {
                 s32 temp_a0;
@@ -619,22 +653,22 @@ void rotate_capsel(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1, s
         }
     } else {
         if (arg1->unk_2 == 1) {
-            arg1->unk_1--;
+            arg1->unk_0[1]--;
             var_s1 = -1;
         } else {
             if (get_map_info(mapGrid, arg1->unk_0, arg1->unk_2 - 1) == true) {
                 if (get_map_info(mapGrid, arg1->unk_0 + 1, arg1->unk_2 - 1) != true) {
                     var_s1 = -1;
-                    arg1->unk_0++;
+                    arg1->unk_0[0]++;
                 }
             } else {
-                arg1->unk_1--;
+                arg1->unk_0[1]--;
                 var_s1 = -1;
             }
         }
 
         if (var_s1 != 0) {
-            arg1->unk_3--;
+            arg1->unk_2[1]--;
 
             if (arg2 == 1) {
                 s32 temp_a0;
@@ -702,10 +736,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80060F60);
 
 #if VERSION_CN
 void func_80060F60(struct_game_state_data_unk_178 *arg0, s32 arg1, s32 arg2) {
-    arg0->unk_0 = 3;
-    arg0->unk_1 = 4;
-    arg0->unk_3 = 0;
-    arg0->unk_2 = 0;
+    arg0->unk_0[0] = 3;
+    arg0->unk_0[1] = 4;
+    arg0->unk_2[1] = 0;
+    arg0->unk_2[0] = 0;
     arg0->unk_4[0] = 2;
     arg0->unk_4[1] = 3;
     arg0->unk_6 = arg1;
@@ -1321,7 +1355,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_broken_set);
 #if VERSION_CN
 #ifdef NON_EQUIVALENT
 bool dm_broken_set(struct_game_state_data *gameStateData, GameMapGrid *mapGrid) {
-    u16 sp20[0x10][2];
+    struct_game_state_data_unk_050 sp20[0x10];
+    struct_game_state_data_unk_050 *ptr;
     enum bool var_v1;
     s32 var_s1;
     u16 *temp_t3;
@@ -1345,9 +1380,9 @@ bool dm_broken_set(struct_game_state_data *gameStateData, GameMapGrid *mapGrid) 
     u16 *temp;
 
     var_v1 = false;
-    if (gameStateData->unk_050[0][0] == 0) {
+    if (gameStateData->unk_050[0].unk_0 == 0) {
         temp_v1 = gameStateData->unk_03A;
-        if ((u8)gameStateData->unk_03B < temp_v1) {
+        if (gameStateData->unk_03B < temp_v1) {
             gameStateData->unk_03B = temp_v1;
         }
 
@@ -1360,13 +1395,11 @@ bool dm_broken_set(struct_game_state_data *gameStateData, GameMapGrid *mapGrid) 
             gameStateData->unk_03C[var_s0] = 0;
         }
 
-        var_s1 = 7;
-        for (var_s0 = 0; var_s0 < 0x10U; var_s0 += 2) {
-            temp_v0_2 = gameStateData->unk_050[0][0] & (3 << var_s0);
+        for (var_s0 = 0, var_s1 = 7; var_s0 < 0x10U; var_s0 += 2, var_s1--) {
+            temp_v0_2 = gameStateData->unk_050[0].unk_0 & (3 << var_s0);
             if (temp_v0_2 != 0) {
                 set_map(mapGrid, var_s1, 1, 4, (temp_v0_2 >> var_s0) - 1);
             }
-            var_s1 -= 1;
         }
 
         dm_h_ball_chack(mapGrid);
@@ -1374,15 +1407,16 @@ bool dm_broken_set(struct_game_state_data *gameStateData, GameMapGrid *mapGrid) 
         set_down_flg(mapGrid);
 
         for (var_s0 = 0; var_s0 < 0x10U; var_s0++) {
-            sp20[var_s0][0] = gameStateData->unk_050[var_s0][0];
-            sp20[var_s0][1] = gameStateData->unk_050[var_s0][1];
-            gameStateData->unk_050[var_s0][0] = 0;
-            gameStateData->unk_050[var_s0][1] = 0;
+            sp20[var_s0].unk_0 = gameStateData->unk_050[var_s0].unk_0;
+            sp20[var_s0].unk_2 = gameStateData->unk_050[var_s0].unk_2;
+            gameStateData->unk_050[var_s0].unk_0 = 0;
+            gameStateData->unk_050[var_s0].unk_2 = 0;
         }
 
+        ptr = &sp20[1];
         for (var_s0 = 0; var_s0 < 0xFU; var_s0++) {
-            gameStateData->unk_050[var_s0][0] = sp20[var_s0 + 1][0];
-            gameStateData->unk_050[var_s0][1] = sp20[var_s0 + 1][1];
+            gameStateData->unk_050[var_s0].unk_0 = ptr[var_s0].unk_0;
+            gameStateData->unk_050[var_s0].unk_2 = ptr[var_s0].unk_2;
         }
 
         var_v1 = true;
@@ -1427,16 +1461,123 @@ void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapGrid *mapGrid,
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800620FC);
 #endif
 
+// bool?
+s32 dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]);
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80068BB8_cn);
+#ifdef NON_EQUIVALENT
+// maybe equivalent
+s32 dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]) {
+    f32 temp_ft2;
+    f32 temp_ft3;
+    f32 var_fa0;
+    s32 var_t0;
+    s32 var_a0;
+    u8 temp_a1;
+    u8 temp_a3;
+    struct_game_state_data_unk_178 *temp_s1;
+    s32 var_s2;
+    u32 var_v0;
+
+    s32 what = 0x24;
+
+    temp_s1 = &gameStateDataRef->unk_178;
+    if (temp_s1->unk_8 == 0) {
+        return 0;
+    }
+
+    if (gameStateDataRef->unk_00C == 3) {
+        temp_a1 = gameStateDataRef->unk_02F;
+        if (gameStateDataRef->unk_02C == 0) {
+            var_a0 = temp_a1 >> 2;
+        } else {
+            var_a0 = temp_a1 >> 1;
+        }
+
+        if (var_a0 < 0) {
+            var_v0 = var_a0 + 3;
+        } else {
+            var_v0 = var_a0;
+        }
+
+        var_a0 = (var_a0 - (((s32)var_v0 >> 2) * 4)) + 4;
+
+        var_s2 = 0;
+        if ((var_a0 == 5) || (var_a0 == 7)) {
+            var_s2 = 5;
+        }
+
+        if (gameStateDataRef->unk_178.unk_0[0] == gameStateDataRef->unk_178.unk_0[1]) {
+            switch (var_a0) {
+                case 4:
+                case 6:
+                    throw_rotate_capsel(temp_s1);
+                    break;
+            }
+        } else {
+            switch (var_a0) {
+                case 5:
+                case 7:
+                    throw_rotate_capsel(temp_s1);
+                    break;
+            }
+        }
+
+        temp_a3 = gameStateDataRef->unk_02F;
+
+        if (gameStateDataRef->unk_02F < (FlyingCnt[gameStateDataRef->unk_02C] / 3)) {
+            var_fa0 = ((what / (FlyingCnt[gameStateDataRef->unk_02C] / 3)) * gameStateDataRef->unk_02F);
+        } else if (gameStateDataRef->unk_02F < ((FlyingCnt[gameStateDataRef->unk_02C] / 3) * 2)) {
+            var_fa0 = what;
+        } else {
+            f32 temp = gameStateDataRef->unk_02F;
+
+            temp -= ((FlyingCnt[gameStateDataRef->unk_02C] * 2) / 3);
+            var_fa0 = (2.0f * temp);
+            var_fa0 = what - var_fa0;
+        }
+
+        temp_ft3 = (f32)(gameStateDataRef->unk_006 + (gameStateDataRef->unk_00A * temp_s1->unk_0[0]));
+        temp_ft2 = (f32)(gameStateDataRef->unk_008 + (gameStateDataRef->unk_00A * (temp_s1->unk_2[0] - 1)));
+        temp_ft3 += ((218.0f - temp_ft3) / (FlyingCnt[gameStateDataRef->unk_02C] - 1)) *
+                    (FlyingCnt[gameStateDataRef->unk_02C] - temp_a3);
+        temp_ft2 += ((52.0f - temp_ft2) / (FlyingCnt[gameStateDataRef->unk_02C] - 1)) *
+                    (FlyingCnt[gameStateDataRef->unk_02C] - temp_a3);
+
+        for (var_t0 = 0; var_t0 < 2; var_t0++) {
+            arg1[var_t0] = (u32)temp_ft3 + var_s2 + (gameStateDataRef->unk_00A * (temp_s1->unk_0[var_t0] - 3));
+            arg2[var_t0] = (((u32)temp_ft2 + var_s2) - (u16)var_fa0) +
+                           (gameStateDataRef->unk_00A * (temp_s1->unk_2[var_t0] + 1) + 1);
+        }
+    } else if (temp_s1->unk_2[0] <= 0) {
+        for (var_t0 = 0; var_t0 < 2; var_t0++) {
+            arg1[var_t0] = gameStateDataRef->unk_006 + (gameStateDataRef->unk_00A * temp_s1->unk_0[var_t0]);
+            arg2[var_t0] =
+                (gameStateDataRef->unk_008 + gameStateDataRef->unk_00A * gameStateDataRef->unk_178.unk_2[var_t0]) - 0xA;
+        }
+    } else {
+        for (var_t0 = 0; var_t0 < 2; var_t0++) {
+            arg1[var_t0] = gameStateDataRef->unk_006 + (gameStateDataRef->unk_00A * temp_s1->unk_0[var_t0]);
+            arg2[var_t0] =
+                gameStateDataRef->unk_008 + gameStateDataRef->unk_00A * gameStateDataRef->unk_178.unk_2[var_t0] + 1;
+        }
+    }
+
+    return 1;
+}
+#else
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_calc_capsel_pos);
+#endif
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069034_cn);
 #endif
 
+void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]);
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800691A8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_draw_capsel_by_cpu_tentative);
 #endif
 
 #if VERSION_CN
@@ -1813,24 +1954,6 @@ void func_80062E84(struct_watchGame_unk_0B8 *arg0) {
 }
 #endif
 
-#if VERSION_US
-void func_80062EC0(struct_watchGame_unk_0B8 *arg0) {
-    f32 val = 0.025f;
-    u32 i = 0;
-    s32 var_s0 = arg0->unk_A0;
-
-    while (i < ARRAY_COUNTU(arg0->unk_00)) {
-        struct_watchGame_unk_0B8_unk_00 *temp_s1 = &arg0->unk_00[var_s0];
-
-        if (arg0->unk_00[WrapI(0, ARRAY_COUNTU(arg0->unk_00), var_s0 - 1)].unk_10 > 0.2) {
-            temp_s1->unk_10 = MIN(1.0f, temp_s1->unk_10 + val);
-        }
-        var_s0 = (var_s0 + 1) % ARRAY_COUNTU(arg0->unk_00);
-        i++;
-    }
-}
-#endif
-
 #if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8318_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8328_cn);
@@ -1848,8 +1971,24 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C83FC_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C848C_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C849C_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C84AC_cn);
+#endif
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062EC0);
+#if VERSION_US || VERSION_CN
+void func_80062EC0(struct_watchGame_unk_0B8 *arg0) {
+    f32 val = 0.025f;
+    s32 i;
+    s32 var_s0;
+
+    for (i = 0, var_s0 = arg0->unk_A0; i < ARRAY_COUNTU(arg0->unk_00);
+         var_s0 = (var_s0 + 1) % ARRAY_COUNTU(arg0->unk_00), i++) {
+        struct_watchGame_unk_0B8_unk_00 *temp_s1 = &arg0->unk_00[var_s0];
+        struct_watchGame_unk_0B8_unk_00 *new_var = &arg0->unk_00[WrapI(0, ARRAY_COUNTU(arg0->unk_00), var_s0 - 1)];
+
+        if (new_var->unk_10 > 0.2) {
+            temp_s1->unk_10 = MIN(1.0f, temp_s1->unk_10 + val);
+        }
+    }
+}
 #endif
 
 #if VERSION_US
@@ -1861,7 +2000,38 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", scoreNums_set);
 #endif
 
 #if VERSION_CN
+#ifdef NON_EQUIVALENT
+void scoreNums_set(struct_watchGame_unk_0B8 *arg0, u32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    s32 sp18[0x10];
+    s32 var_a2;
+    s32 var_s0;
+    s32 var_s2;
+    struct_watchGame_unk_0B8_unk_00 *temp_v0;
+
+    arg2 = CLAMP(arg2 - 1, 0, 5);
+
+    var_a2 = 0;
+    while (arg1 != 0) {
+        sp18[arg1] = arg1 % 10;
+        arg1 /= 0xA;
+        var_a2 += 1;
+    }
+
+    var_s2 = arg3 - (((var_a2 * 7) + 1) / 2);
+    for (var_s0 = var_a2 - 1; var_s0 >= 0; var_s0--) {
+        temp_v0 = &arg0->unk_00[arg0->unk_A0];
+        temp_v0->unk_00 = var_s2;
+        var_s2 += 7;
+        temp_v0->unk_04 = arg4 - 6;
+        temp_v0->unk_08 = sp18[var_s0];
+        temp_v0->unk_0C = arg2;
+        temp_v0->unk_10 = 0.0f;
+        arg0->unk_A0 = WrapI(0, 8, arg0->unk_A0 + 1);
+    }
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", scoreNums_set);
+#endif
 #endif
 
 #if VERSION_US
@@ -1925,7 +2095,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80063378);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80063378);
+void func_80063378(void) {
+    struct_watchGame *watchGameRef = watchGame;
+
+    if (watchGameRef->unk_000 == 0) {
+        backup_game_state(1);
+    }
+
+    resume_game_state(0);
+    watchGameRef->unk_000 = 1;
+}
 #endif
 
 #if VERSION_US
@@ -1933,7 +2112,14 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800633C0);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800633C0);
+void func_800633C0(void) {
+    struct_watchGame *watchGameRef = watchGame;
+
+    if (watchGameRef->unk_000 != 0) {
+        resume_game_state(1);
+        watchGameRef->unk_000 = 0;
+    }
+}
 #endif
 
 #if VERSION_US
@@ -1983,11 +2169,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A1E0_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A2A8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A5B4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_capsel_down);
 #endif
 
 #if VERSION_US
@@ -2029,12 +2211,99 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_capsel_down);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80063844);
 #endif
 
+#if VERSION_CN
+s32 func_80063844(u32 arg0) {
+    s32 var_v1 = 0;
+
+    if (arg0 >= 4) {
+        var_v1 = 0x55 << random(2);
+    } else if (arg0 >= 3) {
+        var_v1 = 0x15 << random(4);
+    } else if (arg0 >= 2) {
+        var_v1 = 0x11 << random(4);
+    }
+    return var_v1;
+}
+#endif
+
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800638AC);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_set_attack_2p);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800638AC);
+#ifdef NON_MATCHING
+s32 dm_set_attack_2p(struct_game_state_data *gameStateDataRef) {
+    s32 temp_v0;
+    s32 var_s0;
+    s32 var_s2;
+    s32 var_t1;
+    s32 var_v1;
+    struct_game_state_data *temp_s3;
+    u8 var_a0;
+
+    if (gameStateDataRef->unk_03A < 2U) {
+        return 0;
+    }
+
+    temp_s3 = &game_state_data[gameStateDataRef->unk_04B ^ 1];
+    if (gameStateDataRef->unk_03A < 5U) {
+        var_a0 = gameStateDataRef->unk_03A;
+    } else {
+        var_a0 = 4;
+    }
+
+    var_v1 = 0;
+    while (1) {
+        if (temp_s3->unk_050[var_v1].unk_0 != 0) {
+            var_s2 = 0;
+            for (var_s0 = 0; var_s0 < 8; var_s0++) {
+                if (temp_s3->unk_050[var_v1].unk_0 & (3 << (var_s0 * 2))) {
+                    var_s2 |= 1 << var_s0;
+                    var_t1 = var_s0 & 1;
+                }
+            }
+
+            for (var_s0 = 0; var_s0 < 8; var_s0++) {
+                if ((var_s0 & 1) == var_t1) {
+                    var_s2 ^= 1 << var_s0;
+                }
+            }
+
+            if (var_s2 != 0) {
+                break;
+            }
+
+            var_v1++;
+            if (var_v1 > 0) {
+                return 1;
+            }
+        } else {
+            var_s2 = func_80063844(var_a0);
+            break;
+        }
+    }
+
+    temp_s3->unk_050[var_v1].unk_2 = gameStateDataRef->unk_04B;
+
+    for (var_s0 = 0; var_s0 < 8; var_s0++) {
+        if (((var_s2 >> var_s0) & 1)) {
+            while (*(u32 *)gameStateDataRef->unk_03C & ~0xFF) {
+                temp_v0 = random(3);
+                if (gameStateDataRef->unk_03C[temp_v0] != 0) {
+                    gameStateDataRef->unk_03C[temp_v0] -= 1;
+                    temp_s3->unk_050[var_v1].unk_2 |= (temp_v0 + 1) << (var_s0 * 2);
+                    break;
+                }
+            }
+        }
+    }
+
+    return 1;
+}
+
+#else
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_set_attack_2p);
+#endif
 #endif
 
 #if VERSION_US
@@ -2043,7 +2312,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_set_attack_4p);
 
 #if VERSION_CN
 #if 0
-s32 func_8006A5B4_cn(s32, s32 *);
+s32 func_80063844(s32, s32 *);
 s32 random(?, s32 *);
 extern ? _posP4CharBase;
 extern ? attack_table_1531;
@@ -2226,7 +2495,7 @@ loop_22:
                     if (*var_s5 == 0) {
                         sp54 = var_t2;
                         sp58 = var_t3;
-                        var_a1_2 = func_8006A5B4_cn(var_fp, var_a1_2);
+                        var_a1_2 = func_80063844(var_fp, var_a1_2);
                         var_s1_2 = 0;
                         *var_s7 = (s16) var_t2->unk_4B;
                         var_v0_3 = (s32) var_a1_2 >> 0;
@@ -2328,12 +2597,14 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_set_attack_4p);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80063FF4);
 #endif
 
+void func_8006AE60_cn(void);
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006AE60_cn);
 #endif
 
+void save_visible_fall_point_flag(void);
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006AEF0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", save_visible_fall_point_flag);
 #endif
 
 #if VERSION_CN
@@ -2369,31 +2640,31 @@ void func_80064130(s32 arg0, s32 arg1) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006417C);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 s32 retryMenu_input(s32 arg0) {
-    struct_watchGame *watchGameP = watchGame;
+    s32 direction = 0;
     SndIndex soundIndex = SND_INDEX_INVALID;
     s32 ret = -1;
-    u16 temp_s0 = joycur[main_joy[arg0]];
-    u16 temp_s3 = gControllerPressedButtons[main_joy[arg0]];
-    s32 temp_v0_3;
-    u32 up;
-    u32 down;
+    struct_watchGame *temp_s4 = watchGame;
+    u16 curButton = joycur[main_joy[arg0]];
+    u16 pressedButton = gControllerPressedButtons[main_joy[arg0]];
+    s32 temp_v0;
 
-    watchGameP->unk_358[arg0] = WrapI(0, _retryMenu_itemCount[watchGameP->unk_348[arg0]], watchGameP->unk_358[arg0]);
+    temp_s4->unk_358[arg0] = WrapI(0, _retryMenu_itemCount[temp_s4->unk_348[arg0]], temp_s4->unk_358[arg0]);
 
-    up = (temp_s0 & U_JPAD);
-    up = up > 0;
-    down = (temp_s0 & D_JPAD);
-    down = down > 0;
+    if (curButton & U_JPAD) {
+        direction--;
+    }
+    if (curButton & D_JPAD) {
+        direction++;
+    }
 
-    temp_v0_3 = WrapI(0, _retryMenu_itemCount[watchGameP->unk_348[arg0]], watchGameP->unk_358[arg0] + (down - up));
-
-    if (temp_v0_3 != watchGameP->unk_358[arg0]) {
-        watchGameP->unk_358[arg0] = temp_v0_3;
+    temp_v0 = WrapI(0, _retryMenu_itemCount[temp_s4->unk_348[arg0]], temp_s4->unk_358[arg0] + direction);
+    if (temp_v0 != temp_s4->unk_358[arg0]) {
+        temp_s4->unk_358[arg0] = temp_v0;
         soundIndex = SND_INDEX_64;
-    } else if (temp_s3 & (A_BUTTON | START_BUTTON)) {
-        ret = watchGameP->unk_368[arg0];
+    } else if (pressedButton & (A_BUTTON | START_BUTTON)) {
+        ret = temp_s4->unk_368[arg0];
     }
 
     if (soundIndex > SND_INDEX_INVALID) {
@@ -2402,10 +2673,6 @@ s32 retryMenu_input(s32 arg0) {
 
     return ret;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", retryMenu_input);
 #endif
 
 #if VERSION_US
@@ -2709,7 +2976,7 @@ void dm_save_all(void) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void dm_query_pause_player(struct_game_state_data *arg0) {
     struct_watchGame *watchGameP = watchGame;
     u16 btn = gControllerPressedButtons[main_joy[arg0->unk_04B]];
@@ -2748,10 +3015,6 @@ void dm_query_pause_player(struct_game_state_data *arg0) {
         }
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_query_pause_player);
 #endif
 
 #if VERSION_US
@@ -3183,7 +3446,7 @@ s32 func_80062A8C(s32);                             /* extern */
 s32 func_80062AA8(s32);                             /* extern */
 s32 func_80062AC4(s32);                             /* extern */
 ? func_80062B34(s32);                               /* extern */
-s32 func_800638AC(struct_game_state_data *);        /* extern */
+s32 dm_set_attack_2p(struct_game_state_data *);        /* extern */
 
 s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 index) {
     dm_calc_erase_score_pos_arg2 sp18;
@@ -3388,7 +3651,7 @@ block_116:
                     case ENUM_EVS_GAMESEL_3:        /* switch 3 */
                     case ENUM_EVS_GAMESEL_5:        /* switch 3 */
                         if (evs_gamemode != ENUM_EVS_GAMEMODE_3) {
-                            if (func_800638AC(arg0) != 0) {
+                            if (dm_set_attack_2p(arg0) != 0) {
                                 animeState_set(&arg0->unk_094, 1);
                             }
                             if (dm_broken_set(arg0, mapGrid) != false) {
@@ -3857,7 +4120,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
                 case ENUM_EVS_GAMESEL_3:
                 case ENUM_EVS_GAMESEL_5:
                     if (evs_gamemode != ENUM_EVS_GAMEMODE_3) {
-                        if (func_800638AC(gameStateDataRef) != 0) {
+                        if (dm_set_attack_2p(gameStateDataRef) != 0) {
                             animeState_set(&gameStateDataRef->unk_094, 1);
                         }
 
@@ -4030,8 +4293,8 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
             }
 
             for (i = 0; i < ARRAY_COUNT(gameStateDataRef->unk_050); i++) {
-                gameStateDataRef->unk_050[i][0] = 0;
-                gameStateDataRef->unk_050[i][1] = 0;
+                gameStateDataRef->unk_050[i].unk_0 = 0;
+                gameStateDataRef->unk_050[i].unk_2 = 0;
             }
 
             gameStateDataRef->unk_00C = 1;
@@ -4082,8 +4345,8 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
                 }
             } else {
                 for (j = 0; j < 0x10; j++) {
-                    gameStateDataRef->unk_050[j][0] = 0;
-                    gameStateDataRef->unk_050[j][1] = 0;
+                    gameStateDataRef->unk_050[j].unk_0 = 0;
+                    gameStateDataRef->unk_050[j].unk_2 = 0;
                 }
             }
 
@@ -4176,6 +4439,10 @@ void func_800669A0(struct_game_state_data *arg0) {
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_calc_big_virus_pos);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_calc_big_virus_pos);
 #endif
 
 #if VERSION_US
@@ -4306,6 +4573,10 @@ s32 dm_game_main_1p(void) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_main_1p);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006729C);
 #endif
@@ -4327,18 +4598,22 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80067668);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_calc_big_virus_pos);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_main_1p);
-
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006EB00_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006EC80_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006EDB0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006EEC8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006EF8C_cn);
 #endif
 
@@ -4947,7 +5222,27 @@ TiTexDataEntry_unk_0 **dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80068E24);
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800709FC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070A24_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8658_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8660_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070A5C_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg2) {
     s32 i;
 
@@ -5049,36 +5344,42 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A198);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800709FC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070A24_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8658_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8660_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070A5C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069160);
-
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070DE4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070E64_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8007125C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80071330_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80071660_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800717F0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80071904_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80071B58_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80071DD4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80071EF8_cn);
 #endif
 
@@ -5112,12 +5413,24 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A480);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80072214_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A6E8);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80072490_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A938);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A938);
 #endif
 
 #if VERSION_US
@@ -5197,12 +5510,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_draw_big_virus);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80072214_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80072490_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A938);
-
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86A0_cn);
 
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86B0_cn);
@@ -5411,14 +5718,151 @@ void func_8006D0E8(void) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_make_key);
 #endif
 
+#if VERSION_CN
+void dm_make_key(void) {
+    s32 var_t3;
+    s32 i;
+
+    switch (evs_gamesel) {
+        case ENUM_EVS_GAMESEL_0:
+        case ENUM_EVS_GAMESEL_3:
+            var_t3 = 1;
+            break;
+
+        case ENUM_EVS_GAMESEL_1:
+            var_t3 = 2;
+            break;
+
+        default:
+            var_t3 = 4;
+            break;
+    }
+
+    for (i = 0; i < var_t3; i++) {
+        if (game_state_data[i].unk_04C == 0) {
+            if (joygmf[main_joy[i]] != 0) {
+                u16 pressedButton = gControllerPressedButtons[main_joy[i]];
+                u16 curButton = joycur[main_joy[i]];
+
+                joygam[i] = (pressedButton & (A_BUTTON | B_BUTTON)) | (curButton & (L_JPAD | R_JPAD)) |
+                            (pressedButton & (L_TRIG | R_TRIG));
+                if (!(gControllerHoldButtons[main_joy[i]] & (L_JPAD | R_JPAD))) {
+                    joygam[i] |= (gControllerHoldButtons[main_joy[i]] & D_JPAD);
+                }
+            }
+        }
+    }
+}
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", key_control_main);
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_make_key);
+// bool?
+extern UNK_TYPE4 visible_fall_point[];
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", key_control_main);
+#if VERSION_CN
+void key_control_main(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, s32 arg2, s32 arg3) {
+    struct_watchGame *temp_s5 = watchGame;
+    s32 sp18[2];
+    s32 sp20[2];
+
+    func_8006AE60_cn();
+
+    if (gameStateDataRef->unk_04C != 1) {
+        if ((arg2 != 0) || (aiDebugP1 < 0)) {
+            if (gControllerPressedButtons[arg3] & (U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS)) {
+                visible_fall_point[arg2] = !visible_fall_point[arg2];
+            }
+        }
+    }
+
+    save_visible_fall_point_flag();
+
+    if (gameStateDataRef->unk_00C == 3) {
+        if ((temp_s5->unk_420 == 0) && dm_calc_capsel_pos(gameStateDataRef, sp18, sp20)) {
+            dm_draw_capsel_by_cpu_tentative(gameStateDataRef, sp18, sp20);
+        }
+
+        if (gameStateDataRef->unk_04C == 0) {
+            if (gControllerHoldButtons[arg3] & R_JPAD) {
+                joyCursorFastSet(R_JPAD, arg3);
+            }
+            if (gControllerHoldButtons[arg3] & L_JPAD) {
+                joyCursorFastSet(L_JPAD, arg3);
+            }
+        }
+    } else if (gameStateDataRef->unk_00C == 4) {
+        if (gameStateDataRef->unk_020 == 1) {
+            struct_game_state_data_unk_178 *temp_s0_2;
+
+            if ((gameStateDataRef->unk_04C == 1) || ((arg2 == 0) && (aiDebugP1 >= 0))) {
+                u16 temp_s1_2 = joygam[arg2];
+
+                aifKeyOut(gameStateDataRef);
+                if (temp_s5->unk_000 != 0) {
+                    joygam[arg2] = temp_s1_2;
+                }
+            }
+
+            temp_s0_2 = &gameStateDataRef->unk_178;
+            if (joygam[arg2] & B_BUTTON) {
+                rotate_capsel(mapGrid, temp_s0_2, -1);
+            } else if (joygam[arg2] & A_BUTTON) {
+                rotate_capsel(mapGrid, temp_s0_2, 1);
+            }
+
+            if (joygam[arg2] & L_JPAD) {
+                translate_capsel(mapGrid, gameStateDataRef, -1, arg3);
+            } else if (joygam[arg2] & R_JPAD) {
+                translate_capsel(mapGrid, gameStateDataRef, 1, arg3);
+            }
+
+            gameStateDataRef->unk_030 = 1;
+            if ((joygam[arg2] & D_JPAD) && (temp_s0_2->unk_2[0] > 0)) {
+                s32 val = FallSpeed[gameStateDataRef->unk_02D];
+
+                val = (val >> 1) + (val & 1);
+
+                gameStateDataRef->unk_030 = val;
+            }
+        } else if (gameStateDataRef->unk_04C == 0) {
+            if (gControllerHoldButtons[arg3] & R_JPAD) {
+                joyCursorFastSet(R_JPAD, arg3);
+            }
+            if (gControllerHoldButtons[arg3] & L_JPAD) {
+                joyCursorFastSet(L_JPAD, arg3);
+            }
+        }
+
+        if (temp_s5->unk_420 == 0) {
+            if (dm_calc_capsel_pos(gameStateDataRef, sp18, sp20)) {
+                dm_draw_capsel_by_cpu_tentative(gameStateDataRef, sp18, sp20);
+            }
+        }
+        dm_capsel_down(gameStateDataRef, mapGrid);
+        temp_s5->unk_37C[arg2] = 2;
+    } else {
+        if (temp_s5->unk_37C[arg2] != 0) {
+            s8 temp_s3 = gameStateDataRef->unk_178.unk_8;
+
+            gameStateDataRef->unk_178.unk_8 = 1;
+            if (temp_s5->unk_420 == 0) {
+                if (dm_calc_capsel_pos(gameStateDataRef, sp18, sp20)) {
+                    dm_draw_capsel_by_cpu_tentative(gameStateDataRef, sp18, sp20);
+                }
+            }
+            gameStateDataRef->unk_178.unk_8 = temp_s3;
+            temp_s5->unk_37C[arg2] -= 1;
+        }
+
+        if (gameStateDataRef->unk_04C == 0) {
+            joyCursorFastSet(R_JPAD, arg3);
+            joyCursorFastSet(L_JPAD, arg3);
+        }
+    }
+}
 #endif
 
 void func_8006D620(void) {
@@ -5722,8 +6166,8 @@ void dm_game_init(bool arg0) {
         }
 
         for (j = 0; j < ARRAY_COUNT(temp_s0_3->unk_050); j++) {
-            temp_s0_3->unk_050[j][0] = 0;
-            temp_s0_3->unk_050[j][1] = 0;
+            temp_s0_3->unk_050[j].unk_0 = 0;
+            temp_s0_3->unk_050[j].unk_2 = 0;
         }
 
         init_map_all(&game_map_data[i]);

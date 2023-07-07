@@ -49,8 +49,8 @@
 
 // no original name :c
 void func_8002EB00(struct_game_state_data *gameStateDataRef) {
-    gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.unk_0;
-    gameStateDataRef->unk_3BD = gameStateDataRef->unk_178.unk_2;
+    gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.unk_0[0];
+    gameStateDataRef->unk_3BD = gameStateDataRef->unk_178.unk_2[0];
     gameStateDataRef->unk_3C1[0] = (s8)gameStateDataRef->unk_02F;
     gameStateDataRef->unk_3C0 = gameStateDataRef->unk_02D;
     gameStateDataRef->unk_3BE[0] = (s8)(u8)gameStateDataRef->unk_178.unk_6;
@@ -93,11 +93,11 @@ void aifMakeBlkWork(struct_game_state_data *gameStateDataRef) {
         }
     }
 
-    if (gameStateDataRef->unk_178.unk_2 != 0) {
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2 - 1][gameStateDataRef->unk_178.unk_0][0] = 10;
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2 - 1][gameStateDataRef->unk_178.unk_0][1] = 3;
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_3 - 1][gameStateDataRef->unk_178.unk_1][0] = 10;
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_3 - 1][gameStateDataRef->unk_178.unk_1][1] = 3;
+    if (gameStateDataRef->unk_178.unk_2[0] != 0) {
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2[0] - 1][gameStateDataRef->unk_178.unk_0[0]][0] = 10;
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2[0] - 1][gameStateDataRef->unk_178.unk_0[0]][1] = 3;
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2[1] - 1][gameStateDataRef->unk_178.unk_0[1]][0] = 10;
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2[1] - 1][gameStateDataRef->unk_178.unk_0[1]][1] = 3;
     }
 }
 
@@ -1161,7 +1161,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", flash_special);
 #if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/aiset", wave_tbl_2879);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80037BBC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifKeyOut);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", func_80038190_cn);
 
