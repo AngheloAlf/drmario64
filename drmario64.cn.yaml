@@ -381,7 +381,23 @@ segments:
 
       - [0x0811F0, .data, main_segment/main_menu]
 
-      - [0x081340, data, main_segment/081340]
+      # - [0x081340, data, main_segment/081340]
+
+      - start: 0x081340
+        type: .data
+        name: main_segment/font
+        subsegments:
+          - [0x081340, i4, main_segment/font/font_a_tex.i4, 12, 3864]
+          - [0x086DD0, i4, main_segment/font/font_2_tex.i4, 24, 3864]
+          - [0x0922F0, i4, main_segment/font/font_e_tex.i4, 10, 1128]
+          - [0x0938F8, i4, main_segment/font/font_e2_tex.i4, 20, 1128]
+          - [0x096508, i4, main_segment/font/font_grade_tex.i4, 12, 12]
+          - [0x096550]
+          - [0x099FA0, i4, main_segment/font/D_800B2270_cn.i4, 12, 8712]
+          - [0x0A6BD0]
+
+
+      - [0x0A6BE0, data, main_segment/0A6BE0]
 
       - [0x0AB7F0, .rodata, main_segment/main]
 
