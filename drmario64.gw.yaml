@@ -305,7 +305,9 @@ segments:
 
       - [0x029230, asm, main_segment/029230]
       - [0x02E600, asm, main_segment/02E600]
-      - [0x044180, asm, main_segment/044180]
+
+      - [0x044180, c, main_segment/font]
+
       - [0x0458B0, asm, main_segment/0458B0]
       - [0x046AB0, asm, main_segment/046AB0]
       - [0x048B80, asm, main_segment/048B80]
@@ -359,7 +361,15 @@ segments:
       - [0x099F20, rodata, main_segment/099F20]
       - [0x099F50, rodata, main_segment/099F50]
       - [0x099F80, rodata, main_segment/099F80]
-      - [0x09A550, rodata, main_segment/09A550]
+
+      - start: 0x09A550
+        type: .rodata
+        name: main_segment/font
+        subsegments:
+        - { start: 0x09A550, type: gfx, data_only: True, name: main_segment/font/init_dl_135 }
+        - [0x09A578]
+
+      - [0x09A590, rodata, main_segment/09A590]
       - [0x09A830, rodata, main_segment/09A830]
       - [0x09C230, rodata, main_segment/09C230]
 
