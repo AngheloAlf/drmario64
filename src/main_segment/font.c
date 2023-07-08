@@ -1023,33 +1023,20 @@ u16 func_8005B8D8(u8 arg0) {
 }
 #endif
 
+#if VERSION_CN
+extern u16 char_code_tbl[];
+extern s32 D_800B1CC0_cn;
+extern u16 D_800B1CC4_cn[];
+#endif
+
+#if VERSION_US || VERSION_CN
 /**
  * Original name: font2index
  */
-#if VERSION_US
 s32 font2index(const char *arg0) {
     s32 var_a1 = arg0[0];
-
-    if ((arg0[0] - 0x81) < 0x1FU) {
-        var_a1 = (arg0[0] - 0x80) << 8;
-        var_a1 += arg0[1];
-    } else if ((arg0[0] - 0xE0) < 0x10U) {
-        var_a1 = (arg0[0] - 0xC0) << 8;
-        var_a1 += arg0[1];
-    }
-
-    return char_code_tbl[var_a1];
-}
-#endif
 
 #if VERSION_CN
-extern u16 D_800AEA20_cn[];
-extern s32 D_800B1CC0_cn;
-extern u16 D_800B1CC4_cn[];
-
-s32 font2index(const char *arg0) {
-    s32 var_a1 = arg0[0];
-
     if (var_a1 - 0xA1 < 0x5EU) {
         char temp = arg0[1] + 0x5F;
 
@@ -1078,6 +1065,7 @@ s32 font2index(const char *arg0) {
             return 1001;
         }
     }
+#endif
 
     if (var_a1 - 0x81 < 0x1FU) {
         var_a1 = (var_a1 - 0x80) << 8;
@@ -1087,7 +1075,7 @@ s32 font2index(const char *arg0) {
         var_a1 += arg0[1];
     }
 
-    return D_800AEA20_cn[var_a1];
+    return char_code_tbl[var_a1];
 }
 #endif
 
@@ -1161,139 +1149,14 @@ bool fontXX_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char 
 }
 #endif
 
-#if VERSION_US
-#if 0
-/**
- * Original name: fontXX_drawID
- */
-bool fontXX_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
-    s32 sp18;
-    s32 sp1C;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 var_a0;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    s32 var_v0_4;
-    s32 var_v1;
-    s32 var_v1_2;
-    void *temp_a0;
-    void *temp_a0_2;
-    void *temp_a1;
-    void *temp_v1;
-    void *temp_v1_2;
-    void *temp_v1_3;
-    void *temp_v1_4;
-    void *temp_v1_5;
-    void *temp_v1_6;
-    void *temp_v1_7;
-
-    var_v0_2 = 1;
-    if (!(arg3 <= 0.0f)) {
-        var_v0_2 = 0;
-    }
-    var_v1 = 1;
-    if (!(arg4 <= 0.0f)) {
-        var_v1 = 0;
-    }
-
-    if (((var_v0_2 | var_v1) == 0) && (arg5 != 0)) {
-        if (arg5 > 0) {
-            //temp_a0 = *gfxP;
-            //*gfxP = temp_a0 + 8;
-            //temp_a0->unk_0 = 0xFD880005;
-            //temp_a0->unk_4 = (void *) (((s32) ((arg5 - 1) * 0xC * 0xC) >> 1) + &D_8008E8C0);
-            //temp_v1 = *gfxP;
-            //*gfxP = temp_v1 + 8;
-            //temp_v1->unk_0 = 0xF5880200;
-            //temp_v1->unk_4 = (void *)0x07080200;
-            //temp_v1_2 = *gfxP;
-            //*gfxP = temp_v1_2 + 8;
-            //temp_v1_2->unk_0 = 0xE6000000;
-            //temp_v1_2->unk_4 = NULL;
-            //temp_v1_3 = *gfxP;
-            //*gfxP = temp_v1_3 + 8;
-            //temp_v1_3->unk_0 = 0xF4000000;
-            //temp_v1_3->unk_4 = (void *)0x0701602C;
-            //temp_v1_4 = *gfxP;
-            //*gfxP = temp_v1_4 + 8;
-            //temp_v1_4->unk_0 = 0xE7000000;
-            //temp_v1_4->unk_4 = NULL;
-            //temp_v1_5 = *gfxP;
-            //*gfxP = temp_v1_5 + 8;
-            //temp_v1_5->unk_0 = 0xF5800200;
-            //temp_v1_5->unk_4 = (void *)0x80200;
-            //temp_v1_6 = *gfxP;
-            //*gfxP = temp_v1_6 + 8;
-            //temp_v1_6->unk_0 = 0xF2000000;
-            //temp_v1_6->unk_4 = (void *)0x2C02C;
-            gDPLoadTextureTile_4b((*gfxP)++, 0xFFFFFFFF, G_IM_FMT_I, 12, 0, 0, 0, 11, 11, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-
-        }
-        sp10 = 0;
-        sp14 = 0;
-        sp0 = (s32) (arg1 * 4.0f);
-        sp4 = (s32) (arg2 * 4.0f);
-        sp8 = (s32) ((arg1 + arg3) * 4.0f);
-        spC = (s32) ((arg2 + arg4) * 4.0f);
-        sp18 = (s32) (12288.0f / arg3);
-        sp1C = (s32) (12288.0f / arg4);
-        /*
-        temp_a1 = *gfxP;
-        *gfxP = temp_a1 + 8;
-        temp_a1->unk_0 = (s32) (((sp8 & ((s32) ~(s16)spC >> 0x1F) & 0xFFF) << 0xC) | ((spC & ((s32) ~(s16)spC >> 0x1F) & 0xFFF) | 0xE4000000));
-        temp_a1->unk_4 = (void *) (((sp0 & ((s32) ~unksp2 >> 0x1F) & 0xFFF) << 0xC) | (sp4 & ((s32) ~unksp6 >> 0x1F) & 0xFFF));
-        temp_v1_7 = *gfxP;
-        *gfxP = temp_v1_7 + 8;
-        temp_v1_7->unk_0 = 0xE1000000;
-        if (unksp2 >= 0) {
-            var_a0 = sp10 << 0x10;
-        } else {
-            if (unksp1A < 0) {
-                var_v0_3 = (s32) (unksp2 * unksp1A) >> 7;
-                var_v1_2 = (s32) ~var_v0_3 >> 0x1F;
-            } else {
-                var_v0_3 = (s32) (unksp2 * unksp1A) >> 7;
-                var_v1_2 = -(var_v0_3 < 1);
-            }
-            var_a0 = (sp10 - (var_v0_3 & var_v1_2)) << 0x10;
-        }
-        if (sp4 >= 0) {
-            var_v0_4 = sp14 & 0xFFFF;
-        } else if (unksp1E < 0) {
-            temp_v0 = (s32) ((s16) sp4 * unksp1E) >> 7;
-            var_v0_4 = (sp14 - (temp_v0 & ((s32) ~temp_v0 >> 0x1F))) & 0xFFFF;
-        } else {
-            temp_v0_2 = (s32) ((s16) sp4 * unksp1E) >> 7;
-            var_v0_4 = (sp14 - (temp_v0_2 & -(temp_v0_2 < 1))) & 0xFFFF;
-        }
-        temp_v1_7->unk_4 = (void *) (var_a0 | var_v0_4);
-        temp_a0_2 = *gfxP;
-        *gfxP = temp_a0_2 + 8;
-        temp_a0_2->unk_0 = 0xF1000000;
-        var_v0 = 1;
-        temp_a0_2->unk_4 = (void *) ((unksp1A << 0x10) | unksp1E);
-        */
-        gSPTextureRectangle((*gfxP)++, sp0, sp4, sp8, spC, G_TX_RENDERTILE, sp10, sp14, sp18, sp1C);
-        return true;
-    }
-    return false;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontXX_drawID);
-#endif
-#endif
-
+extern u8 D_8008E8C0[];
 extern u8 D_80099610_cn[];
 extern u8 D_800B2270_cn[];
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: fontXX_drawID
+ */
 bool fontXX_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
     s32 sp8[8];
     u8 *texture;
@@ -1304,12 +1167,17 @@ bool fontXX_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5)
         return false;
     }
 
+#if VERSION_US
+    texture = D_8008E8C0;
+#endif
+#if VERSION_CN
     if (arg5 > 1000) {
         texture = D_800B2270_cn;
         arg5 -= 1000;
     } else {
         texture = D_80099610_cn;
     }
+#endif
 
     width = 0xC;
     height = 0xC;
@@ -1317,7 +1185,7 @@ bool fontXX_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5)
     if (arg5 > 0) {
         s32 temp = ((arg5 - 1) * width * height) / 2;
 
-        gDPLoadTextureTile_4b((*gfxP)++, &texture[temp], G_IM_FMT_I, width, new_vheightar2, 0, 0, 11, 11, 0,
+        gDPLoadTextureTile_4b((*gfxP)++, &texture[temp], G_IM_FMT_I, width, height, 0, 0, 11, 11, 0,
                               G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                               G_TX_NOLOD, G_TX_NOLOD);
     }
@@ -1346,203 +1214,12 @@ bool fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char
 }
 #endif
 
-#if VERSION_US
-#if 0
-extern ? D_80094350;
+extern u8 D_80094350[];
 
 /**
  * Original name: fontXX_drawID2
  */
-bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
-    s32 sp18;
-    s32 sp1C;
-    s32 temp_a0_2;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v0_4;
-    s32 var_a0;
-    s32 var_a3;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    s32 var_v0_4;
-    s32 var_v1;
-    s32 var_v1_2;
-    s32 var_v1_3;
-    void *temp_a0;
-    void *temp_a0_3;
-    void *temp_a1;
-    void *temp_a1_2;
-    void *temp_v1;
-    void *temp_v1_10;
-    void *temp_v1_11;
-    void *temp_v1_12;
-    void *temp_v1_2;
-    void *temp_v1_3;
-    void *temp_v1_4;
-    void *temp_v1_5;
-    void *temp_v1_6;
-    void *temp_v1_7;
-    void *temp_v1_8;
-    void *temp_v1_9;
-
-    var_v0 = 1;
-    if (!(arg3 <= 0.0f)) {
-        var_v0 = 0;
-    }
-    var_v1 = 1;
-    if (!(arg4 <= 0.0f)) {
-        var_v1 = 0;
-    }
-    if ((var_v0 | var_v1) != 0) {
-        return 0;
-    }
-    if (arg5 != 0) {
-        sp10 = 0;
-        sp14 = 0;
-        sp0 = (s32) (((f64) arg1 * 4.0) + 0.5);
-        sp4 = (s32) (((f64) arg2 * 4.0) + 0.5);
-        sp8 = (s32) (((f64) (arg1 + arg3) * 4.0) + 0.5);
-        spC = (s32) (((f64) (arg2 + arg4) * 4.0) + 0.5);
-        sp18 = (s32) ((12288.0 / (f64) arg3) + 0.5);
-        sp1C = (s32) ((12288.0 / (f64) arg4) + 0.5);
-        if (arg5 > 0) {
-            temp_a0 = *gfxP;
-            *gfxP = temp_a0 + 8;
-            temp_a0->unk_0 = 0xFD88000B;
-            temp_a0->unk_4 = (void *) (((arg5 - 1) * 0xC * 0xC) + &D_80094350);
-            temp_v1 = *gfxP;
-            *gfxP = temp_v1 + 8;
-            temp_v1->unk_0 = 0xF5880400;
-            temp_v1->unk_4 = (void *)0x07080200;
-            temp_v1_2 = *gfxP;
-            *gfxP = temp_v1_2 + 8;
-            temp_v1_2->unk_0 = 0xE6000000;
-            temp_v1_2->unk_4 = NULL;
-            temp_v1_3 = *gfxP;
-            *gfxP = temp_v1_3 + 8;
-            temp_v1_3->unk_0 = 0xF4000000;
-            temp_v1_3->unk_4 = (void *)0x0702E02C;
-            temp_v1_4 = *gfxP;
-            *gfxP = temp_v1_4 + 8;
-            temp_v1_4->unk_0 = 0xE7000000;
-            temp_v1_4->unk_4 = NULL;
-            temp_v1_5 = *gfxP;
-            *gfxP = temp_v1_5 + 8;
-            temp_v1_5->unk_0 = 0xF5800400;
-            temp_v1_5->unk_4 = (void *)0x80200;
-            temp_v1_6 = *gfxP;
-            *gfxP = temp_v1_6 + 8;
-            temp_v1_6->unk_0 = 0xF2000000;
-            temp_v1_6->unk_4 = (void *)0x5C02C;
-
-            gDPLoadTextureTile_4b((*gfxP)++, 0xFFFFFFFF, G_IM_FMT_I, 24, 0, 0, 0, 23, 11, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-
-        }
-        var_a3 = 0;
-        do {
-            if (var_a3 == 0) {
-                temp_v1_7 = *gfxP;
-                *gfxP = temp_v1_7 + 8;
-                temp_v1_7->unk_0 = 0xE3000A01;
-                temp_v1_7->unk_4 = (void *)0x100000;
-                temp_v1_8 = *gfxP;
-                *gfxP = temp_v1_8 + 8;
-                temp_v1_8->unk_0 = 0xFCFFFE61;
-                temp_v1_8->unk_4 = (void *)0xF5FF7378;
-                temp_a1 = *gfxP;
-                *gfxP = temp_a1 + 8;
-                temp_a1->unk_0 = (s32) (((sp8 & ((s32) ~(s16)spC >> 0x1F) & 0xFFF) << 0xC) | ((spC & ((s32) ~(s16)spC >> 0x1F) & 0xFFF) | 0xE4000000));
-                temp_a1->unk_4 = (void *) (((sp0 & ((s32) ~unksp2 >> 0x1F) & 0xFFF) << 0xC) | (sp4 & ((s32) ~unksp6 >> 0x1F) & 0xFFF));
-                temp_v1_9 = *gfxP;
-                *gfxP = temp_v1_9 + 8;
-                temp_v1_9->unk_0 = 0xE1000000;
-                if (unksp2 >= 0) {
-                    var_a0 = sp10 << 0x10;
-                } else {
-                    if (unksp1A < 0) {
-                        var_v0_2 = (s32) (unksp2 * unksp1A) >> 7;
-                        var_v1_2 = (s32) ~var_v0_2 >> 0x1F;
-                    } else {
-                        var_v0_2 = (s32) (unksp2 * unksp1A) >> 7;
-                        var_v1_2 = -(var_v0_2 < 1);
-                    }
-                    var_a0 = (sp10 - (var_v0_2 & var_v1_2)) << 0x10;
-                }
-                if (sp4 >= 0) {
-                    var_v0_3 = sp14 & 0xFFFF;
-                } else if (unksp1E < 0) {
-                    temp_v0 = (s32) ((s16) sp4 * unksp1E) >> 7;
-                    var_v0_3 = (sp14 - (temp_v0 & ((s32) ~temp_v0 >> 0x1F))) & 0xFFFF;
-                } else {
-                    temp_v0_2 = (s32) ((s16) sp4 * unksp1E) >> 7;
-                    var_v0_3 = (sp14 - (temp_v0_2 & -(temp_v0_2 < 1))) & 0xFFFF;
-                }
-            } else {
-                temp_v1_10 = *gfxP;
-                *gfxP = temp_v1_10 + 8;
-                temp_v1_10->unk_0 = 0xE3000A01;
-                temp_v1_10->unk_4 = NULL;
-                temp_v1_11 = *gfxP;
-                *gfxP = temp_v1_11 + 8;
-                temp_v1_11->unk_0 = 0xFCFFFFFF;
-                temp_v1_11->unk_4 = (void *)-0xC07;
-                temp_a1_2 = *gfxP;
-                *gfxP = temp_a1_2 + 8;
-                temp_a1_2->unk_0 = (s32) (((sp8 & ((s32) ~(s16)spC >> 0x1F) & 0xFFF) << 0xC) | ((spC & ((s32) ~(s16)spC >> 0x1F) & 0xFFF) | 0xE4000000));
-                temp_a1_2->unk_4 = (void *) (((sp0 & ((s32) ~unksp2 >> 0x1F) & 0xFFF) << 0xC) | (sp4 & ((s32) ~unksp6 >> 0x1F) & 0xFFF));
-                temp_v1_12 = *gfxP;
-                *gfxP = temp_v1_12 + 8;
-                temp_v1_12->unk_0 = 0xE1000000;
-                temp_a0_2 = (sp10 + 0xC) << 5;
-                if (unksp2 < 0) {
-                    if (unksp1A < 0) {
-                        var_v0_4 = (s32) (unksp2 * unksp1A) >> 7;
-                        var_v1_3 = (s32) ~var_v0_4 >> 0x1F;
-                    } else {
-                        var_v0_4 = (s32) (unksp2 * unksp1A) >> 7;
-                        var_v1_3 = -(var_v0_4 < 1);
-                    }
-                    var_a0 = (temp_a0_2 - (var_v0_4 & var_v1_3)) << 0x10;
-                } else {
-                    var_a0 = temp_a0_2 << 0x10;
-                }
-                if (sp4 >= 0) {
-                    var_v0_3 = sp14 & 0xFFFF;
-                } else if (unksp1E < 0) {
-                    temp_v0_3 = (s32) ((s16) sp4 * unksp1E) >> 7;
-                    var_v0_3 = (sp14 - (temp_v0_3 & ((s32) ~temp_v0_3 >> 0x1F))) & 0xFFFF;
-                } else {
-                    temp_v0_4 = (s32) ((s16) sp4 * unksp1E) >> 7;
-                    var_v0_3 = (sp14 - (temp_v0_4 & -(temp_v0_4 < 1))) & 0xFFFF;
-                }
-            }
-            (*gfxP)->unk_4 = (s32) (var_a0 | var_v0_3);
-            temp_a0_3 = *gfxP;
-            *gfxP = temp_a0_3 + 8;
-            temp_a0_3->unk_0 = 0xF1000000;
-            temp_a0_3->unk_4 = (void *) ((unksp1A << 0x10) | unksp1E);
-            var_a3 += 1;
-        } while (var_a3 < 2);
-        return 1;
-    }
-    return 0;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontXX_drawID2);
-#endif
-#endif
-
-extern u8 D_8009F0A0_cn[];
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
     s32 sp20[8];
     s32 var_a3;
@@ -1554,23 +1231,25 @@ bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5
         return false;
     }
 
+#if VERSION_CN
     if (arg5 > 1000) {
         return fontXX_drawID(gfxP, arg1, arg2, arg3, arg4, arg5);
     }
+#endif
 
     width = 0xC;
     height = 0xC;
 
     sp20[0] = ((f64)arg1 * 4.0) + 0.5;
     sp20[1] = ((f64)arg2 * 4.0) + 0.5;
+    sp20[2] = ((f64)(arg1 + arg3) * 4.0) + 0.5;
+    sp20[3] = ((f64)(arg2 + arg4) * 4.0) + 0.5;
     sp20[4] = 0;
     sp20[5] = 0;
     sp20[6] = (0x3000 / (f64)arg3) + 0.5;
     sp20[7] = (0x3000 / (f64)arg4) + 0.5;
-    sp20[2] = ((f64)(arg1 + arg3) * 4.0) + 0.5;
-    sp20[3] = ((f64)(arg2 + arg4) * 4.0) + 0.5;
 
-    texture = D_8009F0A0_cn;
+    texture = D_80094350;
 
     if (arg5 > 0) {
         s32 temp = ((arg5 - 1) * width * height);
@@ -1969,16 +1648,12 @@ bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const cha
 }
 #endif
 
+extern u8 D_800A0E78[];
+
+#if VERSION_US || VERSION_CN
 /**
  * Original name: fontAsc_drawID2
  */
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontAsc_drawID2);
-#endif
-
-extern u8 D_800ABBC8_cn[];
-
-#if VERSION_CN
 bool fontAsc_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
     s32 sp8[8];
     s32 i;
@@ -1990,10 +1665,10 @@ bool fontAsc_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg
         return false;
     }
 
+    texture = D_800A0E78;
+
     a = 10;
     b = 12;
-
-    texture = D_800ABBC8_cn;
 
     sp8[0] = arg1 * 4;
     sp8[1] = arg2 * 4;
