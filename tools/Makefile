@@ -28,21 +28,15 @@ EGCS_DIR        := gcc_egcs/$(DETECTED_OS)/1.1.2-4
 EGCS_GCC        := $(EGCS_DIR)/gcc
 EGCS_BINUTILS   := $(EGCS_DIR)/as
 
-PIGMENT         := pigment/target/release/pigment
 
-
-all: $(KMC_GCC) $(KMC_BINUTILS) $(EGCS_GCC) $(EGCS_BINUTILS) $(PIGMENT)
+all: $(KMC_GCC) $(KMC_BINUTILS) $(EGCS_GCC) $(EGCS_BINUTILS)
 
 clean:
 	$(RM) -rf $(KMC_DIR) gcc_kmc $(EGCS_DIR) gcc_egcs
-	cargo clean --release --manifest-path pigment/Cargo.toml
 
 distclean: clean
 
 .PHONY: all clean distclean
-
-$(PIGMENT):
-	cargo build --release --manifest-path pigment/Cargo.toml
 
 $(KMC_GCC): | $(KMC_DIR)
 	wget https://github.com/decompals/mips-gcc-2.7.2/releases/latest/download/gcc-2.7.2-$(DETECTED_OS).tar.gz
@@ -69,5 +63,3 @@ $(KMC_DIR):
 
 $(EGCS_DIR):
 	mkdir -p $@
-
--include tools/pigment/target/release/pigment.d

@@ -117,7 +117,7 @@ ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
 ROM_DECOMPRESSOR  ?= tools/compressor/rom_decompressor.py
 SEGMENT_EXTRACTOR ?= tools/compressor/extract_compressed_segments.py
 
-PIGMENT           ?= tools/pigment/target/release/pigment
+PIGMENT64         ?= pigment64
 
 
 IINC       := -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I.
@@ -357,7 +357,7 @@ endif
 # Make inc files from assets
 
 build/%.inc: %.png
-	$(PIGMENT) --c-array -o $@ $< $(subst .,,$(suffix $*))
+	$(PIGMENT64) to-bin --c-array --format $(subst .,,$(suffix $*)) -o $@ $<
 
 
 -include $(DEP_FILES)

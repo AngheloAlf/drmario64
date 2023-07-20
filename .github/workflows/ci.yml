@@ -22,8 +22,12 @@ jobs:
     - name: Install package requirements
       run: sudo apt-get install -y make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip clang-format-11 clang-tidy-11
 
-    - name: Install Python Dependencies
+    - name: Install Python dependencies
       run: pip3 install -r requirements.txt
+
+    - name: Install Rust programs
+      run: |
+        cargo install pigment64 --version ">=0.3.0,<1.*"
 
     - name: Get extra dependencies
       uses: actions/checkout@v3
