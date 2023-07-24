@@ -27,10 +27,10 @@ extern const char _defName[];
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/record", _defName);
 #endif
 
-#if VERSION_US
-void func_800365B0(struct_800365B0_arg0 *arg0, UNK_PTR arg1, s32 arg2) {
-    arg0->unk_00 = arg1;
-    arg0->unk_04 = arg2;
+#if VERSION_US || VERSION_CN
+void func_800365B0(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size) {
+    arg0->buffer = buffer;
+    arg0->size = size;
     arg0->unk_08 = 0;
     arg0->unk_0C = 0;
     arg0->unk_10 = 0;
@@ -39,6 +39,13 @@ void func_800365B0(struct_800365B0_arg0 *arg0, UNK_PTR arg1, s32 arg2) {
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800365C8);
+#endif
+
+#if VERSION_CN
+void func_800365C8(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size) {
+    bzero(buffer, size);
+    func_800365B0(arg0, buffer, size);
+}
 #endif
 
 #if VERSION_US
@@ -81,7 +88,37 @@ void dm_init_config_save(struct_800EF560_unk_B4 *arg0) {
     arg0->unk_18 = 0;
     arg0->unk_19 = 0;
 }
+#endif
 
+void BitField_PutBit(struct_800365B0_arg0 *arg0, s32 arg1, u32 arg2);
+
+#if VERSION_CN
+/**
+ * Original name: BitField_PutBit
+ */
+void BitField_PutBit(struct_800365B0_arg0 *arg0, s32 arg1, u32 arg2) {
+    s32 i;
+
+    arg0->unk_10 += arg2 & ((1 << arg1) - 1);
+    for (i = arg1 - 1; i >= 0; i--) {
+        arg0->buffer[arg0->unk_08] |= (((arg2 >> i) & 1) << arg0->unk_0C);
+
+        arg0->unk_0C++;
+        arg0->unk_08 += arg0->unk_0C >> 3;
+        arg0->unk_0C &= 7;
+    }
+}
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038B8C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038BF8_cn);
+#endif
+
+#if VERSION_US
 void func_8003678C(struct_800F7470 *arg0) {
     s32 i;
 
@@ -96,6 +133,10 @@ void func_8003678C(struct_800F7470 *arg0) {
     arg0->unk_14 = 0;
     arg0->unk_15 = 0;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003678C);
 #endif
 
 #if VERSION_US
@@ -114,12 +155,28 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800367FC);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036808);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038CE0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038CF0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038CFC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038D08_cn);
+#endif
+
 #if 0
-//? dm_init_config_save(s8 *);                              /* extern */
-//? func_800367E0(s8 *);                              /* extern */
-//? func_800367F0(s8 *);                              /* extern */
-//? func_800367FC(s8 *);                              /* extern */
-//? func_80036808(s8 *);                              /* extern */
+//? dm_init_config_save(s8 *);                             
+//? func_800367E0(s8 *);                             
+//? func_800367F0(s8 *);                             
+//? func_800367FC(s8 *);                             
+//? func_80036808(s8 *);                             
 
 void dm_init_save_mem(struct_800EF560 *arg0) {
     s32 *var_a0_2;
@@ -242,6 +299,10 @@ loop_2:
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_init_save_mem);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_init_save_mem);
+#endif
+
 #if VERSION_US
 /**
  * Original name: dm_init_system_mem
@@ -262,6 +323,10 @@ void dm_init_system_mem(void) {
     evs_vs_count = 3;
     evs_score_flag = 1;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_init_system_mem);
 #endif
 
 #if VERSION_US
@@ -511,12 +576,310 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800384A0);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038518);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038FCC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800390D4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039130_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800391B8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039254_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800392B0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003930C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039368_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800393C4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039420_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039480_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800394DC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800395DC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800397F4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039850_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800398AC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039908_cn);
+#endif
+
+extern const u8 eeprom_header_bits[];
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/record", eeprom_header_bits);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/record", RO_800C4018_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039964_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800399B0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800399FC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039A48_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039A94_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039CF0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039D1C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039D48_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039D74_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039DA0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039DCC_cn);
+#endif
+
+void func_80039E38_cn(struct_800365B0_arg0 *arg0);
+
+#if VERSION_CN
+void func_80039E38_cn(struct_800365B0_arg0 *arg0) {
+    BitField_PutBit(arg0, 1, evs_stereo != 0);
+    BitField_PutBit(arg0, 1, evs_secret_flg[0] != 0);
+    BitField_PutBit(arg0, 1, evs_secret_flg[1] != 0);
+    BitField_PutBit(arg0, 1, evs_level_21 != 0);
+    BitField_PutBit(arg0, 2, evs_vs_count);
+    BitField_PutBit(arg0, 1, evs_score_flag != 0);
+}
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039F34_cn);
+#endif
+
+void func_8003A034_cn(struct_800365B0_arg0 *arg0, s32 arg1);
+
+#if VERSION_CN
+void func_8003A034_cn(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_800EF560 *temp_v1 = &evs_mem_data[arg1];
+    s32 i;
+
+    BitField_PutBit(arg0, 2, temp_v1->unk_00);
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v1->unk_01); i++) {
+        BitField_PutBit(arg0, 8, temp_v1->unk_01[i]);
+    }
+}
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A0DC_cn);
+#endif
+
+#if VERSION_CN
+/**
+ * Original name: RecStory_Compress
+ */
+void RecStory_Compress(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_800EF560 *temp_s4 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_s4->unk_08); i++) {
+        s32 j;
+
+        for (j = 0; j < ARRAY_COUNTU(temp_s4->unk_08[i]); j++) {
+            BitField_PutBit(arg0, 3, temp_s4->unk_08[i][j]);
+        }
+    }
+
+    for (i = 0; i < ARRAY_COUNTU(temp_s4->unk_28); i++) {
+        BitField_PutBit(arg0, 0x11, temp_s4->unk_28[i].unk_0 / 0x64U);
+        BitField_PutBit(arg0, 0xD, temp_s4->unk_28[i].unk_4);
+        BitField_PutBit(arg0, 4, temp_s4->unk_28[i].unk_8);
+    }
+}
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A2D8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A424_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A4F4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A5BC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A68C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A754_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A850_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A93C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A9C0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003AA44_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003AAC8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003AB4C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003ABD0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003AC54_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003ACD8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003AD5C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003ADE0_cn);
+#endif
+
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_8003858C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", RecAll_Compress);
+#endif
+
+#if VERSION_CN
+
+void func_8003A424_cn(struct_800365B0_arg0 *arg0, s32 arg1);
+void func_8003A5BC_cn(struct_800365B0_arg0 *arg0, s32 arg1);
+void func_8003A754_cn(struct_800365B0_arg0 *arg0, s32 arg1);
+void func_8003A93C_cn(struct_800365B0_arg0 *arg0, s32 arg1);
+void func_8003AA44_cn(struct_800365B0_arg0 *arg0, s32 arg1);
+void func_8003AB4C_cn(struct_800365B0_arg0 *arg0, s32 arg1);
+void func_8003AC54_cn(struct_800365B0_arg0 *arg0, s32 arg1);
+void func_8003AD5C_cn(struct_800365B0_arg0 *arg0, s32 arg1);
+
+void RecAll_Compress(struct_800365B0_arg0 *arg0) {
+    s32 i;
+
+    arg0->unk_10 = 0;
+    func_80039E38_cn(arg0);
+    BitField_PutBit(arg0, 4, arg0->unk_10);
+
+    for (i = 0; i < 8; i++) {
+        arg0->unk_10 = 0;
+        func_8003A034_cn(arg0, i);
+        RecStory_Compress(arg0, i);
+        func_8003A424_cn(arg0, i);
+        func_8003A5BC_cn(arg0, i);
+        func_8003A754_cn(arg0, i);
+        func_8003A93C_cn(arg0, i);
+        func_8003AA44_cn(arg0, i);
+        func_8003AB4C_cn(arg0, i);
+        func_8003AC54_cn(arg0, i);
+        func_8003AD5C_cn(arg0, i);
+        BitField_PutBit(arg0, 8, arg0->unk_10);
+    }
+
+    arg0->unk_08 = 0x1F8;
+    arg0->unk_0C = 0;
+
+    for (i = 0; i < 4U; i++) {
+        s8 temp_a1 = eeprom_header_bits[i];
+        s8 temp_a2 = eeprom_header[i];
+
+        BitField_PutBit(arg0, temp_a1, temp_a2);
+    }
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800386AC);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800386AC);
 #endif
 
 #if VERSION_US
@@ -526,24 +889,58 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800386AC);
 s32 EepRom_Init(void) {
     EepRom_InitVars();
     if ((u32)(osEepromProbe(&B_800F3E38) - 1) >= 2) {
-        func_80038BD0(1);
+        EepRom_DumpErrMes(1);
         return 1;
     }
     return EepRom_ReadAll();
 }
+#endif
 
+#if VERSION_CN
+s32 EepRom_Init(void) {
+    s32 temp;
+
+    EepRom_InitVars();
+    temp = osEepromProbe(&B_800F3E38);
+    if ((temp != 1) && (temp != 2)) {
+        EepRom_DumpErrMes(1);
+        return 1;
+    }
+
+    return EepRom_ReadAll();
+}
+#endif
+
+#if VERSION_US
 /**
  * Original name: EepRom_InitFirst
  */
 s32 EepRom_InitFirst(s32 arg0, s32 arg1) {
     EepRom_InitVars();
     if (((u32)(osEepromProbe(&B_800F3E38) - 1) >= 2)) {
-        func_80038BD0(1);
+        EepRom_DumpErrMes(1);
         return 1;
     }
     return EepRom_WriteAll(arg0, arg1);
 }
+#endif
 
+#if VERSION_CN
+s32 EepRom_InitFirst(s32 arg0, s32 arg1) {
+    s32 temp;
+
+    EepRom_InitVars();
+    temp = osEepromProbe(&B_800F3E38);
+    if ((temp != 1) && (temp != 2)) {
+        EepRom_DumpErrMes(1);
+        return 1;
+    }
+
+    return EepRom_WriteAll(arg0, arg1);
+}
+#endif
+
+#if VERSION_US || VERSION_CN
 void EepRom_InitVars(void) {
     s32 i;
 
@@ -560,20 +957,38 @@ void EepRom_InitVars(void) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038938);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800389A8);
+#if VERSION_CN
+// Its size must be a multiple of 8
+extern u8 _cache_1333[0x200];
+extern bool _cached_1332;
+
+u8 *func_80038938(bool arg0) {
+    if (!_cached_1332 || arg0) {
+        _cached_1332 = !osEepromLongRead(&B_800F3E38, 0, _cache_1333, sizeof(_cache_1333));
+    }
+
+    return _cached_1332 ? _cache_1333 : NULL;
+}
 #endif
 
 #if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", EepRom_WriteDif);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", EepRom_WriteDif);
+#endif
+
+#if VERSION_US || VERSION_CN
 s32 EepRom_ReadAll(void) {
     struct_800365B0_arg0 sp10;
     char sp28[4];
     s32 temp_s0;
     UNK_PTR temp_v0;
 
-    temp_v0 = func_80038938(1);
+    temp_v0 = func_80038938(true);
     if (temp_v0 == NULL) {
-        func_80038BD0(3);
+        EepRom_DumpErrMes(3);
         return 3;
     }
 
@@ -590,194 +1005,43 @@ s32 EepRom_ReadAll(void) {
 }
 #endif
 
-#if VERSION_US
-#if 0
-//? func_800365C8(? *, ? *, ?);                       /* extern */
-//? func_8003858C(? *);                               /* extern */
-//s32 func_800389A8(void *, ? *, ?, s32, s32);        /* extern */
-
+#if VERSION_US || VERSION_CN
 s32 EepRom_WriteAll(s32 arg0, s32 arg1) {
-    ? sp18;
-    ? sp30;
-    void *temp_v0;
+    struct_800365B0_arg0 sp20;
+    u8 sp38[0x200];
+    u8 *__dest = func_80038938(true);
 
-    temp_v0 = func_80038938(1);
-    if (temp_v0 == NULL) {
-        func_80038BD0(3);
+    if (__dest == NULL) {
+        EepRom_DumpErrMes(3);
         return 3;
     }
-    func_800365C8(&sp18, &sp30, 0x200);
-    func_8003858C(&sp18);
-    if (func_800389A8(temp_v0, &sp30, 0x200, arg0, arg1) == 0) {
-        bcopy(&sp30, temp_v0, 0x200);
-        return 0;
+
+    func_800365C8(&sp20, sp38, sizeof(sp38));
+    RecAll_Compress(&sp20);
+    if (EepRom_WriteDif(__dest, sp38, sizeof(sp38), arg0, arg1) != 0) {
+        EepRom_DumpErrMes(4);
+        return 4;
     }
-    func_80038BD0(4);
-    return 4;
+
+    bcopy(sp38, __dest, sizeof(sp38));
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", EepRom_WriteAll);
-#endif
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038A80_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038A98_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038B08_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038B8C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038BF8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038C6C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038CE0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038CF0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038CFC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038D08_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038D18_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038F04_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038FCC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800390D4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039130_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800391B8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039254_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800392B0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003930C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039368_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800393C4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039420_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039480_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800394DC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800395DC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800397F4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039850_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800398AC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039908_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/record", RO_800C4014_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/record", RO_800C4018_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039964_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800399B0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800399FC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039A48_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039A94_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039CF0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039D1C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039D48_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039D74_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039DA0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039DCC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039E38_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039F34_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A034_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A0DC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A184_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A2D8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A424_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A4F4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A5BC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A68C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A754_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A850_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A93C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003A9C0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003AA44_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003AAC8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003AB4C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003ABD0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003AC54_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003ACD8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003AD5C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003ADE0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003AE64_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003B044_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", EepRom_Init);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", EepRom_InitFirst);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003B390_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003B410_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003B488_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003B5A0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", EepRom_WriteAll);
-#endif
-
-void func_80038BD0(UNK_TYPE arg0 UNUSED) {
+#if VERSION_US || VERSION_CN
+void EepRom_DumpErrMes(UNK_TYPE arg0 UNUSED) {
 }
+#endif
 
 /**
  * Original name: EepRom_DumpDataSize
  */
+#if VERSION_US || VERSION_CN
 void EepRom_DumpDataSize(void) {
 }
+#endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void RecWritingMsg_init(RecordWritingMessage *recMessage, UNK_PTR *arg1) {
     msgWnd_init(&recMessage->messageWnd, arg1, 0x18, 2, 0, 0);
     recMessage->messageWnd.unk_24 = 1;
@@ -785,13 +1049,21 @@ void RecWritingMsg_init(RecordWritingMessage *recMessage, UNK_PTR *arg1) {
     recMessage->unk_84 = 0x78;
     recMessage->unk_80 = 0x78;
 }
+#endif
 
+#if VERSION_US
 void RecWritingMsg_setStr(RecordWritingMessage *recMessage, const char *arg1) {
     msgWnd_clear(&recMessage->messageWnd);
     msgWnd_addStr(&recMessage->messageWnd, arg1);
     msgWnd_skip(&recMessage->messageWnd);
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003B7F8_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 void RecWritingMsg_calc(RecordWritingMessage *recMessage) {
     if (RecWritingMsg_isEnd(recMessage)) {
         return;
@@ -804,10 +1076,10 @@ void RecWritingMsg_calc(RecordWritingMessage *recMessage) {
 
 #if VERSION_US
 #if 0
-//extern u16 D_800897A0;
+//extern u16 mess_panel_tex_size;
 //extern u16 D_800897A2;
-//extern UNK_TYPE D_800897A8;
-//extern UNK_TYPE D_800899A8;
+//extern UNK_TYPE mess_panel_lut;
+//extern UNK_TYPE mess_panel_tex;
 void RecWritingMsg_draw(RecordWritingMessage *recMessage, Gfx **gfxP) {
     Gfx *gfx;
     s32 temp_s0;
@@ -827,8 +1099,8 @@ void RecWritingMsg_draw(RecordWritingMessage *recMessage, Gfx **gfxP) {
     //gfx += 8;
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
-    temp_a1 = D_800897A0 - temp_s0;
-    StretchTexTile8(&gfx, D_800897A0, D_800897A2, &D_800897A8, &D_800899A8, 0, 0, (s32) D_800897A0, (s32) D_800897A2, (f32) (recMessage->messageWnd.unk_28 - ((s32) (temp_a1 + (temp_a1 >> 0x1F)) >> 1)), (f32) (recMessage->messageWnd.unk_2C - ((s32) (D_800897A2 - temp_v0) / 2)), (f32) D_800897A0, (f32) D_800897A2);
+    temp_a1 = mess_panel_tex_size - temp_s0;
+    StretchTexTile8(&gfx, mess_panel_tex_size, D_800897A2, &mess_panel_lut, &mess_panel_tex, 0, 0, (s32) mess_panel_tex_size, (s32) D_800897A2, (f32) (recMessage->messageWnd.unk_28 - ((s32) (temp_a1 + (temp_a1 >> 0x1F)) >> 1)), (f32) (recMessage->messageWnd.unk_2C - ((s32) (D_800897A2 - temp_v0) / 2)), (f32) mess_panel_tex_size, (f32) D_800897A2);
     msgWnd_draw(&recMessage->messageWnd, &gfx);
     *gfxP = gfx;
 }
@@ -837,19 +1109,60 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", RecWritingMsg_draw);
 #endif
 #endif
 
+#if VERSION_CN
+void RecWritingMsg_draw(RecordWritingMessage *recMessage, Gfx **gfxP) {
+    Gfx *gfx;
+    s32 width;
+    s32 height;
+
+    if (RecWritingMsg_isEnd(recMessage)) {
+        return;
+    }
+
+    gfx = *gfxP;
+
+    width = msgWnd_getWidth(&recMessage->messageWnd);
+    height = msgWnd_getHeight(&recMessage->messageWnd);
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    StretchTexTile8(&gfx, mess_panel_tex_size.width, mess_panel_tex_size.height, mess_panel_lut, mess_panel_tex, 0, 0,
+                    mess_panel_tex_size.width, mess_panel_tex_size.height,
+                    recMessage->messageWnd.unk_28 - ((mess_panel_tex_size.width - width) / 2),
+                    recMessage->messageWnd.unk_2C - ((mess_panel_tex_size.height - height) / 2),
+                    mess_panel_tex_size.width, mess_panel_tex_size.height);
+    msgWnd_draw(&recMessage->messageWnd, &gfx);
+
+    *gfxP = gfx;
+}
+#endif
+
 #if VERSION_US
 void RecWritingMsg_start(RecordWritingMessage *recMessage) {
     recMessage->unk_84 = 0;
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA50_cn);
+#endif
+
+#if VERSION_US
 void RecWritingMsg_end(RecordWritingMessage *recMessage) {
     recMessage->unk_84 = recMessage->unk_80;
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA58_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 bool RecWritingMsg_isEnd(RecordWritingMessage *recMessage) {
-    return (recMessage->unk_84 >= recMessage->unk_80);
+    return recMessage->unk_84 >= recMessage->unk_80;
 }
+#endif
 
+#if VERSION_US || VERSION_CN
 void RecWritingMsg_setPos(RecordWritingMessage *recMessage, s32 arg1, s32 arg2) {
     recMessage->messageWnd.unk_28 = arg1;
     recMessage->messageWnd.unk_2C = arg2;
@@ -861,21 +1174,5 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", setSleepTimer);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", RecWritingMsg_init);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003B7F8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", RecWritingMsg_calc);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", RecWritingMsg_draw);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA50_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA58_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA64_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA78_cn);
-
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA84_cn);
 #endif

@@ -46,8 +46,8 @@ enum_main_no main12(void);
 void sgenrand(u32 arg0);
 u16 genrand(s32);
 
-void func_800365B0(struct_800365B0_arg0 *arg0, UNK_PTR arg1, UNK_TYPE arg2);
-// void func_800365C8();
+void func_800365B0(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size);
+void func_800365C8(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size);
 // void func_8003661C();
 // void func_800366A4();
 // void dm_init_config_save();
@@ -108,16 +108,16 @@ UNK_RET dm_data_vm_ta_sort(MenuRank_unk_001C *arg0);
 // void func_8003842C();
 // void func_800384A0();
 // void func_80038518();
-// void func_8003858C();
+void RecAll_Compress(struct_800365B0_arg0 *arg0);
 s32 func_800386AC(struct_800365B0_arg0 *arg0, char arg1[4]);
 s32 EepRom_Init(void);
 s32 EepRom_InitFirst(s32 arg0, s32 arg1);
 void EepRom_InitVars(void);
-UNK_PTR func_80038938(UNK_TYPE arg0);
-// void func_800389A8();
+u8 *func_80038938(bool arg0);
+UNK_TYPE EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, s32 arg3, s32 arg4);
 s32 EepRom_ReadAll(void);
 s32 EepRom_WriteAll(s32 arg0, s32 arg1); /* Original name: EepRom_WriteAll */
-void func_80038BD0(UNK_TYPE arg0);
+void EepRom_DumpErrMes(UNK_TYPE arg0);
 void EepRom_DumpDataSize(void);
 // void setSleepTimer();
 
@@ -180,7 +180,7 @@ void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 ar
 // void func_80044058();
 void StretchTexTile4(Gfx **gfxP, u16, u16, s32, s32, s32, s32, s32, s32, f32, f32, f32, f32);
 // void func_800443F4();
-void StretchTexTile8(Gfx **gfxP, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3, UNK_TYPE arg4, UNK_TYPE arg5, UNK_TYPE arg6, UNK_TYPE arg7, UNK_TYPE arg8, f32 arg9, f32 argA, f32 argB, f32 argC);
+void StretchTexTile8(Gfx **gfxP, s32 width, s32 height, u16 tlut[], u8 tex[], UNK_TYPE arg5, UNK_TYPE arg6, UNK_TYPE arg7, UNK_TYPE arg8, f32 arg9, f32 argA, f32 argB, f32 argC);
 // void RectTexTile8();
 // void func_80044940();
 // void func_80044B18();

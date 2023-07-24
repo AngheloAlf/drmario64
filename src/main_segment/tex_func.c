@@ -759,7 +759,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800468B0_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80046A94_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80046C78_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexTile8);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80046E5C_cn);
 

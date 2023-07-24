@@ -352,7 +352,7 @@ typedef struct struct_800EF560_unk_B4 {
 } struct_800EF560_unk_B4; // size >= 0x1A
 
 typedef struct struct_800EF560_unk_28 {
-    /* 0x0 */ s32 unk_0;
+    /* 0x0 */ s32 unk_0; // possibly u32?
     /* 0x4 */ s32 unk_4;
     /* 0x8 */ u8 unk_8;
 } struct_800EF560_unk_28; // size = 0xC
@@ -376,10 +376,9 @@ typedef struct struct_800EF560_unk_7C {
 
 typedef struct struct_800EF560 {
     /* 0x00 */ u8 unk_00;
-    /* 0x01 */ s8 unk_01[4];
+    /* 0x01 */ u8 unk_01[4];
     /* 0x05 */ UNK_TYPE1 unk_05[0x3];
-    /* 0x08 */ s32 unk_08[3][2];
-    /* 0x20 */ UNK_TYPE1 unk_20[0x8];
+    /* 0x08 */ s32 unk_08[4][2];
     /* 0x28 */ struct_800EF560_unk_28 unk_28[3];
     /* 0x4C */ struct_800EF560_unk_4C unk_4C[3]; // guessed
     /* 0x64 */ struct_800EF560_unk_64 unk_64[UNK_SIZE];
@@ -667,8 +666,8 @@ typedef struct struct_watchMenu {
 } struct_watchMenu; // size = 0x11280
 
 typedef struct struct_800365B0_arg0 {
-    /* 0x00 */ UNK_PTR unk_00;
-    /* 0x04 */ UNK_TYPE4 unk_04;
+    /* 0x00 */ u8 *buffer;
+    /* 0x04 */ size_t size;
     /* 0x08 */ UNK_TYPE4 unk_08;
     /* 0x0C */ UNK_TYPE4 unk_0C;
     /* 0x10 */ UNK_TYPE4 unk_10;
@@ -830,5 +829,12 @@ typedef struct struct_800E5968 {
     /* 0x0 */ s8 unk_0;
     /* 0x1 */ s8 unk_1;
 } struct_800E5968; // size = 0x2
+
+typedef struct struct_mess_panel_tex_size {
+    /* 0x0 */ u16 width;
+    /* 0x2 */ u16 height;
+    /* 0x4 */ u16 unk_4;
+    /* 0x6 */ u16 unk_6;
+} struct_mess_panel_tex_size; // size = 0x8
 
 #endif

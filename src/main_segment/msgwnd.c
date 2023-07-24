@@ -456,6 +456,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_isEnd);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_skip);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_isSpeaking);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_isScroll);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_8006447C_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_80064494_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_getWidth);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_getHeight);
 #endif
