@@ -43,14 +43,14 @@ typedef struct AnimeSeq_unk_0C {
 } AnimeSeq_unk_0C; // size >= 0x4
 
 typedef struct AnimeState_unk_1C_unk_4 {
-    /* 0x0 */ u16 unk_0;
-    /* 0x2 */ u16 unk_2;
+    /* 0x0 */ u16 width;
+    /* 0x2 */ u16 height;
     /* 0x4 */ u16 unk_4;
 } AnimeState_unk_1C_unk_4; // size >= 0x8
 
 typedef struct AnimeState_unk_1C_unk_0 {
-    /* 0x0 */ UNK_TYPE4 unk_0;
-    /* 0x4 */ UNK_TYPE4 unk_4;
+    /* 0x0 */ u16 *tlut;
+    /* 0x4 */ u8 *tex;
 } AnimeState_unk_1C_unk_0; // size >= 0x8
 
 typedef struct AnimeState_unk_1C {

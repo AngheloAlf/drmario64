@@ -1237,7 +1237,7 @@ ai_char_data_org = 0x800890E0; //
 mess_panel_tex_size = 0x800897A0; // size:0x8
 mess_panel_lut = 0x800897A8; // size:0x200
 mess_panel_tex = 0x800899A8; //
-D_8008CF90 = 0x8008CF90; //
+_cached_1332 = 0x8008CF90; //
 D_8008CFA0 = 0x8008CFA0; //
 D_8008CFE0 = 0x8008CFE0; //
 
@@ -2408,7 +2408,7 @@ B_800E5008 = 0x800E5008; //
 delpos_cnt = 0x800E5198; //
 B_800E519C = 0x800E519C; //
 last_flash = 0x800E51A0; //
-B_800E51B0 = 0x800E51B0; //
+_cache_1333 = 0x800E51B0; //
 B_800E53B0 = 0x800E53B0; //
 binCount = 0x800E53C0; //
 cont_bg_flg = 0x800E53C4; //

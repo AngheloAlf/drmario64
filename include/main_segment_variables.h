@@ -119,7 +119,7 @@ extern struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN];
 extern struct_mess_panel_tex_size mess_panel_tex_size;
 extern u16 mess_panel_lut[];
 extern u8 mess_panel_tex[];
-// extern UNK_TYPE D_8008CF90;
+extern bool _cached_1332;
 // extern UNK_TYPE D_8008CFA0;
 extern s32 D_8008CFE0;
 
@@ -368,7 +368,10 @@ extern struct_game_state_data *pGameState;
 extern s32 delpos_cnt;
 // extern UNK_TYPE B_800E519C;
 extern s32 last_flash;
-// extern UNK_TYPE B_800E51B0;
+
+// Its size must be a multiple of 8
+extern u8 _cache_1333[0x200]; /* Original name: _cache_1333 */
+
 // extern UNK_TYPE B_800E53B0;
 
 // extern UNK_TYPE fbuf;

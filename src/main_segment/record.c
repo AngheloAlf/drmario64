@@ -882,21 +882,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800386AC);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800386AC);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 /**
  * Original name: EepRom_Init
  */
-s32 EepRom_Init(void) {
-    EepRom_InitVars();
-    if ((u32)(osEepromProbe(&B_800F3E38) - 1) >= 2) {
-        EepRom_DumpErrMes(1);
-        return 1;
-    }
-    return EepRom_ReadAll();
-}
-#endif
-
-#if VERSION_CN
 s32 EepRom_Init(void) {
     s32 temp;
 
@@ -911,21 +900,10 @@ s32 EepRom_Init(void) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 /**
  * Original name: EepRom_InitFirst
  */
-s32 EepRom_InitFirst(s32 arg0, s32 arg1) {
-    EepRom_InitVars();
-    if (((u32)(osEepromProbe(&B_800F3E38) - 1) >= 2)) {
-        EepRom_DumpErrMes(1);
-        return 1;
-    }
-    return EepRom_WriteAll(arg0, arg1);
-}
-#endif
-
-#if VERSION_CN
 s32 EepRom_InitFirst(s32 arg0, s32 arg1) {
     s32 temp;
 
@@ -953,15 +931,7 @@ void EepRom_InitVars(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038938);
-#endif
-
-#if VERSION_CN
-// Its size must be a multiple of 8
-extern u8 _cache_1333[0x200];
-extern bool _cached_1332;
-
+#if VERSION_US || VERSION_CN
 u8 *func_80038938(bool arg0) {
     if (!_cached_1332 || arg0) {
         _cached_1332 = !osEepromLongRead(&B_800F3E38, 0, _cache_1333, sizeof(_cache_1333));
@@ -984,9 +954,8 @@ s32 EepRom_ReadAll(void) {
     struct_800365B0_arg0 sp10;
     char sp28[4];
     s32 temp_s0;
-    UNK_PTR temp_v0;
+    u8 *temp_v0 = func_80038938(true);
 
-    temp_v0 = func_80038938(true);
     if (temp_v0 == NULL) {
         EepRom_DumpErrMes(3);
         return 3;
@@ -1033,15 +1002,18 @@ void EepRom_DumpErrMes(UNK_TYPE arg0 UNUSED) {
 }
 #endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: EepRom_DumpDataSize
  */
-#if VERSION_US || VERSION_CN
 void EepRom_DumpDataSize(void) {
 }
 #endif
 
 #if VERSION_US || VERSION_CN
+/**
+ * Original name: RecWritingMsg_init
+ */
 void RecWritingMsg_init(RecordWritingMessage *recMessage, UNK_PTR *arg1) {
     msgWnd_init(&recMessage->messageWnd, arg1, 0x18, 2, 0, 0);
     recMessage->messageWnd.unk_24 = 1;
@@ -1052,6 +1024,9 @@ void RecWritingMsg_init(RecordWritingMessage *recMessage, UNK_PTR *arg1) {
 #endif
 
 #if VERSION_US
+/**
+ * Original name: RecWritingMsg_setStr
+ */
 void RecWritingMsg_setStr(RecordWritingMessage *recMessage, const char *arg1) {
     msgWnd_clear(&recMessage->messageWnd);
     msgWnd_addStr(&recMessage->messageWnd, arg1);
@@ -1064,6 +1039,9 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003B7F8_cn);
 #endif
 
 #if VERSION_US || VERSION_CN
+/**
+ * Original name: RecWritingMsg_calc
+ */
 void RecWritingMsg_calc(RecordWritingMessage *recMessage) {
     if (RecWritingMsg_isEnd(recMessage)) {
         return;
@@ -1110,6 +1088,9 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", RecWritingMsg_draw);
 #endif
 
 #if VERSION_CN
+/**
+ * Original name: RecWritingMsg_draw
+ */
 void RecWritingMsg_draw(RecordWritingMessage *recMessage, Gfx **gfxP) {
     Gfx *gfx;
     s32 width;
@@ -1137,6 +1118,9 @@ void RecWritingMsg_draw(RecordWritingMessage *recMessage, Gfx **gfxP) {
 #endif
 
 #if VERSION_US
+/**
+ * Original name: RecWritingMsg_start
+ */
 void RecWritingMsg_start(RecordWritingMessage *recMessage) {
     recMessage->unk_84 = 0;
 }
@@ -1147,6 +1131,9 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA50_cn);
 #endif
 
 #if VERSION_US
+/**
+ * Original name: RecWritingMsg_end
+ */
 void RecWritingMsg_end(RecordWritingMessage *recMessage) {
     recMessage->unk_84 = recMessage->unk_80;
 }
@@ -1157,12 +1144,18 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA58_cn);
 #endif
 
 #if VERSION_US || VERSION_CN
+/**
+ * Original name: RecWritingMsg_isEnd
+ */
 bool RecWritingMsg_isEnd(RecordWritingMessage *recMessage) {
     return recMessage->unk_84 >= recMessage->unk_80;
 }
 #endif
 
 #if VERSION_US || VERSION_CN
+/**
+ * Original name: RecWritingMsg_setPos
+ */
 void RecWritingMsg_setPos(RecordWritingMessage *recMessage, s32 arg1, s32 arg2) {
     recMessage->messageWnd.unk_28 = arg1;
     recMessage->messageWnd.unk_2C = arg2;
