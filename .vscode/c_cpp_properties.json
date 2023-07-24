@@ -32,7 +32,8 @@
                 "_MIPS_SIM_ABI64=3",
                 "VERSION_US=1",
                 "VERSION_CN=1",
-                "VERSION_GW=1"
+                "VERSION_GW=1",
+                "CC_CHECK=1"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true

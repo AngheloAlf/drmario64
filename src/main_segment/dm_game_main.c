@@ -6398,7 +6398,7 @@ void dm_game_init_static(void) {
                 switch (evs_gamesel) {
                     case ENUM_EVS_GAMESEL_1:
                         for (i = 0; i < ARRAY_COUNT(watchGameP->unk_8B4); i++) {
-                            watchGameP->unk_8B4[i] = evs_mem_data[evs_select_name_no[i]].unk_A8;
+                            watchGameP->unk_8B4[i] = evs_mem_data[evs_select_name_no[i]].unk_A8[0];
                         }
                         break;
 

@@ -208,7 +208,9 @@ void func_8002AAE8(struct_800FACE0_unk_08 *arg0, const SndEntry *arg1);
 bool func_8002AB28(struct_800FACE0_unk_08 *arg0);
 bool func_8002ABC0(struct_800FACE0_unk_08 *arg0);
 void func_8002AC64(struct_800FACE0_unk_08 *arg0);
+#if VERSION_US || VERSION_GW || CC_CHECK
 void dm_audio_set_stereo(bool setStereo);
+#endif
 void dm_audio_init_driver(struct_800EB670* arg0);
 void dm_audio_update(void);
 void dm_audio_stop(void);

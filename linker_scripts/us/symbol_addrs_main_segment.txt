@@ -199,7 +199,7 @@ func_8003842C = 0x8003842C; //
 func_800384A0 = 0x800384A0; //
 func_80038518 = 0x80038518; //
 RecAll_Compress = 0x8003858C; //
-func_800386AC = 0x800386AC; //
+RecAll_Extract = 0x800386AC; //
 EepRom_Init = 0x80038824; //
 EepRom_InitFirst = 0x80038878; //
 EepRom_InitVars = 0x800388E0; //
@@ -1585,7 +1585,7 @@ RO_800ACF10 = 0x800ACF10; //
 wave_tbl_2879 = 0x800ACF20; // size:0x20
 
 eeprom_header = 0x800ACF40; //
-RO_800ACF44 = 0x800ACF44; //
+eeprom_header_bits = 0x800ACF44; //
 _defName = 0x800ACF48; //
 
 jtbl_800ACF50 = 0x800ACF50; // type:jtbl

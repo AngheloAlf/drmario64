@@ -380,14 +380,14 @@ typedef struct struct_800EF560 {
     /* 0x05 */ UNK_TYPE1 unk_05[0x3];
     /* 0x08 */ s32 unk_08[4][2];
     /* 0x28 */ struct_800EF560_unk_28 unk_28[3];
-    /* 0x4C */ struct_800EF560_unk_4C unk_4C[3]; // guessed
-    /* 0x64 */ struct_800EF560_unk_64 unk_64[UNK_SIZE];
-    /* 0x6C */ UNK_TYPE1 unk_6C[0x10];
-    /* 0x7C */ struct_800EF560_unk_7C unk_7C[UNK_SIZE];
-    /* 0x88 */ UNK_TYPE1 unk_88[0x20];
-    /* 0xA8 */ u16 unk_A8;
-    /* 0xAA */ UNK_TYPE1 unk_AA[0x2];
-    /* 0xAC */ UNK_TYPE1 unk_AC[0x8];
+    /* 0x4C */ struct_800EF560_unk_4C unk_4C[3];
+    /* 0x64 */ struct_800EF560_unk_64 unk_64[3];
+    /* 0x7C */ struct_800EF560_unk_7C unk_7C[3];
+    /* 0xA0 */ s16 unk_A0[2];
+    /* 0xA4 */ s16 unk_A4[2];
+    /* 0xA8 */ u16 unk_A8[2];
+    /* 0xAC */ s16 unk_AC[2];
+    /* 0xB0 */ s16 unk_B0[2];
     /* 0xB4 */ struct_800EF560_unk_B4 unk_B4;
     /* 0xCE */ UNK_TYPE1 unk_CE[0x2]; // pad?
 } struct_800EF560; // size = 0xD0

@@ -405,7 +405,7 @@ segments:
       - [0x0ABB00, .rodata, main_segment/graphic]
       - [0x0ABB20, .rodata, main_segment/main1x]
       - [0x0ABCB0, .rodata, main_segment/aiset]
-      - [0x0ABD40, .rodata, main_segment/record]
+      - { start: 0x0ABD40, type: .rodata, name: main_segment/record, str_encoding: shift-jis }
 
       - [0x0ABDB0, .rodata, main_segment/020D10_cn]
 
