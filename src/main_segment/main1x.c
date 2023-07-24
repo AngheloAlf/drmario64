@@ -27,7 +27,7 @@ enum_main_no main11(void) {
 
     switch (EepRom_Init()) {
         case 0x2:
-            EepRom_InitFirst(0, 0);
+            EepRom_InitFirst(NULL, 0);
             break;
 
         case 0x5:

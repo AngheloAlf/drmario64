@@ -837,4 +837,15 @@ typedef struct struct_mess_panel_tex_size {
     /* 0x6 */ u16 unk_6;
 } struct_mess_panel_tex_size; // size = 0x8
 
+typedef s32 (*EepRom_WriteDif_arg3)(s32);
+
+typedef enum EepRomStatus {
+    /* 0 */ EEPROM_STATUS_0,
+    /* 1 */ EEPROM_STATUS_1,
+    /* 2 */ EEPROM_STATUS_2,
+    /* 3 */ EEPROM_STATUS_3,
+    /* 4 */ EEPROM_STATUS_4,
+    /* 5 */ EEPROM_STATUS_5
+} EepRomStatus;
+
 #endif
