@@ -2,7 +2,7 @@
  * Original filename: record.c
  */
 
-#include "libultra.h"
+#include "record.h"
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
@@ -12,6 +12,7 @@
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 #include "recwritingmsg.h"
+#include "mainmenu.h"
 
 /**
  * Original name: eeprom_header
@@ -101,7 +102,7 @@ s32 BitField_GetBit(struct_800365B0_arg0 *arg0, s32 arg1) {
 /**
  * Original name: dm_init_config_save
  */
-void dm_init_config_save(struct_800EF560_unk_B4 *arg0) {
+void dm_init_config_save(struct_evs_mem_data_unk_B4 *arg0) {
     arg0->unk_00 = 1;
     arg0->unk_01 = 0;
     arg0->unk_02 = 0;
@@ -132,7 +133,7 @@ void dm_init_config_save(struct_800EF560_unk_B4 *arg0) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void func_8003678C(struct_800F7470 *arg0) {
+void func_8003678C(struct_evs_cfg_4p *arg0) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(*arg0->unk_00); i++) {
@@ -153,7 +154,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800367E0);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800367E0);
+void func_800367E0(struct_evs_mem_data_unk_28 *arg0) {
+    arg0->unk_0 = 0;
+    arg0->unk_4 = 0;
+    arg0->unk_8 = 0;
+}
 #endif
 
 #if VERSION_US
@@ -161,7 +166,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800367F0);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800367F0);
+void func_800367F0(struct_evs_mem_data_unk_4C *arg0) {
+    arg0->unk_0 = 0;
+    arg0->unk_4 = 0;
+}
 #endif
 
 #if VERSION_US
@@ -169,7 +177,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800367FC);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800367FC);
+void func_800367FC(struct_evs_mem_data_unk_64 *arg0) {
+    arg0->unk_0 = 0;
+    arg0->unk_4 = 0;
+}
 #endif
 
 #if VERSION_US
@@ -177,14 +188,18 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036808);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80036808);
+void func_80036808(struct_evs_mem_data_unk_7C *arg0) {
+    arg0->unk_0 = 0;
+    arg0->unk_4 = 0;
+    arg0->unk_8 = 0;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
 /**
  * Original name: dm_init_save_mem
  */
-void dm_init_save_mem(struct_800EF560 *arg0) {
+void dm_init_save_mem(struct_evs_mem_data *arg0) {
     s32 i;
     s32 j;
 
@@ -274,8 +289,8 @@ void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg
     s32 temp_v1;
     s32 var_t2;
     s32 var_v1;
-    struct_800EF560_unk_28 *temp_a0;
-    struct_800EF560 *temp_t3;
+    struct_evs_mem_data_unk_28 *temp_a0;
+    struct_evs_mem_data *temp_t3;
     s32 var_v0;
 
     arg4 = arg4 / 60;
@@ -315,220 +330,220 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_story_sort_set);
 #endif
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_level_sort_set);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_taiQ_sort_set);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_timeAt_sort_set);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vscom_set);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vc_fl_set);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vsman_set);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vm_fl_set);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vm_ta_set);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036EC8);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036F1C);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036F70);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037068);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_story_sort);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_level_sort);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_taiQ_sort);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_timeAt_sort);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037378);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800373C8);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037418);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037468);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800374B8);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vscom_sort);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vc_fl_sort);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vsman_sort);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vm_fl_sort);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vm_ta_sort);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_8003779C);
-#endif
-
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038FCC_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_level_sort_set);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800390D4_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_taiQ_sort_set);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039130_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_timeAt_sort_set);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800391B8_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vscom_set);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039254_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vc_fl_set);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800392B0_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vsman_set);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003930C_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vm_fl_set);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039368_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vm_ta_set);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800393C4_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036EC8);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039420_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036F1C);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039480_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80036F70);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800394DC_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037068);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800395DC_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_story_sort);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800397F4_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_level_sort);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039850_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_taiQ_sort);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800398AC_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_mode_timeAt_sort);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039908_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037378);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039964_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800373C8);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800399B0_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037418);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800399FC_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037468);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039A48_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800374B8);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039A94_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vscom_sort);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039CF0_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vc_fl_sort);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039D1C_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vsman_sort);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039D48_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vm_fl_sort);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039D74_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_data_vm_ta_sort);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039DA0_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_8003779C);
 #endif
 
 #if VERSION_CN
@@ -551,12 +566,20 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800378B0);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800378B0);
+void func_800378B0(struct_800365B0_arg0 *arg0) {
+    evs_stereo = BitField_GetBit(arg0, 1);
+    evs_secret_flg[0] = BitField_GetBit(arg0, 1);
+    evs_secret_flg[1] = BitField_GetBit(arg0, 1);
+    evs_level_21 = BitField_GetBit(arg0, 1);
+    evs_vs_count = BitField_GetBit(arg0, 2);
+    evs_score_flag = BitField_GetBit(arg0, 1);
+    dm_audio_set_stereo(evs_stereo);
+}
 #endif
 
 #if VERSION_US || VERSION_CN
 void func_80037950(struct_800365B0_arg0 *arg0, s32 arg1) {
-    struct_800EF560 *temp_v1 = &evs_mem_data[arg1];
+    struct_evs_mem_data *temp_v1 = &evs_mem_data[arg1];
     s32 i;
 
     BitField_PutBit(arg0, 2, temp_v1->unk_00);
@@ -569,7 +592,7 @@ void func_80037950(struct_800365B0_arg0 *arg0, s32 arg1) {
 
 #if VERSION_US || VERSION_CN
 void func_800379D4(struct_800365B0_arg0 *arg0, s32 arg1) {
-    struct_800EF560 *temp_s0 = &evs_mem_data[arg1];
+    struct_evs_mem_data *temp_s0 = &evs_mem_data[arg1];
     s32 i;
 
     temp_s0->unk_00 = BitField_GetBit(arg0, 2);
@@ -584,7 +607,7 @@ void func_800379D4(struct_800365B0_arg0 *arg0, s32 arg1) {
  * Original name: RecStory_Compress
  */
 void RecStory_Compress(struct_800365B0_arg0 *arg0, s32 arg1) {
-    struct_800EF560 *temp_s4 = &evs_mem_data[arg1];
+    struct_evs_mem_data *temp_s4 = &evs_mem_data[arg1];
     s32 i;
 
     for (i = 0; i < ARRAY_COUNTU(temp_s4->unk_08); i++) {
@@ -596,7 +619,7 @@ void RecStory_Compress(struct_800365B0_arg0 *arg0, s32 arg1) {
     }
 
     for (i = 0; i < ARRAY_COUNTU(temp_s4->unk_28); i++) {
-        struct_800EF560_unk_28 *temp = &temp_s4->unk_28[i];
+        struct_evs_mem_data_unk_28 *temp = &temp_s4->unk_28[i];
 
         BitField_PutBit(arg0, 0x11, temp->unk_0 / 0x64U);
         BitField_PutBit(arg0, 0xD, temp->unk_4);
@@ -610,7 +633,7 @@ void RecStory_Compress(struct_800365B0_arg0 *arg0, s32 arg1) {
  * Original name: RecStory_Extract
  */
 void RecStory_Extract(struct_800365B0_arg0 *arg0, s32 arg1) {
-    struct_800EF560 *temp_s4 = &evs_mem_data[arg1];
+    struct_evs_mem_data *temp_s4 = &evs_mem_data[arg1];
     s32 i;
 
     for (i = 0; i < ARRAY_COUNTU(temp_s4->unk_08); i++) {
@@ -622,7 +645,7 @@ void RecStory_Extract(struct_800365B0_arg0 *arg0, s32 arg1) {
     }
 
     for (i = 0; i < ARRAY_COUNTU(temp_s4->unk_28); i++) {
-        struct_800EF560_unk_28 *temp_s0;
+        struct_evs_mem_data_unk_28 *temp_s0;
 
         temp_s0 = &temp_s4->unk_28[i];
         temp_s0->unk_0 = BitField_GetBit(arg0, 0x11) * 0x64;
@@ -637,7 +660,17 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037C7C);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80037C7C);
+void func_80037C7C(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_4C); i++) {
+        struct_evs_mem_data_unk_4C *temp = &temp_v0->unk_4C[i];
+
+        BitField_PutBit(arg0, 0x11, temp->unk_0 / 0x64U);
+        BitField_PutBit(arg0, 7, temp->unk_4);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -645,7 +678,17 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037D40);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80037D40);
+void func_80037D40(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_4C); i++) {
+        struct_evs_mem_data_unk_4C *temp = &temp_v0->unk_4C[i];
+
+        temp->unk_0 = BitField_GetBit(arg0, 0x11) * 0x64;
+        temp->unk_4 = BitField_GetBit(arg0, 7);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -653,7 +696,17 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037DF0);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80037DF0);
+void func_80037DF0(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_64); i++) {
+        struct_evs_mem_data_unk_64 *temp = &temp_v0->unk_64[i];
+
+        BitField_PutBit(arg0, 0x11, temp->unk_0 / 0x64U);
+        BitField_PutBit(arg0, 0xD, temp->unk_4);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -661,7 +714,17 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037EB4);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80037EB4);
+void func_80037EB4(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_64); i++) {
+        struct_evs_mem_data_unk_64 *temp = &temp_v0->unk_64[i];
+
+        temp->unk_0 = BitField_GetBit(arg0, 0x11) * 0x64;
+        temp->unk_4 = BitField_GetBit(arg0, 0xD);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -669,7 +732,18 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037F64);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80037F64);
+void func_80037F64(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_7C); i++) {
+        struct_evs_mem_data_unk_7C *temp = &temp_v0->unk_7C[i];
+
+        BitField_PutBit(arg0, 0x10, temp->unk_0 / 0xAU);
+        BitField_PutBit(arg0, 0xB, temp->unk_4);
+        BitField_PutBit(arg0, 6, temp->unk_8);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -677,7 +751,18 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038038);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038038);
+void func_80038038(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_7C); i++) {
+        struct_evs_mem_data_unk_7C *temp = &temp_v0->unk_7C[i];
+
+        temp->unk_0 = BitField_GetBit(arg0, 0x10) * 0xA;
+        temp->unk_4 = BitField_GetBit(arg0, 0xB);
+        temp->unk_8 = BitField_GetBit(arg0, 6);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -685,7 +770,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800380F0);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800380F0);
+void func_800380F0(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_A0); i++) {
+        u16 *var_s0 = &temp_v0->unk_A0[i];
+
+        BitField_PutBit(arg0, 7, *var_s0);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -693,7 +787,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038168);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038168);
+void func_80038168(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_A0); i++) {
+        u16 *var_s0 = &temp_v0->unk_A0[i];
+
+        *var_s0 = BitField_GetBit(arg0, 7);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -701,7 +804,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800381DC);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800381DC);
+void func_800381DC(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_A4); i++) {
+        u16 *var_s0 = &temp_v0->unk_A4[i];
+
+        BitField_PutBit(arg0, 7, *var_s0);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -709,7 +821,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038254);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038254);
+void func_80038254(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_A4); i++) {
+        u16 *var_s0 = &temp_v0->unk_A4[i];
+
+        *var_s0 = BitField_GetBit(arg0, 7);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -717,7 +838,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800382C8);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800382C8);
+void func_800382C8(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_A8); i++) {
+        u16 *var_s0 = &temp_v0->unk_A8[i];
+
+        BitField_PutBit(arg0, 7, *var_s0);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -725,7 +855,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038340);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038340);
+void func_80038340(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_A8); i++) {
+        u16 *var_s0 = &temp_v0->unk_A8[i];
+
+        *var_s0 = BitField_GetBit(arg0, 7);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -733,7 +872,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800383B4);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800383B4);
+void func_800383B4(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_AC); i++) {
+        u16 *var_s0 = &temp_v0->unk_AC[i];
+
+        BitField_PutBit(arg0, 7, *var_s0);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -741,7 +889,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_8003842C);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003842C);
+void func_8003842C(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_AC); i++) {
+        u16 *var_s0 = &temp_v0->unk_AC[i];
+
+        *var_s0 = BitField_GetBit(arg0, 7);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -749,7 +906,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800384A0);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800384A0);
+void func_800384A0(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_B0); i++) {
+        u16 *var_s0 = &temp_v0->unk_B0[i];
+
+        BitField_PutBit(arg0, 7, *var_s0);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -757,7 +923,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80038518);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038518);
+void func_80038518(struct_800365B0_arg0 *arg0, s32 arg1) {
+    struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
+    s32 i;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_v0->unk_B0); i++) {
+        u16 *var_s0 = &temp_v0->unk_B0[i];
+
+        *var_s0 = BitField_GetBit(arg0, 7);
+    }
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1017,7 +1192,7 @@ void RecWritingMsg_init(RecordWritingMessage *recMessage, UNK_PTR *arg1) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 /**
  * Original name: RecWritingMsg_setStr
  */
@@ -1026,10 +1201,6 @@ void RecWritingMsg_setStr(RecordWritingMessage *recMessage, const char *arg1) {
     msgWnd_addStr(&recMessage->messageWnd, arg1);
     msgWnd_skip(&recMessage->messageWnd);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003B7F8_cn);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1076,7 +1247,7 @@ void RecWritingMsg_draw(RecordWritingMessage *recMessage, Gfx **gfxP) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 /**
  * Original name: RecWritingMsg_start
  */
@@ -1085,21 +1256,13 @@ void RecWritingMsg_start(RecordWritingMessage *recMessage) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA50_cn);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 /**
  * Original name: RecWritingMsg_end
  */
 void RecWritingMsg_end(RecordWritingMessage *recMessage) {
     recMessage->unk_84 = recMessage->unk_80;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA58_cn);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1126,5 +1289,13 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", setSleepTimer);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003BA84_cn);
+void setSleepTimer(s32 milliseconds) {
+    OSMesgQueue mq;
+    OSTimer timer;
+    OSMesg msg[1];
+
+    osCreateMesgQueue(&mq, msg, ARRAY_COUNT(msg));
+    osSetTimer(&timer, OS_USEC_TO_CYCLES(milliseconds * 1000), 0, &mq, NULL);
+    osRecvMesg(&mq, NULL, OS_MESG_BLOCK);
+}
 #endif

@@ -15,6 +15,7 @@
 #include "buffers.h"
 #include "graphic.h"
 #include "joy.h"
+#include "record.h"
 
 void func_80075F30(void) {
     title_exit_flag = 0;
@@ -312,7 +313,7 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
 
     func_8002A1DC(arg0, &sp50);
     if (main_no == MAIN_NO_10) {
-        EepRom_WriteAll(0, 0);
+        EepRom_WriteAll(NULL, 0);
     }
     return MAIN_NO_3;
 }

@@ -4,6 +4,7 @@
 #include "unknown_structs.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "record.h"
 
 /**
  * Original name: main11
@@ -26,11 +27,11 @@ enum_main_no main11(void) {
     evs_select_name_no[0] = evs_select_name_no[1] = 8;
 
     switch (EepRom_Init()) {
-        case 0x2:
+        case EEPROM_STATUS_2:
             EepRom_InitFirst(NULL, 0);
             break;
 
-        case 0x5:
+        case EEPROM_STATUS_5:
             ret = MAIN_NO_10;
             break;
 

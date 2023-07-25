@@ -15,6 +15,7 @@
 #include "graphic.h"
 #include "aif.h"
 #include "joy.h"
+#include "record.h"
 
 /**
  * Original name: mainproc

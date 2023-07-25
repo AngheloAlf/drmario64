@@ -326,77 +326,11 @@ typedef struct struct_8002A51C_arg1 {
 } struct_8002A51C_arg1; // size >= 0x10
 
 
-typedef struct struct_800EF560_unk_B4 {
-    /* 0x00 */ u8 unk_00;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 unk_02;
-    /* 0x03 */ u8 unk_03;
-    /* 0x04 */ u8 unk_04;
-    /* 0x05 */ u8 unk_05;
-    /* 0x06 */ u8 unk_06;
-    /* 0x07 */ u8 unk_07;
-    /* 0x08 */ u8 unk_08;
-    /* 0x09 */ u8 unk_09[2];
-    /* 0x0B */ u8 unk_0B[2];
-    /* 0x0D */ u8 unk_0D[2];
-    /* 0x0F */ u8 unk_0F[2];
-    /* 0x11 */ u8 unk_11;
-    /* 0x12 */ u8 unk_12;
-    /* 0x13 */ u8 unk_13;
-    /* 0x14 */ u8 unk_14;
-    /* 0x15 */ u8 unk_15;
-    /* 0x16 */ u8 unk_16;
-    /* 0x17 */ u8 unk_17;
-    /* 0x18 */ u8 unk_18;
-    /* 0x19 */ u8 unk_19;
-} struct_800EF560_unk_B4; // size >= 0x1A
-
-typedef struct struct_800EF560_unk_28 {
-    /* 0x0 */ s32 unk_0; // possibly u32?
-    /* 0x4 */ s32 unk_4;
-    /* 0x8 */ u8 unk_8;
-} struct_800EF560_unk_28; // size = 0xC
-
-typedef struct struct_800EF560_unk_4C {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ u8 unk_4;
-    /* 0x5 */ UNK_TYPE1 unk_5[0x3]; // probably padding
-} struct_800EF560_unk_4C; // size = 0x8
-
-typedef struct struct_800EF560_unk_64 {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ UNK_TYPE unk_4;
-} struct_800EF560_unk_64; // size = 0x8
-
-typedef struct struct_800EF560_unk_7C {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ UNK_TYPE unk_4;
-    /* 0x4 */ UNK_TYPE unk_8;
-} struct_800EF560_unk_7C; // size = 0xC
-
-typedef struct struct_800EF560 {
-    /* 0x00 */ u8 unk_00;
-    /* 0x01 */ u8 unk_01[4];
-    /* 0x05 */ UNK_TYPE1 unk_05[0x3];
-    /* 0x08 */ s32 unk_08[4][2];
-    /* 0x28 */ struct_800EF560_unk_28 unk_28[3];
-    /* 0x4C */ struct_800EF560_unk_4C unk_4C[3];
-    /* 0x64 */ struct_800EF560_unk_64 unk_64[3];
-    /* 0x7C */ struct_800EF560_unk_7C unk_7C[3];
-    /* 0xA0 */ s16 unk_A0[2];
-    /* 0xA4 */ s16 unk_A4[2];
-    /* 0xA8 */ u16 unk_A8[2];
-    /* 0xAC */ s16 unk_AC[2];
-    /* 0xB0 */ s16 unk_B0[2];
-    /* 0xB4 */ struct_800EF560_unk_B4 unk_B4;
-    /* 0xCE */ UNK_TYPE1 unk_CE[0x2]; // pad?
-} struct_800EF560; // size = 0xD0
-
-typedef struct struct_800F7470 {
+typedef struct struct_evs_cfg_4p {
     /* 0x00 */ u8 unk_00[5][4];
     /* 0x14 */ u8 unk_14;
     /* 0x15 */ u8 unk_15;
-} struct_800F7470; // size = 0x16
+} struct_evs_cfg_4p; // size = 0x16
 
 typedef struct struct_800E87C0_unk_00 {
     /* 0x0 */ UNK_TYPE4 unk_0;
@@ -665,15 +599,6 @@ typedef struct struct_watchMenu {
     /* 0x111F8 */ RecordWritingMessage recMessage;
 } struct_watchMenu; // size = 0x11280
 
-typedef struct struct_800365B0_arg0 {
-    /* 0x00 */ u8 *buffer;
-    /* 0x04 */ size_t size;
-    /* 0x08 */ UNK_TYPE4 unk_08;
-    /* 0x0C */ UNK_TYPE4 unk_0C;
-    /* 0x10 */ UNK_TYPE4 unk_10;
-    /* 0x14 */ UNK_TYPE1 unk_14[0x4];
-} struct_800365B0_arg0; // size <= 0x18?
-
 typedef enum enum_evs_gamesel {
     /* 0 */ ENUM_EVS_GAMESEL_0,
     /* 1 */ ENUM_EVS_GAMESEL_1,
@@ -836,16 +761,5 @@ typedef struct struct_mess_panel_tex_size {
     /* 0x4 */ u16 unk_4;
     /* 0x6 */ u16 unk_6;
 } struct_mess_panel_tex_size; // size = 0x8
-
-typedef s32 (*EepRom_WriteDif_arg3)(s32);
-
-typedef enum EepRomStatus {
-    /* 0 */ EEPROM_STATUS_0,
-    /* 1 */ EEPROM_STATUS_1,
-    /* 2 */ EEPROM_STATUS_2,
-    /* 3 */ EEPROM_STATUS_3,
-    /* 4 */ EEPROM_STATUS_4,
-    /* 5 */ EEPROM_STATUS_5
-} EepRomStatus;
 
 #endif

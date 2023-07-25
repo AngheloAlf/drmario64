@@ -3644,7 +3644,7 @@ void menuNameSelPanel_draw(MenuNameSelPanel *nameSelPanel, Gfx **gfxP) {
     TiTexDataEntry *temp_s0;
     s32 var_s2;
     s32 var_s4;
-    struct_800EF560 *evsMemData;
+    struct_evs_mem_data *evsMemData;
     //s32 v0 = nameSelPanel->unk_004;
     MenuCursor *sp34[nameSelPanel->unk_004];
 
@@ -6696,8 +6696,8 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _cursor_6447);
 #if VERSION_US
 void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2) {
     struct_watchMenu_unk_02470 *var_fp = *arg2;
-    struct_800EF560 *var_v1 = &evs_mem_data[evs_select_name_no[0]];
-    struct_800EF560_unk_B4 *temp_s4 = &var_v1->unk_B4;
+    struct_evs_mem_data *var_v1 = &evs_mem_data[evs_select_name_no[0]];
+    struct_evs_mem_data_unk_B4 *temp_s4 = &var_v1->unk_B4;
     s32 i;
     CharAnimeMode var_s1_3;
 
@@ -7066,8 +7066,8 @@ void func_800529FC(MenuLvSel *menuLvSel, s32 arg1, f32 arg2) {
 #ifdef NON_MATCHING
 void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2) {
     s32 temp = evs_select_name_no[0];
-    struct_800EF560 *var_s0;
-    struct_800EF560_unk_B4 *temp_s5;
+    struct_evs_mem_data *var_s0;
+    struct_evs_mem_data_unk_B4 *temp_s5;
     struct_watchMenu_unk_02470 *temp_s7 = *arg2;
     s32 var_s2;
 
@@ -7152,7 +7152,7 @@ void func_80052DF0(MenuLvSel *menuLvSel) {
 
 #if VERSION_US
 void menuLvSel_input(MenuLvSel *menuLvSel) {
-    struct_800EF560_unk_B4 *temp_s5 = &evs_mem_data[evs_select_name_no[0]].unk_B4;
+    struct_evs_mem_data_unk_B4 *temp_s5 = &evs_mem_data[evs_select_name_no[0]].unk_B4;
     u16 keyRep = _getKeyRep(menuLvSel->watchMenuRef, 0);
     SndIndex sndIndex = SND_INDEX_INVALID;
     u16 keyTrg = _getKeyTrg(menuLvSel->watchMenuRef, 0);
@@ -7787,7 +7787,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _charTbl_8108);
 void menuChSel_input(MenuChSel *menuChSel) {
     MainMenuMode mode;
     struct_game_state_data *gameStateDataP;
-    struct_800EF560_unk_B4 *temp;
+    struct_evs_mem_data_unk_B4 *temp;
     s32 var_s2;
     s32 i;
 
@@ -8114,7 +8114,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _panel4_8536);
 
 #if VERSION_US
 void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2) {
-    struct_800EF560_unk_B4 *temp_s0;
+    struct_evs_mem_data_unk_B4 *temp_s0;
     struct_game_state_data *temp_s3_3;
     s32 sp44;
     s32 sp4C;
@@ -8721,7 +8721,7 @@ void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
     s32 var_s7;
     s32 var_v0;
     s8 *temp_v0_6;
-    struct_800EF560 *temp_s1_2;
+    struct_evs_mem_data *temp_s1_2;
     u16 temp_s0;
     u16 temp_v0;
     u8 *var_a0;

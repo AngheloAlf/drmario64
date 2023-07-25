@@ -539,7 +539,6 @@ extern u8 CapsMagazine[0x100];
 extern s32 fool_mode; // maybe bool?
 extern u16 joycur1; /* Original name: joycur1 */
 extern s8 decide;
-extern struct_800EF560 evs_mem_data[9];
 
 extern s32 _menuMain_lastSelect[8]; // probably an enum
 extern enum_evs_gamesel evs_gamesel; /* Original name: evs_gamesel */
@@ -591,7 +590,7 @@ extern u16 joyflg[MAXCONTROLLERS];
 // extern UNK_TYPE B_800F6CE0;
 extern struct_virus_map_data virus_map_data[4];
 extern struct_virus_map_disp_order virus_map_disp_order[4];
-extern struct_800F7470 evs_cfg_4p;
+extern struct_evs_cfg_4p evs_cfg_4p;
 extern s32 s_hard_mode; // maybe bool?
 // extern UNK_TYPE attack_sprite_address;
 extern STACK(B_800F7490, 0xC00);

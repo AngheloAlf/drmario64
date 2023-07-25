@@ -20,6 +20,7 @@
 #include "aif.h"
 #include "replay.h"
 #include "game_etc.h"
+#include "record.h"
 
 #if VERSION_US || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version
@@ -2909,7 +2910,7 @@ void dm_save_all(void) {
                 watchGameP->unk_8AC[1] = 0;
                 watchGameP->unk_8AC[0] = 0;
             } else {
-                struct_800EF560 *temp_a0 = &evs_mem_data[evs_select_name_no[0]];
+                struct_evs_mem_data *temp_a0 = &evs_mem_data[evs_select_name_no[0]];
                 s32 var_s0_2 = evs_story_no;
                 s32 temp_s1 = (s32)story_proc_no >= STORY_PROC_NO_12;
 
@@ -6223,7 +6224,7 @@ void dm_game_init_static(void) {
     s32 pad[2] UNUSED;
     s32 var_v0;
     s32 i;
-    struct_800EF560 *temp_a3;
+    struct_evs_mem_data *temp_a3;
     RomOffset start;
     RomOffset end;
     TiTexData *result;
