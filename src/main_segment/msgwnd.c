@@ -25,17 +25,16 @@ const Color_RGB8 sMessageColorTable[] = {
     /* 7 */ { 255, 255, 255 }, // White
 };
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool func_8005CF20(s32 arg0, u32 buttonMask) {
-    s32 i = 0;
+    s32 i;
 
-    while (i < 4) {
+    for (i = 0; i < 4; i++) {
         if ((arg0 >> i) & 1) {
             if (gControllerPressedButtons[main_joy[i]] & buttonMask) {
                 break;
             }
         }
-        i++;
     }
     return i < 4;
 }
@@ -48,10 +47,23 @@ bool func_8005CF20(s32 arg0, u32 buttonMask) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_init);
 #endif
 
+#if VERSION_CN
+void msgWnd_init(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+    uintptr_t temp_t1;
+    u32 temp;
+
+    temp_t1 = (uintptr_t)*arg1;
+    temp = 0x400;
+    temp -= ALIGN16(temp_t1) - temp_t1;
+    temp -= ((arg3 + 1) * sizeof(MessageWnd_unk_04));
+    msgWnd_init2(messageWnd, arg1, temp, arg2, arg3, arg4, arg5);
+}
+#endif
+
+#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_init2
  */
-#if VERSION_US
 void msgWnd_init2(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     char *temp;
 
@@ -59,7 +71,7 @@ void msgWnd_init2(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32
     messageWnd->unk_04 = ALIGN_PTR(messageWnd->unk_00);
 
     messageWnd->unk_08 = (arg4 + 1);
-    temp = messageWnd->unk_04 + ((arg4 + 1) * 0x10);
+    temp = (void *)((uintptr_t)messageWnd->unk_04 + ((arg4 + 1) * sizeof(MessageWnd_unk_04)));
     messageWnd->unk_0C = temp;
 
     messageWnd->unk_10 = arg2;
@@ -86,24 +98,26 @@ void msgWnd_init2(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32
 
     msgWnd_clear(messageWnd);
 }
+#endif
 
 /**
  * Original name: msgWnd_clear
  */
+#if VERSION_US || VERSION_CN
 void msgWnd_clear(MessageWnd *messageWnd) {
     messageWnd->unk_0C[0] = '~';
     messageWnd->unk_0C[1] = 'z';
     messageWnd->unk_14 = 0;
     messageWnd->unk_18 = 0;
-    messageWnd->unk_40 = 0;
-    messageWnd->unk_4C = 0;
+    messageWnd->column = 0;
+    messageWnd->line = 0;
     messageWnd->unk_50 = 0.0f;
     messageWnd->unk_58 = 0;
     messageWnd->hasEnded = false;
     messageWnd->isSpeaking = false;
-    messageWnd->unk_68 = 7;
+    messageWnd->color = MSGWND_COLOR_WHITE;
     messageWnd->unk_6C = 0;
-    messageWnd->unk_70 = 0;
+    messageWnd->timer = 0;
     messageWnd->unk_7C = 0;
 }
 #endif
@@ -113,6 +127,84 @@ void msgWnd_clear(MessageWnd *messageWnd) {
  */
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_layout);
+#endif
+
+#if VERSION_CN
+void msgWnd_layout(MessageWnd *messageWnd) {
+    bool keepGoing = true;
+    s32 var_s5 = 0;
+    s32 var_s6 = 0;
+    s32 var_s3 = messageWnd->unk_14;
+    s32 sp18 = (messageWnd->unk_3C * 2) - messageWnd->unk_30;
+    s32 width = msgWnd_getWidth(messageWnd);
+    f32 temp_fs0 = messageWnd->unk_30 / 12.0f;
+    s32 color = messageWnd->color;
+
+    messageWnd->unk_04->unk_0 = var_s3;
+    messageWnd->unk_04->color = color;
+
+    while (keepGoing) {
+        s32 var_s1 = false;
+
+        if (messageWnd->unk_0C[var_s3] == '~') {
+            switch (messageWnd->unk_0C[var_s3 + 1]) {
+                case 'w':
+                    break;
+
+                case 'h':
+                    var_s1 = true;
+                    break;
+
+                case 'm':
+                    var_s1 = (var_s5 + messageWnd->unk_3C);
+                    var_s1 = width < var_s1;
+                    break;
+
+                case 'z':
+                    var_s1 = true;
+                    keepGoing = false;
+                    break;
+
+                case 'n':
+                    var_s1 = true;
+                    break;
+
+                default:
+                    color = messageWnd->unk_0C[var_s3 + 1] - '0';
+                    break;
+            }
+
+            var_s3 += fontStr_nextChar(&messageWnd->unk_0C[var_s3]);
+        } else {
+            s32 temp = fontStr_charSize(&messageWnd->unk_0C[var_s3], messageWnd->unk_20) * temp_fs0 + sp18;
+            s32 temp_s0 = var_s5 + temp;
+
+            if (width >= temp_s0) {
+                var_s3 += fontStr_nextChar(&messageWnd->unk_0C[var_s3]);
+            }
+            if (temp_s0 >= width) {
+                var_s1 = true;
+            }
+            if (width >= temp_s0) {
+                var_s5 = temp_s0;
+            }
+        }
+
+        if (var_s1) {
+            messageWnd->unk_04[var_s6].unk_4 = var_s3;
+            messageWnd->unk_04[var_s6].unk_8 = var_s5;
+            var_s5 = 0;
+
+            var_s6++;
+            if (var_s6 < messageWnd->unk_08) {
+                messageWnd->unk_04[var_s6].unk_0 = var_s3;
+                messageWnd->unk_04[var_s6].color = color;
+            } else {
+                keepGoing = false;
+            }
+        }
+    }
+}
 #endif
 
 #if VERSION_US
@@ -143,15 +235,49 @@ void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1) {
     temp_a1_2 = temp_a1 + messageWnd->unk_0C;
     temp_a1_2[1] = 0x7A;
     messageWnd->hasEnded = false;
-    msgWnd_layout(messageWnd, temp_a1_2);
+    msgWnd_layout(messageWnd);
 }
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_addStr);
 #endif
 #endif
 
+#if VERSION_CN
+void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1) {
+    s32 length1 = fontStr_length(&messageWnd->unk_0C[messageWnd->unk_14]);
+    s32 length2;
+
+    length2 = fontStr_length(arg1);
+    if (messageWnd->unk_10 < (length1 + length2 + 2)) {
+        length2 = (messageWnd->unk_10 - length1) - 2;
+    }
+
+    memmove(messageWnd->unk_0C, &messageWnd->unk_0C[messageWnd->unk_14], length1);
+
+    messageWnd->unk_18 -= messageWnd->unk_14;
+    messageWnd->unk_14 = 0;
+
+    memmove(&messageWnd->unk_0C[length1], (void *)arg1, length2);
+
+    messageWnd->unk_0C[length1 + length2] = '~';
+    messageWnd->unk_0C[length1 + length2 + 1] = 'z';
+
+    messageWnd->hasEnded = false;
+    msgWnd_layout(messageWnd);
+}
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", func_8005D3F8);
+#endif
+
+#if VERSION_CN
+void func_8006371C_cn(MessageWnd *messageWnd) {
+    messageWnd->unk_14 = messageWnd->unk_04[1].unk_0;
+    messageWnd->color = messageWnd->unk_04[1].color;
+
+    msgWnd_layout(messageWnd);
+}
 #endif
 
 /**
@@ -162,14 +288,101 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_update);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_800631D0_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_init);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_init2);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_clear);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_layout);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_addStr);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", func_8006371C_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_update);
+void msgWnd_update(MessageWnd *messageWnd) {
+    s32 temp_s2 = messageWnd->unk_3C * 2 - messageWnd->unk_30;
+    s32 width = msgWnd_getWidth(messageWnd);
+    f32 temp_fs0 = messageWnd->unk_30 / 12.0f;
+
+    if ((messageWnd->unk_6C == 0) && func_8005CF20(messageWnd->unk_1C, A_BUTTON | B_BUTTON | START_BUTTON)) {
+        msgWnd_skip(messageWnd);
+    }
+
+    if (messageWnd->unk_58 > 0.0) {
+        messageWnd->unk_58 -= messageWnd->unk_5C;
+        if (messageWnd->unk_58 > 0.0) {
+            return;
+        }
+
+        messageWnd->line--;
+        func_8006371C_cn(messageWnd);
+    }
+
+    if (messageWnd->line >= messageWnd->unk_44) {
+        messageWnd->unk_58 += 1.0;
+        return;
+    }
+
+    messageWnd->unk_58 = 0;
+    if (messageWnd->unk_6C != 0) {
+        messageWnd->timer = 0;
+        if (func_8005CF20(messageWnd->unk_1C, A_BUTTON | B_BUTTON | START_BUTTON)) {
+            messageWnd->unk_6C = 0;
+        }
+        return;
+    }
+
+    if (messageWnd->timer > 0) {
+        messageWnd->timer--;
+        return;
+    }
+
+    messageWnd->unk_50 += messageWnd->unk_54;
+    while (messageWnd->unk_50 >= 1.0) {
+        if (messageWnd->unk_0C[messageWnd->unk_18] == '~') {
+            switch (messageWnd->unk_0C[messageWnd->unk_18 + 1]) {
+                case 'w':
+                    messageWnd->timer = (messageWnd->unk_0C[messageWnd->unk_18 + 2] - '0') * 60;
+                    messageWnd->unk_50 = 0.0f;
+                    break;
+
+                case 'h':
+                    messageWnd->unk_50 = 0.0f;
+                    messageWnd->column = 0;
+                    messageWnd->line = 0;
+                    messageWnd->unk_14 = messageWnd->unk_18 + fontStr_nextChar(&messageWnd->unk_0C[messageWnd->unk_18]);
+                    msgWnd_layout(messageWnd);
+                    break;
+
+                case 'm':
+                    messageWnd->unk_6C = 1;
+                    messageWnd->unk_50 = 0.0f;
+                    if (width < (messageWnd->column + messageWnd->unk_3C)) {
+                        messageWnd->column = 0;
+                        messageWnd->line++;
+                    }
+                    break;
+
+                case 'n':
+                    messageWnd->column = 0;
+                    messageWnd->line++;
+                    break;
+
+                case 'z':
+                    messageWnd->hasEnded = true;
+                    messageWnd->unk_50 = 0.0f;
+                    break;
+            }
+
+            messageWnd->unk_18 += fontStr_nextChar(messageWnd->unk_0C + messageWnd->unk_18);
+            messageWnd->isSpeaking = false;
+        } else {
+            messageWnd->column +=
+                fontStr_charSize(&messageWnd->unk_0C[messageWnd->unk_18], messageWnd->unk_20) * temp_fs0 + temp_s2;
+
+            if (width >= messageWnd->column) {
+                messageWnd->unk_18 += fontStr_nextChar(&messageWnd->unk_0C[messageWnd->unk_18]);
+                messageWnd->unk_50 -= 1.0;
+            }
+
+            if (messageWnd->column >= width) {
+                messageWnd->column = 0;
+                messageWnd->line++;
+            }
+
+            messageWnd->isSpeaking = true;
+        }
+    }
+}
 #endif
 
 ASM_RODATA;
@@ -210,7 +423,7 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
 
     sp2C = (messageWnd->unk_3C * 2) - messageWnd->unk_30;
     temp_a0 = messageWnd->unk_30;
-    var_s7 = messageWnd->unk_68;
+    var_s7 = messageWnd->color;
     messageWidth = msgWnd_getWidth(messageWnd);
     sp34 = (temp_a0 * 0xA) / 12;
 
@@ -405,57 +618,244 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_draw);
 #endif
 #endif
 
+#if VERSION_CN
+#ifdef NON_MATCHING
+STATIC_INLINE s32 inlined_func(MessageWnd *messageWnd, s32 var_s3, f32 var_fs0) {
+    return messageWnd->unk_2C + var_s3 * messageWnd->unk_48 - var_fs0;
+}
+
+// regalloc
+void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
+    Gfx *gfx;
+    s32 sp24;
+    s32 sp28;
+    s32 sp2C;
+    f32 var_fs0;
+    s32 temp_s4;
+    s32 temp_s5;
+    s32 temp_s6;
+    s32 var_a1;
+    s32 var_s0;
+    s32 var_s2;
+    s32 var_s3;
+    s32 var_s7;
+    f32 new_var2;
+
+    gfx = *gfxP;
+
+    sp28 = (messageWnd->unk_3C * 2) - messageWnd->unk_30;
+    temp_s6 = msgWnd_getWidth(messageWnd);
+    sp2C = (messageWnd->unk_30 * 0xA) / 12;
+    new_var2 = messageWnd->unk_30 / 12.0f;
+    var_s7 = messageWnd->color;
+
+    if (messageWnd->unk_20 != 0) {
+        font16_initDL2(&gfx);
+    } else {
+        font16_initDL(&gfx);
+    }
+
+    if (messageWnd->unk_78 != 0) {
+        gfxSetScissor(&gfx, 2, messageWnd->unk_28, messageWnd->unk_2C, msgWnd_getWidth(messageWnd),
+                      msgWnd_getHeight(messageWnd));
+    }
+
+    var_s0 = messageWnd->unk_14;
+    var_s2 = 0;
+
+    sp24 = messageWnd->unk_44;
+    var_fs0 = 0.0f;
+    var_s3 = 0;
+    if (messageWnd->unk_58 > 0.0) {
+        sp24 = messageWnd->unk_44 + 1;
+        var_fs0 = (1.0 - messageWnd->unk_58) * messageWnd->unk_48;
+    }
+
+    gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g,
+                    sMessageColorTable[var_s7].b, messageWnd->unk_74);
+
+    if ((messageWnd->unk_30 != 0xC) || (messageWnd->unk_34 != messageWnd->unk_30) || (var_fs0 != 0.0f)) {
+        gDPSetTextureFilter(gfx++, G_TF_BILERP);
+    }
+
+    while (var_s0 < messageWnd->unk_18) {
+        if (messageWnd->unk_0C[var_s0] == 0x7E) {
+            switch (messageWnd->unk_0C[var_s0 + 1]) {
+                case 0x6E:
+                    var_s2 = 0;
+                    var_s3 += 1;
+                    break;
+
+                case 0x6D:
+                    if (temp_s6 < (var_s2 + messageWnd->unk_3C)) {
+                        var_s2 = 0;
+                        var_s3 += 1;
+                    }
+                    break;
+
+                case 0x77:
+                    break;
+
+                case 0x68:
+                    var_s2 = 0;
+                    var_s3 = 0;
+                    break;
+
+                default:
+                    var_s7 = messageWnd->unk_0C[var_s0 + 1] - 0x30;
+                    gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g,
+                                    sMessageColorTable[var_s7].b, messageWnd->unk_74);
+                    break;
+            }
+
+            var_s0 += fontStr_nextChar(&messageWnd->unk_0C[var_s0]);
+        } else {
+            temp_s5 = fontStr_nextChar(&messageWnd->unk_0C[var_s0]);
+
+            temp_s4 = fontStr_charSize(&messageWnd->unk_0C[var_s0], messageWnd->unk_20) * new_var2 + sp28;
+
+            var_a1 = (messageWnd->unk_24 != 0) ? (temp_s6 - messageWnd->unk_04[var_s3].unk_8) >> 1 : 0;
+
+            switch (temp_s5) {
+                case 1:
+                    if (temp_s6 >= var_s2 + temp_s4) {
+                        switch (messageWnd->unk_20) {
+                            case 0:
+                                fontAsc_draw(&gfx, messageWnd->unk_28 + var_s2 + var_a1,
+                                             inlined_func(messageWnd, var_s3, var_fs0), sp2C, messageWnd->unk_34,
+                                             &messageWnd->unk_0C[var_s0]);
+                                break;
+
+                            case 1:
+                                fontAsc_draw2(&gfx, messageWnd->unk_28 + var_s2 + var_a1,
+                                              inlined_func(messageWnd, var_s3, var_fs0), sp2C, messageWnd->unk_34,
+                                              &messageWnd->unk_0C[var_s0]);
+                                break;
+                        }
+                        var_s0 += temp_s5;
+                    }
+                    var_s2 += temp_s4;
+                    break;
+
+                case 2:
+                    if (temp_s6 >= (var_s2 + temp_s4)) {
+                        switch (messageWnd->unk_20) {
+                            case 0:
+                                fontXX_draw(&gfx, messageWnd->unk_28 + var_s2 + var_a1,
+                                            inlined_func(messageWnd, var_s3, var_fs0), messageWnd->unk_30,
+                                            messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
+                                break;
+
+                            case 1:
+                                fontXX_draw2(&gfx, messageWnd->unk_28 + var_s2 + var_a1,
+                                             inlined_func(messageWnd, var_s3, var_fs0), messageWnd->unk_30,
+                                             messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
+                                break;
+                        }
+
+                        var_s0 += temp_s5;
+                    }
+                    var_s2 += 2 + temp_s4;
+                    break;
+            }
+
+            if (var_s2 >= temp_s6) {
+                var_s2 = 0;
+                var_s3 += 1;
+            }
+        }
+
+        if (var_s3 >= sp24) {
+            break;
+        }
+    }
+
+    if ((messageWnd->unk_6C != 0) && (messageWnd->unk_58 == 0.0)) {
+        s32 temp;
+
+        temp = sins((messageWnd->unk_7C << 10) & 0xFC00) * (1.0f / 0x200) + 191.0f;
+        temp = (temp * messageWnd->unk_74) >> 8;
+
+        gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g,
+                        sMessageColorTable[var_s7].b, temp);
+
+        switch (messageWnd->unk_20) {
+            case 0:
+                fontXX_draw(&gfx, messageWnd->unk_28 + var_s2 * messageWnd->unk_3C,
+                            inlined_func(messageWnd, var_s3, var_fs0), messageWnd->unk_30, messageWnd->unk_34,
+                            STR_800B1A54);
+                break;
+
+            case 1:
+                fontXX_draw2(&gfx, messageWnd->unk_28 + var_s2 * messageWnd->unk_3C,
+                             inlined_func(messageWnd, var_s3, var_fs0), messageWnd->unk_30, messageWnd->unk_34,
+                             STR_800B1A54);
+                break;
+        }
+    }
+
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+
+    messageWnd->unk_7C += 1;
+
+    *gfxP = gfx;
+}
+#else
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_draw);
+#endif
+#endif
+
+#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_isEnd
  */
-#if VERSION_US
 bool msgWnd_isEnd(MessageWnd *messageWnd) {
     return messageWnd->hasEnded;
 }
+#endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_skip
  */
 void msgWnd_skip(MessageWnd *messageWnd) {
     messageWnd->unk_50 = messageWnd->unk_10;
-    messageWnd->unk_70 = 0;
+    messageWnd->timer = 0;
 }
+#endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_isSpeaking
  */
 bool msgWnd_isSpeaking(MessageWnd *messageWnd) {
     return messageWnd->isSpeaking;
 }
+#endif
 
 /**
  * Original name: msgWnd_isScroll
  */
+#if VERSION_US || VERSION_CN
 bool msgWnd_isScroll(MessageWnd *messageWnd) {
-    return messageWnd->unk_4C >= messageWnd->unk_44;
+    return messageWnd->line >= messageWnd->unk_44;
 }
+#endif
 
 /**
  * Original name: msgWnd_getWidth
  */
+#if VERSION_US || VERSION_CN
 s32 msgWnd_getWidth(MessageWnd *messageWnd) {
     return messageWnd->unk_38 * messageWnd->unk_3C;
 }
+#endif
 
 /**
  * Original name: msgWnd_getHeight
  */
+#if VERSION_US || VERSION_CN
 s32 msgWnd_getHeight(MessageWnd *messageWnd) {
     return messageWnd->unk_44 * messageWnd->unk_48;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_draw);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_isEnd);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_skip);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_isSpeaking);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_isScroll);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_getWidth);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/msgwnd", msgWnd_getHeight);
 #endif

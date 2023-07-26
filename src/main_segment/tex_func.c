@@ -626,7 +626,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", drawCursorPattern);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043100_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", gfxSetScissor);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043274_cn);
 

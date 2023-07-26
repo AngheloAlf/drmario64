@@ -7,9 +7,16 @@
 #include "unk.h"
 
 
+typedef struct MessageWnd_unk_04 {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ s32 unk_4;
+    /* 0x8 */ s32 unk_8;
+    /* 0xC */ s32 color;
+} MessageWnd_unk_04; // size = 0x10
+
 typedef struct MessageWnd {
     /* 0x00 */ void *unk_00;
-    /* 0x04 */ void *unk_04;
+    /* 0x04 */ MessageWnd_unk_04 *unk_04;
     /* 0x08 */ UNK_TYPE unk_08;
     /* 0x0C */ char *unk_0C;
     /* 0x10 */ s32 unk_10;
@@ -24,19 +31,19 @@ typedef struct MessageWnd {
     /* 0x34 */ UNK_TYPE unk_34;
     /* 0x38 */ UNK_TYPE unk_38;
     /* 0x3C */ UNK_TYPE unk_3C;
-    /* 0x40 */ UNK_TYPE unk_40;
+    /* 0x40 */ s32 column;
     /* 0x44 */ UNK_TYPE unk_44;
     /* 0x48 */ UNK_TYPE unk_48;
-    /* 0x4C */ UNK_TYPE unk_4C;
+    /* 0x4C */ s32 line;
     /* 0x50 */ f32 unk_50;
     /* 0x54 */ f32 unk_54;
-    /* 0x58 */ UNK_TYPE unk_58;
+    /* 0x58 */ f32 unk_58;
     /* 0x5C */ f32 unk_5C;
     /* 0x60 */ bool hasEnded;
     /* 0x64 */ bool isSpeaking;
-    /* 0x68 */ UNK_TYPE unk_68;
+    /* 0x68 */ s32 color;
     /* 0x6C */ UNK_TYPE unk_6C;
-    /* 0x70 */ UNK_TYPE unk_70;
+    /* 0x70 */ s32 timer;
     /* 0x74 */ UNK_TYPE unk_74; // alpha
     /* 0x78 */ UNK_TYPE unk_78;
     /* 0x7C */ UNK_TYPE unk_7C;
@@ -47,7 +54,7 @@ bool func_8005CF20(s32 arg0, u32 buttonMask);
 void msgWnd_init(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
 void msgWnd_init2(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 void msgWnd_clear(MessageWnd *messageWnd);
-void msgWnd_layout(MessageWnd *messageWnd, UNK_PTR arg1);
+void msgWnd_layout(MessageWnd *messageWnd);
 void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1);
 // void func_8005D3F8();
 void msgWnd_update(MessageWnd *messageWnd);

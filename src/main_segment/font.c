@@ -1198,20 +1198,20 @@ void font16_initDL2(Gfx **gfxP) {
 /**
  * Original name: fontXX_draw
  */
-bool fontXX_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
-    return fontXX_drawID(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
+bool fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const char *arg5) {
+    return fontXX_drawID(gfxP, x, y, width, height, font2index(arg5));
 }
 
 /**
  * Original name: fontXX_drawID
  */
-bool fontXX_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
+bool fontXX_drawID(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index) {
     s32 sp8[8];
     u8 *texture;
-    s32 width;
-    s32 height;
+    s32 texWidth;
+    s32 texHeight;
 
-    if ((arg3 <= 0.0f) || (arg4 <= 0.0f) || (arg5 == 0)) {
+    if ((width <= 0.0f) || (height <= 0.0f) || (index == 0)) {
         return false;
     }
 
@@ -1219,33 +1219,33 @@ bool fontXX_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5)
     texture = font_a_tex;
 #endif
 #if VERSION_CN
-    if (arg5 > 1000) {
+    if (index > 1000) {
         texture = D_800B2270_cn;
-        arg5 -= 1000;
+        index -= 1000;
     } else {
-        texture = font_a_tex; // maybe font_a_tex?
+        texture = font_a_tex;
     }
 #endif
 
-    width = 0xC;
-    height = 0xC;
+    texWidth = 0xC;
+    texHeight = 0xC;
 
-    if (arg5 > 0) {
-        s32 temp = ((arg5 - 1) * width * height) / 2;
+    if (index > 0) {
+        s32 temp = ((index - 1) * texWidth * texHeight) / 2;
 
-        gDPLoadTextureTile_4b((*gfxP)++, &texture[temp], G_IM_FMT_I, width, height, 0, 0, 11, 11, 0,
+        gDPLoadTextureTile_4b((*gfxP)++, &texture[temp], G_IM_FMT_I, texWidth, texHeight, 0, 0, 11, 11, 0,
                               G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                               G_TX_NOLOD, G_TX_NOLOD);
     }
 
     sp8[4] = 0;
     sp8[5] = 0;
-    sp8[6] = 0x3000 / arg3;
-    sp8[7] = 0x3000 / arg4;
-    sp8[0] = arg1 * 4.0f;
-    sp8[1] = arg2 * 4.0f;
-    sp8[2] = (arg1 + arg3) * 4.0f;
-    sp8[3] = (arg2 + arg4) * 4.0f;
+    sp8[6] = 0x3000 / width;
+    sp8[7] = 0x3000 / height;
+    sp8[0] = x * 4.0f;
+    sp8[1] = y * 4.0f;
+    sp8[2] = (x + width) * 4.0f;
+    sp8[3] = (y + height) * 4.0f;
 
     gSPScisTextureRectangle((*gfxP)++, sp8[0], sp8[1], sp8[2], sp8[3], G_TX_RENDERTILE, sp8[4], sp8[5], sp8[6], sp8[7]);
 
