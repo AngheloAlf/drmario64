@@ -106,5 +106,111 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/066580", func_8007E760);
 #endif
 
 #if VERSION_CN
+extern u16 D_800C2CF0_cn[];
+extern u16 D_800C2D34_cn[];
+extern u8 D_800C2D54_cn[];
+extern u16 D_800C2D6C_cn[];
+extern u32 D_800C2D7C_cn[];
+extern u32 D_800C2D8C_cn[];
+extern u32 D_800C2D9C_cn[];
+extern u32 D_800C2E1C_cn[];
+
+#ifdef NON_EQUIVALENT
+u8 *func_8007E760(char *dst, u8 arg1, u8 arg2, u8 arg3, u32 arg4, u16 arg5, u8 *arg6) {
+    s32 temp_a0;
+    s32 temp_t0;
+    s32 temp_t1;
+    s32 temp_t6_2;
+    s32 temp_t9;
+    s32 var_s2;
+    s8 *var_s0;
+    u32 var_t4;
+    u32 var_t5;
+    u32 var_t8;
+    u8 *var_s1;
+    u8 temp_t2;
+    u8 temp_t4;
+    u8 temp_t5;
+    u8 temp_t6;
+
+    temp_t1 = D_80088100 & 0x1F;
+    temp_t6_2 = ((u32) D_80088100 >> 5) & 0x1F;
+
+    temp_t5 = arg6[0];
+    temp_t6 = arg6[1];
+    temp_t4 = arg6[2];
+    temp_t2 = arg6[3];
+
+    temp_t0 = arg1 + arg2 + arg3;
+    temp_t0 = temp_t0 + (arg4 & 0x3FF);
+    temp_t0 = temp_t0 + ((arg4 >> 0xA) & 0x3FF);
+    temp_t0 = temp_t0 + (arg5 & 0xFF);
+    temp_t0 = temp_t0 + (arg5 >> 8);
+    temp_t0 = temp_t0 + (temp_t5 + temp_t6 + temp_t4 + temp_t2);
+    temp_t0 = temp_t0 & 0x3FF;
+
+    *dst++ = D_800C2CF0_cn[temp_t1];
+
+    var_t8 = (temp_t0 & 3);
+    var_t8 = (var_t8 << 0x14);
+    var_t8 = (var_t8 | (arg4 & 0xFFFFF));
+    var_t8 = (var_t8 << 8);
+    var_t8 = (var_t8 | temp_t5);
+    var_t8 = var_t8 ^ D_800C2D6C_cn[temp_t0 & 3];
+    var_t8 = var_t8 ^ D_800C2D9C_cn[temp_t1];
+    var_t8 = var_t8 ^ D_800C2E1C_cn[temp_t6_2];
+
+    var_t5 = (temp_t2 << 8);
+    var_t5 = (var_t5 | temp_t4);
+    var_t5 = (var_t5 << 8);
+    var_t5 = (var_t5 | temp_t6);
+    var_t5 = (var_t5 << 6);
+    var_t5 = (var_t5 | (arg2 & 0x3F));
+    var_t5 = var_t5 ^ D_800C2D7C_cn[temp_t0 & 3];
+    var_t5 = var_t5 ^ D_800C2D9C_cn[temp_t1];
+    var_t5 = var_t5 ^ D_800C2E1C_cn[temp_t6_2];
+
+    var_t4 = temp_t0 & 0x3FC;
+    var_t4 = (var_t4 | (arg3 & 3));
+    var_t4 = (var_t4 * 4);
+    var_t4 = (var_t4 | (arg1 & 3));
+    var_t4 = (var_t4 * 4);
+    var_t4 = (var_t4 | (arg2 >> 6));
+    var_t4 = (var_t4 << 0x10);
+    var_t4 = (var_t4 | arg5);
+    var_t4 = var_t4 ^ D_800C2D8C_cn[temp_t0 & 3];
+    var_t4 = var_t4 ^ D_800C2D9C_cn[temp_t1];
+    var_t4 = var_t4 ^ D_800C2E1C_cn[temp_t6_2];
+
+    var_s1 = D_800C2D54_cn;
+    *var_s1++ = *(D_800C2D34_cn + temp_t1);
+
+    for (var_s2 = 0; var_s2 < 6; var_s2++) {
+        temp_t9 = var_t8 & 0x1F;
+        var_t8 = var_t8 >> 5;
+        *dst++ = D_800C2CF0_cn[temp_t9];
+        *var_s1++ = *(temp_t9 + D_800C2D34_cn);
+    }
+
+    for (var_s2 = 0; var_s2 < 6; var_s2++) {
+        temp_t9 = var_t5 & 0x1F;
+        var_t5 = var_t5 >> 5;
+        *dst++ = D_800C2CF0_cn[temp_t9];
+        *var_s1++ = *(temp_t9 + D_800C2D34_cn);
+    }
+
+    for (var_s2 = 0; var_s2 < 6; var_s2++) {
+        temp_t9 = var_t4 & 0x1F;
+        var_t4 = var_t4 >> 5;
+        *dst++ = D_800C2CF0_cn[temp_t9];
+        *var_s1++ = *(temp_t9 + D_800C2D34_cn);
+    }
+
+    *dst++ = D_800C2CF0_cn[temp_t6_2];
+    *var_s1++ = D_800C2D34_cn[temp_t6_2];
+    return D_800C2D54_cn;
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/066580", func_8007E760);
+#endif
 #endif

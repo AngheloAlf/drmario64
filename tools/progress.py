@@ -52,7 +52,7 @@ def getProgressFromMapFile(mapFile: mapfile_parser.MapFile, asmPath: Path, nonma
     return totalStats, progressPerFolder
 
 
-def getProgress(mapPath: Path, version: str) -> tuple[mapfile_parser.ProgressStats, dict[str, mapfile_parser.ProgressStats]]:
+def getProgress(mapPath: Path, version: str, subpaths: bool) -> tuple[mapfile_parser.ProgressStats, dict[str, mapfile_parser.ProgressStats]]:
     mapFile = mapfile_parser.MapFile()
     mapFile.readMapFile(mapPath)
 
@@ -75,19 +75,34 @@ def getProgress(mapPath: Path, version: str) -> tuple[mapfile_parser.ProgressSta
 
     nonMatchingsPath = ASMPATH / version / NONMATCHINGS
 
-    return getProgressFromMapFile(mapFile.filterBySegmentType(".text"), ASMPATH / version, nonMatchingsPath, aliases={"ultralib": "libultra"})
+    pathIndex = 2
+    if subpaths:
+        pathIndex += 1
+
+    return getProgressFromMapFile(mapFile.filterBySegmentType(".text"), ASMPATH / version, nonMatchingsPath, aliases={"ultralib": "libultra"}, pathIndex=pathIndex)
 
 def progressMain():
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--version", help="version to process", default="us")
+    parser.add_argument("-p", "--subpaths", help="Make a summary for one level deeper in the path tree", action="store_true")
+    parser.add_argument("-s", "--sort", help="Sort by decomped size instead of the ROM sorting", action="store_true")
 
     args = parser.parse_args()
 
     mapPath = Path("build") / f"drmario64.{args.version}.map"
 
-    totalStats, progressPerFolder = getProgress(mapPath, args.version)
+    totalStats, progressPerFolder = getProgress(mapPath, args.version, args.subpaths)
 
-    mapfile_parser.progress_stats.printStats(totalStats, progressPerFolder)
+    mapfile_parser.ProgressStats.printHeader()
+    totalStats.print("all", totalStats)
+    print()
+
+    progressesList = list(progressPerFolder.items())
+    if args.sort:
+        progressesList.sort(key=lambda x: (x[1].decompedSize / x[1].total, x[1].total), reverse=True)
+    for folder, statsEntry in progressesList:
+        statsEntry.print(folder, totalStats)
+
 
 if __name__ == "__main__":
     progressMain()
