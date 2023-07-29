@@ -428,7 +428,7 @@ extern MessageWnd mess_roll_st;
 // extern UNK_TYPE story_staff_roll;
 // extern UNK_TYPE story_norm;
 extern Mtx story_viewMtx; /* Original name: story_viewMtx */
-extern struct_800F1DF8 story_objectMtx[2];
+extern Mtx story_objectMtx[2][0x50];
 extern void *B_800E8750;
 extern void *bgGraphic; /* Original name: bgGraphic */
 extern void *B_800E87AC;
@@ -545,7 +545,7 @@ extern enum_evs_gamesel evs_gamesel; /* Original name: evs_gamesel */
 extern STACK(B_800EFCE0, 0x2000);
 extern u8 evs_playmax; /* Original name: evs_playmax */
 // extern UNK_TYPE B_800F1CE9;
-extern struct_800F1DF8 *pObjectMtx;
+extern Mtx *pObjectMtx;
 extern s32 evs_default_name[];
 extern u16 joycur2; /* Original name: joycur2 */
 extern STACK(sGraphicStack, 0x2000);

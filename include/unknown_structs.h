@@ -316,10 +316,6 @@ typedef struct struct_get_gbi_stat_arg0 {
     /* 0x14 */ UNK_TYPE1 unk_14[0x4];
 } struct_get_gbi_stat_arg0; // size = 0x18
 
-typedef struct struct_800F1DF8 {
-    /* 0x0000 */ UNK_TYPE1 unk_0000[0x1400];
-} struct_800F1DF8; // size = 0x1400
-
 typedef struct struct_8002A51C_arg1 {
     /* 0x00 */ UNK_TYPE1 unk_00[0xC];
     /* 0x0C */ void *unk_0C;
@@ -761,5 +757,23 @@ typedef struct struct_mess_panel_tex_size {
     /* 0x4 */ u16 unk_4;
     /* 0x6 */ u16 unk_6;
 } struct_mess_panel_tex_size; // size = 0x8
+
+typedef struct struct_8007E260_arg0 {
+    /* 0x0 */ f32 unk_0;
+    /* 0x4 */ f32 unk_4;
+    /* 0x8 */ f32 unk_8;
+} struct_8007E260_arg0; // size >= 0xC
+
+typedef struct struct_8007E260_arg1 {
+    /* 0x0 */ f32 unk_0;
+    /* 0x4 */ f32 unk_4;
+    /* 0x8 */ f32 unk_8;
+} struct_8007E260_arg1; // size >= 0xC
+
+typedef struct struct_8007E260_arg2 {
+    /* 0x0 */ f32 unk_0;
+    /* 0x4 */ f32 unk_4;
+    /* 0x8 */ f32 unk_8;
+} struct_8007E260_arg2; // size >= 0xC
 
 #endif

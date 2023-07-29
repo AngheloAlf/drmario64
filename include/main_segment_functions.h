@@ -723,7 +723,8 @@ s32 random(s32 arg0);
 // void func_8007DB78();
 // void func_8007DD70();
 // void func_8007DF64();
-// void func_8007E260();
+
+void func_8007E260(struct_8007E260_arg0 *arg0, struct_8007E260_arg1 *arg1, struct_8007E260_arg2 *arg2);
 
 u8 *func_8007E760(char *dst, u8 arg1, u8 arg2, u8 arg3, u32 arg4, u16 arg5, u8 *arg6);
 

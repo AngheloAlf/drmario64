@@ -14,6 +14,7 @@
 #include "boot_variables.h"
 #include "rom_offsets.h"
 #include "segment_symbols.h"
+#include "util.h"
 
 /**
  * Original name: static _size
@@ -96,7 +97,7 @@ const struct_800B1B00 _centerTbl_125[CHARANIMEMODE_MAX] = {
 /**
  * Original name: animeSeq_init
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeSeq_init(AnimeSeq *animeSeq, AnimeSeq_unk_0C *arg1, UNK_TYPE4 arg2) {
     animeSeq->unk_0C = arg1;
     animeSeq->unk_08 = -1;
@@ -107,7 +108,7 @@ void animeSeq_init(AnimeSeq *animeSeq, AnimeSeq_unk_0C *arg1, UNK_TYPE4 arg2) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_8005E154(AnimeState *animeState, UNK_TYPE4 arg1) {
     animeSeq_init(&animeState->animeSeq, animeState->animeSeq.unk_0C, arg1);
 }
@@ -116,9 +117,8 @@ void func_8005E154(AnimeState *animeState, UNK_TYPE4 arg1) {
 /**
  * Original name: animeSeq_update
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
-
     while (arg1 >= 0) {
         u8 *temp_a1 = &animeSeq->unk_0C[animeSeq->unk_10].unk_0[animeSeq->unk_14];
 
@@ -157,8 +157,8 @@ void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
                 if (arg1 > 0) {
                     animeSeq->unk_14++;
                 }
-                arg1--;
                 animeSeq->unk_18 = temp_a1[0] - 1;
+                arg1--;
                 break;
         }
     }
@@ -168,7 +168,7 @@ void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
 /**
  * Original name: animeSeq_isEnd
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool animeSeq_isEnd(AnimeSeq *animeSeq) {
     return animeSeq->unk_0C[animeSeq->unk_10].unk_0[animeSeq->unk_14] == 0xFF;
 }
@@ -183,10 +183,14 @@ size_t animeState_getDataSize(CharAnimeMode animeMode) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006471C_cn);
+#endif
+
 /**
  * Original name: animeState_load
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeMode) {
     AnimeState_unk_1C *sp18;
     AnimeSeq_unk_0C *sp1C;
@@ -201,7 +205,7 @@ void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeM
 /**
  * Original name: animeState_init
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, AnimeState_unk_1C *arg2, UNK_TYPE4 arg3,
                      UNK_TYPE4 arg4, CharAnimeMode animeMode) {
     animeSeq_init(&animeState->animeSeq, arg1, 0);
@@ -220,7 +224,7 @@ void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, AnimeState_u
 /**
  * Original name: animeState_set
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeState_set(AnimeState *animeState, UNK_TYPE4 arg1) {
     animeState->unk_20 = 0;
     func_8005E154(animeState, arg1);
@@ -230,14 +234,14 @@ void animeState_set(AnimeState *animeState, UNK_TYPE4 arg1) {
 /**
  * Original name: animeState_update
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeState_update(AnimeState *animeState) {
     animeSeq_update(&animeState->animeSeq, animeState->unk_20 % 2U);
     animeState->unk_20++;
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool animeState_isEnd(AnimeState *animeState) {
     return animeSeq_isEnd(&animeState->animeSeq);
 }
@@ -263,6 +267,10 @@ void animeState_initDL(AnimeState *animeState, Gfx **gfxP) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006491C_cn);
+#endif
+
 /**
  * Original name: animeState_initDL2
  */
@@ -283,6 +291,10 @@ void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800649D0_cn);
+#endif
+
 /**
  * Original name: animeState_initIntensityDL
  */
@@ -301,6 +313,10 @@ void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064A9C_cn);
 #endif
 
 /**
@@ -355,6 +371,10 @@ void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064B8C_cn);
+#endif
+
 #if VERSION_US
 #ifdef NON_MATCHING
 // float regalloc
@@ -387,10 +407,14 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", StretchTexTile4i);
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064DC0_cn);
+#endif
+
 /**
  * Original name: animeSmog_init
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig) {
     s32 i;
 
@@ -408,7 +432,7 @@ void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig) {
 /**
  * Original name: animeSmog_load
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeSmog_load(AnimeSmog *animeSmog, UNK_PTR *arg1) {
     animeState_load(animeSmog->unk_000, arg1, CHARANIMEMODE_SMOG);
     animeSmog_init(animeSmog, animeSmog);
@@ -424,10 +448,14 @@ void animeSmog_start(AnimeSmog *animeSmog) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006503C_cn);
+#endif
+
 /**
  * Original name: animeSmog_stop
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeSmog_stop(AnimeSmog *animeSmog) {
     u32 i;
 
@@ -442,7 +470,7 @@ void animeSmog_stop(AnimeSmog *animeSmog) {
 /**
  * Original name: animeSmog_update
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeSmog_update(AnimeSmog *animeSmog) {
     u32 i;
 
@@ -480,8 +508,16 @@ void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 ar
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80065230_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", func_8005EE64);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80065364_cn);
 #endif
 
 /**
@@ -492,27 +528,5 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", loadAnimeSeq);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800644B0_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800644F4_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064524_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800646F0_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006471C_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeState_load);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800647F0_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeState_set);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeState_update);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800648F4_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006491C_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800649D0_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064A9C_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064B8C_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064DC0_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeSmog_init);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeSmog_load);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006503C_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeSmog_stop);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeSmog_update);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80065230_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80065364_cn);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80065390_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", loadAnimeSeq);
 #endif

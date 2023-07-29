@@ -773,7 +773,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047544_cn);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047664_cn);
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047788_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", tiMappingAddr);
 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", tiLoadTexData);
 
