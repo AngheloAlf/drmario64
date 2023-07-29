@@ -52,7 +52,7 @@ def getProgressFromMapFile(mapFile: mapfile_parser.MapFile, asmPath: Path, nonma
     return totalStats, progressPerFolder
 
 
-def getProgress(mapPath: Path, version: str, subpaths: bool) -> tuple[mapfile_parser.ProgressStats, dict[str, mapfile_parser.ProgressStats]]:
+def getProgress(mapPath: Path, version: str, subpaths: bool=False) -> tuple[mapfile_parser.ProgressStats, dict[str, mapfile_parser.ProgressStats]]:
     mapFile = mapfile_parser.MapFile()
     mapFile.readMapFile(mapPath)
 
