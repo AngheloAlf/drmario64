@@ -1,5 +1,6 @@
 #include "graphics/graphic_dlists.h"
 
+#if VERSION_US
 Gfx S2RDPinit_dl[] = {
 #include "main_segment/graphics/graphic_dlists/S2RDPinit_dl.gfx.inc.c"
 };
@@ -31,3 +32,4 @@ Gfx D_80088360[] = {
 Gfx D_800883A8[] = {
 #include "main_segment/graphics/graphic_dlists/D_800883A8.gfx.inc.c"
 };
+#endif
