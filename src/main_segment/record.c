@@ -15,6 +15,21 @@
 #include "mainmenu.h"
 #include "main1x.h"
 
+#if VERSION_US
+struct_mess_panel_tex_size mess_panel_tex_size = { 200, 69, 8, 1 };
+
+u16 mess_panel_lut[] ALIGNED8 = {
+#include "main_segment/record/mess_panel_lut.rgba16.inc"
+};
+
+// TODO: extract as ci8
+u8 mess_panel_tex[] ALIGNED8 = {
+#include "main_segment/record/mess_panel_tex.i8.inc"
+};
+
+bool _cached_1332 = false;
+#endif
+
 /**
  * Original name: eeprom_header
  */

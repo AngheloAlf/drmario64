@@ -432,7 +432,14 @@ segments:
       - [0x0702A0, .data, main_segment/vr_init]
       - [0x0702B0, data, main_segment/aiset]
 
-      - [0x0715C0, data, main_segment/record]
+      - start: 0x0715C0
+        type: .data
+        name: main_segment/record
+        subsegments:
+          - [0x0715C0]
+          - [0x0715C8, rgba16, main_segment/record/mess_panel_lut.rgba16, 16, 16]
+          - [0x0717C8, i8, main_segment/record/mess_panel_tex.i8, 200, 69] # TODO: extract as ci8
+          - [0x074DC0]
 
       - [0x074DC0, data, main_segment/020D10]
 

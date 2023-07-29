@@ -7,7 +7,7 @@
 #include "screen_print/debug_print.h"
 #include "screen_print/printf_impl.h"
 
-u8 sDebugPrintFontTex[] = {
+u8 sDebugPrintFontTex[] ALIGNED8 = {
 #include "main_segment/screen_print/debug_print/sDebugPrintFontTex.i4.inc"
 };
 
