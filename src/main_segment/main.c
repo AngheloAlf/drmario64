@@ -2,7 +2,7 @@
  * Original filename: main.c
  */
 
-#include "libultra.h"
+#include "main.h"
 #include "include_asm.h"
 #include "unk.h"
 #include "macros_defines.h"
@@ -16,6 +16,7 @@
 #include "aif.h"
 #include "joy.h"
 #include "record.h"
+#include "main1x.h"
 
 /**
  * Original name: mainproc

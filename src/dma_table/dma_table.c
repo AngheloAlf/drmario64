@@ -1,6 +1,6 @@
 #include "dma_table.h"
 #include "segment_symbols.h"
-#include "main_segment_functions.h"
+#include "main.h"
 
 DmaTableEntry gMainSegmentDmaInfo = {
     SEGMENT_VRAM_START(main_segment),

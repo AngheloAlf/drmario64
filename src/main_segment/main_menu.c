@@ -19,6 +19,7 @@
 #include "graphic.h"
 #include "joy.h"
 #include "record.h"
+#include "main1x.h"
 
 #if VERSION_US
 f32 func_80045DD0(f32 arg0, f32 arg1) {

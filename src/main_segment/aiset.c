@@ -46,6 +46,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "gamemap.h"
+#include "main1x.h"
 
 // no original name :c
 void func_8002EB00(struct_game_state_data *gameStateDataRef) {

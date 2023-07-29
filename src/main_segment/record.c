@@ -13,6 +13,7 @@
 #include "audio/audio_stuff.h"
 #include "recwritingmsg.h"
 #include "mainmenu.h"
+#include "main1x.h"
 
 /**
  * Original name: eeprom_header

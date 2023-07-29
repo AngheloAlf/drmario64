@@ -411,8 +411,22 @@ segments:
 
       - [0x06FF20, .data, main_segment/000280]
       - [0x06FF30, .data, main_segment/graphic]
-      - [0x06FF50, data, main_segment/06FF50]
-      - [0x070220, data, main_segment/070220]
+
+      - start: 0x06FF70
+        type: .data
+        name: main_segment/graphics/graphic_dlists
+        subsegments:
+          - { start: 0x06FF70, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/S2RDPinit_dl }
+          - { start: 0x06FFD8, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/S2ClearCFB_dl }
+          - { start: 0x070000, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/S2Spriteinit_dl }
+          - { start: 0x070048, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/F3RDPinit_dl }
+          - { start: 0x070128, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/F3SetupRDP_dl }
+          - { start: 0x070148, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/F3SetupRSP_dl }
+          - { start: 0x070180, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/D_80088360 }
+          - { start: 0x0701C8, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/D_800883A8 }
+
+      - [0x070210, .data, main_segment/audio/003520]
+      - [0x070220, .data, main_segment/main1x]
       - [0x0702A0, .data, main_segment/vr_init]
       - [0x0702B0, data, main_segment/0702B0]
 

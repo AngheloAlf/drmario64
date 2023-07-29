@@ -15,6 +15,7 @@
 #include "char_anime.h"
 #include "mainmenu.h"
 #include "gamemap.h"
+#include "main.h"
 
 
 typedef struct struct_800FAF98_unk_64 {
@@ -337,20 +338,6 @@ typedef struct struct_800E87C0 {
     /* 0x00 */ struct_800E87C0_unk_00 unk_00[8];
 } struct_800E87C0; // size = 0x407
 
-typedef enum enum_main_no {
-    /*  0 */ MAIN_NO_0,
-    /*  1 */ MAIN_NO_1,
-    /*  2 */ MAIN_NO_2,
-    /*  3 */ MAIN_NO_3,
-    /*  4 */ MAIN_NO_4,
-    /*  5 */ MAIN_NO_5,
-    /*  6 */ MAIN_NO_6,
-    /*  7 */ MAIN_NO_7,
-    /*  8 */ MAIN_NO_8, // "no controller connected"
-    /*  9 */ MAIN_NO_9, // "game not designed for this system"
-    /* 10 */ MAIN_NO_10, // "backup file is damaged"
-} enum_main_no;
-
 // not sure about this struct
 typedef struct struct_80123700_unk_0D4_unk_00 {
     /* 0x0 */ UNK_TYPE1 unk_0[0x8];
@@ -660,15 +647,6 @@ typedef enum enum_story_proc_no {
     /* 23 */ STORY_PROC_NO_23,
     /* 24 */ STORY_PROC_NO_24
 } enum_story_proc_no;
-
-typedef enum enum_evs_manual_no {
-    /* 0 */ EVS_MANUAL_NO_0,
-    /* 1 */ EVS_MANUAL_NO_1,
-    /* 2 */ EVS_MANUAL_NO_2,
-    /* 3 */ EVS_MANUAL_NO_3,
-    /* 4 */ EVS_MANUAL_NO_4,
-    /* 5 */ EVS_MANUAL_NO_5
-} enum_evs_manual_no;
 
 #if VERSION_CN
 typedef struct struct_8010ACB0_cn {

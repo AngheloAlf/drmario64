@@ -37,6 +37,8 @@ extern void* D_80088110[][2];
 extern s32 gCurrentFramebufferIndex;
 extern enum_graphic_no graphic_no;
 extern u32 pendingGFX;
+extern Vp vp;
+extern s32 rdpinit_flag_161;
 
 // bss
 extern u32 gfx_gtask_no;

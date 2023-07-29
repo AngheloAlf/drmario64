@@ -13,6 +13,14 @@
 #if VERSION_US || VERSION_CN
 
 #if VERSION_US
+musSched D_800883F0 = {
+    func_8002D984,
+    func_8002D9E4,
+    func_8002DA48,
+};
+#endif
+
+#if VERSION_US
 #ifdef NON_EQUIVALENT
 s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5,
                   size_t arg6, UNK_TYPE arg7, OSPri thread_priority) {

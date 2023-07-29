@@ -360,7 +360,9 @@ segments:
 
       - [0x07ABD0, .data, main_segment/000280]
       - [0x07AC50, .data, main_segment/graphic]
-      - [0x07AC70, data, main_segment/07AC70]
+      - [0x07AC90, data, main_segment/07AC90]
+      - [0x07AF30, data, main_segment/07AF30]
+      - [0x07AF40, data, main_segment/07AF40]
       - [0x07AFC0, .data, main_segment/vr_init]
       - [0x07AFD0, data, main_segment/07AFD0]
 

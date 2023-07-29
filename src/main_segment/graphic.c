@@ -14,6 +14,7 @@
 #include "buffers.h"
 #include "gs2dex.h"
 #include "dm_thread.h"
+#include "graphics/graphic_dlists.h"
 
 #if VERSION_US || VERSION_CN
 void *D_80088110[][2] = {
@@ -31,8 +32,20 @@ s32 gCurrentFramebufferIndex = 0;
  */
 enum_graphic_no graphic_no = GRAPHIC_NO_0;
 
+/**
+ *  Original name: pendingGFX
+ */
 u32 pendingGFX = 0;
 
+/**
+ *  Original name: vp
+ */
+Vp vp = { { { 0x280, 0x1E0, 0x1FF, 0 }, { 0x280, 0x1E0, 0x1FF, 0 } } };
+
+/**
+ *  Original name: static rdpinit_flag
+ */
+s32 rdpinit_flag_161 = 1;
 #endif
 
 /**
@@ -225,15 +238,15 @@ void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, 
  */
 void F3RCPinitRtn(void) {
     gSPSegment(gGfxHead++, 0x00, 0x00000000);
-    gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_80088328));
-    gSPViewport(gGfxHead++, &D_80088130);
+    gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(F3SetupRSP_dl));
+    gSPViewport(gGfxHead++, &vp);
 
-    if (D_80088140 == 1) {
-        gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_80088228));
-        D_80088140 = 0;
+    if (rdpinit_flag_161 == 1) {
+        gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(F3RDPinit_dl));
+        rdpinit_flag_161 = 0;
     }
 
-    gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_80088308));
+    gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(F3SetupRDP_dl));
     gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 }
 
@@ -258,7 +271,7 @@ void F3ClearFZRtn(u8 arg0) {
  * Original name: S2RDPinitRtn
  */
 void S2RDPinitRtn(u8 arg0) {
-    gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_80088150));
+    gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(S2RDPinit_dl));
     if (arg0) {
         gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
     } else {
@@ -273,7 +286,7 @@ void S2ClearCFBRtn(u8 arg0) {
     gDPSetColorImage(gGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH,
                      osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
     if (arg0) {
-        gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(D_800881B8));
+        gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(S2ClearCFB_dl));
         gDPFillRectangle(gGfxHead++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 }

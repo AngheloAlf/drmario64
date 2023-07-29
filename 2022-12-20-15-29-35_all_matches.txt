@@ -92,7 +92,7 @@ D_800ADB40 - found 33 matches total:
 0.99 - D_800B23C4
 
 D_800B0A5C - found 30 matches total:
-0.99 - D_80088130 (decompiled)
+0.99 - vp (decompiled)
 0.99 - D_80088574 (decompiled)
 0.99 - etc_vp (decompiled)
 0.99 - D_8008E370 (decompiled)

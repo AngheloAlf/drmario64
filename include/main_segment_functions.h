@@ -11,8 +11,6 @@
 #include "gamemap.h"
 
 
-void mainproc(void *arg);
-
 void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount);
 OSMesgQueue *func_8002A0CC(struct_800EB670 *arg0, UNK_PTR arg1);
 OSMesgQueue *func_8002A0D4(struct_800EB670 *arg0);
@@ -38,10 +36,6 @@ void draw_Tex(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
 // void func_8002CA68();
 // void func_8002CD08();
 // void func_8002CF04();
-
-enum_main_no main11(void);
-void adjust_story_ai(void);
-enum_main_no main12(void);
 
 // void func_80038EF0();
 // void func_8003901C();

@@ -14,6 +14,7 @@
 #include "main_segment_variables.h"
 #include "rom_offsets.h"
 #include "buffers.h"
+#include "main1x.h"
 
 const u8 _charSE_tbl[] = {
     SND_INDEX_94 - 3, SND_INDEX_84 - 3, SND_INDEX_38 - 3, SND_INDEX_43 - 3, SND_INDEX_48 - 3,
