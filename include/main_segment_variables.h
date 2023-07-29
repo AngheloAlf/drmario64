@@ -81,15 +81,9 @@ extern u8 capsCCnv_123[];
 // extern UNK_TYPE D_80088638;
 extern struct_ai_param ai_param_org[AI_PARAM_LEN1][AI_PARAM_LEN2];
 extern struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN];
-extern struct_mess_panel_tex_size mess_panel_tex_size;
-extern u16 mess_panel_lut[];
-extern u8 mess_panel_tex[];
-extern bool _cached_1332;
+
 // extern UNK_TYPE D_8008CFA0;
 extern s32 D_8008CFE0;
-
-// extern UNK_TYPE basc;
-// extern UNK_TYPE BASC;
 
 extern s32 D_8008E5D0;
 // extern UNK_TYPE D_8008E5E0;

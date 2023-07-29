@@ -18,6 +18,30 @@
 #include "libkmc/explog.h"
 
 #if VERSION_US
+char basc[] = "0123456789abcdefx";
+
+char BASC[] = "0123456789ABCDEFX";
+
+f64 _div_data[] = {
+    1e+1,
+    1e+2,
+    1e+4,
+    1e+8,
+    1e+16,
+    1e+32,
+    1e+64,
+    1e+128,
+    1e+256,
+};
+
+f64 _mul_data[] = {
+    1e-1, 1e-2, 1e-4, 1e-8, 1e-16, 1e-32, 1e-64, 1e-128, 1e-256,
+};
+
+static char fbuf[FBUF_SIZE];
+#endif
+
+#if VERSION_US
 char *cvt_radix(char buf[ABUFSIZE], unsigned int value, int radix, const char *binasc) {
     buf += ABUFSIZE;
 
@@ -121,11 +145,6 @@ void eprt_sub(char *s, s32 ndig, s32 exp, char *arg3, s32 letter_e, s32 sharp_fl
     *arg3++ = '\0';
 }
 #endif
-
-extern char fbuf[FBUF_SIZE];
-
-extern f64 _div_data[];
-extern f64 _mul_data[];
 
 typedef union {
     struct {
@@ -336,9 +355,6 @@ char *gcvt(double x, s32 ndig, char *bufp, s32 letter_e, s32 sharp_flg) {
     return bufp;
 }
 #endif
-
-extern char basc[];
-extern char BASC[];
 
 #if VERSION_US
 #ifdef NON_MATCHING

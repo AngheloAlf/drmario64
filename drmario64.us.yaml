@@ -349,6 +349,7 @@ segments:
 
       - [0x016650, c, main_segment/vr_init]
       - [0x016920, c, main_segment/aiset]
+
       - [0x01E3D0, c, main_segment/record]
 
       - [0x020D10, c, main_segment/020D10]
@@ -427,12 +428,18 @@ segments:
 
       - [0x070210, .data, main_segment/audio/003520]
       - [0x070220, .data, main_segment/main1x]
+
       - [0x0702A0, .data, main_segment/vr_init]
-      - [0x0702B0, data, main_segment/0702B0]
+      - [0x0702B0, data, main_segment/aiset]
+
+      - [0x0715C0, data, main_segment/record]
+
+      - [0x074DC0, data, main_segment/020D10]
 
       - [0x074E10, data, main_segment/game_etc]
 
-      - [0x075000, data, main_segment/075000]
+      - [0x075000, .data, main_segment/screen_print/printf_impl]
+      - [0x0750C0, data, main_segment/0750C0] # unreferenced?
 
       - start: 0x0750F0
         type: .data
@@ -518,7 +525,8 @@ segments:
 
       - { type: bss, vram: 0x800E53C0, name: main_segment/game_etc }
 
-      - { type: bss, vram: 0x800E5860, name: main_segment/800E5860 }
+      - { type: .bss, vram: 0x800E5860, name: main_segment/screen_print/printf_impl }
+      - { type: bss, vram: 0x800E5890, name: main_segment/800E5890 }
       - { type: bss, vram: 0x800E99C0, name: libmus/aud_sched }
       - { type: bss, vram: 0x800E99D0, name: main_segment/800E99D0 }
 

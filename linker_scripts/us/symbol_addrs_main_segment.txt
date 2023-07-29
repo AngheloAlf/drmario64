@@ -1260,7 +1260,8 @@ basc = 0x8008D1E0; //
 BASC = 0x8008D1F4; //
 _div_data = 0x8008D208; // type:f64 size:0x48
 _mul_data = 0x8008D250; // type:f64 size:0x48
-D_8008D298 = 0x8008D298; //
+
+D_8008D2A0 = 0x8008D2A0; //
 sDebugPrintFontTex = 0x8008D2D0; // size:0xF00
 sDebugPrintFontMap = 0x8008E1D0; //
 D_8008E290 = 0x8008E290; //

@@ -729,13 +729,6 @@ typedef struct struct_800E5968 {
     /* 0x1 */ s8 unk_1;
 } struct_800E5968; // size = 0x2
 
-typedef struct struct_mess_panel_tex_size {
-    /* 0x0 */ u16 width;
-    /* 0x2 */ u16 height;
-    /* 0x4 */ u16 unk_4;
-    /* 0x6 */ u16 unk_6;
-} struct_mess_panel_tex_size; // size = 0x8
-
 typedef struct struct_8007E260_arg0 {
     /* 0x0 */ f32 unk_0;
     /* 0x4 */ f32 unk_4;

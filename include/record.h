@@ -95,7 +95,15 @@ typedef struct struct_evs_mem_data {
     /* 0xCE */ UNK_TYPE1 unk_CE[0x2]; // pad?
 } struct_evs_mem_data; // size = 0xD0
 
-extern struct_evs_mem_data evs_mem_data[9];
+
+typedef struct struct_mess_panel_tex_size {
+    /* 0x0 */ u16 width;
+    /* 0x2 */ u16 height;
+    /* 0x4 */ u16 unk_4;
+    /* 0x6 */ u16 unk_6;
+} struct_mess_panel_tex_size; // size = 0x8
+
+
 
 void func_800365B0(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size);
 void func_800365C8(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size);
@@ -171,5 +179,17 @@ EepRomStatus EepRom_WriteAll(EepRom_WriteDif_arg3 arg0, s32 arg1);
 void EepRom_DumpErrMes(EepRomStatus status);
 void EepRom_DumpDataSize(void);
 void setSleepTimer(s32 milliseconds);
+
+// .data
+
+extern struct_mess_panel_tex_size mess_panel_tex_size;
+extern u16 mess_panel_lut[];
+extern u8 mess_panel_tex[];
+extern bool _cached_1332;
+
+
+
+extern struct_evs_mem_data evs_mem_data[9];
+
 
 #endif
