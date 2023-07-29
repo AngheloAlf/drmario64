@@ -57,8 +57,8 @@ extern u8 FlyingCnt[];
 extern UNK_TYPE1 GameSpeed[4];
 extern u8 FallSpeed[];
 extern u8 Score1p[][6];
-extern s32 mti;
-// extern UNK_TYPE D_80088484;
+
+// extern UNK_TYPE D_80088490;
 extern u8 aiVirusLevel[][3];
 extern u8 D_800884C0[][3];
 extern u8 aiSlideFSpeed[][3];
@@ -362,7 +362,6 @@ extern const Gfx fade_normal_texture_init_dl[];
 // bss
 
 extern u8 B_800B3640[0x31000];
-extern u32 mt[0x270];
 extern struct_game_state_data *pGameState;
 // extern UNK_TYPE B_800E5008;
 extern s32 delpos_cnt;

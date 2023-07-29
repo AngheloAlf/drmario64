@@ -2,14 +2,31 @@
  * Original filename: vr_init.c
  */
 
-#include "libultra.h"
+#include "vr_init.h"
 #include "include_asm.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_functions.h"
-#include "main_segment_variables.h"
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: mt
+ */
+// extern u32 mt[0x270];
+
+/**
+ * Original name: mti
+ */
+s32 mti = ARRAY_COUNT(mt) + 1;
+
+/**
+ * Original name: static mag01
+ */
+s32 mag01_108[] = {
+    0x00000000,
+    0x9908B0DF,
+};
+
+/**
+ * Original name: static sgenrand
+ */
 void sgenrand(u32 arg0) {
     mt[0] = arg0;
 
@@ -17,16 +34,12 @@ void sgenrand(u32 arg0) {
         mt[mti] = mt[mti - 1] * 69069;
     }
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/vr_init", genrand);
-#endif
-
-#if VERSION_CN
-extern s32 mag01_108[];
-
+/**
+ * Original name: static genrand
+ */
 u16 genrand(u16 arg0) {
+    u32 s4 = arg0;
     u32 temp_t0;
 
     do {
@@ -61,7 +74,7 @@ u16 genrand(u16 arg0) {
         temp_t0 ^= ((temp_t0 << 0xF) & 0xEFC60000);
         temp_t0 ^= (temp_t0 >> 0x12);
 
-        var_a2 = arg0;
+        var_a2 = s4;
 
         var_a3 = 0;
         do {
@@ -76,8 +89,7 @@ u16 genrand(u16 arg0) {
         }
 
         temp_t0 &= var_a2;
-    } while (temp_t0 >= arg0);
+    } while (temp_t0 >= s4);
 
     return temp_t0;
 }
-#endif

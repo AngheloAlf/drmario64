@@ -40,14 +40,10 @@ bool func_8005CF20(s32 arg0, u32 buttonMask) {
 }
 #endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_init
  */
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_init);
-#endif
-
-#if VERSION_CN
 void msgWnd_init(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
     uintptr_t temp_t1;
     u32 temp;
@@ -122,14 +118,10 @@ void msgWnd_clear(MessageWnd *messageWnd) {
 }
 #endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_layout
  */
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_layout);
-#endif
-
-#if VERSION_CN
 void msgWnd_layout(MessageWnd *messageWnd) {
     bool keepGoing = true;
     s32 var_s5 = 0;
@@ -207,42 +199,7 @@ void msgWnd_layout(MessageWnd *messageWnd) {
 }
 #endif
 
-#if VERSION_US
-#ifdef NON_MATCHING
-/**
- * Original name: msgWnd_addStr
- */
-void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1) {
-    s32 temp_a1;
-    s32 temp_s1;
-    s32 var_s2;
-    char *temp_a1_2;
-
-    temp_s1 = fontStr_length(messageWnd->unk_0C + messageWnd->unk_14);
-
-    var_s2 = fontStr_length(arg1);
-    if (messageWnd->unk_10 < (temp_s1 + var_s2 + 2)) {
-        var_s2 = (messageWnd->unk_10 - temp_s1) - 2;
-    }
-
-    memmove(messageWnd->unk_0C, messageWnd->unk_0C + messageWnd->unk_14, temp_s1);
-
-    messageWnd->unk_18 -= messageWnd->unk_14;
-    messageWnd->unk_14 = 0;
-    memmove(messageWnd->unk_0C + temp_s1, (void *)arg1, var_s2);
-    temp_a1 = temp_s1 + var_s2;
-    messageWnd->unk_0C[temp_a1] = 0x7E;
-    temp_a1_2 = temp_a1 + messageWnd->unk_0C;
-    temp_a1_2[1] = 0x7A;
-    messageWnd->hasEnded = false;
-    msgWnd_layout(messageWnd);
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_addStr);
-#endif
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1) {
     s32 length1 = fontStr_length(&messageWnd->unk_0C[messageWnd->unk_14]);
     s32 length2;
@@ -267,12 +224,8 @@ void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", func_8005D3F8);
-#endif
-
-#if VERSION_CN
-void func_8006371C_cn(MessageWnd *messageWnd) {
+#if VERSION_US || VERSION_CN
+void func_8005D3F8(MessageWnd *messageWnd) {
     messageWnd->unk_14 = messageWnd->unk_04[1].unk_0;
     messageWnd->color = messageWnd->unk_04[1].color;
 
@@ -280,14 +233,10 @@ void func_8006371C_cn(MessageWnd *messageWnd) {
 }
 #endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_update
  */
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_update);
-#endif
-
-#if VERSION_CN
 void msgWnd_update(MessageWnd *messageWnd) {
     s32 temp_s2 = messageWnd->unk_3C * 2 - messageWnd->unk_30;
     s32 width = msgWnd_getWidth(messageWnd);
@@ -304,7 +253,7 @@ void msgWnd_update(MessageWnd *messageWnd) {
         }
 
         messageWnd->line--;
-        func_8006371C_cn(messageWnd);
+        func_8005D3F8(messageWnd);
     }
 
     if (messageWnd->line >= messageWnd->unk_44) {

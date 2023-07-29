@@ -294,7 +294,7 @@ segments:
       - [0x014540, asm, main_segment/014540]
       - [0x015990, asm, main_segment/015990]
       - [0x016350, asm, main_segment/016350]
-      - [0x017060, asm, main_segment/017060]
+      - [0x017060, c, main_segment/vr_init]
       - [0x017330, asm, main_segment/017330]
 
       - [0x0255D0, c, main_segment/screen_print/printer]
@@ -326,6 +326,8 @@ segments:
 
       - [0x06D220, data, main_segment/06D220] # guess
       - [0x070D50, data, main_segment/070D50]
+      - [0x071080, .data, main_segment/vr_init]
+      - [0x071090, data, main_segment/071090]
 
       - start: 0x075ED0
         type: .data

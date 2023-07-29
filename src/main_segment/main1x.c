@@ -5,6 +5,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "record.h"
+#include "vr_init.h"
 
 /**
  * Original name: main11

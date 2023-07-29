@@ -413,6 +413,8 @@ segments:
       - [0x06FF30, .data, main_segment/graphic]
       - [0x06FF50, data, main_segment/06FF50]
       - [0x070220, data, main_segment/070220]
+      - [0x0702A0, .data, main_segment/vr_init]
+      - [0x0702B0, data, main_segment/0702B0]
 
       - [0x074E10, data, main_segment/game_etc]
 

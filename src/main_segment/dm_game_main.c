@@ -21,6 +21,7 @@
 #include "replay.h"
 #include "game_etc.h"
 #include "record.h"
+#include "vr_init.h"
 
 #if VERSION_US || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version

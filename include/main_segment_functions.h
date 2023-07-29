@@ -43,10 +43,6 @@ enum_main_no main11(void);
 void adjust_story_ai(void);
 enum_main_no main12(void);
 
-void sgenrand(u32 arg0);
-u16 genrand(u16 arg0);
-
-
 // void func_80038EF0();
 // void func_8003901C();
 // void func_800393DC();

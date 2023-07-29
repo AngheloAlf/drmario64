@@ -16,6 +16,7 @@
 #include "graphic.h"
 #include "joy.h"
 #include "record.h"
+#include "vr_init.h"
 
 void func_80075F30(void) {
     title_exit_flag = 0;
