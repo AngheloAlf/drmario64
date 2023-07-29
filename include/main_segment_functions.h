@@ -44,7 +44,7 @@ void adjust_story_ai(void);
 enum_main_no main12(void);
 
 void sgenrand(u32 arg0);
-u16 genrand(s32);
+u16 genrand(u16 arg0);
 
 
 // void func_80038EF0();

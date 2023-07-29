@@ -134,7 +134,7 @@ u8 *func_8007E760(char *dst, u8 arg1, u8 arg2, u8 arg3, u32 arg4, u16 arg5, u8 *
     u8 temp_t6;
 
     temp_t1 = D_80088100 & 0x1F;
-    temp_t6_2 = ((u32) D_80088100 >> 5) & 0x1F;
+    temp_t6_2 = ((u32)D_80088100 >> 5) & 0x1F;
 
     temp_t5 = arg6[0];
     temp_t6 = arg6[1];
