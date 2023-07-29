@@ -655,7 +655,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", main_story);
  * Original name: init_objMtx
  */
 void init_objMtx(void) {
-    pObjectMtx = &story_objectMtx[objMtx_FF];
+    pObjectMtx = story_objectMtx[objMtx_FF];
     objMtx_FF ^= 1;
 }
 #endif
