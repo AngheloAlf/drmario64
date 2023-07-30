@@ -270,7 +270,94 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexBlock);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexBlock);
+void StretchTexBlock(StretchTexBlock_arg0 *arg0) {
+    s32 sp18[2];
+    StretchTexBlock_arg0_unk_4C *temp_s0;
+    s32 var_a3;
+    s32 var_s2;
+    s32 var_s3;
+    s32 var_s4;
+    s32 var_v0_3;
+    s32 var_v1;
+
+    if (arg0->unk_28 < 0) {
+        var_a3 = -arg0->unk_28;
+        sp18[0] = -1;
+    } else if (arg0->unk_28 > 0) {
+        var_a3 = arg0->unk_28;
+        sp18[0] = 1;
+    } else {
+        return;
+    }
+
+    if (arg0->unk_2C < 0) {
+        var_s2 = -arg0->unk_2C;
+        sp18[1] = -1;
+    } else if (arg0->unk_2C > 0) {
+        var_s2 = arg0->unk_2C;
+        sp18[1] = 1;
+    } else {
+        return;
+    }
+
+    if ((arg0->unk_04 == 0) && (var_a3 == (arg0->unk_08 << 2)) && (var_s2 == (arg0->unk_0C << 2))) {
+        gDPSetTextureFilter((*arg0->gfxP)++, G_TF_POINT);
+        var_s4 = 0;
+        var_s3 = arg0->unk_38;
+    } else {
+        gDPSetTextureFilter((*arg0->gfxP)++, G_TF_BILERP);
+        var_s4 = -1;
+        var_s3 = MAX(arg0->unk_38 - 1, 1);
+    }
+
+    temp_s0 = &arg0->unk_4C;
+
+    arg0->unk_4C.unk_00 = arg0->unk_20;
+    temp_s0->unk_08 = arg0->unk_20 + var_a3;
+
+    if (sp18[0] < 0) {
+        var_v0_3 = (arg0->unk_08 - 1) << 5;
+    } else {
+        var_v0_3 = 0;
+    }
+    temp_s0->unk_10 = var_v0_3;
+
+    temp_s0->unk_18 = ((sp18[0] << 0xC) * arg0->unk_08) / var_a3;
+
+    for (arg0->unk_40 = 0; arg0->unk_40 < arg0->unk_0C; arg0->unk_40 += var_s3) {
+        arg0->unk_44 = MIN(arg0->unk_40 + arg0->unk_38, arg0->unk_0C);
+        arg0->unk_48 = arg0->unk_44 - arg0->unk_40;
+        if (arg0->unk_10 != NULL) {
+            arg0->unk_30(arg0);
+        }
+        if (arg0->unk_18 != NULL) {
+            arg0->unk_34(arg0);
+        }
+
+        if (sp18[1] < 0) {
+            temp_s0->unk_04 = arg0->unk_0C - arg0->unk_44;
+            temp_s0->unk_0C = arg0->unk_0C - arg0->unk_40;
+            temp_s0->unk_14 = arg0->unk_48 - 1;
+        } else {
+            temp_s0->unk_04 = arg0->unk_40;
+            temp_s0->unk_0C = arg0->unk_44;
+            temp_s0->unk_14 = 0;
+        }
+
+        temp_s0->unk_04 = arg0->unk_24 + (((temp_s0->unk_04 << 2) * var_s2) / (arg0->unk_0C << 2));
+        temp_s0->unk_0C = arg0->unk_24 + (((temp_s0->unk_0C << 2) * var_s2) / (arg0->unk_0C << 2));
+        temp_s0->unk_14 = temp_s0->unk_14 << 5;
+        temp_s0->unk_1C = (sp18[1] << 0xC) * arg0->unk_0C / var_s2;
+
+        var_v1 = temp_s0->unk_1C;
+        if (var_v1 < 0) {
+            var_v1 += 0x3F;
+        }
+        temp_s0->unk_14 -= (var_v1 >> 6) & var_s4;
+
+        arg0->unk_3C(arg0);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -561,7 +648,96 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexTile);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexTile);
+void StretchTexTile(StretchTexTile_arg0 *arg0) {
+    s32 sp18[2];
+    StretchTexTile_arg0_unk_58 *temp_s0;
+    s32 temp_s2;
+    s32 var_a3;
+    s32 var_s3;
+    s32 var_s4;
+    s32 var_s5;
+    s32 var_v1;
+    s32 v0;
+    s32 t0;
+
+    if (arg0->unk_38 < 0) {
+        var_a3 = -arg0->unk_38;
+        sp18[0] = -1;
+    } else if (arg0->unk_38 > 0) {
+        var_a3 = arg0->unk_38;
+        sp18[0] = 1;
+    } else {
+        return;
+    }
+
+    if (arg0->unk_3C < 0) {
+        var_s3 = -arg0->unk_3C;
+        sp18[1] = -1;
+    } else if (arg0->unk_3C > 0) {
+        var_s3 = arg0->unk_3C;
+        sp18[1] = 1;
+    } else {
+        return;
+    }
+
+    v0 = arg0->unk_20;
+    t0 = v0 + arg0->unk_28;
+    temp_s2 = arg0->unk_24 + arg0->unk_2C;
+    if ((arg0->unk_04 == 0) && (var_a3 == (arg0->unk_28 << 2)) && (var_s3 == (arg0->unk_2C << 2))) {
+        gDPSetTextureFilter((*arg0->gfxP)++, G_TF_POINT);
+        var_s5 = 0;
+        var_s4 = arg0->unk_48;
+    } else {
+        gDPSetTextureFilter((*arg0->gfxP)++, G_TF_BILERP);
+        var_s5 = -1;
+        var_s4 = MAX(arg0->unk_48 - 1, 1);
+    }
+
+    temp_s0 = &arg0->unk_58;
+
+    arg0->unk_58.unk_00 = arg0->unk_30;
+    temp_s0->unk_08 = arg0->unk_30 + var_a3;
+
+    temp_s0->unk_10 = ((sp18[0] < 0) ? (t0 - 1) : arg0->unk_20) << 5;
+
+    temp_s0->unk_18 = ((sp18[0] << 0xC) * arg0->unk_28) / var_a3;
+
+    for (arg0->unk_50 = arg0->unk_24; arg0->unk_50 < temp_s2; arg0->unk_50 += var_s4) {
+        arg0->unk_54 = MIN(arg0->unk_50 + arg0->unk_48, temp_s2);
+
+        if (arg0->unk_10 != NULL) {
+            arg0->unk_40(arg0);
+        }
+
+        if (arg0->unk_18 != NULL) {
+            arg0->unk_44(arg0);
+        }
+
+        if (sp18[1] < 0) {
+            temp_s0->unk_04 = temp_s2 - arg0->unk_54;
+            temp_s0->unk_0C = temp_s2 - arg0->unk_50;
+            temp_s0->unk_14 = arg0->unk_54 - 1;
+        } else {
+            temp_s0->unk_04 = arg0->unk_50;
+            temp_s0->unk_0C = arg0->unk_54;
+            temp_s0->unk_14 = arg0->unk_50;
+        }
+
+        temp_s0->unk_04 = arg0->unk_34 + ((((temp_s0->unk_04 - arg0->unk_24) << 2) * var_s3) / (s32) (arg0->unk_2C << 2));
+        temp_s0->unk_0C = arg0->unk_34 + ((((temp_s0->unk_0C - arg0->unk_24) << 2) * var_s3) / (s32) (arg0->unk_2C << 2));
+
+        temp_s0->unk_14 = temp_s0->unk_14 << 5;
+        temp_s0->unk_1C = ((sp18[1] << 0xC) * arg0->unk_2C) / var_s3;
+
+        var_v1 = temp_s0->unk_1C;
+        if (var_v1 < 0) {
+            var_v1 += 0x3F;
+        }
+        temp_s0->unk_14 -= (var_v1 >> 6) & var_s5;
+
+        arg0->unk_4C(arg0);
+    }
+}
 #endif
 
 #if VERSION_US
