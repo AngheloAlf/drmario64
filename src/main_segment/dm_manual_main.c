@@ -16,6 +16,7 @@
 #include "aif.h"
 #include "joy.h"
 #include "main1x.h"
+#include "tex_func.h"
 
 #if VERSION_US
 void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {

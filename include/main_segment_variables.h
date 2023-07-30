@@ -8,6 +8,7 @@
 #include "unknown_structs.h"
 #include "unk.h"
 #include "alignment.h"
+#include "stack.h"
 
 
 // data
@@ -84,13 +85,6 @@ extern struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN];
 
 // extern UNK_TYPE D_8008CFA0;
 extern s32 D_8008CFE0;
-
-extern s32 D_8008E5D0;
-// extern UNK_TYPE D_8008E5E0;
-extern Gfx alpha_texture_init_dl[];
-extern Gfx normal_texture_init_dl[];
-// extern UNK_TYPE D_8008E728;
-extern Gfx D_8008E748[];
 
 extern u8 virus_anime_table[3][4];
 // extern UNK_TYPE D_800A6F8C;
@@ -355,8 +349,8 @@ extern struct_800E5968 B_800E5968;
 extern s32 B_800E596C;
 extern s32 B_800E5970[];
 extern UNK_PTR heapTop; /* Original name: heapTop */
-extern TiTexData *_texAll;
-extern TiTexData *_texKaSa;
+extern struct TiTexData *_texAll;
+extern struct TiTexData *_texKaSa;
 extern s32 title_mode_type;
 extern s32 title_fade_count; /* Original name: title_fade_count */
 extern s32 title_fade_step;
@@ -457,7 +451,7 @@ extern struct_ai_char_data ai_char_data[AI_CHAR_DATA_LEN];
 // extern UNK_TYPE B_800EA0D0;
 extern u8 success;
 // extern UNK_TYPE attack_sprite_idx;
-extern struct_800EA290 B_800EA290;
+
 // extern UNK_TYPE B_800EB290;
 extern s32 B_800EB4CC;
 extern s32 B_800EB4D0;

@@ -14,6 +14,8 @@
 #include "rom_offsets.h"
 #include "audio/audio_stuff.h"
 #include "buffers.h"
+#include "tex_func.h"
+#include "graphic.h"
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_zoomfade);

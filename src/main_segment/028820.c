@@ -1,4 +1,4 @@
-#include "libultra.h"
+#include "028820.h"
 #include "include_asm.h"
 #include "unk.h"
 #include "macros_defines.h"
@@ -7,6 +7,9 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "dm_thread.h"
+
+#if VERSION_US || VERSION_CN
+bool D_8008E5D0 = false;
 
 void func_80040A00(void *arg0 UNUSED) {
     struct_800EA290 *ptr = &B_800EA290;
@@ -20,7 +23,7 @@ void func_80040A00(void *arg0 UNUSED) {
     }
 }
 
-s32 func_80040A58(void) {
+bool func_80040A58(void) {
     return D_8008E5D0;
 }
 
@@ -32,12 +35,12 @@ void func_80040A64(void) {
     osCreateMesgQueue(&ptr->mq, ptr->msg, ARRAY_COUNT(ptr->msg));
     osCreateThread(&ptr->thread, THREAD_ID_6, func_80040A00, NULL, STACK_TOP(ptr->stack), THREAD_PRI_6);
     osStartThread(&ptr->thread);
-    D_8008E5D0 = 1;
+    D_8008E5D0 = true;
 }
 
 void func_80040AE4(void) {
     osDestroyThread(&B_800EA290.thread);
-    D_8008E5D0 = 0;
+    D_8008E5D0 = false;
 }
 
 void func_80040B10(struct_800EA290_unk_11EC_callback callback, void *arg) {
@@ -55,3 +58,4 @@ void func_80040B10(struct_800EA290_unk_11EC_callback callback, void *arg) {
 s32 func_80040BA4(void) {
     return B_800EA290.unk_1240;
 }
+#endif

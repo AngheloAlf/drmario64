@@ -15,6 +15,7 @@
 #include "rom_offsets.h"
 #include "segment_symbols.h"
 #include "util.h"
+#include "tex_func.h"
 
 /**
  * Original name: static _size

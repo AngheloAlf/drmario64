@@ -2,7 +2,7 @@
  * Original filename: tex_func.c
  */
 
-#include "libultra.h"
+#include "tex_func.h"
 #include "include_asm.h"
 #include "unk.h"
 #include "macros_defines.h"
@@ -10,6 +10,29 @@
 #include "boot_variables.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+
+#if VERSION_US
+Gfx D_8008E5E0[] = {
+#include "main_segment/tex_func/D_8008E5E0.gfx.inc.c"
+};
+
+Gfx alpha_texture_init_dl[] = {
+#include "main_segment/tex_func/alpha_texture_init_dl.gfx.inc.c"
+};
+
+Gfx normal_texture_init_dl[] = {
+#include "main_segment/tex_func/normal_texture_init_dl.gfx.inc.c"
+};
+
+Gfx D_8008E728[] = {
+#include "main_segment/tex_func/D_8008E728.gfx.inc.c"
+};
+
+Gfx D_8008E748[] = {
+#include "main_segment/tex_func/D_8008E748.gfx.inc.c"
+};
+
+#endif
 
 #if VERSION_US
 /**

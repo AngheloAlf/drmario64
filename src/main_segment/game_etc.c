@@ -9,6 +9,7 @@
 #include "unknown_structs.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "tex_func.h"
 
 #if VERSION_US
 #if 0

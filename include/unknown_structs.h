@@ -17,6 +17,8 @@
 #include "gamemap.h"
 #include "main.h"
 
+struct TiTexData;
+struct TiTexDataEntry;
 
 typedef struct struct_800FAF98_unk_64 {
     /* 0x0 */ struct struct_800FAF98_unk_64 *unk_0;
@@ -77,23 +79,6 @@ typedef struct struct_8005FC6C_arg0 {
     /* 0x00C */ UNK_TYPE1 UNK_00C[0x2E8];
 } struct_8005FC6C_arg0; // size = 0x2F4
 
-typedef void (*struct_800EA290_unk_11EC_callback)(void*);
-
-typedef struct struct_800EA290_unk_11EC {
-    /* 0x0 */ struct_800EA290_unk_11EC_callback callback;
-    /* 0x4 */ void *arg;
-} struct_800EA290_unk_11EC; // size = 0x8
-
-typedef struct struct_800EA290 {
-    /* 0x0000 */ STACK(stack, 0x1000);
-    /* 0x1000 */ OSThread thread;
-    /* 0x11B0 */ OSMesgQueue mq;
-    /* 0x11C8 */ OSMesg msg[9];
-    /* 0x11EC */ struct_800EA290_unk_11EC unk_11EC[10];
-    /* 0x123C */ s32 unk_123C;
-    /* 0x1240 */ s32 unk_1240;
-} struct_800EA290; // size >= 0x1244
-
 
 typedef struct struct_watchGame_unk_0B8_unk_00 {
     /* 0x00 */ UNK_TYPE4 unk_00;
@@ -113,20 +98,6 @@ typedef struct struct_watchGame_unk_0B8 {
     /* 0x00 */ struct_watchGame_unk_0B8_unk_00 unk_00[8];
     /* 0xA0 */ UNK_TYPE4 unk_A0;
 } struct_watchGame_unk_0B8; // size = 0xA4
-
-typedef struct TiTexDataEntry_unk_0 {
-    /* 0x0 */ TexturePtr unk_0;
-    /* 0x4 */ TexturePtr unk_4;
-} TiTexDataEntry_unk_0; // size >= 0x8
-
-typedef struct TiTexDataEntry {
-    /* 0x0 */ TiTexDataEntry_unk_0 *unk_0;
-    /* 0x4 */ u16 *unk_4;
-} TiTexDataEntry; // size = 0x8
-
-typedef struct TiTexData {
-    /* 0x00 */ TiTexDataEntry unk_00[25]; // guessed size
-} TiTexData; // size >= 0xC8
 
 // SnapBg?
 typedef struct struct_watchGame_unk_87C {
@@ -191,13 +162,13 @@ typedef struct struct_watchGame {
     /* 0x424 */ s32 unk_424;
     /* 0x428 */ UNK_TYPE4 unk_428;
     /* 0x42C */ UNK_TYPE1 unk_42C[0x4];
-    /* 0x430 */ TiTexData *unk_430;
-    /* 0x434 */ TiTexData *unk_434;
-    /* 0x448 */ TiTexData *unk_438;
-    /* 0x43C */ TiTexData *unk_43C;
-    /* 0x440 */ TiTexData *unk_440;
-    /* 0x444 */ TiTexData *unk_444;
-    /* 0x448 */ TiTexData *unk_448;
+    /* 0x430 */ struct TiTexData *unk_430;
+    /* 0x434 */ struct TiTexData *unk_434;
+    /* 0x448 */ struct TiTexData *unk_438;
+    /* 0x43C */ struct TiTexData *unk_43C;
+    /* 0x440 */ struct TiTexData *unk_440;
+    /* 0x444 */ struct TiTexData *unk_444;
+    /* 0x448 */ struct TiTexData *unk_448;
     /* 0x44C */ AnimeState animeStates[3];
     /* 0x50C */ AnimeSmog animeSmogs[3];
     /* 0x878 */ UNK_TYPE unk_878;
@@ -234,66 +205,6 @@ typedef struct struct_watchGame {
     /* 0xAD8 */ RecordWritingMessage recMessage;
 } struct_watchGame; // size = 0xB60
 
-
-struct StretchTexBlock_arg0;
-
-typedef void (*StretchTexBlock_arg0_callback)(struct StretchTexBlock_arg0 *arg0);
-
-typedef struct StretchTexBlock_arg0 {
-    /* 0x00 */ Gfx **unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ TexturePtr unk_10;
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ TexturePtr unk_18;
-    /* 0x1C */ s32 unk_1C;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
-    /* 0x28 */ s32 unk_28;
-    /* 0x2C */ s32 unk_2C;
-    /* 0x30 */ StretchTexBlock_arg0_callback unk_30;
-    /* 0x34 */ StretchTexBlock_arg0_callback unk_34;
-    /* 0x38 */ s32 unk_38;
-    /* 0x3C */ StretchTexBlock_arg0_callback unk_3C;
-    /* 0x40 */ s32 unk_40;
-    /* 0x44 */ s32 unk_44;
-    /* 0x48 */ s32 unk_48;
-    /* 0x4C */ s32 unk_4C;
-    /* 0x50 */ s32 unk_50;
-    /* 0x54 */ s32 unk_54;
-    /* 0x58 */ UNK_TYPE1 unk_58[0x18];
-} StretchTexBlock_arg0; // size >= 0x70?
-
-struct StretchTexTile_arg0;
-
-typedef void (*StretchTexTile_arg0_callback)(struct StretchTexTile_arg0 *arg0);
-
-typedef struct StretchTexTile_arg0 {
-    /* 0x00 */ Gfx **gfxP;
-    /* 0x04 */ UNK_TYPE unk_04;
-    /* 0x08 */ UNK_TYPE unk_08;
-    /* 0x0C */ UNK_TYPE unk_0C;
-    /* 0x10 */ TexturePtr unk_10;
-    /* 0x14 */ UNK_TYPE unk_14;
-    /* 0x18 */ TexturePtr unk_18;
-    /* 0x1C */ UNK_TYPE unk_1C;
-    /* 0x20 */ UNK_TYPE unk_20;
-    /* 0x24 */ UNK_TYPE unk_24;
-    /* 0x28 */ UNK_TYPE unk_28;
-    /* 0x2C */ UNK_TYPE unk_2C;
-    /* 0x30 */ UNK_TYPE unk_30;
-    /* 0x34 */ UNK_TYPE unk_34;
-    /* 0x38 */ UNK_TYPE unk_38;
-    /* 0x3C */ UNK_TYPE unk_3C;
-    /* 0x40 */ StretchTexTile_arg0_callback unk_40;
-    /* 0x44 */ StretchTexTile_arg0_callback unk_44;
-    /* 0x48 */ UNK_TYPE unk_48;
-    /* 0x4C */ StretchTexTile_arg0_callback unk_4C;
-    /* 0x50 */ UNK_TYPE unk_50;
-    /* 0x54 */ UNK_TYPE unk_54;
-    /* 0x58 */ UNK_TYPE1 unk_58[0x20];
-} StretchTexTile_arg0; // size = 0x78
 
 // GraphBin?
 typedef struct struct_800E8750 {
@@ -545,22 +456,22 @@ typedef struct struct_watchMenu {
     /* 0x02464 */ UNK_TYPE unk_02464;
     /* 0x02468 */ struct_watchMenu_unk_02470 *unk_02468[2];
     /* 0x02470 */ struct_watchMenu_unk_02470 *unk_02470[2];
-    /* 0x02478 */ TiTexData *unk_02478;
-    /* 0x0247C */ TiTexData *unk_0247C;
+    /* 0x02478 */ struct TiTexData *unk_02478;
+    /* 0x0247C */ struct TiTexData *unk_0247C;
     /* 0x02480 */ UNK_TYPE1 unk_02480[4];
-    /* 0x02484 */ TiTexData *unk_02484;
-    /* 0x02488 */ TiTexData *unk_02488;
-    /* 0x0248C */ TiTexData *unk_0248C;
-    /* 0x02490 */ TiTexData *unk_02490;
-    /* 0x02494 */ TiTexData *unk_02494;
-    /* 0x02498 */ TiTexData *unk_02498;
-    /* 0x0249C */ TiTexData *unk_0249C;
-    /* 0x024A0 */ TiTexData *unk_024A0;
-    /* 0x024A4 */ TiTexData *unk_024A4;
-    /* 0x024A8 */ TiTexData *unk_024A8;
-    /* 0x024AC */ TiTexData *unk_024AC;
-    /* 0x024B0 */ TiTexData *unk_024B0;
-    /* 0x024B4 */ TiTexData *unk_024B4;
+    /* 0x02484 */ struct TiTexData *unk_02484;
+    /* 0x02488 */ struct TiTexData *unk_02488;
+    /* 0x0248C */ struct TiTexData *unk_0248C;
+    /* 0x02490 */ struct TiTexData *unk_02490;
+    /* 0x02494 */ struct TiTexData *unk_02494;
+    /* 0x02498 */ struct TiTexData *unk_02498;
+    /* 0x0249C */ struct TiTexData *unk_0249C;
+    /* 0x024A0 */ struct TiTexData *unk_024A0;
+    /* 0x024A4 */ struct TiTexData *unk_024A4;
+    /* 0x024A8 */ struct TiTexData *unk_024A8;
+    /* 0x024AC */ struct TiTexData *unk_024AC;
+    /* 0x024B0 */ struct TiTexData *unk_024B0;
+    /* 0x024B4 */ struct TiTexData *unk_024B4;
     /* 0x024B8 */ MenuItem unk_024B8[1];
     /* 0x02548 */ UNK_TYPE unk_02548;
     /* 0x0254C */ UNK_TYPE1 unk_0254C[0x12C];

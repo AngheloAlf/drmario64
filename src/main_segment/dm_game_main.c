@@ -23,6 +23,8 @@
 #include "record.h"
 #include "vr_init.h"
 #include "main1x.h"
+#include "028820.h"
+#include "tex_func.h"
 
 #if VERSION_US || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version

@@ -459,7 +459,18 @@ segments:
 
       - [0x076190, .data, main_segment/debug_menu]
 
-      - [0x0763F0, data, main_segment/0763F0]
+      - [0x0763F0, .data, main_segment/028820]
+
+      - start: 0x076400
+        type: .data
+        name: main_segment/tex_func
+        subsegments:
+          - { start: 0x076400, type: gfx, data_only: True, name: main_segment/tex_func/D_8008E5E0 }
+          - { start: 0x076470, type: gfx, data_only: True, name: main_segment/tex_func/alpha_texture_init_dl }
+          - { start: 0x0764D8, type: gfx, data_only: True, name: main_segment/tex_func/normal_texture_init_dl }
+          - { start: 0x076548, type: gfx, data_only: True, name: main_segment/tex_func/D_8008E728 }
+          - { start: 0x076568, type: gfx, data_only: True, name: main_segment/tex_func/D_8008E748 }
+
       - [0x076590, .data, main_segment/main_menu]
 
       - start: 0x0766E0
@@ -474,6 +485,8 @@ segments:
           - [0x08B8F0]
 
       - [0x08EDA0, data, main_segment/08EDA0]
+
+      - [0x093140, data, main_segment/066840]
 
       - [0x093A70, data, libmus/player]
       - [0x093B30, .data, ../lib/libmus/src/player_fx]

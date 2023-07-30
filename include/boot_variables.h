@@ -7,6 +7,7 @@
 #include "unk.h"
 #include "alignment.h"
 #include "hasm.h"
+#include "stack.h"
 
 // data
 

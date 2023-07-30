@@ -14,6 +14,7 @@
 #include "recwritingmsg.h"
 #include "mainmenu.h"
 #include "main1x.h"
+#include "tex_func.h"
 
 #if VERSION_US
 struct_mess_panel_tex_size mess_panel_tex_size = { 200, 69, 8, 1 };

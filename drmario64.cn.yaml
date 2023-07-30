@@ -381,7 +381,9 @@ segments:
 
       - [0x080DF0, .data, main_segment/debug_menu]
 
-      - [0x081050, data, main_segment/081050]
+      - [0x081050, .data, main_segment/028820]
+
+      - [0x081060, data, main_segment/tex_func]
 
       - [0x0811F0, .data, main_segment/main_menu]
 

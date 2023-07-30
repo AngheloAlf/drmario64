@@ -19,6 +19,7 @@
 #include "vr_init.h"
 #include "graphics/graphic_dlists.h"
 #include "main1x.h"
+#include "tex_func.h"
 
 void func_80075F30(void) {
     title_exit_flag = 0;

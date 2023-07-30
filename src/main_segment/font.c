@@ -5,6 +5,7 @@
 #include "unk.h"
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "tex_func.h"
 
 typedef struct struct_800A6F70 {
     /* 0x0 */ u8 index;
