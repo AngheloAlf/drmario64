@@ -484,8 +484,14 @@ segments:
           - [0x08B8A8, i4, main_segment/font/font_grade_tex.i4, 12, 12]
           - [0x08B8F0]
 
-      - [0x08EDA0, data, main_segment/08EDA0]
+      - [0x08EDA0, data, main_segment/dm_game_main]
 
+      - [0x08F1B0, data, main_segment/dm_title_main]
+
+      - [0x08F1C0, data, main_segment/main_story]
+
+      - [0x092C80, data, main_segment/calc]
+      - [0x092F90, data, main_segment/066580]
       - [0x093140, data, main_segment/066840]
 
       - [0x093A70, data, libmus/player]
