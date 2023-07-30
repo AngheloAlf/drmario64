@@ -285,7 +285,7 @@ transFunc_curve - found 2 matches total:
 0.99 - scaleFunc_curve
 0.99 - colorFunc_curve
 
-func_80043A14 - found 2 matches total:
+StretchAlphaTexTile_LoadColorTex - found 2 matches total:
 1.00 - func_80044940
 0.99 - func_800443F4
 
@@ -386,7 +386,7 @@ D_800ACFC8 - found 1 matches total:
 D_800B0B20 - found 1 matches total:
 0.99 - cap_pal_4164
 
-func_8004371C - found 1 matches total:
+StretchTexTile_ScisRect - found 1 matches total:
 0.99 - StretchTexBlock_ScisRect
 
 _setNextMain - found 1 matches total:

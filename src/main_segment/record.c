@@ -15,9 +15,13 @@
 #include "mainmenu.h"
 #include "main1x.h"
 #include "tex_func.h"
+#include "libc/assert.h"
 
 #if VERSION_US
-struct_mess_panel_tex_size mess_panel_tex_size = { 200, 69, 8, 1 };
+#define MESS_PANEL_TEX_WIDTH 200
+#define MESS_PANEL_TEX_HEIGHT 69
+
+struct_mess_panel_tex_size mess_panel_tex_size = { MESS_PANEL_TEX_WIDTH, MESS_PANEL_TEX_HEIGHT, 8, 1 };
 
 u16 mess_panel_lut[] ALIGNED8 = {
 #include "main_segment/record/mess_panel_lut.rgba16.inc"
@@ -27,6 +31,9 @@ u16 mess_panel_lut[] ALIGNED8 = {
 u8 mess_panel_tex[] ALIGNED8 = {
 #include "main_segment/record/mess_panel_tex.i8.inc"
 };
+
+static_assert(sizeof(mess_panel_tex) == MESS_PANEL_TEX_WIDTH * MESS_PANEL_TEX_HEIGHT * sizeof(u8),
+              "Texture does not have the expected resolution");
 
 bool _cached_1332 = false;
 #endif
