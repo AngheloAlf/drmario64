@@ -78,14 +78,14 @@ typedef struct StretchTexTile_arg0_unk_58 {
 
 typedef struct StretchTexTile_arg0 {
     /* 0x00 */ Gfx **gfxP;
-    /* 0x04 */ UNK_TYPE unk_04;
+    /* 0x04 */ Vtx **vtxP;
     /* 0x08 */ UNK_TYPE unk_08;
     /* 0x0C */ UNK_TYPE unk_0C;
     /* 0x10 */ TexturePtr unk_10;
-    /* 0x14 */ UNK_TYPE unk_14;
+    /* 0x14 */ s32 unk_14; // width
     /* 0x18 */ TexturePtr unk_18;
     /* 0x1C */ UNK_TYPE unk_1C;
-    /* 0x20 */ UNK_TYPE unk_20;
+    /* 0x20 */ s32 unk_20; // uls
     /* 0x24 */ UNK_TYPE unk_24;
     /* 0x28 */ UNK_TYPE unk_28;
     /* 0x2C */ UNK_TYPE unk_2C;
@@ -97,7 +97,7 @@ typedef struct StretchTexTile_arg0 {
     /* 0x44 */ StretchTexTile_arg0_callback unk_44;
     /* 0x48 */ UNK_TYPE unk_48;
     /* 0x4C */ StretchTexTile_arg0_callback unk_4C;
-    /* 0x50 */ UNK_TYPE unk_50;
+    /* 0x50 */ s32 unk_50; // ult
     /* 0x54 */ UNK_TYPE unk_54;
     /* 0x58 */ StretchTexTile_arg0_unk_58 unk_58;
 } StretchTexTile_arg0; // size = 0x78

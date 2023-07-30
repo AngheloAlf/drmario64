@@ -628,5 +628,4 @@ INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BDB4_gw);
 INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BDE0_gw);
 
 INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BE04_gw);
-
 #endif

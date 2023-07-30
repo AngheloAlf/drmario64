@@ -268,8 +268,8 @@ void StretchAlphaTexBlock_LoadAlphaTex(StretchTexBlock_arg0 *arg0) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void StretchAlphaTexBlock(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 arg4, TexturePtr arg5, s32 arg6, f32 arg7,
-                          f32 arg8, f32 arg9, f32 argA) {
+void StretchAlphaTexBlock(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 arg4, TexturePtr arg5, s32 arg6,
+                          f32 arg7, f32 arg8, f32 arg9, f32 argA) {
     StretchTexBlock_arg0 sp18;
 
     sp18.gfxP = gfxP;
@@ -527,7 +527,7 @@ void StretchTexTile(StretchTexTile_arg0 *arg0) {
     v0 = arg0->unk_20;
     t0 = v0 + arg0->unk_28;
     temp_s2 = arg0->unk_24 + arg0->unk_2C;
-    if ((arg0->unk_04 == 0) && (var_a3 == (arg0->unk_28 << 2)) && (var_s3 == (arg0->unk_2C << 2))) {
+    if ((arg0->vtxP == NULL) && (var_a3 == (arg0->unk_28 << 2)) && (var_s3 == (arg0->unk_2C << 2))) {
         gDPSetTextureFilter((*arg0->gfxP)++, G_TF_POINT);
         var_s5 = 0;
         var_s4 = arg0->unk_48;
@@ -567,8 +567,10 @@ void StretchTexTile(StretchTexTile_arg0 *arg0) {
             temp_s0->unk_14 = arg0->unk_50;
         }
 
-        temp_s0->unk_04 = arg0->unk_34 + ((((temp_s0->unk_04 - arg0->unk_24) << 2) * var_s3) / (s32) (arg0->unk_2C << 2));
-        temp_s0->unk_0C = arg0->unk_34 + ((((temp_s0->unk_0C - arg0->unk_24) << 2) * var_s3) / (s32) (arg0->unk_2C << 2));
+        temp_s0->unk_04 =
+            arg0->unk_34 + ((((temp_s0->unk_04 - arg0->unk_24) << 2) * var_s3) / (s32)(arg0->unk_2C << 2));
+        temp_s0->unk_0C =
+            arg0->unk_34 + ((((temp_s0->unk_0C - arg0->unk_24) << 2) * var_s3) / (s32)(arg0->unk_2C << 2));
 
         temp_s0->unk_14 = temp_s0->unk_14 << 5;
         temp_s0->unk_1C = ((sp18[1] << 0xC) * arg0->unk_2C) / var_s3;
@@ -598,7 +600,46 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_800438D0);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80045EE0_cn);
+void RectTexTile_ScisRect(StretchTexTile_arg0 *arg0) {
+    Gfx *gfx = *arg0->gfxP;
+    Vtx *vtx = *arg0->vtxP;
+    StretchTexTile_arg0_unk_58 *temp_a3;
+
+    gSPVertex(gfx++, vtx, 4, 0);
+    gSP2Triangles(gfx++, 0, 1, 2, 0, 3, 2, 1, 0);
+
+    temp_a3 = &arg0->unk_58;
+
+    vtx[0].v.ob[0] = vtx[1].v.ob[0] = temp_a3->unk_00 >> 2;
+
+    vtx[0].v.ob[1] = vtx[2].v.ob[1] = temp_a3->unk_04 >> 2;
+
+    vtx[2].v.ob[0] = vtx[3].v.ob[0] = temp_a3->unk_08 >> 2;
+
+    vtx[1].v.ob[1] = vtx[3].v.ob[1] = temp_a3->unk_0C >> 2;
+
+    vtx[0].v.tc[0] = vtx[1].v.tc[0] = (u16)temp_a3->unk_10 * 4;
+
+    vtx[0].v.tc[1] = vtx[2].v.tc[1] = (u16)temp_a3->unk_14 * 4;
+
+    vtx[2].v.tc[0] = vtx[3].v.tc[0] =
+        (((temp_a3->unk_08 - temp_a3->unk_00) * temp_a3->unk_18) + (temp_a3->unk_10 << 7)) >> 5;
+
+    vtx[1].v.tc[1] = vtx[3].v.tc[1] =
+        (((temp_a3->unk_0C - temp_a3->unk_04) * temp_a3->unk_1C) + (temp_a3->unk_14 << 7)) >> 5;
+
+    *(u32 *)&vtx[3].v.ob[2] = 0;
+    *(u32 *)&vtx[2].v.ob[2] = 0;
+    *(u32 *)&vtx[1].v.ob[2] = 0;
+    *(u32 *)&vtx[0].v.ob[2] = 0;
+    *(u32 *)vtx[3].v.cn = 0xFFFFFFFF;
+    *(u32 *)vtx[2].v.cn = 0xFFFFFFFF;
+    *(u32 *)vtx[1].v.cn = 0xFFFFFFFF;
+    *(u32 *)vtx[0].v.cn = 0xFFFFFFFF;
+
+    *arg0->vtxP = &vtx[4];
+    *arg0->gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -606,62 +647,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchAlphaTexTile_Loa
 #endif
 
 #if VERSION_CN
-#if 0
 void StretchAlphaTexTile_LoadColorTex(StretchTexTile_arg0 *arg0) {
-    Gfx **temp_a1;
-    Gfx **temp_a1_2;
-    Gfx **temp_a1_3;
-    Gfx **temp_a2;
-    Gfx **temp_a2_2;
-    Gfx **temp_a2_3;
-    Gfx **temp_a2_4;
-    Gfx *temp_v0;
-    Gfx *temp_v0_2;
-    Gfx *temp_v1;
-    Gfx *temp_v1_2;
-    Gfx *temp_v1_3;
-    Gfx *temp_v1_4;
-    Gfx *temp_v1_5;
-
-    temp_a1 = arg0->gfxP;
-    temp_v1 = *temp_a1;
-    *temp_a1 = temp_v1 + 8;
-    temp_v1->words.w0 = ((arg0->unk_14 - 1) & 0xFFF) | 0xFD100000;
-    temp_v1->words.w1 = (u32) arg0->unk_10;
-    temp_a2 = arg0->gfxP;
-    temp_v1_2 = *temp_a2;
-    *temp_a2 = temp_v1_2 + 8;
-    temp_v1_2->words.w1 = 0x07080200;
-    temp_v1_2->words.w0 = ((((s32) ((arg0->unk_28 * 2) + 7) >> 3) & 0x1FF) << 9) | 0xF5100000;
-    temp_a1_2 = arg0->gfxP;
-    temp_v1_3 = *temp_a1_2;
-    *temp_a1_2 = temp_v1_3 + 8;
-    temp_v1_3->words.w0 = 0xE6000000;
-    temp_v1_3->words.w1 = 0;
-    temp_a1_3 = arg0->gfxP;
-    temp_v0 = *temp_a1_3;
-    *temp_a1_3 = temp_v0 + 8;
-    temp_v0->words.w0 = (((arg0->unk_20 * 4) & 0xFFF) << 0xC) | (((arg0->unk_50 * 4) & 0xFFF) | 0xF4000000);
-    temp_v0->words.w1 = (((((arg0->unk_20 + arg0->unk_28) - 1) * 4) & 0xFFF) << 0xC) | ((((arg0->unk_54 - 1) * 4) & 0xFFF) | 0x07000000);
-    temp_a2_2 = arg0->gfxP;
-    temp_v0_2 = *temp_a2_2;
-    *temp_a2_2 = temp_v0_2 + 8;
-    temp_v0_2->words.w0 = 0xE7000000;
-    temp_v0_2->words.w1 = 0;
-    temp_a2_3 = arg0->gfxP;
-    temp_v1_4 = *temp_a2_3;
-    *temp_a2_3 = temp_v1_4 + 8;
-    temp_v1_4->words.w1 = 0x80200;
-    temp_v1_4->words.w0 = ((((s32) ((arg0->unk_28 * 2) + 7) >> 3) & 0x1FF) << 9) | 0xF5100000;
-    temp_a2_4 = arg0->gfxP;
-    temp_v1_5 = *temp_a2_4;
-    *temp_a2_4 = temp_v1_5 + 8;
-    temp_v1_5->words.w0 = (((arg0->unk_20 * 4) & 0xFFF) << 0xC) | (((arg0->unk_50 * 4) & 0xFFF) | 0xF2000000);
-    temp_v1_5->words.w1 = (((((arg0->unk_20 + arg0->unk_28) - 1) * 4) & 0xFFF) << 0xC) | (((arg0->unk_54 - 1) * 4) & 0xFFF);
+    gDPLoadTextureTile((*arg0->gfxP)++, arg0->unk_10, G_IM_FMT_RGBA, G_IM_SIZ_16b, arg0->unk_14, 0, arg0->unk_20,
+                       arg0->unk_50, ((arg0->unk_20 + arg0->unk_28) - 1), (arg0->unk_54 - 1), 0,
+                       G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                       G_TX_NOLOD);
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchAlphaTexTile_LoadColorTex);
-#endif
 #endif
 
 #if VERSION_US
@@ -669,7 +660,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchAlphaTexTile_Loa
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchAlphaTexTile_LoadAlphaTex);
+void StretchAlphaTexTile_LoadAlphaTex(StretchTexTile_arg0 *arg0) {
+    gDPLoadMultiTile_4b((*arg0->gfxP)++, arg0->unk_18, 0x019A, 1, G_IM_FMT_I, arg0->unk_1C, 0, arg0->unk_20,
+                        arg0->unk_50, (arg0->unk_20 + arg0->unk_28) - 1, arg0->unk_54 - 1, 0,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -678,7 +674,7 @@ void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, void *arg3, s32 arg4, v
     StretchTexTile_arg0 sp18;
 
     sp18.gfxP = gfxP;
-    sp18.unk_04 = 0;
+    sp18.vtxP = NULL;
     sp18.unk_08 = arg1;
     sp18.unk_0C = arg2;
     sp18.unk_10 = arg3;
@@ -708,66 +704,36 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80043F18);
 #endif
 
 #if VERSION_CN
-#if 0
-? StretchTexTile(s32 *, s32, s32, s32);           /* extern */
-extern ? func_80045EE0_cn;
-extern ? StretchAlphaTexTile_LoadColorTex;
-extern ? StretchAlphaTexTile_LoadAlphaTex;
+void RectAlphaTexTile(Gfx **gfxP, Vtx **vtxP, s32 arg2, s32 arg3, void *arg4, s32 arg5, void *arg6, s32 arg7, s32 arg8,
+                      s32 arg9, s32 argA, s32 argB, f32 argC, f32 argD, f32 argE, f32 argF) {
+    StretchTexTile_arg0 sp18;
 
-void RectAlphaTexTile(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9, s32 argA, s32 argB, f32 argC, f32 argD, f32 argE, f32 argF) {
-    s32 sp18;
-    s32 sp1C;
-    s32 sp20;
-    s32 sp24;
-    s32 sp28;
-    s32 sp2C;
-    s32 sp30;
-    s32 sp34;
-    s32 sp38;
-    s32 sp3C;
-    s32 sp40;
-    s32 sp44;
-    s32 sp48;
-    s32 sp4C;
-    s32 sp50;
-    s32 sp54;
-    ? *sp58;
-    ? *sp5C;
-    s32 sp60;
-    ? *sp64;
-    s32 temp_a2;
-    s32 var_a3;
+    sp18.gfxP = gfxP;
+    sp18.vtxP = vtxP;
+    sp18.unk_08 = arg2;
+    sp18.unk_0C = arg3;
 
-    sp1C = arg1;
-    sp58 = &StretchAlphaTexTile_LoadColorTex;
-    sp5C = &StretchAlphaTexTile_LoadAlphaTex;
-    sp20 = arg2;
-    sp18 = arg0;
-    sp24 = arg3;
-    var_a3 = (arg7 + 0xF) & ~0xF;
-    sp28 = arg4;
-    sp34 = arg7;
-    sp2C = arg5;
-    sp30 = arg6;
-    sp3C = arg9;
-    sp40 = argA;
-    sp44 = argB;
-    sp38 = arg8;
-    temp_a2 = (arg5 + 3) & ~3;
-    sp48 = (s32) ((f64) argC * 4.0);
-    sp4C = (s32) ((f64) argD * 4.0);
-    sp50 = (s32) ((f64) argE * 4.0);
-    sp54 = (s32) ((f64) argF * 4.0);
-    if (var_a3 < temp_a2) {
-        var_a3 = temp_a2;
-    }
-    sp64 = &func_80045EE0_cn;
-    sp60 = 0x660 / var_a3;
-    StretchTexTile(&sp18, argB, temp_a2, var_a3);
+    sp18.unk_10 = arg4;
+    sp18.unk_14 = arg5;
+    sp18.unk_18 = arg6;
+    sp18.unk_1C = arg7;
+    sp18.unk_20 = arg8;
+    sp18.unk_24 = arg9;
+    sp18.unk_28 = argA;
+    sp18.unk_2C = argB;
+    sp18.unk_30 = argC * 4.0;
+    sp18.unk_34 = argD * 4.0;
+    sp18.unk_38 = argE * 4.0;
+    sp18.unk_3C = argF * 4.0;
+
+    sp18.unk_40 = StretchAlphaTexTile_LoadColorTex;
+    sp18.unk_44 = StretchAlphaTexTile_LoadAlphaTex;
+
+    sp18.unk_48 = 0x660 / MAX(ALIGN4(arg5), ALIGN16(arg7));
+    sp18.unk_4C = RectTexTile_ScisRect;
+
+    StretchTexTile(&sp18);
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", RectAlphaTexTile);
-#endif
 #endif
 
 #if VERSION_US
@@ -791,7 +757,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexTile8_LoadTex
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexTile8_LoadTex);
+void StretchTexTile8_LoadTex(StretchTexTile_arg0 *arg0) {
+    gDPLoadTextureTile((*arg0->gfxP)++, arg0->unk_10, G_IM_FMT_CI, G_IM_SIZ_8b, arg0->unk_14, 0, arg0->unk_20,
+                       arg0->unk_50, arg0->unk_20 + arg0->unk_28 - 1, arg0->unk_54 - 1, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                       G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -800,7 +770,7 @@ void StretchTexTile8(Gfx **gfxP, s32 width, s32 height, u16 *tlut, u8 *tex, s32 
     StretchTexTile_arg0 sp18;
 
     sp18.gfxP = gfxP;
-    sp18.unk_04 = 0;
+    sp18.vtxP = NULL;
     sp18.unk_08 = width;
     sp18.unk_0C = height;
     sp18.unk_10 = tex;
