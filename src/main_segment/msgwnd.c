@@ -10,6 +10,7 @@
 #include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "gcc/memory.h"
+#include "tex_func.h"
 
 /**
  * Original name: _msgColorTbl
