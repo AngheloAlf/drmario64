@@ -137,7 +137,7 @@ void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 ar
 // void func_80043F18();
 // void func_80044058();
 void StretchTexTile4(Gfx **gfxP, u16 width, u16 height, u16 tlut[], u8 tex[], s32, s32, s32, s32, f32, f32, f32, f32);
-// void func_800443F4();
+void StretchTexTile8_LoadTex(StretchTexTile_arg0 *arg0);
 void StretchTexTile8(Gfx **gfxP, s32 width, s32 height, u16 tlut[], u8 tex[], UNK_TYPE arg5, UNK_TYPE arg6, UNK_TYPE arg7, UNK_TYPE arg8, f32 arg9, f32 argA, f32 argB, f32 argC);
 // void RectTexTile8();
 // void func_80044940();

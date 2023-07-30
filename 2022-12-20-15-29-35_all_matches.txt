@@ -287,7 +287,7 @@ transFunc_curve - found 2 matches total:
 
 StretchAlphaTexTile_LoadColorTex - found 2 matches total:
 1.00 - func_80044940
-0.99 - func_800443F4
+0.99 - StretchTexTile8_LoadTex
 
 func_80059C34 - found 2 matches total:
 0.99 - func_80059B5C
