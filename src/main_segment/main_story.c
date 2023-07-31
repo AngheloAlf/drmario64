@@ -127,6 +127,26 @@ bool func_800774C4(void) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800815A8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081814_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081874_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081898_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800818FC_cn);
+#endif
+
 #if VERSION_US
 #ifdef NON_EQUIVALENT
 void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, UNK_PTR arg4) {
@@ -240,34 +260,14 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_spot);
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_spot);
+#endif
+
 #if VERSION_US
 void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     story_spot(gfxP, arg1, arg2, arg3, &changestar_tex);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800815A8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081814_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081874_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081898_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800818FC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_spot);
 #endif
 
 #if VERSION_CN
@@ -585,28 +585,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_w9);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_w_end);
 #endif
 
-#if VERSION_US
-void func_8007A9DC(void) {
-    void *ptr;
-
-    storyGraphic = story_buffer;
-
-    ptr = ALIGN_PTR(
-        DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_ALL].start, storyGraphic,
-                           storyRomData[STORYROMDATA_TITLE_ALL].end - storyRomData[STORYROMDATA_TITLE_ALL].start));
-    wakuGraphic = ptr;
-
-    ptr = ALIGN_PTR(DecompressRomToRam(storyRomData[STORYROMDATA_WAKU].start, ptr,
-                                       storyRomData[STORYROMDATA_WAKU].end - storyRomData[STORYROMDATA_WAKU].start));
-    bgGraphic = ptr;
-
-    ptr = ALIGN_PTR(
-        DecompressRomToRam(storyRomData[STORYROMDATA_MENU_BG].start, ptr,
-                           storyRomData[STORYROMDATA_MENU_BG].end - storyRomData[STORYROMDATA_MENU_BG].start));
-    messageData = ptr;
-}
-#endif
-
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082D5C_cn);
 #endif
@@ -641,6 +619,28 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80084C70_cn);
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80084FD8_cn);
+#endif
+
+#if VERSION_US
+void func_8007A9DC(void) {
+    void *ptr;
+
+    storyGraphic = story_buffer;
+
+    ptr = ALIGN_PTR(
+        DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_ALL].start, storyGraphic,
+                           storyRomData[STORYROMDATA_TITLE_ALL].end - storyRomData[STORYROMDATA_TITLE_ALL].start));
+    wakuGraphic = ptr;
+
+    ptr = ALIGN_PTR(DecompressRomToRam(storyRomData[STORYROMDATA_WAKU].start, ptr,
+                                       storyRomData[STORYROMDATA_WAKU].end - storyRomData[STORYROMDATA_WAKU].start));
+    bgGraphic = ptr;
+
+    ptr = ALIGN_PTR(
+        DecompressRomToRam(storyRomData[STORYROMDATA_MENU_BG].start, ptr,
+                           storyRomData[STORYROMDATA_MENU_BG].end - storyRomData[STORYROMDATA_MENU_BG].start));
+    messageData = ptr;
+}
 #endif
 
 #if VERSION_CN
@@ -714,9 +714,9 @@ s32 main_story(struct_800EB670 *arg0) {
     B_800E5A24 = 0xC;
     B_800E5A2C = 6;
     B_800E5A38 = 0xE;
-    B_800E5EF0 = D_80205000;
+    mess_roll_heap = D_80205000;
     B_800E5A44 = 0.4f;
-    msgWnd_init2(&mess_roll_st, &B_800E5EF0, 0x77A, 0x14, 0xB, 0x28, 0x16);
+    msgWnd_init2(&mess_roll_st, &mess_roll_heap, 0x77A, 0x14, 0xB, 0x28, 0x16);
     B_800E5A94 = 1;
     B_800E5AA0 = 0xC;
     B_800E5AA4 = 0xC;
@@ -771,7 +771,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", main_story);
 #endif
 
 #if VERSION_CN
-
 extern void *mess_roll_heap;
 extern s32 B_800FCB44_cn;
 extern s32 B_800FCB50_cn;
@@ -787,22 +786,23 @@ void main_story(struct_800EB670 *arg0) {
     s32 var_s1;
     s32 temp;
 
-    osCreateMesgQueue(&sp28, sp40, 8);
+    osCreateMesgQueue(&sp28, sp40, ARRAY_COUNT(sp40));
     func_8002A184(arg0, &sp60, &sp28);
 
     graphic_no = GRAPHIC_NO_0;
     story_z_buffer = D_80205000;
-    guPerspective(&story_viewMtx, &story_norm, 45.0f, 1.3333334f, 1.0f, 1000.0f, 1.0f);
+    guPerspective(&story_viewMtx, &story_norm, 45.0f, 4.0f / 3.0f, 1.0f, 1000.0f, 1.0f);
     var_s1 = 0;
-    guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+    guOrtho(&story_viewMtx, -SCREEN_WIDTH / 2, SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 2, 1.0f, 2000.0f,
+            1.0f);
 
     first_copy = 1;
-    for (; var_s1 < 4; var_s1++) {
-        joyflg[var_s1] = 0xF00;
+    for (; var_s1 < ARRAY_COUNT(joyflg); var_s1++) {
+        joyflg[var_s1] = U_JPAD | L_JPAD | R_JPAD | D_JPAD;
     }
 
-    story_buffer = D_80205000 + 0x10000;
     D_800AAD38 = D_80205000;
+    story_buffer = D_800AAD38 + 0x10000;
     D_80088100 = 0;
     story_time_cnt = 0;
     story_seq_step = 0;
@@ -840,18 +840,26 @@ void main_story(struct_800EB670 *arg0) {
 
     while (loop_flg != 0) {
         osRecvMesg(&sp28, NULL, 1);
+
+#if VERSION_CN
         if (D_80092F10_cn) {
             joyProcCore();
             graphic_no = GRAPHIC_NO_0;
         } else {
             graphic_no = GRAPHIC_NO_1;
+#endif
             msgWnd_update(&mess_st);
             msgWnd_update(&mess_roll_st);
             if ((story_doing == 0) && (story_zoom >= 0x5A)) {
                 loop_flg = 0;
             }
             joyProcCore();
+#if VERSION_US
+            graphic_no = GRAPHIC_NO_1;
+#endif
+#if VERSION_CN
         }
+#endif
         dm_audio_update();
     }
 
@@ -859,12 +867,12 @@ void main_story(struct_800EB670 *arg0) {
     graphic_no = GRAPHIC_NO_0;
 
     while ((pendingGFX != 0) || !dm_audio_is_stopped()) {
-        osRecvMesg(&sp28, NULL, 1);
+        osRecvMesg(&sp28, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
     for (var_s1 = 0; var_s1 < 3; var_s1++) {
-        osRecvMesg(&sp28, NULL, 1);
+        osRecvMesg(&sp28, NULL, OS_MESG_BLOCK);
     }
 
     func_8002A1DC(arg0, &sp60);

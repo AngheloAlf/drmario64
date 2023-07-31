@@ -373,7 +373,7 @@ extern void *lws_scene;
 extern MessageWnd mess_st;
 extern MessageWnd mess_roll_st;
 // extern UNK_TYPE B_800E5AF0;
-// extern UNK_TYPE B_800E5EF0;
+// extern UNK_TYPE mess_roll_heap;
 // extern UNK_TYPE B_800E5EF4;
 // extern UNK_TYPE B_800E5EF8;
 extern bool loop_flg;
