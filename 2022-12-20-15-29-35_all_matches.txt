@@ -326,7 +326,7 @@ disp_lose_logo - found 2 matches total:
 0.99 - disp_draw_logo
 
 _menuCursor_cursor_4_pattern - found 2 matches total:
-0.99 - D_800AAE00 (decompiled)
+0.99 - snd_tbl_838 (decompiled)
 0.99 - RO_800ACA20 (decompiled)
 
 transFunc_finger - found 1 matches total:

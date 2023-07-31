@@ -610,7 +610,7 @@ s32 demo_title(Gfx **gfxP, bool arg1);
 // void story_st_new_w9();
 // void story_w_end();
 void func_8007A9DC(void);
-UNK_TYPE main_story(struct_800EB670 *);
+void main_story(struct_800EB670 *arg0);
 void init_objMtx(void);
 void graphic_story(void);
 // void func_8007B62C();

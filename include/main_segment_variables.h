@@ -117,7 +117,7 @@ extern s32 title_exit_flag; /* Original name: title_exit_flag */
 // extern UNK_TYPE D_800A76C0;
 extern u8 changestar_tex[];
 extern UNK_TYPE title_bmp_tbl[3];
-// extern UNK_TYPE D_800A8ACC;
+extern void *mess_heap;
 extern char st_staffroll_txt[];
 // extern UNK_TYPE D_800A923C;
 // extern UNK_TYPE D_800A9278;
@@ -256,27 +256,27 @@ extern char st_staffroll_txt[];
 extern enum_story_proc_no story_proc_no; /* Original name: story_proc_no */
 extern char STR_800AACF0[];
 extern char *EndingLastMessage; /* Original name: EndingLastMessage */
-extern s32 D_800AAD08;
-extern s32 D_800AAD0C;
-extern UNK_TYPE4 story_zoom;
-extern UNK_TYPE4 D_800AAD14;
+extern s32 story_time_cnt;
+extern s32 story_seq_step;
+extern s32 story_zoom;
+extern s32 story_curtain;
 extern s32 story_spot_cnt;
 extern UNK_TYPE4 D_800AAD1C;
 extern UNK_TYPE4 story_message_on;
 extern UNK_TYPE4 D_800AAD24;
-extern UNK_TYPE4 D_800AAD28;
+extern s32 story_doing;
 extern s32 bgtime; /* Original name: bgtime */
-extern s32 D_800AAD34;
+extern s32 mes_time;
 // extern UNK_TYPE D_800AAD38;
-extern void *D_800AAD3C;
-// extern UNK_TYPE D_800AAD40;
+extern void *story_buffer;
+extern void *story_z_buffer;
 extern s32 objMtx_FF;
 // extern UNK_TYPE D_800AAD48;
 // extern UNK_TYPE D_800AAD4C;
 // extern UNK_TYPE D_800AAD50;
 extern Vp D_800AAD58;
-extern Gfx D_800AAD68[];
-// extern UNK_TYPE D_800AAE00;
+extern Gfx story_setup[];
+// extern SeqIndex snd_tbl_838[];
 // extern UNK_TYPE D_800AAE60;
 // extern UNK_TYPE D_800AAFF4;
 // extern UNK_TYPE D_800AB170;
@@ -376,16 +376,16 @@ extern MessageWnd mess_roll_st;
 // extern UNK_TYPE B_800E5EF0;
 // extern UNK_TYPE B_800E5EF4;
 // extern UNK_TYPE B_800E5EF8;
-// extern UNK_TYPE loop_flg;
+extern bool loop_flg;
 // extern UNK_TYPE story_staff_roll;
-// extern UNK_TYPE story_norm;
+extern u16 story_norm; /* Original name: story_norm */
 extern Mtx story_viewMtx; /* Original name: story_viewMtx */
 extern Mtx story_objectMtx[2][0x50];
-extern void *B_800E8750;
+extern void *wakuGraphic;
 extern void *bgGraphic; /* Original name: bgGraphic */
-extern void *B_800E87AC;
-extern void *B_800E87B0;
-// extern UNK_TYPE B_800E87B4;
+extern void *storyGraphic;
+extern void *messageData;
+extern s32 first_copy;
 extern struct_800E87C0 B_800E87C0[0x40];
 extern s32 randomindex;
 extern s32 randomtable[55];

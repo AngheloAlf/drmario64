@@ -16,6 +16,12 @@
 #include "buffers.h"
 #include "tex_func.h"
 #include "graphic.h"
+#include "main1x.h"
+
+#if VERSION_US || CC_CHECK
+// The compiler needs to not see the declared functions to match the cn version
+#include "joy.h"
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_zoomfade);
@@ -38,8 +44,16 @@ void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_800E8750 *arg1) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80076CCC);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_8008107C_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", curtain_proc_org);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081160_cn);
 #endif
 
 #if VERSION_US
@@ -50,12 +64,18 @@ void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
     func_800429B8(&gfx, 328, 240, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
     *gfxP = gfx;
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081470_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 void *func_80077170(BgRomDataIndex index, void *dstAddr) {
     bgGraphic = dstAddr;
-    B_800E8750 =
+    wakuGraphic =
         ALIGN_PTR(DecompressRomToRam(bgRomData[index].start, dstAddr, bgRomData[index].end - bgRomData[index].start));
-    return ALIGN_PTR(DecompressRomToRam(storyRomData[STORYROMDATA_WAKU2].start, B_800E8750,
+    return ALIGN_PTR(DecompressRomToRam(storyRomData[STORYROMDATA_WAKU2].start, wakuGraphic,
                                         storyRomData[STORYROMDATA_WAKU2].end - storyRomData[STORYROMDATA_WAKU2].start));
 }
 #endif
@@ -66,31 +86,37 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_800771EC);
 
 #if VERSION_US
 void func_800773F0(void) {
-    if (D_800AAD14 == 0) {
-        D_800AAD08 = 0;
+    if (story_curtain == 0) {
+        story_time_cnt = 0;
         story_message_on = 1;
         D_800AAD24 = 0;
-        D_800AAD0C++;
+        story_seq_step++;
     } else {
         story_message_on = 0;
-        D_800AAD14--;
+        story_curtain--;
     }
 }
+#endif
 
+#if VERSION_US
 void func_8007744C(void) {
-    D_800AAD28 = 0;
+    story_doing = 0;
     story_zoom++;
 }
+#endif
 
+#if VERSION_US
 void func_8007746C(void) {
     msgWnd_clear(&mess_st);
     D_800AAD1C = 0;
     D_800AAD24 = 0;
-    D_800AAD08 = 0;
+    story_time_cnt = 0;
     D_800AAD24 = 0;
-    D_800AAD0C++;
+    story_seq_step++;
 }
+#endif
 
+#if VERSION_US
 bool func_800774C4(void) {
     bool temp_v0 = msgWnd_isEnd(&mess_st);
 
@@ -218,7 +244,37 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_spot);
 void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     story_spot(gfxP, arg1, arg2, arg3, &changestar_tex);
 }
+#endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800815A8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081814_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081874_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081898_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800818FC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_spot);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081C54_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 void *init_coffee_break(void *dstAddr, UNK_TYPE arg1 UNUSED) {
     void *temp_s0;
 
@@ -229,13 +285,15 @@ void *init_coffee_break(void *dstAddr, UNK_TYPE arg1 UNUSED) {
     init_coffee_break_cnt();
     return temp_s0;
 }
+#endif
 
+#if VERSION_US || VERSION_CN
 void init_coffee_break_cnt(void) {
     guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
-    D_800AAD34 = 0x15E;
     bgtime = 0;
-    D_800AAD08 = -0x59;
-    D_800AAD0C = 0;
+    mes_time = 0x15E;
+    story_time_cnt = -0x59;
+    story_seq_step = 0;
 }
 #endif
 
@@ -243,7 +301,11 @@ void init_coffee_break_cnt(void) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_coffee_break);
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081D90_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 void *init_menu_bg(void *dstAddr, bool arg1) {
     void *alignedAddress;
     RomOffset segmentRomStart;
@@ -291,7 +353,7 @@ void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
     temp_v1->unk_C = normal_texture_init_dl;
     temp_v1->unk_8 = 0xDE000000;
     sp58 = temp_v1 + 0x18;
-    temp_v1->unk_14 = D_800AAD68;
+    temp_v1->unk_14 = story_setup;
     temp_v1->unk_10 = 0xDE000000;
     sp58 = temp_v1 + 0x20;
     temp_v1->unk_18 = 0xED000000;
@@ -301,7 +363,7 @@ void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
     gSPSegment(temp_s0++, 0x05, osVirtualToPhysical(bgGraphic));
     gSPMatrix(temp_s0++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPDisplayList(temp_s0++, normal_texture_init_dl);
-    gSPDisplayList(temp_s0++, D_800AAD68);
+    gSPDisplayList(temp_s0++, story_setup);
     gDPSetScissor(temp_s0++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
 
     makeTransrateMatrix(&sp18, arg1 << 0xF, arg2 << 0xF, -0x03B60000);
@@ -323,7 +385,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_menu_bg);
 #endif
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", draw_menu_bg);
+#endif
+
+#if VERSION_US || VERSION_CN
 /**
  * Original name: init_title
  */
@@ -347,7 +413,9 @@ void *init_title(void *dstAddr, bool arg1) {
         DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_BMP].start, title_bmp_data,
                            storyRomData[STORYROMDATA_TITLE_BMP].end - storyRomData[STORYROMDATA_TITLE_BMP].start));
 }
+#endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: demo_title
  */
@@ -356,43 +424,50 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     struct_get_gbi_stat_arg0 sp48;
     Mtx sp60;
     Gfx *gfx;
-    s32 temp_s2;
+    bool temp_s2;
     s32 temp_v1_2;
     s32 var_s3;
-    s32 var_v0_3;
+    u32 var_v0_3;
 
     init_objMtx();
+
     var_s3 = 0;
+    if (title_time >= 720) {
+        temp_s2 = true;
+    } else {
+        temp_s2 = false;
+    }
+
     gfx = *gfxP;
 
     gSPSegment(gfx++, 0x00, 0x00000000);
-    temp_s2 = (title_time >= 0x2D0);
     gSPSegment(gfx++, 0x05, osVirtualToPhysical(title_data));
     gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPDisplayList(gfx++, normal_texture_init_dl);
-    gSPDisplayList(gfx++, D_800AAD68);
+    gSPDisplayList(gfx++, story_setup);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
     lws_data = title_data;
     if (arg1) {
         gDPSetEnvColor(gfx++, 183, 127, 95, 255);
 
-        lws_scene = (void *)((uintptr_t)title_data + (((uintptr_t)title_data[0x21]) & 0xFFFFFF));
+        lws_scene = (void *)(((uintptr_t)lws_data[0x21] & 0xFFFFFF) + (uintptr_t)title_data);
     } else {
         gDPSetEnvColor(gfx++, 255, 255, 255, 255);
 
-        lws_scene = (void *)((((uintptr_t)title_data[0]) & 0xFFFFFF) + (uintptr_t)title_data);
+        lws_scene = (void *)(((uintptr_t)lws_data[0] & 0xFFFFFF) + (uintptr_t)title_data);
     }
 
     makeTransrateMatrix(&sp60, 0, 0xFFC4 << 16, 0xFC4A << 16);
+
     if ((story_spot_cnt > 0) && (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON)) {
-        if (temp_s2 != 0) {
+        if (temp_s2) {
             if (title_wait == 0) {
                 dm_snd_play(SND_INDEX_103);
                 title_wait = 1;
             }
         } else {
-            title_time = 0x2D0;
+            title_time = 720;
         }
     }
 
@@ -408,13 +483,14 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     }
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
+
     if (story_spot_cnt > 0) {
         title_time++;
     }
 
     if (story_spot_cnt < 0x100) {
         gSPDisplayList(gfx++, normal_texture_init_dl);
-        story_spot(&gfx, 0xA0, 0x78, story_spot_cnt, changestar_tex);
+        story_spot(&gfx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, story_spot_cnt, changestar_tex);
 
         if (story_spot_cnt < 0) {
             temp_v1_2 = 0xFF;
@@ -423,14 +499,19 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
                 if (temp_v1_2 > 0xFF) {
                     temp_v1_2 = 0xFF;
                 }
-                temp_v1_2 = temp_v1_2 & (~temp_v1_2 >> 0x1F);
+                if (temp_v1_2 < 0) {
+                    temp_v1_2 = 0;
+                }
             }
+
             if (story_spot_cnt < -0x4C) {
                 temp_v1_2 = 0xFF - (((story_spot_cnt + 0x4C) * -0xFF) / 24);
-                if (temp_v1_2 > 0xFF) {
+                if (temp_v1_2 >= 0x100) {
                     temp_v1_2 = 0xFF;
                 }
-                temp_v1_2 = temp_v1_2 & (~temp_v1_2 >> 0x1F);
+                if (temp_v1_2 < 0) {
+                    temp_v1_2 = 0;
+                }
             }
 
             get_gbi_stat(&sp30, title_bmp_data + title_bmp_tbl[0]);
@@ -440,8 +521,9 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
 
-            StretchTexBlock4i(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, (0xA0 - (sp30.unk_04 / 2)),
-                              (0x78 - (sp30.unk_08 / 2)), sp30.unk_04, sp30.unk_08);
+            StretchTexBlock4i(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, SCREEN_WIDTH / 2 - sp30.unk_04 / 2,
+                              SCREEN_HEIGHT / 2 - sp30.unk_08 / 2, sp30.unk_04, sp30.unk_08);
+
             story_spot_cnt += 1;
         } else {
             story_spot_cnt += 5;
@@ -453,7 +535,7 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
         var_v0_3 = 0x10;
     }
 
-    if ((title_time & var_v0_3) && (title_time > 0x2D0) && (title_wait == 0)) {
+    if ((title_time & var_v0_3) && (title_time > 720) && (title_wait == 0)) {
         get_gbi_stat(&sp30, title_bmp_data + title_bmp_tbl[1]);
         get_gbi_stat(&sp48, title_bmp_data + title_bmp_tbl[2]);
 
@@ -507,12 +589,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_w_end);
 void func_8007A9DC(void) {
     void *ptr;
 
-    B_800E87AC = D_800AAD3C;
+    storyGraphic = story_buffer;
 
     ptr = ALIGN_PTR(
-        DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_ALL].start, B_800E87AC,
+        DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_ALL].start, storyGraphic,
                            storyRomData[STORYROMDATA_TITLE_ALL].end - storyRomData[STORYROMDATA_TITLE_ALL].start));
-    B_800E8750 = ptr;
+    wakuGraphic = ptr;
 
     ptr = ALIGN_PTR(DecompressRomToRam(storyRomData[STORYROMDATA_WAKU].start, ptr,
                                        storyRomData[STORYROMDATA_WAKU].end - storyRomData[STORYROMDATA_WAKU].start));
@@ -521,8 +603,48 @@ void func_8007A9DC(void) {
     ptr = ALIGN_PTR(
         DecompressRomToRam(storyRomData[STORYROMDATA_MENU_BG].start, ptr,
                            storyRomData[STORYROMDATA_MENU_BG].end - storyRomData[STORYROMDATA_MENU_BG].start));
-    B_800E87B0 = ptr;
+    messageData = ptr;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082D5C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082D70_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082E74_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80083810_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80083AE0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800840FC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800845C8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80084C70_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80084FD8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_8007A9DC);
 #endif
 
 extern s32 B_800E5A20;
@@ -538,16 +660,12 @@ extern s32 B_800E5AA4;
 extern s32 B_800E5AAC;
 extern s32 B_800E5AB8;
 extern f32 B_800E5AC4;
-extern void B_800E5AF0;
+extern u64 B_800E5AF0[];
 extern s32 B_800E5EF4;
-extern s32 loop_flg;
 extern s32 story_staff_roll;
-extern u16 story_norm; /* Original name: story_norm */
-extern s32 B_800E87B4;
 extern s16 B_800F6CDE[];
-extern void *D_800A8ACC;
 
-extern SeqIndex D_800AAE00[];
+extern SeqIndex snd_tbl_838[];
 
 #if VERSION_US
 #ifdef NON_EQUIVALENT
@@ -565,38 +683,38 @@ s32 main_story(struct_800EB670 *arg0) {
     osCreateMesgQueue(&sp20, &sp38, 8);
     func_8002A184(arg0, &sp58, &sp20);
     graphic_no = GRAPHIC_NO_0;
-    D_800AAD40 = &D_80205000;
+    story_z_buffer = &D_80205000;
     guPerspective(&story_viewMtx, &story_norm, 45.0f, 1.3333334f, 1.0f, 1000.0f, 1.0f);
     var_s1 = 3;
     guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
 
-    B_800E87B4 = 1;
+    first_copy = 1;
     while (var_s1 >= 0) {
         B_800F6CDE[var_s1] = 0xF00;
         var_s1 -= 1;
     }
 
-    D_800AAD3C = &D_80205000 + 0x10000;
-    D_800AAD14 = 0x1E;
-    D_800A8ACC = &B_800E5AF0;
+    story_buffer = D_80205000 + 0x10000;
+    story_curtain = 0x1E;
+    mess_heap = &B_800E5AF0;
     D_800AAD38 = &D_80205000;
     D_80088100 = 0;
-    D_800AAD08 = 0;
-    D_800AAD0C = 0;
+    story_time_cnt = 0;
+    story_seq_step = 0;
     D_800AAD1C = 0;
     story_zoom = 0;
     story_message_on = 0;
     D_800AAD24 = 0;
-    D_800AAD28 = 1;
+    story_doing = 1;
     story_staff_roll = 0;
     B_800E5EF4 = 0;
     loop_flg = 1;
-    msgWnd_init(&mess_st, &D_800A8ACC, 0x10, 3, 0x42, 0xB1);
+    msgWnd_init(&mess_st, &mess_heap, 0x10, 3, 0x42, 0xB1);
     B_800E5A20 = 0xC;
     B_800E5A24 = 0xC;
     B_800E5A2C = 6;
     B_800E5A38 = 0xE;
-    B_800E5EF0 = &D_80205000;
+    B_800E5EF0 = D_80205000;
     B_800E5A44 = 0.4f;
     msgWnd_init2(&mess_roll_st, &B_800E5EF0, 0x77A, 0x14, 0xB, 0x28, 0x16);
     B_800E5A94 = 1;
@@ -608,13 +726,13 @@ s32 main_story(struct_800EB670 *arg0) {
     B_800E5AC4 = 0.25f;
     func_8007A9DC();
     joyProcCore();
-    dm_seq_play(D_800AAE00[story_proc_no]);
+    dm_seq_play(snd_tbl_838[story_proc_no]);
 
     while (loop_flg != 0) {
         osRecvMesg(&sp20, NULL, 1);
         msgWnd_update(&mess_st);
         msgWnd_update(&mess_roll_st);
-        if ((D_800AAD28 == 0) && (story_zoom >= 0x5A)) {
+        if ((story_doing == 0) && (story_zoom >= 0x5A)) {
             loop_flg = 0;
         }
         joyProcCore();
@@ -652,7 +770,114 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", main_story);
 #endif
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+
+extern void *mess_roll_heap;
+extern s32 B_800FCB44_cn;
+extern s32 B_800FCB50_cn;
+extern s32 D_800C2898_cn;
+extern s32 D_800C289C_cn;
+extern s32 D_800C28A0_cn;
+extern u8 *D_800AAD38;
+
+void main_story(struct_800EB670 *arg0) {
+    OSMesgQueue sp28;
+    OSMesg sp40[8];
+    struct_800FAF98_unk_64 sp60;
+    s32 var_s1;
+    s32 temp;
+
+    osCreateMesgQueue(&sp28, sp40, 8);
+    func_8002A184(arg0, &sp60, &sp28);
+
+    graphic_no = GRAPHIC_NO_0;
+    story_z_buffer = D_80205000;
+    guPerspective(&story_viewMtx, &story_norm, 45.0f, 1.3333334f, 1.0f, 1000.0f, 1.0f);
+    var_s1 = 0;
+    guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+
+    first_copy = 1;
+    for (; var_s1 < 4; var_s1++) {
+        joyflg[var_s1] = 0xF00;
+    }
+
+    story_buffer = D_80205000 + 0x10000;
+    D_800AAD38 = D_80205000;
+    D_80088100 = 0;
+    story_time_cnt = 0;
+    story_seq_step = 0;
+    D_800C2898_cn = 0;
+    story_curtain = 0x1E;
+    story_zoom = 0;
+    D_800C289C_cn = 0;
+    D_800C28A0_cn = 0;
+    story_doing = 1;
+    B_800FCB50_cn = 0;
+    B_800FCB44_cn = 0;
+    loop_flg = true;
+
+    mess_heap = &B_800E5AF0;
+    msgWnd_init(&mess_st, &mess_heap, 0x10, 3, 0x42, 0xB1);
+    mess_st.unk_30 = 0xC;
+    mess_st.unk_34 = 0xC;
+    mess_st.unk_3C = 6;
+    mess_st.unk_48 = 0xE;
+    mess_st.unk_54 = 0.4f;
+
+    mess_roll_heap = D_80205000;
+    msgWnd_init2(&mess_roll_st, &mess_roll_heap, 0x7A7, 0x14, 0xB, 0x28, 0x16);
+    mess_roll_st.unk_24 = 1;
+    mess_roll_st.unk_30 = 0xC;
+    mess_roll_st.unk_34 = 0xC;
+    mess_roll_st.unk_3C = 6;
+    mess_roll_st.unk_48 = 0xE;
+    mess_roll_st.unk_20 = 1;
+    mess_roll_st.unk_54 = 0.25f;
+
+    func_8007A9DC();
+    joyProcCore();
+    dm_seq_play(snd_tbl_838[story_proc_no]);
+
+    while (loop_flg != 0) {
+        osRecvMesg(&sp28, NULL, 1);
+        if (D_80092F10_cn) {
+            joyProcCore();
+            graphic_no = GRAPHIC_NO_0;
+        } else {
+            graphic_no = GRAPHIC_NO_1;
+            msgWnd_update(&mess_st);
+            msgWnd_update(&mess_roll_st);
+            if ((story_doing == 0) && (story_zoom >= 0x5A)) {
+                loop_flg = 0;
+            }
+            joyProcCore();
+        }
+        dm_audio_update();
+    }
+
+    dm_audio_stop();
+    graphic_no = GRAPHIC_NO_0;
+
+    while ((pendingGFX != 0) || !dm_audio_is_stopped()) {
+        osRecvMesg(&sp28, NULL, 1);
+        dm_audio_update();
+    }
+
+    for (var_s1 = 0; var_s1 < 3; var_s1++) {
+        osRecvMesg(&sp28, NULL, 1);
+    }
+
+    func_8002A1DC(arg0, &sp60);
+    evs_story_no = story_proc_no;
+    if (evs_story_no >= 0xC) {
+        evs_story_no -= 0xC;
+    }
+    temp = evs_story_no;
+    evs_seqnumb = temp % 3;
+}
+#endif
+
+#if VERSION_US || VERSION_CN
 /**
  * Original name: init_objMtx
  */
@@ -681,7 +906,6 @@ UNK_TYPE story_w_end(Gfx **, UNK_TYPE);                         /* extern */
 extern void *lws_data;
 extern struct_80124610 mess_roll_st;
 extern f32 B_800E5ACC;
-extern s32 loop_flg;
 extern s32 story_staff_roll;
 extern s8 evs_story_level;
 extern UNK_TYPE changestar_tex;
@@ -714,8 +938,8 @@ void graphic_story(void) {
     temp_s0->words.w1 = 0;
     gGfxHead = temp_s0 + 0x10;
     temp_s0->unk_8 = 0xDB060014;
-    temp_s0->unk_C = osVirtualToPhysical(D_800AAD3C);
-    lws_data = D_800AAD3C;
+    temp_s0->unk_C = osVirtualToPhysical(story_buffer);
+    lws_data = story_buffer;
     S2RDPinitRtn(1);
     temp_v1 = gGfxHead;
     gGfxHead = temp_v1 + 8;
@@ -842,7 +1066,7 @@ block_32:
             story_st_new_w9(&gGfxHead, 0x13, 0x15);
             break;
         }
-        curtain_proc_org(&gGfxHead, D_800AAD14);
+        curtain_proc_org(&gGfxHead, story_curtain);
         if (story_staff_roll == 2) {
             msgWnd_draw(&mess_roll_st, &gGfxHead);
             if (gControllerPressedButtons[*main_joy] & 0x1000) {
@@ -855,7 +1079,7 @@ block_32:
             }
             B_800E5ACC = var_f0;
         }
-        func_800770E8(&gGfxHead, B_800E8750);
+        func_800770E8(&gGfxHead, wakuGraphic);
         if (story_message_on != 0) {
             msgWnd_draw(&mess_st, &gGfxHead);
             temp_v1_3 = gGfxHead;
@@ -877,7 +1101,7 @@ block_32:
         }
     }
     temp_v1_5 = gGfxHead;
-    D_800AAD08 += 1;
+    story_time_cnt += 1;
     gGfxHead = temp_v1_5 + 8;
     temp_v1_5->words.w0 = 0xE9000000;
     gGfxHead = temp_v1_5 + 0x10;
@@ -892,72 +1116,14 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", graphic_story);
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", graphic_story);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_8007B62C);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_8008107C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081160_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081470_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80077170);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800815A8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081814_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081874_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081898_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800818FC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081954_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081C54_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", init_coffee_break);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", init_coffee_break_cnt);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081D90_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", init_menu_bg);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", draw_menu_bg);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", init_title);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", demo_title);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082D5C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082D70_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082E74_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80083810_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80083AE0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800840FC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800845C8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80084C70_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80084FD8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800855EC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", main_story);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", init_objMtx);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", graphic_story);
-
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_8008648C_cn);
 #endif

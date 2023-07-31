@@ -395,8 +395,6 @@ segments:
 
       - [0x0811F0, .data, main_segment/main_menu]
 
-      # - [0x081340, data, main_segment/081340]
-
       - start: 0x081340
         type: .data
         name: main_segment/font
