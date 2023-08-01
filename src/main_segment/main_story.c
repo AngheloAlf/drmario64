@@ -2,7 +2,7 @@
  * Original filename: main_story.c
  */
 
-#include "libultra.h"
+#include "main_story.h"
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
@@ -28,16 +28,90 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_zoomfade);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80080C30_cn);
+#ifdef NON_EQUIVALENT
+// float stuff
+void story_zoomfade(Gfx **gfxP, s32 arg1) {
+    Gfx *gfx;
+    f32 temp_fs1_2;
+    f32 temp_ft1;
+    f32 temp_ft1_2;
+    s32 var_v1;
+    u16 *temp_s4;
+    f32 temp;
+    f32 aux;
+    f32 arg8;
+    f32 arg9;
+    f32 argA;
+    f32 argB;
+
+    temp_s4 = gFramebuffers[gCurrentFramebufferIndex ^ 1];
+
+    gfx = *gfxP;
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    gDPSetTextureLUT(gfx++, G_TT_NONE);
+    gDPSetTextureFilter(gfx++, G_TF_BILERP);
+    gDPSetEnvColor(gfx++, 255, 255, 255, 255);
+    gDPSetRenderMode(gfx++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gDPSetCombineLERP(gfx++, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, 0, 0, 0, 1, TEXEL0, ENVIRONMENT, PRIMITIVE,
+                      ENVIRONMENT, 0, 0, 0, 1);
+
+    if (arg1 < 0) {
+        arg1 = 0;
+    } else if (arg1 > 0x5A) {
+        arg1 = 0x5A;
+    }
+
+    temp_ft1 = arg1 / 90.0f;
+
+    if (temp_ft1 > 0.75) {
+        f32 temp2 = ((temp_ft1 - 0.75) * 4.0);
+        f32 temp3 = 223.125f;
+        temp = 31.875f;
+
+        var_v1 = ((255.0f - (temp2 * temp3)) - temp);
+        if (var_v1 < 0) {
+            var_v1 = 0;
+        }
+    } else {
+        var_v1 = ((f64)(temp_ft1 * 255.0f) / 6.0);
+        var_v1 = 0xFF - var_v1;
+    }
+
+    gDPSetPrimColor(gfx++, 0, 0, var_v1, var_v1, var_v1, 255);
+
+    temp_fs1_2 = (f32)(sinf(temp_ft1 * 6.0f) * 1.5);
+    temp = (f32)(cosf(temp_ft1 * 6.0f) * 1.5);
+    temp_ft1_2 = (f32)((2.0 * temp_ft1) + 1.0);
+    arg8 = temp_fs1_2 * temp_ft1_2 + -10.0;
+    arg9 = (temp * temp_ft1_2) + -7.5;
+    argA = 340.0f;
+    argB = 255.0f;
+    StretchTexTile16(&gfx, 0x140, 0xF0, temp_s4, 0, 0, 0x140, 0xF0, arg8, arg9, argA, argB);
+
+    gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+    gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE);
+    gDPSetPrimColor(gfx++, 0, 0, 128, 128, 128, 50);
+
+    StretchTexTile16(&gfx, 0x140, 0xF0, temp_s4, 0, 0, 0x140, 0xF0, 0.0f, 0.0f, 320.0f, 240.0f);
+
+    *gfxP = gfx;
+}
+#else
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_zoomfade);
+#endif
 #endif
 
-void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_800E8750 *arg1) {
+#if VERSION_US || VERSION_CN
+void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1) {
     arg0->unk_04 = arg1->unk_008;
     arg0->unk_08 = arg1->unk_00A;
     arg0->unk_00 = arg1->unk_00E;
     arg0->unk_0C = &arg1->unk_010;
     arg0->unk_10 = &arg1->unk_210;
 }
+#endif
 
 #if VERSION_US
 // maybe curtain_proc?
@@ -45,29 +119,102 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80076CCC);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_8008107C_cn);
+void func_8008107C_cn(Gfx **gfxP, s32 arg1) {
+    Gfx *gfx = *gfxP;
+    f32 temp;
+    s32 alpha;
+
+    if (arg1 <= 0) {
+        return;
+    }
+
+    arg1 = MIN(arg1, 30);
+
+    temp = arg1 + 1;
+    temp /= 30.0f;
+
+    alpha = temp * 255.0 + 0.5;
+    alpha = MIN(alpha, 255);
+
+    gDPSetCombineMode(gfx++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+    gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+    gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
+    gDPFillRectangle(gfx++, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", curtain_proc_org);
 #endif
 
+extern u8 curtain_alpha_00_tex[];
+extern u16 curtain_00_tex[];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081160_cn);
+#ifdef NON_EQUIVALENT
+void curtain_proc_org(Gfx **gfxP, s32 arg1) {
+    Gfx *gfx;
+    f32 temp_fv1;
+    f32 var_fv0;
+    s32 temp_ft3;
+    s32 var_t8;
+    s32 var_v1;
+
+    var_v1 = arg1;
+    gfx = *gfxP;
+    if (var_v1 <= 0) {
+        return;
+    }
+
+    if (var_v1 >= 0x1F) {
+        var_v1 = 0x1E;
+    }
+
+    gSPDisplayList(gfx++, alpha_texture_init_dl);
+    gDPLoadTextureBlock(gfx++, curtain_00_tex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 48, 0, G_TX_MIRROR | G_TX_WRAP,
+                        G_TX_NOMIRROR | G_TX_CLAMP, 5, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadMultiBlock_4b(gfx++, curtain_alpha_00_tex, 0x0180, 1, G_IM_FMT_I, 32, 48, 0, G_TX_MIRROR | G_TX_WRAP,
+                         G_TX_NOMIRROR | G_TX_CLAMP, 5, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+    for (var_t8 = 0; var_t8 < 7; var_t8++) {
+        f32 ftemp;
+        f32 ftemp2;
+
+        temp_fv1 = (f32)((6 - var_t8) * 0x28);
+
+        ftemp = var_v1;
+        ftemp /= 30.0f;
+        ftemp *= 280.0f;
+
+        ftemp2 = var_t8 * 8;
+
+        var_fv0 = ((f64)ftemp - 48.0) - ftemp2;
+        if (temp_fv1 < var_fv0) {
+            var_fv0 = temp_fv1;
+        }
+
+        temp_ft3 = (s32)(((f64)var_fv0 * 4.0) + 0.5);
+
+        gSPTextureRectangle(gfx++, 0, temp_ft3, 0x0500, temp_ft3, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+    }
+
+    *gfxP = gfx;
+}
+#else
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", curtain_proc_org);
+#endif
 #endif
 
-#if VERSION_US
-void func_800770E8(Gfx **gfxP, struct_800E8750 *arg1) {
+#if VERSION_US || VERSION_CN
+void func_800770E8(Gfx **gfxP, struct_wakuGraphic *arg1) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
     func_800429B8(&gfx, 328, 240, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
     *gfxP = gfx;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081470_cn);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -131,12 +278,28 @@ bool func_800774C4(void) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800815A8_cn);
 #endif
 
+extern s32 D_800C2898_cn;
+extern s32 story_message_start;
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081814_cn);
+void func_80081814_cn(void) {
+    if (story_curtain == 0) {
+        story_time_cnt = 0;
+        story_message_on = 1;
+        story_message_start = 0;
+        story_seq_step++;
+    } else {
+        story_message_on = 0;
+        story_curtain--;
+    }
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081874_cn);
+void func_80081874_cn(void) {
+    story_doing = 0;
+    story_zoom++;
+}
 #endif
 
 #if VERSION_CN
@@ -261,7 +424,82 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_spot);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_spot);
+void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, void *tex) {
+    s32 pad[6] UNUSED;
+    Gfx *gfx = *gfxP;
+    f32 temp_fa0;
+    f32 temp_fa1;
+    f32 temp_fv1;
+    s32 temp_ft4;
+    s32 temp_ft4_2;
+    s32 temp_ft4_3;
+    s32 temp_ft4_4;
+    f32 a;
+    f32 b;
+    f32 a1;
+    f32 a2;
+
+    if (arg3 >= 0xFF) {
+        return;
+    }
+
+    if (arg3 < 0) {
+        arg3 = 0;
+    }
+
+    temp_fa0 = ((f32)arg3 / 18.0);
+    a1 = arg1;
+    a2 = arg2;
+
+    a = temp_fa0 * 64.0;
+    b = temp_fa0 * 64.0;
+
+    temp_fa1 = (a1 - a / 2.0);
+    temp_fv1 = (a2 - b / 2.0);
+
+    temp_ft4 = temp_fa1 + 1.0f;
+    temp_ft4_2 = temp_fa1 + a - 1.0f;
+    temp_ft4_3 = temp_fv1 + 1.0f;
+    temp_ft4_4 = temp_fv1 + b - 1.0f;
+
+    gDPSetTextureLUT(gfx++, G_TT_NONE);
+
+    gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, 255);
+
+    gDPSetRenderMode(gfx++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+
+    gDPSetCombineMode(gfx++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+
+    if ((a < 1.0f) || (b < 1.0f)) {
+        arg3 = 0;
+    }
+
+    if (arg3 == 0) {
+        gDPFillRectangle(gfx++, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    } else {
+        if (temp_ft4 > 0) {
+            gDPFillRectangle(gfx++, 0, 0, temp_ft4, SCREEN_HEIGHT);
+        }
+        if (temp_ft4_2 < SCREEN_WIDTH) {
+            gDPFillRectangle(gfx++, temp_ft4_2, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        }
+        if (temp_ft4_3 > 0) {
+            gDPFillRectangle(gfx++, 0, 0, SCREEN_WIDTH, temp_ft4_3);
+        }
+        if (temp_ft4_4 < SCREEN_HEIGHT) {
+            gDPFillRectangle(gfx++, 0, temp_ft4_4, SCREEN_WIDTH, SCREEN_HEIGHT);
+        }
+
+        gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+        gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
+
+        StretchTexBlock4i(&gfx, 0x40, 0x40, tex, temp_fa1, temp_fv1, a, b);
+    }
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -386,7 +624,32 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_menu_bg);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", draw_menu_bg);
+void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
+    Mtx mtx;
+    Gfx *gfx;
+
+    init_objMtx();
+
+    gfx = *gfxP;
+
+    gSPSegment(gfx++, 0x00, 0x00000000);
+    gSPSegment(gfx++, 0x05, osVirtualToPhysical(bgGraphic));
+    gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+    gSPDisplayList(gfx++, story_setup);
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+
+    makeTransrateMatrix(&mtx, arg1 << 0xF, arg2 << 0xF, 0x1F894 << 0xF);
+    if (lws_anim(&gfx, &mtx, bgGraphic, bgtime, bgGraphic) == 1) {
+        bgtime = 0;
+    } else {
+        bgtime += 1;
+    }
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -553,32 +816,134 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80078648);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082D5C_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_8007865C);
+#endif
+
+extern s32 st_message_count;
+
+extern s32 fin_frame_543;
+extern struct_mes_data *st_mes_ptr;
+extern struct_mes_data *mes_data[];
+
+#if VERSION_CN
+void func_80082D70_cn(void) {
+    if (st_message_count < st_mes_ptr->unk_0) {
+        if (st_mes_ptr[st_message_count + 1].unk_0 < framecont) {
+            msgWnd_clear(&mess_st);
+            msgWnd_addStr(&mess_st, st_mes_ptr[st_message_count + 1].unk_4);
+            st_message_count++;
+
+            if (gControllerHoldButtons[main_joy[0]] & A_BUTTON) {
+                msgWnd_skip(&mess_st);
+            }
+        }
+    } else {
+        st_message_count = 9999;
+    }
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_op);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_st_new_op);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new);
+#endif
+
+#if VERSION_CN
+void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2) {
+    Mtx mtx;
+    Gfx *gfx = *gfxP;
+    void *temp_s1;
+
+    st_mes_ptr = mes_data[arg2];
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    gSPDisplayList(gfx++, story_setup);
+
+    makeTransrateMatrix(&mtx, 0, 0x1FFE7 << 0xF, 0x1F894 << 0xF);
+
+    temp_s1 = (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer);
+
+    switch (story_seq_step) {
+        case 0:
+            func_80081814_cn();
+            lws_anim(&gfx, &mtx, temp_s1, 0, story_buffer);
+            framecont = 0;
+            break;
+
+        case 1:
+            story_time_cnt = framecont;
+            fin_frame_543 = framecont;
+            if (gControllerPressedButtons[main_joy[0]] & (START_BUTTON | B_BUTTON)) {
+                story_seq_step = 2;
+                story_time_cnt = 0;
+            }
+            if (gControllerHoldButtons[main_joy[0]] & A_BUTTON) {
+                framecont += 3;
+                story_time_cnt += 3;
+            }
+
+            func_80082D70_cn();
+            if ((lws_anim(&gfx, &mtx, temp_s1, story_time_cnt, story_buffer) == 1) && msgWnd_isEnd(&mess_st)) {
+                story_time_cnt = 0;
+                story_seq_step++;
+            }
+            break;
+
+        default:
+            func_80081874_cn();
+            lws_anim(&gfx, &mtx, temp_s1, fin_frame_543, story_buffer);
+            break;
+    }
+
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new2_f);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_st_new2_f);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new2);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_st_new2);
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_m_end);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_m_end);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_w9);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_st_new_w9);
 #endif
 
 #if VERSION_US
@@ -586,49 +951,17 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_w_end);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082D5C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_w_end);
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082D70_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082E74_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80083810_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80083AE0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800840FC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800845C8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80084C70_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80084FD8_cn);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_8007A9DC(void) {
-    void *ptr;
+    void *ptr = story_buffer;
 
-    storyGraphic = story_buffer;
+    storyGraphic = ptr;
 
     ptr = ALIGN_PTR(
-        DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_ALL].start, storyGraphic,
+        DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_ALL].start, ptr,
                            storyRomData[STORYROMDATA_TITLE_ALL].end - storyRomData[STORYROMDATA_TITLE_ALL].start));
     wakuGraphic = ptr;
 
@@ -641,10 +974,6 @@ void func_8007A9DC(void) {
                            storyRomData[STORYROMDATA_MENU_BG].end - storyRomData[STORYROMDATA_MENU_BG].start));
     messageData = ptr;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_8007A9DC);
 #endif
 
 extern s32 B_800E5A20;
@@ -662,7 +991,7 @@ extern s32 B_800E5AB8;
 extern f32 B_800E5AC4;
 extern u64 B_800E5AF0[];
 extern s32 B_800E5EF4;
-extern s32 story_staff_roll;
+
 extern s16 B_800F6CDE[];
 
 extern SeqIndex snd_tbl_838[];
@@ -672,7 +1001,7 @@ extern SeqIndex snd_tbl_838[];
 /**
  * Original name: main_story
  */
-s32 main_story(struct_800EB670 *arg0) {
+void main_story(struct_800EB670 *arg0) {
     OSMesgQueue sp20;
     void *sp38;
     struct_800FAF98_unk_64 sp58;
@@ -683,7 +1012,7 @@ s32 main_story(struct_800EB670 *arg0) {
     osCreateMesgQueue(&sp20, &sp38, 8);
     func_8002A184(arg0, &sp58, &sp20);
     graphic_no = GRAPHIC_NO_0;
-    story_z_buffer = &D_80205000;
+    story_z_buffer = &gfx_freebuf;
     guPerspective(&story_viewMtx, &story_norm, 45.0f, 1.3333334f, 1.0f, 1000.0f, 1.0f);
     var_s1 = 3;
     guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
@@ -694,11 +1023,11 @@ s32 main_story(struct_800EB670 *arg0) {
         var_s1 -= 1;
     }
 
-    story_buffer = D_80205000 + 0x10000;
+    story_buffer = gfx_freebuf + 0x10000;
     story_curtain = 0x1E;
     mess_heap = &B_800E5AF0;
-    D_800AAD38 = &D_80205000;
-    D_80088100 = 0;
+    D_800AAD38 = &gfx_freebuf;
+    framecont = 0;
     story_time_cnt = 0;
     story_seq_step = 0;
     D_800AAD1C = 0;
@@ -714,7 +1043,7 @@ s32 main_story(struct_800EB670 *arg0) {
     B_800E5A24 = 0xC;
     B_800E5A2C = 6;
     B_800E5A38 = 0xE;
-    mess_roll_heap = D_80205000;
+    mess_roll_heap = gfx_freebuf;
     B_800E5A44 = 0.4f;
     msgWnd_init2(&mess_roll_st, &mess_roll_heap, 0x77A, 0x14, 0xB, 0x28, 0x16);
     B_800E5A94 = 1;
@@ -763,22 +1092,20 @@ s32 main_story(struct_800EB670 *arg0) {
         evs_story_no = story_proc_no - 0xC;
     }
     evs_seqnumb = evs_story_no % 3;
-    return (evs_story_no / 3) * 3;
 }
 #else
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", main_story);
 #endif
 #endif
 
+#if VERSION_US
+#define MESS_ROLL_ST_ARG2 0x77A
+#endif
 #if VERSION_CN
-extern void *mess_roll_heap;
-extern s32 B_800FCB44_cn;
-extern s32 B_800FCB50_cn;
-extern s32 D_800C2898_cn;
-extern s32 D_800C289C_cn;
-extern s32 D_800C28A0_cn;
-extern u8 *D_800AAD38;
+#define MESS_ROLL_ST_ARG2 0x7A7
+#endif
 
+#if VERSION_CN
 void main_story(struct_800EB670 *arg0) {
     OSMesgQueue sp28;
     OSMesg sp40[8];
@@ -790,7 +1117,7 @@ void main_story(struct_800EB670 *arg0) {
     func_8002A184(arg0, &sp60, &sp28);
 
     graphic_no = GRAPHIC_NO_0;
-    story_z_buffer = D_80205000;
+    story_z_buffer = gfx_freebuf;
     guPerspective(&story_viewMtx, &story_norm, 45.0f, 4.0f / 3.0f, 1.0f, 1000.0f, 1.0f);
     var_s1 = 0;
     guOrtho(&story_viewMtx, -SCREEN_WIDTH / 2, SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 2, 1.0f, 2000.0f,
@@ -801,19 +1128,19 @@ void main_story(struct_800EB670 *arg0) {
         joyflg[var_s1] = U_JPAD | L_JPAD | R_JPAD | D_JPAD;
     }
 
-    D_800AAD38 = D_80205000;
+    D_800AAD38 = gfx_freebuf;
     story_buffer = D_800AAD38 + 0x10000;
-    D_80088100 = 0;
+    framecont = 0;
     story_time_cnt = 0;
     story_seq_step = 0;
     D_800C2898_cn = 0;
     story_curtain = 0x1E;
     story_zoom = 0;
-    D_800C289C_cn = 0;
-    D_800C28A0_cn = 0;
+    story_message_on = 0;
+    story_message_start = 0;
     story_doing = 1;
-    B_800FCB50_cn = 0;
-    B_800FCB44_cn = 0;
+    story_staff_roll = 0;
+    st_message_count = 0;
     loop_flg = true;
 
     mess_heap = &B_800E5AF0;
@@ -824,8 +1151,8 @@ void main_story(struct_800EB670 *arg0) {
     mess_st.unk_48 = 0xE;
     mess_st.unk_54 = 0.4f;
 
-    mess_roll_heap = D_80205000;
-    msgWnd_init2(&mess_roll_st, &mess_roll_heap, 0x7A7, 0x14, 0xB, 0x28, 0x16);
+    mess_roll_heap = gfx_freebuf;
+    msgWnd_init2(&mess_roll_st, &mess_roll_heap, MESS_ROLL_ST_ARG2, 0x14, 0xB, 0x28, 0x16);
     mess_roll_st.unk_24 = 1;
     mess_roll_st.unk_30 = 0xC;
     mess_roll_st.unk_34 = 0xC;
@@ -1125,7 +1452,190 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", graphic_story);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", graphic_story);
+void graphic_story(void) {
+    s32 pad[6] UNUSED;
+    OSScTask *temp_s4;
+
+    gGfxHead = gGfxGlist[gfx_gtask_no];
+    temp_s4 = &B_800FAE80[gfx_gtask_no];
+
+    init_objMtx();
+
+    gSPSegment(gGfxHead++, 0x00, 0x00000000);
+    gSPSegment(gGfxHead++, 0x05, osVirtualToPhysical(story_buffer));
+
+    lws_data = story_buffer;
+    S2RDPinitRtn(1U);
+
+    gDPPipeSync(gGfxHead++);
+    gDPSetCycleType(gGfxHead++, G_CYC_FILL);
+    gDPSetCycleType(gGfxHead++, G_CYC_1CYCLE);
+    gDPSetEnvColor(gGfxHead++, 255, 255, 255, 255);
+
+    S2ClearCFBRtn(1U);
+
+    gSPMatrix(gGfxHead++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+
+    if (story_zoom > 0) {
+        story_zoomfade(&gGfxHead, story_zoom);
+        story_zoom++;
+    } else {
+        switch (story_proc_no) {
+            case STORY_PROC_NO_0:
+            case STORY_PROC_NO_12:
+                story_st_new(&gGfxHead, 1, 0);
+                break;
+
+            case STORY_PROC_NO_10:
+                story_m_end(&gGfxHead, 0x14, 0x1B);
+                break;
+
+            case STORY_PROC_NO_11:
+                story_m_end(&gGfxHead, 0x16, 0x1C);
+                break;
+
+            case STORY_PROC_NO_22:
+                story_w_end(&gGfxHead, 0x17);
+                break;
+
+            case STORY_PROC_NO_23:
+                story_w_end(&gGfxHead, 0x19);
+                break;
+
+            case STORY_PROC_NO_1:
+                story_st_new_op(&gGfxHead, 1);
+                break;
+
+            case STORY_PROC_NO_2:
+                story_st_new2(&gGfxHead, 2, 5, 3, 7);
+                break;
+
+            case STORY_PROC_NO_3:
+                gDPSetEnvColor(gGfxHead++, 170, 150, 185, 255);
+
+                story_st_new(&gGfxHead, 5, 9);
+                break;
+
+            case STORY_PROC_NO_4:
+                story_st_new2_f(&gGfxHead, 0x22, 0x1D, 7, 0xB);
+                break;
+
+            case STORY_PROC_NO_5:
+                story_st_new(&gGfxHead, 9, 0xD);
+                break;
+
+            case STORY_PROC_NO_6:
+                story_st_new(&gGfxHead, 0xC, 0xF);
+                break;
+
+            case STORY_PROC_NO_7:
+                if (evs_story_level == 0) {
+                    story_st_new(&gGfxHead, 0x1E, 0x19);
+                } else {
+                    story_st_new(&gGfxHead, 0xD, 0x11);
+                }
+                break;
+
+            case STORY_PROC_NO_8:
+                if (evs_story_level == 0) {
+                    story_st_new2_f(&gGfxHead, 0x20, 0x1A, 0x10, 0x13);
+                } else {
+                    story_st_new2_f(&gGfxHead, 0xE, 0x12, 0x10, 0x13);
+                }
+                break;
+
+            case STORY_PROC_NO_9:
+                story_st_new(&gGfxHead, 0x12, 0x14);
+                break;
+
+            case STORY_PROC_NO_13:
+                story_st_new_op(&gGfxHead, 0);
+                break;
+
+            case STORY_PROC_NO_14:
+                story_st_new2(&gGfxHead, 2, 6, 4, 8);
+                break;
+
+            case STORY_PROC_NO_15:
+                gDPSetEnvColor(gGfxHead++, 170, 150, 185, 255);
+                story_st_new(&gGfxHead, 6, 0xA);
+                break;
+
+            case STORY_PROC_NO_16:
+                story_st_new2_f(&gGfxHead, 0x22, 0x1D, 8, 0xC);
+                break;
+
+            case STORY_PROC_NO_17:
+                story_st_new(&gGfxHead, 0xA, 0xE);
+                break;
+
+            case STORY_PROC_NO_18:
+                story_st_new(&gGfxHead, 0xB, 0x10);
+                break;
+
+            case STORY_PROC_NO_19:
+                if (evs_story_level == 0) {
+                    story_st_new(&gGfxHead, 0x1F, 0x19);
+                } else {
+                    story_st_new(&gGfxHead, 0xD, 0x11);
+                }
+                break;
+
+            case STORY_PROC_NO_20:
+                if (evs_story_level == 0) {
+                    story_st_new2_f(&gGfxHead, 0x20, 0x1A, 0x11, 0x13);
+                } else {
+                    story_st_new2_f(&gGfxHead, 0xF, 0x12, 0x11, 0x13);
+                }
+                break;
+
+            case STORY_PROC_NO_21:
+                story_st_new_w9(&gGfxHead, 0x13, 0x15);
+                break;
+
+            default:
+                break;
+        }
+
+        curtain_proc_org(&gGfxHead, story_curtain);
+        if (story_staff_roll == 2) {
+            msgWnd_draw(&mess_roll_st, &gGfxHead);
+
+            if (gControllerPressedButtons[main_joy[0]] & START_BUTTON) {
+                story_staff_roll = -1;
+            }
+
+            if (gControllerHoldButtons[main_joy[0]] & (A_BUTTON | B_BUTTON)) {
+                mess_roll_st.unk_5C = 1.0f / 6.0f;
+            } else {
+                mess_roll_st.unk_5C = 1.0f / 60.0f;
+            }
+        }
+
+        func_800770E8(&gGfxHead, wakuGraphic);
+        if (story_message_on != 0) {
+            msgWnd_draw(&mess_st, &gGfxHead);
+            gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+        }
+    }
+
+    if (story_staff_roll < 0) {
+        gSPDisplayList(gGfxHead++, normal_texture_init_dl);
+        story_spot(&gGfxHead, 0xA0, 0x78, story_spot_cnt, changestar_tex);
+        story_spot_cnt -= 4;
+        if (story_spot_cnt < -0x14) {
+            loop_flg = false;
+        }
+    }
+
+    story_time_cnt++;
+    gDPFullSync(gGfxHead++);
+    gSPEndDisplayList(gGfxHead++);
+
+    osWritebackDCacheAll();
+    gfxTaskStart(temp_s4, gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0,
+                 OS_SC_SWAPBUFFER);
+}
 #endif
 
 #if VERSION_US

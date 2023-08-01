@@ -13,7 +13,7 @@
 
 // data
 
-extern s32 D_80088100;
+extern u32 framecont;
 extern s8 D_80088104[];
 #if VERSION_CN
 extern s32 D_80092EA8_cn;
@@ -257,17 +257,17 @@ extern enum_story_proc_no story_proc_no; /* Original name: story_proc_no */
 extern char STR_800AACF0[];
 extern char *EndingLastMessage; /* Original name: EndingLastMessage */
 extern s32 story_time_cnt;
-extern s32 story_seq_step;
+extern s32 story_seq_step; // TODO: enum?
 extern s32 story_zoom;
 extern s32 story_curtain;
 extern s32 story_spot_cnt;
 extern UNK_TYPE4 D_800AAD1C;
-extern UNK_TYPE4 story_message_on;
+extern s32 story_message_on;
 extern UNK_TYPE4 D_800AAD24;
 extern s32 story_doing;
 extern s32 bgtime; /* Original name: bgtime */
 extern s32 mes_time;
-// extern UNK_TYPE D_800AAD38;
+extern u8 *D_800AAD38;
 extern void *story_buffer;
 extern void *story_z_buffer;
 extern s32 objMtx_FF;
@@ -373,15 +373,15 @@ extern void *lws_scene;
 extern MessageWnd mess_st;
 extern MessageWnd mess_roll_st;
 // extern UNK_TYPE B_800E5AF0;
-// extern UNK_TYPE mess_roll_heap;
+extern void *mess_roll_heap;
 // extern UNK_TYPE B_800E5EF4;
 // extern UNK_TYPE B_800E5EF8;
 extern bool loop_flg;
-// extern UNK_TYPE story_staff_roll;
+extern s32 story_staff_roll;
 extern u16 story_norm; /* Original name: story_norm */
 extern Mtx story_viewMtx; /* Original name: story_viewMtx */
 extern Mtx story_objectMtx[2][0x50];
-extern void *wakuGraphic;
+extern struct_wakuGraphic *wakuGraphic;
 extern void *bgGraphic; /* Original name: bgGraphic */
 extern void *storyGraphic;
 extern void *messageData;

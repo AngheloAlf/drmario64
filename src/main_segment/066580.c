@@ -45,9 +45,9 @@ u8 *func_8007E760(char *dst, u8 arg1, u8 arg2, u8 arg3, s32 arg4, u16 arg5, u8 *
     u8 temp_t4;
 
     var_s1 = 0;
-    temp_s3 = ((u32) D_80088100 >> 5) & 0x1F;
+    temp_s3 = ((u32) framecont >> 5) & 0x1F;
     temp_t1 = (s32) arg5 & 0xFFFF;
-    temp_a0 = D_80088100 & 0x1F;
+    temp_a0 = framecont & 0x1F;
     temp_t2 = arg6[0];
     temp_t4 = arg6[1];
     temp_t3 = arg6[2];
@@ -133,8 +133,8 @@ u8 *func_8007E760(char *dst, u8 arg1, u8 arg2, u8 arg3, u32 arg4, u16 arg5, u8 *
     u8 temp_t5;
     u8 temp_t6;
 
-    temp_t1 = D_80088100 & 0x1F;
-    temp_t6_2 = ((u32)D_80088100 >> 5) & 0x1F;
+    temp_t1 = framecont & 0x1F;
+    temp_t6_2 = ((u32)framecont >> 5) & 0x1F;
 
     temp_t5 = arg6[0];
     temp_t6 = arg6[1];

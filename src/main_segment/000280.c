@@ -8,7 +8,7 @@
 #include "audio/audio_stuff.h"
 #include "dm_thread.h"
 
-s32 D_80088100 = 0;
+u32 framecont = 0;
 
 s8 D_80088104[] = { 1, 0 };
 
@@ -85,7 +85,7 @@ void func_8002A0DC(void *arg) {
 #if VERSION_CN
         if (!D_80092F10_cn) {
 #endif
-            D_80088100++;
+            framecont++;
 #if VERSION_CN
         }
 #endif

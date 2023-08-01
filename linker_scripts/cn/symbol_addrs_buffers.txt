@@ -1,5 +1,5 @@
 Heap_bufferp = 0x8013B870; // size:0xC9790 defined:True
 
-D_80205000 = 0x80205000; // size:0x1B0000
+gfx_freebuf = 0x80205000; // size:0x1B0000
 
 gFramebuffers = 0x803B5000; // size:0x4B000

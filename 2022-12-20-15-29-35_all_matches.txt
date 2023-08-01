@@ -377,7 +377,7 @@ D_800B096C - found 1 matches total:
 func_80049080 - found 1 matches total:
 0.99 - func_80049540
 
-func_80044B18 - found 1 matches total:
+StretchTexTile16 - found 1 matches total:
 0.99 - func_80044E08
 
 D_800ACFC8 - found 1 matches total:

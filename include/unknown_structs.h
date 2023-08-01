@@ -207,7 +207,7 @@ typedef struct struct_watchGame {
 
 
 // GraphBin?
-typedef struct struct_800E8750 {
+typedef struct struct_wakuGraphic {
     /* 0x000 */ UNK_TYPE1 unk_000[0x8];
     /* 0x008 */ u16 unk_008;
     /* 0x00A */ u16 unk_00A;
@@ -217,7 +217,7 @@ typedef struct struct_800E8750 {
     /* 0x010 */ UNK_TYPE unk_010;
     /* 0x014 */ UNK_TYPE1 unk_014[0x1FC];
     /* 0x210 */ UNK_TYPE unk_210;
-} struct_800E8750; // size >= 0x214
+} struct_wakuGraphic; // size >= 0x214
 
 typedef struct struct_get_gbi_stat_arg0 {
     /* 0x00 */ s32 unk_00;

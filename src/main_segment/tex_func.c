@@ -371,7 +371,7 @@ void func_800429B8(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80044F74_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800429B8);
 #endif
 
 #if VERSION_US
@@ -815,11 +815,11 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047044_cn);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80044B18);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexTile16);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047230_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexTile16);
 #endif
 
 #if VERSION_US

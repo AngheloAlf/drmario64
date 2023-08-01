@@ -338,7 +338,7 @@ StretchTexTile8_LoadTex = 0x800443F4; //
 StretchTexTile8 = 0x800445C4; //
 RectTexTile8 = 0x80044780; //
 func_80044940 = 0x80044940; //
-func_80044B18 = 0x80044B18; //
+StretchTexTile16 = 0x80044B18; //
 func_80044C28 = 0x80044C28; //
 func_80044E08 = 0x80044E08; //
 RectTexTile4i = 0x80044F18; //
@@ -1138,7 +1138,7 @@ aspMainTextStart = 0x80084760; // name_end:aspMainTextEnd dont_allow_addend:True
 gspF3DEX2_fifoTextStart = 0x80085580; // name_end:gspF3DEX2_fifoTextEnd dont_allow_addend:True
 gspS2DEX_fifoTextStart = 0x80086910; // name_end:gspS2DEX_fifoTextEnd dont_allow_addend:True
 
-D_80088100 = 0x80088100; //
+framecont = 0x80088100; //
 D_80088104 = 0x80088104; // size:0x2
 D_80088110 = 0x80088110; // size:0x10
 gCurrentFramebufferIndex = 0x80088120; //

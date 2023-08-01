@@ -47,7 +47,7 @@ void mainproc(void *arg UNUSED) {
     }
 
     dm_audio_init_driver(&B_800EB670);
-    gfxInit(D_80205000);
+    gfxInit(gfx_freebuf);
     gfxCreateGraphicThread(&B_800EB670);
     osViSetSpecialFeatures(OS_VI_DITHER_FILTER_ON | OS_VI_GAMMA_DITHER_OFF | OS_VI_GAMMA_OFF);
     joyInit(MAXCONTROLLERS);
