@@ -488,7 +488,9 @@ segments:
 
       - [0x08F1B0, data, main_segment/dm_title_main]
 
-      - [0x08F1C0, data, main_segment/main_story]
+      - [0x08F1C0, data, main_segment/08F1C0] # unreferenced
+
+      - [0x08F1E0, data, main_segment/main_story]
 
       - [0x092C80, data, main_segment/calc]
       - [0x092F90, data, main_segment/066580]

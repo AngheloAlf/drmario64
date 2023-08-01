@@ -1,3 +1,7 @@
+/**
+ * Original filename: main1x.c
+ */
+
 #include "main1x.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -6,6 +10,7 @@
 #include "main_segment_variables.h"
 #include "record.h"
 #include "vr_init.h"
+#include "main_story.h"
 
 #if VERSION_US
 u8 evs_stereo = 1;

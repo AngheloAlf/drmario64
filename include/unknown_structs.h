@@ -206,28 +206,6 @@ typedef struct struct_watchGame {
 } struct_watchGame; // size = 0xB60
 
 
-// GraphBin?
-typedef struct struct_wakuGraphic {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x8];
-    /* 0x008 */ u16 unk_008;
-    /* 0x00A */ u16 unk_00A;
-    /* 0x00C */ UNK_TYPE2 unk_00C;
-    /* 0x00E */ u8 unk_00E;
-    /* 0x00F */ UNK_TYPE1 unk_00F[0x1];
-    /* 0x010 */ UNK_TYPE unk_010;
-    /* 0x014 */ UNK_TYPE1 unk_014[0x1FC];
-    /* 0x210 */ UNK_TYPE unk_210;
-} struct_wakuGraphic; // size >= 0x214
-
-typedef struct struct_get_gbi_stat_arg0 {
-    /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ UNK_PTR unk_0C;
-    /* 0x10 */ TexturePtr unk_10;
-    /* 0x14 */ UNK_TYPE1 unk_14[0x4];
-} struct_get_gbi_stat_arg0; // size = 0x18
-
 typedef struct struct_8002A51C_arg1 {
     /* 0x00 */ UNK_TYPE1 unk_00[0xC];
     /* 0x0C */ void *unk_0C;
@@ -529,35 +507,6 @@ typedef enum enum_evs_gamemode {
     /* 2 */ ENUM_EVS_GAMEMODE_2,
     /* 3 */ ENUM_EVS_GAMEMODE_3
 } enum_evs_gamemode;
-
-// Maybe same enum as `BgRomDataIndex`
-typedef enum enum_story_proc_no {
-    /*  0 */ STORY_PROC_NO_0,
-    /*  1 */ STORY_PROC_NO_1,
-    /*  2 */ STORY_PROC_NO_2,
-    /*  3 */ STORY_PROC_NO_3,
-    /*  4 */ STORY_PROC_NO_4,
-    /*  5 */ STORY_PROC_NO_5,
-    /*  6 */ STORY_PROC_NO_6,
-    /*  7 */ STORY_PROC_NO_7,
-    /*  8 */ STORY_PROC_NO_8,
-    /*  9 */ STORY_PROC_NO_9,
-    /* 10 */ STORY_PROC_NO_10,
-    /* 11 */ STORY_PROC_NO_11,
-    /* 12 */ STORY_PROC_NO_12,
-    /* 13 */ STORY_PROC_NO_13,
-    /* 14 */ STORY_PROC_NO_14,
-    /* 15 */ STORY_PROC_NO_15,
-    /* 16 */ STORY_PROC_NO_16,
-    /* 17 */ STORY_PROC_NO_17,
-    /* 18 */ STORY_PROC_NO_18,
-    /* 19 */ STORY_PROC_NO_19,
-    /* 20 */ STORY_PROC_NO_20,
-    /* 21 */ STORY_PROC_NO_21,
-    /* 22 */ STORY_PROC_NO_22,
-    /* 23 */ STORY_PROC_NO_23,
-    /* 24 */ STORY_PROC_NO_24
-} enum_story_proc_no;
 
 #if VERSION_CN
 typedef struct struct_8010ACB0_cn {

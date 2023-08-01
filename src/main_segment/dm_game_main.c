@@ -25,6 +25,7 @@
 #include "main1x.h"
 #include "028820.h"
 #include "tex_func.h"
+#include "main_story.h"
 
 #if VERSION_US || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version

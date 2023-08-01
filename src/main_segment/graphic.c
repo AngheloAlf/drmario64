@@ -15,6 +15,7 @@
 #include "gs2dex.h"
 #include "dm_thread.h"
 #include "graphics/graphic_dlists.h"
+#include "main_story.h"
 
 #if VERSION_US || VERSION_CN
 void *D_80088110[][2] = {

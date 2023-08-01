@@ -17,6 +17,7 @@
 #include "joy.h"
 #include "record.h"
 #include "main1x.h"
+#include "main_story.h"
 
 /**
  * Original name: mainproc
