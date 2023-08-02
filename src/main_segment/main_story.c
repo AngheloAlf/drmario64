@@ -23,6 +23,8 @@
 #include "joy.h"
 #endif
 
+#define STORY_BUFFER_OFFSET(addr) ((void *)(((uintptr_t)(addr)&0xFFFFFF) + (uintptr_t)story_buffer))
+
 extern struct_lws_scene *lws_scene;
 extern struct_wakuGraphic *wakuGraphic;
 
@@ -234,6 +236,10 @@ void *func_80077170(BgRomDataIndex index, void *dstAddr) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_800771EC);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800815A8_cn);
+#endif
+
 #if VERSION_US
 void func_800773F0(void) {
     if (story_curtain == 0) {
@@ -246,39 +252,6 @@ void func_800773F0(void) {
         story_curtain--;
     }
 }
-#endif
-
-#if VERSION_US
-void func_8007744C(void) {
-    story_doing = 0;
-    story_zoom++;
-}
-#endif
-
-#if VERSION_US
-void func_8007746C(void) {
-    msgWnd_clear(&mess_st);
-    D_800AAD1C = 0;
-    D_800AAD24 = 0;
-    story_time_cnt = 0;
-    D_800AAD24 = 0;
-    story_seq_step++;
-}
-#endif
-
-#if VERSION_US
-bool func_800774C4(void) {
-    bool temp_v0 = msgWnd_isEnd(&mess_st);
-
-    if (temp_v0) {
-        func_8007746C();
-    }
-    return temp_v0;
-}
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800815A8_cn);
 #endif
 
 extern s32 D_800C2898_cn;
@@ -298,6 +271,13 @@ void func_80081814_cn(void) {
 }
 #endif
 
+#if VERSION_US
+void func_8007744C(void) {
+    story_doing = 0;
+    story_zoom++;
+}
+#endif
+
 #if VERSION_CN
 void func_80081874_cn(void) {
     story_doing = 0;
@@ -305,8 +285,30 @@ void func_80081874_cn(void) {
 }
 #endif
 
+#if VERSION_US
+void func_8007746C(void) {
+    msgWnd_clear(&mess_st);
+    D_800AAD1C = 0;
+    D_800AAD24 = 0;
+    story_time_cnt = 0;
+    D_800AAD24 = 0;
+    story_seq_step++;
+}
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081898_cn);
+#endif
+
+#if VERSION_US
+bool func_800774C4(void) {
+    bool temp_v0 = msgWnd_isEnd(&mess_st);
+
+    if (temp_v0) {
+        func_8007746C();
+    }
+    return temp_v0;
+}
 #endif
 
 #if VERSION_CN
@@ -856,7 +858,192 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_op);
 #endif
 
 #if VERSION_CN
+#ifdef NON_EQUIVALENT
+extern s32 fin_frame_440;
+extern s32 fin_demo_441;
+extern struct_mes_data *D_800C27F8_cn;
+extern struct_mes_data *D_800C27FC_cn;
+extern struct_mes_data *D_800C2800_cn;
+
+void story_st_new_op(Gfx **gfxP, s32 arg1) {
+    Mtx sp20;
+    Gfx *gfx;
+    s32 temp_a3;
+    s32 var_s0;
+    s32 var_v0;
+    s32 var_v1;
+    s32 var_v1_5;
+
+    gfx = *gfxP;
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    gSPDisplayList(gfx++, story_setup);
+
+    makeTransrateMatrix(&sp20, 0U, 0xFFF38000U, 0xFC4A0000U);
+    switch (story_seq_step) {
+        case 0x0:
+            var_s0 = 0x1A;
+            if (arg1 == 0) {
+                var_s0 = 0x1B;
+            }
+            func_80081814_cn();
+            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[var_s0] & 0xFFFFFF) + (uintptr_t)story_buffer), 0,
+                     story_buffer);
+            framecont = 0;
+            fin_frame_440 = 0;
+            fin_demo_441 = var_s0;
+            break;
+
+        case 0x1:
+            if (arg1 != 0) {
+                var_s0 = 0x1A;
+                var_v1 = 0;
+            } else {
+                var_s0 = 0x1B;
+                var_v1 = 1;
+            }
+            fin_demo_441 = var_s0;
+            story_time_cnt = (s32)framecont;
+            fin_frame_440 = framecont;
+            st_mes_ptr = mes_data[var_v1];
+            if (gControllerPressedButtons[main_joy[0]] & 0x5000) {
+                framecont = 0;
+                story_time_cnt = 0;
+                st_message_count = 0;
+                story_seq_step += 0x63;
+            }
+            if (gControllerHoldButtons[main_joy[0]] & 0x8000) {
+                story_time_cnt += 3;
+                framecont += 3;
+            }
+            func_80082D70_cn();
+            if (lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[var_s0] & 0xFFFFFF) + (uintptr_t)story_buffer),
+                         story_time_cnt, story_buffer) == 1) {
+                if (msgWnd_isEnd(&mess_st) != false) {
+                    framecont = 0;
+                    story_time_cnt = 0;
+                    st_message_count = 0;
+                    story_seq_step += 1;
+                }
+            }
+            break;
+
+        case 0x2:
+            fin_demo_441 = 0x1C;
+            story_time_cnt = (s32)framecont;
+            fin_frame_440 = framecont;
+            st_mes_ptr = D_800C27F8_cn;
+            if (gControllerPressedButtons[main_joy[0]] & 0x5000) {
+                framecont = 0;
+                story_time_cnt = 0;
+                st_message_count = 0;
+                story_seq_step += 0x63;
+            }
+            if (gControllerHoldButtons[main_joy[0]] & 0x8000) {
+                story_time_cnt += 3;
+                framecont += 3;
+            }
+            func_80082D70_cn();
+            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[0x1C] & 0xFFFFFF) + (uintptr_t)story_buffer),
+                          story_time_cnt, story_buffer) == 1) &&
+                (msgWnd_isEnd(&mess_st) != false)) {
+                framecont = 0;
+                story_time_cnt = 0;
+                st_message_count = 0;
+                story_seq_step += 1;
+            }
+            if (fin_frame_440 >= 0x61E) {
+                var_v0 = 0x63B - fin_frame_440;
+
+                gSPDisplayList(gfx++, normal_texture_init_dl);
+
+                story_spot(&gfx, 0xA0, 0x56, (var_v0 * 0xFF) / 30, changestar_tex);
+            }
+            break;
+
+        case 0x3:
+            fin_demo_441 = 0x1D;
+            story_time_cnt = framecont;
+            fin_frame_440 = framecont;
+            st_mes_ptr = D_800C27FC_cn;
+            if (gControllerPressedButtons[main_joy[0]] & 0x5000) {
+                framecont = 0;
+                story_time_cnt = 0;
+                st_message_count = 0;
+                story_seq_step += 0x63;
+            }
+
+            if (gControllerHoldButtons[main_joy[0]] & 0x8000) {
+                story_time_cnt += 3;
+                framecont += 3;
+            }
+
+            func_80082D70_cn();
+            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[0x1D] & 0xFFFFFF) + (uintptr_t)story_buffer),
+                          story_time_cnt, story_buffer) == 1) &&
+                (msgWnd_isEnd(&mess_st) != false)) {
+                framecont = 0;
+                story_time_cnt = 0;
+                st_message_count = 0;
+                story_seq_step += 1;
+            }
+
+            if (fin_frame_440 < 0x1E) {
+                gSPDisplayList(gfx++, normal_texture_init_dl);
+
+                story_spot(&gfx, 0xA0, 0x56, (fin_frame_440 * 0xFF) / 30, changestar_tex);
+            }
+            if (fin_frame_440 >= 0x263) {
+                var_v0 = 0x280 - fin_frame_440;
+
+                gSPDisplayList(gfx++, normal_texture_init_dl);
+
+                story_spot(&gfx, 0xA0, 0x56, (var_v0 * 0xFF) / 30, changestar_tex);
+            }
+            break;
+
+        case 0x4:
+            fin_demo_441 = 1;
+            story_time_cnt = (s32)framecont;
+            fin_frame_440 = framecont;
+            st_mes_ptr = D_800C2800_cn;
+            if (gControllerPressedButtons[main_joy[0]] & 0x5000) {
+                story_time_cnt = 0;
+                story_seq_step += 1;
+            }
+            if (gControllerHoldButtons[main_joy[0]] & 0x8000) {
+                framecont += 3;
+                story_time_cnt += 3;
+            }
+            func_80082D70_cn();
+            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[0x4] & 0xFFFFFF) + (uintptr_t)story_buffer),
+                          story_time_cnt, story_buffer) == 1) &&
+                (msgWnd_isEnd(&mess_st) != false)) {
+                story_time_cnt = 0;
+                story_seq_step += 1;
+            }
+            if (fin_frame_440 < 0x1E) {
+                gSPDisplayList(gfx++, normal_texture_init_dl);
+
+                story_spot(&gfx, 0xA0, 0x56, (fin_frame_440 * 0xFF) / 30, changestar_tex);
+            }
+            break;
+
+        default:
+            func_80081874_cn();
+            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[fin_demo_441] & 0xFFFFFF) + (uintptr_t)story_buffer),
+                     fin_frame_440, story_buffer);
+            break;
+    }
+
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+
+    *gfxP = gfx;
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_st_new_op);
+#endif
 #endif
 
 #if VERSION_US
@@ -1035,16 +1222,228 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_st_new2_f);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new2);
 #endif
 
+extern s32 fin_frame_623;
+extern s32 fin_demo_624;
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_st_new2);
+void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    Mtx sp20;
+    Gfx *gfx = *gfxP;
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+    gSPDisplayList(gfx++, story_setup);
+
+    makeTransrateMatrix(&sp20, 0U, 0xFFF38000U, 0xFC4A0000U);
+
+    switch (story_seq_step) {
+        case 0x0:
+            func_80081814_cn();
+            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer), 0,
+                     story_buffer);
+            framecont = 0;
+            fin_frame_623 = 0;
+            fin_demo_624 = arg1;
+            break;
+
+        case 0x1:
+            fin_demo_624 = arg1;
+            story_time_cnt = framecont;
+            fin_frame_623 = framecont;
+            st_mes_ptr = mes_data[arg2];
+            if (gControllerPressedButtons[*main_joy] & (START_BUTTON | B_BUTTON)) {
+                story_seq_step = 0x64;
+                framecont = 0;
+                story_time_cnt = 0;
+                st_message_count = 0;
+            }
+            if (gControllerHoldButtons[*main_joy] & A_BUTTON) {
+                story_time_cnt += 3;
+                framecont += 3;
+            }
+            func_80082D70_cn();
+            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer),
+                          story_time_cnt, story_buffer) == 1) &&
+                (msgWnd_isEnd(&mess_st) != false)) {
+                framecont = 0;
+                story_time_cnt = 0;
+                st_message_count = 0;
+                story_seq_step++;
+            }
+            break;
+
+        case 0x2:
+            fin_demo_624 = arg3;
+            story_time_cnt = framecont;
+            fin_frame_623 = framecont;
+            st_mes_ptr = mes_data[arg4];
+            if (gControllerPressedButtons[*main_joy] & (START_BUTTON | B_BUTTON)) {
+                story_seq_step = 3;
+                story_time_cnt = 0;
+            }
+            if (gControllerHoldButtons[*main_joy] & A_BUTTON) {
+                framecont += 3;
+                story_time_cnt += 3;
+            }
+
+            func_80082D70_cn();
+            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg3] & 0xFFFFFF) + (uintptr_t)story_buffer),
+                          story_time_cnt, story_buffer) == 1) &&
+                (msgWnd_isEnd(&mess_st) != false)) {
+                story_time_cnt = 0;
+                story_seq_step++;
+            }
+            break;
+
+        default:
+            func_80081874_cn();
+            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[fin_demo_624] & 0xFFFFFF) + (uintptr_t)story_buffer),
+                     fin_frame_623, story_buffer);
+            break;
+    }
+
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_m_end);
 #endif
 
+extern s32 fin_frame_667;
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_m_end);
+void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
+    Mtx sp20;
+    Gfx *gfx = *gfxP;
+    s32 var_a3;
+    s32 var_t0;
+    s32 var_t1;
+    s32 var_t2;
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+    gSPDisplayList(gfx++, story_setup);
+
+    makeTransrateMatrix(&sp20, 0U, 0xFFF38000U, 0xFC4A0000U);
+
+    switch (story_seq_step) {
+        case 0:
+            func_80081814_cn();
+            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer), 0,
+                     story_buffer);
+            framecont = 0;
+            story_spot_cnt = 0x100;
+            st_mes_ptr = mes_data[arg2];
+            break;
+
+        case 1:
+            story_time_cnt = framecont;
+            fin_frame_667 = framecont;
+
+            func_80082D70_cn();
+            if (gControllerPressedButtons[*main_joy] & 0x5000) {
+                framecont = 0;
+                story_time_cnt = 0;
+                st_message_count = 0;
+                story_seq_step += 1;
+            }
+
+            if (lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer),
+                         story_time_cnt, story_buffer) == 1) {
+                framecont = 0;
+                story_time_cnt = 0;
+                st_message_count = 0;
+                story_seq_step += 1;
+            }
+            break;
+
+        default:
+            story_time_cnt = framecont;
+            fin_frame_667 = framecont;
+            st_mes_ptr = mes_data[0x16];
+
+            var_a3 = 0xFF;
+            var_t1 = 0xFF;
+            var_t2 = 0xFF;
+            if ((s32)framecont >= 0x15F) {
+                var_t0 = framecont - 0x15E;
+                if ((s32)framecont < 0x1F4) {
+                    var_t2 = ((var_t0 * -0x69) / 149) + 0xFF;
+                    var_t1 = (-(var_t0 * 0xA0) / 149) + 0xFF;
+                    var_a3 = ((var_t0 * -0xAF) / 149) + 0xFF;
+                } else {
+                    var_t0 = (framecont - 0x1F4);
+                    if ((s32)framecont < 0x2BC) {
+                        var_t2 = ((var_t0 * -0x5F) / 199) + 0x96;
+                        var_t1 = (-(var_t0 * 0x10) / 199) + 0x5F;
+                        var_a3 = ((var_t0 * 0x1E) / 199) + 0x50;
+                    } else if ((s32)framecont < 0x3E8) {
+                        var_t2 = 0x37;
+                        var_t1 = 0x4F;
+                        var_a3 = 0x6E;
+                    } else {
+                        var_t0 = framecont - 0x3E8;
+                        if ((s32)framecont < 0x4E2) {
+                            var_t2 = ((var_t0 * 0xC8) / 249) + 0x37;
+                            var_t1 = ((var_t0 * 0xB0) / 249) + 0x4F;
+                            var_a3 = ((var_t0 * 0x91) / 249) + 0x6E;
+                        }
+                    }
+                }
+            }
+
+            var_t0 = 0xFF;
+            if ((u32)(story_time_cnt - 0x277) < 0x171U) {
+                if (story_time_cnt < 0x2BC) {
+                    var_t0 = story_time_cnt - 0x276;
+                    var_t0 = ((var_t0 * -0xFF) / 69) + 0xFF;
+                } else if (story_time_cnt >= 0x3B7) {
+                    var_t0 = story_time_cnt - 0x3B6;
+                    var_t0 = (var_t0 * 0xFF) / 49;
+                } else {
+                    var_t0 = 0;
+                }
+            }
+
+            gDPSetEnvColor(gfx++, var_t2, var_t1, var_a3, var_t0);
+
+            if (story_staff_roll != 0) {
+                if (st_message_count != 0x270F) {
+                    func_80082D70_cn();
+                }
+            }
+
+            if (lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[0x15] & 0xFFFFFF) + (uintptr_t)story_buffer),
+                         story_time_cnt, story_buffer) == 1) {
+                framecont = 0x117;
+                story_time_cnt = 0x117U;
+            }
+
+            if (story_time_cnt >= 0x1F) {
+                if (story_staff_roll == 0) {
+                    story_staff_roll = 1;
+                }
+            }
+            break;
+    }
+
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+
+    if ((story_staff_roll == 2) && (msgWnd_isScroll(&mess_roll_st) == false)) {
+        story_staff_roll = -1;
+    }
+
+    if (story_staff_roll == 1) {
+        msgWnd_addStr(&mess_roll_st, st_staffroll_txt);
+        msgWnd_skip(&mess_roll_st);
+        mess_roll_st.unk_1C = 0;
+        story_staff_roll = 2;
+        mess_roll_st.unk_5C = 1.0f / 60.0f;
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -1134,8 +1533,115 @@ void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_w_end);
 #endif
 
+extern s32 fin_frame_768;
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_w_end);
+void story_w_end(Gfx **gfxP, s32 arg1) {
+    Mtx sp20;
+    Gfx *gfx = *gfxP;
+    s32 temp_t0_2;
+    s32 var_a3;
+    s32 var_t0;
+    s32 var_t1;
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    gSPDisplayList(gfx++, story_setup);
+
+    makeTransrateMatrix(&sp20, 0U, 0xFFF38000U, 0xFC4A0000U);
+
+    switch (story_seq_step) {
+        case 0:
+            func_80081814_cn();
+            lws_anim(&gfx, &sp20, STORY_BUFFER_OFFSET(lws_data[arg1]), 0, story_buffer);
+            framecont = 0;
+            story_spot_cnt = 0x100;
+            st_mes_ptr = mes_data[0x17];
+            break;
+
+        case 1:
+            story_time_cnt = (s32)framecont;
+            fin_frame_768 = (s32)framecont;
+            func_80082D70_cn();
+            if (gControllerPressedButtons[*main_joy] & 0x5000) {
+                framecont = 0;
+                story_time_cnt = 0;
+                st_message_count = 0;
+                story_seq_step += 1;
+            }
+            if (lws_anim(&gfx, &sp20, STORY_BUFFER_OFFSET(lws_data[arg1]), story_time_cnt, story_buffer) == 1) {
+                framecont = 0;
+                story_time_cnt = 0;
+                st_message_count = 0;
+                story_seq_step += 1;
+            }
+            break;
+
+        default:
+            story_time_cnt = (s32)framecont;
+            fin_frame_768 = (s32)framecont;
+            st_mes_ptr = mes_data[0x18];
+            var_a3 = 0xFF;
+            var_t0 = 0xFF;
+            var_t1 = 0xFF;
+            if ((s32)framecont >= 0x262) {
+                if ((s32)framecont < 0x31B) {
+                    temp_t0_2 = framecont - 0x262;
+                    var_t1 = ((temp_t0_2 * -0x69) / 184) + 0xFF;
+                    var_t0 = (-(temp_t0_2 * 0xA0) / 184) + 0xFF;
+                    var_a3 = ((temp_t0_2 * -0xAF) / 184) + 0xFF;
+                } else if ((s32)framecont < 0x3D4) {
+                    temp_t0_2 = framecont - 0x31B;
+                    var_t1 = ((temp_t0_2 * -0x5F) / 184) + 0x96;
+                    var_t0 = (-(temp_t0_2 * 0x10) / 184) + 0x5F;
+                    var_a3 = ((temp_t0_2 * 0x1E) / 184) + 0x50;
+                } else if ((s32)framecont < 0x5C8) {
+                    var_t1 = 0x37;
+                    var_t0 = 0x4F;
+                    var_a3 = 0x6E;
+                } else if ((s32)framecont < 0x708) {
+                    temp_t0_2 = framecont - 0x5C8;
+                    var_t1 = ((temp_t0_2 * 0xC8) / 319) + 0x37;
+                    var_t0 = ((temp_t0_2 * 0xB0) / 319) + 0x4F;
+                    var_a3 = ((temp_t0_2 * 0x91) / 319) + 0x6E;
+                }
+            }
+
+            gDPSetEnvColor(gfx++, var_t1, var_t0, var_a3, 255);
+
+            if (story_staff_roll != 0) {
+                if (st_message_count != 0x270F) {
+                    func_80082D70_cn();
+                }
+            }
+            if (lws_anim(&gfx, &sp20, STORY_BUFFER_OFFSET(lws_data[0x18]), story_time_cnt, story_buffer) == 1) {
+                framecont = 0x6D;
+                story_time_cnt = (s32)0x6DU;
+            }
+            if (story_time_cnt >= 0x1F) {
+                if (story_staff_roll == 0) {
+                    story_staff_roll = 1;
+                }
+            }
+            break;
+    }
+
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+
+    if ((story_staff_roll == 2) && (msgWnd_isScroll(&mess_roll_st) == false)) {
+        story_staff_roll = -1;
+    }
+
+    if (story_staff_roll == 1) {
+        msgWnd_addStr(&mess_roll_st, st_staffroll_txt);
+        msgWnd_skip(&mess_roll_st);
+        mess_roll_st.unk_1C = 0;
+        story_staff_roll = 2;
+        mess_roll_st.unk_5C = 1.0f / 60.0f;
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
