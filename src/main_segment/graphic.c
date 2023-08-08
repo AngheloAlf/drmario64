@@ -16,6 +16,7 @@
 #include "dm_thread.h"
 #include "graphics/graphic_dlists.h"
 #include "main_story.h"
+#include "dm_manual_main.h"
 
 #if VERSION_US || VERSION_CN
 void *D_80088110[][2] = {

@@ -2,6 +2,7 @@
  * Original filename: dm_manual_main.c
  */
 
+#include "dm_manual_main.h"
 #include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -32,8 +33,10 @@ void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B0F0_cn);
 #endif
 
+#if VERSION_US || VERSION_CN
 void func_80071F0C(void) {
 }
+#endif
 
 #if VERSION_US
 void func_80071F14(struct_800F4890_unk_034 *arg0, UNK_PTR *arg1) {
@@ -47,7 +50,9 @@ void func_80071F14(struct_800F4890_unk_034 *arg0, UNK_PTR *arg1) {
     arg0->messageWnd.unk_54 = 1.0f / 6.0f;
     func_80071EF0(arg0, 0x20, 0x20);
 }
+#endif
 
+#if VERSION_US
 void func_80071FA0(struct_800F4890_unk_034 *arg0) {
     arg0->unk_08 = CLAMP(arg0->unk_08 + arg0->unk_0C, 0.0f, 1.0f);
 
@@ -55,7 +60,9 @@ void func_80071FA0(struct_800F4890_unk_034 *arg0) {
         msgWnd_update(&arg0->messageWnd);
     }
 }
+#endif
 
+#if VERSION_US
 void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 alpha = arg0->unk_08 * 255;
@@ -81,35 +88,49 @@ void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
     }
     *gfxP = gfx;
 }
+#endif
 
+#if VERSION_US
 void func_800721A0(struct_800F4890_unk_034 *arg0) {
     msgWnd_clear(&arg0->messageWnd);
 }
+#endif
 
+#if VERSION_US
 void func_800721BC(struct_800F4890_unk_034 *arg0, const char *arg1) {
     msgWnd_addStr(&arg0->messageWnd, arg1);
 }
+#endif
 
+#if VERSION_US
 void func_800721D8(struct_800F4890_unk_034 *arg0) {
     if (arg0->unk_0C < 0.0f) {
         arg0->unk_0C = -arg0->unk_0C;
     }
 }
+#endif
 
+#if VERSION_US
 void func_80072204(struct_800F4890_unk_034 *arg0) {
     if (arg0->unk_0C > 0.0f) {
         arg0->unk_0C = -arg0->unk_0C;
     }
 }
+#endif
 
+#if VERSION_US
 bool func_80072230(struct_800F4890_unk_034 *arg0) {
     return msgWnd_isEnd(&arg0->messageWnd);
 }
+#endif
 
+#if VERSION_US
 bool func_8007224C(struct_800F4890_unk_034 *arg0) {
     return msgWnd_isSpeaking(&arg0->messageWnd);
 }
+#endif
 
+#if VERSION_US
 void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_0 = arg1;
     arg0->unk_1 = 1;
@@ -120,29 +141,53 @@ void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B114_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B1BC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B234_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B3C4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B3F0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B41C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B440_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B464_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B490_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B4BC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B4D4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B6C4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B704_cn);
 #endif
 
@@ -163,62 +208,88 @@ const s32 RO_800B2438 = 0x34;
 const s32 RO_800B243C = 0x70;
 const s32 RO_800B2440 = 0xC4;
 const s32 RO_800B2444 = 0x70;
+#endif
 
+#if VERSION_US
 const u8 virus_1_1[][3] = {
     { 1, 1, 0x10 }, { 2, 2, 0xD }, { 2, 2, 0xE }, { 0, 5, 0xF }, { 0, 1, 6 }, { 0, 5, 6 },
     { 2, 0, 6 },    { 2, 4, 6 },   { 1, 2, 6 },   { 1, 3, 6 },   { 1, 6, 6 }, { 1, 7, 6 },
 };
+#endif
 
+#if VERSION_US
 const u8 RO_800B246C[] = { 0x12, 0x20, 0, 0x10, 0x21 };
+#endif
+#if VERSION_US
 const u8 RO_800B2474[] = { 0x21, 0x10, 0x20, 0, 0x21 };
+#endif
 
+#if VERSION_US
 const u8 position_1_1[][4] = {
     { 3, 5, 1, 0 },
     { 3, 3, 0, 0 },
     { 3, 2, 0, 0 },
     { 3, 1, 0, 0 },
 };
+#endif
 
+#if VERSION_US
 const u8 virus_2_1[][3] = {
     { 0, 0, 0xE }, { 0, 2, 0xA }, { 0, 2, 0xB }, { 0, 5, 8 },    { 0, 5, 9 },    { 0, 6, 0xC }, { 0, 6, 0xE },
     { 2, 3, 0xE }, { 2, 4, 7 },   { 2, 4, 8 },   { 2, 5, 0xB },  { 2, 5, 0xC },  { 2, 5, 0xE }, { 2, 5, 0xF },
     { 1, 1, 7 },   { 1, 1, 0xA }, { 1, 1, 0xB }, { 1, 1, 0x10 }, { 1, 2, 0x10 }, { 1, 7, 0xF },
 };
+#endif
 
+#if VERSION_US
 const u8 capsel_2_1[] = {
     0x21, 0x02, 0x10, 0x12, 0x21, 0x00, 0x01, 0x20, 0x21, 0x12, 0x10, 0x10,
 };
+#endif
 
+#if VERSION_US
 const u8 position_2_1[][4] = {
     { 4, 6, 0, 0 },   { 4, 5, 0, 1 }, { 7, 0xE, 1, 0 }, { 6, 0xB, 0, 1 }, { 5, 0xD, 0, 0 },
     { 0, 0xD, 1, 0 }, { 0, 9, 0, 0 }, { 3, 0xD, 1, 0 }, { 2, 9, 0, 1 },   { 1, 8, 0, 0 },
 };
+#endif
 
+#if VERSION_US
 const u8 virus_3_1[][3] = {
     { 0, 0, 0xC }, { 0, 1, 0xD }, { 0, 1, 0xF }, { 0, 4, 0xF }, { 0, 6, 0xD },  { 0, 6, 8 },    { 0, 7, 0x10 },
     { 2, 3, 8 },   { 2, 3, 9 },   { 2, 3, 0xB }, { 2, 3, 0xC }, { 2, 7, 0xE },  { 2, 7, 0xF },  { 1, 1, 0x10 },
     { 1, 2, 8 },   { 1, 2, 0xC }, { 1, 4, 0xD }, { 1, 4, 0xE }, { 1, 4, 0x10 }, { 1, 5, 0x10 },
 };
+#endif
 
+#if VERSION_US
 const u8 RO_800B2538[] = {
     0x12, 0x22, 0x12, 0, 0x10, 2, 0x21, 0, 0x12, 1, 0,
 };
+#endif
 
+#if VERSION_US
 const u8 position_3_1[][4] = {
     { 4, 0xC, 0, 0 }, { 3, 0xA, 0, 0 }, { 1, 0xB, 0, 1 }, { 1, 0xA, 1, 0 },  { 2, 0xA, 1, 0 },
     { 6, 0xC, 0, 0 }, { 6, 0xB, 0, 1 }, { 6, 0xA, 1, 0 }, { 2, 0x10, 1, 1 }, { 3, 0x10, 1, 0 },
 };
+#endif
 
+#if VERSION_US
 const u8 virus_4_1[][3] = {
     { 0, 0, 0xD }, { 0, 2, 7 },   { 0, 5, 0xA }, { 0, 5, 0xB }, { 0, 7, 0x10 }, { 2, 2, 0xE },
     { 2, 2, 0xF }, { 2, 3, 0xA }, { 2, 3, 0xD }, { 2, 5, 8 },   { 1, 1, 0xD },  { 1, 4, 8 },
     { 1, 4, 9 },   { 1, 5, 0xE }, { 1, 5, 0xF }, { 1, 6, 0xA },
 };
+#endif
 
+#if VERSION_US
 const u8 RO_800B259C[] = {
     0x10, 0x11, 0x20, 1, 0x12, 0x20, 1, 0x10, 0, 0x20, 0, 0x21, 1, 0x20, 0x22, 0, 0x10,
 };
+#endif
 
+#if VERSION_US
 const u8 position_4_1[][4] = {
     { 4, 7, 1, 0 },   { 5, 7, 0, 1 },   { 5, 6, 1, 0 },   { 5, 8, 0, 0 },   { 5, 7, 0, 1 },   { 3, 0xC, 1, 0 },
     { 0, 0xC, 0, 0 }, { 1, 0xB, 1, 0 }, { 0, 0xB, 1, 0 }, { 2, 0xD, 1, 0 }, { 7, 0xF, 1, 0 }, { 6, 0xD, 0, 0 },
@@ -228,45 +299,85 @@ const u8 position_4_1[][4] = {
 
 #if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89C0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89C8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89D0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89D8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89E0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89E8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89F0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89F8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A00_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A24_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A2C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A34_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A44_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A80_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8A8C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8AB4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8AF0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8AFC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8B24_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8B54_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8B68_cn);
 #endif
 
@@ -876,13 +987,17 @@ void dm_manual_attack_capsel_down(void) {
         dm_snd_play(SND_INDEX_55);
     }
 }
+#endif
 
+#if VERSION_US
 void func_800723EC(struct_game_state_data *gameStateDataP, GameMapGrid *mapGrid, s32 arg2 UNUSED) {
     if ((gameStateDataP->unk_014 != 1) & (gameStateDataP->unk_014 != 0xD)) {
         dm_black_up(gameStateDataP, mapGrid);
     }
 }
+#endif
 
+#if VERSION_US
 void dm_manual_update_virus_anime(struct_game_state_data *arg0) {
     s32 i;
 
@@ -893,7 +1008,9 @@ void dm_manual_update_virus_anime(struct_game_state_data *arg0) {
 
     dm_calc_big_virus_pos(arg0);
 }
+#endif
 
+#if VERSION_US
 s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapGrid *mapGrid, u8 arg2, s32 arg3 UNUSED) {
     struct_watchManual *temp_s3 = watchManual;
     s32 i;
@@ -1616,7 +1733,9 @@ bool dm_manual_2_main(void) {
 
     return ret;
 }
+#endif
 
+#if VERSION_US
 bool dm_manual_3_main(void) {
     struct_game_state_data *gameStateData = game_state_data;
     GameMapGrid *mapGrid = game_map_data;
@@ -1902,7 +2021,9 @@ bool dm_manual_3_main(void) {
 
     return ret;
 }
+#endif
 
+#if VERSION_US
 bool dm_manual_4_main(void) {
     struct_watchManual *temp_s2 = watchManual;
     bool ret = true;
@@ -2108,16 +2229,22 @@ bool dm_manual_4_main(void) {
 
     return ret;
 }
+#endif
 
+#if VERSION_US
 const s32 _tex_884[][2] = {
     { 0, 2 },
     { 1, 3 },
 };
+#endif
+#if VERSION_US
 const s32 _pos_885[][2] = {
     { 0, 0 },
     { 0, 0xC },
 };
+#endif
 
+#if VERSION_US
 void draw_AB_guide(s32 arg0, s32 arg1) {
     s32 i;
 
@@ -2519,6 +2646,94 @@ void dm_manual_all_init(void) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B7A8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BE38_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BFC0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007CAFC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007D2CC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007DE1C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E580_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93E8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93F8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9408_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E774_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007EBC4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007ED08_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007F010_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9428_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9430_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9450_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9470_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9488_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C948C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9490_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007F408_cn);
+#endif
+
 #if VERSION_US
 #ifdef NON_MATCHING
 /**
@@ -2623,6 +2838,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
+#endif
+
 #if VERSION_US
 void dm_manual_graphic(void) {
     Mtx *mtx;
@@ -2662,51 +2881,5 @@ void dm_manual_graphic(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B7A8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BE38_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BFC0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007CAFC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007D2CC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007DE1C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E580_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93E8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93F8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9408_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E774_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007EBC4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007ED08_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007F010_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9428_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9430_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9450_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9470_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9488_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C948C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9490_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007F408_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
-
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_graphic);
 #endif
