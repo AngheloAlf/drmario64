@@ -5218,22 +5218,22 @@ bool dm_game_demo_4p(void) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80068DC0);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800709FC_cn);
+#endif
+
 #if VERSION_US
 TiTexDataEntry_unk_0 **dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
     return &watchGame->unk_444->unk_00[cap_pal_4164[arg0][arg1]].unk_0;
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_get_capsel_pal);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80068E24);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800709FC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070A24_cn);
 #endif
 
 #if VERSION_CN

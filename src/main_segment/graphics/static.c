@@ -82,7 +82,7 @@ void load_TexPal(TexturePtr tlut) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002DB48_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", load_TexPal);
 #endif
 
 #if VERSION_US
@@ -154,7 +154,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", draw_Tex);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002E4C0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", draw_Tex);
 #endif
 
 #if VERSION_US

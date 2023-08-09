@@ -52,6 +52,10 @@ void func_80071F14(struct_800F4890_unk_034 *arg0, UNK_PTR *arg1) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B114_cn);
+#endif
+
 #if VERSION_US
 void func_80071FA0(struct_800F4890_unk_034 *arg0) {
     arg0->unk_08 = CLAMP(arg0->unk_08 + arg0->unk_0C, 0.0f, 1.0f);
@@ -63,11 +67,7 @@ void func_80071FA0(struct_800F4890_unk_034 *arg0) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B114_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B1BC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_80071FA0);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -155,14 +155,10 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B440_cn)
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B464_cn);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool func_8007224C(struct_800F4890_unk_034 *arg0) {
     return msgWnd_isSpeaking(&arg0->messageWnd);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007224C);
 #endif
 
 #if VERSION_US
@@ -1242,6 +1238,14 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_make_ke
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B7A8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BE38_cn);
+#endif
+
 #if VERSION_US
 #ifdef NON_MATCHING
 bool dm_manual_1_main(void) {
@@ -1534,6 +1538,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_1_main)
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_1_main);
+#endif
+
 #if VERSION_US
 bool dm_manual_2_main(void) {
     struct_watchManual *watchManualP = watchManual;
@@ -1732,6 +1740,10 @@ bool dm_manual_2_main(void) {
 
     return ret;
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_2_main);
 #endif
 
 #if VERSION_US
@@ -2022,6 +2034,10 @@ bool dm_manual_3_main(void) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_3_main);
+#endif
+
 #if VERSION_US
 bool dm_manual_4_main(void) {
     struct_watchManual *temp_s2 = watchManual;
@@ -2231,43 +2247,24 @@ bool dm_manual_4_main(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B7A8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_4_main);
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BE38_cn);
-#endif
+#if VERSION_US || VERSION_CN
+ASM_RODATA;
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BFC0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007CAFC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007D2CC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007DE1C_cn);
-#endif
-
-#if VERSION_US
 const s32 _tex_884[][2] = {
     { 0, 2 },
     { 1, 3 },
 };
-#endif
-#if VERSION_US
+
 const s32 _pos_885[][2] = {
     { 0, 0 },
     { 0, 0xC },
 };
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void draw_AB_guide(s32 arg0, s32 arg1) {
     s32 i;
 
@@ -2290,16 +2287,20 @@ void draw_AB_guide(s32 arg0, s32 arg1) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", draw_AB_guide);
-#endif
-
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", RO_800B3150);
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", func_80074B08);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9408_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E774_cn);
 #endif
 
 typedef struct struct__posContPanel {
@@ -2312,6 +2313,10 @@ extern const struct__posContPanel _posContPanel;
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posContPanel);
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", _posContPanel);
+#endif
+
 extern const s32 _posCircle_924[][2];
 extern const s32 _posFinger_925[][2];
 #if VERSION_US
@@ -2321,23 +2326,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posCircle_924
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posFinger_925);
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93E8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93F8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9408_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E774_cn);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 ASM_TEXT;
 
 void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E8 *arg1, s32 arg2) {
@@ -2357,10 +2346,6 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
         }
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_80074EF0);
 #endif
 
 #if VERSION_US
@@ -2459,18 +2444,20 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", disp_cont);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", disp_cont);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
     struct_watchManual *temp_s4 = watchManual;
     s32 i;
+    TiTexDataEntry *temp;
 
     switch (evs_manual_no) {
         case EVS_MANUAL_NO_0:
         case EVS_MANUAL_NO_3:
             gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
-            tiStretchTexBlock(&gGfxHead, &_texAll->unk_00[7], 0, _posContPanel.unk_0, _posContPanel.unk_4,
-                              _texAll->unk_00[7].unk_4[0], _texAll->unk_00[7].unk_4[1]);
+            temp = &_texAll->unk_00[7];
+            tiStretchTexBlock(&gGfxHead, temp, 0, _posContPanel.unk_0, _posContPanel.unk_4,
+                              temp->unk_4[0], temp->unk_4[1]);
             dm_draw_big_virus(&gGfxHead);
             break;
 
@@ -2537,7 +2524,27 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_draw_fg);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9430_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9450_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9470_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9488_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C948C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9490_cn);
 #endif
 
 #if VERSION_US
@@ -2702,35 +2709,7 @@ void dm_manual_all_init(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9428_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9430_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9450_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9470_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9488_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C948C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9490_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007F408_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_all_init);
 #endif
 
 #if VERSION_US
@@ -2838,7 +2817,117 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
+enum_main_no dm_manual_main(struct_800EB670 *arg0) {
+    OSMesgQueue sp18;
+    OSMesg sp30[8];
+    struct_800FAF98_unk_64 sp50;
+    s32 temp_v1_2;
+    s32 var_a0;
+    s32 i;
+    bool var_s3;
+    bool var_s4;
+    struct_watchManual *temp_s2;
+
+    var_s3 = true;
+    var_s4 = false;
+
+    osCreateMesgQueue(&sp18, sp30, ARRAY_COUNT(sp30));
+    func_8002A184(arg0, &sp50, &sp18);
+    dm_manual_all_init();
+
+    temp_s2 = watchManual;
+
+    for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
+        aifMakeFlagSet(&game_state_data[i]);
+    }
+
+    while (!var_s4) {
+        joyProcCore();
+        osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
+
+        if (D_80092F10_cn) {
+            graphic_no = GRAPHIC_NO_0;
+            dm_audio_update();
+        } else {
+            func_80071FA0(&temp_s2->unk_034);
+            dm_effect_make();
+
+            var_s4 = false;
+            temp_s2->unk_184++;
+
+            if (temp_s2->unk_010 > 0) {
+                var_s4 = temp_s2->unk_00C == 0xFF;
+            }
+
+            temp_v1_2 = temp_s2->unk_00C + temp_s2->unk_010;
+            temp_v1_2 = CLAMP(temp_v1_2, 0, 255);
+            temp_s2->unk_00C = temp_v1_2;
+
+            switch (evs_manual_no) {
+                case EVS_MANUAL_NO_0:
+                    var_s3 = dm_manual_1_main();
+                    break;
+
+                case EVS_MANUAL_NO_1:
+                    var_s3 = dm_manual_2_main();
+                    break;
+
+                case EVS_MANUAL_NO_2:
+                    var_s3 = dm_manual_3_main();
+                    break;
+
+                case EVS_MANUAL_NO_3:
+                    var_s3 = dm_manual_4_main();
+                    break;
+            }
+
+            dm_seq_set_volume(0x60);
+            dm_audio_update();
+
+            if (temp_s2->unk_018 != 0) {
+                temp_s2->unk_014++;
+                if (temp_s2->unk_014 >= temp_s2->unk_018) {
+                    temp_s2->unk_014 = 0;
+                    temp_s2->unk_018 = 0;
+                    dm_seq_play_in_game(evs_seqnumb * 2);
+                }
+            }
+            if (temp_s2->unk_00C == 0) {
+                var_a0 = B_BUTTON;
+                if (main_old == MAIN_NO_3) {
+                    var_a0 = ANY_BUTTON;
+                }
+                if (gControllerPressedButtons[main_joy[0]] & var_a0) {
+                    var_s3 = false;
+                }
+            }
+
+            if (!var_s3) {
+                if (temp_s2->unk_010 < 0) {
+                    temp_s2->unk_010 = -temp_s2->unk_010;
+                }
+            }
+
+            graphic_no = GRAPHIC_NO_3;
+        }
+    }
+
+    dm_audio_stop();
+    graphic_no = GRAPHIC_NO_0;
+
+    while (!dm_audio_is_stopped() || (pendingGFX != 0)) {
+        osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
+        dm_audio_update();
+    }
+
+    func_8002A1DC(arg0, &sp50);
+
+    if (main_old != MAIN_NO_3) {
+        return MAIN_NO_6;
+    }
+
+    return MAIN_NO_3;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
