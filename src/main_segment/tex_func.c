@@ -343,7 +343,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80044D8C_cn);
 #endif
 
 #if VERSION_US
-void func_800429B8(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7,
+void StretchTexBlock8(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7,
                    f32 arg8) {
     StretchTexBlock_arg0 sp10;
 
@@ -371,7 +371,7 @@ void func_800429B8(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800429B8);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexBlock8);
 #endif
 
 #if VERSION_US
@@ -411,7 +411,7 @@ void func_80042D20(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80045314_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexBlock16);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -892,8 +892,55 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80045110);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_800451C4);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047894_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004795C_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiStretchTexBlock);
+#endif
+
+#if VERSION_CN
+void StretchTexBlock16(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
+
+void tiStretchTexBlock(Gfx** gfxP, TiTexDataEntry* arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
+    TexturePtr var_a3;
+    TexturePtr var_t0;
+
+    if (arg2 != 0) {
+        var_a3 = NULL;
+        var_t0 = NULL;
+    } else {
+        var_a3 = arg1->unk_0->unk_0;
+        var_t0 = arg1->unk_0->unk_4;
+    }
+
+    if (arg1->unk_0->unk_0 != NULL) {
+        switch (arg1->unk_4[2]) {
+            case 0x4:
+                StretchTexBlock4(gfxP, arg1->unk_4[0], arg1->unk_4[1], var_a3, var_t0, arg3, arg4, arg5, arg6);
+                break;
+
+            case 0x8:
+                StretchTexBlock8(gfxP, arg1->unk_4[0], arg1->unk_4[1], var_a3, var_t0, arg3, arg4, arg5, arg6);
+                break;
+        }
+    } else {
+        switch (arg1->unk_4[2]) {
+            case 0x4:
+                StretchTexBlock4i(gfxP, arg1->unk_4[0], arg1->unk_4[1], var_t0, arg3, arg4, arg5, arg6);
+                break;
+
+            case 0x10:
+                StretchTexBlock16(gfxP, arg1->unk_4[0], arg1->unk_4[1], var_t0, arg3, arg4, arg5, arg6);
+                break;
+        }
+    }
+}
 #endif
 
 #if VERSION_US
@@ -918,18 +965,6 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/tex_func", RO_800ADBC0);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", drawCursorPattern);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047894_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004795C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047A64_cn);
 #endif
 
 #if VERSION_CN

@@ -16,7 +16,7 @@ typedef struct TiTexDataEntry_unk_0 {
 
 typedef struct TiTexDataEntry {
     /* 0x0 */ TiTexDataEntry_unk_0 *unk_0;
-    /* 0x4 */ u16 *unk_4;
+    /* 0x4 */ u16 *unk_4; // this may be an struct instead of u16*, need to investigate
 } TiTexDataEntry; // size = 0x8
 
 typedef struct TiTexData {
@@ -121,7 +121,7 @@ void StretchAlphaTexBlock(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 a
 void StretchTexBlock4_LoadTex(StretchTexBlock_arg0 *arg0);
 void StretchTexBlock4(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
 void func_800427E0(StretchTexBlock_arg0 *arg0);
-void func_800429B8(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
+void StretchTexBlock8(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
 void func_80042B48(StretchTexBlock_arg0 *arg0);
 void func_80042D20(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
 void StretchTexBlock4i_LoadTex(StretchTexBlock_arg0 *arg0);
@@ -149,7 +149,7 @@ void func_80044E08(Gfx **gfxP, u16 width, u16 height, u8 tex[], s32 arg4, s32 ar
 TiTexData *tiLoadTexData(UNK_PTR *arg0, RomOffset segmentRom, RomOffset segmentRomEnd);
 // void func_80045110();
 // void func_800451C4();
-void tiStretchTexBlock(Gfx **gfxP, TiTexDataEntry_unk_0 **arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
+void tiStretchTexBlock(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
 void tiStretchTexTile(Gfx **gfxP, TiTexDataEntry *, s32, s32, s32, s32, s32, f32, f32, f32, f32);
 void tiStretchTexItem(Gfx **gfxP, TiTexDataEntry *, s32, s32, s32, f32, f32, f32, f32);
 void tiStretchAlphaTexItem(Gfx **gfxP, TiTexDataEntry *, TiTexDataEntry *, s32, s32, s32, f32, f32, f32, f32);

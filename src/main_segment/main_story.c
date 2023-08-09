@@ -217,7 +217,7 @@ void func_800770E8(Gfx **gfxP, struct_wakuGraphic *arg1) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
-    func_800429B8(&gfx, 328, 240, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
+    StretchTexBlock8(&gfx, 328, 240, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
     *gfxP = gfx;
 }
 #endif

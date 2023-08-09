@@ -430,7 +430,7 @@ bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, TiTexDataEntry *arg2, s32 arg3
 
     func_80046844(item, gfxP);
     if (arg2->unk_4[3] & 1) {
-        tiStretchTexBlock(gfxP, &arg2->unk_0, arg3, item->unk_0C[0], item->unk_0C[1], arg2->unk_4[0] * item->unk_30[0],
+        tiStretchTexBlock(gfxP, arg2, arg3, item->unk_0C[0], item->unk_0C[1], arg2->unk_4[0] * item->unk_30[0],
                           arg2->unk_4[1] * item->unk_30[1]);
     } else {
         tiStretchTexTile(gfxP, arg2, arg3, 0, 0, arg2->unk_4[0], arg2->unk_4[1], item->unk_0C[0], item->unk_0C[1],

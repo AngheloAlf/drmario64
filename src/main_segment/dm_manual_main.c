@@ -62,10 +62,19 @@ void func_80071FA0(struct_800F4890_unk_034 *arg0) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B114_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B1BC_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 alpha = arg0->unk_08 * 255;
+    TiTexDataEntry *temp_a1;
 
     if (alpha == 0) {
         return;
@@ -74,18 +83,20 @@ void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gDPSetCombineMode(gfx++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
 
-    if (alpha < 255) {
+    if (alpha < 0xFF) {
         gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     }
 
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
-    tiStretchTexBlock(&gfx, &_texAll->unk_00[8].unk_0, 0, arg0->unk_00, arg0->unk_04, _texAll->unk_00[8].unk_4[0],
-                      _texAll->unk_00[8].unk_4[1]);
+
+    temp_a1 = &_texAll->unk_00[8];
+    tiStretchTexBlock(&gfx, temp_a1, 0, arg0->unk_00, arg0->unk_04, temp_a1->unk_4[0], temp_a1->unk_4[1]);
 
     if (arg0->unk_08 != 0.0f) {
         arg0->messageWnd.unk_74 = alpha;
         msgWnd_draw(&arg0->messageWnd, &gfx);
     }
+
     *gfxP = gfx;
 }
 #endif
@@ -124,33 +135,6 @@ bool func_80072230(struct_800F4890_unk_034 *arg0) {
 }
 #endif
 
-#if VERSION_US
-bool func_8007224C(struct_800F4890_unk_034 *arg0) {
-    return msgWnd_isSpeaking(&arg0->messageWnd);
-}
-#endif
-
-#if VERSION_US
-void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
-    arg0->unk_0 = arg1;
-    arg0->unk_1 = 1;
-    arg0->unk_2 = arg2;
-    arg0->unk_3[0] = 1;
-}
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B114_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B1BC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B234_cn);
-#endif
-
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B3C4_cn);
 #endif
@@ -171,8 +155,23 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B440_cn)
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B464_cn);
 #endif
 
+#if VERSION_US
+bool func_8007224C(struct_800F4890_unk_034 *arg0) {
+    return msgWnd_isSpeaking(&arg0->messageWnd);
+}
+#endif
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B490_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007224C);
+#endif
+
+#if VERSION_US
+void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
+    arg0->unk_0 = arg1;
+    arg0->unk_1 = 1;
+    arg0->unk_2 = arg2;
+    arg0->unk_3[0] = 1;
+}
 #endif
 
 #if VERSION_CN
@@ -2231,6 +2230,30 @@ bool dm_manual_4_main(void) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B7A8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BE38_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BFC0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007CAFC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007D2CC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007DE1C_cn);
+#endif
+
 #if VERSION_US
 const s32 _tex_884[][2] = {
     { 0, 2 },
@@ -2267,6 +2290,10 @@ void draw_AB_guide(s32 arg0, s32 arg1) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", draw_AB_guide);
+#endif
+
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", RO_800B3150);
 #endif
@@ -2294,6 +2321,22 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posCircle_924
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posFinger_925);
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93E8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93F8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9408_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E774_cn);
+#endif
+
 #if VERSION_US
 ASM_TEXT;
 
@@ -2314,6 +2357,10 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
         }
     }
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_80074EF0);
 #endif
 
 #if VERSION_US
@@ -2408,6 +2455,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", disp_cont);
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", disp_cont);
+#endif
+
 #if VERSION_US
 void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
     struct_watchManual *temp_s4 = watchManual;
@@ -2418,7 +2469,7 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
         case EVS_MANUAL_NO_3:
             gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
-            tiStretchTexBlock(&gGfxHead, &_texAll->unk_00[7].unk_0, 0, _posContPanel.unk_0, _posContPanel.unk_4,
+            tiStretchTexBlock(&gGfxHead, &_texAll->unk_00[7], 0, _posContPanel.unk_0, _posContPanel.unk_4,
                               _texAll->unk_00[7].unk_4[0], _texAll->unk_00[7].unk_4[1]);
             dm_draw_big_virus(&gGfxHead);
             break;
@@ -2483,6 +2534,10 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
 
     tutolWnd_draw(&temp_s4->unk_034, &gGfxHead);
 }
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_draw_fg);
 #endif
 
 #if VERSION_US
@@ -2647,62 +2702,6 @@ void dm_manual_all_init(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B7A8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BE38_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007BFC0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007CAFC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007D2CC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007DE1C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E580_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93E8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C93F8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9408_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E774_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007EBC4_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007ED08_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007F010_cn);
-#endif
-
-#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9428_cn);
 #endif
 
@@ -2842,7 +2841,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void dm_manual_graphic(void) {
     Mtx *mtx;
     Vtx *vtx;
@@ -2857,7 +2856,7 @@ void dm_manual_graphic(void) {
     mtx = dm_get_mtx_buf();
     vtx = dm_get_vtx_buf();
 
-    gSPSegment(gGfxHead++, 0x00, 0x00000000);
+    gSPSegment(gGfxHead++, 0x00, NULL);
     F3RCPinitRtn();
     F3ClearFZRtn(false);
 
@@ -2878,8 +2877,4 @@ void dm_manual_graphic(void) {
     osWritebackDCacheAll();
     gfxTaskStart(ptr, gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_graphic);
 #endif
