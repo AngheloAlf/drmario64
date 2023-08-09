@@ -450,7 +450,7 @@ void animeSmog_start(AnimeSmog *animeSmog) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006503C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeSmog_start);
 #endif
 
 /**

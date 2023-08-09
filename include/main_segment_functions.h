@@ -360,7 +360,7 @@ bool fontAsc_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg
 void init_map_all(GameMapGrid *mapGrid);
 void clear_map(GameMapGrid *mapGrid, s32 column, s32 row);
 void clear_map_all(GameMapGrid *mapGrid);
-bool get_map_info(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne);
+s32 get_map_info(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne); // TODO: cleanup bool comparisons
 // void func_8005F09C();
 // void func_8005F0E4();
 s32 get_virus_color_count(GameMapGrid *mapGrid, u8 *arg1, u8 *arg2, u8 *arg3);
