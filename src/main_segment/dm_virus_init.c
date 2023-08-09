@@ -628,7 +628,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065B20_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_virus_map_copy);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_get_first_virus_count);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_get_first_virus_count_in_new_mode);
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065CEC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", _dm_virus_init);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_virus_init);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80066298_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80066300_cn);

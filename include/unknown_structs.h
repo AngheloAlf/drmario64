@@ -408,7 +408,7 @@ typedef struct struct_watchManual {
     /* 0x148 */ u8 unk_148[3];
     /* 0x14C */ struct_800F4890_unk_14C unk_14C[3];
     /* 0x164 */ u32 unk_164;
-    /* 0x168 */ s32 unk_168;
+    /* 0x168 */ u32 unk_168;
     /* 0x16C */ s32 unk_16C;
     /* 0x170 */ s32 unk_170;
     /* 0x174 */ s32 unk_174[4];

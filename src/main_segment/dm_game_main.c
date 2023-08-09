@@ -1611,11 +1611,11 @@ AnimeState *get_virus_anime_state(s32 arg0) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800693E8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", get_virus_anime_state);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069400_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", get_virus_smog_state);
 #endif
 
 #if VERSION_US

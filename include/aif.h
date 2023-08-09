@@ -22,7 +22,9 @@ extern Unk_AIFEntry aif_field[GAME_MAP_ROWS][GAME_MAP_COLUMNS];
 
 void func_8002EB00(struct struct_game_state_data *gameStateDataRef);
 void aifMakeBlkWork(struct struct_game_state_data *gameStateDataRef);
+#if VERSION_US || VERSION_GW || CC_CHECK
 void aifMakeFlagSet(struct struct_game_state_data *gameStateDataRef);
+#endif
 void aifGameInit(void);
 void aifFirstInit(void);
 void aifMake(struct struct_game_state_data *gameStateDataRef);

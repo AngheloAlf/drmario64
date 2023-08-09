@@ -37,6 +37,7 @@ CPP_FLAGS = [
     "-D__asm__(test...)=",
     "-ffreestanding",
     "-DM2CTX",
+    "-DCC_CHECK=1",
     "-DNON_MATCHING",
     "-D_OS_HOST_H_",
     "-std=gnu89",
