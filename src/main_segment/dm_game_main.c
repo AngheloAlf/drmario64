@@ -942,7 +942,7 @@ void dm_virus_anime(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80067D38_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_virus_anime);
 #endif
 
 #if VERSION_US || VERSION_CN
