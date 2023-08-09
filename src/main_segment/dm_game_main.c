@@ -2797,11 +2797,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", add_taiQ_bonus_wait
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", countLeadingZeros);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80064848);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", countLeadingZeros);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80064848);
 #endif
 
 #if VERSION_US
@@ -7874,7 +7874,7 @@ void dm_game_graphic2(void) {
             break;
     }
 
-    if ((temp_fp->unk_000 != 0) && (countLeadingZeros() == 0)) {
+    if ((temp_fp->unk_000 != 0) && (func_80064848() == 0)) {
         switch (evs_gamesel) {       /* switch 1; irregular */
             case ENUM_EVS_GAMESEL_0: /* switch 1 */
             case ENUM_EVS_GAMESEL_2: /* switch 1 */
@@ -8064,7 +8064,7 @@ void dm_game_graphic_onDoneSawp(void) {
 
     for (j = 0; j < evs_gamespeed; j++) {
         bool var_s3 = false;
-        bool temp_s1 = countLeadingZeros();
+        bool temp_s1 = func_80064848();
 
         dm_make_key();
 

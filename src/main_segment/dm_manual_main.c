@@ -170,16 +170,13 @@ void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_80072268);
 #endif
 
+extern const s32 RO_800B2408[];
 #if VERSION_US
-const s32 RO_800B2408 = 0xC8;
-#endif
-
-#if VERSION_US
-const s32 RO_800B240C = 0x28;
+const s32 RO_800B2408[] = { 0xC8, 0x28 };
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89C0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2408);
 #endif
 
 extern const s32 RO_800B2410[];
@@ -209,16 +206,13 @@ const s32 RO_800B2420[] = { 0xB4, 0x28 };
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2420);
 #endif
 
+extern const s32 RO_800B2428[];
 #if VERSION_US
-const s32 RO_800B2428 = 0xD8;
-#endif
-
-#if VERSION_US
-const s32 RO_800B242C = 0x70;
+const s32 RO_800B2428[] = { 0xD8, 0x70 };
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89E0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2428);
 #endif
 
 extern const s32 RO_800B2430[];
@@ -359,6 +353,7 @@ const u8 position_3_1[][4] = {
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", position_3_1);
 #endif
 
+extern const u8 virus_4_1[16][3];
 #if VERSION_US
 const u8 virus_4_1[][3] = {
     { 0, 0, 0xD }, { 0, 2, 7 },   { 0, 5, 0xA }, { 0, 5, 0xB }, { 0, 7, 0x10 }, { 2, 2, 0xE },
@@ -367,12 +362,22 @@ const u8 virus_4_1[][3] = {
 };
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", virus_4_1);
+#endif
+
+extern const u8 capsel_4_1[17];
 #if VERSION_US
-const u8 RO_800B259C[] = {
+const u8 capsel_4_1[] = {
     0x10, 0x11, 0x20, 1, 0x12, 0x20, 1, 0x10, 0, 0x20, 0, 0x21, 1, 0x20, 0x22, 0, 0x10,
 };
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", capsel_4_1);
+#endif
+
+extern const u8 position_4_1[16][4];
 #if VERSION_US
 const u8 position_4_1[][4] = {
     { 4, 7, 1, 0 },   { 5, 7, 0, 1 },   { 5, 6, 1, 0 },   { 5, 8, 0, 0 },   { 5, 7, 0, 1 },   { 3, 0xC, 1, 0 },
@@ -382,15 +387,7 @@ const u8 position_4_1[][4] = {
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8B24_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8B54_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8B68_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", position_4_1);
 #endif
 
 // clang-format off
@@ -1031,7 +1028,7 @@ void dm_manual_update_virus_anime(struct_game_state_data *arg0) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B704_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_update_virus_anime);
 #endif
 
 #if VERSION_US
@@ -1308,10 +1305,10 @@ bool dm_manual_1_main(void) {
 
     switch (temp_s1->unk_164) {
         case 0x0:
-            func_80071EF0(&temp_s1->unk_034, RO_800B2408, RO_800B240C);
+            func_80071EF0(&temp_s1->unk_034, RO_800B2408[0], RO_800B2408[1]);
             temp_s1->unk_000 = 1;
-            temp_s1->unk_004 = RO_800B2428;
-            temp_s1->unk_008 = RO_800B242C;
+            temp_s1->unk_004 = RO_800B2428[0];
+            temp_s1->unk_008 = RO_800B2428[1];
             func_80072204(&temp_s1->unk_034);
             temp_s1->unk_164 += 1;
 
@@ -2059,7 +2056,7 @@ bool dm_manual_3_main(void) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool dm_manual_4_main(void) {
     struct_watchManual *temp_s2 = watchManual;
     bool ret = true;
@@ -2085,15 +2082,15 @@ bool dm_manual_4_main(void) {
 
     switch (temp_s2->unk_164) {
         case 0x0:
-            func_80071EF0(&temp_s2->unk_034, RO_800B2408, RO_800B240C);
+            func_80071EF0(&temp_s2->unk_034, RO_800B2408[0], RO_800B2408[1]);
             temp_s2->unk_000 = 1;
-            temp_s2->unk_004 = RO_800B2428;
-            temp_s2->unk_008 = RO_800B242C;
+            temp_s2->unk_004 = RO_800B2428[0];
+            temp_s2->unk_008 = RO_800B2428[1];
             func_80072204(&temp_s2->unk_034);
             temp_s2->unk_164 = 1;
 
-            for (i = 0; i < ARRAY_COUNTU(RO_800B259C); i++) {
-                CapsMagazine[i + 1] = RO_800B259C[i];
+            for (i = 0; i < ARRAY_COUNTU(capsel_4_1); i++) {
+                CapsMagazine[i + 1] = capsel_4_1[i];
             }
 
             gameStateData->unk_032 = 1;
@@ -2265,10 +2262,6 @@ bool dm_manual_4_main(void) {
 
     return ret;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_4_main);
 #endif
 
 #if VERSION_US || VERSION_CN
