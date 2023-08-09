@@ -191,20 +191,22 @@ const s32 RO_800B2410[] = { 0x6C, 0x28 };
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2410);
 #endif
 
+extern const s32 RO_800B2418[];
 #if VERSION_US
-const s32 RO_800B2418 = 0x24;
+const s32 RO_800B2418[] = { 0x24, 0x28 };
 #endif
 
-#if VERSION_US
-const s32 RO_800B241C = 0x28;
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2418);
 #endif
 
+extern const s32 RO_800B2420[];
 #if VERSION_US
-const s32 RO_800B2420 = 0xB4;
+const s32 RO_800B2420[] = { 0xB4, 0x28 };
 #endif
 
-#if VERSION_US
-const s32 RO_800B2424 = 0x28;
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2420);
 #endif
 
 #if VERSION_US
@@ -213,14 +215,6 @@ const s32 RO_800B2428 = 0xD8;
 
 #if VERSION_US
 const s32 RO_800B242C = 0x70;
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89D0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89D8_cn);
 #endif
 
 #if VERSION_CN
@@ -236,20 +230,22 @@ const s32 RO_800B2430[] = { 0x7C, 0x70 };
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2430);
 #endif
 
+extern const s32 RO_800B2438[];
 #if VERSION_US
-const s32 RO_800B2438 = 0x34;
+const s32 RO_800B2438[] = { 0x34, 0x70 };
 #endif
 
-#if VERSION_US
-const s32 RO_800B243C = 0x70;
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2438);
 #endif
 
+extern const s32 RO_800B2440[];
 #if VERSION_US
-const s32 RO_800B2440 = 0xC4;
+const s32 RO_800B2440[] = { 0xC4, 0x70 };
 #endif
 
-#if VERSION_US
-const s32 RO_800B2444 = 0x70;
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2440);
 #endif
 
 #if VERSION_US
@@ -273,14 +269,6 @@ const u8 position_1_1[][4] = {
     { 3, 2, 0, 0 },
     { 3, 1, 0, 0 },
 };
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89F0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C89F8_cn);
 #endif
 
 #if VERSION_CN
@@ -344,17 +332,31 @@ const u8 virus_3_1[][3] = {
 };
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", virus_3_1);
+#endif
+
+extern const u8 capsel_3_1[11];
 #if VERSION_US
-const u8 RO_800B2538[] = {
+const u8 capsel_3_1[] = {
     0x12, 0x22, 0x12, 0, 0x10, 2, 0x21, 0, 0x12, 1, 0,
 };
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", capsel_3_1);
+#endif
+
+extern const u8 position_3_1[10][4];
 #if VERSION_US
 const u8 position_3_1[][4] = {
     { 4, 0xC, 0, 0 }, { 3, 0xA, 0, 0 }, { 1, 0xB, 0, 1 }, { 1, 0xA, 1, 0 },  { 2, 0xA, 1, 0 },
     { 6, 0xC, 0, 0 }, { 6, 0xB, 0, 1 }, { 6, 0xA, 1, 0 }, { 2, 0x10, 1, 1 }, { 3, 0x10, 1, 0 },
 };
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", position_3_1);
 #endif
 
 #if VERSION_US
@@ -377,18 +379,6 @@ const u8 position_4_1[][4] = {
     { 0, 0xC, 0, 0 }, { 1, 0xB, 1, 0 }, { 0, 0xB, 1, 0 }, { 2, 0xD, 1, 0 }, { 7, 0xF, 1, 0 }, { 6, 0xD, 0, 0 },
     { 2, 6, 0, 0 },   { 3, 5, 1, 0 },   { 3, 3, 0, 0 },   { 2, 5, 1, 0 },
 };
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8AB4_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8AF0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C8AFC_cn);
 #endif
 
 #if VERSION_CN
@@ -1781,7 +1771,7 @@ bool dm_manual_2_main(void) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool dm_manual_3_main(void) {
     struct_game_state_data *gameStateData = game_state_data;
     GameMapGrid *mapGrid = game_map_data;
@@ -1810,15 +1800,15 @@ bool dm_manual_3_main(void) {
 
     switch (temp_s2->unk_164) {
         case 0x0:
-            func_80071EF0(&temp_s2->unk_034, RO_800B2420, RO_800B2424);
+            func_80071EF0(&temp_s2->unk_034, RO_800B2420[0], RO_800B2420[1]);
             temp_s2->unk_000 = 1;
-            temp_s2->unk_004 = RO_800B2440;
-            temp_s2->unk_008 = RO_800B2444;
+            temp_s2->unk_004 = RO_800B2440[0];
+            temp_s2->unk_008 = RO_800B2440[1];
             func_80072204(&temp_s2->unk_034);
             temp_s2->unk_164 = (u32)1;
 
-            for (i = 0; i < ARRAY_COUNTU(RO_800B2538); i++) {
-                CapsMagazine[i + 1] = RO_800B2538[i];
+            for (i = 0; i < ARRAY_COUNTU(capsel_3_1); i++) {
+                CapsMagazine[i + 1] = capsel_3_1[i];
             }
 
             gameStateData->unk_032 = 1;
@@ -2037,22 +2027,22 @@ bool dm_manual_3_main(void) {
                     if (temp_s2->unk_034.unk_0C > 0.0f) {
                         temp_s2->unk_034.unk_0C = -temp_s2->unk_034.unk_0C;
                     } else if (temp_s2->unk_034.unk_08 == 0.0f) {
-                        func_80071EF0(&temp_s2->unk_034, RO_800B2420, RO_800B2424);
+                        func_80071EF0(&temp_s2->unk_034, RO_800B2420[0], RO_800B2420[1]);
                         temp_s2->unk_034.unk_0C = -temp_s2->unk_034.unk_0C;
                         temp_s2->unk_000 = -temp_s2->unk_000;
-                        temp_s2->unk_004 = RO_800B2440;
-                        temp_s2->unk_008 = RO_800B2444;
+                        temp_s2->unk_004 = RO_800B2440[0];
+                        temp_s2->unk_008 = RO_800B2440[1];
                     }
                 } else {
                     temp_s2->unk_164 = temp_s2->unk_168;
                 }
             } else {
                 if ((temp_s2->unk_034.unk_0C < 0.0f) && (temp_s2->unk_034.unk_08 == 0.0f)) {
-                    func_80071EF0(&temp_s2->unk_034, RO_800B2418, RO_800B241C);
+                    func_80071EF0(&temp_s2->unk_034, RO_800B2418[0], RO_800B2418[1]);
                     temp_s2->unk_034.unk_0C = -temp_s2->unk_034.unk_0C;
                     temp_s2->unk_000 = -temp_s2->unk_000;
-                    temp_s2->unk_004 = RO_800B2438;
-                    temp_s2->unk_008 = RO_800B243C;
+                    temp_s2->unk_004 = RO_800B2438[0];
+                    temp_s2->unk_008 = RO_800B2438[1];
                 }
             }
             break;
@@ -2067,10 +2057,6 @@ bool dm_manual_3_main(void) {
 
     return ret;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_3_main);
 #endif
 
 #if VERSION_US
