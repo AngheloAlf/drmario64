@@ -1586,8 +1586,20 @@ void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_draw_capsel_by_cpu_tentative);
 #endif
 
+#if VERSION_US
+UNK_PTR *dm_game_heap_top(void) {
+    return &heapTop;
+}
+#endif
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800693D8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_heap_top);
+#endif
+
+#if VERSION_US
+AnimeState *get_virus_anime_state(s32 arg0) {
+    return &watchGame->animeStates[arg0];
+}
 #endif
 
 #if VERSION_CN
@@ -1604,18 +1616,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006258C);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800626A4);
-#endif
-
-#if VERSION_US
-UNK_PTR *dm_game_heap_top(void) {
-    return &heapTop;
-}
-#endif
-
-#if VERSION_US
-AnimeState *get_virus_anime_state(s32 arg0) {
-    return &watchGame->animeStates[arg0];
-}
 #endif
 
 #if VERSION_US

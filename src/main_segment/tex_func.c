@@ -344,7 +344,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80044D8C_cn);
 
 #if VERSION_US
 void StretchTexBlock8(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7,
-                   f32 arg8) {
+                      f32 arg8) {
     StretchTexBlock_arg0 sp10;
 
     sp10.gfxP = gfxP;
@@ -907,7 +907,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiStretchTexBlock);
 #if VERSION_CN
 void StretchTexBlock16(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
 
-void tiStretchTexBlock(Gfx** gfxP, TiTexDataEntry* arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
+void tiStretchTexBlock(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
     TexturePtr var_a3;
     TexturePtr var_t0;
 

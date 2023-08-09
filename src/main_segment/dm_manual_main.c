@@ -53,10 +53,10 @@ void func_80071F14(struct_800F4890_unk_034 *arg0, UNK_PTR *arg1) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B114_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_80071F14);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_80071FA0(struct_800F4890_unk_034 *arg0) {
     arg0->unk_08 = CLAMP(arg0->unk_08 + arg0->unk_0C, 0.0f, 1.0f);
 
@@ -64,10 +64,6 @@ void func_80071FA0(struct_800F4890_unk_034 *arg0) {
         msgWnd_update(&arg0->messageWnd);
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_80071FA0);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -144,7 +140,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B3F0_cn)
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007B41C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_800721D8);
 #endif
 
 #if VERSION_CN
@@ -2456,8 +2452,8 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
             gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
             temp = &_texAll->unk_00[7];
-            tiStretchTexBlock(&gGfxHead, temp, 0, _posContPanel.unk_0, _posContPanel.unk_4,
-                              temp->unk_4[0], temp->unk_4[1]);
+            tiStretchTexBlock(&gGfxHead, temp, 0, _posContPanel.unk_0, _posContPanel.unk_4, temp->unk_4[0],
+                              temp->unk_4[1]);
             dm_draw_big_virus(&gGfxHead);
             break;
 
@@ -2536,7 +2532,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9470_cn
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9488_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", _seqTbl_1037);
 #endif
 
 #if VERSION_CN
