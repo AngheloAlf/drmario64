@@ -1467,6 +1467,14 @@ void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapGrid *mapGrid,
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800620FC);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006258C);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800626A4);
+#endif
+
 // bool?
 s32 dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]);
 
@@ -1608,14 +1616,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800693E8_cn);
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069400_cn);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006258C);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800626A4);
 #endif
 
 #if VERSION_US
