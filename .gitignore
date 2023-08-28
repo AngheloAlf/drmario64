@@ -10,6 +10,7 @@ linker_scripts/us/drmario64.ld
 linker_scripts/cn/drmario64.ld
 *_auto.ld
 drmario64.ld
+linker_scripts/*/partial/
 
 __pycache__/
 .make_options
