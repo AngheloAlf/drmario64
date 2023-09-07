@@ -50,7 +50,6 @@ options:
   include_macro_inc: False
   libultra_symbols: True
   hardware_regs: True
-  auto_all_sections: []
 
   ld_dependencies: True
 
@@ -63,7 +62,6 @@ segments:
     start: 0x000000
     vram: 0x80000000
     subsegments:
-      - [0x000000, c, rom_header/rom_header]
       - [0x000000, .data, rom_header/rom_header]
 
   - name: ipl3

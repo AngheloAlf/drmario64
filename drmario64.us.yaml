@@ -49,7 +49,6 @@ options:
   include_macro_inc: False
   libultra_symbols: True
   hardware_regs: True
-  auto_all_sections: []
 
   ld_dependencies: True
 
@@ -62,7 +61,6 @@ segments:
     start: 0x000000
     vram: 0x80000000
     subsegments:
-      - [0x000000, c, rom_header/rom_header]
       - [0x000000, .data, rom_header/rom_header]
 
   - name: ipl3
@@ -412,10 +410,10 @@ segments:
       - [0x06C2B0, asm, libmus/lib_memory] # bss issues
       - [0x06C3F0, asm, libmus/aud_samples] # bss issues
 
-      - [0x06C4B0, data, rsp/rspboot]
-      - [0x06C580, data, rsp/aspMain]
-      - [0x06D3A0, data, rsp/f3dex2]
-      - [0x06E730, data, rsp/s2dex]
+      - [0x06C4B0, textbin, rsp/rspboot]
+      - [0x06C580, textbin, rsp/aspMain]
+      - [0x06D3A0, textbin, rsp/f3dex2]
+      - [0x06E730, textbin, rsp/s2dex]
 
       - [0x06FF20, .data, main_segment/000280]
       - [0x06FF30, .data, main_segment/graphic]
@@ -508,9 +506,9 @@ segments:
       - [0x093D40, data, libmus/aud_sched]
       - [0x093D50, data, libmus/aud_thread]
 
-      - [0x093D60, rodata, rsp/aspMain]
-      - [0x094020, rodata, rsp/f3dex2]
-      - [0x094440, rodata, rsp/s2dex]
+      - [0x093D60, databin, rsp/aspMain]
+      - [0x094020, databin, rsp/f3dex2]
+      - [0x094440, databin, rsp/s2dex]
 
       - [0x094800, .rodata, main_segment/main]
 

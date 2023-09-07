@@ -64,7 +64,6 @@ segments:
     start: 0x000000
     vram: 0x80000000
     subsegments:
-      - [0x000000, c, rom_header/rom_header]
       - [0x000000, .data, rom_header/rom_header]
 
   - name: ipl3
@@ -361,10 +360,10 @@ segments:
       - [0x076F60, asm, main_segment/076F60]
       - [0x0770A0, asm, main_segment/0770A0]
 
-      - [0x077160, data, rsp/rspboot]
-      - [0x077230, data, rsp/aspMain]
-      - [0x078050, data, rsp/f3dex2]
-      - [0x0793E0, data, rsp/s2dex]
+      - [0x077160, textbin, rsp/rspboot]
+      - [0x077230, textbin, rsp/aspMain]
+      - [0x078050, textbin, rsp/f3dex2]
+      - [0x0793E0, textbin, rsp/s2dex]
 
       - [0x07ABD0, .data, main_segment/000280]
       - [0x07AC50, .data, main_segment/graphic]
@@ -461,9 +460,9 @@ segments:
       - [0x0B13C0, rodata, main_segment/072880]
       - [0x0B1440, rodata, main_segment/075D50]
 
-      - [0x0B1450, rodata, rsp/aspMain]
-      - [0x0B1710, rodata, rsp/f3dex2]
-      - [0x0B1B30, rodata, rsp/s2dex]
+      - [0x0B1450, rodatabin, rsp/aspMain]
+      - [0x0B1710, rodatabin, rsp/f3dex2]
+      - [0x0B1B30, rodatabin, rsp/s2dex]
 
       - { start: 0x0B1EF0, type: bss, vram: 0x800CA1C0, name: main_segment/800CA1C0 }
       - { type: bss, vram: 0x800FC040, name: main_segment/game_etc }
