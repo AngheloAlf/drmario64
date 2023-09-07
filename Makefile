@@ -31,8 +31,6 @@ COMPILER_VERBOSE ?= 0
 DEP_ASM ?= 1
 # If non-zero touching an included file will rebuild any file that depends on it
 DEP_INCLUDE ?= 1
-# 
-PARTIAL_LINKING ?= 1
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -215,15 +213,13 @@ LIBULTRA_O    := $(foreach f,$(LIBULTRA_C:.c=.o),$(BUILD_DIR)/$f) \
 PNG_INC_FILES := $(foreach f,$(PNG_FILES:.png=.inc),$(BUILD_DIR)/$f)
 
 SEGMENTS_SCRIPTS := $(wildcard linker_scripts/$(VERSION)/partial/*.ld)
+SEGMENTS_D       := $(SEGMENTS_SCRIPTS:.ld=.d)
 SEGMENTS         := $(foreach f, $(SEGMENTS_SCRIPTS:.ld=), $(notdir $f))
 SEGMENTS_O       := $(foreach f, $(SEGMENTS), $(BUILD_DIR)/segments/$(VERSION)/$f.o)
-# ifneq ($(PARTIAL_LINKING), 0)
-# 	SEGMENTS_SCRIPTS := 
-# endif
 
 
 # Automatic dependency files
-DEP_FILES := 
+DEP_FILES := $(LD_SCRIPT:.ld=.d) $(SEGMENTS_D)
 
 ifneq ($(DEP_ASM), 0)
 	DEP_FILES += $(O_FILES:.o=.asmproc.d)
@@ -286,7 +282,7 @@ setup:
 	$(MAKE) -C tools
 
 extract:
-	$(RM) -r asm/$(VERSION) bin/$(VERSION) linker_scripts/$(VERSION)/partial $(LD_SCRIPT)
+	$(RM) -r asm/$(VERSION) bin/$(VERSION) linker_scripts/$(VERSION)/partial $(LD_SCRIPT) $(LD_SCRIPT:.ld=.d)
 	$(SPLAT) $(SPLAT_YAML)
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 

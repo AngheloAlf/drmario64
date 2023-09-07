@@ -3,6 +3,7 @@ sha1: c71398ec500763b563f065c9eea61d47025b66ba
 options:
   basename: drmario64
   target_path: baserom_uncompressed.gw.z64
+  elf_path: build/drmario64.gw.elf
   ld_script_path: linker_scripts/gw/drmario64.ld
   base_path: .
   compiler: GCC
@@ -50,6 +51,12 @@ options:
   libultra_symbols: True
   hardware_regs: True
   auto_all_sections: []
+
+  ld_dependencies: True
+
+  ld_partial_linking: False
+  ld_partial_scripts_path: linker_scripts/gw/partial
+  ld_partial_build_segments_path: build/segments/gw
 segments:
   - name: header
     type: code
