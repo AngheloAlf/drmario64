@@ -8,7 +8,7 @@ from typing import Set
 
 class SpimdisasmDisassembler(disassembler.Disassembler):
     # This value should be kept in sync with the version listed on requirements.txt
-    SPIMDISASM_MIN = (1, 15, 0)
+    SPIMDISASM_MIN = (1, 17, 0)
 
     def configure(self, opts: SplatOpts):
         # Configure spimdisasm
@@ -73,9 +73,14 @@ class SpimdisasmDisassembler(disassembler.Disassembler):
         elif selected_compiler == compiler.IDO:
             spimdisasm.common.GlobalConfig.COMPILER = spimdisasm.common.Compiler.IDO
 
+        spimdisasm.common.GlobalConfig.DETECT_REDUNDANT_FUNCTION_END = (
+            opts.detect_redundant_function_end
+        )
+
         spimdisasm.common.GlobalConfig.GP_VALUE = opts.gp
 
         spimdisasm.common.GlobalConfig.ASM_TEXT_LABEL = opts.asm_function_macro
+        spimdisasm.common.GlobalConfig.ASM_TEXT_ALT_LABEL = opts.asm_function_alt_macro
         spimdisasm.common.GlobalConfig.ASM_JTBL_LABEL = opts.asm_jtbl_label_macro
         spimdisasm.common.GlobalConfig.ASM_DATA_LABEL = opts.asm_data_macro
         spimdisasm.common.GlobalConfig.ASM_TEXT_END_LABEL = opts.asm_end_label
@@ -97,8 +102,6 @@ class SpimdisasmDisassembler(disassembler.Disassembler):
         spimdisasm.common.GlobalConfig.ALLOW_ALL_ADDENDS_ON_DATA = (
             opts.allow_data_addends
         )
-
-        spimdisasm.common.GlobalConfig.ASM_GENERATED_BY = opts.asm_generated_by
 
         spimdisasm.common.GlobalConfig.DISASSEMBLE_UNKNOWN_INSTRUCTIONS = (
             opts.disasm_unknown
