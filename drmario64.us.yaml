@@ -3,6 +3,7 @@ sha1: 96ba0ce2f9e98e5790df120320cd3d1a3d7080d2
 options:
   basename: drmario64
   target_path: baserom_uncompressed.us.z64
+  elf_path: build/drmario64.us.elf
   ld_script_path: linker_scripts/us/drmario64.ld
   base_path: .
   compiler: GCC
@@ -49,6 +50,12 @@ options:
   libultra_symbols: True
   hardware_regs: True
   auto_all_sections: []
+
+  ld_dependencies: True
+
+  ld_partial_linking: False
+  ld_partial_scripts_path: linker_scripts/us/partial
+  ld_partial_build_segments_path: build/segments/us
 segments:
   - name: header
     type: code
@@ -573,7 +580,6 @@ segments:
     follows_vram: main_segment
     bss_size: 0xE09F0
     subsegments:
-      - [0x09B460, c, buffers/buffer1]
       - { start: 0x09B460, type: .bss, vram: 0x80124610, name: buffers/buffer1 }
 
   - name: buffer2
@@ -582,7 +588,6 @@ segments:
     bss_size: 0x1B0000
     vram: 0x80205000
     subsegments:
-      - [0x09B460, c, buffers/buffer2]
       - { start: 0x09B460, type: .bss, vram: 0x80205000, name: buffers/buffer2 }
 
   - name: framebuffer
@@ -591,7 +596,6 @@ segments:
     bss_size: 0x4B000 # SCREEN_WIDTH * SCREEN_HEIGHT * 2 * sizeof(u16)
     vram: 0x803B5000 # 0x80400000 - bss_size
     subsegments:
-      - [0x09B460, c, buffers/framebuffer]
       - { start: 0x09B460, type: .bss, vram: 0x803B5000, name: buffers/framebuffer }
 
   - name: n64_wave_tables

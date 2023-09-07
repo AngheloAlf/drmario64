@@ -212,9 +212,14 @@ LIBULTRA_O    := $(foreach f,$(LIBULTRA_C:.c=.o),$(BUILD_DIR)/$f) \
 
 PNG_INC_FILES := $(foreach f,$(PNG_FILES:.png=.inc),$(BUILD_DIR)/$f)
 
+SEGMENTS_SCRIPTS := $(wildcard linker_scripts/$(VERSION)/partial/*.ld)
+SEGMENTS_D       := $(SEGMENTS_SCRIPTS:.ld=.d)
+SEGMENTS         := $(foreach f, $(SEGMENTS_SCRIPTS:.ld=), $(notdir $f))
+SEGMENTS_O       := $(foreach f, $(SEGMENTS), $(BUILD_DIR)/segments/$(VERSION)/$f.o)
+
 
 # Automatic dependency files
-DEP_FILES := 
+DEP_FILES := $(LD_SCRIPT:.ld=.d) $(SEGMENTS_D)
 
 ifneq ($(DEP_ASM), 0)
 	DEP_FILES += $(O_FILES:.o=.asmproc.d)
@@ -225,7 +230,7 @@ ifneq ($(DEP_INCLUDE), 0)
 endif
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/linker_scripts/$(VERSION)/auto $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/linker_scripts/$(VERSION)/auto $(BUILD_DIR)/segments/$(VERSION) $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
 $(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
@@ -277,7 +282,7 @@ setup:
 	$(MAKE) -C tools
 
 extract:
-	$(RM) -r asm/$(VERSION) bin/$(VERSION)
+	$(RM) -r asm/$(VERSION) bin/$(VERSION) linker_scripts/$(VERSION)/partial $(LD_SCRIPT) $(LD_SCRIPT:.ld=.d)
 	$(SPLAT) $(SPLAT_YAML)
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
@@ -318,7 +323,7 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 # TODO: update header
 
-$(ELF): $(PNG_INC_FILES) $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld $(BUILD_DIR)/linker_scripts/common_undef_syms.ld
+$(ELF): $(PNG_INC_FILES) $(O_FILES) $(LIBULTRA_O) $(SEGMENTS_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld $(BUILD_DIR)/linker_scripts/common_undef_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
 		-T $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld -T $(BUILD_DIR)/linker_scripts/common_undef_syms.ld \
 		-Map $(LD_MAP) -o $@
@@ -329,8 +334,10 @@ $(ELF): $(PNG_INC_FILES) $(O_FILES) $(LIBULTRA_O) $(LD_SCRIPT) $(BUILD_DIR)/link
 
 asset_files: $(PNG_INC_FILES)
 $(O_FILES): | asset_files
+o_files: $(O_FILES)
+$(SEGMENTS_O): | o_files
 
-.PHONY: asset_files
+.PHONY: asset_files o_files
 
 
 $(BUILD_DIR)/%.ld: %.ld
@@ -360,6 +367,8 @@ ifneq ($(PERMUTER), 1)
 	$(error Library files has not been built, please run `$(MAKE) lib` first)
 endif
 
+$(BUILD_DIR)/segments/$(VERSION)/%.o: linker_scripts/$(VERSION)/partial/%.ld
+	$(LD) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@
 
 # Make inc files from assets
 
