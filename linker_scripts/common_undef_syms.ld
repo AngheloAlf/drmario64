@@ -14,3 +14,5 @@ gBootThreadStack_LO = gBootThreadStack & 0xFFFF;
 gBootThreadStackTop = gBootThreadStack + BOOT_STACK_SIZE;
 gBootThreadStackTop_HI = gBootThreadStackTop >> 16;
 gBootThreadStackTop_LO = gBootThreadStackTop & 0xFFFF;
+
+ASSERT ((boot_ROM_END <= 0x101000), "Error: boot_ROM_END is larger than 1 MB");
