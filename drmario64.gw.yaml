@@ -21,6 +21,13 @@ options:
     - linker_scripts/gw/ignored_addresses.txt
   reloc_addrs_path:
     - relocs/reloc_addrs.gw.txt
+
+  auto_all_sections: [".text", ".data", ".rodata", ".bss"]
+  ld_dependencies: True
+  ld_partial_linking: False
+  ld_partial_scripts_path: linker_scripts/gw/partial
+  ld_partial_build_segments_path: build/segments/gw
+
   asm_path: asm/gw
   src_path: src
   build_path: build
@@ -45,17 +52,13 @@ options:
   data_string_encoding: SHIFT-JIS
   rodata_string_guesser_level: 2
   asm_function_macro: glabel
+  # asm_function_alt_macro: alabel
+  # asm_end_label: endlabel
   asm_jtbl_label_macro: jlabel
   asm_data_macro: dlabel
   include_macro_inc: False
   libultra_symbols: True
   hardware_regs: True
-
-  ld_dependencies: True
-
-  ld_partial_linking: False
-  ld_partial_scripts_path: linker_scripts/gw/partial
-  ld_partial_build_segments_path: build/segments/gw
 segments:
   - name: header
     type: code
