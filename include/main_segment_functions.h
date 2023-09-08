@@ -432,7 +432,7 @@ void func_80062A08(s32 index);
 void func_80062A24(s32 index);
 // void func_80062A40();
 // void func_80062A5C();
-s32 func_80062A8C(s32);
+s32 func_80062A8C(s32 arg0);
 s32 func_80062AA8(s32);
 s32 func_80062AC4(s32);
 // void func_80062AE0();

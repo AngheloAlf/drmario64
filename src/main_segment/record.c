@@ -1136,7 +1136,36 @@ EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_ar
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", EepRom_WriteDif);
+EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_arg3 arg3, s32 arg4) {
+    u8 *var_s2 = arg0;
+    u8 *var_s1 = arg1;
+    s32 i;
+
+    for (i = 0; i < (s32)size; i += 8) {
+        if (bcmp(var_s2, var_s1, 8) != 0) {
+            s32 var_a1;
+
+            if (arg3 != NULL) {
+                arg3(arg4);
+                arg3 = NULL;
+            }
+
+            var_a1 = i;
+            if (i < 0) {
+                var_a1 = i + 7;
+            }
+
+            if (osEepromLongWrite(&B_800F3E38, (var_a1 >> 3), var_s1, 8) != 0) {
+                EepRom_DumpErrMes(EEPROM_STATUS_4);
+                return EEPROM_STATUS_4;
+            }
+        }
+        var_s2 += 8;
+        var_s1 += 8;
+    }
+
+    return EEPROM_STATUS_0;
+}
 #endif
 
 #if VERSION_US || VERSION_CN

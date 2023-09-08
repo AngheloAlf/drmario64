@@ -297,9 +297,9 @@ void StretchAlphaTexBlock(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 a
 
 #if VERSION_US || VERSION_CN
 void StretchTexBlock4_LoadTex(StretchTexBlock_arg0 *arg0) {
-    gDPLoadTextureBlock_4b((*arg0->gfxP)++, arg0->unk_10 + ((arg0->width * arg0->unk_40) / 2), G_IM_FMT_CI,
-                           arg0->width, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
-                           G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock_4b((*arg0->gfxP)++, arg0->unk_10 + ((arg0->width * arg0->unk_40) / 2), G_IM_FMT_CI, arg0->width,
+                           arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
+                           G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 #endif
 
@@ -848,7 +848,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexTile16);
 #endif
 
 #if VERSION_CN
-void StretchTexTile16(Gfx **gfxP, s32 arg1, s32 arg2, u16 *arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, f32 arg8, f32 arg9, f32 argA, f32 argB) {
+void StretchTexTile16(Gfx **gfxP, s32 arg1, s32 arg2, u16 *arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, f32 arg8,
+                      f32 arg9, f32 argA, f32 argB) {
     StretchTexTile_arg0 sp18;
 
     sp18.gfxP = gfxP;
@@ -873,7 +874,6 @@ void StretchTexTile16(Gfx **gfxP, s32 arg1, s32 arg2, u16 *arg3, s32 arg4, s32 a
     sp18.unk_48 = 0x800 / ALIGN4(arg6);
     StretchTexTile(&sp18);
 }
-//INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexTile16);
 #endif
 
 #if VERSION_US
