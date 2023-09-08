@@ -43,7 +43,7 @@ typedef struct StretchTexBlock_arg0 {
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ s32 unk_0C;
     /* 0x10 */ TexturePtr unk_10;
-    /* 0x14 */ s32 unk_14;
+    /* 0x14 */ s32 width;
     /* 0x18 */ TexturePtr unk_18;
     /* 0x1C */ s32 unk_1C;
     /* 0x20 */ s32 unk_20;
@@ -56,7 +56,7 @@ typedef struct StretchTexBlock_arg0 {
     /* 0x3C */ StretchTexBlock_arg0_callback unk_3C;
     /* 0x40 */ s32 unk_40;
     /* 0x44 */ s32 unk_44;
-    /* 0x48 */ s32 unk_48;
+    /* 0x48 */ s32 height;
     /* 0x4C */ StretchTexBlock_arg0_unk_4C unk_4C;
     /* 0x6C */ UNK_TYPE1 unk_6C[0x4];
 } StretchTexBlock_arg0; // size >= 0x70?

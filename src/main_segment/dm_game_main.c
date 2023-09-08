@@ -1696,7 +1696,20 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800695F8_cn);
 #endif
 
 #if VERSION_CN
+#ifdef NON_MATCHING
+s32 func_80069624_cn(s32 arg0) {
+    s32 *temp_v1;
+
+    temp_v1 = &watchGame->unk_888[arg0];
+    if (*temp_v1 != 0) {
+        *temp_v1 -= 1;
+    }
+    return *temp_v1 != 0;
+}
+#else
+s32 func_80069624_cn(s32 arg0);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069624_cn);
+#endif
 #endif
 
 #if VERSION_US
@@ -1746,7 +1759,9 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80062A8C);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062A8C);
+s32 func_80062A8C(s32 arg0) {
+    return func_80069624_cn(arg0);
+}
 #endif
 
 #if VERSION_US
