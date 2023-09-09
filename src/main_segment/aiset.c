@@ -52,12 +52,12 @@
 void func_8002EB00(struct_game_state_data *gameStateDataRef) {
     gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.unk_0[0];
     gameStateDataRef->unk_3BD = gameStateDataRef->unk_178.unk_2[0];
-    gameStateDataRef->unk_3C1[0] = (s8)gameStateDataRef->unk_02F;
+    gameStateDataRef->unk_3C1[0] = gameStateDataRef->unk_02F;
     gameStateDataRef->unk_3C0 = gameStateDataRef->unk_02D;
-    gameStateDataRef->unk_3BE[0] = (s8)(u8)gameStateDataRef->unk_178.unk_6;
-    gameStateDataRef->unk_3BE[1] = (s8)(u8)gameStateDataRef->unk_178.unk_7;
-    gameStateDataRef->unk_299[2] = (s8)gameStateDataRef->unk_025;
-    gameStateDataRef->unk_299[1] = (s8)gameStateDataRef->unk_026;
+    gameStateDataRef->unk_3BE[0] = gameStateDataRef->unk_178.unk_6[0];
+    gameStateDataRef->unk_3BE[1] = gameStateDataRef->unk_178.unk_6[1];
+    gameStateDataRef->unk_299[2] = gameStateDataRef->unk_025;
+    gameStateDataRef->unk_299[1] = gameStateDataRef->unk_026;
     gameStateDataRef->unk_299[0] = gameStateDataRef->unk_014 == 0x12;
     gameStateDataRef->unk_298 = gameStateDataRef->unk_04B;
 

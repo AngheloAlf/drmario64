@@ -10,7 +10,7 @@
 #include "rom_offsets.h"
 #include "gamemap.h"
 
-struct TiTexDataEntry_unk_0;
+struct TiTexDataEntry;
 
 
 void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount);
@@ -397,16 +397,16 @@ void func_80060FA0(struct_game_state_data_unk_178 *arg0, s32 arg1, s32 arg2);
 void dm_set_capsel(struct_game_state_data *arg0);
 void dm_capsel_speed_up(struct_game_state_data *gameStateDataRef);
 bool dm_check_game_over(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid);
-UNK_TYPE update_flash_virus_count(struct_game_state_data *arg0, GameMapGrid *mapGrid, UNK_TYPE arg2);
+//s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 arg2);
 u8 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, UNK_TYPE arg2);
 void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, struct_virus_map_data *virusMapData,
                   struct_virus_map_disp_order *virusMapDispOrder);
 void dm_virus_anime(struct_game_state_data *arg0, GameMapGrid *mapGrid);
 void dm_capsel_erase_anime(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid);
-void dm_make_erase_h_line(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 arg2, s32 arg3, s32 arg4);
+void dm_make_erase_h_line(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 rowStart, s32 count, s32 column);
 bool dm_h_erase_chack(GameMapGrid *mapGrid);
 void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid);
-void dm_make_erase_w_line(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 arg1, s32 arg2, s32 arg4);
+void dm_make_erase_w_line(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 columnStart, s32 count, s32 row);
 bool dm_w_erase_chack(GameMapGrid *mapGrid);
 void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapGrid *mapGrid);
 void dm_h_ball_chack(GameMapGrid *mapGrid);
@@ -493,8 +493,8 @@ s32 dm_game_main_4p(void);
 bool dm_game_demo_1p(void);
 bool dm_game_demo_2p(void);
 bool dm_game_demo_4p(void);
-// void func_80068DC0();
-struct TiTexDataEntry_unk_0 **dm_game_get_capsel_pal(s32 arg0, s32 arg1);
+struct TiTexDataEntry *dm_game_get_capsel_tex(s32 arg0); // void func_80068DC0();
+struct TiTexDataEntry *dm_game_get_capsel_pal(s32 arg0, s32 arg1);
 // void func_80068E24();
 void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg2);
 void func_80069188(struct_watchGame_unk_070* arg0, s32 arg1);

@@ -229,7 +229,8 @@ typedef struct struct_800E87C0 {
 
 // not sure about this struct
 typedef struct struct_80123700_unk_0D4_unk_00 {
-    /* 0x0 */ UNK_TYPE1 unk_0[0x8];
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ s32 unk_4;
     /* 0x8 */ s32 unk_8;
 } struct_80123700_unk_0D4_unk_00; // size = 0xC
 
@@ -247,8 +248,7 @@ typedef struct struct_game_state_data_unk_178 {
     /* 0x0 */ s8 unk_0[2];
     /* 0x0 */ s8 unk_2[2];
     /* 0x0 */ s8 unk_4[2];
-    /* 0x0 */ s8 unk_6;
-    /* 0x0 */ u8 unk_7;
+    /* 0x0 */ s8 unk_6[2];
     /* 0x0 */ s8 unk_8;
     /* 0x0 */ s8 unk_9;
     /* 0x0 */ s8 unk_A;

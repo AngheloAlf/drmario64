@@ -2598,7 +2598,7 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
     for (i = 0; i < 3; i++) {
         s32 j;
 
-        load_TexPal((*dm_game_get_capsel_pal(arg2, i))->unk_0);
+        load_TexPal(dm_game_get_capsel_pal(arg2, i)->unk_0->unk_0);
 
         for (j = 0; j < 4; j++) {
             if ((arg1[j].unk_3[0] != 0) && (arg1[j].unk_2 == i)) {
