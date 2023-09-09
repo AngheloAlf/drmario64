@@ -397,7 +397,7 @@ void func_80060FA0(struct_game_state_data_unk_178 *arg0, s32 arg1, s32 arg2);
 void dm_set_capsel(struct_game_state_data *arg0);
 void dm_capsel_speed_up(struct_game_state_data *gameStateDataRef);
 bool dm_check_game_over(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid);
-//s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 arg2);
+s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 arg2);
 u8 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, UNK_TYPE arg2);
 void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, struct_virus_map_data *virusMapData,
                   struct_virus_map_disp_order *virusMapDispOrder);
