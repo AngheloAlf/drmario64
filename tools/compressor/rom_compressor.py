@@ -50,6 +50,9 @@ def romCompressorMain():
     global DEBUGGING
     DEBUGGING = args.debug
 
+    if not DEBUGGING:
+        spimdisasm.common.GlobalConfig.VERBOSE = False
+
     segmentDict = compression_common.readSegmentsCsv(segmentsPath, args.version)
 
     elfBytearray = spimdisasm.common.Utils.readFileAsBytearray(elfPath)
@@ -66,34 +69,43 @@ def romCompressorMain():
     romOffsetValues: dict[str, int] = {}
 
     elfFile = spimdisasm.elf32.Elf32File(elfBytearray)
+
+    assert elfFile.symtab is not None, "The elf->z64 process and compression algorithm requires a symtab, but is was not present"
+    assert elfFile.strtab is not None, "The elf->z64 process and compression algorithm requires a strtab, but is was not present"
+
     with outPath.open("wb") as outRom:
         for entry in elfFile.sectionHeaders.sections:
             sectionEntryName = elfFile.shstrtab[entry.name]
 
             if entry.type == spimdisasm.elf32.Elf32SectionHeaderType.REL.value:
+                # Find any symbol that needs to be updated
+
                 if segmentDict.get(sectionEntryName) is None:
-                    # only apply relocs to uncompressed segments
+                    # Only apply relocs to uncompressed segments
+
                     sectionRels = spimdisasm.elf32.Elf32Rels(sectionEntryName, elfBytearray, entry.offset, entry.size)
                     referencedSegment = sectionEntryName.replace(".rel.", ".")
                     for rel in sectionRels.relocations:
+                        sym = elfFile.symtab[rel.rSym]
 
-                        if elfFile.symtab is not None:
-                            sym = elfFile.symtab[rel.rSym]
-                            # symValue = f"{sym.value:08X}"
-                            if elfFile.strtab is not None:
-                                symName = elfFile.strtab[sym.name]
+                        symName = elfFile.strtab[sym.name]
 
-                                if symName.endswith("_ROM_START") or symName.endswith("_ROM_END"):
-                                    relVram = rel.offset
+                        if symName.endswith("_ROM_START") or symName.endswith("_ROM_END"):
+                            relVram = rel.offset
 
-                                    rType = spimdisasm.elf32.Elf32Relocs.fromValue(rel.rType)
-                                    assert rType is not None
+                            rType = spimdisasm.common.Relocation.RelocType.fromValue(rel.rType)
+                            assert rType is not None, rel.rType
 
-                                    relRomOffset = relVram - segmentOffsets[referencedSegment][1] + segmentOffsets[referencedSegment][0]
-                                    relsOffetsToApply[relRomOffset] = (symName, rType)
+                            relRomOffset = relVram - segmentOffsets[referencedSegment][1] + segmentOffsets[referencedSegment][0]
+                            relsOffetsToApply[relRomOffset] = (symName, rType)
 
             if entry.type != spimdisasm.elf32.Elf32SectionHeaderType.PROGBITS.value:
                 printDebug(f"Skiping segment '{sectionEntryName}' because it isn't PROGBITS")
+                continue
+
+            entryFlags, unknownFlags = spimdisasm.elf32.Elf32SectionHeaderFlag.parseFlags(entry.flags)
+            if spimdisasm.elf32.Elf32SectionHeaderFlag.ALLOC not in entryFlags:
+                printDebug(f"Skiping segment '{sectionEntryName}' because it doesn't have the alloc flag")
                 continue
 
             segmentOffsets[sectionEntryName] = (offset, entry.addr)
@@ -158,13 +170,13 @@ def romCompressorMain():
                 hiValue += 1
 
             outRom.seek(relRomOffset)
-            if rType == spimdisasm.elf32.Elf32Relocs.MIPS_HI16:
+            if rType == spimdisasm.common.Relocation.RelocType.MIPS_HI16:
                 outRom.seek(relRomOffset+2)
                 outRom.write(bytearray([hiValue >> 8, hiValue & 0xFF]))
-            elif rType == spimdisasm.elf32.Elf32Relocs.MIPS_LO16:
+            elif rType == spimdisasm.common.Relocation.RelocType.MIPS_LO16:
                 outRom.seek(relRomOffset+2)
                 outRom.write(bytearray([loValue >> 8, loValue & 0xFF]))
-            elif rType == spimdisasm.elf32.Elf32Relocs.MIPS_32:
+            elif rType == spimdisasm.common.Relocation.RelocType.MIPS_32:
                 outRom.write(bytearray([(value >> 24) & 0xFF, (value >> 16) & 0xFF, (value >> 8) & 0xFF, (value >> 0) & 0xFF]))
             else:
                 assert False, rType
