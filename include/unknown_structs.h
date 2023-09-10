@@ -148,8 +148,8 @@ typedef struct struct_watchGame {
     /* 0x3C0 */ s32 unk_3C0;
     /* 0x3C4 */ s32 unk_3C4;
     /* 0x3C8 */ f32 unk_3C8;
-    /* 0x3CC */ s32 unk_3CC;
-    /* 0x3D0 */ UNK_TYPE1 unk_3D0[0x18];
+    /* 0x3CC */ f32 unk_3CC;
+    /* 0x3D0 */ f32 unk_3D0[3][2];
     /* 0x3E8 */ f32 unk_3E8[3];
     /* 0x3F4 */ f32 unk_3F4[3];
     /* 0x400 */ UNK_TYPE4 unk_400[3]; // bool?
