@@ -87,8 +87,8 @@ extern struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN];
 extern s32 D_8008CFE0;
 
 extern u8 virus_anime_table[3][4];
-// extern UNK_TYPE D_800A6F8C;
-// extern UNK_TYPE D_800A6F90;
+// extern UNK_TYPE dm_chaine_se_table_vs_178;
+// extern UNK_TYPE dm_chaine_se_table_4p_179;
 extern s32 rotate_table_474[];
 extern s32 rotate_mtx_475[];
 extern s32 D_800A6FC4;
