@@ -5169,13 +5169,6 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2068);
 #endif
 
 #if VERSION_US
-const u32 cap_pal_4164[][6] = {
-    { 8, 10, 6, 9, 11, 7 },
-    { 2, 4, 0, 3, 5, 1 },
-};
-#endif
-
-#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_main_4p);
 #endif
 
@@ -5227,7 +5220,7 @@ bool dm_game_demo_1p(void) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool dm_game_demo_2p(void) {
     struct_watchGame *watchGameP = watchGame;
     s32 sp10[2];
@@ -5238,16 +5231,14 @@ bool dm_game_demo_2p(void) {
     }
 
     dm_warning_h_line_se();
+
     if ((sp10[0] == 3) && (sp10[1] == sp10[0]) && (watchGameP->unk_3AC < 0)) {
         for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-            s32 temp;
-            struct_game_state_data *temp2 = &game_state_data[i];
-
             game_state_data[i].unk_00C = 4;
-            temp = temp2->unk_04C;
 
-            if ((temp == 1) || (((temp != 1) && (i == 0)) && (aiDebugP1 >= 0))) {
-                aifMakeFlagSet(temp2);
+            if (((&game_state_data[i])->unk_04C == 1) ||
+                (((&game_state_data[i])->unk_04C != 1) && (i == 0) && (aiDebugP1 >= 0))) {
+                aifMakeFlagSet(&game_state_data[i]);
             }
         }
 
@@ -5269,84 +5260,7 @@ bool dm_game_demo_2p(void) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_demo_2p);
-#endif
-
-#if VERSION_CN
-#if 0
-//? dm_warning_h_line_se();
-s32 dm_game_main_cnt(struct_game_state_data *, GameMapGrid *, s32);
-extern s8 aiDebugP1;
-
-enum bool dm_game_demo_4p(void) {
-    s32 sp18;
-    GameMapGrid *var_s2;
-    s32 *var_s1_2;
-    s32 *var_s2_2;
-    s32 *var_s3;
-    s32 *var_s3_2;
-    s32 temp_v0;
-    s32 var_s0;
-    s32 var_s0_2;
-    struct_game_state_data *var_s1;
-    struct_watchGame *temp_s4;
-
-    temp_s4 = watchGame;
-    var_s0 = 0;
-    var_s3 = &sp18;
-    var_s2 = game_map_data;
-    var_s1 = game_state_data;
-    do {
-        *var_s3 = dm_game_main_cnt(var_s1, var_s2, var_s0);
-        var_s3 += 4;
-        var_s2 += 0x550;
-        var_s0 += 1;
-        var_s1 += 0x3C4;
-    } while (var_s0 < 4);
-    dm_warning_h_line_se();
-    if ((sp18 == 3) && (sp1C == sp18) && (sp20 == sp1C) && (sp24 == sp20) && (temp_s4->unk_3AC < 0)) {
-        var_s0_2 = 0;
-        var_s3_2 = &game_state_data[0].unk_00C + 0x40;
-        var_s2_2 = &game_state_data[0].unk_00C - 0xC;
-        var_s1_2 = &game_state_data[0].unk_00C;
-        do {
-            *var_s1_2 = 4;
-            if (*var_s3_2 != 1) {
-                if ((var_s0_2 == 0) && (aiDebugP1 >= 0)) {
-                    goto block_12;
-                }
-            } else {
-block_12:
-                aifMakeFlagSet((struct_game_state_data *) var_s2_2);
-            }
-            var_s3_2 += 0x3C4;
-            var_s2_2 += 0x3C4;
-            var_s0_2 += 1;
-            var_s1_2 += 0x3C4;
-        } while (var_s0_2 < 4);
-        temp_s4->unk_3C4 = 1;
-    }
-    temp_v0 = temp_s4->unk_41C;
-    if (temp_v0 != 0) {
-        temp_s4->unk_41C = temp_v0 - 1;
-        if (gControllerPressedButtons[*main_joy] & 0xFF3F) {
-            temp_s4->unk_41C = 0;
-        }
-        if (temp_s4->unk_41C == 0) {
-            return true;
-        }
-        /* Duplicate return node #21. Try simplifying control flow for better match */
-        return false;
-    }
-    return false;
-}
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_demo_4p);
-#endif
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool dm_game_demo_4p(void) {
     struct_watchGame *watchGameP = watchGame;
     s32 sp10[4];
@@ -5357,15 +5271,15 @@ bool dm_game_demo_4p(void) {
     }
 
     dm_warning_h_line_se();
+
     if ((sp10[0] == 3) && (sp10[1] == sp10[0]) && (sp10[2] == sp10[1]) && (sp10[3] == sp10[2]) &&
         (watchGameP->unk_3AC < 0)) {
         for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-            struct_game_state_data *temp2 = &game_state_data[i];
-
             game_state_data[i].unk_00C = 4;
 
-            if ((temp2->unk_04C == 1) || (((temp2->unk_04C != 1) && (i == 0)) && (aiDebugP1 >= 0))) {
-                aifMakeFlagSet(temp2);
+            if (((&game_state_data[i])->unk_04C == 1) ||
+                ((((&game_state_data[i])->unk_04C != 1) && (i == 0)) && (aiDebugP1 >= 0))) {
+                aifMakeFlagSet(&game_state_data[i]);
             }
         }
 
@@ -5395,31 +5309,30 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80068DC0);
 extern const s32 cap_tex_4162[];
 
 #if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", cap_tex_4162);
+#endif
+
+#if VERSION_CN
 TiTexDataEntry *dm_game_get_capsel_tex(s32 arg0) {
     return &watchGame->unk_444->unk_00[cap_tex_4162[arg0]];
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
+const u32 cap_pal_4164[][6] = {
+    { 8, 10, 6, 9, 11, 7 },
+    { 2, 4, 0, 3, 5, 1 },
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 TiTexDataEntry *dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
     return &watchGame->unk_444->unk_00[cap_pal_4164[arg0][arg1]];
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_get_capsel_pal);
-#endif
-
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80068E24);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", cap_tex_4162);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8660_cn);
 #endif
 
 #if VERSION_CN
@@ -5614,7 +5527,19 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A938);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A938);
+void func_8006A938(s32 arg0) {
+    struct_watchGame *watchGameP = watchGame;
+    s32 i;
+
+    watchGame->unk_99C = arg0;
+    for (i = 0; i < 4; i++) {
+        if (i < arg0) {
+            watchGameP->unk_9A0[i] = 0;
+        } else {
+            watchGameP->unk_9A0[i] = -1;
+        }
+    }
+}
 #endif
 
 #if VERSION_US
@@ -5745,8 +5670,47 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80072F04_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800730F0_cn);
 #endif
 
+void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3);
+
+extern const s32 _rect_4752[][4];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8007376C_cn);
+void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3) {
+    struct_watchGame *watchGameP = watchGame;
+    Gfx *gfx = *gfxP;
+    TiTexDataEntry *temp_s6;
+    s32 i;
+    s32 j;
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+    gDPSetCombineMode(gfx++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+    gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+    gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 192);
+
+    temp_s6 = &watchGameP->unk_438->unk_00[1];
+    for (i = 0; i < temp_s6->unk_4[1]; i += 0x2A) {
+        for (j = 0; j < arg3; j++) {
+            s32 var_t1;
+
+            var_t1 = MIN(0x2A, temp_s6->unk_4[1] - i);
+            tiStretchTexTile(&gfx, temp_s6, j, 0, i, temp_s6->unk_4[0], var_t1, arg1[j], arg2[j] + i, temp_s6->unk_4[0],
+                             var_t1);
+        }
+    }
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    temp_s6 = &watchGameP->unk_438->unk_00[0];
+    for (i = 0; i < 5U; i++) {
+        for (j = 0; j < arg3; j++) {
+            tiStretchTexTile(&gfx, temp_s6, j, _rect_4752[i][0], _rect_4752[i][1], _rect_4752[i][2], _rect_4752[i][3],
+                             arg1[j] + _rect_4752[i][0], arg2[j] + _rect_4752[i][1], _rect_4752[i][2],
+                             _rect_4752[i][3]);
+        }
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -5754,7 +5718,17 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_calc_bottle_2p);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_calc_bottle_2p);
+void dm_calc_bottle_2p(void) {
+    s32 i = (0x14 - watchGame->unk_394) * 8;
+    s32 sp8[2] = { 0x1C - i, i + 0xD4 };
+
+    for (i = 0; i < ARRAY_COUNT(sp8); i++) {
+        struct_game_state_data *temp = &game_state_data[i];
+
+        temp->unk_006 = sp8[i];
+        temp->unk_008 = 0x2E;
+    }
+}
 #endif
 
 #if VERSION_US
@@ -5762,7 +5736,25 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_draw_bottle_2p);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_draw_bottle_2p);
+void dm_draw_bottle_2p(Gfx **gfxP) {
+    struct_watchGame *watchGameP = watchGame;
+    Gfx *sp30 = *gfxP;
+    s32 var_a0 = (0x14 - watchGameP->unk_394) * 8;
+    UNUSED s32 arr[2] = { -var_a0, var_a0 };
+    s32 sp20[2];
+    s32 sp28[2];
+
+    for (var_a0 = 0; var_a0 < 2; var_a0++) {
+        struct_game_state_data *temp = &game_state_data[var_a0];
+
+        sp20[var_a0] = temp->unk_006 - 8;
+        sp28[var_a0] = temp->unk_008 - 0x1E;
+    }
+
+    _draw_bottle_10(&sp30, sp20, sp28, 2);
+
+    *gfxP = sp30;
+}
 #endif
 
 #if VERSION_US
@@ -5790,7 +5782,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8740_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8748_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _rect_4752);
 #endif
 
 #if VERSION_CN

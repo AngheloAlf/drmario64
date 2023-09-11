@@ -188,8 +188,9 @@ typedef struct struct_watchGame {
     /* 0x8CC */ s32 unk_8CC[4];
     /* 0x8DC */ s32 unk_8DC[4][4];
     /* 0x91C */ MessageWnd messageWnd;
-    /* 0x99C */ UNK_TYPE1 unk_99C[0x10];
-    /* 0x9AC */ s32 unk_9AC;
+    /* 0x99C */ s32 unk_99C;
+    /* 0x9A0 */ s32 unk_9A0[3];
+    /* 0x9AC */ s32 unk_9AC; // TODO: func_8006A938 implies this member is part of unk_9A0, but it doesn't seem to make much sense to do so
     /* 0x9B0 */ s32 unk_9B0;
     /* 0x9B4 */ s32 unk_9B4;
     /* 0x9B8 */ s32 unk_9B8;

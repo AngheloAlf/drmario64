@@ -999,6 +999,10 @@ void tiStretchTexBlock(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, f32 arg3, f32
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiStretchTexTile);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", tiStretchTexTile);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiStretchTexItem);
 #endif
@@ -1017,10 +1021,6 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/tex_func", RO_800ADBC0);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", drawCursorPattern);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047BC0_cn);
 #endif
 
 #if VERSION_CN

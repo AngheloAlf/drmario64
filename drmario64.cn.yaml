@@ -22,6 +22,18 @@ options:
     - relocs/reloc_addrs.cn.txt
 
   auto_all_sections: [".text", ".data", ".rodata", ".bss"]
+  # ld_discard_section: True
+  # ld_sections_whitelist:
+  #   - .pdr
+  #   - .mdebug
+  # ld_sections_blacklist:
+  #   - .MIPS.abiflags
+  #   - .MIPS.options
+  #   - .note.gnu.build-id
+  #   - .got
+  #   - .interp
+  #   - .eh_frame
+  #   - .reginfo
   ld_dependencies: True
   ld_partial_linking: False
   ld_partial_scripts_path: linker_scripts/cn/partial
