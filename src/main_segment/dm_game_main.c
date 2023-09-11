@@ -1353,23 +1353,13 @@ void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapGrid *mapGrid,
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800620FC);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_calc_capsel_pos);
 #endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006258C);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800626A4);
-#endif
-
-// bool?
-s32 dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]);
 
 #if VERSION_CN
 #ifdef NON_EQUIVALENT
 // maybe equivalent
+// bool?
 s32 dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]) {
     f32 temp_ft2;
     f32 temp_ft3;
@@ -1473,11 +1463,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_calc_capsel_pos)
 #endif
 #endif
 
-void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32 *arg2);
-
-void load_TexBlock_4b(TexturePtr, u16, u16);
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32 *arg2) {
     struct_game_state_data_unk_178 *temp_s1 = &gameStateData->unk_178;
     s32 var_s3;
@@ -1502,6 +1488,10 @@ void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32
                  temp_s1->unk_4[i] * gameStateData->unk_00A);
     }
 }
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800626A4);
 #endif
 
 void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]);
@@ -1630,67 +1620,59 @@ void func_80062978(s32 index, s32 arg1) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800694C8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800694E0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006950C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069538_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069564_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062978);
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80062990);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800694E0_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800629AC);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006950C_cn);
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800629C8);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069538_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800629E4);
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069564_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 void func_80062A08(s32 index) {
     func_80062978(index, 0xB4);
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062A08);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_80062A24(s32 index) {
     func_80062978(index, 0xB4);
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062A24);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80062A40);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800695F8_cn);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80062A40);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1770,23 +1752,13 @@ void func_80062B84(struct_watchGame_unk_9D0 *arg0) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80062BC4);
-#endif
-
-#if VERSION_CN
-s32 func_800697F0_cn(struct_watchGame_unk_9D0 *arg0) {
+#if VERSION_US || VERSION_CN
+bool func_80062BC4(struct_watchGame_unk_9D0 *arg0) {
     return arg0->unk_08 == 0x63;
 }
 #endif
 
-extern UNK_TYPE4 _n_1199[];
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", timeAttackResult_update);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 bool timeAttackResult_update(struct_watchGame_unk_9D0 *arg0, s32 arg1) {
     bool v1 = true;
 
@@ -1806,14 +1778,8 @@ bool timeAttackResult_update(struct_watchGame_unk_9D0 *arg0, s32 arg1) {
                 arg0->unk_08 = 0x14;
                 arg0->unk_0C = 0;
             } else {
-                s32 var_v0_2;
+                s32 var_v0_2 = MIN(6, arg0->unk_14);
                 s32 var_a0_2;
-
-                if (arg0->unk_14 > 6) {
-                    var_v0_2 = 6;
-                } else {
-                    var_v0_2 = arg0->unk_14;
-                }
 
                 arg0->unk_14 = arg0->unk_14 - var_v0_2;
                 if (arg1 != 0) {
@@ -1832,12 +1798,9 @@ bool timeAttackResult_update(struct_watchGame_unk_9D0 *arg0, s32 arg1) {
                 }
 
                 if (arg0->unk_04 != 0) {
-                    u32 var_v1;
+                    u32 var_v1 = arg0->unk_20 + var_a0_2;
 
-                    var_v1 = arg0->unk_20 + var_a0_2;
-                    if (var_v1 > 0x98961C) {
-                        var_v1 = 0x98961C;
-                    }
+                    var_v1 = MIN(9999900, var_v1);
                     arg0->unk_20 = var_v1;
                     arg0->unk_24 += var_a0_2;
                 }
@@ -1858,7 +1821,7 @@ bool timeAttackResult_update(struct_watchGame_unk_9D0 *arg0, s32 arg1) {
             break;
 
         case 0x63:
-            v1 = func_800697F0_cn(arg0) == 0;
+            v1 = !func_80062BC4(arg0);
             break;
     }
 
@@ -1937,17 +1900,12 @@ void func_80062EC0(struct_watchGame_unk_0B8 *arg0) {
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", black_color_1384);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", scoreNums_set);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void scoreNums_set(struct_watchGame_unk_0B8 *arg0, u32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    s32 sp18[0x10];
+    s32 temp = CLAMP(arg2 - 1, 0, 5);
+    s32 sp18[16];
     s32 var_a2;
     s32 var_s0;
-
-    arg2 = CLAMP(arg2 - 1, 0, 5);
 
     var_a2 = 0;
     while (arg1 != 0) {
@@ -1967,7 +1925,7 @@ void scoreNums_set(struct_watchGame_unk_0B8 *arg0, u32 arg1, s32 arg2, s32 arg3,
         arg3 += 7;
         temp_v0->unk_04 = arg4;
         temp_v0->unk_08 = sp18[var_s0];
-        temp_v0->unk_0C = arg2;
+        temp_v0->unk_0C = temp;
         temp_v0->unk_10 = 0.0f;
         arg0->unk_A0 = WrapI(0, 8, arg0->unk_A0 + 1);
     }
@@ -1975,6 +1933,7 @@ void scoreNums_set(struct_watchGame_unk_0B8 *arg0, u32 arg1, s32 arg2, s32 arg3,
 #endif
 
 #if VERSION_US
+// the cn code doesn't match this one
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", backup_game_state);
 #endif
 
@@ -2003,6 +1962,7 @@ void backup_game_state(s32 index) {
 #endif
 
 #if VERSION_US
+// the cn code doesn't match this one
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", resume_game_state);
 #endif
 
@@ -5330,7 +5290,7 @@ bool dm_game_demo_4p(void) {
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80068DC0);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_get_capsel_tex);
 #endif
 
 extern const s32 cap_tex_4162[];
@@ -5383,104 +5343,52 @@ void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B20D0);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80069188);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", starForce_draw);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800695A8);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006967C);
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86A0_cn);
 #endif
 
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B20E0);
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B20EC);
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86B0_cn);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B20F8);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2104);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2108);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B210C);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2114);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B211C);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2120);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2134);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2138);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80069990);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80069ACC);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_virus_number);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_count_number);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A098);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A198);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80069188);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070DE4_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", starForce_draw);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070E64_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800695A8);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8007125C_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006967C);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80071330_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80069990);
 #endif
 
 void dm_map_draw(GameMapGrid * /*arg0*/, u8 /*arg1*/, s16 /*arg2*/, s16 /*arg3*/, s8 /*arg4*/);
@@ -5500,6 +5408,10 @@ void dm_map_draw(GameMapGrid *arg0, u8 arg1, s16 arg2, s16 arg3, s8 arg4) {
         }
     }
 }
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80069ACC);
 #endif
 
 void func_800717F0_cn(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1, s32 arg2[2]);
@@ -5525,14 +5437,20 @@ void func_800717F0_cn(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1
 }
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_virus_number);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80071904_cn);
 #endif
 
-extern const s32 _tex_4374[]; // _tex_4374
-extern const s32 _row_4375[]; // _row_4375
+#if VERSION_US || VERSION_CN
+const s32 _tex_4374[] = { 3, 4, 5 };
+const s32 _row_4375[] = { 0xD, 0xC, 0xC };
+#endif
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 arg5) {
     struct_watchGame *watchGameP = watchGame;
     TiTexData *temp_a1 = watchGameP->unk_438;
@@ -5574,8 +5492,48 @@ void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 a
 }
 #endif
 
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2104);
+#endif
+
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2108);
+#endif
+
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B210C);
+#endif
+
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2114);
+#endif
+
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B211C);
+#endif
+
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2120);
+#endif
+
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2134);
+#endif
+
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2138);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A098);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80071DD4_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A198);
 #endif
 
 #if VERSION_CN
@@ -5697,31 +5655,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B218C);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B21D0);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_vsmode_board);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006B8E0);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86A0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86B0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _tex_4374);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _row_4375);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _pat_4838);
 #endif
 
 #if VERSION_CN
@@ -5768,11 +5702,17 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80072D18_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80072F04_cn);
 #endif
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_vsmode_board);
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800730F0_cn);
 #endif
 
-void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3);
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", _draw_bottle_10);
+#endif
 
 extern const s32 _rect_4752[][4];
 
@@ -5815,11 +5755,7 @@ void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_calc_bottle_2p);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void dm_calc_bottle_2p(void) {
     s32 i = (0x14 - watchGame->unk_394) * 8;
     s32 sp8[2] = { 0x1C - i, i + 0xD4 };
@@ -5833,16 +5769,12 @@ void dm_calc_bottle_2p(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_draw_bottle_2p);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void dm_draw_bottle_2p(Gfx **gfxP) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *sp30 = *gfxP;
     s32 var_a0 = (0x14 - watchGameP->unk_394) * 8;
-    UNUSED s32 arr[2] = { -var_a0, var_a0 };
+    s32 arr[2] UNUSED = { -var_a0, var_a0 };
     s32 sp20[2];
     s32 sp28[2];
 
@@ -5859,25 +5791,18 @@ void dm_draw_bottle_2p(Gfx **gfxP) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_draw_big_virus);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void dm_draw_big_virus(Gfx **gfxP) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
     s32 i;
 
     for (i = 0; i < ANIMES_COUNT; i++) {
-        AnimeState *animeState = &watchGameP->animeStates[i];
-        AnimeSmog *animeSmog = &watchGameP->animeSmogs[i];
-
-        animeState_initDL2(animeState, &gfx);
-        animeState_draw(animeState, &gfx, watchGameP->unk_3D0[i][0], watchGameP->unk_3D0[i][1], watchGameP->unk_3F4[i],
-                        watchGameP->unk_3F4[i]);
-        animeSmog_draw(animeSmog, &gfx, watchGameP->unk_3D0[i][0], watchGameP->unk_3D0[i][1], watchGameP->unk_3F4[i],
-                       watchGameP->unk_3F4[i]);
+        animeState_initDL2(&watchGameP->animeStates[i], &gfx);
+        animeState_draw(&watchGameP->animeStates[i], &gfx, watchGameP->unk_3D0[i][0], watchGameP->unk_3D0[i][1],
+                        watchGameP->unk_3F4[i], watchGameP->unk_3F4[i]);
+        animeSmog_draw(&watchGameP->animeSmogs[i], &gfx, watchGameP->unk_3D0[i][0], watchGameP->unk_3D0[i][1],
+                       watchGameP->unk_3F4[i], watchGameP->unk_3F4[i]);
     }
 
     *gfxP = gfx;
@@ -5908,18 +5833,14 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _rect_4752);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _pat_4838);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_draw_KaSaMaRu);
-#endif
-
 extern const s32 _pat_4838[6];
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking, s32 arg4, s32 arg5, s32 arg6,
                       u32 alpha) {
     struct_watchGame *watchGameP = watchGame;
-    Mtx *mtx = *mtxP;
     Gfx *gfx = *gfxP;
+    Mtx *mtx = *mtxP;
     Vtx *vtx = *vtxP;
     f32 sp48[4][4];
     TiTexDataEntry *temp_a2;
@@ -5976,7 +5897,7 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006C1D0);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic_common);
 #endif
 
 void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, GameMapGrid *mapGrid);
@@ -6058,11 +5979,7 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic_p);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapGrid *mapGrid) {
     struct_watchGame *watchGameP = watchGame;
     s32 sp20[2];

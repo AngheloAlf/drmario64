@@ -6389,7 +6389,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _pat_6137);
 
 #if VERSION_US
 #if 0
-//? func_80043F18(Gfx **, s32 *, s32, s32, s32, s32, s32, s32, s32, s32, s32, s32, f32, f32, f32, f32); /* extern */
+//? RectAlphaTexTile(Gfx **, s32 *, s32, s32, s32, s32, s32, s32, s32, s32, s32, s32, f32, f32, f32, f32); /* extern */
 //? RectTexTile8(Gfx **, s32 *, u16, u16, void *, s32, s32, s32, s32, s32, s32, s32, f32, f32); /* extern */
 //? RectTexTile4i(Gfx **, s32 *, u16, u16, s32, s32, s32, s32, s32, s32, s32, f32, f32); /* extern */
 
@@ -6501,7 +6501,7 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
         sp90->words.w1 = (u32) var_s5;
         sp90 += 8;
         var_s5 += 0x40;
-        func_80043F18(&sp90, &sp94, (s32) var_s6, (s32) var_s7, temp_s3->unk_0->unk_4, (s32) temp_s3->unk_4->unk_0, temp_v0_2->unk_0->unk_4, (s32) temp_v0_2->unk_4->unk_0, 0, 0, (s32) var_s6, (s32) var_s7, 0.0f, 0.0f, (f32) var_s6, (f32) var_s7);
+        RectAlphaTexTile(&sp90, &sp94, (s32) var_s6, (s32) var_s7, temp_s3->unk_0->unk_4, (s32) temp_s3->unk_4->unk_0, temp_v0_2->unk_0->unk_4, (s32) temp_v0_2->unk_4->unk_0, 0, 0, (s32) var_s6, (s32) var_s7, 0.0f, 0.0f, (f32) var_s6, (f32) var_s7);
     }
     var_s2 = &menuMain->unk_25C8;
     if (menuMain->unk_002C < 0xC) {

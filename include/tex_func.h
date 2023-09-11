@@ -16,7 +16,7 @@ typedef struct TiTexDataEntry_unk_0 {
 
 typedef struct TiTexDataEntry {
     /* 0x0 */ TiTexDataEntry_unk_0 *unk_0;
-    /* 0x4 */ u16 *unk_4; // this may be an struct instead of u16*, need to investigate
+    /* 0x4 */ u16 *unk_4;
 } TiTexDataEntry; // size = 0x8
 
 typedef struct TiTexData {
@@ -122,25 +122,25 @@ void StretchTexBlock4_LoadTex(StretchTexBlock_arg0 *arg0);
 void StretchTexBlock4(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
 void func_800427E0(StretchTexBlock_arg0 *arg0);
 void StretchTexBlock8(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
-void func_80042B48(StretchTexBlock_arg0 *arg0);
-void func_80042D20(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
+void StretchTexBlock16_LoadTex(StretchTexBlock_arg0 *arg0);
+void StretchTexBlock16(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
 void StretchTexBlock4i_LoadTex(StretchTexBlock_arg0 *arg0);
 void StretchTexBlock4i(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
 void func_800430D0(StretchTexBlock_arg0 *arg0);
 void func_800432A8(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
 void StretchTexTile(StretchTexTile_arg0 *arg0);
 void StretchTexTile_ScisRect(StretchTexTile_arg0 *arg0);
-// void func_800438D0();
+void RectTexTile_ScisRect(StretchTexTile_arg0 *arg0);
 void StretchAlphaTexTile_LoadColorTex(StretchTexTile_arg0 *arg0);
 void StretchAlphaTexTile_LoadAlphaTex(StretchTexTile_arg0 *arg0);
 void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 arg4, TexturePtr arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9, s32 argA, f32 argB, f32 argC, f32 argD, f32 argE);
-// void func_80043F18();
+// void RectAlphaTexTile();
 // void func_80044058();
 void StretchTexTile4(Gfx **gfxP, u16 width, u16 height, u16 tlut[], u8 tex[], s32, s32, s32, s32, f32, f32, f32, f32);
 void StretchTexTile8_LoadTex(StretchTexTile_arg0 *arg0);
 void StretchTexTile8(Gfx **gfxP, s32 width, s32 height, u16 tlut[], u8 tex[], UNK_TYPE arg5, UNK_TYPE arg6, UNK_TYPE arg7, UNK_TYPE arg8, f32 arg9, f32 argA, f32 argB, f32 argC);
 // void RectTexTile8();
-// void func_80044940();
+void StretchTexTile16_LoadTex(StretchTexTile_arg0 *arg0);
 void StretchTexTile16(Gfx **gfxP, s32 arg1, s32 arg2, u16 *arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, f32 arg8, f32 arg9, f32 argA, f32 argB);
 // void func_80044C28();
 void func_80044E08(Gfx **gfxP, u16 width, u16 height, u8 tex[], s32 arg4, s32 arg5, s32 arg6, s32 arg7, f32 arg8, f32 arg9, f32 argA, f32 argB);

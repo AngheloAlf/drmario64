@@ -102,7 +102,7 @@ extern char _mesHardCont[];
 extern char _mesHardNoCont[];
 extern char _mesSHardCont[];
 extern char _mesSHardNoCont[];
-// extern UNK_TYPE D_800A7354;
+extern s32 _n_1199[];
 extern u8 D_800A7360[];
 // extern UNK_TYPE D_800A7374;
 // extern UNK_TYPE D_800A7378;

@@ -7,7 +7,7 @@ Number of overall exact duplicates found: 20
 D_800B2138 - found 50 matches total:
 0.99 - etc_parts_tbl (decompiled)
 0.99 - D_8008E558 (decompiled)
-0.99 - D_800A7354 (decompiled)
+0.99 - _n_1199 (decompiled)
 0.99 - title_bmp_tbl (decompiled)
 0.99 - D_800ACE78
 0.99 - _type_1543 (decompiled)
@@ -286,7 +286,7 @@ transFunc_curve - found 2 matches total:
 0.99 - colorFunc_curve
 
 StretchAlphaTexTile_LoadColorTex - found 2 matches total:
-1.00 - func_80044940
+1.00 - StretchTexTile16_LoadTex
 0.99 - StretchTexTile8_LoadTex
 
 func_80059C34 - found 2 matches total:

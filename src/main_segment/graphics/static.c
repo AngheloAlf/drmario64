@@ -96,7 +96,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002DC0C_cn
 #endif
 
 #if VERSION_US
-void func_8002C048(TexturePtr texture, s32 width, s32 height) {
+void load_TexBlock_4b(TexturePtr texture, s32 width, s32 height) {
     gDPLoadTextureBlock_4b(gGfxHead++, texture, G_IM_FMT_CI, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
