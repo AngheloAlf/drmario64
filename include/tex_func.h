@@ -157,6 +157,10 @@ void tiStretchAlphaTexItem(Gfx **gfxP, TiTexDataEntry *, TiTexDataEntry *, s32, 
 void drawCursorPattern(Gfx** gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
 
 
+// TODO: pair to us version
+void RectAlphaTexTile(Gfx **gfxP, Vtx **vtxP, s32 arg2, s32 arg3, void *arg4, s32 arg5, void *arg6, s32 arg7, s32 arg8, s32 arg9, s32 argA, s32 argB, f32 argC, f32 argD, f32 argE, f32 argF);
+
+
 // .data
 
 extern Gfx D_8008E5E0[];

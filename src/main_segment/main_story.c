@@ -237,7 +237,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_800771EC);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800815A8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_bg_proc);
 #endif
 
 #if VERSION_US || VERSION_CN

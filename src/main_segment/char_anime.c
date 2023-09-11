@@ -275,7 +275,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006491C_cn);
 /**
  * Original name: animeState_initDL2
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -292,14 +292,10 @@ void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_800649D0_cn);
-#endif
-
 /**
  * Original name: animeState_initIntensityDL
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -314,10 +310,6 @@ void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064A9C_cn);
 #endif
 
 /**
@@ -373,7 +365,7 @@ void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064B8C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeState_draw);
 #endif
 
 #if VERSION_US
@@ -409,7 +401,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", StretchTexTile4i);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80064DC0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", StretchTexTile4i);
 #endif
 
 /**
@@ -491,7 +483,7 @@ void animeSmog_update(AnimeSmog *animeSmog) {
 /**
  * Original name: animeSmog_draw
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     Gfx *gfx = *gfxP;
     u32 i;
@@ -507,10 +499,6 @@ void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 ar
 
     *gfxP = gfx;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_80065230_cn);
 #endif
 
 #if VERSION_US

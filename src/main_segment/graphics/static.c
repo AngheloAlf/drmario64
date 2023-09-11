@@ -103,7 +103,7 @@ void func_8002C048(TexturePtr texture, s32 width, s32 height) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002DCDC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", load_TexBlock_4b);
 #endif
 
 #if VERSION_US
@@ -126,7 +126,7 @@ void func_8002C388(TexturePtr texture, s32 width, s32 height UNUSED, s32 uls, s3
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002E03C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", load_TexTile_4b);
 #endif
 
 #if VERSION_US

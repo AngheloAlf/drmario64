@@ -138,7 +138,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800439B0_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043BA8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", CopyTexBlock8);
 #endif
 
 #if VERSION_CN
@@ -774,7 +774,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", StretchTexTile4);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800468B0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexTile4);
 #endif
 
 #if VERSION_US
@@ -951,7 +951,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047894_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004795C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", tiCopyTexBlock);
 #endif
 
 #if VERSION_US
@@ -1028,7 +1028,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047D6C_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047F90_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", tiStretchAlphaTexItem);
 #endif
 
 #if VERSION_CN

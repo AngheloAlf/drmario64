@@ -118,6 +118,8 @@ typedef struct struct_watchGame_unk_9D0 {
     /* 0x28 */ s32 unk_28;
 } struct_watchGame_unk_9D0; // size = 0x2C
 
+#define ANIMES_COUNT 3
+
 typedef struct struct_watchGame {
     /* 0x000 */ UNK_TYPE4 unk_000;
     /* 0x004 */ s32 unk_004;
@@ -149,9 +151,9 @@ typedef struct struct_watchGame {
     /* 0x3C4 */ s32 unk_3C4;
     /* 0x3C8 */ f32 unk_3C8;
     /* 0x3CC */ f32 unk_3CC;
-    /* 0x3D0 */ f32 unk_3D0[3][2];
+    /* 0x3D0 */ f32 unk_3D0[ANIMES_COUNT][2];
     /* 0x3E8 */ f32 unk_3E8[3];
-    /* 0x3F4 */ f32 unk_3F4[3];
+    /* 0x3F4 */ f32 unk_3F4[ANIMES_COUNT];
     /* 0x400 */ UNK_TYPE4 unk_400[3]; // bool?
     /* 0x40C */ s32 unk_40C;
     /* 0x410 */ UNK_TYPE unk_410;
@@ -169,8 +171,8 @@ typedef struct struct_watchGame {
     /* 0x440 */ struct TiTexData *unk_440;
     /* 0x444 */ struct TiTexData *unk_444;
     /* 0x448 */ struct TiTexData *unk_448;
-    /* 0x44C */ AnimeState animeStates[3];
-    /* 0x50C */ AnimeSmog animeSmogs[3];
+    /* 0x44C */ AnimeState animeStates[ANIMES_COUNT];
+    /* 0x50C */ AnimeSmog animeSmogs[ANIMES_COUNT];
     /* 0x878 */ UNK_TYPE unk_878;
     /* 0x87C */ struct_watchGame_unk_87C *unk_87C;
     /* 0x880 */ s32 unk_880;
