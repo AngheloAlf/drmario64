@@ -73,7 +73,7 @@ typedef struct struct_lws_scene {
 
 void story_zoomfade(Gfx **gfxP, s32 arg1);
 void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1);
-void func_80076CCC(Gfx **gfxP, s32 arg1);
+void curtain_proc(Gfx **gfxP, s32 arg1);
 void curtain_proc_org(Gfx **gfxP, s32 arg1);
 void func_800770E8(Gfx **gfxP, struct_wakuGraphic *arg1);
 void *func_80077170(BgRomDataIndex index, void *dstAddr);

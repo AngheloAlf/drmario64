@@ -120,7 +120,7 @@ void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1) {
 
 #if VERSION_US
 // maybe curtain_proc?
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80076CCC);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", curtain_proc);
 #endif
 
 #if VERSION_CN

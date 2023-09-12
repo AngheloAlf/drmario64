@@ -497,7 +497,7 @@ struct TiTexDataEntry *dm_game_get_capsel_tex(s32 arg0); // void dm_game_get_cap
 struct TiTexDataEntry *dm_game_get_capsel_pal(s32 arg0, s32 arg1);
 // void func_80068E24();
 void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg2);
-void func_80069188(struct_watchGame_unk_070* arg0, s32 arg1);
+void func_80069188(struct_watchGame_unk_070 *arg0, s32 arg1);
 void starForce_draw(struct_watchGame_unk_070* arg0, Gfx** gfxP, s32 arg2);
 void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
 // void func_8006967C();
@@ -508,10 +508,10 @@ void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 a
 void func_8006A098(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
 void func_8006A198(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
 void push_any_key_draw(s32 arg0, s32 arg1);
-void func_8006A480(Gfx **gfxP, s32 arg1, s32 arg2);
-void func_8006A6E8(Gfx **gfxP, s32 arg1, s32 arg2);
+void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2);
+void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2);
 void func_8006A938(s32 arg0);
-void func_8006A978(Gfx **gfxP, s32 arg1);
+void _disp_coin_logo(Gfx **gfxP, s32 arg1);
 // void func_8006AC60();
 // void func_8006AE04();
 // void func_8006AEFC();
