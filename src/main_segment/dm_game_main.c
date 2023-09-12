@@ -1558,14 +1558,10 @@ void func_80062920(void) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_80062978(s32 index, s32 arg1) {
     watchGame->unk_888[index] = arg1;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062978);
 #endif
 
 #if VERSION_US
@@ -1785,7 +1781,13 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80062DD8);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80062DD8);
+s32 func_80062DD8(struct_watchGame_unk_9D0 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    func_80062B50(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+    func_80062DA4(arg0);
+    arg0->unk_28 = arg0->unk_20;
+    func_80062B50(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
+    return arg0->unk_28;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -2686,25 +2688,23 @@ void save_visible_fall_point_flag(void) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_80064130(s32 arg0, s32 arg1) {
-    watchGame->unk_348[arg0] = arg1;
-    watchGame->unk_358[arg0] = 0;
-    watchGame->unk_368[arg0] = -1;
+    struct_watchGame *watchGameP = watchGame;
 
-    switch (watchGame->unk_348[arg0]) {
+    watchGameP->unk_348[arg0] = arg1;
+    watchGameP->unk_358[arg0] = 0;
+    watchGameP->unk_368[arg0] = -1;
+
+    switch (watchGameP->unk_348[arg0]) {
         case 2:
         case 3:
         case 4:
         case 5:
-            watchGame->unk_358[arg0]++;
+            watchGameP->unk_358[arg0]++;
             break;
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80064130);
 #endif
 
 #if VERSION_US
@@ -2894,7 +2894,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80064940);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B8FC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80064940);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -2921,7 +2921,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", attack_table_153
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C84DC_cn);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void dm_save_all(void) {
     struct_game_state_data *game_state_ptr = &game_state_data[0];
     struct_watchGame *watchGameP = watchGame;
@@ -2989,10 +2989,11 @@ void dm_save_all(void) {
                 watchGameP->unk_8AC[0] = 0;
             } else {
                 struct_evs_mem_data *temp_a0 = &evs_mem_data[evs_select_name_no[0]];
+                struct_evs_mem_data_unk_B4 *temp = &temp_a0->unk_B4;
                 s32 var_s0_2 = evs_story_no;
                 s32 temp_s1 = (s32)story_proc_no >= STORY_PROC_NO_12;
 
-                temp_a0->unk_B4.unk_02 = CLAMP(var_s0_2 - 1, 0, 7);
+                temp->unk_02 = CLAMP(var_s0_2 - 1, 0, 7);
 
                 if (game_state_ptr->unk_020 == 5) {
                     if ((var_s0_2 == 9) && (game_state_ptr->unk_004 == 0)) {
@@ -3053,10 +3054,6 @@ void dm_save_all(void) {
 
     func_80040B10(func_80064940, NULL);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_save_all);
 #endif
 
 #if VERSION_US || VERSION_CN

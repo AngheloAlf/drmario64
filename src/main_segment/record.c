@@ -355,7 +355,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_story_sort_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80038FCC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_story_sort_set);
 #endif
 
 #if VERSION_US
@@ -363,7 +363,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_level_sort_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800390D4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_level_sort_set);
 #endif
 
 #if VERSION_US
@@ -371,7 +371,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_taiQ_sort_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039130_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_taiQ_sort_set);
 #endif
 
 #if VERSION_US
@@ -379,7 +379,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_timeAt_sort_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800391B8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_timeAt_sort_set);
 #endif
 
 #if VERSION_US
@@ -387,7 +387,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vscom_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039254_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_vscom_set);
 #endif
 
 #if VERSION_US
@@ -395,7 +395,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vc_fl_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800392B0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_vc_fl_set);
 #endif
 
 #if VERSION_US
@@ -403,7 +403,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vsman_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_8003930C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_vsman_set);
 #endif
 
 #if VERSION_US
@@ -411,7 +411,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vm_fl_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_80039368_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_vm_fl_set);
 #endif
 
 #if VERSION_US
@@ -419,7 +419,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vm_ta_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", func_800393C4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_vm_ta_set);
 #endif
 
 #if VERSION_US
