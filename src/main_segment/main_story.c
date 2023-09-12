@@ -124,7 +124,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80076CCC);
 #endif
 
 #if VERSION_CN
-void func_8008107C_cn(Gfx **gfxP, s32 arg1) {
+void curtain_proc(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     f32 temp;
     s32 alpha;
@@ -408,7 +408,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_coffee_break);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081D90_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", draw_coffee_break);
 #endif
 
 #if VERSION_US || VERSION_CN

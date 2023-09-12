@@ -146,7 +146,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", CopyTexBlock16);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043F14_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", CopyTexBlock16);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -964,7 +964,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/tex_func", RO_800ADBC0);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80048324_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", drawCursorPattern);
 #endif
 
 #if VERSION_US

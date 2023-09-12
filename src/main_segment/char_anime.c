@@ -269,7 +269,7 @@ void animeState_initDL(AnimeState *animeState, Gfx **gfxP) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006491C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeState_initDL);
 #endif
 
 /**
