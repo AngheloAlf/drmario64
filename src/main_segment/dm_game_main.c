@@ -9111,6 +9111,9 @@ void dm_game_graphic2(void) {
                     sp50 = 0x80;
                     sp54 = 0x90;
                     break;
+
+                default:
+                    break;
             }
 
             draw_replay_logo(&gGfxHead, sp50, sp54);
