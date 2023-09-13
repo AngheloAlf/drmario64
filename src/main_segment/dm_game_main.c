@@ -4503,8 +4503,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800666FC);
 void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1);
 
 #if VERSION_CN
-#ifdef NON_MATCHING
-// a few missing instructions
 void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1) {
     struct_watchGame *temp_s3 = watchGame;
     s32 temp_s1 = gameStateData->unk_04B;
@@ -4518,7 +4516,7 @@ void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1) {
     if (evs_gamesel == ENUM_EVS_GAMESEL_0) {
         gameStateData->unk_00C = 0x18;
         gameStateData->unk_014 = 0xE;
-        if ((gameStateData->unk_026 < 0x16U) || (temp_s3->unk_378 > 0)) {
+        if ((gameStateData->unk_026 < 0x16) || (temp_s3->unk_378 > 0)) {
             retryMenu_init(0, 1);
         } else {
             retryMenu_init(0, 0);
@@ -4528,17 +4526,20 @@ void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1) {
         gameStateData->unk_014 = 0xE;
         if (evs_story_flg != 0) {
             gameStateData->unk_014 = 0xF;
+            if (evs_story_no == 9) {
+                retryMenu_init(temp_s1, 1);
+            } else {
+                retryMenu_init(temp_s1, 1);
+            }
+        } else {
+            retryMenu_init(temp_s1, 1);
         }
-        retryMenu_init(temp_s1, 1);
     } else {
         func_8006AFE8_cn(temp_s1);
-        gameStateData->unk_014 = (s32)0xDU;
+        gameStateData->unk_014 = 0xD;
         gameStateData->unk_00C = 0x17;
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_set_pause_on);
-#endif
 #endif
 
 #if VERSION_US

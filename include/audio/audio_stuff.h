@@ -223,7 +223,7 @@ void dm_seq_play_in_game(SeqIndex seqIndex);
 void _dm_seq_play_in_game(s32 arg0, SeqIndex seqIndex);
 void dm_seq_stop(void);
 void _dm_seq_stop(s32 arg0);
-void dm_seq_set_volume(s32 arg0);
+void dm_seq_set_volume(s32 volume);
 void _dm_seq_set_volume(s32 arg0, s32 volume);
 bool func_8002B178(void);
 bool func_8002B194(s32 arg0);
