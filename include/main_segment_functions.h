@@ -461,7 +461,7 @@ s32 dm_set_attack_2p(struct_game_state_data *gameStateDataRef);
 s32 dm_set_attack_4p(struct_game_state_data *gameStateDataRef);
 // void func_80063FF4();
 // void func_8006408C();
-void func_80064130(s32 arg0, s32 arg1);
+void retryMenu_init(s32 arg0, s32 arg1);
 // void func_8006417C();
 s32 retryMenu_input(s32 arg0);
 // void func_80064298();
@@ -479,7 +479,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
 s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, s32 index);
 // void func_800666FC();
 // void func_80066808();
-void dm_set_pause_and_volume(struct_game_state_data **arg0, s32 arg1);
+void dm_set_pause_and_volume(struct_game_state_data **gameStateDataP, s32 arg1);
 void func_800669A0(struct_game_state_data *arg0);
 void dm_calc_big_virus_pos(struct_game_state_data *arg0);
 s32 dm_game_main_1p(void);

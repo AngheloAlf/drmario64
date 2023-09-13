@@ -371,7 +371,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeState_draw);
 #if VERSION_US
 #ifdef NON_MATCHING
 // float regalloc
-void StretchTexTile4i(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
+void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     Gfx *gfx = *gfxP;
 
     if (animeState->animeSeq.unk_18 >= 0) {
@@ -396,12 +396,12 @@ void StretchTexTile4i(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f3
     }
 }
 #else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", StretchTexTile4i);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", func_8005E998);
 #endif
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", StretchTexTile4i);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8005E998);
 #endif
 
 /**
@@ -492,8 +492,8 @@ void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 ar
         animeState_initIntensityDL(&animeSmog->unk_000[i], &gfx);
 
         if (!animeState_isEnd(&animeSmog->unk_000[i])) {
-            StretchTexTile4i(&animeSmog->unk_000[i], &gfx, arg2 + animeSmog->unk_100[i].unk_0 * arg4,
-                             arg3 + animeSmog->unk_100[i].unk_4 * arg5, arg4, arg5);
+            func_8005E998(&animeSmog->unk_000[i], &gfx, arg2 + animeSmog->unk_100[i].unk_0 * arg4,
+                          arg3 + animeSmog->unk_100[i].unk_4 * arg5, arg4, arg5);
         }
     }
 

@@ -825,7 +825,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80044E08);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047544_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", StretchTexTile4i);
 #endif
 
 #if VERSION_US

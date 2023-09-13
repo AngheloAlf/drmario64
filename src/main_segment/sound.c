@@ -438,8 +438,8 @@ void _dm_seq_stop(s32 arg0) {
  * Original name: dm_seq_set_volume
  */
 #if VERSION_US
-s32 dm_seq_set_volume(s32 arg0) {
-    return _dm_seq_set_volume(0, arg0);
+void dm_seq_set_volume(s32 volume) {
+    _dm_seq_set_volume(0, volume);
 }
 #endif
 
@@ -451,8 +451,8 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_seq_set_volume);
  * Original name: _dm_seq_set_volume
  */
 #if VERSION_US
-s32 _dm_seq_set_volume(s32 arg0, s32 volume) {
-    return func_8002D58C(arg0, volume);
+void _dm_seq_set_volume(s32 arg0, s32 volume) {
+    func_8002D58C(arg0, volume);
 }
 #endif
 
