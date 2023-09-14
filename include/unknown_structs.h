@@ -271,7 +271,7 @@ typedef struct struct_game_state_data {
     /* 0x008 */ UNK_TYPE1 unk_00B[0x1];
     /* 0x00C */ s32 unk_00C;
     /* 0x010 */ s32 unk_010;
-    /* 0x014 */ UNK_TYPE4 unk_014;
+    /* 0x014 */ u32 unk_014;
     /* 0x018 */ s32 unk_018;
     /* 0x01C */ UNK_TYPE4 unk_01C;
     /* 0x020 */ u32 unk_020;

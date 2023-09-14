@@ -416,7 +416,7 @@ void _dm_seq_play_in_game(s32 arg0, SeqIndex seqIndex) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CABC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", _dm_seq_play_in_game);
 #endif
 
 /**

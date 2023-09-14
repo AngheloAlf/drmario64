@@ -471,7 +471,7 @@ bool bottom_up_bottle_items(GameMapGrid *mapGrid);
 void add_taiQ_bonus_wait(struct_game_state_data *arg0);
 bool func_80064848(void);
 // void dm_game_eep_write_callback();
-void func_80064940(void*);
+void func_80064940(void *arg0);
 bool func_8006498C(s32 storyLevel, s32 storyNumber, s32 arg2);
 void dm_save_all(void);
 void dm_query_pause_player(struct_game_state_data *arg0);

@@ -17,7 +17,7 @@ typedef struct struct_800365B0_arg0 {
     /* 0x14 */ UNK_TYPE1 unk_14[0x4];
 } struct_800365B0_arg0; // size <= 0x18?
 
-typedef s32 (*EepRom_WriteDif_arg3)(s32);
+typedef void (*EepRom_WriteDif_arg3)(void*);
 
 typedef enum EepRomStatus {
     /* 0 */ EEPROM_STATUS_0,
@@ -170,12 +170,12 @@ void func_80038518(struct_800365B0_arg0 *arg0, s32 arg1);
 void RecAll_Compress(struct_800365B0_arg0 *arg0);
 s32 RecAll_Extract(struct_800365B0_arg0 *arg0, char arg1[4]);
 EepRomStatus EepRom_Init(void);
-EepRomStatus EepRom_InitFirst(EepRom_WriteDif_arg3 arg0, s32 arg1);
+EepRomStatus EepRom_InitFirst(EepRom_WriteDif_arg3 arg0, void *arg1);
 void EepRom_InitVars(void);
 u8 *func_80038938(bool arg0);
-EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_arg3 arg3, s32 arg4);
+EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_arg3 arg3, void *arg4);
 EepRomStatus EepRom_ReadAll(void);
-EepRomStatus EepRom_WriteAll(EepRom_WriteDif_arg3 arg0, s32 arg1);
+EepRomStatus EepRom_WriteAll(EepRom_WriteDif_arg3 arg0, void *arg1);
 void EepRom_DumpErrMes(EepRomStatus status);
 void EepRom_DumpDataSize(void);
 void setSleepTimer(s32 milliseconds);

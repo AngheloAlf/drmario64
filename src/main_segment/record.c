@@ -1059,7 +1059,7 @@ EepRomStatus EepRom_Init(void) {
 /**
  * Original name: EepRom_InitFirst
  */
-EepRomStatus EepRom_InitFirst(EepRom_WriteDif_arg3 arg0, s32 arg1) {
+EepRomStatus EepRom_InitFirst(EepRom_WriteDif_arg3 arg0, void *arg1) {
     s32 temp;
 
     EepRom_InitVars();
@@ -1100,7 +1100,7 @@ u8 *func_80038938(bool arg0) {
 #endif
 
 #if VERSION_US
-EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_arg3 arg3, s32 arg4) {
+EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_arg3 arg3, void *arg4) {
     u8 *var_s3 = arg0;
     u8 *var_s1 = arg1;
     s32 i;
@@ -1136,7 +1136,7 @@ EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_ar
 #endif
 
 #if VERSION_CN
-EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_arg3 arg3, s32 arg4) {
+EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_arg3 arg3, void *arg4) {
     u8 *var_s2 = arg0;
     u8 *var_s1 = arg1;
     s32 i;
@@ -1197,7 +1197,7 @@ EepRomStatus EepRom_ReadAll(void) {
 /**
  * Original name: EepRom_WriteAll
  */
-EepRomStatus EepRom_WriteAll(EepRom_WriteDif_arg3 arg0, s32 arg1) {
+EepRomStatus EepRom_WriteAll(EepRom_WriteDif_arg3 arg0, void *arg1) {
     struct_800365B0_arg0 sp20;
     u8 sp38[0x200];
     u8 *__dest = func_80038938(true);
