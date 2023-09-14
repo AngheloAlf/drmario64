@@ -264,23 +264,17 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", set_down_flg);
 #endif
 
 #if VERSION_CN
-#if 0
 s32 set_down_flg(GameMapGrid *mapGrid) {
-    enum bool sp10[2];
-    GameMapCell *var_s0;
-    GameMapCell *var_v0;
-    GameMapCell *var_v1_2;
-    GameMapCell *var_v1_3;
-    GameMapGrid *var_a0;
-    enum bool temp_v0;
+    GameMapCell *new_var = mapGrid->cells;
+    GameMapCell *var_s0 = new_var;
+    s32 sp10[2];
     s32 var_s4;
     s32 var_s7;
     s32 var_v1;
-    u32 var_s1;
+    s32 var_s1;
 
-    var_v0 = mapGrid->cells;
-    for (var_s4 = 0x77; var_s4 >= 0; var_s4--) {
-        var_v0[var_s4].unk_4[1] = 1;
+    for (var_s4 = 0; var_s4 < 0x78; var_s4++) {
+        var_s0[var_s4].unk_4[1] = 1;
     }
 
     for (var_s7 = 0xE; var_s7 >= 0; var_s7--) {
@@ -288,76 +282,66 @@ s32 set_down_flg(GameMapGrid *mapGrid) {
             s32 temp_s3;
 
             temp_s3 = (var_s7 * 8) + var_s4;
-            var_s0 = mapGrid->cells;
-            if ((var_s0[temp_s3].unk_4[0] != 0) && (var_s0[temp_s3].unk_4[4] < 0)) {
-                if ((u32) (var_s0[temp_s3].unk_2 - 2) < 2U) {
-                    if ((s8) var_s0[temp_s3].unk_2 == 2) {
-                        var_s1 = 0;
-                        while (var_s1 < 2U) {
-                            sp10[var_s1] = true;
-                            if ((get_map_info(mapGrid, (s32) var_s0[temp_s3+var_s1].unk_0, var_s0[temp_s3+var_s1].unk_1 + 1) == true)
-                            && (var_s0[temp_s3 +var_s1+ 8].unk_4[1] != (s8) true)
-                            ) {
-                                sp10[var_s1] = false;
+            if ((var_s0 + temp_s3)->unk_4[0] != 0) {
+                if ((var_s0 + temp_s3)->unk_4[4] < 0) {
+                    if (((var_s0 + temp_s3)->unk_2 == 2) || ((var_s0 + temp_s3)->unk_2 == 3)) {
+                        if ((var_s0 + temp_s3)->unk_2 == 2) {
+                            for (var_s1 = 0; var_s1 < 2U; var_s1++) {
+                                sp10[var_s1] = 1;
+                                if (get_map_info(mapGrid, (var_s0 + temp_s3 + var_s1)->unk_0,
+                                                 (var_s0 + temp_s3 + var_s1)->unk_1 + 1) == 1) {
+                                    if ((var_s0 + temp_s3 + var_s1 + 8)->unk_4[1] != 1) {
+                                        sp10[var_s1] = 0;
+                                    }
+                                }
                             }
-                            var_s1 += 1;
-                        }
 
-                        if ((sp10[0] == false) || (sp10[1] == 0)) {
-                            var_s1 = 0;
-                            var_v1_2 = &mapGrid->cells[temp_s3];
-                            while (var_s1 < 2U) {
-                                var_v1_2->unk_4[1] = 0;
-                                var_s1 += 1;
-                                var_v1_2 += 0xA;
+                            if ((sp10[0] == 0) || (sp10[1] == 0)) {
+                                for (var_s1 = 0; var_s1 < 2U; var_s1++) {
+                                    (var_s0 + temp_s3 + var_s1)->unk_4[1] = 0;
+                                }
                             }
-                        }
-                    } else if ((s8) var_s0[temp_s3].unk_2 == 3) {
-                        var_s1 = 0;
-                        while (var_s1 < 2U) {
-                            sp10[var_s1] = true;
-                            if ((get_map_info(mapGrid, (s32) var_s0[temp_s3-var_s1].unk_0, var_s0[temp_s3-var_s1].unk_1 + 1) == true)
-                            && (var_s0[temp_s3-var_s1 + 8].unk_4[1] != (s8) true)
-                            ) {
-                                sp10[var_s1] = false;
+                        } else if ((var_s0 + temp_s3)->unk_2 == 3) {
+                            for (var_s1 = 0; var_s1 < 2U; var_s1++) {
+                                sp10[var_s1] = 1;
+                                if (get_map_info(mapGrid, (var_s0 + temp_s3 - var_s1)->unk_0,
+                                                 (var_s0 + temp_s3 - var_s1)->unk_1 + 1) == 1) {
+                                    if ((var_s0 + temp_s3 - var_s1 + 8)->unk_4[1] != 1) {
+                                        sp10[var_s1] = 0;
+                                    }
+                                }
                             }
-                            var_s1 += 1;
-                        }
 
-                        if ((sp10[0] == false) || (sp10[1] == 0)) {
-                            var_s1 = 0;
-                            var_v1_3 = mapGrid->cells;
-                            while (var_s1 < 2U) {
-                                var_v1_3[temp_s3-var_s1].unk_4[1] = 0;
-                                var_s1 += 1;
+                            if ((sp10[0] == 0) || (sp10[1] == 0)) {
+                                for (var_s1 = 0; var_s1 < 2U; var_s1++) {
+                                    (var_s0 + temp_s3 - var_s1)->unk_4[1] = 0;
+                                }
                             }
+                        }
+                    } else if (get_map_info(mapGrid, (var_s0 + temp_s3)->unk_0, (var_s0 + temp_s3)->unk_1 + 1) == 1) {
+                        if ((var_s0 + temp_s3 + 8)->unk_4[1] != 1) {
+                            (var_s0 + temp_s3)->unk_4[1] = 0;
                         }
                     }
                 } else {
-                    if ((get_map_info(mapGrid, (s32) var_s0[temp_s3].unk_0, var_s0[temp_s3].unk_1 + 1) == true) && (var_s0[temp_s3 + 8].unk_4[1] != true)) {
-                        var_s0[temp_s3].unk_4[1] = 0;
-                    }
+                    (var_s0 + temp_s3)->unk_4[1] = 0;
                 }
             } else {
-                var_s0[temp_s3].unk_4[1] = 0;
+                (var_s0 + temp_s3)->unk_4[1] = 0;
             }
         }
-
     }
 
-    var_v1 = 0;
-    var_a0 = mapGrid;
-    for (var_s4 = 0; var_s4 < 0x80; var_s4 += 1) {
-        if (var_a0->cells[var_s4].unk_4[0] != 0) {
-            var_v1 += var_a0->cells[var_s4].unk_4[1] != 0;
+    for (var_s4 = var_v1 = 0; var_s4 < 0x80; var_s4 += 1) {
+        if (var_s0[var_s4].unk_4[0] != 0) {
+            if (var_s0[var_s4].unk_4[1] != 0) {
+                var_v1++;
+            }
         }
     }
 
     return var_v1;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", set_down_flg);
-#endif
 #endif
 
 #if VERSION_US
@@ -8374,7 +8358,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006F628);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006F628);
+void func_8006F628(Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
+
+    CopyTexBlock16(&gfx, watchGame->unk_87C, 0, 0, 0x148, 0xF0);
+    *gfxP = gfx;
+}
 #endif
 
 enum_main_no dm_game_main(struct_800EB670 *arg0) {

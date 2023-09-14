@@ -7,6 +7,7 @@
 
 struct StretchTexBlock_arg0;
 struct StretchTexTile_arg0;
+struct struct_watchGame_unk_87C;
 
 
 typedef struct TiTexDataEntry_unk_0 {
@@ -112,7 +113,7 @@ void FillRectRGBA(Gfx **gfxP, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 green
 // void func_80041480();
 // void func_80041668();
 // void func_800417B4();
-// void CopyTexBlock16();
+void CopyTexBlock16(Gfx **gfxP, struct struct_watchGame_unk_87C *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
 void StretchTexBlock(StretchTexBlock_arg0 *arg0);
 void StretchTexBlock_ScisRect(StretchTexBlock_arg0 *arg0);
 void StretchAlphaTexBlock_LoadColorTex(StretchTexBlock_arg0 *arg0);
