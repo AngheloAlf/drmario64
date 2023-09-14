@@ -151,7 +151,7 @@ TiTexData *tiLoadTexData(UNK_PTR *arg0, RomOffset segmentRom, RomOffset segmentR
 // void func_800451C4();
 void tiStretchTexBlock(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
 void tiStretchTexTile(Gfx **gfxP, TiTexDataEntry *, s32, s32, s32, s32, s32, f32, f32, f32, f32);
-void tiStretchTexItem(Gfx **gfxP, TiTexDataEntry *, s32, s32, s32, f32, f32, f32, f32);
+void tiStretchTexItem(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, s32 arg3, s32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
 void tiStretchAlphaTexItem(Gfx **gfxP, TiTexDataEntry *, TiTexDataEntry *, s32, s32, s32, f32, f32, f32, f32);
 // void func_80045914();
 void drawCursorPattern(Gfx** gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);

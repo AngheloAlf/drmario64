@@ -162,7 +162,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1CA4);
 #if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82BC_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82C8_cn);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82D4_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _scoreNumsColor);
 #endif
 
 ASM_RODATA;
@@ -2763,12 +2763,45 @@ s32 retryMenu_input(s32 arg0) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80064298);
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B184_cn);
-#endif
+void func_8006B184_cn(s32 arg0, Gfx **gfxP, s32 arg2);
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B238_cn);
+void func_8006B184_cn(s32 arg0, Gfx **gfxP, s32 arg2) {
+    struct_watchGame *watchGameP = watchGame;
+    Gfx *gfx = *gfxP;
+
+    if (watchGameP->unk_348[arg0] < 2) {
+        if (watchGameP->unk_348[arg0] >= 0) {
+            watchGameP->unk_368[arg0] =
+                disp_pause_logo(&gfx, arg0, 0, (arg2 != 0) ? watchGameP->unk_358[arg0] : -1, watchGameP->unk_348[arg0]);
+        }
+    }
+
+    *gfxP = gfx;
+}
+#endif
+
+void func_8006B238_cn(s32 arg0, Gfx **gfxP);
+
+#if VERSION_CN
+void func_8006B238_cn(s32 arg0, Gfx **gfxP) {
+    struct_watchGame *watchGameP = watchGame;
+    Gfx *gfx = *gfxP;
+
+    if (watchGameP->unk_348[arg0] < 6) {
+        if (watchGameP->unk_348[arg0] >= 2) {
+            if ((evs_gamesel == ENUM_EVS_GAMESEL_1) && (evs_gamemode == ENUM_EVS_GAMEMODE_3)) {
+                watchGameP->unk_368[arg0] =
+                    disp_continue_logo_score(&gfx, arg0, watchGameP->unk_358[arg0], watchGameP->unk_348[arg0] - 2);
+            } else {
+                watchGameP->unk_368[arg0] =
+                    disp_continue_logo(&gfx, arg0, watchGameP->unk_358[arg0], watchGameP->unk_348[arg0] - 2);
+            }
+        }
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_CN
@@ -5474,8 +5507,61 @@ TiTexDataEntry *dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80068E24);
 #endif
 
+void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP);
+
+extern const Color_RGB8 _scoreNumsColor[];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80070A5C_cn);
+void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP) {
+    struct_watchGame *watchGameP = watchGame;
+    Gfx *gfx = *gfxP;
+    TiTexDataEntry *temp_s4 = &watchGameP->unk_430->unk_00[0x11];
+    TiTexDataEntry *temp_s2 = &watchGameP->unk_430->unk_00[0x16];
+    s32 var_s3 = MIN(temp_s4->unk_4[0], temp_s2->unk_4[0]);
+    s32 temp_s0 = temp_s4->unk_4[1] / 12;
+    s32 i;
+
+    gSPDisplayList(gfx++, alpha_texture_init_dl);
+
+    gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
+
+    for (i = 0; i < 8U; i++) {
+        struct_watchGame_unk_0B8_unk_00 *temp_t3 = &arg0->unk_00[WrapI(0, 8, arg0->unk_A0 + i)];
+        f32 temp_ft0 = temp_t3->unk_10;
+        f32 var_fv0_2;
+        s32 alpha;
+
+        if (temp_ft0 == 1.0) {
+            continue;
+        }
+
+        if (temp_ft0 < 0.2) {
+            alpha = temp_ft0 * 1275.0f;
+        } else if (temp_ft0 < 0.8) {
+            alpha = 255;
+        } else {
+            alpha = (1.0f - temp_ft0) * 1275.0f;
+        }
+
+        if (temp_ft0 > 0.5) {
+            var_fv0_2 = 1.0f;
+        } else {
+            var_fv0_2 = (temp_ft0 * 4.0) - 1.0;
+        }
+
+        var_fv0_2 = (1.0 - (var_fv0_2 * var_fv0_2)) * 8.0;
+
+        gDPSetPrimColor(gfx++, 0, 0, _scoreNumsColor[temp_t3->unk_0C].r, _scoreNumsColor[temp_t3->unk_0C].g,
+                        _scoreNumsColor[temp_t3->unk_0C].b, alpha);
+
+        StretchAlphaTexBlock(
+            &gfx, var_s3, temp_s0, (u8 *)temp_s4->unk_0->unk_4 + (temp_s4->unk_4[0] * temp_s0 * temp_t3->unk_08 * 2),
+            temp_s4->unk_4[0], (u8 *)temp_s2->unk_0->unk_4 + (temp_s2->unk_4[0] * temp_s0 * temp_t3->unk_08 / 2),
+            temp_s2->unk_4[0], temp_t3->unk_00, temp_t3->unk_04 - var_fv0_2, var_s3, temp_s0);
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -5496,7 +5582,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B20D0);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86A0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _tbl_4274);
 #endif
 
 #if VERSION_US
@@ -5504,7 +5590,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B20E0);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86B0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _tbl_4345);
 #endif
 
 #if VERSION_US
@@ -5611,8 +5697,51 @@ void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006967C);
 #endif
 
+void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+
+extern const u8 _tbl_4274[][4];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80071330_cn);
+void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    struct_watchGame *watchGameP = watchGame;
+    Gfx *gfx = *gfxP;
+    TiTexDataEntry *temp_t1;
+    TiTexDataEntry *temp;
+    s32 var_a1;
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    temp_t1 = &watchGameP->unk_440->unk_00[9];
+    tiStretchTexItem(&gfx, temp_t1, 0, 4, arg2, arg3, arg4, temp_t1->unk_4[0], temp_t1->unk_4[1] / 4);
+
+    gSPDisplayList(gfx++, alpha_texture_init_dl);
+
+    for (var_a1 = 0; var_a1 < 3; var_a1++) {
+        f32 temp_fs0 = arg3 + 0x24;
+        f32 temp_fv1 = arg4 + 5 + var_a1 * 0xD;
+        s32 temp_a2 = game_state_data[arg2].unk_04F;
+        s32 temp2 = game_state_data[(arg2 + 1 + var_a1) % 4].unk_04F;
+
+        if (temp_a2 == temp2) {
+            temp_t1 = &watchGameP->unk_440->unk_00[temp_a2 + 0x10];
+            temp = &watchGameP->unk_440->unk_00[0x18];
+            StretchAlphaTexBlock(&gfx, temp_t1->unk_4[0], temp_t1->unk_4[1], temp_t1->unk_0->unk_4, temp_t1->unk_4[0],
+                                 temp->unk_0->unk_4, temp->unk_4[0], temp_fs0, temp_fv1 + 1.0f, temp_t1->unk_4[0],
+                                 temp_t1->unk_4[1]);
+        } else {
+            s32 temp3;
+
+            temp_t1 = &watchGameP->unk_440->unk_00[0xA];
+            temp = &watchGameP->unk_440->unk_00[0x12];
+
+            temp3 = _tbl_4274[arg1 - 1][(arg2 + var_a1 + 1) % 4];
+            tiStretchAlphaTexItem(&gfx, temp_t1, temp, 0, 0xB, temp3, temp_fs0, temp_fv1, temp_t1->unk_4[0],
+                                  temp_t1->unk_4[1] / 11);
+        }
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -5669,8 +5798,39 @@ void func_800717F0_cn(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_virus_number);
 #endif
 
+extern const s8 _tbl_4345[];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", draw_virus_number);
+void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, UNUSED f32 arg5) {
+    struct_watchGame *watchGameP = watchGame;
+    TiTexDataEntry *temp_s5 = &watchGameP->unk_430->unk_00[0xD];
+    TiTexDataEntry *temp_s3 = &watchGameP->unk_430->unk_00[0x12];
+    s32 var_t1 = 0;
+    s32 var_s6 = MIN(temp_s5->unk_4[0], temp_s3->unk_4[0]);
+    s32 temp_s1 = temp_s5->unk_4[1] / 10;
+    s32 sp38[16];
+    s32 temp_fs0;
+    s32 var_s0;
+    s32 var_s4;
+
+    do {
+        sp38[var_t1] = arg1 % 10;
+        arg1 /= 0xA;
+        var_t1 += 1;
+    } while (arg1 != 0);
+
+    var_s4 = var_t1 * -7;
+    temp_fs0 = temp_s1 / -2;
+    for (var_s0 = var_t1 - 1; var_s0 >= 0; var_s0--) {
+        StretchAlphaTexBlock(gfxP, var_s6, temp_s1,
+                             temp_s5->unk_0->unk_4 + (temp_s5->unk_4[0] * temp_s1 * _tbl_4345[sp38[var_s0]] * 2),
+                             (s32)temp_s5->unk_4[0],
+                             temp_s3->unk_0->unk_4 + ((s32)(*temp_s3->unk_4 * temp_s1 * _tbl_4345[sp38[var_s0]]) / 2),
+                             (s32)*temp_s3->unk_4, (f32)arg2 + (var_s4 * arg4), arg3 + temp_fs0 * arg4,
+                             (f32)var_s6 * arg4, temp_s1 * arg4);
+        var_s4 += 0xE;
+    }
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -5756,18 +5916,47 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2138);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A098);
 #endif
 
+extern const u8 _pos_4415[];
+extern const s8 _col_4416[];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A098);
+void func_8006A098(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3) {
+    s32 sp20[3];
+    s32 i;
+
+    sp20[1] = 0;
+    sp20[2] = (arg1 / 60) % 60;
+    sp20[0] = ((arg1 / 60) / 60) % 100;
+    for (i = 0; i < 3; i++) {
+        draw_count_number(gfxP, 0, _col_4416[i], sp20[i], arg2 + _pos_4415[i], arg3);
+    }
+}
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006A198);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_time2);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006A198);
+extern const u8 _pos_4426[];
+extern const s8 _col_4427[];
+
+void draw_time2(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3) {
+    s32 sp20[5];
+    s32 i;
+
+    sp20[3] = 0;
+    sp20[1] = 0;
+    sp20[4] = (arg1 / 6) % 10;
+    sp20[2] = ((arg1 / 6) / 10) % 60;
+    sp20[0] = (((arg1 / 6) / 10) / 60) % 60;
+    for (i = 0; i < 5; i++) {
+        draw_count_number(gfxP, 0, _col_4427[i], sp20[i], arg2 + _pos_4426[i], arg3);
+    }
+}
 #endif
 
+#if VERSION_US || VERSION_CN
 void push_any_key_draw(s32 arg0, s32 arg1) {
     struct_watchGame *watchGameP = watchGame;
     s32 alpha;
@@ -5793,21 +5982,88 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
     StretchAlphaTexTile(&gGfxHead, var_a1_2, temp1->unk_4[1], temp1->unk_0->unk_4, temp1->unk_4[0], temp2->unk_0->unk_4,
                         temp2->unk_4[0], 0, 0, var_a1_2, temp1->unk_4[1], arg0, arg1, var_a1_2, temp1->unk_4[1]);
 }
+#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_demo_logo);
 #endif
 
+extern const s32 _tex_4459[][2];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", draw_demo_logo);
+void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
+    struct_watchGame *watchGameP = watchGame;
+    Gfx *gfx = *gfxP;
+    s32 alpha[3];
+    s32 i;
+
+    alpha[0] = sins((watchGameP->unk_424 << 0xA) & 0xFC00) * (255.0f / 0x8000) + 127;
+    alpha[0] = CLAMP(alpha[0], 0, 255);
+    alpha[1] = 255 - alpha[0];
+    alpha[2] = 255;
+
+    gSPDisplayList(gfx++, alpha_texture_init_dl);
+    gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
+
+    for (i = 0; i < ARRAY_COUNTU(alpha); i++) {
+        TiTexDataEntry *temp_t0;
+        TiTexDataEntry *temp_t2;
+        s32 var_a3;
+        s32 var_t1;
+
+        if (i == 2) {
+            arg1 = 0xE;
+            arg2 = 0x12;
+        }
+
+        temp_t0 = &watchGameP->unk_430->unk_00[_tex_4459[i][0]];
+        temp_t2 = &watchGameP->unk_430->unk_00[_tex_4459[i][1]];
+
+        var_a3 = MIN(temp_t0->unk_4[0], temp_t2->unk_4[0]);
+        var_t1 = MIN(temp_t0->unk_4[1], temp_t2->unk_4[1]);
+
+        gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha[i]);
+        StretchAlphaTexTile(&gfx, var_a3, var_t1, temp_t0->unk_0->unk_4, temp_t0->unk_4[0], temp_t2->unk_0->unk_4,
+                            temp_t2->unk_4[0], 0, 0, var_a3, var_t1, arg1, arg2, var_a3, var_t1);
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_replay_logo);
 #endif
 
+extern const s32 RO_800C8704_cn[][2];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", draw_replay_logo);
+void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
+    struct_watchGame *watchGameP = watchGame;
+    Gfx *gfx = *gfxP;
+    s32 alpha[2];
+    s32 i;
+
+    alpha[0] = sins((watchGameP->unk_424 << 0xA) & 0xFC00) * (255.0f / 0x8000) + 127;
+    alpha[0] = CLAMP(alpha[0], 0, 255);
+    alpha[1] = 255 - alpha[0];
+
+    gSPDisplayList(gfx++, alpha_texture_init_dl);
+    gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
+
+    for (i = 0; i < ARRAY_COUNTU(alpha); i++) {
+        TiTexDataEntry *temp_t0 = &watchGameP->unk_430->unk_00[RO_800C8704_cn[i][0]];
+        TiTexDataEntry *temp_t3 = &watchGameP->unk_430->unk_00[RO_800C8704_cn[i][1]];
+        s32 var_t2 = MIN(temp_t0->unk_4[0], temp_t3->unk_4[0]);
+        s32 var_t1 = MIN(temp_t0->unk_4[1], temp_t3->unk_4[1]);
+
+        gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha[i]);
+        StretchAlphaTexTile(&gfx, var_t2, var_t1, temp_t0->unk_0->unk_4, temp_t0->unk_4[0], temp_t3->unk_0->unk_4,
+                            temp_t3->unk_4[0], 0, 0, var_t2, var_t1, arg1, arg2, var_t2, var_t1);
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -5830,24 +6086,224 @@ void func_8006A938(s32 arg0) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _pos_4415);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _col_4416);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _pos_4426);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _col_4427);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _tex_4459);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8704_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", _disp_coin_logo);
+#endif
+
+#if VERSION_CN
+void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
+    struct_watchGame *watchGameP = watchGame;
+    Gfx *gfx = *gfxP;
+    s32 i;
+    TiTexDataEntry *temp_s2;
+    s32 temp_s5;
+
+    if (watchGameP->unk_99C < arg1) {
+        for (i = watchGameP->unk_99C; i < arg1; i++) {
+            if (watchGameP->unk_9A0[i] == 0) {
+                watchGameP->unk_9A0[i] = 0;
+                watchGameP->unk_99C += 1;
+            } else if (watchGameP->unk_9A0[i] < 0) {
+                watchGameP->unk_9A0[i] = 0x1E;
+            } else {
+                watchGameP->unk_9A0[i] = watchGameP->unk_9A0[i] - 1;
+            }
+        }
+    } else if (arg1 < watchGameP->unk_99C) {
+        for (i = watchGameP->unk_99C - 1; i >= arg1; i--) {
+            if (watchGameP->unk_9A0[i] >= 0x1E) {
+                watchGameP->unk_99C -= 1;
+                watchGameP->unk_9A0[i] = -1;
+            } else {
+                watchGameP->unk_9A0[i] = watchGameP->unk_9A0[i] + 1;
+            }
+        }
+        arg1 = watchGameP->unk_99C;
+    }
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+
+    gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+
+    gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, PRIMITIVE, 0, TEXEL0, 0, 0, 0, 0, TEXEL0, PRIMITIVE, 0, TEXEL0, 0);
+
+    temp_s2 = &watchGameP->unk_434->unk_00[0x15];
+
+    temp_s5 = temp_s2->unk_4[0] >> 2;
+    for (i = 0; i < arg1; i++) {
+        f32 var_s4 = 0xED + i * 0x10;
+        f32 temp_ft0 = watchGameP->unk_9A0[i] - 0xF;
+        s32 alpha;
+
+        temp_ft0 = SQ(temp_ft0) * 0.125 + 81.0 - 28.125;
+        alpha = 255 - watchGameP->unk_9A0[i] * 0xFF / 30;
+
+        gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
+
+        StretchTexTile4(&gfx, temp_s2->unk_4[0], temp_s2->unk_4[1], temp_s2->unk_0->unk_0, temp_s2->unk_0->unk_4,
+                        temp_s5 * ((watchGameP->unk_9A0[i] >> 1) & 3), 0, temp_s5, temp_s2->unk_4[1], var_s4, temp_ft0,
+                        temp_s5, temp_s2->unk_4[1]);
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006AC60);
 #endif
 
+void draw_flash_virus_light(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+
+extern u8 tbl_4589[];
+extern Color_RGBA8 col_4590[];
+
+#if VERSION_CN
+void draw_flash_virus_light(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    struct_watchGame *watchGameP = watchGame;
+    Gfx *gfx = *gfxP;
+    TiTexDataEntry *temp = &watchGameP->unk_444->unk_00[tbl_4589[(watchGameP->unk_424 >> 1) & 3] + 0xC];
+
+    if (arg1 == 0) {
+        gSPDisplayList(gfx++, normal_texture_init_dl);
+        gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+        gDPSetCombineLERP(gfx++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, ENVIRONMENT, 0, TEXEL0, 0, ENVIRONMENT,
+                          PRIMITIVE, TEXEL0, PRIMITIVE, ENVIRONMENT, 0, TEXEL0, 0);
+        gDPSetTextureLUT(gfx++, G_TT_NONE);
+        gDPSetEnvColor(gfx++, 255, 255, 255, 255);
+    }
+
+    gDPSetPrimColor(gfx++, 0, 0, col_4590[arg4].r, col_4590[arg4].g, col_4590[arg4].b, col_4590[arg4].a);
+
+    tiStretchTexBlock(&gfx, temp, arg1, (f32)arg2, (f32)arg3, 20.0f, 20.0f);
+    *gfxP = gfx;
+}
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006AE04);
+#endif
+
+void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid);
+
+#if VERSION_CN
+void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRef, UNUSED GameMapGrid *mapGrid) {
+    s32 var_t1 = 0;
+    s32 var_s5;
+    s32 var_s6;
+    s32 i;
+
+    switch (gameStateDataRef->unk_00A) {
+        case 0x8:
+            var_s6 = -6;
+            var_s5 = -6;
+            break;
+
+        case 0xA:
+            var_s6 = -5;
+            var_s5 = -5;
+            break;
+
+            // var_s6 and var_s5 are undefined
+    }
+
+    for (i = 0; i < gameStateDataRef->unk_164; i++) {
+        struct_80123700_unk_0D4_unk_00 *temp = &gameStateDataRef->unk_0D4.unk_00[i];
+
+        if (temp->unk_8 >= 0) {
+            draw_flash_virus_light(
+                gfxP, var_t1, var_s5 + gameStateDataRef->unk_006 + (gameStateDataRef->unk_00A * temp->unk_0),
+                var_s6 + gameStateDataRef->unk_008 + (gameStateDataRef->unk_00A * (temp->unk_4 + 1)), temp->unk_8);
+            var_t1 = 1;
+        }
+    }
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006AEFC);
 #endif
 
+void func_80072D18_cn(struct_watchGame_unk_9D0 *arg0, Gfx **gfxP, s32 arg2, s32 arg3);
+
+#if VERSION_CN
+void func_80072D18_cn(struct_watchGame_unk_9D0 *arg0, Gfx **gfxP, s32 arg2, s32 arg3) {
+    struct_watchGame *watchGameP = watchGame;
+    Gfx *gfx = *gfxP;
+    TiTexDataEntry *temp_t3;
+    TiTexDataEntry *temp;
+
+    gSPDisplayList(gfx++, alpha_texture_init_dl);
+
+    temp_t3 = &watchGameP->unk_438->unk_00[8];
+    temp = &watchGameP->unk_438->unk_00[9];
+
+    StretchAlphaTexTile(&gfx, temp_t3->unk_4[0], (s32)temp_t3->unk_4[1], temp_t3->unk_0->unk_4, temp_t3->unk_4[0],
+                        temp->unk_0->unk_4, (s32)temp->unk_4[0], 0, 0, (s32)temp_t3->unk_4[0], (s32)temp_t3->unk_4[1],
+                        (f32)arg2, (f32)arg3, (f32)temp_t3->unk_4[0], (f32)temp_t3->unk_4[1]);
+    draw_time2(&gfx, arg0->unk_14 + 5, arg2 + 0x12, arg3 + 0xE);
+    draw_count_number(&gfx, 0, 2, (u32)arg0->unk_18, arg2 + 0x1F, arg3 + 0x23);
+    draw_count_number(&gfx, 0, 2, (u32)arg0->unk_1C, arg2 + 0x1F, arg3 + 0x38);
+    draw_count_number(&gfx, 0, 7, (u32)arg0->unk_20, arg2 + 9, arg3 + 0x50);
+
+    *gfxP = gfx;
+}
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_story_board);
+#endif
+
+#if VERSION_CN
+void draw_story_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    struct_watchGame *temp_s1 = watchGame;
+    Gfx *gfx = *gfxP;
+
+    gSPDisplayList(gfx++, alpha_texture_init_dl);
+
+    if (arg3 != 0) {
+        TiTexDataEntry *temp_t3 = &temp_s1->unk_43C->unk_00[0x12];
+        TiTexDataEntry *temp_t1 = &temp_s1->unk_43C->unk_00[0x13];
+
+        StretchAlphaTexBlock(&gfx, temp_t3->unk_4[0], temp_t1->unk_4[1], temp_t3->unk_0->unk_4, temp_t3->unk_4[0],
+                             temp_t1->unk_0->unk_4, temp_t1->unk_4[0], arg1 + 0x78, arg2 + 0xB, temp_t3->unk_4[0],
+                             temp_t3->unk_4[1]);
+
+        temp_t3 = &temp_s1->unk_43C->unk_00[9];
+        tiStretchAlphaTexItem(&gfx, temp_t3, &temp_s1->unk_43C->unk_00[2], 0, 4, evs_story_level, arg1 + 0x8E,
+                              arg2 + 0x36, temp_t3->unk_4[0], temp_t3->unk_4[1] >> 2);
+    }
+
+    if (arg4 != 0) {
+        draw_count_number(&gfx, 0, 7, game_state_data->unk_000, arg1 + 0x81, arg2 + 0x19);
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -5887,55 +6343,115 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _pat_4838);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86D4_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _x_4663);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86D8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _x_4670);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86DC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _x_4676);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86E4_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C86EC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8704_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", _disp_coin_logo);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80072A34_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80072BF0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80072D18_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", draw_story_board);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _x_4693);
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_vsmode_board);
 #endif
 
+extern const s32 _x_4663[];
+extern const s32 _x_4670[];
+extern const s32 _x_4676[];
+extern const s32 _x_4693[];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", draw_vsmode_board);
+void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    struct_watchGame *temp_s6 = watchGame;
+    Gfx *gfx = *gfxP;
+    UNUSED s32 pad[3];
+    TiTexDataEntry *temp_s1;
+    TiTexDataEntry *temp_s5;
+    s32 i;
+
+    gSPDisplayList(gfx++, alpha_texture_init_dl);
+
+    if (arg3 != 0) {
+        switch (evs_gamemode) {
+            case ENUM_EVS_GAMEMODE_1:
+            case ENUM_EVS_GAMEMODE_3:
+                temp_s1 = &temp_s6->unk_43C->unk_00[0x10];
+                temp_s5 = &temp_s6->unk_43C->unk_00[0x11];
+                StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4,
+                                     temp_s1->unk_4[0], temp_s5->unk_0->unk_4, temp_s5->unk_4[0], arg1 + 0x5F, arg2 + 9,
+                                     temp_s1->unk_4[0], temp_s1->unk_4[1]);
+
+                temp_s1 = &temp_s6->unk_43C->unk_00[9];
+                temp_s5 = &temp_s6->unk_43C->unk_00[2];
+                for (i = 0; i < 2; i++) {
+                    tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, 0, 4, game_state_data[i].unk_16C, arg1 + _x_4663[i],
+                                          arg2 + 0xB, temp_s1->unk_4[0], temp_s1->unk_4[1] >> 2);
+                }
+                break;
+
+            default:
+                temp_s1 = &temp_s6->unk_43C->unk_00[0x14];
+                temp_s5 = &temp_s6->unk_43C->unk_00[0x15];
+                StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4,
+                                     temp_s1->unk_4[0], temp_s5->unk_0->unk_4, temp_s5->unk_4[0], arg1 + 0x68, arg2 + 9,
+                                     temp_s1->unk_4[0], temp_s1->unk_4[1]);
+
+                for (i = 0; i < 2; i++) {
+                    draw_count_number(&gfx, 0, 2, game_state_data[i].unk_026, arg1 + _x_4670[i], arg2 + 0xB);
+                }
+                break;
+        }
+
+        temp_s1 = &temp_s6->unk_43C->unk_00[0xD];
+        temp_s5 = &temp_s6->unk_43C->unk_00[6];
+        StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
+                             temp_s5->unk_0->unk_4, temp_s5->unk_4[0], arg1 + 0x68, (arg2 + 0x19), temp_s1->unk_4[0],
+                             temp_s1->unk_4[1]);
+
+        temp_s1 = &temp_s6->unk_43C->unk_00[0xC];
+        temp_s5 = &temp_s6->unk_43C->unk_00[5];
+        for (i = 0; i < 2; i++) {
+            tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, 0, 3, 2 - game_state_data[i].unk_02C, arg1 + _x_4676[i],
+                                  arg2 + 0x1B, temp_s1->unk_4[0], temp_s1->unk_4[1] / 3);
+        }
+    }
+
+    if (evs_gamesel == ENUM_EVS_GAMESEL_3) {
+        if (arg3 != 0) {
+            temp_s1 = &temp_s6->unk_43C->unk_00[0xA];
+            temp_s5 = &temp_s6->unk_43C->unk_00[3];
+            StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
+                                 temp_s5->unk_0->unk_4, temp_s5->unk_4[0], arg1 + 0x70, arg2 + 0x29, temp_s1->unk_4[0],
+                                 temp_s1->unk_4[1]);
+        }
+
+        if (arg4 != 0) {
+            draw_count_number(&gfx, 0, 7, game_state_data->unk_000, arg1 + 0x90, arg2 + 0x2A);
+        }
+    } else {
+        if (arg3 != 0) {
+            temp_s1 = &temp_s6->unk_43C->unk_00[0xB];
+            temp_s5 = &temp_s6->unk_43C->unk_00[4];
+            StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
+                                 temp_s5->unk_0->unk_4, temp_s5->unk_4[0], arg1 + 0x58, arg2 + 0x29, temp_s1->unk_4[0],
+                                 temp_s1->unk_4[1]);
+        }
+
+        if (arg4 != 0) {
+            for (i = 0; i < 2; i++) {
+                draw_count_number(&gfx, i + 1, 7, game_state_data[i].unk_000, arg1 + _x_4693[i], arg2 + 0x2A);
+            }
+        }
+    }
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -6035,22 +6551,6 @@ void dm_draw_big_virus(Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8728_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8730_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8738_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C8740_cn);
 #endif
 
 #if VERSION_CN
@@ -6251,7 +6751,51 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic_1p)
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_graphic_1p);
+void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, GameMapGrid *mapGrid) {
+    struct_watchGame *temp_s2 = watchGame;
+    s32 sp20[2];
+    s32 sp28[2];
+    s32 i;
+
+    if (gameStateDataRef->unk_020 == 0xD) {
+        return;
+    }
+
+    dm_game_graphic_common(gameStateDataRef, arg1, mapGrid);
+
+    gSPDisplayList(gGfxHead++, normal_texture_init_dl);
+
+    if (dm_calc_capsel_pos(gameStateDataRef, sp20, sp28) != 0) {
+        i = 0;
+        if ((gameStateDataRef->unk_00C == 1) || (gameStateDataRef->unk_00C == 2)) {
+            i = 1;
+            sp20[1] -= sp20[0];
+            sp28[1] -= sp28[0];
+            sp20[0] = 0xDA;
+            sp28[0] = 0x34;
+            sp20[1] += sp20[0];
+            sp28[1] += sp28[0];
+        } else if (temp_s2->unk_420 != 0) {
+            i = 1;
+        }
+
+        if (i != 0) {
+            dm_draw_capsel_by_gfx(gameStateDataRef, sp20, sp28);
+        }
+    }
+
+    if ((gameStateDataRef->unk_184.unk_8 == 0) || (gameStateDataRef->unk_178.unk_2[0] <= 0) ||
+        (gameStateDataRef->unk_020 != 1)) {
+        return;
+    }
+
+    for (i = 0; i < 2; i++) {
+        TiTexDataEntry *temp = dm_game_get_capsel_pal(0, gameStateDataRef->unk_184.unk_6[i]);
+
+        load_TexPal(temp->unk_0->unk_0);
+        draw_Tex(0xDA + i * 0xA, 0x34, 0xA, 0xA, 0, gameStateDataRef->unk_184.unk_4[i] * 0xA);
+    }
+}
 #endif
 
 #if VERSION_US
@@ -6259,7 +6803,294 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic_eff
 #endif
 
 #if VERSION_CN
+#if 0
+void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) {
+    ? var_a2_2;
+    Gfx *temp_a0_2;
+    Gfx *temp_a1;
+    Gfx *temp_a1_2;
+    Gfx *temp_a2;
+    Gfx *temp_a2_2;
+    Gfx *temp_a2_3;
+    TiTexData *temp_s0;
+    TiTexData *temp_t0;
+    f32 temp_fv0;
+    f32 temp_fv0_2;
+    s32 temp_a0;
+    s32 temp_a0_3;
+    s32 temp_lo;
+    s32 temp_s0_2;
+    s32 temp_v1;
+    s32 var_a2;
+    s32 var_v0;
+    s32 var_v0_2;
+    s32 var_v0_3;
+    s32 var_v0_4;
+    s32 var_v0_5;
+    s32 var_v0_6;
+    s32 var_v0_7;
+    s32 var_v0_8;
+    struct_watchGame *temp_s4;
+    u16 temp_a1_3;
+    u16 temp_a1_4;
+    u32 var_v1;
+    u32 var_v1_2;
+    void *temp_s1;
+    void *temp_s1_2;
+    void *temp_v1_2;
+    void *temp_v1_3;
+
+    temp_v1 = gameStateDataRef->unk_014;
+    temp_s4 = watchGame;
+    switch (temp_v1) {                              /* switch 3; irregular */
+        case 0x0:                                   /* switch 3 */
+            break;
+        default:                                    /* switch 3 */
+        case 0x1:                                   /* switch 3 */
+            if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+                draw_flash_virus_lights(&gGfxHead, gameStateDataRef, &game_map_data[arg1]);
+            }
+            break;
+    }
+
+    if (evs_score_flag != 0) {
+        scoreNums_draw(&temp_s4->unk_0B8[arg1], &gGfxHead);
+    }
+
+    if ((gameStateDataRef->unk_01C == 0x12) && (gameStateDataRef->unk_020 == 1)) {
+        temp_a1 = gGfxHead;
+        gGfxHead += 8;
+        temp_s0 = temp_s4->unk_440;
+        temp_a1->words.w0 = 0xDE000000;
+        temp_a1->words.w1 = (u32) alpha_texture_init_dl;
+        temp_a1_2 = gGfxHead;
+        gGfxHead += 8;
+        temp_a1_2->words.w0 = 0xFC11A7FF;
+        temp_a1_2->words.w1 = -0x1C8U;
+        temp_a2 = gGfxHead;
+        temp_fv0 = ((f32) sins((temp_s4->unk_426 << 9) & 0xFE00) * 0.0038757324f) + 127.0f;
+        gGfxHead += 8;
+        temp_a2->words.w0 = 0xFA000000;
+        temp_a2->words.w1 = (s32) temp_fv0 | ~0xFF;
+        temp_s1 = temp_s0 + 0xE8;
+        temp_v1_2 = temp_s1->unk_4;
+        temp_a1_3 = temp_v1_2->unk_0;
+        StretchAlphaTexBlock(&gGfxHead, (s32) temp_a1_3, (s32) temp_v1_2->unk_2, temp_s0->unk_E8->unk_4, (s32) temp_a1_3, temp_s0->unk_F0->unk_4, (s32) *(temp_s0 + 0xF0)->unk_4, (f32) gameStateDataRef->unk_006, (f32) (gameStateDataRef->unk_008 + (s32) ((f32) sins((temp_s4->unk_426 << 0xA) & 0xFC00) * 0.00015258789f) + 0xA0), (f32) temp_s1->unk_4->unk_0, (f32) temp_s1->unk_4->unk_2);
+    }
+    temp_a0 = gameStateDataRef->unk_014;
+    if (temp_a0 == 3) {
+        if (evs_gamemode == ENUM_EVS_GAMEMODE_2) {
+            var_a2 = 0;
+            goto block_21;
+        }
+        if (evs_gamemode != temp_a0) {
+            var_a2 = 1;
+block_21:
+            disp_clear_logo(&gGfxHead, arg1, var_a2);
+        }
+    }
+
+    if (gameStateDataRef->unk_014 == 0x13) {
+        disp_allclear_logo(&gGfxHead, arg1, 0);
+    }
+
+    if ((u32) gameStateDataRef->unk_014 != 4) {
+        var_v0 = (u32) gameStateDataRef->unk_014 < 0x10U;
+        if ((u32) gameStateDataRef->unk_014 == 0x15) {
+            goto block_28;
+        }
+    } else {
+        if (evs_gamemode != ENUM_EVS_GAMEMODE_3) {
+block_28:
+            if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
+                if ((u32) evs_game_time >= 0x2A30U) {
+                    disp_timeover_logo(&gGfxHead, arg1);
+                } else {
+                    goto block_32;
+                }
+            } else {
+block_32:
+                disp_gameover_logo(&gGfxHead, arg1);
+            }
+        }
+        var_v0 = (u32) gameStateDataRef->unk_014 < 0x10U;
+    }
+
+    if (var_v0 == 0) {
+        if ((u32) gameStateDataRef->unk_014 < 0x12U) {
+            if (temp_s4->unk_000 == 0) {
+                if (gameStateDataRef->unk_04C == 0) {
+                    temp_fv0_2 = (f32) sins((temp_s4->unk_426 << 0xA) & 0xFC00);
+                    temp_a2_2 = gGfxHead;
+                    gGfxHead += 8;
+                    temp_t0 = temp_s4->unk_440;
+                    temp_a2_2->words.w0 = 0xDE000000;
+                    temp_a2_2->words.w1 = (u32) alpha_texture_init_dl;
+                    temp_s1_2 = temp_t0 + 0xD8;
+                    temp_a2_3 = gGfxHead;
+                    gGfxHead += 8;
+                    temp_a2_3->words.w0 = 0xFC11A7FF;
+                    temp_a2_3->words.w1 = -0x1C8U;
+                    temp_a0_2 = gGfxHead;
+                    gGfxHead += 8;
+                    temp_a0_2->words.w0 = 0xFA000000;
+                    temp_a0_2->words.w1 = (s32) ((temp_fv0_2 * 0.0038757324f) + 127.0f) | ~0xFF;
+                    temp_v1_3 = temp_s1_2->unk_4;
+                    temp_a1_4 = temp_v1_3->unk_0;
+                    StretchAlphaTexBlock(&gGfxHead, (s32) temp_a1_4, (s32) temp_v1_3->unk_2, temp_t0->unk_D8->unk_4, (s32) temp_a1_4, temp_t0->unk_E0->unk_4, (s32) *temp_t0->unk_E4, (f32) gameStateDataRef->unk_006, (f32) (gameStateDataRef->unk_008 + 0x5C), (f32) temp_s1_2->unk_4->unk_0, (f32) temp_s1_2->unk_4->unk_2);
+                }
+            }
+            goto block_45;
+        }
+        var_v1 = (u32) gameStateDataRef->unk_014 - 3;
+        if ((u32) gameStateDataRef->unk_014 != 0x17) {
+            var_v0_2 = var_v1 < 0x16U;
+        } else {
+block_45:
+            disp_retire_logo(&gGfxHead, arg1);
+            goto block_46;
+        }
+    } else {
+block_46:
+        var_v1 = gameStateDataRef->unk_014 - 3;
+        var_v0_2 = var_v1 < 0x16U;
+    }
+
+    if (var_v0_2 != 0) {
+        switch (var_v1) {                           /* switch 1 */
+            case 0x0:                               /* switch 1 */
+            case 0x1:                               /* switch 1 */
+            case 0x2:                               /* switch 1 */
+            case 0x3:                               /* switch 1 */
+            case 0x4:                               /* switch 1 */
+            case 0x5:                               /* switch 1 */
+            case 0x6:                               /* switch 1 */
+            case 0x7:                               /* switch 1 */
+            case 0x8:                               /* switch 1 */
+            case 0x9:                               /* switch 1 */
+            case 0x11:                              /* switch 1 */
+            case 0x13:                              /* switch 1 */
+            case 0x15:                              /* switch 1 */
+                var_v0_3 = (u32) gameStateDataRef->unk_014 < 8U;
+                if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
+                    if (evs_gamesel == ENUM_EVS_GAMESEL_0) {
+                        var_v0_4 = 0xA;
+                    } else {
+                        var_v0_4 = 0x4A;
+                    }
+                    func_80072D18_cn(&temp_s4->unk_9D0[arg1], &gGfxHead, gameStateDataRef->unk_006, gameStateDataRef->unk_008 + var_v0_4);
+                    goto block_54;
+                }
+                break;
+        }
+    } else {
+    case 0xA:                                       /* switch 1 */
+    case 0xB:                                       /* switch 1 */
+    case 0xC:                                       /* switch 1 */
+    case 0xD:                                       /* switch 1 */
+    case 0xE:                                       /* switch 1 */
+    case 0xF:                                       /* switch 1 */
+    case 0x10:                                      /* switch 1 */
+    case 0x12:                                      /* switch 1 */
+    case 0x14:                                      /* switch 1 */
+block_54:
+        var_v0_3 = (u32) gameStateDataRef->unk_014 < 8U;
+    }
+
+    if (var_v0_3 != 0) {
+        var_v0_5 = (u32) gameStateDataRef->unk_014 < 0xBU;
+        if ((u32) gameStateDataRef->unk_014 >= 5U) {
+            disp_win_logo(&gGfxHead, arg1);
+            goto block_58;
+        }
+    } else {
+block_58:
+        var_v0_5 = (u32) gameStateDataRef->unk_014 < 0xBU;
+    }
+    if (var_v0_5 != 0) {
+        var_v0_6 = (u32) gameStateDataRef->unk_014 < 0xDU;
+        if ((u32) gameStateDataRef->unk_014 >= 8U) {
+            disp_lose_logo(&gGfxHead, arg1);
+            goto block_62;
+        }
+    } else {
+block_62:
+        var_v0_6 = (u32) gameStateDataRef->unk_014 < 0xDU;
+    }
+    if (var_v0_6 != 0) {
+        var_v0_7 = (u32) gameStateDataRef->unk_014 < 3U;
+        if ((u32) gameStateDataRef->unk_014 >= 0xBU) {
+            disp_draw_logo(&gGfxHead, arg1);
+            goto block_66;
+        }
+    } else {
+block_66:
+        var_v0_7 = (u32) gameStateDataRef->unk_014 < 3U;
+    }
+
+    if ((var_v0_7 != 0) && (gameStateDataRef->unk_014 != 0) && (temp_a0_3 = temp_s4->unk_3AC, temp_lo = temp_a0_3 / (s32) evs_playcnt, temp_s0_2 = (temp_a0_3 / (s32) evs_playcnt) / 48, (temp_a0_3 >= 0))) {
+        if (disp_count_logo(&gGfxHead, arg1, temp_lo) != 0) {
+            temp_s4->unk_3AC = -1;
+            if (arg1 == 0) {
+                dm_snd_play_in_game(SND_INDEX_73);
+            }
+        } else {
+            if ((arg1 == 0) && ((temp_s0_2 * 0x30) == (temp_lo - 0x14)) && (temp_s0_2 < 3)) {
+                dm_snd_play_in_game(SND_INDEX_72);
+            }
+            temp_s4->unk_3AC += 1;
+        }
+    }
+
+    if (((gameStateDataRef->unk_014 == 0x13) || (gameStateDataRef->unk_014 == 0x15)) && (evs_gamesel == ENUM_EVS_GAMESEL_0) && (evs_gamemode == ENUM_EVS_GAMEMODE_3) && (temp_s4->unk_888[arg1] == 0)) {
+        push_any_key_draw(gameStateDataRef->unk_006 + 8, gameStateDataRef->unk_008 + 0xA0);
+    }
+
+    if ((u32) gameStateDataRef->unk_014 == 0xD) {
+        var_a2_2 = 0;
+        goto block_90;
+    }
+    var_v0_8 = (u32) gameStateDataRef->unk_014 < 0x10U;
+    if (((u32) gameStateDataRef->unk_014 >= 0xDU) && (var_v0_8 != 0)) {
+        var_a2_2 = 1;
+block_90:
+        func_8006B184_cn(arg1, &gGfxHead, var_a2_2);
+        var_v0_8 = (u32) gameStateDataRef->unk_014 < 0x10U;
+    }
+
+    if (var_v0_8 != 0) {
+        var_v1_2 = (u32) gameStateDataRef->unk_014 - 3;
+        if ((u32) gameStateDataRef->unk_014 >= 0xDU) {
+            var_v1_2 = (u32) gameStateDataRef->unk_014 - 3;
+            if (evs_gamesel == ENUM_EVS_GAMESEL_2) {
+                draw_4p_attack_guide_panel(&gGfxHead, temp_s4->unk_8BC, arg1, gameStateDataRef->unk_006, gameStateDataRef->unk_008 - 0x24);
+                goto block_95;
+            }
+        }
+    } else {
+block_95:
+        var_v1_2 = gameStateDataRef->unk_014 - 3;
+    }
+
+    switch (var_v1_2) {                             /* switch 2 */
+        case 0x0:                                   /* switch 2 */
+        case 0x1:                                   /* switch 2 */
+        case 0x3:                                   /* switch 2 */
+        case 0x4:                                   /* switch 2 */
+        case 0x6:                                   /* switch 2 */
+        case 0x7:                                   /* switch 2 */
+        case 0x9:                                   /* switch 2 */
+            if (temp_s4->unk_888[arg1] == 0) {
+                func_8006B238_cn(arg1, &gGfxHead);
+            default:                                /* switch 2 */
+            }
+            break;
+    }
+    gfxSetScissor(&gGfxHead, 2, 0, 0, 0x140, 0xF0);
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_graphic_effect);
+#endif
 #endif
 
 void func_8006D0E8(void) {
@@ -8524,7 +9355,7 @@ void dm_game_graphic2(void) {
                                 i = 0;
                             }
                             i += 5;
-                            func_8006A198(&gGfxHead, i, RO_800B1D28[0], RO_800B1D28[1]);
+                            draw_time2(&gGfxHead, i, RO_800B1D28[0], RO_800B1D28[1]);
                             break;
 
                         default:
@@ -8571,7 +9402,7 @@ void dm_game_graphic2(void) {
                             i = 0;
                         }
                         i += 5;
-                        func_8006A198(&gGfxHead, i, 0x9A, 0xA7);
+                        draw_time2(&gGfxHead, i, 0x9A, 0xA7);
                         break;
 
                     default:
