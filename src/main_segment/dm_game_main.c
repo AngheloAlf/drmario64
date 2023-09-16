@@ -1536,24 +1536,36 @@ void func_80062978(s32 index, s32 arg1) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80062990);
 #endif
 
+void func_800694E0_cn(s32 arg0);
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800694E0_cn);
+void func_800694E0_cn(s32 arg0) {
+    func_80062978(arg0, 0xB4);
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800629AC);
 #endif
 
+void func_8006950C_cn(s32 arg0);
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006950C_cn);
+void func_8006950C_cn(s32 arg0) {
+    func_80062978(arg0, 0xB4);
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800629C8);
 #endif
 
+void func_80069538_cn(s32 arg0);
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_80069538_cn);
+void func_80069538_cn(s32 arg0) {
+    func_80062978(arg0, 0xB4);
+}
 #endif
 
 #if VERSION_US
@@ -5313,31 +5325,191 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80067668);
 s32 dm_add_win_2p(struct_game_state_data *gameStateDataRef);
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_add_win_2p);
+s32 dm_add_win_2p(struct_game_state_data *gameStateDataRef) {
+    struct_watchGame *watchGameP = watchGame;
+    s32 temp_a3 = gameStateDataRef->unk_04B;
+    SeqIndex var_t1 = SEQ_INDEX_17;
+    s32 var_a3;
+    s32 var_s0;
+    s32 var_t3;
+
+    watchGameP->unk_89C[temp_a3]++;
+
+    if (evs_story_flg != 0) {
+        var_t3 = _posStStar[temp_a3][0];
+        var_a3 = _posStStar[temp_a3][1];
+
+        var_s0 = 1;
+
+        if (gameStateDataRef->unk_04C == 0) {
+            var_t1 = SEQ_INDEX_14;
+        }
+    } else {
+        var_t3 = _posP2StarX[temp_a3];
+        var_a3 = _posP2StarY[evs_vs_count - 1][watchGameP->unk_89C[temp_a3] - 1];
+
+        var_s0 = watchGameP->unk_89C[temp_a3] == evs_vs_count;
+
+        if (var_s0 != 0) {
+            watchGameP->unk_8B4[temp_a3] = MIN(0x63, watchGameP->unk_8B4[temp_a3] + 1);
+            watchGameP->unk_8AC[temp_a3] = MIN(0x3E7, watchGameP->unk_8AC[temp_a3] + 1);
+        }
+
+        if ((evs_gamesel != ENUM_EVS_GAMESEL_3) || (gameStateDataRef->unk_04C == 0)) {
+            if (var_s0 != 0) {
+                var_t1 = SEQ_INDEX_15;
+            } else {
+                var_t1 = SEQ_INDEX_14;
+            }
+        }
+    }
+
+    watchGameP->unk_00C[watchGameP->unk_06C] = var_t3;
+    watchGameP->unk_03C[watchGameP->unk_06C] = var_a3;
+    watchGameP->unk_06C += 1;
+    dm_seq_play_in_game(var_t1);
+    return var_s0;
+}
 #endif
 
-s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32, s32);
+s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2);
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_set_win_2p);
+s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) {
+    s32 temp_s1 = gameStateDataRef->unk_04B;
+
+    gameStateDataRef->unk_020 = 5;
+    func_800694E0_cn(temp_s1);
+    animeState_set(&gameStateDataRef->unk_094, 3);
+    dm_snd_play_in_game(_charSE_tbl[gameStateDataRef->unk_090] + 4);
+
+    if ((arg2 == 0) && (gameStateDataRef->unk_04C == 0)) {
+        arg2 = 1;
+
+        gameStateDataRef->unk_014 = 6;
+        gameStateDataRef->unk_00C = 0xE;
+        if (evs_story_flg == 0) {
+            if (arg1 != 0) {
+                retryMenu_init(temp_s1, 3);
+            } else {
+                retryMenu_init(temp_s1, 5);
+            }
+        } else {
+            gameStateDataRef->unk_014 = 7;
+            retryMenu_init(temp_s1, 5);
+        }
+    } else {
+        gameStateDataRef->unk_014 = 5;
+        gameStateDataRef->unk_00C = 0xD;
+    }
+
+    return arg2;
+}
 #endif
 
-s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32, s32);
+s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32 /*arg1*/, s32 /*arg2*/);
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_set_lose_2p);
+s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) {
+    s32 temp_s1 = gameStateDataRef->unk_04B;
+
+    gameStateDataRef->unk_020 = 8;
+    animeState_set(&gameStateDataRef->unk_094, 4);
+    func_8006950C_cn(temp_s1);
+
+    if ((arg2 == 0) && (gameStateDataRef->unk_04C == 0)) {
+        arg2 = 1;
+
+        gameStateDataRef->unk_014 = 9;
+        gameStateDataRef->unk_00C = 0x10;
+
+        if (evs_story_flg != 0) {
+            gameStateDataRef->unk_014 = 0xA;
+            if (evs_story_no != 9) {
+                retryMenu_init(temp_s1, 3);
+            } else {
+                retryMenu_init(temp_s1, 3);
+            }
+        } else {
+            if (arg1 != 0) {
+                retryMenu_init(temp_s1, 3);
+            } else {
+                retryMenu_init(temp_s1, 5);
+            }
+        }
+    } else {
+
+        gameStateDataRef->unk_014 = 8;
+        gameStateDataRef->unk_00C = 0xF;
+    }
+
+    return arg2;
+}
 #endif
 
-s32 func_8006EEC8_cn(struct_game_state_data *gameStateDataRef, s32);
+s32 func_8006EEC8_cn(struct_game_state_data *gameStateDataRef, s32 /*arg1*/);
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006EEC8_cn);
+s32 func_8006EEC8_cn(struct_game_state_data *gameStateDataRef, s32 arg1) {
+    s32 temp_s2 = gameStateDataRef->unk_04B;
+
+    gameStateDataRef->unk_020 = 0xB;
+    func_80069538_cn(temp_s2);
+    animeState_set(&gameStateDataRef->unk_094, 4);
+    if ((arg1 == 0) && (gameStateDataRef->unk_04C == 0)) {
+        gameStateDataRef->unk_014 = 0xC;
+        gameStateDataRef->unk_00C = 0x12;
+        retryMenu_init(temp_s2, 5);
+        arg1 = 1;
+    } else {
+        gameStateDataRef->unk_014 = 0xB;
+        gameStateDataRef->unk_00C = 0x11;
+    }
+
+    return arg1;
+}
 #endif
 
 s32 dm_set_time_attack_result_2p(struct_game_state_data **gameStateDataRefP);
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_set_time_attack_result_2p);
+s32 dm_set_time_attack_result_2p(struct_game_state_data **gameStateDataRefP) {
+    struct_watchGame *watchGameP = watchGame;
+    u32 sp18[2];
+    s32 i;
+    s32 var_s5 = 0;
+    s32 var_s3 = 0;
+
+    sp18[0] = watchGameP->unk_9D0[0].unk_28;
+    sp18[1] = watchGameP->unk_9D0[1].unk_28;
+
+    for (i = 0; i < 2; i++) {
+        if (sp18[i] > sp18[i ^ 1]) {
+            var_s5 = dm_add_win_2p(gameStateDataRefP[i]);
+        }
+    }
+
+    for (i = 0; i < 2; i++) {
+        if (sp18[i] > sp18[i ^ 1]) {
+            var_s3 = dm_set_win_2p(gameStateDataRefP[i], var_s5, var_s3);
+        }
+    }
+
+    for (i = 0; i < 2; i++) {
+        if (sp18[i] < sp18[i ^ 1]) {
+            var_s3 = dm_set_lose_2p(gameStateDataRefP[i], var_s5, var_s3);
+        }
+    }
+
+    for (i = 0; i < 2; i++) {
+        if (sp18[i] == sp18[i ^ 1]) {
+            var_s3 = func_8006EEC8_cn(gameStateDataRefP[i], var_s3);
+            dm_seq_play_in_game(SEQ_INDEX_17);
+        }
+    }
+
+    return var_s5;
+}
 #endif
 
 #if VERSION_US
