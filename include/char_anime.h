@@ -63,7 +63,7 @@ typedef struct AnimeSeq {
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ UNK_TYPE4 unk_08;
     /* 0x0C */ AnimeSeq_unk_0C *unk_0C;
-    /* 0x10 */ UNK_TYPE4 unk_10;
+    /* 0x10 */ UNK_TYPE4 unk_10; // TODO: enum?
     /* 0x14 */ UNK_TYPE4 unk_14;
     /* 0x18 */ UNK_TYPE4 unk_18;
 } AnimeSeq; // size = 0x1C

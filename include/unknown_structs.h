@@ -159,6 +159,7 @@ typedef struct struct_watchGame {
     /* 0x410 */ UNK_TYPE unk_410;
     /* 0x414 */ s32 unk_414;
     /* 0x418 */ u8 unk_418[3];
+    /* 0x41B */ UNK_TYPE1 pad_41B[1]; // pad?
     /* 0x41C */ s32 unk_41C;
     /* 0x420 */ s32 unk_420;
     /* 0x424 */ s32 unk_424;
@@ -166,7 +167,7 @@ typedef struct struct_watchGame {
     /* 0x42C */ UNK_TYPE1 unk_42C[0x4];
     /* 0x430 */ struct TiTexData *unk_430;
     /* 0x434 */ struct TiTexData *unk_434;
-    /* 0x448 */ struct TiTexData *unk_438;
+    /* 0x438 */ struct TiTexData *unk_438;
     /* 0x43C */ struct TiTexData *unk_43C;
     /* 0x440 */ struct TiTexData *unk_440;
     /* 0x444 */ struct TiTexData *unk_444;

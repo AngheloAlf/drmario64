@@ -160,7 +160,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1CA4);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82BC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _big_virus_min_wait);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800C82C8_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _scoreNumsColor);
 #endif
@@ -1582,7 +1582,9 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80062A40);
 void func_800695F8_cn(s32 arg0);
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_800695F8_cn);
+void func_800695F8_cn(s32 arg0) {
+    func_80062978(arg0, 0xB4);
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -2650,15 +2652,15 @@ void func_8006B238_cn(s32 arg0, Gfx **gfxP) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B328_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", set_bottom_up_virus);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B5A0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", bottom_up_bottle_items);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", func_8006B6D8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", add_taiQ_bonus_wait);
 #endif
 
 #if VERSION_US
@@ -3424,7 +3426,395 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_main_cnt_1P
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_main_cnt_1P);
+// TODO: enum return type?
+s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 arg2) {
+    struct_watchGame *watchGameP = watchGame;
+    dm_calc_erase_score_pos_arg2 sp28;
+    s32 var_s1;
+    u8 *var_t2;
+    s32 var_s2;
+    int var_s0;
+
+    dm_query_pause_player(arg0);
+    animeState_update(&arg0->unk_094);
+    func_80062EC0(&watchGameP->unk_0B8[arg2]);
+    if ((evs_gamemode == ENUM_EVS_GAMEMODE_3) && (evs_game_time >= 0x2A30U) && (arg0->unk_020 == 1)) {
+        return -1;
+    }
+
+    switch (arg0->unk_00C) {
+        case 0x1:
+            dm_set_virus(arg0, mapGrid, &virus_map_data[arg2], &virus_map_disp_order[arg2]);
+            return 3;
+
+        case 0x2:
+            return 3;
+
+        case 0x3:
+            arg0->unk_02F++;
+
+            if (arg0->unk_02F == FlyingCnt[arg0->unk_02C]) {
+                func_80060FA0(&arg0->unk_178, (CapsMagazine[arg0->unk_033] >> 4) % 3, CapsMagazine[arg0->unk_033] % 3);
+                arg0->unk_00C = 4;
+                arg0->unk_02F = 0x1E;
+                dm_capsel_down(arg0, mapGrid);
+            }
+            break;
+
+        case 0x5:
+            if (dm_check_game_over(arg0, mapGrid) != false) {
+                for (var_s0 = 0; var_s0 < 3; var_s0++) {
+                    if (watchGameP->animeStates[var_s0].animeSeq.unk_10 != 4) {
+                        animeState_set(&watchGameP->animeStates[var_s0], 3);
+                    }
+                }
+
+                if (evs_gamemode == ENUM_EVS_GAMEMODE_2) {
+                    watchGameP->unk_410 = 0;
+                }
+                return -1;
+            }
+
+            if ((dm_h_erase_chack(mapGrid) != false) || (dm_w_erase_chack(mapGrid) != false)) {
+                arg0->unk_00C = 6;
+                arg0->unk_02F = 0;
+            } else {
+                arg0->unk_00C = 9;
+            }
+            break;
+
+        case 0x6:
+            arg0->unk_02F++;
+
+            if (arg0->unk_02F >= 0x12U) {
+                arg0->unk_02F = 0;
+                arg0->unk_00C = 7;
+                dm_h_erase_chack_set(arg0, mapGrid);
+                dm_w_erase_chack_set(arg0, mapGrid);
+                dm_h_ball_chack(mapGrid);
+                dm_w_ball_chack(mapGrid);
+
+                var_s0 = arg0->unk_025;
+                var_s0 -= get_virus_color_count(mapGrid, watchGameP->unk_418, &watchGameP->unk_418[1],
+                                                &watchGameP->unk_418[2]);
+                arg0->unk_025 -= var_s0;
+
+                arg0->unk_170 += var_s0;
+
+                for (var_s0 = 0; var_s0 < 3; var_s0++) {
+                    if (watchGameP->unk_418[var_s0] == 0) {
+                        if (watchGameP->unk_400[var_s0] == 0) {
+                            watchGameP->unk_400[var_s0] = 1;
+                            animeState_set(&watchGameP->animeStates[var_s0], 4);
+                            animeSmog_start(&watchGameP->animeSmogs[var_s0]);
+                            if (arg0->unk_025 != 0) {
+                                dm_snd_play_in_game(SND_INDEX_74);
+                                dm_snd_play_in_game(SND_INDEX_57);
+                            }
+                        }
+                    } else {
+                        if (arg0->unk_03C[3] & (0x10 << var_s0)) {
+                            if (watchGameP->unk_410 == 0) {
+                                animeState_set(&watchGameP->animeStates[var_s0], 2);
+                                dm_snd_play_in_game(SND_INDEX_74);
+                            }
+                        }
+                    }
+                }
+
+                arg0->unk_03C[3] &= 0xF;
+
+                dm_calc_erase_score_pos(arg0, mapGrid, &sp28);
+                scoreNums_set(&watchGameP->unk_0B8[arg2], dm_make_score(arg0), arg0->unk_037,
+                              arg0->unk_006 + arg0->unk_00A / 2 + sp28.unk_0,
+                              arg0->unk_008 + arg0->unk_00A / 2 + sp28.unk_4);
+
+                if ((arg0->unk_025 == 0) && (evs_gamemode != ENUM_EVS_GAMEMODE_2)) {
+                    arg0->unk_014 = 3;
+                    arg0->unk_00C = 0xA;
+                    if (arg0->unk_03B < arg0->unk_03A) {
+                        arg0->unk_03B = arg0->unk_03A;
+                    }
+                    return 6;
+                }
+
+                if ((arg0->unk_025 < 4U) && (evs_gamemode != ENUM_EVS_GAMEMODE_2)) {
+                    if (watchGameP->unk_3C0 == 0) {
+                        watchGameP->unk_3C0 = 1;
+                        dm_snd_play_in_game(SND_INDEX_80);
+                    }
+                    if (watchGameP->unk_3B4 == 0) {
+                        watchGameP->unk_3B4 = 1;
+                        watchGameP->unk_3B8 = 1;
+                    }
+                }
+
+                arg0->unk_039 += 1;
+                if (arg0->unk_03A < 2) {
+                    if (arg0->unk_03C[3] & 8) {
+                        arg0->unk_03C[3] &= (u8)~0x8;
+                        dm_snd_play_in_game(SND_INDEX_56);
+                    } else {
+                        dm_snd_play_in_game(SND_INDEX_61);
+                    }
+                } else {
+                    if (arg0->unk_03C[3] & 8) {
+                        arg0->unk_03C[3] &= (u8)~0x8;
+                    }
+
+                    var_s0 = MIN(2, arg0->unk_03A - 2);
+                    dm_snd_play_in_game(_charSE_tbl[arg0->unk_090] + var_s0);
+                }
+            }
+            break;
+
+        case 0x7:
+            dm_capsel_erase_anime(arg0, mapGrid);
+            break;
+
+        case 0x8:
+            go_down(arg0, mapGrid, 0xE);
+            break;
+
+        case 0x9:
+            add_taiQ_bonus_wait(arg0);
+
+            if ((watchGameP->unk_9BC != 0) && (watchGameP->unk_410 == 0)) {
+                arg0->unk_168 = 0;
+                arg0->unk_00C = 0xC;
+                set_bottom_up_virus(arg0, mapGrid);
+                dm_snd_play_in_game(SND_INDEX_101);
+            } else {
+                if (arg0->unk_039 > 1) {
+                    arg0->unk_174 = MIN(0x63, arg0->unk_174 + arg0->unk_039 - 1);
+                }
+
+                dm_warning_h_line(arg0, mapGrid);
+                dm_set_capsel(arg0);
+                dm_capsel_speed_up(arg0);
+                dm_attack_se(arg0, arg2);
+                animeState_set(&arg0->unk_094, 1);
+
+                if ((arg0->unk_04C == 1) || ((arg2 == 0) && (aiDebugP1 >= 0))) {
+                    aifMakeFlagSet(arg0);
+                }
+
+                if (arg0->unk_03B < arg0->unk_03A) {
+                    arg0->unk_03B = arg0->unk_03A;
+                }
+
+                arg0->unk_00C = 3;
+                arg0->unk_02F = 0;
+                arg0->unk_031 = 0;
+                arg0->unk_03A = 0;
+                arg0->unk_039 = 0;
+                arg0->unk_037 = 0;
+                arg0->unk_038 = 0;
+
+                for (var_s0 = 0; var_s0 < 4; var_s0++) {
+                    arg0->unk_03C[var_s0] = 0;
+                }
+            }
+            break;
+
+        case 0xC:
+            arg0->unk_168++;
+            if (arg0->unk_168 >= arg0->unk_00A) {
+                arg0->unk_168 = 0;
+                watchGameP->unk_9BC = 0;
+
+                watchGameP->unk_3C8 = MAX(_big_virus_min_wait[arg0->unk_16C], watchGameP->unk_3C8 - 0.5);
+
+                arg0->unk_00C = 8;
+                if (bottom_up_bottle_items(mapGrid) != false) {
+                    return -1;
+                }
+
+                arg0->unk_025 = get_virus_color_count(mapGrid, watchGameP->unk_418, &watchGameP->unk_418[1],
+                                                      &watchGameP->unk_418[2]);
+
+                for (var_s0 = 0; var_s0 < 3; var_s0++) {
+                    if ((watchGameP->unk_418[var_s0] != 0) && (watchGameP->unk_400[var_s0] != 0)) {
+                        animeState_set(&watchGameP->animeStates[var_s0], 0);
+                        animeSmog_start(&watchGameP->animeSmogs[var_s0]);
+                        watchGameP->unk_400[var_s0] = 0;
+                    } else if (watchGameP->animeStates[var_s0].animeSeq.unk_10 == 3) {
+                        animeState_set(&watchGameP->animeStates[var_s0], 0);
+                    }
+                }
+            }
+            break;
+
+        case 0x1A:
+        case 0x1C:
+            if (arg0->unk_00C == 0x1A) {
+                if (func_80062B18(arg2)) {
+                    break;
+                }
+            } else {
+                if (func_80062AFC(arg2)) {
+                    break;
+                }
+            }
+
+            if (gControllerPressedButtons[main_joy[arg2]] & ANY_BUTTON) {
+                switch (arg0->unk_00C) {
+                    case 0x1A:
+                        arg0->unk_014 = 0x14;
+                        arg0->unk_00C = 0x1B;
+                        break;
+
+                    case 0x1C:
+                        arg0->unk_014 = 0x16;
+                        arg0->unk_00C = 0x1D;
+                        break;
+                }
+            }
+            break;
+
+        case 0x1B:
+        case 0x1D:
+            if (gControllerPressedButtons[main_joy[arg2]] & ANY_BUTTON) {
+                func_80062DA4(&watchGameP->unk_9D0[arg2]);
+            }
+
+            timeAttackResult_update(&watchGameP->unk_9D0[arg2], 1);
+
+            func_80060270(arg0, watchGameP->unk_9D0[arg2].unk_24);
+            watchGameP->unk_9D0[arg2].unk_24 = 0;
+            if (func_80062BC4(&watchGameP->unk_9D0[arg2]) != false) {
+                switch (arg0->unk_00C) {
+                    case 0x1B:
+                        arg0->unk_014 = 3;
+                        arg0->unk_00C = 0xA;
+                        break;
+
+                    case 0x1D:
+                        arg0->unk_014 = 4;
+                        arg0->unk_00C = 0xB;
+                        break;
+                }
+            }
+            break;
+
+        case 0xA:
+        case 0xB:
+            if (arg0->unk_00C == 0xA) {
+                if (func_80062B18(arg2)) {
+                    break;
+                }
+            } else {
+                if (func_80062AFC(arg2)) {
+                    break;
+                }
+            }
+
+            var_s0 = (Z_TRIG | L_JPAD | L_TRIG | R_TRIG);
+            if ((watchGameP->unk_AA8 < 0) && CHECK_FLAG_ALL(gControllerHoldButtons[main_joy[0]], var_s0)) {
+                switch (evs_gamemode) {
+                    case ENUM_EVS_GAMEMODE_0:
+                        var_s1 = 0;
+                        var_s2 = arg0->unk_026;
+                        break;
+
+                    case ENUM_EVS_GAMEMODE_3:
+                        var_s1 = 1;
+                        var_s2 = arg0->unk_16C;
+                        break;
+
+                    case ENUM_EVS_GAMEMODE_2:
+                        var_s1 = 2;
+                        var_s2 = arg0->unk_16C;
+                        break;
+
+                    default:
+                        break;
+                }
+
+                if (evs_select_name_no[0] == 8) {
+                    var_t2 = D_800A7360;
+                } else {
+                    var_t2 = evs_mem_data[evs_select_name_no[0]].unk_01;
+                }
+
+                if (watchGameP->unk_AAC[0] == 0) {
+                    func_8007E760(watchGameP->unk_AAC, var_s1, var_s2, arg0->unk_02C, arg0->unk_000 / 10,
+                                  evs_game_time / 6, var_t2);
+                    watchGameP->unk_AAC[ARRAY_COUNT(watchGameP->unk_AAC) - 2] = 0x7E;
+                    watchGameP->unk_AAC[ARRAY_COUNT(watchGameP->unk_AAC) - 1] = 0x7A;
+                }
+                msgWnd_clear(&watchGameP->unk_A28);
+                msgWnd_addStr(&watchGameP->unk_A28, _mesPassword);
+                msgWnd_addStr(&watchGameP->unk_A28, watchGameP->unk_AAC);
+                msgWnd_skip(&watchGameP->unk_A28);
+                watchGameP->unk_AA8 = -watchGameP->unk_AA8;
+            } else {
+                if ((gControllerPressedButtons[main_joy[0]] != 0) && (watchGameP->unk_AA8 > 0)) {
+                    watchGameP->unk_AA8 = -watchGameP->unk_AA8;
+                }
+
+                switch (retryMenu_input(arg2)) {
+                    case 0:
+                        func_80063378();
+                        dm_snd_play_in_game(SND_INDEX_62);
+                        return 9;
+
+                    case 1:
+                        func_800633C0();
+                        dm_snd_play_in_game(SND_INDEX_62);
+                        return 1;
+
+                    case 0x2: /* switch 3 */
+                        func_800633C0();
+                        if (arg0->unk_004 < 0x3E7U) {
+                            arg0->unk_004++;
+                        }
+
+                        if ((arg0->unk_026 >= 0x16U) && (watchGameP->unk_378 > 0)) {
+                            watchGameP->unk_378--;
+                            dm_snd_play_in_game(SND_INDEX_78);
+                        } else {
+                            dm_snd_play_in_game(SND_INDEX_62);
+                        }
+                        return 2;
+
+                    case 0x3: /* switch 3 */
+                        dm_snd_play_in_game(SND_INDEX_62);
+                        return 0x64;
+                }
+            }
+            break;
+
+        case 0x18:
+            switch (retryMenu_input(arg2)) {
+                case 0:
+                    if (watchGameP->unk_9C4 < 0) {
+                        watchGameP->unk_9C4 = arg2;
+                    }
+                    dm_snd_play_in_game(SND_INDEX_62);
+                    break;
+
+                case 1:
+                    if (arg0->unk_004 < 0x3E7U) {
+                        arg0->unk_004 = arg0->unk_004 + 1;
+                    }
+
+                    if ((arg0->unk_026 >= 0x16U) && (watchGameP->unk_378 > 0)) {
+                        watchGameP->unk_378--;
+                        dm_snd_play_in_game(SND_INDEX_78);
+                    } else {
+                        dm_snd_play_in_game(SND_INDEX_62);
+                    }
+                    return 2;
+
+                case 2:
+                    dm_snd_play_in_game(SND_INDEX_62);
+                    return 0x64;
+            }
+    }
+
+    return 0;
+}
 #endif
 
 #if VERSION_US
