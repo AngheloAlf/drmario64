@@ -2650,6 +2650,10 @@ void func_8006B184_cn(s32 arg0, Gfx **gfxP, s32 arg2) {
 
 void func_8006B238_cn(s32 arg0, Gfx **gfxP);
 
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006431C);
+#endif
+
 #if VERSION_CN
 void func_8006B238_cn(s32 arg0, Gfx **gfxP) {
     struct_watchGame *watchGameP = watchGame;
@@ -2755,10 +2759,6 @@ void set_bottom_up_virus(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
         set_virus(mapGrid, col, GAME_MAP_ROWS, temp_v0_2, virus_anime_table[temp_v0_2][arg0->unk_027]);
     }
 }
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006431C);
 #endif
 
 #if VERSION_US
