@@ -2314,7 +2314,6 @@ s32 dm_set_attack_2p(struct_game_state_data *gameStateDataRef) {
 
     return 1;
 }
-
 #else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_set_attack_2p);
 #endif
@@ -7848,52 +7847,35 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_graphic_eff
 #endif
 
 #if VERSION_CN
-#if 0
-void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) {
-    ? var_a2_2;
-    Gfx *temp_a0_2;
-    Gfx *temp_a1;
-    Gfx *temp_a1_2;
-    Gfx *temp_a2;
-    Gfx *temp_a2_2;
-    Gfx *temp_a2_3;
-    TiTexData *temp_s0;
-    TiTexData *temp_t0;
-    f32 temp_fv0;
-    f32 temp_fv0_2;
-    s32 temp_a0;
-    s32 temp_a0_3;
+void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, UNUSED s32 arg2) {
+    struct_watchGame *temp_s4 = watchGame;
+    s32 temp_fv0;
     s32 temp_lo;
     s32 temp_s0_2;
-    s32 temp_v1;
-    s32 var_a2;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_v0_3;
     s32 var_v0_4;
-    s32 var_v0_5;
-    s32 var_v0_6;
-    s32 var_v0_7;
-    s32 var_v0_8;
-    struct_watchGame *temp_s4;
-    u16 temp_a1_3;
-    u16 temp_a1_4;
-    u32 var_v1;
-    u32 var_v1_2;
-    void *temp_s1;
-    void *temp_s1_2;
-    void *temp_v1_2;
-    void *temp_v1_3;
+    TiTexDataEntry *temp_s1;
+    TiTexDataEntry *other;
 
-    temp_v1 = gameStateDataRef->unk_014;
-    temp_s4 = watchGame;
-    switch (temp_v1) {                              /* switch 3; irregular */
-        case 0x0:                                   /* switch 3 */
+    switch (gameStateDataRef->unk_014) {
+        case 0x0:
             break;
-        default:                                    /* switch 3 */
-        case 0x1:                                   /* switch 3 */
-            if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
-                draw_flash_virus_lights(&gGfxHead, gameStateDataRef, &game_map_data[arg1]);
+
+        case 0x1:
+        case 0x5:
+        case 0x6:
+        case 0x7:
+        case 0x8:
+        case 0x9:
+        case 0xA:
+        case 0xB:
+        case 0xC:
+            switch (evs_gamemode) {
+                case ENUM_EVS_GAMEMODE_1:
+                    draw_flash_virus_lights(&gGfxHead, gameStateDataRef, &game_map_data[arg1]);
+                    break;
+
+                default:
+                    break;
             }
             break;
     }
@@ -7903,239 +7885,240 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     }
 
     if ((gameStateDataRef->unk_01C == 0x12) && (gameStateDataRef->unk_020 == 1)) {
-        temp_a1 = gGfxHead;
-        gGfxHead += 8;
-        temp_s0 = temp_s4->unk_440;
-        temp_a1->words.w0 = 0xDE000000;
-        temp_a1->words.w1 = (u32) alpha_texture_init_dl;
-        temp_a1_2 = gGfxHead;
-        gGfxHead += 8;
-        temp_a1_2->words.w0 = 0xFC11A7FF;
-        temp_a1_2->words.w1 = -0x1C8U;
-        temp_a2 = gGfxHead;
-        temp_fv0 = ((f32) sins((temp_s4->unk_426 << 9) & 0xFE00) * 0.0038757324f) + 127.0f;
-        gGfxHead += 8;
-        temp_a2->words.w0 = 0xFA000000;
-        temp_a2->words.w1 = (s32) temp_fv0 | ~0xFF;
-        temp_s1 = temp_s0 + 0xE8;
-        temp_v1_2 = temp_s1->unk_4;
-        temp_a1_3 = temp_v1_2->unk_0;
-        StretchAlphaTexBlock(&gGfxHead, (s32) temp_a1_3, (s32) temp_v1_2->unk_2, temp_s0->unk_E8->unk_4, (s32) temp_a1_3, temp_s0->unk_F0->unk_4, (s32) *(temp_s0 + 0xF0)->unk_4, (f32) gameStateDataRef->unk_006, (f32) (gameStateDataRef->unk_008 + (s32) ((f32) sins((temp_s4->unk_426 << 0xA) & 0xFC00) * 0.00015258789f) + 0xA0), (f32) temp_s1->unk_4->unk_0, (f32) temp_s1->unk_4->unk_2);
-    }
-    temp_a0 = gameStateDataRef->unk_014;
-    if (temp_a0 == 3) {
-        if (evs_gamemode == ENUM_EVS_GAMEMODE_2) {
-            var_a2 = 0;
-            goto block_21;
-        }
-        if (evs_gamemode != temp_a0) {
-            var_a2 = 1;
-block_21:
-            disp_clear_logo(&gGfxHead, arg1, var_a2);
-        }
+        temp_s1 = &temp_s4->unk_440->unk_00[0x1D];
+        other = &temp_s4->unk_440->unk_00[0x1E];
+
+        gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
+
+        gDPSetCombineLERP(gGfxHead++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
+                          COMBINED);
+
+        temp_fv0 = ((f32)sins(((s16)temp_s4->unk_424 << 9) & 0xFE00) * 0.0038757324f) + 127.0f;
+
+        gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, temp_fv0);
+
+        temp_fv0 = ((f32)sins(((s16)temp_s4->unk_424 << 0xA) & 0xFC00) * 0.00015258789f);
+        StretchAlphaTexBlock(&gGfxHead, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
+                             other->unk_0->unk_4, other->unk_4[0], gameStateDataRef->unk_006,
+                             (gameStateDataRef->unk_008 + temp_fv0 + 0xA0), temp_s1->unk_4[0], temp_s1->unk_4[1]);
     }
 
-    if (gameStateDataRef->unk_014 == 0x13) {
-        disp_allclear_logo(&gGfxHead, arg1, 0);
-    }
+    switch (gameStateDataRef->unk_014) {
+        case 3:
+            switch (evs_gamemode) {
+                case ENUM_EVS_GAMEMODE_3:
+                    break;
 
-    if ((u32) gameStateDataRef->unk_014 != 4) {
-        var_v0 = (u32) gameStateDataRef->unk_014 < 0x10U;
-        if ((u32) gameStateDataRef->unk_014 == 0x15) {
-            goto block_28;
-        }
-    } else {
-        if (evs_gamemode != ENUM_EVS_GAMEMODE_3) {
-block_28:
-            if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
-                if ((u32) evs_game_time >= 0x2A30U) {
-                    disp_timeover_logo(&gGfxHead, arg1);
-                } else {
-                    goto block_32;
-                }
-            } else {
-block_32:
-                disp_gameover_logo(&gGfxHead, arg1);
-            }
-        }
-        var_v0 = (u32) gameStateDataRef->unk_014 < 0x10U;
-    }
+                case ENUM_EVS_GAMEMODE_2:
+                    disp_clear_logo(&gGfxHead, arg1, 0);
+                    break;
 
-    if (var_v0 == 0) {
-        if ((u32) gameStateDataRef->unk_014 < 0x12U) {
-            if (temp_s4->unk_000 == 0) {
-                if (gameStateDataRef->unk_04C == 0) {
-                    temp_fv0_2 = (f32) sins((temp_s4->unk_426 << 0xA) & 0xFC00);
-                    temp_a2_2 = gGfxHead;
-                    gGfxHead += 8;
-                    temp_t0 = temp_s4->unk_440;
-                    temp_a2_2->words.w0 = 0xDE000000;
-                    temp_a2_2->words.w1 = (u32) alpha_texture_init_dl;
-                    temp_s1_2 = temp_t0 + 0xD8;
-                    temp_a2_3 = gGfxHead;
-                    gGfxHead += 8;
-                    temp_a2_3->words.w0 = 0xFC11A7FF;
-                    temp_a2_3->words.w1 = -0x1C8U;
-                    temp_a0_2 = gGfxHead;
-                    gGfxHead += 8;
-                    temp_a0_2->words.w0 = 0xFA000000;
-                    temp_a0_2->words.w1 = (s32) ((temp_fv0_2 * 0.0038757324f) + 127.0f) | ~0xFF;
-                    temp_v1_3 = temp_s1_2->unk_4;
-                    temp_a1_4 = temp_v1_3->unk_0;
-                    StretchAlphaTexBlock(&gGfxHead, (s32) temp_a1_4, (s32) temp_v1_3->unk_2, temp_t0->unk_D8->unk_4, (s32) temp_a1_4, temp_t0->unk_E0->unk_4, (s32) *temp_t0->unk_E4, (f32) gameStateDataRef->unk_006, (f32) (gameStateDataRef->unk_008 + 0x5C), (f32) temp_s1_2->unk_4->unk_0, (f32) temp_s1_2->unk_4->unk_2);
-                }
-            }
-            goto block_45;
-        }
-        var_v1 = (u32) gameStateDataRef->unk_014 - 3;
-        if ((u32) gameStateDataRef->unk_014 != 0x17) {
-            var_v0_2 = var_v1 < 0x16U;
-        } else {
-block_45:
-            disp_retire_logo(&gGfxHead, arg1);
-            goto block_46;
-        }
-    } else {
-block_46:
-        var_v1 = gameStateDataRef->unk_014 - 3;
-        var_v0_2 = var_v1 < 0x16U;
-    }
-
-    if (var_v0_2 != 0) {
-        switch (var_v1) {                           /* switch 1 */
-            case 0x0:                               /* switch 1 */
-            case 0x1:                               /* switch 1 */
-            case 0x2:                               /* switch 1 */
-            case 0x3:                               /* switch 1 */
-            case 0x4:                               /* switch 1 */
-            case 0x5:                               /* switch 1 */
-            case 0x6:                               /* switch 1 */
-            case 0x7:                               /* switch 1 */
-            case 0x8:                               /* switch 1 */
-            case 0x9:                               /* switch 1 */
-            case 0x11:                              /* switch 1 */
-            case 0x13:                              /* switch 1 */
-            case 0x15:                              /* switch 1 */
-                var_v0_3 = (u32) gameStateDataRef->unk_014 < 8U;
-                if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
-                    if (evs_gamesel == ENUM_EVS_GAMESEL_0) {
-                        var_v0_4 = 0xA;
-                    } else {
-                        var_v0_4 = 0x4A;
-                    }
-                    func_80072D18_cn(&temp_s4->unk_9D0[arg1], &gGfxHead, gameStateDataRef->unk_006, gameStateDataRef->unk_008 + var_v0_4);
-                    goto block_54;
-                }
-                break;
-        }
-    } else {
-    case 0xA:                                       /* switch 1 */
-    case 0xB:                                       /* switch 1 */
-    case 0xC:                                       /* switch 1 */
-    case 0xD:                                       /* switch 1 */
-    case 0xE:                                       /* switch 1 */
-    case 0xF:                                       /* switch 1 */
-    case 0x10:                                      /* switch 1 */
-    case 0x12:                                      /* switch 1 */
-    case 0x14:                                      /* switch 1 */
-block_54:
-        var_v0_3 = (u32) gameStateDataRef->unk_014 < 8U;
-    }
-
-    if (var_v0_3 != 0) {
-        var_v0_5 = (u32) gameStateDataRef->unk_014 < 0xBU;
-        if ((u32) gameStateDataRef->unk_014 >= 5U) {
-            disp_win_logo(&gGfxHead, arg1);
-            goto block_58;
-        }
-    } else {
-block_58:
-        var_v0_5 = (u32) gameStateDataRef->unk_014 < 0xBU;
-    }
-    if (var_v0_5 != 0) {
-        var_v0_6 = (u32) gameStateDataRef->unk_014 < 0xDU;
-        if ((u32) gameStateDataRef->unk_014 >= 8U) {
-            disp_lose_logo(&gGfxHead, arg1);
-            goto block_62;
-        }
-    } else {
-block_62:
-        var_v0_6 = (u32) gameStateDataRef->unk_014 < 0xDU;
-    }
-    if (var_v0_6 != 0) {
-        var_v0_7 = (u32) gameStateDataRef->unk_014 < 3U;
-        if ((u32) gameStateDataRef->unk_014 >= 0xBU) {
-            disp_draw_logo(&gGfxHead, arg1);
-            goto block_66;
-        }
-    } else {
-block_66:
-        var_v0_7 = (u32) gameStateDataRef->unk_014 < 3U;
-    }
-
-    if ((var_v0_7 != 0) && (gameStateDataRef->unk_014 != 0) && (temp_a0_3 = temp_s4->unk_3AC, temp_lo = temp_a0_3 / (s32) evs_playcnt, temp_s0_2 = (temp_a0_3 / (s32) evs_playcnt) / 48, (temp_a0_3 >= 0))) {
-        if (disp_count_logo(&gGfxHead, arg1, temp_lo) != 0) {
-            temp_s4->unk_3AC = -1;
-            if (arg1 == 0) {
-                dm_snd_play_in_game(SND_INDEX_73);
-            }
-        } else {
-            if ((arg1 == 0) && ((temp_s0_2 * 0x30) == (temp_lo - 0x14)) && (temp_s0_2 < 3)) {
-                dm_snd_play_in_game(SND_INDEX_72);
-            }
-            temp_s4->unk_3AC += 1;
-        }
-    }
-
-    if (((gameStateDataRef->unk_014 == 0x13) || (gameStateDataRef->unk_014 == 0x15)) && (evs_gamesel == ENUM_EVS_GAMESEL_0) && (evs_gamemode == ENUM_EVS_GAMEMODE_3) && (temp_s4->unk_888[arg1] == 0)) {
-        push_any_key_draw(gameStateDataRef->unk_006 + 8, gameStateDataRef->unk_008 + 0xA0);
-    }
-
-    if ((u32) gameStateDataRef->unk_014 == 0xD) {
-        var_a2_2 = 0;
-        goto block_90;
-    }
-    var_v0_8 = (u32) gameStateDataRef->unk_014 < 0x10U;
-    if (((u32) gameStateDataRef->unk_014 >= 0xDU) && (var_v0_8 != 0)) {
-        var_a2_2 = 1;
-block_90:
-        func_8006B184_cn(arg1, &gGfxHead, var_a2_2);
-        var_v0_8 = (u32) gameStateDataRef->unk_014 < 0x10U;
-    }
-
-    if (var_v0_8 != 0) {
-        var_v1_2 = (u32) gameStateDataRef->unk_014 - 3;
-        if ((u32) gameStateDataRef->unk_014 >= 0xDU) {
-            var_v1_2 = (u32) gameStateDataRef->unk_014 - 3;
-            if (evs_gamesel == ENUM_EVS_GAMESEL_2) {
-                draw_4p_attack_guide_panel(&gGfxHead, temp_s4->unk_8BC, arg1, gameStateDataRef->unk_006, gameStateDataRef->unk_008 - 0x24);
-                goto block_95;
-            }
-        }
-    } else {
-block_95:
-        var_v1_2 = gameStateDataRef->unk_014 - 3;
-    }
-
-    switch (var_v1_2) {                             /* switch 2 */
-        case 0x0:                                   /* switch 2 */
-        case 0x1:                                   /* switch 2 */
-        case 0x3:                                   /* switch 2 */
-        case 0x4:                                   /* switch 2 */
-        case 0x6:                                   /* switch 2 */
-        case 0x7:                                   /* switch 2 */
-        case 0x9:                                   /* switch 2 */
-            if (temp_s4->unk_888[arg1] == 0) {
-                func_8006B238_cn(arg1, &gGfxHead);
-            default:                                /* switch 2 */
+                default:
+                    disp_clear_logo(&gGfxHead, arg1, 1);
+                    break;
             }
             break;
     }
+
+    switch (gameStateDataRef->unk_014) {
+        case 0x13:
+            disp_allclear_logo(&gGfxHead, arg1, 0);
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case 0x15:
+            goto block_28;
+            break;
+
+        case 4:
+            if (evs_gamemode != ENUM_EVS_GAMEMODE_3) {
+            block_28:
+                switch (evs_gamemode) {
+                    case ENUM_EVS_GAMEMODE_3:
+                        if (evs_game_time >= 0x2A30U) {
+                            disp_timeover_logo(&gGfxHead, arg1);
+                        } else {
+                            disp_gameover_logo(&gGfxHead, arg1);
+                        }
+                        break;
+
+                    default:
+                        disp_gameover_logo(&gGfxHead, arg1);
+                        break;
+                }
+            }
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case 0x10:
+        case 0x11:
+            if (temp_s4->unk_000 == 0) {
+                if (gameStateDataRef->unk_04C == 0) {
+                    temp_fv0 = sins(((s16)temp_s4->unk_424 << 0xA) & 0xFC00) * 0.0038757324f + 127.0f;
+                    temp_s1 = &temp_s4->unk_440->unk_00[0x1B];
+                    other = &temp_s4->unk_440->unk_00[0x1C];
+
+                    gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
+
+                    gDPSetCombineLERP(gGfxHead++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED,
+                                      0, 0, 0, COMBINED);
+
+                    gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, temp_fv0);
+
+                    StretchAlphaTexBlock(&gGfxHead, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4,
+                                         temp_s1->unk_4[0], other->unk_0->unk_4, other->unk_4[0],
+                                         (f32)gameStateDataRef->unk_006, (f32)(gameStateDataRef->unk_008 + 0x5C),
+                                         (f32)temp_s1->unk_4[0], (f32)temp_s1->unk_4[1]);
+                }
+            }
+            disp_retire_logo(&gGfxHead, arg1);
+            break;
+
+        case 0x17:
+            disp_retire_logo(&gGfxHead, arg1);
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case 0x0 + 3:
+        case 0x1 + 3:
+        case 0x2 + 3:
+        case 0x3 + 3:
+        case 0x4 + 3:
+        case 0x5 + 3:
+        case 0x6 + 3:
+        case 0x7 + 3:
+        case 0x8 + 3:
+        case 0x9 + 3:
+        case 0x11 + 3:
+        case 0x13 + 3:
+        case 0x15 + 3:
+            if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
+                if (evs_gamesel == ENUM_EVS_GAMESEL_0) {
+                    var_v0_4 = 0xA;
+                } else {
+                    var_v0_4 = 0x4A;
+                }
+                func_80072D18_cn(&temp_s4->unk_9D0[arg1], &gGfxHead, (s32)gameStateDataRef->unk_006,
+                                 gameStateDataRef->unk_008 + var_v0_4);
+            }
+            break;
+
+        case 0xA + 3:
+        case 0xB + 3:
+        case 0xC + 3:
+        case 0xD + 3:
+        case 0xE + 3:
+        case 0xF + 3:
+        case 0x10 + 3:
+        case 0x12 + 3:
+        case 0x14 + 3:
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case 5:
+        case 6:
+        case 7:
+            disp_win_logo(&gGfxHead, arg1);
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case 8:
+        case 9:
+        case 0xA:
+            disp_lose_logo(&gGfxHead, arg1);
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case 0xB:
+        case 0xC:
+            disp_draw_logo(&gGfxHead, arg1);
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case 1:
+        case 2:
+            temp_lo = temp_s4->unk_3AC / (s32)evs_playcnt;
+            temp_s0_2 = (temp_s4->unk_3AC / (s32)evs_playcnt) / 48;
+
+            if (temp_s4->unk_3AC >= 0) {
+                if (disp_count_logo(&gGfxHead, arg1, temp_lo) != 0) {
+                    temp_s4->unk_3AC = -1;
+                    if (arg1 == 0) {
+                        dm_snd_play_in_game(SND_INDEX_73);
+                    }
+                } else {
+                    if ((arg1 == 0) && ((temp_s0_2 * 0x30) == (temp_lo - 0x14)) && (temp_s0_2 < 3)) {
+                        dm_snd_play_in_game(SND_INDEX_72);
+                    }
+                    temp_s4->unk_3AC += 1;
+                }
+            }
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case 0x13:
+        case 0x15:
+            if ((evs_gamesel == ENUM_EVS_GAMESEL_0) && (evs_gamemode == ENUM_EVS_GAMEMODE_3) &&
+                (temp_s4->unk_888[arg1] == 0)) {
+                push_any_key_draw(gameStateDataRef->unk_006 + 8, gameStateDataRef->unk_008 + 0xA0);
+            }
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case 0xD:
+            func_8006B184_cn(arg1, &gGfxHead, 0);
+            break;
+
+        case 0xE:
+        case 0xF:
+            func_8006B184_cn(arg1, &gGfxHead, 1);
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case 0xD:
+        case 0xE:
+        case 0xF:
+            switch (evs_gamesel) {
+                case ENUM_EVS_GAMESEL_2:
+                    draw_4p_attack_guide_panel(&gGfxHead, temp_s4->unk_8BC, arg1, (s32)gameStateDataRef->unk_006,
+                                               gameStateDataRef->unk_008 - 0x24);
+                    break;
+
+                default:
+                    break;
+            }
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case 0x0 + 3:
+        case 0x1 + 3:
+        case 0x3 + 3:
+        case 0x4 + 3:
+        case 0x6 + 3:
+        case 0x7 + 3:
+        case 0x9 + 3:
+            if (temp_s4->unk_888[arg1] == 0) {
+                func_8006B238_cn(arg1, &gGfxHead);
+            }
+            break;
+
+        default:
+            break;
+    }
+
     gfxSetScissor(&gGfxHead, 2, 0, 0, 0x140, 0xF0);
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_graphic_effect);
-#endif
 #endif
 
 void func_8006D0E8(void) {

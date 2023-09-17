@@ -21,7 +21,7 @@ typedef struct TiTexDataEntry {
 } TiTexDataEntry; // size = 0x8
 
 typedef struct TiTexData {
-    /* 0x00 */ TiTexDataEntry unk_00[25]; // guessed size
+    /* 0x00 */ TiTexDataEntry unk_00[31]; // guessed size
 } TiTexData; // size >= 0xC8
 
 
