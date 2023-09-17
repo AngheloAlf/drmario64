@@ -18,7 +18,7 @@ typedef struct MessageWnd {
     /* 0x00 */ void *unk_00;
     /* 0x04 */ MessageWnd_unk_04 *unk_04;
     /* 0x08 */ UNK_TYPE unk_08;
-    /* 0x0C */ char *unk_0C;
+    /* 0x0C */ unsigned char *unk_0C;
     /* 0x10 */ s32 unk_10;
     /* 0x14 */ UNK_TYPE unk_14;
     /* 0x18 */ UNK_TYPE unk_18;

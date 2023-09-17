@@ -41,12 +41,12 @@ bool _cached_1332 = false;
 /**
  * Original name: eeprom_header
  */
-const char eeprom_header[4] = "DM64";
+const CHAR_SIGNED char eeprom_header[4] = "DM64";
 
 /**
  * Original name: eeprom_header_bits
  */
-const char eeprom_header_bits[4] = { 7, 7, 6, 6 };
+const CHAR_SIGNED char eeprom_header_bits[4] = { 7, 7, 6, 6 };
 
 #if CC_CHECK
 #define DEFNAME_LEN

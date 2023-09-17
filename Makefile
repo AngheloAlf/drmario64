@@ -124,14 +124,14 @@ IINC       := -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I.
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/include
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts
+CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
 
 # Have CC_CHECK pretend to be a MIPS compiler
 MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZPTR=32
 ifneq ($(RUN_CC_CHECK),0)
 #	The -MMD flags additionaly creates a .d file with the same name as the .o file.
 	CC_CHECK          := $(CC_CHECK_COMP)
-	CC_CHECK_FLAGS    := -MMD -MP -fno-builtin -fsyntax-only -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DAVOID_UB -DCC_CHECK=1
+	CC_CHECK_FLAGS    := -MMD -MP -fno-builtin -funsigned-char -fsyntax-only -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DAVOID_UB -DCC_CHECK=1
 	ifneq ($(WERROR), 0)
 		CHECK_WARNINGS += -Werror
 	endif
@@ -149,7 +149,6 @@ RELEASE_DEFINES := -DNDEBUG -D_FINALROM
 AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
 C_DEFINES       := -D_LANGUAGE_C
 ENDIAN          := -EB
-CHAR_SIGN       := -funsigned-char
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
 OPTFLAGS        := -O2
@@ -165,7 +164,7 @@ ICONV_FLAGS     := --from-code=UTF-8 --to-code=EUC-CN
 endif
 
 # Variable to simplify C compiler invocation
-C_COMPILER_FLAGS = $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS)
+C_COMPILER_FLAGS = $(CFLAGS) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS)
 
 # Use relocations and abi fpr names in the dump
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32 -Mno-aliases
@@ -245,10 +244,7 @@ $(BUILD_DIR)/src/main_segment/msgwnd.o:                ICONV_FLAGS := --from-cod
 
 $(BUILD_DIR)/src/main_segment/record.o:                ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
 
-ifeq ($(VERSION),cn)
-$(BUILD_DIR)/src/main_segment/record.o:                CHAR_SIGN   := -fsigned-char
-endif
-
+$(BUILD_DIR)/src/main_segment/screen_print/printf_impl.o:           CFLAGS   += -funsigned-char
 
 #### Main Targets ###
 
@@ -306,7 +302,7 @@ format:
 	clang-format-11 -i -style=file $(C_FILES)
 
 tidy:
-	clang-tidy-11 -p . --fix --fix-errors $(C_FILES) -- $(CC_CHECK_FLAGS) $(CHAR_SIGN) $(IINC) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS)
+	clang-tidy-11 -p . --fix --fix-errors $(C_FILES) -- $(CC_CHECK_FLAGS) $(IINC) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS)
 
 .PHONY: all compressed uncompressed clean distclean setup extract lib diff-init init format tidy
 .DEFAULT_GOAL := all
@@ -351,7 +347,7 @@ $(BUILD_DIR)/%.o: %.s
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC_CHECK) $(CC_CHECK_FLAGS) $(CHAR_SIGN) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
+	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
 ifeq ($(MULTISTEP_BUILD), 0)
 	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) | $(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ -
 else

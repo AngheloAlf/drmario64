@@ -2620,7 +2620,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6190_cn);
 
 ASM_DATA;
 
-const char *_yn_1767[] = {
+const unsigned char *_yn_1767[] = {
 #if VERSION_US
     "Ｎｏ",   // No
     "Ｙｅｓ", // Yes

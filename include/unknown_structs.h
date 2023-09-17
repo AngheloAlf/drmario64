@@ -205,7 +205,7 @@ typedef struct struct_watchGame {
     /* 0x9D0 */ struct_watchGame_unk_9D0 unk_9D0[2];
     /* 0xA28 */ MessageWnd unk_A28;
     /* 0xAA8 */ s32 unk_AA8;
-    /* 0xAAC */ char unk_AAC[42]; // passwordPrompt?
+    /* 0xAAC */ unsigned char unk_AAC[42]; // passwordPrompt?
     /* 0xAD8 */ RecordWritingMessage recMessage;
 } struct_watchGame; // size = 0xB60
 

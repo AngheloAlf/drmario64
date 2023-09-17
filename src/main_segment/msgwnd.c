@@ -62,7 +62,7 @@ void msgWnd_init(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 
  * Original name: msgWnd_init2
  */
 void msgWnd_init2(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    char *temp;
+    unsigned char *temp;
 
     messageWnd->unk_00 = *arg1;
     messageWnd->unk_04 = ALIGN_PTR(messageWnd->unk_00);

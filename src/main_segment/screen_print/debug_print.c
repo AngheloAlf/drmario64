@@ -321,7 +321,7 @@ s32 DebugPrint_CallbackPutChars(Printer *printer, const char *chars, size_t leng
         s32 character;
 
         remainingChars--;
-        character = *chars++;
+        character = *(const unsigned char *)chars++;
 
         switch (state->modifierCharacter) {
             case '@':

@@ -1009,15 +1009,15 @@ const Gfx init_dl_135[] = {
 #include "main_segment/font/init_dl_135.gfx.inc.c"
 };
 
-STATIC_INLINE char inline_fn(const char *arg0) {
+STATIC_INLINE unsigned char inline_fn(const unsigned char *arg0) {
     return *arg0;
 }
 
 /**
  * Original name: fontStr_nextChar
  */
-s32 fontStr_nextChar(const char *arg0) {
-    char firstChar = arg0[0];
+s32 fontStr_nextChar(const unsigned char *arg0) {
+    unsigned char firstChar = arg0[0];
     s32 var_v1;
 
     if (firstChar < 0x80) {
@@ -1032,7 +1032,7 @@ s32 fontStr_nextChar(const char *arg0) {
             }
         }
     } else {
-        char temp;
+        unsigned char temp;
 
 #if VERSION_US || VERSION_GW
         var_v1 = 2;
@@ -1063,7 +1063,7 @@ s32 fontStr_nextChar(const char *arg0) {
 /**
  * Original name: fontStr_length
  */
-s32 fontStr_length(const char *arg0) {
+s32 fontStr_length(const unsigned char *arg0) {
     s32 temp_v0;
     s32 var_s0 = 0;
 
@@ -1077,7 +1077,7 @@ s32 fontStr_length(const char *arg0) {
 /**
  * Original name: fontStr_charSize
  */
-s32 fontStr_charSize(const char *arg0, s32 arg1) {
+s32 fontStr_charSize(const unsigned char *arg0, s32 arg1) {
     s32 character = arg0[0];
     s32 index;
     s32 size;
@@ -1094,15 +1094,16 @@ u16 func_8005B8D8(u8 arg0) {
     return D_800A6D90[arg0];
 }
 
+
 /**
  * Original name: font2index
  */
-s32 font2index(const char *arg0) {
+s32 font2index(const unsigned char *arg0) {
     s32 var_a1 = arg0[0];
 
 #if VERSION_CN
     if (var_a1 - 0xA1 < 0x5EU) {
-        char temp = arg0[1] + 0x5F;
+        unsigned char temp = arg0[1] + 0x5F;
 
         if (temp < 0x5EU) {
             s32 var_a2;
@@ -1149,8 +1150,8 @@ s32 font2index(const char *arg0) {
 void ascii2index(s32 character, s32 arg1, s32 *indexP, s32 *sizeP) {
     struct_800A6F70 *ptr = _tbl_133[arg1 % ARRAY_COUNTU(_tbl_133)];
     struct_800A6F70 *ptr2;
-    char index;
-    char size;
+    unsigned char index;
+    unsigned char size;
 
     ptr2 = &ptr[character % 0x80U];
 
@@ -1199,7 +1200,7 @@ void font16_initDL2(Gfx **gfxP) {
 /**
  * Original name: fontXX_draw
  */
-bool fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const char *arg5) {
+bool fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const unsigned char *arg5) {
     return fontXX_drawID(gfxP, x, y, width, height, font2index(arg5));
 }
 
@@ -1256,7 +1257,7 @@ bool fontXX_drawID(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index) {
 /**
  * Original name: fontXX_draw2
  */
-bool fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
+bool fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsigned char *arg5) {
     return fontXX_drawID2(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
 }
 
@@ -1324,7 +1325,7 @@ bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5
 /**
  * Original name: fontAsc_draw
  */
-bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
+bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsigned char *arg5) {
     s32 index;
     s32 size;
 
@@ -1678,7 +1679,7 @@ INCLUDE_ASM("asm/gw/nonmatchings/main_segment/font", fontAsc_drawID);
 /**
  * Original name: fontAsc_draw2
  */
-bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const char *arg5) {
+bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsigned char *arg5) {
     s32 index;
     s32 size;
 
