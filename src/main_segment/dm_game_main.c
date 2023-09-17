@@ -9827,17 +9827,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_main2);
 #endif
 
 #if VERSION_CN
-#ifdef NON_MATCHING
-// regalloc
 s32 dm_game_main2(void) {
+    struct_watchGame *temp_s3 = watchGame;
+    s32 var_s1 = 0;
     s32 var_s4_2;
     s32 var_s0;
-    s32 var_s1;
-    struct_watchGame *temp_s3;
 
-    // var_s4_2 = saved_reg_s4;
-    temp_s3 = watchGame;
-    var_s1 = 0;
     if (temp_s3->unk_3B8 != 0) {
         dm_seq_play_in_game((evs_seqnumb * 2) + 1);
         temp_s3->unk_3B8 = 0;
@@ -9849,16 +9844,16 @@ s32 dm_game_main2(void) {
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
             if (temp_s3->unk_9AC > 0) {
-                if (gControllerHoldButtons[main_joy[0]] & 0xC000) {
-                    temp_s3->messageWnd.unk_5C = 0.125f;
+                if (gControllerHoldButtons[main_joy[0]] & (A_BUTTON | B_BUTTON)) {
+                    temp_s3->messageWnd.unk_5C = 1.0f / 8.0f;
                 } else {
-                    temp_s3->messageWnd.unk_5C = 0.016666668f;
+                    temp_s3->messageWnd.unk_5C = 1.0f / 60.0f;
                 }
                 msgWnd_update(&temp_s3->messageWnd);
 
                 switch (temp_s3->unk_9AC) {
                     case 0x1:
-                        if (!(gControllerPressedButtons[main_joy[0]] & 0x1000)) {
+                        if (!(gControllerPressedButtons[main_joy[0]] & START_BUTTON)) {
                             if (!msgWnd_isScroll(&temp_s3->messageWnd)) {
                                 temp_s3->unk_9AC = 2;
                             }
@@ -9870,7 +9865,7 @@ s32 dm_game_main2(void) {
                     case 0x2:
                         if (temp_s3->unk_9B0 < 0x168) {
                             temp_s3->unk_9B0++;
-                        } else if (gControllerPressedButtons[main_joy[0]] & 0xFF3F) {
+                        } else if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
                             temp_s3->unk_9AC = 0;
                         }
                         break;
@@ -9883,12 +9878,8 @@ s32 dm_game_main2(void) {
 
             if (temp_s3->unk_9AC <= 0) {
                 var_s4_2 = dm_game_main_1p();
-                var_s1 = var_s4_2 < 3;
 
                 switch (var_s4_2) {
-                        // case 0: // ?
-                        //    break;
-
                     case 1:
                         var_s0 = game_state_data[0].unk_026;
                         if ((var_s0 == 0x15) || (var_s0 == 0x18) ||
@@ -9926,37 +9917,34 @@ s32 dm_game_main2(void) {
 
                     case 2:
                         game_state_data[0].unk_000 = 0;
-                        var_s1 = 1;
                         break;
 
                     case 9:
                         var_s4_2 = 0;
                         dm_game_init(true);
-                        var_s1 = 1;
-                        break;
-
-                    default:
                         break;
                 }
 
-                // ?
-                if ((var_s1 != 0) && (var_s4_2 > 0)) {
-                    var_s4_2 = 0;
-                    dm_game_init(true);
-                    animeState_set(&game_state_data[0].unk_094, 2);
+                switch (var_s4_2) {
+                    case 1:
+                    case 2:
+                        var_s4_2 = 0;
+                        dm_game_init(true);
+                        animeState_set(&game_state_data[0].unk_094, 2);
 
-                    for (var_s0 = 0; var_s0 < 3; var_s0++) {
-                        animeState_set(&temp_s3->animeStates[var_s0], 0);
-                        animeSmog_stop(&temp_s3->animeSmogs[var_s0]);
-                    }
+                        for (var_s0 = 0; var_s0 < 3; var_s0++) {
+                            animeState_set(&temp_s3->animeStates[var_s0], 0);
+                            animeSmog_stop(&temp_s3->animeSmogs[var_s0]);
+                        }
 
-                    var_s0 = temp_s3->unk_9AC;
-                    temp_s3->unk_9AC = 0;
-                    backup_game_state(0);
-                    temp_s3->unk_9AC = var_s0;
-                    if (temp_s3->unk_9AC > 0) {
-                        dm_seq_play_in_game(SEQ_INDEX_23);
-                    }
+                        var_s0 = temp_s3->unk_9AC;
+                        temp_s3->unk_9AC = 0;
+                        backup_game_state(0);
+                        temp_s3->unk_9AC = var_s0;
+                        if (temp_s3->unk_9AC > 0) {
+                            dm_seq_play_in_game(SEQ_INDEX_23);
+                        }
+                        break;
                 }
             }
             break;
@@ -10089,15 +10077,11 @@ s32 dm_game_main2(void) {
             break;
 
         default:
-            UNREACHABLE;
             break;
     }
 
     return var_s4_2;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_game_main2);
-#endif
 #endif
 
 /**
