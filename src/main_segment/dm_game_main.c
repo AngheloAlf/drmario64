@@ -2245,33 +2245,28 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_set_attack_2p);
 #endif
 
 #if VERSION_CN
-#ifdef NON_MATCHING
 s32 dm_set_attack_2p(struct_game_state_data *gameStateDataRef) {
     s32 temp_v0;
     s32 var_s0;
     s32 var_s2;
     s32 var_t1;
-    s32 var_v1;
     struct_game_state_data *temp_s3;
-    u8 var_a0;
+    s32 var_a0;
+    s32 i;
 
     if (gameStateDataRef->unk_03A < 2U) {
         return 0;
     }
 
     temp_s3 = &game_state_data[gameStateDataRef->unk_04B ^ 1];
-    if (gameStateDataRef->unk_03A < 5U) {
-        var_a0 = gameStateDataRef->unk_03A;
-    } else {
-        var_a0 = 4;
-    }
 
-    var_v1 = 0;
-    while (1) {
-        if (temp_s3->unk_050[var_v1].unk_0 != 0) {
+    var_a0 = MIN(4, gameStateDataRef->unk_03A);
+
+    for (i = 0; i < 1; i++) {
+        if (temp_s3->unk_050[i].unk_0 != 0) {
             var_s2 = 0;
             for (var_s0 = 0; var_s0 < 8; var_s0++) {
-                if (temp_s3->unk_050[var_v1].unk_0 & (3 << (var_s0 * 2))) {
+                if (temp_s3->unk_050[i].unk_0 & (3 << (var_s0 << 1))) {
                     var_s2 |= 1 << var_s0;
                     var_t1 = var_s0 & 1;
                 }
@@ -2283,40 +2278,37 @@ s32 dm_set_attack_2p(struct_game_state_data *gameStateDataRef) {
                 }
             }
 
-            if (var_s2 != 0) {
-                break;
+            if (var_s2 == 0) {
+                continue;
             }
 
-            var_v1++;
-            if (var_v1 > 0) {
-                return 1;
-            }
         } else {
             var_s2 = func_80063844(var_a0);
-            break;
         }
-    }
 
-    temp_s3->unk_050[var_v1].unk_2 = gameStateDataRef->unk_04B;
+        temp_s3->unk_050[i].unk_2 = gameStateDataRef->unk_04B;
 
-    for (var_s0 = 0; var_s0 < 8; var_s0++) {
-        if (((var_s2 >> var_s0) & 1)) {
-            while (*(u32 *)gameStateDataRef->unk_03C & ~0xFF) {
+        for (var_s0 = 0; var_s0 < 8; var_s0++) {
+            if (!((var_s2 >> var_s0) & 1)) {
+                continue;
+            }
+
+            while ((gameStateDataRef->unk_03C[0] != 0) || (gameStateDataRef->unk_03C[1] != 0) ||
+                   (gameStateDataRef->unk_03C[2] != 0)) {
                 temp_v0 = random(3);
                 if (gameStateDataRef->unk_03C[temp_v0] != 0) {
                     gameStateDataRef->unk_03C[temp_v0] -= 1;
-                    temp_s3->unk_050[var_v1].unk_2 |= (temp_v0 + 1) << (var_s0 * 2);
+                    temp_s3->unk_050[i].unk_0 |= (temp_v0 + 1) << (var_s0 << 1);
                     break;
                 }
             }
         }
+
+        break;
     }
 
     return 1;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_game_main", dm_set_attack_2p);
-#endif
 #endif
 
 #if VERSION_US
