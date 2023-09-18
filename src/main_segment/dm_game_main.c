@@ -270,6 +270,7 @@ void dm_warning_h_line(struct_game_state_data *gameStateData, GameMapGrid *mapGr
 #endif
 
 #if VERSION_US
+// cn code doesn't match this function
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", set_down_flg);
 #endif
 
@@ -354,11 +355,7 @@ s32 set_down_flg(GameMapGrid *mapGrid) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", go_down);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void go_down(struct_game_state_data *gameStateData, GameMapGrid *mapGrid, s32 arg2) {
     bool var_a0 = false;
     s32 row;
@@ -399,10 +396,18 @@ void go_down(struct_game_state_data *gameStateData, GameMapGrid *mapGrid, s32 ar
 
     if (set_down_flg(mapGrid) == 0) {
         if (dm_h_erase_chack(mapGrid) || dm_w_erase_chack(mapGrid)) {
-            gameStateData->unk_00C = (gameStateData->unk_049 == 0) ? 6 : 0x15;
+            if (gameStateData->unk_049 == 0) {
+                gameStateData->unk_00C = 6;
+            } else {
+                gameStateData->unk_00C = 0x15;
+            }
             gameStateData->unk_02F = 0;
         } else {
-            gameStateData->unk_00C = (gameStateData->unk_049 == 0) ? 9 : 0x16;
+            if (gameStateData->unk_049 == 0) {
+                gameStateData->unk_00C = 9;
+            } else {
+                gameStateData->unk_00C = 0x16;
+            }
         }
     }
 }
@@ -8984,7 +8989,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_draw_snap_b
 #endif
 
 #if VERSION_CN
-void dm_game_draw_snap_bg(Gfx **gfxP, UNUSED Mtx **mtxP, UNUSED Vtx **vtxP, s32 arg3) {
+void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 arg3) {
     struct_watchGame *temp_s7 = watchGame;
     Gfx *gfx = *gfxP;
     TiTexDataEntry *temp_s1;
@@ -9224,11 +9229,7 @@ void dm_game_draw_snap_bg(Gfx **gfxP, UNUSED Mtx **mtxP, UNUSED Vtx **vtxP, s32 
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_8006F628);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void func_8006F628(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -9237,6 +9238,7 @@ void func_8006F628(Gfx **gfxP) {
 }
 #endif
 
+#if VERSION_US || VERSION_CN
 enum_main_no dm_game_main(struct_800EB670 *arg0) {
     OSMesgQueue sp10;
     OSMesg sp28[8];
@@ -9364,304 +9366,9 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
 
     return ret;
 }
-
-#if VERSION_US
-#if 0
-// enum bool dm_game_main_2p();
-// enum bool dm_game_main_4p();
-
-s32 dm_game_main2(void) {
-    s32 temp_s0_4;
-    s32 var_s4_2;
-    s32 var_s4_3;
-    s32 var_v0;
-    s32 var_s0;
-    s32 var_s1;
-    s32 var_v0_3;
-    s32 var_v0_7;
-    struct_watchGame *temp_s3;
-    s32 temp_s0_2;
-
-    // var_s4_2 = saved_reg_s4;
-    temp_s3 = watchGame;
-    var_s1 = 0;
-    if (temp_s3->unk_3B8 != 0) {
-        dm_seq_play_in_game((evs_seqnumb * 2) + 1);
-        temp_s3->unk_3B8 = 0;
-    }
-    dm_effect_make();
-    RecWritingMsg_calc(&temp_s3->recMessage);
-
-    switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
-            if (temp_s3->unk_9AC > 0) {
-                if (gControllerHoldButtons[*main_joy] & 0xC000) {
-                    temp_s3->messageWnd.unk_5C = 0.125f;
-                } else {
-                    temp_s3->messageWnd.unk_5C = 0.016666668f;
-                }
-                msgWnd_update(&temp_s3->messageWnd);
-
-                switch (temp_s3->unk_9AC) { /* switch 1; irregular */
-                    case 1:     /* switch 1 */
-                        if (!(gControllerPressedButtons[*main_joy] & 0x1000)) {
-                            if (msgWnd_isScroll(&temp_s3->messageWnd) == false) {
-                                temp_s3->unk_9AC = 2;
-                            }
-                        } else {
-                            temp_s3->unk_9AC = 0;
-                        }
-                        break;
-
-                    case 0x2: /* switch 1 */
-                        if (temp_s3->unk_9B0 < 0x168) {
-                            temp_s3->unk_9B0++;
-                        } else if (gControllerPressedButtons[*main_joy] & 0xFF3F) {
-                            temp_s3->unk_9AC = 0;
-                        }
-                        break;
-                }
-
-                if (temp_s3->unk_9AC == 0) {
-                    dm_seq_play_in_game(evs_seqnumb * 2);
-                }
-                var_s4_2 = 0;
-                if (temp_s3->unk_9AC > 0) {
-                    // goto block_105;
-                    return var_s4_2;
-                }
-            }
-            var_s4_2 = dm_game_main_1p();
-            switch (var_s4_2) {
-                case 1:
-                    temp_s0_2 = game_state_data[0].unk_026;
-
-                    if ((((temp_s0_2 == 0x15) | (temp_s0_2 == 0x18)) != 0) ||
-                        ((temp_s0_2 >= 0x1E) &&
-                         (temp_s0_2 == ((temp_s0_2 / 5) * 5)))) {
-                        temp_s3->unk_9AC = var_s4_2;
-                        if (temp_s0_2 >= 0x1E) {
-                            if ((s32)temp_s0_2 >= 0x28) {
-                                temp_s3->unk_9B4 = 2;
-                            } else {
-                                temp_s3->unk_9B4 = var_s4_2;
-                            }
-                        } else {
-                            temp_s3->unk_9B4 = false;
-                        }
-                        if ((s32)temp_s0_2 < 0x1E) {
-                            temp_s3->unk_9B8 = (temp_s0_2 - 0x15) / 3;
-                        } else {
-                            temp_s3->unk_9B8 = (temp_s0_2 / 5) & 1;
-                        }
-                    }
-
-                    if (temp_s3->unk_9AC == 1) {
-                        temp_s3->unk_9B0 = 0;
-                        init_coffee_break_cnt();
-                        msgWnd_clear(&temp_s3->messageWnd);
-                        msgWnd_addStr(&temp_s3->messageWnd, st_staffroll_txt);
-                        msgWnd_skip(&temp_s3->messageWnd);
-                    }
-
-                    if (game_state_data[0].unk_026 < 0x63U) {
-                        game_state_data[0].unk_026++;
-                    }
-                    break;
-
-                case 2:
-                    game_state_data[0].unk_000 = 0;
-                    break;
-
-                case 9:
-                    var_s4_2 = 0;
-                    dm_game_init(true);
-                    break;
-
-                default:
-                    break;
-            }
-
-            var_s4_2 = var_s4_2;
-            switch (var_s4_2) {
-                case 1:
-                case 2:
-                var_s4_2 = 0;
-                    dm_game_init(true);
-                    animeState_set(&game_state_data[0].unk_094, 2);
-                    var_s0 = 0;
-                    do {
-                        animeState_set(&temp_s3->animeStates[var_s0], 0);
-                        animeSmog_stop(&temp_s3->animeSmogs[var_s0]);
-                        var_s0 += 1;
-                    } while (var_s0 < 3);
-                    temp_s0_4 = temp_s3->unk_9AC;
-                    temp_s3->unk_9AC = false;
-                    backup_game_state(0);
-                    temp_s3->unk_9AC = temp_s0_4;
-                    if (temp_s3->unk_9AC > 0) {
-                        dm_seq_play_in_game(SEQ_INDEX_23);
-                        //return false;
-                    }
-                    break;
-            }
-            break;
-
-        case ENUM_EVS_GAMESEL_1:
-        case ENUM_EVS_GAMESEL_3:
-            var_s0 = 0;
-            var_s4_2 = dm_game_main_2p();
-            do {
-                if (evs_story_flg != 0) {
-                    if (temp_s3->unk_89C[var_s0] > 0) {
-                        var_s1 = 1;
-                    }
-                } else if (temp_s3->unk_89C[var_s0] == evs_vs_count) {
-                    var_s1 = 1;
-                }
-                var_s0 += 1;
-            } while (var_s0 < 2);
-
-            switch (var_s4_2) {
-                case -1:
-                    //var_v0 = var_s4_2;
-                    if (var_s1 == 0) {
-                        if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
-                            var_s0 = 0;
-                            while (var_s0 < 2) {
-                                (game_state_data + var_s0)->unk_000 = 0;
-                                var_s0++;
-                            }
-                        }
-                        dm_game_init(true);
-                        var_s0 = 0;
-                        do {
-                            animeState_set(&game_state_data[var_s0].unk_094, 0);
-                            var_s0 += 1;
-                        } while (var_s0 < 2);
-                        backup_game_state(0);
-                        var_s4_2 = 0;
-                        //return false;
-                    }
-                    /* Duplicate return node #106. Try simplifying control flow for better match */
-                    //return var_v0;
-                    break;
-
-                case 2:
-                    var_s0 = 0;
-                    while (var_s0 < 2) {
-                        (game_state_data + var_s0)->unk_000 = 0;
-                        var_s0++;
-                    }
-                    dm_game_init(false);
-                    var_s0 = 0;
-                    do {
-                        animeState_set(&game_state_data[var_s0].unk_094, 0);
-                        var_s0 += 1;
-                    } while (var_s0 < 2);
-                    backup_game_state(0);
-                    var_s4_2 = 0;
-                    //return false;
-                    break;
-
-                case 9:
-                    dm_game_init(true);
-                    var_s4_2 = 0;
-                    //return false;
-                    break;
-
-                default:
-                    //return var_s4_2;
-                    //var_s4_2 = 0;
-                    break;
-            }
-            break;
-
-        case ENUM_EVS_GAMESEL_2:
-            var_s0 = 0;
-            var_s4_2 = dm_game_main_4p();
-            do {
-                if (evs_story_flg != 0) {
-                    if (temp_s3->unk_89C[var_s0] > 0) {
-                        var_s1 = 1;
-                    }
-                } else if (temp_s3->unk_89C[var_s0] == evs_vs_count) {
-                    var_s1 = 1;
-                }
-                var_s0 += 1;
-            } while (var_s0 < 4);
-
-            switch (var_s4_2) {
-                case -1:
-                    var_v0 = var_s4_2;
-                    if (var_s1 == 0) {
-                        dm_game_init(true);
-                        var_s0 = 0;
-                        do {
-                            animeState_set(&game_state_data[var_s0].unk_094, 0);
-                            var_s0 += 1;
-                        } while (var_s0 < 4);
-                        backup_game_state(0);
-                        //return false;
-                        var_s4_2 = 0;
-                    }
-                    /* Duplicate return node #106. Try simplifying control flow for better match */
-                    //return var_v0;
-                    break;
-
-                case 2:
-                    var_s0 = 0;
-                    while (var_s0 < 2) {
-                        (game_state_data + var_s0)->unk_000 = 0;
-                        var_s0++;
-                    }
-                    dm_game_init(false);
-                    var_s0 = 0;
-                    do {
-                        animeState_set(&game_state_data[var_s0].unk_094, 0);
-                        var_s0 += 1;
-                    } while (var_s0 < 4);
-                    backup_game_state(0);
-                    var_s4_2 = false;
-                    break;
-
-                case 9:
-                    backup_game_state(0);
-                    var_s4_2 = 0;
-                    break;
-                    //return false;
-
-                default:
-                    //return var_s4_2;
-                    break;
-            }
-            break;
-
-        case ENUM_EVS_GAMESEL_4:
-            var_s4_2 = dm_game_demo_1p();
-            break;
-
-        case ENUM_EVS_GAMESEL_5:
-            var_s4_2 = dm_game_demo_2p();
-            break;
-
-        case ENUM_EVS_GAMESEL_6:
-            var_s4_2 = dm_game_demo_4p();
-            break;
-
-        default:
-            break;
-    }
-
-block_105:
-    return var_s4_2;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_main2);
-#endif
 #endif
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 s32 dm_game_main2(void) {
     struct_watchGame *temp_s3 = watchGame;
     s32 var_s1 = 0;
@@ -9839,8 +9546,8 @@ s32 dm_game_main2(void) {
                     break;
 
                 case 9:
-                    dm_game_init(true);
                     var_s4_2 = 0;
+                    dm_game_init(true);
                     break;
 
                 default:
@@ -9890,11 +9597,8 @@ s32 dm_game_main2(void) {
                     break;
 
                 case 9:
-                    dm_game_init(true);
                     var_s4_2 = 0;
-                    break;
-
-                default:
+                    dm_game_init(true);
                     break;
             }
             break;

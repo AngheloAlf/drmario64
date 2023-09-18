@@ -1094,7 +1094,6 @@ u16 func_8005B8D8(u8 arg0) {
     return D_800A6D90[arg0];
 }
 
-
 /**
  * Original name: font2index
  */
