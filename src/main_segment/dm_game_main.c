@@ -7682,8 +7682,8 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
             temp_a2 = (sp28[i] * temp_t0_2) + gameStateData->unk_008;
 
             gSPTextureRectangle(gGfxHead++, (temp_a1_2 * 4), (temp_a2 * 4), ((temp_a1_2 + temp_t0_2) * 4),
-                                ((temp_a2 + temp_t0_2) * 4), G_TX_RENDERTILE, 0x0000,
-                                (temp->unk_4[i] * temp_t0_2 << 5), 0x0400, 0x0400);
+                                ((temp_a2 + temp_t0_2) * 4), G_TX_RENDERTILE, 0x0000, (temp->unk_4[i] * temp_t0_2 << 5),
+                                0x0400, 0x0400);
         }
 
         gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, 255);
@@ -7935,7 +7935,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
                     var_v0_4 = 0x4A;
                 }
                 func_8006AEFC(&temp_s4->unk_9D0[arg1], &gGfxHead, (s32)gameStateDataRef->unk_006,
-                                 gameStateDataRef->unk_008 + var_v0_4);
+                              gameStateDataRef->unk_008 + var_v0_4);
             }
             break;
 
@@ -8141,7 +8141,8 @@ void key_control_main(struct_game_state_data *gameStateDataRef, GameMapGrid *map
         if (gameStateDataRef->unk_020 == 1) {
             struct_game_state_data_unk_178 *temp_s0_2;
 
-            if ((gameStateDataRef->unk_04C == 1) || ((gameStateDataRef->unk_04C != 1) && (arg2 == 0) && (aiDebugP1 >= 0))) {
+            if ((gameStateDataRef->unk_04C == 1) ||
+                ((gameStateDataRef->unk_04C != 1) && (arg2 == 0) && (aiDebugP1 >= 0))) {
                 u16 temp_s1_2 = joygam[arg2];
 
                 aifKeyOut(gameStateDataRef);
