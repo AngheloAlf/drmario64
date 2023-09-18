@@ -233,7 +233,7 @@ void *func_80077170(BgRomDataIndex index, void *dstAddr) {
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_800771EC);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_bg_proc);
 #endif
 
 #if VERSION_CN

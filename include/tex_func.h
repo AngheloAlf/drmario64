@@ -111,7 +111,7 @@ void FillRectRGBA(Gfx **gfxP, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 green
 // void func_8004113C();
 // void func_80041334();
 // void func_80041480();
-// void func_80041668();
+void CopyTexBlock8(Gfx **gfxP, TexturePtr arg1, TexturePtr arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 // void func_800417B4();
 void CopyTexBlock16(Gfx **gfxP, struct struct_watchGame_unk_87C *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
 void StretchTexBlock(StretchTexBlock_arg0 *arg0);
@@ -149,7 +149,7 @@ void func_80044E08(Gfx **gfxP, u16 width, u16 height, u8 tex[], s32 arg4, s32 ar
 // void func_8004502C();
 TiTexData *tiLoadTexData(UNK_PTR *arg0, RomOffset segmentRom, RomOffset segmentRomEnd);
 // void func_80045110();
-// void func_800451C4();
+void tiCopyTexBlock(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, s32 arg3, s32 arg4);
 void tiStretchTexBlock(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
 void tiStretchTexTile(Gfx **gfxP, TiTexDataEntry *, s32, s32, s32, s32, s32, f32, f32, f32, f32);
 void tiStretchTexItem(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, s32 arg3, s32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);

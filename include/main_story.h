@@ -77,7 +77,7 @@ void curtain_proc(Gfx **gfxP, s32 arg1);
 void curtain_proc_org(Gfx **gfxP, s32 arg1);
 void func_800770E8(Gfx **gfxP, struct_wakuGraphic *arg1);
 void *func_80077170(BgRomDataIndex index, void *dstAddr);
-// void func_800771EC();
+void story_bg_proc(Gfx **gfxP);
 void func_800773F0(void);
 void func_8007744C(void);
 void func_8007746C(void);

@@ -126,7 +126,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800439B0_cn);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80041668);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", CopyTexBlock8);
 #endif
 
 #if VERSION_CN
@@ -883,7 +883,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047894_cn);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_800451C4);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiCopyTexBlock);
 #endif
 
 #if VERSION_CN

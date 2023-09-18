@@ -155,16 +155,18 @@ OPTFLAGS        := -O2
 # OPTFLAGS        += -gdwarf
 MIPS_VERSION    := -mips3
 ICONV_FLAGS     := --from-code=UTF-8 --to-code=Shift-JIS
+CHAR_SIGN       := -funsigned-char
 endif
 ifeq ($(VERSION),cn)
 CFLAGS          += -mcpu=4300
 OPTFLAGS        := -O2 -ggdb
 MIPS_VERSION    := -mips2
 ICONV_FLAGS     := --from-code=UTF-8 --to-code=EUC-CN
+CHAR_SIGN       := -fsigned-char
 endif
 
 # Variable to simplify C compiler invocation
-C_COMPILER_FLAGS = $(CFLAGS) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS)
+C_COMPILER_FLAGS = $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS)
 
 # Use relocations and abi fpr names in the dump
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32 -Mno-aliases
@@ -243,8 +245,6 @@ $(BUILD_DIR)/asm/cn/data/main_segment/msgwnd.rodata.o: ICONV_FLAGS := --from-cod
 $(BUILD_DIR)/src/main_segment/msgwnd.o:                ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
 
 $(BUILD_DIR)/src/main_segment/record.o:                ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
-
-$(BUILD_DIR)/src/main_segment/screen_print/printf_impl.o:           CFLAGS   += -funsigned-char
 
 #### Main Targets ###
 

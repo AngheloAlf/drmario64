@@ -50,7 +50,7 @@ D_800B2138 - found 50 matches total:
 0.99 - _tbl_2997
 0.99 - D_800B20EC
 0.99 - D_800B20F8
-0.99 - RO_800B2330
+0.99 - _panelPos_5793
 0.99 - D_800B2358
 0.99 - D_800B23D4
 0.99 - RO_800B3134
@@ -99,7 +99,7 @@ D_800B0A5C - found 30 matches total:
 0.99 - D_8008E5B4 (decompiled)
 0.99 - _type_1949 (decompiled)
 0.99 - rotate_table_474 (decompiled)
-0.99 - D_800A6FC8 (decompiled)
+0.99 - visible_fall_point (decompiled)
 0.99 - D_800AAD58 (decompiled)
 0.99 - D_800ACF10
 0.99 - D_800AFB38 (decompiled)
@@ -216,7 +216,7 @@ D_800B0DD8 - found 9 matches total:
 0.99 - D_800B03A4
 0.99 - D_800B123C
 0.99 - D_800B1D60
-0.99 - RO_800B2314
+0.99 - _bgPos_5792
 
 func_8004CCD0 - found 8 matches total:
 0.99 - func_8004B774
@@ -393,7 +393,7 @@ _setNextMain - found 1 matches total:
 0.99 - _setMode
 
 func_80041334 - found 1 matches total:
-0.99 - func_80041668
+0.99 - CopyTexBlock8
 
 dm_w_erase_chack_set - found 1 matches total:
 0.99 - dm_h_erase_chack_set
