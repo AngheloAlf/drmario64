@@ -6,8 +6,8 @@
 from __future__ import annotations
 
 import argparse
-import spimdisasm
 from pathlib import Path
+import spimdisasm
 
 import compression_common
 
@@ -28,6 +28,14 @@ def align(value: int, n: int) -> int:
 def align8MB(value: int) -> int:
     return align(value, 0x100000)
 
+def addSymbolToRelocate(relsOffetsToApply: dict[int, tuple[str, spimdisasm.common.RelocType]], symName: str, rel: spimdisasm.elf32.Elf32RelEntry, segmentRomOffset: int, segmentVram: int):
+    relVram = rel.offset
+
+    rType = spimdisasm.common.Relocation.RelocType.fromValue(rel.rType)
+    assert rType is not None, rel.rType
+
+    relRomOffset = relVram - segmentVram + segmentRomOffset
+    relsOffetsToApply[relRomOffset] = (symName, rType)
 
 def romCompressorMain():
     description = ""
@@ -65,7 +73,7 @@ def romCompressorMain():
     sizeWrote = 0
 
     segmentOffsets: dict[str, tuple[int, int]] = {}
-    relsOffetsToApply = {}
+    relsOffetsToApply: dict[int, tuple[str, spimdisasm.common.RelocType]] = {}
     romOffsetValues: dict[str, int] = {}
 
     elfFile = spimdisasm.elf32.Elf32File(elfBytearray)
@@ -73,113 +81,114 @@ def romCompressorMain():
     assert elfFile.symtab is not None, "The elf->z64 process and compression algorithm requires a symtab, but is was not present"
     assert elfFile.strtab is not None, "The elf->z64 process and compression algorithm requires a strtab, but is was not present"
 
-    with outPath.open("wb") as outRom:
-        for entry in elfFile.sectionHeaders.sections:
-            sectionEntryName = elfFile.shstrtab[entry.name]
+    outRomBin = bytearray()
 
-            if entry.type == spimdisasm.elf32.Elf32SectionHeaderType.REL.value:
-                # Find any symbol that needs to be updated
+    for entry in elfFile.sectionHeaders.sections:
+        sectionEntryName = elfFile.shstrtab[entry.name]
 
-                if segmentDict.get(sectionEntryName) is None:
-                    # Only apply relocs to uncompressed segments
+        if entry.type == spimdisasm.elf32.Elf32SectionHeaderType.REL.value:
+            # Find any symbol that needs to be updated
 
-                    sectionRels = spimdisasm.elf32.Elf32Rels(sectionEntryName, elfBytearray, entry.offset, entry.size)
-                    referencedSegment = sectionEntryName.replace(".rel.", ".")
-                    for rel in sectionRels.relocations:
-                        sym = elfFile.symtab[rel.rSym]
+            if segmentDict.get(sectionEntryName) is None:
+                # Only apply relocs to uncompressed segments
 
-                        symName = elfFile.strtab[sym.name]
+                sectionRels = spimdisasm.elf32.Elf32Rels(sectionEntryName, elfBytearray, entry.offset, entry.size)
+                referencedSegment = sectionEntryName.replace(".rel.", ".")
+                for rel in sectionRels.relocations:
+                    sym = elfFile.symtab[rel.rSym]
 
-                        if symName.endswith("_ROM_START") or symName.endswith("_ROM_END"):
-                            relVram = rel.offset
+                    symName = elfFile.strtab[sym.name]
 
-                            rType = spimdisasm.common.Relocation.RelocType.fromValue(rel.rType)
-                            assert rType is not None, rel.rType
+                    if symName.endswith("_ROM_START") or symName.endswith("_ROM_END"):
+                        segmentData = segmentOffsets[referencedSegment]
 
-                            relRomOffset = relVram - segmentOffsets[referencedSegment][1] + segmentOffsets[referencedSegment][0]
-                            relsOffetsToApply[relRomOffset] = (symName, rType)
+                        addSymbolToRelocate(relsOffetsToApply, symName, rel, segmentData[0], segmentData[1])
 
-            if entry.type != spimdisasm.elf32.Elf32SectionHeaderType.PROGBITS.value:
-                printDebug(f"Skiping segment '{sectionEntryName}' because it isn't PROGBITS")
-                continue
+        if entry.type != spimdisasm.elf32.Elf32SectionHeaderType.PROGBITS.value:
+            printDebug(f"Skiping segment '{sectionEntryName}' because it isn't PROGBITS")
+            continue
 
-            entryFlags, unknownFlags = spimdisasm.elf32.Elf32SectionHeaderFlag.parseFlags(entry.flags)
-            if spimdisasm.elf32.Elf32SectionHeaderFlag.ALLOC not in entryFlags:
-                printDebug(f"Skiping segment '{sectionEntryName}' because it doesn't have the alloc flag")
-                continue
+        entryFlags, unknownFlags = spimdisasm.elf32.Elf32SectionHeaderFlag.parseFlags(entry.flags)
+        if spimdisasm.elf32.Elf32SectionHeaderFlag.ALLOC not in entryFlags:
+            printDebug(f"Skiping segment '{sectionEntryName}' because it doesn't have the alloc flag")
+            continue
 
-            segmentOffsets[sectionEntryName] = (offset, entry.addr)
-            romStartSymbol = f"{sectionEntryName[1:]}_ROM_START"
-            romEndSymbol = f"{sectionEntryName[1:]}_ROM_END"
-            #print(romStartSymbol)
-            offsetStart = sizeWrote
+        segmentOffsets[sectionEntryName] = (offset, entry.addr)
+        romStartSymbol = f"{sectionEntryName[1:]}_ROM_START"
+        romEndSymbol = f"{sectionEntryName[1:]}_ROM_END"
+        #print(romStartSymbol)
+        offsetStart = sizeWrote
 
-            printDebug(f"Segment '{sectionEntryName}': offset=0x{offset:06X} entry.offset=0x{entry.offset:06X} entry.size=0x{entry.size:06X}")
+        printDebug(f"Segment '{sectionEntryName}': offset=0x{offset:06X} entry.offset=0x{entry.offset:06X} entry.size=0x{entry.size:06X}")
 
-            segmentEntry = segmentDict.get(sectionEntryName)
-            segmentBytearray = inRom[offset:offset+entry.size]
+        segmentEntry = segmentDict.get(sectionEntryName)
+        segmentBytearray = inRom[offset:offset+entry.size]
 
-            assert len(segmentBytearray) == entry.size, f"'{sectionEntryName}': 0x{len(segmentBytearray):X} 0x{entry.size:X}"
+        assert len(segmentBytearray) == entry.size, f"'{sectionEntryName}': 0x{len(segmentBytearray):X} 0x{entry.size:X}"
 
-            if segmentEntry is None:
-                # write as-is
-                offsetEnd = entry.size + offsetStart
-                printDebug(f"Writing as is the segment '{sectionEntryName}' at rom offset 0x{offsetStart:06X} to 0x{offsetEnd:06X}.")
-                outRom.write(segmentBytearray)
-                sizeWrote += entry.size
+        if segmentEntry is None:
+            # write as-is
+            offsetEnd = entry.size + offsetStart
+            printDebug(f"Writing as is the segment '{sectionEntryName}' at rom offset 0x{offsetStart:06X} to 0x{offsetEnd:06X}.")
+            outRomBin.extend(segmentBytearray)
+            sizeWrote += entry.size
+        else:
+            # check if uncompressed segment matches
+            uncompressedHash = spimdisasm.common.Utils.getStrHash(segmentBytearray)
+
+            if uncompressedHash == segmentEntry.uncompressedHash:
+                compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
+                assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
             else:
-                # check if uncompressed segment matches
-                uncompressedHash = spimdisasm.common.Utils.getStrHash(segmentBytearray)
+                spimdisasm.common.Utils.eprint(f"Segment '{sectionEntryName}' doesn't match, should have hash '{segmentEntry.uncompressedHash}' but has hash '{uncompressedHash}'.")
+                printDebug(f"Segment '{sectionEntryName}' is at offset 0x{offset:06X} and has a size of 0x{entry.size:06X} (ends at offset 0x{offset+entry.size:06X}).")
+                spimdisasm.common.Utils.eprint(f"Compressing...\n")
+                compressedBytearray = compression_common.compressZlib(segmentBytearray)
 
-                if uncompressedHash == segmentEntry.uncompressedHash:
-                    compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
-                    assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
-                else:
-                    spimdisasm.common.Utils.eprint(f"Segment '{sectionEntryName}' doesn't match, should have hash '{segmentEntry.uncompressedHash}' but has hash '{uncompressedHash}'.")
-                    printDebug(f"Segment '{sectionEntryName}' is at offset 0x{offset:06X} and has a size of 0x{entry.size:06X} (ends at offset 0x{offset+entry.size:06X}).")
-                    spimdisasm.common.Utils.eprint(f"Compressing...\n")
-                    compressedBytearray = compression_common.compressZlib(segmentBytearray)
+                # with open(f"'{sectionEntryName}'.bin", "wb") as compressedBinFile:
+                #     compressedBinFile.write(compressedBytearray)
 
-                    # with open(f"'{sectionEntryName}'.bin", "wb") as compressedBinFile:
-                    #     compressedBinFile.write(compressedBytearray)
+            # Align to a 0x10 boundary
+            while len(compressedBytearray) % 0x10 != 0:
+                compressedBytearray.append(0)
 
-                # Align to a 0x10 boundary
-                while len(compressedBytearray) % 0x10 != 0:
-                    compressedBytearray.append(0)
+            offsetEnd = offsetStart + len(compressedBytearray)
+            outRomBin.extend(compressedBytearray)
+            printDebug(f"Writing compressed the segment '{sectionEntryName}' at rom offset 0x{offsetStart:06X} to 0x{offsetEnd:06X}.")
 
-                offsetEnd = offsetStart + len(compressedBytearray)
-                outRom.write(compressedBytearray)
-                printDebug(f"Writing compressed the segment '{sectionEntryName}' at rom offset 0x{offsetStart:06X} to 0x{offsetEnd:06X}.")
+            sizeWrote += len(compressedBytearray)
 
-                sizeWrote += len(compressedBytearray)
+        romOffsetValues[romStartSymbol] = offsetStart
+        romOffsetValues[romEndSymbol] = offsetEnd
+        offset += entry.size
 
-            romOffsetValues[romStartSymbol] = offsetStart
-            romOffsetValues[romEndSymbol] = offsetEnd
-            offset += entry.size
+    alignedSize = align8MB(sizeWrote)
+    if args.version != "cn":
+        # pad
+        outRomBin.extend(bytearray((alignedSize - sizeWrote) * [0xFF]))
 
-        alignedSize = align8MB(sizeWrote)
-        if args.version != "cn":
-            # pad
-            outRom.write(bytearray((alignedSize - sizeWrote) * [0xFF]))
+    for relRomOffset, (symName, rType) in relsOffetsToApply.items():
+        value = romOffsetValues[symName]
+        hiValue = value >> 16
+        loValue = value & 0xFFFF
+        if loValue >= 0x8000:
+            hiValue += 1
 
-        for relRomOffset, (symName, rType) in relsOffetsToApply.items():
-            value = romOffsetValues[symName]
-            hiValue = value >> 16
-            loValue = value & 0xFFFF
-            if loValue >= 0x8000:
-                hiValue += 1
+        if rType == spimdisasm.common.Relocation.RelocType.MIPS_HI16:
+            outRomBin[relRomOffset+2] = hiValue >> 8
+            outRomBin[relRomOffset+3] = hiValue & 0xFF
+        elif rType == spimdisasm.common.Relocation.RelocType.MIPS_LO16:
+            outRomBin[relRomOffset+2] = loValue >> 8
+            outRomBin[relRomOffset+3] = loValue & 0xFF
+        elif rType == spimdisasm.common.Relocation.RelocType.MIPS_32:
+            outRomBin[relRomOffset+0] = (value >> 24) & 0xFF
+            outRomBin[relRomOffset+1] = (value >> 16) & 0xFF
+            outRomBin[relRomOffset+2] = (value >> 8) & 0xFF
+            outRomBin[relRomOffset+3] = (value >> 0) & 0xFF
+        else:
+            assert False, rType
 
-            outRom.seek(relRomOffset)
-            if rType == spimdisasm.common.Relocation.RelocType.MIPS_HI16:
-                outRom.seek(relRomOffset+2)
-                outRom.write(bytearray([hiValue >> 8, hiValue & 0xFF]))
-            elif rType == spimdisasm.common.Relocation.RelocType.MIPS_LO16:
-                outRom.seek(relRomOffset+2)
-                outRom.write(bytearray([loValue >> 8, loValue & 0xFF]))
-            elif rType == spimdisasm.common.Relocation.RelocType.MIPS_32:
-                outRom.write(bytearray([(value >> 24) & 0xFF, (value >> 16) & 0xFF, (value >> 8) & 0xFF, (value >> 0) & 0xFF]))
-            else:
-                assert False, rType
+    outPath.write_bytes(outRomBin)
 
 if __name__ == "__main__":
     romCompressorMain()
