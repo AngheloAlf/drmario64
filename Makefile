@@ -116,6 +116,7 @@ SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
 ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
 ROM_DECOMPRESSOR  ?= tools/compressor/rom_decompressor.py
 SEGMENT_EXTRACTOR ?= tools/compressor/extract_compressed_segments.py
+CHECKSUMMER       ?= tools/checksummer.py
 
 PIGMENT64         ?= pigment64
 
@@ -313,11 +314,12 @@ tidy:
 #### Various Recipes ####
 
 $(ROM): $(ELF)
-	$(OBJCOPY) -O binary $< $@
+	$(OBJCOPY) -O binary $< $(@:.z64=.bin)
+	$(CHECKSUMMER) $(@:.z64=.bin) $@ $(VERSION)
 
 $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
-	$(ROM_COMPRESSOR) $(ROM) $(ROMC) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
-# TODO: update header
+	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
+	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@ $(VERSION)
 
 $(ELF): $(PNG_INC_FILES) $(O_FILES) $(LIBULTRA_O) $(SEGMENTS_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld $(BUILD_DIR)/linker_scripts/common_undef_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \

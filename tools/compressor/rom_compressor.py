@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# SPDX-FileCopyrightText: © 2022 AngheloAlf
+# SPDX-FileCopyrightText: © 2022-2023 AngheloAlf
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
@@ -8,6 +8,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 import spimdisasm
+import struct
+import sys
 
 import compression_common
 
@@ -20,6 +22,8 @@ def printDebug(*args, **kwargs):
     kwargs["flush"] = True
     print(*args, **kwargs)
 
+def eprint(*args, **kwargs):
+    print(*args, file=sys.stderr, **kwargs)
 
 def align(value: int, n: int) -> int:
     return (((value) + ((n)-1)) & ~((n)-1))
@@ -47,6 +51,7 @@ def romCompressorMain():
     parser.add_argument("segments", help="path to segments file")
     parser.add_argument("version", help="version to process")
     parser.add_argument("-d", "--debug", help="Enable debug prints", action="store_true")
+    parser.add_argument("-c", "--checksum", help="Force always updating the checksum header", action="store_true")
 
     args = parser.parse_args()
 
@@ -54,6 +59,7 @@ def romCompressorMain():
     outPath = Path(args.out_rom)
     elfPath = Path(args.elf)
     segmentsPath = Path(args.segments)
+    forceChecksum: bool = args.checksum
 
     global DEBUGGING
     DEBUGGING = args.debug
@@ -175,16 +181,11 @@ def romCompressorMain():
             hiValue += 1
 
         if rType == spimdisasm.common.Relocation.RelocType.MIPS_HI16:
-            outRomBin[relRomOffset+2] = hiValue >> 8
-            outRomBin[relRomOffset+3] = hiValue & 0xFF
+            struct.pack_into(f">H", outRomBin, relRomOffset+2, hiValue)
         elif rType == spimdisasm.common.Relocation.RelocType.MIPS_LO16:
-            outRomBin[relRomOffset+2] = loValue >> 8
-            outRomBin[relRomOffset+3] = loValue & 0xFF
+            struct.pack_into(f">H", outRomBin, relRomOffset+2, loValue)
         elif rType == spimdisasm.common.Relocation.RelocType.MIPS_32:
-            outRomBin[relRomOffset+0] = (value >> 24) & 0xFF
-            outRomBin[relRomOffset+1] = (value >> 16) & 0xFF
-            outRomBin[relRomOffset+2] = (value >> 8) & 0xFF
-            outRomBin[relRomOffset+3] = (value >> 0) & 0xFF
+            struct.pack_into(f">I", outRomBin, relRomOffset, value)
         else:
             assert False, rType
 
