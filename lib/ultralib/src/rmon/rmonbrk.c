@@ -9,9 +9,15 @@
 #include "macros.h"
 
 // TODO: this comes from a header
+#if BUILD_VERSION >= VERSION_J
 #ident "$Revision: 1.4 $"
-
-static void rmonFindFaultedThreads(void);
+#else
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.3 $"
+#endif
 
 #define TMP_BP 0
 #define NUM_BREAKPOINTS 16
@@ -36,6 +42,8 @@ static BREAKINFO altBreak;
 static BREAKINFO RCPbreakpoints[NUM_BREAKPOINTS] ALIGNED(8);
 
 u8 __rmonRcpAtBreak;
+
+static void rmonFindFaultedThreads(void);
 
 static void SetTempBreakpoint(u32* addr1, u32* addr2) {
     STUBBED_PRINTF(("Set temp BP at %08x", addr1));
@@ -246,7 +254,7 @@ u32 __rmonGetBranchTarget(int method, int thread, char* addr) {
                 case 17: /* BGEZAL */
                 case 18: /* BLTZALL */
                 case 19: /* BGEZALL */
-                    return (u32)addr + ((inst << 0x10) >> 0xE) + 4;
+                    return (((inst << 0x10) >> 0xE) + addr + 4);
             }
             break;
         case 2: /* J */
@@ -256,13 +264,13 @@ u32 __rmonGetBranchTarget(int method, int thread, char* addr) {
         case 5:  /* BNE */
         case 20: /* BEQL */
         case 21: /* BNEL */
-            return (u32)addr + ((inst << 0x10) >> 0xE) + 4;
+            return (((inst << 0x10) >> 0xE) + addr + 4);
         case 6:  /* BLEZ */
         case 7:  /* BGTZ */
         case 22: /* BLEZL */
         case 23: /* BGTZL */
             if (((inst >> 16) & 0x1F) == 0) {
-                return (u32)addr + ((inst << 0x10) >> 0xE) + 4;
+                return (((inst << 0x10) >> 0xE) + addr + 4);
             }
             break;
         case 16: /* COP0 */
@@ -275,7 +283,7 @@ u32 __rmonGetBranchTarget(int method, int thread, char* addr) {
                     case 1: /* BCzT  */
                     case 2: /* BCzFL */
                     case 3: /* BCzTL */
-                        return (u32)addr + ((inst << 0x10) >> 0xE) + 4;
+                        return (((inst << 0x10) >> 0xE) + addr + 4);
                 }
             }
             break;
@@ -310,10 +318,10 @@ int __rmonSetSingleStep(int thread, u32* instptr) {
     if ((branchTarget & 3) != 0) {
         /* no branch target, set breakpoint at next pc */
         SetTempBreakpoint(instptr + 1, NULL);
-    } else if ((u32*)branchTarget == instptr) {
+    } else if (branchTarget == (u32)instptr) {
         /* branch target is this instruction, can't single step here */
         return FALSE;
-    } else if (IsJump(*instptr) || (u32*)branchTarget == instptr + 2) {
+    } else if (IsJump(*instptr) || branchTarget == (u32)(instptr + 2)) {
         /* unconditional branch, set at branch target */
         SetTempBreakpoint((u32*)branchTarget, NULL);
     } else {

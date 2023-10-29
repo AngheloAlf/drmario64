@@ -23,7 +23,7 @@ s32 osContStartReadData(OSMesgQueue* mq) {
 }
 
 void osContGetReadData(OSContPad* data) {
-    u8* ptr = __osContPifRam.ramarray;
+    u8* ptr = (u8*)__osContPifRam.ramarray;
     __OSContReadFormat readformat;
     int i;
 
@@ -42,7 +42,7 @@ void osContGetReadData(OSContPad* data) {
 }
 
 static void __osPackReadData(void) {
-    u8* ptr = __osContPifRam.ramarray;
+    u8* ptr = (u8*)__osContPifRam.ramarray;
     __OSContReadFormat readformat;
     int i;
 

@@ -12,12 +12,12 @@ void osCreateThread(OSThread* t, OSId id, void (*entry)(void*), void* arg, void*
 #ifdef _DEBUG
     if ((u32)sp & 0x7) {
         __osError(ERR_OSCREATETHREAD_SP, 1, sp);
-        return 0;
+        return;
     }
 
     if ((p < OS_PRIORITY_IDLE) || (p > OS_PRIORITY_MAX)) {
         __osError(ERR_OSCREATETHREAD_PRI, 1, p);
-        return 0;
+        return;
     }
 #endif
 
@@ -37,12 +37,14 @@ void osCreateThread(OSThread* t, OSId id, void (*entry)(void*), void* arg, void*
     t->state = OS_STATE_STOPPED;
     t->flags = 0;
 
+#if BUILD_VERSION >= VERSION_K
 #ifndef _FINALROM
     if (id < THPROF_IDMAX) {
         t->thprof = &thprof[id];
     } else {
         t->thprof = &thprof[THPROF_IDMAX - 1];
     }
+#endif
 #endif
 
     saveMask = __osDisableInt();

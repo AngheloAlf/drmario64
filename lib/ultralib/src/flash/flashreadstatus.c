@@ -1,4 +1,5 @@
-#include "PR/os_internal.h"
+#include "ultra64.h"
+#include "PR/os_internal_flash.h"
 
 void osFlashReadStatus(u8* flash_status) {
     u32 status;

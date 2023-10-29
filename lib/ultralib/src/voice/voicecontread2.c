@@ -3,17 +3,16 @@
 #include "PR/os_voice.h"
 #include "voiceinternal.h"
 #include "io/controller_voice.h"
+#include "io/siint.h"
 
-#define READ2FORMAT(p) ((__OSVoiceRead2Format*)(ptr))
+#define READ2FORMAT(ptr) ((__OSVoiceRead2Format*)(ptr))
 
 s32 __osVoiceContRead2(OSMesgQueue* mq, int channel, u16 address, u8* buffer) {
     s32 ret = 0;
     u8 status;
     int i;
     u8* ptr;
-    int retry;
-
-    retry = 2;
+    int retry = 2;
 
     __osSiGetAccess();
 
@@ -21,13 +20,11 @@ s32 __osVoiceContRead2(OSMesgQueue* mq, int channel, u16 address, u8* buffer) {
 
         ptr = (u8*)&__osPfsPifRam.ramarray;
 
-        if ((__osContLastCmd != CONT_CMD_READ2_VOICE) || (__osPfsLastChannel != channel)) {
+        if ((__osContLastCmd != CONT_CMD_READ2_VOICE) || ((u32)__osPfsLastChannel != channel)) {
             __osContLastCmd = CONT_CMD_READ2_VOICE;
             __osPfsLastChannel = channel;
 
-            for (i = 0; i < channel; i++) {
-                *ptr++ = 0;
-            }
+            for (i = 0; i < channel; i++) { *ptr++ = CONT_CMD_REQUEST_STATUS; }
 
             __osPfsPifRam.pifstatus = CONT_CMD_EXE;
 
@@ -53,7 +50,7 @@ s32 __osVoiceContRead2(OSMesgQueue* mq, int channel, u16 address, u8* buffer) {
         ret = CHNL_ERR(*READ2FORMAT(ptr));
 
         if (ret == 0) {
-            if (__osVoiceContDataCrc(&READ2FORMAT(ptr)->data, ARRLEN(READ2FORMAT(ptr)->data)) !=
+            if (__osVoiceContDataCrc(READ2FORMAT(ptr)->data, ARRLEN(READ2FORMAT(ptr)->data)) !=
                 READ2FORMAT(ptr)->datacrc) {
                 ret = __osVoiceGetStatus(mq, channel, &status);
                 if (ret != 0) {
@@ -62,7 +59,7 @@ s32 __osVoiceContRead2(OSMesgQueue* mq, int channel, u16 address, u8* buffer) {
                     ret = CONT_ERR_CONTRFAIL;
                 }
             } else {
-                bcopy(&READ2FORMAT(ptr)->data, buffer, ARRLEN(READ2FORMAT(ptr)->data));
+                bcopy(READ2FORMAT(ptr)->data, buffer, ARRLEN(READ2FORMAT(ptr)->data));
             }
         } else {
             ret = CONT_ERR_NO_CONTROLLER;

@@ -8,7 +8,7 @@ void osSetThreadPri(OSThread* t, OSPri pri) {
 #ifdef _DEBUG
     if ((pri < OS_PRIORITY_IDLE) || (pri > OS_PRIORITY_MAX)) {
         __osError(ERR_OSSETTHREADPRI, 1, pri);
-        return 0;
+        return;
     }
 #endif
 

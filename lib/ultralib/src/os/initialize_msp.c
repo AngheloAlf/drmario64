@@ -11,7 +11,7 @@ typedef struct {
     /* 0xC */ unsigned int inst4;
 } __osExceptionVector;
 
-extern __osExceptionVector* __ptExceptionPreamble;
+extern __osExceptionVector __ptExceptionPreamble[];
 
 static volatile unsigned int* stat = (unsigned*)0xbff08004;
 static volatile unsigned int* wport = (unsigned*)0xbff08000;
@@ -96,7 +96,7 @@ void __osInitialize_msp(void) {
             return;
         }
 
-        src = (unsigned*)&__ptExceptionPreamble;
+        src = (unsigned*)__ptExceptionPreamble;
         dst = (unsigned*)E_VEC;
         *dst++ = *src++;
         *dst++ = *src++;

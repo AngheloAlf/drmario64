@@ -11,7 +11,7 @@ void __osDequeueThread(register OSThread** queue, register OSThread* t) {
     register OSThread* pred;
     register OSThread* succ;
 
-    pred = queue;
+    pred = (OSThread*)queue;
     succ = pred->next;
 
     while (succ != NULL) {

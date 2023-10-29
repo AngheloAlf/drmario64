@@ -1,8 +1,7 @@
 #include "macros.h"
 #include "PR/os_internal.h"
 #include "controller.h"
-
-s32 __osContinitialized = 0;
+#include "siint.h"
 
 OSPifRam __osContPifRam ALIGNED(16);
 u8 __osContLastCmd;
@@ -11,6 +10,8 @@ u8 __osMaxControllers;
 OSTimer __osEepromTimer;
 OSMesgQueue __osEepromTimerQ ALIGNED(8);
 OSMesg __osEepromTimerMsg;
+
+s32 __osContinitialized = 0;
 
 s32 osContInit(OSMesgQueue* mq, u8* bitpattern, OSContStatus* data) {
     OSMesg dummy;
@@ -82,7 +83,7 @@ void __osPackRequestData(u8 cmd) {
     }
 
     __osContPifRam.pifstatus = CONT_CMD_EXE;
-    ptr = __osContPifRam.ramarray;
+    ptr = (u8*)__osContPifRam.ramarray;
     requestHeader.dummy = CONT_CMD_NOP;
     requestHeader.txsize = CONT_CMD_RESET_TX;
     requestHeader.rxsize = CONT_CMD_RESET_RX;

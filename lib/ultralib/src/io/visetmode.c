@@ -52,7 +52,7 @@ void osViSetMode(OSViMode* modep) {
 #ifdef _DEBUG
     if (!__osViDevMgr.active) {
         __osError(ERR_OSVISETMODE, 0);
-        return 0;
+        return;
     }
 
     assert(modep != NULL);

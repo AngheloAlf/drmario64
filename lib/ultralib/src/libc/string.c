@@ -17,7 +17,7 @@ char* strchr(const char* s, int c) {
 
 size_t strlen(const char* s) {
     const char* sc = s;
-    while (*sc) {
+    while (*sc != 0) {
         sc++;
     }
     return sc - s;

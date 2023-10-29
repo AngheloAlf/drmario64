@@ -6,12 +6,12 @@ void osViExtendVStart(u32 value) {
 #ifdef _DEBUG
     if (!__osViDevMgr.active) {
         __osError(134, 0);
-        return 0;
+        return;
     }
 
     if (value > 48) {
         __osError(135, 1, value);
-        return 0;
+        return;
     }
 #endif
     __additional_scanline = value;

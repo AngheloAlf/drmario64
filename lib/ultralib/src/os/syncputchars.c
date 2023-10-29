@@ -10,6 +10,7 @@ void __osSyncPutChars(int type, int length, const char* buf) {
     rdbPacket packet;
     int i;
     u32 mask;
+
     packet.type = type;
     packet.length = length;
 
@@ -17,12 +18,16 @@ void __osSyncPutChars(int type, int length, const char* buf) {
         packet.buf[i] = buf[i];
     }
 
-    while (!__osAtomicDec(&__osRdbWriteOK)) {}
+    while (!__osAtomicDec(&__osRdbWriteOK)) {
+        ;
+    }
 
     mask = __osDisableInt();
     *(vu32*)RDB_BASE_REG = *(vu32*)&packet;
 
-    while (!(__osGetCause() & CAUSE_IP6)) {}
+    while (!(__osGetCause() & CAUSE_IP6)) {
+        ;
+    }
 
     *(vu32*)RDB_READ_INTR_REG = 0;
     __osRdbWriteOK++;

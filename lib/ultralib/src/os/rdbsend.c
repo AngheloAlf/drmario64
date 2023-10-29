@@ -66,7 +66,7 @@ u32 __osRdbSend(u8* buf, u32 size, u32 type) {
     }
 
     if (needFirst) {
-        *(rdbPacket*)RDB_BASE_REG = pkt;
+        *(u32*)RDB_BASE_REG = *(u32*)&pkt;
     }
     __osRestoreInt(mask);
 

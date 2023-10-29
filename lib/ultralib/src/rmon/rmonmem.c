@@ -1,3 +1,13 @@
+#include "PR/os_version.h"
+
+#if BUILD_VERSION < VERSION_J
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.3 $"
+#endif
+
 #ifndef _FINALROM
 
 #include "dbgproto.h"
@@ -10,7 +20,9 @@
 #include "macros.h"
 
 // TODO: this comes from a header
+#if BUILD_VERSION >= VERSION_J
 #ident "$Revision: 1.4 $"
+#endif
 
 u8 __rmonUtilityBuffer[256] ALIGNED(8);
 
@@ -70,10 +82,9 @@ int __rmonReadMem(KKHeader* req) {
     }
 
     if (req->method == RMON_RSP) {
-        if ((request->addr < SP_IMEM_START || (request->addr + request->nbytes) > SP_IMEM_END)) {
-            if ((request->addr < SP_DMEM_START || (request->addr + request->nbytes) > SP_DMEM_END)) {
+        if (!((request->addr < SP_IMEM_START || (request->addr + request->nbytes) > SP_IMEM_END) ? FALSE : TRUE) &&
+        !((request->addr < SP_DMEM_START || (request->addr + request->nbytes) > SP_DMEM_END) ? FALSE : TRUE)) {
                 return TV_ERROR_INVALID_ADDRESS;
-            }
         }
     } else if (osVirtualToPhysical((void*)request->addr) == (u32)-1) {
         return TV_ERROR_INVALID_ADDRESS;
@@ -110,8 +121,8 @@ int __rmonWriteMem(KKHeader* req) {
         return TV_ERROR_INVALID_CAPABILITY;
     }
 
-    if ((request->writeHeader.addr >= SP_DMEM_START &&
-         (request->writeHeader.addr + request->writeHeader.nbytes) < 0x05000000)) {
+    if (((request->writeHeader.addr < SP_DMEM_START ||
+         (request->writeHeader.addr + request->writeHeader.nbytes) > 0x04FFFFFF) ? FALSE : TRUE)) {
         int align;
         u32 word;
 

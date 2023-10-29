@@ -8,9 +8,15 @@
 #include "macros.h"
 
 // TODO: this comes from a header
+#if BUILD_VERSION >= VERSION_J
 #ident "$Revision: 1.4 $"
-
-OSMesgQueue __rmonMQ ALIGNED(8);
+#else
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.3 $"
+#endif
 
 int __rmonSetFault(KKHeader* req) {
     KKFaultRequest* request = (KKFaultRequest*)req;
@@ -26,6 +32,7 @@ int __rmonSetFault(KKHeader* req) {
     return TV_ERROR_NO_ERROR;
 }
 
+OSMesgQueue __rmonMQ ALIGNED(8);
 static OSThread rmonIOThread ALIGNED(8);
 static OSMesg rmonMsgs[8] ALIGNED(8);
 static u64 rmonIOStack[2048] ALIGNED(16);

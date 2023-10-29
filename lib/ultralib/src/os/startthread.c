@@ -24,7 +24,7 @@ void osStartThread(OSThread* t) {
         default:
             __osError(ERR_OSSTARTTHREAD, 0);
             __osRestoreInt(saveMask);
-            return 0;
+            return;
 #endif
     }
 

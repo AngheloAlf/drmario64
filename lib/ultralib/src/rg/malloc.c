@@ -1,7 +1,7 @@
 #include "PR/region.h"
 #include "PR/ultraerror.h"
+#include "PR/os_internal.h"
 #include "assert.h"
-
 
 
 
@@ -56,7 +56,7 @@ void* osMalloc(void* region) {
     assert(rp != NULL);
     if (((char*)rp + ALIGN(sizeof(OSRegion), rp->r_alignSize)) != rp->r_startBufferAddress) {
         __osError(ERR_OSMALLOC, 1, region);
-        return 0;
+        return NULL;
     }
 #endif
 

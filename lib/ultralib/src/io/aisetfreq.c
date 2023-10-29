@@ -1,6 +1,8 @@
 #include "PR/rcp.h"
 #include "PR/ultraerror.h"
 #include "../os/osint.h"
+// TODO: not sure if this should be here
+extern s32 osViClock;
 
 // TODO: this comes from a header
 #ident "$Revision: 1.17 $"
@@ -44,5 +46,8 @@ s32 osAiSetFrequency(u32 frequency) {
 
     IO_WRITE(AI_DACRATE_REG, dacRate - 1);
     IO_WRITE(AI_BITRATE_REG, bitRate - 1);
+#if BUILD_VERSION < VERSION_J
+    IO_WRITE(AI_CONTROL_REG, AI_CONTROL_DMA_ON);
+#endif
     return osViClock / (s32)dacRate;
 }

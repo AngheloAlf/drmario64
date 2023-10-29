@@ -6,7 +6,7 @@
 #include "PR/rdb.h"
 #include "exceptasm.h"
 #include "threadasm.h"
-
+#include "PR/os_version.h"
 #define KMC_CODE_ENTRY  0xBFF00014
 #define KMC_WPORT       0xBFF08000
 #define KMC_STAT        0xBFF08004
@@ -64,11 +64,11 @@ __osIntTable:
 EXPORT(__osCauseTable_pt)
     .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0
     .byte 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0
-    .byte 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 #endif
 
 .data
 
+#if BUILD_VERSION >= VERSION_J
 EXPORT(__osHwIntTable)
     .word 0, 0
     .word 0, 0
@@ -78,6 +78,14 @@ EXPORT(__osHwIntTable)
 
 EXPORT(__osPiIntTable)
     .word 0, 0
+#else
+EXPORT(__osHwIntTable)
+    .word 0
+    .word 0
+    .word 0
+    .word 0
+    .word 0
+#endif
 
 #ifndef _FINALROM
 __osRdb_DbgRead_Ct:
@@ -89,8 +97,10 @@ __osRdb_Mesg:
 __os_Kdebug_Pkt:
     .word 0
 
+#if BUILD_VERSION >= VERSION_K
 __osPreviousThread:
     .word 0
+#endif
 #endif  
 
 .text
@@ -109,7 +119,7 @@ LEAF(__ptExceptionPreamble)
     nop
     nop
 pt_next:
-    addiu   k0, %lo(__ptException)
+    addiu   k0, k0, %lo(__ptException)
     jr      k0
      nop
 .set reorder
@@ -194,14 +204,14 @@ STAY2(mfc0  t0, C0_CAUSE)
     andi    t2, t1, CAUSE_IP7
     beqz    t2, notIP7
     /* clear rdb write interrupt */
-    li      t1, RDB_WRITE_INTR_REG
+    la      t1, RDB_WRITE_INTR_REG
     sw      zero, (t1)
 IP7check:
 STAY2(mfc0  t0, C0_CAUSE)
     andi    t0, t0, CAUSE_IP7
     bne     zero, t0, IP7check
-    lui     t2, (RDB_BASE_REG >> 16)
-    lw      t0, (RDB_BASE_REG & 0xFFFF)(t2)
+    la      t2, RDB_BASE_REG
+    lw      t0, (t2)
     srl     t1, t0, 0x1a
     andi    t1, t1, 0x3f
     li      t2, RDB_TYPE_HtoG_DATA
@@ -331,14 +341,14 @@ notIP7:
     andi    t2, t1, CAUSE_IP6
     beqz    t2, savecontext
     /* clear rdb read interrupt */
-    li      t1, RDB_READ_INTR_REG
+    la      t1, RDB_READ_INTR_REG
     sw      zero, (t1)
     lw      t2, __osRdb_IP6_Ct
-    bnez    t2, 1f
+    bnez    t2, 2f
     li      t2, 1
     sw      t2, __osRdb_IP6_Empty
     b       rdbout
-1:
+2:
     addi    t2, t2, -1
     sw      t2, __osRdb_IP6_Ct
     lw      t0, __osRdb_IP6_Data
@@ -357,8 +367,8 @@ checkIP6:
 STAY2(mfc0  t0, C0_CAUSE)
     andi    t0, t0, CAUSE_IP6
     bne     zero, t0, checkIP6
-    lui     t0, (RDB_BASE_REG >> 16)
-    sw      t2, (RDB_BASE_REG & 0xFFFF)(t0)
+    la      t0, RDB_BASE_REG
+    sw      t2, (t0)
 rdbout:
     ld      t0, THREAD_GP8(k0)
     ld      t1, THREAD_GP9(k0)
@@ -368,11 +378,13 @@ rdbout:
 .set at
     lw      k1, THREAD_SR(k0)
 STAY2(mtc0  k1, C0_SR)
+.set noreorder
     nop
     nop
     nop
     nop
     eret
+.set reorder
 
 skip_kmc_mode:
 #endif
@@ -380,7 +392,7 @@ skip_kmc_mode:
 savecontext:
     move    t0, k0
     lw      k0, __osRunningThread 
-#ifndef _FINALROM
+#if !defined(_FINALROM) && BUILD_VERSION >= VERSION_K
     sw      k0, __osPreviousThread
 #endif
     ld      t1, THREAD_GP1(t0)
@@ -393,6 +405,7 @@ savecontext:
     sd      t1, THREAD_GP9(k0)
     ld      t1, THREAD_GP10(t0)
     sd      t1, THREAD_GP10(k0)
+3:
     sd      $2, THREAD_GP2(k0)
     sd      $3, THREAD_GP3(k0)
     sd      $4, THREAD_GP4(k0)
@@ -461,8 +474,8 @@ STAY2(mfc0  t0, C0_EPC)
     sw      t0, THREAD_PC(k0)
     lw      t0, THREAD_FP(k0)
     beqz    t0, 1f
-    cfc1    t0, fcr31
-    nop
+STAY2(cfc1  t0, fcr31)
+    NOP
     sw      t0, THREAD_FPCSR(k0)
     sdc1    $f0, THREAD_FP0(k0)
     sdc1    $f2, THREAD_FP2(k0)
@@ -484,8 +497,10 @@ STAY2(mfc0  t0, C0_EPC)
 STAY2(mfc0  t0, C0_CAUSE)
     sw      t0, THREAD_CAUSE(k0)
 
+.set noreorder
     li      t1, OS_STATE_RUNNABLE
     sh      t1, THREAD_STATE(k0)
+.set reorder
 
 #ifndef _FINALROM
     lw      a0, __os_Kdebug_Pkt
@@ -544,6 +559,7 @@ STAY2(mtc0  t1, C0_COMPARE)
     b       next_interrupt
 
 cart:
+#if BUILD_VERSION >= VERSION_J
     and     s0, s0, ~CAUSE_IP4
     la      t1, __osHwIntTable
     add     t1, HWINTR_SIZE
@@ -561,6 +577,26 @@ cart:
     li      a0, MESG(OS_EVENT_CART)
     jal     send_mesg
     b       next_interrupt
+#else
+    li      a0, MESG(OS_EVENT_CART)
+    and     s0, s0, ~CAUSE_IP4
+    la      sp, leoDiskStack 
+    addiu   sp, 0x1000 - 0x10 # Stack size minus initial frame
+    li      t2, HWINTR_SIZE
+    lw      t2, __osHwIntTable(t2)
+
+    beqz    t2, 1f
+    
+    jalr    t2
+    li      a0, MESG(OS_EVENT_CART)
+    
+    beqz    v0, 1f
+    b       redispatch
+    
+1:
+    jal     send_mesg
+    b       next_interrupt
+#endif
 
 rcp:
     lw      s1, PHYS_TO_K1(MI_INTR_REG)
@@ -637,6 +673,7 @@ pi:
     li      t1, PI_STATUS_CLR_INTR
     sw      t1, PHYS_TO_K1(PI_STATUS_REG)
 
+#if BUILD_VERSION >= VERSION_J
     la      t1, __osPiIntTable
     lw      t2, (t1)
     beqz    t2, 1f
@@ -647,9 +684,12 @@ pi:
 
     bnez    v0, 2f
 1:
+#endif
     li      a0, MESG(OS_EVENT_PI)
     jal     send_mesg
+#if BUILD_VERSION >= VERSION_J
 2:
+#endif
     beqz    s1, NoMoreRcpInts
     
 dp:
@@ -812,7 +852,7 @@ END(handle_CpU)
 
 LEAF(__osEnqueueAndYield)
     lw      a1, __osRunningThread
-#ifndef _FINALROM
+#if !defined(_FINALROM) && BUILD_VERSION >= VERSION_K
     sw      a1, __osPreviousThread
 #endif
 STAY2(mfc0  t0, C0_SR)
@@ -881,13 +921,13 @@ LEAF(__osEnqueueThread)
     lw      t8, 0(a0)
     lw      ta3, THREAD_PRI(a1)
     lw      ta2, THREAD_PRI(t8)
-    blt     ta2, ta3, 1f
-2:
+    blt     ta2, ta3, 2f
+1:
     move    t9, t8
     lw      t8, THREAD_NEXT(t8)
     lw      ta2, THREAD_PRI(t8)
-    bge     ta2, ta3, 2b
-1:
+    bge     ta2, ta3, 1b
+2:
     lw      t8, THREAD_NEXT(t9)
     sw      t8, THREAD_NEXT(a1)
     sw      a1, THREAD_NEXT(t9)
@@ -901,11 +941,11 @@ LEAF(__osPopThread)
     sw      t9, 0(a0)
     jr      ra
 END(__osPopThread)
-
+#if BUILD_VERSION >= VERSION_K
 LEAF(__osNop)
     jr      ra
 END(__osNop)
-
+#endif
 LEAF(__osDispatchThread)
     la      a0, __osRunQueue
     jal     __osPopThread
@@ -914,13 +954,19 @@ LEAF(__osDispatchThread)
     sh      t0, THREAD_STATE(v0)
     move    k0, v0
 
-#ifndef _FINALROM
+#if !defined(_FINALROM) && BUILD_VERSION >= VERSION_K
     la      t0, __osThprofFunc
     lw      t0, (t0)
     beqz    t0, __osDispatchThreadSave
+1:
     lw      a0, __osPreviousThread
     lw      sp, __osThprofStack
     jalr    t0
+#endif
+
+/* There's another 1: label somewhere around here in version J and below */
+#if BUILD_VERSION < VERSION_K
+1:
 #endif
 
 __osDispatchThreadSave:
@@ -993,6 +1039,7 @@ STAY2(ctc1  k1, fcr31)
     ldc1    $f30, THREAD_FP30(k0)
     
 1:
+.set noreorder
     lw      k1, THREAD_RCP(k0)
     la      k0, __OSGlobalIntMask
     lw      k0, 0(k0)
@@ -1010,10 +1057,13 @@ STAY2(ctc1  k1, fcr31)
     nop
     nop
     eret
+.set reorder
 END(__osDispatchThread)
 
 LEAF(__osCleanupThread)
     move    a0, zero
+#if !defined(BBPLAYER) && !defined(__sgi)
     nop
+#endif
     jal     osDestroyThread
 END(__osCleanupThread)

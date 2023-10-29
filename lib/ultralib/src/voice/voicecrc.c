@@ -10,7 +10,7 @@ u8 __osVoiceContDataCrc(u8* data, u32 length) {
     u32 i;
     u32 j;
 
-    for (i = length; i != 0; data++, i--) {
+    for (i = length; i != 0; i--) {
         // Loop over each j in the i starting with most significant
         for (j = (1 << (VOICE_CRC_LENGTH - 1)); j != 0; j >>= 1) {
             temp <<= 1;
@@ -25,6 +25,7 @@ u8 __osVoiceContDataCrc(u8* data, u32 length) {
                 temp ^= VOICE_CRC_GENERATOR;
             }
         }
+        data++;
     }
     // Act like a i of zeros is appended to data
     do {

@@ -9,7 +9,7 @@ void* osViGetCurrentFramebuffer(void) {
 #ifdef _DEBUG
     if (!__osViDevMgr.active) {
         __osError(ERR_OSVIGETCURRENTFRAMEBUFFER, 0);
-        return 0;
+        return NULL;
     }
 #endif
 

@@ -1,3 +1,13 @@
+#include "PR/os_version.h"
+
+#if BUILD_VERSION < VERSION_J
+#ident "$Revision: 3.70 $"
+#ident "$Revision: 1.5 $"
+#ident "$Revision: 1.2 $"
+#ident "$Revision: 1.4 $"
+#ident "$Revision: 1.3 $"
+#endif
+
 #ifndef _FINALROM
 
 #include "dbgproto.h"
@@ -10,7 +20,9 @@
 #include "macros.h"
 
 // TODO: this comes from a header
+#if BUILD_VERSION >= VERSION_J
 #ident "$Revision: 1.4 $"
+#endif
 
 int __rmonActive = FALSE;
 
@@ -91,10 +103,8 @@ void rmonMain(void) {
     __rmonInit();
     __rmonActive = TRUE;
 
-    state = 0;
-    newChars = 0;
-    inPointer = (void*)&inbuffer;
 
+    state = 0, newChars = 0, inPointer = (void*)&inbuffer;
     for (;;) {
         OSMesg work;
 
@@ -116,11 +126,11 @@ void rmonMain(void) {
         }
         if (somethingToDo & 0x10) {
             somethingToDo;
-            somethingToDo &= 0xEF;
+            somethingToDo &= (u8)~0x10;
         }
         if (somethingToDo & 0x20) {
             somethingToDo;
-            somethingToDo &= 0xDF;
+            somethingToDo &= (u8)~0x20;
         }
     }
 }

@@ -1,6 +1,7 @@
 #include "PR/os_internal.h"
 #include "io/controller.h"
 #include "PR/os_voice.h"
+#include "voiceinternal.h"
 
 s32 osVoiceInit(OSMesgQueue* mq, OSVoiceHandle* handle, int channel) {
     s32 ret;

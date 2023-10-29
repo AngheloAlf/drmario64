@@ -1,4 +1,5 @@
-#include "PR/os_internal.h"
+#include "ultra64.h"
+#include "PR/os_internal_flash.h"
 
 void osFlashReadId(u32* flash_type, u32* flash_maker) {
     u8 tmp;

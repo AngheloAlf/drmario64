@@ -1,13 +1,14 @@
 #include "PR/os_internal.h"
 #include "io/controller.h"
 #include "PR/os_voice.h"
+#include "voiceinternal.h"
 
 s32 osVoiceClearDictionary(OSVoiceHandle* hd, u8 words) {
     s32 ret;
     u8 stat;
     u8 buf[4];
 
-    ret = (__osVoiceGetStatus(hd->__mq, hd->__channel, &stat));
+    ret = __osVoiceGetStatus(hd->__mq, hd->__channel, &stat);
     if (ret != 0) {
         return ret;
     } else if (stat & 2) {

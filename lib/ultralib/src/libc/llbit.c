@@ -1,3 +1,4 @@
+#include "PR/os.h"
 #include "PR/ultratypes.h"
 
 s64 __ll_bit_extract(u64* addr, unsigned int start_bit, unsigned int length) {

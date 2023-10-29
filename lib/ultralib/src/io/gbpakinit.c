@@ -4,8 +4,8 @@
 #include "controller_gbpak.h"
 
 OSTimer __osGbpakTimer;
-OSMesg __osGbpakTimerMsg;
 OSMesgQueue __osGbpakTimerQ ALIGNED(8);
+OSMesg __osGbpakTimerMsg;
 
 s32 osGbpakInit(OSMesgQueue* mq, OSPfs* pfs, int channel) {
     int i;
@@ -76,7 +76,7 @@ s32 osGbpakInit(OSMesgQueue* mq, OSPfs* pfs, int channel) {
     ERRCK(__osPfsGetStatus(mq, channel));
 
     osCreateMesgQueue(&__osGbpakTimerQ, &__osGbpakTimerMsg, 1);
-    osSetTimer(&__osGbpakTimer, 9000000, 0, &__osGbpakTimerQ, &__osGbpakTimerMsg);
+    osSetTimer(&__osGbpakTimer, OS_USEC_TO_CYCLES(192000), 0, &__osGbpakTimerQ, &__osGbpakTimerMsg);
     osRecvMesg(&__osGbpakTimerQ, NULL, OS_MESG_BLOCK);
     pfs->queue = mq;
     pfs->status = PFS_GBPAK_INITIALIZED;

@@ -1,10 +1,12 @@
 #include "PR/R4300.h"
 #include "sys/asm.h"
 #include "sys/regdef.h"
+#include "PR/os_version.h"
 
 .text
 .set noreorder
 LEAF(__osDisableInt)
+#if BUILD_VERSION >= VERSION_J
 	la    t2, __OSGlobalIntMask
 	lw    t3, (t2)
 	andi  t3, 0xFF00
@@ -15,7 +17,7 @@ LEAF(__osDisableInt)
     lw    t0, (t2)
     andi  t0, 0xFF00
     beq   t0, t3, No_Change_Global_Int
-     la   t2, __osRunningThread
+     la   t2, __osRunningThread # this is intentionally a macro in the branch delay slot
     lw    t1, 280(t2)
     andi  t2, t1, 0xFF00
     and   t2, t0
@@ -28,6 +30,15 @@ LEAF(__osDisableInt)
 No_Change_Global_Int:
     jr ra
      nop
+#else
+    mfc0  t0, C0_SR
+    and   t1, t0, ~SR_IE
+    mtc0  t1, C0_SR
+    andi  v0, t0, SR_IE
+    nop
+    jr ra
+     nop
+#endif
 END(__osDisableInt)
 	
 LEAF(__osRestoreInt)

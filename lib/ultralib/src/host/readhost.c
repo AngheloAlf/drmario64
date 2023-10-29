@@ -5,12 +5,12 @@
 
 #include "macros.h"
 
-u32 __osRdb_Read_Data_Buf;
-u32 __osRdb_Read_Data_Ct;
-
 static int readHostInitialized = FALSE;
 static OSMesgQueue readHostMesgQueue ALIGNED(8);
 static OSMesg readHostMesgBuf[1];
+
+u32 __osRdb_Read_Data_Buf;
+u32 __osRdb_Read_Data_Ct;
 
 void osReadHost(void* dramAddr, u32 nbytes) {
     char tstr[4];

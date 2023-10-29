@@ -41,7 +41,7 @@ void __osPackResetData(void) {
     int i;
 
     __osContPifRam.pifstatus = CONT_CMD_EXE;
-    ptr = __osContPifRam.ramarray;
+    ptr = (u8*)__osContPifRam.ramarray;
 
     for (i = 0; i < MAXCONTROLLERS; i++) {
         *ptr++ = CONT_CMD_CHANNEL_RESET;

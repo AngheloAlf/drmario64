@@ -73,18 +73,15 @@ void __osTimerInterrupt(void) {
                 osSendMesg(t->mq, t->msg, OS_MESG_NOBLOCK);
             } else {
                 pc = __osRunQueue->context.pc;
-                prof = __osProfileList;
-
-                while (prof < __osProfileListEnd) {
+                for (prof = __osProfileList; prof < __osProfileListEnd; prof++) {
                     offset = pc - (u32)prof->text_start;
 
                     if (offset >= 0) {
                         if ((s32)prof->text_end - (s32)pc > 0) {
-                            prof->histo_base[offset >> 2]++;
+                            (*(u16*)(u32)((offset >> 2) + prof->histo_base))++;
                             goto __ProfDone;
                         }
                     }
-                    prof++;
                 }
 
                 __osProfileOverflowBin++;
@@ -105,9 +102,11 @@ void __osSetTimerIntr(OSTime tim) {
     OSTime NewTime;
     u32 savedMask;
 
+#if BUILD_VERSION >= VERSION_K
     if (tim < 468) {
         tim = 468;
     }
+#endif
 
     savedMask = __osDisableInt();
     __osTimerCounter = osGetCount();
@@ -119,15 +118,12 @@ void __osSetTimerIntr(OSTime tim) {
 OSTime __osInsertTimer(OSTimer* t) {
     OSTimer* timep;
     OSTime tim;
-    u32 savedMask;
-    savedMask = __osDisableInt();
+    u32 savedMask = __osDisableInt();
 
     timep = __osTimerList->next;
     tim = t->value;
-
-    while (timep != __osTimerList && tim > timep->value) {
+    for (; timep != __osTimerList && tim > timep->value; timep = timep->next) {
         tim -= timep->value;
-        timep = timep->next;
     }
 
     t->value = tim;

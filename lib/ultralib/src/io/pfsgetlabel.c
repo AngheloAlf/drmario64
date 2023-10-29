@@ -8,14 +8,16 @@ s32 osPfsGetLabel(OSPfs* pfs, u8* label, int* len) {
         return PFS_ERR_INVALID;
     }
 
-    PFS_CHECK_ID;
+    if (__osCheckId(pfs) == PFS_ERR_NEW_PACK) {
+        return PFS_ERR_NEW_PACK;
+    }
 
     for (i = 0; i < ARRLEN(pfs->label); i++) {
-        if (*(pfs->label + i) == 0) {
+        if (*(u8*)(u32)(i + pfs->label) == 0) {
             break;
         }
 
-        *label++ = *(pfs->label + i);
+        *label++ = *(u8*)(u32)(i + pfs->label);
     }
 
     *len = i;

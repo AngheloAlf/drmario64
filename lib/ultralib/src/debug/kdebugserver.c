@@ -1,12 +1,12 @@
 #include "PR/os_internal.h"
 #include "PR/rcp.h"
 #include "PR/rdb.h"
-#include "../os/osint.h"
-
-extern u32 __osRdb_IP6_Empty;
 
 // not included in final rom, but __osThreadSave is here for some reason
 OSThread __osThreadSave;
+
+extern OSThread *__osRunningThread;
+extern u32 __osRdb_IP6_Empty;
 
 #ifndef _FINALROM
 
@@ -34,7 +34,7 @@ static void send_packet(u8* s, u32 n) {
     for (i = 0; i < n; i++) {
         packet.buf[i] = s[i];
     }
-    *(volatile rdbPacket*)RDB_BASE_REG = packet;
+    *(vu32*)RDB_BASE_REG = *(u32*)&packet;
 }
 
 static void clear_IP6(void) {

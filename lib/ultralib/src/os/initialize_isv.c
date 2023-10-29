@@ -17,33 +17,30 @@ extern __osExceptionVector __isExpJP;
 
 void MonitorInitBreak(void);
 
-typedef struct {
-    /* 0x00 */ u32 magic; // IS64
-    /* 0x04 */ u32 get;
-    /* 0x08 */ u8 unk_08[0x14 - 0x08];
-    /* 0x14 */ u32 put;
-    /* 0x18 */ u8 unk_18[0x20 - 0x18];
-    /* 0x20 */ u8 data[0x10000 - 0x20];
-} ISVDbg;
+#define ISV_BASE        gISVDbgPrnAdrs
+#define ISV_MAGIC_ADDR  (ISV_BASE + 0x00)
+#define ISV_GET_ADDR    (ISV_BASE + 0x04)
+#define ISV_PUT_ADDR    (ISV_BASE + 0x14)
+#define ISV_BUFFER      (ISV_BASE + 0x20)
+
+#define ISV_BUFFER_LEN  (0x10000 - 0x20)
 
 #define IS64_MAGIC 'IS64'
 
-ISVDbg* gISVDbgPrnAdrs;
-
-u32 leoComuBuffAdd;
+__osExceptionVector ramOldVector ALIGNED(8);
 u32 gISVFlag;
 u16 gISVChk;
-
-__osExceptionVector ramOldVector ALIGNED(8);
+u32 gISVDbgPrnAdrs;
+u32 leoComuBuffAdd;
 
 static OSPiHandle* is_Handle;
 
 void isPrintfInit(void) {
     is_Handle = osCartRomInit();
 
-    osEPiWriteIo(is_Handle, &gISVDbgPrnAdrs->put, 0);
-    osEPiWriteIo(is_Handle, &gISVDbgPrnAdrs->get, 0);
-    osEPiWriteIo(is_Handle, gISVDbgPrnAdrs, IS64_MAGIC);
+    osEPiWriteIo(is_Handle, ISV_PUT_ADDR, 0);
+    osEPiWriteIo(is_Handle, ISV_GET_ADDR, 0);
+    osEPiWriteIo(is_Handle, ISV_MAGIC_ADDR, IS64_MAGIC);
 }
 
 static void* is_proutSyncPrintf(void* arg, const u8* str, u32 count) {
@@ -52,23 +49,23 @@ static void* is_proutSyncPrintf(void* arg, const u8* str, u32 count) {
     s32 start;
     s32 end;
 
-    if (gISVDbgPrnAdrs == NULL) {
+    if (gISVDbgPrnAdrs == 0) {
         return 0;
     }
 
-    osEPiReadIo(is_Handle, (u32)&gISVDbgPrnAdrs->magic, &data);
+    osEPiReadIo(is_Handle, ISV_MAGIC_ADDR, &data);
     if (data != IS64_MAGIC) {
         return 1;
     }
-    osEPiReadIo(is_Handle, (u32)&gISVDbgPrnAdrs->get, &data);
+    osEPiReadIo(is_Handle, ISV_GET_ADDR, &data);
     p = data;
-    osEPiReadIo(is_Handle, (u32)&gISVDbgPrnAdrs->put, &data);
+    osEPiReadIo(is_Handle, ISV_PUT_ADDR, &data);
 
     start = data;
     end = start + count;
 
-    if (end >= 0xffe0) {
-        end -= 0xffe0;
+    if (end >= ISV_BUFFER_LEN) {
+        end -= ISV_BUFFER_LEN;
         if (p < end || start < p) {
             return 1;
         }
@@ -80,7 +77,7 @@ static void* is_proutSyncPrintf(void* arg, const u8* str, u32 count) {
     while (count) {
         if (*str != '\0') {
             s32 shift = start & 3;
-            u32 addr = (u32)&gISVDbgPrnAdrs->data[start & 0xFFFFFFC];
+            u32 addr = ISV_BUFFER + (start & 0xFFFFFFC);
 
             shift = (3 - shift) * 8;
 
@@ -88,46 +85,47 @@ static void* is_proutSyncPrintf(void* arg, const u8* str, u32 count) {
             osEPiWriteIo(is_Handle, addr, (data & ~(0xff << shift)) | (*str << shift));
 
             start++;
-            if (start >= 0xffe0) {
-                start -= 0xffe0;
+            if (start >= ISV_BUFFER_LEN) {
+                start -= ISV_BUFFER_LEN;
             }
         }
         count--;
         str++;
     }
-    osEPiWriteIo(is_Handle, (u32)&gISVDbgPrnAdrs->put, start);
+    osEPiWriteIo(is_Handle, ISV_PUT_ADDR, start);
 
     return 1;
 }
 
 int __checkHardware_isv(void) {
     u32 i = 0;
-    u32 data; // BUG: data is used uninitialized
+    u32 data;
     u32 save[4];
-    u32 addr;
     OSPiHandle* hnd = osCartRomInit();
 
-    gISVDbgPrnAdrs = NULL;
+    gISVDbgPrnAdrs = 0;
     leoComuBuffAdd = 0;
     gISVFlag = IS64_MAGIC;
     gISVChk = 0;
 
     for (i = 0; i < 4; i++) {
-        osEPiReadIo(hnd, 0xB0000100 + i * 4, save + i);
+        osEPiReadIo(hnd, 0xB0000100 + i * 4, &save[i]);
     }
 
-    // data = 0;
+#ifndef __GNU__ // BUG: data is used uninitialized for GCC
+    data = 0;
+#endif
     osEPiWriteIo(hnd, 0xB000010C, data);
     data = IS64_MAGIC;
     osEPiWriteIo(hnd, 0xB0000100, IS64_MAGIC);
 
-    for (i = 0; i <= 0x1FFFF; i++) {
+    for (i = 0; i < 0x20000; i++) {
         osEPiReadIo(hnd, 0xB000010C, &data);
         if (data == IS64_MAGIC) {
             data = 0;
             osEPiWriteIo(hnd, 0xB0000100, data);
             gISVChk |= 1;
-            osEPiReadIo(hnd, 0xB0000104, (void*)&gISVDbgPrnAdrs);
+            osEPiReadIo(hnd, 0xB0000104, &gISVDbgPrnAdrs);
             osEPiReadIo(hnd, 0xB0000108, &leoComuBuffAdd);
             break;
         }
@@ -147,9 +145,11 @@ int __checkHardware_isv(void) {
 void __osInitialize_isv(void) {
     void (*fn)(void);
     OSPiHandle* hnd;
+    s32 pad;
+    s32 pad2;
 
     if (gISVFlag == IS64_MAGIC || __checkHardware_isv()) {
-        if (gISVDbgPrnAdrs != NULL) {
+        if (gISVDbgPrnAdrs != 0) {
             __printfunc = is_proutSyncPrintf;
             isPrintfInit();
         }
@@ -163,7 +163,7 @@ void __osInitialize_isv(void) {
             osInvalICache(&ramOldVector, 0x10);
             osWritebackDCache(0x80000000, 0x190);
             osInvalICache(0x80000000, 0x190);
-            osEPiReadIo(hnd, 0xBFF00010, &fn);
+            osEPiReadIo(hnd, 0xBFF00010, (u32*)&fn);
             fn();
         }
         if (gISVChk & 2) {
