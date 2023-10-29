@@ -4,17 +4,16 @@ import argparse
 import sys
 from pathlib import Path
 
-from segtypes.gc.rarc import GcSegRarc
 from util.gc import gcinfo
-
 from util.n64 import find_code_length, rominfo
-
 from util.psx import psxexeinfo
 
 parser = argparse.ArgumentParser(
-    description="Create a splat config from an N64 ROM or a GameCube disc image."
+    description="Create a splat config from an N64 ROM, PSX executable, or a GameCube disc image."
 )
-parser.add_argument("file", help="Path to a .z64/.n64 ROM or .iso/.gcm GameCube image")
+parser.add_argument(
+    "file", help="Path to a .z64/.n64 ROM, PSX executable, or .iso/.gcm GameCube image"
+)
 
 
 def main(file_path: Path):
@@ -35,6 +34,7 @@ def main(file_path: Path):
         create_gc_config(file_path, file_bytes)
         return
 
+    # Check for PSX executable
     if file_bytes[0:8] == b"PS-X EXE":
         create_psx_config(file_path, file_bytes)
         return
@@ -57,9 +57,9 @@ options:
   platform: n64
   compiler: {rom.compiler}
 
-  asm_path: asm
-  src_path: src
-  build_path: build
+  # asm_path: asm
+  # src_path: src
+  # build_path: build
   # create_asm_dependencies: True
 
   ld_script_path: {basename}.ld
@@ -81,12 +81,11 @@ options:
 
   symbol_addrs_path:
     - symbol_addrs.txt
-  undefined_funcs_auto_path:
-    - undefined_funcs_auto.txt
-  undefined_syms_auto_path:
-    - undefined_syms_auto.txt
   reloc_addrs_path:
     - reloc_addrs.txt
+
+  # undefined_funcs_auto_path: undefined_funcs_auto.txt
+  # undefined_syms_auto_path: undefined_syms_auto.txt
 
   extensions_path: tools/splat_ext
 
@@ -234,9 +233,9 @@ options:
   platform: psx
   compiler: GCC
 
-  asm_path: asm
-  src_path: src
-  build_path: build
+  # asm_path: asm
+  # src_path: src
+  # build_path: build
   # create_asm_dependencies: True
 
   ld_script_path: {basename}.ld
@@ -256,12 +255,11 @@ options:
 
   symbol_addrs_path:
     - symbol_addrs.txt
-  undefined_funcs_auto_path:
-    - undefined_funcs_auto.txt
-  undefined_syms_auto_path:
-    - undefined_syms_auto.txt
   reloc_addrs_path:
     - reloc_addrs.txt
+
+  # undefined_funcs_auto_path: undefined_funcs_auto.txt
+  # undefined_syms_auto_path: undefined_syms_auto.txt
 
   extensions_path: tools/splat_ext
 

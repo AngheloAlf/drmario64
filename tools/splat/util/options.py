@@ -39,6 +39,8 @@ class SplatOpts:
     use_o_as_suffix: bool
     # the value of the $gp register to correctly calculate offset to %gp_rel relocs
     gp: Optional[int]
+    # Checks and errors if there are any non consecutive segment types
+    check_consecutive_segment_types: bool
 
     # Paths
     asset_path: Path
@@ -95,8 +97,12 @@ class SplatOpts:
     # Determines the desired path to the linker symbol header,
     # which exposes externed definitions for all segment ram/rom start/end locations
     ld_symbol_header_path: Optional[Path]
-    # Determines whether to add a discard section to the linker script
+    # Determines whether to add a discard section with a wildcard to the linker script
     ld_discard_section: bool
+    # A list of sections to preserve during link time. It can be useful to preserve debugging sections
+    ld_sections_allowlist: List[str]
+    # A list of sections to discard during link time. It can be useful to avoid using the wildcard discard. Note that this option does not turn off `ld_discard_section`
+    ld_sections_denylist: List[str]
     # Determines the list of section labels that are to be added to the linker script
     ld_section_labels: List[str]
     # Determines whether to add wildcards for section linking in the linker script (.rodata* for example)
@@ -351,6 +357,9 @@ def _parse_yaml(
         generated_s_preamble=p.parse_opt("generated_s_preamble", str, ""),
         use_o_as_suffix=p.parse_opt("o_as_suffix", bool, False),
         gp=p.parse_opt("gp_value", int, 0),
+        check_consecutive_segment_types=p.parse_opt(
+            "check_consecutive_segment_types", bool, True
+        ),
         asset_path=p.parse_path(base_path, "asset_path", "assets"),
         symbol_addrs_paths=p.parse_path_list(
             base_path, "symbol_addrs_path", "symbol_addrs.txt"
@@ -386,6 +395,8 @@ def _parse_yaml(
         ld_script_path=p.parse_path(base_path, "ld_script_path", f"{basename}.ld"),
         ld_symbol_header_path=p.parse_optional_path(base_path, "ld_symbol_header_path"),
         ld_discard_section=p.parse_opt("ld_discard_section", bool, True),
+        ld_sections_allowlist=p.parse_opt("ld_sections_allowlist", list, []),
+        ld_sections_denylist=p.parse_opt("ld_sections_denylist", list, []),
         ld_section_labels=p.parse_opt(
             "ld_section_labels",
             list,

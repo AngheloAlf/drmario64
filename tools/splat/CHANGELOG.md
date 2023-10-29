@@ -1,5 +1,40 @@
 # splat Release Notes
 
+### 0.18.2
+
+* Fix rodata migration for `.rdata` sections (and other rodata sections that don't use the name `.rodata`)
+* `spimdisasm` 1.18.0 or above is now required.
+
+### 0.18.1
+
+* New yaml options: `check_consecutive_segment_types`
+  * Allows to turn off checking for segment types not being in a consecutive order
+* New option for segments: `linker_section_order` and `linker_section`
+  * `linker_section_order`: Allows overriding the section order used for linker script generation. Useful when a section of a file is not between the other sections of the same type in the ROM, for example a file having its data section between other files's rodata.
+  * `linker_section`: Allows to override the `.section` directive that will be used when generating the disassembly of the corresponding section, without needing to write an extension segment. This also affects the section name that will be used during link time. Useful for sections with special names, like an executable section named `.start`
+
+### 0.18.0
+
+* `symbol_addrs` parsing checks:
+  * Enforce lines contain a single `;`
+  * Enforce no duplicates (same vram, same rom)
+
+### 0.17.3
+
+* Move wiki to the `docs` folder
+* Added the ability to specify `find_file_boundaries` on a per segment basis
+* Fix `cpp` segment not symbolizing rodata symbols properly
+
+### 0.17.2
+
+* Added more support for PS2 elf files
+
+### 0.17.1
+
+* New yaml options: `ld_sections_allowlist` and `ld_sections_denylist`
+  * `ld_sections_allowlist`: A list of sections to preserve during link time. It can be useful to preserve debugging sections.
+  * `ld_sections_denylist`: A list of sections to discard during link time. It can be useful to avoid using the wildcard discard. Note that this option does not turn off `ld_discard_section`.
+
 ### 0.17.0
 
 * BREAKING: Linker script generation now imposes the specified `section_order`, which may not completely reflect the yaml order.
@@ -500,10 +535,10 @@ Internally, there's a new Symbol class which stores information about a symbol a
 
 ## 0.5 The Rename Update
 * n64splat name changed to splat
-  * Some refactoring was done to support other platforms besides n64 in the future 
+  * Some refactoring was done to support other platforms besides n64 in the future
     * New `platform` option, which defaults to `n64`
   * This will cause breaking changes in custom segments, so please refer to one of the changes in one of the n64 base segments for details
-* Support for custom artifact paths 
+* Support for custom artifact paths
   * New `undefined_syms_auto_path` option
   * New `undefined_funcs_auto_path` option
   * New `cache_path` option
