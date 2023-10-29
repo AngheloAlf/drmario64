@@ -6,7 +6,7 @@
 [subrepo]
 	remote = git@github.com:leeoniya/uPlot.git
 	branch = master
-	commit = 1697833479862f8ae0a446b880fa39237a793fc9
-	parent = 3a084aaa92211002464d69e0b3c0041c9854c4e7
+	commit = 6221297595add587a2a877ea297eb0c5107d9928
+	parent = 2066a94f1a1fe0573a448c9fa733f1c63f48d0a1
 	method = merge
 	cmdver = 0.4.3

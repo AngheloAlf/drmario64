@@ -1,4 +1,4 @@
-import { abs, floor, min, max, inf, ifNull, EMPTY_OBJ, fnOrSelf } from '../utils';
+import { abs, floor, min, max, inf, ifNull, EMPTY_OBJ, fnOrSelf, clamp, retArg0 } from '../utils';
 import { orient, rectV, rectH, BAND_CLIP_FILL, BAND_CLIP_STROKE, bandFillClipDirs } from './utils';
 import { pxRatio } from '../dom';
 
@@ -87,6 +87,8 @@ export function bars(opts) {
 
 			let { x0, size } = disp;
 
+			let bandClipNulls = true;
+
 			if (x0 != null && size != null) {
 				dataX = x0.values(u, seriesIdx, idx0, idx1);
 
@@ -101,7 +103,14 @@ export function bars(opts) {
 				else
 					barWid = valToPosX(sizes[0], scaleX, xDim, xOff) - valToPosX(0, scaleX, xDim, xOff); // assumes linear scale (delta from 0)
 
-				barWid = pxRound(barWid - strokeWidth);
+				if (strokeWidth >= barWid / 2)
+					strokeWidth = 0;
+
+				// for small gaps, disable pixel snapping since gap inconsistencies become noticible and annoying
+			//	if (gapWid + extraGap < 5)
+			//		pxRound = retArg0;
+
+				barWid = pxRound(clamp(barWid - strokeWidth, minWidth, maxWidth)); // TODO: extraGap?
 
 				xShift = (_dirX == 1 ? -strokeWidth / 2 : barWid + strokeWidth / 2);
 			}
@@ -132,9 +141,24 @@ export function bars(opts) {
 
 				let gapWid = colWid * gapFactor;
 
-				barWid = pxRound(min(maxWidth, max(minWidth, colWid - gapWid)) - strokeWidth - extraGap);
+				barWid = colWid - gapWid - extraGap;
+
+				if (strokeWidth >= barWid / 2)
+					strokeWidth = 0;
+
+				// for small gaps, disable pixel snapping since gap inconsistencies become noticible and annoying
+				if (gapWid + extraGap < 5)
+					pxRound = retArg0;
+
+				barWid = pxRound(clamp(colWid - gapWid, minWidth, maxWidth) - strokeWidth - extraGap);
 
 				xShift = (align == 0 ? barWid / 2 : align == _dirX ? 0 : barWid) - align * _dirX * extraGap / 2;
+
+				// when colWidth is smaller than [min-clamped] bar width (e.g. aligned data values are non-uniform)
+				// disable clipping of null-valued band bars to avoid clip overlap / bleed into adjacent bars
+				// (this could still bleed clips of adjacent band/stacked bars into each other, so is far from perfect)
+				if (barWid + strokeWidth > colWid)
+					bandClipNulls = false;
 			}
 
 			const _paths = {stroke: null, fill: null, clip: null, band: null, gaps: null, flags: BAND_CLIP_FILL | BAND_CLIP_STROKE};  // disp, geom
@@ -215,7 +239,7 @@ export function bars(opts) {
 					);
 				}
 
-				if (bandClipDir != 0) {
+				if (bandClipDir != 0 && (yVal != null || bandClipNulls)) {
 					if (_dirY * bandClipDir == 1) {
 						btm = top;
 						top = yLimit;
@@ -233,6 +257,10 @@ export function bars(opts) {
 
 			if (strokeWidth > 0)
 				_paths.stroke = multiPath ? strokePaths : stroke;
+			else if (!multiPath) {
+				_paths._fill = series.width == 0 ? series._fill : series._stroke ?? series._fill;
+				_paths.width = 0;
+			}
 
 			_paths.fill = multiPath ? fillPaths : stroke;
 

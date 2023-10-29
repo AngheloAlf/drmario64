@@ -24,6 +24,9 @@ declare class uPlot {
 	/** coords of plotting area in canvas pixels (relative to full canvas w/axes) */
 	readonly bbox: uPlot.BBox;
 
+	/** cached global DOMRect of plotting area in CSS pixels */
+	get rect(): DOMRect;
+
 	/** coords of selected region in CSS pixels (relative to plotting area) */
 	readonly select: uPlot.BBox;
 
@@ -274,7 +277,7 @@ declare namespace uPlot {
 		show?: boolean;	// true
 		/** show series values at current cursor.idx */
 		live?: boolean;	// true
-		/** swiches primary interaction mode to toggle-one/toggle-all */
+		/** switches primary interaction mode to toggle-one/toggle-all */
 		isolate?: boolean; // false
 		/** series indicators */
 		markers?: Legend.Markers;
@@ -492,7 +495,9 @@ declare namespace uPlot {
 
 			export type ScaleKeyMatcher = (subScaleKey: string | null, pubScaleKey: string | null) => boolean;
 
-			export type Match = [matchX: ScaleKeyMatcher, matchY: ScaleKeyMatcher];
+			export type SeriesIdxMatcher = (sub: uPlot, pub: uPlot, pubSeriesIdx: number) => number | null;
+
+			export type Match = [matchX: ScaleKeyMatcher, matchY: ScaleKeyMatcher, matchSeriesIdx?: SeriesIdxMatcher];
 
 			export type Values = [xScaleValue: number, yScaleValue: number];
 		}
@@ -504,7 +509,7 @@ declare namespace uPlot {
 			setSeries?: boolean; // true
 			/** sets the x and y scales to sync by values. null will sync by relative (%) position */
 			scales?: Sync.Scales; // [xScaleKey, null]
-			/** fns that match x and y scale keys between publisher and subscriber */
+			/** fns that match x and y scale keys and seriesIdxs between publisher and subscriber */
 			match?: Sync.Match;
 			/** event filters */
 			filters?: Sync.Filters;
@@ -571,6 +576,9 @@ declare namespace uPlot {
 
 		/** lock cursor on mouse click in plotting area */
 		lock?: boolean; // false
+
+		/** the most recent mouse event */
+		event?: MouseEvent;
 	}
 
 	export namespace Scale {
@@ -647,6 +655,15 @@ declare namespace uPlot {
 
 			/** tuples of canvas pixel coordinates that were used to construct the gaps clip */
 			gaps?: [from: number, to: number][];
+
+			/** line width in CSS pixels, if differs from series.width (for dynamic rendering optimization) */
+			width?: number;
+
+			/** fill style, if differs from series.fill (for dynamic rendering optimization) */
+			_fill?: CanvasRenderingContext2D['fillStyle'];
+
+			/** stroke style, if differs from series.stroke (for dynamic rendering optimization) */
+			_stroke?: CanvasRenderingContext2D['strokeStyle'];
 
 			/** bitmap of whether the band clip should be applied to stroke, fill, or both */
 			flags?: number;
