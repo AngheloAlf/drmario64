@@ -522,9 +522,9 @@ segments:
       - [0x0B13C0, rodata, main_segment/072880]
       - [0x0B1440, rodata, main_segment/075D50]
 
-      - [0x0B1450, rodatabin, rsp/aspMain]
-      - [0x0B1710, rodatabin, rsp/f3dex2]
-      - [0x0B1B30, rodatabin, rsp/s2dex]
+      - { start: 0x0B1450, type: databin, name: rsp/aspMain, linker_section_order: .rodata }
+      - { start: 0x0B1710, type: databin, name: rsp/f3dex2,  linker_section_order: .rodata }
+      - { start: 0x0B1B30, type: databin, name: rsp/s2dex,   linker_section_order: .rodata }
 
       - { start: 0x0B1EF0, type: bss, vram: 0x800CA1C0, name: main_segment/800CA1C0 }
       - { type: bss, vram: 0x800FC040, name: main_segment/game_etc }
