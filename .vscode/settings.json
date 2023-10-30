@@ -13,5 +13,6 @@
         "*.txt": "plaintext",
         "*.inc": "n64asm",
         "typeinfo": "c"
-    }
+    },
+    "python.terminal.activateEnvironment": true
 }

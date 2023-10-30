@@ -12,6 +12,10 @@ Matching decomp of Dr. Mario 64
 
 ## Dependencies
 
+All the instructions assume the user is using a Debian/Ubuntu based Linux
+distro. If you are a Windows user then it is recommended to use WSL2 with
+Ubuntu.
+
 ### System packages
 
 The build process has the following package requirements:
@@ -24,18 +28,34 @@ The build process has the following package requirements:
 * gcc-mips-linux-gnu
 * python3
 * pip3
+* venv
 * Rust
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
 ```bash
 sudo apt update
-sudo apt install make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip
+sudo apt install make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip python3-venv
 ```
 
 ### Python dependencies
 
-To install the dependencies Python dependencies run:
+First you'll need to create a virtual environment for the python packages:
+
+```bash
+python3 -m venv .venv
+```
+
+To start using the virtual environment on your current terminal run:
+
+```bash
+source .venv/bin/activate
+```
+
+Take in mind for each new terminal you'll need to **active** the Python virtual
+environment again, there's no need to create the virtual environment again.
+
+Now you can install the Python dependencies, to do so run:
 
 ```bash
 python3 -m pip install -U -r requirements.txt

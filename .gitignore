@@ -12,6 +12,8 @@ drmario64.d
 linker_scripts/*/partial/
 
 __pycache__/
+.venv/
+
 .make_options
 
 ctx.c
