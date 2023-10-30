@@ -33,6 +33,7 @@
                 "VERSION_US=1",
                 "VERSION_CN=1",
                 "VERSION_GW=1",
+                "BUILD_VERSION=8",
                 "CC_CHECK=1"
             ],
             "browse": {

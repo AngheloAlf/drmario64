@@ -1,5 +1,5 @@
-#ifndef VERSION_H
-#define VERSION_H
+#ifndef VERSION_HEADER_H
+#define VERSION_HEADER_H
 
 /**
  * Macros for checking specific compiler

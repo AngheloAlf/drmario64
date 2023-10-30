@@ -42,14 +42,8 @@ RomHeader gRomHeader = {
     0x0000,
     // revision
     20,
-// libultraVersion
-#if VERSION_US || VERSION_GW
-    'K',
-#elif VERSION_CN
-    'L',
-#else
-    '\0',
-#endif
+    // libultraVersion
+    BUILD_VERSION + 'D' - 1,
 
     // checksum1
     (u32)&ROMHEADER_CHECKSUM1,

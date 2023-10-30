@@ -157,6 +157,8 @@ OPTFLAGS        := -O2
 MIPS_VERSION    := -mips3
 ICONV_FLAGS     := --from-code=UTF-8 --to-code=Shift-JIS
 CHAR_SIGN       := -funsigned-char
+# libultra 2.0K
+LIBULTRA_VERSION:= 8
 endif
 ifeq ($(VERSION),cn)
 CFLAGS          += -mcpu=4300
@@ -164,7 +166,11 @@ OPTFLAGS        := -O2 -ggdb
 MIPS_VERSION    := -mips2
 ICONV_FLAGS     := --from-code=UTF-8 --to-code=EUC-CN
 CHAR_SIGN       := -fsigned-char
+# libultra 2.0L
+LIBULTRA_VERSION:= 9
 endif
+
+BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
 
 # Variable to simplify C compiler invocation
 C_COMPILER_FLAGS = $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS)
@@ -362,7 +368,7 @@ endif
 
 $(BUILD_DIR)/lib/%.o:
 ifneq ($(PERMUTER), 1)
-	$(error Library files has not been built, please run `$(MAKE) lib` first)
+	$(error Library files has not been built, please run `$(MAKE) lib VERSION=$(VERSION)` first)
 endif
 
 $(BUILD_DIR)/segments/$(VERSION)/%.o: linker_scripts/$(VERSION)/partial/%.ld

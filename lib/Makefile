@@ -47,6 +47,17 @@ RELEASE_DEFINES := -DNDEBUG -D_FINALROM
 AS_DEFINES      := -D_LANGUAGE_ASSEMBLY -DMIPSEB -D_ULTRA64 -D_MIPS_SIM=1
 C_DEFINES       := -D_LANGUAGE_C
 
+ifeq ($(VERSION),$(filter $(VERSION), us gw))
+# libultra 2.0K
+LIBULTRA_VERSION:= 8
+endif
+ifeq ($(VERSION),cn)
+# libultra 2.0L
+LIBULTRA_VERSION:= 9
+endif
+
+BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
+
 #### Files ####
 
 SRC_DIRS      := $(shell find ultralib/src -type d -not -path "ultralib/src/voice")
@@ -84,9 +95,7 @@ distclean: clean
 .SECONDARY:
 
 $(BUILD_DIR)/%.o: %.s
-	$(CC) -c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) -x assembler-with-cpp -o $@ $<
-	$(STRIP) $@ -N dummy-symbol-name
+	$(CC) -c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) -x assembler-with-cpp -o $@ $<
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC) -c $(CFLAGS) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -o $@ $<
-	$(STRIP) $@ -N dummy-symbol-name
+	$(CC) -c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -o $@ $<
