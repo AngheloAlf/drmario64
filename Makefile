@@ -75,7 +75,8 @@ endif
 
 MAKE = make
 CPPFLAGS += -fno-dollars-in-identifiers -P
-LDFLAGS  := --no-check-sections --accept-unknown-input-arch --emit-relocs
+# LDFLAGS  := --no-check-sections --accept-unknown-input-arch --emit-relocs
+LDFLAGS  := --no-check-sections --emit-relocs
 
 UNAME_S := $(shell uname -s)
 ifeq ($(OS),Windows_NT)
@@ -102,7 +103,8 @@ endif
 CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
 
 AS              := $(MIPS_BINUTILS_PREFIX)as
-LD              := $(MIPS_BINUTILS_PREFIX)ld
+# LD              := $(MIPS_BINUTILS_PREFIX)ld
+LD              := ld.lld
 OBJCOPY         := $(MIPS_BINUTILS_PREFIX)objcopy
 OBJDUMP         := $(MIPS_BINUTILS_PREFIX)objdump
 GCC             := $(MIPS_BINUTILS_PREFIX)gcc
@@ -143,7 +145,7 @@ endif
 CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -fno-common
 
 WARNINGS        := -w
-ASFLAGS         := -march=vr4300 -32 -G0
+ASFLAGS         := -march=vr4300 -32 -G0 -no-pad-sections
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
 GBI_DEFINES     := -DF3DEX_GBI_2
 RELEASE_DEFINES := -DNDEBUG -D_FINALROM
@@ -327,10 +329,10 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@ $(VERSION)
 
-$(ELF): $(PNG_INC_FILES) $(O_FILES) $(LIBULTRA_O) $(SEGMENTS_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld $(BUILD_DIR)/linker_scripts/common_undef_syms.ld
+$(ELF): | $(PNG_INC_FILES) $(O_FILES) $(LIBULTRA_O) $(SEGMENTS_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld $(BUILD_DIR)/linker_scripts/common_undef_syms.ld
 	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
 		-T $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld -T $(BUILD_DIR)/linker_scripts/common_undef_syms.ld \
-		-Map $(LD_MAP) -o $@
+		-Map $(LD_MAP) -o $@ $^
 
 ## Order-only prerequisites
 # These ensure e.g. the PNG_INC_FILES are built before the O_FILES.
@@ -363,6 +365,7 @@ else
 	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) $(COMP_VERBOSE_FLAG) -S -o $(@:.o=.s) $(@:.o=.i)
 	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $(@:.o=.s)
 endif
+	tools/set_o32abi_bit.py $@
 	$(OBJDUMP_CMD)
 	$(RM_MDEBUG)
 

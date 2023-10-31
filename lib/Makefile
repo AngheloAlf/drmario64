@@ -96,6 +96,8 @@ distclean: clean
 
 $(BUILD_DIR)/%.o: %.s
 	$(CC) -c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) -x assembler-with-cpp -o $@ $<
+	../tools/set_o32abi_bit.py $@
 
 $(BUILD_DIR)/%.o: %.c
 	$(CC) -c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -o $@ $<
+	../tools/set_o32abi_bit.py $@
