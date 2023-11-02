@@ -16,3 +16,5 @@ gBootThreadStackTop_HI = gBootThreadStackTop >> 16;
 gBootThreadStackTop_LO = gBootThreadStackTop & 0xFFFF;
 
 ASSERT ((boot_ROM_END <= 0x101000), "Error: boot_ROM_END is larger than 1 MB");
+
+ENTRY(entrypoint);

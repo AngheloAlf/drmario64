@@ -23,6 +23,70 @@ options:
     - relocs/reloc_addrs.gw.txt
 
   auto_all_sections: [".text", ".data", ".rodata", ".bss"]
+
+  ld_discard_section: True
+  ld_sections_allowlist:
+    # Basic sections.
+    # lld complains if .shstrtab is not explictly mentioned on the linker script when using a wildcard discard, so here we are
+    - .strtab
+    - .symtab
+    - .shstrtab
+    # mips debug sections
+    - .pdr
+    - .mdebug
+    - .mdebug.abi32
+    # DWARF debug sections
+    # Symbols in the DWARF debugging sections are relative to the beginning of the section so we begin them at 0.
+    # DWARF 1
+    - .debug
+    - .line
+    # GNU DWARF 1 extensions
+    - .debug_srcinfo
+    - .debug_sfnames
+    # DWARF 1.1 and DWARF 2
+    - .debug_aranges
+    - .debug_pubnames
+    # DWARF 2
+    - .debug_info
+    # - .gnu.linkonce.wi.*
+    - .debug_abbrev
+    - .debug_line
+    # - .debug_line.*
+    - .debug_line_end
+    - .debug_frame
+    - .debug_str
+    - .debug_loc
+    - .debug_macinfo
+    # SGI/MIPS DWARF 2 extensions
+    - .debug_weaknames
+    - .debug_funcnames
+    - .debug_typenames
+    - .debug_varnames
+    # DWARF 3
+    - .debug_pubtypes
+    - .debug_ranges
+    # DWARF 5
+    - .debug_addr
+    - .debug_line_str
+    - .debug_loclists
+    - .debug_macro
+    - .debug_names
+    - .debug_rnglists
+    - .debug_str_offsets
+    - .debug_sup
+    # gnu attributes
+    - .gnu.attributes
+    # misc
+    - .note
+    - .comment
+  ld_sections_denylist:
+    - .reginfo
+    - .MIPS.abiflags
+    - .MIPS.options
+    - .note.gnu.build-id
+    - .interp
+    - .eh_frame
+
   ld_dependencies: True
   ld_partial_linking: False
   ld_partial_scripts_path: linker_scripts/gw/partial
