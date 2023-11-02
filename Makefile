@@ -16,8 +16,6 @@ COMPARE ?= 1
 NON_MATCHING ?= 0
 # if WERROR is 1, pass -Werror to CC_CHECK, so warnings would be treated as errors
 WERROR ?= 0
-# Keep .mdebug section in build
-KEEP_MDEBUG ?= 0
 # Check code syntax with host compiler
 RUN_CC_CHECK ?= 1
 CC_CHECK_COMP ?= clang
@@ -206,17 +204,10 @@ LIBMUS_DIRS   := $(shell find lib/libmus/src -type d)
 
 C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS) $(SRC_DIRS),$(wildcard $(dir)/*.s))
-BIN_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.bin))
 PNG_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.png))
 
 O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
-                 $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f) \
-                 $(foreach f,$(BIN_FILES:.bin=.o),$(BUILD_DIR)/$f)
-
-LIBULTRA_C    := $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.c))
-LIBULTRA_S    := $(foreach dir,$(LIBULTRA_DIRS),$(wildcard $(dir)/*.s))
-LIBULTRA_O    := $(foreach f,$(LIBULTRA_C:.c=.o),$(BUILD_DIR)/$f) \
-                 $(foreach f,$(LIBULTRA_S:.s=.o),$(BUILD_DIR)/$f)
+                 $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f)
 
 PNG_INC_FILES := $(foreach f,$(PNG_FILES:.png=.inc),$(BUILD_DIR)/$f)
 
@@ -238,7 +229,8 @@ ifneq ($(DEP_INCLUDE), 0)
 endif
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/linker_scripts/$(VERSION)/auto $(BUILD_DIR)/segments/$(VERSION) $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
+$(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/linker_scripts/$(VERSION)/auto $(BUILD_DIR)/segments/$(VERSION))
+$(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
 $(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
@@ -327,7 +319,7 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@ $(VERSION)
 
-$(ELF): $(PNG_INC_FILES) $(O_FILES) $(LIBULTRA_O) $(SEGMENTS_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld $(BUILD_DIR)/linker_scripts/common_undef_syms.ld
+$(ELF): $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld $(BUILD_DIR)/linker_scripts/common_undef_syms.ld
 	$(LD) $(ENDIAN) $(LDFLAGS) -T $(LD_SCRIPT) \
 		-T $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld -T $(BUILD_DIR)/linker_scripts/common_undef_syms.ld \
 		-Map $(LD_MAP) -o $@
@@ -361,7 +353,6 @@ else
 	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $(@:.o=.s)
 endif
 	$(OBJDUMP_CMD)
-	$(RM_MDEBUG)
 
 $(BUILD_DIR)/lib/%.o:
 ifneq ($(PERMUTER), 1)
