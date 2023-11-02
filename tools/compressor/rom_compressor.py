@@ -51,7 +51,6 @@ def romCompressorMain():
     parser.add_argument("segments", help="path to segments file")
     parser.add_argument("version", help="version to process")
     parser.add_argument("-d", "--debug", help="Enable debug prints", action="store_true")
-    parser.add_argument("-c", "--checksum", help="Force always updating the checksum header", action="store_true")
 
     args = parser.parse_args()
 
@@ -59,13 +58,13 @@ def romCompressorMain():
     outPath = Path(args.out_rom)
     elfPath = Path(args.elf)
     segmentsPath = Path(args.segments)
-    forceChecksum: bool = args.checksum
 
     global DEBUGGING
     DEBUGGING = args.debug
 
     if not DEBUGGING:
         spimdisasm.common.GlobalConfig.VERBOSE = False
+        spimdisasm.common.GlobalConfig.QUIET = True
 
     segmentDict = compression_common.readSegmentsCsv(segmentsPath, args.version)
 

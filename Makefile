@@ -178,10 +178,8 @@ OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32 -Mno-
 
 ifneq ($(OBJDUMP_BUILD), 0)
 	OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
-	OBJCOPY_BIN = $(OBJCOPY) -O binary $@ $@.bin
 else
 	OBJDUMP_CMD = @:
-	OBJCOPY_BIN = @:
 endif
 
 ifneq ($(COMPILER_VERBOSE), 0)
