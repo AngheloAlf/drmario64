@@ -75,7 +75,7 @@ endif
 
 MAKE = make
 CPPFLAGS += -fno-dollars-in-identifiers -P
-LDFLAGS  := --no-check-sections --accept-unknown-input-arch --emit-relocs
+LDFLAGS  := --no-check-sections --emit-relocs
 
 UNAME_S := $(shell uname -s)
 ifeq ($(OS),Windows_NT)
@@ -143,7 +143,7 @@ endif
 CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -fno-common
 
 WARNINGS        := -w
-ASFLAGS         := -march=vr4300 -32 -G0
+ASFLAGS         := -march=vr4300 -mabi=32 -G0 -no-pad-sections
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
 GBI_DEFINES     := -DF3DEX_GBI_2
 RELEASE_DEFINES := -DNDEBUG -D_FINALROM
@@ -290,7 +290,7 @@ extract:
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
 lib:
-	$(MAKE) -C lib
+	$(MAKE) -C lib VERSION=$(VERSION)
 
 diff-init: all
 	$(RM) -rf expected/
@@ -328,7 +328,7 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@ $(VERSION)
 
 $(ELF): $(PNG_INC_FILES) $(O_FILES) $(LIBULTRA_O) $(SEGMENTS_O) $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld $(BUILD_DIR)/linker_scripts/common_undef_syms.ld
-	$(LD) $(LDFLAGS) -T $(LD_SCRIPT) \
+	$(LD) $(ENDIAN) $(LDFLAGS) -T $(LD_SCRIPT) \
 		-T $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware_regs.ld -T $(BUILD_DIR)/linker_scripts/$(VERSION)/undefined_syms.ld -T $(BUILD_DIR)/linker_scripts/common_undef_syms.ld \
 		-Map $(LD_MAP) -o $@
 
@@ -346,9 +346,6 @@ $(SEGMENTS_O): | o_files
 
 $(BUILD_DIR)/%.ld: %.ld
 	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
-
-$(BUILD_DIR)/%.o: %.bin
-	$(OBJCOPY) -I binary -O elf32-big $< $@
 
 $(BUILD_DIR)/%.o: %.s
 	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(COMP_VERBOSE_FLAG) $< | $(ICONV) $(ICONV_FLAGS) | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) $(COMP_VERBOSE_FLAG) -o $@
