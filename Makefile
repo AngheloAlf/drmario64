@@ -313,11 +313,11 @@ tidy:
 
 $(ROM): $(ELF)
 	$(OBJCOPY) -O binary $< $(@:.z64=.bin)
-	$(CHECKSUMMER) $(@:.z64=.bin) $@ $(VERSION)
+	$(CHECKSUMMER) $(@:.z64=.bin) $@
 
 $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
-	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@ $(VERSION)
+	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
 
 $(ELF): $(LINKER_SCRIPTS)
 	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ $(filter %.o, $^)
