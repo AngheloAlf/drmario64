@@ -364,7 +364,7 @@ typedef struct struct_game_state_data {
 typedef struct struct_gameBackup {
     /* 0x0000 */ struct_watchGame unk_0000;
     /* 0x0B60 */ struct_game_state_data unk_0B60[4];
-    /* 0x1A70 */ GameMapGrid unk_1A70[4];
+    /* 0x1A70 */ GameMapCell unk_1A70[4][GAME_MAP_ROWS * GAME_MAP_COLUMNS];
     /* 0x2FB0 */ s32 highScore;
     /* 0x2FB4 */ s32 gameTime;
 } struct_gameBackup; // size = 0x2FB8

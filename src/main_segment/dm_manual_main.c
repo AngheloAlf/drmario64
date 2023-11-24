@@ -935,7 +935,6 @@ const char mes_4_10[] = MSG_COLOR(WHITE)
 #if VERSION_US
 void dm_manual_attack_capsel_down(void) {
     struct_watchManual *watchManualP = watchManual;
-    GameMapGrid *mapGrid = game_map_data;
     bool playSound = false;
     s32 i;
 
@@ -951,9 +950,9 @@ void dm_manual_attack_capsel_down(void) {
                     continue;
                 }
 
-                if (get_map_info(&mapGrid[i], watchManualP->unk_0E8[i][j].unk_0,
+                if (get_map_info(game_map_data[i], watchManualP->unk_0E8[i][j].unk_0,
                                  watchManualP->unk_0E8[i][j].unk_1 + 1)) {
-                    set_map(&mapGrid[i], watchManualP->unk_0E8[i][j].unk_0, watchManualP->unk_0E8[i][j].unk_1, 4,
+                    set_map(game_map_data[i], watchManualP->unk_0E8[i][j].unk_0, watchManualP->unk_0E8[i][j].unk_1, 4,
                             watchManualP->unk_0E8[i][j].unk_2);
                     watchManualP->unk_0E8[i][j].unk_3[0] = 0;
                 } else {
@@ -964,7 +963,7 @@ void dm_manual_attack_capsel_down(void) {
                     }
 
                     if (watchManualP->unk_0E8[i][j].unk_1 == 0x10) {
-                        set_map(&mapGrid[i], watchManualP->unk_0E8[i][j].unk_0, 0x10, 4,
+                        set_map(game_map_data[i], watchManualP->unk_0E8[i][j].unk_0, 0x10, 4,
                                 watchManualP->unk_0E8[i][j].unk_2);
                         watchManualP->unk_0E8[i][j].unk_3[0] = 0;
                     }
@@ -984,9 +983,9 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_attack_
 #endif
 
 #if VERSION_US || VERSION_CN
-void func_800723EC(struct_game_state_data *gameStateDataP, GameMapGrid *mapGrid, s32 arg2 UNUSED) {
+void func_800723EC(struct_game_state_data *gameStateDataP, GameMapCell *mapCells, s32 arg2 UNUSED) {
     if ((gameStateDataP->unk_014 != 1) && (gameStateDataP->unk_014 != 0xD)) {
-        dm_black_up(gameStateDataP, mapGrid);
+        dm_black_up(gameStateDataP, mapCells);
     }
 }
 #endif
@@ -1005,7 +1004,7 @@ void dm_manual_update_virus_anime(struct_game_state_data *arg0) {
 #endif
 
 #if VERSION_US || VERSION_CN
-s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapGrid *mapGrid, u8 arg2, s32 arg3 UNUSED) {
+s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCells, u8 arg2, s32 arg3 UNUSED) {
     struct_watchManual *temp_s3 = watchManual;
     s32 i;
     s32 var_s0_3;
@@ -1016,17 +1015,17 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapGrid *mapGr
             return 3;
 
         case 0x4:
-            dm_capsel_down(gameStateData, mapGrid);
+            dm_capsel_down(gameStateData, mapCells);
             break;
 
         case 0x5:
-            if (dm_check_game_over(gameStateData, mapGrid)) {
+            if (dm_check_game_over(gameStateData, mapCells)) {
                 gameStateData->unk_014 = 4;
                 gameStateData->unk_00C = 0xB;
                 return -1;
             }
 
-            if (dm_h_erase_chack(mapGrid) || dm_w_erase_chack(mapGrid)) {
+            if (dm_h_erase_chack(mapCells) || dm_w_erase_chack(mapCells)) {
                 if (gameStateData->unk_049 == 0) {
                     gameStateData->unk_00C = 6;
                 } else {
@@ -1045,12 +1044,12 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapGrid *mapGr
             if (gameStateData->unk_02F >= 0x12U) {
                 gameStateData->unk_02F = 0;
                 gameStateData->unk_00C = 7;
-                dm_h_erase_chack_set(gameStateData, mapGrid);
-                dm_w_erase_chack_set(gameStateData, mapGrid);
-                dm_h_ball_chack(mapGrid);
-                dm_w_ball_chack(mapGrid);
+                dm_h_erase_chack_set(gameStateData, mapCells);
+                dm_w_erase_chack_set(gameStateData, mapCells);
+                dm_h_ball_chack(mapCells);
+                dm_w_ball_chack(mapCells);
                 gameStateData->unk_025 =
-                    get_virus_color_count(mapGrid, &temp_s3->unk_148[0], &temp_s3->unk_148[1], &temp_s3->unk_148[2]);
+                    get_virus_color_count(mapCells, &temp_s3->unk_148[0], &temp_s3->unk_148[1], &temp_s3->unk_148[2]);
 
                 switch (evs_manual_no) {
                     case EVS_MANUAL_NO_0:
@@ -1101,16 +1100,16 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapGrid *mapGr
             break;
 
         case 0x7:
-            dm_capsel_erase_anime(gameStateData, mapGrid);
+            dm_capsel_erase_anime(gameStateData, mapCells);
             break;
 
         case 0x8:
-            go_down(gameStateData, mapGrid, 0xE);
+            go_down(gameStateData, mapCells, 0xE);
             break;
 
         case 0x9:
             dm_attack_se(gameStateData, arg2);
-            dm_warning_h_line(gameStateData, mapGrid);
+            dm_warning_h_line(gameStateData, mapCells);
             aifMakeFlagSet(gameStateData);
             dm_set_capsel(gameStateData);
             dm_capsel_speed_up(gameStateData);
@@ -1149,10 +1148,10 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapGrid *mapGr
             if (gameStateData->unk_02F >= 0x12U) {
                 gameStateData->unk_02F = 0;
                 gameStateData->unk_00C = 7;
-                dm_h_erase_chack_set(gameStateData, mapGrid);
-                dm_w_erase_chack_set(gameStateData, mapGrid);
-                dm_h_ball_chack(mapGrid);
-                dm_w_ball_chack(mapGrid);
+                dm_h_erase_chack_set(gameStateData, mapCells);
+                dm_w_erase_chack_set(gameStateData, mapCells);
+                dm_h_ball_chack(mapCells);
+                dm_w_ball_chack(mapCells);
 
                 gameStateData->unk_039 += 1;
                 if (gameStateData->unk_03C[3] & 8) {
@@ -1165,11 +1164,11 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapGrid *mapGr
 
         case 0x16:
             dm_attack_se(gameStateData, arg2);
-            dm_warning_h_line(gameStateData, mapGrid);
+            dm_warning_h_line(gameStateData, mapCells);
 
             var_s0_3 = true;
             // reading i non initialized
-            if ((game_state_data[i].unk_04A != 0) && dm_broken_set(gameStateData, mapGrid)) {
+            if ((game_state_data[i].unk_04A != 0) && dm_broken_set(gameStateData, mapCells)) {
                 gameStateData->unk_00C = 8;
                 var_s0_3 = false;
             }
@@ -1199,7 +1198,7 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapGrid *mapGr
 #if VERSION_US
 #ifdef NON_MATCHING
 // regalloc
-void dm_manual_make_key(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
+void dm_manual_make_key(struct_game_state_data *arg0, GameMapCell *mapCells) {
     struct_watchManual *temp_s3 = watchManual;
     struct_game_state_data_unk_178 *temp_s4;
     u16 temp_s2;
@@ -1211,18 +1210,18 @@ void dm_manual_make_key(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
     temp_s4 = &arg0->unk_178;
 
     if (temp_s2 & 0x4000) {
-        rotate_capsel(mapGrid, temp_s4, -1);
+        rotate_capsel(mapCells, temp_s4, -1);
         temp_s3->unk_01C[3] = 8;
     } else if (temp_s2 & 0x8000) {
-        rotate_capsel(mapGrid, temp_s4, 1);
+        rotate_capsel(mapCells, temp_s4, 1);
         temp_s3->unk_01C[2] = 8;
     }
 
     if (temp_s2 & 0x200) {
-        translate_capsel(mapGrid, arg0, -1, main_joy[arg0->unk_04B]);
+        translate_capsel(mapCells, arg0, -1, main_joy[arg0->unk_04B]);
         temp_s3->unk_01C[0] = 8;
     } else if (temp_s2 & 0x100) {
-        translate_capsel(mapGrid, arg0, 1, main_joy[arg0->unk_04B]);
+        translate_capsel(mapCells, arg0, 1, main_joy[arg0->unk_04B]);
         temp_s3->unk_01C[1] = 8;
     }
 
@@ -1247,7 +1246,7 @@ bool dm_manual_1_main(void) {
     struct_watchManual *temp_s1 = watchManual;
     struct_game_state_data *gameStateDataP = game_state_data;
     bool var_s6 = true;
-    GameMapGrid *mapGrid = game_map_data;
+    GameMapCell *mapCells = game_map_data[0];
     s32 var_s5;
     u32 temp_s0_4;
     s32 var_s0;
@@ -1263,12 +1262,12 @@ bool dm_manual_1_main(void) {
     }
 
     if (temp_s1->unk_16C != 0) {
-        var_s5 = dm_manual_main_cnt(gameStateDataP, mapGrid, 0, 0);
-        dm_manual_make_key(gameStateDataP, mapGrid);
+        var_s5 = dm_manual_main_cnt(gameStateDataP, game_map_data[0], 0, 0);
+        dm_manual_make_key(gameStateDataP, game_map_data[0]);
     }
 
-    func_800723EC(gameStateDataP, mapGrid, 0);
-    dm_virus_anime(gameStateDataP, mapGrid);
+    func_800723EC(gameStateDataP, game_map_data[0], 0);
+    dm_virus_anime(gameStateDataP, game_map_data[0]);
     dm_manual_update_virus_anime(gameStateDataP);
     dm_warning_h_line_se();
 
@@ -1290,7 +1289,7 @@ bool dm_manual_1_main(void) {
             break;
 
         case 0x1:
-            set_virus(mapGrid, virus_1_1[gameStateDataP->unk_025][1], virus_1_1[gameStateDataP->unk_025][2],
+            set_virus(mapCells, virus_1_1[gameStateDataP->unk_025][1], virus_1_1[gameStateDataP->unk_025][2],
                       virus_1_1[gameStateDataP->unk_025][0],
                       virus_anime_table[virus_1_1[gameStateDataP->unk_025][0]][gameStateDataP->unk_027]);
 
@@ -1341,28 +1340,28 @@ bool dm_manual_1_main(void) {
             switch (unk_178->unk_2[0]) {
                 case 0x4:
                     if (unk_178->unk_2[0] == unk_178->unk_2[1]) {
-                        rotate_capsel(mapGrid, unk_178, -1);
+                        rotate_capsel(mapCells, unk_178, -1);
                         temp_s1->unk_01C[3] = 8;
                     }
                     break;
 
                 case 0x6:
                     if (unk_178->unk_2[0] != unk_178->unk_2[1]) {
-                        rotate_capsel(mapGrid, unk_178, -1);
+                        rotate_capsel(mapCells, unk_178, -1);
                         temp_s1->unk_01C[3] = 8;
                     }
                     break;
 
                 case 0x8:
                     if (unk_178->unk_2[0] == unk_178->unk_2[1]) {
-                        rotate_capsel(mapGrid, unk_178, 1);
+                        rotate_capsel(mapCells, unk_178, 1);
                         temp_s1->unk_01C[2] = 8;
                     }
                     break;
 
                 case 0xA:
                     if (unk_178->unk_2[0] != unk_178->unk_2[1]) {
-                        rotate_capsel(mapGrid, unk_178, 1);
+                        rotate_capsel(mapCells, unk_178, 1);
                         temp_s1->unk_01C[2] = 8;
                     }
                     break;
@@ -1433,7 +1432,7 @@ bool dm_manual_1_main(void) {
 
         case 0x3F:
             if (var_s5 == 1) {
-                clear_map_all(mapGrid);
+                clear_map_all(mapCells);
                 temp_s1->unk_164 += 1;
                 gameStateDataP->unk_026 = 0xF;
                 _dm_virus_init(0, gameStateDataP, &virus_map_data[0], virus_map_disp_order, var_s5);
@@ -1460,7 +1459,7 @@ bool dm_manual_1_main(void) {
         {
             s32 index = virus_map_disp_order->unk_00[gameStateDataP->unk_025];
 
-            set_virus(mapGrid, virus_map_data[0].unk_000[index].unk_1, virus_map_data[0].unk_000[index].unk_2,
+            set_virus(mapCells, virus_map_data[0].unk_000[index].unk_1, virus_map_data[0].unk_000[index].unk_2,
                       virus_map_data[0].unk_000[index].unk_0,
                       virus_anime_table[virus_map_data[0].unk_000[index].unk_0][gameStateDataP->unk_027]);
         }
@@ -1539,7 +1538,7 @@ bool dm_manual_1_main(void) {
     bool var_s6 = true;
     s32 var_s5;
     s32 var_s1;
-    GameMapGrid *mapGrid = game_map_data;
+    GameMapCell *mapCells = game_map_data[0];
     struct_game_state_data *gameStateDataP = game_state_data;
     struct_game_state_data_unk_178 *unk_178 = &gameStateDataP->unk_178;
 
@@ -1550,12 +1549,12 @@ bool dm_manual_1_main(void) {
     }
 
     if (temp_s2->unk_16C != 0) {
-        var_s5 = dm_manual_main_cnt(gameStateDataP, mapGrid, 0, 0);
-        dm_manual_make_key(gameStateDataP, mapGrid);
+        var_s5 = dm_manual_main_cnt(gameStateDataP, mapCells, 0, 0);
+        dm_manual_make_key(gameStateDataP, mapCells);
     }
 
-    func_800723EC(gameStateDataP, mapGrid, 0);
-    dm_virus_anime(gameStateDataP, mapGrid);
+    func_800723EC(gameStateDataP, mapCells, 0);
+    dm_virus_anime(gameStateDataP, mapCells);
     dm_manual_update_virus_anime(gameStateDataP);
     dm_warning_h_line_se();
 
@@ -1579,7 +1578,7 @@ bool dm_manual_1_main(void) {
             break;
 
         case 0x1:
-            set_virus(mapGrid, virus_1_1[gameStateDataP->unk_025][1], virus_1_1[gameStateDataP->unk_025][2],
+            set_virus(mapCells, virus_1_1[gameStateDataP->unk_025][1], virus_1_1[gameStateDataP->unk_025][2],
                       virus_1_1[gameStateDataP->unk_025][0],
                       virus_anime_table[virus_1_1[gameStateDataP->unk_025][0]][gameStateDataP->unk_027]);
 
@@ -1631,14 +1630,14 @@ bool dm_manual_1_main(void) {
             switch (unk_178->unk_2[0]) {
                 case 0x4:
                     if (unk_178->unk_2[0] == unk_178->unk_2[1]) {
-                        rotate_capsel(mapGrid, unk_178, -1);
+                        rotate_capsel(mapCells, unk_178, -1);
                         temp_s2->unk_01C[3] = 8;
                     }
                     break;
 
                 case 0x6:
                     if (unk_178->unk_2[0] != unk_178->unk_2[1]) {
-                        rotate_capsel(mapGrid, unk_178, -1);
+                        rotate_capsel(mapCells, unk_178, -1);
                         temp_s2->unk_01C[3] = 8;
                     }
 
@@ -1646,14 +1645,14 @@ bool dm_manual_1_main(void) {
 
                 case 0x8:
                     if (unk_178->unk_2[0] == unk_178->unk_2[1]) {
-                        rotate_capsel(mapGrid, unk_178, 1);
+                        rotate_capsel(mapCells, unk_178, 1);
                         temp_s2->unk_01C[2] = 8;
                     }
                     break;
 
                 case 0xA:
                     if (unk_178->unk_2[0] != unk_178->unk_2[1]) {
-                        rotate_capsel(mapGrid, unk_178, 1);
+                        rotate_capsel(mapCells, unk_178, 1);
                         temp_s2->unk_01C[2] = 8;
                     }
                     break;
@@ -1724,7 +1723,7 @@ bool dm_manual_1_main(void) {
 
         case 0x3F:
             if (var_s5 == 1) {
-                clear_map_all(mapGrid);
+                clear_map_all(mapCells);
                 temp_s2->unk_164++;
 
                 gameStateDataP->unk_026 = 0xF;
@@ -1751,7 +1750,7 @@ bool dm_manual_1_main(void) {
         case 0x40:
             var_s1 = virus_map_disp_order->unk_00[gameStateDataP->unk_025];
 
-            set_virus(mapGrid, virus_map_data->unk_000[var_s1].unk_1, virus_map_data->unk_000[var_s1].unk_2,
+            set_virus(mapCells, virus_map_data->unk_000[var_s1].unk_1, virus_map_data->unk_000[var_s1].unk_2,
                       virus_map_data->unk_000[var_s1].unk_0,
                       virus_anime_table[virus_map_data->unk_000[var_s1].unk_0][gameStateDataP->unk_027]);
 
@@ -1826,21 +1825,21 @@ bool dm_manual_1_main(void) {
 bool dm_manual_2_main(void) {
     struct_watchManual *watchManualP = watchManual;
     struct_game_state_data *gameStateDataP = game_state_data;
-    GameMapGrid *mapGrid = game_map_data;
+    GameMapCell *mapCells = game_map_data[0];
     bool ret = true;
     s32 i;
 
     if (watchManualP->unk_16C != 0) {
-        dm_manual_main_cnt(gameStateDataP, &mapGrid[0], 0, 1);
-        dm_manual_main_cnt(&gameStateDataP[1], &mapGrid[1], 1, 1);
-        dm_manual_make_key(gameStateDataP, mapGrid);
+        dm_manual_main_cnt(gameStateDataP, game_map_data[0], 0, 1);
+        dm_manual_main_cnt(&gameStateDataP[1], game_map_data[1], 1, 1);
+        dm_manual_make_key(gameStateDataP, game_map_data[0]);
     }
 
-    func_800723EC(gameStateDataP, mapGrid, 0);
+    func_800723EC(gameStateDataP, game_map_data[0], 0);
     dm_manual_attack_capsel_down();
 
     for (i = 0; i < 2; i++) {
-        dm_virus_anime(&gameStateDataP[i], &mapGrid[i]);
+        dm_virus_anime(&gameStateDataP[i], game_map_data[i]);
     }
 
     dm_warning_h_line_se();
@@ -1862,7 +1861,7 @@ bool dm_manual_2_main(void) {
             break;
 
         case 0x1:
-            set_virus(mapGrid, virus_2_1[gameStateDataP->unk_025][1], virus_2_1[gameStateDataP->unk_025][2],
+            set_virus(mapCells, virus_2_1[gameStateDataP->unk_025][1], virus_2_1[gameStateDataP->unk_025][2],
                       virus_2_1[gameStateDataP->unk_025][0],
                       virus_anime_table[virus_2_1[gameStateDataP->unk_025][0]][gameStateDataP->unk_027]);
 
@@ -2025,26 +2024,26 @@ bool dm_manual_2_main(void) {
 #if VERSION_US || VERSION_CN
 bool dm_manual_3_main(void) {
     struct_game_state_data *gameStateData = game_state_data;
-    GameMapGrid *mapGrid = game_map_data;
+    GameMapCell *mapCells = game_map_data[0];
     struct_watchManual *temp_s2 = watchManual;
     bool ret = true;
     s32 i;
 
     if (temp_s2->unk_16C != 0) {
-        dm_manual_main_cnt(gameStateData, mapGrid, 0, 2);
+        dm_manual_main_cnt(gameStateData, mapCells, 0, 2);
 
         for (i = 1; i < 3; i++) {
-            dm_manual_main_cnt(&gameStateData[i], &mapGrid[i], i, 2);
+            dm_manual_main_cnt(&gameStateData[i], game_map_data[i], i, 2);
         }
 
-        dm_manual_make_key(gameStateData, mapGrid);
+        dm_manual_make_key(gameStateData, mapCells);
     }
 
-    func_800723EC(gameStateData, mapGrid, 0);
+    func_800723EC(gameStateData, mapCells, 0);
     dm_manual_attack_capsel_down();
 
     for (i = 0; i < 4; i++) {
-        dm_virus_anime(&game_state_data[i], &game_map_data[i]);
+        dm_virus_anime(&game_state_data[i], game_map_data[i]);
     }
 
     dm_warning_h_line_se();
@@ -2067,7 +2066,7 @@ bool dm_manual_3_main(void) {
             break;
 
         case 0x1:
-            set_virus(mapGrid, virus_3_1[gameStateData->unk_025][1], virus_3_1[gameStateData->unk_025][2],
+            set_virus(mapCells, virus_3_1[gameStateData->unk_025][1], virus_3_1[gameStateData->unk_025][2],
                       virus_3_1[gameStateData->unk_025][0],
                       virus_anime_table[virus_3_1[gameStateData->unk_025][0]][gameStateData->unk_027]);
 
@@ -2315,7 +2314,7 @@ bool dm_manual_4_main(void) {
     struct_watchManual *temp_s2 = watchManual;
     bool ret = true;
     struct_game_state_data *gameStateData = game_state_data;
-    GameMapGrid *mapGrid = game_map_data;
+    GameMapCell *mapCells = game_map_data[0];
     bool var_v0_2;
     s32 i;
 
@@ -2326,11 +2325,11 @@ bool dm_manual_4_main(void) {
     }
 
     if (temp_s2->unk_16C != 0) {
-        dm_manual_main_cnt(gameStateData, mapGrid, 0, 0);
-        dm_manual_make_key(gameStateData, mapGrid);
+        dm_manual_main_cnt(gameStateData, mapCells, 0, 0);
+        dm_manual_make_key(gameStateData, mapCells);
     }
-    func_800723EC(gameStateData, mapGrid, 0);
-    dm_virus_anime(gameStateData, mapGrid);
+    func_800723EC(gameStateData, mapCells, 0);
+    dm_virus_anime(gameStateData, mapCells);
     dm_manual_update_virus_anime(gameStateData);
     dm_warning_h_line_se();
 
@@ -2352,7 +2351,7 @@ bool dm_manual_4_main(void) {
             break;
 
         case 0x1:
-            set_virus(mapGrid, virus_4_1[gameStateData->unk_025][1], virus_4_1[gameStateData->unk_025][2],
+            set_virus(mapCells, virus_4_1[gameStateData->unk_025][1], virus_4_1[gameStateData->unk_025][2],
                       virus_4_1[gameStateData->unk_025][0],
                       virus_anime_table[virus_4_1[gameStateData->unk_025][0]][gameStateData->unk_027]);
             gameStateData->unk_025++;
@@ -2800,21 +2799,21 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
             dm_draw_bottle_2p(&gGfxHead);
 
             for (i = 0; i < 2; i++) {
-                dm_game_graphic_p(&game_state_data[i], i, &game_map_data[i]);
+                dm_game_graphic_p(&game_state_data[i], i, game_map_data[i]);
                 func_80074EF0(&game_state_data[i], temp_s4->unk_0E8[i], 0);
             }
             break;
 
         case EVS_MANUAL_NO_2:
             for (i = 0; i < 4; i++) {
-                dm_game_graphic_p(&game_state_data[i], i, &game_map_data[i]);
+                dm_game_graphic_p(&game_state_data[i], i, game_map_data[i]);
                 func_80074EF0(&game_state_data[i], temp_s4->unk_0E8[i], 1);
             }
             break;
 
         case EVS_MANUAL_NO_0:
         case EVS_MANUAL_NO_3:
-            dm_game_graphic_p(game_state_data, 0, game_map_data);
+            dm_game_graphic_p(game_state_data, 0, game_map_data[0]);
             disp_cont();
             break;
     }

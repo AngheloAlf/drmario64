@@ -14,16 +14,16 @@
 #include "main_segment_variables.h"
 
 #if VERSION_US || VERSION_CN
-void init_map_all(GameMapGrid *mapGrid) {
+void init_map_all(GameMapCell *mapCells) {
     s32 row;
 
-    bzero(mapGrid, sizeof(GameMapGrid));
+    bzero(mapCells, sizeof(GameMapCell) * GAME_MAP_ROWS * GAME_MAP_COLUMNS);
 
     for (row = 0; row < GAME_MAP_ROWS; row++) {
         s32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            GameMapCell *cells = mapGrid->cells;
+            GameMapCell *cells = mapCells;
 
             cells[GAME_MAP_GET_INDEX(row, column)].unk_0 = column;
             cells[GAME_MAP_GET_INDEX(row, column)].unk_1 = row + 1;
@@ -35,9 +35,9 @@ void init_map_all(GameMapGrid *mapGrid) {
 #if VERSION_US
 #ifdef NON_EQUIVALENT
 // not sure if equivalent
-void clear_map(GameMapGrid *mapGrid, s32 column, s32 row) {
+void clear_map(GameMapCell *mapCells, s32 column, s32 row) {
     s32 index = GAME_MAP_GET_INDEX(row - 1, column);
-    GameMapCell *temp_v0 = mapGrid->cells;
+    GameMapCell *temp_v0 = mapCells;
     s32 var_v1;
 
     temp_v0[index].unk_3 = 0;
@@ -53,8 +53,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", clear_map);
 #endif
 
 #if VERSION_CN
-void clear_map(GameMapGrid* mapGrid, s32 column, s32 row) {
-    GameMapCell* cells = mapGrid->cells;
+void clear_map(GameMapCell *mapCells, s32 column, s32 row) {
+    GameMapCell *cells = mapCells;
     s32 index = GAME_MAP_GET_INDEX(row - 1, column);
     s32 i;
 
@@ -68,22 +68,22 @@ void clear_map(GameMapGrid* mapGrid, s32 column, s32 row) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void clear_map_all(GameMapGrid *mapGrid) {
+void clear_map_all(GameMapCell *mapCells) {
     s32 row;
 
     for (row = 0; row < GAME_MAP_ROWS; row++) {
         s32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            clear_map(mapGrid, column, row);
+            clear_map(mapCells, column, row);
         }
     }
 }
 #endif
 
 #if VERSION_US || VERSION_CN
-s32 get_map_info(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne) {
-    GameMapCell *cells = mapGrid->cells;
+s32 get_map_info(GameMapCell *mapCells, s32 column, s32 rowPlusOne) {
+    GameMapCell *cells = mapCells;
     s32 index = GAME_MAP_GET_INDEX(rowPlusOne - 1, column);
 
     if (cells[index].unk_4[0] != 0) {
@@ -119,9 +119,9 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065638_cn);
 #endif
 
 #if VERSION_US || VERSION_CN
-s32 get_virus_color_count(GameMapGrid *mapGrid, u8 *arg1, u8 *arg2, u8 *arg3) {
+s32 get_virus_color_count(GameMapCell *mapCells, u8 *arg1, u8 *arg2, u8 *arg3) {
     s32 sp0[3] = { 0, 0, 0 };
-    GameMapCell *cells = mapGrid->cells;
+    GameMapCell *cells = mapCells;
     s32 i;
     s32 count = 0;
 
@@ -143,18 +143,18 @@ s32 get_virus_color_count(GameMapGrid *mapGrid, u8 *arg1, u8 *arg2, u8 *arg3) {
 #endif
 
 #if VERSION_US || VERSION_CN
-s32 get_virus_count(GameMapGrid *mapGrid) {
+s32 get_virus_count(GameMapCell *mapCells) {
     u8 sp10;
     u8 sp11;
     u8 sp12;
 
-    return get_virus_color_count(mapGrid, &sp10, &sp11, &sp12);
+    return get_virus_color_count(mapCells, &sp10, &sp11, &sp12);
 }
 #endif
 
 #if VERSION_US || VERSION_CN
-void set_map(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne, s32 arg3, s32 arg4) {
-    GameMapCell *cells = mapGrid->cells;
+void set_map(GameMapCell *mapCells, s32 column, s32 rowPlusOne, s32 arg3, s32 arg4) {
+    GameMapCell *cells = mapCells;
     s32 index;
     s32 var_t0;
 
@@ -176,7 +176,7 @@ void set_map(GameMapGrid *mapGrid, s32 column, s32 rowPlusOne, s32 arg3, s32 arg
 #endif
 
 #if VERSION_US || VERSION_CN
-void set_virus(GameMapGrid *mapGrid, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void set_virus(GameMapCell *mapCells, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     GameMapCell *cells;
     s32 var_t0;
     s32 temp;
@@ -187,7 +187,7 @@ void set_virus(GameMapGrid *mapGrid, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     }
 
     temp = (arg2 - 1) * GAME_MAP_COLUMNS;
-    cells = mapGrid->cells;
+    cells = mapCells;
 
     cells[temp + arg1].unk_2 = arg4;
     cells[temp + arg1].unk_3 = arg3;

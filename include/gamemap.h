@@ -29,10 +29,6 @@ typedef struct GameMapCell {
 #define GAME_MAP_GET_INDEX(row, column) ((row) * GAME_MAP_COLUMNS + (column))
 #define GAME_MAP_GET_INDEX_ALT(row, column) ((column) + (row) * GAME_MAP_COLUMNS)
 
-typedef struct GameMapGrid {
-    /* 0x000 */ GameMapCell cells[GAME_MAP_ROWS * GAME_MAP_COLUMNS];
-} GameMapGrid; // size = 0x550
-
-extern GameMapGrid game_map_data[4];
+extern GameMapCell game_map_data[4][GAME_MAP_ROWS * GAME_MAP_COLUMNS];
 
 #endif

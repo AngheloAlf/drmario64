@@ -236,7 +236,7 @@ void dm_attack_se(struct_game_state_data *gameStateData, s32 arg1) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_warning_h_line(struct_game_state_data *gameStateData, GameMapGrid *mapGrid) {
+void dm_warning_h_line(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
     bool var_s2 = false;
     s32 rowPlusOne;
 
@@ -244,7 +244,7 @@ void dm_warning_h_line(struct_game_state_data *gameStateData, GameMapGrid *mapGr
         s32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            if (get_map_info(mapGrid, column, rowPlusOne) == true) {
+            if (get_map_info(mapCells, column, rowPlusOne) == true) {
                 var_s2 = true;
                 break;
             }
@@ -271,8 +271,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", set_down_flg);
 #endif
 
 #if VERSION_CN
-s32 set_down_flg(GameMapGrid *mapGrid) {
-    GameMapCell *new_var = mapGrid->cells;
+s32 set_down_flg(GameMapCell *mapCells) {
+    GameMapCell *new_var = mapCells;
     GameMapCell *var_s0 = new_var;
     s32 sp10[2];
     s32 var_s4;
@@ -295,7 +295,7 @@ s32 set_down_flg(GameMapGrid *mapGrid) {
                         if ((var_s0 + temp_s3)->unk_2 == 2) {
                             for (var_s1 = 0; var_s1 < 2U; var_s1++) {
                                 sp10[var_s1] = 1;
-                                if (get_map_info(mapGrid, (var_s0 + temp_s3 + var_s1)->unk_0,
+                                if (get_map_info(mapCells, (var_s0 + temp_s3 + var_s1)->unk_0,
                                                  (var_s0 + temp_s3 + var_s1)->unk_1 + 1) == 1) {
                                     if ((var_s0 + temp_s3 + var_s1 + 8)->unk_4[1] != 1) {
                                         sp10[var_s1] = 0;
@@ -311,7 +311,7 @@ s32 set_down_flg(GameMapGrid *mapGrid) {
                         } else if ((var_s0 + temp_s3)->unk_2 == 3) {
                             for (var_s1 = 0; var_s1 < 2U; var_s1++) {
                                 sp10[var_s1] = 1;
-                                if (get_map_info(mapGrid, (var_s0 + temp_s3 - var_s1)->unk_0,
+                                if (get_map_info(mapCells, (var_s0 + temp_s3 - var_s1)->unk_0,
                                                  (var_s0 + temp_s3 - var_s1)->unk_1 + 1) == 1) {
                                     if ((var_s0 + temp_s3 - var_s1 + 8)->unk_4[1] != 1) {
                                         sp10[var_s1] = 0;
@@ -325,7 +325,7 @@ s32 set_down_flg(GameMapGrid *mapGrid) {
                                 }
                             }
                         }
-                    } else if (get_map_info(mapGrid, (var_s0 + temp_s3)->unk_0, (var_s0 + temp_s3)->unk_1 + 1) == 1) {
+                    } else if (get_map_info(mapCells, (var_s0 + temp_s3)->unk_0, (var_s0 + temp_s3)->unk_1 + 1) == 1) {
                         if ((var_s0 + temp_s3 + 8)->unk_4[1] != 1) {
                             (var_s0 + temp_s3)->unk_4[1] = 0;
                         }
@@ -352,7 +352,7 @@ s32 set_down_flg(GameMapGrid *mapGrid) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void go_down(struct_game_state_data *gameStateData, GameMapGrid *mapGrid, s32 arg2) {
+void go_down(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 arg2) {
     bool var_a0 = false;
     s32 row;
     s32 j;
@@ -366,12 +366,12 @@ void go_down(struct_game_state_data *gameStateData, GameMapGrid *mapGrid, s32 ar
 
     for (row = GAME_MAP_ROWS - 1; row >= 0; row--) {
         for (j = 0; j < GAME_MAP_COLUMNS; j++) {
-            GameMapCell *cells = mapGrid->cells;
+            GameMapCell *cells = mapCells;
             s32 index = GAME_MAP_GET_INDEX(row, j);
 
             if (cells[index].unk_4[1] != 0) {
-                set_map(mapGrid, cells[index].unk_0, cells[index].unk_1 + 1, cells[index].unk_2, cells[index].unk_3);
-                clear_map(mapGrid, cells[index].unk_0, cells[index].unk_1);
+                set_map(mapCells, cells[index].unk_0, cells[index].unk_1 + 1, cells[index].unk_2, cells[index].unk_3);
+                clear_map(mapCells, cells[index].unk_0, cells[index].unk_1);
                 var_a0 = true;
             }
         }
@@ -383,15 +383,14 @@ void go_down(struct_game_state_data *gameStateData, GameMapGrid *mapGrid, s32 ar
 
     if ((gameStateData->unk_049 != 0) && (gameStateData->unk_01C == 0x12)) {
         for (j = 0; j < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; j++) {
-            if ((mapGrid->cells[j].unk_4[0] != 0) && (mapGrid->cells[j].unk_4[1] == 0) &&
-                (mapGrid->cells[j].unk_3 < 3)) {
-                mapGrid->cells[j].unk_3 += 3;
+            if ((mapCells[j].unk_4[0] != 0) && (mapCells[j].unk_4[1] == 0) && (mapCells[j].unk_3 < 3)) {
+                mapCells[j].unk_3 += 3;
             }
         }
     }
 
-    if (set_down_flg(mapGrid) == 0) {
-        if (dm_h_erase_chack(mapGrid) || dm_w_erase_chack(mapGrid)) {
+    if (set_down_flg(mapCells) == 0) {
+        if (dm_h_erase_chack(mapCells) || dm_w_erase_chack(mapCells)) {
             if (gameStateData->unk_049 == 0) {
                 gameStateData->unk_00C = 6;
             } else {
@@ -410,22 +409,22 @@ void go_down(struct_game_state_data *gameStateData, GameMapGrid *mapGrid, s32 ar
 #endif
 
 #if VERSION_US || VERSION_CN
-void erase_anime(GameMapGrid *mapGrid) {
+void erase_anime(GameMapCell *mapCells) {
     s32 i;
 
     for (i = 0; i < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; i++) {
-        GameMapCell *cell = &mapGrid->cells[i];
+        GameMapCell *cell = &mapCells[i];
 
         if ((cell->unk_4[0] != 0) && (cell->unk_4[2] != 0)) {
             cell->unk_2++;
 
             if (cell->unk_4[4] >= 0) {
                 if (cell->unk_2 >= 0xF) {
-                    clear_map(mapGrid, cell->unk_0, cell->unk_1);
+                    clear_map(mapCells, cell->unk_0, cell->unk_1);
                 }
             } else {
                 if (cell->unk_2 >= 7) {
-                    clear_map(mapGrid, cell->unk_0, cell->unk_1);
+                    clear_map(mapCells, cell->unk_0, cell->unk_1);
                 }
             }
         }
@@ -472,7 +471,7 @@ void throw_rotate_capsel(struct_game_state_data_unk_178 *arg0) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void translate_capsel(GameMapGrid *mapGrid, struct_game_state_data *arg1, s32 arg2, s32 arg3) {
+void translate_capsel(GameMapCell *mapCells, struct_game_state_data *arg1, s32 arg2, s32 arg3) {
     s32 var_s1 = 0;
     struct_game_state_data_unk_178 *temp_s5 = &arg1->unk_178;
 
@@ -482,29 +481,29 @@ void translate_capsel(GameMapGrid *mapGrid, struct_game_state_data *arg1, s32 ar
 
     if (arg2 == 1) {
         if (temp_s5->unk_0[0] == temp_s5->unk_0[1]) {
-            if ((temp_s5->unk_0[1] < 7) && (get_map_info(mapGrid, temp_s5->unk_0[1] + 1, temp_s5->unk_2[0]) != arg2)) {
+            if ((temp_s5->unk_0[1] < 7) && (get_map_info(mapCells, temp_s5->unk_0[1] + 1, temp_s5->unk_2[0]) != arg2)) {
                 if (temp_s5->unk_2[1] == 0) {
                     var_s1 = 1;
-                } else if (get_map_info(mapGrid, temp_s5->unk_0[0] + 1, temp_s5->unk_2[1]) != arg2) {
+                } else if (get_map_info(mapCells, temp_s5->unk_0[0] + 1, temp_s5->unk_2[1]) != arg2) {
                     var_s1 = 1;
                 }
             }
         } else if (temp_s5->unk_0[1] < 7) {
-            if (get_map_info(mapGrid, temp_s5->unk_0[1] + 1, temp_s5->unk_2[0]) != arg2) {
+            if (get_map_info(mapCells, temp_s5->unk_0[1] + 1, temp_s5->unk_2[0]) != arg2) {
                 var_s1 = 1;
             }
         }
     } else if (arg2 == -1) {
         if (temp_s5->unk_0[0] == temp_s5->unk_0[1]) {
-            if ((temp_s5->unk_0[0] > 0) && (get_map_info(mapGrid, temp_s5->unk_0[0] - 1, temp_s5->unk_2[0]) != 1)) {
+            if ((temp_s5->unk_0[0] > 0) && (get_map_info(mapCells, temp_s5->unk_0[0] - 1, temp_s5->unk_2[0]) != 1)) {
                 if (temp_s5->unk_2[1] == 0) {
                     var_s1 = -1;
-                } else if (get_map_info(mapGrid, temp_s5->unk_0[0] - 1, temp_s5->unk_2[1]) != 1) {
+                } else if (get_map_info(mapCells, temp_s5->unk_0[0] - 1, temp_s5->unk_2[1]) != 1) {
                     var_s1 = -1;
                 }
             }
         } else if (temp_s5->unk_0[0] > 0) {
-            if (get_map_info(mapGrid, temp_s5->unk_0[0] - 1, temp_s5->unk_2[0]) != 1) {
+            if (get_map_info(mapCells, temp_s5->unk_0[0] - 1, temp_s5->unk_2[0]) != 1) {
                 var_s1 = -1;
             }
         }
@@ -531,7 +530,7 @@ void translate_capsel(GameMapGrid *mapGrid, struct_game_state_data *arg1, s32 ar
 #endif
 
 #if VERSION_US || VERSION_CN
-void rotate_capsel(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1, s32 arg2) {
+void rotate_capsel(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, s32 arg2) {
     s32 var_s1 = 0;
     s32 temp;
 
@@ -540,8 +539,8 @@ void rotate_capsel(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1, s
     }
 
     if (arg1->unk_0[0] == arg1->unk_0[1]) {
-        if ((arg1->unk_0[0] == 7) || (get_map_info(mapGrid, arg1->unk_0[0] + 1, arg1->unk_2[0]) == 1)) {
-            if ((arg1->unk_0[0] != 0) && (get_map_info(mapGrid, arg1->unk_0[0] - 1, arg1->unk_2[0]) != 1)) {
+        if ((arg1->unk_0[0] == 7) || (get_map_info(mapCells, arg1->unk_0[0] + 1, arg1->unk_2[0]) == 1)) {
+            if ((arg1->unk_0[0] != 0) && (get_map_info(mapCells, arg1->unk_0[0] - 1, arg1->unk_2[0]) != 1)) {
                 arg1->unk_0[0]--;
                 var_s1 = 1;
             }
@@ -562,8 +561,8 @@ void rotate_capsel(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1, s
         if (arg1->unk_2[0] == 1) {
             arg1->unk_0[1]--;
             var_s1 = -1;
-        } else if (get_map_info(mapGrid, arg1->unk_0[0], arg1->unk_2[0] - 1) == 1) {
-            if (get_map_info(mapGrid, arg1->unk_0[0] + 1, arg1->unk_2[0] - 1) != 1) {
+        } else if (get_map_info(mapCells, arg1->unk_0[0], arg1->unk_2[0] - 1) == 1) {
+            if (get_map_info(mapCells, arg1->unk_0[0] + 1, arg1->unk_2[0] - 1) != 1) {
                 arg1->unk_0[0]++;
                 var_s1 = -1;
             }
@@ -697,7 +696,7 @@ void dm_capsel_speed_up(struct_game_state_data *gameStateDataRef) {
 #endif
 
 #if VERSION_US || VERSION_CN
-bool dm_check_game_over(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid UNUSED) {
+bool dm_check_game_over(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells UNUSED) {
     if (gameStateDataRef->unk_020 == 4) {
         return true;
     }
@@ -706,8 +705,8 @@ bool dm_check_game_over(struct_game_state_data *gameStateDataRef, GameMapGrid *m
 #endif
 
 #if VERSION_US || VERSION_CN
-s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 arg2) {
-    GameMapCell *cells = mapGrid->cells;
+s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapCell *mapCells, s32 arg2) {
+    GameMapCell *cells = mapCells;
     s32 ret = 0;
     s32 i;
 
@@ -728,11 +727,11 @@ s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapGrid *mapGrid,
 #endif
 
 #if VERSION_US || VERSION_CN
-u8 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, UNK_TYPE arg2) {
+u8 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, UNK_TYPE arg2) {
     if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
-        gameStateDataRef->unk_025 = update_flash_virus_count(gameStateDataRef, mapGrid, arg2);
+        gameStateDataRef->unk_025 = update_flash_virus_count(gameStateDataRef, mapCells, arg2);
     } else {
-        gameStateDataRef->unk_025 = get_virus_count(mapGrid);
+        gameStateDataRef->unk_025 = get_virus_count(mapCells);
     }
 
     return gameStateDataRef->unk_025;
@@ -740,7 +739,7 @@ u8 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid,
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, struct_virus_map_data *virusMapData,
+void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, struct_virus_map_data *virusMapData,
                   struct_virus_map_disp_order *virusMapDispOrder) {
     s32 temp_v0;
 
@@ -760,13 +759,13 @@ void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid
 
         if (gameStateDataRef->unk_024 < temp_v0) {
             struct_virus_map_data_unk_000 *temp_v0_3 = virusMapData->unk_000;
-            GameMapCell *cells = mapGrid->cells;
+            GameMapCell *cells = mapCells;
             u8 *temp_a0 = &virusMapDispOrder->unk_00[gameStateDataRef->unk_024];
             u8 cellIndex = *temp_a0;
 
             *temp_a0 |= 0x80;
 
-            set_virus(mapGrid, temp_v0_3[cellIndex].unk_1, temp_v0_3[cellIndex].unk_2, temp_v0_3[cellIndex].unk_0,
+            set_virus(mapCells, temp_v0_3[cellIndex].unk_1, temp_v0_3[cellIndex].unk_2, temp_v0_3[cellIndex].unk_0,
                       virus_anime_table[temp_v0_3[cellIndex].unk_0][gameStateDataRef->unk_027]);
             if (gameStateDataRef->unk_01C == 0x12) {
                 cells[cellIndex].unk_3 += 3;
@@ -779,12 +778,12 @@ void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid
         gameStateDataRef->unk_00C = 2;
     }
 
-    func_8006121C(gameStateDataRef, mapGrid, 0);
+    func_8006121C(gameStateDataRef, mapCells, 0);
 }
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_virus_anime(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
+void dm_virus_anime(struct_game_state_data *arg0, GameMapCell *mapCells) {
     s32 index;
 
     arg0->unk_029++;
@@ -802,9 +801,9 @@ void dm_virus_anime(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
     }
 
     for (index = 0; index < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; index++) {
-        if ((mapGrid->cells[index].unk_4[0] != 0) && (mapGrid->cells[index].unk_4[2] == 0)) {
-            if (mapGrid->cells[index].unk_4[4] >= 0) {
-                mapGrid->cells[index].unk_2 = virus_anime_table[mapGrid->cells[index].unk_4[4]][arg0->unk_027];
+        if ((mapCells[index].unk_4[0] != 0) && (mapCells[index].unk_4[2] == 0)) {
+            if (mapCells[index].unk_4[4] >= 0) {
+                mapCells[index].unk_2 = virus_anime_table[mapCells[index].unk_4[4]][arg0->unk_027];
             }
         }
     }
@@ -812,15 +811,15 @@ void dm_virus_anime(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_capsel_erase_anime(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid) {
+void dm_capsel_erase_anime(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells) {
     gameStateDataRef->unk_036++;
 
     if (gameStateDataRef->unk_036 == 10) {
-        erase_anime(mapGrid);
+        erase_anime(mapCells);
         gameStateDataRef->unk_035++;
     } else if (gameStateDataRef->unk_036 > 26) {
-        erase_anime(mapGrid);
-        set_down_flg(mapGrid);
+        erase_anime(mapCells);
+        set_down_flg(mapCells);
         gameStateDataRef->unk_035 = 0;
         gameStateDataRef->unk_00C = 8;
         gameStateDataRef->unk_036 = 14;
@@ -833,12 +832,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_make_erase_h_lin
 #endif
 
 #if VERSION_CN
-void dm_make_erase_h_line(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 rowStart, s32 count, s32 column) {
+void dm_make_erase_h_line(struct_game_state_data *arg0, GameMapCell *mapCells, s32 rowStart, s32 count, s32 column) {
     s32 row = rowStart;
     s32 rowEnd = row + count + 1;
 
     for (; row < rowEnd; row++) {
-        GameMapCell *cell = &mapGrid->cells[GAME_MAP_GET_INDEX(row, column)];
+        GameMapCell *cell = &mapCells[GAME_MAP_GET_INDEX(row, column)];
 
         if (cell->unk_4[2] != 1) {
             cell->unk_4[2] = 1;
@@ -857,7 +856,7 @@ void dm_make_erase_h_line(struct_game_state_data *arg0, GameMapGrid *mapGrid, s3
 #endif
 
 #if VERSION_US || VERSION_CN
-bool dm_h_erase_chack(GameMapGrid *mapGrid) {
+bool dm_h_erase_chack(GameMapCell *mapCells) {
     s32 column;
 
     for (column = 0; column < GAME_MAP_COLUMNS; column++) {
@@ -865,7 +864,7 @@ bool dm_h_erase_chack(GameMapGrid *mapGrid) {
         s32 val = 0xF;
         s32 var_a1 = 0;
         s32 var_a3 = -1;
-        GameMapCell *cells = mapGrid->cells;
+        GameMapCell *cells = mapCells;
 
         for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
             if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
@@ -903,7 +902,7 @@ bool dm_h_erase_chack(GameMapGrid *mapGrid) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid) {
+void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells) {
     s32 column;
 
     for (column = 0; column < GAME_MAP_COLUMNS; column++) {
@@ -914,12 +913,12 @@ void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapGrid 
         s32 row;
 
         for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
-            GameMapCell *cells = mapGrid->cells;
+            GameMapCell *cells = mapCells;
 
             if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
                 if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_s2) {
                     if (var_s1 >= 3) {
-                        dm_make_erase_h_line(gameStateDataRef, mapGrid, var_s5, var_s1, column);
+                        dm_make_erase_h_line(gameStateDataRef, mapCells, var_s5, var_s1, column);
                         if (gameStateDataRef->unk_039 == 0) {
                             gameStateDataRef->unk_03C[3] |= (1 << var_s2);
                         }
@@ -928,7 +927,7 @@ void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapGrid 
                     }
 
                     if (row < 0xD) {
-                        cells = mapGrid->cells;
+                        cells = mapCells;
 
                         var_s5 = row;
                         var_s2 = cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
@@ -940,7 +939,7 @@ void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapGrid 
                     var_s1++;
                     if (row == 15) {
                         if (var_s1 >= 3) {
-                            dm_make_erase_h_line(gameStateDataRef, mapGrid, var_s5, var_s1, column);
+                            dm_make_erase_h_line(gameStateDataRef, mapCells, var_s5, var_s1, column);
                             if (gameStateDataRef->unk_039 == 0) {
                                 gameStateDataRef->unk_03C[3] |= (1 << var_s2);
                             }
@@ -951,7 +950,7 @@ void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapGrid 
                 }
             } else {
                 if (var_s1 >= 3) {
-                    dm_make_erase_h_line(gameStateDataRef, mapGrid, var_s5, var_s1, column);
+                    dm_make_erase_h_line(gameStateDataRef, mapCells, var_s5, var_s1, column);
                     if (gameStateDataRef->unk_039 == 0) {
                         gameStateDataRef->unk_03C[3] |= (1 << var_s2);
                     }
@@ -977,8 +976,8 @@ void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapGrid 
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_make_erase_w_line(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 columnStart, s32 count, s32 row) {
-    GameMapCell *cells = mapGrid->cells;
+void dm_make_erase_w_line(struct_game_state_data *arg0, GameMapCell *mapCells, s32 columnStart, s32 count, s32 row) {
+    GameMapCell *cells = mapCells;
     s32 column = columnStart;
     u32 columnEnd = column + count + 1;
 
@@ -1002,7 +1001,7 @@ void dm_make_erase_w_line(struct_game_state_data *arg0, GameMapGrid *mapGrid, s3
 #endif
 
 #if VERSION_US || VERSION_CN
-bool dm_w_erase_chack(GameMapGrid *mapGrid) {
+bool dm_w_erase_chack(GameMapCell *mapCells) {
     s32 row;
 
     for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
@@ -1011,7 +1010,7 @@ bool dm_w_erase_chack(GameMapGrid *mapGrid) {
         s32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            GameMapCell *cells = mapGrid->cells;
+            GameMapCell *cells = mapCells;
 
             if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
                 if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_a3) {
@@ -1046,7 +1045,7 @@ bool dm_w_erase_chack(GameMapGrid *mapGrid) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
+void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapCell *mapCells) {
     s32 row;
 
     for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
@@ -1058,12 +1057,12 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
             s32 index = GAME_MAP_GET_INDEX(row, column);
-            GameMapCell *cells = mapGrid->cells;
+            GameMapCell *cells = mapCells;
 
             if (cells[index].unk_4[0] != 0) {
                 if (cells[index].unk_4[3] != var_s3) {
                     if (var_s1 >= 3) {
-                        dm_make_erase_w_line(arg0, mapGrid, var_s6, var_s1, row);
+                        dm_make_erase_w_line(arg0, mapCells, var_s6, var_s1, row);
                         if (arg0->unk_039 == 0) {
                             arg0->unk_03C[3] |= 1 << var_s3;
                         }
@@ -1073,7 +1072,7 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
                     if (column >= 5) {
                         var_fp = true;
                     } else {
-                        cells = mapGrid->cells;
+                        cells = mapCells;
 
                         var_s6 = column;
                         var_s3 = cells[index].unk_4[3];
@@ -1083,7 +1082,7 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
                     var_s1++;
                     if (column == 7) {
                         if (var_s1 >= 3) {
-                            dm_make_erase_w_line(arg0, mapGrid, var_s6, var_s1, row);
+                            dm_make_erase_w_line(arg0, mapCells, var_s6, var_s1, row);
                             if (arg0->unk_039 == 0) {
                                 arg0->unk_03C[3] |= 1 << var_s3;
                             }
@@ -1094,7 +1093,7 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
                 }
             } else {
                 if (var_s1 >= 3) {
-                    dm_make_erase_w_line(arg0, mapGrid, var_s6, var_s1, row);
+                    dm_make_erase_w_line(arg0, mapCells, var_s6, var_s1, row);
                     if (arg0->unk_039 == 0) {
                         arg0->unk_03C[3] |= 1 << var_s3;
                     }
@@ -1120,11 +1119,11 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_h_ball_chack(GameMapGrid *mapGrid) {
+void dm_h_ball_chack(GameMapCell *mapCells) {
     u32 column;
 
     for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-        GameMapCell *cells = mapGrid->cells;
+        GameMapCell *cells = mapCells;
         u32 row;
 
         for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
@@ -1156,14 +1155,14 @@ void dm_h_ball_chack(GameMapGrid *mapGrid) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_w_ball_chack(GameMapGrid *mapGrid) {
+void dm_w_ball_chack(GameMapCell *mapCells) {
     u32 row;
 
     for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
         u32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            GameMapCell *cells = mapGrid->cells;
+            GameMapCell *cells = mapCells;
 
             if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
                 if (cells[GAME_MAP_GET_INDEX(row, column)].unk_2 == 2) {
@@ -1181,7 +1180,7 @@ void dm_w_ball_chack(GameMapGrid *mapGrid) {
 #endif
 
 #if VERSION_US || VERSION_CN
-bool dm_black_up(struct_game_state_data *gameStateDataP, GameMapGrid *mapGrid) {
+bool dm_black_up(struct_game_state_data *gameStateDataP, GameMapCell *mapCells) {
     if ((gameStateDataP->unk_048 != 0) && (gameStateDataP->unk_049 == 0)) {
         gameStateDataP->unk_036++;
         if (gameStateDataP->unk_036 >= 6U) {
@@ -1193,8 +1192,8 @@ bool dm_black_up(struct_game_state_data *gameStateDataP, GameMapGrid *mapGrid) {
 
             for (column = 0; column < GAME_MAP_COLUMNS; column++) {
                 // hate this
-                if ((mapGrid->cells + temp + column)->unk_4[0] != 0) {
-                    (mapGrid->cells + temp + column)->unk_3 += 3;
+                if ((mapCells + temp + column)->unk_4[0] != 0) {
+                    (mapCells + temp + column)->unk_3 += 3;
                 }
             }
 
@@ -1211,7 +1210,7 @@ bool dm_black_up(struct_game_state_data *gameStateDataP, GameMapGrid *mapGrid) {
 #endif
 
 #if VERSION_US || VERSION_CN
-bool dm_broken_set(struct_game_state_data *gameStateData, GameMapGrid *mapGrid) {
+bool dm_broken_set(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
     struct_game_state_data_unk_050 sp20[ARRAY_COUNTU(gameStateData->unk_050)];
     s32 pad[0x18] UNUSED;
     bool ret = false;
@@ -1236,13 +1235,13 @@ bool dm_broken_set(struct_game_state_data *gameStateData, GameMapGrid *mapGrid) 
             u32 temp_v0_2 = gameStateData->unk_050[0].unk_0 & (3 << var_s0);
 
             if (temp_v0_2 != 0) {
-                set_map(mapGrid, var_s1, 1, 4, (temp_v0_2 >> var_s0) - 1);
+                set_map(mapCells, var_s1, 1, 4, (temp_v0_2 >> var_s0) - 1);
             }
         }
 
-        dm_h_ball_chack(mapGrid);
-        dm_w_ball_chack(mapGrid);
-        set_down_flg(mapGrid);
+        dm_h_ball_chack(mapCells);
+        dm_w_ball_chack(mapCells);
+        set_down_flg(mapCells);
 
         for (var_s0 = 0; var_s0 < ARRAY_COUNTU(gameStateData->unk_050); var_s0++) {
             sp20[var_s0].unk_0 = gameStateData->unk_050[var_s0].unk_0;
@@ -1264,7 +1263,7 @@ bool dm_broken_set(struct_game_state_data *gameStateData, GameMapGrid *mapGrid) 
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapGrid *mapGrid, dm_calc_erase_score_pos_arg2 *arg2) {
+void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapCell *mapCells, dm_calc_erase_score_pos_arg2 *arg2) {
     s32 row;
     s32 var_t2 = 0;
 
@@ -1275,7 +1274,7 @@ void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapGrid *mapGrid,
         s32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            GameMapCell *cell = &mapGrid->cells[GAME_MAP_GET_INDEX_ALT(row, column)];
+            GameMapCell *cell = &mapCells[GAME_MAP_GET_INDEX_ALT(row, column)];
 
             if (cell->unk_4[2] != 0) {
                 arg2->unk_0 += cell->unk_0;
@@ -2005,8 +2004,8 @@ void backup_game_state(s32 index) {
     for (i = 0; i < ARRAY_COUNTU(ptr->unk_1A70); i++) {
         s32 j;
 
-        for (j = 0; j < ARRAY_COUNTU(game_map_data[i].cells); j++) {
-            ptr->unk_1A70[i].cells[j] = game_map_data[i].cells[j];
+        for (j = 0; j < ARRAY_COUNTU(game_map_data[i]); j++) {
+            ptr->unk_1A70[i][j] = game_map_data[i][j];
         }
     }
 
@@ -2034,8 +2033,8 @@ void resume_game_state(s32 index) {
     for (i = 0; i < ARRAY_COUNTU(ptr->unk_1A70); i++) {
         s32 j;
 
-        for (j = 0; j < ARRAY_COUNTU(game_map_data[i].cells); j++) {
-            game_map_data[i].cells[j] = ptr->unk_1A70[i].cells[j];
+        for (j = 0; j < ARRAY_COUNTU(game_map_data[i]); j++) {
+            game_map_data[i][j] = ptr->unk_1A70[i][j];
         }
     }
 
@@ -2140,7 +2139,7 @@ void dm_play_count_down_se(void) {
 extern s32 black_color_1384[];
 
 #if VERSION_US || VERSION_CN
-void dm_capsel_down(struct_game_state_data *gameStateData, GameMapGrid *GameMapGrid) {
+void dm_capsel_down(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
     struct_watchGame *watchGameP = watchGame;
     struct_game_state_data_unk_178 *temp_s2 = &gameStateData->unk_178;
     s32 var_s0_2;
@@ -2152,7 +2151,7 @@ void dm_capsel_down(struct_game_state_data *gameStateData, GameMapGrid *GameMapG
             var_s0_2 += BonusWait[temp_s2->unk_2[0] - 1][gameStateData->unk_02C];
         }
         var_s1_2 = 0;
-        if (get_map_info(GameMapGrid, gameStateData->unk_178.unk_0[0], temp_s2->unk_2[0] + 1) != 0) {
+        if (get_map_info(mapCells, gameStateData->unk_178.unk_0[0], temp_s2->unk_2[0] + 1) != 0) {
             var_s1_2 = watchGameP->unk_898;
         }
         gameStateData->unk_031 = var_s0_2 + var_s1_2;
@@ -2172,12 +2171,12 @@ void dm_capsel_down(struct_game_state_data *gameStateData, GameMapGrid *GameMapG
 
     if (temp_s2->unk_2[0] > 0) {
         if (temp_s2->unk_0[0] == temp_s2->unk_0[1]) {
-            if (get_map_info(GameMapGrid, temp_s2->unk_0[0], temp_s2->unk_2[0] + 1) != 0) {
+            if (get_map_info(mapCells, temp_s2->unk_0[0], temp_s2->unk_2[0] + 1) != 0) {
                 temp_s2->unk_9 = 0;
             }
         } else {
             for (var_s1_2 = 0; var_s1_2 < ARRAY_COUNTU(temp_s2->unk_0); var_s1_2++) {
-                if (get_map_info(GameMapGrid, temp_s2->unk_0[var_s1_2], temp_s2->unk_2[var_s1_2] + 1) != 0) {
+                if (get_map_info(mapCells, temp_s2->unk_0[var_s1_2], temp_s2->unk_2[var_s1_2] + 1) != 0) {
                     temp_s2->unk_9 = 0;
                     break;
                 }
@@ -2200,7 +2199,7 @@ void dm_capsel_down(struct_game_state_data *gameStateData, GameMapGrid *GameMapG
         }
 
         for (var_s0_2 = 0; var_s0_2 < ARRAY_COUNTU(temp_s2->unk_0); var_s0_2++) {
-            if (get_map_info(GameMapGrid, temp_s2->unk_0[var_s0_2], temp_s2->unk_2[var_s0_2]) != 0) {
+            if (get_map_info(mapCells, temp_s2->unk_0[var_s0_2], temp_s2->unk_2[var_s0_2]) != 0) {
                 gameStateData->unk_020 = 4;
                 gameStateData->unk_184.unk_8 = 0;
                 temp_s2->unk_9 = 0;
@@ -2219,7 +2218,7 @@ void dm_capsel_down(struct_game_state_data *gameStateData, GameMapGrid *GameMapG
 
     for (var_s0_2 = 0; var_s0_2 < ARRAY_COUNTU(temp_s2->unk_2); var_s0_2++) {
         if (temp_s2->unk_2[var_s0_2] != 0) {
-            set_map(GameMapGrid, temp_s2->unk_0[var_s0_2], temp_s2->unk_2[var_s0_2], temp_s2->unk_4[var_s0_2],
+            set_map(mapCells, temp_s2->unk_0[var_s0_2], temp_s2->unk_2[var_s0_2], temp_s2->unk_4[var_s0_2],
                     temp_s2->unk_6[var_s0_2] + black_color_1384[gameStateData->unk_049]);
         }
     }
@@ -2672,7 +2671,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", set_bottom_up_virus
 #endif
 
 #if VERSION_CN
-void set_bottom_up_virus(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
+void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells) {
     u8 sp20[GAME_MAP_COLUMNS];
     GameMapCell *temp_v1;
     s32 col;
@@ -2685,11 +2684,11 @@ void set_bottom_up_virus(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
 
     for (cellIndex = (GAME_MAP_ROWS - 2) * GAME_MAP_COLUMNS, col = 0;
          cellIndex < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; cellIndex++, col++) {
-        if (mapGrid->cells[cellIndex].unk_4[0] == 0) {
+        if (mapCells[cellIndex].unk_4[0] == 0) {
             continue;
         }
 
-        if (mapGrid->cells[cellIndex].unk_4[4] >= 0) {
+        if (mapCells[cellIndex].unk_4[4] >= 0) {
             continue;
         }
 
@@ -2730,7 +2729,7 @@ void set_bottom_up_virus(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
         sp48[1] = cellIndex - 2;
 
         for (var_s2 = 0; var_s2 < 2; var_s2++) {
-            temp_v1 = mapGrid->cells;
+            temp_v1 = mapCells;
 
             if (sp38[var_s2] == 0) {
                 continue;
@@ -2748,7 +2747,7 @@ void set_bottom_up_virus(struct_game_state_data *arg0, GameMapGrid *mapGrid) {
         do {
             temp_v0_2 = random(3);
         } while (sp28[temp_v0_2] != 0);
-        set_virus(mapGrid, col, GAME_MAP_ROWS, temp_v0_2, virus_anime_table[temp_v0_2][arg0->unk_027]);
+        set_virus(mapCells, col, GAME_MAP_ROWS, temp_v0_2, virus_anime_table[temp_v0_2][arg0->unk_027]);
     }
 }
 #endif
@@ -2762,8 +2761,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1ECC);
 #endif
 
 #if VERSION_US || VERSION_CN
-bool bottom_up_bottle_items(GameMapGrid *mapGrid) {
-    GameMapCell *temp = mapGrid->cells;
+bool bottom_up_bottle_items(GameMapCell *mapCells) {
     s32 i;
     bool ret = false;
     s32 column;
@@ -2771,22 +2769,22 @@ bool bottom_up_bottle_items(GameMapGrid *mapGrid) {
     s32 var;
 
     for (i = 0; i < GAME_MAP_COLUMNS; i++) {
-        if (temp[i].unk_4[0] != 0) {
+        if (mapCells[i].unk_4[0] != 0) {
             ret = true;
         }
     }
 
     var = (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS;
-    for (i = 0, cell = &temp[GAME_MAP_GET_INDEX(1, 0)]; i < var; i++, cell++) {
-        temp[i] = *cell;
-        temp[i].unk_1--;
+    for (i = 0, cell = &mapCells[GAME_MAP_GET_INDEX(1, 0)]; i < var; i++, cell++) {
+        mapCells[i] = *cell;
+        mapCells[i].unk_1--;
     }
 
     var += GAME_MAP_COLUMNS;
     for (column = 0; i < var; i++, column++) {
-        bzero(&temp[i], sizeof(GameMapCell));
-        temp[i].unk_0 = column;
-        temp[i].unk_1 = 0x11;
+        bzero(&mapCells[i], sizeof(GameMapCell));
+        mapCells[i].unk_0 = column;
+        mapCells[i].unk_1 = 0x11;
     }
 
     return ret;
@@ -3121,7 +3119,7 @@ void dm_query_pause_player(struct_game_state_data *arg0) {
 #if VERSION_US
 #ifdef NON_EQUIVALENT
 // regalloc
-s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 arg2) {
+s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32 arg2) {
     struct_watchGame *temp_s3 = watchGame;
     dm_calc_erase_score_pos_arg2 sp20;
     s32 var_a0_2;
@@ -3141,7 +3139,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
 
     switch (arg0->unk_00C) {
         case 0x1:
-            dm_set_virus(arg0, mapGrid, &virus_map_data[arg2], &virus_map_disp_order[arg2]);
+            dm_set_virus(arg0, mapCells, &virus_map_data[arg2], &virus_map_disp_order[arg2]);
             return 3;
 
         case 0x2:
@@ -3154,12 +3152,12 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
                               (CapsMagazine[arg0->unk_033] % 3));
                 arg0->unk_00C = 4;
                 arg0->unk_02F = 0x1E;
-                dm_capsel_down(arg0, mapGrid);
+                dm_capsel_down(arg0, mapCells);
             }
             break;
 
         case 0x5:
-            if (dm_check_game_over(arg0, mapGrid)) {
+            if (dm_check_game_over(arg0, mapCells)) {
                 for (var_s0 = 0; var_s0 < 3; var_s0++) {
                     if (temp_s3->animeStates[var_s0].animeSeq.unk_10 != 4) {
                         animeState_set(&temp_s3->animeStates[var_s0], 3);
@@ -3172,7 +3170,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
                 return -1;
             }
 
-            if (dm_h_erase_chack(mapGrid) || dm_w_erase_chack(mapGrid)) {
+            if (dm_h_erase_chack(mapCells) || dm_w_erase_chack(mapCells)) {
                 arg0->unk_00C = 6;
                 arg0->unk_02F = 0;
             } else {
@@ -3185,13 +3183,13 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
             if (arg0->unk_02F >= 0x12U) {
                 arg0->unk_02F = 0;
                 arg0->unk_00C = 7;
-                dm_h_erase_chack_set(arg0, mapGrid);
-                dm_w_erase_chack_set(arg0, mapGrid);
-                dm_h_ball_chack(mapGrid);
-                dm_w_ball_chack(mapGrid);
+                dm_h_erase_chack_set(arg0, mapCells);
+                dm_w_erase_chack_set(arg0, mapCells);
+                dm_h_ball_chack(mapCells);
+                dm_w_ball_chack(mapCells);
                 var_s0 = arg0->unk_025;
                 var_s0 -=
-                    get_virus_color_count(mapGrid, &temp_s3->unk_418[0], &temp_s3->unk_418[1], &temp_s3->unk_418[2]);
+                    get_virus_color_count(mapCells, &temp_s3->unk_418[0], &temp_s3->unk_418[1], &temp_s3->unk_418[2]);
                 arg0->unk_025 -= var_s0;
                 arg0->unk_170 += var_s0;
 
@@ -3215,7 +3213,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
                 }
 
                 arg0->unk_03C[3] &= ~0xF0;
-                dm_calc_erase_score_pos(arg0, mapGrid, &sp20);
+                dm_calc_erase_score_pos(arg0, mapCells, &sp20);
                 scoreNums_set(&temp_s3->unk_0B8[arg2], dm_make_score(arg0), arg0->unk_037,
                               arg0->unk_006 + arg0->unk_00A / 2 + sp20.unk_0,
                               arg0->unk_008 + arg0->unk_00A / 2 + sp20.unk_4);
@@ -3265,11 +3263,11 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
             break;
 
         case 0x7:
-            dm_capsel_erase_anime(arg0, mapGrid);
+            dm_capsel_erase_anime(arg0, mapCells);
             break;
 
         case 0x8:
-            go_down(arg0, mapGrid, 0xE);
+            go_down(arg0, mapCells, 0xE);
             break;
 
         case 0x9:
@@ -3277,7 +3275,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
             if ((temp_s3->unk_9BC != 0) && (temp_s3->unk_410 == 0)) {
                 arg0->unk_168 = 0;
                 arg0->unk_00C = 0xC;
-                set_bottom_up_virus(arg0, mapGrid);
+                set_bottom_up_virus(arg0, mapCells);
                 dm_snd_play_in_game(SND_INDEX_101);
             } else {
                 if (arg0->unk_039 >= 2U) {
@@ -3288,7 +3286,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
                     arg0->unk_174 = var_a0_2;
                 }
 
-                dm_warning_h_line(arg0, mapGrid);
+                dm_warning_h_line(arg0, mapCells);
                 dm_set_capsel(arg0);
                 dm_capsel_speed_up(arg0);
                 dm_attack_se(arg0, arg2);
@@ -3335,10 +3333,10 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
                 temp_s3->unk_3C8 = MAX(_big_virus_min_wait[arg0->unk_16C], temp_s3->unk_3C8 - 0.5);
 
                 arg0->unk_00C = 8;
-                if (bottom_up_bottle_items(mapGrid)) {
+                if (bottom_up_bottle_items(mapCells)) {
                     return -1;
                 }
-                arg0->unk_025 = get_virus_color_count(mapGrid, (u8 *)temp_s3->unk_418, (u8 *)&temp_s3->unk_418[1],
+                arg0->unk_025 = get_virus_color_count(mapCells, (u8 *)temp_s3->unk_418, (u8 *)&temp_s3->unk_418[1],
                                                       (u8 *)&temp_s3->unk_418[2]);
 
                 for (var_s0 = 0; var_s0 < 3; var_s0++) {
@@ -3538,7 +3536,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_main_cnt_1P
 
 #if VERSION_CN
 // TODO: enum return type?
-s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 arg2) {
+s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32 arg2) {
     struct_watchGame *watchGameP = watchGame;
     dm_calc_erase_score_pos_arg2 sp28;
     s32 var_s1;
@@ -3555,7 +3553,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
 
     switch (arg0->unk_00C) {
         case 0x1:
-            dm_set_virus(arg0, mapGrid, &virus_map_data[arg2], &virus_map_disp_order[arg2]);
+            dm_set_virus(arg0, mapCells, &virus_map_data[arg2], &virus_map_disp_order[arg2]);
             return 3;
 
         case 0x2:
@@ -3568,12 +3566,12 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
                 func_80060FA0(&arg0->unk_178, (CapsMagazine[arg0->unk_033] >> 4) % 3, CapsMagazine[arg0->unk_033] % 3);
                 arg0->unk_00C = 4;
                 arg0->unk_02F = 0x1E;
-                dm_capsel_down(arg0, mapGrid);
+                dm_capsel_down(arg0, mapCells);
             }
             break;
 
         case 0x5:
-            if (dm_check_game_over(arg0, mapGrid) != false) {
+            if (dm_check_game_over(arg0, mapCells) != false) {
                 for (var_s0 = 0; var_s0 < 3; var_s0++) {
                     if (watchGameP->animeStates[var_s0].animeSeq.unk_10 != 4) {
                         animeState_set(&watchGameP->animeStates[var_s0], 3);
@@ -3586,7 +3584,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
                 return -1;
             }
 
-            if ((dm_h_erase_chack(mapGrid) != false) || (dm_w_erase_chack(mapGrid) != false)) {
+            if ((dm_h_erase_chack(mapCells) != false) || (dm_w_erase_chack(mapCells) != false)) {
                 arg0->unk_00C = 6;
                 arg0->unk_02F = 0;
             } else {
@@ -3600,13 +3598,13 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
             if (arg0->unk_02F >= 0x12U) {
                 arg0->unk_02F = 0;
                 arg0->unk_00C = 7;
-                dm_h_erase_chack_set(arg0, mapGrid);
-                dm_w_erase_chack_set(arg0, mapGrid);
-                dm_h_ball_chack(mapGrid);
-                dm_w_ball_chack(mapGrid);
+                dm_h_erase_chack_set(arg0, mapCells);
+                dm_w_erase_chack_set(arg0, mapCells);
+                dm_h_ball_chack(mapCells);
+                dm_w_ball_chack(mapCells);
 
                 var_s0 = arg0->unk_025;
-                var_s0 -= get_virus_color_count(mapGrid, watchGameP->unk_418, &watchGameP->unk_418[1],
+                var_s0 -= get_virus_color_count(mapCells, watchGameP->unk_418, &watchGameP->unk_418[1],
                                                 &watchGameP->unk_418[2]);
                 arg0->unk_025 -= var_s0;
 
@@ -3635,7 +3633,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
 
                 arg0->unk_03C[3] &= 0xF;
 
-                dm_calc_erase_score_pos(arg0, mapGrid, &sp28);
+                dm_calc_erase_score_pos(arg0, mapCells, &sp28);
                 scoreNums_set(&watchGameP->unk_0B8[arg2], dm_make_score(arg0), arg0->unk_037,
                               arg0->unk_006 + arg0->unk_00A / 2 + sp28.unk_0,
                               arg0->unk_008 + arg0->unk_00A / 2 + sp28.unk_4);
@@ -3680,11 +3678,11 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
             break;
 
         case 0x7:
-            dm_capsel_erase_anime(arg0, mapGrid);
+            dm_capsel_erase_anime(arg0, mapCells);
             break;
 
         case 0x8:
-            go_down(arg0, mapGrid, 0xE);
+            go_down(arg0, mapCells, 0xE);
             break;
 
         case 0x9:
@@ -3693,14 +3691,14 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
             if ((watchGameP->unk_9BC != 0) && (watchGameP->unk_410 == 0)) {
                 arg0->unk_168 = 0;
                 arg0->unk_00C = 0xC;
-                set_bottom_up_virus(arg0, mapGrid);
+                set_bottom_up_virus(arg0, mapCells);
                 dm_snd_play_in_game(SND_INDEX_101);
             } else {
                 if (arg0->unk_039 > 1) {
                     arg0->unk_174 = MIN(0x63, arg0->unk_174 + arg0->unk_039 - 1);
                 }
 
-                dm_warning_h_line(arg0, mapGrid);
+                dm_warning_h_line(arg0, mapCells);
                 dm_set_capsel(arg0);
                 dm_capsel_speed_up(arg0);
                 dm_attack_se(arg0, arg2);
@@ -3737,11 +3735,11 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 
                 watchGameP->unk_3C8 = MAX(_big_virus_min_wait[arg0->unk_16C], watchGameP->unk_3C8 - 0.5);
 
                 arg0->unk_00C = 8;
-                if (bottom_up_bottle_items(mapGrid) != false) {
+                if (bottom_up_bottle_items(mapCells) != false) {
                     return -1;
                 }
 
-                arg0->unk_025 = get_virus_color_count(mapGrid, watchGameP->unk_418, &watchGameP->unk_418[1],
+                arg0->unk_025 = get_virus_color_count(mapCells, watchGameP->unk_418, &watchGameP->unk_418[1],
                                                       &watchGameP->unk_418[2]);
 
                 for (var_s0 = 0; var_s0 < 3; var_s0++) {
@@ -3937,7 +3935,7 @@ s32 func_80062AC4(s32);                             /* extern */
 ? func_80062B34(s32);                               /* extern */
 s32 dm_set_attack_2p(struct_game_state_data *);        /* extern */
 
-s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 index) {
+s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapCell *mapCells, s32 index) {
     dm_calc_erase_score_pos_arg2 sp18;
     s32 temp_s4_3;
     s32 temp_v0_2;
@@ -3998,20 +3996,20 @@ s32 dm_game_main_cnt(struct_game_state_data *arg0, GameMapGrid *mapGrid, s32 ind
     func_80062EC0(&temp_s3->unk_0B8[index]);
     temp_v0 = arg0->unk_020;
     if ((temp_v0 != 1) & (temp_v0 != 0xD)) {
-        dm_black_up(arg0, mapGrid);
+        dm_black_up(arg0, mapCells);
     }
     if ((evs_gamemode != ENUM_EVS_GAMEMODE_3) || ((u32) evs_game_time < 0x2A30U) || (var_v0 = -1, (arg0->unk_020 != 1))) {
         temp_v0_2 = arg0->unk_00C;
         switch (temp_v0_2) {                        /* switch 1 */
             case 0x1:                               /* switch 1 */
-                dm_set_virus(arg0, mapGrid, &virus_map_data[index], &virus_map_disp_order[index]);
+                dm_set_virus(arg0, mapCells, &virus_map_data[index], &virus_map_disp_order[index]);
                 /* fallthrough */
             case 0x2:                               /* switch 1 */
                 return 3;
             case 0x5:                               /* switch 1 */
                 var_v0 = -1;
-                if (dm_check_game_over(arg0, mapGrid) == false) {
-                    if ((dm_h_erase_chack(mapGrid) != false) || (dm_w_erase_chack(mapGrid) != false)) {
+                if (dm_check_game_over(arg0, mapCells) == false) {
+                    if ((dm_h_erase_chack(mapCells) != false) || (dm_w_erase_chack(mapCells) != false)) {
                         var_v0_2 = 0x15;
                         if (arg0->unk_049 == 0) {
                             var_v0_2 = 6;
@@ -4037,14 +4035,14 @@ block_141:
                 if ((u32) (temp_v0_3 & 0xFF) >= 0x12U) {
                     arg0->unk_00C = 7;
                     arg0->unk_02F = 0;
-                    dm_h_erase_chack_set(arg0, mapGrid);
-                    dm_w_erase_chack_set(arg0, mapGrid);
-                    dm_h_ball_chack(mapGrid);
-                    dm_w_ball_chack(mapGrid);
+                    dm_h_erase_chack_set(arg0, mapCells);
+                    dm_w_erase_chack_set(arg0, mapCells);
+                    dm_h_ball_chack(mapCells);
+                    dm_w_ball_chack(mapCells);
                     temp_s4_2 = arg0->unk_025;
-                    temp_s4_3 = temp_s4_2 - func_8006121C(arg0, mapGrid, 1);
+                    temp_s4_3 = temp_s4_2 - func_8006121C(arg0, mapCells, 1);
                     arg0->unk_170 += temp_s4_3;
-                    dm_calc_erase_score_pos(arg0, mapGrid, &sp18);
+                    dm_calc_erase_score_pos(arg0, mapCells, &sp18);
                     temp_v1 = (s8) (u8) arg0->unk_00A / 2;
                     scoreNums_set(&temp_s3->unk_0B8[index], dm_make_score(arg0), arg0->unk_037, arg0->unk_006 + temp_v1 + (s32) sp18, arg0->unk_008 + temp_v1 + sp18.unk_4);
                     temp_v1_2 = arg0->unk_025;
@@ -4117,10 +4115,10 @@ block_116:
                 }
                 break;
             case 0x7:                               /* switch 1 */
-                dm_capsel_erase_anime(arg0, mapGrid);
+                dm_capsel_erase_anime(arg0, mapCells);
                 return 0;
             case 0x8:                               /* switch 1 */
-                go_down(arg0, mapGrid, 0xE);
+                go_down(arg0, mapCells, 0xE);
                 return 0;
             case 0x9:                               /* switch 1 */
                 temp_v1_9 = arg0->unk_039;
@@ -4134,7 +4132,7 @@ block_116:
                     arg0->unk_174 = var_a0;
                 }
                 dm_attack_se(arg0, index);
-                dm_warning_h_line(arg0, mapGrid);
+                dm_warning_h_line(arg0, mapCells);
                 switch (evs_gamesel) {              /* switch 3 */
                     case ENUM_EVS_GAMESEL_1:        /* switch 3 */
                     case ENUM_EVS_GAMESEL_3:        /* switch 3 */
@@ -4143,7 +4141,7 @@ block_116:
                             if (dm_set_attack_2p(arg0) != 0) {
                                 animeState_set(&arg0->unk_094, 1);
                             }
-                            if (dm_broken_set(arg0, mapGrid) != false) {
+                            if (dm_broken_set(arg0, mapCells) != false) {
                                 animeState_set(&arg0->unk_094, 2);
                                 dm_snd_play_in_game(_charSE_tbl[arg0->unk_090] + 3);
                                 temp_v1_11 = (u8) arg0->unk_292;
@@ -4165,7 +4163,7 @@ block_61:
                         if (dm_set_attack_4p(arg0) != 0) {
                             animeState_set(&arg0->unk_094, 1);
                         }
-                        if (dm_broken_set(arg0, mapGrid) != false) {
+                        if (dm_broken_set(arg0, mapCells) != false) {
                             animeState_set(&arg0->unk_094, 2);
                             temp_v1_12 = (u8) arg0->unk_292;
                             arg0->unk_00C = 8;
@@ -4306,7 +4304,7 @@ block_140:
                 return var_v0;
             case 0x14:                              /* switch 1 */
                 arg0->unk_049 = 1;
-                clear_map_all(mapGrid);
+                clear_map_all(mapCells);
                 arg0->unk_025 = 0;
                 arg0->unk_024 = 0;
                 arg0->unk_02B = 0xC;
@@ -4368,12 +4366,12 @@ block_140:
                 if ((u32) (temp_v0_6 & 0xFF) >= 0x12U) {
                     arg0->unk_02F = 0;
                     arg0->unk_00C = 7;
-                    dm_h_erase_chack_set(arg0, mapGrid);
-                    dm_w_erase_chack_set(arg0, mapGrid);
-                    dm_h_ball_chack(mapGrid);
-                    dm_w_ball_chack(mapGrid);
+                    dm_h_erase_chack_set(arg0, mapCells);
+                    dm_w_erase_chack_set(arg0, mapCells);
+                    dm_h_ball_chack(mapCells);
+                    dm_w_ball_chack(mapCells);
                     arg0->unk_039 += 1;
-                    func_8006121C(arg0, mapGrid, 1);
+                    func_8006121C(arg0, mapCells, 1);
                     temp_v1_16 = arg0->unk_03C[3];
                     if (temp_v1_16 & 8) {
                         arg0->unk_03C[3] = temp_v1_16 & 0xF7;
@@ -4384,13 +4382,13 @@ block_140:
                 /* Duplicate return node #142. Try simplifying control flow for better match */
                 return var_v0;
             case 0x16:                              /* switch 1 */
-                dm_warning_h_line(arg0, mapGrid);
+                dm_warning_h_line(arg0, mapCells);
                 var_s3_2 = 1;
                 if (arg0->unk_04A != 0) {
                     dm_attack_se(arg0, index);
                     dm_set_attack_4p(arg0);
                     animeState_set(&arg0->unk_094, 1);
-                    if (dm_broken_set(arg0, mapGrid) != false) {
+                    if (dm_broken_set(arg0, mapCells) != false) {
                         arg0->unk_00C = 8;
                         var_s3_2 = 0;
                     }
@@ -4451,7 +4449,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_game_main_cnt);
 #endif
 
 #if VERSION_CN
-s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, s32 index) {
+s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, s32 index) {
     struct_watchGame *temp_s1 = watchGame;
     dm_calc_erase_score_pos_arg2 sp20;
     s32 button = gControllerPressedButtons[main_joy[index]];
@@ -4466,7 +4464,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
     func_80062EC0(&temp_s1->unk_0B8[index]);
 
     if ((gameStateDataRef->unk_020 != 1) && (gameStateDataRef->unk_020 != 0xD)) {
-        dm_black_up(gameStateDataRef, mapGrid);
+        dm_black_up(gameStateDataRef, mapCells);
     }
 
     if ((evs_gamemode == ENUM_EVS_GAMEMODE_3) && (evs_game_time >= 10800) && (gameStateDataRef->unk_020 == 1)) {
@@ -4475,18 +4473,18 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
 
     switch (gameStateDataRef->unk_00C) {
         case 0x1:
-            dm_set_virus(gameStateDataRef, mapGrid, &virus_map_data[index], &virus_map_disp_order[index]);
+            dm_set_virus(gameStateDataRef, mapCells, &virus_map_data[index], &virus_map_disp_order[index]);
             return 3;
 
         case 0x2:
             return 3;
 
         case 0x5:
-            if (dm_check_game_over(gameStateDataRef, mapGrid)) {
+            if (dm_check_game_over(gameStateDataRef, mapCells)) {
                 return -1;
             }
 
-            if (dm_h_erase_chack(mapGrid) || dm_w_erase_chack(mapGrid)) {
+            if (dm_h_erase_chack(mapCells) || dm_w_erase_chack(mapCells)) {
                 gameStateDataRef->unk_00C = (gameStateDataRef->unk_049 == 0) ? 6 : 0x15;
                 gameStateDataRef->unk_02F = 0;
             } else if (gameStateDataRef->unk_049 == 0) {
@@ -4503,16 +4501,16 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
 
                 gameStateDataRef->unk_00C = 7;
                 gameStateDataRef->unk_02F = 0;
-                dm_h_erase_chack_set(gameStateDataRef, mapGrid);
-                dm_w_erase_chack_set(gameStateDataRef, mapGrid);
-                dm_h_ball_chack(mapGrid);
-                dm_w_ball_chack(mapGrid);
+                dm_h_erase_chack_set(gameStateDataRef, mapCells);
+                dm_w_erase_chack_set(gameStateDataRef, mapCells);
+                dm_h_ball_chack(mapCells);
+                dm_w_ball_chack(mapCells);
 
                 temp_s4_2 = gameStateDataRef->unk_025;
-                temp_s4_2 -= func_8006121C(gameStateDataRef, mapGrid, 1);
+                temp_s4_2 -= func_8006121C(gameStateDataRef, mapCells, 1);
                 gameStateDataRef->unk_170 += temp_s4_2;
 
-                dm_calc_erase_score_pos(gameStateDataRef, mapGrid, &sp20);
+                dm_calc_erase_score_pos(gameStateDataRef, mapCells, &sp20);
 
                 scoreNums_set(&temp_s1->unk_0B8[index], dm_make_score(gameStateDataRef), gameStateDataRef->unk_037,
                               gameStateDataRef->unk_006 + gameStateDataRef->unk_00A / 2 + (s32)sp20.unk_0,
@@ -4588,11 +4586,11 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
             break;
 
         case 0x7:
-            dm_capsel_erase_anime(gameStateDataRef, mapGrid);
+            dm_capsel_erase_anime(gameStateDataRef, mapCells);
             break;
 
         case 0x8:
-            go_down(gameStateDataRef, mapGrid, 0xE);
+            go_down(gameStateDataRef, mapCells, 0xE);
             break;
 
         case 0x9:
@@ -4603,7 +4601,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
             }
 
             dm_attack_se(gameStateDataRef, index);
-            dm_warning_h_line(gameStateDataRef, mapGrid);
+            dm_warning_h_line(gameStateDataRef, mapCells);
             switch (evs_gamesel) {
                 case ENUM_EVS_GAMESEL_1:
                 case ENUM_EVS_GAMESEL_3:
@@ -4613,7 +4611,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
                             animeState_set(&gameStateDataRef->unk_094, 1);
                         }
 
-                        if (dm_broken_set(gameStateDataRef, mapGrid)) {
+                        if (dm_broken_set(gameStateDataRef, mapCells)) {
                             animeState_set(&gameStateDataRef->unk_094, 2);
                             var_s6 = false;
                             dm_snd_play_in_game(_charSE_tbl[gameStateDataRef->unk_090] + 3);
@@ -4633,7 +4631,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
                         animeState_set(&gameStateDataRef->unk_094, 1);
                     }
 
-                    if (dm_broken_set(gameStateDataRef, mapGrid)) {
+                    if (dm_broken_set(gameStateDataRef, mapCells)) {
                         animeState_set(&gameStateDataRef->unk_094, 2);
                         var_s6 = false;
                         gameStateDataRef->unk_00C = 8;
@@ -4758,7 +4756,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
 
         case 0x14:
             gameStateDataRef->unk_049 = 1;
-            clear_map_all(mapGrid);
+            clear_map_all(mapCells);
             gameStateDataRef->unk_025 = 0;
             gameStateDataRef->unk_024 = 0;
             gameStateDataRef->unk_02B = 0xC;
@@ -4803,13 +4801,13 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
             if (gameStateDataRef->unk_02F >= 0x12) {
                 gameStateDataRef->unk_02F = 0;
                 gameStateDataRef->unk_00C = 7;
-                dm_h_erase_chack_set(gameStateDataRef, mapGrid);
-                dm_w_erase_chack_set(gameStateDataRef, mapGrid);
-                dm_h_ball_chack(mapGrid);
-                dm_w_ball_chack(mapGrid);
+                dm_h_erase_chack_set(gameStateDataRef, mapCells);
+                dm_w_erase_chack_set(gameStateDataRef, mapCells);
+                dm_h_ball_chack(mapCells);
+                dm_w_ball_chack(mapCells);
 
                 gameStateDataRef->unk_039++;
-                func_8006121C(gameStateDataRef, mapGrid, 1);
+                func_8006121C(gameStateDataRef, mapCells, 1);
 
                 if (gameStateDataRef->unk_03C[3] & 8) {
                     gameStateDataRef->unk_03C[3] &= ~8;
@@ -4821,14 +4819,14 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapGrid *mapG
             break;
 
         case 0x16:
-            dm_warning_h_line(gameStateDataRef, mapGrid);
+            dm_warning_h_line(gameStateDataRef, mapCells);
 
             var_s6 = true;
             if (gameStateDataRef->unk_04A != 0) {
                 dm_attack_se(gameStateDataRef, index);
                 dm_set_attack_4p(gameStateDataRef);
                 animeState_set(&gameStateDataRef->unk_094, 1);
-                if (dm_broken_set(gameStateDataRef, mapGrid)) {
+                if (dm_broken_set(gameStateDataRef, mapCells)) {
                     gameStateDataRef->unk_00C = 8;
                     var_s6 = false;
                 }
@@ -5171,7 +5169,7 @@ s32 dm_game_main_1p(void) {
     struct_game_state_data *temp = game_state_data;
 
     func_800669A0(temp);
-    temp_s3 = dm_game_main_cnt_1P(temp, game_map_data, 0);
+    temp_s3 = dm_game_main_cnt_1P(temp, game_map_data[0], 0);
     dm_warning_h_line_se();
     if (watchGameP->unk_410 == 0) {
         s32 var_s2;
@@ -5545,7 +5543,7 @@ s32 dm_game_main_2p(void) {
     s32 var_s5;
     s32 var_s6;
     s32 var_v0;
-    GameMapGrid *var_a1;
+    GameMapCell *var_a1;
     struct_watchGame *temp_s7;
     struct_watchGame *var_s2_2;
     struct_game_state_data **var_a1_2;
@@ -5877,7 +5875,7 @@ s32 dm_game_main_2p(void) {
     s32 sp40 = 0;
     s32 var_fp = 0;
     struct_game_state_data *sp28[2];
-    GameMapGrid *sp30[2];
+    GameMapCell *sp30[2];
     s32 sp38[2];
     s32 var_s1_4;
     s32 var_s2_2;
@@ -5885,7 +5883,7 @@ s32 dm_game_main_2p(void) {
 
     for (i = 0; i < 2; i++) {
         sp28[i] = &game_state_data[i];
-        sp30[i] = &game_map_data[i];
+        sp30[i] = game_map_data[i];
     }
 
     dm_set_pause_and_volume(sp28, 2);
@@ -6084,7 +6082,7 @@ s32 dm_game_main_4p(void) {
     struct_watchGame *temp_s4 = watchGame;
 
     struct_game_state_data *sp18[4];
-    GameMapGrid *sp28[4];
+    GameMapCell *sp28[4];
     s32 sp38[4];
     s32 sp48;
     s32 sp4C;
@@ -6110,7 +6108,7 @@ s32 dm_game_main_4p(void) {
 
     for (var_s0 = 0; var_s0 < 4; var_s0++) {
         sp18[var_s0] = &game_state_data[var_s0];
-        sp28[var_s0] = &game_map_data[var_s0];
+        sp28[var_s0] = game_map_data[var_s0];
     }
 
     dm_set_pause_and_volume(sp18, 4);
@@ -6388,7 +6386,7 @@ s32 dm_game_main_4p(void) {
 #if VERSION_US || VERSION_CN
 bool dm_game_demo_1p(void) {
     struct_watchGame *watchGameP = watchGame;
-    s32 temp_s4 = dm_game_main_cnt_1P(game_state_data, game_map_data, 0);
+    s32 temp_s4 = dm_game_main_cnt_1P(game_state_data, game_map_data[0], 0);
     s32 i;
 
     dm_warning_h_line_se();
@@ -6436,7 +6434,7 @@ bool dm_game_demo_2p(void) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-        sp10[i] = dm_game_main_cnt(&game_state_data[i], &game_map_data[i], i);
+        sp10[i] = dm_game_main_cnt(&game_state_data[i], game_map_data[i], i);
     }
 
     dm_warning_h_line_se();
@@ -6476,7 +6474,7 @@ bool dm_game_demo_4p(void) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-        sp10[i] = dm_game_main_cnt(&game_state_data[i], &game_map_data[i], i);
+        sp10[i] = dm_game_main_cnt(&game_state_data[i], game_map_data[i], i);
     }
 
     dm_warning_h_line_se();
@@ -6785,14 +6783,14 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", dm_map_draw);
 #endif
 
-void dm_map_draw(GameMapGrid * /*arg0*/, u8 /*arg1*/, s16 /*arg2*/, s16 /*arg3*/, s8 /*arg4*/);
+void dm_map_draw(GameMapCell *mapCells, u8 arg1, s16 arg2, s16 arg3, s8 arg4);
 
 #if VERSION_CN
-void dm_map_draw(GameMapGrid *arg0, u8 arg1, s16 arg2, s16 arg3, s8 arg4) {
+void dm_map_draw(GameMapCell *mapCells, u8 arg1, s16 arg2, s16 arg3, s8 arg4) {
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(arg0->cells); i++) {
-        GameMapCell *cell = &arg0->cells[i];
+    for (i = 0; i < GAME_MAP_ROWS * GAME_MAP_COLUMNS; i++) {
+        GameMapCell *cell = &mapCells[i];
 
         if ((cell->unk_4[0] != 0) && (cell->unk_3 == arg1)) {
 
@@ -6808,10 +6806,10 @@ void dm_map_draw(GameMapGrid *arg0, u8 arg1, s16 arg2, s16 arg3, s8 arg4) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_80069ACC);
 #endif
 
-void func_80069ACC(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1, s32 arg2[2]);
+void func_80069ACC(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, s32 arg2[2]);
 
 #if VERSION_CN
-void func_80069ACC(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1, s32 arg2[2]) {
+void func_80069ACC(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, s32 arg2[2]) {
     s32 var_s3 = 0x10;
     s32 i;
 
@@ -6819,7 +6817,7 @@ void func_80069ACC(GameMapGrid *mapGrid, struct_game_state_data_unk_178 *arg1, s
         s32 row = MAX(1, arg1->unk_2[i]);
 
         for (; row < GAME_MAP_ROWS; row++) {
-            if (get_map_info(mapGrid, arg1->unk_0[i], row) != 0) {
+            if (get_map_info(mapCells, arg1->unk_0[i], row) != 0) {
                 var_s3 = MIN(var_s3, row - 1);
                 break;
             }
@@ -7205,14 +7203,14 @@ void draw_flash_virus_light(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) 
 }
 #endif
 
-void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid);
+void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRef, GameMapCell *mapCells);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_flash_virus_lights);
 #endif
 
 #if VERSION_CN
-void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid UNUSED) {
+void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRef, GameMapCell *mapCells UNUSED) {
     s32 var_t1 = 0;
     s32 var_s5;
     s32 var_s6;
@@ -7615,10 +7613,10 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
 }
 #endif
 
-void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, GameMapGrid *mapGrid);
+void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, GameMapCell *mapCells);
 
 #if VERSION_US || VERSION_CN
-void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, GameMapGrid *mapGrid) {
+void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, GameMapCell *mapCells) {
     s32 sp28[2];
     TiTexDataEntry *temp_v0;
     s32 temp_s6;
@@ -7641,7 +7639,7 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
     for (i = 0; i < 6; i++) {
         temp_v0 = dm_game_get_capsel_pal(temp_s6, i);
         load_TexPal(temp_v0->unk_0->unk_0);
-        dm_map_draw(mapGrid, i, gameStateData->unk_006, gameStateData->unk_008 - gameStateData->unk_168,
+        dm_map_draw(mapCells, i, gameStateData->unk_006, gameStateData->unk_008 - gameStateData->unk_168,
                     gameStateData->unk_00A);
     }
 
@@ -7664,7 +7662,7 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
 
         temp = &gameStateData->unk_178;
 
-        func_80069ACC(mapGrid, temp, sp28);
+        func_80069ACC(mapCells, temp, sp28);
 
         gDPSetRenderMode(gGfxHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
         gDPSetCombineMode(gGfxHead++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
@@ -7693,7 +7691,7 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapGrid *mapGrid) {
+void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapCell *mapCells) {
     struct_watchGame *watchGameP = watchGame;
     s32 sp20[2];
     s32 sp28[2];
@@ -7706,7 +7704,7 @@ void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapG
 
     temp_s6 = gameStateData->unk_00A == 8;
 
-    dm_game_graphic_common(gameStateData, arg1, mapGrid);
+    dm_game_graphic_common(gameStateData, arg1, mapCells);
 
     gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
@@ -7732,7 +7730,7 @@ void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapG
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, GameMapGrid *mapGrid) {
+void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, GameMapCell *mapCells) {
     struct_watchGame *temp_s2 = watchGame;
     s32 sp20[2];
     s32 sp28[2];
@@ -7742,7 +7740,7 @@ void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, Game
         return;
     }
 
-    dm_game_graphic_common(gameStateDataRef, arg1, mapGrid);
+    dm_game_graphic_common(gameStateDataRef, arg1, mapCells);
 
     gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
@@ -7804,7 +7802,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         case 0xC:
             switch (evs_gamemode) {
                 case ENUM_EVS_GAMEMODE_1:
-                    draw_flash_virus_lights(&gGfxHead, gameStateDataRef, &game_map_data[arg1]);
+                    draw_flash_virus_lights(&gGfxHead, gameStateDataRef, game_map_data[arg1]);
                     break;
 
                 default:
@@ -8109,7 +8107,7 @@ void dm_make_key(void) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void key_control_main(struct_game_state_data *gameStateDataRef, GameMapGrid *mapGrid, s32 arg2, s32 arg3) {
+void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, s32 arg2, s32 arg3) {
     struct_watchGame *temp_s5 = watchGame;
     s32 sp18[2];
     s32 sp20[2];
@@ -8153,15 +8151,15 @@ void key_control_main(struct_game_state_data *gameStateDataRef, GameMapGrid *map
 
             temp_s0_2 = &gameStateDataRef->unk_178;
             if (joygam[arg2] & B_BUTTON) {
-                rotate_capsel(mapGrid, temp_s0_2, -1);
+                rotate_capsel(mapCells, temp_s0_2, -1);
             } else if (joygam[arg2] & A_BUTTON) {
-                rotate_capsel(mapGrid, temp_s0_2, 1);
+                rotate_capsel(mapCells, temp_s0_2, 1);
             }
 
             if (joygam[arg2] & L_JPAD) {
-                translate_capsel(mapGrid, gameStateDataRef, -1, arg3);
+                translate_capsel(mapCells, gameStateDataRef, -1, arg3);
             } else if (joygam[arg2] & R_JPAD) {
-                translate_capsel(mapGrid, gameStateDataRef, 1, arg3);
+                translate_capsel(mapCells, gameStateDataRef, 1, arg3);
             }
 
             gameStateDataRef->unk_030 = 1;
@@ -8186,7 +8184,7 @@ void key_control_main(struct_game_state_data *gameStateDataRef, GameMapGrid *map
                 dm_draw_capsel_by_cpu_tentative(gameStateDataRef, sp18, sp20);
             }
         }
-        dm_capsel_down(gameStateDataRef, mapGrid);
+        dm_capsel_down(gameStateDataRef, mapCells);
         temp_s5->unk_37C[arg2] = 2;
     } else {
         if (temp_s5->unk_37C[arg2] != 0) {
@@ -8524,7 +8522,7 @@ void dm_game_init(bool arg0) {
             temp_s0_3->unk_050[j].unk_2 = 0;
         }
 
-        init_map_all(&game_map_data[i]);
+        init_map_all(game_map_data[i]);
     }
 
     var_s3 = virus_map_disp_order;
@@ -9776,8 +9774,8 @@ void dm_game_graphic2(void) {
         case ENUM_EVS_GAMESEL_6:
             if ((temp_s2_2 == 0) && (temp_s7->unk_880 == 0)) {
                 for (i = 0; i < evs_playcnt; i++) {
-                    dm_virus_anime(&game_state_data[i], &game_map_data[i]);
-                    dm_game_graphic_p(&game_state_data[i], i, &game_map_data[i]);
+                    dm_virus_anime(&game_state_data[i], game_map_data[i]);
+                    dm_game_graphic_p(&game_state_data[i], i, game_map_data[i]);
                 }
             }
             break;
@@ -9802,8 +9800,8 @@ void dm_game_graphic2(void) {
                     animeState_initDL(&game_state_data[0].unk_094, &gGfxHead);
                     animeState_draw(&game_state_data[0].unk_094, &gGfxHead, 250.0f, 84.0f, 1.0f, 1.0f);
 
-                    dm_virus_anime(&game_state_data[0], game_map_data);
-                    dm_game_graphic_1p(&game_state_data[0], 0, game_map_data);
+                    dm_virus_anime(&game_state_data[0], game_map_data[0]);
+                    dm_game_graphic_1p(&game_state_data[0], 0, game_map_data[0]);
                     _disp_coin_logo(&gGfxHead, temp_s7->unk_378);
 
                     gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
@@ -10201,19 +10199,19 @@ void dm_game_graphic_onDoneSawp(void) {
 
         switch (evs_gamesel) {
             case ENUM_EVS_GAMESEL_0:
-                key_control_main(&game_state_data[0], &game_map_data[0], 0, main_joy[0]);
+                key_control_main(&game_state_data[0], game_map_data[0], 0, main_joy[0]);
                 break;
 
             case ENUM_EVS_GAMESEL_1:
             case ENUM_EVS_GAMESEL_3:
                 for (i = 0; i < 2; i++) {
-                    key_control_main(&game_state_data[i], &game_map_data[i], i, main_joy[i]);
+                    key_control_main(&game_state_data[i], game_map_data[i], i, main_joy[i]);
                 }
                 break;
 
             default:
                 for (i = 0; i < 4; i++) {
-                    key_control_main(&game_state_data[i], &game_map_data[i], i, main_joy[i]);
+                    key_control_main(&game_state_data[i], game_map_data[i], i, main_joy[i]);
                 }
                 break;
         }

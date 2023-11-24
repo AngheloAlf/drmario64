@@ -7,7 +7,7 @@
 #include "unk.h"
 
 struct struct_game_state_data;
-struct GameMapGrid;
+struct GameMapCell;
 struct struct_800F4890_unk_034;
 struct struct_800F4890_unk_0E8;
 struct struct_800EB670;
@@ -26,10 +26,10 @@ bool func_80072230(struct struct_800F4890_unk_034 *arg0);
 bool func_8007224C(struct struct_800F4890_unk_034 *arg0);
 void func_80072268(struct struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2);
 void dm_manual_attack_capsel_down(void);
-void func_800723EC(struct struct_game_state_data *gameStateDataP, struct GameMapGrid *mapGrid, s32 arg2);
+void func_800723EC(struct struct_game_state_data *gameStateDataP, struct GameMapCell *mapCells, s32 arg2);
 void dm_manual_update_virus_anime(struct struct_game_state_data *arg0);
-s32 dm_manual_main_cnt(struct struct_game_state_data *gameStateData, struct GameMapGrid *mapGrid, u8 arg2, s32 arg3);
-void dm_manual_make_key(struct struct_game_state_data *arg0, struct GameMapGrid *mapGrid);
+s32 dm_manual_main_cnt(struct struct_game_state_data *gameStateData, struct GameMapCell *mapCells, u8 arg2, s32 arg3);
+void dm_manual_make_key(struct struct_game_state_data *arg0, struct GameMapCell *mapCells);
 bool dm_manual_1_main(void);
 bool dm_manual_2_main(void);
 bool dm_manual_3_main(void);

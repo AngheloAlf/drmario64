@@ -82,11 +82,11 @@ void aifMakeBlkWork(struct_game_state_data *gameStateDataRef) {
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
             s32 index = GAME_MAP_GET_INDEX(row - 1, column);
 
-            if (game_map_data[gameStateDataRef->unk_298].cells[index].unk_4[0] != 0) {
+            if (game_map_data[gameStateDataRef->unk_298][index].unk_4[0] != 0) {
                 gameStateDataRef->unk_29C[row][column][0] =
-                    capsGCnv_122[game_map_data[gameStateDataRef->unk_298].cells[index].unk_2];
+                    capsGCnv_122[game_map_data[gameStateDataRef->unk_298][index].unk_2];
                 gameStateDataRef->unk_29C[row][column][1] =
-                    capsCCnv_123[game_map_data[gameStateDataRef->unk_298].cells[index].unk_3];
+                    capsCCnv_123[game_map_data[gameStateDataRef->unk_298][index].unk_3];
             } else {
                 gameStateDataRef->unk_29C[row][column][0] = 10;
                 gameStateDataRef->unk_29C[row][column][1] = 3;
