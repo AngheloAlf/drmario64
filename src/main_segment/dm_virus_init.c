@@ -53,7 +53,18 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", clear_map);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", clear_map);
+void clear_map(GameMapGrid* mapGrid, s32 column, s32 row) {
+    GameMapCell* cells = mapGrid->cells;
+    s32 index = GAME_MAP_GET_INDEX(row - 1, column);
+    s32 i;
+
+    cells[index].unk_3 = 0;
+    cells[index].unk_2 = 0;
+
+    for (i = 0; i < ARRAY_COUNTU(cells->unk_4); i++) {
+        cells[index].unk_4[i] = 0;
+    }
+}
 #endif
 
 #if VERSION_US || VERSION_CN
