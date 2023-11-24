@@ -98,12 +98,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005F09C);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005F0E4);
 #endif
 
+extern const u8 limit_table[];
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", RO_800B1BA0);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", limit_table);
 #endif
-
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", RO_800B1BA0);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", limit_table);
 #endif
 
 #if VERSION_CN
@@ -291,7 +291,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", dm_check_color);
 #endif
 
 #if VERSION_US
-bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3) {
+bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) {
     struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
     u8 temp_t0;
 
@@ -309,14 +309,14 @@ bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3) 
     }
 
     temp_t0 = (arg1 + ((arg2 - 3) * 8));
-    if ((arg2 & 0xFFFF) >= 6U) {
+    if (arg2 >= 6U) {
         if (ptr[temp_t0].unk_0 == arg3) {
             return false;
         }
     }
 
     temp_t0 = (arg1 + ((arg2 + 1) * 8));
-    if ((arg2 & 0xFFFF) < 0xFU) {
+    if (arg2 < 0xFU) {
         if (ptr[temp_t0].unk_0 == arg3) {
             return false;
         }
@@ -331,15 +331,55 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065880_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065910_cn);
+bool func_80065910_cn(struct_virus_map_data *arg0, u16 arg1, u16 arg2) {
+    struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
+    u8 temp = (arg2 - 1) * 8 + arg1;
+
+    if (ptr[temp].unk_0 < 0) {
+        return 0U;
+    }
+    return 1U;
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065950_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_check_color);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065B20_cn);
+bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) {
+    struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
+    u8 temp_t0;
+
+    temp_t0 = ((arg2 - 1) * 8) + arg1;
+    if (arg1 >= 2U) {
+        if (ptr[temp_t0 - 2].unk_0 == arg3) {
+            return false;
+        }
+    }
+
+    if (arg1 < 6U) {
+        if (ptr[temp_t0 + 2].unk_0 == arg3) {
+            return false;
+        }
+    }
+
+    temp_t0 = ((arg2 - 3) * 8) + arg1;
+    if (arg2 >= 6U) {
+        if (ptr[temp_t0].unk_0 == arg3) {
+            return false;
+        }
+    }
+
+    temp_t0 = ((arg2 + 1) * 8) + arg1;
+    if (arg2 < 0xFU) {
+        if (ptr[temp_t0].unk_0 == arg3) {
+            return false;
+        }
+    }
+
+    return true;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -407,11 +447,13 @@ s32 dm_get_first_virus_count_in_new_mode(s32 arg0) {
 }
 #endif
 
+extern const u8 _l_359[];
+
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", RO_800B1BCC);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", _l_359);
 #endif
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", RO_800B1BCC);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", _l_359);
 #endif
 
 #if VERSION_US
@@ -601,11 +643,159 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", _dm_virus_init);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", _dm_virus_init);
+void _dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2,
+                    struct_virus_map_disp_order *arg3, s32 arg4) {
+    struct_virus_map_data_unk_000 *temp_v1_4 = arg2->unk_000;
+    u8 *ptr = arg3->unk_00;
+    u16 sp18[4];
+    u8 sp20;
+    u8 sp24;
+    u8 sp28;
+    s16 var_s0;
+    u16 var_s0_2;
+    u16 var_s1;
+    s16 temp_s2;
+    u8 temp_s3;
+    s32 var_s4;
+    u16 var_s5_2;
+    u16 var_s7;
+
+loop_1:
+
+    for (var_s0 = 0; var_s0 < 0x80; var_s0++) {
+        temp_v1_4[var_s0].unk_0 = -1;
+        temp_v1_4[var_s0].unk_2 = 0;
+        temp_v1_4[var_s0].unk_1 = 0;
+    }
+
+    for (var_s0 = 0; var_s0 < 0x60; var_s0++) {
+        ptr[var_s0] = 0xFF;
+    }
+
+    switch (arg0) {
+        case ENUM_EVS_GAMEMODE_1:
+        case ENUM_EVS_GAMEMODE_3:
+            sp28 = limit_table[(_l_359[arg1->unk_16C] <= 0x17) ? _l_359[arg1->unk_16C] : 0x17];
+            break;
+
+        default:
+            sp28 = limit_table[(arg1->unk_026 <= 0x17) ? arg1->unk_026 : 0x17];
+            break;
+    }
+
+    sp20 = dm_get_first_virus_count(arg0, arg1);
+
+    for (var_s0 = 0; var_s0 < 4; var_s0++) {
+        sp18[var_s0] = sp20 / 3;
+    }
+
+    var_s0 = 0;
+    temp_s2 = (sp20 % 3);
+    while (var_s0 < temp_s2) {
+        s32 temp_v0_3;
+
+        temp_v0_3 = random(3);
+
+        if ((sp18[temp_v0_3] <= sp18[(temp_v0_3 + 1) % 3]) && (sp18[temp_v0_3] <= sp18[(temp_v0_3 + 2) % 3])) {
+            sp18[temp_v0_3]++;
+            var_s0++;
+        }
+    }
+
+    sp24 = 0;
+    if (arg4 == 1) {
+        var_s1 = 3;
+        var_s0_2 = sp28 + 1;
+        temp_s2 = 2;
+        temp_s3 = 2;
+
+        sp18[temp_s2] -= 1;
+
+        temp_s2 = ((var_s0_2 - 1) * 8) + var_s1;
+        temp_v1_4[temp_s2].unk_0 = temp_s3;
+        temp_v1_4[temp_s2].unk_1 = var_s1;
+        temp_v1_4[temp_s2].unk_2 = var_s0_2;
+
+        ptr[sp24] = temp_s2;
+
+        sp24 = 1;
+    }
+
+    for (; sp24 < sp20; sp24++) {
+        var_s7 = 0;
+        var_s5_2 = 0;
+
+        do {
+
+            do {
+                temp_s2 = random(3);
+            } while (sp18[temp_s2] == 0);
+            temp_s3 = temp_s2;
+
+            var_s5_2++;
+            if (var_s5_2 == 3) {
+                var_s7++;
+                if (var_s7 > 2U) {
+                    goto loop_1;
+                }
+
+                var_s5_2 = 0;
+
+                for (var_s1 = 0; var_s1 < 8U; var_s1++) {
+                    for (var_s0_2 = 0x10; var_s0_2 > sp28; var_s0_2--) {
+                        var_s4 = 0;
+
+                        if (func_80065910_cn(arg2, var_s1, var_s0_2) != 0) {
+                            continue;
+                        }
+
+                        var_s4 = dm_check_color(arg2, var_s1, var_s0_2, temp_s3);
+                        if (var_s4 == 0) {
+                            continue;
+                        }
+
+                        var_s4 = dm_check_color_2(arg2, var_s1, var_s0_2, temp_s3);
+                        if (var_s4 == 0) {
+                            continue;
+                        }
+
+                        goto label;
+                    }
+                }
+
+            //! FAKE ?
+            label:;
+            } else {
+
+                do {
+                    var_s1 = random(8);
+                    do {
+                        var_s0_2 = random(0x11);
+                    } while (var_s0_2 < (sp28 + 1));
+                } while (func_80065910_cn(arg2, var_s1, var_s0_2) != 0);
+
+                var_s4 = dm_check_color(arg2, var_s1, var_s0_2, temp_s3);
+                if (var_s4 != 0) {
+                    var_s4 = dm_check_color_2(arg2, var_s1, var_s0_2, temp_s3);
+                }
+            }
+
+        } while (var_s4 == 0);
+
+        sp18[temp_s2]--;
+
+        temp_s2 = (var_s0_2 - 1) * 8 + var_s1;
+        temp_v1_4[temp_s2].unk_0 = temp_s3;
+        temp_v1_4[temp_s2].unk_1 = var_s1;
+        temp_v1_4[temp_s2].unk_2 = var_s0_2;
+
+        ptr[sp24] = temp_s2;
+    }
+}
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_virus_init(u32 arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2,
+void dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2,
                    struct_virus_map_disp_order *arg3) {
     _dm_virus_init(arg0, arg1, arg2, arg3, 0);
 }

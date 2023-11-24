@@ -369,7 +369,8 @@ void go_down(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 a
             s32 index = GAME_MAP_GET_INDEX(row, j);
 
             if (mapCells[index].unk_4[1] != 0) {
-                set_map(mapCells, mapCells[index].unk_0, mapCells[index].unk_1 + 1, mapCells[index].unk_2, mapCells[index].unk_3);
+                set_map(mapCells, mapCells[index].unk_0, mapCells[index].unk_1 + 1, mapCells[index].unk_2,
+                        mapCells[index].unk_3);
                 clear_map(mapCells, mapCells[index].unk_0, mapCells[index].unk_1);
                 var_a0 = true;
             }
