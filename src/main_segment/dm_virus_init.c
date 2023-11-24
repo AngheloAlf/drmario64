@@ -23,10 +23,8 @@ void init_map_all(GameMapCell *mapCells) {
         s32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            GameMapCell *cells = mapCells;
-
-            cells[GAME_MAP_GET_INDEX(row, column)].unk_0 = column;
-            cells[GAME_MAP_GET_INDEX(row, column)].unk_1 = row + 1;
+            mapCells[GAME_MAP_GET_INDEX(row, column)].unk_0 = column;
+            mapCells[GAME_MAP_GET_INDEX(row, column)].unk_1 = row + 1;
         }
     }
 }
@@ -54,15 +52,14 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", clear_map);
 
 #if VERSION_CN
 void clear_map(GameMapCell *mapCells, s32 column, s32 row) {
-    GameMapCell *cells = mapCells;
     s32 index = GAME_MAP_GET_INDEX(row - 1, column);
     s32 i;
 
-    cells[index].unk_3 = 0;
-    cells[index].unk_2 = 0;
+    mapCells[index].unk_3 = 0;
+    mapCells[index].unk_2 = 0;
 
-    for (i = 0; i < ARRAY_COUNTU(cells->unk_4); i++) {
-        cells[index].unk_4[i] = 0;
+    for (i = 0; i < ARRAY_COUNTU(mapCells->unk_4); i++) {
+        mapCells[index].unk_4[i] = 0;
     }
 }
 #endif
@@ -83,10 +80,9 @@ void clear_map_all(GameMapCell *mapCells) {
 
 #if VERSION_US || VERSION_CN
 s32 get_map_info(GameMapCell *mapCells, s32 column, s32 rowPlusOne) {
-    GameMapCell *cells = mapCells;
     s32 index = GAME_MAP_GET_INDEX(rowPlusOne - 1, column);
 
-    if (cells[index].unk_4[0] != 0) {
+    if (mapCells[index].unk_4[0] != 0) {
         return 1;
     }
 
@@ -121,14 +117,13 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065638_cn);
 #if VERSION_US || VERSION_CN
 s32 get_virus_color_count(GameMapCell *mapCells, u8 *arg1, u8 *arg2, u8 *arg3) {
     s32 sp0[3] = { 0, 0, 0 };
-    GameMapCell *cells = mapCells;
     s32 i;
     s32 count = 0;
 
     for (i = 0; i < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; i++) {
-        if (cells[i].unk_4[0] != 0) {
-            if ((cells[i].unk_4[2] == 0) && (cells[i].unk_4[4] >= 0)) {
-                sp0[cells[i].unk_4[3]]++;
+        if (mapCells[i].unk_4[0] != 0) {
+            if ((mapCells[i].unk_4[2] == 0) && (mapCells[i].unk_4[4] >= 0)) {
+                sp0[mapCells[i].unk_4[3]]++;
                 count++;
             }
         }
@@ -154,7 +149,6 @@ s32 get_virus_count(GameMapCell *mapCells) {
 
 #if VERSION_US || VERSION_CN
 void set_map(GameMapCell *mapCells, s32 column, s32 rowPlusOne, s32 arg3, s32 arg4) {
-    GameMapCell *cells = mapCells;
     s32 index;
     s32 var_t0;
 
@@ -165,19 +159,18 @@ void set_map(GameMapCell *mapCells, s32 column, s32 rowPlusOne, s32 arg3, s32 ar
 
     index = GAME_MAP_GET_INDEX(rowPlusOne - 1, column);
 
-    cells[index].unk_2 = arg3;
-    cells[index].unk_3 = arg4;
-    cells[index].unk_4[0] = 1;
-    cells[index].unk_4[1] = 0;
-    cells[index].unk_4[2] = 0;
-    cells[index].unk_4[4] = -1;
-    cells[index].unk_4[3] = var_t0;
+    mapCells[index].unk_2 = arg3;
+    mapCells[index].unk_3 = arg4;
+    mapCells[index].unk_4[0] = 1;
+    mapCells[index].unk_4[1] = 0;
+    mapCells[index].unk_4[2] = 0;
+    mapCells[index].unk_4[4] = -1;
+    mapCells[index].unk_4[3] = var_t0;
 }
 #endif
 
 #if VERSION_US || VERSION_CN
 void set_virus(GameMapCell *mapCells, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    GameMapCell *cells;
     s32 var_t0;
     s32 temp;
 
@@ -186,16 +179,15 @@ void set_virus(GameMapCell *mapCells, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         var_t0 -= 3;
     }
 
-    temp = (arg2 - 1) * GAME_MAP_COLUMNS;
-    cells = mapCells;
+    temp = GAME_MAP_GET_INDEX(arg2 - 1, arg1);
 
-    cells[temp + arg1].unk_2 = arg4;
-    cells[temp + arg1].unk_3 = arg3;
-    cells[temp + arg1].unk_4[0] = 1;
-    cells[temp + arg1].unk_4[1] = 0;
-    cells[temp + arg1].unk_4[2] = 0;
-    cells[temp + arg1].unk_4[4] = arg3;
-    cells[temp + arg1].unk_4[3] = var_t0;
+    mapCells[temp].unk_2 = arg4;
+    mapCells[temp].unk_3 = arg3;
+    mapCells[temp].unk_4[0] = 1;
+    mapCells[temp].unk_4[1] = 0;
+    mapCells[temp].unk_4[2] = 0;
+    mapCells[temp].unk_4[4] = arg3;
+    mapCells[temp].unk_4[3] = var_t0;
 }
 #endif
 

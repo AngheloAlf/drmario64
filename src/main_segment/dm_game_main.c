@@ -366,12 +366,11 @@ void go_down(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 a
 
     for (row = GAME_MAP_ROWS - 1; row >= 0; row--) {
         for (j = 0; j < GAME_MAP_COLUMNS; j++) {
-            GameMapCell *cells = mapCells;
             s32 index = GAME_MAP_GET_INDEX(row, j);
 
-            if (cells[index].unk_4[1] != 0) {
-                set_map(mapCells, cells[index].unk_0, cells[index].unk_1 + 1, cells[index].unk_2, cells[index].unk_3);
-                clear_map(mapCells, cells[index].unk_0, cells[index].unk_1);
+            if (mapCells[index].unk_4[1] != 0) {
+                set_map(mapCells, mapCells[index].unk_0, mapCells[index].unk_1 + 1, mapCells[index].unk_2, mapCells[index].unk_3);
+                clear_map(mapCells, mapCells[index].unk_0, mapCells[index].unk_1);
                 var_a0 = true;
             }
         }
@@ -706,14 +705,13 @@ bool dm_check_game_over(struct_game_state_data *gameStateDataRef, GameMapCell *m
 
 #if VERSION_US || VERSION_CN
 s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapCell *mapCells, s32 arg2) {
-    GameMapCell *cells = mapCells;
     s32 ret = 0;
     s32 i;
 
     for (i = 0; i < arg0->unk_164; i++) {
         s32 index = GAME_MAP_GET_INDEX_ALT(arg0->unk_0D4.unk_00[i].unk_4, arg0->unk_0D4.unk_00[i].unk_0);
 
-        if (((cells[index].unk_4[0] == 0) || (cells[index].unk_4[2] != 0) || (cells[index].unk_4[4] < 0))) {
+        if (((mapCells[index].unk_4[0] == 0) || (mapCells[index].unk_4[2] != 0) || (mapCells[index].unk_4[4] < 0))) {
             if (arg2 != 0) {
                 arg0->unk_0D4.unk_00[i].unk_8 = -1;
             }
@@ -759,7 +757,6 @@ void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCell
 
         if (gameStateDataRef->unk_024 < temp_v0) {
             struct_virus_map_data_unk_000 *temp_v0_3 = virusMapData->unk_000;
-            GameMapCell *cells = mapCells;
             u8 *temp_a0 = &virusMapDispOrder->unk_00[gameStateDataRef->unk_024];
             u8 cellIndex = *temp_a0;
 
@@ -768,7 +765,7 @@ void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCell
             set_virus(mapCells, temp_v0_3[cellIndex].unk_1, temp_v0_3[cellIndex].unk_2, temp_v0_3[cellIndex].unk_0,
                       virus_anime_table[temp_v0_3[cellIndex].unk_0][gameStateDataRef->unk_027]);
             if (gameStateDataRef->unk_01C == 0x12) {
-                cells[cellIndex].unk_3 += 3;
+                mapCells[cellIndex].unk_3 += 3;
             }
         }
     }
@@ -864,16 +861,15 @@ bool dm_h_erase_chack(GameMapCell *mapCells) {
         s32 val = 0xF;
         s32 var_a1 = 0;
         s32 var_a3 = -1;
-        GameMapCell *cells = mapCells;
 
         for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
-            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
-                if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_a3) {
+            if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
+                if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_a3) {
                     if (var_a1 < 3) {
                         if (row >= 0xD) {
                             break;
                         }
-                        var_a3 = cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
+                        var_a3 = mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
                         var_a1 = 0;
                     } else {
                         return true;
@@ -913,10 +909,8 @@ void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapCell 
         s32 row;
 
         for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
-            GameMapCell *cells = mapCells;
-
-            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
-                if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_s2) {
+            if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
+                if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_s2) {
                     if (var_s1 >= 3) {
                         dm_make_erase_h_line(gameStateDataRef, mapCells, var_s5, var_s1, column);
                         if (gameStateDataRef->unk_039 == 0) {
@@ -927,10 +921,8 @@ void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapCell 
                     }
 
                     if (row < 0xD) {
-                        cells = mapCells;
-
                         var_s5 = row;
-                        var_s2 = cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
+                        var_s2 = mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
                         var_s1 = 0;
                     } else {
                         var_fp = 1;
@@ -977,23 +969,22 @@ void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapCell 
 
 #if VERSION_US || VERSION_CN
 void dm_make_erase_w_line(struct_game_state_data *arg0, GameMapCell *mapCells, s32 columnStart, s32 count, s32 row) {
-    GameMapCell *cells = mapCells;
     s32 column = columnStart;
     u32 columnEnd = column + count + 1;
 
     for (; column < columnEnd; column++) {
         s32 index = GAME_MAP_GET_INDEX(row, column);
 
-        if (cells[index].unk_4[2] != 1) {
-            cells[index].unk_4[2] = 1;
+        if (mapCells[index].unk_4[2] != 1) {
+            mapCells[index].unk_4[2] = 1;
 
-            if (cells[index].unk_4[4] < 0) {
-                cells[index].unk_2 = 5;
+            if (mapCells[index].unk_4[4] < 0) {
+                mapCells[index].unk_2 = 5;
             } else {
-                cells[index].unk_2 = 0xD;
+                mapCells[index].unk_2 = 0xD;
                 arg0->unk_037 += 1;
                 arg0->unk_03C[3] |= 8;
-                arg0->unk_03C[3] |= (0x10 << cells[index].unk_4[3]);
+                arg0->unk_03C[3] |= (0x10 << mapCells[index].unk_4[3]);
             }
         }
     }
@@ -1010,14 +1001,12 @@ bool dm_w_erase_chack(GameMapCell *mapCells) {
         s32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            GameMapCell *cells = mapCells;
-
-            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
-                if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_a3) {
+            if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
+                if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_a3) {
                     if (var_a1 >= 3) {
                         return true;
                     } else if (column < 5) {
-                        var_a3 = cells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
+                        var_a3 = mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
                         var_a1 = 0;
                     } else {
                         break;
@@ -1057,10 +1046,8 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapCell *mapCells) {
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
             s32 index = GAME_MAP_GET_INDEX(row, column);
-            GameMapCell *cells = mapCells;
-
-            if (cells[index].unk_4[0] != 0) {
-                if (cells[index].unk_4[3] != var_s3) {
+            if (mapCells[index].unk_4[0] != 0) {
+                if (mapCells[index].unk_4[3] != var_s3) {
                     if (var_s1 >= 3) {
                         dm_make_erase_w_line(arg0, mapCells, var_s6, var_s1, row);
                         if (arg0->unk_039 == 0) {
@@ -1072,10 +1059,8 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapCell *mapCells) {
                     if (column >= 5) {
                         var_fp = true;
                     } else {
-                        cells = mapCells;
-
                         var_s6 = column;
-                        var_s3 = cells[index].unk_4[3];
+                        var_s3 = mapCells[index].unk_4[3];
                         var_s1 = 0;
                     }
                 } else {
@@ -1123,29 +1108,28 @@ void dm_h_ball_chack(GameMapCell *mapCells) {
     u32 column;
 
     for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-        GameMapCell *cells = mapCells;
         u32 row;
 
         for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
             s32 index = GAME_MAP_GET_INDEX(row, column);
             s32 temp;
 
-            if (cells[index].unk_4[0] == 0) {
+            if (mapCells[index].unk_4[0] == 0) {
                 continue;
             }
 
-            if (cells[index].unk_2 == 0) {
+            if (mapCells[index].unk_2 == 0) {
                 temp = GAME_MAP_GET_INDEX(row + 1, column);
-                if (cells[temp].unk_2 != 1) {
-                    cells[index].unk_2 = 4;
+                if (mapCells[temp].unk_2 != 1) {
+                    mapCells[index].unk_2 = 4;
                 }
-            } else if (cells[index].unk_2 == 1) {
-                if (cells[index].unk_1 == 1) {
-                    cells[index].unk_2 = 4;
+            } else if (mapCells[index].unk_2 == 1) {
+                if (mapCells[index].unk_1 == 1) {
+                    mapCells[index].unk_2 = 4;
                 } else {
                     temp = GAME_MAP_GET_INDEX(row - 1, column);
-                    if (cells[temp].unk_2 != 0) {
-                        cells[index].unk_2 = 4;
+                    if (mapCells[temp].unk_2 != 0) {
+                        mapCells[index].unk_2 = 4;
                     }
                 }
             }
@@ -1162,16 +1146,14 @@ void dm_w_ball_chack(GameMapCell *mapCells) {
         u32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            GameMapCell *cells = mapCells;
-
-            if (cells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
-                if (cells[GAME_MAP_GET_INDEX(row, column)].unk_2 == 2) {
-                    if (cells[GAME_MAP_GET_INDEX(row, column + 1)].unk_2 != 3) {
-                        cells[GAME_MAP_GET_INDEX(row, column)].unk_2 = 4;
+            if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
+                if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_2 == 2) {
+                    if (mapCells[GAME_MAP_GET_INDEX(row, column + 1)].unk_2 != 3) {
+                        mapCells[GAME_MAP_GET_INDEX(row, column)].unk_2 = 4;
                     }
-                } else if ((cells[GAME_MAP_GET_INDEX(row, column)].unk_2 == 3) &&
-                           (cells[GAME_MAP_GET_INDEX(row, column - 1)].unk_2 != 2)) {
-                    cells[GAME_MAP_GET_INDEX(row, column)].unk_2 = 4;
+                } else if ((mapCells[GAME_MAP_GET_INDEX(row, column)].unk_2 == 3) &&
+                           (mapCells[GAME_MAP_GET_INDEX(row, column - 1)].unk_2 != 2)) {
+                    mapCells[GAME_MAP_GET_INDEX(row, column)].unk_2 = 4;
                 }
             }
         }
@@ -2673,7 +2655,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", set_bottom_up_virus
 #if VERSION_CN
 void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells) {
     u8 sp20[GAME_MAP_COLUMNS];
-    GameMapCell *temp_v1;
     s32 col;
     s32 cellIndex;
     s32 var_s2;
@@ -2729,14 +2710,12 @@ void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells) {
         sp48[1] = cellIndex - 2;
 
         for (var_s2 = 0; var_s2 < 2; var_s2++) {
-            temp_v1 = mapCells;
-
             if (sp38[var_s2] == 0) {
                 continue;
             }
 
-            if (temp_v1[sp48[var_s2]].unk_4[0] != 0) {
-                sp28[temp_v1[sp48[var_s2]].unk_4[3]] += 1;
+            if (mapCells[sp48[var_s2]].unk_4[0] != 0) {
+                sp28[mapCells[sp48[var_s2]].unk_4[3]] += 1;
             }
         }
 
