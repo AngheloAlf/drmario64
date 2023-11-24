@@ -76,7 +76,30 @@ typedef struct struct_8005FC6C_arg0 {
     /* 0x000 */ UNK_TYPE4 unk_000;
     /* 0x004 */ UNK_TYPE4 unk_004;
     /* 0x008 */ UNK_TYPE4 unk_008;
-    /* 0x00C */ UNK_TYPE1 UNK_00C[0x2E8];
+    /* 0x00C */ UNK_TYPE1 unk_00C[0x60];
+    /* 0x06C */ u8 unk_06C[UNK_SIZE][0x20];
+    /* 0x08C */ UNK_TYPE1 unk_08C[0x40];
+    /* 0x0CC */ s32 unk_0CC[3];
+    /* 0x0D8 */ u8 unk_0D8[UNK_SIZE][0x20];
+    /* 0x0F8 */ UNK_TYPE1 unk_0F8[0x40];
+    /* 0x138 */ s32 unk_138[UNK_SIZE];
+    /* 0x13C */ UNK_TYPE1 unk_13C[0x8];
+    /* 0x144 */ u8 unk_144[UNK_SIZE][0x20];
+    /* 0x164 */ UNK_TYPE1 unk_164[0x40];
+    /* 0x1A4 */ s32 unk_1A4[UNK_SIZE];
+    /* 0x1A8 */ UNK_TYPE1 unk_1A8[0x8];
+    /* 0x1B0 */ u8 unk_1B0[UNK_SIZE][0x20];
+    /* 0x1D0 */ UNK_TYPE1 unk_1D0[0x40];
+    /* 0x210 */ s32 unk_210[UNK_SIZE];
+    /* 0x214 */ UNK_TYPE1 unk_214[0x8];
+    /* 0x21C */ u8 unk_21C[UNK_SIZE][0x20];
+    /* 0x23C */ UNK_TYPE1 unk_23C[0x40];
+    /* 0x27C */ s32 unk_27C[UNK_SIZE];
+    /* 0x280 */ UNK_TYPE1 unk_280[0x8];
+    /* 0x288 */ u8 unk_288[UNK_SIZE][0x20];
+    /* 0x2A8 */ UNK_TYPE1 unk_2A8[0x40];
+    /* 0x2E8 */ s32 unk_2E8[UNK_SIZE];
+    /* 0x2EC */ UNK_TYPE1 unk_2EC[0x8];
 } struct_8005FC6C_arg0; // size = 0x2F4
 
 

@@ -369,7 +369,7 @@ void set_map(GameMapCell *mapCells, s32 column, s32 rowPlusOne, s32 arg3, s32 ar
 void set_virus(GameMapCell *mapCells, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 u16 func_8005F2B0(void);
 u32 func_8005F310(struct_virus_map_data *arg0, s32 arg1, s32 arg2);
-bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3);
+bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3);
 bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3);
 void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data *virusMapDst, struct_virus_map_disp_order *virusDispOrderSrc, struct_virus_map_disp_order *virusDispOrderDst);
 s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_game_state_data *arg1);
@@ -379,7 +379,7 @@ void dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_
 void func_8005FC6C(struct_8005FC6C_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *arg0);
 // void func_8005FE68();
-UNK_TYPE make_flash_virus_pos(struct_game_state_data *, struct_virus_map_data *, struct_virus_map_disp_order *);
+UNK_TYPE make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *virusMapDispOrder);
 UNK_TYPE func_800601F0(struct_game_state_data *gameStateDataRef, s32 arg1);
 void func_80060270(struct_game_state_data * gameStateDataRef, UNK_TYPE arg1);
 UNK_TYPE dm_make_score(struct_game_state_data *arg0);

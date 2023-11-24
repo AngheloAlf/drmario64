@@ -207,6 +207,10 @@ u16 func_8005F2B0(void) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065880_cn);
+#endif
+
 #if VERSION_US
 u32 func_8005F310(struct_virus_map_data *arg0, s32 arg1, s32 arg2) {
     struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
@@ -217,9 +221,21 @@ u32 func_8005F310(struct_virus_map_data *arg0, s32 arg1, s32 arg2) {
 }
 #endif
 
+#if VERSION_CN
+bool func_80065910_cn(struct_virus_map_data *arg0, u16 arg1, u16 arg2) {
+    struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
+    u8 temp = (arg2 - 1) * 8 + arg1;
+
+    if (ptr[temp].unk_0 < 0) {
+        return 0U;
+    }
+    return 1U;
+}
+#endif
+
 #if VERSION_US
 #ifdef NON_MATCHING
-bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, s32 arg2, u8 arg3) {
+bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) {
     struct {
         u8 unk_0;
         u8 unk_1;
@@ -290,6 +306,53 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", dm_check_color);
 #endif
 #endif
 
+#if VERSION_CN
+bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) {
+    struct_virus_map_data_unk_000 *temp_v0 = arg0->unk_000;
+    u8 temp_a0 = (arg2 - 1) * 8 + arg1;
+    u8 sp8[2];
+
+    if ((arg1 >= 2U) && (temp_v0[temp_a0-1].unk_0 == arg3) && (temp_v0[temp_a0-2].unk_0 == arg3)) {
+        return false;
+    }
+
+    if ((arg1 != 0) && (arg1 != 7)) {
+        if ((temp_v0[temp_a0-1].unk_0 == arg3) && (temp_v0[temp_a0+1].unk_0 == arg3)) {
+            return false;
+        }
+    }
+
+    if (((arg1 < 6U) && (temp_v0[temp_a0+1].unk_0 == arg3) && (temp_v0[temp_a0+2].unk_0 == arg3)) ) {
+        return false;
+    }
+
+    sp8[0] = (arg2 * 8) + arg1;
+    sp8[1] = (arg2 + 1) * 8 + arg1;
+    if (arg2 < 0xFU) {
+        if ((temp_v0[sp8[0]].unk_0 == arg3) && (temp_v0[sp8[1]].unk_0 == arg3)) {
+            return false;
+        }
+    }
+
+    sp8[1] = (arg2 - 2) * 8 + arg1;
+    if ((arg2 > 0x3) && (arg2 < 0x10)) {
+        if ((temp_v0[sp8[0]].unk_0 == arg3) && (temp_v0[sp8[1]].unk_0 == arg3)) {
+            return false;
+        }
+    }
+
+    sp8[0] = (arg2 - 2) * 8 + arg1;
+    sp8[1] = (arg2 - 3) * 8 + arg1;
+    if (arg2 > 5) {
+        if ((temp_v0[sp8[0]].unk_0 == arg3) && (temp_v0[sp8[1]].unk_0 == arg3)) {
+            return false;
+        }
+    }
+
+    return true;
+}
+#endif
+
 #if VERSION_US
 bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) {
     struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
@@ -324,26 +387,6 @@ bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) 
 
     return true;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065880_cn);
-#endif
-
-#if VERSION_CN
-bool func_80065910_cn(struct_virus_map_data *arg0, u16 arg1, u16 arg2) {
-    struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
-    u8 temp = (arg2 - 1) * 8 + arg1;
-
-    if (ptr[temp].unk_0 < 0) {
-        return 0U;
-    }
-    return 1U;
-}
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", dm_check_color);
 #endif
 
 #if VERSION_CN
@@ -831,13 +874,14 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80066298_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80066300_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", _makeFlash_checkOrdre);
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800664DC_cn);
 #endif
 
+#if VERSION_US
 struct _m2c_stack_make_flash_virus_pos {
     /* 0x000 */ char pad_0[0x10];
     /* 0x010 */ struct_8005FC6C_arg0 sp10;
@@ -846,10 +890,98 @@ struct _m2c_stack_make_flash_virus_pos {
     /* 0x310 */ char pad_310[0x30];
 }; /* size = 0x340 */
 
-#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", make_flash_virus_pos);
 #endif
 
+void func_80066298_cn(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *arg2, s32 virusCount);
+void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *arg0);
+s32 func_800664DC_cn(struct_8005FC6C_arg0 *arg0, u8 arg1[UNK_SIZE][0x20], s32 *arg2, s32 arg3);
+extern const s32 RO_800B1BD0[][5];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", make_flash_virus_pos);
+s32 make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *virusMapDispOrder) {
+    struct_8005FC6C_arg0 sp18;
+    struct_8005FC6C_arg0 *ptr = &sp18;
+    s32 var_fp;
+    s32 var_s0;
+    s32 var_s1;
+    s32 var_s4;
+    s32 var_v1;
+    s32 *var_s6;
+    u8 (*var_s7)[0x20];
+    s32 var_s3;
+
+    gameStateDataRef->unk_164 = 3;
+    var_fp = 3;
+    func_80066298_cn(ptr, virusMapData, virusMapDispOrder, dm_get_first_virus_count(ENUM_EVS_GAMEMODE_1, gameStateDataRef));
+    _makeFlash_checkOrdre(ptr);
+    var_s0 = random(3);
+
+    for (var_s3 = 0; var_s3 < 5; var_s3++) {
+        var_s4 = RO_800B1BD0[gameStateDataRef->unk_16C][var_s3];
+        if (var_fp < var_s4) {
+            var_s4 = var_fp;
+        }
+
+        switch (var_s3) {
+            case 0:
+                var_s7 = ptr->unk_0D8;
+                var_s6 = ptr->unk_138;
+                break;
+
+            case 1:
+                var_s7 = ptr->unk_144;
+                var_s6 = ptr->unk_1A4;
+                break;
+
+            case 2:
+                var_s7 = ptr->unk_1B0;
+                var_s6 = ptr->unk_210;
+                break;
+
+            case 3:
+                var_s7 = ptr->unk_21C;
+                var_s6 = ptr->unk_27C;
+                break;
+
+            case 4:
+                var_s7 = ptr->unk_288;
+                var_s6 = ptr->unk_2E8;
+                break;
+        }
+
+        var_s1 = 0;
+
+        while ((var_s1 < 3) && (var_s4 > 0)) {
+            var_s0 = (var_s0 + 1) % 3;
+
+            if ((ptr->unk_0CC[var_s0] <= ptr->unk_0CC[(var_s0 + 1) % 3]) && (ptr->unk_0CC[var_s0] <= ptr->unk_0CC[(var_s0 + 2) % 3])) {
+                var_v1 = func_800664DC_cn(ptr, var_s7, var_s6, var_s0);
+            } else {
+                var_v1 = -1;
+            }
+
+            var_s1 += 1;
+            if (var_v1 >= 0) {
+                var_fp -= 1;
+                var_s4 -= 1;
+                var_s1 = 0;
+            }
+        }
+    }
+
+    var_s3 = 0;
+    for (var_s0 = 0; var_s0 < 3; var_s0++) {
+        for (var_s1 = 0; var_s1 < ptr->unk_0CC[var_s0]; var_s1++) {
+            var_v1 = ptr->unk_06C[var_s0][var_s1];
+            gameStateDataRef->unk_0D4.unk_00[var_s3].unk_0 = var_v1 & 7;
+            gameStateDataRef->unk_0D4.unk_00[var_s3].unk_4 = (var_v1 >> 3) & 0xF;
+            gameStateDataRef->unk_0D4.unk_00[var_s3].unk_8 = var_s0;
+            gameStateDataRef->unk_140.unk_00[var_s3] = var_s0;
+            var_s3 += 1;
+        }
+    }
+
+    return ptr->unk_0CC[0] + ptr->unk_0CC[1] + ptr->unk_0CC[2];
+}
 #endif
