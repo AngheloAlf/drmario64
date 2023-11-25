@@ -509,16 +509,11 @@ typedef enum enum_evs_gamesel {
     /* 7 */ ENUM_EVS_GAMESEL_MAX
 } enum_evs_gamesel;
 
-typedef struct struct_virus_map_data_unk_000 {
+typedef struct struct_virus_map_data {
     /* 0x0 */ s8 unk_0;
     /* 0x1 */ u8 unk_1;
     /* 0x2 */ u8 unk_2;
-} struct_virus_map_data_unk_000; // size = 0x3
-
-// TODO: probably another fake struct
-typedef struct struct_virus_map_data {
-    /* 0x000 */ struct_virus_map_data_unk_000 unk_000[0x80];
-} struct_virus_map_data; // size = 0x180
+} struct_virus_map_data; // size = 0x3
 
 typedef struct struct_virus_map_disp_order {
     /* 0x00 */ u8 unk_00[0x60];

@@ -757,14 +757,13 @@ void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCell
         }
 
         if (gameStateDataRef->unk_024 < temp_v0) {
-            struct_virus_map_data_unk_000 *temp_v0_3 = virusMapData->unk_000;
             u8 *temp_a0 = &virusMapDispOrder->unk_00[gameStateDataRef->unk_024];
             u8 cellIndex = *temp_a0;
 
             *temp_a0 |= 0x80;
 
-            set_virus(mapCells, temp_v0_3[cellIndex].unk_1, temp_v0_3[cellIndex].unk_2, temp_v0_3[cellIndex].unk_0,
-                      virus_anime_table[temp_v0_3[cellIndex].unk_0][gameStateDataRef->unk_027]);
+            set_virus(mapCells, virusMapData[cellIndex].unk_1, virusMapData[cellIndex].unk_2, virusMapData[cellIndex].unk_0,
+                      virus_anime_table[virusMapData[cellIndex].unk_0][gameStateDataRef->unk_027]);
             if (gameStateDataRef->unk_01C == 0x12) {
                 mapCells[cellIndex].unk_3 += 3;
             }
@@ -3533,7 +3532,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
 
     switch (arg0->unk_00C) {
         case 0x1:
-            dm_set_virus(arg0, mapCells, &virus_map_data[arg2], &virus_map_disp_order[arg2]);
+            dm_set_virus(arg0, mapCells, virus_map_data[arg2], &virus_map_disp_order[arg2]);
             return 3;
 
         case 0x2:
@@ -4453,7 +4452,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
 
     switch (gameStateDataRef->unk_00C) {
         case 0x1:
-            dm_set_virus(gameStateDataRef, mapCells, &virus_map_data[index], &virus_map_disp_order[index]);
+            dm_set_virus(gameStateDataRef, mapCells, virus_map_data[index], &virus_map_disp_order[index]);
             return 3;
 
         case 0x2:
@@ -8289,7 +8288,6 @@ void dm_game_init(bool arg0) {
     s32 var_s4;
     struct_game_state_data *temp_s0_3;
     struct_game_state_data *var_s0_2;
-    struct_virus_map_data *var_s1_5;
     struct_virus_map_disp_order *var_s3;
 
     if (!arg0 || (watchGameP->unk_000 == 0)) {
@@ -8506,12 +8504,11 @@ void dm_game_init(bool arg0) {
     }
 
     var_s3 = virus_map_disp_order;
-    var_s1_5 = virus_map_data;
     var_s0_2 = game_state_data;
     for (i = 0; i < evs_playcnt; i++) {
-        dm_virus_init(evs_gamemode, &var_s0_2[i], &var_s1_5[i], &var_s3[i]);
+        dm_virus_init(evs_gamemode, &var_s0_2[i], virus_map_data[i], &var_s3[i]);
         if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
-            make_flash_virus_pos(&var_s0_2[i], &var_s1_5[i], &var_s3[i]);
+            make_flash_virus_pos(&var_s0_2[i], virus_map_data[i], &var_s3[i]);
         } else {
             game_state_data[i].unk_164 = 0;
         }
@@ -8520,7 +8517,7 @@ void dm_game_init(bool arg0) {
     for (i = 0; i < evs_playcnt - 1; i++) {
         for (j = i + 1; j < evs_playcnt; j++) {
             if (game_state_data[i].unk_026 == game_state_data[j].unk_026) {
-                dm_virus_map_copy(&virus_map_data[i], &virus_map_data[j], &virus_map_disp_order[i],
+                dm_virus_map_copy(virus_map_data[i], virus_map_data[j], &virus_map_disp_order[i],
                                   &virus_map_disp_order[j]);
                 if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
                     game_state_data[j].unk_164 = game_state_data[i].unk_164;

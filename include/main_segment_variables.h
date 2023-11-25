@@ -380,7 +380,7 @@ extern u8 aiFlag[];
 // extern UNK_TYPE B_800F6CD4;
 extern u16 joyflg[MAXCONTROLLERS];
 // extern UNK_TYPE B_800F6CE0;
-extern struct_virus_map_data virus_map_data[4];
+extern struct_virus_map_data virus_map_data[4][16*8];
 extern struct_virus_map_disp_order virus_map_disp_order[4];
 extern struct_evs_cfg_4p evs_cfg_4p;
 extern s32 s_hard_mode; // maybe bool?

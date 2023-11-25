@@ -1435,7 +1435,7 @@ bool dm_manual_1_main(void) {
                 clear_map_all(mapCells);
                 temp_s1->unk_164 += 1;
                 gameStateDataP->unk_026 = 0xF;
-                _dm_virus_init(0, gameStateDataP, &virus_map_data[0], virus_map_disp_order, var_s5);
+                _dm_virus_init(0, gameStateDataP, virus_map_data[0], virus_map_disp_order, var_s5);
 
                 for (var_s0 = 0; var_s0 < 3; var_s0++) {
                     animeState_set(get_virus_anime_state(var_s0), 0);
@@ -1459,9 +1459,9 @@ bool dm_manual_1_main(void) {
         {
             s32 index = virus_map_disp_order->unk_00[gameStateDataP->unk_025];
 
-            set_virus(mapCells, virus_map_data[0].unk_000[index].unk_1, virus_map_data[0].unk_000[index].unk_2,
-                      virus_map_data[0].unk_000[index].unk_0,
-                      virus_anime_table[virus_map_data[0].unk_000[index].unk_0][gameStateDataP->unk_027]);
+            set_virus(mapCells, virus_map_data[0][index].unk_1, virus_map_data[0][index].unk_2,
+                      virus_map_data[0][index].unk_0,
+                      virus_anime_table[virus_map_data[0][index].unk_0][gameStateDataP->unk_027]);
         }
 
             gameStateDataP->unk_025++;
@@ -1727,7 +1727,7 @@ bool dm_manual_1_main(void) {
                 temp_s2->unk_164++;
 
                 gameStateDataP->unk_026 = 0xF;
-                _dm_virus_init(0, gameStateDataP, virus_map_data, virus_map_disp_order, 1);
+                _dm_virus_init(0, gameStateDataP, virus_map_data[0], virus_map_disp_order, 1);
 
                 for (var_s1 = 0; var_s1 < 3; var_s1++) {
                     animeState_set(get_virus_anime_state(var_s1), 0);
@@ -1750,9 +1750,9 @@ bool dm_manual_1_main(void) {
         case 0x40:
             var_s1 = virus_map_disp_order->unk_00[gameStateDataP->unk_025];
 
-            set_virus(mapCells, virus_map_data->unk_000[var_s1].unk_1, virus_map_data->unk_000[var_s1].unk_2,
-                      virus_map_data->unk_000[var_s1].unk_0,
-                      virus_anime_table[virus_map_data->unk_000[var_s1].unk_0][gameStateDataP->unk_027]);
+            set_virus(mapCells, virus_map_data[0][var_s1].unk_1, virus_map_data[0][var_s1].unk_2,
+                      virus_map_data[0][var_s1].unk_0,
+                      virus_anime_table[virus_map_data[0][var_s1].unk_0][gameStateDataP->unk_027]);
 
             gameStateDataP->unk_025++;
 

@@ -212,8 +212,8 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065880_cn);
 #endif
 
 #if VERSION_US
-u32 func_8005F310(struct_virus_map_data *arg0, s32 arg1, s32 arg2) {
-    struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
+u32 func_8005F310(struct_virus_map_data *virusMapData, s32 arg1, s32 arg2) {
+    struct_virus_map_data *ptr = virusMapData;
     u8 index = ((arg2 - 1) * 8) + arg1;
     u32 value = (u32)ptr[index].unk_0;
 
@@ -222,8 +222,8 @@ u32 func_8005F310(struct_virus_map_data *arg0, s32 arg1, s32 arg2) {
 #endif
 
 #if VERSION_CN
-bool func_80065910_cn(struct_virus_map_data *arg0, u16 arg1, u16 arg2) {
-    struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
+bool func_80065910_cn(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2) {
+    struct_virus_map_data *ptr = virusMapData;
     u8 temp = (arg2 - 1) * 8 + arg1;
 
     if (ptr[temp].unk_0 < 0) {
@@ -235,7 +235,7 @@ bool func_80065910_cn(struct_virus_map_data *arg0, u16 arg1, u16 arg2) {
 
 #if VERSION_US
 #ifdef NON_MATCHING
-bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) {
+bool dm_check_color(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2, u8 arg3) {
     struct {
         u8 unk_0;
         u8 unk_1;
@@ -244,7 +244,7 @@ bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) {
     // s8 sp1;
     u8 temp_t0;
     u16 new_var;
-    struct_virus_map_data_unk_000 *temp_v1 = arg0->unk_000;
+    struct_virus_map_data *temp_v1 = virusMapData;
     temp_t0 = arg1 + ((arg2 - 1) * 8);
     if ((arg1 & 0xFFFF) >= 2U) {
         if (temp_v1[temp_t0 - 1].unk_0 == arg3) {
@@ -307,8 +307,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", dm_check_color);
 #endif
 
 #if VERSION_CN
-bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) {
-    struct_virus_map_data_unk_000 *temp_v0 = arg0->unk_000;
+bool dm_check_color(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2, u8 arg3) {
+    struct_virus_map_data *temp_v0 = virusMapData;
     u8 temp_a0 = (arg2 - 1) * 8 + arg1;
     u8 sp8[2];
 
@@ -354,8 +354,9 @@ bool dm_check_color(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) {
 #endif
 
 #if VERSION_US
-bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) {
-    struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
+#ifdef NON_MATCHING
+bool dm_check_color_2(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2, u8 arg3) {
+    struct_virus_map_data *ptr = virusMapData;
     u8 temp_t0;
 
     temp_t0 = (arg1 + ((arg2 - 1) * 8));
@@ -387,11 +388,14 @@ bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) 
 
     return true;
 }
+#else
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", dm_check_color_2);
+#endif
 #endif
 
 #if VERSION_CN
-bool dm_check_color_2(struct_virus_map_data *arg0, u16 arg1, u16 arg2, u8 arg3) {
-    struct_virus_map_data_unk_000 *ptr = arg0->unk_000;
+bool dm_check_color_2(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2, u8 arg3) {
+    struct_virus_map_data *ptr = virusMapData;
     u8 temp_t0;
 
     temp_t0 = ((arg2 - 1) * 8) + arg1;
@@ -430,13 +434,13 @@ void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data
                        struct_virus_map_disp_order *virusDispOrderSrc, struct_virus_map_disp_order *virusDispOrderDst) {
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(virusMapDst->unk_000); i++) {
-        virusMapDst->unk_000[i].unk_0 = -1;
-        virusMapDst->unk_000[i].unk_2 = 0;
-        virusMapDst->unk_000[i].unk_1 = 0;
-        virusMapDst->unk_000[i].unk_0 = virusMapSrc->unk_000[i].unk_0;
-        virusMapDst->unk_000[i].unk_1 = virusMapSrc->unk_000[i].unk_1;
-        virusMapDst->unk_000[i].unk_2 = virusMapSrc->unk_000[i].unk_2;
+    for (i = 0; i < 16*8; i++) {
+        virusMapDst[i].unk_0 = -1;
+        virusMapDst[i].unk_2 = 0;
+        virusMapDst[i].unk_1 = 0;
+        virusMapDst[i].unk_0 = virusMapSrc[i].unk_0;
+        virusMapDst[i].unk_1 = virusMapSrc[i].unk_1;
+        virusMapDst[i].unk_2 = virusMapSrc[i].unk_2;
     }
 
     for (i = 0; i < ARRAY_COUNT(virusDispOrderDst->unk_00); i++) {
@@ -686,9 +690,9 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", _dm_virus_init);
 #endif
 
 #if VERSION_CN
-void _dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2,
+void _dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *virusMapData,
                     struct_virus_map_disp_order *arg3, s32 arg4) {
-    struct_virus_map_data_unk_000 *temp_v1_4 = arg2->unk_000;
+    struct_virus_map_data *temp_v1_4 = virusMapData;
     u8 *ptr = arg3->unk_00;
     u16 sp18[4];
     u8 sp20;
@@ -788,16 +792,16 @@ loop_1:
                     for (var_s0_2 = 0x10; var_s0_2 > sp28; var_s0_2--) {
                         var_s4 = 0;
 
-                        if (func_80065910_cn(arg2, var_s1, var_s0_2) != 0) {
+                        if (func_80065910_cn(virusMapData, var_s1, var_s0_2) != 0) {
                             continue;
                         }
 
-                        var_s4 = dm_check_color(arg2, var_s1, var_s0_2, temp_s3);
+                        var_s4 = dm_check_color(virusMapData, var_s1, var_s0_2, temp_s3);
                         if (var_s4 == 0) {
                             continue;
                         }
 
-                        var_s4 = dm_check_color_2(arg2, var_s1, var_s0_2, temp_s3);
+                        var_s4 = dm_check_color_2(virusMapData, var_s1, var_s0_2, temp_s3);
                         if (var_s4 == 0) {
                             continue;
                         }
@@ -815,11 +819,11 @@ loop_1:
                     do {
                         var_s0_2 = random(0x11);
                     } while (var_s0_2 < (sp28 + 1));
-                } while (func_80065910_cn(arg2, var_s1, var_s0_2) != 0);
+                } while (func_80065910_cn(virusMapData, var_s1, var_s0_2) != 0);
 
-                var_s4 = dm_check_color(arg2, var_s1, var_s0_2, temp_s3);
+                var_s4 = dm_check_color(virusMapData, var_s1, var_s0_2, temp_s3);
                 if (var_s4 != 0) {
-                    var_s4 = dm_check_color_2(arg2, var_s1, var_s0_2, temp_s3);
+                    var_s4 = dm_check_color_2(virusMapData, var_s1, var_s0_2, temp_s3);
                 }
             }
 
@@ -838,14 +842,10 @@ loop_1:
 #endif
 
 #if VERSION_US || VERSION_CN
-void dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2,
+void dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *virusMapData,
                    struct_virus_map_disp_order *arg3) {
-    _dm_virus_init(arg0, arg1, arg2, arg3, 0);
+    _dm_virus_init(arg0, arg1, virusMapData, arg3, 0);
 }
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005FE68);
 #endif
 
 #if VERSION_US
@@ -886,7 +886,7 @@ void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *arg0) {
     s32 var_t2;
     s32 temp;
     s32 temp_a1;
-    struct_virus_map_data_unk_000 *temp_v0;
+    struct_virus_map_data *temp_v0;
     u8 *temp_a3;
     s32 temp_a2;
     s32 temp2;
@@ -895,7 +895,7 @@ void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *arg0) {
 
     for (var_t0 = 0; var_t0 < arg0->virusCount; var_t0++) {
         temp_a2 = arg0->virusMapDispOrder[var_t0];
-        temp_v0 = &arg0->virusMapData->unk_000[temp_a2];
+        temp_v0 = &arg0->virusMapData[temp_a2];
 
         switch (temp_v0->unk_1) {
             case 0:
@@ -913,16 +913,16 @@ void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *arg0) {
 
     for (var_t0 = 0; var_t0 < arg0->virusCount; var_t0++) {
         temp_a2 = arg0->virusMapDispOrder[var_t0];
-        temp_a1 = arg0->virusMapData->unk_000[temp_a2].unk_0;
+        temp_a1 = arg0->virusMapData[temp_a2].unk_0;
 
-        switch (arg0->virusMapData->unk_000[temp_a2].unk_1) {
+        switch (arg0->virusMapData[temp_a2].unk_1) {
             case 0:
             case 7:
                 arg0->unk_288[temp_a1][arg0->unk_2E8[temp_a1]++] = temp_a2;
                 break;
 
             default:
-                temp2 = arg0->virusMapData->unk_000[temp_a2].unk_2;
+                temp2 = arg0->virusMapData[temp_a2].unk_2;
 
                 if (temp2 >= var_t2) {
                     arg0->unk_0D8[temp_a1][arg0->unk_138[temp_a1]++] = temp_a2;
@@ -939,6 +939,10 @@ void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *arg0) {
 #else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", _makeFlash_checkOrdre);
 #endif
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005FE68);
 #endif
 
 #if VERSION_CN
