@@ -191,7 +191,7 @@ void set_virus(GameMapCell *mapCells, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 u16 func_8005F2B0(void) {
     u16 temp_v0 = random(6);
     u16 var_v0;
@@ -205,10 +205,6 @@ u16 func_8005F2B0(void) {
     }
     return var_v0;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80065880_cn);
 #endif
 
 #if VERSION_US
@@ -312,17 +308,17 @@ bool dm_check_color(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2, u8 
     u8 temp_a0 = (arg2 - 1) * 8 + arg1;
     u8 sp8[2];
 
-    if ((arg1 >= 2U) && (temp_v0[temp_a0-1].unk_0 == arg3) && (temp_v0[temp_a0-2].unk_0 == arg3)) {
+    if ((arg1 >= 2U) && (temp_v0[temp_a0 - 1].unk_0 == arg3) && (temp_v0[temp_a0 - 2].unk_0 == arg3)) {
         return false;
     }
 
     if ((arg1 != 0) && (arg1 != 7)) {
-        if ((temp_v0[temp_a0-1].unk_0 == arg3) && (temp_v0[temp_a0+1].unk_0 == arg3)) {
+        if ((temp_v0[temp_a0 - 1].unk_0 == arg3) && (temp_v0[temp_a0 + 1].unk_0 == arg3)) {
             return false;
         }
     }
 
-    if (((arg1 < 6U) && (temp_v0[temp_a0+1].unk_0 == arg3) && (temp_v0[temp_a0+2].unk_0 == arg3)) ) {
+    if (((arg1 < 6U) && (temp_v0[temp_a0 + 1].unk_0 == arg3) && (temp_v0[temp_a0 + 2].unk_0 == arg3))) {
         return false;
     }
 
@@ -434,7 +430,7 @@ void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data
                        struct_virus_map_disp_order *virusDispOrderSrc, struct_virus_map_disp_order *virusDispOrderDst) {
     s32 i;
 
-    for (i = 0; i < 16*8; i++) {
+    for (i = 0; i < 16 * 8; i++) {
         virusMapDst[i].unk_0 = -1;
         virusMapDst[i].unk_2 = 0;
         virusMapDst[i].unk_1 = 0;
@@ -859,7 +855,8 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", RO_800B1BD0);
 #endif
 
 #if VERSION_US
-void func_8005FC6C(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *virusMapDispOrder, s32 virusCount) {
+void func_8005FC6C(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapData,
+                   struct_virus_map_disp_order *virusMapDispOrder, s32 virusCount) {
     bzero(arg0, sizeof(struct_8005FC6C_arg0));
     arg0->virusMapData = virusMapData;
     arg0->virusMapDispOrder = virusMapDispOrder->unk_00;
@@ -868,7 +865,8 @@ void func_8005FC6C(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapDa
 #endif
 
 #if VERSION_CN
-void func_80066298_cn(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *virusMapDispOrder, s32 virusCount) {
+void func_80066298_cn(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapData,
+                      struct_virus_map_disp_order *virusMapDispOrder, s32 virusCount) {
     bzero(arg0, sizeof(struct_8005FC6C_arg0));
     arg0->virusMapData = virusMapData;
     arg0->virusMapDispOrder = virusMapDispOrder->unk_00;
@@ -981,7 +979,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", make_flash_virus_p
 #endif
 
 #if VERSION_CN
-s32 make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *virusMapDispOrder) {
+s32 make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_map_data *virusMapData,
+                         struct_virus_map_disp_order *virusMapDispOrder) {
     struct_8005FC6C_arg0 sp18;
     struct_8005FC6C_arg0 *ptr = &sp18;
     s32 var_fp;
@@ -990,12 +989,13 @@ s32 make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_
     s32 var_s4;
     s32 var_v1;
     s32 *var_s6;
-    u8 (*var_s7)[0x20];
+    u8(*var_s7)[0x20];
     s32 var_s3;
 
     gameStateDataRef->unk_164 = 3;
     var_fp = 3;
-    func_80066298_cn(ptr, virusMapData, virusMapDispOrder, dm_get_first_virus_count(ENUM_EVS_GAMEMODE_1, gameStateDataRef));
+    func_80066298_cn(ptr, virusMapData, virusMapDispOrder,
+                     dm_get_first_virus_count(ENUM_EVS_GAMEMODE_1, gameStateDataRef));
     _makeFlash_checkOrdre(ptr);
     var_s0 = random(3);
 
@@ -1037,7 +1037,8 @@ s32 make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_
         while ((var_s1 < 3) && (var_s4 > 0)) {
             var_s0 = (var_s0 + 1) % 3;
 
-            if ((ptr->unk_0CC[var_s0] <= ptr->unk_0CC[(var_s0 + 1) % 3]) && (ptr->unk_0CC[var_s0] <= ptr->unk_0CC[(var_s0 + 2) % 3])) {
+            if ((ptr->unk_0CC[var_s0] <= ptr->unk_0CC[(var_s0 + 1) % 3]) &&
+                (ptr->unk_0CC[var_s0] <= ptr->unk_0CC[(var_s0 + 2) % 3])) {
                 var_v1 = func_800664DC_cn(ptr, var_s7, var_s6, var_s0);
             } else {
                 var_v1 = -1;

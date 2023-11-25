@@ -762,7 +762,8 @@ void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCell
 
             *temp_a0 |= 0x80;
 
-            set_virus(mapCells, virusMapData[cellIndex].unk_1, virusMapData[cellIndex].unk_2, virusMapData[cellIndex].unk_0,
+            set_virus(mapCells, virusMapData[cellIndex].unk_1, virusMapData[cellIndex].unk_2,
+                      virusMapData[cellIndex].unk_0,
                       virus_anime_table[virusMapData[cellIndex].unk_0][gameStateDataRef->unk_027]);
             if (gameStateDataRef->unk_01C == 0x12) {
                 mapCells[cellIndex].unk_3 += 3;
