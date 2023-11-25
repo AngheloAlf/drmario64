@@ -376,7 +376,7 @@ s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_game_state_da
 s32 dm_get_first_virus_count_in_new_mode(s32 arg0);
 void _dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2, struct_virus_map_disp_order *arg3, UNK_TYPE arg4);
 void dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *arg2, struct_virus_map_disp_order *arg3);
-void func_8005FC6C(struct_8005FC6C_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3);
+void func_8005FC6C(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *virusMapDispOrder, s32 virusCount);
 void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *arg0);
 // void func_8005FE68();
 UNK_TYPE make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *virusMapDispOrder);

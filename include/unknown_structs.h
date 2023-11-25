@@ -73,9 +73,9 @@ typedef void (*StartThreadFunc)(void *);
 
 
 typedef struct struct_8005FC6C_arg0 {
-    /* 0x000 */ UNK_TYPE4 unk_000;
-    /* 0x004 */ UNK_TYPE4 unk_004;
-    /* 0x008 */ UNK_TYPE4 unk_008;
+    /* 0x000 */ struct struct_virus_map_data *virusMapData;
+    /* 0x004 */ u8 *virusMapDispOrder;
+    /* 0x008 */ s32 virusCount;
     /* 0x00C */ UNK_TYPE1 unk_00C[0x60];
     /* 0x06C */ u8 unk_06C[UNK_SIZE][0x20];
     /* 0x08C */ UNK_TYPE1 unk_08C[0x40];

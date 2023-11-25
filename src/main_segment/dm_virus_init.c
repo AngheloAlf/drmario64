@@ -845,19 +845,6 @@ void dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_
 #endif
 
 #if VERSION_US
-void func_8005FC6C(struct_8005FC6C_arg0 *arg0, s32 arg1, s32 arg2, s32 arg3) {
-    bzero(arg0, sizeof(struct_8005FC6C_arg0));
-    arg0->unk_000 = arg1;
-    arg0->unk_004 = arg2;
-    arg0->unk_008 = arg3;
-}
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", _makeFlash_checkOrdre);
-#endif
-
-#if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005FE68);
 #endif
 
@@ -869,12 +856,89 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", RO_800B1BD0);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_virus_init", RO_800B1BD0);
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_80066298_cn);
+#if VERSION_US
+void func_8005FC6C(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *virusMapDispOrder, s32 virusCount) {
+    bzero(arg0, sizeof(struct_8005FC6C_arg0));
+    arg0->virusMapData = virusMapData;
+    arg0->virusMapDispOrder = virusMapDispOrder->unk_00;
+    arg0->virusCount = virusCount;
+}
 #endif
 
 #if VERSION_CN
+void func_80066298_cn(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *virusMapDispOrder, s32 virusCount) {
+    bzero(arg0, sizeof(struct_8005FC6C_arg0));
+    arg0->virusMapData = virusMapData;
+    arg0->virusMapDispOrder = virusMapDispOrder->unk_00;
+    arg0->virusCount = virusCount;
+}
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", _makeFlash_checkOrdre);
+#endif
+
+#if VERSION_CN
+#ifdef NON_EQUIVALENT
+void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *arg0) {
+    s32 var_t0;
+
+    s32 var_t2;
+    s32 temp;
+    s32 temp_a1;
+    struct_virus_map_data_unk_000 *temp_v0;
+    u8 *temp_a3;
+    s32 temp_a2;
+    s32 temp2;
+
+    var_t2 = -1;
+
+    for (var_t0 = 0; var_t0 < arg0->virusCount; var_t0++) {
+        temp_a2 = arg0->virusMapDispOrder[var_t0];
+        temp_v0 = &arg0->virusMapData->unk_000[temp_a2];
+
+        switch (temp_v0->unk_1) {
+            case 0:
+            case 7:
+                break;
+
+            default:
+                var_t2 = MAX(var_t2, temp_v0->unk_2);
+                break;
+        }
+    }
+
+    var_t2 = MIN(var_t2, 0xE);
+    temp = var_t2 - 3;
+
+    for (var_t0 = 0; var_t0 < arg0->virusCount; var_t0++) {
+        temp_a2 = arg0->virusMapDispOrder[var_t0];
+        temp_a1 = arg0->virusMapData->unk_000[temp_a2].unk_0;
+
+        switch (arg0->virusMapData->unk_000[temp_a2].unk_1) {
+            case 0:
+            case 7:
+                arg0->unk_288[temp_a1][arg0->unk_2E8[temp_a1]++] = temp_a2;
+                break;
+
+            default:
+                temp2 = arg0->virusMapData->unk_000[temp_a2].unk_2;
+
+                if (temp2 >= var_t2) {
+                    arg0->unk_0D8[temp_a1][arg0->unk_138[temp_a1]++] = temp_a2;
+                } else if (temp2 >= temp) {
+                    arg0->unk_144[temp_a1][arg0->unk_1A4[temp_a1]++] = temp_a2;
+                } else {
+                    arg0->unk_1B0[temp_a1][arg0->unk_210[temp_a1]++] = temp_a2;
+                }
+                arg0->unk_288[temp_a1][arg0->unk_2E8[temp_a1]++] = temp_a2;
+                break;
+        }
+    }
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", _makeFlash_checkOrdre);
+#endif
 #endif
 
 #if VERSION_CN
