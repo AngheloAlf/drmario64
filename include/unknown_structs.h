@@ -76,7 +76,9 @@ typedef struct struct_8005FC6C_arg0 {
     /* 0x000 */ struct struct_virus_map_data *virusMapData;
     /* 0x004 */ u8 *virusMapDispOrder;
     /* 0x008 */ s32 virusCount;
-    /* 0x00C */ UNK_TYPE1 unk_00C[0x60];
+    /* 0x00C */ u8 unk_00C[UNK_SIZE];
+    /* 0x00D */ UNK_TYPE1 unk_00D[0x3];
+    /* 0x010 */ UNK_TYPE1 unk_010[0x5C];
     /* 0x06C */ u8 unk_06C[UNK_SIZE][0x20];
     /* 0x08C */ UNK_TYPE1 unk_08C[0x40];
     /* 0x0CC */ s32 unk_0CC[3];

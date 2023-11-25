@@ -848,6 +848,8 @@ void dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_
 }
 #endif
 
+extern const s32 RO_800B1BD0[][5];
+
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_virus_init", RO_800B1BD0);
 #endif
@@ -946,7 +948,24 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", func_8005FE68);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_virus_init", func_800664DC_cn);
+s32 func_800664DC_cn(struct_8005FC6C_arg0 *arg0, u8 arg1[UNK_SIZE][0x20], s32 *arg2, s32 arg3) {
+    u8 *temp_a1 = arg1[arg3];
+    s32 temp_a2 = arg2[arg3];
+    s32 i;
+
+    if (temp_a2 == 0) {
+        return -1;
+    }
+
+    for (i = 0; i < temp_a2; i++) {
+        if (arg0->unk_00C[temp_a1[i]] == 0) {
+            arg0->unk_00C[temp_a1[i]] = 1;
+            arg0->unk_06C[arg3][arg0->unk_0CC[arg3]++] = temp_a1[i];
+            return temp_a1[i];
+        }
+    }
+    return -1;
+}
 #endif
 
 #if VERSION_US
@@ -960,11 +979,6 @@ struct _m2c_stack_make_flash_virus_pos {
 
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_virus_init", make_flash_virus_pos);
 #endif
-
-void func_80066298_cn(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *arg2, s32 virusCount);
-void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *arg0);
-s32 func_800664DC_cn(struct_8005FC6C_arg0 *arg0, u8 arg1[UNK_SIZE][0x20], s32 *arg2, s32 arg3);
-extern const s32 RO_800B1BD0[][5];
 
 #if VERSION_CN
 s32 make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_map_data *virusMapData, struct_virus_map_disp_order *virusMapDispOrder) {
