@@ -393,7 +393,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_taiQ_sort_set);
 #endif
 
 #if VERSION_CN
-#ifdef NON_MATCHING
 void dm_taiQ_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     struct_evs_mem_data *ptr;
     struct_evs_mem_data_unk_64 *temp_a1;
@@ -403,12 +402,13 @@ void dm_taiQ_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     ptr = &evs_mem_data[arg0];
     temp_a1 = &ptr->unk_64[arg1];
 
-    arg3 = MIN(arg3 / 60, 5999);
+    arg3 = arg3 / 60;
+    arg3 = MIN(5999, arg3);
 
     var_v0 = temp_a1->unk_0;
     var_a0 = arg2;
 
-    if (temp_a1->unk_0 == var_a0) {
+    if (var_v0 == var_a0) {
         var_v0 = temp_a1->unk_4;
         var_a0 = arg3;
     }
@@ -418,9 +418,6 @@ void dm_taiQ_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         temp_a1->unk_4 = arg3;
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_taiQ_sort_set);
-#endif
 #endif
 
 #if VERSION_US
@@ -428,7 +425,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_timeAt_sort_set);
 #endif
 
 #if VERSION_CN
-#ifdef NON_MATCHING
 void dm_timeAt_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_evs_mem_data *ptr;
     s32 var_a1;
@@ -438,7 +434,8 @@ void dm_timeAt_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     ptr = &evs_mem_data[arg0];
     temp_v1 = &ptr->unk_7C[arg1];
 
-    arg3 = MIN(arg3 / 6, 1800);
+    arg3 = arg3 / 6;
+    arg3 = MIN(1800, arg3);
 
     var_v0 = temp_v1->unk_0;
     var_a1 = arg2;
@@ -458,9 +455,6 @@ void dm_timeAt_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         temp_v1->unk_8 = arg4;
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_timeAt_sort_set);
-#endif
 #endif
 
 #if VERSION_US
