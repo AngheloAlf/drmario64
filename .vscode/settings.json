@@ -5,6 +5,7 @@
         "build/**": true,
         "expected/**": true,
         "ctx.c": true,
+        ".venv": true,
     },
     "files.associations": {
         "*.C": "c",
