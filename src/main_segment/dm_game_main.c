@@ -6633,9 +6633,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", starForce_draw);
 #endif
 
 #if VERSION_CN
-void StretchTexTile4i(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, f32 arg8,
-                      f32 arg9, f32 argA, f32 argB);
-
 void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -8810,7 +8807,7 @@ void dm_game_init_static(void) {
 void dm_game_init_snap_bg(void) {
     struct_watchGame *watchGameP = watchGame;
 
-    BUFFER_MALLOC64(&watchGameP->unk_87C, heapTop, sizeof(struct_watchGame_unk_87C));
+    BUFFER_MALLOC64(&watchGameP->unk_87C, heapTop, sizeof(u16) * 0x13380);
     watchGameP->unk_880 = 0;
 
     switch (evs_gamesel) {

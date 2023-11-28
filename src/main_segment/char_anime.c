@@ -514,7 +514,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", func_8005EE64);
 #endif
 
 #if VERSION_CN
-void func_80065364_cn(AnimeSeq_unk_0C *arg0, s32 arg1, s32 arg2) {
+void func_80065364_cn(AnimeSeq_unk_0C *arg0, s32 arg1, u32 arg2) {
     s32 i;
 
     for (i = 0; i < arg1; i++) {
@@ -531,8 +531,7 @@ void func_80065364_cn(AnimeSeq_unk_0C *arg0, s32 arg1, s32 arg2) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", loadAnimeSeq);
 #endif
 
-void func_80065364_cn(AnimeSeq_unk_0C *arg0, s32 arg1, s32 arg2);
-void tiMappingAddr(AnimeState_unk_1C *arg0, s32 arg1, s32 arg2);
+void tiMappingAddr(AnimeState_unk_1C *arg0, s32 arg1, u32 arg2);
 
 #if VERSION_CN
 void loadAnimeSeq(void **arg0, AnimeState_unk_1C **arg1, AnimeSeq_unk_0C **arg2, RomOffset romOffsetStart, RomOffset romOffsetEnd) {
@@ -544,19 +543,19 @@ void loadAnimeSeq(void **arg0, AnimeState_unk_1C **arg1, AnimeSeq_unk_0C **arg2,
 
     *arg0 = DecompressRomToRam(romOffsetStart, temp_s0, romOffsetEnd - romOffsetStart);
 
-    temp_a0 = *(((u32*)temp_s0) + 0) + (u32)temp_s0;
-    temp_v0 = *(((u32*)temp_s0) + 1) + (u32)temp_s0;
-    *(((u32*)temp_s0) + 0) = temp_a0;
-    *(((u32*)temp_s0) + 1) = temp_v0;
+    temp_a0 = (void*) (*(((u32*)temp_s0) + 0) + (u32)temp_s0);
+    temp_v0 = (void*) (*(((u32*)temp_s0) + 1) + (u32)temp_s0);
+    *(((u32**)temp_s0) + 0) = (void*)temp_a0;
+    *(((u32**)temp_s0) + 1) = (void*)temp_v0;
     *arg1 = temp_a0;
-    tiMappingAddr(temp_a0, *temp_v0, temp_s0);
+    tiMappingAddr(temp_a0, *temp_v0, (u32)temp_s0);
 
-    temp_a0_2 = *(((u32*)temp_s0) + 2) + (u32)temp_s0;
-    temp_v0_2 = *(((u32*)temp_s0) + 3) + (u32)temp_s0;
-    *(((u32*)temp_s0) + 2) = temp_a0_2;
-    *(((u32*)temp_s0) + 3) = temp_v0_2;
+    temp_a0_2 = (void*) (*(((u32*)temp_s0) + 2) + (u32)temp_s0);
+    temp_v0_2 = (void*) (*(((u32*)temp_s0) + 3) + (u32)temp_s0);
+    *(((u32**)temp_s0) + 2) = (void*)temp_a0_2;
+    *(((u32**)temp_s0) + 3) = (void*)temp_v0_2;
 
     *arg2 = temp_a0_2;
-    func_80065364_cn(temp_a0_2, *temp_v0_2, temp_s0);
+    func_80065364_cn(temp_a0_2, *temp_v0_2, (u32)temp_s0);
 }
 #endif

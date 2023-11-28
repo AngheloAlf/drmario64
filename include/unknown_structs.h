@@ -124,11 +124,6 @@ typedef struct struct_watchGame_unk_0B8 {
     /* 0xA0 */ UNK_TYPE4 unk_A0;
 } struct_watchGame_unk_0B8; // size = 0xA4
 
-// SnapBg?
-typedef struct struct_watchGame_unk_87C {
-    /* 0x00000 */ UNK_TYPE1 unk_00000[0x26700];
-} struct_watchGame_unk_87C; // size = 0x26700
-
 typedef struct struct_watchGame_unk_9D0 {
     /* 0x00 */ UNK_TYPE unk_00;
     /* 0x04 */ UNK_TYPE unk_04;
@@ -200,7 +195,7 @@ typedef struct struct_watchGame {
     /* 0x44C */ AnimeState animeStates[ANIMES_COUNT];
     /* 0x50C */ AnimeSmog animeSmogs[ANIMES_COUNT];
     /* 0x878 */ UNK_TYPE unk_878;
-    /* 0x87C */ struct_watchGame_unk_87C *unk_87C;
+    /* 0x87C */ TexturePtr unk_87C; // SnapBg?
     /* 0x880 */ s32 unk_880;
     /* 0x884 */ UNK_PTR unk_884;
     /* 0x888 */ UNK_TYPE4 unk_888[UNK_SIZE];

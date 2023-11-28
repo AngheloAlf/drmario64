@@ -7,6 +7,7 @@
 #include "other_types.h"
 #include "unk.h"
 
+struct TiTexData;
 
 typedef enum CharAnimeMode {
     /*  0 */ CHARANIMEMODE_M,
@@ -53,6 +54,7 @@ typedef struct AnimeState_unk_1C_unk_0 {
     /* 0x4 */ u8 *tex;
 } AnimeState_unk_1C_unk_0; // size >= 0x8
 
+// TODO: Remove and use TiTexData instead?
 typedef struct AnimeState_unk_1C {
     /* 0x0 */ AnimeState_unk_1C_unk_0 *unk_0;
     /* 0x4 */ AnimeState_unk_1C_unk_4 *unk_4;
