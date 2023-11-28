@@ -110,11 +110,11 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_zoomfade);
 
 #if VERSION_US || VERSION_CN
 void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1) {
-    arg0->unk_04 = arg1->unk_008;
-    arg0->unk_08 = arg1->unk_00A;
+    arg0->width = arg1->unk_008;
+    arg0->height = arg1->unk_00A;
     arg0->unk_00 = arg1->unk_00E;
-    arg0->unk_0C = &arg1->unk_010;
-    arg0->unk_10 = &arg1->unk_210;
+    arg0->tlut = &arg1->unk_010;
+    arg0->texture = &arg1->unk_210;
 }
 #endif
 
@@ -236,8 +236,35 @@ void *func_80077170(BgRomDataIndex index, void *dstAddr) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_bg_proc);
 #endif
 
+extern s32 D_800C28C4_cn[];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_bg_proc);
+void story_bg_proc(Gfx **gfxP) {
+    struct_get_gbi_stat_arg0 sp48;
+    struct_get_gbi_stat_arg0 sp60;
+    s32 pad[0x10] UNUSED;
+    Gfx *gfx = *gfxP;
+
+    get_gbi_stat(&sp48, bgGraphic);
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+    StretchTexBlock8(&gfx, sp48.width, sp48.height, sp48.tlut, sp48.texture, 0.0f, 0.0f, sp48.width, sp48.height);
+
+    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + D_800C28C4_cn[0]));
+    get_gbi_stat(&sp60, (void *)(((u8 *)wakuGraphic) + D_800C28C4_cn[1]));
+
+    gSPDisplayList(gfx++, alpha_texture_init_dl);
+    StretchAlphaTexTile(&gfx, sp48.width, sp48.height, sp48.texture, sp48.width, sp60.texture, sp60.width, 0, 0,
+                        sp48.width, sp48.height, 0.0f, 140.0f, sp48.width, sp48.height);
+
+    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + D_800C28C4_cn[2]));
+
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+    StretchTexTile8(&gfx, sp48.width, sp48.height, sp48.tlut, sp48.texture, 0, 0, sp48.width, sp48.height, 0.0f, 160.0f,
+                    sp48.width, sp48.height);
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -408,7 +435,119 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_coffee_break);
 #endif
 
 #if VERSION_CN
+#ifdef NON_EQUIVALENT
+void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+    Mtx sp20;
+    Gfx *sp60;
+    s32 var_s1;
+    s32 var_v0;
+    void *var_s0;
+    uintptr_t var_v1;
+
+    init_objMtx();
+
+    sp60 = *gfxP;
+
+    gSPSegment(sp60++, 0x00, 0x00000000);
+    gSPSegment(sp60++, 0x05, osVirtualToPhysical(bgGraphic));
+    gSPMatrix(sp60++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPDisplayList(sp60++, normal_texture_init_dl);
+    gSPDisplayList(sp60++, story_setup);
+    gDPSetScissor(sp60++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+
+    lws_data = (void **)bgGraphic;
+    if (arg2 != 0) {
+        gDPSetEnvColor(sp60++, 183, 127, 95, 255);
+        var_v1 = *(uintptr_t *)(((u8 *)lws_data) + 0x4);
+        var_v0 = *(s32 *)(((u8 *)bgGraphic) + 0x18);
+    } else {
+        gDPSetEnvColor(sp60++, 255, 255, 255, 255);
+        var_v1 = *(uintptr_t *)(((u8 *)lws_data) + 0x0);
+        var_v0 = *(s32 *)(((u8 *)bgGraphic) + 0x14);
+    }
+
+    makeTransrateMatrix(&sp20, 0U, 0xFFC40000U, 0xFC4A0000U);
+    if (lws_anim(&sp60, &sp20, (var_v1 & 0xFFFFFF) + (uintptr_t)bgGraphic, bgtime, bgGraphic) == 1) {
+        bgtime = 0x31;
+    }
+
+    bgtime += 1;
+    switch (story_seq_step) {
+        case 0:
+            var_s0 = ((*(uintptr_t *)(((u8 *)lws_data) + 0x8)) & 0xFFFFFF) + bgGraphic;
+            break;
+
+        case 1:
+            var_s0 = ((*(uintptr_t *)(((u8 *)lws_data) + 0xC)) & 0xFFFFFF) + bgGraphic;
+            break;
+
+        case 2:
+            var_s0 = ((*(uintptr_t *)(((u8 *)lws_data) + 0x10)) & 0xFFFFFF) + bgGraphic;
+            break;
+
+        default:
+            var_s0 = NULL;
+            story_time_cnt = -1;
+            break;
+    }
+
+    var_s1 = 0;
+    if ((story_time_cnt >= 0) && (var_s0 != NULL)) {
+        if (lws_anim(&sp60, &sp20, var_s0, story_time_cnt, bgGraphic) == 1) {
+            var_s1 = 1;
+            story_time_cnt = -1;
+            story_seq_step += 1;
+        }
+    }
+
+    story_time_cnt += 1;
+    if (var_s1 != 0) {
+        switch (arg1) {
+            case 0:
+                story_seq_step = 3;
+                break;
+
+            case 1:
+                if (story_seq_step == 1) {
+                    story_time_cnt = -0x3C;
+                } else {
+                    story_seq_step = 3;
+                }
+                break;
+
+            default:
+                if (story_seq_step == 1) {
+                    story_time_cnt = -0x3C;
+                } else if (story_seq_step == 2) {
+                    story_time_cnt = -0x28;
+                } else {
+                    story_seq_step = 3;
+                }
+                break;
+        }
+    }
+
+    if (arg3 != 0) {
+        if (lws_anim(&sp60, &sp20, (var_v0 & 0xFFFFFF) + bgGraphic, mes_time, bgGraphic) != 1) {
+            mes_time = mes_time + 1;
+        } else {
+            mes_time = 0x28A;
+        }
+    }
+
+    gDPSetCycleType(sp60++, G_CYC_1CYCLE);
+    gDPSetRenderMode(sp60++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gDPSetCombineMode(sp60++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+    gDPSetPrimColor(sp60++, 0, 0, 0, 0, 0, 255);
+    gDPFillRectangle(sp60++, 0, 0, 320, 32);
+    gDPFillRectangle(sp60++, 0, 208, 320, 240);
+    gSPDisplayList(sp60++, normal_texture_init_dl);
+
+    *gfxP = sp60;
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", draw_coffee_break);
+#endif
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -593,8 +732,8 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
 
-            StretchTexBlock4i(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, SCREEN_WIDTH / 2 - sp30.unk_04 / 2,
-                              SCREEN_HEIGHT / 2 - sp30.unk_08 / 2, sp30.unk_04, sp30.unk_08);
+            StretchTexBlock4i(&gfx, sp30.width, sp30.height, sp30.texture, SCREEN_WIDTH / 2 - sp30.width / 2,
+                              SCREEN_HEIGHT / 2 - sp30.height / 2, sp30.width, sp30.height);
 
             story_spot_cnt += 1;
         } else {
@@ -612,8 +751,8 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
         get_gbi_stat(&sp48, title_bmp_data + title_bmp_tbl[2]);
 
         gSPDisplayList(gfx++, alpha_texture_init_dl);
-        StretchAlphaTexBlock(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, sp30.unk_04, sp48.unk_10, sp48.unk_04, 88.0f,
-                             165.0f, sp30.unk_04, sp30.unk_08);
+        StretchAlphaTexBlock(&gfx, sp30.width, sp30.height, sp30.texture, sp30.width, sp48.texture, sp48.width, 88.0f,
+                             165.0f, sp30.width, sp30.height);
     }
 
     *gfxP = gfx;

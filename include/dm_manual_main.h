@@ -29,7 +29,7 @@ void dm_manual_attack_capsel_down(void);
 void func_800723EC(struct struct_game_state_data *gameStateDataP, struct GameMapCell *mapCells, s32 arg2);
 void dm_manual_update_virus_anime(struct struct_game_state_data *arg0);
 s32 dm_manual_main_cnt(struct struct_game_state_data *gameStateData, struct GameMapCell *mapCells, u8 arg2, s32 arg3);
-void dm_manual_make_key(struct struct_game_state_data *arg0, struct GameMapCell *mapCells);
+void dm_manual_make_key(struct struct_game_state_data *gameStateData, struct GameMapCell *mapCells);
 bool dm_manual_1_main(void);
 bool dm_manual_2_main(void);
 bool dm_manual_3_main(void);

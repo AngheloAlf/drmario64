@@ -363,7 +363,29 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_level_sort_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_level_sort_set);
+void dm_level_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    struct_evs_mem_data *ptr = &evs_mem_data[arg0];
+    struct_evs_mem_data_unk_4C *temp_a0;
+    s32 var_v0;
+    s32 var_v1;
+
+    temp_a0 = &ptr->unk_4C[arg1];
+    var_v0 = temp_a0->unk_4;
+    var_v1 = arg3;
+
+    //! FAKE: ?
+    do {
+        if (temp_a0->unk_4 == arg3) {
+            var_v0 = temp_a0->unk_0;
+            var_v1 = arg2;
+        }
+    } while (0);
+
+    if (var_v0 < var_v1) {
+        temp_a0->unk_0 = arg2;
+        temp_a0->unk_4 = arg3;
+    }
+}
 #endif
 
 #if VERSION_US
@@ -371,7 +393,34 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_taiQ_sort_set);
 #endif
 
 #if VERSION_CN
+#ifdef NON_MATCHING
+void dm_taiQ_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+    struct_evs_mem_data *ptr;
+    struct_evs_mem_data_unk_64 *temp_a1;
+    s32 var_a0;
+    s32 var_v0;
+
+    ptr = &evs_mem_data[arg0];
+    temp_a1 = &ptr->unk_64[arg1];
+
+    arg3 = MIN(arg3 / 60, 5999);
+
+    var_v0 = temp_a1->unk_0;
+    var_a0 = arg2;
+
+    if (temp_a1->unk_0 == var_a0) {
+        var_v0 = temp_a1->unk_4;
+        var_a0 = arg3;
+    }
+
+    if (var_v0 < var_a0) {
+        temp_a1->unk_0 = arg2;
+        temp_a1->unk_4 = arg3;
+    }
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_taiQ_sort_set);
+#endif
 #endif
 
 #if VERSION_US
@@ -379,7 +428,40 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_timeAt_sort_set);
 #endif
 
 #if VERSION_CN
+#ifdef NON_MATCHING
+void dm_timeAt_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+    struct_evs_mem_data *ptr;
+    s32 var_a1;
+    s32 var_a3;
+    s32 var_v0;
+    struct_evs_mem_data_unk_7C *temp_v1;
+
+    ptr = &evs_mem_data[arg0];
+    temp_v1 = &ptr->unk_7C[arg1];
+
+    arg3 = MIN(arg3 / 6, 1800);
+
+    var_v0 = temp_v1->unk_0;
+    var_a1 = arg2;
+
+    if (var_v0 == var_a1) {
+        var_a1 = temp_v1->unk_4;
+        var_v0 = arg3;
+        if (var_v0 == var_a1) {
+            var_v0 = temp_v1->unk_8;
+            var_a1 = arg4;
+        }
+    }
+
+    if (var_v0 < var_a1) {
+        temp_v1->unk_0 = arg2;
+        temp_v1->unk_4 = arg3;
+        temp_v1->unk_8 = arg4;
+    }
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_timeAt_sort_set);
+#endif
 #endif
 
 #if VERSION_US

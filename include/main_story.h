@@ -38,6 +38,7 @@ typedef enum enum_story_proc_no {
 } enum_story_proc_no;
 
 // GraphBin?
+// I wonder if this is a real struct or not
 typedef struct struct_wakuGraphic {
     /* 0x000 */ UNK_TYPE1 unk_000[0x8];
     /* 0x008 */ u16 unk_008;
@@ -45,17 +46,18 @@ typedef struct struct_wakuGraphic {
     /* 0x00C */ UNK_TYPE2 unk_00C;
     /* 0x00E */ u8 unk_00E;
     /* 0x00F */ UNK_TYPE1 unk_00F[0x1];
-    /* 0x010 */ UNK_TYPE unk_010;
+    /* 0x010 */ u16 unk_010;
+    /* 0x012 */ UNK_TYPE1 unk_012[0x2];
     /* 0x014 */ UNK_TYPE1 unk_014[0x1FC];
-    /* 0x210 */ UNK_TYPE unk_210;
-} struct_wakuGraphic; // size >= 0x214
+    /* 0x210 */ u8 unk_210;
+} struct_wakuGraphic; // size >= 0x212
 
 typedef struct struct_get_gbi_stat_arg0 {
     /* 0x00 */ s32 unk_00;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ UNK_PTR unk_0C;
-    /* 0x10 */ TexturePtr unk_10;
+    /* 0x04 */ s32 width;
+    /* 0x08 */ s32 height;
+    /* 0x0C */ u16 *tlut;
+    /* 0x10 */ u8 *texture; // ci
     /* 0x14 */ UNK_TYPE1 unk_14[0x4];
 } struct_get_gbi_stat_arg0; // size = 0x18
 

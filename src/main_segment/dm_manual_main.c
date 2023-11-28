@@ -932,11 +932,11 @@ const char mes_4_10[] = MSG_COLOR(WHITE)
     MSG_W(2) MSG_END;
 // clang-format on
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void dm_manual_attack_capsel_down(void) {
     struct_watchManual *watchManualP = watchManual;
-    bool playSound = false;
     s32 i;
+    bool playSound = false;
 
     for (i = 0; i < 4; i++) {
         watchManualP->unk_174[i]++;
@@ -976,10 +976,6 @@ void dm_manual_attack_capsel_down(void) {
         dm_snd_play(SND_INDEX_55);
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_attack_capsel_down);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1226,7 +1222,7 @@ void dm_manual_make_key(struct_game_state_data *arg0, GameMapCell *mapCells) {
     }
 
     arg0->unk_030 = 1;
-    if ((temp_s2 & 0x400) && (temp_s4->unk_2 > 0)) {
+    if ((temp_s2 & 0x400) && (temp_s4->unk_2[0] > 0)) {
         temp_v0 = FallSpeed[arg0->unk_02D];
         arg0->unk_030 = (temp_v0 >> 1) + (temp_v0 & 1);
     }
@@ -1237,7 +1233,44 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_make_ke
 #endif
 
 #if VERSION_CN
+#ifdef NON_MATCHING
+void dm_manual_make_key(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
+    struct_watchManual *temp_s2 = watchManual;
+    struct_game_state_data_unk_178 *temp_s4;
+    u16 temp_s0;
+
+    aifKeyOut(gameStateData);
+
+    temp_s0 = joygam[gameStateData->unk_04B];
+    temp_s4 = &gameStateData->unk_178;
+
+    if (temp_s0 & 0x4000) {
+        rotate_capsel(mapCells, temp_s4, -1);
+        temp_s2->unk_01C[3] = 8;
+    } else if (temp_s0 & 0x8000) {
+        rotate_capsel(mapCells, temp_s4, 1);
+        temp_s2->unk_01C[2] = 8;
+    }
+
+    if (temp_s0 & 0x200) {
+        translate_capsel(mapCells, gameStateData, -1, main_joy[gameStateData->unk_04B]);
+        temp_s2->unk_01C[0] = 8;
+    } else if (temp_s0 & 0x100) {
+        translate_capsel(mapCells, gameStateData, 1, main_joy[gameStateData->unk_04B]);
+        temp_s2->unk_01C[1] = 8;
+    }
+
+    gameStateData->unk_030 = 1;
+    if ((temp_s0 & 0x400) && (temp_s4->unk_2[0] > 0)) {
+        s32 temp_v1;
+
+        temp_v1 = FallSpeed[gameStateData->unk_02D];
+        gameStateData->unk_030 = ((s32)temp_v1 >> 1) + (temp_v1 & 1);
+    }
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_make_key);
+#endif
 #endif
 
 #if VERSION_US
@@ -2859,22 +2892,6 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", _posCircle_924
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", _posFinger_925);
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", map_x_table_1036);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", _seqTbl_1037);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", map_y_table_1038);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", size_table_1039);
-#endif
-
 #if VERSION_US
 const u16 map_x_table_1036[][4] = {
     { 0x76, 0x76, 0x76, 0x76 },
@@ -3037,6 +3054,14 @@ void dm_manual_all_init(void) {
 #endif
 
 #if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", map_x_table_1036);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", _seqTbl_1037);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", map_y_table_1038);
+
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", size_table_1039);
+
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_all_init);
 #endif
 

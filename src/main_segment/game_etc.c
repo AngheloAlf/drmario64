@@ -567,8 +567,8 @@ s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
             get_gbi_stat(&sp38, (uintptr_t)etcTexAddress + etc_parts_tbl[pause_table[arg4].unk_04]);
             get_gbi_stat(&sp50, (uintptr_t)etcTexAddress + etc_parts_tbl[pause_table[arg4].unk_08]);
-            StretchAlphaTexBlock(&gfx, sp38.unk_04, sp38.unk_08, sp38.unk_10, sp38.unk_04, sp50.unk_10, sp50.unk_04,
-                                 temp_s1->unk_30[2], temp_s1->unk_50[2], (f32)sp38.unk_04, (f32)sp38.unk_08);
+            StretchAlphaTexBlock(&gfx, sp38.width, sp38.height, sp38.texture, sp38.width, sp50.texture, sp50.width,
+                                 temp_s1->unk_30[2], temp_s1->unk_50[2], (f32)sp38.width, (f32)sp38.height);
             if (pause_table[arg4].unk_00[0] == 2) {
                 switch (arg3) {
                     case 0x0:
@@ -600,8 +600,8 @@ s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
             if (temp_s1->unk_10[5] & 0x10) {
                 gSPDisplayList(gfx++, normal_texture_init_dl);
                 get_gbi_stat(&sp38, (uintptr_t)etcTexAddress + etc_parts_tbl[3]);
-                StretchTexBlock4(&gfx, sp38.unk_04, sp38.unk_08, sp38.unk_0C, sp38.unk_10, var_fs1, var_fs0,
-                                 sp38.unk_04, sp38.unk_08);
+                StretchTexBlock4(&gfx, sp38.width, sp38.height, sp38.tlut, sp38.texture, var_fs1, var_fs0, sp38.width,
+                                 sp38.height);
             }
         }
     }
@@ -644,8 +644,8 @@ s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
                 gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, 160);
 
                 get_gbi_stat(&sp50, etcTexAddress + etc_parts_tbl[cont_table[arg3].unk_08]);
-                StretchTexBlock4i(&gfx, sp50.unk_04, sp50.unk_08, sp50.unk_10, temp_s2->unk_30[6] + 6.0f,
-                                  temp_s2->unk_50[6] + 6.0f, sp50.unk_04, sp50.unk_08);
+                StretchTexBlock4i(&gfx, sp50.width, sp50.height, sp50.texture, temp_s2->unk_30[6] + 6.0f,
+                                  temp_s2->unk_50[6] + 6.0f, sp50.width, sp50.height);
             }
         }
 
@@ -653,8 +653,8 @@ s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
         get_gbi_stat(&sp38, etcTexAddress + etc_parts_tbl[cont_table[arg3].unk_04]);
         get_gbi_stat(&sp50, etcTexAddress + etc_parts_tbl[cont_table[arg3].unk_08]);
-        StretchAlphaTexBlock(&gfx, sp38.unk_04, sp38.unk_08, sp38.unk_10, sp38.unk_04, sp50.unk_10, sp50.unk_04,
-                             temp_s2->unk_30[6], temp_s2->unk_50[6], sp38.unk_04, sp38.unk_08);
+        StretchAlphaTexBlock(&gfx, sp38.width, sp38.height, sp38.texture, sp38.width, sp50.texture, sp50.width,
+                             temp_s2->unk_30[6], temp_s2->unk_50[6], sp38.width, sp38.height);
 
         if (cont_table[arg3].unk_00[0] == 2) {
             switch (arg2) {
@@ -688,8 +688,8 @@ s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
             gSPDisplayList(gfx++, normal_texture_init_dl);
 
             get_gbi_stat(&sp38, (void *)((uintptr_t)etcTexAddress + etc_parts_tbl[3]));
-            StretchTexBlock4(&gfx, sp38.unk_04, sp38.unk_08, sp38.unk_0C, sp38.unk_10, var_fs1, var_fs0, sp38.unk_04,
-                             sp38.unk_08);
+            StretchTexBlock4(&gfx, sp38.width, sp38.height, sp38.tlut, sp38.texture, var_fs1, var_fs0, sp38.width,
+                             sp38.height);
         }
     }
 
@@ -867,17 +867,17 @@ void disp_timestop_logo(Gfx **gfxP, s32 arg1) {
     gDPSetCombineLERP(gfx++, 0, 0, 0, 0, 0, 0, 0, TEXEL0, 0, 0, 0, 0, 0, 0, 0, TEXEL0);
     gDPSetTextureLUT(gfx++, G_TT_NONE);
 
-    StretchTexBlock4i(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_10, 43.0f, 157.0f, (f32)sp30.unk_04, (f32)sp30.unk_08);
+    StretchTexBlock4i(&gfx, sp30.width, sp30.height, sp30.texture, 43.0f, 157.0f, (f32)sp30.width, (f32)sp30.height);
     get_gbi_stat(&sp30, etcTexAddress + etc_parts_tbl[0xA]);
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
-    StretchTexBlock4(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_0C, sp30.unk_10, 43.0f, 157.0f, (f32)sp30.unk_04,
-                     (f32)sp30.unk_08);
+    StretchTexBlock4(&gfx, sp30.width, sp30.height, sp30.tlut, sp30.texture, 43.0f, 157.0f, (f32)sp30.width,
+                     (f32)sp30.height);
     if (temp_s3->unk_10[4] & 0x10) {
         get_gbi_stat(&sp30, etcTexAddress + etc_parts_tbl[0xC]);
-        StretchTexBlock4(&gfx, sp30.unk_04, sp30.unk_08, sp30.unk_0C, sp30.unk_10, 37.0f, 175.0f, (f32)sp30.unk_04,
-                         (f32)sp30.unk_08);
+        StretchTexBlock4(&gfx, sp30.width, sp30.height, sp30.tlut, sp30.texture, 37.0f, 175.0f, (f32)sp30.width,
+                         (f32)sp30.height);
     }
     temp_s3->unk_10[4]++;
 
