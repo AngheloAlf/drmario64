@@ -130,7 +130,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", draw_Tex);
 
 #if VERSION_CN
 void draw_Tex(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
-    gSPScisTextureRectangle(gGfxHead++, arg0 << 2, arg1 << 2, (arg0 + arg2) << 2, (arg1 + arg3) << 2, G_TX_RENDERTILE, arg4 << 5, arg5<< 5, 1 << 10, 1 << 10);
+    gSPScisTextureRectangle(gGfxHead++, arg0 << 2, arg1 << 2, (arg0 + arg2) << 2, (arg1 + arg3) << 2, G_TX_RENDERTILE,
+                            arg4 << 5, arg5 << 5, 1 << 10, 1 << 10);
 }
 #endif
 

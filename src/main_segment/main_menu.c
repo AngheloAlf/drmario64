@@ -536,8 +536,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80047074);
 #endif
 
 #if VERSION_US
-bool func_8004714C(MenuItem *item, Gfx **gxfP, TiTexData *arg2, TiTexData *arg3, s32 arg4, s32 arg5,
-                   s32 arg6) {
+bool func_8004714C(MenuItem *item, Gfx **gxfP, TiTexData *arg2, TiTexData *arg3, s32 arg4, s32 arg5, s32 arg6) {
     s32 var_s2 = MIN(arg2->unk_4[0], arg3->unk_4[0]);
     s32 var_s1 = MIN(arg2->unk_4[1], arg3->unk_4[1]) / arg5;
 

@@ -2687,9 +2687,8 @@ void disp_cont(void) {
             // temp_arg4 = _posContPanel[0] + _posCircle_924[var_s4][0];
             // temp_arg5 = _posContPanel[1] + _posCircle_924[var_s4][1];
 
-            StretchTexBlock4i(&gGfxHead, _texAll[6].unk_4[0], _texAll[6].unk_4[1],
-                              _texAll[6].unk_0->tex, temp_arg4, temp_arg5, _texAll[6].unk_4[0],
-                              _texAll[6].unk_4[1]);
+            StretchTexBlock4i(&gGfxHead, _texAll[6].unk_4[0], _texAll[6].unk_4[1], _texAll[6].unk_0->tex, temp_arg4,
+                              temp_arg5, _texAll[6].unk_4[0], _texAll[6].unk_4[1]);
 
             gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
@@ -2722,8 +2721,8 @@ void disp_cont(void) {
             // var_v0 = temp_a0 - MAX(var_v1, 4);
             // var_v0 = (_posContPanel.unk_4 + _posFinger_925[var_s4][1]) - MAX(var_v1, 4);
 
-            StretchAlphaTexBlock(&gGfxHead, var_a1, temp_4->unk_4[1], temp_4->unk_0->tex, var_v1,
-                                 temp_5->unk_0->tex, temp_5->unk_4[0], (_posContPanel[0] + _posFinger_ptr[0]),
+            StretchAlphaTexBlock(&gGfxHead, var_a1, temp_4->unk_4[1], temp_4->unk_0->tex, var_v1, temp_5->unk_0->tex,
+                                 temp_5->unk_4[0], (_posContPanel[0] + _posFinger_ptr[0]),
                                  (_posContPanel[1] + _posFinger_ptr[1]) - MAX(var_v1, 4), var_a1, temp_4->unk_4[1]);
         }
     }

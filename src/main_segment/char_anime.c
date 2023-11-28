@@ -207,8 +207,8 @@ void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeM
  * Original name: animeState_init
  */
 #if VERSION_US || VERSION_CN
-void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, TiTexData *arg2, UNK_TYPE4 arg3,
-                     UNK_TYPE4 arg4, CharAnimeMode animeMode) {
+void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, TiTexData *arg2, UNK_TYPE4 arg3, UNK_TYPE4 arg4,
+                     CharAnimeMode animeMode) {
     animeSeq_init(&animeState->animeSeq, arg1, 0);
     animeState->unk_1C = arg2;
     animeState->unk_20 = 0;
@@ -341,15 +341,15 @@ void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32
 
     switch (temp_a3->unk_4[2]) {
         case 0x4:
-            StretchTexTile4(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_t0[0].unk_0->tlut,
-                            temp_a3->unk_0->tex, 0, 0, temp_a3->unk_4[0], temp_a3->unk_4[1], arg2, arg3,
-                            temp_a3->unk_4[0] * arg4, temp_a3->unk_4[1] * arg5);
+            StretchTexTile4(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_t0[0].unk_0->tlut, temp_a3->unk_0->tex, 0,
+                            0, temp_a3->unk_4[0], temp_a3->unk_4[1], arg2, arg3, temp_a3->unk_4[0] * arg4,
+                            temp_a3->unk_4[1] * arg5);
             break;
 
         case 0x8:
-            StretchTexTile8(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_t0[0].unk_0->tlut,
-                            temp_a3->unk_0->tex, 0, 0, temp_a3->unk_4[0], temp_a3->unk_4[1], arg2, arg3,
-                            temp_a3->unk_4[0] * arg4, temp_a3->unk_4[1] * arg5);
+            StretchTexTile8(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_t0[0].unk_0->tlut, temp_a3->unk_0->tex, 0,
+                            0, temp_a3->unk_4[0], temp_a3->unk_4[1], arg2, arg3, temp_a3->unk_4[0] * arg4,
+                            temp_a3->unk_4[1] * arg5);
             break;
     }
 
@@ -378,9 +378,8 @@ void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 a
         } else {
             var_f0_2 = arg3 - animeState->unk_24.unk_4 * arg5;
         }
-        StretchTexTile4i(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_a3->unk_0->tex, 0, 0,
-                      temp_a3->unk_4[0], temp_a3->unk_4[1], var_f0, var_f0_2, temp_a3->unk_4[0] * arg4,
-                      temp_a3->unk_4[1] * arg5);
+        StretchTexTile4i(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_a3->unk_0->tex, 0, 0, temp_a3->unk_4[0],
+                         temp_a3->unk_4[1], var_f0, var_f0_2, temp_a3->unk_4[0] * arg4, temp_a3->unk_4[1] * arg5);
         *gfxP = gfx;
     }
 }
@@ -408,9 +407,8 @@ void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 a
             arg3 -= animeState->unk_24.unk_4 * arg5;
         }
 
-        StretchTexTile4i(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_a3->unk_0->tex, 0, 0,
-                      temp_a3->unk_4[0], temp_a3->unk_4[1], arg2, arg3, temp_a3->unk_4[0] * arg4,
-                      temp_a3->unk_4[1] * arg5);
+        StretchTexTile4i(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_a3->unk_0->tex, 0, 0, temp_a3->unk_4[0],
+                         temp_a3->unk_4[1], arg2, arg3, temp_a3->unk_4[0] * arg4, temp_a3->unk_4[1] * arg5);
         *gfxP = gfx;
     }
 }
@@ -534,7 +532,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", loadAnimeSeq);
 void tiMappingAddr(TiTexData *arg0, s32 arg1, u32 arg2);
 
 #if VERSION_CN
-void loadAnimeSeq(void **arg0, TiTexData **arg1, AnimeSeq_unk_0C **arg2, RomOffset romOffsetStart, RomOffset romOffsetEnd) {
+void loadAnimeSeq(void **arg0, TiTexData **arg1, AnimeSeq_unk_0C **arg2, RomOffset romOffsetStart,
+                  RomOffset romOffsetEnd) {
     u32 *temp_s0 = ALIGN_PTR(*arg0);
     AnimeSeq_unk_0C *temp_a0_2;
     TiTexData *temp_a0;
@@ -543,17 +542,17 @@ void loadAnimeSeq(void **arg0, TiTexData **arg1, AnimeSeq_unk_0C **arg2, RomOffs
 
     *arg0 = DecompressRomToRam(romOffsetStart, temp_s0, romOffsetEnd - romOffsetStart);
 
-    temp_a0 = (void*) (*(((u32*)temp_s0) + 0) + (u32)temp_s0);
-    temp_v0 = (void*) (*(((u32*)temp_s0) + 1) + (u32)temp_s0);
-    *(((u32**)temp_s0) + 0) = (void*)temp_a0;
-    *(((u32**)temp_s0) + 1) = (void*)temp_v0;
+    temp_a0 = (void *)(*(((u32 *)temp_s0) + 0) + (u32)temp_s0);
+    temp_v0 = (void *)(*(((u32 *)temp_s0) + 1) + (u32)temp_s0);
+    *(((u32 **)temp_s0) + 0) = (void *)temp_a0;
+    *(((u32 **)temp_s0) + 1) = (void *)temp_v0;
     *arg1 = temp_a0;
     tiMappingAddr(temp_a0, *temp_v0, (u32)temp_s0);
 
-    temp_a0_2 = (void*) (*(((u32*)temp_s0) + 2) + (u32)temp_s0);
-    temp_v0_2 = (void*) (*(((u32*)temp_s0) + 3) + (u32)temp_s0);
-    *(((u32**)temp_s0) + 2) = (void*)temp_a0_2;
-    *(((u32**)temp_s0) + 3) = (void*)temp_v0_2;
+    temp_a0_2 = (void *)(*(((u32 *)temp_s0) + 2) + (u32)temp_s0);
+    temp_v0_2 = (void *)(*(((u32 *)temp_s0) + 3) + (u32)temp_s0);
+    *(((u32 **)temp_s0) + 2) = (void *)temp_a0_2;
+    *(((u32 **)temp_s0) + 3) = (void *)temp_v0_2;
 
     *arg2 = temp_a0_2;
     func_80065364_cn(temp_a0_2, *temp_v0_2, (u32)temp_s0);

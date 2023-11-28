@@ -149,7 +149,7 @@ void StretchAlphaTexTile_LoadAlphaTex(StretchTexTile_arg0 *arg0);
 void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 arg4, TexturePtr arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9, s32 argA, f32 argB, f32 argC, f32 argD, f32 argE);
 // void RectAlphaTexTile();
 // void func_80044058();
-void StretchTexTile4(Gfx **gfxP, s32 width, s32 height, u16 tlut[], u8 tex[], s32, s32, s32, s32, f32, f32, f32, f32);
+void StretchTexTile4(Gfx **gfxP, s32 width, s32 height, u16 tlut[], u8 tex[], s32 arg5, s32 arg6, s32 arg7, s32 arg8, f32 arg9, f32 argA, f32 argB, f32 argC);
 void StretchTexTile8_LoadTex(StretchTexTile_arg0 *arg0);
 void StretchTexTile8(Gfx **gfxP, s32 width, s32 height, u16 tlut[], u8 tex[], UNK_TYPE arg5, UNK_TYPE arg6, UNK_TYPE arg7, UNK_TYPE arg8, f32 arg9, f32 argA, f32 argB, f32 argC);
 // void RectTexTile8();
@@ -163,9 +163,9 @@ TiTexData *tiLoadTexData(UNK_PTR *arg0, RomOffset segmentRom, RomOffset segmentR
 // void func_80045110();
 void tiCopyTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4);
 void tiStretchTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
-void tiStretchTexTile(Gfx **gfxP, TiTexData *, s32, s32, s32, s32, s32, f32, f32, f32, f32);
+void tiStretchTexTile(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, f32 arg7, f32 arg8, f32 arg9, f32 argA);
 void tiStretchTexItem(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
-void tiStretchAlphaTexItem(Gfx **gfxP, TiTexData *, TiTexData *, s32, s32, s32, f32, f32, f32, f32);
+void tiStretchAlphaTexItem(Gfx **gfxP, TiTexData *arg1, TiTexData * arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 arg9);
 // void func_80045914();
 void drawCursorPattern(Gfx** gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
 
