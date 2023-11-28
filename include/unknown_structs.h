@@ -444,6 +444,9 @@ typedef struct struct_watchMenu_unk_02470 {
     /* 0x00000 */ UNK_TYPE1 unk_00000[0x60000];
 } struct_watchMenu_unk_02470; // size = 0x60000
 
+
+// Left column: us
+// Right column: cn
 typedef struct struct_watchMenu {
     /* 0x00000 */ struct_800EB670 *unk_00000;
     /* 0x00004 */ struct_800FAF98_unk_64 unk_00004;
@@ -484,16 +487,19 @@ typedef struct struct_watchMenu {
     /* 0x111CC */ MainMenuMode unk_111CC;
     /* 0x111D0 */ MainMenuMode unk_111D0;
     /* 0x111D4 */ enum_main_no unk_111D4;
-    /* 0x111D8 */ UNK_TYPE unk_111D8;
-    /* 0x111DC */ f32 unk_111DC;
-    /* 0x111E0 */ f32 unk_111E0;
-    /* 0x111E4 */ UNK_TYPE unk_111E4;
-    /* 0x111E8 */ UNK_TYPE unk_111E8;
-    /* 0x111EC */ UNK_TYPE unk_111EC;
-    /* 0x111F0 */ UNK_TYPE unk_111F0;
-    /* 0x111F4 */ UNK_TYPE unk_111F4; // thread priority?
-    /* 0x111F8 */ RecordWritingMessage recMessage;
-} struct_watchMenu; // size = 0x11280
+    #ifdef VERSION_CN
+    /*         0x111D8 */ UNK_TYPE4 unk_cn_pad;
+    #endif
+    /* 0x111D8 0x111DC */ UNK_TYPE unk_111D8;
+    /* 0x111DC 0x111E0 */ f32 unk_111DC;
+    /* 0x111E0 0x111E4 */ f32 unk_111E0;
+    /* 0x111E4 0x111E8 */ UNK_TYPE unk_111E4;
+    /* 0x111E8 0x111EC */ UNK_TYPE unk_111E8;
+    /* 0x111EC 0x111F0 */ UNK_TYPE unk_111EC;
+    /* 0x111F0 0x111F4 */ UNK_TYPE unk_111F0;
+    /* 0x111F4 0x111F8 */ UNK_TYPE unk_111F4; // thread priority?
+    /* 0x111F8 0x111FC  */ RecordWritingMessage recMessage;
+} struct_watchMenu; // size_us = 0x11280; size_cn = 0x11288
 
 typedef enum enum_evs_gamesel {
     /* 0 */ ENUM_EVS_GAMESEL_0,

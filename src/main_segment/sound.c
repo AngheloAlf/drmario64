@@ -460,7 +460,7 @@ bool func_8002B178(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CBEC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002B178);
 #endif
 
 #if VERSION_US || VERSION_CN

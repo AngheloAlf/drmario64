@@ -17,12 +17,15 @@
 #include "libc/assert.h"
 #include "libc/ctype.h"
 #include "graphic.h"
-#include "joy.h"
 #include "record.h"
 #include "main1x.h"
 #include "028820.h"
 #include "tex_func.h"
 #include "main_story.h"
+
+#if VERSION_US || CC_CHECK
+#include "joy.h"
+#endif
 
 #if VERSION_US
 f32 func_80045DD0(f32 arg0, f32 arg1) {
@@ -585,93 +588,181 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", FLT_800ADD00);
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048660_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048698_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800486D4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004872C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800487B0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048854_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004892C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800489B0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048A54_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048AD8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048B7C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048C54_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048D88_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048E58_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048F20_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048F78_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048FEC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049034_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004907C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800490C4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800490D0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800490DC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800490E8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800490F4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004910C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049124_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800491A4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049274_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800492F4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004947C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049528_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049690_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049754_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049988_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049AB8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049B8C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049D00_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C4AD0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C4AE0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C4AF8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C4B10_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C4B38_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C4B60_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C4B80_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C4BBC_cn);
 #endif
 
@@ -2527,93 +2618,177 @@ void func_800492D8(MenuYN *yn, MenuItem *parentItem) {
 
 #if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5BB0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5BB4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5BC8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5BCC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049E68_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049F38_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049FD4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A008_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A19C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A240_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A2BC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A498_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A4EC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5CF8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5D70_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5DA0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A5D0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004AF9C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B1C8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B230_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B294_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B2F0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B7B4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B88C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B928_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B9B4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004BC10_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004BCB4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004BD1C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004BD64_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004BD90_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004BF44_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C008_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C0AC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C304_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C34C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C378_cn);
 #endif
 
 #if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5EE4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5F28_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6160_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C616C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6170_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6184_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6190_cn);
 #endif
 
@@ -2722,13 +2897,21 @@ void func_8004970C(MenuMes *mes, const char *arg1) {
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C5A8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C648_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C738_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C778_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C7A4_cn);
 #endif
 
@@ -4543,215 +4726,425 @@ void menuPlay2PanelSub_draw(MenuPlay2PanelSub *play2PanelSub, Gfx **gfxP) {
 
 #if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C61B0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C61B4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C61D0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C61E0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C61E4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6200_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C960_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004CBB4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004CC50_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004CE4C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D174_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D218_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D280_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D488_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6228_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D588_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D760_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D874_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D918_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D980_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DA14_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DAA0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DE20_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DE8C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DEB8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DEE0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DF44_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DFA0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6248_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6270_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004E32C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004E4F0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004E54C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004E6DC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004E714_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004E7CC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004EAE4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004EB38_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004EC80_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004ED54_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004EDE0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004EF48_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004EF9C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004F080_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004F374_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004F3D0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004F79C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004F888_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004FAD4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004FF18_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004FF6C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800500B0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050180_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050224_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800504BC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050510_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050670_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050814_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800508F8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050B48_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6284_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C62AC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C62B4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C62BC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C62D0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C62D8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C62DC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C62EC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C62F4_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6304_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C636C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C637C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C638C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C639C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63A0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63AC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63B0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63BC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63C0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63CC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63D0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63DC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63E0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63EC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63F0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63FC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6404_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050BA0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800510A8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800510F8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800511F0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80051440_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800517C0_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80051E48_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80051E9C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80051EEC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80052178_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80052420_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800525F8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C64BC_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C64F8_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6538_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6540_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6548_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C655C_cn);
+#endif
 
+#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C656C_cn);
 #endif
 
@@ -10526,6 +10919,870 @@ void menuAll_draw(struct_watchMenu *arg0, Gfx **gfxP) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C66B8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C66C8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C66E0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C66EC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C66FC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6708_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C671C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6724_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C673C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6748_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C675C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6768_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6770_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C677C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80052B94_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80052CFC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80053228_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800532BC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69A0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69B0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69C8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69E0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69EC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69F0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69F4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A08_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A0C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A10_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A2C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A30_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A34_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A50_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A54_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A68_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A7C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A88_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A94_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AA0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AAC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AB4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6ACC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AD8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800532E4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80054AB8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6FC8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80054E34_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800556AC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055888_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005591C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055970_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800559F8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055F30_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055FB8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055FD8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80056024_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005653C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80056A70_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005734C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800573A0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005785C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800578E4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80057CA8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80058054_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800584E8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6FE8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6FEC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7078_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7088_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7098_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C70D4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C70E4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C70F4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7184_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C718C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005853C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800589E0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80058A3C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80058AB8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80058E0C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80058F40_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C72D4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80059078_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800593C0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800596C4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80059AB0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C73FC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C740C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7414_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7424_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C742C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C743C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C744C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80059BC4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A208_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A29C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A310_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A3C4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A478_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A77C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A8E4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005AF08_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005B044_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005B1B4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005B208_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005B56C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800B0F5C);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005B594_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005BDD0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005BFA4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C348_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C380_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C3AC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C4F0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C52C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C558_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C77E0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C780_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C8B0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005CC68_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _posX_0_9712);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _posX_1_9713);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _posX_2_9714);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _posX_4_9715);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7888_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005CF4C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D004_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D030_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D1BC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D1FC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D228_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D468_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D564_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D5F4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D6D0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D860_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D9A4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005DAE4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005DC98_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7898_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C78A8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C78B4_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005DE18_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005DF38_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E1A0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E2A0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E4B0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E76C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7908_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7910_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7920_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7930_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7940_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7950_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C795C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7968_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7974_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7980_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C798C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7998_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79A8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79B8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79C8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79D8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79E8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E80C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7A70_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005EEFC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005F174_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005F42C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005F5F8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005F988_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FA40_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FA9C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FAF8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FB80_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FC14_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FCA8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80059CA0);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FD70_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FD88_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDA0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDB0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDC0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDD0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDE0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDF0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE00_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE10_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE20_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE30_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE40_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE50_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE60_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE70_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE80_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE90_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FEA0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FEA8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FECC_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FEF0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF14_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF28_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF3C_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF50_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF64_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF90_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuAll_init);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A2AC);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7AA8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7AB0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800604E0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuAll_changeMenu);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80060848_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80060A14_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80060D84_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuAll_draw);
+#endif
+
 /**
  * Original name: main_menu
  */
@@ -10538,7 +11795,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
 
     if (main_old == MAIN_NO_3) {
         _menuAll_lastMode = MAINMENUMODE_MENUMAIN_0;
-        _menuMain_lastMode = 0;
+        _menuMain_lastMode = MAINMENUMODE_MENUMAIN_0;
         _menuMain_lastDepth = 0;
         _menuMain_lastSelect[0] = 0;
     }
@@ -10618,7 +11875,111 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
 }
 #endif
 
-#if VERSION_US
+void func_80060848_cn(struct_watchMenu *arg0);
+void func_80060A14_cn(struct_watchMenu *arg0);
+extern s32 B_800CA1D8_cn;
+extern s32 B_80106B60_cn;
+
+#if VERSION_CN
+enum_main_no main_menu(struct_800EB670 *arg0) {
+    UNK_PTR sp18 = Heap_bufferp;
+    struct_watchMenu *temp_s0 = ALIGN_PTR(Heap_bufferp);
+    s32 var_v1;
+
+    if (main_old == MAIN_NO_3) {
+        _menuAll_lastMode = MAINMENUMODE_MENUMAIN_0;
+        _menuMain_lastMode = MAINMENUMODE_MENUMAIN_0;
+        B_800CA1D8_cn = 0;
+        B_80106B60_cn = 0;
+    }
+
+    func_80040A64();
+    sp18 = &temp_s0[1];
+    bzero(temp_s0, 0x11288);
+    watchMenu = temp_s0;
+    menuAll_init(temp_s0, &sp18, arg0);
+
+    evs_playmax = joyResponseCheck();
+
+    for (var_v1 = 0; var_v1 < 4; var_v1++) {
+        joyflg[var_v1] = 0xF30;
+    }
+
+    joycur1 = 0x18;
+    joycur2 = 6;
+    gGfxHead = gGfxGlist[gfx_gtask_no];
+    dm_seq_play(SEQ_INDEX_12);
+
+    while ((temp_s0->unk_111D4 == MAIN_NO_6) || (temp_s0->unk_111DC < 1.0f)) {
+        if (graphic_no == GRAPHIC_NO_0) {
+            while ((pendingGFX != 0) || (func_80040BA4() != 0)) {
+                func_80059CA0(temp_s0);
+            }
+
+            menuAll_changeMenu(temp_s0);
+        }
+
+        if (temp_s0->unk_111D8 > 0) {
+            for (var_v1 = 0; var_v1 < 4; var_v1++) {
+                joycur[var_v1] = 0;
+                gControllerPressedButtons[var_v1] = 0;
+                gControllerPrevHoldButtons[var_v1] = 0;
+                gControllerHoldButtons[var_v1] = 0;
+            }
+
+        } else {
+            joyProcCore();
+
+            while (D_80092F10_cn != false) {
+                func_80059CA0(temp_s0);
+                joyProcCore();
+                graphic_no = GRAPHIC_NO_0;
+                dm_audio_update();
+            }
+        }
+
+        func_80059CA0(temp_s0);
+        func_8002BC30_cn(1);
+        func_80060848_cn(temp_s0);
+        func_80060A14_cn(temp_s0);
+        dm_audio_update();
+
+        if (temp_s0->unk_111CC != temp_s0->unk_111D0) {
+            temp_s0->unk_111C8 = temp_s0->unk_111CC;
+            temp_s0->unk_111CC = temp_s0->unk_111D0;
+            temp_s0->unk_111C4 = temp_s0->unk_111C0;
+            temp_s0->unk_111C0 ^= 1;
+            graphic_no = GRAPHIC_NO_0;
+        } else {
+            graphic_no = GRAPHIC_NO_5;
+        }
+
+        func_8002BD04_cn();
+    }
+
+    graphic_no = GRAPHIC_NO_5;
+
+    while (temp_s0->unk_111F4 != 0xF) {
+        osRecvMesg(&temp_s0->unk_0000C, NULL, 1);
+        dm_audio_update();
+    }
+
+    graphic_no = GRAPHIC_NO_0;
+    dm_seq_stop();
+
+    while ((pendingGFX != 0) || (func_8002B178() == 0) || (func_80040BA4() != 0)) {
+        osRecvMesg(&temp_s0->unk_0000C, NULL, 1);
+        dm_audio_update();
+    }
+
+    func_8005A2AC(temp_s0);
+    func_80040AE4();
+
+    return temp_s0->unk_111D4;
+}
+#endif
+
+#if VERSION_US || VERSION_CN
 void graphic_menu(void) {
     struct_watchMenu *ptr = watchMenu;
 
@@ -10642,444 +12003,13 @@ void graphic_menu(void) {
     F3RCPinitRtn();
     F3ClearFZRtn(0);
     menuAll_draw(ptr, &gGfxHead);
-    osSetThreadPri(NULL, 0x7F);
-}
-#endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C66B8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C66C8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C66E0_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C66EC_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C66FC_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6708_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C671C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6724_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C673C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6748_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C675C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6768_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6770_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C677C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80052B94_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80052CFC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80053228_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800532BC_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69A0_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69B0_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69C8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69E0_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69EC_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69F0_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69F4_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A08_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A0C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A10_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A2C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A30_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A34_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A50_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A54_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A68_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A7C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A88_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A94_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AA0_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AAC_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AB4_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6ACC_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AD8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800532E4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80054AB8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6FC8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80054E34_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800556AC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055888_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005591C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055970_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800559F8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055F30_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055FB8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055FD8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80056024_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005653C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80056A70_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005734C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800573A0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005785C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800578E4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80057CA8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80058054_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800584E8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6FE8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6FEC_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7078_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7088_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7098_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C70D4_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C70E4_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C70F4_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7184_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C718C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005853C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800589E0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80058A3C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80058AB8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80058E0C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80058F40_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C72D4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80059078_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800593C0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800596C4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80059AB0_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C73FC_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C740C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7414_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7424_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C742C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C743C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C744C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80059BC4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A208_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A29C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A310_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A3C4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A478_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A77C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005A8E4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005AF08_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005B044_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005B1B4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005B208_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005B56C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800B0F5C);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005B594_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005BDD0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005BFA4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C348_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C380_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C3AC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C4F0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C52C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C558_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C77E0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C780_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C8B0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005CC68_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _posX_0_9712);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _posX_1_9713);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _posX_2_9714);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _posX_4_9715);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7888_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005CF4C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D004_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D030_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D1BC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D1FC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D228_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D468_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D564_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D5F4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D6D0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D860_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D9A4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005DAE4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005DC98_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7898_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C78A8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C78B4_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005DE18_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005DF38_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E1A0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E2A0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E4B0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E76C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7908_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7910_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7920_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7930_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7940_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7950_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C795C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7968_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7974_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7980_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C798C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7998_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79A8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79B8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79C8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79D8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79E8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E80C_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7A70_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005EEFC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005F174_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005F42C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005F5F8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005F988_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FA40_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FA9C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FAF8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FB80_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FC14_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FCA8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FD3C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FD70_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FD88_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDA0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDB0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDC0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDD0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDE0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDF0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE00_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE10_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE20_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE30_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE40_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE50_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE60_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE70_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE80_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE90_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FEA0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FEA8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FECC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FEF0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF14_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF28_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF3C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF50_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF64_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF90_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FFE8_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80060490_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7AA8_cn);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7AB0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800604E0_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800605DC_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80060848_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80060A14_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80060D84_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80060F8C_cn);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", main_menu);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", graphic_menu);
+    if (ptr->unk_cn_pad != 0) {
+        func_8002BD7C_cn(&gGfxHead, 0x20, 0xB4);
+    }
+#endif
+
+    osSetThreadPri(NULL, 0x7F);
+}
 #endif
