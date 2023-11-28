@@ -72,7 +72,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", func_8002BD20);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002D990_cn);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 /**
  * Original name: load_TexPal
  */
@@ -81,43 +81,27 @@ void load_TexPal(TexturePtr tlut) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", load_TexPal);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_8002BF90(TexturePtr tlut, u32 pal) {
     gDPLoadTLUT_pal16(gGfxHead++, pal, tlut);
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002DC0C_cn);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void load_TexBlock_4b(TexturePtr texture, s32 width, s32 height) {
     gDPLoadTextureBlock_4b(gGfxHead++, texture, G_IM_FMT_CI, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", load_TexBlock_4b);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_8002C1E8(TexturePtr texture, s32 width, s32 height) {
     gDPLoadTextureBlock_4b(gGfxHead++, texture, G_IM_FMT_I, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002DE8C_cn);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void load_TexTile_4b(TexturePtr texture, s32 width, s32 height UNUSED, s32 uls, s32 ult, s32 lrs, s32 lrt) {
     gDPLoadTextureTile_4b(gGfxHead++, texture, G_IM_FMT_CI, width, height, uls, ult, lrs, lrt, 0,
                           G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -125,19 +109,11 @@ void load_TexTile_4b(TexturePtr texture, s32 width, s32 height UNUSED, s32 uls, 
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", load_TexTile_4b);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_8002C4EC(TexturePtr texture, s32 width, s32 height) {
     gDPLoadTextureBlock(gGfxHead++, texture, G_IM_FMT_CI, G_IM_SIZ_8b, width, height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002E1BC_cn);
 #endif
 
 #if VERSION_US
@@ -148,13 +124,14 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", func_8002C688);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002E36C_cn);
 #endif
 
-// gSPTextureRectangle?
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", draw_Tex);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", draw_Tex);
+void draw_Tex(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+    gSPScisTextureRectangle(gGfxHead++, arg0 << 2, arg1 << 2, (arg0 + arg2) << 2, (arg1 + arg3) << 2, G_TX_RENDERTILE, arg4 << 5, arg5<< 5, 1 << 10, 1 << 10);
+}
 #endif
 
 #if VERSION_US
