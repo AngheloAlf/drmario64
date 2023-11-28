@@ -10,7 +10,7 @@
 #include "rom_offsets.h"
 #include "gamemap.h"
 
-struct TiTexDataEntry;
+struct TiTexData;
 
 
 void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount);
@@ -87,13 +87,13 @@ void func_80046734(MenuItem *item, f32 arg0, f32 arg1, f32 arg2);
 void func_800467E0(MenuItem *item);
 void func_80046844(MenuItem *item, Gfx **gfxP);
 bool menuItem_outOfScreen(MenuItem *item, s32 arg1, s32 arg2);
-bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, struct TiTexDataEntry *arg2, s32 arg3);
-s32 func_80046C74(MenuItem *item, Gfx **gfxP, struct TiTexDataEntry *arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
-bool menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, struct TiTexDataEntry * /*arg2*/, struct TiTexDataEntry * /*arg3*/,
+bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, struct TiTexData *arg2, s32 arg3);
+s32 func_80046C74(MenuItem *item, Gfx **gfxP, struct TiTexData *arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
+bool menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, struct TiTexData * /*arg2*/, struct TiTexData * /*arg3*/,
                            s32 /*arg4*/);
-bool func_80046F58(MenuItem *item, Gfx **gfxP, struct TiTexDataEntry * /*arg2*/, s32 /*arg3*/, s32 /*arg4*/, s32 /*arg5*/);
+bool func_80046F58(MenuItem *item, Gfx **gfxP, struct TiTexData * /*arg2*/, s32 /*arg3*/, s32 /*arg4*/, s32 /*arg5*/);
 // void func_80047074();
-bool func_8004714C(MenuItem *item, Gfx **gxfP, struct TiTexDataEntry *arg2, struct TiTexDataEntry *arg3, s32 arg4, s32 arg5, s32 arg6);
+bool func_8004714C(MenuItem *item, Gfx **gxfP, struct TiTexData *arg2, struct TiTexData *arg3, s32 arg4, s32 arg5, s32 arg6);
 // void func_800472D0();
 void func_80047420(UNK_TYPE *arg0, MainMenuMode arg1);
 void func_800474EC(UNK_TYPE *arg0, struct_watchMenu *watchMenuRef, UNK_TYPE arg2, UNK_TYPE arg3);
@@ -302,22 +302,22 @@ void menuRank_draw(MenuRank *menuRank, Gfx **gfxP);
 void func_80059CA0(struct_watchMenu *watchMenuRef);
 Mtx **_getMtxPtr(struct_watchMenu *watchMenuRef);
 Vtx **_getVtxPtr(struct_watchMenu *watchMenuRef);
-struct TiTexDataEntry *_getTexChar(struct_watchMenu *watchMenuRef, s32 index);
-struct TiTexDataEntry *_getTexCommon(struct_watchMenu *arg0, s32 arg1);
+struct TiTexData *_getTexChar(struct_watchMenu *watchMenuRef, s32 index);
+struct TiTexData *_getTexCommon(struct_watchMenu *arg0, s32 arg1);
 // void func_80059D14();
-struct TiTexDataEntry *_getTexLevel(struct_watchMenu *watchMenuRef, s32 index);
-struct TiTexDataEntry *_getTexMain(struct_watchMenu *watchMenuRef, s32 /*index*/);
+struct TiTexData *_getTexLevel(struct_watchMenu *watchMenuRef, s32 index);
+struct TiTexData *_getTexMain(struct_watchMenu *watchMenuRef, s32 /*index*/);
 // void _getTexName();
-struct TiTexDataEntry *_getTexP2(struct_watchMenu *watchMenuRef, s32 index);
-struct TiTexDataEntry *_getTexP4(struct_watchMenu *watchMenuRef, s32 index);
-struct TiTexDataEntry *_getTexRank(struct_watchMenu *watchMenuRef, s32 /*index*/);
-struct TiTexDataEntry *_getTexSetup(struct_watchMenu *watchMenuRef, s32 index);
+struct TiTexData *_getTexP2(struct_watchMenu *watchMenuRef, s32 index);
+struct TiTexData *_getTexP4(struct_watchMenu *watchMenuRef, s32 index);
+struct TiTexData *_getTexRank(struct_watchMenu *watchMenuRef, s32 /*index*/);
+struct TiTexData *_getTexSetup(struct_watchMenu *watchMenuRef, s32 index);
 // void func_80059D94();
 // void func_80059DA4();
 // void func_80059DB4();
 // void func_80059DC4();
 // void func_80059DD4();
-struct TiTexDataEntry *_getTexKasa(struct_watchMenu *watchMenuRef, s32 index);
+struct TiTexData *_getTexKasa(struct_watchMenu *watchMenuRef, s32 index);
 MenuItem *_getRootItem(struct_watchMenu *watchMenuRef);
 u16 _getKeyLvl(struct_watchMenu *watchMenuRef, s32 arg1);
 u16 _getKeyTrg(struct_watchMenu *watchMenuRef, s32 arg1);
@@ -493,8 +493,8 @@ s32 dm_game_main_4p(void);
 bool dm_game_demo_1p(void);
 bool dm_game_demo_2p(void);
 bool dm_game_demo_4p(void);
-struct TiTexDataEntry *dm_game_get_capsel_tex(s32 arg0); // void dm_game_get_capsel_tex();
-struct TiTexDataEntry *dm_game_get_capsel_pal(s32 arg0, s32 arg1);
+struct TiTexData *dm_game_get_capsel_tex(s32 arg0); // void dm_game_get_capsel_tex();
+struct TiTexData *dm_game_get_capsel_pal(s32 arg0, s32 arg1);
 // void scoreNums_draw();
 void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg2);
 void func_80069188(struct_watchGame_unk_070 *arg0, s32 arg1);

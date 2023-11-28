@@ -1367,7 +1367,7 @@ s32 dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s3
 void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32 *arg2) {
     struct_game_state_data_unk_178 *temp_s1 = &gameStateData->unk_178;
     s32 var_s3;
-    TiTexDataEntry *temp_v0;
+    TiTexData *temp_v0;
     s32 i;
 
     gSPDisplayList(gGfxHead++, normal_texture_init_dl);
@@ -1380,10 +1380,10 @@ void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32
 
     temp_v0 = dm_game_get_capsel_tex(var_s3);
 
-    load_TexBlock_4b(temp_v0->unk_0->unk_4, temp_v0->unk_4[0], temp_v0->unk_4[1]);
+    load_TexBlock_4b(temp_v0->unk_0->tex, temp_v0->unk_4[0], temp_v0->unk_4[1]);
 
     for (i = 0; i < 2; i++) {
-        load_TexPal(dm_game_get_capsel_pal(var_s3, temp_s1->unk_6[i])->unk_0->unk_0);
+        load_TexPal(dm_game_get_capsel_pal(var_s3, temp_s1->unk_6[i])->unk_0->tlut);
         draw_Tex(arg1[i], arg2[i], gameStateData->unk_00A, gameStateData->unk_00A, 0,
                  temp_s1->unk_4[i] * gameStateData->unk_00A);
     }
@@ -1399,7 +1399,7 @@ void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s
 #if VERSION_CN
 void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]) {
     struct_game_state_data_unk_178 *temp_s6 = &gameStateDataRef->unk_178;
-    TiTexDataEntry *temp_v0_3;
+    TiTexData *temp_v0_3;
     s32 var_s1;
     s32 var_s5;
 
@@ -1426,11 +1426,11 @@ void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s
         }
 
         temp_v0_3 = dm_game_get_capsel_pal(var_s5, temp_s6->unk_6[var_s1]);
-        temp_s0 = temp_v0_3->unk_0->unk_0;
+        temp_s0 = temp_v0_3->unk_0->tlut;
 
         temp_v0_3 = dm_game_get_capsel_tex(var_s5);
 
-        var_a1 = temp_v0_3->unk_0->unk_4;
+        var_a1 = temp_v0_3->unk_0->tex;
         var_a1 += (temp_s6->unk_4[var_s1] * gameStateDataRef->unk_00A * *temp_v0_3->unk_4) >> 1;
 
         temp_a3_2 = (*temp_v0_3->unk_4 - gameStateDataRef->unk_00A) >> 1;
@@ -6500,8 +6500,8 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", cap_tex_4162);
 #endif
 
 #if VERSION_CN
-TiTexDataEntry *dm_game_get_capsel_tex(s32 arg0) {
-    return &watchGame->unk_444->unk_00[cap_tex_4162[arg0]];
+TiTexData *dm_game_get_capsel_tex(s32 arg0) {
+    return &watchGame->unk_444[cap_tex_4162[arg0]];
 }
 #endif
 
@@ -6513,8 +6513,8 @@ const u32 cap_pal_4164[][6] = {
 #endif
 
 #if VERSION_US || VERSION_CN
-TiTexDataEntry *dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
-    return &watchGame->unk_444->unk_00[cap_pal_4164[arg0][arg1]];
+TiTexData *dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
+    return &watchGame->unk_444[cap_pal_4164[arg0][arg1]];
 }
 #endif
 
@@ -6530,8 +6530,8 @@ extern const Color_RGB8 _scoreNumsColor[];
 void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexDataEntry *temp_s4 = &watchGameP->unk_430->unk_00[0x11];
-    TiTexDataEntry *temp_s2 = &watchGameP->unk_430->unk_00[0x16];
+    TiTexData *temp_s4 = &watchGameP->unk_430[0x11];
+    TiTexData *temp_s2 = &watchGameP->unk_430[0x16];
     s32 var_s3 = MIN(temp_s4->unk_4[0], temp_s2->unk_4[0]);
     s32 temp_s0 = temp_s4->unk_4[1] / 12;
     s32 i;
@@ -6570,8 +6570,8 @@ void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP) {
                         _scoreNumsColor[temp_t3->unk_0C].b, alpha);
 
         StretchAlphaTexBlock(
-            &gfx, var_s3, temp_s0, (u8 *)temp_s4->unk_0->unk_4 + (temp_s4->unk_4[0] * temp_s0 * temp_t3->unk_08 * 2),
-            temp_s4->unk_4[0], (u8 *)temp_s2->unk_0->unk_4 + (temp_s2->unk_4[0] * temp_s0 * temp_t3->unk_08 / 2),
+            &gfx, var_s3, temp_s0, (u8 *)temp_s4->unk_0->tex + (temp_s4->unk_4[0] * temp_s0 * temp_t3->unk_08 * 2),
+            temp_s4->unk_4[0], (u8 *)temp_s2->unk_0->tex + (temp_s2->unk_4[0] * temp_s0 * temp_t3->unk_08 / 2),
             temp_s2->unk_4[0], temp_t3->unk_00, temp_t3->unk_04 - var_fv0_2, var_s3, temp_s0);
     }
 
@@ -6636,16 +6636,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", starForce_draw);
 void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexDataEntry *temp_s0;
-    TiTexDataEntry *temp_s5;
+    TiTexData *temp_s0;
+    TiTexData *temp_s5;
     s32 i;
     s32 var_a3;
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
-    temp_s0 = &watchGameP->unk_430->unk_00[0x10];
-    temp_s5 = &watchGameP->unk_430->unk_00[0x15];
+    temp_s0 = &watchGameP->unk_430[0x10];
+    temp_s5 = &watchGameP->unk_430[0x15];
 
     for (i = 0; i < arg2; i++) {
         if (arg0->unk_08[i] < 0x30) {
@@ -6675,8 +6675,8 @@ void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
         if (var_a3 >= 0xC) {
             continue;
         }
-        temp_s0 = &watchGameP->unk_430->unk_00[var_a3];
-        StretchTexTile4i(&gfx, temp_s0->unk_4[0], temp_s0->unk_4[1], temp_s0->unk_0->unk_4, 0, 0,
+        temp_s0 = &watchGameP->unk_430[var_a3];
+        StretchTexTile4i(&gfx, temp_s0->unk_4[0], temp_s0->unk_4[1], temp_s0->unk_0->tex, 0, 0,
                          (s32)temp_s0->unk_4[0], (s32)temp_s0->unk_4[1], (f32)arg0->unk_00[i], (f32)arg0->unk_04[i],
                          (f32)temp_s0->unk_4[0], (f32)temp_s0->unk_4[1]);
     }
@@ -6693,8 +6693,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", func_800695A8);
 void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexDataEntry *temp_a1 = &watchGameP->unk_430->unk_00[0x10];
-    TiTexDataEntry *temp = &watchGameP->unk_430->unk_00[0x15];
+    TiTexData *temp_a1 = &watchGameP->unk_430[0x10];
+    TiTexData *temp = &watchGameP->unk_430[0x15];
 
     if (arg3 == 0) {
         gSPDisplayList(gfx++, alpha_texture_init_dl);
@@ -6717,13 +6717,13 @@ extern const u8 _tbl_4274[][4];
 void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexDataEntry *temp_t1;
-    TiTexDataEntry *temp;
+    TiTexData *temp_t1;
+    TiTexData *temp;
     s32 var_a1;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
-    temp_t1 = &watchGameP->unk_440->unk_00[9];
+    temp_t1 = &watchGameP->unk_440[9];
     tiStretchTexItem(&gfx, temp_t1, 0, 4, arg2, arg3, arg4, temp_t1->unk_4[0], temp_t1->unk_4[1] / 4);
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
@@ -6735,16 +6735,16 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
         s32 temp2 = game_state_data[(arg2 + 1 + var_a1) % 4].unk_04F;
 
         if (temp_a2 == temp2) {
-            temp_t1 = &watchGameP->unk_440->unk_00[temp_a2 + 0x10];
-            temp = &watchGameP->unk_440->unk_00[0x18];
-            StretchAlphaTexBlock(&gfx, temp_t1->unk_4[0], temp_t1->unk_4[1], temp_t1->unk_0->unk_4, temp_t1->unk_4[0],
-                                 temp->unk_0->unk_4, temp->unk_4[0], temp_fs0, temp_fv1 + 1.0f, temp_t1->unk_4[0],
+            temp_t1 = &watchGameP->unk_440[temp_a2 + 0x10];
+            temp = &watchGameP->unk_440[0x18];
+            StretchAlphaTexBlock(&gfx, temp_t1->unk_4[0], temp_t1->unk_4[1], temp_t1->unk_0->tex, temp_t1->unk_4[0],
+                                 temp->unk_0->tex, temp->unk_4[0], temp_fs0, temp_fv1 + 1.0f, temp_t1->unk_4[0],
                                  temp_t1->unk_4[1]);
         } else {
             s32 temp3;
 
-            temp_t1 = &watchGameP->unk_440->unk_00[0xA];
-            temp = &watchGameP->unk_440->unk_00[0x12];
+            temp_t1 = &watchGameP->unk_440[0xA];
+            temp = &watchGameP->unk_440[0x12];
 
             temp3 = _tbl_4274[arg1 - 1][(arg2 + var_a1 + 1) % 4];
             tiStretchAlphaTexItem(&gfx, temp_t1, temp, 0, 0xB, temp3, temp_fs0, temp_fv1, temp_t1->unk_4[0],
@@ -6815,8 +6815,8 @@ extern const s8 _tbl_4345[];
 #if VERSION_CN
 void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, UNUSED f32 arg5) {
     struct_watchGame *watchGameP = watchGame;
-    TiTexDataEntry *temp_s5 = &watchGameP->unk_430->unk_00[0xD];
-    TiTexDataEntry *temp_s3 = &watchGameP->unk_430->unk_00[0x12];
+    TiTexData *temp_s5 = &watchGameP->unk_430[0xD];
+    TiTexData *temp_s3 = &watchGameP->unk_430[0x12];
     s32 var_t1 = 0;
     s32 var_s6 = MIN(temp_s5->unk_4[0], temp_s3->unk_4[0]);
     s32 temp_s1 = temp_s5->unk_4[1] / 10;
@@ -6835,9 +6835,9 @@ void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, UNUSE
     temp_fs0 = temp_s1 / -2;
     for (var_s0 = var_t1 - 1; var_s0 >= 0; var_s0--) {
         StretchAlphaTexBlock(gfxP, var_s6, temp_s1,
-                             temp_s5->unk_0->unk_4 + (temp_s5->unk_4[0] * temp_s1 * _tbl_4345[sp38[var_s0]] * 2),
+                             temp_s5->unk_0->tex + (temp_s5->unk_4[0] * temp_s1 * _tbl_4345[sp38[var_s0]] * 2),
                              (s32)temp_s5->unk_4[0],
-                             temp_s3->unk_0->unk_4 + ((s32)(*temp_s3->unk_4 * temp_s1 * _tbl_4345[sp38[var_s0]]) / 2),
+                             temp_s3->unk_0->tex + ((s32)(*temp_s3->unk_4 * temp_s1 * _tbl_4345[sp38[var_s0]]) / 2),
                              (s32)*temp_s3->unk_4, (f32)arg2 + (var_s4 * arg4), arg3 + temp_fs0 * arg4,
                              (f32)var_s6 * arg4, temp_s1 * arg4);
         var_s4 += 0xE;
@@ -6854,8 +6854,8 @@ const s32 _row_4375[] = { 0xD, 0xC, 0xC };
 void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 arg5) {
     struct_watchGame *watchGameP = watchGame;
     TiTexData *temp_a1 = watchGameP->unk_438;
-    TiTexDataEntry *temp_s5 = &temp_a1->unk_00[_tex_4374[arg1]];
-    TiTexDataEntry *temp_s2 = &temp_a1->unk_00[7];
+    TiTexData *temp_s5 = &temp_a1[_tex_4374[arg1]];
+    TiTexData *temp_s2 = &temp_a1[7];
     s32 var_s7 = MIN(temp_s5->unk_4[0], temp_s2->unk_4[0]);
     s32 temp_s6 = temp_s5->unk_4[1] / _row_4375[arg1];
     s32 sp38[16];
@@ -6884,8 +6884,8 @@ void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 a
     }
 
     for (i = arg2 - 1; i >= 0; i--) {
-        StretchAlphaTexBlock(gfxP, var_s7, temp_s6, temp_s5->unk_0->unk_4 + temp_s5->unk_4[0] * temp_s6 * sp38[i] * 2,
-                             temp_s5->unk_4[0], temp_s2->unk_0->unk_4 + temp_s2->unk_4[0] * temp_s6 * sp38[i] / 2,
+        StretchAlphaTexBlock(gfxP, var_s7, temp_s6, temp_s5->unk_0->tex + temp_s5->unk_4[0] * temp_s6 * sp38[i] * 2,
+                             temp_s5->unk_4[0], temp_s2->unk_0->tex + temp_s2->unk_4[0] * temp_s6 * sp38[i] / 2,
                              temp_s2->unk_4[0], arg4, arg5, var_s7, temp_s6);
         arg4 += 9;
     }
@@ -6958,8 +6958,8 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
     s32 alpha;
     s32 var_a1_2;
     TiTexData *temp_a3;
-    TiTexDataEntry *temp1;
-    TiTexDataEntry *temp2;
+    TiTexData *temp1;
+    TiTexData *temp2;
 
     alpha = sins((watchGameP->unk_424 << 10) & 0xFC00) * ((f32)0xFF / 0x8000) + 127;
     alpha = CLAMP(alpha, 0, 255);
@@ -6970,12 +6970,12 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
     gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, alpha);
 
     temp_a3 = watchGameP->unk_430;
-    temp1 = &temp_a3->unk_00[0x17];
-    temp2 = &temp_a3->unk_00[0x18];
+    temp1 = &temp_a3[0x17];
+    temp2 = &temp_a3[0x18];
 
     var_a1_2 = MIN(temp1->unk_4[0], temp2->unk_4[0]);
 
-    StretchAlphaTexTile(&gGfxHead, var_a1_2, temp1->unk_4[1], temp1->unk_0->unk_4, temp1->unk_4[0], temp2->unk_0->unk_4,
+    StretchAlphaTexTile(&gGfxHead, var_a1_2, temp1->unk_4[1], temp1->unk_0->tex, temp1->unk_4[0], temp2->unk_0->tex,
                         temp2->unk_4[0], 0, 0, var_a1_2, temp1->unk_4[1], arg0, arg1, var_a1_2, temp1->unk_4[1]);
 }
 #endif
@@ -6998,8 +6998,8 @@ void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
     for (i = 0; i < ARRAY_COUNTU(alpha); i++) {
-        TiTexDataEntry *temp_t0;
-        TiTexDataEntry *temp_t2;
+        TiTexData *temp_t0;
+        TiTexData *temp_t2;
         s32 var_a3;
         s32 var_t1;
 
@@ -7008,14 +7008,14 @@ void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
             arg2 = 0x12;
         }
 
-        temp_t0 = &watchGameP->unk_430->unk_00[_tex_4459[i][0]];
-        temp_t2 = &watchGameP->unk_430->unk_00[_tex_4459[i][1]];
+        temp_t0 = &watchGameP->unk_430[_tex_4459[i][0]];
+        temp_t2 = &watchGameP->unk_430[_tex_4459[i][1]];
 
         var_a3 = MIN(temp_t0->unk_4[0], temp_t2->unk_4[0]);
         var_t1 = MIN(temp_t0->unk_4[1], temp_t2->unk_4[1]);
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha[i]);
-        StretchAlphaTexTile(&gfx, var_a3, var_t1, temp_t0->unk_0->unk_4, temp_t0->unk_4[0], temp_t2->unk_0->unk_4,
+        StretchAlphaTexTile(&gfx, var_a3, var_t1, temp_t0->unk_0->tex, temp_t0->unk_4[0], temp_t2->unk_0->tex,
                             temp_t2->unk_4[0], 0, 0, var_a3, var_t1, arg1, arg2, var_a3, var_t1);
     }
 
@@ -7040,13 +7040,13 @@ void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
     for (i = 0; i < ARRAY_COUNTU(alpha); i++) {
-        TiTexDataEntry *temp_t0 = &watchGameP->unk_430->unk_00[RO_800B2134[i][0]];
-        TiTexDataEntry *temp_t3 = &watchGameP->unk_430->unk_00[RO_800B2134[i][1]];
+        TiTexData *temp_t0 = &watchGameP->unk_430[RO_800B2134[i][0]];
+        TiTexData *temp_t3 = &watchGameP->unk_430[RO_800B2134[i][1]];
         s32 var_t2 = MIN(temp_t0->unk_4[0], temp_t3->unk_4[0]);
         s32 var_t1 = MIN(temp_t0->unk_4[1], temp_t3->unk_4[1]);
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha[i]);
-        StretchAlphaTexTile(&gfx, var_t2, var_t1, temp_t0->unk_0->unk_4, temp_t0->unk_4[0], temp_t3->unk_0->unk_4,
+        StretchAlphaTexTile(&gfx, var_t2, var_t1, temp_t0->unk_0->tex, temp_t0->unk_4[0], temp_t3->unk_0->tex,
                             temp_t3->unk_4[0], 0, 0, var_t2, var_t1, arg1, arg2, var_t2, var_t1);
     }
 
@@ -7099,7 +7099,7 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
     s32 i;
-    TiTexDataEntry *temp_s2;
+    TiTexData *temp_s2;
     s32 temp_s5;
 
     if (watchGameP->unk_99C < arg1) {
@@ -7131,7 +7131,7 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
 
     gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, PRIMITIVE, 0, TEXEL0, 0, 0, 0, 0, TEXEL0, PRIMITIVE, 0, TEXEL0, 0);
 
-    temp_s2 = &watchGameP->unk_434->unk_00[0x15];
+    temp_s2 = &watchGameP->unk_434[0x15];
 
     temp_s5 = temp_s2->unk_4[0] >> 2;
     for (i = 0; i < arg1; i++) {
@@ -7144,7 +7144,7 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
 
-        StretchTexTile4(&gfx, temp_s2->unk_4[0], temp_s2->unk_4[1], temp_s2->unk_0->unk_0, temp_s2->unk_0->unk_4,
+        StretchTexTile4(&gfx, temp_s2->unk_4[0], temp_s2->unk_4[1], temp_s2->unk_0->tlut, temp_s2->unk_0->tex,
                         temp_s5 * ((watchGameP->unk_9A0[i] >> 1) & 3), 0, temp_s5, temp_s2->unk_4[1], var_s4, temp_ft0,
                         temp_s5, temp_s2->unk_4[1]);
     }
@@ -7162,7 +7162,7 @@ extern Color_RGBA8 col_4590[];
 void draw_flash_virus_light(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexDataEntry *temp = &watchGameP->unk_444->unk_00[tbl_4589[(watchGameP->unk_424 >> 1) & 3] + 0xC];
+    TiTexData *temp = &watchGameP->unk_444[tbl_4589[(watchGameP->unk_424 >> 1) & 3] + 0xC];
 
     if (arg1 == 0) {
         gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -7228,16 +7228,16 @@ void func_8006AEFC(struct_watchGame_unk_9D0 *arg0, Gfx **gfxP, s32 arg2, s32 arg
 void func_8006AEFC(struct_watchGame_unk_9D0 *arg0, Gfx **gfxP, s32 arg2, s32 arg3) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexDataEntry *temp_t3;
-    TiTexDataEntry *temp;
+    TiTexData *temp_t3;
+    TiTexData *temp;
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
 
-    temp_t3 = &watchGameP->unk_438->unk_00[8];
-    temp = &watchGameP->unk_438->unk_00[9];
+    temp_t3 = &watchGameP->unk_438[8];
+    temp = &watchGameP->unk_438[9];
 
-    StretchAlphaTexTile(&gfx, temp_t3->unk_4[0], (s32)temp_t3->unk_4[1], temp_t3->unk_0->unk_4, temp_t3->unk_4[0],
-                        temp->unk_0->unk_4, (s32)temp->unk_4[0], 0, 0, (s32)temp_t3->unk_4[0], (s32)temp_t3->unk_4[1],
+    StretchAlphaTexTile(&gfx, temp_t3->unk_4[0], (s32)temp_t3->unk_4[1], temp_t3->unk_0->tex, temp_t3->unk_4[0],
+                        temp->unk_0->tex, (s32)temp->unk_4[0], 0, 0, (s32)temp_t3->unk_4[0], (s32)temp_t3->unk_4[1],
                         (f32)arg2, (f32)arg3, (f32)temp_t3->unk_4[0], (f32)temp_t3->unk_4[1]);
     draw_time2(&gfx, arg0->unk_14 + 5, arg2 + 0x12, arg3 + 0xE);
     draw_count_number(&gfx, 0, 2, (u32)arg0->unk_18, arg2 + 0x1F, arg3 + 0x23);
@@ -7256,15 +7256,15 @@ void draw_story_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     gSPDisplayList(gfx++, alpha_texture_init_dl);
 
     if (arg3 != 0) {
-        TiTexDataEntry *temp_t3 = &temp_s1->unk_43C->unk_00[0x12];
-        TiTexDataEntry *temp_t1 = &temp_s1->unk_43C->unk_00[0x13];
+        TiTexData *temp_t3 = &temp_s1->unk_43C[0x12];
+        TiTexData *temp_t1 = &temp_s1->unk_43C[0x13];
 
-        StretchAlphaTexBlock(&gfx, temp_t3->unk_4[0], temp_t1->unk_4[1], temp_t3->unk_0->unk_4, temp_t3->unk_4[0],
-                             temp_t1->unk_0->unk_4, temp_t1->unk_4[0], arg1 + 0x78, arg2 + 0xB, temp_t3->unk_4[0],
+        StretchAlphaTexBlock(&gfx, temp_t3->unk_4[0], temp_t1->unk_4[1], temp_t3->unk_0->tex, temp_t3->unk_4[0],
+                             temp_t1->unk_0->tex, temp_t1->unk_4[0], arg1 + 0x78, arg2 + 0xB, temp_t3->unk_4[0],
                              temp_t3->unk_4[1]);
 
-        temp_t3 = &temp_s1->unk_43C->unk_00[9];
-        tiStretchAlphaTexItem(&gfx, temp_t3, &temp_s1->unk_43C->unk_00[2], 0, 4, evs_story_level, arg1 + 0x8E,
+        temp_t3 = &temp_s1->unk_43C[9];
+        tiStretchAlphaTexItem(&gfx, temp_t3, &temp_s1->unk_43C[2], 0, 4, evs_story_level, arg1 + 0x8E,
                               arg2 + 0x36, temp_t3->unk_4[0], temp_t3->unk_4[1] >> 2);
     }
 
@@ -7318,8 +7318,8 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_watchGame *temp_s6 = watchGame;
     Gfx *gfx = *gfxP;
     s32 pad[3] UNUSED;
-    TiTexDataEntry *temp_s1;
-    TiTexDataEntry *temp_s5;
+    TiTexData *temp_s1;
+    TiTexData *temp_s5;
     s32 i;
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
@@ -7328,14 +7328,14 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         switch (evs_gamemode) {
             case ENUM_EVS_GAMEMODE_1:
             case ENUM_EVS_GAMEMODE_3:
-                temp_s1 = &temp_s6->unk_43C->unk_00[0x10];
-                temp_s5 = &temp_s6->unk_43C->unk_00[0x11];
-                StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4,
-                                     temp_s1->unk_4[0], temp_s5->unk_0->unk_4, temp_s5->unk_4[0], arg1 + 0x5F, arg2 + 9,
+                temp_s1 = &temp_s6->unk_43C[0x10];
+                temp_s5 = &temp_s6->unk_43C[0x11];
+                StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex,
+                                     temp_s1->unk_4[0], temp_s5->unk_0->tex, temp_s5->unk_4[0], arg1 + 0x5F, arg2 + 9,
                                      temp_s1->unk_4[0], temp_s1->unk_4[1]);
 
-                temp_s1 = &temp_s6->unk_43C->unk_00[9];
-                temp_s5 = &temp_s6->unk_43C->unk_00[2];
+                temp_s1 = &temp_s6->unk_43C[9];
+                temp_s5 = &temp_s6->unk_43C[2];
                 for (i = 0; i < 2; i++) {
                     tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, 0, 4, game_state_data[i].unk_16C, arg1 + _x_4663[i],
                                           arg2 + 0xB, temp_s1->unk_4[0], temp_s1->unk_4[1] >> 2);
@@ -7343,10 +7343,10 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                 break;
 
             default:
-                temp_s1 = &temp_s6->unk_43C->unk_00[0x14];
-                temp_s5 = &temp_s6->unk_43C->unk_00[0x15];
-                StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4,
-                                     temp_s1->unk_4[0], temp_s5->unk_0->unk_4, temp_s5->unk_4[0], arg1 + 0x68, arg2 + 9,
+                temp_s1 = &temp_s6->unk_43C[0x14];
+                temp_s5 = &temp_s6->unk_43C[0x15];
+                StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex,
+                                     temp_s1->unk_4[0], temp_s5->unk_0->tex, temp_s5->unk_4[0], arg1 + 0x68, arg2 + 9,
                                      temp_s1->unk_4[0], temp_s1->unk_4[1]);
 
                 for (i = 0; i < 2; i++) {
@@ -7355,14 +7355,14 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                 break;
         }
 
-        temp_s1 = &temp_s6->unk_43C->unk_00[0xD];
-        temp_s5 = &temp_s6->unk_43C->unk_00[6];
-        StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
-                             temp_s5->unk_0->unk_4, temp_s5->unk_4[0], arg1 + 0x68, (arg2 + 0x19), temp_s1->unk_4[0],
+        temp_s1 = &temp_s6->unk_43C[0xD];
+        temp_s5 = &temp_s6->unk_43C[6];
+        StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
+                             temp_s5->unk_0->tex, temp_s5->unk_4[0], arg1 + 0x68, (arg2 + 0x19), temp_s1->unk_4[0],
                              temp_s1->unk_4[1]);
 
-        temp_s1 = &temp_s6->unk_43C->unk_00[0xC];
-        temp_s5 = &temp_s6->unk_43C->unk_00[5];
+        temp_s1 = &temp_s6->unk_43C[0xC];
+        temp_s5 = &temp_s6->unk_43C[5];
         for (i = 0; i < 2; i++) {
             tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, 0, 3, 2 - game_state_data[i].unk_02C, arg1 + _x_4676[i],
                                   arg2 + 0x1B, temp_s1->unk_4[0], temp_s1->unk_4[1] / 3);
@@ -7371,10 +7371,10 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     if (evs_gamesel == ENUM_EVS_GAMESEL_3) {
         if (arg3 != 0) {
-            temp_s1 = &temp_s6->unk_43C->unk_00[0xA];
-            temp_s5 = &temp_s6->unk_43C->unk_00[3];
-            StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
-                                 temp_s5->unk_0->unk_4, temp_s5->unk_4[0], arg1 + 0x70, arg2 + 0x29, temp_s1->unk_4[0],
+            temp_s1 = &temp_s6->unk_43C[0xA];
+            temp_s5 = &temp_s6->unk_43C[3];
+            StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
+                                 temp_s5->unk_0->tex, temp_s5->unk_4[0], arg1 + 0x70, arg2 + 0x29, temp_s1->unk_4[0],
                                  temp_s1->unk_4[1]);
         }
 
@@ -7383,10 +7383,10 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         }
     } else {
         if (arg3 != 0) {
-            temp_s1 = &temp_s6->unk_43C->unk_00[0xB];
-            temp_s5 = &temp_s6->unk_43C->unk_00[4];
-            StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
-                                 temp_s5->unk_0->unk_4, temp_s5->unk_4[0], arg1 + 0x58, arg2 + 0x29, temp_s1->unk_4[0],
+            temp_s1 = &temp_s6->unk_43C[0xB];
+            temp_s5 = &temp_s6->unk_43C[4];
+            StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
+                                 temp_s5->unk_0->tex, temp_s5->unk_4[0], arg1 + 0x58, arg2 + 0x29, temp_s1->unk_4[0],
                                  temp_s1->unk_4[1]);
         }
 
@@ -7430,7 +7430,7 @@ extern const s32 _rect_4752[][4];
 void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexDataEntry *temp_s6;
+    TiTexData *temp_s6;
     s32 i;
     s32 j;
 
@@ -7439,7 +7439,7 @@ void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3) {
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 192);
 
-    temp_s6 = &watchGameP->unk_438->unk_00[1];
+    temp_s6 = &watchGameP->unk_438[1];
     for (i = 0; i < temp_s6->unk_4[1]; i += 0x2A) {
         for (j = 0; j < arg3; j++) {
             s32 var_t1;
@@ -7452,7 +7452,7 @@ void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3) {
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
-    temp_s6 = &watchGameP->unk_438->unk_00[0];
+    temp_s6 = &watchGameP->unk_438[0];
     for (i = 0; i < 5U; i++) {
         for (j = 0; j < arg3; j++) {
             tiStretchTexTile(&gfx, temp_s6, j, _rect_4752[i][0], _rect_4752[i][1], _rect_4752[i][2], _rect_4752[i][3],
@@ -7537,8 +7537,8 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     Mtx *mtx = *mtxP;
     Vtx *vtx = *vtxP;
     f32 sp48[4][4];
-    TiTexDataEntry *temp_a2;
-    TiTexDataEntry *temp_s4;
+    TiTexData *temp_a2;
+    TiTexData *temp_s4;
     s32 var_v0;
     s32 var_s0;
     s32 var_s3;
@@ -7558,8 +7558,8 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
         var_v0 = 0;
     }
 
-    temp_s4 = &watchGameP->unk_448->unk_00[_pat_4838[var_v0] + 1];
-    temp_a2 = &watchGameP->unk_448->unk_00[0];
+    temp_s4 = &watchGameP->unk_448[_pat_4838[var_v0] + 1];
+    temp_a2 = &watchGameP->unk_448[0];
 
     var_s0 = MIN(temp_s4->unk_4[0], temp_a2->unk_4[0]);
     var_s3 = MIN(temp_s4->unk_4[1], temp_a2->unk_4[1]);
@@ -7581,7 +7581,7 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     guMtxF2L(sp48, mtx);
     gSPMatrix(gfx++, mtx++, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->unk_0->unk_4, temp_s4->unk_4[0], temp_a2->unk_0->unk_4,
+    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->unk_0->tex, temp_s4->unk_4[0], temp_a2->unk_0->tex,
                      temp_a2->unk_4[0], 0, 0, var_s0, var_s3, 0.0f, 0.0f, var_s0, var_s3);
 
     *vtxP = vtx;
@@ -7595,7 +7595,7 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
 #if VERSION_US || VERSION_CN
 void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, GameMapCell *mapCells) {
     s32 sp28[2];
-    TiTexDataEntry *temp_v0;
+    TiTexData *temp_v0;
     s32 temp_s6;
     s32 i;
 
@@ -7608,14 +7608,14 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
 
     temp_v0 = dm_game_get_capsel_tex(temp_s6);
 
-    load_TexTile_4b(temp_v0->unk_0->unk_4, temp_v0->unk_4[0], temp_v0->unk_4[1], 0, 0, temp_v0->unk_4[0] - 1,
+    load_TexTile_4b(temp_v0->unk_0->tex, temp_v0->unk_4[0], temp_v0->unk_4[1], 0, 0, temp_v0->unk_4[0] - 1,
                     temp_v0->unk_4[1] - 1);
     gfxSetScissor(&gGfxHead, 2, (s32)gameStateData->unk_006, gameStateData->unk_008 + gameStateData->unk_00A,
                   gameStateData->unk_00A * 8, gameStateData->unk_00A * 0x10);
 
     for (i = 0; i < 6; i++) {
         temp_v0 = dm_game_get_capsel_pal(temp_s6, i);
-        load_TexPal(temp_v0->unk_0->unk_0);
+        load_TexPal(temp_v0->unk_0->tlut);
         dm_map_draw(mapCells, i, gameStateData->unk_006, gameStateData->unk_008 - gameStateData->unk_168,
                     gameStateData->unk_00A);
     }
@@ -7651,7 +7651,7 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
             s32 temp_a2;
 
             temp_v0 = dm_game_get_capsel_pal(temp_s6, temp->unk_6[i]);
-            load_TexPal(temp_v0->unk_0->unk_0);
+            load_TexPal(temp_v0->unk_0->tlut);
             temp_t0_2 = gameStateData->unk_00A;
             temp_a1_2 = (temp->unk_0[i] * temp_t0_2) + gameStateData->unk_006;
             temp_a2 = (sp28[i] * temp_t0_2) + gameStateData->unk_008;
@@ -7697,7 +7697,7 @@ void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapC
     }
 
     for (i = 0; i < 2; i++) {
-        load_TexPal(dm_game_get_capsel_pal(temp_s6, gameStateData->unk_184.unk_6[i])->unk_0->unk_0);
+        load_TexPal(dm_game_get_capsel_pal(temp_s6, gameStateData->unk_184.unk_6[i])->unk_0->tlut);
         draw_Tex(gameStateData->unk_184.unk_0[i] * gameStateData->unk_00A + gameStateData->unk_006,
                  (gameStateData->unk_184.unk_2[i] * gameStateData->unk_00A + gameStateData->unk_008) - 0xA,
                  gameStateData->unk_00A, gameStateData->unk_00A, 0,
@@ -7746,9 +7746,9 @@ void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, Game
     }
 
     for (i = 0; i < 2; i++) {
-        TiTexDataEntry *temp = dm_game_get_capsel_pal(0, gameStateDataRef->unk_184.unk_6[i]);
+        TiTexData *temp = dm_game_get_capsel_pal(0, gameStateDataRef->unk_184.unk_6[i]);
 
-        load_TexPal(temp->unk_0->unk_0);
+        load_TexPal(temp->unk_0->tlut);
         draw_Tex(0xDA + i * 0xA, 0x34, 0xA, 0xA, 0, gameStateDataRef->unk_184.unk_4[i] * 0xA);
     }
 }
@@ -7761,8 +7761,8 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     s32 temp_lo;
     s32 temp_s0_2;
     s32 var_v0_4;
-    TiTexDataEntry *temp_s1;
-    TiTexDataEntry *other;
+    TiTexData *temp_s1;
+    TiTexData *other;
 
     switch (gameStateDataRef->unk_014) {
         case 0x0:
@@ -7793,8 +7793,8 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     }
 
     if ((gameStateDataRef->unk_01C == 0x12) && (gameStateDataRef->unk_020 == 1)) {
-        temp_s1 = &temp_s4->unk_440->unk_00[0x1D];
-        other = &temp_s4->unk_440->unk_00[0x1E];
+        temp_s1 = &temp_s4->unk_440[0x1D];
+        other = &temp_s4->unk_440[0x1E];
 
         gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
@@ -7806,8 +7806,8 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, temp_fv0);
 
         temp_fv0 = ((f32)sins(((s16)temp_s4->unk_424 << 0xA) & 0xFC00) * 0.00015258789f);
-        StretchAlphaTexBlock(&gGfxHead, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
-                             other->unk_0->unk_4, other->unk_4[0], gameStateDataRef->unk_006,
+        StretchAlphaTexBlock(&gGfxHead, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
+                             other->unk_0->tex, other->unk_4[0], gameStateDataRef->unk_006,
                              (gameStateDataRef->unk_008 + temp_fv0 + 0xA0), temp_s1->unk_4[0], temp_s1->unk_4[1]);
     }
 
@@ -7865,8 +7865,8 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
             if (temp_s4->unk_000 == 0) {
                 if (gameStateDataRef->unk_04C == 0) {
                     temp_fv0 = sins(((s16)temp_s4->unk_424 << 0xA) & 0xFC00) * 0.0038757324f + 127.0f;
-                    temp_s1 = &temp_s4->unk_440->unk_00[0x1B];
-                    other = &temp_s4->unk_440->unk_00[0x1C];
+                    temp_s1 = &temp_s4->unk_440[0x1B];
+                    other = &temp_s4->unk_440[0x1C];
 
                     gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
@@ -7875,8 +7875,8 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
 
                     gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, temp_fv0);
 
-                    StretchAlphaTexBlock(&gGfxHead, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4,
-                                         temp_s1->unk_4[0], other->unk_0->unk_4, other->unk_4[0],
+                    StretchAlphaTexBlock(&gGfxHead, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex,
+                                         temp_s1->unk_4[0], other->unk_0->tex, other->unk_4[0],
                                          (f32)gameStateDataRef->unk_006, (f32)(gameStateDataRef->unk_008 + 0x5C),
                                          (f32)temp_s1->unk_4[0], (f32)temp_s1->unk_4[1]);
                 }
@@ -8896,8 +8896,8 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", tbl_5867);
 void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 arg3) {
     struct_watchGame *temp_s7 = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexDataEntry *temp_s1;
-    TiTexDataEntry *temp_s2;
+    TiTexData *temp_s1;
+    TiTexData *temp_s2;
     s32 var_s6;
     s32 var_s0_2;
     s32 i;
@@ -8928,55 +8928,55 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
 
             gSPDisplayList(gfx++, normal_texture_init_dl);
 
-            temp_s1 = &temp_s7->unk_434->unk_00[_bgTex_5794[var_s6]];
+            temp_s1 = &temp_s7->unk_434[_bgTex_5794[var_s6]];
 
             for (i = 0; i < ARRAY_COUNTU(_bgPos_5792); i++) {
                 tiStretchTexTile(&gfx, temp_s1, 0, 0, 0, temp_s1->unk_4[0], temp_s1->unk_4[1], _bgPos_5792[i][0],
                                  _bgPos_5792[i][1], temp_s1->unk_4[0], temp_s1->unk_4[1]);
             }
 
-            temp_s1 = &temp_s7->unk_434->unk_00[_magTex_5795[var_s6]];
+            temp_s1 = &temp_s7->unk_434[_magTex_5795[var_s6]];
             tiStretchTexTile(&gfx, temp_s1, 0, 0, 0, temp_s1->unk_4[0], temp_s1->unk_4[1], 0.0f, 120.0f,
                              temp_s1->unk_4[0], temp_s1->unk_4[1]);
 
             if (arg3 != 0) {
                 gSPDisplayList(gfx++, alpha_texture_init_dl);
 
-                temp_s1 = &temp_s7->unk_434->unk_00[9];
-                temp_s2 = &temp_s7->unk_434->unk_00[2];
+                temp_s1 = &temp_s7->unk_434[9];
+                temp_s2 = &temp_s7->unk_434[2];
 
                 var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
 
-                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
-                                    temp_s2->unk_0->unk_4, *temp_s2->unk_4, 0, 0, var_s0_2, temp_s1->unk_4[1], 202.0f,
+                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
+                                    temp_s2->unk_0->tex, *temp_s2->unk_4, 0, 0, var_s0_2, temp_s1->unk_4[1], 202.0f,
                                     12.0f, var_s0_2, temp_s1->unk_4[1]);
 
-                temp_s1 = &temp_s7->unk_434->unk_00[_scrTex_5796[var_s6]];
-                temp_s2 = &temp_s7->unk_434->unk_00[1];
+                temp_s1 = &temp_s7->unk_434[_scrTex_5796[var_s6]];
+                temp_s2 = &temp_s7->unk_434[1];
 
                 var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
 
-                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
-                                    temp_s2->unk_0->unk_4, temp_s2->unk_4[0], 0, 0, var_s0_2, temp_s1->unk_4[1], 11.0f,
+                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
+                                    temp_s2->unk_0->tex, temp_s2->unk_4[0], 0, 0, var_s0_2, temp_s1->unk_4[1], 11.0f,
                                     17.0f, var_s0_2, temp_s1->unk_4[1]);
 
-                temp_s2 = &temp_s7->unk_434->unk_00[4];
+                temp_s2 = &temp_s7->unk_434[4];
 
                 for (i = 0; i < 3U; i++) {
-                    temp_s1 = &temp_s7->unk_434->unk_00[_panelTex_5797[var_s6][i]];
+                    temp_s1 = &temp_s7->unk_434[_panelTex_5797[var_s6][i]];
 
                     var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
 
-                    StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
-                                        temp_s2->unk_0->unk_4, temp_s2->unk_4[0], 0, 0, var_s0_2, temp_s1->unk_4[1],
+                    StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
+                                        temp_s2->unk_0->tex, temp_s2->unk_4[0], 0, 0, var_s0_2, temp_s1->unk_4[1],
                                         _panelPos_5793[i][0], _panelPos_5793[i][1], var_s0_2, temp_s1->unk_4[1]);
                 }
 
                 switch (evs_gamemode) {
                     case ENUM_EVS_GAMEMODE_2:
                     case ENUM_EVS_GAMEMODE_3:
-                        temp_s1 = &temp_s7->unk_434->unk_00[0xA];
-                        temp_s2 = &temp_s7->unk_434->unk_00[3];
+                        temp_s1 = &temp_s7->unk_434[0xA];
+                        temp_s2 = &temp_s7->unk_434[3];
                         tiStretchAlphaTexItem(&gfx, temp_s1, temp_s2, 0, 3, game_state_data->unk_16C, 232.0f, 120.0f,
                                               48.0f, 16.0f);
                         break;
@@ -8985,8 +8985,8 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                         break;
                 }
 
-                temp_s1 = &temp_s7->unk_434->unk_00[5];
-                temp_s2 = &temp_s7->unk_434->unk_00[0];
+                temp_s1 = &temp_s7->unk_434[5];
+                temp_s2 = &temp_s7->unk_434[0];
                 tiStretchAlphaTexItem(&gfx, temp_s1, temp_s2, 0, 3, game_state_data->unk_02C, 232.0f, 162.0f, 48.0f,
                                       16.0f);
             }
@@ -8997,13 +8997,13 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 96);
 
-            temp_s1 = &temp_s7->unk_438->unk_00[1];
+            temp_s1 = &temp_s7->unk_438[1];
 
             for (i = 0; i < 2; i++) {
                 tiStretchTexBlock(&gfx, temp_s1, 0, 110.0f, 16.0f, temp_s1->unk_4[0], temp_s1->unk_4[1]);
             }
 
-            temp_s1 = &temp_s7->unk_438->unk_00[0];
+            temp_s1 = &temp_s7->unk_438[0];
             for (i = 0; i < 2; i++) {
                 tiCopyTexBlock(&gfx, temp_s1, 0, 0x6E, 0x10);
             }
@@ -9019,14 +9019,14 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 192);
 
-            temp_s1 = &temp_s7->unk_440->unk_00[1];
+            temp_s1 = &temp_s7->unk_440[1];
 
             for (i = 0; i < 4; i++) {
                 tiStretchTexBlock(&gfx, temp_s1, 0, _posP4Bottle[i][0] + RO_800B1D7C[0],
                                   _posP4Bottle[i][1] + RO_800B1D7C[1], temp_s1->unk_4[0], temp_s1->unk_4[1]);
             }
 
-            temp_s1 = &temp_s7->unk_440->unk_00[0];
+            temp_s1 = &temp_s7->unk_440[0];
 
             for (i = 0; i < 4; i++) {
                 tiCopyTexBlock(&gfx, temp_s1, 0, _posP4Bottle[i][0], _posP4Bottle[i][1]);
@@ -9035,7 +9035,7 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             if (arg3 != 0) {
                 gSPDisplayList(gfx++, normal_texture_init_dl);
 
-                temp_s1 = &temp_s7->unk_440->unk_00[8];
+                temp_s1 = &temp_s7->unk_440[8];
                 for (i = 0; i < 4; i++) {
                     tiStretchTexBlock(&gfx, temp_s1, 0, _posP4CharBase[i][0], _posP4CharBase[i][1], temp_s1->unk_4[0],
                                       temp_s1->unk_4[1]);
@@ -9045,58 +9045,58 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
 
                 if ((evs_story_flg != 0) || (temp_s7->unk_8C0 == 0)) {
                     if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
-                        temp_s1 = &temp_s7->unk_440->unk_00[0xB];
-                        temp_s2 = &temp_s7->unk_440->unk_00[0x13];
+                        temp_s1 = &temp_s7->unk_440[0xB];
+                        temp_s2 = &temp_s7->unk_440[0x13];
                     } else {
-                        temp_s1 = &temp_s7->unk_440->unk_00[0x19];
-                        temp_s2 = &temp_s7->unk_440->unk_00[0x1A];
+                        temp_s1 = &temp_s7->unk_440[0x19];
+                        temp_s2 = &temp_s7->unk_440[0x1A];
                     }
 
                     var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
 
                     for (i = 0; i < 4; i++) {
-                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->unk_4,
-                                             temp_s1->unk_4[0], temp_s2->unk_0->unk_4, temp_s2->unk_4[0],
+                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex,
+                                             temp_s1->unk_4[0], temp_s2->unk_0->tex, temp_s2->unk_4[0],
                                              _posP4CharBase[i][0] + 0x19, _posP4CharBase[i][1], var_s0_2,
                                              temp_s1->unk_4[1]);
                     }
                 }
 
                 if (evs_story_flg != 0) {
-                    temp_s1 = &temp_s7->unk_440->unk_00[0xF];
-                    temp_s2 = &temp_s7->unk_440->unk_00[0x17];
+                    temp_s1 = &temp_s7->unk_440[0xF];
+                    temp_s2 = &temp_s7->unk_440[0x17];
 
                     var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
 
-                    StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->unk_4, temp_s1->unk_4[0],
-                                         temp_s2->unk_0->unk_4, temp_s1->unk_4[0], 16.0f, 11.0f, var_s0_2,
+                    StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
+                                         temp_s2->unk_0->tex, temp_s1->unk_4[0], 16.0f, 11.0f, var_s0_2,
                                          temp_s1->unk_4[1]);
                 } else if (temp_s7->unk_8C0 != 0) {
                     for (i = 0; i < 4; i++) {
                         s32 temp_v0_9;
 
                         temp_v0_9 = game_state_data[i].unk_04F != 0;
-                        temp_s1 = &temp_s7->unk_440->unk_00[tbl_5867[temp_v0_9][0]];
-                        temp_s2 = &temp_s7->unk_440->unk_00[tbl_5867[temp_v0_9][1]];
+                        temp_s1 = &temp_s7->unk_440[tbl_5867[temp_v0_9][0]];
+                        temp_s2 = &temp_s7->unk_440[tbl_5867[temp_v0_9][1]];
 
                         var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
 
-                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->unk_4,
-                                             temp_s1->unk_4[0], temp_s2->unk_0->unk_4, temp_s1->unk_4[0],
+                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex,
+                                             temp_s1->unk_4[0], temp_s2->unk_0->tex, temp_s1->unk_4[0],
                                              _posP4CharBase[i][0] + 0x19, _posP4CharBase[i][1], var_s0_2,
                                              temp_s1->unk_4[1]);
                     }
 
                     //! FAKE:
-                    temp_s1 = temp_s7->unk_440->unk_00 + 2 + evs_vs_count - 1;
+                    temp_s1 = temp_s7->unk_440 + 2 + evs_vs_count - 1;
 
-                    CopyTexBlock8(&gfx, temp_s1->unk_0->unk_0, temp_s1->unk_0->unk_4, 0x10, 8, temp_s1->unk_4[0],
+                    CopyTexBlock8(&gfx, temp_s1->unk_0->tlut, temp_s1->unk_0->tex, 0x10, 8, temp_s1->unk_4[0],
                                   temp_s1->unk_4[1]);
                 } else {
                     //! FAKE:
-                    temp_s1 = temp_s7->unk_440->unk_00 + 5 + evs_vs_count - 1;
+                    temp_s1 = temp_s7->unk_440 + 5 + evs_vs_count - 1;
 
-                    CopyTexBlock8(&gfx, temp_s1->unk_0->unk_0, temp_s1->unk_0->unk_4, 0x10, 0xB, temp_s1->unk_4[0],
+                    CopyTexBlock8(&gfx, temp_s1->unk_0->tlut, temp_s1->unk_0->tex, 0x10, 0xB, temp_s1->unk_4[0],
                                   temp_s1->unk_4[1]);
                 }
             }
@@ -9110,14 +9110,14 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                 gSPDisplayList(gfx++, alpha_texture_init_dl);
 
                 if (evs_story_flg != 0) {
-                    temp_s1 = &temp_s7->unk_43C->unk_00[8];
+                    temp_s1 = &temp_s7->unk_43C[8];
                 } else {
-                    temp_s1 = &temp_s7->unk_43C->unk_00[0xE];
+                    temp_s1 = &temp_s7->unk_43C[0xE];
                 }
-                temp_s2 = &temp_s7->unk_43C->unk_00[0];
+                temp_s2 = &temp_s7->unk_43C[0];
 
-                StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->unk_4,
-                                     temp_s1->unk_4[0], temp_s2->unk_0->unk_4, temp_s2->unk_4[0], 114.0f, 150.0f,
+                StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex,
+                                     temp_s1->unk_4[0], temp_s2->unk_0->tex, temp_s2->unk_4[0], 114.0f, 150.0f,
                                      temp_s1->unk_4[0], temp_s1->unk_4[1]);
                 if (evs_story_flg != 0) {
                     draw_count_number(&gfx, 0, 1, evs_story_no, 0xB0, 0x98);
@@ -9690,8 +9690,8 @@ void dm_game_graphic2(void) {
     s32 i;
     s32 j;
     s32 var_s4_2;
-    TiTexDataEntry *var_t2;
-    TiTexDataEntry *var_s6;
+    TiTexData *var_t2;
+    TiTexData *var_s6;
 
     gGfxHead = gGfxGlist[gfx_gtask_no];
     mtx = dm_get_mtx_buf();
@@ -9884,17 +9884,17 @@ void dm_game_graphic2(void) {
 
                 switch (evs_gamemode) {
                     case ENUM_EVS_GAMEMODE_1:
-                        var_s6 = &temp_s7->unk_43C->unk_00[7];
+                        var_s6 = &temp_s7->unk_43C[7];
                         break;
 
                     default:
-                        var_s6 = &temp_s7->unk_43C->unk_00[0xF];
+                        var_s6 = &temp_s7->unk_43C[0xF];
                         break;
                 }
-                var_t2 = &temp_s7->unk_43C->unk_00[1];
+                var_t2 = &temp_s7->unk_43C[1];
 
-                StretchAlphaTexBlock(&gGfxHead, var_s6->unk_4[0], var_s6->unk_4[1], var_s6->unk_0->unk_4,
-                                     var_s6->unk_4[0], var_t2->unk_0->unk_4, var_t2->unk_4[0], 131.0f, 181.0f,
+                StretchAlphaTexBlock(&gGfxHead, var_s6->unk_4[0], var_s6->unk_4[1], var_s6->unk_0->tex,
+                                     var_s6->unk_4[0], var_t2->unk_0->tex, var_t2->unk_4[0], 131.0f, 181.0f,
                                      var_s6->unk_4[0], var_s6->unk_4[1]);
 
                 func_80069188(&temp_s7->unk_070, temp_s7->unk_06C);
@@ -9948,8 +9948,8 @@ void dm_game_graphic2(void) {
                     s32 temp_s2_4;
                     s32 temp_a3_10;
 
-                    var_s6 = &temp_s7->unk_440->unk_00[0xE];
-                    var_t2 = &temp_s7->unk_440->unk_00[0x16];
+                    var_s6 = &temp_s7->unk_440[0xE];
+                    var_t2 = &temp_s7->unk_440[0x16];
 
                     temp_s5 = var_s6->unk_4[0] >> 1;
                     temp_s2_4 = var_s6->unk_4[1] / 3;
@@ -9964,8 +9964,8 @@ void dm_game_graphic2(void) {
                             a = temp_s5 * i;
                             b = temp_s2_4 * color2index_6470[temp_a3_10];
 
-                            StretchAlphaTexTile(&gGfxHead, var_s6->unk_4[0], var_s6->unk_4[1], var_s6->unk_0->unk_4,
-                                                var_s6->unk_4[0], var_t2->unk_0->unk_4, var_t2->unk_4[0], a, b, temp_s5,
+                            StretchAlphaTexTile(&gGfxHead, var_s6->unk_4[0], var_s6->unk_4[1], var_s6->unk_0->tex,
+                                                var_s6->unk_4[0], var_t2->unk_0->tex, var_t2->unk_4[0], a, b, temp_s5,
                                                 temp_s2_4, _posP4StockCap[i][0] + j * 9, _posP4StockCap[i][1], temp_s5,
                                                 temp_s2_4);
                         }
@@ -10056,7 +10056,7 @@ void dm_game_graphic2(void) {
         }
 
         if (temp_s7->unk_A28.unk_74 > 0) {
-            var_s6 = &temp_s7->unk_430->unk_00[0xC];
+            var_s6 = &temp_s7->unk_430[0xC];
 
             gSPDisplayList(gGfxHead++, normal_texture_init_dl);
             gDPSetCombineLERP(gGfxHead++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
@@ -10065,7 +10065,7 @@ void dm_game_graphic2(void) {
             gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 200, temp_s7->unk_A28.unk_74);
             gDPSetTextureLUT(gGfxHead++, G_TT_NONE);
 
-            gDPLoadTextureBlock_4b(gGfxHead++, var_s6->unk_0->unk_4, G_IM_FMT_I, var_s6->unk_4[0], var_s6->unk_4[1], 0,
+            gDPLoadTextureBlock_4b(gGfxHead++, var_s6->unk_0->tex, G_IM_FMT_I, var_s6->unk_4[0], var_s6->unk_4[1], 0,
                                    G_TX_NOMIRROR, G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
             drawCursorPattern(&gGfxHead, var_s6->unk_4[0], var_s6->unk_4[1], 0x10, 0x10, temp_s7->unk_A28.unk_28 - 6,

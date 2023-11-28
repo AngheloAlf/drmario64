@@ -43,23 +43,6 @@ typedef struct AnimeSeq_unk_0C {
     /* 0x0 */ u8 *unk_0;
 } AnimeSeq_unk_0C; // size >= 0x4
 
-typedef struct AnimeState_unk_1C_unk_4 {
-    /* 0x0 */ u16 width;
-    /* 0x2 */ u16 height;
-    /* 0x4 */ u16 unk_4;
-} AnimeState_unk_1C_unk_4; // size >= 0x8
-
-typedef struct AnimeState_unk_1C_unk_0 {
-    /* 0x0 */ u16 *tlut;
-    /* 0x4 */ u8 *tex;
-} AnimeState_unk_1C_unk_0; // size >= 0x8
-
-// TODO: Remove and use TiTexData instead?
-typedef struct AnimeState_unk_1C {
-    /* 0x0 */ AnimeState_unk_1C_unk_0 *unk_0;
-    /* 0x4 */ AnimeState_unk_1C_unk_4 *unk_4;
-} AnimeState_unk_1C; // size = 0x8
-
 typedef struct AnimeSeq {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ u8 unk_04[0x4];
@@ -72,7 +55,7 @@ typedef struct AnimeSeq {
 
 typedef struct AnimeState {
     /* 0x00 */ AnimeSeq animeSeq;
-    /* 0x1C */ AnimeState_unk_1C *unk_1C;
+    /* 0x1C */ struct TiTexData *unk_1C;
     /* 0x20 */ UNK_TYPE4 unk_20;
     /* 0x24 */ struct_800B1B00 unk_24;
     /* 0x2C */ CharAnimeMode animeMode;
@@ -99,7 +82,7 @@ void animeSeq_update(AnimeSeq *animeSeq, UNK_TYPE arg1);
 bool animeSeq_isEnd(AnimeSeq *animeSeq);
 size_t animeState_getDataSize(CharAnimeMode animeMode);
 void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeMode);
-void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, AnimeState_unk_1C *arg2, UNK_TYPE4 arg3,
+void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, struct TiTexData *arg2, UNK_TYPE4 arg3,
                      UNK_TYPE4 arg4, CharAnimeMode animeMode);
 void animeState_set(AnimeState *animeState, UNK_TYPE4 arg1);
 void animeState_update(AnimeState *animeState);
@@ -116,6 +99,6 @@ void animeSmog_stop(AnimeSmog *animeSmog);
 void animeSmog_update(AnimeSmog *animeSmog);
 void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
 // void func_8005EE64();
-void loadAnimeSeq(UNK_PTR *arg0, AnimeState_unk_1C **arg1, AnimeSeq_unk_0C **arg2, RomOffset romOffsetStart, RomOffset romOffsetEnd);
+void loadAnimeSeq(UNK_PTR *arg0, struct TiTexData **arg1, AnimeSeq_unk_0C **arg2, RomOffset romOffsetStart, RomOffset romOffsetEnd);
 
 #endif

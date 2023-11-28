@@ -9,19 +9,15 @@ struct StretchTexBlock_arg0;
 struct StretchTexTile_arg0;
 
 
-typedef struct TiTexDataEntry_unk_0 {
-    /* 0x0 */ TexturePtr unk_0;
-    /* 0x4 */ TexturePtr unk_4;
-} TiTexDataEntry_unk_0; // size >= 0x8
-
-typedef struct TiTexDataEntry {
-    /* 0x0 */ TiTexDataEntry_unk_0 *unk_0;
-    /* 0x4 */ u16 *unk_4;
-} TiTexDataEntry; // size = 0x8
+typedef struct TiTexData_unk_0 {
+    /* 0x0 */ u16 *tlut;
+    /* 0x4 */ TexturePtr tex; // TODO: u8*?
+} TiTexData_unk_0; // size >= 0x8
 
 typedef struct TiTexData {
-    /* 0x00 */ TiTexDataEntry unk_00[31]; // guessed size
-} TiTexData; // size >= 0xC8
+    /* 0x0 */ TiTexData_unk_0 *unk_0;
+    /* 0x4 */ u16 *unk_4;
+} TiTexData; // size = 0x8
 
 
 typedef void (*StretchTexBlock_arg0_callback)(struct StretchTexBlock_arg0 *arg0);
@@ -165,11 +161,11 @@ void StretchTexTile4i(Gfx **gfxP, s32 width, s32 height, u8 tex[], s32 arg4, s32
 // void func_8004502C();
 TiTexData *tiLoadTexData(UNK_PTR *arg0, RomOffset segmentRom, RomOffset segmentRomEnd);
 // void func_80045110();
-void tiCopyTexBlock(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, s32 arg3, s32 arg4);
-void tiStretchTexBlock(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
-void tiStretchTexTile(Gfx **gfxP, TiTexDataEntry *, s32, s32, s32, s32, s32, f32, f32, f32, f32);
-void tiStretchTexItem(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, s32 arg3, s32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
-void tiStretchAlphaTexItem(Gfx **gfxP, TiTexDataEntry *, TiTexDataEntry *, s32, s32, s32, f32, f32, f32, f32);
+void tiCopyTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4);
+void tiStretchTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
+void tiStretchTexTile(Gfx **gfxP, TiTexData *, s32, s32, s32, s32, s32, f32, f32, f32, f32);
+void tiStretchTexItem(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
+void tiStretchAlphaTexItem(Gfx **gfxP, TiTexData *, TiTexData *, s32, s32, s32, f32, f32, f32, f32);
 // void func_80045914();
 void drawCursorPattern(Gfx** gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
 

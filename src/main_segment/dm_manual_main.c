@@ -73,7 +73,7 @@ void func_80071FA0(struct_800F4890_unk_034 *arg0) {
 void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 alpha = arg0->unk_08 * 255;
-    TiTexDataEntry *temp_a1;
+    TiTexData *temp_a1;
 
     if (alpha == 0) {
         return;
@@ -88,7 +88,7 @@ void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
 
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
 
-    temp_a1 = &_texAll->unk_00[8];
+    temp_a1 = &_texAll[8];
     tiStretchTexBlock(&gfx, temp_a1, 0, arg0->unk_00, arg0->unk_04, temp_a1->unk_4[0], temp_a1->unk_4[1]);
 
     if (arg0->unk_08 != 0.0f) {
@@ -2573,14 +2573,14 @@ void draw_AB_guide(s32 arg0, s32 arg1) {
     gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, 255);
 
     for (i = 0; i < 2U; i++) {
-        TiTexDataEntry *temp_a3 = &_texAll->unk_00[_tex_884[i][0]];
-        TiTexDataEntry *temp_a0 = &_texAll->unk_00[_tex_884[i][1]];
+        TiTexData *temp_a3 = &_texAll[_tex_884[i][0]];
+        TiTexData *temp_a0 = &_texAll[_tex_884[i][1]];
         s32 var_t0;
 
         var_t0 = MIN(temp_a3->unk_4[0], temp_a0->unk_4[0]);
 
-        StretchAlphaTexTile(&gGfxHead, var_t0, temp_a3->unk_4[1], temp_a3->unk_0->unk_4, temp_a3->unk_4[0],
-                            temp_a0->unk_0->unk_4, temp_a0->unk_4[0], 0, 0, var_t0, temp_a3->unk_4[1],
+        StretchAlphaTexTile(&gGfxHead, var_t0, temp_a3->unk_4[1], temp_a3->unk_0->tex, temp_a3->unk_4[0],
+                            temp_a0->unk_0->tex, temp_a0->unk_4[0], 0, 0, var_t0, temp_a3->unk_4[1],
                             arg0 + _pos_885[i][0], arg1 + _pos_885[i][1], var_t0, temp_a3->unk_4[1]);
     }
 }
@@ -2629,7 +2629,7 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
     for (i = 0; i < 3; i++) {
         s32 j;
 
-        load_TexPal(dm_game_get_capsel_pal(arg2, i)->unk_0->unk_0);
+        load_TexPal(dm_game_get_capsel_pal(arg2, i)->unk_0->tlut);
 
         for (j = 0; j < 4; j++) {
             if ((arg1[j].unk_3[0] != 0) && (arg1[j].unk_2 == i)) {
@@ -2657,7 +2657,7 @@ void disp_cont(void) {
     s32 var_s4;
     s32 temp_a0;
     TiTexData *new_var;
-    TiTexDataEntry *new_var2;
+    TiTexData *new_var2;
     // Gfx **gfxP = &gGfxHead;
     s32 *new_var3;
 
@@ -2668,8 +2668,8 @@ void disp_cont(void) {
             s32 temp_arg5;
             s32 temp;
             s32 *_posFinger_ptr;
-            TiTexDataEntry *temp_4;
-            TiTexDataEntry *temp_5;
+            TiTexData *temp_4;
+            TiTexData *temp_5;
 
             // temp_s1 = _posContPanel[0];
             // temp_s2 = _posContPanel[1];
@@ -2687,13 +2687,13 @@ void disp_cont(void) {
             // temp_arg4 = _posContPanel[0] + _posCircle_924[var_s4][0];
             // temp_arg5 = _posContPanel[1] + _posCircle_924[var_s4][1];
 
-            StretchTexBlock4i(&gGfxHead, _texAll->unk_00[6].unk_4[0], _texAll->unk_00[6].unk_4[1],
-                              _texAll->unk_00[6].unk_0->unk_4, temp_arg4, temp_arg5, _texAll->unk_00[6].unk_4[0],
-                              _texAll->unk_00[6].unk_4[1]);
+            StretchTexBlock4i(&gGfxHead, _texAll[6].unk_4[0], _texAll[6].unk_4[1],
+                              _texAll[6].unk_0->tex, temp_arg4, temp_arg5, _texAll[6].unk_4[0],
+                              _texAll[6].unk_4[1]);
 
             gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
-            new_var2 = _texAll->unk_00;
+            new_var2 = _texAll;
 
             temp_4 = &new_var2[4];
             temp_5 = &new_var2[5];
@@ -2707,9 +2707,9 @@ void disp_cont(void) {
 
             _posFinger_ptr = _posFinger_925[var_s4];
 
-            // var_a1 = _texAll->unk_00[5].unk_4[0];
-            // if (_texAll->unk_00[4].unk_4[0] < var_a1) {
-            //    var_a1 = _texAll->unk_00[4].unk_4[0];
+            // var_a1 = _texAll[5].unk_4[0];
+            // if (_texAll[4].unk_4[0] < var_a1) {
+            //    var_a1 = _texAll[4].unk_4[0];
             //}
             var_a1 = MIN(temp_4->unk_4[0], temp_5->unk_4[0]);
             // var_a1 = (new_var2[4].unk_4[0] < new_var2[5].unk_4[0]) ? (new_var2[4].unk_4[0]) : (new_var2[5].unk_4[0]);
@@ -2722,8 +2722,8 @@ void disp_cont(void) {
             // var_v0 = temp_a0 - MAX(var_v1, 4);
             // var_v0 = (_posContPanel.unk_4 + _posFinger_925[var_s4][1]) - MAX(var_v1, 4);
 
-            StretchAlphaTexBlock(&gGfxHead, var_a1, temp_4->unk_4[1], temp_4->unk_0->unk_4, var_v1,
-                                 temp_5->unk_0->unk_4, temp_5->unk_4[0], (_posContPanel[0] + _posFinger_ptr[0]),
+            StretchAlphaTexBlock(&gGfxHead, var_a1, temp_4->unk_4[1], temp_4->unk_0->tex, var_v1,
+                                 temp_5->unk_0->tex, temp_5->unk_4[0], (_posContPanel[0] + _posFinger_ptr[0]),
                                  (_posContPanel[1] + _posFinger_ptr[1]) - MAX(var_v1, 4), var_a1, temp_4->unk_4[1]);
         }
     }
@@ -2749,12 +2749,12 @@ void disp_cont(void) {
     Gfx *temp_a0_4;
     Gfx *temp_a0_5;
     Gfx *temp_a0_6;
-    TiTexDataEntry *temp_t1;
+    TiTexData *temp_t1;
     s32 *var_s2;
     s32 temp_a1_2;
     s32 var_a0;
     s32 var_v0;
-    TiTexDataEntry *temp_a1;
+    TiTexData *temp_a1;
     u16 var_t0;
     u32 var_s3;
     const s32 *temp_t2;
@@ -2776,15 +2776,15 @@ void disp_cont(void) {
         gDPSetTextureLUT(gGfxHead++, G_TT_NONE);
 
         temp_t2 = _posCircle_924[var_s3];
-        temp_t1 = &_texAll->unk_00[6];
-        StretchTexBlock4i(&gGfxHead, temp_t1->unk_4[0], temp_t1->unk_4[1], temp_t1->unk_0->unk_4,
+        temp_t1 = &_texAll[6];
+        StretchTexBlock4i(&gGfxHead, temp_t1->unk_4[0], temp_t1->unk_4[1], temp_t1->unk_0->tex,
                           (_posContPanel[0] + temp_t2[0]), (_posContPanel[1] + temp_t2[1]), temp_t1->unk_4[0],
                           temp_t1->unk_4[1]);
 
         gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
-        temp_t1 = &_texAll->unk_00[4];
-        temp_a1 = &_texAll->unk_00[5];
+        temp_t1 = &_texAll[4];
+        temp_a1 = &_texAll[5];
 
         // var_a0 = watchManualP->unk_01C[var_s3];
         // if (var_a0 < 0) {
@@ -2795,8 +2795,8 @@ void disp_cont(void) {
         temp2 = _posFinger_925[var_s3];
         var_t0 = MIN(temp_t1->unk_4[0], temp_a1->unk_4[0]);
 
-        StretchAlphaTexBlock(&gGfxHead, var_t0, temp_t1->unk_4[1], temp_t1->unk_0->unk_4, temp_t1->unk_4[0],
-                             temp_a1->unk_0->unk_4, temp_a1->unk_4[0], _posContPanel[0] + temp2[0],
+        StretchAlphaTexBlock(&gGfxHead, var_t0, temp_t1->unk_4[1], temp_t1->unk_0->tex, temp_t1->unk_4[0],
+                             temp_a1->unk_0->tex, temp_a1->unk_4[0], _posContPanel[0] + temp2[0],
                              _posContPanel[1] + temp2[1] - MIN(4, var_a0), var_t0, temp_t1->unk_4[1]);
     }
 }
@@ -2809,14 +2809,14 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", disp_cont);
 void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
     struct_watchManual *temp_s4 = watchManual;
     s32 i;
-    TiTexDataEntry *temp;
+    TiTexData *temp;
 
     switch (evs_manual_no) {
         case EVS_MANUAL_NO_0:
         case EVS_MANUAL_NO_3:
             gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
-            temp = &_texAll->unk_00[7];
+            temp = &_texAll[7];
             tiStretchTexBlock(&gGfxHead, temp, 0, _posContPanel[0], _posContPanel[1], temp->unk_4[0], temp->unk_4[1]);
             dm_draw_big_virus(&gGfxHead);
             break;

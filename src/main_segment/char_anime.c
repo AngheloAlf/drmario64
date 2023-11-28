@@ -193,7 +193,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006471C_cn);
  */
 #if VERSION_US || VERSION_CN
 void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeMode) {
-    AnimeState_unk_1C *sp18;
+    TiTexData *sp18;
     AnimeSeq_unk_0C *sp1C;
     RomDataTblIndex index = _addrTbl_124[animeMode];
 
@@ -207,7 +207,7 @@ void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeM
  * Original name: animeState_init
  */
 #if VERSION_US || VERSION_CN
-void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, AnimeState_unk_1C *arg2, UNK_TYPE4 arg3,
+void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, TiTexData *arg2, UNK_TYPE4 arg3,
                      UNK_TYPE4 arg4, CharAnimeMode animeMode) {
     animeSeq_init(&animeState->animeSeq, arg1, 0);
     animeState->unk_1C = arg2;
@@ -314,8 +314,8 @@ void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
 #if VERSION_US || VERSION_CN
 void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     Gfx *gfx = *gfxP;
-    AnimeState_unk_1C *temp_a3;
-    AnimeState_unk_1C *temp_t0;
+    TiTexData *temp_a3;
+    TiTexData *temp_t0;
 
     if (animeState->animeSeq.unk_18 < 0) {
         return;
@@ -324,32 +324,32 @@ void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32
     temp_t0 = animeState->unk_1C;
     temp_a3 = &temp_t0[animeState->animeSeq.unk_18];
     if (arg4 < 0.0f) {
-        arg2 = arg2 - (animeState->unk_24.unk_0 - temp_a3->unk_4->width) * arg4;
+        arg2 = arg2 - (animeState->unk_24.unk_0 - temp_a3->unk_4[0]) * arg4;
     } else {
         arg2 = arg2 - animeState->unk_24.unk_0 * arg4;
     }
 
     if (arg5 < 0.0f) {
-        arg3 -= (animeState->unk_24.unk_4 - temp_a3->unk_4->height) * arg5;
+        arg3 -= (animeState->unk_24.unk_4 - temp_a3->unk_4[1]) * arg5;
     } else {
         arg3 -= animeState->unk_24.unk_4 * arg5;
     }
 
     if (animeState->animeMode == CHARANIMEMODE_MARIO) {
-        arg3 -= (temp_a3->unk_4->height - 0x40) * arg5;
+        arg3 -= (temp_a3->unk_4[1] - 0x40) * arg5;
     }
 
-    switch (temp_a3->unk_4->unk_4) {
+    switch (temp_a3->unk_4[2]) {
         case 0x4:
-            StretchTexTile4(&gfx, temp_a3->unk_4->width, temp_a3->unk_4->height, temp_t0[0].unk_0->tlut,
-                            temp_a3->unk_0->tex, 0, 0, temp_a3->unk_4->width, temp_a3->unk_4->height, arg2, arg3,
-                            temp_a3->unk_4->width * arg4, temp_a3->unk_4->height * arg5);
+            StretchTexTile4(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_t0[0].unk_0->tlut,
+                            temp_a3->unk_0->tex, 0, 0, temp_a3->unk_4[0], temp_a3->unk_4[1], arg2, arg3,
+                            temp_a3->unk_4[0] * arg4, temp_a3->unk_4[1] * arg5);
             break;
 
         case 0x8:
-            StretchTexTile8(&gfx, temp_a3->unk_4->width, temp_a3->unk_4->height, temp_t0[0].unk_0->tlut,
-                            temp_a3->unk_0->tex, 0, 0, temp_a3->unk_4->width, temp_a3->unk_4->height, arg2, arg3,
-                            temp_a3->unk_4->width * arg4, temp_a3->unk_4->height * arg5);
+            StretchTexTile8(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_t0[0].unk_0->tlut,
+                            temp_a3->unk_0->tex, 0, 0, temp_a3->unk_4[0], temp_a3->unk_4[1], arg2, arg3,
+                            temp_a3->unk_4[0] * arg4, temp_a3->unk_4[1] * arg5);
             break;
     }
 
@@ -366,21 +366,21 @@ void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 a
     if (animeState->animeSeq.unk_18 >= 0) {
         f32 var_f0;
         f32 var_f0_2;
-        AnimeState_unk_1C *temp_a3 = &animeState->unk_1C[animeState->animeSeq.unk_18];
+        TiTexData *temp_a3 = &animeState->unk_1C[animeState->animeSeq.unk_18];
 
         if (arg4 < 0.0f) {
-            var_f0 = arg2 - (animeState->unk_24.unk_0 - temp_a3->unk_4->width) * arg4;
+            var_f0 = arg2 - (animeState->unk_24.unk_0 - temp_a3->unk_4[0]) * arg4;
         } else {
             var_f0 = arg2 - animeState->unk_24.unk_0 * arg4;
         }
         if (arg5 < 0.0f) {
-            var_f0_2 = arg3 - (animeState->unk_24.unk_4 - temp_a3->unk_4->height) * arg5;
+            var_f0_2 = arg3 - (animeState->unk_24.unk_4 - temp_a3->unk_4[1]) * arg5;
         } else {
             var_f0_2 = arg3 - animeState->unk_24.unk_4 * arg5;
         }
-        StretchTexTile4i(&gfx, temp_a3->unk_4->width, temp_a3->unk_4->height, temp_a3->unk_0->tex, 0, 0,
-                      temp_a3->unk_4->width, temp_a3->unk_4->height, var_f0, var_f0_2, temp_a3->unk_4->width * arg4,
-                      temp_a3->unk_4->height * arg5);
+        StretchTexTile4i(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_a3->unk_0->tex, 0, 0,
+                      temp_a3->unk_4[0], temp_a3->unk_4[1], var_f0, var_f0_2, temp_a3->unk_4[0] * arg4,
+                      temp_a3->unk_4[1] * arg5);
         *gfxP = gfx;
     }
 }
@@ -394,23 +394,23 @@ void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 a
     Gfx *gfx = *gfxP;
 
     if (animeState->animeSeq.unk_18 >= 0) {
-        AnimeState_unk_1C *temp_a3 = &animeState->unk_1C[animeState->animeSeq.unk_18];
+        TiTexData *temp_a3 = &animeState->unk_1C[animeState->animeSeq.unk_18];
 
         if (arg4 < 0.0f) {
-            arg2 -= (animeState->unk_24.unk_0 - temp_a3->unk_4->width) * arg4;
+            arg2 -= (animeState->unk_24.unk_0 - temp_a3->unk_4[0]) * arg4;
         } else {
             arg2 -= animeState->unk_24.unk_0 * arg4;
         }
 
         if (arg5 < 0.0f) {
-            arg3 -= (animeState->unk_24.unk_4 - temp_a3->unk_4->height) * arg5;
+            arg3 -= (animeState->unk_24.unk_4 - temp_a3->unk_4[1]) * arg5;
         } else {
             arg3 -= animeState->unk_24.unk_4 * arg5;
         }
 
-        StretchTexTile4i(&gfx, temp_a3->unk_4->width, temp_a3->unk_4->height, temp_a3->unk_0->tex, 0, 0,
-                      temp_a3->unk_4->width, temp_a3->unk_4->height, arg2, arg3, temp_a3->unk_4->width * arg4,
-                      temp_a3->unk_4->height * arg5);
+        StretchTexTile4i(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_a3->unk_0->tex, 0, 0,
+                      temp_a3->unk_4[0], temp_a3->unk_4[1], arg2, arg3, temp_a3->unk_4[0] * arg4,
+                      temp_a3->unk_4[1] * arg5);
         *gfxP = gfx;
     }
 }
@@ -531,13 +531,13 @@ void func_80065364_cn(AnimeSeq_unk_0C *arg0, s32 arg1, u32 arg2) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/char_anime", loadAnimeSeq);
 #endif
 
-void tiMappingAddr(AnimeState_unk_1C *arg0, s32 arg1, u32 arg2);
+void tiMappingAddr(TiTexData *arg0, s32 arg1, u32 arg2);
 
 #if VERSION_CN
-void loadAnimeSeq(void **arg0, AnimeState_unk_1C **arg1, AnimeSeq_unk_0C **arg2, RomOffset romOffsetStart, RomOffset romOffsetEnd) {
+void loadAnimeSeq(void **arg0, TiTexData **arg1, AnimeSeq_unk_0C **arg2, RomOffset romOffsetStart, RomOffset romOffsetEnd) {
     u32 *temp_s0 = ALIGN_PTR(*arg0);
     AnimeSeq_unk_0C *temp_a0_2;
-    AnimeState_unk_1C *temp_a0;
+    TiTexData *temp_a0;
     s32 *temp_v0;
     s32 *temp_v0_2;
 

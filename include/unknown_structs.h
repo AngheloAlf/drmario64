@@ -18,7 +18,7 @@
 #include "main.h"
 
 struct TiTexData;
-struct TiTexDataEntry;
+struct TiTexData;
 
 typedef struct struct_800FAF98_unk_64 {
     /* 0x0 */ struct struct_800FAF98_unk_64 *unk_0;

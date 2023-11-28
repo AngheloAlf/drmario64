@@ -957,11 +957,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_8004502C);
 #endif
 
 #if VERSION_CN
-void tiMappingAddr(AnimeState_unk_1C *arg0, s32 arg1, u32 arg2) {
+void tiMappingAddr(TiTexData *arg0, s32 arg1, u32 arg2) {
     s32 i;
 
     for (i = 0; i < arg1; i++) {
-        AnimeState_unk_1C *temp = &arg0[i];
+        TiTexData *temp = &arg0[i];
 
         if (temp->unk_0 != NULL) {
             temp->unk_0 = (void*)((u8*)temp->unk_0 + arg2);
@@ -1011,7 +1011,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiLoadTexData);
 #if VERSION_CN
 TiTexData *tiLoadTexData(void **arg0, u32 segmentRom, u32 segmentRomEnd) {
     u32 *temp_s0 = ALIGN_PTR(*arg0);
-    AnimeState_unk_1C *temp_s1;
+    TiTexData *temp_s1;
     s32 *temp_v0;
 
     *arg0 = DecompressRomToRam(segmentRom, temp_s0, segmentRomEnd - segmentRom);
@@ -1044,7 +1044,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", tiCopyTexBlock);
 #endif
 
 #if VERSION_US || VERSION_CN
-void tiStretchTexBlock(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
+void tiStretchTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
     TexturePtr var_a3;
     TexturePtr var_t0;
 
@@ -1052,11 +1052,11 @@ void tiStretchTexBlock(Gfx **gfxP, TiTexDataEntry *arg1, s32 arg2, f32 arg3, f32
         var_a3 = NULL;
         var_t0 = NULL;
     } else {
-        var_a3 = arg1->unk_0->unk_0;
-        var_t0 = arg1->unk_0->unk_4;
+        var_a3 = arg1->unk_0->tlut;
+        var_t0 = arg1->unk_0->tex;
     }
 
-    if (arg1->unk_0->unk_0 != NULL) {
+    if (arg1->unk_0->tlut != NULL) {
         switch (arg1->unk_4[2]) {
             case 0x4:
                 StretchTexBlock4(gfxP, arg1->unk_4[0], arg1->unk_4[1], var_a3, var_t0, arg3, arg4, arg5, arg6);
