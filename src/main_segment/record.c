@@ -432,7 +432,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_timeAt_sort_set);
 void dm_timeAt_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_evs_mem_data *ptr;
     s32 var_a1;
-    s32 var_a3;
     s32 var_v0;
     struct_evs_mem_data_unk_7C *temp_v1;
 
