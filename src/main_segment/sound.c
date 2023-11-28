@@ -381,26 +381,31 @@ void _dm_seq_play_fade(s32 arg0, SeqIndex seqIndex, s32 arg2) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", _dm_seq_play_fade);
+void _dm_seq_play_fade(s32 arg0, SeqIndex seqIndex, s32 arg2) {
+    struct_800FACE0 *ptr = &sound_song_id;
+
+    if (seqIndex == ptr->seqIndex[arg0]) {
+        return;
+    }
+
+    func_8002D554(arg0, arg2);
+    ptr->seqIndex[arg0] = seqIndex;
+}
 #endif
 
 /**
  * Original name: dm_seq_play_in_game
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void dm_seq_play_in_game(SeqIndex seqIndex) {
     _dm_seq_play_in_game(0, seqIndex);
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_seq_play_in_game);
-#endif
-
 /**
  * Original name: dm_seq_play_in_game
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void _dm_seq_play_in_game(s32 arg0, SeqIndex seqIndex) {
     if (evs_seqence == 0) {
         if (seqIndex < SEQ_INDEX_10) {
@@ -413,10 +418,6 @@ void _dm_seq_play_in_game(s32 arg0, SeqIndex seqIndex) {
 
     _dm_seq_play(arg0, seqIndex);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", _dm_seq_play_in_game);
 #endif
 
 /**
@@ -437,27 +438,19 @@ void _dm_seq_stop(s32 arg0) {
 /**
  * Original name: dm_seq_set_volume
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void dm_seq_set_volume(s32 volume) {
     _dm_seq_set_volume(0, volume);
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_seq_set_volume);
-#endif
-
 /**
  * Original name: _dm_seq_set_volume
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void _dm_seq_set_volume(s32 arg0, s32 volume) {
     func_8002D58C(arg0, volume);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CBC4_cn);
 #endif
 
 #if VERSION_US
@@ -470,14 +463,10 @@ bool func_8002B178(void) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CBEC_cn);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool func_8002B194(s32 arg0) {
     return func_8002D51C(arg0) == 0;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002B194);
 #endif
 
 /**
@@ -537,16 +526,12 @@ void dm_snd_play(SndIndex sndIndex) {
 /**
  * Original name: dm_snd_play_in_game
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void dm_snd_play_in_game(SndIndex sndIndex) {
     if (evs_gamespeed < 6) {
         dm_snd_play(sndIndex);
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_snd_play_in_game);
 #endif
 
 #if VERSION_US
