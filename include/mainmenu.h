@@ -115,7 +115,13 @@ typedef struct MenuItem {
     /* 0x64 */ f32 unk_64;
     /* 0x68 */ f32 unk_68;
     /* 0x6C */ f32 unk_6C[2][4];
-    /* 0x8C */ u32 unk_8C;
+    /* 0x8C */ union {
+                    u32 w;
+                    struct {
+                        bool unk_31:1; // update colors?
+                        bool unk_30:1; // update alpha?
+                    } b;
+                } unk_8C;
 } MenuItem; // size = 0x90
 
 
