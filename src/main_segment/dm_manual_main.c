@@ -1194,16 +1194,16 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
 #if VERSION_US
 #ifdef NON_MATCHING
 // regalloc
-void dm_manual_make_key(struct_game_state_data *arg0, GameMapCell *mapCells) {
+void dm_manual_make_key(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
     struct_watchManual *temp_s3 = watchManual;
     struct_game_state_data_unk_178 *temp_s4;
     u16 temp_s2;
     s32 temp_v0;
 
-    aifKeyOut(arg0);
+    aifKeyOut(gameStateData);
 
-    temp_s2 = joygam[arg0->unk_04B];
-    temp_s4 = &arg0->unk_178;
+    temp_s2 = joygam[gameStateData->unk_04B];
+    temp_s4 = &gameStateData->unk_178;
 
     if (temp_s2 & 0x4000) {
         rotate_capsel(mapCells, temp_s4, -1);
@@ -1214,17 +1214,17 @@ void dm_manual_make_key(struct_game_state_data *arg0, GameMapCell *mapCells) {
     }
 
     if (temp_s2 & 0x200) {
-        translate_capsel(mapCells, arg0, -1, main_joy[arg0->unk_04B]);
+        translate_capsel(mapCells, gameStateData, -1, main_joy[gameStateData->unk_04B]);
         temp_s3->unk_01C[0] = 8;
     } else if (temp_s2 & 0x100) {
-        translate_capsel(mapCells, arg0, 1, main_joy[arg0->unk_04B]);
+        translate_capsel(mapCells, gameStateData, 1, main_joy[gameStateData->unk_04B]);
         temp_s3->unk_01C[1] = 8;
     }
 
-    arg0->unk_030 = 1;
+    gameStateData->unk_030 = 1;
     if ((temp_s2 & 0x400) && (temp_s4->unk_2[0] > 0)) {
-        temp_v0 = FallSpeed[arg0->unk_02D];
-        arg0->unk_030 = (temp_v0 >> 1) + (temp_v0 & 1);
+        temp_v0 = FallSpeed[gameStateData->unk_02D];
+        gameStateData->unk_030 = (temp_v0 >> 1) + (temp_v0 & 1);
     }
 }
 #else
