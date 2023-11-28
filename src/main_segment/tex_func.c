@@ -65,9 +65,21 @@ void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/tex_func", _modes_96);
+const s32 _modes_96[] = { G_SC_ODD_INTERLACE, G_SC_EVEN_INTERLACE, G_SC_NON_INTERLACE, G_SC_NON_INTERLACE };
 
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", gfxSetScissor);
+void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+    Gfx *gfx = *gfxP;
+    s32 corners[] = {
+        CLAMP(arg2, 0, 0x13F), // ulx
+        CLAMP(arg3, 0, 0xEF), // uly
+        CLAMP(arg2 + arg4 - 1, 0, 0x13F), // lrx
+        CLAMP(arg3 + arg5 - 1, 0, 0xEF), // lry
+    };
+
+    gDPSetScissor(gfx++, _modes_96[arg1 % ARRAY_COUNTU(_modes_96)], corners[0], corners[1], corners[2], corners[3]);
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -123,7 +135,9 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_8004113C);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043634_cn);
+void CopyTexBlock4_LoadTex(struct_CopyTexBlock_arg0 *arg0) {
+    gDPLoadTextureBlock_4b((*arg0->gfxP)++, (u8*)arg0->unk_04 + ((arg0->unk_10 * arg0->unk_20) / 2), G_IM_FMT_CI, arg0->unk_10, arg0->unk_24 - arg0->unk_20, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+}
 #endif
 
 #if VERSION_US
@@ -131,7 +145,27 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", func_80041334);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_8004383C_cn);
+void CopyTexBlock4(Gfx **gfxP, u16 *tlut, void *arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    struct_CopyTexBlock_arg0 sp18;
+
+    sp18.gfxP = gfxP;
+
+    sp18.unk_04 = arg2;
+    sp18.unk_08 = arg3;
+    sp18.unk_0C = arg4;
+    sp18.unk_10 = arg5;
+    sp18.unk_14 = arg6;
+    sp18.unk_18 = CopyTexBlock4_LoadTex;
+    sp18.unk_1C = 0x1000 / arg5;
+
+    gSPDisplayList((*gfxP)++, D_8008E5E0);
+
+    if (tlut != NULL) {
+        gDPLoadTLUT_pal16((*gfxP)++, 0, tlut);
+    }
+
+    CopyTexBlock(&sp18);
+}
 #endif
 
 #if VERSION_US
@@ -1023,7 +1057,7 @@ TiTexData *tiLoadTexData(void **arg0, u32 segmentRom, u32 segmentRomEnd) {
 
     tiMappingAddr(temp_s1, *temp_v0, (u32)temp_s0);
 
-    return (TiTexData *) temp_s1;
+    return temp_s1;
 }
 #endif
 
@@ -1040,7 +1074,32 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiCopyTexBlock);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", tiCopyTexBlock);
+void tiCopyTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4) {
+    u16 *tlut;
+    TexturePtr texture;
+
+    if (arg2 != 0) {
+        tlut = NULL;
+        texture = NULL;
+    } else {
+        tlut = arg1->unk_0->tlut;
+        texture = arg1->unk_0->tex;
+    }
+
+    switch (arg1->unk_4[2]) {
+        case 0x4:
+            CopyTexBlock4(gfxP, tlut, texture, arg3, arg4, arg1->unk_4[0], arg1->unk_4[1]);
+            break;
+
+        case 0x8:
+            CopyTexBlock8(gfxP, tlut, texture, arg3, arg4, arg1->unk_4[0], arg1->unk_4[1]);
+            break;
+
+        case 0x10:
+            CopyTexBlock16(gfxP, texture, arg3, arg4, arg1->unk_4[0], arg1->unk_4[1]);
+            break;
+    }
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1085,7 +1144,40 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiStretchTexTile);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", tiStretchTexTile);
+void tiStretchTexTile(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, f32 arg7, f32 arg8, f32 arg9, f32 argA) {
+    u16 *tlut;
+    TexturePtr texture;
+
+    if (arg2 != 0) {
+        tlut = NULL;
+        texture = NULL;
+    } else {
+        tlut = arg1->unk_0->tlut;
+        texture = arg1->unk_0->tex;
+    }
+
+    if (arg1->unk_0->tlut != NULL) {
+        switch (arg1->unk_4[2]) {
+            case 0x4:
+                StretchTexTile4(gfxP, arg1->unk_4[0], arg1->unk_4[1], tlut, texture, arg3, arg4, arg5, arg6, arg7, arg8, arg9, argA);
+                break;
+
+            case 0x8:
+                StretchTexTile8(gfxP, arg1->unk_4[0], arg1->unk_4[1], tlut, texture, arg3, arg4, arg5, arg6, arg7, arg8, arg9, argA);
+                break;
+        }
+    } else {
+        switch (arg1->unk_4[2]) {
+            case 0x4:
+                StretchTexTile4i(gfxP, arg1->unk_4[0], arg1->unk_4[1], texture, arg3, arg4, arg5, arg6, arg7, arg8, arg9, argA);
+                break;
+
+            case 0x10:
+                StretchTexTile16(gfxP, arg1->unk_4[0], arg1->unk_4[1], texture, arg3, arg4, arg5, arg6, arg7, arg8, arg9, argA);
+                break;
+        }
+    }
+}
 #endif
 
 #if VERSION_US
@@ -1093,7 +1185,56 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiStretchTexItem);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", tiStretchTexItem);
+void tiStretchTexItem(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8) {
+    s32 temp_lo = arg1->unk_4[1] / arg3;
+    s32 temp_lo_2 = arg1->unk_4[0] * temp_lo * arg4;
+    u16 *tlut;
+    TexturePtr texture;
+
+    if (arg2 != 0) {
+        tlut = NULL;
+        texture = NULL;
+    } else {
+        tlut = arg1->unk_0->tlut;
+        texture = arg1->unk_0->tex;
+
+        switch (arg1->unk_4[2]) {
+            case 0x4:
+                texture = (u8*)texture + temp_lo_2 / 2;
+                break;
+
+            case 0x8:
+                texture = (u8*)texture + temp_lo_2;
+                break;
+
+            case 0x10:
+                texture = (u8*)texture + temp_lo_2 * 2;
+                break;
+        }
+    }
+
+    if (arg1->unk_4[3] & 1) {
+        switch (arg1->unk_4[2]) {
+            case 0x4:
+                StretchTexBlock4(gfxP, arg1->unk_4[0], temp_lo, tlut, texture, arg5, arg6, arg7, arg8);
+                break;
+
+            case 0x8:
+                StretchTexBlock8(gfxP, arg1->unk_4[0], temp_lo, tlut, texture, arg5, arg6, arg7, arg8);
+                break;
+        }
+    } else {
+        switch (arg1->unk_4[2]) {
+            case 0x4:
+                StretchTexTile4(gfxP, arg1->unk_4[0], temp_lo, tlut, texture, 0, 0, arg1->unk_4[0], temp_lo, arg5, arg6, arg7, arg8);
+                break;
+
+            case 0x8:
+                StretchTexTile8(gfxP, arg1->unk_4[0], temp_lo, tlut, texture, 0, 0, arg1->unk_4[0], temp_lo, arg5, arg6, arg7, arg8);
+                break;
+        }
+    }
+}
 #endif
 
 #if VERSION_US
@@ -1101,7 +1242,26 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", tiStretchAlphaTexItem);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", tiStretchAlphaTexItem);
+void tiStretchAlphaTexItem(Gfx **gfxP, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 arg9) {
+    s32 var_t3 = MIN(arg1->unk_4[0], arg2->unk_4[0]);
+    s32 var_t2 = MIN(arg1->unk_4[1] / arg4, arg2->unk_4[1]);
+    TexturePtr sp48[2];
+
+    if (arg3 != 0) {
+        sp48[0] = NULL;
+        sp48[1] = NULL;
+    } else {
+        sp48[0] = (u8*)arg1->unk_0->tex + (arg1->unk_4[0] * var_t2 * arg5 * 2);
+        sp48[1] = (u8*)arg2->unk_0->tex + (arg2->unk_4[0] * var_t2 * arg5 / 2);
+    }
+
+    if ((arg1->unk_4[3] & 1) && (arg2->unk_4[3] & 1)) {
+        StretchAlphaTexBlock(gfxP, var_t3, var_t2, sp48[0], arg1->unk_4[0], sp48[1], arg2->unk_4[0], arg6, arg7, arg8, arg9);
+        return;
+    } else {
+        StretchAlphaTexTile(gfxP, var_t3, var_t2, sp48[0], arg1->unk_4[0], sp48[1], arg2->unk_4[0], 0, 0, var_t3, var_t2, arg6, arg7, arg8, arg9);
+    }
+}
 #endif
 
 #if VERSION_US
