@@ -435,14 +435,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_coffee_break);
 #endif
 
 #if VERSION_CN
-#ifdef NON_EQUIVALENT
 void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     Mtx sp20;
     Gfx *sp60;
-    s32 var_s1;
-    s32 var_v0;
+    bool var_s1;
+    void *var_v0;
     void *var_s0;
-    uintptr_t var_v1;
 
     init_objMtx();
 
@@ -453,36 +451,36 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     gSPMatrix(sp60++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPDisplayList(sp60++, normal_texture_init_dl);
     gSPDisplayList(sp60++, story_setup);
-    gDPSetScissor(sp60++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+    gDPSetScissor(sp60++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
     lws_data = (void **)bgGraphic;
     if (arg2 != 0) {
         gDPSetEnvColor(sp60++, 183, 127, 95, 255);
-        var_v1 = *(uintptr_t *)(((u8 *)lws_data) + 0x4);
-        var_v0 = *(s32 *)(((u8 *)bgGraphic) + 0x18);
+        var_s0 = (void *)(((uintptr_t)lws_data[1] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
+        var_v0 = (void *)(((uintptr_t)lws_data[6] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
     } else {
         gDPSetEnvColor(sp60++, 255, 255, 255, 255);
-        var_v1 = *(uintptr_t *)(((u8 *)lws_data) + 0x0);
-        var_v0 = *(s32 *)(((u8 *)bgGraphic) + 0x14);
+        var_s0 = (void *)(((uintptr_t)lws_data[0] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
+        var_v0 = (void *)(((uintptr_t)lws_data[5] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
     }
 
     makeTransrateMatrix(&sp20, 0U, 0xFFC40000U, 0xFC4A0000U);
-    if (lws_anim(&sp60, &sp20, (var_v1 & 0xFFFFFF) + (uintptr_t)bgGraphic, bgtime, bgGraphic) == 1) {
+    if (lws_anim(&sp60, &sp20, var_s0, bgtime, bgGraphic) == 1) {
         bgtime = 0x31;
     }
 
     bgtime += 1;
     switch (story_seq_step) {
         case 0:
-            var_s0 = ((*(uintptr_t *)(((u8 *)lws_data) + 0x8)) & 0xFFFFFF) + bgGraphic;
+            var_s0 = (void *)(((uintptr_t)lws_data[2] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
             break;
 
         case 1:
-            var_s0 = ((*(uintptr_t *)(((u8 *)lws_data) + 0xC)) & 0xFFFFFF) + bgGraphic;
+            var_s0 = (void *)(((uintptr_t)lws_data[3] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
             break;
 
         case 2:
-            var_s0 = ((*(uintptr_t *)(((u8 *)lws_data) + 0x10)) & 0xFFFFFF) + bgGraphic;
+            var_s0 = (void *)(((uintptr_t)lws_data[4] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
             break;
 
         default:
@@ -491,17 +489,18 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
             break;
     }
 
-    var_s1 = 0;
+    var_s1 = false;
     if ((story_time_cnt >= 0) && (var_s0 != NULL)) {
         if (lws_anim(&sp60, &sp20, var_s0, story_time_cnt, bgGraphic) == 1) {
-            var_s1 = 1;
+            var_s1 = true;
             story_time_cnt = -1;
-            story_seq_step += 1;
+            story_seq_step++;
         }
     }
 
-    story_time_cnt += 1;
-    if (var_s1 != 0) {
+    story_time_cnt++;
+
+    if (var_s1) {
         switch (arg1) {
             case 0:
                 story_seq_step = 3;
@@ -528,10 +527,10 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     }
 
     if (arg3 != 0) {
-        if (lws_anim(&sp60, &sp20, (var_v0 & 0xFFFFFF) + bgGraphic, mes_time, bgGraphic) != 1) {
-            mes_time = mes_time + 1;
-        } else {
+        if (lws_anim(&sp60, &sp20, var_v0, mes_time, bgGraphic) == 1) {
             mes_time = 0x28A;
+        } else {
+            mes_time = mes_time + 1;
         }
     }
 
@@ -539,15 +538,12 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     gDPSetRenderMode(sp60++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
     gDPSetCombineMode(sp60++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
     gDPSetPrimColor(sp60++, 0, 0, 0, 0, 0, 255);
-    gDPFillRectangle(sp60++, 0, 0, 320, 32);
-    gDPFillRectangle(sp60++, 0, 208, 320, 240);
+    gDPFillRectangle(sp60++, 0, 0, SCREEN_WIDTH, 32);
+    gDPFillRectangle(sp60++, 0, 208, SCREEN_WIDTH, SCREEN_HEIGHT);
     gSPDisplayList(sp60++, normal_texture_init_dl);
 
     *gfxP = sp60;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", draw_coffee_break);
-#endif
 #endif
 
 #if VERSION_US || VERSION_CN
