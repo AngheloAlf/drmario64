@@ -14,11 +14,14 @@
 #include "audio/audio_stuff.h"
 #include "graphic.h"
 #include "msgwnd.h"
-#include "aif.h"
 #include "joy.h"
 #include "main1x.h"
 #include "tex_func.h"
 #include "main_story.h"
+
+#if VERSION_US || VERSION_GW || CC_CHECK
+#include "aif.h"
+#endif
 
 #if VERSION_US || VERSION_CN
 void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {
@@ -1233,44 +1236,40 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_make_ke
 #endif
 
 #if VERSION_CN
-#ifdef NON_MATCHING
 void dm_manual_make_key(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
     struct_watchManual *temp_s2 = watchManual;
-    struct_game_state_data_unk_178 *temp_s4;
-    u16 temp_s0;
+    struct_game_state_data_unk_178 *temp_s4 = &gameStateData->unk_178;
+    u16 key;
 
     aifKeyOut(gameStateData);
 
-    temp_s0 = joygam[gameStateData->unk_04B];
-    temp_s4 = &gameStateData->unk_178;
+    key = joygam[gameStateData->unk_04B];
 
-    if (temp_s0 & 0x4000) {
+    if (key & B_BUTTON) {
         rotate_capsel(mapCells, temp_s4, -1);
         temp_s2->unk_01C[3] = 8;
-    } else if (temp_s0 & 0x8000) {
+    } else if (key & CONT_A) {
         rotate_capsel(mapCells, temp_s4, 1);
         temp_s2->unk_01C[2] = 8;
     }
 
-    if (temp_s0 & 0x200) {
+    if (key & L_JPAD) {
         translate_capsel(mapCells, gameStateData, -1, main_joy[gameStateData->unk_04B]);
         temp_s2->unk_01C[0] = 8;
-    } else if (temp_s0 & 0x100) {
+    } else if (key & R_JPAD) {
         translate_capsel(mapCells, gameStateData, 1, main_joy[gameStateData->unk_04B]);
         temp_s2->unk_01C[1] = 8;
     }
 
     gameStateData->unk_030 = 1;
-    if ((temp_s0 & 0x400) && (temp_s4->unk_2[0] > 0)) {
+    if ((key & D_JPAD) && (temp_s4->unk_2[0] > 0)) {
         s32 temp_v1;
 
         temp_v1 = FallSpeed[gameStateData->unk_02D];
-        gameStateData->unk_030 = ((s32)temp_v1 >> 1) + (temp_v1 & 1);
+        temp_v1 = (temp_v1 >> 1) + (temp_v1 & 1);
+        gameStateData->unk_030 = temp_v1;
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_make_key);
-#endif
 #endif
 
 #if VERSION_US

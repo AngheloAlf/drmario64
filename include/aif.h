@@ -3,6 +3,7 @@
 
 #include "libultra.h"
 #include "gamemap.h"
+#include "unk.h"
 
 struct struct_game_state_data;
 
