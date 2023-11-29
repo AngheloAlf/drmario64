@@ -450,9 +450,7 @@ typedef struct MenuStory {
     /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x0004 */ s32 unk_0004[4][2];
     /* 0x0024 */ s32 unk_0024;
-    /* 0x0028 */ s32 unk_0028;
-    /* 0x002C */ s32 unk_002C;
-    /* 0x0030 */ s32 unk_0030;
+    /* 0x0028 */ s32 unk_0028[3];
     /* 0x0034 */ bool unk_0034;
     /* 0x0038 */ void *unk_0038[2];
     /* 0x0040 */ MenuItem unk_0040;

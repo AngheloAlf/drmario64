@@ -7248,10 +7248,10 @@ void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, struct
     }
 
     menuStory->unk_0024 = 0;
-    menuStory->unk_0028 = temp_s4->unk_03;
+    menuStory->unk_0028[0] = temp_s4->unk_03;
     menuStory->unk_0034 = false;
     menuItem_init(&menuStory->unk_0040, 0x19, 0x2F);
-    menuStory->unk_0028 = temp_s4->unk_03;
+    menuStory->unk_0028[0] = temp_s4->unk_03;
     menuItem_init(&menuStory->unk_00D0, 0x45, 0x12);
 
     for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0160); i++) {
@@ -7273,12 +7273,12 @@ void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, struct
                       _posChar_6445[i][1] - 0x2C, 0x30, 0x2F);
     }
 
-    menuStory->unk_002C = temp_s4->unk_00;
+    menuStory->unk_0028[1] = temp_s4->unk_00;
     func_80049894(&menuStory->unk_07C0, watchMenuRef, 3, temp_s4->unk_00, 0x45, 0x3D);
     menuSpeedItem_init(&menuStory->unk_085C, watchMenuRef, 3, 0, temp_s4->unk_00, 0x7D, 0x39, 0x34);
     menuStory->unk_085C.unk_010 = temp_s4->unk_01 != 0;
 
-    menuStory->unk_0030 = temp_s4->unk_02 + 1;
+    menuStory->unk_0028[2] = temp_s4->unk_02 + 1;
     func_8004A860(&menuStory->unk_0EC0, watchMenuRef, 1, 1, temp_s4->unk_02 + 1, 0x65, 0x5A);
     menuItem_init(&menuStory->unk_0F6C, 0x10, 0x6E);
 
@@ -7299,7 +7299,7 @@ void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, struct
         s32 x;
         s32 y;
 
-        func_800513F0(menuStory->unk_0028, menuStory->unk_0030, i, &x, &y);
+        func_800513F0(menuStory->unk_0028[0], menuStory->unk_0028[2], i, &x, &y);
         menuItem_init(&menuStory->unk_123C[i], x, y);
     }
 
@@ -7349,8 +7349,145 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055FD8_cn);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuStory_input);
 #endif
 
+void func_8002CE60_cn(void);
+void func_8004CBB4_cn(MenuSpeedItem *speedItem, s32 arg1);
+UNK_RET func_80055FB8_cn(MenuStory *menuStory);
+UNK_RET func_80055FD8_cn(MenuStory *menuStory);
+u16 func_8005FEF0_cn(struct_watchMenu *watchMenuRef, s32 arg1);
+void func_8005FF3C_cn(struct_watchMenu *watchMenuRef, s32 arg1);
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuStory_input);
+void menuStory_input(MenuStory *menuStory) {
+    struct_evs_mem_data_unk_B4 *temp_s5 = &evs_mem_data[evs_select_name_no[0]].unk_B4;
+    u16 temp_s2 = func_8005FEF0_cn(menuStory->watchMenuRef, 0);
+    u16 temp_s4 = _getKeyTrg(menuStory->watchMenuRef, 0);
+    SndIndex var_s3 = SND_INDEX_INVALID;
+    bool var_s6 = false;
+    s32 var_s0;
+    s32 var_a1;
+    long i;
+
+    if (menuStory->unk_0040.unk_14 != 1.0) {
+        return;
+    }
+
+    var_s0 = 0;
+    if ((temp_s2 & 0x800) || (temp_s4 & 0x4000)) {
+        var_s0--;
+    }
+    if ((temp_s2 & 0x400) || (temp_s4 & 0x9000)) {
+        var_s0++;
+    }
+
+    var_a1 = CLAMP(menuStory->unk_0024 + var_s0, 0, 2U);
+
+    if (var_a1 != menuStory->unk_0024) {
+        var_s3 = SND_INDEX_64;
+        menuStory->unk_0024 = var_a1;
+    }
+
+    if (temp_s4 & 0x2000) {
+        if (menuStory->unk_0024 == 1) {
+            if (menuStory->unk_085C.unk_008 == 2) {
+                if (menuStory->unk_085C.unk_010 == 0) {
+                    menuStory->unk_085C.unk_010 = menuStory->unk_0024;
+                    var_s6 = true;
+                } else {
+                    menuStory->unk_085C.unk_010 = 0;
+                    var_s3 = SND_INDEX_62;
+                }
+            }
+        }
+    }
+
+    var_s0 = 0;
+    if (temp_s2 & 0x200) {
+        var_s0--;
+    }
+    if (temp_s2 & 0x100) {
+        var_s0++;
+    }
+
+    switch (menuStory->unk_0024) {
+        case 0x0:
+            var_a1 = CLAMP(menuStory->unk_0028[0] + var_s0, 0, 1);
+
+            if (var_a1 != menuStory->unk_0028[menuStory->unk_0024]) {
+                var_s3 = SND_INDEX_63;
+                menuStory->unk_0028[menuStory->unk_0024] = var_a1;
+            }
+            break;
+
+        case 0x1:
+            func_8004CBB4_cn(&menuStory->unk_085C, 0);
+            menuStory->unk_0028[menuStory->unk_0024] = menuStory->unk_085C.unk_008;
+            break;
+
+        case 0x2:
+            i = func_80055FD8_cn(menuStory);
+            var_a1 = CLAMP(menuStory->unk_0028[menuStory->unk_0024] + var_s0, 1, i);
+
+            if (var_a1 != menuStory->unk_0028[menuStory->unk_0024]) {
+                var_s3 = SND_INDEX_63;
+                menuStory->unk_0028[menuStory->unk_0024] = var_a1;
+
+                for (i = 0; i < ARRAY_COUNTU(menuStory->unk_123C); i++) {
+                    menuStory->unk_123C[i].unk_14 = 0.0f;
+                    menuStory->unk_123C[i].unk_1C[0] = menuStory->unk_123C[i].unk_24[0];
+                    menuStory->unk_123C[i].unk_1C[1] = menuStory->unk_123C[i].unk_24[1];
+                }
+            }
+            break;
+    }
+
+    i = func_80055FD8_cn(menuStory);
+    menuStory->unk_0028[2] = CLAMP(menuStory->unk_0028[2], 1, i);
+
+    if (var_s3 < 0) {
+        if ((temp_s4 & 0x9000) && (menuStory->unk_0024 == 2)) {
+            _setFadeDir(menuStory->watchMenuRef, 1);
+            _setNextMain(menuStory->watchMenuRef, MAIN_NO_2);
+
+            temp_s5->unk_00 = menuStory->unk_085C.unk_008;
+            temp_s5->unk_01 = menuStory->unk_085C.unk_010;
+            temp_s5->unk_02 = menuStory->unk_0EC0.unk_0C - 1;
+            temp_s5->unk_03 = menuStory->unk_0028[0];
+
+            evs_story_level = func_80055FB8_cn(menuStory);
+
+            evs_story_no = menuStory->unk_0EC0.unk_0C;
+
+            i = (evs_story_no > 1) ? 1 : 0;
+            game_state_data[0].unk_004 = i;
+            evs_one_game_flg = i;
+
+            story_proc_no = menuStory->unk_0EC0.unk_0C;
+            if (menuStory->unk_0028[0] == 1) {
+                story_proc_no += 0xC;
+            }
+            evs_high_score = 0xDD18;
+            evs_game_time = 0;
+
+            if (evs_story_level < 3) {
+
+                for (i = 0; i < 9; i++) {
+                    evs_high_score = MAX((u32)evs_high_score, (u32)evs_mem_data[i].unk_28[evs_story_level].unk_0);
+                }
+            }
+            var_s3 = SND_INDEX_62;
+        } else if ((temp_s4 & 0x4000) && (menuStory->unk_0024 == 0)) {
+            func_8005FF3C_cn(menuStory->watchMenuRef, 0);
+            func_80051480(menuStory, -1, 1.0f);
+            var_s3 = SND_INDEX_68;
+        }
+    }
+
+    if (var_s6) {
+        func_8002CE60_cn();
+    } else if (var_s3 >= 0) {
+        dm_snd_play(var_s3);
+    }
+}
 #endif
 
 #if VERSION_US
