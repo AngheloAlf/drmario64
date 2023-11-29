@@ -149,8 +149,6 @@ extern u16 D_800AB440[];
 
 // rodata
 
-extern const Gfx fade_normal_texture_init_dl[];
-
 
 // bss
 

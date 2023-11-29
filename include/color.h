@@ -39,15 +39,4 @@ typedef union Color_RGBAf32 {
     f32 arr[4];
 } Color_RGBAf32; // size = 0x10
 
-
-#define GET_COLOR_RGBA32_FROM_COLOR_RGBAF32(dst, src) \
-    do { \
-        Color_RGBA32 __temp; \
-        __temp.r = CLAMP((src)->v.r, 0.0f, 1.0f) * 255; \
-        __temp.g = CLAMP((src)->v.g, 0.0f, 1.0f) * 255; \
-        __temp.b = CLAMP((src)->v.b, 0.0f, 1.0f) * 255; \
-        __temp.a = CLAMP((src)->v.a, 0.0f, 1.0f) * 255; \
-        *(dst) = __temp; \
-    } while (0)
-
 #endif

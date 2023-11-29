@@ -439,11 +439,19 @@ typedef struct struct_watchManual {
     /* 0x184 */ s32 unk_184;
 } struct_watchManual; // size = 0x188
 
+struct struct_watchMenu;
 
 typedef struct struct_watchMenu_unk_02470 {
     /* 0x00000 */ UNK_TYPE1 unk_00000[0x60000];
 } struct_watchMenu_unk_02470; // size = 0x60000
 
+// menuTitle?
+typedef struct struct_watchMenu_unk_02548 {
+    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x04 */ s32 unk_04;
+    /* 0x08 */ s32 unk_08[2]; // TODO: make enum?
+    /* 0x10 */ MenuItem unk_10[2];
+} struct_watchMenu_unk_02548; // size >= 0x130
 
 // Left column: us
 // Right column: cn
@@ -478,8 +486,7 @@ typedef struct struct_watchMenu {
     /* 0x024B0 */ struct TiTexData *unk_024B0;
     /* 0x024B4 */ struct TiTexData *unk_024B4;
     /* 0x024B8 */ MenuItem unk_024B8[1];
-    /* 0x02548 */ UNK_TYPE unk_02548;
-    /* 0x0254C */ UNK_TYPE1 unk_0254C[0x12C];
+    /* 0x02548 */ struct_watchMenu_unk_02548 unk_02548;
     /* 0x02678 */ MenusUnion unk_02678[2];
     /* 0x111C0 */ UNK_TYPE unk_111C0;
     /* 0x111C4 */ UNK_TYPE unk_111C4;

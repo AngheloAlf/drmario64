@@ -95,10 +95,10 @@ bool func_80046F58(MenuItem *item, Gfx **gfxP, struct TiTexData * /*arg2*/, s32 
 // void func_80047074();
 bool func_8004714C(MenuItem *item, Gfx **gxfP, struct TiTexData *arg2, struct TiTexData *arg3, s32 arg4, s32 arg5, s32 arg6);
 // void func_800472D0();
-void func_80047420(UNK_TYPE *arg0, MainMenuMode arg1);
-void func_800474EC(UNK_TYPE *arg0, struct_watchMenu *watchMenuRef, UNK_TYPE arg2, UNK_TYPE arg3);
-void func_80047584(UNK_TYPE *arg0, MenuItem *arg1);
-void menuTitle_draw(UNK_TYPE *arg0, Gfx **gfxP);
+void func_80047420(struct_watchMenu_unk_02548 *arg0, MainMenuMode arg1);
+void func_800474EC(struct_watchMenu_unk_02548 *arg0, struct_watchMenu *watchMenuRef, UNK_TYPE arg2, UNK_TYPE arg3);
+void func_80047584(struct_watchMenu_unk_02548 *arg0, MenuItem *arg1);
+void menuTitle_draw(struct_watchMenu_unk_02548 *arg0, Gfx **gfxP);
 void func_80047720(MenuCursor *cursor, s32 arg1, s32 arg2);
 void func_800477BC(MenuCursor *cursor, s32 arg1, s32 arg2);
 void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6,
