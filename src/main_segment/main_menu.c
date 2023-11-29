@@ -10329,467 +10329,6 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B1370);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuRank_setPanel);
 #endif
 
-#if VERSION_US
-const s32 _lr_10544[][2] = {
-    { 0x23, 0x1E },
-    { 0xDD, 0x1E },
-};
-#endif
-
-#if VERSION_US
-void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2 UNUSED) {
-    u32 i;
-
-    menuRank->watchMenuRef = watchMenuRef;
-    menuRank->unk_0004 = _getMode(watchMenuRef);
-    switch (menuRank->unk_0004) {
-        case 0x35:
-        case 0x36:
-        case 0x38:
-        case 0x39:
-        case 0x3A:
-            menuRank->unk_0008 = 1;
-            break;
-
-        default:
-            menuRank->unk_0008 = 0;
-            break;
-    }
-
-    menuRank->unk_000C = 1;
-    menuRank->unk_0010 = 1;
-    menuRank->unk_0014 = 0;
-    menuRank->unk_0018 = -1;
-    menuItem_init(&menuRank->unk_017C, 0x23, 0x56);
-
-    for (i = 0; i < 2U; i++) {
-        menuItem_init(&menuRank->unk_020C[i], _lr_10544[i][0], _lr_10544[i][1]);
-    }
-
-    switch (menuRank->unk_0004) {
-        case MAINMENUMODE_MENURANK_49:
-            dm_data_mode_story_sort(&menuRank->unk_001C);
-            break;
-
-        case MAINMENUMODE_MENURANK_50:
-            dm_data_mode_level_sort(&menuRank->unk_001C);
-            break;
-
-        case MAINMENUMODE_MENURANK_51:
-            dm_data_mode_taiQ_sort(&menuRank->unk_001C);
-            break;
-
-        case MAINMENUMODE_MENURANK_52:
-            dm_data_mode_timeAt_sort(&menuRank->unk_001C);
-            break;
-
-        case MAINMENUMODE_MENURANK_53:
-            dm_data_vscom_sort(&menuRank->unk_001C);
-            break;
-
-        case MAINMENUMODE_MENURANK_54:
-            dm_data_vc_fl_sort(&menuRank->unk_001C);
-            break;
-
-        case MAINMENUMODE_MENURANK_56:
-            dm_data_vsman_sort(&menuRank->unk_001C);
-            break;
-
-        case MAINMENUMODE_MENURANK_57:
-            dm_data_vm_fl_sort(&menuRank->unk_001C);
-            break;
-
-        case MAINMENUMODE_MENURANK_58:
-            dm_data_vm_ta_sort(&menuRank->unk_001C);
-            break;
-
-        default:
-            break;
-    }
-
-    menuRank_setPanel(menuRank, menuRank->unk_0014, menuRank->unk_0004, menuRank->unk_000C);
-    menuRank_setFrame(menuRank, menuRank->unk_0014, 1, 0.0f);
-}
-#endif
-
-#if VERSION_US
-void menuRank_input(MenuRank *menuRank) {
-    MenuRank_unk_590 *temp_s0 = &menuRank->unk_590[menuRank->unk_0014];
-    u16 pressedButton = _getKeyTrg(menuRank->watchMenuRef, 0);
-    s32 direction;
-    SndIndex sndIndex;
-
-    _getKeyRep(menuRank->watchMenuRef, 0);
-    direction = 0;
-    sndIndex = SND_INDEX_INVALID;
-    if ((menuRank->unk_032C.unk_38 == 0.0f) && (menuRank->unk_032C.unk_3C < 0.0f)) {
-        func_800585BC(menuRank, 1, 0.0f);
-    }
-
-    if (!(temp_s0->unk_3A8[0].unk_008.unk_04.unk_14 < 1.0f) && !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_18 < 0.0f) &&
-        !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_38 < 1.0f) && !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_3C < 0.0f)) {
-        if (menuRank->unk_0008 == 0) {
-            if (pressedButton & (L_JPAD | L_TRIG)) {
-                direction--;
-            }
-            if (pressedButton & (R_JPAD | R_TRIG)) {
-                direction++;
-            }
-        }
-
-        if (pressedButton & B_BUTTON) {
-            menuRank_setFrame(menuRank, menuRank->unk_0014, -1, 1.0f);
-            sndIndex = SND_INDEX_68;
-            _setMode(menuRank->watchMenuRef, MAINMENUMODE_MENUMAIN_0);
-        } else if (direction != 0) {
-            menuRank->unk_0010 = menuRank->unk_000C;
-
-            menuRank->unk_000C = WrapI(0, 3, menuRank->unk_000C + direction);
-            sndIndex = SND_INDEX_63;
-            func_800586A4(menuRank, menuRank->unk_0014, -1, 1.0f, -(direction * 0x140));
-            menuRank->unk_0018 = menuRank->unk_0014;
-            menuRank->unk_0014 = (menuRank->unk_0014 + 1) & 1;
-            menuRank_setPanel(menuRank, menuRank->unk_0014, menuRank->unk_0004, menuRank->unk_000C);
-            func_800585BC(menuRank, -1, 1.0f);
-            func_800586A4(menuRank, menuRank->unk_0014, 1, 0.0f, direction * 0x140);
-        }
-
-        if (sndIndex > SND_INDEX_INVALID) {
-            dm_snd_play(sndIndex);
-        }
-    }
-}
-#endif
-
-#if VERSION_US
-void menuRank_update(MenuRank *menuRank) {
-    MenuItem *temp_v0 = _getRootItem(menuRank->watchMenuRef);
-    s32 i;
-
-    func_800464BC(&menuRank->unk_017C, temp_v0);
-    func_800464F8(&menuRank->unk_020C[i], ARRAY_COUNT(menuRank->unk_020C), temp_v0);
-
-    func_800464BC(&menuRank->unk_032C, temp_v0);
-
-    func_800578C8(&menuRank->unk_03BC, temp_v0);
-    func_800578C8(&menuRank->unk_0458, &menuRank->unk_032C);
-    func_800578C8(&menuRank->unk_04F4, &menuRank->unk_032C);
-
-    for (i = 0; i < 2; i++) {
-        s32 index;
-
-        switch (i) {
-            case 0:
-                index = menuRank->unk_0018;
-                break;
-            case 1:
-                index = menuRank->unk_0014;
-                break;
-        }
-
-        if (index >= 0) {
-            MenuRank_unk_590 *temp_s2 = &menuRank->unk_590[index];
-            s32 j;
-
-            func_80057BE8(&temp_s2->unk_0004, &menuRank->unk_017C);
-
-            for (j = 0; j < temp_s2->unk_0000; j++) {
-                menuRankPanel_update(&temp_s2->unk_3A8[j], &menuRank->unk_017C);
-            }
-        }
-    }
-}
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B1430);
-#endif
-
-extern s32 _dir_10660[];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _dir_10660);
-#endif
-
-#if VERSION_US
-void menuRank_draw(MenuRank *menuRank, Gfx **gfxP) {
-    void *sp18[16];
-    Gfx *gfx = *gfxP;
-    s32 i;
-    s32 j;
-
-    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
-
-    if (menuRank->unk_0008 == 0) {
-        menuItem_drawTex(&menuRank->unk_032C, &gfx, _getTexRank(menuRank->watchMenuRef, 3), 0);
-        sp18[0] = &menuRank->unk_0458;
-        sp18[1] = &menuRank->unk_04F4;
-
-        if (menuRank->unk_032C.unk_3C < 0.0f) {
-            menuRank->unk_04F4.unk_08 = menuRank->unk_0010;
-        } else {
-            menuRank->unk_04F4.unk_08 = menuRank->unk_000C;
-        }
-
-        switch (menuRank->unk_0004) {
-            case MAINMENUMODE_MENURANK_50:
-                menuRank->unk_0458.unk_08 = 1;
-                menuRank->unk_04F4.unk_08 = menuRank->unk_04F4.unk_08 + 3;
-                break;
-
-            default:
-                menuRank->unk_0458.unk_08 = 0;
-                break;
-        }
-
-        menuRankLabel_draw((void *)sp18, 2, &gfx);
-
-        for (i = 0; i < ARRAY_COUNTU(menuRank->unk_020C); i++) {
-            MenuItem *temp_s0 = &menuRank->unk_020C[i];
-            f32 temp_fs0 = temp_s0->unk_0C[0];
-            f32 temp_fs1 = temp_s0->unk_0C[1];
-            s32 var_v0 = (temp_s0->unk_3C < 0.0f) ? menuRank->unk_0010 : menuRank->unk_000C;
-
-            j = WrapI(0, 3, var_v0 + _dir_10660[i]);
-            if (menuRank->unk_0004 == MAINMENUMODE_MENURANK_50) {
-                j += 3;
-            }
-
-            func_80046F58(temp_s0, &gfx, _getTexRank(menuRank->watchMenuRef, 4), 0, 2, i);
-            temp_s0->unk_0C[0] += 12.0f;
-            temp_s0->unk_0C[1] += 2.0f;
-
-            func_80046F58(&menuRank->unk_020C[i], &gfx, _getTexRank(menuRank->watchMenuRef, 2), 0, 6, j);
-            temp_s0->unk_0C[0] = temp_fs0;
-            temp_s0->unk_0C[1] = temp_fs1;
-        }
-    }
-
-    sp18[0] = &menuRank->unk_03BC;
-    menuRankLabel_draw((void *)sp18, 1, &gfx);
-
-    for (i = 0; i < 2; i++) {
-        s32 var_s5;
-
-        switch (i) {
-            case 0:
-                var_s5 = menuRank->unk_0018;
-                break;
-            case 1:
-                var_s5 = menuRank->unk_0014;
-                break;
-        }
-
-        if (var_s5 >= 0) {
-            MenuRank_unk_590 *temp_s0_2 = &menuRank->unk_590[var_s5];
-
-            sp18[0] = &temp_s0_2->unk_0004;
-            menuRankHeader_draw((void *)&sp18, 1, &gfx);
-
-            for (j = 0; j < temp_s0_2->unk_0000; j++) {
-                sp18[j] = &temp_s0_2->unk_3A8[j];
-            }
-
-            menuRankPanel_draw((void *)sp18, temp_s0_2->unk_0000, &gfx);
-        }
-    }
-
-    *gfxP = gfx;
-}
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800599E0);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059A58);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059AA4);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059AF0);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059B5C);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059BC8);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059C34);
-#endif
-
-/* drMarioRetrace? */
-#if VERSION_US
-void func_80059CA0(struct_watchMenu *watchMenuRef) {
-    osRecvMesg(&watchMenuRef->unk_0000C, NULL, OS_MESG_BLOCK);
-}
-#endif
-
-#if VERSION_US
-Mtx **_getMtxPtr(struct_watchMenu *watchMenuRef) {
-    return &watchMenuRef->unk_02448[gfx_gtask_no];
-}
-#endif
-
-#if VERSION_US
-Vtx **_getVtxPtr(struct_watchMenu *watchMenuRef) {
-    return &watchMenuRef->unk_02454[gfx_gtask_no];
-}
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", _getTexChar);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", _getTexCommon);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059D14);
-#endif
-
-#if VERSION_US
-TiTexData *_getTexLevel(struct_watchMenu *watchMenuRef, s32 index) {
-    return &watchMenuRef->unk_02484[index];
-}
-#endif
-
-#if VERSION_US
-TiTexData *_getTexMain(struct_watchMenu *watchMenuRef, s32 index) {
-    return &watchMenuRef->unk_02488[index];
-}
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", _getTexName);
-#endif
-
-#if VERSION_US
-TiTexData *_getTexP2(struct_watchMenu *watchMenuRef, s32 index) {
-    return &watchMenuRef->unk_02490[index];
-}
-#endif
-
-#if VERSION_US
-TiTexData *_getTexP4(struct_watchMenu *watchMenuRef, s32 index) {
-    return &watchMenuRef->unk_02494[index];
-}
-#endif
-
-#if VERSION_US
-TiTexData *_getTexRank(struct_watchMenu *watchMenuRef, s32 index) {
-    return &watchMenuRef->unk_02498[index];
-}
-#endif
-
-#if VERSION_US
-TiTexData *_getTexSetup(struct_watchMenu *watchMenuRef, s32 index) {
-    return &watchMenuRef->unk_0249C[index];
-}
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059D94);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059DA4);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059DB4);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059DC4);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059DD4);
-#endif
-
-#if VERSION_US
-TiTexData *_getTexKasa(struct_watchMenu *watchMenuRef, s32 index) {
-    return &watchMenuRef->unk_024B4[index];
-}
-#endif
-
-#if VERSION_US
-MenuItem *_getRootItem(struct_watchMenu *watchMenuRef) {
-    return &watchMenuRef->unk_024B8[0];
-}
-#endif
-
-#if VERSION_US
-u16 _getKeyLvl(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
-    return gControllerHoldButtons[main_joy[arg1]];
-}
-#endif
-
-#if VERSION_US
-u16 _getKeyTrg(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
-    return gControllerPressedButtons[main_joy[arg1]];
-}
-#endif
-
-#if VERSION_US
-u16 _getKeyRep(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
-    return joycur[main_joy[arg1]];
-}
-#endif
-
-#if VERSION_US
-MainMenuMode _getMode(struct_watchMenu *watchMenuRef) {
-    return watchMenuRef->unk_111CC;
-}
-#endif
-
-#if VERSION_US
-MainMenuMode _getModeOld(struct_watchMenu *watchMenuRef) {
-    return watchMenuRef->unk_111C8;
-}
-#endif
-
-#if VERSION_US
-void _setMode(struct_watchMenu *watchMenuRef, MainMenuMode arg1) {
-    watchMenuRef->unk_111D0 = arg1;
-}
-#endif
-
-#if VERSION_US
-void _setNextMain(struct_watchMenu *watchMenuRef, enum_main_no arg1) {
-    watchMenuRef->unk_111D4 = arg1;
-}
-#endif
-
-#if VERSION_US
-void menuTitle_setTitle(struct_watchMenu *watchMenuRef, MainMenuMode arg1) {
-    func_80047420(&watchMenuRef->unk_02548, arg1);
-}
-#endif
-
-#if VERSION_US
-void _setFadeDir(struct_watchMenu *watchMenuRef, s32 arg1) {
-    if (arg1 < 0) {
-        if (watchMenuRef->unk_111E0 > 0.0f) {
-            watchMenuRef->unk_111E0 = -watchMenuRef->unk_111E0;
-        }
-    } else {
-        if (watchMenuRef->unk_111E0 < 0.0f) {
-            watchMenuRef->unk_111E0 = -watchMenuRef->unk_111E0;
-        }
-    }
-}
-#endif
-
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C348_cn);
 #endif
@@ -11018,20 +10557,316 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E80C_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7A70_cn);
 #endif
 
+#if VERSION_US
+const s32 _lr_10544[][2] = {
+    { 0x23, 0x1E },
+    { 0xDD, 0x1E },
+};
+#endif
+
+#if VERSION_US
+void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2 UNUSED) {
+    u32 i;
+
+    menuRank->watchMenuRef = watchMenuRef;
+    menuRank->unk_0004 = _getMode(watchMenuRef);
+    switch (menuRank->unk_0004) {
+        case 0x35:
+        case 0x36:
+        case 0x38:
+        case 0x39:
+        case 0x3A:
+            menuRank->unk_0008 = 1;
+            break;
+
+        default:
+            menuRank->unk_0008 = 0;
+            break;
+    }
+
+    menuRank->unk_000C = 1;
+    menuRank->unk_0010 = 1;
+    menuRank->unk_0014 = 0;
+    menuRank->unk_0018 = -1;
+    menuItem_init(&menuRank->unk_017C, 0x23, 0x56);
+
+    for (i = 0; i < 2U; i++) {
+        menuItem_init(&menuRank->unk_020C[i], _lr_10544[i][0], _lr_10544[i][1]);
+    }
+
+    switch (menuRank->unk_0004) {
+        case MAINMENUMODE_MENURANK_49:
+            dm_data_mode_story_sort(&menuRank->unk_001C);
+            break;
+
+        case MAINMENUMODE_MENURANK_50:
+            dm_data_mode_level_sort(&menuRank->unk_001C);
+            break;
+
+        case MAINMENUMODE_MENURANK_51:
+            dm_data_mode_taiQ_sort(&menuRank->unk_001C);
+            break;
+
+        case MAINMENUMODE_MENURANK_52:
+            dm_data_mode_timeAt_sort(&menuRank->unk_001C);
+            break;
+
+        case MAINMENUMODE_MENURANK_53:
+            dm_data_vscom_sort(&menuRank->unk_001C);
+            break;
+
+        case MAINMENUMODE_MENURANK_54:
+            dm_data_vc_fl_sort(&menuRank->unk_001C);
+            break;
+
+        case MAINMENUMODE_MENURANK_56:
+            dm_data_vsman_sort(&menuRank->unk_001C);
+            break;
+
+        case MAINMENUMODE_MENURANK_57:
+            dm_data_vm_fl_sort(&menuRank->unk_001C);
+            break;
+
+        case MAINMENUMODE_MENURANK_58:
+            dm_data_vm_ta_sort(&menuRank->unk_001C);
+            break;
+
+        default:
+            break;
+    }
+
+    menuRank_setPanel(menuRank, menuRank->unk_0014, menuRank->unk_0004, menuRank->unk_000C);
+    menuRank_setFrame(menuRank, menuRank->unk_0014, 1, 0.0f);
+}
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuRank_init);
+#endif
+
+#if VERSION_US
+void menuRank_input(MenuRank *menuRank) {
+    MenuRank_unk_590 *temp_s0 = &menuRank->unk_590[menuRank->unk_0014];
+    u16 pressedButton = _getKeyTrg(menuRank->watchMenuRef, 0);
+    s32 direction;
+    SndIndex sndIndex;
+
+    _getKeyRep(menuRank->watchMenuRef, 0);
+    direction = 0;
+    sndIndex = SND_INDEX_INVALID;
+    if ((menuRank->unk_032C.unk_38 == 0.0f) && (menuRank->unk_032C.unk_3C < 0.0f)) {
+        func_800585BC(menuRank, 1, 0.0f);
+    }
+
+    if (!(temp_s0->unk_3A8[0].unk_008.unk_04.unk_14 < 1.0f) && !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_18 < 0.0f) &&
+        !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_38 < 1.0f) && !(temp_s0->unk_3A8[0].unk_008.unk_04.unk_3C < 0.0f)) {
+        if (menuRank->unk_0008 == 0) {
+            if (pressedButton & (L_JPAD | L_TRIG)) {
+                direction--;
+            }
+            if (pressedButton & (R_JPAD | R_TRIG)) {
+                direction++;
+            }
+        }
+
+        if (pressedButton & B_BUTTON) {
+            menuRank_setFrame(menuRank, menuRank->unk_0014, -1, 1.0f);
+            sndIndex = SND_INDEX_68;
+            _setMode(menuRank->watchMenuRef, MAINMENUMODE_MENUMAIN_0);
+        } else if (direction != 0) {
+            menuRank->unk_0010 = menuRank->unk_000C;
+
+            menuRank->unk_000C = WrapI(0, 3, menuRank->unk_000C + direction);
+            sndIndex = SND_INDEX_63;
+            func_800586A4(menuRank, menuRank->unk_0014, -1, 1.0f, -(direction * 0x140));
+            menuRank->unk_0018 = menuRank->unk_0014;
+            menuRank->unk_0014 = (menuRank->unk_0014 + 1) & 1;
+            menuRank_setPanel(menuRank, menuRank->unk_0014, menuRank->unk_0004, menuRank->unk_000C);
+            func_800585BC(menuRank, -1, 1.0f);
+            func_800586A4(menuRank, menuRank->unk_0014, 1, 0.0f, direction * 0x140);
+        }
+
+        if (sndIndex > SND_INDEX_INVALID) {
+            dm_snd_play(sndIndex);
+        }
+    }
+}
 #endif
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuRank_input);
 #endif
 
+#if VERSION_US
+void menuRank_update(MenuRank *menuRank) {
+    MenuItem *temp_v0 = _getRootItem(menuRank->watchMenuRef);
+    s32 i;
+
+    func_800464BC(&menuRank->unk_017C, temp_v0);
+    func_800464F8(&menuRank->unk_020C[i], ARRAY_COUNT(menuRank->unk_020C), temp_v0);
+
+    func_800464BC(&menuRank->unk_032C, temp_v0);
+
+    func_800578C8(&menuRank->unk_03BC, temp_v0);
+    func_800578C8(&menuRank->unk_0458, &menuRank->unk_032C);
+    func_800578C8(&menuRank->unk_04F4, &menuRank->unk_032C);
+
+    for (i = 0; i < 2; i++) {
+        s32 index;
+
+        switch (i) {
+            case 0:
+                index = menuRank->unk_0018;
+                break;
+            case 1:
+                index = menuRank->unk_0014;
+                break;
+        }
+
+        if (index >= 0) {
+            MenuRank_unk_590 *temp_s2 = &menuRank->unk_590[index];
+            s32 j;
+
+            func_80057BE8(&temp_s2->unk_0004, &menuRank->unk_017C);
+
+            for (j = 0; j < temp_s2->unk_0000; j++) {
+                menuRankPanel_update(&temp_s2->unk_3A8[j], &menuRank->unk_017C);
+            }
+        }
+    }
+}
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuRank_update);
 #endif
 
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B1430);
+#endif
+
+extern s32 _dir_10660[];
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _dir_10660);
+#endif
+
+#if VERSION_US
+void menuRank_draw(MenuRank *menuRank, Gfx **gfxP) {
+    void *sp18[16];
+    Gfx *gfx = *gfxP;
+    s32 i;
+    s32 j;
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
+    if (menuRank->unk_0008 == 0) {
+        menuItem_drawTex(&menuRank->unk_032C, &gfx, _getTexRank(menuRank->watchMenuRef, 3), 0);
+        sp18[0] = &menuRank->unk_0458;
+        sp18[1] = &menuRank->unk_04F4;
+
+        if (menuRank->unk_032C.unk_3C < 0.0f) {
+            menuRank->unk_04F4.unk_08 = menuRank->unk_0010;
+        } else {
+            menuRank->unk_04F4.unk_08 = menuRank->unk_000C;
+        }
+
+        switch (menuRank->unk_0004) {
+            case MAINMENUMODE_MENURANK_50:
+                menuRank->unk_0458.unk_08 = 1;
+                menuRank->unk_04F4.unk_08 = menuRank->unk_04F4.unk_08 + 3;
+                break;
+
+            default:
+                menuRank->unk_0458.unk_08 = 0;
+                break;
+        }
+
+        menuRankLabel_draw((void *)sp18, 2, &gfx);
+
+        for (i = 0; i < ARRAY_COUNTU(menuRank->unk_020C); i++) {
+            MenuItem *temp_s0 = &menuRank->unk_020C[i];
+            f32 temp_fs0 = temp_s0->unk_0C[0];
+            f32 temp_fs1 = temp_s0->unk_0C[1];
+            s32 var_v0 = (temp_s0->unk_3C < 0.0f) ? menuRank->unk_0010 : menuRank->unk_000C;
+
+            j = WrapI(0, 3, var_v0 + _dir_10660[i]);
+            if (menuRank->unk_0004 == MAINMENUMODE_MENURANK_50) {
+                j += 3;
+            }
+
+            func_80046F58(temp_s0, &gfx, _getTexRank(menuRank->watchMenuRef, 4), 0, 2, i);
+            temp_s0->unk_0C[0] += 12.0f;
+            temp_s0->unk_0C[1] += 2.0f;
+
+            func_80046F58(&menuRank->unk_020C[i], &gfx, _getTexRank(menuRank->watchMenuRef, 2), 0, 6, j);
+            temp_s0->unk_0C[0] = temp_fs0;
+            temp_s0->unk_0C[1] = temp_fs1;
+        }
+    }
+
+    sp18[0] = &menuRank->unk_03BC;
+    menuRankLabel_draw((void *)sp18, 1, &gfx);
+
+    for (i = 0; i < 2; i++) {
+        s32 var_s5;
+
+        switch (i) {
+            case 0:
+                var_s5 = menuRank->unk_0018;
+                break;
+            case 1:
+                var_s5 = menuRank->unk_0014;
+                break;
+        }
+
+        if (var_s5 >= 0) {
+            MenuRank_unk_590 *temp_s0_2 = &menuRank->unk_590[var_s5];
+
+            sp18[0] = &temp_s0_2->unk_0004;
+            menuRankHeader_draw((void *)&sp18, 1, &gfx);
+
+            for (j = 0; j < temp_s0_2->unk_0000; j++) {
+                sp18[j] = &temp_s0_2->unk_3A8[j];
+            }
+
+            menuRankPanel_draw((void *)sp18, temp_s0_2->unk_0000, &gfx);
+        }
+    }
+
+    *gfxP = gfx;
+}
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuRank_draw);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800599E0);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059A58);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059AA4);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059AF0);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059B5C);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059BC8);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059C34);
 #endif
 
 #if VERSION_CN
@@ -11062,8 +10897,153 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FC14_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FCA8_cn);
 #endif
 
+/* drMarioRetrace? */
+#if VERSION_US
+void func_80059CA0(struct_watchMenu *watchMenuRef) {
+    osRecvMesg(&watchMenuRef->unk_0000C, NULL, OS_MESG_BLOCK);
+}
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80059CA0);
+#endif
+
+#if VERSION_US
+Mtx **_getMtxPtr(struct_watchMenu *watchMenuRef) {
+    return &watchMenuRef->unk_02448[gfx_gtask_no];
+}
+#endif
+
+#if VERSION_US
+Vtx **_getVtxPtr(struct_watchMenu *watchMenuRef) {
+    return &watchMenuRef->unk_02454[gfx_gtask_no];
+}
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", _getTexChar);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", _getTexCommon);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059D14);
+#endif
+
+#if VERSION_US
+TiTexData *_getTexLevel(struct_watchMenu *watchMenuRef, s32 index) {
+    return &watchMenuRef->unk_02484[index];
+}
+#endif
+
+#if VERSION_US
+TiTexData *_getTexMain(struct_watchMenu *watchMenuRef, s32 index) {
+    return &watchMenuRef->unk_02488[index];
+}
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", _getTexName);
+#endif
+
+#if VERSION_US
+TiTexData *_getTexP2(struct_watchMenu *watchMenuRef, s32 index) {
+    return &watchMenuRef->unk_02490[index];
+}
+#endif
+
+#if VERSION_US
+TiTexData *_getTexP4(struct_watchMenu *watchMenuRef, s32 index) {
+    return &watchMenuRef->unk_02494[index];
+}
+#endif
+
+#if VERSION_US
+TiTexData *_getTexRank(struct_watchMenu *watchMenuRef, s32 index) {
+    return &watchMenuRef->unk_02498[index];
+}
+#endif
+
+#if VERSION_US
+TiTexData *_getTexSetup(struct_watchMenu *watchMenuRef, s32 index) {
+    return &watchMenuRef->unk_0249C[index];
+}
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059D94);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059DA4);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059DB4);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059DC4);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059DD4);
+#endif
+
+#if VERSION_US
+TiTexData *_getTexKasa(struct_watchMenu *watchMenuRef, s32 index) {
+    return &watchMenuRef->unk_024B4[index];
+}
+#endif
+
+#if VERSION_US
+MenuItem *_getRootItem(struct_watchMenu *watchMenuRef) {
+    return &watchMenuRef->unk_024B8[0];
+}
+#endif
+
+#if VERSION_US
+u16 _getKeyLvl(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
+    return gControllerHoldButtons[main_joy[arg1]];
+}
+#endif
+
+#if VERSION_US
+u16 _getKeyTrg(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
+    return gControllerPressedButtons[main_joy[arg1]];
+}
+#endif
+
+#if VERSION_US
+u16 _getKeyRep(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
+    return joycur[main_joy[arg1]];
+}
+#endif
+
+#if VERSION_US
+MainMenuMode _getMode(struct_watchMenu *watchMenuRef) {
+    return watchMenuRef->unk_111CC;
+}
+#endif
+
+#if VERSION_US
+MainMenuMode _getModeOld(struct_watchMenu *watchMenuRef) {
+    return watchMenuRef->unk_111C8;
+}
+#endif
+
+#if VERSION_US
+void _setMode(struct_watchMenu *watchMenuRef, MainMenuMode arg1) {
+    watchMenuRef->unk_111D0 = arg1;
+}
+#endif
+
+#if VERSION_US
+void _setNextMain(struct_watchMenu *watchMenuRef, enum_main_no arg1) {
+    watchMenuRef->unk_111D4 = arg1;
+}
 #endif
 
 #if VERSION_CN
@@ -11170,8 +11150,28 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF3C_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF50_cn);
 #endif
 
+#if VERSION_US
+void menuTitle_setTitle(struct_watchMenu *watchMenuRef, MainMenuMode arg1) {
+    func_80047420(&watchMenuRef->unk_02548, arg1);
+}
+#endif
+
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuTitle_setTitle);
+#endif
+
+#if VERSION_US
+void _setFadeDir(struct_watchMenu *watchMenuRef, s32 arg1) {
+    if (arg1 < 0) {
+        if (watchMenuRef->unk_111E0 > 0.0f) {
+            watchMenuRef->unk_111E0 = -watchMenuRef->unk_111E0;
+        }
+    } else {
+        if (watchMenuRef->unk_111E0 < 0.0f) {
+            watchMenuRef->unk_111E0 = -watchMenuRef->unk_111E0;
+        }
+    }
+}
 #endif
 
 #if VERSION_CN
@@ -11273,6 +11273,14 @@ void func_8005A2AC(struct_watchMenu *arg0) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7AA8_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7AB0_cn);
+#endif
+
 #if VERSION_US
 void func_8005A2EC(struct_watchMenu *arg0) {
     s32 index = arg0->unk_111C0;
@@ -11307,14 +11315,6 @@ void func_8005A2EC(struct_watchMenu *arg0) {
             break;
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7AA8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7AB0_cn);
 #endif
 
 #if VERSION_CN
