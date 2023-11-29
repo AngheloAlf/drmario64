@@ -7365,7 +7365,8 @@ void menuStory_input(MenuStory *menuStory) {
     bool var_s6 = false;
     s32 var_s0;
     s32 var_a1;
-    long i;
+    s32 i;
+    s32 temp;
 
     if (menuStory->unk_0040.unk_14 != 1.0) {
         return;
@@ -7424,8 +7425,8 @@ void menuStory_input(MenuStory *menuStory) {
             break;
 
         case 0x2:
-            i = func_80055FD8_cn(menuStory);
-            var_a1 = CLAMP(menuStory->unk_0028[menuStory->unk_0024] + var_s0, 1, i);
+            temp = func_80055FD8_cn(menuStory);
+            var_a1 = CLAMP(menuStory->unk_0028[menuStory->unk_0024] + var_s0, 1, temp);
 
             if (var_a1 != menuStory->unk_0028[menuStory->unk_0024]) {
                 var_s3 = SND_INDEX_63;
@@ -7440,8 +7441,8 @@ void menuStory_input(MenuStory *menuStory) {
             break;
     }
 
-    i = func_80055FD8_cn(menuStory);
-    menuStory->unk_0028[2] = CLAMP(menuStory->unk_0028[2], 1, i);
+    temp = func_80055FD8_cn(menuStory);
+    menuStory->unk_0028[2] = CLAMP(menuStory->unk_0028[2], 1, temp);
 
     if (var_s3 < 0) {
         if ((temp_s4 & 0x9000) && (menuStory->unk_0024 == 2)) {
