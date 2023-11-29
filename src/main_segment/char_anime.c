@@ -185,7 +185,7 @@ size_t animeState_getDataSize(CharAnimeMode animeMode) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", func_8006471C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/char_anime", animeState_getDataSize);
 #endif
 
 /**

@@ -127,7 +127,7 @@ typedef struct MenuItem {
 
 typedef struct MenuCursor {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ s32 unk_004;
+    /* 0x004 */ s32 unk_004; // enum?
     /* 0x008 */ s32 unk_008;
     /* 0x00C */ s32 unk_00C;
     /* 0x010 */ s32 unk_010;
