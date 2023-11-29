@@ -5781,11 +5781,11 @@ void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, struct_wa
     msgWnd_init(&menuMain->unk_2308, (void **)arg2, 0xC, 4, 0x9C, 0x22);
     menuMain->unk_2308.unk_1C = 0;
 
-    #if VERSION_CN
+#if VERSION_CN
     menuMain->unk_2308.unk_48 = 0xE;
-    #else
+#else
     menuMain->unk_2308.unk_48 = 0xD;
-    #endif
+#endif
 
     item = &menuMain->unk_2388;
     menuItem_init(item, 0x9E, 0x2F);
@@ -11215,8 +11215,6 @@ u16 _getKeyTrg(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
 }
 #endif
 
-u16 _getKeyTrg(struct_watchMenu *arg0, s32 arg1);
-
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", _getKeyTrg);
 #endif
@@ -11847,15 +11845,14 @@ void menuAll_draw(struct_watchMenu *arg0, Gfx **gfxP) {
 }
 #endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: main_menu
  */
-#if VERSION_US
 enum_main_no main_menu(struct_800EB670 *arg0) {
     UNK_PTR sp10 = Heap_bufferp;
     struct_watchMenu *ptr = ALIGN_PTR(Heap_bufferp);
     s32 i;
-    u16 value;
 
     if (main_old == MAIN_NO_3) {
         _menuAll_lastMode = MAINMENUMODE_MENUMAIN_0;
@@ -11863,6 +11860,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
         _menuMain_lastDepth = 0;
         _menuMain_lastSelect[0] = 0;
     }
+
     func_80040A64();
     sp10 = &ptr[1];
     bzero(ptr, sizeof(struct_watchMenu));
@@ -11871,9 +11869,8 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
 
     evs_playmax = joyResponseCheck();
 
-    value = 0xF30;
-    for (i = ARRAY_COUNT(joyflg) - 1; i >= 0; i--) {
-        joyflg[i] = value;
+    for (i = 0; i < ARRAY_COUNT(joyflg); i++) {
+        joyflg[i] = U_JPAD | L_JPAD | R_JPAD | D_JPAD | L_TRIG | R_TRIG;
     }
 
     joycur1 = 0x18;
@@ -11899,9 +11896,21 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
             }
         } else {
             joyProcCore();
+
+#if VERSION_CN
+            while (D_80092F10_cn) {
+                func_80059CA0(ptr);
+                joyProcCore();
+                graphic_no = GRAPHIC_NO_0;
+                dm_audio_update();
+            }
+#endif
         }
 
         func_80059CA0(ptr);
+#if VERSION_CN
+        func_8002BC30_cn(1);
+#endif
         menuAll_input(ptr);
         menuAll_update(ptr);
         dm_audio_update();
@@ -11915,6 +11924,10 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
         } else {
             graphic_no = GRAPHIC_NO_5;
         }
+
+#if VERSION_CN
+        func_8002BD04_cn();
+#endif
     }
 
     graphic_no = GRAPHIC_NO_5;
@@ -11936,105 +11949,6 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     func_80040AE4();
 
     return ptr->unk_111D4;
-}
-#endif
-
-#if VERSION_CN
-enum_main_no main_menu(struct_800EB670 *arg0) {
-    UNK_PTR sp18 = Heap_bufferp;
-    struct_watchMenu *temp_s0 = ALIGN_PTR(Heap_bufferp);
-    s32 var_v1;
-
-    if (main_old == MAIN_NO_3) {
-        _menuAll_lastMode = MAINMENUMODE_MENUMAIN_0;
-        _menuMain_lastMode = MAINMENUMODE_MENUMAIN_0;
-        _menuMain_lastDepth = 0;
-        _menuMain_lastSelect[0] = 0;
-    }
-
-    func_80040A64();
-    sp18 = &temp_s0[1];
-    bzero(temp_s0, 0x11288);
-    watchMenu = temp_s0;
-    menuAll_init(temp_s0, &sp18, arg0);
-
-    evs_playmax = joyResponseCheck();
-
-    for (var_v1 = 0; var_v1 < 4; var_v1++) {
-        joyflg[var_v1] = 0xF30;
-    }
-
-    joycur1 = 0x18;
-    joycur2 = 6;
-    gGfxHead = gGfxGlist[gfx_gtask_no];
-    dm_seq_play(SEQ_INDEX_12);
-
-    while ((temp_s0->unk_111D4 == MAIN_NO_6) || (temp_s0->unk_111DC < 1.0f)) {
-        if (graphic_no == GRAPHIC_NO_0) {
-            while ((pendingGFX != 0) || (func_80040BA4() != 0)) {
-                func_80059CA0(temp_s0);
-            }
-
-            menuAll_changeMenu(temp_s0);
-        }
-
-        if (temp_s0->unk_111D8 > 0) {
-            for (var_v1 = 0; var_v1 < 4; var_v1++) {
-                joycur[var_v1] = 0;
-                gControllerPressedButtons[var_v1] = 0;
-                gControllerPrevHoldButtons[var_v1] = 0;
-                gControllerHoldButtons[var_v1] = 0;
-            }
-
-        } else {
-            joyProcCore();
-
-            while (D_80092F10_cn != false) {
-                func_80059CA0(temp_s0);
-                joyProcCore();
-                graphic_no = GRAPHIC_NO_0;
-                dm_audio_update();
-            }
-        }
-
-        func_80059CA0(temp_s0);
-        func_8002BC30_cn(1);
-        menuAll_input(temp_s0);
-        menuAll_update(temp_s0);
-        dm_audio_update();
-
-        if (temp_s0->unk_111CC != temp_s0->unk_111D0) {
-            temp_s0->unk_111C8 = temp_s0->unk_111CC;
-            temp_s0->unk_111CC = temp_s0->unk_111D0;
-            temp_s0->unk_111C4 = temp_s0->unk_111C0;
-            temp_s0->unk_111C0 ^= 1;
-            graphic_no = GRAPHIC_NO_0;
-        } else {
-            graphic_no = GRAPHIC_NO_5;
-        }
-
-        func_8002BD04_cn();
-    }
-
-    graphic_no = GRAPHIC_NO_5;
-
-    while (temp_s0->unk_111F4 != 0xF) {
-        osRecvMesg(&temp_s0->unk_0000C, NULL, 1);
-        dm_audio_update();
-    }
-
-    graphic_no = GRAPHIC_NO_0;
-    dm_seq_stop();
-
-    while ((pendingGFX != 0) || (func_8002B178() == 0) || (func_80040BA4() != 0)) {
-        osRecvMesg(&temp_s0->unk_0000C, NULL, 1);
-        dm_audio_update();
-    }
-
-    func_8005A2AC(temp_s0);
-    func_80040AE4();
-
-    return temp_s0->unk_111D4;
 }
 #endif
 
