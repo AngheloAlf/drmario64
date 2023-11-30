@@ -571,7 +571,7 @@ void dm_snd_play_strange_sound(void) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002CE60_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_snd_play_strange_sound);
 #endif
 
 #else

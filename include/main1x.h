@@ -39,7 +39,7 @@ extern s8 evs_manual_no;
 #else
 extern enum_evs_manual_no evs_manual_no;
 #endif
-extern s32 evs_high_score;
+extern u32 evs_high_score;
 extern s32 evs_vs_count;
 extern u8 FlyingCnt[];
 extern u8 BonusWait[3][3];

@@ -56,7 +56,7 @@ typedef struct struct_evs_mem_data_unk_B4 {
 } struct_evs_mem_data_unk_B4; // size >= 0x1A
 
 typedef struct struct_evs_mem_data_unk_28 {
-    /* 0x0 */ s32 unk_0; // possibly u32?
+    /* 0x0 */ u32 unk_0; // score?
     /* 0x4 */ s32 unk_4;
     /* 0x8 */ u8 unk_8;
 } struct_evs_mem_data_unk_28; // size = 0xC

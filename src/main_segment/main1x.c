@@ -41,7 +41,7 @@ u8 evs_level_21 = 0;
 
 s8 evs_manual_no = EVS_MANUAL_NO_0;
 
-s32 evs_high_score = 0;
+u32 evs_high_score = 0;
 
 s32 evs_vs_count = 3;
 

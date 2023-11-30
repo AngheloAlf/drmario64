@@ -3158,6 +3158,10 @@ void func_80049C54(MenuSpeedItem *arg0, s32 arg1) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049C54);
+#endif
+
 #if VERSION_US
 void menuSpeedItem_update(MenuSpeedItem *arg0, MenuItem *arg1) {
     u32 i;
@@ -3451,10 +3455,6 @@ void func_8004A814(MenuMusicItem *musicItemArr[], s32 arg1, Gfx **gfxP) {
     menuMusicItem_draw1(musicItemArr, arg1, gfxP);
     menuMusicItem_draw2(musicItemArr, arg1, gfxP);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004CBB4_cn);
 #endif
 
 #if VERSION_CN
@@ -7329,44 +7329,36 @@ void func_80051974(MenuStory *menuStory) {
 }
 #endif
 
+s32 func_800519CC(MenuStory *menuStory);
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800519CC);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055FB8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800519CC);
 #endif
+
+s32 func_800519EC(MenuStory *menuStory);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800519EC);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80055FD8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800519EC);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuStory_input);
-#endif
-
-void func_8002CE60_cn(void);
-void func_8004CBB4_cn(MenuSpeedItem *speedItem, s32 arg1);
-UNK_RET func_80055FB8_cn(MenuStory *menuStory);
-UNK_RET func_80055FD8_cn(MenuStory *menuStory);
-u16 func_8005FEF0_cn(struct_watchMenu *watchMenuRef, s32 arg1);
-void func_8005FF3C_cn(struct_watchMenu *watchMenuRef, s32 arg1);
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void menuStory_input(MenuStory *menuStory) {
     struct_evs_mem_data_unk_B4 *temp_s5 = &evs_mem_data[evs_select_name_no[0]].unk_B4;
-    u16 temp_s2 = func_8005FEF0_cn(menuStory->watchMenuRef, 0);
+    u16 temp_s2 = _getKeyRep(menuStory->watchMenuRef, 0);
     u16 temp_s4 = _getKeyTrg(menuStory->watchMenuRef, 0);
     SndIndex var_s3 = SND_INDEX_INVALID;
     bool var_s6 = false;
     s32 var_s0;
     s32 var_a1;
-    s32 i;
-    s32 temp;
+    long i;
 
     if (menuStory->unk_0040.unk_14 != 1.0) {
         return;
@@ -7391,7 +7383,7 @@ void menuStory_input(MenuStory *menuStory) {
         if (menuStory->unk_0024 == 1) {
             if (menuStory->unk_085C.unk_008 == 2) {
                 if (menuStory->unk_085C.unk_010 == 0) {
-                    menuStory->unk_085C.unk_010 = menuStory->unk_0024;
+                    menuStory->unk_085C.unk_010 = 1;
                     var_s6 = true;
                 } else {
                     menuStory->unk_085C.unk_010 = 0;
@@ -7411,7 +7403,7 @@ void menuStory_input(MenuStory *menuStory) {
 
     switch (menuStory->unk_0024) {
         case 0x0:
-            var_a1 = CLAMP(menuStory->unk_0028[0] + var_s0, 0, 1);
+            var_a1 = CLAMP(menuStory->unk_0028[menuStory->unk_0024] + var_s0, 0, 1);
 
             if (var_a1 != menuStory->unk_0028[menuStory->unk_0024]) {
                 var_s3 = SND_INDEX_63;
@@ -7420,29 +7412,31 @@ void menuStory_input(MenuStory *menuStory) {
             break;
 
         case 0x1:
-            func_8004CBB4_cn(&menuStory->unk_085C, 0);
+            func_80049C54(&menuStory->unk_085C, 0);
             menuStory->unk_0028[menuStory->unk_0024] = menuStory->unk_085C.unk_008;
             break;
 
         case 0x2:
-            temp = func_80055FD8_cn(menuStory);
-            var_a1 = CLAMP(menuStory->unk_0028[menuStory->unk_0024] + var_s0, 1, temp);
+            i = func_800519EC(menuStory);
+            var_a1 = CLAMP(menuStory->unk_0028[menuStory->unk_0024] + var_s0, 1, i);
 
             if (var_a1 != menuStory->unk_0028[menuStory->unk_0024]) {
                 var_s3 = SND_INDEX_63;
                 menuStory->unk_0028[menuStory->unk_0024] = var_a1;
 
                 for (i = 0; i < ARRAY_COUNTU(menuStory->unk_123C); i++) {
-                    menuStory->unk_123C[i].unk_14 = 0.0f;
-                    menuStory->unk_123C[i].unk_1C[0] = menuStory->unk_123C[i].unk_24[0];
-                    menuStory->unk_123C[i].unk_1C[1] = menuStory->unk_123C[i].unk_24[1];
+                    MenuItem *item = &menuStory->unk_123C[i];
+
+                    item->unk_14 = 0.0f;
+                    item->unk_1C[0] = item->unk_24[0];
+                    item->unk_1C[1] = item->unk_24[1];
                 }
             }
             break;
     }
 
-    temp = func_80055FD8_cn(menuStory);
-    menuStory->unk_0028[2] = CLAMP(menuStory->unk_0028[2], 1, temp);
+    i = func_800519EC(menuStory);
+    menuStory->unk_0028[2] = CLAMP(menuStory->unk_0028[2], 1, i);
 
     if (var_s3 < 0) {
         if ((temp_s4 & 0x9000) && (menuStory->unk_0024 == 2)) {
@@ -7454,7 +7448,7 @@ void menuStory_input(MenuStory *menuStory) {
             temp_s5->unk_02 = menuStory->unk_0EC0.unk_0C - 1;
             temp_s5->unk_03 = menuStory->unk_0028[0];
 
-            evs_story_level = func_80055FB8_cn(menuStory);
+            evs_story_level = func_800519CC(menuStory);
 
             evs_story_no = menuStory->unk_0EC0.unk_0C;
 
@@ -7466,25 +7460,26 @@ void menuStory_input(MenuStory *menuStory) {
             if (menuStory->unk_0028[0] == 1) {
                 story_proc_no += 0xC;
             }
+
             evs_high_score = 0xDD18;
             evs_game_time = 0;
 
             if (evs_story_level < 3) {
-
                 for (i = 0; i < 9; i++) {
-                    evs_high_score = MAX((u32)evs_high_score, (u32)evs_mem_data[i].unk_28[evs_story_level].unk_0);
+                    evs_high_score = MAX(evs_high_score, evs_mem_data[i].unk_28[evs_story_level].unk_0);
                 }
             }
+
             var_s3 = SND_INDEX_62;
         } else if ((temp_s4 & 0x4000) && (menuStory->unk_0024 == 0)) {
-            func_8005FF3C_cn(menuStory->watchMenuRef, 0);
+            _setMode(menuStory->watchMenuRef, MAINMENUMODE_MENUMAIN_0);
             func_80051480(menuStory, -1, 1.0f);
             var_s3 = SND_INDEX_68;
         }
     }
 
     if (var_s6) {
-        func_8002CE60_cn();
+        dm_snd_play_strange_sound();
     } else if (var_s3 >= 0) {
         dm_snd_play(var_s3);
     }
@@ -11186,7 +11181,7 @@ u16 _getKeyRep(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FEF0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", _getKeyRep);
 #endif
 
 #if VERSION_US
@@ -11212,7 +11207,7 @@ void _setMode(struct_watchMenu *watchMenuRef, MainMenuMode arg1) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FF3C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", _setMode);
 #endif
 
 #if VERSION_US || VERSION_CN
