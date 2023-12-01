@@ -37,14 +37,10 @@ f32 func_80045DD0(f32 arg0, f32 arg1) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80045DD0);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 f32 func_80045E18(f32 arg0, f32 arg1) {
     return WrapF(0.0f, 1.0f, arg0 + arg1);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80045E18);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -363,7 +359,7 @@ void func_80046694(MenuItem *item, f32 arg1, f32 arg2) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800490E8_cn);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_800466A0(MenuItem *item, f32 arg1, f32 arg2) {
     item->unk_6C[0][3] = arg2;
     item->unk_6C[0][2] = arg1;
@@ -372,11 +368,7 @@ void func_800466A0(MenuItem *item, f32 arg1, f32 arg2) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800466A0);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_800466B8(MenuItem *item, f32 arg0, f32 arg1) {
     item->unk_6C[1][3] = arg1;
     item->unk_6C[1][2] = arg0;
@@ -385,21 +377,13 @@ void func_800466B8(MenuItem *item, f32 arg0, f32 arg1) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800466B8);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_800466D0(MenuItem *item) {
     item->colorCallback = colorFunc_cursor;
     item->unk_68 = 0.03125f;
     func_800466A0(item, 0.5f, 1.0f);
     func_800466B8(item, 1.0f, 1.0f);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800466D0);
 #endif
 
 #if VERSION_US
@@ -420,7 +404,7 @@ void func_80046734(MenuItem *item, f32 arg0, f32 arg1, f32 arg2) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800491A4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80046734);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -505,7 +489,7 @@ bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049528_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuItem_drawTex);
 #endif
 
 #if VERSION_US
@@ -546,7 +530,29 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80046C74);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80046C74);
+bool func_80046C74(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+    f32 sp28[4] = {
+        item->unk_0C[0],
+        item->unk_0C[1],
+        item->unk_30[0],
+        item->unk_30[1],
+    };
+    bool drawn;
+
+    item->unk_0C[0] += arg4;
+    item->unk_0C[1] += arg5;
+    item->unk_30[0] *= arg6;
+    item->unk_30[1] *= arg7;
+
+    drawn = menuItem_drawTex(item, gfxP, arg2, arg3);
+
+    item->unk_0C[0] = sp28[0];
+    item->unk_0C[1] = sp28[1];
+    item->unk_30[0] = sp28[2];
+    item->unk_30[1] = sp28[3];
+
+    return drawn;
+}
 #endif
 
 #if VERSION_US
@@ -1809,28 +1815,53 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80047584);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80047584);
+void func_80047584(struct_watchMenu_unk_02548 *arg0, MenuItem *item) {
+    func_800464F8(arg0->unk_10, 2, item);
+}
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuTitle_draw);
 #endif
 
+s32 func_80049988_cn(MenuItem *item, Gfx **gfxP, TiTexData *tiTexData, s32 arg3, s32 arg4, s32 arg5);
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuTitle_draw);
+void menuTitle_draw(struct_watchMenu_unk_02548 *arg0, Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
+    s32 var_s0;
+    TiTexData *temp_s6;
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+    temp_s6 = _getTexCommon(arg0->watchMenuRef, 0xF);
+
+    for (var_s0 = 0; var_s0 < 2U; var_s0++) {
+        s32 temp_a1 = (arg0->unk_04 + var_s0 + 1) % 2U;
+        MenuItem *item;
+
+        if (arg0->unk_08[temp_a1] < 0) {
+            continue;
+        }
+
+        item = &arg0->unk_10[temp_a1];
+        if (item->color.v.a == 1.0f) {
+            gDPSetRenderMode(gfx++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+        } else {
+            gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+        }
+        func_80049988_cn(&arg0->unk_10[temp_a1], &gfx, temp_s6, 0, 0xC, arg0->unk_08[temp_a1]);
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _menuCursor_cursor_4_pattern);
 #endif
 
-extern f32 _color_1040[][3];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _color_1040);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _pnts_1106);
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5CF8_cn);
 #endif
 
 #if VERSION_US
@@ -1843,7 +1874,7 @@ void func_80047720(MenuCursor *cursor, s32 arg1, s32 arg2) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A19C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80047720);
 #endif
 
 #if VERSION_US
@@ -1854,14 +1885,28 @@ void func_800477BC(MenuCursor *cursor, s32 arg1, s32 arg2) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A240_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800477BC);
 #endif
 
+extern const f32 _color_1040[][3];
 #if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _color_1040);
+#endif
+
+#if VERSION_CN
+const f32 _color_1040[][3] = {
+    { 1.0f, 0.3f, 0.3f },
+    { 0.3f, 0.3f, 1.0f },
+    { 1.0f, 1.0f, 0.0f },
+    { 0.0f, 1.0f, 0.0f },
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3, s32 arg4, s32 arg5,
                       s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
-    MenuItem *temp_s1;
-    u32 i;
+    MenuItem *item;
+    s32 i;
 
     if (arg2 < 2U) {
         arg2 = 3;
@@ -1882,12 +1927,12 @@ void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 ar
 
     menuItem_init(&cursor->unk_020, arg6, arg7);
 
-    temp_s1 = &cursor->unk_0B0;
-    menuItem_init(temp_s1, 0, 0);
-    func_80046734(temp_s1, _color_1040[arg5 % 4U][0], _color_1040[arg5 % 4U][1], _color_1040[arg5 % 4U][2]);
+    item = &cursor->unk_0B0;
+    menuItem_init(item, 0, 0);
+    func_80046734(item, _color_1040[arg5 % ARRAY_COUNTU(_color_1040)][0], _color_1040[arg5 % ARRAY_COUNTU(_color_1040)][1], _color_1040[arg5 % ARRAY_COUNTU(_color_1040)][2]);
     if (arg2 == 3) {
-        for (i = 0; i < ARRAY_COUNTU(*temp_s1->unk_6C); i++) {
-            temp_s1->unk_6C[0][i] = temp_s1->unk_6C[1][i];
+        for (i = 0; i < ARRAY_COUNTU(item->unk_6C[0]); i++) {
+            item->unk_6C[0][i] = item->unk_6C[1][i];
         }
     }
 
@@ -1899,8 +1944,8 @@ void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 ar
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuCursor_init2);
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _pnts_1106);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -2675,14 +2720,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A4EC_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5CF8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5D70_cn);
-#endif
-
-#if VERSION_CN
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5DA0_cn);
 #endif
 
@@ -2805,7 +2842,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004BF44_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C008_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800492D8);
 #endif
 
 #if VERSION_CN
@@ -2961,7 +2998,7 @@ void func_8004970C(MenuMes *mes, const char *arg1) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C5A8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049754);
 #endif
 
 #if VERSION_CN
@@ -3487,26 +3524,6 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800AFBB0);
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800AFBD8);
 #endif
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800AFBE0);
-#endif
-
-extern const s32 _posDesc_2860[][2];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _posDesc_2860);
-#endif
-
-extern const s32 _posLine_2861[][2];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _posLine_2861);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _line_2914);
-#endif
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800AFC20);
-#endif
 
 #if VERSION_US || VERSION_CN
 void func_8004A860(MenuNumber *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
@@ -3616,8 +3633,15 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6270_cn);
 #endif
 
 extern const f32 RO_800AFBE0[3];
-
 #if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800AFBE0);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800AFBE0);
+#endif
+
+#if VERSION_US || VERSION_CN
 void menuCont_setFade(MenuCont *cont, s32 arg1, f32 arg2) {
     MenuItem *sp10[ARRAY_COUNTU(cont->unk_094) + ARRAY_COUNTU(cont->unk_364) + ARRAY_COUNTU(cont->unk_3F4) +
                    ARRAY_COUNTU(cont->unk_484)];
@@ -3657,15 +3681,28 @@ void menuCont_setFade(MenuCont *cont, s32 arg1, f32 arg2) {
         MenuItem *var_v1_5 = &cont->unk_364[i];
 
         for (j = 0; j < ARRAY_COUNT(RO_800AFBE0); j++) {
-            var_v1_5->unk_6C[1][j] = RO_800AFBE0[j];
-            var_v1_5->unk_6C[0][j] = RO_800AFBE0[j];
+            var_v1_5->unk_6C[0][j] = var_v1_5->unk_6C[1][j] = RO_800AFBE0[j];
         }
     }
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuCont_setFade);
+extern const s32 _posDesc_2860[][2];
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _posDesc_2860);
+#endif
+
+extern const s32 _posLine_2861[][2];
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _posLine_2861);
+#endif
+
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _line_2914);
+#endif
+
+#if VERSION_US
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800AFC20);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -3723,7 +3760,7 @@ void func_8004B488(MenuCont *cont, MenuItem *parentItem) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004E714_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B488);
 #endif
 
 extern const s32 _panel_3220[];
@@ -3853,7 +3890,7 @@ void func_8004B98C(MenuMainPanel *arg0, MenuItem *parentItem) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004ED54_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B98C);
 #endif
 
 #if VERSION_US
@@ -4112,7 +4149,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004F79C_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004F888_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuNameSelPanel_update);
 #endif
 
 #if VERSION_CN
@@ -4206,7 +4243,7 @@ void func_8004CA30(MenuNameOpPanel *nameOpPanel, MenuItem *parentItem) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050180_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004CA30);
 #endif
 
 extern const s32 _panel_3859[][2];
@@ -4990,7 +5027,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050670_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050814_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004CFB8);
 #endif
 
 #if VERSION_CN
@@ -11137,7 +11174,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE90_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FEA0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", _getRootItem);
 #endif
 
 #if VERSION_CN
