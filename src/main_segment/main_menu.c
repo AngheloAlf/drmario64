@@ -33,13 +33,21 @@ f32 func_80045DD0(f32 arg0, f32 arg1) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80045DD0);
+#endif
+
 #if VERSION_US
 f32 func_80045E18(f32 arg0, f32 arg1) {
     return WrapF(0.0f, 1.0f, arg0 + arg1);
 }
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80045E18);
+#endif
+
+#if VERSION_US || VERSION_CN
 f32 func_80045E48(f32 arg0) {
     if (arg0 < 0.5) {
         arg0 = SQ(arg0);
@@ -56,7 +64,11 @@ f32 func_80045E48(f32 arg0) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80045E94);
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004872C_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 void transFunc_curve(MenuItem *item) {
     s32 i;
     f32 temp_ft0;
@@ -88,11 +100,19 @@ void transFunc_finger(MenuItem *item) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048854_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80046008);
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004892C_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 void scaleFunc_curve(MenuItem *item) {
     s32 i;
     f32 temp_ft0;
@@ -112,7 +132,11 @@ void scaleFunc_curve(MenuItem *item) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800460DC);
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048A54_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 void colorFunc_curve(MenuItem *item) {
     s32 i;
     f32 temp_ft0;
@@ -128,7 +152,7 @@ void colorFunc_curve(MenuItem *item) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void colorFunc_cursor(MenuItem *item) {
     s32 i;
     f32 temp_fv0;
@@ -142,50 +166,6 @@ void colorFunc_cursor(MenuItem *item) {
         item->color.arr[i] = item->unk_6C[0][i] + (item->unk_6C[1][i] - item->unk_6C[0][i]) * temp_fv0_2;
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048660_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048698_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800486D4_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004872C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", transFunc_curve);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048854_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004892C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", scaleFunc_curve);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048A54_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", colorFunc_curve);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", colorFunc_cursor);
 #endif
 
 #if VERSION_US || VERSION_CN
