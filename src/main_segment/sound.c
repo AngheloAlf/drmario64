@@ -363,7 +363,7 @@ void dm_seq_play_fade(SeqIndex seqIndex, s32 arg1) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", func_8002C9F0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/sound", dm_seq_play_fade);
 #endif
 
 /**

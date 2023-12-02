@@ -1199,8 +1199,8 @@ void font16_initDL2(Gfx **gfxP) {
 /**
  * Original name: fontXX_draw
  */
-bool fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const unsigned char *arg5) {
-    return fontXX_drawID(gfxP, x, y, width, height, font2index(arg5));
+void fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const unsigned char *arg5) {
+    fontXX_drawID(gfxP, x, y, width, height, font2index(arg5));
 }
 
 /**

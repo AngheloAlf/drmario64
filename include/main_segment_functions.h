@@ -134,8 +134,8 @@ void func_80049894(MenuSpeedAsk *arg0, struct_watchMenu *watchMenuRef, s32 arg2,
                    s32 arg5);
 void func_800498C4(MenuSpeedAsk *arg0, MenuItem *arg1);
 UNK_RET menuSpeedAsk_draw(MenuSpeedAsk *speedAskP[], s32, Gfx **gxfP);
-void menuSpeedItem_init(MenuSpeedItem *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-void func_80049C54(MenuSpeedItem *arg0, s32 arg1);
+void menuSpeedItem_init(MenuSpeedItem *speedItem, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
+void func_80049C54(MenuSpeedItem *speedItem, s32 arg1);
 void menuSpeedItem_update(MenuSpeedItem *arg0, MenuItem *arg1);
 void menuSpeedItem_draw1(MenuSpeedItem **speedItemP, s32 count, Gfx **gfxP);
 UNK_RET func_8004A160(MenuSpeedItem *speedItemP[], s32, Gfx **gxfP);
@@ -149,7 +149,7 @@ void menuMusicItem_draw2(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP);
 void func_8004A814(MenuMusicItem *musicItemArr[], s32 arg1, Gfx **gfxP);
 void func_8004A860(MenuNumber *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4,
                    s32 arg5, s32 arg6);
-void menuNumber_update(MenuNumber *arg0, MenuItem *arg1);
+void menuNumber_update(MenuNumber *menuNumber, MenuItem *item);
 UNK_RET menuNumber_draw(MenuNumber *numberP[], s32 arg1, Gfx **gxfP);
 void func_8004AC98(MenuComLvPanel *comLvPanel, s32 arg1, f32 arg2);
 void func_8004ACF4(MenuComLvPanel *comLvPanel, s32 arg1);
@@ -345,7 +345,7 @@ s32 font2index(const unsigned char *arg0);
 void ascii2index(s32 character, s32 arg1, s32 *indexP, s32 *sizeP);
 void font16_initDL(Gfx **gfxP);
 void font16_initDL2(Gfx **gfxP);
-bool fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const unsigned char *arg5);
+void fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const unsigned char *arg5);
 bool fontXX_drawID(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index);
 bool fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsigned char *arg5);
 bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
