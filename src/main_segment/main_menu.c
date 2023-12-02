@@ -1888,7 +1888,7 @@ void func_800477BC(MenuCursor *cursor, s32 arg1, s32 arg2) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800477BC);
 #endif
 
-extern const f32 _color_1040[][3];
+extern const f32 _color_1040[4][3];
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _color_1040);
 #endif
