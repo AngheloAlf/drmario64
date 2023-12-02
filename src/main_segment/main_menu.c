@@ -1888,8 +1888,8 @@ void func_800477BC(MenuCursor *cursor, s32 arg1, s32 arg2) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800477BC);
 #endif
 
-extern const f32 _color_1040[4][3];
 #if VERSION_US
+extern const f32 _color_1040[4][3];
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _color_1040);
 #endif
 
@@ -1943,6 +1943,8 @@ void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 ar
     menuItem_init(&cursor->unk_1D0, 0, 0);
     func_800477BC(cursor, -0x10, arg9 - 0x16);
 }
+#else
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuCursor_init2);
 #endif
 
 #if VERSION_US
