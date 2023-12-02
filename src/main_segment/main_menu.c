@@ -8042,7 +8042,7 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
             break;
     }
 
-    if (sndIndex > SND_INDEX_INVALID) {
+    if (sndIndex >= SND_INDEX_INVALID + 1) {
         dm_snd_play(sndIndex);
         return;
     }
