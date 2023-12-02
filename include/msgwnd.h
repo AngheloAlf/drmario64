@@ -25,7 +25,7 @@ typedef struct MessageWnd {
     /* 0x1C */ UNK_TYPE unk_1C;
     /* 0x20 */ s32 unk_20;
     /* 0x24 */ s32 unk_24;
-    /* 0x28 */ UNK_TYPE unk_28;
+    /* 0x28 */ UNK_TYPE unk_28; // maybe a 2-array?
     /* 0x2C */ UNK_TYPE unk_2C;
     /* 0x30 */ UNK_TYPE unk_30;
     /* 0x34 */ UNK_TYPE unk_34;

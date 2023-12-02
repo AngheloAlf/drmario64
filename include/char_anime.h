@@ -59,10 +59,7 @@ typedef struct AnimeState {
     /* 0x20 */ UNK_TYPE4 unk_20;
     /* 0x24 */ struct_800B1B00 unk_24;
     /* 0x2C */ CharAnimeMode animeMode;
-    /* 0x30 */ s32 primColorR;
-    /* 0x34 */ s32 primColorG;
-    /* 0x38 */ s32 primColorB;
-    /* 0x3C */ s32 primColorA;
+    /* 0x30 */ s32 primColor[4];
 } AnimeState; // size = 0x40
 
 typedef struct AnimeSmog_unk_100 {

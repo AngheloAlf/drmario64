@@ -215,10 +215,10 @@ void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, TiTexData *a
     animeState->unk_24.unk_0 = arg3;
     animeState->unk_24.unk_4 = arg4;
     animeState->animeMode = animeMode;
-    animeState->primColorR = 255;
-    animeState->primColorG = 255;
-    animeState->primColorB = 255;
-    animeState->primColorA = 255;
+    animeState->primColor[0] = 255;
+    animeState->primColor[1] = 255;
+    animeState->primColor[2] = 255;
+    animeState->primColor[3] = 255;
 }
 #endif
 
@@ -257,10 +257,10 @@ void animeState_initDL(AnimeState *animeState, Gfx **gfxP) {
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gDPSetCombineMode(gfx++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-    gDPSetPrimColor(gfx++, 0, 0, animeState->primColorR, animeState->primColorG, animeState->primColorB,
-                    animeState->primColorA);
+    gDPSetPrimColor(gfx++, 0, 0, animeState->primColor[0], animeState->primColor[1], animeState->primColor[2],
+                    animeState->primColor[3]);
 
-    if (animeState->primColorA < 255) {
+    if (animeState->primColor[3] < 255) {
         gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     }
 
@@ -278,10 +278,10 @@ void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gDPSetCombineLERP(gfx++, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, TEXEL0, ENVIRONMENT,
                       PRIMITIVE, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-    gDPSetPrimColor(gfx++, 0, 0, animeState->primColorR, animeState->primColorG, animeState->primColorB,
-                    animeState->primColorA);
+    gDPSetPrimColor(gfx++, 0, 0, animeState->primColor[0], animeState->primColor[1], animeState->primColor[2],
+                    animeState->primColor[3]);
     gDPSetEnvColor(gfx++, 0, 0, 0, 255);
-    if (animeState->primColorA < 255) {
+    if (animeState->primColor[3] < 255) {
         gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     }
     *gfxP = gfx;
@@ -300,8 +300,8 @@ void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetCombineLERP(gfx++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-    gDPSetPrimColor(gfx++, 0, 0, animeState->primColorR, animeState->primColorG, animeState->primColorB,
-                    animeState->primColorA);
+    gDPSetPrimColor(gfx++, 0, 0, animeState->primColor[0], animeState->primColor[1], animeState->primColor[2],
+                    animeState->primColor[3]);
     gDPSetEnvColor(gfx++, 0, 0, 0, 255);
 
     *gfxP = gfx;

@@ -5035,7 +5035,7 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
         for (i = 0; i < ARRAY_COUNT(watchGameP->animeStates); i++) {
             AnimeState *temp = &watchGameP->animeStates[i];
 
-            temp->primColorR = temp->primColorG = temp->primColorB = var_a2;
+            temp->primColor[0] = temp->primColor[1] = temp->primColor[2] = var_a2;
         }
 
         watchGameP->unk_414 += 1;

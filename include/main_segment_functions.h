@@ -97,7 +97,7 @@ bool func_8004714C(MenuItem *item, Gfx **gxfP, struct TiTexData *arg2, struct Ti
 // void func_800472D0();
 void func_80047420(struct_watchMenu_unk_02548 *arg0, MainMenuMode arg1);
 void func_800474EC(struct_watchMenu_unk_02548 *arg0, struct_watchMenu *watchMenuRef, UNK_TYPE arg2, UNK_TYPE arg3);
-void func_80047584(struct_watchMenu_unk_02548 *arg0, MenuItem *arg1);
+void func_80047584(struct_watchMenu_unk_02548 *arg0, MenuItem *item);
 void menuTitle_draw(struct_watchMenu_unk_02548 *arg0, Gfx **gfxP);
 void func_80047720(MenuCursor *cursor, s32 arg1, s32 arg2);
 void func_800477BC(MenuCursor *cursor, s32 arg1, s32 arg2);

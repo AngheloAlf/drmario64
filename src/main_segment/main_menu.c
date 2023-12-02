@@ -467,7 +467,7 @@ bool menuItem_outOfScreen(MenuItem *item, s32 arg1, s32 arg2) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004947C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuItem_outOfScreen);
 #endif
 
 #if VERSION_US
@@ -1929,7 +1929,8 @@ void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 ar
 
     item = &cursor->unk_0B0;
     menuItem_init(item, 0, 0);
-    func_80046734(item, _color_1040[arg5 % ARRAY_COUNTU(_color_1040)][0], _color_1040[arg5 % ARRAY_COUNTU(_color_1040)][1], _color_1040[arg5 % ARRAY_COUNTU(_color_1040)][2]);
+    func_80046734(item, _color_1040[arg5 % ARRAY_COUNTU(_color_1040)][0],
+                  _color_1040[arg5 % ARRAY_COUNTU(_color_1040)][1], _color_1040[arg5 % ARRAY_COUNTU(_color_1040)][2]);
     if (arg2 == 3) {
         for (i = 0; i < ARRAY_COUNTU(item->unk_6C[0]); i++) {
             item->unk_6C[0][i] = item->unk_6C[1][i];
@@ -2846,7 +2847,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800492D8);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C0AC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuYN_draw);
 #endif
 
 #if VERSION_CN
@@ -3002,7 +3003,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049754);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C648_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800497D0);
 #endif
 
 #if VERSION_US
@@ -3834,7 +3835,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuCont_draw);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004E7CC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuCont_draw);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -3918,7 +3919,7 @@ void menuMainPanel_draw(MenuMainPanel *arg0, Gfx **gfxP) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004EDE0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMainPanel_draw);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -4153,7 +4154,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuNameSelPanel_updat
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004FAD4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuNameSelPanel_draw);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -4290,7 +4291,7 @@ void menuNameOpPanel_draw(MenuNameOpPanel *nameOpPanel, Gfx **gfxP) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050224_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuNameOpPanel_draw);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -4675,10 +4676,10 @@ void menuPlay2Panel_update(MenuPlay2Panel *play2Panel, MenuItem *parentItem) {
 
         case 1:
             if (play2Panel->unk_0030.b.bit_30) {
-                play2Panel->unk_0C90.primColorR = play2Panel->unk_00C4.color.v.r * 255;
-                play2Panel->unk_0C90.primColorG = play2Panel->unk_00C4.color.v.g * 255;
-                play2Panel->unk_0C90.primColorB = play2Panel->unk_00C4.color.v.b * 255;
-                play2Panel->unk_0C90.primColorA = play2Panel->unk_00C4.color.v.a * 255;
+                play2Panel->unk_0C90.primColor[0] = play2Panel->unk_00C4.color.v.r * 255;
+                play2Panel->unk_0C90.primColor[1] = play2Panel->unk_00C4.color.v.g * 255;
+                play2Panel->unk_0C90.primColor[2] = play2Panel->unk_00C4.color.v.b * 255;
+                play2Panel->unk_0C90.primColor[3] = play2Panel->unk_00C4.color.v.a * 255;
                 animeState_update(&play2Panel->unk_0C90);
             }
             break;
@@ -5031,7 +5032,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004CFB8);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800508F8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuSndSelPanel_draw);
 #endif
 
 #if VERSION_CN
@@ -6839,10 +6840,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuMain_input);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMain_input);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void menuMain_update(MenuMain *menuMain) {
     MenuMainPanel *temp_s5 = &menuMain->unk_003C[menuMain->unk_2300];
     MenuItem *rootItem = _getRootItem(menuMain->watchMenuRef);
+    MenuItem *item;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNTU(menuMain->unk_003C); i++) {
@@ -6854,8 +6856,9 @@ void menuMain_update(MenuMain *menuMain) {
     func_8004CFB8(&menuMain->unk_1C64, rootItem);
     func_800464BC(&menuMain->unk_2388, rootItem);
 
-    menuMain->unk_2308.unk_28 = menuMain->unk_2388.unk_0C[0] + menuMain->unk_2388.unk_30[0] * 6;
-    menuMain->unk_2308.unk_2C = menuMain->unk_2388.unk_0C[1] + menuMain->unk_2388.unk_30[1] * 6;
+    item = &menuMain->unk_2388;
+    menuMain->unk_2308.unk_28 = item->unk_0C[0] + item->unk_30[0] * 6;
+    menuMain->unk_2308.unk_2C = item->unk_0C[1] + item->unk_30[1] * 6;
 
     if (!menuMain_setMsgStr(menuMain, menuMain->mode, menuMain->unk_000C[menuMain->unk_0008])) {
         msgWnd_update(&menuMain->unk_2308);
@@ -6906,10 +6909,6 @@ void menuMain_update(MenuMain *menuMain) {
             break;
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMain_update);
 #endif
 
 extern const s32 _pat_6137[];
@@ -7116,10 +7115,10 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6FC8_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80054E34_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMain_drawKaSaMaRu);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void menuMain_draw(MenuMain *menuMain, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 i;
@@ -7147,10 +7146,6 @@ void menuMain_draw(MenuMain *menuMain, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMain_draw);
 #endif
 
 extern const s32 _pos_6413[][9][2];
@@ -7353,7 +7348,15 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800519CC);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800519CC);
+s32 func_800519CC(MenuStory *menuStory) {
+    s32 var_v1;
+
+    var_v1 = menuStory->unk_085C.unk_008;
+    if (var_v1 == 2) {
+        var_v1 = menuStory->unk_085C.unk_010 + 2;
+    }
+    return var_v1;
+}
 #endif
 
 s32 func_800519EC(MenuStory *menuStory);
@@ -7363,7 +7366,9 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800519EC);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800519EC);
+s32 func_800519EC(MenuStory *menuStory) {
+    return menuStory->unk_0004[func_800519CC(menuStory)][menuStory->unk_0028[0]];
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -7528,8 +7533,163 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _cursor_7325);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuStory_update);
 #endif
 
+void func_800490D0_cn(MenuItem *, f32, f32);
+//? func_8004A4EC_cn(MenuCursor *, MenuItem *);       /* extern */
+//? func_8004C778_cn(MenuSpeedAsk *, MenuItem *);     /* extern */
+//? func_8004CC50_cn(MenuSpeedItem *, MenuItem *);    /* extern */
+//? func_8004DA14_cn(MenuNumber *, MenuItem *);       /* extern */
+
 #if VERSION_CN
+#if 0
+void menuStory_update(MenuStory *menuStory) {
+    s32 sp20;
+    s32 sp24;
+    AnimeState *var_s0_2;
+    Color_RGBAf32 *var_a0_2;
+    Color_RGBAf32 *var_a2_2;
+    MenuCursor *var_s0_3;
+    MenuCursor *var_s0_5;
+    MenuItem *temp_s0;
+    MenuItem *temp_s2;
+    MenuItem *temp_s4;
+    MenuItem *temp_s5;
+    MenuItem *temp_s7;
+    MenuItem *var_s0;
+    MenuItem *var_s0_4;
+    MenuItem *var_s2;
+    enum bool temp_t1_2;
+    f32 *var_v1_3;
+    f32 temp_fv0;
+    f32 temp_fv0_2;
+    s32 *var_a0;
+    s32 temp_a0;
+    s32 temp_a0_2;
+    s32 temp_a2;
+    s32 temp_s1;
+    s32 temp_t0;
+    s32 temp_t1;
+    s32 var_a1;
+    s32 var_s1_4;
+    s32 var_s1_5;
+    s32 var_v0;
+    s32 var_v1_2;
+    u32 var_s1;
+    u32 var_s1_2;
+    u32 var_s1_3;
+    u32 var_s1_6;
+    u32 var_s1_7;
+    u32 var_s1_8;
+    u32 var_t1;
+    u32 var_t1_2;
+    union _anonymous *var_a2;
+
+    temp_s7 = _getRootItem(menuStory->watchMenuRef);
+    menuStory->unk_07C0.unk_8 = func_800519CC(menuStory);
+    menuStory->unk_0EC0.unk_0C = menuStory->unk_0028[2];
+
+    temp_s4 = &menuStory->unk_0040;
+    func_800464BC(temp_s4, temp_s7);
+
+    for (var_s1 = 0; var_s1 < 2U; var_s1++) {
+        var_a1 = -1;
+        if (var_s1 == menuStory->unk_0028[0]) {
+            var_a1 = 1;
+        }
+        func_80046614(&menuStory->unk_0160[var_s1], var_a1);
+    }
+
+    func_800464BC(&menuStory->unk_00D0, temp_s4);
+    func_800464F8(menuStory->unk_0160, 2, temp_s4);
+
+    for (var_s1_2 = 0; var_s1_2 < 2U; var_s1_2++) {
+        var_s0_2 = &menuStory->unk_0280[var_s1_2];
+
+        if (menuStory->unk_0034 != false) {
+            animeState_update(var_s0_2);
+
+            for (var_t1 = 0; var_t1 < 4U; var_t1++) {
+                var_s0_2->primColor[var_t1] = menuStory->unk_0160[0].color.arr[var_t1] * 255.0f;
+            }
+        }
+    }
+
+    for (var_s1_3 = 0; var_s1_3 < 2U; var_s1_3++) {
+        func_8004A4EC_cn(&menuStory->unk_0300[var_s1_3], temp_s4);
+    }
+
+    if (menuStory->unk_0024 != 1) {
+        menuStory->unk_085C.unk_404.unk_020.unk_64 = 1.0f;
+    }
+
+    func_8004C778_cn(&menuStory->unk_07C0, temp_s4);
+    func_8004CC50_cn(&menuStory->unk_085C, temp_s4);
+    func_8004DA14_cn(&menuStory->unk_0EC0, temp_s4);
+    temp_s5 = &menuStory->unk_0F6C;
+    func_800464BC(temp_s5, temp_s4);
+    var_s1_4 = 1;
+    if (menuStory->unk_0028[2] >= 5) {
+        var_s1_4 = -1;
+    }
+
+    // fake?
+    temp_s0 = menuStory->unk_0FFC;
+    func_80046614(temp_s0, var_s1_4);
+    func_80046614(&menuStory->unk_0FFC[1], -var_s1_4);
+    func_800464F8(temp_s0, 2, temp_s5);
+
+    for (var_s1_5 = 0; var_s1_5 < 2U; var_s1_5++) {
+        var_s0_4 = &menuStory->unk_123C[var_s1_5];
+        var_s2 = &menuStory->unk_0FFC[var_s1_5];
+
+        func_800513F0(menuStory->unk_0028[0], menuStory->unk_0028[2], var_s1_5, &sp20, &sp24);
+        func_800490D0_cn(var_s0_4, (f32) sp20, (f32) sp24);
+        func_800464BC(var_s0_4, var_s2);
+    }
+
+    temp_s2 = menuStory->unk_111C;
+    func_800464F8(temp_s2, 2, temp_s5);
+
+    temp_s1 = func_800519EC(menuStory);
+    if ((menuStory->unk_0028[2] >= 5) || ((temp_s1 < 5) != 0)) {
+        temp_s2[1].color.v.a = 0;
+    }
+    if (menuStory->unk_0028[2] < 5) {
+        temp_s2->color.v.a = 0.0f;
+    }
+
+    for (var_s1_6 = 0; var_s1_6 < 3U; var_s1_6++) {
+        func_8004A4EC_cn(&menuStory->unk_135C[var_s1_6], temp_s4);
+    }
+
+    temp_t1 = menuStory->unk_0024 == 0;
+    for (var_s1_7 = 0; var_s1_7 < 2U; var_s1_7++) {
+        menuStory->unk_135C[0].unk_01C.b.unk_31 = temp_t1;
+        menuStory->unk_0300[var_s1_7].unk_01C.b.unk_28 = temp_t1;
+        temp_a0_2 = menuStory->unk_0028[0];
+        var_v1_2 = 0;
+        if (temp_t1 != 0) {
+            var_v1_2 = var_s1_7 == temp_a0_2;
+        }
+        menuStory->unk_0300[temp_a0_2].unk_01C.b.unk_30 = var_v1_2;
+    }
+
+    temp_t0 = menuStory->unk_0024;
+    temp_t1_2 = temp_t0 == 1;
+    menuStory->unk_085C.unk_00C = temp_t1_2;
+    menuStory->unk_135C[1].unk_01C.w = (menuStory->unk_135C[1].unk_01C.w & 0x7FFFFFFF) | (temp_t1_2 << 0x1F);
+    menuStory->unk_085C.unk_404.unk_01C.w = (menuStory->unk_085C.unk_404.unk_01C.w & 0xBFFFFFFF) | (temp_t1_2 << 0x1E);
+    menuStory->unk_135C[2].unk_01C.w = (menuStory->unk_135C[2].unk_01C.w & 0x7FFFFFFF) | ((temp_t0 == 2) << 0x1F);
+    if (temp_t0 != 2) {
+        for (var_s1_8 = 0; var_s1_8 < 2U; var_s1_8++) {
+            for (var_t1_2 = 0; var_t1_2 < 3U; var_t1_2++) {
+                temp_s2->color.arr[var_t1_2] = temp_s2->unk_6C[1][var_t1_2] * temp_s7->color.arr[var_t1_2];
+            }
+        }
+    }
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuStory_update);
+#endif
 #endif
 
 #if VERSION_US
@@ -11126,7 +11286,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDD0_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDE0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", _getTexMain);
 #endif
 
 #if VERSION_CN
