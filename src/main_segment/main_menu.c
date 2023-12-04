@@ -7436,12 +7436,6 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _cursor_7325);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuStory_update);
 #endif
 
-/*item* /*arg1*/ /*arg2*/ /
-//? menuCursor_update(MenuCursor *, MenuItem *);       /* extern */
-//? func_800498C4(MenuSpeedAsk *, MenuItem *);     /* extern */
-//? menuSpeedItem_update(MenuSpeedItem *, MenuItem *);    /* extern */
-//? menuNumber_update(MenuNumber *, MenuItem *);       /* extern */
-
 #if VERSION_CN
 #if 0
 void menuStory_update(MenuStory *menuStory) {
