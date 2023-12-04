@@ -142,8 +142,8 @@ UNK_RET func_8004A160(MenuSpeedItem *speedItemP[], s32, Gfx **gxfP);
 // void func_8004A1F4();
 void menuMusicItem_init(MenuMusicItem *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3,
                         s32 arg4);
-void menuMusicItem_input(MenuMusicItem *arg0, s32 arg1);
-void menuMusicItem_update(MenuMusicItem *arg0, MenuItem *arg1);
+void menuMusicItem_input(MenuMusicItem *menuMusicItem, s32 arg1);
+void menuMusicItem_update(MenuMusicItem *menuMusicItem, MenuItem *arg1);
 void menuMusicItem_draw1(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP);
 void menuMusicItem_draw2(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP);
 void func_8004A814(MenuMusicItem *musicItemArr[], s32 arg1, Gfx **gfxP);
