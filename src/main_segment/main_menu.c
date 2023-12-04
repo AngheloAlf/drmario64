@@ -97,7 +97,7 @@ void transFunc_finger(MenuItem *item) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048854_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", transFunc_finger);
 #endif
 
 #if VERSION_US
@@ -323,7 +323,7 @@ void func_80046670(MenuItem *item, f32 arg1, f32 arg2) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800490C4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80046670);
 #endif
 
 #if VERSION_US
@@ -334,7 +334,7 @@ void func_8004667C(MenuItem *item, f32 arg1, f32 arg2) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800490D0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004667C);
 #endif
 
 #if VERSION_US
@@ -380,18 +380,18 @@ void func_800466B8(MenuItem *item, f32 arg0, f32 arg1) {
 #if VERSION_US || VERSION_CN
 void func_800466D0(MenuItem *item) {
     item->colorCallback = colorFunc_cursor;
-    item->unk_68 = 0.03125f;
+    item->unk_68 = 1.0f / 32.0f;
     func_800466A0(item, 0.5f, 1.0f);
     func_800466B8(item, 1.0f, 1.0f);
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_80046734(MenuItem *item, f32 arg0, f32 arg1, f32 arg2) {
     f32 sp10[] = { arg0, arg1, arg2 };
     s32 i;
 
-    item->unk_68 = 0.03125f;
+    item->unk_68 = 1.0f / 32.0f;
     item->colorCallback = colorFunc_cursor;
     func_800466A0(item, 0.5f, 1.0f);
     func_800466B8(item, 1.0f, 1.0f);
@@ -401,10 +401,6 @@ void func_80046734(MenuItem *item, f32 arg0, f32 arg1, f32 arg2) {
         item->unk_6C[1][i] = item->unk_6C[1][i] * sp10[i];
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80046734);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -470,7 +466,7 @@ bool menuItem_outOfScreen(MenuItem *item, s32 arg1, s32 arg2) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuItem_outOfScreen);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3) {
     if (menuItem_outOfScreen(item, arg2->unk_4[0], arg2->unk_4[1])) {
         return false;
@@ -486,10 +482,6 @@ bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3) {
     }
     return true;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuItem_drawTex);
 #endif
 
 #if VERSION_US
@@ -594,7 +586,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuItem_drawAlphaTex)
 #endif
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049754_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 bool func_80046F58(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5) {
     s32 temp_lo = arg2->unk_4[1] / arg4;
 
@@ -631,14 +627,6 @@ bool func_8004714C(MenuItem *item, Gfx **gxfP, TiTexData *arg2, TiTexData *arg3,
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800472D0);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049754_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80046F58);
 #endif
 
 #if VERSION_CN
@@ -1656,11 +1644,11 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _gameLvItemColor);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5BC8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _musicItemColor);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5BCC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800AF530);
 #endif
 
 #if VERSION_US
@@ -1864,28 +1852,22 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _menuCursor_cursor_
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5CF8_cn);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_80047720(MenuCursor *cursor, s32 arg1, s32 arg2) {
-    cursor->unk_140.transCallback = transFunc_finger;
-    cursor->unk_140.unk_18 = 0.03125f;
-    func_8004667C(&cursor->unk_140, arg1, arg2);
-    func_80046670(&cursor->unk_140, arg1 - 8, arg2);
+    MenuItem *item = &cursor->unk_140;
+
+    item->transCallback = transFunc_finger;
+    item->unk_18 = 1.0f / 32.0f;
+    func_8004667C(item, arg1, arg2);
+    func_80046670(item, arg1 - 8, arg2);
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80047720);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_800477BC(MenuCursor *cursor, s32 arg1, s32 arg2) {
     func_8004667C(&cursor->unk_1D0, arg1, arg2);
     func_80046670(&cursor->unk_1D0, arg1, arg2);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800477BC);
 #endif
 
 #if VERSION_US
@@ -1958,10 +1940,10 @@ void func_800479A8(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 arg2,
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void menuCursor_update(MenuCursor *cursor, MenuItem *arg1) {
     MenuItem *var_a0;
-    u32 i;
+    s32 i;
 
     func_800464BC(&cursor->unk_020, arg1);
     var_a0 = &cursor->unk_0B0;
@@ -2362,6 +2344,14 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuCursor_draw1);
 #endif
 #endif
 
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5DA0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuCursor_draw1);
+#endif
+
 extern const s32 _type_1345[][4];
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _type_1345);
@@ -2421,7 +2411,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuCursor_draw2);
 #endif
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuCursor_draw2);
+#endif
+
+#if VERSION_US || VERSION_CN
 void func_80048634(MenuCursor *cursorArr[], s32 count, Gfx **gxfP) {
     menuCursor_draw1(cursorArr, count, gxfP);
     menuCursor_draw2(cursorArr, count, gxfP);
@@ -2437,7 +2431,11 @@ void func_80048680(MenuBottle *bottle, struct_watchMenu *watchMenuRef, s32 arg2,
 }
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B230_cn);
+#endif
+
+#if VERSION_US || VERSION_CN
 void func_800486C8(MenuBottle *bottle, MenuItem *arg1) {
     func_800464BC(&bottle->unk_08, arg1);
     func_800464BC(&bottle->unk_98, &bottle->unk_08);
@@ -2660,6 +2658,14 @@ void func_80048B8C(MenuLvGauge *arg0, struct_watchMenu *watchMenuRef, s32 arg2, 
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B2F0_cn);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B7B4_cn);
+#endif
+
 #if VERSION_US
 void func_80048C48(MenuLvGauge *arg0, s32 arg1) {
     u16 keyRep = _getKeyRep(arg0->watchMenuRef, arg1);
@@ -2696,11 +2702,18 @@ void func_80048C48(MenuLvGauge *arg0, s32 arg1) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048C48);
+#endif
+
+#if VERSION_US || VERSION_CN
 void func_80048CC8(MenuLvGauge *arg0, MenuItem *arg1) {
+    MenuItem *itemTemp;
+
     func_800464BC(&arg0->unk_010, arg1);
 
-    arg0->unk_0A0.unk_020.unk_24[0] = arg0->unk_0A0.unk_020.unk_1C[0] + (_lvGauge_step[arg0->unk_004] * arg0->unk_00C);
+    itemTemp = &arg0->unk_0A0.unk_020;
+    itemTemp->unk_24[0] = itemTemp->unk_1C[0] + (_lvGauge_step[arg0->unk_004] * arg0->unk_00C);
 
     menuCursor_update(&arg0->unk_0A0, &arg0->unk_010);
 }
@@ -2716,50 +2729,6 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80048FA0);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80049034);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuCursor_update);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5DA0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A5D0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004AF9C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048634);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B230_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800486C8);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B2F0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004B7B4_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048C48);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048CC8);
 #endif
 
 #if VERSION_CN
@@ -2853,7 +2822,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C5F28_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6160_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _lvGauge_step);
 #endif
 
 #if VERSION_CN
@@ -3041,14 +3010,10 @@ void func_80049894(MenuSpeedAsk *arg0, struct_watchMenu *watchMenuRef, s32 arg2,
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_800498C4(MenuSpeedAsk *arg0, MenuItem *arg1) {
     func_800464BC(&arg0->unk_C, arg1);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800498C4);
 #endif
 
 #if VERSION_US
@@ -3131,7 +3096,7 @@ void menuSpeedItem_init(MenuSpeedItem *speedItem, struct_watchMenu *watchMenuRef
         menuItem_init(item, _pos_1959[arg2][0], _pos_1959[arg2][1]);
 
         item->colorCallback = colorFunc_cursor;
-        item->unk_68 = 0.03125f;
+        item->unk_68 = 1.0f / 32.0f;
 
         for (j = 0; j < ARRAY_COUNTU(item->unk_6C); j++) {
             s32 k;
@@ -3169,9 +3134,9 @@ void func_80049C54(MenuSpeedItem *speedItem, s32 arg1) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void menuSpeedItem_update(MenuSpeedItem *arg0, MenuItem *arg1) {
-    u32 i;
+    s32 i;
 
     func_800464BC(&arg0->unk_014, arg1);
     func_800464F8(arg0->unk_0A4, ARRAY_COUNT(arg0->unk_0A4), &arg0->unk_014);
@@ -3289,12 +3254,24 @@ void menuSpeedItem_draw1(MenuSpeedItem **speedItemP, s32 count, Gfx **gfxP) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004CE4C_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004A160);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D174_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004A1F4);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D218_cn);
 #endif
 
 #if VERSION_US
@@ -3318,7 +3295,7 @@ void menuMusicItem_init(MenuMusicItem *arg0, struct_watchMenu *watchMenuRef, s32
 
         menuItem_init(var_s0_2, -2, -2);
         var_s0_2->colorCallback = colorFunc_cursor;
-        var_s0_2->unk_68 = 0.03125f;
+        var_s0_2->unk_68 = 1.0f / 32.0f;
 
         for (j = 0; j < 2U; j++) {
             u32 k;
@@ -3334,62 +3311,66 @@ void menuMusicItem_init(MenuMusicItem *arg0, struct_watchMenu *watchMenuRef, s32
 }
 #endif
 
-extern const s32 _seq_2327[];
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D280_cn);
+#endif
+
+extern const SeqIndex _seq_2327[4];
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _seq_2327);
 #endif
 
-#if VERSION_US
-void menuMusicItem_input(MenuMusicItem *arg0, s32 arg1) {
-    s32 temp_a0;
-    s32 var_s0;
-    u16 temp_s2;
-    s32 temp;
-    s32 temp2;
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _seq_2327);
+#endif
 
-    temp_s2 = _getKeyRep(arg0->watchMenuRef, arg1);
-    temp2 = arg0->unk_008;
-    temp_a0 = arg0->unk_004;
-    temp = 0;
+#if VERSION_US || VERSION_CN
+void menuMusicItem_input(MenuMusicItem *menuMusicItem, s32 arg1) {
+    u16 keyRep = _getKeyRep(menuMusicItem->watchMenuRef, arg1);
+    s32 temp2 = menuMusicItem->unk_008;
+    s32 temp_a0 = menuMusicItem->unk_004;
+    s32 temp = 0;
+    s32 var_s0;
+
     if (temp2 != temp_a0) {
-        if (temp_a0 < 4U) {
-            dm_seq_play_fade((_seq_2327[temp_a0]), 0x14);
+        if (temp_a0 < ARRAY_COUNTU(_seq_2327)) {
+            dm_seq_play_fade(_seq_2327[temp_a0], 0x14);
         } else {
             dm_seq_stop();
         }
-        arg0->unk_008 = arg0->unk_004;
+        menuMusicItem->unk_008 = menuMusicItem->unk_004;
     }
 
-    if (temp_s2 & 0x200) {
+    if (keyRep & L_JPAD) {
         temp--;
     }
-    if (temp_s2 & 0x100) {
+    if (keyRep & R_JPAD) {
         temp++;
     }
 
-    var_s0 = CLAMP(arg0->unk_004 + temp, 0, 4);
-    if (var_s0 != arg0->unk_004) {
+    var_s0 = CLAMP(menuMusicItem->unk_004 + temp, 0, 4);
+    if (var_s0 != menuMusicItem->unk_004) {
         dm_snd_play(SND_INDEX_63);
-        arg0->unk_004 = var_s0;
+        menuMusicItem->unk_004 = var_s0;
     }
 }
 #endif
 
-#if VERSION_US
-void menuMusicItem_update(MenuMusicItem *arg0, MenuItem *arg1) {
-    u32 i;
+#if VERSION_US || VERSION_CN
+void menuMusicItem_update(MenuMusicItem *menuMusicItem, MenuItem *arg1) {
+    s32 i;
 
-    func_800464BC(&arg0->unk_010, arg1);
-    func_800464F8(arg0->unk_0A0, ARRAY_COUNT(arg0->unk_0A0), &arg0->unk_010);
+    func_800464BC(&menuMusicItem->unk_010, arg1);
+    func_800464F8(menuMusicItem->unk_0A0, ARRAY_COUNT(menuMusicItem->unk_0A0), &menuMusicItem->unk_010);
 
     for (i = 0; i < 5U; i++) {
-        MenuItem *temp_s0_2 = &arg0->unk_370[i];
+        MenuItem *temp_s0_2 = &menuMusicItem->unk_370[i];
         f32 *var_a1;
-        u32 j;
+        s32 j;
 
-        func_800464BC(temp_s0_2, &arg0->unk_0A0[i]);
-        if (i == arg0->unk_004) {
-            if (!arg0->unk_00C.b.unk_31) {
+        func_800464BC(temp_s0_2, &menuMusicItem->unk_0A0[i]);
+        if (i == menuMusicItem->unk_004) {
+            if (!menuMusicItem->unk_00C.b.unk_31) {
                 var_a1 = temp_s0_2->unk_6C[1];
             } else {
                 var_a1 = NULL;
@@ -3412,7 +3393,7 @@ void menuMusicItem_update(MenuMusicItem *arg0, MenuItem *arg1) {
         }
     }
 
-    menuCursor_update(&arg0->unk_640, &arg0->unk_0A0[arg0->unk_004]);
+    menuCursor_update(&menuMusicItem->unk_640, &menuMusicItem->unk_0A0[menuMusicItem->unk_004]);
 }
 #endif
 
@@ -3465,38 +3446,6 @@ void func_8004A814(MenuMusicItem *musicItemArr[], s32 arg1, Gfx **gfxP) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuSpeedItem_update);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004CE4C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D174_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D218_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D280_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMusicItem_input);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6228_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMusicItem_update);
-#endif
-
-#if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D760_cn);
 #endif
 
@@ -3544,6 +3493,10 @@ void menuNumber_update(MenuNumber *menuNumber, MenuItem *item) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuNumber_draw);
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuNumber_draw);
+#endif
+
 #if VERSION_US
 void func_8004AC98(MenuComLvPanel *comLvPanel, s32 arg1, f32 arg2) {
     func_800467E0(&comLvPanel->unk_008);
@@ -3552,14 +3505,26 @@ void func_8004AC98(MenuComLvPanel *comLvPanel, s32 arg1, f32 arg2) {
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DE20_cn);
+#endif
+
 #if VERSION_US
 void func_8004ACF4(MenuComLvPanel *comLvPanel, s32 arg1) {
     func_8004AC98(comLvPanel, arg1, comLvPanel->unk_008.unk_64);
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DE8C_cn);
+#endif
+
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004AD10);
+#endif
+
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DEB8_cn);
 #endif
 
 #if VERSION_US
@@ -3571,6 +3536,10 @@ void func_8004AD3C(MenuComLvPanel *arg0, struct_watchMenu *watchMenuRef, s32 arg
 }
 #endif
 
+#if VERSION_CN
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DEE0_cn);
+#endif
+
 #if VERSION_US
 void func_8004AD84(MenuComLvPanel *comLvPanel, MenuItem *parent) {
     func_800464BC(&comLvPanel->unk_008, parent);
@@ -3578,32 +3547,12 @@ void func_8004AD84(MenuComLvPanel *comLvPanel, MenuItem *parent) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuComLvPanel_draw);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuNumber_draw);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DE20_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DE8C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DEB8_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DEE0_cn);
-#endif
-
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004DF44_cn);
+#endif
+
+#if VERSION_US
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuComLvPanel_draw);
 #endif
 
 #if VERSION_CN
@@ -4013,7 +3962,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004C1F0);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004F79C_cn);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void menuNameSelPanel_update(MenuNameSelPanel *nameSelPanel, MenuItem *parentItem) {
     s32 i;
     s32 j;
@@ -4028,8 +3977,11 @@ void menuNameSelPanel_update(MenuNameSelPanel *nameSelPanel, MenuItem *parentIte
     for (i = 0; i < (nameSelPanel->unk_004 - 1); i++) {
         for (j = i + 1; j < nameSelPanel->unk_004; j++) {
             if (nameSelPanel->unk_014[i] == nameSelPanel->unk_014[j]) {
-                nameSelPanel->unk_5C8[i].unk_0B0.unk_6C[0][3] = 0.0f;
-                nameSelPanel->unk_5C8[j].unk_0B0.unk_6C[0][3] = 0.0f;
+                MenuItem *item = &nameSelPanel->unk_5C8[i].unk_0B0;
+                MenuItem *item2 = &nameSelPanel->unk_5C8[j].unk_0B0;
+
+                item->unk_6C[0][3] = 0.0f;
+                item2->unk_6C[0][3] = 0.0f;
             }
         }
     }
@@ -4053,10 +4005,6 @@ void menuNameSelPanel_update(MenuNameSelPanel *nameSelPanel, MenuItem *parentIte
         }
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuNameSelPanel_update);
 #endif
 
 extern const s32 _texEndOrGuest_3608[];
@@ -7493,7 +7441,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _cursor_7325);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuStory_update);
 #endif
 
-void func_800490D0_cn(MenuItem *, f32, f32);
+void func_8004667C(MenuItem *, f32, f32);
 //? menuCursor_update(MenuCursor *, MenuItem *);       /* extern */
 //? func_800498C4(MenuSpeedAsk *, MenuItem *);     /* extern */
 //? menuSpeedItem_update(MenuSpeedItem *, MenuItem *);    /* extern */
@@ -7602,7 +7550,7 @@ void menuStory_update(MenuStory *menuStory) {
         var_s2 = &menuStory->unk_0FFC[var_s1_5];
 
         func_800513F0(menuStory->unk_0028[0], menuStory->unk_0028[2], var_s1_5, &sp20, &sp24);
-        func_800490D0_cn(var_s0_4, (f32) sp20, (f32) sp24);
+        func_8004667C(var_s0_4, (f32) sp20, (f32) sp24);
         func_800464BC(var_s0_4, var_s2);
     }
 
