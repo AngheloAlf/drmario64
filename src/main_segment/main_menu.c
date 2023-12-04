@@ -7585,7 +7585,7 @@ void menuStory_update(MenuStory *menuStory) {
     }
 }
 #else
-    INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuStory_update);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuStory_update);
 #endif
 #endif
 
@@ -7817,7 +7817,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuStory_draw);
 #endif
 
 #if VERSION_CN
-    INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuStory_draw);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuStory_draw);
 #endif
 
 #if VERSION_US || VERSION_CN
