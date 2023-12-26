@@ -216,9 +216,55 @@ typedef struct MenuBottle {
 } MenuBottle; // size = 0x128
 
 
+// Maybe move to record.h?
 typedef struct MenuRank_unk_001C {
-    /* 0x0 */ UNK_TYPE unk_0;
-} MenuRank_unk_001C; // size >= 0x4
+    /* 0x000 */ u8 unk_000[UNK_SIZE][8];
+    /* 0x008 */ UNK_TYPE1 unk_008[0x10];
+    /* 0x018 */ u8 unk_018[UNK_SIZE][8];
+    /* 0x020 */ UNK_TYPE1 unk_020[0x10];
+    /* 0x030 */ u8 unk_030[UNK_SIZE][8];
+    /* 0x038 */ UNK_TYPE1 unk_038[0x10];
+    /* 0x048 */ u8 unk_048[UNK_SIZE][8];
+    /* 0x050 */ UNK_TYPE1 unk_050[0x10];
+    /* 0x060 */ u8 unk_060[UNK_SIZE][8];
+    /* 0x068 */ UNK_TYPE1 unk_068[0x10];
+    /* 0x078 */ u8 unk_078[UNK_SIZE][8];
+    /* 0x080 */ UNK_TYPE1 unk_080[0x10];
+    /* 0x090 */ u8 unk_090[UNK_SIZE][8];
+    /* 0x098 */ UNK_TYPE1 unk_098[0x10];
+    /* 0x0A8 */ u8 unk_0A8[UNK_SIZE][8];
+    /* 0x0B0 */ UNK_TYPE1 unk_0B0[0x10];
+    /* 0x0C0 */ u8 unk_0C0[UNK_SIZE];
+    /* 0x0C1 */ UNK_TYPE1 unk_0C1[0x7];
+    /* 0x0C8 */ u8 unk_0C8[UNK_SIZE];
+    /* 0x0C9 */ UNK_TYPE1 unk_0C9[0x7];
+    /* 0x0D0 */ u16 unk_0D0[UNK_SIZE];
+    /* 0x0D2 */ UNK_TYPE1 unk_0D2[0xE];
+    /* 0x0E0 */ u8 unk_0E0[UNK_SIZE];
+    /* 0x0C1 */ UNK_TYPE1 unk_0E1[0x7];
+    /* 0x0E8 */ u8 unk_0E8[UNK_SIZE];
+    /* 0x0E9 */ UNK_TYPE1 unk_0E9[0x7];
+    /* 0x0F0 */ u16 unk_0F0[UNK_SIZE];
+    /* 0x0F2 */ UNK_TYPE1 unk_0F2[0xE];
+    /* 0x100 */ u8 unk_100[UNK_SIZE];
+    /* 0x101 */ UNK_TYPE1 unk_101[0x7];
+    /* 0x108 */ u8 unk_108[UNK_SIZE];
+    /* 0x109 */ UNK_TYPE1 unk_109[0x7];
+    /* 0x110 */ u16 unk_110[UNK_SIZE];
+    /* 0x112 */ UNK_TYPE1 unk_112[0xE];
+    /* 0x120 */ u8 unk_120[UNK_SIZE];
+    /* 0x121 */ UNK_TYPE1 unk_121[0x7];
+    /* 0x128 */ u8 unk_128[UNK_SIZE];
+    /* 0x129 */ UNK_TYPE1 unk_129[0x7];
+    /* 0x130 */ u16 unk_130[UNK_SIZE];
+    /* 0x132 */ UNK_TYPE1 unk_132[0xE];
+    /* 0x140 */ u8 unk_140[UNK_SIZE];
+    /* 0x141 */ UNK_TYPE1 unk_141[0x7];
+    /* 0x148 */ u8 unk_148[UNK_SIZE];
+    /* 0x149 */ UNK_TYPE1 unk_149[0x7];
+    /* 0x150 */ u16 unk_150[UNK_SIZE];
+    /* 0x152 */ UNK_TYPE1 unk_152[0x2];
+} MenuRank_unk_001C; // size >= 0x154, <= 0x160
 
 typedef struct MenuRankLabel {
     /* 0x00 */ UNK_TYPE1 unk_00[0x8];
@@ -553,7 +599,7 @@ typedef struct MenuRank {
     /* 0x0014 */ UNK_TYPE unk_0014;
     /* 0x0018 */ UNK_TYPE unk_0018;
     /* 0x001C */ MenuRank_unk_001C unk_001C;
-    /* 0x0020 */ UNK_TYPE1 unk_0020[0x15C];
+    /* 0x0170 */ UNK_TYPE1 unk_0170[0xC];
     /* 0x017C */ MenuItem unk_017C;
     /* 0x020C */ MenuItem unk_020C[2];
     /* 0x032C */ MenuItem unk_032C;

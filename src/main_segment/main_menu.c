@@ -10580,7 +10580,8 @@ extern const s32 RO_800C7908_cn[2];
 
 #if VERSION_CN
 const s32 RO_800C7908_cn[] = {
-    -0x140, 0x140,
+    -0x140,
+    0x140,
 };
 #endif
 
@@ -10785,7 +10786,7 @@ void menuRank_setPanel(MenuRank *menuRank, s32 arg1, s32 arg2, s32 arg3) {
     u16 *var_t1;
     u32 temp_t2;
     u8 var_s1;
-    void *var_s4;
+    u16 *var_s4;
 
     var_s1 = saved_reg_s1;
     var_s4 = saved_reg_s4;
@@ -10869,6 +10870,7 @@ block_9:
     var_s0 = 0;
     if (temp_s3->unk_0000 > 0) {
         do {
+#if 0
             if (sp44 < 0xAU) {
                 switch (sp48) {                     /* switch 3 */
                     case 0x0:                       /* switch 3 */
@@ -10933,8 +10935,9 @@ block_30:
                         goto block_30;
                 }
             }
+#endif
             if (((u32) arg2 >= 0x35U) && (((u32) arg2 < 0x37U) || (((u32) arg2 < 0x3BU) && ((u32) arg2 >= 0x38U)))) {
-                func_8005DC98_cn(&temp_s3->unk_3A8[var_s0], menuRank->watchMenuRef, *(var_s6 + var_s0), (var_s1 * 0xD0) + evs_mem_data->unk_01, (s32) *((var_s1 * 2) + var_s7), (s32) var_s4->unk_0, (s32) var_s4->unk_2, 0, var_s0 * 0x11);
+                func_8005DC98_cn(&temp_s3->unk_3A8[var_s0], menuRank->watchMenuRef, *(s32* /*fake*/)(var_s6 + var_s0), evs_mem_data[var_s1].unk_01, (s32) *(u32* /*fake*/)((var_s1 * 2) + var_s7), (s32) var_s4[0], (s32) var_s4[1], 0, var_s0 * 0x11);
             }
             var_s0 += 1;
         } while (var_s0 < temp_s3->unk_0000);
