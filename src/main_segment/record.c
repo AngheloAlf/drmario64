@@ -355,7 +355,38 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_story_sort_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_story_sort_set);
+void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    struct_evs_mem_data *temp_t3 = &evs_mem_data[arg0];
+
+    arg4 = arg4 / 60;
+    arg4 = MIN(0x176F, arg4);
+
+    arg5 = MAX(0, arg5 - 1);
+
+    if ((arg6 == 0) && (arg2 < 3)) {
+        struct_evs_mem_data_unk_28 *temp_t1 = &temp_t3->unk_28[arg2];
+        s32 var_v0_2 = temp_t1->unk_8;
+        s32 var_t0 = arg5;
+
+        if (var_v0_2 == arg5) {
+            var_v0_2 = temp_t1->unk_0;
+            var_t0 = arg3;
+            if (var_v0_2 == arg3) {
+                var_v0_2 = arg4;
+                var_t0 = temp_t1->unk_4;
+            }
+        }
+
+        if (var_v0_2 < var_t0) {
+            temp_t1->unk_0 = arg3;
+            temp_t1->unk_4 = arg4;
+            temp_t1->unk_8 = arg5;
+        }
+    }
+
+    temp_t3->unk_08[arg2][arg1] = MAX(temp_t3->unk_08[arg2][arg1], arg5);
+    temp_t3->unk_08[arg2][arg1] = MIN(temp_t3->unk_08[arg2][arg1], 7);
+}
 #endif
 
 #if VERSION_US
@@ -462,7 +493,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vscom_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_vscom_set);
+void dm_vscom_set(s32 arg0, s32 arg1, s32 arg2) {
+    struct_evs_mem_data *temp_a3 = &evs_mem_data[arg0];
+
+    temp_a3->unk_A0[0] = MIN(0x63, temp_a3->unk_A0[0] + arg1);
+    temp_a3->unk_A0[1] = MIN(0x63, temp_a3->unk_A0[1] + arg2);
+}
 #endif
 
 #if VERSION_US
@@ -470,7 +506,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vc_fl_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_vc_fl_set);
+void dm_vc_fl_set(s32 arg0, s32 arg1, s32 arg2) {
+    struct_evs_mem_data *temp_a3 = &evs_mem_data[arg0];
+
+    temp_a3->unk_A4[0] = MIN(0x63, temp_a3->unk_A4[0] + arg1);
+    temp_a3->unk_A4[1] = MIN(0x63, temp_a3->unk_A4[1] + arg2);
+}
 #endif
 
 #if VERSION_US
@@ -478,7 +519,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vsman_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_vsman_set);
+void dm_vsman_set(s32 arg0, s32 arg1, s32 arg2) {
+    struct_evs_mem_data *temp_a3 = &evs_mem_data[arg0];
+
+    temp_a3->unk_A8[0] = MIN(0x63, temp_a3->unk_A8[0] + arg1);
+    temp_a3->unk_A8[1] = MIN(0x63, temp_a3->unk_A8[1] + arg2);
+}
 #endif
 
 #if VERSION_US
@@ -486,7 +532,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vm_fl_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_vm_fl_set);
+void dm_vm_fl_set(s32 arg0, s32 arg1, s32 arg2) {
+    struct_evs_mem_data *temp_a3 = &evs_mem_data[arg0];
+
+    temp_a3->unk_AC[0] = MIN(0x63, temp_a3->unk_AC[0] + arg1);
+    temp_a3->unk_AC[1] = MIN(0x63, temp_a3->unk_AC[1] + arg2);
+}
 #endif
 
 #if VERSION_US
@@ -494,7 +545,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", dm_vm_ta_set);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", dm_vm_ta_set);
+void dm_vm_ta_set(s32 arg0, s32 arg1, s32 arg2) {
+    struct_evs_mem_data *temp_a3 = &evs_mem_data[arg0];
+
+    temp_a3->unk_B0[0] = MIN(0x63, temp_a3->unk_B0[0] + arg1);
+    temp_a3->unk_B0[1] = MIN(0x63, temp_a3->unk_B0[1] + arg2);
+}
 #endif
 
 #if VERSION_US
@@ -874,103 +930,66 @@ u16 *func_80039A48_cn(MenuRank_unk_001C *arg0, s32 arg1) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800374B8);
 #endif
 
-void _sortVsMode(MenuRank_unk_001C *arg0, UNK_TYPE arg1);
 #if VERSION_CN
-#if 0
 void _sortVsMode(MenuRank_unk_001C *arg0, s32 arg1) {
-    s32 var_s0_2;
-    s32 var_s0_3;
-    s32 var_t2;
-    s32 var_t5;
-    s32 var_v0;
-    s8 *temp_s7;
-    s8 *temp_v0_3;
-    s8 var_a0;
-    struct_evs_mem_data *var_s2;
-    u16 *temp_v0;
-    u16 *var_s1;
-    u16 temp_a0;
-    u16 temp_a1_2;
-    u16 temp_v0_2;
-    u16 temp_v1;
+    struct_evs_mem_data *ptr = evs_mem_data;
+    u8 *temp_s4 = func_800399B0_cn(arg0, arg1);
+    u8 *temp_s7 = func_800399FC_cn(arg0, (u32) arg1);
+    u16 *temp_v0 = func_80039A48_cn(arg0, arg1);
+    s32 i;
+    s32 var_a0;
     u16 var_a1;
-    u8 *temp_s4;
-    u8 *temp_t4;
-    u8 *var_t3;
-    u8 temp_t0;
-    u8 temp_t1;
-    u8 var_s0;
-    void *temp_a1;
 
-    temp_s4 = func_800399B0_cn();
-    temp_s7 = func_800399FC_cn(arg0, arg1);
-    temp_v0 = func_80039A48_cn(arg0, arg1);
-    var_s0 = 0;
-    var_s1 = temp_v0;
-    var_s2 = evs_mem_data;
-    do {
-        temp_a1 = func_80039964_cn(var_s2, arg1);
-        temp_s4[var_s0] = var_s0;
-        if (temp_a1->unk_0 == 0) {
-            if (temp_a1->unk_2 == 0) {
-                *var_s1 = 0;
-            } else {
-                goto block_5;
-            }
+    for (i = 0; i < 8; i++) {
+        u16 *temp_a1 = func_80039964_cn(&ptr[i], arg1);
+
+        temp_s4[i] = i;
+        if ((temp_a1[0] != 0) || (temp_a1[1] != 0)) {
+            temp_v0[i] = (temp_a1[0] * 0x3E8) / (temp_a1[0] + temp_a1[1]);
         } else {
-block_5:
-            temp_v1 = temp_a1->unk_0;
-            *var_s1 = (u16) ((s32) (temp_v1 * 0x3E8) / (s32) (temp_v1 + temp_a1->unk_2));
+            temp_v0[i] = 0;
         }
-        var_s1 += 2;
-        var_s0 += 1;
-        var_s2 += 0xD0;
-    } while ((s32) var_s0 < 8);
-    var_s0_2 = 0;
-    var_t5 = 1;
-    do {
-        var_t2 = var_t5;
-        if (var_t5 < 8) {
-            temp_t4 = &temp_s4[var_s0_2];
-            var_t3 = &temp_s4[var_t2];
-            do {
-                temp_t1 = *temp_t4;
-                temp_t0 = *var_t3;
-                temp_a0 = temp_v0[temp_t1];
-                temp_a1_2 = temp_v0[temp_t0];
-                var_v0 = (s32) temp_a0 < (s32) temp_a1_2;
-                if (temp_a0 == temp_a1_2) {
-                    var_v0 = (evs_mem_data[temp_t1].unk_00 & 1) < (evs_mem_data[temp_t0].unk_00 & 1);
-                }
-                var_t2 += 1;
-                if (var_v0 != 0) {
-                    *temp_t4 = temp_t0;
-                    *var_t3 = temp_t1;
-                }
-                var_t3 = &temp_s4[var_t2];
-            } while (var_t2 < 8);
+    }
+
+    for (i = 0; i < 7; i++) {
+        s32 j;
+
+        for (j = i+1; j < 8; j++) {
+            s32 temp_t1 = temp_s4[i];
+            s32 temp_t0 = temp_s4[j];
+            s32 temp_a0;
+            s32 temp_a1_2;
+
+            temp_a0 = temp_v0[temp_t1];
+            temp_a1_2 = temp_v0[temp_t0];
+            if (temp_a0 == temp_a1_2) {
+                temp_a0 = ptr[temp_t1].unk_00 & 1;
+                temp_a1_2 = ptr[temp_t0].unk_00 & 1;
+            }
+
+            if (temp_a0 < temp_a1_2) {
+                temp_s4[i] = temp_t0;
+                temp_s4[j] = temp_t1;
+            }
         }
-        var_s0_2 = var_t5;
-        var_t5 = var_s0_2 + 1;
-    } while (var_s0_2 < 7);
+    }
+
+    var_a1 = temp_v0[temp_s4[0]];
+
     var_a0 = 1;
-    var_a1 = temp_v0[*temp_s4];
-    var_s0_3 = 1;
-    *temp_s7 = 1;
-    do {
-        temp_v0_2 = temp_v0[temp_s4[var_s0_3]];
+    temp_s7[0] = var_a0;
+    for (i = 1; i < 8; i++) {
+        u16 temp_v0_2;
+
+        temp_v0_2 = temp_v0[temp_s4[i]];
         if (temp_v0_2 != var_a1) {
             var_a1 = temp_v0_2;
-            var_a0 += 1;
+            var_a0++;
         }
-        temp_v0_3 = &temp_s7[var_s0_3];
-        var_s0_3 += 1;
-        *temp_v0_3 = var_a0;
-    } while (var_s0_3 < 8);
+
+        temp_s7[i] = var_a0;
+    }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/record", _sortVsMode);
-#endif
 #endif
 
 #if VERSION_US
