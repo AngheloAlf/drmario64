@@ -284,7 +284,7 @@ void func_800585BC(MenuRank *menuRank, UNK_TYPE arg1, f32 arg2);
 void func_800586A4(MenuRank *menuRank, UNK_TYPE arg1, UNK_TYPE arg2, f32 arg3, f32 arg4);
 void menuRank_setFrame(MenuRank *menuRank, UNK_TYPE arg1, UNK_TYPE arg2, f32 arg3);
 // void func_80058A24();
-void menuRank_setPanel(MenuRank *menuRank, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3);
+void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, UNK_TYPE arg3);
 void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
 void menuRank_input(MenuRank *menuRank);
 void menuRank_update(MenuRank *menuRank);

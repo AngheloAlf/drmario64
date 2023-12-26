@@ -799,7 +799,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037378);
 #endif
 
 #if VERSION_CN
-u16 *func_80039964_cn(struct_evs_mem_data *arg0, s32 arg1) {
+u16 *func_80039964_cn(struct_evs_mem_data *arg0, u32 arg1) {
     u16 *var_v1;
 
     switch (arg1) {
@@ -833,7 +833,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800373C8);
 #endif
 
 #if VERSION_CN
-u8 *func_800399B0_cn(MenuRank_unk_001C *arg0, s32 arg1) {
+u8 *func_800399B0_cn(MenuRank_unk_001C *arg0, u32 arg1) {
     u8 *var_v1;
 
     switch (arg1) {
@@ -901,7 +901,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_80037468);
 #endif
 
 #if VERSION_CN
-u16 *func_80039A48_cn(MenuRank_unk_001C *arg0, s32 arg1) {
+u16 *func_80039A48_cn(MenuRank_unk_001C *arg0, u32 arg1) {
     u16 *var_v1;
 
     switch (arg1) {
@@ -931,10 +931,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/record", func_800374B8);
 #endif
 
 #if VERSION_CN
-void _sortVsMode(MenuRank_unk_001C *arg0, s32 arg1) {
+void _sortVsMode(MenuRank_unk_001C *arg0, u32 arg1) {
     struct_evs_mem_data *ptr = evs_mem_data;
     u8 *temp_s4 = func_800399B0_cn(arg0, arg1);
-    u8 *temp_s7 = func_800399FC_cn(arg0, (u32) arg1);
+    u8 *temp_s7 = func_800399FC_cn(arg0, arg1);
     u16 *temp_v0 = func_80039A48_cn(arg0, arg1);
     s32 i;
     s32 var_a0;
@@ -954,7 +954,7 @@ void _sortVsMode(MenuRank_unk_001C *arg0, s32 arg1) {
     for (i = 0; i < 7; i++) {
         s32 j;
 
-        for (j = i+1; j < 8; j++) {
+        for (j = i + 1; j < 8; j++) {
             s32 temp_t1 = temp_s4[i];
             s32 temp_t0 = temp_s4[j];
             s32 temp_a0;

@@ -10428,6 +10428,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B1308);
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B1314);
 #endif
 
+void func_8005C348_cn(MenuRankBase *menuRankBase, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3);
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C348_cn);
 #endif
@@ -10440,6 +10441,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C380_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C3AC_cn);
 #endif
 
+void func_8005C4F0_cn(MenuRankNum *menuRankNum, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4);
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C4F0_cn);
 #endif
@@ -10456,8 +10458,10 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C558_cn);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C77E0_cn);
 #endif
 
+void menuRankFig_init(MenuRankFig *menuRankFig, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3, s32 arg4, s32 arg5,
+                      s32 arg6);
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005C780_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuRankFig_init);
 #endif
 
 #if VERSION_CN
@@ -10488,8 +10492,9 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _posX_4_9715);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7888_cn);
 #endif
 
+void menuRankName_init(MenuRankName *menuRankName, struct_watchMenu *watchMenuRef, u8 *arg2, s32 arg3, s32 arg4);
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005CF4C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuRankName_init);
 #endif
 
 #if VERSION_CN
@@ -10501,7 +10506,13 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D030_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D1BC_cn);
+void func_8005D1BC_cn(MenuRankLabel *menuRankLabel, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4,
+                      s32 arg5) {
+    menuRankLabel->watchMenuRef = watchMenuRef;
+    menuRankLabel->unk_04 = arg2;
+    menuRankLabel->unk_08 = arg3;
+    menuItem_init(&menuRankLabel->unk_0C, arg4, arg5);
+}
 #endif
 
 #if VERSION_CN
@@ -10513,7 +10524,18 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D228_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D468_cn);
+void func_8005D468_cn(MenuRankHeader *menuRankHeader, struct_watchMenu *watchMenuRef, const s32 *arg2, const s32 *arg3,
+                      const s32 *arg4, const s32 *arg5, s32 arg6, s32 arg7, s32 arg8) {
+    s32 i;
+
+    menuRankHeader->watchMenuRef = watchMenuRef;
+    menuRankHeader->unk_04 = arg6;
+    menuItem_init(&menuRankHeader->unk_08, arg7, arg8);
+
+    for (i = 0; i < arg6; i++) {
+        func_8005D1BC_cn(&menuRankHeader->unk_98[i], watchMenuRef, arg2[i], arg3[i], arg4[i], arg5[i]);
+    }
+}
 #endif
 
 #if VERSION_CN
@@ -10525,23 +10547,97 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D5F4_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D6D0_cn);
+void func_8005D6D0_cn(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, u32 arg4,
+                      s32 arg5, s32 arg6, s32 arg7, s32 arg8) {
+    s32 var_a2;
+    s32 var_v1;
+
+    menuRankPanel->watchMenuRef = watchMenuRef;
+    menuRankPanel->unk_004 = 0;
+
+    func_8005C348_cn(&menuRankPanel->unk_008, watchMenuRef, arg7, arg8);
+    func_8005C4F0_cn(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
+    menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x1A, 2);
+    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, 7, arg4, 1, 0x83, 2);
+    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 8, arg5, 2, 0xCD, 2);
+    var_v1 = 0x5A;
+    if (arg6 < 0xA) {
+        var_a2 = 1;
+        var_v1 = 0x63;
+    } else {
+        var_a2 = 0xD;
+    }
+    menuRankFig_init(&menuRankPanel->unk_35C, watchMenuRef, var_a2, arg6, 3, var_v1, 2);
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D860_cn);
+void func_8005D860_cn(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4,
+                      s32 arg5, s32 arg6, s32 arg7) {
+    menuRankPanel->watchMenuRef = watchMenuRef;
+    menuRankPanel->unk_004 = 1;
+
+    func_8005C348_cn(&menuRankPanel->unk_008, watchMenuRef, arg6, arg7);
+    func_8005C4F0_cn(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
+    menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x29, 2);
+    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, 0xAU, arg4, 4, 0x6A, 2);
+    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 7U, arg5, 1, 0xB7, 2);
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005D9A4_cn);
+void func_8005D9A4_cn(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4,
+                      s32 arg5, s32 arg6, s32 arg7) {
+    menuRankPanel->watchMenuRef = watchMenuRef;
+    menuRankPanel->unk_004 = 2;
+
+    func_8005C348_cn(&menuRankPanel->unk_008, watchMenuRef, arg6, arg7);
+    func_8005C4F0_cn(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
+    menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x29, 2);
+    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, 8U, arg4, 2, 0x75, 2);
+    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 7U, arg5, 1, 0xB7, 2);
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005DAE4_cn);
+void func_8005DAE4_cn(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4,
+                      s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
+    s32 var_a2;
+    s32 var_v1;
+
+    menuRankPanel->watchMenuRef = watchMenuRef;
+    menuRankPanel->unk_004 = 3;
+
+    func_8005C348_cn(&menuRankPanel->unk_008, watchMenuRef, arg8, arg9);
+    func_8005C4F0_cn(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
+    menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x1A, 2);
+    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, 7U, arg4, 1, 0x53, 2);
+    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 0xBU, arg5, 2, 0x99, 2);
+
+    if (arg6 < dm_get_first_virus_count_in_new_mode(arg7)) {
+        var_a2 = 2;
+        var_v1 = 0xD9;
+    } else {
+        var_a2 = 0xD;
+        var_v1 = 0xD5;
+    }
+    menuRankFig_init(&menuRankPanel->unk_35C, watchMenuRef, var_a2, arg6, 1, var_v1, 2);
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005DC98_cn);
+void func_8005DC98_cn(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4,
+                      s32 arg5, s32 arg6, s32 arg7, s32 arg8) {
+    menuRankPanel->watchMenuRef = watchMenuRef;
+    menuRankPanel->unk_004 = 4;
+
+    func_8005C348_cn(&menuRankPanel->unk_008, watchMenuRef, arg7, arg8);
+    func_8005C4F0_cn(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
+    menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x1A, 2);
+    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, 9U, arg4, 5, 0x5A, 2);
+    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 2U, arg5, 6, 0xA7, 2);
+    menuRankFig_init(&menuRankPanel->unk_35C, watchMenuRef, 2U, arg6, 7, 0xD9, 2);
+}
 #endif
 
 #if VERSION_CN
@@ -10658,296 +10754,300 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B1370);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005E76C_cn);
+void func_8005E76C_cn(MenuRank *menuRank, s32 arg1 UNUSED) {
+    menuItem_init(&menuRank->unk_032C, 0xA4, 0x30);
+    func_8005D1BC_cn(&menuRank->unk_0458, menuRank->watchMenuRef, 1, 1, 2, 2);
+    func_8005D1BC_cn(&menuRank->unk_04F4, menuRank->watchMenuRef, 2, 1, 0x3E, 2);
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7910_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hedAllType_10392);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7920_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hedStoryId_10393);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7930_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hedStoryX_10394);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7940_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hedStoryY_10395);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7950_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hedLevelId_10396);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C795C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hedLevelX_10397);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7968_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hedLevelY_10398);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7974_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hed1PTaiQId_10399);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7980_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hed1PTaiQX_10400);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C798C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hed1PTaiQY_10401);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7998_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hed1PTimeAtId_10402);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79A8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hed1PTimeAtX_10403);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79B8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hed1PTimeAtY_10404);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79C8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hedVsId_10405);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79D8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hedVsX_10406);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C79E8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _hedVsY_10407);
 #endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuRank_setPanel);
 #endif
 
+extern const UNK_TYPE _hedAllType_10392;
+extern const UNK_TYPE _hedStoryId_10393;
+extern const UNK_TYPE _hedStoryX_10394;
+extern const UNK_TYPE _hedStoryY_10395;
+extern const UNK_TYPE _hedLevelId_10396;
+extern const UNK_TYPE _hedLevelX_10397;
+extern const UNK_TYPE _hedLevelY_10398;
+extern const UNK_TYPE _hed1PTaiQId_10399;
+extern const UNK_TYPE _hed1PTaiQX_10400;
+extern const UNK_TYPE _hed1PTaiQY_10401;
+extern const UNK_TYPE _hed1PTimeAtId_10402;
+extern const UNK_TYPE _hed1PTimeAtX_10403;
+extern const UNK_TYPE _hed1PTimeAtY_10404;
+extern const UNK_TYPE _hedVsId_10405;
+extern const UNK_TYPE _hedVsX_10406;
+extern const UNK_TYPE _hedVsY_10407;
+
 #if VERSION_CN
-#if 0
-//? func_8005D1BC_cn(MenuRankLabel *, struct_watchMenu *, ?, s32, s32, s32); /* extern */
-//? func_8005D468_cn(MenuRankHeader *, struct_watchMenu *, ? *, ? *, ? *, ? *, s32, s32, s32); /* extern */
-//? func_8005D6D0_cn(MenuRankPanel *, struct_watchMenu *, u8, u8 *, u32, s32, s32, s32, s32); /* extern */
-//? func_8005D860_cn(MenuRankPanel *, struct_watchMenu *, u8, u8 *, s32, s32, s32, s32); /* extern */
-//? func_8005D9A4_cn(MenuRankPanel *, struct_watchMenu *, u8, u8 *, s32, s32, s32, s32); /* extern */
-//? func_8005DAE4_cn(MenuRankPanel *, struct_watchMenu *, u8, u8 *, s32, s32, s32, s32, s32, s32); /* extern */
-//? func_8005DC98_cn(MenuRankPanel *, struct_watchMenu *, u8, void *, s32, s32, s32, s32, s32); /* extern */
-//? func_8005E76C_cn(MenuRank *, s32);                /* extern */
-
-extern const UNK_TYPE RO_800C7910_cn;
-extern const UNK_TYPE RO_800C7920_cn;
-extern const UNK_TYPE RO_800C7930_cn;
-extern const UNK_TYPE RO_800C7940_cn;
-extern const UNK_TYPE RO_800C7950_cn;
-extern const UNK_TYPE RO_800C795C_cn;
-extern const UNK_TYPE RO_800C7968_cn;
-extern const UNK_TYPE RO_800C7974_cn;
-extern const UNK_TYPE RO_800C7980_cn;
-extern const UNK_TYPE RO_800C798C_cn;
-extern const UNK_TYPE RO_800C7998_cn;
-extern const UNK_TYPE RO_800C79A8_cn;
-extern const UNK_TYPE RO_800C79B8_cn;
-extern const UNK_TYPE RO_800C79C8_cn;
-extern const UNK_TYPE RO_800C79D8_cn;
-extern const UNK_TYPE RO_800C79E8_cn;
-
-void menuRank_setPanel(MenuRank *menuRank, s32 arg1, s32 arg2, s32 arg3) {
+void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, s32 arg3) {
+    MenuRank_unk_590 *temp_s3 = &menuRank->unk_590[arg1];
+    MenuRank_unk_001C *temp_s2 = &menuRank->unk_001C;
     const UNK_TYPE *sp30;
     const UNK_TYPE *sp34;
     const UNK_TYPE *sp38;
     s32 sp3C;
     s32 sp40;
-    u32 sp44;
-    u32 sp48;
-    MenuRank_unk_001C *temp_s2;
-    MenuRank_unk_001C *var_s6;
-    MenuRank_unk_001C *var_s7;
-    MenuRank_unk_590 *temp_s3;
-    s32 temp_a3;
-    s32 temp_a3_2;
-    s32 temp_a3_3;
-    s32 temp_a3_4;
-    s32 var_s0;
-    s32 var_t2;
-    struct_evs_mem_data *temp_t1;
-    struct_evs_mem_data *temp_t1_2;
-    struct_evs_mem_data *temp_t1_3;
-    struct_evs_mem_data *temp_t1_4;
-    struct_evs_mem_data_unk_28 *temp_t0;
-    struct_evs_mem_data_unk_4C *temp_t0_2;
-    struct_evs_mem_data_unk_64 *temp_t0_3;
-    struct_evs_mem_data_unk_7C *temp_t0_4;
-    u16 *var_t1;
-    u32 temp_t2;
-    u8 var_s1;
-    u16 *var_s4;
+    s32 i;
 
-    var_s1 = saved_reg_s1;
-    var_s4 = saved_reg_s4;
-    var_s6 = saved_reg_s6;
-    var_s7 = saved_reg_s7;
-    temp_s3 = &menuRank->unk_590[arg1];
-    temp_s2 = &menuRank->unk_001C;
     temp_s3->unk_0000 = 8;
-    temp_t2 = arg2 - 0x31;
-    sp48 = temp_t2;
-    sp44 = temp_t2;
-    if (temp_t2 < 0xAU) {
-        switch (arg2) {                             /* switch 1 */
-            case 0x31:                              /* switch 1 */
-                sp3C = 0;
-                break;
-            case 0x32:                              /* switch 1 */
-                var_t2 = 1;
-block_9:
-                sp3C = var_t2;
-                break;
-            case 0x35:                              /* switch 1 */
-                var_t2 = 2;
-                goto block_9;
-            case 0x38:                              /* switch 1 */
-                var_t2 = 3;
-                goto block_9;
-            case 0x36:                              /* switch 1 */
-            case 0x39:                              /* switch 1 */
-                var_t2 = 4;
-                goto block_9;
-            case 0x33:                              /* switch 1 */
-                var_t2 = 5;
-                goto block_9;
-            case 0x34:                              /* switch 1 */
-            case 0x3A:                              /* switch 1 */
-                var_t2 = 6;
-                goto block_9;
-        }
+
+    switch (arg2) {
+        case MAINMENUMODE_MENURANK_49:
+            sp3C = 0;
+            break;
+
+        case MAINMENUMODE_MENURANK_50:
+            sp3C = 1;
+            break;
+
+        case MAINMENUMODE_MENURANK_53:
+            sp3C = 2;
+            break;
+
+        case MAINMENUMODE_MENURANK_56:
+            sp3C = 3;
+            break;
+
+        case MAINMENUMODE_MENURANK_54:
+        case MAINMENUMODE_MENURANK_57:
+            sp3C = 4;
+            break;
+
+        case MAINMENUMODE_MENURANK_51:
+            sp3C = 5;
+            break;
+
+        case MAINMENUMODE_MENURANK_52:
+        case MAINMENUMODE_MENURANK_58:
+            sp3C = 6;
+            break;
+
+        default:
+            break;
     }
-    if (sp44 < 0xAU) {
-        switch (sp48) {                             /* switch 2 */
-            case 0x0:                               /* switch 2 */
-                sp40 = 4;
-                sp30 = &RO_800C7920_cn;
-                sp34 = &RO_800C7930_cn;
-                sp38 = &RO_800C7940_cn;
-                break;
-            case 0x1:                               /* switch 2 */
-                sp40 = 3;
-                sp30 = &RO_800C7950_cn;
-                sp34 = &RO_800C795C_cn;
-                sp38 = &RO_800C7968_cn;
-                break;
-            case 0x2:                               /* switch 2 */
-                sp40 = 3;
-                sp30 = &RO_800C7974_cn;
-                sp34 = &RO_800C7980_cn;
-                sp38 = &RO_800C798C_cn;
-                break;
-            case 0x3:                               /* switch 2 */
-                sp40 = 4;
-                sp30 = &RO_800C7998_cn;
-                sp34 = &RO_800C79A8_cn;
-                sp38 = &RO_800C79B8_cn;
-                break;
-            case 0x4:                               /* switch 2 */
-            case 0x5:                               /* switch 2 */
-            case 0x7:                               /* switch 2 */
-            case 0x8:                               /* switch 2 */
-            case 0x9:                               /* switch 2 */
-                sp40 = 4;
-                sp30 = &RO_800C79C8_cn;
-                sp34 = &RO_800C79D8_cn;
-                sp38 = &RO_800C79E8_cn;
-                break;
-        }
+
+    switch (arg2) {
+        case MAINMENUMODE_MENURANK_49:
+            sp40 = 4;
+            sp30 = &_hedStoryId_10393;
+            sp34 = &_hedStoryX_10394;
+            sp38 = &_hedStoryY_10395;
+            break;
+
+        case MAINMENUMODE_MENURANK_50:
+            sp40 = 3;
+            sp30 = &_hedLevelId_10396;
+            sp34 = &_hedLevelX_10397;
+            sp38 = &_hedLevelY_10398;
+            break;
+
+        case MAINMENUMODE_MENURANK_51:
+            sp40 = 3;
+            sp30 = &_hed1PTaiQId_10399;
+            sp34 = &_hed1PTaiQX_10400;
+            sp38 = &_hed1PTaiQY_10401;
+            break;
+
+        case MAINMENUMODE_MENURANK_52:
+            sp40 = 4;
+            sp30 = &_hed1PTimeAtId_10402;
+            sp34 = &_hed1PTimeAtX_10403;
+            sp38 = &_hed1PTimeAtY_10404;
+            break;
+
+        case MAINMENUMODE_MENURANK_53:
+        case MAINMENUMODE_MENURANK_54:
+        case MAINMENUMODE_MENURANK_56:
+        case MAINMENUMODE_MENURANK_57:
+        case MAINMENUMODE_MENURANK_58:
+            sp40 = 4;
+            sp30 = &_hedVsId_10405;
+            sp34 = &_hedVsX_10406;
+            sp38 = &_hedVsY_10407;
+            break;
+
+        default:
+            break;
     }
+
     func_8005D1BC_cn(&menuRank->unk_03BC, menuRank->watchMenuRef, 3, sp3C, 0x23, 0x30);
-    func_8005D468_cn(&temp_s3->unk_0004, menuRank->watchMenuRef, &RO_800C7910_cn, sp30, sp34, sp38, sp40, 0, -0x10);
-    var_s0 = 0;
-    if (temp_s3->unk_0000 > 0) {
-        do {
-#if 0
-            if (sp44 < 0xAU) {
-                switch (sp48) {                     /* switch 3 */
-                    case 0x0:                       /* switch 3 */
-                        temp_a3 = var_s0 + (arg3 * 8);
-                        var_s1 = *(temp_s2 + temp_a3);
-                        temp_t1 = &evs_mem_data[var_s1];
-                        temp_t0 = &temp_t1->unk_28[arg3];
-                        func_8005D6D0_cn(&temp_s3->unk_3A8[var_s0], menuRank->watchMenuRef, (temp_s2 + temp_a3)->unk_18, temp_t1->unk_01, temp_t0->unk_0, temp_t0->unk_4, temp_t0->unk_8 + 1, 0, var_s0 * 0x11);
-                        break;
-                    case 0x1:                       /* switch 3 */
-                        temp_a3_2 = var_s0 + (arg3 * 8);
-                        var_s1 = (temp_s2 + temp_a3_2)->unk_30;
-                        temp_t1_2 = &evs_mem_data[var_s1];
-                        temp_t0_2 = &temp_t1_2->unk_4C[arg3];
-                        func_8005D860_cn(&temp_s3->unk_3A8[var_s0], menuRank->watchMenuRef, (temp_s2 + temp_a3_2)->unk_48, temp_t1_2->unk_01, (s32) temp_t0_2->unk_4, temp_t0_2->unk_0, 0, var_s0 * 0x11);
-                        break;
-                    case 0x2:                       /* switch 3 */
-                        temp_a3_3 = var_s0 + (arg3 * 8);
-                        var_s1 = (temp_s2 + temp_a3_3)->unk_60;
-                        temp_t1_3 = &evs_mem_data[var_s1];
-                        temp_t0_3 = &temp_t1_3->unk_64[arg3];
-                        func_8005D9A4_cn(&temp_s3->unk_3A8[var_s0], menuRank->watchMenuRef, (temp_s2 + temp_a3_3)->unk_78, temp_t1_3->unk_01, temp_t0_3->unk_4, temp_t0_3->unk_0, 0, var_s0 * 0x11);
-                        break;
-                    case 0x3:                       /* switch 3 */
-                        temp_a3_4 = var_s0 + (arg3 * 8);
-                        var_s1 = (temp_s2 + temp_a3_4)->unk_90;
-                        temp_t1_4 = &evs_mem_data[var_s1];
-                        temp_t0_4 = &temp_t1_4->unk_7C[arg3];
-                        func_8005DAE4_cn(&temp_s3->unk_3A8[var_s0], menuRank->watchMenuRef, (temp_s2 + temp_a3_4)->unk_A8, temp_t1_4->unk_01, temp_t0_4->unk_0, temp_t0_4->unk_4, (s32) temp_t0_4->unk_8, arg3, 0, var_s0 * 0x11);
-                        break;
-                    case 0x4:                       /* switch 3 */
-                        var_s1 = (temp_s2 + var_s0)->unk_C0;
-                        var_t1 = evs_mem_data->unk_A0;
-                        var_s7 = temp_s2 + 0xD0;
-                        var_s6 = temp_s2 + 0xC8;
-block_30:
-                        var_s4 = (var_s1 * 0xD0) + var_t1;
-                        break;
-                    case 0x5:                       /* switch 3 */
-                        var_s1 = (temp_s2 + var_s0)->unk_E0;
-                        var_t1 = evs_mem_data->unk_A4;
-                        var_s7 = temp_s2 + 0xF0;
-                        var_s6 = temp_s2 + 0xE8;
-                        goto block_30;
-                    case 0x7:                       /* switch 3 */
-                        var_s1 = (temp_s2 + var_s0)->unk_100;
-                        var_t1 = evs_mem_data->unk_A8;
-                        var_s7 = temp_s2 + 0x110;
-                        var_s6 = temp_s2 + 0x108;
-                        goto block_30;
-                    case 0x8:                       /* switch 3 */
-                        var_s1 = (temp_s2 + var_s0)->unk_120;
-                        var_t1 = evs_mem_data->unk_AC;
-                        var_s7 = temp_s2 + 0x130;
-                        var_s6 = temp_s2 + 0x128;
-                        goto block_30;
-                    case 0x9:                       /* switch 3 */
-                        var_s1 = (temp_s2 + var_s0)->unk_140;
-                        var_t1 = evs_mem_data->unk_B0;
-                        var_s7 = temp_s2 + 0x150;
-                        var_s6 = temp_s2 + 0x148;
-                        goto block_30;
-                }
-            }
-#endif
-            if (((u32) arg2 >= 0x35U) && (((u32) arg2 < 0x37U) || (((u32) arg2 < 0x3BU) && ((u32) arg2 >= 0x38U)))) {
-                func_8005DC98_cn(&temp_s3->unk_3A8[var_s0], menuRank->watchMenuRef, *(s32* /*fake*/)(var_s6 + var_s0), evs_mem_data[var_s1].unk_01, (s32) *(u32* /*fake*/)((var_s1 * 2) + var_s7), (s32) var_s4[0], (s32) var_s4[1], 0, var_s0 * 0x11);
-            }
-            var_s0 += 1;
-        } while (var_s0 < temp_s3->unk_0000);
+    func_8005D468_cn(&temp_s3->unk_0004, menuRank->watchMenuRef, &_hedAllType_10392, sp30, sp34, sp38, sp40, 0, -0x10);
+
+    for (i = 0; i < temp_s3->unk_0000; i++) {
+        struct_evs_mem_data *ptr;
+        struct_evs_mem_data_unk_28 *temp_t0;
+        struct_evs_mem_data_unk_4C *temp_t0_2;
+        struct_evs_mem_data_unk_64 *temp_t0_3;
+        struct_evs_mem_data_unk_7C *temp_t0_4;
+        u16 *var_s7;
+        u8 *var_s6;
+        s32 var_s1;
+        u16 *var_s4;
+
+        switch (arg2) {
+            case MAINMENUMODE_MENURANK_49:
+                var_s1 = temp_s2->unk_000[arg3][i];
+                ptr = &evs_mem_data[var_s1];
+                temp_t0 = &ptr->unk_28[arg3];
+                func_8005D6D0_cn(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->unk_018[arg3][i], ptr->unk_01,
+                                 temp_t0->unk_0, temp_t0->unk_4, temp_t0->unk_8 + 1, 0, i * 0x11);
+                break;
+
+            case MAINMENUMODE_MENURANK_50:
+                var_s1 = temp_s2->unk_030[arg3][i];
+                ptr = &evs_mem_data[var_s1];
+                temp_t0_2 = &ptr->unk_4C[arg3];
+                func_8005D860_cn(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->unk_048[arg3][i], ptr->unk_01,
+                                 (s32)temp_t0_2->unk_4, temp_t0_2->unk_0, 0, i * 0x11);
+                break;
+
+            case MAINMENUMODE_MENURANK_51:
+                var_s1 = temp_s2->unk_060[arg3][i];
+                ptr = &evs_mem_data[var_s1];
+                temp_t0_3 = &ptr->unk_64[arg3];
+                func_8005D9A4_cn(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->unk_078[arg3][i], ptr->unk_01,
+                                 temp_t0_3->unk_4, temp_t0_3->unk_0, 0, i * 0x11);
+                break;
+
+            case MAINMENUMODE_MENURANK_52:
+                var_s1 = temp_s2->unk_090[arg3][i];
+                ptr = &evs_mem_data[var_s1];
+                temp_t0_4 = &ptr->unk_7C[arg3];
+                func_8005DAE4_cn(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->unk_0A8[arg3][i], ptr->unk_01,
+                                 temp_t0_4->unk_0, temp_t0_4->unk_4, temp_t0_4->unk_8, arg3, 0, i * 0x11);
+                break;
+
+            case MAINMENUMODE_MENURANK_53:
+                var_s1 = temp_s2->unk_0C0[i];
+                ptr = &evs_mem_data[var_s1];
+                var_s7 = temp_s2->unk_0D0;
+                var_s6 = temp_s2->unk_0C8;
+                var_s4 = ptr->unk_A0;
+                break;
+
+            case MAINMENUMODE_MENURANK_54:
+                var_s1 = temp_s2->unk_0E0[i];
+                ptr = &evs_mem_data[var_s1];
+                var_s7 = temp_s2->unk_0F0;
+                var_s6 = temp_s2->unk_0E8;
+                var_s4 = ptr->unk_A4;
+                break;
+
+            case MAINMENUMODE_MENURANK_56:
+                var_s1 = temp_s2->unk_100[i];
+                ptr = &evs_mem_data[var_s1];
+                var_s7 = temp_s2->unk_110;
+                var_s6 = temp_s2->unk_108;
+                var_s4 = ptr->unk_A8;
+                break;
+
+            case MAINMENUMODE_MENURANK_57:
+                var_s1 = temp_s2->unk_120[i];
+                ptr = &evs_mem_data[var_s1];
+                var_s7 = temp_s2->unk_130;
+                var_s6 = temp_s2->unk_128;
+                var_s4 = ptr->unk_AC;
+                break;
+
+            case MAINMENUMODE_MENURANK_58:
+                var_s1 = temp_s2->unk_140[i];
+                ptr = &evs_mem_data[var_s1];
+                var_s7 = temp_s2->unk_150;
+                var_s6 = temp_s2->unk_148;
+                var_s4 = ptr->unk_B0;
+                break;
+
+            default:
+                break;
+        }
+
+        switch (arg2) {
+            case MAINMENUMODE_MENURANK_53:
+            case MAINMENUMODE_MENURANK_54:
+            case MAINMENUMODE_MENURANK_56:
+            case MAINMENUMODE_MENURANK_57:
+            case MAINMENUMODE_MENURANK_58:
+                ptr = &evs_mem_data[var_s1];
+                func_8005DC98_cn(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, var_s6[i], ptr->unk_01, var_s7[var_s1],
+                                 var_s4[0], var_s4[1], 0, i * 0x11);
+                break;
+
+            default:
+                break;
+        }
     }
+
     func_8005E76C_cn(menuRank, arg1);
     menuRank->unk_04F4.unk_08 = arg3;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuRank_setPanel);
-#endif
 #endif
 
 #if VERSION_US || VERSION_CN

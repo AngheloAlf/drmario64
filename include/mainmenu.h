@@ -267,13 +267,14 @@ typedef struct MenuRank_unk_001C {
 } MenuRank_unk_001C; // size >= 0x154, <= 0x160
 
 typedef struct MenuRankLabel {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x8];
+    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ MenuItem unk_0C;
 } MenuRankLabel; // size = 0x9C
 
 typedef struct MenuRankHeader {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x4];
+    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ MenuItem unk_08;
     /* 0x98 */ MenuRankLabel unk_98[UNK_SIZE];
@@ -311,7 +312,7 @@ typedef struct MenuRankName {
 } MenuRankName; // size = 0x98
 
 typedef struct MenuRankPanel {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x4];
+    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x004 */ s32 unk_004;
     /* 0x008 */ MenuRankBase unk_008;
     /* 0x09C */ MenuRankNum unk_09C;
