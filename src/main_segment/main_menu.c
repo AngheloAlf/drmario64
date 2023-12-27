@@ -621,6 +621,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800472D0);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049AB8_cn);
 #endif
 
+s32 func_80049B8C_cn(MenuItem *item, Gfx **gfxP, TiTexData *, TiTexData *, s32, s32, s32);
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049B8C_cn);
 #endif
@@ -664,7 +665,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", FLT_800ADD00);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C4AF8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", fade_alpha_texture_init_dl);
 #endif
 
 #if VERSION_CN
@@ -2720,7 +2721,19 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80048FA0);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048FA0);
+void func_80048FA0(MenuLvGauge **lvGaugeP, s32 count, Gfx **gxfP) {
+    Gfx *gfx = *gxfP;
+    MenuCursor *sp10[count];
+    s32 i;
+
+    for (i = 0; i < count; i++) {
+        sp10[i] = &lvGaugeP[i]->unk_0A0;
+    }
+
+    func_80048634(sp10, count, &gfx);
+
+    *gxfP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -3028,8 +3041,38 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _pos_1959);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuSpeedAsk_draw);
 #endif
 
+extern const s32 _tex_1865[][2];
+extern const s32 _row_1866[4];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuSpeedAsk_draw);
+void menuSpeedAsk_draw(MenuSpeedAsk **speedAskP, s32 count, Gfx **gxfP) {
+    Gfx *gfx = *gxfP;
+    s32 i;
+
+    gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
+
+    for (i = 0; i < ARRAY_COUNT(_row_1866); i++) {
+        s32 j;
+        s32 var_s3;
+
+        for (j = 0, var_s3 = 0; j < _row_1866[i]; j++, var_s3 = 0) {
+            s32 k;
+
+            for (k = 0; k < count; k++) {
+                MenuSpeedAsk *menuSpeedAsk = speedAskP[k];
+
+                if ((i == menuSpeedAsk->unk_4) && (j == menuSpeedAsk->unk_8)) {
+                    TiTexData *temp_s0 = _getTexSetup(menuSpeedAsk->watchMenuRef, _tex_1865[menuSpeedAsk->unk_4][0]);
+                    TiTexData *a3 = _getTexSetup(menuSpeedAsk->watchMenuRef, _tex_1865[menuSpeedAsk->unk_4][1]);
+
+                    var_s3 += func_80049B8C_cn(&menuSpeedAsk->unk_C, &gfx, temp_s0, a3, var_s3, _row_1866[i], j);
+                }
+            }
+        }
+    }
+
+    *gxfP = gfx;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -3042,15 +3085,11 @@ s32 _type_1949[] = {
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C61B0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _tex_1865);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C61B4_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C61D0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _row_1866);
 #endif
 
 #if VERSION_CN
@@ -3165,7 +3204,7 @@ void menuSpeedItem_update(MenuSpeedItem *arg0, MenuItem *arg1) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void menuSpeedItem_draw1(MenuSpeedItem **speedItemP, s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     TiTexData *var_s7;
@@ -3174,7 +3213,7 @@ void menuSpeedItem_draw1(MenuSpeedItem **speedItemP, s32 count, Gfx **gfxP) {
     s32 var_s6;
     s32 index;
     s32 i;
-    u32 j;
+    s32 j;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
@@ -3203,7 +3242,7 @@ void menuSpeedItem_draw1(MenuSpeedItem **speedItemP, s32 count, Gfx **gfxP) {
     }
 
     for (i = 0; i < 4; i++) {
-        for (j = 0; j < 3U; j++) {
+        for (j = 0; j < ARRAY_COUNTU(speedItem->unk_254); j++) {
             var_s6 = 0;
             if ((j == 2) && (speedItem->unk_004 == 3) && (speedItem->unk_010 != 0)) {
                 continue;
@@ -3242,16 +3281,24 @@ void menuSpeedItem_draw1(MenuSpeedItem **speedItemP, s32 count, Gfx **gfxP) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuSpeedItem_draw1);
-#endif
-
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004A160);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004A160);
+void func_8004A160(MenuSpeedItem **speedItemP, s32 count, Gfx **gxfP) {
+    Gfx *gfx = *gxfP;
+    MenuCursor *sp10[count];
+    s32 i;
+
+    for (i = 0; i < count; i++) {
+        sp10[i] = &speedItemP[i]->unk_404;
+    }
+
+    menuCursor_draw2(sp10, count, &gfx);
+
+    *gxfP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -3385,7 +3432,7 @@ void menuMusicItem_update(MenuMusicItem *menuMusicItem, MenuItem *arg1) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void menuMusicItem_draw1(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP) {
     Gfx *gfx = *gxfP;
     s32 i;
@@ -3408,11 +3455,7 @@ void menuMusicItem_draw1(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMusicItem_draw1);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void menuMusicItem_draw2(MenuMusicItem **musicItemArr, s32 count, Gfx **gxfP) {
     Gfx *gfx = *gxfP;
     MenuCursor *arr[count];
@@ -3428,10 +3471,6 @@ void menuMusicItem_draw2(MenuMusicItem **musicItemArr, s32 count, Gfx **gxfP) {
 
     *gxfP = gfx;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMusicItem_draw2);
 #endif
 
 #if VERSION_US
@@ -3481,8 +3520,81 @@ void menuNumber_update(MenuNumber *menuNumber, MenuItem *item) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuNumber_draw);
 #endif
 
+TiTexData *_getTexGameAl(struct_watchMenu *, s32 arg1);
+
+extern const UNK_TYPE RO_800C6248_cn[];
+extern const UNK_TYPE RO_800C6270_cn[];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuNumber_draw);
+void menuNumber_draw(MenuNumber **numberP, s32 arg1, Gfx **gxfP) {
+    Gfx *gfx = *gxfP;
+    MenuNumber *temp_s0;
+    MenuItem *temp_s3;
+    TiTexData *sp34;
+    TiTexData *var_t1;
+
+    s32 var_fp;
+    s32 temp_t4_2;
+    s32 temp_t4;
+    s32 var_s2;
+    s32 var_s6;
+    s32 var_s5;
+    s32 temp_s4;
+    s32 sp40;
+
+    gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
+
+    for (temp_t4 = 0; temp_t4 < 2; temp_t4++) {
+        //! FAKE? var_s6 asignment needs to be on the conditional part of the loop
+        for (var_fp = 0; var_s6 = 0, var_fp < 0xA; var_fp++) {
+            for (temp_t4_2 = 0; temp_t4_2 < arg1; temp_t4_2++) {
+
+                temp_s0 = numberP[temp_t4_2];
+                temp_s3 = &temp_s0->unk_1C;
+                sp40 = temp_s0->unk_10 >> 0x1F;
+
+                switch (temp_s0->unk_04) {
+                    case 0x0:
+                        sp34 = _getTexSetup(temp_s0->watchMenuRef, 7);
+                        var_t1 = _getTexSetup(temp_s0->watchMenuRef, 0);
+                        break;
+
+                    case 0x1:
+                        sp34 = _getTexGameAl(temp_s0->watchMenuRef, 0xD);
+                        var_t1 = _getTexGameAl(temp_s0->watchMenuRef, 0x12);
+                        break;
+                }
+
+                var_s5 = MIN(sp34->unk_4[0], var_t1->unk_4[0]);
+                temp_s4 = MIN(sp34->unk_4[1], var_t1->unk_4[1]) / 10;
+
+                if (menuItem_outOfScreen(temp_s3, var_s5 * temp_s0->unk_08, temp_s4)) {
+                    continue;
+                }
+
+                func_80046844(temp_s3, &gfx);
+
+                for (var_s2 = 0; var_s2 < temp_s0->unk_08; var_s2++) {
+                    if ((sp40 == 0) && (temp_s0->unk_14.unk_0[var_s2] == 0)) {
+                        continue;
+                    }
+
+                    sp40 = 1;
+                    if ((temp_t4 != temp_s0->unk_04) || (var_fp != temp_s0->unk_14.unk_0[var_s2])) {
+                        continue;
+                    }
+
+                    tiStretchAlphaTexItem(&gfx, sp34, var_t1, var_s6++, 0xA, RO_800C6248_cn[var_fp],
+                                          temp_s3->unk_0C[0] + (RO_800C6270_cn[temp_t4] * temp_s3->unk_30[0] * var_s2),
+                                          temp_s3->unk_0C[1], var_s5 * temp_s3->unk_30[0],
+                                          temp_s4 * temp_s3->unk_30[1]);
+                }
+            }
+        }
+    }
+
+    *gxfP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -3544,7 +3656,65 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuComLvPanel_draw);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuComLvPanel_draw);
+void menuComLvPanel_draw(MenuComLvPanel **comLvPanelP, s32 count, Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
+    s32 var_s6 = 0;
+    MenuComLvPanel *comLvPanel;
+    MenuItem *item;
+    TiTexData *temp_v0;
+    s32 j;
+    s32 i;
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
+    for (i = 0; i < count; i++) {
+        comLvPanel = comLvPanelP[i];
+        temp_v0 = _getTexChar(comLvPanel->watchMenuRef, 6);
+        item = &comLvPanel->unk_008;
+
+        if (menuItem_outOfScreen(item, temp_v0->unk_4[0], temp_v0->unk_4[1])) {
+            continue;
+        }
+
+        if (item->color.v.a < 1.0f) {
+            gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+        } else {
+            gDPSetRenderMode(gfx++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+        }
+        func_80046844(item, &gfx);
+
+        tiStretchTexTile(&gfx, temp_v0, var_s6, 0, 0, temp_v0->unk_4[0], 0x14, item->unk_0C[0], item->unk_0C[1],
+                         item->unk_30[0] * temp_v0->unk_4[0], item->unk_30[1] * 20.0f);
+        var_s6++;
+    }
+
+    for (j = 7; j > 0; j--) {
+        for (i = 0; i < count; i++) {
+            comLvPanel = comLvPanelP[i];
+            if (j != comLvPanel->unk_004) {
+                continue;
+            }
+
+            temp_v0 = _getTexChar(comLvPanel->watchMenuRef, 6);
+            item = &comLvPanel->unk_098;
+            if (menuItem_outOfScreen(&comLvPanel->unk_008, temp_v0->unk_4[0], temp_v0->unk_4[1])) {
+                continue;
+            }
+
+            if (item->color.v.a < 1.0f) {
+                gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+            } else {
+                gDPSetRenderMode(gfx++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+            }
+            func_80046844(item, &gfx);
+            tiStretchTexTile(&gfx, temp_v0, 0, 0, 0x14, (temp_v0->unk_4[0] * j) / 7, 0xA, item->unk_0C[0],
+                             item->unk_0C[1], (item->unk_30[0] * temp_v0->unk_4[0] * j) / 7.0f,
+                             item->unk_30[1] * 10.0f);
+        }
+    }
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_CN
@@ -3752,8 +3922,66 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuCont_draw);
 #endif
 #endif
 
+//? func_80049754_cn(MenuItem *, Gfx **, TiTexData *, TiTexData *, s32); /* extern */
+// TiTexData *func_8005FE70_cn(struct_watchMenu *, s32, Gfx *, u32); /* extern */
+// TiTexData *func_8005FE80_cn(struct_watchMenu *, ?, Gfx *); /* extern */
+extern const s32 RO_800C62B4_cn[];
+
 #if VERSION_CN
+#if 0
+// Matches, but there's a fake symbol that I need to figure out, but I want to go to sleep
+
+extern const s32 TODO_NEED_TO_FIGURE_OUT[];
+void menuCont_draw(MenuCont *cont, Gfx **gfxP) {
+    Gfx *gfx;
+    MenuItem *var_s2;
+    TiTexData *temp_s3;
+    TiTexData *temp;
+    s32 var_s1;
+
+    gfx = *gfxP;
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
+    var_s2 = &cont->unk_004;
+    temp_s3 = func_8005FE80_cn(cont->watchMenuRef, 7);
+    menuItem_drawTex(var_s2, &gfx, temp_s3, 0);
+
+    gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
+
+    for (var_s1 = 0; var_s1 < 1U; var_s1++) {
+        var_s2 = &cont->unk_364[var_s1];
+        temp_s3 = func_8005FE70_cn(cont->watchMenuRef, RO_800C62B4_cn[var_s1]);
+        menuItem_drawTex(var_s2, &gfx, temp_s3, 0);
+    }
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+    gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+
+    temp_s3 = func_8005FE70_cn(cont->watchMenuRef, 2);
+    for (var_s1 = 0; var_s1 < 4U; var_s1++) {
+        var_s2 = &cont->unk_094[var_s1];
+        func_80046F58(var_s2, &gfx, temp_s3, 0, 4, var_s1);
+    }
+
+    for (; var_s1 < 5U; var_s1++) {
+        var_s2 = &cont->unk_094[var_s1];
+        temp_s3 = func_8005FE70_cn(cont->watchMenuRef, TODO_NEED_TO_FIGURE_OUT[var_s1-UNK_SIZE]);
+        menuItem_drawTex(var_s2, &gfx, temp_s3, 0);
+    }
+
+    func_80046F58(cont->unk_3F4, &gfx, _getTexCommon(cont->watchMenuRef, 0xE), 0, 0x2F, 0x13);
+
+    gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
+
+    temp_s3 = func_8005FE80_cn(cont->watchMenuRef, 1);
+    temp = func_8005FE80_cn(cont->watchMenuRef, 3);
+    func_80049754_cn(cont->unk_484, &gfx, temp_s3, temp, 0);
+
+    *gfxP = gfx;
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuCont_draw);
+#endif
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -11514,7 +11742,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE00_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE10_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", _getTexP4);
 #endif
 
 #if VERSION_CN
@@ -11522,7 +11750,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE20_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE30_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", _getTexSetup);
 #endif
 
 #if VERSION_CN
@@ -11530,7 +11758,7 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE40_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE50_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", _getTexGameAl);
 #endif
 
 #if VERSION_CN

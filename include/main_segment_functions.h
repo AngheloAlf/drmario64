@@ -116,7 +116,7 @@ void func_80048B8C(MenuLvGauge *arg0, struct_watchMenu *watchMenuRef, s32 arg2, 
 void func_80048C48(MenuLvGauge *arg0, s32 arg1);
 void func_80048CC8(MenuLvGauge *arg0, MenuItem *arg1);
 UNK_RET menuLvGauge_draw1(MenuLvGauge *lvGaugeP[], s32, Gfx **gxfP);
-UNK_RET func_80048FA0(MenuLvGauge *lvGaugeP[], s32, Gfx **gxfP);
+void func_80048FA0(MenuLvGauge *lvGaugeP[], s32 count, Gfx **gxfP);
 // void func_80049034();
 void func_80049080(MenuYN *yn, s32 arg1, f32 arg2);
 // void func_800490B8();
@@ -133,12 +133,12 @@ void func_800497D0(MenuMes *mes, Gfx **gfxP);
 void func_80049894(MenuSpeedAsk *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4,
                    s32 arg5);
 void func_800498C4(MenuSpeedAsk *arg0, MenuItem *arg1);
-UNK_RET menuSpeedAsk_draw(MenuSpeedAsk *speedAskP[], s32, Gfx **gxfP);
+void menuSpeedAsk_draw(MenuSpeedAsk *speedAskP[], s32 count, Gfx **gxfP);
 void menuSpeedItem_init(MenuSpeedItem *speedItem, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void func_80049C54(MenuSpeedItem *speedItem, s32 arg1);
 void menuSpeedItem_update(MenuSpeedItem *arg0, MenuItem *arg1);
 void menuSpeedItem_draw1(MenuSpeedItem **speedItemP, s32 count, Gfx **gfxP);
-UNK_RET func_8004A160(MenuSpeedItem *speedItemP[], s32, Gfx **gxfP);
+void func_8004A160(MenuSpeedItem *speedItemP[], s32 count, Gfx **gxfP);
 // void func_8004A1F4();
 void menuMusicItem_init(MenuMusicItem *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3,
                         s32 arg4);
@@ -150,13 +150,13 @@ void func_8004A814(MenuMusicItem *musicItemArr[], s32 arg1, Gfx **gfxP);
 void func_8004A860(MenuNumber *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4,
                    s32 arg5, s32 arg6);
 void menuNumber_update(MenuNumber *menuNumber, MenuItem *item);
-UNK_RET menuNumber_draw(MenuNumber *numberP[], s32 arg1, Gfx **gxfP);
+void menuNumber_draw(MenuNumber *numberP[], s32 arg1, Gfx **gxfP);
 void func_8004AC98(MenuComLvPanel *comLvPanel, s32 arg1, f32 arg2);
 void func_8004ACF4(MenuComLvPanel *comLvPanel, s32 arg1);
 // void func_8004AD10();
 void func_8004AD3C(MenuComLvPanel *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4);
 void func_8004AD84(MenuComLvPanel *comLvPanel, MenuItem *parent);
-void menuComLvPanel_draw(MenuComLvPanel *comLvPanel[], s32 count, Gfx **gfxP);
+void menuComLvPanel_draw(MenuComLvPanel *comLvPanelP[], s32 count, Gfx **gfxP);
 void menuCont_setFade(MenuCont *cont, s32 arg1, f32 arg2);
 void func_8004B2C8(MenuCont *cont, s32 arg1, s32 arg2);
 void menuCont_init(MenuCont *cont, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3);

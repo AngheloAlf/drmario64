@@ -159,7 +159,7 @@ typedef struct MenuNumber {
     /* 0x04 */ s32 unk_04;
     /* 0x08 */ s32 unk_08;
     /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ u32 unk_10;
+    /* 0x10 */ u32 unk_10; // bitfield?
     /* 0x14 */ MenuNumber_unk_14 unk_14;
     /* 0x1C */ MenuItem unk_1C;
 } MenuNumber; // size = 0xAC
