@@ -108,7 +108,7 @@ CPP             := $(MIPS_BINUTILS_PREFIX)cpp
 STRIP           := $(MIPS_BINUTILS_PREFIX)strip
 ICONV           := iconv
 
-SPLAT             ?= tools/splat/split.py
+SPLAT             ?= python3 -m splat split
 SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
 
 ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
