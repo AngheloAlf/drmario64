@@ -1999,7 +1999,7 @@ RO_800B0A6C = 0x800B0A6C; //
 RO_800B0A7C = 0x800B0A7C; //
 RO_800B0B0C = 0x800B0B0C; //
 _cursor_7325 = 0x800B0B14; // size:0x30
-RO_800B0B0C = 0x800B0B44; //
+RO_800B0B44 = 0x800B0B44; //
 
 _pos_7882 = 0x800B0B50; // size:0x20 force_not_migration:True
 jtbl_800B0B70 = 0x800B0B70; // type:jtbl

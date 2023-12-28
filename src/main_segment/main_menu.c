@@ -2639,14 +2639,14 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _yn_1691);
 #endif
 
 #if VERSION_US
-void func_80048B8C(MenuLvGauge *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5,
+void func_80048B8C(MenuLvGauge *lvGauge, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5,
                    s32 arg6) {
-    arg0->watchMenuRef = watchMenuRef;
-    arg0->unk_004 = arg2;
-    arg0->unk_008 = 0x14;
-    arg0->unk_00C = arg4;
-    menuItem_init(&arg0->unk_010, arg5, arg6);
-    func_800479A8(&arg0->unk_0A0, watchMenuRef, _type_1543[arg2], arg3, -2, -2, _size_1542[arg2][0],
+    lvGauge->watchMenuRef = watchMenuRef;
+    lvGauge->unk_004 = arg2;
+    lvGauge->unk_008 = 0x14;
+    lvGauge->unk_00C = arg4;
+    menuItem_init(&lvGauge->unk_010, arg5, arg6);
+    func_800479A8(&lvGauge->unk_0A0, watchMenuRef, _type_1543[arg2], arg3, -2, -2, _size_1542[arg2][0],
                   _size_1542[arg2][1]);
 }
 #endif
@@ -2656,8 +2656,8 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80048B8C);
 #endif
 
 #if VERSION_US
-void func_80048C48(MenuLvGauge *arg0, s32 arg1) {
-    u16 keyRep = _getKeyRep(arg0->watchMenuRef, arg1);
+void func_80048C48(MenuLvGauge *lvGauge, s32 arg1) {
+    u16 keyRep = _getKeyRep(lvGauge->watchMenuRef, arg1);
     s32 new_var; //! FAKE
     s32 temp_a0;
     s32 var_s0;
@@ -2671,9 +2671,9 @@ void func_80048C48(MenuLvGauge *arg0, s32 arg1) {
         temp++;
     }
 
-    temp_a0 = arg0->unk_00C + temp;
+    temp_a0 = lvGauge->unk_00C + temp;
     if (temp_a0 >= 0) {
-        new_var = arg0->unk_008;
+        new_var = lvGauge->unk_008;
         var_s0 = new_var;
         if (temp_a0 <= var_s0) {
             var_s0 = temp_a0;
@@ -2681,12 +2681,12 @@ void func_80048C48(MenuLvGauge *arg0, s32 arg1) {
     } else {
         var_s0 = 0;
     }
-    // var_s0 = CLAMP(arg0->unk_00C + temp, 0, arg0->unk_008);
+    // var_s0 = CLAMP(lvGauge->unk_00C + temp, 0, lvGauge->unk_008);
 
-    if (var_s0 != arg0->unk_00C) {
+    if (var_s0 != lvGauge->unk_00C) {
         dm_snd_play(SND_INDEX_63);
         new_var = var_s0;
-        arg0->unk_00C = new_var;
+        lvGauge->unk_00C = new_var;
     }
 }
 #endif
@@ -3310,39 +3310,39 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004D218_cn);
 #endif
 
 #if VERSION_US
-void menuMusicItem_init(MenuMusicItem *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4) {
-    u32 i;
+void menuMusicItem_init(MenuMusicItem *musicItem, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4) {
+    s32 i;
 
-    arg0->watchMenuRef = watchMenuRef;
-    arg0->unk_004 = arg2;
-    arg0->unk_008 = -1;
-    arg0->unk_00C.b.unk_31 = true;
+    musicItem->watchMenuRef = watchMenuRef;
+    musicItem->unk_004 = arg2;
+    musicItem->unk_008 = -1;
+    musicItem->unk_00C.b.unk_31 = true;
 
-    menuItem_init(&arg0->unk_010, arg3, arg4);
+    menuItem_init(&musicItem->unk_010, arg3, arg4);
 
-    for (i = 0; i < ARRAY_COUNTU(arg0->unk_0A0); i++) {
-        menuItem_init(&arg0->unk_0A0[i], 0x27 * i, 0);
+    for (i = 0; i < ARRAY_COUNTU(musicItem->unk_0A0); i++) {
+        menuItem_init(&musicItem->unk_0A0[i], 0x27 * i, 0);
     }
 
-    for (i = 0; i < 5U; i++) {
-        MenuItem *var_s0_2 = &arg0->unk_370[i];
-        u32 j;
+    for (i = 0; i < ARRAY_COUNTU(musicItem->unk_370); i++) {
+        MenuItem *item = &musicItem->unk_370[i];
+        s32 j;
 
-        menuItem_init(var_s0_2, -2, -2);
-        var_s0_2->colorCallback = colorFunc_cursor;
-        var_s0_2->unk_68 = 1.0f / 32.0f;
+        menuItem_init(item, -2, -2);
+        item->colorCallback = colorFunc_cursor;
+        item->unk_68 = 1.0f / 32.0f;
 
         for (j = 0; j < 2U; j++) {
-            u32 k;
+            s32 k;
 
             for (k = 0; k < 4U; k++) {
-                var_s0_2->unk_6C[j][k] = _musicItemColor[j][k] * (1.0 / 255.0);
+                item->unk_6C[j][k] = _musicItemColor[j][k] * (1.0 / 255.0);
             }
         }
     }
 
-    func_800479A8(&arg0->unk_640, watchMenuRef, 5, 0, -1, -1, 0x25, 0x10);
-    arg0->unk_640.unk_01C.b.unk_31 = 0;
+    func_800479A8(&musicItem->unk_640, watchMenuRef, 5, 0, -1, -1, 0x25, 0x10);
+    musicItem->unk_640.unk_01C.b.unk_31 = 0;
 }
 #endif
 
@@ -8156,7 +8156,7 @@ void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, struct
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800B0B0C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B0B44);
 #endif
 
 #if VERSION_CN
@@ -8606,9 +8606,9 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuChSel_init);
 
 void func_8004DE20_cn(MenuComLvPanel *comLvPanel, s32 arg1, s32 arg2);
 void func_8004DEE0_cn(MenuComLvPanel *comLvPanel, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4);
-const s32 RO_800C71C8_cn[][2] = { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } };
 
 #if VERSION_CN
+const s32 RO_800C71C8_cn[][2] = { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } };
 void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2 UNUSED) {
     MainMenuMode mode = _getMode(watchMenuRef);
     s32 i;

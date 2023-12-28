@@ -111,9 +111,8 @@ void func_80048634(MenuCursor *cursorArr[], s32 /*count*/, Gfx **gxfP);
 void func_80048680(MenuBottle *bottle, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3);
 void func_800486C8(MenuBottle *bottle, MenuItem *arg1);
 void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP);
-void func_80048B8C(MenuLvGauge *menuLvGauge, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4,
-                   s32 arg5, s32 arg6);
-void func_80048C48(MenuLvGauge *arg0, s32 arg1);
+void func_80048B8C(MenuLvGauge *lvGauge, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+void func_80048C48(MenuLvGauge *lvGauge, s32 arg1);
 void func_80048CC8(MenuLvGauge *arg0, MenuItem *arg1);
 UNK_RET menuLvGauge_draw1(MenuLvGauge *lvGaugeP[], s32, Gfx **gxfP);
 void func_80048FA0(MenuLvGauge *lvGaugeP[], s32 count, Gfx **gxfP);
@@ -140,8 +139,7 @@ void menuSpeedItem_update(MenuSpeedItem *arg0, MenuItem *arg1);
 void menuSpeedItem_draw1(MenuSpeedItem **speedItemP, s32 count, Gfx **gfxP);
 void func_8004A160(MenuSpeedItem *speedItemP[], s32 count, Gfx **gxfP);
 // void func_8004A1F4();
-void menuMusicItem_init(MenuMusicItem *menuMusicItem, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3,
-                        s32 arg4);
+void menuMusicItem_init(MenuMusicItem *musicItem, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4);
 void menuMusicItem_input(MenuMusicItem *menuMusicItem, s32 arg1);
 void menuMusicItem_update(MenuMusicItem *menuMusicItem, MenuItem *arg1);
 void menuMusicItem_draw1(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP);
