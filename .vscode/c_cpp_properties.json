@@ -1,7 +1,7 @@
 {
     "configurations": [
         {
-            "name": "Linux",
+            "name": "all",
             "includePath": [
                 "${workspaceFolder}/**",
                 "include",
@@ -32,6 +32,135 @@
                 "_MIPS_SIM_ABI64=3",
                 "VERSION_US=1",
                 "VERSION_CN=1",
+                "VERSION_GW=1",
+                "BUILD_VERSION=8",
+                "CC_CHECK=1"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerPath": "/usr/bin/clang",
+            "intelliSenseMode": "linux-clang-x86",
+            "compilerArgs": [
+                "-m32",
+                "-nostdinc++",
+                "-Wincompatible-pointer-types",
+                "-Werror=incompatible-pointer-types"
+            ],
+            "cStandard": "gnu89"
+        },
+        {
+            "name": "us",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "include",
+                "bin/us",
+                "build/bin/us",
+                ".",
+                "lib/ultralib/include",
+                "lib/ultralib/include/PR",
+                "lib/libmus/include"
+            ],
+            "defines": [
+                "NON_EQUIVALENT",
+                "NON_MATCHING",
+                "AVOID_UB",
+                "_LANGUAGE_C",
+                "F3DEX_GBI_2",
+                "_MIPS_SZLONG=32",
+                "__USE_ISOC99",
+                "NDEBUG",
+                "_FINALROM",
+                "__USE_ISOC99",
+                "__mips__",
+                "__MIPSEB__",
+                "_MIPS_SIM_ABI64=3",
+                "VERSION_US=1",
+                "BUILD_VERSION=8",
+                "CC_CHECK=1"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerPath": "/usr/bin/clang",
+            "intelliSenseMode": "linux-clang-x86",
+            "compilerArgs": [
+                "-m32",
+                "-nostdinc++",
+                "-Wincompatible-pointer-types",
+                "-Werror=incompatible-pointer-types"
+            ],
+            "cStandard": "gnu89"
+        },
+        {
+            "name": "cn",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "include",
+                "bin/cn",
+                "build/bin/cn",
+                ".",
+                "lib/ultralib/include",
+                "lib/ultralib/include/PR",
+                "lib/libmus/include"
+            ],
+            "defines": [
+                "NON_EQUIVALENT",
+                "NON_MATCHING",
+                "AVOID_UB",
+                "_LANGUAGE_C",
+                "F3DEX_GBI_2",
+                "_MIPS_SZLONG=32",
+                "__USE_ISOC99",
+                "NDEBUG",
+                "_FINALROM",
+                "__USE_ISOC99",
+                "__mips__",
+                "__MIPSEB__",
+                "_MIPS_SIM_ABI64=3",
+                "VERSION_CN=1",
+                "BUILD_VERSION=8",
+                "CC_CHECK=1"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerPath": "/usr/bin/clang",
+            "intelliSenseMode": "linux-clang-x86",
+            "compilerArgs": [
+                "-m32",
+                "-nostdinc++",
+                "-Wincompatible-pointer-types",
+                "-Werror=incompatible-pointer-types"
+            ],
+            "cStandard": "gnu89"
+        },
+        {
+            "name": "gw",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "include",
+                "bin/gw",
+                "build/bin/gw",
+                ".",
+                "lib/ultralib/include",
+                "lib/ultralib/include/PR",
+                "lib/libmus/include"
+            ],
+            "defines": [
+                "NON_EQUIVALENT",
+                "NON_MATCHING",
+                "AVOID_UB",
+                "_LANGUAGE_C",
+                "F3DEX_GBI_2",
+                "_MIPS_SZLONG=32",
+                "__USE_ISOC99",
+                "NDEBUG",
+                "_FINALROM",
+                "__USE_ISOC99",
+                "__mips__",
+                "__MIPSEB__",
+                "_MIPS_SIM_ABI64=3",
                 "VERSION_GW=1",
                 "BUILD_VERSION=8",
                 "CC_CHECK=1"
