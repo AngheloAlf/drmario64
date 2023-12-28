@@ -575,7 +575,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuItem_drawAlphaTex)
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049754_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuItem_drawAlphaTex);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -3922,7 +3922,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuCont_draw);
 #endif
 #endif
 
-//? func_80049754_cn(MenuItem *, Gfx **, TiTexData *, TiTexData *, s32); /* extern */
+//? menuItem_drawAlphaTex(MenuItem *, Gfx **, TiTexData *, TiTexData *, s32); /* extern */
 // TiTexData *func_8005FE70_cn(struct_watchMenu *, s32, Gfx *, u32); /* extern */
 // TiTexData *func_8005FE80_cn(struct_watchMenu *, ?, Gfx *); /* extern */
 extern const s32 RO_800C62B4_cn[];
@@ -3975,7 +3975,7 @@ void menuCont_draw(MenuCont *cont, Gfx **gfxP) {
 
     temp_s3 = func_8005FE80_cn(cont->watchMenuRef, 1);
     temp = func_8005FE80_cn(cont->watchMenuRef, 3);
-    func_80049754_cn(cont->unk_484, &gfx, temp_s3, temp, 0);
+    menuItem_drawAlphaTex(cont->unk_484, &gfx, temp_s3, temp, 0);
 
     *gfxP = gfx;
 }
@@ -9941,9 +9941,17 @@ void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *watchMenuRef, struct
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800560D4);
 #endif
 
-extern const u8 RO_800B0F5C[];
+extern const char RO_800B0F5C[];
 #if VERSION_US
-const u8 RO_800B0F5C[] = {
+const char RO_800B0F5C[] =
+    "ＡＢＣＤＥ__ａｂｃｄｅ__○×☆ＦＧＨＩＪ__ｆｇｈｉｊ__・．：ＫＬＭＮＯ__ｋｌｍｎｏ__！？＆ＰＱＲＳＴ__ｐｑｒｓｔ__"
+    "＊／％ＵＶＷＸＹ__ｕｖｗｘｙ__，’〜Ｚ__________ｚ________________０１２３４__５６７８９__303132___________________"
+    "_____404142________________________505152";
+#endif
+
+#if VERSION_CN
+// shift jis string?
+const char RO_800B0F5C[] = {
     0x82, 0x60, 0x82, 0x61, 0x82, 0x62, 0x82, 0x63, 0x82, 0x64, 0x5F, 0x5F, 0x82, 0x81, 0x82, 0x82, 0x82, 0x83, 0x82,
     0x84, 0x82, 0x85, 0x5F, 0x5F, 0x81, 0x9B, 0x81, 0x7E, 0x81, 0x99, 0x82, 0x65, 0x82, 0x66, 0x82, 0x67, 0x82, 0x68,
     0x82, 0x69, 0x5F, 0x5F, 0x82, 0x86, 0x82, 0x87, 0x82, 0x88, 0x82, 0x89, 0x82, 0x8A, 0x5F, 0x5F, 0x81, 0x45, 0x81,
@@ -9958,21 +9966,17 @@ const u8 RO_800B0F5C[] = {
     0x32, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F,
     0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x34, 0x30, 0x34, 0x31, 0x34, 0x32, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F,
     0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x5F, 0x35, 0x30,
-    0x35, 0x31, 0x35, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x35, 0x31, 0x35, 0x32, 0,    0,    0,    0,    0,    0,
 };
 #endif
 
 ASM_DATA;
-const u8 *_nameEntry_charTable[] = {
+const char *_nameEntry_charTable[] = {
     RO_800B0F5C,
 };
 
 #if VERSION_CN
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005B56C_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800B0F5C);
 #endif
 
 #if VERSION_US
@@ -10390,8 +10394,76 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuNmEnt_draw);
 #endif
 #endif
 
+TiTexData *_getTexName(struct_watchMenu *, s32 arg1);
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuNmEnt_draw);
+void menuNmEnt_draw(MenuNmEnt *menuNmEnt, Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
+    MenuCursor *sp24[1];
+    TiTexData *temp_s1;
+    TiTexData *temp;
+    s32 var_s0;
+    s32 var_s1;
+    s32 var_s3;
+    s32 var_s4;
+    const char *var_s2;
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
+    temp_s1 = _getTexName(menuNmEnt->watchMenuRef, 3);
+    menuItem_drawTex(&menuNmEnt->unk_00CC, &gfx, temp_s1, 0);
+    if (menuNmEnt->unk_0004 == 1) {
+        temp_s1 = _getTexName(menuNmEnt->watchMenuRef, 4);
+        menuItem_drawTex(&menuNmEnt->unk_015C, &gfx, temp_s1, 0);
+    }
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
+    temp_s1 = _getTexName(menuNmEnt->watchMenuRef, 2);
+    if (!menuItem_drawTex(&menuNmEnt->unk_003C, &gfx, temp_s1, 0)) {
+        return;
+    }
+
+    gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
+    gDPSetTextureFilter(gfx++, G_TF_BILERP);
+    gDPSetPrimColor(gfx++, 0, 0, 0x00, 0x00, 0x00, 0xFF);
+
+    var_s3 = menuNmEnt->unk_01EC.unk_0C[1];
+    var_s2 = _nameEntry_charTable[menuNmEnt->unk_0014[menuNmEnt->unk_0004]];
+
+    for (var_s4 = 0; var_s4 < 9; var_s4++) {
+        var_s0 = menuNmEnt->unk_01EC.unk_0C[0];
+
+        for (var_s1 = 0; var_s1 < 0xF; var_s1++) {
+            if (*var_s2 & 0x80) {
+                fontXX_draw(&gfx, var_s0, var_s3, 12.0f, 12.0f, var_s2);
+            }
+            var_s0 += 0xF;
+            var_s2 += 2;
+        }
+        var_s3 += 0xD;
+    }
+
+    var_s0 = menuNmEnt->unk_056C.unk_0C[0];
+    var_s3 = menuNmEnt->unk_056C.unk_0C[1];
+    for (var_s4 = 0; var_s4 < 4; var_s4++) {
+        u8 index = menuNmEnt->unk_002C[menuNmEnt->unk_0004][var_s4];
+
+        fontXX_drawID(&gfx, var_s0, var_s3, 12.0f, 12.0f, index);
+        var_s0 += 0xD;
+    }
+
+    gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
+
+    temp_s1 = _getTexName(menuNmEnt->watchMenuRef, 0);
+    temp = _getTexName(menuNmEnt->watchMenuRef, 1);
+    menuItem_drawAlphaTex(&menuNmEnt->unk_05FC, &gfx, temp_s1, temp, 0);
+
+    sp24[0] = &menuNmEnt->unk_030C;
+    func_80048634(sp24, 1, &gfx);
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US
@@ -11841,7 +11913,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", _getTexName);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FDF0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", _getTexName);
 #endif
 
 #if VERSION_US

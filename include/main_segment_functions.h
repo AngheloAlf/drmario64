@@ -89,8 +89,7 @@ void func_80046844(MenuItem *item, Gfx **gfxP);
 bool menuItem_outOfScreen(MenuItem *item, s32 arg1, s32 arg2);
 bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, struct TiTexData *arg2, s32 arg3);
 bool func_80046C74(MenuItem *item, Gfx **gfxP, struct TiTexData *arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
-bool menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, struct TiTexData * arg2, struct TiTexData * arg3,
-                           s32 arg4);
+bool menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, struct TiTexData * arg2, struct TiTexData * arg3, s32 arg4);
 bool func_80046F58(MenuItem *item, Gfx **gfxP, struct TiTexData * arg2, s32 arg3, s32 arg4, s32 arg5);
 // void func_80047074();
 bool func_8004714C(MenuItem *item, Gfx **gxfP, struct TiTexData *arg2, struct TiTexData *arg3, s32 arg4, s32 arg5, s32 arg6);

@@ -1,4 +1,6 @@
-# Dr. Mario 64 [![Build Status]][actions] ![Code us Progress] ![Code cn Progress] ![Code gw Progress]
+# Dr. Mario 64
+
+[![Build Status]][actions] ![Code us Progress] ![Code cn Progress] ![Code gw Progress]
 
 [Build Status]: <https://github.com/AngheloAlf/drmario64/actions/workflows/ci.yml/badge.svg>
 [actions]: <https://github.com/AngheloAlf/drmario64/actions/workflows/ci.yml>
