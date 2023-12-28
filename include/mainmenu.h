@@ -281,9 +281,9 @@ typedef struct MenuRankHeader {
 } MenuRankHeader; // size >= 0x134
 
 typedef struct MenuRankFig {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x4];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
+    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x04 */ s32 unk_04; // enum?
+    /* 0x08 */ s32 unk_08; // enum?
     /* 0x0C */ s32 unk_0C[UNK_SIZE];
     /* 0x10 */ s32 unk_10;
     /* 0x14 */ s32 unk_14;
@@ -297,17 +297,19 @@ typedef struct MenuRankFig {
 } MenuRankFig; // size = 0xC8
 
 typedef struct MenuRankBase {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x4];
+    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
     /* 0x04 */ MenuItem unk_04;
 } MenuRankBase; // size = 0x94
 
 typedef struct MenuRankNum {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x8];
+    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x04 */ s32 unk_04;
     /* 0x08 */ MenuItem unk_08;
 } MenuRankNum; // size = 0x98
 
 typedef struct MenuRankName {
-    /* 0x00 */ UNK_TYPE1 unk_00[0x8];
+    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x04 */ u8 unk_04[4];
     /* 0x08 */ MenuItem unk_08;
 } MenuRankName; // size = 0x98
 
