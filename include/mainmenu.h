@@ -167,8 +167,8 @@ typedef struct MenuNumber {
 typedef struct MenuLvGauge {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x004 */ s32 unk_004;
-    /* 0x008 */ s32 unk_008;
-    /* 0x00C */ s32 unk_00C;
+    /* 0x008 */ int unk_008;
+    /* 0x00C */ int unk_00C;
     /* 0x010 */ MenuItem unk_010;
     /* 0x0A0 */ MenuCursor unk_0A0;
 } MenuLvGauge; // size = 0x300
@@ -275,9 +275,9 @@ typedef struct MenuRankLabel {
 
 typedef struct MenuRankHeader {
     /* 0x00 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x04 */ s32 unk_04;
+    /* 0x04 */ s32 unk_04; // count of unk_98
     /* 0x08 */ MenuItem unk_08;
-    /* 0x98 */ MenuRankLabel unk_98[UNK_SIZE];
+    /* 0x98 */ MenuRankLabel unk_98[UNK_SIZE]; // Maybe 5?
 } MenuRankHeader; // size >= 0x134
 
 typedef struct MenuRankFig {
