@@ -113,7 +113,7 @@ void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP);
 void func_80048B8C(MenuLvGauge *lvGauge, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 void func_80048C48(MenuLvGauge *lvGauge, s32 arg1);
 void func_80048CC8(MenuLvGauge *arg0, MenuItem *arg1);
-UNK_RET menuLvGauge_draw1(MenuLvGauge *lvGaugeP[], s32, Gfx **gxfP);
+void menuLvGauge_draw1(MenuLvGauge *lvGaugeP[], s32 count, Gfx **gxfP);
 void func_80048FA0(MenuLvGauge *lvGaugeP[], s32 count, Gfx **gxfP);
 // void func_80049034();
 void func_80049080(MenuYN *yn, s32 arg1, f32 arg2);
