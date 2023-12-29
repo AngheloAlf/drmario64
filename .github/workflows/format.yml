@@ -5,15 +5,20 @@ on: [push, pull_request]
 
 jobs:
   build:
-    name: Check format
+    name: Check format ${{ matrix.version }}
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        version: [us, cn, gw]
 
     steps:
     - name: Checkout reposistory
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install package requirements
       run: sudo apt-get install -y make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip clang-format-11 clang-tidy-11
 
     - name: Check format
-      run: ./tools/check_format.sh
+      run: VERSION=${{ matrix.version }} ./tools/check_format.sh

@@ -10947,7 +10947,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B1210);
 #endif
 
 #if VERSION_US
-void menuRankFig_draw(MenuRankFig **arg0, s32 count, Gfx **gfxP) {
+void menuRankFig_draw(MenuRankFig **rankFigArr, s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 i;
 
@@ -10960,7 +10960,7 @@ void menuRankFig_draw(MenuRankFig **arg0, s32 count, Gfx **gfxP) {
         s32 j;
 
         for (j = 0; j < count; j++) {
-            MenuRankFig *temp_s2 = arg0[j];
+            MenuRankFig *temp_s2 = rankFigArr[j];
             MenuItem *item = &temp_s2->unk_38;
             s32 k;
 
