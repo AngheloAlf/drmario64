@@ -13,7 +13,6 @@
 #include "msgwnd.h"
 #include "recwritingmsg.h"
 #include "char_anime.h"
-#include "mainmenu.h"
 #include "gamemap.h"
 #include "main.h"
 
@@ -438,75 +437,6 @@ typedef struct struct_watchManual {
     /* 0x174 */ s32 unk_174[4];
     /* 0x184 */ s32 unk_184;
 } struct_watchManual; // size = 0x188
-
-struct struct_watchMenu;
-
-typedef struct struct_watchMenu_unk_02470 {
-    /* 0x00000 */ UNK_TYPE1 unk_00000[0x60000];
-} struct_watchMenu_unk_02470; // size = 0x60000
-
-// menuTitle?
-typedef struct struct_watchMenu_unk_02548 {
-    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08[2]; // TODO: make enum?
-    /* 0x10 */ MenuItem unk_10[2];
-} struct_watchMenu_unk_02548; // size >= 0x130
-
-// Left column: us
-// Right column: cn
-typedef struct struct_watchMenu {
-    /* 0x00000 */ struct_800EB670 *unk_00000;
-    /* 0x00004 */ struct_800FAF98_unk_64 unk_00004;
-    /* 0x0000C */ OSMesgQueue unk_0000C;
-    /* 0x00024 */ OSMesg unk_00024[8];
-    /* 0x00044 */ UNK_TYPE1 unk_00044[4];
-    /* 0x00048 */ Mtx unk_00048[3][0x10];
-    /* 0x00C48 */ Vtx unk_00C48[3][0x80];
-    /* 0x02448 */ Mtx *unk_02448[3];
-    /* 0x02454 */ Vtx *unk_02454[3];
-    /* 0x02460 */ UNK_PTR unk_02460;
-    /* 0x02464 */ UNK_TYPE unk_02464;
-    /* 0x02468 */ struct_watchMenu_unk_02470 *unk_02468[2];
-    /* 0x02470 */ struct_watchMenu_unk_02470 *unk_02470[2];
-    /* 0x02478 */ struct TiTexData *unk_02478;
-    /* 0x0247C */ struct TiTexData *unk_0247C;
-    /* 0x02480 */ UNK_TYPE1 unk_02480[4];
-    /* 0x02484 */ struct TiTexData *unk_02484;
-    /* 0x02488 */ struct TiTexData *unk_02488;
-    /* 0x0248C */ struct TiTexData *unk_0248C;
-    /* 0x02490 */ struct TiTexData *unk_02490;
-    /* 0x02494 */ struct TiTexData *unk_02494;
-    /* 0x02498 */ struct TiTexData *unk_02498;
-    /* 0x0249C */ struct TiTexData *unk_0249C;
-    /* 0x024A0 */ struct TiTexData *unk_024A0;
-    /* 0x024A4 */ struct TiTexData *unk_024A4;
-    /* 0x024A8 */ struct TiTexData *unk_024A8;
-    /* 0x024AC */ struct TiTexData *unk_024AC;
-    /* 0x024B0 */ struct TiTexData *unk_024B0;
-    /* 0x024B4 */ struct TiTexData *unk_024B4;
-    /* 0x024B8 */ MenuItem unk_024B8[1];
-    /* 0x02548 */ struct_watchMenu_unk_02548 unk_02548;
-    /* 0x02678 */ MenusUnion unk_02678[2];
-    /* 0x111C0 */ UNK_TYPE unk_111C0;
-    /* 0x111C4 */ UNK_TYPE unk_111C4;
-    /* 0x111C8 */ MainMenuMode unk_111C8;
-    /* 0x111CC */ MainMenuMode unk_111CC;
-    /* 0x111D0 */ MainMenuMode unk_111D0;
-    /* 0x111D4 */ enum_main_no unk_111D4;
-    #ifdef VERSION_CN
-    /*         0x111D8 */ UNK_TYPE4 unk_cn_pad;
-    #endif
-    /* 0x111D8 0x111DC */ UNK_TYPE unk_111D8;
-    /* 0x111DC 0x111E0 */ f32 unk_111DC;
-    /* 0x111E0 0x111E4 */ f32 unk_111E0;
-    /* 0x111E4 0x111E8 */ UNK_TYPE unk_111E4;
-    /* 0x111E8 0x111EC */ UNK_TYPE unk_111E8;
-    /* 0x111EC 0x111F0 */ UNK_TYPE unk_111EC;
-    /* 0x111F0 0x111F4 */ UNK_TYPE unk_111F0;
-    /* 0x111F4 0x111F8 */ UNK_TYPE unk_111F4; // thread priority?
-    /* 0x111F8 0x111FC  */ RecordWritingMessage recMessage;
-} struct_watchMenu; // size_us = 0x11280; size_cn = 0x11288
 
 typedef enum enum_evs_gamesel {
     /* 0 */ ENUM_EVS_GAMESEL_0,

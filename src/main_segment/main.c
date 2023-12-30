@@ -19,6 +19,7 @@
 #include "main1x.h"
 #include "main_story.h"
 #include "dm_manual_main.h"
+#include "main_menu.h"
 
 /**
  * Original name: mainproc

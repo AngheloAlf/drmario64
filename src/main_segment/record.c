@@ -12,7 +12,7 @@
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 #include "recwritingmsg.h"
-#include "mainmenu.h"
+#include "main_menu.h"
 #include "main1x.h"
 #include "tex_func.h"
 #include "libc/assert.h"

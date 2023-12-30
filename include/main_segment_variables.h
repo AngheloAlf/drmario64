@@ -10,6 +10,8 @@
 #include "alignment.h"
 #include "stack.h"
 
+struct struct_watchMenu;
+
 
 // data
 
@@ -346,7 +348,7 @@ extern OSMesgQueue B_800F3E38;
 extern struct_watchGame *watchGame;
 extern u8 aiFlagCnt;
 extern s16 aiGoalX;
-extern struct_watchMenu *watchMenu;
+extern struct struct_watchMenu *watchMenu;
 extern OSMesg B_800F3E60[1];
 extern u16 gControllerPrevHoldButtons[MAXCONTROLLERS+1];
 // extern UNK_TYPE B_800F3E6E;

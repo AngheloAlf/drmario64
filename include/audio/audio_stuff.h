@@ -9,6 +9,7 @@
 #include "unk.h"
 #include "unknown_structs.h"
 
+struct struct_800EB670;
 
 typedef struct Audio_struct_800FAF98_unk_14 {
     /* 0x0 */ struct Audio_struct_800FAF98_unk_14 *unk_0;
@@ -17,7 +18,7 @@ typedef struct Audio_struct_800FAF98_unk_14 {
 } Audio_struct_800FAF98_unk_14; // size = 0xC
 
 typedef struct Audio_struct_800FAF98 {
-    /* 0x00 */ struct_800EB670 *unk_00;
+    /* 0x00 */ struct struct_800EB670 *unk_00;
     /* 0x04 */ UNK_TYPE unk_04;
     /* 0x08 */ UNK_TYPE unk_08;
     /* 0x0C */ void *unk_0C; // vram
