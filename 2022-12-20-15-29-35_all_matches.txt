@@ -133,7 +133,7 @@ dm_data_vm_ta_sort - found 20 matches total:
 0.99 - func_80056E1C
 0.99 - func_80057724
 0.99 - func_800578C8
-0.99 - menuTitle_setTitle (decompiled)
+0.99 - _setTitle (decompiled)
 0.99 - func_80062990
 0.99 - func_800629AC
 0.99 - func_800629C8

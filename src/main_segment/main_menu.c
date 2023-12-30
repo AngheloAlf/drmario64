@@ -1625,7 +1625,10 @@ const char _mesScoreOnOff[] =
 #endif
     MSG_END;
 
-const char STR_800AF4C4[] =
+/**
+ * Original name: _mesWriting
+ */
+static const char _mesWriting[] =
 #if VERSION_US
     "Now saving." MSG_NEWLINE
     "Do not turn power off."
@@ -1636,7 +1639,10 @@ const char STR_800AF4C4[] =
 #endif
     MSG_END;
 
-const char STR_800AF4EC[] =
+/**
+ * Original name: _mesDeleting
+ */
+const char _mesDeleting[] =
 #if VERSION_US
     "Now deleting." MSG_NEWLINE
     "Do not turn power off."
@@ -1676,11 +1682,11 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800AF530);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80047420);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuTitle_setTitle);
 #endif
 
 #if VERSION_CN
-void func_80047420(struct_watchMenu_unk_02548 *arg0, MainMenuMode arg1) {
+void menuTitle_setTitle(struct_watchMenu_unk_02548 *arg0, MainMenuMode arg1) {
     s32 var_a2 = -1;
 
     switch (arg1) {
@@ -2943,7 +2949,9 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800490B8);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004BD64_cn);
+void func_8004BD64_cn(MenuYN *yn, s32 arg1) {
+    func_80049080(yn, arg1, yn->unk_008.unk_64);
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -2983,11 +2991,33 @@ void menuYN_init(MenuYN *yn, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3)
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80049224);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuYN_input);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004BF44_cn);
+bool menuYN_input(MenuYN *yn, s32 arg1) {
+    u16 keyTrg = _getKeyTrg(yn->watchMenuRef, arg1);
+    s32 var_a2 = yn->unk_004;
+
+    if ((yn->unk_008.unk_68 < 0.0f) || (yn->unk_008.unk_64 < 1.0f)) {
+        return false;
+    }
+
+    if (keyTrg & U_JPAD) {
+        var_a2--;
+    }
+    if (keyTrg & D_JPAD) {
+        var_a2++;
+    }
+
+    var_a2 = WrapI(0, 2, var_a2);
+    if (var_a2 != yn->unk_004) {
+        yn->unk_004 = var_a2;
+        dm_snd_play(SND_INDEX_64);
+    }
+
+    return true;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -3076,7 +3106,9 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80049578);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004C34C_cn);
+void func_8004C34C_cn(MenuMes *mes, s32 arg1) {
+    func_80049540(mes, arg1, mes->unk_004.unk_64);
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -3988,7 +4020,11 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004B43C);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004E6DC_cn);
+bool func_8004E6DC_cn(MenuCont *cont, s32 arg1 UNUSED) {
+    MenuItem *temp_a0 = &cont->unk_004;
+
+    return ((temp_a0->unk_18 > 0.0f) && (temp_a0->unk_14 == 1.0f));
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -4174,7 +4210,29 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004B8CC);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004EC80_cn);
+bool menuMainPanel_input(MenuMainPanel *mainPanel, s32 arg1) {
+    u16 temp_a0 = _getKeyRep(mainPanel->watchMenuRef, arg1);
+    s32 var_v1 = 0;
+    s32 temp;
+
+    if ((mainPanel->unk_028.unk_18 < 0.0f) || (mainPanel->unk_028.unk_14 < 1.0f)) {
+        return false;
+    }
+    if (temp_a0 & 0x800) {
+        var_v1--;
+    }
+    if (temp_a0 & 0x400) {
+        var_v1++;
+    }
+
+    temp = mainPanel->unk_00C;
+    temp = WrapI(0, mainPanel->unk_008, temp + var_v1);
+    if (temp != mainPanel->unk_00C) {
+        dm_snd_play(SND_INDEX_64);
+        mainPanel->unk_00C = temp;
+    }
+    return true;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -4315,8 +4373,9 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004F374_cn);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004BF10);
 #endif
 
+void menuNameSelPanel_input1(MenuNameSelPanel *nameSelPanel, s32 arg1);
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004F3D0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuNameSelPanel_input1);
 #endif
 
 #if VERSION_US
@@ -4324,7 +4383,37 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004C1F0);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8004F79C_cn);
+bool menuNameSelPanel_input(MenuNameSelPanel *nameSelPanel) {
+    s32 var_s3 = 0;
+    s32 i;
+
+    if ((nameSelPanel->unk_028.unk_18 < 0.0f) || (nameSelPanel->unk_028.unk_14 < 1.0f)) {
+        return false;
+    }
+
+    nameSelPanel->unk_008 = 0;
+
+    for (i = 0; i < nameSelPanel->unk_004; i++) {
+        menuNameSelPanel_input1(nameSelPanel, i);
+
+        if (nameSelPanel->unk_00C[i] > 0) {
+            var_s3++;
+            continue;
+        }
+
+        if (nameSelPanel->unk_00C[i] < 0) {
+            nameSelPanel->unk_00C[i] = 0;
+            nameSelPanel->unk_008 = -1;
+            return true;
+        }
+    }
+
+    if (var_s3 == nameSelPanel->unk_004) {
+        nameSelPanel->unk_008 = 1;
+    }
+
+    return true;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -4585,7 +4674,28 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004C974);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_800500B0_cn);
+bool menuNameOpPanel_input(MenuNameOpPanel *nameOpPanel, s32 arg1) {
+    u16 keyRep = _getKeyRep(nameOpPanel->watchMenuRef, arg1);
+    s32 var_s0 = nameOpPanel->unk_008;
+
+    if ((nameOpPanel->unk_010.unk_18 < 0.0f) || (nameOpPanel->unk_010.unk_14 < 1.0f)) {
+        return false;
+    }
+
+    if (keyRep & U_JPAD) {
+        var_s0--;
+    }
+    if (keyRep & D_JPAD) {
+        var_s0++;
+    }
+
+    var_s0 = WrapI(0, 2, var_s0);
+    if (var_s0 != nameOpPanel->unk_008) {
+        dm_snd_play(SND_INDEX_64);
+        nameOpPanel->unk_008 = var_s0;
+    }
+    return true;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -4691,11 +4801,68 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800AFC74);
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004CE48);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuSndSelPanel_input);
 #endif
 
+extern const u8 RO_800C6304_cn[];
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050670_cn);
+bool menuSndSelPanel_input(MenuSndSelPanel *sndSelPanel, s32 arg1) {
+    SndIndex soundIndex = SND_INDEX_INVALID;
+    u16 keyRep = _getKeyRep(sndSelPanel->watchMenuRef, arg1);
+    s32 var_a3 = sndSelPanel->unk_004;
+
+    if ((sndSelPanel->unk_014.unk_18 < 0.0f) || (sndSelPanel->unk_014.unk_14 < 1.0f)) {
+        return false;
+    }
+
+    if (keyRep & U_JPAD) {
+        var_a3--;
+    }
+    if (keyRep & D_JPAD) {
+        var_a3++;
+    }
+
+    var_a3 = WrapI(0, 4, var_a3);
+    if (var_a3 != sndSelPanel->unk_004) {
+        soundIndex = SND_INDEX_64;
+        sndSelPanel->unk_004 = var_a3;
+    }
+
+    var_a3 = 0;
+    if (keyRep & L_JPAD) {
+        var_a3--;
+    }
+    if (keyRep & R_JPAD) {
+        var_a3++;
+    }
+    if (keyRep & L_TRIG) {
+        var_a3 -= 10;
+    }
+    if (keyRep & R_TRIG) {
+        var_a3 += 10;
+    }
+
+    if (var_a3 != 0) {
+        if (sndSelPanel->unk_004 >= 2) {
+            soundIndex = SND_INDEX_63;
+            switch (sndSelPanel->unk_004) {
+                case 0x2:
+                    sndSelPanel->unk_008 = WrapI(0, 0x18, sndSelPanel->unk_008 + var_a3);
+                    break;
+
+                case 0x3:
+                    sndSelPanel->unk_00C = WrapI(0, 0x67, sndSelPanel->unk_00C + var_a3);
+                    sndSelPanel->unk_010 = RO_800C6304_cn[sndSelPanel->unk_00C];
+                    break;
+            }
+        }
+    }
+
+    SND_PLAY_INDEX(soundIndex);
+
+    return true;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -4766,7 +4933,7 @@ void menuSndSelPanel_draw(MenuSndSelPanel *sndSelPanel, Gfx **gfxP) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_8004D258(void *arg) {
     MenuPlay2Panel *play2Panel = arg;
     void *sp10 = play2Panel->unk_002C;
@@ -4821,13 +4988,9 @@ extern const s32 _okY_4316[];
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _okY_4316);
 #endif
 
-extern const s32 _cursor_4317[][4];
+extern const s32 _cursor_4317[][2][4];
 #if VERSION_US
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _cursor_4317);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80050B48_cn);
 #endif
 
 #if VERSION_CN
@@ -4851,71 +5014,47 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _panel_4108);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C637C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _lvNumScale_4308);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C638C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _player_4309);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C639C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _lvNum_4310);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63A0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _lvGauge_4311);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63AC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _speedAsk_4312);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63B0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _speedItem_4313);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63BC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _glvAsk_4314);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63C0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _glvItem_4315);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63CC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _okY_4316);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63D0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63DC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63E0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63EC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63F0_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C63FC_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6404_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _cursor_4317);
 #endif
 
 #if VERSION_US
-#ifdef NON_MATCHING
+#if 0
 // swapped instructions
 void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2,
                          s32 arg3, s32 arg4, s32 arg5, s32 arg6, bool arg7, CharAnimeMode arg8, s32 arg9, s32 argA,
@@ -5019,7 +5158,104 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuPlay2Panel_init);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuPlay2Panel_init);
+void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2,
+                         s32 arg3, s32 arg4, s32 arg5, s32 arg6, bool arg7, CharAnimeMode arg8, s32 arg9, s32 argA,
+                         s32 argB, s32 argC) {
+    struct_watchMenu_unk_02470 *var_fp = *arg2;
+    MenuItem *item;
+    s32 i;
+
+    play2Panel->watchMenuRef = watchMenuRef;
+
+    switch (_getMode(watchMenuRef)) {
+        case MAINMENUMODE_MENUPLAY2_17:
+        case MAINMENUMODE_MENUPLAY2_26:
+        case MAINMENUMODE_MENUPLAY2_41:
+        case MAINMENUMODE_MENUPLAY2_43:
+            play2Panel->unk_0004 = 0;
+            play2Panel->unk_0008 = 0;
+            play2Panel->unk_000C = 0;
+            break;
+
+        case MAINMENUMODE_MENUPLAY2_21:
+        case MAINMENUMODE_MENUPLAY2_30:
+        case MAINMENUMODE_MENUPLAY2_45:
+            play2Panel->unk_0004 = 1;
+            play2Panel->unk_0008 = 0;
+            play2Panel->unk_000C = 1;
+            break;
+
+        case MAINMENUMODE_MENUPLAY2_34:
+            play2Panel->unk_0004 = 0;
+            play2Panel->unk_0008 = 1;
+            play2Panel->unk_000C = 1;
+            break;
+
+        default:
+            break;
+    }
+
+    play2Panel->unk_0010 = arg3;
+    play2Panel->unk_0014 = arg4;
+    play2Panel->unk_0018 = arg5;
+    play2Panel->unk_001C = arg6;
+    play2Panel->unk_0020 = arg8;
+    play2Panel->unk_0024 = 0;
+
+    if (arg7) {
+        play2Panel->unk_0028 = -1;
+    } else {
+        play2Panel->unk_0028 = 0;
+    }
+
+    play2Panel->unk_0030.b.bit_31 = arg7 != false;
+    play2Panel->unk_0030.b.bit_30 = false;
+
+    menuItem_init(&play2Panel->unk_0034, argB, argC);
+    menuItem_init(&play2Panel->unk_00C4, _player_4309[arg3][0], _player_4309[arg3][1]);
+    menuItem_init(&play2Panel->unk_0154, 0xA, 4);
+
+    if (play2Panel->unk_000C != 0) {
+        func_80049894(&play2Panel->unk_1220, watchMenuRef, 2, arg9, _glvAsk_4314[arg3][0], _glvAsk_4314[arg3][1]);
+        menuSpeedItem_init(&play2Panel->unk_12BC, watchMenuRef, arg3 + 2, arg6, arg9, _glvItem_4315[arg3][0],
+                           _glvItem_4315[arg3][1], 0x2A);
+    } else {
+        func_80048B8C(&play2Panel->unk_0290, watchMenuRef, arg3, arg6, arg9, _lvGauge_4311[arg3][0],
+                      _lvGauge_4311[arg3][1]);
+        func_8004A860(&play2Panel->unk_01E4, watchMenuRef, arg3, 2, arg9, _lvNum_4310[arg3][0], _lvNum_4310[arg3][1]);
+
+        item = &play2Panel->unk_01E4.unk_1C;
+        func_80046688(item, _lvNumScale_4308[arg3][0], _lvNumScale_4308[arg3][1]);
+        func_80046694(item, _lvNumScale_4308[arg3][0], _lvNumScale_4308[arg3][1]);
+    }
+
+    func_80049894(&play2Panel->unk_0590, watchMenuRef, 0, argA, _speedAsk_4312[arg3][0], _speedAsk_4312[arg3][1]);
+    menuSpeedItem_init(&play2Panel->unk_062C, watchMenuRef, arg3, arg6, argA, _speedItem_4313[arg3][0],
+                       _speedItem_4313[arg3][1], 0x2A);
+
+    switch (arg3) {
+        case 0:
+            break;
+
+        case 1:
+            play2Panel->unk_002C = ALIGN_PTR(var_fp);
+            var_fp = (void *)((uintptr_t)play2Panel->unk_002C + animeState_getDataSize(arg8));
+            func_80040B10(func_8004D258, play2Panel);
+            break;
+    }
+
+    menuItem_init(&play2Panel->unk_0CD0, 8, _okY_4316[arg3]);
+    func_800467E0(&play2Panel->unk_0CD0);
+    func_80046614(&play2Panel->unk_0CD0, -1);
+    play2Panel->unk_0CD0.unk_64 = 0.0f;
+
+    for (i = 0; i < ARRAY_COUNTU(play2Panel->unk_0D60); i++) {
+        func_800479A8(&play2Panel->unk_0D60[i], watchMenuRef, 1U, arg6, _cursor_4317[arg3][i][0],
+                      _cursor_4317[arg3][i][1], _cursor_4317[arg3][i][2], _cursor_4317[arg3][i][3]);
+    }
+
+    *arg2 = var_fp;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -5044,7 +5280,7 @@ void menuPlay2Panel_copyConfig(MenuPlay2Panel *play2Panel, MenuPlay2Panel *arg1)
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void menuPlay2Panel_copyCursor(MenuPlay2Panel *play2Panel, MenuPlay2Panel *other) {
     s32 i;
 
@@ -5081,10 +5317,6 @@ void menuPlay2Panel_copyCursor(MenuPlay2Panel *play2Panel, MenuPlay2Panel *other
             break;
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuPlay2Panel_copyCursor);
 #endif
 
 #if VERSION_US
@@ -6105,31 +6337,27 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69A0_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69B0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _n_5535);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69C8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _mode_5538);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69E0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", mode_5557);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69EC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _mode_5570);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69F0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _tbl_5598);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C69F4_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A08_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _tblLS_5599);
 #endif
 
 #if VERSION_CN
@@ -6141,7 +6369,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A10_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A2C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _tblVM_5600);
 #endif
 
 #if VERSION_CN
@@ -6153,7 +6381,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A34_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A50_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _tblVC_5601);
 #endif
 
 #if VERSION_CN
@@ -6161,52 +6389,52 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A54_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A68_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", tbl_5648);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A7C_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", tbl_5664);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A88_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _team_5687);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6A94_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _mode_5688);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AA0_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _game_5689);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AAC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _mode_5701);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AB4_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _mode1_5709);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6ACC_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _mode2_5710);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6AD8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", tbl_5735);
 #endif
 
 #if VERSION_US
 #if 0
 ? func_800490B8(MenuYN *, s32);                     /* extern */
-s32 func_80049224(MenuYN *, ?, s32);                /* extern */
+s32 menuYN_input(MenuYN *, ?, s32);                /* extern */
 ? func_80049578(MenuMes *, s32);                    /* extern */
 ? func_8004970C(MenuMes *, s8 *, s32);              /* extern */
 s32 func_8004B43C(MenuCont *, ?, s32);              /* extern */
 s32 func_8004B8CC(MenuMainPanel *, ?, s32);         /* extern */
 s32 func_8004C1F0(MenuNameSelPanel *);              /* extern */
 s32 func_8004C974(MenuNameOpPanel *, ?, s32);       /* extern */
-s32 func_8004CE48(MenuSndSelPanel *, ?, s32);       /* extern */
+s32 menuSndSelPanel_input(MenuSndSelPanel *, ?, s32);       /* extern */
 ? func_80059B5C(struct_watchMenu *);                /* extern */
 ? func_80059BC8(struct_watchMenu *);                /* extern */
 ? func_80059C34(struct_watchMenu *);                /* extern */
@@ -6317,7 +6545,7 @@ void menuMain_input(MenuMain *menuMain) {
     sp1C = &menuMain->unk_003C[menuMain->unk_2300];
     temp_s2 = _getKeyTrg(menuMain->watchMenuRef, 0);
     if (_getMode(menuMain->watchMenuRef) == MAINMENUMODE_MENUMAIN_0) {
-        menuTitle_setTitle(menuMain->watchMenuRef, menuMain->mode);
+        _setTitle(menuMain->watchMenuRef, menuMain->mode);
     }
     temp_v0 = menuMain->mode;
     switch (temp_v0) {
@@ -6328,7 +6556,7 @@ void menuMain_input(MenuMain *menuMain) {
         case MAINMENUMODE_65:
         case MAINMENUMODE_68:
             if (0 == 0) {
-                var_v0 = func_80049224(&menuMain->unk_2B6C, 0, 0);
+                var_v0 = menuYN_input(&menuMain->unk_2B6C, 0, 0);
 block_20:
                 var_a2 = 0;
                 if (var_v0 != 0) {
@@ -6341,7 +6569,7 @@ block_21:
             break;
         case MAINMENUMODE_71:
             if (0 == 0) {
-                var_v0 = func_8004CE48(&menuMain->unk_1C64, 0, 0);
+                var_v0 = menuSndSelPanel_input(&menuMain->unk_1C64, 0, 0);
                 goto block_20;
             }
             goto block_21;
@@ -7157,8 +7385,988 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuMain_input);
 #endif
 #endif
 
+void _eepWritePlayer(struct_watchMenu *arg0);
+void _eepErasePlayer(struct_watchMenu *arg0);
+void _eepEraseData(struct_watchMenu *arg0);
+
+extern const s8 _mode_5570[]; // MainMenuMode
+
 #if VERSION_CN
+#if 0
+extern const s32 RO_800C69A0_cn[];
+extern const s32 RO_800C6A0C_cn[];
+extern const s32 RO_800C6A10_cn[];
+extern const s32 RO_800C6A30_cn[];
+extern const s32 RO_800C6A34_cn[];
+extern const s32 RO_800C6A54_cn[];
+extern const s32 _game_5689[];
+extern const s32 _mode1_5709[];
+extern const s32 _mode2_5710[];
+extern const s32 _mode_5538[];
+extern const s32 _mode_5688[];
+extern const s32 _mode_5701[];
+extern const s32 _n_5535[];
+extern const s32 _tblLS_5599[];
+extern const s32 _tblVC_5601[];
+extern const s32 _tblVM_5600[];
+extern const s32 _tbl_5598[];
+extern const s32 _team_5687[];
+extern const s32 mode_5557[];
+extern const s32 tbl_5648[];
+extern const s32 tbl_5664[];
+extern const s32 tbl_5735[];
+
+void menuMain_input(MenuMain *menuMain) {
+    s32 sp18;
+    MenuMainPanel *sp20;
+    s32 sp24;
+    s32 sp28;
+    s32 sp2C;
+    s32 sp30;
+    s32 sp34;
+    s32 sp38;
+    const s32 *var_v0_3;
+    MenuCont *temp_s0_3;
+    MenuNameSelPanel *temp_s0_4;
+    enum MainMenuMode temp_a0;
+    enum MainMenuMode temp_a0_2;
+    enum MainMenuMode temp_a0_3;
+    enum MainMenuMode temp_a1;
+    enum MainMenuMode temp_a1_2;
+    enum MainMenuMode temp_a1_3;
+    enum MainMenuMode temp_a1_4;
+    enum MainMenuMode temp_a1_5;
+    enum MainMenuMode temp_s0_2;
+    enum MainMenuMode temp_v1_2;
+    enum MainMenuMode temp_v1_4;
+    enum MainMenuMode temp_v1_5;
+    enum MainMenuMode temp_v1_6;
+    enum MainMenuMode var_a0_2;
+    enum MainMenuMode var_s6;
+    enum MainMenuMode var_v0_2;
+    enum MainMenuMode var_v1;
+    enum SndIndex var_s5;
+    enum bool var_v0;
+    f32 temp_fs0;
+    f32 temp_fs0_2;
+    s32 *temp_s2;
+    s32 *var_a0;
+    s32 *var_a0_4;
+    s32 *var_a3;
+    s32 temp_a3_2;
+    s32 temp_v0_2;
+    s32 temp_v0_4;
+    s32 temp_v0_5;
+    s32 temp_v0_6;
+    s32 temp_v0_7;
+    s32 temp_v1;
+    s32 temp_v1_10;
+    s32 temp_v1_8;
+    s32 temp_v1_9;
+    s32 var_a1_4;
+    s32 var_a2;
+    s32 var_a2_2;
+    s32 var_a2_3;
+    s32 var_a2_4;
+    s32 var_a2_5;
+    s32 var_a2_6;
+    s32 var_a2_8;
+    s32 var_fp;
+    s32 var_s2;
+    s32 var_s3;
+    s32 var_s4;
+    s32 var_s7;
+    u16 temp_s0;
+    u32 var_a2_7;
+    u32 var_a2_9;
+    u8 *temp_v1_3;
+    u8 *var_a0_3;
+    u8 *var_a1;
+    u8 *var_a1_2;
+    u8 *var_a1_3;
+    u8 temp_v0_3;
+    u8 temp_v0_8;
+    u8 temp_v1_7;
+
+    sp20 = &menuMain->unk_003C[menuMain->unk_2300];
+    temp_s0 = _getKeyTrg(menuMain->watchMenuRef, 0);
+    if (_getMode(menuMain->watchMenuRef) == MAINMENUMODE_MENUMAIN_0) {
+        _setTitle(menuMain->watchMenuRef, menuMain->mode);
+    }
+
+    switch (menuMain->mode) {                       /* switch 1 */
+        case MAINMENUMODE_66:                       /* switch 1 */
+        case MAINMENUMODE_69:                       /* switch 1 */
+            var_a2 = 1;
+            break;
+
+        case MAINMENUMODE_65:                       /* switch 1 */
+        case MAINMENUMODE_68:                       /* switch 1 */
+            if (0 == 0) {
+                var_v0 = menuYN_input(&menuMain->unk_2B6C, 0);
+                var_a2 = 0;
+                if (var_v0 != false) {
+                    var_a2 = 1;
+                    break;
+                }
+            } else {
+                var_a2 = 1;
+            }
+            break;
+
+        case MAINMENUMODE_71:                       /* switch 1 */
+            if (0 == 0) {
+                var_v0 = menuSndSelPanel_input(&menuMain->unk_1C64, 0);
+                var_a2 = 0;
+                if (var_v0 != false) {
+                    var_a2 = 1;
+                    break;
+                }
+            }
+            var_a2 = 1;
+            break;
+
+        default:                                    /* switch 1 */
+            if ((0 != 0) || (var_a2_2 = 0, (menuMainPanel_input(sp20, 0) != false))) {
+                var_a2_2 = 1;
+            }
+            if ((var_a2_2 != 0) || (var_a2_3 = 0, (menuNameSelPanel_input(&menuMain->unk_0D2C) != false))) {
+                var_a2_3 = 1;
+            }
+            if ((var_a2_3 != 0) || (var_a2_4 = 0, (func_8004E6DC_cn(&menuMain->unk_2658, 0) != false))) {
+                var_a2_4 = 1;
+            }
+            if (var_a2_4 == 0) {
+                var_v0 = menuNameOpPanel_input(&menuMain->unk_17B4, 0);
+                var_a2 = 0;
+                if (var_v0 != false) {
+                    var_a2 = 1;
+                    break;
+                }
+            }
+            var_a2 = 1;
+            break;
+    }
+
+    var_fp = 0;
+    if (var_a2 == 0) {
+        return;
+    }
+
+    var_s7 = 0;
+    var_s3 = 0;
+    sp38 = 0;
+    sp24 = 0;
+    sp34 = 0;
+    sp30 = 0;
+    sp2C = 0;
+    sp28 = 0;
+    temp_a1 = menuMain->mode;
+    var_s5 = SND_INDEX_INVALID;
+    switch (temp_a1) {                          /* switch 2 */
+        case MAINMENUMODE_2:                    /* switch 2 */
+        case MAINMENUMODE_5:                    /* switch 2 */
+        case MAINMENUMODE_8:                    /* switch 2 */
+        case MAINMENUMODE_11:                   /* switch 2 */
+        case MAINMENUMODE_14:                   /* switch 2 */
+        case MAINMENUMODE_18:                   /* switch 2 */
+        case MAINMENUMODE_23:                   /* switch 2 */
+        case MAINMENUMODE_27:                   /* switch 2 */
+        case MAINMENUMODE_31:                   /* switch 2 */
+        case MAINMENUMODE_61:                   /* switch 2 */
+            var_s2 = 0;
+            break;
+        case MAINMENUMODE_60:                   /* switch 2 */
+            var_s2 = 0;
+            break;
+        case MAINMENUMODE_66:                   /* switch 2 */
+        case MAINMENUMODE_69:                   /* switch 2 */
+            var_s2 = 0;
+            break;
+        case MAINMENUMODE_62:                   /* switch 2 */
+            var_s2 = menuMain->unk_17B4.unk_008;
+            break;
+        case MAINMENUMODE_71:                   /* switch 2 */
+            var_s2 = menuMain->unk_1C64.unk_004;
+            break;
+        case MAINMENUMODE_65:                   /* switch 2 */
+        case MAINMENUMODE_68:                   /* switch 2 */
+            var_s2 = menuMain->unk_2B6C.unk_004;
+            break;
+        default:                                /* switch 2 */
+            temp_v1 = sp20->unk_00C;
+            var_s2 = temp_v1;
+            menuMain->unk_000C[menuMain->unk_0008] = temp_v1;
+            break;
+    }
+
+    temp_a1_2 = menuMain->mode;
+    switch (temp_a1_2) {                        /* switch 3 */
+        case MAINMENUMODE_MENUMAIN_0:           /* switch 3 */
+            if (temp_s0 & 0x9000) {
+                temp_s0_2 = *(RO_800C69A0_cn + (var_s2 * 4));
+                if (temp_s0_2 == MAINMENUMODE_22) {
+                    if (evs_playmax < 2U) {
+                        evs_playmax = joyResponseCheck();
+                        func_8004970C(&menuMain->unk_31E4, _mesNoCont2);
+                        var_s5 = SND_INDEX_71;
+                        sp34 += 1;
+                    } else {
+                        var_s3 = 1;
+                        var_s5 = SND_INDEX_62;
+                        menuMain->mode = temp_s0_2;
+                        temp_v0_2 = menuMain->unk_0008 + 1;
+                        menuMain->unk_0008 = temp_v0_2;
+                        menuMain->unk_000C[temp_v0_2] = 0;
+                    }
+                } else {
+                    var_s3 = 1;
+                    var_s5 = SND_INDEX_62;
+                    menuMain->mode = temp_s0_2;
+                    temp_v0_2 = menuMain->unk_0008 + 1;
+                    menuMain->unk_0008 = temp_v0_2;
+                    menuMain->unk_000C[temp_v0_2] = 0;
+                }
+                if (sp34 == 0) {
+                    sp34 = -1;
+                }
+            } else {
+                if (temp_s0 & 0x4000) {
+                    if (menuMain->unk_31E4.unk_004.unk_68 < 0.0f) {
+                        _setFadeDir(menuMain->watchMenuRef, 1);
+                        _setNextMain(menuMain->watchMenuRef, MAIN_NO_3);
+                        var_s5 = SND_INDEX_68;
+                    }
+                    goto block_84;
+                }
+block_83:
+                if (temp_s0 != 0) {
+block_84:
+                    sp34 -= 1;
+#if 0
+                default:                        /* switch 3 */
+#endif
+                }
+            }
+            break;
+        case MAINMENUMODE_1:                    /* switch 3 */
+            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            menuMain->unk_002C = _n_5535[var_s2];
+            if (temp_s0 & 0x9000) {
+                menuMain->unk_0030 = -1;
+                menuMain->mode = _mode_5538[var_s2];
+                switch (menuMain->mode) {              /* switch 8; irregular */
+                    case MAINMENUMODE_18:       /* switch 8 */
+                        evs_gamemode = ENUM_EVS_GAMEMODE_1;
+                        break;
+                    case MAINMENUMODE_8:        /* switch 8 */
+                        evs_gamemode = ENUM_EVS_GAMEMODE_2;
+                        break;
+                    case MAINMENUMODE_11:       /* switch 8 */
+                        evs_gamemode = ENUM_EVS_GAMEMODE_3;
+                        break;
+                    default:                    /* switch 8 */
+                        evs_gamemode = ENUM_EVS_GAMEMODE_0;
+                        break;
+                }
+                switch (menuMain->mode) {       /* switch 4 */
+                    case MAINMENUMODE_2:        /* switch 4 */
+                        var_s7 = 1;
+                        evs_playcnt = 2;
+                        evs_story_flg = 1;
+                        evs_gamesel = ENUM_EVS_GAMESEL_3;
+
+                        game_state_data[0].unk_04C = 0;
+                        game_state_data[0].unk_04C = 1;
+                        break;
+                    case MAINMENUMODE_5:        /* switch 4 */
+                    case MAINMENUMODE_8:        /* switch 4 */
+                    case MAINMENUMODE_11:       /* switch 4 */
+                        var_s7 = 1;
+                        evs_playcnt = 1;
+                        evs_story_flg = 0;
+                        evs_gamesel = ENUM_EVS_GAMESEL_0;
+
+                        game_state_data->unk_04B = 0;
+                        game_state_data->unk_04C = 0;
+                        game_state_data->unk_090 = CHARANIMEMODE_M;
+                        break;
+                    case MAINMENUMODE_14:       /* switch 4 */
+                    case MAINMENUMODE_18:       /* switch 4 */
+                        var_s7 = 1;
+                        evs_playcnt = 2;
+                        evs_story_flg = 0;
+                        evs_gamesel = ENUM_EVS_GAMESEL_3;
+
+                        game_state_data[0].unk_04C = 0;
+                        game_state_data[1].unk_04C = 1;
+                        break;
+                }
+                var_s3 = 1;
+                var_s5 = SND_INDEX_62;
+            } else if (temp_s0 & 0x4000) {
+                var_s3 = 1;
+                var_s5 = SND_INDEX_68;
+                menuMain->unk_0030 = -1;
+                menuMain->mode = MAINMENUMODE_MENUMAIN_0;
+                menuMain->unk_0008 -= 1;
+            }
+            break;
+        case MAINMENUMODE_22:                   /* switch 3 */
+            menuMain->unk_002C = var_s2 + 6;
+            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            if (temp_s0 & 0x9000) {
+                var_s7 = 1;
+                var_s3 = 1;
+                menuMain->unk_0030 = -1;
+                evs_playcnt = 2;
+                evs_story_flg = 0;
+                evs_gamesel = (enum enum_evs_gamesel) ENUM_EVS_GAMEMODE_1;
+                menuMain->mode = *(mode_5557 + (var_s2 * 4));
+
+                game_state_data[0].unk_04C = 0;
+                game_state_data[1].unk_04C = 0;
+
+                temp_v1_2 = menuMain->mode;
+                var_s5 = SND_INDEX_62;
+                switch (temp_v1_2) {            /* switch 9; irregular */
+                    case MAINMENUMODE_23:       /* switch 9 */
+                        evs_gamemode = ENUM_EVS_GAMEMODE_0;
+                        break;
+                    case MAINMENUMODE_27:       /* switch 9 */
+                        evs_gamemode = ENUM_EVS_GAMEMODE_1;
+                        break;
+                    case MAINMENUMODE_31:       /* switch 9 */
+                        evs_gamemode = ENUM_EVS_GAMEMODE_3;
+                        break;
+                }
+            } else if (temp_s0 & 0x4000) {
+                var_s3 = 1;
+                var_s5 = SND_INDEX_68;
+                menuMain->unk_0030 = -1;
+                menuMain->mode = MAINMENUMODE_MENUMAIN_0;
+                menuMain->unk_0008 -= 1;
+            }
+            break;
+        case MAINMENUMODE_35:                   /* switch 3 */
+            menuMain->unk_002C = var_s2 + 0xC;
+            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            if (temp_s0 & 0x9000) {
+                temp_v0_3 = joyResponseCheck();
+                evs_playmax = temp_v0_3;
+                var_a2_5 = 0;
+                if (var_s2 < (temp_v0_3 & 0xFF)) {
+                    var_a1 = &game_state_data->unk_04C;
+                    menuMain->unk_0030 = -1;
+                    evs_playcnt = 4;
+                    evs_story_flg = 0;
+                    evs_gamesel = ENUM_EVS_GAMESEL_2;
+                    evs_gamemode = ENUM_EVS_GAMEMODE_0;
+                    temp_v0_4 = menuMain->unk_0008 + 1;
+                    menuMain->unk_0008 = temp_v0_4;
+                    menuMain->mode = (enum MainMenuMode) *(_mode_5570 + var_s2);
+                    menuMain->unk_000C[temp_v0_4] = 0;
+                    do {
+                        *var_a1 = var_s2 < var_a2_5;
+                        var_a2_5 += 1;
+                        var_a1 += 0x3C4;
+                    } while (var_a2_5 < 4);
+                    var_s3 = 1;
+                    var_s5 = SND_INDEX_62;
+                    goto block_84;
+                }
+                sp34 += 1;
+                func_8004970C(&menuMain->unk_31E4, mes_5577[var_s2 - 1]);
+                var_s5 = SND_INDEX_71;
+            } else {
+                if (temp_s0 & 0x4000) {
+                    if (menuMain->unk_31E4.unk_004.unk_68 < 0.0f) {
+                        var_s3 = 1;
+                        var_s5 = SND_INDEX_68;
+                        menuMain->unk_0030 = -1;
+                        menuMain->mode = MAINMENUMODE_MENUMAIN_0;
+                        menuMain->unk_0008 -= 1;
+                    }
+                    goto block_84;
+                }
+                goto block_83;
+            }
+            break;
+        case MAINMENUMODE_2:                    /* switch 3 */
+        case MAINMENUMODE_5:                    /* switch 3 */
+        case MAINMENUMODE_8:                    /* switch 3 */
+        case MAINMENUMODE_11:                   /* switch 3 */
+        case MAINMENUMODE_14:                   /* switch 3 */
+        case MAINMENUMODE_18:                   /* switch 3 */
+        case MAINMENUMODE_23:                   /* switch 3 */
+        case MAINMENUMODE_27:                   /* switch 3 */
+        case MAINMENUMODE_31:                   /* switch 3 */
+        case MAINMENUMODE_61:                   /* switch 3 */
+            temp_v0_5 = menuMain->unk_0D2C.unk_008;
+            if (temp_v0_5 > 0) {
+                var_a2_6 = 0;
+                if (menuMain->unk_0D2C.unk_004 > 0) {
+                    var_a1_2 = menuMain + 0xD43;
+                    do {
+                        evs_select_name_no[var_a2_6] = *var_a1_2;
+                        var_a2_6 += 1;
+                        var_a1_2 += 4;
+                    } while (var_a2_6 < menuMain->unk_0D2C.unk_004);
+                    var_a2_6 = 0;
+                }
+                var_a0 = &sp18;
+                do {
+                    temp_v1_3 = &evs_select_name_no[var_a2_6];
+                    *var_a0 = 0;
+                    if (*temp_v1_3 != 8) {
+                        *var_a0 = 1;
+                        if (!(evs_mem_data[*temp_v1_3].unk_00 & 1)) {
+                            *var_a0 = 2;
+                        }
+                    }
+                    var_a2_6 += 1;
+                    var_a0 += 4;
+                } while (var_a2_6 < 2);
+#if 0
+                var_s4 = sp1C;
+#endif
+                if (var_s4 < sp18) {
+                    var_s4 = sp18;
+                }
+                temp_a1_3 = menuMain->mode;
+                switch (temp_a1_3) {            /* switch 5 */
+                    case MAINMENUMODE_2:        /* switch 5 */
+                        var_s6 = *(_tbl_5598 + (var_s4 * 8));
+                        break;
+                    case MAINMENUMODE_61:       /* switch 5 */
+                        var_s6 = *(_tbl_5598 + 4 + (var_s4 * 8));
+                        break;
+                    case MAINMENUMODE_5:        /* switch 5 */
+                        var_s6 = *(_tblLS_5599 + (var_s4 * 0xC));
+                        break;
+                    case MAINMENUMODE_8:        /* switch 5 */
+                        var_s6 = *(RO_800C6A0C_cn + (var_s4 * 0xC));
+                        break;
+                    case MAINMENUMODE_11:       /* switch 5 */
+                        var_s6 = *(RO_800C6A10_cn + (var_s4 * 0xC));
+                        break;
+                    case MAINMENUMODE_23:       /* switch 5 */
+                        var_s6 = *(_tblVM_5600 + (var_s4 * 0xC));
+                        break;
+                    case MAINMENUMODE_27:       /* switch 5 */
+                        var_s6 = *(RO_800C6A30_cn + (var_s4 * 0xC));
+                        break;
+                    case MAINMENUMODE_31:       /* switch 5 */
+                        var_s6 = *(RO_800C6A34_cn + (var_s4 * 0xC));
+                        break;
+                    case MAINMENUMODE_14:       /* switch 5 */
+                        var_s6 = *(_tblVC_5601 + (var_s4 * 8));
+                        break;
+                    case MAINMENUMODE_18:       /* switch 5 */
+                        var_s6 = *(RO_800C6A54_cn + (var_s4 * 8));
+                        /* fallthrough */
+                    default:                    /* switch 5 */
+                        break;
+                }
+                if (var_s6 != MAINMENUMODE_46) {
+                    if (var_s6 != MAINMENUMODE_62) {
+                        var_s3 = 1;
+                        var_s7 = -1;
+                        sp28 -= 1;
+                        sp2C -= 1;
+                        _setMode(menuMain->watchMenuRef, var_s6);
+                        var_s5 = SND_INDEX_62;
+                    } else {
+                        var_s7 = -1;
+                        var_s5 = SND_INDEX_62;
+                        sp24 += 1;
+                        menuMain->mode = var_s6;
+                        menuMain->unk_17B4.unk_008 = 0;
+                    }
+                } else {
+                    menuMain->mode = var_s6;
+                    goto block_124;
+                }
+            } else if (temp_v0_5 < 0) {
+                temp_a1_4 = menuMain->mode;
+                switch (temp_a1_4) {            /* switch 6 */
+                    case MAINMENUMODE_2:        /* switch 6 */
+                    case MAINMENUMODE_5:        /* switch 6 */
+                    case MAINMENUMODE_8:        /* switch 6 */
+                    case MAINMENUMODE_11:       /* switch 6 */
+                    case MAINMENUMODE_14:       /* switch 6 */
+                    case MAINMENUMODE_18:       /* switch 6 */
+                        var_v0_2 = MAINMENUMODE_1;
+block_123:
+                        menuMain->mode = var_v0_2;
+                        break;
+                    case MAINMENUMODE_23:       /* switch 6 */
+                    case MAINMENUMODE_27:       /* switch 6 */
+                    case MAINMENUMODE_31:       /* switch 6 */
+                        var_v0_2 = MAINMENUMODE_22;
+                        goto block_123;
+                    case MAINMENUMODE_61:       /* switch 6 */
+                        var_v0_2 = MAINMENUMODE_46;
+                        goto block_123;
+                }
+block_124:
+                var_s3 = 1;
+                var_s7 = -1;
+                var_s5 = SND_INDEX_68;
+            }
+            break;
+        case MAINMENUMODE_46:                   /* switch 3 */
+            if (temp_s0 & 0x9000) {
+                temp_v1_4 = *(tbl_5648 + (var_s2 * 4));
+                menuMain->mode = temp_v1_4;
+                switch (temp_v1_4) {            /* switch 7 */
+                    case MAINMENUMODE_61:       /* switch 7 */
+                        var_s3 = 1;
+                        var_s7 = 1;
+                        var_s5 = SND_INDEX_62;
+                        break;
+                    case MAINMENUMODE_47:       /* switch 7 */
+                    case MAINMENUMODE_59:       /* switch 7 */
+                    case MAINMENUMODE_67:       /* switch 7 */
+                    case MAINMENUMODE_70:       /* switch 7 */
+                        var_s3 = 1;
+                        var_s5 = SND_INDEX_62;
+                        temp_v0_6 = menuMain->unk_0008 + 1;
+                        menuMain->unk_0008 = temp_v0_6;
+                        menuMain->unk_000C[temp_v0_6] = 0;
+                        break;
+                }
+                temp_v1_5 = menuMain->mode;
+                switch (temp_v1_5) {            /* switch 10; irregular */
+                    case MAINMENUMODE_47:       /* switch 10 */
+                        dm_seq_play_fade(SEQ_INDEX_13, 0x14);
+                        break;
+                    case MAINMENUMODE_72:       /* switch 10 */
+#if 0
+                    case MAINMENUMODE_72:       /* switch 11 */
+#endif
+                        menuMain->unk_000C[menuMain->unk_0008] = 3 - evs_vs_count;
+                        break;
+                }
+            } else if (temp_s0 & 0x4000) {
+                var_s3 = 1;
+                var_s5 = SND_INDEX_68;
+                menuMain->mode = MAINMENUMODE_MENUMAIN_0;
+block_237:
+                menuMain->unk_0008 -= 1;
+            }
+            break;
+        case MAINMENUMODE_70:                   /* switch 3 */
+            if (temp_s0 & 0x9000) {
+                temp_a0_2 = *(tbl_5664 + (var_s2 * 4));
+                menuMain->mode = temp_a0_2;
+                if (temp_a0_2 == MAINMENUMODE_71) {
+                    var_s3 = 1;
+                    var_s5 = SND_INDEX_62;
+                    sp38 += 1;
+                    menuMain->unk_1C64.unk_004 = evs_stereo == 0;
+                } else if (((u32) temp_a0_2 >= 0x47U) && ((u32) temp_a0_2 < 0x4AU)) {
+                    var_s3 = 1;
+                    var_s5 = SND_INDEX_62;
+                    temp_v0_7 = menuMain->unk_0008 + 1;
+                    menuMain->unk_0008 = temp_v0_7;
+                    menuMain->unk_000C[temp_v0_7] = 0;
+                }
+                temp_v1_6 = menuMain->mode;
+                switch (temp_v1_6) {            /* switch 11; irregular */
+                    case MAINMENUMODE_73:       /* switch 11 */
+                        menuMain->unk_000C[menuMain->unk_0008] = evs_score_flag == 0;
+                        break;
+                }
+            } else if (temp_s0 & 0x4000) {
+                var_s3 = 1;
+                _eepWritePlayer(menuMain->watchMenuRef);
+                var_s5 = SND_INDEX_68;
+block_235:
+                var_v1 = MAINMENUMODE_46;
+block_236:
+                menuMain->mode = var_v1;
+                goto block_237;
+            }
+            break;
+        case MAINMENUMODE_73:                   /* switch 3 */
+            if (temp_s0 & 0x9000) {
+                var_s3 = 1;
+                evs_score_flag = var_s2 == 0;
+                var_s5 = SND_INDEX_62;
+block_178:
+                var_a0_2 = MAINMENUMODE_70;
+block_179:
+                menuMain->mode = var_a0_2;
+                menuMain->unk_0008 -= 1;
+            } else {
+                var_v1 = MAINMENUMODE_70;
+                if (temp_s0 & 0x4000) {
+                    var_s3 = 1;
+                    var_s5 = SND_INDEX_68;
+                    goto block_236;
+                }
+            }
+            break;
+        case MAINMENUMODE_36:                   /* switch 3 */
+        case MAINMENUMODE_37:                   /* switch 3 */
+        case MAINMENUMODE_38:                   /* switch 3 */
+        case MAINMENUMODE_39:                   /* switch 3 */
+            menuMain->unk_002C = var_s2 + 9;
+            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            if (temp_s0 & 0x9000) {
+                var_a2_7 = 0;
+                temp_a3_2 = var_s2 * 4;
+                var_a1_3 = &game_state_data->unk_04F;
+                var_a0_3 = temp_a3_2 + _team_5687;
+                do {
+                    temp_v1_7 = *var_a0_3;
+                    var_a0_3 += 1;
+                    var_a2_7 += 1;
+                    *var_a1_3 = temp_v1_7;
+                    var_a1_3 += 0x3C4;
+                } while (var_a2_7 < 4U);
+                var_s3 = 1;
+                sp28 -= 1;
+                evs_gamemode = *(_game_5689 + temp_a3_2);
+                sp2C -= 1;
+                menuMain->unk_0030 = -1;
+                _setMode(menuMain->watchMenuRef, *(_mode_5688 + temp_a3_2));
+                var_s5 = SND_INDEX_62;
+            } else if (temp_s0 & 0x4000) {
+                var_s3 = 1;
+                var_s5 = SND_INDEX_68;
+                var_a0_2 = MAINMENUMODE_35;
+                menuMain->unk_0030 = -1;
+                goto block_179;
+            }
+            break;
+        case MAINMENUMODE_47:                   /* switch 3 */
+            if (temp_s0 & 0x9000) {
+                var_s3 = 1;
+                var_s5 = SND_INDEX_62;
+                temp_v1_8 = menuMain->unk_0008 + 1;
+                menuMain->unk_0008 = temp_v1_8;
+                menuMain->mode = *(_mode_5701 + (var_s2 * 4));
+                menuMain->unk_000C[temp_v1_8] = 0;
+            } else if (temp_s0 & 0x4000) {
+                var_s3 = 1;
+                menuMain->mode = MAINMENUMODE_46;
+                menuMain->unk_0008 -= 1;
+                dm_seq_play_fade(SEQ_INDEX_12, 0x14);
+                var_s5 = SND_INDEX_68;
+            }
+            break;
+        case MAINMENUMODE_48:                   /* switch 3 */
+        case MAINMENUMODE_MENURANK_55:          /* switch 3 */
+            if (temp_s0 & 0x9000) {
+                if (menuMain->mode == MAINMENUMODE_48) {
+                    var_v0_3 = &_mode1_5709;
+                } else {
+                    var_v0_3 = &_mode2_5710;
+                }
+                var_s3 = 1;
+                sp28 -= 1;
+                sp2C -= 1;
+                _setMode(menuMain->watchMenuRef, *((var_s2 * 4) + var_v0_3));
+                var_s5 = SND_INDEX_62;
+            } else {
+                var_v1 = MAINMENUMODE_47;
+                if (temp_s0 & 0x4000) {
+                    var_s3 = 1;
+                    var_s5 = SND_INDEX_68;
+                    goto block_236;
+                }
+            }
+            break;
+        case MAINMENUMODE_59:                   /* switch 3 */
+            if (temp_s0 & 0x9000) {
+                if (var_s2 == 0) {
+                    menuMain->mode = MAINMENUMODE_60;
+                    var_s3 = 1;
+                    sp28 -= 1;
+                    var_s5 = SND_INDEX_62;
+                    sp30 += 1;
+                } else {
+                    _setFadeDir(menuMain->watchMenuRef, 1);
+                    _setNextMain(menuMain->watchMenuRef, MAIN_NO_4);
+                    evs_manual_no = var_s2 - 1;
+                    var_s5 = SND_INDEX_62;
+                }
+            } else if (temp_s0 & 0x4000) {
+                var_s3 = 1;
+                var_s5 = SND_INDEX_68;
+                goto block_235;
+            }
+            break;
+        case MAINMENUMODE_72:                   /* switch 3 */
+            if (temp_s0 & 0x9000) {
+                var_s3 = 1;
+                var_s5 = SND_INDEX_62;
+                evs_vs_count = 3 - var_s2;
+                sp38 -= 1;
+                goto block_178;
+            }
+            var_v1 = MAINMENUMODE_70;
+            if (temp_s0 & 0x4000) {
+                var_s3 = 1;
+                var_s5 = SND_INDEX_68;
+                goto block_236;
+            }
+            break;
+        case MAINMENUMODE_60:                   /* switch 3 */
+            menuCont_setFade(&menuMain->unk_2658, 1, menuMain->unk_2658.unk_3F4[0].unk_64);
+            if (temp_s0 & 0x4000) {
+                menuMain->mode = MAINMENUMODE_59;
+                var_s3 = 1;
+                sp28 += 1;
+                var_s5 = SND_INDEX_68;
+                sp30 -= 1;
+            }
+            break;
+        case MAINMENUMODE_62:                   /* switch 3 */
+            if (temp_s0 & 0x9000) {
+                temp_a0_3 = *(tbl_5735 + (var_s2 * 4));
+                switch (temp_a0_3) {            /* switch 12; irregular */
+                    case MAINMENUMODE_MENUNMENT_64: /* switch 12 */
+                        sp28 -= 1;
+                        var_s3 = 1;
+                        sp2C -= 1;
+                        sp24 -= 1;
+                        _setMode(menuMain->watchMenuRef, MAINMENUMODE_MENUNMENT_64);
+                        var_s5 = SND_INDEX_62;
+                        break;
+                    case MAINMENUMODE_65:       /* switch 12 */
+                        var_fp = 1;
+                        var_s5 = SND_INDEX_62;
+                        menuMain->mode = temp_a0_3;
+                        menuMain->unk_2B6C.unk_004 = 0;
+                        menuMain->unk_17B4.unk_250.unk_01C.w &= 0xBFFFFFFF;
+                        break;
+                }
+            } else if (temp_s0 & 0x4000) {
+                var_s7 = 1;
+                menuMain->mode = MAINMENUMODE_61;
+                var_s5 = SND_INDEX_68;
+block_216:
+                sp24 -= 1;
+            }
+            break;
+        case MAINMENUMODE_71:                   /* switch 3 */
+            if (temp_s0 & 0x9000) {
+                switch (var_s2) {               /* switch 13; irregular */
+                    default:                    /* switch 13 */
+                        temp_v0_8 = var_s2 == 0;
+                        if (var_s2 >= 0) {
+                            var_s3 = 1;
+                            evs_stereo = temp_v0_8;
+                            var_s5 = SND_INDEX_62;
+                            sp38 -= 1;
+                            dm_audio_set_stereo(temp_v0_8 & 0xFF);
+                            goto block_204;
+                        }
+                        break;
+                    case 0x2:                   /* switch 13 */
+                        dm_seq_play_fade(menuMain->unk_1C64.unk_008, 0x14);
+                        menuMain->unk_0034 = menuMain->unk_1C64.unk_008;
+                        break;
+                    case 0x3:                   /* switch 13 */
+                        dm_snd_play(menuMain->unk_1C64.unk_010);
+                        break;
+                }
+            } else if (temp_s0 & 0x4000) {
+                var_s3 = 1;
+                var_s5 = SND_INDEX_68;
+                sp38 -= 1;
+block_204:
+                menuMain->mode = MAINMENUMODE_70;
+                if (menuMain->unk_0034 != SEQ_INDEX_12) {
+                    dm_seq_play_fade(SEQ_INDEX_12, 0x14);
+                    menuMain->unk_0034 = SEQ_INDEX_12;
+                }
+            }
+            break;
+        case MAINMENUMODE_65:                   /* switch 3 */
+            menuMain->unk_2B6C.unk_1B8.unk_01C.w |= 0x40000000;
+            if (temp_s0 & 0x9000) {
+                switch (var_s2) {               /* switch 14; irregular */
+                    case 0x0:                   /* switch 14 */
+                        var_s7 = 1;
+                        var_fp = -1;
+                        menuMain->mode = MAINMENUMODE_61;
+                        var_s5 = SND_INDEX_68;
+                        goto block_216;
+                    case 0x1:                   /* switch 14 */
+                        dm_init_save_mem(&evs_mem_data[*evs_select_name_no]);
+                        var_s5 = SND_INDEX_70;
+                        _eepErasePlayer(menuMain->watchMenuRef);
+                        menuMain->mode = MAINMENUMODE_66;
+                        menuMain->unk_2B6C.unk_1B8.unk_01C.w &= 0xBFFFFFFF;
+                        break;
+                }
+            } else if (temp_s0 & 0x4000) {
+                var_fp = -1;
+                menuMain->mode = MAINMENUMODE_62;
+                menuMain->unk_17B4.unk_250.unk_01C.w |= 0x40000000;
+            }
+            break;
+        case MAINMENUMODE_66:                   /* switch 3 */
+            if (temp_s0 & 0xFF3F) {
+                var_s7 = 1;
+                var_fp = -1;
+                menuMain->mode = MAINMENUMODE_61;
+                var_s5 = SND_INDEX_62;
+                goto block_216;
+            }
+            break;
+        case MAINMENUMODE_67:                   /* switch 3 */
+            sp20->unk_418.unk_01C.w |= 0x40000000;
+            if (temp_s0 & 0x9000) {
+                switch (var_s2) {               /* switch 15; irregular */
+                    case 0x0:                   /* switch 15 */
+                        var_s3 = 1;
+                        var_s5 = SND_INDEX_68;
+                        goto block_235;
+                    case 0x1:                   /* switch 15 */
+                        menuMain->mode = MAINMENUMODE_68;
+                        menuMain->unk_2B6C.unk_004 = 0;
+                        var_fp = 1;
+                        var_s5 = SND_INDEX_62;
+                        sp20->unk_418.unk_01C.w &= 0xBFFFFFFF;
+                        break;
+                }
+            } else if (temp_s0 & 0x4000) {
+                var_s3 = 1;
+                var_s5 = SND_INDEX_68;
+                goto block_235;
+            }
+            break;
+        case MAINMENUMODE_68:                   /* switch 3 */
+            menuMain->unk_2B6C.unk_1B8.unk_01C.w |= 0x40000000;
+            if (temp_s0 & 0x9000) {
+                switch (var_s2) {               /* switch 16; irregular */
+                    case 0x0:                   /* switch 16 */
+                        var_fp = -1;
+                        var_s3 = 1;
+                        var_s5 = SND_INDEX_68;
+                        goto block_235;
+                    case 0x1:                   /* switch 16 */
+                        var_s5 = SND_INDEX_70;
+                        _eepEraseData(menuMain->watchMenuRef);
+                        menuMain->mode = MAINMENUMODE_69;
+                        menuMain->unk_2B6C.unk_1B8.unk_01C.w &= 0xBFFFFFFF;
+                        break;
+                }
+            } else if (temp_s0 & 0x4000) {
+                menuMain->mode = MAINMENUMODE_67;
+                var_fp = -1;
+                var_s5 = SND_INDEX_68;
+            }
+            break;
+        case MAINMENUMODE_69:                   /* switch 3 */
+            if (temp_s0 & 0xFF3F) {
+                var_fp = -1;
+                var_s3 = 1;
+                var_s5 = SND_INDEX_62;
+                goto block_235;
+            }
+            break;
+    }
+    temp_s2 = menuMain->unk_000C;
+    if (sp28 != 0) {
+        func_8004655C(&menuMain->unk_2388, sp28);
+    }
+    if (sp2C != 0) {
+        func_8004655C(&menuMain->unk_2418, sp2C);
+    }
+    if (var_fp != 0) {
+        func_8004BD64_cn(&menuMain->unk_2B6C, var_fp);
+    }
+    if (sp34 != 0) {
+        func_8004C34C_cn(&menuMain->unk_31E4, sp34);
+    }
+    if (sp30 < 0) {
+        temp_s0_3 = &menuMain->unk_2658;
+        menuCont_setFade(temp_s0_3, -1, 1.0f);
+        func_8004B2C8(temp_s0_3, -1, (s32) menuMain->unk_2658.unk_004.unk_14);
+    }
+    if (sp24 < 0) {
+        func_8004C820(&menuMain->unk_17B4, -1, 1.0f);
+    }
+    if (var_s7 < 0) {
+        func_8004BB14(&menuMain->unk_0D2C, -1, menuMain->unk_0D2C.unk_028.unk_14);
+    }
+    if (sp38 < 0) {
+        func_8004CCD0(&menuMain->unk_1C64, -1, menuMain->unk_1C64.unk_014.unk_14);
+    }
+    if (var_s3 != 0) {
+        func_8004B774(sp20, -1, sp20->unk_028.unk_14);
+        temp_v1_9 = menuMain->unk_2300 ^ 1;
+        sp20 = &menuMain->unk_003C[temp_v1_9];
+        menuMain->unk_2300 = temp_v1_9;
+    }
+    temp_a1_5 = menuMain->mode;
+    if (temp_a1_5 != _menuMain_lastMode) {
+        if (sp30 > 0) {
+            func_8004B2C8(&menuMain->unk_2658, 1, (s32) menuMain->unk_2658.unk_004.unk_14);
+        } else if (sp24 > 0) {
+            bcopy((*evs_select_name_no * 0xD0) + evs_mem_data->unk_01, menuMain->unk_17B4.unk_00C, 4);
+            func_8004C820(&menuMain->unk_17B4, 1, 0.0f);
+        } else if (sp38 > 0) {
+            func_8004CCD0(&menuMain->unk_1C64, 1, menuMain->unk_1C64.unk_014.unk_14);
+        } else {
+            var_a2_8 = 1;
+            if (var_s7 > 0) {
+                temp_fs0 = menuMain->unk_0D2C.unk_028.unk_14;
+                temp_s0_4 = &menuMain->unk_0D2C;
+                if (temp_a1_5 != MAINMENUMODE_27) {
+                    if ((u32) temp_a1_5 < 0x1CU) {
+                        if (temp_a1_5 != MAINMENUMODE_23) {
+                            var_a1_4 = temp_a1_5 ^ 0x3D;
+                        } else {
+                            goto block_270;
+                        }
+                    } else {
+                        if (temp_a1_5 == MAINMENUMODE_31) {
+                            goto block_270;
+                        }
+                        goto block_271;
+                    }
+                } else {
+block_270:
+                    var_a2_8 = 2;
+block_271:
+                    var_a1_4 = temp_a1_5 ^ 0x3D;
+                }
+                menuNameSelPanel_clear(temp_s0_4, var_a1_4 != 0, var_a2_8);
+                func_8004BB14(temp_s0_4, 1, temp_fs0);
+            } else if (var_s3 != 0) {
+                temp_fs0_2 = sp20->unk_028.unk_14;
+                menuMain_initPanel(menuMain, temp_a1_5, menuMain->unk_2300, temp_s2[menuMain->unk_0008]);
+                func_8004B774(sp20, 1, temp_fs0_2);
+            }
+        }
+    }
+    var_a2_9 = 0;
+    var_a3 = _menuMain_lastSelect;
+    _menuMain_lastMode = menuMain->mode;
+    var_a0_4 = temp_s2;
+    _menuMain_lastDepth = menuMain->unk_0008;
+    do {
+        temp_v1_10 = *var_a0_4;
+        var_a0_4 += 4;
+        var_a2_9 += 1;
+        *var_a3 = temp_v1_10;
+        var_a3 += 4;
+    } while (var_a2_9 < 8U);
+
+    if (var_s5 >= 0) {
+        dm_snd_play(var_s5);
+    }
+}
+#else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMain_input);
+#endif
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -12279,36 +13487,74 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059C34);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005F988_cn);
+void _eep_writingCallback(void *arg) {
+    struct_watchMenu *a = arg;
+    RecordWritingMessage *recMessage = &a->recMessage;
+    s32 x = (0x140 - msgWnd_getWidth(&recMessage->messageWnd)) / 2;
+    s32 y = 0xD0 - msgWnd_getHeight(&recMessage->messageWnd);
+
+    RecWritingMsg_setPos(recMessage, x, y);
+    RecWritingMsg_start(recMessage);
+    setSleepTimer(500);
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FA40_cn);
+void func_8005FA40_cn(void *arg) {
+    struct_watchMenu *a = arg;
+
+    EepRom_WriteAll(_eep_writingCallback, a);
+    a->unk_111D8--;
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FA9C_cn);
+void func_8005FA9C_cn(void *arg) {
+    struct_watchMenu *a = arg;
+
+    EepRom_InitFirst(_eep_writingCallback, a);
+    a->unk_111D8--;
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FAF8_cn);
+void func_8005FAF8_cn(struct_watchMenu *arg0) {
+    while ((arg0->unk_111D8 > 0) || !RecWritingMsg_isEnd(&arg0->recMessage)) {
+        RecWritingMsg_calc(&arg0->recMessage);
+        _waitRetrace(arg0);
+    }
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FB80_cn);
+void _eepWritePlayer(struct_watchMenu *arg0) {
+    RecWritingMsg_setStr(&arg0->recMessage, _mesWriting);
+    arg0->unk_111D8++;
+    func_80040B10(func_8005FA40_cn, arg0);
+    func_8005FAF8_cn(arg0);
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FC14_cn);
+void _eepErasePlayer(struct_watchMenu *arg0) {
+    RecWritingMsg_setStr(&arg0->recMessage, _mesDeleting);
+    arg0->unk_111D8++;
+    func_80040B10(func_8005FA40_cn, arg0);
+    func_8005FAF8_cn(arg0);
+}
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FCA8_cn);
+void _eepEraseData(struct_watchMenu *arg0) {
+    RecWritingMsg_setStr(&arg0->recMessage, _mesDeleting);
+    arg0->unk_111D8++;
+    func_80040B10(func_8005FA9C_cn, arg0);
+    func_8005FAF8_cn(arg0);
+}
 #endif
 
-/* drMarioRetrace? */
 #if VERSION_US || VERSION_CN
-void func_80059CA0(struct_watchMenu *watchMenuRef) {
+void _waitRetrace(struct_watchMenu *watchMenuRef) {
     osRecvMesg(&watchMenuRef->unk_0000C, NULL, OS_MESG_BLOCK);
 }
 #endif
@@ -12510,8 +13756,8 @@ void _setNextMain(struct_watchMenu *watchMenuRef, enum_main_no arg1) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void menuTitle_setTitle(struct_watchMenu *watchMenuRef, MainMenuMode arg1) {
-    func_80047420(&watchMenuRef->unk_02548, arg1);
+void _setTitle(struct_watchMenu *watchMenuRef, MainMenuMode arg1) {
+    menuTitle_setTitle(&watchMenuRef->unk_02548, arg1);
 }
 #endif
 
@@ -12680,7 +13926,7 @@ void menuAll_changeMenu(struct_watchMenu *arg0) {
     arg0->unk_111F0 = 0;
 
     if (arg0->unk_111CC != MAINMENUMODE_MENUMAIN_0) {
-        menuTitle_setTitle(arg0, arg0->unk_111CC);
+        _setTitle(arg0, arg0->unk_111CC);
     }
 
     switch (arg0->unk_111CC) {
@@ -13125,7 +14371,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     while ((ptr->unk_111D4 == MAIN_NO_6) || (ptr->unk_111DC < 1.0f)) {
         if (graphic_no == GRAPHIC_NO_0) {
             while ((pendingGFX != 0) || (func_80040BA4() != 0)) {
-                func_80059CA0(ptr);
+                _waitRetrace(ptr);
             }
 
             menuAll_changeMenu(ptr);
@@ -13143,7 +14389,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
 
 #if VERSION_CN
             while (D_80092F10_cn) {
-                func_80059CA0(ptr);
+                _waitRetrace(ptr);
                 joyProcCore();
                 graphic_no = GRAPHIC_NO_0;
                 dm_audio_update();
@@ -13151,7 +14397,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
 #endif
         }
 
-        func_80059CA0(ptr);
+        _waitRetrace(ptr);
 #if VERSION_CN
         func_8002BC30_cn(1);
 #endif

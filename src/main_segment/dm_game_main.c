@@ -177,7 +177,7 @@ ASM_RODATA;
 /**
  * Original name: _mesWriting
  */
-const char _mesWriting[] =
+static const char _mesWriting[] =
 #if VERSION_US
     "Now saving." MSG_NEWLINE
     "Do not turn power off."
