@@ -177,7 +177,7 @@ ASM_RODATA;
 /**
  * Original name: _mesWriting
  */
-static const char _mesWriting[] =
+const char _mesWriting_dmgamemain[] =
 #if VERSION_US
     "Now saving." MSG_NEWLINE
     "Do not turn power off."
@@ -2871,7 +2871,7 @@ void dm_game_eep_write_callback(void *arg0) {
     RecordWritingMessage *recMessage = &watchGameP->recMessage;
     s32 temp_s0;
 
-    RecWritingMsg_setStr(recMessage, _mesWriting);
+    RecWritingMsg_setStr(recMessage, _mesWriting_dmgamemain);
     temp_s0 = (SCREEN_WIDTH - msgWnd_getWidth(&recMessage->messageWnd)) / 2;
     RecWritingMsg_setPos(recMessage, temp_s0, SCREEN_HEIGHT - 0x20 - msgWnd_getHeight(&recMessage->messageWnd));
     RecWritingMsg_start(recMessage);

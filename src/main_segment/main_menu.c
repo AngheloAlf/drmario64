@@ -1628,7 +1628,7 @@ const char _mesScoreOnOff[] =
 /**
  * Original name: _mesWriting
  */
-static const char _mesWriting[] =
+static const char _mesWriting_mainmenu[] =
 #if VERSION_US
     "Now saving." MSG_NEWLINE
     "Do not turn power off."
@@ -1642,7 +1642,7 @@ static const char _mesWriting[] =
 /**
  * Original name: _mesDeleting
  */
-const char _mesDeleting[] =
+const char _mesDeleting_mainmenu[] =
 #if VERSION_US
     "Now deleting." MSG_NEWLINE
     "Do not turn power off."
@@ -13528,7 +13528,7 @@ void func_8005FAF8_cn(struct_watchMenu *arg0) {
 
 #if VERSION_CN
 void _eepWritePlayer(struct_watchMenu *arg0) {
-    RecWritingMsg_setStr(&arg0->recMessage, _mesWriting);
+    RecWritingMsg_setStr(&arg0->recMessage, _mesWriting_mainmenu);
     arg0->unk_111D8++;
     func_80040B10(func_8005FA40_cn, arg0);
     func_8005FAF8_cn(arg0);
@@ -13537,7 +13537,7 @@ void _eepWritePlayer(struct_watchMenu *arg0) {
 
 #if VERSION_CN
 void _eepErasePlayer(struct_watchMenu *arg0) {
-    RecWritingMsg_setStr(&arg0->recMessage, _mesDeleting);
+    RecWritingMsg_setStr(&arg0->recMessage, _mesDeleting_mainmenu);
     arg0->unk_111D8++;
     func_80040B10(func_8005FA40_cn, arg0);
     func_8005FAF8_cn(arg0);
@@ -13546,7 +13546,7 @@ void _eepErasePlayer(struct_watchMenu *arg0) {
 
 #if VERSION_CN
 void _eepEraseData(struct_watchMenu *arg0) {
-    RecWritingMsg_setStr(&arg0->recMessage, _mesDeleting);
+    RecWritingMsg_setStr(&arg0->recMessage, _mesDeleting_mainmenu);
     arg0->unk_111D8++;
     func_80040B10(func_8005FA9C_cn, arg0);
     func_8005FAF8_cn(arg0);
