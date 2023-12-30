@@ -903,7 +903,37 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", RectTexTile8);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80046E5C_cn);
+void RectTexTile8(Gfx **gfxP, Vtx **vtxP, s32 arg2, s32 arg3, u16 *tlut, u8 *texture, s32 arg6, s32 arg7, s32 arg8,
+                  s32 arg9, f32 argA, f32 argB, f32 argC, f32 argD) {
+    StretchTexTile_arg0 sp18;
+
+    sp18.gfxP = gfxP;
+    sp18.vtxP = vtxP;
+    sp18.unk_08 = arg2;
+    sp18.unk_0C = arg3;
+    sp18.unk_14 = arg2;
+    sp18.unk_18 = NULL;
+    sp18.unk_1C = 0;
+    sp18.unk_44 = NULL;
+    sp18.texture = texture;
+    sp18.unk_20 = arg6;
+    sp18.unk_28 = arg8;
+    sp18.unk_24 = arg7;
+    sp18.unk_2C = arg9;
+    sp18.unk_30 = argA * 4.0;
+    sp18.unk_34 = argB * 4.0;
+    sp18.unk_38 = argC * 4.0;
+    sp18.unk_3C = argD * 4.0;
+    sp18.unk_40 = StretchTexTile8_LoadTex;
+    sp18.unk_48 = 0x800 / ALIGN8(arg8);
+    sp18.unk_4C = RectTexTile_ScisRect;
+
+    if (tlut != NULL) {
+        gDPLoadTLUT_pal256((*gfxP)++, tlut);
+    }
+
+    StretchTexTile(&sp18);
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -997,7 +1027,36 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/tex_func", RectTexTile4i);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047664_cn);
+void RectTexTile4i(Gfx **gfxP, Vtx **vtxP, s32 width, s32 height, u8 *tex, s32 arg5, s32 arg6, s32 arg7, s32 arg8,
+                   f32 arg9, f32 argA, f32 argB, f32 argC) {
+    StretchTexTile_arg0 sp18;
+
+    sp18.gfxP = gfxP;
+    sp18.vtxP = vtxP;
+
+    sp18.unk_08 = width;
+    sp18.unk_0C = height;
+    sp18.texture = tex;
+    sp18.unk_14 = width;
+
+    sp18.unk_18 = NULL;
+    sp18.unk_1C = 0;
+    sp18.unk_20 = arg5;
+    sp18.unk_24 = arg6;
+    sp18.unk_28 = arg7;
+    sp18.unk_2C = arg8;
+    sp18.unk_30 = arg9 * 4.0;
+    sp18.unk_34 = argA * 4.0;
+    sp18.unk_38 = argB * 4.0;
+    sp18.unk_3C = argC * 4.0;
+
+    sp18.unk_40 = StretchTexTile4i_LoadTex;
+    sp18.unk_44 = NULL;
+    sp18.unk_48 = 0x2000 / ALIGN16(arg7);
+    sp18.unk_4C = RectTexTile_ScisRect;
+
+    StretchTexTile(&sp18);
+}
 #endif
 
 #if VERSION_US

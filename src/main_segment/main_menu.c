@@ -8564,11 +8564,143 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuMain_drawKaSaMaRu)
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C6FC8_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _pat_6137);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMain_drawKaSaMaRu);
+void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
+    Mtx *mtx = *_getMtxPtr(menuMain->watchMenuRef);
+    Vtx *vtx = *_getVtxPtr(menuMain->watchMenuRef);
+    f32 temp_fs2 = menuMain->unk_2538.unk_38 * 3.0f;
+    MenuItem *item;
+    s32 i;
+    s32 var_s5;
+    s32 var_s1_3;
+    TiTexData *var_s3;
+    TiTexData *temp_v0_2;
+    f32 sp48[4][4];
+    f32 sp88[3];
+
+    for (i = 0; i < ARRAY_COUNTU(sp88); i++) {
+        sp88[i] = WrapF(0.0f, 1.0f, menuMain->unk_0038 - (i * 0.125)) * M_PI * 2.0;
+    }
+
+    guOrtho(mtx, 0.0f, 320.0f, 240.0f, 0.0f, 1.0f, 10.0f, 1.0f);
+
+    gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+
+    mtx++;
+
+    guTranslate(mtx, 0.0f, 0.0f, -5.0f);
+
+    gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
+    gSPClearGeometryMode(gfx++, G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
+                                    G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH | G_CLIPPING);
+    gDPSetTexturePersp(gfx++, G_TP_NONE);
+
+    guRotateRPYF(sp48, 0.0f, 0.0f, sinf(sp88[0]) * (1.0f - menuMain->unk_2538.unk_38) * 4.0f);
+    i = WrapI(0, 6, menuMain->unk_0038 * 6.0f * 12.0f);
+    mtx++;
+
+    if (!msgWnd_isSpeaking(&menuMain->unk_2308)) {
+        i = 0;
+    }
+
+    item = &menuMain->unk_2418;
+    var_s3 = _getTexKasa(menuMain->watchMenuRef, _pat_6137[i] + 1);
+    temp_v0_2 = _getTexKasa(menuMain->watchMenuRef, 0);
+
+    var_s5 = MIN(var_s3->unk_4[0], temp_v0_2->unk_4[0]);
+    var_s1_3 = MIN(var_s3->unk_4[1], temp_v0_2->unk_4[1]);
+
+    if (!menuItem_outOfScreen(item, var_s5, var_s1_3)) {
+        gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
+
+        func_80046844(item, &gfx);
+        sp48[3][0] = item->unk_0C[0];
+        sp48[3][1] = item->unk_0C[1] + (sinf(sp88[0]) * temp_fs2);
+        guMtxF2L(sp48, mtx);
+
+        gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        mtx++;
+        RectAlphaTexTile(&gfx, &vtx, var_s5, var_s1_3, var_s3->unk_0->tex, var_s3->unk_4[0], temp_v0_2->unk_0->tex,
+                         temp_v0_2->unk_4[0], 0, 0, var_s5, var_s1_3, 0.0f, 0.0f, var_s5, var_s1_3);
+    }
+
+    item = &menuMain->unk_25C8;
+    if (menuMain->unk_002C < 0xC) {
+        s32 temp;
+        s32 temp_s5;
+        s32 temp_lo;
+
+        var_s3 = _getTexMain(menuMain->watchMenuRef, 0);
+        i = menuMain->unk_002C;
+
+        temp = 12;
+        temp_s5 = var_s3->unk_4[0];
+        temp_lo = var_s3->unk_4[1] / temp;
+
+        if (!menuItem_outOfScreen(item, var_s3->unk_4[0], var_s3->unk_4[1])) {
+            gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
+            func_80046844(item, &gfx);
+            sp48[3][0] = item->unk_0C[0];
+            sp48[3][1] = item->unk_0C[1] + (sinf(sp88[2]) * temp_fs2);
+            guMtxF2L(sp48, mtx);
+
+            gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            mtx++;
+
+            RectTexTile8(&gfx, &vtx, var_s3->unk_4[0], var_s3->unk_4[1], var_s3->unk_0->tlut,
+                         var_s3->unk_0->tex + (temp_s5 * temp_lo * i), 0, 0, temp_s5, temp_lo, 0, 0,
+                         temp_s5 * item->unk_30[0], temp_lo * item->unk_30[1]);
+        }
+
+        gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
+
+        for (i = 0; i < ARRAY_COUNT(sp88) - 1; i++) {
+            s32 spA0;
+            s32 var_fp;
+
+            switch (i) {
+                case 0:
+                    item = &menuMain->unk_24A8;
+                    var_s3 = _getTexMain(menuMain->watchMenuRef, 10);
+                    spA0 = 0;
+                    var_fp = 0;
+                    break;
+
+                case 1:
+                    item = &menuMain->unk_2538;
+                    var_s3 = _getTexMain(menuMain->watchMenuRef, 9);
+                    spA0 = 0;
+                    var_fp = 0;
+                    break;
+            }
+
+            if (!menuItem_outOfScreen(item, var_s3->unk_4[0], var_s3->unk_4[1])) {
+                func_80046844(item, &gfx);
+                sp48[3][0] = item->unk_0C[0];
+                sp48[3][1] = item->unk_0C[1] + (sinf(sp88[i + 1]) * temp_fs2);
+                guMtxF2L(sp48, mtx);
+
+                gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                mtx++;
+
+                RectTexTile4i(&gfx, &vtx, var_s3->unk_4[0], var_s3->unk_4[1], var_s3->unk_0->tex, 0, 0,
+                              var_s3->unk_4[0], var_s3->unk_4[1], 0, 0, (var_s3->unk_4[0] + spA0) * item->unk_30[0],
+                              (var_s3->unk_4[1] + var_fp) * item->unk_30[1]);
+            }
+        }
+    }
+
+    *_getVtxPtr(menuMain->watchMenuRef) = vtx;
+    *_getMtxPtr(menuMain->watchMenuRef) = mtx;
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -13490,7 +13622,7 @@ Mtx **_getMtxPtr(struct_watchMenu *watchMenuRef) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FD70_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", _getMtxPtr);
 #endif
 
 #if VERSION_US
@@ -13500,7 +13632,7 @@ Vtx **_getVtxPtr(struct_watchMenu *watchMenuRef) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FD88_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", _getVtxPtr);
 #endif
 
 #if VERSION_US
@@ -13621,14 +13753,10 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE70_cn);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE80_cn);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 TiTexData *_getTexKasa(struct_watchMenu *watchMenuRef, s32 index) {
     return &watchMenuRef->unk_024B4[index];
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE90_cn);
 #endif
 
 #if VERSION_US || VERSION_CN
