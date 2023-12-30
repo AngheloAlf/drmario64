@@ -713,7 +713,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", fade_fillrect_init_
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C4B60_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", fade_shadow_texture_init_dl);
 #endif
 
 #if VERSION_CN
@@ -2857,12 +2857,12 @@ void func_80048C48(MenuLvGauge *lvGauge, s32 arg1) {
 
 #if VERSION_US || VERSION_CN
 void func_80048CC8(MenuLvGauge *arg0, MenuItem *arg1) {
-    MenuItem *itemTemp;
+    MenuItem *item;
 
     func_800464BC(&arg0->unk_010, arg1);
 
-    itemTemp = &arg0->unk_0A0.unk_020;
-    itemTemp->unk_24[0] = itemTemp->unk_1C[0] + (_lvGauge_step[arg0->unk_004] * arg0->unk_00C);
+    item = &arg0->unk_0A0.unk_020;
+    item->unk_24[0] = item->unk_1C[0] + (_lvGauge_step[arg0->unk_004] * arg0->unk_00C);
 
     menuCursor_update(&arg0->unk_0A0, &arg0->unk_010);
 }
@@ -9493,8 +9493,152 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuStory_draw);
 #endif
 #endif
 
+extern const UNK_TYPE _map_6928[][2];
+extern const UNK_TYPE _wchar_6931[];
+extern const UNK_TYPE _filter_6930[][2][9];
+extern const UNK_TYPE _cover_6929[][2];
+TiTexData *_getTexStory(struct_watchMenu *, s32);
+
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuStory_draw);
+void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
+    MenuItem *item;
+    void *sp38[3];
+    s32 pad[3] UNUSED;
+    s32 var_s2_2;
+    s32 i;
+    TiTexData *temp_s1;
+    TiTexData *temp_v0;
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
+    temp_v0 = _getTexStory(menuStory->watchMenuRef, 6);
+    menuItem_drawTex(&menuStory->unk_0040, &gfx, temp_v0, 0);
+
+    for (i = 0; i < MENU_STORY_UNK_LEN; i++) {
+        f32 temp_fs1;
+        f32 temp_fs0;
+
+        if (!menuStory->unk_0034) {
+            continue;
+        }
+
+        item = &menuStory->unk_0160[i];
+
+        temp_fs1 = item->unk_0C[0];
+        temp_fs0 = item->unk_0C[1];
+        item->unk_0C[0] = temp_fs1 - 26.0f;
+        item->unk_0C[1] = temp_fs0 - 48.0f;
+
+        if (!menuItem_outOfScreen(item, 0x40, 0x40)) {
+            s32 temp_ft1 = item->unk_64 * 255.0f;
+
+            gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, temp_ft1);
+
+            gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
+
+            temp_v0 = _getTexStory(menuStory->watchMenuRef, 0xC);
+            tiStretchTexTile(&gfx, temp_v0, 0, 0, 0, temp_v0->unk_4[0], temp_v0->unk_4[1], item->unk_0C[0],
+                             item->unk_0C[1], temp_v0->unk_4[0], temp_v0->unk_4[1]);
+
+            item->unk_0C[0] = temp_fs1 + 5.0f;
+            item->unk_0C[1] = temp_fs0 + 2.0f;
+
+            gSPDisplayList(gfx++, fade_shadow_texture_init_dl);
+
+            gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, temp_ft1 >> 1);
+
+            animeState_draw(&menuStory->unk_0280[i], &gfx, item->unk_0C[0], item->unk_0C[1], 1.0f, 1.0f);
+            item->unk_0C[0] = temp_fs1;
+            item->unk_0C[1] = temp_fs0;
+
+            gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+
+            func_80046844(item, &gfx);
+            animeState_draw(&menuStory->unk_0280[i], &gfx, item->unk_0C[0], item->unk_0C[1], 1.0f, 1.0f);
+        }
+
+        item->unk_0C[0] = temp_fs1;
+        item->unk_0C[1] = temp_fs0;
+    }
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+    gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+
+    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0FFC); i++) {
+        temp_v0 = _getTexStory(menuStory->watchMenuRef, _map_6928[menuStory->unk_0028[0]][i]);
+        menuItem_drawTex(&menuStory->unk_0FFC[i], &gfx, temp_v0, 0);
+    }
+
+    gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
+
+    for (i = 0; i < MENU_STORY_UNK_LEN_2; i++) {
+        s32 temp_s2;
+        s32 var_s0_2;
+        s32 tempIndex;
+
+        item = &menuStory->unk_0FFC[i];
+
+        temp_v0 = _getTexStory(menuStory->watchMenuRef, _cover_6929[menuStory->unk_0028[0]][i]);
+
+        tempIndex = func_800519EC(menuStory);
+        var_s0_2 = _filter_6930[menuStory->unk_0028[0]][i][tempIndex - 1];
+
+        var_s0_2 = MIN(var_s0_2, temp_v0->unk_4[0] - 1);
+        temp_s2 = temp_v0->unk_4[0] - var_s0_2;
+        if (!menuItem_outOfScreen(item, temp_s2, temp_v0->unk_4[1])) {
+            gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, item->color.v.a * 127.0f);
+
+            tiStretchTexTile(&gfx, temp_v0, 0, var_s0_2, 0, temp_s2, temp_v0->unk_4[1], item->unk_0C[0] + var_s0_2,
+                             item->unk_0C[1], temp_s2, temp_v0->unk_4[1]);
+        }
+    }
+
+    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
+    gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
+
+    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_123C); i++) {
+        item = &menuStory->unk_123C[i];
+        temp_v0 = _getTexStory(menuStory->watchMenuRef, _wchar_6931[menuStory->unk_0028[0]]);
+        menuItem_drawTex(item, &gfx, temp_v0, 0);
+    }
+
+    gDPSetRenderMode(gfx++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+
+    temp_v0 = _getTexStory(menuStory->watchMenuRef, 5);
+    var_s2_2 = 0;
+    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_111C); i++) {
+        item = &menuStory->unk_111C[i];
+
+        var_s2_2 += menuItem_drawTex(item, &gfx, temp_v0, var_s2_2);
+    }
+
+    sp38[0] = &menuStory->unk_0EC0;
+    menuNumber_draw((void *)sp38, 1, &gfx);
+
+    sp38[0] = &menuStory->unk_07C0;
+    menuSpeedAsk_draw((void *)sp38, 1, &gfx);
+
+    sp38[0] = &menuStory->unk_085C;
+    menuSpeedItem_draw1((void *)sp38, 1, &gfx);
+
+    gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
+
+    temp_v0 = _getTexStory(menuStory->watchMenuRef, 1);
+    temp_s1 = _getTexStory(menuStory->watchMenuRef, 0);
+    func_80049B8C_cn(&menuStory->unk_00D0, &gfx, temp_v0, temp_s1, 0, 2, menuStory->unk_0028[0]);
+
+    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_135C); i++) {
+        sp38[i] = &menuStory->unk_135C[i];
+    }
+
+    func_80048634((void *)sp38, ARRAY_COUNTU(menuStory->unk_135C), &gfx);
+
+    sp38[0] = &menuStory->unk_085C;
+    func_8004A160((void *)sp38, 1, &gfx);
+
+    *gfxP = gfx;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -9521,19 +9665,19 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _cursor_6447);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C70D4_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _map_6928);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C70E4_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _cover_6929);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C70F4_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _filter_6930);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C7184_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _wchar_6931);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -13730,7 +13874,9 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80059DD4);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_8005FE40_cn);
+TiTexData *_getTexStory(struct_watchMenu *arg0, s32 arg1) {
+    return &arg0->unk_024A0[arg1];
+}
 #endif
 
 #if VERSION_CN
