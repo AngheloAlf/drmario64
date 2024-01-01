@@ -333,7 +333,7 @@ __osViCurr = 0x80010990; // (viswapcontext, false)
 __osViNext = 0x80010994; // (viblack, false)
 osViModeNtscLan1 = 0x800109A0; // (vi, false)
 osViModePalLan1 = 0x800109F0; // (vi, false)
-osViModeMpalLan1 = 0x80010A40; // (vi, false)
+osViModeMpalLan1 = 0x80010A40; // size:0x50
 
 
 // .rodata

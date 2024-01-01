@@ -367,9 +367,10 @@ __osViCurr = 0x800112D0; //
 __osViNext = 0x800112D4; // size:0x4
 osViModeNtscLan1 = 0x800112E0; //
 osViModePalLan1 = 0x80011330; //
-osViModeMpalLan1 = 0x80011380; //
+osViModeMpalLan1 = 0x80011380; // size:0x50
 
 // no section?
+D_800113D0_cn = 0x800113D0; //
 D_800113D1_cn = 0x800113D1; //
 
 // data end

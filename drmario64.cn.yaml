@@ -332,6 +332,8 @@ segments:
 
       - [0x010100, data, boot/010100] # libultra start?
 
+      - [0x011FD0, data, boot/011FD0]
+
       - [0x00120E0, rodata, boot/0120E0] # guess
       - [0x0012180, rodata, boot/012180]
       - [0x00121E0, rodata, boot/0121E0]
