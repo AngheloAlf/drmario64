@@ -96,20 +96,23 @@ typedef void (*MenuItem_TransCallback)(struct MenuItem *);
 typedef void (*MenuItem_ScaleCallback)(struct MenuItem *);
 typedef void (*MenuItem_ColorCallback)(struct MenuItem *);
 
+#define MENUITEM_UNK_LEN 2U
+#define MENUITEM_UNK_LEN2 2U
+
 typedef struct MenuItem {
     /* 0x00 */ f32 unk_00[2];
     /* 0x08 */ MenuItem_TransCallback transCallback;
-    /* 0x0C */ f32 unk_0C[2];
+    /* 0x0C */ f32 unk_0C[MENUITEM_UNK_LEN2];
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ f32 unk_18;
-    /* 0x1C */ f32 unk_1C[2];
-    /* 0x24 */ f32 unk_24[2];
+    /* 0x1C */ f32 unk_1C[MENUITEM_UNK_LEN2];
+    /* 0x24 */ f32 unk_24[MENUITEM_UNK_LEN2];
     /* 0x2C */ MenuItem_ScaleCallback scaleCallback;
-    /* 0x30 */ f32 unk_30[2];
+    /* 0x30 */ f32 unk_30[MENUITEM_UNK_LEN];
     /* 0x38 */ f32 unk_38;
     /* 0x3C */ f32 unk_3C;
-    /* 0x40 */ f32 unk_40[2];
-    /* 0x48 */ f32 unk_48[2];
+    /* 0x40 */ f32 unk_40[MENUITEM_UNK_LEN];
+    /* 0x48 */ f32 unk_48[MENUITEM_UNK_LEN];
     /* 0x50 */ MenuItem_ColorCallback colorCallback;
     /* 0x54 */ Color_RGBAf32 color;
     /* 0x64 */ f32 unk_64;
@@ -127,7 +130,7 @@ typedef struct MenuItem {
 
 typedef struct MenuCursor {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ s32 unk_004; // enum?
+    /* 0x004 */ s32 unk_004; // enum? // if enum then remmeber to update menuCursor_draw1
     /* 0x008 */ s32 unk_008;
     /* 0x00C */ s32 unk_00C;
     /* 0x010 */ s32 unk_010;
@@ -662,7 +665,7 @@ typedef struct struct_watchMenu {
     /* 0x02470 */ struct_watchMenu_unk_02470 *unk_02470[2];
     /* 0x02478 */ struct TiTexData *unk_02478;
     /* 0x0247C */ struct TiTexData *unk_0247C;
-    /* 0x02480 */ UNK_TYPE1 unk_02480[4];
+    /* 0x02480 */ struct TiTexData *unk_02480; // unused
     /* 0x02484 */ struct TiTexData *unk_02484;
     /* 0x02488 */ struct TiTexData *unk_02488;
     /* 0x0248C */ struct TiTexData *unk_0248C;
@@ -942,7 +945,7 @@ void _waitRetrace(struct_watchMenu *watchMenuRef);
 Mtx **_getMtxPtr(struct_watchMenu *watchMenuRef);
 Vtx **_getVtxPtr(struct_watchMenu *watchMenuRef);
 struct TiTexData *_getTexChar(struct_watchMenu *watchMenuRef, s32 index);
-struct TiTexData *_getTexCommon(struct_watchMenu *arg0, s32 arg1);
+struct TiTexData *_getTexCommon(struct_watchMenu *watchMenuRef, s32 arg1);
 // void func_80059D14();
 struct TiTexData *_getTexLevel(struct_watchMenu *watchMenuRef, s32 index);
 struct TiTexData *_getTexMain(struct_watchMenu *watchMenuRef, s32 /*index*/);
