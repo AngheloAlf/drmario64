@@ -7,7 +7,7 @@ then
    echo "Formatter failed. Exiting."
    exit -1
 fi
-make tidy > /dev/null
+make tidy > /dev/null 2> /dev/null
 if [ $? -ne 0 ]
 then
    echo "Formatter failed. Exiting."

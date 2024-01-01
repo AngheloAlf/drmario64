@@ -64,17 +64,14 @@ f32 func_80045E48(f32 arg0) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_80045E94);
 #endif
 
-void func_8004872C_cn(MenuItem *item);
 #if VERSION_CN
 void func_8004872C_cn(MenuItem *item) {
-    f32 temp_fv0;
-    s32 var_a2;
-
-    temp_fv0 = func_80045DD0(item->unk_14, item->unk_18);
+    f32 temp_fv0 = func_80045DD0(item->unk_14, item->unk_18);
+    s32 i;
 
     item->unk_14 = temp_fv0;
-    for (var_a2 = 0; var_a2 < MENUITEM_UNK_LEN2; var_a2++) {
-        item->unk_0C[var_a2] = item->unk_1C[var_a2] + (item->unk_24[var_a2] - item->unk_1C[var_a2]) * temp_fv0;
+    for (i = 0; i < MENUITEM_UNK_LEN2; i++) {
+        item->unk_0C[i] = item->unk_1C[i] + (item->unk_24[i] - item->unk_1C[i]) * temp_fv0;
     }
 }
 #endif
@@ -147,7 +144,6 @@ void scaleFunc_curve(MenuItem *item) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800460DC);
 #endif
 
-void func_80048A54_cn(MenuItem *item);
 #if VERSION_CN
 void func_80048A54_cn(MenuItem *item) {
     f32 temp = func_80045DD0(item->unk_64, item->unk_68);
@@ -2038,20 +2034,6 @@ void menuCursor_update(MenuCursor *cursor, MenuItem *arg1) {
 #endif
 
 #if VERSION_US
-typedef struct struct__pnts_1106 {
-    /* 0x00 */ UNK_TYPE4 unk_00;
-    /* 0x04 */ UNK_TYPE4 unk_04;
-    /* 0x08 */ UNK_TYPE4 unk_08;
-    /* 0x0C */ UNK_TYPE4 unk_0C;
-    /* 0x10 */ UNK_TYPE4 unk_10;
-    /* 0x14 */ UNK_TYPE4 unk_14;
-    /* 0x18 */ UNK_TYPE4 unk_18;
-    /* 0x1C */ UNK_TYPE4 unk_1C;
-} struct__pnts_1106; // size = 0x20
-
-extern const struct__pnts_1106 _pnts_1106[];
-extern const s32 _menuCursor_cursor_4_pattern[];
-
 #if 0
 // there's an unknown struct array in the stack
 void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
