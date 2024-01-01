@@ -515,7 +515,7 @@ typedef struct MenuStory {
     /* 0x0F6C */ MenuItem unk_0F6C;
     /* 0x0FFC */ MenuItem unk_0FFC[MENU_STORY_UNK_LEN_2];
     /* 0x111C */ MenuItem unk_111C[2];
-    /* 0x123C */ MenuItem unk_123C[2];
+    /* 0x123C */ MenuItem unk_123C[MENU_STORY_UNK_LEN_2];
     /* 0x135C */ MenuCursor unk_135C[3];
 } MenuStory; // size = 0x2D3C
 
@@ -541,7 +541,7 @@ typedef struct MenuLvSel {
 
 typedef struct MenuPlay2 {
     /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x0004 */ s32 unk_0004;
+    /* 0x0004 */ s32 unk_0004; // enum?
     /* 0x0008 */ s32 unk_0008;
     /* 0x000C */ s32 unk_000C;
     /* 0x0010 */ s32 unk_0010[4];
@@ -904,7 +904,7 @@ void menuRankBase_draw(MenuRankBase *rankBaseArr[], s32 count, Gfx **gfxP);
 void func_80056E1C(MenuRankNum *arg0, MenuItem *arg1);
 void menuRankNum_draw(MenuRankNum *rankNumArr[], s32 count, Gfx **gfxP);
 // void func_80057014();
-void menuRankFig_update(MenuRankFig *arg0, MenuItem *arg1);
+void menuRankFig_update(MenuRankFig *rankFig, MenuItem *arg1);
 void menuRankFig_draw(MenuRankFig *rankFigArr[], s32 count, Gfx **gfxP);
 // void func_8005768C();
 void func_80057724(MenuRankName *arg0, MenuItem *arg1);
