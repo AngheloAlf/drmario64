@@ -289,9 +289,9 @@ StretchAlphaTexTile_LoadColorTex - found 2 matches total:
 1.00 - StretchTexTile16_LoadTex
 0.99 - StretchTexTile8_LoadTex
 
-func_80059C34 - found 2 matches total:
+_eepEraseData - found 2 matches total:
 0.99 - _eepWritePlayer
-0.99 - func_80059BC8
+0.99 - _eepErasePlayer
 
 RO_800AF3F8 - found 2 matches total:
 1.00 - RO_800AF3C4
