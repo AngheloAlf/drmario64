@@ -115,7 +115,7 @@ ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
 ROM_DECOMPRESSOR  ?= tools/compressor/rom_decompressor.py
 SEGMENT_EXTRACTOR ?= tools/compressor/extract_compressed_segments.py
 CHECKSUMMER       ?= tools/checksummer.py
-
+MSG_REENCODER     ?= tools/buildtools/msg_reencoder.py
 PIGMENT64         ?= pigment64
 
 
@@ -123,7 +123,7 @@ IINC       := -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I.
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/include
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
+CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign -Wno-invalid-source-encoding
 
 # Have CC_CHECK pretend to be a MIPS compiler
 MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZPTR=32
@@ -153,7 +153,7 @@ ifeq ($(VERSION),$(filter $(VERSION), us gw))
 OPTFLAGS        := -O2
 # OPTFLAGS        += -gdwarf
 MIPS_VERSION    := -mips3
-ICONV_FLAGS     := --from-code=UTF-8 --to-code=Shift-JIS
+OUT_ENCODING    := Shift-JIS
 CHAR_SIGN       := -funsigned-char
 # libultra 2.0K
 LIBULTRA_VERSION:= 8
@@ -162,7 +162,7 @@ ifeq ($(VERSION),cn)
 CFLAGS          += -mcpu=4300
 OPTFLAGS        := -O2 -ggdb
 MIPS_VERSION    := -mips2
-ICONV_FLAGS     := --from-code=UTF-8 --to-code=EUC-CN
+OUT_ENCODING    := EUC-CN
 CHAR_SIGN       := -fsigned-char
 # libultra 2.0L
 LIBULTRA_VERSION:= 9
@@ -172,6 +172,8 @@ BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
 
 # Variable to simplify C compiler invocation
 C_COMPILER_FLAGS = $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS)
+
+ICONV_FLAGS      = --from-code=UTF-8 --to-code=$(OUT_ENCODING)
 
 # Use relocations and abi fpr names in the dump
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32 -Mno-aliases
@@ -203,11 +205,13 @@ LIBMUS_DIRS   := $(shell find lib/libmus/src -type d)
 C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS) $(SRC_DIRS),$(wildcard $(dir)/*.s))
 PNG_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.png))
+TEXT_FILES    := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.msg))
 
 O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f)
 
 PNG_INC_FILES := $(foreach f,$(PNG_FILES:.png=.inc),$(BUILD_DIR)/$f)
+TEXT_INC_FILES := $(foreach f,$(TEXT_FILES:.msg=.msg.inc),$(BUILD_DIR)/$f)
 
 SEGMENTS_SCRIPTS := $(wildcard linker_scripts/$(VERSION)/partial/*.ld)
 SEGMENTS_D       := $(SEGMENTS_SCRIPTS:.ld=.d)
@@ -237,13 +241,13 @@ $(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
 
 # per-file flags
 
-$(BUILD_DIR)/asm/cn/data/main_segment/debug_menu.rodata.o: ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
-$(BUILD_DIR)/src/main_segment/debug_menu.o:                ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
+$(BUILD_DIR)/asm/cn/data/main_segment/debug_menu.rodata.o: OUT_ENCODING := Shift-JIS
+$(BUILD_DIR)/src/main_segment/debug_menu.o:                OUT_ENCODING := Shift-JIS
 
-$(BUILD_DIR)/asm/cn/data/main_segment/msgwnd.rodata.o: ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
-$(BUILD_DIR)/src/main_segment/msgwnd.o:                ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
+$(BUILD_DIR)/asm/cn/data/main_segment/msgwnd.rodata.o: OUT_ENCODING := Shift-JIS
+$(BUILD_DIR)/src/main_segment/msgwnd.o:                OUT_ENCODING := Shift-JIS
 
-$(BUILD_DIR)/src/main_segment/record.o:                ICONV_FLAGS := --from-code=UTF-8 --to-code=Shift-JIS
+$(BUILD_DIR)/src/main_segment/record.o:                OUT_ENCODING := Shift-JIS
 
 #### Main Targets ###
 
@@ -328,11 +332,17 @@ $(ELF): $(LINKER_SCRIPTS)
 
 asset_files: $(PNG_INC_FILES)
 $(O_FILES): | asset_files
+text_files: $(TEXT_INC_FILES)
+$(O_FILES): | text_files
 o_files: $(O_FILES)
 $(SEGMENTS_O): | o_files
 
-.PHONY: asset_files o_files
+asset_files_clean:
+	$(RM) -r $(TEXT_INC_FILES)
+text_files_clean:
+	$(RM) -r $(TEXT_INC_FILES)
 
+.PHONY: asset_files asset_files_clean text_files text_files_clean o_files
 
 $(BUILD_DIR)/%.ld: %.ld
 	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
@@ -365,6 +375,9 @@ $(BUILD_DIR)/segments/$(VERSION)/%.o: linker_scripts/$(VERSION)/partial/%.ld
 build/%.inc: %.png
 	$(PIGMENT64) to-bin --c-array --format $(subst .,,$(suffix $*)) -o $@ $<
 
+build/%.msg.inc: %.msg
+	$(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) $(COMP_VERBOSE_FLAG) -E $< -o $(@:.inc=.i)
+	$(MSG_REENCODER) $(@:.inc=.i) $@ $(OUT_ENCODING)
 
 -include $(DEP_FILES)
 

@@ -173,32 +173,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _scoreNumsColor)
 
 ASM_RODATA;
 
-// clang-format off
-/**
- * Original name: _mesWriting
- */
-const char _mesWriting_dmgamemain[] =
-#if VERSION_US
-    "Now saving." MSG_NEWLINE
-    "Do not turn power off."
-#endif
-#if VERSION_CN
-    "存储中" MSG_NEWLINE
-    "请勿关闭电源."
-#endif
-    MSG_END;
-
-const char STR_800B1CE0[] =
-#if VERSION_US
-    "Now deleting." MSG_NEWLINE
-    "Do not turn power off."
-#endif
-#if VERSION_CN
-    "删除中" MSG_NEWLINE
-    "请勿关闭电源."
-#endif
-    MSG_END;
-// clang-format on
+#include "build/src/main_segment/dm_game_main.msg.inc"
 
 extern s8 dm_chaine_se_table_vs_178[];    // sndindex
 extern s8 dm_chaine_se_table_4p_179[][3]; // sndindex
