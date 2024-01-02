@@ -162,7 +162,7 @@ func_80062AE0 - found 15 matches total:
 0.99 - animeState_isEnd
 0.99 - func_8006417C
 
-func_80059DB4 - found 15 matches total:
+_getTexGameP1 - found 15 matches total:
 0.99 - _getTexChar
 0.99 - _getTexCommon
 0.99 - func_80059D14
@@ -173,8 +173,8 @@ func_80059DB4 - found 15 matches total:
 0.99 - _getTexP4
 0.99 - _getTexRank
 0.99 - _getTexSetup
-0.99 - func_80059D94
-0.99 - func_80059DA4
+0.99 - _getTexStory
+0.99 - _getTexGameAl
 0.99 - func_80059DC4
 0.99 - func_80059DD4
 0.99 - _getTexKasa
@@ -183,7 +183,7 @@ D_800B00B8 - found 12 matches total:
 0.99 - rotate_mtx_475 (decompiled)
 0.99 - D_800A7360 (decompiled)
 0.99 - D_800AFAD8 (decompiled)
-0.99 - RO_800AFEB8
+0.99 - _bgDataNo_to_stageNo
 0.99 - D_800AFEE8
 0.99 - D_800B0078
 0.99 - D_800B0364
@@ -290,7 +290,7 @@ StretchAlphaTexTile_LoadColorTex - found 2 matches total:
 0.99 - StretchTexTile8_LoadTex
 
 func_80059C34 - found 2 matches total:
-0.99 - func_80059B5C
+0.99 - _eepWritePlayer
 0.99 - func_80059BC8
 
 RO_800AF3F8 - found 2 matches total:

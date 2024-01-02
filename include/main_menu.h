@@ -154,7 +154,7 @@ typedef struct MenuCursor {
 
 
 typedef struct MenuNumber_unk_14 {
-    /* 0x0 */ UNK_TYPE1 unk_0[0x8];
+    /* 0x0 */ UNK_TYPE1 unk_0[0x8]; // char array?
 } MenuNumber_unk_14; // size = 0x8
 
 typedef struct MenuNumber {
@@ -779,7 +779,7 @@ void func_800497D0(MenuMes *mes, Gfx **gfxP);
 void func_80049894(MenuSpeedAsk *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4,
                    s32 arg5);
 void func_800498C4(MenuSpeedAsk *arg0, MenuItem *arg1);
-void menuSpeedAsk_draw(MenuSpeedAsk *speedAskP[], s32 count, Gfx **gxfP);
+void menuSpeedAsk_draw(MenuSpeedAsk *speedAskArr[], s32 count, Gfx **gxfP);
 void menuSpeedItem_init(MenuSpeedItem *speedItem, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void func_80049C54(MenuSpeedItem *speedItem, s32 arg1);
 void menuSpeedItem_update(MenuSpeedItem *arg0, MenuItem *arg1);
@@ -837,7 +837,7 @@ void func_8004D258(void *arg);
 void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, bool arg7, CharAnimeMode arg8, s32 arg9, s32 argA, s32 argB, s32 argC);
 void menuPlay2Panel_copyConfig(MenuPlay2Panel *play2Panel, MenuPlay2Panel *arg1);
 void menuPlay2Panel_copyCursor(MenuPlay2Panel *play2Panel, MenuPlay2Panel *other);
-// void func_8004D828();
+// void menuPlay2Panel_input();
 void menuPlay2Panel_update(MenuPlay2Panel *play2Panel, MenuItem *parentItem);
 void menuPlay2Panel_draw(MenuPlay2Panel *play2PanelArr[], s32 count, Gfx **gfxP);
 void func_8004E270(MenuPlay2PanelSub *play2PanelSub, s32 arg1, f32 arg2);
@@ -845,7 +845,7 @@ void func_8004E270(MenuPlay2PanelSub *play2PanelSub, s32 arg1, f32 arg2);
 void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *watchMenuRef,
                             struct_watchMenu_unk_02470 ** arg2, s32 arg3, s32 arg4, s32 arg5,
                             s32 arg6);
-// void func_8004E4F4();
+// void menuPlay2PanelSub_input();
 void menuPlay2PanelSub_update(MenuPlay2PanelSub *play2PanelSub, MenuItem *parentItem);
 void menuPlay2PanelSub_draw(MenuPlay2PanelSub *play2PanelSub, Gfx **gfxP);
 bool menuMain_setMsgStr(MenuMain *menuMain, MainMenuMode mode, s32 arg2);
@@ -889,8 +889,8 @@ void func_800550F4(MenuPlay2 *menuPlay2);
 // void func_80055154();
 void func_800551BC(MenuPlay2 *menuPlay2, s32 /*index*/);
 void func_80055254(MenuPlay2 *menuPlay2, s32 arg1);
-// void func_800552EC();
-// void func_80055598();
+// void menuPlay2_inputMan();
+// void menuPlay2_inputCpu();
 void menuPlay2_input(MenuPlay2 *menuPlay2);
 void menuPlay2_update(MenuPlay2 *menuPlay2);
 void menuPlay2_draw(MenuPlay2 *menuPlay2, Gfx **gfxP);
@@ -934,11 +934,11 @@ void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, struct_wa
 void menuRank_input(MenuRank *menuRank);
 void menuRank_update(MenuRank *menuRank);
 void menuRank_draw(MenuRank *menuRank, Gfx **gfxP);
-// void func_800599E0();
+// void _eep_writingCallback();
 // void func_80059A58();
 // void func_80059AA4();
 // void func_80059AF0();
-// void func_80059B5C();
+// void _eepWritePlayer();
 // void func_80059BC8();
 // void func_80059C34();
 void _waitRetrace(struct_watchMenu *watchMenuRef);
@@ -954,9 +954,9 @@ struct TiTexData *_getTexP2(struct_watchMenu *watchMenuRef, s32 index);
 struct TiTexData *_getTexP4(struct_watchMenu *watchMenuRef, s32 index);
 struct TiTexData *_getTexRank(struct_watchMenu *watchMenuRef, s32 /*index*/);
 struct TiTexData *_getTexSetup(struct_watchMenu *watchMenuRef, s32 index);
-// void func_80059D94();
-// void func_80059DA4();
-// void func_80059DB4();
+// void _getTexStory();
+// void _getTexGameAl();
+// void _getTexGameP1();
 // void func_80059DC4();
 // void func_80059DD4();
 struct TiTexData *_getTexKasa(struct_watchMenu *watchMenuRef, s32 index);

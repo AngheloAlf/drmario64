@@ -60,5 +60,7 @@
 #define saved_reg_f20 0.0f
 #define saved_reg_f22 0.0f
 
+#define HELP (*(vu32*)0 = 0x1234)
+
 
 #endif
