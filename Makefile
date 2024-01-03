@@ -249,6 +249,8 @@ $(BUILD_DIR)/src/main_segment/msgwnd.o:                OUT_ENCODING := Shift-JIS
 
 $(BUILD_DIR)/src/main_segment/record.o:                OUT_ENCODING := Shift-JIS
 
+$(BUILD_DIR)/src/main_segment/main_menu.o:             OUT_ENCODING := Shift-JIS
+
 #### Main Targets ###
 
 all: compressed
