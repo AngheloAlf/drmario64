@@ -1971,7 +1971,7 @@ void func_80048B8C(MenuLvGauge *lvGauge, struct_watchMenu *watchMenuRef, s32 arg
 
 #if VERSION_US || VERSION_CN
 void func_80048C48(MenuLvGauge *lvGauge, s32 arg1) {
-    u16 keyRep = _getKeyRep(lvGauge->watchMenuRef, arg1);
+    u32 keyRep = _getKeyRep(lvGauge->watchMenuRef, arg1);
     s32 var_a0 = 0;
     s32 var_s0;
 
@@ -2120,7 +2120,7 @@ void menuYN_init(MenuYN *yn, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3)
 
 #if VERSION_US || VERSION_CN
 bool menuYN_input(MenuYN *yn, s32 arg1) {
-    u16 keyTrg = _getKeyTrg(yn->watchMenuRef, arg1);
+    u32 keyTrg = _getKeyTrg(yn->watchMenuRef, arg1);
     s32 var_a2 = yn->unk_004;
 
     if ((yn->unk_008.unk_68 < 0.0f) || (yn->unk_008.unk_64 < 1.0f)) {
@@ -2444,7 +2444,7 @@ void menuSpeedItem_init(MenuSpeedItem *speedItem, struct_watchMenu *watchMenuRef
 
 #if VERSION_US || VERSION_CN
 void func_80049C54(MenuSpeedItem *speedItem, s32 arg1) {
-    u16 keyRep = _getKeyRep(speedItem->watchMenuRef, arg1);
+    u32 keyRep = _getKeyRep(speedItem->watchMenuRef, arg1);
     s32 var_s0;
     s32 temp;
 
@@ -2659,7 +2659,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _seq_2327);
 
 #if VERSION_US || VERSION_CN
 void menuMusicItem_input(MenuMusicItem *menuMusicItem, s32 arg1) {
-    u16 keyRep = _getKeyRep(menuMusicItem->watchMenuRef, arg1);
+    u32 keyRep = _getKeyRep(menuMusicItem->watchMenuRef, arg1);
     s32 temp2 = menuMusicItem->unk_008;
     s32 temp_a0 = menuMusicItem->unk_004;
     s32 temp = 0;
@@ -3317,7 +3317,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuMainPanel_input);
 
 #if VERSION_CN
 bool menuMainPanel_input(MenuMainPanel *mainPanel, s32 arg1) {
-    u16 temp_a0 = _getKeyRep(mainPanel->watchMenuRef, arg1);
+    u32 temp_a0 = _getKeyRep(mainPanel->watchMenuRef, arg1);
     s32 var_v1 = 0;
     s32 temp;
 
@@ -3500,8 +3500,8 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_8004BF10);
 
 #if VERSION_CN
 void menuNameSelPanel_input1(MenuNameSelPanel *nameSelPanel, s32 arg1) {
-    u16 keyRep = _getKeyRep(nameSelPanel->watchMenuRef, arg1);
-    u16 keyTrg = _getKeyTrg(nameSelPanel->watchMenuRef, arg1);
+    u32 keyRep = _getKeyRep(nameSelPanel->watchMenuRef, arg1);
+    u32 keyTrg = _getKeyTrg(nameSelPanel->watchMenuRef, arg1);
     s32 var_a3;
     SndIndex soundIndex = SND_INDEX_INVALID;
     s32 var_s1 = nameSelPanel->unk_014[arg1];
@@ -3908,7 +3908,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuNameOpPanel_input)
 
 #if VERSION_CN
 bool menuNameOpPanel_input(MenuNameOpPanel *nameOpPanel, s32 arg1) {
-    u16 keyRep = _getKeyRep(nameOpPanel->watchMenuRef, arg1);
+    u32 keyRep = _getKeyRep(nameOpPanel->watchMenuRef, arg1);
     s32 var_s0 = nameOpPanel->unk_008;
 
     if ((nameOpPanel->unk_010.unk_18 < 0.0f) || (nameOpPanel->unk_010.unk_14 < 1.0f)) {
@@ -4038,7 +4038,7 @@ extern const u8 _tbl_4036[];
 #if VERSION_US || VERSION_CN
 bool menuSndSelPanel_input(MenuSndSelPanel *sndSelPanel, s32 arg1) {
     SndIndex soundIndex = SND_INDEX_INVALID;
-    u16 keyRep = _getKeyRep(sndSelPanel->watchMenuRef, arg1);
+    u32 keyRep = _getKeyRep(sndSelPanel->watchMenuRef, arg1);
     s32 var_a3 = sndSelPanel->unk_004;
 
     if ((sndSelPanel->unk_014.unk_18 < 0.0f) || (sndSelPanel->unk_014.unk_14 < 1.0f)) {
@@ -4446,8 +4446,8 @@ void menuPlay2Panel_copyCursor(MenuPlay2Panel *play2Panel, MenuPlay2Panel *other
 
 #if VERSION_US || VERSION_CN
 void menuPlay2Panel_input(MenuPlay2Panel *play2Panel, s32 arg1, s32 arg2, s32 arg3) {
-    u16 keyRep = _getKeyRep(play2Panel->watchMenuRef, arg1);
-    u16 keyTrg = _getKeyTrg(play2Panel->watchMenuRef, arg1);
+    u32 keyRep = _getKeyRep(play2Panel->watchMenuRef, arg1);
+    u32 keyTrg = _getKeyTrg(play2Panel->watchMenuRef, arg1);
     SndIndex soundIndex = SND_INDEX_INVALID;
     s32 var_a0 = 0;
     s32 var_v1;
@@ -4816,8 +4816,8 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuPlay2PanelSub_init
 
 #if VERSION_US || VERSION_CN
 bool menuPlay2PanelSub_input(MenuPlay2PanelSub *play2PanelSub, s32 arg1) {
-    u16 keyRep = _getKeyRep(play2PanelSub->watchMenuRef, arg1);
-    u16 keyTrg = _getKeyTrg(play2PanelSub->watchMenuRef, arg1);
+    u32 keyRep = _getKeyRep(play2PanelSub->watchMenuRef, arg1);
+    u32 keyTrg = _getKeyTrg(play2PanelSub->watchMenuRef, arg1);
     SndIndex soundIndex = SND_INDEX_INVALID;
     s32 var_s0;
     s32 var_v1;
@@ -5581,7 +5581,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B0448);
 
 #if VERSION_US || VERSION_CN
 void func_8004F2D8(MenuMain *menuMain) {
-    u16 keyTrg = _getKeyTrg(menuMain->watchMenuRef, 0);
+    u32 keyTrg = _getKeyTrg(menuMain->watchMenuRef, 0);
 
     if ((keyTrg & B_BUTTON) && (menuMain->mode != MAINMENUMODE_MENUMAIN_0)) {
         _setFadeDir(menuMain->watchMenuRef, -1);
@@ -5725,7 +5725,7 @@ void menuMain_input(MenuMain *menuMain) {
     MainMenuMode var_s6;
     s32 var_s4;
     s32 var_s2;
-    u16 temp_s0;
+    u32 temp_s0;
 
     SndIndex var_s5;
 
@@ -7204,7 +7204,7 @@ void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, struct
 
 #if VERSION_US || VERSION_CN
 void func_80051974(MenuStory *menuStory) {
-    u16 keyTrg = _getKeyTrg(menuStory->watchMenuRef, 0);
+    u32 keyTrg = _getKeyTrg(menuStory->watchMenuRef, 0);
 
     if (keyTrg & B_BUTTON) {
         _setFadeDir(menuStory->watchMenuRef, -1);
@@ -7235,8 +7235,8 @@ s32 func_800519EC(MenuStory *menuStory) {
 #if VERSION_US || VERSION_CN
 void menuStory_input(MenuStory *menuStory) {
     struct_evs_mem_data_unk_B4 *temp_s5 = &evs_mem_data[evs_select_name_no[0]].unk_B4;
-    u16 temp_s2 = _getKeyRep(menuStory->watchMenuRef, 0);
-    u16 temp_s4 = _getKeyTrg(menuStory->watchMenuRef, 0);
+    u32 temp_s2 = _getKeyRep(menuStory->watchMenuRef, 0);
+    u32 temp_s4 = _getKeyTrg(menuStory->watchMenuRef, 0);
     SndIndex var_s3 = SND_INDEX_INVALID;
     bool var_s6 = false;
     s32 var_s0;
@@ -7998,7 +7998,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C71BC_cn);
 
 #if VERSION_US || VERSION_CN
 void func_80052DF0(MenuLvSel *menuLvSel) {
-    u16 keyTrg = _getKeyTrg(menuLvSel->watchMenuRef, 0);
+    u32 keyTrg = _getKeyTrg(menuLvSel->watchMenuRef, 0);
 
     if (keyTrg & B_BUTTON) {
         _setFadeDir(menuLvSel->watchMenuRef, -1);
@@ -8011,10 +8011,10 @@ void func_80052DF0(MenuLvSel *menuLvSel) {
 #if VERSION_US || VERSION_CN
 void menuLvSel_input(MenuLvSel *menuLvSel) {
     struct_evs_mem_data_unk_B4 *temp_s5 = &evs_mem_data[evs_select_name_no[0]].unk_B4;
-    u16 keyRep = _getKeyRep(menuLvSel->watchMenuRef, 0);
+    u32 keyRep = _getKeyRep(menuLvSel->watchMenuRef, 0);
     SndIndex sndIndex = SND_INDEX_INVALID;
     struct_game_state_data *gameStateData = &game_state_data[0];
-    u16 keyTrg = _getKeyTrg(menuLvSel->watchMenuRef, 0);
+    u32 keyTrg = _getKeyTrg(menuLvSel->watchMenuRef, 0);
     s32 var_a0;
     s32 var_v1;
 
@@ -8575,10 +8575,10 @@ bool func_80053C84(MenuChSel *menuChSel, s32 arg1, s32 arg2) {
 
 #if VERSION_US || VERSION_CN
 void menuChSel_input1(MenuChSel *menuChSel, s32 arg1, s32 arg2) {
-    u16 keyRep = _getKeyRep(menuChSel->watchMenuRef, arg2);
-    u16 keyTrg = _getKeyTrg(menuChSel->watchMenuRef, arg2);
+    u32 keyRep = _getKeyRep(menuChSel->watchMenuRef, arg2);
+    u32 keyTrg = _getKeyTrg(menuChSel->watchMenuRef, arg2);
     SndIndex soundIndex = SND_INDEX_INVALID;
-    u16 keyLvl = _getKeyLvl(menuChSel->watchMenuRef, arg2);
+    u32 keyLvl = _getKeyLvl(menuChSel->watchMenuRef, arg2);
     s32 var_a0;
 
     switch (menuChSel->unk_0018[arg1]) {
@@ -9326,7 +9326,7 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, struct
 
 #if VERSION_US || VERSION_CN
 void func_800550F4(MenuPlay2 *menuPlay2) {
-    u16 keyTrg = _getKeyTrg(menuPlay2->watchMenuRef, 0);
+    u32 keyTrg = _getKeyTrg(menuPlay2->watchMenuRef, 0);
 
     if (keyTrg & B_BUTTON) {
         menuPlay2->unk_0004 = 2;
@@ -9341,7 +9341,7 @@ void func_800550F4(MenuPlay2 *menuPlay2) {
 #if VERSION_US || VERSION_CN
 bool func_80055154(MenuPlay2 *play2, s32 arg1, s32 arg2) {
     MenuPlay2Panel *play2Panel = &play2->unk_00C8[arg1];
-    u16 keyLvl = _getKeyLvl(play2->watchMenuRef, arg2);
+    u32 keyLvl = _getKeyLvl(play2->watchMenuRef, arg2);
 
     return (keyLvl & R_TRIG) && (play2Panel->unk_0028 == 0);
 }
@@ -9543,8 +9543,8 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
     }
 
     if (menuPlay2->unk_0008 >= 0) {
-        u16 keyTrg = _getKeyTrg(menuPlay2->watchMenuRef, menuPlay2->unk_0008);
-        u16 keyLvl = _getKeyLvl(menuPlay2->watchMenuRef, menuPlay2->unk_0008);
+        u32 keyTrg = _getKeyTrg(menuPlay2->watchMenuRef, menuPlay2->unk_0008);
+        u32 keyLvl = _getKeyLvl(menuPlay2->watchMenuRef, menuPlay2->unk_0008);
 
         if ((keyLvl & R_TRIG) && (keyTrg & (A_BUTTON | START_BUTTON))) {
             for (i = 0; i < menuPlay2->unk_00C4; i++) {
@@ -9854,301 +9854,13 @@ const char *_nameEntry_charTable[] = {
     "________________________505152",
 };
 
-#if VERSION_US
-#if 0
-? func_80055DFC(MenuNmEnt *, ?, ?);                 /* extern */
-? _eepWritePlayer(struct_watchMenu *);                /* extern */
-extern ? _nameEntry_charTable;
-
-void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
-    s32 sp14;
-    s32 sp1C;
-    enum MainMenuMode sp24;
-    enum MainMenuMode temp_v0_7;
-    enum SndIndex var_fp;
-    s32 temp_a1_4;
-    s32 temp_lo;
-    s32 temp_s3;
-    s32 temp_s4;
-    s32 temp_s6;
-    s32 temp_v1;
-    s32 temp_v1_3;
-    s32 temp_v1_4;
-    s32 temp_v1_5;
-    s32 temp_v1_6;
-    s32 temp_v1_7;
-    s32 var_a2;
-    s32 var_s0;
-    s32 var_s0_2;
-    s32 var_s0_3;
-    s32 var_s0_4;
-    s32 var_s0_5;
-    s32 var_s1;
-    s32 var_s7;
-    s32 var_v0;
-    s8 *temp_v0_6;
-    struct_evs_mem_data *temp_s1_2;
-    u16 temp_s0;
-    u16 temp_v0;
-    u8 *var_a0;
-    u8 *var_a0_2;
-    u8 temp_a0;
-    u8 temp_v1_8;
-    u8 temp_v1_9;
-    void *temp_a1;
-    void *temp_a1_2;
-    void *temp_a1_3;
-    void *temp_s0_2;
-    void *temp_s1;
-    void *temp_s5;
-    void *temp_v0_2;
-    void *temp_v0_3;
-    void *temp_v0_4;
-    void *temp_v0_5;
-    void *temp_v1_2;
-
-    var_fp = SND_INDEX_INVALID;
-    temp_s0 = _getKeyRep(menuNmEnt->unk_0, menuNmEnt->unk_4);
-    temp_v0 = _getKeyTrg(menuNmEnt->unk_0, menuNmEnt->unk_4);
-    sp1C = 0;
-    sp14 = (s32) temp_v0;
-    temp_s4 = menuNmEnt->unk_4;
-    if (!(menuNmEnt->unk_54 < 0.0f) && !(menuNmEnt->unk_50 < 1.0f)) {
-        temp_s3 = ((temp_s0 & 0x100) != 0) - ((temp_s0 & 0x200) != 0);
-        temp_s6 = ((temp_s0 & 0x400) != 0) - ((temp_s0 & 0x800) != 0);
-        var_s7 = 0;
-        if (((temp_s3 != 0) | (temp_s6 != 0)) != 0) {
-            temp_v0_2 = menuNmEnt + (temp_s4 * 8);
-            var_s0 = temp_v0_2->unk_1C;
-            var_s1 = temp_v0_2->unk_20;
-            temp_s5 = (temp_s4 * 4) + menuNmEnt;
-            do {
-                temp_a1 = *((temp_s5->unk_14 * 4) + &_nameEntry_charTable) + ((var_s0 + (var_s1 * 0xF)) * 2);
-                if (((u8) *(&__ctype_map + temp_a1->unk_0) >> 3) & 1 & (temp_s3 != 0)) {
-                    temp_lo = temp_s3 * (temp_a1->unk_1 - 0x30);
-                    if (temp_s3 > 0) {
-                        var_v0 = 3 - temp_lo;
-                    } else {
-                        var_v0 = ~temp_lo;
-                    }
-                    var_a2 = var_s0 + var_v0;
-                } else {
-                    var_a2 = var_s0 + temp_s3;
-                }
-                var_s0 = WrapI(0, 0xF, var_a2);
-                var_s1 = WrapI(0, 9, var_s1 + temp_s6);
-                temp_a1_2 = *((temp_s5->unk_14 * 4) + &_nameEntry_charTable) + ((var_s0 + (var_s1 * 0xF)) * 2);
-                temp_a0 = temp_a1_2->unk_0;
-                temp_v1 = temp_a0 & 0xFF;
-            } while (temp_v1 == 0x5F);
-            if (temp_a0 & 0x80) {
-                ((temp_s4 * 4) + menuNmEnt)->unk_C = -1;
-                var_s7 = 1;
-            } else if ((*(&__ctype_map + temp_v1) & 8) && ((((temp_s4 * 4) + menuNmEnt)->unk_C = (s32) (temp_v1 - 0x30), temp_a1_3 = menuNmEnt + (temp_s4 * 8), var_s0 = (var_s0 + 0x30) - temp_a1_2->unk_1, var_s7 = 0, (var_s0 != temp_a1_3->unk_1C)) || (var_s1 != temp_a1_3->unk_20))) {
-                var_s7 = 1;
-            }
-            if (var_s7 != 0) {
-                var_fp = SND_INDEX_64;
-                temp_v0_3 = menuNmEnt + (temp_s4 * 8);
-                temp_v0_3->unk_1C = var_s0;
-                temp_v0_3->unk_20 = var_s1;
-            }
-        }
-        if ((sp14 & 0x1000) && (temp_v1_2 = (temp_s4 * 4) + menuNmEnt, (temp_v1_2->unk_C != 5))) {
-            var_fp = SND_INDEX_62;
-            temp_v0_4 = menuNmEnt + (temp_s4 * 8);
-            temp_v1_2->unk_C = 5;
-            temp_v0_4->unk_1C = 0xC;
-            temp_v0_4->unk_20 = 8;
-        } else if (sp14 & 0x9000) {
-            temp_s1 = (temp_s4 * 4) + menuNmEnt;
-            temp_s0_2 = menuNmEnt + (temp_s4 * 8);
-            temp_a1_4 = temp_s1->unk_C;
-            switch (temp_a1_4) {                    /* switch 1; irregular */
-                default:
-                    var_s0_2 = 0;
-                    if (temp_a1_4 != 5) {
-
-                    } else {
-                        var_a0 = temp_s1 + 0x2C;
-loop_41:
-                        if (*var_a0 == 0) {
-                            var_s0_2 += 1;
-                            var_a0 += 1;
-                            if (var_s0_2 >= 4) {
-
-                            } else {
-                                goto loop_41;
-                            }
-                        }
-                        var_fp = SND_INDEX_62;
-                        if (var_s0_2 != 4) {
-                            sp1C += 1;
-                        } else {
-block_46:
-                            var_fp = SND_INDEX_71;
-                        }
-                    }
-                    break;
-                case 0x-1:
-                    if (temp_s1->unk_34 < 4) {
-                        *(temp_s1 + 0x2C + temp_s1->unk_34) = font2index(*(&_nameEntry_charTable + (temp_s1->unk_14 * 4)) + ((temp_s0_2->unk_1C + (temp_s0_2->unk_20 * 0xF)) * 2));
-block_34:
-                        var_fp = SND_INDEX_62;
-                        temp_s1->unk_34 = (s32) (temp_s1->unk_34 + 1);
-                    }
-block_36:
-                    if (temp_s1->unk_34 == 4) {
-                        temp_s0_2->unk_1C = 0xC;
-                        temp_s0_2->unk_20 = 8;
-                        temp_s1->unk_C = 5;
-                    }
-                    break;
-                case 0x3:
-                    temp_v1_3 = temp_s1->unk_34;
-                    if (temp_v1_3 < 4) {
-                        *(temp_s1 + 0x2C + temp_v1_3) = 0;
-                        goto block_34;
-                    }
-                    goto block_36;
-                case 0x4:
-                    temp_v1_4 = temp_s1->unk_34;
-                    var_fp = SND_INDEX_68;
-                    if (temp_v1_4 > 0) {
-                        temp_v1_5 = temp_v1_4 - 1;
-                        temp_s1->unk_34 = temp_v1_5;
-                        *(temp_s1 + 0x2C + temp_v1_5) = 0;
-                    } else {
-                        goto block_46;
-                    }
-                    break;
-            }
-        } else if (sp14 & 0x4000) {
-            temp_v0_5 = (temp_s4 * 4) + menuNmEnt;
-            temp_v1_6 = temp_v0_5->unk_34;
-            temp_v1_7 = temp_v1_6 - 1;
-            if (temp_v1_6 > 0) {
-                temp_v0_5->unk_34 = temp_v1_7;
-                *(temp_v0_5 + 0x2C + temp_v1_7) = 0;
-            } else {
-                sp1C -= 1;
-            }
-            var_fp = SND_INDEX_68;
-        }
-        if (sp1C > 0) {
-            temp_s1_2 = &evs_mem_data[evs_select_name_no[temp_s4]];
-            var_s0_3 = 0;
-            if (_getMode(menuNmEnt->unk_0) != MAINMENUMODE_MENUNMENT_64) {
-                dm_init_save_mem(temp_s1_2);
-                var_s0_3 = 0;
-            }
-            var_a0_2 = (temp_s4 * 4) + menuNmEnt + 0x2C;
-            temp_s1_2->unk_00[0] = (u8) temp_s1_2->unk_00[0] | 1;
-            do {
-                temp_v0_6 = &temp_s1_2->unk_00[var_s0_3];
-                var_s0_3 += 1;
-                temp_v0_6->unk_1 = (u8) *var_a0_2;
-                var_a0_2 += 1;
-            } while (var_s0_3 < 4);
-            var_s0_4 = temp_s4 + 1;
-            if (var_s0_4 < menuNmEnt->unk_8) {
-loop_59:
-                temp_v1_8 = evs_select_name_no[var_s0_4];
-                if ((temp_v1_8 == 8) || ((_getMode(menuNmEnt->unk_0) != MAINMENUMODE_MENUNMENT_64) && ((u8) evs_mem_data[temp_v1_8].unk_00[0] & 1))) {
-                    var_s0_4 += 1;
-                    if (var_s0_4 < menuNmEnt->unk_8) {
-                        goto loop_59;
-                    }
-                }
-                if (var_s0_4 < menuNmEnt->unk_8) {
-                    menuNmEnt->unk_4 = var_s0_4;
-                } else {
-                    goto block_66;
-                }
-            } else {
-block_66:
-                _eepWritePlayer(menuNmEnt->unk_0);
-                temp_v0_7 = _getMode(menuNmEnt->unk_0);
-                switch (temp_v0_7) {
-                    case MAINMENUMODE_MENUNMENT_3:
-                        sp24 = MAINMENUMODE_MENUSTORY_4;
-                        break;
-                    case MAINMENUMODE_MENUNMENT_6:
-                        sp24 = MAINMENUMODE_MENULVSEL_7;
-                        break;
-                    case MAINMENUMODE_MENUNMENT_9:
-                        sp24 = MAINMENUMODE_MENULVSEL_10;
-                        break;
-                    case MAINMENUMODE_MENUNMENT_12:
-                        sp24 = MAINMENUMODE_MENULVSEL_13;
-                        break;
-                    case MAINMENUMODE_MENUNMENT_15:
-                        sp24 = MAINMENUMODE_MENUCHSEL_16;
-                        break;
-                    case MAINMENUMODE_MENUNMENT_19:
-                        sp24 = MAINMENUMODE_MENUCHSEL_20;
-                        break;
-                    case MAINMENUMODE_MENUNMENT_24:
-                        sp24 = MAINMENUMODE_MENUCHSEL_25;
-                        break;
-                    case MAINMENUMODE_MENUNMENT_28:
-                        sp24 = MAINMENUMODE_MENUCHSEL_29;
-                        break;
-                    case MAINMENUMODE_MENUNMENT_32:
-                        sp24 = MAINMENUMODE_MENUCHSEL_33;
-                        break;
-                    case MAINMENUMODE_MENUNMENT_63:
-                    case MAINMENUMODE_MENUNMENT_64:
-                        sp24 = MAINMENUMODE_MENUMAIN_0;
-                        break;
-                }
-                _setMode(menuNmEnt->unk_0, sp24);
-                func_80055DFC(menuNmEnt, -1, 0x3F800000);
-            }
-        } else {
-            var_s0_5 = temp_s4 - 1;
-            if (sp1C < 0) {
-                if (var_s0_5 >= 0) {
-loop_82:
-                    temp_v1_9 = evs_select_name_no[var_s0_5];
-                    if ((temp_v1_9 == 8) || ((_getMode(menuNmEnt->unk_0) != MAINMENUMODE_MENUNMENT_64) && ((u8) evs_mem_data[temp_v1_9].unk_00[0] & 1))) {
-                        var_s0_5 -= 1;
-                        if (var_s0_5 >= 0) {
-                            goto loop_82;
-                        }
-                    }
-                    if (var_s0_5 >= 0) {
-                        menuNmEnt->unk_4 = var_s0_5;
-                        var_fp = SND_INDEX_68;
-                    } else {
-                        goto block_89;
-                    }
-                } else {
-block_89:
-                    var_fp = SND_INDEX_68;
-                    _getMode(menuNmEnt->unk_0);
-                    _setMode(menuNmEnt->unk_0, MAINMENUMODE_MENUMAIN_0);
-                    func_80055DFC(menuNmEnt, -1, 0x3F800000);
-                }
-            }
-        }
-        if (var_fp >= 0) {
-            dm_snd_play(var_fp);
-        }
-    }
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuNmEnt_input);
-#endif
-#endif
-
-// TODO: wtf is this?
+// TODO: wtf is this? seems to be an equivalent of __ctype_map
 extern u8 D_800113D0_cn[];
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
-    u16 keyRep = _getKeyRep(menuNmEnt->watchMenuRef, menuNmEnt->unk_0004);
-    u16 keyTrg = _getKeyTrg(menuNmEnt->watchMenuRef, menuNmEnt->unk_0004);
+    u32 keyRep = _getKeyRep(menuNmEnt->watchMenuRef, menuNmEnt->unk_0004);
+    u32 keyTrg = _getKeyTrg(menuNmEnt->watchMenuRef, menuNmEnt->unk_0004);
     s32 i;
     s32 horizontal;
     s32 vertical;
@@ -10182,18 +9894,46 @@ void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
         bool var_s7 = false;
         s32 var_s0 = menuNmEnt->unk_001C[sp24][0];
         s32 var_s1 = menuNmEnt->unk_001C[sp24][1];
-        const char *characterP;
+        char *characterP;
 
         do {
+#if VERSION_US
+            // discard const
+            characterP = (char *)&_nameEntry_charTable[menuNmEnt->unk_0014[sp24]][(var_s0 + var_s1 * 0xF) * 2];
+
+            if (isdigit(characterP[0]) && (horizontal != 0)) {
+                s32 temp_lo;
+                s32 var_v0;
+
+                temp_lo = horizontal * (characterP[1] - '0');
+                if (horizontal > 0) {
+                    var_v0 = 3 - temp_lo;
+                } else {
+                    var_v0 = -1 - temp_lo;
+                }
+
+                var_s0 = WrapI(0, 0xF, var_s0 + var_v0);
+            } else {
+                var_s0 = WrapI(0, 0xF, var_s0 + horizontal);
+            }
+
+#elif VERSION_CN
             var_s0 = WrapI(0, 0xF, var_s0 + horizontal);
+#endif
             var_s1 = WrapI(0, 9, var_s1 + vertical);
-            characterP = &_nameEntry_charTable[menuNmEnt->unk_0014[sp24]][((var_s0 + (var_s1 * 0xF)) * 2)];
+            characterP = (char *)&_nameEntry_charTable[menuNmEnt->unk_0014[sp24]][((var_s0 + (var_s1 * 0xF)) * 2)];
         } while (characterP[0] == '_');
 
         if (characterP[0] & 0x80) {
             menuNmEnt->unk_000C[sp24] = -1;
-            var_s7 = true;
-        } else if (D_800113D0_cn[characterP[0] + 1] & 2) {
+            var_s7++;
+        } else
+#if VERSION_US
+            if (isdigit(characterP[0]))
+#elif VERSION_CN
+            if (D_800113D0_cn[characterP[0] + 1] & 2)
+#endif
+        {
             menuNmEnt->unk_000C[sp24] = characterP[0] - '0';
             var_s0 += '0' - characterP[1];
             var_s7 = (var_s0 != menuNmEnt->unk_001C[sp24][0]) || (var_s1 != menuNmEnt->unk_001C[sp24][1]);
@@ -10212,9 +9952,9 @@ void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
         menuNmEnt->unk_001C[sp24][1] = 8;
         soundIndex = SND_INDEX_62;
     } else if (keyTrg & (A_BUTTON | START_BUTTON)) {
-        const char *characterP =
-            &_nameEntry_charTable[menuNmEnt->unk_0014[sp24]]
-                                 [(menuNmEnt->unk_001C[sp24][0] + (menuNmEnt->unk_001C[sp24][1] * 0xF)) * 2];
+        char *characterP =
+            (char *)&_nameEntry_charTable[menuNmEnt->unk_0014[sp24]]
+                                         [(menuNmEnt->unk_001C[sp24][0] + (menuNmEnt->unk_001C[sp24][1] * 0xF)) * 2];
 
         switch (menuNmEnt->unk_000C[sp24]) {
             case -0x1:
@@ -10257,7 +9997,7 @@ void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
 
             case 0x5:
                 for (i = 0; i < ARRAY_COUNT(menuNmEnt->unk_002C[sp24]); i++) {
-                    if (menuNmEnt->unk_002C[sp24][i] != 0) {
+                    if ((char)menuNmEnt->unk_002C[sp24][i] != 0) {
                         break;
                     }
                 }
@@ -10429,102 +10169,7 @@ void menuNmEnt_update(MenuNmEnt *menuNmEnt) {
 }
 #endif
 
-#if VERSION_US
-#if 0
-s32 menuItem_drawTex(s8 *, Gfx **, s32, ?);
-? menuItem_drawAlphaTex(f32 *, Gfx **, s32, s32, s32);
-? func_80048634(f32 **, ?, Gfx **);
-s32 _getTexName(struct_watchMenu *, ?);
-
-void menuNmEnt_draw(MenuRank *menuRank, Gfx **gfxP) {
-    Gfx *sp18;
-    f32 *sp1C;
-    Gfx *temp_v0;
-    Gfx *temp_v1;
-    f32 temp_a1;
-    s32 temp_s0;
-    s32 temp_s4;
-    s32 var_s0;
-    s32 var_s0_2;
-    s32 var_s1;
-    s32 var_s3;
-    s32 var_s3_2;
-    s32 var_s4;
-    s8 *var_s2;
-    u8 temp_v0_2;
-
-    temp_v0 = *gfxP;
-    temp_v0->words.w0 = 0xDE000000;
-    temp_v0->words.w1 = (u32) fade_normal_texture_init_dl;
-    sp18 = temp_v0 + 8;
-    menuItem_drawTex(&arg0->unk_0020[0xAC], &sp18, _getTexName(arg0->unk_0000, 3), 0);
-    if (arg0->unk_0004 == 1) {
-        menuItem_drawTex(&arg0->unk_0020[0x13C], &sp18, _getTexName(arg0->unk_0000, 4), 0);
-    }
-    sp18->words.w0 = 0xDE000000;
-    sp18->words.w1 = (u32) fade_normal_texture_init_dl;
-    sp18 += 8;
-    if (menuItem_drawTex(&arg0->unk_0020[0x1C], &sp18, _getTexName(arg0->unk_0000, 2), 0) != 0) {
-        temp_v1 = sp18;
-        temp_v1->words.w1 = (u32) &fade_intensity_texture_init_dl;
-        temp_v1->unk_C = 0x2000;
-        temp_v1->unk_10 = 0xFA000000;
-        temp_v1->words.w0 = 0xDE000000;
-        temp_v1->unk_8 = 0xE3001201;
-        temp_v1->unk_14 = 0xFF;
-        var_s3 = 0;
-        sp18 = temp_v1 + 8;
-        sp18 = temp_v1 + 0x10;
-        var_s4 = (s32) arg0->unk_017C.unk_7C[1];
-        sp18 = temp_v1 + 0x18;
-        var_s2 = *(&_nameEntry_charTable + (((arg0->unk_0004 * 4) + arg0)->unk_14 * 4));
-
-        do {
-            var_s1 = 0;
-            var_s0 = (s32) arg0->unk_017C.unk_7C[0];
-loop_5:
-            if (*var_s2 & 0x80) {
-                fontXX_draw(&sp18, (f32) var_s0, (f32) var_s4, 12.0f, 12.0f, var_s2);
-            }
-            var_s0 += 0xF;
-            var_s1 += 1;
-            var_s2 += 2;
-            if (var_s1 < 0xF) {
-                goto loop_5;
-            }
-            var_s3 += 1;
-            var_s4 += 0xD;
-        } while (var_s3 < 9);
-
-        var_s3_2 = 0;
-        var_s0_2 = (s32) arg0->unk_04F4.unk_0C.unk_6C[3];
-        temp_s4 = (s32) arg0->unk_04F4.unk_0C.unk_7C[0];
-        do {
-            temp_a1 = (f32) var_s0_2;
-            temp_v0_2 = ((arg0->unk_0004 * 4) + arg0 + var_s3_2)->unk_2C;
-            var_s0_2 += 0xD;
-            var_s3_2 += 1;
-            fontXX_drawID(&sp18, temp_a1, (f32) temp_s4, 12.0f, 12.0f, (s32) temp_v0_2);
-        } while (var_s3_2 < 4);
-
-        sp18->words.w0 = 0xDE000000;
-        sp18->words.w1 = (u32) &fade_alpha_texture_init_dl;
-        sp18 += 8;
-        temp_s0 = _getTexName(arg0->unk_0000, 0);
-        menuItem_drawAlphaTex(&arg0->unk_590[0].unk_0004.unk_08.unk_54[3], &sp18, temp_s0, _getTexName(arg0->unk_0000, 1), 0);
-        sp1C = &arg0->unk_020C[1].unk_6C[1];
-        func_80048634(&sp1C, 1, &sp18);
-        *gfxP = sp18;
-    }
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuNmEnt_draw);
-#endif
-#endif
-
-TiTexData *_getTexName(struct_watchMenu *arg0, s32 arg1);
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void menuNmEnt_draw(MenuNmEnt *menuNmEnt, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     MenuCursor *sp24[1];
@@ -10554,11 +10199,11 @@ void menuNmEnt_draw(MenuNmEnt *menuNmEnt, Gfx **gfxP) {
 
     gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
     gDPSetTextureFilter(gfx++, G_TF_BILERP);
-    gDPSetPrimColor(gfx++, 0, 0, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, 255);
 
+    // Draw keyboard
     var_s3 = menuNmEnt->unk_01EC.unk_0C[1];
     var_s2 = _nameEntry_charTable[menuNmEnt->unk_0014[menuNmEnt->unk_0004]];
-
     for (var_s4 = 0; var_s4 < 9; var_s4++) {
         var_s0 = menuNmEnt->unk_01EC.unk_0C[0];
 
@@ -10572,12 +10217,11 @@ void menuNmEnt_draw(MenuNmEnt *menuNmEnt, Gfx **gfxP) {
         var_s3 += 0xD;
     }
 
+    // Draw selected characters
     var_s0 = menuNmEnt->unk_056C.unk_0C[0];
     var_s3 = menuNmEnt->unk_056C.unk_0C[1];
     for (var_s4 = 0; var_s4 < 4; var_s4++) {
-        u8 index = menuNmEnt->unk_002C[menuNmEnt->unk_0004][var_s4];
-
-        fontXX_drawID(&gfx, var_s0, var_s3, 12.0f, 12.0f, index);
+        fontXX_drawID(&gfx, var_s0, var_s3, 12.0f, 12.0f, (u8)menuNmEnt->unk_002C[menuNmEnt->unk_0004][var_s4]);
         var_s0 += 0xD;
     }
 
@@ -11910,8 +11554,8 @@ void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, struct_wa
 #if VERSION_US || VERSION_CN
 void menuRank_input(MenuRank *menuRank) {
     MenuRank_unk_590 *temp_s0 = &menuRank->unk_590[menuRank->unk_0014];
-    u16 pressedButton = _getKeyTrg(menuRank->watchMenuRef, 0);
-    u16 keyRep UNUSED = _getKeyRep(menuRank->watchMenuRef, 0);
+    u32 pressedButton = _getKeyTrg(menuRank->watchMenuRef, 0);
+    u32 keyRep UNUSED = _getKeyRep(menuRank->watchMenuRef, 0);
     s32 direction = 0;
     SndIndex sndIndex = SND_INDEX_INVALID;
     MenuItem *item = &menuRank->unk_032C;
@@ -12294,19 +11938,19 @@ MenuItem *_getRootItem(struct_watchMenu *watchMenuRef) {
 #endif
 
 #if VERSION_US || VERSION_CN
-u16 _getKeyLvl(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
+u32 _getKeyLvl(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
     return gControllerHoldButtons[main_joy[arg1]];
 }
 #endif
 
 #if VERSION_US || VERSION_CN
-u16 _getKeyTrg(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
+u32 _getKeyTrg(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
     return gControllerPressedButtons[main_joy[arg1]];
 }
 #endif
 
 #if VERSION_US || VERSION_CN
-u16 _getKeyRep(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
+u32 _getKeyRep(struct_watchMenu *watchMenuRef UNUSED, s32 arg1) {
     return joycur[main_joy[arg1]];
 }
 #endif
