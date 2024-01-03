@@ -175,8 +175,8 @@ _getTexGameP1 - found 15 matches total:
 0.99 - _getTexSetup
 0.99 - _getTexStory
 0.99 - _getTexGameAl
-0.99 - func_80059DC4
-0.99 - func_80059DD4
+0.99 - _getTexCont
+0.99 - _getTexTutol
 0.99 - _getTexKasa
 
 D_800B00B8 - found 12 matches total:
