@@ -151,7 +151,8 @@ ENDIAN          := -EB
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
 OPTFLAGS        := -O2
-# OPTFLAGS        += -gdwarf
+DBGFLAGS        :=
+# DBGFLAGS        := -gdwarf
 MIPS_VERSION    := -mips3
 OUT_ENCODING    := Shift-JIS
 CHAR_SIGN       := -funsigned-char
@@ -160,7 +161,8 @@ LIBULTRA_VERSION:= 8
 endif
 ifeq ($(VERSION),cn)
 CFLAGS          += -mcpu=4300
-OPTFLAGS        := -O2 -ggdb
+OPTFLAGS        := -O2
+DBGFLAGS        := -ggdb
 MIPS_VERSION    := -mips2
 OUT_ENCODING    := EUC-CN
 CHAR_SIGN       := -fsigned-char
@@ -171,7 +173,7 @@ endif
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
 
 # Variable to simplify C compiler invocation
-C_COMPILER_FLAGS = $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS)
+C_COMPILER_FLAGS = $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS)
 
 ICONV_FLAGS      = --from-code=UTF-8 --to-code=$(OUT_ENCODING)
 
@@ -237,7 +239,8 @@ $(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/linker_scri
 $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
-$(BUILD_DIR)/src/libkmc/%.o: OPTFLAGS := -O1
+$(BUILD_DIR)/src/libkmc/%.o:   OPTFLAGS := -O1
+$(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -O1
 
 # per-file flags
 

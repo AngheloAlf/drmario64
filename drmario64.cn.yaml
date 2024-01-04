@@ -313,12 +313,13 @@ segments:
 
       # libegcs?
       - [0x00F130, c, libegcs/libgcc2] # __udivdi3
-      - [0x00F6A0, asm, libegcs/00F6A0]
-      - [0x00F6E0, asm, libegcs/00F6E0]
-      - [0x00F700, asm, libegcs/00F700] # rand
 
-      - [0x00F760, asm, libegcs/00F760] # fmod
-      - [0x00F7A0, asm, libegcs/00F7A0] # memmove
+      # libnustd
+      - [0x00F6A0, c, libnustd/strcpy]
+      - [0x00F6E0, c, libnustd/modf]
+      - [0x00F700, c, libnustd/srand]
+      - [0x00F760, c, libnustd/fmod]
+      - [0x00F7A0, c, libnustd/memmove]
 
       # data
       - [0x00F830, .data, boot/boot_main]
@@ -332,6 +333,7 @@ segments:
 
       - [0x010100, data, boot/010100] # libultra start?
 
+      # libnustd
       - [0x011FD0, .data, libnustd/ctype]
 
       - [0x00120E0, rodata, boot/0120E0] # guess
@@ -348,6 +350,8 @@ segments:
       - { start: 0x0124E0, type: bss, vram: 0x80015CB0, name: boot/80015CB0 }
       - { start: 0x0124E0, type: bss, vram: 0x80019CD0, name: gateway/003630 }
       - { start: 0x0124E0, type: bss, vram: 0x80019D50, name: boot/80019D50 }
+      - { start: 0x0124E0, type: .bss, vram: 0x8001C1A0, name: libnustd/srand }
+      - { start: 0x0124E0, type: bss, vram: 0x8001C1B0, name: boot/8001C1B0 }
 
   - name: dma_table
     type: code
