@@ -34,7 +34,7 @@
 #ifndef CHAR_SIGNED
 #if VERSION_CN
 #define CHAR_SIGNED signed
-#else 
+#else
 #define CHAR_SIGNED unsigned
 #endif
 #endif

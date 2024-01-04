@@ -369,9 +369,7 @@ osViModeNtscLan1 = 0x800112E0; //
 osViModePalLan1 = 0x80011330; //
 osViModeMpalLan1 = 0x80011380; // size:0x50
 
-// no section?
-D_800113D0_cn = 0x800113D0; //
-D_800113D1_cn = 0x800113D1; //
+__MojiStat = 0x800113D0; // size:0x101
 
 // data end
 
