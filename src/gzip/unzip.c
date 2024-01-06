@@ -40,7 +40,10 @@ size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     return blockSize;
 }
 
-size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
+/**
+ * Original name: data_write
+ */
+size_t data_write(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
     u8 *var_v1 = arg0->unk_0;
     size_t i;
 
@@ -98,10 +101,10 @@ u32 updcrc(u8 *arg0, size_t arg1) {
     return ~var_a2;
 }
 
+#if VERSION_US || VERSION_CN
 /**
  * Original names: clear_bufs
  */
-#if VERSION_US
 void clear_bufs(void) {
     outcnt = 0;
     inptr = 0;
@@ -109,10 +112,6 @@ void clear_bufs(void) {
     bytes_out = 0;
     bytes_in = 0;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", clear_bufs);
 #endif
 
 #if VERSION_US
@@ -144,12 +143,33 @@ INCLUDE_ASM("asm/us/nonmatchings/gzip/unzip", fill_inbuf);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", fill_inbuf);
+/**
+ * Original name: fill_inbuf
+ */
+s32 fill_inbuf(s32 arg0) {
+    insize = 0;
+    do {
+        s32 temp_v0 = auRomDataRead(&ifd, &inbuf[insize], 0x2000 - insize);
+
+        if ((temp_v0 == 0) || (temp_v0 == -1)) {
+            break;
+        }
+        insize = insize + temp_v0;
+    } while (insize < ARRAY_COUNTU(inbuf));
+
+    if ((insize == 0) && (arg0 != 0)) {
+        return -1;
+    }
+
+    bytes_in += insize;
+    inptr = 1;
+    return inbuf[0];
+}
 #endif
 
 void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
     do {
-        size_t temp_v0 = func_80002064(arg0, arg1, arg2);
+        size_t temp_v0 = data_write(arg0, arg1, arg2);
 
         if (temp_v0 == arg2) {
             break;
@@ -163,7 +183,7 @@ void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
 /**
  * Original name: flush_window
  */
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void flush_window(void) {
     if (outcnt != 0) {
         updcrc(window, outcnt);
@@ -172,8 +192,4 @@ void flush_window(void) {
         outcnt = 0;
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/gzip/unzip", flush_window);
 #endif

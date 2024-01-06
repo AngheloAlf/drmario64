@@ -1,7 +1,7 @@
 #ifndef LIBC_CTYPE_H
 #define LIBC_CTYPE_H
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 
 #define CTYPE_ISSPACE       0x01    /* 0x9~0xd , 0x20 */
 #define CTYPE_ISUPPER       0x02    /* 'A'~'Z' */

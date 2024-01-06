@@ -31,7 +31,7 @@ s32 inflate(void);
 
 size_t expand_gzip(RomOffset segmentRom, void *dstAddr, size_t segmentSize);
 size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize);
-size_t func_80002064(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2);
+size_t data_write(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2);
 UNK_TYPE unzip(void);
 u32 updcrc(u8 *arg0, size_t arg1);
 void clear_bufs(void);
@@ -50,7 +50,7 @@ extern u8 inbuf[0x2000];
 extern s32 bytes_in;
 extern s32 bytes_out;
 
-extern UNK_TYPE D_8000E324;
+extern UNK_TYPE gzip_malloc_tmp;
 /**
  * Original name: gzip_mem_buff
  */
@@ -64,7 +64,7 @@ extern UNK_TYPE *gzip_malloc_addr;
  * Original name: bk
  */
 extern u32 bk;
-extern u32 B_8001F998;
+extern u32 bb;
 /**
  * Original name: hufts
  */

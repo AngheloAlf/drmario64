@@ -20,7 +20,7 @@ inflate_block = 0x80001D4C;
 inflate = 0x80001EB4;
 expand_gzip = 0x80001F90;
 auRomDataRead = 0x80001FD8;
-func_80002064 = 0x80002064;
+data_write = 0x80002064;
 unzip = 0x800020A0;
 updcrc = 0x80002148;
 clear_bufs = 0x800021A0;
@@ -305,7 +305,7 @@ D_8000E2F4 = 0x8000E2F4;
 D_8000E318 = 0x8000E318;
 D_8000E31C = 0x8000E31C;
 gzip_malloc_addr = 0x8000E320;
-D_8000E324 = 0x8000E324;
+gzip_malloc_tmp = 0x8000E324;
 crc_32_tab = 0x8000E338;
 crc_132 = 0x8000E738;
 
@@ -440,7 +440,7 @@ B_8001F988 = 0x8001F988;
 insize = 0x8001F98C;
 outcnt = 0x8001F990;
 __osMaxControllers = 0x8001F994;
-B_8001F998 = 0x8001F998;
+bb = 0x8001F998;
 __osCurrentTime = 0x8001F9A0; // size:0x8
 hufts = 0x8001F9A8;
 
