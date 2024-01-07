@@ -12,8 +12,8 @@ typedef struct huft {
     } v;
 } huft; // size = 0x8
 
-s32 huft_build(u32 *arg0, u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5, s32 *arg6);
 s32 huft_free(huft *arg0);
+
 extern u16 cplens[];
 extern u16 cplext[];
 extern u16 cpdist[];
@@ -24,6 +24,93 @@ extern u16 mask_bits[];
 extern u32 border[];
 extern s32 lbits;
 extern s32 dbits;
+
+extern s32 gzip_malloc_tmp;
+extern void *gzip_malloc_addr;
+
+/**
+ * Original name: gzip_mem_buff
+ */
+extern u8 gzip_mem_buff[];
+
+/**
+ * Original name: bk
+ */
+extern u32 bk;
+/**
+ * Original name: bb
+ */
+extern u32 bb;
+/**
+ * Original name: hufts
+ */
+extern u32 hufts;
+
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: border
+ */
+u32 border[0x13] = {
+    0x10, 0x11, 0x12, 0, 8, 7, 9, 6, 0xA, 5, 0xB, 4, 0xC, 3, 0xD, 2, 0xE, 1, 0xF,
+};
+
+/**
+ * Original name: cplens
+ */
+u16 cplens[0x20] = {
+    3,    4,    5,    6,    7,    8,    9,    0xA,  0xB,  0xD,  0xF,  0x11, 0x13,  0x17, 0x1B, 0x1F,
+    0x23, 0x2B, 0x33, 0x3B, 0x43, 0x53, 0x63, 0x73, 0x83, 0xA3, 0xC3, 0xE3, 0x102, 0,    0,    0,
+};
+
+/**
+ * Original name: cplext
+ */
+u16 cplext[0x20] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 0x63, 0x63, 0,
+};
+
+/**
+ * Original name: cpdist
+ */
+u16 cpdist[0x1E] = {
+    1,    2,     3,     4,     5,     7,     9,     0xD,   0x11,  0x19,   0x21,   0x31,   0x41,   0x61,   0x81,
+    0xC1, 0x101, 0x181, 0x201, 0x301, 0x401, 0x601, 0x801, 0xC01, 0x1001, 0x1801, 0x2001, 0x3001, 0x4001, 0x6001,
+};
+
+/**
+ * Original name: cpdext
+ */
+u16 cpdext[0x1E] = {
+    0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 0xA, 0xA, 0xB, 0xB, 0xC, 0xC, 0xD, 0xD,
+};
+
+/**
+ * Original name: mask_bits
+ */
+u16 mask_bits[] = {
+    0, 1, 3, 7, 0xF, 0x1F, 0x3F, 0x7F, 0xFF, 0x1FF, 0x3FF, 0x7FF, 0xFFF, 0x1FFF, 0x3FFF, 0x7FFF, 0xFFFF,
+};
+
+/**
+ * Original name: lbits
+ */
+s32 lbits = 9;
+
+/**
+ * Original name: dbits
+ */
+s32 dbits = 6;
+
+/**
+ * Original name: gzip_malloc_addr
+ */
+void *gzip_malloc_addr = gzip_mem_buff;
+
+/**
+ * Original name: gzip_malloc_tmp
+ */
+s32 gzip_malloc_tmp = 0;
+#endif
 
 #if VERSION_US || VERSION_CN
 void *func_80000720(size_t size) {

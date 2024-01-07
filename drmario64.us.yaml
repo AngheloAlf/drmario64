@@ -336,8 +336,8 @@ segments:
       - [0x00ED90, .data, boot/boot_main]
       - [0x00EDA0, .data, boot/dmadata]
 
-      - [0x00EDB0, data, gzip/inflate]
-      - [0x00EF30, data, gzip/unzip]
+      - [0x00EDB0, .data, gzip/inflate]
+      - [0x00EF30, .data, gzip/unzip]
 
       - [0x00F340, .data, boot/rom_offsets]
 
