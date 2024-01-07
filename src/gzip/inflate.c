@@ -12,32 +12,21 @@ typedef struct huft {
     } v;
 } huft; // size = 0x8
 
-s32 inflate_dynamic(void);
-
-s32 huft_build(u32 arg0[0x120], u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5, s32 *arg6);
-UNK_RET huft_free(huft *arg0);
+s32 huft_build(u32 *arg0, u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5, s32 *arg6);
+s32 huft_free(huft *arg0);
 extern u16 cplens[];
 extern u16 cplext[];
 extern u16 cpdist[];
 extern u16 cpdext[];
 
-#if VERSION_US
-void *func_80000720(s32 arg0) {
-    gzip_malloc_tmp += arg0;
+extern u16 mask_bits[];
 
-    if (gzip_malloc_tmp <= 0x4000) {
-        void *var_v0 = gzip_malloc_addr;
+extern u32 border[];
+extern s32 lbits;
+extern s32 dbits;
 
-        gzip_malloc_addr = var_v0 + arg0;
-        return var_v0;
-    }
-
-    return NULL;
-}
-#endif
-
-#if VERSION_CN
-void *func_80000820_cn(size_t size) {
+#if VERSION_US || VERSION_CN
+void *func_80000720(size_t size) {
     void *ret;
 
     gzip_malloc_tmp += size;
@@ -51,25 +40,17 @@ void *func_80000820_cn(size_t size) {
 }
 #endif
 
-#if VERSION_US
-void func_8000075C(void) {
+#if VERSION_US || VERSION_CN
+void func_8000075C(void *arg UNUSED) {
     gzip_malloc_tmp = 0;
     gzip_malloc_addr = gzip_mem_buff;
 }
 #endif
 
-#if VERSION_CN
-void func_80000868_cn(void *arg UNUSED) {
-    gzip_malloc_tmp = 0;
-    gzip_malloc_addr = gzip_mem_buff;
-}
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000778);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: huft_build
+ */
 s32 huft_build(u32 *arg0, u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5, s32 *arg6) {
     u32 var_t2;      // a
     u32 sp18[17];    // c
@@ -183,7 +164,7 @@ s32 huft_build(u32 *arg0, u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5,
         var_t2 = sp18[var_t3];
         var_t2--;
 
-        while (var_t2 != -1) {
+        for (; var_t2 != -1; var_t2--) {
             while (var_t3 > var_s5 + var_a3) {
                 var_t1++;
                 var_s5 += var_a3;
@@ -211,7 +192,7 @@ s32 huft_build(u32 *arg0, u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5,
 
                 var_s3 = 1 << var_s0_2;
 
-                temp_v0_3 = func_80000820_cn((var_s3 + 1) * sizeof(huft));
+                temp_v0_3 = func_80000720((var_s3 + 1) * sizeof(huft));
                 if (temp_v0_3 == NULL) {
                     if (var_t1 != 0) {
                         huft_free(sp68[0]);
@@ -266,7 +247,6 @@ s32 huft_build(u32 *arg0, u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5,
                 var_t1--;
                 var_s5 -= var_a3;
             }
-            var_t2 -= 1;
         }
     }
 
@@ -274,48 +254,28 @@ s32 huft_build(u32 *arg0, u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5,
 }
 #endif
 
-#if VERSION_US
-#ifdef NON_MATCHING
-UNK_TYPE func_80000D0C(void *arg0) {
-    void *temp_a0;
-    void *temp_s0;
-
-    while (arg0 != NULL) {
-        temp_a0 = arg0 - 8;
-        // temp_s0 = temp_a0->unk_4;
-        temp_s0 = (void *)((s32 *)temp_a0)[1];
-        func_8000075C();
-        arg0 = temp_s0;
-    }
-    return 0;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000D0C);
-#endif
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: huft_free
+ */
 s32 huft_free(huft *arg0) {
-    huft *temp_a0;
     huft *temp_s0;
 
     while (arg0 != NULL) {
-        temp_a0 = &arg0[-1];
-        temp_s0 = temp_a0->v.t;
-        func_80000868_cn(temp_a0);
+        arg0--;
+
+        temp_s0 = arg0->v.t;
+        func_8000075C(arg0);
         arg0 = temp_s0;
     }
     return 0;
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80000D48);
-#endif
-
-extern u16 mask_bits[];
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: inflate_codes
+ */
 s32 inflate_codes(huft *arg0, huft *arg1, s32 arg2, s32 arg3) {
     u32 var_s0;   // e
     u32 var_s6;   // n
@@ -367,7 +327,7 @@ s32 inflate_codes(huft *arg0, huft *arg1, s32 arg2, s32 arg3) {
                     }
                     var_s1 += 8;
                 }
-                (var_s2 = &var_s2->v.t[var_s3 & mask_bits[var_s0]]);
+                var_s2 = &var_s2->v.t[var_s3 & mask_bits[var_s0]];
             } while ((var_s0 = var_s2->e) >= 0x11U);
         }
 
@@ -399,8 +359,8 @@ s32 inflate_codes(huft *arg0, huft *arg1, s32 arg2, s32 arg3) {
 
         var_s6 = var_s2->v.n + (var_s3 & mask_bits[var_s0]);
 
-        var_s1 = var_s1 - var_s0;
-        var_s3 = var_s3 >> var_s0;
+        var_s3 >>= var_s0;
+        var_s1 -= var_s0;
 
         while (var_s1 < arg3) {
             if (inptr < insize) {
@@ -418,8 +378,8 @@ s32 inflate_codes(huft *arg0, huft *arg1, s32 arg2, s32 arg3) {
                     return 1;
                 }
 
+                var_s3 >>= var_s2->b;
                 var_s1 -= var_s2->b;
-                var_s3 = var_s3 >> var_s2->b;
 
                 var_s0 = var_s0 - 0x10;
 
@@ -436,8 +396,8 @@ s32 inflate_codes(huft *arg0, huft *arg1, s32 arg2, s32 arg3) {
             } while ((var_s0 = var_s2->e) >= 0x11U);
         }
 
-        var_s1 = var_s1 - var_s2->b;
-        var_s3 = var_s3 >> var_s2->b;
+        var_s3 >>= var_s2->b;
+        var_s1 -= var_s2->b;
 
         while (var_s1 < var_s0) {
             if (inptr < insize) {
@@ -450,12 +410,12 @@ s32 inflate_codes(huft *arg0, huft *arg1, s32 arg2, s32 arg3) {
 
         var_s2_3 = var_s4 - var_s2->v.n - (var_s3 & mask_bits[var_s0]);
 
-        var_s1 = var_s1 - var_s0;
-        var_s3 = var_s3 >> var_s0;
+        var_s3 >>= var_s0;
+        var_s1 -= var_s0;
 
         do {
-            var_s0 = 0x8000 - (((var_s2_3 &= 0x7FFF) > var_s4) ? var_s2_3 : var_s4);
-            var_s0 = ((var_s0 > var_s6) ? var_s6 : var_s0);
+            var_s0 = (((var_s0 = 0x8000 - (((var_s2_3 &= 0x7FFF) > var_s4) ? var_s2_3 : var_s4)) > var_s6) ? var_s6
+                                                                                                           : var_s0);
             var_s6 -= var_s0;
 
             do {
@@ -474,15 +434,15 @@ s32 inflate_codes(huft *arg0, huft *arg1, s32 arg2, s32 arg3) {
     outcnt = var_s4;
     bb = var_s3;
     bk = var_s1;
+
     return 0;
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001260);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: inflate_stored
+ */
 s32 inflate_stored(void) {
     s32 var_s2;
     u32 var_s0;
@@ -557,11 +517,10 @@ s32 inflate_stored(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001480);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: inflate_fixed
+ */
 s32 inflate_fixed(void) {
     u32 sp28[0x120];
     huft *sp4A8;
@@ -610,15 +569,10 @@ s32 inflate_fixed(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", func_80001620);
-#endif
-
-extern u32 border[];
-extern s32 lbits;
-extern s32 dbits;
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: inflate_dynamic
+ */
 s32 inflate_dynamic(void) {
     s32 var_s3;    // i
     u32 var_s0;    // j
@@ -679,11 +633,7 @@ s32 inflate_dynamic(void) {
     var_s2 = var_s2 >> 4;
     var_s1 = var_s1 - 4;
 
-    if (sp53C > 0x120U) {
-        return 1;
-    }
-
-    if (sp540 > 0x20U) {
+    if ((sp53C > 0x120U) || (sp540 > 0x20U)) {
         return 1;
     }
 
@@ -699,7 +649,7 @@ s32 inflate_dynamic(void) {
 
         sp28[border[var_s0]] = var_s2 & 7;
 
-        var_s2 = var_s2 >> 3;
+        var_s2 >>= 3;
         var_s1 -= 3;
     }
 
@@ -850,14 +800,10 @@ s32 inflate_dynamic(void) {
 }
 #endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: inflate_block
  */
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/gzip/inflate", inflate_block);
-#endif
-
-#if VERSION_CN
 s32 inflate_block(s32 *arg0) {
     s32 temp_v1;
     u32 var_s0;
@@ -910,6 +856,7 @@ s32 inflate_block(s32 *arg0) {
 }
 #endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: inflate
  */
@@ -949,3 +896,4 @@ s32 inflate(void) {
 
     return ret;
 }
+#endif

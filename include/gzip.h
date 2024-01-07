@@ -18,14 +18,14 @@ typedef struct struct_8001D7F8 {
 } struct_8001D7F8; // size >= 0x8
 
 
-void *func_80000720(s32 arg0);
-void func_8000075C(void);
-// void func_80000778();
-UNK_TYPE func_80000D0C(UNK_PTR arg0);
-// void func_80000D48();
-s32 func_80001260(void);
-s32 func_80001480(void);
-s32 func_80001620(void);
+//void *func_80000720(s32 arg0);
+void func_8000075C(void *arg);
+// void huft_build();
+// UNK_TYPE huft_free(UNK_PTR arg0);
+// void inflate_codes();
+s32 inflate_stored(void);
+s32 inflate_fixed(void);
+s32 inflate_dynamic(void);
 s32 inflate_block(s32 *arg0);
 s32 inflate(void);
 

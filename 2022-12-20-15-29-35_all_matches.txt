@@ -252,8 +252,8 @@ func_80037378 - found 3 matches total:
 0.99 - func_80037468
 
 D_800B0C5C - found 3 matches total:
-0.99 - D_8000E1FC (decompiled)
-0.99 - D_8000E2B8 (decompiled)
+0.99 - cplens (decompiled)
+0.99 - cpdext (decompiled)
 0.99 - D_800B1BD0
 
 func_80049034 - found 3 matches total:

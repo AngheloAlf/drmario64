@@ -4,6 +4,7 @@
 #include "alignment.h"
 #include "boot_functions.h"
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: expand_gzip
  */
@@ -16,7 +17,9 @@ size_t expand_gzip(RomOffset segmentRom, void *dstAddr, size_t segmentSize) {
     unzip();
     return ofd.unk_4;
 }
+#endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: auRomDataRead
  */
@@ -39,7 +42,9 @@ size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     }
     return blockSize;
 }
+#endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: data_write
  */
@@ -56,7 +61,9 @@ size_t data_write(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
 
     return arg2;
 }
+#endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: unzip
  */
@@ -81,7 +88,9 @@ s32 unzip(void) {
     }
     return 0;
 }
+#endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: updcrc
  */
@@ -100,6 +109,7 @@ u32 updcrc(u8 *arg0, size_t arg1) {
     crc_132 = var_a2;
     return ~var_a2;
 }
+#endif
 
 #if VERSION_US || VERSION_CN
 /**
@@ -114,35 +124,7 @@ void clear_bufs(void) {
 }
 #endif
 
-#if VERSION_US
-#ifdef NON_MATCHING
-/**
- * Original name: fill_inbuf
- */
-s32 fill_inbuf(s32 arg0) {
-    u32 temp_v0;
-
-    for (insize = 0; insize < ARRAY_COUNT(inbuf); insize += temp_v0) {
-        temp_v0 = auRomDataRead(&ifd, &inbuf[insize], ARRAY_COUNT(inbuf) - insize);
-        if (temp_v0 + 1 <= 1) {
-            break;
-        }
-    }
-
-    if ((insize != 0) || (arg0 == 0)) {
-        bytes_in += insize;
-        inptr = 1;
-        return inbuf[0];
-    }
-
-    return -1;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/gzip/unzip", fill_inbuf);
-#endif
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 /**
  * Original name: fill_inbuf
  */
@@ -157,8 +139,10 @@ s32 fill_inbuf(s32 arg0) {
         insize = insize + temp_v0;
     } while (insize < ARRAY_COUNTU(inbuf));
 
-    if ((insize == 0) && (arg0 != 0)) {
-        return -1;
+    if (insize == 0) {
+        if (arg0 != 0) {
+            return -1;
+        }
     }
 
     bytes_in += insize;
@@ -167,6 +151,7 @@ s32 fill_inbuf(s32 arg0) {
 }
 #endif
 
+#if VERSION_US || VERSION_CN
 void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
     do {
         size_t temp_v0 = data_write(arg0, arg1, arg2);
@@ -179,11 +164,12 @@ void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
         arg1 += temp_v0;
     } while (true);
 }
+#endif
 
+#if VERSION_US || VERSION_CN
 /**
  * Original name: flush_window
  */
-#if VERSION_US || VERSION_CN
 void flush_window(void) {
     if (outcnt != 0) {
         updcrc(window, outcnt);

@@ -12,14 +12,6 @@
 // data
 
 extern s8 sDmaDataNeedsInitialization;
-// extern UNK_TYPE D_8000E1B0;
-// extern UNK_TYPE D_8000E1FC;
-// extern UNK_TYPE D_8000E23C;
-// extern UNK_TYPE D_8000E27C;
-// extern UNK_TYPE D_8000E2B8;
-// extern UNK_TYPE D_8000E2F4;
-// extern UNK_TYPE D_8000E318;
-// extern UNK_TYPE D_8000E31C;
 
 // bss
 

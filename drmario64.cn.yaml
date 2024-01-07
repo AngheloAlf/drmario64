@@ -325,7 +325,8 @@ segments:
       - [0x00F830, .data, boot/boot_main]
       - [0x00F840, .data, boot/dmadata]
 
-      - [0x00F850, data, boot/00F850]
+      - [0x00F850, data, gzip/inflate]
+      - [0x00F9D0, data, gzip/unzip]
 
       - [0x00FDE0, .data, boot/rom_offsets]
 
