@@ -11,25 +11,28 @@ Idle_ThreadEntry = 0x80000580; // type:func
 
 DmaData_80000690_cn = 0x80000620; // type:func
 DmaData_RomToRam = 0x80000658; // type:func
-func_80000770_gw = 0x80000770; // type:func
-func_800007AC_gw = 0x800007AC; // type:func
-func_800007C8_gw = 0x800007C8; // type:func
-func_80000D5C_gw = 0x80000D5C; // type:func
-func_80000D98_gw = 0x80000D98; // type:func
-func_800012B0_gw = 0x800012B0; // type:func
-func_800014D0_gw = 0x800014D0; // type:func
-func_80001670_gw = 0x80001670; // type:func
-func_80001D9C_gw = 0x80001D9C; // type:func
-func_80001F04_gw = 0x80001F04; // type:func
+
+func_80000720 = 0x80000770; // type:func
+func_8000075C = 0x800007AC; // type:func
+huft_build = 0x800007C8; // type:func
+huft_free = 0x80000D5C; // type:func
+inflate_codes = 0x80000D98; // type:func
+inflate_stored = 0x800012B0; // type:func
+inflate_fixed = 0x800014D0; // type:func
+inflate_dynamic = 0x80001670; // type:func
+inflate_block = 0x80001D9C; // type:func
+inflate = 0x80001F04; // type:func
+
 expand_gzip = 0x80001FE0; // type:func
-func_80002028_gw = 0x80002028; // type:func
-func_800020B4_gw = 0x800020B4; // type:func
-func_800020F0_gw = 0x800020F0; // type:func
-func_80002198_gw = 0x80002198; // type:func
-func_800021F0_gw = 0x800021F0; // type:func
-func_8000221C_gw = 0x8000221C; // type:func
-func_800022F8_gw = 0x800022F8; // type:func
-func_80002350_gw = 0x80002350; // type:func
+auRomDataRead = 0x80002028; // type:func
+data_write = 0x800020B4; // type:func
+unzip = 0x800020F0; // type:func
+updcrc = 0x80002198; // type:func
+clear_bufs = 0x800021F0; // type:func
+fill_inbuf = 0x8000221C; // type:func
+func_800022A8 = 0x800022F8; // type:func
+flush_window = 0x80002350; // type:func
+
 DecompressRomToRam = 0x800023D0; // type:func
 WrapI = 0x80002404; // type:func
 WrapF = 0x80002450; // type:func
@@ -61,18 +64,21 @@ func_8000E290_gw = 0x8000E290; // type:func
 D_8000E190 = 0x8000E2D0; //
 D_8000E2E0_gw = 0x8000E2E0; //
 sDmaDataIsInitialized = 0x8000E2E4; //
-D_8000E2F0_gw = 0x8000E2F0; //
-D_8000E33C_gw = 0x8000E33C; //
-D_8000E37C_gw = 0x8000E37C; //
-D_8000E3BC_gw = 0x8000E3BC; //
-D_8000E3F8_gw = 0x8000E3F8; //
-D_8000E434_gw = 0x8000E434; // type:u16
-D_8000E458_gw = 0x8000E458; //
-D_8000E45C_gw = 0x8000E45C; //
-D_8000E460_gw = 0x8000E460; //
-D_8000E464_gw = 0x8000E464; //
-D_8000E478_gw = 0x8000E478; //
-D_8000E878_gw = 0x8000E878; //
+
+border = 0x8000E2F0; //
+cplens = 0x8000E33C; //
+cplext = 0x8000E37C; //
+cpdist = 0x8000E3BC; //
+cpdext = 0x8000E3F8; //
+mask_bits = 0x8000E434; // type:u16
+lbits = 0x8000E458; //
+dbits = 0x8000E45C; //
+gzip_malloc_addr = 0x8000E460; //
+gzip_malloc_tmp = 0x8000E464; //
+
+D_8000EDD0 = 0x8000E470; //
+crc_32_tab = 0x8000E478; //
+crc_132 = 0x8000E878; //
 
 storyRomData = 0x8000E880; // size:0x38
 bgRomData = 0x8000E8B8; // size:0xC0
@@ -97,7 +103,7 @@ sIdleStack = 0x80011310; // size:0x2000
 sMainStack = 0x80013310; // size:0x2000
 B_800151C0 = 0x80015310; //
 B_800151D8 = 0x80015328; //
-B_80015330_gw = 0x80015330; //
+gzip_mem_buff = 0x80015330; //
 sGatewayHandle = 0x80019330; // size:0x74
 
 B_800193B0_gw = 0x800193B0; //
@@ -127,11 +133,10 @@ B_8001B7E8_gw = 0x8001B7E8; // type:s16
 B_8001B7EA_gw = 0x8001B7EA; // type:s8
 B_8001B7EC_gw = 0x8001B7EC; //
 B_8001B800_gw = 0x8001B800; //
-B_8001B810_gw = 0x8001B810; // type:u8
-B_8001D810_gw = 0x8001D810; //
+inbuf = 0x8001B810; // type:u8
+bk = 0x8001D810; //
 
-B_8001D9C8_gw = 0x8001D9C8; //
-B_8001D9CC_gw = 0x8001D9CC; //
+ofd = 0x8001D9C8; // size:0x8
 
 B_8001DA14_gw = 0x8001DA14; // type:s8
 B_8001DA15_gw = 0x8001DA15; // type:s8
@@ -141,13 +146,13 @@ B_8001DA18_gw = 0x8001DA18; // type:s8
 gBootThreadStack = 0x8001DA90; // size:0x2000
 sPiMgrCmdBuff = 0x8001FA90; //
 
-B_8001FB5C_gw = 0x8001FB5C; //
-B_8001FB60_gw = 0x8001FB60; //
+insize = 0x8001FB5C; //
+outcnt = 0x8001FB60; //
 
 B_8001FB65_gw = 0x8001FB65; //
-B_8001FB68_gw = 0x8001FB68; //
+bb = 0x8001FB68; //
 
-B_8001FB78_gw = 0x8001FB78; //
+hufts = 0x8001FB78; //
 
 B_8001FBF4_gw = 0x8001FBF4; //
 
@@ -156,8 +161,8 @@ B_8001FC5D_gw = 0x8001FC5D; // type:s8
 B_8001FC5E_gw = 0x8001FC5E; // type:s8
 B_8001FC5F_gw = 0x8001FC5F; // type:s8
 B_8001FC60_gw = 0x8001FC60; // type:s8
-B_8001FCCC_gw = 0x8001FCCC; //
-B_8001FCD0_gw = 0x8001FCD0; //
+bytes_in = 0x8001FCCC; //
+bytes_out = 0x8001FCD0; //
 
 B_8001FCD5_gw = 0x8001FCD5; //
 
@@ -167,10 +172,9 @@ B_8001FCE0_gw = 0x8001FCE0; //
 B_8001FD04_gw = 0x8001FD04; //
 
 B_80021DAC_gw = 0x80021DAC; //
-B_80021DB0_gw = 0x80021DB0; // type:s8
-B_80029DB0_gw = 0x80029DB0; //
+window = 0x80021DB0; // type:s8
+inptr = 0x80029DB0; //
 
-B_80029DD0_gw = 0x80029DD0; //
-B_80029DD4_gw = 0x80029DD4; //
+ifd = 0x80029DD0; // size:0x8
 sPiMgrCmdQueue = 0x80029DD8; //
 B_80029DF0_gw = 0x80029DF0; //

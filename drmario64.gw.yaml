@@ -152,8 +152,9 @@ segments:
       - [0x001060, c, boot/boot_main]
       - [0x001220, c, boot/dmadata]
 
-      - [0x001370, asm, boot/001370]
-      - [0x002BE0, asm, boot/002BE0]
+      - [0x001370, c, gzip/inflate]
+      - [0x002BE0, c, gzip/unzip]
+
       - [0x002FD0, c, boot/util]
 
       - [0x0030F0, c, boot/rom_offsets]
@@ -322,7 +323,8 @@ segments:
       - [0x00EED0, .data, boot/boot_main]
       - [0x00EEE0, .data, boot/dmadata]
 
-      - [0x00EEF0, data, boot/00EEF0]
+      - [0x00EEF0, .data, gzip/inflate]
+      - [0x00F070, .data, gzip/unzip]
 
       - [0x00F480, .data, boot/rom_offsets]
 

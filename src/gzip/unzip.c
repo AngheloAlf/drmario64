@@ -1,5 +1,4 @@
 #include "gzip.h"
-#include "include_asm.h"
 #include "macros_defines.h"
 #include "alignment.h"
 #include "boot_functions.h"
@@ -33,19 +32,16 @@ extern s32 bytes_in;
  */
 extern s32 bytes_out;
 
-#if VERSION_US || VERSION_CN
 // unused
 u32 D_8000EDD0[] = {
     0xDF000000,
     0x00000000,
 };
-#endif
 
 s32 unzip(void);
 u32 updcrc(u8 *arg0, size_t arg1);
 void clear_bufs(void);
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: expand_gzip
  */
@@ -58,9 +54,7 @@ size_t expand_gzip(RomOffset segmentRom, void *dstAddr, size_t segmentSize) {
     unzip();
     return ofd.unk_4;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: auRomDataRead
  */
@@ -83,9 +77,7 @@ size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
     }
     return blockSize;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: data_write
  */
@@ -102,9 +94,7 @@ size_t data_write(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
 
     return arg2;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: unzip
  */
@@ -129,9 +119,7 @@ s32 unzip(void) {
     }
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: crc_32_tab
  */
@@ -166,20 +154,12 @@ u32 crc_32_tab[0x100] = {
     0x24B4A3A6, 0xBAD03605, 0xCDD70693, 0x54DE5729, 0x23D967BF, 0xB3667A2E, 0xC4614AB8, 0x5D681B02, 0x2A6F2B94,
     0xB40BBE37, 0xC30C8EA1, 0x5A05DF1B, 0x2D02EF8D,
 };
-#else
-extern u32 crc_32_tab[0x100];
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: crc
  */
 u32 crc_132 = 0xFFFFFFFF;
-#else
-extern u32 crc_132;
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: updcrc
  */
@@ -198,9 +178,7 @@ u32 updcrc(u8 *arg0, size_t arg1) {
     crc_132 = var_a2;
     return ~var_a2;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original names: clear_bufs
  */
@@ -211,9 +189,7 @@ void clear_bufs(void) {
     bytes_out = 0;
     bytes_in = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: fill_inbuf
  */
@@ -238,9 +214,7 @@ s32 fill_inbuf(s32 arg0) {
     inptr = 1;
     return inbuf[0];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
     do {
         size_t temp_v0 = data_write(arg0, arg1, arg2);
@@ -253,9 +227,7 @@ void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
         arg1 += temp_v0;
     } while (true);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: flush_window
  */
@@ -267,4 +239,3 @@ void flush_window(void) {
         outcnt = 0;
     }
 }
-#endif

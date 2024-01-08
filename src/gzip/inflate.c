@@ -1,5 +1,4 @@
 #include "gzip.h"
-#include "include_asm.h"
 #include "macros_defines.h"
 #include "attributes.h"
 
@@ -46,7 +45,6 @@ extern u32 bb;
  */
 extern u32 hufts;
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: border
  */
@@ -110,9 +108,7 @@ void *gzip_malloc_addr = gzip_mem_buff;
  * Original name: gzip_malloc_tmp
  */
 s32 gzip_malloc_tmp = 0;
-#endif
 
-#if VERSION_US || VERSION_CN
 void *func_80000720(size_t size) {
     void *ret;
 
@@ -125,16 +121,12 @@ void *func_80000720(size_t size) {
     gzip_malloc_addr = (void *)(((uintptr_t)gzip_malloc_addr) + size);
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8000075C(void *arg UNUSED) {
     gzip_malloc_tmp = 0;
     gzip_malloc_addr = gzip_mem_buff;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: huft_build
  */
@@ -339,9 +331,7 @@ s32 huft_build(u32 *arg0, u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5,
 
     return ((var_t5 != 0) && (sp5AC != 1)) ? 1 : 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: huft_free
  */
@@ -357,9 +347,7 @@ s32 huft_free(huft *arg0) {
     }
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: inflate_codes
  */
@@ -524,9 +512,7 @@ s32 inflate_codes(huft *arg0, huft *arg1, s32 arg2, s32 arg3) {
 
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: inflate_stored
  */
@@ -602,9 +588,7 @@ s32 inflate_stored(void) {
 
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: inflate_fixed
  */
@@ -654,9 +638,7 @@ s32 inflate_fixed(void) {
     huft_free(sp4A8);
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: inflate_dynamic
  */
@@ -885,9 +867,7 @@ s32 inflate_dynamic(void) {
     huft_free(sp528);
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: inflate_block
  */
@@ -941,9 +921,7 @@ s32 inflate_block(s32 *arg0) {
     }
     return 2;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: inflate
  */
@@ -983,4 +961,3 @@ s32 inflate(void) {
 
     return ret;
 }
-#endif
