@@ -3,25 +3,20 @@
 #include "alignment.h"
 #include "boot_functions.h"
 
-typedef struct struct_8001D7F8 {
-    /* 0x0 */ u8 *unk_0;    // dstAddr
-    /* 0x4 */ size_t unk_4; // uncompressedSize
-} struct_8001D7F8;          // size >= 0x8
-
-typedef struct struct_80029C04 {
-    /* 0x0 */ RomOffset segmentRom;
-    /* 0x4 */ size_t segmentSize;
-} struct_80029C04; // size >= 0x8
+typedef struct FileDescriptor {
+    /* 0x0 */ void *addr;
+    /* 0x4 */ size_t size;
+} FileDescriptor; // size == 0x8
 
 /**
  * Original name: ofd
  */
-extern struct_8001D7F8 ofd;
+extern FileDescriptor ofd;
 
 /**
  * Original name: ifd
  */
-extern struct_80029C04 ifd;
+extern FileDescriptor ifd;
 
 /**
  * Original name: bytes_in
@@ -46,51 +41,55 @@ void clear_bufs(void);
  * Original name: expand_gzip
  */
 size_t expand_gzip(RomOffset segmentRom, void *dstAddr, size_t segmentSize) {
-    ifd.segmentRom = segmentRom;
-    ifd.segmentSize = segmentSize;
-    ofd.unk_0 = dstAddr;
-    ofd.unk_4 = 0;
+    ifd.addr = (void *)segmentRom;
+    ifd.size = segmentSize;
+
+    ofd.addr = dstAddr;
+    ofd.size = 0;
+
     clear_bufs();
     unzip();
-    return ofd.unk_4;
+
+    return ofd.size;
 }
 
 /**
  * Original name: auRomDataRead
  */
-size_t auRomDataRead(struct_80029C04 *arg0, u8 *arg1, size_t blockSize) {
+size_t auRomDataRead(FileDescriptor *romInput, u8 *dst, size_t blockSize) {
     size_t alignedSize;
 
-    if (blockSize > arg0->segmentSize) {
-        blockSize = arg0->segmentSize;
+    if (blockSize > romInput->size) {
+        blockSize = romInput->size;
     }
 
     alignedSize = ALIGN8(blockSize);
     if (alignedSize > 0) {
-        DmaData_RomToRam(arg0->segmentRom, arg1, alignedSize);
+        DmaData_RomToRam((RomOffset)romInput->addr, dst, alignedSize);
     }
 
-    arg0->segmentSize -= alignedSize;
-    arg0->segmentRom += alignedSize;
-    if ((s32)arg0->segmentSize < 0) {
-        arg0->segmentSize = 0;
+    romInput->size -= alignedSize;
+    romInput->addr += alignedSize;
+    if ((s32)romInput->size < 0) {
+        romInput->size = 0;
     }
+
     return blockSize;
 }
 
 /**
  * Original name: data_write
  */
-size_t data_write(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
-    u8 *var_v1 = arg0->unk_0;
+size_t data_write(FileDescriptor *outputDesc, u8 *arg1, size_t arg2) {
+    u8 *var_v1 = outputDesc->addr;
     size_t i;
 
     for (i = 0; i < arg2; i++) {
         *var_v1++ = arg1[i];
     }
 
-    arg0->unk_0 = var_v1;
-    arg0->unk_4 += arg2;
+    outputDesc->addr = var_v1;
+    outputDesc->size += arg2;
 
     return arg2;
 }
@@ -169,7 +168,7 @@ u32 updcrc(u8 *arg0, size_t arg1) {
     if (arg0 != NULL) {
         var_a2 = crc_132;
         while (arg1 > 0) {
-            var_a2 = crc_32_tab[(var_a2 ^ *arg0) & 0xFF] ^ (var_a2 >> 8);
+            var_a2 = crc_32_tab[(var_a2 ^ *arg0) % ARRAY_COUNTU(crc_32_tab)] ^ (var_a2 >> 8);
             arg0 += 1;
             arg1 -= 1;
         }
@@ -215,9 +214,9 @@ s32 fill_inbuf(s32 arg0) {
     return inbuf[0];
 }
 
-void func_800022A8(struct_8001D7F8 *arg0, u8 *arg1, size_t arg2) {
+void func_800022A8(FileDescriptor *outputDesc, u8 *arg1, size_t arg2) {
     do {
-        size_t temp_v0 = data_write(arg0, arg1, arg2);
+        size_t temp_v0 = data_write(outputDesc, arg1, arg2);
 
         if (temp_v0 == arg2) {
             break;
