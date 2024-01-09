@@ -1,15 +1,12 @@
-#ifndef AIF_H
-#define AIF_H
+#ifndef AISET_H
+#define AISET_H
 
 #include "libultra.h"
+#include "ai.h"
 #include "gamemap.h"
 #include "unk.h"
 
 struct struct_game_state_data;
-
-/**
- * Artificial intelligence field?
- */
 
 typedef struct Unk_AIFEntry {
     /* 0x0 */ u8 unk_0;
@@ -33,7 +30,7 @@ bool aifMake2(struct struct_game_state_data * gameStateDataRef, s32 arg1, s32 ar
 void aiHiruSideLineEraser(struct struct_game_state_data *gameStateDataRef);
 // void func_8002F924();
 // void aifEraseLineCore();
-// void aifRensaCheckCore();
+s32 aifRensaCheckCore(struct struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFlagRef, u8 arg2, u8 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7, u8 arg8, u8 arg9);
 // void aifRensaCheck();
 // void aifSearchLineCore();
 // void aifMiniPointK3();
@@ -50,14 +47,14 @@ void aifFieldCopy(struct struct_game_state_data *gameStateDataRef);
 void aifPlaceSearch(void);
 void aifMoveCheck(void);
 // void aifTRecur();
-// void aifTRecurUP();
+void aifTRecurUP(u8 arg0, u8 arg1, u8 arg2);
 // void aifYRecur();
-// void aifYRecurUP();
+void aifYRecurUP(u8 arg0, u8 arg1, u8 arg2);
 void aifReMoveCheck(void);
 void aifKeyMake(struct struct_game_state_data *gameStateDataRef);
 void aifKeyOut(struct struct_game_state_data *gameStateDataRef);
-// void search_flash_3();
-void flash_special(void);
+s32 search_flash_3(s32, s32, s32, s32, s32);
+s32 flash_special(void);
 void aiCOM_MissTake(void);
 
 #endif

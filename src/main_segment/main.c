@@ -13,7 +13,7 @@
 #include "audio/audio_stuff.h"
 #include "buffers.h"
 #include "graphic.h"
-#include "aif.h"
+#include "aiset.h"
 #include "joy.h"
 #include "record.h"
 #include "main1x.h"

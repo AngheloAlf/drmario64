@@ -20,7 +20,7 @@
 #include "main_story.h"
 
 #if VERSION_US || VERSION_GW || CC_CHECK
-#include "aif.h"
+#include "aiset.h"
 #endif
 
 #if VERSION_US || VERSION_CN

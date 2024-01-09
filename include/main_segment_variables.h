@@ -330,7 +330,7 @@ extern u8 CapsMagazine[0x100];
 
 extern s32 fool_mode; // maybe bool?
 extern u16 joycur1; /* Original name: joycur1 */
-extern s8 decide;
+extern u8 decide;
 
 extern s32 _menuMain_lastSelect[8]; // probably an enum
 extern enum_evs_gamesel evs_gamesel; /* Original name: evs_gamesel */
@@ -347,7 +347,7 @@ extern STACK(sGraphicStack, 0x2000);
 extern OSMesgQueue B_800F3E38;
 extern struct_watchGame *watchGame;
 extern u8 aiFlagCnt;
-extern s16 aiGoalX;
+extern u16 aiGoalX;
 extern struct struct_watchMenu *watchMenu;
 extern OSMesg B_800F3E60[1];
 extern u16 gControllerPrevHoldButtons[MAXCONTROLLERS+1];
@@ -374,8 +374,7 @@ extern u16 joycur[MAXCONTROLLERS+1];
 extern struct_ai_param ai_param[AI_PARAM_LEN1][AI_PARAM_LEN2];
 extern s32 MissRate;
 extern OSContStatus B_800F5358[4];
-extern u8 aiFlag[];
-// extern UNK_TYPE aiRoot;
+
 // extern UNK_TYPE B_800F6C71;
 // extern UNK_TYPE B_800F6CD4;
 extern u16 joyflg[MAXCONTROLLERS];
@@ -392,7 +391,7 @@ extern STACK(B_800F8CE0, 0x2000);
 // extern UNK_TYPE aiHiErR;
 // extern UNK_TYPE B_800FAD30;
 extern u8 joygmf[4];
-extern s16 aiGoalY;
+extern u16 aiGoalY;
 extern u8 aipn;
 // extern UNK_TYPE aif_field;
 // extern UNK_TYPE B_800FAD41;
@@ -411,7 +410,7 @@ extern OSMesgQueue *B_800FAF94;
 
 // extern UNK_TYPE aiHiEraseCtr;
 extern STACK(B_800FAFA0, 0x400);
-extern s8 aiMoveSF; // maybe bool?
+extern u8 aiMoveSF; // maybe bool?
 extern u32 evs_game_time;
 // extern UNK_TYPE attack_effect;
 // extern UNK_TYPE B_800FB3AC;

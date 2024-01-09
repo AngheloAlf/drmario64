@@ -17,7 +17,7 @@
 #include "buffers.h"
 #include "audio/audio_stuff.h"
 #include "graphic.h"
-#include "aif.h"
+#include "aiset.h"
 #include "replay.h"
 #include "game_etc.h"
 #include "record.h"
@@ -27,6 +27,7 @@
 #include "tex_func.h"
 #include "main_story.h"
 #include "debug_menu.h"
+#include "aiset.h"
 
 #if VERSION_US || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version
@@ -7182,7 +7183,7 @@ void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRe
     }
 
     for (i = 0; i < gameStateDataRef->unk_164; i++) {
-        struct_80123700_unk_0D4_unk_00 *temp = &gameStateDataRef->unk_0D4.unk_00[i];
+        struct_game_state_data_unk_0D4_unk_00 *temp = &gameStateDataRef->unk_0D4.unk_00[i];
 
         if (temp->unk_8 < 0) {
             continue;
@@ -8493,8 +8494,10 @@ void dm_game_init(bool arg0) {
                                   &virus_map_disp_order[j]);
                 if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
                     game_state_data[j].unk_164 = game_state_data[i].unk_164;
-                    bcopy(&game_state_data[i].unk_0D4, &game_state_data[j].unk_0D4, sizeof(struct_80123700_unk_0D4));
-                    bcopy(&game_state_data[i].unk_140, &game_state_data[j].unk_140, sizeof(struct_80123700_unk_140));
+                    bcopy(&game_state_data[i].unk_0D4, &game_state_data[j].unk_0D4,
+                          sizeof(struct_game_state_data_unk_0D4));
+                    bcopy(&game_state_data[i].unk_140, &game_state_data[j].unk_140,
+                          sizeof(struct_game_state_data_unk_140));
                 }
                 break;
             }
