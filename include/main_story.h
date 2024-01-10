@@ -67,11 +67,6 @@ typedef struct struct_mes_data {
     /* 0x4 */ const char *unk_4;
 } struct_mes_data; // size = 0x8
 
-typedef struct struct_lws_scene {
-    /* 0x0 */ UNK_TYPE1 unk_0[0x4];
-    /* 0x4 */ s32 unk_4;
-} struct_lws_scene; // size >= 0x8
-
 
 void story_zoomfade(Gfx **gfxP, s32 arg1);
 void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1);

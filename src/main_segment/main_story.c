@@ -1096,7 +1096,7 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                 story_seq_step += 1;
             }
 
-            temp_a3 = lws_scene->unk_4;
+            temp_a3 = lws_scene->unk_04;
             if (fin_frame_568 > (temp_a3 - 0x20)) {
                 temp = fin_frame_568;
 
