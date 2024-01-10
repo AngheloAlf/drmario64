@@ -361,8 +361,9 @@ segments:
     bss_size: 0x717A0
     subsegments:
       - [0x011BC0, c, main_segment/main]
-      - [0x011E40, asm, main_segment/011E40]
+      - [0x011E40, c, main_segment/000280]
       - [0x012CC0, c, main_segment/joy]
+
       - [0x013290, c, main_segment/sound]
       - [0x013CA0, c, main_segment/graphic]
       - [0x014540, asm, main_segment/014540]
@@ -399,6 +400,8 @@ segments:
       - [0x06D020, asm, main_segment/06D020]
 
       - [0x06D220, data, main_segment/06D220] # guess
+      - [0x070C90, .data, main_segment/000280]
+      - [0x070D10, data, main_segmentm/070D10]
       - [0x070D50, data, main_segment/070D50]
       - [0x071080, .data, main_segment/vr_init]
       - [0x071090, data, main_segment/071090]

@@ -1,18 +1,14 @@
 #include "000280.h"
 
-#include "libc/stdbool.h"
-#include "include_asm.h"
-#include "unk.h"
 #include "macros_defines.h"
-#include "main_segment_variables.h"
-#include "audio/audio_stuff.h"
 #include "dm_thread.h"
 
 u32 framecont = 0;
 
-s8 D_80088104[] = { 1, 0 };
+u8 D_80088104 = 1;
+s8 D_80088105 = 0;
 
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
 s32 D_80092EA8_cn = 0;
 
 bool D_80092EAC_cn = false;
@@ -56,7 +52,7 @@ void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount) {
     osCreateThread(&arg0->unk_158, THREAD_ID_19, func_8002A0DC, arg0, STACK_TOP(B_800EFCE0), THREAD_PRI_19);
     osStartThread(&arg0->unk_158);
 
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
     func_8002B8B4_cn();
 #endif
 
@@ -82,11 +78,11 @@ void func_8002A0DC(void *arg) {
 
         osRecvMesg(&ptr->unk_074, (OSMesg)&msg, OS_MESG_BLOCK);
 
-#if VERSION_CN
+#if VERSION_US
+        framecont++;
+#elif VERSION_CN || VERSION_GW
         if (!D_80092F10_cn) {
-#endif
             framecont++;
-#if VERSION_CN
         }
 #endif
 
@@ -95,7 +91,7 @@ void func_8002A0DC(void *arg) {
                 func_8002A26C(ptr, &ptr->unk_000);
                 osSetTime(0);
 
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
                 func_8002B910_cn();
                 if (!D_80092EAC_cn) {
                     D_80092EAC_cn = true;
@@ -167,7 +163,7 @@ void func_8002A2B8(void *arg) {
     while (true) {
         OSScTask *temp_s2;
         s32 var_s0;
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
         s32 var_s7;
 #endif
 
@@ -183,7 +179,7 @@ void func_8002A2B8(void *arg) {
             var_s0 = (osSpTaskYielded(&temp_s2->list) != 0) ? 1 : 2;
         }
 
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
         func_8002BC30_cn(7);
         if (B_800CA298_cn->unk_004 < ARRAY_COUNTU(B_800CA298_cn->unk_0D0)) {
             var_s7 = B_800CA298_cn->unk_004;
@@ -198,7 +194,7 @@ void func_8002A2B8(void *arg) {
         osRecvMesg(&ptr->unk_0AC, &sp14, OS_MESG_BLOCK);
         ptr->unk_670 = NULL;
 
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
         func_8002BD04_cn();
         if (B_800CA298_cn->unk_004 < ARRAY_COUNTU(B_800CA298_cn->unk_0F0)) {
             B_800CA298_cn->unk_0F0[var_s7] = OS_CYCLES_TO_USEC(osGetTime()) - B_800CA298_cn->unk_008;
@@ -223,7 +219,7 @@ void func_8002A2B8(void *arg) {
 
 void func_8002A3F4(struct_800EB670 *arg0, OSScTask *arg1) {
     OSMesg sp10 = NULL;
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
     s32 var_s5;
 #endif
 
@@ -234,7 +230,7 @@ void func_8002A3F4(struct_800EB670 *arg0, OSScTask *arg1) {
         arg0->unk_674 = 0;
     }
 
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
     func_8002BC30_cn(5);
     if (B_800CA298_cn->unk_000 < ARRAY_COUNTU(B_800CA298_cn->unk_010)) {
         var_s5 = B_800CA298_cn->unk_000;
@@ -248,7 +244,7 @@ void func_8002A3F4(struct_800EB670 *arg0, OSScTask *arg1) {
     osRecvMesg(&arg0->unk_0AC, &sp10, OS_MESG_BLOCK);
     arg0->unk_66C = NULL;
 
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
     func_8002BC30_cn(6);
 
     if (B_800CA298_cn->unk_000 < ARRAY_COUNTU(B_800CA298_cn->unk_090)) {
@@ -258,7 +254,7 @@ void func_8002A3F4(struct_800EB670 *arg0, OSScTask *arg1) {
 
     osRecvMesg(&arg0->unk_0E4, &sp10, OS_MESG_BLOCK);
 
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
     func_8002BD04_cn();
     func_8002BD04_cn();
 
@@ -275,9 +271,9 @@ void func_8002A3F4(struct_800EB670 *arg0, OSScTask *arg1) {
 
     if (arg1->flags & OS_SC_SWAPBUFFER) {
         osViSwapBuffer(arg1->framebuffer);
-        D_80088104[0] = 1;
+        D_80088104 = 1;
 
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
         D_80092EAC_cn = false;
 #endif
     }
@@ -309,145 +305,99 @@ void func_8002A51C(struct_800EB670 *arg0, OSScTask *arg1) {
     }
 }
 
-#if VERSION_CN
-#if 0
-void func_8002B8B4_cn(void) {
-    s32 var_a1;
-    s8 *temp_a0;
-    s8 *temp_v1;
+#if VERSION_CN || VERSION_GW
+#define B_800CA26C_CN_ARR_LEN 2
+#define B_801020E8_CN_ARR_ARR_LEN 0x20
 
-    var_a1 = 0;
+typedef struct struct_801020E8_cn {
+    /* 0x0 */ u8 unk_0;
+    /* 0x1 */ u8 unk_1;
+    /* 0x4 */ s32 unk_4;
+    /* 0x8 */ s32 unk_8;
+} struct_801020E8_cn; // size = 0xC
+
+extern struct_801020E8_cn B_801020E8_cn[][B_801020E8_CN_ARR_ARR_LEN];
+extern struct_801020E8_cn *B_800CA1F0_cn;
+extern u8 B_8010B140_cn[][B_801020E8_CN_ARR_ARR_LEN];
+
+extern u8 B_800CA26C_cn[B_800CA26C_CN_ARR_LEN];
+extern s8 B_800CA281_cn;
+extern struct_801020E8_cn *B_800CA290_cn;
+extern u8 B_800CA29B_cn;
+extern u8 B_800CA2C0_cn[B_800CA26C_CN_ARR_LEN];
+extern u8 *B_800CA1C0_cn;
+
+void func_8002B8B4_cn(void) {
+    s32 i;
+
     B_800CA29B_cn = 1;
     B_800CA281_cn = 1;
-    B_800CA290_cn = &B_80102268_cn;
-    do {
-        temp_a0 = var_a1 + &B_800CA2C0_cn;
-        temp_v1 = var_a1 + &B_800CA26C_cn;
-        var_a1 += 1;
-        *temp_v1 = 0;
-        *temp_a0 = 0;
-    } while (var_a1 < 2);
+    B_800CA290_cn = B_801020E8_cn[1];
+    for (i = 0; i < B_800CA26C_CN_ARR_LEN; i++) {
+        B_800CA2C0_cn[i] = B_800CA26C_cn[i] = 0;
+    }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/000280", func_8002B8B4_cn);
-#endif
 
-#if 0
 void func_8002B910_cn(void) {
-    s32 var_a2;
-    s32 var_a3;
-    s8 *temp_a0_2;
-    u32 temp_v1_2;
-    u32 temp_v1_3;
-    u64 temp_ret;
-    u8 temp_a0;
-    u8 temp_v0;
-    void *temp_v1;
+    s32 i;
 
-    if ((u8) *D_80088104 == 1) {
-        var_a3 = 0;
-        var_a2 = 0;
-        temp_a0 = B_800CA29B_cn;
-        temp_v0 = temp_a0 ^ 1;
-        B_800CA29B_cn = temp_v0;
-        B_800CA281_cn = temp_a0;
+    if (D_80088104 == 1) {
         B_800CA290_cn = B_800CA1F0_cn;
-        B_800CA1F0_cn = ((temp_v0 & 0xFF) * 0x180) + &B_801020E8_cn;
-        B_800CA1C0_cn = (B_800CA29B_cn << 5) + &B_8010B140_cn;
-        do {
-            *(var_a2 + B_800CA1F0_cn) = 0xA;
-            temp_v1 = var_a2 + B_800CA1F0_cn;
-            temp_v1->unk_8 = 0;
-            temp_v1->unk_4 = 0;
-            var_a2 += 0xC;
-            temp_a0_2 = B_800CA1C0_cn + var_a3;
-            var_a3 += 1;
-            *temp_a0_2 = 0xA;
-        } while (var_a3 < 0x20);
-        *(&B_800CA2C0_cn + B_800CA29B_cn) = 1;
+        B_800CA281_cn = B_800CA29B_cn;
+        B_800CA29B_cn ^= 1;
+        B_800CA1F0_cn = B_801020E8_cn[B_800CA29B_cn];
+        B_800CA1C0_cn = B_8010B140_cn[B_800CA29B_cn];
+
+        for (i = 0; i < B_801020E8_CN_ARR_ARR_LEN; i++) {
+            B_800CA1F0_cn[i].unk_0 = 0xA;
+            B_800CA1F0_cn[i].unk_4 = B_800CA1F0_cn[i].unk_8 = 0;
+
+            B_800CA1C0_cn[i] = 0xA;
+        }
+
+        B_800CA2C0_cn[B_800CA29B_cn] = 1;
+
         B_800CA1F0_cn->unk_0 = 0xC;
-        temp_ret = osGetTime();
-        temp_v1_2 = (u32) temp_ret;
-        temp_v1_3 = (u32) __udivdi3((temp_ret << 6) | (temp_v1_2 >> 0x1A), temp_v1_2 << 6, 0, 0xBB8);
-        *D_80088104 = 0;
-        B_800CA1F0_cn->unk_4 = temp_v1_3;
-        *(&B_800CA26C_cn + B_800CA29B_cn) = 0;
-        func_8002BA98_cn(0U, 0, B_800CA29B_cn);
+        B_800CA1F0_cn->unk_4 = OS_CYCLES_TO_USEC(osGetTime());
+
+        B_800CA26C_cn[B_800CA29B_cn] = 0;
+        D_80088104 = 0;
+        func_8002BA98_cn(0, 0);
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/000280", func_8002B910_cn);
-#endif
 
-#if 0
-void func_8002BA98_cn(u8 arg0, s32 arg1) {
-    u32 temp_v1;
-    u32 temp_v1_2;
-    u64 temp_ret;
-    u64 temp_ret_2;
-    u8 *temp_a0;
-    u8 *temp_a0_2;
-    void *temp_s0;
-    void *temp_s0_2;
+void func_8002BA98_cn(u8 arg0, u8 arg1) {
+    B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn] - 1].unk_8 = OS_CYCLES_TO_USEC(osGetTime());
 
-    temp_ret = osGetTime();
-    temp_v1 = (u32) temp_ret;
-    temp_s0 = ((*(&B_800CA2C0_cn + B_800CA29B_cn) * 0xC) + B_800CA1F0_cn) - 0xC;
-    temp_s0->unk_8 = (u32) __udivdi3((temp_ret << 6) | (temp_v1 >> 0x1A), temp_v1 << 6, 0, 0xBB8);
-    temp_a0 = B_800CA29B_cn + &B_800CA2C0_cn;
-    if ((u8) *temp_a0 < 0x20U) {
-        *((*temp_a0 * 0xC) + B_800CA1F0_cn) = arg0 & 0xFF;
-        ((*(B_800CA29B_cn + &B_800CA2C0_cn) * 0xC) + B_800CA1F0_cn)->unk_1 = (s8) (arg1 & 0xFF);
-        temp_ret_2 = osGetTime();
-        temp_v1_2 = (u32) temp_ret_2;
-        temp_s0_2 = (*(B_800CA29B_cn + &B_800CA2C0_cn) * 0xC) + B_800CA1F0_cn;
-        temp_s0_2->unk_4 = (u32) __udivdi3((temp_ret_2 << 6) | (temp_v1_2 >> 0x1A), temp_v1_2 << 6, 0, 0xBB8);
-        temp_a0_2 = B_800CA29B_cn + &B_800CA2C0_cn;
-        *temp_a0_2 += 1;
+    if (B_800CA2C0_cn[B_800CA29B_cn] < B_801020E8_CN_ARR_ARR_LEN) {
+        B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn]].unk_0 = arg0;
+        B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn]].unk_1 = arg1;
+        B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn]].unk_4 = OS_CYCLES_TO_USEC(osGetTime());
+
+        B_800CA2C0_cn[B_800CA29B_cn]++;
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/000280", func_8002BA98_cn);
-#endif
 
-#if 0
-void func_8002BC30_cn(s32 arg0) {
-    u8 *temp_a1;
-    u8 *temp_a2;
+void func_8002BC30_cn(u8 arg0) {
+    if (B_800CA26C_cn[B_800CA29B_cn] < B_801020E8_CN_ARR_ARR_LEN) {
+        B_800CA1C0_cn[B_800CA26C_cn[B_800CA29B_cn]] = B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn] - 1].unk_0;
 
-    temp_a1 = B_800CA29B_cn + &B_800CA26C_cn;
-    if ((u8) *temp_a1 < 0x20U) {
-        *(B_800CA1C0_cn + *temp_a1) = ((*(&B_800CA2C0_cn + B_800CA29B_cn) * 0xC) + B_800CA1F0_cn)->unk_-C;
-        temp_a2 = B_800CA29B_cn + &B_800CA26C_cn;
-        *temp_a2 += 1;
+        B_800CA26C_cn[B_800CA29B_cn]++;
+        func_8002BA98_cn(arg0, 1);
     } else {
-        func_8002BA98_cn(0xBU, 1);
+        func_8002BA98_cn(0xB, 1);
+        func_8002BA98_cn(arg0, 1);
     }
-    func_8002BA98_cn(arg0 & 0xFF, 1);
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/000280", func_8002BC30_cn);
-#endif
 
-#if 0
 void func_8002BD04_cn(void) {
-    u8 *temp_a0;
-    u8 temp_v0;
-    u8 var_a0;
-
-    temp_a0 = B_800CA29B_cn + &B_800CA26C_cn;
-    temp_v0 = *temp_a0;
-    if (temp_v0 != 0) {
-        *temp_a0 = temp_v0 - 1;
-        var_a0 = *(B_800CA1C0_cn + *(B_800CA29B_cn + &B_800CA26C_cn));
+    if (B_800CA26C_cn[B_800CA29B_cn] != 0) {
+        B_800CA26C_cn[B_800CA29B_cn]--;
+        func_8002BA98_cn(B_800CA1C0_cn[B_800CA26C_cn[B_800CA29B_cn]], 2);
     } else {
-        var_a0 = 0xB;
+        func_8002BA98_cn(0xB, 2);
     }
-    func_8002BA98_cn(var_a0, 2);
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/000280", func_8002BD04_cn);
-#endif
 
 void func_8002BD7C_cn(Gfx **gfxP, s32 arg1 UNUSED, s32 arg2 UNUSED) {
     Gfx *gfx = *gfxP;

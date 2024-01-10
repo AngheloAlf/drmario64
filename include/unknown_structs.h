@@ -104,20 +104,6 @@ typedef enum enum_evs_gamesel {
     /* 7 */ ENUM_EVS_GAMESEL_MAX
 } enum_evs_gamesel;
 
-#if VERSION_CN
-typedef struct struct_8010ACB0_cn {
-    /* 0x000 */ s32 unk_000;
-    /* 0x000 */ s32 unk_004;
-    /* 0x008 */ u64 unk_008;
-    /* 0x010 */ u64 unk_010[8];
-    /* 0x050 */ u64 unk_050[8];
-    /* 0x090 */ u64 unk_090[8];
-    /* 0x0D0 */ u64 unk_0D0[4];
-    /* 0x0F0 */ u64 unk_0F0[4];
-    /* 0x110 */ UNK_TYPE1 unk_110[0x8];
-} struct_8010ACB0_cn; // size = 0x118
-#endif
-
 typedef enum enum_800E5930 {
     /* 0 */ ENUM_800E5930_0,
     /* 1 */ ENUM_800E5930_1,

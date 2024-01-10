@@ -3,6 +3,8 @@
 
 #include "libultra.h"
 #include "PR/sched.h"
+#include "libc/stdbool.h"
+#include "stack.h"
 #include "unk.h"
 
 typedef struct struct_800FAF98_unk_64 {
@@ -37,6 +39,20 @@ typedef struct struct_800EB670 {
     /* 0x678 */ UNK_TYPE unk_678;
 } struct_800EB670; // size = 0x67C
 
+#if VERSION_CN || VERSION_GW
+typedef struct struct_8010ACB0_cn {
+    /* 0x000 */ s32 unk_000;
+    /* 0x000 */ s32 unk_004;
+    /* 0x008 */ u64 unk_008;
+    /* 0x010 */ u64 unk_010[8];
+    /* 0x050 */ u64 unk_050[8];
+    /* 0x090 */ u64 unk_090[8];
+    /* 0x0D0 */ u64 unk_0D0[4];
+    /* 0x0F0 */ u64 unk_0F0[4];
+    /* 0x110 */ UNK_TYPE1 unk_110[0x8];
+} struct_8010ACB0_cn; // size = 0x118
+#endif
+
 
 void func_80029ED0(struct struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount);
 OSMesgQueue *func_8002A0CC(struct struct_800EB670 *arg0, void *arg1);
@@ -50,14 +66,33 @@ void func_8002A3F4(struct struct_800EB670 *arg0, OSScTask *arg1);
 void func_8002A4D8(void *arg);
 void func_8002A51C(struct struct_800EB670 *arg0, OSScTask *arg1);
 
+extern u32 framecont;
+extern u8 D_80088104;
+extern s8 D_80088105;
+
 // TODO: check which functions are both in cn and gw
 #if VERSION_CN || VERSION_GW
 void func_8002B8B4_cn(void);
 void func_8002B910_cn();
-void func_8002BA98_cn(s32 arg0, s32 arg1);
-void func_8002BC30_cn(s32 arg0);
+void func_8002BA98_cn(u8 arg0, u8 arg1);
+void func_8002BC30_cn(u8 arg0);
 void func_8002BD04_cn(void);
 void func_8002BD7C_cn(Gfx **gfxP, s32 arg1, s32 arg2);
+
+extern s32 D_80092EA8_cn;
+extern bool D_80092EAC_cn;
+extern u32 D_80092EB0_cn[];
+extern bool D_80092F10_cn;
+
+extern struct_8010ACB0_cn *B_800CA234_cn;
+extern struct_8010ACB0_cn *B_800CA298_cn;
+extern struct_8010ACB0_cn B_8010ACB0_cn[]; // maybe length 4?
 #endif
+
+extern STACK(B_800EFCE0, 0x2000);
+
+extern STACK(B_800F8CE0, 0x2000);
+
+extern STACK(B_800ED440, 0x2000);
 
 #endif

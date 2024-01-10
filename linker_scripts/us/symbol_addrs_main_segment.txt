@@ -1139,7 +1139,8 @@ gspF3DEX2_fifoTextStart = 0x80085580; // name_end:gspF3DEX2_fifoTextEnd dont_all
 gspS2DEX_fifoTextStart = 0x80086910; // name_end:gspS2DEX_fifoTextEnd dont_allow_addend:True
 
 framecont = 0x80088100; //
-D_80088104 = 0x80088104; // size:0x2
+D_80088104 = 0x80088104; // size:0x1
+D_80088105 = 0x80088105; // size:0x1
 D_80088110 = 0x80088110; // size:0x10
 gCurrentFramebufferIndex = 0x80088120; //
 graphic_no = 0x80088124; //

@@ -9160,7 +9160,7 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
 #endif
 
         if (sp10.validCount != 0) {
-            D_80088104[1] = 1;
+            D_80088105 = 1;
         }
 
         if (*sp50 != 1) {
@@ -9177,7 +9177,7 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
 
 #if VERSION_CN
             if (gControllerPressedButtons[main_joy[0]] & Z_TRIG) {
-                D_80088104[1] = 0;
+                D_80088105 = 0;
                 D_800BEF08_cn ^= 1;
             }
             func_8002BC30_cn(1);

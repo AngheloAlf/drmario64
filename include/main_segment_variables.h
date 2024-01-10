@@ -15,17 +15,6 @@ struct struct_watchMenu;
 
 // data
 
-extern u32 framecont;
-extern s8 D_80088104[];
-#if VERSION_CN
-extern s32 D_80092EA8_cn;
-extern bool D_80092EAC_cn;
-// u32 D_80092EB0_cn[];
-#endif
-#if VERSION_CN || VERSION_GW
-extern bool D_80092F10_cn;
-#endif
-
 // extern UNK_TYPE D_80088490;
 extern u8 aiVirusLevel[][3];
 extern u8 D_800884C0[][3];
@@ -321,7 +310,7 @@ extern OSThread sGraphicThread;
 extern OSMesg B_800EBED0[8];
 
 extern s16 B_800ED430;
-extern STACK(B_800ED440, 0x2000);
+
 extern struct_gameBackup *gameBackup[2];
 extern u8 CapsMagazine[0x100];
 // extern UNK_TYPE attack_effect_idx;
@@ -333,7 +322,7 @@ extern u8 decide;
 
 extern s32 _menuMain_lastSelect[8]; // probably an enum
 extern enum_evs_gamesel evs_gamesel; /* Original name: evs_gamesel */
-extern STACK(B_800EFCE0, 0x2000);
+
 extern u8 evs_playmax; /* Original name: evs_playmax */
 // extern UNK_TYPE B_800F1CE9;
 extern Mtx *pObjectMtx;
@@ -385,7 +374,6 @@ extern s32 s_hard_mode; // maybe bool?
 extern STACK(B_800F7490, 0xC00);
 // extern UNK_TYPE B_800F8C90;
 
-extern STACK(B_800F8CE0, 0x2000);
 // extern UNK_TYPE aiHiErR;
 // extern UNK_TYPE B_800FAD30;
 extern u8 joygmf[4];
@@ -432,12 +420,8 @@ extern enum_evs_gamemode evs_gamemode;
 extern struct_game_state_data game_state_data[4]; /* Original name: game_state_data */
 
 
-#ifdef VERSION_CN
+#if VERSION_CN || VERSION_GW
 extern s32 D_800BEF08_cn;
-
-extern struct_8010ACB0_cn *B_800CA234_cn;
-extern struct_8010ACB0_cn *B_800CA298_cn;
-extern struct_8010ACB0_cn B_8010ACB0_cn[]; // maybe length 4?
 #endif
 
 #endif

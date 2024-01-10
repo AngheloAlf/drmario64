@@ -1287,14 +1287,14 @@ bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5
     width = 0xC;
     height = 0xC;
 
-    sp20[0] = ((f64)arg1 * 4.0) + 0.5;
-    sp20[1] = ((f64)arg2 * 4.0) + 0.5;
-    sp20[2] = ((f64)(arg1 + arg3) * 4.0) + 0.5;
-    sp20[3] = ((f64)(arg2 + arg4) * 4.0) + 0.5;
+    sp20[0] = (arg1 * 4.0) + 0.5;
+    sp20[1] = (arg2 * 4.0) + 0.5;
+    sp20[2] = ((arg1 + arg3) * 4.0) + 0.5;
+    sp20[3] = ((arg2 + arg4) * 4.0) + 0.5;
     sp20[4] = 0;
     sp20[5] = 0;
-    sp20[6] = (0x3000 / (f64)arg3) + 0.5;
-    sp20[7] = (0x3000 / (f64)arg4) + 0.5;
+    sp20[6] = ((f64)0x3000 / arg3) + 0.5;
+    sp20[7] = ((f64)0x3000 / arg4) + 0.5;
 
     texture = font_2_tex;
 
