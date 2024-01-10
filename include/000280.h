@@ -50,7 +50,8 @@ void func_8002A3F4(struct struct_800EB670 *arg0, OSScTask *arg1);
 void func_8002A4D8(void *arg);
 void func_8002A51C(struct struct_800EB670 *arg0, OSScTask *arg1);
 
-#if VERSION_CN
+// TODO: check which functions are both in cn and gw
+#if VERSION_CN || VERSION_GW
 void func_8002B8B4_cn(void);
 void func_8002B910_cn();
 void func_8002BA98_cn(s32 arg0, s32 arg1);

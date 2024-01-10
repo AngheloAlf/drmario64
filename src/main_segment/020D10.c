@@ -122,77 +122,77 @@ void func_8003A950(Gfx **gfxP) {
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003BB50_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003BB50_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003BCD8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003BCD8_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003C0A4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003C0A4_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003C168_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003C168_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003C414_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003C414_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003C978_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003C978_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003CAAC_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003CAAC_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003CC74_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003CC74_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003CE2C_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003CE2C_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003D098_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003D098_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003D154_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003D154_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003D548_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003D548_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003D718_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003D718_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003D7D4_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003D7D4_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003D840_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003D840_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10_cn", func_8003D8B0_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003D8B0_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10_cn", RO_800C4080_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10", RO_800C4080_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10_cn", RO_800C4098_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10", RO_800C4098_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10_cn", RO_800C4150_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10", RO_800C4150_cn);
 #endif
