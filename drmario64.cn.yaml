@@ -384,7 +384,7 @@ segments:
       - [0x0187C0, c, main_segment/aiset]
       - [0x0207B0, c, main_segment/record]
 
-      - [0x023880, c, main_segment/020D10_cn]
+      - [0x023880, c, main_segment/020D10]
 
       - [0x025650, c, main_segment/game_etc]
 

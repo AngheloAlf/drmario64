@@ -8,7 +8,6 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "main_segment_functions.h"
 #include "gcc/memory.h"
 #include "gcc/string.h"
 #include "libc/ctype.h"

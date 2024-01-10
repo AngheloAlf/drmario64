@@ -8,7 +8,6 @@
 #include "boot_functions.h"
 #include "boot_variables.h"
 #include "include_asm.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 #include "buffers.h"
@@ -18,6 +17,10 @@
 #include "main_story.h"
 #include "dm_manual_main.h"
 #include "main_menu.h"
+#include "000280.h"
+#include "dm_title_main.h"
+
+extern struct_800FAF98_unk_64 B_800F48B0;
 
 #if VERSION_US || VERSION_CN
 void *D_80088110[][2] = {

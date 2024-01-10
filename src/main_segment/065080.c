@@ -1,4 +1,5 @@
-#include "libultra.h"
+#include "065080.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"

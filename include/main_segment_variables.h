@@ -184,8 +184,7 @@ extern s32 B_800E5928;
 extern s32 B_800E592C;
 extern s32 B_800E5930;
 extern s32 B_800E5934;
-extern struct_800E5938 B_800E5938[];
-extern struct_800E5968 B_800E5968;
+
 extern s32 B_800E596C;
 extern s32 B_800E5970[];
 extern UNK_PTR heapTop; /* Original name: heapTop */
@@ -305,7 +304,7 @@ extern s32 _menuMain_lastDepth;
 // extern UNK_TYPE B_800EB64C;
 // extern UNK_TYPE B_800EB64D;
 // extern UNK_TYPE B_800EB660;
-extern struct_800EB670 B_800EB670;
+
 extern enum_main_no main_no; /* Original name: main_no */
 extern Gfx* gGfxHead; /* Original name: gp */ // main display list head
 extern u16 gControllerHoldButtons[MAXCONTROLLERS+1];
@@ -367,7 +366,7 @@ extern u8 link_joy[];
 extern struct_watchManual *watchManual; /* Original name: watchManual */
 extern u8 aiRootCnt;
 extern OSMesgQueue B_800F4898;
-extern struct_800FAF98_unk_64 B_800F48B0;
+
 extern u16 joygam[4];
 
 extern u16 joycur[MAXCONTROLLERS+1];
@@ -379,8 +378,7 @@ extern OSContStatus B_800F5358[4];
 // extern UNK_TYPE B_800F6CD4;
 extern u16 joyflg[MAXCONTROLLERS];
 // extern UNK_TYPE B_800F6CE0;
-extern struct_virus_map_data virus_map_data[4][16*8];
-extern struct_virus_map_disp_order virus_map_disp_order[4];
+
 extern struct_evs_cfg_4p evs_cfg_4p;
 extern s32 s_hard_mode; // maybe bool?
 // extern UNK_TYPE attack_sprite_address;

@@ -5,10 +5,11 @@
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
 #include "color.h"
-#include "unk.h"
 #include "msgwnd.h"
 #include "char_anime.h"
 #include "audio/audio_stuff.h"
+#include "000280.h"
+#include "unk.h"
 
 struct MenuItem;
 struct struct_watchMenu;

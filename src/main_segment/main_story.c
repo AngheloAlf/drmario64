@@ -8,7 +8,6 @@
 #include "unknown_structs.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "util.h"
 #include "rom_offsets.h"
@@ -17,6 +16,9 @@
 #include "tex_func.h"
 #include "graphic.h"
 #include "main1x.h"
+#include "000280.h"
+#include "lws.h"
+#include "066840.h"
 
 #if VERSION_US || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version

@@ -10,7 +10,6 @@
 #include "unk.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "rom_offsets.h"
 #include "buffers.h"

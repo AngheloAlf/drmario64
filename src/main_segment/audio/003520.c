@@ -4,10 +4,10 @@
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "unk.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "boot_functions.h"
 #include "PR/sched.h"
+#include "000280.h"
 
 // TODO: Just to avoid warnings when building GW
 #if VERSION_US || VERSION_CN

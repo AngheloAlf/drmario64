@@ -7,7 +7,6 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
@@ -23,6 +22,9 @@
 #include "028820.h"
 #include "tex_func.h"
 #include "main_story.h"
+#include "000280.h"
+#include "font.h"
+#include "dm_virus_init.h"
 
 #if VERSION_US || CC_CHECK
 #include "joy.h"

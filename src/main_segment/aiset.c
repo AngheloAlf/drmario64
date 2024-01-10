@@ -43,7 +43,6 @@
 #include "unknown_structs.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "gamemap.h"
 #include "main1x.h"

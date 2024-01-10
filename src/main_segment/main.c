@@ -8,7 +8,6 @@
 #include "macros_defines.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 #include "buffers.h"
@@ -20,6 +19,10 @@
 #include "main_story.h"
 #include "dm_manual_main.h"
 #include "main_menu.h"
+#include "000280.h"
+#include "dm_title_main.h"
+
+extern struct_800EB670 B_800EB670;
 
 /**
  * Original name: mainproc

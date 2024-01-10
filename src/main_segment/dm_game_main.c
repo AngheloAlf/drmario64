@@ -3,11 +3,10 @@
  */
 
 #include "dm_game_main.h"
-#include "libultra.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
@@ -28,6 +27,11 @@
 #include "main_story.h"
 #include "debug_menu.h"
 #include "aiset.h"
+#include "000280.h"
+#include "static.h"
+#include "dm_virus_init.h"
+#include "calc.h"
+#include "066580.h"
 
 #if VERSION_US || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version
@@ -36,9 +40,6 @@
 #if VERSION_CN && !CC_CHECK
 void joyCursorFastSet(u16 mask, u8 index);
 #endif
-
-// TODO: Just to avoid warnings when building GW
-#if VERSION_US || VERSION_CN
 
 #if VERSION_US || VERSION_CN
 s32 func_800601F0(struct_game_state_data *gameStateDataRef, s32 arg1) {
@@ -10324,5 +10325,3 @@ void graphic_techmes(void) {
     gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx),
                  0, OS_SC_SWAPBUFFER);
 }
-
-#endif

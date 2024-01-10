@@ -2,11 +2,11 @@
  * Original filename: calc.c
  */
 
-#include "libultra.h"
+#include "calc.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
 // Currently only used in this file, consider moving to a header in future

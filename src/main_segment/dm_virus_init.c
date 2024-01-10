@@ -2,7 +2,7 @@
  * Original filename: dm_virus_init.c
  */
 
-#include "gamemap.h"
+#include "dm_virus_init.h"
 
 #include "libultra.h"
 #include "include_asm.h"
@@ -10,8 +10,8 @@
 #include "unknown_structs.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
+#include "calc.h"
 
 #if VERSION_US || VERSION_CN
 void init_map_all(GameMapCell *mapCells) {

@@ -1,9 +1,9 @@
-#include "libultra.h"
+#include "000280.h"
+
 #include "libc/stdbool.h"
 #include "include_asm.h"
 #include "unk.h"
 #include "macros_defines.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "audio/audio_stuff.h"
 #include "dm_thread.h"
@@ -30,7 +30,7 @@ bool D_80092F10_cn = false;
 void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount) {
     arg0->unk_66C = NULL;
     arg0->unk_670 = NULL;
-    arg0->unk_674 = 0;
+    arg0->unk_674 = NULL;
     arg0->unk_668 = NULL;
     arg0->unk_678 = 1;
     arg0->unk_000 = 1;
@@ -66,7 +66,7 @@ void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount) {
     osStartThread(&arg0->unk_4B8);
 }
 
-OSMesgQueue *func_8002A0CC(struct_800EB670 *arg0, UNK_PTR arg1 UNUSED) {
+OSMesgQueue *func_8002A0CC(struct_800EB670 *arg0, void *arg1 UNUSED) {
     return &arg0->unk_004;
 }
 
@@ -161,11 +161,11 @@ void func_8002A26C(struct_800EB670 *arg0, OSMesg msg) {
 
 void func_8002A2B8(void *arg) {
     OSMesg sp14 = NULL;
-    struct_8002A2B8_sp10 *sp10 = NULL;
+    OSScTask *sp10 = NULL;
     struct_800EB670 *ptr = arg;
 
     while (true) {
-        struct_800EB670_unk_66C *temp_s2;
+        OSScTask *temp_s2;
         s32 var_s0;
 #if VERSION_CN
         s32 var_s7;
@@ -180,7 +180,7 @@ void func_8002A2B8(void *arg) {
             osSpTaskYield();
             osRecvMesg(&ptr->unk_0AC, &sp14, OS_MESG_BLOCK);
 
-            var_s0 = (osSpTaskYielded(&temp_s2->unk_10) != 0) ? 1 : 2;
+            var_s0 = (osSpTaskYielded(&temp_s2->list) != 0) ? 1 : 2;
         }
 
 #if VERSION_CN
@@ -193,8 +193,8 @@ void func_8002A2B8(void *arg) {
 #endif
 
         ptr->unk_670 = sp10;
-        osSpTaskLoad(&sp10->unk_10);
-        osSpTaskStartGo(&sp10->unk_10);
+        osSpTaskLoad(&sp10->list);
+        osSpTaskStartGo(&sp10->list);
         osRecvMesg(&ptr->unk_0AC, &sp14, OS_MESG_BLOCK);
         ptr->unk_670 = NULL;
 
@@ -206,22 +206,22 @@ void func_8002A2B8(void *arg) {
         }
 #endif
 
-        if (ptr->unk_674 != 0) {
+        if (ptr->unk_674 != NULL) {
             osSendMesg(&ptr->unk_11C, &sp14, OS_MESG_BLOCK);
         }
 
         if (var_s0 == 1) {
-            osSpTaskLoad(&temp_s2->unk_10);
-            osSpTaskStartGo(&temp_s2->unk_10);
+            osSpTaskLoad(&temp_s2->list);
+            osSpTaskStartGo(&temp_s2->list);
         } else if (var_s0 == 2) {
             osSendMesg(&ptr->unk_0AC, &sp14, OS_MESG_BLOCK);
         }
 
-        osSendMesg(sp10->unk_50, sp10->unk_54, OS_MESG_BLOCK);
+        osSendMesg(sp10->msgQ, sp10->msg, OS_MESG_BLOCK);
     }
 }
 
-void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
+void func_8002A3F4(struct_800EB670 *arg0, OSScTask *arg1) {
     OSMesg sp10 = NULL;
 #if VERSION_CN
     s32 var_s5;
@@ -229,7 +229,7 @@ void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
 
     func_8002A51C(arg0, arg1);
     if (arg0->unk_670 != NULL) {
-        arg0->unk_674 = (s32)arg1;
+        arg0->unk_674 = arg1;
         osRecvMesg(&arg0->unk_11C, &sp10, OS_MESG_BLOCK);
         arg0->unk_674 = 0;
     }
@@ -243,8 +243,8 @@ void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
 #endif
 
     arg0->unk_66C = arg1;
-    osSpTaskLoad(&arg1->unk_10);
-    osSpTaskStartGo(&arg1->unk_10);
+    osSpTaskLoad(&arg1->list);
+    osSpTaskStartGo(&arg1->list);
     osRecvMesg(&arg0->unk_0AC, &sp10, OS_MESG_BLOCK);
     arg0->unk_66C = NULL;
 
@@ -273,8 +273,8 @@ void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
         arg0->unk_678 = 0;
     }
 
-    if (arg1->unk_08 & 0x40) {
-        osViSwapBuffer(arg1->unk_0C);
+    if (arg1->flags & OS_SC_SWAPBUFFER) {
+        osViSwapBuffer(arg1->framebuffer);
         D_80088104[0] = 1;
 
 #if VERSION_CN
@@ -282,23 +282,23 @@ void func_8002A3F4(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
 #endif
     }
 
-    osSendMesg(arg1->unk_50, arg1->unk_54, OS_MESG_BLOCK);
+    osSendMesg(arg1->msgQ, arg1->msg, OS_MESG_BLOCK);
 }
 
 void func_8002A4D8(void *arg) {
     struct_800EB670 *ptr = arg;
 
     while (true) {
-        OSMesg msg;
+        OSScTask *msg;
 
-        osRecvMesg(&ptr->unk_03C, &msg, OS_MESG_BLOCK);
+        osRecvMesg(&ptr->unk_03C, (OSMesg *)&msg, OS_MESG_BLOCK);
         func_8002A3F4(ptr, msg);
     }
 }
 
-void func_8002A51C(struct_800EB670 *arg0, struct_800EB670_unk_66C *arg1) {
+void func_8002A51C(struct_800EB670 *arg0, OSScTask *arg1) {
     OSMesg sp18 = NULL;
-    void *framebuffer = arg1->unk_0C;
+    void *framebuffer = arg1->framebuffer;
 
     while ((osViGetCurrentFramebuffer() == framebuffer) || (osViGetNextFramebuffer() == framebuffer)) {
         struct_800FAF98_unk_64 sp10;

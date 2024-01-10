@@ -7,7 +7,6 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
@@ -18,6 +17,9 @@
 #include "main1x.h"
 #include "tex_func.h"
 #include "main_story.h"
+#include "000280.h"
+#include "static.h"
+#include "dm_virus_init.h"
 
 #if VERSION_US || VERSION_GW || CC_CHECK
 #include "aiset.h"

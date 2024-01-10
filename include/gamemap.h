@@ -2,8 +2,6 @@
 #define GAMEMAP_H
 
 #include "libultra.h"
-#include "libc/stdint.h"
-#include "libc/stdbool.h"
 
 typedef struct GameMapCell {
     /* 0x0 */ s8 unk_0; // column?

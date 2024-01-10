@@ -6,8 +6,9 @@
 #include "libc/stdbool.h"
 #include "PR/libmus.h"
 #include "PR/sched.h"
-#include "unk.h"
 #include "unknown_structs.h"
+#include "000280.h"
+#include "unk.h"
 
 struct struct_800EB670;
 

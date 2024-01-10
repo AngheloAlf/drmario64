@@ -2,15 +2,16 @@
  * Original filename: msgwnd.c
  */
 
-#include "libultra.h"
+#include "msgwnd.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "unk.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "gcc/memory.h"
 #include "tex_func.h"
+#include "font.h"
 
 /**
  * Original name: _msgColorTbl

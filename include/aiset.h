@@ -2,6 +2,7 @@
 #define AISET_H
 
 #include "libultra.h"
+#include "libc/stdbool.h"
 #include "ai.h"
 #include "gamemap.h"
 #include "unk.h"

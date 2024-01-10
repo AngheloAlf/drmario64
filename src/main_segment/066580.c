@@ -1,8 +1,8 @@
-#include "libultra.h"
+#include "066580.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 
 extern u16 D_800AB170[];

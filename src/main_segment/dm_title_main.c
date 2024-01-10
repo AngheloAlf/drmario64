@@ -2,13 +2,13 @@
  * Original filename: dm_title_main.c
  */
 
-#include "libultra.h"
+#include "dm_title_main.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
-#include "main_segment_functions.h"
 #include "main_segment_variables.h"
 #include "rom_offsets.h"
 #include "audio/audio_stuff.h"
@@ -21,6 +21,7 @@
 #include "main1x.h"
 #include "tex_func.h"
 #include "main_story.h"
+#include "000280.h"
 
 void func_80075F30(void) {
     title_exit_flag = 0;
