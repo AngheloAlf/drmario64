@@ -56,10 +56,10 @@ s32 lws_anim(Gfx **gfxP, Mtx *mtx, struct_lws_scene *arg2, s32 arg3, void *arg4)
         s32 a5;
         s32 a6;
 
-        temp_s5 = (void *)(((uintptr_t)arg2->unk_10 & 0x00FFFFFF) + (uintptr_t)arg4);
+        temp_s5 = RELOCATE_SEGMENTED(arg2->unk_10, arg4);
         temp_s5 = &temp_s5[i];
 
-        temp = (void *)(((uintptr_t)arg2->unk_14 & 0x00FFFFFF) + (uintptr_t)arg4);
+        temp = RELOCATE_SEGMENTED(arg2->unk_14, arg4);
         temp = &temp[temp_s5->unk_0C];
 
         var_a1 = var_a2 = temp;

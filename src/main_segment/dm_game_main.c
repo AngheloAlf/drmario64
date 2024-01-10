@@ -9496,6 +9496,7 @@ s32 dm_game_main2(void) {
             break;
 
         default:
+            UNREACHABLE;
             break;
     }
 

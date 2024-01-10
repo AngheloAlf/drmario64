@@ -11,21 +11,24 @@ from pathlib import Path
 
 
 ASMPATH = Path("asm")
-NONMATCHINGS = "nonmatchings"
 
 
-def getProgressFromMapFile(mapFile: mapfile_parser.MapFile, asmPath: Path, nonmatchings: Path, aliases: dict[str, str]=dict(), pathIndex: int=2) -> tuple[mapfile_parser.ProgressStats, dict[str, mapfile_parser.ProgressStats]]:
+def getProgressFromMapFile(mapFile: mapfile_parser.MapFile, asmPath: Path, aliases: dict[str, str]=dict(), pathIndex: int=2, folderIndex: int|None=None) -> tuple[mapfile_parser.ProgressStats, dict[str, mapfile_parser.ProgressStats]]:
     totalStats = mapfile_parser.ProgressStats()
     progressPerFolder: dict[str, mapfile_parser.ProgressStats] = dict()
+
+    if folderIndex is None:
+        folderIndex = pathIndex
 
     for segment in mapFile:
         for file in segment:
             if len(file) == 0:
                 continue
 
-            folder = file.filepath.parts[pathIndex]
-            if folder in aliases:
-                folder = aliases[folder]
+            folderParts = list(file.filepath.parts[pathIndex:folderIndex+1])
+            if folderParts[0] in aliases:
+                folderParts[0] = aliases[folderParts[0]]
+            folder = "/".join(folderParts)
 
             if folder not in progressPerFolder:
                 progressPerFolder[folder] = mapfile_parser.ProgressStats()
@@ -78,13 +81,11 @@ def getProgress(mapPath: Path, version: str, subpaths: bool=False) -> tuple[mapf
                         realSym.size = sym.size
                         sym.size = 0
 
-    nonMatchingsPath = ASMPATH / version / NONMATCHINGS
-
-    pathIndex = 2
+    folderIndex = None
     if subpaths:
-        pathIndex += 1
+        folderIndex = 3
 
-    return getProgressFromMapFile(mapFile.filterBySectionType(".text"), ASMPATH / version, nonMatchingsPath, aliases={"ultralib": "libultra"}, pathIndex=pathIndex)
+    return getProgressFromMapFile(mapFile.filterBySectionType(".text"), ASMPATH / version, aliases={"ultralib": "libultra"}, folderIndex=folderIndex)
 
 
 def progressMain():
@@ -92,8 +93,11 @@ def progressMain():
     parser.add_argument("-v", "--version", help="version to process", default="us")
     parser.add_argument("-p", "--subpaths", help="Make a summary for one level deeper in the path tree", action="store_true")
     parser.add_argument("-s", "--sort", help="Sort by decomped size instead of the ROM sorting", action="store_true")
+    parser.add_argument("-r", "--remaining", help="Print an extra column indicating the remaining percentage to match of each entry", action="store_true")
 
     args = parser.parse_args()
+
+    remaining: bool = args.remaining
 
     mapPath = Path("build") / f"drmario64.{args.version}.map"
 
@@ -105,9 +109,13 @@ def progressMain():
 
     progressesList = list(progressPerFolder.items())
     if args.sort:
-        progressesList.sort(key=lambda x: (x[1].decompedSize / x[1].total, x[1].total), reverse=True)
+        progressesList.sort(key=lambda x: (x[1].decompedSize / x[1].total, x[1].total, x[0]), reverse=True)
     for folder, statsEntry in progressesList:
-        statsEntry.print(folder, totalStats)
+        print(statsEntry.getEntryAsStr(folder, totalStats), end="")
+        if remaining and statsEntry.undecompedSize != 0:
+            remainingPercentage = statsEntry.total / totalStats.total * 100 - statsEntry.decompedPercentageTotal(totalStats)
+            print(f"{remainingPercentage:>8.4f}%", end="")
+        print()
 
 
 if __name__ == "__main__":

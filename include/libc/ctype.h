@@ -11,6 +11,7 @@
 #define CTYPE_ISCONTROL     0x20    /* 0x0~0x1f , 0x7f */
 #define CTYPE_ISPUNCTUATION 0x40    /* punctuation */
 #define CTYPE_ISKANJI       0x80    /* SJIS 1st BYTE */
+#define CTYPE_ISXDIGIT      0
 
 extern unsigned char __ctype_map[0x100];
 
@@ -42,6 +43,9 @@ extern unsigned char __MojiStat[0x101];
 #define CTYPE_ISUPPER       0x08    /* 'A'~'Z' */
 #define CTYPE_ISXDIGIT      0x10    /* 'A'~'F', 'a'~'f', '0'~'9' */
 #define CTYPE_ISSPACE       0x20    /* 0x09~0x0D, 0x20 */
+#define CTYPE_ISHEX         0
+#define CTYPE_ISPUNCTUATION 0
+#define CTYPE_ISKANJI       0
 
 
 #define iscntrl(c)    ((__MojiStat+1)[c] & CTYPE_ISCONTROL)

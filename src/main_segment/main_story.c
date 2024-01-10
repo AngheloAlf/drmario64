@@ -25,8 +25,6 @@
 #include "joy.h"
 #endif
 
-#define STORY_BUFFER_OFFSET(addr) ((void *)(((uintptr_t)(addr)&0xFFFFFF) + (uintptr_t)story_buffer))
-
 extern struct_lws_scene *lws_scene;
 extern struct_wakuGraphic *wakuGraphic;
 
@@ -458,12 +456,12 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     lws_data = (void **)bgGraphic;
     if (arg2 != 0) {
         gDPSetEnvColor(sp60++, 183, 127, 95, 255);
-        var_s0 = (void *)(((uintptr_t)lws_data[1] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
-        var_v0 = (void *)(((uintptr_t)lws_data[6] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
+        var_s0 = RELOCATE_SEGMENTED(lws_data[1], bgGraphic);
+        var_v0 = RELOCATE_SEGMENTED(lws_data[6], bgGraphic);
     } else {
         gDPSetEnvColor(sp60++, 255, 255, 255, 255);
-        var_s0 = (void *)(((uintptr_t)lws_data[0] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
-        var_v0 = (void *)(((uintptr_t)lws_data[5] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
+        var_s0 = RELOCATE_SEGMENTED(lws_data[0], bgGraphic);
+        var_v0 = RELOCATE_SEGMENTED(lws_data[5], bgGraphic);
     }
 
     makeTransrateMatrix(&sp20, 0U, 0xFFC40000U, 0xFC4A0000U);
@@ -474,15 +472,15 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     bgtime += 1;
     switch (story_seq_step) {
         case 0:
-            var_s0 = (void *)(((uintptr_t)lws_data[2] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
+            var_s0 = RELOCATE_SEGMENTED(lws_data[2], bgGraphic);
             break;
 
         case 1:
-            var_s0 = (void *)(((uintptr_t)lws_data[3] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
+            var_s0 = RELOCATE_SEGMENTED(lws_data[3], bgGraphic);
             break;
 
         case 2:
-            var_s0 = (void *)(((uintptr_t)lws_data[4] & 0x00FFFFFF) + (uintptr_t)bgGraphic);
+            var_s0 = RELOCATE_SEGMENTED(lws_data[4], bgGraphic);
             break;
 
         default:
@@ -660,11 +658,11 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     if (arg1) {
         gDPSetEnvColor(gfx++, 183, 127, 95, 255);
 
-        lws_scene = (void *)(((uintptr_t)lws_data[0x21] & 0xFFFFFF) + (uintptr_t)title_data);
+        lws_scene = RELOCATE_SEGMENTED(lws_data[0x21], title_data);
     } else {
         gDPSetEnvColor(gfx++, 255, 255, 255, 255);
 
-        lws_scene = (void *)(((uintptr_t)lws_data[0] & 0xFFFFFF) + (uintptr_t)title_data);
+        lws_scene = RELOCATE_SEGMENTED(lws_data[0], title_data);
     }
 
     makeTransrateMatrix(&sp60, 0, 0xFFC4 << 16, 0xFC4A << 16);
@@ -825,8 +823,7 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
                 var_s0 = 0x1B;
             }
             func_800773F0();
-            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[var_s0] & 0xFFFFFF) + (uintptr_t)story_buffer), 0,
-                     story_buffer);
+            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[var_s0], story_buffer), 0, story_buffer);
             framecont = 0;
             fin_frame_440 = 0;
             fin_demo_441 = var_s0;
@@ -855,8 +852,8 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
                 framecont += 3;
             }
             func_8007865C();
-            if (lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[var_s0] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                         story_time_cnt, story_buffer) == 1) {
+            if (lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[var_s0], story_buffer), story_time_cnt,
+                         story_buffer) == 1) {
                 if (msgWnd_isEnd(&mess_st) != false) {
                     framecont = 0;
                     story_time_cnt = 0;
@@ -882,8 +879,8 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
                 framecont += 3;
             }
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[0x1C] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                          story_time_cnt, story_buffer) == 1) &&
+            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[0x1C], story_buffer), story_time_cnt,
+                          story_buffer) == 1) &&
                 (msgWnd_isEnd(&mess_st) != false)) {
                 framecont = 0;
                 story_time_cnt = 0;
@@ -917,8 +914,8 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
             }
 
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[0x1D] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                          story_time_cnt, story_buffer) == 1) &&
+            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[0x1D], story_buffer), story_time_cnt,
+                          story_buffer) == 1) &&
                 (msgWnd_isEnd(&mess_st) != false)) {
                 framecont = 0;
                 story_time_cnt = 0;
@@ -954,8 +951,8 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
                 story_time_cnt += 3;
             }
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[0x4] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                          story_time_cnt, story_buffer) == 1) &&
+            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[0x4], story_buffer), story_time_cnt, story_buffer) ==
+                 1) &&
                 (msgWnd_isEnd(&mess_st) != false)) {
                 story_time_cnt = 0;
                 story_seq_step += 1;
@@ -969,8 +966,8 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
 
         default:
             func_8007744C();
-            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[fin_demo_441] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                     fin_frame_440, story_buffer);
+            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[fin_demo_441], story_buffer), fin_frame_440,
+                     story_buffer);
             break;
     }
 
@@ -997,7 +994,7 @@ void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     makeTransrateMatrix(&mtx, 0, 0x1FFE7 << 0xF, 0x1F894 << 0xF);
 
-    temp_s1 = (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer);
+    temp_s1 = RELOCATE_SEGMENTED(lws_data[arg1], story_buffer);
 
     switch (story_seq_step) {
         case 0:
@@ -1059,13 +1056,12 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     makeTransrateMatrix(&sp20, 0U, 0xFFF38000U, 0xFC4A0000U);
 
-    lws_scene = (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer);
+    lws_scene = RELOCATE_SEGMENTED(lws_data[arg1], story_buffer);
 
     switch (story_seq_step) {
         case 0x0:
             func_800773F0();
-            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer), 0,
-                     story_buffer);
+            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
             framecont = 0;
             fin_frame_568 = 0;
             fin_demo_569 = arg1;
@@ -1087,8 +1083,8 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                 framecont += 3;
             }
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                          story_time_cnt, story_buffer) == 1) &&
+            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt,
+                          story_buffer) == 1) &&
                 msgWnd_isEnd(&mess_st)) {
                 framecont = 0;
                 story_time_cnt = 0;
@@ -1119,8 +1115,8 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                 story_time_cnt += 3;
             }
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg3] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                          story_time_cnt, story_buffer) == 1) &&
+            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg3], story_buffer), story_time_cnt,
+                          story_buffer) == 1) &&
                 (msgWnd_isEnd(&mess_st) != false)) {
                 story_time_cnt = 0;
                 story_seq_step += 1;
@@ -1137,8 +1133,8 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
         default:
             func_8007744C();
-            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[fin_demo_569] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                     fin_frame_568, story_buffer);
+            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[fin_demo_569], story_buffer), fin_frame_568,
+                     story_buffer);
             break;
     }
 
@@ -1167,8 +1163,7 @@ void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     switch (story_seq_step) {
         case 0x0:
             func_800773F0();
-            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer), 0,
-                     story_buffer);
+            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
             framecont = 0;
             fin_frame_623 = 0;
             fin_demo_624 = arg1;
@@ -1190,8 +1185,8 @@ void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                 framecont += 3;
             }
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                          story_time_cnt, story_buffer) == 1) &&
+            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt,
+                          story_buffer) == 1) &&
                 (msgWnd_isEnd(&mess_st) != false)) {
                 framecont = 0;
                 story_time_cnt = 0;
@@ -1215,8 +1210,8 @@ void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
             }
 
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg3] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                          story_time_cnt, story_buffer) == 1) &&
+            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg3], story_buffer), story_time_cnt,
+                          story_buffer) == 1) &&
                 (msgWnd_isEnd(&mess_st) != false)) {
                 story_time_cnt = 0;
                 story_seq_step++;
@@ -1225,8 +1220,8 @@ void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
         default:
             func_8007744C();
-            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[fin_demo_624] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                     fin_frame_623, story_buffer);
+            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[fin_demo_624], story_buffer), fin_frame_623,
+                     story_buffer);
             break;
     }
 
@@ -1259,8 +1254,7 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
     switch (story_seq_step) {
         case 0:
             func_800773F0();
-            lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer), 0,
-                     story_buffer);
+            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
             framecont = 0;
             story_spot_cnt = 0x100;
             st_mes_ptr = mes_data[arg2];
@@ -1278,8 +1272,8 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
                 story_seq_step += 1;
             }
 
-            if (lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                         story_time_cnt, story_buffer) == 1) {
+            if (lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt, story_buffer) ==
+                1) {
                 framecont = 0;
                 story_time_cnt = 0;
                 st_message_count = 0;
@@ -1343,8 +1337,8 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
                 }
             }
 
-            if (lws_anim(&gfx, &sp20, (void *)(((uintptr_t)lws_data[0x15] & 0xFFFFFF) + (uintptr_t)story_buffer),
-                         story_time_cnt, story_buffer) == 1) {
+            if (lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[0x15], story_buffer), story_time_cnt, story_buffer) ==
+                1) {
                 framecont = 0x117;
                 story_time_cnt = 0x117U;
             }
@@ -1399,7 +1393,7 @@ void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     makeTransrateMatrix(&mtx, 0, 0xFFF38000, 0xFC4A0000);
 
-    temp_s0 = (void *)(((uintptr_t)lws_data[arg1] & 0xFFFFFF) + (uintptr_t)story_buffer);
+    temp_s0 = RELOCATE_SEGMENTED(lws_data[arg1], story_buffer);
 
     switch (story_seq_step) {
         case 0:
@@ -1478,7 +1472,7 @@ void story_w_end(Gfx **gfxP, s32 arg1) {
     switch (story_seq_step) {
         case 0:
             func_800773F0();
-            lws_anim(&gfx, &sp20, STORY_BUFFER_OFFSET(lws_data[arg1]), 0, story_buffer);
+            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
             framecont = 0;
             story_spot_cnt = 0x100;
             st_mes_ptr = mes_data[0x17];
@@ -1494,7 +1488,8 @@ void story_w_end(Gfx **gfxP, s32 arg1) {
                 st_message_count = 0;
                 story_seq_step += 1;
             }
-            if (lws_anim(&gfx, &sp20, STORY_BUFFER_OFFSET(lws_data[arg1]), story_time_cnt, story_buffer) == 1) {
+            if (lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt, story_buffer) ==
+                1) {
                 framecont = 0;
                 story_time_cnt = 0;
                 st_message_count = 0;
@@ -1539,7 +1534,8 @@ void story_w_end(Gfx **gfxP, s32 arg1) {
                     func_8007865C();
                 }
             }
-            if (lws_anim(&gfx, &sp20, STORY_BUFFER_OFFSET(lws_data[0x18]), story_time_cnt, story_buffer) == 1) {
+            if (lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[0x18], story_buffer), story_time_cnt, story_buffer) ==
+                1) {
                 framecont = 0x6D;
                 story_time_cnt = (s32)0x6DU;
             }
