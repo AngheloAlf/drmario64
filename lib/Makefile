@@ -55,6 +55,7 @@ STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 IINC       := -Iultralib/include -Iultralib/include/gcc -Iultralib/include/PR -Iultralib/src -Ilibmus/src
 
 CFLAGS          := -nostdinc -fno-PIC -G 0 -mgp32 -mfp32
+MIPS_VERSION    := -mips3
 WARNINGS        := -w
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
 GBI_DEFINES     := -DF3DEX_GBI_2
@@ -65,7 +66,6 @@ C_DEFINES       := -D_LANGUAGE_C
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
 OPTFLAGS        := -O3
 DBGFLAGS        :=
-MIPS_VERSION    := -mips3
 # libultra 2.0K
 LIBULTRA_VERSION:= 8
 else ifeq ($(VERSION),cn)
@@ -73,7 +73,6 @@ CFLAGS          += -mcpu=4300 -mno-abicalls
 OPTFLAGS        := -O2
 DBGFLAGS        :=
 # DBGFLAGS        := -ggdb
-MIPS_VERSION    := -mips2
 # libultra 2.0L
 LIBULTRA_VERSION:= 9
 endif
@@ -100,6 +99,13 @@ O_FILES       += $(BUILD_DIR)/libmus/src/aud_dma.o \
 
 # create build directories
 $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
+
+
+# directory flags
+
+$(BUILD_DIR)/libmus/src/%.o:   MIPS_VERSION := -mips2
+
+# per-file flags
 
 
 #### Main Targets ###
