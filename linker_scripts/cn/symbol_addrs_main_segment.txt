@@ -1529,14 +1529,16 @@ D_800C2FC0_cn = 0x800C2FC0; //
 D_800C2FC2_cn = 0x800C2FC2; //
 
 jumptable = 0x800C37D0; // size:0xB4
-D_800C3890_cn = 0x800C3890; // static?
-D_800C38F8_cn = 0x800C38F8; //
-D_800C3980_cn = 0x800C3980; //
-D_800C39A8_cn = 0x800C39A8; //
-D_800C3A30_cn = 0x800C3A30; //
-D_800C3A58_cn = 0x800C3A58; //
-D_800C3A80_cn = 0x800C3A80; //
-D_800C3A84_cn = 0x800C3A84; //
+
+SmallRoomParams = 0x800C3890; //
+BigRoomParams = 0x800C38F8; //
+EchoParams = 0x800C3980; //
+ChorusParams = 0x800C39A8; //
+FlangeParams = 0x800C3A30; //
+NoFxParams = 0x800C3A58; //
+EffectCount = 0x800C3A80; //
+EffectList = 0x800C3A84; // size:0x1C
+
 D_800C3AA0_cn = 0x800C3AA0; //
 __libmus_current_sched = 0x800C3AAC; //
 D_800C3AB0_cn = 0x800C3AB0; //

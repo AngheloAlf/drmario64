@@ -93,8 +93,7 @@ endif
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
 COMPILER_DIR    := tools/gcc_kmc/$(DETECTED_OS)/2.7.2
-endif
-ifeq ($(VERSION),cn)
+else ifeq ($(VERSION),cn)
 COMPILER_DIR    := tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4
 endif
 CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
@@ -158,8 +157,7 @@ OUT_ENCODING    := Shift-JIS
 CHAR_SIGN       := -funsigned-char
 # libultra 2.0K
 LIBULTRA_VERSION:= 8
-endif
-ifeq ($(VERSION),cn)
+else ifeq ($(VERSION),cn)
 CFLAGS          += -mcpu=4300
 OPTFLAGS        := -O2
 DBGFLAGS        := -ggdb
@@ -367,9 +365,10 @@ else
 endif
 	$(OBJDUMP_CMD)
 
-$(BUILD_DIR)/lib/%.o:
+$(BUILD_DIR)/lib/%.o: lib/%.c
 ifneq ($(PERMUTER), 1)
 	$(error Library files has not been built, please run `$(MAKE) lib VERSION=$(VERSION)` first)
+	$(MAKE) -C lib VERSION=$(VERSION) ../$@
 endif
 
 $(BUILD_DIR)/segments/$(VERSION)/%.o: linker_scripts/$(VERSION)/partial/%.ld

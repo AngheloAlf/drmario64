@@ -428,7 +428,7 @@ segments:
       - [0x0726F0, c, main_segment/055C40]
 
       - [0x072880, asm, libmus/player]
-      - [0x075D50, asm, libmus/player_fx]
+      - [0x075D50, c, ../lib/libmus/src/player_fx]
       - [0x076680, asm, libmus/aud_dma]
       - [0x076B10, asm, libmus/aud_sched]
       - [0x076CC0, asm, libmus/aud_thread]
@@ -493,6 +493,10 @@ segments:
 
       - [0x0A6BE0, data, main_segment/0A6BE0]
 
+      - [0x0AB5C0, .data, ../lib/libmus/src/player_fx]
+
+      - [0x0AB7D0, data, main_segment/0AB7D0]
+
       - [0x0AB7F0, .rodata, main_segment/main]
 
       - [0x0AB820, .rodata, main_segment/sound]
@@ -533,7 +537,7 @@ segments:
       - [0x0B1380, .rodata, main_segment/065080]
 
       - [0x0B13C0, rodata, libmus/player]
-      - [0x0B1440, rodata, libmus/player_fx]
+      - [0x0B1440, .rodata, ../lib/libmus/src/player_fx]
 
       - { start: 0x0B1450, type: databin, name: rsp/aspMain, linker_section_order: .rodata }
       - { start: 0x0B1710, type: databin, name: rsp/f3dex2,  linker_section_order: .rodata }

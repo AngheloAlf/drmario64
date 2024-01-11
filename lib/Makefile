@@ -12,6 +12,18 @@ BUILD_DIR := ../build/lib
 
 #### Setup ####
 
+BUILD_DEFINES ?=
+
+ifeq ($(VERSION),us)
+	BUILD_DEFINES   += -DVERSION_US=1
+else ifeq ($(VERSION),cn)
+	BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1
+else ifeq ($(VERSION),gw)
+	BUILD_DEFINES   += -DVERSION_GW=1
+else
+$(error Invalid VERSION variable detected. Please use either 'us', 'cn' or 'gw')
+endif
+
 MAKE = make
 
 UNAME_S := $(shell uname -s)
@@ -30,16 +42,19 @@ ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?),
 endif
 
 
-CC         := COMPILER_PATH=../tools/gcc_kmc/$(DETECTED_OS)/2.7.2 ../tools/gcc_kmc/$(DETECTED_OS)/2.7.2/gcc
+ifeq ($(VERSION),$(filter $(VERSION), us gw))
+COMPILER_DIR    := ../tools/gcc_kmc/$(DETECTED_OS)/2.7.2
+else ifeq ($(VERSION),cn)
+COMPILER_DIR    := ../tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4
+endif
+CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
 
 STRIP      := $(MIPS_BINUTILS_PREFIX)strip
 
 
 IINC       := -Iultralib/include -Iultralib/include/gcc -Iultralib/include/PR -Iultralib/src -Ilibmus/src
 
-OPTFLAGS        := -O3
-MIPS_VERSION    := -mips3
-CFLAGS          := -nostdinc -G 0 -mgp32 -mfp32
+CFLAGS          := -nostdinc -fno-PIC -G 0 -mgp32 -mfp32
 WARNINGS        := -w
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
 GBI_DEFINES     := -DF3DEX_GBI_2
@@ -48,10 +63,17 @@ AS_DEFINES      := -D_LANGUAGE_ASSEMBLY -DMIPSEB -D_ULTRA64 -D_MIPS_SIM=1
 C_DEFINES       := -D_LANGUAGE_C
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
+OPTFLAGS        := -O3
+DBGFLAGS        :=
+MIPS_VERSION    := -mips3
 # libultra 2.0K
 LIBULTRA_VERSION:= 8
-endif
-ifeq ($(VERSION),cn)
+else ifeq ($(VERSION),cn)
+CFLAGS          += -mcpu=4300 -mno-abicalls
+OPTFLAGS        := -O2
+DBGFLAGS        :=
+# DBGFLAGS        := -ggdb
+MIPS_VERSION    := -mips2
 # libultra 2.0L
 LIBULTRA_VERSION:= 9
 endif
@@ -98,4 +120,4 @@ $(BUILD_DIR)/%.o: %.s
 	$(CC) -c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) -x assembler-with-cpp -o $@ $<
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC) -c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<
