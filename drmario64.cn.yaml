@@ -427,12 +427,13 @@ segments:
 
       - [0x0726F0, c, main_segment/055C40]
 
-      - [0x072880, asm, main_segment/072880] # libmus/player?
-      - [0x075D50, asm, main_segment/075D50]
-      - [0x076680, asm, main_segment/076680]
-      - [0x076B10, asm, main_segment/076B10]
-      - [0x076F60, asm, main_segment/076F60]
-      - [0x0770A0, asm, main_segment/0770A0]
+      - [0x072880, asm, libmus/player]
+      - [0x075D50, asm, libmus/player_fx]
+      - [0x076680, asm, libmus/aud_dma]
+      - [0x076B10, asm, libmus/aud_sched]
+      - [0x076CC0, asm, libmus/aud_thread]
+      - [0x076F60, asm, libmus/lib_memory]
+      - [0x0770A0, asm, libmus/aud_samples]
 
       - [0x077160, textbin, rsp/rspboot]
       - [0x077230, textbin, rsp/aspMain]
@@ -531,8 +532,8 @@ segments:
 
       - [0x0B1380, .rodata, main_segment/065080]
 
-      - [0x0B13C0, rodata, main_segment/072880]
-      - [0x0B1440, rodata, main_segment/075D50]
+      - [0x0B13C0, rodata, libmus/player]
+      - [0x0B1440, rodata, libmus/player_fx]
 
       - { start: 0x0B1450, type: databin, name: rsp/aspMain, linker_section_order: .rodata }
       - { start: 0x0B1710, type: databin, name: rsp/f3dex2,  linker_section_order: .rodata }
