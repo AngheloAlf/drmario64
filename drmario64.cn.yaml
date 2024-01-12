@@ -427,13 +427,13 @@ segments:
 
       - [0x0726F0, c, main_segment/055C40]
 
-      - [0x072880, asm, libmus/player]
+      - [0x072880, c, ../lib/libmus/src/player]
       - [0x075D50, c, ../lib/libmus/src/player_fx]
-      - [0x076680, asm, libmus/aud_dma]
-      - [0x076B10, asm, libmus/aud_sched]
-      - [0x076CC0, asm, libmus/aud_thread]
-      - [0x076F60, asm, libmus/lib_memory]
-      - [0x0770A0, asm, libmus/aud_samples]
+      - [0x076680, c, ../lib/libmus/src/aud_dma]
+      - [0x076B10, c, ../lib/libmus/src/aud_sched]
+      - [0x076CC0, c, ../lib/libmus/src/aud_thread]
+      - [0x076F60, c, ../lib/libmus/src/lib_memory]
+      - [0x0770A0, c, ../lib/libmus/src/aud_samples]
 
       - [0x077160, textbin, rsp/rspboot]
       - [0x077230, textbin, rsp/aspMain]
@@ -493,9 +493,10 @@ segments:
 
       - [0x0A6BE0, data, main_segment/0A6BE0]
 
+      - [0x0AB500, .data, ../lib/libmus/src/player]
       - [0x0AB5C0, .data, ../lib/libmus/src/player_fx]
-
-      - [0x0AB7D0, data, main_segment/0AB7D0]
+      - [0x0AB7D0, .data, ../lib/libmus/src/aud_sched]
+      - [0x0AB7E0, .data, ../lib/libmus/src/aud_thread]
 
       - [0x0AB7F0, .rodata, main_segment/main]
 
@@ -536,7 +537,7 @@ segments:
 
       - [0x0B1380, .rodata, main_segment/065080]
 
-      - [0x0B13C0, rodata, libmus/player]
+      - [0x0B13C0, .rodata, ../lib/libmus/src/player]
       - [0x0B1440, .rodata, ../lib/libmus/src/player_fx]
 
       - { start: 0x0B1450, type: databin, name: rsp/aspMain, linker_section_order: .rodata }
@@ -546,6 +547,15 @@ segments:
       - { start: 0x0B1EF0, type: bss, vram: 0x800CA1C0, name: main_segment/800CA1C0 }
       - { type: bss, vram: 0x800FC040, name: main_segment/game_etc }
       - { type: bss, vram: 0x800FC4E0, name: main_segment/800FC4E0 }
+
+      - { type: .bss, vram: 0x80100540, name: ../lib/libmus/src/player }
+      - { type: .bss, vram: 0x801005B0, name: ../lib/libmus/src/aud_dma }
+      - { type: .bss, vram: 0x801005F0, name: ../lib/libmus/src/aud_sched }
+      - { type: .bss, vram: 0x80100600, name: ../lib/libmus/src/aud_thread }
+      - { type: .bss, vram: 0x801007C0, name: ../lib/libmus/src/lib_memory }
+      - { type: .bss, vram: 0x801007D0, name: ../lib/libmus/src/aud_samples }
+
+      - { type: bss, vram: 0x801007E0, name: main_segment/801007E0 }
 
   - name: buffer1
     type: code

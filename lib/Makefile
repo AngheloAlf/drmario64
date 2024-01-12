@@ -71,8 +71,7 @@ LIBULTRA_VERSION:= 8
 else ifeq ($(VERSION),cn)
 CFLAGS          += -mcpu=4300 -mno-abicalls
 OPTFLAGS        := -O2
-DBGFLAGS        :=
-# DBGFLAGS        := -ggdb
+DBGFLAGS        := -ggdb
 # libultra 2.0L
 LIBULTRA_VERSION:= 9
 endif
@@ -104,8 +103,12 @@ $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 # directory flags
 
 $(BUILD_DIR)/libmus/src/%.o:   MIPS_VERSION := -mips2
+$(BUILD_DIR)/libmus/src/%.o:   RELEASE_DEFINES :=
 
 # per-file flags
+
+$(BUILD_DIR)/libmus/src/player.o:   DBGFLAGS :=
+$(BUILD_DIR)/libmus/src/player_fx.o:   DBGFLAGS :=
 
 
 #### Main Targets ###

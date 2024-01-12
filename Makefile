@@ -368,8 +368,8 @@ endif
 $(BUILD_DIR)/lib/%.o: lib/%.c
 ifneq ($(PERMUTER), 1)
 	$(error Library files has not been built, please run `$(MAKE) lib VERSION=$(VERSION)` first)
-	$(MAKE) -C lib VERSION=$(VERSION) ../$@
 endif
+	$(MAKE) -C lib VERSION=$(VERSION) ../$@
 
 $(BUILD_DIR)/segments/$(VERSION)/%.o: linker_scripts/$(VERSION)/partial/%.ld
 	$(LD) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@

@@ -1548,7 +1548,8 @@ EffectCount = 0x800ABF00; //
 EffectList = 0x800ABF04; //
 default_sched = 0x800ABF20; //
 __libmus_current_sched = 0x800ABF2C; // 0x0  (aud_thread, false)
-last_task = 0x800ABF30; //
+
+last_task = 0x800ABF30; // size:0x4
 
 aspMainDataStart = 0x800ABF40; // name_end:aspMainDataEnd dont_allow_addend:True
 gspF3DEX2_fifoDataStart = 0x800AC200; // name_end:gspF3DEX2_fifoDataEnd dont_allow_addend:True

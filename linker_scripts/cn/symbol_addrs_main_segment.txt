@@ -1539,9 +1539,10 @@ NoFxParams = 0x800C3A58; //
 EffectCount = 0x800C3A80; //
 EffectList = 0x800C3A84; // size:0x1C
 
-D_800C3AA0_cn = 0x800C3AA0; //
+default_sched = 0x800C3AA0; //
 __libmus_current_sched = 0x800C3AAC; //
-D_800C3AB0_cn = 0x800C3AB0; //
+
+last_task = 0x800C3AB0; // size:0x4
 
 // data end
 
@@ -2287,48 +2288,54 @@ WaitTime = 0x8010051C; // size:0x10
 max_rec = 0x8010052C; // size:0x4
 replay_player = 0x80100530; // size:0x4
 
-B_80100540_cn = 0x80100540; //
-B_80100554_cn = 0x80100554; //
-B_80100558_cn = 0x80100558; //
-B_8010055C_cn = 0x8010055C; //
-B_80100560_cn = 0x80100560; //
-B_80100564_cn = 0x80100564; //
-B_80100568_cn = 0x80100568; //
-B_8010056C_cn = 0x8010056C; //
-B_8010056E_cn = 0x8010056E; //
-B_80100570_cn = 0x80100570; //
-B_80100574_cn = 0x80100574; //
-B_80100578_cn = 0x80100578; //
-B_8010057C_cn = 0x8010057C; //
+plr_player = 0x80100540; //
+max_channels = 0x80100554; //
+mus_voices = 0x80100558; //
+mus_channels = 0x8010055C; //
+mus_channels2 = 0x80100560; //
+mus_vsyncs_per_second = 0x80100564; //
+mus_next_frame_time = 0x80100568; //
+mus_master_volume_effects = 0x8010056C; //
+mus_master_volume_songs = 0x8010056E; //
+mus_current_handle = 0x80100570; //
+mus_random_seed = 0x80100574; //
+mus_init_bank = 0x80100578; //
+mus_default_bank = 0x8010057C; //
 B_80100580_cn = 0x80100580; //
 B_80100584_cn = 0x80100584; //
 B_80100588_cn = 0x80100588; //
 B_8010058C_cn = 0x8010058C; //
-B_80100590_cn = 0x80100590; //
+marker_callback = 0x80100590; //
 B_80100594_cn = 0x80100594; //
 B_80100598_cn = 0x80100598; //
 B_8010059C_cn = 0x8010059C; //
 B_801005A0_cn = 0x801005A0; //
-B_801005B0_cn = 0x801005B0; //
-B_801005B4_cn = 0x801005B4; //
-B_801005B8_cn = 0x801005B8; //
-B_801005BC_cn = 0x801005BC; //
-B_801005C0_cn = 0x801005C0; //
-B_801005C4_cn = 0x801005C4; //
-B_801005C8_cn = 0x801005C8; //
-B_801005CC_cn = 0x801005CC; //
-B_801005E4_cn = 0x801005E4; //
-B_801005F0_cn = 0x801005F0; //
-B_801005F4_cn = 0x801005F4; //
-B_80100600_cn = 0x80100600; //
-B_801007B0_cn = 0x801007B0; //
-B_801007B4_cn = 0x801007B4; //
-B_801007B8_cn = 0x801007B8; //
-B_801007C0_cn = 0x801007C0; //
-B_801007C4_cn = 0x801007C4; //
-B_801007D0_cn = 0x801007D0; //
-B_801007D4_cn = 0x801007D4; //
-B_801007DC_cn = 0x801007DC; //
+
+dma_buffer_head = 0x801005B0; //
+dma_buffer_free = 0x801005B4; //
+dma_buffer_list = 0x801005B8; //
+audio_IO_mess_buf = 0x801005BC; //
+audio_mess_buf = 0x801005C0; //
+audio_dma_size = 0x801005C4; //
+audio_dma_count = 0x801005C8; //
+audDMAMessageQ = 0x801005CC; //
+cartrom_handle = 0x801005E4; // size:0x4
+
+audio_sched = 0x801005F0; // size:0x4
+sched_mem = 0x801005F4; // size:0x4
+
+_libmus_thread = 0x80100600; // size:0x1B0
+_libmus_stack_addr = 0x801007B0; // size:0x4
+audio_tasks = 0x801007B4; // size:0x4
+audio_command_list = 0x801007B8; // size:0x4
+
+audio_heap = 0x801007C0; // size:0x10
+
+frame_samples = 0x801007D0; // size:0x4
+frame_samples_min = 0x801007D4; // size:0x4
+frame_samples_max = 0x801007D8; // size:0x4
+extra_samples = 0x801007DC; // size:0x4
+
 ai_char_data = 0x801007E0; //
 B_8010084C_cn = 0x8010084C; //
 B_80100CF0_cn = 0x80100CF0; //

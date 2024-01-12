@@ -25,9 +25,12 @@ def getProgressFromMapFile(mapFile: mapfile_parser.MapFile, asmPath: Path, alias
             if len(file) == 0:
                 continue
 
-            folderParts = list(file.filepath.parts[pathIndex:folderIndex+1])
+            folderParts = list(file.filepath.parts[pathIndex:])
+            if "src" in folderParts:
+                folderParts.remove("src")
             if folderParts[0] in aliases:
                 folderParts[0] = aliases[folderParts[0]]
+            folderParts = folderParts[:folderIndex+1-pathIndex]
             folder = "/".join(folderParts)
 
             if folder not in progressPerFolder:
