@@ -5,6 +5,7 @@
 
 #include "lib/ultralib/include/ultra64.h"
 #include "lib/ultralib/src/audio/synthInternals.h"
+#include "lib/ultralib/src/gu/guint.h"
 // TODO: include different libultra headers depending on version
 #if VERSION_US
 //#include "lib/ultralib/include/ultra64.h"

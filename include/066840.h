@@ -6,7 +6,7 @@
 // void func_8007EA20();
 // void func_8007EA38();
 // void func_8007EA58();
-// void func_8007EAEC();
+s32 func_8007EAEC(s32 arg0, s32 arg1);
 // void func_8007EC54();
 // void func_8007EC98();
 // void func_8007ECE0();
@@ -25,7 +25,7 @@ void matrixConv(Mtx *arg0, Mtx *arg1, s32 arg2);
 // void func_8007F60C();
 // void func_8007F670();
 // void func_8007F6C4();
-// void func_8007F720();
+s32 func_8007F720(s32 arg0, s32 arg1);
 // void func_8007F754();
 // void func_8007F79C();
 // void func_8007F824();

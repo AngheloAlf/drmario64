@@ -493,6 +493,10 @@ segments:
 
       - [0x0A6BE0, data, main_segment/0A6BE0]
 
+      - [0x0AA710, .data, main_segment/calc]
+
+      - [0x0AAA20, data, main_segment/0AAA20]
+
       - [0x0AB500, .data, ../lib/libmus/src/player]
       - [0x0AB5C0, .data, ../lib/libmus/src/player_fx]
       - [0x0AB7D0, .data, ../lib/libmus/src/aud_sched]

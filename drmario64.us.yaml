@@ -566,7 +566,7 @@ segments:
 
       - [0x08F1E0, data, main_segment/main_story]
 
-      - [0x092C80, data, main_segment/calc]
+      - [0x092C80, .data, main_segment/calc]
       - [0x092F90, data, main_segment/066580]
       - [0x093140, data, main_segment/066840]
 

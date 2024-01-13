@@ -108,8 +108,6 @@ extern s32 title_exit_flag; /* Original name: title_exit_flag */
 // extern UNK_TYPE D_800A73A0;
 // extern UNK_TYPE D_800A73B8;
 
-// extern UNK_TYPE D_800AAE60;
-// extern UNK_TYPE D_800AAFF4;
 // extern UNK_TYPE D_800AB170;
 // extern UNK_TYPE D_800AB1B4;
 // extern UNK_TYPE D_800AB1D4;

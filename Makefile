@@ -117,6 +117,8 @@ CHECKSUMMER       ?= tools/checksummer.py
 MSG_REENCODER     ?= tools/buildtools/msg_reencoder.py
 PIGMENT64         ?= pigment64
 
+export SPIMDISASM_PANIC_RANGE_CHECK="True"
+
 
 IINC       := -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I.
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/include

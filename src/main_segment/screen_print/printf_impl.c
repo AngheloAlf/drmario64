@@ -137,14 +137,6 @@ void eprt_sub(char *s, s32 ndig, s32 exp, char *arg3, s32 letter_e, s32 sharp_fl
 }
 #endif
 
-typedef union {
-    struct {
-        /* 0x0 */ u32 hi;
-        /* 0x4 */ u32 lo;
-    } word;
-    /* 0x0 */ f64 d;
-} du; // size = 0x8
-
 #if VERSION_US
 char *ecvt(double x, int ndig, int *dec, int *sign) {
     int exp = 0;
