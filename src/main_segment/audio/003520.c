@@ -18,7 +18,8 @@ musSched D_800883F0 = {
 #endif
 
 #if VERSION_US || VERSION_CN
-size_t func_8002D170(struct_800EB670 *sched, void *heap, size_t heap_length, size_t arg3, s32 arg4, s32 arg5, size_t arg6 UNUSED, s32 arg7, OSPri thread_priority) {
+size_t func_8002D170(struct_800EB670 *sched, void *heap, size_t heap_length, size_t arg3, s32 arg4, s32 arg5,
+                     size_t arg6 UNUSED, s32 arg7, OSPri thread_priority) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98 = ALIGN_PTR(heap);
     musConfig sp10;
     s32 i;

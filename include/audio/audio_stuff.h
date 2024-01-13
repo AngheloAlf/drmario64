@@ -233,8 +233,7 @@ void dm_snd_play_in_game(SndIndex sndIndex);
 s32 func_8002B370(void);
 void dm_snd_play_strange_sound(void);
 
-
-size_t func_8002D170(struct_800EB670 *arg0, void *arg1, size_t arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority);
+size_t func_8002D170(struct_800EB670 *sched, void *heap, size_t heap_length, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority);
 bool func_8002D3B0(RomOffset segmentRom, size_t segmentSize, void *wbank);
 bool func_8002D428(s32 index, RomOffset segmentRom, size_t segmentSize);
 void func_8002D4A4(s32 index);
