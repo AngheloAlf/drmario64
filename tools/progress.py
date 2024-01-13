@@ -13,12 +13,9 @@ from pathlib import Path
 ASMPATH = Path("asm")
 
 
-def getProgressFromMapFile(mapFile: mapfile_parser.MapFile, asmPath: Path, aliases: dict[str, str]=dict(), pathIndex: int=2, folderIndex: int|None=None) -> tuple[mapfile_parser.ProgressStats, dict[str, mapfile_parser.ProgressStats]]:
+def getProgressFromMapFile(mapFile: mapfile_parser.MapFile, asmPath: Path, aliases: dict[str, str]=dict(), pathIndex: int=2, fullPath: bool=False) -> tuple[mapfile_parser.ProgressStats, dict[str, mapfile_parser.ProgressStats]]:
     totalStats = mapfile_parser.ProgressStats()
     progressPerFolder: dict[str, mapfile_parser.ProgressStats] = dict()
-
-    if folderIndex is None:
-        folderIndex = pathIndex
 
     for segment in mapFile:
         for file in segment:
@@ -30,7 +27,8 @@ def getProgressFromMapFile(mapFile: mapfile_parser.MapFile, asmPath: Path, alias
                 folderParts.remove("src")
             if folderParts[0] in aliases:
                 folderParts[0] = aliases[folderParts[0]]
-            folderParts = folderParts[:folderIndex+1-pathIndex]
+            if not fullPath:
+                folderParts = folderParts[:1]
             folder = "/".join(folderParts)
 
             if folder not in progressPerFolder:
@@ -84,11 +82,11 @@ def getProgress(mapPath: Path, version: str, subpaths: bool=False) -> tuple[mapf
                         realSym.size = sym.size
                         sym.size = 0
 
-    folderIndex = None
+    fullPath = False
     if subpaths:
-        folderIndex = 3
+        fullPath = True
 
-    return getProgressFromMapFile(mapFile.filterBySectionType(".text"), ASMPATH / version, aliases={"ultralib": "libultra"}, folderIndex=folderIndex)
+    return getProgressFromMapFile(mapFile.filterBySectionType(".text"), ASMPATH / version, aliases={"ultralib": "libultra"}, fullPath=fullPath)
 
 
 def progressMain():

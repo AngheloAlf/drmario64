@@ -13,15 +13,15 @@
 struct struct_800EB670;
 
 typedef struct Audio_struct_800FAF98_unk_14 {
-    /* 0x0 */ struct Audio_struct_800FAF98_unk_14 *unk_0;
+    /* 0x0 */ void *unk_0;
     /* 0x4 */ UNK_TYPE4 unk_4;
     /* 0x8 */ musHandle unk_8;
 } Audio_struct_800FAF98_unk_14; // size = 0xC
 
 typedef struct Audio_struct_800FAF98 {
-    /* 0x00 */ struct struct_800EB670 *unk_00;
-    /* 0x04 */ UNK_TYPE unk_04;
-    /* 0x08 */ UNK_TYPE unk_08;
+    /* 0x00 */ struct struct_800EB670 *sched;
+    /* 0x04 */ void *unk_04;
+    /* 0x08 */ size_t unk_08;
     /* 0x0C */ void *unk_0C; // vram
     /* 0x10 */ size_t unk_10;
     /* 0x14 */ Audio_struct_800FAF98_unk_14* unk_14;
@@ -37,8 +37,7 @@ typedef struct Audio_struct_800FAF98 {
     /* 0x84 */ OSMesg unk_84[4];
     /* 0x94 */ OSMesgQueue unk_94;
     /* 0xAC */ OSMesg unk_AC[4];
-    /* 0xBC */ UNK_TYPE unk_BC;
-} Audio_struct_800FAF98; // size >= 0xC0
+} Audio_struct_800FAF98; // size >= 0xBC
 
 
 typedef enum SndIndex {
@@ -235,7 +234,7 @@ s32 func_8002B370(void);
 void dm_snd_play_strange_sound(void);
 
 
-s32 func_8002D170(struct_800EB670 *arg0, UNK_PTR arg1, UNK_TYPE arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority);
+size_t func_8002D170(struct_800EB670 *arg0, void *arg1, size_t arg2, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority);
 bool func_8002D3B0(RomOffset segmentRom, size_t segmentSize, void *wbank);
 bool func_8002D428(s32 index, RomOffset segmentRom, size_t segmentSize);
 void func_8002D4A4(s32 index);

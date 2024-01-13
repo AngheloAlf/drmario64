@@ -55,7 +55,7 @@ typedef struct struct_8010ACB0_cn {
 
 
 void func_80029ED0(struct struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount);
-OSMesgQueue *func_8002A0CC(struct struct_800EB670 *arg0, void *arg1);
+OSMesgQueue *func_8002A0CC(struct struct_800EB670 *arg0);
 OSMesgQueue *func_8002A0D4(struct struct_800EB670 *arg0);
 void func_8002A0DC(void *arg);
 void func_8002A184(struct struct_800EB670 *arg0, struct struct_800FAF98_unk_64 *arg1, OSMesgQueue *arg2);
