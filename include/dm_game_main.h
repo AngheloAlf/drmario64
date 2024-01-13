@@ -164,7 +164,7 @@ typedef struct struct_game_state_data_unk_0D4_unk_00 {
 
 typedef struct struct_game_state_data_unk_0D4 {
     /* 0x00 */ struct_game_state_data_unk_0D4_unk_00 unk_00[UNK_SIZE];
-    /* 0x00 */ UNK_TYPE1 unk_0C[0x60];
+    /* 0x0C */ UNK_TYPE1 unk_0C[0x60];
 } struct_game_state_data_unk_0D4; // size = 0x6C
 
 typedef struct struct_game_state_data_unk_140 {
@@ -262,7 +262,7 @@ typedef struct struct_game_state_data {
     /* 0x23A */ u8 unk_23B;
     /* 0x23C */ u8 unk_23C;
     /* 0x23D */ u8 unk_23D;
-    /* 0x23E */ s8 unk_23E;
+    /* 0x23E */ u8 unk_23E;
     /* 0x23F */ u8 unk_23F;
     /* 0x240 */ u8 unk_240;
     /* 0x241 */ u8 unk_241;
