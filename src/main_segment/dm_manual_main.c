@@ -10,7 +10,7 @@
 #include "main_segment_variables.h"
 #include "boot_functions.h"
 #include "boot_variables.h"
-#include "audio/audio_stuff.h"
+#include "audio/sound.h"
 #include "graphic.h"
 #include "msgwnd.h"
 #include "joy.h"

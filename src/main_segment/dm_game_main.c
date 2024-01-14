@@ -14,7 +14,7 @@
 #include "gcc/memory.h"
 #include "rom_offsets.h"
 #include "buffers.h"
-#include "audio/audio_stuff.h"
+#include "audio/sound.h"
 #include "graphic.h"
 #include "aiset.h"
 #include "replay.h"

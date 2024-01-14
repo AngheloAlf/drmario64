@@ -11,7 +11,7 @@
 #include "boot_variables.h"
 #include "main_segment_variables.h"
 #include "rom_offsets.h"
-#include "audio/audio_stuff.h"
+#include "audio/sound.h"
 #include "buffers.h"
 #include "graphic.h"
 #include "joy.h"

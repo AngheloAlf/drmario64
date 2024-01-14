@@ -373,10 +373,10 @@ segments:
       - [0x012830, c, main_segment/nnsched]
       - [0x013AD0, c, main_segment/joy]
 
-      - [0x0140A0, c, main_segment/sound]
+      - [0x0140A0, c, main_segment/audio/sound]
       - [0x014CB0, c, main_segment/graphic]
       - [0x0156C0, c, main_segment/graphics/static]
-      - [0x016A80, c, main_segment/audio/003520]
+      - [0x016A80, c, main_segment/audio/music_driver]
 
       - [0x017640, c, main_segment/main1x]
 
@@ -443,7 +443,7 @@ segments:
       - [0x07ABD0, .data, main_segment/nnsched]
       - [0x07AC50, .data, main_segment/graphic]
       - [0x07AC90, data, main_segment/07AC90]
-      - [0x07AF30, .data, main_segment/audio/003520]
+      - [0x07AF30, .data, main_segment/audio/music_driver]
       - [0x07AF40, data, main_segment/07AF40]
       - [0x07AFC0, .data, main_segment/vr_init]
       - [0x07AFD0, data, main_segment/07AFD0]
@@ -504,7 +504,7 @@ segments:
 
       - [0x0AB7F0, .rodata, main_segment/main]
 
-      - [0x0AB820, .rodata, main_segment/sound]
+      - [0x0AB820, .rodata, main_segment/audio/sound]
       - [0x0ABB00, .rodata, main_segment/graphic]
       - [0x0ABB20, .rodata, main_segment/main1x]
       - [0x0ABCB0, .rodata, main_segment/aiset]

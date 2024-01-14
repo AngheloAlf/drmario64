@@ -1,4 +1,10 @@
-#include "audio/audio_stuff.h"
+/**
+ * Original name unknown
+ *
+ * Seems to be a modified version of the nnsched/test_music.c file from the libmus demos.
+ */
+
+#include "audio/music_driver.h"
 
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -8,6 +14,10 @@
 #include "boot_functions.h"
 #include "PR/sched.h"
 #include "nnsched.h"
+
+void func_8002D984(void);
+void func_8002D9E4(void);
+void func_8002DA48(musTask *musicTask);
 
 #if VERSION_US || VERSION_CN
 musSched D_800883F0 = {

@@ -7,8 +7,10 @@
 #include "color.h"
 #include "msgwnd.h"
 #include "char_anime.h"
-#include "audio/audio_stuff.h"
+#include "audio/sound.h"
 #include "nnsched.h"
+#include "main.h"
+#include "recwritingmsg.h"
 #include "unk.h"
 
 struct MenuItem;
@@ -695,7 +697,7 @@ typedef struct struct_watchMenu {
     /* 0x111EC 0x111F0 */ UNK_TYPE unk_111EC;
     /* 0x111F0 0x111F4 */ UNK_TYPE unk_111F0;
     /* 0x111F4 0x111F8 */ UNK_TYPE unk_111F4; // thread priority?
-    /* 0x111F8 0x111FC  */ RecordWritingMessage recMessage;
+    /* 0x111F8 0x111FC */ RecordWritingMessage recMessage;
 } struct_watchMenu; // size_us = 0x11280; size_cn = 0x11288
 
 

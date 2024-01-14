@@ -1,43 +1,14 @@
-#ifndef AUDIO_STUFF_H
-#define AUDIO_STUFF_H
+#ifndef AUDIO_SOUND_H
+#define AUDIO_SOUND_H
 
 #include "libultra.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
 #include "PR/libmus.h"
 #include "PR/sched.h"
-#include "unknown_structs.h"
-#include "nnsched.h"
 #include "unk.h"
 
 struct NNSched;
-
-typedef struct Audio_struct_800FAF98_unk_14 {
-    /* 0x0 */ void *unk_0;
-    /* 0x4 */ UNK_TYPE4 unk_4;
-    /* 0x8 */ musHandle unk_8;
-} Audio_struct_800FAF98_unk_14; // size = 0xC
-
-typedef struct Audio_struct_800FAF98 {
-    /* 0x00 */ struct NNSched *sched;
-    /* 0x04 */ void *unk_04;
-    /* 0x08 */ size_t unk_08;
-    /* 0x0C */ void *unk_0C; // vram
-    /* 0x10 */ size_t unk_10;
-    /* 0x14 */ Audio_struct_800FAF98_unk_14* unk_14;
-    /* 0x18 */ UNK_TYPE unk_18;
-    /* 0x1C */ void *unk_1C;
-    /* 0x20 */ size_t unk_20;
-    /* 0x24 */ musHandle *unk_24;
-    /* 0x28 */ s32 unk_28; // len of unk_24
-    /* 0x2C */ OSMesgQueue unk_2C;
-    /* 0x44 */ OSMesg unk_44[8];
-    /* 0x64 */ NNScClient unk_64;
-    /* 0x6C */ OSMesgQueue unk_6C;
-    /* 0x84 */ OSMesg unk_84[4];
-    /* 0x94 */ OSMesgQueue unk_94;
-    /* 0xAC */ OSMesg unk_AC[4];
-} Audio_struct_800FAF98; // size >= 0xBC
 
 
 typedef enum SndIndex {
@@ -212,7 +183,7 @@ void func_8002AC64(struct_800FACE0_unk_08 *arg0);
 #if VERSION_US || VERSION_GW || CC_CHECK
 void dm_audio_set_stereo(bool setStereo);
 #endif
-void dm_audio_init_driver(NNSched *sc);
+void dm_audio_init_driver(struct NNSched *sc);
 void dm_audio_update(void);
 void dm_audio_stop(void);
 bool dm_audio_is_stopped(void);
@@ -233,38 +204,6 @@ void dm_snd_play_in_game(SndIndex sndIndex);
 s32 func_8002B370(void);
 void dm_snd_play_strange_sound(void);
 
-size_t func_8002D170(NNSched *sc, void *heap, size_t heap_length, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5,
-                     size_t arg6, UNK_TYPE arg7, OSPri thread_priority);
-bool func_8002D3B0(RomOffset segmentRom, size_t segmentSize, void *wbank);
-bool func_8002D428(s32 index, RomOffset segmentRom, size_t segmentSize);
-void func_8002D4A4(s32 index);
-musHandle func_8002D4F8(s32 index);
-s32 func_8002D51C(s32 index);
-s32 func_8002D554(s32 index, s32 speed);
-s32 func_8002D58C(s32 index, s32 volume);
-s32 func_8002D5C4(s32 index, s32 pan);
-s32 func_8002D5FC(s32 index, s32 tempo);
-s32 func_8002D634(s32 index);
-s32 func_8002D66C(s32 index);
-bool func_8002D6A4(RomOffset segmentRom, size_t segmentSize);
-void *func_8002D710(void);
-void func_8002D720(s32 index, s32 number);
-void func_8002D768(s32 index, s32 number, s32 volume, s32 pan, s32 restartflag, s32 priority);
-s32 func_8002D7C4(s32 index);
-s32 func_8002D7E0(s32 index);
-s32 func_8002D810(s32 index, s32 speed);
-s32 func_8002D840(s32 index, s32 volume);
-s32 func_8002D870(s32 index, s32 pan);
-s32 func_8002D8A0(s32 index, f32 offset);
-void func_8002D8D0(RomOffset segmentRom, void *segmentVram, size_t segmentSize);
-void func_8002D984(void);
-void func_8002D9E4(void);
-void func_8002DA48(musTask *musicTask);
-
-// data
-
-extern musSched D_800883F0;
-
 
 // rodata
 
@@ -277,8 +216,6 @@ extern const u8 _charSE_tbl[];
  * Original name: sound_song_seqNo
  */
 extern struct_800FACE0 sound_song_id;
-
-extern Audio_struct_800FAF98 *gAudio_800FAF98;
 
 
 #define SND_PLAY_INDEX(index) \

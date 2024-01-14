@@ -11,7 +11,7 @@
 #include "boot_variables.h"
 #include "include_asm.h"
 #include "main_segment_variables.h"
-#include "audio/audio_stuff.h"
+#include "audio/sound.h"
 #include "buffers.h"
 #include "gs2dex.h"
 #include "dm_thread.h"

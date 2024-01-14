@@ -12,7 +12,7 @@
 #include "boot_variables.h"
 #include "util.h"
 #include "rom_offsets.h"
-#include "audio/audio_stuff.h"
+#include "audio/sound.h"
 #include "buffers.h"
 #include "libc/assert.h"
 #include "libc/ctype.h"

@@ -11,7 +11,7 @@
 #include "main_segment_variables.h"
 #include "util.h"
 #include "rom_offsets.h"
-#include "audio/audio_stuff.h"
+#include "audio/sound.h"
 #include "buffers.h"
 #include "tex_func.h"
 #include "graphic.h"

@@ -9,7 +9,7 @@
 #include "boot_functions.h"
 #include "boot_variables.h"
 #include "main_segment_variables.h"
-#include "audio/audio_stuff.h"
+#include "audio/sound.h"
 #include "recwritingmsg.h"
 #include "main_menu.h"
 #include "main1x.h"

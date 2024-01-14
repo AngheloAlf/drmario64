@@ -2,8 +2,10 @@
  * Original filename: sound.c
  */
 
-#include "audio/audio_stuff.h"
+#include "audio/sound.h"
 
+#include "audio/music_driver.h"
+#include "nnsched.h"
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
