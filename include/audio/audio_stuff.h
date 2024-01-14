@@ -10,7 +10,7 @@
 #include "nnsched.h"
 #include "unk.h"
 
-struct struct_800EB670;
+struct NNSched;
 
 typedef struct Audio_struct_800FAF98_unk_14 {
     /* 0x0 */ void *unk_0;
@@ -19,7 +19,7 @@ typedef struct Audio_struct_800FAF98_unk_14 {
 } Audio_struct_800FAF98_unk_14; // size = 0xC
 
 typedef struct Audio_struct_800FAF98 {
-    /* 0x00 */ struct struct_800EB670 *sched;
+    /* 0x00 */ struct NNSched *sched;
     /* 0x04 */ void *unk_04;
     /* 0x08 */ size_t unk_08;
     /* 0x0C */ void *unk_0C; // vram
@@ -32,7 +32,7 @@ typedef struct Audio_struct_800FAF98 {
     /* 0x28 */ s32 unk_28; // len of unk_24
     /* 0x2C */ OSMesgQueue unk_2C;
     /* 0x44 */ OSMesg unk_44[8];
-    /* 0x64 */ struct_800FAF98_unk_64 unk_64;
+    /* 0x64 */ NNScClient unk_64;
     /* 0x6C */ OSMesgQueue unk_6C;
     /* 0x84 */ OSMesg unk_84[4];
     /* 0x94 */ OSMesgQueue unk_94;
@@ -212,7 +212,7 @@ void func_8002AC64(struct_800FACE0_unk_08 *arg0);
 #if VERSION_US || VERSION_GW || CC_CHECK
 void dm_audio_set_stereo(bool setStereo);
 #endif
-void dm_audio_init_driver(struct_800EB670* arg0);
+void dm_audio_init_driver(NNSched *sc);
 void dm_audio_update(void);
 void dm_audio_stop(void);
 bool dm_audio_is_stopped(void);
@@ -233,7 +233,8 @@ void dm_snd_play_in_game(SndIndex sndIndex);
 s32 func_8002B370(void);
 void dm_snd_play_strange_sound(void);
 
-size_t func_8002D170(struct_800EB670 *sched, void *heap, size_t heap_length, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority);
+size_t func_8002D170(NNSched *sc, void *heap, size_t heap_length, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5,
+                     size_t arg6, UNK_TYPE arg7, OSPri thread_priority);
 bool func_8002D3B0(RomOffset segmentRom, size_t segmentSize, void *wbank);
 bool func_8002D428(s32 index, RomOffset segmentRom, size_t segmentSize);
 void func_8002D4A4(s32 index);

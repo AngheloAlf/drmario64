@@ -4,12 +4,12 @@
 #include "libultra.h"
 #include "main.h"
 
-struct struct_800EB670;
+struct NNSched;
 
 void func_80075F30(void);
-enum_main_no dm_title_main(struct struct_800EB670 *arg0);
+enum_main_no dm_title_main(struct NNSched *sc);
 void dm_title_graphic(void);
-enum_main_no main_boot_error(struct struct_800EB670 *arg0);
+enum_main_no main_boot_error(struct NNSched *sc);
 void graphic_boot_error(void);
 
 #endif

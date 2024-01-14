@@ -16,9 +16,9 @@ typedef enum ThreadPriority {
     /*   2 */ THREAD_PRI_6,
     /*  10 */ THREAD_PRI_MAIN = 10,
     /*  15 */ THREAD_PRI_GRAPHIC = 15,
-    /* 100 */ THREAD_PRI_17 = 100,
-    /* 110 */ THREAD_PRI_18 = 110,
-    /* 120 */ THREAD_PRI_19 = 120,
+    /* 100 */ THREAD_PRI_NN_SC_GRAPHICS = 100, /* Original name: NN_SC_GRAPHICS_PRI */
+    /* 110 */ THREAD_PRI_NN_SC_AUDIO = 110, /* Original name: NN_SC_AUDIO_PRI */
+    /* 120 */ THREAD_PRI_NN_SC_EVENT = 120, /* Original name: NN_SC_PRI */
 } ThreadPriority;
 
 

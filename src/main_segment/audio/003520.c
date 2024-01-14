@@ -18,8 +18,8 @@ musSched D_800883F0 = {
 #endif
 
 #if VERSION_US || VERSION_CN
-size_t func_8002D170(struct_800EB670 *sched, void *heap, size_t heap_length, size_t arg3, s32 arg4, s32 arg5,
-                     size_t arg6 UNUSED, s32 arg7, OSPri thread_priority) {
+size_t func_8002D170(NNSched *sc, void *heap, size_t heap_length, size_t arg3, s32 arg4, s32 arg5, size_t arg6 UNUSED,
+                     s32 arg7, OSPri thread_priority) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98 = ALIGN_PTR(heap);
     musConfig sp10;
     s32 i;
@@ -28,7 +28,7 @@ size_t func_8002D170(struct_800EB670 *sched, void *heap, size_t heap_length, siz
     temp_s0->unk_08 = heap_length;
     heap = temp_s0 + 1;
 
-    temp_s0->sched = sched;
+    temp_s0->sched = sc;
 
     temp_s0->unk_0C = ALIGN_PTR(heap);
     temp_s0->unk_10 = arg3;
@@ -64,7 +64,7 @@ size_t func_8002D170(struct_800EB670 *sched, void *heap, size_t heap_length, siz
 
     sp10.control_flag = 0;
     sp10.channels = 24;
-    sp10.sched = sched;
+    sp10.sched = sc;
     sp10.thread_priority = thread_priority;
     sp10.heap = heap;
     sp10.heap_length = heap_length;
@@ -294,7 +294,7 @@ void func_8002D984(void) {
 
     osCreateMesgQueue(&temp_s0->unk_6C, temp_s0->unk_84, ARRAY_COUNT(temp_s0->unk_84));
     osCreateMesgQueue(&temp_s0->unk_94, temp_s0->unk_AC, ARRAY_COUNT(temp_s0->unk_AC));
-    func_8002A184(temp_s0->sched, &temp_s0->unk_64, &temp_s0->unk_6C);
+    nnScAddClient(temp_s0->sched, &temp_s0->unk_64, &temp_s0->unk_6C);
 }
 #endif
 
@@ -338,7 +338,7 @@ void func_8002DA48(musTask *musicTask) {
     scTask.list.t.yield_data_ptr = NULL;
     scTask.list.t.yield_data_size = 0;
 
-    osSendMesg(func_8002A0CC(temp_a1->sched), &scTask, OS_MESG_BLOCK);
+    osSendMesg(nnScGetAudioMQ(temp_a1->sched), &scTask, OS_MESG_BLOCK);
     osRecvMesg(&temp_a1->unk_94, NULL, OS_MESG_BLOCK);
 }
 #endif

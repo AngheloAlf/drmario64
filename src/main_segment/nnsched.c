@@ -1,8 +1,17 @@
+/**
+ * Original filename: nnsched.c
+ *
+ * A modified version of nnsched.c from the official SDK
+ */
+
 #include "nnsched.h"
 
 #include "macros_defines.h"
 #include "dm_thread.h"
 
+/**
+ * Original name: framecont
+ */
 u32 framecont = 0;
 
 u8 D_80088104 = 1;
@@ -23,60 +32,88 @@ u32 D_80092EB0_cn[] = {
 bool D_80092F10_cn = false;
 #endif
 
-void func_80029ED0(struct_800EB670 *arg0, u8 viModeIndex, u8 retraceCount) {
-    arg0->unk_66C = NULL;
-    arg0->unk_670 = NULL;
-    arg0->unk_674 = NULL;
-    arg0->unk_668 = NULL;
-    arg0->unk_678 = 1;
-    arg0->unk_000 = 1;
-    arg0->unk_002 = 3;
+/**
+ * Original name: nnScCreateScheduler
+ *
+ * Create scheduler
+ */
+void nnScCreateScheduler(NNSched *sc, u8 viModeIndex, u8 retraceCount) {
+    /* initialize variables */
+    sc->curGraphicsTask = NULL;
+    sc->curAudioTask = NULL;
+    sc->graphicsTaskSuspended = NULL;
+    sc->clientList = NULL;
+    sc->firstTime = true;
+    sc->retraceMsg = NN_SC_RETRACE_MSG;
+    sc->prenmiMsg = NN_SC_PRE_NMI_MSG;
 
-    osCreateMesgQueue(&arg0->unk_074, arg0->unk_08C, ARRAY_COUNT(arg0->unk_08C));
-    osCreateMesgQueue(&arg0->unk_0AC, arg0->unk_0C4, ARRAY_COUNT(arg0->unk_0C4));
-    osCreateMesgQueue(&arg0->unk_0E4, arg0->unk_0FC, ARRAY_COUNT(arg0->unk_0FC));
-    osCreateMesgQueue(&arg0->unk_03C, arg0->unk_054, ARRAY_COUNT(arg0->unk_054));
-    osCreateMesgQueue(&arg0->unk_004, arg0->unk_01C, ARRAY_COUNT(arg0->unk_01C));
-    osCreateMesgQueue(&arg0->unk_11C, arg0->unk_134, ARRAY_COUNT(arg0->unk_134));
+    /* create message queue */
+    osCreateMesgQueue(&sc->retraceMQ, sc->retraceMsgBuf, ARRAY_COUNT(sc->retraceMsgBuf));
+    osCreateMesgQueue(&sc->rspMQ, sc->rspMsgBuf, ARRAY_COUNT(sc->rspMsgBuf));
+    osCreateMesgQueue(&sc->rdpMQ, sc->rdpMsgBuf, ARRAY_COUNT(sc->rdpMsgBuf));
+    osCreateMesgQueue(&sc->graphicsRequestMQ, sc->graphicsRequestBuf, ARRAY_COUNT(sc->graphicsRequestBuf));
+    osCreateMesgQueue(&sc->audioRequestMQ, sc->audioRequestBuf, ARRAY_COUNT(sc->audioRequestBuf));
+    osCreateMesgQueue(&sc->waitMQ, sc->waitMsgBuf, ARRAY_COUNT(sc->waitMsgBuf));
 
+    /* video mode settings  */
     osCreateViManager(OS_PRIORITY_VIMGR);
     osViSetMode(&osViModeTable[viModeIndex]);
     osViBlack(true);
 
-    osViSetEvent(&arg0->unk_074, (OSMesg)0x29A, retraceCount);
+    /* register event handler */
+    osViSetEvent(&sc->retraceMQ, (OSMesg)VIDEO_MSG, retraceCount);
+    osSetEventMesg(OS_EVENT_SP, &sc->rspMQ, (OSMesg)RSP_DONE_MSG);
+    osSetEventMesg(OS_EVENT_DP, &sc->rdpMQ, (OSMesg)RDP_DONE_MSG);
+    osSetEventMesg(OS_EVENT_PRENMI, &sc->retraceMQ, (OSMesg)PRE_NMI_MSG);
 
-    osSetEventMesg(OS_EVENT_SP, &arg0->unk_0AC, (OSMesg)0x29B);
-    osSetEventMesg(OS_EVENT_DP, &arg0->unk_0E4, (OSMesg)0x29C);
-    osSetEventMesg(OS_EVENT_PRENMI, &arg0->unk_074, (OSMesg)0x29D);
-
-    osCreateThread(&arg0->unk_158, THREAD_ID_19, func_8002A0DC, arg0, STACK_TOP(B_800EFCE0), THREAD_PRI_19);
-    osStartThread(&arg0->unk_158);
+    /* start scheduler thread */
+    osCreateThread(&sc->schedulerThread, THREAD_ID_19, nnScEventHandler, sc, STACK_TOP(nnScStack),
+                   THREAD_PRI_NN_SC_EVENT);
+    osStartThread(&sc->schedulerThread);
 
 #if VERSION_CN || VERSION_GW
     func_8002B8B4_cn();
 #endif
 
-    osCreateThread(&arg0->unk_308, THREAD_ID_18, func_8002A2B8, arg0, STACK_TOP(B_800F8CE0), THREAD_PRI_18);
-    osStartThread(&arg0->unk_308);
-    osCreateThread(&arg0->unk_4B8, THREAD_ID_17, func_8002A4D8, arg0, STACK_TOP(B_800ED440), THREAD_PRI_17);
-    osStartThread(&arg0->unk_4B8);
+    osCreateThread(&sc->audioThread, THREAD_ID_18, nnScExecuteAudio, sc, STACK_TOP(nnScAudioStack),
+                   THREAD_PRI_NN_SC_AUDIO);
+    osStartThread(&sc->audioThread);
+
+    osCreateThread(&sc->graphicsThread, THREAD_ID_17, nnScExecuteGraphics, sc, STACK_TOP(nnScGraphicsStack),
+                   THREAD_PRI_NN_SC_GRAPHICS);
+    osStartThread(&sc->graphicsThread);
 }
 
-OSMesgQueue *func_8002A0CC(struct_800EB670 *arg0) {
-    return &arg0->unk_004;
+/**
+ * Original name: nnScGetAudioMQ
+ *
+ * Get audio message queue
+ */
+OSMesgQueue *nnScGetAudioMQ(NNSched *sc) {
+    return &sc->audioRequestMQ;
 }
 
-OSMesgQueue *func_8002A0D4(struct_800EB670 *arg0) {
-    return &arg0->unk_03C;
+/**
+ * Original name: nnScGetGfxMQ
+ *
+ * Get grahics message queue
+ */
+OSMesgQueue *nnScGetGfxMQ(NNSched *sc) {
+    return &sc->graphicsRequestMQ;
 }
 
-void func_8002A0DC(void *arg) {
+/**
+ * Original name: nnScEventHandler
+ *
+ * Process system event
+ */
+void nnScEventHandler(void *arg) {
     u32 msg = 0;
 
     while (true) {
-        struct_800EB670 *ptr = arg;
+        NNSched *ptr = arg;
 
-        osRecvMesg(&ptr->unk_074, (OSMesg)&msg, OS_MESG_BLOCK);
+        osRecvMesg(&ptr->retraceMQ, (OSMesg)&msg, OS_MESG_BLOCK);
 
 #if VERSION_US
         framecont++;
@@ -87,8 +124,9 @@ void func_8002A0DC(void *arg) {
 #endif
 
         switch (msg) {
-            case 0x29A:
-                func_8002A26C(ptr, &ptr->unk_000);
+            case VIDEO_MSG:
+                /* process retrace signal */
+                nnScEventBroadcast(ptr, &ptr->retraceMsg);
                 osSetTime(0);
 
 #if VERSION_CN || VERSION_GW
@@ -106,8 +144,9 @@ void func_8002A0DC(void *arg) {
 #endif
                 break;
 
-            case 0x29D:
-                func_8002A26C(arg, &ptr->unk_002);
+            case PRE_NMI_MSG:
+                /* process NMI signal */
+                nnScEventBroadcast(arg, &ptr->prenmiMsg);
                 break;
 
             default:
@@ -116,67 +155,92 @@ void func_8002A0DC(void *arg) {
     }
 }
 
-void func_8002A184(struct_800EB670 *arg0, struct_800FAF98_unk_64 *arg1, OSMesgQueue *arg2) {
+/**
+ * Original name: nnScAddClient
+ *
+ * Register client
+ */
+void nnScAddClient(NNSched *sc, NNScClient *c, OSMesgQueue *msgQ) {
     OSIntMask intMask = osSetIntMask(OS_IM_NONE);
 
-    arg1->unk_4 = arg2;
-    arg1->unk_0 = arg0->unk_668;
-    arg0->unk_668 = arg1;
+    c->msgQ = msgQ;
+    c->next = sc->clientList;
+    sc->clientList = c;
     osSetIntMask(intMask);
 }
 
-void func_8002A1DC(struct_800EB670 *arg0, struct_800FAF98_unk_64 *arg1) {
-    struct_800FAF98_unk_64 *iter = arg0->unk_668;
-    struct_800FAF98_unk_64 *prev = NULL;
+/**
+ * Original name: nnScRemoveClient
+ *
+ * Remove client
+ */
+void nnScRemoveClient(NNSched *sc, NNScClient *c) {
+    NNScClient *iter = sc->clientList;
+    NNScClient *prev = NULL;
     OSIntMask intMask = osSetIntMask(OS_IM_NONE);
 
     while (iter != NULL) {
-        if (iter == arg1) {
+        if (iter == c) {
             if (prev != NULL) {
-                prev->unk_0 = iter->unk_0;
+                prev->next = iter->next;
             } else {
-                arg0->unk_668 = iter->unk_0;
+                sc->clientList = iter->next;
             }
             break;
         }
         prev = iter;
-        iter = iter->unk_0;
+        iter = iter->next;
     }
 
     osSetIntMask(intMask);
 }
 
-void func_8002A26C(struct_800EB670 *arg0, OSMesg msg) {
-    struct_800FAF98_unk_64 *var_s0 = arg0->unk_668;
+/**
+ * Original name: nnScEventBroadcast
+ *
+ * Transmit message to client
+ */
+void nnScEventBroadcast(NNSched *sc, NNScMsg *msg) {
+    NNScClient *client = sc->clientList;
 
-    while (var_s0 != NULL) {
-        osSendMesg(var_s0->unk_4, msg, OS_MESG_NOBLOCK);
-        var_s0 = var_s0->unk_0;
+    /* inform necessary clients of retrace message */
+    while (client != NULL) {
+        osSendMesg(client->msgQ, msg, OS_MESG_NOBLOCK);
+        client = client->next;
     }
 }
 
-void func_8002A2B8(void *arg) {
-    OSMesg sp14 = NULL;
-    OSScTask *sp10 = NULL;
-    struct_800EB670 *ptr = arg;
+/**
+ * Original name: nnScExecuteAudio
+ *
+ * Execute audio task
+ */
+void nnScExecuteAudio(void *arg) {
+    OSMesg msg = NULL;
+    OSScTask *task = NULL;
+    NNSched *sc = arg;
 
     while (true) {
-        OSScTask *temp_s2;
-        s32 var_s0;
+        OSScTask *gfxTask;
+        s32 yieldFlag;
 #if VERSION_CN || VERSION_GW
         s32 var_s7;
 #endif
 
-        osRecvMesg(&ptr->unk_004, (OSMesg *)&sp10, OS_MESG_BLOCK);
+        /* wait for audio execution request */
+        osRecvMesg(&sc->audioRequestMQ, (OSMesg *)&task, OS_MESG_BLOCK);
         osWritebackDCacheAll();
-        temp_s2 = ptr->unk_66C;
 
-        var_s0 = 0;
-        if (temp_s2 != NULL) {
+        /* Inspect current RSP stack */
+        gfxTask = sc->curGraphicsTask;
+        yieldFlag = 0;
+        if (gfxTask != NULL) {
+            /* wait for graphic task to end (yield) */
             osSpTaskYield();
-            osRecvMesg(&ptr->unk_0AC, &sp14, OS_MESG_BLOCK);
+            osRecvMesg(&sc->rspMQ, &msg, OS_MESG_BLOCK);
 
-            var_s0 = (osSpTaskYielded(&temp_s2->list) != 0) ? 1 : 2;
+            /* verify that task has actually yielded */
+            yieldFlag = (osSpTaskYielded(&gfxTask->list) != 0) ? 1 : 2;
         }
 
 #if VERSION_CN || VERSION_GW
@@ -188,11 +252,13 @@ void func_8002A2B8(void *arg) {
         }
 #endif
 
-        ptr->unk_670 = sp10;
-        osSpTaskLoad(&sp10->list);
-        osSpTaskStartGo(&sp10->list);
-        osRecvMesg(&ptr->unk_0AC, &sp14, OS_MESG_BLOCK);
-        ptr->unk_670 = NULL;
+        sc->curAudioTask = task;
+        /* execute task */
+        osSpTaskStart(&task->list);
+
+        /* wait for end of RSP task */
+        osRecvMesg(&sc->rspMQ, &msg, OS_MESG_BLOCK);
+        sc->curAudioTask = NULL;
 
 #if VERSION_CN || VERSION_GW
         func_8002BD04_cn();
@@ -202,32 +268,35 @@ void func_8002A2B8(void *arg) {
         }
 #endif
 
-        if (ptr->unk_674 != NULL) {
-            osSendMesg(&ptr->unk_11C, &sp14, OS_MESG_BLOCK);
+        if (sc->graphicsTaskSuspended != NULL) {
+            osSendMesg(&sc->waitMQ, &msg, OS_MESG_BLOCK);
         }
 
-        if (var_s0 == 1) {
-            osSpTaskLoad(&temp_s2->list);
-            osSpTaskStartGo(&temp_s2->list);
-        } else if (var_s0 == 2) {
-            osSendMesg(&ptr->unk_0AC, &sp14, OS_MESG_BLOCK);
+        /* restart graphic task that yielded */
+        if (yieldFlag == 1) {
+            osSpTaskStart(&gfxTask->list);
+        } else if (yieldFlag == 2) {
+            osSendMesg(&sc->rspMQ, &msg, OS_MESG_BLOCK);
         }
 
-        osSendMesg(sp10->msgQ, sp10->msg, OS_MESG_BLOCK);
+        /* inform thread started by audio task that task has ended */
+        osSendMesg(task->msgQ, task->msg, OS_MESG_BLOCK);
     }
 }
 
-void func_8002A3F4(struct_800EB670 *arg0, OSScTask *arg1) {
-    OSMesg sp10 = NULL;
+void func_8002A3F4(NNSched *sc, OSScTask *task) {
+    OSMesg msg = NULL;
 #if VERSION_CN || VERSION_GW
     s32 var_s5;
 #endif
 
-    func_8002A51C(arg0, arg1);
-    if (arg0->unk_670 != NULL) {
-        arg0->unk_674 = arg1;
-        osRecvMesg(&arg0->unk_11C, &sp10, OS_MESG_BLOCK);
-        arg0->unk_674 = 0;
+    /* wait for frame buffer to become available for use */
+    nnScWaitTaskReady(sc, task);
+
+    if (sc->curAudioTask != NULL) {
+        sc->graphicsTaskSuspended = task;
+        osRecvMesg(&sc->waitMQ, &msg, OS_MESG_BLOCK);
+        sc->graphicsTaskSuspended = NULL;
     }
 
 #if VERSION_CN || VERSION_GW
@@ -238,11 +307,13 @@ void func_8002A3F4(struct_800EB670 *arg0, OSScTask *arg1) {
     }
 #endif
 
-    arg0->unk_66C = arg1;
-    osSpTaskLoad(&arg1->list);
-    osSpTaskStartGo(&arg1->list);
-    osRecvMesg(&arg0->unk_0AC, &sp10, OS_MESG_BLOCK);
-    arg0->unk_66C = NULL;
+    sc->curGraphicsTask = task;
+    /* execute task */
+    osSpTaskStart(&task->list);
+
+    /* wait for end of RSP task */
+    osRecvMesg(&sc->rspMQ, &msg, OS_MESG_BLOCK);
+    sc->curGraphicsTask = NULL;
 
 #if VERSION_CN || VERSION_GW
     func_8002BC30_cn(6);
@@ -252,7 +323,8 @@ void func_8002A3F4(struct_800EB670 *arg0, OSScTask *arg1) {
     }
 #endif
 
-    osRecvMesg(&arg0->unk_0E4, &sp10, OS_MESG_BLOCK);
+    /* wait for end of  RDP task */
+    osRecvMesg(&sc->rdpMQ, &msg, OS_MESG_BLOCK);
 
 #if VERSION_CN || VERSION_GW
     func_8002BD04_cn();
@@ -264,13 +336,15 @@ void func_8002A3F4(struct_800EB670 *arg0, OSScTask *arg1) {
     }
 #endif
 
-    if (arg0->unk_678 != 0) {
+    /* invalidate video blackout first time only */
+    if (sc->firstTime) {
         osViBlack(false);
-        arg0->unk_678 = 0;
+        sc->firstTime = false;
     }
 
-    if (arg1->flags & OS_SC_SWAPBUFFER) {
-        osViSwapBuffer(arg1->framebuffer);
+    /* specify next frame buffer to display */
+    if (task->flags & OS_SC_SWAPBUFFER) {
+        osViSwapBuffer(task->framebuffer);
         D_80088104 = 1;
 
 #if VERSION_CN || VERSION_GW
@@ -278,30 +352,44 @@ void func_8002A3F4(struct_800EB670 *arg0, OSScTask *arg1) {
 #endif
     }
 
-    osSendMesg(arg1->msgQ, arg1->msg, OS_MESG_BLOCK);
+    /* inform thread started by graphic task that task has ended */
+    osSendMesg(task->msgQ, task->msg, OS_MESG_BLOCK);
 }
 
-void func_8002A4D8(void *arg) {
-    struct_800EB670 *ptr = arg;
+/**
+ * Original name: nnScExecuteGraphics
+ *
+ * Execute graphic task
+ */
+void nnScExecuteGraphics(void *arg) {
+    NNSched *sc = arg;
 
     while (true) {
         OSScTask *msg;
 
-        osRecvMesg(&ptr->unk_03C, (OSMesg *)&msg, OS_MESG_BLOCK);
-        func_8002A3F4(ptr, msg);
+        /* wait for graphic task execution request */
+        osRecvMesg(&sc->graphicsRequestMQ, (OSMesg *)&msg, OS_MESG_BLOCK);
+
+        func_8002A3F4(sc, msg);
     }
 }
 
-void func_8002A51C(struct_800EB670 *arg0, OSScTask *arg1) {
-    OSMesg sp18 = NULL;
-    void *framebuffer = arg1->framebuffer;
+/**
+ * Original name: nnScWaitTaskReady
+ *
+ * Wait for frame buffer to become available for use
+ */
+void nnScWaitTaskReady(NNSched *sc, OSScTask *task) {
+    OSMesg msg = NULL;
+    void *framebuffer = task->framebuffer;
 
+    /* wait for next retrace if frame buffer is not empty */
     while ((osViGetCurrentFramebuffer() == framebuffer) || (osViGetNextFramebuffer() == framebuffer)) {
-        struct_800FAF98_unk_64 sp10;
+        NNScClient client;
 
-        func_8002A184(arg0, &sp10, &arg0->unk_11C);
-        osRecvMesg(&arg0->unk_11C, &sp18, OS_MESG_BLOCK);
-        func_8002A1DC(arg0, &sp10);
+        nnScAddClient(sc, &client, &sc->waitMQ);
+        osRecvMesg(&sc->waitMQ, &msg, OS_MESG_BLOCK);
+        nnScRemoveClient(sc, &client);
     }
 }
 

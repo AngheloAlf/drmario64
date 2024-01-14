@@ -1614,15 +1614,15 @@ extern SeqIndex snd_tbl_838[];
 #endif
 
 #if VERSION_US || VERSION_CN
-void main_story(struct_800EB670 *arg0) {
-    OSMesgQueue sp28;
-    OSMesg sp40[8];
-    struct_800FAF98_unk_64 sp60;
+void main_story(NNSched *sc) {
+    OSMesgQueue scMQ;
+    OSMesg scMsgBuf[NN_SC_MAX_MESGS];
+    NNScClient scClient;
     s32 var_s1;
     s32 temp;
 
-    osCreateMesgQueue(&sp28, sp40, ARRAY_COUNT(sp40));
-    func_8002A184(arg0, &sp60, &sp28);
+    osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
+    nnScAddClient(sc, &scClient, &scMQ);
 
     graphic_no = GRAPHIC_NO_0;
     story_z_buffer = gfx_freebuf;
@@ -1674,7 +1674,7 @@ void main_story(struct_800EB670 *arg0) {
     dm_seq_play(snd_tbl_838[story_proc_no]);
 
     while (loop_flg != 0) {
-        osRecvMesg(&sp28, NULL, 1);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
 
 #if VERSION_CN
         if (D_80092F10_cn) {
@@ -1702,15 +1702,15 @@ void main_story(struct_800EB670 *arg0) {
     graphic_no = GRAPHIC_NO_0;
 
     while ((pendingGFX != 0) || !dm_audio_is_stopped()) {
-        osRecvMesg(&sp28, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
     for (var_s1 = 0; var_s1 < 3; var_s1++) {
-        osRecvMesg(&sp28, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
     }
 
-    func_8002A1DC(arg0, &sp60);
+    nnScRemoveClient(sc, &scClient);
     evs_story_no = story_proc_no;
     if (evs_story_no >= 0xC) {
         evs_story_no -= 0xC;

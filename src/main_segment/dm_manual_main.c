@@ -2511,18 +2511,18 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_all_ini
 /**
  * Original name: dm_manual_main
  */
-enum_main_no dm_manual_main(struct_800EB670 *arg0) {
-    OSMesgQueue sp10;
-    OSMesg sp28[8];
-    struct_800FAF98_unk_64 sp48;
+enum_main_no dm_manual_main(NNSched *sc) {
+    OSMesgQueue scMQ;
+    OSMesg scMsgBuf[NN_SC_MAX_MESGS];
+    NNScClient scClient;
     enum_main_no var_v0;
     s32 i;
     bool var_s3 = true;
     bool var_s4 = false;
     struct_watchManual *temp_s2;
 
-    osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
-    func_8002A184(arg0, &sp48, &sp10);
+    osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
+    nnScAddClient(sc, &scClient, &scMQ);
     dm_manual_all_init();
 
     temp_s2 = watchManual;
@@ -2532,7 +2532,9 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
 
     while (!var_s4) {
         joyProcCore();
-        osRecvMesg(&sp10, NULL, OS_MESG_BLOCK);
+
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
+
         func_80071FA0(&temp_s2->unk_034);
         dm_effect_make();
 
@@ -2593,11 +2595,11 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
     graphic_no = GRAPHIC_NO_0;
 
     while (!dm_audio_is_stopped() || (pendingGFX != 0)) {
-        osRecvMesg(&sp10, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
-    func_8002A1DC(arg0, &sp48);
+    nnScRemoveClient(sc, &scClient);
 
     var_v0 = MAIN_NO_3;
     if (main_old != MAIN_NO_3) {
@@ -2611,10 +2613,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
 #endif
 
 #if VERSION_CN
-enum_main_no dm_manual_main(struct_800EB670 *arg0) {
-    OSMesgQueue sp18;
-    OSMesg sp30[8];
-    struct_800FAF98_unk_64 sp50;
+enum_main_no dm_manual_main(NNSched *sc) {
+    OSMesgQueue scMQ;
+    OSMesg scMsgBuf[NN_SC_MAX_MESGS];
+    NNScClient scClient;
     s32 temp_v1_2;
     s32 var_a0;
     s32 i;
@@ -2625,8 +2627,9 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
     var_s3 = true;
     var_s4 = false;
 
-    osCreateMesgQueue(&sp18, sp30, ARRAY_COUNT(sp30));
-    func_8002A184(arg0, &sp50, &sp18);
+    osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
+    nnScAddClient(sc, &scClient, &scMQ);
+
     dm_manual_all_init();
 
     temp_s2 = watchManual;
@@ -2637,7 +2640,7 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
 
     while (!var_s4) {
         joyProcCore();
-        osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
 
         if (D_80092F10_cn) {
             graphic_no = GRAPHIC_NO_0;
@@ -2710,11 +2713,11 @@ enum_main_no dm_manual_main(struct_800EB670 *arg0) {
     graphic_no = GRAPHIC_NO_0;
 
     while (!dm_audio_is_stopped() || (pendingGFX != 0)) {
-        osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
-    func_8002A1DC(arg0, &sp50);
+    nnScRemoveClient(sc, &scClient);
 
     if (main_old != MAIN_NO_3) {
         return MAIN_NO_6;

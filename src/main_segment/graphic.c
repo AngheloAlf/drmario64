@@ -20,7 +20,7 @@
 #include "nnsched.h"
 #include "dm_title_main.h"
 
-extern struct_800FAF98_unk_64 B_800F48B0;
+extern NNScClient B_800F48B0;
 
 #if VERSION_US || VERSION_CN
 void *D_80088110[][2] = {
@@ -68,13 +68,13 @@ void gfxInit(void *arg0 UNUSED) {
  * Original name: gfxproc
  */
 void gfxproc(void *arg) {
-    struct_800EB670 *ptr = arg;
+    NNSched *sc = arg;
     s16 *sp10 = NULL;
 
     pendingGFX = 0;
     osCreateMesgQueue(&B_800F4898, B_800EBED0, ARRAY_COUNT(B_800EBED0));
-    func_8002A184(ptr, &B_800F48B0, &B_800F4898);
-    B_800FAF94 = func_8002A0D4(ptr);
+    nnScAddClient(sc, &B_800F48B0, &B_800F4898);
+    B_800FAF94 = nnScGetGfxMQ(sc);
 
     while (true) {
         osRecvMesg(&B_800F4898, (OSMesg *)&sp10, OS_MESG_BLOCK);

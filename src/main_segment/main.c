@@ -22,7 +22,7 @@
 #include "nnsched.h"
 #include "dm_title_main.h"
 
-extern struct_800EB670 B_800EB670;
+extern NNSched B_800EB670;
 
 /**
  * Original name: mainproc
@@ -32,22 +32,22 @@ void mainproc(void *arg UNUSED) {
 
     switch (osTvType) {
         case OS_TV_NTSC:
-            func_80029ED0(&B_800EB670, OS_VI_NTSC_LAN1, 1);
+            nnScCreateScheduler(&B_800EB670, OS_VI_NTSC_LAN1, 1);
             main_no = MAIN_NO_0;
             break;
 
         case OS_TV_MPAL:
-            func_80029ED0(&B_800EB670, OS_VI_MPAL_LAN1, 1);
+            nnScCreateScheduler(&B_800EB670, OS_VI_MPAL_LAN1, 1);
             main_no = MAIN_NO_0;
             break;
 
         case OS_TV_PAL:
-            func_80029ED0(&B_800EB670, OS_VI_PAL_LAN1, 1);
+            nnScCreateScheduler(&B_800EB670, OS_VI_PAL_LAN1, 1);
             main_no = MAIN_NO_9;
             break;
 
         default:
-            func_80029ED0(&B_800EB670, OS_VI_NTSC_LAN1, 1);
+            nnScCreateScheduler(&B_800EB670, OS_VI_NTSC_LAN1, 1);
             main_no = MAIN_NO_9;
             break;
     }

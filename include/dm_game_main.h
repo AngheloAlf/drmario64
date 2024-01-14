@@ -12,7 +12,7 @@
 
 struct struct_virus_map_data;
 struct struct_virus_map_disp_order;
-struct struct_800EB670;
+struct NNSched;
 
 typedef enum enum_evs_gamemode {
     /* 0 */ ENUM_EVS_GAMEMODE_0,
@@ -443,14 +443,14 @@ void dm_game_init_static(void);
 void dm_game_init_snap_bg(void);
 void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, UNK_TYPE arg3);
 void func_8006F628(Gfx **gfxP);
-enum_main_no dm_game_main(struct struct_800EB670 *arg0);
+enum_main_no dm_game_main(struct NNSched *sc);
 s32 dm_game_main2(void);
 enum_main_no dm_game_main3(UNK_TYPE arg0);
 void dm_game_graphic(void);
 void dm_game_graphic2(void);
 void dm_game_graphic_onDoneSawp(void);
 void func_80071A44(void);
-enum_main_no main_techmes(struct struct_800EB670 * arg0);
+enum_main_no main_techmes(struct NNSched *sc);
 void graphic_techmes(void);
 
 extern struct_gameGeom *gameGeom;

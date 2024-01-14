@@ -1,17 +1,17 @@
 // text
 
 mainproc = 0x80029C50; //
-func_80029ED0 = 0x80029ED0; //
-func_8002A0CC = 0x8002A0CC; //
-func_8002A0D4 = 0x8002A0D4; //
-func_8002A0DC = 0x8002A0DC; //
-func_8002A184 = 0x8002A184; //
-func_8002A1DC = 0x8002A1DC; //
-func_8002A26C = 0x8002A26C; //
-func_8002A2B8 = 0x8002A2B8; //
+nnScCreateScheduler = 0x80029ED0; //
+nnScGetAudioMQ = 0x8002A0CC; //
+nnScGetGfxMQ = 0x8002A0D4; //
+nnScEventHandler = 0x8002A0DC; //
+nnScAddClient = 0x8002A184; //
+nnScRemoveClient = 0x8002A1DC; //
+nnScEventBroadcast = 0x8002A26C; //
+nnScExecuteAudio = 0x8002A2B8; //
 func_8002A3F4 = 0x8002A3F4; //
-func_8002A4D8 = 0x8002A4D8; //
-func_8002A51C = 0x8002A51C; //
+nnScExecuteGraphics = 0x8002A4D8; //
+nnScWaitTaskReady = 0x8002A51C; //
 joyInit = 0x8002A5B0; //
 joyProcCore = 0x8002A700; //
 joyCursorFastSet = 0x8002A8F8; //
@@ -2560,7 +2560,7 @@ sGraphicThread = 0x800EBD20; // size:0x1B0
 B_800EBED0 = 0x800EBED0; //
 game_map_data = 0x800EBEF0; // size:0x1540
 B_800ED430 = 0x800ED430; //
-B_800ED440 = 0x800ED440; // size:0x2000
+nnScGraphicsStack = 0x800ED440; // size:0x2000
 gameBackup = 0x800EF440; // size:0x8
 CapsMagazine = 0x800EF448; // size:0x100
 attack_effect_idx = 0x800EF548; //
@@ -2574,7 +2574,7 @@ evs_mem_data = 0x800EF560; // size:0x750
 
 _menuMain_lastSelect = 0x800EFCB0; // size:0x20
 evs_gamesel = 0x800EFCD0; //
-B_800EFCE0 = 0x800EFCE0; //
+nnScStack = 0x800EFCE0; //
 B_800F0535 = 0x800F0535; // ignore:true
 evs_playmax = 0x800F1CE0; //
 aiFieldData = 0x800F1CE8; // size:0x110
@@ -2627,7 +2627,7 @@ B_800F7490 = 0x800F7490; // size:0xC00
 
 __libmus_alglobals = 0x800F8C90; // size:0x4C
 
-B_800F8CE0 = 0x800F8CE0; // size:0x2000
+nnScAudioStack = 0x800F8CE0; // size:0x2000
 
 sound_song_id = 0x800FACE0; //
 aiHiErR = 0x800FAD28; //

@@ -9119,10 +9119,10 @@ void func_8006F628(Gfx **gfxP) {
 #endif
 
 #if VERSION_US || VERSION_CN
-enum_main_no dm_game_main(struct_800EB670 *arg0) {
-    OSMesgQueue sp10;
-    OSMesg sp28[8];
-    struct_800FAF98_unk_64 sp48;
+enum_main_no dm_game_main(NNSched *sc) {
+    OSMesgQueue scMQ;
+    OSMesg scMsgBuf[NN_SC_MAX_MESGS];
+    NNScClient scClient;
     enum_main_no ret;
     bool var_s2 = true;
     s32 var_s4;
@@ -9130,8 +9130,8 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
 
     func_8006D0E8();
 
-    osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
-    func_8002A184(arg0, &sp48, &sp10);
+    osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
+    nnScAddClient(sc, &scClient, &scMQ);
     func_80040A64();
 
     dm_game_init_heap();
@@ -9147,7 +9147,7 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
     while (var_s2 || (watchGameP->unk_38C != 0x1E)) {
         s16 *sp50;
 
-        osRecvMesg(&sp10, (OSMesg *)&sp50, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, (OSMesg *)&sp50, OS_MESG_BLOCK);
 
 #if VERSION_CN
         if (D_80092F10_cn) {
@@ -9159,7 +9159,7 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
         }
 #endif
 
-        if (sp10.validCount != 0) {
+        if (!MQ_IS_EMPTY(&scMQ)) {
             D_80088105 = 1;
         }
 
@@ -9223,7 +9223,7 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
     watchGameP->unk_878 = 0xF;
 
     while (watchGameP->unk_878 != 0) {
-        osRecvMesg(&sp10, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
@@ -9232,17 +9232,17 @@ enum_main_no dm_game_main(struct_800EB670 *arg0) {
     dm_audio_stop();
 
     while (!dm_audio_is_stopped() || (pendingGFX != 0)) {
-        osRecvMesg(&sp10, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
     ret = dm_game_main3(var_s4);
     while (func_80040BA4() != 0) {
-        osRecvMesg(&sp10, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
     }
 
     func_80040AE4();
-    func_8002A1DC(arg0, &sp48);
+    nnScRemoveClient(sc, &scClient);
 
     return ret;
 }
@@ -10188,16 +10188,17 @@ void func_80071A44(void) {
  * Original name: main_techmes
  */
 #if VERSION_US || VERSION_CN
-enum_main_no main_techmes(struct_800EB670 *arg0) {
+enum_main_no main_techmes(NNSched *sc) {
     struct_watchGame *watchGameP;
     bool var_s3 = true;
-    OSMesgQueue sp20;
-    OSMesg sp38[8];
-    struct_800FAF98_unk_64 sp58;
+    OSMesgQueue scMQ;
+    OSMesg scMsgBuff[NN_SC_MAX_MESGS];
+    NNScClient scClient;
     u8 temp_s1;
 
-    osCreateMesgQueue(&sp20, sp38, ARRAY_COUNT(sp38));
-    func_8002A184(arg0, &sp58, &sp20);
+    osCreateMesgQueue(&scMQ, scMsgBuff, ARRAY_COUNT(scMsgBuff));
+    nnScAddClient(sc, &scClient, &scMQ);
+
     dm_game_init_heap();
     watchGameP = watchGame;
 
@@ -10217,7 +10218,7 @@ enum_main_no main_techmes(struct_800EB670 *arg0) {
     dm_seq_play_in_game(SEQ_INDEX_23);
 
     while (var_s3) {
-        osRecvMesg(&sp20, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         joyProcCore();
 
 #if VERSION_CN
@@ -10284,11 +10285,11 @@ enum_main_no main_techmes(struct_800EB670 *arg0) {
     dm_audio_stop();
 
     while (!dm_audio_is_stopped() || (pendingGFX != 0)) {
-        osRecvMesg(&sp20, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
-    func_8002A1DC(arg0, &sp58);
+    nnScRemoveClient(sc, &scClient);
     return MAIN_NO_3;
 }
 #endif

@@ -10989,7 +10989,7 @@ void _eepEraseData(struct_watchMenu *arg0) {
 
 #if VERSION_US || VERSION_CN
 void _waitRetrace(struct_watchMenu *watchMenuRef) {
-    osRecvMesg(&watchMenuRef->unk_0000C, NULL, OS_MESG_BLOCK);
+    osRecvMesg(&watchMenuRef->scMQ, NULL, OS_MESG_BLOCK);
 }
 #endif
 
@@ -11173,17 +11173,17 @@ void _setFadeDir(struct_watchMenu *watchMenuRef, s32 arg1) {
  * Original name: menuAll_init
  */
 #if VERSION_US || VERSION_CN
-void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) {
+void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, NNSched *sc) {
     UNK_PTR sp10 = *arg1;
     UNK_PTR temp_v0;
     s32 i;
     RomOffsetPair *pairArray = _romDataTbl;
 
-    arg0->unk_00000 = arg2;
+    arg0->sched = sc;
     arg0->unk_02460 = sp10;
 
-    osCreateMesgQueue(&arg0->unk_0000C, arg0->unk_00024, ARRAY_COUNT(arg0->unk_00024));
-    func_8002A184(arg2, &arg0->unk_00004, &arg0->unk_0000C);
+    osCreateMesgQueue(&arg0->scMQ, arg0->scMsgBuf, ARRAY_COUNT(arg0->scMsgBuf));
+    nnScAddClient(sc, &arg0->scClient, &arg0->scMQ);
 
     for (i = 0; i < ARRAY_COUNT(arg0->unk_00048); i++) {
         arg0->unk_02448[i] = &arg0->unk_00048[i][0];
@@ -11259,7 +11259,7 @@ void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, struct_800EB670 *arg2) 
 
 #if VERSION_US || VERSION_CN
 void func_8005A2AC(struct_watchMenu *arg0) {
-    func_8002A1DC(arg0->unk_00000, &arg0->unk_00004);
+    nnScRemoveClient(arg0->sched, &arg0->scClient);
     _menuAll_lastMode = arg0->unk_111CC;
 }
 #endif
@@ -11733,7 +11733,7 @@ void menuAll_draw(struct_watchMenu *arg0, Gfx **gfxP) {
 /**
  * Original name: main_menu
  */
-enum_main_no main_menu(struct_800EB670 *arg0) {
+enum_main_no main_menu(NNSched *sc) {
     UNK_PTR sp10 = Heap_bufferp;
     struct_watchMenu *ptr = ALIGN_PTR(Heap_bufferp);
     s32 i;
@@ -11749,7 +11749,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     sp10 = &ptr[1];
     bzero(ptr, sizeof(struct_watchMenu));
     watchMenu = ptr;
-    menuAll_init(ptr, &sp10, arg0);
+    menuAll_init(ptr, &sp10, sc);
 
     evs_playmax = joyResponseCheck();
 
@@ -11817,7 +11817,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     graphic_no = GRAPHIC_NO_5;
 
     while (ptr->unk_111F4 != 0xF) {
-        osRecvMesg(&ptr->unk_0000C, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&ptr->scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
@@ -11825,7 +11825,7 @@ enum_main_no main_menu(struct_800EB670 *arg0) {
     dm_seq_stop();
 
     while ((pendingGFX != 0) || !func_8002B178() || (func_80040BA4() != 0)) {
-        osRecvMesg(&ptr->unk_0000C, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&ptr->scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 

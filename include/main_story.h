@@ -6,7 +6,7 @@
 #include "libc/stdbool.h"
 #include "rom_offsets.h"
 
-struct struct_800EB670;
+struct NNSched;
 
 // Maybe same enum as `BgRomDataIndex`
 typedef enum enum_story_proc_no {
@@ -98,7 +98,7 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2);
 void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2);
 void story_w_end(Gfx **gfxP, s32 arg1);
 void func_8007A9DC(void);
-void main_story(struct struct_800EB670 *arg0);
+void main_story(struct NNSched *sc);
 void init_objMtx(void);
 void graphic_story(void);
 // void func_8007B62C();

@@ -45,26 +45,28 @@ const u8 _stageTbl[] = {
 /**
  * Original name: dm_title_main
  */
-enum_main_no dm_title_main(struct_800EB670 *arg0) {
-    OSMesgQueue sp10;
-    OSMesg sp28[8];
-    struct_800FAF98_unk_64 sp48;
+enum_main_no dm_title_main(NNSched *sc) {
+    OSMesgQueue scMQ;
+    OSMesg scMsgBuf[NN_SC_MAX_MESGS];
+    NNScClient scClient;
     s32 var_s1 = (main_old == MAIN_NO_6) ? 0x63 : 0;
     u32 var_s0 = 0;
 
-    osCreateMesgQueue(&sp10, sp28, ARRAY_COUNT(sp28));
-    func_8002A184(arg0, &sp48, &sp10);
+    osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
+    nnScAddClient(sc, &scClient, &scMQ);
+
     sgenrand(osGetCount());
     func_80075F30();
     evs_playmax = joyResponseCheck();
-    osRecvMesg(&sp10, NULL, 1);
+    osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
+
 #if VERSION_US
     graphic_no = GRAPHIC_NO_2;
 #endif
 
     do {
         joyProcCore();
-        osRecvMesg(&sp10, NULL, 1);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
 
 #if VERSION_CN
         if (D_80092F10_cn) {
@@ -112,7 +114,7 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
     dm_seq_stop();
 
     while (!dm_audio_is_stopped() || (title_fade_count < 0xFF)) {
-        osRecvMesg(&sp10, NULL, 1);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
 
         title_fade_count = CLAMP(title_fade_count + title_fade_step, 0, 0xFF);
@@ -120,11 +122,11 @@ enum_main_no dm_title_main(struct_800EB670 *arg0) {
 
     graphic_no = GRAPHIC_NO_0;
     while (pendingGFX != 0) {
-        osRecvMesg(&sp10, NULL, 1);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
-    func_8002A1DC(arg0, &sp48);
+    nnScRemoveClient(sc, &scClient);
 
     if (var_s0 == 1) {
         return MAIN_NO_6;
@@ -216,18 +218,19 @@ void dm_title_graphic(void) {
 /**
  * Original name: main_boot_error
  */
-enum_main_no main_boot_error(struct_800EB670 *arg0) {
-    OSMesgQueue sp18;
-    OSMesg sp30[8];
-    struct_800FAF98_unk_64 sp50;
-    UNK_PTR sp58;
+enum_main_no main_boot_error(NNSched *sc) {
+    OSMesgQueue scMQ;
+    OSMesg scMsgBuf[NN_SC_MAX_MESGS];
+    NNScClient scClient;
+    void *sp58;
     MessageWnd *messageWnd = ALIGN_PTR(Heap_bufferp);
     bool var_s1 = true;
 
-    sp58 = &messageWnd[1];
+    sp58 = messageWnd + 1;
     bzero(messageWnd, sizeof(MessageWnd));
-    osCreateMesgQueue(&sp18, sp30, ARRAY_COUNT(sp30));
-    func_8002A184(arg0, &sp50, &sp18);
+
+    osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
+    nnScAddClient(sc, &scClient, &scMQ);
 
     switch (main_no) {
         case MAIN_NO_8:
@@ -253,7 +256,7 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
 
     while (var_s1) {
         joyProcCore();
-        osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
 
 #if VERSION_CN
         if (D_80092F10_cn) {
@@ -275,13 +278,14 @@ enum_main_no main_boot_error(struct_800EB670 *arg0) {
 
     graphic_no = GRAPHIC_NO_0;
     while (pendingGFX != 0) {
-        osRecvMesg(&sp18, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
     }
 
-    func_8002A1DC(arg0, &sp50);
+    nnScRemoveClient(sc, &scClient);
     if (main_no == MAIN_NO_10) {
         EepRom_WriteAll(NULL, 0);
     }
+
     return MAIN_NO_3;
 }
 

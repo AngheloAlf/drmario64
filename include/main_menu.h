@@ -14,7 +14,6 @@
 struct MenuItem;
 struct struct_watchMenu;
 
-
 typedef enum MainMenuMode {
     /*  0 */ MAINMENUMODE_MENUMAIN_0,
     /*  1 */ MAINMENUMODE_1,
@@ -647,11 +646,11 @@ typedef struct struct_watchMenu_unk_02548 {
 // Left column: us
 // Right column: cn
 typedef struct struct_watchMenu {
-    /* 0x00000 */ struct_800EB670 *unk_00000;
-    /* 0x00004 */ struct_800FAF98_unk_64 unk_00004;
-    /* 0x0000C */ OSMesgQueue unk_0000C;
-    /* 0x00024 */ OSMesg unk_00024[8];
-    /* 0x00044 */ UNK_TYPE1 unk_00044[4];
+    /* 0x00000 */ NNSched *sched;
+    /* 0x00004 */ NNScClient scClient;
+    /* 0x0000C */ OSMesgQueue scMQ;
+    /* 0x00024 */ OSMesg scMsgBuf[NN_SC_MAX_MESGS];
+    /* 0x00044 */ UNK_TYPE1 unk_00044[4]; // unused/pad?
     /* 0x00048 */ Mtx unk_00048[3][0x10];
     /* 0x00C48 */ Vtx unk_00C48[3][0x80];
     /* 0x02448 */ Mtx *unk_02448[3];
@@ -968,7 +967,7 @@ void _setMode(struct_watchMenu *watchMenuRef, MainMenuMode arg1);
 void _setNextMain(struct_watchMenu *watchMenuRef, enum_main_no arg1);
 void _setTitle(struct_watchMenu *watchMenuRef, MainMenuMode arg1);
 void _setFadeDir(struct_watchMenu *watchMenuRef, s32 arg1);
-void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, struct_800EB670 *arg2);
+void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, NNSched *sc);
 void func_8005A2AC(struct_watchMenu *arg0);
 void func_8005A2EC(struct_watchMenu *arg0);
 void menuAll_changeMenu(struct_watchMenu *arg0);
@@ -977,7 +976,7 @@ void menuAll_input(struct_watchMenu *arg0);
 void menuAll_update(struct_watchMenu *arg0);
 void menuAll_drawBg(struct_watchMenu *arg0, Gfx **gfxP);
 void menuAll_draw(struct_watchMenu *arg0, Gfx **gfxP);
-enum_main_no main_menu(struct_800EB670 * arg0);
+enum_main_no main_menu(NNSched *sc);
 void graphic_menu(void);
 
 
