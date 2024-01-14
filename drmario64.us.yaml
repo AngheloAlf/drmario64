@@ -411,7 +411,7 @@ segments:
     bss_size: 0x70FD0
     subsegments:
       - [0x011A70, c, main_segment/main]
-      - [0x011CF0, c, main_segment/000280]
+      - [0x011CF0, c, main_segment/nnsched]
       - [0x0123D0, c, main_segment/joy]
 
       - [0x0128A0, c, main_segment/sound]
@@ -484,7 +484,7 @@ segments:
       - [0x06D3A0, textbin, rsp/f3dex2]
       - [0x06E730, textbin, rsp/s2dex]
 
-      - [0x06FF20, .data, main_segment/000280]
+      - [0x06FF20, .data, main_segment/nnsched]
       - [0x06FF30, .data, main_segment/graphic]
 
       - start: 0x06FF70

@@ -7,7 +7,7 @@
 #include "main_segment_variables.h"
 #include "boot_functions.h"
 #include "PR/sched.h"
-#include "000280.h"
+#include "nnsched.h"
 
 #if VERSION_US || VERSION_CN
 musSched D_800883F0 = {

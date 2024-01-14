@@ -10,7 +10,7 @@
 #include "boot_variables.h"
 #include "main_segment_variables.h"
 #include "gateway.h"
-#include "000280.h"
+#include "nnsched.h"
 
 /**
  * Original filename: joyInit

@@ -17,7 +17,7 @@
 #include "main_story.h"
 #include "dm_manual_main.h"
 #include "main_menu.h"
-#include "000280.h"
+#include "nnsched.h"
 #include "dm_title_main.h"
 
 extern struct_800FAF98_unk_64 B_800F48B0;

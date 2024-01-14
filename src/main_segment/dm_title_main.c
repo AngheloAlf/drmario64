@@ -21,7 +21,7 @@
 #include "main1x.h"
 #include "tex_func.h"
 #include "main_story.h"
-#include "000280.h"
+#include "nnsched.h"
 
 void func_80075F30(void) {
     title_exit_flag = 0;

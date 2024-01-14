@@ -22,7 +22,7 @@
 #include "028820.h"
 #include "tex_func.h"
 #include "main_story.h"
-#include "000280.h"
+#include "nnsched.h"
 #include "font.h"
 #include "dm_virus_init.h"
 

@@ -17,7 +17,7 @@
 #include "main1x.h"
 #include "tex_func.h"
 #include "main_story.h"
-#include "000280.h"
+#include "nnsched.h"
 #include "static.h"
 #include "dm_virus_init.h"
 

@@ -16,7 +16,7 @@
 #include "tex_func.h"
 #include "graphic.h"
 #include "main1x.h"
-#include "000280.h"
+#include "nnsched.h"
 #include "lws.h"
 #include "066840.h"
 

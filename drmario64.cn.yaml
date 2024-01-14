@@ -370,7 +370,7 @@ segments:
     bss_size: 0x716B0
     subsegments:
       - [0x0124F0, c, main_segment/main]
-      - [0x012830, c, main_segment/000280]
+      - [0x012830, c, main_segment/nnsched]
       - [0x013AD0, c, main_segment/joy]
 
       - [0x0140A0, c, main_segment/sound]
@@ -440,7 +440,7 @@ segments:
       - [0x078050, textbin, rsp/f3dex2]
       - [0x0793E0, textbin, rsp/s2dex]
 
-      - [0x07ABD0, .data, main_segment/000280]
+      - [0x07ABD0, .data, main_segment/nnsched]
       - [0x07AC50, .data, main_segment/graphic]
       - [0x07AC90, data, main_segment/07AC90]
       - [0x07AF30, .data, main_segment/audio/003520]

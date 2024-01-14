@@ -27,7 +27,7 @@
 #include "main_story.h"
 #include "debug_menu.h"
 #include "aiset.h"
-#include "000280.h"
+#include "nnsched.h"
 #include "static.h"
 #include "dm_virus_init.h"
 #include "calc.h"
