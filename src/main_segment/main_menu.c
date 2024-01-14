@@ -11781,7 +11781,7 @@ enum_main_no main_menu(NNSched *sc) {
         } else {
             joyProcCore();
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
             while (D_80092F10_cn) {
                 _waitRetrace(ptr);
                 joyProcCore();
@@ -11792,9 +11792,11 @@ enum_main_no main_menu(NNSched *sc) {
         }
 
         _waitRetrace(ptr);
-#if VERSION_CN
-        func_8002BC30_cn(1);
+
+#ifdef NN_SC_PERF
+        func_8002BC30_cn(ENUM_8002BA98_CN_ARG0_1);
 #endif
+
         menuAll_input(ptr);
         menuAll_update(ptr);
         dm_audio_update();
@@ -11809,7 +11811,7 @@ enum_main_no main_menu(NNSched *sc) {
             graphic_no = GRAPHIC_NO_5;
         }
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
         func_8002BD04_cn();
 #endif
     }
@@ -11861,7 +11863,7 @@ void graphic_menu(void) {
     F3ClearFZRtn(0);
     menuAll_draw(ptr, &gGfxHead);
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
     if (ptr->unk_cn_pad != 0) {
         func_8002BD7C_cn(&gGfxHead, 0x20, 0xB4);
     }

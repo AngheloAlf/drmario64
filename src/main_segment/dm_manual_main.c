@@ -2642,71 +2642,73 @@ enum_main_no dm_manual_main(NNSched *sc) {
         joyProcCore();
         osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
 
+#ifdef NN_SC_PERF
         if (D_80092F10_cn) {
             graphic_no = GRAPHIC_NO_0;
             dm_audio_update();
-        } else {
-            func_80071FA0(&temp_s2->unk_034);
-            dm_effect_make();
-
-            var_s4 = false;
-            temp_s2->unk_184++;
-
-            if (temp_s2->unk_010 > 0) {
-                var_s4 = temp_s2->unk_00C == 0xFF;
-            }
-
-            temp_v1_2 = temp_s2->unk_00C + temp_s2->unk_010;
-            temp_v1_2 = CLAMP(temp_v1_2, 0, 255);
-            temp_s2->unk_00C = temp_v1_2;
-
-            switch (evs_manual_no) {
-                case EVS_MANUAL_NO_0:
-                    var_s3 = dm_manual_1_main();
-                    break;
-
-                case EVS_MANUAL_NO_1:
-                    var_s3 = dm_manual_2_main();
-                    break;
-
-                case EVS_MANUAL_NO_2:
-                    var_s3 = dm_manual_3_main();
-                    break;
-
-                case EVS_MANUAL_NO_3:
-                    var_s3 = dm_manual_4_main();
-                    break;
-            }
-
-            dm_seq_set_volume(0x60);
-            dm_audio_update();
-
-            if (temp_s2->unk_018 != 0) {
-                temp_s2->unk_014++;
-                if (temp_s2->unk_014 >= temp_s2->unk_018) {
-                    temp_s2->unk_014 = 0;
-                    temp_s2->unk_018 = 0;
-                    dm_seq_play_in_game(evs_seqnumb * 2);
-                }
-            }
-            if (temp_s2->unk_00C == 0) {
-                var_a0 = B_BUTTON;
-                if (main_old == MAIN_NO_3) {
-                    var_a0 = ANY_BUTTON;
-                }
-                if (gControllerPressedButtons[main_joy[0]] & var_a0) {
-                    var_s3 = false;
-                }
-            }
-
-            if (!var_s3) {
-                if (temp_s2->unk_010 < 0) {
-                    temp_s2->unk_010 = -temp_s2->unk_010;
-                }
-            }
-
-            graphic_no = GRAPHIC_NO_3;
+            continue;
         }
+#endif
+        func_80071FA0(&temp_s2->unk_034);
+        dm_effect_make();
+
+        var_s4 = false;
+        temp_s2->unk_184++;
+
+        if (temp_s2->unk_010 > 0) {
+            var_s4 = temp_s2->unk_00C == 0xFF;
+        }
+
+        temp_v1_2 = temp_s2->unk_00C + temp_s2->unk_010;
+        temp_v1_2 = CLAMP(temp_v1_2, 0, 255);
+        temp_s2->unk_00C = temp_v1_2;
+
+        switch (evs_manual_no) {
+            case EVS_MANUAL_NO_0:
+                var_s3 = dm_manual_1_main();
+                break;
+
+            case EVS_MANUAL_NO_1:
+                var_s3 = dm_manual_2_main();
+                break;
+
+            case EVS_MANUAL_NO_2:
+                var_s3 = dm_manual_3_main();
+                break;
+
+            case EVS_MANUAL_NO_3:
+                var_s3 = dm_manual_4_main();
+                break;
+        }
+
+        dm_seq_set_volume(0x60);
+        dm_audio_update();
+
+        if (temp_s2->unk_018 != 0) {
+            temp_s2->unk_014++;
+            if (temp_s2->unk_014 >= temp_s2->unk_018) {
+                temp_s2->unk_014 = 0;
+                temp_s2->unk_018 = 0;
+                dm_seq_play_in_game(evs_seqnumb * 2);
+            }
+        }
+        if (temp_s2->unk_00C == 0) {
+            var_a0 = B_BUTTON;
+            if (main_old == MAIN_NO_3) {
+                var_a0 = ANY_BUTTON;
+            }
+            if (gControllerPressedButtons[main_joy[0]] & var_a0) {
+                var_s3 = false;
+            }
+        }
+
+        if (!var_s3) {
+            if (temp_s2->unk_010 < 0) {
+                temp_s2->unk_010 = -temp_s2->unk_010;
+            }
+        }
+
+        graphic_no = GRAPHIC_NO_3;
     }
 
     dm_audio_stop();

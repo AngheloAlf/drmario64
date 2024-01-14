@@ -177,7 +177,7 @@ extern s32 B_800E5970[];
 extern UNK_PTR heapTop; /* Original name: heapTop */
 extern struct TiTexData *_texAll;
 extern struct TiTexData *_texKaSa;
-extern s32 title_mode_type;
+extern s32 title_mode_type; // TODO: enum?
 extern s32 title_fade_count; /* Original name: title_fade_count */
 extern s32 title_fade_step;
 // extern UNK_TYPE B_800E59B0;
@@ -417,9 +417,5 @@ extern enum_evs_gamemode evs_gamemode;
 
 extern struct_game_state_data game_state_data[4]; /* Original name: game_state_data */
 
-
-#if VERSION_CN || VERSION_GW
-extern s32 D_800BEF08_cn;
-#endif
 
 #endif

@@ -62,10 +62,10 @@ void joyProcCore(void) {
     bool pressingOppositeDirections = false;
 #endif
 
-#if VERSION_CN || VERSION_GW
+#ifdef NN_SC_PERF
     bool temp = D_80092F10_cn;
 
-    func_8002BC30_cn(4);
+    func_8002BC30_cn(ENUM_8002BA98_CN_ARG0_4);
 #endif
 
     osContStartReadData(&B_800F3E38);
@@ -135,7 +135,7 @@ void joyProcCore(void) {
         gControllerPrevHoldButtons[i] = gControllerHoldButtons[i];
     }
 
-#if VERSION_CN || VERSION_GW
+#ifdef NN_SC_PERF
     i = !!temp;
     if (D_80092F10_cn) {
         i++;

@@ -41,6 +41,10 @@
 void joyCursorFastSet(u16 mask, u8 index);
 #endif
 
+#ifdef NN_SC_PERF
+extern s32 D_800BEF08_cn;
+#endif
+
 #if VERSION_US || VERSION_CN
 s32 func_800601F0(struct_game_state_data *gameStateDataRef, s32 arg1) {
     s32 var_a3 = 0;
@@ -9149,7 +9153,7 @@ enum_main_no dm_game_main(NNSched *sc) {
 
         osRecvMesg(&scMQ, (OSMesg *)&sp50, OS_MESG_BLOCK);
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
         if (D_80092F10_cn) {
             joyProcCore();
             graphic_no = GRAPHIC_NO_0;
@@ -9175,12 +9179,12 @@ enum_main_no dm_game_main(NNSched *sc) {
             u16 temp_s1;
             s32 i;
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
             if (gControllerPressedButtons[main_joy[0]] & Z_TRIG) {
                 D_80088105 = 0;
                 D_800BEF08_cn ^= 1;
             }
-            func_8002BC30_cn(1);
+            func_8002BC30_cn(ENUM_8002BA98_CN_ARG0_1);
 #endif
 
             temp_s1 = gControllerPressedButtons[0];
@@ -9195,7 +9199,7 @@ enum_main_no dm_game_main(NNSched *sc) {
 
             gControllerPressedButtons[0] = temp_s1;
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
             func_8002BD04_cn();
 #endif
 
@@ -9206,16 +9210,13 @@ enum_main_no dm_game_main(NNSched *sc) {
             dm_audio_update();
             dm_game_graphic_onDoneSawp();
 
-#if VERSION_US
-            graphic_no = GRAPHIC_NO_4;
-#endif
-#if VERSION_CN
+#ifdef NN_SC_PERF
             if (D_80092F10_cn) {
                 graphic_no = GRAPHIC_NO_0;
-            } else {
-                graphic_no = GRAPHIC_NO_4;
+                continue;
             }
 #endif
+            graphic_no = GRAPHIC_NO_4;
         }
     }
 
@@ -10060,7 +10061,7 @@ void dm_game_graphic2(void) {
         curtain_proc(&gGfxHead, temp_s7->unk_38C);
     }
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
     if (temp_s7->unk_880 == 0) {
         if (D_800BEF08_cn != 0) {
             func_8002BD7C_cn(&gGfxHead, 0x20, 0xB4);
@@ -10081,8 +10082,8 @@ void dm_game_graphic_onDoneSawp(void) {
     s32 i;
     s32 j;
 
-#if VERSION_CN
-    func_8002BA98_cn(0xD, 0);
+#ifdef NN_SC_PERF
+    func_8002BA98_cn(ENUM_8002BA98_CN_ARG0_13, 0);
 #endif
 
     microseconds = 13500;
@@ -10109,8 +10110,8 @@ void dm_game_graphic_onDoneSawp(void) {
         joyProcCore();
     }
 
-#if VERSION_CN
-    func_8002BA98_cn(0, 0);
+#ifdef NN_SC_PERF
+    func_8002BA98_cn(ENUM_8002BA98_CN_ARG0_0, 0);
 #endif
 
     for (j = 0; j < evs_gamespeed; j++) {
@@ -10175,8 +10176,8 @@ void dm_game_graphic_onDoneSawp(void) {
         }
     }
 
-#if VERSION_CN
-    func_8002BA98_cn(0xD, 0);
+#ifdef NN_SC_PERF
+    func_8002BA98_cn(ENUM_8002BA98_CN_ARG0_13, 0);
 #endif
 }
 #endif
@@ -10221,64 +10222,61 @@ enum_main_no main_techmes(NNSched *sc) {
         osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         joyProcCore();
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
         if (D_80092F10_cn) {
             graphic_no = GRAPHIC_NO_0;
             dm_audio_update();
-        } else {
-#endif
-            switch (watchGameP->unk_9AC) {
-                case 0x0:
-                    if (watchGameP->unk_9B0 == 0xFF) {
-                        watchGameP->unk_9AC = 1;
-                    } else {
-                        s32 temp_v1_3 = watchGameP->unk_9B0 + 4;
-                        s32 var_a0;
-
-                        if (temp_v1_3 <= 0xFF) {
-                            var_a0 = temp_v1_3;
-                        } else {
-                            var_a0 = 0xFF;
-                        }
-                        watchGameP->unk_9B0 = var_a0;
-                    }
-                    break;
-
-                case 0x1:
-                    if (msgWnd_isEnd(&watchGameP->messageWnd)) {
-                        watchGameP->unk_9AC++;
-                    } else {
-                        msgWnd_update(&watchGameP->messageWnd);
-                    }
-                    break;
-
-                case 0x2:
-                    if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
-                        watchGameP->unk_9AC = 3;
-                    }
-                    break;
-
-                case 0x3:
-                    if (watchGameP->unk_9B0 == 0) {
-                        var_s3 = false;
-                    } else {
-                        s32 var_v0;
-
-                        var_v0 = watchGameP->unk_9B0 - 4;
-                        if (var_v0 < 0) {
-                            var_v0 = 0;
-                        }
-                        watchGameP->unk_9B0 = var_v0;
-                    }
-                    break;
-            }
-
-            dm_audio_update();
-            graphic_no = GRAPHIC_NO_6;
-
-#if VERSION_CN
+            continue;
         }
 #endif
+        switch (watchGameP->unk_9AC) {
+            case 0x0:
+                if (watchGameP->unk_9B0 == 0xFF) {
+                    watchGameP->unk_9AC = 1;
+                } else {
+                    s32 temp_v1_3 = watchGameP->unk_9B0 + 4;
+                    s32 var_a0;
+
+                    if (temp_v1_3 <= 0xFF) {
+                        var_a0 = temp_v1_3;
+                    } else {
+                        var_a0 = 0xFF;
+                    }
+                    watchGameP->unk_9B0 = var_a0;
+                }
+                break;
+
+            case 0x1:
+                if (msgWnd_isEnd(&watchGameP->messageWnd)) {
+                    watchGameP->unk_9AC++;
+                } else {
+                    msgWnd_update(&watchGameP->messageWnd);
+                }
+                break;
+
+            case 0x2:
+                if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
+                    watchGameP->unk_9AC = 3;
+                }
+                break;
+
+            case 0x3:
+                if (watchGameP->unk_9B0 == 0) {
+                    var_s3 = false;
+                } else {
+                    s32 var_v0;
+
+                    var_v0 = watchGameP->unk_9B0 - 4;
+                    if (var_v0 < 0) {
+                        var_v0 = 0;
+                    }
+                    watchGameP->unk_9B0 = var_v0;
+                }
+                break;
+        }
+
+        dm_audio_update();
+        graphic_no = GRAPHIC_NO_6;
     }
 
     graphic_no = GRAPHIC_NO_0;
@@ -10290,6 +10288,7 @@ enum_main_no main_techmes(NNSched *sc) {
     }
 
     nnScRemoveClient(sc, &scClient);
+
     return MAIN_NO_3;
 }
 #endif

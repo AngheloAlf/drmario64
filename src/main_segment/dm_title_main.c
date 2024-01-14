@@ -68,46 +68,45 @@ enum_main_no dm_title_main(NNSched *sc) {
         joyProcCore();
         osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
         if (D_80092F10_cn) {
             graphic_no = GRAPHIC_NO_0;
             dm_audio_update();
-        } else {
-#endif
-            title_fade_count = CLAMP(title_fade_count + title_fade_step, 0, 0xFF);
-
-            switch (title_mode_type) {
-                case 0:
-                    var_s1++;
-                    if (title_exit_flag == -1) {
-                        title_mode_type = 7;
-                    } else {
-                        if (var_s1 == 0x64) {
-                            dm_seq_play(SEQ_INDEX_11);
-                        }
-                        if (title_exit_flag == 1) {
-                            title_mode_type = 6;
-                        }
-                    }
-                    break;
-
-                case 6:
-                case 7:
-                    title_fade_step = -title_fade_step;
-                    if (title_mode_type == 6) {
-                        var_s0 = 1;
-                    } else if (title_mode_type == 7) {
-                        var_s0 = 2;
-                    }
-                    break;
-            }
-
-            dm_audio_update();
-#if VERSION_CN
-            graphic_no = GRAPHIC_NO_2;
-#endif
-#if VERSION_CN
+            continue;
         }
+#endif
+        title_fade_count = CLAMP(title_fade_count + title_fade_step, 0, 0xFF);
+
+        switch (title_mode_type) {
+            case 0:
+                var_s1++;
+                if (title_exit_flag == -1) {
+                    title_mode_type = 7;
+                } else {
+                    if (var_s1 == 0x64) {
+                        dm_seq_play(SEQ_INDEX_11);
+                    }
+                    if (title_exit_flag == 1) {
+                        title_mode_type = 6;
+                    }
+                }
+                break;
+
+            case 6:
+            case 7:
+                title_fade_step = -title_fade_step;
+                if (title_mode_type == 6) {
+                    var_s0 = 1;
+                } else if (title_mode_type == 7) {
+                    var_s0 = 2;
+                }
+                break;
+        }
+
+        dm_audio_update();
+
+#ifdef NN_SC_PERF
+        graphic_no = GRAPHIC_NO_2;
 #endif
     } while (var_s0 == 0);
 
@@ -201,7 +200,7 @@ void dm_title_graphic(void) {
         FillRectRGBA(&gGfxHead, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color, color, color, alpha);
     }
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
     func_8002BD7C_cn(&gGfxHead, 0x20, 0xB4);
 #endif
 
@@ -258,22 +257,21 @@ enum_main_no main_boot_error(NNSched *sc) {
         joyProcCore();
         osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
         if (D_80092F10_cn) {
             graphic_no = GRAPHIC_NO_0;
             dm_audio_update();
-        } else {
-#endif
-            msgWnd_update(messageWnd);
-            if ((main_no == MAIN_NO_10) && (gControllerPressedButtons[main_joy[0]] & A_BUTTON)) {
-                var_s1 = false;
-                dm_snd_play(SND_INDEX_70);
-            }
-            dm_audio_update();
-            graphic_no = GRAPHIC_NO_7;
-#if VERSION_CN
+            continue;
         }
 #endif
+
+        msgWnd_update(messageWnd);
+        if ((main_no == MAIN_NO_10) && (gControllerPressedButtons[main_joy[0]] & A_BUTTON)) {
+            var_s1 = false;
+            dm_snd_play(SND_INDEX_70);
+        }
+        dm_audio_update();
+        graphic_no = GRAPHIC_NO_7;
     }
 
     graphic_no = GRAPHIC_NO_0;

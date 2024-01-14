@@ -25,7 +25,9 @@
     For performance check.
     Please define NN_SC_PERF in order to check PCP performance.
  */
-// #define NN_SC_PERF
+#if VERSION_CN || VERSION_GW
+#define NN_SC_PERF
+#endif
 #define NN_SC_PERF_NUM    4
 #define NN_SC_GTASK_NUM   8   /* graphic task maximum number */
 #define NN_SC_AUTASK_NUM   4  /* audio task maximum number */
@@ -68,18 +70,23 @@ typedef struct NNSched {
     /* 0x678 */ bool firstTime; /* Original name: firstTime */
 } NNSched; // size = 0x67C
 
-#if VERSION_CN || VERSION_GW
-typedef struct struct_8010ACB0_cn {
-    /* 0x000 */ s32 unk_000;
-    /* 0x000 */ s32 unk_004;
-    /* 0x008 */ u64 unk_008;
-    /* 0x010 */ u64 unk_010[8];
-    /* 0x050 */ u64 unk_050[8];
-    /* 0x090 */ u64 unk_090[8];
-    /* 0x0D0 */ u64 unk_0D0[4];
-    /* 0x0F0 */ u64 unk_0F0[4];
+#ifdef NN_SC_PERF
+/**
+ * Original name: NNScPerf
+ *
+ * performance check structure
+ */
+typedef struct NNScPerf {
+    /* 0x000 */ u32 gtask_cnt;                      /* Original name: gtask_cnt.    graphic task counter */
+    /* 0x000 */ u32 autask_cnt;                     /* Original name: autask_cnt.   audio task counter */
+    /* 0x008 */ u64 retrace_time;                   /* Original name: retrace_time. graphic creation time */
+    /* 0x010 */ u64 gtask_stime[NN_SC_GTASK_NUM];   /* Original name: gtask_stime.  task start time */
+    /* 0x050 */ u64 rdp_etime[NN_SC_GTASK_NUM];     /* Original name: rdp_etime.    RDP end time */
+    /* 0x090 */ u64 rsp_etime[NN_SC_GTASK_NUM];     /* Original name: rsp_etime.    RSP end time */
+    /* 0x0D0 */ u64 autask_stime[NN_SC_AUTASK_NUM]; /* Original name: autask_stime. audio task start time */
+    /* 0x0F0 */ u64 autask_etime[NN_SC_AUTASK_NUM]; /* Original name: autask_etime. audio task end time */
     /* 0x110 */ UNK_TYPE1 unk_110[0x8];
-} struct_8010ACB0_cn; // size = 0x118
+} NNScPerf; // size = 0x118
 #endif
 
 
@@ -99,22 +106,36 @@ extern u32 framecont;
 extern u8 D_80088104;
 extern s8 D_80088105;
 
-#if VERSION_CN || VERSION_GW
+#ifdef NN_SC_PERF
+typedef enum enum_8002BA98_cn_arg0 {
+    /*  0 */ ENUM_8002BA98_CN_ARG0_0,
+    /*  1 */ ENUM_8002BA98_CN_ARG0_1,
+    /*  3 */ ENUM_8002BA98_CN_ARG0_3 = 3,
+    /*  4 */ ENUM_8002BA98_CN_ARG0_4,
+    /*  5 */ ENUM_8002BA98_CN_ARG0_5,
+    /*  6 */ ENUM_8002BA98_CN_ARG0_6,
+    /*  7 */ ENUM_8002BA98_CN_ARG0_7,
+    /* 10 */ ENUM_8002BA98_CN_ARG0_10 = 10,
+    /* 11 */ ENUM_8002BA98_CN_ARG0_11,
+    /* 12 */ ENUM_8002BA98_CN_ARG0_12,
+    /* 13 */ ENUM_8002BA98_CN_ARG0_13
+} enum_8002BA98_cn_arg0;
+
 void func_8002B8B4_cn(void);
 void func_8002B910_cn();
-void func_8002BA98_cn(u8 arg0, u8 arg1);
-void func_8002BC30_cn(u8 arg0);
+void func_8002BA98_cn(enum_8002BA98_cn_arg0 arg0, s32 arg1);
+void func_8002BC30_cn(enum_8002BA98_cn_arg0 arg0);
 void func_8002BD04_cn(void);
 void func_8002BD7C_cn(Gfx **gfxP, s32 arg1, s32 arg2);
 
-extern s32 D_80092EA8_cn;
-extern bool D_80092EAC_cn;
+extern s32 nnsc_perf_index;
+extern bool nnsc_perf_flag;
 extern u32 D_80092EB0_cn[];
 extern bool D_80092F10_cn;
 
-extern struct_8010ACB0_cn *B_800CA234_cn;
-extern struct_8010ACB0_cn *B_800CA298_cn;
-extern struct_8010ACB0_cn B_8010ACB0_cn[]; // maybe length 4?
+extern NNScPerf *nnsc_perf_ptr;
+extern NNScPerf *nnsc_perf_inptr;
+extern NNScPerf nnsc_perf[NN_SC_PERF_NUM];
 #endif
 
 extern STACK(nnScStack, NN_SC_STACKSIZE);

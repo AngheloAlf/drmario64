@@ -17,10 +17,10 @@ u32 framecont = 0;
 u8 D_80088104 = 1;
 s8 D_80088105 = 0;
 
-#if VERSION_CN || VERSION_GW
-s32 D_80092EA8_cn = 0;
+#ifdef NN_SC_PERF
+s32 nnsc_perf_index = 0;
 
-bool D_80092EAC_cn = false;
+bool nnsc_perf_flag = false;
 
 // unreferenced
 u32 D_80092EB0_cn[] = {
@@ -71,7 +71,7 @@ void nnScCreateScheduler(NNSched *sc, u8 viModeIndex, u8 retraceCount) {
                    THREAD_PRI_NN_SC_EVENT);
     osStartThread(&sc->schedulerThread);
 
-#if VERSION_CN || VERSION_GW
+#ifdef NN_SC_PERF
     func_8002B8B4_cn();
 #endif
 
@@ -115,12 +115,12 @@ void nnScEventHandler(void *arg) {
 
         osRecvMesg(&ptr->retraceMQ, (OSMesg)&msg, OS_MESG_BLOCK);
 
-#if VERSION_US
-        framecont++;
-#elif VERSION_CN || VERSION_GW
+#ifdef NN_SC_PERF
         if (!D_80092F10_cn) {
             framecont++;
         }
+#else
+        framecont++;
 #endif
 
         switch (msg) {
@@ -129,17 +129,25 @@ void nnScEventHandler(void *arg) {
                 nnScEventBroadcast(ptr, &ptr->retraceMsg);
                 osSetTime(0);
 
-#if VERSION_CN || VERSION_GW
+#ifdef NN_SC_PERF
                 func_8002B910_cn();
-                if (!D_80092EAC_cn) {
-                    D_80092EAC_cn = true;
-                    B_800CA234_cn = &B_8010ACB0_cn[D_80092EA8_cn];
 
-                    D_80092EA8_cn = INC_WRAP(D_80092EA8_cn, 4);
-                    B_800CA298_cn = &B_8010ACB0_cn[D_80092EA8_cn];
-                    B_800CA298_cn->unk_004 = 0;
-                    B_800CA298_cn->unk_000 = 0;
-                    B_800CA298_cn->unk_008 = OS_CYCLES_TO_USEC(osGetTime());
+                if (!nnsc_perf_flag) {
+                    /* do not initialize until all graphic tasks are completed */
+                    nnsc_perf_flag = true;
+
+                    /* enable externally derived reference to measured buffer pointer */
+                    nnsc_perf_ptr = &nnsc_perf[nnsc_perf_index];
+
+                    /* swap buffer */
+                    nnsc_perf_index = INC_WRAP(nnsc_perf_index, NN_SC_PERF_NUM);
+
+                    nnsc_perf_inptr = &nnsc_perf[nnsc_perf_index];
+                    nnsc_perf_inptr->autask_cnt = 0;
+                    nnsc_perf_inptr->gtask_cnt = 0;
+
+                    /* get retrace time */
+                    nnsc_perf_inptr->retrace_time = OS_CYCLES_TO_USEC(osGetTime());
                 }
 #endif
                 break;
@@ -223,8 +231,8 @@ void nnScExecuteAudio(void *arg) {
     while (true) {
         OSScTask *gfxTask;
         s32 yieldFlag;
-#if VERSION_CN || VERSION_GW
-        s32 var_s7;
+#ifdef NN_SC_PERF
+        u32 task_cnt;
 #endif
 
         /* wait for audio execution request */
@@ -243,12 +251,13 @@ void nnScExecuteAudio(void *arg) {
             yieldFlag = (osSpTaskYielded(&gfxTask->list) != 0) ? 1 : 2;
         }
 
-#if VERSION_CN || VERSION_GW
-        func_8002BC30_cn(7);
-        if (B_800CA298_cn->unk_004 < ARRAY_COUNTU(B_800CA298_cn->unk_0D0)) {
-            var_s7 = B_800CA298_cn->unk_004;
+#ifdef NN_SC_PERF
+        func_8002BC30_cn(ENUM_8002BA98_CN_ARG0_7);
 
-            B_800CA298_cn->unk_0D0[var_s7] = OS_CYCLES_TO_USEC(osGetTime()) - B_800CA298_cn->unk_008;
+        if (nnsc_perf_inptr->autask_cnt < ARRAY_COUNTU(nnsc_perf_inptr->autask_stime)) {
+            task_cnt = nnsc_perf_inptr->autask_cnt;
+
+            nnsc_perf_inptr->autask_stime[task_cnt] = OS_CYCLES_TO_USEC(osGetTime()) - nnsc_perf_inptr->retrace_time;
         }
 #endif
 
@@ -260,11 +269,11 @@ void nnScExecuteAudio(void *arg) {
         osRecvMesg(&sc->rspMQ, &msg, OS_MESG_BLOCK);
         sc->curAudioTask = NULL;
 
-#if VERSION_CN || VERSION_GW
+#ifdef NN_SC_PERF
         func_8002BD04_cn();
-        if (B_800CA298_cn->unk_004 < ARRAY_COUNTU(B_800CA298_cn->unk_0F0)) {
-            B_800CA298_cn->unk_0F0[var_s7] = OS_CYCLES_TO_USEC(osGetTime()) - B_800CA298_cn->unk_008;
-            B_800CA298_cn->unk_004++;
+        if (nnsc_perf_inptr->autask_cnt < ARRAY_COUNTU(nnsc_perf_inptr->autask_etime)) {
+            nnsc_perf_inptr->autask_etime[task_cnt] = OS_CYCLES_TO_USEC(osGetTime()) - nnsc_perf_inptr->retrace_time;
+            nnsc_perf_inptr->autask_cnt++;
         }
 #endif
 
@@ -286,8 +295,8 @@ void nnScExecuteAudio(void *arg) {
 
 void func_8002A3F4(NNSched *sc, OSScTask *task) {
     OSMesg msg = NULL;
-#if VERSION_CN || VERSION_GW
-    s32 var_s5;
+#ifdef NN_SC_PERF
+    u32 task_cnt;
 #endif
 
     /* wait for frame buffer to become available for use */
@@ -299,11 +308,11 @@ void func_8002A3F4(NNSched *sc, OSScTask *task) {
         sc->graphicsTaskSuspended = NULL;
     }
 
-#if VERSION_CN || VERSION_GW
-    func_8002BC30_cn(5);
-    if (B_800CA298_cn->unk_000 < ARRAY_COUNTU(B_800CA298_cn->unk_010)) {
-        var_s5 = B_800CA298_cn->unk_000;
-        B_800CA298_cn->unk_010[var_s5] = OS_CYCLES_TO_USEC(osGetTime()) - B_800CA298_cn->unk_008;
+#ifdef NN_SC_PERF
+    func_8002BC30_cn(ENUM_8002BA98_CN_ARG0_5);
+    if (nnsc_perf_inptr->gtask_cnt < ARRAY_COUNTU(nnsc_perf_inptr->gtask_stime)) {
+        task_cnt = nnsc_perf_inptr->gtask_cnt;
+        nnsc_perf_inptr->gtask_stime[task_cnt] = OS_CYCLES_TO_USEC(osGetTime()) - nnsc_perf_inptr->retrace_time;
     }
 #endif
 
@@ -315,24 +324,24 @@ void func_8002A3F4(NNSched *sc, OSScTask *task) {
     osRecvMesg(&sc->rspMQ, &msg, OS_MESG_BLOCK);
     sc->curGraphicsTask = NULL;
 
-#if VERSION_CN || VERSION_GW
-    func_8002BC30_cn(6);
+#ifdef NN_SC_PERF
+    func_8002BC30_cn(ENUM_8002BA98_CN_ARG0_6);
 
-    if (B_800CA298_cn->unk_000 < ARRAY_COUNTU(B_800CA298_cn->unk_090)) {
-        B_800CA298_cn->unk_090[var_s5] = OS_CYCLES_TO_USEC(osGetTime()) - B_800CA298_cn->unk_008;
+    if (nnsc_perf_inptr->gtask_cnt < ARRAY_COUNTU(nnsc_perf_inptr->rsp_etime)) {
+        nnsc_perf_inptr->rsp_etime[task_cnt] = OS_CYCLES_TO_USEC(osGetTime()) - nnsc_perf_inptr->retrace_time;
     }
 #endif
 
     /* wait for end of  RDP task */
     osRecvMesg(&sc->rdpMQ, &msg, OS_MESG_BLOCK);
 
-#if VERSION_CN || VERSION_GW
+#ifdef NN_SC_PERF
     func_8002BD04_cn();
     func_8002BD04_cn();
 
-    if (B_800CA298_cn->unk_000 < ARRAY_COUNTU(B_800CA298_cn->unk_050)) {
-        B_800CA298_cn->unk_050[var_s5] = (OS_CYCLES_TO_USEC(osGetTime()) - B_800CA298_cn->unk_008);
-        B_800CA298_cn->unk_000++;
+    if (nnsc_perf_inptr->gtask_cnt < ARRAY_COUNTU(nnsc_perf_inptr->rdp_etime)) {
+        nnsc_perf_inptr->rdp_etime[task_cnt] = (OS_CYCLES_TO_USEC(osGetTime()) - nnsc_perf_inptr->retrace_time);
+        nnsc_perf_inptr->gtask_cnt++;
     }
 #endif
 
@@ -347,8 +356,8 @@ void func_8002A3F4(NNSched *sc, OSScTask *task) {
         osViSwapBuffer(task->framebuffer);
         D_80088104 = 1;
 
-#if VERSION_CN || VERSION_GW
-        D_80092EAC_cn = false;
+#ifdef NN_SC_PERF
+        nnsc_perf_flag = false;
 #endif
     }
 
@@ -393,12 +402,12 @@ void nnScWaitTaskReady(NNSched *sc, OSScTask *task) {
     }
 }
 
-#if VERSION_CN || VERSION_GW
+#ifdef NN_SC_PERF
 #define B_800CA26C_CN_ARR_LEN 2
 #define B_801020E8_CN_ARR_ARR_LEN 0x20
 
 typedef struct struct_801020E8_cn {
-    /* 0x0 */ u8 unk_0;
+    /* 0x0 */ u8 unk_0; // enum_8002BA98_cn_arg0
     /* 0x1 */ u8 unk_1;
     /* 0x4 */ s32 unk_4;
     /* 0x8 */ s32 unk_8;
@@ -406,14 +415,14 @@ typedef struct struct_801020E8_cn {
 
 extern struct_801020E8_cn B_801020E8_cn[][B_801020E8_CN_ARR_ARR_LEN];
 extern struct_801020E8_cn *B_800CA1F0_cn;
-extern u8 B_8010B140_cn[][B_801020E8_CN_ARR_ARR_LEN];
+extern u8 B_8010B140_cn[][B_801020E8_CN_ARR_ARR_LEN]; // enum_8002BA98_cn_arg0
 
 extern u8 B_800CA26C_cn[B_800CA26C_CN_ARR_LEN];
 extern s8 B_800CA281_cn;
 extern struct_801020E8_cn *B_800CA290_cn;
 extern u8 B_800CA29B_cn;
 extern u8 B_800CA2C0_cn[B_800CA26C_CN_ARR_LEN];
-extern u8 *B_800CA1C0_cn;
+extern u8 *B_800CA1C0_cn; // enum_8002BA98_cn_arg0
 
 void func_8002B8B4_cn(void) {
     s32 i;
@@ -437,44 +446,49 @@ void func_8002B910_cn(void) {
         B_800CA1C0_cn = B_8010B140_cn[B_800CA29B_cn];
 
         for (i = 0; i < B_801020E8_CN_ARR_ARR_LEN; i++) {
-            B_800CA1F0_cn[i].unk_0 = 0xA;
+            B_800CA1F0_cn[i].unk_0 = ENUM_8002BA98_CN_ARG0_10;
             B_800CA1F0_cn[i].unk_4 = B_800CA1F0_cn[i].unk_8 = 0;
 
-            B_800CA1C0_cn[i] = 0xA;
+            B_800CA1C0_cn[i] = ENUM_8002BA98_CN_ARG0_10;
         }
 
         B_800CA2C0_cn[B_800CA29B_cn] = 1;
 
-        B_800CA1F0_cn->unk_0 = 0xC;
-        B_800CA1F0_cn->unk_4 = OS_CYCLES_TO_USEC(osGetTime());
+        B_800CA1F0_cn[0].unk_0 = ENUM_8002BA98_CN_ARG0_12;
+        B_800CA1F0_cn[0].unk_4 = OS_CYCLES_TO_USEC(osGetTime());
 
         B_800CA26C_cn[B_800CA29B_cn] = 0;
         D_80088104 = 0;
-        func_8002BA98_cn(0, 0);
+        func_8002BA98_cn(ENUM_8002BA98_CN_ARG0_0, 0);
     }
 }
 
-void func_8002BA98_cn(u8 arg0, u8 arg1) {
+void func_8002BA98_cn(enum_8002BA98_cn_arg0 arg0, s32 arg1) {
+    u8 s2 = arg0;
+    u8 s3 = arg1;
+
     B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn] - 1].unk_8 = OS_CYCLES_TO_USEC(osGetTime());
 
     if (B_800CA2C0_cn[B_800CA29B_cn] < B_801020E8_CN_ARR_ARR_LEN) {
-        B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn]].unk_0 = arg0;
-        B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn]].unk_1 = arg1;
+        B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn]].unk_0 = s2;
+        B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn]].unk_1 = s3;
         B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn]].unk_4 = OS_CYCLES_TO_USEC(osGetTime());
 
         B_800CA2C0_cn[B_800CA29B_cn]++;
     }
 }
 
-void func_8002BC30_cn(u8 arg0) {
+void func_8002BC30_cn(enum_8002BA98_cn_arg0 arg0) {
+    u8 s0 = arg0;
+
     if (B_800CA26C_cn[B_800CA29B_cn] < B_801020E8_CN_ARR_ARR_LEN) {
         B_800CA1C0_cn[B_800CA26C_cn[B_800CA29B_cn]] = B_800CA1F0_cn[B_800CA2C0_cn[B_800CA29B_cn] - 1].unk_0;
 
         B_800CA26C_cn[B_800CA29B_cn]++;
-        func_8002BA98_cn(arg0, 1);
+        func_8002BA98_cn(s0, 1);
     } else {
-        func_8002BA98_cn(0xB, 1);
-        func_8002BA98_cn(arg0, 1);
+        func_8002BA98_cn(ENUM_8002BA98_CN_ARG0_11, 1);
+        func_8002BA98_cn(s0, 1);
     }
 }
 
@@ -483,7 +497,7 @@ void func_8002BD04_cn(void) {
         B_800CA26C_cn[B_800CA29B_cn]--;
         func_8002BA98_cn(B_800CA1C0_cn[B_800CA26C_cn[B_800CA29B_cn]], 2);
     } else {
-        func_8002BA98_cn(0xB, 2);
+        func_8002BA98_cn(ENUM_8002BA98_CN_ARG0_11, 2);
     }
 }
 

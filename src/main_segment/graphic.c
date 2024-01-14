@@ -103,8 +103,8 @@ void gfxproc(void *arg) {
  * Original name: gfxproc_onRetrace
  */
 void gfxproc_onRetrace(void) {
-#if VERSION_CN || VERSION_GW
-    func_8002BC30_cn(3);
+#ifdef NN_SC_PERF
+    func_8002BC30_cn(ENUM_8002BA98_CN_ARG0_3);
 #endif
 
     switch (graphic_no) {
@@ -154,7 +154,7 @@ void gfxproc_onRetrace(void) {
             break;
     }
 
-#if VERSION_CN || VERSION_GW
+#ifdef NN_SC_PERF
     func_8002BD04_cn();
 #endif
 }

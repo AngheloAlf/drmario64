@@ -1673,29 +1673,27 @@ void main_story(NNSched *sc) {
     joyProcCore();
     dm_seq_play(snd_tbl_838[story_proc_no]);
 
-    while (loop_flg != 0) {
+    for (; loop_flg != 0; dm_audio_update()) {
         osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
 
-#if VERSION_CN
+#ifdef NN_SC_PERF
         if (D_80092F10_cn) {
             joyProcCore();
             graphic_no = GRAPHIC_NO_0;
-        } else {
-            graphic_no = GRAPHIC_NO_1;
-#endif
-            msgWnd_update(&mess_st);
-            msgWnd_update(&mess_roll_st);
-            if ((story_doing == 0) && (story_zoom >= 0x5A)) {
-                loop_flg = 0;
-            }
-            joyProcCore();
-#if VERSION_US
-            graphic_no = GRAPHIC_NO_1;
-#endif
-#if VERSION_CN
+            continue;
         }
+
+        graphic_no = GRAPHIC_NO_1;
 #endif
-        dm_audio_update();
+        msgWnd_update(&mess_st);
+        msgWnd_update(&mess_roll_st);
+        if ((story_doing == 0) && (story_zoom >= 0x5A)) {
+            loop_flg = 0;
+        }
+        joyProcCore();
+#ifndef NN_SC_PERF
+        graphic_no = GRAPHIC_NO_1;
+#endif
     }
 
     dm_audio_stop();
