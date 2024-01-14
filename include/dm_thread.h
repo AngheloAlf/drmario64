@@ -11,6 +11,7 @@ typedef enum ThreadId {
     /* 19 */ THREAD_ID_19,
 } ThreadId;
 
+// TODO: osSetThreadPri cleanup
 typedef enum ThreadPriority {
     /*   1 */ THREAD_PRI_IDLE_BOOT = 1,
     /*   2 */ THREAD_PRI_6,

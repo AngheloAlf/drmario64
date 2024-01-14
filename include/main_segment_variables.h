@@ -272,7 +272,7 @@ extern s32 randomtable[55];
 
 // extern UNK_TYPE aiRootP;
 // extern UNK_TYPE B_800E9BB4;
-extern s16 B_800E9BB6;
+extern s16 gfx_msg_no;
 extern struct_ai_char_data ai_char_data[AI_CHAR_DATA_LEN];
 // extern UNK_TYPE B_800EA0D0;
 extern u8 success;
@@ -304,10 +304,10 @@ extern u16 gControllerHoldButtons[MAXCONTROLLERS+1];
 extern u32 PlayTime;
 extern u8 aiNext[]; // maybe a struct?
 extern u8 main_joy[];
-extern OSThread sGraphicThread;
-extern OSMesg B_800EBED0[8];
+extern OSThread gfxThread; /* Original name */
+extern OSMesg gfx_msgbuf[8];
 
-extern s16 B_800ED430;
+extern s16 gfx_msg;
 
 extern struct_gameBackup *gameBackup[2];
 extern u8 CapsMagazine[0x100];
@@ -352,7 +352,7 @@ extern u8 link_joy[];
 // extern UNK_TYPE B_800F3EA0;
 extern struct_watchManual *watchManual; /* Original name: watchManual */
 extern u8 aiRootCnt;
-extern OSMesgQueue B_800F4898;
+extern OSMesgQueue gfx_msgQ;
 
 extern u16 joygam[4];
 
@@ -369,7 +369,7 @@ extern u16 joyflg[MAXCONTROLLERS];
 extern struct_evs_cfg_4p evs_cfg_4p;
 extern s32 s_hard_mode; // maybe bool?
 // extern UNK_TYPE attack_sprite_address;
-extern STACK(B_800F7490, 0xC00);
+extern STACK(gfxYieldBuf, 0xC00);
 // extern UNK_TYPE B_800F8C90;
 
 // extern UNK_TYPE aiHiErR;
@@ -390,10 +390,10 @@ extern u8 evs_select_name_no[2];
 extern OSScTask B_800FAE80[];
 extern u16 gControllerPressedButtons[MAXCONTROLLERS+1]; /* Original name: joyupd */
 extern s8 aiSelSpeed;
-extern OSMesgQueue *B_800FAF94;
+extern OSMesgQueue *sched_gfxMQ;
 
 // extern UNK_TYPE aiHiEraseCtr;
-extern STACK(B_800FAFA0, 0x400);
+extern STACK(dram_stack, 0x400); // dram_stack?
 extern u8 aiMoveSF; // maybe bool?
 extern u32 evs_game_time;
 // extern UNK_TYPE attack_effect;
@@ -412,7 +412,7 @@ extern u32 evs_game_time;
 extern Gfx gGfxGlist[3][0x1000]; /* Original name: gfx_glist */
 
 extern u16 joycnt[4][0x10]; /* Original name: joycnt */
-extern STACK(B_801136F0, 0x10000);
+extern STACK(rdp_output, 0x10000);
 extern enum_evs_gamemode evs_gamemode;
 
 extern struct_game_state_data game_state_data[4]; /* Original name: game_state_data */

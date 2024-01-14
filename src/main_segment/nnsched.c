@@ -1,7 +1,7 @@
 /**
  * Original filename: nnsched.c
  *
- * A modified version of nnsched.c from the official SDK
+ * A modified version of nnsched.c from the official SDK demos
  */
 
 #include "nnsched.h"

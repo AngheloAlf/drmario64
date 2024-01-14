@@ -64,7 +64,7 @@ void mainproc(void *arg UNUSED) {
     }
 
     aifFirstInit();
-    func_80000488(func_8006D620);
+    func_80000488(make_ai_main);
 
     while (true) {
         enum_main_no temp_s0 = main_no;

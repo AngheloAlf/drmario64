@@ -8166,7 +8166,10 @@ void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *map
 #endif
 
 #if VERSION_US || VERSION_CN
-void func_8006D620(void) {
+/**
+ * Original name: make_ai_main
+ */
+void make_ai_main(void) {
     s32 i;
     struct_game_state_data *ptr;
 

@@ -13,6 +13,7 @@ extern u8 Heap_bufferp[];
 // gfx_freebuf?
 extern u8 gfx_freebuf[];
 
+// cfb?
 extern u16 gFramebuffers[2][SCREEN_HEIGHT * SCREEN_WIDTH];
 
 // void BUFFER_MALLOC(void **dst, void *buff, size_t size);

@@ -1,5 +1,7 @@
 /**
  * Original filename: graphic.c
+ * 
+ * A modified version of graphic.c from the official SDK demos
  */
 
 #include "graphic.h"
@@ -20,10 +22,13 @@
 #include "nnsched.h"
 #include "dm_title_main.h"
 
-extern NNScClient B_800F48B0;
+extern NNScClient gfx_client;
 
 #if VERSION_US || VERSION_CN
-void *D_80088110[][2] = {
+/**
+ * Original name: gfx_ucode
+ */
+void *gfx_ucode[][2] = {
     { gspF3DEX2_fifoTextStart, gspF3DEX2_fifoDataStart },
     { gspS2DEX_fifoTextStart, gspS2DEX_fifoDataStart },
 };
@@ -50,49 +55,68 @@ Vp vp = { { { 0x280, 0x1E0, 0x1FF, 0 }, { 0x280, 0x1E0, 0x1FF, 0 } } };
 
 /**
  *  Original name: static rdpinit_flag
+ *
+ * flag to initialize RDP
  */
 s32 rdpinit_flag_161 = 1;
 #endif
 
 /**
  * Original name: gfxInit
+ *
+ * Initialize graphic parameter
  */
 void gfxInit(void *arg0 UNUSED) {
-    B_800ED430 = 2;
-    B_800E9BB6 = 4;
+    /* Set graphic task end message */
+
+    /* End task/switch buffer message  */
+    gfx_msg = NN_SC_DONE_MSG;
+    /* End task message only */
+    gfx_msg_no = NN_SC_GTASKEND_MSG;
+
+    /* Initialize graphic thread branch flag */
     graphic_no = GRAPHIC_NO_0;
     gfx_gtask_no = 0;
 }
 
 /**
  * Original name: gfxproc
+ *
+ * Graphic thread
  */
 void gfxproc(void *arg) {
     NNSched *sc = arg;
-    s16 *sp10 = NULL;
+    s16 *msg_type = NULL;
 
     pendingGFX = 0;
-    osCreateMesgQueue(&B_800F4898, B_800EBED0, ARRAY_COUNT(B_800EBED0));
-    nnScAddClient(sc, &B_800F48B0, &B_800F4898);
-    B_800FAF94 = nnScGetGfxMQ(sc);
+
+    /* create message queue for VI reatrace */
+    osCreateMesgQueue(&gfx_msgQ, gfx_msgbuf, ARRAY_COUNT(gfx_msgbuf));
+    nnScAddClient(sc, &gfx_client, &gfx_msgQ);
+
+    /* Acquire graphic message queue */
+    sched_gfxMQ = nnScGetGfxMQ(sc);
 
     while (true) {
-        osRecvMesg(&B_800F4898, (OSMesg *)&sp10, OS_MESG_BLOCK);
+        osRecvMesg(&gfx_msgQ, (OSMesg *)&msg_type, OS_MESG_BLOCK);
 
-        switch (*sp10) {
-            case 1:
+        switch (*msg_type) {
+            case NN_SC_RETRACE_MSG:
+                /* Retrace message processing */
                 gfxproc_onRetrace();
                 break;
 
-            case 2:
+            case NN_SC_DONE_MSG:
+                /* graphic task end message*/
                 func_8002B710();
                 break;
 
-            case 4:
+            case NN_SC_GTASKEND_MSG:
                 func_8002B728();
                 break;
 
-            case 3:
+            case NN_SC_PRE_NMI_MSG:
+                /* PRE NMI message */
                 func_8002B754();
                 break;
         }
@@ -159,6 +183,9 @@ void gfxproc_onRetrace(void) {
 #endif
 }
 
+/**
+ * graphic task end message
+ */
 void func_8002B710(void) {
     pendingGFX--;
 }
@@ -169,9 +196,16 @@ void func_8002B728(void) {
     }
 }
 
+/**
+ * PRE NMI message
+ */
 void func_8002B754(void) {
+    /* !!important!! Make Y scale value back to 1.0  */
     osViSetYScale(1.0f);
+
+    /*do not create task */
     pendingGFX += 2;
+
     osViBlack(true);
     Main_StopThread();
     MusStop(MUSFLAG_EFFECTS | MUSFLAG_SONGS, 0);
@@ -179,22 +213,39 @@ void func_8002B754(void) {
 
 /**
  * Original name: gfxCreateGraphicThread
+ *
+ * Create and activate graphic thread
  */
-void gfxCreateGraphicThread(void *arg0) {
-    osCreateThread(&sGraphicThread, THREAD_ID_GRAPHIC, gfxproc, arg0, STACK_TOP(sGraphicStack), THREAD_PRI_GRAPHIC);
-    osStartThread(&sGraphicThread);
+void gfxCreateGraphicThread(NNSched *sc) {
+    osCreateThread(&gfxThread, THREAD_ID_GRAPHIC, gfxproc, sc, STACK_TOP(sGraphicStack), THREAD_PRI_GRAPHIC);
+    osStartThread(&gfxThread);
 }
 
 #if VERSION_US || VERSION_CN
-s16 func_8002B800(void) {
-    s16 *sp10 = NULL;
+/**
+ * Original name: gfxWaitMessage
+ * 
+ * Wait for message from scheduler
+ *  return : message type from scheduler
+ *  OS_SC_RETRACE_MSG    :retrace message
+ *  OS_SC_PRE_NMI_MSG    :  PRE NMI message
+ */
+s16 gfxWaitMessage(void) {
+    s16 *msg_type = NULL;
 
-    osRecvMesg(&B_800F4898, (OSMesg *)&sp10, OS_MESG_BLOCK);
-    return *sp10;
+    osRecvMesg(&gfx_msgQ, (OSMesg *)&msg_type, OS_MESG_BLOCK);
+    return *msg_type;
 }
 
 /**
  * Original name: gfxTaskStart
+ *
+ * Send graphic task activating message to scheduler
+ *   NNScTask *gtask     :task structure
+ *   Gfx*        glist_ptr :pointer of display list
+ *   s32         glist_size:display list size
+ *   u32         ucode_type:type of micro code (see graphic.h)
+ *   u32         flag      :flag to change frame buffer
  */
 void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags) {
     scTask->list.t.data_ptr = data_ptr;
@@ -206,32 +257,32 @@ void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, 
     scTask->list.t.ucode_boot = (void *)rspbootTextStart;
     scTask->list.t.ucode_boot_size = (u8 *)rspbootTextEnd - (u8 *)rspbootTextStart;
 
-    scTask->list.t.ucode = D_80088110[arg3][0];
-    scTask->list.t.ucode_data = D_80088110[arg3][1];
+    scTask->list.t.ucode = gfx_ucode[arg3][0];
+    scTask->list.t.ucode_data = gfx_ucode[arg3][1];
     scTask->list.t.ucode_data_size = SP_UCODE_DATA_SIZE;
 
-    scTask->list.t.dram_stack = B_800FAFA0;
-    scTask->list.t.dram_stack_size = sizeof(B_800FAFA0);
+    scTask->list.t.dram_stack = dram_stack;
+    scTask->list.t.dram_stack_size = sizeof(dram_stack);
 
-    scTask->list.t.output_buff = B_801136F0;
-    scTask->list.t.output_buff_size = STACK_TOP(B_801136F0);
+    scTask->list.t.output_buff = rdp_output;
+    scTask->list.t.output_buff_size = STACK_TOP(rdp_output);
 
-    scTask->list.t.yield_data_ptr = B_800F7490;
-    scTask->list.t.yield_data_size = sizeof(B_800F7490);
+    scTask->list.t.yield_data_ptr = gfxYieldBuf;
+    scTask->list.t.yield_data_size = sizeof(gfxYieldBuf);
 
     scTask->next = NULL;
     scTask->flags = flags;
-    scTask->msgQ = &B_800F4898;
+    scTask->msgQ = &gfx_msgQ;
 
     if (flags & OS_SC_SWAPBUFFER) {
-        scTask->msg = &B_800ED430;
+        scTask->msg = &gfx_msg;
         pendingGFX++;
     } else {
-        scTask->msg = &B_800E9BB6;
+        scTask->msg = &gfx_msg_no;
     }
 
     scTask->framebuffer = &gFramebuffers[gCurrentFramebufferIndex];
-    osSendMesg(B_800FAF94, scTask, OS_MESG_BLOCK);
+    osSendMesg(sched_gfxMQ, scTask, OS_MESG_BLOCK);
     if (flags & OS_SC_SWAPBUFFER) {
         gCurrentFramebufferIndex ^= 1;
     }
@@ -240,24 +291,36 @@ void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, 
 }
 
 /**
- * Original name: F3RCPinitRtn
+ * Original name: F3RCPinitRtn/gfxRCPIinit
+ *
+ * Initialize RSP RDP
  */
 void F3RCPinitRtn(void) {
+    /* set RSP segment register */
+    /* for CPU virtual address */
     gSPSegment(gGfxHead++, 0x00, 0x00000000);
+
+    /* set RSP  */
     gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(F3SetupRSP_dl));
+
     gSPViewport(gGfxHead++, &vp);
 
+    /* initialize RDP (one time only)  */
     if (rdpinit_flag_161 == 1) {
         gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(F3RDPinit_dl));
         rdpinit_flag_161 = 0;
     }
 
+    /* set RDP*/
     gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(F3SetupRDP_dl));
+
     gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 }
 
 /**
  * Original name: F3ClearFZRtn
+ *
+ * Based on DrawWindow?
  */
 void F3ClearFZRtn(u8 arg0) {
     gDPSetCycleType(gGfxHead++, G_CYC_FILL);

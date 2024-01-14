@@ -435,7 +435,7 @@ void dm_game_graphic_effect(struct_game_state_data*gameStateDataRef, s32 arg1, s
 void func_8006D0E8(void);
 void dm_make_key(void);
 void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, s32 arg2, s32 arg3);
-void func_8006D620();
+void make_ai_main();
 void dm_effect_make(void);
 void dm_game_init_heap(void);
 void dm_game_init(bool arg0);
