@@ -1,6 +1,6 @@
-#include "libultra.h"
+#include "dmadata.h"
+
 #include "macros_defines.h"
-#include "boot_functions.h"
 #include "boot_variables.h"
 
 #if VERSION_CN || VERSION_GW
@@ -15,29 +15,16 @@ OSPiHandle *DmaData_80000690_cn(void) {
 }
 #endif
 
-#if VERSION_CN || VERSION_GW
-bool sDmaDataIsInitialized = false;
-
-#define DMADATA_IS_INITIALIZED (sDmaDataIsInitialized)
-#define DMADATA_SET_INITIALIZED sDmaDataIsInitialized = true
-
-#define DMADATA_COPY_BLOCK(mb, currentRom, currentVram, blkSize) \
-    (mb)->hdr.pri = OS_MESG_PRI_NORMAL;                          \
-    (mb)->hdr.retQueue = &B_800151C0;                            \
-    (mb)->dramAddr = (void *)currentVram;                        \
-    (mb)->devAddr = currentRom;                                  \
-    (mb)->size = blkSize;                                        \
-    osEPiStartDma(DmaData_80000690_cn(), mb, OS_READ)
-#endif
-
 #if VERSION_US
 s8 sDmaDataNeedsInitialization = true;
 
 #define DMADATA_IS_INITIALIZED !sDmaDataNeedsInitialization
 #define DMADATA_SET_INITIALIZED sDmaDataNeedsInitialization = false
+#elif VERSION_CN || VERSION_GW
+bool sDmaDataIsInitialized = false;
 
-#define DMADATA_COPY_BLOCK(mb, currentRom, currentVram, blkSize) \
-    osPiStartDma(mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, (void *)currentVram, blkSize, &B_800151C0)
+#define DMADATA_IS_INITIALIZED (sDmaDataIsInitialized)
+#define DMADATA_SET_INITIALIZED sDmaDataIsInitialized = true
 #endif
 
 void *DmaData_RomToRam(RomOffset segmentRom, void *segmentVram, size_t segmentSize) {
@@ -61,7 +48,7 @@ void *DmaData_RomToRam(RomOffset segmentRom, void *segmentVram, size_t segmentSi
         size_t blkSize = MIN(remainingSize, 0x2000);
         OSIoMesg mb;
 
-        DMADATA_COPY_BLOCK(&mb, currentRom, currentVram, blkSize);
+        DMADATA_COPY_BLOCK(&mb, currentRom, currentVram, blkSize, &B_800151C0);
 
         currentRom += blkSize;
         currentVram += blkSize;

@@ -25,7 +25,7 @@ void gfxproc_onRetrace(void);
 void func_8002B710(void);
 void func_8002B728(void);
 void func_8002B754(void);
-void gfxCreateGraphicThread(struct NNSched *arg0);
+void gfxCreateGraphicThread(struct NNSched *sc);
 s16 gfxWaitMessage(void);
 void gfxTaskStart(struct OSScTask_s *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags);
 void F3RCPinitRtn(void);

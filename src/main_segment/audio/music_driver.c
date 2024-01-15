@@ -2,6 +2,7 @@
  * Original name unknown
  *
  * Seems to be a modified version of the nnsched/test_music.c file from the libmus demos.
+ * All the "original names" from this file (and its header) come from said sdk file.
  */
 
 #include "audio/music_driver.h"
@@ -14,31 +15,42 @@
 #include "boot_functions.h"
 #include "PR/sched.h"
 #include "nnsched.h"
+#include "dmadata.h"
 
-void func_8002D984(void);
-void func_8002D9E4(void);
-void func_8002DA48(musTask *musicTask);
+void DmaRomToRam(RomOffset segmentRom, void *segmentVram, size_t segmentSize);
+
+void NnSchedInstall(void);
+void NnSchedWaitFrame(void);
+void NnSchedDoTask(musTask *musicTask);
 
 #if VERSION_US || VERSION_CN
-musSched D_800883F0 = {
-    func_8002D984,
-    func_8002D9E4,
-    func_8002DA48,
+/**
+ * Original name: nn_mus_sched
+ *
+ * music library scheduler callback structure
+ */
+musSched nn_mus_sched = {
+    NnSchedInstall,
+    NnSchedWaitFrame,
+    NnSchedDoTask,
 };
 #endif
 
 #if VERSION_US || VERSION_CN
-size_t func_8002D170(NNSched *sc, void *heap, size_t heap_length, size_t arg3, s32 arg4, s32 arg5, size_t arg6 UNUSED,
-                     s32 arg7, OSPri thread_priority) {
+/**
+ * Original name: InitMusicDriver
+ */
+size_t InitMusicDriver(NNSched *sc, void *heap, size_t heap_length, size_t arg3, s32 arg4, s32 arg5, size_t arg6 UNUSED,
+                       s32 arg7, OSPri thread_priority) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98 = ALIGN_PTR(heap);
-    musConfig sp10;
+    musConfig init;
     s32 i;
 
     temp_s0->unk_04 = heap;
     temp_s0->unk_08 = heap_length;
     heap = temp_s0 + 1;
 
-    temp_s0->sched = sc;
+    temp_s0->sc = sc;
 
     temp_s0->unk_0C = ALIGN_PTR(heap);
     temp_s0->unk_10 = arg3;
@@ -68,36 +80,39 @@ size_t func_8002D170(NNSched *sc, void *heap, size_t heap_length, size_t arg3, s
         temp_s0->unk_24[i] = 0;
     }
 
-    osCreateMesgQueue(&temp_s0->unk_2C, temp_s0->unk_44, ARRAY_COUNT(temp_s0->unk_44));
+    osCreateMesgQueue(&temp_s0->dma_queue, temp_s0->dma_messages, ARRAY_COUNT(temp_s0->dma_messages));
+
     heap = ALIGN_PTR(heap);
     heap_length -= ((uintptr_t)heap - (uintptr_t)temp_s0->unk_04);
 
-    sp10.control_flag = 0;
-    sp10.channels = 24;
-    sp10.sched = sc;
-    sp10.thread_priority = thread_priority;
-    sp10.heap = heap;
-    sp10.heap_length = heap_length;
-    sp10.fifo_length = 0x40;
-    sp10.ptr = NULL;
-    sp10.wbk = NULL;
-    sp10.default_fxbank = NULL;
-    sp10.syn_output_rate = 32000;
-    sp10.syn_updates = 0x100;
-    sp10.syn_rsp_cmds = 0x1000;
-    sp10.syn_retraceCount = 1;
-    sp10.syn_num_dma_bufs = 36;
-    sp10.syn_dma_buf_size = 0x1000;
+    init.control_flag = 0;
+    init.channels = 24;
+    init.sched = sc;
+    init.thread_priority = thread_priority;
+    init.heap = heap;
+    init.heap_length = heap_length;
+    init.fifo_length = 0x40;
+    init.ptr = NULL;
+    init.wbk = NULL;
+    init.default_fxbank = NULL;
+    init.syn_output_rate = 32000;
+    init.syn_updates = 0x100;
+    init.syn_rsp_cmds = 0x1000;
+    init.syn_retraceCount = 1;
+    init.syn_num_dma_bufs = 36;
+    init.syn_dma_buf_size = 0x1000;
 
     // ??
-    sp10.syn_updates = 0x80;
-    sp10.syn_rsp_cmds = 0x800;
-    sp10.syn_num_dma_bufs = 32;
-    sp10.syn_dma_buf_size = 0x280;
+    init.syn_updates = 0x80;
+    init.syn_rsp_cmds = 0x800;
+    init.syn_num_dma_bufs = 32;
+    init.syn_dma_buf_size = 0x280;
 
-    MusSetScheduler(&D_800883F0);
+    /* set for NN scheduler this function must be called before 'musInitialize' otherwise default scheduler will be
+     * initialised and used */
+    MusSetScheduler(&nn_mus_sched);
 
-    return MusInitialize(&sp10) + ((uintptr_t)heap - (uintptr_t)temp_s0->unk_04);
+    return MusInitialize(&init) + ((uintptr_t)heap - (uintptr_t)temp_s0->unk_04);
 }
 #endif
 
@@ -106,7 +121,7 @@ bool func_8002D3B0(RomOffset segmentRom, size_t segmentSize, void *wbank) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
     if (MusAsk(MUSFLAG_SONGS) == 0) {
-        func_8002D8D0(segmentRom, temp_s0->unk_0C, segmentSize);
+        DmaRomToRam(segmentRom, temp_s0->unk_0C, segmentSize);
         MusPtrBankInitialize(temp_s0->unk_0C, wbank);
         return true;
     }
@@ -122,7 +137,7 @@ bool func_8002D428(s32 index, RomOffset segmentRom, size_t segmentSize) {
     if (func_8002D51C(index) != 0) {
         return false;
     }
-    func_8002D8D0(segmentRom, temp_s1->unk_14[index].unk_0, segmentSize);
+    DmaRomToRam(segmentRom, temp_s1->unk_14[index].unk_0, segmentSize);
     return true;
 }
 #endif
@@ -194,7 +209,7 @@ bool func_8002D6A4(RomOffset segmentRom, size_t segmentSize) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
     if (MusAsk(MUSFLAG_EFFECTS) == 0) {
-        func_8002D8D0(segmentRom, temp_s0->unk_1C, segmentSize);
+        DmaRomToRam(segmentRom, temp_s0->unk_1C, segmentSize);
         MusFxBankInitialize(temp_s0->unk_1C);
         return true;
     }
@@ -261,7 +276,13 @@ s32 func_8002D8A0(s32 index, f32 offset) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void func_8002D8D0(RomOffset segmentRom, void *segmentVram, size_t segmentSize) {
+/**
+ * Original name: DmaRomToRam
+ *
+ * Download an area of ROM to RAM. Note this function limits the size of any DMA
+ * generated to 16k so as to cause clashes with audio DMAs.
+ */
+void DmaRomToRam(RomOffset segmentRom, void *segmentVram, size_t segmentSize) {
     Audio_struct_800FAF98 *temp = gAudio_800FAF98;
     s32 remainingSize = segmentSize;
     RomOffset currentRom = segmentRom;
@@ -274,57 +295,75 @@ void func_8002D8D0(RomOffset segmentRom, void *segmentVram, size_t segmentSize) 
 
         osInvalDCache((void *)currentVram, blkSize);
 
+        DMADATA_COPY_BLOCK(&mb, currentRom, currentVram, blkSize, &temp->dma_queue);
+
 #if VERSION_US
-        osPiStartDma(&mb, OS_MESG_PRI_NORMAL, OS_READ, currentRom, (void *)currentVram, blkSize, &temp->unk_2C);
-        osRecvMesg(&temp->unk_2C, &msg, OS_MESG_BLOCK);
+        osRecvMesg(&temp->dma_queue, &msg, OS_MESG_BLOCK);
+#endif
+
         currentRom += blkSize;
         remainingSize -= blkSize;
-#endif
+        currentVram += blkSize;
 
 #if VERSION_CN
-        mb.hdr.pri = 0;
-        mb.hdr.retQueue = &temp->unk_2C;
-        mb.dramAddr = (void *)currentVram;
-        mb.devAddr = currentRom;
-        mb.size = blkSize;
-        osEPiStartDma(DmaData_80000690_cn(), &mb, 0);
-        currentRom += blkSize;
-        remainingSize -= blkSize;
-        osRecvMesg(&temp->unk_2C, &msg, OS_MESG_BLOCK);
+        osRecvMesg(&temp->dma_queue, &msg, OS_MESG_BLOCK);
 #endif
-
-        currentVram += blkSize;
     }
 }
 #endif
 
 #if VERSION_US || VERSION_CN
-void func_8002D984(void) {
+/**
+ * Original name: NnSchedInstall
+ *
+ * Initialise the NN scheduler callback functions for the music library. This function
+ * is called once by the audio thread before entering an infinite loop.
+ */
+void NnSchedInstall(void) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
-    osCreateMesgQueue(&temp_s0->unk_6C, temp_s0->unk_84, ARRAY_COUNT(temp_s0->unk_84));
-    osCreateMesgQueue(&temp_s0->unk_94, temp_s0->unk_AC, ARRAY_COUNT(temp_s0->unk_AC));
-    nnScAddClient(temp_s0->sched, &temp_s0->unk_64, &temp_s0->unk_6C);
+    /* create message queues for WaitFrame and DoTask functions */
+    osCreateMesgQueue(&temp_s0->nnframe_queue, temp_s0->nnframe_messages, ARRAY_COUNT(temp_s0->nnframe_messages));
+    osCreateMesgQueue(&temp_s0->nntask_queue, temp_s0->nntask_messages, ARRAY_COUNT(temp_s0->nntask_messages));
+
+    /* add waitframe client */
+    nnScAddClient(temp_s0->sc, &temp_s0->nnclient, &temp_s0->nnframe_queue);
 }
 #endif
 
 #if VERSION_US || VERSION_CN
-void func_8002D9E4(void) {
-    s16 *sp10;
-    OSMesgQueue *temp_s0 = &gAudio_800FAF98->unk_6C;
+/**
+ * Original name: NnSchedWaitFrame
+ *
+ * Wait for a retrace message for the music library. This function is called by the
+ * audio threads inifinite loop to wait for a retrace message. The 'syn_retraceCount'
+ * parameter of the musConfig structure must contain the number of retraces per
+ * message received.
+ */
+void NnSchedWaitFrame(void) {
+    NNScMsg *message;
+    OSMesgQueue *temp_s0 = &gAudio_800FAF98->nnframe_queue;
 
     do {
-        osRecvMesg(temp_s0, (OSMesg)&sp10, OS_MESG_BLOCK);
+        osRecvMesg(temp_s0, (OSMesg)&message, OS_MESG_BLOCK);
+
+        /* bin any missed syncs! */
         osRecvMesg(temp_s0, NULL, OS_MESG_NOBLOCK);
-    } while (*sp10 != 1);
+    } while (*message != NN_SC_RETRACE_MSG);
 }
 #endif
 
 #if VERSION_US || VERSION_CN
-void func_8002DA48(musTask *musicTask) {
+/**
+ * Original name: NnSchedDoTask
+ *
+ * Process a audio task for the music library. This function is called by the audio
+ * threads inifinite loop to generate an audio task and wait for its completion.
+ */
+void NnSchedDoTask(musTask *musicTask) {
     Audio_struct_800FAF98 *temp_a1 = gAudio_800FAF98;
     OSScTask scTask;
-    void *msg;
+    OSMesg msg;
 
     scTask.list.t.data_ptr = musicTask->data;
     scTask.list.t.data_size = musicTask->data_size;
@@ -332,7 +371,7 @@ void func_8002DA48(musTask *musicTask) {
     scTask.list.t.ucode_data = musicTask->ucode_data;
 
     scTask.next = 0;
-    scTask.msgQ = &temp_a1->unk_94;
+    scTask.msgQ = &temp_a1->nntask_queue;
     scTask.msg = &msg;
 
     scTask.list.t.type = M_AUDTASK;
@@ -348,7 +387,7 @@ void func_8002DA48(musTask *musicTask) {
     scTask.list.t.yield_data_ptr = NULL;
     scTask.list.t.yield_data_size = 0;
 
-    osSendMesg(nnScGetAudioMQ(temp_a1->sched), &scTask, OS_MESG_BLOCK);
-    osRecvMesg(&temp_a1->unk_94, NULL, OS_MESG_BLOCK);
+    osSendMesg(nnScGetAudioMQ(temp_a1->sc), &scTask, OS_MESG_BLOCK);
+    osRecvMesg(&temp_a1->nntask_queue, NULL, OS_MESG_BLOCK);
 }
 #endif

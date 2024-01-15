@@ -1,6 +1,6 @@
 /**
  * Original filename: graphic.c
- * 
+ *
  * A modified version of graphic.c from the official SDK demos
  */
 
@@ -224,7 +224,7 @@ void gfxCreateGraphicThread(NNSched *sc) {
 #if VERSION_US || VERSION_CN
 /**
  * Original name: gfxWaitMessage
- * 
+ *
  * Wait for message from scheduler
  *  return : message type from scheduler
  *  OS_SC_RETRACE_MSG    :retrace message

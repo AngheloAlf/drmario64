@@ -4,6 +4,7 @@
 #include "dma_table.h"
 #include "segment_symbols.h"
 #include "macros_defines.h"
+#include "dmadata.h"
 #include "dm_thread.h"
 #include "util.h"
 

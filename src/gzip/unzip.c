@@ -1,7 +1,7 @@
 #include "gzip.h"
 #include "macros_defines.h"
 #include "alignment.h"
-#include "boot_functions.h"
+#include "dmadata.h"
 
 typedef struct FileDescriptor {
     /* 0x0 */ void *addr;
