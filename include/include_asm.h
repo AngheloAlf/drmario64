@@ -31,7 +31,12 @@
         ".section .text" \
     )
 #endif
+
+#ifdef MODERN_GCC
+__asm__(".include \"macro.inc\"\n");
+#else
 __asm__(".include \"include/labels.inc\"\n");
+#endif
 #else
 #ifndef INCLUDE_ASM
 #define INCLUDE_ASM(FOLDER, NAME)

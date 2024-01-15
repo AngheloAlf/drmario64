@@ -91,6 +91,8 @@ options:
   ld_partial_scripts_path: linker_scripts/us/partial
   ld_partial_build_segments_path: build/segments/us
 
+  ld_wildcard_sections: True
+
   asm_path: asm/us
   src_path: src
   build_path: build
@@ -126,7 +128,7 @@ segments:
   - name: header
     type: code
     start: 0x000000
-    vram: 0x80000000
+    vram: 0
     subsegments:
       - [0x000000, .data, rom_header/rom_header]
 

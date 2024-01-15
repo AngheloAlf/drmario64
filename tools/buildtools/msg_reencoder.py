@@ -38,10 +38,9 @@ def textReencoderMain():
         lineInfoIndex = inputText.find("\n# ", prevIndex, index)
         if lineInfoIndex != -1:
             # Don't process the line information from cpp
-            index = inputText.find("\"", index+1)+1
+            index = inputText.find("\n", index+1)+1
             outputText += inputText[prevIndex:index]
-            # Skip the quote symbol
-            prevIndex = index+1
+            prevIndex = index
             continue
 
         outputText += inputText[prevIndex:index]

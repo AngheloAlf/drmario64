@@ -31,6 +31,8 @@ COMPILER_VERBOSE ?= 0
 DEP_ASM ?= 1
 # If non-zero touching an included file will rebuild any file that depends on it
 DEP_INCLUDE ?= 1
+# 
+COMPILER ?= original
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -68,8 +70,18 @@ else
 $(error Invalid VERSION variable detected. Please use either 'us', 'cn' or 'gw')
 endif
 
+ifeq ($(COMPILER), original)
+# Empty on purpose
+else ifeq ($(COMPILER), gcc)
+    COMPARE       := 0
+    RUN_CC_CHECK  := 0
+    BUILD_DEFINES += -DMODERN_GCC=1 -DPRESERVE_UB
+else
+$(error Invalid COMPILER variable detected. Please use either 'original', 'gcc')
+endif
+
 ifeq ($(NON_MATCHING),1)
-	BUILD_DEFINES   += -DNON_MATCHING -DAVOID_UB
+	BUILD_DEFINES   += -DNON_MATCHING -DPRESERVE_UB
 	COMPARE  := 0
 endif
 
@@ -93,13 +105,6 @@ ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?),
 $(error Please install or build $(MIPS_BINUTILS_PREFIX))
 endif
 
-ifeq ($(VERSION),$(filter $(VERSION), us gw))
-COMPILER_DIR    := tools/gcc_kmc/$(DETECTED_OS)/2.7.2
-else ifeq ($(VERSION),cn)
-COMPILER_DIR    := tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4
-endif
-CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
-
 AS              := $(MIPS_BINUTILS_PREFIX)as
 LD              := $(MIPS_BINUTILS_PREFIX)ld
 OBJCOPY         := $(MIPS_BINUTILS_PREFIX)objcopy
@@ -108,6 +113,18 @@ GCC             := $(MIPS_BINUTILS_PREFIX)gcc
 CPP             := $(MIPS_BINUTILS_PREFIX)cpp
 STRIP           := $(MIPS_BINUTILS_PREFIX)strip
 ICONV           := iconv
+
+ifeq ($(COMPILER), original)
+    ifeq ($(VERSION),$(filter $(VERSION), us gw))
+    COMPILER_DIR    := tools/gcc_kmc/$(DETECTED_OS)/2.7.2
+    else ifeq ($(VERSION),cn)
+    COMPILER_DIR    := tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4
+    endif
+
+    CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
+else ifeq ($(COMPILER), gcc)
+    CC              := $(GCC)
+endif
 
 SPLAT             ?= python3 -m splat split
 SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
@@ -131,17 +148,20 @@ IINC       := -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I.
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/include
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign -Wno-invalid-source-encoding
+CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
+ifeq ($(COMPILER), original)
+CHECK_WARNINGS += -Wno-invalid-source-encoding
+endif
+ifneq ($(WERROR), 0)
+	CHECK_WARNINGS += -Werror
+endif
 
 # Have CC_CHECK pretend to be a MIPS compiler
 MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZPTR=32
 ifneq ($(RUN_CC_CHECK),0)
 #	The -MMD flags additionaly creates a .d file with the same name as the .o file.
 	CC_CHECK          := $(CC_CHECK_COMP)
-	CC_CHECK_FLAGS    := -MMD -MP -fno-builtin -funsigned-char -fsyntax-only -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DAVOID_UB -DCC_CHECK=1
-	ifneq ($(WERROR), 0)
-		CHECK_WARNINGS += -Werror
-	endif
+	CC_CHECK_FLAGS    := -MMD -MP -fno-builtin -funsigned-char -fsyntax-only -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DPRESERVE_UB -DCC_CHECK=1
 else
 	CC_CHECK          := @:
 endif
@@ -156,6 +176,7 @@ RELEASE_DEFINES := -DNDEBUG -D_FINALROM
 AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
 C_DEFINES       := -D_LANGUAGE_C
 ENDIAN          := -EB
+LDFLAGS         :=
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
 OPTFLAGS        := -O2
@@ -177,10 +198,25 @@ CHAR_SIGN       := -fsigned-char
 LIBULTRA_VERSION:= 9
 endif
 
+ifeq ($(COMPILER), gcc)
+    ABIFLAG         := -mabi=32
+    OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
+    DBGFLAGS        := -ggdb
+    MIPS_VERSION    := -mips3
+	WARNINGS        := $(CHECK_WARNINGS)
+
+    CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
+    CFLAGS          += -mdivide-breaks -ffreestanding
+    CFLAGS          += -fno-toplevel-reorder
+# Consider removing in the future
+    CFLAGS          += -fno-zero-initialized-in-bss
+#    LDFLAGS         += -lgcc_vr4300
+endif
+
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
 
 # Variable to simplify C compiler invocation
-C_COMPILER_FLAGS = $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS)
+C_COMPILER_FLAGS = $(ABIFLAG) $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS)
 
 ICONV_FLAGS      = --from-code=UTF-8 --to-code=$(OUT_ENCODING)
 
@@ -214,13 +250,13 @@ LIBMUS_DIRS   := $(shell find lib/libmus/src -type d)
 C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS) $(SRC_DIRS),$(wildcard $(dir)/*.s))
 PNG_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.png))
-TEXT_FILES    := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.msg))
+MSG_FILES     := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.msg))
 
 O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f)
 
 PNG_INC_FILES := $(foreach f,$(PNG_FILES:.png=.inc),$(BUILD_DIR)/$f)
-TEXT_INC_FILES := $(foreach f,$(TEXT_FILES:.msg=.msg.inc),$(BUILD_DIR)/$f)
+MSG_INC_FILES := $(foreach f,$(MSG_FILES:.msg=.msg.inc),$(BUILD_DIR)/$f)
 
 SEGMENTS_SCRIPTS := $(wildcard linker_scripts/$(VERSION)/partial/*.ld)
 SEGMENTS_D       := $(SEGMENTS_SCRIPTS:.ld=.d)
@@ -246,9 +282,15 @@ $(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/linker_scri
 $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
+
+ifeq ($(COMPILER), original)
 $(BUILD_DIR)/src/libkmc/%.o:   OPTFLAGS := -O1
 $(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/buffers/%.o:  CFLAGS   += -fno-common
+else ifeq ($(COMPILER), gcc)
+$(BUILD_DIR)/src/libkmc/%.o:   OPTFLAGS := -Ofast
+$(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -Ofast
+endif
 
 # per-file flags
 
@@ -337,7 +379,7 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
 
 $(ELF): $(LINKER_SCRIPTS)
-	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ $(filter %.o, $^)
+	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ $(filter %.o, $^) $(LDFLAGS)
 
 ## Order-only prerequisites
 # These ensure e.g. the PNG_INC_FILES are built before the O_FILES.
@@ -345,17 +387,17 @@ $(ELF): $(LINKER_SCRIPTS)
 
 asset_files: $(PNG_INC_FILES)
 $(O_FILES): | asset_files
-text_files: $(TEXT_INC_FILES)
-$(O_FILES): | text_files
+msg_files: $(MSG_INC_FILES)
+$(O_FILES): | msg_files
 o_files: $(O_FILES)
 $(SEGMENTS_O): | o_files
 
 asset_files_clean:
-	$(RM) -r $(TEXT_INC_FILES)
-text_files_clean:
-	$(RM) -r $(TEXT_INC_FILES)
+	$(RM) -r $(MSG_INC_FILES)
+msg_files_clean:
+	$(RM) -r $(MSG_INC_FILES)
 
-.PHONY: asset_files asset_files_clean text_files text_files_clean o_files
+.PHONY: asset_files asset_files_clean msg_files msg_files_clean o_files
 
 $(BUILD_DIR)/%.ld: %.ld
 	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@

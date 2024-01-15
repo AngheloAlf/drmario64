@@ -705,14 +705,43 @@ void RectTexTile_ScisRect(StretchTexTile_arg0 *arg0) {
     vtx[1].v.tc[1] = vtx[3].v.tc[1] =
         (((temp_a3->unk_0C - temp_a3->unk_04) * temp_a3->unk_1C) + (temp_a3->unk_14 << 7)) >> 5;
 
+#ifndef PRESERVE_UB
     *(u32 *)&vtx[3].v.ob[2] = 0;
     *(u32 *)&vtx[2].v.ob[2] = 0;
     *(u32 *)&vtx[1].v.ob[2] = 0;
     *(u32 *)&vtx[0].v.ob[2] = 0;
+
     *(u32 *)vtx[3].v.cn = 0xFFFFFFFF;
     *(u32 *)vtx[2].v.cn = 0xFFFFFFFF;
     *(u32 *)vtx[1].v.cn = 0xFFFFFFFF;
     *(u32 *)vtx[0].v.cn = 0xFFFFFFFF;
+#else
+    vtx[3].v.ob[2] = 0;
+    vtx[3].v.flag = 0;
+    vtx[2].v.ob[2] = 0;
+    vtx[2].v.flag = 0;
+    vtx[1].v.ob[2] = 0;
+    vtx[1].v.flag = 0;
+    vtx[0].v.ob[2] = 0;
+    vtx[0].v.flag = 0;
+
+    vtx[3].v.cn[0] = 0xFF;
+    vtx[3].v.cn[1] = 0xFF;
+    vtx[3].v.cn[2] = 0xFF;
+    vtx[3].v.cn[3] = 0xFF;
+    vtx[2].v.cn[0] = 0xFF;
+    vtx[2].v.cn[1] = 0xFF;
+    vtx[2].v.cn[2] = 0xFF;
+    vtx[2].v.cn[3] = 0xFF;
+    vtx[1].v.cn[0] = 0xFF;
+    vtx[1].v.cn[1] = 0xFF;
+    vtx[1].v.cn[2] = 0xFF;
+    vtx[1].v.cn[3] = 0xFF;
+    vtx[0].v.cn[0] = 0xFF;
+    vtx[0].v.cn[1] = 0xFF;
+    vtx[0].v.cn[2] = 0xFF;
+    vtx[0].v.cn[3] = 0xFF;
+#endif
 
     *arg0->vtxP = &vtx[4];
     *arg0->gfxP = gfx;

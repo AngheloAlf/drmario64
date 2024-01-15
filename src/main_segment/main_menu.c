@@ -9089,7 +9089,7 @@ void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
     }
 
     if ((horizontal != 0) || (vertical != 0)) {
-        bool var_s7 = false;
+        s32 var_s7 = false;
         s32 var_s0 = menuNmEnt->unk_001C[sp24][0];
         s32 var_s1 = menuNmEnt->unk_001C[sp24][1];
         char *characterP;
