@@ -1260,8 +1260,8 @@ bool fontXX_drawID(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index) {
 /**
  * Original name: fontXX_draw2
  */
-bool fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsigned char *arg5) {
-    return fontXX_drawID2(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
+void fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsigned char *arg5) {
+    fontXX_drawID2(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
 }
 
 /**

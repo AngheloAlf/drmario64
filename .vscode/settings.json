@@ -13,6 +13,7 @@
         "*.s": "n64asm",
         "*.txt": "plaintext",
         "*.inc": "n64asm",
+        "*.md": "markdown",
         "typeinfo": "c"
     },
     "python.terminal.activateEnvironment": true
