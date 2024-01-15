@@ -4,7 +4,7 @@
 #include "macros_defines.h"
 #include "attributes.h"
 
-s32 sRandNext BSS;
+static s32 sRandNext;
 
 /**
  * Original name: rand

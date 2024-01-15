@@ -146,7 +146,7 @@ else
 	CC_CHECK          := @:
 endif
 
-CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -fno-common
+CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32
 
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -mabi=32 -G0 -no-pad-sections
@@ -248,6 +248,7 @@ $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DI
 # directory flags
 $(BUILD_DIR)/src/libkmc/%.o:   OPTFLAGS := -O1
 $(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -O1
+$(BUILD_DIR)/src/buffers/%.o:  CFLAGS   += -fno-common
 
 # per-file flags
 
