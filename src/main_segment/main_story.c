@@ -3,6 +3,7 @@
  */
 
 #include "main_story.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
@@ -33,25 +34,16 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_zoomfade);
 #endif
 
 #if VERSION_CN
-#ifdef NON_EQUIVALENT
-// float stuff
 void story_zoomfade(Gfx **gfxP, s32 arg1) {
-    Gfx *gfx;
+    Gfx *gfx = *gfxP;
+    u16 *framebuffer = gFramebuffers[gCurrentFramebufferIndex ^ 1];
     f32 temp_fs1_2;
     f32 temp_ft1;
-    f32 temp_ft1_2;
     s32 var_v1;
-    u16 *temp_s4;
     f32 temp;
-    f32 aux;
-    f32 arg8;
-    f32 arg9;
     f32 argA;
     f32 argB;
-
-    temp_s4 = gFramebuffers[gCurrentFramebufferIndex ^ 1];
-
-    gfx = *gfxP;
+    f32 temp3;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
@@ -62,50 +54,49 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
     gDPSetCombineLERP(gfx++, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, 0, 0, 0, 1, TEXEL0, ENVIRONMENT, PRIMITIVE,
                       ENVIRONMENT, 0, 0, 0, 1);
 
-    if (arg1 < 0) {
-        arg1 = 0;
-    } else if (arg1 > 0x5A) {
-        arg1 = 0x5A;
-    }
+    arg1 = MAX(arg1, 0);
+    arg1 = MIN(arg1, 0x5A);
 
-    temp_ft1 = arg1 / 90.0f;
+    temp_ft1 = arg1;
+    temp_ft1 = temp_ft1 / 90.0f;
 
     if (temp_ft1 > 0.75) {
-        f32 temp2 = ((temp_ft1 - 0.75) * 4.0);
-        f32 temp3 = 223.125f;
-        temp = 31.875f;
+        temp = (temp_ft1 - 0.75) * 4.0;
+        temp3 = 223.125f;
+        temp_fs1_2 = 31.875f;
 
-        var_v1 = ((255.0f - (temp2 * temp3)) - temp);
-        if (var_v1 < 0) {
-            var_v1 = 0;
-        }
+        var_v1 = (255.0f - temp3 * temp) - temp_fs1_2;
+        var_v1 = MAX(var_v1, 0);
     } else {
-        var_v1 = ((f64)(temp_ft1 * 255.0f) / 6.0);
+        var_v1 = (temp_ft1 * 255.0f) / 6.0;
         var_v1 = 0xFF - var_v1;
     }
 
     gDPSetPrimColor(gfx++, 0, 0, var_v1, var_v1, var_v1, 255);
 
-    temp_fs1_2 = (f32)(sinf(temp_ft1 * 6.0f) * 1.5);
-    temp = (f32)(cosf(temp_ft1 * 6.0f) * 1.5);
-    temp_ft1_2 = (f32)((2.0 * temp_ft1) + 1.0);
-    arg8 = temp_fs1_2 * temp_ft1_2 + -10.0;
-    arg9 = (temp * temp_ft1_2) + -7.5;
+    temp_fs1_2 = sinf(temp_ft1 * 6.0f) * 1.5;
+    temp = cosf(temp_ft1 * 6.0f) * 1.5;
+    temp_ft1 = 2.0 * temp_ft1 + 1.0;
+
+    temp_fs1_2 *= temp_ft1;
+    temp *= temp_ft1;
+
+    temp_fs1_2 = temp_fs1_2 + -10.0;
+    temp = temp + -7.5;
     argA = 340.0f;
     argB = 255.0f;
-    StretchTexTile16(&gfx, 0x140, 0xF0, temp_s4, 0, 0, 0x140, 0xF0, arg8, arg9, argA, argB);
+    StretchTexTile16(&gfx, SCREEN_WIDTH, SCREEN_HEIGHT, framebuffer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, temp_fs1_2,
+                     temp, argA, argB);
 
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE);
     gDPSetPrimColor(gfx++, 0, 0, 128, 128, 128, 50);
 
-    StretchTexTile16(&gfx, 0x140, 0xF0, temp_s4, 0, 0, 0x140, 0xF0, 0.0f, 0.0f, 320.0f, 240.0f);
+    StretchTexTile16(&gfx, SCREEN_WIDTH, SCREEN_HEIGHT, framebuffer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f,
+                     320.0f, 240.0f);
 
     *gfxP = gfx;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_zoomfade);
-#endif
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -158,24 +149,21 @@ extern u8 curtain_alpha_00_tex[];
 extern u16 curtain_00_tex[];
 
 #if VERSION_CN
-#ifdef NON_EQUIVALENT
 void curtain_proc_org(Gfx **gfxP, s32 arg1) {
-    Gfx *gfx;
+    Gfx *gfx = *gfxP;
     f32 temp_fv1;
     f32 var_fv0;
     s32 temp_ft3;
     s32 var_t8;
-    s32 var_v1;
+    f32 ftemp;
+    f32 ftemp2;
+    s32 temp;
 
-    var_v1 = arg1;
-    gfx = *gfxP;
-    if (var_v1 <= 0) {
+    if (arg1 <= 0) {
         return;
     }
 
-    if (var_v1 >= 0x1F) {
-        var_v1 = 0x1E;
-    }
+    arg1 = MIN(arg1, 0x1E);
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     gDPLoadTextureBlock(gfx++, curtain_00_tex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 48, 0, G_TX_MIRROR | G_TX_WRAP,
@@ -183,33 +171,26 @@ void curtain_proc_org(Gfx **gfxP, s32 arg1) {
     gDPLoadMultiBlock_4b(gfx++, curtain_alpha_00_tex, 0x0180, 1, G_IM_FMT_I, 32, 48, 0, G_TX_MIRROR | G_TX_WRAP,
                          G_TX_NOMIRROR | G_TX_CLAMP, 5, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
+    ftemp = arg1;
+    ftemp /= 30.0f;
+
     for (var_t8 = 0; var_t8 < 7; var_t8++) {
-        f32 ftemp;
-        f32 ftemp2;
-
-        temp_fv1 = (f32)((6 - var_t8) * 0x28);
-
-        ftemp = var_v1;
-        ftemp /= 30.0f;
-        ftemp *= 280.0f;
-
+        temp_fv1 = (6 - var_t8) * 0x28;
         ftemp2 = var_t8 * 8;
 
-        var_fv0 = ((f64)ftemp - 48.0) - ftemp2;
+        var_fv0 = (ftemp * 280.0f - 48.0) - ftemp2;
         if (temp_fv1 < var_fv0) {
             var_fv0 = temp_fv1;
         }
 
-        temp_ft3 = (s32)(((f64)var_fv0 * 4.0) + 0.5);
+        temp_ft3 = var_fv0 * 4.0 + 0.5;
+        temp = temp_ft3 + 0xC0;
 
-        gSPTextureRectangle(gfx++, 0, temp_ft3, 0x0500, temp_ft3, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+        gSPTextureRectangle(gfx++, 0, temp_ft3, 0x0500, temp, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
     }
 
     *gfxP = gfx;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", curtain_proc_org);
-#endif
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -288,7 +269,7 @@ void func_8007744C(void) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_8007746C(void) {
     msgWnd_clear(&mess_st);
     D_800AAD1C = 0;
@@ -299,11 +280,7 @@ void func_8007746C(void) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081898_cn);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool func_800774C4(void) {
     bool temp_v0 = msgWnd_isEnd(&mess_st);
 
@@ -312,10 +289,6 @@ bool func_800774C4(void) {
     }
     return temp_v0;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_800818FC_cn);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -397,14 +370,10 @@ void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, void *tex) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     story_spot(gfxP, arg1, arg2, arg3, &changestar_tex);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80081C54_cn);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -761,7 +730,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80078648);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", func_80082D5C_cn);
+// unused
+UNK_TYPE func_80082D5C_cn(UNK_TYPE *arg0) {
+    s32 pad[0x1C] UNUSED;
+
+    return *arg0;
+}
 #endif
 
 extern s32 st_message_count;
@@ -792,38 +766,32 @@ void func_8007865C(void) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_op);
 #endif
 
-#if VERSION_CN
-#ifdef NON_EQUIVALENT
 extern s32 fin_frame_440;
 extern s32 fin_demo_441;
-extern struct_mes_data *D_800C27F8_cn;
-extern struct_mes_data *D_800C27FC_cn;
-extern struct_mes_data *D_800C2800_cn;
 
+#if VERSION_CN
 void story_st_new_op(Gfx **gfxP, s32 arg1) {
-    Mtx sp20;
-    Gfx *gfx;
-    s32 temp_a3;
+    Gfx *gfx = *gfxP;
+    Mtx mtx;
     s32 var_s0;
     s32 var_v0;
     s32 var_v1;
-    s32 var_v1_5;
-
-    gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
-
     gSPDisplayList(gfx++, story_setup);
 
-    makeTransrateMatrix(&sp20, 0U, 0xFFF38000U, 0xFC4A0000U);
+    makeTransrateMatrix(&mtx, 0U, 0xFFF38000U, 0xFC4A0000U);
+
     switch (story_seq_step) {
         case 0x0:
-            var_s0 = 0x1A;
-            if (arg1 == 0) {
+            if (arg1 != 0) {
+                var_s0 = 0x1A;
+            } else {
                 var_s0 = 0x1B;
             }
+
             func_800773F0();
-            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[var_s0], story_buffer), 0, story_buffer);
+            lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[var_s0], story_buffer), 0, story_buffer);
             framecont = 0;
             fin_frame_440 = 0;
             fin_demo_441 = var_s0;
@@ -838,23 +806,26 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
                 var_v1 = 1;
             }
             fin_demo_441 = var_s0;
-            story_time_cnt = (s32)framecont;
+            story_time_cnt = framecont;
             fin_frame_440 = framecont;
             st_mes_ptr = mes_data[var_v1];
-            if (gControllerPressedButtons[main_joy[0]] & 0x5000) {
+
+            if (gControllerPressedButtons[main_joy[0]] & (B_BUTTON | START_BUTTON)) {
                 framecont = 0;
                 story_time_cnt = 0;
                 st_message_count = 0;
                 story_seq_step += 0x63;
             }
-            if (gControllerHoldButtons[main_joy[0]] & 0x8000) {
+
+            if (gControllerHoldButtons[main_joy[0]] & A_BUTTON) {
                 story_time_cnt += 3;
                 framecont += 3;
             }
+
             func_8007865C();
-            if (lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[var_s0], story_buffer), story_time_cnt,
+            if (lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[var_s0], story_buffer), story_time_cnt,
                          story_buffer) == 1) {
-                if (msgWnd_isEnd(&mess_st) != false) {
+                if (msgWnd_isEnd(&mess_st)) {
                     framecont = 0;
                     story_time_cnt = 0;
                     st_message_count = 0;
@@ -864,120 +835,131 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
             break;
 
         case 0x2:
+            var_s0 = 0x1C;
             fin_demo_441 = 0x1C;
-            story_time_cnt = (s32)framecont;
+            story_time_cnt = framecont;
             fin_frame_440 = framecont;
-            st_mes_ptr = D_800C27F8_cn;
-            if (gControllerPressedButtons[main_joy[0]] & 0x5000) {
+            st_mes_ptr = mes_data[2];
+            if (gControllerPressedButtons[main_joy[0]] & (B_BUTTON | START_BUTTON)) {
                 framecont = 0;
                 story_time_cnt = 0;
                 st_message_count = 0;
                 story_seq_step += 0x63;
             }
-            if (gControllerHoldButtons[main_joy[0]] & 0x8000) {
+            if (gControllerHoldButtons[main_joy[0]] & A_BUTTON) {
                 story_time_cnt += 3;
                 framecont += 3;
             }
+
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[0x1C], story_buffer), story_time_cnt,
-                          story_buffer) == 1) &&
-                (msgWnd_isEnd(&mess_st) != false)) {
-                framecont = 0;
-                story_time_cnt = 0;
-                st_message_count = 0;
-                story_seq_step += 1;
+            if (lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[var_s0], story_buffer), story_time_cnt,
+                         story_buffer) == 1) {
+                if (msgWnd_isEnd(&mess_st)) {
+                    framecont = 0;
+                    story_time_cnt = 0;
+                    st_message_count = 0;
+                    story_seq_step += 1;
+                }
             }
-            if (fin_frame_440 >= 0x61E) {
-                var_v0 = 0x63B - fin_frame_440;
+
+            if (fin_frame_440 > 0x61D) {
+                var_v0 = fin_frame_440 - 0x61D;
+                var_v0 = ((0x1E - var_v0) * 0xFF) / 30;
 
                 gSPDisplayList(gfx++, normal_texture_init_dl);
 
-                story_spot(&gfx, 0xA0, 0x56, (var_v0 * 0xFF) / 30, changestar_tex);
+                story_spot(&gfx, 0xA0, 0x56, var_v0, changestar_tex);
             }
             break;
 
         case 0x3:
+            var_s0 = 0x1D;
             fin_demo_441 = 0x1D;
             story_time_cnt = framecont;
             fin_frame_440 = framecont;
-            st_mes_ptr = D_800C27FC_cn;
-            if (gControllerPressedButtons[main_joy[0]] & 0x5000) {
+            st_mes_ptr = mes_data[3];
+            if (gControllerPressedButtons[main_joy[0]] & (B_BUTTON | START_BUTTON)) {
                 framecont = 0;
                 story_time_cnt = 0;
                 st_message_count = 0;
                 story_seq_step += 0x63;
             }
 
-            if (gControllerHoldButtons[main_joy[0]] & 0x8000) {
+            if (gControllerHoldButtons[main_joy[0]] & A_BUTTON) {
                 story_time_cnt += 3;
                 framecont += 3;
             }
 
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[0x1D], story_buffer), story_time_cnt,
-                          story_buffer) == 1) &&
-                (msgWnd_isEnd(&mess_st) != false)) {
-                framecont = 0;
-                story_time_cnt = 0;
-                st_message_count = 0;
-                story_seq_step += 1;
+            if (lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[var_s0], story_buffer), story_time_cnt,
+                         story_buffer) == 1) {
+                if (msgWnd_isEnd(&mess_st)) {
+                    framecont = 0;
+                    story_time_cnt = 0;
+                    st_message_count = 0;
+                    story_seq_step += 1;
+                }
             }
 
             if (fin_frame_440 < 0x1E) {
+                var_v0 = fin_frame_440;
+                var_v0 = (var_v0 * 0xFF) / 30;
                 gSPDisplayList(gfx++, normal_texture_init_dl);
 
-                story_spot(&gfx, 0xA0, 0x56, (fin_frame_440 * 0xFF) / 30, changestar_tex);
+                story_spot(&gfx, 0xA0, 0x56, var_v0, changestar_tex);
             }
-            if (fin_frame_440 >= 0x263) {
-                var_v0 = 0x280 - fin_frame_440;
+            if (fin_frame_440 > 0x262) {
+                var_v0 = fin_frame_440 - 0x262;
+                var_v0 = ((0x1E - var_v0) * 0xFF) / 30;
 
                 gSPDisplayList(gfx++, normal_texture_init_dl);
 
-                story_spot(&gfx, 0xA0, 0x56, (var_v0 * 0xFF) / 30, changestar_tex);
+                story_spot(&gfx, 0xA0, 0x56, var_v0, changestar_tex);
             }
             break;
 
         case 0x4:
+            var_s0 = 1;
             fin_demo_441 = 1;
-            story_time_cnt = (s32)framecont;
-            fin_frame_440 = framecont;
-            st_mes_ptr = D_800C2800_cn;
-            if (gControllerPressedButtons[main_joy[0]] & 0x5000) {
+            story_time_cnt = framecont;
+            fin_frame_440 = story_time_cnt;
+            st_mes_ptr = mes_data[4];
+            if (gControllerPressedButtons[main_joy[0]] & (B_BUTTON | START_BUTTON)) {
                 story_time_cnt = 0;
                 story_seq_step += 1;
             }
-            if (gControllerHoldButtons[main_joy[0]] & 0x8000) {
+            if (gControllerHoldButtons[main_joy[0]] & A_BUTTON) {
                 framecont += 3;
                 story_time_cnt += 3;
             }
+
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[0x4], story_buffer), story_time_cnt, story_buffer) ==
-                 1) &&
-                (msgWnd_isEnd(&mess_st) != false)) {
-                story_time_cnt = 0;
-                story_seq_step += 1;
+            if (lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[var_s0], story_buffer), story_time_cnt,
+                         story_buffer) == 1) {
+                if (msgWnd_isEnd(&mess_st)) {
+                    story_time_cnt = 0;
+                    story_seq_step += 1;
+                }
             }
             if (fin_frame_440 < 0x1E) {
-                gSPDisplayList(gfx++, normal_texture_init_dl);
+                var_v0 = fin_frame_440;
+                var_v0 = (var_v0 * 0xFF) / 30;
 
-                story_spot(&gfx, 0xA0, 0x56, (fin_frame_440 * 0xFF) / 30, changestar_tex);
+                gSPDisplayList(gfx++, normal_texture_init_dl);
+                story_spot(&gfx, 0xA0, 0x56, var_v0, changestar_tex);
             }
             break;
 
         default:
             func_8007744C();
-            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[fin_demo_441], story_buffer), fin_frame_440,
-                     story_buffer);
+            lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[fin_demo_441], story_buffer), fin_frame_440, story_buffer);
             break;
     }
 
-    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
     *gfxP = gfx;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_st_new_op);
-#endif
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -1042,26 +1024,22 @@ extern s32 fin_frame_568;
 extern s32 fin_demo_569;
 
 #if VERSION_CN
-#ifdef NON_MATCHING
 void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    Mtx sp20;
-    Gfx *gfx;
-    s32 temp_a3;
+    Gfx *gfx = *gfxP;
+    Mtx mtx;
     s32 temp;
-
-    gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gSPDisplayList(gfx++, story_setup);
 
-    makeTransrateMatrix(&sp20, 0U, 0xFFF38000U, 0xFC4A0000U);
+    makeTransrateMatrix(&mtx, 0U, 0xFFF38000U, 0xFC4A0000U);
 
     lws_scene = RELOCATE_SEGMENTED(lws_data[arg1], story_buffer);
 
     switch (story_seq_step) {
         case 0x0:
             func_800773F0();
-            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
+            lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
             framecont = 0;
             fin_frame_568 = 0;
             fin_demo_569 = arg1;
@@ -1072,32 +1050,34 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
             story_time_cnt = framecont;
             fin_frame_568 = framecont;
             st_mes_ptr = mes_data[arg2];
-            if (gControllerPressedButtons[main_joy[0]] & 0x5000) {
+            if (gControllerPressedButtons[main_joy[0]] & (START_BUTTON | B_BUTTON)) {
                 story_seq_step = 0x64;
                 framecont = 0;
                 story_time_cnt = 0;
                 st_message_count = 0;
             }
-            if (gControllerHoldButtons[main_joy[0]] & 0x8000) {
+            if (gControllerHoldButtons[main_joy[0]] & A_BUTTON) {
                 story_time_cnt += 3;
                 framecont += 3;
             }
+
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt,
-                          story_buffer) == 1) &&
-                msgWnd_isEnd(&mess_st)) {
-                framecont = 0;
-                story_time_cnt = 0;
-                st_message_count = 0;
-                story_seq_step += 1;
+            if (lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt, story_buffer) ==
+                1) {
+                if (msgWnd_isEnd(&mess_st)) {
+                    framecont = 0;
+                    story_time_cnt = 0;
+                    st_message_count = 0;
+                    story_seq_step += 1;
+                }
             }
 
-            temp_a3 = lws_scene->unk_04;
-            if (fin_frame_568 > (temp_a3 - 0x20)) {
-                temp = fin_frame_568;
+            if (fin_frame_568 > (lws_scene->unk_04 - 0x20)) {
+                temp = fin_frame_568 - (lws_scene->unk_04 - 0x20);
+                temp = ((0x1E - temp) * 0xFF) / 30;
 
                 gSPDisplayList(gfx++, normal_texture_init_dl);
-                story_spot(&gfx, 0xA0, 0x56, ((0x1E - ((temp + 0x20) - temp_a3)) * 0xFF) / 30, changestar_tex);
+                story_spot(&gfx, 0xA0, 0x56, temp, changestar_tex);
             }
             break;
 
@@ -1106,25 +1086,25 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
             story_time_cnt = framecont;
             fin_frame_568 = framecont;
             st_mes_ptr = mes_data[arg4];
-            if (gControllerPressedButtons[main_joy[0]] & 0x5000) {
+            if (gControllerPressedButtons[main_joy[0]] & (START_BUTTON | B_BUTTON)) {
                 story_seq_step = 3;
                 story_time_cnt = 0;
             }
-            if (gControllerHoldButtons[main_joy[0]] & 0x8000) {
+            if (gControllerHoldButtons[main_joy[0]] & A_BUTTON) {
                 framecont += 3;
                 story_time_cnt += 3;
             }
+
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg3], story_buffer), story_time_cnt,
-                          story_buffer) == 1) &&
+            if ((lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[arg3], story_buffer), story_time_cnt, story_buffer) ==
+                 1) &&
                 (msgWnd_isEnd(&mess_st) != false)) {
                 story_time_cnt = 0;
                 story_seq_step += 1;
             }
             if (fin_frame_568 < 0x1E) {
                 temp = fin_frame_568;
-                temp *= 0xFF;
-                temp /= 30;
+                temp = (temp * 0xFF) / 30;
 
                 gSPDisplayList(gfx++, normal_texture_init_dl);
                 story_spot(&gfx, 0xA0, 0x56, temp, changestar_tex);
@@ -1133,8 +1113,7 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
         default:
             func_8007744C();
-            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[fin_demo_569], story_buffer), fin_frame_568,
-                     story_buffer);
+            lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[fin_demo_569], story_buffer), fin_frame_568, story_buffer);
             break;
     }
 
@@ -1142,9 +1121,6 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     *gfxP = gfx;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_story", story_st_new2_f);
-#endif
 #endif
 
 extern s32 fin_frame_623;
