@@ -231,13 +231,13 @@ void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
 #endif
 
 #if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002B558_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B558_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002B598_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B598_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002B630_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B630_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002B6D4_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B6D4_gw);
 #endif
 
 /**
@@ -565,41 +565,41 @@ void dm_snd_play_strange_sound(void) {
 
 #if VERSION_GW
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002B8C8_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B8C8_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002B9EC_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B9EC_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BA14_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BA14_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BA34_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BA34_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BA54_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BA54_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BA70_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BA70_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BA98_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BA98_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BAE8_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BAE8_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BB08_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BB08_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BB54_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BB54_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BB70_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BB70_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BBAC_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BBAC_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BBCC_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BBCC_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BBE8_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BBE8_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BC04_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BC04_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BC24_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BC24_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BDB4_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BDB4_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BDE0_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BDE0_gw);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/sound", func_8002BE04_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BE04_gw);
 #endif
