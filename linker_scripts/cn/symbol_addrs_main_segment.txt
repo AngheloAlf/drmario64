@@ -2331,9 +2331,7 @@ frame_samples_min = 0x801007D4; // size:0x4
 frame_samples_max = 0x801007D8; // size:0x4
 extra_samples = 0x801007DC; // size:0x4
 
-ai_char_data = 0x801007E0; //
-B_8010084C_cn = 0x8010084C; //
-B_80100CF0_cn = 0x80100CF0; //
+ai_char_data = 0x801007E0; // size:0x6C0
 B_800EA290 = 0x80100EA0; // size:0x1244 // maybe bigger
 B_801020E8_cn = 0x801020E8; // size:0x300
 B_800EB4D8 = 0x801023E8; //

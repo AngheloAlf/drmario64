@@ -233,7 +233,7 @@ typedef struct struct_game_state_data {
     /* 0x048 */ u8 unk_04A;
     /* 0x04B */ u8 unk_04B;
     /* 0x04C */ u8 unk_04C;
-    /* 0x04D */ s8 unk_04D;
+    /* 0x04D */ u8 unk_04D;
     /* 0x04E */ u8 unk_04E;
     /* 0x04F */ u8 unk_04F;
     /* 0x050 */ struct_game_state_data_unk_050 unk_050[0x10];

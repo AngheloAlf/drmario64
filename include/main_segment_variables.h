@@ -274,7 +274,6 @@ extern s32 randomtable[55];
 // extern UNK_TYPE B_800E9BB4;
 extern s16 gfx_msg_no;
 extern struct_ai_char_data ai_char_data[AI_CHAR_DATA_LEN];
-// extern UNK_TYPE B_800EA0D0;
 extern u8 success;
 // extern UNK_TYPE attack_sprite_idx;
 

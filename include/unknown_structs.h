@@ -158,6 +158,6 @@ typedef struct struct_ai_char_data {
     /* 0x4C */ s16 unk_4C[STRUCT_AI_CHAR_DATA_LEN];
 } struct_ai_char_data; // size = 0x6C
 
-#define AI_CHAR_DATA_LEN 16
+#define AI_CHAR_DATA_LEN (12+4)
 
 #endif
