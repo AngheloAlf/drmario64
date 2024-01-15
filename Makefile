@@ -16,6 +16,8 @@ COMPARE ?= 1
 NON_MATCHING ?= 0
 # if WERROR is 1, pass -Werror to CC_CHECK, so warnings would be treated as errors
 WERROR ?= 0
+# Disassembles all asm from the ROM instead of skipping files which are entirely in C
+FULL_DISASM ?= 0
 # Check code syntax with host compiler
 RUN_CC_CHECK ?= 1
 CC_CHECK_COMP ?= clang
@@ -109,6 +111,11 @@ ICONV           := iconv
 
 SPLAT             ?= python3 -m splat split
 SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
+
+SPLAT_FLAGS       ?=
+ifneq ($(FULL_DISASM),0)
+    SPLAT_FLAGS       += --disassemble-all
+endif
 
 ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
 ROM_DECOMPRESSOR  ?= tools/compressor/rom_decompressor.py
@@ -287,7 +294,7 @@ setup:
 
 extract:
 	$(RM) -r asm/$(VERSION) bin/$(VERSION) linker_scripts/$(VERSION)/partial $(LD_SCRIPT) $(LD_SCRIPT:.ld=.d)
-	$(SPLAT) $(SPLAT_YAML)
+	$(SPLAT) $(SPLAT_FLAGS) $(SPLAT_YAML)
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
 lib:

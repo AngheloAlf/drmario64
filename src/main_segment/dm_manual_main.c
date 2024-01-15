@@ -20,6 +20,7 @@
 #include "nnsched.h"
 #include "static.h"
 #include "dm_virus_init.h"
+#include "util.h"
 
 #if VERSION_US || VERSION_GW || CC_CHECK
 #include "aiset.h"
@@ -151,110 +152,54 @@ void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
 }
 #endif
 
-extern const s32 RO_800B2408[];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const s32 RO_800B2408[] = { 0xC8, 0x28 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2408);
-#endif
-
-extern const s32 RO_800B2410[];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const s32 RO_800B2410[] = { 0x6C, 0x28 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2410);
-#endif
-
-extern const s32 RO_800B2418[];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const s32 RO_800B2418[] = { 0x24, 0x28 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2418);
-#endif
-
-extern const s32 RO_800B2420[];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const s32 RO_800B2420[] = { 0xB4, 0x28 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2420);
-#endif
-
-extern const s32 RO_800B2428[];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const s32 RO_800B2428[] = { 0xD8, 0x70 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2428);
-#endif
-
-extern const s32 RO_800B2430[];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const s32 RO_800B2430[] = { 0x7C, 0x70 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2430);
-#endif
-
-extern const s32 RO_800B2438[];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const s32 RO_800B2438[] = { 0x34, 0x70 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2438);
-#endif
-
-extern const s32 RO_800B2440[];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const s32 RO_800B2440[] = { 0xC4, 0x70 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2440);
-#endif
-
-extern const u8 virus_1_1[12][3];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 virus_1_1[][3] = {
     { 1, 1, 0x10 }, { 2, 2, 0xD }, { 2, 2, 0xE }, { 0, 5, 0xF }, { 0, 1, 6 }, { 0, 5, 6 },
     { 2, 0, 6 },    { 2, 4, 6 },   { 1, 2, 6 },   { 1, 3, 6 },   { 1, 6, 6 }, { 1, 7, 6 },
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", virus_1_1);
-#endif
-
-extern const u8 RO_800B246C[5];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 RO_800B246C[] = { 0x12, 0x20, 0, 0x10, 0x21 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B246C);
-#endif
-
-extern const u8 RO_800B2474[5];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 RO_800B2474[] = { 0x21, 0x10, 0x20, 0, 0x21 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800B2474);
-#endif
-
-extern const u8 position_1_1[][4];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 position_1_1[][4] = {
     { 3, 5, 1, 0 },
     { 3, 3, 0, 0 },
@@ -263,12 +208,7 @@ const u8 position_1_1[][4] = {
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", position_1_1);
-#endif
-
-extern const u8 virus_2_1[20][3];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 virus_2_1[][3] = {
     { 0, 0, 0xE }, { 0, 2, 0xA }, { 0, 2, 0xB }, { 0, 5, 8 },    { 0, 5, 9 },    { 0, 6, 0xC }, { 0, 6, 0xE },
     { 2, 3, 0xE }, { 2, 4, 7 },   { 2, 4, 8 },   { 2, 5, 0xB },  { 2, 5, 0xC },  { 2, 5, 0xE }, { 2, 5, 0xF },
@@ -276,35 +216,20 @@ const u8 virus_2_1[][3] = {
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", virus_2_1);
-#endif
-
-extern const u8 capsel_2_1[12];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 capsel_2_1[] = {
     0x21, 0x02, 0x10, 0x12, 0x21, 0x00, 0x01, 0x20, 0x21, 0x12, 0x10, 0x10,
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", capsel_2_1);
-#endif
-
-extern const u8 position_2_1[10][4];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 position_2_1[][4] = {
     { 4, 6, 0, 0 },   { 4, 5, 0, 1 }, { 7, 0xE, 1, 0 }, { 6, 0xB, 0, 1 }, { 5, 0xD, 0, 0 },
     { 0, 0xD, 1, 0 }, { 0, 9, 0, 0 }, { 3, 0xD, 1, 0 }, { 2, 9, 0, 1 },   { 1, 8, 0, 0 },
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", position_2_1);
-#endif
-
-extern const u8 virus_3_1[20][3];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 virus_3_1[][3] = {
     { 0, 0, 0xC }, { 0, 1, 0xD }, { 0, 1, 0xF }, { 0, 4, 0xF }, { 0, 6, 0xD },  { 0, 6, 8 },    { 0, 7, 0x10 },
     { 2, 3, 8 },   { 2, 3, 9 },   { 2, 3, 0xB }, { 2, 3, 0xC }, { 2, 7, 0xE },  { 2, 7, 0xF },  { 1, 1, 0x10 },
@@ -312,35 +237,20 @@ const u8 virus_3_1[][3] = {
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", virus_3_1);
-#endif
-
-extern const u8 capsel_3_1[11];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 capsel_3_1[] = {
     0x12, 0x22, 0x12, 0, 0x10, 2, 0x21, 0, 0x12, 1, 0,
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", capsel_3_1);
-#endif
-
-extern const u8 position_3_1[10][4];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 position_3_1[][4] = {
     { 4, 0xC, 0, 0 }, { 3, 0xA, 0, 0 }, { 1, 0xB, 0, 1 }, { 1, 0xA, 1, 0 },  { 2, 0xA, 1, 0 },
     { 6, 0xC, 0, 0 }, { 6, 0xB, 0, 1 }, { 6, 0xA, 1, 0 }, { 2, 0x10, 1, 1 }, { 3, 0x10, 1, 0 },
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", position_3_1);
-#endif
-
-extern const u8 virus_4_1[16][3];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 virus_4_1[][3] = {
     { 0, 0, 0xD }, { 0, 2, 7 },   { 0, 5, 0xA }, { 0, 5, 0xB }, { 0, 7, 0x10 }, { 2, 2, 0xE },
     { 2, 2, 0xF }, { 2, 3, 0xA }, { 2, 3, 0xD }, { 2, 5, 8 },   { 1, 1, 0xD },  { 1, 4, 8 },
@@ -348,32 +258,18 @@ const u8 virus_4_1[][3] = {
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", virus_4_1);
-#endif
-
-extern const u8 capsel_4_1[17];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 capsel_4_1[] = {
     0x10, 0x11, 0x20, 1, 0x12, 0x20, 1, 0x10, 0, 0x20, 0, 0x21, 1, 0x20, 0x22, 0, 0x10,
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", capsel_4_1);
-#endif
-
-extern const u8 position_4_1[16][4];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u8 position_4_1[][4] = {
     { 4, 7, 1, 0 },   { 5, 7, 0, 1 },   { 5, 6, 1, 0 },   { 5, 8, 0, 0 },   { 5, 7, 0, 1 },   { 3, 0xC, 1, 0 },
     { 0, 0xC, 0, 0 }, { 1, 0xB, 1, 0 }, { 0, 0xB, 1, 0 }, { 2, 0xD, 1, 0 }, { 7, 0xF, 1, 0 }, { 6, 0xD, 0, 0 },
     { 2, 6, 0, 0 },   { 3, 5, 1, 0 },   { 3, 3, 0, 0 },   { 2, 5, 1, 0 },
 };
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", position_4_1);
 #endif
 
 #include "build/src/main_segment/dm_manual_main.msg.inc"
@@ -2038,11 +1934,70 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", func_80074B08);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", RO_800C9408_cn);
-#endif
+const s32 RO_800C9408_cn[] = {
+    0, 1, 2, 3, 2, 1,
+};
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", func_8007E774_cn);
+// unused
+void func_8007E774_cn(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    struct_watchManual *temp_s0 = watchManual;
+    Gfx *gfx = *gfxP;
+    Mtx *mtx = *mtxP;
+    Vtx *vtx = *vtxP;
+    f32 sp48[4][4];
+    TiTexData *temp_s4;
+    TiTexData *temp_s1;
+    s32 var_s1;
+    s32 var_s0;
+    s32 var_s3;
+
+    guOrtho(mtx, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f, 10.0f, 1.0f);
+    gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    mtx++;
+
+    guTranslate(mtx, 0.0f, 0.0f, -5.0f);
+    gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
+    mtx++;
+
+    guRotateRPYF(sp48, 0.0f, (1 - arg5) * 0x5A,
+                 sinf(WrapF(0.0f, 1.0f, temp_s0->unk_184 / 128.0) * M_PI * 2.0) * 4.0f * arg5);
+
+    var_s1 = WrapI(0, ARRAY_COUNT(RO_800C9408_cn), ((temp_s0->unk_184 & 0x7F) * 3) >> 2);
+    if (func_8007224C(&temp_s0->unk_034) == false) {
+        var_s1 = 0;
+    }
+
+    temp_s4 = &_texKaSa[RO_800C9408_cn[var_s1] + 1];
+    temp_s1 = &_texKaSa[0];
+
+    var_s0 = MIN(temp_s4->unk_4[0], temp_s1->unk_4[0]);
+    var_s3 = MIN(temp_s4->unk_4[1], temp_s1->unk_4[1]);
+
+    gSPDisplayList(gfx++, alpha_texture_init_dl);
+    gSPClearGeometryMode(gfx++, G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
+                                    G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH | G_CLIPPING);
+    gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
+    gDPSetTexturePersp(gfx++, G_TP_NONE);
+    gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, arg6);
+
+    if (arg5 <= 0) {
+        sp48[3][0] = arg3 + var_s0;
+    } else {
+        sp48[3][0] = arg3;
+    }
+    sp48[3][1] = arg4;
+
+    guMtxF2L(sp48, mtx);
+    gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    mtx++;
+
+    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->unk_0->tex, temp_s4->unk_4[0], temp_s1->unk_0->tex,
+                     temp_s1->unk_4[0], 0, 0, var_s0, var_s3, 0.0f, 0.0f, var_s0, var_s3);
+
+    *vtxP = vtx;
+    *mtxP = mtx;
+    *gfxP = gfx;
+}
 #endif
 
 extern const s32 _posContPanel[];
@@ -2051,7 +2006,7 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posContPanel)
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", _posContPanel);
+const s32 _posContPanel[] = { 0x0000000A, 0x0000000E };
 #endif
 
 extern const s32 _posCircle_924[][2];
@@ -2177,35 +2132,39 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", disp_cont);
 #endif
 
 #if VERSION_CN
-#ifdef NON_EQUIVALENT
-extern const s32 _posCircle_924[][2];
-extern const s32 _posFinger_925[][2];
+/**
+ * Original name: _posCircle_924
+ */
+const s32 _posCircle_924[STRUCT_WATCHGAME_MANUAL_UNK_LEN2][2] = {
+    { 0x16, 0x2E },
+    { 0x1F, 0x2A },
+    { 0x34, 0x1B },
+    { 0x2B, 0x19 },
+};
+/**
+ * Original name: _posFinger_925
+ */
+const s32 _posFinger_925[STRUCT_WATCHGAME_MANUAL_UNK_LEN2][2] = {
+    { 0x16, 0x20 },
+    { 0x1F, 0x1C },
+    { 0x34, 0xD },
+    { 0x2B, 0xB },
+};
 
-#define ABS(x) (((x) < 0) ? -(x) : (x))
-
+/**
+ * Original name: disp_cont
+ */
 void disp_cont(void) {
     struct_watchManual *watchManualP = watchManual;
-    Gfx *temp_a0;
-    Gfx *temp_a0_2;
-    Gfx *temp_a0_3;
-    Gfx *temp_a0_4;
-    Gfx *temp_a0_5;
-    Gfx *temp_a0_6;
-    TiTexData *temp_t1;
-    s32 *var_s2;
-    s32 temp_a1_2;
-    s32 var_a0;
-    s32 var_v0;
-    TiTexData *temp_a1;
-    u16 var_t0;
-    u32 var_s3;
-    const s32 *temp_t2;
-    const s32 *temp2;
-    s32 a;
-    s32 b;
+    s32 i;
 
-    for (var_s3 = 0; var_s3 < 4U; var_s3++) {
-        if (watchManualP->unk_01C[var_s3] == -0x14) {
+    for (i = 0; i < ARRAY_COUNTU(watchManualP->unk_01C); i++) {
+        TiTexData *temp_t1;
+        TiTexData *temp_a1;
+        const s32 *temp_t2;
+        s32 var_t0;
+
+        if (watchManualP->unk_01C[i] == -0x14) {
             continue;
         }
 
@@ -2217,10 +2176,10 @@ void disp_cont(void) {
         gDPSetPrimColor(gGfxHead++, 0, 0, 255, 0, 0, 255);
         gDPSetTextureLUT(gGfxHead++, G_TT_NONE);
 
-        temp_t2 = _posCircle_924[var_s3];
+        temp_t2 = _posCircle_924[i];
         temp_t1 = &_texAll[6];
         StretchTexBlock4i(&gGfxHead, temp_t1->unk_4[0], temp_t1->unk_4[1], temp_t1->unk_0->tex,
-                          (_posContPanel[0] + temp_t2[0]), (_posContPanel[1] + temp_t2[1]), temp_t1->unk_4[0],
+                          _posContPanel[0] + temp_t2[0], _posContPanel[1] + temp_t2[1], temp_t1->unk_4[0],
                           temp_t1->unk_4[1]);
 
         gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
@@ -2228,23 +2187,15 @@ void disp_cont(void) {
         temp_t1 = &_texAll[4];
         temp_a1 = &_texAll[5];
 
-        // var_a0 = watchManualP->unk_01C[var_s3];
-        // if (var_a0 < 0) {
-        //    var_a0 = -var_a0;
-        //}
-        var_a0 = ABS(watchManualP->unk_01C[var_s3]);
-
-        temp2 = _posFinger_925[var_s3];
+        temp_t2 = _posFinger_925[i];
         var_t0 = MIN(temp_t1->unk_4[0], temp_a1->unk_4[0]);
 
         StretchAlphaTexBlock(&gGfxHead, var_t0, temp_t1->unk_4[1], temp_t1->unk_0->tex, temp_t1->unk_4[0],
-                             temp_a1->unk_0->tex, temp_a1->unk_4[0], _posContPanel[0] + temp2[0],
-                             _posContPanel[1] + temp2[1] - MIN(4, var_a0), var_t0, temp_t1->unk_4[1]);
+                             temp_a1->unk_0->tex, temp_a1->unk_4[0], _posContPanel[0] + temp_t2[0],
+                             _posContPanel[1] + temp_t2[1] - MIN(4, ABS(watchManualP->unk_01C[i])), var_t0,
+                             temp_t1->unk_4[1]);
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", disp_cont);
-#endif
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -2325,15 +2276,7 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", _posCircle_924);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", _posFinger_925);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const u16 map_x_table_1036[][4] = {
     { 0x76, 0x76, 0x76, 0x76 },
     { 0x1C, 0xD4, 0x1C, 0xD4 },
@@ -2344,12 +2287,12 @@ const u8 map_y_table_1038[] = { 0x2E, 0x2E };
 const u8 size_table_1039[] = { 0xA, 8 };
 
 void dm_manual_all_init(void) {
-    struct_watchManual *temp_v0_2;
-    s32 j;
+    struct_watchManual *temp_s4;
+    RomOffsetPair *tbl;
+    void **heap;
     s32 i;
+    s32 j;
     s32 k;
-    struct_game_state_data *var_a0_2;
-    void **headTopPtr;
 
     evs_seqnumb = _seqTbl_1037[evs_manual_no % ARRAY_COUNTU(_seqTbl_1037)];
     evs_seqence = 1;
@@ -2378,47 +2321,46 @@ void dm_manual_all_init(void) {
     story_proc_no = STORY_PROC_NO_1;
 
     dm_game_init_heap();
-    headTopPtr = dm_game_heap_top();
-    watchManual = ALIGN_PTR(*headTopPtr);
+    heap = dm_game_heap_top();
+    watchManual = ALIGN_PTR(*heap);
+    temp_s4 = watchManual;
+    bzero(temp_s4, sizeof(struct_watchManual));
+    *heap = watchManual + 1;
 
-    temp_v0_2 = watchManual;
-    bzero(temp_v0_2, sizeof(struct_watchManual));
+    tbl = _romDataTbl;
+    _texAll = tiLoadTexData(heap, tbl[ROMDATATBL_TUTORIAL_KASA].start, tbl[ROMDATATBL_TUTORIAL_KASA].end);
+    _texKaSa = tiLoadTexData(heap, tbl[ROMDATATBL_MENU_KASA].start, tbl[ROMDATATBL_MENU_KASA].end);
 
-    *headTopPtr = &watchManual[1];
-
-    _texAll = tiLoadTexData(headTopPtr, _romDataTbl[ROMDATATBL_TUTORIAL_KASA].start,
-                            _romDataTbl[ROMDATATBL_TUTORIAL_KASA].end);
-    _texKaSa =
-        tiLoadTexData(headTopPtr, _romDataTbl[ROMDATATBL_MENU_KASA].start, _romDataTbl[ROMDATATBL_MENU_KASA].end);
-
-    func_80071F14(&temp_v0_2->unk_034, headTopPtr);
-    func_800721D8(&temp_v0_2->unk_034);
+    func_80071F14(&temp_s4->unk_034, heap);
+    func_800721D8(&temp_s4->unk_034);
 
     dm_game_init_static();
     dm_game_init_snap_bg();
     dm_game_init(false);
-    temp_v0_2->unk_00C = 0xFF;
-    temp_v0_2->unk_010 = -8;
-    temp_v0_2->unk_170 = 0;
 
-    for (i = 0; i < ARRAY_COUNTU(temp_v0_2->unk_01C); i++) {
-        temp_v0_2->unk_01C[i] = -0x14;
+    temp_s4->unk_00C = 0xFF;
+    temp_s4->unk_010 = -8;
+    temp_s4->unk_170 = 0;
+
+    for (i = 0; i < ARRAY_COUNTU(temp_s4->unk_01C); i++) {
+        temp_s4->unk_01C[i] = -0x14;
     }
 
-    temp_v0_2->unk_02C = 0;
-    temp_v0_2->unk_014 = 0;
-    temp_v0_2->unk_018 = 0;
-    temp_v0_2->unk_184 = 0;
+    temp_s4->unk_02C = 0;
+    temp_s4->unk_014 = 0;
+    temp_s4->unk_018 = 0;
+    temp_s4->unk_184 = 0;
 
     j = 0;
-    for (i = 0; i < 3; i++) {
-        temp_v0_2->unk_14C[i].unk_0 = 0;
-        temp_v0_2->unk_14C[i].unk_4 = 0;
-        temp_v0_2->unk_0C4[i].unk_8 = j;
-        temp_v0_2->unk_0C4[i].unk_0 = (sinf(temp_v0_2->unk_0C4[i].unk_8 * 3.141592654 / 180) * 20) + 45;
-        temp_v0_2->unk_0C4[i].unk_4 = (cosf(temp_v0_2->unk_0C4[i].unk_8 * 3.141592654 / 180) * -20) + 155;
+    for (i = 0; i < STRUCT_WATCHGAME_MANUAL_UNK_LEN; i++) {
+        temp_s4->unk_14C[i].unk_0 = 0;
+        temp_s4->unk_14C[i].unk_4 = 0;
 
-        j += 120;
+        temp_s4->unk_0C4[i].unk_8 = j;
+        temp_s4->unk_0C4[i].unk_0 = sinf(temp_s4->unk_0C4[i].unk_8 * 3.141592654 / 180.0) * 20.0f + 45.0f;
+        temp_s4->unk_0C4[i].unk_4 = cosf(temp_s4->unk_0C4[i].unk_8 * 3.141592654 / 180.0) * -20.0f + 155.0f;
+
+        j += 0x78;
     }
 
     switch (evs_manual_no) {
@@ -2441,41 +2383,39 @@ void dm_manual_all_init(void) {
             break;
     }
 
-    var_a0_2 = game_state_data;
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
-        var_a0_2[i].unk_008 = map_y_table_1038[k];
-        var_a0_2[i].unk_00A = size_table_1039[k];
-        var_a0_2[i].unk_006 = map_x_table_1036[j][i];
+        struct_game_state_data *ptr = &game_state_data[i];
+
+        ptr->unk_006 = map_x_table_1036[j][i];
+        ptr->unk_008 = map_y_table_1038[k];
+        ptr->unk_00A = size_table_1039[k];
     }
 
-    var_a0_2 = game_state_data;
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
-        s8 *gamespeed_ptr = GameSpeed;
-        struct_800F4890_unk_0E8 *temp;
+        struct_game_state_data *ptr = &game_state_data[i];
 
-        var_a0_2[i].unk_02C = 1;
-        var_a0_2[i].unk_02D = gamespeed_ptr[1];
-        var_a0_2[i].unk_04D = 0;
-        var_a0_2[i].unk_04E = 2;
+        ptr->unk_02C = 1;
+        ptr->unk_02D = GameSpeed[ptr->unk_02C];
+        ptr->unk_04D = 0;
+        ptr->unk_04E = 2;
 
         switch (evs_manual_no) {
             case EVS_MANUAL_NO_2:
             case EVS_MANUAL_NO_5:
-                var_a0_2[i].unk_02B = 0xC;
-                var_a0_2[i].unk_02A = 0;
+                ptr->unk_02B = 0xC;
+                ptr->unk_02A = 0;
                 break;
 
             default:
-                var_a0_2[i].unk_02B = 8;
-                var_a0_2[i].unk_02A = 2;
+                ptr->unk_02B = 8;
+                ptr->unk_02A = 2;
                 break;
         }
 
-        temp_v0_2->unk_174[i] = 0;
+        temp_s4->unk_174[i] = 0;
 
-        temp = temp_v0_2->unk_0E8[i];
-        for (j = 0; j < ARRAY_COUNTU(temp_v0_2->unk_0E8[i]); j++) {
-            struct_800F4890_unk_0E8 *temp2 = &temp[j];
+        for (j = 0; j < ARRAY_COUNTU(temp_s4->unk_0E8[i]); j++) {
+            struct_800F4890_unk_0E8 *temp2 = &temp_s4->unk_0E8[i][j];
 
             temp2->unk_0 = 0;
             temp2->unk_1 = 0;
@@ -2487,23 +2427,11 @@ void dm_manual_all_init(void) {
         }
     }
 
-    temp_v0_2->unk_164 = 0;
-    temp_v0_2->unk_168 = 0;
-    temp_v0_2->unk_16C = 0;
-    temp_v0_2->unk_030 = 0;
+    temp_s4->unk_164 = 0;
+    temp_s4->unk_168 = 0;
+    temp_s4->unk_16C = 0;
+    temp_s4->unk_030 = 0;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", map_x_table_1036);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", _seqTbl_1037);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", map_y_table_1038);
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_manual_main", size_table_1039);
-
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/dm_manual_main", dm_manual_all_init);
 #endif
 
 #if VERSION_US
