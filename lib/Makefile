@@ -1,5 +1,9 @@
 MAKEFLAGS += --no-builtin-rules
 
+# Dump build object files
+OBJDUMP_BUILD ?= 1
+# 
+COMPILER ?= original
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -24,6 +28,16 @@ else
 $(error Invalid VERSION variable detected. Please use either 'us', 'cn' or 'gw')
 endif
 
+ifeq ($(COMPILER), original)
+# Empty on purpose
+else ifeq ($(COMPILER), gcc)
+    COMPARE       := 0
+    RUN_CC_CHECK  := 0
+    BUILD_DEFINES += -DMODERN_GCC=1 -DPRESERVE_UB
+else
+$(error Invalid COMPILER variable detected. Please use either 'original', 'gcc')
+endif
+
 MAKE = make
 
 UNAME_S := $(shell uname -s)
@@ -42,14 +56,22 @@ ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?),
 endif
 
 
+OBJDUMP         := $(MIPS_BINUTILS_PREFIX)objdump
+GCC             := $(MIPS_BINUTILS_PREFIX)gcc
+
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
 COMPILER_DIR    := ../tools/gcc_kmc/$(DETECTED_OS)/2.7.2
 else ifeq ($(VERSION),cn)
 COMPILER_DIR    := ../tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4
 endif
-CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
 
-STRIP      := $(MIPS_BINUTILS_PREFIX)strip
+ORIGINAL_CC     := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
+
+ifeq ($(COMPILER), original)
+    CC              := $(ORIGINAL_CC)
+else ifeq ($(COMPILER), gcc)
+    CC              := $(GCC)
+endif
 
 
 IINC       := -Iultralib/include -Iultralib/include/gcc -Iultralib/include/PR -Iultralib/src -Ilibmus/src
@@ -60,7 +82,7 @@ WARNINGS        := -w
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
 GBI_DEFINES     := -DF3DEX_GBI_2
 RELEASE_DEFINES := -DNDEBUG -D_FINALROM
-AS_DEFINES      := -D_LANGUAGE_ASSEMBLY -DMIPSEB -D_ULTRA64 -D_MIPS_SIM=1
+AS_DEFINES      := -D_LANGUAGE_ASSEMBLY -DMIPSEB -D_ULTRA64
 C_DEFINES       := -D_LANGUAGE_C
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
@@ -76,7 +98,33 @@ DBGFLAGS        := -ggdb
 LIBULTRA_VERSION:= 9
 endif
 
+ifeq ($(COMPILER), original)
+    AS_DEFINES      += -D_MIPS_SIM=1
+else ifeq ($(COMPILER), gcc)
+    ABIFLAG         := -mabi=32
+#    OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
+    OPTFLAGS        := -O0
+    DBGFLAGS        := -ggdb
+    MIPS_VERSION    := -mips3
+	WARNINGS        := $(CHECK_WARNINGS)
+
+    CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
+    CFLAGS          += -mdivide-breaks -ffreestanding
+    CFLAGS          += -fno-toplevel-reorder
+# Consider removing in the future
+    CFLAGS          += -fno-zero-initialized-in-bss
+endif
+
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
+
+# Use relocations and abi fpr names in the dump
+OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
+
+ifneq ($(OBJDUMP_BUILD), 0)
+	OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
+else
+	OBJDUMP_CMD = @:
+endif
 
 #### Files ####
 
@@ -102,13 +150,22 @@ $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
 
+ifeq ($(COMPILER), original)
 $(BUILD_DIR)/libmus/src/%.o:   MIPS_VERSION := -mips2
 $(BUILD_DIR)/libmus/src/%.o:   RELEASE_DEFINES :=
+endif
 
 # per-file flags
 
-$(BUILD_DIR)/libmus/src/player.o:   DBGFLAGS :=
+ifeq ($(COMPILER), original)
+$(BUILD_DIR)/libmus/src/player.o:      DBGFLAGS :=
 $(BUILD_DIR)/libmus/src/player_fx.o:   DBGFLAGS :=
+else ifeq ($(COMPILER), gcc)
+$(BUILD_DIR)/ultralib/src/os/getfpccsr.o: CFLAGS += -D__osGetSR=__osGetFpcCsr
+$(BUILD_DIR)/ultralib/src/os/setfpccsr.o: CFLAGS += -D__osSetSR=__osSetFpcCsr
+$(BUILD_DIR)/ultralib/src/os/exceptasm.o: CC := $(ORIGINAL_CC)
+$(BUILD_DIR)/ultralib/src/os/exceptasm.o: AS_DEFINES      += -D_MIPS_SIM=1
+endif
 
 
 #### Main Targets ###
@@ -127,6 +184,8 @@ distclean: clean
 
 $(BUILD_DIR)/%.o: %.s
 	$(CC) -c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) -x assembler-with-cpp -o $@ $<
+	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
 	$(CC) -c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<
+	$(OBJDUMP_CMD)

@@ -200,7 +200,8 @@ endif
 
 ifeq ($(COMPILER), gcc)
     ABIFLAG         := -mabi=32
-    OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
+#    OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
+    OPTFLAGS        := -O0
     DBGFLAGS        := -ggdb
     MIPS_VERSION    := -mips3
 	WARNINGS        := $(CHECK_WARNINGS)
@@ -221,7 +222,7 @@ C_COMPILER_FLAGS = $(ABIFLAG) $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(
 ICONV_FLAGS      = --from-code=UTF-8 --to-code=$(OUT_ENCODING)
 
 # Use relocations and abi fpr names in the dump
-OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32 -Mno-aliases
+OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
 
 ifneq ($(OBJDUMP_BUILD), 0)
 	OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
@@ -341,7 +342,7 @@ extract:
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
 lib:
-	$(MAKE) -C lib VERSION=$(VERSION)
+	$(MAKE) -C lib VERSION=$(VERSION) COMPILER=$(COMPILER) MIPS_BINUTILS_PREFIX=$(MIPS_BINUTILS_PREFIX)
 
 diff-init: all
 	$(RM) -rf expected/

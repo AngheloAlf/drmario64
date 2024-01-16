@@ -13,6 +13,7 @@
             "cwd": "${workspaceFolder}",
             "miDebuggerPath": "gdb-multiarch",
             "miDebuggerServerAddress": "[::1]:9123",
+            "targetArchitecture": "mips",
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
