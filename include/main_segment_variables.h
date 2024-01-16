@@ -212,7 +212,7 @@ extern void *bgGraphic; /* Original name: bgGraphic */
 extern void *storyGraphic;
 extern void *messageData;
 extern s32 first_copy;
-extern struct_800E87C0 B_800E87C0[0x40];
+extern Mtx AnimProc[0x40]; // guessed size
 extern s32 randomindex;
 extern s32 randomtable[55];
 

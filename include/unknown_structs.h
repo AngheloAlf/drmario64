@@ -25,15 +25,6 @@ typedef struct struct_evs_cfg_4p {
     /* 0x15 */ u8 unk_15;
 } struct_evs_cfg_4p; // size = 0x16
 
-typedef struct struct_800E87C0_unk_00 {
-    /* 0x0 */ UNK_TYPE4 unk_0;
-    /* 0x4 */ UNK_TYPE4 unk_4;
-} struct_800E87C0_unk_00; // size = 0x8
-
-typedef struct struct_800E87C0 {
-    /* 0x00 */ struct_800E87C0_unk_00 unk_00[8];
-} struct_800E87C0; // size = 0x40
-
 // GameStateBackup?
 typedef struct struct_gameBackup {
     /* 0x0000 */ struct_watchGame unk_0000;

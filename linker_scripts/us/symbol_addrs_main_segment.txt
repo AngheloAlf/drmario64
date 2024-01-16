@@ -2470,7 +2470,7 @@ bgGraphic = 0x800E87A8; //
 storyGraphic = 0x800E87AC; //
 messageData = 0x800E87B0; //
 first_copy = 0x800E87B4; //
-B_800E87C0 = 0x800E87C0; //
+AnimProc = 0x800E87C0; //
 randomindex = 0x800E97C0; //
 randomtable = 0x800E97C8; // size:0xDC
 

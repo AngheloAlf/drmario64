@@ -11,13 +11,7 @@
 #include "calc.h"
 #include "066840.h"
 
-extern Mtx AnimProc[0x40]; // guessed size
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/lws", lws_anim);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 s32 lws_anim(Gfx **gfxP, Mtx *mtx, struct_lws_scene *arg2, s32 arg3, void *arg4) {
     Gfx *gfx = *gfxP;
     s32 i;
@@ -35,23 +29,23 @@ s32 lws_anim(Gfx **gfxP, Mtx *mtx, struct_lws_scene *arg2, s32 arg3, void *arg4)
         Mtx sp28;
         Mtx sp68;
         Mtx spA8;
+        f32 var_fs3;
         f32 var_fs5;
+        f32 var_fs4;
         f32 spF4;
         f32 spF8;
         f32 spFC;
         f32 sp110;
-        f32 var_fs1;
         f32 var_fs2;
-        f32 var_fs3;
-        f32 var_fs4;
+        f32 var_fs1;
         f32 var_ft5;
         s16 temp_s0;
         s16 temp_s1;
+        s16 a3;
         struct_lws_scene_unk_14 *var_a1;
         struct_lws_scene_unk_14 *var_a2;
         struct_lws_scene_unk_14 *temp;
         struct_lws_scene_unk_10 *temp_s5;
-        s16 a3;
         s32 a4;
         s32 a5;
         s32 a6;
@@ -114,9 +108,9 @@ s32 lws_anim(Gfx **gfxP, Mtx *mtx, struct_lws_scene *arg2, s32 arg3, void *arg4)
         a5 = var_fs5 * 4096.0;
         a6 = var_fs4 * 4096.0;
 
-        temp_s1 = angleF2S(spF4 * 0.0625);
-        temp_s0 = angleF2S(spF8 * 0.0625);
-        a3 = angleF2S(spFC * 0.0625);
+        temp_s1 = angleF2S(spF4 / 16.0);
+        temp_s0 = angleF2S(spF8 / 16.0);
+        a3 = angleF2S(spFC / 16.0);
 
         makeMatrix(&spA8, temp_s1, temp_s0, a3, a4, a5, a6);
         matrixMulL(&sp68, &spA8, &sp28);
