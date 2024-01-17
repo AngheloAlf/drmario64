@@ -102,9 +102,13 @@ $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
 
-$(BUILD_DIR)/libmus/src/%.o:   MIPS_VERSION := -mips2
-$(BUILD_DIR)/libmus/src/%.o:   RELEASE_DEFINES :=
+ifeq ($(VERSION),$(filter $(VERSION), us gw))
+$(BUILD_DIR)/libmus/src/%.o:   MIPS_VERSION := -mips3
 # $(BUILD_DIR)/libmus/src/%.o:   CFLAGS += -Wa,--n64align
+else ifeq ($(VERSION),cn)
+$(BUILD_DIR)/libmus/src/%.o:   MIPS_VERSION := -mips2
+endif
+$(BUILD_DIR)/libmus/src/%.o:   RELEASE_DEFINES :=
 
 # per-file flags
 
@@ -127,7 +131,7 @@ distclean: clean
 .SECONDARY:
 
 $(BUILD_DIR)/%.o: %.s
-	$(CC) -c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) -x assembler-with-cpp -o $@ $<
+	$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(CFLAGS) $(MIPS_VERSION) -x assembler-with-cpp -o $@ $<
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC) -c $(CFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) $(WARNINGS) $(MIPS_VERSION) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<
+	$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<
