@@ -361,7 +361,10 @@ CHORUS_PARAMS = 0x80010748;
 FLANGE_PARAMS = 0x80010770;
 NULL_PARAMS = 0x80010798;
 
-D_800107C0 = 0x800107C0;
+L_INC = 0x800107C0; // size:0xC
+_loadOutputBuffer$in_function_static$val = 0x800107CC; // type:f32
+_loadOutputBuffer$in_function_static$lastval = 0x800107D0; // type:f32
+_loadOutputBuffer$in_function_static$blob = 0x800107D4; // type:f32
 
 vi = 0x800107E0; // size:0x60
 __osViCurr = 0x80010840;

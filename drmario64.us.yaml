@@ -21,7 +21,7 @@ options:
   reloc_addrs_path:
     - relocs/reloc_addrs.us.txt
 
-  auto_all_sections: [".text", ".data", ".rodata", ".bss"]
+  auto_all_sections: [".data", ".rodata", ".bss"]
 
   ld_discard_section: True
   ld_sections_allowlist:
@@ -360,7 +360,7 @@ segments:
       - [0x0111E0, data, libultra/initialize]
       - [0x011200, .data, ../lib/ultralib/src/os/exceptasm]
       - [0x011230, .data, ../lib/ultralib/src/audio/drvrnew]
-      - [0x0113C0, data, boot/0113C0] # unreferenced
+      - [0x0113C0, .data, ../lib/ultralib/src/audio/reverb]
       - [0x0113E0, data, libultra/vi]
       - [0x011450, .data, ../lib/ultralib/src/vimodes/vimodentsclan1]
       - [0x0114A0, .data, ../lib/ultralib/src/vimodes/vimodepallan1]
