@@ -104,10 +104,11 @@ $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 $(BUILD_DIR)/libmus/src/%.o:   MIPS_VERSION := -mips2
 $(BUILD_DIR)/libmus/src/%.o:   RELEASE_DEFINES :=
+# $(BUILD_DIR)/libmus/src/%.o:   CFLAGS += -Wa,--n64align
 
 # per-file flags
 
-$(BUILD_DIR)/libmus/src/player.o:   DBGFLAGS :=
+$(BUILD_DIR)/libmus/src/player.o:      DBGFLAGS :=
 $(BUILD_DIR)/libmus/src/player_fx.o:   DBGFLAGS :=
 
 

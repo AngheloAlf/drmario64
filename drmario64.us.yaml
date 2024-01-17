@@ -490,13 +490,14 @@ segments:
 
       - [0x0676B0, c, main_segment/055C40]
 
+      # - [0x067820, c, ../lib/libmus/src/player] # bss issues
       - [0x067820, asm, libmus/player] # bss issues
       - [0x06B100, c, ../lib/libmus/src/player_fx]
-      - [0x06B9E0, asm, libmus/aud_dma] # bss issues
-      - [0x06BE40, asm, libmus/aud_sched] # bss issues
-      - [0x06BFF0, asm, libmus/aud_thread] # bss issues
-      - [0x06C2B0, asm, libmus/lib_memory] # bss issues
-      - [0x06C3F0, asm, libmus/aud_samples] # bss issues
+      - [0x06B9E0, asm, libmus/aud_dma] # ../lib/libmus/src/aud_dma
+      - [0x06BE40, c, ../lib/libmus/src/aud_sched]
+      - [0x06BFF0, c, ../lib/libmus/src/aud_thread]
+      - [0x06C2B0, c, ../lib/libmus/src/lib_memory]
+      - [0x06C3F0, asm, libmus/aud_samples] # first function does not match
 
       - [0x06C4B0, textbin, rsp/rspboot]
       - [0x06C580, textbin, rsp/aspMain]
@@ -591,8 +592,8 @@ segments:
 
       - [0x093A70, data, libmus/player]
       - [0x093B30, .data, ../lib/libmus/src/player_fx]
-      - [0x093D40, data, libmus/aud_sched]
-      - [0x093D50, data, libmus/aud_thread]
+      - [0x093D40, .data, ../lib/libmus/src/aud_sched]
+      - [0x093D50, .data, ../lib/libmus/src/aud_thread]
 
       - [0x093D60, databin, rsp/aspMain]
       - [0x094020, databin, rsp/f3dex2]
@@ -639,6 +640,7 @@ segments:
       - [0x09B2C0, .rodata, main_segment/calc]
       - [0x09B310, .rodata, main_segment/065080]
 
+      # - [0x09B370, .rodata, ../lib/libmus/src/player]
       - [0x09B370, rodata, libmus/player]
       - [0x09B450, .rodata, ../lib/libmus/src/player_fx]
 
@@ -648,16 +650,15 @@ segments:
 
       - { type: .bss, vram: 0x800E5860, name: main_segment/screen_print/printf_impl }
       - { type: bss, vram: 0x800E5890, name: main_segment/800E5890 }
-      - { type: bss, vram: 0x800E99C0, name: libmus/aud_sched }
-      - { type: bss, vram: 0x800E99D0, name: main_segment/800E99D0 }
 
+      - { type: bss, vram: 0x800E9910, name: libmus/player }
+      - { type: bss, vram: 0x800E9980, name: libmus/aud_dma } # ../lib/libmus/src/aud_dma # bss alignment issues
+      - { type: .bss, vram: 0x800E99C0, name: ../lib/libmus/src/aud_sched }
+      - { type: .bss, vram: 0x800E99D0, name: ../lib/libmus/src/aud_thread }
+      - { type: .bss, vram: 0x800E9B90, name: ../lib/libmus/src/lib_memory }
       - { type: bss, vram: 0x800E9BA0, name: libmus/aud_samples }
 
       - { type: bss, vram: 0x800E9BB0, name: main_segment/800E9BB0 }
-
-      - { type: bss, vram: 0x800F8C90, name: libmus/aud_thread }
-
-      - { type: bss, vram: 0x800F8CE0, name: main_segment/800F8CE0 }
 
   - name: buffer1
     type: code
