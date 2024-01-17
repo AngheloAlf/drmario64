@@ -22,7 +22,7 @@ options:
   reloc_addrs_path:
     - relocs/reloc_addrs.gw.txt
 
-  auto_all_sections: [".text", ".data", ".rodata", ".bss"]
+  auto_all_sections: [".data", ".rodata", ".bss"]
 
   ld_discard_section: True
   ld_sections_allowlist:
@@ -140,7 +140,7 @@ segments:
     start: 0x001000
     vram: 0x80000400
     subsegments:
-      - [0x001000, .hasm, ../../src/entry/entry]
+      - [0x001000, hasm, ../../src/entry/entry]
 
   - name: boot
     type: code
@@ -193,23 +193,23 @@ segments:
       - [0x005930, asm, libultra/synsetfxmix] # c
       - [0x0059D0, asm, libultra/synsetpan] # c
       - [0x005A60, asm, libultra/synallocfx] # c
-      - [0x005B00, hasm, libultra/invaldcache]
-      - [0x005BB0, hasm, libultra/writebackdcacheall]
+      - [0x005B00, asm, libultra/invaldcache] # hasm
+      - [0x005BB0, asm, libultra/writebackdcacheall] # hasm
       - [0x005BE0, asm, libultra/contquery] # c
       - [0x005C80, asm, libultra/contreaddata] # c
       - [0x005E60, asm, libultra/controller] # c
       - [0x006170, asm, libultra/contsetch] # c
       - [0x0061D0, asm, libultra/virtualtophysical] # c
-      - [0x006230, hasm, libultra/sqrtf]
+      - [0x006230, asm, libultra/sqrtf] # hasm
       - [0x006240, asm, libultra/cosf] # c
       - [0x006390, asm, libultra/ortho] # c
       - [0x006610, asm, libultra/perspective] # c
       - [0x006990, asm, libultra/rotaterpy] # c
       - [0x006CB0, asm, libultra/sinf] # c
       - [0x006E50, asm, libultra/sins] # c
-      - [0x006EB0, hasm, libultra/bcmp]
-      - [0x006FC0, hasm, libultra/bcopy]
-      - [0x0072E0, hasm, libultra/bzero]
+      - [0x006EB0, asm, libultra/bcmp] # hasm
+      - [0x006FC0, asm, libultra/bcopy] # hasm
+      - [0x0072E0, asm, libultra/bzero] # hasm
       - [0x007380, asm, libultra/string] # c
       - [0x007410, asm, libultra/createmesgqueue] # c
       - [0x007440, asm, libultra/jammesg] # c
@@ -233,7 +233,7 @@ segments:
       - [0x008BB0, asm, libultra/settime] # c
       - [0x008BD0, asm, libultra/settimer] # c
       - [0x008D00, asm, libultra/timerintr] # c
-      - [0x009020, hasm, libultra/probetlb]
+      - [0x009020, asm, libultra/probetlb] # hasm
       - [0x0090E0, asm, boot/0090E0]
       - [0x009120, asm, boot/009120]
       - [0x009160, asm, libultra/vimgr] # c
@@ -257,9 +257,9 @@ segments:
       - [0x00A000, asm, libultra/initialize] # c
       - [0x00A3A0, asm, libultra/conteepread] # c
       - [0x00A5C0, asm, libultra/conteepwrite] # c
-      - [0x00A970, hasm, libultra/exceptasm]
-      - [0x00B2E0, hasm, libultra/interrupt]
-      - [0x00B370, hasm, libultra/setintmask]
+      - [0x00A970, asm, libultra/exceptasm] # hasm
+      - [0x00B2E0, asm, libultra/interrupt] # hasm
+      - [0x00B370, asm, libultra/setintmask] # hasm
       - [0x00B410, asm, libultra/setglobalintmask] # c
       - [0x00B450, asm, libultra/resetglobalintmask] # c
       - [0x00B4A0, asm, libultra/pirawdma] # c
@@ -277,16 +277,16 @@ segments:
       - [0x00DCC0, asm, libultra/save] # c
       - [0x00DD90, asm, libultra/heapalloc] # c
       - [0x00DDE0, asm, libultra/copy] # c # common form
-      - [0x00DE20, hasm, libultra/invalicache]
-      - [0x00DEA0, hasm, libultra/writebackdcache]
+      - [0x00DE20, asm, libultra/invalicache] # hasm
+      - [0x00DEA0, asm, libultra/writebackdcache] # hasm
       - [0x00DF20, asm, libultra/dpsetnextbuf] # c
-      - [0x00DFC0, hasm, libultra/getcause]
-      - [0x00DFD0, hasm, libultra/getcount]
-      - [0x00DFE0, hasm, libultra/getsr]
-      - [0x00DFF0, hasm, libultra/setcompare]
-      - [0x00E000, hasm, libultra/setfpccsr]
-      - [0x00E010, hasm, libultra/setsr]
-      - [0x00E020, hasm, libultra/setwatchlo]
+      - [0x00DFC0, asm, libultra/getcause] # hasm
+      - [0x00DFD0, asm, libultra/getcount] # hasm
+      - [0x00DFE0, asm, libultra/getsr] # hasm
+      - [0x00DFF0, asm, libultra/setcompare] # hasm
+      - [0x00E000, asm, libultra/setfpccsr] # hasm
+      - [0x00E010, asm, libultra/setsr] # hasm
+      - [0x00E020, asm, libultra/setwatchlo] # hasm
       - [0x00E030, asm, libultra/sp] # c
       - [0x00E050, asm, libultra/spgetstat] # c
       - [0x00E060, asm, libultra/spsetstat] # c
@@ -299,8 +299,8 @@ segments:
 #       - [0x00E180, asm, libultra/sirawwrite] # c # ambiguous
 #       - [0x00E180, asm, libultra/sprawwrite] # c # ambiguous
       - [0x00E1D0, asm, libultra/destroythread] # c
-      - [0x00E2B0, hasm, libultra/maptlbrdb]
-      - [0x00E310, hasm, libultra/unmaptlball]
+      - [0x00E2B0, asm, libultra/maptlbrdb] # hasm
+      - [0x00E310, asm, libultra/unmaptlball] # hasm
       - [0x00E360, asm, libultra/vi] # c
       - [0x00E470, asm, boot/00E470]
 #       - [0x00E470, asm, libultra/getactivequeue] # c # ambiguous

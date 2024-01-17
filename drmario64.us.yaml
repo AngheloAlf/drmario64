@@ -139,7 +139,7 @@ segments:
     start: 0x001000
     vram: 0x80000400
     subsegments:
-      - [0x001000, .hasm, ../../src/entry/entry]
+      - [0x001000, hasm, ../../src/entry/entry]
 
   - name: boot
     type: code
@@ -189,8 +189,8 @@ segments:
       - [0x005890, c, ../lib/ultralib/src/audio/synsetpan]
       - [0x005920, c, ../lib/ultralib/src/audio/synallocfx]
 
-      - [0x0059C0, .hasm, ../../lib/ultralib/src/os/invaldcache]
-      - [0x005A70, .hasm, ../../lib/ultralib/src/os/writebackdcacheall]
+      - [0x0059C0, hasm, ../../lib/ultralib/src/os/invaldcache]
+      - [0x005A70, hasm, ../../lib/ultralib/src/os/writebackdcacheall]
 
       - [0x005AA0, c, ../lib/ultralib/src/io/contquery]
       - [0x005B40, c, ../lib/ultralib/src/io/contreaddata]
@@ -199,7 +199,7 @@ segments:
 
       - [0x006090, c, ../lib/ultralib/src/os/virtualtophysical]
 
-      - [0x0060F0, .hasm, ../../lib/ultralib/src/gu/sqrtf]
+      - [0x0060F0, hasm, ../../lib/ultralib/src/gu/sqrtf]
       - [0x006100, c, ../lib/ultralib/src/gu/cosf]
       - [0x006250, c, ../lib/ultralib/src/gu/ortho]
       - [0x0064D0, c, ../lib/ultralib/src/gu/perspective]
@@ -207,9 +207,9 @@ segments:
       - [0x006B70, c, ../lib/ultralib/src/gu/sinf]
       - [0x006D10, c, ../lib/ultralib/src/gu/sins]
 
-      - [0x006D70, .hasm, ../../lib/ultralib/src/libc/bcmp]
-      - [0x006E80, .hasm, ../../lib/ultralib/src/libc/bcopy]
-      - [0x0071A0, .hasm, ../../lib/ultralib/src/libc/bzero]
+      - [0x006D70, hasm, ../../lib/ultralib/src/libc/bcmp]
+      - [0x006E80, hasm, ../../lib/ultralib/src/libc/bcopy]
+      - [0x0071A0, hasm, ../../lib/ultralib/src/libc/bzero]
       - [0x007240, c, ../lib/ultralib/src/libc/string]
 
       - [0x0072D0, c, ../lib/ultralib/src/os/createmesgqueue]
@@ -238,7 +238,7 @@ segments:
       - [0x008A70, c, ../lib/ultralib/src/os/settime]
       - [0x008A90, c, ../lib/ultralib/src/os/settimer]
       - [0x008BC0, asm, libultra/os/timerintr] # c # bss
-      - [0x008EE0, .hasm, ../../lib/ultralib/src/os/probetlb]
+      - [0x008EE0, hasm, ../../lib/ultralib/src/os/probetlb]
 
       - [0x008FA0, c, ../lib/ultralib/src/io/vigetcurrframebuf]
       - [0x008FE0, c, ../lib/ultralib/src/io/vigetnextframebuf]
@@ -253,24 +253,24 @@ segments:
 
       - [0x009990, asm, libultra/nops_9990]
 
-      - [0x0099A0, .hasm, ../../lib/ultralib/src/mgu/mtxident]
-      - [0x009A00, .hasm, ../../lib/ultralib/src/mgu/mtxidentf]
-      - [0x009A60, .hasm, ../../lib/ultralib/src/mgu/mtxf2l]
-      - [0x009AE0, .hasm, ../../lib/ultralib/src/mgu/mtxl2f]
-      - [0x009B60, .hasm, ../../lib/ultralib/src/mgu/mtxcatf]
-      - [0x009C60, .hasm, ../../lib/ultralib/src/mgu/scale]
-      - [0x009D20, .hasm, ../../lib/ultralib/src/mgu/scalef]
-      - [0x009D80, .hasm, ../../lib/ultralib/src/mgu/translate]
-      - [0x009E60, .hasm, ../../lib/ultralib/src/mgu/translatef]
+      - [0x0099A0, hasm, ../../lib/ultralib/src/mgu/mtxident]
+      - [0x009A00, hasm, ../../lib/ultralib/src/mgu/mtxidentf]
+      - [0x009A60, hasm, ../../lib/ultralib/src/mgu/mtxf2l]
+      - [0x009AE0, hasm, ../../lib/ultralib/src/mgu/mtxl2f]
+      - [0x009B60, hasm, ../../lib/ultralib/src/mgu/mtxcatf]
+      - [0x009C60, hasm, ../../lib/ultralib/src/mgu/scale]
+      - [0x009D20, hasm, ../../lib/ultralib/src/mgu/scalef]
+      - [0x009D80, hasm, ../../lib/ultralib/src/mgu/translate]
+      - [0x009E60, hasm, ../../lib/ultralib/src/mgu/translatef]
 
       - [0x009EC0, asm, libultra/os/initialize] # c # bss
 
       - [0x00A260, asm, libultra/io/conteepread] # bss
       - [0x00A480, asm, libultra/io/conteepwrite] # ?
 
-      - [0x00A830, .hasm, ../../lib/ultralib/src/os/exceptasm]
-      - [0x00B1A0, .hasm, ../../lib/ultralib/src/os/interrupt]
-      - [0x00B230, .hasm, ../../lib/ultralib/src/os/setintmask]
+      - [0x00A830, hasm, ../../lib/ultralib/src/os/exceptasm]
+      - [0x00B1A0, hasm, ../../lib/ultralib/src/os/interrupt]
+      - [0x00B230, hasm, ../../lib/ultralib/src/os/setintmask]
       - [0x00B2D0, c, ../lib/ultralib/src/os/setglobalintmask]
       - [0x00B310, c, ../lib/ultralib/src/os/resetglobalintmask]
 
@@ -291,18 +291,18 @@ segments:
       - [0x00DC50, c, ../lib/ultralib/src/audio/heapalloc]
       - [0x00DCA0, c, ../lib/ultralib/src/audio/copy]
 
-      - [0x00DCE0, .hasm, ../../lib/ultralib/src/os/invalicache]
-      - [0x00DD60, .hasm, ../../lib/ultralib/src/os/writebackdcache]
+      - [0x00DCE0, hasm, ../../lib/ultralib/src/os/invalicache]
+      - [0x00DD60, hasm, ../../lib/ultralib/src/os/writebackdcache]
 
       - [0x00DDE0, c, ../lib/ultralib/src/io/dpsetnextbuf]
 
-      - [0x00DE80, .hasm, ../../lib/ultralib/src/os/getcause]
-      - [0x00DE90, .hasm, ../../lib/ultralib/src/os/getcount]
-      - [0x00DEA0, .hasm, ../../lib/ultralib/src/os/getsr]
-      - [0x00DEB0, .hasm, ../../lib/ultralib/src/os/setcompare]
-      - [0x00DEC0, .hasm, ../../lib/ultralib/src/os/setfpccsr]
-      - [0x00DED0, .hasm, ../../lib/ultralib/src/os/setsr]
-      - [0x00DEE0, .hasm, ../../lib/ultralib/src/os/setwatchlo]
+      - [0x00DE80, hasm, ../../lib/ultralib/src/os/getcause]
+      - [0x00DE90, hasm, ../../lib/ultralib/src/os/getcount]
+      - [0x00DEA0, hasm, ../../lib/ultralib/src/os/getsr]
+      - [0x00DEB0, hasm, ../../lib/ultralib/src/os/setcompare]
+      - [0x00DEC0, hasm, ../../lib/ultralib/src/os/setfpccsr]
+      - [0x00DED0, hasm, ../../lib/ultralib/src/os/setsr]
+      - [0x00DEE0, hasm, ../../lib/ultralib/src/os/setwatchlo]
 
       - [0x00DEF0, c, ../lib/ultralib/src/io/sp] # c
       - [0x00DF10, c, ../lib/ultralib/src/io/spgetstat]
@@ -313,13 +313,13 @@ segments:
       - [0x00E040, c, ../lib/ultralib/src/io/sirawwrite]
 
       - [0x00E090, c, ../lib/ultralib/src/os/destroythread]
-      - [0x00E170, .hasm, ../../lib/ultralib/src/os/maptlbrdb]
-      - [0x00E1D0, .hasm, ../../lib/ultralib/src/os/unmaptlball]
+      - [0x00E170, hasm, ../../lib/ultralib/src/os/maptlbrdb]
+      - [0x00E1D0, hasm, ../../lib/ultralib/src/os/unmaptlball]
 
       - [0x00E220, asm, libultra/io/vi] # c # bss
       - [0x00E330, c, ../lib/ultralib/src/io/vigetcurrcontext]
 
-      - [0x00E340, .hasm, ../../lib/ultralib/src/os/parameters]
+      - [0x00E340, hasm, ../../lib/ultralib/src/os/parameters]
 
       - [0x00E3A0, c, ../lib/ultralib/src/io/dp]
       - [0x00E3C0, c, ../lib/ultralib/src/io/si]
@@ -331,7 +331,7 @@ segments:
       - [0x00E800, c, libkmc/modf]
       - [0x00E8B0, c, libkmc/rand]
       - [0x00E8F0, c, libkmc/strcpy]
-      - [0x00E9C0, .hasm, ../../src/libkmc/mmuldi3]
+      - [0x00E9C0, hasm, ../../src/libkmc/mmuldi3]
 
       - [0x00ED90, .data, boot/boot_main]
       - [0x00EDA0, .data, boot/dmadata]
@@ -467,7 +467,7 @@ segments:
 
       - [0x066580, c, main_segment/066580]
 
-      - [0x066840, hasm, main_segment/066840]
+      - [0x066840, asm, main_segment/066840] # hasm
 
       - [0x0676B0, c, main_segment/055C40]
 
