@@ -27,10 +27,16 @@ extern s32 dbits;
 extern s32 gzip_malloc_tmp;
 extern void *gzip_malloc_addr;
 
+#define GZIP_BUFF_SIZE 0x4000
+
+#if VERSION_US
 /**
  * Original name: gzip_mem_buff
  */
+static u8 gzip_mem_buff[GZIP_BUFF_SIZE];
+#else
 extern u8 gzip_mem_buff[];
+#endif
 
 /**
  * Original name: bk
@@ -113,7 +119,7 @@ void *func_80000720(size_t size) {
     void *ret;
 
     gzip_malloc_tmp += size;
-    if (gzip_malloc_tmp > 0x4000) {
+    if (gzip_malloc_tmp > GZIP_BUFF_SIZE) {
         return NULL;
     }
 

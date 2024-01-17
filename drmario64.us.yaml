@@ -147,6 +147,7 @@ segments:
     vram: 0x80000460
     follows_vram: entry
     bss_size: 0x18DE0
+    subalign: null
     subsegments:
       - [0x001060, c, boot/boot_main]
       - [0x001220, c, boot/dmadata]
@@ -159,15 +160,15 @@ segments:
       - [0x0030A0, c, boot/rom_offsets]
 
       # Start of libultra
-      - [0x0030A0, asm, libultra/io/conteepprobe] # c # references an extra symbol?
+      - [0x0030A0, c, ../lib/ultralib/src/io/conteepprobe]
       - [0x003120, c, ../lib/ultralib/src/io/conteeplongwrite]
       - [0x003210, c, ../lib/ultralib/src/io/conteeplongread]
-      - [0x003280, asm, libultra/io/pimgr] # some unnamed symbols # c # bss
+      - [0x003280, c, ../lib/ultralib/src/io/pimgr]
       - [0x003410, c, ../lib/ultralib/src/io/epirawdma]
       - [0x003600, c, ../lib/ultralib/src/io/epidma]
-      - [0x0036A0, asm, libultra/io/cartrominit] # c # bss
+      - [0x0036A0, c, ../lib/ultralib/src/io/cartrominit]
       - [0x003820, c, ../lib/ultralib/src/io/devmgr]
-      - [0x003BE0, asm, libultra/io/piacs] # c # bss
+      - [0x003BE0, c, ../lib/ultralib/src/io/piacs]
       - [0x003CD0, c, ../lib/ultralib/src/io/pidma]
       - [0x003D80, c, ../lib/ultralib/src/io/aigetlen]
       - [0x003D90, c, ../lib/ultralib/src/io/aigetstat]
@@ -194,7 +195,7 @@ segments:
 
       - [0x005AA0, c, ../lib/ultralib/src/io/contquery]
       - [0x005B40, c, ../lib/ultralib/src/io/contreaddata]
-      - [0x005D20, asm, libultra/io/controller] # c # bss
+      - [0x005D20, c, ../lib/ultralib/src/io/controller]
       - [0x006030, c, ../lib/ultralib/src/io/contsetch]
 
       - [0x006090, c, ../lib/ultralib/src/os/virtualtophysical]
@@ -216,16 +217,16 @@ segments:
       - [0x007300, c, ../lib/ultralib/src/os/jammesg]
       - [0x007440, c, ../lib/ultralib/src/os/recvmesg]
       - [0x007570, c, ../lib/ultralib/src/os/sendmesg]
-      - [0x0076A0, asm, libultra/os/seteventmesg] # c # bss
+      - [0x0076A0, c, ../lib/ultralib/src/os/seteventmesg]
 
-      - [0x007750, asm, libultra/io/sptask] # c # bss
+      - [0x007750, c, ../lib/ultralib/src/io/sptask]
       - [0x007990, c, ../lib/ultralib/src/io/sptaskyield]
       - [0x0079B0, c, ../lib/ultralib/src/io/sptaskyielded]
 
       - [0x007A00, c, ../lib/ultralib/src/sched/sched]
 
       - [0x008410, c, ../lib/ultralib/src/io/sirawdma]
-      - [0x0084C0, asm, libultra/io/siacs] # c # bss
+      - [0x0084C0, c, ../lib/ultralib/src/io/siacs]
 
       - [0x0085B0, c, ../lib/ultralib/src/os/createthread]
       - [0x008680, c, ../lib/ultralib/src/os/getthreadpri]
@@ -237,12 +238,12 @@ segments:
       - [0x0089E0, c, ../lib/ultralib/src/os/gettime]
       - [0x008A70, c, ../lib/ultralib/src/os/settime]
       - [0x008A90, c, ../lib/ultralib/src/os/settimer]
-      - [0x008BC0, asm, libultra/os/timerintr] # c # bss
+      - [0x008BC0, c, ../lib/ultralib/src/os/timerintr] # c # bss
       - [0x008EE0, hasm, ../../lib/ultralib/src/os/probetlb]
 
       - [0x008FA0, c, ../lib/ultralib/src/io/vigetcurrframebuf]
       - [0x008FE0, c, ../lib/ultralib/src/io/vigetnextframebuf]
-      - [0x009020, asm, libultra/io/vimgr] # c # bss
+      - [0x009020, c, ../lib/ultralib/src/io/vimgr]
       - [0x009360, c, ../lib/ultralib/src/io/visetevent]
       - [0x0093C0, c, ../lib/ultralib/src/io/visetmode]
       - [0x009410, c, ../lib/ultralib/src/io/visetspecial]
@@ -250,8 +251,6 @@ segments:
       - [0x0095D0, c, ../lib/ultralib/src/io/viswapbuf]
       - [0x009620, c, ../lib/ultralib/src/io/viswapcontext]
       - [0x009930, c, ../lib/ultralib/src/io/viblack]
-
-      - [0x009990, asm, libultra/nops_9990]
 
       - [0x0099A0, hasm, ../../lib/ultralib/src/mgu/mtxident]
       - [0x009A00, hasm, ../../lib/ultralib/src/mgu/mtxidentf]
@@ -263,10 +262,10 @@ segments:
       - [0x009D80, hasm, ../../lib/ultralib/src/mgu/translate]
       - [0x009E60, hasm, ../../lib/ultralib/src/mgu/translatef]
 
-      - [0x009EC0, asm, libultra/os/initialize] # c # bss
+      - [0x009EC0, c, ../lib/ultralib/src/os/initialize]
 
-      - [0x00A260, asm, libultra/io/conteepread] # bss
-      - [0x00A480, asm, libultra/io/conteepwrite] # ?
+      - [0x00A260, c, ../lib/ultralib/src/io/conteepread]
+      - [0x00A480, c, ../lib/ultralib/src/io/conteepwrite]
 
       - [0x00A830, hasm, ../../lib/ultralib/src/os/exceptasm]
       - [0x00B1A0, hasm, ../../lib/ultralib/src/os/interrupt]
@@ -304,7 +303,7 @@ segments:
       - [0x00DED0, hasm, ../../lib/ultralib/src/os/setsr]
       - [0x00DEE0, hasm, ../../lib/ultralib/src/os/setwatchlo]
 
-      - [0x00DEF0, c, ../lib/ultralib/src/io/sp] # c
+      - [0x00DEF0, c, ../lib/ultralib/src/io/sp]
       - [0x00DF10, c, ../lib/ultralib/src/io/spgetstat]
       - [0x00DF20, c, ../lib/ultralib/src/io/spsetstat]
       - [0x00DF30, c, ../lib/ultralib/src/io/spsetpc]
@@ -316,7 +315,7 @@ segments:
       - [0x00E170, hasm, ../../lib/ultralib/src/os/maptlbrdb]
       - [0x00E1D0, hasm, ../../lib/ultralib/src/os/unmaptlball]
 
-      - [0x00E220, asm, libultra/io/vi] # c # bss
+      - [0x00E220, c, ../lib/ultralib/src/io/vi]
       - [0x00E330, c, ../lib/ultralib/src/io/vigetcurrcontext]
 
       - [0x00E340, hasm, ../../lib/ultralib/src/os/parameters]
@@ -325,6 +324,7 @@ segments:
       - [0x00E3C0, c, ../lib/ultralib/src/io/si]
       # end of libultra
 
+      # start of libkmc
       - [0x00E3E0, c, libkmc/fmod]
       - [0x00E5C0, c, libkmc/memmove]
       - [0x00E730, c, libkmc/memset]
@@ -332,6 +332,7 @@ segments:
       - [0x00E8B0, c, libkmc/rand]
       - [0x00E8F0, c, libkmc/strcpy]
       - [0x00E9C0, hasm, ../../src/libkmc/mmuldi3]
+      # end of libkmc
 
       - [0x00ED90, .data, boot/boot_main]
       - [0x00EDA0, .data, boot/dmadata]
@@ -341,33 +342,38 @@ segments:
 
       - [0x00F340, .data, boot/rom_offsets]
 
-      - [0x00F650, data, libultra/pimgr]
-      - [0x00F680, data, libultra/cartrominit]
-      - [0x00F690, data, libultra/piacs]
+      # Start of libultra
+      - [0x00F650, .data, ../lib/ultralib/src/io/pimgr]
+      - [0x00F680, .data, ../lib/ultralib/src/io/cartrominit]
+      - [0x00F690, .data, ../lib/ultralib/src/io/piacs]
       - [0x00F6A0, .data, ../lib/ultralib/src/io/aisetnextbuf]
       - [0x00F6B0, .data, ../lib/ultralib/src/audio/env]
       - [0x00F7B0, .data, ../lib/ultralib/src/audio/sl]
-      - [0x00F7C0, data, libultra/controller]
+      - [0x00F7C0, .data, ../lib/ultralib/src/io/controller]
       - [0x00F7D0, .data, ../lib/ultralib/src/gu/rotaterpy]
       - [0x00F7E0, .data, ../lib/ultralib/src/gu/sins]
-      - [0x00FFE0, data, libultra/seteventmesg]
+      - [0x00FFE0, .data, ../lib/ultralib/src/os/seteventmesg]
       - [0x00FFF0, .data, ../lib/ultralib/src/sched/sched]
-      - [0x010000, data, libultra/siacs]
+      - [0x010000, .data, ../lib/ultralib/src/io/siacs]
       - [0x010010, .data, ../lib/ultralib/src/os/thread]
-      - [0x010030, data, libultra/timerintr]
-      - [0x010040, data, libultra/vimgr]
+      - [0x010030, .data, ../lib/ultralib/src/os/timerintr]
+      - [0x010040, .data, ../lib/ultralib/src/io/vimgr]
       - [0x010060, .data, ../lib/ultralib/src/io/vitbl]
-      - [0x0111E0, data, libultra/initialize]
+      - [0x0111E0, .data, ../lib/ultralib/src/os/initialize]
       - [0x011200, .data, ../lib/ultralib/src/os/exceptasm]
       - [0x011230, .data, ../lib/ultralib/src/audio/drvrnew]
       - [0x0113C0, .data, ../lib/ultralib/src/audio/reverb]
-      - [0x0113E0, data, libultra/vi]
+      - [0x0113E0, .data, ../lib/ultralib/src/io/vi]
       - [0x011450, .data, ../lib/ultralib/src/vimodes/vimodentsclan1]
       - [0x0114A0, .data, ../lib/ultralib/src/vimodes/vimodepallan1]
       - [0x0114F0, .data, ../lib/ultralib/src/vimodes/vimodempallan1]
+      # end of libultra
 
+      # libkmc
       - [0x011540, .data, libkmc/ctype]
+      # end of libkmc
 
+      # Start of libultra
       - [0x011640, .rodata, ../lib/ultralib/src/io/devmgr]
       - [0x011660, .rodata, ../lib/ultralib/src/io/aisetfreq]
       - [0x011670, .rodata, ../lib/ultralib/src/audio/env]
@@ -383,17 +389,30 @@ segments:
       - [0x0119C0, .rodata, ../lib/ultralib/src/audio/resample]
       - [0x0119F0, .rodata, ../lib/ultralib/src/audio/reverb]
       - [0x011A40, .rodata, ../lib/ultralib/src/gu/libm_vals]
+      # end of libultra
 
+      # libkmc
       - [0x011A50, .rodata, libkmc/fmod]
+      # end of libkmc
 
-      - { start: 0x011A60, type: bss, vram: 0x80010E60, name: boot/boot_main }
-      - { start: 0x011A60, type: bss, vram: 0x800151C0, name: boot/800151C0 }
-      - { start: 0x011A60, type: bss, vram: 0x800191E0, name: libultra/pimgr }
-      - { start: 0x011A60, type: bss, vram: 0x8001A3B0, name: boot/8001A3B0 }
+      - { start: 0x011A60, type: .bss, vram: 0x80010E60, name: boot/boot_main }
+      - { start: 0x011A60, type: .bss, vram: 0x800151C0, name: boot/dmadata }
+
+      - { start: 0x011A60, type: .bss, vram: 0x800151E0, name: gzip/inflate }
+
+      # Start of libultra
+      - { start: 0x011A60, type: .bss, vram: 0x800191E0, name: ../lib/ultralib/src/io/pimgr }
+      - { start: 0x011A60, type: .bss, vram: 0x8001A3B0, name: ../lib/ultralib/src/io/piacs }
+      - { start: 0x011A60, type: .bss, vram: 0x8001A3C0, name: ../lib/ultralib/src/io/sptask }
+      - { start: 0x011A60, type: .bss, vram: 0x8001A400, name: ../lib/ultralib/src/io/siacs }
+      - { start: 0x011A60, type: .bss, vram: 0x8001A410, name: ../lib/ultralib/src/io/vimgr }
+      # end of libultra
+
+      # libkmc
       - { start: 0x011A60, type: .bss, vram: 0x8001B630, name: libkmc/rand }
+      # end of libkmc
+
       - { start: 0x011A60, type: bss, vram: 0x8001B640, name: boot/8001B640 }
-      - { start: 0x011A60, type: bss, vram: 0x8001F9B0, name: libultra/cartrominit }
-      - { start: 0x011A60, type: bss, vram: 0x8001FA30, name: boot/8001FA30 }
 
   - name: dma_table
     type: code

@@ -318,12 +318,12 @@ _romDataTbl = 0x8000E838; // size:0x218
 __osPiDevMgr = 0x8000EA50; // size:0x1C
 __osPiTable = 0x8000EA6C;
 __osCurrentHandle = 0x8000EA70;
-D_8000EA80 = 0x8000EA80;
+osCartRomInit$in_function_static$osCartRomInit = 0x8000EA80; // size:0x4 type:s32
 __osPiAccessQueueEnabled = 0x8000EA90;
 hdwrBugFlag = 0x8000EAA0;
 eqpower = 0x8000EAB0; // size:0x100
 alGlobals = 0x8000EBB0;
-D_8000EBC0 = 0x8000EBC0;
+__osContinitialized = 0x8000EBC0;
 D_8000EBD0 = 0x8000EBD0;
 sintable = 0x8000EBE0;
 
@@ -404,21 +404,13 @@ piThread = 0x800191E0; // size:0x1B0
 piThreadStack = 0x80019390;
 piEventQueue = 0x8001A390;
 piEventBuf = 0x8001A3A8;
-piAccessBuf = 0x8001A3B0;
-B_8001A3C0 = 0x8001A3C0;
-B_8001A3C4 = 0x8001A3C4;
-B_8001A3D0 = 0x8001A3D0;
-B_8001A3D8 = 0x8001A3D8;
-B_8001A3DC = 0x8001A3DC;
-B_8001A3E0 = 0x8001A3E0;
-B_8001A3E8 = 0x8001A3E8;
-B_8001A3EC = 0x8001A3EC;
-B_8001A3F0 = 0x8001A3F0;
-B_8001A3F8 = 0x8001A3F8;
-B_8001A3FC = 0x8001A3FC;
-siAccessBuf = 0x8001A400;
-B_8001A410 = 0x8001A410;
+piAccessBuf = 0x8001A3B0; // size:0x4
 
+tmp_task = 0x8001A3C0; // size:0x40 type:OSTask
+
+siAccessBuf = 0x8001A400; // size:0x4
+
+viMgrMain$in_function_static$retrace = 0x8001A410; // type:u16 size:0x2
 viThread = 0x8001A418; // size:0x1B0
 viThreadStack = 0x8001A5D0;
 viEventQueue = 0x8001B5D0;
@@ -433,15 +425,13 @@ bk = 0x8001D640;
 __osBaseCounter = 0x8001D644;
 __osThreadSave = 0x8001D648;
 ofd = 0x8001D7F8; // size:0x8
-__osContPifRam = 0x8001D800;
-B_8001D838 = 0x8001D838;
-B_8001D83C = 0x8001D83C;
+__osContPifRam = 0x8001D800; // size:0x40
 
 __Dom2SpeedParam = 0x8001D840; // size:0x74
 
 gBootThreadStack = 0x8001D8C0; // size:0x2000
 sPiMgrCmdBuff = 0x8001F8C0; // size:0xC8
-B_8001F988 = 0x8001F988;
+__osViIntrCount = 0x8001F988;
 insize = 0x8001F98C;
 outcnt = 0x8001F990;
 __osMaxControllers = 0x8001F994;
@@ -451,8 +441,8 @@ hufts = 0x8001F9A8;
 
 __CartRomHandle = 0x8001F9B0; // size:0x74
 
-B_8001FA30 = 0x8001FA30;
-B_8001FA6C = 0x8001FA6C;
+__osEepPifRam = 0x8001FA30; // size:0x40 type:OSPifRam
+
 __osPiAccessQueue = 0x8001FA70;
 
 __Dom1SpeedParam = 0x8001FA88; // size:0x74
@@ -462,7 +452,7 @@ bytes_out = 0x8001FB00;
 __osContLastCmd = 0x8001FB04;
 __osEepromTimerMsg = 0x8001FB08;
 __osBaseTimer = 0x8001FB10;
-__osTimerCounter = 0x8001FB30;
+__osTimerCounter = 0x8001FB30; // size:0x4
 __osEepromTimer = 0x80021B40;
 __osEventStateTab = 0x80021B60; // size:0x78
 __osFinalrom = 0x80021BD8;
@@ -474,60 +464,3 @@ sPiMgrCmdQueue = 0x80029C08;
 __osSiAccessQueue = 0x80029C20;
 
 // bss end
-
-
-// alLoadParam = 0x8002BB60;
-// alAuxBusPull = 0x8002BE90;
-// alAuxBusParam = 0x8002BF6C;
-// alMainBusPull = 0x8002BFC0;
-// alMainBusParam = 0x8002C100;
-// alResamplePull = 0x8002C130;
-// alResampleParam = 0x8002C31C;
-// alFxPull = 0x8002C3E0;
-// alFxParam = 0x8002C754;
-// alFxParamHdl = 0x8002C768;
-// alSavePull = 0x8002CF80;
-// alSaveParam = 0x8002D028;
-// __osPiDevMgr = 0x8002EA50;
-// // = 0x8002EA50; // size:0x0
-// __osPiTable = 0x8002EA6C;
-// __osCurrentHandle = 0x8002EA70;
-// // = 0x8002EA80; // size:0x0
-// __osPiAccessQueueEnabled = 0x8002EA90;
-// // = 0x8002EAA0; // size:0x0
-// // = 0x8002EAB0; // size:0x0
-// alGlobals = 0x8002EBB0;
-// // = 0x8002EBB0; // size:0x0
-// alGlobals = 0x8002EBB0;
-// // = 0x8002EBC0; // size:0x0
-// // = 0x8002EBD0; // size:0x0
-// // = 0x8002EBE0; // size:0x0
-// // = 0x8002F3E0; // size:0x0
-// // = 0x8002F3F0; // size:0x0
-// __osThreadTail = 0x8002F410;
-// __osRunQueue = 0x8002F418;
-// __osActiveQueue = 0x8002F41C;
-// __osRunningThread = 0x8002F420;
-// __osFaultedThread = 0x8002F424;
-// __osTimerList = 0x8002F430;
-// // = 0x8002F430; // size:0x0
-// // = 0x8002F440; // size:0x0
-// __additional_scanline = 0x8002F45C;
-// // = 0x800391E0; // size:0x0
-// // = 0x8003A3C0; // size:0x0
-// // = 0x8003A410; // size:0x0
-// __osBaseCounter = 0x8003D644; // size:0x4
-// __osThreadSave = 0x8003D648;
-// __osContPifRam = 0x8003D800; // size:0x40
-// __Dom2SpeedParam = 0x8003D840;
-// __osViIntrCount = 0x8003F988; // size:0x4
-// __osMaxControllers = 0x8003F994; // size:0x1
-// __osCurrentTime = 0x8003F9A0; // size:0x8
-// __CartRomHandle = 0x8003F9B0; // size:0x74
-// __osEepPifRam = 0x8003FA30;
-// __osPiAccessQueue = 0x8003FA70;
-// __Dom1SpeedParam = 0x8003FA88;
-// __osContLastCmd = 0x8003FB04; // size:0x1
-// __osEepromTimerMsg = 0x8003FB08; // size:0x4
-// __osTimerCounter = 0x8003FB30; // size:0x4
-// __osEepromTimerQ = 0x80049BE8; // size:0x18

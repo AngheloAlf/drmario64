@@ -295,7 +295,7 @@ setup:
 
 extract:
 	$(RM) -r asm/$(VERSION) bin/$(VERSION) linker_scripts/$(VERSION)/partial $(LD_SCRIPT) $(LD_SCRIPT:.ld=.d)
-	$(SPLAT) $(SPLAT_FLAGS) $(SPLAT_YAML)
+	$(SPLAT) $(SPLAT_YAML) $(SPLAT_FLAGS)
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
 lib:
