@@ -490,7 +490,7 @@ segments:
 
       - [0x0676B0, c, main_segment/055C40]
 
-      - [0x067820, c, ../lib/libmus/src/player] # doesn't match yet
+      - [0x067820, c, ../lib/libmus/src/player]
       - [0x06B100, c, ../lib/libmus/src/player_fx]
       - [0x06B9E0, asm, libmus/aud_dma]
       # - [0x06B9E0, c, ../lib/libmus/src/aud_dma]

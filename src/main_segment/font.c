@@ -1269,7 +1269,7 @@ void fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsi
  */
 bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
     s32 sp20[8];
-    s32 var_a3;
+    s32 i;
     s32 width;
     s32 height;
     u8 *texture;
@@ -1305,8 +1305,8 @@ bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5
                               G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     }
 
-    for (var_a3 = 0; var_a3 < 2; var_a3++) {
-        if (var_a3 == 0) {
+    for (i = 0; i < 2; i++) {
+        if (i == 0) {
             gDPSetCycleType((*gfxP)++, G_CYC_2CYCLE);
             gDPSetCombineLERP((*gfxP)++, 0, 0, 0, 1, 0, 0, 0, TEXEL0, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, 0, 0,
                               0, COMBINED);
@@ -1336,146 +1336,10 @@ bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsi
     return fontAsc_drawID(gfxP, arg1, arg2, arg3, arg4, index);
 }
 
-#if VERSION_US
-#if 0
+#if VERSION_US || VERSION_CN
 /**
  * Original name: fontAsc_drawID
  */
-enum bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
-    s32 sp0;
-    s32 sp4;
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
-    s32 sp18;
-    s32 sp1C;
-    Gfx *temp_a0;
-    Gfx *temp_a0_3;
-    Gfx *temp_a1;
-    Gfx *temp_v1;
-    Gfx *temp_v1_2;
-    Gfx *temp_v1_3;
-    Gfx *temp_v1_4;
-    Gfx *temp_v1_5;
-    Gfx *temp_v1_6;
-    Gfx *temp_v1_7;
-    s32 temp_a0_2;
-    s32 temp_a2;
-    s32 temp_t1;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 var_a0;
-    s32 var_v0;
-    s32 var_v0_2;
-
-    if (((arg3 <= 0.0f) || (arg4 <= 0.0f))) {
-        return false;
-    }
-    if (arg5 == 0) {
-        return false;
-    }
-    temp_v0 = arg5 - 1;
-    temp_t1 = -(temp_v0 & 1) & 0xC;
-    if (arg5 > 0) {
-        u8 *ptr = &font_e_tex[((temp_v0 & ~1) * 0xA * 0xC) >> 1];
-        temp_a2 = temp_t1 * 4;
-        temp_a0_2 = (temp_t1 + 0xB) * 4;
-#if 0
-        temp_a0 = *gfxP;
-        *gfxP = temp_a0 + 8;
-        temp_a0->words.w0 = 0xFD880004;
-        temp_a0->words.w1 = (u32) (((s32) ((temp_v0 & ~1) * 0xA * 0xC) >> 1) + font_e_tex);
-        temp_v1 = *gfxP;
-        *gfxP = temp_v1 + 8;
-        temp_v1->words.w0 = 0xF5880200;
-        temp_v1->words.w1 = 0x07080200;
-        temp_v1_2 = *gfxP;
-        *gfxP = temp_v1_2 + 8;
-        temp_v1_2->words.w0 = 0xE6000000;
-        temp_v1_2->words.w1 = 0;
-        temp_v1_3 = *gfxP;
-        *gfxP = temp_v1_3 + 8;
-        temp_v1_3->words.w0 = temp_a2 | 0xF4000000;
-        temp_v1_3->words.w1 = temp_a0_2 | 0x07000000 | 0x12000;
-        temp_v1_4 = *gfxP;
-        *gfxP = temp_v1_4 + 8;
-        temp_v1_4->words.w0 = 0xE7000000;
-        temp_v1_4->words.w1 = 0;
-        temp_v1_5 = *gfxP;
-        *gfxP = temp_v1_5 + 8;
-        temp_v1_5->words.w0 = 0xF5800200;
-        temp_v1_5->words.w1 = 0x80200;
-        temp_v1_6 = *gfxP;
-        *gfxP = temp_v1_6 + 8;
-        temp_v1_6->words.w0 = temp_a2 | 0xF2000000;
-        temp_v1_6->words.w1 = temp_a0_2 | 0x24000;
-#endif
-
-        gDPLoadTextureTile_4b((*gfxP)++, ptr, G_IM_FMT_I, 10, 12, 0, temp_t1, 9, (temp_t1 + 0xB), 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-
-        //gDPSetTextureImage((*gfxP)++, G_IM_FMT_I, G_IM_SIZ_8b, 5, 0xFFFFFFFF);
-        //gDPLoadSync((*gfxP)++);
-        //gDPLoadTile((*gfxP)++, G_TX_LOADTILE, 0, 0, 0x0012, 0);
-        //gDPPipeSync((*gfxP)++);
-        //gDPSetTile((*gfxP)++, G_IM_FMT_I, G_IM_SIZ_4b, 1, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-        //gDPSetTileSize((*gfxP)++, G_TX_RENDERTILE, 0, temp_t1 * 4, 0x0024, (temp_t1 + 0xB) * 4);
-
-    }
-    sp10 = 0;
-    sp14 = temp_t1 << 5;
-    sp0 = (s32) (arg1 * 4.0f);
-    sp4 = (s32) (arg2 * 4.0f);
-    sp8 = (s32) ((arg1 + arg3) * 4.0f);
-    spC = (s32) ((arg2 + arg4) * 4.0f);
-    sp18 = (s32) (10240.0f / arg3);
-    sp1C = (s32) (12288.0f / arg4);
-#if 0
-    temp_a1 = *gfxP;
-    *gfxP = temp_a1 + 8;
-    temp_a1->words.w0 = ((sp8 & ((s32) ~(u16)sp8 >> 0x1F) & 0xFFF) << 0xC) | ((spC & ((s32) ~(u16)spC >> 0x1F) & 0xFFF) | 0xE4000000);
-    temp_a1->words.w1 = ((sp0 & ((s32) ~(u16)sp0 >> 0x1F) & 0xFFF) << 0xC) | (sp4 & ((s32) ~(u16)sp4 >> 0x1F) & 0xFFF);
-    temp_v1_7 = *gfxP;
-    *gfxP = temp_v1_7 + 8;
-    temp_v1_7->words.w0 = 0xE1000000;
-    if ((u16)sp0 >= 0) {
-        var_a0 = sp10 << 0x10;
-    } else {
-        if ((u16)sp18 < 0) {
-            var_v0_2 = (s32) ((u16)sp0 * (u16)sp1C) >> 7;
-            var_v1_2 = (s32) ~var_v0_2 >> 0x1F;
-        } else {
-            var_v0_2 = (s32) ((u16)sp0 * (u16)sp1C) >> 7;
-            var_v1_2 = -(var_v0_2 < 1);
-        }
-        var_a0 = (sp10 - (var_v0_2 & var_v1_2)) << 0x10;
-    }
-    if (sp4 >= 0) {
-        var_v0_3 = sp14 & 0xFFFF;
-    } else if ((u16)sp1C < 0) {
-        temp_v0_2 = (s32) ((s16) sp4 * (u16)sp1C) >> 7;
-        var_v0_3 = (sp14 - (temp_v0_2 & ((s32) ~temp_v0_2 >> 0x1F))) & 0xFFFF;
-    } else {
-        temp_v0_3 = (s32) ((s16) sp4 * (u16)sp1C) >> 7;
-        var_v0_3 = (sp14 - (temp_v0_3 & -(temp_v0_3 < 1))) & 0xFFFF;
-    }
-    temp_v1_7->words.w1 = var_a0 | var_v0_3;
-    temp_a0_3 = *gfxP;
-    *gfxP = temp_a0_3 + 8;
-    temp_a0_3->words.w0 = 0xF1000000;
-    temp_a0_3->words.w1 = ((u16)sp18 << 0x10) | (u16)sp1C;
-#endif
-    gSPTextureRectangle((*gfxP)++, sp0, sp4, sp8, spC, G_TX_RENDERTILE, sp10, sp14, sp18, sp1C);
-
-    return true;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/font", fontAsc_drawID);
-#endif
-#endif
-
-#if VERSION_CN
 bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 index) {
     s32 sp8[8];
     s32 var_t4;
