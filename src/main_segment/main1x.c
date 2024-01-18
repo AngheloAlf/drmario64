@@ -158,14 +158,7 @@ enum_main_no main11(void) {
     return ret;
 }
 
-/**
- * Original name: adjust_story_ai
- */
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main1x", adjust_story_ai);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 /**
  * Original name: adjust_story_ai
  */
@@ -252,7 +245,13 @@ void adjust_story_ai(void) {
                         break;
 
                     case CHARANIMEMODE_D:
+                        temp_a1->unk_01 = 1;
+                        break;
+
                     case CHARANIMEMODE_F:
+                        temp_a1->unk_01 = 1;
+                        break;
+
                     case CHARANIMEMODE_C:
                         temp_a1->unk_01 = 1;
                         break;
@@ -358,8 +357,16 @@ void adjust_story_ai(void) {
                         break;
 
                     case CHARANIMEMODE_H:
+                        temp_a1->unk_01 = 3;
+                        break;
+
                     case CHARANIMEMODE_J:
+                        temp_a1->unk_01 = 3;
+                        break;
+
                     case CHARANIMEMODE_E:
+                        temp_a1->unk_01 = 3;
+                        break;
                     case CHARANIMEMODE_F:
                         temp_a1->unk_01 = 3;
                         break;
