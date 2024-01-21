@@ -344,8 +344,8 @@ func_800551BC - found 1 matches total:
 func_800466B8 - found 1 matches total:
 0.99 - func_800466A0
 
-func_80044C28 - found 1 matches total:
-0.99 - func_80044058
+StretchTexTile4i_LoadTex - found 1 matches total:
+0.99 - StretchTexTile4_LoadTex
 
 _getMode - found 1 matches total:
 0.99 - _getModeOld
@@ -392,7 +392,7 @@ StretchTexTile_ScisRect - found 1 matches total:
 _setNextMain - found 1 matches total:
 0.99 - _setMode
 
-func_80041334 - found 1 matches total:
+CopyTexBlock4 - found 1 matches total:
 0.99 - CopyTexBlock8
 
 dm_w_erase_chack_set - found 1 matches total:

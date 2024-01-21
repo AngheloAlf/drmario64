@@ -21,7 +21,7 @@ options:
   reloc_addrs_path:
     - relocs/reloc_addrs.cn.txt
 
-  auto_all_sections: [".text", ".data", ".rodata", ".bss"]
+  auto_all_sections: [".data", ".rodata", ".bss"]
 
   ld_discard_section: True
   ld_sections_allowlist:
@@ -96,6 +96,8 @@ options:
   build_path: build
   asset_path: bin/cn
   extensions_path: tools/splat_ext
+  hasm_in_src_path: True
+
   mips_abi_float_regs: o32
   # mips_abi_gpr: numeric
   # mips_abi_float_regs: numeric
@@ -142,7 +144,7 @@ segments:
     start: 0x001000
     vram: 0x80000400
     subsegments:
-      - [0x001000, .hasm, ../../src/entry/entry]
+      - [0x001000, hasm, entry/entry]
 
   - name: boot
     type: code
@@ -181,23 +183,23 @@ segments:
       - [0x005090, asm, libultra/synsetfxmix]
       - [0x005130, asm, libultra/synsetpan]
       - [0x0051C0, asm, libultra/synallocfx]
-      - [0x005260, hasm, libultra/invaldcache]
-      - [0x005310, hasm, libultra/writebackdcacheall]
+      - [0x005260, asm, libultra/invaldcache] # hasm
+      - [0x005310, asm, libultra/writebackdcacheall] # hasm
       - [0x005340, asm, libultra/contquery]
       - [0x0053F0, asm, libultra/contreaddata]
       - [0x005670, asm, libultra/controller]
       - [0x005A40, asm, libultra/contsetch]
       - [0x005AA0, asm, libultra/os/virtualtophysical]
-      - [0x005B70, hasm, libultra/sqrtf]
+      - [0x005B70, asm, libultra/sqrtf] # hasm
       - [0x005B80, asm, libultra/cosf]
       - [0x005CB0, asm, libultra/ortho]
       - [0x005E20, asm, libultra/perspective]
       - [0x006020, asm, libultra/rotateRPY]
       - [0x0061A0, asm, libultra/sinf]
       - [0x006320, asm, libultra/sins]
-      - [0x006370, hasm, libultra/bcmp]
-      - [0x006480, hasm, libultra/bcopy]
-      - [0x0067A0, hasm, libultra/bzero]
+      - [0x006370, asm, libultra/bcmp] # hasm
+      - [0x006480, asm, libultra/bcopy] # hasm
+      - [0x0067A0, asm, libultra/bzero] # hasm
       - [0x006840, asm, libultra/string]
       - [0x0068C0, asm, libultra/os/createmesgqueue]
       - [0x006930, asm, libultra/os/recvmesg]
@@ -215,7 +217,7 @@ segments:
       - [0x007D60, asm, libultra/os/settime]
       - [0x007DA0, asm, libultra/os/settimer]
       - [0x007F60, asm, libultra/os/timerintr]
-      - [0x008480, hasm, libultra/probetlb]
+      - [0x008480, asm, libultra/probetlb] # hasm
       - [0x008540, asm, libultra/io/vigetcurrframebuf]
       - [0x008580, asm, libultra/io/vigetnextframebuf]
       - [0x0085C0, asm, libultra/io/vimgr]
@@ -241,8 +243,8 @@ segments:
       - [0x009490, asm, libultra/conteeplongwrite]
       - [0x009580, asm, libultra/conteeplongread]
       - [0x009600, asm, libultra/os/exceptasm]
-      - [0x00A080, hasm, libultra/interrupt]
-      - [0x00A110, hasm, libultra/setintmask]
+      - [0x00A080, asm, libultra/interrupt] # hasm
+      - [0x00A110, asm, libultra/setintmask] # hasm
       - [0x00A1C0, asm, libultra/io/pimgr]
       - [0x00A340, asm, libultra/epirawdma]
 
@@ -270,17 +272,17 @@ segments:
       - [0x00DB70, asm, libultra/save]
       - [0x00DC50, asm, libultra/heapalloc]
       - [0x00DCA0, asm, libultra/copy] # common form
-      - [0x00DCD0, hasm, libultra/invalicache]
-      - [0x00DD50, hasm, libultra/writebackdcache]
+      - [0x00DCD0, asm, libultra/invalicache] # hasm
+      - [0x00DD50, asm, libultra/writebackdcache] # hasm
       - [0x00DDD0, asm, libultra/os/jammesg]
       - [0x00DF50, asm, libultra/os/sendmesg]
       - [0x00E0C0, asm, libultra/os/seteventmesg]
       - [0x00E190, asm, libultra/dpsetnextbuf]
-      - [0x00E230, hasm, libultra/getcause]
-      - [0x00E240, hasm, libultra/getsr]
-      - [0x00E250, hasm, libultra/setfpccsr]
-      - [0x00E260, hasm, libultra/setsr]
-      - [0x00E270, hasm, libultra/setwatchlo]
+      - [0x00E230, asm, libultra/getcause] # hasm
+      - [0x00E240, asm, libultra/getsr] # hasm
+      - [0x00E250, asm, libultra/setfpccsr] # hasm
+      - [0x00E260, asm, libultra/setsr] # hasm
+      - [0x00E270, asm, libultra/setwatchlo] # hasm
       - [0x00E280, asm, libultra/reg/_getcount]
       - [0x00E380, asm, libultra/reg/_setcompare]
       - [0x00E430, asm, libultra/sp]
@@ -295,8 +297,8 @@ segments:
       - [0x00E710, asm, libultra/os/getthreadid]
       - [0x00E760, asm, libultra/os/setthreadpri]
       - [0x00E870, asm, libultra/os/yieldthread]
-      - [0x00E8D0, hasm, libultra/maptlbrdb]
-      - [0x00E930, hasm, libultra/unmaptlball]
+      - [0x00E8D0, asm, libultra/maptlbrdb] # hasm
+      - [0x00E930, asm, libultra/unmaptlball] # hasm
       - [0x00E980, asm, libultra/vi]
       - [0x00EA80, asm, libultra/io/vigetcurrcontext]
 
@@ -320,6 +322,7 @@ segments:
       - [0x00F700, c, libnustd/srand]
       - [0x00F760, c, libnustd/fmod]
       - [0x00F7A0, c, libnustd/memmove]
+      - [auto, c, libnustd/ctype]
 
       # data
       - [0x00F830, .data, boot/boot_main]
@@ -360,6 +363,7 @@ segments:
     vram: 0x8002A7B0
     follows_vram: boot
     subsegments:
+      - [auto, c, dma_table/dma_table]
       - [0x0124E0, .data, dma_table/dma_table]
 
   - name: main_segment # compressed
@@ -423,7 +427,7 @@ segments:
 
       - [0x071550, c, main_segment/066580]
 
-      - [0x071830, hasm, main_segment/066840]
+      - [0x071830, asm, main_segment/066840] # hasm
 
       - [0x0726F0, c, main_segment/055C40]
 

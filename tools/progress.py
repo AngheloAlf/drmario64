@@ -104,15 +104,22 @@ def progressMain():
 
     totalStats, progressPerFolder = getProgress(mapPath, args.version, args.subpaths)
 
-    mapfile_parser.ProgressStats.printHeader()
-    totalStats.print("all", totalStats)
+    # Calculate the size for the first column
+    columnSize = 27
+    for folder in progressPerFolder:
+        if len(folder) > columnSize:
+            columnSize = len(folder)
+    columnSize += 1
+
+    print(mapfile_parser.ProgressStats.getHeaderAsStr(categoryColumnSize=columnSize))
+    print(totalStats.getEntryAsStr("all", totalStats, categoryColumnSize=columnSize))
     print()
 
     progressesList = list(progressPerFolder.items())
     if args.sort:
         progressesList.sort(key=lambda x: (x[1].decompedSize / x[1].total, x[1].total, x[0]), reverse=True)
     for folder, statsEntry in progressesList:
-        print(statsEntry.getEntryAsStr(folder, totalStats), end="")
+        print(statsEntry.getEntryAsStr(folder, totalStats, categoryColumnSize=columnSize), end="")
         if remaining and statsEntry.undecompedSize != 0:
             remainingPercentage = statsEntry.total / totalStats.total * 100 - statsEntry.decompedPercentageTotal(totalStats)
             print(f"{remainingPercentage:>8.4f}%", end="")

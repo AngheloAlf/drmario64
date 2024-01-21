@@ -10,8 +10,10 @@
  */
 extern u8 Heap_bufferp[];
 
-// gfx_freebuf?
-extern u8 gfx_freebuf[];
+/**
+ * Original name: gfx_freebuf
+ */
+extern u8 gfx_freebuf[0x1B0000];
 
 // cfb?
 extern u16 gFramebuffers[2][SCREEN_HEIGHT * SCREEN_WIDTH];

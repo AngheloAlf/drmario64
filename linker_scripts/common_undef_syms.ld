@@ -17,4 +17,10 @@ gBootThreadStackTop_LO = gBootThreadStackTop & 0xFFFF;
 
 ASSERT ((boot_ROM_END <= 0x101000), "Error: boot_ROM_END is larger than 1 MB");
 
+
+ASSERT ((buffer1_VRAM_END <= 0x80205000), "Error: The segment 'buffer1' is overflowing the ram limit");
+ASSERT ((buffer2_bss_VRAM == 0x80205000), "Error: buffer2 shifted?");
+ASSERT ((framebuffer_bss_VRAM == 0x803B5000), "Error: framebuffer shifted?");
+
+
 ENTRY(entrypoint);

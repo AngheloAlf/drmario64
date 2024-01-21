@@ -670,7 +670,7 @@ animeSmog_start = 0x8006503C; // type:func
 animeSmog_stop = 0x80065044; // type:func
 animeSmog_update = 0x800650B0; // type:func
 animeSmog_draw = 0x80065230; // type:func
-func_80065364_cn = 0x80065364; // type:func
+func_8005EE64 = 0x80065364; // type:func
 loadAnimeSeq = 0x80065390; // type:func
 init_map_all = 0x80065470; // type:func
 clear_map = 0x800654F4; // type:func
@@ -2283,7 +2283,7 @@ WaitTime = 0x8010051C; // size:0x10
 max_rec = 0x8010052C; // size:0x4
 replay_player = 0x80100530; // size:0x4
 
-plr_player = 0x80100540; //
+plr_player = 0x80100540; // size:0x14
 max_channels = 0x80100554; //
 mus_voices = 0x80100558; //
 mus_channels = 0x8010055C; //
@@ -2312,7 +2312,7 @@ dma_buffer_list = 0x801005B8; //
 audio_IO_mess_buf = 0x801005BC; //
 audio_mess_buf = 0x801005C0; //
 audio_dma_size = 0x801005C4; //
-audio_dma_count = 0x801005C8; //
+audio_dma_count = 0x801005C8; // size:0x4
 audDMAMessageQ = 0x801005CC; //
 cartrom_handle = 0x801005E4; // size:0x4
 
