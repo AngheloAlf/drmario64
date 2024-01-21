@@ -175,17 +175,17 @@ segments:
       - [0x0037A0, c, ../lib/ultralib/src/io/epidma]
       - [0x003840, c, ../lib/ultralib/src/io/epilinkhandle]
       - [0x003890, asm, libultra/cartrominit] # c
-      - [0x003A10, asm, libultra/devmgr] # c
+      - [0x003A10, c, ../lib/ultralib/src/io/devmgr]
       - [0x003DD0, asm, boot/piacs]
       - [0x003EC0, c, ../lib/ultralib/src/io/aigetlen]
       - [0x003ED0, c, ../lib/ultralib/src/io/aigetstat]
-      - [0x003EE0, asm, libultra/aisetfreq] # c
+      - [0x003EE0, c, ../lib/ultralib/src/io/aisetfreq]
       - [0x004000, asm, libultra/aisetnextbuf] # c
 
       - [0x0040A0, asm, libultra/env] # c
       - [0x004D50, asm, libultra/sl] # c
       - [0x004E00, c, ../lib/ultralib/src/audio/heapinit]
-      - [0x004E40, asm, libultra/synthesizer] # c
+      - [0x004E40, c, ../lib/ultralib/src/audio/synthesizer]
       - [0x005480, c, ../lib/ultralib/src/audio/syndelete]
       - [0x005490, c, ../lib/ultralib/src/audio/synaddplayer]
       - [0x0054E0, c, ../lib/ultralib/src/audio/synallocvoice]
@@ -208,11 +208,11 @@ segments:
       - [0x0061D0, c, ../lib/ultralib/src/os/virtualtophysical]
 
       - [0x006230, hasm, ../lib/ultralib/src/gu/sqrtf]
-      - [0x006240, asm, libultra/cosf] # c
+      - [0x006240, c, ../lib/ultralib/src/gu/cosf]
       - [0x006390, c, ../lib/ultralib/src/gu/ortho]
-      - [0x006610, asm, libultra/perspective] # c
+      - [0x006610, c, ../lib/ultralib/src/gu/perspective]
       - [0x006990, asm, libultra/rotaterpy] # c
-      - [0x006CB0, asm, libultra/sinf] # c
+      - [0x006CB0, c, ../lib/ultralib/src/gu/sinf]
       - [0x006E50, asm, libultra/sins] # c
 
       - [0x006EB0, hasm, ../lib/ultralib/src/libc/bcmp]
@@ -256,7 +256,7 @@ segments:
       - [0x009550, c, ../lib/ultralib/src/io/visetspecial]
       - [0x0096C0, c, ../lib/ultralib/src/io/visetyscale]
       - [0x009710, c, ../lib/ultralib/src/io/viswapbuf]
-      - [0x009760, asm, libultra/viswapcontext] # c
+      - [0x009760, c, ../lib/ultralib/src/io/viswapcontext]
       - [0x009A70, c, ../lib/ultralib/src/io/viblack]
 
       - [0x009AE0, hasm, ../lib/ultralib/src/mgu/mtxident]
@@ -276,7 +276,7 @@ segments:
 
       - [0x00A970, asm, libultra/exceptasm] # hasm
       - [0x00B2E0, hasm, ../lib/ultralib/src/os/interrupt]
-      - [0x00B370, asm, libultra/setintmask] # hasm
+      - [0x00B370, hasm, ../lib/ultralib/src/os/setintmask]
       - [0x00B410, c, ../lib/ultralib/src/os/setglobalintmask]
       - [0x00B450, c, ../lib/ultralib/src/os/resetglobalintmask]
 
@@ -291,7 +291,7 @@ segments:
       - [0x00CBD0, c, ../lib/ultralib/src/audio/auxbus]
       - [0x00CCE0, c, ../lib/ultralib/src/audio/filter]
       - [0x00CD00, c, ../lib/ultralib/src/audio/mainbus]
-      - [0x00CE70, asm, libultra/resample] # c
+      - [0x00CE70, c, ../lib/ultralib/src/audio/resample]
       - [0x00D120, asm, libultra/reverb] # c
       - [0x00DCC0, c, ../lib/ultralib/src/audio/save]
       - [0x00DD90, c, ../lib/ultralib/src/audio/heapalloc]
@@ -327,6 +327,8 @@ segments:
 
       - [0x00E480, hasm, ../lib/ultralib/src/os/parameters]
 
+      - [auto, hasm, ../lib/ultralib/src/gu/libm_vals]
+
       - [0x00E4E0, c, ../lib/ultralib/src/io/dp]
       - [0x00E500, c, ../lib/ultralib/src/io/si]
       # end of libultra
@@ -354,21 +356,28 @@ segments:
       - [0x011690, .data, libkmc/ctype]
 
       # Start of libultra
-      - [0x011790, rodata, libultra/devmgr]
-      - [0x0117B0, rodata, libultra/aisetfreq]
+      - [0x011790, .rodata, ../lib/ultralib/src/io/devmgr]
+      - [0x0117B0, .rodata, ../lib/ultralib/src/io/aisetfreq]
+
       - [0x0117C0, rodata, libultra/env]
-      - [0x0118B0, rodata, libultra/synthesizer]
-      - [0x0118D0, rodata, libultra/cosf]
-      - [0x011930, rodata, libultra/perspective]
-      - [0x011970, rodata, libultra/sinf]
+      - [0x0118B0, .rodata, ../lib/ultralib/src/audio/synthesizer]
+
+      - [0x0118D0, .rodata, ../lib/ultralib/src/gu/cosf]
+      - [0x011930, .rodata, ../lib/ultralib/src/gu/perspective]
+      - [0x011970, .rodata, ../lib/ultralib/src/gu/sinf]
+
       - [0x0119D0, rodata, libultra/sched]
-      - [0x0119F0, rodata, libultra/viswapcontext]
+
+      - [0x0119F0, .rodata, ../lib/ultralib/src/io/viswapcontext]
+
       - [0x011A00, rodata, libultra/exceptasm]
-      - [0x011AD0, rodata, libultra/setintmask]
+      - [0x011A50, .rodata, ../lib/ultralib/src/os/setintmask]
+
       - [0x011AD0, rodata, libultra/drvrnew]
-      - [0x011B10, rodata, libultra/resample]
-      - [0x011B10, rodata, libultra/reverb]
-      - [0x011B90, rodata, libultra/libm_vals]
+      - [0x011B10, .rodata, ../lib/ultralib/src/audio/resample]
+      - [0x011B40, rodata, libultra/reverb]
+
+      - [0x011B90, .rodata, ../lib/ultralib/src/gu/libm_vals]
       # end of libultra
 
       - [0x011BA0, rodata, boot/00E520]

@@ -328,7 +328,7 @@ segments:
 
       - [0x00E340, hasm, ../lib/ultralib/src/os/parameters]
 
-      - [auto, c, ../lib/ultralib/src/gu/libm_vals]
+      - [auto, hasm, ../lib/ultralib/src/gu/libm_vals]
 
       - [0x00E3A0, c, ../lib/ultralib/src/io/dp]
       - [0x00E3C0, c, ../lib/ultralib/src/io/si]
@@ -387,18 +387,25 @@ segments:
       # Start of libultra
       - [0x011640, .rodata, ../lib/ultralib/src/io/devmgr]
       - [0x011660, .rodata, ../lib/ultralib/src/io/aisetfreq]
+
       - [0x011670, .rodata, ../lib/ultralib/src/audio/env]
       - [0x011760, .rodata, ../lib/ultralib/src/audio/synthesizer]
+
       - [0x011780, .rodata, ../lib/ultralib/src/gu/cosf]
       - [0x0117E0, .rodata, ../lib/ultralib/src/gu/perspective]
       - [0x011820, .rodata, ../lib/ultralib/src/gu/sinf]
+
       - [0x011880, .rodata, ../lib/ultralib/src/sched/sched]
+
       - [0x0118A0, .rodata, ../lib/ultralib/src/io/viswapcontext]
+
       - [0x0118B0, .rodata, ../lib/ultralib/src/os/exceptasm]
       - [0x011900, .rodata, ../lib/ultralib/src/os/setintmask]
+
       - [0x011980, .rodata, ../lib/ultralib/src/audio/drvrnew]
       - [0x0119C0, .rodata, ../lib/ultralib/src/audio/resample]
       - [0x0119F0, .rodata, ../lib/ultralib/src/audio/reverb]
+
       - [0x011A40, .rodata, ../lib/ultralib/src/gu/libm_vals]
       # end of libultra
 
