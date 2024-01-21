@@ -104,7 +104,7 @@ $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
 $(BUILD_DIR)/libmus/src/%.o:   MIPS_VERSION := -mips3
-# $(BUILD_DIR)/libmus/src/%.o:   CFLAGS += -Wa,--n64align
+$(BUILD_DIR)/libmus/src/%.o:   CFLAGS += -Wa,--force-n64align
 else ifeq ($(VERSION),cn)
 $(BUILD_DIR)/libmus/src/%.o:   MIPS_VERSION := -mips2
 endif
