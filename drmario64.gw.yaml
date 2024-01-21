@@ -182,7 +182,7 @@ segments:
       - [0x003EE0, c, ../lib/ultralib/src/io/aisetfreq]
       - [0x004000, asm, libultra/aisetnextbuf] # c
 
-      - [0x0040A0, asm, libultra/env] # c
+      - [0x0040A0, c, ../lib/ultralib/src/audio/env]
       - [0x004D50, asm, libultra/sl] # c
       - [0x004E00, c, ../lib/ultralib/src/audio/heapinit]
       - [0x004E40, c, ../lib/ultralib/src/audio/synthesizer]
@@ -230,7 +230,7 @@ segments:
       - [0x007AD0, c, ../lib/ultralib/src/io/sptaskyield]
       - [0x007AF0, c, ../lib/ultralib/src/io/sptaskyielded]
 
-      - [0x007B40, asm, libultra/sched] # c
+      - [0x007B40, c, ../lib/ultralib/src/sched/sched]
 
       - [0x008550, c, ../lib/ultralib/src/io/sirawdma]
       - [0x008600, asm, boot/008600]
@@ -274,7 +274,7 @@ segments:
       - [0x00A3A0, c, ../lib/ultralib/src/io/conteepread]
       - [0x00A5C0, c, ../lib/ultralib/src/io/conteepwrite]
 
-      - [0x00A970, asm, libultra/exceptasm] # hasm
+      - [0x00A970, hasm, ../lib/ultralib/src/os/exceptasm]
       - [0x00B2E0, hasm, ../lib/ultralib/src/os/interrupt]
       - [0x00B370, hasm, ../lib/ultralib/src/os/setintmask]
       - [0x00B410, c, ../lib/ultralib/src/os/setglobalintmask]
@@ -286,13 +286,13 @@ segments:
       - [0x00B700, c, ../lib/ultralib/src/io/epirawwrite]
       - [0x00B870, c, ../lib/ultralib/src/io/ai]
 
-      - [0x00B890, asm, libultra/drvrnew] # c
+      - [0x00B890, c, ../lib/ultralib/src/audio/drvrnew]
       - [0x00C0C0, c, ../lib/ultralib/src/audio/load]
       - [0x00CBD0, c, ../lib/ultralib/src/audio/auxbus]
       - [0x00CCE0, c, ../lib/ultralib/src/audio/filter]
       - [0x00CD00, c, ../lib/ultralib/src/audio/mainbus]
       - [0x00CE70, c, ../lib/ultralib/src/audio/resample]
-      - [0x00D120, asm, libultra/reverb] # c
+      - [0x00D120, c, ../lib/ultralib/src/audio/reverb]
       - [0x00DCC0, c, ../lib/ultralib/src/audio/save]
       - [0x00DD90, c, ../lib/ultralib/src/audio/heapalloc]
       - [0x00DDE0, c, ../lib/ultralib/src/audio/copy]
@@ -353,29 +353,44 @@ segments:
 
       - [0x00F7A0, data, boot/00F7A0]
 
+      - [0x00F800, .data, ../lib/ultralib/src/audio/env]
+
+      - [0x00F900, data, boot/00F900]
+
+      - [0x010140, .data, ../lib/ultralib/src/sched/sched]
+
+      - [0x010150, data, boot/010150]
+
+      - [0x011350, .data, ../lib/ultralib/src/os/exceptasm]
+
+      - [0x011380, .data, ../lib/ultralib/src/audio/drvrnew]
+      - [0x011510, .data, ../lib/ultralib/src/audio/reverb]
+
+      - [0x011530, data, boot/011530]
+
       - [0x011690, .data, libkmc/ctype]
 
       # Start of libultra
       - [0x011790, .rodata, ../lib/ultralib/src/io/devmgr]
       - [0x0117B0, .rodata, ../lib/ultralib/src/io/aisetfreq]
 
-      - [0x0117C0, rodata, libultra/env]
+      - [0x0117C0, .rodata, ../lib/ultralib/src/audio/env]
       - [0x0118B0, .rodata, ../lib/ultralib/src/audio/synthesizer]
 
       - [0x0118D0, .rodata, ../lib/ultralib/src/gu/cosf]
       - [0x011930, .rodata, ../lib/ultralib/src/gu/perspective]
       - [0x011970, .rodata, ../lib/ultralib/src/gu/sinf]
 
-      - [0x0119D0, rodata, libultra/sched]
+      - [0x0119D0, .rodata, ../lib/ultralib/src/sched/sched]
 
       - [0x0119F0, .rodata, ../lib/ultralib/src/io/viswapcontext]
 
-      - [0x011A00, rodata, libultra/exceptasm]
+      - [0x011A00, .rodata, ../lib/ultralib/src/os/exceptasm]
       - [0x011A50, .rodata, ../lib/ultralib/src/os/setintmask]
 
-      - [0x011AD0, rodata, libultra/drvrnew]
+      - [0x011AD0, .rodata, ../lib/ultralib/src/audio/drvrnew]
       - [0x011B10, .rodata, ../lib/ultralib/src/audio/resample]
-      - [0x011B40, rodata, libultra/reverb]
+      - [0x011B40, .rodata, ../lib/ultralib/src/audio/reverb]
 
       - [0x011B90, .rodata, ../lib/ultralib/src/gu/libm_vals]
       # end of libultra

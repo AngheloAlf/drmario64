@@ -358,23 +358,35 @@ segments:
       - [0x00F680, .data, ../lib/ultralib/src/io/cartrominit]
       - [0x00F690, .data, ../lib/ultralib/src/io/piacs]
       - [0x00F6A0, .data, ../lib/ultralib/src/io/aisetnextbuf]
+
       - [0x00F6B0, .data, ../lib/ultralib/src/audio/env]
       - [0x00F7B0, .data, ../lib/ultralib/src/audio/sl]
+
       - [0x00F7C0, .data, ../lib/ultralib/src/io/controller]
+
       - [0x00F7D0, .data, ../lib/ultralib/src/gu/rotaterpy]
       - [0x00F7E0, .data, ../lib/ultralib/src/gu/sins]
+
       - [0x00FFE0, .data, ../lib/ultralib/src/os/seteventmesg]
+
       - [0x00FFF0, .data, ../lib/ultralib/src/sched/sched]
+
       - [0x010000, .data, ../lib/ultralib/src/io/siacs]
+
       - [0x010010, .data, ../lib/ultralib/src/os/thread]
       - [0x010030, .data, ../lib/ultralib/src/os/timerintr]
+
       - [0x010040, .data, ../lib/ultralib/src/io/vimgr]
       - [0x010060, .data, ../lib/ultralib/src/io/vitbl]
+
       - [0x0111E0, .data, ../lib/ultralib/src/os/initialize]
       - [0x011200, .data, ../lib/ultralib/src/os/exceptasm]
+
       - [0x011230, .data, ../lib/ultralib/src/audio/drvrnew]
       - [0x0113C0, .data, ../lib/ultralib/src/audio/reverb]
+
       - [0x0113E0, .data, ../lib/ultralib/src/io/vi]
+
       - [0x011450, .data, ../lib/ultralib/src/vimodes/vimodentsclan1]
       - [0x0114A0, .data, ../lib/ultralib/src/vimodes/vimodepallan1]
       - [0x0114F0, .data, ../lib/ultralib/src/vimodes/vimodempallan1]
