@@ -241,7 +241,7 @@ segments:
       - [0x0089E0, c, ../lib/ultralib/src/os/gettime]
       - [0x008A70, c, ../lib/ultralib/src/os/settime]
       - [0x008A90, c, ../lib/ultralib/src/os/settimer]
-      - [0x008BC0, c, ../lib/ultralib/src/os/timerintr] # c # bss
+      - [0x008BC0, c, ../lib/ultralib/src/os/timerintr]
       - [0x008EE0, hasm, ../lib/ultralib/src/os/probetlb]
 
       - [0x008FA0, c, ../lib/ultralib/src/io/vigetcurrframebuf]
@@ -321,11 +321,13 @@ segments:
 
       - [0x00E220, c, ../lib/ultralib/src/io/vi]
       - [0x00E330, c, ../lib/ultralib/src/io/vigetcurrcontext]
+
       - [auto, c, ../lib/ultralib/src/vimodes/vimodentsclan1]
       - [auto, c, ../lib/ultralib/src/vimodes/vimodepallan1]
       - [auto, c, ../lib/ultralib/src/vimodes/vimodempallan1]
 
       - [0x00E340, hasm, ../lib/ultralib/src/os/parameters]
+
       - [auto, c, ../lib/ultralib/src/gu/libm_vals]
 
       - [0x00E3A0, c, ../lib/ultralib/src/io/dp]

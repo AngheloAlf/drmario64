@@ -1,14 +1,2 @@
 ROMHEADER_CHECKSUM1 = 0x5A2C0815;
 ROMHEADER_CHECKSUM2 = 0xA82363D0;
-
-// libultra symbols
-
-leoBootID = 0x800001A0;
-osTvType = 0x80000300;
-osRomType = 0x80000304;
-osRomBase = 0x80000308;
-osResetType = 0x8000030C;
-osCicId = 0x80000310;
-osVersion = 0x80000314;
-osMemSize = 0x80000318;
-osAppNMIBuffer = 0x8000031C;
