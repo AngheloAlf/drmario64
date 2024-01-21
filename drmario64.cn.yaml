@@ -96,6 +96,8 @@ options:
   build_path: build
   asset_path: bin/cn
   extensions_path: tools/splat_ext
+  hasm_in_src_path: True
+
   mips_abi_float_regs: o32
   # mips_abi_gpr: numeric
   # mips_abi_float_regs: numeric
@@ -142,7 +144,7 @@ segments:
     start: 0x001000
     vram: 0x80000400
     subsegments:
-      - [0x001000, hasm, ../../src/entry/entry]
+      - [0x001000, hasm, entry/entry]
 
   - name: boot
     type: code
@@ -320,6 +322,7 @@ segments:
       - [0x00F700, c, libnustd/srand]
       - [0x00F760, c, libnustd/fmod]
       - [0x00F7A0, c, libnustd/memmove]
+      - [auto, c, libnustd/ctype]
 
       # data
       - [0x00F830, .data, boot/boot_main]
@@ -360,6 +363,7 @@ segments:
     vram: 0x8002A7B0
     follows_vram: boot
     subsegments:
+      - [auto, c, dma_table/dma_table]
       - [0x0124E0, .data, dma_table/dma_table]
 
   - name: main_segment # compressed

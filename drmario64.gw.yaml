@@ -97,6 +97,8 @@ options:
   build_path: build
   asset_path: bin/gw
   extensions_path: tools/splat_ext
+  hasm_in_src_path: True
+
   mips_abi_float_regs: o32
   do_c_func_detection: True
   o_as_suffix: True
@@ -129,6 +131,7 @@ segments:
     start: 0x000000
     vram: 0x80000000
     subsegments:
+      - [auto, c, rom_header/rom_header]
       - [0x000000, .data, rom_header/rom_header]
 
   - name: ipl3
@@ -140,7 +143,7 @@ segments:
     start: 0x001000
     vram: 0x80000400
     subsegments:
-      - [0x001000, hasm, ../../src/entry/entry]
+      - [0x001000, hasm, entry/entry]
 
   - name: boot
     type: code
@@ -157,7 +160,7 @@ segments:
 
       - [0x002FD0, c, boot/util]
 
-      - [0x0030F0, c, boot/rom_offsets]
+      - [auto, c, boot/rom_offsets]
 
       - [0x0030F0, c, gateway/003630]
 
@@ -351,6 +354,7 @@ segments:
     vram: 0x80029E10
     follows_vram: boot
     subsegments:
+      - [auto, c, dma_table/dma_table]
       - [0x11BB0, .data, dma_table/dma_table]
 
   - name: main_segment # compressed
