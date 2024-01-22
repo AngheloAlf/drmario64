@@ -113,6 +113,7 @@ else ifeq ($(COMPILER), gcc)
     CFLAGS          += -fno-toplevel-reorder
 # Consider removing in the future
     CFLAGS          += -fno-zero-initialized-in-bss
+    CFLAGS          += -fcommon
 endif
 
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
