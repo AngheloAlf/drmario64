@@ -34,7 +34,7 @@ DEP_INCLUDE ?= 1
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
-MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
+CROSS ?= mips-linux-gnu-
 
 
 VERSION ?= us
@@ -59,18 +59,18 @@ ROMC      := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 BUILD_DEFINES ?=
 
 ifeq ($(VERSION),us)
-	BUILD_DEFINES   += -DVERSION_US=1
+    BUILD_DEFINES   += -DVERSION_US=1
 else ifeq ($(VERSION),cn)
-	BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1
+    BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1
 else ifeq ($(VERSION),gw)
-	BUILD_DEFINES   += -DVERSION_GW=1
+    BUILD_DEFINES   += -DVERSION_GW=1
 else
 $(error Invalid VERSION variable detected. Please use either 'us', 'cn' or 'gw')
 endif
 
 ifeq ($(NON_MATCHING),1)
-	BUILD_DEFINES   += -DNON_MATCHING -DAVOID_UB
-	COMPARE  := 0
+    BUILD_DEFINES   += -DNON_MATCHING -DPRESERVE_UB
+    COMPARE  := 0
 endif
 
 MAKE = make
@@ -79,18 +79,18 @@ LDFLAGS  := --no-check-sections --emit-relocs
 
 UNAME_S := $(shell uname -s)
 ifeq ($(OS),Windows_NT)
-	DETECTED_OS := windows
+    DETECTED_OS := windows
 else ifeq ($(UNAME_S),Linux)
-	DETECTED_OS := linux
+    DETECTED_OS := linux
 else ifeq ($(UNAME_S),Darwin)
-	DETECTED_OS := mac
-	MAKE := gmake
-	CPPFLAGS += -xc++
+    DETECTED_OS := mac
+    MAKE := gmake
+    CPPFLAGS += -xc++
 endif
 
 #### Tools ####
-ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-$(error Please install or build $(MIPS_BINUTILS_PREFIX))
+ifneq ($(shell type $(CROSS)ld >/dev/null 2>/dev/null; echo $$?), 0)
+$(error Please install or build $(CROSS))
 endif
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
@@ -100,13 +100,13 @@ COMPILER_DIR    := tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4
 endif
 CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
 
-AS              := $(MIPS_BINUTILS_PREFIX)as
-LD              := $(MIPS_BINUTILS_PREFIX)ld
-OBJCOPY         := $(MIPS_BINUTILS_PREFIX)objcopy
-OBJDUMP         := $(MIPS_BINUTILS_PREFIX)objdump
-GCC             := $(MIPS_BINUTILS_PREFIX)gcc
-CPP             := $(MIPS_BINUTILS_PREFIX)cpp
-STRIP           := $(MIPS_BINUTILS_PREFIX)strip
+AS              := $(CROSS)as
+LD              := $(CROSS)ld
+OBJCOPY         := $(CROSS)objcopy
+OBJDUMP         := $(CROSS)objdump
+GCC             := $(CROSS)gcc
+CPP             := $(CROSS)cpp
+STRIP           := $(CROSS)strip
 ICONV           := iconv
 
 SPLAT             ?= python3 -m splat split
@@ -131,19 +131,21 @@ IINC       := -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I.
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/include
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign -Wno-invalid-source-encoding
+CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
+CHECK_WARNINGS += -Wno-invalid-source-encoding
+
+ifneq ($(WERROR), 0)
+    CHECK_WARNINGS += -Werror
+endif
 
 # Have CC_CHECK pretend to be a MIPS compiler
 MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZPTR=32
 ifneq ($(RUN_CC_CHECK),0)
-#	The -MMD flags additionaly creates a .d file with the same name as the .o file.
-	CC_CHECK          := $(CC_CHECK_COMP)
-	CC_CHECK_FLAGS    := -MMD -MP -fno-builtin -funsigned-char -fsyntax-only -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DAVOID_UB -DCC_CHECK=1
-	ifneq ($(WERROR), 0)
-		CHECK_WARNINGS += -Werror
-	endif
+#   The -MMD flags additionaly creates a .d file with the same name as the .o file.
+    CC_CHECK          := $(CC_CHECK_COMP)
+    CC_CHECK_FLAGS    := -MMD -MP -fno-builtin -funsigned-char -fsyntax-only -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DPRESERVE_UB -DCC_CHECK=1
 else
-	CC_CHECK          := @:
+    CC_CHECK          := @:
 endif
 
 CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32
@@ -180,23 +182,23 @@ endif
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
 
 # Variable to simplify C compiler invocation
-C_COMPILER_FLAGS = $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS)
+C_COMPILER_FLAGS = $(ABIFLAG) $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS)
 
 ICONV_FLAGS      = --from-code=UTF-8 --to-code=$(OUT_ENCODING)
 
 # Use relocations and abi fpr names in the dump
-OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32 -Mno-aliases
+OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
 
 ifneq ($(OBJDUMP_BUILD), 0)
-	OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
+    OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
 else
-	OBJDUMP_CMD = @:
+    OBJDUMP_CMD = @:
 endif
 
 ifneq ($(COMPILER_VERBOSE), 0)
-	COMP_VERBOSE_FLAG := -v
+    COMP_VERBOSE_FLAG := -v
 else
-	COMP_VERBOSE_FLAG :=
+    COMP_VERBOSE_FLAG :=
 endif
 
 
@@ -214,13 +216,13 @@ LIBMUS_DIRS   := $(shell find lib/libmus/src -type d)
 C_FILES       := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS) $(SRC_DIRS),$(wildcard $(dir)/*.s))
 PNG_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.png))
-TEXT_FILES    := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.msg))
+MSG_FILES     := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.msg))
 
 O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
                  $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f)
 
-PNG_INC_FILES := $(foreach f,$(PNG_FILES:.png=.inc),$(BUILD_DIR)/$f)
-TEXT_INC_FILES := $(foreach f,$(TEXT_FILES:.msg=.msg.inc),$(BUILD_DIR)/$f)
+PNG_INC_FILES  := $(foreach f,$(PNG_FILES:.png=.inc),$(BUILD_DIR)/$f)
+TEXT_INC_FILES := $(foreach f,$(MSG_FILES:.msg=.msg.inc),$(BUILD_DIR)/$f)
 
 SEGMENTS_SCRIPTS := $(wildcard linker_scripts/$(VERSION)/partial/*.ld)
 SEGMENTS_D       := $(SEGMENTS_SCRIPTS:.ld=.d)
@@ -234,11 +236,11 @@ LINKER_SCRIPTS   := $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware
 DEP_FILES := $(LD_SCRIPT:.ld=.d) $(SEGMENTS_D)
 
 ifneq ($(DEP_ASM), 0)
-	DEP_FILES += $(O_FILES:.o=.asmproc.d)
+    DEP_FILES += $(O_FILES:.o=.asmproc.d)
 endif
 
 ifneq ($(DEP_INCLUDE), 0)
-	DEP_FILES += $(O_FILES:.o=.d)
+    DEP_FILES += $(O_FILES:.o=.d)
 endif
 
 # create build directories
@@ -299,7 +301,7 @@ extract:
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
 lib:
-	$(MAKE) -C lib VERSION=$(VERSION)
+	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS)
 
 diff-init: all
 	$(RM) -rf expected/
@@ -345,17 +347,17 @@ $(ELF): $(LINKER_SCRIPTS)
 
 asset_files: $(PNG_INC_FILES)
 $(O_FILES): | asset_files
-text_files: $(TEXT_INC_FILES)
-$(O_FILES): | text_files
+msg_files: $(TEXT_INC_FILES)
+$(O_FILES): | msg_files
 o_files: $(O_FILES)
 $(SEGMENTS_O): | o_files
 
 asset_files_clean:
-	$(RM) -r $(TEXT_INC_FILES)
-text_files_clean:
+	$(RM) -r $(PNG_INC_FILES)
+msg_files_clean:
 	$(RM) -r $(TEXT_INC_FILES)
 
-.PHONY: asset_files asset_files_clean text_files text_files_clean o_files
+.PHONY: asset_files asset_files_clean msg_files msg_files_clean o_files
 
 $(BUILD_DIR)/%.ld: %.ld
 	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@

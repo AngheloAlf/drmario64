@@ -3,7 +3,7 @@ MAKEFLAGS += --no-builtin-rules
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
-MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
+CROSS ?= mips-linux-gnu-
 
 ### Output ###
 
@@ -37,8 +37,8 @@ else ifeq ($(UNAME_S),Darwin)
 endif
 
 #### Tools ####
-ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-	$(error Please install or build $(MIPS_BINUTILS_PREFIX))
+ifneq ($(shell type $(CROSS)ld >/dev/null 2>/dev/null; echo $$?), 0)
+	$(error Please install or build $(CROSS))
 endif
 
 
@@ -49,7 +49,7 @@ COMPILER_DIR    := ../tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4
 endif
 CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
 
-STRIP      := $(MIPS_BINUTILS_PREFIX)strip
+STRIP      := $(CROSS)strip
 
 
 IINC       := -Iultralib/include -Iultralib/include/gcc -Iultralib/include/PR -Iultralib/src -Ilibmus/src

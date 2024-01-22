@@ -169,7 +169,7 @@ enum_main_no dm_title_main(NNSched *sc) {
         return MAIN_NO_4;
     }
 
-#ifdef AVOID_UB
+#ifdef PRESERVE_UB
     return title_demo_flg;
 #endif
 }
