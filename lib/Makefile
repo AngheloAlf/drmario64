@@ -7,7 +7,7 @@ COMPILER ?= original
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
-MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
+CROSS ?= mips-linux-gnu-
 
 ### Output ###
 
@@ -51,13 +51,13 @@ else ifeq ($(UNAME_S),Darwin)
 endif
 
 #### Tools ####
-ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-	$(error Please install or build $(MIPS_BINUTILS_PREFIX))
+ifneq ($(shell type $(CROSS)ld >/dev/null 2>/dev/null; echo $$?), 0)
+	$(error Please install or build $(CROSS))
 endif
 
 
-OBJDUMP         := $(MIPS_BINUTILS_PREFIX)objdump
-GCC             := $(MIPS_BINUTILS_PREFIX)gcc
+OBJDUMP         := $(CROSS)objdump
+GCC             := $(CROSS)gcc
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
 COMPILER_DIR    := ../tools/gcc_kmc/$(DETECTED_OS)/2.7.2

@@ -36,7 +36,7 @@ COMPILER ?= original
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
-MIPS_BINUTILS_PREFIX ?= mips-linux-gnu-
+CROSS ?= mips-linux-gnu-
 
 
 VERSION ?= us
@@ -61,11 +61,11 @@ ROMC      := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 BUILD_DEFINES ?=
 
 ifeq ($(VERSION),us)
-	BUILD_DEFINES   += -DVERSION_US=1
+    BUILD_DEFINES   += -DVERSION_US=1
 else ifeq ($(VERSION),cn)
-	BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1
+    BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1
 else ifeq ($(VERSION),gw)
-	BUILD_DEFINES   += -DVERSION_GW=1
+    BUILD_DEFINES   += -DVERSION_GW=1
 else
 $(error Invalid VERSION variable detected. Please use either 'us', 'cn' or 'gw')
 endif
@@ -81,37 +81,36 @@ $(error Invalid COMPILER variable detected. Please use either 'original', 'gcc')
 endif
 
 ifeq ($(NON_MATCHING),1)
-	BUILD_DEFINES   += -DNON_MATCHING -DPRESERVE_UB
-	COMPARE  := 0
+    BUILD_DEFINES   += -DNON_MATCHING -DPRESERVE_UB
+    COMPARE  := 0
 endif
 
 MAKE = make
 CPPFLAGS += -fno-dollars-in-identifiers -P
-LDFLAGS  := --no-check-sections --emit-relocs
 
 UNAME_S := $(shell uname -s)
 ifeq ($(OS),Windows_NT)
-	DETECTED_OS := windows
+    DETECTED_OS := windows
 else ifeq ($(UNAME_S),Linux)
-	DETECTED_OS := linux
+    DETECTED_OS := linux
 else ifeq ($(UNAME_S),Darwin)
-	DETECTED_OS := mac
-	MAKE := gmake
-	CPPFLAGS += -xc++
+    DETECTED_OS := mac
+    MAKE := gmake
+    CPPFLAGS += -xc++
 endif
 
 #### Tools ####
-ifneq ($(shell type $(MIPS_BINUTILS_PREFIX)ld >/dev/null 2>/dev/null; echo $$?), 0)
-$(error Please install or build $(MIPS_BINUTILS_PREFIX))
+ifneq ($(shell type $(CROSS)ld >/dev/null 2>/dev/null; echo $$?), 0)
+$(error Please install or build $(CROSS))
 endif
 
-AS              := $(MIPS_BINUTILS_PREFIX)as
-LD              := $(MIPS_BINUTILS_PREFIX)ld
-OBJCOPY         := $(MIPS_BINUTILS_PREFIX)objcopy
-OBJDUMP         := $(MIPS_BINUTILS_PREFIX)objdump
-GCC             := $(MIPS_BINUTILS_PREFIX)gcc
-CPP             := $(MIPS_BINUTILS_PREFIX)cpp
-STRIP           := $(MIPS_BINUTILS_PREFIX)strip
+AS              := $(CROSS)as
+LD              := $(CROSS)ld
+OBJCOPY         := $(CROSS)objcopy
+OBJDUMP         := $(CROSS)objdump
+GCC             := $(CROSS)gcc
+CPP             := $(CROSS)cpp
+STRIP           := $(CROSS)strip
 ICONV           := iconv
 
 ifeq ($(COMPILER), original)
@@ -150,20 +149,20 @@ IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/incl
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
 ifeq ($(COMPILER), original)
-CHECK_WARNINGS += -Wno-invalid-source-encoding
+    CHECK_WARNINGS += -Wno-invalid-source-encoding
 endif
 ifneq ($(WERROR), 0)
-	CHECK_WARNINGS += -Werror
+    CHECK_WARNINGS += -Werror
 endif
 
 # Have CC_CHECK pretend to be a MIPS compiler
 MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZPTR=32
 ifneq ($(RUN_CC_CHECK),0)
-#	The -MMD flags additionaly creates a .d file with the same name as the .o file.
-	CC_CHECK          := $(CC_CHECK_COMP)
-	CC_CHECK_FLAGS    := -MMD -MP -fno-builtin -funsigned-char -fsyntax-only -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DPRESERVE_UB -DCC_CHECK=1
+#   The -MMD flags additionaly creates a .d file with the same name as the .o file.
+    CC_CHECK          := $(CC_CHECK_COMP)
+    CC_CHECK_FLAGS    := -MMD -MP -fno-builtin -funsigned-char -fsyntax-only -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DPRESERVE_UB -DCC_CHECK=1
 else
-	CC_CHECK          := @:
+    CC_CHECK          := @:
 endif
 
 CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32
@@ -176,7 +175,7 @@ RELEASE_DEFINES := -DNDEBUG -D_FINALROM
 AS_DEFINES      := -DMIPSEB -D_LANGUAGE_ASSEMBLY -D_ULTRA64
 C_DEFINES       := -D_LANGUAGE_C
 ENDIAN          := -EB
-LDFLAGS         :=
+LDFLAGS         := --no-check-sections --emit-relocs
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
 OPTFLAGS        := -O2
@@ -204,7 +203,7 @@ ifeq ($(COMPILER), gcc)
     OPTFLAGS        := -O0
     DBGFLAGS        := -ggdb
     MIPS_VERSION    := -mips3
-	WARNINGS        := $(CHECK_WARNINGS)
+    WARNINGS        := $(CHECK_WARNINGS)
 
     CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
     CFLAGS          += -mdivide-breaks -ffreestanding
@@ -225,15 +224,15 @@ ICONV_FLAGS      = --from-code=UTF-8 --to-code=$(OUT_ENCODING)
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
 
 ifneq ($(OBJDUMP_BUILD), 0)
-	OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
+    OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
 else
-	OBJDUMP_CMD = @:
+    OBJDUMP_CMD = @:
 endif
 
 ifneq ($(COMPILER_VERBOSE), 0)
-	COMP_VERBOSE_FLAG := -v
+    COMP_VERBOSE_FLAG := -v
 else
-	COMP_VERBOSE_FLAG :=
+    COMP_VERBOSE_FLAG :=
 endif
 
 
@@ -271,11 +270,11 @@ LINKER_SCRIPTS   := $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware
 DEP_FILES := $(LD_SCRIPT:.ld=.d) $(SEGMENTS_D)
 
 ifneq ($(DEP_ASM), 0)
-	DEP_FILES += $(O_FILES:.o=.asmproc.d)
+    DEP_FILES += $(O_FILES:.o=.asmproc.d)
 endif
 
 ifneq ($(DEP_INCLUDE), 0)
-	DEP_FILES += $(O_FILES:.o=.d)
+    DEP_FILES += $(O_FILES:.o=.d)
 endif
 
 # create build directories
@@ -342,7 +341,7 @@ extract:
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
 lib:
-	$(MAKE) -C lib VERSION=$(VERSION) COMPILER=$(COMPILER) MIPS_BINUTILS_PREFIX=$(MIPS_BINUTILS_PREFIX)
+	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) COMPILER=$(COMPILER)
 
 diff-init: all
 	$(RM) -rf expected/
@@ -380,7 +379,7 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
 
 $(ELF): $(LINKER_SCRIPTS)
-	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ $(filter %.o, $^) $(LDFLAGS)
+	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ $(filter %.o, $^)
 
 ## Order-only prerequisites
 # These ensure e.g. the PNG_INC_FILES are built before the O_FILES.
@@ -394,7 +393,7 @@ o_files: $(O_FILES)
 $(SEGMENTS_O): | o_files
 
 asset_files_clean:
-	$(RM) -r $(MSG_INC_FILES)
+	$(RM) -r $(PNG_INC_FILES)
 msg_files_clean:
 	$(RM) -r $(MSG_INC_FILES)
 
