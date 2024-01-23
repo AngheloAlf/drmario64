@@ -250,6 +250,7 @@ INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B6D4_gw);
  * Original name: dm_audio_set_stereo
  */
 void dm_audio_set_stereo(bool setStereo UNUSED) {
+#ifndef MODERN_GCC
     u32 *funcPtr[2] UNUSED = { (u32 *)alEnvmixerPull + 0x10C / 4, (u32 *)alEnvmixerPull + 0x2EC / 4 };
 
 #if VERSION_US || VERSION_GW
@@ -264,6 +265,7 @@ void dm_audio_set_stereo(bool setStereo UNUSED) {
 #endif
 
     osWritebackDCacheAll();
+#endif
 }
 
 /**

@@ -103,17 +103,18 @@ ifeq ($(COMPILER), original)
 else ifeq ($(COMPILER), gcc)
     ABIFLAG         := -mabi=32
 #    OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
-    OPTFLAGS        := -O0
+    OPTFLAGS        := -O1
     DBGFLAGS        := -ggdb
     MIPS_VERSION    := -mips3
-	WARNINGS        := $(CHECK_WARNINGS)
+	WARNINGS        := -Wall -Wextra -Wno-unused-parameter
+#	WARNINGS        += -Werror=implicit-function-declaration
 
     CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
     CFLAGS          += -mdivide-breaks -ffreestanding
     CFLAGS          += -fno-toplevel-reorder
 # Consider removing in the future
     CFLAGS          += -fno-zero-initialized-in-bss
-    CFLAGS          += -fcommon
+    CFLAGS          += -fcommon -fno-strict-aliasing
 endif
 
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
@@ -122,7 +123,7 @@ BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
 
 ifneq ($(OBJDUMP_BUILD), 0)
-	OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
+	OBJDUMP_CMD = @$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
 else
 	OBJDUMP_CMD = @:
 endif

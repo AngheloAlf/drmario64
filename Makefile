@@ -200,7 +200,7 @@ endif
 ifeq ($(COMPILER), gcc)
     ABIFLAG         := -mabi=32
 #    OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
-    OPTFLAGS        := -O0
+    OPTFLAGS        := -O1
     DBGFLAGS        := -ggdb
     MIPS_VERSION    := -mips3
     WARNINGS        := $(CHECK_WARNINGS)
@@ -419,7 +419,7 @@ endif
 
 $(BUILD_DIR)/lib/%.o: lib/%.c
 ifneq ($(PERMUTER), 1)
-	$(error Library files has not been built, please run `$(MAKE) lib VERSION=$(VERSION)` first)
+	$(error Library files has not been built, please run `$(MAKE) lib VERSION=$(VERSION)` first (issue: $@))
 endif
 	$(MAKE) -C lib VERSION=$(VERSION) ../$@
 
