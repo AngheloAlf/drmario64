@@ -79,7 +79,7 @@ typedef struct struct_watchManual {
     /* 0x0E8 */ struct_800F4890_unk_0E8 unk_0E8[4][4];
     /* 0x148 */ u8 unk_148[3];
     /* 0x14C */ struct_800F4890_unk_14C unk_14C[STRUCT_WATCHGAME_MANUAL_UNK_LEN];
-    /* 0x164 */ u32 unk_164;
+    /* 0x164 */ u32 unk_164; // enum?
     /* 0x168 */ u32 unk_168;
     /* 0x16C */ s32 unk_16C;
     /* 0x170 */ s32 unk_170;
