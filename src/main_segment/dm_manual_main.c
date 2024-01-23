@@ -1620,8 +1620,7 @@ void func_80074B08(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s32 a
     mtx++;
 
     temp = WrapF(0.0f, 1.0f, temp_s0->unk_184 * (1 / 128.0)) * M_PI * 2.0;
-    guRotateRPYF(sp48, 0.0f, (1 - arg5) * 0x5A,
-                 sinf(temp) * 4.0f * arg5);
+    guRotateRPYF(sp48, 0.0f, (1 - arg5) * 0x5A, sinf(temp) * 4.0f * arg5);
 
     var_s1 = WrapI(0, ARRAY_COUNT(RO_800B3150), ((temp_s0->unk_184 & 0x7F) * 3) >> 2);
     if (func_8007224C(&temp_s0->unk_034) == false) {
