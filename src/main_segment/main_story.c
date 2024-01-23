@@ -61,7 +61,7 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
     temp_ft1 = temp_ft1 / 90.0f;
 
     if (temp_ft1 > 0.75) {
-        temp = (temp_ft1 - 0.75) * 4.0;
+        temp = (temp_ft1 - 0.75) / (1 / 4.0);
         temp3 = 223.125f;
         temp_fs1_2 = 31.875f;
 
@@ -81,10 +81,11 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
     temp_fs1_2 *= temp_ft1;
     temp *= temp_ft1;
 
-    temp_fs1_2 = temp_fs1_2 + -10.0;
-    temp = temp + -7.5;
-    argA = 340.0f;
-    argB = 255.0f;
+    temp_ft1 = 1.0625;
+    argA = 320.0 * temp_ft1;
+    argB = 240.0 * temp_ft1;
+    temp_fs1_2 += (320.0 - argA) / 2;
+    temp += (240.0 - argB) / 2;
     StretchTexTile16(&gfx, SCREEN_WIDTH, SCREEN_HEIGHT, framebuffer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, temp_fs1_2,
                      temp, argA, argB);
 
@@ -109,12 +110,7 @@ void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1) {
 }
 #endif
 
-#if VERSION_US
-// maybe curtain_proc?
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", curtain_proc);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void curtain_proc(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     f32 temp;
@@ -141,14 +137,10 @@ void curtain_proc(Gfx **gfxP, s32 arg1) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", curtain_proc_org);
-#endif
-
 extern u8 curtain_alpha_00_tex[];
 extern u16 curtain_00_tex[];
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void curtain_proc_org(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     f32 temp_fv1;
@@ -213,13 +205,9 @@ void *func_80077170(BgRomDataIndex index, void *dstAddr) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_bg_proc);
-#endif
+extern s32 D_800AAD48[];
 
-extern s32 D_800C28C4_cn[];
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void story_bg_proc(Gfx **gfxP) {
     struct_get_gbi_stat_arg0 sp48;
     struct_get_gbi_stat_arg0 sp60;
@@ -231,14 +219,14 @@ void story_bg_proc(Gfx **gfxP) {
     gSPDisplayList(gfx++, normal_texture_init_dl);
     StretchTexBlock8(&gfx, sp48.width, sp48.height, sp48.tlut, sp48.texture, 0.0f, 0.0f, sp48.width, sp48.height);
 
-    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + D_800C28C4_cn[0]));
-    get_gbi_stat(&sp60, (void *)(((u8 *)wakuGraphic) + D_800C28C4_cn[1]));
+    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + D_800AAD48[0]));
+    get_gbi_stat(&sp60, (void *)(((u8 *)wakuGraphic) + D_800AAD48[1]));
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     StretchAlphaTexTile(&gfx, sp48.width, sp48.height, sp48.texture, sp48.width, sp60.texture, sp60.width, 0, 0,
                         sp48.width, sp48.height, 0.0f, 140.0f, sp48.width, sp48.height);
 
-    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + D_800C28C4_cn[2]));
+    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + D_800AAD48[2]));
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
     StretchTexTile8(&gfx, sp48.width, sp48.height, sp48.tlut, sp48.texture, 0, 0, sp48.width, sp48.height, 0.0f, 160.0f,
@@ -399,11 +387,7 @@ void init_coffee_break_cnt(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_coffee_break);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     Mtx sp20;
     Gfx *sp60;
@@ -725,16 +709,13 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80078648);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 // unused
-UNK_TYPE func_80082D5C_cn(UNK_TYPE *arg0) {
+void func_80078648(Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
     s32 pad[0x1C] UNUSED;
 
-    return *arg0;
+    *gfxP = gfx;
 }
 #endif
 
@@ -762,14 +743,10 @@ void func_8007865C(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_op);
-#endif
-
 extern s32 fin_frame_440;
 extern s32 fin_demo_441;
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void story_st_new_op(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
@@ -1016,14 +993,10 @@ void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new2_f);
-#endif
-
 extern s32 fin_frame_568;
 extern s32 fin_demo_569;
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
@@ -1207,13 +1180,9 @@ void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_m_end);
-#endif
-
 extern s32 fin_frame_667;
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
     Mtx sp20;
     Gfx *gfx = *gfxP;
@@ -1265,29 +1234,27 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
             var_a3 = 0xFF;
             var_t1 = 0xFF;
             var_t2 = 0xFF;
-            if ((s32)framecont >= 0x15F) {
-                var_t0 = framecont - 0x15E;
-                if ((s32)framecont < 0x1F4) {
+            if (story_time_cnt >= 0x15F) {
+                var_t0 = story_time_cnt - 0x15E;
+                if (story_time_cnt < 0x1F4) {
                     var_t2 = ((var_t0 * -0x69) / 149) + 0xFF;
                     var_t1 = (-(var_t0 * 0xA0) / 149) + 0xFF;
                     var_a3 = ((var_t0 * -0xAF) / 149) + 0xFF;
                 } else {
-                    var_t0 = (framecont - 0x1F4);
-                    if ((s32)framecont < 0x2BC) {
+                    var_t0 = (story_time_cnt - 0x1F4);
+                    if (story_time_cnt < 0x2BC) {
                         var_t2 = ((var_t0 * -0x5F) / 199) + 0x96;
                         var_t1 = (-(var_t0 * 0x10) / 199) + 0x5F;
                         var_a3 = ((var_t0 * 0x1E) / 199) + 0x50;
-                    } else if ((s32)framecont < 0x3E8) {
+                    } else if (story_time_cnt < 0x3E8) {
                         var_t2 = 0x37;
                         var_t1 = 0x4F;
                         var_a3 = 0x6E;
-                    } else {
-                        var_t0 = framecont - 0x3E8;
-                        if ((s32)framecont < 0x4E2) {
-                            var_t2 = ((var_t0 * 0xC8) / 249) + 0x37;
-                            var_t1 = ((var_t0 * 0xB0) / 249) + 0x4F;
-                            var_a3 = ((var_t0 * 0x91) / 249) + 0x6E;
-                        }
+                    } else if (story_time_cnt < 0x4E2) {
+                        var_t0 = story_time_cnt - 0x3E8;
+                        var_t2 = ((var_t0 * 0xC8) / 249) + 0x37;
+                        var_t1 = ((var_t0 * 0xB0) / 249) + 0x4F;
+                        var_a3 = ((var_t0 * 0x91) / 249) + 0x6E;
                     }
                 }
             }
@@ -1316,7 +1283,7 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
             if (lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[0x15], story_buffer), story_time_cnt, story_buffer) ==
                 1) {
                 framecont = 0x117;
-                story_time_cnt = 0x117U;
+                story_time_cnt = 0x117;
             }
 
             if (story_time_cnt >= 0x1F) {
@@ -1345,16 +1312,12 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_w9);
-#endif
-
 extern s32 fin_frame_737;
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
-    Mtx mtx;
     Gfx *gfx = *gfxP;
+    Mtx mtx;
     s32 red;
     s32 green;
     s32 blue;
@@ -1364,7 +1327,6 @@ void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
     st_mes_ptr = mes_data[arg2];
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
-
     gSPDisplayList(gfx++, story_setup);
 
     makeTransrateMatrix(&mtx, 0, 0xFFF38000, 0xFC4A0000);
@@ -1382,19 +1344,19 @@ void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
             story_time_cnt = framecont;
             fin_frame_737 = framecont;
 
-            blue = 0;
-            green = 0;
-            red = 0;
+            red = green = blue = 0;
 
-            if ((story_time_cnt >= 0x2F7) && (story_time_cnt < 0x334)) {
-                alpha = ((story_time_cnt - 0x2F7) * 0xFF) / 60;
+            if ((story_time_cnt >= 0x2F7) && (story_time_cnt <= 0x333)) {
+                alpha = story_time_cnt - 0x2F7;
+                alpha = (alpha * 0xFF) / 60;
+
                 green = alpha;
                 red = alpha;
                 blue = alpha;
-            } else if (story_time_cnt >= 0x334) {
-                blue = 0xFF;
-                green = 0xFF;
-                red = 0xFF;
+            } else if (story_time_cnt > 0x333) {
+                blue = 255;
+                green = 255;
+                red = 255;
             }
             alpha = 255;
 
@@ -1891,12 +1853,8 @@ void graphic_story(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_8007B62C);
-#endif
-
-#if VERSION_CN
-void func_8008648C_cn(Gfx **gfxP) {
+#if VERSION_US || VERSION_CN
+void func_8007B62C(Gfx **gfxP) {
     draw_menu_bg(gfxP, 0xA0, 0x78);
 }
 #endif

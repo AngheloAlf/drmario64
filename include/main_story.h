@@ -106,8 +106,8 @@ void graphic_story(void);
 
 // .data
 
-// extern UNK_TYPE D_800A73C0;
-// extern UNK_TYPE D_800A76C0;
+// extern UNK_TYPE curtain_alpha_00_tex;
+// extern UNK_TYPE curtain_00_tex;
 extern u8 changestar_tex[];
 extern UNK_TYPE title_bmp_tbl[3];
 extern void *mess_heap;

@@ -180,11 +180,11 @@ extern struct TiTexData *_texKaSa;
 extern s32 title_mode_type; // TODO: enum?
 extern s32 title_fade_count; /* Original name: title_fade_count */
 extern s32 title_fade_step;
-// extern UNK_TYPE B_800E59B0;
-// extern UNK_TYPE B_800E59B4;
+// extern UNK_TYPE fin_frame_440;
+// extern UNK_TYPE fin_demo_441;
 // extern UNK_TYPE fin_frame_543;
-// extern UNK_TYPE B_800E59BC;
-// extern UNK_TYPE B_800E59C0;
+// extern UNK_TYPE fin_frame_568;
+// extern UNK_TYPE fin_demo_569;
 // extern UNK_TYPE fin_frame_623;
 // extern UNK_TYPE fin_demo_624;
 // extern UNK_TYPE fin_frame_667;

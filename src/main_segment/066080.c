@@ -5,11 +5,7 @@
 #include "unknown_structs.h"
 #include "main_segment_variables.h"
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/066080", func_8007E260);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void func_8007E260(struct_8007E260_arg0 *arg0, struct_8007E260_arg1 *arg1, struct_8007E260_arg2 *arg2) {
     f32 sp8[3];
 
