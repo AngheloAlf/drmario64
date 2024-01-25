@@ -128,7 +128,7 @@ export SPIMDISASM_PANIC_RANGE_CHECK="True"
 
 
 IINC       := -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I.
-IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/include
+IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/include -Ilib/ultralib/include/gcc
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
