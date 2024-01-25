@@ -676,7 +676,7 @@ const u8 _timeAttack_levelTable[] = {
 };
 #endif
 
-#include "build/src/main_segment/main_menu.msg.inc"
+#include "main_menu.msg.inc"
 
 extern const u8 _gameLvItemColor[][2][4];
 #if VERSION_US
@@ -2120,7 +2120,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _yn_1691);
 
 ASM_DATA;
 
-#include "build/src/main_segment/main_menu_yn.msg.inc"
+#include "main_menu_yn.msg.inc"
 
 #if VERSION_US || VERSION_CN
 void menuYN_draw(MenuYN *yn, Gfx **gfxP) {

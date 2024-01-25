@@ -95,7 +95,7 @@ make
 to download the appropriate compiler versions, build libultra, extract data from the rom using splat, and build the files back into a rom. If successful, the last line of output should say
 
 ```bash
-build/drmario64.us.z64: OK
+build/us/drmario64.us.z64: OK
 ```
 
 ### Other versions
@@ -108,7 +108,7 @@ To build any of this versions place your ROM in the root of the repo and rename 
 
 TODO: write some contributing guidelines.
 
-Work should be done hopefully per-file but smaller efforts are still appreciated. Just open a PR and try to address any review comments left by other contributors c:
+Smaller efforts are appreciated. Just open a PR and try to address any review comments left by other contributors c:
 
 ### Important note
 

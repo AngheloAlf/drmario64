@@ -212,7 +212,7 @@ void dm_title_graphic(void) {
                  (gGfxHead - gGfxGlist[gCurrentFramebufferIndex]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
 
-#include "build/src/main_segment/dm_title_main.msg.inc"
+#include "dm_title_main.msg.inc"
 
 /**
  * Original name: main_boot_error

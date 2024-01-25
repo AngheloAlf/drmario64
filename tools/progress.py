@@ -100,7 +100,7 @@ def progressMain():
 
     remaining: bool = args.remaining
 
-    mapPath = Path("build") / f"drmario64.{args.version}.map"
+    mapPath = Path("build") / args.version / f"drmario64.{args.version}.map"
 
     totalStats, progressPerFolder = getProgress(mapPath, args.version, args.subpaths)
 

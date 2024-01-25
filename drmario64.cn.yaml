@@ -3,7 +3,7 @@ sha1: 82c995b76a118c4a8a4cef558c2ef7062b3de528
 options:
   basename: drmario64
   target_path: baserom_uncompressed.cn.z64
-  elf_path: build/drmario64.cn.elf
+  elf_path: build/cn/drmario64.cn.elf
   ld_script_path: linker_scripts/cn/drmario64.ld
   base_path: .
   compiler: GCC
@@ -89,14 +89,14 @@ options:
   ld_dependencies: True
   ld_partial_linking: False
   ld_partial_scripts_path: linker_scripts/cn/partial
-  ld_partial_build_segments_path: build/segments/cn
+  ld_partial_build_segments_path: build/cn/segments
 
   ld_wildcard_sections: True
   ld_bss_contains_common: True
 
   asm_path: asm/cn
   src_path: src
-  build_path: build
+  build_path: build/cn
   asset_path: bin/cn
   extensions_path: tools/splat_ext
   hasm_in_src_path: True

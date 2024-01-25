@@ -12,9 +12,9 @@ def apply(config, args):
                 if "VERSION" in line and "=" in line:
                     version = line.split("=")[1].strip()
 
-    config["baseimg"] = f"expected/build/drmario64_uncompressed.{version}.z64"
-    config["myimg"]   = f"build/drmario64_uncompressed.{version}.z64"
-    config["mapfile"] = f"build/drmario64.{version}.map"
+    config["baseimg"] = f"expected/build/{version}/drmario64_uncompressed.{version}.z64"
+    config["myimg"]   = f"build/{version}/drmario64_uncompressed.{version}.z64"
+    config["mapfile"] = f"build/{version}/drmario64.{version}.map"
     config["source_directories"] = ["./src", "./include", "./asm", "./lib"]
     config["objdump_flags"] = ["-Mreg-names=32"]
     # config["objdump_flags"].append("-Mno-aliases")

@@ -7,7 +7,7 @@ CROSS ?= mips-linux-gnu-
 
 ### Output ###
 
-BUILD_DIR := ../build/lib
+BUILD_DIR := ../build/$(VERSION)/lib
 
 
 #### Setup ####

@@ -19,7 +19,7 @@ def symInfoMain():
 
     args = parser.parse_args()
 
-    BUILTMAP = Path(f"build") / f"drmario64.{args.version}.map"
+    BUILTMAP = Path(f"build") / args.version / f"drmario64.{args.version}.map"
 
     mapPath = BUILTMAP
     if args.use_expected:

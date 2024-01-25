@@ -272,7 +272,7 @@ const u8 position_4_1[][4] = {
 };
 #endif
 
-#include "build/src/main_segment/dm_manual_main.msg.inc"
+#include "dm_manual_main.msg.inc"
 
 #if VERSION_US || VERSION_CN
 void dm_manual_attack_capsel_down(void) {

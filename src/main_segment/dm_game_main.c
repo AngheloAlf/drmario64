@@ -179,7 +179,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _scoreNumsColor)
 
 ASM_RODATA;
 
-#include "build/src/main_segment/dm_game_main.msg.inc"
+#include "dm_game_main.msg.inc"
 
 extern s8 dm_chaine_se_table_vs_178[];    // sndindex
 extern s8 dm_chaine_se_table_4p_179[][3]; // sndindex
