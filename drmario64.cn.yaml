@@ -91,6 +91,9 @@ options:
   ld_partial_scripts_path: linker_scripts/cn/partial
   ld_partial_build_segments_path: build/segments/cn
 
+  ld_wildcard_sections: True
+  ld_bss_contains_common: True
+
   asm_path: asm/cn
   src_path: src
   build_path: build

@@ -92,6 +92,7 @@ options:
   ld_partial_build_segments_path: build/segments/us
 
   ld_wildcard_sections: True
+  ld_bss_contains_common: True
 
   asm_path: asm/us
   src_path: src
