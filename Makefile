@@ -190,7 +190,7 @@ ICONV_FLAGS      = --from-code=UTF-8 --to-code=$(OUT_ENCODING)
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
 
 ifneq ($(OBJDUMP_BUILD), 0)
-    OBJDUMP_CMD = $(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
+    OBJDUMP_CMD = @$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
 else
     OBJDUMP_CMD = @:
 endif
@@ -300,9 +300,6 @@ extract:
 	$(SPLAT) $(SPLAT_YAML) $(SPLAT_FLAGS)
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
-lib:
-	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS)
-
 diff-init: all
 	$(RM) -rf expected/
 	mkdir -p expected/
@@ -312,7 +309,6 @@ init:
 	$(MAKE) distclean
 	$(MAKE) setup
 	$(MAKE) extract
-	$(MAKE) lib
 	$(MAKE) all
 	$(MAKE) diff-init
 
@@ -322,7 +318,7 @@ format:
 tidy:
 	clang-tidy-11 -p . --fix --fix-errors $(filter-out %libgcc2.c, $(C_FILES)) -- $(CC_CHECK_FLAGS) $(IINC) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS)
 
-.PHONY: all compressed uncompressed clean distclean setup extract lib diff-init init format tidy
+.PHONY: all compressed uncompressed clean distclean setup extract diff-init init format tidy
 .DEFAULT_GOAL := all
 # Prevent removing intermediate files
 .SECONDARY:
@@ -378,10 +374,11 @@ endif
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/lib/%.o: lib/%.c
-ifneq ($(PERMUTER), 1)
-	$(error Library files has not been built, please run `$(MAKE) lib VERSION=$(VERSION)` first)
-endif
-	$(MAKE) -C lib VERSION=$(VERSION) ../$@
+	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -w $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
+	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) ../$@
+
+$(BUILD_DIR)/lib/%.o: lib/%.s
+	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) ../$@
 
 $(BUILD_DIR)/segments/$(VERSION)/%.o: linker_scripts/$(VERSION)/partial/%.ld
 	$(LD) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@
