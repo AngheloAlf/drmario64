@@ -50,26 +50,11 @@ typedef struct struct_g_etc_work {
     /* 0x70 */ s32 unk_D0[G_ETC_WORK_VAL];
 } struct_g_etc_work; // size = 0xF0
 
-typedef struct struct_cont_table {
-    /* 0x00 */ s32 unk_00[UNK_SIZE];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C[UNK_SIZE];
-    /* 0x10 */ UNK_TYPE1 unk_10[0x8];
-} struct_cont_table; // size = 0x18
-
-typedef struct struct_pause_table {
-    /* 0x00 */ s32 unk_00[UNK_SIZE];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ UNK_TYPE1 unk_0C[0xC];
-} struct_pause_table; // size = 0x18
-
 
 // data
 
-extern struct_pause_table pause_table[];
-extern struct_cont_table cont_table[];
+extern s32 pause_table[][6];
+extern s32 cont_table[][6];
 extern UNK_TYPE4 etc_parts_tbl[];
 extern UNK_TYPE4 x2p[];
 extern UNK_TYPE4 x4p[];
