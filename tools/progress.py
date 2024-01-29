@@ -72,6 +72,8 @@ def getProgress(mapPath: Path, version: str, subpaths: bool=False) -> tuple[mapf
             filepathParts = list(file.filepath.parts)
             if version in filepathParts:
                 filepathParts.remove(version)
+            if version in filepathParts:
+                filepathParts.remove(version)
             file.filepath = Path(*filepathParts)
 
             # Fix symbol size calculation because of NON_MATCHING symbols
