@@ -13,6 +13,7 @@ typedef struct struct_virus_map_data {
     /* 0x2 */ u8 unk_2;
 } struct_virus_map_data; // size = 0x3
 
+// does not exist?
 typedef struct struct_virus_map_disp_order {
     /* 0x00 */ u8 unk_00[0x60];
 } struct_virus_map_disp_order; // size = 0x60

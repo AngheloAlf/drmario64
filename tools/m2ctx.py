@@ -5,6 +5,7 @@ import os
 import sys
 import subprocess
 import tempfile
+from pathlib import Path
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = os.path.abspath(os.path.join(script_dir, ".."))
@@ -56,6 +57,8 @@ def import_c_file(in_file, version: str) -> str:
     elif version == "gw":
         CPP_FLAGS.append("-DVERSION_GW=1")
         CPP_FLAGS.append("-D__IS_KMC__=1")
+
+    CPP_FLAGS.append(f"-Ibuild/{version}/{Path(in_file).parent}")
 
     cpp_command = ["gcc", "-E", "-P", "-undef", "-dM", *CPP_FLAGS, in_file]
     cpp_command2 = ["gcc", "-E", "-P", "-undef", *CPP_FLAGS, in_file]

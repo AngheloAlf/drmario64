@@ -13,6 +13,9 @@ rom:0x037800 symbol:mes_5577 reloc:MIPS_LO16 addend:-0x4
 rom:0x04B440 symbol:BonusWait reloc:MIPS_HI16 addend:-0x3
 rom:0x04B444 symbol:BonusWait reloc:MIPS_LO16 addend:-0x3
 
+rom:0x0515A8 symbol:_tbl_4274 reloc:MIPS_HI16 addend:-0x4
+rom:0x0515AC symbol:_tbl_4274 reloc:MIPS_LO16 addend:-0x4
+
 rom:0x05FCDC symbol:story_viewMtx reloc:MIPS_HI16 addend:-0x80000000
 rom:0x05FCE0 symbol:story_viewMtx reloc:MIPS_LO16
 rom:0x05F79C symbol:story_viewMtx reloc:MIPS_HI16 addend:-0x80000000

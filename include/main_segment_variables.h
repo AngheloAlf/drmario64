@@ -83,7 +83,7 @@ extern u8 virus_anime_table[3][4];
 extern s32 rotate_table_474[];
 extern s32 rotate_mtx_475[];
 extern s32 D_800A6FC4;
-// extern UNK_TYPE visible_fall_point;
+extern bool visible_fall_point[];
 extern char _mesPassword[];
 extern char _mesEasyCont[];
 extern char _mesEasyNoCont[];

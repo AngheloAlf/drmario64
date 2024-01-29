@@ -301,9 +301,9 @@ extract:
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
 diff-init: all
-	$(RM) -rf expected/
-	mkdir -p expected/
-	cp -r $(BUILD_DIR) expected/$(BUILD_DIR)
+	$(RM) -rf expected/$(BUILD_DIR)
+	mkdir -p expected/$(BUILD_DIR)
+	cp -r $(BUILD_DIR)/* expected/$(BUILD_DIR)
 
 init:
 	$(MAKE) distclean
@@ -316,7 +316,7 @@ format:
 	clang-format-11 -i -style=file $(C_FILES)
 
 tidy:
-	clang-tidy-11 -p . --fix --fix-errors $(filter-out %libgcc2.c, $(C_FILES)) -- $(CC_CHECK_FLAGS) $(IINC) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS)
+	clang-tidy-11 -p . --fix --fix-errors $(filter-out %libgcc2.c, $(C_FILES)) -- $(CC_CHECK_FLAGS) $(IINC) -I build/$(VERSION)/src/main_segment $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS)
 
 .PHONY: all compressed uncompressed clean distclean setup extract diff-init init format tidy
 .DEFAULT_GOAL := all
