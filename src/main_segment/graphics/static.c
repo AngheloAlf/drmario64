@@ -6,70 +6,24 @@
 #include "unk.h"
 #include "main_segment_variables.h"
 
-#if VERSION_US
-#if 0
-void func_8002BD20(s32 red, s32 green, s32 blue, s32 alpha, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
-#if 0
-    Gfx *temp_a1;
-    Gfx *temp_t3;
-    Gfx *temp_v1_2;
-    s16 temp_t4;
-    s32 temp_a2;
-    s32 temp_t0;
-    s32 temp_t2;
-    s32 temp_v0;
-    s32 temp_v1;
-    u32 var_a0;
-
-    temp_t3 = gGfxHead;
-    gGfxHead = temp_t3 + 8;
-    temp_t3->words.w0 = 0xE7000000;
-    gGfxHead = temp_t3 + 0x10;
-    temp_t3->unk_8 = 0xFA000000;
-    temp_a1 = temp_t3 + 0x20;
-    temp_t0 = arg4 + arg6;
-    temp_t3->unk_14 = 0xFFFDF6FB;
-    temp_t2 = arg5 + arg7;
-    temp_t3->unk_C = (s32) ((arg0 << 0x18) | ((arg1 & 0xFF) << 0x10) | ((arg2 & 0xFF) << 8) | (arg3 & 0xFF));
-    gGfxHead = temp_t3 + 0x18;
-    temp_t3->unk_18 = (s32) ((((temp_t0 * 4) & ((s32) ~(s16) (temp_t0 * 4) >> 0x1F) & 0xFFC) << 0xC) | (((temp_t2 * 4) & ((s32) ~(s16) (temp_t2 * 4) >> 0x1F) & 0xFFC) | 0xE4000000));
-    temp_a2 = arg5 * 4;
-    temp_t4 = arg4 * 4;
-    gGfxHead = temp_a1;
-    gGfxHead = temp_t3 + 0x28;
-    temp_t3->words.w1 = 0;
-    temp_t3->unk_10 = 0xFCFFFFFF;
-    temp_t3->unk_1C = (s32) ((((arg4 * 4) & ((s32) ~temp_t4 >> 0x1F) & 0xFFC) << 0xC) | (temp_a2 & ((s32) ~(s16) (arg5 * 4) >> 0x1F) & 0xFFC));
-    temp_t3->unk_20 = 0xE1000000;
-    if (temp_t4 < 0) {
-        temp_v1 = temp_t4 * 8;
-        var_a0 = (temp_v1 & -(temp_v1 < 1)) * -0x10000;
-    } else {
-        var_a0 = 0;
-    }
-    temp_a1->words.w1 = var_a0;
-    if (arg5 & 0x20000000) {
-        temp_v0 = (s32) (temp_a2 << 0x10) >> 0xD;
-        temp_a1->words.w1 = var_a0 | (-(temp_v0 & -(temp_v0 < 1)) & 0xFFFF);
-    }
-    temp_v1_2 = gGfxHead;
-    gGfxHead = temp_v1_2 + 8;
-    temp_v1_2->words.w0 = 0xF1000000;
-    temp_v1_2->words.w1 = 0x04000400;
-#endif
+#if VERSION_US || VERSION_CN
+void func_8002BD20(u8 red, u8 green, u8 blue, u8 alpha, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
+    s32 a;
+    s32 b;
+    s32 c;
+    s32 d;
 
     gDPPipeSync(gGfxHead++);
     gDPSetPrimColor(gGfxHead++, 0, 0, red, green, blue, alpha);
     gDPSetCombineMode(gGfxHead++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
-    gSPTextureRectangle(gGfxHead++, arg4 << 2, arg5 << 2, (arg4 + arg6) << 2, (arg4 + arg7) << 2, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", func_8002BD20);
-#endif
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002D990_cn);
+    a = arg4 << 2;
+    b = arg5 << 2;
+    c = (arg4 + arg6) << 2;
+    d = (arg5 + arg7) << 2;
+
+    gSPScisTextureRectangle(gGfxHead++, a, b, c, d, G_TX_RENDERTILE, 0, 0, 0x0400, 0x0400);
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -124,11 +78,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", func_8002C688);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002E36C_cn);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", draw_Tex);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void draw_Tex(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
     gSPScisTextureRectangle(gGfxHead++, arg0 << 2, arg1 << 2, (arg0 + arg2) << 2, (arg1 + arg3) << 2, G_TX_RENDERTILE,
                             arg4 << 5, arg5 << 5, 1 << 10, 1 << 10);

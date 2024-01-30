@@ -4,7 +4,7 @@
 #include "libultra.h"
 #include "other_types.h"
 
-void func_8002BD20(s32 red, s32 green, s32 blue, s32 alpha, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
+void func_8002BD20(u8 red, u8 green, u8 blue, u8 alpha, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
 void load_TexPal(TexturePtr tlut);
 void func_8002BF90(TexturePtr tlut, u32 pal);
 void load_TexBlock_4b(TexturePtr texture, s32 width, s32 height);
