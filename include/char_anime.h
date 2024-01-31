@@ -33,6 +33,13 @@ typedef enum CharAnimeMode {
     /* 20 */ CHARANIMEMODE_MAX
 } CharAnimeMode;
 
+typedef struct AnimeHeader{
+    /* 0x0 */ struct TiTexData *texData;
+    /* 0x4 */ s32 *texDataLen;
+    /* 0x8 */ u8 **metadata;
+    /* 0xC */ s32 *metadataLen;
+} AnimeHeader; // size = 0x10
+
 typedef struct struct_800B1B00 {
     /* 0x0 */ UNK_TYPE4 unk_0;
     /* 0x4 */ UNK_TYPE4 unk_4;
