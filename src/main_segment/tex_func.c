@@ -1116,20 +1116,20 @@ void tiMappingAddr(TiTexData *arg0, s32 arg1, uintptr_t arg2) {
     for (i = 0; i < arg1; i++) {
         TiTexData *temp = &arg0[i];
 
-        if (temp->unk_0 != NULL) {
-            temp->unk_0 = (void *)((u8 *)temp->unk_0 + arg2);
+        if (temp->texs != NULL) {
+            temp->texs = (void *)((u8 *)temp->texs + arg2);
 
-            if (temp->unk_0->tlut != NULL) {
-                temp->unk_0->tlut = (void *)((u8 *)temp->unk_0->tlut + arg2);
+            if (temp->texs->tlut != NULL) {
+                temp->texs->tlut = (void *)((u8 *)temp->texs->tlut + arg2);
             }
 
-            if (temp->unk_0->tex != NULL) {
-                temp->unk_0->tex = (void *)((u8 *)temp->unk_0->tex + arg2);
+            if (temp->texs->tex != NULL) {
+                temp->texs->tex = (void *)((u8 *)temp->texs->tex + arg2);
             }
         }
 
-        if (temp->unk_4 != NULL) {
-            temp->unk_4 = (void *)((u8 *)temp->unk_4 + arg2);
+        if (temp->info != NULL) {
+            temp->info = (void *)((u8 *)temp->info + arg2);
         }
     }
 }
@@ -1196,21 +1196,21 @@ void tiCopyTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4) {
         tlut = NULL;
         texture = NULL;
     } else {
-        tlut = arg1->unk_0->tlut;
-        texture = arg1->unk_0->tex;
+        tlut = arg1->texs->tlut;
+        texture = arg1->texs->tex;
     }
 
-    switch (arg1->unk_4[2]) {
+    switch (arg1->info[2]) {
         case 0x4:
-            CopyTexBlock4(gfxP, tlut, texture, arg3, arg4, arg1->unk_4[0], arg1->unk_4[1]);
+            CopyTexBlock4(gfxP, tlut, texture, arg3, arg4, arg1->info[0], arg1->info[1]);
             break;
 
         case 0x8:
-            CopyTexBlock8(gfxP, tlut, texture, arg3, arg4, arg1->unk_4[0], arg1->unk_4[1]);
+            CopyTexBlock8(gfxP, tlut, texture, arg3, arg4, arg1->info[0], arg1->info[1]);
             break;
 
         case 0x10:
-            CopyTexBlock16(gfxP, texture, arg3, arg4, arg1->unk_4[0], arg1->unk_4[1]);
+            CopyTexBlock16(gfxP, texture, arg3, arg4, arg1->info[0], arg1->info[1]);
             break;
     }
 }
@@ -1228,28 +1228,28 @@ void tiStretchTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, f32 arg3, f32 arg4
         var_a3 = NULL;
         var_t0 = NULL;
     } else {
-        var_a3 = arg1->unk_0->tlut;
-        var_t0 = arg1->unk_0->tex;
+        var_a3 = arg1->texs->tlut;
+        var_t0 = arg1->texs->tex;
     }
 
-    if (arg1->unk_0->tlut != NULL) {
-        switch (arg1->unk_4[2]) {
+    if (arg1->texs->tlut != NULL) {
+        switch (arg1->info[2]) {
             case 0x4:
-                StretchTexBlock4(gfxP, arg1->unk_4[0], arg1->unk_4[1], var_a3, var_t0, arg3, arg4, arg5, arg6);
+                StretchTexBlock4(gfxP, arg1->info[0], arg1->info[1], var_a3, var_t0, arg3, arg4, arg5, arg6);
                 break;
 
             case 0x8:
-                StretchTexBlock8(gfxP, arg1->unk_4[0], arg1->unk_4[1], var_a3, var_t0, arg3, arg4, arg5, arg6);
+                StretchTexBlock8(gfxP, arg1->info[0], arg1->info[1], var_a3, var_t0, arg3, arg4, arg5, arg6);
                 break;
         }
     } else {
-        switch (arg1->unk_4[2]) {
+        switch (arg1->info[2]) {
             case 0x4:
-                StretchTexBlock4i(gfxP, arg1->unk_4[0], arg1->unk_4[1], var_t0, arg3, arg4, arg5, arg6);
+                StretchTexBlock4i(gfxP, arg1->info[0], arg1->info[1], var_t0, arg3, arg4, arg5, arg6);
                 break;
 
             case 0x10:
-                StretchTexBlock16(gfxP, arg1->unk_4[0], arg1->unk_4[1], var_t0, arg3, arg4, arg5, arg6);
+                StretchTexBlock16(gfxP, arg1->info[0], arg1->info[1], var_t0, arg3, arg4, arg5, arg6);
                 break;
         }
     }
@@ -1269,32 +1269,32 @@ void tiStretchTexTile(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4,
         tlut = NULL;
         texture = NULL;
     } else {
-        tlut = arg1->unk_0->tlut;
-        texture = arg1->unk_0->tex;
+        tlut = arg1->texs->tlut;
+        texture = arg1->texs->tex;
     }
 
-    if (arg1->unk_0->tlut != NULL) {
-        switch (arg1->unk_4[2]) {
+    if (arg1->texs->tlut != NULL) {
+        switch (arg1->info[2]) {
             case 0x4:
-                StretchTexTile4(gfxP, arg1->unk_4[0], arg1->unk_4[1], tlut, texture, arg3, arg4, arg5, arg6, arg7, arg8,
+                StretchTexTile4(gfxP, arg1->info[0], arg1->info[1], tlut, texture, arg3, arg4, arg5, arg6, arg7, arg8,
                                 arg9, argA);
                 break;
 
             case 0x8:
-                StretchTexTile8(gfxP, arg1->unk_4[0], arg1->unk_4[1], tlut, texture, arg3, arg4, arg5, arg6, arg7, arg8,
+                StretchTexTile8(gfxP, arg1->info[0], arg1->info[1], tlut, texture, arg3, arg4, arg5, arg6, arg7, arg8,
                                 arg9, argA);
                 break;
         }
     } else {
-        switch (arg1->unk_4[2]) {
+        switch (arg1->info[2]) {
             case 0x4:
-                StretchTexTile4i(gfxP, arg1->unk_4[0], arg1->unk_4[1], texture, arg3, arg4, arg5, arg6, arg7, arg8,
-                                 arg9, argA);
+                StretchTexTile4i(gfxP, arg1->info[0], arg1->info[1], texture, arg3, arg4, arg5, arg6, arg7, arg8, arg9,
+                                 argA);
                 break;
 
             case 0x10:
-                StretchTexTile16(gfxP, arg1->unk_4[0], arg1->unk_4[1], texture, arg3, arg4, arg5, arg6, arg7, arg8,
-                                 arg9, argA);
+                StretchTexTile16(gfxP, arg1->info[0], arg1->info[1], texture, arg3, arg4, arg5, arg6, arg7, arg8, arg9,
+                                 argA);
                 break;
         }
     }
@@ -1307,8 +1307,8 @@ void tiStretchTexTile(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4,
  */
 void tiStretchTexItem(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4, f32 arg5, f32 arg6, f32 arg7,
                       f32 arg8) {
-    s32 temp_lo = arg1->unk_4[1] / arg3;
-    s32 temp_lo_2 = arg1->unk_4[0] * temp_lo * arg4;
+    s32 temp_lo = arg1->info[1] / arg3;
+    s32 temp_lo_2 = arg1->info[0] * temp_lo * arg4;
     u16 *tlut;
     TexturePtr texture;
 
@@ -1316,10 +1316,10 @@ void tiStretchTexItem(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4,
         tlut = NULL;
         texture = NULL;
     } else {
-        tlut = arg1->unk_0->tlut;
-        texture = arg1->unk_0->tex;
+        tlut = arg1->texs->tlut;
+        texture = arg1->texs->tex;
 
-        switch (arg1->unk_4[2]) {
+        switch (arg1->info[2]) {
             case 0x4:
                 texture = (u8 *)texture + temp_lo_2 / 2;
                 break;
@@ -1334,25 +1334,25 @@ void tiStretchTexItem(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4,
         }
     }
 
-    if (arg1->unk_4[3] & 1) {
-        switch (arg1->unk_4[2]) {
+    if (arg1->info[3] & 1) {
+        switch (arg1->info[2]) {
             case 0x4:
-                StretchTexBlock4(gfxP, arg1->unk_4[0], temp_lo, tlut, texture, arg5, arg6, arg7, arg8);
+                StretchTexBlock4(gfxP, arg1->info[0], temp_lo, tlut, texture, arg5, arg6, arg7, arg8);
                 break;
 
             case 0x8:
-                StretchTexBlock8(gfxP, arg1->unk_4[0], temp_lo, tlut, texture, arg5, arg6, arg7, arg8);
+                StretchTexBlock8(gfxP, arg1->info[0], temp_lo, tlut, texture, arg5, arg6, arg7, arg8);
                 break;
         }
     } else {
-        switch (arg1->unk_4[2]) {
+        switch (arg1->info[2]) {
             case 0x4:
-                StretchTexTile4(gfxP, arg1->unk_4[0], temp_lo, tlut, texture, 0, 0, arg1->unk_4[0], temp_lo, arg5, arg6,
+                StretchTexTile4(gfxP, arg1->info[0], temp_lo, tlut, texture, 0, 0, arg1->info[0], temp_lo, arg5, arg6,
                                 arg7, arg8);
                 break;
 
             case 0x8:
-                StretchTexTile8(gfxP, arg1->unk_4[0], temp_lo, tlut, texture, 0, 0, arg1->unk_4[0], temp_lo, arg5, arg6,
+                StretchTexTile8(gfxP, arg1->info[0], temp_lo, tlut, texture, 0, 0, arg1->info[0], temp_lo, arg5, arg6,
                                 arg7, arg8);
                 break;
         }
@@ -1366,24 +1366,24 @@ void tiStretchTexItem(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4,
  */
 void tiStretchAlphaTexItem(Gfx **gfxP, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6,
                            f32 arg7, f32 arg8, f32 arg9) {
-    s32 var_t3 = MIN(arg1->unk_4[0], arg2->unk_4[0]);
-    s32 var_t2 = MIN(arg1->unk_4[1] / arg4, arg2->unk_4[1]);
+    s32 var_t3 = MIN(arg1->info[0], arg2->info[0]);
+    s32 var_t2 = MIN(arg1->info[1] / arg4, arg2->info[1]);
     TexturePtr sp48[2];
 
     if (arg3 != 0) {
         sp48[0] = NULL;
         sp48[1] = NULL;
     } else {
-        sp48[0] = (u8 *)arg1->unk_0->tex + (arg1->unk_4[0] * var_t2 * arg5 * 2);
-        sp48[1] = (u8 *)arg2->unk_0->tex + (arg2->unk_4[0] * var_t2 * arg5 / 2);
+        sp48[0] = (u8 *)arg1->texs->tex + (arg1->info[0] * var_t2 * arg5 * 2);
+        sp48[1] = (u8 *)arg2->texs->tex + (arg2->info[0] * var_t2 * arg5 / 2);
     }
 
-    if ((arg1->unk_4[3] & 1) && (arg2->unk_4[3] & 1)) {
-        StretchAlphaTexBlock(gfxP, var_t3, var_t2, sp48[0], arg1->unk_4[0], sp48[1], arg2->unk_4[0], arg6, arg7, arg8,
+    if ((arg1->info[3] & 1) && (arg2->info[3] & 1)) {
+        StretchAlphaTexBlock(gfxP, var_t3, var_t2, sp48[0], arg1->info[0], sp48[1], arg2->info[0], arg6, arg7, arg8,
                              arg9);
     } else {
-        StretchAlphaTexTile(gfxP, var_t3, var_t2, sp48[0], arg1->unk_4[0], sp48[1], arg2->unk_4[0], 0, 0, var_t3,
-                            var_t2, arg6, arg7, arg8, arg9);
+        StretchAlphaTexTile(gfxP, var_t3, var_t2, sp48[0], arg1->info[0], sp48[1], arg2->info[0], 0, 0, var_t3, var_t2,
+                            arg6, arg7, arg8, arg9);
     }
 }
 #endif
@@ -1391,24 +1391,24 @@ void tiStretchAlphaTexItem(Gfx **gfxP, TiTexData *arg1, TiTexData *arg2, s32 arg
 #if VERSION_US
 void func_80045914(Gfx **arg0, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7,
                    f32 arg8, f32 arg9) {
-    s32 var_t3 = MIN(arg1->unk_4[0], arg2->unk_4[0]);
-    s32 var_t1 = MIN(arg1->unk_4[1] / arg4, arg2->unk_4[1]);
+    s32 var_t3 = MIN(arg1->info[0], arg2->info[0]);
+    s32 var_t1 = MIN(arg1->info[1] / arg4, arg2->info[1]);
     TexturePtr sp40[2];
 
     if (arg3 != 0) {
         sp40[0] = NULL;
         sp40[1] = NULL;
     } else {
-        sp40[0] = (u8 *)arg1->unk_0->tex + arg1->unk_4[0] * var_t1 * arg5 * 2;
-        sp40[1] = (u8 *)arg2->unk_0->tex;
+        sp40[0] = (u8 *)arg1->texs->tex + arg1->info[0] * var_t1 * arg5 * 2;
+        sp40[1] = (u8 *)arg2->texs->tex;
     }
 
-    if ((arg1->unk_4[3] & 1) && (arg2->unk_4[3] & 1)) {
-        StretchAlphaTexBlock(arg0, var_t3, var_t1, sp40[0], arg1->unk_4[0], sp40[1], arg2->unk_4[0], arg6, arg7, arg8,
+    if ((arg1->info[3] & 1) && (arg2->info[3] & 1)) {
+        StretchAlphaTexBlock(arg0, var_t3, var_t1, sp40[0], arg1->info[0], sp40[1], arg2->info[0], arg6, arg7, arg8,
                              arg9);
     } else {
-        StretchAlphaTexTile(arg0, var_t3, var_t1, sp40[0], arg1->unk_4[0], sp40[1], arg2->unk_4[0], 0, 0, var_t3,
-                            var_t1, arg6, arg7, arg8, arg9);
+        StretchAlphaTexTile(arg0, var_t3, var_t1, sp40[0], arg1->info[0], sp40[1], arg2->info[0], 0, 0, var_t3, var_t1,
+                            arg6, arg7, arg8, arg9);
     }
 }
 #endif

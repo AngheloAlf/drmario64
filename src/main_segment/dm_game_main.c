@@ -1339,10 +1339,10 @@ void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32
 
     temp_v0 = dm_game_get_capsel_tex(var_s3);
 
-    load_TexBlock_4b(temp_v0->unk_0->tex, temp_v0->unk_4[0], temp_v0->unk_4[1]);
+    load_TexBlock_4b(temp_v0->texs->tex, temp_v0->info[0], temp_v0->info[1]);
 
     for (i = 0; i < 2; i++) {
-        load_TexPal(dm_game_get_capsel_pal(var_s3, temp_s1->unk_6[i])->unk_0->tlut);
+        load_TexPal(dm_game_get_capsel_pal(var_s3, temp_s1->unk_6[i])->texs->tlut);
         draw_Tex(arg1[i], arg2[i], gameStateData->unk_00A, gameStateData->unk_00A, 0,
                  temp_s1->unk_4[i] * gameStateData->unk_00A);
     }
@@ -1379,14 +1379,14 @@ void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s
         }
 
         temp_v0_3 = dm_game_get_capsel_pal(var_s5, temp_s6->unk_6[var_s1]);
-        temp_s0 = temp_v0_3->unk_0->tlut;
+        temp_s0 = temp_v0_3->texs->tlut;
 
         temp_v0_3 = dm_game_get_capsel_tex(var_s5);
 
-        var_a1 = temp_v0_3->unk_0->tex;
-        var_a1 += (temp_s6->unk_4[var_s1] * gameStateDataRef->unk_00A * *temp_v0_3->unk_4) >> 1;
+        var_a1 = temp_v0_3->texs->tex;
+        var_a1 += (temp_s6->unk_4[var_s1] * gameStateDataRef->unk_00A * *temp_v0_3->info) >> 1;
 
-        temp_a3_2 = (*temp_v0_3->unk_4 - gameStateDataRef->unk_00A) >> 1;
+        temp_a3_2 = (*temp_v0_3->info - gameStateDataRef->unk_00A) >> 1;
 
         var_t0 = &gFramebuffers[gCurrentFramebufferIndex ^ 1][arg2[var_s1] * 0x140 + arg1[var_s1]];
         temp_t1 = (0x140 - gameStateDataRef->unk_00A);
@@ -5531,8 +5531,8 @@ void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     TiTexData *temp_s4 = &watchGameP->unk_430[0x11];
     TiTexData *temp_s2 = &watchGameP->unk_430[0x16];
-    s32 var_s3 = MIN(temp_s4->unk_4[0], temp_s2->unk_4[0]);
-    s32 temp_s0 = temp_s4->unk_4[1] / 12;
+    s32 var_s3 = MIN(temp_s4->info[0], temp_s2->info[0]);
+    s32 temp_s0 = temp_s4->info[1] / 12;
     s32 i;
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
@@ -5569,9 +5569,9 @@ void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP) {
                         _scoreNumsColor[temp_t3->unk_0C].b, alpha);
 
         StretchAlphaTexBlock(
-            &gfx, var_s3, temp_s0, (u8 *)temp_s4->unk_0->tex + (temp_s4->unk_4[0] * temp_s0 * temp_t3->unk_08 * 2),
-            temp_s4->unk_4[0], (u8 *)temp_s2->unk_0->tex + (temp_s2->unk_4[0] * temp_s0 * temp_t3->unk_08 / 2),
-            temp_s2->unk_4[0], temp_t3->unk_00, temp_t3->unk_04 - var_fv0_2, var_s3, temp_s0);
+            &gfx, var_s3, temp_s0, (u8 *)temp_s4->texs->tex + (temp_s4->info[0] * temp_s0 * temp_t3->unk_08 * 2),
+            temp_s4->info[0], (u8 *)temp_s2->texs->tex + (temp_s2->info[0] * temp_s0 * temp_t3->unk_08 / 2),
+            temp_s2->info[0], temp_t3->unk_00, temp_t3->unk_04 - var_fv0_2, var_s3, temp_s0);
     }
 
     *gfxP = gfx;
@@ -5643,7 +5643,7 @@ void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
             gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 255);
 
             tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, 0, 0x10, 0, (f32)arg0->unk_00[i], (f32)arg0->unk_04[i],
-                                  (f32)temp_s0->unk_4[0], (f32)((u16)temp_s0->unk_4[1] >> 4));
+                                  (f32)temp_s0->info[0], (f32)((u16)temp_s0->info[1] >> 4));
         }
 
         var_a3 = MIN(255, arg0->unk_08[i] * 8);
@@ -5652,7 +5652,7 @@ void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
 
         var_a3 = MAX(0, arg0->unk_08[i] - 0x30) >> 2;
         tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, 0, 0x10, var_a3 + 1, (f32)arg0->unk_00[i], (f32)arg0->unk_04[i],
-                              (f32)temp_s0->unk_4[0], (f32)((u16)temp_s0->unk_4[1] >> 4));
+                              (f32)temp_s0->info[0], (f32)((u16)temp_s0->info[1] >> 4));
     }
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -5667,8 +5667,8 @@ void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
             continue;
         }
         temp_s0 = &watchGameP->unk_430[var_a3];
-        StretchTexTile4i(&gfx, temp_s0->unk_4[0], temp_s0->unk_4[1], temp_s0->unk_0->tex, 0, 0, temp_s0->unk_4[0],
-                         temp_s0->unk_4[1], arg0->unk_00[i], arg0->unk_04[i], temp_s0->unk_4[0], temp_s0->unk_4[1]);
+        StretchTexTile4i(&gfx, temp_s0->info[0], temp_s0->info[1], temp_s0->texs->tex, 0, 0, temp_s0->info[0],
+                         temp_s0->info[1], arg0->unk_00[i], arg0->unk_04[i], temp_s0->info[0], temp_s0->info[1]);
     }
 
     *gfxP = gfx;
@@ -5685,7 +5685,7 @@ void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     if (arg3 == 0) {
         gSPDisplayList(gfx++, alpha_texture_init_dl);
     }
-    tiStretchAlphaTexItem(&gfx, temp_a1, temp, arg3, 0x10, 0, arg1, arg2, temp_a1->unk_4[0], temp_a1->unk_4[1] >> 4);
+    tiStretchAlphaTexItem(&gfx, temp_a1, temp, arg3, 0x10, 0, arg1, arg2, temp_a1->info[0], temp_a1->info[1] >> 4);
 
     *gfxP = gfx;
 }
@@ -5704,7 +5704,7 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
     temp_t1 = &watchGameP->unk_440[9];
-    tiStretchTexItem(&gfx, temp_t1, 0, 4, arg2, arg3, arg4, temp_t1->unk_4[0], temp_t1->unk_4[1] / 4);
+    tiStretchTexItem(&gfx, temp_t1, 0, 4, arg2, arg3, arg4, temp_t1->info[0], temp_t1->info[1] / 4);
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
 
@@ -5717,9 +5717,9 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
         if (temp_a2 == temp2) {
             temp_t1 = &watchGameP->unk_440[temp_a2 + 0x10];
             temp = &watchGameP->unk_440[0x18];
-            StretchAlphaTexBlock(&gfx, temp_t1->unk_4[0], temp_t1->unk_4[1], temp_t1->unk_0->tex, temp_t1->unk_4[0],
-                                 temp->unk_0->tex, temp->unk_4[0], temp_fs0, temp_fv1 + 1.0f, temp_t1->unk_4[0],
-                                 temp_t1->unk_4[1]);
+            StretchAlphaTexBlock(&gfx, temp_t1->info[0], temp_t1->info[1], temp_t1->texs->tex, temp_t1->info[0],
+                                 temp->texs->tex, temp->info[0], temp_fs0, temp_fv1 + 1.0f, temp_t1->info[0],
+                                 temp_t1->info[1]);
         } else {
             s32 temp3;
 
@@ -5727,8 +5727,8 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
             temp = &watchGameP->unk_440[0x12];
 
             temp3 = _tbl_4274[arg1 - 1][(arg2 + var_a1 + 1) % 4];
-            tiStretchAlphaTexItem(&gfx, temp_t1, temp, 0, 0xB, temp3, temp_fs0, temp_fv1, temp_t1->unk_4[0],
-                                  temp_t1->unk_4[1] / 11);
+            tiStretchAlphaTexItem(&gfx, temp_t1, temp, 0, 0xB, temp3, temp_fs0, temp_fv1, temp_t1->info[0],
+                                  temp_t1->info[1] / 11);
         }
     }
 
@@ -5783,8 +5783,8 @@ void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 a
     TiTexData *temp_s5 = &watchGameP->unk_430[0xD];
     TiTexData *temp_s3 = &watchGameP->unk_430[0x12];
     s32 var_t1 = 0;
-    s32 var_s6 = MIN(temp_s5->unk_4[0], temp_s3->unk_4[0]);
-    s32 temp_s1 = temp_s5->unk_4[1] / 10;
+    s32 var_s6 = MIN(temp_s5->info[0], temp_s3->info[0]);
+    s32 temp_s1 = temp_s5->info[1] / 10;
     s32 sp38[16];
     s32 temp_fs0;
     s32 var_s0;
@@ -5800,9 +5800,9 @@ void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 a
     temp_fs0 = temp_s1 / -2;
     for (var_s0 = var_t1 - 1; var_s0 >= 0; var_s0--) {
         StretchAlphaTexBlock(
-            gfxP, var_s6, temp_s1, temp_s5->unk_0->tex + (temp_s5->unk_4[0] * temp_s1 * _tbl_4345[sp38[var_s0]] * 2),
-            temp_s5->unk_4[0], temp_s3->unk_0->tex + (temp_s3->unk_4[0] * temp_s1 * _tbl_4345[sp38[var_s0]]) / 2,
-            temp_s3->unk_4[0], arg2 + (var_s4 * arg4), arg3 + temp_fs0 * arg4, var_s6 * arg4, temp_s1 * arg4);
+            gfxP, var_s6, temp_s1, temp_s5->texs->tex + (temp_s5->info[0] * temp_s1 * _tbl_4345[sp38[var_s0]] * 2),
+            temp_s5->info[0], temp_s3->texs->tex + (temp_s3->info[0] * temp_s1 * _tbl_4345[sp38[var_s0]]) / 2,
+            temp_s3->info[0], arg2 + (var_s4 * arg4), arg3 + temp_fs0 * arg4, var_s6 * arg4, temp_s1 * arg4);
         var_s4 += 0xE;
     }
 }
@@ -5819,8 +5819,8 @@ void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 a
     TiTexData *temp_a1 = watchGameP->unk_438;
     TiTexData *temp_s5 = &temp_a1[_tex_4374[arg1]];
     TiTexData *temp_s2 = &temp_a1[7];
-    s32 var_s7 = MIN(temp_s5->unk_4[0], temp_s2->unk_4[0]);
-    s32 temp_s6 = temp_s5->unk_4[1] / _row_4375[arg1];
+    s32 var_s7 = MIN(temp_s5->info[0], temp_s2->info[0]);
+    s32 temp_s6 = temp_s5->info[1] / _row_4375[arg1];
     s32 sp38[16];
     s32 i;
 
@@ -5847,9 +5847,9 @@ void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 a
     }
 
     for (i = arg2 - 1; i >= 0; i--) {
-        StretchAlphaTexBlock(gfxP, var_s7, temp_s6, temp_s5->unk_0->tex + temp_s5->unk_4[0] * temp_s6 * sp38[i] * 2,
-                             temp_s5->unk_4[0], temp_s2->unk_0->tex + temp_s2->unk_4[0] * temp_s6 * sp38[i] / 2,
-                             temp_s2->unk_4[0], arg4, arg5, var_s7, temp_s6);
+        StretchAlphaTexBlock(gfxP, var_s7, temp_s6, temp_s5->texs->tex + temp_s5->info[0] * temp_s6 * sp38[i] * 2,
+                             temp_s5->info[0], temp_s2->texs->tex + temp_s2->info[0] * temp_s6 * sp38[i] / 2,
+                             temp_s2->info[0], arg4, arg5, var_s7, temp_s6);
         arg4 += 9;
     }
 }
@@ -5936,10 +5936,10 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
     temp1 = &temp_a3[0x17];
     temp2 = &temp_a3[0x18];
 
-    var_a1_2 = MIN(temp1->unk_4[0], temp2->unk_4[0]);
+    var_a1_2 = MIN(temp1->info[0], temp2->info[0]);
 
-    StretchAlphaTexTile(&gGfxHead, var_a1_2, temp1->unk_4[1], temp1->unk_0->tex, temp1->unk_4[0], temp2->unk_0->tex,
-                        temp2->unk_4[0], 0, 0, var_a1_2, temp1->unk_4[1], arg0, arg1, var_a1_2, temp1->unk_4[1]);
+    StretchAlphaTexTile(&gGfxHead, var_a1_2, temp1->info[1], temp1->texs->tex, temp1->info[0], temp2->texs->tex,
+                        temp2->info[0], 0, 0, var_a1_2, temp1->info[1], arg0, arg1, var_a1_2, temp1->info[1]);
 }
 #endif
 
@@ -5974,12 +5974,12 @@ void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
         temp_t0 = &watchGameP->unk_430[_tex_4459[i][0]];
         temp_t2 = &watchGameP->unk_430[_tex_4459[i][1]];
 
-        var_a3 = MIN(temp_t0->unk_4[0], temp_t2->unk_4[0]);
-        var_t1 = MIN(temp_t0->unk_4[1], temp_t2->unk_4[1]);
+        var_a3 = MIN(temp_t0->info[0], temp_t2->info[0]);
+        var_t1 = MIN(temp_t0->info[1], temp_t2->info[1]);
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha[i]);
-        StretchAlphaTexTile(&gfx, var_a3, var_t1, temp_t0->unk_0->tex, temp_t0->unk_4[0], temp_t2->unk_0->tex,
-                            temp_t2->unk_4[0], 0, 0, var_a3, var_t1, arg1, arg2, var_a3, var_t1);
+        StretchAlphaTexTile(&gfx, var_a3, var_t1, temp_t0->texs->tex, temp_t0->info[0], temp_t2->texs->tex,
+                            temp_t2->info[0], 0, 0, var_a3, var_t1, arg1, arg2, var_a3, var_t1);
     }
 
     *gfxP = gfx;
@@ -6005,12 +6005,12 @@ void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     for (i = 0; i < ARRAY_COUNTU(alpha); i++) {
         TiTexData *temp_t0 = &watchGameP->unk_430[RO_800B2134[i][0]];
         TiTexData *temp_t3 = &watchGameP->unk_430[RO_800B2134[i][1]];
-        s32 var_t2 = MIN(temp_t0->unk_4[0], temp_t3->unk_4[0]);
-        s32 var_t1 = MIN(temp_t0->unk_4[1], temp_t3->unk_4[1]);
+        s32 var_t2 = MIN(temp_t0->info[0], temp_t3->info[0]);
+        s32 var_t1 = MIN(temp_t0->info[1], temp_t3->info[1]);
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha[i]);
-        StretchAlphaTexTile(&gfx, var_t2, var_t1, temp_t0->unk_0->tex, temp_t0->unk_4[0], temp_t3->unk_0->tex,
-                            temp_t3->unk_4[0], 0, 0, var_t2, var_t1, arg1, arg2, var_t2, var_t1);
+        StretchAlphaTexTile(&gfx, var_t2, var_t1, temp_t0->texs->tex, temp_t0->info[0], temp_t3->texs->tex,
+                            temp_t3->info[0], 0, 0, var_t2, var_t1, arg1, arg2, var_t2, var_t1);
     }
 
     *gfxP = gfx;
@@ -6096,7 +6096,7 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
 
     temp_s2 = &watchGameP->unk_434[0x15];
 
-    temp_s5 = temp_s2->unk_4[0] >> 2;
+    temp_s5 = temp_s2->info[0] >> 2;
     for (i = 0; i < arg1; i++) {
         f32 var_s4 = 0xED + i * 0x10;
         f32 temp_ft0 = watchGameP->unk_9A0[i] - 0xF;
@@ -6107,9 +6107,9 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
 
-        StretchTexTile4(&gfx, temp_s2->unk_4[0], temp_s2->unk_4[1], temp_s2->unk_0->tlut, temp_s2->unk_0->tex,
-                        temp_s5 * ((watchGameP->unk_9A0[i] >> 1) & 3), 0, temp_s5, temp_s2->unk_4[1], var_s4, temp_ft0,
-                        temp_s5, temp_s2->unk_4[1]);
+        StretchTexTile4(&gfx, temp_s2->info[0], temp_s2->info[1], temp_s2->texs->tlut, temp_s2->texs->tex,
+                        temp_s5 * ((watchGameP->unk_9A0[i] >> 1) & 3), 0, temp_s5, temp_s2->info[1], var_s4, temp_ft0,
+                        temp_s5, temp_s2->info[1]);
     }
 
     *gfxP = gfx;
@@ -6197,9 +6197,9 @@ void func_8006AEFC(struct_watchGame_unk_9D0 *arg0, Gfx **gfxP, s32 arg2, s32 arg
     temp_t3 = &watchGameP->unk_438[8];
     temp = &watchGameP->unk_438[9];
 
-    StretchAlphaTexTile(&gfx, temp_t3->unk_4[0], (s32)temp_t3->unk_4[1], temp_t3->unk_0->tex, temp_t3->unk_4[0],
-                        temp->unk_0->tex, (s32)temp->unk_4[0], 0, 0, (s32)temp_t3->unk_4[0], (s32)temp_t3->unk_4[1],
-                        (f32)arg2, (f32)arg3, (f32)temp_t3->unk_4[0], (f32)temp_t3->unk_4[1]);
+    StretchAlphaTexTile(&gfx, temp_t3->info[0], (s32)temp_t3->info[1], temp_t3->texs->tex, temp_t3->info[0],
+                        temp->texs->tex, (s32)temp->info[0], 0, 0, (s32)temp_t3->info[0], (s32)temp_t3->info[1],
+                        (f32)arg2, (f32)arg3, (f32)temp_t3->info[0], (f32)temp_t3->info[1]);
     draw_time2(&gfx, arg0->unk_14 + 5, arg2 + 0x12, arg3 + 0xE);
     draw_count_number(&gfx, 0, 2, (u32)arg0->unk_18, arg2 + 0x1F, arg3 + 0x23);
     draw_count_number(&gfx, 0, 2, (u32)arg0->unk_1C, arg2 + 0x1F, arg3 + 0x38);
@@ -6220,13 +6220,13 @@ void draw_story_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         TiTexData *temp_t3 = &temp_s1->unk_43C[0x12];
         TiTexData *temp_t1 = &temp_s1->unk_43C[0x13];
 
-        StretchAlphaTexBlock(&gfx, temp_t3->unk_4[0], temp_t1->unk_4[1], temp_t3->unk_0->tex, temp_t3->unk_4[0],
-                             temp_t1->unk_0->tex, temp_t1->unk_4[0], arg1 + 0x78, arg2 + 0xB, temp_t3->unk_4[0],
-                             temp_t3->unk_4[1]);
+        StretchAlphaTexBlock(&gfx, temp_t3->info[0], temp_t1->info[1], temp_t3->texs->tex, temp_t3->info[0],
+                             temp_t1->texs->tex, temp_t1->info[0], arg1 + 0x78, arg2 + 0xB, temp_t3->info[0],
+                             temp_t3->info[1]);
 
         temp_t3 = &temp_s1->unk_43C[9];
         tiStretchAlphaTexItem(&gfx, temp_t3, &temp_s1->unk_43C[2], 0, 4, evs_story_level, arg1 + 0x8E, arg2 + 0x36,
-                              temp_t3->unk_4[0], temp_t3->unk_4[1] >> 2);
+                              temp_t3->info[0], temp_t3->info[1] >> 2);
     }
 
     if (arg4 != 0) {
@@ -6291,24 +6291,24 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
             case ENUM_EVS_GAMEMODE_3:
                 temp_s1 = &temp_s6->unk_43C[0x10];
                 temp_s5 = &temp_s6->unk_43C[0x11];
-                StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                                     temp_s5->unk_0->tex, temp_s5->unk_4[0], arg1 + 0x5F, arg2 + 9, temp_s1->unk_4[0],
-                                     temp_s1->unk_4[1]);
+                StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                                     temp_s5->texs->tex, temp_s5->info[0], arg1 + 0x5F, arg2 + 9, temp_s1->info[0],
+                                     temp_s1->info[1]);
 
                 temp_s1 = &temp_s6->unk_43C[9];
                 temp_s5 = &temp_s6->unk_43C[2];
                 for (i = 0; i < 2; i++) {
                     tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, 0, 4, game_state_data[i].unk_16C, arg1 + _x_4663[i],
-                                          arg2 + 0xB, temp_s1->unk_4[0], temp_s1->unk_4[1] >> 2);
+                                          arg2 + 0xB, temp_s1->info[0], temp_s1->info[1] >> 2);
                 }
                 break;
 
             default:
                 temp_s1 = &temp_s6->unk_43C[0x14];
                 temp_s5 = &temp_s6->unk_43C[0x15];
-                StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                                     temp_s5->unk_0->tex, temp_s5->unk_4[0], arg1 + 0x68, arg2 + 9, temp_s1->unk_4[0],
-                                     temp_s1->unk_4[1]);
+                StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                                     temp_s5->texs->tex, temp_s5->info[0], arg1 + 0x68, arg2 + 9, temp_s1->info[0],
+                                     temp_s1->info[1]);
 
                 for (i = 0; i < 2; i++) {
                     draw_count_number(&gfx, 0, 2, game_state_data[i].unk_026, arg1 + _x_4670[i], arg2 + 0xB);
@@ -6318,15 +6318,15 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
         temp_s1 = &temp_s6->unk_43C[0xD];
         temp_s5 = &temp_s6->unk_43C[6];
-        StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                             temp_s5->unk_0->tex, temp_s5->unk_4[0], arg1 + 0x68, (arg2 + 0x19), temp_s1->unk_4[0],
-                             temp_s1->unk_4[1]);
+        StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                             temp_s5->texs->tex, temp_s5->info[0], arg1 + 0x68, (arg2 + 0x19), temp_s1->info[0],
+                             temp_s1->info[1]);
 
         temp_s1 = &temp_s6->unk_43C[0xC];
         temp_s5 = &temp_s6->unk_43C[5];
         for (i = 0; i < 2; i++) {
             tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, 0, 3, 2 - game_state_data[i].unk_02C, arg1 + _x_4676[i],
-                                  arg2 + 0x1B, temp_s1->unk_4[0], temp_s1->unk_4[1] / 3);
+                                  arg2 + 0x1B, temp_s1->info[0], temp_s1->info[1] / 3);
         }
     }
 
@@ -6334,9 +6334,9 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         if (arg3 != 0) {
             temp_s1 = &temp_s6->unk_43C[0xA];
             temp_s5 = &temp_s6->unk_43C[3];
-            StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                                 temp_s5->unk_0->tex, temp_s5->unk_4[0], arg1 + 0x70, arg2 + 0x29, temp_s1->unk_4[0],
-                                 temp_s1->unk_4[1]);
+            StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                                 temp_s5->texs->tex, temp_s5->info[0], arg1 + 0x70, arg2 + 0x29, temp_s1->info[0],
+                                 temp_s1->info[1]);
         }
 
         if (arg4 != 0) {
@@ -6346,9 +6346,9 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         if (arg3 != 0) {
             temp_s1 = &temp_s6->unk_43C[0xB];
             temp_s5 = &temp_s6->unk_43C[4];
-            StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                                 temp_s5->unk_0->tex, temp_s5->unk_4[0], arg1 + 0x58, arg2 + 0x29, temp_s1->unk_4[0],
-                                 temp_s1->unk_4[1]);
+            StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                                 temp_s5->texs->tex, temp_s5->info[0], arg1 + 0x58, arg2 + 0x29, temp_s1->info[0],
+                                 temp_s1->info[1]);
         }
 
         if (arg4 != 0) {
@@ -6510,8 +6510,8 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     temp_s4 = &watchGameP->unk_448[_pat_4838[var_v0] + 1];
     temp_a2 = &watchGameP->unk_448[0];
 
-    var_s0 = MIN(temp_s4->unk_4[0], temp_a2->unk_4[0]);
-    var_s3 = MIN(temp_s4->unk_4[1], temp_a2->unk_4[1]);
+    var_s0 = MIN(temp_s4->info[0], temp_a2->info[0]);
+    var_s3 = MIN(temp_s4->info[1], temp_a2->info[1]);
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     gSPClearGeometryMode(gfx++, G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
@@ -6530,8 +6530,8 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     guMtxF2L(sp48, mtx);
     gSPMatrix(gfx++, mtx++, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->unk_0->tex, temp_s4->unk_4[0], temp_a2->unk_0->tex,
-                     temp_a2->unk_4[0], 0, 0, var_s0, var_s3, 0.0f, 0.0f, var_s0, var_s3);
+    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->texs->tex, temp_s4->info[0], temp_a2->texs->tex,
+                     temp_a2->info[0], 0, 0, var_s0, var_s3, 0.0f, 0.0f, var_s0, var_s3);
 
     *vtxP = vtx;
     *mtxP = mtx;
@@ -6555,14 +6555,14 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
 
     temp_v0 = dm_game_get_capsel_tex(temp_s6);
 
-    load_TexTile_4b(temp_v0->unk_0->tex, temp_v0->unk_4[0], temp_v0->unk_4[1], 0, 0, temp_v0->unk_4[0] - 1,
-                    temp_v0->unk_4[1] - 1);
+    load_TexTile_4b(temp_v0->texs->tex, temp_v0->info[0], temp_v0->info[1], 0, 0, temp_v0->info[0] - 1,
+                    temp_v0->info[1] - 1);
     gfxSetScissor(&gGfxHead, 2, (s32)gameStateData->unk_006, gameStateData->unk_008 + gameStateData->unk_00A,
                   gameStateData->unk_00A * 8, gameStateData->unk_00A * 0x10);
 
     for (i = 0; i < 6; i++) {
         temp_v0 = dm_game_get_capsel_pal(temp_s6, i);
-        load_TexPal(temp_v0->unk_0->tlut);
+        load_TexPal(temp_v0->texs->tlut);
         dm_map_draw(mapCells, i, gameStateData->unk_006, gameStateData->unk_008 - gameStateData->unk_168,
                     gameStateData->unk_00A);
     }
@@ -6598,7 +6598,7 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
             s32 temp_a2;
 
             temp_v0 = dm_game_get_capsel_pal(temp_s6, temp->unk_6[i]);
-            load_TexPal(temp_v0->unk_0->tlut);
+            load_TexPal(temp_v0->texs->tlut);
             temp_t0_2 = gameStateData->unk_00A;
             temp_a1_2 = (temp->unk_0[i] * temp_t0_2) + gameStateData->unk_006;
             temp_a2 = (sp28[i] * temp_t0_2) + gameStateData->unk_008;
@@ -6644,7 +6644,7 @@ void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapC
     }
 
     for (i = 0; i < 2; i++) {
-        load_TexPal(dm_game_get_capsel_pal(temp_s6, gameStateData->unk_184.unk_6[i])->unk_0->tlut);
+        load_TexPal(dm_game_get_capsel_pal(temp_s6, gameStateData->unk_184.unk_6[i])->texs->tlut);
         draw_Tex(gameStateData->unk_184.unk_0[i] * gameStateData->unk_00A + gameStateData->unk_006,
                  (gameStateData->unk_184.unk_2[i] * gameStateData->unk_00A + gameStateData->unk_008) - 0xA,
                  gameStateData->unk_00A, gameStateData->unk_00A, 0,
@@ -6695,7 +6695,7 @@ void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, Game
     for (i = 0; i < 2; i++) {
         TiTexData *temp = dm_game_get_capsel_pal(0, gameStateDataRef->unk_184.unk_6[i]);
 
-        load_TexPal(temp->unk_0->tlut);
+        load_TexPal(temp->texs->tlut);
         draw_Tex(0xDA + i * 0xA, 0x34, 0xA, 0xA, 0, gameStateDataRef->unk_184.unk_4[i] * 0xA);
     }
 }
@@ -6753,9 +6753,9 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, temp_fv0);
 
         temp_fv0 = ((f32)sins(((s16)temp_s4->unk_424 << 0xA) & 0xFC00) * 0.00015258789f);
-        StretchAlphaTexBlock(&gGfxHead, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                             other->unk_0->tex, other->unk_4[0], gameStateDataRef->unk_006,
-                             (gameStateDataRef->unk_008 + temp_fv0 + 0xA0), temp_s1->unk_4[0], temp_s1->unk_4[1]);
+        StretchAlphaTexBlock(&gGfxHead, temp_s1->info[0], temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                             other->texs->tex, other->info[0], gameStateDataRef->unk_006,
+                             (gameStateDataRef->unk_008 + temp_fv0 + 0xA0), temp_s1->info[0], temp_s1->info[1]);
     }
 
     switch (gameStateDataRef->unk_014) {
@@ -6822,10 +6822,10 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
 
                     gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, temp_fv0);
 
-                    StretchAlphaTexBlock(&gGfxHead, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex,
-                                         temp_s1->unk_4[0], other->unk_0->tex, other->unk_4[0],
+                    StretchAlphaTexBlock(&gGfxHead, temp_s1->info[0], temp_s1->info[1], temp_s1->texs->tex,
+                                         temp_s1->info[0], other->texs->tex, other->info[0],
                                          (f32)gameStateDataRef->unk_006, (f32)(gameStateDataRef->unk_008 + 0x5C),
-                                         (f32)temp_s1->unk_4[0], (f32)temp_s1->unk_4[1]);
+                                         (f32)temp_s1->info[0], (f32)temp_s1->info[1]);
                 }
             }
             disp_retire_logo(&gGfxHead, arg1);
@@ -7883,13 +7883,13 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             temp_s1 = &temp_s7->unk_434[_bgTex_5794[var_s6]];
 
             for (i = 0; i < ARRAY_COUNTU(_bgPos_5792); i++) {
-                tiStretchTexTile(&gfx, temp_s1, 0, 0, 0, temp_s1->unk_4[0], temp_s1->unk_4[1], _bgPos_5792[i][0],
-                                 _bgPos_5792[i][1], temp_s1->unk_4[0], temp_s1->unk_4[1]);
+                tiStretchTexTile(&gfx, temp_s1, 0, 0, 0, temp_s1->info[0], temp_s1->info[1], _bgPos_5792[i][0],
+                                 _bgPos_5792[i][1], temp_s1->info[0], temp_s1->info[1]);
             }
 
             temp_s1 = &temp_s7->unk_434[_magTex_5795[var_s6]];
-            tiStretchTexTile(&gfx, temp_s1, 0, 0, 0, temp_s1->unk_4[0], temp_s1->unk_4[1], 0.0f, 120.0f,
-                             temp_s1->unk_4[0], temp_s1->unk_4[1]);
+            tiStretchTexTile(&gfx, temp_s1, 0, 0, 0, temp_s1->info[0], temp_s1->info[1], 0.0f, 120.0f, temp_s1->info[0],
+                             temp_s1->info[1]);
 
             if (arg3 != 0) {
                 gSPDisplayList(gfx++, alpha_texture_init_dl);
@@ -7897,31 +7897,31 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                 temp_s1 = &temp_s7->unk_434[9];
                 temp_s2 = &temp_s7->unk_434[2];
 
-                var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
+                var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
 
-                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                                    temp_s2->unk_0->tex, *temp_s2->unk_4, 0, 0, var_s0_2, temp_s1->unk_4[1], 202.0f,
-                                    12.0f, var_s0_2, temp_s1->unk_4[1]);
+                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                                    temp_s2->texs->tex, *temp_s2->info, 0, 0, var_s0_2, temp_s1->info[1], 202.0f, 12.0f,
+                                    var_s0_2, temp_s1->info[1]);
 
                 temp_s1 = &temp_s7->unk_434[_scrTex_5796[var_s6]];
                 temp_s2 = &temp_s7->unk_434[1];
 
-                var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
+                var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
 
-                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                                    temp_s2->unk_0->tex, temp_s2->unk_4[0], 0, 0, var_s0_2, temp_s1->unk_4[1], 11.0f,
-                                    17.0f, var_s0_2, temp_s1->unk_4[1]);
+                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                                    temp_s2->texs->tex, temp_s2->info[0], 0, 0, var_s0_2, temp_s1->info[1], 11.0f,
+                                    17.0f, var_s0_2, temp_s1->info[1]);
 
                 temp_s2 = &temp_s7->unk_434[4];
 
                 for (i = 0; i < 3U; i++) {
                     temp_s1 = &temp_s7->unk_434[_panelTex_5797[var_s6][i]];
 
-                    var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
+                    var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
 
-                    StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                                        temp_s2->unk_0->tex, temp_s2->unk_4[0], 0, 0, var_s0_2, temp_s1->unk_4[1],
-                                        _panelPos_5793[i][0], _panelPos_5793[i][1], var_s0_2, temp_s1->unk_4[1]);
+                    StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                                        temp_s2->texs->tex, temp_s2->info[0], 0, 0, var_s0_2, temp_s1->info[1],
+                                        _panelPos_5793[i][0], _panelPos_5793[i][1], var_s0_2, temp_s1->info[1]);
                 }
 
                 switch (evs_gamemode) {
@@ -7952,7 +7952,7 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             temp_s1 = &temp_s7->unk_438[1];
 
             for (i = 0; i < 2; i++) {
-                tiStretchTexBlock(&gfx, temp_s1, 0, 110.0f, 16.0f, temp_s1->unk_4[0], temp_s1->unk_4[1]);
+                tiStretchTexBlock(&gfx, temp_s1, 0, 110.0f, 16.0f, temp_s1->info[0], temp_s1->info[1]);
             }
 
             temp_s1 = &temp_s7->unk_438[0];
@@ -7975,7 +7975,7 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
 
             for (i = 0; i < 4; i++) {
                 tiStretchTexBlock(&gfx, temp_s1, 0, _posP4Bottle[i][0] + RO_800B1D7C[0],
-                                  _posP4Bottle[i][1] + RO_800B1D7C[1], temp_s1->unk_4[0], temp_s1->unk_4[1]);
+                                  _posP4Bottle[i][1] + RO_800B1D7C[1], temp_s1->info[0], temp_s1->info[1]);
             }
 
             temp_s1 = &temp_s7->unk_440[0];
@@ -7989,8 +7989,8 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
 
                 temp_s1 = &temp_s7->unk_440[8];
                 for (i = 0; i < 4; i++) {
-                    tiStretchTexBlock(&gfx, temp_s1, 0, _posP4CharBase[i][0], _posP4CharBase[i][1], temp_s1->unk_4[0],
-                                      temp_s1->unk_4[1]);
+                    tiStretchTexBlock(&gfx, temp_s1, 0, _posP4CharBase[i][0], _posP4CharBase[i][1], temp_s1->info[0],
+                                      temp_s1->info[1]);
                 }
 
                 gSPDisplayList(gfx++, alpha_texture_init_dl);
@@ -8004,12 +8004,12 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                         temp_s2 = &temp_s7->unk_440[0x1A];
                     }
 
-                    var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
+                    var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
 
                     for (i = 0; i < 4; i++) {
-                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                                             temp_s2->unk_0->tex, temp_s2->unk_4[0], _posP4CharBase[i][0] + 0x19,
-                                             _posP4CharBase[i][1], var_s0_2, temp_s1->unk_4[1]);
+                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                                             temp_s2->texs->tex, temp_s2->info[0], _posP4CharBase[i][0] + 0x19,
+                                             _posP4CharBase[i][1], var_s0_2, temp_s1->info[1]);
                     }
                 }
 
@@ -8017,11 +8017,11 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                     temp_s1 = &temp_s7->unk_440[0xF];
                     temp_s2 = &temp_s7->unk_440[0x17];
 
-                    var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
+                    var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
 
-                    StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                                         temp_s2->unk_0->tex, temp_s1->unk_4[0], 16.0f, 11.0f, var_s0_2,
-                                         temp_s1->unk_4[1]);
+                    StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                                         temp_s2->texs->tex, temp_s1->info[0], 16.0f, 11.0f, var_s0_2,
+                                         temp_s1->info[1]);
                 } else if (temp_s7->unk_8C0 != 0) {
                     for (i = 0; i < 4; i++) {
                         s32 temp_v0_9;
@@ -8030,24 +8030,24 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                         temp_s1 = &temp_s7->unk_440[tbl_5867[temp_v0_9][0]];
                         temp_s2 = &temp_s7->unk_440[tbl_5867[temp_v0_9][1]];
 
-                        var_s0_2 = MIN(temp_s1->unk_4[0], temp_s2->unk_4[0]);
+                        var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
 
-                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                                             temp_s2->unk_0->tex, temp_s1->unk_4[0], _posP4CharBase[i][0] + 0x19,
-                                             _posP4CharBase[i][1], var_s0_2, temp_s1->unk_4[1]);
+                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                                             temp_s2->texs->tex, temp_s1->info[0], _posP4CharBase[i][0] + 0x19,
+                                             _posP4CharBase[i][1], var_s0_2, temp_s1->info[1]);
                     }
 
                     //! FAKE:
                     temp_s1 = temp_s7->unk_440 + 2 + evs_vs_count - 1;
 
-                    CopyTexBlock8(&gfx, temp_s1->unk_0->tlut, temp_s1->unk_0->tex, 0x10, 8, temp_s1->unk_4[0],
-                                  temp_s1->unk_4[1]);
+                    CopyTexBlock8(&gfx, temp_s1->texs->tlut, temp_s1->texs->tex, 0x10, 8, temp_s1->info[0],
+                                  temp_s1->info[1]);
                 } else {
                     //! FAKE:
                     temp_s1 = temp_s7->unk_440 + 5 + evs_vs_count - 1;
 
-                    CopyTexBlock8(&gfx, temp_s1->unk_0->tlut, temp_s1->unk_0->tex, 0x10, 0xB, temp_s1->unk_4[0],
-                                  temp_s1->unk_4[1]);
+                    CopyTexBlock8(&gfx, temp_s1->texs->tlut, temp_s1->texs->tex, 0x10, 0xB, temp_s1->info[0],
+                                  temp_s1->info[1]);
                 }
             }
             break;
@@ -8066,9 +8066,9 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                 }
                 temp_s2 = &temp_s7->unk_43C[0];
 
-                StretchAlphaTexBlock(&gfx, temp_s1->unk_4[0], temp_s1->unk_4[1], temp_s1->unk_0->tex, temp_s1->unk_4[0],
-                                     temp_s2->unk_0->tex, temp_s2->unk_4[0], 114.0f, 150.0f, temp_s1->unk_4[0],
-                                     temp_s1->unk_4[1]);
+                StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs->tex, temp_s1->info[0],
+                                     temp_s2->texs->tex, temp_s2->info[0], 114.0f, 150.0f, temp_s1->info[0],
+                                     temp_s1->info[1]);
                 if (evs_story_flg != 0) {
                     draw_count_number(&gfx, 0, 1, evs_story_no, 0xB0, 0x98);
                 }
@@ -8841,9 +8841,9 @@ void dm_game_graphic2(void) {
                 }
                 var_t2 = &temp_s7->unk_43C[1];
 
-                StretchAlphaTexBlock(&gGfxHead, var_s6->unk_4[0], var_s6->unk_4[1], var_s6->unk_0->tex,
-                                     var_s6->unk_4[0], var_t2->unk_0->tex, var_t2->unk_4[0], 131.0f, 181.0f,
-                                     var_s6->unk_4[0], var_s6->unk_4[1]);
+                StretchAlphaTexBlock(&gGfxHead, var_s6->info[0], var_s6->info[1], var_s6->texs->tex, var_s6->info[0],
+                                     var_t2->texs->tex, var_t2->info[0], 131.0f, 181.0f, var_s6->info[0],
+                                     var_s6->info[1]);
 
                 func_80069188(&temp_s7->unk_070, temp_s7->unk_06C);
                 starForce_draw(&temp_s7->unk_070, &gGfxHead, temp_s7->unk_06C);
@@ -8899,8 +8899,8 @@ void dm_game_graphic2(void) {
                     var_s6 = &temp_s7->unk_440[0xE];
                     var_t2 = &temp_s7->unk_440[0x16];
 
-                    temp_s5 = var_s6->unk_4[0] >> 1;
-                    temp_s2_4 = var_s6->unk_4[1] / 3;
+                    temp_s5 = var_s6->info[0] >> 1;
+                    temp_s2_4 = var_s6->info[1] / 3;
 
                     for (i = 0; i < 2; i++) {
                         for (j = 0; j < 4; j++) {
@@ -8912,8 +8912,8 @@ void dm_game_graphic2(void) {
                             a = temp_s5 * i;
                             b = temp_s2_4 * color2index_6470[temp_a3_10];
 
-                            StretchAlphaTexTile(&gGfxHead, var_s6->unk_4[0], var_s6->unk_4[1], var_s6->unk_0->tex,
-                                                var_s6->unk_4[0], var_t2->unk_0->tex, var_t2->unk_4[0], a, b, temp_s5,
+                            StretchAlphaTexTile(&gGfxHead, var_s6->info[0], var_s6->info[1], var_s6->texs->tex,
+                                                var_s6->info[0], var_t2->texs->tex, var_t2->info[0], a, b, temp_s5,
                                                 temp_s2_4, _posP4StockCap[i][0] + j * 9, _posP4StockCap[i][1], temp_s5,
                                                 temp_s2_4);
                         }
@@ -9013,10 +9013,10 @@ void dm_game_graphic2(void) {
             gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 200, temp_s7->unk_A28.unk_74);
             gDPSetTextureLUT(gGfxHead++, G_TT_NONE);
 
-            gDPLoadTextureBlock_4b(gGfxHead++, var_s6->unk_0->tex, G_IM_FMT_I, var_s6->unk_4[0], var_s6->unk_4[1], 0,
+            gDPLoadTextureBlock_4b(gGfxHead++, var_s6->texs->tex, G_IM_FMT_I, var_s6->info[0], var_s6->info[1], 0,
                                    G_TX_NOMIRROR, G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            drawCursorPattern(&gGfxHead, var_s6->unk_4[0], var_s6->unk_4[1], 0x10, 0x10, temp_s7->unk_A28.unk_28 - 6,
+            drawCursorPattern(&gGfxHead, var_s6->info[0], var_s6->info[1], 0x10, 0x10, temp_s7->unk_A28.unk_28 - 6,
                               temp_s7->unk_A28.unk_2C - 6, (temp_s7->unk_A28.unk_3C * 0x14) + 0xC,
                               (temp_s7->unk_A28.unk_48 * 3) + 0xC);
 

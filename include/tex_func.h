@@ -9,14 +9,23 @@ struct StretchTexBlock_arg0;
 struct StretchTexTile_arg0;
 
 
-typedef struct TiTexData_unk_0 {
+typedef struct TiTexDataTextures {
     /* 0x0 */ u16 *tlut;
     /* 0x4 */ TexturePtr tex; // TODO: u8*?
-} TiTexData_unk_0; // size >= 0x8
+} TiTexDataTextures; // size >= 0x8
 
 typedef struct TiTexData {
-    /* 0x0 */ TiTexData_unk_0 *unk_0;
-    /* 0x4 */ u16 *unk_4;
+    /* 0x0 */ TiTexDataTextures *texs;
+
+    /**
+     * [0]: width
+     * [1]: height
+     * [2]: format
+     * [2]: bitflags:
+     *      0: tile?
+     *      1: block?
+     */
+    /* 0x4 */ u16 *info;
 } TiTexData; // size = 0x8
 
 

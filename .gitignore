@@ -1,7 +1,6 @@
 .splat/
 asm/
 bin/
-assets/
 build/
 
 linker_scripts/us/auto/
