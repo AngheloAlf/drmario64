@@ -829,12 +829,51 @@ segments:
   - name: segment_anime_mario # compressed
     type: databin
     start: 0x60CAC0
+
   - name: segment_anime_virus_b # compressed
-    type: databin
+    type: code
     start: 0x63A250
+    vram: 0x0
+    exclusive_ram_id: anime
+    subsegments:
+      - [auto, c, assets/anime/anime_virus_b]
+      - start: 0x63A250
+        type: .data
+        name: assets/anime/anime_virus_b
+        subsegments:
+          - [0x63A250]
+          - [0x63A270, rgba16, assets/anime/anime_virus_b/anime_virus_b_titexdata_00_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x63A290, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_00_texs_tex.i4, 32, 32] # TODO: extract as ci
+          - [0x63A490]
+          - [0x63A4A0, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_01_texs_tex.i4, 32, 32]
+          - [0x63A6A0]
+          - [0x63A6B0, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_02_texs_tex.i4, 32, 32]
+          - [0x63A8B0]
+          - [0x63A8C0, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_03_texs_tex.i4, 32, 32]
+          - [0x63AAC0]
+          - [0x63AAD0, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_04_texs_tex.i4, 32, 32]
+          - [0x63ACD0]
+          - [0x63ACE0, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_05_texs_tex.i4, 32, 32]
+          - [0x63AEE0]
+          - [0x63AEF0, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_06_texs_tex.i4, 32, 32]
+          - [0x63B0F0]
+          - [0x63B100, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_07_texs_tex.i4, 32, 32]
+          - [0x63B300]
+          - [0x63B310, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_08_texs_tex.i4, 32, 32]
+          - [0x63B510]
+          - [0x63B520, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_09_texs_tex.i4, 32, 32]
+          - [0x63B720]
+          - [0x63B730, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_10_texs_tex.i4, 32, 32]
+          - [0x63B930]
+          - [0x63B940, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_11_texs_tex.i4, 32, 32]
+          - [0x63BB40]
+          - [0x63BB50, i4, assets/anime/anime_virus_b/anime_virus_b_titexdata_12_texs_tex.i4, 32, 32]
+          - [0x63BD50]
+
   - name: segment_anime_virus_r # compressed
     type: databin
     start: 0x63BE40
+
   - name: segment_anime_virus_y # compressed
     type: databin
     start: 0x63D3E0

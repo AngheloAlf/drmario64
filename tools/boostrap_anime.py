@@ -105,7 +105,7 @@ AnimeHeader {seg_name}_header = {{
     # print(f"arr:   {texData:08X}")
     # print(f"count: {count1:08X}")
 
-    textues: list[tuple[int, str, str, int, int, int]] = []
+    textues: list[tuple[int, str, str, int, int, int, bool]] = []
 
     for i in range(count1):
         print(f"/* titexdata_{i:02} */\n")
@@ -137,9 +137,13 @@ AnimeHeader {seg_name}_header = {{
         if tex_type == 0x10:
             tex_type = "u16"
 
+        is_ci = False
+
         if tlut_addr != 0:
             assert fmt in {0x4, 0x8}
-            tex_fmt = f"ci{fmt}"
+            # tex_fmt = f"ci{fmt}"
+            tex_fmt = f"i{fmt}"
+            is_ci = True
         else:
             if fmt == 0x10:
                 tex_fmt = f"rgba16"
@@ -202,12 +206,12 @@ u16 {seg_name}_titexdata_{i:02}_info[] = {{
             mult = 2
 
         if tlut_addr != 0:
-            print(f"static_assert(ARRAY_COUNT({tlut_addr}) == {tlut_width} * {tlut_height}, \"The dimensions of `{tlut_name}` does not match the size of the actual tlut\");")
-            textues.append((tlut_addr, "rgba16", f"assets/anime/{seg_name}/{tlut_name}.rgba16", tlut_width, tlut_height, tlut_width * tlut_height))
+            print(f"static_assert(ARRAY_COUNT({tlut_name}) == {tlut_width} * {tlut_height}, \"The dimensions of `{tlut_name}` does not match the size of the actual tlut\");")
+            textues.append((tlut_addr, "rgba16", f"assets/anime/{seg_name}/{tlut_name}.rgba16", tlut_width, tlut_height, tlut_width * tlut_height * 2, is_ci))
 
         print(f"static_assert(ARRAY_COUNT({tex_name}) == {tex_name_width} * {tex_name_height}{op}, \"The dimensions of `{tex_name}` does not match the size of the actual texture\");")
         print()
-        textues.append((tex_addr, tex_fmt, f"assets/anime/{seg_name}/{tex_name}.{tex_fmt}", width, height, int(width * height * mult)))
+        textues.append((tex_addr, tex_fmt, f"assets/anime/{seg_name}/{tex_name}.{tex_fmt}", width, height, int(width * height * mult), is_ci))
 
     print(f"TiTexData {seg_name}_titexdata[] = {{")
     for i in range(count1):
@@ -231,19 +235,25 @@ u16 {seg_name}_titexdata_{i:02}_info[] = {{
         data = read_u32(anime_segment_bytes, ptr)
         # print(f"{data:08X}")
 
+        next_ptr = ptr + 4
+        next_data = read_u32(anime_segment_bytes, next_ptr)
+
         # print(f"/* {data:08X} */")
         print(f"""\
 u8 {seg_name}_metadata_{i:02}[] = {{
     \
 """, end="")
-        while True:
+        while data < metadata_addr:
+            if data == next_data:
+                print()
+                break
+
             val = read_u8(anime_segment_bytes, data)
             cmd = METADATA_CMDS.get(val)
             if cmd is not None:
                 data += 1
                 val2 = read_u8(anime_segment_bytes, data)
-                assert val2 < 0xF0, f"{val:02X}"
-                print(f"{cmd}({val2:02X}),", end="")
+                print(f"{cmd}(0x{val2:02X}),", end="")
             elif val == 0xFF:
                 print(f"ANIME_METADATA_END,", end="")
             else:
@@ -267,8 +277,11 @@ u8 {seg_name}_metadata_{i:02}[] = {{
     textues.sort()
     eprint(f"          - [0x{rom_addr:06X}]")
     i = 0
-    for addr, tex_fmt, tex_path, width, height, size in textues:
-        eprint(f"          - [0x{addr+rom_addr:06X}, {tex_fmt}, {tex_path}, {width}, {height}]")
+    for addr, tex_fmt, tex_path, width, height, size, is_ci in textues:
+        comment = ""
+        if is_ci:
+            comment = " # TODO: extract as ci"
+        eprint(f"          - [0x{addr+rom_addr:06X}, {tex_fmt}, {tex_path}, {width}, {height}]{comment}")
         if i + 1 < len(textues):
             if addr + size != textues[i+1][0]:
                 eprint(f"          - [0x{addr + rom_addr + size:06X}]")
