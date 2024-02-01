@@ -3,6 +3,7 @@
 
 #include "libultra.h"
 #include "unk.h"
+#include "libc/stdint.h"
 #include "other_types.h"
 
 struct StretchTexBlock_arg0;
