@@ -471,7 +471,7 @@ bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3) {
     }
 
     func_80046844(item, gfxP);
-    if (arg2->info[3] & 1) {
+    if (arg2->info[3] & TITEX_FLAGS_BLOCK) {
         tiStretchTexBlock(gfxP, arg2, arg3, item->unk_0C[0], item->unk_0C[1], arg2->info[0] * item->unk_30[0],
                           arg2->info[1] * item->unk_30[1]);
     } else {
@@ -531,7 +531,7 @@ s32 menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData
         sp48[1] = arg3->texs->tex;
     }
 
-    if ((arg2->info[3] & 1) && (arg3->info[3] & 1)) {
+    if ((arg2->info[3] & TITEX_FLAGS_BLOCK) && (arg3->info[3] & TITEX_FLAGS_BLOCK)) {
         StretchAlphaTexBlock(gfxP, var_s0, var_s1, sp48[0], arg2->info[0], sp48[1], arg3->info[0], item->unk_0C[0],
                              item->unk_0C[1], var_s0 * item->unk_30[0], var_s1 * item->unk_30[1]);
     } else {
@@ -1468,7 +1468,7 @@ void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
             if (var_s7 == 0) {
                 var_s5 = _getTexCommon(cursor->watchMenuRef, var_s0);
 
-                gDPLoadTextureBlock_4b(gfx++, var_s5->unk_0->tex, G_IM_FMT_I, var_s5->unk_4[0], var_s5->unk_4[1], 0,
+                gDPLoadTextureBlock_4b(gfx++, var_s5->texs->tex, G_IM_FMT_I, var_s5->info[0], var_s5->info[1], 0,
                                        G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 var_s7 += 1;
             }
@@ -1526,8 +1526,8 @@ void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
             } else {
                 s32 a = item->unk_0C[0];
                 s32 b = item->unk_0C[1];
-                s32 c = a + var_s5->unk_4[0];
-                s32 d = b + var_s5->unk_4[1];
+                s32 c = a + var_s5->info[0];
+                s32 d = b + var_s5->info[1];
 
                 gSPScisTextureRectangle(gfx++, a << 2, b << 2, c << 2, d << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
             }
@@ -1850,8 +1850,8 @@ void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
         s32 var_t7;
         s32 i;
 
-        gDPLoadTLUT_pal16(gfx++, 0, temp_t1->unk_0->tlut);
-        gDPLoadTextureBlock_4b(gfx++, temp_t1->unk_0->tex, G_IM_FMT_CI, temp_t1->unk_4[0], temp_t1->unk_4[1], 0,
+        gDPLoadTLUT_pal16(gfx++, 0, temp_t1->texs->tlut);
+        gDPLoadTextureBlock_4b(gfx++, temp_t1->texs->tex, G_IM_FMT_CI, temp_t1->info[0], temp_t1->info[1], 0,
                                G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
         func_80046844(item, &gfx);

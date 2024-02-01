@@ -7,3 +7,5 @@ D_8000000C = 0x8000000C; // ignore:true
 D_A0000000 = 0xA0000000; // ignore:true
 
 D_800035AC = 0x800035AC; // ignore:true
+
+D_000111C0 = 0x000111C0; // ignore:true size:0x3C

@@ -12,7 +12,16 @@ struct StretchTexTile_arg0;
 typedef struct TiTexDataTextures {
     /* 0x0 */ u16 *tlut;
     /* 0x4 */ TexturePtr tex; // TODO: u8*?
-} TiTexDataTextures; // size >= 0x8
+} TiTexDataTextures; // size = 0x8
+
+typedef enum TiTexDataFormat {
+    /* 0x04 */ TITEX_FORMAT_4 = 4,
+    /* 0x08 */ TITEX_FORMAT_8 = 8,
+    /* 0x10 */ TITEX_FORMAT_16 = 16,
+} TiTexDataFormat;
+
+#define TITEX_FLAGS_TILE  (0x0)
+#define TITEX_FLAGS_BLOCK (0x1)
 
 typedef struct TiTexData {
     /* 0x0 */ TiTexDataTextures *texs;
@@ -20,10 +29,8 @@ typedef struct TiTexData {
     /**
      * [0]: width
      * [1]: height
-     * [2]: format
-     * [2]: bitflags:
-     *      0: tile?
-     *      1: block?
+     * [2]: format. See TiTexDataFormat
+     * [2]: bitflags: See TITEX_FLAGS_*
      */
     /* 0x4 */ u16 *info;
 } TiTexData; // size = 0x8
@@ -167,7 +174,7 @@ void StretchTexTile16(Gfx **gfxP, s32 arg1, s32 arg2, u16 *arg3, s32 arg4, s32 a
 void StretchTexTile4i_LoadTex(StretchTexTile_arg0 *arg0);
 void StretchTexTile4i(Gfx **gfxP, s32 width, s32 height, u8 tex[], s32 arg4, s32 arg5, s32 arg6, s32 arg7, f32 arg8, f32 arg9, f32 argA, f32 argB);
 void RectTexTile4i(Gfx **gfxP, Vtx **vtxP, s32 width, s32 height, u8 *tex, s32 arg5, s32 arg6, s32 arg7, s32 arg8, f32 arg9, f32 argA, f32 argB, f32 argC);
-void tiMappingAddr(TiTexData *arg0, s32 arg1, u32 arg2);
+void tiMappingAddr(TiTexData *tiArr, s32 len, uintptr_t addr);
 TiTexData *tiLoadTexData(UNK_PTR *arg0, RomOffset segmentRom, RomOffset segmentRomEnd);
 // void func_80045110();
 void tiCopyTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4);

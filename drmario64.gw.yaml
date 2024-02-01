@@ -838,9 +838,38 @@ segments:
   - name: segment_anime_virus_y # compressed
     type: databin
     start: 0x63D3E0
+
   - name: segment_anime_smog # compressed
-    type: databin
+    type: code
     start: 0x63E980
+    vram: 0x0
+    exclusive_ram_id: anime
+    subsegments:
+      - [auto, c, assets/anime/anime_smog]
+      - start: 0x63E980
+        type: .data
+        name: assets/anime/anime_smog
+        subsegments:
+          - [0x63E980]
+          - [0x63E9A0, i4, assets/anime/anime_smog/anime_smog_titexdata_00_texs_tex.i4, 32, 32]
+          - [0x63EBA0]
+          - [0x63EBB0, i4, assets/anime/anime_smog/anime_smog_titexdata_01_texs_tex.i4, 32, 32]
+          - [0x63EDB0]
+          - [0x63EDC0, i4, assets/anime/anime_smog/anime_smog_titexdata_02_texs_tex.i4, 32, 32]
+          - [0x63EFC0]
+          - [0x63EFD0, i4, assets/anime/anime_smog/anime_smog_titexdata_03_texs_tex.i4, 32, 32]
+          - [0x63F1D0]
+          - [0x63F1E0, i4, assets/anime/anime_smog/anime_smog_titexdata_04_texs_tex.i4, 32, 32]
+          - [0x63F3E0]
+          - [0x63F3F0, i4, assets/anime/anime_smog/anime_smog_titexdata_05_texs_tex.i4, 32, 32]
+          - [0x63F5F0]
+          - [0x63F600, i4, assets/anime/anime_smog/anime_smog_titexdata_06_texs_tex.i4, 32, 32]
+          - [0x63F800]
+          - [0x63F810, i4, assets/anime/anime_smog/anime_smog_titexdata_07_texs_tex.i4, 32, 32]
+          - [0x63FA10]
+          - [0x63FA20, i4, assets/anime/anime_smog/anime_smog_titexdata_08_texs_tex.i4, 32, 32]
+          - [0x63FC20]
+
   - name: segment_tutorial_data # compressed
     type: databin
     start: 0x63FCC0

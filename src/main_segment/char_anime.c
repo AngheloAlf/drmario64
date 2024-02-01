@@ -98,7 +98,7 @@ const struct_800B1B00 _centerTbl_125[CHARANIMEMODE_MAX] = {
  * Original name: animeSeq_init
  */
 #if VERSION_US || VERSION_CN
-void animeSeq_init(AnimeSeq *animeSeq, AnimeSeq_unk_0C *arg1, UNK_TYPE4 arg2) {
+void animeSeq_init(AnimeSeq *animeSeq, u8 **arg1, UNK_TYPE4 arg2) {
     animeSeq->unk_0C = arg1;
     animeSeq->unk_08 = -1;
     animeSeq->unk_10 = arg2;
@@ -120,17 +120,17 @@ void func_8005E154(AnimeState *animeState, UNK_TYPE4 arg1) {
 #if VERSION_US || VERSION_CN
 void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
     while (arg1 >= 0) {
-        u8 *temp_a1 = &animeSeq->unk_0C[animeSeq->unk_10].unk_0[animeSeq->unk_14];
+        u8 *temp_a1 = &animeSeq->unk_0C[animeSeq->unk_10][animeSeq->unk_14];
 
         switch (temp_a1[0]) {
-            case 0xF0:
+            case ANIME_METADATA_F0:
                 animeSeq->unk_14 += 2;
                 animeSeq->unk_08++;
                 animeSeq->unk_00[animeSeq->unk_08] = animeSeq->unk_14;
                 animeSeq->unk_04[animeSeq->unk_08] = temp_a1[1];
                 break;
 
-            case 0xF1:
+            case ANIME_METADATA_F1:
                 if (animeSeq->unk_04[animeSeq->unk_08] != 0xFF) {
                     animeSeq->unk_04[animeSeq->unk_08]--;
                 }
@@ -143,13 +143,13 @@ void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
                 }
                 break;
 
-            case 0xF2:
+            case ANIME_METADATA_F2:
                 animeSeq->unk_14 = 0;
                 animeSeq->unk_10 = temp_a1[1];
                 animeSeq->unk_08 = -1;
                 break;
 
-            case 0xFF:
+            case ANIME_METADATA_END:
                 arg1 = -1;
                 break;
 
@@ -170,7 +170,7 @@ void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
  */
 #if VERSION_US || VERSION_CN
 bool animeSeq_isEnd(AnimeSeq *animeSeq) {
-    return animeSeq->unk_0C[animeSeq->unk_10].unk_0[animeSeq->unk_14] == 0xFF;
+    return animeSeq->unk_0C[animeSeq->unk_10][animeSeq->unk_14] == 0xFF;
 }
 #endif
 
@@ -189,7 +189,7 @@ size_t animeState_getDataSize(CharAnimeMode animeMode) {
 #if VERSION_US || VERSION_CN
 void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeMode) {
     TiTexData *sp18;
-    AnimeSeq_unk_0C *sp1C;
+    u8 **sp1C;
     RomDataTblIndex index = _addrTbl_124[animeMode];
 
     loadAnimeSeq(arg1, &sp18, &sp1C, _romDataTbl[index].start, _romDataTbl[index].end);
@@ -202,7 +202,7 @@ void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeM
  * Original name: animeState_init
  */
 #if VERSION_US || VERSION_CN
-void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, TiTexData *arg2, UNK_TYPE4 arg3, UNK_TYPE4 arg4,
+void animeState_init(AnimeState *animeState, u8 **arg1, TiTexData *arg2, UNK_TYPE4 arg3, UNK_TYPE4 arg4,
                      CharAnimeMode animeMode) {
     animeSeq_init(&animeState->animeSeq, arg1, 0);
     animeState->unk_1C = arg2;
@@ -335,13 +335,13 @@ void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32
     }
 
     switch (temp_a3->info[2]) {
-        case 0x4:
+        case TITEX_FORMAT_4:
             StretchTexTile4(&gfx, temp_a3->info[0], temp_a3->info[1], temp_t0[0].texs->tlut, temp_a3->texs->tex, 0, 0,
                             temp_a3->info[0], temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4,
                             temp_a3->info[1] * arg5);
             break;
 
-        case 0x8:
+        case TITEX_FORMAT_8:
             StretchTexTile8(&gfx, temp_a3->info[0], temp_a3->info[1], temp_t0[0].texs->tlut, temp_a3->texs->tex, 0, 0,
                             temp_a3->info[0], temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4,
                             temp_a3->info[1] * arg5);
@@ -475,12 +475,11 @@ void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 ar
 #endif
 
 #if VERSION_US || VERSION_CN
-void func_8005EE64(AnimeSeq_unk_0C *arg0, s32 arg1, u32 arg2) {
+void func_8005EE64(u8 **metadata, s32 len, uintptr_t addr) {
     s32 i;
 
-    for (i = 0; i < arg1; i++) {
-        //! FAKE: ?
-        arg0[i].unk_0 = &arg0[i].unk_0[arg2];
+    for (i = 0; i < len; i++) {
+        metadata[i] = (void *)((uintptr_t)metadata[i] + addr);
     }
 }
 #endif
@@ -488,30 +487,37 @@ void func_8005EE64(AnimeSeq_unk_0C *arg0, s32 arg1, u32 arg2) {
 #if VERSION_US || VERSION_CN
 /**
  * Original name: loadAnimeSeq
+ *
+ * Loads an anime segment.
+ *
+ * The segment is loaded into the passed heap and the heap argument will be updated to point to the memory after the
+ * used one.
+ *
+ * The data from the anime segment is placed into `texDataDst` and `metadataDst`
  */
-void loadAnimeSeq(void **arg0, TiTexData **arg1, AnimeSeq_unk_0C **arg2, RomOffset romOffsetStart,
+void loadAnimeSeq(void **heap, TiTexData **texDataDst, u8 ***metadataDst, RomOffset romOffsetStart,
                   RomOffset romOffsetEnd) {
-    u32 *temp_s0 = ALIGN_PTR(*arg0);
-    AnimeSeq_unk_0C *temp_a0_2;
-    TiTexData *temp_a0;
-    s32 *temp_v0;
-    s32 *temp_v0_2;
+    AnimeHeader *anime = ALIGN_PTR(*heap);
+    TiTexData *texData;
+    s32 *texDataLen;
+    u8 **metadata;
+    s32 *metadataLen;
 
-    *arg0 = DecompressRomToRam(romOffsetStart, temp_s0, romOffsetEnd - romOffsetStart);
+    *heap = DecompressRomToRam(romOffsetStart, anime, romOffsetEnd - romOffsetStart);
 
-    temp_a0 = (void *)(*(((u32 *)temp_s0) + 0) + (u32)temp_s0);
-    temp_v0 = (void *)(*(((u32 *)temp_s0) + 1) + (u32)temp_s0);
-    *(((u32 **)temp_s0) + 0) = (void *)temp_a0;
-    *(((u32 **)temp_s0) + 1) = (void *)temp_v0;
-    *arg1 = temp_a0;
-    tiMappingAddr(temp_a0, *temp_v0, (u32)temp_s0);
+    texData = (void *)((uintptr_t)anime->texData + (uintptr_t)anime);
+    texDataLen = (void *)((uintptr_t)anime->texDataLen + (uintptr_t)anime);
+    anime->texData = texData;
+    anime->texDataLen = texDataLen;
+    *texDataDst = texData;
+    tiMappingAddr(texData, *texDataLen, (uintptr_t)anime);
 
-    temp_a0_2 = (void *)(*(((u32 *)temp_s0) + 2) + (u32)temp_s0);
-    temp_v0_2 = (void *)(*(((u32 *)temp_s0) + 3) + (u32)temp_s0);
-    *(((u32 **)temp_s0) + 2) = (void *)temp_a0_2;
-    *(((u32 **)temp_s0) + 3) = (void *)temp_v0_2;
+    metadata = (void *)((uintptr_t)anime->metadata + (uintptr_t)anime);
+    metadataLen = (void *)((uintptr_t)anime->metadataLen + (uintptr_t)anime);
+    anime->metadata = metadata;
+    anime->metadataLen = metadataLen;
 
-    *arg2 = temp_a0_2;
-    func_8005EE64(temp_a0_2, *temp_v0_2, (u32)temp_s0);
+    *metadataDst = metadata;
+    func_8005EE64(metadata, *metadataLen, (uintptr_t)anime);
 }
 #endif

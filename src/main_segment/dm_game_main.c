@@ -6389,12 +6389,12 @@ void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3) {
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 192);
 
     temp_s6 = &watchGameP->unk_438[1];
-    for (i = 0; i < temp_s6->unk_4[1]; i += 0x2A) {
+    for (i = 0; i < temp_s6->info[1]; i += 0x2A) {
         for (j = 0; j < arg3; j++) {
             s32 var_t1;
 
-            var_t1 = MIN(0x2A, temp_s6->unk_4[1] - i);
-            tiStretchTexTile(&gfx, temp_s6, j, 0, i, temp_s6->unk_4[0], var_t1, arg1[j], arg2[j] + i, temp_s6->unk_4[0],
+            var_t1 = MIN(0x2A, temp_s6->info[1] - i);
+            tiStretchTexTile(&gfx, temp_s6, j, 0, i, temp_s6->info[0], var_t1, arg1[j], arg2[j] + i, temp_s6->info[0],
                              var_t1);
         }
     }

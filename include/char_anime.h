@@ -33,7 +33,16 @@ typedef enum CharAnimeMode {
     /* 20 */ CHARANIMEMODE_MAX
 } CharAnimeMode;
 
-typedef struct AnimeHeader{
+#define ANIME_METADATA_F0  0xF0
+#define ANIME_METADATA_F1  0xF1
+#define ANIME_METADATA_F2  0xF2
+#define ANIME_METADATA_END 0xFF
+
+#define ANIME_METADATA_CMD_F0(x)  0xF0, x
+#define ANIME_METADATA_CMD_F1(x)  0xF1, x
+#define ANIME_METADATA_CMD_F2(x)  0xF2, x
+
+typedef struct AnimeHeader {
     /* 0x0 */ struct TiTexData *texData;
     /* 0x4 */ s32 *texDataLen;
     /* 0x8 */ u8 **metadata;
@@ -45,16 +54,11 @@ typedef struct struct_800B1B00 {
     /* 0x4 */ UNK_TYPE4 unk_4;
 } struct_800B1B00; // size = 0x8
 
-// this struct may not exist
-typedef struct AnimeSeq_unk_0C {
-    /* 0x0 */ u8 *unk_0;
-} AnimeSeq_unk_0C; // size >= 0x4
-
 typedef struct AnimeSeq {
     /* 0x00 */ u8 unk_00[0x4];
     /* 0x04 */ u8 unk_04[0x4];
     /* 0x08 */ UNK_TYPE4 unk_08;
-    /* 0x0C */ AnimeSeq_unk_0C *unk_0C;
+    /* 0x0C */ u8 **unk_0C;
     /* 0x10 */ UNK_TYPE4 unk_10; // TODO: enum?
     /* 0x14 */ UNK_TYPE4 unk_14;
     /* 0x18 */ UNK_TYPE4 unk_18;
@@ -80,13 +84,13 @@ typedef struct AnimeSmog {
     /* 0x120 */ UNK_TYPE4 unk_120;
 } AnimeSmog; // size = 0x124
 
-void animeSeq_init(AnimeSeq *animeSeq, AnimeSeq_unk_0C *arg1, UNK_TYPE4 arg2);
+void animeSeq_init(AnimeSeq *animeSeq, u8 **arg1, UNK_TYPE4 arg2);
 void func_8005E154(AnimeState *animeState, UNK_TYPE4 arg1);
 void animeSeq_update(AnimeSeq *animeSeq, UNK_TYPE arg1);
 bool animeSeq_isEnd(AnimeSeq *animeSeq);
 size_t animeState_getDataSize(CharAnimeMode animeMode);
 void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeMode);
-void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, struct TiTexData *arg2, UNK_TYPE4 arg3,
+void animeState_init(AnimeState *animeState, u8 **arg1, struct TiTexData *arg2, UNK_TYPE4 arg3,
                      UNK_TYPE4 arg4, CharAnimeMode animeMode);
 void animeState_set(AnimeState *animeState, UNK_TYPE4 arg1);
 void animeState_update(AnimeState *animeState);
@@ -103,6 +107,6 @@ void animeSmog_stop(AnimeSmog *animeSmog);
 void animeSmog_update(AnimeSmog *animeSmog);
 void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
 // void func_8005EE64();
-void loadAnimeSeq(UNK_PTR *arg0, struct TiTexData **arg1, AnimeSeq_unk_0C **arg2, RomOffset romOffsetStart, RomOffset romOffsetEnd);
+void loadAnimeSeq(void **heap, struct TiTexData **texDataDst, u8 ***metadataDst, RomOffset romOffsetStart, RomOffset romOffsetEnd);
 
 #endif
