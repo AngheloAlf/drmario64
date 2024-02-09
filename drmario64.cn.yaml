@@ -1265,8 +1265,70 @@ segments:
           - [0x5D2B8B]
 
   - name: segment_anime_g # compressed
-    type: databin
+    type: code
     start: 0x5D2D70
+    vram: 0x0
+    exclusive_ram_id: anime
+    subsegments:
+      - [auto, c, assets/anime/anime_g]
+      - start: 0x5D2D70
+        type: .data
+        name: assets/anime/anime_g
+        subsegments:
+          - [0x5D2D70]
+          - [0x5D2D90, rgba16, assets/anime/anime_g/anime_g_titexdata_00_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x5D2DB0, i4, assets/anime/anime_g/anime_g_titexdata_00_texs_tex.i4, 64, 64] # TODO: extract as ci
+          - [0x5D35B0]
+          - [0x5D35C0, i4, assets/anime/anime_g/anime_g_titexdata_01_texs_tex.i4, 64, 64]
+          - [0x5D3DC0]
+          - [0x5D3DD0, i4, assets/anime/anime_g/anime_g_titexdata_02_texs_tex.i4, 64, 64]
+          - [0x5D45D0]
+          - [0x5D45E0, i4, assets/anime/anime_g/anime_g_titexdata_03_texs_tex.i4, 64, 64]
+          - [0x5D4DE0]
+          - [0x5D4DF0, i4, assets/anime/anime_g/anime_g_titexdata_04_texs_tex.i4, 64, 64]
+          - [0x5D55F0]
+          - [0x5D5600, i4, assets/anime/anime_g/anime_g_titexdata_05_texs_tex.i4, 64, 64]
+          - [0x5D5E00]
+          - [0x5D5E10, i4, assets/anime/anime_g/anime_g_titexdata_06_texs_tex.i4, 64, 64]
+          - [0x5D6610]
+          - [0x5D6620, i4, assets/anime/anime_g/anime_g_titexdata_07_texs_tex.i4, 64, 64]
+          - [0x5D6E20]
+          - [0x5D6E30, i4, assets/anime/anime_g/anime_g_titexdata_08_texs_tex.i4, 64, 64]
+          - [0x5D7630]
+          - [0x5D7640, i4, assets/anime/anime_g/anime_g_titexdata_09_texs_tex.i4, 64, 64]
+          - [0x5D7E40]
+          - [0x5D7E50, i4, assets/anime/anime_g/anime_g_titexdata_10_texs_tex.i4, 64, 64]
+          - [0x5D8650]
+          - [0x5D8660, i4, assets/anime/anime_g/anime_g_titexdata_11_texs_tex.i4, 64, 64]
+          - [0x5D8E60]
+          - [0x5D8E70, i4, assets/anime/anime_g/anime_g_titexdata_12_texs_tex.i4, 64, 64]
+          - [0x5D9670]
+          - [0x5D9680, i4, assets/anime/anime_g/anime_g_titexdata_15_texs_tex.i4, 64, 64]
+          - [0x5D9E80]
+          - [0x5D9E90, i4, assets/anime/anime_g/anime_g_titexdata_16_texs_tex.i4, 64, 64]
+          - [0x5DA690]
+          - [0x5DA6A0, i4, assets/anime/anime_g/anime_g_titexdata_17_texs_tex.i4, 64, 64]
+          - [0x5DAEA0]
+          - [0x5DAEB0, i4, assets/anime/anime_g/anime_g_titexdata_18_texs_tex.i4, 64, 64]
+          - [0x5DB6B0]
+          - [0x5DB6C0, i4, assets/anime/anime_g/anime_g_titexdata_19_texs_tex.i4, 64, 64]
+          - [0x5DBEC0]
+          - [0x5DBED0, i4, assets/anime/anime_g/anime_g_titexdata_20_texs_tex.i4, 64, 64]
+          - [0x5DC6D0]
+          - [0x5DC6E0, i4, assets/anime/anime_g/anime_g_titexdata_21_texs_tex.i4, 64, 64]
+          - [0x5DCEE0]
+          - [0x5DCEF0, i4, assets/anime/anime_g/anime_g_titexdata_22_texs_tex.i4, 64, 64]
+          - [0x5DD6F0]
+          - [0x5DD700, i4, assets/anime/anime_g/anime_g_titexdata_23_texs_tex.i4, 64, 64]
+          - [0x5DDF00]
+          - [0x5DDF10, i4, assets/anime/anime_g/anime_g_titexdata_24_texs_tex.i4, 64, 64]
+          - [0x5DE710]
+          - [0x5DE720, i4, assets/anime/anime_g/anime_g_titexdata_25_texs_tex.i4, 64, 64]
+          - [0x5DEF20]
+          - [0x5DEF30, i4, assets/anime/anime_g/anime_g_titexdata_26_texs_tex.i4, 64, 64]
+          - [0x5DF730]
+          - [0x5DF740, i4, assets/anime/anime_g/anime_g_titexdata_27_texs_tex.i4, 64, 64]
+          - [0x5DFF40]
 
   - name: segment_anime_h # compressed
     type: code
@@ -1563,8 +1625,78 @@ segments:
           - [0x5FE8F0]
 
   - name: segment_anime_l # compressed
-    type: databin
+    type: code
     start: 0x5FEA60
+    vram: 0x0
+    exclusive_ram_id: anime
+    subsegments:
+      - [auto, c, assets/anime/anime_l]
+      - start: 0x5FEA60
+        type: .data
+        name: assets/anime/anime_l
+        subsegments:
+          - [0x5FEA60]
+          - [0x5FEA80, rgba16, assets/anime/anime_l/anime_l_titexdata_00_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x5FEAA0, i4, assets/anime/anime_l/anime_l_titexdata_00_texs_tex.i4, 62, 55] # TODO: extract as ci
+          - [0x5FF149]
+          - [0x5FF160, i4, assets/anime/anime_l/anime_l_titexdata_01_texs_tex.i4, 62, 55]
+          - [0x5FF809]
+          - [0x5FF820, i4, assets/anime/anime_l/anime_l_titexdata_02_texs_tex.i4, 62, 55]
+          - [0x5FFEC9]
+          - [0x5FFEE0, i4, assets/anime/anime_l/anime_l_titexdata_03_texs_tex.i4, 62, 55]
+          - [0x600589]
+          - [0x6005A0, i4, assets/anime/anime_l/anime_l_titexdata_04_texs_tex.i4, 62, 55]
+          - [0x600C49]
+          - [0x600C60, i4, assets/anime/anime_l/anime_l_titexdata_05_texs_tex.i4, 62, 55]
+          - [0x601309]
+          - [0x601320, i4, assets/anime/anime_l/anime_l_titexdata_06_texs_tex.i4, 62, 55]
+          - [0x6019C9]
+          - [0x6019E0, i4, assets/anime/anime_l/anime_l_titexdata_07_texs_tex.i4, 62, 55]
+          - [0x602089]
+          - [0x6020A0, i4, assets/anime/anime_l/anime_l_titexdata_08_texs_tex.i4, 62, 55]
+          - [0x602749]
+          - [0x602760, i4, assets/anime/anime_l/anime_l_titexdata_09_texs_tex.i4, 62, 55]
+          - [0x602E09]
+          - [0x602E20, i4, assets/anime/anime_l/anime_l_titexdata_10_texs_tex.i4, 62, 55]
+          - [0x6034C9]
+          - [0x6034E0, i4, assets/anime/anime_l/anime_l_titexdata_11_texs_tex.i4, 62, 55]
+          - [0x603B89]
+          - [0x603BA0, i4, assets/anime/anime_l/anime_l_titexdata_12_texs_tex.i4, 62, 55]
+          - [0x604249]
+          - [0x604260, i4, assets/anime/anime_l/anime_l_titexdata_13_texs_tex.i4, 62, 55]
+          - [0x604909]
+          - [0x604920, i4, assets/anime/anime_l/anime_l_titexdata_14_texs_tex.i4, 62, 55]
+          - [0x604FC9]
+          - [0x604FE0, i4, assets/anime/anime_l/anime_l_titexdata_15_texs_tex.i4, 62, 55]
+          - [0x605689]
+          - [0x6056A0, i4, assets/anime/anime_l/anime_l_titexdata_16_texs_tex.i4, 62, 55]
+          - [0x605D49]
+          - [0x605D60, i4, assets/anime/anime_l/anime_l_titexdata_17_texs_tex.i4, 62, 55]
+          - [0x606409]
+          - [0x606420, i4, assets/anime/anime_l/anime_l_titexdata_18_texs_tex.i4, 62, 55]
+          - [0x606AC9]
+          - [0x606AE0, i4, assets/anime/anime_l/anime_l_titexdata_19_texs_tex.i4, 62, 55]
+          - [0x607189]
+          - [0x6071A0, i4, assets/anime/anime_l/anime_l_titexdata_20_texs_tex.i4, 62, 55]
+          - [0x607849]
+          - [0x607860, i4, assets/anime/anime_l/anime_l_titexdata_21_texs_tex.i4, 62, 55]
+          - [0x607F09]
+          - [0x607F20, i4, assets/anime/anime_l/anime_l_titexdata_22_texs_tex.i4, 62, 55]
+          - [0x6085C9]
+          - [0x6085E0, i4, assets/anime/anime_l/anime_l_titexdata_24_texs_tex.i4, 62, 55]
+          - [0x608C89]
+          - [0x608CA0, i4, assets/anime/anime_l/anime_l_titexdata_25_texs_tex.i4, 62, 55]
+          - [0x609349]
+          - [0x609360, i4, assets/anime/anime_l/anime_l_titexdata_26_texs_tex.i4, 62, 55]
+          - [0x609A09]
+          - [0x609A20, i4, assets/anime/anime_l/anime_l_titexdata_27_texs_tex.i4, 62, 55]
+          - [0x60A0C9]
+          - [0x60A0E0, i4, assets/anime/anime_l/anime_l_titexdata_28_texs_tex.i4, 62, 55]
+          - [0x60A789]
+          - [0x60A7A0, i4, assets/anime/anime_l/anime_l_titexdata_29_texs_tex.i4, 62, 55]
+          - [0x60AE49]
+          - [0x60AE60, i4, assets/anime/anime_l/anime_l_titexdata_30_texs_tex.i4, 62, 55]
+          - [0x60B509]
 
   - name: segment_anime_m # compressed
     type: code
@@ -1805,8 +1937,108 @@ segments:
           - [0x621B6E]
 
   - name: segment_anime_mario # compressed
-    type: databin
+    type: code
     start: 0x621D70
+    vram: 0x0
+    exclusive_ram_id: anime
+    subsegments:
+      - [auto, c, assets/anime/anime_mario]
+      - start: 0x621D70
+        type: .data
+        name: assets/anime/anime_mario
+        subsegments:
+          - [0x621D70]
+          - [0x621D90, rgba16, assets/anime/anime_mario/anime_mario_titexdata_00_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x621F90, i8, assets/anime/anime_mario/anime_mario_titexdata_00_texs_tex.i8, 64, 64] # TODO: extract as ci
+          - [0x622F90]
+          - [0x622FA0, i8, assets/anime/anime_mario/anime_mario_titexdata_01_texs_tex.i8, 64, 64]
+          - [0x623FA0]
+          - [0x623FB0, i8, assets/anime/anime_mario/anime_mario_titexdata_02_texs_tex.i8, 64, 64]
+          - [0x624FB0]
+          - [0x624FC0, i8, assets/anime/anime_mario/anime_mario_titexdata_03_texs_tex.i8, 64, 64]
+          - [0x625FC0]
+          - [0x625FD0, i8, assets/anime/anime_mario/anime_mario_titexdata_04_texs_tex.i8, 64, 64]
+          - [0x626FD0]
+          - [0x626FE0, i8, assets/anime/anime_mario/anime_mario_titexdata_05_texs_tex.i8, 64, 64]
+          - [0x627FE0]
+          - [0x627FF0, i8, assets/anime/anime_mario/anime_mario_titexdata_11_texs_tex.i8, 64, 64]
+          - [0x628FF0]
+          - [0x629000, i8, assets/anime/anime_mario/anime_mario_titexdata_12_texs_tex.i8, 64, 64]
+          - [0x62A000]
+          - [0x62A010, i8, assets/anime/anime_mario/anime_mario_titexdata_13_texs_tex.i8, 64, 64]
+          - [0x62B010]
+          - [0x62B020, i8, assets/anime/anime_mario/anime_mario_titexdata_14_texs_tex.i8, 64, 64]
+          - [0x62C020]
+          - [0x62C030, i8, assets/anime/anime_mario/anime_mario_titexdata_15_texs_tex.i8, 64, 64]
+          - [0x62D030]
+          - [0x62D040, i8, assets/anime/anime_mario/anime_mario_titexdata_16_texs_tex.i8, 64, 64]
+          - [0x62E040]
+          - [0x62E050, i8, assets/anime/anime_mario/anime_mario_titexdata_17_texs_tex.i8, 64, 64]
+          - [0x62F050]
+          - [0x62F060, i8, assets/anime/anime_mario/anime_mario_titexdata_18_texs_tex.i8, 64, 64]
+          - [0x630060]
+          - [0x630070, i8, assets/anime/anime_mario/anime_mario_titexdata_19_texs_tex.i8, 64, 64]
+          - [0x631070]
+          - [0x631080, i8, assets/anime/anime_mario/anime_mario_titexdata_20_texs_tex.i8, 64, 64]
+          - [0x632080]
+          - [0x632090, i8, assets/anime/anime_mario/anime_mario_titexdata_21_texs_tex.i8, 64, 64]
+          - [0x633090]
+          - [0x6330A0, i8, assets/anime/anime_mario/anime_mario_titexdata_22_texs_tex.i8, 64, 64]
+          - [0x6340A0]
+          - [0x6340B0, i8, assets/anime/anime_mario/anime_mario_titexdata_23_texs_tex.i8, 64, 64]
+          - [0x6350B0]
+          - [0x6350C0, i8, assets/anime/anime_mario/anime_mario_titexdata_24_texs_tex.i8, 64, 64]
+          - [0x6360C0]
+          - [0x6360D0, i8, assets/anime/anime_mario/anime_mario_titexdata_25_texs_tex.i8, 64, 64]
+          - [0x6370D0]
+          - [0x6370E0, i8, assets/anime/anime_mario/anime_mario_titexdata_26_texs_tex.i8, 64, 64]
+          - [0x6380E0]
+          - [0x6380F0, i8, assets/anime/anime_mario/anime_mario_titexdata_27_texs_tex.i8, 64, 64]
+          - [0x6390F0]
+          - [0x639100, i8, assets/anime/anime_mario/anime_mario_titexdata_28_texs_tex.i8, 64, 64]
+          - [0x63A100]
+          - [0x63A110, i8, assets/anime/anime_mario/anime_mario_titexdata_29_texs_tex.i8, 64, 64]
+          - [0x63B110]
+          - [0x63B120, i8, assets/anime/anime_mario/anime_mario_titexdata_30_texs_tex.i8, 64, 64]
+          - [0x63C120]
+          - [0x63C130, i8, assets/anime/anime_mario/anime_mario_titexdata_31_texs_tex.i8, 64, 64]
+          - [0x63D130]
+          - [0x63D140, i8, assets/anime/anime_mario/anime_mario_titexdata_32_texs_tex.i8, 64, 64]
+          - [0x63E140]
+          - [0x63E150, i8, assets/anime/anime_mario/anime_mario_titexdata_33_texs_tex.i8, 64, 64]
+          - [0x63F150]
+          - [0x63F160, i8, assets/anime/anime_mario/anime_mario_titexdata_34_texs_tex.i8, 64, 64]
+          - [0x640160]
+          - [0x640170, i8, assets/anime/anime_mario/anime_mario_titexdata_35_texs_tex.i8, 64, 64]
+          - [0x641170]
+          - [0x641180, i8, assets/anime/anime_mario/anime_mario_titexdata_36_texs_tex.i8, 64, 64]
+          - [0x642180]
+          - [0x642190, i8, assets/anime/anime_mario/anime_mario_titexdata_37_texs_tex.i8, 64, 64]
+          - [0x643190]
+          - [0x6431A0, i8, assets/anime/anime_mario/anime_mario_titexdata_38_texs_tex.i8, 64, 64]
+          - [0x6441A0]
+          - [0x6441B0, i8, assets/anime/anime_mario/anime_mario_titexdata_39_texs_tex.i8, 64, 64]
+          - [0x6451B0]
+          - [0x6451C0, i8, assets/anime/anime_mario/anime_mario_titexdata_40_texs_tex.i8, 64, 64]
+          - [0x6461C0]
+          - [0x6461D0, i8, assets/anime/anime_mario/anime_mario_titexdata_41_texs_tex.i8, 64, 64]
+          - [0x6471D0]
+          - [0x6471E0, i8, assets/anime/anime_mario/anime_mario_titexdata_42_texs_tex.i8, 64, 64]
+          - [0x6481E0]
+          - [0x6481F0, i8, assets/anime/anime_mario/anime_mario_titexdata_43_texs_tex.i8, 64, 64]
+          - [0x6491F0]
+          - [0x649200, i8, assets/anime/anime_mario/anime_mario_titexdata_44_texs_tex.i8, 64, 64]
+          - [0x64A200]
+          - [0x64A210, i8, assets/anime/anime_mario/anime_mario_titexdata_45_texs_tex.i8, 64, 64]
+          - [0x64B210]
+          - [0x64B220, i8, assets/anime/anime_mario/anime_mario_titexdata_47_texs_tex.i8, 64, 64]
+          - [0x64C220]
+          - [0x64C230, i8, assets/anime/anime_mario/anime_mario_titexdata_48_texs_tex.i8, 64, 64]
+          - [0x64D230]
+          - [0x64D240, i8, assets/anime/anime_mario/anime_mario_titexdata_51_texs_tex.i8, 64, 64]
+          - [0x64E240]
+          - [0x64E250, i8, assets/anime/anime_mario/anime_mario_titexdata_52_texs_tex.i8, 64, 64]
+          - [0x64F250]
 
   - name: segment_anime_virus_b # compressed
     type: code

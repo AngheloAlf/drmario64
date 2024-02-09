@@ -154,6 +154,9 @@ AnimeHeader {seg_name}_header = {{
         info_addr = read_u32(anime_segment_bytes, ptr+0x4)
         # print(f"{texs_addr:08X} {info_addr:08X}")
 
+        if texs_addr == 0 and info_addr == 0:
+            continue
+
         if next_addr is not None:
             emit_titexdata_pad(next_addr, texs_addr, i-1, seg_name)
 
@@ -265,7 +268,18 @@ u16 {seg_name}_titexdata_{i:02}_info[] = {{
 
     print(f"TiTexData {seg_name}_titexdata[] = {{")
     for i in range(count1):
-        print(f"    {{ &{seg_name}_titexdata_{i:02}_texs, {seg_name}_titexdata_{i:02}_info }},")
+        ptr = texData + i * 0x8
+        texs_addr = read_u32(anime_segment_bytes, ptr)
+        info_addr = read_u32(anime_segment_bytes, ptr+0x4)
+
+        texs_name = f"&{seg_name}_titexdata_{i:02}_texs"
+        if texs_addr == 0:
+            texs_name = "NULL"
+        info_name = f"{seg_name}_titexdata_{i:02}_info"
+        if info_addr == 0:
+            info_name = "NULL"
+
+        print(f"    {{ {texs_name}, {info_name} }},")
     print(f"}};")
     print()
 
