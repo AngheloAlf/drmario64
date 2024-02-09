@@ -36,6 +36,11 @@ typedef struct TiTexData {
     /* 0x4 */ u16 *info;
 } TiTexData; // size = 0x8
 
+typedef struct TiTexDataHeader {
+    /* 0x0 */ TiTexData *texData;
+    /* 0x4 */ s32 *texDataLen;
+} TiTexDataHeader; // size = 0x8
+
 
 typedef void (*StretchTexBlock_arg0_callback)(struct StretchTexBlock_arg0 *arg0);
 

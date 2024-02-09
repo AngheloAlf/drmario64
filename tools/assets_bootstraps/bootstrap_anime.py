@@ -10,6 +10,8 @@ from pathlib import Path
 
 import ti_tex_data
 
+ti_tex_data.ASSET_TYPE = "anime"
+
 def extract_anime_main():
     parser = argparse.ArgumentParser()
     parser.add_argument("anime_segment_bin")
@@ -35,13 +37,12 @@ def extract_anime_main():
     assert metadata_len_addr != 0
 
     print(f"""\
-#include "tex_func.h"
 #include "char_anime.h"
+""")
 
-#include "libc/assert.h"
-#include "macros_defines.h"
-#include "alignment.h"
+    ti_tex_data.emit_includes()
 
+    print(f"""\
 extern TiTexData {seg_name}_titexdata[];
 extern s32 {seg_name}_titexdata_len;
 extern u8 *{seg_name}_metadata[];
@@ -57,33 +58,7 @@ AnimeHeader {seg_name}_header = {{
 
     count1 = ti_tex_data.read_u32(anime_segment_bytes, texDataLen)
 
-    # print(f"arr:   {texData:08X}")
-    # print(f"count: {count1:08X}")
-
-    textues, next_addr = ti_tex_data.emit_ti_tex_data(texData, count1, anime_segment_bytes, seg_name)
-
-    if next_addr is not None:
-        ti_tex_data.emit_titexdata_pad(next_addr, texData, count1-1, seg_name)
-
-    print(f"TiTexData {seg_name}_titexdata[] = {{")
-    for i in range(count1):
-        ptr = texData + i * 0x8
-        texs_addr = ti_tex_data.read_u32(anime_segment_bytes, ptr)
-        info_addr = ti_tex_data.read_u32(anime_segment_bytes, ptr+0x4)
-
-        texs_name = f"&{seg_name}_titexdata_{i:02}_texs"
-        if texs_addr == 0:
-            texs_name = "NULL"
-        info_name = f"{seg_name}_titexdata_{i:02}_info"
-        if info_addr == 0:
-            info_name = "NULL"
-
-        print(f"    {{ {texs_name}, {info_name} }},")
-    print(f"}};")
-    print()
-
-    print(f"s32 {seg_name}_titexdata_len = ARRAY_COUNT({seg_name}_titexdata);")
-
+    textues = ti_tex_data.emit_ti_tex_data(texData, count1, anime_segment_bytes, seg_name)
 
     print()
 

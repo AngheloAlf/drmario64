@@ -802,9 +802,12 @@ segments:
     type: databin
     start: 0x1E0D70
 
+
   - name: segment_game_etc # compressed # GraphBin
     type: databin
     start: 0x1E1100
+
+
   - name: segment_menu_bg # compressed
     type: databin
     start: 0x207AA0
@@ -892,24 +895,78 @@ segments:
   - name: segment_menu_kasa # compressed
     type: databin
     start: 0x4E6F60
+
+
   - name: segment_game_al # compressed
     type: databin
     start: 0x4F5570
+
   - name: segment_game_p1 # compressed
     type: databin
     start: 0x504A30
+
   - name: segment_game_p2 # compressed
     type: databin
     start: 0x5160F0
+
   - name: segment_game_p4 # compressed
     type: databin
     start: 0x5283A0
+
   - name: segment_game_ls # compressed
     type: databin
     start: 0x547310
+
   - name: segment_game_item # compressed
-    type: databin
+    type: code
     start: 0x57A710
+    vram: 0x0
+    exclusive_ram_id: game
+    subsegments:
+      - [auto, c, assets/game/game_item]
+      - start: 0x57A710
+        type: .data
+        name: assets/game/game_item
+        subsegments:
+          - [0x57A710]
+          - [0x57A728, rgba16, assets/game/game_item/game_item_titexdata_00_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57A748]
+          - [0x57A748, i4, assets/game/game_item/game_item_titexdata_00_texs_tex.i4, 16, 128] # TODO: extract as ci
+          - [0x57AB48]
+          - [0x57AB58, rgba16, assets/game/game_item/game_item_titexdata_01_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57AB78]
+          - [0x57AB78, i4, assets/game/game_item/game_item_titexdata_01_texs_tex.i4, 16, 128] # TODO: extract as ci
+          - [0x57AF78]
+          - [0x57AF88, rgba16, assets/game/game_item/game_item_titexdata_02_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57AFA8]
+          - [0x57AFA8, i4, assets/game/game_item/game_item_titexdata_02_texs_tex.i4, 16, 220] # TODO: extract as ci
+          - [0x57B688]
+          - [0x57B698, rgba16, assets/game/game_item/game_item_titexdata_03_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57B6B8]
+          - [0x57B6B8, i4, assets/game/game_item/game_item_titexdata_03_texs_tex.i4, 16, 220] # TODO: extract as ci
+          - [0x57BD98]
+          - [0x57BDA8, rgba16, assets/game/game_item/game_item_titexdata_04_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57BDC8]
+          - [0x57BDD8, rgba16, assets/game/game_item/game_item_titexdata_05_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57BDF8]
+          - [0x57BE08, rgba16, assets/game/game_item/game_item_titexdata_06_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57BE28]
+          - [0x57BE38, rgba16, assets/game/game_item/game_item_titexdata_07_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57BE58]
+          - [0x57BE68, rgba16, assets/game/game_item/game_item_titexdata_08_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57BE88]
+          - [0x57BE98, rgba16, assets/game/game_item/game_item_titexdata_09_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57BEB8]
+          - [0x57BEC8, rgba16, assets/game/game_item/game_item_titexdata_10_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57BEE8]
+          - [0x57BEF8, rgba16, assets/game/game_item/game_item_titexdata_11_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57BF18]
+          - [0x57BF28, i4, assets/game/game_item/game_item_titexdata_12_texs_tex.i4, 16, 16]
+          - [0x57BFA8]
+          - [0x57BFB8, i4, assets/game/game_item/game_item_titexdata_13_texs_tex.i4, 16, 16]
+          - [0x57C038]
+          - [0x57C048, i4, assets/game/game_item/game_item_titexdata_14_texs_tex.i4, 16, 16]
+          - [0x57C0C8]
 
 
   - name: segment_anime_a # compressed
