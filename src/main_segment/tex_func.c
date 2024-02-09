@@ -1139,21 +1139,21 @@ void tiMappingAddr(TiTexData *tiArr, s32 len, uintptr_t addr) {
 /**
  * Original name: tiLoadTexData
  */
-TiTexData *tiLoadTexData(void **arg0, RomOffset segmentRom, RomOffset segmentRomEnd) {
-    u32 *temp_s0 = ALIGN_PTR(*arg0);
-    TiTexData *temp_s1;
-    s32 *temp_v0;
+TiTexData *tiLoadTexData(void **heap, RomOffset segmentRom, RomOffset segmentRomEnd) {
+    TiTexDataHeader *header = ALIGN_PTR(*heap);
+    TiTexData *texData;
+    s32 *texDataLen;
 
-    *arg0 = DecompressRomToRam(segmentRom, temp_s0, segmentRomEnd - segmentRom);
+    *heap = DecompressRomToRam(segmentRom, header, segmentRomEnd - segmentRom);
 
-    temp_s1 = (void *)(*((void **)temp_s0 + 0) + (uintptr_t)temp_s0);
-    temp_v0 = (void *)(*((void **)temp_s0 + 1) + (uintptr_t)temp_s0);
-    *((void **)temp_s0 + 0) = (void *)temp_s1;
-    *((void **)temp_s0 + 1) = (void *)temp_v0;
+    texData = (void *)((uintptr_t)header->texData + (uintptr_t)header);
+    texDataLen = (void *)((uintptr_t)header->texDataLen + (uintptr_t)header);
+    header->texData = texData;
+    header->texDataLen = texDataLen;
 
-    tiMappingAddr(temp_s1, *temp_v0, (uintptr_t)temp_s0);
+    tiMappingAddr(texData, *texDataLen, (uintptr_t)header);
 
-    return temp_s1;
+    return texData;
 }
 #endif
 
