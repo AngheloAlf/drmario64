@@ -54,12 +54,41 @@ METADATA_CMDS = {
     0xF2: "ANIME_METADATA_CMD_F2",
 }
 
+def emit_splat_info(textues: list[tuple[int, str, str, int, int, int, bool]], rom_addr: int, seg_name: str):
+    textues.sort()
+
+    eprint(f"""\
+    type: code
+    start: 0x{rom_addr:06X}
+    vram: 0x0
+    exclusive_ram_id: anime
+    subsegments:
+      - [auto, c, assets/anime/{seg_name}]
+      - start: 0x{rom_addr:06X}
+        type: .data
+        name: assets/anime/{seg_name}
+        subsegments:\
+""")
+
+    eprint(f"          - [0x{rom_addr:06X}]")
+    i = 0
+    for addr, tex_fmt, tex_path, width, height, size, is_ci in textues:
+        comment = ""
+        if is_ci:
+            comment = " # TODO: extract as ci"
+        eprint(f"          - [0x{addr+rom_addr:06X}, {tex_fmt}, {tex_path}, {width}, {height}]{comment}")
+        if i + 1 < len(textues):
+            if addr + size != textues[i+1][0]:
+                eprint(f"          - [0x{addr + rom_addr + size:06X}]")
+        else:
+            eprint(f"          - [0x{addr + rom_addr + size:06X}]")
+
 
 def extract_anime_main():
     parser = argparse.ArgumentParser()
     parser.add_argument("anime_segment_bin")
     parser.add_argument("seg_name")
-    parser.add_argument("--rom-addr", default="0")
+    parser.add_argument("-a", "--rom-addr", default="0")
 
     args = parser.parse_args()
 
@@ -274,19 +303,7 @@ u8 {seg_name}_metadata_{i:02}[] = {{
 
     print(f"s32 {seg_name}_metadata_len = ARRAY_COUNT({seg_name}_metadata);")
 
-    textues.sort()
-    eprint(f"          - [0x{rom_addr:06X}]")
-    i = 0
-    for addr, tex_fmt, tex_path, width, height, size, is_ci in textues:
-        comment = ""
-        if is_ci:
-            comment = " # TODO: extract as ci"
-        eprint(f"          - [0x{addr+rom_addr:06X}, {tex_fmt}, {tex_path}, {width}, {height}]{comment}")
-        if i + 1 < len(textues):
-            if addr + size != textues[i+1][0]:
-                eprint(f"          - [0x{addr + rom_addr + size:06X}]")
-        else:
-            eprint(f"          - [0x{addr + rom_addr + size:06X}]")
+    emit_splat_info(textues, rom_addr, seg_name)
 
 
 if __name__ == "__main__":
