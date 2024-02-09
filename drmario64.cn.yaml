@@ -2236,8 +2236,41 @@ segments:
           - [0x654ED0]
 
   - name: segment_tutorial_data # compressed
-    type: databin
+    type: code
     start: 0x654F70
+    vram: 0x0
+    exclusive_ram_id: tutorial
+    subsegments:
+      - [auto, c, assets/tutorial/tutorial_kasa]
+      - start: 0x654F70
+        type: .data
+        name: assets/tutorial/tutorial_kasa
+        subsegments:
+          - [0x654F70]
+          - [0x654F88, rgba16, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_00_texs_tex.rgba16, 128, 12]
+          - [0x655B88]
+          - [0x655B98, rgba16, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_01_texs_tex.rgba16, 128, 12]
+          - [0x656798]
+          - [0x6567A8, i4, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_02_texs_tex.i4, 128, 12]
+          - [0x656AA8]
+          - [0x656AB8, i4, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_03_texs_tex.i4, 128, 12]
+          - [0x656DB8]
+          - [0x656DC8, rgba16, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_04_texs_tex.rgba16, 16, 16]
+          - [0x656FC8]
+          - [0x656FD8, i4, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_05_texs_tex.i4, 16, 16]
+          - [0x657058]
+          - [0x657068, rgba16, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_06_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x657268]
+          - [0x657268, i8, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_06_texs_tex.i8, 128, 109] # TODO: extract as ci
+          - [0x65A8E8]
+          - [0x65A8F8, rgba16, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_07_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x65A918]
+          - [0x65A918, i4, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_07_texs_tex.i4, 16, 16] # TODO: extract as ci
+          - [0x65A998]
+          - [0x65A9A8, rgba16, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_08_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x65ABA8]
+          - [0x65ABA8, i8, assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_08_texs_tex.i8, 128, 70] # TODO: extract as ci
+          - [0x65CEA8]
 
   - [0x65CF00, databin]
   - [0x65E150]
