@@ -6,6 +6,8 @@
         "expected/**": true,
         "ctx.c": true,
         ".venv": true,
+        "linker_scripts/*/drmario64.d": true,
+        "linker_scripts/*/drmario64.ld": true,
     },
     "files.associations": {
         "*.C": "c",
