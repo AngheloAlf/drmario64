@@ -83,6 +83,16 @@ def emit_splat_info(textues: list[tuple[int, str, str, int, int, int, bool]], ro
         else:
             eprint(f"          - [0x{addr + rom_addr + size:06X}]")
 
+def emit_titexdata_pad(next_addr: int, actual_next_addrs: int, index: int, seg_name: str):
+    if next_addr + 3 < actual_next_addrs:
+        pad_size = actual_next_addrs-next_addr
+        pad_size = pad_size // 4 * 4
+        print(f"""\
+u8 {seg_name}_titexdata_{index:02}_pad[0x{pad_size:X}] = {{
+    0
+}};
+""")
+
 
 def extract_anime_main():
     parser = argparse.ArgumentParser()
@@ -135,15 +145,19 @@ AnimeHeader {seg_name}_header = {{
     # print(f"count: {count1:08X}")
 
     textues: list[tuple[int, str, str, int, int, int, bool]] = []
+    next_addr: int|None = None
 
     for i in range(count1):
-        print(f"/* titexdata_{i:02} */\n")
-
         ptr = texData + i * 0x8
         # print(f"{ptr:08X} ", end="")
         texs_addr = read_u32(anime_segment_bytes, ptr)
         info_addr = read_u32(anime_segment_bytes, ptr+0x4)
         # print(f"{texs_addr:08X} {info_addr:08X}")
+
+        if next_addr is not None:
+            emit_titexdata_pad(next_addr, texs_addr, i-1, seg_name)
+
+        print(f"/* titexdata_{i:02} */\n")
 
         assert texs_addr != 0
         assert info_addr != 0
@@ -213,14 +227,6 @@ u16 {seg_name}_titexdata_{i:02}_info[] = {{
     {tex_name_width}, {tex_name_height}, {fmt_name}, {bitflag_name},
 }};
 """)
-        if tlut_addr == 0:
-            emit_texture(tex_name, tex_type, tex_fmt, seg_name)
-        elif tlut_addr < tex_addr:
-            emit_tlut(tlut_name, seg_name)
-            emit_texture(tex_name, tex_type, tex_fmt, seg_name)
-        else:
-            emit_texture(tex_name, tex_type, tex_fmt, seg_name)
-            emit_tlut(tlut_name, seg_name)
 
         mult = 1
         op = ""
@@ -234,6 +240,18 @@ u16 {seg_name}_titexdata_{i:02}_info[] = {{
         if fmt == 0x10:
             mult = 2
 
+        if tlut_addr == 0:
+            emit_texture(tex_name, tex_type, tex_fmt, seg_name)
+            next_addr = tex_addr + int(width * height * mult)
+        elif tlut_addr < tex_addr:
+            emit_tlut(tlut_name, seg_name)
+            emit_texture(tex_name, tex_type, tex_fmt, seg_name)
+            next_addr = tex_addr + int(width * height * mult)
+        else:
+            emit_texture(tex_name, tex_type, tex_fmt, seg_name)
+            emit_tlut(tlut_name, seg_name)
+            next_addr = tlut_addr + tlut_width * tlut_height
+
         if tlut_addr != 0:
             print(f"static_assert(ARRAY_COUNT({tlut_name}) == {tlut_width} * {tlut_height}, \"The dimensions of `{tlut_name}` does not match the size of the actual tlut\");")
             textues.append((tlut_addr, "rgba16", f"assets/anime/{seg_name}/{tlut_name}.rgba16", tlut_width, tlut_height, tlut_width * tlut_height * 2, is_ci))
@@ -241,6 +259,9 @@ u16 {seg_name}_titexdata_{i:02}_info[] = {{
         print(f"static_assert(ARRAY_COUNT({tex_name}) == {tex_name_width} * {tex_name_height}{op}, \"The dimensions of `{tex_name}` does not match the size of the actual texture\");")
         print()
         textues.append((tex_addr, tex_fmt, f"assets/anime/{seg_name}/{tex_name}.{tex_fmt}", width, height, int(width * height * mult), is_ci))
+
+    if next_addr is not None:
+        emit_titexdata_pad(next_addr, texData, count1-1, seg_name)
 
     print(f"TiTexData {seg_name}_titexdata[] = {{")
     for i in range(count1):

@@ -1305,8 +1305,86 @@ segments:
           - [0x5B5E60]
 
   - name: segment_anime_f # compressed
-    type: databin
+    type: code
     start: 0x5B6090
+    vram: 0x0
+    exclusive_ram_id: anime
+    subsegments:
+      - [auto, c, assets/anime/anime_f]
+      - start: 0x5B6090
+        type: .data
+        name: assets/anime/anime_f
+        subsegments:
+          - [0x5B6090]
+          - [0x5B60B0, rgba16, assets/anime/anime_f/anime_f_titexdata_00_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x5B60D0, i4, assets/anime/anime_f/anime_f_titexdata_00_texs_tex.i4, 38, 41] # TODO: extract as ci
+          - [0x5B63DB]
+          - [0x5B63F0, i4, assets/anime/anime_f/anime_f_titexdata_01_texs_tex.i4, 38, 41]
+          - [0x5B66FB]
+          - [0x5B6710, i4, assets/anime/anime_f/anime_f_titexdata_02_texs_tex.i4, 38, 41]
+          - [0x5B6A1B]
+          - [0x5B6A30, i4, assets/anime/anime_f/anime_f_titexdata_03_texs_tex.i4, 38, 41]
+          - [0x5B6D3B]
+          - [0x5B6D50, i4, assets/anime/anime_f/anime_f_titexdata_04_texs_tex.i4, 38, 41]
+          - [0x5B705B]
+          - [0x5B7070, i4, assets/anime/anime_f/anime_f_titexdata_05_texs_tex.i4, 38, 41]
+          - [0x5B737B]
+          - [0x5B7390, i4, assets/anime/anime_f/anime_f_titexdata_06_texs_tex.i4, 38, 41]
+          - [0x5B769B]
+          - [0x5B76B0, i4, assets/anime/anime_f/anime_f_titexdata_07_texs_tex.i4, 38, 41]
+          - [0x5B79BB]
+          - [0x5B79D0, i4, assets/anime/anime_f/anime_f_titexdata_08_texs_tex.i4, 38, 41]
+          - [0x5B7CDB]
+          - [0x5B7CF0, i4, assets/anime/anime_f/anime_f_titexdata_09_texs_tex.i4, 38, 41]
+          - [0x5B7FFB]
+          - [0x5B8010, i4, assets/anime/anime_f/anime_f_titexdata_10_texs_tex.i4, 38, 41]
+          - [0x5B831B]
+          - [0x5B8330, i4, assets/anime/anime_f/anime_f_titexdata_11_texs_tex.i4, 38, 41]
+          - [0x5B863B]
+          - [0x5B8650, i4, assets/anime/anime_f/anime_f_titexdata_12_texs_tex.i4, 38, 41]
+          - [0x5B895B]
+          - [0x5B8970, i4, assets/anime/anime_f/anime_f_titexdata_13_texs_tex.i4, 38, 41]
+          - [0x5B8C7B]
+          - [0x5B8C90, i4, assets/anime/anime_f/anime_f_titexdata_14_texs_tex.i4, 38, 41]
+          - [0x5B8F9B]
+          - [0x5B8FB0, i4, assets/anime/anime_f/anime_f_titexdata_15_texs_tex.i4, 38, 41]
+          - [0x5B92BB]
+          - [0x5B92D0, i4, assets/anime/anime_f/anime_f_titexdata_16_texs_tex.i4, 38, 41]
+          - [0x5B95DB]
+          - [0x5B95F0, i4, assets/anime/anime_f/anime_f_titexdata_17_texs_tex.i4, 38, 41]
+          - [0x5B98FB]
+          - [0x5B9910, i4, assets/anime/anime_f/anime_f_titexdata_18_texs_tex.i4, 38, 41]
+          - [0x5B9C1B]
+          - [0x5B9C30, i4, assets/anime/anime_f/anime_f_titexdata_19_texs_tex.i4, 38, 41]
+          - [0x5B9F3B]
+          - [0x5B9F50, i4, assets/anime/anime_f/anime_f_titexdata_20_texs_tex.i4, 38, 41]
+          - [0x5BA25B]
+          - [0x5BA270, i4, assets/anime/anime_f/anime_f_titexdata_21_texs_tex.i4, 38, 41]
+          - [0x5BA57B]
+          - [0x5BA590, i4, assets/anime/anime_f/anime_f_titexdata_22_texs_tex.i4, 38, 41]
+          - [0x5BA89B]
+          - [0x5BA8B0, i4, assets/anime/anime_f/anime_f_titexdata_23_texs_tex.i4, 38, 41]
+          - [0x5BABBB]
+          - [0x5BABD0, i4, assets/anime/anime_f/anime_f_titexdata_24_texs_tex.i4, 38, 41]
+          - [0x5BAEDB]
+          - [0x5BAEF0, i4, assets/anime/anime_f/anime_f_titexdata_25_texs_tex.i4, 38, 41]
+          - [0x5BB1FB]
+          - [0x5BB210, i4, assets/anime/anime_f/anime_f_titexdata_26_texs_tex.i4, 38, 41]
+          - [0x5BB51B]
+          - [0x5BB530, i4, assets/anime/anime_f/anime_f_titexdata_27_texs_tex.i4, 38, 41]
+          - [0x5BB83B]
+          - [0x5BB850, i4, assets/anime/anime_f/anime_f_titexdata_28_texs_tex.i4, 38, 41]
+          - [0x5BBB5B]
+          - [0x5BBB70, i4, assets/anime/anime_f/anime_f_titexdata_29_texs_tex.i4, 38, 41]
+          - [0x5BBE7B]
+          - [0x5BBE90, i4, assets/anime/anime_f/anime_f_titexdata_30_texs_tex.i4, 38, 41]
+          - [0x5BC19B]
+          - [0x5BC1B0, i4, assets/anime/anime_f/anime_f_titexdata_31_texs_tex.i4, 38, 41]
+          - [0x5BC4BB]
+          - [0x5BC4D0, i4, assets/anime/anime_f/anime_f_titexdata_32_texs_tex.i4, 38, 41]
+          - [0x5BC7DB]
+          - [0x5BC7F0, i4, assets/anime/anime_f/anime_f_titexdata_33_texs_tex.i4, 38, 41]
+          - [0x5BCAFB]
 
   - name: segment_anime_g # compressed
     type: databin
@@ -1471,8 +1549,84 @@ segments:
           - [0x5D8A0E]
 
   - name: segment_anime_j # compressed
-    type: databin
+    type: code
     start: 0x5D8BF0
+    vram: 0x0
+    exclusive_ram_id: anime
+    subsegments:
+      - [auto, c, assets/anime/anime_j]
+      - start: 0x5D8BF0
+        type: .data
+        name: assets/anime/anime_j
+        subsegments:
+          - [0x5D8BF0]
+          - [0x5D8C10, rgba16, assets/anime/anime_j/anime_j_titexdata_00_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x5D8C30, i4, assets/anime/anime_j/anime_j_titexdata_00_texs_tex.i4, 50, 52] # TODO: extract as ci
+          - [0x5D9144]
+          - [0x5D9158, i4, assets/anime/anime_j/anime_j_titexdata_01_texs_tex.i4, 50, 52]
+          - [0x5D966C]
+          - [0x5D9680, i4, assets/anime/anime_j/anime_j_titexdata_02_texs_tex.i4, 50, 52]
+          - [0x5D9B94]
+          - [0x5D9BA8, i4, assets/anime/anime_j/anime_j_titexdata_03_texs_tex.i4, 50, 52]
+          - [0x5DA0BC]
+          - [0x5DA0D0, i4, assets/anime/anime_j/anime_j_titexdata_04_texs_tex.i4, 50, 52]
+          - [0x5DA5E4]
+          - [0x5DA5F8, i4, assets/anime/anime_j/anime_j_titexdata_05_texs_tex.i4, 50, 52]
+          - [0x5DAB0C]
+          - [0x5DAB20, i4, assets/anime/anime_j/anime_j_titexdata_06_texs_tex.i4, 50, 52]
+          - [0x5DB034]
+          - [0x5DB048, i4, assets/anime/anime_j/anime_j_titexdata_07_texs_tex.i4, 50, 52]
+          - [0x5DB55C]
+          - [0x5DB570, i4, assets/anime/anime_j/anime_j_titexdata_08_texs_tex.i4, 50, 52]
+          - [0x5DBA84]
+          - [0x5DBA98, i4, assets/anime/anime_j/anime_j_titexdata_09_texs_tex.i4, 50, 52]
+          - [0x5DBFAC]
+          - [0x5DBFC0, i4, assets/anime/anime_j/anime_j_titexdata_10_texs_tex.i4, 50, 52]
+          - [0x5DC4D4]
+          - [0x5DC4E8, i4, assets/anime/anime_j/anime_j_titexdata_11_texs_tex.i4, 50, 52]
+          - [0x5DC9FC]
+          - [0x5DCA10, i4, assets/anime/anime_j/anime_j_titexdata_12_texs_tex.i4, 50, 52]
+          - [0x5DCF24]
+          - [0x5DCF38, i4, assets/anime/anime_j/anime_j_titexdata_13_texs_tex.i4, 50, 52]
+          - [0x5DD44C]
+          - [0x5DD460, i4, assets/anime/anime_j/anime_j_titexdata_14_texs_tex.i4, 50, 52]
+          - [0x5DD974]
+          - [0x5DD988, i4, assets/anime/anime_j/anime_j_titexdata_15_texs_tex.i4, 50, 52]
+          - [0x5DDE9C]
+          - [0x5DDEB0, i4, assets/anime/anime_j/anime_j_titexdata_16_texs_tex.i4, 50, 52]
+          - [0x5DE3C4]
+          - [0x5DE3D8, i4, assets/anime/anime_j/anime_j_titexdata_17_texs_tex.i4, 50, 52]
+          - [0x5DE8EC]
+          - [0x5DE900, i4, assets/anime/anime_j/anime_j_titexdata_18_texs_tex.i4, 50, 52]
+          - [0x5DEE14]
+          - [0x5DEE28, i4, assets/anime/anime_j/anime_j_titexdata_19_texs_tex.i4, 50, 52]
+          - [0x5DF33C]
+          - [0x5DF350, i4, assets/anime/anime_j/anime_j_titexdata_20_texs_tex.i4, 50, 52]
+          - [0x5DF864]
+          - [0x5DF878, i4, assets/anime/anime_j/anime_j_titexdata_21_texs_tex.i4, 50, 52]
+          - [0x5DFD8C]
+          - [0x5DFDA0, i4, assets/anime/anime_j/anime_j_titexdata_22_texs_tex.i4, 50, 52]
+          - [0x5E02B4]
+          - [0x5E02C8, i4, assets/anime/anime_j/anime_j_titexdata_23_texs_tex.i4, 50, 52]
+          - [0x5E07DC]
+          - [0x5E07F0, i4, assets/anime/anime_j/anime_j_titexdata_24_texs_tex.i4, 50, 52]
+          - [0x5E0D04]
+          - [0x5E0D18, i4, assets/anime/anime_j/anime_j_titexdata_25_texs_tex.i4, 50, 52]
+          - [0x5E122C]
+          - [0x5E1240, i4, assets/anime/anime_j/anime_j_titexdata_26_texs_tex.i4, 50, 52]
+          - [0x5E1754]
+          - [0x5E1768, i4, assets/anime/anime_j/anime_j_titexdata_27_texs_tex.i4, 50, 52]
+          - [0x5E1C7C]
+          - [0x5E1C90, i4, assets/anime/anime_j/anime_j_titexdata_28_texs_tex.i4, 50, 52]
+          - [0x5E21A4]
+          - [0x5E21B8, i4, assets/anime/anime_j/anime_j_titexdata_29_texs_tex.i4, 50, 52]
+          - [0x5E26CC]
+          - [0x5E26E0, i4, assets/anime/anime_j/anime_j_titexdata_30_texs_tex.i4, 50, 52]
+          - [0x5E2BF4]
+          - [0x5E2C08, i4, assets/anime/anime_j/anime_j_titexdata_31_texs_tex.i4, 50, 52]
+          - [0x5E311C]
+          - [0x5E3130, i4, assets/anime/anime_j/anime_j_titexdata_32_texs_tex.i4, 50, 52]
+          - [0x5E3644]
 
   - name: segment_anime_k # compressed
     type: code
@@ -1617,8 +1771,78 @@ segments:
           - [0x5FBFFE]
 
   - name: segment_anime_n # compressed
-    type: databin
+    type: code
     start: 0x5FC200
+    vram: 0x0
+    exclusive_ram_id: anime
+    subsegments:
+      - [auto, c, assets/anime/anime_n]
+      - start: 0x5FC200
+        type: .data
+        name: assets/anime/anime_n
+        subsegments:
+          - [0x5FC200]
+          - [0x5FC220, rgba16, assets/anime/anime_n/anime_n_titexdata_00_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x5FC240, i4, assets/anime/anime_n/anime_n_titexdata_00_texs_tex.i4, 54, 44] # TODO: extract as ci
+          - [0x5FC6E4]
+          - [0x5FC6F8, i4, assets/anime/anime_n/anime_n_titexdata_01_texs_tex.i4, 54, 44]
+          - [0x5FCB9C]
+          - [0x5FCBB0, i4, assets/anime/anime_n/anime_n_titexdata_02_texs_tex.i4, 54, 44]
+          - [0x5FD054]
+          - [0x5FD068, i4, assets/anime/anime_n/anime_n_titexdata_03_texs_tex.i4, 54, 44]
+          - [0x5FD50C]
+          - [0x5FD520, i4, assets/anime/anime_n/anime_n_titexdata_04_texs_tex.i4, 54, 44]
+          - [0x5FD9C4]
+          - [0x5FD9D8, i4, assets/anime/anime_n/anime_n_titexdata_05_texs_tex.i4, 54, 44]
+          - [0x5FDE7C]
+          - [0x5FDE90, i4, assets/anime/anime_n/anime_n_titexdata_06_texs_tex.i4, 54, 44]
+          - [0x5FE334]
+          - [0x5FE348, i4, assets/anime/anime_n/anime_n_titexdata_07_texs_tex.i4, 54, 44]
+          - [0x5FE7EC]
+          - [0x5FE800, i4, assets/anime/anime_n/anime_n_titexdata_08_texs_tex.i4, 54, 44]
+          - [0x5FECA4]
+          - [0x5FECB8, i4, assets/anime/anime_n/anime_n_titexdata_09_texs_tex.i4, 54, 44]
+          - [0x5FF15C]
+          - [0x5FF170, i4, assets/anime/anime_n/anime_n_titexdata_10_texs_tex.i4, 54, 44]
+          - [0x5FF614]
+          - [0x5FF628, i4, assets/anime/anime_n/anime_n_titexdata_11_texs_tex.i4, 54, 44]
+          - [0x5FFACC]
+          - [0x5FFAE0, i4, assets/anime/anime_n/anime_n_titexdata_12_texs_tex.i4, 54, 44]
+          - [0x5FFF84]
+          - [0x5FFF98, i4, assets/anime/anime_n/anime_n_titexdata_13_texs_tex.i4, 54, 44]
+          - [0x60043C]
+          - [0x600450, i4, assets/anime/anime_n/anime_n_titexdata_14_texs_tex.i4, 54, 44]
+          - [0x6008F4]
+          - [0x600908, i4, assets/anime/anime_n/anime_n_titexdata_15_texs_tex.i4, 54, 44]
+          - [0x600DAC]
+          - [0x600DC0, i4, assets/anime/anime_n/anime_n_titexdata_16_texs_tex.i4, 54, 44]
+          - [0x601264]
+          - [0x601278, i4, assets/anime/anime_n/anime_n_titexdata_17_texs_tex.i4, 54, 44]
+          - [0x60171C]
+          - [0x601730, i4, assets/anime/anime_n/anime_n_titexdata_18_texs_tex.i4, 54, 44]
+          - [0x601BD4]
+          - [0x601BE8, i4, assets/anime/anime_n/anime_n_titexdata_19_texs_tex.i4, 54, 44]
+          - [0x60208C]
+          - [0x6020A0, i4, assets/anime/anime_n/anime_n_titexdata_20_texs_tex.i4, 54, 44]
+          - [0x602544]
+          - [0x602558, i4, assets/anime/anime_n/anime_n_titexdata_21_texs_tex.i4, 54, 44]
+          - [0x6029FC]
+          - [0x602A10, i4, assets/anime/anime_n/anime_n_titexdata_22_texs_tex.i4, 54, 44]
+          - [0x602EB4]
+          - [0x602EC8, i4, assets/anime/anime_n/anime_n_titexdata_23_texs_tex.i4, 54, 44]
+          - [0x60336C]
+          - [0x603380, i4, assets/anime/anime_n/anime_n_titexdata_24_texs_tex.i4, 54, 44]
+          - [0x603824]
+          - [0x603838, i4, assets/anime/anime_n/anime_n_titexdata_25_texs_tex.i4, 54, 44]
+          - [0x603CDC]
+          - [0x603CF0, i4, assets/anime/anime_n/anime_n_titexdata_26_texs_tex.i4, 54, 44]
+          - [0x604194]
+          - [0x6041A8, i4, assets/anime/anime_n/anime_n_titexdata_27_texs_tex.i4, 54, 44]
+          - [0x60464C]
+          - [0x604660, i4, assets/anime/anime_n/anime_n_titexdata_28_texs_tex.i4, 54, 44]
+          - [0x604B04]
+          - [0x604B18, i4, assets/anime/anime_n/anime_n_titexdata_29_texs_tex.i4, 54, 44]
+          - [0x604FBC]
 
   - name: segment_anime_o # compressed
     type: code
