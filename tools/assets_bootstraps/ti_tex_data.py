@@ -568,6 +568,7 @@ def emit_splat_subsegments_for_symbols(symbols: dict[int, Symbol], rom_addr: int
     symbols_list = sorted(symbols.items())
 
     eprint(f"""\
+  - name: segment_{seg_name} # compressed
     type: code
     start: 0x{rom_addr:06X}
     vram: 0x0
@@ -596,3 +597,4 @@ def emit_splat_subsegments_for_symbols(symbols: dict[int, Symbol], rom_addr: int
                 eprint(f"          - [0x{sym.tex.addr + rom_addr + sym.tex.size:06X}]")
         else:
             eprint(f"          - [0x{sym.tex.addr + rom_addr + sym.tex.size:06X}]")
+    eprint()

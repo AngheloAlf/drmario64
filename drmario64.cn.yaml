@@ -737,42 +737,530 @@ segments:
   - name: segment_story_bg11 # compressed # GraphBin
     type: databin
     start: 0x40AB20
+
+
   - name: segment_menu_char # compressed
-    type: databin
+    type: code
     start: 0x417530
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_char]
+      - start: 0x417530
+        type: .data
+        name: assets/menu/menu_char
+        subsegments:
+          - [0x417530]
+          - [0x417548, rgba16, assets/menu/menu_char/menu_char_titexdata_00_texs_tex.rgba16, 48, 36]
+          - [0x4182C8]
+          - [0x4182D8, i4, assets/menu/menu_char/menu_char_titexdata_01_texs_tex.i4, 48, 36]
+          - [0x418638]
+          - [0x418648, rgba16, assets/menu/menu_char/menu_char_titexdata_02_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x418848]
+          - [0x418848, i8, assets/menu/menu_char/menu_char_titexdata_02_texs_tex.i8, 64, 48] # TODO: extract as ci
+          - [0x419448]
+          - [0x419458, rgba16, assets/menu/menu_char/menu_char_titexdata_03_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x419658]
+          - [0x419658, i8, assets/menu/menu_char/menu_char_titexdata_03_texs_tex.i8, 50, 51] # TODO: extract as ci
+          - [0x41A04E]
+          - [0x41A060, rgba16, assets/menu/menu_char/menu_char_titexdata_04_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x41A260]
+          - [0x41A260, i8, assets/menu/menu_char/menu_char_titexdata_04_texs_tex.i8, 52, 51] # TODO: extract as ci
+          - [0x41ACBC]
+          - [0x41ACD0, rgba16, assets/menu/menu_char/menu_char_titexdata_05_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x41AED0]
+          - [0x41AED0, i8, assets/menu/menu_char/menu_char_titexdata_05_texs_tex.i8, 288, 179] # TODO: extract as ci
+          - [0x427830]
+          - [0x427840, rgba16, assets/menu/menu_char/menu_char_titexdata_06_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x427A40]
+          - [0x427A40, i8, assets/menu/menu_char/menu_char_titexdata_06_texs_tex.i8, 56, 30] # TODO: extract as ci
+          - [0x4280D0]
+
   - name: segment_menu_common # compressed
-    type: databin
+    type: code
     start: 0x428110
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_common]
+      - start: 0x428110
+        type: .data
+        name: assets/menu/menu_common
+        subsegments:
+          - [0x428110]
+          - [0x428128, i4, assets/menu/menu_common/menu_common_titexdata_00_texs_tex.i4, 32, 32]
+          - [0x428328]
+          - [0x428338, rgba16, assets/menu/menu_common/menu_common_titexdata_01_texs_tex.rgba16, 32, 32]
+          - [0x428B38]
+          - [0x428B48, rgba16, assets/menu/menu_common/menu_common_titexdata_02_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x428B68]
+          - [0x428B68, i4, assets/menu/menu_common/menu_common_titexdata_02_texs_tex.i4, 64, 40] # TODO: extract as ci
+          - [0x429068]
+          - [0x429078, i4, assets/menu/menu_common/menu_common_titexdata_03_texs_tex.i4, 64, 64]
+          - [0x429878]
+          - [0x429888, i4, assets/menu/menu_common/menu_common_titexdata_04_texs_tex.i4, 64, 64]
+          - [0x42A088]
+          - [0x42A098, i4, assets/menu/menu_common/menu_common_titexdata_05_texs_tex.i4, 64, 64]
+          - [0x42A898]
+          - [0x42A8A8, i4, assets/menu/menu_common/menu_common_titexdata_06_texs_tex.i4, 16, 16]
+          - [0x42A928]
+          - [0x42A938, i4, assets/menu/menu_common/menu_common_titexdata_07_texs_tex.i4, 16, 16]
+          - [0x42A9B8]
+          - [0x42A9C8, i4, assets/menu/menu_common/menu_common_titexdata_08_texs_tex.i4, 16, 16]
+          - [0x42AA48]
+          - [0x42AA58, i4, assets/menu/menu_common/menu_common_titexdata_09_texs_tex.i4, 48, 18]
+          - [0x42AC08]
+          - [0x42AC18, i4, assets/menu/menu_common/menu_common_titexdata_10_texs_tex.i4, 48, 18]
+          - [0x42ADC8]
+          - [0x42ADD8, i4, assets/menu/menu_common/menu_common_titexdata_11_texs_tex.i4, 48, 26]
+          - [0x42B048]
+          - [0x42B058, i4, assets/menu/menu_common/menu_common_titexdata_12_texs_tex.i4, 16, 16]
+          - [0x42B0D8]
+          - [0x42B0E8, i4, assets/menu/menu_common/menu_common_titexdata_13_texs_tex.i4, 16, 10]
+          - [0x42B138]
+          - [0x42B148, rgba16, assets/menu/menu_common/menu_common_titexdata_14_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x42B348]
+          - [0x42B348, i8, assets/menu/menu_common/menu_common_titexdata_14_texs_tex.i8, 128, 940] # TODO: extract as ci
+          - [0x448948]
+          - [0x448958, rgba16, assets/menu/menu_common/menu_common_titexdata_15_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x448B58]
+          - [0x448B58, i8, assets/menu/menu_common/menu_common_titexdata_15_texs_tex.i8, 96, 336] # TODO: extract as ci
+          - [0x450958]
+
   - name: segment_menu_level # compressed
-    type: databin
+    type: code
     start: 0x4509E0
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_level]
+      - start: 0x4509E0
+        type: .data
+        name: assets/menu/menu_level
+        subsegments:
+          - [0x4509E0]
+          - [0x4509F8, rgba16, assets/menu/menu_level/menu_level_titexdata_00_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x450A18]
+          - [0x450A18, i4, assets/menu/menu_level/menu_level_titexdata_00_texs_tex.i4, 16, 15] # TODO: extract as ci
+          - [0x450A90]
+          - [0x450AA0, rgba16, assets/menu/menu_level/menu_level_titexdata_01_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x450CA0]
+          - [0x450CA0, i8, assets/menu/menu_level/menu_level_titexdata_01_texs_tex.i8, 288, 90] # TODO: extract as ci
+          - [0x4571E0]
+          - [0x4571F0, rgba16, assets/menu/menu_level/menu_level_titexdata_02_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4573F0]
+          - [0x4573F0, i8, assets/menu/menu_level/menu_level_titexdata_02_texs_tex.i8, 304, 93] # TODO: extract as ci
+          - [0x45E260]
+          - [0x45E270, rgba16, assets/menu/menu_level/menu_level_titexdata_03_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x45E470]
+          - [0x45E470, i8, assets/menu/menu_level/menu_level_titexdata_03_texs_tex.i8, 270, 93] # TODO: extract as ci
+          - [0x464686]
+          - [0x464698, rgba16, assets/menu/menu_level/menu_level_titexdata_04_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x464898]
+          - [0x464898, i8, assets/menu/menu_level/menu_level_titexdata_04_texs_tex.i8, 48, 32] # TODO: extract as ci
+          - [0x464E98]
+          - [0x464EA8, rgba16, assets/menu/menu_level/menu_level_titexdata_05_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4650A8]
+          - [0x4650A8, i8, assets/menu/menu_level/menu_level_titexdata_05_texs_tex.i8, 72, 164] # TODO: extract as ci
+          - [0x467EC8]
+          - [0x467ED8, rgba16, assets/menu/menu_level/menu_level_titexdata_06_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4680D8]
+          - [0x4680D8, i8, assets/menu/menu_level/menu_level_titexdata_06_texs_tex.i8, 56, 150] # TODO: extract as ci
+          - [0x46A1A8]
+
   - name: segment_menu_main # compressed
-    type: databin
+    type: code
     start: 0x46A1F0
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_main]
+      - start: 0x46A1F0
+        type: .data
+        name: assets/menu/menu_main
+        subsegments:
+          - [0x46A1F0]
+          - [0x46A208, rgba16, assets/menu/menu_main/menu_main_titexdata_00_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x46A408]
+          - [0x46A408, i8, assets/menu/menu_main/menu_main_titexdata_00_texs_tex.i8, 72, 600] # TODO: extract as ci
+          - [0x474CC8]
+          - [0x474CD8, rgba16, assets/menu/menu_main/menu_main_titexdata_01_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x474ED8]
+          - [0x474ED8, i8, assets/menu/menu_main/menu_main_titexdata_01_texs_tex.i8, 128, 59] # TODO: extract as ci
+          - [0x476C58]
+          - [0x476C68, rgba16, assets/menu/menu_main/menu_main_titexdata_02_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x476E68]
+          - [0x476E68, i8, assets/menu/menu_main/menu_main_titexdata_02_texs_tex.i8, 128, 82] # TODO: extract as ci
+          - [0x479768]
+          - [0x479778, rgba16, assets/menu/menu_main/menu_main_titexdata_03_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x479978]
+          - [0x479978, i8, assets/menu/menu_main/menu_main_titexdata_03_texs_tex.i8, 128, 105] # TODO: extract as ci
+          - [0x47CDF8]
+          - [0x47CE08, rgba16, assets/menu/menu_main/menu_main_titexdata_04_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x47D008]
+          - [0x47D008, i8, assets/menu/menu_main/menu_main_titexdata_04_texs_tex.i8, 128, 128] # TODO: extract as ci
+          - [0x481008]
+          - [0x481018, rgba16, assets/menu/menu_main/menu_main_titexdata_05_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x481218]
+          - [0x481218, i8, assets/menu/menu_main/menu_main_titexdata_05_texs_tex.i8, 128, 152] # TODO: extract as ci
+          - [0x485E18]
+          - [0x485E28, rgba16, assets/menu/menu_main/menu_main_titexdata_06_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x486028]
+          - [0x486028, i8, assets/menu/menu_main/menu_main_titexdata_06_texs_tex.i8, 144, 63] # TODO: extract as ci
+          - [0x488398]
+          - [0x4883A8, rgba16, assets/menu/menu_main/menu_main_titexdata_07_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x4883C8]
+          - [0x4883C8, i4, assets/menu/menu_main/menu_main_titexdata_07_texs_tex.i4, 64, 20] # TODO: extract as ci
+          - [0x488648]
+          - [0x488658, rgba16, assets/menu/menu_main/menu_main_titexdata_08_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x488858]
+          - [0x488858, i8, assets/menu/menu_main/menu_main_titexdata_08_texs_tex.i8, 72, 200] # TODO: extract as ci
+          - [0x48C098]
+          - [0x48C0A8, i4, assets/menu/menu_main/menu_main_titexdata_09_texs_tex.i4, 80, 60]
+          - [0x48CA08]
+          - [0x48CA18, i4, assets/menu/menu_main/menu_main_titexdata_10_texs_tex.i4, 16, 16]
+          - [0x48CA98]
+          - [0x48CAA8, rgba16, assets/menu/menu_main/menu_main_titexdata_11_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x48CCA8]
+          - [0x48CCA8, i8, assets/menu/menu_main/menu_main_titexdata_11_texs_tex.i8, 144, 74] # TODO: extract as ci
+          - [0x48F648]
+          - [0x48F658, rgba16, assets/menu/menu_main/menu_main_titexdata_12_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x48F858]
+          - [0x48F858, i8, assets/menu/menu_main/menu_main_titexdata_12_texs_tex.i8, 96, 14] # TODO: extract as ci
+          - [0x48FD98]
+          - [0x48FDA8, rgba16, assets/menu/menu_main/menu_main_titexdata_13_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x48FFA8]
+          - [0x48FFA8, i8, assets/menu/menu_main/menu_main_titexdata_13_texs_tex.i8, 56, 20] # TODO: extract as ci
+          - [0x490408]
+          - [0x490418, rgba16, assets/menu/menu_main/menu_main_titexdata_14_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x490618]
+          - [0x490618, i8, assets/menu/menu_main/menu_main_titexdata_14_texs_tex.i8, 56, 20] # TODO: extract as ci
+          - [0x490A78]
+
   - name: segment_menu_name # compressed
-    type: databin
+    type: code
     start: 0x490B00
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_name]
+      - start: 0x490B00
+        type: .data
+        name: assets/menu/menu_name
+        subsegments:
+          - [0x490B00]
+          - [0x490B18, rgba16, assets/menu/menu_name/menu_name_titexdata_00_texs_tex.rgba16, 12, 12]
+          - [0x490C38]
+          - [0x490C48, i4, assets/menu/menu_name/menu_name_titexdata_01_texs_tex.i4, 16, 12]
+          - [0x490CA8]
+          - [0x490CB8, rgba16, assets/menu/menu_name/menu_name_titexdata_02_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x490EB8]
+          - [0x490EB8, i8, assets/menu/menu_name/menu_name_titexdata_02_texs_tex.i8, 288, 130] # TODO: extract as ci
+          - [0x49A0F8]
+          - [0x49A108, rgba16, assets/menu/menu_name/menu_name_titexdata_03_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x49A308]
+          - [0x49A308, i8, assets/menu/menu_name/menu_name_titexdata_03_texs_tex.i8, 16, 11] # TODO: extract as ci
+          - [0x49A3B8]
+          - [0x49A3C8, rgba16, assets/menu/menu_name/menu_name_titexdata_04_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x49A5C8]
+          - [0x49A5C8, i8, assets/menu/menu_name/menu_name_titexdata_04_texs_tex.i8, 200, 45] # TODO: extract as ci
+          - [0x49C8F0]
+
   - name: segment_menu_p2 # compressed
-    type: databin
+    type: code
     start: 0x49C920
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_p2]
+      - start: 0x49C920
+        type: .data
+        name: assets/menu/menu_p2
+        subsegments:
+          - [0x49C920]
+          - [0x49C938, rgba16, assets/menu/menu_p2/menu_p2_titexdata_00_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x49CB38]
+          - [0x49CB38, i8, assets/menu/menu_p2/menu_p2_titexdata_00_texs_tex.i8, 304, 65] # TODO: extract as ci
+          - [0x4A1868]
+          - [0x4A1878, rgba16, assets/menu/menu_p2/menu_p2_titexdata_01_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4A1A78]
+          - [0x4A1A78, i8, assets/menu/menu_p2/menu_p2_titexdata_01_texs_tex.i8, 304, 65] # TODO: extract as ci
+          - [0x4A67A8]
+
   - name: segment_menu_p4 # compressed
-    type: databin
+    type: code
     start: 0x4A67C0
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_p4]
+      - start: 0x4A67C0
+        type: .data
+        name: assets/menu/menu_p4
+        subsegments:
+          - [0x4A67C0]
+          - [0x4A67D8, rgba16, assets/menu/menu_p4/menu_p4_titexdata_00_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4A69D8]
+          - [0x4A69D8, i8, assets/menu/menu_p4/menu_p4_titexdata_00_texs_tex.i8, 48, 525] # TODO: extract as ci
+          - [0x4ACC48]
+          - [0x4ACC58, rgba16, assets/menu/menu_p4/menu_p4_titexdata_01_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4ACE58]
+          - [0x4ACE58, i8, assets/menu/menu_p4/menu_p4_titexdata_01_texs_tex.i8, 304, 43] # TODO: extract as ci
+          - [0x4B0168]
+          - [0x4B0178, rgba16, assets/menu/menu_p4/menu_p4_titexdata_02_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4B0378]
+          - [0x4B0378, i8, assets/menu/menu_p4/menu_p4_titexdata_02_texs_tex.i8, 304, 43] # TODO: extract as ci
+          - [0x4B3688]
+          - [0x4B3698, i4, assets/menu/menu_p4/menu_p4_titexdata_03_texs_tex.i4, 48, 20]
+          - [0x4B3878]
+          - [0x4B3888, i4, assets/menu/menu_p4/menu_p4_titexdata_04_texs_tex.i4, 48, 20]
+          - [0x4B3A68]
+          - [0x4B3A78, i4, assets/menu/menu_p4/menu_p4_titexdata_05_texs_tex.i4, 48, 20]
+          - [0x4B3C58]
+          - [0x4B3C68, i4, assets/menu/menu_p4/menu_p4_titexdata_06_texs_tex.i4, 48, 20]
+          - [0x4B3E48]
+          - [0x4B3E58, i4, assets/menu/menu_p4/menu_p4_titexdata_07_texs_tex.i4, 48, 20]
+          - [0x4B4038]
+          - [0x4B4048, i4, assets/menu/menu_p4/menu_p4_titexdata_08_texs_tex.i4, 48, 20]
+          - [0x4B4228]
+
   - name: segment_menu_rank # compressed
-    type: databin
+    type: code
     start: 0x4B4280
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_rank]
+      - start: 0x4B4280
+        type: .data
+        name: assets/menu/menu_rank
+        subsegments:
+          - [0x4B4280]
+          - [0x4B4298, rgba16, assets/menu/menu_rank/menu_rank_titexdata_00_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4B4498]
+          - [0x4B4498, i8, assets/menu/menu_rank/menu_rank_titexdata_00_texs_tex.i8, 56, 180] # TODO: extract as ci
+          - [0x4B6BF8]
+          - [0x4B6C08, rgba16, assets/menu/menu_rank/menu_rank_titexdata_01_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4B6E08]
+          - [0x4B6E08, i8, assets/menu/menu_rank/menu_rank_titexdata_01_texs_tex.i8, 56, 72] # TODO: extract as ci
+          - [0x4B7DC8]
+          - [0x4B7DD8, rgba16, assets/menu/menu_rank/menu_rank_titexdata_02_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4B7FD8]
+          - [0x4B7FD8, i8, assets/menu/menu_rank/menu_rank_titexdata_02_texs_tex.i8, 48, 72] # TODO: extract as ci
+          - [0x4B8D58]
+          - [0x4B8D68, rgba16, assets/menu/menu_rank/menu_rank_titexdata_03_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4B8F68]
+          - [0x4B8F68, i8, assets/menu/menu_rank/menu_rank_titexdata_03_texs_tex.i8, 64, 32] # TODO: extract as ci
+          - [0x4B9768]
+          - [0x4B9778, rgba16, assets/menu/menu_rank/menu_rank_titexdata_04_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4B9978]
+          - [0x4B9978, i8, assets/menu/menu_rank/menu_rank_titexdata_04_texs_tex.i8, 128, 16] # TODO: extract as ci
+          - [0x4BA178]
+          - [0x4BA188, rgba16, assets/menu/menu_rank/menu_rank_titexdata_05_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4BA388]
+          - [0x4BA388, i8, assets/menu/menu_rank/menu_rank_titexdata_05_texs_tex.i8, 256, 16] # TODO: extract as ci
+          - [0x4BB388]
+          - [0x4BB398, rgba16, assets/menu/menu_rank/menu_rank_titexdata_06_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x4BB3B8]
+          - [0x4BB3B8, i4, assets/menu/menu_rank/menu_rank_titexdata_06_texs_tex.i4, 16, 16] # TODO: extract as ci
+          - [0x4BB438]
+          - [0x4BB448, rgba16, assets/menu/menu_rank/menu_rank_titexdata_07_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4BB648]
+          - [0x4BB648, i8, assets/menu/menu_rank/menu_rank_titexdata_07_texs_tex.i8, 56, 108] # TODO: extract as ci
+          - [0x4BCDE8]
+          - [0x4BCDF8, rgba16, assets/menu/menu_rank/menu_rank_titexdata_08_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4BCFF8]
+          - [0x4BCFF8, i8, assets/menu/menu_rank/menu_rank_titexdata_08_texs_tex.i8, 56, 24] # TODO: extract as ci
+          - [0x4BD538]
+
   - name: segment_menu_setup # compressed
-    type: databin
+    type: code
     start: 0x4BD590
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_setup]
+      - start: 0x4BD590
+        type: .data
+        name: assets/menu/menu_setup
+        subsegments:
+          - [0x4BD590]
+          - [0x4BD5A8, i4, assets/menu/menu_setup/menu_setup_titexdata_00_texs_tex.i4, 16, 120]
+          - [0x4BD968]
+          - [0x4BD978, i4, assets/menu/menu_setup/menu_setup_titexdata_01_texs_tex.i4, 64, 64]
+          - [0x4BE178]
+          - [0x4BE188, i4, assets/menu/menu_setup/menu_setup_titexdata_02_texs_tex.i4, 48, 48]
+          - [0x4BE608]
+          - [0x4BE618, i4, assets/menu/menu_setup/menu_setup_titexdata_03_texs_tex.i4, 56, 48]
+          - [0x4BEB58]
+          - [0x4BEB68, i4, assets/menu/menu_setup/menu_setup_titexdata_04_texs_tex.i4, 48, 48]
+          - [0x4BEFE8]
+          - [0x4BEFF8, i4, assets/menu/menu_setup/menu_setup_titexdata_05_texs_tex.i4, 32, 132]
+          - [0x4BF838]
+          - [0x4BF848, i4, assets/menu/menu_setup/menu_setup_titexdata_06_texs_tex.i4, 48, 16]
+          - [0x4BF9C8]
+          - [0x4BF9D8, rgba16, assets/menu/menu_setup/menu_setup_titexdata_07_texs_tex.rgba16, 16, 120]
+          - [0x4C08D8]
+          - [0x4C08E8, rgba16, assets/menu/menu_setup/menu_setup_titexdata_08_texs_tex.rgba16, 32, 132]
+          - [0x4C29E8]
+          - [0x4C29F8, rgba16, assets/menu/menu_setup/menu_setup_titexdata_09_texs_tex.rgba16, 64, 64]
+          - [0x4C49F8]
+          - [0x4C4A08, rgba16, assets/menu/menu_setup/menu_setup_titexdata_10_texs_tex.rgba16, 48, 48]
+          - [0x4C5C08]
+          - [0x4C5C18, rgba16, assets/menu/menu_setup/menu_setup_titexdata_11_texs_tex.rgba16, 56, 48]
+          - [0x4C7118]
+          - [0x4C7128, rgba16, assets/menu/menu_setup/menu_setup_titexdata_12_texs_tex.rgba16, 48, 48]
+          - [0x4C8328]
+          - [0x4C8338, rgba16, assets/menu/menu_setup/menu_setup_titexdata_13_texs_tex.rgba16, 48, 16]
+          - [0x4C8938]
+          - [0x4C8948, rgba16, assets/menu/menu_setup/menu_setup_titexdata_14_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4C8B48]
+          - [0x4C8B48, i8, assets/menu/menu_setup/menu_setup_titexdata_14_texs_tex.i8, 72, 360] # TODO: extract as ci
+          - [0x4CF088]
+          - [0x4CF098, rgba16, assets/menu/menu_setup/menu_setup_titexdata_15_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4CF298]
+          - [0x4CF298, i8, assets/menu/menu_setup/menu_setup_titexdata_15_texs_tex.i8, 40, 24] # TODO: extract as ci
+          - [0x4CF658]
+          - [0x4CF668, rgba16, assets/menu/menu_setup/menu_setup_titexdata_16_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x4CF688]
+          - [0x4CF688, i4, assets/menu/menu_setup/menu_setup_titexdata_16_texs_tex.i4, 16, 24] # TODO: extract as ci
+          - [0x4CF748]
+          - [0x4CF758, rgba16, assets/menu/menu_setup/menu_setup_titexdata_17_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4CF958]
+          - [0x4CF958, i8, assets/menu/menu_setup/menu_setup_titexdata_17_texs_tex.i8, 32, 132] # TODO: extract as ci
+          - [0x4D09D8]
+          - [0x4D09E8, rgba16, assets/menu/menu_setup/menu_setup_titexdata_18_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4D0BE8]
+          - [0x4D0BE8, i8, assets/menu/menu_setup/menu_setup_titexdata_18_texs_tex.i8, 304, 91] # TODO: extract as ci
+          - [0x4D77F8]
+          - [0x4D7808, rgba16, assets/menu/menu_setup/menu_setup_titexdata_19_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4D7A08]
+          - [0x4D7A08, i8, assets/menu/menu_setup/menu_setup_titexdata_19_texs_tex.i8, 80, 11] # TODO: extract as ci
+          - [0x4D7D78]
+          - [0x4D7D88, i4, assets/menu/menu_setup/menu_setup_titexdata_20_texs_tex.i4, 48, 30]
+          - [0x4D8058]
+          - [0x4D8068, i4, assets/menu/menu_setup/menu_setup_titexdata_21_texs_tex.i4, 48, 30]
+          - [0x4D8338]
+          - [0x4D8348, i4, assets/menu/menu_setup/menu_setup_titexdata_22_texs_tex.i4, 48, 30]
+          - [0x4D8618]
+          - [0x4D8628, i4, assets/menu/menu_setup/menu_setup_titexdata_23_texs_tex.i4, 48, 30]
+          - [0x4D88F8]
+          - [0x4D8908, i4, assets/menu/menu_setup/menu_setup_titexdata_24_texs_tex.i4, 48, 30]
+          - [0x4D8BD8]
+          - [0x4D8BE8, i4, assets/menu/menu_setup/menu_setup_titexdata_25_texs_tex.i4, 48, 30]
+          - [0x4D8EB8]
+          - [0x4D8EC8, i4, assets/menu/menu_setup/menu_setup_titexdata_26_texs_tex.i4, 48, 30]
+          - [0x4D9198]
+          - [0x4D91A8, i4, assets/menu/menu_setup/menu_setup_titexdata_27_texs_tex.i4, 48, 20]
+          - [0x4D9388]
+          - [0x4D9398, i4, assets/menu/menu_setup/menu_setup_titexdata_28_texs_tex.i4, 48, 20]
+          - [0x4D9578]
+          - [0x4D9588, i4, assets/menu/menu_setup/menu_setup_titexdata_29_texs_tex.i4, 48, 20]
+          - [0x4D9768]
+          - [0x4D9778, i4, assets/menu/menu_setup/menu_setup_titexdata_30_texs_tex.i4, 48, 20]
+          - [0x4D9958]
+          - [0x4D9968, i4, assets/menu/menu_setup/menu_setup_titexdata_31_texs_tex.i4, 48, 20]
+          - [0x4D9B48]
+
   - name: segment_menu_story # compressed
-    type: databin
+    type: code
     start: 0x4D9C50
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_story]
+      - start: 0x4D9C50
+        type: .data
+        name: assets/menu/menu_story
+        subsegments:
+          - [0x4D9C50]
+          - [0x4D9C68, i4, assets/menu/menu_story/menu_story_titexdata_00_texs_tex.i4, 64, 32]
+          - [0x4DA068]
+          - [0x4DA078, rgba16, assets/menu/menu_story/menu_story_titexdata_01_texs_tex.rgba16, 64, 32]
+          - [0x4DB078]
+          - [0x4DB088, rgba16, assets/menu/menu_story/menu_story_titexdata_02_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4DB288]
+          - [0x4DB288, i8, assets/menu/menu_story/menu_story_titexdata_02_texs_tex.i8, 240, 48] # TODO: extract as ci
+          - [0x4DDF88]
+          - [0x4DDF98, rgba16, assets/menu/menu_story/menu_story_titexdata_03_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4DE198]
+          - [0x4DE198, i8, assets/menu/menu_story/menu_story_titexdata_03_texs_tex.i8, 240, 48] # TODO: extract as ci
+          - [0x4E0E98]
+          - [0x4E0EA8, rgba16, assets/menu/menu_story/menu_story_titexdata_04_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4E10A8]
+          - [0x4E10A8, i8, assets/menu/menu_story/menu_story_titexdata_04_texs_tex.i8, 240, 48] # TODO: extract as ci
+          - [0x4E3DA8]
+          - [0x4E3DB8, rgba16, assets/menu/menu_story/menu_story_titexdata_05_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x4E3DD8]
+          - [0x4E3DD8, i4, assets/menu/menu_story/menu_story_titexdata_05_texs_tex.i4, 16, 16] # TODO: extract as ci
+          - [0x4E3E58]
+          - [0x4E3E68, rgba16, assets/menu/menu_story/menu_story_titexdata_06_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4E4068]
+          - [0x4E4068, i8, assets/menu/menu_story/menu_story_titexdata_06_texs_tex.i8, 304, 162] # TODO: extract as ci
+          - [0x4F00C8]
+          - [0x4F00D8, rgba16, assets/menu/menu_story/menu_story_titexdata_07_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x4F00F8]
+          - [0x4F00F8, i4, assets/menu/menu_story/menu_story_titexdata_07_texs_tex.i4, 32, 20] # TODO: extract as ci
+          - [0x4F0238]
+          - [0x4F0248, rgba16, assets/menu/menu_story/menu_story_titexdata_08_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x4F0268]
+          - [0x4F0268, i4, assets/menu/menu_story/menu_story_titexdata_08_texs_tex.i4, 32, 22] # TODO: extract as ci
+          - [0x4F03C8]
+          - [0x4F03D8, i4, assets/menu/menu_story/menu_story_titexdata_09_texs_tex.i4, 240, 48]
+          - [0x4F1A58]
+          - [0x4F1A68, i4, assets/menu/menu_story/menu_story_titexdata_10_texs_tex.i4, 240, 48]
+          - [0x4F30E8]
+          - [0x4F30F8, i4, assets/menu/menu_story/menu_story_titexdata_11_texs_tex.i4, 240, 48]
+          - [0x4F4778]
+          - [0x4F4788, i4, assets/menu/menu_story/menu_story_titexdata_12_texs_tex.i4, 58, 58]
+          - [0x4F4E1A]
+
   - name: segment_menu_cont # compressed
-    type: databin
+    type: code
     start: 0x4F4E90
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_cont]
+      - start: 0x4F4E90
+        type: .data
+        name: assets/menu/menu_cont
+        subsegments:
+          - [0x4F4E90]
+          - [0x4F4EA8, i4, assets/menu/menu_cont/menu_cont_titexdata_00_texs_tex.i4, 192, 113]
+          - [0x4F7908]
+          - [0x4F7918, rgba16, assets/menu/menu_cont/menu_cont_titexdata_01_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4F7B18]
+          - [0x4F7B18, i8, assets/menu/menu_cont/menu_cont_titexdata_01_texs_tex.i8, 80, 40] # TODO: extract as ci
+          - [0x4F8798]
+          - [0x4F87A8, rgba16, assets/menu/menu_cont/menu_cont_titexdata_02_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x4F89A8]
+          - [0x4F89A8, i8, assets/menu/menu_cont/menu_cont_titexdata_02_texs_tex.i8, 96, 196] # TODO: extract as ci
+          - [0x4FD328]
+
   - name: segment_menu_kasa # compressed
-    type: databin
+    type: code
     start: 0x4FD350
+    vram: 0x0
+    exclusive_ram_id: menu
+    subsegments:
+      - [auto, c, assets/menu/menu_kasa]
+      - start: 0x4FD350
+        type: .data
+        name: assets/menu/menu_kasa
+        subsegments:
+          - [0x4FD350]
+          - [0x4FD368, i4, assets/menu/menu_kasa/menu_kasa_titexdata_00_texs_tex.i4, 72, 96]
+          - [0x4FE0E8]
+          - [0x4FE0F8, rgba16, assets/menu/menu_kasa/menu_kasa_titexdata_01_texs_tex.rgba16, 72, 96]
+          - [0x5016F8]
+          - [0x501708, rgba16, assets/menu/menu_kasa/menu_kasa_titexdata_02_texs_tex.rgba16, 72, 96]
+          - [0x504D08]
+          - [0x504D18, rgba16, assets/menu/menu_kasa/menu_kasa_titexdata_03_texs_tex.rgba16, 72, 96]
+          - [0x508318]
+          - [0x508328, rgba16, assets/menu/menu_kasa/menu_kasa_titexdata_04_texs_tex.rgba16, 72, 96]
+          - [0x50B928]
+
 
   - name: segment_game_al # compressed
     type: code
