@@ -24,12 +24,11 @@
 struct_mess_panel_tex_size mess_panel_tex_size = { MESS_PANEL_TEX_WIDTH, MESS_PANEL_TEX_HEIGHT, 8, 1 };
 
 u16 mess_panel_lut[] ALIGNED8 = {
-#include "main_segment/record/mess_panel_lut.rgba16.inc"
+#include "main_segment/record/mess_panel_tex.palette.inc"
 };
 
-// TODO: extract as ci8
 u8 mess_panel_tex[] ALIGNED8 = {
-#include "main_segment/record/mess_panel_tex.i8.inc"
+#include "main_segment/record/mess_panel_tex.ci8.inc"
 };
 
 static_assert(sizeof(mess_panel_tex) == MESS_PANEL_TEX_WIDTH * MESS_PANEL_TEX_HEIGHT * sizeof(u8),

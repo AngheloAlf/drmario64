@@ -563,10 +563,11 @@ segments:
       - start: 0x0715C0
         type: .data
         name: main_segment/record
+        dir: main_segment/record
         subsegments:
           - [0x0715C0]
-          - [0x0715C8, rgba16, main_segment/record/mess_panel_lut.rgba16, 16, 16]
-          - [0x0717C8, i8, main_segment/record/mess_panel_tex.i8, 200, 69] # TODO: extract as ci8
+          - { start: 0x0715C8, type: palette, name: mess_panel_lut, raster_name: mess_panel_tex.ci8 }
+          - { start: 0x0717C8, type: ci8, name: mess_panel_tex.ci8, width: 200, height: 69, palette: mess_panel_lut }
           - [0x074DC0]
 
       - [0x074DC0, data, main_segment/020D10]
