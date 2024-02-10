@@ -881,9 +881,8 @@ segments:
           - [0x402458]
           - [0x402458, i8, assets/menu/menu_char/menu_char_titexdata_02_texs_tex.i8, 64, 48] # TODO: extract as ci
           - [0x403058]
-          - [0x403068, rgba16, assets/menu/menu_char/menu_char_titexdata_03_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
-          - [0x403268]
-          - [0x403268, i8, assets/menu/menu_char/menu_char_titexdata_03_texs_tex.i8, 50, 51] # TODO: extract as ci
+          - { start: 0x403068, type: palette, name: assets/menu/menu_char/menu_char_titexdata_03_texs_tex.palette, raster_name: assets/menu/menu_char/menu_char_titexdata_03_texs_tex.ci8 }
+          - { start: 0x403268, type: ci8, name: assets/menu/menu_char/menu_char_titexdata_03_texs_tex.ci8, width: 50, height: 51, palette: assets/menu/menu_char/menu_char_titexdata_03_texs_tex.palette }
           - [0x403C5E]
           - [0x403C70, rgba16, assets/menu/menu_char/menu_char_titexdata_04_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
           - [0x403E70]
