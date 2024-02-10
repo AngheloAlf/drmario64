@@ -769,24 +769,335 @@ segments:
 
 
   - name: segment_game_al # compressed
-    type: databin
+    type: code
     start: 0x4F6350
+    vram: 0x0
+    exclusive_ram_id: game
+    subsegments:
+      - [auto, c, assets/game/game_al]
+      - start: 0x4F6350
+        type: .data
+        name: assets/game/game_al
+        subsegments:
+          - [0x4F6350]
+          - [0x4F6368, i4, assets/game/game_al/game_al_titexdata_00_texs_tex.i4, 32, 32]
+          - [0x4F6568]
+          - [0x4F6578, i4, assets/game/game_al/game_al_titexdata_01_texs_tex.i4, 32, 32]
+          - [0x4F6778]
+          - [0x4F6788, i4, assets/game/game_al/game_al_titexdata_02_texs_tex.i4, 32, 32]
+          - [0x4F6988]
+          - [0x4F6998, i4, assets/game/game_al/game_al_titexdata_03_texs_tex.i4, 32, 32]
+          - [0x4F6B98]
+          - [0x4F6BA8, i4, assets/game/game_al/game_al_titexdata_04_texs_tex.i4, 32, 32]
+          - [0x4F6DA8]
+          - [0x4F6DB8, i4, assets/game/game_al/game_al_titexdata_05_texs_tex.i4, 32, 32]
+          - [0x4F6FB8]
+          - [0x4F6FC8, i4, assets/game/game_al/game_al_titexdata_06_texs_tex.i4, 32, 32]
+          - [0x4F71C8]
+          - [0x4F71D8, i4, assets/game/game_al/game_al_titexdata_07_texs_tex.i4, 32, 32]
+          - [0x4F73D8]
+          - [0x4F73E8, i4, assets/game/game_al/game_al_titexdata_08_texs_tex.i4, 32, 32]
+          - [0x4F75E8]
+          - [0x4F75F8, i4, assets/game/game_al/game_al_titexdata_09_texs_tex.i4, 32, 32]
+          - [0x4F77F8]
+          - [0x4F7808, i4, assets/game/game_al/game_al_titexdata_10_texs_tex.i4, 32, 32]
+          - [0x4F7A08]
+          - [0x4F7A18, i4, assets/game/game_al/game_al_titexdata_11_texs_tex.i4, 32, 32]
+          - [0x4F7C18]
+          - [0x4F7C28, i4, assets/game/game_al/game_al_titexdata_12_texs_tex.i4, 16, 16]
+          - [0x4F7CA8]
+          - [0x4F7CB8, rgba16, assets/game/game_al/game_al_titexdata_13_texs_tex.rgba16, 16, 200]
+          - [0x4F95B8]
+          - [0x4F95C8, rgba16, assets/game/game_al/game_al_titexdata_14_texs_tex.rgba16, 108, 13]
+          - [0x4FA0C0]
+          - [0x4FA0D0, rgba16, assets/game/game_al/game_al_titexdata_15_texs_tex.rgba16, 64, 15]
+          - [0x4FA850]
+          - [0x4FA860, rgba16, assets/game/game_al/game_al_titexdata_16_texs_tex.rgba16, 24, 320]
+          - [0x4FE460]
+          - [0x4FE470, rgba16, assets/game/game_al/game_al_titexdata_17_texs_tex.rgba16, 16, 144]
+          - [0x4FF670]
+          - [0x4FF680, i4, assets/game/game_al/game_al_titexdata_18_texs_tex.i4, 16, 200]
+          - [0x4FFCC0]
+          - [0x4FFCD0, i4, assets/game/game_al/game_al_titexdata_19_texs_tex.i4, 108, 13]
+          - [0x4FFF8E]
+          - [0x4FFFA0, i4, assets/game/game_al/game_al_titexdata_20_texs_tex.i4, 64, 15]
+          - [0x500180]
+          - [0x500190, i4, assets/game/game_al/game_al_titexdata_21_texs_tex.i4, 32, 320]
+          - [0x501590]
+          - [0x5015A0, i4, assets/game/game_al/game_al_titexdata_22_texs_tex.i4, 16, 144]
+          - [0x501A20]
+          - [0x501A30, rgba16, assets/game/game_al/game_al_titexdata_23_texs_tex.rgba16, 64, 11]
+          - [0x501FB0]
+          - [0x501FC0, i4, assets/game/game_al/game_al_titexdata_24_texs_tex.i4, 64, 11]
+          - [0x502120]
+          - [0x502130, rgba16, assets/game/game_al/game_al_titexdata_25_texs_tex.rgba16, 128, 32]
+          - [0x504130]
+          - [0x504140, i4, assets/game/game_al/game_al_titexdata_26_texs_tex.i4, 128, 32]
+          - [0x504940]
+          - [0x504950, rgba16, assets/game/game_al/game_al_titexdata_27_texs_tex.rgba16, 108, 13]
+          - [0x505448]
+          - [0x505458, i4, assets/game/game_al/game_al_titexdata_28_texs_tex.i4, 108, 13]
+          - [0x505716]
 
   - name: segment_game_p1 # compressed
-    type: databin
+    type: code
     start: 0x505810
+    vram: 0x0
+    exclusive_ram_id: game
+    subsegments:
+      - [auto, c, assets/game/game_p1]
+      - start: 0x505810
+        type: .data
+        name: assets/game/game_p1
+        subsegments:
+          - [0x505810]
+          - [0x505828, rgba16, assets/game/game_p1/game_p1_titexdata_00_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x505A28]
+          - [0x505A28, i8, assets/game/game_p1/game_p1_titexdata_00_texs_tex.i8, 96, 208] # TODO: extract as ci
+          - [0x50A828]
+          - [0x50A838, rgba16, assets/game/game_p1/game_p1_titexdata_01_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x50A858]
+          - [0x50A858, i4, assets/game/game_p1/game_p1_titexdata_01_texs_tex.i4, 96, 208] # TODO: extract as ci
+          - [0x50CF58]
+          - [0x50CF68, rgba16, assets/game/game_p1/game_p1_titexdata_02_texs_tex.rgba16, 16, 180]
+          - [0x50E5E8]
+          - [0x50E5F8, rgba16, assets/game/game_p1/game_p1_titexdata_03_texs_tex.rgba16, 16, 144]
+          - [0x50F7F8]
+          - [0x50F808, rgba16, assets/game/game_p1/game_p1_titexdata_04_texs_tex.rgba16, 16, 132]
+          - [0x510888]
+          - [0x510898, rgba16, assets/game/game_p1/game_p1_titexdata_05_texs_tex.rgba16, 16, 132]
+          - [0x511918]
+          - [0x511928, i4, assets/game/game_p1/game_p1_titexdata_06_texs_tex.i4, 16, 180]
+          - [0x511EC8]
+          - [0x511ED8, i4, assets/game/game_p1/game_p1_titexdata_07_texs_tex.i4, 16, 144]
+          - [0x512358]
+          - [0x512368, rgba16, assets/game/game_p1/game_p1_titexdata_08_texs_tex.rgba16, 76, 100]
+          - [0x515EC8]
+          - [0x515ED8, i4, assets/game/game_p1/game_p1_titexdata_09_texs_tex.i4, 80, 100]
+          - [0x516E78]
 
   - name: segment_game_p2 # compressed
-    type: databin
+    type: code
     start: 0x516ED0
+    vram: 0x0
+    exclusive_ram_id: game
+    subsegments:
+      - [auto, c, assets/game/game_p2]
+      - start: 0x516ED0
+        type: .data
+        name: assets/game/game_p2
+        subsegments:
+          - [0x516ED0]
+          - [0x516EE8, i4, assets/game/game_p2/game_p2_titexdata_00_texs_tex.i4, 128, 33]
+          - [0x517728]
+          - [0x517738, i4, assets/game/game_p2/game_p2_titexdata_01_texs_tex.i4, 64, 18]
+          - [0x517978]
+          - [0x517988, i4, assets/game/game_p2/game_p2_titexdata_02_texs_tex.i4, 48, 44]
+          - [0x517DA8]
+          - [0x517DB8, i4, assets/game/game_p2/game_p2_titexdata_03_texs_tex.i4, 128, 13]
+          - [0x5180F8]
+          - [0x518108, i4, assets/game/game_p2/game_p2_titexdata_04_texs_tex.i4, 144, 13]
+          - [0x5184B0]
+          - [0x5184C0, i4, assets/game/game_p2/game_p2_titexdata_05_texs_tex.i4, 32, 33]
+          - [0x5186D0]
+          - [0x5186E0, i4, assets/game/game_p2/game_p2_titexdata_06_texs_tex.i4, 128, 15]
+          - [0x518AA0]
+          - [0x518AB0, rgba16, assets/game/game_p2/game_p2_titexdata_07_texs_tex.rgba16, 64, 18]
+          - [0x5193B0]
+          - [0x5193C0, rgba16, assets/game/game_p2/game_p2_titexdata_08_texs_tex.rgba16, 128, 33]
+          - [0x51B4C0]
+          - [0x51B4D0, rgba16, assets/game/game_p2/game_p2_titexdata_09_texs_tex.rgba16, 48, 44]
+          - [0x51C550]
+          - [0x51C560, rgba16, assets/game/game_p2/game_p2_titexdata_10_texs_tex.rgba16, 128, 13]
+          - [0x51D260]
+          - [0x51D270, rgba16, assets/game/game_p2/game_p2_titexdata_11_texs_tex.rgba16, 144, 13]
+          - [0x51E110]
+          - [0x51E120, rgba16, assets/game/game_p2/game_p2_titexdata_12_texs_tex.rgba16, 32, 33]
+          - [0x51E960]
+          - [0x51E970, rgba16, assets/game/game_p2/game_p2_titexdata_13_texs_tex.rgba16, 128, 15]
+          - [0x51F870]
+          - [0x51F880, rgba16, assets/game/game_p2/game_p2_titexdata_14_texs_tex.rgba16, 128, 33]
+          - [0x521980]
+          - [0x521990, rgba16, assets/game/game_p2/game_p2_titexdata_15_texs_tex.rgba16, 64, 18]
+          - [0x522290]
+          - [0x5222A0, rgba16, assets/game/game_p2/game_p2_titexdata_16_texs_tex.rgba16, 144, 15]
+          - [0x523380]
+          - [0x523390, i4, assets/game/game_p2/game_p2_titexdata_17_texs_tex.i4, 144, 15]
+          - [0x5237C8]
+          - [0x5237D8, rgba16, assets/game/game_p2/game_p2_titexdata_18_texs_tex.rgba16, 128, 56]
+          - [0x526FD8]
+          - [0x526FE8, i4, assets/game/game_p2/game_p2_titexdata_19_texs_tex.i4, 128, 56]
+          - [0x527DE8]
+          - [0x527DF8, rgba16, assets/game/game_p2/game_p2_titexdata_20_texs_tex.rgba16, 128, 15]
+          - [0x528CF8]
+          - [0x528D08, i4, assets/game/game_p2/game_p2_titexdata_21_texs_tex.i4, 128, 15]
+          - [0x5290C8]
 
   - name: segment_game_p4 # compressed
-    type: databin
+    type: code
     start: 0x529180
+    vram: 0x0
+    exclusive_ram_id: game
+    subsegments:
+      - [auto, c, assets/game/game_p4]
+      - start: 0x529180
+        type: .data
+        name: assets/game/game_p4
+        subsegments:
+          - [0x529180]
+          - [0x529198, rgba16, assets/game/game_p4/game_p4_titexdata_00_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x5291B8]
+          - [0x5291B8, i4, assets/game/game_p4/game_p4_titexdata_00_texs_tex.i4, 80, 149] # TODO: extract as ci
+          - [0x52A900]
+          - [0x52A910, rgba16, assets/game/game_p4/game_p4_titexdata_01_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x52A930]
+          - [0x52A930, i4, assets/game/game_p4/game_p4_titexdata_01_texs_tex.i4, 64, 142] # TODO: extract as ci
+          - [0x52BAF0]
+          - [0x52BB00, rgba16, assets/game/game_p4/game_p4_titexdata_02_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x52BD00]
+          - [0x52BD00, i8, assets/game/game_p4/game_p4_titexdata_02_texs_tex.i8, 304, 30] # TODO: extract as ci
+          - [0x52E0A0]
+          - [0x52E0B0, rgba16, assets/game/game_p4/game_p4_titexdata_03_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x52E2B0]
+          - [0x52E2B0, i8, assets/game/game_p4/game_p4_titexdata_03_texs_tex.i8, 304, 30] # TODO: extract as ci
+          - [0x530650]
+          - [0x530660, rgba16, assets/game/game_p4/game_p4_titexdata_04_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x530860]
+          - [0x530860, i8, assets/game/game_p4/game_p4_titexdata_04_texs_tex.i8, 304, 30] # TODO: extract as ci
+          - [0x532C00]
+          - [0x532C10, rgba16, assets/game/game_p4/game_p4_titexdata_05_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x532E10]
+          - [0x532E10, i8, assets/game/game_p4/game_p4_titexdata_05_texs_tex.i8, 288, 24] # TODO: extract as ci
+          - [0x534910]
+          - [0x534920, rgba16, assets/game/game_p4/game_p4_titexdata_06_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x534B20]
+          - [0x534B20, i8, assets/game/game_p4/game_p4_titexdata_06_texs_tex.i8, 288, 24] # TODO: extract as ci
+          - [0x536620]
+          - [0x536630, rgba16, assets/game/game_p4/game_p4_titexdata_07_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x536830]
+          - [0x536830, i8, assets/game/game_p4/game_p4_titexdata_07_texs_tex.i8, 288, 24] # TODO: extract as ci
+          - [0x538330]
+          - [0x538340, rgba16, assets/game/game_p4/game_p4_titexdata_08_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x538540]
+          - [0x538540, i8, assets/game/game_p4/game_p4_titexdata_08_texs_tex.i8, 72, 48] # TODO: extract as ci
+          - [0x5392C0]
+          - [0x5392D0, rgba16, assets/game/game_p4/game_p4_titexdata_09_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x5394D0]
+          - [0x5394D0, i8, assets/game/game_p4/game_p4_titexdata_09_texs_tex.i8, 64, 192] # TODO: extract as ci
+          - [0x53C4D0]
+          - [0x53C4E0, rgba16, assets/game/game_p4/game_p4_titexdata_10_texs_tex.rgba16, 32, 132]
+          - [0x53E5E0]
+          - [0x53E5F0, rgba16, assets/game/game_p4/game_p4_titexdata_11_texs_tex.rgba16, 48, 16]
+          - [0x53EBF0]
+          - [0x53EC00, rgba16, assets/game/game_p4/game_p4_titexdata_12_texs_tex.rgba16, 48, 16]
+          - [0x53F200]
+          - [0x53F210, rgba16, assets/game/game_p4/game_p4_titexdata_13_texs_tex.rgba16, 48, 16]
+          - [0x53F810]
+          - [0x53F820, rgba16, assets/game/game_p4/game_p4_titexdata_14_texs_tex.rgba16, 16, 24]
+          - [0x53FB20]
+          - [0x53FB30, rgba16, assets/game/game_p4/game_p4_titexdata_15_texs_tex.rgba16, 304, 26]
+          - [0x5438F0]
+          - [0x543900, rgba16, assets/game/game_p4/game_p4_titexdata_16_texs_tex.rgba16, 32, 12]
+          - [0x543C00]
+          - [0x543C10, rgba16, assets/game/game_p4/game_p4_titexdata_17_texs_tex.rgba16, 32, 12]
+          - [0x543F10]
+          - [0x543F20, i4, assets/game/game_p4/game_p4_titexdata_18_texs_tex.i4, 32, 132]
+          - [0x544760]
+          - [0x544770, i4, assets/game/game_p4/game_p4_titexdata_19_texs_tex.i4, 48, 16]
+          - [0x5448F0]
+          - [0x544900, i4, assets/game/game_p4/game_p4_titexdata_20_texs_tex.i4, 48, 16]
+          - [0x544A80]
+          - [0x544A90, i4, assets/game/game_p4/game_p4_titexdata_21_texs_tex.i4, 48, 16]
+          - [0x544C10]
+          - [0x544C20, i4, assets/game/game_p4/game_p4_titexdata_22_texs_tex.i4, 16, 24]
+          - [0x544CE0]
+          - [0x544CF0, i4, assets/game/game_p4/game_p4_titexdata_23_texs_tex.i4, 304, 26]
+          - [0x545C60]
+          - [0x545C70, i4, assets/game/game_p4/game_p4_titexdata_24_texs_tex.i4, 32, 12]
+          - [0x545D30]
+          - [0x545D40, rgba16, assets/game/game_p4/game_p4_titexdata_25_texs_tex.rgba16, 48, 16]
+          - [0x546340]
+          - [0x546350, i4, assets/game/game_p4/game_p4_titexdata_26_texs_tex.i4, 48, 16]
+          - [0x5464D0]
+          - [0x5464E0, rgba16, assets/game/game_p4/game_p4_titexdata_27_texs_tex.rgba16, 64, 28]
+          - [0x5472E0]
+          - [0x5472F0, i4, assets/game/game_p4/game_p4_titexdata_28_texs_tex.i4, 64, 28]
+          - [0x547670]
+          - [0x547680, rgba16, assets/game/game_p4/game_p4_titexdata_29_texs_tex.rgba16, 64, 15]
+          - [0x547E00]
+          - [0x547E10, i4, assets/game/game_p4/game_p4_titexdata_30_texs_tex.i4, 64, 15]
+          - [0x547FF0]
 
   - name: segment_game_ls # compressed
-    type: databin
+    type: code
     start: 0x5480F0
+    vram: 0x0
+    exclusive_ram_id: game
+    subsegments:
+      - [auto, c, assets/game/game_ls]
+      - start: 0x5480F0
+        type: .data
+        name: assets/game/game_ls
+        subsegments:
+          - [0x5480F0]
+          - [0x548108, i4, assets/game/game_ls/game_ls_titexdata_00_texs_tex.i4, 48, 48]
+          - [0x548588]
+          - [0x548598, i4, assets/game/game_ls/game_ls_titexdata_01_texs_tex.i4, 96, 108]
+          - [0x5499D8]
+          - [0x5499E8, i4, assets/game/game_ls/game_ls_titexdata_02_texs_tex.i4, 100, 88]
+          - [0x54AB18]
+          - [0x54AB28, i4, assets/game/game_ls/game_ls_titexdata_03_texs_tex.i4, 48, 48]
+          - [0x54AFA8]
+          - [0x54AFB8, i4, assets/game/game_ls/game_ls_titexdata_04_texs_tex.i4, 84, 46]
+          - [0x54B744]
+          - [0x54B758, rgba16, assets/game/game_ls/game_ls_titexdata_05_texs_tex.rgba16, 48, 48]
+          - [0x54C958]
+          - [0x54C968, rgba16, assets/game/game_ls/game_ls_titexdata_06_texs_tex.rgba16, 96, 108]
+          - [0x551A68]
+          - [0x551A78, rgba16, assets/game/game_ls/game_ls_titexdata_07_texs_tex.rgba16, 96, 108]
+          - [0x556B78]
+          - [0x556B88, rgba16, assets/game/game_ls/game_ls_titexdata_08_texs_tex.rgba16, 96, 108]
+          - [0x55BC88]
+          - [0x55BC98, rgba16, assets/game/game_ls/game_ls_titexdata_09_texs_tex.rgba16, 100, 88]
+          - [0x560158]
+          - [0x560168, rgba16, assets/game/game_ls/game_ls_titexdata_10_texs_tex.rgba16, 48, 48]
+          - [0x561368]
+          - [0x561378, rgba16, assets/game/game_ls/game_ls_titexdata_11_texs_tex.rgba16, 84, 46]
+          - [0x5631A8]
+          - [0x5631B8, rgba16, assets/game/game_ls/game_ls_titexdata_12_texs_tex.rgba16, 84, 46]
+          - [0x564FE8]
+          - [0x564FF8, rgba16, assets/game/game_ls/game_ls_titexdata_13_texs_tex.rgba16, 84, 46]
+          - [0x566E28]
+          - [0x566E38, rgba16, assets/game/game_ls/game_ls_titexdata_14_texs_tex.rgba16, 84, 46]
+          - [0x568C68]
+          - [0x568C78, rgba16, assets/game/game_ls/game_ls_titexdata_15_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x568E78]
+          - [0x568E78, i8, assets/game/game_ls/game_ls_titexdata_15_texs_tex.i8, 80, 120] # TODO: extract as ci
+          - [0x56B3F8]
+          - [0x56B408, rgba16, assets/game/game_ls/game_ls_titexdata_16_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x56B608]
+          - [0x56B608, i8, assets/game/game_ls/game_ls_titexdata_16_texs_tex.i8, 80, 120] # TODO: extract as ci
+          - [0x56DB88]
+          - [0x56DB98, rgba16, assets/game/game_ls/game_ls_titexdata_17_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x56DD98]
+          - [0x56DD98, i8, assets/game/game_ls/game_ls_titexdata_17_texs_tex.i8, 80, 120] # TODO: extract as ci
+          - [0x570318]
+          - [0x570328, rgba16, assets/game/game_ls/game_ls_titexdata_18_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x570528]
+          - [0x570528, i8, assets/game/game_ls/game_ls_titexdata_18_texs_tex.i8, 120, 120] # TODO: extract as ci
+          - [0x573D68]
+          - [0x573D78, rgba16, assets/game/game_ls/game_ls_titexdata_19_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x573F78]
+          - [0x573F78, i8, assets/game/game_ls/game_ls_titexdata_19_texs_tex.i8, 120, 120] # TODO: extract as ci
+          - [0x5777B8]
+          - [0x5777C8, rgba16, assets/game/game_ls/game_ls_titexdata_20_texs_tlut.rgba16, 16, 16] # TODO: extract as ci
+          - [0x5779C8]
+          - [0x5779C8, i8, assets/game/game_ls/game_ls_titexdata_20_texs_tex.i8, 120, 120] # TODO: extract as ci
+          - [0x57B208]
+          - [0x57B218, rgba16, assets/game/game_ls/game_ls_titexdata_21_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
+          - [0x57B238]
+          - [0x57B238, i4, assets/game/game_ls/game_ls_titexdata_21_texs_tex.i4, 64, 16] # TODO: extract as ci
+          - [0x57B438]
 
   - name: segment_game_item # compressed
     type: code

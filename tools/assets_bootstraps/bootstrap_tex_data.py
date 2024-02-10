@@ -49,7 +49,7 @@ TiTexDataHeader {seg_name}_header = {{
 
     symbols = ti_tex_data.scan_ti_tex_data_array(segment_bytes, texData, count1)
     ti_tex_data.name_symbols(symbols, seg_name)
-    ti_tex_data.emit_symbols(symbols, segment_bytes, seg_name)
+    ti_tex_data.emit_symbols(symbols, segment_bytes, seg_name, texData)
     ti_tex_data.emit_ti_tex_data_array(segment_bytes, texData, count1, symbols, seg_name)
 
     ti_tex_data.emit_splat_subsegments_for_symbols(symbols, rom_addr, seg_name)

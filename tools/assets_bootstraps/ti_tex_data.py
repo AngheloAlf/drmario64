@@ -514,7 +514,7 @@ u8 {seg_name}_titexdata_{index:02}_{i:02}_pad[0x{pad_size:X}] = {{
 """)
 
 
-def emit_symbols(symbols: dict[int, Symbol], segment_bytes: bytes, seg_name: str):
+def emit_symbols(symbols: dict[int, Symbol], segment_bytes: bytes, seg_name: str, tex_data_addr: int):
     index = -1
 
     symbols_list = sorted(symbols.items())
@@ -534,7 +534,10 @@ def emit_symbols(symbols: dict[int, Symbol], segment_bytes: bytes, seg_name: str
             assert False, sym.sym_type
 
         next_addr = addr + sym.size
-        emit_pad(next_addr, symbols_list[i][0], index, i, seg_name)
+        if i + 1 < len(symbols_list):
+            emit_pad(next_addr, symbols_list[i+1][0], index, i, seg_name)
+        else:
+            emit_pad(next_addr, tex_data_addr, index, i, seg_name)
 
 
 def emit_ti_tex_data_array(segment_bytes: bytes, tex_data_addr: int, tex_data_count: int, symbols: dict[int, Symbol], seg_name: str):
