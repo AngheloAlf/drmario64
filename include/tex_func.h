@@ -181,7 +181,7 @@ void StretchTexTile4i_LoadTex(StretchTexTile_arg0 *arg0);
 void StretchTexTile4i(Gfx **gfxP, s32 width, s32 height, u8 tex[], s32 arg4, s32 arg5, s32 arg6, s32 arg7, f32 arg8, f32 arg9, f32 argA, f32 argB);
 void RectTexTile4i(Gfx **gfxP, Vtx **vtxP, s32 width, s32 height, u8 *tex, s32 arg5, s32 arg6, s32 arg7, s32 arg8, f32 arg9, f32 argA, f32 argB, f32 argC);
 void tiMappingAddr(TiTexData *tiArr, s32 len, uintptr_t addr);
-TiTexData *tiLoadTexData(UNK_PTR *arg0, RomOffset segmentRom, RomOffset segmentRomEnd);
+TiTexData *tiLoadTexData(UNK_PTR *heap, RomOffset segmentRom, RomOffset segmentRomEnd);
 // void func_80045110();
 void tiCopyTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4);
 void tiStretchTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);

@@ -27,13 +27,18 @@ TiTexDataTextures game_p2_titexdata_00_texs = {
 #define game_p2_titexdata_00_texs_tex_height 33
 
 u16 game_p2_titexdata_00_info[] = {
-    game_p2_titexdata_00_texs_tex_width, game_p2_titexdata_00_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_00_texs_tex_width,
+    game_p2_titexdata_00_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_00_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_00_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_00_texs_tex) == game_p2_titexdata_00_texs_tex_width * game_p2_titexdata_00_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_00_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_00_texs_tex) ==
+                  game_p2_titexdata_00_texs_tex_width * game_p2_titexdata_00_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_00_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_01 */
 
@@ -48,13 +53,18 @@ TiTexDataTextures game_p2_titexdata_01_texs = {
 #define game_p2_titexdata_01_texs_tex_height 18
 
 u16 game_p2_titexdata_01_info[] = {
-    game_p2_titexdata_01_texs_tex_width, game_p2_titexdata_01_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_01_texs_tex_width,
+    game_p2_titexdata_01_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_01_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_01_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_01_texs_tex) == game_p2_titexdata_01_texs_tex_width * game_p2_titexdata_01_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_01_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_01_texs_tex) ==
+                  game_p2_titexdata_01_texs_tex_width * game_p2_titexdata_01_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_01_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_02 */
 
@@ -69,13 +79,18 @@ TiTexDataTextures game_p2_titexdata_02_texs = {
 #define game_p2_titexdata_02_texs_tex_height 44
 
 u16 game_p2_titexdata_02_info[] = {
-    game_p2_titexdata_02_texs_tex_width, game_p2_titexdata_02_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_02_texs_tex_width,
+    game_p2_titexdata_02_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_02_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_02_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_02_texs_tex) == game_p2_titexdata_02_texs_tex_width * game_p2_titexdata_02_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_02_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_02_texs_tex) ==
+                  game_p2_titexdata_02_texs_tex_width * game_p2_titexdata_02_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_02_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_03 */
 
@@ -90,13 +105,18 @@ TiTexDataTextures game_p2_titexdata_03_texs = {
 #define game_p2_titexdata_03_texs_tex_height 13
 
 u16 game_p2_titexdata_03_info[] = {
-    game_p2_titexdata_03_texs_tex_width, game_p2_titexdata_03_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_03_texs_tex_width,
+    game_p2_titexdata_03_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_03_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_03_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_03_texs_tex) == game_p2_titexdata_03_texs_tex_width * game_p2_titexdata_03_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_03_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_03_texs_tex) ==
+                  game_p2_titexdata_03_texs_tex_width * game_p2_titexdata_03_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_03_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_04 */
 
@@ -111,13 +131,18 @@ TiTexDataTextures game_p2_titexdata_04_texs = {
 #define game_p2_titexdata_04_texs_tex_height 13
 
 u16 game_p2_titexdata_04_info[] = {
-    game_p2_titexdata_04_texs_tex_width, game_p2_titexdata_04_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_04_texs_tex_width,
+    game_p2_titexdata_04_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_04_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_04_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_04_texs_tex) == game_p2_titexdata_04_texs_tex_width * game_p2_titexdata_04_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_04_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_04_texs_tex) ==
+                  game_p2_titexdata_04_texs_tex_width * game_p2_titexdata_04_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_04_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_05 */
 
@@ -132,13 +157,18 @@ TiTexDataTextures game_p2_titexdata_05_texs = {
 #define game_p2_titexdata_05_texs_tex_height 33
 
 u16 game_p2_titexdata_05_info[] = {
-    game_p2_titexdata_05_texs_tex_width, game_p2_titexdata_05_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_05_texs_tex_width,
+    game_p2_titexdata_05_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_05_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_05_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_05_texs_tex) == game_p2_titexdata_05_texs_tex_width * game_p2_titexdata_05_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_05_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_05_texs_tex) ==
+                  game_p2_titexdata_05_texs_tex_width * game_p2_titexdata_05_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_05_texs_tex` does not match the size of the actual texture");
 
 #elif VERSION_CN
 
@@ -155,13 +185,18 @@ TiTexDataTextures game_p2_titexdata_00_texs = {
 #define game_p2_titexdata_00_texs_tex_height 44
 
 u16 game_p2_titexdata_00_info[] = {
-    game_p2_titexdata_00_texs_tex_width, game_p2_titexdata_00_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_00_texs_tex_width,
+    game_p2_titexdata_00_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_00_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_00_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_00_texs_tex) == game_p2_titexdata_00_texs_tex_width * game_p2_titexdata_00_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_00_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_00_texs_tex) ==
+                  game_p2_titexdata_00_texs_tex_width * game_p2_titexdata_00_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_00_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_01 */
 
@@ -176,13 +211,18 @@ TiTexDataTextures game_p2_titexdata_01_texs = {
 #define game_p2_titexdata_01_texs_tex_height 33
 
 u16 game_p2_titexdata_01_info[] = {
-    game_p2_titexdata_01_texs_tex_width, game_p2_titexdata_01_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_01_texs_tex_width,
+    game_p2_titexdata_01_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_01_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_01_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_01_texs_tex) == game_p2_titexdata_01_texs_tex_width * game_p2_titexdata_01_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_01_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_01_texs_tex) ==
+                  game_p2_titexdata_01_texs_tex_width * game_p2_titexdata_01_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_01_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_02 */
 
@@ -197,13 +237,18 @@ TiTexDataTextures game_p2_titexdata_02_texs = {
 #define game_p2_titexdata_02_texs_tex_height 33
 
 u16 game_p2_titexdata_02_info[] = {
-    game_p2_titexdata_02_texs_tex_width, game_p2_titexdata_02_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_02_texs_tex_width,
+    game_p2_titexdata_02_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_02_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_02_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_02_texs_tex) == game_p2_titexdata_02_texs_tex_width * game_p2_titexdata_02_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_02_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_02_texs_tex) ==
+                  game_p2_titexdata_02_texs_tex_width * game_p2_titexdata_02_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_02_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_03 */
 
@@ -218,13 +263,18 @@ TiTexDataTextures game_p2_titexdata_03_texs = {
 #define game_p2_titexdata_03_texs_tex_height 18
 
 u16 game_p2_titexdata_03_info[] = {
-    game_p2_titexdata_03_texs_tex_width, game_p2_titexdata_03_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_03_texs_tex_width,
+    game_p2_titexdata_03_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_03_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_03_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_03_texs_tex) == game_p2_titexdata_03_texs_tex_width * game_p2_titexdata_03_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_03_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_03_texs_tex) ==
+                  game_p2_titexdata_03_texs_tex_width * game_p2_titexdata_03_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_03_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_04 */
 
@@ -239,13 +289,18 @@ TiTexDataTextures game_p2_titexdata_04_texs = {
 #define game_p2_titexdata_04_texs_tex_height 13
 
 u16 game_p2_titexdata_04_info[] = {
-    game_p2_titexdata_04_texs_tex_width, game_p2_titexdata_04_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_04_texs_tex_width,
+    game_p2_titexdata_04_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_04_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_04_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_04_texs_tex) == game_p2_titexdata_04_texs_tex_width * game_p2_titexdata_04_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_04_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_04_texs_tex) ==
+                  game_p2_titexdata_04_texs_tex_width * game_p2_titexdata_04_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_04_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_05 */
 
@@ -260,13 +315,18 @@ TiTexDataTextures game_p2_titexdata_05_texs = {
 #define game_p2_titexdata_05_texs_tex_height 13
 
 u16 game_p2_titexdata_05_info[] = {
-    game_p2_titexdata_05_texs_tex_width, game_p2_titexdata_05_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_05_texs_tex_width,
+    game_p2_titexdata_05_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_05_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_05_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_05_texs_tex) == game_p2_titexdata_05_texs_tex_width * game_p2_titexdata_05_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_05_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_05_texs_tex) ==
+                  game_p2_titexdata_05_texs_tex_width * game_p2_titexdata_05_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_05_texs_tex` does not match the size of the actual texture");
 
 #endif
 
@@ -283,13 +343,18 @@ TiTexDataTextures game_p2_titexdata_06_texs = {
 #define game_p2_titexdata_06_texs_tex_height 15
 
 u16 game_p2_titexdata_06_info[] = {
-    game_p2_titexdata_06_texs_tex_width, game_p2_titexdata_06_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_06_texs_tex_width,
+    game_p2_titexdata_06_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_06_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_06_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_06_texs_tex) == game_p2_titexdata_06_texs_tex_width * game_p2_titexdata_06_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_06_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_06_texs_tex) ==
+                  game_p2_titexdata_06_texs_tex_width * game_p2_titexdata_06_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_06_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_07 */
 
@@ -304,13 +369,18 @@ TiTexDataTextures game_p2_titexdata_07_texs = {
 #define game_p2_titexdata_07_texs_tex_height 18
 
 u16 game_p2_titexdata_07_info[] = {
-    game_p2_titexdata_07_texs_tex_width, game_p2_titexdata_07_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_07_texs_tex_width,
+    game_p2_titexdata_07_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_07_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_07_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_07_texs_tex) == game_p2_titexdata_07_texs_tex_width * game_p2_titexdata_07_texs_tex_height, "The dimensions of `game_p2_titexdata_07_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_07_texs_tex) ==
+                  game_p2_titexdata_07_texs_tex_width * game_p2_titexdata_07_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_07_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_08 */
 
@@ -325,13 +395,18 @@ TiTexDataTextures game_p2_titexdata_08_texs = {
 #define game_p2_titexdata_08_texs_tex_height 33
 
 u16 game_p2_titexdata_08_info[] = {
-    game_p2_titexdata_08_texs_tex_width, game_p2_titexdata_08_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_08_texs_tex_width,
+    game_p2_titexdata_08_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_08_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_08_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_08_texs_tex) == game_p2_titexdata_08_texs_tex_width * game_p2_titexdata_08_texs_tex_height, "The dimensions of `game_p2_titexdata_08_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_08_texs_tex) ==
+                  game_p2_titexdata_08_texs_tex_width * game_p2_titexdata_08_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_08_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_09 */
 
@@ -346,13 +421,18 @@ TiTexDataTextures game_p2_titexdata_09_texs = {
 #define game_p2_titexdata_09_texs_tex_height 44
 
 u16 game_p2_titexdata_09_info[] = {
-    game_p2_titexdata_09_texs_tex_width, game_p2_titexdata_09_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_09_texs_tex_width,
+    game_p2_titexdata_09_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_09_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_09_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_09_texs_tex) == game_p2_titexdata_09_texs_tex_width * game_p2_titexdata_09_texs_tex_height, "The dimensions of `game_p2_titexdata_09_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_09_texs_tex) ==
+                  game_p2_titexdata_09_texs_tex_width * game_p2_titexdata_09_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_09_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_10 */
 
@@ -367,13 +447,18 @@ TiTexDataTextures game_p2_titexdata_10_texs = {
 #define game_p2_titexdata_10_texs_tex_height 13
 
 u16 game_p2_titexdata_10_info[] = {
-    game_p2_titexdata_10_texs_tex_width, game_p2_titexdata_10_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_10_texs_tex_width,
+    game_p2_titexdata_10_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_10_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_10_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_10_texs_tex) == game_p2_titexdata_10_texs_tex_width * game_p2_titexdata_10_texs_tex_height, "The dimensions of `game_p2_titexdata_10_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_10_texs_tex) ==
+                  game_p2_titexdata_10_texs_tex_width * game_p2_titexdata_10_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_10_texs_tex` does not match the size of the actual texture");
 
 #if VERSION_US || VERSION_GW
 
@@ -390,13 +475,18 @@ TiTexDataTextures game_p2_titexdata_11_texs = {
 #define game_p2_titexdata_11_texs_tex_height 13
 
 u16 game_p2_titexdata_11_info[] = {
-    game_p2_titexdata_11_texs_tex_width, game_p2_titexdata_11_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_11_texs_tex_width,
+    game_p2_titexdata_11_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_11_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_11_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_11_texs_tex) == game_p2_titexdata_11_texs_tex_width * game_p2_titexdata_11_texs_tex_height, "The dimensions of `game_p2_titexdata_11_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_11_texs_tex) ==
+                  game_p2_titexdata_11_texs_tex_width * game_p2_titexdata_11_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_11_texs_tex` does not match the size of the actual texture");
 
 #elif VERSION_CN
 
@@ -413,13 +503,18 @@ TiTexDataTextures game_p2_titexdata_11_texs = {
 #define game_p2_titexdata_11_texs_tex_height 10
 
 u16 game_p2_titexdata_11_info[] = {
-    game_p2_titexdata_11_texs_tex_width, game_p2_titexdata_11_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_11_texs_tex_width,
+    game_p2_titexdata_11_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_11_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_11_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_11_texs_tex) == game_p2_titexdata_11_texs_tex_width * game_p2_titexdata_11_texs_tex_height, "The dimensions of `game_p2_titexdata_11_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_11_texs_tex) ==
+                  game_p2_titexdata_11_texs_tex_width * game_p2_titexdata_11_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_11_texs_tex` does not match the size of the actual texture");
 
 #endif
 
@@ -436,13 +531,18 @@ TiTexDataTextures game_p2_titexdata_12_texs = {
 #define game_p2_titexdata_12_texs_tex_height 33
 
 u16 game_p2_titexdata_12_info[] = {
-    game_p2_titexdata_12_texs_tex_width, game_p2_titexdata_12_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_12_texs_tex_width,
+    game_p2_titexdata_12_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_12_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_12_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_12_texs_tex) == game_p2_titexdata_12_texs_tex_width * game_p2_titexdata_12_texs_tex_height, "The dimensions of `game_p2_titexdata_12_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_12_texs_tex) ==
+                  game_p2_titexdata_12_texs_tex_width * game_p2_titexdata_12_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_12_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_13 */
 
@@ -457,13 +557,18 @@ TiTexDataTextures game_p2_titexdata_13_texs = {
 #define game_p2_titexdata_13_texs_tex_height 15
 
 u16 game_p2_titexdata_13_info[] = {
-    game_p2_titexdata_13_texs_tex_width, game_p2_titexdata_13_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_13_texs_tex_width,
+    game_p2_titexdata_13_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_13_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_13_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_13_texs_tex) == game_p2_titexdata_13_texs_tex_width * game_p2_titexdata_13_texs_tex_height, "The dimensions of `game_p2_titexdata_13_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_13_texs_tex) ==
+                  game_p2_titexdata_13_texs_tex_width * game_p2_titexdata_13_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_13_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_14 */
 
@@ -478,13 +583,18 @@ TiTexDataTextures game_p2_titexdata_14_texs = {
 #define game_p2_titexdata_14_texs_tex_height 33
 
 u16 game_p2_titexdata_14_info[] = {
-    game_p2_titexdata_14_texs_tex_width, game_p2_titexdata_14_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_14_texs_tex_width,
+    game_p2_titexdata_14_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_14_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_14_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_14_texs_tex) == game_p2_titexdata_14_texs_tex_width * game_p2_titexdata_14_texs_tex_height, "The dimensions of `game_p2_titexdata_14_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_14_texs_tex) ==
+                  game_p2_titexdata_14_texs_tex_width * game_p2_titexdata_14_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_14_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_15 */
 
@@ -499,13 +609,18 @@ TiTexDataTextures game_p2_titexdata_15_texs = {
 #define game_p2_titexdata_15_texs_tex_height 18
 
 u16 game_p2_titexdata_15_info[] = {
-    game_p2_titexdata_15_texs_tex_width, game_p2_titexdata_15_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_15_texs_tex_width,
+    game_p2_titexdata_15_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_15_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_15_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_15_texs_tex) == game_p2_titexdata_15_texs_tex_width * game_p2_titexdata_15_texs_tex_height, "The dimensions of `game_p2_titexdata_15_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_15_texs_tex) ==
+                  game_p2_titexdata_15_texs_tex_width * game_p2_titexdata_15_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_15_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_16 */
 
@@ -520,13 +635,18 @@ TiTexDataTextures game_p2_titexdata_16_texs = {
 #define game_p2_titexdata_16_texs_tex_height 15
 
 u16 game_p2_titexdata_16_info[] = {
-    game_p2_titexdata_16_texs_tex_width, game_p2_titexdata_16_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_16_texs_tex_width,
+    game_p2_titexdata_16_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_16_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_16_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_16_texs_tex) == game_p2_titexdata_16_texs_tex_width * game_p2_titexdata_16_texs_tex_height, "The dimensions of `game_p2_titexdata_16_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_16_texs_tex) ==
+                  game_p2_titexdata_16_texs_tex_width * game_p2_titexdata_16_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_16_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_17 */
 
@@ -541,13 +661,18 @@ TiTexDataTextures game_p2_titexdata_17_texs = {
 #define game_p2_titexdata_17_texs_tex_height 15
 
 u16 game_p2_titexdata_17_info[] = {
-    game_p2_titexdata_17_texs_tex_width, game_p2_titexdata_17_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_17_texs_tex_width,
+    game_p2_titexdata_17_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_17_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_17_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_17_texs_tex) == game_p2_titexdata_17_texs_tex_width * game_p2_titexdata_17_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_17_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_17_texs_tex) ==
+                  game_p2_titexdata_17_texs_tex_width * game_p2_titexdata_17_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_17_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_18 */
 
@@ -562,13 +687,18 @@ TiTexDataTextures game_p2_titexdata_18_texs = {
 #define game_p2_titexdata_18_texs_tex_height 56
 
 u16 game_p2_titexdata_18_info[] = {
-    game_p2_titexdata_18_texs_tex_width, game_p2_titexdata_18_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_18_texs_tex_width,
+    game_p2_titexdata_18_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_18_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_18_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_18_texs_tex) == game_p2_titexdata_18_texs_tex_width * game_p2_titexdata_18_texs_tex_height, "The dimensions of `game_p2_titexdata_18_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_18_texs_tex) ==
+                  game_p2_titexdata_18_texs_tex_width * game_p2_titexdata_18_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_18_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_19 */
 
@@ -583,13 +713,18 @@ TiTexDataTextures game_p2_titexdata_19_texs = {
 #define game_p2_titexdata_19_texs_tex_height 56
 
 u16 game_p2_titexdata_19_info[] = {
-    game_p2_titexdata_19_texs_tex_width, game_p2_titexdata_19_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_19_texs_tex_width,
+    game_p2_titexdata_19_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_19_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_19_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_19_texs_tex) == game_p2_titexdata_19_texs_tex_width * game_p2_titexdata_19_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_19_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_19_texs_tex) ==
+                  game_p2_titexdata_19_texs_tex_width * game_p2_titexdata_19_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_19_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_20 */
 
@@ -604,13 +739,18 @@ TiTexDataTextures game_p2_titexdata_20_texs = {
 #define game_p2_titexdata_20_texs_tex_height 15
 
 u16 game_p2_titexdata_20_info[] = {
-    game_p2_titexdata_20_texs_tex_width, game_p2_titexdata_20_texs_tex_height, TITEX_FORMAT_16, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_20_texs_tex_width,
+    game_p2_titexdata_20_texs_tex_height,
+    TITEX_FORMAT_16,
+    TITEX_FLAGS_BLOCK,
 };
 
 u16 game_p2_titexdata_20_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_20_texs_tex.rgba16.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_20_texs_tex) == game_p2_titexdata_20_texs_tex_width * game_p2_titexdata_20_texs_tex_height, "The dimensions of `game_p2_titexdata_20_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_20_texs_tex) ==
+                  game_p2_titexdata_20_texs_tex_width * game_p2_titexdata_20_texs_tex_height,
+              "The dimensions of `game_p2_titexdata_20_texs_tex` does not match the size of the actual texture");
 
 /* titexdata_21 */
 
@@ -625,19 +765,24 @@ TiTexDataTextures game_p2_titexdata_21_texs = {
 #define game_p2_titexdata_21_texs_tex_height 15
 
 u16 game_p2_titexdata_21_info[] = {
-    game_p2_titexdata_21_texs_tex_width, game_p2_titexdata_21_texs_tex_height, TITEX_FORMAT_4, TITEX_FLAGS_BLOCK,
+    game_p2_titexdata_21_texs_tex_width,
+    game_p2_titexdata_21_texs_tex_height,
+    TITEX_FORMAT_4,
+    TITEX_FLAGS_BLOCK,
 };
 
 u8 game_p2_titexdata_21_texs_tex[] ALIGNED(8) = {
 #include "assets/game/game_p2/game_p2_titexdata_21_texs_tex.i4.inc"
 };
-static_assert(ARRAY_COUNT(game_p2_titexdata_21_texs_tex) == game_p2_titexdata_21_texs_tex_width * game_p2_titexdata_21_texs_tex_height / 2, "The dimensions of `game_p2_titexdata_21_texs_tex` does not match the size of the actual texture");
+static_assert(ARRAY_COUNT(game_p2_titexdata_21_texs_tex) ==
+                  game_p2_titexdata_21_texs_tex_width * game_p2_titexdata_21_texs_tex_height / 2,
+              "The dimensions of `game_p2_titexdata_21_texs_tex` does not match the size of the actual texture");
 
 TiTexData game_p2_titexdata[] = {
 #if VERSION_US || VERSION_GW
     { &game_p2_titexdata_00_texs, game_p2_titexdata_00_info },
     { &game_p2_titexdata_01_texs, game_p2_titexdata_01_info },
-    #endif
+#endif
     { &game_p2_titexdata_02_texs, game_p2_titexdata_02_info },
     { &game_p2_titexdata_03_texs, game_p2_titexdata_03_info },
 #if VERSION_CN
