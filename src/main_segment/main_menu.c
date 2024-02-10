@@ -7330,13 +7330,13 @@ void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, struct
 
     menuLvSel->unk_0004 = _getMode(watchMenuRef);
     menuLvSel->unk_256C = 0;
-    menuLvSel->unk_2570 = 0x14;
+    menuLvSel->unk_2570 = 20;
 
     for (i = 0; i < ARRAY_COUNTU(temp_s0->unk_4C); i++) {
         menuLvSel->unk_2570 = MAX(menuLvSel->unk_2570, temp_s0->unk_4C[i].unk_4);
     }
 
-    menuLvSel->unk_2570 = MIN(0x15, menuLvSel->unk_2570);
+    menuLvSel->unk_2570 = MIN(21, menuLvSel->unk_2570);
 
     menuItem_init(&menuLvSel->unk_0008, 0x19, 0x2F);
     menuItem_init(menuLvSel->unk_0098, 0, 0);
@@ -7644,7 +7644,7 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
 
     switch (menuLvSel->unk_0004) {
         case MAINMENUMODE_MENULVSEL_7:
-            if (menuLvSel->unk_2570 >= 0x15) {
+            if (menuLvSel->unk_2570 >= 21) {
                 f32 temp_fs0 = menuLvSel->unk_0098[0].unk_0C[0];
 
                 menuLvSel->unk_0098[0].unk_0C[0] = temp_fs0 + 222.0f;

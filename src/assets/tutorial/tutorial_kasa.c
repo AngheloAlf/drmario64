@@ -190,13 +190,13 @@ u16 tutorial_kasa_titexdata_06_info[] = {
 };
 
 u16 tutorial_kasa_titexdata_06_texs_tlut[] ALIGNED(8) = {
-#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_06_texs_tlut.rgba16.inc"
+#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_06_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_06_texs_tlut) == 4 * 4,
               "The dimensions of `tutorial_kasa_titexdata_06_texs_tlut` does not match the size of the actual tlut");
 
 u8 tutorial_kasa_titexdata_06_texs_tex[] ALIGNED(8) = {
-#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_06_texs_tex.i4.inc"
+#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_06_texs_tex.ci4.inc"
 };
 static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_06_texs_tex) ==
                   tutorial_kasa_titexdata_06_texs_tex_width * tutorial_kasa_titexdata_06_texs_tex_height / 2,
@@ -223,13 +223,13 @@ u16 tutorial_kasa_titexdata_07_info[] = {
 };
 
 u16 tutorial_kasa_titexdata_07_texs_tlut[] ALIGNED(8) = {
-#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_07_texs_tlut.rgba16.inc"
+#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_07_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_07_texs_tlut) == 16 * 16,
               "The dimensions of `tutorial_kasa_titexdata_07_texs_tlut` does not match the size of the actual tlut");
 
 u8 tutorial_kasa_titexdata_07_texs_tex[] ALIGNED(8) = {
-#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_07_texs_tex.i8.inc"
+#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_07_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_07_texs_tex) ==
                   tutorial_kasa_titexdata_07_texs_tex_width * tutorial_kasa_titexdata_07_texs_tex_height,
@@ -248,13 +248,13 @@ u16 tutorial_kasa_titexdata_06_info[] = {
 };
 
 u16 tutorial_kasa_titexdata_06_texs_tlut[] ALIGNED(8) = {
-#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_06_texs_tlut.rgba16.inc"
+#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_06_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_06_texs_tlut) == 16 * 16,
               "The dimensions of `tutorial_kasa_titexdata_06_texs_tlut` does not match the size of the actual tlut");
 
 u8 tutorial_kasa_titexdata_06_texs_tex[] ALIGNED(8) = {
-#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_06_texs_tex.i8.inc"
+#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_06_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_06_texs_tex) ==
                   tutorial_kasa_titexdata_06_texs_tex_width * tutorial_kasa_titexdata_06_texs_tex_height,
@@ -281,13 +281,13 @@ u16 tutorial_kasa_titexdata_07_info[] = {
 };
 
 u16 tutorial_kasa_titexdata_07_texs_tlut[] ALIGNED(8) = {
-#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_07_texs_tlut.rgba16.inc"
+#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_07_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_07_texs_tlut) == 4 * 4,
               "The dimensions of `tutorial_kasa_titexdata_07_texs_tlut` does not match the size of the actual tlut");
 
 u8 tutorial_kasa_titexdata_07_texs_tex[] ALIGNED(8) = {
-#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_07_texs_tex.i4.inc"
+#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_07_texs_tex.ci4.inc"
 };
 static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_07_texs_tex) ==
                   tutorial_kasa_titexdata_07_texs_tex_width * tutorial_kasa_titexdata_07_texs_tex_height / 2,
@@ -315,13 +315,13 @@ u16 tutorial_kasa_titexdata_08_info[] = {
 };
 
 u16 tutorial_kasa_titexdata_08_texs_tlut[] ALIGNED(8) = {
-#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_08_texs_tlut.rgba16.inc"
+#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_08_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_08_texs_tlut) == 16 * 16,
               "The dimensions of `tutorial_kasa_titexdata_08_texs_tlut` does not match the size of the actual tlut");
 
 u8 tutorial_kasa_titexdata_08_texs_tex[] ALIGNED(8) = {
-#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_08_texs_tex.i8.inc"
+#include "assets/tutorial/tutorial_kasa/tutorial_kasa_titexdata_08_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_08_texs_tex) ==
                   tutorial_kasa_titexdata_08_texs_tex_width * tutorial_kasa_titexdata_08_texs_tex_height,

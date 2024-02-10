@@ -37,11 +37,11 @@ u16 anime_mario_titexdata_00_info[] = {
 };
 
 u16 anime_mario_titexdata_00_texs_tlut[] ALIGNED(8) = {
-#include "assets/anime/anime_mario/anime_mario_titexdata_00_texs_tlut.rgba16.inc"
+#include "assets/anime/anime_mario/anime_mario_titexdata_00_texs_tex.palette.inc"
 };
 
 u8 anime_mario_titexdata_00_texs_tex[] ALIGNED(8) = {
-#include "assets/anime/anime_mario/anime_mario_titexdata_00_texs_tex.i8.inc"
+#include "assets/anime/anime_mario/anime_mario_titexdata_00_texs_tex.ci8.inc"
 };
 
 static_assert(ARRAY_COUNT(anime_mario_titexdata_00_texs_tlut) == 16 * 16,

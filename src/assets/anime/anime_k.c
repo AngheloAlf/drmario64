@@ -37,11 +37,11 @@ u16 anime_k_titexdata_00_info[] = {
 };
 
 u16 anime_k_titexdata_00_texs_tlut[] ALIGNED(8) = {
-#include "assets/anime/anime_k/anime_k_titexdata_00_texs_tlut.rgba16.inc"
+#include "assets/anime/anime_k/anime_k_titexdata_00_texs_tex.palette.inc"
 };
 
 u8 anime_k_titexdata_00_texs_tex[] ALIGNED(8) = {
-#include "assets/anime/anime_k/anime_k_titexdata_00_texs_tex.i4.inc"
+#include "assets/anime/anime_k/anime_k_titexdata_00_texs_tex.ci4.inc"
 };
 
 static_assert(ARRAY_COUNT(anime_k_titexdata_00_texs_tlut) == 4 * 4,

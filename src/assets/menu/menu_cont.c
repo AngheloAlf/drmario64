@@ -59,13 +59,13 @@ u16 menu_cont_titexdata_01_info[] = {
 };
 
 u16 menu_cont_titexdata_01_texs_tlut[] ALIGNED(8) = {
-#include "assets/menu/menu_cont/menu_cont_titexdata_01_texs_tlut.rgba16.inc"
+#include "assets/menu/menu_cont/menu_cont_titexdata_01_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(menu_cont_titexdata_01_texs_tlut) == 16 * 16,
               "The dimensions of `menu_cont_titexdata_01_texs_tlut` does not match the size of the actual tlut");
 
 u8 menu_cont_titexdata_01_texs_tex[] ALIGNED(8) = {
-#include "assets/menu/menu_cont/menu_cont_titexdata_01_texs_tex.i8.inc"
+#include "assets/menu/menu_cont/menu_cont_titexdata_01_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(menu_cont_titexdata_01_texs_tex) ==
                   menu_cont_titexdata_01_texs_tex_width * menu_cont_titexdata_01_texs_tex_height,
@@ -92,13 +92,13 @@ u16 menu_cont_titexdata_02_info[] = {
 };
 
 u16 menu_cont_titexdata_02_texs_tlut[] ALIGNED(8) = {
-#include "assets/menu/menu_cont/menu_cont_titexdata_02_texs_tlut.rgba16.inc"
+#include "assets/menu/menu_cont/menu_cont_titexdata_02_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(menu_cont_titexdata_02_texs_tlut) == 16 * 16,
               "The dimensions of `menu_cont_titexdata_02_texs_tlut` does not match the size of the actual tlut");
 
 u8 menu_cont_titexdata_02_texs_tex[] ALIGNED(8) = {
-#include "assets/menu/menu_cont/menu_cont_titexdata_02_texs_tex.i8.inc"
+#include "assets/menu/menu_cont/menu_cont_titexdata_02_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(menu_cont_titexdata_02_texs_tex) ==
                   menu_cont_titexdata_02_texs_tex_width * menu_cont_titexdata_02_texs_tex_height,

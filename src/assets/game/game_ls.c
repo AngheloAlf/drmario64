@@ -619,13 +619,13 @@ u16 game_ls_titexdata_15_info[] = {
 };
 
 u16 game_ls_titexdata_15_texs_tlut[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_15_texs_tlut.rgba16.inc"
+#include "assets/game/game_ls/game_ls_titexdata_15_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_15_texs_tlut) == 16 * 16,
               "The dimensions of `game_ls_titexdata_15_texs_tlut` does not match the size of the actual tlut");
 
 u8 game_ls_titexdata_15_texs_tex[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_15_texs_tex.i8.inc"
+#include "assets/game/game_ls/game_ls_titexdata_15_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_15_texs_tex) ==
                   game_ls_titexdata_15_texs_tex_width * game_ls_titexdata_15_texs_tex_height,
@@ -652,13 +652,13 @@ u16 game_ls_titexdata_16_info[] = {
 };
 
 u16 game_ls_titexdata_16_texs_tlut[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_16_texs_tlut.rgba16.inc"
+#include "assets/game/game_ls/game_ls_titexdata_16_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_16_texs_tlut) == 16 * 16,
               "The dimensions of `game_ls_titexdata_16_texs_tlut` does not match the size of the actual tlut");
 
 u8 game_ls_titexdata_16_texs_tex[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_16_texs_tex.i8.inc"
+#include "assets/game/game_ls/game_ls_titexdata_16_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_16_texs_tex) ==
                   game_ls_titexdata_16_texs_tex_width * game_ls_titexdata_16_texs_tex_height,
@@ -685,13 +685,13 @@ u16 game_ls_titexdata_17_info[] = {
 };
 
 u16 game_ls_titexdata_17_texs_tlut[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_17_texs_tlut.rgba16.inc"
+#include "assets/game/game_ls/game_ls_titexdata_17_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_17_texs_tlut) == 16 * 16,
               "The dimensions of `game_ls_titexdata_17_texs_tlut` does not match the size of the actual tlut");
 
 u8 game_ls_titexdata_17_texs_tex[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_17_texs_tex.i8.inc"
+#include "assets/game/game_ls/game_ls_titexdata_17_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_17_texs_tex) ==
                   game_ls_titexdata_17_texs_tex_width * game_ls_titexdata_17_texs_tex_height,
@@ -718,13 +718,13 @@ u16 game_ls_titexdata_18_info[] = {
 };
 
 u16 game_ls_titexdata_18_texs_tlut[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_18_texs_tlut.rgba16.inc"
+#include "assets/game/game_ls/game_ls_titexdata_18_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_18_texs_tlut) == 16 * 16,
               "The dimensions of `game_ls_titexdata_18_texs_tlut` does not match the size of the actual tlut");
 
 u8 game_ls_titexdata_18_texs_tex[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_18_texs_tex.i8.inc"
+#include "assets/game/game_ls/game_ls_titexdata_18_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_18_texs_tex) ==
                   game_ls_titexdata_18_texs_tex_width * game_ls_titexdata_18_texs_tex_height,
@@ -751,13 +751,13 @@ u16 game_ls_titexdata_19_info[] = {
 };
 
 u16 game_ls_titexdata_19_texs_tlut[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_19_texs_tlut.rgba16.inc"
+#include "assets/game/game_ls/game_ls_titexdata_19_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_19_texs_tlut) == 16 * 16,
               "The dimensions of `game_ls_titexdata_19_texs_tlut` does not match the size of the actual tlut");
 
 u8 game_ls_titexdata_19_texs_tex[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_19_texs_tex.i8.inc"
+#include "assets/game/game_ls/game_ls_titexdata_19_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_19_texs_tex) ==
                   game_ls_titexdata_19_texs_tex_width * game_ls_titexdata_19_texs_tex_height,
@@ -784,13 +784,13 @@ u16 game_ls_titexdata_20_info[] = {
 };
 
 u16 game_ls_titexdata_20_texs_tlut[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_20_texs_tlut.rgba16.inc"
+#include "assets/game/game_ls/game_ls_titexdata_20_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_20_texs_tlut) == 16 * 16,
               "The dimensions of `game_ls_titexdata_20_texs_tlut` does not match the size of the actual tlut");
 
 u8 game_ls_titexdata_20_texs_tex[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_20_texs_tex.i8.inc"
+#include "assets/game/game_ls/game_ls_titexdata_20_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_20_texs_tex) ==
                   game_ls_titexdata_20_texs_tex_width * game_ls_titexdata_20_texs_tex_height,
@@ -817,13 +817,13 @@ u16 game_ls_titexdata_21_info[] = {
 };
 
 u16 game_ls_titexdata_21_texs_tlut[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_21_texs_tlut.rgba16.inc"
+#include "assets/game/game_ls/game_ls_titexdata_21_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_21_texs_tlut) == 4 * 4,
               "The dimensions of `game_ls_titexdata_21_texs_tlut` does not match the size of the actual tlut");
 
 u8 game_ls_titexdata_21_texs_tex[] ALIGNED(8) = {
-#include "assets/game/game_ls/game_ls_titexdata_21_texs_tex.i4.inc"
+#include "assets/game/game_ls/game_ls_titexdata_21_texs_tex.ci4.inc"
 };
 static_assert(ARRAY_COUNT(game_ls_titexdata_21_texs_tex) ==
                   game_ls_titexdata_21_texs_tex_width * game_ls_titexdata_21_texs_tex_height / 2,

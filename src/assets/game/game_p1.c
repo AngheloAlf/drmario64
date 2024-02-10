@@ -33,13 +33,13 @@ u16 game_p1_titexdata_00_info[] = {
 };
 
 u16 game_p1_titexdata_00_texs_tlut[] ALIGNED(8) = {
-#include "assets/game/game_p1/game_p1_titexdata_00_texs_tlut.rgba16.inc"
+#include "assets/game/game_p1/game_p1_titexdata_00_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(game_p1_titexdata_00_texs_tlut) == 16 * 16,
               "The dimensions of `game_p1_titexdata_00_texs_tlut` does not match the size of the actual tlut");
 
 u8 game_p1_titexdata_00_texs_tex[] ALIGNED(8) = {
-#include "assets/game/game_p1/game_p1_titexdata_00_texs_tex.i8.inc"
+#include "assets/game/game_p1/game_p1_titexdata_00_texs_tex.ci8.inc"
 };
 static_assert(ARRAY_COUNT(game_p1_titexdata_00_texs_tex) ==
                   game_p1_titexdata_00_texs_tex_width * game_p1_titexdata_00_texs_tex_height,
@@ -66,13 +66,13 @@ u16 game_p1_titexdata_01_info[] = {
 };
 
 u16 game_p1_titexdata_01_texs_tlut[] ALIGNED(8) = {
-#include "assets/game/game_p1/game_p1_titexdata_01_texs_tlut.rgba16.inc"
+#include "assets/game/game_p1/game_p1_titexdata_01_texs_tex.palette.inc"
 };
 static_assert(ARRAY_COUNT(game_p1_titexdata_01_texs_tlut) == 4 * 4,
               "The dimensions of `game_p1_titexdata_01_texs_tlut` does not match the size of the actual tlut");
 
 u8 game_p1_titexdata_01_texs_tex[] ALIGNED(8) = {
-#include "assets/game/game_p1/game_p1_titexdata_01_texs_tex.i4.inc"
+#include "assets/game/game_p1/game_p1_titexdata_01_texs_tex.ci4.inc"
 };
 static_assert(ARRAY_COUNT(game_p1_titexdata_01_texs_tex) ==
                   game_p1_titexdata_01_texs_tex_width * game_p1_titexdata_01_texs_tex_height / 2,
