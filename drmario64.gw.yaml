@@ -469,7 +469,7 @@ segments:
       - [0x017330, asm, main_segment/aiset]
       - [0x01EDE0, asm, main_segment/record]
       - [0x021720, asm, main_segment/020D10]
-      - [0x0231D0, asm, main_segment/game_etc]
+      - [0x0231D0, c, main_segment/game_etc]
 
       - [0x0255D0, c, main_segment/screen_print/printer]
       - [0x025650, asm, main_segment/screen_print/printf_impl]
@@ -548,7 +548,7 @@ segments:
       - [0x095AB0, rodata, main_segment/aiset]
       - [0x095B50, rodata, main_segment/record]
       - [0x095BB0, rodata, main_segment/020D10]
-      - [0x095D50, rodata, main_segment/game_etc]
+      - [0x095D50, .rodata, main_segment/game_etc]
 
       - [0x095D90, rodata, main_segment/screen_print/printf_impl]
 

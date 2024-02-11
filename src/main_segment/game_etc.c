@@ -13,7 +13,6 @@
 #include "lws.h"
 #include "066840.h"
 
-#if VERSION_US || VERSION_CN
 void initEtcWork(void *arg0, s32 arg1) {
     s32 i;
     if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
@@ -75,7 +74,6 @@ void initEtcWork(void *arg0, s32 arg1) {
         attack_sprite[i].unk_10 = 0;
     }
 }
-#endif
 
 void init_pause_disp(void) {
     s32 i;
@@ -356,7 +354,6 @@ void disp_draw_logo(Gfx **gfxP, s32 arg1) {
     *gfxP = gfx;
 }
 
-#if VERSION_US || VERSION_CN
 s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2 UNUSED, s32 arg3, s32 arg4) {
     Gfx *gfx = *gfxP;
     struct_g_etc_work *temp_s1 = &g_etc_work[arg1];
@@ -471,9 +468,7 @@ s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2 UNUSED, s32 arg3, s32 arg4) {
 
     return pause_table[arg4][arg3 + 3];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     Gfx *gfx = *gfxP;
     struct_g_etc_work *temp_s2 = &g_etc_work[arg1];
@@ -550,7 +545,6 @@ s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
     return cont_table[arg3][arg2 + 3];
 }
-#endif
 
 s32 disp_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     struct_g_etc_work *temp_t0;
@@ -747,7 +741,6 @@ void add_attack_effect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     }
 }
 
-#if VERSION_US || VERSION_CN
 void disp_attack_effect(Gfx **gfxP) {
     Gfx *gfx;
     f32 temp_fs0;
@@ -872,4 +865,3 @@ void disp_attack_effect(Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
