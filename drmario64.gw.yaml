@@ -464,7 +464,7 @@ segments:
       - [0x014540, asm, main_segment/static]
       - [0x015990, asm, main_segment/015990] # TODO: figure out
 
-      - [0x016350, asm, main_segment/main1x]
+      - [0x016350, c, main_segment/main1x]
       - [0x017060, c, main_segment/vr_init]
       - [0x017330, asm, main_segment/aiset]
       - [0x01EDE0, asm, main_segment/record]
@@ -511,6 +511,7 @@ segments:
       - [0x070C90, .data, main_segment/nnsched]
       - [0x070D10, data, main_segmentm/070D10]
       - [0x070D50, data, main_segment/070D50]
+      - [0x071000, .data, main_segment/main1x]
       - [0x071080, .data, main_segment/vr_init]
       - [0x071090, data, main_segment/071090]
 
@@ -543,7 +544,7 @@ segments:
       - [0x0955E0, .rodata, main_segment/main]
       - [0x095610, .rodata, main_segment/audio/sound]
       - [0x095900, .rodata, main_segment/graphic]
-      - [0x095920, rodata, main_segment/main1x]
+      - [0x095920, .rodata, main_segment/main1x]
       - [0x095AB0, rodata, main_segment/aiset]
       - [0x095B50, rodata, main_segment/record]
       - [0x095BB0, rodata, main_segment/020D10]
