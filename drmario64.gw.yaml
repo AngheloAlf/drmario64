@@ -543,24 +543,18 @@ segments:
       - [0x0955E0, .rodata, main_segment/main]
       - [0x095610, .rodata, main_segment/audio/sound]
       - [0x095900, .rodata, main_segment/graphic]
-      - [0x095920, rodata, main_segment/095920]
-      - [0x095BB0, rodata, main_segment/095BB0]
-      - [0x095D50, rodata, main_segment/095D50]
+      - [0x095920, rodata, main_segment/main1x]
+      - [0x095AB0, rodata, main_segment/aiset]
+      - [0x095B50, rodata, main_segment/record]
+      - [0x095BB0, rodata, main_segment/020D10]
+      - [0x095D50, rodata, main_segment/game_etc]
 
       - [0x095D90, rodata, main_segment/screen_print/printf_impl]
 
       - [0x095EE0, .rodata, main_segment/debug_menu]
 
-      - [0x096740, rodata, main_segment/096740]
-      - [0x096750, rodata, main_segment/096750]
-      - [0x096810, rodata, main_segment/096810]
-      - [0x096890, rodata, main_segment/096890]
-      - [0x0968E0, rodata, main_segment/0968E0]
-      - [0x098490, rodata, main_segment/098490]
-      - [0x099770, rodata, main_segment/099770]
-      - [0x099F20, rodata, main_segment/099F20]
-      - [0x099F50, rodata, main_segment/099F50]
-      - [0x099F80, rodata, main_segment/099F80]
+      - [0x096740, rodata, main_segment/tex_func]
+      - [0x096810, rodata, main_segment/02E600]
 
       - start: 0x09A550
         type: .rodata
@@ -569,8 +563,15 @@ segments:
         - { start: 0x09A550, type: gfx, data_only: True, name: main_segment/font/init_dl_135 }
         - [0x09A578]
 
-      - [0x09A590, rodata, main_segment/09A590]
-      - [0x09A830, rodata, main_segment/09A830]
+      - [0x09A590, rodata, main_segment/msgwnd]
+      - [0x09A810, rodata, main_segment/dm_virus_init]
+      - [0x09A830, rodata, main_segment/048B80]
+      - [0x09B000, rodata, main_segment/05A9D0]
+      - [0x09BF60, rodata, main_segment/05F440]
+      - [0x09C050, rodata, main_segment/lws]
+      - [0x09C0A0, rodata, main_segment/calc]
+      - [0x09C0F0, rodata, main_segment/065080]
+      - [0x09C150, rodata, main_segment/09C150]
       - [0x09C230, rodata, main_segment/09C230]
 
       - { start: 0x09C240, type: bss, vram: 0x800B44A0, name: main_segment/800B44A0 }
