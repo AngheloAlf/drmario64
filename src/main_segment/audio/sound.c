@@ -231,13 +231,13 @@ void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
 #endif
 
 #if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B558_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002AAE8);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B598_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002AB28);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B630_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002ABC0);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B6D4_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002AC64);
 #endif
 
 /**
@@ -564,42 +564,41 @@ void dm_snd_play_strange_sound(void) {
 #endif
 
 #if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_audio_update);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B8C8_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_audio_stop);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B9EC_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_audio_is_stopped);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BA14_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_seq_play);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BA34_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", _dm_seq_play);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BA54_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_seq_play_fade);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BA70_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", _dm_seq_play_fade);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BA98_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_seq_play_in_game);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BAE8_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", _dm_seq_play_in_game);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BB08_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_seq_stop);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BB54_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", _dm_seq_stop);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BB70_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_seq_set_volume);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BBAC_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", _dm_seq_set_volume);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BBCC_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B178);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BBE8_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B194);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BC04_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_snd_play);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BC24_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_snd_play_in_game);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BDB4_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B370);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BDE0_gw);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002BE04_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_snd_play_strange_sound);
 #endif

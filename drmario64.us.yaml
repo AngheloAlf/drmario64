@@ -531,7 +531,7 @@ segments:
       - [0x06BE40, c, ../lib/libmus/src/aud_sched]
       - [0x06BFF0, c, ../lib/libmus/src/aud_thread]
       - [0x06C2B0, c, ../lib/libmus/src/lib_memory]
-      - [0x06C3F0, c, ../lib/libmus/src/aud_samples] # first function does not match
+      - [0x06C3F0, c, ../lib/libmus/src/aud_samples]
 
       - [0x06C4B0, textbin, rsp/rspboot]
       - [0x06C580, textbin, rsp/aspMain]

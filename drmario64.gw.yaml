@@ -461,11 +461,15 @@ segments:
 
       - [0x013290, c, main_segment/audio/sound]
       - [0x013CA0, c, main_segment/graphic]
-      - [0x014540, asm, main_segment/014540]
-      - [0x015990, asm, main_segment/015990]
-      - [0x016350, asm, main_segment/016350]
+      - [0x014540, asm, main_segment/static]
+      - [0x015990, asm, main_segment/015990] # TODO: figure out
+
+      - [0x016350, asm, main_segment/main1x]
       - [0x017060, c, main_segment/vr_init]
-      - [0x017330, asm, main_segment/017330]
+      - [0x017330, asm, main_segment/aiset]
+      - [0x01EDE0, asm, main_segment/record]
+      - [0x021720, asm, main_segment/020D10]
+      - [0x0231D0, asm, main_segment/game_etc]
 
       - [0x0255D0, c, main_segment/screen_print/printer]
       - [0x025650, asm, main_segment/screen_print/printf_impl]
@@ -473,26 +477,35 @@ segments:
 
       - [0x026F60, c, main_segment/debug_menu]
 
-      - [0x029230, asm, main_segment/029230]
-      - [0x02E600, asm, main_segment/02E600]
+      - [0x029230, asm, main_segment/028820]
+      - [0x0293E0, asm, main_segment/tex_func]
+
+      - [0x02E600, asm, main_segment/02E600] # TODO: figure out
 
       - [0x044180, c, main_segment/font]
 
-      - [0x0458B0, asm, main_segment/0458B0]
-      - [0x046AB0, asm, main_segment/046AB0]
-      - [0x048B80, asm, main_segment/048B80]
-      - [0x05A9D0, asm, main_segment/05A9D0]
-      - [0x05F440, asm, main_segment/05F440]
-      - [0x0641E0, asm, main_segment/0641E0]
-      - [0x0647B0, asm, main_segment/0647B0]
-      - [0x065DF0, asm, main_segment/065DF0]
-      - [0x065FA0, asm, main_segment/065FA0]
-      - [0x066DF0, asm, main_segment/066DF0]
-      - [0x0675B0, asm, main_segment/0675B0]
-      - [0x068420, asm, main_segment/068420]
-      - [0x06CBB0, asm, main_segment/06CBB0]
-      - [0x06CD60, asm, main_segment/06CD60]
-      - [0x06D020, asm, main_segment/06D020]
+      - [0x0458B0, asm, main_segment/msgwnd]
+      - [0x046AB0, asm, main_segment/char_anime]
+      - [0x0478E0, asm, main_segment/dm_virus_init]
+
+      - [0x048B80, asm, main_segment/048B80] # TODO: figure out
+      - [0x05A9D0, asm, main_segment/05A9D0] # TODO: figure out
+      - [0x05F440, asm, main_segment/05F440] # TODO: figure out
+
+      - [0x0641E0, asm, main_segment/lws]
+      - [0x0647B0, asm, main_segment/calc]
+      - [0x065DF0, asm, main_segment/065080]
+      - [0x066DF0, asm, main_segment/066080]
+      - [0x066E70, asm, main_segment/replay]
+      - [0x0672F0, asm, main_segment/066580]
+
+      - [0x0675B0, asm, main_segment/0675B0] # TODO: figure out
+      - [0x068420, asm, main_segment/055C40]
+
+      - [0x068590, asm, main_segment/068590] # TODO: figure out
+      - [0x06CBB0, asm, main_segment/06CBB0] # TODO: figure out
+      - [0x06CD60, asm, main_segment/06CD60] # TODO: figure out
+      - [0x06D020, asm, main_segment/06D020] # TODO: figure out
 
       - [0x06D220, data, main_segment/06D220] # guess
       - [0x070C90, .data, main_segment/nnsched]

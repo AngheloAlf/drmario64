@@ -16,8 +16,8 @@ rom:0x0142B0 symbol:D_80089168_gw reloc:MIPS_LO16 addend:-0x80000000
 rom:0x014234 symbol:D_80089188_gw reloc:MIPS_HI16 addend:-0x80000000
 rom:0x014238 symbol:D_80089188_gw reloc:MIPS_LO16 addend:-0x80000000
 
-rom:0x023604 symbol:B_800E6678_gw reloc:MIPS_HI16 addend:-0x80000000
-rom:0x023608 symbol:B_800E6678_gw reloc:MIPS_LO16 addend:-0x80000000
+rom:0x023604 symbol:etc_viewMtx reloc:MIPS_HI16 addend:-0x80000000
+rom:0x023608 symbol:etc_viewMtx reloc:MIPS_LO16 addend:-0x80000000
 
 rom:0x0604DC symbol:B_800E6D68_gw reloc:MIPS_HI16 addend:-0x80000000
 rom:0x0604E0 symbol:B_800E6D68_gw reloc:MIPS_LO16 addend:-0x80000000
