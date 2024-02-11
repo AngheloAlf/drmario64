@@ -143,7 +143,7 @@ extern u16 D_800AB440[];
 
 extern u8 B_800B3640[0x31000];
 extern struct_game_state_data *pGameState;
-// extern UNK_TYPE B_800E5008;
+// extern UNK_TYPE delpos_tbl;
 extern s32 delpos_cnt;
 // extern UNK_TYPE B_800E519C;
 extern s32 last_flash;

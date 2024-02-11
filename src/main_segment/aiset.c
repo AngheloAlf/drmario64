@@ -5074,13 +5074,12 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", search_flash_3);
 #endif
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", flash_special);
-#endif
-
 extern s32 delpos_tbl[];
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: flash_special
+ */
 s32 flash_special(void) {
     s32 sp20[2];
     s32 sp28[2];

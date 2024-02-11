@@ -449,15 +449,20 @@ segments:
 
       - [0x07ABD0, .data, main_segment/nnsched]
       - [0x07AC50, .data, main_segment/graphic]
-      - [0x07AC90, data, main_segment/07AC90]
+      - [0x07AC90, data, main_segment/graphics/graphic_dlists]
       - [0x07AF30, .data, main_segment/audio/music_driver]
+
       - [0x07AF40, .data, main_segment/main1x]
       - [0x07AFC0, .data, main_segment/vr_init]
-      - [0x07AFD0, data, main_segment/07AFD0]
+      - [0x07AFD0, data, main_segment/aiset]
+
+      - [0x07C2E0, data, main_segment/record]
+
+      - [0x07FAE0, data, main_segment/020D10]
 
       - [0x07FB30, data, main_segment/game_etc]
 
-      - [0x07FD20, data, main_segment/07FD20]
+      - [0x07FD20, data, main_segment/07FD20] # unreferenced
 
       - start: 0x07FD50
         type: .data
@@ -498,11 +503,18 @@ segments:
           - [0x0A6BD0]
 
 
-      - [0x0A6BE0, data, main_segment/0A6BE0]
+      - [0x0A6BE0, data, main_segment/dm_game_main]
+
+      - [0x0A6FC0, data, main_segment/dm_title_main]
+
+      - [0x0A6FD0, data, main_segment/0A6FD0] # unreferenced
+
+      - [0x0A6FF0, data, main_segment/main_story]
 
       - [0x0AA710, .data, main_segment/calc]
 
-      - [0x0AAA20, data, main_segment/0AAA20]
+      - [0x0AAA20, data, main_segment/066580]
+      - [0x0AABD0, data, main_segment/066840]
 
       - [0x0AB500, .data, ../lib/libmus/src/player]
       - [0x0AB5C0, .data, ../lib/libmus/src/player_fx]
