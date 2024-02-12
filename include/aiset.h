@@ -54,7 +54,7 @@ void aifYRecurUP(u8 arg0, u8 arg1, u8 arg2);
 void aifReMoveCheck(void);
 void aifKeyMake(struct struct_game_state_data *gameStateDataRef);
 void aifKeyOut(struct struct_game_state_data *gameStateDataRef);
-s32 search_flash_3(s32, s32, s32, s32, s32);
+s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 flash_special(void);
 void aiCOM_MissTake(void);
 
