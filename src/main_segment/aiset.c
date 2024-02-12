@@ -4665,413 +4665,236 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifKeyOut);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", search_flash_3);
 #endif
 
-extern const s32 D_80093448_cn[];
+extern s32 tbl_2973[];
 
 #if VERSION_CN
-#if 0
 s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    s8 sp8;
-    ? sp10;
-    s32 *var_t3;
-    s32 *var_t3_2;
+    s8 sp8[8];
+    s8 sp10[8];
+    s32 pad[2] UNUSED;
     s32 temp_t6;
     s32 temp_t8;
     s32 var_a0_2;
-    s32 var_a0_4;
-    s32 var_a3;
-    s32 var_s2;
+    s32 i;
     s32 var_t0;
-    s32 var_t0_2;
     s32 var_t1;
-    s32 var_t1_2;
-    s32 var_t1_3;
-    s32 var_t1_4;
-    s32 var_t1_5;
-    s32 var_t1_6;
-    s32 var_t1_7;
-    s32 var_t1_8;
-    s32 var_v0;
-    s32 var_v0_10;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    s32 var_v0_5;
-    s32 var_v0_7;
-    s32 var_v0_8;
-    s8 *temp_v0_2;
-    s8 *temp_v0_4;
-    s8 *temp_v0_5;
-    s8 *temp_v0_7;
-    s8 *var_a0;
-    s8 *var_a0_3;
-    s8 *var_t2;
-    s8 *var_t2_2;
-    s8 *var_v0_11;
-    s8 *var_v0_6;
-    s8 var_v0_4;
-    s8 var_v0_9;
-    u32 temp_v1;
-    u32 temp_v1_2;
-    u8 *temp_a0;
-    u8 *temp_a0_2;
-    u8 temp_v0_3;
-    u8 temp_v0_6;
-    void *temp_v0;
+    s32 temp;
 
-    var_s2 = 0;
-    if (pGameState->unk_164 > 0) {
-        var_a3 = 0;
-loop_2:
-        temp_v0 = pGameState + var_a3;
-        if (temp_v0->unk_DC == arg2) {
-            temp_t8 = temp_v0->unk_D8;
-            temp_t6 = temp_v0->unk_D4;
-            if (arg1 == temp_t8) {
-                var_t1 = 0;
-                do {
-                    temp_v0_2 = &(&sp8)[var_t1];
-                    var_t1 += 1;
-                    *temp_v0_2 = -1;
-                } while (var_t1 < 8);
-                var_t1_2 = -3;
-                var_a0 = &sp8;
-                do {
-                    temp_v1 = temp_t6 + var_t1_2;
-                    if (temp_v1 < 8U) {
-                        temp_v0_3 = *((temp_v1 * 2) + (temp_t8 * 0x10) + aiFieldData);
-                        if (temp_v0_3 == arg2) {
-                            *var_a0 = 1;
-                        } else if (temp_v0_3 == 3) {
-                            *var_a0 = 0;
+    for (i = 0; i < pGameState->unk_164; i++) {
+        if (pGameState->unk_0D4.unk_00[i].unk_8 != arg2) {
+            continue;
+        }
+
+        temp_t6 = pGameState->unk_0D4.unk_00[i].unk_0;
+        temp_t8 = pGameState->unk_0D4.unk_00[i].unk_4;
+        if (arg1 == temp_t8) {
+            temp = 0;
+            for (var_t1 = 0; var_t1 < 8; var_t1++) {
+                sp8[var_t1] = -1;
+            }
+
+            for (var_t1 = -3; var_t1 < 4; var_t1++) {
+                if ((temp_t6 + var_t1 >= 0) && (temp_t6 + var_t1 < 8)) {
+                    if (aiFieldData[temp_t8][temp_t6 + var_t1].unk_0 != arg2) {
+                        if (aiFieldData[temp_t8][temp_t6 + var_t1].unk_0 == 3) {
+                            sp8[temp] = 0;
                         } else {
-                            goto block_13;
+                            sp8[temp] = -1;
                         }
                     } else {
-block_13:
-                        *var_a0 = -1;
+                        sp8[temp] = 1;
                     }
-                    var_t1_2 += 1;
-                    var_a0 += 1;
-                } while (var_t1_2 < 4);
-                if (arg4 != 1) {
-                    var_t1_3 = 0;
-                    goto block_56;
+                } else {
+                    sp8[temp] = -1;
                 }
-                if (arg3 != 1) {
-                    var_t1_3 = 0;
-                    goto block_56;
-                }
-                if (sp8 == 0) {
-                    if (sp9 == 0) {
-                        if (spA == (s8) 1) {
-                            var_v0 = 0x2710;
-                            if (arg0 != (temp_t6 - 3)) {
-                                goto block_25;
-                            }
-                            /* Duplicate return node #136. Try simplifying control flow for better match */
-                            return var_v0;
-                        }
-                        goto block_26;
-                    }
-                    goto block_30;
-                }
-block_25:
-block_26:
-                if (sp9 == 0) {
-                    var_v0_2 = (u8) sp8 << 0x18;
-                    if (spA == 0) {
-                        var_v0_2 = (u8) sp8 << 0x18;
-                        if (spC == (s8) 1) {
-                            var_v0 = 0x2710;
-                            if (arg0 != (temp_t6 - 2)) {
-                                goto block_30;
-                            }
-                            /* Duplicate return node #136. Try simplifying control flow for better match */
-                            return var_v0;
-                        }
-                    }
-                    goto block_31;
-                }
-block_30:
-                var_v0_2 = (u8) sp8 << 0x18;
-block_31:
-                if ((var_v0_2 >> 0x18) == 1) {
-                    var_v0_3 = (u8) spA << 0x18;
-                    if ((u8) sp9 == 0) {
-                        var_v0_4 = (s8) (u8) spA;
-                        if ((u8) spA == 0) {
-                            var_v0 = 0x2710;
-                            if (arg0 != (temp_t6 - 2)) {
-                                goto block_35;
-                            }
-                            /* Duplicate return node #136. Try simplifying control flow for better match */
-                            return var_v0;
-                        }
-                        goto block_37;
-                    }
-                    goto block_36;
-                }
-block_35:
-                var_v0_3 = (u8) spA << 0x18;
-block_36:
-                var_v0_4 = (s8) (var_v0_3 >> 0x18);
-block_37:
-                if (var_v0_4 == (s8) 1) {
-                    var_v0_5 = (u8) spC << 0x18;
-                    if ((u8) spC == 0) {
-                        if ((spD != 0) || (var_v0 = 0x2710, (arg0 != (temp_t6 + 1)))) {
-                            goto block_41;
-                        }
-                        /* Duplicate return node #136. Try simplifying control flow for better match */
-                        return var_v0;
-                    }
-                    goto block_46;
-                }
-block_41:
-                var_v0_5 = (u8) spC << 0x18;
-                if ((u8) spC == 0) {
-                    var_v0_5 = (u8) spC << 0x18;
-                    if (spD == 0) {
-                        var_v0_5 = (u8) spC << 0x18;
-                        if (spE == (s8) 1) {
-                            var_v0_5 = (u8) spC << 0x18;
-                            if (arg0 == (temp_t6 + 1)) {
-                                goto block_45;
-                            }
-                        }
+                temp++;
+            }
+
+            if ((arg4 == 1) && (arg3 == 1)) {
+                if ((sp8[0] == 0) && (sp8[1] == 0) && (sp8[2] == 1)) {
+                    if (arg0 == temp_t6 - 3) {
+                        return 0x2710;
                     }
                 }
-block_46:
-                if ((((var_v0_5 >> 0x18) != 1) || (spD != 0) || (spE != 0) || (var_v0 = 0x2710, (arg0 != (temp_t6 + 2)))) && (((u8) sp9 != 0) || ((u8) spA != 0) || (var_v0 = 0x1388, (arg0 != (temp_t6 - 2))))) {
-                    var_t1_3 = 0;
-                    if ((u8) spC == 0) {
-                        if (spD == 0) {
-                            var_v0 = 0x1388;
-                            if (arg0 != (temp_t6 + 1)) {
-                                goto block_56;
-                            }
-                            /* Duplicate return node #136. Try simplifying control flow for better match */
-                            return var_v0;
-                        }
-                        goto block_57;
+
+                if ((sp8[1] == 0) && (sp8[2] == 0) && (sp8[4] == 1)) {
+                    if (arg0 == temp_t6 - 2) {
+                        return 0x2710;
                     }
-block_56:
-block_57:
-                    do {
-                        temp_a0 = &sp10 + var_t1_3;
-                        temp_v0_4 = &(&sp8)[var_t1_3];
-                        var_t1_3 += 1;
-                        *temp_a0 = (u8) *temp_v0_4;
-                    } while (var_t1_3 < 7);
-                    var_t1_4 = 0;
-                    var_t2 = &sp8;
-                    var_t3 = &D_80093448_cn;
-loop_60:
-                    if (*var_t2 == 0) {
-                        *var_t2 = 1;
+                }
+
+                if ((sp8[0] == 1) && (sp8[1] == 0) && (sp8[2] == 0)) {
+                    if (arg0 == temp_t6 - 2) {
+                        return 0x2710;
+                    }
+                }
+
+                if ((sp8[2] == 1) && (sp8[4] == 0) && (sp8[5] == 0)) {
+                    if (arg0 == temp_t6 + 1) {
+                        return 0x2710;
+                    }
+                }
+
+                if ((sp8[4] == 0) && (sp8[5] == 0) && (sp8[6] == 1)) {
+                    if (arg0 == temp_t6 + 1) {
+                        return 0x2710;
+                    }
+                }
+
+                if ((sp8[4] == 1) && (sp8[5] == 0) && (sp8[6] == 0)) {
+                    if (arg0 == temp_t6 + 2) {
+                        return 0x2710;
+                    }
+                }
+
+                if ((sp8[1] == 0) && (sp8[2] == 0)) {
+                    if (arg0 == temp_t6 - 2) {
+                        return 0x1388;
+                    }
+                }
+
+                if ((sp8[4] == 0) && (sp8[5] == 0)) {
+                    if (arg0 == temp_t6 + 1) {
+                        return 0x1388;
+                    }
+                }
+            }
+
+            for (var_t1 = 0; var_t1 < 7; var_t1++) {
+                sp10[var_t1] = sp8[var_t1];
+            }
+
+            for (var_t1 = 0; var_t1 < 7; var_t1++) {
+                if (sp8[var_t1] != 0) {
+                    continue;
+                }
+
+                sp8[var_t1] = 1;
+                var_t0 = 0;
+
+                for (var_a0_2 = 0; var_a0_2 < 7; var_a0_2++) {
+                    var_t0 += 1;
+                    if (sp8[var_a0_2] != 1) {
                         var_t0 = 0;
-                        var_a0_2 = 0;
-                        var_v0_6 = &sp8;
-loop_62:
-                        var_t0 += 1;
-                        if (*var_v0_6 != 1) {
-                            var_t0 = 0;
-                        }
-                        if ((var_t0 < 4) || (var_v0 = 0x1388, (arg0 != (temp_t6 + *var_t3)))) {
-                            var_a0_2 += 1;
-                            var_v0_6 = &(&sp8)[var_a0_2];
-                            if (var_a0_2 >= 7) {
-                                *var_t2 = 0;
-                                goto block_68;
-                            }
-                            goto loop_62;
-                        }
-                        /* Duplicate return node #136. Try simplifying control flow for better match */
-                        return var_v0;
                     }
-block_68:
-                    var_t2 += 1;
-                    var_t1_4 += 1;
-                    var_t3 += 4;
-                    if (var_t1_4 >= 7) {
-                        goto block_69;
+
+                    if ((var_t0 >= 4) && (arg0 == temp_t6 + tbl_2973[var_t1])) {
+                        return 0x1388;
                     }
-                    goto loop_60;
                 }
-                /* Duplicate return node #136. Try simplifying control flow for better match */
-                return var_v0;
+
+                sp8[var_t1] = 0;
             }
-block_69:
-            if (arg0 == temp_t6) {
-                var_t1_5 = 0;
-                do {
-                    temp_v0_5 = &(&sp8)[var_t1_5];
-                    var_t1_5 += 1;
-                    *temp_v0_5 = -1;
-                } while (var_t1_5 < 8);
-                var_t1_6 = -3;
-                var_a0_3 = &sp8;
-                do {
-                    temp_v1_2 = temp_t8 + var_t1_6;
-                    if (temp_v1_2 < 0x11U) {
-                        temp_v0_6 = *((temp_t6 * 2) + (temp_v1_2 * 0x10) + aiFieldData);
-                        if (temp_v0_6 == arg2) {
-                            *var_a0_3 = 1;
-                        } else if (temp_v0_6 == 3) {
-                            *var_a0_3 = 0;
+        }
+
+        if (arg0 == temp_t6) {
+            temp = 0;
+
+            for (var_t1 = 0; var_t1 < 8; var_t1++) {
+                sp8[var_t1] = -1;
+            }
+
+            for (var_t1 = -3; var_t1 < 4; var_t1++) {
+                if ((temp_t8 + var_t1 >= 0) && (temp_t8 + var_t1 < 0x11)) {
+                    if (aiFieldData[temp_t8 + var_t1][temp_t6].unk_0 != arg2) {
+                        if (aiFieldData[temp_t8 + var_t1][temp_t6].unk_0 == 3) {
+                            sp8[temp] = 0;
                         } else {
-                            goto block_79;
+                            sp8[temp] = -1;
                         }
                     } else {
-block_79:
-                        *var_a0_3 = -1;
+                        sp8[temp] = 1;
                     }
-                    var_t1_6 += 1;
-                    var_a0_3 += 1;
-                } while (var_t1_6 < 4);
-                if ((arg4 == 1) && (arg3 == 0)) {
-                    if (sp8 == 0) {
-                        if (sp9 == 0) {
-                            if (spA == (s8) 1) {
-                                var_v0 = 0x2710;
-                                if (arg1 != (temp_t8 - 2)) {
-                                    goto block_87;
-                                }
-                                /* Duplicate return node #136. Try simplifying control flow for better match */
-                                return var_v0;
-                            }
-                            goto block_88;
-                        }
-                        goto block_92;
-                    }
-block_87:
-block_88:
-                    if (sp9 == 0) {
-                        var_v0_7 = (u8) sp8 << 0x18;
-                        if (spA == 0) {
-                            var_v0_7 = (u8) sp8 << 0x18;
-                            if (spC == (s8) 1) {
-                                var_v0 = 0x2710;
-                                if (arg1 != (temp_t8 - 1)) {
-                                    goto block_92;
-                                }
-                                /* Duplicate return node #136. Try simplifying control flow for better match */
-                                return var_v0;
-                            }
-                        }
-                        goto block_93;
-                    }
-block_92:
-                    var_v0_7 = (u8) sp8 << 0x18;
-block_93:
-                    if ((var_v0_7 >> 0x18) == 1) {
-                        var_v0_8 = (u8) spA << 0x18;
-                        if ((u8) sp9 == 0) {
-                            var_v0_9 = (s8) (u8) spA;
-                            if ((u8) spA == 0) {
-                                var_v0 = 0x2710;
-                                if (arg1 != (temp_t8 - 1)) {
-                                    goto block_97;
-                                }
-                                /* Duplicate return node #136. Try simplifying control flow for better match */
-                                return var_v0;
-                            }
-                            goto block_99;
-                        }
-                        goto block_98;
-                    }
-block_97:
-                    var_v0_8 = (u8) spA << 0x18;
-block_98:
-                    var_v0_9 = (s8) (var_v0_8 >> 0x18);
-block_99:
-                    if (var_v0_9 == (s8) 1) {
-                        var_v0_10 = (u8) spC << 0x18;
-                        if ((u8) spC == 0) {
-                            if ((spD != 0) || (var_v0 = 0x2710, (arg1 != (temp_t8 + 2)))) {
-                                goto block_103;
-                            }
-                            /* Duplicate return node #136. Try simplifying control flow for better match */
-                            return var_v0;
-                        }
-                        goto block_107;
-                    }
-block_103:
-                    var_v0_10 = (u8) spC << 0x18;
-                    if (((u8) spC != 0) || (var_v0_10 = (u8) spC << 0x18, (spD != 0)) || (var_v0_10 = (u8) spC << 0x18, (spE != (s8) 1)) || (var_v0_10 = (u8) spC << 0x18, (arg1 != (temp_t8 + 2)))) {
-block_107:
-                        if ((((var_v0_10 >> 0x18) != 1) || (spD != 0) || (spE != 0) || (var_v0 = 0x2710, (arg1 != (temp_t8 + 3)))) && (((u8) sp9 != 0) || ((u8) spA != 0) || (var_v0 = 0x1388, (arg1 != (temp_t8 - 1)))) && (((u8) spC != 0) || (spD != 0) || (var_v0 = 0x1388, (arg1 != (temp_t8 + 2))))) {
-                            goto block_117;
-                        }
-                        /* Duplicate return node #136. Try simplifying control flow for better match */
-                        return var_v0;
-                    }
-block_45:
-                    return 0x2710;
+                } else {
+                    sp8[temp] = -1;
                 }
-block_117:
-                var_t1_7 = 0;
-                do {
-                    temp_a0_2 = &sp10 + var_t1_7;
-                    temp_v0_7 = &(&sp8)[var_t1_7];
-                    var_t1_7 += 1;
-                    *temp_a0_2 = (u8) *temp_v0_7;
-                } while (var_t1_7 < 7);
-                var_t1_8 = 0;
-                var_t2_2 = &sp8;
-                var_t3_2 = &D_80093448_cn;
-loop_120:
-                if (*var_t2_2 == 0) {
-                    *var_t2_2 = 1;
-                    var_t0_2 = 0;
-                    var_a0_4 = 0;
-                    var_v0_11 = &sp8;
-loop_122:
-                    var_t0_2 += 1;
-                    if (*var_v0_11 != 1) {
-                        var_t0_2 = 0;
-                    }
-                    if (var_t0_2 < 4) {
-                        var_a0_4 += 1;
-                        goto block_131;
-                    }
-                    if (arg1 != (temp_t8 + *var_t3_2)) {
-                        var_a0_4 += 1;
-block_131:
-                        var_v0_11 = &(&sp8)[var_a0_4];
-                        if (var_a0_4 >= 7) {
-                            *var_t2_2 = 0;
-                            goto block_133;
-                        }
-                        goto loop_122;
-                    }
-                    return 0x1388;
-                }
-block_133:
-                var_t2_2 += 1;
-                var_t1_8 += 1;
-                var_t3_2 += 4;
-                if (var_t1_8 >= 7) {
-                    goto block_134;
-                }
-                goto loop_120;
+                temp++;
             }
-            goto block_134;
+
+            if ((arg4 == 1) && (arg3 == 0)) {
+                if ((sp8[0] == 0) && (sp8[1] == 0) && (sp8[2] == 1)) {
+                    if (arg1 == (temp_t8 - 2)) {
+                        return 0x2710;
+                    }
+                }
+
+                if ((sp8[1] == 0) && (sp8[2] == 0) && (sp8[4] == 1)) {
+                    if (arg1 == (temp_t8 - 1)) {
+                        return 0x2710;
+                    }
+                }
+
+                if ((sp8[0] == 1) && (sp8[1] == 0) && (sp8[2] == 0)) {
+                    if (arg1 == (temp_t8 - 1)) {
+                        return 0x2710;
+                    }
+                }
+
+                if ((sp8[2] == 1) && (sp8[4] == 0) && (sp8[5] == 0)) {
+                    if (arg1 == temp_t8 + 2) {
+                        return 0x2710;
+                    }
+                }
+
+                if ((sp8[4] == 0) && (sp8[5] == 0) && (sp8[6] == 1)) {
+                    if (arg1 == temp_t8 + 2) {
+                        return 0x2710;
+                    }
+                }
+
+                if ((sp8[4] == 1) && (sp8[5] == 0) && (sp8[6] == 0)) {
+                    if (arg1 == temp_t8 + 3) {
+                        return 0x2710;
+                    }
+                }
+
+                if ((sp8[1] == 0) && (sp8[2] == 0)) {
+                    if (arg1 == temp_t8 - 1) {
+                        return 0x1388;
+                    }
+                }
+
+                if ((sp8[4] == 0) && (sp8[5] == 0)) {
+                    if (arg1 == temp_t8 + 2) {
+                        return 0x1388;
+                    }
+                }
+            }
+
+            for (var_t1 = 0; var_t1 < 7; var_t1++) {
+                sp10[var_t1] = sp8[var_t1];
+            }
+
+            for (var_t1 = 0; var_t1 < 7; var_t1++) {
+                if (sp8[var_t1] != 0) {
+                    continue;
+                }
+
+                sp8[var_t1] = 1;
+                var_t0 = 0;
+
+                for (var_a0_2 = 0; var_a0_2 < 7; var_a0_2++) {
+                    if (sp8[var_a0_2] != 1) {
+                        var_t0 = 0;
+                    } else {
+                        var_t0 += 1;
+                    }
+
+                    if (var_t0 < 4) {
+                        continue;
+                    }
+                    if (arg1 == (temp_t8 + tbl_2973[var_t1])) {
+                        return 0x1388;
+                    }
+                }
+
+                sp8[var_t1] = 0;
+            }
         }
-block_134:
-        var_s2 += 1;
-        var_a3 += 0xC;
-        if (var_s2 >= pGameState->unk_164) {
-            goto block_135;
-        }
-        goto loop_2;
     }
-block_135:
-    var_v0 = 0;
-    return var_v0;
+
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", search_flash_3);
-#endif
 #endif
 
 extern s32 delpos_tbl[];

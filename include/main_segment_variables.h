@@ -70,7 +70,7 @@ extern u8 capsCCnv_123[];
 // extern UNK_TYPE D_800885D6;
 // extern UNK_TYPE D_800885D8;
 // extern UNK_TYPE D_800885F8;
-// extern UNK_TYPE D_80088638;
+// extern UNK_TYPE tbl_2973;
 extern struct_ai_param ai_param_org[AI_PARAM_LEN1][AI_PARAM_LEN2];
 extern struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN];
 
