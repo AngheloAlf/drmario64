@@ -4661,13 +4661,9 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifKeyOut);
 #endif
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", search_flash_3);
-#endif
-
 extern s32 tbl_2973[];
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s8 sp8[8];
     s8 sp10[8];
@@ -4773,9 +4769,10 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                 var_t0 = 0;
 
                 for (var_a0_2 = 0; var_a0_2 < 7; var_a0_2++) {
-                    var_t0 += 1;
                     if (sp8[var_a0_2] != 1) {
                         var_t0 = 0;
+                    } else {
+                        var_t0 += 1;
                     }
 
                     if ((var_t0 >= 4) && (arg0 == temp_t6 + tbl_2973[var_t1])) {
