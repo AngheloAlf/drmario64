@@ -2360,8 +2360,8 @@ extern u16 aiHiErY;
 extern u16 aiHiErR;
 extern u16 aiHiEraseCtr;
 extern s16 D_8008856A;
-extern s16 D_800885D2;
-extern s16 D_800885D4;
+extern s16 RensaP;
+extern s16 RensaMP;
 
 void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
     struct_game_state_data *sp2C;
@@ -2542,7 +2542,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                 }
                 temp_v0_5 = aifSearchLineMS(temp_s3, var_a1, var_a2, var_a3);
                 var_t1_2 = sp90;
-                if ((temp_v0_5 != 0) && (D_800885D2 != 0)) {
+                if ((temp_v0_5 != 0) && (RensaP != 0)) {
                     if (temp_v0_5 == 2) {
                         temp_s0 = var_s5;
                         var_s5 = var_s2;
@@ -2640,9 +2640,9 @@ block_53:
                             temp_s3->unk_8 = var_a1_2;
                             if (sp5F != 0) {
                                 if ((((sp67 != 0) | (sp6F != 0)) != 0) || (var_s0 & 0xFF)) {
-                                    var_v0 = var_a1_2 + (D_800885D2 * sp5F);
+                                    var_v0 = var_a1_2 + (RensaP * sp5F);
                                 } else {
-                                    var_v0 = var_a1_2 + (D_800885D2 * sp5F);
+                                    var_v0 = var_a1_2 + (RensaP * sp5F);
                                 }
                                 goto block_88;
                             }
@@ -2653,7 +2653,7 @@ block_68:
                             } else {
 block_86:
                                 if (sp3F >= 3U) {
-                                    var_v0 = var_a1_2 + D_800885D4;
+                                    var_v0 = var_a1_2 + RensaMP;
 block_88:
                                     temp_s3->unk_8 = var_v0;
                                 }
@@ -2664,9 +2664,9 @@ block_88:
                             temp_s3->unk_8 = var_a1_2;
                             if (sp67 != 0) {
                                 if ((((sp5F != 0) | (sp6F != 0)) != 0) || (var_s0 & 0xFF)) {
-                                    var_v0 = var_a1_2 + (D_800885D2 * sp67);
+                                    var_v0 = var_a1_2 + (RensaP * sp67);
                                 } else {
-                                    var_v0 = var_a1_2 + (D_800885D2 * sp67);
+                                    var_v0 = var_a1_2 + (RensaP * sp67);
                                 }
                                 goto block_88;
                             }
@@ -2677,9 +2677,9 @@ block_88:
                             temp_s3->unk_8 = var_a1_2;
                             if (sp6F != 0) {
                                 if ((((sp67 != 0) | (sp5F != 0)) != 0) || (var_s0 & 0xFF)) {
-                                    var_v0 = var_a1_2 + (D_800885D2 * sp6F);
+                                    var_v0 = var_a1_2 + (RensaP * sp6F);
                                 } else {
-                                    var_v0 = var_a1_2 + (D_800885D2 * sp6F);
+                                    var_v0 = var_a1_2 + (RensaP * sp6F);
                                 }
                                 goto block_88;
                             }
@@ -3197,13 +3197,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
 #endif
 #endif
 
-#if VERSION_US
-/**
- * Original name: aiSetCharacter
- */
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aiSetCharacter);
-#endif
-
 extern s16 EraseLinP[];
 
 extern u16 AloneCapP[];
@@ -3216,12 +3209,15 @@ extern s32 OnVirusP_org;
 extern f32 WidEraseLinRate;
 extern s8 aiWall;
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: aiSetCharacter
+ */
 void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
     u8 var_a0_8;
     s32 var_a1_2;
     u8 var_a2_3;
-    s32 var_a3_4;
+    u8 var_a3_4;
     s32 var_s0;
     struct_ai_char_data *temp_s2;
     u8 var_s3;
@@ -3238,7 +3234,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
         s32 dummy = gameStateDataRef->unk_29A;
 
         if (dummy < 0x18) {
-            dummy++;
+            dummy = 1;
         }
     }
 
@@ -3370,17 +3366,14 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
     } else if (aiRootP < 4.0) {
         var_s5 = 1;
     } else if (((gameStateDataRef->unk_29B < 7) && (var_a3_4 != 0)) || (var_t0_2 < 3)) {
-        if (var_t0_2 != 0) {
-            var_s5 = 2;
-        } else {
-            var_s5 = 3;
-            if (var_t3_2 >= var_a2_3 - 4) {
-                if (var_t3_2 >= 9) {
-                    var_s5 = 4;
-                } else {
-                    var_s5 = 3;
-                }
+        if ((var_t0_2 != 0) || (var_t3_2 < var_a2_3 - 4) || (var_t3_2 < 9)) {
+            if (var_t0_2 != 0) {
+                var_s5 = 2;
+            } else {
+                var_s5 = 3;
             }
+        } else {
+            var_s5 = 4;
         }
     } else {
         if (var_s3 == 2) {
