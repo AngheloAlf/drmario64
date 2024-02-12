@@ -4670,11 +4670,11 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 pad[2] UNUSED;
     s32 temp_t6;
     s32 temp_t8;
-    s32 var_a0_2;
-    s32 i;
     s32 var_t0;
-    s32 var_t1;
     s32 temp;
+    s32 i;
+    s32 j;
+    s32 k;
 
     for (i = 0; i < pGameState->unk_164; i++) {
         if (pGameState->unk_0D4.unk_00[i].unk_8 != arg2) {
@@ -4683,16 +4683,17 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
         temp_t6 = pGameState->unk_0D4.unk_00[i].unk_0;
         temp_t8 = pGameState->unk_0D4.unk_00[i].unk_4;
+
         if (arg1 == temp_t8) {
             temp = 0;
-            for (var_t1 = 0; var_t1 < 8; var_t1++) {
-                sp8[var_t1] = -1;
+            for (j = 0; j < 8; j++) {
+                sp8[j] = -1;
             }
 
-            for (var_t1 = -3; var_t1 < 4; var_t1++) {
-                if ((temp_t6 + var_t1 >= 0) && (temp_t6 + var_t1 < 8)) {
-                    if (aiFieldData[temp_t8][temp_t6 + var_t1].unk_0 != arg2) {
-                        if (aiFieldData[temp_t8][temp_t6 + var_t1].unk_0 == 3) {
+            for (j = -3; j < 4; j++) {
+                if ((temp_t6 + j >= 0) && (temp_t6 + j < GAME_MAP_COLUMNS)) {
+                    if (aiFieldData[temp_t8][temp_t6 + j].unk_0 != arg2) {
+                        if (aiFieldData[temp_t8][temp_t6 + j].unk_0 == 3) {
                             sp8[temp] = 0;
                         } else {
                             sp8[temp] = -1;
@@ -4756,45 +4757,45 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                 }
             }
 
-            for (var_t1 = 0; var_t1 < 7; var_t1++) {
-                sp10[var_t1] = sp8[var_t1];
+            for (j = 0; j < 7; j++) {
+                sp10[j] = sp8[j];
             }
 
-            for (var_t1 = 0; var_t1 < 7; var_t1++) {
-                if (sp8[var_t1] != 0) {
+            for (j = 0; j < 7; j++) {
+                if (sp8[j] != 0) {
                     continue;
                 }
 
-                sp8[var_t1] = 1;
+                sp8[j] = 1;
                 var_t0 = 0;
 
-                for (var_a0_2 = 0; var_a0_2 < 7; var_a0_2++) {
-                    if (sp8[var_a0_2] != 1) {
+                for (k = 0; k < 7; k++) {
+                    if (sp8[k] != 1) {
                         var_t0 = 0;
                     } else {
                         var_t0 += 1;
                     }
 
-                    if ((var_t0 >= 4) && (arg0 == temp_t6 + tbl_2973[var_t1])) {
+                    if ((var_t0 >= 4) && (arg0 == temp_t6 + tbl_2973[j])) {
                         return 0x1388;
                     }
                 }
 
-                sp8[var_t1] = 0;
+                sp8[j] = 0;
             }
         }
 
         if (arg0 == temp_t6) {
             temp = 0;
 
-            for (var_t1 = 0; var_t1 < 8; var_t1++) {
-                sp8[var_t1] = -1;
+            for (j = 0; j < 8; j++) {
+                sp8[j] = -1;
             }
 
-            for (var_t1 = -3; var_t1 < 4; var_t1++) {
-                if ((temp_t8 + var_t1 >= 0) && (temp_t8 + var_t1 < 0x11)) {
-                    if (aiFieldData[temp_t8 + var_t1][temp_t6].unk_0 != arg2) {
-                        if (aiFieldData[temp_t8 + var_t1][temp_t6].unk_0 == 3) {
+            for (j = -3; j < 4; j++) {
+                if ((temp_t8 + j >= 0) && (temp_t8 + j < GAME_MAP_ROWS)) {
+                    if (aiFieldData[temp_t8 + j][temp_t6].unk_0 != arg2) {
+                        if (aiFieldData[temp_t8 + j][temp_t6].unk_0 == 3) {
                             sp8[temp] = 0;
                         } else {
                             sp8[temp] = -1;
@@ -4858,20 +4859,20 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                 }
             }
 
-            for (var_t1 = 0; var_t1 < 7; var_t1++) {
-                sp10[var_t1] = sp8[var_t1];
+            for (j = 0; j < 7; j++) {
+                sp10[j] = sp8[j];
             }
 
-            for (var_t1 = 0; var_t1 < 7; var_t1++) {
-                if (sp8[var_t1] != 0) {
+            for (j = 0; j < 7; j++) {
+                if (sp8[j] != 0) {
                     continue;
                 }
 
-                sp8[var_t1] = 1;
+                sp8[j] = 1;
                 var_t0 = 0;
 
-                for (var_a0_2 = 0; var_a0_2 < 7; var_a0_2++) {
-                    if (sp8[var_a0_2] != 1) {
+                for (k = 0; k < 7; k++) {
+                    if (sp8[k] != 1) {
                         var_t0 = 0;
                     } else {
                         var_t0 += 1;
@@ -4880,12 +4881,12 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                     if (var_t0 < 4) {
                         continue;
                     }
-                    if (arg1 == (temp_t8 + tbl_2973[var_t1])) {
+                    if (arg1 == (temp_t8 + tbl_2973[j])) {
                         return 0x1388;
                     }
                 }
 
-                sp8[var_t1] = 0;
+                sp8[j] = 0;
             }
         }
     }
