@@ -286,7 +286,7 @@ extern s32 evs_default_name[];
 extern u16 joycur2; /* Original name: joycur2 */
 extern STACK(sGraphicStack, 0x2000);
 // extern UNK_TYPE aiHiErB;
-// extern UNK_TYPE B_800F3E32;
+// extern UNK_TYPE aiPriOfs;
 // extern UNK_TYPE aiRollFinal;
 extern OSMesgQueue B_800F3E38;
 extern struct_watchGame *watchGame;

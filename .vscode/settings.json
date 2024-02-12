@@ -18,5 +18,11 @@
         "*.md": "markdown",
         "typeinfo": "c"
     },
-    "python.terminal.activateEnvironment": true
+    "python.terminal.activateEnvironment": true,
+    "favorites.resources": [
+        {
+            "filePath": "puzzle_collection/Dr_MARIO.c",
+            "group": "Default"
+        }
+    ]
 }
