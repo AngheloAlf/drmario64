@@ -467,7 +467,7 @@ segments:
       - [0x016350, c, main_segment/main1x]
       - [0x017060, c, main_segment/vr_init]
       - [0x017330, asm, main_segment/aiset]
-      - [0x01EDE0, asm, main_segment/record]
+      - [0x01EDE0, c, main_segment/record]
       - [0x021720, asm, main_segment/020D10]
       - [0x0231D0, c, main_segment/game_etc]
 
@@ -514,6 +514,8 @@ segments:
       - [0x071000, .data, main_segment/main1x]
       - [0x071080, .data, main_segment/vr_init]
       - [0x071090, data, main_segment/071090]
+      - [0x0723A0, data, main_segment/0723A0]
+      - [0x075BA0, data, main_segment/075BA0]
 
       - start: 0x075ED0
         type: .data
@@ -546,7 +548,7 @@ segments:
       - [0x095900, .rodata, main_segment/graphic]
       - [0x095920, .rodata, main_segment/main1x]
       - [0x095AB0, rodata, main_segment/aiset]
-      - [0x095B50, rodata, main_segment/record]
+      - [0x095B40, .rodata, main_segment/record]
       - [0x095BB0, rodata, main_segment/020D10]
       - [0x095D50, .rodata, main_segment/game_etc]
 

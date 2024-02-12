@@ -45,7 +45,12 @@ const CHAR_SIGNED char eeprom_header[4] = "DM64";
 /**
  * Original name: eeprom_header_bits
  */
-const CHAR_SIGNED char eeprom_header_bits[4] = { 7, 7, 6, 6 };
+const CHAR_SIGNED char eeprom_header_bits[4] = {
+    7, // ceil(log2('D'))
+    7, // ceil(log2('M'))
+    6, // ceil(log2('6'))
+    6, // ceil(log2('4'))
+};
 
 #if CC_CHECK
 #define DEFNAME_LEN
@@ -57,16 +62,13 @@ const CHAR_SIGNED char eeprom_header_bits[4] = { 7, 7, 6, 6 };
  * Original name: static _defName
  */
 const char _defName[DEFNAME_LEN] =
-#if VERSION_US
+#if VERSION_US || VERSION_GW
     "ＮＥＷ　"
 #elif VERSION_CN
     "　　　　"
-#else
-    ""
 #endif
     ;
 
-#if VERSION_US || VERSION_CN
 void func_800365B0(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size) {
     arg0->buffer = buffer;
     arg0->size = size;
@@ -74,16 +76,12 @@ void func_800365B0(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size) {
     arg0->unk_0C = 0;
     arg0->unk_10 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800365C8(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size) {
     bzero(buffer, size);
     func_800365B0(arg0, buffer, size);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: BitField_PutBit
  */
@@ -99,9 +97,7 @@ void BitField_PutBit(struct_800365B0_arg0 *arg0, s32 arg1, u32 arg2) {
         arg0->unk_0C &= 7;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: BitField_GetBit
  */
@@ -119,9 +115,7 @@ s32 BitField_GetBit(struct_800365B0_arg0 *arg0, s32 arg1) {
     arg0->unk_10 += var_t1;
     return var_t1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: dm_init_config_save
  */
@@ -153,9 +147,7 @@ void dm_init_config_save(struct_evs_mem_data_unk_B4 *arg0) {
     arg0->unk_18 = 0;
     arg0->unk_19 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8003678C(struct_evs_cfg_4p *arg0) {
     s32 i;
 
@@ -170,39 +162,29 @@ void func_8003678C(struct_evs_cfg_4p *arg0) {
     arg0->unk_14 = 0;
     arg0->unk_15 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800367E0(struct_evs_mem_data_unk_28 *arg0) {
     arg0->unk_0 = 0;
     arg0->unk_4 = 0;
     arg0->unk_8 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800367F0(struct_evs_mem_data_unk_4C *arg0) {
     arg0->unk_0 = 0;
     arg0->unk_4 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800367FC(struct_evs_mem_data_unk_64 *arg0) {
     arg0->unk_0 = 0;
     arg0->unk_4 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80036808(struct_evs_mem_data_unk_7C *arg0) {
     arg0->unk_0 = 0;
     arg0->unk_4 = 0;
     arg0->unk_8 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: dm_init_save_mem
  */
@@ -260,9 +242,7 @@ void dm_init_save_mem(struct_evs_mem_data *arg0) {
 
     dm_init_config_save(&arg0->unk_B4);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: dm_init_system_mem
  */
@@ -284,9 +264,10 @@ void dm_init_system_mem(void) {
     evs_vs_count = 3;
     evs_score_flag = 1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_story_sort_set
+ */
 void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     struct_evs_mem_data *temp_t3 = &evs_mem_data[arg0];
 
@@ -319,9 +300,10 @@ void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg
     temp_t3->unk_08[arg2][arg1] = MAX(temp_t3->unk_08[arg2][arg1], arg5);
     temp_t3->unk_08[arg2][arg1] = MIN(temp_t3->unk_08[arg2][arg1], 7);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_level_sort_set
+ */
 void dm_level_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     struct_evs_mem_data *ptr = &evs_mem_data[arg0];
     struct_evs_mem_data_unk_4C *temp_a0;
@@ -345,9 +327,10 @@ void dm_level_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         temp_a0->unk_4 = arg3;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_taiQ_sort_set
+ */
 void dm_taiQ_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     struct_evs_mem_data *ptr;
     struct_evs_mem_data_unk_64 *temp_a1;
@@ -373,9 +356,10 @@ void dm_taiQ_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
         temp_a1->unk_4 = arg3;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_timeAt_sort_set
+ */
 void dm_timeAt_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_evs_mem_data *ptr;
     s32 var_a1;
@@ -406,54 +390,57 @@ void dm_timeAt_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         temp_v1->unk_8 = arg4;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_vscom_set
+ */
 void dm_vscom_set(s32 arg0, s32 arg1, s32 arg2) {
     struct_evs_mem_data *temp_a3 = &evs_mem_data[arg0];
 
     temp_a3->unk_A0[0] = MIN(0x63, temp_a3->unk_A0[0] + arg1);
     temp_a3->unk_A0[1] = MIN(0x63, temp_a3->unk_A0[1] + arg2);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_vc_fl_set
+ */
 void dm_vc_fl_set(s32 arg0, s32 arg1, s32 arg2) {
     struct_evs_mem_data *temp_a3 = &evs_mem_data[arg0];
 
     temp_a3->unk_A4[0] = MIN(0x63, temp_a3->unk_A4[0] + arg1);
     temp_a3->unk_A4[1] = MIN(0x63, temp_a3->unk_A4[1] + arg2);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_vsman_set
+ */
 void dm_vsman_set(s32 arg0, s32 arg1, s32 arg2) {
     struct_evs_mem_data *temp_a3 = &evs_mem_data[arg0];
 
     temp_a3->unk_A8[0] = MIN(0x63, temp_a3->unk_A8[0] + arg1);
     temp_a3->unk_A8[1] = MIN(0x63, temp_a3->unk_A8[1] + arg2);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_vm_fl_set
+ */
 void dm_vm_fl_set(s32 arg0, s32 arg1, s32 arg2) {
     struct_evs_mem_data *temp_a3 = &evs_mem_data[arg0];
 
     temp_a3->unk_AC[0] = MIN(0x63, temp_a3->unk_AC[0] + arg1);
     temp_a3->unk_AC[1] = MIN(0x63, temp_a3->unk_AC[1] + arg2);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_vm_ta_set
+ */
 void dm_vm_ta_set(s32 arg0, s32 arg1, s32 arg2) {
     struct_evs_mem_data *temp_a3 = &evs_mem_data[arg0];
 
     temp_a3->unk_B0[0] = MIN(0x63, temp_a3->unk_B0[0] + arg1);
     temp_a3->unk_B0[1] = MIN(0x63, temp_a3->unk_B0[1] + arg2);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 // Maybe arg1 is an enum?
 u8 *func_80036EC8(MenuRank_unk_001C *arg0, u32 arg1, s32 arg2) {
     u8 *ret;
@@ -478,9 +465,7 @@ u8 *func_80036EC8(MenuRank_unk_001C *arg0, u32 arg1, s32 arg2) {
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 u8 *func_80036F1C(MenuRank_unk_001C *arg0, u32 arg1, s32 arg2) {
     u8 *ret;
 
@@ -504,9 +489,10 @@ u8 *func_80036F1C(MenuRank_unk_001C *arg0, u32 arg1, s32 arg2) {
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: _get1PLess
+ */
 bool _get1PLess(struct_evs_mem_data *arg0, struct_evs_mem_data *arg1, u32 arg2, s32 arg3) {
     s32 var_t0;
     s32 var_v1;
@@ -578,10 +564,11 @@ bool _get1PLess(struct_evs_mem_data *arg0, struct_evs_mem_data *arg1, u32 arg2, 
 
     return var_t0 < var_v1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 // TODO: arg1 enum?
+/**
+ * Original name: _sort1PMode
+ */
 void _sort1PMode(MenuRank_unk_001C *arg0, u32 arg1, s32 arg2) {
     struct_evs_mem_data *ptr = evs_mem_data;
     u8 *temp_s6 = func_80036EC8(arg0, arg1, arg2);
@@ -620,9 +607,10 @@ void _sort1PMode(MenuRank_unk_001C *arg0, u32 arg1, s32 arg2) {
         sp18[i] = var_s1;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_data_mode_story_sort
+ */
 void dm_data_mode_story_sort(MenuRank_unk_001C *arg0) {
     s32 i;
 
@@ -630,9 +618,10 @@ void dm_data_mode_story_sort(MenuRank_unk_001C *arg0) {
         _sort1PMode(arg0, 0, i);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_data_mode_level_sort
+ */
 void dm_data_mode_level_sort(MenuRank_unk_001C *arg0) {
     s32 i;
 
@@ -640,9 +629,10 @@ void dm_data_mode_level_sort(MenuRank_unk_001C *arg0) {
         _sort1PMode(arg0, 1, i);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_data_mode_taiQ_sort
+ */
 void dm_data_mode_taiQ_sort(MenuRank_unk_001C *arg0) {
     s32 i;
 
@@ -650,9 +640,10 @@ void dm_data_mode_taiQ_sort(MenuRank_unk_001C *arg0) {
         _sort1PMode(arg0, 2, i);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_data_mode_timeAt_sort
+ */
 void dm_data_mode_timeAt_sort(MenuRank_unk_001C *arg0) {
     s32 i;
 
@@ -660,9 +651,7 @@ void dm_data_mode_timeAt_sort(MenuRank_unk_001C *arg0) {
         _sort1PMode(arg0, 3, i);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 u16 *func_80037378(struct_evs_mem_data *arg0, u32 arg1) {
     u16 *var_v1;
 
@@ -690,9 +679,7 @@ u16 *func_80037378(struct_evs_mem_data *arg0, u32 arg1) {
 
     return var_v1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 u8 *func_800373C8(MenuRank_unk_001C *arg0, u32 arg1) {
     u8 *var_v1;
 
@@ -720,9 +707,7 @@ u8 *func_800373C8(MenuRank_unk_001C *arg0, u32 arg1) {
 
     return var_v1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 u8 *func_80037418(MenuRank_unk_001C *arg0, u32 arg1) {
     u8 *var_v1;
 
@@ -750,9 +735,7 @@ u8 *func_80037418(MenuRank_unk_001C *arg0, u32 arg1) {
 
     return var_v1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 u16 *func_80037468(MenuRank_unk_001C *arg0, u32 arg1) {
     u16 *var_v1;
 
@@ -776,10 +759,11 @@ u16 *func_80037468(MenuRank_unk_001C *arg0, u32 arg1) {
 
     return var_v1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 // TODO: arg1 enum?
+/**
+ * Original name: _sortVsMode
+ */
 void _sortVsMode(MenuRank_unk_001C *arg0, u32 arg1) {
     struct_evs_mem_data *ptr = evs_mem_data;
     u8 *temp_s4 = func_800373C8(arg0, arg1);
@@ -838,39 +822,42 @@ void _sortVsMode(MenuRank_unk_001C *arg0, u32 arg1) {
         temp_s7[i] = var_a0;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_data_vscom_sort
+ */
 void dm_data_vscom_sort(MenuRank_unk_001C *arg0) {
     _sortVsMode(arg0, 0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_data_vc_fl_sort
+ */
 void dm_data_vc_fl_sort(MenuRank_unk_001C *arg0) {
     _sortVsMode(arg0, 1);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_data_vsman_sort
+ */
 void dm_data_vsman_sort(MenuRank_unk_001C *arg0) {
     _sortVsMode(arg0, 2);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_data_vm_fl_sort
+ */
 void dm_data_vm_fl_sort(MenuRank_unk_001C *arg0) {
     _sortVsMode(arg0, 3);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_data_vm_ta_sort
+ */
 void dm_data_vm_ta_sort(MenuRank_unk_001C *arg0) {
     _sortVsMode(arg0, 4);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8003779C(u8 arg0[4], s32 *arg1, s32 *arg2) {
     s32 var_t1 = 0;
     s32 var_t0 = 0;
@@ -892,9 +879,7 @@ void func_8003779C(u8 arg0[4], s32 *arg1, s32 *arg2) {
     *arg1 = var_t0;
     *arg2 = var_t1 - var_t0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80037808(struct_800365B0_arg0 *arg0) {
     BitField_PutBit(arg0, 1, evs_stereo != 0);
     BitField_PutBit(arg0, 1, evs_secret_flg[0] != 0);
@@ -903,9 +888,7 @@ void func_80037808(struct_800365B0_arg0 *arg0) {
     BitField_PutBit(arg0, 2, evs_vs_count);
     BitField_PutBit(arg0, 1, evs_score_flag != 0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800378B0(struct_800365B0_arg0 *arg0) {
     evs_stereo = BitField_GetBit(arg0, 1);
     evs_secret_flg[0] = BitField_GetBit(arg0, 1);
@@ -915,9 +898,7 @@ void func_800378B0(struct_800365B0_arg0 *arg0) {
     evs_score_flag = BitField_GetBit(arg0, 1);
     dm_audio_set_stereo(evs_stereo);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80037950(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v1 = &evs_mem_data[arg1];
     s32 i;
@@ -928,9 +909,7 @@ void func_80037950(struct_800365B0_arg0 *arg0, s32 arg1) {
         BitField_PutBit(arg0, 8, temp_v1->unk_01[i]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800379D4(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_s0 = &evs_mem_data[arg1];
     s32 i;
@@ -940,9 +919,7 @@ void func_800379D4(struct_800365B0_arg0 *arg0, s32 arg1) {
         temp_s0->unk_01[i] = BitField_GetBit(arg0, 8);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RecStory_Compress
  */
@@ -966,9 +943,7 @@ void RecStory_Compress(struct_800365B0_arg0 *arg0, s32 arg1) {
         BitField_PutBit(arg0, 4, temp->unk_8);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RecStory_Extract
  */
@@ -993,9 +968,7 @@ void RecStory_Extract(struct_800365B0_arg0 *arg0, s32 arg1) {
         temp_s0->unk_8 = BitField_GetBit(arg0, 4);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80037C7C(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1007,9 +980,7 @@ void func_80037C7C(struct_800365B0_arg0 *arg0, s32 arg1) {
         BitField_PutBit(arg0, 7, temp->unk_4);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80037D40(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1021,9 +992,7 @@ void func_80037D40(struct_800365B0_arg0 *arg0, s32 arg1) {
         temp->unk_4 = BitField_GetBit(arg0, 7);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80037DF0(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1035,9 +1004,7 @@ void func_80037DF0(struct_800365B0_arg0 *arg0, s32 arg1) {
         BitField_PutBit(arg0, 0xD, temp->unk_4);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80037EB4(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1049,9 +1016,7 @@ void func_80037EB4(struct_800365B0_arg0 *arg0, s32 arg1) {
         temp->unk_4 = BitField_GetBit(arg0, 0xD);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80037F64(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1064,9 +1029,7 @@ void func_80037F64(struct_800365B0_arg0 *arg0, s32 arg1) {
         BitField_PutBit(arg0, 6, temp->unk_8);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80038038(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1079,9 +1042,7 @@ void func_80038038(struct_800365B0_arg0 *arg0, s32 arg1) {
         temp->unk_8 = BitField_GetBit(arg0, 6);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800380F0(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1090,9 +1051,7 @@ void func_800380F0(struct_800365B0_arg0 *arg0, s32 arg1) {
         BitField_PutBit(arg0, 7, temp_v0->unk_A0[i]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80038168(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1101,9 +1060,7 @@ void func_80038168(struct_800365B0_arg0 *arg0, s32 arg1) {
         temp_v0->unk_A0[i] = BitField_GetBit(arg0, 7);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800381DC(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1112,9 +1069,7 @@ void func_800381DC(struct_800365B0_arg0 *arg0, s32 arg1) {
         BitField_PutBit(arg0, 7, temp_v0->unk_A4[i]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80038254(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1123,9 +1078,7 @@ void func_80038254(struct_800365B0_arg0 *arg0, s32 arg1) {
         temp_v0->unk_A4[i] = BitField_GetBit(arg0, 7);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800382C8(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1134,9 +1087,7 @@ void func_800382C8(struct_800365B0_arg0 *arg0, s32 arg1) {
         BitField_PutBit(arg0, 7, temp_v0->unk_A8[i]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80038340(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1145,9 +1096,7 @@ void func_80038340(struct_800365B0_arg0 *arg0, s32 arg1) {
         temp_v0->unk_A8[i] = BitField_GetBit(arg0, 7);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800383B4(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1156,9 +1105,7 @@ void func_800383B4(struct_800365B0_arg0 *arg0, s32 arg1) {
         BitField_PutBit(arg0, 7, temp_v0->unk_AC[i]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8003842C(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1167,9 +1114,7 @@ void func_8003842C(struct_800365B0_arg0 *arg0, s32 arg1) {
         temp_v0->unk_AC[i] = BitField_GetBit(arg0, 7);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800384A0(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1178,9 +1123,7 @@ void func_800384A0(struct_800365B0_arg0 *arg0, s32 arg1) {
         BitField_PutBit(arg0, 7, temp_v0->unk_B0[i]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80038518(struct_800365B0_arg0 *arg0, s32 arg1) {
     struct_evs_mem_data *temp_v0 = &evs_mem_data[arg1];
     s32 i;
@@ -1189,9 +1132,10 @@ void func_80038518(struct_800365B0_arg0 *arg0, s32 arg1) {
         temp_v0->unk_B0[i] = BitField_GetBit(arg0, 7);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: RecAll_Compress
+ */
 void RecAll_Compress(struct_800365B0_arg0 *arg0) {
     s32 i;
 
@@ -1221,9 +1165,10 @@ void RecAll_Compress(struct_800365B0_arg0 *arg0) {
         BitField_PutBit(arg0, eeprom_header_bits[i], eeprom_header[i]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: RecAll_Extract
+ */
 s32 RecAll_Extract(struct_800365B0_arg0 *arg0, char arg1[4]) {
     s32 var_s4 = 0;
     s32 i;
@@ -1267,9 +1212,7 @@ s32 RecAll_Extract(struct_800365B0_arg0 *arg0, char arg1[4]) {
 
     return var_s4;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: EepRom_Init
  */
@@ -1285,9 +1228,7 @@ EepRomStatus EepRom_Init(void) {
 
     return EepRom_ReadAll();
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: EepRom_InitFirst
  */
@@ -1303,9 +1244,7 @@ EepRomStatus EepRom_InitFirst(EepRom_WriteDif_arg3 arg0, void *arg1) {
 
     return EepRom_WriteAll(arg0, arg1);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: EepRom_InitVars
  */
@@ -1319,9 +1258,7 @@ void EepRom_InitVars(void) {
         dm_init_save_mem(&evs_mem_data[i]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 u8 *func_80038938(bool arg0) {
     if (!_cached_1332 || arg0) {
         _cached_1332 = !osEepromLongRead(&B_800F3E38, 0, _cache_1333, sizeof(_cache_1333));
@@ -1329,9 +1266,10 @@ u8 *func_80038938(bool arg0) {
 
     return _cached_1332 ? _cache_1333 : NULL;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: EepRom_WriteDif
+ */
 EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_arg3 arg3, void *arg4) {
     u8 *var_s2 = arg0;
     u8 *var_s1 = arg1;
@@ -1355,9 +1293,10 @@ EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_ar
 
     return EEPROM_STATUS_0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: EepRom_ReadAll
+ */
 EepRomStatus EepRom_ReadAll(void) {
     struct_800365B0_arg0 sp10;
     char sp28[4];
@@ -1380,9 +1319,7 @@ EepRomStatus EepRom_ReadAll(void) {
     }
     return EEPROM_STATUS_5;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: EepRom_WriteAll
  */
@@ -1406,22 +1343,19 @@ EepRomStatus EepRom_WriteAll(EepRom_WriteDif_arg3 arg0, void *arg1) {
     bcopy(sp38, __dest, sizeof(sp38));
     return EEPROM_STATUS_0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: EepRom_DumpErrMes
+ */
 void EepRom_DumpErrMes(EepRomStatus status UNUSED) {
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: EepRom_DumpDataSize
  */
 void EepRom_DumpDataSize(void) {
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RecWritingMsg_init
  */
@@ -1432,9 +1366,7 @@ void RecWritingMsg_init(RecordWritingMessage *recMessage, UNK_PTR *arg1) {
     recMessage->unk_84 = 0x78;
     recMessage->unk_80 = 0x78;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RecWritingMsg_setStr
  */
@@ -1443,9 +1375,7 @@ void RecWritingMsg_setStr(RecordWritingMessage *recMessage, const char *arg1) {
     msgWnd_addStr(&recMessage->messageWnd, arg1);
     msgWnd_skip(&recMessage->messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RecWritingMsg_calc
  */
@@ -1457,9 +1387,7 @@ void RecWritingMsg_calc(RecordWritingMessage *recMessage) {
     msgWnd_update(&recMessage->messageWnd);
     recMessage->unk_84++;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RecWritingMsg_draw
  */
@@ -1487,36 +1415,28 @@ void RecWritingMsg_draw(RecordWritingMessage *recMessage, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RecWritingMsg_start
  */
 void RecWritingMsg_start(RecordWritingMessage *recMessage) {
     recMessage->unk_84 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RecWritingMsg_end
  */
 void RecWritingMsg_end(RecordWritingMessage *recMessage) {
     recMessage->unk_84 = recMessage->unk_80;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RecWritingMsg_isEnd
  */
 bool RecWritingMsg_isEnd(RecordWritingMessage *recMessage) {
     return recMessage->unk_84 >= recMessage->unk_80;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RecWritingMsg_setPos
  */
@@ -1524,9 +1444,10 @@ void RecWritingMsg_setPos(RecordWritingMessage *recMessage, s32 arg1, s32 arg2) 
     recMessage->messageWnd.unk_28 = arg1;
     recMessage->messageWnd.unk_2C = arg2;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: setSleepTimer
+ */
 void setSleepTimer(s32 milliseconds) {
     OSMesgQueue mq;
     OSTimer timer;
@@ -1536,4 +1457,3 @@ void setSleepTimer(s32 milliseconds) {
     osSetTimer(&timer, OS_USEC_TO_CYCLES(milliseconds * 1000), 0, &mq, NULL);
     osRecvMesg(&mq, NULL, OS_MESG_BLOCK);
 }
-#endif
