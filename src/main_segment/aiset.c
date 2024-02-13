@@ -56,6 +56,18 @@ extern u8 aiRollFinal;
 
 extern u8 aiSelCom;
 
+extern s16 EraseLinP[];
+
+extern s16 AloneCapP[];
+extern s16 AloneCapWP[];
+
+extern f32 HeiEraseLinRate;
+extern s16 LPriP;
+extern s32 OnVirusP;
+extern s32 OnVirusP_org;
+extern f32 WidEraseLinRate;
+extern u8 aiWall;
+
 // no original name :c
 void func_8002EB00(struct_game_state_data *gameStateDataRef) {
     gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.unk_0[0];
@@ -1638,709 +1650,399 @@ bool func_800336A4_cn(s32 arg0 UNUSED, s32 arg1) {
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifSearchLineMS);
 #endif
 
-#if VERSION_CN
-#if 0
-s32 aifEraseLineCore(s32, s32);                     /* extern */
-s32 aifSearchLineCore(s32, s32, ?, s8 *);            /* extern */
-s32 aifMiniPointK3(s8 *, u8, s8 *, ?, s32, s32);  /* extern */
-s8 aifMiniAloneCapNumber(s32, s32, s32, s32);            /* extern */
-s8 aifMiniAloneCapNumberW(s32, s32, s32, s32);            /* extern */
-s32 flash_virus(s32, s32);                     /* extern */
-s32 search_Vflash(s32, s32, s32, s8 *);          /* extern */
-extern u8 aiWall;
-extern s32 OnVirusP_org;
-extern ? hei_data;
-extern ? wid_data;
-extern ? bad_point;
-extern ? bad_point2;
-extern ? EraseLinP;
-extern f32 HeiEraseLinRate;
-extern f32 WidEraseLinRate;
-extern ? AloneCapP;
-extern ? AloneCapWP;
-extern s32 OnVirusP;
-extern s16 LPriP;
-extern ? WallRate;
+extern s16 WallRate[][8];
+extern s16 bad_point[];
+extern s16 bad_point2[];
 
+#if VERSION_CN
+#ifdef NON_EQUIVALENT
 s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
-    ? sp20;
-    s32 sp28;
-    s32 sp2C;
+    u8 sp20[8];
+    enum bool sp28;
+    enum bool sp2C;
     s32 sp30;
-    u8 *sp34;
-    s32 sp38;
-    s32 sp3C;
-    s32 sp40;
-    s8 *sp44;
-    s8 *sp48;
-    ? var_a2_3;
-    s16 temp_a0_8;
-    s16 temp_v0_11;
-    s16 temp_v1_5;
-    s16 temp_v1_6;
-    s32 temp_a0_3;
-    s32 temp_a0_4;
-    s32 temp_a0_6;
-    s32 temp_a0_7;
-    s32 temp_a1_3;
-    s32 temp_a1_6;
-    s32 temp_a3_2;
-    s32 temp_fp_2;
-    s32 temp_s0;
-    s32 temp_s0_2;
-    s32 temp_s0_3;
-    s32 temp_s1;
-    s32 temp_s1_2;
-    s32 temp_s2;
-    s32 temp_s2_2;
-    s32 temp_s6;
-    s32 temp_t8_3;
-    s32 temp_v0_10;
-    s32 temp_v0_2;
-    s32 temp_v0_4;
-    s32 temp_v0_5;
-    s32 temp_v0_6;
-    s32 temp_v0_7;
-    s32 temp_v0_9;
-    s32 temp_v1_7;
     s32 var_a0;
-    s32 var_a1_2;
     s32 var_a2;
     s32 var_a2_2;
-    s32 var_a2_4;
-    s32 var_a2_5;
-    s32 var_a2_6;
-    s32 var_a2_7;
-    s32 var_a2_8;
-    s32 var_lo;
-    s32 var_s0_2;
+    s32 var_a2_3;
+    s32 var_s0;
     s32 var_s0_3;
-    s32 var_s0_4;
     s32 var_s1;
-    s32 var_s1_10;
-    s32 var_s1_2;
-    s32 var_s1_3;
-    s32 var_s1_4;
-    s32 var_s1_5;
-    s32 var_s1_6;
-    s32 var_s1_7;
-    s32 var_s1_8;
-    s32 var_s1_9;
     s32 var_s2;
     s32 var_s4;
     s32 var_s4_2;
-    s32 var_s7;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    s32 var_v0_4;
-    s32 var_v0_5;
-    s8 *temp_a0;
-    s8 *temp_a1;
-    s8 *temp_a1_2;
-    s8 *temp_a1_4;
-    s8 *temp_fp;
-    s8 *temp_s1_3;
-    s8 *temp_s5;
-    s8 *temp_t8;
-    s8 *temp_t8_2;
-    s8 *temp_v0;
-    s8 *temp_v1;
-    s8 *temp_v1_2;
-    s8 *temp_v1_4;
-    s8 *var_a3;
-    s8 var_s0;
-    u8 *temp_a1_5;
-    u8 *temp_a2;
-    u8 *temp_a3;
-    u8 *temp_s2_3;
-    u8 *temp_t3;
-    u8 *temp_v0_3;
-    u8 *temp_v0_8;
-    u8 *var_a0_2;
-    u8 *var_a0_3;
-    u8 *var_a1;
-    u8 *var_a2_9;
-    u8 *var_a3_2;
-    u8 *var_v1;
-    u8 *var_v1_10;
-    u8 *var_v1_2;
-    u8 *var_v1_3;
-    u8 *var_v1_4;
-    u8 *var_v1_5;
-    u8 *var_v1_6;
-    u8 *var_v1_7;
-    u8 *var_v1_8;
-    u8 *var_v1_9;
-    u8 temp_a0_2;
-    u8 temp_a0_5;
-    u8 temp_a2_2;
-    u8 temp_a2_3;
-    u8 temp_v1_8;
-    void *temp_v1_3;
+    // s32 var_s7;
 
     var_s4 = 0;
-    var_a2 = 0;
-    temp_t8 = &arg0->unk_0C[0x18];
-    temp_s5 = &arg0->unk_0C[4];
-    sp44 = temp_t8;
-    temp_t8_2 = &arg0->unk_0C[0x22];
-    var_s7 = arg5;
-    temp_fp = &arg0->unk_0C[0xE];
-    sp48 = temp_t8_2;
-    sp30 = var_s7;
-    do {
-        temp_a1 = &temp_t8[var_a2];
-        temp_a0 = &temp_s5[var_a2];
-        temp_v1 = &temp_t8_2[var_a2];
-        temp_v0 = &temp_fp[var_a2];
-        var_a2 += 1;
-        *temp_v0 = 0;
-        *temp_v1 = 0;
-        *temp_a0 = 0;
-        *temp_a1 = 0;
-    } while (var_a2 < 0xA);
-    arg0->unk_0C[0x2D] = 0;
-    arg0->unk_0C[0x2C] = 0;
-    arg0->unk_3C[2] = 0;
-    arg0->unk_0C[0x2F] = 0;
-    arg0->unk_0C[0x2E] = 0;
-    arg0->unk_3C[1] = 0;
-    arg0->unk_3C[0] = 0;
-    temp_v0_2 = aifSearchLineCore(arg1, arg2, 0, temp_fp);
-    sp2C = 0;
-    sp28 = temp_v0_2;
+
+    // var_s7 = arg5;
+    sp30 = arg5;
+
+    for (var_a2 = 0; var_a2 < STRUCT_AIFLAG_UNK_LEN; var_a2++) {
+        arg0->unk_24[var_a2] = 0;
+        arg0->unk_10[var_a2] = 0;
+        arg0->unk_2E[var_a2] = 0;
+        arg0->unk_1A[var_a2] = 0;
+    }
+
+    arg0->unk_39 = 0;
+    arg0->unk_38[0] = 0;
+    arg0->unk_3E = 0;
+    arg0->unk_3B = 0;
+    arg0->unk_3A = 0;
+    arg0->unk_3D = 0;
+    arg0->unk_3C = 0;
+    sp28 = aifSearchLineCore(arg1, arg2, 0);
+    sp2C = false;
+
     if (aifEraseLineCore(arg1, arg2) != 0) {
         var_s4 = 1;
         arg0->unk_08 += 0x2710;
     }
-    var_a2_2 = 0;
-    if (sp28 == 0) {
-        temp_s1 = arg1 & 0xFF;
-        temp_s0 = arg2 & 0xFF;
-        arg0->unk_0C[0x2E] = aifMiniAloneCapNumber(temp_s1, temp_s0, 0, arg7);
-        arg0->unk_3C[0] = aifMiniAloneCapNumberW(temp_s1, temp_s0, 0, arg7);
-        var_a2_2 = 0;
+
+    if (sp28 == false) {
+        arg0->unk_3A = aifMiniAloneCapNumber(arg1, arg2, 0U, arg7);
+        arg0->unk_3C = aifMiniAloneCapNumberW(arg1, arg2, 0U, arg7);
     }
-    var_a3 = sp44;
-    do {
-        temp_v1_2 = &temp_s5[var_a2_2];
-        temp_a1_2 = &var_a3[var_a2_2];
-        temp_a0_2 = *(var_a2_2 + &hei_data);
-        temp_v0_3 = var_a2_2 + &wid_data;
-        var_a2_2 += 1;
-        *temp_v1_2 = (s8) temp_a0_2;
-        *temp_a1_2 = (s8) *temp_v0_3;
-    } while (var_a2_2 < 0xA);
-    temp_s2 = var_s7 * 0x10;
-    temp_s6 = arg4 * 2;
-    sp40 = temp_s6;
-    sp34 = &aif_field[0][0].unk_1;
-    if ((&aif_field[0][0].unk_1)[temp_s6 + temp_s2] != 0xA) {
-        var_a2_3 = 0;
+
+    for (var_a2_2 = 0; var_a2_2 < STRUCT_AIFLAG_UNK_LEN; var_a2_2++) {
+        arg0->unk_10[var_a2_2] = hei_data[var_a2_2];
+        arg0->unk_24[var_a2_2] = wid_data[var_a2_2];
+    }
+
+    if (aif_field[arg5][arg4].unk_1 != 0xA) {
         if (arg7 != 0) {
-            var_a2_3 = 1;
             if (arg0->unk_01 == 0) {
                 var_a2_3 = 2;
+            } else {
+                var_a2_3 = 1;
             }
+        } else {
+            var_a2_3 = 0;
         }
+
         var_s0 = 0;
-        temp_v0_4 = aifSearchLineCore(arg4, var_s7, var_a2_3, var_a3);
-        sp2C = temp_v0_4;
-        if (temp_v0_4 == 0) {
-            if (sp28 != 0) {
-                var_s1 = 0x10;
-                if (var_s7 < 0x10) {
-                    temp_t3 = &aif_field[0][0].unk_1 - 1;
-                    var_a3_2 = temp_s6 + temp_t3 + 0x100;
-                    temp_v1_3 = temp_s6 + &aif_field[0][0].unk_1;
-                    var_a1 = temp_v1_3 + 0x100;
-                    do {
-                        if (*var_a1 == 4) {
-                            var_a2_4 = var_s1 + 1;
-                            temp_a0_3 = var_a2_4;
-                            if (var_a2_4 < 0x11) {
-                                var_v1 = (var_a2_4 * 0x10) + temp_v1_3;
-loop_19:
-                                if (*var_v1 == 0xA) {
-                                    var_a2_4 += 1;
-                                    var_v1 += 0x10;
-                                    if (var_a2_4 < 0x11) {
-                                        goto loop_19;
-                                    }
-                                }
-                            }
-                            if (var_a2_4 != temp_a0_3) {
-                                temp_v0_5 = temp_s6 + ((var_a2_4 - 1) * 0x10);
-                                (&aif_field[0][0].unk_1)[temp_v0_5] = 4;
-                                temp_t3[temp_v0_5] = *var_a3_2;
-                                *var_a1 = 0xA;
-                                *var_a3_2 = 3;
+        sp2C = aifSearchLineCore(arg4, arg5, var_a2_3);
+        if (sp2C == false) {
+            if (sp28 != false) {
+                for (var_s1 = 0x10; var_s1 > arg5; var_s1--) {
+                    if (aif_field[var_s1][arg4].unk_1 == 4) {
+                        for (var_a2_2 = var_s1 + 1; var_a2_2 < 0x11; var_a2_2++) {
+                            if (aif_field[var_a2_2][arg4].unk_1 != 0xA) {
+                                break;
                             }
                         }
-                        var_a3_2 -= 0x10;
-                        var_s1 -= 1;
-                        var_a1 -= 0x10;
-                    } while (var_s7 < var_s1);
-                }
-            }
-            var_a2_5 = var_s7 + 1;
-            temp_a1_3 = var_a2_5;
-            if (var_a2_5 < 0x11) {
-                var_v1_2 = (var_a2_5 * 0x10) + (temp_s6 + &aif_field[0][0].unk_1);
-loop_26:
-                if (*var_v1_2 == 0xA) {
-                    var_a2_5 += 1;
-                    var_v1_2 += 0x10;
-                    if (var_a2_5 < 0x11) {
-                        goto loop_26;
+
+                        if (var_a2_2 != var_s1 + 1) {
+                            aif_field[var_a2_2 - 1][arg4].unk_1 = 4;
+                            aif_field[var_a2_2 - 1][arg4].unk_0 = aif_field[var_s1][arg4].unk_0;
+                            aif_field[var_s1][arg4].unk_1 = 0xA;
+                            aif_field[var_s1][arg4].unk_0 = 3;
+                        }
                     }
                 }
             }
-            temp_v0_6 = var_a2_5 - 1;
-            if (var_a2_5 != temp_a1_3) {
-                var_s7 = temp_v0_6;
-                temp_v0_7 = temp_s6 + (temp_v0_6 * 0x10);
-                temp_a0_4 = temp_s6 + temp_s2;
-                temp_a2 = sp34 - 1;
-                temp_a3 = &temp_a2[temp_a0_4];
-                sp34[temp_v0_7] = 4;
-                temp_a2[temp_v0_7] = *temp_a3;
-                sp34[temp_a0_4] = 0xA;
-                *temp_a3 = 3;
-                var_s0 = 1;
-                if (sp28 == 0) {
-                    arg0->unk_3C[2] = 1;
+
+            for (var_a2_2 = arg5 + 1; var_a2_2 < 0x11; var_a2_2++) {
+                if (aif_field[var_a2_2][arg4].unk_1 != 0xA) {
+                    break;
                 }
-                sp2C = aifSearchLineCore(arg4, var_s7, 0, (s8 *) temp_a3);
+            }
+
+            if (var_a2_2 != arg5 + 1) {
+                aif_field[var_a2_2 - 1][arg4].unk_1 = 4;
+                aif_field[var_a2_2 - 1][arg4].unk_0 = aif_field[arg5][arg4].unk_0;
+                aif_field[arg5][arg4].unk_1 = 0xA;
+                aif_field[arg5][arg4].unk_0 = 3;
+
+                arg5 = var_a2_2 - 1;
+
+                var_s0 = 1;
+                if (sp28 == false) {
+                    arg0->unk_3E = 1;
+                }
+                sp2C = aifSearchLineCore(arg4, arg5, 0);
             }
         }
-        if (aifEraseLineCore(arg4, var_s7) != 0) {
+
+        if (aifEraseLineCore(arg4, arg5) != 0) {
             var_s4 = 1;
             arg0->unk_08 += 0x2710;
         }
-        var_a2_6 = 0;
-        if (sp2C == 0) {
-            temp_s1_2 = var_s7 & 0xFF;
-            temp_s0_2 = var_s0 & 0xFF;
-            temp_s2_2 = arg4 & 0xFF;
-            arg0->unk_0C[0x2F] = aifMiniAloneCapNumber(temp_s2_2, temp_s1_2, temp_s0_2, arg7);
-            arg0->unk_3C[1] = aifMiniAloneCapNumberW(temp_s2_2, temp_s1_2, temp_s0_2, arg7);
-            var_a2_6 = 0;
+
+        if (sp2C == false) {
+            arg0->unk_3B = aifMiniAloneCapNumber(arg4, arg5, var_s0, arg7);
+            arg0->unk_3D = aifMiniAloneCapNumberW(arg4, arg5, var_s0, arg7);
         }
-        var_a3 = sp48;
-        do {
-            temp_v1_4 = &temp_fp[var_a2_6];
-            temp_a1_4 = &var_a3[var_a2_6];
-            temp_a0_5 = *(var_a2_6 + &hei_data);
-            temp_v0_8 = var_a2_6 + &wid_data;
-            var_a2_6 += 1;
-            *temp_v1_4 = (s8) temp_a0_5;
-            *temp_a1_4 = (s8) *temp_v0_8;
-        } while (var_a2_6 < 0xA);
+
+        for (var_a2_2 = 0; var_a2_2 < 0xA; var_a2_2++) {
+            arg0->unk_1A[var_a2_2] = hei_data[var_a2_2];
+            arg0->unk_2E[var_a2_2] = wid_data[var_a2_2];
+        }
     }
+
     if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
         OnVirusP = OnVirusP_org + 0x7D0;
         if (var_s4 == 0) {
             if (arg7 != 0) {
-                if (search_Vflash(arg1, arg2, arg3, var_a3) != 0) {
+                if (search_Vflash(arg1, arg2, arg3) != false) {
                     var_s4 = 1;
                 }
-                if (search_Vflash(arg4, var_s7, arg6) != 0) {
+                if (search_Vflash(arg4, arg5, arg6) != false) {
                     var_s4 = 1;
                 }
                 if (var_s4 != 0) {
-                    var_v0_2 = arg0->unk_08 + 0xBB8;
-                    goto block_58;
+                    arg0->unk_08 += 0xBB8;
                 }
             } else if (arg0->unk_01 == evs_gamemode) {
-                if (search_Vflash(arg1, arg2, arg3, var_a3) != 0) {
+                if (search_Vflash(arg1, arg2, arg3) != false) {
                     var_s4 = 1;
                 }
-                if (search_Vflash(arg4, var_s7, arg6) != 0) {
+                if (search_Vflash(arg4, arg5, arg6) != false) {
                     var_s4 = 1;
                 }
                 if (var_s4 != 0) {
-                    var_v0_2 = arg0->unk_08 + 0x3E8;
-block_58:
-                    arg0->unk_08 = var_v0_2;
+                    arg0->unk_08 += 0x3E8;
                 }
             }
         }
     }
-    temp_s1_3 = &arg0->unk_0C[0x2C];
-    temp_s0_3 = arg7 & 0xFF;
-    temp_a2_2 = (u8) arg0->unk_3C[2];
-    arg0->unk_08 += aifMiniPointK3(temp_s5, 0U, temp_s1_3, 1, (s32) arg0->unk_01, temp_s0_3);
-    arg0->unk_08 += aifMiniPointK3(temp_fp, temp_a2_2, arg0 + (temp_a2_2 + 0x38), 1, (s32) arg0->unk_01, temp_s0_3);
-    temp_a2_3 = (u8) arg0->unk_3C[2];
-    arg0->unk_08 += aifMiniPointK3(sp44, 0U, temp_s1_3, 0, (s32) arg0->unk_01, temp_s0_3);
-    temp_v0_9 = arg0->unk_08 + aifMiniPointK3(sp48, temp_a2_3, arg0 + (temp_a2_3 + 0x38), 0, (s32) arg0->unk_01, temp_s0_3);
-    arg0->unk_08 = temp_v0_9;
-    temp_v1_5 = *(&AloneCapP + ((u8) arg0->unk_0C[0x2E] * 2));
-    if (temp_v1_5 != 0) {
-        arg0->unk_08 = temp_v0_9 + temp_v1_5;
+
+    arg0->unk_08 += aifMiniPointK3(arg0->unk_10, 0, &arg0->unk_38[0], 1, arg0->unk_01, arg7);
+    arg0->unk_08 += aifMiniPointK3(arg0->unk_1A, arg0->unk_3E, &arg0->unk_38[arg0->unk_3E], 1, arg0->unk_01, arg7);
+    arg0->unk_08 += aifMiniPointK3(arg0->unk_24, 0, &arg0->unk_38[0], 0, arg0->unk_01, arg7);
+    arg0->unk_08 += aifMiniPointK3(arg0->unk_2E, arg0->unk_3E, &arg0->unk_38[arg0->unk_3E], 0, arg0->unk_01, arg7);
+
+    if (AloneCapP[arg0->unk_3A] != 0) {
+        arg0->unk_08 += AloneCapP[arg0->unk_3A];
     }
-    temp_v1_6 = *(((u8) arg0->unk_0C[0x2F] * 2) + &AloneCapP);
-    if (temp_v1_6 != 0) {
-        arg0->unk_08 += temp_v1_6;
+    if (AloneCapP[arg0->unk_3B] != 0) {
+        arg0->unk_08 += AloneCapP[arg0->unk_3B];
     }
-    if ((*(((u8) arg0->unk_0C[0x2E] * 2) + &AloneCapP) != 0) && (*(((u8) arg0->unk_0C[0x2F] * 2) + &AloneCapP) != 0)) {
+    if ((AloneCapP[arg0->unk_3A] != 0) && (AloneCapP[arg0->unk_3B] != 0)) {
         arg0->unk_08 -= (0x11 - arg2) * LPriP;
     }
-    if (*(&AloneCapWP + ((u8) arg0->unk_3C[0] * 2)) != 0) {
-        arg0->unk_08 += *(((u8) arg0->unk_0C[0x2E] * 2) + &AloneCapWP);
+    if (AloneCapWP[arg0->unk_3C] != 0) {
+        arg0->unk_08 += AloneCapWP[arg0->unk_3A];
     }
-    if (*(((u8) arg0->unk_3C[1] * 2) + &AloneCapWP) != 0) {
-        arg0->unk_08 += *(((u8) arg0->unk_0C[0x2F] * 2) + &AloneCapWP);
+    if (AloneCapWP[arg0->unk_3D] != 0) {
+        arg0->unk_08 += AloneCapWP[arg0->unk_3B];
     }
-    temp_v1_7 = arg0->unk_08 + (s32) ((f32) *(&EraseLinP + (((u8) arg0->unk_0C[4] + (u8) arg0->unk_0C[0xE]) * 2)) * HeiEraseLinRate);
-    arg0->unk_08 = temp_v1_7;
-    arg0->unk_08 = temp_v1_7 + (s32) ((f32) *(&EraseLinP + (((u8) arg0->unk_0C[0x18] + (u8) arg0->unk_0C[0x22]) * 2)) * WidEraseLinRate);
-    if ((OnVirusP != 0) && (temp_t8_3 = arg2 < 0x10, sp38 = temp_t8_3, (temp_t8_3 != 0))) {
-        var_s0_2 = 1;
-        var_s1_2 = arg2 - 1;
-        temp_fp_2 = arg1 * 2;
-        if (var_s1_2 >= 4) {
-            var_v1_3 = (var_s1_2 * 0x10) + (temp_fp_2 + &aiFieldData[0][0].unk_1);
-loop_74:
-            var_s1_2 -= 1;
-            if ((u32) (*var_v1_3 - 5) >= 3U) {
-                var_v1_3 -= 0x10;
-                if (var_s1_2 >= 4) {
-                    goto loop_74;
-                }
-            } else {
-                var_s0_2 = 0;
+
+    arg0->unk_08 += (s32)(EraseLinP[arg0->unk_10[0] + arg0->unk_1A[0]] * HeiEraseLinRate);
+    arg0->unk_08 += (s32)(EraseLinP[arg0->unk_24[0] + arg0->unk_2E[0]] * WidEraseLinRate);
+
+    if ((OnVirusP != 0) && (arg2 < 0x10)) {
+        var_s0 = 1;
+
+        for (var_s1 = arg2 - 1; var_s1 >= 4; var_s1--) {
+            if ((aiFieldData[var_s1][arg1].unk_1 >= 5) && (aiFieldData[var_s1][arg1].unk_1 <= 7)) {
+                var_s0 = 0;
+                break;
             }
         }
-        if (var_s0_2 == 1) {
-            var_s1_3 = arg2 + 1;
-            var_s0_2 = 0;
-            if (var_s1_3 < 0x11) {
-                var_v1_4 = (var_s1_3 * 0x10) + (temp_fp_2 + &aiFieldData[0][0].unk_1);
-loop_79:
-                var_s1_3 += 1;
-                if ((u32) (*var_v1_4 - 5) >= 3U) {
-                    var_v1_4 += 0x10;
-                    if (var_s1_3 < 0x11) {
-                        goto loop_79;
-                    }
-                } else {
-                    var_s0_2 = 1;
+
+        if (var_s0 == 1) {
+            var_s0 = 0;
+
+            for (var_s1 = arg2 + 1; var_s1 < 0x11; var_s1 += 1) {
+                if ((aiFieldData[var_s1][arg1].unk_1 >= 5) && (aiFieldData[var_s1][arg1].unk_1 <= 7)) {
+                    var_s0 = 1;
+                    break;
                 }
             }
         }
+
         var_s2 = 1;
-        var_s1_4 = sp30 - 1;
-        sp3C = arg2 + 1;
-        if (var_s1_4 >= 4) {
-            var_v1_5 = (var_s1_4 * 0x10) + (temp_s6 + &aiFieldData[0][0].unk_1);
-loop_84:
-            var_s1_4 -= 1;
-            if ((u32) (*var_v1_5 - 5) >= 3U) {
-                var_v1_5 -= 0x10;
-                if (var_s1_4 >= 4) {
-                    goto loop_84;
-                }
-            } else {
+        var_s1 = sp30 - 1;
+
+        for (; var_s1 >= 4; var_s1--) {
+            if ((aiFieldData[var_s1][arg4].unk_1 >= 5) && (aiFieldData[var_s1][arg4].unk_1 <= 7)) {
                 var_s2 = 0;
+                break;
             }
         }
+
         if (var_s2 != 0) {
-            var_s1_5 = sp30 + 1;
             var_s2 = 0;
-            if (var_s1_5 < 0x11) {
-                var_v1_6 = (var_s1_5 * 0x10) + (temp_s6 + &aiFieldData[0][0].unk_1);
-loop_89:
-                var_s1_5 += 1;
-                if ((u32) (*var_v1_6 - 5) >= 3U) {
-                    var_v1_6 += 0x10;
-                    if (var_s1_5 < 0x11) {
-                        goto loop_89;
-                    }
-                } else {
+            for (var_s1 = sp30 + 1; var_s1 < 0x11; var_s1++) {
+                if ((aiFieldData[var_s1][arg4].unk_1 >= 5) && (aiFieldData[var_s1][arg4].unk_1 <= 7)) {
                     var_s2 = 1;
+                    break;
                 }
             }
         }
+
         var_s4_2 = 0;
         if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
-            if (var_s0_2 != 0) {
-                var_s1_6 = sp3C;
-                if (var_s1_6 < 0x11) {
-                    do {
-                        var_s1_6 += 1;
-                        if (flash_virus(arg1, var_s1_6) != -1) {
-                            var_s4_2 += OnVirusP;
-                        }
-                    } while (var_s1_6 < 0x11);
+            if (var_s0 != 0) {
+                for (var_s1 = arg2 + 1; var_s1 < 0x11; var_s1++) {
+                    if (flash_virus(arg1, var_s1) != -1) {
+                        var_s4_2 += OnVirusP;
+                    }
                 }
             }
+
             if (var_s2 != 0) {
-                var_s1_7 = sp30 + 1;
-                if (var_s1_7 < 0x11) {
-                    do {
-                        var_s1_7 += 1;
-                        if (flash_virus(arg4, var_s1_7) != -1) {
-                            var_s4_2 += OnVirusP;
-                        }
-                    } while (var_s1_7 < 0x11);
+                for (var_s1 = sp30 + 1; var_s1 < 0x11; var_s1++) {
+                    if (flash_virus(arg4, var_s1) != -1) {
+                        var_s4_2 += OnVirusP;
+                    }
                 }
             }
         }
-        if ((u8) (&aiFieldData[0][0].unk_1)[temp_fp_2 + (sp3C * 0x10)] < 8U) {
-            if (var_s0_2 != 0) {
-                temp_v1_8 = (u8) arg0->unk_0C[6];
-                if (arg7 != 0) {
-                    var_v0_3 = (s32) temp_v1_8 < 2;
-                    if (arg0->unk_01 == 0) {
-                        if ((s32) temp_v1_8 < 3) {
-                            goto block_128;
-                        }
-                        goto block_113;
-                    }
-                    goto block_112;
-                }
-                var_v0_3 = (s32) temp_v1_8 < 2;
-block_112:
-                if (var_v0_3 == 0) {
-block_113:
-                    if ((u8) arg0->unk_0C[9] >= 4U) {
+
+        if (aiFieldData[arg2 + 1][arg1].unk_1 < 8U) {
+            if (var_s0 != 0) {
+                if ((arg7 != 0) && (arg0->unk_01 == 0) && (arg0->unk_10[2] < 3)) {
+                    arg0->unk_08 -= OnVirusP * 2;
+                } else if (arg0->unk_10[2] >= 2) {
+                    if (arg0->unk_10[5] >= 4U) {
                         if (arg0->unk_01 == 0) {
                             if (arg7 != 0) {
                                 arg0->unk_08 += (OnVirusP + var_s4_2) * 2;
-                                goto block_173;
+                            } else if (sp28 == false) {
+                                arg0->unk_08 -= OnVirusP * 2;
                             }
-                            if (sp28 == 0) {
-                                goto block_128;
-                            }
-                            goto block_175;
-                        }
-                        if (var_s2 == 0) {
-                            var_v0_4 = arg0->unk_08 + (OnVirusP + var_s4_2);
                         } else {
-                            if ((u8) arg0->unk_0C[0x11] < 2U) {
-                                goto block_171;
-                            }
-                            if ((u8) arg0->unk_0C[0x13] >= 4U) {
-                                var_v0_4 = arg0->unk_08 + (OnVirusP + var_s4_2);
+                            if (var_s2 == 0) {
+                                arg0->unk_08 += (OnVirusP + var_s4_2);
+                            } else if (arg0->unk_1A[3] < 2U) {
+                                arg0->unk_08 -= (OnVirusP * 2);
+                            } else if (arg0->unk_1A[5] >= 4U) {
+                                arg0->unk_08 += (OnVirusP + var_s4_2);
                             } else {
-                                goto block_171;
+                                arg0->unk_08 -= (OnVirusP * 2);
                             }
                         }
-                        goto block_172;
+                    } else {
+                        arg0->unk_08 -= OnVirusP * 2;
                     }
-                    goto block_128;
-                }
-block_128:
-                arg0->unk_08 -= OnVirusP * 2;
-                goto block_173;
-            }
-            if (var_s2 != 0) {
-                if ((u8) arg0->unk_0C[0x11] < 2U) {
-                    goto block_171;
-                }
-                if ((u8) arg0->unk_0C[0x13] < 4U) {
-                    goto block_171;
-                }
-                if ((u8) arg0->unk_0C[6] < 3U) {
-                    goto block_171;
-                }
-                if ((u8) arg0->unk_0C[9] >= 4U) {
-                    var_v0_4 = arg0->unk_08 + (OnVirusP + var_s4_2);
                 } else {
-                    goto block_171;
+                    arg0->unk_08 -= OnVirusP * 2;
                 }
-                goto block_172;
-            }
-            goto block_174;
-        }
-        if (var_s2 != 0) {
-            if ((u8) arg0->unk_0C[0x10] < 2U) {
-                goto block_171;
-            }
-            if ((u8) arg0->unk_0C[0x13] < 4U) {
-                goto block_171;
-            }
-            if (var_s0_2 == 0) {
-                var_v0_4 = arg0->unk_08 + (OnVirusP + var_s4_2);
-            } else {
-                if ((u8) arg0->unk_0C[7] < 2U) {
-                    goto block_171;
-                }
-                if ((u8) arg0->unk_0C[9] >= 4U) {
-                    var_v0_4 = arg0->unk_08 + (OnVirusP + var_s4_2);
+            } else if (var_s2 != 0) {
+                if (arg0->unk_1A[3] < 2U) {
+                    arg0->unk_08 -= (OnVirusP * 2);
+                } else if (arg0->unk_1A[5] < 4U) {
+                    arg0->unk_08 -= (OnVirusP * 2);
+                } else if (arg0->unk_10[2] < 3U) {
+                    arg0->unk_08 -= (OnVirusP * 2);
+                } else if (arg0->unk_10[5] >= 4U) {
+                    arg0->unk_08 += (OnVirusP + var_s4_2);
                 } else {
-                    goto block_171;
+                    arg0->unk_08 -= (OnVirusP * 2);
                 }
             }
-            goto block_172;
-        }
-        if (var_s0_2 != 0) {
-            if ((u8) arg0->unk_0C[7] < 2U) {
-                goto block_171;
-            }
-            if ((u8) arg0->unk_0C[9] < 4U) {
-                goto block_171;
-            }
-            if ((u8) arg0->unk_0C[0x10] < 3U) {
-                goto block_171;
-            }
-            if ((u8) arg0->unk_0C[0x13] >= 4U) {
-                var_v0_4 = arg0->unk_08 + (OnVirusP + var_s4_2);
+        } else if (var_s2 != 0) {
+            if (arg0->unk_1A[2] < 2U) {
+                arg0->unk_08 -= (OnVirusP * 2);
+            } else if (arg0->unk_1A[5] < 4U) {
+                arg0->unk_08 -= (OnVirusP * 2);
+            } else if (var_s0 == 0) {
+                arg0->unk_08 += (OnVirusP + var_s4_2);
+            } else if (arg0->unk_10[3] < 2U) {
+                arg0->unk_08 -= (OnVirusP * 2);
+            } else if (arg0->unk_10[5] >= 4U) {
+                arg0->unk_08 += (OnVirusP + var_s4_2);
             } else {
-block_171:
-                var_v0_4 = arg0->unk_08 - (OnVirusP * 2);
+                arg0->unk_08 -= (OnVirusP * 2);
             }
-block_172:
-            arg0->unk_08 = var_v0_4;
-block_173:
+        } else if (var_s0 != 0) {
+            if (arg0->unk_10[3] < 2U) {
+                arg0->unk_08 -= (OnVirusP * 2);
+            } else if (arg0->unk_10[5] < 4U) {
+                arg0->unk_08 -= (OnVirusP * 2);
+            } else if (arg0->unk_1A[2] < 3U) {
+                arg0->unk_08 -= (OnVirusP * 2);
+            } else if (arg0->unk_1A[5] >= 4U) {
+                arg0->unk_08 += (OnVirusP + var_s4_2);
+            } else {
+                arg0->unk_08 -= (OnVirusP * 2);
+            }
         }
-block_174:
-        if (sp28 != 0) {
-block_175:
-            var_a0 = 0;
-            if (arg7 == 0) {
-                if (arg0->unk_01 == 0) {
-                    var_s0_3 = sp3C;
-                    if (sp38 != 0) {
-                        var_a1_2 = var_s0_3 < 0x11;
-                        var_a2_7 = 0;
-                        if (var_a1_2 != 0) {
-                            temp_a0_6 = var_s0_3 * 0x10;
-                            var_v1_7 = temp_a0_6 + (temp_s6 + (&aiFieldData[0][0].unk_1 - 1));
-                            var_a0_2 = temp_a0_6 + (temp_s6 + &aiFieldData[0][0].unk_1);
-loop_180:
-                            if ((u8) *var_a0_2 < 8U) {
-                                if (*var_v1_7 == arg3) {
-                                    var_v1_7 += 0x10;
-                                    var_s0_3 += 1;
-                                    var_a1_2 = var_s0_3 < 0x11;
-                                    var_a0_2 += 0x10;
-                                    if (var_a1_2 != 0) {
-                                        goto loop_180;
-                                    }
-                                } else {
-                                    goto block_184;
-                                }
-                            } else {
-block_184:
-                                var_a2_7 = 1;
-                            }
-                        }
-                        var_a2_8 = 0;
-                        if (var_a2_7 != 0) {
-                            var_s1_8 = var_s0_3;
-                            if (var_a1_2 != 0) {
-                                var_v1_8 = (var_s0_3 * 0x10) + (temp_s6 + &aiFieldData[0][0].unk_1);
-loop_189:
-                                var_s1_8 += 1;
-                                if ((u32) (*var_v1_8 - 5) >= 3U) {
-                                    var_v1_8 += 0x10;
-                                    if (var_s1_8 < 0x11) {
-                                        goto loop_189;
-                                    }
-                                } else {
-                                    var_a2_8 = 1;
-                                }
-                            }
-                            var_a0 = 0;
-                            if (var_a2_8 != 0) {
-                                var_s1_9 = var_s0_3;
-                                if (var_a1_2 != 0) {
-                                    temp_a0_7 = var_s0_3 * 0x10;
-                                    var_v1_9 = temp_a0_7 + (temp_s6 + (&aiFieldData[0][0].unk_1 - 1));
-                                    var_a0_3 = temp_a0_7 + (temp_s6 + &aiFieldData[0][0].unk_1);
-loop_194:
-                                    if ((u8) *var_a0_3 >= 8U) {
-                                        var_v1_9 += 0x10;
-                                        var_s1_9 += 1;
-                                        var_a0_3 += 0x10;
-                                        if (var_s1_9 < 0x11) {
-                                            goto loop_194;
-                                        }
-                                    } else if (*var_v1_9 != arg6) {
-                                        arg0->unk_08 -= OnVirusP * 2;
-                                    } else {
-                                        arg0->unk_08 += (OnVirusP + var_s4_2) * 4;
-                                    }
-                                    goto block_200;
-                                }
-                            }
-                        } else {
-                            goto block_200;
-                        }
+
+        if ((sp28 != false) && (arg7 == 0) && (arg0->unk_01 == 0) && (arg2 < 0x10)) {
+            var_a2_2 = 0;
+
+            for (var_s0_3 = arg2 + 1; var_s0_3 < 0x11; var_s0_3++) {
+                if ((aiFieldData[var_s0_3][arg4].unk_1 >= 8U) || (aiFieldData[var_s0_3][arg4].unk_0 != arg3)) {
+                    var_a2_2 = 1;
+                    break;
+                }
+            }
+
+            if (var_a2_2 != 0) {
+                var_a2_2 = 0;
+                for (var_s1 = var_s0_3; var_s1 < 0x11; var_s1++) {
+                    if ((aiFieldData[var_s1][arg4].unk_1 >= 5) && (aiFieldData[var_s1][arg4].unk_1 <= 7)) {
+                        var_a2_2 = 1;
+                        break;
                     }
                 }
             }
-        } else {
-            goto block_200;
-        }
-    } else {
-block_200:
-        var_a0 = 0;
-    }
-    var_a2_9 = &aif_field[0][0].unk_1;
-    do {
-        var_s1_10 = 1;
-        var_v1_10 = var_a2_9 + 0x10;
-loop_204:
-        if (*var_v1_10 == 0xA) {
-            var_s1_10 += 1;
-            var_v1_10 += 0x10;
-            if (var_s1_10 < 0x11) {
-                goto loop_204;
-            }
-        } else {
-            *(&sp20 + var_a0) = var_s1_10 - 1;
-        }
-        var_a0 += 1;
-        var_a2_9 += 2;
-    } while (var_a0 < 8);
-    temp_s2_3 = &sp20 + arg4;
-    var_s0_4 = 0;
-    arg0->unk_C = 0;
-    if ((u8) *temp_s2_3 < 4U) {
-        if ((var_s7 < 5) && (var_s7 > 0) && (sp34[temp_s6 + (var_s7 * 0x10)] != 0xA)) {
-            if (((u8) arg0->unk_0C[0x10] + *temp_s2_3) < 4) {
-                var_s0_4 = 1;
-                arg0->unk_C = (s32) ((s16) *(&bad_point + sp40) / (s32) ((var_s7 * 2) - 1));
+
+            if (var_a2_2 != 0) {
+                for (var_s1 = var_s0_3; var_s1 < 0x11; var_s1++) {
+                    if (aiFieldData[var_s1][arg4].unk_1 < 8U) {
+                        if (aiFieldData[var_s1][arg4].unk_0 == arg6) {
+                            arg0->unk_08 += (OnVirusP + var_s4_2) * 4;
+                        } else {
+                            arg0->unk_08 -= OnVirusP * 2;
+                        }
+                        break;
+                    }
+                }
             }
         }
     }
-    temp_a1_5 = &sp20 + arg1;
-    if (((u8) *temp_a1_5 < 4U) && (arg2 < 4) && (arg2 > 0) && ((arg7 == 0) || (arg0->unk_01 != 0))) {
-        temp_a3_2 = arg1 * 2;
-        if ((sp34[temp_a3_2 + (arg2 * 0x10)] != 0xA) && (((u8) arg0->unk_0C[6] + *temp_a1_5) < 4)) {
-            if (var_s0_4 != 0) {
-                var_v0_5 = arg0->unk_C + ((*(&bad_point2 + temp_a3_2) + *(&bad_point2 + temp_s6)) - ((s16) *(temp_s6 + &bad_point) / (s32) ((var_s7 * 2) - 1)));
+
+    for (var_a0 = 0; var_a0 < 8; var_a0++) {
+        for (var_s1 = 1; var_s1 < 0x11; var_s1++) {
+            if (aif_field[var_s1][var_a0].unk_1 != 0xA) {
+                sp20[var_a0] = var_s1 - 1;
+                break;
+            }
+        }
+    }
+
+    arg0->unk_0C = 0;
+    var_s0 = 0;
+    if ((sp20[arg4] < 4U) && (arg5 < 5) && (arg5 > 0)) {
+        if (aif_field[arg5][arg4].unk_1 != 0xA) {
+            if (arg0->unk_1A[2] + sp20[arg4] < 4) {
+                arg0->unk_0C += (bad_point[arg4] / (arg5 * 2 - 1));
+                var_s0 = 1;
+            }
+        }
+    }
+
+    if ((sp20[arg1] < 4U) && (arg2 < 4) && (arg2 > 0) && ((arg7 == 0) || (arg0->unk_01 != 0))) {
+        if ((aif_field[arg2][arg1].unk_1 != 0xA) && ((arg0->unk_10[2] + sp20[arg1]) < 4)) {
+            if (var_s0 != 0) {
+                arg0->unk_0C += bad_point2[arg1] + bad_point2[arg4] - (bad_point[arg4] / (arg5 * 2 - 1));
             } else {
-                var_v0_5 = arg0->unk_C + ((s16) *(temp_a3_2 + &bad_point) / (s32) ((arg2 * 2) - 1));
+                arg0->unk_0C += bad_point[arg1] / (arg2 * 2 - 1);
             }
-            arg0->unk_C = var_v0_5;
         }
     }
-    temp_a1_6 = arg0->unk_08 + arg0->unk_C;
-    arg0->unk_08 = temp_a1_6;
+
+    arg0->unk_08 += arg0->unk_0C;
     if (aiWall != 0) {
-        temp_v0_10 = aiWall * 0x10;
-        temp_a0_8 = *((arg1 * 2) + temp_v0_10 + &WallRate);
-        temp_v0_11 = *(temp_s6 + temp_v0_10 + &WallRate);
-        var_lo = temp_a1_6 * temp_a0_8;
-        if (temp_v0_11 >= temp_a0_8) {
-            var_lo = temp_a1_6 * temp_v0_11;
-        }
-        arg0->unk_08 = var_lo / 10;
-    }
-    var_v0 = 1;
-    if (sp28 == 0) {
-        var_v0 = 2;
-        if (sp2C == 0) {
-            var_v0 = 0;
+        if (WallRate[aiWall][arg1] > WallRate[aiWall][arg4]) {
+            arg0->unk_08 = arg0->unk_08 * WallRate[aiWall][arg1] / 10;
+        } else {
+            arg0->unk_08 = arg0->unk_08 * WallRate[aiWall][arg4] / 10;
         }
     }
-    return var_v0;
+
+    if (sp28) {
+        return 1;
+    }
+    if (sp2C) {
+        return 2;
+    }
+    return 0;
 }
 #else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifSearchLineMS);
@@ -3196,18 +2898,6 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
 #endif
 #endif
-
-extern s16 EraseLinP[];
-
-extern u16 AloneCapP[];
-extern u16 AloneCapWP[];
-
-extern f32 HeiEraseLinRate;
-extern u16 LPriP;
-extern s32 OnVirusP;
-extern s32 OnVirusP_org;
-extern f32 WidEraseLinRate;
-extern s8 aiWall;
 
 #if VERSION_US || VERSION_CN
 /**
