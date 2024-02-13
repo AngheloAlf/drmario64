@@ -478,7 +478,7 @@ segments:
       - [0x026F60, c, main_segment/debug_menu]
 
       - [0x029230, asm, main_segment/028820]
-      - [0x0293E0, asm, main_segment/tex_func]
+      - [0x0293E0, c, main_segment/tex_func]
 
       - [0x02E600, asm, main_segment/02E600] # TODO: figure out
 
@@ -556,7 +556,7 @@ segments:
 
       - [0x095EE0, .rodata, main_segment/debug_menu]
 
-      - [0x096740, rodata, main_segment/tex_func]
+      - [0x096740, .rodata, main_segment/tex_func]
       - [0x096810, rodata, main_segment/02E600]
 
       - start: 0x09A550

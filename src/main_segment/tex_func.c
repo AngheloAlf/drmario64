@@ -12,8 +12,8 @@
 #include "main_segment_variables.h"
 
 #if VERSION_US || VERSION_CN
-Gfx D_8008E5E0[] = {
-#include "main_segment/tex_func/D_8008E5E0.gfx.inc.c"
+Gfx copy_texture_init_dl[] = {
+#include "main_segment/tex_func/copy_texture_init_dl.gfx.inc.c"
 };
 /**
  * Original name: alpha_texture_init_dl
@@ -40,10 +40,8 @@ Gfx D_8008E728[] = {
 Gfx init_dl_155[] = {
 #include "main_segment/tex_func/init_dl_155.gfx.inc.c"
 };
-
 #endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: _modes_96
  */
@@ -65,9 +63,8 @@ void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 void func_80040D34(Gfx **gxfP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 red, s32 green, s32 blue) {
     Gfx *gfx = *gxfP;
     s32 temp_t0 = GPACK_RGBA5551(red, green, blue, 1);
@@ -86,7 +83,6 @@ void func_80040D34(Gfx **gxfP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 red, 
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043274_cn);
 #endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: FillRectRGBA
  */
@@ -99,9 +95,7 @@ void FillRectRGBA(Gfx **gfxP, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 green
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: CopyTexBlock
  */
@@ -125,9 +119,7 @@ void CopyTexBlock(struct_CopyTexBlock_arg0 *arg0) {
                                 G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: CopyTexBlock4_LoadTex
  */
@@ -136,9 +128,7 @@ void CopyTexBlock4_LoadTex(struct_CopyTexBlock_arg0 *arg0) {
                            arg0->unk_10, arg0->unk_24 - arg0->unk_20, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: CopyTexBlock4
  */
@@ -155,7 +145,7 @@ void CopyTexBlock4(Gfx **gfxP, u16 *tlut, void *arg2, s32 arg3, s32 arg4, s32 ar
     sp18.unk_18 = CopyTexBlock4_LoadTex;
     sp18.unk_1C = 0x1000 / arg5;
 
-    gSPDisplayList((*gfxP)++, D_8008E5E0);
+    gSPDisplayList((*gfxP)++, copy_texture_init_dl);
 
     if (tlut != NULL) {
         gDPLoadTLUT_pal16((*gfxP)++, 0, tlut);
@@ -163,9 +153,7 @@ void CopyTexBlock4(Gfx **gfxP, u16 *tlut, void *arg2, s32 arg3, s32 arg4, s32 ar
 
     CopyTexBlock(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: CopyTexBlock8_LoadTex
  */
@@ -174,9 +162,7 @@ void CopyTexBlock8_LoadTex(struct_CopyTexBlock_arg0 *arg0) {
                         arg0->unk_10, arg0->unk_24 - arg0->unk_20, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                         G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: CopyTexBlock8
  */
@@ -192,7 +178,7 @@ void CopyTexBlock8(Gfx **gfxP, u16 tlut[], TexturePtr arg2, s32 arg3, s32 arg4, 
     sp18.unk_14 = arg6;
     sp18.unk_1C = 0x800 / arg5;
 
-    gSPDisplayList((*gfxP)++, D_8008E5E0);
+    gSPDisplayList((*gfxP)++, copy_texture_init_dl);
 
     if (tlut != NULL) {
         gDPLoadTLUT_pal256((*gfxP)++, tlut);
@@ -200,9 +186,7 @@ void CopyTexBlock8(Gfx **gfxP, u16 tlut[], TexturePtr arg2, s32 arg3, s32 arg4, 
 
     CopyTexBlock(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: CopyTexBlock16_LoadTex
  */
@@ -211,9 +195,7 @@ void CopyTexBlock16_LoadTex(struct_CopyTexBlock_arg0 *arg0) {
                         arg0->unk_10, arg0->unk_24 - arg0->unk_20, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                         G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: CopyTexBlock16
  */
@@ -229,14 +211,12 @@ void CopyTexBlock16(Gfx **gfxP, TexturePtr arg1, s32 arg2, s32 arg3, s32 arg4, s
     sp18.unk_14 = arg5;
     sp18.unk_1C = 0x800 / arg4;
 
-    gSPDisplayList((*gfxP)++, D_8008E5E0);
+    gSPDisplayList((*gfxP)++, copy_texture_init_dl);
     gDPSetTextureLUT((*gfxP)++, G_TT_NONE);
 
     CopyTexBlock(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexBlock
  */
@@ -328,9 +308,7 @@ void StretchTexBlock(StretchTexBlock_arg0 *arg0) {
         arg0->unk_3C(arg0);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexBlock_ScisRect
  */
@@ -340,9 +318,7 @@ void StretchTexBlock_ScisRect(StretchTexBlock_arg0 *arg0) {
     gSPScisTextureRectangle((*arg0->gfxP)++, temp_a2->unk_00, temp_a2->unk_04, temp_a2->unk_08, temp_a2->unk_0C,
                             G_TX_RENDERTILE, temp_a2->unk_10, temp_a2->unk_14, temp_a2->unk_18, temp_a2->unk_1C);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchAlphaTexBlock_LoadColorTex
  */
@@ -351,9 +327,7 @@ void StretchAlphaTexBlock_LoadColorTex(StretchTexBlock_arg0 *arg0) {
                         G_IM_SIZ_16b, arg0->width, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchAlphaTexBlock_LoadAlphaTex
  */
@@ -362,9 +336,7 @@ void StretchAlphaTexBlock_LoadAlphaTex(StretchTexBlock_arg0 *arg0) {
                          arg0->unk_1C, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                          G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchAlphaTexBlock
  */
@@ -392,9 +364,7 @@ void StretchAlphaTexBlock(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 a
 
     StretchTexBlock(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexBlock4_LoadTex
  */
@@ -403,9 +373,7 @@ void StretchTexBlock4_LoadTex(StretchTexBlock_arg0 *arg0) {
                            arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexBlock4
  */
@@ -434,9 +402,7 @@ void StretchTexBlock4(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR a
     }
     StretchTexBlock(&sp10);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexBlock8_LoadTex
  */
@@ -445,9 +411,7 @@ void StretchTexBlock8_LoadTex(StretchTexBlock_arg0 *arg0) {
                         arg0->width, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                         G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexBlock8
  */
@@ -477,9 +441,7 @@ void StretchTexBlock8(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR a
 
     StretchTexBlock(&sp10);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexBlock16_LoadTex
  */
@@ -488,9 +450,7 @@ void StretchTexBlock16_LoadTex(StretchTexBlock_arg0 *arg0) {
                         G_IM_SIZ_16b, arg0->width, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexBlock16
  */
@@ -515,9 +475,7 @@ void StretchTexBlock16(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f
     sp18.unk_38 = 0x800 / arg1;
     StretchTexBlock(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexBlock4i_LoadTex
  */
@@ -526,9 +484,7 @@ void StretchTexBlock4i_LoadTex(StretchTexBlock_arg0 *arg0) {
                            arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexBlock4i
  */
@@ -554,9 +510,8 @@ void StretchTexBlock4i(Gfx **gfxP, s32 arg1, s32 arg2, void *arg3, f32 arg4, f32
 
     StretchTexBlock(&sp10);
 }
-#endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 void func_800430D0(StretchTexBlock_arg0 *arg0) {
     gDPLoadTextureBlock((*arg0->gfxP)++, arg0->unk_10 + (arg0->width * arg0->unk_40), G_IM_FMT_I, G_IM_SIZ_8b,
                         arg0->width, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
@@ -568,7 +523,7 @@ void func_800430D0(StretchTexBlock_arg0 *arg0) {
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800456F4_cn);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 void func_800432A8(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     StretchTexBlock_arg0 sp10;
 
@@ -597,7 +552,6 @@ void func_800432A8(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800458DC_cn);
 #endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexTile
  */
@@ -693,9 +647,7 @@ void StretchTexTile(StretchTexTile_arg0 *arg0) {
         arg0->unk_4C(arg0);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexTile_ScisRect
  */
@@ -705,9 +657,7 @@ void StretchTexTile_ScisRect(StretchTexTile_arg0 *arg0) {
     gSPScisTextureRectangle((*arg0->gfxP)++, temp_a2->unk_00, temp_a2->unk_04, temp_a2->unk_08, temp_a2->unk_0C,
                             G_TX_RENDERTILE, temp_a2->unk_10, temp_a2->unk_14, temp_a2->unk_18, temp_a2->unk_1C);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RectTexTile_ScisRect
  */
@@ -747,9 +697,7 @@ void RectTexTile_ScisRect(StretchTexTile_arg0 *arg0) {
     *arg0->vtxP = &vtx[4];
     *arg0->gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchAlphaTexTile_LoadColorTex
  */
@@ -759,9 +707,7 @@ void StretchAlphaTexTile_LoadColorTex(StretchTexTile_arg0 *arg0) {
                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                        G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchAlphaTexTile_LoadAlphaTex
  */
@@ -771,9 +717,7 @@ void StretchAlphaTexTile_LoadAlphaTex(StretchTexTile_arg0 *arg0) {
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchAlphaTexTile
  */
@@ -805,9 +749,7 @@ void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, void *arg3, s32 arg4, v
 
     StretchTexTile(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RectAlphaTexTile
  */
@@ -841,9 +783,7 @@ void RectAlphaTexTile(Gfx **gfxP, Vtx **vtxP, s32 arg2, s32 arg3, void *arg4, s3
 
     StretchTexTile(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexTile4_LoadTex
  */
@@ -852,9 +792,7 @@ void StretchTexTile4_LoadTex(StretchTexTile_arg0 *arg0) {
                           arg0->unk_20 + arg0->unk_28 - 1, arg0->unk_54 - 1, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK,
                           G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexTile4
  */
@@ -893,9 +831,7 @@ void StretchTexTile4(Gfx **gfxP, s32 width, s32 height, u16 *tlut, u8 *tex, s32 
 
     StretchTexTile(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexTile8_LoadTex
  */
@@ -904,9 +840,7 @@ void StretchTexTile8_LoadTex(StretchTexTile_arg0 *arg0) {
                        arg0->unk_50, arg0->unk_20 + arg0->unk_28 - 1, arg0->unk_54 - 1, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexTile8
  */
@@ -941,9 +875,7 @@ void StretchTexTile8(Gfx **gfxP, s32 width, s32 height, u16 *tlut, u8 *tex, s32 
 
     StretchTexTile(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RectTexTile8
  */
@@ -978,9 +910,7 @@ void RectTexTile8(Gfx **gfxP, Vtx **vtxP, s32 arg2, s32 arg3, u16 *tlut, u8 *tex
 
     StretchTexTile(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexTile16_LoadTex
  */
@@ -989,9 +919,7 @@ void StretchTexTile16_LoadTex(StretchTexTile_arg0 *arg0) {
                        arg0->unk_50, arg0->unk_20 + arg0->unk_28 - 1, arg0->unk_54 - 1, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexTile16
  */
@@ -1021,9 +949,7 @@ void StretchTexTile16(Gfx **gfxP, s32 arg1, s32 arg2, u16 *arg3, s32 arg4, s32 a
     sp18.unk_48 = 0x800 / ALIGN4(arg6);
     StretchTexTile(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexTile4i_LoadTex
  */
@@ -1032,9 +958,7 @@ void StretchTexTile4i_LoadTex(StretchTexTile_arg0 *arg0) {
                           arg0->unk_20 + arg0->unk_28 - 1, arg0->unk_54 - 1, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK,
                           G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: StretchTexTile4i
  */
@@ -1068,9 +992,7 @@ void StretchTexTile4i(Gfx **gfxP, s32 width, s32 height, u8 tex[], s32 arg4, s32
 
     StretchTexTile(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: RectTexTile4i
  */
@@ -1104,9 +1026,7 @@ void RectTexTile4i(Gfx **gfxP, Vtx **vtxP, s32 width, s32 height, u8 *tex, s32 a
 
     StretchTexTile(&sp18);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: tiMappingAddr
  */
@@ -1133,9 +1053,7 @@ void tiMappingAddr(TiTexData *tiArr, s32 len, uintptr_t addr) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: tiLoadTexData
  */
@@ -1155,9 +1073,8 @@ TiTexData *tiLoadTexData(void **heap, RomOffset segmentRom, RomOffset segmentRom
 
     return texData;
 }
-#endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 void *func_80045110(void **arg0, void **arg1, s32 arg2, RomOffset segmentRom, RomOffset segmentRomEnd) {
     size_t temp_a3;
     u32 *temp_v1;
@@ -1184,7 +1101,6 @@ void *func_80045110(void **arg0, void **arg1, s32 arg2, RomOffset segmentRom, Ro
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047894_cn);
 #endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: tiCopyTexBlock
  */
@@ -1214,9 +1130,7 @@ void tiCopyTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4) {
             break;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: tiStretchTexBlock
  */
@@ -1254,9 +1168,7 @@ void tiStretchTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, f32 arg3, f32 arg4
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: tiStretchTexTile
  */
@@ -1299,9 +1211,7 @@ void tiStretchTexTile(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4,
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: tiStretchTexItem
  */
@@ -1358,9 +1268,7 @@ void tiStretchTexItem(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4,
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: tiStretchAlphaTexItem
  */
@@ -1386,9 +1294,8 @@ void tiStretchAlphaTexItem(Gfx **gfxP, TiTexData *arg1, TiTexData *arg2, s32 arg
                             arg6, arg7, arg8, arg9);
     }
 }
-#endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 void func_80045914(Gfx **arg0, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7,
                    f32 arg8, f32 arg9) {
     s32 var_t3 = MIN(arg1->info[0], arg2->info[0]);
@@ -1417,7 +1324,7 @@ void func_80045914(Gfx **arg0, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 a
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80048174_cn);
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 /**
  * Original name: _pnts_871
  */
@@ -1434,7 +1341,6 @@ extern u8 _pnts_871[][8];
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/tex_func", _pnts_871);
 #endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: tiStretchAlphaTexItem
  */
@@ -1486,4 +1392,3 @@ void drawCursorPattern(Gfx **gfxP, s32 arg1 UNUSED, s32 arg2 UNUSED, s32 arg3, s
     }
     *gfxP = gfx;
 }
-#endif

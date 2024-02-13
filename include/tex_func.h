@@ -194,7 +194,7 @@ void drawCursorPattern(Gfx** gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 a
 
 // .data
 
-extern Gfx D_8008E5E0[];
+extern Gfx copy_texture_init_dl[];
 extern Gfx alpha_texture_init_dl[];
 extern Gfx normal_texture_init_dl[];
 extern Gfx D_8008E728[];

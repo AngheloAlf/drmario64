@@ -594,7 +594,7 @@ segments:
         type: .data
         name: main_segment/tex_func
         subsegments:
-          - { start: 0x076400, type: gfx, data_only: True, name: main_segment/tex_func/D_8008E5E0 }
+          - { start: 0x076400, type: gfx, data_only: True, name: main_segment/tex_func/copy_texture_init_dl }
           - { start: 0x076470, type: gfx, data_only: True, name: main_segment/tex_func/alpha_texture_init_dl }
           - { start: 0x0764D8, type: gfx, data_only: True, name: main_segment/tex_func/normal_texture_init_dl }
           - { start: 0x076548, type: gfx, data_only: True, name: main_segment/tex_func/D_8008E728 }
