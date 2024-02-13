@@ -11,14 +11,16 @@
 #include "boot_variables.h"
 #include "main_segment_variables.h"
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: copy_texture_init_dl
+ */
 Gfx copy_texture_init_dl[] = {
 #include "main_segment/tex_func/copy_texture_init_dl.gfx.inc.c"
 };
+
 /**
  * Original name: alpha_texture_init_dl
  */
-
 Gfx alpha_texture_init_dl[] = {
 #include "main_segment/tex_func/alpha_texture_init_dl.gfx.inc.c"
 };
@@ -40,7 +42,6 @@ Gfx D_8008E728[] = {
 Gfx init_dl_155[] = {
 #include "main_segment/tex_func/init_dl_155.gfx.inc.c"
 };
-#endif
 
 /**
  * Original name: _modes_96
@@ -64,7 +65,6 @@ void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5)
     *gfxP = gfx;
 }
 
-#if VERSION_US || VERSION_GW
 void func_80040D34(Gfx **gxfP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 red, s32 green, s32 blue) {
     Gfx *gfx = *gxfP;
     s32 temp_t0 = GPACK_RGBA5551(red, green, blue, 1);
@@ -77,11 +77,6 @@ void func_80040D34(Gfx **gxfP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 red, 
 
     *gxfP = gfx;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80043274_cn);
-#endif
 
 /**
  * Original name: FillRectRGBA
@@ -511,24 +506,16 @@ void StretchTexBlock4i(Gfx **gfxP, s32 arg1, s32 arg2, void *arg3, f32 arg4, f32
     StretchTexBlock(&sp10);
 }
 
-#if VERSION_US || VERSION_GW
 void func_800430D0(StretchTexBlock_arg0 *arg0) {
     gDPLoadTextureBlock((*arg0->gfxP)++, arg0->unk_10 + (arg0->width * arg0->unk_40), G_IM_FMT_I, G_IM_SIZ_8b,
                         arg0->width, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                         G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800456F4_cn);
-#endif
-
-#if VERSION_US || VERSION_GW
 void func_800432A8(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     StretchTexBlock_arg0 sp10;
 
     sp10.gfxP = gfxP;
-    sp10.unk_30 = func_800430D0;
     sp10.unk_04 = 0;
     sp10.unk_08 = arg1;
     sp10.unk_0C = arg2;
@@ -536,8 +523,11 @@ void func_800432A8(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
     sp10.width = arg1;
     sp10.unk_18 = 0;
     sp10.unk_1C = 0;
+
+    sp10.unk_30 = func_800430D0;
     sp10.unk_34 = NULL;
     sp10.unk_3C = StretchTexBlock_ScisRect;
+
     sp10.unk_20 = arg4 * 4.0;
     sp10.unk_24 = arg5 * 4.0;
     sp10.unk_28 = arg6 * 4.0;
@@ -546,11 +536,6 @@ void func_800432A8(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 a
 
     StretchTexBlock(&sp10);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_800458DC_cn);
-#endif
 
 /**
  * Original name: StretchTexTile
@@ -1074,7 +1059,6 @@ TiTexData *tiLoadTexData(void **heap, RomOffset segmentRom, RomOffset segmentRom
     return texData;
 }
 
-#if VERSION_US || VERSION_GW
 void *func_80045110(void **arg0, void **arg1, s32 arg2, RomOffset segmentRom, RomOffset segmentRomEnd) {
     size_t temp_a3;
     u32 *temp_v1;
@@ -1095,11 +1079,6 @@ void *func_80045110(void **arg0, void **arg1, s32 arg2, RomOffset segmentRom, Ro
 
     return temp_v1;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80047894_cn);
-#endif
 
 /**
  * Original name: tiCopyTexBlock
@@ -1295,7 +1274,6 @@ void tiStretchAlphaTexItem(Gfx **gfxP, TiTexData *arg1, TiTexData *arg2, s32 arg
     }
 }
 
-#if VERSION_US || VERSION_GW
 void func_80045914(Gfx **arg0, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7,
                    f32 arg8, f32 arg9) {
     s32 var_t3 = MIN(arg1->info[0], arg2->info[0]);
@@ -1318,13 +1296,7 @@ void func_80045914(Gfx **arg0, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 a
                             arg6, arg7, arg8, arg9);
     }
 }
-#endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/tex_func", func_80048174_cn);
-#endif
-
-#if VERSION_US || VERSION_GW
 /**
  * Original name: _pnts_871
  */
@@ -1333,13 +1305,6 @@ const u8 _pnts_871[][8] = {
     { 0, 1, 1, 2, 0, 2, 2, 1 }, { 1, 1, 2, 2, 2, 2, 1, 1 }, { 2, 1, 3, 2, 1, 2, 0, 1 },
     { 0, 2, 1, 3, 0, 1, 2, 0 }, { 1, 2, 2, 3, 2, 1, 1, 0 }, { 2, 2, 3, 3, 1, 1, 0, 0 },
 };
-#endif
-
-#if VERSION_CN
-extern u8 _pnts_871[][8];
-
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/tex_func", _pnts_871);
-#endif
 
 /**
  * Original name: tiStretchAlphaTexItem

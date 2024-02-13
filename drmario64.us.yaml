@@ -593,12 +593,13 @@ segments:
       - start: 0x076400
         type: .data
         name: main_segment/tex_func
+        dir: main_segment/tex_func
         subsegments:
-          - { start: 0x076400, type: gfx, data_only: True, name: main_segment/tex_func/copy_texture_init_dl }
-          - { start: 0x076470, type: gfx, data_only: True, name: main_segment/tex_func/alpha_texture_init_dl }
-          - { start: 0x0764D8, type: gfx, data_only: True, name: main_segment/tex_func/normal_texture_init_dl }
-          - { start: 0x076548, type: gfx, data_only: True, name: main_segment/tex_func/D_8008E728 }
-          - { start: 0x076568, type: gfx, data_only: True, name: main_segment/tex_func/init_dl_155 }
+          - { start: 0x076400, type: gfx, data_only: True, name: copy_texture_init_dl }
+          - { start: 0x076470, type: gfx, data_only: True, name: alpha_texture_init_dl }
+          - { start: 0x0764D8, type: gfx, data_only: True, name: normal_texture_init_dl }
+          - { start: 0x076548, type: gfx, data_only: True, name: D_8008E728 }
+          - { start: 0x076568, type: gfx, data_only: True, name: init_dl_155 }
 
       - [0x076590, .data, main_segment/main_menu]
 

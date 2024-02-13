@@ -530,6 +530,19 @@ segments:
 
       - [0x0771D0, data, main_segment/0771D0]
 
+      - start: 0x0771E0
+        type: .data
+        name: main_segment/tex_func
+        dir: main_segment/tex_func
+        subsegments:
+          - { start: 0x0771E0, type: gfx, data_only: True, name: copy_texture_init_dl }
+          - { start: 0x077250, type: gfx, data_only: True, name: alpha_texture_init_dl }
+          - { start: 0x0772B8, type: gfx, data_only: True, name: normal_texture_init_dl }
+          - { start: 0x077328, type: gfx, data_only: True, name: D_8008E728 }
+          - { start: 0x077348, type: gfx, data_only: True, name: init_dl_155 }
+
+      - [0x077370, data, main_segment/077370]
+
       - start: 0x0774C0
         type: .data
         name: main_segment/font
