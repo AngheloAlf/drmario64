@@ -484,7 +484,7 @@ segments:
 
       - [0x044180, c, main_segment/font]
 
-      - [0x0458B0, asm, main_segment/msgwnd]
+      - [0x0458B0, c, main_segment/msgwnd]
       - [0x046AB0, asm, main_segment/char_anime]
       - [0x0478E0, asm, main_segment/dm_virus_init]
 
@@ -579,8 +579,9 @@ segments:
         - { start: 0x09A550, type: gfx, data_only: True, name: main_segment/font/init_dl_135 }
         - [0x09A578]
 
-      - [0x09A590, rodata, main_segment/msgwnd]
-      - [0x09A810, rodata, main_segment/dm_virus_init]
+      - [0x09A590, .rodata, main_segment/msgwnd]
+      - [0x09A660, rodata, main_segment/09A660]
+      - [0x09A810, rodata, main_segment/09A810]
       - [0x09A830, rodata, main_segment/048B80]
       - [0x09B000, rodata, main_segment/05A9D0]
       - [0x09BF60, rodata, main_segment/05F440]

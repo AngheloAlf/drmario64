@@ -27,7 +27,6 @@ const Color_RGB8 sMessageColorTable[] = {
     /* 7 */ { 255, 255, 255 }, // White
 };
 
-#if VERSION_US || VERSION_CN
 bool func_8005CF20(s32 arg0, u32 buttonMask) {
     s32 i;
 
@@ -40,9 +39,7 @@ bool func_8005CF20(s32 arg0, u32 buttonMask) {
     }
     return i < 4;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_init
  */
@@ -56,9 +53,7 @@ void msgWnd_init(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 
     temp -= ((arg3 + 1) * sizeof(MessageWnd_unk_04));
     msgWnd_init2(messageWnd, arg1, temp, arg2, arg3, arg4, arg5);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_init2
  */
@@ -96,9 +91,7 @@ void msgWnd_init2(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32
 
     msgWnd_clear(messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_clear
  */
@@ -118,9 +111,7 @@ void msgWnd_clear(MessageWnd *messageWnd) {
     messageWnd->timer = 0;
     messageWnd->unk_7C = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_layout
  */
@@ -199,9 +190,7 @@ void msgWnd_layout(MessageWnd *messageWnd) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_addStr
  */
@@ -227,18 +216,14 @@ void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1) {
     messageWnd->hasEnded = false;
     msgWnd_layout(messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8005D3F8(MessageWnd *messageWnd) {
     messageWnd->unk_14 = messageWnd->unk_04[1].unk_0;
     messageWnd->color = messageWnd->unk_04[1].color;
 
     msgWnd_layout(messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_update
  */
@@ -337,10 +322,8 @@ void msgWnd_update(MessageWnd *messageWnd) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 #define MSGWND_DRAW_UNK_SPACE 0
 #elif VERSION_CN
 #define MSGWND_DRAW_UNK_SPACE 2
@@ -513,18 +496,14 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_isEnd
  */
 bool msgWnd_isEnd(MessageWnd *messageWnd) {
     return messageWnd->hasEnded;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_skip
  */
@@ -532,40 +511,31 @@ void msgWnd_skip(MessageWnd *messageWnd) {
     messageWnd->unk_50 = messageWnd->unk_10;
     messageWnd->timer = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_isSpeaking
  */
 bool msgWnd_isSpeaking(MessageWnd *messageWnd) {
     return messageWnd->isSpeaking;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_isScroll
  */
 bool msgWnd_isScroll(MessageWnd *messageWnd) {
     return messageWnd->line >= messageWnd->unk_44;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_getWidth
  */
 s32 msgWnd_getWidth(MessageWnd *messageWnd) {
     return messageWnd->unk_38 * messageWnd->unk_3C;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_getHeight
  */
 s32 msgWnd_getHeight(MessageWnd *messageWnd) {
     return messageWnd->unk_44 * messageWnd->unk_48;
 }
-#endif
