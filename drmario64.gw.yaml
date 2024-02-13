@@ -341,13 +341,16 @@ segments:
       - [0x00E500, c, ../lib/ultralib/src/io/si]
       # end of libultra
 
-      - [0x00E520, asm, boot/00E520]
-      - [0x00E700, asm, boot/00E700]
-      - [0x00E940, asm, boot/00E940]
-      - [0x00E9F0, asm, boot/00E9F0]
-      - [0x00ED00, asm, boot/00ED00]
-      - [0x00EE70, asm, boot/00EE70]
-      - [0x00EE90, asm, boot/00EE90]
+      # start of libkmc
+      - [0x00E520, c, libkmc/fmod]
+      - [0x00E700, c, libkmc/memmove]
+      - [0x00E870, c, libkmc/memset]
+      - [0x00E940, c, libkmc/modf]
+      - [0x00E9F0, c, libkmc/rand]
+      - [0x00EA30, c, libkmc/strcpy]
+      - [0x00EB00, hasm, libkmc/mmuldi3]
+      - [auto, c, libkmc/ctype]
+      # end of libkmc
 
       - [0x00EED0, .data, boot/boot_main]
       - [0x00EEE0, .data, boot/dmadata]
@@ -400,7 +403,9 @@ segments:
       - [0x011640, .data, ../lib/ultralib/src/vimodes/vimodempallan1]
       # end of libultra
 
+      # libkmc
       - [0x011690, .data, libkmc/ctype]
+      # end of libkmc
 
       # Start of libultra
       - [0x011790, .rodata, ../lib/ultralib/src/io/devmgr]
@@ -427,7 +432,9 @@ segments:
       - [0x011B90, .rodata, ../lib/ultralib/src/gu/libm_vals]
       # end of libultra
 
-      - [0x011BA0, rodata, boot/00E520]
+      # libkmc
+      - [0x011BA0, .rodata,  libkmc/fmod]
+      # end of libkmc
 
       - { type: bss, vram: 0x80010FB0, name: boot/80010FB0 }
 
@@ -437,7 +444,11 @@ segments:
       - { type: .bss, vram: 0x8001A5D0, name: ../lib/ultralib/src/io/siacs }
       - { type: .bss, vram: 0x8001A5E0, name: ../lib/ultralib/src/io/vimgr }
 
-      - { type: bss, vram: 0x8001B800, name: boot/8001B800 }
+      # libkmc
+      - { type: .bss, vram: 0x8001B800, name: libkmc/rand }
+      # end of libkmc
+
+      - { type: bss, vram: 0x8001B810, name: boot/8001B810 }
 
   - name: dma_table
     type: code

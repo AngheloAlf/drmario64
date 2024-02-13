@@ -39,24 +39,26 @@ WrapF = 0x80002450; // type:func
 Gateway_GetHandle = 0x800024F0; // type:func
 Gateway_80002AE8_cn = 0x800025A8; // type:func
 
-func_8000D920_gw = 0x8000D920; // type:func
+__fint = 0x8000D920; // type:func
 fmod = 0x8000D9A8; // type:func
-func_8000DA04_gw = 0x8000DA04; // type:func
-func_8000DA80_gw = 0x8000DA80; // type:func
-func_8000DB00_gw = 0x8000DB00; // type:func
+ceil = 0x8000DA04; // type:func
+floor = 0x8000DA80; // type:func
+_memmover = 0x8000DB00; // type:func
 memmove = 0x8000DC04; // type:func
-func_8000DC4C_gw = 0x8000DC4C; // type:func
-func_8000DC70_gw = 0x8000DC70; // type:func
-func_8000DD10_gw = 0x8000DD10; // type:func
-func_8000DD40_gw = 0x8000DD40; // type:func
+movmem = 0x8000DC4C; // type:func
+memset = 0x8000DC70; // type:func
+setmem = 0x8000DD10; // type:func
+modf = 0x8000DD40; // type:func
 rand = 0x8000DDF0; // type:func
-func_8000DE24_gw = 0x8000DE24; // type:func
-func_8000DE30_gw = 0x8000DE30; // type:func
-func_8000DF04_gw = 0x8000DF04; // type:func
-func_8000DF38_gw = 0x8000DF38; // type:func
-func_8000E034_gw = 0x8000E034; // type:func
+srand = 0x8000DE24; // type:func
+strcpy = 0x8000DE30; // type:func
+__muldi3 = 0x8000DF00; // type:func
+div64_64 = 0x8000DF38; // type:func
+div64_32 = 0x8000E034; // type:func
+__divdi3 = 0x8000E100; // type:func
+__moddi3 = 0x8000E1B0; // type:func
 __udivdi3 = 0x8000E270; // type:func
-func_8000E290_gw = 0x8000E290; // type:func
+__umoddi3 = 0x8000E290; // type:func
 
 
 // .data
@@ -124,7 +126,7 @@ viEventQueue = 0x8001B7A0; //
 viEventBuf = 0x8001B7B8; // size:0x14
 viRetraceMsg = 0x8001B7D0; // size:0x18
 viCounterMsg = 0x8001B7E8; // size:0x18
-B_8001B800_gw = 0x8001B800; //
+sRandNext = 0x8001B800; //
 inbuf = 0x8001B810; // type:u8
 bk = 0x8001D810; //
 
