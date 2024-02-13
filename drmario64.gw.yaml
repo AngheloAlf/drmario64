@@ -766,20 +766,20 @@ segments:
           - [0x402CB8]
           - [0x402CC8, i4, menu_char_titexdata_01_texs_tex.i4, 48, 36]
           - [0x403028]
-          - { start: 0x403038, type: palette, name: menu_char_titexdata_02_texs_tex.palette, raster_name: menu_char_titexdata_02_texs_tex.ci8 }
-          - { start: 0x403238, type: ci8, name: menu_char_titexdata_02_texs_tex.ci8, width: 64, height: 48, palette: menu_char_titexdata_02_texs_tex.palette }
+          - [0x403038, palette, menu_char_titexdata_02_texs_tex.ci8]
+          - [0x403238, ci8, menu_char_titexdata_02_texs_tex.ci8, 64, 48]
           - [0x403E38]
-          - { start: 0x403E48, type: palette, name: menu_char_titexdata_03_texs_tex.palette, raster_name: menu_char_titexdata_03_texs_tex.ci8 }
-          - { start: 0x404048, type: ci8, name: menu_char_titexdata_03_texs_tex.ci8, width: 50, height: 51, palette: menu_char_titexdata_03_texs_tex.palette }
+          - [0x403E48, palette, menu_char_titexdata_03_texs_tex.ci8]
+          - [0x404048, ci8, menu_char_titexdata_03_texs_tex.ci8, 50, 51]
           - [0x404A3E]
-          - { start: 0x404A50, type: palette, name: menu_char_titexdata_04_texs_tex.palette, raster_name: menu_char_titexdata_04_texs_tex.ci8 }
-          - { start: 0x404C50, type: ci8, name: menu_char_titexdata_04_texs_tex.ci8, width: 52, height: 51, palette: menu_char_titexdata_04_texs_tex.palette }
+          - [0x404A50, palette, menu_char_titexdata_04_texs_tex.ci8]
+          - [0x404C50, ci8, menu_char_titexdata_04_texs_tex.ci8, 52, 51]
           - [0x4056AC]
-          - { start: 0x4056C0, type: palette, name: menu_char_titexdata_05_texs_tex.palette, raster_name: menu_char_titexdata_05_texs_tex.ci8 }
-          - { start: 0x4058C0, type: ci8, name: menu_char_titexdata_05_texs_tex.ci8, width: 288, height: 179, palette: menu_char_titexdata_05_texs_tex.palette }
+          - [0x4056C0, palette, menu_char_titexdata_05_texs_tex.ci8]
+          - [0x4058C0, ci8, menu_char_titexdata_05_texs_tex.ci8, 288, 179]
           - [0x412220]
-          - { start: 0x412230, type: palette, name: menu_char_titexdata_06_texs_tex.palette, raster_name: menu_char_titexdata_06_texs_tex.ci8 }
-          - { start: 0x412430, type: ci8, name: menu_char_titexdata_06_texs_tex.ci8, width: 56, height: 30, palette: menu_char_titexdata_06_texs_tex.palette }
+          - [0x412230, palette, menu_char_titexdata_06_texs_tex.ci8]
+          - [0x412430, ci8, menu_char_titexdata_06_texs_tex.ci8, 56, 30]
           - [0x412AC0]
 
   - name: segment_menu_common # compressed
@@ -799,8 +799,8 @@ segments:
           - [0x412D18]
           - [0x412D28, rgba16, menu_common_titexdata_01_texs_tex.rgba16, 32, 32]
           - [0x413528]
-          - { start: 0x413538, type: palette, name: menu_common_titexdata_02_texs_tex.palette, raster_name: menu_common_titexdata_02_texs_tex.ci4 }
-          - { start: 0x413558, type: ci4, name: menu_common_titexdata_02_texs_tex.ci4, width: 64, height: 40, palette: menu_common_titexdata_02_texs_tex.palette }
+          - [0x413538, palette, menu_common_titexdata_02_texs_tex.ci4]
+          - [0x413558, ci4, menu_common_titexdata_02_texs_tex.ci4, 64, 40]
           - [0x413A58]
           - [0x413A68, i4, menu_common_titexdata_03_texs_tex.i4, 64, 64]
           - [0x414268]
@@ -824,11 +824,11 @@ segments:
           - [0x415AC8]
           - [0x415AD8, i4, menu_common_titexdata_13_texs_tex.i4, 16, 10]
           - [0x415B28]
-          - { start: 0x415B38, type: palette, name: menu_common_titexdata_14_texs_tex.palette, raster_name: menu_common_titexdata_14_texs_tex.ci8 }
-          - { start: 0x415D38, type: ci8, name: menu_common_titexdata_14_texs_tex.ci8, width: 128, height: 940, palette: menu_common_titexdata_14_texs_tex.palette }
+          - [0x415B38, palette, menu_common_titexdata_14_texs_tex.ci8]
+          - [0x415D38, ci8, menu_common_titexdata_14_texs_tex.ci8, 128, 940]
           - [0x433338]
-          - { start: 0x433348, type: palette, name: menu_common_titexdata_15_texs_tex.palette, raster_name: menu_common_titexdata_15_texs_tex.ci8 }
-          - { start: 0x433548, type: ci8, name: menu_common_titexdata_15_texs_tex.ci8, width: 96, height: 336, palette: menu_common_titexdata_15_texs_tex.palette }
+          - [0x433348, palette, menu_common_titexdata_15_texs_tex.ci8]
+          - [0x433548, ci8, menu_common_titexdata_15_texs_tex.ci8, 96, 336]
           - [0x43B348]
 
   - name: segment_menu_level # compressed
@@ -844,26 +844,26 @@ segments:
         dir: assets/menu/menu_level
         subsegments:
           - [0x43B3D0]
-          - { start: 0x43B3E8, type: palette, name: menu_level_titexdata_00_texs_tex.palette, raster_name: menu_level_titexdata_00_texs_tex.ci4 }
-          - { start: 0x43B408, type: ci4, name: menu_level_titexdata_00_texs_tex.ci4, width: 16, height: 15, palette: menu_level_titexdata_00_texs_tex.palette }
+          - [0x43B3E8, palette, menu_level_titexdata_00_texs_tex.ci4]
+          - [0x43B408, ci4, menu_level_titexdata_00_texs_tex.ci4, 16, 15]
           - [0x43B480]
-          - { start: 0x43B490, type: palette, name: menu_level_titexdata_01_texs_tex.palette, raster_name: menu_level_titexdata_01_texs_tex.ci8 }
-          - { start: 0x43B690, type: ci8, name: menu_level_titexdata_01_texs_tex.ci8, width: 288, height: 90, palette: menu_level_titexdata_01_texs_tex.palette }
+          - [0x43B490, palette, menu_level_titexdata_01_texs_tex.ci8]
+          - [0x43B690, ci8, menu_level_titexdata_01_texs_tex.ci8, 288, 90]
           - [0x441BD0]
-          - { start: 0x441BE0, type: palette, name: menu_level_titexdata_02_texs_tex.palette, raster_name: menu_level_titexdata_02_texs_tex.ci8 }
-          - { start: 0x441DE0, type: ci8, name: menu_level_titexdata_02_texs_tex.ci8, width: 72, height: 164, palette: menu_level_titexdata_02_texs_tex.palette }
+          - [0x441BE0, palette, menu_level_titexdata_02_texs_tex.ci8]
+          - [0x441DE0, ci8, menu_level_titexdata_02_texs_tex.ci8, 72, 164]
           - [0x444C00]
-          - { start: 0x444C10, type: palette, name: menu_level_titexdata_03_texs_tex.palette, raster_name: menu_level_titexdata_03_texs_tex.ci8 }
-          - { start: 0x444E10, type: ci8, name: menu_level_titexdata_03_texs_tex.ci8, width: 56, height: 150, palette: menu_level_titexdata_03_texs_tex.palette }
+          - [0x444C10, palette, menu_level_titexdata_03_texs_tex.ci8]
+          - [0x444E10, ci8, menu_level_titexdata_03_texs_tex.ci8, 56, 150]
           - [0x446EE0]
-          - { start: 0x446EF0, type: palette, name: menu_level_titexdata_04_texs_tex.palette, raster_name: menu_level_titexdata_04_texs_tex.ci8 }
-          - { start: 0x4470F0, type: ci8, name: menu_level_titexdata_04_texs_tex.ci8, width: 304, height: 93, palette: menu_level_titexdata_04_texs_tex.palette }
+          - [0x446EF0, palette, menu_level_titexdata_04_texs_tex.ci8]
+          - [0x4470F0, ci8, menu_level_titexdata_04_texs_tex.ci8, 304, 93]
           - [0x44DF60]
-          - { start: 0x44DF70, type: palette, name: menu_level_titexdata_05_texs_tex.palette, raster_name: menu_level_titexdata_05_texs_tex.ci8 }
-          - { start: 0x44E170, type: ci8, name: menu_level_titexdata_05_texs_tex.ci8, width: 270, height: 93, palette: menu_level_titexdata_05_texs_tex.palette }
+          - [0x44DF70, palette, menu_level_titexdata_05_texs_tex.ci8]
+          - [0x44E170, ci8, menu_level_titexdata_05_texs_tex.ci8, 270, 93]
           - [0x454386]
-          - { start: 0x454398, type: palette, name: menu_level_titexdata_06_texs_tex.palette, raster_name: menu_level_titexdata_06_texs_tex.ci8 }
-          - { start: 0x454598, type: ci8, name: menu_level_titexdata_06_texs_tex.ci8, width: 48, height: 32, palette: menu_level_titexdata_06_texs_tex.palette }
+          - [0x454398, palette, menu_level_titexdata_06_texs_tex.ci8]
+          - [0x454598, ci8, menu_level_titexdata_06_texs_tex.ci8, 48, 32]
           - [0x454B98]
 
   - name: segment_menu_main # compressed
@@ -879,48 +879,48 @@ segments:
         dir: assets/menu/menu_main
         subsegments:
           - [0x454BE0]
-          - { start: 0x454BF8, type: palette, name: menu_main_titexdata_00_texs_tex.palette, raster_name: menu_main_titexdata_00_texs_tex.ci8 }
-          - { start: 0x454DF8, type: ci8, name: menu_main_titexdata_00_texs_tex.ci8, width: 72, height: 600, palette: menu_main_titexdata_00_texs_tex.palette }
+          - [0x454BF8, palette, menu_main_titexdata_00_texs_tex.ci8]
+          - [0x454DF8, ci8, menu_main_titexdata_00_texs_tex.ci8, 72, 600]
           - [0x45F6B8]
-          - { start: 0x45F6C8, type: palette, name: menu_main_titexdata_01_texs_tex.palette, raster_name: menu_main_titexdata_01_texs_tex.ci8 }
-          - { start: 0x45F8C8, type: ci8, name: menu_main_titexdata_01_texs_tex.ci8, width: 128, height: 59, palette: menu_main_titexdata_01_texs_tex.palette }
+          - [0x45F6C8, palette, menu_main_titexdata_01_texs_tex.ci8]
+          - [0x45F8C8, ci8, menu_main_titexdata_01_texs_tex.ci8, 128, 59]
           - [0x461648]
-          - { start: 0x461658, type: palette, name: menu_main_titexdata_02_texs_tex.palette, raster_name: menu_main_titexdata_02_texs_tex.ci8 }
-          - { start: 0x461858, type: ci8, name: menu_main_titexdata_02_texs_tex.ci8, width: 128, height: 82, palette: menu_main_titexdata_02_texs_tex.palette }
+          - [0x461658, palette, menu_main_titexdata_02_texs_tex.ci8]
+          - [0x461858, ci8, menu_main_titexdata_02_texs_tex.ci8, 128, 82]
           - [0x464158]
-          - { start: 0x464168, type: palette, name: menu_main_titexdata_03_texs_tex.palette, raster_name: menu_main_titexdata_03_texs_tex.ci8 }
-          - { start: 0x464368, type: ci8, name: menu_main_titexdata_03_texs_tex.ci8, width: 128, height: 105, palette: menu_main_titexdata_03_texs_tex.palette }
+          - [0x464168, palette, menu_main_titexdata_03_texs_tex.ci8]
+          - [0x464368, ci8, menu_main_titexdata_03_texs_tex.ci8, 128, 105]
           - [0x4677E8]
-          - { start: 0x4677F8, type: palette, name: menu_main_titexdata_04_texs_tex.palette, raster_name: menu_main_titexdata_04_texs_tex.ci8 }
-          - { start: 0x4679F8, type: ci8, name: menu_main_titexdata_04_texs_tex.ci8, width: 128, height: 128, palette: menu_main_titexdata_04_texs_tex.palette }
+          - [0x4677F8, palette, menu_main_titexdata_04_texs_tex.ci8]
+          - [0x4679F8, ci8, menu_main_titexdata_04_texs_tex.ci8, 128, 128]
           - [0x46B9F8]
-          - { start: 0x46BA08, type: palette, name: menu_main_titexdata_05_texs_tex.palette, raster_name: menu_main_titexdata_05_texs_tex.ci8 }
-          - { start: 0x46BC08, type: ci8, name: menu_main_titexdata_05_texs_tex.ci8, width: 128, height: 152, palette: menu_main_titexdata_05_texs_tex.palette }
+          - [0x46BA08, palette, menu_main_titexdata_05_texs_tex.ci8]
+          - [0x46BC08, ci8, menu_main_titexdata_05_texs_tex.ci8, 128, 152]
           - [0x470808]
-          - { start: 0x470818, type: palette, name: menu_main_titexdata_06_texs_tex.palette, raster_name: menu_main_titexdata_06_texs_tex.ci8 }
-          - { start: 0x470A18, type: ci8, name: menu_main_titexdata_06_texs_tex.ci8, width: 144, height: 63, palette: menu_main_titexdata_06_texs_tex.palette }
+          - [0x470818, palette, menu_main_titexdata_06_texs_tex.ci8]
+          - [0x470A18, ci8, menu_main_titexdata_06_texs_tex.ci8, 144, 63]
           - [0x472D88]
-          - { start: 0x472D98, type: palette, name: menu_main_titexdata_07_texs_tex.palette, raster_name: menu_main_titexdata_07_texs_tex.ci4 }
-          - { start: 0x472DB8, type: ci4, name: menu_main_titexdata_07_texs_tex.ci4, width: 64, height: 20, palette: menu_main_titexdata_07_texs_tex.palette }
+          - [0x472D98, palette, menu_main_titexdata_07_texs_tex.ci4]
+          - [0x472DB8, ci4, menu_main_titexdata_07_texs_tex.ci4, 64, 20]
           - [0x473038]
-          - { start: 0x473048, type: palette, name: menu_main_titexdata_08_texs_tex.palette, raster_name: menu_main_titexdata_08_texs_tex.ci8 }
-          - { start: 0x473248, type: ci8, name: menu_main_titexdata_08_texs_tex.ci8, width: 72, height: 200, palette: menu_main_titexdata_08_texs_tex.palette }
+          - [0x473048, palette, menu_main_titexdata_08_texs_tex.ci8]
+          - [0x473248, ci8, menu_main_titexdata_08_texs_tex.ci8, 72, 200]
           - [0x476A88]
           - [0x476A98, i4, menu_main_titexdata_09_texs_tex.i4, 80, 60]
           - [0x4773F8]
           - [0x477408, i4, menu_main_titexdata_10_texs_tex.i4, 16, 16]
           - [0x477488]
-          - { start: 0x477498, type: palette, name: menu_main_titexdata_11_texs_tex.palette, raster_name: menu_main_titexdata_11_texs_tex.ci8 }
-          - { start: 0x477698, type: ci8, name: menu_main_titexdata_11_texs_tex.ci8, width: 144, height: 74, palette: menu_main_titexdata_11_texs_tex.palette }
+          - [0x477498, palette, menu_main_titexdata_11_texs_tex.ci8]
+          - [0x477698, ci8, menu_main_titexdata_11_texs_tex.ci8, 144, 74]
           - [0x47A038]
-          - { start: 0x47A048, type: palette, name: menu_main_titexdata_12_texs_tex.palette, raster_name: menu_main_titexdata_12_texs_tex.ci8 }
-          - { start: 0x47A248, type: ci8, name: menu_main_titexdata_12_texs_tex.ci8, width: 96, height: 14, palette: menu_main_titexdata_12_texs_tex.palette }
+          - [0x47A048, palette, menu_main_titexdata_12_texs_tex.ci8]
+          - [0x47A248, ci8, menu_main_titexdata_12_texs_tex.ci8, 96, 14]
           - [0x47A788]
-          - { start: 0x47A798, type: palette, name: menu_main_titexdata_13_texs_tex.palette, raster_name: menu_main_titexdata_13_texs_tex.ci8 }
-          - { start: 0x47A998, type: ci8, name: menu_main_titexdata_13_texs_tex.ci8, width: 56, height: 20, palette: menu_main_titexdata_13_texs_tex.palette }
+          - [0x47A798, palette, menu_main_titexdata_13_texs_tex.ci8]
+          - [0x47A998, ci8, menu_main_titexdata_13_texs_tex.ci8, 56, 20]
           - [0x47ADF8]
-          - { start: 0x47AE08, type: palette, name: menu_main_titexdata_14_texs_tex.palette, raster_name: menu_main_titexdata_14_texs_tex.ci8 }
-          - { start: 0x47B008, type: ci8, name: menu_main_titexdata_14_texs_tex.ci8, width: 56, height: 20, palette: menu_main_titexdata_14_texs_tex.palette }
+          - [0x47AE08, palette, menu_main_titexdata_14_texs_tex.ci8]
+          - [0x47B008, ci8, menu_main_titexdata_14_texs_tex.ci8, 56, 20]
           - [0x47B468]
 
   - name: segment_menu_name # compressed
@@ -940,14 +940,14 @@ segments:
           - [0x47B628]
           - [0x47B638, i4, menu_name_titexdata_01_texs_tex.i4, 16, 12]
           - [0x47B698]
-          - { start: 0x47B6A8, type: palette, name: menu_name_titexdata_02_texs_tex.palette, raster_name: menu_name_titexdata_02_texs_tex.ci8 }
-          - { start: 0x47B8A8, type: ci8, name: menu_name_titexdata_02_texs_tex.ci8, width: 288, height: 130, palette: menu_name_titexdata_02_texs_tex.palette }
+          - [0x47B6A8, palette, menu_name_titexdata_02_texs_tex.ci8]
+          - [0x47B8A8, ci8, menu_name_titexdata_02_texs_tex.ci8, 288, 130]
           - [0x484AE8]
-          - { start: 0x484AF8, type: palette, name: menu_name_titexdata_03_texs_tex.palette, raster_name: menu_name_titexdata_03_texs_tex.ci8 }
-          - { start: 0x484CF8, type: ci8, name: menu_name_titexdata_03_texs_tex.ci8, width: 16, height: 11, palette: menu_name_titexdata_03_texs_tex.palette }
+          - [0x484AF8, palette, menu_name_titexdata_03_texs_tex.ci8]
+          - [0x484CF8, ci8, menu_name_titexdata_03_texs_tex.ci8, 16, 11]
           - [0x484DA8]
-          - { start: 0x484DB8, type: palette, name: menu_name_titexdata_04_texs_tex.palette, raster_name: menu_name_titexdata_04_texs_tex.ci8 }
-          - { start: 0x484FB8, type: ci8, name: menu_name_titexdata_04_texs_tex.ci8, width: 200, height: 45, palette: menu_name_titexdata_04_texs_tex.palette }
+          - [0x484DB8, palette, menu_name_titexdata_04_texs_tex.ci8]
+          - [0x484FB8, ci8, menu_name_titexdata_04_texs_tex.ci8, 200, 45]
           - [0x4872E0]
 
   - name: segment_menu_p2 # compressed
@@ -963,11 +963,11 @@ segments:
         dir: assets/menu/menu_p2
         subsegments:
           - [0x487310]
-          - { start: 0x487328, type: palette, name: menu_p2_titexdata_00_texs_tex.palette, raster_name: menu_p2_titexdata_00_texs_tex.ci8 }
-          - { start: 0x487528, type: ci8, name: menu_p2_titexdata_00_texs_tex.ci8, width: 304, height: 65, palette: menu_p2_titexdata_00_texs_tex.palette }
+          - [0x487328, palette, menu_p2_titexdata_00_texs_tex.ci8]
+          - [0x487528, ci8, menu_p2_titexdata_00_texs_tex.ci8, 304, 65]
           - [0x48C258]
-          - { start: 0x48C268, type: palette, name: menu_p2_titexdata_01_texs_tex.palette, raster_name: menu_p2_titexdata_01_texs_tex.ci8 }
-          - { start: 0x48C468, type: ci8, name: menu_p2_titexdata_01_texs_tex.ci8, width: 304, height: 65, palette: menu_p2_titexdata_01_texs_tex.palette }
+          - [0x48C268, palette, menu_p2_titexdata_01_texs_tex.ci8]
+          - [0x48C468, ci8, menu_p2_titexdata_01_texs_tex.ci8, 304, 65]
           - [0x491198]
 
   - name: segment_menu_p4 # compressed
@@ -983,14 +983,14 @@ segments:
         dir: assets/menu/menu_p4
         subsegments:
           - [0x4911B0]
-          - { start: 0x4911C8, type: palette, name: menu_p4_titexdata_00_texs_tex.palette, raster_name: menu_p4_titexdata_00_texs_tex.ci8 }
-          - { start: 0x4913C8, type: ci8, name: menu_p4_titexdata_00_texs_tex.ci8, width: 48, height: 525, palette: menu_p4_titexdata_00_texs_tex.palette }
+          - [0x4911C8, palette, menu_p4_titexdata_00_texs_tex.ci8]
+          - [0x4913C8, ci8, menu_p4_titexdata_00_texs_tex.ci8, 48, 525]
           - [0x497638]
-          - { start: 0x497648, type: palette, name: menu_p4_titexdata_01_texs_tex.palette, raster_name: menu_p4_titexdata_01_texs_tex.ci8 }
-          - { start: 0x497848, type: ci8, name: menu_p4_titexdata_01_texs_tex.ci8, width: 304, height: 43, palette: menu_p4_titexdata_01_texs_tex.palette }
+          - [0x497648, palette, menu_p4_titexdata_01_texs_tex.ci8]
+          - [0x497848, ci8, menu_p4_titexdata_01_texs_tex.ci8, 304, 43]
           - [0x49AB58]
-          - { start: 0x49AB68, type: palette, name: menu_p4_titexdata_02_texs_tex.palette, raster_name: menu_p4_titexdata_02_texs_tex.ci8 }
-          - { start: 0x49AD68, type: ci8, name: menu_p4_titexdata_02_texs_tex.ci8, width: 304, height: 43, palette: menu_p4_titexdata_02_texs_tex.palette }
+          - [0x49AB68, palette, menu_p4_titexdata_02_texs_tex.ci8]
+          - [0x49AD68, ci8, menu_p4_titexdata_02_texs_tex.ci8, 304, 43]
           - [0x49E078]
           - [0x49E088, i4, menu_p4_titexdata_03_texs_tex.i4, 48, 20]
           - [0x49E268]
@@ -1018,32 +1018,32 @@ segments:
         dir: assets/menu/menu_rank
         subsegments:
           - [0x49EC70]
-          - { start: 0x49EC88, type: palette, name: menu_rank_titexdata_00_texs_tex.palette, raster_name: menu_rank_titexdata_00_texs_tex.ci8 }
-          - { start: 0x49EE88, type: ci8, name: menu_rank_titexdata_00_texs_tex.ci8, width: 56, height: 180, palette: menu_rank_titexdata_00_texs_tex.palette }
+          - [0x49EC88, palette, menu_rank_titexdata_00_texs_tex.ci8]
+          - [0x49EE88, ci8, menu_rank_titexdata_00_texs_tex.ci8, 56, 180]
           - [0x4A15E8]
-          - { start: 0x4A15F8, type: palette, name: menu_rank_titexdata_01_texs_tex.palette, raster_name: menu_rank_titexdata_01_texs_tex.ci8 }
-          - { start: 0x4A17F8, type: ci8, name: menu_rank_titexdata_01_texs_tex.ci8, width: 56, height: 72, palette: menu_rank_titexdata_01_texs_tex.palette }
+          - [0x4A15F8, palette, menu_rank_titexdata_01_texs_tex.ci8]
+          - [0x4A17F8, ci8, menu_rank_titexdata_01_texs_tex.ci8, 56, 72]
           - [0x4A27B8]
-          - { start: 0x4A27C8, type: palette, name: menu_rank_titexdata_02_texs_tex.palette, raster_name: menu_rank_titexdata_02_texs_tex.ci8 }
-          - { start: 0x4A29C8, type: ci8, name: menu_rank_titexdata_02_texs_tex.ci8, width: 48, height: 72, palette: menu_rank_titexdata_02_texs_tex.palette }
+          - [0x4A27C8, palette, menu_rank_titexdata_02_texs_tex.ci8]
+          - [0x4A29C8, ci8, menu_rank_titexdata_02_texs_tex.ci8, 48, 72]
           - [0x4A3748]
-          - { start: 0x4A3758, type: palette, name: menu_rank_titexdata_03_texs_tex.palette, raster_name: menu_rank_titexdata_03_texs_tex.ci8 }
-          - { start: 0x4A3958, type: ci8, name: menu_rank_titexdata_03_texs_tex.ci8, width: 128, height: 16, palette: menu_rank_titexdata_03_texs_tex.palette }
+          - [0x4A3758, palette, menu_rank_titexdata_03_texs_tex.ci8]
+          - [0x4A3958, ci8, menu_rank_titexdata_03_texs_tex.ci8, 128, 16]
           - [0x4A4158]
-          - { start: 0x4A4168, type: palette, name: menu_rank_titexdata_04_texs_tex.palette, raster_name: menu_rank_titexdata_04_texs_tex.ci8 }
-          - { start: 0x4A4368, type: ci8, name: menu_rank_titexdata_04_texs_tex.ci8, width: 64, height: 32, palette: menu_rank_titexdata_04_texs_tex.palette }
+          - [0x4A4168, palette, menu_rank_titexdata_04_texs_tex.ci8]
+          - [0x4A4368, ci8, menu_rank_titexdata_04_texs_tex.ci8, 64, 32]
           - [0x4A4B68]
-          - { start: 0x4A4B78, type: palette, name: menu_rank_titexdata_05_texs_tex.palette, raster_name: menu_rank_titexdata_05_texs_tex.ci8 }
-          - { start: 0x4A4D78, type: ci8, name: menu_rank_titexdata_05_texs_tex.ci8, width: 256, height: 16, palette: menu_rank_titexdata_05_texs_tex.palette }
+          - [0x4A4B78, palette, menu_rank_titexdata_05_texs_tex.ci8]
+          - [0x4A4D78, ci8, menu_rank_titexdata_05_texs_tex.ci8, 256, 16]
           - [0x4A5D78]
-          - { start: 0x4A5D88, type: palette, name: menu_rank_titexdata_06_texs_tex.palette, raster_name: menu_rank_titexdata_06_texs_tex.ci4 }
-          - { start: 0x4A5DA8, type: ci4, name: menu_rank_titexdata_06_texs_tex.ci4, width: 16, height: 16, palette: menu_rank_titexdata_06_texs_tex.palette }
+          - [0x4A5D88, palette, menu_rank_titexdata_06_texs_tex.ci4]
+          - [0x4A5DA8, ci4, menu_rank_titexdata_06_texs_tex.ci4, 16, 16]
           - [0x4A5E28]
-          - { start: 0x4A5E38, type: palette, name: menu_rank_titexdata_07_texs_tex.palette, raster_name: menu_rank_titexdata_07_texs_tex.ci8 }
-          - { start: 0x4A6038, type: ci8, name: menu_rank_titexdata_07_texs_tex.ci8, width: 56, height: 108, palette: menu_rank_titexdata_07_texs_tex.palette }
+          - [0x4A5E38, palette, menu_rank_titexdata_07_texs_tex.ci8]
+          - [0x4A6038, ci8, menu_rank_titexdata_07_texs_tex.ci8, 56, 108]
           - [0x4A77D8]
-          - { start: 0x4A77E8, type: palette, name: menu_rank_titexdata_08_texs_tex.palette, raster_name: menu_rank_titexdata_08_texs_tex.ci8 }
-          - { start: 0x4A79E8, type: ci8, name: menu_rank_titexdata_08_texs_tex.ci8, width: 56, height: 24, palette: menu_rank_titexdata_08_texs_tex.palette }
+          - [0x4A77E8, palette, menu_rank_titexdata_08_texs_tex.ci8]
+          - [0x4A79E8, ci8, menu_rank_titexdata_08_texs_tex.ci8, 56, 24]
           - [0x4A7F28]
 
   - name: segment_menu_setup # compressed
@@ -1087,23 +1087,23 @@ segments:
           - [0x4B2118]
           - [0x4B2128, rgba16, menu_setup_titexdata_13_texs_tex.rgba16, 48, 48]
           - [0x4B3328]
-          - { start: 0x4B3338, type: palette, name: menu_setup_titexdata_14_texs_tex.palette, raster_name: menu_setup_titexdata_14_texs_tex.ci8 }
-          - { start: 0x4B3538, type: ci8, name: menu_setup_titexdata_14_texs_tex.ci8, width: 72, height: 360, palette: menu_setup_titexdata_14_texs_tex.palette }
+          - [0x4B3338, palette, menu_setup_titexdata_14_texs_tex.ci8]
+          - [0x4B3538, ci8, menu_setup_titexdata_14_texs_tex.ci8, 72, 360]
           - [0x4B9A78]
-          - { start: 0x4B9A88, type: palette, name: menu_setup_titexdata_15_texs_tex.palette, raster_name: menu_setup_titexdata_15_texs_tex.ci8 }
-          - { start: 0x4B9C88, type: ci8, name: menu_setup_titexdata_15_texs_tex.ci8, width: 40, height: 24, palette: menu_setup_titexdata_15_texs_tex.palette }
+          - [0x4B9A88, palette, menu_setup_titexdata_15_texs_tex.ci8]
+          - [0x4B9C88, ci8, menu_setup_titexdata_15_texs_tex.ci8, 40, 24]
           - [0x4BA048]
-          - { start: 0x4BA058, type: palette, name: menu_setup_titexdata_16_texs_tex.palette, raster_name: menu_setup_titexdata_16_texs_tex.ci4 }
-          - { start: 0x4BA078, type: ci4, name: menu_setup_titexdata_16_texs_tex.ci4, width: 16, height: 24, palette: menu_setup_titexdata_16_texs_tex.palette }
+          - [0x4BA058, palette, menu_setup_titexdata_16_texs_tex.ci4]
+          - [0x4BA078, ci4, menu_setup_titexdata_16_texs_tex.ci4, 16, 24]
           - [0x4BA138]
-          - { start: 0x4BA148, type: palette, name: menu_setup_titexdata_17_texs_tex.palette, raster_name: menu_setup_titexdata_17_texs_tex.ci8 }
-          - { start: 0x4BA348, type: ci8, name: menu_setup_titexdata_17_texs_tex.ci8, width: 32, height: 132, palette: menu_setup_titexdata_17_texs_tex.palette }
+          - [0x4BA148, palette, menu_setup_titexdata_17_texs_tex.ci8]
+          - [0x4BA348, ci8, menu_setup_titexdata_17_texs_tex.ci8, 32, 132]
           - [0x4BB3C8]
-          - { start: 0x4BB3D8, type: palette, name: menu_setup_titexdata_18_texs_tex.palette, raster_name: menu_setup_titexdata_18_texs_tex.ci8 }
-          - { start: 0x4BB5D8, type: ci8, name: menu_setup_titexdata_18_texs_tex.ci8, width: 304, height: 91, palette: menu_setup_titexdata_18_texs_tex.palette }
+          - [0x4BB3D8, palette, menu_setup_titexdata_18_texs_tex.ci8]
+          - [0x4BB5D8, ci8, menu_setup_titexdata_18_texs_tex.ci8, 304, 91]
           - [0x4C21E8]
-          - { start: 0x4C21F8, type: palette, name: menu_setup_titexdata_19_texs_tex.palette, raster_name: menu_setup_titexdata_19_texs_tex.ci8 }
-          - { start: 0x4C23F8, type: ci8, name: menu_setup_titexdata_19_texs_tex.ci8, width: 80, height: 11, palette: menu_setup_titexdata_19_texs_tex.palette }
+          - [0x4C21F8, palette, menu_setup_titexdata_19_texs_tex.ci8]
+          - [0x4C23F8, ci8, menu_setup_titexdata_19_texs_tex.ci8, 80, 11]
           - [0x4C2768]
           - [0x4C2778, i4, menu_setup_titexdata_20_texs_tex.i4, 48, 30]
           - [0x4C2A48]
@@ -1147,26 +1147,26 @@ segments:
           - [0x4C4A58]
           - [0x4C4A68, rgba16, menu_story_titexdata_01_texs_tex.rgba16, 64, 32]
           - [0x4C5A68]
-          - { start: 0x4C5A78, type: palette, name: menu_story_titexdata_02_texs_tex.palette, raster_name: menu_story_titexdata_02_texs_tex.ci8 }
-          - { start: 0x4C5C78, type: ci8, name: menu_story_titexdata_02_texs_tex.ci8, width: 240, height: 48, palette: menu_story_titexdata_02_texs_tex.palette }
+          - [0x4C5A78, palette, menu_story_titexdata_02_texs_tex.ci8]
+          - [0x4C5C78, ci8, menu_story_titexdata_02_texs_tex.ci8, 240, 48]
           - [0x4C8978]
-          - { start: 0x4C8988, type: palette, name: menu_story_titexdata_03_texs_tex.palette, raster_name: menu_story_titexdata_03_texs_tex.ci8 }
-          - { start: 0x4C8B88, type: ci8, name: menu_story_titexdata_03_texs_tex.ci8, width: 240, height: 48, palette: menu_story_titexdata_03_texs_tex.palette }
+          - [0x4C8988, palette, menu_story_titexdata_03_texs_tex.ci8]
+          - [0x4C8B88, ci8, menu_story_titexdata_03_texs_tex.ci8, 240, 48]
           - [0x4CB888]
-          - { start: 0x4CB898, type: palette, name: menu_story_titexdata_04_texs_tex.palette, raster_name: menu_story_titexdata_04_texs_tex.ci8 }
-          - { start: 0x4CBA98, type: ci8, name: menu_story_titexdata_04_texs_tex.ci8, width: 240, height: 48, palette: menu_story_titexdata_04_texs_tex.palette }
+          - [0x4CB898, palette, menu_story_titexdata_04_texs_tex.ci8]
+          - [0x4CBA98, ci8, menu_story_titexdata_04_texs_tex.ci8, 240, 48]
           - [0x4CE798]
-          - { start: 0x4CE7A8, type: palette, name: menu_story_titexdata_05_texs_tex.palette, raster_name: menu_story_titexdata_05_texs_tex.ci4 }
-          - { start: 0x4CE7C8, type: ci4, name: menu_story_titexdata_05_texs_tex.ci4, width: 16, height: 16, palette: menu_story_titexdata_05_texs_tex.palette }
+          - [0x4CE7A8, palette, menu_story_titexdata_05_texs_tex.ci4]
+          - [0x4CE7C8, ci4, menu_story_titexdata_05_texs_tex.ci4, 16, 16]
           - [0x4CE848]
-          - { start: 0x4CE858, type: palette, name: menu_story_titexdata_06_texs_tex.palette, raster_name: menu_story_titexdata_06_texs_tex.ci8 }
-          - { start: 0x4CEA58, type: ci8, name: menu_story_titexdata_06_texs_tex.ci8, width: 304, height: 162, palette: menu_story_titexdata_06_texs_tex.palette }
+          - [0x4CE858, palette, menu_story_titexdata_06_texs_tex.ci8]
+          - [0x4CEA58, ci8, menu_story_titexdata_06_texs_tex.ci8, 304, 162]
           - [0x4DAAB8]
-          - { start: 0x4DAAC8, type: palette, name: menu_story_titexdata_07_texs_tex.palette, raster_name: menu_story_titexdata_07_texs_tex.ci4 }
-          - { start: 0x4DAAE8, type: ci4, name: menu_story_titexdata_07_texs_tex.ci4, width: 32, height: 20, palette: menu_story_titexdata_07_texs_tex.palette }
+          - [0x4DAAC8, palette, menu_story_titexdata_07_texs_tex.ci4]
+          - [0x4DAAE8, ci4, menu_story_titexdata_07_texs_tex.ci4, 32, 20]
           - [0x4DAC28]
-          - { start: 0x4DAC38, type: palette, name: menu_story_titexdata_08_texs_tex.palette, raster_name: menu_story_titexdata_08_texs_tex.ci4 }
-          - { start: 0x4DAC58, type: ci4, name: menu_story_titexdata_08_texs_tex.ci4, width: 32, height: 22, palette: menu_story_titexdata_08_texs_tex.palette }
+          - [0x4DAC38, palette, menu_story_titexdata_08_texs_tex.ci4]
+          - [0x4DAC58, ci4, menu_story_titexdata_08_texs_tex.ci4, 32, 22]
           - [0x4DADB8]
           - [0x4DADC8, i4, menu_story_titexdata_09_texs_tex.i4, 240, 48]
           - [0x4DC448]
@@ -1192,11 +1192,11 @@ segments:
           - [0x4DF880]
           - [0x4DF898, i4, menu_cont_titexdata_00_texs_tex.i4, 192, 113]
           - [0x4E22F8]
-          - { start: 0x4E2308, type: palette, name: menu_cont_titexdata_01_texs_tex.palette, raster_name: menu_cont_titexdata_01_texs_tex.ci8 }
-          - { start: 0x4E2508, type: ci8, name: menu_cont_titexdata_01_texs_tex.ci8, width: 80, height: 40, palette: menu_cont_titexdata_01_texs_tex.palette }
+          - [0x4E2308, palette, menu_cont_titexdata_01_texs_tex.ci8]
+          - [0x4E2508, ci8, menu_cont_titexdata_01_texs_tex.ci8, 80, 40]
           - [0x4E3188]
-          - { start: 0x4E3198, type: palette, name: menu_cont_titexdata_02_texs_tex.palette, raster_name: menu_cont_titexdata_02_texs_tex.ci8 }
-          - { start: 0x4E3398, type: ci8, name: menu_cont_titexdata_02_texs_tex.ci8, width: 96, height: 196, palette: menu_cont_titexdata_02_texs_tex.palette }
+          - [0x4E3198, palette, menu_cont_titexdata_02_texs_tex.ci8]
+          - [0x4E3398, ci8, menu_cont_titexdata_02_texs_tex.ci8, 96, 196]
           - [0x4E7D18]
 
   - name: segment_menu_kasa # compressed
@@ -1309,11 +1309,11 @@ segments:
         dir: assets/game/game_p1
         subsegments:
           - [0x505810]
-          - { start: 0x505828, type: palette, name: game_p1_titexdata_00_texs_tex.palette, raster_name: game_p1_titexdata_00_texs_tex.ci8 }
-          - { start: 0x505A28, type: ci8, name: game_p1_titexdata_00_texs_tex.ci8, width: 96, height: 208, palette: game_p1_titexdata_00_texs_tex.palette }
+          - [0x505828, palette, game_p1_titexdata_00_texs_tex.ci8]
+          - [0x505A28, ci8, game_p1_titexdata_00_texs_tex.ci8, 96, 208]
           - [0x50A828]
-          - { start: 0x50A838, type: palette, name: game_p1_titexdata_01_texs_tex.palette, raster_name: game_p1_titexdata_01_texs_tex.ci4 }
-          - { start: 0x50A858, type: ci4, name: game_p1_titexdata_01_texs_tex.ci4, width: 96, height: 208, palette: game_p1_titexdata_01_texs_tex.palette }
+          - [0x50A838, palette, game_p1_titexdata_01_texs_tex.ci4]
+          - [0x50A858, ci4, game_p1_titexdata_01_texs_tex.ci4, 96, 208]
           - [0x50CF58]
           - [0x50CF68, rgba16, game_p1_titexdata_02_texs_tex.rgba16, 16, 180]
           - [0x50E5E8]
@@ -1403,35 +1403,35 @@ segments:
         dir: assets/game/game_p4
         subsegments:
           - [0x529180]
-          - { start: 0x529198, type: palette, name: game_p4_titexdata_00_texs_tex.palette, raster_name: game_p4_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5291B8, type: ci4, name: game_p4_titexdata_00_texs_tex.ci4, width: 80, height: 149, palette: game_p4_titexdata_00_texs_tex.palette }
+          - [0x529198, palette, game_p4_titexdata_00_texs_tex.ci4]
+          - [0x5291B8, ci4, game_p4_titexdata_00_texs_tex.ci4, 80, 149]
           - [0x52A900]
-          - { start: 0x52A910, type: palette, name: game_p4_titexdata_01_texs_tex.palette, raster_name: game_p4_titexdata_01_texs_tex.ci4 }
-          - { start: 0x52A930, type: ci4, name: game_p4_titexdata_01_texs_tex.ci4, width: 64, height: 142, palette: game_p4_titexdata_01_texs_tex.palette }
+          - [0x52A910, palette, game_p4_titexdata_01_texs_tex.ci4]
+          - [0x52A930, ci4, game_p4_titexdata_01_texs_tex.ci4, 64, 142]
           - [0x52BAF0]
-          - { start: 0x52BB00, type: palette, name: game_p4_titexdata_02_texs_tex.palette, raster_name: game_p4_titexdata_02_texs_tex.ci8 }
-          - { start: 0x52BD00, type: ci8, name: game_p4_titexdata_02_texs_tex.ci8, width: 304, height: 30, palette: game_p4_titexdata_02_texs_tex.palette }
+          - [0x52BB00, palette, game_p4_titexdata_02_texs_tex.ci8]
+          - [0x52BD00, ci8, game_p4_titexdata_02_texs_tex.ci8, 304, 30]
           - [0x52E0A0]
-          - { start: 0x52E0B0, type: palette, name: game_p4_titexdata_03_texs_tex.palette, raster_name: game_p4_titexdata_03_texs_tex.ci8 }
-          - { start: 0x52E2B0, type: ci8, name: game_p4_titexdata_03_texs_tex.ci8, width: 304, height: 30, palette: game_p4_titexdata_03_texs_tex.palette }
+          - [0x52E0B0, palette, game_p4_titexdata_03_texs_tex.ci8]
+          - [0x52E2B0, ci8, game_p4_titexdata_03_texs_tex.ci8, 304, 30]
           - [0x530650]
-          - { start: 0x530660, type: palette, name: game_p4_titexdata_04_texs_tex.palette, raster_name: game_p4_titexdata_04_texs_tex.ci8 }
-          - { start: 0x530860, type: ci8, name: game_p4_titexdata_04_texs_tex.ci8, width: 304, height: 30, palette: game_p4_titexdata_04_texs_tex.palette }
+          - [0x530660, palette, game_p4_titexdata_04_texs_tex.ci8]
+          - [0x530860, ci8, game_p4_titexdata_04_texs_tex.ci8, 304, 30]
           - [0x532C00]
-          - { start: 0x532C10, type: palette, name: game_p4_titexdata_05_texs_tex.palette, raster_name: game_p4_titexdata_05_texs_tex.ci8 }
-          - { start: 0x532E10, type: ci8, name: game_p4_titexdata_05_texs_tex.ci8, width: 288, height: 24, palette: game_p4_titexdata_05_texs_tex.palette }
+          - [0x532C10, palette, game_p4_titexdata_05_texs_tex.ci8]
+          - [0x532E10, ci8, game_p4_titexdata_05_texs_tex.ci8, 288, 24]
           - [0x534910]
-          - { start: 0x534920, type: palette, name: game_p4_titexdata_06_texs_tex.palette, raster_name: game_p4_titexdata_06_texs_tex.ci8 }
-          - { start: 0x534B20, type: ci8, name: game_p4_titexdata_06_texs_tex.ci8, width: 288, height: 24, palette: game_p4_titexdata_06_texs_tex.palette }
+          - [0x534920, palette, game_p4_titexdata_06_texs_tex.ci8]
+          - [0x534B20, ci8, game_p4_titexdata_06_texs_tex.ci8, 288, 24]
           - [0x536620]
-          - { start: 0x536630, type: palette, name: game_p4_titexdata_07_texs_tex.palette, raster_name: game_p4_titexdata_07_texs_tex.ci8 }
-          - { start: 0x536830, type: ci8, name: game_p4_titexdata_07_texs_tex.ci8, width: 288, height: 24, palette: game_p4_titexdata_07_texs_tex.palette }
+          - [0x536630, palette, game_p4_titexdata_07_texs_tex.ci8]
+          - [0x536830, ci8, game_p4_titexdata_07_texs_tex.ci8, 288, 24]
           - [0x538330]
-          - { start: 0x538340, type: palette, name: game_p4_titexdata_08_texs_tex.palette, raster_name: game_p4_titexdata_08_texs_tex.ci8 }
-          - { start: 0x538540, type: ci8, name: game_p4_titexdata_08_texs_tex.ci8, width: 72, height: 48, palette: game_p4_titexdata_08_texs_tex.palette }
+          - [0x538340, palette, game_p4_titexdata_08_texs_tex.ci8]
+          - [0x538540, ci8, game_p4_titexdata_08_texs_tex.ci8, 72, 48]
           - [0x5392C0]
-          - { start: 0x5392D0, type: palette, name: game_p4_titexdata_09_texs_tex.palette, raster_name: game_p4_titexdata_09_texs_tex.ci8 }
-          - { start: 0x5394D0, type: ci8, name: game_p4_titexdata_09_texs_tex.ci8, width: 64, height: 192, palette: game_p4_titexdata_09_texs_tex.palette }
+          - [0x5392D0, palette, game_p4_titexdata_09_texs_tex.ci8]
+          - [0x5394D0, ci8, game_p4_titexdata_09_texs_tex.ci8, 64, 192]
           - [0x53C4D0]
           - [0x53C4E0, rgba16, game_p4_titexdata_10_texs_tex.rgba16, 32, 132]
           - [0x53E5E0]
@@ -1519,26 +1519,26 @@ segments:
           - [0x566E28]
           - [0x566E38, rgba16, game_ls_titexdata_14_texs_tex.rgba16, 84, 46]
           - [0x568C68]
-          - { start: 0x568C78, type: palette, name: game_ls_titexdata_15_texs_tex.palette, raster_name: game_ls_titexdata_15_texs_tex.ci8 }
-          - { start: 0x568E78, type: ci8, name: game_ls_titexdata_15_texs_tex.ci8, width: 80, height: 120, palette: game_ls_titexdata_15_texs_tex.palette }
+          - [0x568C78, palette, game_ls_titexdata_15_texs_tex.ci8]
+          - [0x568E78, ci8, game_ls_titexdata_15_texs_tex.ci8, 80, 120]
           - [0x56B3F8]
-          - { start: 0x56B408, type: palette, name: game_ls_titexdata_16_texs_tex.palette, raster_name: game_ls_titexdata_16_texs_tex.ci8 }
-          - { start: 0x56B608, type: ci8, name: game_ls_titexdata_16_texs_tex.ci8, width: 80, height: 120, palette: game_ls_titexdata_16_texs_tex.palette }
+          - [0x56B408, palette, game_ls_titexdata_16_texs_tex.ci8]
+          - [0x56B608, ci8, game_ls_titexdata_16_texs_tex.ci8, 80, 120]
           - [0x56DB88]
-          - { start: 0x56DB98, type: palette, name: game_ls_titexdata_17_texs_tex.palette, raster_name: game_ls_titexdata_17_texs_tex.ci8 }
-          - { start: 0x56DD98, type: ci8, name: game_ls_titexdata_17_texs_tex.ci8, width: 80, height: 120, palette: game_ls_titexdata_17_texs_tex.palette }
+          - [0x56DB98, palette, game_ls_titexdata_17_texs_tex.ci8]
+          - [0x56DD98, ci8, game_ls_titexdata_17_texs_tex.ci8, 80, 120]
           - [0x570318]
-          - { start: 0x570328, type: palette, name: game_ls_titexdata_18_texs_tex.palette, raster_name: game_ls_titexdata_18_texs_tex.ci8 }
-          - { start: 0x570528, type: ci8, name: game_ls_titexdata_18_texs_tex.ci8, width: 120, height: 120, palette: game_ls_titexdata_18_texs_tex.palette }
+          - [0x570328, palette, game_ls_titexdata_18_texs_tex.ci8]
+          - [0x570528, ci8, game_ls_titexdata_18_texs_tex.ci8, 120, 120]
           - [0x573D68]
-          - { start: 0x573D78, type: palette, name: game_ls_titexdata_19_texs_tex.palette, raster_name: game_ls_titexdata_19_texs_tex.ci8 }
-          - { start: 0x573F78, type: ci8, name: game_ls_titexdata_19_texs_tex.ci8, width: 120, height: 120, palette: game_ls_titexdata_19_texs_tex.palette }
+          - [0x573D78, palette, game_ls_titexdata_19_texs_tex.ci8]
+          - [0x573F78, ci8, game_ls_titexdata_19_texs_tex.ci8, 120, 120]
           - [0x5777B8]
-          - { start: 0x5777C8, type: palette, name: game_ls_titexdata_20_texs_tex.palette, raster_name: game_ls_titexdata_20_texs_tex.ci8 }
-          - { start: 0x5779C8, type: ci8, name: game_ls_titexdata_20_texs_tex.ci8, width: 120, height: 120, palette: game_ls_titexdata_20_texs_tex.palette }
+          - [0x5777C8, palette, game_ls_titexdata_20_texs_tex.ci8]
+          - [0x5779C8, ci8, game_ls_titexdata_20_texs_tex.ci8, 120, 120]
           - [0x57B208]
-          - { start: 0x57B218, type: palette, name: game_ls_titexdata_21_texs_tex.palette, raster_name: game_ls_titexdata_21_texs_tex.ci4 }
-          - { start: 0x57B238, type: ci4, name: game_ls_titexdata_21_texs_tex.ci4, width: 64, height: 16, palette: game_ls_titexdata_21_texs_tex.palette }
+          - [0x57B218, palette, game_ls_titexdata_21_texs_tex.ci4]
+          - [0x57B238, ci4, game_ls_titexdata_21_texs_tex.ci4, 64, 16]
           - [0x57B438]
 
   - name: segment_game_item # compressed
@@ -1554,17 +1554,17 @@ segments:
         dir: assets/game/game_item
         subsegments:
           - [0x57B4F0]
-          - { start: 0x57B508, type: palette, name: game_item_titexdata_00_texs_tex.palette, raster_name: game_item_titexdata_00_texs_tex.ci4 }
-          - { start: 0x57B528, type: ci4, name: game_item_titexdata_00_texs_tex.ci4, width: 16, height: 128, palette: game_item_titexdata_00_texs_tex.palette }
+          - [0x57B508, palette, game_item_titexdata_00_texs_tex.ci4]
+          - [0x57B528, ci4, game_item_titexdata_00_texs_tex.ci4, 16, 128]
           - [0x57B928]
-          - { start: 0x57B938, type: palette, name: game_item_titexdata_01_texs_tex.palette, raster_name: game_item_titexdata_01_texs_tex.ci4 }
-          - { start: 0x57B958, type: ci4, name: game_item_titexdata_01_texs_tex.ci4, width: 16, height: 128, palette: game_item_titexdata_01_texs_tex.palette }
+          - [0x57B938, palette, game_item_titexdata_01_texs_tex.ci4]
+          - [0x57B958, ci4, game_item_titexdata_01_texs_tex.ci4, 16, 128]
           - [0x57BD58]
-          - { start: 0x57BD68, type: palette, name: game_item_titexdata_02_texs_tex.palette, raster_name: game_item_titexdata_02_texs_tex.ci4 }
-          - { start: 0x57BD88, type: ci4, name: game_item_titexdata_02_texs_tex.ci4, width: 16, height: 220, palette: game_item_titexdata_02_texs_tex.palette }
+          - [0x57BD68, palette, game_item_titexdata_02_texs_tex.ci4]
+          - [0x57BD88, ci4, game_item_titexdata_02_texs_tex.ci4, 16, 220]
           - [0x57C468]
-          - { start: 0x57C478, type: palette, name: game_item_titexdata_03_texs_tex.palette, raster_name: game_item_titexdata_03_texs_tex.ci4 }
-          - { start: 0x57C498, type: ci4, name: game_item_titexdata_03_texs_tex.ci4, width: 16, height: 220, palette: game_item_titexdata_03_texs_tex.palette }
+          - [0x57C478, palette, game_item_titexdata_03_texs_tex.ci4]
+          - [0x57C498, ci4, game_item_titexdata_03_texs_tex.ci4, 16, 220]
           - [0x57CB78]
           - [0x57CB88, rgba16, game_item_titexdata_04_texs_tlut.rgba16, 4, 4] # TODO: extract as ci
           - [0x57CBA8]
@@ -1603,8 +1603,8 @@ segments:
         dir: assets/anime/anime_a
         subsegments:
           - [0x57CF30]
-          - { start: 0x57CF50, type: palette, name: anime_a_titexdata_00_texs_tex.palette, raster_name: anime_a_titexdata_00_texs_tex.ci4 }
-          - { start: 0x57CF70, type: ci4, name: anime_a_titexdata_00_texs_tex.ci4, width: 64, height: 60, palette: anime_a_titexdata_00_texs_tex.palette }
+          - [0x57CF50, palette, anime_a_titexdata_00_texs_tex.ci4]
+          - [0x57CF70, ci4, anime_a_titexdata_00_texs_tex.ci4, 64, 60]
           - [0x57D6F0]
           - [0x57D700, i4, anime_a_titexdata_01_texs_tex.i4, 64, 60]
           - [0x57DE80]
@@ -1686,8 +1686,8 @@ segments:
         dir: assets/anime/anime_b
         subsegments:
           - [0x58D2A0]
-          - { start: 0x58D2C0, type: palette, name: anime_b_titexdata_00_texs_tex.palette, raster_name: anime_b_titexdata_00_texs_tex.ci4 }
-          - { start: 0x58D2E0, type: ci4, name: anime_b_titexdata_00_texs_tex.ci4, width: 40, height: 48, palette: anime_b_titexdata_00_texs_tex.palette }
+          - [0x58D2C0, palette, anime_b_titexdata_00_texs_tex.ci4]
+          - [0x58D2E0, ci4, anime_b_titexdata_00_texs_tex.ci4, 40, 48]
           - [0x58D6A0]
           - [0x58D6B0, i4, anime_b_titexdata_01_texs_tex.i4, 40, 48]
           - [0x58DA70]
@@ -1751,8 +1751,8 @@ segments:
         dir: assets/anime/anime_c
         subsegments:
           - [0x5933A0]
-          - { start: 0x5933C0, type: palette, name: anime_c_titexdata_00_texs_tex.palette, raster_name: anime_c_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5933E0, type: ci4, name: anime_c_titexdata_00_texs_tex.ci4, width: 64, height: 63, palette: anime_c_titexdata_00_texs_tex.palette }
+          - [0x5933C0, palette, anime_c_titexdata_00_texs_tex.ci4]
+          - [0x5933E0, ci4, anime_c_titexdata_00_texs_tex.ci4, 64, 63]
           - [0x593BC0]
           - [0x593BD0, i4, anime_c_titexdata_01_texs_tex.i4, 64, 63]
           - [0x5943B0]
@@ -1834,8 +1834,8 @@ segments:
         dir: assets/anime/anime_d
         subsegments:
           - [0x5A4390]
-          - { start: 0x5A43B0, type: palette, name: anime_d_titexdata_00_texs_tex.palette, raster_name: anime_d_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5A43D0, type: ci4, name: anime_d_titexdata_00_texs_tex.ci4, width: 48, height: 42, palette: anime_d_titexdata_00_texs_tex.palette }
+          - [0x5A43B0, palette, anime_d_titexdata_00_texs_tex.ci4]
+          - [0x5A43D0, ci4, anime_d_titexdata_00_texs_tex.ci4, 48, 42]
           - [0x5A47C0]
           - [0x5A47D0, i4, anime_d_titexdata_01_texs_tex.i4, 48, 42]
           - [0x5A4BC0]
@@ -1917,8 +1917,8 @@ segments:
         dir: assets/anime/anime_e
         subsegments:
           - [0x5ACDC0]
-          - { start: 0x5ACDE0, type: palette, name: anime_e_titexdata_00_texs_tex.palette, raster_name: anime_e_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5ACE00, type: ci4, name: anime_e_titexdata_00_texs_tex.ci4, width: 48, height: 49, palette: anime_e_titexdata_00_texs_tex.palette }
+          - [0x5ACDE0, palette, anime_e_titexdata_00_texs_tex.ci4]
+          - [0x5ACE00, ci4, anime_e_titexdata_00_texs_tex.ci4, 48, 49]
           - [0x5AD298]
           - [0x5AD2A8, i4, anime_e_titexdata_01_texs_tex.i4, 48, 49]
           - [0x5AD740]
@@ -2000,8 +2000,8 @@ segments:
         dir: assets/anime/anime_f
         subsegments:
           - [0x5B6E70]
-          - { start: 0x5B6E90, type: palette, name: anime_f_titexdata_00_texs_tex.palette, raster_name: anime_f_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5B6EB0, type: ci4, name: anime_f_titexdata_00_texs_tex.ci4, width: 38, height: 41, palette: anime_f_titexdata_00_texs_tex.palette }
+          - [0x5B6E90, palette, anime_f_titexdata_00_texs_tex.ci4]
+          - [0x5B6EB0, ci4, anime_f_titexdata_00_texs_tex.ci4, 38, 41]
           - [0x5B71BB]
           - [0x5B71D0, i4, anime_f_titexdata_01_texs_tex.i4, 38, 41]
           - [0x5B74DB]
@@ -2083,8 +2083,8 @@ segments:
         dir: assets/anime/anime_g
         subsegments:
           - [0x5BDAC0]
-          - { start: 0x5BDAE0, type: palette, name: anime_g_titexdata_00_texs_tex.palette, raster_name: anime_g_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5BDB00, type: ci4, name: anime_g_titexdata_00_texs_tex.ci4, width: 64, height: 64, palette: anime_g_titexdata_00_texs_tex.palette }
+          - [0x5BDAE0, palette, anime_g_titexdata_00_texs_tex.ci4]
+          - [0x5BDB00, ci4, anime_g_titexdata_00_texs_tex.ci4, 64, 64]
           - [0x5BE300]
           - [0x5BE310, i4, anime_g_titexdata_01_texs_tex.i4, 64, 64]
           - [0x5BEB10]
@@ -2150,8 +2150,8 @@ segments:
         dir: assets/anime/anime_h
         subsegments:
           - [0x5CAEF0]
-          - { start: 0x5CAF10, type: palette, name: anime_h_titexdata_00_texs_tex.palette, raster_name: anime_h_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5CAF30, type: ci4, name: anime_h_titexdata_00_texs_tex.ci4, width: 32, height: 43, palette: anime_h_titexdata_00_texs_tex.palette }
+          - [0x5CAF10, palette, anime_h_titexdata_00_texs_tex.ci4]
+          - [0x5CAF30, ci4, anime_h_titexdata_00_texs_tex.ci4, 32, 43]
           - [0x5CB1E0]
           - [0x5CB1F0, i4, anime_h_titexdata_01_texs_tex.i4, 32, 43]
           - [0x5CB4A0]
@@ -2227,8 +2227,8 @@ segments:
         dir: assets/anime/anime_i
         subsegments:
           - [0x5D0630]
-          - { start: 0x5D0650, type: palette, name: anime_i_titexdata_00_texs_tex.palette, raster_name: anime_i_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5D0670, type: ci4, name: anime_i_titexdata_00_texs_tex.ci4, width: 44, height: 49, palette: anime_i_titexdata_00_texs_tex.palette }
+          - [0x5D0650, palette, anime_i_titexdata_00_texs_tex.ci4]
+          - [0x5D0670, ci4, anime_i_titexdata_00_texs_tex.ci4, 44, 49]
           - [0x5D0AA6]
           - [0x5D0AB8, i4, anime_i_titexdata_01_texs_tex.i4, 44, 49]
           - [0x5D0EEE]
@@ -2310,8 +2310,8 @@ segments:
         dir: assets/anime/anime_j
         subsegments:
           - [0x5D99D0]
-          - { start: 0x5D99F0, type: palette, name: anime_j_titexdata_00_texs_tex.palette, raster_name: anime_j_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5D9A10, type: ci4, name: anime_j_titexdata_00_texs_tex.ci4, width: 50, height: 52, palette: anime_j_titexdata_00_texs_tex.palette }
+          - [0x5D99F0, palette, anime_j_titexdata_00_texs_tex.ci4]
+          - [0x5D9A10, ci4, anime_j_titexdata_00_texs_tex.ci4, 50, 52]
           - [0x5D9F24]
           - [0x5D9F38, i4, anime_j_titexdata_01_texs_tex.i4, 50, 52]
           - [0x5DA44C]
@@ -2391,8 +2391,8 @@ segments:
         dir: assets/anime/anime_k
         subsegments:
           - [0x5E4600]
-          - { start: 0x5E4620, type: palette, name: anime_k_titexdata_00_texs_tex.palette, raster_name: anime_k_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5E4640, type: ci4, name: anime_k_titexdata_00_texs_tex.ci4, width: 40, height: 48, palette: anime_k_titexdata_00_texs_tex.palette }
+          - [0x5E4620, palette, anime_k_titexdata_00_texs_tex.ci4]
+          - [0x5E4640, ci4, anime_k_titexdata_00_texs_tex.ci4, 40, 48]
           - [0x5E4A00]
           - [0x5E4A10, i4, anime_k_titexdata_01_texs_tex.i4, 40, 48]
           - [0x5E4DD0]
@@ -2448,8 +2448,8 @@ segments:
         dir: assets/anime/anime_l
         subsegments:
           - [0x5E97B0]
-          - { start: 0x5E97D0, type: palette, name: anime_l_titexdata_00_texs_tex.palette, raster_name: anime_l_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5E97F0, type: ci4, name: anime_l_titexdata_00_texs_tex.ci4, width: 62, height: 55, palette: anime_l_titexdata_00_texs_tex.palette }
+          - [0x5E97D0, palette, anime_l_titexdata_00_texs_tex.ci4]
+          - [0x5E97F0, ci4, anime_l_titexdata_00_texs_tex.ci4, 62, 55]
           - [0x5E9E99]
           - [0x5E9EB0, i4, anime_l_titexdata_01_texs_tex.i4, 62, 55]
           - [0x5EA559]
@@ -2523,8 +2523,8 @@ segments:
         dir: assets/anime/anime_m
         subsegments:
           - [0x5F6480]
-          - { start: 0x5F64A0, type: palette, name: anime_m_titexdata_00_texs_tex.palette, raster_name: anime_m_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5F64C0, type: ci4, name: anime_m_titexdata_00_texs_tex.ci4, width: 36, height: 43, palette: anime_m_titexdata_00_texs_tex.palette }
+          - [0x5F64A0, palette, anime_m_titexdata_00_texs_tex.ci4]
+          - [0x5F64C0, ci4, anime_m_titexdata_00_texs_tex.ci4, 36, 43]
           - [0x5F67C6]
           - [0x5F67D8, i4, anime_m_titexdata_01_texs_tex.i4, 36, 43]
           - [0x5F6ADE]
@@ -2606,8 +2606,8 @@ segments:
         dir: assets/anime/anime_n
         subsegments:
           - [0x5FCFE0]
-          - { start: 0x5FD000, type: palette, name: anime_n_titexdata_00_texs_tex.palette, raster_name: anime_n_titexdata_00_texs_tex.ci4 }
-          - { start: 0x5FD020, type: ci4, name: anime_n_titexdata_00_texs_tex.ci4, width: 54, height: 44, palette: anime_n_titexdata_00_texs_tex.palette }
+          - [0x5FD000, palette, anime_n_titexdata_00_texs_tex.ci4]
+          - [0x5FD020, ci4, anime_n_titexdata_00_texs_tex.ci4, 54, 44]
           - [0x5FD4C4]
           - [0x5FD4D8, i4, anime_n_titexdata_01_texs_tex.i4, 54, 44]
           - [0x5FD97C]
@@ -2681,8 +2681,8 @@ segments:
         dir: assets/anime/anime_o
         subsegments:
           - [0x605F60]
-          - { start: 0x605F80, type: palette, name: anime_o_titexdata_00_texs_tex.palette, raster_name: anime_o_titexdata_00_texs_tex.ci4 }
-          - { start: 0x605FA0, type: ci4, name: anime_o_titexdata_00_texs_tex.ci4, width: 36, height: 43, palette: anime_o_titexdata_00_texs_tex.palette }
+          - [0x605F80, palette, anime_o_titexdata_00_texs_tex.ci4]
+          - [0x605FA0, ci4, anime_o_titexdata_00_texs_tex.ci4, 36, 43]
           - [0x6062A6]
           - [0x6062B8, i4, anime_o_titexdata_01_texs_tex.i4, 36, 43]
           - [0x6065BE]
@@ -2764,8 +2764,8 @@ segments:
         dir: assets/anime/anime_mario
         subsegments:
           - [0x60CAC0]
-          - { start: 0x60CAE0, type: palette, name: anime_mario_titexdata_00_texs_tex.palette, raster_name: anime_mario_titexdata_00_texs_tex.ci8 }
-          - { start: 0x60CCE0, type: ci8, name: anime_mario_titexdata_00_texs_tex.ci8, width: 64, height: 64, palette: anime_mario_titexdata_00_texs_tex.palette }
+          - [0x60CAE0, palette, anime_mario_titexdata_00_texs_tex.ci8]
+          - [0x60CCE0, ci8, anime_mario_titexdata_00_texs_tex.ci8, 64, 64]
           - [0x60DCE0]
           - [0x60DCF0, i8, anime_mario_titexdata_01_texs_tex.i8, 64, 64]
           - [0x60ECF0]
@@ -2869,8 +2869,8 @@ segments:
         dir: assets/anime/anime_virus_b
         subsegments:
           - [0x63A250]
-          - { start: 0x63A270, type: palette, name: anime_virus_b_titexdata_00_texs_tex.palette, raster_name: anime_virus_b_titexdata_00_texs_tex.ci4 }
-          - { start: 0x63A290, type: ci4, name: anime_virus_b_titexdata_00_texs_tex.ci4, width: 32, height: 32, palette: anime_virus_b_titexdata_00_texs_tex.palette }
+          - [0x63A270, palette, anime_virus_b_titexdata_00_texs_tex.ci4]
+          - [0x63A290, ci4, anime_virus_b_titexdata_00_texs_tex.ci4, 32, 32]
           - [0x63A490]
           - [0x63A4A0, i4, anime_virus_b_titexdata_01_texs_tex.i4, 32, 32]
           - [0x63A6A0]
@@ -2910,8 +2910,8 @@ segments:
         dir: assets/anime/anime_virus_r
         subsegments:
           - [0x63BE40]
-          - { start: 0x63BE60, type: palette, name: anime_virus_r_titexdata_00_texs_tex.palette, raster_name: anime_virus_r_titexdata_00_texs_tex.ci4 }
-          - { start: 0x63BE80, type: ci4, name: anime_virus_r_titexdata_00_texs_tex.ci4, width: 32, height: 32, palette: anime_virus_r_titexdata_00_texs_tex.palette }
+          - [0x63BE60, palette, anime_virus_r_titexdata_00_texs_tex.ci4]
+          - [0x63BE80, ci4, anime_virus_r_titexdata_00_texs_tex.ci4, 32, 32]
           - [0x63C080]
           - [0x63C090, i4, anime_virus_r_titexdata_01_texs_tex.i4, 32, 32]
           - [0x63C290]
@@ -2945,8 +2945,8 @@ segments:
         dir: assets/anime/anime_virus_y
         subsegments:
           - [0x63D3E0]
-          - { start: 0x63D400, type: palette, name: anime_virus_y_titexdata_00_texs_tex.palette, raster_name: anime_virus_y_titexdata_00_texs_tex.ci4 }
-          - { start: 0x63D420, type: ci4, name: anime_virus_y_titexdata_00_texs_tex.ci4, width: 32, height: 32, palette: anime_virus_y_titexdata_00_texs_tex.palette }
+          - [0x63D400, palette, anime_virus_y_titexdata_00_texs_tex.ci4]
+          - [0x63D420, ci4, anime_virus_y_titexdata_00_texs_tex.ci4, 32, 32]
           - [0x63D620]
           - [0x63D630, i4, anime_virus_y_titexdata_01_texs_tex.i4, 32, 32]
           - [0x63D830]
@@ -3024,14 +3024,14 @@ segments:
           - [0x641D18]
           - [0x641D28, i4, tutorial_kasa_titexdata_05_texs_tex.i4, 16, 16]
           - [0x641DA8]
-          - { start: 0x641DB8, type: palette, name: tutorial_kasa_titexdata_06_texs_tex.palette, raster_name: tutorial_kasa_titexdata_06_texs_tex.ci4 }
-          - { start: 0x641DD8, type: ci4, name: tutorial_kasa_titexdata_06_texs_tex.ci4, width: 16, height: 16, palette: tutorial_kasa_titexdata_06_texs_tex.palette }
+          - [0x641DB8, palette, tutorial_kasa_titexdata_06_texs_tex.ci4]
+          - [0x641DD8, ci4, tutorial_kasa_titexdata_06_texs_tex.ci4, 16, 16]
           - [0x641E58]
-          - { start: 0x641E68, type: palette, name: tutorial_kasa_titexdata_07_texs_tex.palette, raster_name: tutorial_kasa_titexdata_07_texs_tex.ci8 }
-          - { start: 0x642068, type: ci8, name: tutorial_kasa_titexdata_07_texs_tex.ci8, width: 128, height: 109, palette: tutorial_kasa_titexdata_07_texs_tex.palette }
+          - [0x641E68, palette, tutorial_kasa_titexdata_07_texs_tex.ci8]
+          - [0x642068, ci8, tutorial_kasa_titexdata_07_texs_tex.ci8, 128, 109]
           - [0x6456E8]
-          - { start: 0x6456F8, type: palette, name: tutorial_kasa_titexdata_08_texs_tex.palette, raster_name: tutorial_kasa_titexdata_08_texs_tex.ci8 }
-          - { start: 0x6458F8, type: ci8, name: tutorial_kasa_titexdata_08_texs_tex.ci8, width: 128, height: 70, palette: tutorial_kasa_titexdata_08_texs_tex.palette }
+          - [0x6456F8, palette, tutorial_kasa_titexdata_08_texs_tex.ci8]
+          - [0x6458F8, ci8, tutorial_kasa_titexdata_08_texs_tex.ci8, 128, 70]
           - [0x647BF8]
 
   - [0x647C50]
