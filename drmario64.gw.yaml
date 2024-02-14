@@ -472,8 +472,9 @@ segments:
 
       - [0x013290, c, main_segment/audio/sound]
       - [0x013CA0, c, main_segment/graphic]
-      - [0x014540, asm, main_segment/static]
-      - [0x015990, asm, main_segment/015990] # TODO: figure out
+      - [0x014540, asm, main_segment/graphics/static]
+
+      - [0x015990, asm, main_segment/audio/music_driver]
 
       - [0x016350, c, main_segment/main1x]
       - [0x017060, c, main_segment/vr_init]
@@ -491,7 +492,7 @@ segments:
       - [0x029230, asm, main_segment/028820]
       - [0x0293E0, c, main_segment/tex_func]
 
-      - [0x02E600, asm, main_segment/02E600] # TODO: figure out
+      - [0x02E600, asm, main_segment/02E600]
 
       - [0x044180, c, main_segment/font]
 
@@ -513,12 +514,19 @@ segments:
       - [0x0675B0, asm, main_segment/0675B0] # TODO: figure out
       - [0x068420, asm, main_segment/055C40]
 
-      - [0x068590, asm, main_segment/068590] # TODO: figure out
-      - [0x06CBB0, asm, main_segment/06CBB0] # TODO: figure out
-      - [0x06CD60, asm, main_segment/06CD60] # TODO: figure out
-      - [0x06D020, asm, main_segment/06D020] # TODO: figure out
+      - [0x068590, asm, libmus/player]
+      - [0x06BE70, asm, libmus/player_fx]
+      - [0x06C750, asm, libmus/aud_dma]
+      - [0x06CBB0, asm, libmus/aud_sched]
+      - [0x06CD60, asm, libmus/aud_thread]
+      - [0x06D020, asm, libmus/lib_memory]
+      - [0x06D160, asm, libmus/aud_samples]
 
-      - [0x06D220, data, main_segment/06D220] # guess
+      - [0x06D220, textbin, rsp/rspboot]
+      - [0x06D2F0, textbin, rsp/aspMain]
+
+      - [0x06E110, data, main_segment/06E110]
+
       - [0x070C90, .data, main_segment/nnsched]
       - [0x070D10, data, main_segmentm/070D10]
       - [0x070D50, data, main_segment/070D50]
@@ -567,6 +575,15 @@ segments:
 
       - [0x08FB80, data, main_segment/08FB80]
 
+      - [0x094850, data, libmus/player]
+      - [0x094910, data, main_segment/player_fx]
+      - [0x094B20, data, main_segment/aud_sched]
+      - [0x094B30, data, main_segment/aud_thread]
+
+      - [0x094B40, databin, rsp/aspMain]
+
+      - [0x094E00, data, main_segment/094E00]
+
       - [0x0955E0, .rodata, main_segment/main]
       - [0x095610, .rodata, main_segment/audio/sound]
       - [0x095900, .rodata, main_segment/graphic]
@@ -600,10 +617,20 @@ segments:
       - [0x09C050, rodata, main_segment/lws]
       - [0x09C0A0, rodata, main_segment/calc]
       - [0x09C0F0, rodata, main_segment/065080]
-      - [0x09C150, rodata, main_segment/09C150]
-      - [0x09C230, rodata, main_segment/09C230]
 
-      - { start: 0x09C240, type: bss, vram: 0x800B44A0, name: main_segment/800B44A0 }
+      - [0x09C150, rodata, libmus/player]
+      - [0x09C230, rodata, libmus/player_fx]
+
+      - { type: bss, vram: 0x800B44A0, name: main_segment/800B44A0 }
+
+      - { type: bss, vram: 0x800EA770, name: libmus/player }
+      - { type: bss, vram: 0x800EA7E0, name: libmus/aud_dma }
+      - { type: bss, vram: 0x800EA820, name: libmus/aud_sched }
+      - { type: bss, vram: 0x800EA830, name: libmus/aud_thread }
+      - { type: bss, vram: 0x800EA9F0, name: libmus/lib_memory }
+      - { type: bss, vram: 0x800EAA00, name: libmus/aud_samples }
+
+      - { type: bss, vram: 0x800EAA10, name: main_segment/800EAA10 }
 
   - name: buffer1
     type: code

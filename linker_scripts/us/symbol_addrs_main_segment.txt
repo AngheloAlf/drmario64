@@ -2482,7 +2482,7 @@ audio_mess_buf = 0x800E9990; //
 audio_dma_size = 0x800E9994; //
 audio_dma_count = 0x800E9998; // size:0x4
 audDMAMessageQ = 0x800E99A0; //
-cartrom_handle = 0x800E99B8; //
+cartrom_handle = 0x800E99B8; // size:0x4
 
 audio_sched = 0x800E99C0; // size:0x4
 sched_mem = 0x800E99C4; // size:0x4

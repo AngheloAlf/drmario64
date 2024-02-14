@@ -471,6 +471,7 @@ segments:
       - [0x0132B0, c, main_segment/graphic]
       - [0x013B40, c, main_segment/graphics/static]
       - [auto, c, main_segment/graphics/graphic_dlists]
+
       - [0x014F90, c, main_segment/audio/music_driver]
 
       - [0x015940, c, main_segment/main1x]
