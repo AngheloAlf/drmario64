@@ -24,7 +24,7 @@ extern s8 aiDebugP1;
 extern u8 capsGCnv_122[];
 extern u8 capsCCnv_123[];
 // extern UNK_TYPE aiLinePri;
-// extern UNK_TYPE D_80088534;
+// extern UNK_TYPE srh_466;
 // extern UNK_TYPE D_80088535;
 // extern UNK_TYPE D_8008853C;
 // extern UNK_TYPE D_8008854C;
@@ -253,7 +253,7 @@ extern s32 _menuMain_lastDepth;
 extern enum_main_no main_no; /* Original name: main_no */
 extern Gfx* gGfxHead; /* Original name: gp */ // main display list head
 extern u16 gControllerHoldButtons[MAXCONTROLLERS+1];
-// extern UNK_TYPE B_800EBD02;
+// extern UNK_TYPE hei_data;
 // extern UNK_TYPE B_800EBD03;
 // extern UNK_TYPE B_800EBD04;
 // extern UNK_TYPE B_800EBD05;
@@ -295,7 +295,7 @@ extern u16 aiGoalX;
 extern struct struct_watchMenu *watchMenu;
 extern OSMesg B_800F3E60[1];
 extern u16 gControllerPrevHoldButtons[MAXCONTROLLERS+1];
-// extern UNK_TYPE B_800F3E6E;
+// extern UNK_TYPE wid_data;
 // extern UNK_TYPE B_800F3E6F;
 // extern UNK_TYPE B_800F3E70;
 // extern UNK_TYPE B_800F3E71;

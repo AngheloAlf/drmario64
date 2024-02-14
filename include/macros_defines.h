@@ -30,6 +30,12 @@
 #define INLINE inline
 #endif
 
+#ifndef PRESERVE_UB
+#define BAD_RETURN(type) type
+#else
+#define BAD_RETURN(type) void
+#endif
+
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 
 #define SQ(x) ((x) * (x))

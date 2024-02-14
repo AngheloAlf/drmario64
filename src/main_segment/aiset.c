@@ -70,6 +70,11 @@ extern u8 aiWall;
 
 extern u8 aiLinePri[];
 
+#define HEI_WEI_DATA_LEN 10
+
+extern u8 hei_data[HEI_WEI_DATA_LEN];
+extern u8 wid_data[HEI_WEI_DATA_LEN];
+
 // no original name :c
 void func_8002EB00(struct_game_state_data *gameStateDataRef) {
     gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.unk_0[0];
@@ -512,19 +517,14 @@ void aiHiruSideLineEraser(struct_game_state_data *gameStateDataRef) {
 }
 #endif
 
-#if VERSION_US
-// no original name :c
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8002F924);
-#endif
-
 extern u8 srh_466[][2];
 
-#if VERSION_CN
-void func_80031A54_cn(u8 arg0, u8 arg1) {
-    if (aif_field[arg0][arg1].unk_1 != 4) {
-        s8 temp_a0_2 = aif_field[arg0][arg1].unk_1;
-        s8 temp_v0 = arg0 + srh_466[temp_a0_2][0];
-        s8 temp_v1 = arg1 + srh_466[temp_a0_2][1];
+#if VERSION_US || VERSION_CN
+BAD_RETURN(s32) func_8002F924(u8 row, u8 col) {
+    if (aif_field[row][col].unk_1 != 4) {
+        s8 temp_a0_2 = aif_field[row][col].unk_1;
+        s8 temp_v0 = row + srh_466[temp_a0_2][0];
+        s8 temp_v1 = col + srh_466[temp_a0_2][1];
 
         if ((temp_v0 > 0) && (temp_v0 < 17) && (temp_v1 >= 0) && (temp_v1 < 8)) {
             aif_field[temp_v0][temp_v1].unk_1 = 4;
@@ -533,116 +533,105 @@ void func_80031A54_cn(u8 arg0, u8 arg1) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifEraseLineCore);
-#endif
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: aifEraseLineCore
+ */
+bool aifEraseLineCore(s32 col, s32 row) {
+    bool sp18 = false;
+    bool sp1C = false;
+    u8 temp_s7 = aif_field[row][col].unk_0;
+    s32 i;
 
-#define HEI_WEI_DATA_LEN 10
+    if (hei_data[2] >= 4) {
+        sp18 = true;
 
-extern u8 hei_data[HEI_WEI_DATA_LEN];
-extern u8 wid_data[HEI_WEI_DATA_LEN];
-
-#if VERSION_CN
-#ifdef NON_MATCHING
-// regalloc at the bottom
-s32 aifEraseLineCore(s32 arg0, s32 arg1) {
-    s32 sp18 = 0;
-    s32 sp1C = 0;
-    s32 temp_s7 = aif_field[arg1][arg0].unk_0;
-    s32 var_s0;
-
-    if (hei_data[2] >= 4U) {
-        sp18 = 1;
-
-        for (var_s0 = arg1 - 1; (var_s0 > 0) && (var_s0 > arg1 - 4); var_s0--) {
-            if (aif_field[var_s0][arg0].unk_0 == temp_s7) {
-                if ((aif_field[var_s0][arg0].unk_1 > 4) && (aif_field[var_s0][arg0].unk_1 < 8)) {
+        for (i = row - 1; (i > 0) && (i > row - 4); i--) {
+            if (aif_field[i][col].unk_0 == temp_s7) {
+                if ((aif_field[i][col].unk_1 > 4) && (aif_field[i][col].unk_1 < 8)) {
                     hei_data[1]++;
                 } else {
-                    func_80031A54_cn(var_s0, arg0);
+                    func_8002F924(i, col);
                 }
 
                 if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
-                    if (flash_virus(arg0, var_s0) != 0) {
-                        sp1C = 1;
+                    if (flash_virus(col, i) != 0) {
+                        sp1C = true;
                     }
                 }
 
-                aif_field[var_s0][arg0].unk_1 = 0xA;
-                aif_field[var_s0][arg0].unk_0 = 3;
+                aif_field[i][col].unk_1 = 0xA;
+                aif_field[i][col].unk_0 = 3;
             } else {
-                var_s0 = 0;
+                i = 0;
             }
         }
 
-        for (var_s0 = arg1 + 1; (var_s0 < arg1 + 4) && (var_s0 < 0x11); var_s0++) {
-            if (aif_field[var_s0][arg0].unk_0 == temp_s7) {
-                if ((aif_field[var_s0][arg0].unk_1 > 4) && (aif_field[var_s0][arg0].unk_1 < 8)) {
+        for (i = row + 1; (i < row + 4) && (i < GAME_MAP_ROWS); i++) {
+            if (aif_field[i][col].unk_0 == temp_s7) {
+                if ((aif_field[i][col].unk_1 > 4) && (aif_field[i][col].unk_1 < 8)) {
                     hei_data[1]++;
                 } else {
-                    func_80031A54_cn(var_s0, arg0);
+                    func_8002F924(i, col);
                 }
 
-                aif_field[var_s0][arg0].unk_1 = 0xA;
-                aif_field[var_s0][arg0].unk_0 = 3;
+                aif_field[i][col].unk_1 = 0xA;
+                aif_field[i][col].unk_0 = 3;
             } else {
-                var_s0 = 0x11;
+                i = GAME_MAP_ROWS;
             }
         }
     }
 
-    if (wid_data[2] >= 4U) {
-        sp18 = 1;
+    if (wid_data[2] >= 4) {
+        sp18 = true;
 
-        for (var_s0 = arg0 - 1; (var_s0 > -1) && (var_s0 > arg0 - 4); var_s0--) {
-            if (aif_field[arg1][var_s0].unk_0 == temp_s7) {
-                if ((aif_field[arg1][var_s0].unk_1 > 4) && (aif_field[arg1][var_s0].unk_1 < 8)) {
+        for (i = col - 1; (i > -1) && (i > col - 4); i--) {
+            if (aif_field[row][i].unk_0 == temp_s7) {
+                if ((aif_field[row][i].unk_1 > 4) && (aif_field[row][i].unk_1 < 8)) {
                     wid_data[1]++;
                 } else {
-                    func_80031A54_cn(arg1, var_s0);
+                    func_8002F924(row, i);
                 }
 
-                aif_field[arg1][var_s0].unk_1 = 0xA;
-                aif_field[arg1][var_s0].unk_0 = 3;
+                aif_field[row][i].unk_1 = 0xA;
+                aif_field[row][i].unk_0 = 3;
             } else {
-                var_s0 = -1;
+                i = -1;
             }
         }
 
-        for (var_s0 = arg0 + 1; (var_s0 < arg0 + 4) && (var_s0 < 8); var_s0++) {
-            if (aif_field[arg1][var_s0].unk_0 == temp_s7) {
-                if ((aif_field[arg1][var_s0].unk_1 > 4) && (aif_field[arg1][var_s0].unk_1 < 8)) {
+        for (i = col + 1; (i < col + 4) && (i < GAME_MAP_COLUMNS); i++) {
+            if (aif_field[row][i].unk_0 == temp_s7) {
+                if ((aif_field[row][i].unk_1 > 4) && (aif_field[row][i].unk_1 < 8)) {
                     wid_data[1]++;
                 } else {
-                    func_80031A54_cn(arg1, var_s0);
+                    func_8002F924(row, i);
                 }
 
                 if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
-                    if (flash_virus(var_s0, arg1) != 0) {
-                        sp1C = 1;
+                    if (flash_virus(i, row) != 0) {
+                        sp1C = true;
                     }
                 }
 
-                aif_field[arg1][var_s0].unk_1 = 0xA;
-                aif_field[arg1][var_s0].unk_0 = 3;
+                aif_field[row][i].unk_1 = 0xA;
+                aif_field[row][i].unk_0 = 3;
             } else {
-                var_s0 = 8;
+                i = GAME_MAP_COLUMNS;
             }
         }
     }
 
-    if (sp18 != 0) {
-        func_80031A54_cn(arg1, arg0);
+    if (sp18) {
+        func_8002F924(row, col);
 
-        aif_field[arg1][arg0].unk_1 = 0xA;
-        aif_field[arg1][arg0].unk_0 = 3;
+        aif_field[row][col].unk_1 = 0xA;
+        aif_field[row][col].unk_0 = 3;
     }
 
     return sp1C;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifEraseLineCore);
-#endif
 #endif
 
 #if VERSION_US
@@ -1514,12 +1503,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", flash_virus);
 #endif
 
 #if VERSION_CN
-s32 flash_virus(s32 arg0, s32 arg1) {
+s32 flash_virus(s32 col, s32 row) {
     s32 i;
 
     for (i = 0; i < pGameState->unk_164; i++) {
-        if ((pGameState->unk_0D4.unk_00[i].unk_8 >= 0) && (arg0 == pGameState->unk_0D4.unk_00[i].unk_0) &&
-            (arg1 == pGameState->unk_0D4.unk_00[i].unk_4)) {
+        if ((pGameState->unk_0D4.unk_00[i].unk_8 >= 0) && (col == pGameState->unk_0D4.unk_00[i].unk_0) &&
+            (row == pGameState->unk_0D4.unk_00[i].unk_4)) {
             return pGameState->unk_0D4.unk_00[i].unk_8;
         }
     }
@@ -1632,7 +1621,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
     sp28 = aifSearchLineCore(arg1, arg2, 0);
     sp2C = false;
 
-    if (aifEraseLineCore(arg1, arg2) != 0) {
+    if (aifEraseLineCore(arg1, arg2)) {
         var_s4 = 1;
         arg0->unk_08 += 0x2710;
     }
@@ -1702,7 +1691,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
             }
         }
 
-        if (aifEraseLineCore(arg4, arg5) != 0) {
+        if (aifEraseLineCore(arg4, arg5)) {
             var_s4 = 1;
             arg0->unk_08 += 0x2710;
         }
