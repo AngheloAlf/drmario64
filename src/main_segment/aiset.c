@@ -68,6 +68,8 @@ extern s32 OnVirusP_org;
 extern f32 WidEraseLinRate;
 extern u8 aiWall;
 
+extern u8 aiLinePri[];
+
 // no original name :c
 void func_8002EB00(struct_game_state_data *gameStateDataRef) {
     gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.unk_0[0];
@@ -284,185 +286,144 @@ bool aifMake2(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2, s32 
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 /**
  * Original name: aiHiruSideLineEraser
  */
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aiHiruSideLineEraser);
-#endif
-
-extern u8 aiLinePri[];
-
-#if VERSION_CN
-#if 0
 void aiHiruSideLineEraser(struct_game_state_data *gameStateDataRef) {
     s32 sp8[2];
     s32 sp10[2];
     s32 sp18[2];
-    u8 sp20[UNK_SIZE];
-    u8 sp30[UNK_SIZE];
-    u8 sp40[UNK_SIZE];
-    u8 sp50[UNK_SIZE];
-    u8 sp60[UNK_SIZE];
+    u8 sp20[0x10];
+    u8 sp30[0x10];
+    u8 sp40[0x10];
+    u8 sp50[0x10];
+    u8 sp60[0x8];
     s32 sp68;
     s32 sp80;
-    s32 *temp_v0_7;
-    s32 temp_a0_3;
     s32 temp_s3;
-    s32 temp_t4;
-    s32 temp_v0_10;
     s32 var_a3;
-    s32 var_a3_2;
-    s32 var_a3_3;
-    s32 var_a3_4;
     s32 var_s1;
-    s32 var_s1_2;
     s32 var_t0;
     s32 var_t0_3;
     s32 var_t1;
-    s32 var_t1_3;
-    s32 var_t2_2;
     s32 var_t3_2;
     s32 var_t8_2;
-    struct_aiFlag *temp_v0;
-    u8 *var_v0_6;
-    u8 *var_v0_7;
-    u8 temp_a1_2;
-    u8 temp_a2_2;
-    u8 temp_a3;
-    u8 temp_t5;
-    u8 temp_v0_8;
-    u8 var_a1;
-    u8 var_t6_2;
-    u8 var_v0_3;
+    s32 temp_a2_2;
+    s32 temp_t5;
+    s32 temp_v0_8;
+    s32 var_a1;
+    s32 var_t6_2;
 
-    temp_v0 = &aiFlag[decide];
-    if (((u8) temp_v0->unk_0C[8] != 0) || ((u8) temp_v0->unk_0C[0x12] != 0)) {
+    if ((aiFlag[decide].unk_10[4] != 0) || (aiFlag[decide].unk_1A[4] != 0)) {
         return;
     }
 
+    sp68 = 0;
+    sp80 = 1;
     var_s1 = 0;
 
-    sp80 = 1;
-    sp68 = 0;
-
     for (var_a3 = 0; var_a3 < 8; var_a3++) {
-        sp50[var_a3] = 0x11;
-        sp30[var_a3] = 0x11;
-        sp20[var_a3] = 0x11;
+        sp20[var_a3] = sp30[var_a3] = sp50[var_a3] = 0x11;
         sp40[var_a3] = 0;
     }
 
-    for (var_a3_2 = 0; var_a3_2 < 8; var_a3_2++) {
-        var_t0 = 0;
-        var_t1 = 0;
-
-        for (var_a1 = 0x10; var_a1 >= 2; var_a1--) {
-            if (gameStateDataRef->unk_29C[var_a1][var_a3_2][0] == 0xA) {
+    for (var_a3 = 0; var_a3 < 8; var_a3++) {
+        for (var_a1 = 0x10, var_t0 = 0, var_t1 = 0; var_a1 >= 2; var_a1--) {
+            if (gameStateDataRef->unk_29C[var_a1][var_a3][0] == 0xA) {
                 var_t1 += 1;
-            } else if ((gameStateDataRef->unk_29C[var_a1][var_a3_2][0] >= 3) && (gameStateDataRef->unk_29C[var_a1][var_a3_2][0] <= 7)) {
+            } else if ((gameStateDataRef->unk_29C[var_a1][var_a3][0] >= 5) &&
+                       (gameStateDataRef->unk_29C[var_a1][var_a3][0] <= 7)) {
                 if (var_t0 == 0) {
-                    sp40[var_a3_2] = var_a1;
-                    if ((var_t1 >= 3) || (((gameStateDataRef->unk_29C[var_a1+2][var_a3_2][0] == 0xA) || (gameStateDataRef->unk_29C[var_a1+2][var_a3_2][1] == gameStateDataRef->unk_29C[var_a1][var_a3_2][1])) && (gameStateDataRef->unk_29C[var_a1+3][var_a3_2][1] == gameStateDataRef->unk_29C[var_a1][var_a3_2][1]))) {
-                        sp20[var_a3_2] = var_a1;
-                    } else if ((var_a3_2 == 2) || (var_a3_2 == 3) || (var_a3_2 == 4) || (var_a3_2 == 5)) {
-                        var_t0 = -1;
-                        var_t1 = 0;
-                        sp40[var_a3_2] = 0;
-                        sp30[var_a3_2] = var_a1;
-                        sp50[var_a3_2] = var_a1;
+                    sp40[var_a3] = var_a1;
+                    if (var_t1 >= 3) {
+                        sp20[var_a3] = var_a1;
+                    } else {
+                        temp_a2_2 = gameStateDataRef->unk_29C[var_a1][var_a3][1];
+                        if (((gameStateDataRef->unk_29C[var_a1 + 2][var_a3][0] == 0xA) ||
+                             (gameStateDataRef->unk_29C[var_a1 + 2][var_a3][1] == temp_a2_2)) &&
+                            (gameStateDataRef->unk_29C[var_a1 + 3][var_a3][1] == temp_a2_2)) {
+                            sp20[var_a3] = var_a1;
+                        } else if ((var_a3 == 2) || (var_a3 == 3) || (var_a3 == 4) || (var_a3 == 5)) {
+                            var_t0 = -1;
+                            var_t1 = 0;
+                            sp40[var_a3] = 0;
+                            sp30[var_a3] = var_a1;
+                            sp50[var_a3] = var_a1;
+                        }
                     }
                     var_t0 += 1;
                 }
             } else {
                 if (var_t0 == 0) {
-                    sp30[var_a3_2] = var_a1;
+                    sp30[var_a3] = var_a1;
                     var_t1 = 0;
                 }
-                sp50[var_a3_2] = var_a1;
+                sp50[var_a3] = var_a1;
             }
         }
 
-        if ((sp40[var_a3_2] != 0) && (sp50[var_a3_2] < 6U)) {
-            sp80 = 0;
-            if ((var_a3_2 == 2) || (var_a3_2 == 3) || (var_a3_2 == 4) || (var_a3_2 == 5)) {
-                sp68 = 1;
-                var_s1 = 0;
-                break;
+        if (sp40[var_a3] != 0) {
+            if (sp50[var_a3] < 6U) {
+                sp80 = 0;
+                if ((var_a3 == 2) || (var_a3 == 3) || (var_a3 == 4) || (var_a3 == 5)) {
+                    sp68 = 1;
+                    var_s1 = 0;
+                    break;
+                }
             }
         }
 
-        if (sp40[var_a3_2] >= 0xEU) {
+        if (sp40[var_a3] >= 0xE) {
             var_s1 = 1;
         }
     }
 
-
-    if ((var_s1 | sp80) != 0) {
+    if (var_s1 | sp80) {
         return;
     }
 
-    for (var_a3_3 = 0; var_a3_3 < 8; var_a3_3++) {
-        sp60[var_a3_3] = 1;
+    for (var_a3 = 0; var_a3 < 8; var_a3++) {
+        sp60[var_a3] = 1;
     }
 
-    var_s1_2 = 0;
+    sp18[0] = sp18[1] = 1;
+    var_s1 = 0;
 
-    sp18[1] = 1;
-    sp18[0] = 1;
-    sp80 = aiFlagCnt;
-
-    for (var_t8_2 = 0; (var_t8_2 < 8) && (var_s1_2 == 0); var_t8_2++) {
-        temp_a3 = aiLinePri[var_t8_2];
-        temp_t5 = sp20[temp_a3];
+    for (var_t8_2 = 0; (var_t8_2 < 8) && (var_s1 == 0); var_t8_2++) {
+        var_a3 = aiLinePri[var_t8_2];
+        temp_t5 = sp20[var_a3];
 
         if (temp_t5 >= 0xE) {
             continue;
         }
 
-        sp60[temp_a3] = 0;
-
-        var_v0_3 = temp_a3;
-        if ((s32) temp_a3 < 0) {
-            var_v0_3 = temp_a3 + 3;
-        }
-
-        temp_v0_7 = &sp18[(var_v0_3 & 0x1FC)];
-        if (*temp_v0_7 == 0) {
+        sp60[var_a3] = 0;
+        if (sp18[var_a3 / 4] == 0) {
             continue;
         }
 
-        *temp_v0_7 = 0;
-        temp_v0_8 = sp30[temp_a3];
-        temp_t4 = (s32) temp_a3 < 4;
+        sp18[var_a3 / 4] = 0;
+        temp_v0_8 = sp30[var_a3];
         temp_s3 = temp_v0_8 - temp_t5;
 
-        if (temp_t4 == 0) {
-            var_t6_2 = temp_a3 - 1;
+        if (var_a3 >= 4) {
+            var_t6_2 = var_a3 - 1;
         } else {
-            var_t6_2 = temp_a3;
+            var_t6_2 = var_a3;
         }
 
-        var_t2_2 = sp80;
-
-        sp10[1] = 0;
-        sp10[0] = 0;
-        sp8[1] = 0;
-        sp8[0] = 0;
-
-        for (var_t3_2 = 0; var_t3_2 < var_t2_2; var_t3_2++) {
-            if ((aiFlag[var_t3_2].unk_00 != 1) || (aiFlag[var_t3_2].unk_03 != (temp_v0_8 - 1))) {
+        for (var_t3_2 = 0, sp8[0] = sp8[1] = sp10[0] = sp10[1] = 0; var_t3_2 < aiFlagCnt; var_t3_2++) {
+            if ((aiFlag[var_t3_2].unk_00 != 1) || (aiFlag[var_t3_2].unk_03 != temp_v0_8 - 1)) {
                 continue;
             }
 
             if (aiFlag[var_t3_2].unk_01 == 0) {
-                if ((aiFlag[var_t3_2].unk_02 - 1) == temp_a3) {
-                    var_t2_2 = (s32) aiFlagCnt;
-                    sp8[aiFlag[var_t3_2].unk_04] = var_t3_2+1;
+                if (aiFlag[var_t3_2].unk_02 - 1 == var_a3) {
+                    sp8[aiFlag[var_t3_2].unk_04] = var_t3_2 + 1;
                 }
-            } else if ((aiFlag[var_t3_2].unk_02 - 1) == var_t6_2) {
-                var_t2_2 = (s32) aiFlagCnt;
-                sp8[aiFlag[var_t3_2].unk_04 + 2] = var_t3_2+1;
+            } else if (aiFlag[var_t3_2].unk_02 - 1 == var_t6_2) {
+                sp10[aiFlag[var_t3_2].unk_04] = var_t3_2 + 1;
             }
         }
 
@@ -470,52 +431,50 @@ void aiHiruSideLineEraser(struct_game_state_data *gameStateDataRef) {
             continue;
         }
 
-        temp_a2_2 = gameStateDataRef->unk_29C[temp_t5][temp_a3][1];
+        temp_a2_2 = gameStateDataRef->unk_29C[temp_t5][var_a3][1];
         if (temp_s3 == 5) {
             if ((sp10[0] + sp10[1]) != 0) {
-                var_s1_2 = sp10[0];
+                var_s1 = sp10[0];
             }
+
             if ((sp8[0] + sp8[1]) != 0) {
-                if (aiNext[0] != temp_a2_2) {
-                    if (aiNext[1] == temp_a2_2) {
-                        var_s1_2 = sp8[1];
-                    }
-                    var_t8_2 += 1;
-                } else {
-                    var_s1_2 = sp8[0];
+                if (aiNext[0] == temp_a2_2) {
+                    var_s1 = sp8[0];
+                } else if (aiNext[1] == temp_a2_2) {
+                    var_s1 = sp8[1];
                 }
             }
         } else if (temp_s3 < 5) {
             if ((sp10[0] + sp10[1]) != 0) {
-                if (aiNext[0] != temp_a2_2) {
-                    if (aiNext[1] == temp_a2_2) {
-                        var_s1_2 = sp10[1];
-                        if (temp_t4 == 0) {
-                            var_s1_2 = sp10[0];
-                        }
+                if (aiNext[0] == temp_a2_2) {
+                    if (var_a3 < 4) {
+                        var_s1 = sp10[0];
+                    } else {
+                        var_s1 = sp10[1];
                     }
-                } else {
-                    var_s1_2 = sp10[0];
-                    if (temp_t4 == 0) {
-                        var_s1_2 = sp10[1];
+                } else if (aiNext[1] == temp_a2_2) {
+                    if (var_a3 < 4) {
+                        var_s1 = sp10[1];
+                    } else {
+                        var_s1 = sp10[0];
                     }
                 }
             }
 
-            if ((sp8[0] + sp8[1] != 0) && (aiNext[0] == aiNext[1])) {
-                if (temp_a2_2 == aiNext[0]) {
-                    var_s1_2 = sp8[0];
+            if (sp8[0] + sp8[1]) {
+                if ((aiNext[0] == aiNext[1]) && (temp_a2_2 == aiNext[0])) {
+                    var_s1 = sp8[0];
                 }
             }
         } else {
             if (sp8[0] != 0) {
-                var_s1_2 = sp8[0];
+                var_s1 = sp8[0];
             }
         }
     }
 
-    if (var_s1_2 != 0) {
-        decide = var_s1_2 - 1;
+    if (var_s1 != 0) {
+        decide = var_s1 - 1;
         return;
     }
 
@@ -523,56 +482,34 @@ void aiHiruSideLineEraser(struct_game_state_data *gameStateDataRef) {
         return;
     }
 
-    var_t1_3 = -1;
-    var_a3_4 = -0xF4241;
-    var_t0_3 = 0;
+    var_t1 = -1;
+    var_a3 = -1000001;
 
-    while (var_t0_3 < (s32) aiFlagCnt) {
-        if (aiFlag[var_t0_3].unk_01 != 0) {
-            temp_a1_2 = aiFlag[var_t0_3].unk_02;
-            temp_a0_3 = temp_a1_2 - 1;
-            var_v0_6 = &sp60 + temp_a1_2;
-            if (sp60[temp_a0_3] == 0) {
-                if (aiFlag[var_t0_3].unk_03 < sp20[temp_a0_3]) {
-                    var_v0_6 = &sp60 + temp_a1_2;
-                    goto block_101;
+    for (var_t0_3 = 0; var_t0_3 < aiFlagCnt; var_t0_3++) {
+        if (aiFlag[var_t0_3].unk_01 == 0) {
+            if ((sp60[aiFlag[var_t0_3].unk_02 - 1] != 0) ||
+                (sp20[aiFlag[var_t0_3].unk_02 - 1] > aiFlag[var_t0_3].unk_03)) {
+                if (aiFlag[var_t0_3].unk_08 > var_a3) {
+                    var_a3 = aiFlag[var_t0_3].unk_08;
+                    var_t1 = var_t0_3;
                 }
-            } else {
-block_101:
-                if (*var_v0_6 == 0) {
-                    var_v0_7 = &sp20[temp_a1_2];
-                    goto block_103;
-                }
-                goto block_106;
             }
         } else {
-            temp_v0_10 = aiFlag[var_t0_3].unk_02 - 1;
-            if (*(&sp60 + temp_v0_10) == 0) {
-                var_v0_7 = &sp20[temp_v0_10];
-block_103:
-                if (aiFlag[var_t0_3].unk_03 >= (u8) *var_v0_7) {
-                } else {
-                    goto block_106;
-                }
-            } else {
-block_106:
-                if (var_a3_4 < aiFlag[var_t0_3].unk_08) {
-                    var_a3_4 = aiFlag[var_t0_3].unk_08;
-                    var_t1_3 = var_t0_3;
+            if (((sp60[aiFlag[var_t0_3].unk_02 - 1] != 0) ||
+                 (sp20[aiFlag[var_t0_3].unk_02 - 1] > aiFlag[var_t0_3].unk_03)) &&
+                ((sp60[aiFlag[var_t0_3].unk_02] != 0) || (sp20[aiFlag[var_t0_3].unk_02] > aiFlag[var_t0_3].unk_03))) {
+                if (aiFlag[var_t0_3].unk_08 > var_a3) {
+                    var_a3 = aiFlag[var_t0_3].unk_08;
+                    var_t1 = var_t0_3;
                 }
             }
         }
-
-        var_t0_3 += 1;
     }
 
-    if (var_t1_3 != -1) {
-        decide = (u8) var_t1_3;
+    if (var_t1 != -1) {
+        decide = var_t1;
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aiHiruSideLineEraser);
-#endif
 #endif
 
 #if VERSION_US

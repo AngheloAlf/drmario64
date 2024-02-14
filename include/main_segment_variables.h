@@ -23,7 +23,7 @@ extern u8 D_800884F0[][3];
 extern s8 aiDebugP1;
 extern u8 capsGCnv_122[];
 extern u8 capsCCnv_123[];
-// extern UNK_TYPE D_8008852C;
+// extern UNK_TYPE aiLinePri;
 // extern UNK_TYPE D_80088534;
 // extern UNK_TYPE D_80088535;
 // extern UNK_TYPE D_8008853C;
