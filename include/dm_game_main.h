@@ -279,7 +279,7 @@ typedef struct struct_game_state_data {
     /* 0x299 */ u8 unk_299;
     /* 0x29A */ u8 unk_29A;
     /* 0x29B */ u8 unk_29B;
-    /* 0x29C */ u8 unk_29C[GAME_MAP_ROWS][GAME_MAP_COLUMNS][2];
+    /* 0x29C */ u8 unk_29C[GAME_MAP_ROWS][GAME_MAP_COLUMNS][2]; // TODO: use Unk_AIFEntry instead?
     /* 0x34C */ UNK_TYPE1 unk_3AC[0x10];
     /* 0x3BC */ u8 unk_3BC;
     /* 0x3BD */ u8 unk_3BD;

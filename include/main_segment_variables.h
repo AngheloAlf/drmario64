@@ -68,7 +68,7 @@ extern u8 capsCCnv_123[];
 // extern UNK_TYPE RensaP;
 // extern UNK_TYPE RensaMP;
 // extern UNK_TYPE LPriP;
-// extern UNK_TYPE D_800885D8;
+// extern UNK_TYPE BadLineRate;
 // extern UNK_TYPE D_800885F8;
 // extern UNK_TYPE tbl_2973;
 extern struct_ai_param ai_param_org[AI_PARAM_LEN1][AI_PARAM_LEN2];

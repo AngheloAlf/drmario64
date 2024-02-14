@@ -75,6 +75,17 @@ extern u8 aiLinePri[];
 extern u8 hei_data[HEI_WEI_DATA_LEN];
 extern u8 wid_data[HEI_WEI_DATA_LEN];
 
+extern u16 aiHiErB;
+extern u16 aiPriOfs;
+extern u16 aiHiErY;
+extern u16 aiHiErR;
+extern u16 aiHiEraseCtr;
+extern s16 D_8009337A_cn; // pri_point._14_2_
+extern s16 RensaP;
+extern s16 RensaMP;
+
+extern u8 BadLineRate[][8];
+
 // no original name :c
 void func_8002EB00(struct_game_state_data *gameStateDataRef) {
     gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.unk_0[0];
@@ -634,494 +645,222 @@ bool aifEraseLineCore(s32 col, s32 row) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 /**
  * Original name: aifRensaCheckCore
  */
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifRensaCheckCore);
-#endif
+s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFlagRef UNUSED, u8 arg2, u8 arg3,
+                      u8 arg4, u8 arg5, u8 arg6, u8 arg7, u8 arg8, u8 arg9) {
+    u8 sp18 = 0;
+    u8 var_s1;
+    u8 var_s3;
+    u8 temp;
+    s32 row;
+    s32 col;
 
-#if VERSION_CN
-#if 0
-? func_8002F924(s32, s32);                          /* extern */
-extern ? D_800885D8;
-extern u16 aiHiEraseCtr;
-
-s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFlagRef, u8 arg2, u8 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7, u8 arg8, u8 arg9) {
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 temp_a0_3;
-    s32 temp_a0_4;
-    s32 temp_s5;
-    s32 temp_s5_2;
-    s32 temp_t4;
-    s32 temp_t6;
-    s32 temp_v0;
-    s32 temp_v0_2;
-    s32 temp_v0_3;
-    s32 temp_v1;
-    s32 temp_v1_12;
-    s32 temp_v1_17;
-    s32 temp_v1_18;
-    s32 temp_v1_19;
-    s32 temp_v1_20;
-    s32 temp_v1_21;
-    s32 temp_v1_22;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    s32 temp_v1_4;
-    s32 temp_v1_6;
-    s32 temp_v1_7;
-    s32 var_a0;
-    s32 var_a0_2;
-    s32 var_a0_3;
-    s32 var_a0_4;
-    s32 var_a1;
-    s32 var_a1_3;
-    s32 var_a1_5;
-    s32 var_a1_6;
-    s32 var_a2;
-    s32 var_a3;
-    s32 var_a3_2;
-    s32 var_s0;
-    s32 var_s0_2;
-    s32 var_s0_3;
-    s32 var_s0_4;
-    s32 var_s0_5;
-    s32 var_s1;
-    s32 var_s1_2;
-    s32 var_s1_3;
-    s32 var_s1_4;
-    s32 var_s1_5;
-    s32 var_s1_6;
-    s32 var_s1_7;
-    s32 var_s2;
-    s32 var_s2_2;
-    s32 var_s2_3;
-    s32 var_s2_4;
-    s32 var_s2_5;
-    s32 var_s2_6;
-    s32 var_s2_7;
-    s32 var_s2_8;
-    s32 var_s3;
-    s32 var_s3_2;
-    s32 var_s3_3;
-    s32 var_s3_4;
-    s32 var_s3_5;
-    s32 var_s7;
-    s32 var_t1;
-    s32 var_t2;
-    s32 var_t3;
-    s32 var_t5;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    s32 var_v0_4;
-    s32 var_v0_5;
-    s32 var_v0_6;
-    s32 var_v0_7;
-    s32 var_v0_8;
-    u32 temp_v1_10;
-    u32 temp_v1_11;
-    u32 temp_v1_13;
-    u32 temp_v1_14;
-    u32 temp_v1_15;
-    u32 temp_v1_16;
-    u32 temp_v1_5;
-    u32 temp_v1_8;
-    u32 var_v0_10;
-    u32 var_v0_9;
-    u8 temp_v1_9;
-    void *var_a1_2;
-    void *var_a1_4;
-
-    var_s7 = 0;
-    var_s1 = 0;
-    var_s2 = 0;
-    do {
-        var_a1 = var_s1 * 2;
-loop_2:
-        *(aif_field + var_a1) = (gameStateDataRef + var_a1)->unk_29D;
-        var_s2 += 1;
-        (&aif_field[0][0].unk_1)[var_a1] = gameStateDataRef->unk_29C[0][0][var_a1];
-        var_a1 += 0x10;
-        if (var_s2 < 0x11) {
-            goto loop_2;
+    for (col = 0; col < GAME_MAP_COLUMNS; col++) {
+        for (row = 0; row < GAME_MAP_ROWS; row++) {
+            aif_field[row][col].unk_0 = gameStateDataRef->unk_29C[row][col][1];
+            aif_field[row][col].unk_1 = gameStateDataRef->unk_29C[row][col][0];
         }
-        var_s1 += 1;
-        var_s2 = 0;
-    } while (var_s1 < 8);
+    }
+
     aiHiEraseCtr = 0;
-    var_s1_2 = 0;
-    do {
-        var_s2_2 = 1;
-        var_a1_2 = &D_800885D8 + 8;
-        var_a0 = (var_s1_2 * 2) + 0x10;
-loop_6:
-        if ((u8) (&aif_field[0][0].unk_1)[var_a0] < 8U) {
-            aiHiEraseCtr += *(var_a1_2 + var_s1_2);
+
+    for (col = 0; col < GAME_MAP_COLUMNS; col++) {
+        for (row = 1; row < 4; row++) {
+            if (aif_field[row][col].unk_1 < 8U) {
+                aiHiEraseCtr += BadLineRate[row][col];
+            }
         }
-        var_a1_2 += 8;
-        var_s2_2 += 1;
-        var_a0 += 0x10;
-        if (var_s2_2 < 4) {
-            goto loop_6;
-        }
-        var_s1_2 += 1;
-    } while (var_s1_2 < 8);
-    temp_v1 = arg3 & 0xFF;
-    if (temp_v1 != 0) {
-        temp_v0 = ((arg2 & 0xFF) * 2) + (temp_v1 * 0x10);
-        (&aif_field[0][0].unk_1)[temp_v0] = arg5;
-        *(aif_field + temp_v0) = arg4;
     }
-    temp_v1_2 = arg7 & 0xFF;
-    if (temp_v1_2 != 0) {
-        temp_v0_2 = (arg6 * 2) + (temp_v1_2 * 0x10);
-        (&aif_field[0][0].unk_1)[temp_v0_2] = arg9;
-        *(aif_field + temp_v0_2) = arg8;
+
+    if (arg3 != 0) {
+        aif_field[arg3][arg2].unk_1 = arg5;
+        aif_field[arg3][arg2].unk_0 = arg4;
     }
-    var_s2_3 = 1;
-    var_s1_3 = 0;
-    do {
-        temp_s5 = var_s2_3 * 0x10;
-        var_v0_2 = 0 * 2;
-loop_16:
-        temp_v1_3 = var_v0_2 + temp_s5;
-        if ((&aif_field[0][0].unk_1)[temp_v1_3] != 0xA) {
-            var_s3 = 1;
-            if ((var_s1_3 + 1) < 8) {
-                var_v0_3 = 1 & 0xFF;
-loop_19:
-                temp_v1_4 = ((var_s1_3 + var_v0_3) * 2) + temp_s5;
-                if (((&aif_field[0][0].unk_1)[temp_v1_4] != 0xA) && (*(aif_field + temp_v1_4) == (*(aif_field + temp_v1_3) & 0xFF))) {
-                    var_s3 += 1;
-                    var_v0_3 = var_s3 & 0xFF;
-                    if ((var_s1_3 + (var_s3 & 0xFF)) < 8) {
-                        goto loop_19;
+
+    if (arg7 != 0) {
+        aif_field[arg7][arg6].unk_1 = arg9;
+        aif_field[arg7][arg6].unk_0 = arg8;
+    }
+
+    for (row = 1; row < GAME_MAP_ROWS; row++) {
+        for (col = 0; col < GAME_MAP_COLUMNS - 3; col++) {
+            if (aif_field[row][col].unk_1 != 0xA) {
+                temp = aif_field[row][col].unk_0;
+                for (var_s3 = 1; col + var_s3 < 8; var_s3++) {
+                    if ((aif_field[row][col + var_s3].unk_1 == 0xA) || (aif_field[row][col + var_s3].unk_0 != temp)) {
+                        break;
                     }
                 }
-            }
-            temp_v1_5 = var_s3 & 0xFF;
-            if (temp_v1_5 >= 4U) {
-                var_s7 += temp_v1_5 >> 2;
-                var_s0 = 0;
-                if (temp_v1_5 != 0) {
-                    var_a0_2 = var_s2_3 & 0xFF;
-                    do {
-                        func_8002F924(var_a0_2, (var_s0 + var_s1_3) & 0xFF);
-                        (&aif_field[0][0].unk_1)[((var_s1_3 + (var_s0 & 0xFF)) * 2) + temp_s5] = 8;
-                        var_s0 += 1;
-                        var_a0_2 = var_s2_3 & 0xFF;
-                    } while ((u32) (var_s0 & 0xFF) < temp_v1_5);
-                }
-            }
-            var_s1_3 = var_s1_3 - 1 + (var_s3 & 0xFF);
-        }
-        var_s1_3 += 1;
-        var_v0_2 = var_s1_3 * 2;
-        if (var_s1_3 < 5) {
-            goto loop_16;
-        }
-        var_s2_3 += 1;
-        var_s1_3 = 0;
-    } while (var_s2_3 < 0x11);
-    var_s2_4 = 1;
-    do {
-        temp_s5_2 = var_s1_3 * 2;
-        var_v0_4 = 1 * 0x10;
-loop_31:
-        temp_v1_6 = temp_s5_2 + var_v0_4;
-        if ((&aif_field[0][0].unk_1)[temp_v1_6] != 0xA) {
-            var_s3_2 = 1;
-            if ((var_s2_4 + 1) < 0x11) {
-                var_v0_5 = 1 & 0xFF;
-loop_34:
-                temp_v1_7 = temp_s5_2 + ((var_s2_4 + var_v0_5) * 0x10);
-                if (((&aif_field[0][0].unk_1)[temp_v1_7] != 0xA) && (*(aif_field + temp_v1_7) == (*(aif_field + temp_v1_6) & 0xFF))) {
-                    var_s3_2 += 1;
-                    var_v0_5 = var_s3_2 & 0xFF;
-                    if ((var_s2_4 + (var_s3_2 & 0xFF)) < 0x11) {
-                        goto loop_34;
+
+                if (var_s3 >= 4) {
+                    sp18 += var_s3 / 4;
+
+                    for (var_s1 = 0; var_s1 < var_s3; var_s1++) {
+                        func_8002F924(row, col + var_s1);
+                        aif_field[row][col + var_s1].unk_1 = 8;
                     }
                 }
+                col += var_s3 - 1;
             }
-            temp_v1_8 = var_s3_2 & 0xFF;
-            if (temp_v1_8 >= 4U) {
-                var_s7 += temp_v1_8 >> 2;
-                var_s0_2 = 0;
-                if (temp_v1_8 != 0) {
-                    var_a0_3 = var_s2_4;
-                    do {
-                        func_8002F924(var_a0_3 & 0xFF, var_s1_3 & 0xFF);
-                        (&aif_field[0][0].unk_1)[temp_s5_2 + ((var_s2_4 + (var_s0_2 & 0xFF)) * 0x10)] = 8;
-                        var_s0_2 += 1;
-                        var_a0_3 = var_s0_2 + var_s2_4;
-                    } while ((u32) (var_s0_2 & 0xFF) < temp_v1_8);
-                }
-            }
-            var_s2_4 = var_s2_4 - 1 + (var_s3_2 & 0xFF);
         }
-        var_s2_4 += 1;
-        var_v0_4 = var_s2_4 * 0x10;
-        if (var_s2_4 < 0xE) {
-            goto loop_31;
-        }
-        var_s1_3 += 1;
-        var_s2_4 = 1;
-    } while (var_s1_3 < 8);
-    var_s3_3 = 1;
-    var_s2_5 = 0x10;
-    var_s1_4 = 0xF0;
-    var_t5 = 0x110;
-    do {
-        temp_t4 = var_s2_5 + 1;
-        var_t1 = 0x10;
-        temp_t6 = var_s2_5 * 0x10;
-        var_a1_3 = temp_t6 + 0xE;
-        var_a2 = 0xE;
-        var_t3 = var_t5 + 0xE;
-        var_t2 = var_s1_4 + 0xE;
-loop_46:
-        temp_v1_9 = (&aif_field[0][0].unk_1)[var_a1_3];
-        if (temp_v1_9 != 2) {
-            if ((s32) temp_v1_9 < 3) {
-                if (temp_v1_9 != 1) {
-                    var_t1 -= 2;
-                } else if ((var_s2_5 != 0x10) && ((&aif_field[0][0].unk_1)[var_t3] == 0xA)) {
-                    var_s0_3 = temp_t4;
-                    temp_v1_10 = var_s0_3 & 0xFF;
-                    var_s3_3 = 0;
-                    if (temp_v1_10 < 0x11U) {
-                        var_v0_6 = temp_v1_10 * 0x10;
-loop_64:
-                        if ((&aif_field[0][0].unk_1)[var_a2 + var_v0_6] == 0xA) {
-                            var_s0_3 += 1;
-                            temp_v1_11 = var_s0_3 & 0xFF;
-                            var_v0_6 = temp_v1_11 * 0x10;
-                            if (temp_v1_11 < 0x11U) {
-                                goto loop_64;
-                            }
-                        }
-                    }
-                    temp_a0 = (var_s0_3 - 1) & 0xFF;
-                    temp_v1_12 = var_a2 + (temp_a0 * 0x10);
-                    (&aif_field[0][0].unk_1)[temp_v1_12] = (&aif_field[0][0].unk_1)[var_a1_3];
-                    *(aif_field + temp_v1_12) = *(aif_field + var_a1_3);
-                    (&aif_field[0][0].unk_1)[var_a1_3] = 0xA;
-                    temp_a0_2 = var_a2 + ((temp_a0 - 1) * 0x10);
-                    (&aif_field[0][0].unk_1)[temp_a0_2] = (&aif_field[0][0].unk_1)[var_t2];
-                    *(aif_field + temp_a0_2) = *(aif_field + var_t2);
-                    (&aif_field[0][0].unk_1)[var_t2] = 0xA;
-                    var_t1 -= 2;
-                } else {
-                    goto block_77;
-                }
-                goto block_78;
-            }
-            if (temp_v1_9 != 4) {
-                var_t1 -= 2;
-                if (temp_v1_9 == 8) {
-                    (&aif_field[0][0].unk_1)[var_a1_3] = 0xA;
-                    var_a1_3 -= 2;
-                } else {
-                    goto block_78;
-                }
-            } else {
-                if ((var_s2_5 != 0x10) && ((&aif_field[0][0].unk_1)[var_t3] == 0xA)) {
-                    var_s0_4 = temp_t4;
-                    temp_v1_13 = var_s0_4 & 0xFF;
-                    var_s3_3 = 0;
-                    if (temp_v1_13 < 0x11U) {
-                        var_v0_7 = temp_v1_13 * 0x10;
-loop_57:
-                        if ((&aif_field[0][0].unk_1)[var_a2 + var_v0_7] == 0xA) {
-                            var_s0_4 += 1;
-                            temp_v1_14 = var_s0_4 & 0xFF;
-                            var_v0_7 = temp_v1_14 * 0x10;
-                            if (temp_v1_14 < 0x11U) {
-                                goto loop_57;
-                            }
-                        }
-                    }
-                    temp_v0_3 = var_a2 + (((var_s0_4 - 1) & 0xFF) * 0x10);
-                    (&aif_field[0][0].unk_1)[temp_v0_3] = (&aif_field[0][0].unk_1)[var_a1_3];
-                    *(aif_field + temp_v0_3) = *(aif_field + var_a1_3);
-                    (&aif_field[0][0].unk_1)[var_a1_3] = 0xA;
-                    var_t1 -= 2;
-                } else {
-                    goto block_77;
-                }
-                goto block_78;
-            }
-        } else {
-            if ((var_s2_5 != 0x10) && ((&aif_field[0][0].unk_1)[var_t3] == 0xA) && ((&aif_field[0][0].unk_1)[var_t1 + var_t5] == 0xA)) {
-                var_s0_5 = temp_t4;
-                temp_v1_15 = var_s0_5 & 0xFF;
-                var_s3_3 = 0;
-                if ((temp_v1_15 < 0x11U) && ((&aif_field[0][0].unk_1)[var_a2 + (temp_v1_15 * 0x10)] == 0xA)) {
-                    var_v0_8 = temp_v1_15 * 0x10;
-loop_73:
-                    if ((&aif_field[0][0].unk_1)[var_t1 + var_v0_8] == 0xA) {
-                        var_s0_5 += 1;
-                        temp_v1_16 = var_s0_5 & 0xFF;
-                        if (temp_v1_16 < 0x11U) {
-                            var_v0_8 = temp_v1_16 * 0x10;
-                            if ((&aif_field[0][0].unk_1)[var_a2 + (temp_v1_16 * 0x10)] == 0xA) {
-                                goto loop_73;
-                            }
-                        }
+    }
+
+    for (col = 0; col < GAME_MAP_COLUMNS; col++) {
+        for (row = 1; row < GAME_MAP_ROWS - 3; row++) {
+            if (aif_field[row][col].unk_1 != 0xA) {
+                temp = aif_field[row][col].unk_0;
+                for (var_s3 = 1; row + var_s3 < GAME_MAP_ROWS; var_s3++) {
+                    if ((aif_field[row + var_s3][col].unk_1 == 0xA) || (aif_field[row + var_s3][col].unk_0 != temp)) {
+                        break;
                     }
                 }
-                temp_a0_3 = ((var_s0_5 - 1) & 0xFF) * 0x10;
-                temp_v1_17 = var_a2 + temp_a0_3;
-                (&aif_field[0][0].unk_1)[temp_v1_17] = (&aif_field[0][0].unk_1)[var_a1_3];
-                *(aif_field + temp_v1_17) = *(aif_field + var_a1_3);
-                temp_v1_18 = var_t1 + temp_t6;
-                (&aif_field[0][0].unk_1)[var_a1_3] = 0xA;
-                temp_a0_4 = var_t1 + temp_a0_3;
-                (&aif_field[0][0].unk_1)[temp_a0_4] = (&aif_field[0][0].unk_1)[temp_v1_18];
-                *(aif_field + temp_a0_4) = *(aif_field + temp_v1_18);
-                (&aif_field[0][0].unk_1)[temp_v1_18] = 0xA;
-            }
-block_77:
-            var_t1 -= 2;
-block_78:
-            var_a1_3 -= 2;
-        }
-        var_a2 -= 2;
-        var_t3 -= 2;
-        var_t2 -= 2;
-        if (var_a2 >= 0) {
-            goto loop_46;
-        }
-        var_s1_4 -= 0x10;
-        var_s2_5 -= 1;
-        var_t5 -= 0x10;
-    } while (var_s2_5 > 0);
-    var_s1_5 = 0;
-    do {
-        var_s2_6 = 1;
-        var_a1_4 = &D_800885D8 + 8;
-        var_a0_4 = (var_s1_5 * 2) + 0x10;
-loop_83:
-        if ((u8) (&aif_field[0][0].unk_1)[var_a0_4] < 8U) {
-            aiHiEraseCtr -= *(var_a1_4 + var_s1_5);
-        }
-        var_a1_4 += 8;
-        var_s2_6 += 1;
-        var_a0_4 += 0x10;
-        if (var_s2_6 < 4) {
-            goto loop_83;
-        }
-        var_s1_5 += 1;
-    } while (var_s1_5 < 8);
-    if ((u32) (var_s7 & 0xFF) < 2U) {
-        var_s2_7 = 1;
-        var_a1_5 = 0x10;
-loop_93:
-        var_s1_6 = 0;
-        var_a3 = var_a1_5;
-loop_94:
-        if ((&aif_field[0][0].unk_1)[var_a3] != 0xA) {
-            temp_v1_19 = var_s1_6 + 1;
-            var_s3_4 = 1;
-            if (temp_v1_19 < 8) {
-                var_v0_9 = 1 & 0xFF;
-                if ((&aif_field[0][0].unk_1)[(temp_v1_19 * 2) + var_a1_5] != 0xA) {
-loop_98:
-                    var_v0_9 = var_s3_4 & 0xFF;
-                    if (*(aif_field + (((var_s1_6 + var_v0_9) * 2) + var_a1_5)) == (*(aif_field + var_a3) & 0xFF)) {
-                        var_s3_4 += 1;
-                        temp_v1_20 = var_s1_6 + (var_s3_4 & 0xFF);
-                        if ((temp_v1_20 >= 8) || (var_v0_9 = var_s3_4 & 0xFF, ((&aif_field[0][0].unk_1)[(temp_v1_20 * 2) + var_a1_5] == 0xA))) {
-                            goto block_101;
-                        }
-                        goto loop_98;
+
+                if (var_s3 >= 4U) {
+                    sp18 += var_s3 / 4;
+
+                    for (var_s1 = 0; var_s1 < var_s3; var_s1++) {
+                        func_8002F924(row + var_s1, col);
+                        aif_field[row + var_s1][col].unk_1 = 8;
                     }
                 }
-            } else {
-block_101:
-                var_v0_9 = var_s3_4 & 0xFF;
+
+                row += var_s3 - 1;
             }
-            var_v0 = 1;
-            if (var_v0_9 < 4U) {
-                goto block_103;
-            }
-        } else {
-block_103:
-            var_s1_6 += 1;
-            var_a3 += 2;
-            if (var_s1_6 >= 5) {
-                var_s2_7 += 1;
-                var_a1_5 += 0x10;
-                if (var_s2_7 >= 0x11) {
-                    var_s1_7 = 0;
-                    var_a1_6 = 0;
-loop_106:
-                    var_s2_8 = 1;
-                    var_a3_2 = var_a1_6 + 0x10;
-loop_107:
-                    if ((&aif_field[0][0].unk_1)[var_a3_2] != 0xA) {
-                        temp_v1_21 = var_s2_8 + 1;
-                        var_s3_5 = 1;
-                        if (temp_v1_21 < 0x11) {
-                            var_v0_10 = 1 & 0xFF;
-                            if ((&aif_field[0][0].unk_1)[var_a1_6 + (temp_v1_21 * 0x10)] != 0xA) {
-loop_111:
-                                var_v0_10 = var_s3_5 & 0xFF;
-                                if (*(aif_field + (var_a1_6 + ((var_s2_8 + var_v0_10) * 0x10))) == (*(aif_field + var_a3_2) & 0xFF)) {
-                                    var_s3_5 += 1;
-                                    temp_v1_22 = var_s2_8 + (var_s3_5 & 0xFF);
-                                    if ((temp_v1_22 >= 0x11) || (var_v0_10 = var_s3_5 & 0xFF, ((&aif_field[0][0].unk_1)[var_a1_6 + (temp_v1_22 * 0x10)] == 0xA))) {
-                                        goto block_114;
-                                    }
-                                    goto loop_111;
+        }
+    }
+
+    var_s3 = 1;
+
+    for (row = GAME_MAP_ROWS - 1; row > 0; row--) {
+        for (col = GAME_MAP_COLUMNS - 1; col >= 0; col--) {
+            switch (aif_field[row][col].unk_1) {
+                case 0x8:
+                    aif_field[row][col].unk_1 = 0xA;
+                    break;
+
+                case 0x4:
+                    if (row != GAME_MAP_ROWS - 1) {
+                        if (aif_field[row + 1][col].unk_1 == 0xA) {
+                            var_s3 = 0;
+
+                            for (var_s1 = row + 1; var_s1 < GAME_MAP_ROWS; var_s1++) {
+                                if (aif_field[var_s1][col].unk_1 != 0xA) {
+                                    break;
                                 }
                             }
-                        } else {
-block_114:
-                            var_v0_10 = var_s3_5 & 0xFF;
-                        }
-                        var_v0 = 1;
-                        if (var_v0_10 < 4U) {
-                            goto block_116;
-                        }
-                    } else {
-block_116:
-                        var_s2_8 += 1;
-                        var_a3_2 += 0x10;
-                        if (var_s2_8 >= 0xE) {
-                            var_s1_7 += 1;
-                            var_a1_6 += 2;
-                            if (var_s1_7 >= 8) {
-                                var_v0 = 0;
-                            } else {
-                                goto loop_106;
-                            }
-                        } else {
-                            goto loop_107;
+
+                            var_s1--;
+                            aif_field[var_s1][col].unk_1 = aif_field[row][col].unk_1;
+                            aif_field[var_s1][col].unk_0 = aif_field[row][col].unk_0;
+                            aif_field[row][col].unk_1 = 0xA;
                         }
                     }
-                } else {
-                    goto loop_93;
-                }
-            } else {
-                goto loop_94;
+                    break;
+
+                case 1:
+                    if (row != GAME_MAP_ROWS - 1) {
+                        if (aif_field[row + 1][col].unk_1 == 0xA) {
+                            var_s3 = 0;
+
+                            for (var_s1 = row + 1; var_s1 < GAME_MAP_ROWS; var_s1++) {
+                                if (aif_field[var_s1][col].unk_1 != 0xA) {
+                                    break;
+                                }
+                            }
+
+                            var_s1--;
+                            aif_field[var_s1][col].unk_1 = aif_field[row][col].unk_1;
+                            aif_field[var_s1][col].unk_0 = aif_field[row][col].unk_0;
+                            aif_field[row][col].unk_1 = 0xA;
+
+                            aif_field[var_s1 - 1][col].unk_1 = aif_field[row - 1][col].unk_1;
+                            aif_field[var_s1 - 1][col].unk_0 = aif_field[row - 1][col].unk_0;
+                            aif_field[row - 1][col].unk_1 = 0xA;
+                        }
+                    }
+                    break;
+
+                case 2:
+                    if (row != GAME_MAP_ROWS - 1) {
+                        if ((aif_field[row + 1][col].unk_1 == 0xA) &&
+                            (aif_field[row + 1][col + 1].unk_1 == aif_field[row + 1][col].unk_1)) {
+                            var_s3 = 0;
+
+                            for (var_s1 = row + 1; (var_s1 < GAME_MAP_ROWS) && (aif_field[var_s1][col].unk_1 == 0xA) &&
+                                                   (aif_field[var_s1][col + 1].unk_1 == 0xA);
+                                 var_s1++) {
+                                ;
+                            }
+
+                            var_s1--;
+                            aif_field[var_s1][col].unk_1 = aif_field[row][col].unk_1;
+                            aif_field[var_s1][col].unk_0 = aif_field[row][col].unk_0;
+                            aif_field[row][col].unk_1 = 0xA;
+
+                            aif_field[var_s1][col + 1].unk_1 = aif_field[row][col + 1].unk_1;
+                            aif_field[var_s1][col + 1].unk_0 = aif_field[row][col + 1].unk_0;
+                            aif_field[row][col + 1].unk_1 = 0xA;
+                        }
+                    }
+                    break;
             }
         }
-        /* Duplicate return node #119. Try simplifying control flow for better match */
-        return var_v0;
     }
-    var_v0 = 1;
-    if (var_s3_3 & 0xFF) {
-        return 2;
+
+    for (col = 0; col < GAME_MAP_COLUMNS; col++) {
+        for (row = 1; row < 4; row++) {
+            if (aif_field[row][col].unk_1 < 8U) {
+                aiHiEraseCtr -= BadLineRate[row][col];
+            }
+        }
     }
-    return var_v0;
+
+    if (sp18 >= 2) {
+        if (var_s3 != 0) {
+            return 2;
+        }
+        return 1;
+    }
+
+    for (row = 1; row < GAME_MAP_ROWS; row++) {
+        for (col = 0; col < GAME_MAP_COLUMNS - 3; col++) {
+            if (aif_field[row][col].unk_1 != 0xA) {
+                temp = aif_field[row][col].unk_0;
+                for (var_s3 = 1; (col + var_s3 < GAME_MAP_COLUMNS) && (aif_field[row][col + var_s3].unk_1 != 0xA) &&
+                                 (aif_field[row][col + var_s3].unk_0 == temp);
+                     var_s3++) {
+                    ;
+                }
+
+                if (var_s3 >= 4U) {
+                    return 1;
+                }
+            }
+        }
+    }
+
+    for (col = 0; col < GAME_MAP_COLUMNS; col++) {
+        for (row = 1; row < GAME_MAP_ROWS - 3; row++) {
+            if (aif_field[row][col].unk_1 != 0xA) {
+                temp = aif_field[row][col].unk_0;
+                for (var_s3 = 1; (row + var_s3 < GAME_MAP_ROWS) && (aif_field[row + var_s3][col].unk_1 != 0xA) &&
+                                 (aif_field[row + var_s3][col].unk_0 == temp);
+                     var_s3++) {
+                    ;
+                }
+
+                if (var_s3 >= 4) {
+                    return 1;
+                }
+            }
+        }
+    }
+
+    return 0;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifRensaCheckCore);
-#endif
 #endif
 
 #if VERSION_US
@@ -1180,8 +919,6 @@ s32 aifRensaCheck(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFla
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifSearchLineCore);
 #endif
-
-extern u8 BadLineRate[][8];
 
 #if VERSION_CN
 bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
@@ -2389,15 +2126,6 @@ block_88:
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
 #endif
 #endif
-
-extern u16 aiHiErB;
-extern u16 aiPriOfs;
-extern u16 aiHiErY;
-extern u16 aiHiErR;
-extern u16 aiHiEraseCtr;
-extern s16 D_8009337A_cn; // pri_point._14_2_
-extern s16 RensaP;
-extern s16 RensaMP;
 
 #if VERSION_CN
 #ifdef NON_EQUIVALENT
