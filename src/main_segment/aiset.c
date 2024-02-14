@@ -864,10 +864,14 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 #endif
 
 #if VERSION_US
+s32 aifRensaCheck(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFlagRef);
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifRensaCheck);
 #endif
 
 #if VERSION_CN
+/**
+ * Original name: aifRensaCheck
+ */
 s32 aifRensaCheck(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFlagRef) {
     u8 temp_a2 = aiFlagRef->unk_02 - 1;
     u8 temp_a3 = aiFlagRef->unk_03;
@@ -921,8 +925,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifSearchLineCore);
 #endif
 
 #if VERSION_CN
+/**
+ * Original name: aifSearchLineCore
+ */
+// TODO: I wonder if arg2 could be an enum
 bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
-    s32 temp_s2 = aif_field[arg1][arg0].unk_0;
+    u8 temp_s2 = aif_field[arg1][arg0].unk_0;
     s32 i;
     s32 j;
     s32 var_t3;
@@ -934,7 +942,7 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
     }
 
     if (aif_field[arg1][arg0].unk_1 == 0xA) {
-        return 0;
+        return false;
     }
 
     if (arg2 != 2) {
@@ -1125,16 +1133,15 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifMiniPointK3);
-#endif
-
 extern s16 pri_point[];
 
 extern s16 HeiLinesAllp[];
 extern s16 WidLinesAllp[];
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: aifMiniPointK3
+ */
 s32 aifMiniPointK3(u8 *arg0, u8 arg1, u8 *arg2, u8 arg3, u8 arg4, u8 arg5) {
     s32 var_t1 = 0;
     s32 i;
@@ -1170,11 +1177,10 @@ s32 aifMiniPointK3(u8 *arg0, u8 arg1, u8 *arg2, u8 arg3, u8 arg4, u8 arg5) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifMiniAloneCapNumber);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: aifMiniAloneCapNumber
+ */
 s32 aifMiniAloneCapNumber(u8 arg0, u8 arg1, u8 arg2, s32 arg3) {
     s32 var_t0 = 0;
     s32 temp = aif_field[arg1 + 1][arg0].unk_1;
@@ -1204,11 +1210,10 @@ s32 aifMiniAloneCapNumber(u8 arg0, u8 arg1, u8 arg2, s32 arg3) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifMiniAloneCapNumberW);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: aifMiniAloneCapNumberW
+ */
 s32 aifMiniAloneCapNumberW(u8 arg0, u8 arg1, u8 arg2, s32 arg3) {
     s32 var_v1 = 0;
     s32 temp = aif_field[arg1 + 1][arg0].unk_1;
@@ -1235,11 +1240,10 @@ s32 aifMiniAloneCapNumberW(u8 arg0, u8 arg1, u8 arg2, s32 arg3) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", flash_virus);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: flash_virus
+ */
 s32 flash_virus(s32 col, s32 row) {
     s32 i;
 
@@ -1254,11 +1258,10 @@ s32 flash_virus(s32 col, s32 row) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", search_Vflash);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: search_Vflash
+ */
 bool search_Vflash(s32 arg0, s32 arg1, s32 arg2) {
     s32 i;
 
@@ -1287,13 +1290,8 @@ bool search_Vflash(s32 arg0, s32 arg1, s32 arg2) {
 }
 #endif
 
-#if VERSION_US
-// no original name :c
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", func_8003151C);
-#endif
-
-#if VERSION_CN
-bool func_800336A4_cn(s32 arg0 UNUSED, s32 arg1) {
+#if VERSION_US || VERSION_CN
+bool func_8003151C(s32 arg0 UNUSED, s32 arg1) {
     s32 i;
 
     for (i = 0; i < pGameState->unk_164; i++) {
@@ -1319,6 +1317,9 @@ extern s16 bad_point2[];
 
 #if VERSION_CN
 #ifdef NON_EQUIVALENT
+/**
+ * Original name: aifSearchLineMS
+ */
 s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
     u8 sp20[8];
     enum bool sp28;
@@ -3064,19 +3065,14 @@ void func_80034310(void) {
     }
 }
 
-#if VERSION_US
-/**
- * Original name: aifPlaceSearch
- */
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifPlaceSearch);
-#endif
-
 extern u8 aiTEdgeCnt;
 extern u8 aiYEdgeCnt;
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: aifPlaceSearch
+ */
 void aifPlaceSearch(void) {
-    s32 var_t4 = 0;
     s32 var_t5 = 0;
     u8 sp8[100][3];
     s32 row;
@@ -3097,11 +3093,10 @@ void aifPlaceSearch(void) {
                 continue;
             }
 
-            sp8[var_t4][0] = 0;
-            sp8[var_t4][1] = column;
-            sp8[var_t4][2] = row;
+            sp8[var_t5][0] = 0;
+            sp8[var_t5][1] = column;
+            sp8[var_t5][2] = row;
 
-            var_t4++;
             var_t5++;
             aiTEdgeCnt++;
         }
@@ -3175,17 +3170,13 @@ void aifPlaceSearch(void) {
 }
 #endif
 
-#if VERSION_US
-/**
- * Original name: aifMoveCheck
- */
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifMoveCheck);
-#endif
-
 void aifTRecur(u8 arg0, u8 arg1, u8 arg2);
 void aifYRecur(u8 arg0, u8 arg1, u8 arg2);
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: aifMoveCheck
+ */
 void aifMoveCheck(void) {
     s32 i;
     s32 j;
@@ -3253,79 +3244,10 @@ void aifMoveCheck(void) {
 }
 #endif
 
-#if VERSION_US
-#if 0
-? aifTRecurUP(s32, s8, s32);                        /* extern */
-extern u8 success;
-extern u8 aiRootCnt;
-extern ? aiRoot;
-
-void aifTRecur(s8 arg0, s8 arg1, s32 arg2) {
-    s32 temp_a0_2;
-    s32 temp_a0_3;
-    s32 temp_a0_4;
-    s32 temp_a0_5;
-    s32 temp_a1;
-    s32 temp_a2;
-    s8 temp_a0;
-    s8 temp_a1_2;
-    s8 temp_a1_3;
-
-    *(aiRecurData + (((arg0 & 0xFF) * 2) + ((arg1 & 0xFF) * 0x14))) = 0xF;
-    if (((arg0 & 0xFF) == (u16) aiGoalX) && ((arg1 & 0xFF) == (u16) aiGoalY)) {
-        success = 1;
-    }
-    temp_a0 = arg0 & 0xFF;
-    if (success != 1) {
-        temp_a2 = temp_a0 * 2;
-        temp_a1 = arg1 & 0xFF;
-        if ((*(aiRecurData + (temp_a2 + ((temp_a1 - 1) * 0x14))) == 3) && ((&aiRecurData[0][0].unk_1)[temp_a2 + ((temp_a1 - 2) * 0x14)] == 0xA)) {
-            aifTRecur(temp_a0, (arg1 - 1) & 0xFF, arg2 & 0xFF);
-        }
-        if (success != 1) {
-            temp_a0_2 = ((arg0 & 0xFF) + 1) * 2;
-            temp_a1_2 = arg1 & 0xFF;
-            if ((*(aiRecurData + (temp_a0_2 + (temp_a1_2 * 0x14))) == 3) && ((&aiRecurData[0][0].unk_1)[temp_a0_2 + ((temp_a1_2 - 1) * 0x14)] == 0xA)) {
-                temp_a0_3 = arg0 + 1;
-                if ((u8) aiMoveSF != 0) {
-                    aifTRecur(temp_a0_3 & 0xFF, temp_a1_2, arg2 & 0xFF);
-                } else {
-                    aifTRecurUP(temp_a0_3 & 0xFF, temp_a1_2, arg2 & 0xFF);
-                }
-            }
-            if (success != 1) {
-                temp_a0_4 = ((arg0 & 0xFF) - 1) * 2;
-                temp_a1_3 = arg1 & 0xFF;
-                if ((*(aiRecurData + (temp_a0_4 + (temp_a1_3 * 0x14))) == 3) && ((&aiRecurData[0][0].unk_1)[temp_a0_4 + ((temp_a1_3 - 1) * 0x14)] == 0xA)) {
-                    temp_a0_5 = arg0 - 1;
-                    if ((u8) aiMoveSF != 0) {
-                        aifTRecur(temp_a0_5 & 0xFF, temp_a1_3, arg2 & 0xFF);
-                    } else {
-                        aifTRecurUP(temp_a0_5 & 0xFF, temp_a1_3, arg2 & 0xFF);
-                    }
-                }
-                if (success == 1) {
-                    goto block_20;
-                }
-            } else {
-                goto block_20;
-            }
-        } else {
-            goto block_20;
-        }
-    } else {
-block_20:
-        *(&aiRoot + (aiRootCnt * 2)) = arg0;
-        *(&B_800F6C71 + (aiRootCnt * 2)) = arg1;
-        aiRootCnt += 1;
-    }
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifTRecur);
-#endif
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: aifTRecur
+ */
 void aifTRecur(u8 arg0, u8 arg1, u8 arg2) {
     aiRecurData[arg1][arg0].unk_0 = 0xF;
 
@@ -3367,11 +3289,10 @@ void aifTRecur(u8 arg0, u8 arg1, u8 arg2) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifTRecurUP);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: aifTRecurUP
+ */
 void aifTRecurUP(u8 arg0, u8 arg1, u8 arg2) {
     if ((arg0 == aiGoalX) && (arg1 == aiGoalY)) {
         success = 1;
@@ -3391,11 +3312,10 @@ void aifTRecurUP(u8 arg0, u8 arg1, u8 arg2) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifYRecur);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: aifYRecur
+ */
 void aifYRecur(u8 arg0, u8 arg1, u8 arg2) {
     aiRecurData[arg1][arg0].unk_0 = 0xF;
 
@@ -3437,11 +3357,10 @@ void aifYRecur(u8 arg0, u8 arg1, u8 arg2) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifYRecurUP);
-#endif
-
-#if VERSION_CN
+#if VERSION_US|| VERSION_CN
+/**
+ * Original name: aifYRecurUP
+ */
 void aifYRecurUP(u8 arg0, u8 arg1, u8 arg2) {
     if ((arg0 == aiGoalX) && (arg1 == aiGoalY)) {
         success = 1;
@@ -3461,14 +3380,10 @@ void aifYRecurUP(u8 arg0, u8 arg1, u8 arg2) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 /**
  * Original name: aifReMoveCheck
  */
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifReMoveCheck);
-#endif
-
-#if VERSION_CN
 void aifReMoveCheck(void) {
     s32 i;
 
@@ -3513,93 +3428,10 @@ void aifReMoveCheck(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", RO_800ACF10);
-#endif
-
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 /**
  * Original name: aifKeyMake
  */
-#if 0
-//s8 aifRensaCheck(struct_game_state_data *, s8 *, void *, s8 *); /* extern */
-extern f32 aiRootP;
-extern u8 aiRollFinal;
-extern u8 aiVirusLevel[][3];
-extern u8 aiRoot[][2];
-
-extern s32 _aiFlag[UNK_SIZE][4][4];
-
-void aifKeyMake(struct_game_state_data *gameStateDataRef) {
-    s32 sp10[][2] = {{1,3},{0,2},};
-    s32 (*var_a2)[4];
-    s32 *var_a3;
-    s32 temp_v1;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_v1;
-    s8 temp_v0_2;
-    u8 temp_v0;
-    s32 i;
-    s32 j;
-
-    i = 0;
-
-    var_a2 = _aiFlag[(u8) decide];
-    do {
-        gameStateDataRef->unk_190[i][0] = var_a2[i][0];
-        gameStateDataRef->unk_190[i][1] = var_a2[i][1];
-        gameStateDataRef->unk_190[i][2] = var_a2[i][2];
-        gameStateDataRef->unk_190[i][3] = var_a2[i][3];
-        i++;
-    } while (i < 4);
-
-    i = 0;
-    do {
-        gameStateDataRef->unk_1D0[i][0] = aiRoot[i][0];
-        gameStateDataRef->unk_1D0[i][1] = aiRoot[i][1];
-        i += 1;
-    } while (i < 0x64/2);
-
-    gameStateDataRef->unk_23F = aiRoot[aiRootCnt - 1][0];
-    gameStateDataRef->unk_240 = aiRoot[aiRootCnt - 1][1];
-    // ??
-    gameStateDataRef->unk_1D0[0][-1] = aifRensaCheck(gameStateDataRef, gameStateDataRef->unk_190[0]);
-
-    temp_v1 = ((((sp10[(u8)gameStateDataRef->unk_184[0xD]][(u8)gameStateDataRef->unk_184[0x10]]) - ((u8) gameStateDataRef->unk_241 - 0x28)) + (u8) gameStateDataRef->unk_237) - aiRollFinal) + (u8) gameStateDataRef->unk_238;
-    var_v0 = temp_v1;
-    if (temp_v1 < 0) {
-        var_v0 = temp_v1 + 3;
-    }
-    temp_v0_2 = temp_v1 - ((var_v0 >> 2) * 4);
-    gameStateDataRef->unk_237 = temp_v0_2;
-    gameStateDataRef->unk_241 = temp_v0_2;
-    gameStateDataRef->unk_238 = (s8) aiRollFinal;
-    gameStateDataRef->unk_235 = 2;
-    gameStateDataRef->unk_236 = 1;
-    gameStateDataRef->unk_293[0] = (s8) (u8) aiSelSpeed;
-
-    //if (!(aiRootP > 100.0f)) {
-    //    gameStateDataRef->unk_294 = aiRootP;
-    //} else {
-    //    gameStateDataRef->unk_294 = (s8) 100;
-    //}
-
-    gameStateDataRef->unk_294 = MIN(100, aiRootP);
-
-    if ((u32) (genrand((s32) aiVirusLevel[aiSelSpeed][gameStateDataRef->unk_23C]) & 0xFF) >= 7U) {
-        gameStateDataRef->unk_23A = 0;
-    } else {
-        gameStateDataRef->unk_23A = 1;
-        gameStateDataRef->unk_23B = genrand(5);
-    }
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyMake);
-#endif
-#endif
-
-#if VERSION_CN
 void aifKeyMake(struct_game_state_data *gameStateDataRef) {
     s32 sp18[2][2] = { { 1, 3 }, { 0, 2 } };
     s32 i;

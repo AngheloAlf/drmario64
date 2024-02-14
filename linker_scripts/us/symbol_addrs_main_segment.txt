@@ -2507,7 +2507,7 @@ B_800EB4D8 = 0x800EB4D8; //
 main_old = 0x800EB4F0; //
 _menuMain_lastDepth = 0x800EB4F4; // size:0x4
 aiRecurData = 0x800EB4F8; // size:0x168
-B_800EB660 = 0x800EB660; //
+aiTEdgeCnt = 0x800EB660; //
 B_800EB670 = 0x800EB670; // size:0x67C
 main_no = 0x800EBCF0; //
 gGfxHead = 0x800EBCF4; //
@@ -2572,7 +2572,7 @@ aiRoot = 0x800F6C70; // size:0x64
 __muscontrol_flag = 0x800F6CD4; // 0x4  (player, true)
 
 joyflg = 0x800F6CD8; // size:0x8
-B_800F6CE0 = 0x800F6CE0; //
+aiYEdgeCnt = 0x800F6CE0; //
 virus_map_data = 0x800F6CF0; // size:0x600
 virus_map_disp_order = 0x800F72F0; // size:0x180
 evs_cfg_4p = 0x800F7470; // size:0x16

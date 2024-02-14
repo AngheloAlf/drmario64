@@ -248,7 +248,7 @@ extern s32 _menuMain_lastDepth;
 // extern UNK_TYPE B_800EB50B;
 // extern UNK_TYPE B_800EB64C;
 // extern UNK_TYPE B_800EB64D;
-// extern UNK_TYPE B_800EB660;
+// extern UNK_TYPE aiTEdgeCnt;
 
 extern enum_main_no main_no; /* Original name: main_no */
 extern Gfx* gGfxHead; /* Original name: gp */ // main display list head
@@ -322,7 +322,7 @@ extern OSContStatus B_800F5358[4];
 // extern UNK_TYPE B_800F6C71;
 // extern UNK_TYPE B_800F6CD4;
 extern u16 joyflg[MAXCONTROLLERS];
-// extern UNK_TYPE B_800F6CE0;
+// extern UNK_TYPE aiYEdgeCnt;
 
 extern struct_evs_cfg_4p evs_cfg_4p;
 extern s32 s_hard_mode; // maybe bool?
