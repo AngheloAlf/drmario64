@@ -97,7 +97,6 @@ const struct_800B1B00 _centerTbl_125[CHARANIMEMODE_MAX] = {
 /**
  * Original name: animeSeq_init
  */
-#if VERSION_US || VERSION_CN
 void animeSeq_init(AnimeSeq *animeSeq, u8 **arg1, UNK_TYPE4 arg2) {
     animeSeq->unk_0C = arg1;
     animeSeq->unk_08 = -1;
@@ -106,18 +105,14 @@ void animeSeq_init(AnimeSeq *animeSeq, u8 **arg1, UNK_TYPE4 arg2) {
     animeSeq->unk_18 = -1;
     animeSeq_update(animeSeq, 0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8005E154(AnimeState *animeState, UNK_TYPE4 arg1) {
     animeSeq_init(&animeState->animeSeq, animeState->animeSeq.unk_0C, arg1);
 }
-#endif
 
 /**
  * Original name: animeSeq_update
  */
-#if VERSION_US || VERSION_CN
 void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
     while (arg1 >= 0) {
         u8 *temp_a1 = &animeSeq->unk_0C[animeSeq->unk_10][animeSeq->unk_14];
@@ -163,30 +158,24 @@ void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
         }
     }
 }
-#endif
 
 /**
  * Original name: animeSeq_isEnd
  */
-#if VERSION_US || VERSION_CN
 bool animeSeq_isEnd(AnimeSeq *animeSeq) {
     return animeSeq->unk_0C[animeSeq->unk_10][animeSeq->unk_14] == 0xFF;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: animeState_getDataSize
  */
 size_t animeState_getDataSize(CharAnimeMode animeMode) {
     return _size_122[animeMode];
 }
-#endif
 
 /**
  * Original name: animeState_load
  */
-#if VERSION_US || VERSION_CN
 void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeMode) {
     TiTexData *sp18;
     u8 **sp1C;
@@ -196,12 +185,10 @@ void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeM
     animeState_init(animeState, sp1C, sp18, _centerTbl_125[animeMode].unk_0, _centerTbl_125[animeMode].unk_4,
                     animeMode);
 }
-#endif
 
 /**
  * Original name: animeState_init
  */
-#if VERSION_US || VERSION_CN
 void animeState_init(AnimeState *animeState, u8 **arg1, TiTexData *arg2, UNK_TYPE4 arg3, UNK_TYPE4 arg4,
                      CharAnimeMode animeMode) {
     animeSeq_init(&animeState->animeSeq, arg1, 0);
@@ -215,35 +202,27 @@ void animeState_init(AnimeState *animeState, u8 **arg1, TiTexData *arg2, UNK_TYP
     animeState->primColor[2] = 255;
     animeState->primColor[3] = 255;
 }
-#endif
 
 /**
  * Original name: animeState_set
  */
-#if VERSION_US || VERSION_CN
 void animeState_set(AnimeState *animeState, UNK_TYPE4 arg1) {
     animeState->unk_20 = 0;
     func_8005E154(animeState, arg1);
 }
-#endif
 
 /**
  * Original name: animeState_update
  */
-#if VERSION_US || VERSION_CN
 void animeState_update(AnimeState *animeState) {
     animeSeq_update(&animeState->animeSeq, animeState->unk_20 % 2U);
     animeState->unk_20++;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool animeState_isEnd(AnimeState *animeState) {
     return animeSeq_isEnd(&animeState->animeSeq);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: animeState_initDL
  */
@@ -261,12 +240,10 @@ void animeState_initDL(AnimeState *animeState, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
 /**
  * Original name: animeState_initDL2
  */
-#if VERSION_US || VERSION_CN
 void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -281,12 +258,10 @@ void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
     }
     *gfxP = gfx;
 }
-#endif
 
 /**
  * Original name: animeState_initIntensityDL
  */
-#if VERSION_US || VERSION_CN
 void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -301,12 +276,10 @@ void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
 /**
  * Original name: animeState_draw
  */
-#if VERSION_US || VERSION_CN
 void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     Gfx *gfx = *gfxP;
     TiTexData *temp_a3;
@@ -350,9 +323,7 @@ void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     Gfx *gfx = *gfxP;
     TiTexData *temp_a3;
@@ -379,12 +350,10 @@ void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 a
                      temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4, temp_a3->info[1] * arg5);
     *gfxP = gfx;
 }
-#endif
 
 /**
  * Original name: animeSmog_init
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig) {
     s32 i;
 
@@ -397,31 +366,25 @@ void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig) {
     }
     animeSmog->unk_120 = 0xB4;
 }
-#endif
 
 /**
  * Original name: animeSmog_load
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_load(AnimeSmog *animeSmog, UNK_PTR *arg1) {
     animeState_load(animeSmog->unk_000, arg1, CHARANIMEMODE_SMOG);
     animeSmog_init(animeSmog, animeSmog);
 }
-#endif
 
 /**
  * Original name: animeSmog_start
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_start(AnimeSmog *animeSmog) {
     animeSmog->unk_120 = 0;
 }
-#endif
 
 /**
  * Original name: animeSmog_stop
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_stop(AnimeSmog *animeSmog) {
     u32 i;
 
@@ -431,12 +394,10 @@ void animeSmog_stop(AnimeSmog *animeSmog) {
 
     animeSmog->unk_120 = 0xB4;
 }
-#endif
 
 /**
  * Original name: animeSmog_update
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_update(AnimeSmog *animeSmog) {
     u32 i;
 
@@ -451,12 +412,10 @@ void animeSmog_update(AnimeSmog *animeSmog) {
 
     animeSmog->unk_120 = MIN(0xB4, animeSmog->unk_120 + 1);
 }
-#endif
 
 /**
  * Original name: animeSmog_draw
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     Gfx *gfx = *gfxP;
     u32 i;
@@ -472,9 +431,7 @@ void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 ar
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8005EE64(u8 **metadata, s32 len, uintptr_t addr) {
     s32 i;
 
@@ -482,9 +439,7 @@ void func_8005EE64(u8 **metadata, s32 len, uintptr_t addr) {
         metadata[i] = (void *)((uintptr_t)metadata[i] + addr);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: loadAnimeSeq
  *
@@ -520,4 +475,3 @@ void loadAnimeSeq(void **heap, TiTexData **texDataDst, u8 ***metadataDst, RomOff
     *metadataDst = metadata;
     func_8005EE64(metadata, *metadataLen, (uintptr_t)anime);
 }
-#endif

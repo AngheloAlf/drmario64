@@ -2057,9 +2057,11 @@ jtbl_800B1A08 = 0x800B1A08; // type:jtbl
 STR_800B1A54 = 0x800B1A54; // force_not_migration:True type:asciz
 
 DBL_800B1A58 = 0x800B1A58; // type:f64
+
 _size_122 = 0x800B1A60; // size:0x50
 _addrTbl_124 = 0x800B1AB0; // size:0x50
 _centerTbl_125 = 0x800B1B00; // size:0xA0
+
 limit_table = 0x800B1BA0; //
 RO_800B1BBC = 0x800B1BBC; //
 

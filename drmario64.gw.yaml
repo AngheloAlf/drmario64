@@ -496,7 +496,7 @@ segments:
       - [0x044180, c, main_segment/font]
 
       - [0x0458B0, c, main_segment/msgwnd]
-      - [0x046AB0, asm, main_segment/char_anime]
+      - [0x046AB0, c, main_segment/char_anime]
       - [0x0478E0, asm, main_segment/dm_virus_init]
 
       - [0x048B80, asm, main_segment/048B80] # TODO: figure out
@@ -591,7 +591,8 @@ segments:
         - [0x09A578]
 
       - [0x09A590, .rodata, main_segment/msgwnd]
-      - [0x09A660, rodata, main_segment/09A660]
+      - [0x09A660, .rodata, main_segment/char_anime]
+      - [0x09A7A0, rodata, main_segment/09A7A0]
       - [0x09A810, rodata, main_segment/09A810]
       - [0x09A830, rodata, main_segment/048B80]
       - [0x09B000, rodata, main_segment/05A9D0]

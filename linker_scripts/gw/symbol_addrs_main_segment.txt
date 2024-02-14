@@ -2080,10 +2080,11 @@ RO_DBL_800B2860_gw = 0x800B2860; // type:f64
 jtbl_800B2868_gw = 0x800B2868; // type:jtbl
 STR_800B1A54 = 0x800B28B4; // force_not_migration:True type:asciz
 RO_DBL_800B28B8_gw = 0x800B28B8; // type:f64
-RO_800B28C0_gw = 0x800B28C0; //
-RO_800B2910_gw = 0x800B2910; //
-RO_800B2960_gw = 0x800B2960; //
-RO_800B2964_gw = 0x800B2964; //
+
+_size_122 = 0x800B28C0; // size:0x50
+_addrTbl_124 = 0x800B2910; // size:0x50
+_centerTbl_125 = 0x800B2960; // size:0xA0
+
 RO_800B2A00_gw = 0x800B2A00; // type:u8
 RO_800B2A1C_gw = 0x800B2A1C; //
 RO_800B2A28_gw = 0x800B2A28; // type:u8
