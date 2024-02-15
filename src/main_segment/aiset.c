@@ -3430,25 +3430,11 @@ void aifKeyMake(struct_game_state_data *gameStateDataRef) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/aiset", wave_tbl_2879);
-#endif
+#if VERSION_US || VERSION_CN
+const s32 wave_tbl_2879[] = {
+    0, 1, 1, 0, -1, -1, 0, 1,
+};
 
-#if VERSION_US
-/**
- * Original name: aifKeyOut
- */
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyOut);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/aiset", wave_tbl_2879);
-#endif
-
-// size 8?
-extern const s32 wave_tbl_2879[];
-
-#if VERSION_CN
 void aifKeyOut(struct_game_state_data *gameStateDataRef) {
     s32 temp_s3;
     s32 temp_t0_3;
@@ -3483,7 +3469,7 @@ void aifKeyOut(struct_game_state_data *gameStateDataRef) {
 
             if (gameStateDataRef->unk_242[var_a0] == 2) {
 
-                temp = wave_tbl_2879[(gameStateDataRef->unk_240 + gameStateDataRef->unk_3BD) & 7];
+                temp = wave_tbl_2879[(gameStateDataRef->unk_240 + gameStateDataRef->unk_3BD) % ARRAY_COUNTU(wave_tbl_2879)];
                 temp_t0_3 = var_s1 + temp;
 
                 if (gameStateDataRef
@@ -3564,8 +3550,13 @@ void aifKeyOut(struct_game_state_data *gameStateDataRef) {
                         }
                     }
 
-                    if ((gameStateDataRef->unk_23A == 1) && (gameStateDataRef->unk_234 > gameStateDataRef->unk_23B)) {
-                        gameStateDataRef->unk_235++;
+                    if (gameStateDataRef->unk_23A == 1) {
+                        if (gameStateDataRef->unk_234 > gameStateDataRef->unk_23B) {
+                            gameStateDataRef->unk_235++;
+                        } else {
+                            gameStateDataRef->unk_235 +=
+                                aiDownSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
+                        }
                     } else {
                         gameStateDataRef->unk_235 += aiDownSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
                     }
