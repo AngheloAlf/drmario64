@@ -1308,37 +1308,28 @@ extern s16 bad_point[];
 extern s16 bad_point2[];
 
 #if VERSION_CN
-#ifdef NON_EQUIVALENT
 /**
  * Original name: aifSearchLineMS
  */
 s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
     u8 sp20[8];
-    enum bool sp28;
-    enum bool sp2C;
+    bool sp28;
+    bool sp2C;
     s32 sp30;
     s32 var_a0;
     s32 var_a2;
     s32 var_a2_2;
     s32 var_a2_3;
     s32 var_s0;
-    s32 var_s0_3;
     s32 var_s1;
     s32 var_s2;
     s32 var_s4;
-    s32 var_s4_2;
-    // s32 var_s7;
 
     var_s4 = 0;
-
-    // var_s7 = arg5;
     sp30 = arg5;
 
     for (var_a2 = 0; var_a2 < STRUCT_AIFLAG_UNK_LEN; var_a2++) {
-        arg0->unk_24[var_a2] = 0;
-        arg0->unk_10[var_a2] = 0;
-        arg0->unk_2E[var_a2] = 0;
-        arg0->unk_1A[var_a2] = 0;
+        arg0->unk_24[var_a2] = arg0->unk_10[var_a2] = arg0->unk_2E[var_a2] = arg0->unk_1A[var_a2] = 0;
     }
 
     arg0->unk_39 = 0;
@@ -1399,10 +1390,8 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
                 }
             }
 
-            for (var_a2_2 = arg5 + 1; var_a2_2 < 0x11; var_a2_2++) {
-                if (aif_field[var_a2_2][arg4].unk_1 != 0xA) {
-                    break;
-                }
+            for (var_a2_2 = arg5 + 1; (var_a2_2 < 0x11) && (aif_field[var_a2_2][arg4].unk_1 == 0xA); var_a2_2++) {
+                ;
             }
 
             if (var_a2_2 != arg5 + 1) {
@@ -1510,9 +1499,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
         }
 
         var_s2 = 1;
-        var_s1 = sp30 - 1;
-
-        for (; var_s1 >= 4; var_s1--) {
+        for (var_s1 = sp30 - 1; var_s1 >= 4; var_s1--) {
             if ((aiFieldData[var_s1][arg4].unk_1 >= 5) && (aiFieldData[var_s1][arg4].unk_1 <= 7)) {
                 var_s2 = 0;
                 break;
@@ -1529,12 +1516,12 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
             }
         }
 
-        var_s4_2 = 0;
+        var_s4 = 0;
         if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
             if (var_s0 != 0) {
                 for (var_s1 = arg2 + 1; var_s1 < 0x11; var_s1++) {
                     if (flash_virus(arg1, var_s1) != -1) {
-                        var_s4_2 += OnVirusP;
+                        var_s4 += OnVirusP;
                     }
                 }
             }
@@ -1542,7 +1529,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
             if (var_s2 != 0) {
                 for (var_s1 = sp30 + 1; var_s1 < 0x11; var_s1++) {
                     if (flash_virus(arg4, var_s1) != -1) {
-                        var_s4_2 += OnVirusP;
+                        var_s4 += OnVirusP;
                     }
                 }
             }
@@ -1550,79 +1537,69 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
 
         if (aiFieldData[arg2 + 1][arg1].unk_1 < 8U) {
             if (var_s0 != 0) {
-                if ((arg7 != 0) && (arg0->unk_01 == 0) && (arg0->unk_10[2] < 3)) {
-                    arg0->unk_08 -= OnVirusP * 2;
-                } else if (arg0->unk_10[2] >= 2) {
-                    if (arg0->unk_10[5] >= 4U) {
-                        if (arg0->unk_01 == 0) {
-                            if (arg7 != 0) {
-                                arg0->unk_08 += (OnVirusP + var_s4_2) * 2;
-                            } else if (sp28 == false) {
+                if ((arg0->unk_10[2] >= (((arg7 != 0) && (arg0->unk_01 == 0)) ? 3 : 2)) && (arg0->unk_10[5] >= 4)) {
+                    if (arg0->unk_01 == 0) {
+                        if (arg7 != 0) {
+                            arg0->unk_08 += (OnVirusP + var_s4) * 2;
+                        } else if (sp28 == false) {
+                            arg0->unk_08 -= OnVirusP * 2;
+                        }
+                    } else {
+                        if (var_s2 != 0) {
+                            if ((arg0->unk_1A[3] >= 2) && (arg0->unk_1A[5] >= 4)) {
+                                arg0->unk_08 += OnVirusP + var_s4;
+                            } else {
                                 arg0->unk_08 -= OnVirusP * 2;
                             }
                         } else {
-                            if (var_s2 == 0) {
-                                arg0->unk_08 += (OnVirusP + var_s4_2);
-                            } else if (arg0->unk_1A[3] < 2U) {
-                                arg0->unk_08 -= (OnVirusP * 2);
-                            } else if (arg0->unk_1A[5] >= 4U) {
-                                arg0->unk_08 += (OnVirusP + var_s4_2);
-                            } else {
-                                arg0->unk_08 -= (OnVirusP * 2);
-                            }
+                            arg0->unk_08 += OnVirusP + var_s4;
                         }
+                    }
+                } else {
+                    arg0->unk_08 -= OnVirusP * 2;
+                }
+            } else if (var_s2 != 0) {
+                if ((arg0->unk_1A[3] >= 2) && (arg0->unk_1A[5] >= 4)) {
+                    if ((arg0->unk_10[2] >= 3) && (arg0->unk_10[5] >= 4)) {
+                        arg0->unk_08 += OnVirusP + var_s4;
                     } else {
                         arg0->unk_08 -= OnVirusP * 2;
                     }
                 } else {
                     arg0->unk_08 -= OnVirusP * 2;
                 }
-            } else if (var_s2 != 0) {
-                if (arg0->unk_1A[3] < 2U) {
-                    arg0->unk_08 -= (OnVirusP * 2);
-                } else if (arg0->unk_1A[5] < 4U) {
-                    arg0->unk_08 -= (OnVirusP * 2);
-                } else if (arg0->unk_10[2] < 3U) {
-                    arg0->unk_08 -= (OnVirusP * 2);
-                } else if (arg0->unk_10[5] >= 4U) {
-                    arg0->unk_08 += (OnVirusP + var_s4_2);
-                } else {
-                    arg0->unk_08 -= (OnVirusP * 2);
-                }
             }
         } else if (var_s2 != 0) {
-            if (arg0->unk_1A[2] < 2U) {
-                arg0->unk_08 -= (OnVirusP * 2);
-            } else if (arg0->unk_1A[5] < 4U) {
-                arg0->unk_08 -= (OnVirusP * 2);
-            } else if (var_s0 == 0) {
-                arg0->unk_08 += (OnVirusP + var_s4_2);
-            } else if (arg0->unk_10[3] < 2U) {
-                arg0->unk_08 -= (OnVirusP * 2);
-            } else if (arg0->unk_10[5] >= 4U) {
-                arg0->unk_08 += (OnVirusP + var_s4_2);
+            if ((arg0->unk_1A[2] >= 2) && (arg0->unk_1A[5] >= 4)) {
+                if (var_s0 != 0) {
+                    if ((arg0->unk_10[3] >= 2) && (arg0->unk_10[5] >= 4)) {
+                        arg0->unk_08 += OnVirusP + var_s4;
+                    } else {
+                        arg0->unk_08 -= OnVirusP * 2;
+                    }
+                } else {
+                    arg0->unk_08 += OnVirusP + var_s4;
+                }
             } else {
-                arg0->unk_08 -= (OnVirusP * 2);
+                arg0->unk_08 -= OnVirusP * 2;
             }
         } else if (var_s0 != 0) {
-            if (arg0->unk_10[3] < 2U) {
-                arg0->unk_08 -= (OnVirusP * 2);
-            } else if (arg0->unk_10[5] < 4U) {
-                arg0->unk_08 -= (OnVirusP * 2);
-            } else if (arg0->unk_1A[2] < 3U) {
-                arg0->unk_08 -= (OnVirusP * 2);
-            } else if (arg0->unk_1A[5] >= 4U) {
-                arg0->unk_08 += (OnVirusP + var_s4_2);
+            if ((arg0->unk_10[3] >= 2) && (arg0->unk_10[5] >= 4)) {
+                if ((arg0->unk_1A[2] >= 3) && (arg0->unk_1A[5] >= 4)) {
+                    arg0->unk_08 += OnVirusP + var_s4;
+                } else {
+                    arg0->unk_08 -= OnVirusP * 2;
+                }
             } else {
-                arg0->unk_08 -= (OnVirusP * 2);
+                arg0->unk_08 -= OnVirusP * 2;
             }
         }
 
         if ((sp28 != false) && (arg7 == 0) && (arg0->unk_01 == 0) && (arg2 < 0x10)) {
             var_a2_2 = 0;
 
-            for (var_s0_3 = arg2 + 1; var_s0_3 < 0x11; var_s0_3++) {
-                if ((aiFieldData[var_s0_3][arg4].unk_1 >= 8U) || (aiFieldData[var_s0_3][arg4].unk_0 != arg3)) {
+            for (var_s0 = arg2 + 1; var_s0 < 0x11; var_s0++) {
+                if ((aiFieldData[var_s0][arg4].unk_1 >= 8U) || (aiFieldData[var_s0][arg4].unk_0 != arg3)) {
                     var_a2_2 = 1;
                     break;
                 }
@@ -1630,7 +1607,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
 
             if (var_a2_2 != 0) {
                 var_a2_2 = 0;
-                for (var_s1 = var_s0_3; var_s1 < 0x11; var_s1++) {
+                for (var_s1 = var_s0; var_s1 < 0x11; var_s1++) {
                     if ((aiFieldData[var_s1][arg4].unk_1 >= 5) && (aiFieldData[var_s1][arg4].unk_1 <= 7)) {
                         var_a2_2 = 1;
                         break;
@@ -1639,10 +1616,10 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
             }
 
             if (var_a2_2 != 0) {
-                for (var_s1 = var_s0_3; var_s1 < 0x11; var_s1++) {
-                    if (aiFieldData[var_s1][arg4].unk_1 < 8U) {
+                for (var_s1 = var_s0; var_s1 < 0x11; var_s1++) {
+                    if (aiFieldData[var_s1][arg4].unk_1 < 8) {
                         if (aiFieldData[var_s1][arg4].unk_0 == arg6) {
-                            arg0->unk_08 += (OnVirusP + var_s4_2) * 4;
+                            arg0->unk_08 += (OnVirusP + var_s4) * 4;
                         } else {
                             arg0->unk_08 -= OnVirusP * 2;
                         }
@@ -1700,9 +1677,6 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
     }
     return 0;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifSearchLineMS);
-#endif
 #endif
 
 #if VERSION_US
