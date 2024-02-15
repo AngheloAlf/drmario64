@@ -3357,7 +3357,7 @@ void aifYRecur(u8 arg0, u8 arg1, u8 arg2) {
 }
 #endif
 
-#if VERSION_US|| VERSION_CN
+#if VERSION_US || VERSION_CN
 /**
  * Original name: aifYRecurUP
  */
