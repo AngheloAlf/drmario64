@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
+import argparse
 from pathlib import Path
 
-def apply(config, args):
+def add_custom_arguments(parser: argparse.ArgumentParser):
     version = "us"
 
     make_options = Path(".make_options")
@@ -11,6 +12,11 @@ def apply(config, args):
             for line in f:
                 if "VERSION" in line and "=" in line:
                     version = line.split("=")[1].strip()
+
+    parser.add_argument("-v", "--version", default=version)
+
+def apply(config: dict, args: argparse.Namespace):
+    version = args.version
 
     config["baseimg"] = f"expected/build/{version}/drmario64_uncompressed.{version}.z64"
     config["myimg"]   = f"build/{version}/drmario64_uncompressed.{version}.z64"

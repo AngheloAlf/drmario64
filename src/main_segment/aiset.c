@@ -863,41 +863,33 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 }
 #endif
 
-#if VERSION_US
-s32 aifRensaCheck(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFlagRef);
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifRensaCheck);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 /**
  * Original name: aifRensaCheck
  */
 s32 aifRensaCheck(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFlagRef) {
     u8 temp_a2 = aiFlagRef->unk_02 - 1;
     u8 temp_a3 = aiFlagRef->unk_03;
-    u8 var_t2;
-    u8 var_t4;
-    u8 var_t5;
     u8 var_t0;
+    u8 var_t5;
+    u8 var_t4;
     u8 var_t3;
     u8 var_t1; //! @bug: sometimes not set
+    u8 var_t2;
 
     if (aiFlagRef->unk_01 == 0) {
-        s32 temp_v1;
-
         var_t5 = 1;
         var_t4 = temp_a2;
-        temp_v1 = temp_a3 - 1;
         var_t3 = temp_a3 - 1;
         var_t2 = 0;
         if (aiFlagRef->unk_04 == 0) {
             var_t0 = aiNext[1];
-            if (temp_v1 > 0) {
+            if (temp_a3 - 1 > 0) {
                 var_t1 = aiNext[0];
             }
         } else {
             var_t0 = aiNext[0];
-            if (temp_v1 > 0) {
+            if (temp_a3 - 1 > 0) {
                 var_t1 = aiNext[1];
             }
         }
