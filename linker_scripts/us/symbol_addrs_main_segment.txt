@@ -2068,7 +2068,7 @@ RO_800B1BBC = 0x800B1BBC; //
 _n_343 = 0x800B1BC8; //
 
 _l_359 = 0x800B1BCC; //
-RO_800B1BD0 = 0x800B1BD0; //
+_n_564 = 0x800B1BD0; //
 jtbl_800B1C10 = 0x800B1C10; // type:jtbl
 jtbl_800B1C30 = 0x800B1C30; // type:jtbl
 rotate_table_399 = 0x800B1C4C; //
