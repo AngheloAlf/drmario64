@@ -17,9 +17,9 @@ struct struct_watchMenu;
 
 // extern UNK_TYPE D_80088490;
 extern u8 aiVirusLevel[][3];
-extern u8 D_800884C0[][3];
+extern u8 aiDownSpeed[][3];
 extern u8 aiSlideFSpeed[][3];
-extern u8 D_800884F0[][3];
+extern u8 aiSlideSpeed[][3];
 extern s8 aiDebugP1;
 extern u8 capsGCnv_122[];
 extern u8 capsCCnv_123[];

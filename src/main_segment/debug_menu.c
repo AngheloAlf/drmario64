@@ -54,8 +54,8 @@ typedef u8 (*D_8008E480_type)[3];
 
 D_8008E480_type D_8008E480[] = {
     aiVirusLevel,
-    D_800884C0,
-    D_800884F0,
+    aiDownSpeed,
+    aiSlideSpeed,
     aiSlideFSpeed,
 };
 

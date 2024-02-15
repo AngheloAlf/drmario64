@@ -3445,10 +3445,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifKeyOut);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/aiset", wave_tbl_2879);
 #endif
 
+// size 8?
 extern const s32 wave_tbl_2879[];
 
 #if VERSION_CN
-#ifdef NON_EQUIVALENT
 void aifKeyOut(struct_game_state_data *gameStateDataRef) {
     s32 temp_s3;
     s32 temp_t0_3;
@@ -3467,58 +3467,55 @@ void aifKeyOut(struct_game_state_data *gameStateDataRef) {
     }
 
     if (gameStateDataRef->unk_3BC == (gameStateDataRef->unk_1D0[gameStateDataRef->unk_234][0] - 1)) {
-        if (gameStateDataRef->unk_3BD == gameStateDataRef[0].unk_1D0[gameStateDataRef->unk_234][0]) {
+        if (gameStateDataRef->unk_3BD == gameStateDataRef->unk_1D0[gameStateDataRef->unk_234][1]) {
             gameStateDataRef->unk_234++;
         }
     }
 
     gameStateDataRef->unk_235--;
 
-    var_s1 = gameStateDataRef->unk_1D0[gameStateDataRef->unk_234][0] - (gameStateDataRef->unk_3BC + 1);
+    var_s1 = gameStateDataRef->unk_1D0[gameStateDataRef->unk_234][0] - 1 - gameStateDataRef->unk_3BC;
     temp_s3 = gameStateDataRef->unk_1D0[gameStateDataRef->unk_234][1] - gameStateDataRef->unk_3BD;
 
     if ((temp_s3 != 0) && (gameStateDataRef->unk_3BD < gameStateDataRef->unk_240 - 3)) {
-        for (var_a0 = 0; var_a0 < 0x10; var_a0++) {
+        for (var_a0 = 0; var_a0 < ARRAY_COUNT(gameStateDataRef->unk_242); var_a0++) {
             s32 temp;
 
-            if (gameStateDataRef->unk_242[var_a0] != 2) {
-                continue;
-            }
+            if (gameStateDataRef->unk_242[var_a0] == 2) {
 
-            temp = wave_tbl_2879[(gameStateDataRef->unk_240 + gameStateDataRef->unk_3BD) & 7];
-            temp_t0_3 = var_s1 + temp;
+                temp = wave_tbl_2879[(gameStateDataRef->unk_240 + gameStateDataRef->unk_3BD) & 7];
+                temp_t0_3 = var_s1 + temp;
 
-            if (gameStateDataRef
-                    ->unk_29C[gameStateDataRef->unk_3BD + 1][gameStateDataRef->unk_3BC + temp_t0_3 - 1][0] == 0xA) {
                 if (gameStateDataRef
-                        ->unk_29C[gameStateDataRef->unk_3BD + 1][gameStateDataRef->unk_3BC + temp_t0_3][0] == 0xA) {
-                    if (gameStateDataRef->unk_29C[gameStateDataRef->unk_3BD + 1]
-                                                 [gameStateDataRef->unk_3BC + temp_t0_3 + 1][0] == 0xA) {
-                        var_s1 = temp_t0_3;
+                        ->unk_29C[gameStateDataRef->unk_3BD + 1][gameStateDataRef->unk_3BC + temp_t0_3 - 1][0] == 0xA) {
+                    if (gameStateDataRef
+                            ->unk_29C[gameStateDataRef->unk_3BD + 1][gameStateDataRef->unk_3BC + temp_t0_3][0] == 0xA) {
+                        if (gameStateDataRef->unk_29C[gameStateDataRef->unk_3BD + 1]
+                                                     [gameStateDataRef->unk_3BC + temp_t0_3 + 1][0] == 0xA) {
+                            var_s1 = temp_t0_3;
+                        }
                     }
                 }
+                break;
             }
-            break;
         }
     }
 
     if ((gameStateDataRef->unk_235 == 0) && !(gameStateDataRef->unk_292 & 4)) {
-        if (gameStateDataRef->unk_237 == 0) {
-            if (gameStateDataRef->unk_239 & 2) {
-                if (((genrand(5U) == 0) && (gameStateDataRef->unk_3BD < (gameStateDataRef->unk_240 - 3))) ||
-                    (gameStateDataRef->unk_239 & 1)) {
-                    gameStateDataRef->unk_237 += 2;
-                    gameStateDataRef->unk_239 ^= 1;
-                }
+        if ((gameStateDataRef->unk_237 == 0) && (gameStateDataRef->unk_239 & 2)) {
+            if (((genrand(5) == 0) && (gameStateDataRef->unk_3BD < gameStateDataRef->unk_240 - 3)) ||
+                (gameStateDataRef->unk_239 & 1)) {
+                gameStateDataRef->unk_237 += 2;
+                gameStateDataRef->unk_239 ^= 1;
             }
         }
 
         if (gameStateDataRef->unk_237 != 0) {
             if (gameStateDataRef->unk_237 == 3) {
-                joygam[gameStateDataRef->unk_298] = 0x4000;
+                joygam[gameStateDataRef->unk_298] = B_BUTTON;
                 gameStateDataRef->unk_237 = 0;
             } else {
-                joygam[gameStateDataRef->unk_298] = 0x8000;
+                joygam[gameStateDataRef->unk_298] = A_BUTTON;
                 gameStateDataRef->unk_237--;
             }
             gameStateDataRef->unk_235 = 5;
@@ -3533,26 +3530,20 @@ void aifKeyOut(struct_game_state_data *gameStateDataRef) {
         }
 
         if (var_s1 > 0) {
-            joygam[gameStateDataRef->unk_298] |= 0x100;
+            joygam[gameStateDataRef->unk_298] |= R_JPAD;
 
-            if (gameStateDataRef->unk_236 == 0) {
-                gameStateDataRef->unk_235 = aiSlideFSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
-            } else {
-                gameStateDataRef->unk_235 = D_800884F0[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
-            }
-
+            gameStateDataRef->unk_235 = (gameStateDataRef->unk_236 == 0)
+                                            ? aiSlideFSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C]
+                                            : aiSlideSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
             gameStateDataRef->unk_236++;
         }
 
         if (var_s1 < 0) {
-            joygam[gameStateDataRef->unk_298] |= 0x200;
+            joygam[gameStateDataRef->unk_298] |= L_JPAD;
 
-            if (gameStateDataRef->unk_236 == 0) {
-                gameStateDataRef->unk_235 = aiSlideFSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
-            } else {
-                gameStateDataRef->unk_235 = D_800884F0[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
-            }
-
+            gameStateDataRef->unk_235 = (gameStateDataRef->unk_236 == 0)
+                                            ? aiSlideFSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C]
+                                            : aiSlideSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
             gameStateDataRef->unk_236++;
         }
 
@@ -3560,38 +3551,38 @@ void aifKeyOut(struct_game_state_data *gameStateDataRef) {
             if (gameStateDataRef->unk_236 == 0) {
                 if ((gameStateDataRef->unk_293 == 6) || (gameStateDataRef->unk_1D0[gameStateDataRef->unk_234][1] !=
                                                          gameStateDataRef->unk_1D0[gameStateDataRef->unk_234 + 1][1])) {
-                    if ((gameStateDataRef->unk_293 - 5 >= 2U) && (gameStateDataRef->unk_3BD < 3U)) {
-                        if ((gameStateDataRef->unk_293 >= 2U) && (gameStateDataRef->unk_3BD == 2) &&
-                            ((FallSpeed[gameStateDataRef->unk_3C0] / 2) < gameStateDataRef->unk_3C1)) {
-                            goto block_55;
-                        }
-                    } else {
-                    block_55:
-                        if ((evs_gamesel != ENUM_EVS_GAMESEL_3) || (gameStateDataRef->unk_190.unk_3F == 0) ||
-                            (game_state_data[1 - aipn].unk_050[0].unk_0 == 0)) {
-                            joygam[gameStateDataRef->unk_298] |= 0x400;
+                    if ((gameStateDataRef->unk_293 == 5) || (gameStateDataRef->unk_293 == 6) ||
+                        (gameStateDataRef->unk_3BD >= 3) ||
+                        ((gameStateDataRef->unk_293 >= 2) && (gameStateDataRef->unk_3BD == 2) &&
+                         (FallSpeed[gameStateDataRef->unk_3C0] / 2 < gameStateDataRef->unk_3C1))) {
+                        if (evs_gamesel != ENUM_EVS_GAMESEL_3) {
+                            joygam[gameStateDataRef->unk_298] |= D_JPAD;
+                        } else if (gameStateDataRef->unk_190.unk_3F == 0) {
+                            joygam[gameStateDataRef->unk_298] |= D_JPAD;
+                        } else if (game_state_data[1 - aipn].unk_050[0].unk_0 == 0) {
+                            joygam[gameStateDataRef->unk_298] |= D_JPAD;
                         }
                     }
 
                     if ((gameStateDataRef->unk_23A == 1) && (gameStateDataRef->unk_234 > gameStateDataRef->unk_23B)) {
                         gameStateDataRef->unk_235++;
                     } else {
-                        gameStateDataRef->unk_235 += D_800884C0[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
+                        gameStateDataRef->unk_235 += aiDownSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
                     }
                 } else {
                     gameStateDataRef->unk_235++;
                 }
             } else {
-                gameStateDataRef->unk_236 = 0;
                 gameStateDataRef->unk_235 += aiSlideFSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
+                gameStateDataRef->unk_236 = 0;
             }
         }
     }
 
     if ((gameStateDataRef->unk_3BC == (gameStateDataRef->unk_23F - 1)) &&
         (gameStateDataRef->unk_3BD == gameStateDataRef->unk_240) && (gameStateDataRef->unk_238 != 0)) {
-        if ((joygam[gameStateDataRef->unk_298] != 0x8000) && (joygam[gameStateDataRef->unk_298] != 0x4000)) {
-            joygam[gameStateDataRef->unk_298] = 0x8000;
+        if ((joygam[gameStateDataRef->unk_298] != A_BUTTON) && (joygam[gameStateDataRef->unk_298] != B_BUTTON)) {
+            joygam[gameStateDataRef->unk_298] = A_BUTTON;
             gameStateDataRef->unk_238 = 0;
         }
     }
@@ -3600,9 +3591,6 @@ void aifKeyOut(struct_game_state_data *gameStateDataRef) {
         gameStateDataRef->unk_235 = 1;
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aifKeyOut);
-#endif
 #endif
 
 extern s32 tbl_2973[];
