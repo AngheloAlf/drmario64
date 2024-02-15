@@ -1296,18 +1296,11 @@ bool func_8003151C(s32 arg0 UNUSED, s32 arg1) {
 }
 #endif
 
-#if VERSION_US
-/**
- * Original name: aifSearchLineMS
- */
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifSearchLineMS);
-#endif
-
 extern s16 WallRate[][8];
 extern s16 bad_point[];
 extern s16 bad_point2[];
 
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 /**
  * Original name: aifSearchLineMS
  */
@@ -1315,6 +1308,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
     u8 sp20[8];
     bool sp28;
     bool sp2C;
+    s32 temp;
     s32 sp30;
     s32 var_a0;
     s32 var_a2;
@@ -1326,6 +1320,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
     s32 var_s4;
 
     var_s4 = 0;
+    temp = arg2;
     sp30 = arg5;
 
     for (var_a2 = 0; var_a2 < STRUCT_AIFLAG_UNK_LEN; var_a2++) {
@@ -1348,8 +1343,8 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
     }
 
     if (sp28 == false) {
-        arg0->unk_3A = aifMiniAloneCapNumber(arg1, arg2, 0U, arg7);
-        arg0->unk_3C = aifMiniAloneCapNumberW(arg1, arg2, 0U, arg7);
+        arg0->unk_3A = aifMiniAloneCapNumber(arg1, arg2, 0, arg7);
+        arg0->unk_3C = aifMiniAloneCapNumberW(arg1, arg2, 0, arg7);
     }
 
     for (var_a2_2 = 0; var_a2_2 < STRUCT_AIFLAG_UNK_LEN; var_a2_2++) {
@@ -1400,9 +1395,8 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
                 aif_field[arg5][arg4].unk_1 = 0xA;
                 aif_field[arg5][arg4].unk_0 = 3;
 
-                arg5 = var_a2_2 - 1;
-
                 var_s0 = 1;
+                arg5 = var_a2_2 - 1;
                 if (sp28 == false) {
                     arg0->unk_3E = 1;
                 }
@@ -1465,7 +1459,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
         arg0->unk_08 += AloneCapP[arg0->unk_3B];
     }
     if ((AloneCapP[arg0->unk_3A] != 0) && (AloneCapP[arg0->unk_3B] != 0)) {
-        arg0->unk_08 -= (0x11 - arg2) * LPriP;
+        arg0->unk_08 -= (0x11 - temp) * LPriP;
     }
     if (AloneCapWP[arg0->unk_3C] != 0) {
         arg0->unk_08 += AloneCapWP[arg0->unk_3A];
@@ -1477,10 +1471,10 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
     arg0->unk_08 += (s32)(EraseLinP[arg0->unk_10[0] + arg0->unk_1A[0]] * HeiEraseLinRate);
     arg0->unk_08 += (s32)(EraseLinP[arg0->unk_24[0] + arg0->unk_2E[0]] * WidEraseLinRate);
 
-    if ((OnVirusP != 0) && (arg2 < 0x10)) {
+    if ((OnVirusP != 0) && (temp < 0x10)) {
         var_s0 = 1;
 
-        for (var_s1 = arg2 - 1; var_s1 >= 4; var_s1--) {
+        for (var_s1 = temp - 1; var_s1 >= 4; var_s1--) {
             if ((aiFieldData[var_s1][arg1].unk_1 >= 5) && (aiFieldData[var_s1][arg1].unk_1 <= 7)) {
                 var_s0 = 0;
                 break;
@@ -1490,7 +1484,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
         if (var_s0 == 1) {
             var_s0 = 0;
 
-            for (var_s1 = arg2 + 1; var_s1 < 0x11; var_s1 += 1) {
+            for (var_s1 = temp + 1; var_s1 < 0x11; var_s1 += 1) {
                 if ((aiFieldData[var_s1][arg1].unk_1 >= 5) && (aiFieldData[var_s1][arg1].unk_1 <= 7)) {
                     var_s0 = 1;
                     break;
@@ -1519,7 +1513,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
         var_s4 = 0;
         if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
             if (var_s0 != 0) {
-                for (var_s1 = arg2 + 1; var_s1 < 0x11; var_s1++) {
+                for (var_s1 = temp + 1; var_s1 < 0x11; var_s1++) {
                     if (flash_virus(arg1, var_s1) != -1) {
                         var_s4 += OnVirusP;
                     }
@@ -1595,10 +1589,10 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
             }
         }
 
-        if ((sp28 != false) && (arg7 == 0) && (arg0->unk_01 == 0) && (arg2 < 0x10)) {
+        if ((sp28 != false) && (arg7 == 0) && (arg0->unk_01 == 0) && (temp < 0x10)) {
             var_a2_2 = 0;
 
-            for (var_s0 = arg2 + 1; var_s0 < 0x11; var_s0++) {
+            for (var_s0 = temp + 1; var_s0 < 0x11; var_s0++) {
                 if ((aiFieldData[var_s0][arg4].unk_1 >= 8U) || (aiFieldData[var_s0][arg4].unk_0 != arg3)) {
                     var_a2_2 = 1;
                     break;
