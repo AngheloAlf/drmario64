@@ -534,7 +534,8 @@ segments:
       - [0x071080, .data, main_segment/vr_init]
       - [0x071090, data, main_segment/071090]
       - [0x0723A0, data, main_segment/0723A0]
-      - [0x075BA0, data, main_segment/075BA0]
+      - [0x075BA0, data, main_segment/020D10]
+      - [0x075BF0, data, main_segment/075BF0]
 
       - start: 0x075ED0
         type: .data
