@@ -511,7 +511,7 @@ segments:
       - [0x066E70, c, main_segment/replay]
       - [0x0672F0, asm, main_segment/066580]
 
-      - [0x0675B0, asm, main_segment/0675B0] # TODO: figure out
+      - [0x0675B0, hasm, main_segment/066840]
       - [0x068420, c, main_segment/unused/055C40]
 
       - [0x068590, c, ../lib/libmus/src/player]
@@ -576,6 +576,7 @@ segments:
           - [0x08C6D0]
 
       - [0x08FB80, data, main_segment/08FB80]
+      - [0x093F20, data, main_segment/066840]
 
       - [0x094850, .data, ../lib/libmus/src/player]
       - [0x094910, .data, ../lib/libmus/src/player_fx]
