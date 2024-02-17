@@ -13,7 +13,6 @@
 #include "main_segment_variables.h"
 #include "calc.h"
 
-#if VERSION_US || VERSION_CN
 void init_map_all(GameMapCell *mapCells) {
     s32 row;
 
@@ -28,9 +27,7 @@ void init_map_all(GameMapCell *mapCells) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void clear_map(GameMapCell *mapCells, s32 column, s32 row) {
     s32 index = GAME_MAP_GET_INDEX(row - 1, column);
     s32 i;
@@ -42,9 +39,7 @@ void clear_map(GameMapCell *mapCells, s32 column, s32 row) {
         mapCells[index].unk_4[i] = 0;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void clear_map_all(GameMapCell *mapCells) {
     s32 row;
 
@@ -56,9 +51,7 @@ void clear_map_all(GameMapCell *mapCells) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 get_map_info(GameMapCell *mapCells, s32 column, s32 rowPlusOne) {
     s32 index = GAME_MAP_GET_INDEX(rowPlusOne - 1, column);
 
@@ -68,9 +61,7 @@ s32 get_map_info(GameMapCell *mapCells, s32 column, s32 rowPlusOne) {
 
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8005F09C(GameMapCell *mapCells, s32 arg1) {
     s32 var_v1;
 
@@ -85,9 +76,7 @@ s32 func_8005F09C(GameMapCell *mapCells, s32 arg1) {
 
     return (var_v1 < 0x10) ? mapCells->unk_4[3] : -1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8005F0E4(GameMapCell *mapCells, s32 arg1[8]) {
     s32 i;
 
@@ -95,7 +84,6 @@ void func_8005F0E4(GameMapCell *mapCells, s32 arg1[8]) {
         arg1[i] = func_8005F09C(mapCells, i);
     }
 }
-#endif
 
 /**
  * Original name: limit_table
@@ -104,7 +92,6 @@ const u8 limit_table[] = {
     6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 4, 4, 3, 3, 3, 3, 3, 3, 0, 0, 0,
 };
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: get_virus_color_count
  */
@@ -128,9 +115,7 @@ s32 get_virus_color_count(GameMapCell *mapCells, u8 *arg1, u8 *arg2, u8 *arg3) {
 
     return count;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 get_virus_count(GameMapCell *mapCells) {
     u8 sp10;
     u8 sp11;
@@ -138,9 +123,7 @@ s32 get_virus_count(GameMapCell *mapCells) {
 
     return get_virus_color_count(mapCells, &sp10, &sp11, &sp12);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void set_map(GameMapCell *mapCells, s32 column, s32 rowPlusOne, s32 arg3, s32 arg4) {
     s32 index;
     s32 var_t0;
@@ -160,9 +143,7 @@ void set_map(GameMapCell *mapCells, s32 column, s32 rowPlusOne, s32 arg3, s32 ar
     mapCells[index].unk_4[4] = -1;
     mapCells[index].unk_4[3] = var_t0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void set_virus(GameMapCell *mapCells, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 var_t0;
     s32 temp;
@@ -182,9 +163,7 @@ void set_virus(GameMapCell *mapCells, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     mapCells[temp].unk_4[4] = arg3;
     mapCells[temp].unk_4[3] = var_t0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 u16 func_8005F2B0(void) {
     u16 temp_v0 = random(6);
     u16 var_v0;
@@ -198,9 +177,7 @@ u16 func_8005F2B0(void) {
     }
     return var_v0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 u8 func_8005F310(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2) {
     u8 temp = ((arg2 - 1) << 3) + arg1;
 
@@ -209,9 +186,7 @@ u8 func_8005F310(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2) {
     }
     return true;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 u8 dm_check_color(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2, u8 arg3) {
     u8 temp_a0 = ((arg2 - 1) << 3) + arg1;
     u8 sp8[2];
@@ -255,9 +230,7 @@ u8 dm_check_color(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2, u8 ar
 
     return true;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 u8 dm_check_color_2(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2, u8 arg3) {
     u8 temp_t0;
 
@@ -290,9 +263,7 @@ u8 dm_check_color_2(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2, u8 
 
     return true;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data *virusMapDst,
                        struct_virus_map_disp_order *virusDispOrderSrc, struct_virus_map_disp_order *virusDispOrderDst) {
     s32 i;
@@ -310,9 +281,7 @@ void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data
         virusDispOrderDst->unk_00[i] = virusDispOrderSrc->unk_00[i];
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_game_state_data *arg1) {
     s32 ret;
 
@@ -334,7 +303,6 @@ s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_game_state_da
 
     return ret;
 }
-#endif
 
 /**
  * Original name: _n_343
@@ -346,14 +314,12 @@ const u8 _n_343[] = {
     0x00,
 };
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: dm_get_first_virus_count_in_new_mode
  */
 s32 dm_get_first_virus_count_in_new_mode(s32 arg0) {
     return _n_343[arg0];
 }
-#endif
 
 const u8 _l_359[] = {
     0x06,
@@ -362,7 +328,6 @@ const u8 _l_359[] = {
     0x00,
 };
 
-#if VERSION_US || VERSION_CN
 void _dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *virusMapData,
                     struct_virus_map_disp_order *arg3, s32 arg4) {
     u8 *ptr = arg3->unk_00;
@@ -511,14 +476,11 @@ loop_1:
         ptr[sp24] = temp_s2;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *virusMapData,
                    struct_virus_map_disp_order *arg3) {
     _dm_virus_init(arg0, arg1, virusMapData, arg3, 0);
 }
-#endif
 
 const s32 _n_564[][5] = {
     { 1, 0, 2, 0x60, 0x60 },
@@ -526,7 +488,6 @@ const s32 _n_564[][5] = {
     { 1, 2, 0, 0x60, 0x60 },
 };
 
-#if VERSION_US || VERSION_CN
 void func_8005FC6C(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapData,
                    struct_virus_map_disp_order *virusMapDispOrder, s32 virusCount) {
     bzero(arg0, sizeof(struct_8005FC6C_arg0));
@@ -534,9 +495,7 @@ void func_8005FC6C(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapDa
     arg0->virusMapDispOrder = virusMapDispOrder->unk_00;
     arg0->virusCount = virusCount;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *arg0) {
     s32 var_t2 = -1;
     s32 i;
@@ -587,9 +546,7 @@ void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *arg0) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8005FE68(struct_8005FC6C_arg0 *arg0, u8 arg1[UNK_SIZE][0x20], s32 *arg2, s32 arg3) {
     u8 *temp_a1 = arg1[arg3];
     s32 temp_a2 = arg2[arg3];
@@ -608,9 +565,7 @@ s32 func_8005FE68(struct_8005FC6C_arg0 *arg0, u8 arg1[UNK_SIZE][0x20], s32 *arg2
     }
     return -1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_map_data *virusMapData,
                          struct_virus_map_disp_order *virusMapDispOrder) {
     struct_8005FC6C_arg0 sp18;
@@ -696,4 +651,3 @@ s32 make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_
 
     return ptr->unk_0CC[0] + ptr->unk_0CC[1] + ptr->unk_0CC[2];
 }
-#endif

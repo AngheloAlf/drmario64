@@ -2087,11 +2087,11 @@ _size_122 = 0x800B28C0; // size:0x50
 _addrTbl_124 = 0x800B2910; // size:0x50
 _centerTbl_125 = 0x800B2960; // size:0xA0
 
-RO_800B2A00_gw = 0x800B2A00; // type:u8
-RO_800B2A1C_gw = 0x800B2A1C; //
-RO_800B2A28_gw = 0x800B2A28; // type:u8
-RO_800B2A2C_gw = 0x800B2A2C; // type:u8
-RO_800B2A30_gw = 0x800B2A30; //
+limit_table = 0x800B2A00; // type:u8
+RO_800B1BBC = 0x800B2A1C; //
+_n_343 = 0x800B2A28; // type:u8
+_l_359 = 0x800B2A2C; // type:u8
+_n_564 = 0x800B2A30; //
 jtbl_800B2A70_gw = 0x800B2A70; // type:jtbl
 jtbl_800B2A90_gw = 0x800B2A90; // type:jtbl
 RO_800B2AAC_gw = 0x800B2AAC; //
