@@ -29,6 +29,16 @@ def static_assert_unreachable(x: NoReturn) -> NoReturn:
     raise Exception("Unreachable! " + repr(x))
 
 
+# The encoding to use for reading the map file to text.
+# It is expected the map file will be ASCII-only or mostly,
+# which UTF-8 is compatible with.
+MAPFILE_ENCODING = "UTF-8"
+# In case the map file isn't UTF-8 and some bytes can't be decoded as UTF-8,
+# don't error and subtitute with U+FFFD.
+# (cf the Python documentation on `codecs.replace_errors`)
+MAPFILE_ENCODING_ERROR_HANDLER = "replace"
+
+
 class DiffMode(enum.Enum):
     SINGLE = "single"
     SINGLE_BASE = "single_base"
@@ -77,18 +87,29 @@ if __name__ == "__main__":
             if not mapfile:
                 return []
             completes = []
-            with open(mapfile) as f:
-                data = f.read()
+            encoding = MAPFILE_ENCODING
+            # We assume the encoding is self-synchronizing,
+            # meaning that for example finding bytes corresponding to the space
+            # character, is equivalent to finding a space character.
+            # This is true for ASCII and UTF-8 data, for example.
+            # This allows processing the map file as bytes instead of entirely
+            # processing it as decoded text, which is slow.
+            space = " ".encode(encoding)
+            line_return = "\n".encode(encoding)
+            with open(mapfile, "rb") as f:
+                import mmap
+
+                data = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
                 # assume symbols are prefixed by a space character
-                search = f" {prefix}"
+                search = f" {prefix}".encode(encoding)
                 pos = data.find(search)
                 while pos != -1:
                     # skip the space character in the search string
-                    pos += 1
+                    pos += len(space)
                     # assume symbols are suffixed by either a space
                     # character or a (unix-style) line return
-                    spacePos = data.find(" ", pos)
-                    lineReturnPos = data.find("\n", pos)
+                    spacePos = data.find(space, pos)
+                    lineReturnPos = data.find(line_return, pos)
                     if lineReturnPos == -1:
                         endPos = spacePos
                     elif spacePos == -1:
@@ -101,7 +122,7 @@ if __name__ == "__main__":
                     else:
                         match = data[pos:endPos]
                         pos = data.find(search, endPos)
-                    completes.append(match)
+                    completes.append(match.decode(encoding))
             return completes
 
         setattr(start_argument, "completer", complete_symbol)
@@ -270,7 +291,7 @@ if __name__ == "__main__":
         dest="agree",
         action="store_true",
         help="""Automatically agree to any yes/no questions asked.
-        Useful if you really want to use the -w option without -m."""
+        Useful if you really want to use the -w option without -m.""",
     )
     parser.add_argument(
         "-0",
@@ -1004,15 +1025,17 @@ ObjdumpCommand = Tuple[List[str], str, Optional[str]]
 import ast
 import operator as op
 
-# supported operators
 operators: Dict[Type[Union[ast.operator, ast.unaryop]], Any] = {
     ast.Add: op.add,
     ast.Sub: op.sub,
     ast.Mult: op.mul,
-    ast.Div: op.truediv,
+    ast.Div: op.floordiv,
+    ast.USub: op.neg,
     ast.Pow: op.pow,
     ast.BitXor: op.xor,
-    ast.USub: op.neg,
+    ast.BitOr: op.or_,
+    ast.BitAnd: op.and_,
+    ast.Invert: op.inv,
 }
 
 
@@ -1021,12 +1044,18 @@ def eval_expr(expr: str) -> Any:
 
 
 def eval_(node: ast.AST) -> Any:
-    if isinstance(node, ast.Num):  # <number>
-        return node.n
-    elif isinstance(node, ast.BinOp):  # <left> <operator> <right>
+    if (
+        hasattr(ast, "Constant")
+        and isinstance(node, ast.Constant)
+        and isinstance(node.value, int)
+    ):  # Python 3.8+
+        return node.value
+    elif isinstance(node, ast.BinOp):
         return operators[type(node.op)](eval_(node.left), eval_(node.right))
-    elif isinstance(node, ast.UnaryOp):  # <operator> <operand> e.g., -1
+    elif isinstance(node, ast.UnaryOp):
         return operators[type(node.op)](eval_(node.operand))
+    elif sys.version_info < (3, 8) and isinstance(node, ast.Num):
+        return node.n
     else:
         raise TypeError(node)
 
@@ -1186,7 +1215,11 @@ def search_map_file(
         fail(f"No map file configured; cannot find function {fn_name}.")
 
     try:
-        with open(project.mapfile) as f:
+        with open(
+            project.mapfile,
+            encoding=MAPFILE_ENCODING,
+            errors=MAPFILE_ENCODING_ERROR_HANDLER,
+        ) as f:
             contents = f.read()
     except Exception:
         fail(f"Failed to open map file {project.mapfile} for reading.")
@@ -1230,20 +1263,23 @@ def search_map_file(
             return cands[0]
     elif project.map_format == "mw":
         find = re.findall(
-            #            ram   elf rom  alignment
-            r"  \S+ \S+ (\S+) (\S+) +\S+ "
+            # start address, size, virtual address, file offset, alignment
+            r"  [0-9a-f]{8} [0-9a-f]{6} ([0-9a-f]{8})(?: ([0-9a-f]{8}))?(?: +\S{1,2})? +"
             + re.escape(fn_name)
             + r"(?: \(entry of "
             + re.escape(config.diff_section)
             + r"\))? \t"
             # object name
-            + "(\S+)",
+            + r"(\S+)",
             contents,
         )
         if len(find) > 1:
             fail(f"Found multiple occurrences of function {fn_name} in map file.")
         if len(find) == 1:
-            rom = int(find[0][1], 16)
+            if find[0][1]:
+                rom = int(find[0][1], 16)
+            else:
+                rom = None
             objname = find[0][2]
             objfile = search_build_objects(objname, project)
 
@@ -1517,7 +1553,7 @@ def dump_binary(
             fail("Not able to find function in map file.")
         start_addr += project.map_address_offset
     elif start_addr is None:
-            fail("Start address must be an integer expression when using binary -f")
+        fail("Start address must be an integer expression when using binary -f")
     if end is not None:
         end_addr = eval_int(end, "End address must be an integer expression.")
     else:
@@ -1606,7 +1642,7 @@ class AsmProcessorMIPS(AsmProcessor):
         elif "R_MIPS_CALL16" in row:
             repl = f"%call16({repl})"
         elif "R_MIPS_LITERAL" in row:
-            repl = repl[:-len(addend)]
+            repl = repl[: -len(addend)]
         else:
             assert False, f"unknown relocation type '{row}' for line '{prev}'"
         return before + repl + after, repl
@@ -1623,7 +1659,6 @@ class AsmProcessorPPC(AsmProcessor):
     def pre_process(
         self, mnemonic: str, args: str, next_row: Optional[str]
     ) -> Tuple[str, str]:
-
         if next_row and "R_PPC_EMB_SDA21" in next_row:
             # With sda21 relocs, the linker transforms `r0` into `r2`/`r13`, and
             # we may encounter this in either pre-transformed or post-transformed
@@ -1644,10 +1679,27 @@ class AsmProcessorPPC(AsmProcessor):
                 mnemonic = mnemonic.replace("li", "addi")
                 args_parts = args.split(",")
                 args = args_parts[0] + ",0," + args_parts[1]
+        if (
+            next_row
+            and ("R_PPC_REL24" in next_row or "R_PPC_REL14" in next_row)
+            and ".text+0x" in next_row
+            and mnemonic in PPC_BRANCH_INSTRUCTIONS
+        ):
+            # GCC emits a relocation of "R_PPC_REL14" or "R_PPC_REL24" with a .text offset
+            # fixup the args to use the offset from the relocation
+
+            # Split args by ',' which will result in either [cr, offset] or [offset]
+            # Replace the current offset with the next line's ".text+0x" offset
+            splitArgs = args.split(",")
+            splitArgs[-1] = next_row.split(".text+0x")[-1]
+            args = ",".join(splitArgs)
 
         return mnemonic, args
 
     def process_reloc(self, row: str, prev: str) -> Tuple[str, Optional[str]]:
+        # row is the line with the relocations
+        # prev is the line to apply relocations to
+
         arch = self.config.arch
         assert any(
             r in row
@@ -1655,11 +1707,18 @@ class AsmProcessorPPC(AsmProcessor):
         ), f"unknown relocation type '{row}' for line '{prev}'"
         before, imm, after = parse_relocated_line(prev)
         repl = row.split()[-1]
+        mnemonic, args = prev.split(maxsplit=1)
+
         if "R_PPC_REL24" in row:
             # function calls
-            pass
-        if "R_PPC_REL14" in row:
-            pass
+            # or unconditional branches generated by GCC "b offset"
+            if mnemonic in PPC_BRANCH_INSTRUCTIONS and ".text+0x" in row:
+                # this has been handled in pre_process
+                return prev, None
+        elif "R_PPC_REL14" in row:
+            if mnemonic in PPC_BRANCH_INSTRUCTIONS and ".text+0x" in row:
+                # this has been handled in pre_process
+                return prev, None
         elif "R_PPC_ADDR16_HI" in row:
             # absolute hi of addr
             repl = f"{repl}@h"
@@ -1786,12 +1845,43 @@ class AsmProcessorAArch64(AsmProcessor):
 
 class AsmProcessorI686(AsmProcessor):
     def process_reloc(self, row: str, prev: str) -> Tuple[str, Optional[str]]:
+        if "WRTSEG" in row:  # ignore WRTSEG (watcom)
+            return prev, None
         repl = row.split()[-1]
         mnemonic, args = prev.split(maxsplit=1)
+        offset = False
 
-        addr_imm = re.search(r"(?<!\$)0x[0-9a-f]+", args)
+        # Calls
+        # Example call a2f
+        # Example call *0
+        # Example jmp  64
+        if mnemonic == "call" or mnemonic == "jmp":
+            addr_imm = re.search(r"(^|(?<=\*)|(?<=\*\%cs\:))[0-9a-f]+", args)
+
+        # Direct use of reloc
+        # Example 0x0,0x8(%edi)
+        # Example 0x0,%edi
+        # Example *0x0(,%edx,4)
+        # Example %edi,0
+        # Example movb $0x0,0x0
+        # Example $0x0,0x4(%edi)
+        # Match 0x0 part to replace
+        else:
+            addr_imm = re.search(r"(?:0x)?0+$", args)
+
+        if not addr_imm:
+            addr_imm = re.search(r"(^\$?|(?<=\*))0x0", args)
+
+        # Offset value
+        # Example 0x4,%eax
+        # Example $0x4,%eax
+        if not addr_imm:
+            addr_imm = re.search(r"(^|(?<=\*)|(?<=\$))0x[0-9a-f]+", args)
+            offset = True
+
         if not addr_imm:
             assert False, f"failed to find address immediate for line '{prev}'"
+
         start, end = addr_imm.span()
 
         if "R_386_NONE" in row:
@@ -1808,6 +1898,16 @@ class AsmProcessorI686(AsmProcessor):
             pass
         elif "R_386_PC8" in row:
             pass
+        elif "dir32" in row:
+            if "+" in repl:
+                repl = repl.split("+")[0]
+        elif "DISP32" in row:
+            pass
+        elif "OFF32" in row:
+            pass
+        elif "OFFPC32" in row:
+            if "+" in repl:
+                repl = repl.split("+")[0]
         elif "R_386_GOT32" in row:
             repl = f"%got({repl})"
         elif "R_386_PLT32" in row:
@@ -1822,6 +1922,9 @@ class AsmProcessorI686(AsmProcessor):
             repl = f"%plt({repl})"
         else:
             assert False, f"unknown relocation type '{row}' for line '{prev}'"
+
+        if offset:
+            repl = f"{repl}+{addr_imm.group()}"
 
         return f"{mnemonic}\t{args[:start]+repl+args[end:]}", repl
 
@@ -2002,6 +2105,9 @@ PPC_BRANCH_INSTRUCTIONS = {
     "ble",
     "ble+",
     "ble-",
+    "bdz",
+    "bdz+",
+    "bdz-",
     "bdnz",
     "bdnz+",
     "bdnz-",
@@ -2011,6 +2117,12 @@ PPC_BRANCH_INSTRUCTIONS = {
     "bgt",
     "bgt+",
     "bgt-",
+    "bso",
+    "bso+",
+    "bso-",
+    "bns",
+    "bns+",
+    "bns-",
 }
 
 I686_BRANCH_INSTRUCTIONS = {
@@ -2144,18 +2256,24 @@ MIPS_SETTINGS = ArchSettings(
     arch_flags=["-m", "mips:4300"],
     branch_likely_instructions=MIPS_BRANCH_LIKELY_INSTRUCTIONS,
     branch_instructions=MIPS_BRANCH_INSTRUCTIONS,
-    instructions_with_address_immediates=MIPS_BRANCH_INSTRUCTIONS.union({"j", "jal"}),
-    delay_slot_instructions=MIPS_BRANCH_INSTRUCTIONS.union({"j", "jal", "jr", "jalr"}),
+    instructions_with_address_immediates=MIPS_BRANCH_INSTRUCTIONS.union({"j", "jal", "bal"}),
+    delay_slot_instructions=MIPS_BRANCH_INSTRUCTIONS.union({"j", "jal", "jr", "jalr", "bal"}),
     proc=AsmProcessorMIPS,
 )
 
-MIPSEL_SETTINGS = replace(MIPS_SETTINGS, name="mipsel", big_endian=False)
+MIPSEL_SETTINGS = replace(
+    MIPS_SETTINGS, name="mipsel", big_endian=False, arch_flags=["-m", "mips:3000"]
+)
 
 MIPSEE_SETTINGS = replace(
     MIPSEL_SETTINGS, name="mipsee", arch_flags=["-m", "mips:5900"]
 )
 
-MIPS_ARCH_NAMES = {"mips", "mipsel", "mipsee"}
+MIPSEL_4000_SETTINGS = replace(
+    MIPSEL_SETTINGS, name="mipsel:4000", arch_flags=["-m", "mips:4000"]
+)
+
+MIPS_ARCH_NAMES = {"mips", "mipsel", "mipsee", "mipsel:4000"}
 
 ARM32_SETTINGS = ArchSettings(
     name="arm32",
@@ -2210,7 +2328,7 @@ PPC_SETTINGS = ArchSettings(
     re_sprel=re.compile(r"(?<=,)(-?[0-9]+|-?0x[0-9a-f]+)\(r1\)"),
     re_large_imm=re.compile(r"-?[1-9][0-9]{2,}|-?0x[0-9a-f]{3,}"),
     re_imm=re.compile(
-        r"(\b|-)([0-9]+|0x[0-9a-fA-F]+)\b(?!\(r1)|[^ \t,]+@(l|ha|h|sda21)"
+        r"(\b|-)([0-9]+|0x[0-9a-fA-F]+)\b(?!\(r1\))|[^ \t,]+@(l|ha|h|sda21)"
     ),
     re_reloc=re.compile(r"R_PPC_"),
     arch_flags=["-m", "powerpc", "-M", "broadway"],
@@ -2236,7 +2354,7 @@ I686_SETTINGS = ArchSettings(
     re_large_imm=re.compile(r"-?[1-9][0-9]{2,}|-?0x[0-9a-f]{3,}"),
     re_sprel=re.compile(r"-?(0x[0-9a-f]+|[0-9]+)(?=\((%ebp|%esi)\))"),
     re_imm=re.compile(r"-?(0x[0-9a-f]+|[0-9]+)"),
-    re_reloc=re.compile(r"R_386_"),
+    re_reloc=re.compile(r"R_386_|dir32|DISP32|WRTSEG|OFF32|OFFPC32"),
     # The x86 architecture has a variable instruction length. The raw bytes of
     # an instruction as displayed by objdump can line wrap if it's long enough.
     # This destroys the objdump output processor logic, so we avoid this.
@@ -2275,7 +2393,7 @@ SH2_SETTINGS = ArchSettings(
 )
 
 SH4_SETTINGS = replace(
-    SH2_SETTINGS, 
+    SH2_SETTINGS,
     name="sh4",
     #   - fr0-fr15, dr0-dr14, xd0-xd14, fv0-fv12 FP registers
     #     dr/xd registers can only be even-numbered, and fv registers can only be a multiple of 4
@@ -2316,6 +2434,7 @@ ARCH_SETTINGS = [
     MIPS_SETTINGS,
     MIPSEL_SETTINGS,
     MIPSEE_SETTINGS,
+    MIPSEL_4000_SETTINGS,
     ARM32_SETTINGS,
     ARMEL_SETTINGS,
     AARCH64_SETTINGS,
@@ -2581,14 +2700,14 @@ def process(dump: str, config: Config) -> List[Line]:
             x86_longjmp = re.search(r"\*(.*)\(", args)
             if x86_longjmp:
                 capture = x86_longjmp.group(1)
-                if capture != "":
+                if capture != "" and capture.isnumeric():
                     branch_target = int(capture, 16)
             else:
                 # Then, we try to match the global deref in a separate regex.
                 x86_longjmp = re.search(r"\*(.*)", args)
                 if x86_longjmp:
                     capture = x86_longjmp.group(1)
-                    if capture != "":
+                    if capture != "" and capture.isnumeric():
                         branch_target = int(capture, 16)
                 else:
                     branch_target = int(args.split(",")[-1], 16)
@@ -2633,7 +2752,6 @@ def normalize_stack(row: str, arch: ArchSettings) -> str:
 def check_for_symbol_mismatch(
     old_line: Line, new_line: Line, symbol_map: Dict[str, str]
 ) -> bool:
-
     assert old_line.symbol is not None
     assert new_line.symbol is not None
 
@@ -2729,7 +2847,7 @@ def diff_lines(
     algorithm: str,
 ) -> List[Tuple[Optional[Line], Optional[Line]]]:
     ret = []
-    for (tag, i1, i2, j1, j2) in diff_sequences(
+    for tag, i1, i2, j1, j2 in diff_sequences(
         [line.mnemonic for line in lines1],
         [line.mnemonic for line in lines2],
         algorithm,
@@ -2752,7 +2870,6 @@ def diff_lines(
 def diff_sameline(
     old_line: Line, new_line: Line, config: Config, symbol_map: Dict[str, str]
 ) -> Tuple[int, int, bool]:
-
     old = old_line.scorable_line
     new = new_line.scorable_line
     if old == new:
@@ -2786,8 +2903,12 @@ def diff_sameline(
         # we split that part out to make it a separate field
         # however, we don't split if it has a proceeding % macro, e.g. "%lo(.data)"
         re_paren = re.compile(r"(?<!%hi)(?<!%lo)(?<!%got)(?<!%call16)(?<!%gp_rel)\(")
-        oldfields = oldfields[:-1] + (re_paren.split(oldfields[-1]) if len(oldfields) > 0 else [])
-        newfields = newfields[:-1] + (re_paren.split(newfields[-1]) if len(newfields) > 0 else [])
+        oldfields = oldfields[:-1] + (
+            re_paren.split(oldfields[-1]) if len(oldfields) > 0 else []
+        )
+        newfields = newfields[:-1] + (
+            re_paren.split(newfields[-1]) if len(newfields) > 0 else []
+        )
 
     for nf, of in zip(newfields, oldfields):
         if nf != of:
@@ -2928,7 +3049,7 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
     bts2: Set[int] = set()
 
     if config.show_branches:
-        for (lines, btset, sc) in [
+        for lines, btset, sc in [
             (lines1, bts1, sc5),
             (lines2, bts2, sc6),
         ]:
@@ -2946,7 +3067,7 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
     line_num_base = -1
     line_num_offset = 0
     line_num_2to1 = {}
-    for (line1, line2) in diffed_lines:
+    for line1, line2 in diffed_lines:
         if line1 is not None and line1.line_num is not None:
             line_num_base = line1.line_num
             line_num_offset = 0
@@ -2955,7 +3076,7 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
         if line2 is not None and line2.line_num is not None:
             line_num_2to1[line2.line_num] = (line_num_base, line_num_offset)
 
-    for (line1, line2) in diffed_lines:
+    for line1, line2 in diffed_lines:
         line_color1 = line_color2 = sym_color = BasicFormat.NONE
         line_prefix = " "
         is_data_ref = False
@@ -3121,7 +3242,7 @@ def do_diff(lines1: List[Line], lines2: List[Line], config: Config) -> Diff:
             for source_line in line2.source_lines:
                 line_format = BasicFormat.SOURCE_OTHER
                 if config.source_old_binutils:
-                    if source_line and re.fullmatch(".*\.c(?:pp)?:\d+", source_line):
+                    if source_line and re.fullmatch(r".*\.c(?:pp)?:\d+", source_line):
                         line_format = BasicFormat.SOURCE_FILENAME
                     elif source_line and source_line.endswith("():"):
                         line_format = BasicFormat.SOURCE_FUNCTION
@@ -3277,7 +3398,7 @@ def align_diffs(old_diff: Diff, new_diff: Diff, config: Config) -> TableData:
                 differ = difflib.SequenceMatcher(
                     a=old_chunk, b=new_chunk, autojunk=False
                 )
-                for (tag, i1, i2, j1, j2) in differ.get_opcodes():
+                for tag, i1, i2, j1, j2 in differ.get_opcodes():
                     if tag in ["equal", "replace"]:
                         for i, j in zip(range(i1, i2), range(j1, j2)):
                             diff_lines.append((empty, new_chunk[j], old_chunk[i]))
@@ -3392,14 +3513,14 @@ def debounced_fs_watch(
         observed = set()
         for target in targets:
             if os.path.isdir(target):
-                observer.schedule(event_handler, target, recursive=True)
+                observer.schedule(event_handler, target, recursive=True)  # type: ignore
             else:
                 file_targets.append(os.path.normpath(target))
                 target = os.path.dirname(target) or "."
                 if target not in observed:
                     observed.add(target)
-                    observer.schedule(event_handler, target)
-        observer.start()
+                    observer.schedule(event_handler, target)  # type: ignore
+        observer.start()  # type: ignore
         while True:
             t = listenq.get()
             more = True
