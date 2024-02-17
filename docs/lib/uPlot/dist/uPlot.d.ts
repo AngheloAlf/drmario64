@@ -64,8 +64,8 @@ declare class uPlot {
 	/** clears and redraws the canvas. if rebuildPaths = false, uses cached series' Path2D objects */
 	redraw(rebuildPaths?: boolean, recalcAxes?: boolean): void;
 
-	/** defers recalc & redraw for multiple ops, e.g. setScale('x', ...) && setScale('y', ...) */
-	batch(txn: Function): void;
+	/** manual batching of multiple ops (aka immediate mode that skips implicit microtask queue), ops, e.g. setScale('x', ...) && setScale('y', ...) */
+	batch(txn: Function, deferHooks?: boolean): void;
 
 	/** destroys DOM, removes resize & scroll listeners, etc. */
 	destroy(): void;
@@ -429,7 +429,7 @@ declare namespace uPlot {
 
 		export type MouseListenerFactory = (self: uPlot, targ: HTMLElement, handler: MouseListener) => MouseListener | null;
 
-		export type DataIdxRefiner       = (self: uPlot, seriesIdx: number, closestIdx: number, xValue: number) => number;
+		export type DataIdxRefiner       = (self: uPlot, seriesIdx: number, closestIdx: number, xValue: number) => number | null;
 
 		export type MousePosRefiner      = (self: uPlot, mouseLeft: number, mouseTop: number) => LeftTop;
 
@@ -517,17 +517,35 @@ declare namespace uPlot {
 			values?: Sync.Values,
 		}
 
+		// options that compile the cursor.dataIdx callback (the index scanner)
+		export interface Hover {
+			/** minimum cursor proximity to datapoint in CSS pixels for point hover */
+			prox?: number | null | ((self: uPlot, seriesIdx: number, closestIdx: number, xValue: number) => number | null); // null/Infinity
+			/** when non-zero, will only proximity-test indices forward or backward */
+			bias?: HoverBias; // 0
+			/** what values to treat as non-hoverable and trigger scanning to another index */
+			skip?: any[]; // [undefined]
+		}
+
 		export interface Focus {
 			/** minimum cursor proximity to datapoint in CSS pixels for focus activation, disabled: < 0, enabled: <= 1e6 */
 			prox: number;
 			/** when non-zero, will only focus next series towards or away from zero */
 			bias?: FocusBias; // 0
+			/** measures cursor y distance to a series in CSS pixels (for triggering setSeries hook with closest) */
+			dist?: (self: uPlot, seriesIdx: number, dataIdx: number, valPos: number, curPos: number) => number;
 		}
 
 		export const enum FocusBias {
 			None          =  0,
 			AwayFromZero  =  1,
 			TowardsZero   = -1,
+		}
+
+		export const enum HoverBias {
+			None     =  0,
+			Forward  =  1,
+			Backward = -1,
 		}
 	}
 
@@ -571,8 +589,11 @@ declare namespace uPlot {
 		/** sync cursor between multiple charts */
 		sync?: Cursor.Sync;
 
-		/** focus series closest to cursor */
+		/** focus series closest to cursor (y) */
 		focus?: Cursor.Focus;
+
+		/** hover data points closest to cursor (x) */
+		hover?: Cursor.Hover;
 
 		/** lock cursor on mouse click in plotting area */
 		lock?: boolean; // false
