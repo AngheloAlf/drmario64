@@ -480,7 +480,7 @@ segments:
       - [0x017060, c, main_segment/vr_init]
       - [0x017330, asm, main_segment/aiset]
       - [0x01EDE0, c, main_segment/record]
-      - [0x021720, asm, main_segment/020D10]
+      - [0x021720, asm, main_segment/unused/020D10]
       - [0x0231D0, c, main_segment/game_etc]
 
       - [0x0255D0, c, main_segment/screen_print/printer]
@@ -506,13 +506,13 @@ segments:
 
       - [0x0641E0, c, main_segment/lws]
       - [0x0647B0, asm, main_segment/calc]
-      - [0x065DF0, asm, main_segment/065080]
-      - [0x066DF0, asm, main_segment/066080]
+      - [0x065DF0, asm, main_segment/unused/065080]
+      - [0x066DF0, c, main_segment/unused/066080]
       - [0x066E70, c, main_segment/replay]
       - [0x0672F0, asm, main_segment/066580]
 
       - [0x0675B0, asm, main_segment/0675B0] # TODO: figure out
-      - [0x068420, asm, main_segment/055C40]
+      - [0x068420, c, main_segment/unused/055C40]
 
       - [0x068590, c, ../lib/libmus/src/player]
       - [0x06BE70, c, ../lib/libmus/src/player_fx]
@@ -535,7 +535,7 @@ segments:
       - [0x071080, .data, main_segment/vr_init]
       - [0x071090, data, main_segment/071090]
       - [0x0723A0, data, main_segment/0723A0]
-      - [0x075BA0, data, main_segment/020D10]
+      - [0x075BA0, data, main_segment/unused/020D10]
       - [0x075BF0, data, main_segment/075BF0]
 
       - start: 0x075ED0
@@ -592,7 +592,7 @@ segments:
       - [0x095920, .rodata, main_segment/main1x]
       - [0x095AB0, rodata, main_segment/aiset]
       - [0x095B40, .rodata, main_segment/record]
-      - [0x095BB0, rodata, main_segment/020D10]
+      - [0x095BB0, rodata, main_segment/unused/020D10]
       - [0x095D50, .rodata, main_segment/game_etc]
 
       - [0x095D90, rodata, main_segment/screen_print/printf_impl]
@@ -617,7 +617,7 @@ segments:
       - [0x09BF60, rodata, main_segment/05F440]
       - [0x09C050, .rodata, main_segment/lws]
       - [0x09C0A0, rodata, main_segment/calc]
-      - [0x09C0F0, rodata, main_segment/065080]
+      - [0x09C0F0, rodata, main_segment/unused/065080]
 
       - [0x09C150, .rodata, ../lib/libmus/src/player]
       - [0x09C230, .rodata, ../lib/libmus/src/player_fx]

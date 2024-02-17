@@ -391,7 +391,7 @@ segments:
       - [0x0187C0, c, main_segment/aiset]
       - [0x0207B0, c, main_segment/record]
 
-      - [0x023880, c, main_segment/020D10]
+      - [0x023880, c, main_segment/unused/020D10]
 
       - [0x025650, c, main_segment/game_etc]
 
@@ -422,9 +422,9 @@ segments:
 
       - [0x06E1F0, c, main_segment/lws]
       - [0x06E7E0, c, main_segment/calc]
-      - [0x06FF90, c, main_segment/065080] # weird alignment
+      - [0x06FF90, c, main_segment/unused/065080] # weird alignment
 
-      - [0x071060, c, main_segment/066080]
+      - [0x071060, c, main_segment/unused/066080]
 
       - [0x0710D0, c, main_segment/replay]
 
@@ -432,7 +432,7 @@ segments:
 
       - [0x071830, asm, main_segment/066840] # hasm
 
-      - [0x0726F0, c, main_segment/055C40]
+      - [0x0726F0, c, main_segment/unused/055C40]
 
       - [0x072880, c, ../lib/libmus/src/player]
       - [0x075D50, c, ../lib/libmus/src/player_fx]
@@ -458,7 +458,7 @@ segments:
 
       - [0x07C2E0, data, main_segment/record]
 
-      - [0x07FAE0, data, main_segment/020D10]
+      - [0x07FAE0, data, main_segment/unused/020D10]
 
       - [0x07FB30, data, main_segment/game_etc]
 
@@ -530,7 +530,7 @@ segments:
       - [0x0ABCB0, .rodata, main_segment/aiset]
       - { start: 0x0ABD40, type: .rodata, name: main_segment/record, str_encoding: shift-jis }
 
-      - [0x0ABDB0, .rodata, main_segment/020D10]
+      - [0x0ABDB0, .rodata, main_segment/unused/020D10]
 
       - [0x0ABF20, .rodata, main_segment/game_etc]
       - { start: 0x0ABF30, type: .rodata, name: main_segment/debug_menu, str_encoding: shift-jis }
@@ -559,7 +559,7 @@ segments:
       - [0x0B12B0, .rodata, main_segment/main_story]
       - [0x0B1330, .rodata, main_segment/calc]
 
-      - [0x0B1380, .rodata, main_segment/065080]
+      - [0x0B1380, .rodata, main_segment/unused/065080]
 
       - [0x0B13C0, .rodata, ../lib/libmus/src/player]
       - [0x0B1440, .rodata, ../lib/libmus/src/player_fx]

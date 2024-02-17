@@ -56,11 +56,11 @@ extern struct_800E53B0 *B_800E53B0;
 void func_8003974C(Vtx *vtx);
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/020D10", RO_800ACFB0);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/unused/020D10", RO_800ACFB0);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/020D10", RO_800ACFC8);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/unused/020D10", RO_800ACFC8);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -85,11 +85,11 @@ void func_80038EF0(Mtx *mtx, u16 *perspNorm) {
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/020D10", func_8003901C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/020D10", func_8003901C);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003901C);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/unused/020D10", func_8003901C);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -165,7 +165,7 @@ void func_800394A0(Gfx **gfxP, Vtx *vtx, u16 *framebuffer, void **heapP) {
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/020D10", func_8003974C);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/020D10", func_8003974C);
 #endif
 
 #if VERSION_CN
@@ -450,7 +450,7 @@ loop_14:
     } while (var_s0_4 < 0xF);
 }
 #else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003974C);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/unused/020D10", func_8003974C);
 #endif
 #endif
 
@@ -506,7 +506,7 @@ void func_80039D08(Vtx *vtx, s32 arg1, struct_800E53B0_b_unk_7C *arg2, struct_80
 #endif
 
 #if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/020D10", func_80039E14);
+INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/020D10", func_80039E14);
 #endif
 
 #if VERSION_CN
@@ -585,11 +585,11 @@ s32 func_80039F74(void) {
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/020D10", RO_800AD080);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/unused/020D10", RO_800AD080);
 #endif
 
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/020D10", RO_800AD098);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/unused/020D10", RO_800AD098);
 #endif
 
 extern const Gfx RO_800ACFC8[];
@@ -820,13 +820,13 @@ void func_8003A950(Gfx **gfxP) {
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10", RO_800C4080_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/unused/020D10", RO_800C4080_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10", RO_800ACFC8);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/unused/020D10", RO_800ACFC8);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10", RO_800AD098);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/unused/020D10", RO_800AD098);
 #endif

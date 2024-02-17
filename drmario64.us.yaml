@@ -481,7 +481,7 @@ segments:
 
       - [0x01E3D0, c, main_segment/record]
 
-      - [0x020D10, c, main_segment/020D10]
+      - [0x020D10, c, main_segment/unused/020D10]
 
       - [0x0227C0, c, main_segment/game_etc]
 
@@ -514,9 +514,9 @@ segments:
 
       - [0x063470, c, main_segment/lws]
       - [0x063A40, c, main_segment/calc]
-      - [0x065080, c, main_segment/065080] # weird alignment
+      - [0x065080, c, main_segment/unused/065080] # weird alignment
 
-      - [0x066080, c, main_segment/066080]
+      - [0x066080, c, main_segment/unused/066080]
 
       - [0x066100, c, main_segment/replay]
 
@@ -524,7 +524,7 @@ segments:
 
       - [0x066840, asm, main_segment/066840] # hasm
 
-      - [0x0676B0, c, main_segment/055C40]
+      - [0x0676B0, c, main_segment/unused/055C40]
 
       - [0x067820, c, ../lib/libmus/src/player]
       - [0x06B100, c, ../lib/libmus/src/player_fx]
@@ -571,7 +571,7 @@ segments:
           - { start: 0x0717C8, type: ci8, name: mess_panel_tex.ci8, width: 200, height: 69, palette: mess_panel_lut.palette }
           - [0x074DC0]
 
-      - [0x074DC0, data, main_segment/020D10]
+      - [0x074DC0, data, main_segment/unused/020D10]
 
       - [0x074E10, data, main_segment/game_etc]
 
@@ -645,7 +645,7 @@ segments:
       - [0x094CD0, .rodata, main_segment/aiset]
       - [0x094D60, .rodata, main_segment/record]
 
-      - [0x094DD0, .rodata, main_segment/020D10]
+      - [0x094DD0, .rodata, main_segment/unused/020D10]
 
       - [0x094F70, .rodata, main_segment/game_etc]
 
@@ -676,7 +676,7 @@ segments:
       - [0x09B180, .rodata, main_segment/main_story]
       - [0x09B270, .rodata, main_segment/lws]
       - [0x09B2C0, .rodata, main_segment/calc]
-      - [0x09B310, .rodata, main_segment/065080]
+      - [0x09B310, .rodata, main_segment/unused/065080]
 
       - [0x09B370, .rodata, ../lib/libmus/src/player]
       - [0x09B450, .rodata, ../lib/libmus/src/player_fx]
@@ -685,7 +685,7 @@ segments:
       - { type: bss, vram: 0x800E4640, name: main_segment/vr_init }
       - { type: bss, vram: 0x800E5000, name: main_segment/aiset }
       - { type: bss, vram: 0x800E51B0, name: main_segment/record }
-      - { type: bss, vram: 0x800E53B0, name: main_segment/020D10 }
+      - { type: bss, vram: 0x800E53B0, name: main_segment/unused/020D10 }
       - { type: bss, vram: 0x800E53C0, name: main_segment/game_etc }
 
       - { type: .bss, vram: 0x800E5860, name: main_segment/screen_print/printf_impl }
