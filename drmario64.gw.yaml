@@ -474,7 +474,7 @@ segments:
       - [0x013CA0, c, main_segment/graphic]
       - [0x014540, asm, main_segment/graphics/static]
 
-      - [0x015990, asm, main_segment/audio/music_driver]
+      - [0x015990, c, main_segment/audio/music_driver]
 
       - [0x016350, c, main_segment/main1x]
       - [0x017060, c, main_segment/vr_init]
@@ -530,6 +530,7 @@ segments:
       - [0x070C90, .data, main_segment/nnsched]
       - [0x070D10, data, main_segmentm/070D10]
       - [0x070D50, data, main_segment/070D50]
+      - [0x070FF0, .data, main_segment/audio/music_driver]
       - [0x071000, .data, main_segment/main1x]
       - [0x071080, .data, main_segment/vr_init]
       - [0x071090, data, main_segment/071090]
