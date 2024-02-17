@@ -504,11 +504,11 @@ segments:
       - [0x05A9D0, asm, main_segment/05A9D0] # TODO: figure out
       - [0x05F440, asm, main_segment/05F440] # TODO: figure out
 
-      - [0x0641E0, asm, main_segment/lws]
+      - [0x0641E0, c, main_segment/lws]
       - [0x0647B0, asm, main_segment/calc]
       - [0x065DF0, asm, main_segment/065080]
       - [0x066DF0, asm, main_segment/066080]
-      - [0x066E70, asm, main_segment/replay]
+      - [0x066E70, c, main_segment/replay]
       - [0x0672F0, asm, main_segment/066580]
 
       - [0x0675B0, asm, main_segment/0675B0] # TODO: figure out
@@ -614,7 +614,7 @@ segments:
       - [0x09A830, rodata, main_segment/048B80]
       - [0x09B000, rodata, main_segment/05A9D0]
       - [0x09BF60, rodata, main_segment/05F440]
-      - [0x09C050, rodata, main_segment/lws]
+      - [0x09C050, .rodata, main_segment/lws]
       - [0x09C0A0, rodata, main_segment/calc]
       - [0x09C0F0, rodata, main_segment/065080]
 
