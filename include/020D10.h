@@ -13,7 +13,7 @@
 void *func_80039E14(void *heap);
 s32 func_80039F74(void);
 void func_8003A1B4(Gfx **gfxP);
-void *func_8003A26C(void *arg0);
+void *func_8003A26C(void *heap);
 s32 func_8003A618(void);
 void func_8003A7E4(Gfx **gfxP);
 void *func_8003A89C(void *heap, s32 arg1);

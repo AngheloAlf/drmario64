@@ -7,22 +7,49 @@
 #include "buffers.h"
 #include "graphic.h"
 
-#define STRUCT_800E53B0_UNK_LEN 3
+#define STRUCT_800E53B0_A_UNK_LEN 3
 
-typedef struct struct_800E53B0 {
+typedef struct struct_800E53B0_a {
     /* 0x00 */ Mtx unk_00;
     /* 0x40 */ u16 perspNorm;
     /* 0x42 */ UNK_TYPE1 unk_42[0x2]; // pad?
     /* 0x44 */ u16 *framebuffer;
-    /* 0x48 */ Vtx *unk_48[STRUCT_800E53B0_UNK_LEN]; // vtx
-    /* 0x54 */ Gfx *unk_54[STRUCT_800E53B0_UNK_LEN]; // gfx
-    /* 0x60 */ Mtx *unk_60[STRUCT_800E53B0_UNK_LEN]; // mtx
+    /* 0x48 */ Vtx *unk_48[STRUCT_800E53B0_A_UNK_LEN]; // vtx
+    /* 0x54 */ Gfx *unk_54[STRUCT_800E53B0_A_UNK_LEN]; // gfx
+    /* 0x60 */ Mtx *unk_60[STRUCT_800E53B0_A_UNK_LEN]; // mtx
     /* 0x6C */ UNK_TYPE unk_6C;
     /* 0x70 */ UNK_TYPE unk_70; // bool?
     /* 0x74 */ u32 unk_74;
     /* 0x78 */ UNK_TYPE unk_78;
     /* 0x7C */ UNK_TYPE1 unk_7C[0x4]; // pad?
-} struct_800E53B0;                    // size = 0x80
+} struct_800E53B0_a;                  // size = 0x80
+
+typedef f32(struct_800E53B0_b_unk_7C)[6];
+
+// TODO: maybe same struct as struct_800E53B0_b_unk_7C?
+typedef f32(struct_800E53B0_b_unk_80)[6];
+
+typedef struct struct_800E53B0_b {
+    /* 0x00 */ Mtx unk_00;
+    /* 0x40 */ u16 perspNorm;
+    /* 0x42 */ UNK_TYPE1 unk_42[0x2]; // pad?
+    /* 0x44 */ u16 *framebuffer;
+    /* 0x48 */ Vtx *unk_48[3];
+    /* 0x54 */ Gfx *unk_54[3];
+    /* 0x60 */ Mtx *unk_60[3];
+    /* 0x6C */ UNK_TYPE unk_6C;
+    /* 0x70 */ UNK_TYPE unk_70;
+    /* 0x74 */ u32 unk_74;
+    /* 0x78 */ UNK_TYPE unk_78;
+    /* 0x7C */ struct_800E53B0_b_unk_7C *unk_7C;
+    /* 0x80 */ struct_800E53B0_b_unk_80 *unk_80;
+    /* 0x84 */ UNK_TYPE1 unk_84[0x4]; // pad?
+} struct_800E53B0_b;                  // size = 0x88
+
+typedef union struct_800E53B0 {
+    struct_800E53B0_a a;
+    struct_800E53B0_b b;
+} struct_800E53B0;
 
 extern struct_800E53B0 *B_800E53B0;
 
@@ -62,7 +89,7 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/020D10", func_8003901C);
 #endif
 
 #if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003BCD8_cn);
+INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003901C);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -452,12 +479,30 @@ void func_80039BE0(Vtx *vtx, f32 arg1, f32 arg2, f32 arg3) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/020D10", func_80039D08);
-#endif
+#if VERSION_US || VERSION_CN
+void func_80039D08(Vtx *vtx, s32 arg1, struct_800E53B0_b_unk_7C *arg2, struct_800E53B0_b_unk_80 *arg3, f32 arg4) {
+    s32 i;
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003CAAC_cn);
+    for (i = 0; i < arg1; i++) {
+        f32 *a = arg2[i];
+        f32 *b = arg3[i];
+
+        f32 temp_fs1 = a[0] + (b[0] - a[0]) * arg4;
+        f32 temp_fs0 = a[1] + (b[1] - a[1]) * arg4;
+        f32 temp_ft1 = a[2] + (b[2] - a[2]) * arg4;
+        f32 temp_ft0 = a[3] + (b[3] - a[3]) * arg4;
+        f32 temp_fv1 = a[4] + (b[4] - a[4]) * arg4;
+        f32 temp_fv0 = a[5] + (b[5] - a[5]) * arg4;
+
+        //! FAKE: Required redundant casts?
+        vtx[i].v.ob[0] = (s16)temp_fs1;
+        vtx[i].v.ob[1] = (s16)temp_fs0;
+        vtx[i].v.ob[2] = (s16)temp_ft1;
+        vtx[i].v.cn[0] = (s8)temp_ft0;
+        vtx[i].v.cn[1] = (s8)temp_fv1;
+        vtx[i].v.cn[2] = (s8)temp_fv0;
+    }
+}
 #endif
 
 #if VERSION_US
@@ -466,12 +511,12 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/020D10", func_80039E14);
 
 #if VERSION_CN
 void *func_80039E14(void *heap) {
-    struct_800E53B0 *temp_s1;
+    struct_800E53B0_a *temp_s1;
     s32 i;
 
     B_800E53B0 = ALIGN_PTR(heap);
-    temp_s1 = B_800E53B0;
-    heap = (void *)((uintptr_t)temp_s1 + sizeof(struct_800E53B0));
+    temp_s1 = &B_800E53B0->a;
+    heap = (void *)((uintptr_t)temp_s1 + sizeof(struct_800E53B0_a));
 
     func_80038EF0(&temp_s1->unk_00, &temp_s1->perspNorm);
 
@@ -480,7 +525,7 @@ void *func_80039E14(void *heap) {
     bcopy(gFramebuffers[gCurrentFramebufferIndex ^ 1], temp_s1->framebuffer,
           sizeof(u16) * SCREEN_HEIGHT * SCREEN_WIDTH);
 
-    for (i = 0; i < STRUCT_800E53B0_UNK_LEN; i++) {
+    for (i = 0; i < STRUCT_800E53B0_A_UNK_LEN; i++) {
         func_800393DC(&temp_s1->unk_48[i], &heap);
         func_8003974C(temp_s1->unk_48[i]);
         func_800394A0(&temp_s1->unk_54[i], temp_s1->unk_48[i], temp_s1->framebuffer, &heap);
@@ -503,7 +548,7 @@ void *func_80039E14(void *heap) {
 #if VERSION_US || VERSION_CN
 // TODO: return bool?
 s32 func_80039F74(void) {
-    struct_800E53B0 *temp_s2 = B_800E53B0;
+    struct_800E53B0_a *temp_s2 = &B_800E53B0->a;
     f32 sp18[4][4];
     f32 sp58[4][4];
     f32 temp_fs2;
@@ -547,15 +592,11 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/020D10", RO_800AD080);
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/020D10", RO_800AD098);
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/020D10", func_8003A1B4);
-#endif
+extern const Gfx RO_800ACFC8[];
 
-extern const Gfx RO_800C4098_cn[];
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void func_8003A1B4(Gfx **gfxP) {
-    struct_800E53B0 *ptr = B_800E53B0;
+    struct_800E53B0_a *ptr = &B_800E53B0->a;
     Gfx *gfx;
     s32 temp;
 
@@ -566,7 +607,7 @@ void func_8003A1B4(Gfx **gfxP) {
     gfx = *gfxP;
     temp = ptr->unk_6C;
 
-    gSPDisplayList(gfx++, RO_800C4098_cn);
+    gSPDisplayList(gfx++, RO_800ACFC8);
     gSPPerspNormalize(gfx++, ptr->perspNorm);
     gSPMatrix(gfx++, &ptr->unk_00, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPMatrix(gfx++, ptr->unk_60[temp], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -577,28 +618,155 @@ void func_8003A1B4(Gfx **gfxP) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/020D10", func_8003A26C);
+#if VERSION_US || VERSION_CN
+void *func_8003A26C(void *heap) {
+    f32 temp_fs0_2;
+    f32 temp_fs1;
+    f32 temp_fs2;
+    f32 temp_fv0_2;
+    struct_800E53B0_b *temp_s3;
+    s32 var_s1;
+    s32 var_s2;
+    s32 var_s5;
+    f32 *temp_s0;
+    f32 *temp_v1;
+
+    s32 s6;
+
+    B_800E53B0 = ALIGN_PTR(heap);
+    temp_s3 = &B_800E53B0->b;
+    heap = (void *)((uintptr_t)temp_s3 + sizeof(struct_800E53B0_b));
+
+    func_80038EF0(&temp_s3->unk_00, &temp_s3->perspNorm);
+
+    temp_s3->framebuffer = ALIGN_PTR(heap);
+    heap = (void *)((uintptr_t)temp_s3->framebuffer + sizeof(u16) * SCREEN_HEIGHT * SCREEN_WIDTH);
+
+    bcopy(gFramebuffers[gCurrentFramebufferIndex ^ 1], (void *)temp_s3->framebuffer,
+          sizeof(u16) * SCREEN_HEIGHT * SCREEN_WIDTH);
+
+    temp_s3->unk_7C = ALIGN_PTR(heap);
+    heap = (void *)((uintptr_t)temp_s3->unk_7C + sizeof(struct_800E53B0_b_unk_7C) * 0x15 * 0x10);
+
+    for (var_s2 = 0; var_s2 < 0x15; var_s2++) {
+        for (var_s1 = 0; var_s1 < 0x10; var_s1++) {
+            temp_v1 = temp_s3->unk_7C[var_s2 * 0x10 + var_s1];
+
+            temp_v1[0] = var_s2 * 0x10 - 0xA0;
+            temp_v1[1] = 0x78 - var_s1 * 0x10;
+            temp_v1[2] = 0;
+            temp_v1[3] = 0;
+            temp_v1[4] = 0;
+            temp_v1[5] = 127.0f;
+        }
+    }
+
+    temp_s3->unk_80 = ALIGN_PTR(heap);
+    heap = (void *)((uintptr_t)temp_s3->unk_80 + sizeof(struct_800E53B0_b_unk_80) * 0x15 * 0x10);
+
+    for (var_s2 = 0; var_s2 < 0x15; var_s2++) {
+        temp_fs1 = sinf(var_s2 * (3.141592f / 10));
+        temp_fs2 = cosf(var_s2 * (3.141592f / 10));
+
+        for (var_s1 = 0; var_s1 < 0x10; var_s1++) {
+            temp_s0 = temp_s3->unk_80[(var_s2 * 0x10) + var_s1];
+
+            temp_fs0_2 = sinf(var_s1 * (3.141592f / 15));
+            temp_fv0_2 = cosf(var_s1 * (3.141592f / 15));
+
+            temp_s0[0x04 / 4] = temp_s0[0x10 / 4] = temp_fv0_2;
+            temp_s0[0x00 / 4] = temp_s0[0x0C / 4] = -temp_fs1 * temp_fs0_2;
+            temp_s0[0x08 / 4] = temp_s0[0x14 / 4] = -temp_fs2 * temp_fs0_2;
+
+            temp_s0[0] *= 80.0f;
+            temp_s0[1] *= 80.0f;
+            temp_s0[2] *= 80.0f;
+            temp_s0[3] *= 127.0f;
+            temp_s0[4] *= 127.0f;
+            temp_s0[5] *= 127.0f;
+        }
+    }
+
+    for (var_s5 = 0; var_s5 < 3; var_s5++) {
+        func_800393DC(&temp_s3->unk_48[var_s5], &heap);
+        func_80039D08(temp_s3->unk_48[var_s5], 0x150, temp_s3->unk_7C, temp_s3->unk_80, 0);
+        func_800394A0(&temp_s3->unk_54[var_s5], temp_s3->unk_48[var_s5], temp_s3->framebuffer, &heap);
+
+        temp_s3->unk_60[var_s5] = ALIGN_PTR(heap);
+        heap = (void *)((uintptr_t)temp_s3->unk_60[var_s5] + sizeof(Mtx));
+
+        guRotateRPY(temp_s3->unk_60[var_s5], 0.0f, s6 * 180.0f, 0.0f);
+    }
+
+    temp_s3->unk_6C = 0;
+    temp_s3->unk_70 = 0;
+    temp_s3->unk_74 = 0;
+    temp_s3->unk_78 = 0;
+
+    return heap;
+}
 #endif
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003A26C);
+#if VERSION_US || VERSION_CN
+s32 func_8003A618(void) {
+    struct_800E53B0_b *temp_s1 = &B_800E53B0->b;
+    f32 var_fs0;
+    s32 temp_s2;
+
+    if (temp_s1->unk_70 != 0) {
+        return 0;
+    }
+
+    var_fs0 = MIN(temp_s1->unk_74 * (1.0f / 30.0f), 1.0f);
+    temp_s1->unk_70 = var_fs0 == 1.0f;
+    temp_s2 = (temp_s1->unk_6C + 1) % 3;
+
+    if (var_fs0 < 0.5f) {
+        // TODO: This is a weird way of writing this
+        var_fs0 = 2.0f * var_fs0;
+        var_fs0 = 1.0f - var_fs0;
+        var_fs0 = var_fs0 * var_fs0;
+        var_fs0 = 1.0f - var_fs0;
+        func_80039D08(temp_s1->unk_48[temp_s2], 0x150, temp_s1->unk_7C, temp_s1->unk_80, var_fs0);
+    } else if (var_fs0 <= 1.0f) {
+        var_fs0 = 2.0f * (var_fs0 - 0.5f);
+        var_fs0 = 1.0f - var_fs0 * var_fs0;
+        func_80039D08(temp_s1->unk_48[temp_s2], 0x150, temp_s1->unk_7C, temp_s1->unk_80, 1.0f);
+        guScale(temp_s1->unk_60[temp_s2], var_fs0, var_fs0, var_fs0);
+    }
+
+    temp_s1->unk_6C = temp_s2;
+    temp_s1->unk_74++;
+
+    return 1;
+}
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/020D10", func_8003A618);
-#endif
+extern const Gfx RO_800AD098[];
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003A618);
-#endif
+#if VERSION_US || VERSION_CN
+void func_8003A7E4(Gfx **gfxP) {
+    struct_800E53B0_b *ptr = &B_800E53B0->b;
+    Gfx *gfx;
+    s32 temp;
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/020D10", func_8003A7E4);
-#endif
+    if (ptr->unk_70 != 0) {
+        return;
+    }
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/020D10", func_8003A7E4);
+    gfx = *gfxP;
+    temp = ptr->unk_6C;
+
+    gSPPerspNormalize(gfx++, ptr->perspNorm);
+    gSPMatrix(gfx++, &ptr->unk_00, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPDisplayList(gfx++, RO_800AD098);
+    gSPMatrix(gfx++, ptr->unk_60[temp], G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(gfx++, ptr->unk_54[temp]);
+
+    *gfxP = gfx;
+
+    ptr->unk_78 += 1;
+}
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -656,9 +824,9 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10", RO_800C4080_cn);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10", RO_800C4098_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10", RO_800ACFC8);
 #endif
 
 #if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10", RO_800C4150_cn);
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/020D10", RO_800AD098);
 #endif
