@@ -489,7 +489,7 @@ segments:
 
       - [0x026F60, c, main_segment/debug_menu]
 
-      - [0x029230, asm, main_segment/028820]
+      - [0x029230, c, main_segment/028820]
       - [0x0293E0, c, main_segment/tex_func]
 
       - [0x02E600, asm, main_segment/02E600]
@@ -548,7 +548,7 @@ segments:
 
       - [0x076F70, .data, main_segment/debug_menu]
 
-      - [0x0771D0, data, main_segment/0771D0]
+      - [0x0771D0, .data, main_segment/028820]
 
       - start: 0x0771E0
         type: .data
