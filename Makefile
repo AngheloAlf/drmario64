@@ -264,6 +264,9 @@ $(BUILD_DIR)/src/main_segment/record.o:                OUT_ENCODING := Shift-JIS
 
 $(BUILD_DIR)/src/main_segment/main_menu.o:             OUT_ENCODING := Shift-JIS
 
+$(BUILD_DIR)/asm/$(VERSION)/data/main_segment/066580.data.o:    OUT_ENCODING := Shift-JIS
+$(BUILD_DIR)/src/main_segment/066580.o:                         OUT_ENCODING := Shift-JIS
+
 #### Main Targets ###
 
 all: compressed
