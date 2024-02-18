@@ -43,9 +43,9 @@ END(func_8007EA38)
  * u32 func_8007EA58(s32 arg0, s32 arg1);
  */
 LEAF(func_8007EA58)
-    addu        $v0, $zero, $zero
-    addu        $v1, $zero, $zero
-    addiu       $t0, $zero, 0x20
+    move        $v0, $zero
+    move        $v1, $zero
+    li          $t0, 0x20
     slt         $t8, $a1, $zero
     sll         $a1, $a1, 1
     slt         $t9, $a0, $zero
@@ -93,25 +93,25 @@ END(func_8007EA58)
  * to document it.
  */
 LEAF(func_8007EAEC)
-    addu       $t4, $zero, $zero
+    move        $t4, $zero
     NOP_IQUE
     bnez        $a0, .L8007EB1C
 
     bnez        $a1, .L8007EB04
 
-    addiu      $v0, $zero, 0x0
+    li          $v0, 0x0
     NOP_IQUE
     b           .L8007EC48
 
 .L8007EB04:
     bgez        $a1, .L8007EB14
 
-    ori        $v0, $zero, 0xC000
+    li          $v0, 0xC000
     NOP_IQUE
     b           .L8007EC48
 
 .L8007EB14:
-    addiu      $v0, $zero, 0x4000
+    li          $v0, 0x4000
     NOP_IQUE
     b           .L8007EC48
 
@@ -125,12 +125,12 @@ LEAF(func_8007EAEC)
 
     bnez        $t4, .L8007EB44
 
-    addiu      $v0, $zero, 0x0
+    li          $v0, 0x0
     NOP_IQUE
     b           .L8007EC48
 
 .L8007EB44:
-    ori        $v0, $zero, 0x8000
+    li          $v0, 0x8000
     NOP_IQUE
     b           .L8007EC48
 
@@ -143,12 +143,12 @@ LEAF(func_8007EAEC)
     subu        $t8, $a0, $a1
     bgez        $t8, .L8007EB78
 
-    addu        $t8, $a0, $zero
-    addu        $a0, $a1, $zero
-    addu        $a1, $t8, $zero
+    move        $t8, $a0
+    move        $a0, $a1
+    move        $a1, $t8
     xori        $t4, $t4, 0x1
 .L8007EB78:
-    lui         $t8, (0x40000000 >> 16)
+    li          $t8, 0x40000000
     divu_ds     $t8, $t8, $a0
 
     nop
@@ -157,32 +157,24 @@ LEAF(func_8007EAEC)
     mflo        $t9
     srl         $a0, $t9, 2
     srl         $t8, $a0, 24
-    lui         $v1, %hi(D_800AB320)
-    addu        $v1, $v1, $t8
-    lbu         $v1, %lo(D_800AB320)($v1)
+    lbu         $v1, (D_800AB320)($t8)
     sll         $t2, $v1, 2
 
     .L8007EBB8:
-        lui         $t9, %hi(D_800AB334)
-        addu        $t9, $t9, $t2
-        lw          $t9, %lo(D_800AB334)($t9)
+        lw          $t9, (D_800AB334)($t2)
         addiu       $v1, $v1, 0x1
         addiu       $t2, $t2, 0x4
         subu        $t8, $a0, $t9
     bgez        $t8, .L8007EBB8
 
     addiu       $v1, $v1, -0x2
-    lui         $t8, %hi(D_800AB32C)
-    addu        $t8, $t8, $t2
-    lw          $t8, %lo(D_800AB32C)($t8)
+    lw          $t8, (D_800AB32C)($t2)
     sll        $v0, $v1, 8
     NOP_IQUE
     beq         $a0, $t8, .L8007EC14
 
     subu        $t3, $a0, $t8
-    lui         $t8, %hi(D_800AB3B4)
-    addu        $t8, $t8, $t2
-    lw          $t8, %lo(D_800AB3B4)($t8)
+    lw          $t8, (D_800AB3B4)($t2)
     multu       $t3, $t8
     mfhi        $t8
     srl         $t8, $t8, 8
@@ -192,7 +184,7 @@ LEAF(func_8007EAEC)
     andi        $t8, $t4, 0x1
     beqz        $t8, .L8007EC28
 
-    addiu       $t8, $zero, 0x4000
+    li          $t8, 0x4000
     subu        $v0, $t8, $v0
 .L8007EC28:
     andi        $t8, $t4, 0x10
@@ -261,7 +253,7 @@ END(func_8007EC98)
  * void func_8007ECE0(UNK_TYPE *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4)
  */
 LEAF(func_8007ECE0)
-    addiu       $v0, $zero, 0x3
+    li          $v0, 0x3
     addiu       $t1, $sp, 0x10
 
 .L8007ECE8:
@@ -305,7 +297,7 @@ END(func_8007ECE0)
  * void func_8007ED74(UNK_TYPE *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4)
  */
 LEAF(func_8007ED74)
-    addiu       $v0, $zero, 0x3
+    li          $v0, 0x3
     addiu       $t1, $sp, 0x10
     lw          $t5, 0x30($a0)
     lw          $t6, 0x34($a0)
@@ -353,15 +345,15 @@ END(func_8007ED74)
  * void matrixMulL(Mtx *, Mtx *, Mtx *);
  */
 LEAF(matrixMulL)
-    ori         $t8, $zero, 0x8000
+    li          $t8, 0x8000
     sw          $zero, 0x2C($a2)
     sw          $zero, 0x1C($a2)
     sw          $zero, 0xC($a2)
     sw          $t8, 0x3C($a2)
-    addiu       $v0, $zero, 0x3
-    addu        $v1, $a2, $zero
-    addu        $t0, $a1, $zero
-    addu        $t1, $a0, $zero
+    li          $v0, 0x3
+    move        $v1, $a2
+    move        $t0, $a1
+    move        $t1, $a0
 
 .L8007EE3C:
         lw          $t7, 0x0($t1)
@@ -493,7 +485,7 @@ END(matrixMulL)
  *
  */
 LEAF(makeTransrateMatrix)
-    ori         $v0, $zero, 0x8000
+    li          $v0, 0x8000
     sw          $v0, 0x0($a0)
     sw          $zero, 0x4($a0)
     sw          $zero, 0x8($a0)
@@ -526,7 +518,7 @@ END(makeTransrateMatrix)
  *
  */
 LEAF(makeScaleMatrix)
-    ori         $v0, $zero, 0x8000
+    li          $v0, 0x8000
     sw          $a1, 0x0($a0)
     sw          $zero, 0x4($a0)
     sw          $zero, 0x8($a0)
@@ -551,42 +543,42 @@ END(makeScaleMatrix)
  * void makeMatrix(Mtx *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
  */
 LEAF(makeMatrix)
-    addu        $t1, $ra, $zero
-    addu        $t0, $a0, $zero
+    move        $t1, $ra
+    move        $t0, $a0
     lw          $t2, 0x10($sp)
     lw          $t3, 0x14($sp)
     lw          $t4, 0x18($sp)
     sw          $zero, 0x2C($t0)
     sw          $zero, 0x1C($t0)
     sw          $zero, 0xC($t0)
-    ori         $t8, $zero, 0x8000
+    li          $t8, 0x8000
     sw          $t8, 0x3C($t0)
     sw          $t2, 0x30($t0)
     sw          $t3, 0x34($t0)
     sw          $t4, 0x38($t0)
-    addu        $a0, $a2, $zero
+    move        $a0, $a2
     NOP_IQUE
     bal         func_8007EC54
 
-    addu        $t2, $v0, $zero
+    move        $t2, $v0
     NOP_IQUE
     bal         func_8007EC98
 
-    addu        $t3, $v0, $zero
-    addu        $a0, $a3, $zero
+    move        $t3, $v0
+    move        $a0, $a3
     NOP_IQUE
     bal         func_8007EC54
 
-    addu        $t4, $v0, $zero
+    move        $t4, $v0
     NOP_IQUE
     bal         func_8007EC98
 
-    addu        $t5, $v0, $zero
-    addu        $a0, $a1, $zero
+    move        $t5, $v0
+    move        $a0, $a1
     NOP_IQUE
     bal         func_8007EC54
 
-    addu        $t6, $v0, $zero
+    move        $t6, $v0
     NOP_IQUE
     bal         func_8007EC98
 
@@ -656,7 +648,7 @@ LEAF(makeMatrix)
     addu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x18($t0)
-    addu        $ra, $t1, $zero
+    move        $ra, $t1
     jr          $ra
 END(makeMatrix)
 
@@ -666,8 +658,8 @@ END(makeMatrix)
  * `arg0` may be a `Mtx *`
  */
 LEAF(func_8007F214)
-    addu        $t1, $ra, $zero
-    addu        $t0, $a0, $zero
+    move        $t1, $ra
+    move        $t0, $a0
     lw          $t2, 0x10($sp)
     sw          $zero, 0x2C($t0)
     sw          $zero, 0x1C($t0)
@@ -675,13 +667,13 @@ LEAF(func_8007F214)
     sw          $a2, 0x30($t0)
     sw          $a3, 0x34($t0)
     sw          $t2, 0x38($t0)
-    ori         $t2, $zero, 0x8000
+    li          $t2, 0x8000
     sw          $t2, 0x3C($t0)
-    addu        $a0, $a1, $zero
+    move        $a0, $a1
     NOP_IQUE
     bal         func_8007EC54
 
-    addu        $t3, $v0, $zero
+    move        $t3, $v0
     NOP_IQUE
     bal         func_8007EC98
 
@@ -695,7 +687,7 @@ LEAF(func_8007F214)
     negu        $t8, $t3
     sw          $t8, 0x24($t0)
     sw          $v0, 0x28($t0)
-    addu        $ra, $t1, $zero
+    move        $ra, $t1
     jr          $ra
 END(func_8007F214)
 
@@ -705,8 +697,8 @@ END(func_8007F214)
  * `arg0` may be a `Mtx *`
  */
 LEAF(func_8007F284)
-    addu        $t1, $ra, $zero
-    addu        $t0, $a0, $zero
+    move        $t1, $ra
+    move        $t0, $a0
     lw          $t2, 0x10($sp)
     sw          $zero, 0x2C($t0)
     sw          $zero, 0x1C($t0)
@@ -714,13 +706,13 @@ LEAF(func_8007F284)
     sw          $a2, 0x30($t0)
     sw          $a3, 0x34($t0)
     sw          $t2, 0x38($t0)
-    ori         $t2, $zero, 0x8000
+    li          $t2, 0x8000
     sw          $t2, 0x3C($t0)
-    addu        $a0, $a1, $zero
+    move        $a0, $a1
     NOP_IQUE
     bal         func_8007EC54
 
-    addu        $t3, $v0, $zero
+    move        $t3, $v0
     NOP_IQUE
     bal         func_8007EC98
 
@@ -734,7 +726,7 @@ LEAF(func_8007F284)
     sw          $t3, 0x20($t0)
     sw          $zero, 0x24($t0)
     sw          $v0, 0x28($t0)
-    addu        $ra, $t1, $zero
+    move        $ra, $t1
     jr          $ra
 END(func_8007F284)
 
@@ -744,8 +736,8 @@ END(func_8007F284)
  * `arg0` may be a `Mtx *`
  */
 LEAF(func_8007F2F4)
-    addu        $t1, $ra, $zero
-    addu        $t0, $a0, $zero
+    move        $t1, $ra
+    move        $t0, $a0
     lw          $t2, 0x10($sp)
     sw          $zero, 0x2C($t0)
     sw          $zero, 0x1C($t0)
@@ -753,13 +745,13 @@ LEAF(func_8007F2F4)
     sw          $a2, 0x30($t0)
     sw          $a3, 0x34($t0)
     sw          $t2, 0x38($t0)
-    ori         $t2, $zero, 0x8000
+    li          $t2, 0x8000
     sw          $t2, 0x3C($t0)
-    addu        $a0, $a1, $zero
+    move        $a0, $a1
     NOP_IQUE
     bal         func_8007EC54
 
-    addu        $t3, $v0, $zero
+    move        $t3, $v0
     NOP_IQUE
     bal         func_8007EC98
 
@@ -773,7 +765,7 @@ LEAF(func_8007F2F4)
     sw          $zero, 0x20($t0)
     sw          $zero, 0x24($t0)
     sw          $t2, 0x28($t0)
-    addu        $ra, $t1, $zero
+    move        $ra, $t1
     jr          $ra
 END(func_8007F2F4)
 
@@ -783,30 +775,30 @@ END(func_8007F2F4)
  * `arg0` may be a `Mtx *`
  */
 LEAF(func_8007F364)
-    addu        $t1, $ra, $zero
-    addu        $t0, $a0, $zero
+    move        $t1, $ra
+    move        $t0, $a0
     sw          $zero, 0x2C($t0)
     sw          $zero, 0x1C($t0)
     sw          $zero, 0xC($t0)
     sw          $zero, 0x30($t0)
     sw          $zero, 0x34($t0)
     sw          $zero, 0x38($t0)
-    ori         $t2, $zero, 0x8000
+    li          $t2, 0x8000
     sw          $t2, 0x3C($t0)
-    addu        $a0, $a2, $zero
+    move        $a0, $a2
     NOP_IQUE
     bal         func_8007EC54
 
-    addu        $t2, $v0, $zero
+    move        $t2, $v0
     NOP_IQUE
     bal         func_8007EC98
 
-    addu        $t3, $v0, $zero
-    addu        $a0, $a1, $zero
+    move        $t3, $v0
+    move        $a0, $a1
     NOP_IQUE
     bal         func_8007EC54
 
-    addu        $t4, $v0, $zero
+    move        $t4, $v0
     NOP_IQUE
     bal         func_8007EC98
 
@@ -835,7 +827,7 @@ LEAF(func_8007F364)
     sra         $t8, $t9, 15
     sw          $t8, 0x24($t0)
     sw          $v0, 0x28($t0)
-    addu        $ra, $t1, $zero
+    move        $ra, $t1
     jr          $ra
 END(func_8007F364)
 
@@ -843,12 +835,12 @@ END(func_8007F364)
  * void matrixConv(Mtx *arg0, Mtx *arg1, s32 arg2);
  */
 LEAF(matrixConv)
-    lui         $t0, (0xFFFF0000 >> 16)
-    addiu       $v0, $zero, 0x8
+    li          $t0, 0xFFFF0000
+    li          $v0, 0x8
     NOP_IQUE
     beqz        $a2, .L8007F4CC
 
-    addiu       $v0, $zero, 0x6
+    li          $v0, 0x6
     NOP_IQUE
     bgtz        $a2, .L8007F484
 
@@ -899,7 +891,7 @@ LEAF(matrixConv)
     bgtz        $v0, .L8007F488
 
 .L8007F4C8:
-    addiu       $v0, $zero, 0x2
+    li          $v0, 0x2
 
     .L8007F4CC:
         lw          $t8, 0x0($a0)
@@ -929,7 +921,7 @@ END(matrixConv)
  * `arg0` and `arg1` may be `Mtx *`
  */
 LEAF(func_8007F514)
-    addiu       $t8, $zero, 0x4
+    li          $t8, 0x4
 
 .L8007F518:
     lw          $t2, 0x0($a1)
@@ -955,12 +947,12 @@ END(func_8007F514)
  * `arg0` may be a `Mtx *`
  */
 LEAF(func_8007F550)
-    addu        $t1, $ra, $zero
+    move        $t1, $ra
     lw          $t0, 0x10($sp)
     NOP_IQUE
     bal         func_8007EC98
 
-    addu        $v1, $v0, $zero
+    move        $v1, $v0
     NOP_IQUE
     bal         func_8007EC54
 
@@ -1003,7 +995,7 @@ LEAF(func_8007F550)
     addu        $a1, $a1, $v1
     sw          $a2, 0x0($t0)
     sw          $a1, 0x0($a3)
-    addu        $ra, $t1, $zero
+    move        $ra, $t1
     jr          $ra
 END(func_8007F550)
 
@@ -1013,33 +1005,33 @@ END(func_8007F550)
 LEAF(func_8007F60C)
     andi        $t2, $a0, 0xFFFF
     andi        $t3, $a1, 0xFFFF
-    lui         $v0, (0x10000 >> 16)
+    li          $v0, 0x10000
     bge         $t2, $t3, .L8007F630
 
     addu        $t4, $t2, $v0
-    addu        $t5, $t3, $zero
+    move        $t5, $t3
     NOP_IQUE
     b           .L8007F638
 
 .L8007F630:
-    addu        $t4, $t2, $zero
+    move        $t4, $t2
     addu        $t5, $t3, $v0
 .L8007F638:
     subu        $v0, $t3, $t2
     subu        $v1, $t5, $t4
-    addu        $t2, $v0, $zero
+    move        $t2, $v0
     bgez        $v0, .L8007F64C
 
-    sub         $t2, $zero, $v0
+    neg         $t2, $v0
 .L8007F64C:
-    addu        $t3, $v1, $zero
+    move        $t3, $v1
     bgez        $v1, .L8007F658
 
-    sub         $t3, $zero, $v1
+    neg         $t3, $v1
 .L8007F658:
     bge         $t3, $t2, .L8007F668
 
-    addu        $v0, $v1, $zero
+    move        $v0, $v1
 .L8007F668:
     jr          $ra
 END(func_8007F60C)
@@ -1149,25 +1141,25 @@ LEAF(func_8007F798)
     NOP_N64
     xor         $t9, $a0, $a1
     xor         $t8, $t9, $a2
-    addu        $t2, $a0, $zero
+    move        $t2, $a0
     bgez        $a0, .L8007F7B0
 
-    sub         $t2, $zero, $a0
+    neg         $t2, $a0
 .L8007F7B0:
-    addu       $t3, $a1, $zero
+    move        $t3, $a1
     bgez        $a1, .L8007F7BC
 
-    sub         $t3, $zero, $a1
+    neg         $t3, $a1
 .L8007F7BC:
-    addu        $t7, $a2, $zero
+    move        $t7, $a2
     bgez        $a2, .L8007F7C8
 
-    sub         $t7, $zero, $a2
+    neg         $t7, $a2
 .L8007F7C8:
     NOP_N64
     mult        $t2, $t3
-    addiu       $t9, $zero, 0x20
-    addu        $v0, $zero, $zero
+    li          $t9, 0x20
+    move        $v0, $zero
     mflo        $t1
     mfhi        $t0
 
@@ -1188,7 +1180,7 @@ LEAF(func_8007F798)
 
     bgez        $t8, .L8007F81C
 
-    sub         $v0, $zero, $v0
+    neg         $v0, $v0
 
 .L8007F81C:
     jr          $ra
@@ -1201,7 +1193,7 @@ END(func_8007F798)
  * `arg0` may be a `Mtx *`
  */
 LEAF(func_8007F824)
-    addu        $t1, $ra, $zero
+    move        $t1, $ra
     lw          $t0, 0x10($sp)
     NOP_IQUE
     bal         func_8007EC54
@@ -1210,16 +1202,16 @@ LEAF(func_8007F824)
     NOP_IQUE
     bal         func_8007EC98
 
-    addu        $t5, $v0, $zero
-    addu        $a0, $a1, $zero
+    move        $t5, $v0
+    move        $a0, $a1
     NOP_IQUE
     bal         func_8007EC54
 
-    addu        $t2, $v0, $zero
+    move        $t2, $v0
     NOP_IQUE
     bal         func_8007EC98
 
-    addu        $t3, $v0, $zero
+    move        $t3, $v0
     sw          $t4, 0x0($a3)
     NOP_N64
     multu       $t2, $t5
@@ -1231,6 +1223,6 @@ LEAF(func_8007F824)
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x0($t0)
-    addu        $ra, $t1, $zero
+    move        $ra, $t1
     jr          $ra
 END(func_8007F824)
