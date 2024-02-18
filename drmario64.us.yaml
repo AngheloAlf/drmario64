@@ -626,7 +626,7 @@ segments:
       - [0x092C80, .data, main_segment/calc]
 
       - [0x092F90, data, main_segment/066580]
-      - [0x093140, data, main_segment/066840]
+      - [0x093140, .data, main_segment/066840]
 
       - [0x093A70, .data, ../lib/libmus/src/player]
       - [0x093B30, .data, ../lib/libmus/src/player_fx]

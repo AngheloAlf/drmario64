@@ -17,6 +17,15 @@
     .size x, . - x             ;\
     .end x
 
+#define SYM_START(x)            \
+    .align 2                   ;\
+    .globl x                   ;\
+    .type	 x, @object        ;\
+    x:
+
+#define SYM_END(x)              \
+    .size x, . - x
+
 .macro move dst, src
     addu \dst, \src, $zero
 .endm

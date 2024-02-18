@@ -515,7 +515,7 @@ segments:
       - [0x0AA710, .data, main_segment/calc]
 
       - [0x0AAA20, data, main_segment/066580]
-      - [0x0AABD0, data, main_segment/066840]
+      - [0x0AABD0, .data, main_segment/066840]
 
       - [0x0AB500, .data, ../lib/libmus/src/player]
       - [0x0AB5C0, .data, ../lib/libmus/src/player_fx]

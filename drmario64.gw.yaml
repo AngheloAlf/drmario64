@@ -576,7 +576,7 @@ segments:
           - [0x08C6D0]
 
       - [0x08FB80, data, main_segment/08FB80]
-      - [0x093F20, data, main_segment/066840]
+      - [0x093F20, .data, main_segment/066840]
 
       - [0x094850, .data, ../lib/libmus/src/player]
       - [0x094910, .data, ../lib/libmus/src/player_fx]
