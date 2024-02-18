@@ -509,7 +509,7 @@ segments:
       - [0x065DF0, asm, main_segment/unused/065080]
       - [0x066DF0, c, main_segment/unused/066080]
       - [0x066E70, c, main_segment/replay]
-      - [0x0672F0, asm, main_segment/066580]
+      - [0x0672F0, c, main_segment/066580]
 
       - [0x0675B0, hasm, main_segment/066840]
       - [0x068420, c, main_segment/unused/055C40]
@@ -576,6 +576,7 @@ segments:
           - [0x08C6D0]
 
       - [0x08FB80, data, main_segment/08FB80]
+      - [0x093D70, data, main_segment/066580]
       - [0x093F20, .data, main_segment/066840]
 
       - [0x094850, .data, ../lib/libmus/src/player]
