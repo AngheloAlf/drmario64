@@ -29,11 +29,10 @@
 extern struct_lws_scene *lws_scene;
 extern struct_wakuGraphic *wakuGraphic;
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_zoomfade);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
+/**
+ * Original name: story_zoomfade
+ */
 void story_zoomfade(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     u16 *framebuffer = gFramebuffers[gCurrentFramebufferIndex ^ 1];
@@ -42,6 +41,7 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
     s32 var_v1;
     f32 temp;
     f32 argA;
+    f32 new_var;
     f32 argB;
     f32 temp3;
 
@@ -83,6 +83,7 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
 
     temp_ft1 = 1.0625;
     argA = 320.0 * temp_ft1;
+    new_var = 320.0f;
     argB = 240.0 * temp_ft1;
     temp_fs1_2 += (320.0 - argA) / 2;
     temp += (240.0 - argB) / 2;
@@ -94,7 +95,7 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
     gDPSetPrimColor(gfx++, 0, 0, 128, 128, 128, 50);
 
     StretchTexTile16(&gfx, SCREEN_WIDTH, SCREEN_HEIGHT, framebuffer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f,
-                     320.0f, 240.0f);
+                     new_var, 240.0f);
 
     *gfxP = gfx;
 }
