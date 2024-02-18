@@ -64,8 +64,7 @@ LEAF(func_8007EA58)
         or          $v1, $v1, $t9
         sll         $v0, $v0, 1
         addiu       $v0, $v0, 0x1
-        sltu        $at, $v1, $v0
-        bnez        $at, .L8007EAB8
+        bltu        $v1, $v0, .L8007EAB8
 
         subu        $v1, $v1, $v0
         addiu       $v0, $v0, 0x2
@@ -1015,8 +1014,7 @@ LEAF(func_8007F60C)
     andi        $t2, $a0, 0xFFFF
     andi        $t3, $a1, 0xFFFF
     lui         $v0, (0x10000 >> 16)
-    slt         $at, $t2, $t3
-    beqz        $at, .L8007F630
+    bge         $t2, $t3, .L8007F630
 
     addu        $t4, $t2, $v0
     addu        $t5, $t3, $zero
@@ -1039,8 +1037,7 @@ LEAF(func_8007F60C)
 
     sub         $t3, $zero, $v1
 .L8007F658:
-    slt         $at, $t3, $t2
-    beqz        $at, .L8007F668
+    bge         $t3, $t2, .L8007F668
 
     addu        $v0, $v1, $zero
 .L8007F668:
@@ -1176,8 +1173,7 @@ LEAF(func_8007F798)
 
     .L8007F7E0:
         sll         $v0, $v0, 1
-        slt         $at, $t0, $t7
-        bnez        $at, .L8007F7F8
+        blt         $t0, $t7, .L8007F7F8
 
         ori         $v0, $v0, 0x1
         subu        $t0, $t0, $t7
