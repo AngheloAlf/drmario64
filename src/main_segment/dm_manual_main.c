@@ -765,7 +765,7 @@ bool dm_manual_1_main(void) {
                 temp_s2->unk_164++;
 
                 gameStateDataP->unk_026 = 0xF;
-                _dm_virus_init(0, gameStateDataP, virus_map_data[0], virus_map_disp_order, 1);
+                _dm_virus_init(0, gameStateDataP, virus_map_data[0], virus_map_disp_order[0], 1);
 
                 for (var_s1 = 0; var_s1 < 3; var_s1++) {
                     animeState_set(get_virus_anime_state(var_s1), 0);
@@ -786,7 +786,7 @@ bool dm_manual_1_main(void) {
             break;
 
         case 0x40:
-            var_s1 = virus_map_disp_order->unk_00[gameStateDataP->unk_025];
+            var_s1 = virus_map_disp_order[0][gameStateDataP->unk_025];
 
             set_virus(mapCells, virus_map_data[0][var_s1].unk_1, virus_map_data[0][var_s1].unk_2,
                       virus_map_data[0][var_s1].unk_0,

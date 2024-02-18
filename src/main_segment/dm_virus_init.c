@@ -265,7 +265,7 @@ u8 dm_check_color_2(struct_virus_map_data *virusMapData, u16 arg1, u16 arg2, u8 
 }
 
 void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data *virusMapDst,
-                       struct_virus_map_disp_order *virusDispOrderSrc, struct_virus_map_disp_order *virusDispOrderDst) {
+                       u8 virusDispOrderSrc[VIRUS_MAP_DISP_ORDER_LEN], u8 virusDispOrderDst[VIRUS_MAP_DISP_ORDER_LEN]) {
     s32 i;
 
     for (i = 0; i < 16 * 8; i++) {
@@ -277,8 +277,8 @@ void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data
         virusMapDst[i].unk_2 = virusMapSrc[i].unk_2;
     }
 
-    for (i = 0; i < ARRAY_COUNT(virusDispOrderDst->unk_00); i++) {
-        virusDispOrderDst->unk_00[i] = virusDispOrderSrc->unk_00[i];
+    for (i = 0; i < VIRUS_MAP_DISP_ORDER_LEN; i++) {
+        virusDispOrderDst[i] = virusDispOrderSrc[i];
     }
 }
 
@@ -329,8 +329,7 @@ const u8 _l_359[] = {
 };
 
 void _dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *virusMapData,
-                    struct_virus_map_disp_order *arg3, s32 arg4) {
-    u8 *ptr = arg3->unk_00;
+                    u8 arg3[VIRUS_MAP_DISP_ORDER_LEN], s32 arg4) {
     s16 var_s0;
     s16 temp_s2;
     u16 sp18[4];
@@ -353,8 +352,8 @@ loop_1:
         virusMapData[var_s0].unk_1 = 0;
     }
 
-    for (var_s0 = 0; var_s0 < 0x60; var_s0++) {
-        ptr[var_s0] = 0xFF;
+    for (var_s0 = 0; var_s0 < VIRUS_MAP_DISP_ORDER_LEN; var_s0++) {
+        arg3[var_s0] = 0xFF;
     }
 
     switch (arg0) {
@@ -401,7 +400,7 @@ loop_1:
         virusMapData[temp_s2].unk_1 = var_s1;
         virusMapData[temp_s2].unk_2 = var_s0_2;
 
-        ptr[sp24] = temp_s2;
+        arg3[sp24] = temp_s2;
 
         sp24 = 1;
     }
@@ -473,12 +472,12 @@ loop_1:
         virusMapData[temp_s2].unk_1 = var_s1;
         virusMapData[temp_s2].unk_2 = var_s0_2;
 
-        ptr[sp24] = temp_s2;
+        arg3[sp24] = temp_s2;
     }
 }
 
 void dm_virus_init(enum_evs_gamemode arg0, struct_game_state_data *arg1, struct_virus_map_data *virusMapData,
-                   struct_virus_map_disp_order *arg3) {
+                   u8 arg3[VIRUS_MAP_DISP_ORDER_LEN]) {
     _dm_virus_init(arg0, arg1, virusMapData, arg3, 0);
 }
 
@@ -489,10 +488,10 @@ const s32 _n_564[][5] = {
 };
 
 void func_8005FC6C(struct_8005FC6C_arg0 *arg0, struct_virus_map_data *virusMapData,
-                   struct_virus_map_disp_order *virusMapDispOrder, s32 virusCount) {
+                   u8 virusMapDispOrder[VIRUS_MAP_DISP_ORDER_LEN], s32 virusCount) {
     bzero(arg0, sizeof(struct_8005FC6C_arg0));
     arg0->virusMapData = virusMapData;
-    arg0->virusMapDispOrder = virusMapDispOrder->unk_00;
+    arg0->virusMapDispOrder = virusMapDispOrder;
     arg0->virusCount = virusCount;
 }
 
@@ -567,7 +566,7 @@ s32 func_8005FE68(struct_8005FC6C_arg0 *arg0, u8 arg1[UNK_SIZE][0x20], s32 *arg2
 }
 
 s32 make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_map_data *virusMapData,
-                         struct_virus_map_disp_order *virusMapDispOrder) {
+                         u8 virusMapDispOrder[VIRUS_MAP_DISP_ORDER_LEN]) {
     struct_8005FC6C_arg0 sp18;
     struct_8005FC6C_arg0 *ptr = &sp18;
     s32 var_fp;

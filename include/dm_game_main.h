@@ -11,7 +11,6 @@
 #include "unk.h"
 
 struct struct_virus_map_data;
-struct struct_virus_map_disp_order;
 struct NNSched;
 
 typedef enum enum_evs_gamemode {
@@ -308,7 +307,7 @@ void dm_capsel_speed_up(struct_game_state_data *gameStateDataRef);
 bool dm_check_game_over(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells);
 s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapCell *mapCells, s32 arg2);
 s32 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, UNK_TYPE arg2);
-void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, struct struct_virus_map_data *virusMapData, struct struct_virus_map_disp_order *virusMapDispOrder);
+void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, struct struct_virus_map_data *virusMapData, u8 virusMapDispOrder[0x60]);
 void dm_virus_anime(struct_game_state_data *arg0, GameMapCell *mapCells);
 void dm_capsel_erase_anime(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells);
 void dm_make_erase_h_line(struct_game_state_data *arg0, GameMapCell *mapCells, s32 rowStart, s32 count, s32 column);
