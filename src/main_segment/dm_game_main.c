@@ -679,11 +679,11 @@ s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapCell *mapCells
     s32 i;
 
     for (i = 0; i < arg0->unk_164; i++) {
-        s32 index = GAME_MAP_GET_INDEX_ALT(arg0->unk_0D4.unk_00[i].unk_4, arg0->unk_0D4.unk_00[i].unk_0);
+        s32 index = GAME_MAP_GET_INDEX_ALT(arg0->unk_0D4[i][1], arg0->unk_0D4[i][0]);
 
         if (((mapCells[index].unk_4[0] == 0) || (mapCells[index].unk_4[2] != 0) || (mapCells[index].unk_4[4] < 0))) {
             if (arg2 != 0) {
-                arg0->unk_0D4.unk_00[i].unk_8 = -1;
+                arg0->unk_0D4[i][2] = -1;
             }
         } else {
             ret++;
@@ -4189,7 +4189,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             }
 
             for (i = 0; i < gameStateDataRef->unk_164; i++) {
-                gameStateDataRef->unk_0D4.unk_00[i].unk_8 = gameStateDataRef->unk_140.unk_00[i];
+                gameStateDataRef->unk_0D4[i][2] = gameStateDataRef->unk_140.unk_00[i];
             }
             break;
 
@@ -6169,15 +6169,15 @@ void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRe
     }
 
     for (i = 0; i < gameStateDataRef->unk_164; i++) {
-        struct_game_state_data_unk_0D4_unk_00 *temp = &gameStateDataRef->unk_0D4.unk_00[i];
-
-        if (temp->unk_8 < 0) {
+        if (gameStateDataRef->unk_0D4[i][2] < 0) {
             continue;
         }
 
         draw_flash_virus_light(
-            gfxP, var_t1, var_s5 + gameStateDataRef->unk_006 + (gameStateDataRef->unk_00A * temp->unk_0),
-            var_s6 + gameStateDataRef->unk_008 + (gameStateDataRef->unk_00A * (temp->unk_4 + 1)), temp->unk_8);
+            gfxP, var_t1,
+            var_s5 + gameStateDataRef->unk_006 + (gameStateDataRef->unk_00A * gameStateDataRef->unk_0D4[i][0]),
+            var_s6 + gameStateDataRef->unk_008 + (gameStateDataRef->unk_00A * (gameStateDataRef->unk_0D4[i][1] + 1)),
+            gameStateDataRef->unk_0D4[i][2]);
         var_t1 = 1;
     }
 }
@@ -7467,8 +7467,7 @@ void dm_game_init(bool arg0) {
                                   virus_map_disp_order[j]);
                 if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
                     game_state_data[j].unk_164 = game_state_data[i].unk_164;
-                    bcopy(&game_state_data[i].unk_0D4, &game_state_data[j].unk_0D4,
-                          sizeof(struct_game_state_data_unk_0D4));
+                    bcopy(&game_state_data[i].unk_0D4, &game_state_data[j].unk_0D4, sizeof(game_state_data[j].unk_0D4));
                     bcopy(&game_state_data[i].unk_140, &game_state_data[j].unk_140,
                           sizeof(struct_game_state_data_unk_140));
                 }

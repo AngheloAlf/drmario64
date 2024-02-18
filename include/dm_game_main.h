@@ -154,19 +154,7 @@ typedef struct struct_watchGame {
     /* 0xAD8 */ RecordWritingMessage recMessage;
 } struct_watchGame; // size = 0xB60
 
-// not sure about this struct
-typedef struct struct_game_state_data_unk_0D4_unk_00 {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ s32 unk_4;
-    /* 0x8 */ s32 unk_8;
-} struct_game_state_data_unk_0D4_unk_00; // size = 0xC
-
-// neither about this one
-typedef struct struct_game_state_data_unk_0D4 {
-    /* 0x00 */ struct_game_state_data_unk_0D4_unk_00 unk_00[UNK_SIZE];
-    /* 0x0C */ UNK_TYPE1 unk_0C[0x60];
-} struct_game_state_data_unk_0D4; // size = 0x6C
-
+// Maybe fake struct?
 typedef struct struct_game_state_data_unk_140 {
     /* 0x00 */ UNK_TYPE4 unk_00[UNK_SIZE];
     /* 0x04 */ UNK_TYPE1 unk_04[0x20];
@@ -239,7 +227,7 @@ typedef struct struct_game_state_data {
     /* 0x050 */ struct_game_state_data_unk_050 unk_050[0x10];
     /* 0x090 */ CharAnimeMode unk_090;
     /* 0x094 */ AnimeState unk_094;
-    /* 0x0D4 */ struct_game_state_data_unk_0D4 unk_0D4;
+    /* 0x0D4 */ s32 unk_0D4[9][3];
     /* 0x140 */ struct_game_state_data_unk_140 unk_140;
     /* 0x164 */ s32 unk_164;
     /* 0x168 */ s32 unk_168;

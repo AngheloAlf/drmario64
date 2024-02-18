@@ -237,7 +237,7 @@ void aifMake(struct_game_state_data *gameStateDataRef) {
             last_flash = 0;
 
             for (var_v1 = 0; var_v1 < pGameState->unk_164; var_v1++) {
-                if (pGameState->unk_0D4.unk_00[var_v1].unk_8 >= 0) {
+                if (pGameState->unk_0D4[var_v1][2] >= 0) {
                     last_flash++;
                 }
             }
@@ -1239,9 +1239,9 @@ s32 flash_virus(s32 col, s32 row) {
     s32 i;
 
     for (i = 0; i < pGameState->unk_164; i++) {
-        if ((pGameState->unk_0D4.unk_00[i].unk_8 >= 0) && (col == pGameState->unk_0D4.unk_00[i].unk_0) &&
-            (row == pGameState->unk_0D4.unk_00[i].unk_4)) {
-            return pGameState->unk_0D4.unk_00[i].unk_8;
+        if ((pGameState->unk_0D4[i][2] >= 0) && (col == pGameState->unk_0D4[i][0]) &&
+            (row == pGameState->unk_0D4[i][1])) {
+            return pGameState->unk_0D4[i][2];
         }
     }
 
@@ -1266,8 +1266,8 @@ bool search_Vflash(s32 arg0, s32 arg1, s32 arg2) {
                 s32 j;
 
                 for (j = 0; j < pGameState->unk_164; j++) {
-                    if (pGameState->unk_0D4.unk_00[j].unk_8 >= 0) {
-                        if (arg0 == pGameState->unk_0D4.unk_00[j].unk_0) {
+                    if (pGameState->unk_0D4[j][2] >= 0) {
+                        if (arg0 == pGameState->unk_0D4[j][0]) {
                             return true;
                         }
                     }
@@ -1286,7 +1286,7 @@ bool func_8003151C(s32 arg0 UNUSED, s32 arg1) {
     s32 i;
 
     for (i = 0; i < pGameState->unk_164; i++) {
-        if ((pGameState->unk_0D4.unk_00[i].unk_8 >= 0) && (arg1 == pGameState->unk_0D4.unk_00[i].unk_4)) {
+        if ((pGameState->unk_0D4[i][2] >= 0) && (arg1 == pGameState->unk_0D4[i][1])) {
             return true;
         }
     }
@@ -3541,12 +3541,12 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 k;
 
     for (i = 0; i < pGameState->unk_164; i++) {
-        if (pGameState->unk_0D4.unk_00[i].unk_8 != arg2) {
+        if (pGameState->unk_0D4[i][2] != arg2) {
             continue;
         }
 
-        temp_t6 = pGameState->unk_0D4.unk_00[i].unk_0;
-        temp_t8 = pGameState->unk_0D4.unk_00[i].unk_4;
+        temp_t6 = pGameState->unk_0D4[i][0];
+        temp_t8 = pGameState->unk_0D4[i][1];
 
         if (arg1 == temp_t8) {
             temp = 0;

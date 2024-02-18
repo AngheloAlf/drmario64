@@ -640,9 +640,9 @@ s32 make_flash_virus_pos(struct_game_state_data *gameStateDataRef, struct_virus_
     for (var_s0 = 0; var_s0 < 3; var_s0++) {
         for (var_s1 = 0; var_s1 < ptr->unk_0CC[var_s0]; var_s1++) {
             var_v1 = ptr->unk_06C[var_s0][var_s1];
-            gameStateDataRef->unk_0D4.unk_00[var_s3].unk_0 = var_v1 & 7;
-            gameStateDataRef->unk_0D4.unk_00[var_s3].unk_4 = (var_v1 >> 3) & 0xF;
-            gameStateDataRef->unk_0D4.unk_00[var_s3].unk_8 = var_s0;
+            gameStateDataRef->unk_0D4[var_s3][0] = var_v1 & 7;
+            gameStateDataRef->unk_0D4[var_s3][1] = (var_v1 >> 3) & 0xF;
+            gameStateDataRef->unk_0D4[var_s3][2] = var_s0;
             gameStateDataRef->unk_140.unk_00[var_s3] = var_s0;
             var_s3 += 1;
         }
