@@ -30,7 +30,7 @@ END(func_8007EA20)
  */
 LEAF(func_8007EA38)
     mtc1        $a0, $ft0
-    nop
+    NOP_N64
     cvt.s.w     $fv0, $ft0
     sqrt.s      $ft1, $fv0
     trunc.w.s   $ft2, $ft1
@@ -83,6 +83,7 @@ LEAF(func_8007EA58)
     bgtz        $t0, .L8007EA80
 
     srl        $v0, $v0, 1
+    NOP_IQUE
     jr          $ra
 END(func_8007EA58)
 
@@ -94,21 +95,25 @@ END(func_8007EA58)
  */
 LEAF(func_8007EAEC)
     addu       $t4, $zero, $zero
+    NOP_IQUE
     bnez        $a0, .L8007EB1C
 
     bnez        $a1, .L8007EB04
 
     addiu      $v0, $zero, 0x0
+    NOP_IQUE
     b           .L8007EC48
 
 .L8007EB04:
     bgez        $a1, .L8007EB14
 
     ori        $v0, $zero, 0xC000
+    NOP_IQUE
     b           .L8007EC48
 
 .L8007EB14:
     addiu      $v0, $zero, 0x4000
+    NOP_IQUE
     b           .L8007EC48
 
 .L8007EB1C:
@@ -122,10 +127,12 @@ LEAF(func_8007EAEC)
     bnez        $t4, .L8007EB44
 
     addiu      $v0, $zero, 0x0
+    NOP_IQUE
     b           .L8007EC48
 
 .L8007EB44:
     ori        $v0, $zero, 0x8000
+    NOP_IQUE
     b           .L8007EC48
 
 .L8007EB4C:
@@ -170,6 +177,7 @@ LEAF(func_8007EAEC)
     addu        $t8, $t8, $t2
     lw          $t8, %lo(D_800AB32C)($t8)
     sll        $v0, $v1, 8
+    NOP_IQUE
     beq         $a0, $t8, .L8007EC14
 
     subu        $t3, $a0, $t8
@@ -200,6 +208,7 @@ LEAF(func_8007EAEC)
 .L8007EC48:
     sll         $t8, $v0, 16
     sra        $v0, $t8, 16
+    NOP_IQUE
     jr          $ra
 END(func_8007EAEC)
 
@@ -211,6 +220,7 @@ LEAF(func_8007EC54)
     andi        $t9, $a0, 0x3F
     andi        $t8, $t8, 0x7FE
     lh          $v0, (D_800AB440)($t8)
+    NOP_IQUE
     beqz        $t9, .L8007EC90
 
     lh          $t8, (D_800AB440 + 0x2)($t8)
@@ -234,6 +244,7 @@ LEAF(func_8007EC98)
     andi        $t8, $t8, 0x7FE
 
     lh          $v0, (D_800AB440)($t8)
+    NOP_IQUE
     beqz        $t9, .L8007ECD8
 
     lh          $t8, (D_800AB440 + 0x2)($t8)
@@ -270,7 +281,7 @@ LEAF(func_8007ECE0)
         sltu        $t3, $t5, $t9
         addu        $t3, $t3, $t2
         addu        $t4, $t3, $t8
-        nop
+        NOP_N64
         mult        $t6, $a3
         mfhi        $t2
         mflo        $t3
@@ -321,7 +332,7 @@ LEAF(func_8007ED74)
         sltu        $t3, $t5, $t9
         addu        $t3, $t3, $t2
         addu        $t4, $t3, $t8
-        nop
+        NOP_N64
         mult        $t6, $a3
         mfhi        $t2
         mflo        $t3
@@ -465,6 +476,7 @@ LEAF(matrixMulL)
         addiu       $t1, $t1, 0x10
         addiu       $a2, $a2, 0x4
         addiu      $t0, $t0, 0x4
+        NOP_IQUE
     bgtz        $v0, .L8007EE3C
 
     jr          $ra
@@ -499,6 +511,7 @@ LEAF(makeTransrateMatrix)
     sw          $a2, 0x34($a0)
     sw          $a3, 0x38($a0)
     sw          $v0, 0x3C($a0)
+    NOP_IQUE
     jr          $ra
 END(makeTransrateMatrix)
 
@@ -531,6 +544,7 @@ LEAF(makeScaleMatrix)
     sw          $zero, 0x34($a0)
     sw          $zero, 0x38($a0)
     sw          $v0, 0x3C($a0)
+    NOP_IQUE
     jr          $ra
 END(makeScaleMatrix)
 
@@ -552,28 +566,34 @@ LEAF(makeMatrix)
     sw          $t3, 0x34($t0)
     sw          $t4, 0x38($t0)
     addu        $a0, $a2, $zero
+    NOP_IQUE
     bal         func_8007EC54
 
     addu        $t2, $v0, $zero
+    NOP_IQUE
     bal         func_8007EC98
 
     addu        $t3, $v0, $zero
     addu        $a0, $a3, $zero
+    NOP_IQUE
     bal         func_8007EC54
 
     addu        $t4, $v0, $zero
+    NOP_IQUE
     bal         func_8007EC98
 
     addu        $t5, $v0, $zero
     addu        $a0, $a1, $zero
+    NOP_IQUE
     bal         func_8007EC54
 
     addu        $t6, $v0, $zero
+    NOP_IQUE
     bal         func_8007EC98
 
     negu        $t8, $t6
     sw          $t8, 0x24($t0)
-    nop
+    NOP_N64
     multu       $t4, $v0
     mflo        $t8
     sra         $t9, $t8, 15
@@ -586,12 +606,12 @@ LEAF(makeMatrix)
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x20($t0)
-    nop
+    NOP_N64
     multu       $t3, $v0
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x28($t0)
-    nop
+    NOP_N64
     multu       $t2, $t6
     mflo        $t8
     sra         $v0, $t8, 15
@@ -614,7 +634,7 @@ LEAF(makeMatrix)
     subu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x10($t0)
-    nop
+    NOP_N64
     multu       $t3, $t6
     mflo        $t8
     sra         $v0, $t8, 15
@@ -659,9 +679,11 @@ LEAF(func_8007F214)
     ori         $t2, $zero, 0x8000
     sw          $t2, 0x3C($t0)
     addu        $a0, $a1, $zero
+    NOP_IQUE
     bal         func_8007EC54
 
     addu        $t3, $v0, $zero
+    NOP_IQUE
     bal         func_8007EC98
 
     sw          $t2, 0x0($t0)
@@ -696,9 +718,11 @@ LEAF(func_8007F284)
     ori         $t2, $zero, 0x8000
     sw          $t2, 0x3C($t0)
     addu        $a0, $a1, $zero
+    NOP_IQUE
     bal         func_8007EC54
 
     addu        $t3, $v0, $zero
+    NOP_IQUE
     bal         func_8007EC98
 
     sw          $v0, 0x0($t0)
@@ -733,9 +757,11 @@ LEAF(func_8007F2F4)
     ori         $t2, $zero, 0x8000
     sw          $t2, 0x3C($t0)
     addu        $a0, $a1, $zero
+    NOP_IQUE
     bal         func_8007EC54
 
     addu        $t3, $v0, $zero
+    NOP_IQUE
     bal         func_8007EC98
 
     sw          $v0, 0x0($t0)
@@ -769,16 +795,20 @@ LEAF(func_8007F364)
     ori         $t2, $zero, 0x8000
     sw          $t2, 0x3C($t0)
     addu        $a0, $a2, $zero
+    NOP_IQUE
     bal         func_8007EC54
 
     addu        $t2, $v0, $zero
+    NOP_IQUE
     bal         func_8007EC98
 
     addu        $t3, $v0, $zero
     addu        $a0, $a1, $zero
+    NOP_IQUE
     bal         func_8007EC54
 
     addu        $t4, $v0, $zero
+    NOP_IQUE
     bal         func_8007EC98
 
     sw          $t3, 0x0($t0)
@@ -789,13 +819,13 @@ LEAF(func_8007F364)
     mflo        $t9
     sra         $t8, $t9, 15
     sw          $t8, 0x10($t0)
-    nop
+    NOP_N64
     multu       $t3, $v0
     mflo        $t9
     sra         $t8, $t9, 15
     sw          $t8, 0x14($t0)
     sw          $t4, 0x18($t0)
-    nop
+    NOP_N64
     multu       $t2, $t4
     mflo        $t9
     sra         $t8, $t9, 15
@@ -816,9 +846,11 @@ END(func_8007F364)
 LEAF(matrixConv)
     lui         $t0, (0xFFFF0000 >> 16)
     addiu       $v0, $zero, 0x8
+    NOP_IQUE
     beqz        $a2, .L8007F4CC
 
     addiu       $v0, $zero, 0x6
+    NOP_IQUE
     bgtz        $a2, .L8007F484
 
     negu        $a2, $a2
@@ -840,6 +872,7 @@ LEAF(matrixConv)
         sw          $t8, 0x0($a1)
         sw          $t9, 0x20($a1)
         addiu       $a1, $a1, 0x4
+        NOP_IQUE
     bgtz        $v0, .L8007F43C
 
     b           .L8007F4C8
@@ -863,6 +896,7 @@ LEAF(matrixConv)
         sw          $t8, 0x0($a1)
         sw          $t9, 0x20($a1)
         addiu       $a1, $a1, 0x4
+        NOP_IQUE
     bgtz        $v0, .L8007F488
 
 .L8007F4C8:
@@ -884,6 +918,7 @@ LEAF(matrixConv)
         sw          $t8, 0x0($a1)
         sw          $t9, 0x20($a1)
         addiu       $a1, $a1, 0x4
+        NOP_IQUE
     bgtz        $v0, .L8007F4CC
 
     jr          $ra
@@ -909,6 +944,7 @@ LEAF(func_8007F514)
     addi        $t8, $t8, -0x1
     addi        $a0, $a0, 0x10
     addi        $a1, $a1, 0x10
+    NOP_IQUE
     bgtz        $t8, .L8007F518
 
     jr          $ra
@@ -922,21 +958,23 @@ END(func_8007F514)
 LEAF(func_8007F550)
     addu        $t1, $ra, $zero
     lw          $t0, 0x10($sp)
+    NOP_IQUE
     bal         func_8007EC98
 
     addu        $v1, $v0, $zero
+    NOP_IQUE
     bal         func_8007EC54
 
     lw          $t7, 0x0($t0)
     lw          $t6, 0x0($a3)
     subu        $t9, $t7, $a2
-    nop
+    NOP_N64
     mult        $t9, $v1
     mfhi        $t2
     mflo        $t3
     subu        $t8, $t6, $a1
     negu        $t9, $t9
-    nop
+    NOP_N64
     mult        $t8, $v0
     mfhi        $t4
     mflo        $t5
@@ -946,13 +984,13 @@ LEAF(func_8007F550)
     addu        $t6, $t7, $t4
     srl         $t5, $a0, 15
     sll         $t4, $t6, 17
-    nop
+    NOP_N64
     mult        $t8, $v1
     mfhi        $t2
     mflo        $t3
     or          $v1, $t4, $t5
     addu        $a2, $a2, $v1
-    nop
+    NOP_N64
     mult        $t9, $v0
     mfhi        $t4
     mflo        $t5
@@ -982,6 +1020,7 @@ LEAF(func_8007F60C)
 
     addu        $t4, $t2, $v0
     addu        $t5, $t3, $zero
+    NOP_IQUE
     b           .L8007F638
 
 .L8007F630:
@@ -1026,7 +1065,7 @@ LEAF(func_8007F670)
     mflo        $t3
     addu        $t4, $t2, $t3
     mtc1        $t4, $ft0
-    nop
+    NOP_N64
     cvt.s.w     $fv0, $ft0
     sqrt.s      $ft1, $fv0
     trunc.w.s   $ft2, $ft1
@@ -1051,9 +1090,9 @@ LEAF(func_8007F6C4)
     cvt.s.w     $ft0, $ft1
     cvt.s.w     $ft1, $ft2
     mul.s       $fv0, $fv0, $fv0
-    nop
+    NOP_N64
     mul.s       $ft0, $ft0, $ft0
-    nop
+    NOP_N64
     mul.s       $ft1, $ft1, $ft1
     add.s       $ft2, $fv0, $ft0
     add.s       $fv0, $ft1, $ft2
@@ -1073,7 +1112,7 @@ LEAF(func_8007F720)
     cvt.s.w     $fv0, $ft0
     cvt.s.w     $ft0, $ft1
     mul.s       $ft1, $fv0, $fv0
-    nop
+    NOP_N64
     mul.s       $ft2, $ft0, $ft0
     add.s       $fv0, $ft1, $ft2
     sqrt.s      $ft1, $fv0
@@ -1093,7 +1132,7 @@ LEAF(func_8007F754)
     cvt.s.w     $fv0, $ft0
     cvt.s.w     $ft0, $ft1
     mul.s       $ft1, $fv0, $fv0
-    nop
+    NOP_N64
     mul.s       $fv0, $ft0, $ft0
     cvt.s.w     $ft0, $ft2
     mul.s       $ft2, $ft0, $ft0
@@ -1110,7 +1149,7 @@ END(func_8007F754)
  * s32 func_8007F798(s32 arg0, s32 arg1, s32 arg2);
  */
 LEAF(func_8007F798)
-    nop
+    NOP_N64
     xor         $t9, $a0, $a1
     xor         $t8, $t9, $a2
     addu        $t2, $a0, $zero
@@ -1128,7 +1167,7 @@ LEAF(func_8007F798)
 
     sub         $t7, $zero, $a2
 .L8007F7C8:
-    nop
+    NOP_N64
     mult        $t2, $t3
     addiu       $t9, $zero, 0x20
     addu        $v0, $zero, $zero
@@ -1148,6 +1187,7 @@ LEAF(func_8007F798)
         sll         $t3, $t0, 1
         sll         $t1, $t1, 1
         or          $t0, $t2, $t3
+        NOP_IQUE
     bgez        $t9, .L8007F7E0
 
     bgez        $t8, .L8007F81C
@@ -1167,26 +1207,30 @@ END(func_8007F798)
 LEAF(func_8007F824)
     addu        $t1, $ra, $zero
     lw          $t0, 0x10($sp)
+    NOP_IQUE
     bal         func_8007EC54
 
     negu        $t4, $v0
+    NOP_IQUE
     bal         func_8007EC98
 
     addu        $t5, $v0, $zero
     addu        $a0, $a1, $zero
+    NOP_IQUE
     bal         func_8007EC54
 
     addu        $t2, $v0, $zero
+    NOP_IQUE
     bal         func_8007EC98
 
     addu        $t3, $v0, $zero
     sw          $t4, 0x0($a3)
-    nop
+    NOP_N64
     multu       $t2, $t5
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x0($a2)
-    nop
+    NOP_N64
     multu       $t3, $t5
     mflo        $t8
     sra         $t9, $t8, 15

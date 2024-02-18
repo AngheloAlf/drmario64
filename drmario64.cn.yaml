@@ -430,7 +430,7 @@ segments:
 
       - [0x071550, c, main_segment/066580]
 
-      - [0x071830, asm, main_segment/066840] # hasm
+      - [0x071830, hasm, main_segment/066840]
 
       - [0x0726F0, c, main_segment/unused/055C40]
 

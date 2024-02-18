@@ -21,6 +21,7 @@
     addu \dst, \src, $zero
 .endm
 
+#if VERSION_US || VERSION_GW
 // divu dst
 .macro divu_ds dst, dividend, divisor
     .set noreorder
@@ -33,15 +34,31 @@
     .set reorder
 .endm
 
-#if VERSION_US || VERSION_GW
 #define LA(dst, address) \
     lui         dst, %hi(address); \
     addiu       dst, dst, %lo(address)
-#endif
-#if VERSION_CN
+
+#define NOP_N64 nop
+#define NOP_IQUE
+
+#elif VERSION_CN
+// divu dst
+.macro divu_ds dst, dividend, divisor
+    .set noreorder
+    bnez        \divisor, 0f
+     divu       $zero, \dividend, \divisor
+    break       7
+0:
+    mflo        \dst
+    .set reorder
+.endm
+
 #define LA(dst, address) \
     lui         dst, address ## _HI; \
     ori         dst, dst, address ## _LO
+
+#define NOP_N64
+#define NOP_IQUE nop
 #endif
 
 #endif
