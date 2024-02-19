@@ -32,6 +32,7 @@
 #include "dm_virus_init.h"
 #include "calc.h"
 #include "066580.h"
+#include "libc/assert.h"
 
 #if VERSION_US || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version
@@ -626,43 +627,6 @@ void dm_capsel_speed_up(struct_game_state_data *gameStateDataRef) {
     }
 }
 #endif
-
-#if VERSION_US || VERSION_CN
-const u8 _retryMenu_itemCount[] = {
-    2, 3, 2, 3, 2, 3,
-};
-#endif
-
-const f32 _big_virus_def_wait[] = { 12.5f, 10.0f, 7.5f };
-
-extern const f32 _big_virus_min_wait[];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _big_virus_min_wait);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _big_virus_min_wait);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _big_virus_max_wait);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _scoreNumsColor);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _big_virus_max_wait);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _scoreNumsColor);
-#endif
-
-ASM_RODATA;
-
-#include "dm_game_main.msg.inc"
 
 #if VERSION_US || VERSION_CN
 bool dm_check_game_over(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells UNUSED) {
@@ -1350,6 +1314,12 @@ void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32
 #endif
 
 #if VERSION_US || VERSION_CN
+const u8 _retryMenu_itemCount[] = {
+    2, 3, 2, 3, 2, 3,
+};
+#endif
+
+#if VERSION_US || VERSION_CN
 void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]) {
     struct_game_state_data_unk_178 *temp_s6 = &gameStateDataRef->unk_178;
     TiTexData *temp_v0_3;
@@ -1699,134 +1669,89 @@ void func_80062E84(struct_watchGame_unk_0B8 *arg0) {
 }
 #endif
 
-extern const s32 _posStP4StarX[];
+#if VERSION_US || VERSION_CN
+const f32 _big_virus_def_wait[] = { 12.5f, 10.0f, 7.5f };
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posStP4StarX);
-#endif
+const f32 _big_virus_min_wait[3] = { 5.0f, 4.5f, 4.0f };
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _posStP4StarX);
-#endif
+const f32 _big_virus_max_wait[3] = { 12.5f, 10.0f, 7.5f };
 
-extern const s32 _posStStar[][2];
+const Color_RGB8 _scoreNumsColor[] = {
+    { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 },
+};
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posStStar);
-#endif
+#include "dm_game_main.msg.inc"
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _posStStar);
-#endif
+const s32 _posStP4StarX[4] = { 0xCD, 0xE6, 0xFF, 0x118 };
 
-extern const s32 RO_800B1D28[];
+const s32 _posStStar[2][2] = {
+    { 0x80, 0x48 },
+    { 0xAC, 0x48 },
+};
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D28);
-#endif
+const s32 RO_800B1D28[2] = { 0x27, 0x5F };
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800B1D28);
-#endif
+const s32 _posP2StarX[2] = { 0x80, 0xAC };
 
-extern const s32 _posP2StarX[];
+const s32 _posP2StarY[3][3] = { { 0x48, -1, -1 }, { 0x50, 0x40, -1 }, { 0x58, 0x48, 0x38 } };
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posP2StarX);
-#endif
+const s32 _posP4Bottle[4][2] = {
+    { 0x10, 0x25 },
+    { 0x58, 0x25 },
+    { 0xA0, 0x25 },
+    { 0xE8, 0x25 },
+};
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _posP2StarX);
-#endif
+const s32 RO_800B1D7C[2] = { 4, 3 };
 
-extern const s32 _posP2StarY[][3];
+const s32 _posP4CharBase[4][2] = {
+    { 0x10, 0xBA },
+    { 0x58, 0xBA },
+    { 0xA0, 0xBA },
+    { 0xE8, 0xBA },
+};
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posP2StarY);
-#endif
+const s32 _posP4TeamStarX[3][2][3] = {
+    { { 0x2D, -1, -1 }, { 0xBF, -1, -1 } },
+    { { 0x22, 0x39, -1 }, { 0xB3, 0xCA, -1 } },
+    { { 0x16, 0x2D, 0x44 }, { 0xA7, 0xBE, 0xD6 } },
+};
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _posP2StarY);
-#endif
+const s32 _posP4CharStarX[3][4][3] = {
+    {
+        { 0x29, -1, -1 },
+        { 0x71, -1, -1 },
+        { 0xB9, -1, -1 },
+        { 0x101, -1, -1 },
+    },
+    {
+        { 0x1E, 0x35, -1 },
+        { 0x66, 0x7D, -1 },
+        { 0xAE, 0xC5, -1 },
+        { 0xF6, 0x10D, -1 },
+    },
+    {
+        { 0x12, 0x2A, 0x41 },
+        { 0x5A, 0x72, 0x89 },
+        { 0xA2, 0xBA, 0xD1 },
+        { 0xEA, 0x102, 0x119 },
+    },
+};
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posP4Bottle);
-#endif
+const s32 _posP4StockCap[2][2] = {
+    { 0x5F, 0x18 },
+    { 0xF0, 0x18 },
+};
 
-extern const s32 _posP4Bottle[][2];
+const s32 _posP2VirusNum[2][2] = {
+    { 0x8A, 0xD2 },
+    { 0xB6, 0xD2 },
+};
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _posP4Bottle);
-#endif
-
-extern const s32 RO_800B1D7C[];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B1D7C);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800B1D7C);
-#endif
-
-extern const s32 _posP4CharBase[][2];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posP4CharBase);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _posP4CharBase);
-#endif
-
-extern const s32 _posP4TeamStarX[][2][3];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posP4TeamStarX);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _posP4TeamStarX);
-#endif
-
-extern const s32 _posP4CharStarX[][4][3];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posP4CharStarX);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _posP4CharStarX);
-#endif
-
-extern const s32 _posP4StockCap[][2];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posP4StockCap);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _posP4StockCap);
-#endif
-
-extern const s32 _posP2VirusNum[][2];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posP2VirusNum);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _posP2VirusNum);
-#endif
-
-extern const s32 _posP2CharFrm[][2];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _posP2CharFrm);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _posP2CharFrm);
+const s32 _posP2CharFrm[2][2] = {
+    { 0x8A, 0x95 },
+    { 0xB5, 0x95 },
+};
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -2650,8 +2575,6 @@ bool bottom_up_bottle_items(GameMapCell *mapCells) {
     return ret;
 }
 #endif
-
-extern f32 _big_virus_max_wait[];
 
 #if VERSION_US || VERSION_CN
 /**
@@ -4278,19 +4201,6 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _tbl_2997);
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _clr_3004);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _tbl_2997);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _clr_3004);
-#endif
-
 #if VERSION_US || VERSION_CN
 void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1) {
     struct_watchGame *temp_s3 = watchGame;
@@ -4398,15 +4308,15 @@ void func_800669A0(struct_game_state_data *arg0) {
 }
 #endif
 
-typedef struct struct_800C8620_cn {
-    /* 0x0 */ s16 unk_0;
-    /* 0x2 */ s16 unk_2;
-} struct_800C8620_cn; // size = 0x4
-
-extern const struct_800C8620_cn _tbl_2997[3];
-extern const s16 _clr_3004[2];
-
 #if VERSION_US || VERSION_CN
+const s16 _tbl_2997[3][2] = {
+    { 0x1E, 4 },
+    { 0x3C, 6 },
+    { 0x78, 0xC },
+};
+
+const s16 _clr_3004[2] = { 0xFF, 0x7F };
+
 void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
     struct_watchGame *watchGameP = watchGame;
     s32 i;
@@ -4427,8 +4337,8 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
         s32 var_a2 = 0x7F;
 
         for (i = 0; i < ARRAY_COUNTU(_tbl_2997); i++) {
-            if (watchGameP->unk_410 < _tbl_2997[i].unk_0) {
-                var_a2 = _clr_3004[(watchGameP->unk_410 / _tbl_2997[i].unk_2) % ARRAY_COUNTU(_clr_3004)];
+            if (watchGameP->unk_410 < _tbl_2997[i][0]) {
+                var_a2 = _clr_3004[(watchGameP->unk_410 / _tbl_2997[i][1]) % ARRAY_COUNTU(_clr_3004)];
                 break;
             }
         }
@@ -5061,10 +4971,6 @@ s32 dm_game_main_2p(void) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", cap_tex_4162);
-#endif
-
 #if VERSION_US || VERSION_CN
 s32 dm_game_main_4p(void) {
     struct_watchGame *temp_s4 = watchGame;
@@ -5498,13 +5404,9 @@ bool dm_game_demo_4p(void) {
 }
 #endif
 
-extern const s32 cap_tex_4162[];
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", cap_tex_4162);
-#endif
-
 #if VERSION_US || VERSION_CN
+const s32 cap_tex_4162[2] = { 8, 2 };
+
 TiTexData *dm_game_get_capsel_tex(s32 arg0) {
     return &watchGame->unk_444[cap_tex_4162[arg0]];
 }
@@ -5522,8 +5424,6 @@ TiTexData *dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
     return &watchGame->unk_444[cap_pal_4164[arg0][arg1]];
 }
 #endif
-
-extern const Color_RGB8 _scoreNumsColor[];
 
 #if VERSION_US || VERSION_CN
 void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP) {
@@ -5589,22 +5489,6 @@ void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg
         arg0->unk_08[i] = 0;
     }
 }
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _tbl_4274);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _tbl_4274);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _tbl_4345);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _tbl_4345);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -5691,9 +5575,9 @@ void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 }
 #endif
 
-extern const u8 _tbl_4274[][4];
-
 #if VERSION_US || VERSION_CN
+const u8 _tbl_4274[4][4] = { { 0, 5, 8, 0xA }, { 0, 1, 6, 9 }, { 0, 1, 2, 4 }, { 0, 1, 2, 3 } };
+
 void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -5726,7 +5610,7 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
             temp_t1 = &watchGameP->unk_440[0xA];
             temp = &watchGameP->unk_440[0x12];
 
-            temp3 = _tbl_4274[arg1 - 1][(arg2 + var_a1 + 1) % 4];
+            temp3 = _tbl_4274[arg1 - 1][(arg2 + var_a1 + 1) % ARRAY_COUNT(_tbl_4274[0])];
             tiStretchAlphaTexItem(&gfx, temp_t1, temp, 0, 0xB, temp3, temp_fs0, temp_fv1, temp_t1->info[0],
                                   temp_t1->info[1] / 11);
         }
@@ -5775,9 +5659,9 @@ void func_80069ACC(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, 
 }
 #endif
 
-extern const char _tbl_4345[];
-
 #if VERSION_US || VERSION_CN
+const char _tbl_4345[] = { 9, 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+
 void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 arg5 UNUSED) {
     struct_watchGame *watchGameP = watchGame;
     TiTexData *temp_s5 = &watchGameP->unk_430[0xD];
@@ -5855,34 +5739,12 @@ void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 a
 }
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _pos_4415);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _col_4416);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _pos_4426);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _col_4427);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _tex_4459);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", RO_800B2134);
-#endif
-
-extern const u8 _pos_4415[];
-extern const s8 _col_4416[];
-
 #if VERSION_US || VERSION_CN
+const u8 _pos_4415[] = { 0, 0x11, 0x1A };
+const s8 _col_4416[] = { 2, -3, 2 };
+static_assert(ARRAY_COUNT(_pos_4415) == 3, "");
+static_assert(ARRAY_COUNT(_pos_4415) == ARRAY_COUNT(_col_4416), "");
+
 void func_8006A098(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3) {
     s32 sp20[3];
     s32 i;
@@ -5896,10 +5758,12 @@ void func_8006A098(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3) {
 }
 #endif
 
-extern const u8 _pos_4426[];
-extern const s8 _col_4427[];
-
 #if VERSION_US || VERSION_CN
+const u8 _pos_4426[] = { 0, 6, 13, 28, 35 };
+const s8 _col_4427[] = { 1, -3, 2, -3, 1 };
+static_assert(ARRAY_COUNT(_pos_4426) == 5, "");
+static_assert(ARRAY_COUNT(_pos_4426) == ARRAY_COUNT(_col_4427), "");
+
 void draw_time2(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3) {
     s32 sp20[5];
     s32 i;
@@ -5943,9 +5807,9 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
 }
 #endif
 
-extern const s32 _tex_4459[][2];
-
 #if VERSION_US || VERSION_CN
+const s32 _tex_4459[3][2] = { { 0xE, 0x13 }, { 0x1B, 0x1C }, { 0x19, 0x1A } };
+
 void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -5986,9 +5850,9 @@ void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
 }
 #endif
 
-extern const s32 RO_800B2134[][2];
-
 #if VERSION_US || VERSION_CN
+const s32 RO_800B2134[2][2] = { { 0x17, 0x18 }, { 0xF, 0x14 } };
+
 void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -6031,30 +5895,6 @@ void func_8006A938(s32 arg0) {
         }
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _pos_4415);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _col_4416);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _pos_4426);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _col_4427);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _tex_4459);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", RO_800B2134);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -6143,11 +5983,7 @@ void draw_flash_virus_light(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) 
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", draw_flash_virus_lights);
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRef, GameMapCell *mapCells UNUSED) {
     s32 var_t1 = 0;
     s32 var_s5;
@@ -6237,44 +6073,12 @@ void draw_story_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _x_4663);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _x_4663);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _x_4670);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _x_4670);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _x_4676);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _x_4676);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _x_4693);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _x_4693);
-#endif
-
-extern const s32 _x_4663[];
-extern const s32 _x_4670[];
-extern const s32 _x_4676[];
-extern const s32 _x_4693[];
-
 #if VERSION_US || VERSION_CN
+const s32 _x_4663[2] = { 0x63, 0xB8 };
+const s32 _x_4670[2] = { 0x71, 0xBD };
+const s32 _x_4676[2] = { 0x6C, 0xB8 };
+const s32 _x_4693[2] = { 0x5E, 0xA2 };
+
 void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_watchGame *temp_s6 = watchGame;
     Gfx *gfx = *gfxP;
@@ -6361,22 +6165,12 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _rect_4752);
-#endif
+#if VERSION_US || VERSION_CN
+const s32 _rect_4752[][4] = {
+    { 0, 0, 0x60, 0x14 }, { 0, 0x14, 0x60, 0x14 }, { 0, 0x28, 8, 0xA0 }, { 0x58, 0x28, 8, 0xA0 }, { 0, 0xC8, 0x60, 8 },
+};
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _pat_4838);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_game_main", _draw_bottle_10);
-#endif
-
-extern const s32 _rect_4752[][4];
-
-#if VERSION_CN
-void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3) {
+void _draw_bottle_10(Gfx **gfxP, const s32 *arg1, const s32 *arg2, s32 arg3) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
     TiTexData *temp_s6;
@@ -6402,7 +6196,7 @@ void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3) {
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
     temp_s6 = &watchGameP->unk_438[0];
-    for (i = 0; i < 5U; i++) {
+    for (i = 0; i < ARRAY_COUNTU(_rect_4752); i++) {
         for (j = 0; j < arg3; j++) {
             tiStretchTexTile(&gfx, temp_s6, j, _rect_4752[i][0], _rect_4752[i][1], _rect_4752[i][2], _rect_4752[i][3],
                              arg1[j] + _rect_4752[i][0], arg2[j] + _rect_4752[i][1], _rect_4752[i][2],
@@ -6468,17 +6262,9 @@ void dm_draw_big_virus(Gfx **gfxP) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _rect_4752);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _pat_4838);
-#endif
-
-extern const s32 _pat_4838[6];
-
 #if VERSION_US || VERSION_CN
+const s32 _pat_4838[6] = { 0, 1, 2, 3, 2, 1 };
+
 void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking, s32 arg4, s32 arg5, s32 arg6,
                       u32 alpha) {
     struct_watchGame *watchGameP = watchGame;
@@ -7771,77 +7557,35 @@ void dm_game_init_snap_bg(void) {
 }
 #endif
 
-extern const s16 _bgPos_5792[7][2];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _bgPos_5792);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _bgPos_5792);
-#endif
-
-extern const s16 _panelPos_5793[][2];
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _panelPos_5793);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _panelPos_5793);
-#endif
-
-extern const char _bgTex_5794[];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _bgTex_5794);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _bgTex_5794);
-#endif
-
-extern const char _magTex_5795[];
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _magTex_5795);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _magTex_5795);
-#endif
-
-extern const char _scrTex_5796[];
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _scrTex_5796);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _scrTex_5796);
-#endif
-
-extern const char _panelTex_5797[][3];
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _panelTex_5797);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _panelTex_5797);
-#endif
-
-extern const s32 tbl_5867[][2];
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", tbl_5867);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", tbl_5867);
-#endif
-
 #if VERSION_US || VERSION_CN
+const s16 _bgPos_5792[7][2] = {
+    { 0, 0 }, { 0x50, 0 }, { 0xA0, 0 }, { 0xF0, 0 }, { 0x78, 0x78 }, { 0xC8, 0x78 }, { 0x118, 0x78 },
+};
+
+#define UNK_SNAP_BG_LEN 3
+
+const s16 _panelPos_5793[3][2] = { { 0xD4, 0x67 }, { 0xD4, 0x91 }, { 0xD4, 0xBB } };
+static_assert(ARRAY_COUNT(_panelPos_5793) == UNK_SNAP_BG_LEN, "");
+
+const char _bgTex_5794[3] = { 0xF, 0x10, 0x11 };
+static_assert(ARRAY_COUNT(_bgTex_5794) == UNK_SNAP_BG_LEN, "");
+
+const char _magTex_5795[3] = { 0x12, 0x13, 0x14 };
+static_assert(ARRAY_COUNT(_magTex_5795) == UNK_SNAP_BG_LEN, "");
+
+const char _scrTex_5796[3] = { 6, 6, 8 };
+static_assert(ARRAY_COUNT(_scrTex_5796) == UNK_SNAP_BG_LEN, "");
+
+const char _panelTex_5797[4][3] = {
+    { 0xE, 0xC, 0xD },
+    { 0xB, 0xC, 0xD },
+    { 0xB, 0xC, 0xD },
+    { 0, 0, 0 },
+};
+static_assert(ARRAY_COUNT(_panelTex_5797[0]) == UNK_SNAP_BG_LEN, "");
+
+const s32 tbl_5867[2][2] = { { 0xC, 0x14 }, { 0xD, 0x15 } };
+
 void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 arg3) {
     struct_watchGame *temp_s7 = watchGame;
     Gfx *gfx = *gfxP;
@@ -7911,7 +7655,7 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
 
                 temp_s2 = &temp_s7->unk_434[4];
 
-                for (i = 0; i < 3U; i++) {
+                for (i = 0; i < ARRAY_COUNTU(_panelTex_5797[var_s6]); i++) {
                     temp_s1 = &temp_s7->unk_434[_panelTex_5797[var_s6][i]];
 
                     var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
@@ -8596,37 +8340,14 @@ void dm_game_graphic(void) {
 }
 #endif
 
-extern const s32 _x_6416[];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", _x_6416);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", _x_6416);
-#endif
-
-extern const s32 dir_6435[];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", dir_6435);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", dir_6435);
-#endif
-
-extern const s32 color2index_6470[];
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_game_main", color2index_6470);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/dm_game_main", color2index_6470);
-#endif
-
 #if VERSION_US || VERSION_CN
+const s32 _x_6416[] = { 0x77, 0xB6 };
+static_assert(ARRAY_COUNT(watchGame->unk_8B4) == ARRAY_COUNT(_x_6416), "");
+
+const s32 dir_6435[2] = { -1, 1 };
+
+const s32 color2index_6470[] = { 1, 0, 2 };
+
 void dm_game_graphic2(void) {
     struct_watchGame *temp_s7 = watchGame;
     s32 temp_s2_2 = (game_state_data[0].unk_00C == 0x20) || (game_state_data[0].unk_00C == 0x21);
@@ -8815,7 +8536,7 @@ void dm_game_graphic2(void) {
                         }
                     }
                 } else {
-                    for (i = 0; i < 2; i++) {
+                    for (i = 0; i < ARRAY_COUNT(watchGame->unk_8B4); i++) {
                         draw_count_number(&gGfxHead, 0, 2, temp_s7->unk_8B4[i], _x_6416[i], 0x98);
                     }
 

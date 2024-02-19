@@ -412,7 +412,7 @@ void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRe
 // void func_8006AEFC();
 void draw_story_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3);
+void _draw_bottle_10(Gfx **gfxP, const s32 *arg1, const s32 *arg2, s32 arg3);
 void dm_calc_bottle_2p(void);
 void dm_draw_bottle_2p(Gfx **gfxP);
 void dm_draw_big_virus(Gfx **gfxP);
