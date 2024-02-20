@@ -15,7 +15,7 @@ typedef struct MessageWnd_unk_04 {
 } MessageWnd_unk_04; // size = 0x10
 
 typedef struct MessageWnd {
-    /* 0x00 */ void *unk_00;
+    /* 0x00 */ void *heap;
     /* 0x04 */ MessageWnd_unk_04 *unk_04;
     /* 0x08 */ UNK_TYPE unk_08;
     /* 0x0C */ unsigned char *unk_0C;
@@ -25,8 +25,8 @@ typedef struct MessageWnd {
     /* 0x1C */ UNK_TYPE unk_1C;
     /* 0x20 */ s32 unk_20;
     /* 0x24 */ s32 unk_24;
-    /* 0x28 */ UNK_TYPE unk_28; // maybe a 2-array?
-    /* 0x2C */ UNK_TYPE unk_2C;
+    /* 0x28 */ s32 xPos;
+    /* 0x2C */ s32 yPos;
     /* 0x30 */ UNK_TYPE unk_30;
     /* 0x34 */ UNK_TYPE unk_34;
     /* 0x38 */ UNK_TYPE unk_38;
@@ -42,17 +42,17 @@ typedef struct MessageWnd {
     /* 0x60 */ bool hasEnded;
     /* 0x64 */ bool isSpeaking;
     /* 0x68 */ s32 color;
-    /* 0x6C */ UNK_TYPE unk_6C;
+    /* 0x6C */ bool unk_6C;
     /* 0x70 */ s32 timer;
-    /* 0x74 */ UNK_TYPE unk_74; // alpha
-    /* 0x78 */ UNK_TYPE unk_78;
-    /* 0x7C */ UNK_TYPE unk_7C;
+    /* 0x74 */ s32 alpha;
+    /* 0x78 */ bool unk_78;
+    /* 0x7C */ s32 unk_7C;
 } MessageWnd; // size = 0x80
 
 
 bool func_8005CF20(s32 arg0, u32 buttonMask);
-void msgWnd_init(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-void msgWnd_init2(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+void msgWnd_init(MessageWnd *messageWnd, void **heapP, s32 arg2, s32 arg3, s32 xPos, s32 yPos);
+void msgWnd_init2(MessageWnd *messageWnd, void **heapP, s32 arg2, s32 arg3, s32 arg4, s32 xPos, s32 yPos);
 void msgWnd_clear(MessageWnd *messageWnd);
 void msgWnd_layout(MessageWnd *messageWnd);
 void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1);
@@ -79,7 +79,7 @@ s32 msgWnd_getHeight(MessageWnd *messageWnd);
 #define MSGWND_COLOR_EXPAND1(color) MSGWND_COLOR_EXPAND0(color)
 #define MSGWND_COLOR_EXPAND2(color) MSGWND_COLOR_EXPAND1(MSGWND_COLOR_##color)
 
-#define MSG_W(time) "~w" #time
+#define MSG_WAIT(time) "~w" #time
 #define MSG_H "~h"
 #define MSG_M "~m"
 #define MSG_NEWLINE "~n"

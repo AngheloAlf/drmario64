@@ -1408,8 +1408,8 @@ void RecWritingMsg_draw(RecordWritingMessage *recMessage, Gfx **gfxP) {
 
     StretchTexTile8(&gfx, mess_panel_tex_size.width, mess_panel_tex_size.height, mess_panel_lut, mess_panel_tex, 0, 0,
                     mess_panel_tex_size.width, mess_panel_tex_size.height,
-                    recMessage->messageWnd.unk_28 - ((mess_panel_tex_size.width - width) / 2),
-                    recMessage->messageWnd.unk_2C - ((mess_panel_tex_size.height - height) / 2),
+                    recMessage->messageWnd.xPos - ((mess_panel_tex_size.width - width) / 2),
+                    recMessage->messageWnd.yPos - ((mess_panel_tex_size.height - height) / 2),
                     mess_panel_tex_size.width, mess_panel_tex_size.height);
     msgWnd_draw(&recMessage->messageWnd, &gfx);
 
@@ -1441,8 +1441,8 @@ bool RecWritingMsg_isEnd(RecordWritingMessage *recMessage) {
  * Original name: RecWritingMsg_setPos
  */
 void RecWritingMsg_setPos(RecordWritingMessage *recMessage, s32 arg1, s32 arg2) {
-    recMessage->messageWnd.unk_28 = arg1;
-    recMessage->messageWnd.unk_2C = arg2;
+    recMessage->messageWnd.xPos = arg1;
+    recMessage->messageWnd.yPos = arg2;
 }
 
 /**

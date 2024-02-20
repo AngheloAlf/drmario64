@@ -30,8 +30,8 @@
 void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_00 = arg1;
     arg0->unk_04 = arg2;
-    arg0->messageWnd.unk_28 = arg1 + 8;
-    arg0->messageWnd.unk_2C = arg2 + 8;
+    arg0->messageWnd.xPos = arg1 + 8;
+    arg0->messageWnd.yPos = arg2 + 8;
 }
 #endif
 
@@ -95,7 +95,7 @@ void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
     tiStretchTexBlock(&gfx, temp_a1, 0, arg0->unk_00, arg0->unk_04, temp_a1->info[0], temp_a1->info[1]);
 
     if (arg0->unk_08 != 0.0f) {
-        arg0->messageWnd.unk_74 = alpha;
+        arg0->messageWnd.alpha = alpha;
         msgWnd_draw(&arg0->messageWnd, &gfx);
     }
 
@@ -322,7 +322,7 @@ void dm_manual_attack_capsel_down(void) {
 
 #if VERSION_US || VERSION_CN
 void func_800723EC(struct_game_state_data *gameStateDataP, GameMapCell *mapCells, s32 arg2 UNUSED) {
-    if ((gameStateDataP->unk_014 != 1) && (gameStateDataP->unk_014 != 0xD)) {
+    if ((gameStateDataP->unk_014 != GAMESTATEDATA_UNK_014_1) && (gameStateDataP->unk_014 != GAMESTATEDATA_UNK_014_D)) {
         dm_black_up(gameStateDataP, mapCells);
     }
 }
@@ -348,40 +348,40 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
     s32 var_s0_3;
 
     switch (gameStateData->unk_00C) {
-        case 0x1:
-        case 0x2:
+        case GAMESTATEDATA_UNK_00C_1:
+        case GAMESTATEDATA_UNK_00C_2:
             return 3;
 
-        case 0x4:
+        case GAMESTATEDATA_UNK_00C_4:
             dm_capsel_down(gameStateData, mapCells);
             break;
 
-        case 0x5:
+        case GAMESTATEDATA_UNK_00C_5:
             if (dm_check_game_over(gameStateData, mapCells)) {
-                gameStateData->unk_014 = 4;
-                gameStateData->unk_00C = 0xB;
+                gameStateData->unk_014 = GAMESTATEDATA_UNK_014_4;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_B;
                 return -1;
             }
 
             if (dm_h_erase_chack(mapCells) || dm_w_erase_chack(mapCells)) {
                 if (gameStateData->unk_049 == 0) {
-                    gameStateData->unk_00C = 6;
+                    gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_6;
                 } else {
-                    gameStateData->unk_00C = 0x15;
+                    gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_15;
                 }
                 gameStateData->unk_02F = 0;
             } else if (gameStateData->unk_049 == 0) {
-                gameStateData->unk_00C = 9;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_9;
             } else {
-                gameStateData->unk_00C = 0x16;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_16;
             }
             break;
 
-        case 0x6:
+        case GAMESTATEDATA_UNK_00C_6:
             gameStateData->unk_02F++;
             if (gameStateData->unk_02F >= 0x12U) {
                 gameStateData->unk_02F = 0;
-                gameStateData->unk_00C = 7;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_7;
                 dm_h_erase_chack_set(gameStateData, mapCells);
                 dm_w_erase_chack_set(gameStateData, mapCells);
                 dm_h_ball_chack(mapCells);
@@ -417,8 +417,8 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
 
                 if (gameStateData->unk_025 == 0) {
                     dm_make_score(gameStateData);
-                    gameStateData->unk_014 = 3;
-                    gameStateData->unk_00C = 0xA;
+                    gameStateData->unk_014 = GAMESTATEDATA_UNK_014_3;
+                    gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_A;
                     return 6;
                 }
                 if (((gameStateData->unk_025 != 0) && (gameStateData->unk_025 < 4U)) && (temp_s3->unk_170 == 0)) {
@@ -437,15 +437,15 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
             }
             break;
 
-        case 0x7:
+        case GAMESTATEDATA_UNK_00C_7:
             dm_capsel_erase_anime(gameStateData, mapCells);
             break;
 
-        case 0x8:
+        case GAMESTATEDATA_UNK_00C_8:
             go_down(gameStateData, mapCells, 0xE);
             break;
 
-        case 0x9:
+        case GAMESTATEDATA_UNK_00C_9:
             dm_attack_se(gameStateData, arg2);
             dm_warning_h_line(gameStateData, mapCells);
             aifMakeFlagSet(gameStateData);
@@ -459,10 +459,10 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
                 gameStateData->unk_03C[i] = 0;
             }
 
-            gameStateData->unk_00C = 4;
+            gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_4;
             break;
 
-        case 0xA:
+        case GAMESTATEDATA_UNK_00C_A:
             temp_s3->unk_02C++;
             if (temp_s3->unk_02C > 120) {
                 temp_s3->unk_02C = 0;
@@ -470,10 +470,10 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
             }
             break;
 
-        case 0xB:
-        case 0xD:
-        case 0xF:
-        case 0x11:
+        case GAMESTATEDATA_UNK_00C_B:
+        case GAMESTATEDATA_UNK_00C_D:
+        case GAMESTATEDATA_UNK_00C_F:
+        case GAMESTATEDATA_UNK_00C_11:
             temp_s3->unk_02C++;
             if (temp_s3->unk_02C > 120) {
                 temp_s3->unk_02C = 0;
@@ -481,11 +481,11 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
             }
             break;
 
-        case 0x15:
+        case GAMESTATEDATA_UNK_00C_15:
             gameStateData->unk_02F++;
             if (gameStateData->unk_02F >= 0x12U) {
                 gameStateData->unk_02F = 0;
-                gameStateData->unk_00C = 7;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_7;
                 dm_h_erase_chack_set(gameStateData, mapCells);
                 dm_w_erase_chack_set(gameStateData, mapCells);
                 dm_h_ball_chack(mapCells);
@@ -500,14 +500,14 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
             }
             break;
 
-        case 0x16:
+        case GAMESTATEDATA_UNK_00C_16:
             dm_attack_se(gameStateData, arg2);
             dm_warning_h_line(gameStateData, mapCells);
 
             var_s0_3 = true;
-            // reading i non initialized
+            //! @bug reading i non initialized
             if ((game_state_data[i].unk_04A != 0) && dm_broken_set(gameStateData, mapCells)) {
-                gameStateData->unk_00C = 8;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_8;
                 var_s0_3 = false;
             }
             if (var_s0_3) {
@@ -521,7 +521,7 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
                     gameStateData->unk_03C[i] = 0;
                 }
 
-                gameStateData->unk_00C = 4;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_4;
             }
             break;
 
@@ -658,7 +658,7 @@ bool dm_manual_1_main(void) {
 
         case 0x29:
             temp_s2->unk_16C = 1;
-            gameStateDataP->unk_00C = 4;
+            gameStateDataP->unk_00C = GAMESTATEDATA_UNK_00C_4;
             aifMake2(gameStateDataP, 3, 0xC, 0, 0);
             temp_s2->unk_164++;
             break;
@@ -779,8 +779,8 @@ bool dm_manual_1_main(void) {
                 gameStateDataP->unk_032 = 1;
                 dm_set_capsel(gameStateDataP);
 
-                gameStateDataP->unk_00C = 1;
-                gameStateDataP->unk_014 = 2;
+                gameStateDataP->unk_00C = GAMESTATEDATA_UNK_00C_1;
+                gameStateDataP->unk_014 = GAMESTATEDATA_UNK_014_2;
                 gameStateDataP->unk_025 = 0;
             }
             break;
@@ -809,7 +809,7 @@ bool dm_manual_1_main(void) {
 
         case 0x47:
             temp_s2->unk_16C = 1;
-            gameStateDataP->unk_00C = 4;
+            gameStateDataP->unk_00C = GAMESTATEDATA_UNK_00C_4;
             aifMakeFlagSet(gameStateDataP);
             temp_s2->unk_164++;
             break;
@@ -952,7 +952,7 @@ bool dm_manual_2_main(void) {
             break;
 
         case 0x3D:
-            gameStateDataP->unk_00C = 4;
+            gameStateDataP->unk_00C = GAMESTATEDATA_UNK_00C_4;
             watchManualP->unk_164 = 0x309;
             watchManualP->unk_168 = 0x46;
             break;
@@ -1157,7 +1157,7 @@ bool dm_manual_3_main(void) {
             break;
 
         case 0x3D:
-            gameStateData->unk_00C = 4;
+            gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_4;
             temp_s2->unk_164 = 0x309;
             temp_s2->unk_168 = 0x46;
             break;
@@ -1413,7 +1413,7 @@ bool dm_manual_4_main(void) {
             break;
 
         case 0x15:
-            gameStateData->unk_00C = 4;
+            gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_4;
             temp_s2->unk_164 = 0x309;
             temp_s2->unk_168 = 0x1E;
             break;

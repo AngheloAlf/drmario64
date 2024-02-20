@@ -535,7 +535,7 @@ void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
     gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gSPDisplayList(gfx++, story_setup);
-    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
     makeTransrateMatrix(&mtx, arg1 << 0xF, arg2 << 0xF, 0x1F894 << 0xF);
     if (lws_anim(&gfx, &mtx, bgGraphic, bgtime, bgGraphic) == 1) {

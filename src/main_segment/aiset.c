@@ -95,7 +95,7 @@ void func_8002EB00(struct_game_state_data *gameStateDataRef) {
     gameStateDataRef->unk_3BE[1] = gameStateDataRef->unk_178.unk_6[1];
     gameStateDataRef->unk_29B = gameStateDataRef->unk_025;
     gameStateDataRef->unk_29A = gameStateDataRef->unk_026;
-    gameStateDataRef->unk_299 = gameStateDataRef->unk_014 == 0x12;
+    gameStateDataRef->unk_299 = gameStateDataRef->unk_014 == GAMESTATEDATA_UNK_014_12;
     gameStateDataRef->unk_298 = gameStateDataRef->unk_04B;
 
     if (gameStateDataRef->unk_298 == 0) {

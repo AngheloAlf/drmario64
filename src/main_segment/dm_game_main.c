@@ -76,8 +76,8 @@ void func_80060270(struct_game_state_data *gameStateDataRef, s32 arg1) {
 #endif
 
 #if VERSION_US || VERSION_CN
-UNK_TYPE dm_make_score(struct_game_state_data *gameStateDataRef) {
-    UNK_TYPE temp_v0;
+s32 dm_make_score(struct_game_state_data *gameStateDataRef) {
+    s32 temp_v0;
     s32 temp;
 
     if (evs_story_flg != 0) {
@@ -311,16 +311,16 @@ void go_down(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 a
     if (set_down_flg(mapCells) == 0) {
         if (dm_h_erase_chack(mapCells) || dm_w_erase_chack(mapCells)) {
             if (gameStateData->unk_049 == 0) {
-                gameStateData->unk_00C = 6;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_6;
             } else {
-                gameStateData->unk_00C = 0x15;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_15;
             }
             gameStateData->unk_02F = 0;
         } else {
             if (gameStateData->unk_049 == 0) {
-                gameStateData->unk_00C = 9;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_9;
             } else {
-                gameStateData->unk_00C = 0x16;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_16;
             }
         }
     }
@@ -675,7 +675,7 @@ void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCell
                   u8 virusMapDispOrder[VIRUS_MAP_DISP_ORDER_LEN]) {
     s32 temp_v0;
 
-    if (gameStateDataRef->unk_014 != 2) {
+    if (gameStateDataRef->unk_014 != GAMESTATEDATA_UNK_014_2) {
         return;
     }
 
@@ -705,8 +705,8 @@ void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCell
     }
 
     if (gameStateDataRef->unk_024 >= temp_v0) {
-        gameStateDataRef->unk_014 = 1;
-        gameStateDataRef->unk_00C = 2;
+        gameStateDataRef->unk_014 = GAMESTATEDATA_UNK_014_1;
+        gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_2;
     }
 
     func_8006121C(gameStateDataRef, mapCells, 0);
@@ -752,7 +752,7 @@ void dm_capsel_erase_anime(struct_game_state_data *gameStateDataRef, GameMapCell
         erase_anime(mapCells);
         set_down_flg(mapCells);
         gameStateDataRef->unk_035 = 0;
-        gameStateDataRef->unk_00C = 8;
+        gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_8;
         gameStateDataRef->unk_036 = 14;
     }
 }
@@ -1214,7 +1214,7 @@ bool dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s
         return false;
     }
 
-    if (gameStateDataRef->unk_00C == 3) {
+    if (gameStateDataRef->unk_00C == GAMESTATEDATA_UNK_00C_3) {
         f32 temp_ft3;
         f32 temp_ft2;
         f32 var_fa0;
@@ -2028,7 +2028,7 @@ void dm_capsel_down(struct_game_state_data *gameStateData, GameMapCell *mapCells
     }
 
     dm_snd_play_in_game(SND_INDEX_66);
-    gameStateData->unk_00C = 5;
+    gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_5;
     temp_s2->unk_8 = 0;
 
     for (var_s0_2 = 0; var_s0_2 < ARRAY_COUNTU(temp_s2->unk_2); var_s0_2++) {
@@ -2824,7 +2824,7 @@ void dm_query_pause_player(struct_game_state_data *arg0) {
                 return;
             }
 
-            if (arg0->unk_014 != 0x11) {
+            if (arg0->unk_014 != GAMESTATEDATA_UNK_014_11) {
                 return;
             }
             break;
@@ -2833,7 +2833,7 @@ void dm_query_pause_player(struct_game_state_data *arg0) {
             return;
     }
 
-    if ((arg0->unk_014 != 2) && (arg0->unk_04C == 0)) {
+    if ((arg0->unk_014 != GAMESTATEDATA_UNK_014_2) && (arg0->unk_04C == 0)) {
         if (watchGameP->unk_000 == 0) {
             if (btn & START_BUTTON) {
                 watchGameP->unk_9C0 = 1;
@@ -2848,7 +2848,7 @@ void dm_query_pause_player(struct_game_state_data *arg0) {
 
 #if VERSION_US || VERSION_CN
 // TODO: enum return type?
-s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32 arg2) {
+s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 arg2) {
     struct_watchGame *watchGameP = watchGame;
     dm_calc_erase_score_pos_arg2 sp28;
     s32 var_s1;
@@ -2856,34 +2856,35 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
     s32 var_s2;
     int var_s0;
 
-    dm_query_pause_player(arg0);
-    animeState_update(&arg0->unk_094);
+    dm_query_pause_player(gameStateData);
+    animeState_update(&gameStateData->unk_094);
     func_80062EC0(&watchGameP->unk_0B8[arg2]);
-    if ((evs_gamemode == ENUM_EVS_GAMEMODE_3) && (evs_game_time >= 0x2A30U) && (arg0->unk_020 == 1)) {
+    if ((evs_gamemode == ENUM_EVS_GAMEMODE_3) && (evs_game_time >= 10800) && (gameStateData->unk_020 == 1)) {
         return -1;
     }
 
-    switch (arg0->unk_00C) {
-        case 0x1:
-            dm_set_virus(arg0, mapCells, virus_map_data[arg2], virus_map_disp_order[arg2]);
+    switch (gameStateData->unk_00C) {
+        case GAMESTATEDATA_UNK_00C_1:
+            dm_set_virus(gameStateData, mapCells, virus_map_data[arg2], virus_map_disp_order[arg2]);
             return 3;
 
-        case 0x2:
+        case GAMESTATEDATA_UNK_00C_2:
             return 3;
 
-        case 0x3:
-            arg0->unk_02F++;
+        case GAMESTATEDATA_UNK_00C_3:
+            gameStateData->unk_02F++;
 
-            if (arg0->unk_02F == FlyingCnt[arg0->unk_02C]) {
-                func_80060FA0(&arg0->unk_178, (CapsMagazine[arg0->unk_033] >> 4) % 3, CapsMagazine[arg0->unk_033] % 3);
-                arg0->unk_00C = 4;
-                arg0->unk_02F = 0x1E;
-                dm_capsel_down(arg0, mapCells);
+            if (gameStateData->unk_02F == FlyingCnt[gameStateData->unk_02C]) {
+                func_80060FA0(&gameStateData->unk_178, (CapsMagazine[gameStateData->unk_033] >> 4) % 3,
+                              CapsMagazine[gameStateData->unk_033] % 3);
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_4;
+                gameStateData->unk_02F = 0x1E;
+                dm_capsel_down(gameStateData, mapCells);
             }
             break;
 
-        case 0x5:
-            if (dm_check_game_over(arg0, mapCells) != false) {
+        case GAMESTATEDATA_UNK_00C_5:
+            if (dm_check_game_over(gameStateData, mapCells)) {
                 for (var_s0 = 0; var_s0 < 3; var_s0++) {
                     if (watchGameP->animeStates[var_s0].animeSeq.unk_10 != 4) {
                         animeState_set(&watchGameP->animeStates[var_s0], 3);
@@ -2896,31 +2897,31 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
                 return -1;
             }
 
-            if ((dm_h_erase_chack(mapCells) != false) || (dm_w_erase_chack(mapCells) != false)) {
-                arg0->unk_00C = 6;
-                arg0->unk_02F = 0;
+            if (dm_h_erase_chack(mapCells) || dm_w_erase_chack(mapCells)) {
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_6;
+                gameStateData->unk_02F = 0;
             } else {
-                arg0->unk_00C = 9;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_9;
             }
             break;
 
-        case 0x6:
-            arg0->unk_02F++;
+        case GAMESTATEDATA_UNK_00C_6:
+            gameStateData->unk_02F++;
 
-            if (arg0->unk_02F >= 0x12U) {
-                arg0->unk_02F = 0;
-                arg0->unk_00C = 7;
-                dm_h_erase_chack_set(arg0, mapCells);
-                dm_w_erase_chack_set(arg0, mapCells);
+            if (gameStateData->unk_02F >= 0x12) {
+                gameStateData->unk_02F = 0;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_7;
+                dm_h_erase_chack_set(gameStateData, mapCells);
+                dm_w_erase_chack_set(gameStateData, mapCells);
                 dm_h_ball_chack(mapCells);
                 dm_w_ball_chack(mapCells);
 
-                var_s0 = arg0->unk_025;
+                var_s0 = gameStateData->unk_025;
                 var_s0 -= get_virus_color_count(mapCells, watchGameP->unk_418, &watchGameP->unk_418[1],
                                                 &watchGameP->unk_418[2]);
-                arg0->unk_025 -= var_s0;
+                gameStateData->unk_025 -= var_s0;
 
-                arg0->unk_170 += var_s0;
+                gameStateData->unk_170 += var_s0;
 
                 for (var_s0 = 0; var_s0 < 3; var_s0++) {
                     if (watchGameP->unk_418[var_s0] == 0) {
@@ -2928,13 +2929,13 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
                             watchGameP->unk_400[var_s0] = 1;
                             animeState_set(&watchGameP->animeStates[var_s0], 4);
                             animeSmog_start(&watchGameP->animeSmogs[var_s0]);
-                            if (arg0->unk_025 != 0) {
+                            if (gameStateData->unk_025 != 0) {
                                 dm_snd_play_in_game(SND_INDEX_74);
                                 dm_snd_play_in_game(SND_INDEX_57);
                             }
                         }
                     } else {
-                        if (arg0->unk_03C[3] & (0x10 << var_s0)) {
+                        if (gameStateData->unk_03C[3] & (0x10 << var_s0)) {
                             if (watchGameP->unk_410 == 0) {
                                 animeState_set(&watchGameP->animeStates[var_s0], 2);
                                 dm_snd_play_in_game(SND_INDEX_74);
@@ -2943,23 +2944,23 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
                     }
                 }
 
-                arg0->unk_03C[3] &= 0xF;
+                gameStateData->unk_03C[3] &= 0xF;
 
-                dm_calc_erase_score_pos(arg0, mapCells, &sp28);
-                scoreNums_set(&watchGameP->unk_0B8[arg2], dm_make_score(arg0), arg0->unk_037,
-                              arg0->unk_006 + arg0->unk_00A / 2 + sp28.unk_0,
-                              arg0->unk_008 + arg0->unk_00A / 2 + sp28.unk_4);
+                dm_calc_erase_score_pos(gameStateData, mapCells, &sp28);
+                scoreNums_set(&watchGameP->unk_0B8[arg2], dm_make_score(gameStateData), gameStateData->unk_037,
+                              gameStateData->unk_006 + gameStateData->unk_00A / 2 + sp28.unk_0,
+                              gameStateData->unk_008 + gameStateData->unk_00A / 2 + sp28.unk_4);
 
-                if ((arg0->unk_025 == 0) && (evs_gamemode != ENUM_EVS_GAMEMODE_2)) {
-                    arg0->unk_014 = 3;
-                    arg0->unk_00C = 0xA;
-                    if (arg0->unk_03B < arg0->unk_03A) {
-                        arg0->unk_03B = arg0->unk_03A;
+                if ((gameStateData->unk_025 == 0) && (evs_gamemode != ENUM_EVS_GAMEMODE_2)) {
+                    gameStateData->unk_014 = GAMESTATEDATA_UNK_014_3;
+                    gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_A;
+                    if (gameStateData->unk_03B < gameStateData->unk_03A) {
+                        gameStateData->unk_03B = gameStateData->unk_03A;
                     }
                     return 6;
                 }
 
-                if ((arg0->unk_025 < 4U) && (evs_gamemode != ENUM_EVS_GAMEMODE_2)) {
+                if ((gameStateData->unk_025 < 4U) && (evs_gamemode != ENUM_EVS_GAMEMODE_2)) {
                     if (watchGameP->unk_3C0 == 0) {
                         watchGameP->unk_3C0 = 1;
                         dm_snd_play_in_game(SND_INDEX_80);
@@ -2970,89 +2971,90 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
                     }
                 }
 
-                arg0->unk_039 += 1;
-                if (arg0->unk_03A < 2) {
-                    if (arg0->unk_03C[3] & 8) {
-                        arg0->unk_03C[3] &= (u8)~0x8;
+                gameStateData->unk_039 += 1;
+                if (gameStateData->unk_03A < 2) {
+                    if (gameStateData->unk_03C[3] & 8) {
+                        gameStateData->unk_03C[3] &= (u8)~0x8;
                         dm_snd_play_in_game(SND_INDEX_56);
                     } else {
                         dm_snd_play_in_game(SND_INDEX_61);
                     }
                 } else {
-                    if (arg0->unk_03C[3] & 8) {
-                        arg0->unk_03C[3] &= (u8)~0x8;
+                    if (gameStateData->unk_03C[3] & 8) {
+                        gameStateData->unk_03C[3] &= (u8)~0x8;
                     }
 
-                    var_s0 = MIN(2, arg0->unk_03A - 2);
-                    dm_snd_play_in_game(_charSE_tbl[arg0->unk_090] + var_s0);
+                    var_s0 = MIN(2, gameStateData->unk_03A - 2);
+                    dm_snd_play_in_game(_charSE_tbl[gameStateData->unk_090] + var_s0);
                 }
             }
             break;
 
-        case 0x7:
-            dm_capsel_erase_anime(arg0, mapCells);
+        case GAMESTATEDATA_UNK_00C_7:
+            dm_capsel_erase_anime(gameStateData, mapCells);
             break;
 
-        case 0x8:
-            go_down(arg0, mapCells, 0xE);
+        case GAMESTATEDATA_UNK_00C_8:
+            go_down(gameStateData, mapCells, 0xE);
             break;
 
-        case 0x9:
-            add_taiQ_bonus_wait(arg0);
+        case GAMESTATEDATA_UNK_00C_9:
+            add_taiQ_bonus_wait(gameStateData);
 
             if ((watchGameP->unk_9BC != 0) && (watchGameP->unk_410 == 0)) {
-                arg0->unk_168 = 0;
-                arg0->unk_00C = 0xC;
-                set_bottom_up_virus(arg0, mapCells);
+                gameStateData->unk_168 = 0;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_C;
+                set_bottom_up_virus(gameStateData, mapCells);
                 dm_snd_play_in_game(SND_INDEX_101);
             } else {
-                if (arg0->unk_039 > 1) {
-                    arg0->unk_174 = MIN(0x63, arg0->unk_174 + arg0->unk_039 - 1);
+                if (gameStateData->unk_039 > 1) {
+                    gameStateData->unk_174 = MIN(0x63, gameStateData->unk_174 + gameStateData->unk_039 - 1);
                 }
 
-                dm_warning_h_line(arg0, mapCells);
-                dm_set_capsel(arg0);
-                dm_capsel_speed_up(arg0);
-                dm_attack_se(arg0, arg2);
-                animeState_set(&arg0->unk_094, 1);
+                dm_warning_h_line(gameStateData, mapCells);
+                dm_set_capsel(gameStateData);
+                dm_capsel_speed_up(gameStateData);
+                dm_attack_se(gameStateData, arg2);
+                animeState_set(&gameStateData->unk_094, 1);
 
-                if ((arg0->unk_04C == 1) || (((arg0->unk_04C != 1) && (arg2 == 0)) && (aiDebugP1 >= 0))) {
-                    aifMakeFlagSet(arg0);
+                if ((gameStateData->unk_04C == 1) ||
+                    (((gameStateData->unk_04C != 1) && (arg2 == 0)) && (aiDebugP1 >= 0))) {
+                    aifMakeFlagSet(gameStateData);
                 }
 
-                if (arg0->unk_03B < arg0->unk_03A) {
-                    arg0->unk_03B = arg0->unk_03A;
+                if (gameStateData->unk_03B < gameStateData->unk_03A) {
+                    gameStateData->unk_03B = gameStateData->unk_03A;
                 }
 
-                arg0->unk_00C = 3;
-                arg0->unk_02F = 0;
-                arg0->unk_031 = 0;
-                arg0->unk_03A = 0;
-                arg0->unk_039 = 0;
-                arg0->unk_037 = 0;
-                arg0->unk_038 = 0;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_3;
+                gameStateData->unk_02F = 0;
+                gameStateData->unk_031 = 0;
+                gameStateData->unk_03A = 0;
+                gameStateData->unk_039 = 0;
+                gameStateData->unk_037 = 0;
+                gameStateData->unk_038 = 0;
 
                 for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                    arg0->unk_03C[var_s0] = 0;
+                    gameStateData->unk_03C[var_s0] = 0;
                 }
             }
             break;
 
-        case 0xC:
-            arg0->unk_168++;
-            if (arg0->unk_168 >= arg0->unk_00A) {
-                arg0->unk_168 = 0;
+        case GAMESTATEDATA_UNK_00C_C:
+            gameStateData->unk_168++;
+            if (gameStateData->unk_168 >= gameStateData->unk_00A) {
+                gameStateData->unk_168 = 0;
                 watchGameP->unk_9BC = 0;
 
-                watchGameP->unk_3C8 = MAX(_big_virus_min_wait[arg0->unk_16C], watchGameP->unk_3C8 - 0.5);
+                watchGameP->unk_3C8 = MAX(_big_virus_min_wait[gameStateData->unk_16C], watchGameP->unk_3C8 - 0.5);
 
-                arg0->unk_00C = 8;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_8;
                 if (bottom_up_bottle_items(mapCells)) {
                     return -1;
                 }
 
-                arg0->unk_025 = get_virus_color_count(mapCells, watchGameP->unk_418, &watchGameP->unk_418[1],
-                                                      &watchGameP->unk_418[2]);
+                gameStateData->unk_025 = get_virus_color_count(mapCells, watchGameP->unk_418, &watchGameP->unk_418[1],
+                                                               &watchGameP->unk_418[2]);
 
                 for (var_s0 = 0; var_s0 < 3; var_s0++) {
                     if ((watchGameP->unk_418[var_s0] != 0) && (watchGameP->unk_400[var_s0] != 0)) {
@@ -3066,9 +3068,9 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
             }
             break;
 
-        case 0x1A:
-        case 0x1C:
-            if (arg0->unk_00C == 0x1A) {
+        case GAMESTATEDATA_UNK_00C_1A:
+        case GAMESTATEDATA_UNK_00C_1C:
+            if (gameStateData->unk_00C == GAMESTATEDATA_UNK_00C_1A) {
                 if (func_80062B18(arg2)) {
                     break;
                 }
@@ -3079,48 +3081,54 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
             }
 
             if (gControllerPressedButtons[main_joy[arg2]] & ANY_BUTTON) {
-                switch (arg0->unk_00C) {
-                    case 0x1A:
-                        arg0->unk_014 = 0x14;
-                        arg0->unk_00C = 0x1B;
+                switch (gameStateData->unk_00C) {
+                    case GAMESTATEDATA_UNK_00C_1A:
+                        gameStateData->unk_014 = GAMESTATEDATA_UNK_014_14;
+                        gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_1B;
                         break;
 
-                    case 0x1C:
-                        arg0->unk_014 = 0x16;
-                        arg0->unk_00C = 0x1D;
+                    case GAMESTATEDATA_UNK_00C_1C:
+                        gameStateData->unk_014 = GAMESTATEDATA_UNK_014_16;
+                        gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_1D;
+                        break;
+
+                    default:
                         break;
                 }
             }
             break;
 
-        case 0x1B:
-        case 0x1D:
+        case GAMESTATEDATA_UNK_00C_1B:
+        case GAMESTATEDATA_UNK_00C_1D:
             if (gControllerPressedButtons[main_joy[arg2]] & ANY_BUTTON) {
                 func_80062DA4(&watchGameP->unk_9D0[arg2]);
             }
 
             timeAttackResult_update(&watchGameP->unk_9D0[arg2], 1);
 
-            func_80060270(arg0, watchGameP->unk_9D0[arg2].unk_24);
+            func_80060270(gameStateData, watchGameP->unk_9D0[arg2].unk_24);
             watchGameP->unk_9D0[arg2].unk_24 = 0;
             if (func_80062BC4(&watchGameP->unk_9D0[arg2])) {
-                switch (arg0->unk_00C) {
-                    case 0x1B:
-                        arg0->unk_014 = 3;
-                        arg0->unk_00C = 0xA;
+                switch (gameStateData->unk_00C) {
+                    case GAMESTATEDATA_UNK_00C_1B:
+                        gameStateData->unk_014 = GAMESTATEDATA_UNK_014_3;
+                        gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_A;
                         break;
 
-                    case 0x1D:
-                        arg0->unk_014 = 4;
-                        arg0->unk_00C = 0xB;
+                    case GAMESTATEDATA_UNK_00C_1D:
+                        gameStateData->unk_014 = GAMESTATEDATA_UNK_014_4;
+                        gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_B;
+                        break;
+
+                    default:
                         break;
                 }
             }
             break;
 
-        case 0xA:
-        case 0xB:
-            if (arg0->unk_00C == 0xA) {
+        case GAMESTATEDATA_UNK_00C_A:
+        case GAMESTATEDATA_UNK_00C_B:
+            if (gameStateData->unk_00C == GAMESTATEDATA_UNK_00C_A) {
                 if (func_80062B18(arg2)) {
                     break;
                 }
@@ -3135,17 +3143,17 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
                 switch (evs_gamemode) {
                     case ENUM_EVS_GAMEMODE_0:
                         var_s1 = 0;
-                        var_s2 = arg0->unk_026;
+                        var_s2 = gameStateData->unk_026;
                         break;
 
                     case ENUM_EVS_GAMEMODE_3:
                         var_s1 = 1;
-                        var_s2 = arg0->unk_16C;
+                        var_s2 = gameStateData->unk_16C;
                         break;
 
                     case ENUM_EVS_GAMEMODE_2:
                         var_s1 = 2;
-                        var_s2 = arg0->unk_16C;
+                        var_s2 = gameStateData->unk_16C;
                         break;
 
                     default:
@@ -3159,8 +3167,8 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
                 }
 
                 if (watchGameP->unk_AAC[0] == 0) {
-                    func_8007E760(watchGameP->unk_AAC, var_s1, var_s2, arg0->unk_02C, arg0->unk_000 / 10,
-                                  evs_game_time / 6, var_t2);
+                    func_8007E760(watchGameP->unk_AAC, var_s1, var_s2, gameStateData->unk_02C,
+                                  gameStateData->unk_000 / 10, evs_game_time / 6, var_t2);
                     watchGameP->unk_AAC[ARRAY_COUNT(watchGameP->unk_AAC) - 2] = 0x7E;
                     watchGameP->unk_AAC[ARRAY_COUNT(watchGameP->unk_AAC) - 1] = 0x7A;
                 }
@@ -3187,11 +3195,11 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
 
                     case 0x2: /* switch 3 */
                         func_800633C0();
-                        if (arg0->unk_004 < 0x3E7U) {
-                            arg0->unk_004++;
+                        if (gameStateData->unk_004 < 0x3E7U) {
+                            gameStateData->unk_004++;
                         }
 
-                        if ((arg0->unk_026 >= 0x16U) && (watchGameP->unk_378 > 0)) {
+                        if ((gameStateData->unk_026 >= 0x16U) && (watchGameP->unk_378 > 0)) {
                             watchGameP->unk_378--;
                             dm_snd_play_in_game(SND_INDEX_78);
                         } else {
@@ -3206,7 +3214,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
             }
             break;
 
-        case 0x18:
+        case GAMESTATEDATA_UNK_00C_18:
             switch (retryMenu_input(arg2)) {
                 case 0:
                     if (watchGameP->unk_9C4 < 0) {
@@ -3216,11 +3224,11 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
                     break;
 
                 case 1:
-                    if (arg0->unk_004 < 0x3E7U) {
-                        arg0->unk_004 = arg0->unk_004 + 1;
+                    if (gameStateData->unk_004 < 0x3E7U) {
+                        gameStateData->unk_004 = gameStateData->unk_004 + 1;
                     }
 
-                    if ((arg0->unk_026 >= 0x16U) && (watchGameP->unk_378 > 0)) {
+                    if ((gameStateData->unk_026 >= 0x16U) && (watchGameP->unk_378 > 0)) {
                         watchGameP->unk_378--;
                         dm_snd_play_in_game(SND_INDEX_78);
                     } else {
@@ -3232,6 +3240,9 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32
                     dm_snd_play_in_game(SND_INDEX_62);
                     return 0x64;
             }
+            break;
+
+        default:
             break;
     }
 
@@ -3264,39 +3275,39 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
     }
 
     switch (gameStateDataRef->unk_00C) {
-        case 0x1:
+        case GAMESTATEDATA_UNK_00C_1:
             dm_set_virus(gameStateDataRef, mapCells, virus_map_data[index], virus_map_disp_order[index]);
             return 3;
 
-        case 0x2:
+        case GAMESTATEDATA_UNK_00C_2:
             return 3;
 
-        case 0x5:
+        case GAMESTATEDATA_UNK_00C_5:
             if (dm_check_game_over(gameStateDataRef, mapCells)) {
                 return -1;
             }
 
             if (dm_h_erase_chack(mapCells) || dm_w_erase_chack(mapCells)) {
                 if (gameStateDataRef->unk_049 == 0) {
-                    gameStateDataRef->unk_00C = 6;
+                    gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_6;
                 } else {
-                    gameStateDataRef->unk_00C = 0x15;
+                    gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_15;
                 }
 
                 gameStateDataRef->unk_02F = 0;
             } else if (gameStateDataRef->unk_049 == 0) {
-                gameStateDataRef->unk_00C = 9;
+                gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_9;
             } else {
-                gameStateDataRef->unk_00C = 0x16;
+                gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_16;
             }
             break;
 
-        case 0x6:
+        case GAMESTATEDATA_UNK_00C_6:
             gameStateDataRef->unk_02F++;
             if (gameStateDataRef->unk_02F >= 0x12) {
                 s32 temp_s4_2;
 
-                gameStateDataRef->unk_00C = 7;
+                gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_7;
                 gameStateDataRef->unk_02F = 0;
                 dm_h_erase_chack_set(gameStateDataRef, mapCells);
                 dm_w_erase_chack_set(gameStateDataRef, mapCells);
@@ -3383,15 +3394,15 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             }
             break;
 
-        case 0x7:
+        case GAMESTATEDATA_UNK_00C_7:
             dm_capsel_erase_anime(gameStateDataRef, mapCells);
             break;
 
-        case 0x8:
+        case GAMESTATEDATA_UNK_00C_8:
             go_down(gameStateDataRef, mapCells, 0xE);
             break;
 
-        case 0x9:
+        case GAMESTATEDATA_UNK_00C_9:
             var_s6 = true;
 
             if (gameStateDataRef->unk_039 > 1) {
@@ -3414,7 +3425,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                             animeState_set(&gameStateDataRef->unk_094, 2);
                             var_s6 = false;
                             dm_snd_play_in_game(_charSE_tbl[gameStateDataRef->unk_090] + 3);
-                            gameStateDataRef->unk_00C = 8;
+                            gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_8;
                             if (gameStateDataRef->unk_292 & 1) {
                                 gameStateDataRef->unk_292 |= 2;
                             } else {
@@ -3434,7 +3445,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                     if (dm_broken_set(gameStateDataRef, mapCells)) {
                         animeState_set(&gameStateDataRef->unk_094, 2);
                         var_s6 = false;
-                        gameStateDataRef->unk_00C = 8;
+                        gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_8;
                         if (gameStateDataRef->unk_292 & 1) {
                             gameStateDataRef->unk_292 |= 2;
                         } else {
@@ -3463,7 +3474,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                     gameStateDataRef->unk_03C[i] = 0;
                 }
 
-                gameStateDataRef->unk_00C = 4;
+                gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_4;
                 if ((gameStateDataRef->unk_04C == 1) ||
                     (((gameStateDataRef->unk_04C != 1) && (index == 0)) && (aiDebugP1 >= 0))) {
                     aifMakeFlagSet(gameStateDataRef);
@@ -3471,21 +3482,21 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             }
             break;
 
-        case 0x1A:
+        case GAMESTATEDATA_UNK_00C_1A:
             func_80062B18(index);
             break;
 
-        case 0x1C:
+        case GAMESTATEDATA_UNK_00C_1C:
             func_80062AFC(index);
             break;
 
-        case 0x1E:
+        case GAMESTATEDATA_UNK_00C_1E:
             func_80062B34(index);
             break;
 
-        case 0x1B:
-        case 0x1D:
-        case 0x1F:
+        case GAMESTATEDATA_UNK_00C_1B:
+        case GAMESTATEDATA_UNK_00C_1D:
+        case GAMESTATEDATA_UNK_00C_1F:
             if (gControllerPressedButtons[main_joy[index]] & ANY_BUTTON) {
                 func_80062DA4(&temp_s1->unk_9D0[index]);
             }
@@ -3495,18 +3506,18 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             temp_s1->unk_9D0[index].unk_24 = 0;
             break;
 
-        case 0xE:
-        case 0x10:
-        case 0x12:
-            if (gameStateDataRef->unk_00C == 0xE) {
+        case GAMESTATEDATA_UNK_00C_E:
+        case GAMESTATEDATA_UNK_00C_10:
+        case GAMESTATEDATA_UNK_00C_12:
+            if (gameStateDataRef->unk_00C == GAMESTATEDATA_UNK_00C_E) {
                 if (func_80062A8C(index) != 0) {
                     break;
                 }
-            } else if (gameStateDataRef->unk_00C == 0x10) {
+            } else if (gameStateDataRef->unk_00C == GAMESTATEDATA_UNK_00C_10) {
                 if (func_80062AA8(index) != 0) {
                     break;
                 }
-            } else if (gameStateDataRef->unk_00C == 0x12) {
+            } else if (gameStateDataRef->unk_00C == GAMESTATEDATA_UNK_00C_12) {
                 if (func_80062AC4(index) != 0) {
                     break;
                 }
@@ -3537,25 +3548,25 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             }
             break;
 
-        case 0xD:
+        case GAMESTATEDATA_UNK_00C_D:
             func_80062A8C(index);
             break;
 
-        case 0xF:
+        case GAMESTATEDATA_UNK_00C_F:
             func_80062AA8(index);
             break;
 
-        case 0x11:
+        case GAMESTATEDATA_UNK_00C_11:
             func_80062AC4(index);
             break;
 
-        case 0x13:
+        case GAMESTATEDATA_UNK_00C_13:
             if ((button & START_BUTTON) && (temp_s1->unk_000 == 0)) {
                 return 7;
             }
             break;
 
-        case 0x14:
+        case GAMESTATEDATA_UNK_00C_14:
             gameStateDataRef->unk_049 = 1;
             clear_map_all(mapCells);
             gameStateDataRef->unk_025 = 0;
@@ -3585,8 +3596,8 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                 gameStateDataRef->unk_050[i].unk_2 = 0;
             }
 
-            gameStateDataRef->unk_00C = 1;
-            gameStateDataRef->unk_014 = 2;
+            gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_1;
+            gameStateDataRef->unk_014 = GAMESTATEDATA_UNK_014_2;
 
             for (i = 0; i < ARRAY_COUNTU(virus_map_disp_order[index]); i++) {
                 virus_map_disp_order[index][i] &= ~0x80;
@@ -3597,11 +3608,11 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             }
             break;
 
-        case 0x15:
+        case GAMESTATEDATA_UNK_00C_15:
             gameStateDataRef->unk_02F++;
             if (gameStateDataRef->unk_02F >= 0x12) {
                 gameStateDataRef->unk_02F = 0;
-                gameStateDataRef->unk_00C = 7;
+                gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_7;
                 dm_h_erase_chack_set(gameStateDataRef, mapCells);
                 dm_w_erase_chack_set(gameStateDataRef, mapCells);
                 dm_h_ball_chack(mapCells);
@@ -3619,7 +3630,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             }
             break;
 
-        case 0x16:
+        case GAMESTATEDATA_UNK_00C_16:
             dm_warning_h_line(gameStateDataRef, mapCells);
 
             var_s6 = true;
@@ -3628,7 +3639,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                 dm_set_attack_4p(gameStateDataRef);
                 animeState_set(&gameStateDataRef->unk_094, 1);
                 if (dm_broken_set(gameStateDataRef, mapCells)) {
-                    gameStateDataRef->unk_00C = 8;
+                    gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_8;
                     var_s6 = false;
                 }
             } else {
@@ -3649,11 +3660,11 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                 for (i = 0; i < ARRAY_COUNT(gameStateDataRef->unk_03C); i++) {
                     gameStateDataRef->unk_03C[i] = 0;
                 }
-                gameStateDataRef->unk_00C = 4;
+                gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_4;
             }
             break;
 
-        case 0x18:
+        case GAMESTATEDATA_UNK_00C_18:
             switch (retryMenu_input(index)) {
                 case 0:
                     if (temp_s1->unk_9C4 < 0) {
@@ -3676,6 +3687,9 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                     break;
             }
             break;
+
+        default:
+            break;
     }
 
     return 0;
@@ -3694,18 +3708,18 @@ void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1) {
     gameStateData->unk_010 = gameStateData->unk_00C;
 
     if (evs_gamesel == ENUM_EVS_GAMESEL_0) {
-        gameStateData->unk_00C = 0x18;
-        gameStateData->unk_014 = 0xE;
+        gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_18;
+        gameStateData->unk_014 = GAMESTATEDATA_UNK_014_E;
         if ((gameStateData->unk_026 < 0x16) || (temp_s3->unk_378 > 0)) {
             retryMenu_init(0, 1);
         } else {
             retryMenu_init(0, 0);
         }
     } else if (temp_s1 == arg1) {
-        gameStateData->unk_00C = 0x18;
-        gameStateData->unk_014 = 0xE;
+        gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_18;
+        gameStateData->unk_014 = GAMESTATEDATA_UNK_014_E;
         if (evs_story_flg != 0) {
-            gameStateData->unk_014 = 0xF;
+            gameStateData->unk_014 = GAMESTATEDATA_UNK_014_F;
             if (evs_story_no == 9) {
                 retryMenu_init(temp_s1, 1);
             } else {
@@ -3716,8 +3730,8 @@ void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1) {
         }
     } else {
         func_8006417C(temp_s1);
-        gameStateData->unk_014 = 0xD;
-        gameStateData->unk_00C = 0x17;
+        gameStateData->unk_014 = GAMESTATEDATA_UNK_014_D;
+        gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_17;
     }
 }
 #endif
@@ -3727,7 +3741,7 @@ void func_80066808(struct_game_state_data *gameStateData) {
     gameStateData->unk_020 = 1;
     gameStateData->unk_014 = gameStateData->unk_018;
     gameStateData->unk_00C = gameStateData->unk_010;
-    if (gameStateData->unk_00C == 0x13) {
+    if (gameStateData->unk_00C == GAMESTATEDATA_UNK_00C_13) {
         gameStateData->unk_020 = 8;
     }
 }
@@ -3770,7 +3784,7 @@ void dm_set_pause_and_volume(struct_game_state_data **gameStateDataP, s32 arg1) 
             func_80066808(gameStateDataP[i]);
         }
         var_s2 = -1;
-    } else if ((watchGameP->unk_000 != 0) && (temp_a1->unk_014 == 0x11)) {
+    } else if ((watchGameP->unk_000 != 0) && (temp_a1->unk_014 == GAMESTATEDATA_UNK_014_11)) {
         dm_seq_set_volume(0x40);
         resume_game_state(1);
     }
@@ -3938,10 +3952,10 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
 s32 dm_game_main_1p(void) {
     s32 temp_s3;
     struct_watchGame *watchGameP = watchGame;
-    struct_game_state_data *temp = game_state_data;
+    struct_game_state_data *gameStateData = &game_state_data[0];
 
-    func_800669A0(temp);
-    temp_s3 = dm_game_main_cnt_1P(temp, game_map_data[0], 0);
+    func_800669A0(gameStateData);
+    temp_s3 = dm_game_main_cnt_1P(gameStateData, game_map_data[0], 0);
     dm_warning_h_line_se();
     if (watchGameP->unk_410 == 0) {
         s32 var_s2;
@@ -3952,41 +3966,42 @@ s32 dm_game_main_1p(void) {
         }
     }
 
-    dm_calc_big_virus_pos(temp);
+    dm_calc_big_virus_pos(gameStateData);
     dm_play_count_down_se();
 
     if (temp_s3 == 3) {
         if (watchGameP->unk_3AC < 0) {
-            if (temp->unk_00C == 2) {
+            if (gameStateData->unk_00C == GAMESTATEDATA_UNK_00C_2) {
                 watchGameP->unk_3C4 = 1;
-                temp->unk_00C = temp_s3;
-                animeState_set(&temp->unk_094, 1);
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_3;
+                animeState_set(&gameStateData->unk_094, 1);
                 func_800633FC();
             }
         }
     } else if (temp_s3 == 6) {
         s32 temp_s1;
 
-        func_80062A24(temp->unk_04B);
+        func_80062A24(gameStateData->unk_04B);
         dm_seq_play_in_game(SEQ_INDEX_14);
         watchGameP->unk_3C4 = 0;
-        temp->unk_020 = 5;
+        gameStateData->unk_020 = 5;
 
         switch (evs_gamemode) {
             case ENUM_EVS_GAMEMODE_3: {
                 //! FAKE
                 s32 temp_v0;
 
-                temp->unk_014 = 0x13;
-                temp->unk_00C = 0x1A;
+                gameStateData->unk_014 = GAMESTATEDATA_UNK_014_13;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_1A;
 
-                func_80062DD8(&watchGameP->unk_9D0[0], temp->unk_16C, 1, MAX(0, temp_v0 = 0x2A30 - evs_game_time),
-                              temp->unk_174, temp->unk_170, temp->unk_000);
+                func_80062DD8(&watchGameP->unk_9D0[0], gameStateData->unk_16C, 1,
+                              MAX(0, temp_v0 = 0x2A30 - evs_game_time), gameStateData->unk_174, gameStateData->unk_170,
+                              gameStateData->unk_000);
             } break;
 
             default:
-                temp->unk_014 = 3;
-                temp->unk_00C = 0xA;
+                gameStateData->unk_014 = GAMESTATEDATA_UNK_014_3;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_A;
                 break;
         }
 
@@ -4003,7 +4018,7 @@ s32 dm_game_main_1p(void) {
                 break;
         }
 
-        animeState_set(&temp->unk_094, 3);
+        animeState_set(&gameStateData->unk_094, 3);
 
         switch (evs_gamemode) {
             case ENUM_EVS_GAMEMODE_3:
@@ -4021,24 +4036,25 @@ s32 dm_game_main_1p(void) {
                 break;
         }
     } else if (temp_s3 == -1) {
-        func_80062A08(temp->unk_04B);
-        animeState_set(&temp->unk_094, 4);
+        func_80062A08(gameStateData->unk_04B);
+        animeState_set(&gameStateData->unk_094, 4);
         dm_seq_play_in_game(SEQ_INDEX_17);
-        temp->unk_02B = 1;
-        temp->unk_020 = 8;
+        gameStateData->unk_02B = 1;
+        gameStateData->unk_020 = 8;
         if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
-            temp->unk_014 = 0x15;
-            temp->unk_00C = 0x1C;
+            gameStateData->unk_014 = GAMESTATEDATA_UNK_014_15;
+            gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_1C;
 
-            func_80062DD8(&watchGameP->unk_9D0[0], temp->unk_16C, 0, 0, temp->unk_174, temp->unk_170, temp->unk_000);
+            func_80062DD8(&watchGameP->unk_9D0[0], gameStateData->unk_16C, 0, 0, gameStateData->unk_174,
+                          gameStateData->unk_170, gameStateData->unk_000);
             watchGameP->unk_3C4 = 0;
         } else {
-            temp->unk_014 = 4;
-            temp->unk_00C = 0xB;
+            gameStateData->unk_014 = GAMESTATEDATA_UNK_014_4;
+            gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_B;
             watchGameP->unk_3C4 = 0;
         }
 
-        if ((temp->unk_026 < 0x16U) || ((watchGameP->unk_378 > 0))) {
+        if ((gameStateData->unk_026 < 0x16U) || ((watchGameP->unk_378 > 0))) {
             retryMenu_init(0U, 3);
         } else {
             retryMenu_init(0U, 2);
@@ -4126,8 +4142,8 @@ s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) 
     if ((arg2 == 0) && (gameStateDataRef->unk_04C == 0)) {
         arg2 = 1;
 
-        gameStateDataRef->unk_014 = 6;
-        gameStateDataRef->unk_00C = 0xE;
+        gameStateDataRef->unk_014 = GAMESTATEDATA_UNK_014_6;
+        gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_E;
         if (evs_story_flg == 0) {
             if (arg1 != 0) {
                 retryMenu_init(temp_s1, 3);
@@ -4135,12 +4151,12 @@ s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) 
                 retryMenu_init(temp_s1, 5);
             }
         } else {
-            gameStateDataRef->unk_014 = 7;
+            gameStateDataRef->unk_014 = GAMESTATEDATA_UNK_014_7;
             retryMenu_init(temp_s1, 5);
         }
     } else {
-        gameStateDataRef->unk_014 = 5;
-        gameStateDataRef->unk_00C = 0xD;
+        gameStateDataRef->unk_014 = GAMESTATEDATA_UNK_014_5;
+        gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_D;
     }
 
     return arg2;
@@ -4158,11 +4174,11 @@ s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2)
     if ((arg2 == 0) && (gameStateDataRef->unk_04C == 0)) {
         arg2 = 1;
 
-        gameStateDataRef->unk_014 = 9;
-        gameStateDataRef->unk_00C = 0x10;
+        gameStateDataRef->unk_014 = GAMESTATEDATA_UNK_014_9;
+        gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_10;
 
         if (evs_story_flg != 0) {
-            gameStateDataRef->unk_014 = 0xA;
+            gameStateDataRef->unk_014 = GAMESTATEDATA_UNK_014_A;
             if (evs_story_no != 9) {
                 retryMenu_init(temp_s1, 3);
             } else {
@@ -4177,8 +4193,8 @@ s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2)
         }
     } else {
 
-        gameStateDataRef->unk_014 = 8;
-        gameStateDataRef->unk_00C = 0xF;
+        gameStateDataRef->unk_014 = GAMESTATEDATA_UNK_014_8;
+        gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_F;
     }
 
     return arg2;
@@ -4195,12 +4211,12 @@ s32 func_800675C8(struct_game_state_data *gameStateDataRef, s32 arg1) {
     if ((arg1 == 0) && (gameStateDataRef->unk_04C == 0)) {
         arg1 = 1;
 
-        gameStateDataRef->unk_014 = 0xC;
-        gameStateDataRef->unk_00C = 0x12;
+        gameStateDataRef->unk_014 = GAMESTATEDATA_UNK_014_C;
+        gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_12;
         retryMenu_init(temp_s2, 5);
     } else {
-        gameStateDataRef->unk_014 = 0xB;
-        gameStateDataRef->unk_00C = 0x11;
+        gameStateDataRef->unk_014 = GAMESTATEDATA_UNK_014_B;
+        gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_11;
     }
 
     return arg1;
@@ -4281,7 +4297,7 @@ s32 dm_game_main_2p(void) {
     if ((sp38[0] == 3) && (sp38[1] == sp38[0])) {
         if (watchGameP->unk_3AC < 0) {
             for (i = 0; i < 2; i++) {
-                if (sp28[i]->unk_00C != 2) {
+                if (sp28[i]->unk_00C != GAMESTATEDATA_UNK_00C_2) {
                     break;
                 }
             }
@@ -4290,7 +4306,7 @@ s32 dm_game_main_2p(void) {
                 watchGameP->unk_3C4 = 1;
 
                 for (i = 0; i < 2; i++) {
-                    sp28[i]->unk_00C = 4;
+                    sp28[i]->unk_00C = GAMESTATEDATA_UNK_00C_4;
                     if ((sp28[i]->unk_04C == 1) || ((sp28[i]->unk_04C != 1) && (i == 0) && (aiDebugP1 >= 0))) {
                         aifMakeFlagSet(sp28[i]);
                     }
@@ -4305,8 +4321,8 @@ s32 dm_game_main_2p(void) {
                 if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
                     func_80062A24(i);
 
-                    sp28[i]->unk_00C = 0x1A;
-                    sp28[i]->unk_014 = 0x13;
+                    sp28[i]->unk_00C = GAMESTATEDATA_UNK_00C_1A;
+                    sp28[i]->unk_014 = GAMESTATEDATA_UNK_014_13;
                     sp28[i]->unk_020 = 0x13;
 
                     func_80062DD8(&watchGameP->unk_9D0[i], sp28[i]->unk_16C, 1,
@@ -4321,13 +4337,13 @@ s32 dm_game_main_2p(void) {
                 if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
                     if (evs_game_time >= 0x2A30U) {
                         func_80062A08(i);
-                        sp28[i]->unk_00C = 0x1C;
-                        sp28[i]->unk_014 = 0x15;
+                        sp28[i]->unk_00C = GAMESTATEDATA_UNK_00C_1C;
+                        sp28[i]->unk_014 = GAMESTATEDATA_UNK_014_15;
                         sp28[i]->unk_020 = 0x15;
                     } else {
                         func_80062A40(i);
-                        sp28[i]->unk_00C = 0x1E;
-                        sp28[i]->unk_014 = 0x17;
+                        sp28[i]->unk_00C = GAMESTATEDATA_UNK_00C_1E;
+                        sp28[i]->unk_014 = GAMESTATEDATA_UNK_014_17;
                         sp28[i]->unk_020 = 0x17;
                     }
 
@@ -4358,20 +4374,23 @@ s32 dm_game_main_2p(void) {
 
         for (i = 0; i < 2; i++) {
             switch (sp28[i]->unk_014) {
-                case 0x13:
-                case 0x15:
-                case 0x17:
+                case GAMESTATEDATA_UNK_014_13:
+                case GAMESTATEDATA_UNK_014_15:
+                case GAMESTATEDATA_UNK_014_17:
                     if (watchGameP->unk_888[i] == 0) {
                         var_s1_4 += 1;
                     }
                     break;
 
-                case 0x14:
-                case 0x16:
-                case 0x18:
+                case GAMESTATEDATA_UNK_014_14:
+                case GAMESTATEDATA_UNK_014_16:
+                case GAMESTATEDATA_UNK_014_18:
                     if (func_80062BC4(&watchGameP->unk_9D0[i])) {
                         var_s2_2 += 1;
                     }
+                    break;
+
+                default:
                     break;
             }
         }
@@ -4379,22 +4398,25 @@ s32 dm_game_main_2p(void) {
         if (var_s1_4 == 2) {
             for (i = 0; i < 2; i++) {
                 switch (sp28[i]->unk_014) {
-                    case 0x13:
+                    case GAMESTATEDATA_UNK_014_13:
                         sp28[i]->unk_020 = 0x14;
-                        sp28[i]->unk_014 = 0x14U;
-                        sp28[i]->unk_00C = 0x1B;
+                        sp28[i]->unk_014 = GAMESTATEDATA_UNK_014_14;
+                        sp28[i]->unk_00C = GAMESTATEDATA_UNK_00C_1B;
                         break;
 
-                    case 0x15:
+                    case GAMESTATEDATA_UNK_014_15:
                         sp28[i]->unk_020 = 0x16;
-                        sp28[i]->unk_014 = 0x16U;
-                        sp28[i]->unk_00C = 0x1D;
+                        sp28[i]->unk_014 = GAMESTATEDATA_UNK_014_16;
+                        sp28[i]->unk_00C = GAMESTATEDATA_UNK_00C_1D;
                         break;
 
-                    case 0x17:
+                    case GAMESTATEDATA_UNK_014_17:
                         sp28[i]->unk_020 = 0x18;
-                        sp28[i]->unk_014 = 0x18U;
-                        sp28[i]->unk_00C = 0x1F;
+                        sp28[i]->unk_014 = GAMESTATEDATA_UNK_014_18;
+                        sp28[i]->unk_00C = GAMESTATEDATA_UNK_00C_1F;
+                        break;
+
+                    default:
                         break;
                 }
             }
@@ -4497,7 +4519,7 @@ s32 dm_game_main_4p(void) {
     if ((sp38[0] == 3) && (sp38[1] == sp38[0]) && (sp38[2] == sp38[1]) && (sp38[3] == sp38[2])) {
         if (temp_s4->unk_3AC < 0) {
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                if (sp18[var_s0]->unk_00C != 2) {
+                if (sp18[var_s0]->unk_00C != GAMESTATEDATA_UNK_00C_2) {
                     break;
                 }
             }
@@ -4506,7 +4528,7 @@ s32 dm_game_main_4p(void) {
                 temp_s4->unk_3C4 = 1;
 
                 for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                    sp18[var_s0]->unk_00C = 4;
+                    sp18[var_s0]->unk_00C = GAMESTATEDATA_UNK_00C_4;
                     if ((sp18[var_s0]->unk_04C == 1) ||
                         ((sp18[var_s0]->unk_04C != 1) && (var_s0 == 0) && (aiDebugP1 >= 0))) {
                         aifMakeFlagSet(sp18[var_s0]);
@@ -4526,29 +4548,29 @@ s32 dm_game_main_4p(void) {
 
     for (var_s0 = 0; var_s0 < 4; var_s0++) {
         if ((sp38[var_s0] == 3) && (sp18[var_s0]->unk_01C == 0x12)) {
-            if (sp18[var_s0]->unk_00C == 2) {
-                sp18[var_s0]->unk_00C = 4;
+            if (sp18[var_s0]->unk_00C == GAMESTATEDATA_UNK_00C_2) {
+                sp18[var_s0]->unk_00C = GAMESTATEDATA_UNK_00C_4;
             }
         } else if (sp38[var_s0] == 0x6) {
             var_t3 += 1;
             sp18[var_s0]->unk_020 = 5;
         } else if (sp38[var_s0] == -1) {
             if (sp18[var_s0]->unk_048 == 0) {
-                sp18[var_s0]->unk_014 = 0x10;
+                sp18[var_s0]->unk_014 = GAMESTATEDATA_UNK_014_10;
                 sp18[var_s0]->unk_01C = 0x10U;
                 sp18[var_s0]->unk_020 = 8;
                 sp18[var_s0]->unk_040 = 0x10U;
                 sp18[var_s0]->unk_048 = 1;
                 var_t4 += 1;
                 if (sp18[var_s0]->unk_04C == 1) {
-                    sp18[var_s0]->unk_00C = 0x19;
+                    sp18[var_s0]->unk_00C = GAMESTATEDATA_UNK_00C_19;
                 } else {
-                    sp18[var_s0]->unk_014 = 0x11;
-                    sp18[var_s0]->unk_00C = 0x13;
+                    sp18[var_s0]->unk_014 = GAMESTATEDATA_UNK_014_11;
+                    sp18[var_s0]->unk_00C = GAMESTATEDATA_UNK_00C_13;
                 }
             } else {
-                sp18[var_s0]->unk_014 = 0x11;
-                sp18[var_s0]->unk_00C = 0x13;
+                sp18[var_s0]->unk_014 = GAMESTATEDATA_UNK_014_11;
+                sp18[var_s0]->unk_00C = GAMESTATEDATA_UNK_00C_13;
             }
             sp18[var_s0]->unk_02B = 4;
         } else if (sp38[var_s0] == 2) {
@@ -4563,12 +4585,12 @@ s32 dm_game_main_4p(void) {
             sp18[var_s0]->unk_020 = 1;
             sp18[var_s0]->unk_04A = 0;
             sp18[var_s0]->unk_01C = 0x12;
-            sp18[var_s0]->unk_00C = 0x14;
+            sp18[var_s0]->unk_00C = GAMESTATEDATA_UNK_00C_14;
         } else if (sp38[var_s0] == 8) {
             sp18[var_s0]->unk_020 = 1;
             sp18[var_s0]->unk_04A = 1;
             sp18[var_s0]->unk_01C = 0x12;
-            sp18[var_s0]->unk_00C = 0x14;
+            sp18[var_s0]->unk_00C = GAMESTATEDATA_UNK_00C_14;
         }
     }
 
@@ -4778,7 +4800,7 @@ bool dm_game_demo_1p(void) {
     dm_calc_big_virus_pos(game_state_data);
 
     if ((temp_s4 == 3) && (watchGameP->unk_3AC < 0)) {
-        game_state_data[0].unk_00C = temp_s4;
+        game_state_data[0].unk_00C = GAMESTATEDATA_UNK_00C_3;
         animeState_set(&game_state_data[0].unk_094, 1);
         if ((game_state_data[0].unk_04C == 1) || (aiDebugP1 >= 0)) {
             aifMakeFlagSet(game_state_data);
@@ -4817,7 +4839,7 @@ bool dm_game_demo_2p(void) {
 
     if ((sp10[0] == 3) && (sp10[1] == sp10[0]) && (watchGameP->unk_3AC < 0)) {
         for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-            game_state_data[i].unk_00C = 4;
+            game_state_data[i].unk_00C = GAMESTATEDATA_UNK_00C_4;
 
             if (((&game_state_data[i])->unk_04C == 1) ||
                 (((&game_state_data[i])->unk_04C != 1) && (i == 0) && (aiDebugP1 >= 0))) {
@@ -4858,7 +4880,7 @@ bool dm_game_demo_4p(void) {
     if ((sp10[0] == 3) && (sp10[1] == sp10[0]) && (sp10[2] == sp10[1]) && (sp10[3] == sp10[2]) &&
         (watchGameP->unk_3AC < 0)) {
         for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-            game_state_data[i].unk_00C = 4;
+            game_state_data[i].unk_00C = GAMESTATEDATA_UNK_00C_4;
 
             if (((&game_state_data[i])->unk_04C == 1) ||
                 ((((&game_state_data[i])->unk_04C != 1) && (i == 0)) && (aiDebugP1 >= 0))) {
@@ -5824,8 +5846,9 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
 
     load_TexTile_4b(temp_v0->texs->tex, temp_v0->info[0], temp_v0->info[1], 0, 0, temp_v0->info[0] - 1,
                     temp_v0->info[1] - 1);
-    gfxSetScissor(&gGfxHead, 2, (s32)gameStateData->unk_006, gameStateData->unk_008 + gameStateData->unk_00A,
-                  gameStateData->unk_00A * 8, gameStateData->unk_00A * 0x10);
+    gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, gameStateData->unk_006,
+                  gameStateData->unk_008 + gameStateData->unk_00A, gameStateData->unk_00A * 8,
+                  gameStateData->unk_00A * 0x10);
 
     for (i = 0; i < 6; i++) {
         temp_v0 = dm_game_get_capsel_pal(temp_s6, i);
@@ -5838,12 +5861,12 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
     gDPPipeSync(gGfxHead++);
 #endif
 
-    gfxSetScissor(&gGfxHead, 2, 0, 0, 0x140, 0xF0);
+    gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
     if ((gameStateData->unk_04C != 1) && ((gameStateData->unk_04C == 1) || (arg1 != 0) || (aiDebugP1 < 0))) {
         struct_game_state_data_unk_178 *temp;
 
-        if ((visible_fall_point[arg1] == 0) || (gameStateData->unk_00C != 4)) {
+        if ((visible_fall_point[arg1] == 0) || (gameStateData->unk_00C != GAMESTATEDATA_UNK_00C_4)) {
             return;
         }
 
@@ -5901,7 +5924,8 @@ void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapC
 
     if (dm_calc_capsel_pos(gameStateData, sp20, sp28)) {
         if ((watchGameP->unk_420 != 0) || (gameStateData->unk_178.unk_2[0] <= 0) ||
-            ((gameStateData->unk_014 != 0xD) && (gameStateData->unk_014 != 1))) {
+            ((gameStateData->unk_014 != GAMESTATEDATA_UNK_014_D) &&
+             (gameStateData->unk_014 != GAMESTATEDATA_UNK_014_1))) {
             dm_draw_capsel_by_gfx(gameStateData, sp20, sp28);
         }
     }
@@ -5937,7 +5961,8 @@ void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, Game
 
     if (dm_calc_capsel_pos(gameStateDataRef, sp20, sp28)) {
         i = 0;
-        if ((gameStateDataRef->unk_00C == 1) || (gameStateDataRef->unk_00C == 2)) {
+        if ((gameStateDataRef->unk_00C == GAMESTATEDATA_UNK_00C_1) ||
+            (gameStateDataRef->unk_00C == GAMESTATEDATA_UNK_00C_2)) {
             i++;
             sp20[1] -= sp20[0];
             sp28[1] -= sp28[0];
@@ -5979,18 +6004,18 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     TiTexData *other;
 
     switch (gameStateDataRef->unk_014) {
-        case 0x0:
+        case GAMESTATEDATA_UNK_014_0:
             break;
 
-        case 0x1:
-        case 0x5:
-        case 0x6:
-        case 0x7:
-        case 0x8:
-        case 0x9:
-        case 0xA:
-        case 0xB:
-        case 0xC:
+        case GAMESTATEDATA_UNK_014_1:
+        case GAMESTATEDATA_UNK_014_5:
+        case GAMESTATEDATA_UNK_014_6:
+        case GAMESTATEDATA_UNK_014_7:
+        case GAMESTATEDATA_UNK_014_8:
+        case GAMESTATEDATA_UNK_014_9:
+        case GAMESTATEDATA_UNK_014_A:
+        case GAMESTATEDATA_UNK_014_B:
+        case GAMESTATEDATA_UNK_014_C:
             switch (evs_gamemode) {
                 case ENUM_EVS_GAMEMODE_1:
                     draw_flash_virus_lights(&gGfxHead, gameStateDataRef, game_map_data[arg1]);
@@ -5999,6 +6024,9 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
                 default:
                     break;
             }
+            break;
+
+        default:
             break;
     }
 
@@ -6026,7 +6054,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     }
 
     switch (gameStateDataRef->unk_014) {
-        case 3:
+        case GAMESTATEDATA_UNK_014_3:
             switch (evs_gamemode) {
                 case ENUM_EVS_GAMEMODE_3:
                     break;
@@ -6040,20 +6068,26 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
                     break;
             }
             break;
+
+        default:
+            break;
     }
 
     switch (gameStateDataRef->unk_014) {
         case 0x13:
             disp_allclear_logo(&gGfxHead, arg1, 0);
             break;
+
+        default:
+            break;
     }
 
     switch (gameStateDataRef->unk_014) {
-        case 0x15:
+        case GAMESTATEDATA_UNK_014_15:
             goto block_28;
             break;
 
-        case 4:
+        case GAMESTATEDATA_UNK_014_4:
             if (evs_gamemode != ENUM_EVS_GAMEMODE_3) {
             block_28:
                 switch (evs_gamemode) {
@@ -6071,11 +6105,14 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
                 }
             }
             break;
+
+        default:
+            break;
     }
 
     switch (gameStateDataRef->unk_014) {
-        case 0x10:
-        case 0x11:
+        case GAMESTATEDATA_UNK_014_10:
+        case GAMESTATEDATA_UNK_014_11:
             if (temp_s4->unk_000 == 0) {
                 if (gameStateDataRef->unk_04C == 0) {
                     temp_fv0 = sins(((s16)temp_s4->unk_424 << 0xA) & 0xFC00) * 0.0038757324f + 127.0f;
@@ -6098,74 +6135,89 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
             disp_retire_logo(&gGfxHead, arg1);
             break;
 
-        case 0x17:
+        case GAMESTATEDATA_UNK_014_17:
             disp_retire_logo(&gGfxHead, arg1);
+            break;
+
+        default:
             break;
     }
 
     switch (gameStateDataRef->unk_014) {
-        case 0x0 + 3:
-        case 0x1 + 3:
-        case 0x2 + 3:
-        case 0x3 + 3:
-        case 0x4 + 3:
-        case 0x5 + 3:
-        case 0x6 + 3:
-        case 0x7 + 3:
-        case 0x8 + 3:
-        case 0x9 + 3:
-        case 0x11 + 3:
-        case 0x13 + 3:
-        case 0x15 + 3:
+        case GAMESTATEDATA_UNK_014_3:
+        case GAMESTATEDATA_UNK_014_4:
+        case GAMESTATEDATA_UNK_014_5:
+        case GAMESTATEDATA_UNK_014_6:
+        case GAMESTATEDATA_UNK_014_7:
+        case GAMESTATEDATA_UNK_014_8:
+        case GAMESTATEDATA_UNK_014_9:
+        case GAMESTATEDATA_UNK_014_A:
+        case GAMESTATEDATA_UNK_014_B:
+        case GAMESTATEDATA_UNK_014_C:
+        case GAMESTATEDATA_UNK_014_14:
+        case GAMESTATEDATA_UNK_014_16:
+        case GAMESTATEDATA_UNK_014_18:
             if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
                 if (evs_gamesel == ENUM_EVS_GAMESEL_0) {
                     var_v0_4 = 0xA;
                 } else {
                     var_v0_4 = 0x4A;
                 }
-                func_8006AEFC(&temp_s4->unk_9D0[arg1], &gGfxHead, (s32)gameStateDataRef->unk_006,
+                func_8006AEFC(&temp_s4->unk_9D0[arg1], &gGfxHead, gameStateDataRef->unk_006,
                               gameStateDataRef->unk_008 + var_v0_4);
             }
             break;
 
-        case 0xA + 3:
-        case 0xB + 3:
-        case 0xC + 3:
-        case 0xD + 3:
-        case 0xE + 3:
-        case 0xF + 3:
-        case 0x10 + 3:
-        case 0x12 + 3:
-        case 0x14 + 3:
+        case GAMESTATEDATA_UNK_014_D:
+        case GAMESTATEDATA_UNK_014_E:
+        case GAMESTATEDATA_UNK_014_F:
+        case GAMESTATEDATA_UNK_014_10:
+        case GAMESTATEDATA_UNK_014_11:
+        case GAMESTATEDATA_UNK_014_12:
+        case GAMESTATEDATA_UNK_014_13:
+        case GAMESTATEDATA_UNK_014_15:
+        case GAMESTATEDATA_UNK_014_17:
+            break;
+
+        default:
             break;
     }
 
     switch (gameStateDataRef->unk_014) {
-        case 5:
-        case 6:
-        case 7:
+        case GAMESTATEDATA_UNK_014_5:
+        case GAMESTATEDATA_UNK_014_6:
+        case GAMESTATEDATA_UNK_014_7:
             disp_win_logo(&gGfxHead, arg1);
             break;
+
+        default:
+            break;
     }
 
     switch (gameStateDataRef->unk_014) {
-        case 8:
-        case 9:
-        case 0xA:
+        case GAMESTATEDATA_UNK_014_8:
+        case GAMESTATEDATA_UNK_014_9:
+        case GAMESTATEDATA_UNK_014_A:
             disp_lose_logo(&gGfxHead, arg1);
             break;
-    }
 
-    switch (gameStateDataRef->unk_014) {
-        case 0xB:
-        case 0xC:
-            disp_draw_logo(&gGfxHead, arg1);
+        default:
             break;
     }
 
     switch (gameStateDataRef->unk_014) {
-        case 1:
-        case 2:
+        case GAMESTATEDATA_UNK_014_B:
+        case GAMESTATEDATA_UNK_014_C:
+            disp_draw_logo(&gGfxHead, arg1);
+            break;
+
+        default:
+            break;
+    }
+
+    switch (gameStateDataRef->unk_014) {
+        case GAMESTATEDATA_UNK_014_1:
+        case GAMESTATEDATA_UNK_014_2:
             temp_lo = temp_s4->unk_3AC / (s32)evs_playcnt;
             temp_s0_2 = (temp_s4->unk_3AC / (s32)evs_playcnt) / 48;
 
@@ -6185,33 +6237,42 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
                 }
             }
             break;
+
+        default:
+            break;
     }
 
     switch (gameStateDataRef->unk_014) {
-        case 0x13:
-        case 0x15:
+        case GAMESTATEDATA_UNK_014_13:
+        case GAMESTATEDATA_UNK_014_15:
             if ((evs_gamesel == ENUM_EVS_GAMESEL_0) && (evs_gamemode == ENUM_EVS_GAMEMODE_3) &&
                 (temp_s4->unk_888[arg1] == 0)) {
                 push_any_key_draw(gameStateDataRef->unk_006 + 8, gameStateDataRef->unk_008 + 0xA0);
             }
             break;
+
+        default:
+            break;
     }
 
     switch (gameStateDataRef->unk_014) {
-        case 0xD:
+        case GAMESTATEDATA_UNK_014_D:
             func_80064298(arg1, &gGfxHead, 0);
             break;
 
-        case 0xE:
-        case 0xF:
+        case GAMESTATEDATA_UNK_014_E:
+        case GAMESTATEDATA_UNK_014_F:
             func_80064298(arg1, &gGfxHead, 1);
+            break;
+
+        default:
             break;
     }
 
     switch (gameStateDataRef->unk_014) {
-        case 0xD:
-        case 0xE:
-        case 0xF:
+        case GAMESTATEDATA_UNK_014_D:
+        case GAMESTATEDATA_UNK_014_E:
+        case GAMESTATEDATA_UNK_014_F:
             switch (evs_gamesel) {
                 case ENUM_EVS_GAMESEL_2:
                     draw_4p_attack_guide_panel(&gGfxHead, temp_s4->unk_8BC, arg1, (s32)gameStateDataRef->unk_006,
@@ -6222,16 +6283,19 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
                     break;
             }
             break;
+
+        default:
+            break;
     }
 
     switch (gameStateDataRef->unk_014) {
-        case 0x0 + 3:
-        case 0x1 + 3:
-        case 0x3 + 3:
-        case 0x4 + 3:
-        case 0x6 + 3:
-        case 0x7 + 3:
-        case 0x9 + 3:
+        case GAMESTATEDATA_UNK_014_3:
+        case GAMESTATEDATA_UNK_014_4:
+        case GAMESTATEDATA_UNK_014_6:
+        case GAMESTATEDATA_UNK_014_7:
+        case GAMESTATEDATA_UNK_014_9:
+        case GAMESTATEDATA_UNK_014_A:
+        case GAMESTATEDATA_UNK_014_C:
             if (temp_s4->unk_888[arg1] == 0) {
                 func_8006431C(arg1, &gGfxHead);
             }
@@ -6241,7 +6305,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
             break;
     }
 
-    gfxSetScissor(&gGfxHead, 2, 0, 0, 0x140, 0xF0);
+    gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, 0, 0, 0x140, 0xF0);
 }
 #endif
 
@@ -6313,7 +6377,7 @@ void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *map
 
     save_visible_fall_point_flag();
 
-    if (gameStateDataRef->unk_00C == 3) {
+    if (gameStateDataRef->unk_00C == GAMESTATEDATA_UNK_00C_3) {
         if ((temp_s5->unk_420 == 0) && dm_calc_capsel_pos(gameStateDataRef, sp18, sp20)) {
             dm_draw_capsel_by_cpu_tentative(gameStateDataRef, sp18, sp20);
         }
@@ -6326,7 +6390,7 @@ void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *map
                 joyCursorFastSet(L_JPAD, arg3);
             }
         }
-    } else if (gameStateDataRef->unk_00C == 4) {
+    } else if (gameStateDataRef->unk_00C == GAMESTATEDATA_UNK_00C_4) {
         if (gameStateDataRef->unk_020 == 1) {
             struct_game_state_data_unk_178 *temp_s0_2;
 
@@ -6622,7 +6686,7 @@ void dm_game_init(bool arg0) {
     watchGameP->unk_9C4 = -1;
     watchGameP->unk_9C8 = -1;
     watchGameP->unk_9CC = -1;
-    watchGameP->unk_A28.unk_74 = 0;
+    watchGameP->unk_A28.alpha = 0;
     watchGameP->unk_AA8 = -0x10;
     bzero(watchGameP->unk_AAC, sizeof(watchGameP->unk_AAC));
 
@@ -6661,8 +6725,8 @@ void dm_game_init(bool arg0) {
         temp_s0_3 = &game_state_data[i];
 
         temp_s0_3->unk_04B = i;
-        temp_s0_3->unk_00C = 1;
-        temp_s0_3->unk_014 = 2;
+        temp_s0_3->unk_00C = GAMESTATEDATA_UNK_00C_1;
+        temp_s0_3->unk_014 = GAMESTATEDATA_UNK_014_2;
         temp_s0_3->unk_01C = 1;
         temp_s0_3->unk_020 = 1;
         temp_s0_3->unk_025 = 0;
@@ -6851,9 +6915,8 @@ void dm_game_init_static(void) {
     msgWnd_init2(&watchGameP->unk_A28, &heapTop, 0x100, 0xA, var_v0 = 5, temp, 0);
 #endif
 
-    // TODO: SCREEN_WIDTH and SCREEN_HEIGHT ?
-    watchGameP->unk_A28.unk_28 = (s32)(0x140 - (watchGameP->unk_A28.unk_3C * 0x14)) >> 1;
-    watchGameP->unk_A28.unk_2C = (s32)(0xF0 - (watchGameP->unk_A28.unk_48 * 2)) >> 1;
+    watchGameP->unk_A28.xPos = (s32)(SCREEN_WIDTH - (watchGameP->unk_A28.unk_3C * 20)) >> 1;
+    watchGameP->unk_A28.yPos = (s32)(SCREEN_HEIGHT - (watchGameP->unk_A28.unk_48 * 2)) >> 1;
     RecWritingMsg_init(&watchGameP->recMessage, &heapTop);
 
     switch (evs_gamesel) {
@@ -7831,7 +7894,8 @@ const s32 color2index_6470[] = { 1, 0, 2 };
 
 void dm_game_graphic2(void) {
     struct_watchGame *temp_s7 = watchGame;
-    s32 temp_s2_2 = (game_state_data[0].unk_00C == 0x20) || (game_state_data[0].unk_00C == 0x21);
+    s32 temp_s2_2 = (game_state_data[0].unk_00C == GAMESTATEDATA_UNK_00C_20) ||
+                    (game_state_data[0].unk_00C == GAMESTATEDATA_UNK_00C_21);
     Mtx *mtx;
     Vtx *vtx;
     s32 i;
@@ -7847,7 +7911,7 @@ void dm_game_graphic2(void) {
     gSPSegment(gGfxHead++, 0x00, NULL);
 
     F3RCPinitRtn();
-    gfxSetScissor(&gGfxHead, 2, 0, 0, 0x140, 0xF0);
+    gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     F3ClearFZRtn(temp_s2_2);
     if (temp_s2_2 == 0) {
         if (temp_s7->unk_394 < 0x14) {
@@ -8149,14 +8213,17 @@ void dm_game_graphic2(void) {
 
     if (temp_s7->unk_880 == 0) {
         switch (game_state_data[0].unk_00C) {
-            case 0x21:
+            case GAMESTATEDATA_UNK_00C_21:
                 DebugMenu_8003FD0C(&gGfxHead);
                 DebugMenu_8003FB00();
                 break;
 
-            case 0x20:
+            case GAMESTATEDATA_UNK_00C_20:
                 DebugMenu_800409A0();
                 DebugMenu_800409DC(&gGfxHead);
+                break;
+
+            default:
                 break;
         }
 
@@ -8202,28 +8269,28 @@ void dm_game_graphic2(void) {
             j = temp_s7->unk_89C[i];
         }
 
-        if (temp_s7->unk_A28.unk_74 > 0) {
+        if (temp_s7->unk_A28.alpha > 0) {
             var_s6 = &temp_s7->unk_430[0xC];
 
             gSPDisplayList(gGfxHead++, normal_texture_init_dl);
             gDPSetCombineLERP(gGfxHead++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                               PRIMITIVE, 0);
             gDPSetRenderMode(gGfxHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
-            gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 200, temp_s7->unk_A28.unk_74);
+            gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 200, temp_s7->unk_A28.alpha);
             gDPSetTextureLUT(gGfxHead++, G_TT_NONE);
 
             gDPLoadTextureBlock_4b(gGfxHead++, var_s6->texs->tex, G_IM_FMT_I, var_s6->info[0], var_s6->info[1], 0,
                                    G_TX_NOMIRROR, G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            drawCursorPattern(&gGfxHead, var_s6->info[0], var_s6->info[1], 0x10, 0x10, temp_s7->unk_A28.unk_28 - 6,
-                              temp_s7->unk_A28.unk_2C - 6, (temp_s7->unk_A28.unk_3C * 0x14) + 0xC,
+            drawCursorPattern(&gGfxHead, var_s6->info[0], var_s6->info[1], 0x10, 0x10, temp_s7->unk_A28.xPos - 6,
+                              temp_s7->unk_A28.yPos - 6, (temp_s7->unk_A28.unk_3C * 0x14) + 0xC,
                               (temp_s7->unk_A28.unk_48 * 3) + 0xC);
 
             msgWnd_update(&temp_s7->unk_A28);
             msgWnd_draw(&temp_s7->unk_A28, &gGfxHead);
         }
 
-        temp_s7->unk_A28.unk_74 = CLAMP(temp_s7->unk_A28.unk_74 + temp_s7->unk_AA8, 0, 0xFF);
+        temp_s7->unk_A28.alpha = CLAMP(temp_s7->unk_A28.alpha + temp_s7->unk_AA8, 0, 0xFF);
 
         temp_s7->unk_38C = CLAMP(temp_s7->unk_38C + temp_s7->unk_390, 0, 0x1E);
 
@@ -8360,11 +8427,11 @@ void func_80071A44(void) {
 #if VERSION_US || VERSION_CN
 enum_main_no main_techmes(NNSched *sc) {
     struct_watchGame *watchGameP;
-    bool var_s3 = true;
+    bool keepRunning = true;
     OSMesgQueue scMQ;
     OSMesg scMsgBuff[NN_SC_MAX_MESGS];
     NNScClient scClient;
-    u8 temp_s1;
+    u8 sequenceBackup;
 
     osCreateMesgQueue(&scMQ, scMsgBuff, ARRAY_COUNT(scMsgBuff));
     nnScAddClient(sc, &scClient, &scMQ);
@@ -8380,14 +8447,14 @@ enum_main_no main_techmes(NNSched *sc) {
     watchGameP->messageWnd.unk_20 = 1;
     watchGameP->messageWnd.unk_24 = 1;
 
-    temp_s1 = evs_seqence;
+    sequenceBackup = evs_seqence;
     evs_seqence = 0;
     dm_game_init(false);
-    evs_seqence = temp_s1;
+    evs_seqence = sequenceBackup;
 
     dm_seq_play_in_game(SEQ_INDEX_23);
 
-    while (var_s3) {
+    while (keepRunning) {
         osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         joyProcCore();
 
@@ -8398,20 +8465,13 @@ enum_main_no main_techmes(NNSched *sc) {
             continue;
         }
 #endif
+
         switch (watchGameP->unk_9AC) {
             case 0x0:
                 if (watchGameP->unk_9B0 == 0xFF) {
                     watchGameP->unk_9AC = 1;
                 } else {
-                    s32 temp_v1_3 = watchGameP->unk_9B0 + 4;
-                    s32 var_a0;
-
-                    if (temp_v1_3 <= 0xFF) {
-                        var_a0 = temp_v1_3;
-                    } else {
-                        var_a0 = 0xFF;
-                    }
-                    watchGameP->unk_9B0 = var_a0;
+                    watchGameP->unk_9B0 = MIN(0xFF, watchGameP->unk_9B0 + 4);
                 }
                 break;
 
@@ -8431,15 +8491,9 @@ enum_main_no main_techmes(NNSched *sc) {
 
             case 0x3:
                 if (watchGameP->unk_9B0 == 0) {
-                    var_s3 = false;
+                    keepRunning = false;
                 } else {
-                    s32 var_v0;
-
-                    var_v0 = watchGameP->unk_9B0 - 4;
-                    if (var_v0 < 0) {
-                        var_v0 = 0;
-                    }
-                    watchGameP->unk_9B0 = var_v0;
+                    watchGameP->unk_9B0 = MAX(0, watchGameP->unk_9B0 - 4);
                 }
                 break;
         }
@@ -8478,7 +8532,7 @@ void graphic_techmes(void) {
 
     draw_menu_bg(&gGfxHead, 0, -0x78);
 
-    dm_draw_KaSaMaRu(&gGfxHead, &mtx, &vtx, msgWnd_isSpeaking(&watchGameP->messageWnd), 0xC8, 0x80, 1, 0xFFU);
+    dm_draw_KaSaMaRu(&gGfxHead, &mtx, &vtx, msgWnd_isSpeaking(&watchGameP->messageWnd), 0xC8, 0x80, 1, 0xFF);
     msgWnd_draw(&watchGameP->messageWnd, &gGfxHead);
     if (watchGameP->unk_9AC == 2) {
         push_any_key_draw(128, 192);

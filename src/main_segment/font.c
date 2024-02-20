@@ -1013,10 +1013,6 @@ const Gfx init_dl_135[] = {
 #include "main_segment/font/init_dl_135.gfx.inc.c"
 };
 
-STATIC_INLINE unsigned char inline_fn(const unsigned char *arg0) {
-    return *arg0;
-}
-
 /**
  * Original name: fontStr_nextChar
  */
@@ -1045,8 +1041,7 @@ s32 fontStr_nextChar(const unsigned char *arg0) {
         if (temp < 0x3F) {
             var_v1 = 1;
         }
-#endif
-#if VERSION_CN
+#elif VERSION_CN
         var_v1 = 1;
         temp = firstChar + 0x5F;
 
@@ -1149,34 +1144,15 @@ s32 font2index(const unsigned char *arg0) {
 /**
  * Original name: ascii2index
  */
-#if VERSION_US || VERSION_GW
 void ascii2index(s32 character, s32 arg1, s32 *indexP, s32 *sizeP) {
-    struct_800A6F70 *ptr = _tbl_133[arg1 % ARRAY_COUNTU(_tbl_133)];
-    struct_800A6F70 *ptr2;
-    unsigned char index;
-    unsigned char size;
-
-    ptr2 = &ptr[character % 0x80U];
-
-    index = ptr2->index;
-    size = ptr2->size;
-
-    *indexP = index;
-    *sizeP = size;
-}
-#endif
-
-#if VERSION_CN
-void ascii2index(s32 character, s32 arg1, s32 *indexP, s32 *sizeP) {
-    struct_800A6F70 *ptr = _tbl_133[arg1 % ARRAY_COUNTU(_tbl_133)];
-    struct_800A6F70 *ptr2;
+    const struct_800A6F70 *ptr = _tbl_133[arg1 % ARRAY_COUNTU(_tbl_133)];
+    const struct_800A6F70 *ptr2;
 
     ptr2 = &ptr[character % 0x80U];
 
     *indexP = ptr2->index;
     *sizeP = ptr2->size;
 }
-#endif
 
 /**
  * Original name: font16_initDL
@@ -1203,8 +1179,8 @@ void font16_initDL2(Gfx **gfxP) {
 /**
  * Original name: fontXX_draw
  */
-void fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const unsigned char *arg5) {
-    fontXX_drawID(gfxP, x, y, width, height, font2index(arg5));
+void fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const unsigned char *str) {
+    fontXX_drawID(gfxP, x, y, width, height, font2index(str));
 }
 
 /**
@@ -1222,8 +1198,7 @@ bool fontXX_drawID(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index) {
 
 #if VERSION_US || VERSION_GW
     texture = font_a_tex;
-#endif
-#if VERSION_CN
+#elif VERSION_CN
     if (index > 1000) {
         texture = D_800B2270_cn;
         index -= 1000;
@@ -1260,46 +1235,46 @@ bool fontXX_drawID(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index) {
 /**
  * Original name: fontXX_draw2
  */
-void fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsigned char *arg5) {
-    fontXX_drawID2(gfxP, arg1, arg2, arg3, arg4, font2index(arg5));
+void fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsigned char *str) {
+    fontXX_drawID2(gfxP, arg1, arg2, arg3, arg4, font2index(str));
 }
 
 /**
  * Original name: fontXX_drawID2
  */
-bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
+bool fontXX_drawID2(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index) {
     s32 sp20[8];
     s32 i;
-    s32 width;
-    s32 height;
+    s32 textureWidth;
+    s32 textureHeight;
     u8 *texture;
 
-    if ((arg3 <= 0.0f) || (arg4 <= 0.0f) || (arg5 == 0)) {
+    if ((width <= 0.0f) || (height <= 0.0f) || (index == 0)) {
         return false;
     }
 
 #if VERSION_CN
-    if (arg5 > 1000) {
-        return fontXX_drawID(gfxP, arg1, arg2, arg3, arg4, arg5);
+    if (index > 1000) {
+        return fontXX_drawID(gfxP, x, y, width, height, index);
     }
 #endif
 
-    width = 0xC;
-    height = 0xC;
+    textureWidth = 0xC;
+    textureHeight = 0xC;
 
-    sp20[0] = (arg1 * 4.0) + 0.5;
-    sp20[1] = (arg2 * 4.0) + 0.5;
-    sp20[2] = ((arg1 + arg3) * 4.0) + 0.5;
-    sp20[3] = ((arg2 + arg4) * 4.0) + 0.5;
+    sp20[0] = (x * 4.0) + 0.5;
+    sp20[1] = (y * 4.0) + 0.5;
+    sp20[2] = (x + width) * 4.0 + 0.5;
+    sp20[3] = (y + height) * 4.0 + 0.5;
     sp20[4] = 0;
     sp20[5] = 0;
-    sp20[6] = ((f64)0x3000 / arg3) + 0.5;
-    sp20[7] = ((f64)0x3000 / arg4) + 0.5;
+    sp20[6] = (f64)0x3000 / width + 0.5;
+    sp20[7] = (f64)0x3000 / height + 0.5;
 
     texture = font_2_tex;
 
-    if (arg5 > 0) {
-        s32 temp = ((arg5 - 1) * width * height);
+    if (index > 0) {
+        s32 temp = (index - 1) * textureWidth * textureHeight;
 
         gDPLoadTextureTile_4b((*gfxP)++, &texture[temp], G_IM_FMT_I, 24, 0, 0, 0, 23, 11, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                               G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -1328,11 +1303,11 @@ bool fontXX_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5
 /**
  * Original name: fontAsc_draw
  */
-bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsigned char *arg5) {
+bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, unsigned char *arg5) {
     s32 index;
     s32 size;
 
-    ascii2index(inline_fn(arg5), 0, &index, &size);
+    ascii2index(*arg5, 0, &index, &size);
     return fontAsc_drawID(gfxP, arg1, arg2, arg3, arg4, index);
 }
 
@@ -1388,11 +1363,11 @@ INCLUDE_ASM("asm/gw/nonmatchings/main_segment/font", fontAsc_drawID);
 /**
  * Original name: fontAsc_draw2
  */
-bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsigned char *arg5) {
+bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, unsigned char *arg5) {
     s32 index;
     s32 size;
 
-    ascii2index(inline_fn(arg5), 1, &index, &size);
+    ascii2index(*arg5, 1, &index, &size);
     return fontAsc_drawID2(gfxP, arg1, arg2, arg3, arg4, index);
 }
 

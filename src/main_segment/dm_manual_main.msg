@@ -7,7 +7,7 @@ const char mes_1_1[] = MSG_COLOR(WHITE)
     "大家好！" MSG_NEWLINE
     "我是帕拉贡。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_1_2[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -22,7 +22,7 @@ const char mes_1_2[] = MSG_COLOR(WHITE)
     "生。" MSG_NEWLINE
     "请注意! "
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_1_3[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -34,13 +34,13 @@ const char mes_1_3[] = MSG_COLOR(WHITE)
 #if VERSION_CN
     "这个游戏是把维" MSG_NEWLINE
     "生素药丸扔进瓶" MSG_NEWLINE
-    "子消灭病毒。" MSG_W(2)
+    "子消灭病毒。" MSG_WAIT(2)
     MSG_END
     "这个游戏是把维" MSG_NEWLINE
     "生素药丸扔进瓶" MSG_NEWLINE
     "子消灭病毒。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_1_4[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -52,7 +52,7 @@ const char mes_1_4[] = MSG_COLOR(WHITE)
     "按Ａ和Ｂ键旋转" MSG_NEWLINE
     "药丸。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_1_5[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -67,7 +67,7 @@ const char mes_1_5[] = MSG_COLOR(WHITE)
     "药丸可以消除它" MSG_NEWLINE
     "们。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_1_6[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -80,7 +80,7 @@ const char mes_1_6[] = MSG_COLOR(WHITE)
     "消灭瓶中所有病" MSG_NEWLINE
     "毒就可以过关。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_1_7[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -94,7 +94,7 @@ const char mes_1_7[] = MSG_COLOR(WHITE)
     "话，游戏就结束" MSG_NEWLINE
     "了。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_1_8[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -106,7 +106,7 @@ const char mes_1_8[] = MSG_COLOR(WHITE)
     "就先到这里吧，" MSG_NEWLINE
     "等会儿见！"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_2_1[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -120,7 +120,7 @@ const char mes_2_1[] = MSG_COLOR(WHITE)
     "绍二人对战的游" MSG_NEWLINE
     "戏规则。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_2_2[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -134,7 +134,7 @@ const char mes_2_2[] = MSG_COLOR(WHITE)
     "要比对手更快地" MSG_NEWLINE
     "消灭病毒。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_2_3[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -148,7 +148,7 @@ const char mes_2_3[] = MSG_COLOR(WHITE)
     "满到瓶口的话，" MSG_NEWLINE
     "你就输了。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_2_4[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -160,7 +160,7 @@ const char mes_2_4[] = MSG_COLOR(WHITE)
     "完成连消可以把" MSG_NEWLINE
     "垃圾送给对手。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_2_5[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -174,7 +174,7 @@ const char mes_2_5[] = MSG_COLOR(WHITE)
     "送出去的垃圾就" MSG_NEWLINE
     "越多！"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_2_6[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -186,7 +186,7 @@ const char mes_2_6[] = MSG_COLOR(WHITE)
     "完成两次连消送" MSG_NEWLINE
     "出两个垃圾。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_2_7[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -201,7 +201,7 @@ const char mes_2_7[] = MSG_COLOR(WHITE)
     "成四次连消送出" MSG_NEWLINE
     "四个垃圾。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_2_8[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -214,7 +214,7 @@ const char mes_2_8[] = MSG_COLOR(WHITE)
     "一次最多送出四" MSG_NEWLINE
     "个垃圾。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_2_9[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -226,7 +226,7 @@ const char mes_2_9[] = MSG_COLOR(WHITE)
     "就先到这里吧，" MSG_NEWLINE
     "等会儿见！"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_1[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -240,7 +240,7 @@ const char mes_3_1[] = MSG_COLOR(WHITE)
     "绍四人对战的游" MSG_NEWLINE
     "戏规则。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_2[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -254,7 +254,7 @@ const char mes_3_2[] = MSG_COLOR(WHITE)
     "要比对手更快地" MSG_NEWLINE
     "消灭病毒。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_3[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -268,7 +268,7 @@ const char mes_3_3[] = MSG_COLOR(WHITE)
     "满到瓶口的话，" MSG_NEWLINE
     "你就输了。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_4[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -280,7 +280,7 @@ const char mes_3_4[] = MSG_COLOR(WHITE)
     "完成连消可以把" MSG_NEWLINE
     "垃圾送给对手。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_5[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -294,7 +294,7 @@ const char mes_3_5[] = MSG_COLOR(WHITE)
     "你的垃圾会送到" MSG_NEWLINE
     "哪里去。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_6[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -308,7 +308,7 @@ const char mes_3_6[] = MSG_COLOR(WHITE)
     "你右边的玩家会" MSG_NEWLINE
     "收到垃圾。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_7[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -322,7 +322,7 @@ const char mes_3_7[] = MSG_COLOR(WHITE)
     "你右边的第二个" MSG_NEWLINE
     "玩家会收到垃圾。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_8[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -336,7 +336,7 @@ const char mes_3_8[] = MSG_COLOR(WHITE)
     "你右边的第三个" MSG_NEWLINE
     "玩家会收到垃圾。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_9[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -350,7 +350,7 @@ const char mes_3_9[] = MSG_COLOR(WHITE)
     "色可以让两个玩" MSG_NEWLINE
     "家收到垃圾。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_10[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -364,7 +364,7 @@ const char mes_3_10[] = MSG_COLOR(WHITE)
     "没有人你送出的" MSG_NEWLINE
     "垃圾就到最左边。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_11[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -377,7 +377,7 @@ const char mes_3_11[] = MSG_COLOR(WHITE)
     "下，你送给同伴" MSG_NEWLINE
     "的垃圾。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_12[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -389,7 +389,7 @@ const char mes_3_12[] = MSG_COLOR(WHITE)
     "会送到你们的" MSG_NEWLINE
     "储备箱，"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_13[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -402,7 +402,7 @@ const char mes_3_13[] = MSG_COLOR(WHITE)
     "储备箱中的垃圾" MSG_NEWLINE
     "会自动加到"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_14[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -416,7 +416,7 @@ const char mes_3_14[] = MSG_COLOR(WHITE)
     "同伴送给对手的" MSG_NEWLINE
     "垃圾中。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_3_15[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -428,7 +428,7 @@ const char mes_3_15[] = MSG_COLOR(WHITE)
     "就先到这里吧，" MSG_NEWLINE
     "等会儿见！"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_4_1[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -440,7 +440,7 @@ const char mes_4_1[] = MSG_COLOR(WHITE)
     "现在我要给你一" MSG_NEWLINE
     "些提示。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_4_2[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -453,7 +453,7 @@ const char mes_4_2[] = MSG_COLOR(WHITE)
     "首先，纵向拼出" MSG_NEWLINE
     "同色药丸更容易。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_4_3[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -467,7 +467,7 @@ const char mes_4_3[] = MSG_COLOR(WHITE)
     "练后，尽量也横" MSG_NEWLINE
     "向拼色。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_4_4[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -480,7 +480,7 @@ const char mes_4_4[] = MSG_COLOR(WHITE)
     "会播放一段特别" MSG_NEWLINE
     "的旋律。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_4_5[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -494,7 +494,7 @@ const char mes_4_5[] = MSG_COLOR(WHITE)
     "个药丸下落的速" MSG_NEWLINE
     "度会加快。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_4_6[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -507,7 +507,7 @@ const char mes_4_6[] = MSG_COLOR(WHITE)
     "多时，音乐的速" MSG_NEWLINE
     "度会加快。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_4_7[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -521,7 +521,7 @@ const char mes_4_7[] = MSG_COLOR(WHITE)
     "装满时，会开始" MSG_NEWLINE
     "出现警告音乐。"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_4_8[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -533,7 +533,7 @@ const char mes_4_8[] = MSG_COLOR(WHITE)
     "危险！" MSG_NEWLINE
     "你最好加快速度！"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_4_9[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -544,7 +544,7 @@ const char mes_4_9[] = MSG_COLOR(WHITE)
     "我要说的都说了。" MSG_NEWLINE
     "现在开始游戏吧！"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;
 
 const char mes_4_10[] = MSG_COLOR(WHITE)
 #if VERSION_US
@@ -555,4 +555,4 @@ const char mes_4_10[] = MSG_COLOR(WHITE)
     "后会有期！" MSG_NEWLINE
     "再见！"
 #endif
-    MSG_W(2) MSG_END;
+    MSG_WAIT(2) MSG_END;

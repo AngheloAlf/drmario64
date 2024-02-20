@@ -74,12 +74,9 @@ typedef struct struct_watchGame {
     /* 0x06C */ s32 unk_06C;
     /* 0x070 */ struct_watchGame_unk_070 unk_070;
     /* 0x0B8 */ struct_watchGame_unk_0B8 unk_0B8[4];
-    /* 0x348 */ UNK_TYPE4 unk_348[UNK_SIZE];
-    /* 0x34C */ UNK_TYPE1 unk_34C[0xC];
-    /* 0x358 */ UNK_TYPE4 unk_358[UNK_SIZE];
-    /* 0x35C */ UNK_TYPE1 unk_35C[0xC];
-    /* 0x368 */ UNK_TYPE4 unk_368[UNK_SIZE];
-    /* 0x36C */ UNK_TYPE1 unk_36C[0xC];
+    /* 0x348 */ s32 unk_348[MAXCONTROLLERS];
+    /* 0x358 */ s32 unk_358[MAXCONTROLLERS];
+    /* 0x368 */ s32 unk_368[MAXCONTROLLERS];
     /* 0x378 */ UNK_TYPE4 unk_378;
     /* 0x37C */ s32 unk_37C[4];
     /* 0x38C */ UNK_TYPE unk_38C;
@@ -175,6 +172,71 @@ typedef struct struct_game_state_data_unk_050 {
     /* 0x2 */ u16 unk_2;
 } struct_game_state_data_unk_050; // size = 0x4
 
+typedef enum EnumGameStateDataUnk00C {
+    /* 0x00 */ GAMESTATEDATA_UNK_00C_0,
+    /* 0x01 */ GAMESTATEDATA_UNK_00C_1,
+    /* 0x02 */ GAMESTATEDATA_UNK_00C_2,
+    /* 0x03 */ GAMESTATEDATA_UNK_00C_3,
+    /* 0x04 */ GAMESTATEDATA_UNK_00C_4,
+    /* 0x05 */ GAMESTATEDATA_UNK_00C_5,
+    /* 0x06 */ GAMESTATEDATA_UNK_00C_6,
+    /* 0x07 */ GAMESTATEDATA_UNK_00C_7,
+    /* 0x08 */ GAMESTATEDATA_UNK_00C_8,
+    /* 0x09 */ GAMESTATEDATA_UNK_00C_9,
+    /* 0x0A */ GAMESTATEDATA_UNK_00C_A,
+    /* 0x0B */ GAMESTATEDATA_UNK_00C_B,
+    /* 0x0C */ GAMESTATEDATA_UNK_00C_C,
+    /* 0x0D */ GAMESTATEDATA_UNK_00C_D,
+    /* 0x0E */ GAMESTATEDATA_UNK_00C_E,
+    /* 0x0F */ GAMESTATEDATA_UNK_00C_F,
+    /* 0x10 */ GAMESTATEDATA_UNK_00C_10,
+    /* 0x11 */ GAMESTATEDATA_UNK_00C_11,
+    /* 0x12 */ GAMESTATEDATA_UNK_00C_12,
+    /* 0x13 */ GAMESTATEDATA_UNK_00C_13,
+    /* 0x14 */ GAMESTATEDATA_UNK_00C_14,
+    /* 0x15 */ GAMESTATEDATA_UNK_00C_15,
+    /* 0x16 */ GAMESTATEDATA_UNK_00C_16,
+    /* 0x17 */ GAMESTATEDATA_UNK_00C_17,
+    /* 0x18 */ GAMESTATEDATA_UNK_00C_18,
+    /* 0x19 */ GAMESTATEDATA_UNK_00C_19,
+    /* 0x1A */ GAMESTATEDATA_UNK_00C_1A,
+    /* 0x1B */ GAMESTATEDATA_UNK_00C_1B,
+    /* 0x1C */ GAMESTATEDATA_UNK_00C_1C,
+    /* 0x1D */ GAMESTATEDATA_UNK_00C_1D,
+    /* 0x1E */ GAMESTATEDATA_UNK_00C_1E,
+    /* 0x1F */ GAMESTATEDATA_UNK_00C_1F,
+    /* 0x20 */ GAMESTATEDATA_UNK_00C_20,
+    /* 0x21 */ GAMESTATEDATA_UNK_00C_21,
+} EnumGameStateDataUnk00C;
+
+typedef enum EnumGameStateDataUnk014 {
+    /* 0x00 */ GAMESTATEDATA_UNK_014_0,
+    /* 0x01 */ GAMESTATEDATA_UNK_014_1,
+    /* 0x02 */ GAMESTATEDATA_UNK_014_2,
+    /* 0x03 */ GAMESTATEDATA_UNK_014_3,
+    /* 0x04 */ GAMESTATEDATA_UNK_014_4,
+    /* 0x05 */ GAMESTATEDATA_UNK_014_5,
+    /* 0x06 */ GAMESTATEDATA_UNK_014_6,
+    /* 0x07 */ GAMESTATEDATA_UNK_014_7,
+    /* 0x08 */ GAMESTATEDATA_UNK_014_8,
+    /* 0x09 */ GAMESTATEDATA_UNK_014_9,
+    /* 0x0A */ GAMESTATEDATA_UNK_014_A,
+    /* 0x0B */ GAMESTATEDATA_UNK_014_B,
+    /* 0x0C */ GAMESTATEDATA_UNK_014_C,
+    /* 0x0D */ GAMESTATEDATA_UNK_014_D,
+    /* 0x0E */ GAMESTATEDATA_UNK_014_E,
+    /* 0x0F */ GAMESTATEDATA_UNK_014_F,
+    /* 0x10 */ GAMESTATEDATA_UNK_014_10,
+    /* 0x11 */ GAMESTATEDATA_UNK_014_11,
+    /* 0x12 */ GAMESTATEDATA_UNK_014_12,
+    /* 0x13 */ GAMESTATEDATA_UNK_014_13,
+    /* 0x14 */ GAMESTATEDATA_UNK_014_14,
+    /* 0x15 */ GAMESTATEDATA_UNK_014_15,
+    /* 0x16 */ GAMESTATEDATA_UNK_014_16,
+    /* 0x17 */ GAMESTATEDATA_UNK_014_17,
+    /* 0x18 */ GAMESTATEDATA_UNK_014_18,
+} EnumGameStateDataUnk014;
+
 typedef struct struct_game_state_data {
     /* 0x000 */ u32 unk_000;
     /* 0x004 */ u16 unk_004;
@@ -182,10 +244,10 @@ typedef struct struct_game_state_data {
     /* 0x008 */ s16 unk_008;
     /* 0x008 */ s8 unk_00A;
     /* 0x008 */ UNK_TYPE1 unk_00B[0x1];
-    /* 0x00C */ s32 unk_00C; // TODO: enum?
-    /* 0x010 */ s32 unk_010;
-    /* 0x014 */ u32 unk_014; // TODO: enum?
-    /* 0x018 */ s32 unk_018;
+    /* 0x00C */ EnumGameStateDataUnk00C unk_00C;
+    /* 0x010 */ EnumGameStateDataUnk00C unk_010;
+    /* 0x014 */ EnumGameStateDataUnk014 unk_014;
+    /* 0x018 */ EnumGameStateDataUnk014 unk_018;
     /* 0x01C */ UNK_TYPE4 unk_01C;
     /* 0x020 */ u32 unk_020; // TODO: enum?
     /* 0x024 */ u8 unk_024;
@@ -370,7 +432,7 @@ void func_80064940(void *arg0);
 bool func_8006498C(s32 storyLevel, s32 storyNumber, s32 arg2);
 void dm_save_all(void);
 void dm_query_pause_player(struct_game_state_data *arg0);
-s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32 arg2);
+s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 arg2);
 s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, s32 index);
 void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1);
 void func_80066808(struct_game_state_data *gameStateData);

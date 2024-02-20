@@ -137,10 +137,16 @@ typedef struct struct_CopyTexBlock_arg0 {
     /* 0x24 */ s32 unk_24;
 } struct_CopyTexBlock_arg0; // size >= 0x28
 
+typedef enum GfxSetScissorMode {
+    /* 0 */ GFXSETSCISSOR_INTERLACE_ODD,
+    /* 1 */ GFXSETSCISSOR_INTERLACE_EVEN,
+    /* 2 */ GFXSETSCISSOR_INTERLACE_NO,
+    /* 3 */ GFXSETSCISSOR_INTERLACE_NO2,
+} GfxSetScissorMode;
 
-void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-void func_80040D34(Gfx **gxfP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 red, s32 green, s32 blue);
-void FillRectRGBA(Gfx **gfxP, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 green, s32 blue, s32 alpha);
+void gfxSetScissor(Gfx **gfxP, GfxSetScissorMode mode, s32 x, s32 y, s32 width, s32 height);
+void func_80040D34(Gfx **gxfP, s32 x, s32 y, s32 width, s32 height, s32 red, s32 green, s32 blue);
+void FillRectRGBA(Gfx **gfxP, s32 x, s32 y, s32 width, s32 height, s32 red, s32 green, s32 blue, s32 alpha);
 void CopyTexBlock(struct_CopyTexBlock_arg0 *arg0);
 void CopyTexBlock4_LoadTex(struct_CopyTexBlock_arg0 *arg0);
 void CopyTexBlock4(Gfx **gfxP, u16 *tlut, void *arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);

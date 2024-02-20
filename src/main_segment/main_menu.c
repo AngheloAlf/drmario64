@@ -69,7 +69,7 @@ void func_80045E94(MenuItem *item) {
 
     item->unk_14 = temp_fv0;
     for (i = 0; i < MENUITEM_UNK_LEN2; i++) {
-        item->unk_0C[i] = item->unk_1C[i] + (item->unk_24[i] - item->unk_1C[i]) * temp_fv0;
+        item->pos[i] = item->unk_1C[i] + (item->unk_24[i] - item->unk_1C[i]) * temp_fv0;
     }
 }
 #endif
@@ -84,8 +84,8 @@ void transFunc_curve(MenuItem *item) {
     temp_ft0 = func_80045E48(temp_fv0);
     item->unk_14 = temp_fv0;
 
-    for (i = 0; i < ARRAY_COUNTU(item->unk_0C); i++) {
-        item->unk_0C[i] = item->unk_1C[i] + ((item->unk_24[i] - item->unk_1C[i]) * temp_ft0);
+    for (i = 0; i < ARRAY_COUNTU(item->pos); i++) {
+        item->pos[i] = item->unk_1C[i] + ((item->unk_24[i] - item->unk_1C[i]) * temp_ft0);
     }
 }
 #endif
@@ -100,8 +100,8 @@ void transFunc_finger(MenuItem *item) {
     temp_fv0_2 = (sinf(temp_fv0 * (2 * M_PI)) + 1.0) * 0.5;
     item->unk_14 = temp_fv0;
 
-    for (i = 0; i < ARRAY_COUNTU(item->unk_0C); i++) {
-        item->unk_0C[i] = item->unk_1C[i] + (item->unk_24[i] - item->unk_1C[i]) * temp_fv0_2;
+    for (i = 0; i < ARRAY_COUNTU(item->pos); i++) {
+        item->pos[i] = item->unk_1C[i] + (item->unk_24[i] - item->unk_1C[i]) * temp_fv0_2;
     }
 }
 #endif
@@ -199,11 +199,11 @@ void menuItem_init(MenuItem *item, s32 xPos, s32 yPos) {
 
     item->unk_24[0] = xPos;
     item->unk_1C[0] = xPos;
-    item->unk_0C[0] = xPos;
+    item->pos[0] = xPos;
 
     item->unk_24[1] = yPos;
     item->unk_1C[1] = yPos;
-    item->unk_0C[1] = yPos;
+    item->pos[1] = yPos;
 
     item->scaleCallback = scaleFunc_curve;
     item->unk_14 = 1.0f;
@@ -249,11 +249,11 @@ void menuItem_updateTransScale(MenuItem *item, MenuItem *parent) {
     for (i = 0; i < 2U; i++) {
         f32 temp_ft0;
 
-        item->unk_0C[i] = item->unk_0C[i] * parent->unk_30[i] + parent->unk_0C[i];
+        item->pos[i] = item->pos[i] * parent->unk_30[i] + parent->pos[i];
 
         temp_ft0 = item->unk_30[i] * parent->unk_30[i];
         item->unk_30[i] = temp_ft0;
-        item->unk_0C[i] = item->unk_0C[i] - (item->unk_00[i] * temp_ft0);
+        item->pos[i] = item->pos[i] - (item->unk_00[i] * temp_ft0);
     }
 }
 #endif
@@ -432,19 +432,19 @@ bool menuItem_outOfScreen(MenuItem *item, s32 arg1, s32 arg2) {
         return true;
     }
 
-    if (item->unk_0C[0] >= SCREEN_WIDTH) {
+    if (item->pos[0] >= SCREEN_WIDTH) {
         return true;
     }
 
-    if ((item->unk_0C[1] >= SCREEN_HEIGHT)) {
+    if ((item->pos[1] >= SCREEN_HEIGHT)) {
         return true;
     }
 
-    if (item->unk_0C[0] + arg1 * item->unk_30[0] < 0) {
+    if (item->pos[0] + arg1 * item->unk_30[0] < 0) {
         return true;
     }
 
-    if (item->unk_0C[1] + arg2 * item->unk_30[1] < 0) {
+    if (item->pos[1] + arg2 * item->unk_30[1] < 0) {
         return true;
     }
 
@@ -472,10 +472,10 @@ bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3) {
 
     func_80046844(item, gfxP);
     if (arg2->info[3] & TITEX_FLAGS_BLOCK) {
-        tiStretchTexBlock(gfxP, arg2, arg3, item->unk_0C[0], item->unk_0C[1], arg2->info[0] * item->unk_30[0],
+        tiStretchTexBlock(gfxP, arg2, arg3, item->pos[0], item->pos[1], arg2->info[0] * item->unk_30[0],
                           arg2->info[1] * item->unk_30[1]);
     } else {
-        tiStretchTexTile(gfxP, arg2, arg3, 0, 0, arg2->info[0], arg2->info[1], item->unk_0C[0], item->unk_0C[1],
+        tiStretchTexTile(gfxP, arg2, arg3, 0, 0, arg2->info[0], arg2->info[1], item->pos[0], item->pos[1],
                          arg2->info[0] * item->unk_30[0], arg2->info[1] * item->unk_30[1]);
     }
     return true;
@@ -485,22 +485,22 @@ bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3) {
 #if VERSION_US || VERSION_CN
 bool func_80046C74(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     f32 sp28[4] = {
-        item->unk_0C[0],
-        item->unk_0C[1],
+        item->pos[0],
+        item->pos[1],
         item->unk_30[0],
         item->unk_30[1],
     };
     bool drawn;
 
-    item->unk_0C[0] += arg4;
-    item->unk_0C[1] += arg5;
+    item->pos[0] += arg4;
+    item->pos[1] += arg5;
     item->unk_30[0] *= arg6;
     item->unk_30[1] *= arg7;
 
     drawn = menuItem_drawTex(item, gfxP, arg2, arg3);
 
-    item->unk_0C[0] = sp28[0];
-    item->unk_0C[1] = sp28[1];
+    item->pos[0] = sp28[0];
+    item->pos[1] = sp28[1];
     item->unk_30[0] = sp28[2];
     item->unk_30[1] = sp28[3];
 
@@ -532,11 +532,11 @@ s32 menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData
     }
 
     if ((arg2->info[3] & TITEX_FLAGS_BLOCK) && (arg3->info[3] & TITEX_FLAGS_BLOCK)) {
-        StretchAlphaTexBlock(gfxP, var_s0, var_s1, sp48[0], arg2->info[0], sp48[1], arg3->info[0], item->unk_0C[0],
-                             item->unk_0C[1], var_s0 * item->unk_30[0], var_s1 * item->unk_30[1]);
+        StretchAlphaTexBlock(gfxP, var_s0, var_s1, sp48[0], arg2->info[0], sp48[1], arg3->info[0], item->pos[0],
+                             item->pos[1], var_s0 * item->unk_30[0], var_s1 * item->unk_30[1]);
     } else {
         StretchAlphaTexTile(gfxP, var_s0, var_s1, arg2->texs->tex, arg2->info[0], arg3->texs->tex, arg3->info[0], 0, 0,
-                            var_s0, arg2->info[1], item->unk_0C[0], item->unk_0C[1], var_s0 * item->unk_30[0],
+                            var_s0, arg2->info[1], item->pos[0], item->pos[1], var_s0 * item->unk_30[0],
                             var_s1 * item->unk_30[1]);
     }
 
@@ -553,7 +553,7 @@ s32 func_80046F58(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3, s32 arg
     }
 
     func_80046844(item, gfxP);
-    tiStretchTexItem(gfxP, arg2, arg3, arg4, arg5, item->unk_0C[0], item->unk_0C[1], arg2->info[0] * item->unk_30[0],
+    tiStretchTexItem(gfxP, arg2, arg3, arg4, arg5, item->pos[0], item->pos[1], arg2->info[0] * item->unk_30[0],
                      temp_lo * item->unk_30[1]);
     return 1;
 }
@@ -563,19 +563,19 @@ s32 func_80046F58(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3, s32 arg
 void func_80047074(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7,
                    f32 arg8, f32 arg9) {
     f32 sp20[4] = {
-        item->unk_0C[0],
-        item->unk_0C[1],
+        item->pos[0],
+        item->pos[1],
         item->unk_30[0],
         item->unk_30[1],
     };
 
-    item->unk_0C[0] += arg6;
-    item->unk_0C[1] += arg7;
+    item->pos[0] += arg6;
+    item->pos[1] += arg7;
     item->unk_30[0] *= arg8;
     item->unk_30[1] *= arg9;
     func_80046F58(item, gfxP, arg2, arg3, arg4, arg5);
-    item->unk_0C[0] = sp20[0];
-    item->unk_0C[1] = sp20[1];
+    item->pos[0] = sp20[0];
+    item->pos[1] = sp20[1];
     item->unk_30[0] = sp20[2];
     item->unk_30[1] = sp20[3];
 }
@@ -591,8 +591,8 @@ bool func_8004714C(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData *arg3,
     }
 
     func_80046844(item, gfxP);
-    tiStretchAlphaTexItem(gfxP, arg2, arg3, arg4, arg5, arg6, item->unk_0C[0], item->unk_0C[1],
-                          var_s1 * item->unk_30[0], temp_lo * item->unk_30[1]);
+    tiStretchAlphaTexItem(gfxP, arg2, arg3, arg4, arg5, arg6, item->pos[0], item->pos[1], var_s1 * item->unk_30[0],
+                          temp_lo * item->unk_30[1]);
     return true;
 }
 #endif
@@ -1477,10 +1477,10 @@ void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
 
             if (i == 3) {
                 var_a0 = cursor->unk_014 + var_s3;
-                sp18[0] = (item->unk_0C[0] * 4.0f) - (f32)(var_s3 * 2);
+                sp18[0] = (item->pos[0] * 4.0f) - (f32)(var_s3 * 2);
             } else {
                 var_a0 = cursor->unk_014;
-                sp18[0] = item->unk_0C[0] * 4.0f;
+                sp18[0] = item->pos[0] * 4.0f;
             }
 
             var_s0 = MIN(var_s3, var_a0 / 2);
@@ -1495,10 +1495,10 @@ void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
 
             if (i == 3) {
                 var_a0 = cursor->unk_018 + var_s3;
-                sp28[0] = (item->unk_0C[1] * 4.0f) - (f32)(var_s3 * 2);
+                sp28[0] = (item->pos[1] * 4.0f) - (f32)(var_s3 * 2);
             } else {
                 var_a0 = cursor->unk_018;
-                sp28[0] = item->unk_0C[1] * 4.0f;
+                sp28[0] = item->pos[1] * 4.0f;
             }
 
             var_s0 = MIN(var_s3, var_a0 / 2);
@@ -1524,8 +1524,8 @@ void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
                                             sp58[pnts[7]]);
                 }
             } else {
-                s32 a = item->unk_0C[0];
-                s32 b = item->unk_0C[1];
+                s32 a = item->pos[0];
+                s32 b = item->pos[1];
                 s32 c = a + var_s5->info[0];
                 s32 d = b + var_s5->info[1];
 
@@ -1859,12 +1859,12 @@ void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
         var_t7 = 0;
         for (i = 1; i < 4; i++) {
             const u16 *ptr = &cap_pos_1442[bottle->unk_004][2];
-            s32 var_t0 = (s32)item->unk_0C[1] * 4;
+            s32 var_t0 = (s32)item->pos[1] * 4;
             s32 j;
 
             for (j = 2; j < 0xD; j++) {
                 s32 temp_t5 = var_t0 + 0x14;
-                s32 var_t2 = (s32)item->unk_0C[0] * 4;
+                s32 var_t2 = (s32)item->pos[0] * 4;
                 s32 temp = *ptr;
                 s32 k;
 
@@ -1978,26 +1978,26 @@ void menuLvGauge_draw1(MenuLvGauge **lvGaugeP, s32 count, Gfx **gxfP) {
 
     for (i = 0; i < count; i++) {
         MenuLvGauge *temp_a3 = lvGaugeP[i];
-        s32 temp_ft3 = temp_a3->unk_010.unk_0C[0] + _lvGauge_step[temp_a3->unk_004] * (temp_a3->unk_00C + 1);
-        s32 var_t0 = temp_a3->unk_010.unk_0C[1];
-        s32 var_a0 = (0x14 - temp_a3->unk_00C) * _lvGauge_step[temp_a3->unk_004];
-        s32 var_a2 = temp_a3->unk_0A0.unk_018 - 3;
+        s32 x = temp_a3->unk_010.pos[0] + _lvGauge_step[temp_a3->unk_004] * (temp_a3->unk_00C + 1);
+        s32 y = temp_a3->unk_010.pos[1];
+        s32 width = (0x14 - temp_a3->unk_00C) * _lvGauge_step[temp_a3->unk_004];
+        s32 height = temp_a3->unk_0A0.unk_018 - 3;
 
         if (temp_a3->unk_004 == 0) {
-            var_t0--;
-            var_a2++;
+            y--;
+            height++;
         }
 
         gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, 160);
-        gDPScisFillRectangle(gfx++, temp_ft3, var_t0, temp_ft3 + var_a0, var_t0 + var_a2);
+        gDPScisFillRectangle(gfx++, x, y, x + width, y + height);
 
         if (temp_a3->unk_008 > 0x14) {
-            temp_ft3 = temp_a3->unk_010.unk_0C[0] + _lvGauge_step[temp_a3->unk_004] * 21.0f;
-            var_t0 = temp_a3->unk_010.unk_0C[1] - 1.0f;
-            var_a0 = (temp_a3->unk_008 - MAX(0x14, temp_a3->unk_00C)) * _lvGauge_step[temp_a3->unk_004];
-            var_a2 = temp_a3->unk_0A0.unk_018 - 1;
+            x = temp_a3->unk_010.pos[0] + _lvGauge_step[temp_a3->unk_004] * 21.0f;
+            y = temp_a3->unk_010.pos[1] - 1.0f;
+            width = (temp_a3->unk_008 - MAX(0x14, temp_a3->unk_00C)) * _lvGauge_step[temp_a3->unk_004];
+            height = temp_a3->unk_0A0.unk_018 - 1;
 
-            gDPScisFillRectangle(gfx++, temp_ft3, var_t0, temp_ft3 + var_a0, var_t0 + var_a2);
+            gDPScisFillRectangle(gfx++, x, y, x + width, y + height);
         }
     }
 
@@ -2146,18 +2146,17 @@ void menuYN_draw(MenuYN *yn, Gfx **gfxP) {
         s32 j;
 
         item = &yn->unk_098[i];
-        var_fs0 = item->unk_0C[0];
+        var_fs0 = item->pos[0];
 
 #if VERSION_US
         //! @bug: should be checking for nil character instead
         for (j = 0; j < _yn_1767[i][j]; j += 2) {
-            fontXX_draw(&gfx, var_fs0, item->unk_0C[1], 12.0f, 12.0f, &_yn_1767[i][j]);
+            fontXX_draw(&gfx, var_fs0, item->pos[1], 12.0f, 12.0f, &_yn_1767[i][j]);
             var_fs0 += 20.0f;
         }
-#endif
-#if VERSION_CN
+#elif VERSION_CN
         for (j = 0; _yn_1767[i][j] != '\0'; j += 2) {
-            fontXX_draw(&gfx, var_fs0, item->unk_0C[1], 12.0f, 12.0f, &_yn_1767[i][j]);
+            fontXX_draw(&gfx, var_fs0, item->pos[1], 12.0f, 12.0f, &_yn_1767[i][j]);
             var_fs0 += 20.0f;
         }
 #endif
@@ -2184,11 +2183,10 @@ void func_80049578(MenuMes *mes, s32 arg1) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2, s32 arg3, s32 arg4,
-                  s32 arg5, s32 arg6) {
+void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, void **heapP, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     MessageWnd *msgWnd;
     MenuItem *item;
-    struct_watchMenu_unk_02470 *temp_fp = *arg2;
+    void *heap = *heapP;
     f32 a2;
 
     mes->watchMenuRef = watchMenuRef;
@@ -2196,7 +2194,7 @@ void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, struct_watchMenu
     menuItem_init(&mes->unk_004, arg5, arg6);
     func_800467E0(&mes->unk_004);
 
-    msgWnd_init(&mes->unk_094, (void **)arg2, arg3, arg4, arg5, arg6);
+    msgWnd_init(&mes->unk_094, heapP, arg3, arg4, arg5, arg6);
 
     //! FAKE: ?
     msgWnd = &mes->unk_094;
@@ -2223,7 +2221,7 @@ void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, struct_watchMenu
     item->unk_6C[1][3] = 0.627451f;
     func_80049540(mes, -1, a2);
 
-    *arg2 = temp_fp;
+    *heapP = heap;
 }
 #endif
 
@@ -2238,9 +2236,9 @@ void func_8004970C(MenuMes *mes, const char *arg1) {
 #if VERSION_US || VERSION_CN
 void func_80049754(MenuMes *mes, MenuItem *parentItem) {
     func_800464BC(&mes->unk_004, parentItem);
-    mes->unk_094.unk_28 = mes->unk_004.unk_0C[0];
-    mes->unk_094.unk_2C = mes->unk_004.unk_0C[1];
-    mes->unk_094.unk_74 = mes->unk_004.color.v.a * 255.0f;
+    mes->unk_094.xPos = mes->unk_004.pos[0];
+    mes->unk_094.yPos = mes->unk_004.pos[1];
+    mes->unk_094.alpha = mes->unk_004.color.v.a * 255.0f;
     msgWnd_update(&mes->unk_094);
     menuCursor_update(&mes->unk_174, &mes->unk_004);
 }
@@ -2825,9 +2823,8 @@ void menuNumber_draw(MenuNumber **numberP, s32 arg1, Gfx **gxfP) {
                     }
 
                     tiStretchAlphaTexItem(&gfx, sp34, var_t1, var_s6++, 0xA, _tbl_2516[var_fp],
-                                          temp_s3->unk_0C[0] + (_step_2517[temp_t4] * temp_s3->unk_30[0] * var_s2),
-                                          temp_s3->unk_0C[1], var_s5 * temp_s3->unk_30[0],
-                                          temp_s4 * temp_s3->unk_30[1]);
+                                          temp_s3->pos[0] + (_step_2517[temp_t4] * temp_s3->unk_30[0] * var_s2),
+                                          temp_s3->pos[1], var_s5 * temp_s3->unk_30[0], temp_s4 * temp_s3->unk_30[1]);
                 }
             }
         }
@@ -2907,7 +2904,7 @@ void menuComLvPanel_draw(MenuComLvPanel **comLvPanelP, s32 count, Gfx **gfxP) {
         }
         func_80046844(item, &gfx);
 
-        tiStretchTexTile(&gfx, temp_v0, var_s6, 0, 0, temp_v0->info[0], 0x14, item->unk_0C[0], item->unk_0C[1],
+        tiStretchTexTile(&gfx, temp_v0, var_s6, 0, 0, temp_v0->info[0], 0x14, item->pos[0], item->pos[1],
                          item->unk_30[0] * temp_v0->info[0], item->unk_30[1] * 20.0f);
         var_s6++;
     }
@@ -2932,8 +2929,8 @@ void menuComLvPanel_draw(MenuComLvPanel **comLvPanelP, s32 count, Gfx **gfxP) {
                 gDPSetRenderMode(gfx++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
             }
             func_80046844(item, &gfx);
-            tiStretchTexTile(&gfx, temp_v0, var_s6, 0, 0x14, (temp_v0->info[0] * j) / 7, 0xA, item->unk_0C[0],
-                             item->unk_0C[1], (item->unk_30[0] * temp_v0->info[0] * j) / 7.0f, item->unk_30[1] * 10.0f);
+            tiStretchTexTile(&gfx, temp_v0, var_s6, 0, 0x14, (temp_v0->info[0] * j) / 7, 0xA, item->pos[0],
+                             item->pos[1], (item->unk_30[0] * temp_v0->info[0] * j) / 7.0f, item->unk_30[1] * 10.0f);
         }
     }
 
@@ -3670,7 +3667,7 @@ void menuNameSelPanel_draw(MenuNameSelPanel *nameSelPanel, Gfx **gfxP) {
         }
 
         for (j = 0; j < 4; j++) {
-            fontXX_drawID(&gfx, item->unk_0C[0] + 4.0f + j * 0xC, item->unk_0C[1] + 4.0f, item->unk_30[0] * 12.0f,
+            fontXX_drawID(&gfx, item->pos[0] + 4.0f + j * 0xC, item->pos[1] + 4.0f, item->unk_30[0] * 12.0f,
                           item->unk_30[1] * 12.0f, temp[j]);
         }
     }
@@ -3799,7 +3796,7 @@ void menuNameOpPanel_draw(MenuNameOpPanel *nameOpPanel, Gfx **gfxP) {
 
     item = &nameOpPanel->unk_0A0;
     for (i = 0; i < ARRAY_COUNTU(nameOpPanel->unk_00C); i++) {
-        fontXX_drawID(&gfx, item->unk_0C[0] + 4.0f + (i * 12), item->unk_0C[1] + 4.0f, item->unk_30[0] * 12.0f,
+        fontXX_drawID(&gfx, item->pos[0] + 4.0f + (i * 12), item->pos[1] + 4.0f, item->unk_30[0] * 12.0f,
                       item->unk_30[1] * 12.0f, nameOpPanel->unk_00C[i]);
     }
 
@@ -3958,19 +3955,19 @@ void menuSndSelPanel_draw(MenuSndSelPanel *sndSelPanel, Gfx **gfxP) {
 
     item = &sndSelPanel->unk_014;
 
-    temp_fs0 = item->unk_0C[0];
-    temp_fs1 = item->unk_0C[1];
+    temp_fs0 = item->pos[0];
+    temp_fs1 = item->pos[1];
     temp_v0 = _getTexMain(sndSelPanel->watchMenuRef, 0xB);
 
     menuItem_drawTex(item, &gfx, temp_v0, 0);
-    item->unk_0C[1] += 76.0f;
+    item->pos[1] += 76.0f;
     menuItem_drawTex(item, &gfx, temp_v0, 0);
-    item->unk_0C[0] = temp_fs0 + 19.0f;
-    item->unk_0C[1] = temp_fs1 + 2.0f;
+    item->pos[0] = temp_fs0 + 19.0f;
+    item->pos[1] = temp_fs1 + 2.0f;
     temp_v0 = _getTexMain(sndSelPanel->watchMenuRef, 0xC);
     menuItem_drawTex(item, &gfx, temp_v0, 0);
-    item->unk_0C[0] = temp_fs0;
-    item->unk_0C[1] = temp_fs1;
+    item->pos[0] = temp_fs0;
+    item->pos[1] = temp_fs1;
 
     temp_v0 = _getTexCommon(sndSelPanel->watchMenuRef, 0xE);
     for (i = 0; i < ARRAY_COUNTU(sndSelPanel->unk_0A4); i++) {
@@ -4110,10 +4107,9 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _cursor_4317);
 #endif
 
 #if VERSION_US || VERSION_CN
-void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2,
-                         s32 arg3, s32 arg4, s32 arg5, s32 arg6, bool arg7, CharAnimeMode arg8, s32 arg9, s32 argA,
-                         s32 argB, s32 argC) {
-    struct_watchMenu_unk_02470 *var_fp = *arg2;
+void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, void **heapP, s32 arg3, s32 arg4,
+                         s32 arg5, s32 arg6, bool arg7, CharAnimeMode arg8, s32 arg9, s32 argA, s32 argB, s32 argC) {
+    void *heap = *heapP;
     MenuItem *item;
     s32 i;
 
@@ -4190,8 +4186,8 @@ void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenu
             break;
 
         case 1:
-            play2Panel->unk_002C = ALIGN_PTR(var_fp);
-            var_fp = (void *)((uintptr_t)play2Panel->unk_002C + animeState_getDataSize(arg8));
+            play2Panel->unk_002C = ALIGN_PTR(heap);
+            heap = (void *)((uintptr_t)play2Panel->unk_002C + animeState_getDataSize(arg8));
             func_80040B10(func_8004D258, play2Panel);
             break;
     }
@@ -4202,11 +4198,11 @@ void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenu
     play2Panel->unk_0CD0.unk_64 = 0.0f;
 
     for (i = 0; i < ARRAY_COUNTU(play2Panel->unk_0D60); i++) {
-        func_800479A8(&play2Panel->unk_0D60[i], watchMenuRef, 1U, arg6, _cursor_4317[arg3][i][0],
+        func_800479A8(&play2Panel->unk_0D60[i], watchMenuRef, 1, arg6, _cursor_4317[arg3][i][0],
                       _cursor_4317[arg3][i][1], _cursor_4317[arg3][i][2], _cursor_4317[arg3][i][3]);
     }
 
-    *arg2 = var_fp;
+    *heapP = heap;
 }
 #endif
 
@@ -4524,7 +4520,7 @@ void menuPlay2Panel_draw(MenuPlay2Panel *play2PanelArr[], s32 count, Gfx **gfxP)
             case 1:
                 if (var_s2->unk_0030.b.bit_30) {
                     func_80046844(temp_s1_2, &gfx);
-                    animeState_draw(&var_s2->unk_0C90, &gfx, temp_s1_2->unk_0C[0], temp_s1_2->unk_0C[1], -1.0f, 1.0f);
+                    animeState_draw(&var_s2->unk_0C90, &gfx, temp_s1_2->pos[0], temp_s1_2->pos[1], -1.0f, 1.0f);
                 }
                 break;
         }
@@ -4603,8 +4599,8 @@ void func_8004E2B4(MenuPlay2PanelSub *play2PanelSub, s32 arg1, f32 arg2, f32 arg
 #endif
 
 #if VERSION_US
-void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *watchMenuRef,
-                            struct_watchMenu_unk_02470 **arg2 UNUSED, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *watchMenuRef, void **heapP UNUSED,
+                            s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     s32 i;
 
     play2PanelSub->watchMenuRef = watchMenuRef;
@@ -4795,22 +4791,22 @@ void menuPlay2PanelSub_draw(MenuPlay2PanelSub *play2PanelSub, Gfx **gfxP) {
 
     item = &play2PanelSub->unk_9EC;
     func_80046844(item, &gfx);
-    gfxSetScissor(&gfx, 2, play2PanelSub->unk_010.unk_0C[0] + item->unk_24[0] - 16.0f,
-                  play2PanelSub->unk_010.unk_0C[1] + item->unk_24[1], 0x68, 0x24);
+    gfxSetScissor(&gfx, GFXSETSCISSOR_INTERLACE_NO, play2PanelSub->unk_010.pos[0] + item->unk_24[0] - 16.0f,
+                  play2PanelSub->unk_010.pos[1] + item->unk_24[1], 0x68, 0x24);
 
     temp_s2 = _getTexSetup(play2PanelSub->watchMenuRef, 0xE);
-    temp_fs0 = item->unk_0C[0];
-    item->unk_0C[0] += (play2PanelSub->unk_00C * 0x48);
+    temp_fs0 = item->pos[0];
+    item->pos[0] += (play2PanelSub->unk_00C * 0x48);
 
     item = &play2PanelSub->unk_9EC;
     for (i = 0; i < 4; i++) {
         func_80046F58(item, &gfx, temp_s2, 0, 0xA,
                       WrapI(0, 0xA, (play2PanelSub->unk_940.unk_0C + play2PanelSub->unk_00C + i) - 1));
-        item->unk_0C[0] += 72.0f;
+        item->pos[0] += 72.0f;
     }
 
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
-    item->unk_0C[0] = temp_fs0;
+    item->pos[0] = temp_fs0;
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
     temp_s2 = _getTexSetup(play2PanelSub->watchMenuRef, 0x10);
@@ -5021,15 +5017,15 @@ bool menuMain_setMsgStr(MenuMain *menuMain, MainMenuMode mode, s32 arg2) {
     }
 
     for (i = 0; i < ARRAY_COUNTU(_loopTbl_5287); i++) {
-        if ((var_s1 == _loopTbl_5287[i]) && msgWnd_isEnd(&menuMain->unk_2308)) {
+        if ((var_s1 == _loopTbl_5287[i]) && msgWnd_isEnd(&menuMain->msgWnd)) {
             menuMain->unk_2304 = NULL;
         }
     }
 
     if (var_s1 != menuMain->unk_2304) {
-        msgWnd_clear(&menuMain->unk_2308);
+        msgWnd_clear(&menuMain->msgWnd);
         if (var_s1 != NULL) {
-            msgWnd_addStr(&menuMain->unk_2308, var_s1);
+            msgWnd_addStr(&menuMain->msgWnd, var_s1);
             ret = true;
         }
         menuMain->unk_2304 = var_s1;
@@ -5213,7 +5209,7 @@ void menuMain_initPanel(MenuMain *menuMain, MainMenuMode mode, s32 arg2, s32 arg
 #endif
 
 #if VERSION_US || VERSION_CN
-void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2) {
+void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, void **heapP) {
     MenuItem *item;
     s32 i;
 
@@ -5285,13 +5281,13 @@ void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, struct_wa
             break;
     }
 
-    msgWnd_init(&menuMain->unk_2308, (void **)arg2, 0xC, 4, 0x9C, 0x22);
-    menuMain->unk_2308.unk_1C = 0;
+    msgWnd_init(&menuMain->msgWnd, heapP, 12, 4, 156, 34);
+    menuMain->msgWnd.unk_1C = 0;
 
 #if VERSION_CN
-    menuMain->unk_2308.unk_48 = 0xE;
+    menuMain->msgWnd.unk_48 = 14;
 #else
-    menuMain->unk_2308.unk_48 = 0xD;
+    menuMain->msgWnd.unk_48 = 13;
 #endif
 
     item = &menuMain->unk_2388;
@@ -5329,7 +5325,7 @@ void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, struct_wa
 
     menuYN_init(&menuMain->unk_2B6C, watchMenuRef, 0x78, 0x8C);
 
-    menuMes_init(&menuMain->unk_31E4, watchMenuRef, arg2, 0x11, 2, 0x40, 0xA6);
+    menuMes_init(&menuMain->unk_31E4, watchMenuRef, heapP, 0x11, 2, 0x40, 0xA6);
 }
 #endif
 
@@ -6417,11 +6413,11 @@ void menuMain_update(MenuMain *menuMain) {
     func_800464BC(&menuMain->unk_2388, rootItem);
 
     item = &menuMain->unk_2388;
-    menuMain->unk_2308.unk_28 = item->unk_0C[0] + item->unk_30[0] * 6;
-    menuMain->unk_2308.unk_2C = item->unk_0C[1] + item->unk_30[1] * 6;
+    menuMain->msgWnd.xPos = item->pos[0] + item->unk_30[0] * 6;
+    menuMain->msgWnd.yPos = item->pos[1] + item->unk_30[1] * 6;
 
     if (!menuMain_setMsgStr(menuMain, menuMain->mode, menuMain->unk_000C[menuMain->unk_0008])) {
-        msgWnd_update(&menuMain->unk_2308);
+        msgWnd_update(&menuMain->msgWnd);
     }
 
     func_800464BC(&menuMain->unk_2418, rootItem);
@@ -6518,7 +6514,7 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
     guRotateRPYF(sp48, 0.0f, 0.0f, sinf(sp88[0]) * (1.0f - menuMain->unk_2538.unk_38) * 4.0f);
 
     i = WrapI(0, 6, menuMain->unk_0038 * 6.0f * 12.0f);
-    if (!msgWnd_isSpeaking(&menuMain->unk_2308)) {
+    if (!msgWnd_isSpeaking(&menuMain->msgWnd)) {
         i = 0;
     }
 
@@ -6534,8 +6530,8 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
         gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
 
         func_80046844(item, &gfx);
-        sp48[3][0] = item->unk_0C[0];
-        sp48[3][1] = item->unk_0C[1] + (sinf(sp88[0]) * temp_fs2);
+        sp48[3][0] = item->pos[0];
+        sp48[3][1] = item->pos[1] + (sinf(sp88[0]) * temp_fs2);
         guMtxF2L(sp48, mtx);
 
         gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -6567,8 +6563,8 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
         gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
         func_80046844(item, &gfx);
-        sp48[3][0] = item->unk_0C[0];
-        sp48[3][1] = item->unk_0C[1] + (sinf(sp88[2]) * temp_fs2);
+        sp48[3][0] = item->pos[0];
+        sp48[3][1] = item->pos[1] + (sinf(sp88[2]) * temp_fs2);
         guMtxF2L(sp48, mtx);
 
         gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -6603,8 +6599,8 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
 
         if (!menuItem_outOfScreen(item, var_s3->info[0], var_s3->info[1])) {
             func_80046844(item, &gfx);
-            sp48[3][0] = item->unk_0C[0];
-            sp48[3][1] = item->unk_0C[1] + (sinf(sp88[i + 1]) * temp_fs2);
+            sp48[3][0] = item->pos[0];
+            sp48[3][1] = item->pos[1] + (sinf(sp88[i + 1]) * temp_fs2);
             guMtxF2L(sp48, mtx);
 
             gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -6635,9 +6631,9 @@ void menuMain_draw(MenuMain *menuMain, Gfx **gfxP) {
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
     menuItem_drawTex(&menuMain->unk_2388, &gfx, _getTexMain(menuMain->watchMenuRef, 6), 0);
-    if (!menuItem_outOfScreen(&menuMain->unk_2388, menuMain->unk_2308.unk_3C * menuMain->unk_2308.unk_38,
-                              menuMain->unk_2308.unk_48 * menuMain->unk_2308.unk_44)) {
-        msgWnd_draw(&menuMain->unk_2308, &gfx);
+    if (!menuItem_outOfScreen(&menuMain->unk_2388, menuMain->msgWnd.unk_3C * menuMain->msgWnd.unk_38,
+                              menuMain->msgWnd.unk_48 * menuMain->msgWnd.unk_44)) {
+        msgWnd_draw(&menuMain->msgWnd, &gfx);
     }
 
     menuNameOpPanel_draw(&menuMain->unk_17B4, &gfx);
@@ -6753,8 +6749,8 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _cursor_6447);
 #endif
 
 #if VERSION_US || VERSION_CN
-void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2) {
-    struct_watchMenu_unk_02470 *var_fp = *arg2;
+void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, void **heapP) {
+    void *heap = *heapP;
     struct_evs_mem_data *var_v1 = &evs_mem_data[evs_select_name_no[0]];
     struct_evs_mem_data_unk_B4 *temp_s4 = &var_v1->unk_B4;
     s32 i;
@@ -6782,9 +6778,9 @@ void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, struct
     for (var_s1_3 = CHARANIMEMODE_M; var_s1_3 < ARRAY_COUNTU(menuStory->unk_0038); var_s1_3++) {
         size_t temp_v0_2;
 
-        menuStory->unk_0038[var_s1_3] = ALIGN_PTR(var_fp);
+        menuStory->unk_0038[var_s1_3] = ALIGN_PTR(heap);
         temp_v0_2 = animeState_getDataSize(var_s1_3);
-        var_fp = menuStory->unk_0038[var_s1_3] + temp_v0_2;
+        heap = menuStory->unk_0038[var_s1_3] + temp_v0_2;
     }
 
     func_80040B10(func_800514C4, menuStory);
@@ -6834,7 +6830,7 @@ void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, struct
     }
 
     func_80051480(menuStory, 1, 0.0f);
-    *arg2 = var_fp;
+    *heapP = heap;
 }
 #endif
 
@@ -7164,10 +7160,10 @@ void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
 
         item = &menuStory->unk_0160[i];
 
-        temp_fs1 = item->unk_0C[0];
-        temp_fs0 = item->unk_0C[1];
-        item->unk_0C[0] -= 26.0f;
-        item->unk_0C[1] -= 48.0f;
+        temp_fs1 = item->pos[0];
+        temp_fs0 = item->pos[1];
+        item->pos[0] -= 26.0f;
+        item->pos[1] -= 48.0f;
 
         if (!menuItem_outOfScreen(item, 0x40, 0x40)) {
             s32 temp_ft1 = item->unk_64 * 255.0f;
@@ -7177,28 +7173,28 @@ void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
             gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
 
             temp_v0 = _getTexStory(menuStory->watchMenuRef, 0xC);
-            tiStretchTexTile(&gfx, temp_v0, 0, 0, 0, temp_v0->info[0], temp_v0->info[1], item->unk_0C[0],
-                             item->unk_0C[1], temp_v0->info[0], temp_v0->info[1]);
+            tiStretchTexTile(&gfx, temp_v0, 0, 0, 0, temp_v0->info[0], temp_v0->info[1], item->pos[0], item->pos[1],
+                             temp_v0->info[0], temp_v0->info[1]);
 
-            item->unk_0C[0] = temp_fs1 + 5.0f;
-            item->unk_0C[1] = temp_fs0 + 2.0f;
+            item->pos[0] = temp_fs1 + 5.0f;
+            item->pos[1] = temp_fs0 + 2.0f;
 
             gSPDisplayList(gfx++, fade_shadow_texture_init_dl);
 
             gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, temp_ft1 >> 1);
 
-            animeState_draw(&menuStory->unk_0280[i], &gfx, item->unk_0C[0], item->unk_0C[1], 1.0f, 1.0f);
-            item->unk_0C[0] = temp_fs1;
-            item->unk_0C[1] = temp_fs0;
+            animeState_draw(&menuStory->unk_0280[i], &gfx, item->pos[0], item->pos[1], 1.0f, 1.0f);
+            item->pos[0] = temp_fs1;
+            item->pos[1] = temp_fs0;
 
             gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
             func_80046844(item, &gfx);
-            animeState_draw(&menuStory->unk_0280[i], &gfx, item->unk_0C[0], item->unk_0C[1], 1.0f, 1.0f);
+            animeState_draw(&menuStory->unk_0280[i], &gfx, item->pos[0], item->pos[1], 1.0f, 1.0f);
         }
 
-        item->unk_0C[0] = temp_fs1;
-        item->unk_0C[1] = temp_fs0;
+        item->pos[0] = temp_fs1;
+        item->pos[1] = temp_fs0;
     }
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
@@ -7229,8 +7225,8 @@ void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
         if (!menuItem_outOfScreen(item, temp_s2, temp_v0->info[1])) {
             gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, item->color.v.a * 127.0f);
 
-            tiStretchTexTile(&gfx, temp_v0, 0, var_s0_2, 0, temp_s2, temp_v0->info[1], item->unk_0C[0] + var_s0_2,
-                             item->unk_0C[1], temp_s2, temp_v0->info[1]);
+            tiStretchTexTile(&gfx, temp_v0, 0, var_s0_2, 0, temp_s2, temp_v0->info[1], item->pos[0] + var_s0_2,
+                             item->pos[1], temp_s2, temp_v0->info[1]);
         }
     }
 
@@ -7318,11 +7314,15 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _wchar_6931);
 #endif
 
 #if VERSION_US || VERSION_CN
-const s32 _cursor_7325[3][4] = { { 0, 0, 0x10E, 0x22 }, { 0, 0x1F, 0x10E, 0x22 }, { 0, 0x3E, 0x10E, 0x1E } };
+const s32 _cursor_7325[3][4] = {
+    { 0, 0, 0x10E, 0x22 },
+    { 0, 0x1F, 0x10E, 0x22 },
+    { 0, 0x3E, 0x10E, 0x1E },
+};
 
-void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2) {
+void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, void **heapP) {
     struct_evs_mem_data *temp_s0 = &evs_mem_data[evs_select_name_no[0]];
-    struct_watchMenu_unk_02470 *temp_fp = *arg2;
+    void *heap = *heapP;
     struct_evs_mem_data_unk_B4 *temp_s2 = &temp_s0->unk_B4;
     s32 i;
 
@@ -7386,7 +7386,7 @@ void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, struct
     menuItem_init(&menuLvSel->musicIcon, 0x99, 8);
     func_800529FC(menuLvSel, 1, 0.0f);
 
-    *arg2 = temp_fp;
+    *heapP = heap;
 }
 #endif
 
@@ -7645,11 +7645,11 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
     switch (menuLvSel->unk_0004) {
         case MAINMENUMODE_MENULVSEL_7:
             if (menuLvSel->unk_2570 >= 21) {
-                f32 temp_fs0 = menuLvSel->unk_0098[0].unk_0C[0];
+                f32 temp_fs0 = menuLvSel->unk_0098[0].pos[0];
 
-                menuLvSel->unk_0098[0].unk_0C[0] = temp_fs0 + 222.0f;
+                menuLvSel->unk_0098[0].pos[0] = temp_fs0 + 222.0f;
                 menuItem_drawTex(&menuLvSel->unk_0098[0], &gfx, _getTexLevel(menuLvSel->watchMenuRef, 6), 0);
-                menuLvSel->unk_0098[0].unk_0C[0] = temp_fs0;
+                menuLvSel->unk_0098[0].pos[0] = temp_fs0;
             }
             break;
 
@@ -7727,7 +7727,7 @@ void func_8005380C(MenuChSel *menuChSel, s32 arg1, f32 arg2) {
 const s32 _pos_7882[][2] = { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } };
 
 #if VERSION_US || VERSION_CN
-void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2 UNUSED) {
+void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, void **heapP UNUSED) {
     MainMenuMode mode = _getMode(watchMenuRef);
     s32 i;
 
@@ -8266,22 +8266,22 @@ void menuChSel_draw(MenuChSel *menuChSel, Gfx **gfxP) {
             f32 temp_fs1;
 
             item = &menuChSel->unk_0194[14 - i];
-            temp_fs0 = item->unk_0C[0];
-            temp_fs1 = item->unk_0C[1];
-            item->unk_0C[0] += _pos_8298[i][0];
-            item->unk_0C[1] += _pos_8298[i][1];
+            temp_fs0 = item->pos[0];
+            temp_fs1 = item->pos[1];
+            item->pos[0] += _pos_8298[i][0];
+            item->pos[1] += _pos_8298[i][1];
 
             menuItem_drawTex(item, &gfx, _getTexChar(menuChSel->watchMenuRef, _tex_8297[i]), 0);
-            item->unk_0C[0] = temp_fs0;
-            item->unk_0C[1] = temp_fs1;
+            item->pos[0] = temp_fs0;
+            item->pos[1] = temp_fs1;
         }
     }
 
     gSPDisplayList(gfx++, fade_fillrect_init_dl);
 
     for (i = 0; i < ARRAY_COUNTU(menuChSel->unk_0A04); i++) {
-        s32 temp_s0_3;
-        s32 temp_s1;
+        s32 x;
+        s32 y;
 
         item = &menuChSel->unk_0A04[i];
 
@@ -8289,11 +8289,11 @@ void menuChSel_draw(MenuChSel *menuChSel, Gfx **gfxP) {
             continue;
         }
 
-        temp_s0_3 = item->unk_0C[0];
-        temp_s1 = item->unk_0C[1];
+        x = item->pos[0];
+        y = item->pos[1];
         func_80046844(item, &gfx);
 
-        gDPScisFillRectangle(gfx++, temp_s0_3, temp_s1, temp_s0_3 + 38, temp_s1 + 38);
+        gDPScisFillRectangle(gfx++, x, y, x + 38, y + 38);
     }
 
     for (i = 0; i < menuChSel->unk_0004; i++) {
@@ -8383,7 +8383,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _panel4_8536);
 #endif
 
 #if VERSION_US || VERSION_CN
-void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2) {
+void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void **heapP) {
     struct_evs_mem_data_unk_B4 *temp_s0;
     struct_game_state_data *temp_s3_3;
     s32 sp44;
@@ -8430,7 +8430,7 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, struct
                         break;
                 }
 
-                menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, arg2, 1, menuPlay2->unk_000C,
+                menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, heapP, 1, menuPlay2->unk_000C,
                                     menuPlay2->unk_0020, i, temp_s3_3->unk_04C == 1, temp_s3_3->unk_090, var_s5,
                                     temp_s0->unk_16, _panel2_8535[i][0], _panel2_8535[i][1]);
             }
@@ -8464,7 +8464,7 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, struct
                         break;
                 }
 
-                menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, arg2, 1, menuPlay2->unk_000C,
+                menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, heapP, 1, menuPlay2->unk_000C,
                                     menuPlay2->unk_0020, i, temp_s3_3->unk_04C == 1, temp_s3_3->unk_090, var_s5,
                                     temp_s0->unk_0D[i], _panel2_8535[i][0], _panel2_8535[i][1]);
             }
@@ -8508,7 +8508,7 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, struct
                         break;
                 }
 
-                menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, arg2, 0, menuPlay2->unk_000C,
+                menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, heapP, 0, menuPlay2->unk_000C,
                                     menuPlay2->unk_0020, i, temp_s3_3->unk_04C == 1, temp_s3_3->unk_090, var_s5,
                                     evs_cfg_4p.unk_00[4][i], _panel4_8536[i][0], _panel4_8536[i][1]);
             }
@@ -8523,7 +8523,7 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, struct
     func_800467E0(&menuPlay2->unk_0034);
     menuPlay2->unk_0034.unk_64 = 0.0f;
 
-    menuPlay2PanelSub_init(&menuPlay2->unk_6548, watchMenuRef, arg2, sp44, sp4C, 0x19, 0x4B);
+    menuPlay2PanelSub_init(&menuPlay2->unk_6548, watchMenuRef, heapP, sp44, sp4C, 0x19, 0x4B);
     func_80054A94(menuPlay2, 1, 0);
 }
 #endif
@@ -8966,7 +8966,7 @@ void func_80055DFC(MenuNmEnt *menuNmEnt, s32 arg1, f32 arg2) {
 #endif
 
 #if VERSION_US || VERSION_CN
-void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2 UNUSED) {
+void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *watchMenuRef, void **heapP UNUSED) {
     s32 i;
 
     menuNmEnt->watchMenuRef = watchMenuRef;
@@ -9393,10 +9393,10 @@ void menuNmEnt_draw(MenuNmEnt *menuNmEnt, Gfx **gfxP) {
     gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, 255);
 
     // Draw keyboard
-    var_s3 = menuNmEnt->unk_01EC.unk_0C[1];
+    var_s3 = menuNmEnt->unk_01EC.pos[1];
     var_s2 = _nameEntry_charTable[menuNmEnt->unk_0014[menuNmEnt->unk_0004]];
     for (var_s4 = 0; var_s4 < 9; var_s4++) {
-        var_s0 = menuNmEnt->unk_01EC.unk_0C[0];
+        var_s0 = menuNmEnt->unk_01EC.pos[0];
 
         for (var_s1 = 0; var_s1 < 0xF; var_s1++) {
             if (*var_s2 & 0x80) {
@@ -9409,8 +9409,8 @@ void menuNmEnt_draw(MenuNmEnt *menuNmEnt, Gfx **gfxP) {
     }
 
     // Draw selected characters
-    var_s0 = menuNmEnt->unk_056C.unk_0C[0];
-    var_s3 = menuNmEnt->unk_056C.unk_0C[1];
+    var_s0 = menuNmEnt->unk_056C.pos[0];
+    var_s3 = menuNmEnt->unk_056C.pos[1];
     for (var_s4 = 0; var_s4 < 4; var_s4++) {
         fontXX_drawID(&gfx, var_s0, var_s3, 12.0f, 12.0f, (u8)menuNmEnt->unk_002C[menuNmEnt->unk_0004][var_s4]);
         var_s0 += 0xD;
@@ -9456,13 +9456,13 @@ void menuRankBase_draw(MenuRankBase *rankBaseArr[], s32 count, Gfx **gfxP) {
         for (j = 0; j < count; j++) {
             MenuRankBase *temp_v0 = rankBaseArr[j];
             MenuItem *item = &temp_v0->unk_04;
-            f32 temp_fs0 = item->unk_0C[1];
+            f32 temp_fs0 = item->pos[1];
             TiTexData *temp;
 
-            item->unk_0C[1] = temp_fs0 + i * 8;
+            item->pos[1] = temp_fs0 + i * 8;
             temp = _getTexRank(temp_v0->watchMenuRef, 5);
             var_s3 += func_80046F58(item, &gfx, temp, var_s3, 2, i);
-            item->unk_0C[1] = temp_fs0;
+            item->pos[1] = temp_fs0;
         }
     }
 
@@ -9524,15 +9524,15 @@ void menuRankNum_draw(MenuRankNum *rankNumArr[], s32 count, Gfx **gfxP) {
                 temp_s2 = _getTexGameP1(rankNum->watchMenuRef, 2);
                 temp_v0_2 = _getTexGameP1(rankNum->watchMenuRef, 6);
 
-                temp_fs1 = item->unk_0C[0];
-                temp_fs0 = item->unk_0C[1];
+                temp_fs1 = item->pos[0];
+                temp_fs0 = item->pos[1];
 
-                item->unk_0C[0] += 2.0f;
-                item->unk_0C[1] += 2.0f;
+                item->pos[0] += 2.0f;
+                item->pos[1] += 2.0f;
 
                 var_s3 += func_8004714C(item, &gfx, temp_s2, temp_v0_2, var_s3, 0xC, rankNum->unk_04 + 2);
-                item->unk_0C[0] = temp_fs1;
-                item->unk_0C[1] = temp_fs0;
+                item->pos[0] = temp_fs1;
+                item->pos[1] = temp_fs0;
             }
         }
     }
@@ -9737,8 +9737,8 @@ void menuRankFig_draw(MenuRankFig **rankFigArr, s32 count, Gfx **gfxP) {
                 func_80046844(item, &gfx);
 
 #if VERSION_US
-                if (fontXX_drawID2(&gfx, item->unk_0C[0] + _posX_tbl_9716[rankFig->unk_04 - 7][k] * item->unk_30[0],
-                                   item->unk_0C[1], item->unk_30[0] * 9.0f, item->unk_30[1] * 12.0f, index)) {
+                if (fontXX_drawID2(&gfx, item->pos[0] + _posX_tbl_9716[rankFig->unk_04 - 7][k] * item->unk_30[0],
+                                   item->pos[1], item->unk_30[0] * 9.0f, item->unk_30[1] * 12.0f, index)) {
                     index = -1;
                 }
 #endif
@@ -9749,11 +9749,11 @@ void menuRankFig_draw(MenuRankFig **rankFigArr, s32 count, Gfx **gfxP) {
                     if (k < 5) {
                         continue;
                     }
-                    fontXX_drawID2(&gfx, item->unk_0C[0] + _posX_tbl_9716[rankFig->unk_04 - 7][k - 2] * item->unk_30[0],
-                                   item->unk_0C[1], item->unk_30[0] * sp24, item->unk_30[1] * 12.0f, index);
+                    fontXX_drawID2(&gfx, item->pos[0] + _posX_tbl_9716[rankFig->unk_04 - 7][k - 2] * item->unk_30[0],
+                                   item->pos[1], item->unk_30[0] * sp24, item->unk_30[1] * 12.0f, index);
                 } else {
-                    fontXX_drawID2(&gfx, item->unk_0C[0] + _posX_tbl_9716[rankFig->unk_04 - 7][k] * item->unk_30[0],
-                                   item->unk_0C[1], item->unk_30[0] * sp24, item->unk_30[1] * 12.0f, index);
+                    fontXX_drawID2(&gfx, item->pos[0] + _posX_tbl_9716[rankFig->unk_04 - 7][k] * item->unk_30[0],
+                                   item->pos[1], item->unk_30[0] * sp24, item->unk_30[1] * 12.0f, index);
                 }
                 index = -1;
 #endif
@@ -9846,12 +9846,11 @@ void menuRankName_draw(MenuRankName *rankNameArr[], s32 count, Gfx **gfxP) {
             continue;
         }
 
-        var_fs0 = temp_s1->unk_0C[0];
+        var_fs0 = temp_s1->pos[0];
         func_80046844(temp_s1, &gfx);
 
         for (var_s0 = 0; var_s0 < 4; var_s0++) {
-            fontXX_drawID2(&gfx, var_fs0, temp_s1->unk_0C[1], 12.0f, temp_s1->unk_30[1] * 12.0f,
-                           temp_s2->unk_04[var_s0]);
+            fontXX_drawID2(&gfx, var_fs0, temp_s1->pos[1], 12.0f, temp_s1->unk_30[1] * 12.0f, temp_s2->unk_04[var_s0]);
             var_fs0 += temp;
         }
     }
@@ -10657,7 +10656,7 @@ const s32 _lr_10544[][2] = {
 #endif
 
 #if VERSION_US || VERSION_CN
-void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2 UNUSED) {
+void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, void **heapP UNUSED) {
     u32 i;
 
     menuRank->watchMenuRef = watchMenuRef;
@@ -10867,8 +10866,8 @@ void menuRank_draw(MenuRank *menuRank, Gfx **gfxP) {
 
         for (i = 0; i < ARRAY_COUNTU(menuRank->unk_020C); i++) {
             MenuItem *temp_s0 = &menuRank->unk_020C[i];
-            f32 temp_fs0 = temp_s0->unk_0C[0];
-            f32 temp_fs1 = temp_s0->unk_0C[1];
+            f32 temp_fs0 = temp_s0->pos[0];
+            f32 temp_fs1 = temp_s0->pos[1];
             s32 var_v0 = (temp_s0->unk_3C < 0.0f) ? menuRank->unk_0010 : menuRank->unk_000C;
 
             j = WrapI(0, 3, var_v0 + _dir_10660[i]);
@@ -10877,12 +10876,12 @@ void menuRank_draw(MenuRank *menuRank, Gfx **gfxP) {
             }
 
             func_80046F58(temp_s0, &gfx, _getTexRank(menuRank->watchMenuRef, 4), 0, 2, i);
-            temp_s0->unk_0C[0] += 12.0f;
-            temp_s0->unk_0C[1] += 2.0f;
+            temp_s0->pos[0] += 12.0f;
+            temp_s0->pos[1] += 2.0f;
 
             func_80046F58(&menuRank->unk_020C[i], &gfx, _getTexRank(menuRank->watchMenuRef, 2), 0, 6, j);
-            temp_s0->unk_0C[0] = temp_fs0;
-            temp_s0->unk_0C[1] = temp_fs1;
+            temp_s0->pos[0] = temp_fs0;
+            temp_s0->pos[1] = temp_fs1;
         }
     }
 
@@ -11238,7 +11237,7 @@ void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, NNSched *sc) {
     arg0->unk_111E0 = -(1.0f / 30.0f);
 
     RecWritingMsg_init(&arg0->recMessage, &sp10);
-    arg0->unk_02464 = sizeof(struct_watchMenu_unk_02470);
+    arg0->unk_02464 = 0x60000;
 
     for (i = 0; i < ARRAY_COUNTU(arg0->unk_02470); i++) {
         temp_v0 = ALIGN_PTR(sp10);
@@ -11597,7 +11596,7 @@ void menuAll_drawBg(struct_watchMenu *arg0, Gfx **gfxP) {
     s32 var_s2;
 
     func_80046844(temp_s4, &gfx);
-    draw_menu_bg(&gfx, temp_s4->unk_0C[0] + 0.0f, -temp_s4->unk_0C[1] - 120.0f);
+    draw_menu_bg(&gfx, temp_s4->pos[0] + 0.0f, -temp_s4->pos[1] - 120.0f);
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
     func_80046844(temp_s4, &gfx);

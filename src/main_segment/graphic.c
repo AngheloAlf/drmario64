@@ -342,9 +342,9 @@ void F3ClearFZRtn(u8 arg0) {
 void S2RDPinitRtn(u8 arg0) {
     gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(S2RDPinit_dl));
     if (arg0) {
-        gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+        gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     } else {
-        gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 12, 8, 307, 231);
+        gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 12, 8, SCREEN_WIDTH - 1 - 12, SCREEN_HEIGHT - 1 - 8);
     }
 }
 

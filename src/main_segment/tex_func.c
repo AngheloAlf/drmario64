@@ -46,34 +46,39 @@ Gfx init_dl_155[] = {
 /**
  * Original name: _modes_96
  */
-const s32 _modes_96[] = { G_SC_ODD_INTERLACE, G_SC_EVEN_INTERLACE, G_SC_NON_INTERLACE, G_SC_NON_INTERLACE };
+const s32 _modes_96[] = {
+    G_SC_ODD_INTERLACE,  // GFXSETSCISSOR_INTERLACE_ODD
+    G_SC_EVEN_INTERLACE, // GFXSETSCISSOR_INTERLACE_EVEN
+    G_SC_NON_INTERLACE,  // GFXSETSCISSOR_INTERLACE_NO
+    G_SC_NON_INTERLACE,  // GFXSETSCISSOR_INTERLACE_NO2
+};
 
 /**
  * Original name: gfxSetScissor
  */
-void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+void gfxSetScissor(Gfx **gfxP, GfxSetScissorMode mode, s32 x, s32 y, s32 width, s32 height) {
     Gfx *gfx = *gfxP;
     s32 corners[] = {
-        CLAMP(arg2, 0, 0x13F),            // ulx
-        CLAMP(arg3, 0, 0xEF),             // uly
-        CLAMP(arg2 + arg4 - 1, 0, 0x13F), // lrx
-        CLAMP(arg3 + arg5 - 1, 0, 0xEF),  // lry
+        CLAMP(x, 0, SCREEN_WIDTH - 1),               // ulx
+        CLAMP(y, 0, SCREEN_HEIGHT - 1),              // uly
+        CLAMP(x + width - 1, 0, SCREEN_WIDTH - 1),   // lrx
+        CLAMP(y + height - 1, 0, SCREEN_HEIGHT - 1), // lry
     };
 
-    gDPSetScissor(gfx++, _modes_96[arg1 % ARRAY_COUNTU(_modes_96)], corners[0], corners[1], corners[2], corners[3]);
+    gDPSetScissor(gfx++, _modes_96[mode % ARRAY_COUNTU(_modes_96)], corners[0], corners[1], corners[2], corners[3]);
 
     *gfxP = gfx;
 }
 
-void func_80040D34(Gfx **gxfP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 red, s32 green, s32 blue) {
+void func_80040D34(Gfx **gxfP, s32 x, s32 y, s32 width, s32 height, s32 red, s32 green, s32 blue) {
     Gfx *gfx = *gxfP;
-    s32 temp_t0 = GPACK_RGBA5551(red, green, blue, 1);
+    s32 color = GPACK_RGBA5551(red, green, blue, 1);
 
-    temp_t0 = temp_t0 | (temp_t0 << 0x10);
+    color = color | (color << 0x10);
 
     gSPDisplayList(gfx++, D_8008E728);
-    gDPSetFillColor(gfx++, temp_t0);
-    gDPScisFillRectangle(gfx++, arg1, arg2, arg1 + arg3 - 1, arg2 + arg4 - 1);
+    gDPSetFillColor(gfx++, color);
+    gDPScisFillRectangle(gfx++, x, y, x + width - 1, y + height - 1);
 
     *gxfP = gfx;
 }
@@ -81,12 +86,12 @@ void func_80040D34(Gfx **gxfP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 red, 
 /**
  * Original name: FillRectRGBA
  */
-void FillRectRGBA(Gfx **gfxP, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 green, s32 blue, s32 alpha) {
+void FillRectRGBA(Gfx **gfxP, s32 x, s32 y, s32 width, s32 height, s32 red, s32 green, s32 blue, s32 alpha) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, init_dl_155);
     gDPSetPrimColor(gfx++, 0, 0, red, green, blue, alpha);
-    gDPScisFillRectangle(gfx++, x0, y0, x0 + x1, y0 + y1);
+    gDPScisFillRectangle(gfx++, x, y, x + width, y + height);
 
     *gfxP = gfx;
 }
@@ -1346,8 +1351,7 @@ void drawCursorPattern(Gfx **gfxP, s32 arg1 UNUSED, s32 arg2 UNUSED, s32 arg3, s
     sp48[1] = 0;
     sp48[2] = 0x400;
 
-    // TODO: use ARRAY_COUNTU(_pnts_871)
-    for (i = 0; i < 9U; i++) {
+    for (i = 0; i < ARRAY_COUNTU(_pnts_871); i++) {
         // Cast away the const
         u8 *temp_a3_2 = (u8 *)_pnts_871[i];
 
