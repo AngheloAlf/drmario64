@@ -100,15 +100,6 @@ COMPILER_DIR    := tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4
 endif
 CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
 
-AS              := $(CROSS)as
-LD              := $(CROSS)ld
-OBJCOPY         := $(CROSS)objcopy
-OBJDUMP         := $(CROSS)objdump
-GCC             := $(CROSS)gcc
-CPP             := $(CROSS)cpp
-STRIP           := $(CROSS)strip
-ICONV           := iconv
-
 SPLAT             ?= python3 -m splat split
 SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
 
@@ -384,6 +375,9 @@ $(BUILD_DIR)/segments/%.o: linker_scripts/$(VERSION)/partial/%.ld
 	$(LD) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@
 
 # Make inc files from assets
+
+$(BUILD_DIR)/%.inc: %.png
+	$(PIGMENT64) to-bin --c-array --format $(subst .,,$(suffix $*)) -o $@ $<
 
 # Print target for debugging
 print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true
