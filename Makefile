@@ -93,13 +93,6 @@ ifneq ($(shell type $(CROSS)ld >/dev/null 2>/dev/null; echo $$?), 0)
 $(error Please install or build $(CROSS))
 endif
 
-ifeq ($(VERSION),$(filter $(VERSION), us gw))
-COMPILER_DIR    := tools/gcc_kmc/$(DETECTED_OS)/2.7.2
-else ifeq ($(VERSION),cn)
-COMPILER_DIR    := tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4
-endif
-CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
-
 SPLAT             ?= python3 -m splat split
 SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
 
@@ -378,6 +371,12 @@ $(BUILD_DIR)/segments/%.o: linker_scripts/$(VERSION)/partial/%.ld
 
 $(BUILD_DIR)/%.inc: %.png
 	$(PIGMENT64) to-bin --c-array --format $(subst .,,$(suffix $*)) -o $@ $<
+
+$(BUILD_DIR)/%.msg.inc: %.msg
+	$(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< -o $(@:.inc=.i)
+	$(MSG_REENCODER) $(@:.inc=.i) $@ $(OUT_ENCODING)
+
+-include $(DEP_FILES)
 
 # Print target for debugging
 print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true
