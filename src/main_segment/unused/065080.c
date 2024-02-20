@@ -1,16 +1,6 @@
 #include "065080.h"
 
-#include "include_asm.h"
-#include "macros_defines.h"
-#include "unknown_structs.h"
-#include "unk.h"
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/065080", func_8007D260);
-#endif
-
-#if VERSION_CN
-void func_80088260_cn(f32 arg0[3], Mtx *arg1, f32 arg2[3]) {
+void func_8007D260(f32 arg0[3], Mtx *arg1, f32 arg2[3]) {
     f32 sp18[4][4];
     f32 sp58[4];
     f32 sp68[4];
@@ -36,14 +26,8 @@ void func_80088260_cn(f32 arg0[3], Mtx *arg1, f32 arg2[3]) {
     arg0[1] = sp58[1] / sp58[3];
     arg0[2] = sp58[2] / sp58[3];
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/065080", func_8007D348);
-#endif
-
-#if VERSION_CN
-void func_80088350_cn(f32 arg0[3], Mtx *arg1, f32 arg2[3]) {
+void mult_func_8007D348(f32 arg0[3], Mtx *arg1, f32 arg2[3]) {
     f32 sp18[4][4];
     f32 sp58[4];
     f32 sp68[4];
@@ -69,14 +53,8 @@ void func_80088350_cn(f32 arg0[3], Mtx *arg1, f32 arg2[3]) {
     arg0[1] = sp58[1];
     arg0[2] = sp58[2];
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/065080", func_8007D410);
-#endif
-
-#if VERSION_CN
-void func_80088428_cn(f32 arg0[3], f32 arg1[4][4], f32 arg2[3]) {
+void mult_func_8007D410(f32 arg0[3], f32 arg1[4][4], f32 arg2[3]) {
     f32 sp58[4];
     f32 sp68[4];
     s32 i;
@@ -99,14 +77,8 @@ void func_80088428_cn(f32 arg0[3], f32 arg1[4][4], f32 arg2[3]) {
     arg0[1] = sp58[1] / sp58[3];
     arg0[2] = sp58[2] / sp58[3];
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/065080", func_8007D4CC);
-#endif
-
-#if VERSION_CN
-void func_800884E0_cn(f32 arg0[3], f32 arg1[4][4], f32 arg2[3]) {
+void mult_func_8007D4CC(f32 arg0[3], f32 arg1[4][4], f32 arg2[3]) {
     f32 sp58[4];
     f32 sp68[4];
     s32 i;
@@ -129,14 +101,8 @@ void func_800884E0_cn(f32 arg0[3], f32 arg1[4][4], f32 arg2[3]) {
     arg0[1] = sp58[1];
     arg0[2] = sp58[2];
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/065080", func_8007D568);
-#endif
-
-#if VERSION_CN
-void func_80088580_cn(Mtx *arg0, Mtx *arg1, Mtx *arg2) {
+void mult_func_8007D568(Mtx *arg0, Mtx *arg1, Mtx *arg2) {
     f32 sp18[4][4];
     f32 sp58[4][4];
     f32 sp98[4][4];
@@ -155,14 +121,8 @@ void func_80088580_cn(Mtx *arg0, Mtx *arg1, Mtx *arg2) {
 
     guMtxF2L(sp18, arg0);
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/065080", func_8007D644);
-#endif
-
-#if VERSION_CN
-void func_800886C4_cn(f32 arg0[4][4], f32 arg1[4][4], f32 arg2[4][4]) {
+void mult_func_8007D644(f32 arg0[4][4], f32 arg1[4][4], f32 arg2[4][4]) {
     f32 sp8[4][4];
     s32 i;
     s32 j;
@@ -194,14 +154,8 @@ void func_800886C4_cn(f32 arg0[4][4], f32 arg1[4][4], f32 arg2[4][4]) {
     arg0[3][2] = sp8[3][2];
     arg0[3][3] = sp8[3][3];
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/065080", func_8007D74C);
-#endif
-
-#if VERSION_CN
-void func_80088830_cn(f32 arg0[3][3], s32 arg1, s32 arg2, s32 arg3) {
+void func_8007D74C(f32 arg0[3][3], s32 arg1, s32 arg2, s32 arg3) {
     f32 temp_fv1;
     s32 i;
 
@@ -231,14 +185,8 @@ void func_80088830_cn(f32 arg0[3][3], s32 arg1, s32 arg2, s32 arg3) {
         }
     }
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/065080", func_8007D83C);
-#endif
-
-#if VERSION_CN
-bool func_80088920_cn(f32 arg0[3][3], f32 arg1[3][3], s32 arg2) {
+bool func_8007D83C(f32 arg0[3][3], f32 arg1[3][3], s32 arg2) {
     f32 temp_ft1;
     f32 var_fv0;
     f32 var_fv1;
@@ -312,17 +260,11 @@ bool func_80088920_cn(f32 arg0[3][3], f32 arg1[3][3], s32 arg2) {
         arg1[var_t1][temp] += temp_ft1 * arg1[temp][temp];
     }
 
-    func_80088830_cn(arg1, arg2, var_a2, temp);
+    func_8007D74C(arg1, arg2, var_a2, temp);
     return true;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/065080", func_8007DB78);
-#endif
-
-#if VERSION_CN
-bool func_80088C48_cn(f32 arg0[3][3], f32 arg1[3][3]) {
+bool func_8007DB78(f32 arg0[3][3], f32 arg1[3][3]) {
     f32 temp_ft1;
     f32 var_ft0;
     f32 var_fv1;
@@ -373,19 +315,13 @@ bool func_80088C48_cn(f32 arg0[3][3], f32 arg1[3][3]) {
         arg1[i][var_a2] = temp_ft1 * arg1[var_a2][var_a2];
     }
 
-    if (!func_80088920_cn(arg0, arg1, var_a2)) {
+    if (!func_8007D83C(arg0, arg1, var_a2)) {
         return false;
     }
     return true;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/065080", func_8007DD70);
-#endif
-
-#if VERSION_CN
-bool func_80088E30_cn(f32 arg0[4][4], f32 arg1[4], f32 *arg2, s32 *arg3) {
+bool func_8007DD70(f32 arg0[4][4], f32 arg1[4], f32 *arg2, s32 *arg3) {
     f32 temp_fv1;
     f32 var_ft0;
     f32 var_fv0;
@@ -438,14 +374,8 @@ bool func_80088E30_cn(f32 arg0[4][4], f32 arg1[4], f32 *arg2, s32 *arg3) {
 
     return true;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/065080", func_8007DF64);
-#endif
-
-#if VERSION_CN
-bool func_80089014_cn(f32 arg0[4][4], f32 arg1[4][4]) {
+bool func_8007DF64(f32 arg0[4][4], f32 arg1[4][4]) {
     f32 sp18[4][4];
     f32 sp58[3][3];
     f32 sp80[3][3];
@@ -475,7 +405,7 @@ bool func_80089014_cn(f32 arg0[4][4], f32 arg1[4][4]) {
         var_s2 = 1;
     }
 
-    if (!var_s2 && !func_80088E30_cn(sp18, spA8, &spC8, &spCC)) {
+    if (!var_s2 && !func_8007DD70(sp18, spA8, &spC8, &spCC)) {
         return false;
     }
 
@@ -489,7 +419,7 @@ bool func_80089014_cn(f32 arg0[4][4], f32 arg1[4][4]) {
         }
     }
 
-    if (func_80088C48_cn(sp58, sp80) == 0) {
+    if (!func_8007DB78(sp58, sp80)) {
         return false;
     }
 
@@ -521,4 +451,3 @@ bool func_80089014_cn(f32 arg0[4][4], f32 arg1[4][4]) {
     }
     return true;
 }
-#endif

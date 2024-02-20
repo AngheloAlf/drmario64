@@ -507,7 +507,7 @@ segments:
 
       - [0x0641E0, c, main_segment/lws]
       - [0x0647B0, asm, main_segment/calc]
-      - [0x065DF0, asm, main_segment/unused/065080]
+      - [0x065DF0, c, main_segment/unused/065080]
       - [0x066DF0, c, main_segment/unused/066080]
       - [0x066E70, c, main_segment/replay]
       - [0x0672F0, c, main_segment/066580]
@@ -620,7 +620,7 @@ segments:
       - [0x09BF60, rodata, main_segment/05F440]
       - [0x09C050, .rodata, main_segment/lws]
       - [0x09C0A0, rodata, main_segment/calc]
-      - [0x09C0F0, rodata, main_segment/unused/065080]
+      - [0x09C0F0, .rodata, main_segment/unused/065080]
 
       - [0x09C150, .rodata, ../lib/libmus/src/player]
       - [0x09C230, .rodata, ../lib/libmus/src/player_fx]
