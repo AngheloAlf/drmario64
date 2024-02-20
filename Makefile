@@ -93,6 +93,22 @@ ifneq ($(shell type $(CROSS)ld >/dev/null 2>/dev/null; echo $$?), 0)
 $(error Please install or build $(CROSS))
 endif
 
+ifeq ($(VERSION),$(filter $(VERSION), us gw))
+COMPILER_DIR    := tools/gcc_kmc/$(DETECTED_OS)/2.7.2
+else ifeq ($(VERSION),cn)
+COMPILER_DIR    := tools/gcc_egcs/$(DETECTED_OS)/1.1.2-4
+endif
+CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
+
+AS              := $(CROSS)as
+LD              := $(CROSS)ld
+OBJCOPY         := $(CROSS)objcopy
+OBJDUMP         := $(CROSS)objdump
+GCC             := $(CROSS)gcc
+CPP             := $(CROSS)cpp
+STRIP           := $(CROSS)strip
+ICONV           := iconv
+
 SPLAT             ?= python3 -m splat split
 SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
 
@@ -380,3 +396,12 @@ $(BUILD_DIR)/%.msg.inc: %.msg
 
 # Print target for debugging
 print-% : ; $(info $* is a $(flavor $*) variable set to [$($*)]) @true
+
+
+
+
+
+
+
+
+
