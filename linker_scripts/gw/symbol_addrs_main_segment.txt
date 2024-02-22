@@ -1155,8 +1155,9 @@ __MusIntSamplesCurrent = 0x80085438; // type:func size:0x40
 rspbootTextStart = 0x80085480; // size:0xD0 name_end:rspbootTextEnd dont_allow_addend:True
 aspMainTextStart = 0x80085550; // size:0xE20 name_end:aspMainTextEnd dont_allow_addend:True
 
-D_80086370_gw = 0x80086370; //
-D_80087700_gw = 0x80087700; //
+gspF3DEX2_fifoTextStart = 0x80086370; // size:0x1390 name_end:gspF3DEX2_fifoTextEnd dont_allow_addend:True
+gspS2DEX_fifoTextStart = 0x80087700; // size:0x17F0 name_end:gspS2DEX_fifoTextEnd dont_allow_addend:True
+
 framecont = 0x80088EF0; //
 D_80088104 = 0x80088EF4; // type:s8
 D_80088105 = 0x80088EF5; // type:s8
@@ -1164,8 +1165,7 @@ nnsc_perf_index = 0x80088EF8; //
 nnsc_perf_flag = 0x80088EFC; //
 D_80092EB0_cn = 0x80088F00; //
 D_80092F10_cn = 0x80088F60; //
-D_80088F70_gw = 0x80088F70; //
-D_80088F74_gw = 0x80088F74; //
+gfx_ucode = 0x80088F70; // size:0x10
 gCurrentFramebufferIndex = 0x80088F80; //
 graphic_no = 0x80088F84; //
 pendingGFX = 0x80088F88; //
@@ -1556,8 +1556,8 @@ __libmus_current_sched = 0x800ACD8C; //
 last_task = 0x800ACD90; //
 
 aspMainDataStart = 0x800ACDA0; // size:0x2C0 name_end:aspMainDataEnd dont_allow_addend:True
-D_800AD060_gw = 0x800AD060; //
-D_800AD480_gw = 0x800AD480; //
+gspF3DEX2_fifoDataStart = 0x800AD060; // size:0x420 name_end:gspF3DEX2_fifoDataEnd dont_allow_addend:True
+gspS2DEX_fifoDataStart = 0x800AD480; // size:0x3C0 name_end:gspS2DEX_fifoDataEnd dont_allow_addend:True
 
 // .rodata
 

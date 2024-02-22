@@ -525,8 +525,8 @@ segments:
 
       - [0x06D220, textbin, rsp/rspboot]
       - [0x06D2F0, textbin, rsp/aspMain]
-
-      - [0x06E110, data, main_segment/06E110]
+      - [0x06E110, textbin, rsp/f3dex2]
+      - [0x06F4A0, textbin, rsp/s2dex]
 
       - [0x070C90, .data, main_segment/nnsched]
       - [0x070D10, data, main_segmentm/070D10]
@@ -586,8 +586,8 @@ segments:
       - [0x094B30, .data, ../lib/libmus/src/aud_thread]
 
       - [0x094B40, databin, rsp/aspMain]
-
-      - [0x094E00, data, main_segment/094E00]
+      - [0x094E00, databin, rsp/f3dex2]
+      - [0x095220, databin, rsp/s2dex]
 
       - [0x0955E0, .rodata, main_segment/main]
       - [0x095610, .rodata, main_segment/audio/sound]
