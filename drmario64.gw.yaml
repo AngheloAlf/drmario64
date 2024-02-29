@@ -532,7 +532,7 @@ segments:
       - [0x06F4A0, textbin, rsp/s2dex]
 
       - [0x070C90, .data, main_segment/nnsched]
-      - [0x070D10, data, main_segmentm/070D10]
+      - [0x070D10, .data, main_segment/graphic]
       - [0x070D50, data, main_segment/070D50]
       - [0x070FF0, .data, main_segment/audio/music_driver]
       - [0x071000, .data, main_segment/main1x]

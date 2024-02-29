@@ -1,20 +1,20 @@
 rom:0x0134F8 symbol:alEnvmixerPull reloc:MIPS_HI16 addend:0x10C
 rom:0x0134FC symbol:alEnvmixerPull reloc:MIPS_LO16 addend:0x10C
 
-rom:0x014418 symbol:D_80088FB0_gw reloc:MIPS_HI16 addend:-0x80000000
-rom:0x01441C symbol:D_80088FB0_gw reloc:MIPS_LO16 addend:-0x80000000
+rom:0x014418 symbol:S2RDPinit_dl reloc:MIPS_HI16 addend:-0x80000000
+rom:0x01441C symbol:S2RDPinit_dl reloc:MIPS_LO16 addend:-0x80000000
 
-rom:0x014508 symbol:D_80089018_gw reloc:MIPS_HI16 addend:-0x80000000
-rom:0x01450C symbol:D_80089018_gw reloc:MIPS_LO16 addend:-0x80000000
+rom:0x014508 symbol:S2ClearCFB_dl reloc:MIPS_HI16 addend:-0x80000000
+rom:0x01450C symbol:S2ClearCFB_dl reloc:MIPS_LO16 addend:-0x80000000
 
-rom:0x014278 symbol:D_80089088_gw reloc:MIPS_HI16 addend:-0x80000000
-rom:0x01427C symbol:D_80089088_gw reloc:MIPS_LO16 addend:-0x80000000
+rom:0x014278 symbol:F3RDPinit_dl reloc:MIPS_HI16 addend:-0x80000000
+rom:0x01427C symbol:F3RDPinit_dl reloc:MIPS_LO16 addend:-0x80000000
 
-rom:0x0142AC symbol:D_80089168_gw reloc:MIPS_HI16 addend:-0x80000000
-rom:0x0142B0 symbol:D_80089168_gw reloc:MIPS_LO16 addend:-0x80000000
+rom:0x0142AC symbol:F3SetupRDP_dl reloc:MIPS_HI16 addend:-0x80000000
+rom:0x0142B0 symbol:F3SetupRDP_dl reloc:MIPS_LO16 addend:-0x80000000
 
-rom:0x014234 symbol:D_80089188_gw reloc:MIPS_HI16 addend:-0x80000000
-rom:0x014238 symbol:D_80089188_gw reloc:MIPS_LO16 addend:-0x80000000
+rom:0x014234 symbol:F3SetupRSP_dl reloc:MIPS_HI16 addend:-0x80000000
+rom:0x014238 symbol:F3SetupRSP_dl reloc:MIPS_LO16 addend:-0x80000000
 
 rom:0x023604 symbol:etc_viewMtx reloc:MIPS_HI16 addend:-0x80000000
 rom:0x023608 symbol:etc_viewMtx reloc:MIPS_LO16 addend:-0x80000000

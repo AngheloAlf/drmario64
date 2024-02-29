@@ -24,7 +24,6 @@
 
 extern NNScClient gfx_client;
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: gfx_ucode
  */
@@ -59,7 +58,6 @@ Vp vp = { { { 0x280, 0x1E0, 0x1FF, 0 }, { 0x280, 0x1E0, 0x1FF, 0 } } };
  * flag to initialize RDP
  */
 s32 rdpinit_flag_161 = 1;
-#endif
 
 /**
  * Original name: gfxInit
@@ -221,7 +219,6 @@ void gfxCreateGraphicThread(NNSched *sc) {
     osStartThread(&gfxThread);
 }
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: gfxWaitMessage
  *
@@ -359,18 +356,3 @@ void S2ClearCFBRtn(u8 arg0) {
         gDPFillRectangle(gGfxHead++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 }
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", gfxWaitMessage);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", gfxTaskStart);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", F3RCPinitRtn);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", F3ClearFZRtn);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", S2RDPinitRtn);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", S2ClearCFBRtn);
-#endif
