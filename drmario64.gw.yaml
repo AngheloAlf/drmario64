@@ -499,11 +499,14 @@ segments:
 
       - [0x0458B0, c, main_segment/msgwnd]
       - [0x046AB0, c, main_segment/char_anime]
+
       - [0x0478E0, c, main_segment/dm_virus_init]
 
-      - [0x048B80, asm, main_segment/048B80] # TODO: figure out
-      - [0x05A9D0, asm, main_segment/05A9D0] # TODO: figure out
-      - [0x05F440, asm, main_segment/05F440] # TODO: figure out
+      - [0x048B80, asm, main_segment/048B80] # TODO: figure out # dm_game_main?
+      - [0x05A9D0, asm, main_segment/05A9D0] # TODO: figure out # dm_manual_main?
+      - [0x05EA30, c, main_segment/dm_title_main]
+
+      - [0x05F440, asm, main_segment/05F440] # TODO: figure out # main_story?
 
       - [0x0641E0, c, main_segment/lws]
       - [0x0647B0, c, main_segment/calc]
@@ -617,10 +620,13 @@ segments:
 
       - [0x09A590, .rodata, main_segment/msgwnd]
       - [0x09A660, .rodata, main_segment/char_anime]
+
       - [0x09A7A0, .rodata, main_segment/dm_virus_init]
-      - [0x09A830, rodata, main_segment/048B80]
-      - [0x09B000, rodata, main_segment/05A9D0]
-      - [0x09BF60, rodata, main_segment/05F440]
+      - [0x09A830, rodata, main_segment/09A830]
+      - [0x09B000, rodata, main_segment/09B000]
+      - [0x09BE40, .rodata, main_segment/dm_title_main]
+      - [0x09BF60, rodata, main_segment/09BF60]
+
       - [0x09C050, .rodata, main_segment/lws]
       - [0x09C0A0, .rodata, main_segment/calc]
       - [0x09C0F0, .rodata, main_segment/unused/065080]

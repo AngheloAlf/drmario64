@@ -60,7 +60,7 @@ enum_main_no dm_title_main(NNSched *sc) {
     evs_playmax = joyResponseCheck();
     osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
 
-#if VERSION_US
+#ifndef NN_SC_PERF
     graphic_no = GRAPHIC_NO_2;
 #endif
 

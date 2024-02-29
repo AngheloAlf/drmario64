@@ -362,15 +362,15 @@ void S2ClearCFBRtn(u8 arg0) {
 #endif
 
 #if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C280_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", gfxWaitMessage);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C2B4_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", gfxTaskStart);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C458_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", F3RCPinitRtn);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C538_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", F3ClearFZRtn);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C658_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", S2RDPinitRtn);
 
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C6D8_gw);
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", S2ClearCFBRtn);
 #endif

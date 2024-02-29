@@ -504,11 +504,8 @@ segments:
       - [0x045F40, c, main_segment/char_anime]
 
       - [0x046D70, c, main_segment/dm_virus_init]
-
       - [0x048010, c, main_segment/dm_game_main]
-
       - [0x059D10, c, main_segment/dm_manual_main]
-
       - [0x05DD50, c, main_segment/dm_title_main]
 
       - [0x05E700, c, main_segment/main_story]
@@ -668,13 +665,12 @@ segments:
       - [0x099880, .rodata, main_segment/char_anime]
 
       - [0x0999C0, .rodata, main_segment/dm_virus_init]
-
       - [0x099A50, .rodata, main_segment/dm_game_main]
-
       - [0x09A220, .rodata, main_segment/dm_manual_main]
-
       - [0x09B060, .rodata, main_segment/dm_title_main]
+
       - [0x09B180, .rodata, main_segment/main_story]
+
       - [0x09B270, .rodata, main_segment/lws]
       - [0x09B2C0, .rodata, main_segment/calc]
       - [0x09B310, .rodata, main_segment/unused/065080]
