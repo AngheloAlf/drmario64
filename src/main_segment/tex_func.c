@@ -1279,7 +1279,7 @@ void tiStretchAlphaTexItem(Gfx **gfxP, TiTexData *arg1, TiTexData *arg2, s32 arg
     }
 }
 
-void func_80045914(Gfx **arg0, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7,
+void func_80045914(Gfx **gfxP, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7,
                    f32 arg8, f32 arg9) {
     s32 var_t3 = MIN(arg1->info[0], arg2->info[0]);
     s32 var_t1 = MIN(arg1->info[1] / arg4, arg2->info[1]);
@@ -1294,10 +1294,10 @@ void func_80045914(Gfx **arg0, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 a
     }
 
     if ((arg1->info[3] & TITEX_FLAGS_BLOCK) && (arg2->info[3] & TITEX_FLAGS_BLOCK)) {
-        StretchAlphaTexBlock(arg0, var_t3, var_t1, sp40[0], arg1->info[0], sp40[1], arg2->info[0], arg6, arg7, arg8,
+        StretchAlphaTexBlock(gfxP, var_t3, var_t1, sp40[0], arg1->info[0], sp40[1], arg2->info[0], arg6, arg7, arg8,
                              arg9);
     } else {
-        StretchAlphaTexTile(arg0, var_t3, var_t1, sp40[0], arg1->info[0], sp40[1], arg2->info[0], 0, 0, var_t3, var_t1,
+        StretchAlphaTexTile(gfxP, var_t3, var_t1, sp40[0], arg1->info[0], sp40[1], arg2->info[0], 0, 0, var_t3, var_t1,
                             arg6, arg7, arg8, arg9);
     }
 }

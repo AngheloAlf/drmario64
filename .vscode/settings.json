@@ -6,6 +6,7 @@
         "expected/**": true,
         "ctx.c": true,
         ".venv": true,
+        ".splat": true,
         "linker_scripts/*/drmario64.d": true,
         "linker_scripts/*/drmario64.ld": true,
     },

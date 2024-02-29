@@ -493,7 +493,7 @@ segments:
       - [0x029230, c, main_segment/028820]
       - [0x0293E0, c, main_segment/tex_func]
 
-      - [0x02E600, asm, main_segment/02E600] # TODO: figure out
+      - [0x02E600, asm, main_segment/02E600] # TODO: figure out # main_menu?
 
       - [0x044180, c, main_segment/font]
 
@@ -533,7 +533,7 @@ segments:
 
       - [0x070C90, .data, main_segment/nnsched]
       - [0x070D10, .data, main_segment/graphic]
-      - [0x070D50, data, main_segment/070D50]
+      - [0x070D50, data, main_segment/070D50] # main_segment/graphics/graphic_dlists
       - [0x070FF0, .data, main_segment/audio/music_driver]
       - [0x071000, .data, main_segment/main1x]
       - [0x071080, .data, main_segment/vr_init]

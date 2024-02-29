@@ -597,12 +597,20 @@ bool func_8004714C(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData *arg3,
 }
 #endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", func_800472D0);
-#endif
+#if VERSION_US || VERSION_CN
+bool func_800472D0(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData *arg3, s32 arg4, s32 arg5, s32 arg6) {
+    s32 var_s1 = MIN(arg2->info[0], arg3->info[0]);
+    s32 var_s0 = MIN(arg2->info[1] / arg5, arg3->info[1]);
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", func_80049D00_cn);
+    if (menuItem_outOfScreen(item, var_s1, var_s0)) {
+        return false;
+    }
+
+    func_80046844(item, gfxP);
+    func_80045914(gfxP, arg2, arg3, arg4, arg5, arg6, item->pos[0], item->pos[1], var_s1 * item->unk_30[0],
+                  var_s0 * item->unk_30[1]);
+    return true;
+}
 #endif
 
 extern const Gfx fade_normal_texture_init_dl[];
@@ -987,9 +995,8 @@ void menuCursor_update(MenuCursor *cursor, MenuItem *arg1) {
 #endif
 
 extern const s32 _menuCursor_cursor_4_pattern[];
-extern const s32 _pnts_1106[9][8];
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 const s32 _pnts_1106[][8] = {
     { 0, 0, 1, 1, 0, 0, 2, 2 }, { 1, 0, 2, 1, 2, 0, 1, 2 }, { 2, 0, 3, 1, 1, 0, 0, 2 },
     { 0, 1, 1, 2, 0, 2, 2, 1 }, { 1, 1, 2, 2, 2, 2, 1, 1 }, { 2, 1, 3, 2, 1, 2, 0, 1 },
@@ -997,382 +1004,7 @@ const s32 _pnts_1106[][8] = {
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _pnts_1106);
-#endif
-
-#if VERSION_US
-#if 0
-// there's an unknown struct array in the stack
-void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
-    s32 sp10;
-    s32 sp14;
-    s32 sp18;
-    s32 sp1C;
-    s32 sp20;
-    s32 sp24;
-    s32 sp28;
-    s32 sp2C;
-    s32 sp30;
-    s32 sp34;
-    s32 sp38;
-    s32 sp40;
-    s32 sp44;
-    s32 sp48;
-    s32 sp50;
-    s32 sp54;
-    s32 sp58;
-    Gfx *sp60;
-    MenuCursor **sp6C;
-    s32 sp74;
-    Gfx **sp7C;
-    s32 sp84;
-    MenuCursor **spB4;
-    Gfx *temp_a0;
-    Gfx *temp_a0_3;
-    Gfx *temp_a1_3;
-    Gfx *temp_a3;
-    Gfx *temp_a3_2;
-    Gfx *temp_t0;
-    Gfx *temp_t0_2;
-    Gfx *temp_v0;
-    Gfx *temp_v1;
-    Gfx *temp_v1_7;
-    MenuCursor **var_t4;
-    MenuCursor *temp_s1;
-    MenuItem *temp_s2;
-    TiTexData *var_s6;
-    f32 temp_fv1;
-    f32 temp_fv1_2;
-    s16 temp_a0_8;
-    s16 temp_t3;
-    s16 temp_v0_5;
-    s16 temp_v1_5;
-    s32 *temp_v0_2;
-    s32 *temp_v0_3;
-    s32 *temp_v0_4;
-    s32 *temp_v1_4;
-    s32 temp_a0_4;
-    s32 temp_a0_5;
-    s32 temp_a0_6;
-    s32 temp_a0_7;
-    s32 temp_a0_9;
-    s32 temp_a1_2;
-    s32 temp_a1_4;
-    s32 temp_a2;
-    s32 temp_a2_2;
-    s32 temp_ft0;
-    s32 temp_fv1_3;
-    s32 temp_v0_6;
-    s32 temp_v0_7;
-    s32 temp_v0_9;
-    s32 temp_v1_6;
-    s32 var_a1;
-    s32 var_a2;
-    s32 var_fp;
-    s32 var_s0;
-    s32 var_s0_2;
-    s32 var_s5;
-    s32 var_s7;
-    s32 var_v0;
-    s32 var_v0_2;
-    s32 var_v0_3;
-    s32 var_v0_4;
-    s32 var_v1;
-    s32 var_v1_2;
-    s32 var_v1_3;
-    s32 var_v1_4;
-    const struct__pnts_1106 *temp_t1;
-    u16 *temp_a1;
-    u16 *temp_v0_8;
-    u16 *temp_v1_3;
-    u16 temp_v1_2;
-    u32 temp_a0_2;
-    u32 var_a0;
-    u32 var_s4;
-
-    var_s0 = saved_reg_s0;
-    var_s5 = saved_reg_s5;
-    var_s6 = saved_reg_s6;
-    sp74 = count;
-    sp6C = cursorArr;
-    sp7C = gxfP;
-    var_s4 = 0;
-    temp_v1 = *sp7C;
-    sp60 = temp_v1 + 8;
-#if 0
-    temp_v1->words.w0 = 0xDE000000;
-    temp_v1->words.w1 = (u32) fade_normal_texture_init_dl;
-    sp60 = temp_v1 + 0x10;
-    temp_v1->unk_8 = 0xE200001C;
-    temp_v1->unk_C = 0x504240;
-    sp60 = temp_v1 + 0x18;
-    temp_v1->unk_10 = 0xE3001001;
-    temp_v1->unk_14 = 0;
-#endif
-    var_v0 = 0U < 9U;
-    do {
-        if (var_v0 != 0) {
-            switch (var_s4) {
-                case 0x0:
-                    var_s0 = 8;
-                    var_s5 = 4;
-                    break;
-                case 0x1:
-                    var_s0 = 6;
-                    var_s5 = 3;
-                    break;
-                case 0x2:
-                    var_s0 = 7;
-                    var_s5 = 0x10;
-                    break;
-                case 0x3:
-                    var_s5 = 0x10;
-                    sp84 = -1;
-                    break;
-                case 0x4:
-                    var_s0 = 9;
-                    break;
-                case 0x5:
-                    var_s0 = 0xA;
-                    break;
-                case 0x6:
-                    var_s0 = 0xB;
-                    break;
-                case 0x7:
-                    var_s0 = 0xC;
-                    break;
-                case 0x8:
-                    var_s0 = 0xD;
-                    break;
-            }
-        }
-        var_s7 = 0;
-        var_fp = 0;
-        if (sp74 > 0) {
-            spB4 = sp6C;
-            do {
-                temp_s1 = *spB4;
-                temp_s2 = &temp_s1->unk_0B0;
-                if ((s32) temp_s1->unk_01C.w < 0) {
-                    var_t4 = spB4 + 4;
-                    if (var_s4 == temp_s1->unk_004) {
-                        if (menuItem_outOfScreen(temp_s2, temp_s1->unk_014, temp_s1->unk_018) == false) {
-                            if (var_s4 == 3) {
-                                if (!(temp_s1->unk_01C.w & 0x10000000)) {
-                                    var_s0 = 3;
-                                } else {
-                                    var_s0 = _menuCursor_cursor_4_pattern[(s32) (temp_s1->unk_0B0.unk_64 * 29.0f)] + 3;
-                                }
-                                if (var_s0 != sp84) {
-                                    sp84 = var_s0;
-                                    var_s7 = 0;
-                                }
-                            }
-                            if (var_s7 == 0) {
-                                temp_a0 = sp60;
-                                var_s6 = _getTexCommon(temp_s1->unk_000, var_s0);
-#if 0
-                                temp_a0->words.w0 = 0xFD900000;
-                                temp_a0->unk_8 = 0xF5900000;
-                                temp_a0->unk_10 = 0xE6000000;
-                                temp_a0->unk_C = 0x07080200;
-                                temp_a0->unk_14 = 0;
-                                temp_a0->unk_18 = 0xF3000000;
-                                temp_a0->words.w1 = (u32) var_s6->unk_0->unk_4;
-#endif
-                                temp_a1 = var_s6->unk_4;
-                                sp60 = temp_a0 + 8;
-                                sp60 = temp_a0 + 0x10;
-                                temp_v0 = temp_a0 + 0x18;
-                                sp60 = temp_v0;
-                                sp60 = temp_a0 + 0x20;
-#if 0
-                                temp_v1_2 = temp_a1->unk_0;
-#endif
-                                var_a2 = 0x800;
-                                temp_a0_2 = temp_v1_2 >> 4;
-                                if (temp_a0_2 != 0) {
-                                    var_a2 = temp_a0_2 + 0x7FF;
-                                }
-                                var_v1 = ((s32) ((temp_v1_2 * temp_a1[1]) + 3) >> 2) - 1;
-                                if (var_v1 >= 0x800) {
-                                    var_v1 = 0x7FF;
-                                }
-                                if (temp_a0_2 != 0) {
-                                    var_v0_2 = (var_a2 / (s32) temp_a0_2) & 0xFFF;
-                                } else {
-                                    var_v0_2 = var_a2 & 0xFFF;
-                                }
-                                temp_a0_3 = sp60;
-                                temp_v0->words.w1 = ((var_v1 & 0xFFF) << 0xC) | 0x07000000 | var_v0_2;
-                                temp_a0_3->words.w0 = 0xE7000000;
-                                temp_a0_3->words.w1 = 0;
-                                sp60 = temp_a0_3 + 8;
-                                sp60 = temp_a0_3 + 0x10;
-#if 0
-                                temp_a0_3->unk_C = 0x80200;
-                                temp_a0_3->unk_10 = 0xF2000000;
-                                temp_a0_3->unk_8 = (s32) (((((s32) (((u16) var_s6->unk_4->unk_0 >> 1) + 7) >> 3) & 0x1FF) << 9) | 0xF5800000);
-#endif
-                                temp_v1_3 = var_s6->unk_4;
-                                sp60 = temp_a0_3 + 0x18;
-                                var_s7 += 1;
-#if 0
-                                temp_a0_3->unk_14 = (s32) (((((temp_v1_3->unk_0 - 1) * 4) & 0xFFF) << 0xC) | (((temp_v1_3->unk_2 - 1) * 4) & 0xFFF));
-#endif
-                            }
-                            func_80046844(temp_s2, &sp60);
-                            if (var_s4 == 3) {
-                                sp10 = (s32) ((temp_s2->unk_0C[0] * 4.0f) - (f32) (var_s5 * 2));
-                                var_v1_2 = temp_s1->unk_014 + var_s5;
-                            } else {
-                                var_v1_2 = temp_s1->unk_014;
-                                sp10 = (s32) (temp_s2->unk_0C[0] * 4.0f);
-                            }
-                            var_s0_2 = var_s5;
-                            temp_a0_4 = var_v1_2 / 2;
-                            if (temp_a0_4 < var_s0_2) {
-                                var_s0_2 = temp_a0_4;
-                            }
-                            temp_a0_5 = sp10 + (s32) (temp_s2->unk_30[0] * 4.0f * (f32) var_v1_2);
-                            sp1C = temp_a0_5;
-                            temp_fv1 = (f32) var_s0_2;
-                            sp14 = sp10 + (s32) (temp_s2->unk_30[0] * 4.0f * temp_fv1);
-                            sp34 = (var_s0_2 - 1) << 5;
-                            sp30 = 0;
-                            sp38 = var_s0_2 << 5;
-                            sp18 = temp_a0_5 - (s32) (temp_s2->unk_30[0] * 4.0f * temp_fv1);
-                            if (var_s4 == 3) {
-                                sp20 = (s32) ((temp_s2->unk_0C[1] * 4.0f) - (f32) (var_s5 * 2));
-                                var_v1_3 = temp_s1->unk_018 + var_s5;
-                            } else {
-                                var_v1_3 = temp_s1->unk_018;
-                                sp20 = (s32) (temp_s2->unk_0C[1] * 4.0f);
-                            }
-                            var_s0 = var_s5;
-                            temp_a0_6 = var_v1_3 / 2;
-                            if (temp_a0_6 < var_s0) {
-                                var_s0 = temp_a0_6;
-                            }
-                            temp_a0_7 = sp20 + (s32) (temp_s2->unk_30[1] * 4.0f * (f32) var_v1_3);
-                            sp2C = temp_a0_7;
-                            temp_fv1_2 = (f32) var_s0;
-                            sp24 = sp20 + (s32) (temp_s2->unk_30[1] * 4.0f * temp_fv1_2);
-                            sp44 = (var_s0 - 1) << 5;
-                            sp48 = var_s0 << 5;
-                            sp50 = -0x400;
-                            sp40 = 0;
-                            sp54 = 0;
-                            sp58 = 0x400;
-                            sp28 = temp_a0_7 - (s32) (temp_s2->unk_30[1] * 4.0f * temp_fv1_2);
-                            if ((s32) var_s4 < 4) {
-                                var_s0 = 0;
-                                do {
-                                    temp_t1 = &_pnts_1106[var_s0];
-                                    temp_a3 = sp60;
-                                    temp_v0_2 = &(&sp10)[temp_t1->unk_08];
-                                    temp_t0 = temp_a3 + 8;
-                                    sp60 = temp_t0;
-                                    temp_v0_3 = &(&sp10)[temp_t1->unk_0C];
-                                    temp_a3->words.w0 = ((temp_v0_2->unk_0 & ((s32) ~temp_v0_2->unk_2 >> 0x1F) & 0xFFF) << 0xC) | ((temp_v0_3->unk_10 & ((s32) ~temp_v0_3->unk_12 >> 0x1F) & 0xFFF) | 0xE4000000);
-                                    temp_v1_4 = &(&sp10)[temp_t1->unk_00];
-                                    temp_v0_4 = &(&sp10)[temp_t1->unk_04];
-                                    temp_a3->unk_8 = 0xE1000000;
-                                    temp_a3->words.w1 = ((temp_v1_4->unk_0 & ((s32) ~temp_v1_4->unk_2 >> 0x1F) & 0xFFF) << 0xC) | (temp_v0_4->unk_10 & ((s32) ~temp_v0_4->unk_12 >> 0x1F) & 0xFFF);
-                                    sp60 = temp_a3 + 0x10;
-                                    temp_a2 = (&sp10)[temp_t1->unk_14].unk_30;
-                                    temp_a0_8 = (&sp10)[temp_t1->unk_00].unk_2;
-                                    temp_a1_2 = (&sp10)[temp_t1->unk_10].unk_20;
-                                    if (temp_a0_8 >= 0) {
-                                        var_a1 = temp_a1_2 << 0x10;
-                                    } else {
-                                        temp_v0_5 = (&sp10)[temp_t1->unk_18].unk_42;
-                                        if (temp_v0_5 < 0) {
-                                            var_v1_4 = (s32) (temp_a0_8 * temp_v0_5) >> 7;
-                                            var_v0_3 = (s32) ~var_v1_4 >> 0x1F;
-                                        } else {
-                                            var_v1_4 = (s32) (temp_a0_8 * temp_v0_5) >> 7;
-                                            var_v0_3 = -(var_v1_4 < 1);
-                                        }
-                                        var_a1 = (temp_a1_2 - (var_v1_4 & var_v0_3)) << 0x10;
-                                    }
-                                    temp_a0_9 = (&sp10)[temp_t1->unk_04].unk_10;
-                                    var_v0_4 = temp_a2 & 0xFFFF;
-                                    if (temp_a0_9 < 0) {
-                                        temp_v1_5 = (&sp10)[temp_t1->unk_1C].unk_42;
-                                        if (temp_v1_5 < 0) {
-                                            temp_v0_6 = (s32) ((s16) temp_a0_9 * temp_v1_5) >> 7;
-                                            var_v0_4 = (temp_a2 - (temp_v0_6 & ((s32) ~temp_v0_6 >> 0x1F))) & 0xFFFF;
-                                        } else {
-                                            temp_v0_7 = (s32) ((s16) temp_a0_9 * temp_v1_5) >> 7;
-                                            var_v0_4 = (temp_a2 - (temp_v0_7 & -(temp_v0_7 < 1))) & 0xFFFF;
-                                        }
-                                    }
-                                    temp_a1_3 = sp60;
-                                    temp_t0->words.w1 = var_a1 | var_v0_4;
-                                    temp_a1_3->words.w0 = 0xF1000000;
-                                    var_s0 += 1;
-                                    sp60 = temp_a1_3 + 8;
-                                    temp_a1_3->words.w1 = ((&sp10)[temp_t1->unk_18].unk_42 << 0x10) | (&sp10)[temp_t1->unk_1C].unk_42;
-                                } while ((u32) var_s0 < 9U);
-                            } else {
-                                temp_v0_8 = var_s6->unk_4;
-                                temp_a3_2 = sp60;
-                                temp_t0_2 = temp_a3_2 + 8;
-                                temp_ft0 = (s32) temp_s2->unk_0C[0];
-                                temp_fv1_3 = (s32) temp_s2->unk_0C[1];
-                                sp60 = temp_t0_2;
-                                temp_t3 = temp_ft0 * 4;
-                                temp_a3_2->words.w1 = (((temp_ft0 * 4) & ((s32) ~temp_t3 >> 0x1F) & 0xFFC) << 0xC) | ((temp_fv1_3 * 4) & ((s32) ~(s16) (temp_fv1_3 * 4) >> 0x1F) & 0xFFC);
-                                sp60 = temp_a3_2 + 0x10;
-                                temp_a3_2->unk_8 = 0xE1000000;
-                                temp_a1_4 = temp_ft0 + temp_v0_8->unk_0;
-                                temp_a2_2 = temp_fv1_3 + temp_v0_8->unk_2;
-                                temp_a3_2->words.w0 = (((temp_a1_4 * 4) & ((s32) ~(s16) (temp_a1_4 * 4) >> 0x1F) & 0xFFC) << 0xC) | (((temp_a2_2 * 4) & ((s32) ~(s16) (temp_a2_2 * 4) >> 0x1F) & 0xFFC) | 0xE4000000);
-                                if (temp_t3 < 0) {
-                                    temp_v1_6 = temp_t3 * 8;
-                                    var_a0 = (temp_v1_6 & -(temp_v1_6 < 1)) * -0x10000;
-                                } else {
-                                    var_a0 = 0;
-                                }
-                                temp_t0_2->words.w1 = var_a0;
-                                if (temp_fv1_3 & 0x20000000) {
-                                    temp_v0_9 = (s32) (temp_fv1_3 << 0x12) >> 0xD;
-                                    temp_t0_2->words.w1 = var_a0 | (-(temp_v0_9 & -(temp_v0_9 < 1)) & 0xFFFF);
-                                }
-                                temp_v1_7 = sp60;
-                                sp60 = temp_v1_7 + 8;
-                                temp_v1_7->words.w0 = 0xF1000000;
-                                temp_v1_7->words.w1 = 0x04000400;
-                            }
-                        }
-                        goto block_65;
-                    }
-                } else {
-block_65:
-                    var_t4 = spB4 + 4;
-                }
-                spB4 = var_t4;
-                var_fp += 1;
-            } while (var_fp < sp74);
-        }
-        var_s4 += 1;
-        var_v0 = var_s4 < 9U;
-    } while ((s32) var_s4 < 9);
-    *sp7C = sp60;
-}
-#else
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", jtbl_800AF828);
-
-/**
- * Original name: menuCursor_draw1
- */
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuCursor_draw1);
-#endif
-#endif
-
-#if VERSION_CN
+#if VERSION_CN || VERSION_US
 void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
     Gfx *gfx = *gxfP;
     s32 i;
@@ -1517,7 +1149,8 @@ void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
 
             if (i < 4) {
                 for (var_s0 = 0; var_s0 < ARRAY_COUNTU(_pnts_1106); var_s0++) {
-                    const s32 *pnts = _pnts_1106[var_s0];
+                    // Cast the const away, needed for matching
+                    s32 *pnts = (s32 *)_pnts_1106[var_s0];
 
                     gSPScisTextureRectangle(gfx++, sp18[pnts[0]], sp28[pnts[1]], sp18[pnts[2]], sp28[pnts[3]],
                                             G_TX_RENDERTILE, sp38[pnts[4]], sp48[pnts[5]], sp58[pnts[6]],
@@ -1863,7 +1496,6 @@ void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
             s32 j;
 
             for (j = 2; j < 0xD; j++) {
-                s32 temp_t5 = var_t0 + 0x14;
                 s32 var_t2 = (s32)item->pos[0] * 4;
                 s32 temp = *ptr;
                 s32 k;
@@ -1876,7 +1508,7 @@ void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
                     var_t2 += 0x14;
                 }
 
-                var_t0 = temp_t5;
+                var_t0 += 0x14;
                 ptr++;
             }
             var_t7 += 0xA0;

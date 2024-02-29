@@ -565,7 +565,7 @@ segments:
         dir: main_segment/record
         subsegments:
           - [0x0715C0]
-          - [0x0715C8, palette, mess_panel_tex ]
+          - [0x0715C8, palette, mess_panel_tex]
           - [0x0717C8, ci8, mess_panel_tex, 200, 69]
           - [0x074DC0]
 
