@@ -177,6 +177,21 @@
                 "-Werror=incompatible-pointer-types"
             ],
             "cStandard": "gnu89"
+        },
+        {
+            "name": "tooling",
+            "includePath": [
+            ],
+            "defines": [
+            ],
+            "browse": {
+                //"limitSymbolsToIncludedHeaders": true
+            },
+            "compilerPath": "/usr/bin/clang",
+            "intelliSenseMode": "linux-clang-x86",
+            "compilerArgs": [
+            ],
+            "cStandard": "c11"
         }
     ],
     "version": 4
