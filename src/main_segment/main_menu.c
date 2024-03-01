@@ -2644,14 +2644,20 @@ void func_8004B2C8(MenuCont *cont, s32 arg1, s32 arg2) {
 }
 #endif
 
-extern const s32 _posDesc_2860[][2];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _posDesc_2860);
+#if VERSION_US || VERSION_CN
+const s32 _posDesc_2860[][2] = {
+    { 0xC8, -0x3E }, { 0x66, -0x24 }, { 0x66, 0xE }, { 0x66, 0x40 }, { 0, -0x2C },
+};
+
+static_assert(ARRAY_COUNT(_posDesc_2860) == MENUCONT_UNK_094_LEN, "");
 #endif
 
-extern const s32 _posLine_2861[][2];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _posLine_2861);
+#if VERSION_US || VERSION_CN
+const s32 _posLine_2861[][2] = {
+    { 0xE, -0x29 },
+};
+
+static_assert(ARRAY_COUNT(_posLine_2861) == MENUCONT_UNK_364_LEN, "");
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -2697,117 +2703,64 @@ void func_8004B488(MenuCont *cont, MenuItem *parentItem) {
 }
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _line_2914);
+#if VERSION_US || VERSION_CN
+const s32 _line_2914[] = {
+    0,
+};
+
+static_assert(ARRAY_COUNT(_line_2914) == MENUCONT_UNK_364_LEN, "");
+
+const s32 _desc_2915[] = {
+    1,
+};
 #endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800AFC20);
-#endif
-
-extern const s32 _panel_3220[];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _panel_3220);
-#endif
-
-#if VERSION_US
-#if 0
+#if VERSION_US || VERSION_CN
 void menuCont_draw(MenuCont *cont, Gfx **gfxP) {
-    Gfx *gfx;
-    MenuItem *temp_s1;
-    TiTexData *temp_s0;
-    TiTexData *temp;
-    s32 var_s2;
-
-    gfx = *gfxP;
-
-    temp_s1 = &cont->unk_004;
-    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
-    menuItem_drawTex(temp_s1, &gfx, _getTexTutol(cont->watchMenuRef, 7), 0);
-
-    gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
-
-    for (var_s2 = 0; var_s2 < 1U; var_s2++) {
-        temp_s1 = &cont->unk_364[var_s2];
-        temp_s0 = _getTexCont(cont->watchMenuRef, _panel_3220[var_s2]);
-        menuItem_drawTex(temp_s1, &gfx, temp_s0, 0);
-    }
-
-    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
-    gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
-
-    temp_s0 = _getTexCont(cont->watchMenuRef, 2);
-    for (var_s2 = 0; var_s2 < 4U; var_s2++) {
-        temp_s1 = &cont->unk_094[var_s2];
-        func_80046F58(temp_s1, &gfx, temp_s0, 0, 4, var_s2);
-    }
-
-    for (; var_s2 < 5U; var_s2++) {
-        temp_s1 = &cont->unk_094[var_s2];
-        temp_s0 = _getTexCont(cont->watchMenuRef, (*_posLine_2861)[var_s2]);
-        menuItem_drawTex(temp_s1, &gfx, temp_s0, 0);
-    }
-
-    temp_s0 = _getTexCommon(cont->watchMenuRef, 0xE);
-    func_80046F58(cont->unk_3F4, &gfx, temp_s0, 0, 0x2F, 0x13);
-
-    gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
-
-    temp_s0 = _getTexTutol(cont->watchMenuRef, 1);
-    temp = _getTexTutol(cont->watchMenuRef, 3);
-    menuItem_drawAlphaTex(cont->unk_484, &gfx, temp_s0, temp, 0);
-
-    *gfxP = gfx;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuCont_draw);
-#endif
-#endif
-
-extern const s32 RO_800C62B4_cn[];
-
-#if VERSION_CN
-#if 0
-// Matches, but there's a fake symbol that I need to figure out, but I want to go to sleep
-
-// _desc_2915
-extern const s32 TODO_NEED_TO_FIGURE_OUT[];
-void menuCont_draw(MenuCont *cont, Gfx **gfxP) {
-    Gfx *gfx;
-    MenuItem *var_s2;
+    Gfx *gfx = *gfxP;
+    MenuItem *item;
     TiTexData *temp_s3;
     TiTexData *temp;
-    s32 var_s1;
+    s32 i;
 
-    gfx = *gfxP;
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    var_s2 = &cont->unk_004;
+    item = &cont->unk_004;
     temp_s3 = _getTexTutol(cont->watchMenuRef, 7);
-    menuItem_drawTex(var_s2, &gfx, temp_s3, 0);
+    menuItem_drawTex(item, &gfx, temp_s3, 0);
 
     gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
 
-    for (var_s1 = 0; var_s1 < 1U; var_s1++) {
-        var_s2 = &cont->unk_364[var_s1];
-        temp_s3 = _getTexCont(cont->watchMenuRef, RO_800C62B4_cn[var_s1]);
-        menuItem_drawTex(var_s2, &gfx, temp_s3, 0);
+    for (i = 0; i < ARRAY_COUNTU(cont->unk_364); i++) {
+        item = &cont->unk_364[i];
+        temp_s3 = _getTexCont(cont->watchMenuRef, _line_2914[i]);
+        menuItem_drawTex(item, &gfx, temp_s3, 0);
     }
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
 
     temp_s3 = _getTexCont(cont->watchMenuRef, 2);
-    for (var_s1 = 0; var_s1 < 4U; var_s1++) {
-        var_s2 = &cont->unk_094[var_s1];
-        func_80046F58(var_s2, &gfx, temp_s3, 0, 4, var_s1);
+    for (i = 0; i < ARRAY_COUNTU(cont->unk_094) - 1; i++) {
+        item = &cont->unk_094[i];
+        func_80046F58(item, &gfx, temp_s3, 0, 4, i);
     }
 
-    for (; var_s1 < 5U; var_s1++) {
-        var_s2 = &cont->unk_094[var_s1];
-        // ghidra says: TODO_NEED_TO_FIGURE_OUT[var_s1-3]
-        temp_s3 = _getTexCont(cont->watchMenuRef, TODO_NEED_TO_FIGURE_OUT[var_s1-UNK_SIZE]);
-        menuItem_drawTex(var_s2, &gfx, temp_s3, 0);
+    for (; i < ARRAY_COUNTU(cont->unk_094); i++) {
+        item = &cont->unk_094[i];
+
+#ifndef PRESERVE_UB
+        //! @bug: OoB access: reads index 1 of array `_desc_2915` which has only one element.
+        //! This ends up being harmless since the accessed memory (`_panel_3220[0]`) happens to have the same contents
+        //! of this array.
+        temp_s3 = _getTexCont(cont->watchMenuRef, _desc_2915[i - (ARRAY_COUNTU(cont->unk_094) - 2)]);
+#else
+        //! This ensures the same array is being accessed even if the variables get reordered by the compiler.
+        extern const s32 _panel_3220[];
+        temp_s3 = _getTexCont(cont->watchMenuRef, _panel_3220[i - (ARRAY_COUNTU(cont->unk_094) - 1)]);
+#endif
+
+        menuItem_drawTex(item, &gfx, temp_s3, 0);
     }
 
     func_80046F58(cont->unk_3F4, &gfx, _getTexCommon(cont->watchMenuRef, 0xE), 0, 0x2F, 0x13);
@@ -2820,9 +2773,6 @@ void menuCont_draw(MenuCont *cont, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuCont_draw);
-#endif
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -2899,20 +2849,10 @@ void func_8004B98C(MenuMainPanel *arg0, MenuItem *parentItem) {
 }
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _posDesc_2860);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _posLine_2861);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", RO_800C62B4_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _panel_3220);
+#if VERSION_US || VERSION_CN
+const s32 _panel_3220[] = {
+    1, 2, 3, 4, 5,
+};
 #endif
 
 #if VERSION_US || VERSION_CN

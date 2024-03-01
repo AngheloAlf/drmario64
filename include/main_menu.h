@@ -387,11 +387,14 @@ typedef struct MenuSndSelPanel {
     /* 0x43C */ MenuCursor unk_43C;
 } MenuSndSelPanel; // size >= 0x69C
 
+#define MENUCONT_UNK_094_LEN 5
+#define MENUCONT_UNK_364_LEN 1
+
 typedef struct MenuCont {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x004 */ MenuItem unk_004;
-    /* 0x094 */ MenuItem unk_094[5];
-    /* 0x364 */ MenuItem unk_364[1];
+    /* 0x094 */ MenuItem unk_094[MENUCONT_UNK_094_LEN];
+    /* 0x364 */ MenuItem unk_364[MENUCONT_UNK_364_LEN];
     /* 0x3F4 */ MenuItem unk_3F4[1];
     /* 0x484 */ MenuItem unk_484[1];
 } MenuCont; // size >= 0x514
