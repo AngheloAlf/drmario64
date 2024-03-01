@@ -426,42 +426,15 @@ void func_80046844(MenuItem *item, Gfx **gfxP) {
 }
 #endif
 
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 bool menuItem_outOfScreen(MenuItem *item, s32 arg1, s32 arg2) {
-    if (item->color.v.a <= 0) {
+    if ((item->color.v.a <= 0) || (item->pos[0] >= SCREEN_WIDTH) || (item->pos[1] >= SCREEN_HEIGHT) ||
+        (item->pos[0] + arg1 * item->unk_30[0] < 0) || (item->pos[1] + arg2 * item->unk_30[1] < 0) ||
+        (item->unk_30[0] == 0.0f) || (item->unk_30[1] == 0.0f)) {
         return true;
     }
-
-    if (item->pos[0] >= SCREEN_WIDTH) {
-        return true;
-    }
-
-    if ((item->pos[1] >= SCREEN_HEIGHT)) {
-        return true;
-    }
-
-    if (item->pos[0] + arg1 * item->unk_30[0] < 0) {
-        return true;
-    }
-
-    if (item->pos[1] + arg2 * item->unk_30[1] < 0) {
-        return true;
-    }
-
-    if (item->unk_30[0] == 0.0f) {
-        return true;
-    }
-
-    if (item->unk_30[1] == 0.0f) {
-        return true;
-    }
-
     return false;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuItem_outOfScreen);
 #endif
 
 #if VERSION_US || VERSION_CN
