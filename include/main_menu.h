@@ -7,7 +7,7 @@
 #include "color.h"
 #include "msgwnd.h"
 #include "char_anime.h"
-#include "audio/sound.h"
+#include "audio/snd_seq.h"
 #include "nnsched.h"
 #include "main.h"
 #include "recwritingmsg.h"

@@ -4704,61 +4704,43 @@ INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", mode_5557);
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _mode_5570);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B0360);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _tbl_5598);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B0364);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _tblLS_5599);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B0378);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _tblVM_5600);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B037C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _tblVC_5601);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B0380);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", tbl_5648);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B039C);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", tbl_5664);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B03A0);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _team_5687);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B03A4);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _mode_5688);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B03C0);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _game_5689);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B03C4);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _mode_5701);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B03D8);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _mode1_5709);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B03EC);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _mode2_5710);
 #endif
 #if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B03F8);
-#endif
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B0404);
-#endif
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B0410);
-#endif
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B041C);
-#endif
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B0424);
-#endif
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B043C);
-#endif
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", RO_800B0448);
+INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", tbl_5735);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -4857,7 +4839,7 @@ INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _mode2_5710);
 INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", tbl_5735);
 #endif
 
-extern const s8 _mode_5570[]; // MainMenuMode
+extern const char _mode_5570[]; // MainMenuMode
 
 extern const MainMenuMode _tblLS_5599[][3];
 extern const MainMenuMode _tblVC_5601[][2];
@@ -4879,16 +4861,8 @@ extern const MainMenuMode tbl_5517[];
 extern const MainMenuMode _mode_5538[];
 extern const s32 _n_5535[];
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuMain_input);
-#endif
-
-#if VERSION_CN
-#ifdef NON_MATCHING
-// tail optimization issues
+#if VERSION_US || VERSION_CN
 void menuMain_input(MenuMain *menuMain) {
-    MenuNameSelPanel *temp_s0_4;
-
     s32 sp18[2];
     MenuMainPanel *sp20;
 
@@ -5033,8 +5007,8 @@ void menuMain_input(MenuMain *menuMain) {
             menuMain->unk_002C = _n_5535[var_s2];
 
             if (temp_s0 & 0x9000) {
-                menuMain->mode = _mode_5538[var_s2];
                 menuMain->unk_0030 = -1;
+                menuMain->mode = _mode_5538[var_s2];
 
                 switch (menuMain->mode) { /* switch 8; irregular */
                     case MAINMENUMODE_18: /* switch 8 */
@@ -5708,13 +5682,11 @@ void menuMain_input(MenuMain *menuMain) {
             func_8004CCD0(&menuMain->unk_1C64, 1, menuMain->unk_1C64.unk_014.unk_14);
         } else {
             if (var_s7 > 0) {
-                f32 temp_fs0;
                 s32 var_a2_8;
+                f32 temp_fs0;
 
                 var_a2_8 = 1;
-
                 temp_fs0 = menuMain->unk_0D2C.unk_028.unk_14;
-                temp_s0_4 = &menuMain->unk_0D2C;
 
                 switch (menuMain->mode) {
                     case MAINMENUMODE_23:
@@ -5727,8 +5699,8 @@ void menuMain_input(MenuMain *menuMain) {
                         break;
                 }
 
-                menuNameSelPanel_clear(temp_s0_4, menuMain->mode != 0x3D, var_a2_8);
-                func_8004BB14(temp_s0_4, 1, temp_fs0);
+                menuNameSelPanel_clear(&menuMain->unk_0D2C, menuMain->mode != MAINMENUMODE_61, var_a2_8);
+                func_8004BB14(&menuMain->unk_0D2C, 1, temp_fs0);
             } else if (var_s3 != 0) {
                 f32 temp_fs0_2;
 
@@ -5750,9 +5722,6 @@ void menuMain_input(MenuMain *menuMain) {
         dm_snd_play(var_s5);
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuMain_input);
-#endif
 #endif
 
 #if VERSION_US || VERSION_CN
