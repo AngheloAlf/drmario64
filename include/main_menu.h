@@ -449,6 +449,9 @@ typedef struct MenuPlay2Panel {
     /* 0x12BC */ MenuSpeedItem unk_12BC;
 } MenuPlay2Panel; // size = 0x1920
 
+#define MENUPLAY2PANELSUB_UNK_17C 2
+#define MENUPLAY2PANELSUB_UNK_B9C 2
+
 typedef struct MenuPlay2PanelSub {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x004 */ s32 unk_004;
@@ -458,8 +461,8 @@ typedef struct MenuPlay2PanelSub {
     /* 0x0A0 */ MenuMusicItem unk_0A0;
     /* 0x940 */ MenuNumber unk_940;
     /* 0x9EC */ MenuItem unk_9EC;
-    /* 0xA7C */ MenuItem unk_A7C[2];
-    /* 0xB9C */ MenuCursor unk_B9C[2];
+    /* 0xA7C */ MenuItem unk_A7C[MENUPLAY2PANELSUB_UNK_17C];
+    /* 0xB9C */ MenuCursor unk_B9C[MENUPLAY2PANELSUB_UNK_B9C];
 } MenuPlay2PanelSub; // size = 0x105C
 
 

@@ -4148,16 +4148,6 @@ void func_8004E270(MenuPlay2PanelSub *play2PanelSub, s32 arg1, f32 arg2) {
 INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _bgDataNo_to_stageNo);
 #endif
 
-extern const s32 _bgCursor_4920[][2];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _bgCursor_4920);
-#endif
-
-extern const s32 _cursor_4921[][4];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/main_menu", _cursor_4921);
-#endif
-
 #if VERSION_US || VERSION_CN
 void func_8004E2B4(MenuPlay2PanelSub *play2PanelSub, s32 arg1, f32 arg2, f32 arg3) {
     MenuItem *item;
@@ -4170,9 +4160,44 @@ void func_8004E2B4(MenuPlay2PanelSub *play2PanelSub, s32 arg1, f32 arg2, f32 arg
 }
 #endif
 
-#if VERSION_US
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _charTbl_4601);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _type_4602);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _texPanelP4_4617);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _texPanelP2_4618);
+#endif
+
+#if VERSION_CN
+INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _bgDataNo_to_stageNo);
+#endif
+
+#if VERSION_US || VERSION_CN
+const s32 _bgCursor_4920[][2] = {
+    { 0x83, 0x36 },
+    { 0xEC, 0x36 },
+};
+static_assert(ARRAY_COUNT(_bgCursor_4920) == MENUPLAY2PANELSUB_UNK_17C, "");
+
+const s32 _cursor_4921[][4] = {
+    { 0, 0, 0x10E, 0x22 },
+    { 0, 0x1F, 0x10E, 0x3C },
+};
+static_assert(ARRAY_COUNT(_cursor_4921) == MENUPLAY2PANELSUB_UNK_B9C, "");
+#endif
+
+#if VERSION_US || VERSION_CN
 void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *watchMenuRef, void **heapP UNUSED,
                             s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+    MenuItem *item;
     s32 i;
 
     play2PanelSub->watchMenuRef = watchMenuRef;
@@ -4184,8 +4209,11 @@ void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *
     menuMusicItem_init(&play2PanelSub->unk_0A0, watchMenuRef, arg4, 0x46, 9);
 
     func_8004A860(&play2PanelSub->unk_940, watchMenuRef, 1, 2, arg3, 0x60, 0x28);
-    func_80046688(&play2PanelSub->unk_940.unk_1C, 0.875f, 0.9375f);
-    func_80046694(&play2PanelSub->unk_940.unk_1C, 0.875f, 0.9375f);
+
+    item = &play2PanelSub->unk_940.unk_1C;
+    func_80046688(item, 7.0f / 8.0f, 15.0f / 16.0f);
+    func_80046694(item, 7.0f / 8.0f, 15.0f / 16.0f);
+
     menuItem_init(&play2PanelSub->unk_9EC, 0x9C, 0x30);
 
     for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_A7C); i++) {
@@ -4193,8 +4221,9 @@ void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *
         func_800466D0(&play2PanelSub->unk_A7C[i]);
     }
 
-    play2PanelSub->unk_A7C[1].unk_40[0] = -play2PanelSub->unk_A7C[1].unk_40[0];
-    play2PanelSub->unk_A7C[1].unk_48[0] = -play2PanelSub->unk_A7C[1].unk_48[0];
+    item = &play2PanelSub->unk_A7C[ARRAY_COUNTU(play2PanelSub->unk_A7C) - 1];
+    item->unk_40[0] = -item->unk_40[0];
+    item->unk_48[0] = -item->unk_48[0];
 
     for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_B9C); i++) {
         func_800479A8(&play2PanelSub->unk_B9C[i], watchMenuRef, 0, 0, _cursor_4921[i][0], _cursor_4921[i][1],
@@ -4203,10 +4232,6 @@ void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *
 
     func_8004E270(play2PanelSub, -1, 0.0f);
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/main_menu", menuPlay2PanelSub_init);
 #endif
 
 #if VERSION_US || VERSION_CN
@@ -4390,34 +4415,6 @@ void menuPlay2PanelSub_draw(MenuPlay2PanelSub *play2PanelSub, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _charTbl_4601);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _type_4602);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _texPanelP4_4617);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _texPanelP2_4618);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _bgDataNo_to_stageNo);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _bgCursor_4920);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", _cursor_4921);
 #endif
 
 ASM_DATA;
