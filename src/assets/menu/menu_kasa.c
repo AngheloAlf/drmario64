@@ -16,7 +16,7 @@ TiTexDataHeader menu_kasa_header = {
 
 extern u8 menu_kasa_titexdata_00_texs_tex[];
 
-TiTexDataTextures menu_kasa_titexdata_00_texs = {
+TexturePtr menu_kasa_titexdata_00_texs[2] = {
     NULL,
     menu_kasa_titexdata_00_texs_tex,
 };
@@ -42,7 +42,7 @@ static_assert(ARRAY_COUNT(menu_kasa_titexdata_00_texs_tex) ==
 
 extern u16 menu_kasa_titexdata_01_texs_tex[];
 
-TiTexDataTextures menu_kasa_titexdata_01_texs = {
+TexturePtr menu_kasa_titexdata_01_texs[2] = {
     NULL,
     menu_kasa_titexdata_01_texs_tex,
 };
@@ -68,7 +68,7 @@ static_assert(ARRAY_COUNT(menu_kasa_titexdata_01_texs_tex) ==
 
 extern u16 menu_kasa_titexdata_02_texs_tex[];
 
-TiTexDataTextures menu_kasa_titexdata_02_texs = {
+TexturePtr menu_kasa_titexdata_02_texs[2] = {
     NULL,
     menu_kasa_titexdata_02_texs_tex,
 };
@@ -94,7 +94,7 @@ static_assert(ARRAY_COUNT(menu_kasa_titexdata_02_texs_tex) ==
 
 extern u16 menu_kasa_titexdata_03_texs_tex[];
 
-TiTexDataTextures menu_kasa_titexdata_03_texs = {
+TexturePtr menu_kasa_titexdata_03_texs[2] = {
     NULL,
     menu_kasa_titexdata_03_texs_tex,
 };
@@ -120,7 +120,7 @@ static_assert(ARRAY_COUNT(menu_kasa_titexdata_03_texs_tex) ==
 
 extern u16 menu_kasa_titexdata_04_texs_tex[];
 
-TiTexDataTextures menu_kasa_titexdata_04_texs = {
+TexturePtr menu_kasa_titexdata_04_texs[2] = {
     NULL,
     menu_kasa_titexdata_04_texs_tex,
 };
@@ -143,11 +143,11 @@ static_assert(ARRAY_COUNT(menu_kasa_titexdata_04_texs_tex) ==
               "The dimensions of `menu_kasa_titexdata_04_texs_tex` does not match the size of the actual texture");
 
 TiTexData menu_kasa_titexdata[] = {
-    { &menu_kasa_titexdata_00_texs, menu_kasa_titexdata_00_info },
-    { &menu_kasa_titexdata_01_texs, menu_kasa_titexdata_01_info },
-    { &menu_kasa_titexdata_02_texs, menu_kasa_titexdata_02_info },
-    { &menu_kasa_titexdata_03_texs, menu_kasa_titexdata_03_info },
-    { &menu_kasa_titexdata_04_texs, menu_kasa_titexdata_04_info },
+    { menu_kasa_titexdata_00_texs, menu_kasa_titexdata_00_info },
+    { menu_kasa_titexdata_01_texs, menu_kasa_titexdata_01_info },
+    { menu_kasa_titexdata_02_texs, menu_kasa_titexdata_02_info },
+    { menu_kasa_titexdata_03_texs, menu_kasa_titexdata_03_info },
+    { menu_kasa_titexdata_04_texs, menu_kasa_titexdata_04_info },
 };
 
 s32 menu_kasa_titexdata_len = ARRAY_COUNT(menu_kasa_titexdata);

@@ -24,7 +24,7 @@ AnimeHeader anime_virus_r_header = {
 extern u8 anime_virus_r_titexdata_00_texs_tex[];
 extern u16 anime_virus_r_titexdata_00_texs_tlut[];
 
-TiTexDataTextures anime_virus_r_titexdata_00_texs = {
+TexturePtr anime_virus_r_titexdata_00_texs[2] = {
     anime_virus_r_titexdata_00_texs_tlut,
     anime_virus_r_titexdata_00_texs_tex,
 };
@@ -56,7 +56,7 @@ static_assert(ARRAY_COUNT(anime_virus_r_titexdata_00_texs_tex) ==
 #define anime_virus_r_titexdata_01_texs_tex_height 32
 extern u8 anime_virus_r_titexdata_01_texs_tex[];
 
-TiTexDataTextures anime_virus_r_titexdata_01_texs = {
+TexturePtr anime_virus_r_titexdata_01_texs[2] = {
     NULL,
     anime_virus_r_titexdata_01_texs_tex,
 };
@@ -82,7 +82,7 @@ static_assert(ARRAY_COUNT(anime_virus_r_titexdata_01_texs_tex) ==
 #define anime_virus_r_titexdata_02_texs_tex_height 32
 extern u8 anime_virus_r_titexdata_02_texs_tex[];
 
-TiTexDataTextures anime_virus_r_titexdata_02_texs = {
+TexturePtr anime_virus_r_titexdata_02_texs[2] = {
     NULL,
     anime_virus_r_titexdata_02_texs_tex,
 };
@@ -108,7 +108,7 @@ static_assert(ARRAY_COUNT(anime_virus_r_titexdata_02_texs_tex) ==
 #define anime_virus_r_titexdata_03_texs_tex_height 32
 extern u8 anime_virus_r_titexdata_03_texs_tex[];
 
-TiTexDataTextures anime_virus_r_titexdata_03_texs = {
+TexturePtr anime_virus_r_titexdata_03_texs[2] = {
     NULL,
     anime_virus_r_titexdata_03_texs_tex,
 };
@@ -134,7 +134,7 @@ static_assert(ARRAY_COUNT(anime_virus_r_titexdata_03_texs_tex) ==
 #define anime_virus_r_titexdata_04_texs_tex_height 32
 extern u8 anime_virus_r_titexdata_04_texs_tex[];
 
-TiTexDataTextures anime_virus_r_titexdata_04_texs = {
+TexturePtr anime_virus_r_titexdata_04_texs[2] = {
     NULL,
     anime_virus_r_titexdata_04_texs_tex,
 };
@@ -160,7 +160,7 @@ static_assert(ARRAY_COUNT(anime_virus_r_titexdata_04_texs_tex) ==
 #define anime_virus_r_titexdata_05_texs_tex_height 32
 extern u8 anime_virus_r_titexdata_05_texs_tex[];
 
-TiTexDataTextures anime_virus_r_titexdata_05_texs = {
+TexturePtr anime_virus_r_titexdata_05_texs[2] = {
     NULL,
     anime_virus_r_titexdata_05_texs_tex,
 };
@@ -186,7 +186,7 @@ static_assert(ARRAY_COUNT(anime_virus_r_titexdata_05_texs_tex) ==
 #define anime_virus_r_titexdata_06_texs_tex_height 32
 extern u8 anime_virus_r_titexdata_06_texs_tex[];
 
-TiTexDataTextures anime_virus_r_titexdata_06_texs = {
+TexturePtr anime_virus_r_titexdata_06_texs[2] = {
     NULL,
     anime_virus_r_titexdata_06_texs_tex,
 };
@@ -212,7 +212,7 @@ static_assert(ARRAY_COUNT(anime_virus_r_titexdata_06_texs_tex) ==
 #define anime_virus_r_titexdata_07_texs_tex_height 32
 extern u8 anime_virus_r_titexdata_07_texs_tex[];
 
-TiTexDataTextures anime_virus_r_titexdata_07_texs = {
+TexturePtr anime_virus_r_titexdata_07_texs[2] = {
     NULL,
     anime_virus_r_titexdata_07_texs_tex,
 };
@@ -238,7 +238,7 @@ static_assert(ARRAY_COUNT(anime_virus_r_titexdata_07_texs_tex) ==
 #define anime_virus_r_titexdata_08_texs_tex_height 32
 extern u8 anime_virus_r_titexdata_08_texs_tex[];
 
-TiTexDataTextures anime_virus_r_titexdata_08_texs = {
+TexturePtr anime_virus_r_titexdata_08_texs[2] = {
     NULL,
     anime_virus_r_titexdata_08_texs_tex,
 };
@@ -264,7 +264,7 @@ static_assert(ARRAY_COUNT(anime_virus_r_titexdata_08_texs_tex) ==
 #define anime_virus_r_titexdata_09_texs_tex_height 32
 extern u8 anime_virus_r_titexdata_09_texs_tex[];
 
-TiTexDataTextures anime_virus_r_titexdata_09_texs = {
+TexturePtr anime_virus_r_titexdata_09_texs[2] = {
     NULL,
     anime_virus_r_titexdata_09_texs_tex,
 };
@@ -285,16 +285,16 @@ static_assert(ARRAY_COUNT(anime_virus_r_titexdata_09_texs_tex) ==
               "The dimensions of `anime_virus_r_titexdata_09_texs_tex` does not match the size of the actual texture");
 
 TiTexData anime_virus_r_titexdata[] = {
-    { &anime_virus_r_titexdata_00_texs, anime_virus_r_titexdata_00_info },
-    { &anime_virus_r_titexdata_01_texs, anime_virus_r_titexdata_01_info },
-    { &anime_virus_r_titexdata_02_texs, anime_virus_r_titexdata_02_info },
-    { &anime_virus_r_titexdata_03_texs, anime_virus_r_titexdata_03_info },
-    { &anime_virus_r_titexdata_04_texs, anime_virus_r_titexdata_04_info },
-    { &anime_virus_r_titexdata_05_texs, anime_virus_r_titexdata_05_info },
-    { &anime_virus_r_titexdata_06_texs, anime_virus_r_titexdata_06_info },
-    { &anime_virus_r_titexdata_07_texs, anime_virus_r_titexdata_07_info },
-    { &anime_virus_r_titexdata_08_texs, anime_virus_r_titexdata_08_info },
-    { &anime_virus_r_titexdata_09_texs, anime_virus_r_titexdata_09_info },
+    { anime_virus_r_titexdata_00_texs, anime_virus_r_titexdata_00_info },
+    { anime_virus_r_titexdata_01_texs, anime_virus_r_titexdata_01_info },
+    { anime_virus_r_titexdata_02_texs, anime_virus_r_titexdata_02_info },
+    { anime_virus_r_titexdata_03_texs, anime_virus_r_titexdata_03_info },
+    { anime_virus_r_titexdata_04_texs, anime_virus_r_titexdata_04_info },
+    { anime_virus_r_titexdata_05_texs, anime_virus_r_titexdata_05_info },
+    { anime_virus_r_titexdata_06_texs, anime_virus_r_titexdata_06_info },
+    { anime_virus_r_titexdata_07_texs, anime_virus_r_titexdata_07_info },
+    { anime_virus_r_titexdata_08_texs, anime_virus_r_titexdata_08_info },
+    { anime_virus_r_titexdata_09_texs, anime_virus_r_titexdata_09_info },
 };
 
 s32 anime_virus_r_titexdata_len = ARRAY_COUNT(anime_virus_r_titexdata);

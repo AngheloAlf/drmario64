@@ -16,7 +16,7 @@ TiTexDataHeader tutorial_kasa_header = {
 
 extern u16 tutorial_kasa_titexdata_00_texs_tex[];
 
-TiTexDataTextures tutorial_kasa_titexdata_00_texs = {
+TexturePtr tutorial_kasa_titexdata_00_texs[2] = {
     NULL,
     tutorial_kasa_titexdata_00_texs_tex,
 };
@@ -42,7 +42,7 @@ static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_00_texs_tex) ==
 
 extern u16 tutorial_kasa_titexdata_01_texs_tex[];
 
-TiTexDataTextures tutorial_kasa_titexdata_01_texs = {
+TexturePtr tutorial_kasa_titexdata_01_texs[2] = {
     NULL,
     tutorial_kasa_titexdata_01_texs_tex,
 };
@@ -68,7 +68,7 @@ static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_01_texs_tex) ==
 
 extern u8 tutorial_kasa_titexdata_02_texs_tex[];
 
-TiTexDataTextures tutorial_kasa_titexdata_02_texs = {
+TexturePtr tutorial_kasa_titexdata_02_texs[2] = {
     NULL,
     tutorial_kasa_titexdata_02_texs_tex,
 };
@@ -94,7 +94,7 @@ static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_02_texs_tex) ==
 
 extern u8 tutorial_kasa_titexdata_03_texs_tex[];
 
-TiTexDataTextures tutorial_kasa_titexdata_03_texs = {
+TexturePtr tutorial_kasa_titexdata_03_texs[2] = {
     NULL,
     tutorial_kasa_titexdata_03_texs_tex,
 };
@@ -120,7 +120,7 @@ static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_03_texs_tex) ==
 
 extern u16 tutorial_kasa_titexdata_04_texs_tex[];
 
-TiTexDataTextures tutorial_kasa_titexdata_04_texs = {
+TexturePtr tutorial_kasa_titexdata_04_texs[2] = {
     NULL,
     tutorial_kasa_titexdata_04_texs_tex,
 };
@@ -146,7 +146,7 @@ static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_04_texs_tex) ==
 
 extern u8 tutorial_kasa_titexdata_05_texs_tex[];
 
-TiTexDataTextures tutorial_kasa_titexdata_05_texs = {
+TexturePtr tutorial_kasa_titexdata_05_texs[2] = {
     NULL,
     tutorial_kasa_titexdata_05_texs_tex,
 };
@@ -173,7 +173,7 @@ static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_05_texs_tex) ==
 extern u16 tutorial_kasa_titexdata_06_texs_tlut[];
 extern u8 tutorial_kasa_titexdata_06_texs_tex[];
 
-TiTexDataTextures tutorial_kasa_titexdata_06_texs = {
+TexturePtr tutorial_kasa_titexdata_06_texs[2] = {
     tutorial_kasa_titexdata_06_texs_tlut,
     tutorial_kasa_titexdata_06_texs_tex,
 };
@@ -207,7 +207,7 @@ static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_06_texs_tex) ==
 extern u16 tutorial_kasa_titexdata_07_texs_tlut[];
 extern u8 tutorial_kasa_titexdata_07_texs_tex[];
 
-TiTexDataTextures tutorial_kasa_titexdata_07_texs = {
+TexturePtr tutorial_kasa_titexdata_07_texs[2] = {
     tutorial_kasa_titexdata_07_texs_tlut,
     tutorial_kasa_titexdata_07_texs_tex,
 };
@@ -265,7 +265,7 @@ static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_06_texs_tex) ==
 extern u16 tutorial_kasa_titexdata_07_texs_tlut[];
 extern u8 tutorial_kasa_titexdata_07_texs_tex[];
 
-TiTexDataTextures tutorial_kasa_titexdata_07_texs = {
+TexturePtr tutorial_kasa_titexdata_07_texs[2] = {
     tutorial_kasa_titexdata_07_texs_tlut,
     tutorial_kasa_titexdata_07_texs_tex,
 };
@@ -299,7 +299,7 @@ static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_07_texs_tex) ==
 extern u16 tutorial_kasa_titexdata_08_texs_tlut[];
 extern u8 tutorial_kasa_titexdata_08_texs_tex[];
 
-TiTexDataTextures tutorial_kasa_titexdata_08_texs = {
+TexturePtr tutorial_kasa_titexdata_08_texs[2] = {
     tutorial_kasa_titexdata_08_texs_tlut,
     tutorial_kasa_titexdata_08_texs_tex,
 };
@@ -328,20 +328,20 @@ static_assert(ARRAY_COUNT(tutorial_kasa_titexdata_08_texs_tex) ==
               "The dimensions of `tutorial_kasa_titexdata_08_texs_tex` does not match the size of the actual texture");
 
 TiTexData tutorial_kasa_titexdata[] = {
-    { &tutorial_kasa_titexdata_00_texs, tutorial_kasa_titexdata_00_info },
-    { &tutorial_kasa_titexdata_01_texs, tutorial_kasa_titexdata_01_info },
-    { &tutorial_kasa_titexdata_02_texs, tutorial_kasa_titexdata_02_info },
-    { &tutorial_kasa_titexdata_03_texs, tutorial_kasa_titexdata_03_info },
-    { &tutorial_kasa_titexdata_04_texs, tutorial_kasa_titexdata_04_info },
-    { &tutorial_kasa_titexdata_05_texs, tutorial_kasa_titexdata_05_info },
+    { tutorial_kasa_titexdata_00_texs, tutorial_kasa_titexdata_00_info },
+    { tutorial_kasa_titexdata_01_texs, tutorial_kasa_titexdata_01_info },
+    { tutorial_kasa_titexdata_02_texs, tutorial_kasa_titexdata_02_info },
+    { tutorial_kasa_titexdata_03_texs, tutorial_kasa_titexdata_03_info },
+    { tutorial_kasa_titexdata_04_texs, tutorial_kasa_titexdata_04_info },
+    { tutorial_kasa_titexdata_05_texs, tutorial_kasa_titexdata_05_info },
 #if VERSION_US || VERSION_GW
-    { &tutorial_kasa_titexdata_06_texs, tutorial_kasa_titexdata_06_info },
-    { &tutorial_kasa_titexdata_07_texs, tutorial_kasa_titexdata_07_info },
+    { tutorial_kasa_titexdata_06_texs, tutorial_kasa_titexdata_06_info },
+    { tutorial_kasa_titexdata_07_texs, tutorial_kasa_titexdata_07_info },
 #elif VERSION_CN
-    { &tutorial_kasa_titexdata_07_texs, tutorial_kasa_titexdata_07_info },
-    { &tutorial_kasa_titexdata_06_texs, tutorial_kasa_titexdata_06_info },
+    { tutorial_kasa_titexdata_07_texs, tutorial_kasa_titexdata_07_info },
+    { tutorial_kasa_titexdata_06_texs, tutorial_kasa_titexdata_06_info },
 #endif
-    { &tutorial_kasa_titexdata_08_texs, tutorial_kasa_titexdata_08_info },
+    { tutorial_kasa_titexdata_08_texs, tutorial_kasa_titexdata_08_info },
 };
 
 s32 tutorial_kasa_titexdata_len = ARRAY_COUNT(tutorial_kasa_titexdata);

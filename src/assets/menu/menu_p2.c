@@ -17,7 +17,7 @@ TiTexDataHeader menu_p2_header = {
 extern u16 menu_p2_titexdata_00_texs_tlut[];
 extern u8 menu_p2_titexdata_00_texs_tex[];
 
-TiTexDataTextures menu_p2_titexdata_00_texs = {
+TexturePtr menu_p2_titexdata_00_texs[2] = {
     menu_p2_titexdata_00_texs_tlut,
     menu_p2_titexdata_00_texs_tex,
 };
@@ -50,7 +50,7 @@ static_assert(ARRAY_COUNT(menu_p2_titexdata_00_texs_tex) ==
 extern u16 menu_p2_titexdata_01_texs_tlut[];
 extern u8 menu_p2_titexdata_01_texs_tex[];
 
-TiTexDataTextures menu_p2_titexdata_01_texs = {
+TexturePtr menu_p2_titexdata_01_texs[2] = {
     menu_p2_titexdata_01_texs_tlut,
     menu_p2_titexdata_01_texs_tex,
 };
@@ -79,8 +79,8 @@ static_assert(ARRAY_COUNT(menu_p2_titexdata_01_texs_tex) ==
               "The dimensions of `menu_p2_titexdata_01_texs_tex` does not match the size of the actual texture");
 
 TiTexData menu_p2_titexdata[] = {
-    { &menu_p2_titexdata_00_texs, menu_p2_titexdata_00_info },
-    { &menu_p2_titexdata_01_texs, menu_p2_titexdata_01_info },
+    { menu_p2_titexdata_00_texs, menu_p2_titexdata_00_info },
+    { menu_p2_titexdata_01_texs, menu_p2_titexdata_01_info },
 };
 
 s32 menu_p2_titexdata_len = ARRAY_COUNT(menu_p2_titexdata);

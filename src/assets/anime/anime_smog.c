@@ -23,7 +23,7 @@ AnimeHeader anime_smog_header = {
 #define anime_smog_titexdata_00_texs_tex_height 32
 extern u8 anime_smog_titexdata_00_texs_tex[];
 
-TiTexDataTextures anime_smog_titexdata_00_texs = {
+TexturePtr anime_smog_titexdata_00_texs[2] = {
     NULL,
     anime_smog_titexdata_00_texs_tex,
 };
@@ -49,7 +49,7 @@ static_assert(ARRAY_COUNT(anime_smog_titexdata_00_texs_tex) ==
 #define anime_smog_titexdata_01_texs_tex_height 32
 extern u8 anime_smog_titexdata_01_texs_tex[];
 
-TiTexDataTextures anime_smog_titexdata_01_texs = {
+TexturePtr anime_smog_titexdata_01_texs[2] = {
     NULL,
     anime_smog_titexdata_01_texs_tex,
 };
@@ -75,7 +75,7 @@ static_assert(ARRAY_COUNT(anime_smog_titexdata_01_texs_tex) ==
 #define anime_smog_titexdata_02_texs_tex_height 32
 extern u8 anime_smog_titexdata_02_texs_tex[];
 
-TiTexDataTextures anime_smog_titexdata_02_texs = {
+TexturePtr anime_smog_titexdata_02_texs[2] = {
     NULL,
     anime_smog_titexdata_02_texs_tex,
 };
@@ -101,7 +101,7 @@ static_assert(ARRAY_COUNT(anime_smog_titexdata_02_texs_tex) ==
 #define anime_smog_titexdata_03_texs_tex_height 32
 extern u8 anime_smog_titexdata_03_texs_tex[];
 
-TiTexDataTextures anime_smog_titexdata_03_texs = {
+TexturePtr anime_smog_titexdata_03_texs[2] = {
     NULL,
     anime_smog_titexdata_03_texs_tex,
 };
@@ -127,7 +127,7 @@ static_assert(ARRAY_COUNT(anime_smog_titexdata_03_texs_tex) ==
 #define anime_smog_titexdata_04_texs_tex_height 32
 extern u8 anime_smog_titexdata_04_texs_tex[];
 
-TiTexDataTextures anime_smog_titexdata_04_texs = {
+TexturePtr anime_smog_titexdata_04_texs[2] = {
     NULL,
     anime_smog_titexdata_04_texs_tex,
 };
@@ -153,7 +153,7 @@ static_assert(ARRAY_COUNT(anime_smog_titexdata_04_texs_tex) ==
 #define anime_smog_titexdata_05_texs_tex_height 32
 extern u8 anime_smog_titexdata_05_texs_tex[];
 
-TiTexDataTextures anime_smog_titexdata_05_texs = {
+TexturePtr anime_smog_titexdata_05_texs[2] = {
     NULL,
     anime_smog_titexdata_05_texs_tex,
 };
@@ -179,7 +179,7 @@ static_assert(ARRAY_COUNT(anime_smog_titexdata_05_texs_tex) ==
 #define anime_smog_titexdata_06_texs_tex_height 32
 extern u8 anime_smog_titexdata_06_texs_tex[];
 
-TiTexDataTextures anime_smog_titexdata_06_texs = {
+TexturePtr anime_smog_titexdata_06_texs[2] = {
     NULL,
     anime_smog_titexdata_06_texs_tex,
 };
@@ -205,7 +205,7 @@ static_assert(ARRAY_COUNT(anime_smog_titexdata_06_texs_tex) ==
 #define anime_smog_titexdata_07_texs_tex_height 32
 extern u8 anime_smog_titexdata_07_texs_tex[];
 
-TiTexDataTextures anime_smog_titexdata_07_texs = {
+TexturePtr anime_smog_titexdata_07_texs[2] = {
     NULL,
     anime_smog_titexdata_07_texs_tex,
 };
@@ -231,7 +231,7 @@ static_assert(ARRAY_COUNT(anime_smog_titexdata_07_texs_tex) ==
 #define anime_smog_titexdata_08_texs_tex_height 32
 extern u8 anime_smog_titexdata_08_texs_tex[];
 
-TiTexDataTextures anime_smog_titexdata_08_texs = {
+TexturePtr anime_smog_titexdata_08_texs[2] = {
     NULL,
     anime_smog_titexdata_08_texs_tex,
 };
@@ -252,15 +252,15 @@ static_assert(ARRAY_COUNT(anime_smog_titexdata_08_texs_tex) ==
               "The dimensions of `anime_smog_titexdata_08_texs_tex` does not match the size of the actual texture");
 
 TiTexData anime_smog_titexdata[] = {
-    { &anime_smog_titexdata_00_texs, anime_smog_titexdata_00_info },
-    { &anime_smog_titexdata_01_texs, anime_smog_titexdata_01_info },
-    { &anime_smog_titexdata_02_texs, anime_smog_titexdata_02_info },
-    { &anime_smog_titexdata_03_texs, anime_smog_titexdata_03_info },
-    { &anime_smog_titexdata_04_texs, anime_smog_titexdata_04_info },
-    { &anime_smog_titexdata_05_texs, anime_smog_titexdata_05_info },
-    { &anime_smog_titexdata_06_texs, anime_smog_titexdata_06_info },
-    { &anime_smog_titexdata_07_texs, anime_smog_titexdata_07_info },
-    { &anime_smog_titexdata_08_texs, anime_smog_titexdata_08_info },
+    { anime_smog_titexdata_00_texs, anime_smog_titexdata_00_info },
+    { anime_smog_titexdata_01_texs, anime_smog_titexdata_01_info },
+    { anime_smog_titexdata_02_texs, anime_smog_titexdata_02_info },
+    { anime_smog_titexdata_03_texs, anime_smog_titexdata_03_info },
+    { anime_smog_titexdata_04_texs, anime_smog_titexdata_04_info },
+    { anime_smog_titexdata_05_texs, anime_smog_titexdata_05_info },
+    { anime_smog_titexdata_06_texs, anime_smog_titexdata_06_info },
+    { anime_smog_titexdata_07_texs, anime_smog_titexdata_07_info },
+    { anime_smog_titexdata_08_texs, anime_smog_titexdata_08_info },
 };
 
 s32 anime_smog_titexdata_len = ARRAY_COUNT(anime_smog_titexdata);

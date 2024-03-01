@@ -16,7 +16,7 @@ TiTexDataHeader menu_char_header = {
 
 extern u16 menu_char_titexdata_00_texs_tex[];
 
-TiTexDataTextures menu_char_titexdata_00_texs = {
+TexturePtr menu_char_titexdata_00_texs[2] = {
     NULL,
     menu_char_titexdata_00_texs_tex,
 };
@@ -42,7 +42,7 @@ static_assert(ARRAY_COUNT(menu_char_titexdata_00_texs_tex) ==
 
 extern u8 menu_char_titexdata_01_texs_tex[];
 
-TiTexDataTextures menu_char_titexdata_01_texs = {
+TexturePtr menu_char_titexdata_01_texs[2] = {
     NULL,
     menu_char_titexdata_01_texs_tex,
 };
@@ -69,7 +69,7 @@ static_assert(ARRAY_COUNT(menu_char_titexdata_01_texs_tex) ==
 extern u16 menu_char_titexdata_02_texs_tlut[];
 extern u8 menu_char_titexdata_02_texs_tex[];
 
-TiTexDataTextures menu_char_titexdata_02_texs = {
+TexturePtr menu_char_titexdata_02_texs[2] = {
     menu_char_titexdata_02_texs_tlut,
     menu_char_titexdata_02_texs_tex,
 };
@@ -102,7 +102,7 @@ static_assert(ARRAY_COUNT(menu_char_titexdata_02_texs_tex) ==
 extern u16 menu_char_titexdata_03_texs_tlut[];
 extern u8 menu_char_titexdata_03_texs_tex[];
 
-TiTexDataTextures menu_char_titexdata_03_texs = {
+TexturePtr menu_char_titexdata_03_texs[2] = {
     menu_char_titexdata_03_texs_tlut,
     menu_char_titexdata_03_texs_tex,
 };
@@ -135,7 +135,7 @@ static_assert(ARRAY_COUNT(menu_char_titexdata_03_texs_tex) ==
 extern u16 menu_char_titexdata_04_texs_tlut[];
 extern u8 menu_char_titexdata_04_texs_tex[];
 
-TiTexDataTextures menu_char_titexdata_04_texs = {
+TexturePtr menu_char_titexdata_04_texs[2] = {
     menu_char_titexdata_04_texs_tlut,
     menu_char_titexdata_04_texs_tex,
 };
@@ -170,7 +170,7 @@ u8 menu_char_titexdata_04_17_pad[0x4] = { 0 };
 extern u16 menu_char_titexdata_05_texs_tlut[];
 extern u8 menu_char_titexdata_05_texs_tex[];
 
-TiTexDataTextures menu_char_titexdata_05_texs = {
+TexturePtr menu_char_titexdata_05_texs[2] = {
     menu_char_titexdata_05_texs_tlut,
     menu_char_titexdata_05_texs_tex,
 };
@@ -203,7 +203,7 @@ static_assert(ARRAY_COUNT(menu_char_titexdata_05_texs_tex) ==
 extern u16 menu_char_titexdata_06_texs_tlut[];
 extern u8 menu_char_titexdata_06_texs_tex[];
 
-TiTexDataTextures menu_char_titexdata_06_texs = {
+TexturePtr menu_char_titexdata_06_texs[2] = {
     menu_char_titexdata_06_texs_tlut,
     menu_char_titexdata_06_texs_tex,
 };
@@ -232,13 +232,13 @@ static_assert(ARRAY_COUNT(menu_char_titexdata_06_texs_tex) ==
               "The dimensions of `menu_char_titexdata_06_texs_tex` does not match the size of the actual texture");
 
 TiTexData menu_char_titexdata[] = {
-    { &menu_char_titexdata_00_texs, menu_char_titexdata_00_info },
-    { &menu_char_titexdata_01_texs, menu_char_titexdata_01_info },
-    { &menu_char_titexdata_02_texs, menu_char_titexdata_02_info },
-    { &menu_char_titexdata_03_texs, menu_char_titexdata_03_info },
-    { &menu_char_titexdata_04_texs, menu_char_titexdata_04_info },
-    { &menu_char_titexdata_05_texs, menu_char_titexdata_05_info },
-    { &menu_char_titexdata_06_texs, menu_char_titexdata_06_info },
+    { menu_char_titexdata_00_texs, menu_char_titexdata_00_info },
+    { menu_char_titexdata_01_texs, menu_char_titexdata_01_info },
+    { menu_char_titexdata_02_texs, menu_char_titexdata_02_info },
+    { menu_char_titexdata_03_texs, menu_char_titexdata_03_info },
+    { menu_char_titexdata_04_texs, menu_char_titexdata_04_info },
+    { menu_char_titexdata_05_texs, menu_char_titexdata_05_info },
+    { menu_char_titexdata_06_texs, menu_char_titexdata_06_info },
 };
 
 s32 menu_char_titexdata_len = ARRAY_COUNT(menu_char_titexdata);

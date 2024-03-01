@@ -1585,8 +1585,8 @@ void draw_AB_guide(s32 arg0, s32 arg1) {
 
         var_t0 = MIN(temp_a3->info[0], temp_a0->info[0]);
 
-        StretchAlphaTexTile(&gGfxHead, var_t0, temp_a3->info[1], temp_a3->texs->tex, temp_a3->info[0],
-                            temp_a0->texs->tex, temp_a0->info[0], 0, 0, var_t0, temp_a3->info[1], arg0 + _pos_885[i][0],
+        StretchAlphaTexTile(&gGfxHead, var_t0, temp_a3->info[1], temp_a3->texs[1], temp_a3->info[0], temp_a0->texs[1],
+                            temp_a0->info[0], 0, 0, var_t0, temp_a3->info[1], arg0 + _pos_885[i][0],
                             arg1 + _pos_885[i][1], var_t0, temp_a3->info[1]);
     }
 }
@@ -1651,8 +1651,8 @@ void func_80074B08(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s32 a
     gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     mtx++;
 
-    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->texs->tex, temp_s4->info[0], temp_s1->texs->tex,
-                     temp_s1->info[0], 0, 0, var_s0, var_s3, 0.0f, 0.0f, var_s0, var_s3);
+    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->texs[1], temp_s4->info[0], temp_s1->texs[1], temp_s1->info[0],
+                     0, 0, var_s0, var_s3, 0.0f, 0.0f, var_s0, var_s3);
 
     *vtxP = vtx;
     *mtxP = mtx;
@@ -1673,7 +1673,7 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
     for (i = 0; i < 3; i++) {
         s32 j;
 
-        load_TexPal(dm_game_get_capsel_pal(arg2, i)->texs->tlut);
+        load_TexPal(dm_game_get_capsel_pal(arg2, i)->texs[0]);
 
         for (j = 0; j < 4; j++) {
             if ((arg1[j].unk_3[0] != 0) && (arg1[j].unk_2 == i)) {
@@ -1748,7 +1748,7 @@ void disp_cont(void) {
 
         temp_t2 = _posCircle_924[i];
         temp_t1 = &_texAll[6];
-        StretchTexBlock4i(&gGfxHead, temp_t1->info[0], temp_t1->info[1], temp_t1->texs->tex,
+        StretchTexBlock4i(&gGfxHead, temp_t1->info[0], temp_t1->info[1], temp_t1->texs[1],
                           _posContPanel[0] + temp_t2[0], _posContPanel[1] + temp_t2[1], temp_t1->info[0],
                           temp_t1->info[1]);
 
@@ -1760,8 +1760,8 @@ void disp_cont(void) {
         temp_t2 = _posFinger_925[i];
         var_t0 = MIN(temp_t1->info[0], temp_a1->info[0]);
 
-        StretchAlphaTexBlock(&gGfxHead, var_t0, temp_t1->info[1], temp_t1->texs->tex, temp_t1->info[0],
-                             temp_a1->texs->tex, temp_a1->info[0], _posContPanel[0] + temp_t2[0],
+        StretchAlphaTexBlock(&gGfxHead, var_t0, temp_t1->info[1], temp_t1->texs[1], temp_t1->info[0], temp_a1->texs[1],
+                             temp_a1->info[0], _posContPanel[0] + temp_t2[0],
                              _posContPanel[1] + temp_t2[1] - MIN(4, ABS(watchManualP->unk_01C[i])), var_t0,
                              temp_t1->info[1]);
     }

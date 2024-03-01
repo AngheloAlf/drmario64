@@ -16,7 +16,7 @@ TiTexDataHeader menu_cont_header = {
 
 extern u8 menu_cont_titexdata_00_texs_tex[];
 
-TiTexDataTextures menu_cont_titexdata_00_texs = {
+TexturePtr menu_cont_titexdata_00_texs[2] = {
     NULL,
     menu_cont_titexdata_00_texs_tex,
 };
@@ -43,7 +43,7 @@ static_assert(ARRAY_COUNT(menu_cont_titexdata_00_texs_tex) ==
 extern u16 menu_cont_titexdata_01_texs_tlut[];
 extern u8 menu_cont_titexdata_01_texs_tex[];
 
-TiTexDataTextures menu_cont_titexdata_01_texs = {
+TexturePtr menu_cont_titexdata_01_texs[2] = {
     menu_cont_titexdata_01_texs_tlut,
     menu_cont_titexdata_01_texs_tex,
 };
@@ -76,7 +76,7 @@ static_assert(ARRAY_COUNT(menu_cont_titexdata_01_texs_tex) ==
 extern u16 menu_cont_titexdata_02_texs_tlut[];
 extern u8 menu_cont_titexdata_02_texs_tex[];
 
-TiTexDataTextures menu_cont_titexdata_02_texs = {
+TexturePtr menu_cont_titexdata_02_texs[2] = {
     menu_cont_titexdata_02_texs_tlut,
     menu_cont_titexdata_02_texs_tex,
 };
@@ -105,9 +105,9 @@ static_assert(ARRAY_COUNT(menu_cont_titexdata_02_texs_tex) ==
               "The dimensions of `menu_cont_titexdata_02_texs_tex` does not match the size of the actual texture");
 
 TiTexData menu_cont_titexdata[] = {
-    { &menu_cont_titexdata_00_texs, menu_cont_titexdata_00_info },
-    { &menu_cont_titexdata_01_texs, menu_cont_titexdata_01_info },
-    { &menu_cont_titexdata_02_texs, menu_cont_titexdata_02_info },
+    { menu_cont_titexdata_00_texs, menu_cont_titexdata_00_info },
+    { menu_cont_titexdata_01_texs, menu_cont_titexdata_01_info },
+    { menu_cont_titexdata_02_texs, menu_cont_titexdata_02_info },
 };
 
 s32 menu_cont_titexdata_len = ARRAY_COUNT(menu_cont_titexdata);

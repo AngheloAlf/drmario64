@@ -309,13 +309,13 @@ void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32
 
     switch (temp_a3->info[2]) {
         case TITEX_FORMAT_4:
-            StretchTexTile4(&gfx, temp_a3->info[0], temp_a3->info[1], temp_t0[0].texs->tlut, temp_a3->texs->tex, 0, 0,
+            StretchTexTile4(&gfx, temp_a3->info[0], temp_a3->info[1], temp_t0[0].texs[0], temp_a3->texs[1], 0, 0,
                             temp_a3->info[0], temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4,
                             temp_a3->info[1] * arg5);
             break;
 
         case TITEX_FORMAT_8:
-            StretchTexTile8(&gfx, temp_a3->info[0], temp_a3->info[1], temp_t0[0].texs->tlut, temp_a3->texs->tex, 0, 0,
+            StretchTexTile8(&gfx, temp_a3->info[0], temp_a3->info[1], temp_t0[0].texs[0], temp_a3->texs[1], 0, 0,
                             temp_a3->info[0], temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4,
                             temp_a3->info[1] * arg5);
             break;
@@ -346,7 +346,7 @@ void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 a
         arg3 -= animeState->unk_24.unk_4 * arg5;
     }
 
-    StretchTexTile4i(&gfx, temp_a3->info[0], temp_a3->info[1], temp_a3->texs->tex, 0, 0, temp_a3->info[0],
+    StretchTexTile4i(&gfx, temp_a3->info[0], temp_a3->info[1], temp_a3->texs[1], 0, 0, temp_a3->info[0],
                      temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4, temp_a3->info[1] * arg5);
     *gfxP = gfx;
 }

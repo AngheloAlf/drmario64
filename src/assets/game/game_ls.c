@@ -16,7 +16,7 @@ TiTexDataHeader game_ls_header = {
 
 extern u8 game_ls_titexdata_00_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_00_texs = {
+TexturePtr game_ls_titexdata_00_texs[2] = {
     NULL,
     game_ls_titexdata_00_texs_tex,
 };
@@ -44,7 +44,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_00_texs_tex) ==
 
 extern u8 game_ls_titexdata_01_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_01_texs = {
+TexturePtr game_ls_titexdata_01_texs[2] = {
     NULL,
     game_ls_titexdata_01_texs_tex,
 };
@@ -70,7 +70,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_01_texs_tex) ==
 
 extern u8 game_ls_titexdata_02_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_02_texs = {
+TexturePtr game_ls_titexdata_02_texs[2] = {
     NULL,
     game_ls_titexdata_02_texs_tex,
 };
@@ -96,7 +96,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_02_texs_tex) ==
 
 extern u8 game_ls_titexdata_03_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_03_texs = {
+TexturePtr game_ls_titexdata_03_texs[2] = {
     NULL,
     game_ls_titexdata_03_texs_tex,
 };
@@ -124,7 +124,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_03_texs_tex) ==
 
 extern u8 game_ls_titexdata_01_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_01_texs = {
+TexturePtr game_ls_titexdata_01_texs[2] = {
     NULL,
     game_ls_titexdata_01_texs_tex,
 };
@@ -150,7 +150,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_01_texs_tex) ==
 
 extern u8 game_ls_titexdata_02_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_02_texs = {
+TexturePtr game_ls_titexdata_02_texs[2] = {
     NULL,
     game_ls_titexdata_02_texs_tex,
 };
@@ -176,7 +176,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_02_texs_tex) ==
 
 extern u8 game_ls_titexdata_03_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_03_texs = {
+TexturePtr game_ls_titexdata_03_texs[2] = {
     NULL,
     game_ls_titexdata_03_texs_tex,
 };
@@ -204,7 +204,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_03_texs_tex) ==
 
 extern u8 game_ls_titexdata_04_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_04_texs = {
+TexturePtr game_ls_titexdata_04_texs[2] = {
     NULL,
     game_ls_titexdata_04_texs_tex,
 };
@@ -232,7 +232,7 @@ u8 game_ls_titexdata_04_14_pad[0x4] = { 0 };
 
 extern u16 game_ls_titexdata_05_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_05_texs = {
+TexturePtr game_ls_titexdata_05_texs[2] = {
     NULL,
     game_ls_titexdata_05_texs_tex,
 };
@@ -258,7 +258,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_05_texs_tex) ==
 
 extern u16 game_ls_titexdata_06_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_06_texs = {
+TexturePtr game_ls_titexdata_06_texs[2] = {
     NULL,
     game_ls_titexdata_06_texs_tex,
 };
@@ -284,7 +284,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_06_texs_tex) ==
 
 extern u16 game_ls_titexdata_07_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_07_texs = {
+TexturePtr game_ls_titexdata_07_texs[2] = {
     NULL,
     game_ls_titexdata_07_texs_tex,
 };
@@ -310,7 +310,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_07_texs_tex) ==
 
 extern u16 game_ls_titexdata_08_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_08_texs = {
+TexturePtr game_ls_titexdata_08_texs[2] = {
     NULL,
     game_ls_titexdata_08_texs_tex,
 };
@@ -338,7 +338,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_08_texs_tex) ==
 
 extern u16 game_ls_titexdata_09_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_09_texs = {
+TexturePtr game_ls_titexdata_09_texs[2] = {
     NULL,
     game_ls_titexdata_09_texs_tex,
 };
@@ -364,7 +364,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_09_texs_tex) ==
 
 extern u16 game_ls_titexdata_10_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_10_texs = {
+TexturePtr game_ls_titexdata_10_texs[2] = {
     NULL,
     game_ls_titexdata_10_texs_tex,
 };
@@ -390,7 +390,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_10_texs_tex) ==
 
 extern u16 game_ls_titexdata_11_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_11_texs = {
+TexturePtr game_ls_titexdata_11_texs[2] = {
     NULL,
     game_ls_titexdata_11_texs_tex,
 };
@@ -416,7 +416,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_11_texs_tex) ==
 
 extern u16 game_ls_titexdata_12_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_12_texs = {
+TexturePtr game_ls_titexdata_12_texs[2] = {
     NULL,
     game_ls_titexdata_12_texs_tex,
 };
@@ -444,7 +444,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_12_texs_tex) ==
 
 extern u16 game_ls_titexdata_09_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_09_texs = {
+TexturePtr game_ls_titexdata_09_texs[2] = {
     NULL,
     game_ls_titexdata_09_texs_tex,
 };
@@ -470,7 +470,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_09_texs_tex) ==
 
 extern u16 game_ls_titexdata_10_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_10_texs = {
+TexturePtr game_ls_titexdata_10_texs[2] = {
     NULL,
     game_ls_titexdata_10_texs_tex,
 };
@@ -496,7 +496,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_10_texs_tex) ==
 
 extern u16 game_ls_titexdata_11_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_11_texs = {
+TexturePtr game_ls_titexdata_11_texs[2] = {
     NULL,
     game_ls_titexdata_11_texs_tex,
 };
@@ -522,7 +522,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_11_texs_tex) ==
 
 extern u16 game_ls_titexdata_12_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_12_texs = {
+TexturePtr game_ls_titexdata_12_texs[2] = {
     NULL,
     game_ls_titexdata_12_texs_tex,
 };
@@ -550,7 +550,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_12_texs_tex) ==
 
 extern u16 game_ls_titexdata_13_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_13_texs = {
+TexturePtr game_ls_titexdata_13_texs[2] = {
     NULL,
     game_ls_titexdata_13_texs_tex,
 };
@@ -576,7 +576,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_13_texs_tex) ==
 
 extern u16 game_ls_titexdata_14_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_14_texs = {
+TexturePtr game_ls_titexdata_14_texs[2] = {
     NULL,
     game_ls_titexdata_14_texs_tex,
 };
@@ -603,7 +603,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_14_texs_tex) ==
 extern u16 game_ls_titexdata_15_texs_tlut[];
 extern u8 game_ls_titexdata_15_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_15_texs = {
+TexturePtr game_ls_titexdata_15_texs[2] = {
     game_ls_titexdata_15_texs_tlut,
     game_ls_titexdata_15_texs_tex,
 };
@@ -636,7 +636,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_15_texs_tex) ==
 extern u16 game_ls_titexdata_16_texs_tlut[];
 extern u8 game_ls_titexdata_16_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_16_texs = {
+TexturePtr game_ls_titexdata_16_texs[2] = {
     game_ls_titexdata_16_texs_tlut,
     game_ls_titexdata_16_texs_tex,
 };
@@ -669,7 +669,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_16_texs_tex) ==
 extern u16 game_ls_titexdata_17_texs_tlut[];
 extern u8 game_ls_titexdata_17_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_17_texs = {
+TexturePtr game_ls_titexdata_17_texs[2] = {
     game_ls_titexdata_17_texs_tlut,
     game_ls_titexdata_17_texs_tex,
 };
@@ -702,7 +702,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_17_texs_tex) ==
 extern u16 game_ls_titexdata_18_texs_tlut[];
 extern u8 game_ls_titexdata_18_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_18_texs = {
+TexturePtr game_ls_titexdata_18_texs[2] = {
     game_ls_titexdata_18_texs_tlut,
     game_ls_titexdata_18_texs_tex,
 };
@@ -735,7 +735,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_18_texs_tex) ==
 extern u16 game_ls_titexdata_19_texs_tlut[];
 extern u8 game_ls_titexdata_19_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_19_texs = {
+TexturePtr game_ls_titexdata_19_texs[2] = {
     game_ls_titexdata_19_texs_tlut,
     game_ls_titexdata_19_texs_tex,
 };
@@ -768,7 +768,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_19_texs_tex) ==
 extern u16 game_ls_titexdata_20_texs_tlut[];
 extern u8 game_ls_titexdata_20_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_20_texs = {
+TexturePtr game_ls_titexdata_20_texs[2] = {
     game_ls_titexdata_20_texs_tlut,
     game_ls_titexdata_20_texs_tex,
 };
@@ -801,7 +801,7 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_20_texs_tex) ==
 extern u16 game_ls_titexdata_21_texs_tlut[];
 extern u8 game_ls_titexdata_21_texs_tex[];
 
-TiTexDataTextures game_ls_titexdata_21_texs = {
+TexturePtr game_ls_titexdata_21_texs[2] = {
     game_ls_titexdata_21_texs_tlut,
     game_ls_titexdata_21_texs_tex,
 };
@@ -830,38 +830,30 @@ static_assert(ARRAY_COUNT(game_ls_titexdata_21_texs_tex) ==
               "The dimensions of `game_ls_titexdata_21_texs_tex` does not match the size of the actual texture");
 
 TiTexData game_ls_titexdata[] = {
-    { &game_ls_titexdata_00_texs, game_ls_titexdata_00_info },
+    { game_ls_titexdata_00_texs, game_ls_titexdata_00_info },
 #if VERSION_US || VERSION_GW
-    { &game_ls_titexdata_01_texs, game_ls_titexdata_01_info },
+    { game_ls_titexdata_01_texs, game_ls_titexdata_01_info },
 #endif
-    { &game_ls_titexdata_02_texs, game_ls_titexdata_02_info },
-    { &game_ls_titexdata_03_texs, game_ls_titexdata_03_info },
+    { game_ls_titexdata_02_texs, game_ls_titexdata_02_info }, { game_ls_titexdata_03_texs, game_ls_titexdata_03_info },
 #if VERSION_CN
-    { &game_ls_titexdata_01_texs, game_ls_titexdata_01_info },
+    { game_ls_titexdata_01_texs, game_ls_titexdata_01_info },
 #endif
-    { &game_ls_titexdata_04_texs, game_ls_titexdata_04_info },
-    { &game_ls_titexdata_05_texs, game_ls_titexdata_05_info },
-    { &game_ls_titexdata_06_texs, game_ls_titexdata_06_info },
-    { &game_ls_titexdata_07_texs, game_ls_titexdata_07_info },
-    { &game_ls_titexdata_08_texs, game_ls_titexdata_08_info },
+    { game_ls_titexdata_04_texs, game_ls_titexdata_04_info }, { game_ls_titexdata_05_texs, game_ls_titexdata_05_info },
+    { game_ls_titexdata_06_texs, game_ls_titexdata_06_info }, { game_ls_titexdata_07_texs, game_ls_titexdata_07_info },
+    { game_ls_titexdata_08_texs, game_ls_titexdata_08_info },
 #if VERSION_CN
-    { &game_ls_titexdata_12_texs, game_ls_titexdata_12_info },
+    { game_ls_titexdata_12_texs, game_ls_titexdata_12_info },
 #endif
-    { &game_ls_titexdata_09_texs, game_ls_titexdata_09_info },
-    { &game_ls_titexdata_10_texs, game_ls_titexdata_10_info },
-    { &game_ls_titexdata_11_texs, game_ls_titexdata_11_info },
+    { game_ls_titexdata_09_texs, game_ls_titexdata_09_info }, { game_ls_titexdata_10_texs, game_ls_titexdata_10_info },
+    { game_ls_titexdata_11_texs, game_ls_titexdata_11_info },
 #if VERSION_US || VERSION_GW
-    { &game_ls_titexdata_12_texs, game_ls_titexdata_12_info },
+    { game_ls_titexdata_12_texs, game_ls_titexdata_12_info },
 #endif
-    { &game_ls_titexdata_13_texs, game_ls_titexdata_13_info },
-    { &game_ls_titexdata_14_texs, game_ls_titexdata_14_info },
-    { &game_ls_titexdata_15_texs, game_ls_titexdata_15_info },
-    { &game_ls_titexdata_16_texs, game_ls_titexdata_16_info },
-    { &game_ls_titexdata_17_texs, game_ls_titexdata_17_info },
-    { &game_ls_titexdata_18_texs, game_ls_titexdata_18_info },
-    { &game_ls_titexdata_19_texs, game_ls_titexdata_19_info },
-    { &game_ls_titexdata_20_texs, game_ls_titexdata_20_info },
-    { &game_ls_titexdata_21_texs, game_ls_titexdata_21_info },
+    { game_ls_titexdata_13_texs, game_ls_titexdata_13_info }, { game_ls_titexdata_14_texs, game_ls_titexdata_14_info },
+    { game_ls_titexdata_15_texs, game_ls_titexdata_15_info }, { game_ls_titexdata_16_texs, game_ls_titexdata_16_info },
+    { game_ls_titexdata_17_texs, game_ls_titexdata_17_info }, { game_ls_titexdata_18_texs, game_ls_titexdata_18_info },
+    { game_ls_titexdata_19_texs, game_ls_titexdata_19_info }, { game_ls_titexdata_20_texs, game_ls_titexdata_20_info },
+    { game_ls_titexdata_21_texs, game_ls_titexdata_21_info },
 };
 
 s32 game_ls_titexdata_len = ARRAY_COUNT(game_ls_titexdata);

@@ -16,7 +16,7 @@ TiTexDataHeader menu_story_header = {
 
 extern u8 menu_story_titexdata_00_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_00_texs = {
+TexturePtr menu_story_titexdata_00_texs[2] = {
     NULL,
     menu_story_titexdata_00_texs_tex,
 };
@@ -42,7 +42,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_00_texs_tex) ==
 
 extern u16 menu_story_titexdata_01_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_01_texs = {
+TexturePtr menu_story_titexdata_01_texs[2] = {
     NULL,
     menu_story_titexdata_01_texs_tex,
 };
@@ -69,7 +69,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_01_texs_tex) ==
 extern u16 menu_story_titexdata_02_texs_tlut[];
 extern u8 menu_story_titexdata_02_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_02_texs = {
+TexturePtr menu_story_titexdata_02_texs[2] = {
     menu_story_titexdata_02_texs_tlut,
     menu_story_titexdata_02_texs_tex,
 };
@@ -102,7 +102,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_02_texs_tex) ==
 extern u16 menu_story_titexdata_03_texs_tlut[];
 extern u8 menu_story_titexdata_03_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_03_texs = {
+TexturePtr menu_story_titexdata_03_texs[2] = {
     menu_story_titexdata_03_texs_tlut,
     menu_story_titexdata_03_texs_tex,
 };
@@ -135,7 +135,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_03_texs_tex) ==
 extern u16 menu_story_titexdata_04_texs_tlut[];
 extern u8 menu_story_titexdata_04_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_04_texs = {
+TexturePtr menu_story_titexdata_04_texs[2] = {
     menu_story_titexdata_04_texs_tlut,
     menu_story_titexdata_04_texs_tex,
 };
@@ -168,7 +168,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_04_texs_tex) ==
 extern u16 menu_story_titexdata_05_texs_tlut[];
 extern u8 menu_story_titexdata_05_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_05_texs = {
+TexturePtr menu_story_titexdata_05_texs[2] = {
     menu_story_titexdata_05_texs_tlut,
     menu_story_titexdata_05_texs_tex,
 };
@@ -201,7 +201,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_05_texs_tex) ==
 extern u16 menu_story_titexdata_06_texs_tlut[];
 extern u8 menu_story_titexdata_06_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_06_texs = {
+TexturePtr menu_story_titexdata_06_texs[2] = {
     menu_story_titexdata_06_texs_tlut,
     menu_story_titexdata_06_texs_tex,
 };
@@ -234,7 +234,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_06_texs_tex) ==
 extern u16 menu_story_titexdata_07_texs_tlut[];
 extern u8 menu_story_titexdata_07_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_07_texs = {
+TexturePtr menu_story_titexdata_07_texs[2] = {
     menu_story_titexdata_07_texs_tlut,
     menu_story_titexdata_07_texs_tex,
 };
@@ -267,7 +267,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_07_texs_tex) ==
 extern u16 menu_story_titexdata_08_texs_tlut[];
 extern u8 menu_story_titexdata_08_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_08_texs = {
+TexturePtr menu_story_titexdata_08_texs[2] = {
     menu_story_titexdata_08_texs_tlut,
     menu_story_titexdata_08_texs_tex,
 };
@@ -299,7 +299,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_08_texs_tex) ==
 
 extern u8 menu_story_titexdata_09_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_09_texs = {
+TexturePtr menu_story_titexdata_09_texs[2] = {
     NULL,
     menu_story_titexdata_09_texs_tex,
 };
@@ -325,7 +325,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_09_texs_tex) ==
 
 extern u8 menu_story_titexdata_10_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_10_texs = {
+TexturePtr menu_story_titexdata_10_texs[2] = {
     NULL,
     menu_story_titexdata_10_texs_tex,
 };
@@ -351,7 +351,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_10_texs_tex) ==
 
 extern u8 menu_story_titexdata_11_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_11_texs = {
+TexturePtr menu_story_titexdata_11_texs[2] = {
     NULL,
     menu_story_titexdata_11_texs_tex,
 };
@@ -377,7 +377,7 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_11_texs_tex) ==
 
 extern u8 menu_story_titexdata_12_texs_tex[];
 
-TiTexDataTextures menu_story_titexdata_12_texs = {
+TexturePtr menu_story_titexdata_12_texs[2] = {
     NULL,
     menu_story_titexdata_12_texs_tex,
 };
@@ -402,19 +402,19 @@ static_assert(ARRAY_COUNT(menu_story_titexdata_12_texs_tex) ==
 u8 menu_story_titexdata_12_45_pad[0x4] = { 0 };
 
 TiTexData menu_story_titexdata[] = {
-    { &menu_story_titexdata_00_texs, menu_story_titexdata_00_info },
-    { &menu_story_titexdata_01_texs, menu_story_titexdata_01_info },
-    { &menu_story_titexdata_02_texs, menu_story_titexdata_02_info },
-    { &menu_story_titexdata_03_texs, menu_story_titexdata_03_info },
-    { &menu_story_titexdata_04_texs, menu_story_titexdata_04_info },
-    { &menu_story_titexdata_05_texs, menu_story_titexdata_05_info },
-    { &menu_story_titexdata_06_texs, menu_story_titexdata_06_info },
-    { &menu_story_titexdata_07_texs, menu_story_titexdata_07_info },
-    { &menu_story_titexdata_08_texs, menu_story_titexdata_08_info },
-    { &menu_story_titexdata_09_texs, menu_story_titexdata_09_info },
-    { &menu_story_titexdata_10_texs, menu_story_titexdata_10_info },
-    { &menu_story_titexdata_11_texs, menu_story_titexdata_11_info },
-    { &menu_story_titexdata_12_texs, menu_story_titexdata_12_info },
+    { menu_story_titexdata_00_texs, menu_story_titexdata_00_info },
+    { menu_story_titexdata_01_texs, menu_story_titexdata_01_info },
+    { menu_story_titexdata_02_texs, menu_story_titexdata_02_info },
+    { menu_story_titexdata_03_texs, menu_story_titexdata_03_info },
+    { menu_story_titexdata_04_texs, menu_story_titexdata_04_info },
+    { menu_story_titexdata_05_texs, menu_story_titexdata_05_info },
+    { menu_story_titexdata_06_texs, menu_story_titexdata_06_info },
+    { menu_story_titexdata_07_texs, menu_story_titexdata_07_info },
+    { menu_story_titexdata_08_texs, menu_story_titexdata_08_info },
+    { menu_story_titexdata_09_texs, menu_story_titexdata_09_info },
+    { menu_story_titexdata_10_texs, menu_story_titexdata_10_info },
+    { menu_story_titexdata_11_texs, menu_story_titexdata_11_info },
+    { menu_story_titexdata_12_texs, menu_story_titexdata_12_info },
 };
 
 s32 menu_story_titexdata_len = ARRAY_COUNT(menu_story_titexdata);

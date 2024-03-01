@@ -10,11 +10,6 @@ struct StretchTexBlock_arg0;
 struct StretchTexTile_arg0;
 
 
-typedef struct TiTexDataTextures {
-    /* 0x0 */ u16 *tlut;
-    /* 0x4 */ TexturePtr tex; // TODO: u8*?
-} TiTexDataTextures; // size = 0x8
-
 typedef enum TiTexDataFormat {
     /* 0x04 */ TITEX_FORMAT_4 = 4,
     /* 0x08 */ TITEX_FORMAT_8 = 8,
@@ -25,7 +20,11 @@ typedef enum TiTexDataFormat {
 #define TITEX_FLAGS_BLOCK (0x1)
 
 typedef struct TiTexData {
-    /* 0x0 */ TiTexDataTextures *texs;
+    /**
+     * [0]: tlut
+     * [1]: texture
+     */
+    /* 0x0 */ TexturePtr *texs;
 
     /**
      * [0]: width

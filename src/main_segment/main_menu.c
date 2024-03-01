@@ -500,15 +500,15 @@ s32 menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData
         sp48[0] = NULL;
         sp48[1] = NULL;
     } else {
-        sp48[0] = arg2->texs->tex;
-        sp48[1] = arg3->texs->tex;
+        sp48[0] = arg2->texs[1];
+        sp48[1] = arg3->texs[1];
     }
 
     if ((arg2->info[3] & TITEX_FLAGS_BLOCK) && (arg3->info[3] & TITEX_FLAGS_BLOCK)) {
         StretchAlphaTexBlock(gfxP, var_s0, var_s1, sp48[0], arg2->info[0], sp48[1], arg3->info[0], item->pos[0],
                              item->pos[1], var_s0 * item->unk_30[0], var_s1 * item->unk_30[1]);
     } else {
-        StretchAlphaTexTile(gfxP, var_s0, var_s1, arg2->texs->tex, arg2->info[0], arg3->texs->tex, arg3->info[0], 0, 0,
+        StretchAlphaTexTile(gfxP, var_s0, var_s1, arg2->texs[1], arg2->info[0], arg3->texs[1], arg3->info[0], 0, 0,
                             var_s0, arg2->info[1], item->pos[0], item->pos[1], var_s0 * item->unk_30[0],
                             var_s1 * item->unk_30[1]);
     }
@@ -1073,7 +1073,7 @@ void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
             if (var_s7 == 0) {
                 var_s5 = _getTexCommon(cursor->watchMenuRef, var_s0);
 
-                gDPLoadTextureBlock_4b(gfx++, var_s5->texs->tex, G_IM_FMT_I, var_s5->info[0], var_s5->info[1], 0,
+                gDPLoadTextureBlock_4b(gfx++, var_s5->texs[1], G_IM_FMT_I, var_s5->info[0], var_s5->info[1], 0,
                                        G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 var_s7 += 1;
             }
@@ -1456,9 +1456,9 @@ void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
         s32 var_t7;
         s32 i;
 
-        gDPLoadTLUT_pal16(gfx++, 0, temp_t1->texs->tlut);
-        gDPLoadTextureBlock_4b(gfx++, temp_t1->texs->tex, G_IM_FMT_CI, temp_t1->info[0], temp_t1->info[1], 0,
-                               G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTLUT_pal16(gfx++, 0, temp_t1->texs[0]);
+        gDPLoadTextureBlock_4b(gfx++, temp_t1->texs[1], G_IM_FMT_CI, temp_t1->info[0], temp_t1->info[1], 0, G_TX_CLAMP,
+                               G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
         func_80046844(item, &gfx);
 
@@ -6079,7 +6079,7 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
         gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx++;
 
-        RectAlphaTexTile(&gfx, &vtx, var_s5, var_s1_3, var_s3->texs->tex, var_s3->info[0], temp_v0_2->texs->tex,
+        RectAlphaTexTile(&gfx, &vtx, var_s5, var_s1_3, var_s3->texs[1], var_s3->info[0], temp_v0_2->texs[1],
                          temp_v0_2->info[0], 0, 0, var_s5, var_s1_3, 0.0f, 0.0f, var_s5, var_s1_3);
     }
 
@@ -6112,8 +6112,8 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
         gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx++;
 
-        RectTexTile8(&gfx, &vtx, var_s3->info[0], var_s3->info[1], var_s3->texs->tlut,
-                     (u8 *)var_s3->texs->tex + (var_s5 * var_s1_3 * i), 0, 0, var_s5, var_s1_3, 0, 0,
+        RectTexTile8(&gfx, &vtx, var_s3->info[0], var_s3->info[1], var_s3->texs[0],
+                     (u8 *)var_s3->texs[1] + (var_s5 * var_s1_3 * i), 0, 0, var_s5, var_s1_3, 0, 0,
                      var_s5 * item->unk_30[0], var_s1_3 * item->unk_30[1]);
     }
 
@@ -6148,7 +6148,7 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
             gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             mtx++;
 
-            RectTexTile4i(&gfx, &vtx, var_s3->info[0], var_s3->info[1], var_s3->texs->tex, 0, 0, var_s3->info[0],
+            RectTexTile4i(&gfx, &vtx, var_s3->info[0], var_s3->info[1], var_s3->texs[1], 0, 0, var_s3->info[0],
                           var_s3->info[1], 0, 0, (var_s3->info[0] + spA0) * item->unk_30[0],
                           (var_s3->info[1] + var_fp) * item->unk_30[1]);
         }

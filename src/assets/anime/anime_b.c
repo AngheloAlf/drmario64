@@ -24,7 +24,7 @@ AnimeHeader anime_b_header = {
 extern u8 anime_b_titexdata_00_texs_tex[];
 extern u16 anime_b_titexdata_00_texs_tlut[];
 
-TiTexDataTextures anime_b_titexdata_00_texs = {
+TexturePtr anime_b_titexdata_00_texs[2] = {
     anime_b_titexdata_00_texs_tlut,
     anime_b_titexdata_00_texs_tex,
 };
@@ -56,7 +56,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_00_texs_tex) ==
 #define anime_b_titexdata_01_texs_tex_height 48
 extern u8 anime_b_titexdata_01_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_01_texs = {
+TexturePtr anime_b_titexdata_01_texs[2] = {
     NULL,
     anime_b_titexdata_01_texs_tex,
 };
@@ -82,7 +82,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_01_texs_tex) ==
 #define anime_b_titexdata_02_texs_tex_height 48
 extern u8 anime_b_titexdata_02_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_02_texs = {
+TexturePtr anime_b_titexdata_02_texs[2] = {
     NULL,
     anime_b_titexdata_02_texs_tex,
 };
@@ -108,7 +108,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_02_texs_tex) ==
 #define anime_b_titexdata_03_texs_tex_height 48
 extern u8 anime_b_titexdata_03_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_03_texs = {
+TexturePtr anime_b_titexdata_03_texs[2] = {
     NULL,
     anime_b_titexdata_03_texs_tex,
 };
@@ -134,7 +134,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_03_texs_tex) ==
 #define anime_b_titexdata_04_texs_tex_height 48
 extern u8 anime_b_titexdata_04_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_04_texs = {
+TexturePtr anime_b_titexdata_04_texs[2] = {
     NULL,
     anime_b_titexdata_04_texs_tex,
 };
@@ -160,7 +160,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_04_texs_tex) ==
 #define anime_b_titexdata_05_texs_tex_height 48
 extern u8 anime_b_titexdata_05_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_05_texs = {
+TexturePtr anime_b_titexdata_05_texs[2] = {
     NULL,
     anime_b_titexdata_05_texs_tex,
 };
@@ -186,7 +186,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_05_texs_tex) ==
 #define anime_b_titexdata_06_texs_tex_height 48
 extern u8 anime_b_titexdata_06_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_06_texs = {
+TexturePtr anime_b_titexdata_06_texs[2] = {
     NULL,
     anime_b_titexdata_06_texs_tex,
 };
@@ -212,7 +212,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_06_texs_tex) ==
 #define anime_b_titexdata_07_texs_tex_height 48
 extern u8 anime_b_titexdata_07_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_07_texs = {
+TexturePtr anime_b_titexdata_07_texs[2] = {
     NULL,
     anime_b_titexdata_07_texs_tex,
 };
@@ -238,7 +238,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_07_texs_tex) ==
 #define anime_b_titexdata_08_texs_tex_height 48
 extern u8 anime_b_titexdata_08_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_08_texs = {
+TexturePtr anime_b_titexdata_08_texs[2] = {
     NULL,
     anime_b_titexdata_08_texs_tex,
 };
@@ -264,7 +264,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_08_texs_tex) ==
 #define anime_b_titexdata_09_texs_tex_height 48
 extern u8 anime_b_titexdata_09_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_09_texs = {
+TexturePtr anime_b_titexdata_09_texs[2] = {
     NULL,
     anime_b_titexdata_09_texs_tex,
 };
@@ -290,7 +290,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_09_texs_tex) ==
 #define anime_b_titexdata_10_texs_tex_height 48
 extern u8 anime_b_titexdata_10_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_10_texs = {
+TexturePtr anime_b_titexdata_10_texs[2] = {
     NULL,
     anime_b_titexdata_10_texs_tex,
 };
@@ -316,7 +316,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_10_texs_tex) ==
 #define anime_b_titexdata_11_texs_tex_height 48
 extern u8 anime_b_titexdata_11_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_11_texs = {
+TexturePtr anime_b_titexdata_11_texs[2] = {
     NULL,
     anime_b_titexdata_11_texs_tex,
 };
@@ -342,7 +342,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_11_texs_tex) ==
 #define anime_b_titexdata_12_texs_tex_height 48
 extern u8 anime_b_titexdata_12_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_12_texs = {
+TexturePtr anime_b_titexdata_12_texs[2] = {
     NULL,
     anime_b_titexdata_12_texs_tex,
 };
@@ -368,7 +368,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_12_texs_tex) ==
 #define anime_b_titexdata_13_texs_tex_height 48
 extern u8 anime_b_titexdata_13_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_13_texs = {
+TexturePtr anime_b_titexdata_13_texs[2] = {
     NULL,
     anime_b_titexdata_13_texs_tex,
 };
@@ -394,7 +394,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_13_texs_tex) ==
 #define anime_b_titexdata_14_texs_tex_height 48
 extern u8 anime_b_titexdata_14_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_14_texs = {
+TexturePtr anime_b_titexdata_14_texs[2] = {
     NULL,
     anime_b_titexdata_14_texs_tex,
 };
@@ -420,7 +420,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_14_texs_tex) ==
 #define anime_b_titexdata_15_texs_tex_height 48
 extern u8 anime_b_titexdata_15_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_15_texs = {
+TexturePtr anime_b_titexdata_15_texs[2] = {
     NULL,
     anime_b_titexdata_15_texs_tex,
 };
@@ -446,7 +446,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_15_texs_tex) ==
 #define anime_b_titexdata_16_texs_tex_height 48
 extern u8 anime_b_titexdata_16_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_16_texs = {
+TexturePtr anime_b_titexdata_16_texs[2] = {
     NULL,
     anime_b_titexdata_16_texs_tex,
 };
@@ -472,7 +472,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_16_texs_tex) ==
 #define anime_b_titexdata_17_texs_tex_height 48
 extern u8 anime_b_titexdata_17_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_17_texs = {
+TexturePtr anime_b_titexdata_17_texs[2] = {
     NULL,
     anime_b_titexdata_17_texs_tex,
 };
@@ -498,7 +498,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_17_texs_tex) ==
 #define anime_b_titexdata_18_texs_tex_height 48
 extern u8 anime_b_titexdata_18_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_18_texs = {
+TexturePtr anime_b_titexdata_18_texs[2] = {
     NULL,
     anime_b_titexdata_18_texs_tex,
 };
@@ -524,7 +524,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_18_texs_tex) ==
 #define anime_b_titexdata_19_texs_tex_height 48
 extern u8 anime_b_titexdata_19_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_19_texs = {
+TexturePtr anime_b_titexdata_19_texs[2] = {
     NULL,
     anime_b_titexdata_19_texs_tex,
 };
@@ -550,7 +550,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_19_texs_tex) ==
 #define anime_b_titexdata_20_texs_tex_height 48
 extern u8 anime_b_titexdata_20_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_20_texs = {
+TexturePtr anime_b_titexdata_20_texs[2] = {
     NULL,
     anime_b_titexdata_20_texs_tex,
 };
@@ -576,7 +576,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_20_texs_tex) ==
 #define anime_b_titexdata_21_texs_tex_height 48
 extern u8 anime_b_titexdata_21_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_21_texs = {
+TexturePtr anime_b_titexdata_21_texs[2] = {
     NULL,
     anime_b_titexdata_21_texs_tex,
 };
@@ -602,7 +602,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_21_texs_tex) ==
 #define anime_b_titexdata_22_texs_tex_height 48
 extern u8 anime_b_titexdata_22_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_22_texs = {
+TexturePtr anime_b_titexdata_22_texs[2] = {
     NULL,
     anime_b_titexdata_22_texs_tex,
 };
@@ -628,7 +628,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_22_texs_tex) ==
 #define anime_b_titexdata_23_texs_tex_height 48
 extern u8 anime_b_titexdata_23_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_23_texs = {
+TexturePtr anime_b_titexdata_23_texs[2] = {
     NULL,
     anime_b_titexdata_23_texs_tex,
 };
@@ -654,7 +654,7 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_23_texs_tex) ==
 #define anime_b_titexdata_24_texs_tex_height 48
 extern u8 anime_b_titexdata_24_texs_tex[];
 
-TiTexDataTextures anime_b_titexdata_24_texs = {
+TexturePtr anime_b_titexdata_24_texs[2] = {
     NULL,
     anime_b_titexdata_24_texs_tex,
 };
@@ -675,31 +675,19 @@ static_assert(ARRAY_COUNT(anime_b_titexdata_24_texs_tex) ==
               "The dimensions of `anime_b_titexdata_24_texs_tex` does not match the size of the actual texture");
 
 TiTexData anime_b_titexdata[] = {
-    { &anime_b_titexdata_00_texs, anime_b_titexdata_00_info },
-    { &anime_b_titexdata_01_texs, anime_b_titexdata_01_info },
-    { &anime_b_titexdata_02_texs, anime_b_titexdata_02_info },
-    { &anime_b_titexdata_03_texs, anime_b_titexdata_03_info },
-    { &anime_b_titexdata_04_texs, anime_b_titexdata_04_info },
-    { &anime_b_titexdata_05_texs, anime_b_titexdata_05_info },
-    { &anime_b_titexdata_06_texs, anime_b_titexdata_06_info },
-    { &anime_b_titexdata_07_texs, anime_b_titexdata_07_info },
-    { &anime_b_titexdata_08_texs, anime_b_titexdata_08_info },
-    { &anime_b_titexdata_09_texs, anime_b_titexdata_09_info },
-    { &anime_b_titexdata_10_texs, anime_b_titexdata_10_info },
-    { &anime_b_titexdata_11_texs, anime_b_titexdata_11_info },
-    { &anime_b_titexdata_12_texs, anime_b_titexdata_12_info },
-    { &anime_b_titexdata_13_texs, anime_b_titexdata_13_info },
-    { &anime_b_titexdata_14_texs, anime_b_titexdata_14_info },
-    { &anime_b_titexdata_15_texs, anime_b_titexdata_15_info },
-    { &anime_b_titexdata_16_texs, anime_b_titexdata_16_info },
-    { &anime_b_titexdata_17_texs, anime_b_titexdata_17_info },
-    { &anime_b_titexdata_18_texs, anime_b_titexdata_18_info },
-    { &anime_b_titexdata_19_texs, anime_b_titexdata_19_info },
-    { &anime_b_titexdata_20_texs, anime_b_titexdata_20_info },
-    { &anime_b_titexdata_21_texs, anime_b_titexdata_21_info },
-    { &anime_b_titexdata_22_texs, anime_b_titexdata_22_info },
-    { &anime_b_titexdata_23_texs, anime_b_titexdata_23_info },
-    { &anime_b_titexdata_24_texs, anime_b_titexdata_24_info },
+    { anime_b_titexdata_00_texs, anime_b_titexdata_00_info }, { anime_b_titexdata_01_texs, anime_b_titexdata_01_info },
+    { anime_b_titexdata_02_texs, anime_b_titexdata_02_info }, { anime_b_titexdata_03_texs, anime_b_titexdata_03_info },
+    { anime_b_titexdata_04_texs, anime_b_titexdata_04_info }, { anime_b_titexdata_05_texs, anime_b_titexdata_05_info },
+    { anime_b_titexdata_06_texs, anime_b_titexdata_06_info }, { anime_b_titexdata_07_texs, anime_b_titexdata_07_info },
+    { anime_b_titexdata_08_texs, anime_b_titexdata_08_info }, { anime_b_titexdata_09_texs, anime_b_titexdata_09_info },
+    { anime_b_titexdata_10_texs, anime_b_titexdata_10_info }, { anime_b_titexdata_11_texs, anime_b_titexdata_11_info },
+    { anime_b_titexdata_12_texs, anime_b_titexdata_12_info }, { anime_b_titexdata_13_texs, anime_b_titexdata_13_info },
+    { anime_b_titexdata_14_texs, anime_b_titexdata_14_info }, { anime_b_titexdata_15_texs, anime_b_titexdata_15_info },
+    { anime_b_titexdata_16_texs, anime_b_titexdata_16_info }, { anime_b_titexdata_17_texs, anime_b_titexdata_17_info },
+    { anime_b_titexdata_18_texs, anime_b_titexdata_18_info }, { anime_b_titexdata_19_texs, anime_b_titexdata_19_info },
+    { anime_b_titexdata_20_texs, anime_b_titexdata_20_info }, { anime_b_titexdata_21_texs, anime_b_titexdata_21_info },
+    { anime_b_titexdata_22_texs, anime_b_titexdata_22_info }, { anime_b_titexdata_23_texs, anime_b_titexdata_23_info },
+    { anime_b_titexdata_24_texs, anime_b_titexdata_24_info },
 };
 
 s32 anime_b_titexdata_len = ARRAY_COUNT(anime_b_titexdata);
