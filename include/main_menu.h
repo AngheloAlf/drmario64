@@ -211,7 +211,7 @@ typedef struct MenuMusicItem {
 
 typedef struct MenuBottle {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ s32 unk_004;
+    /* 0x004 */ s32 level;
     /* 0x008 */ MenuItem unk_08;
     /* 0x098 */ MenuItem unk_98;
 } MenuBottle; // size = 0x128

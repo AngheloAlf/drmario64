@@ -1217,7 +1217,7 @@ void func_80048634(MenuCursor *cursorArr[], s32 count, Gfx **gxfP) {
 #if VERSION_US || VERSION_CN
 void func_80048680(MenuBottle *bottle, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3) {
     bottle->watchMenuRef = watchMenuRef;
-    bottle->unk_004 = 0;
+    bottle->level = 0;
     menuItem_init(&bottle->unk_08, arg2, arg3);
     menuItem_init(&bottle->unk_98, 4, 0x10);
 }
@@ -1230,8 +1230,7 @@ void func_800486C8(MenuBottle *bottle, MenuItem *arg1) {
 }
 #endif
 
-extern const u16 cap_pos_1442[][0xD];
-#if VERSION_US
+#if VERSION_US || VERSION_CN
 // bitwise, maybe macroify?
 const u16 cap_pos_1442[0x16][0xD] = {
     { 0x0000, 0x0000, 0x0000, 0x0001, 0x0000, 0x0000, 0x0000, 0x0030, 0x0000, 0x1000, 0x0000, 0x0000, 0x0002 },
@@ -1259,197 +1258,14 @@ const u16 cap_pos_1442[0x16][0xD] = {
 };
 #endif
 
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/main_menu", cap_pos_1442);
-#endif
-
-#if VERSION_US
-#if 0
-void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
-    Gfx *gfx;
-    s32 a2;
-
-    Gfx *temp_a0;
-    Gfx *temp_a0_2;
-    Gfx *temp_a1_2;
-    Gfx *temp_a2_2;
-    Gfx *temp_v1;
-    Gfx *temp_v1_5;
-    MenuItem *temp_s1;
-    TiTexData *temp_t0;
-    s16 var_a2;
-    s16 var_t0;
-    s32 temp_fv1;
-    s32 temp_fv1_2;
-    s32 temp_v1_3;
-    s32 temp_v1_4;
-    s32 var_a0;
-    s32 var_a1;
-    s32 var_a3;
-    s32 var_t1;
-    s32 var_t2;
-    s32 var_t3;
-    s32 var_t5;
-    s32 var_t6;
-    s32 var_v0;
-    s32 var_v1;
-    u16 *temp_a3;
-    u16 *temp_v0;
-    u16 *var_t4;
-    u16 temp_a1;
-    u32 temp_a2;
-
-    gfx = *gxfP;
-
-    gSPDisplayList(gfx++, fade_normal_texture_init_dl);
-
-    if (a2 != 0) {
-        temp_t0 = _getTexLevel(bottle->watchMenuRef, 0);
-
-        gDPLoadTLUT_pal16(gfx++, 0, temp_t0->unk_0->tlut);
-
-#if 0
-        gfx->words.w0 = 0xFD500000;
-        gfx->words.w1 = (void *) temp_t0->unk_0->tex;
-        gfx = gfx + 8;
-
-        gfx->words.w0 = 0xF5500000;
-        gfx->words.w1 = 0x07080200;
-        gfx++;
-
-        gfx->words.w0 = 0xE6000000;
-        gfx->words.w1 = 0x00000000;
-        gfx++;
-
-        gfx->words.w0 = 0xF3000000;
-
-        temp_v0 = temp_t0->unk_4;
-
-        temp_a1 = temp_v0[0];
-
-        temp_s1 = &bottle->unk_98;
-        temp_a2 = temp_a1 >> 4;
-        var_v1 = 0x800;
-        if (temp_a2 != 0) {
-            var_v1 = temp_a2 + 0x7FF;
-        }
-
-        var_a1 = ((s32) ((temp_a1 * temp_v0[1]) + 3) >> 2) - 1;
-
-        if (temp_a2 != 0) {
-            var_v0 = (var_v1 / (s32) temp_a2) & 0xFFF;
-        } else {
-            var_v0 = var_v1 & 0xFFF;
-        }
-        if (var_a1 >= 0x800) {
-            var_a1 = 0x7FF;
-        }
-        gfx->words.w1 = ((var_a1 & 0xFFF) << 0xC) | 0x07000000 | var_v0;
-        gfx++;
-
-        gfx->words.w0 = 0xE7000000;
-        gfx->words.w1 = 0x00000000;
-        gfx++;
-
-        gfx->words.w0 = (s32) (((((s32) (((u16) temp_t0->unk_4[0] >> 1) + 7) >> 3) & 0x1FF) << 9) | 0xF5400000);
-        gfx->words.w1 = 0x00080200;
-        gfx++;
-
-        gfx->words.w0 = 0xF2000000;
-        temp_a3 = temp_t0->unk_4;
-
-        gfx->words.w1 = (s32) (((((temp_a3[0] - 1) * 4) & 0xFFF) << 0xC) | (((temp_a3[1] - 1) * 4) & 0xFFF));
-        gfx++;
-#endif
-#if 0
-        gDPSetTextureImage(gfx++, G_IM_FMT_CI, G_IM_SIZ_16b, 1, temp_t0->unk_0->tex);
-        gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-        gDPLoadSync(gfx++);
-        gDPLoadBlock(gfx++, G_TX_LOADTILE, 0, 0, var_a1, var_v0);
-        gDPPipeSync(gfx++);
-        gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_4b, 0, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-        gDPSetTileSize(gfx++, G_TX_LOADTILE, 0, 0, 0x0FFF, 0x0F00);
-#endif
-        gDPLoadTextureBlock_4b(gfx++, temp_t0->unk_0->tex, G_IM_FMT_CI, temp_t0->unk_4[0], temp_t0->unk_4[1], 0,
-                               G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-
-
-        func_80046844(temp_s1, &gfx);
-
-        var_t3 = 0;
-
-        for (var_t6 = 1; var_t6 < 4; var_t6++) {
-            var_t5 = 2;
-            var_t4 = (bottle->unk_004 * 0x1A) + &cap_pos_1442[0][2];
-            temp_fv1 = (s32) temp_s1->unk_0C[1];
-            var_t0 = temp_fv1 * 4;
-            var_t2 = (temp_fv1 << 0x12) + 0x140000;
-loop_10:
-            var_a3 = 7;
-            temp_fv1_2 = (s32) temp_s1->unk_0C[0];
-            var_a2 = temp_fv1_2 * 4;
-            var_t1 = (temp_fv1_2 << 0x12) + 0x140000;
-loop_11:
-            if ((((s32) *var_t4 >> (var_a3 * 2)) & 3) == var_t6) {
-                temp_a0_2 = gfx;
-                temp_a1_2 = temp_a0_2 + 8;
-                gfx = temp_a1_2;
-                temp_a0_2->words.w0 = (((var_a2 + 0x14) & ((s32) ~(var_t1 >> 0x10) >> 0x1F) & 0xFFF) << 0xC) | (((var_t0 + 0x14) & ((s32) ~(var_t2 >> 0x10) >> 0x1F) & 0xFFF) | 0xE4000000);
-                temp_a0_2->words.w1 = ((var_a2 & ((s32) ~var_a2 >> 0x1F) & 0xFFF) << 0xC) | (var_t0 & ((s32) ~var_t0 >> 0x1F) & 0xFFF);
-                gfx = temp_a0_2 + 0x10;
-#if 0
-                temp_a0_2->unk_8 = 0xE1000000;
-#endif
-                if (var_a2 < 0) {
-                    temp_v1_3 = var_a2 * 8;
-                    var_a0 = (temp_v1_3 & -(temp_v1_3 < 1)) * -0x10000;
-                } else {
-                    var_a0 = 0;
-                }
-                if (var_t0 < 0) {
-                    temp_v1_4 = (s32) (var_t0 << 0xA) >> 7;
-                    temp_a1_2->words.w1 = var_a0 | ((var_t3 - (temp_v1_4 & -(temp_v1_4 < 1))) & 0xFFFF);
-                } else {
-                    temp_a1_2->words.w1 = var_a0 | (var_t3 & 0xFFFF);
-                }
-                temp_v1_5 = gfx;
-                gfx = temp_v1_5 + 8;
-                temp_v1_5->words.w0 = 0xF1000000;
-                temp_v1_5->words.w1 = 0x04000400;
-            }
-            var_t1 += 0x140000;
-            var_a3 -= 1;
-            var_a2 += 0x14;
-            if (var_a3 >= 0) {
-                goto loop_11;
-            }
-            var_t2 += 0x140000;
-            var_t0 += 0x14;
-            var_t5 += 1;
-            var_t4 += 2;
-            if (var_t5 < 0xD) {
-                goto loop_10;
-            }
-
-            var_t3 += 0xA0;
-        }
-    }
-
-    *gxfP = gfx;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_menu", menuBottle_draw);
-#endif
-#endif
-
-#if VERSION_CN
+#if VERSION_US || VERSION_CN
 void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
     Gfx *gfx = *gxfP;
     s32 a3;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    //! @bug: reads unset a3 variable
+    //! @bug: reads unset $a2 register (us) / $a3 register (cn) variable
     if (a3 != 0) {
         MenuItem *item = &bottle->unk_98;
         TiTexData *temp_t1 = _getTexLevel(bottle->watchMenuRef, 0);
@@ -1464,11 +1280,11 @@ void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
 
         var_t7 = 0;
         for (i = 1; i < 4; i++) {
-            const u16 *ptr = &cap_pos_1442[bottle->unk_004][2];
+            const u16 *ptr = &cap_pos_1442[bottle->level][2];
             s32 var_t0 = (s32)item->pos[1] * 4;
             s32 j;
 
-            for (j = 2; j < 0xD; j++) {
+            for (j = 2; j < ARRAY_COUNT(cap_pos_1442[bottle->level]); j++) {
                 s32 var_t2 = (s32)item->pos[0] * 4;
                 s32 temp = *ptr;
                 s32 k;
@@ -1484,6 +1300,7 @@ void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
                 var_t0 += 0x14;
                 ptr++;
             }
+
             var_t7 += 0xA0;
         }
     }
@@ -7069,18 +6886,18 @@ void menuLvSel_update(MenuLvSel *menuLvSel) {
 
     switch (menuLvSel->unk_0004) {
         case MAINMENUMODE_MENULVSEL_10:
-            menuLvSel->bottle.unk_004 = menuLvSel->unk_0004;
+            menuLvSel->bottle.level = menuLvSel->unk_0004;
             menuLvSel->gameLvlIcon.unk_8 = menuLvSel->gameLvlSelector.unk_008;
             break;
 
         case MAINMENUMODE_MENULVSEL_13:
             menuLvSel->gameLvlIcon.unk_8 = menuLvSel->gameLvlSelector.unk_008;
-            menuLvSel->bottle.unk_004 = _timeAttack_levelTable[menuLvSel->gameLvlSelector.unk_008];
+            menuLvSel->bottle.level = _timeAttack_levelTable[menuLvSel->gameLvlSelector.unk_008];
             break;
 
         case MAINMENUMODE_MENULVSEL_7:
             menuLvSel->virusLvlNumber.unk_0C = menuLvSel->virusLvlGauge.unk_00C;
-            menuLvSel->bottle.unk_004 = menuLvSel->virusLvlGauge.unk_00C;
+            menuLvSel->bottle.level = menuLvSel->virusLvlGauge.unk_00C;
             break;
 
         default:
