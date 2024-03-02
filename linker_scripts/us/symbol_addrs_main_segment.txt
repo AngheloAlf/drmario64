@@ -1972,7 +1972,7 @@ DBL_800B0960 = 0x800B0960; // type:f64
 _pos_6413 = 0x800B0968; // size:0x90
 _posChar_6445 = 0x800B09F8; // size:0x10
 _posBgCursor_6446 = 0x800B0A08; // size:0x10
-_cursor_6447 = 0x800B0A18; // size:0x1E
+_cursor_6447 = 0x800B0A18; // size:0x30
 
 DBL_800B0A48 = 0x800B0A48; // type:f64
 RO_800B0A50 = 0x800B0A50; // force_not_migration:True
