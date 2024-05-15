@@ -1320,9 +1320,16 @@ const u8 _retryMenu_itemCount[] = {
 #endif
 
 #if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_draw_capsel_by_cpu_tentative
+ *
+ * Draw the falling pill.
+ *
+ * Does this by drawing directly to the framebuffer instead of using the gfx microcode.
+ */
 void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]) {
     struct_game_state_data_unk_178 *temp_s6 = &gameStateDataRef->unk_178;
-    TiTexData *temp_v0_3;
+    TiTexData *tex_data;
     s32 var_s1;
     s32 var_s5;
 
@@ -1333,57 +1340,58 @@ void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s
     }
 
     for (var_s1 = 0; var_s1 < 2; var_s1++) {
-        u8 *var_a1;
-        u16 *var_t0;
-        u16 *temp_s0;
+        u8 *ci4_texture;
+        u16 *fb;
+        u16 *tlut;
         s32 var_t4;
         s32 temp_t1;
         s32 temp_a3_2;
 
-        if ((arg2[var_s1] < 0) || ((arg2[var_s1] + gameStateDataRef->unk_00A) > 0xF0)) {
+        if ((arg2[var_s1] < 0) || ((arg2[var_s1] + gameStateDataRef->unk_00A) > SCREEN_HEIGHT)) {
             continue;
         }
 
-        if ((arg1[var_s1] < 0) || ((arg1[var_s1] + gameStateDataRef->unk_00A) > 0x140)) {
+        if ((arg1[var_s1] < 0) || ((arg1[var_s1] + gameStateDataRef->unk_00A) > SCREEN_WIDTH)) {
             continue;
         }
 
-        temp_v0_3 = dm_game_get_capsel_pal(var_s5, temp_s6->unk_6[var_s1]);
-        temp_s0 = temp_v0_3->texs[0];
+        tex_data = dm_game_get_capsel_pal(var_s5, temp_s6->unk_6[var_s1]);
+        tlut = tex_data->texs[0];
 
-        temp_v0_3 = dm_game_get_capsel_tex(var_s5);
+        tex_data = dm_game_get_capsel_tex(var_s5);
 
-        var_a1 = temp_v0_3->texs[1];
-        var_a1 += (temp_s6->unk_4[var_s1] * gameStateDataRef->unk_00A * *temp_v0_3->info) >> 1;
+        ci4_texture = tex_data->texs[1];
+        ci4_texture += (temp_s6->unk_4[var_s1] * gameStateDataRef->unk_00A * tex_data->info[0]) >> 1;
 
-        temp_a3_2 = (*temp_v0_3->info - gameStateDataRef->unk_00A) >> 1;
+        temp_a3_2 = (tex_data->info[0] - gameStateDataRef->unk_00A) >> 1;
 
-        var_t0 = &gFramebuffers[gCurrentFramebufferIndex ^ 1][arg2[var_s1] * 0x140 + arg1[var_s1]];
-        temp_t1 = (0x140 - gameStateDataRef->unk_00A);
+        fb = &gFramebuffers[gCurrentFramebufferIndex ^ 1][arg2[var_s1] * SCREEN_WIDTH + arg1[var_s1]];
+        temp_t1 = SCREEN_WIDTH - gameStateDataRef->unk_00A;
 
         for (var_t4 = 0; var_t4 < gameStateDataRef->unk_00A; var_t4++) {
             s32 var_a2;
 
             for (var_a2 = 0; var_a2 < gameStateDataRef->unk_00A; var_a2 += 2) {
-                s32 temp_a0 = *var_a1;
-                s32 temp_v0_4;
+                s32 pixel_pair = *ci4_texture;
+                s32 index;
 
-                temp_v0_4 = temp_a0 >> 4;
-                if (temp_v0_4 != 0) {
-                    var_t0[0] = temp_s0[temp_v0_4];
+                // Manually draw each CI4 pixel
+                index = pixel_pair >> 4;
+                if (index != 0) {
+                    fb[0] = tlut[index];
                 }
 
-                temp_v0_4 = temp_a0 & 0xF;
-                if (temp_v0_4 != 0) {
-                    var_t0[1] = temp_s0[temp_v0_4];
+                index = pixel_pair & 0xF;
+                if (index != 0) {
+                    fb[1] = tlut[index];
                 }
 
-                var_a1 += 1;
-                var_t0 += 2;
+                ci4_texture += 1;
+                fb += 2;
             }
 
-            var_a1 += temp_a3_2;
-            var_t0 += temp_t1;
+            ci4_texture += temp_a3_2;
+            fb += temp_t1;
         }
     }
 }
@@ -5842,14 +5850,14 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
 
     gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
+    // Draw the pills and virus on the bottle.
+    // Does not draw the falling pills nor the next pill.
     temp_v0 = dm_game_get_capsel_tex(temp_s6);
-
     load_TexTile_4b(temp_v0->texs[1], temp_v0->info[0], temp_v0->info[1], 0, 0, temp_v0->info[0] - 1,
                     temp_v0->info[1] - 1);
     gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, gameStateData->unk_006,
                   gameStateData->unk_008 + gameStateData->unk_00A, gameStateData->unk_00A * 8,
                   gameStateData->unk_00A * 0x10);
-
     for (i = 0; i < 6; i++) {
         temp_v0 = dm_game_get_capsel_pal(temp_s6, i);
         load_TexPal(temp_v0->texs[0]);
