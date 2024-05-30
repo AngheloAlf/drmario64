@@ -158,7 +158,13 @@ def romCompressorMain():
 
             # Align to a 0x10 boundary
             while len(compressedBytearray) % 0x10 != 0:
-                compressedBytearray.append(0)
+                i = len(compressedBytearray) - 0x2000
+                if i > 0:
+                    # Preserve garbage data
+                    garbage = compressedBytearray[i]
+                else:
+                    garbage = 0
+                compressedBytearray.append(garbage)
 
             offsetEnd = offsetStart + len(compressedBytearray)
             outRomBin.extend(compressedBytearray)
@@ -168,7 +174,7 @@ def romCompressorMain():
 
         romOffsetValues[romStartSymbol] = offsetStart
         romOffsetValues[romEndSymbol] = offsetEnd
-        offset += entry.size
+        offset += align(entry.size, 0x10)
         printDebug()
 
     alignedSize = align8MB(sizeWrote)
