@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# SPDX-FileCopyrightText: © 2022-2023 AngheloAlf
+# SPDX-FileCopyrightText: © 2022-2024 AngheloAlf
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
@@ -139,8 +139,9 @@ def romCompressorMain():
             sizeWrote += entry.size
         else:
             # check if uncompressed segment matches
-            uncompressedHash = spimdisasm.common.Utils.getStrHash(segmentBytearray)
+            # uncompressedHash = spimdisasm.common.Utils.getStrHash(segmentBytearray)
 
+            """
             if uncompressedHash == segmentEntry.uncompressedHash:
                 compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
                 assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
@@ -152,6 +153,8 @@ def romCompressorMain():
 
                 # with open(f"'{sectionEntryName}'.bin", "wb") as compressedBinFile:
                 #     compressedBinFile.write(compressedBytearray)
+            """
+            compressedBytearray = compression_common.compressGzip(segmentBytearray, segmentEntry.compressionLevel, sectionEntryName, args.version, debug=DEBUGGING)
 
             # Align to a 0x10 boundary
             while len(compressedBytearray) % 0x10 != 0:

@@ -334,7 +334,7 @@ $(ROM): $(ELF)
 	$(CHECKSUMMER) $(@:.z64=.bin) $@
 
 $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
-	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
+	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION) --debug
 	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
 
 $(ELF): $(LINKER_SCRIPTS)
