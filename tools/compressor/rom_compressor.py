@@ -154,12 +154,17 @@ def romCompressorMain():
                 # with open(f"'{sectionEntryName}'.bin", "wb") as compressedBinFile:
                 #     compressedBinFile.write(compressedBytearray)
             """
-            compressedBytearray = compression_common.compressGzip(segmentBytearray, segmentEntry.compressionLevel, sectionEntryName, args.version, debug=DEBUGGING)
+            if segmentEntry.compressionTool == "gzip":
+                compressedBytearray = compression_common.compressGzip(segmentBytearray, segmentEntry.compressionLevel, sectionEntryName, args.version, debug=DEBUGGING)
+            elif segmentEntry.compressionTool == "zlib":
+                compressedBytearray = compression_common.compressZlib(segmentBytearray, segmentEntry.compressionLevel)
+            else:
+                assert False, f"Unknown compression tool: {segmentEntry.compressionTool}"
 
             # Align to a 0x10 boundary
             while len(compressedBytearray) % 0x10 != 0:
                 i = len(compressedBytearray) - 0x2000
-                if i > 0:
+                if i > 0 and segmentEntry.compressionTool == "gzip":
                     # Preserve garbage data
                     garbage = compressedBytearray[i]
                 else:
