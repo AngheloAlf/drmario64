@@ -169,6 +169,7 @@ def romCompressorMain():
         romOffsetValues[romStartSymbol] = offsetStart
         romOffsetValues[romEndSymbol] = offsetEnd
         offset += entry.size
+        printDebug()
 
     alignedSize = align8MB(sizeWrote)
     if args.version != "cn":

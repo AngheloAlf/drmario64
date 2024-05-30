@@ -47,18 +47,18 @@ def romDecompressorMain():
     uncompressedSegments = []
 
     if sortedSegments[0].compressedRomOffset != 0:
-        firstEntry = compression_common.SegmentEntry("", 0, sortedSegments[0].compressedRomOffset, "", args.version, compressed=False)
+        firstEntry = compression_common.SegmentEntry("", 0, sortedSegments[0].compressedRomOffset, "", 0, args.version, compressed=False)
         uncompressedSegments.append(firstEntry)
 
     for i, entry in enumerate(sortedSegments[:-1]):
         # print(entry.compressedRomOffset)
         if entry.compressedRomOffsetEnd != sortedSegments[i+1].compressedRomOffset:
-            newEntry = compression_common.SegmentEntry("", entry.compressedRomOffsetEnd, sortedSegments[i+1].compressedRomOffset, "", args.version, compressed=False)
+            newEntry = compression_common.SegmentEntry("", entry.compressedRomOffsetEnd, sortedSegments[i+1].compressedRomOffset, "", 0, args.version, compressed=False)
             uncompressedSegments.append(newEntry)
 
     lastCompressedSegment = sortedSegments[-1]
     if lastCompressedSegment.compressedRomOffsetEnd != len(inRom):
-        newEntry = compression_common.SegmentEntry("", lastCompressedSegment.compressedRomOffsetEnd, len(inRom), "", args.version, compressed=False)
+        newEntry = compression_common.SegmentEntry("", lastCompressedSegment.compressedRomOffsetEnd, len(inRom), "", 0, args.version, compressed=False)
         uncompressedSegments.append(newEntry)
 
     sortedSegments += uncompressedSegments

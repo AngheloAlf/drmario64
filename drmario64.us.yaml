@@ -817,6 +817,11 @@ segments:
   - name: segment_game_etc # compressed # GraphBin
     type: databin
     start: 0x1E1100
+    segment_end_before_align: True
+    ld_align_segment_vram_end: True
+    ld_align_section_vram_end: True
+    align: 0x10
+  - [0x207A98]
 
 
   - name: segment_menu_bg # compressed

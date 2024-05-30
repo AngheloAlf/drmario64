@@ -44,7 +44,10 @@ def compressGzip(data: bytearray, compressionLevel: int, name: str, version: str
 
     output_temp_file.close()
 
-    subprocess.run(["tools/gzip-1.3.3-ique/gzip", f"-{compressionLevel}", input_temp_file.name, output_temp_file.name], check=True)
+    command = ["tools/gzip-1.3.3-ique/gzip", f"-{compressionLevel}", input_temp_file.name, output_temp_file.name]
+    if debug:
+        print(f"Running command: {' '.join(command)}")
+    subprocess.run(command, check=True)
 
     out = bytearray(Path(output_temp_file.name).read_bytes()[0xA:])
 
