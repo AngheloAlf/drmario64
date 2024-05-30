@@ -1,0 +1,36 @@
+This repository contains a cut-down version of gzip 1.3.3 that produces
+matching compression for iQue versions of The Legend of Zelda: Ocarina
+of Time. Decompression is not included; any compliant DEFLATE implementation
+will work for matching decompression, just use an up-to-date zlib.
+
+The front-end of the program has been rewritten, supporting only a small
+subset of the original:
+
+`gzip [-V] [-v] [-[0-9]] <ifilename> <ofilename>`
+
+where
+ - `V` prints the program version
+ - `v` is the verbose toggle
+ - `0-9` is the compression level
+
+Some notices reproduced verbatim from the original gzip 1.3.3 README:
+
+    Copyright (C) 1999, 2001 Free Software Foundation, Inc.
+    Copyright (C) 1992, 1993 Jean-loup Gailly
+
+    This file is part of gzip (GNU zip).
+
+    gzip is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2, or (at your option)
+    any later version.
+
+    gzip is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with tar; see the file COPYING.  If not, write to
+    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+    Boston, MA 02111-1307, USA.

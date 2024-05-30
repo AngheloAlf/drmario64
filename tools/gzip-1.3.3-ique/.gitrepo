@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
+;
+[subrepo]
+	remote = git@github.com:Thar0/gzip-1.3.3-ique.git
+	branch = main
+	commit = c9ea198854921537829ebdb24ead20248f23db1b
+	parent = 1258578aea8053cf818cd1dda3e70829747b9ab7
+	method = merge
+	cmdver = 0.4.3
