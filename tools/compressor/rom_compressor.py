@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# SPDX-FileCopyrightText: © 2022-2023 AngheloAlf
+# SPDX-FileCopyrightText: © 2022-2024 AngheloAlf
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
@@ -58,6 +58,7 @@ def romCompressorMain():
     outPath = Path(args.out_rom)
     elfPath = Path(args.elf)
     segmentsPath = Path(args.segments)
+    version = args.version
 
     global DEBUGGING
     DEBUGGING = args.debug
@@ -66,7 +67,7 @@ def romCompressorMain():
         spimdisasm.common.GlobalConfig.VERBOSE = False
         spimdisasm.common.GlobalConfig.QUIET = True
 
-    segmentDict = compression_common.readSegmentsCsv(segmentsPath, args.version)
+    segmentDict = compression_common.readSegmentsCsv(segmentsPath, version)
 
     elfBytearray = spimdisasm.common.Utils.readFileAsBytearray(elfPath)
     assert len(elfBytearray) > 0, f"'{elfPath}' could not be opened"
@@ -138,24 +139,39 @@ def romCompressorMain():
             outRomBin.extend(segmentBytearray)
             sizeWrote += entry.size
         else:
-            # check if uncompressed segment matches
-            uncompressedHash = spimdisasm.common.Utils.getStrHash(segmentBytearray)
+            if segmentEntry.compressionTool == "reuse_original":
+                # check if uncompressed segment matches
+                uncompressedHash = spimdisasm.common.Utils.getStrHash(segmentBytearray)
 
-            if uncompressedHash == segmentEntry.uncompressedHash:
-                compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
-                assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
+                if uncompressedHash == segmentEntry.uncompressedHash:
+                    compressedBytearray = spimdisasm.common.Utils.readFileAsBytearray(segmentEntry.compressedPath)
+                    assert len(compressedBytearray) > 0, f"'{segmentEntry.compressedPath}' could not be opened"
+                else:
+                    spimdisasm.common.Utils.eprint(f"Segment '{sectionEntryName}' doesn't match, should have hash '{segmentEntry.uncompressedHash}' but has hash '{uncompressedHash}'.")
+                    printDebug(f"Segment '{sectionEntryName}' is at offset 0x{offset:06X} and has a size of 0x{entry.size:06X} (ends at offset 0x{offset+entry.size:06X}).")
+                    spimdisasm.common.Utils.eprint(f"Compressing...\n")
+                    compressedBytearray = compression_common.compressZlib(segmentBytearray, segmentEntry.compressionLevel)
+
+                    # with open(f"'{sectionEntryName}'.bin", "wb") as compressedBinFile:
+                    #     compressedBinFile.write(compressedBytearray)
+            elif segmentEntry.compressionTool == "gzip_smallmem":
+                compressedBytearray = compression_common.compressGzipSmallMem(segmentBytearray, segmentEntry.compressionLevel, sectionEntryName, version, debug=DEBUGGING)
+            elif segmentEntry.compressionTool == "gzip":
+                compressedBytearray = compression_common.compressGzip(segmentBytearray, segmentEntry.compressionLevel, sectionEntryName, version, debug=DEBUGGING)
+            elif segmentEntry.compressionTool == "zlib":
+                compressedBytearray = compression_common.compressZlib(segmentBytearray, segmentEntry.compressionLevel)
             else:
-                spimdisasm.common.Utils.eprint(f"Segment '{sectionEntryName}' doesn't match, should have hash '{segmentEntry.uncompressedHash}' but has hash '{uncompressedHash}'.")
-                printDebug(f"Segment '{sectionEntryName}' is at offset 0x{offset:06X} and has a size of 0x{entry.size:06X} (ends at offset 0x{offset+entry.size:06X}).")
-                spimdisasm.common.Utils.eprint(f"Compressing...\n")
-                compressedBytearray = compression_common.compressZlib(segmentBytearray)
-
-                # with open(f"'{sectionEntryName}'.bin", "wb") as compressedBinFile:
-                #     compressedBinFile.write(compressedBytearray)
+                assert False, f"Unknown compression tool: {segmentEntry.compressionTool}"
 
             # Align to a 0x10 boundary
             while len(compressedBytearray) % 0x10 != 0:
-                compressedBytearray.append(0)
+                i = len(compressedBytearray) - 0x2000
+                if i > 0 and version != "cn":
+                    # Preserve garbage data
+                    garbage = compressedBytearray[i]
+                else:
+                    garbage = 0
+                compressedBytearray.append(garbage)
 
             offsetEnd = offsetStart + len(compressedBytearray)
             outRomBin.extend(compressedBytearray)
@@ -165,7 +181,8 @@ def romCompressorMain():
 
         romOffsetValues[romStartSymbol] = offsetStart
         romOffsetValues[romEndSymbol] = offsetEnd
-        offset += entry.size
+        offset += align(entry.size, 0x10)
+        printDebug()
 
     alignedSize = align8MB(sizeWrote)
     if args.version != "cn":
