@@ -39,6 +39,7 @@ all: $(KMC_GCC) $(KMC_BINUTILS) $(EGCS_GCC) $(EGCS_BINUTILS)
 clean:
 	$(RM) -rf $(KMC_DIR) gcc_kmc $(EGCS_DIR) gcc_egcs
 	$(MAKE) -C gzip-1.3.3-ique clean
+	$(RM) -rf gzip-1.3.3-ique/gzip gzip-1.3.3-ique/gzip_smallmem
 
 distclean: clean
 

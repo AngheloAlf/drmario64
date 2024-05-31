@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# SPDX-FileCopyrightText: © 2022 AngheloAlf
+# SPDX-FileCopyrightText: © 2022-2024 AngheloAlf
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
