@@ -698,6 +698,7 @@ segments:
   - name: segment_game_etc # compressed # GraphBin
     type: databin
     start: 0x1F7B90
+  - [0x21E528]
 
 
   - name: segment_menu_bg # compressed

@@ -112,7 +112,7 @@ def compressZlib(data: bytearray, compressionLevel: int) -> bytearray:
 
     return output
 
-def compressGzip(data: bytearray, compressionLevel: int, name: str, version: str, debug: bool=False) -> bytearray:
+def compressGzipCommon(gzip_path: str, data: bytearray, compressionLevel: int, name: str, version: str, debug: bool=False) -> bytearray:
     input_temp_file = tempfile.NamedTemporaryFile(mode="wb", suffix=".bin", prefix=f"{version}_{name}.", delete=False)
     output_temp_file = tempfile.NamedTemporaryFile(suffix=".bin.gz", prefix=f"{version}_{name}.", delete=False)
 
@@ -124,7 +124,7 @@ def compressGzip(data: bytearray, compressionLevel: int, name: str, version: str
 
     output_temp_file.close()
 
-    command = ["tools/gzip-1.3.3-ique/gzip", f"-{compressionLevel}", input_temp_file.name, output_temp_file.name]
+    command = [gzip_path, f"-{compressionLevel}", input_temp_file.name, output_temp_file.name]
     if debug:
         print(f"Running command: {' '.join(command)}")
     subprocess.run(command, check=True)
@@ -136,6 +136,12 @@ def compressGzip(data: bytearray, compressionLevel: int, name: str, version: str
         Path(output_temp_file.name).unlink()
 
     return out
+
+def compressGzip(data: bytearray, compressionLevel: int, name: str, version: str, debug: bool=False) -> bytearray:
+    return compressGzipCommon("tools/gzip-1.3.3-ique/gzip", data, compressionLevel, name, version, debug=debug)
+
+def compressGzipSmallMem(data: bytearray, compressionLevel: int, name: str, version: str, debug: bool=False) -> bytearray:
+    return compressGzipCommon("tools/gzip-1.3.3-ique/gzip_smallmem", data, compressionLevel, name, version, debug=debug)
 
 
 @dataclasses.dataclass

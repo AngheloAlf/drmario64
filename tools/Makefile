@@ -30,7 +30,11 @@ EGCS_BINUTILS   := $(EGCS_DIR)/as
 
 
 all: $(KMC_GCC) $(KMC_BINUTILS) $(EGCS_GCC) $(EGCS_BINUTILS)
-	$(MAKE) -C gzip-1.3.3-ique CFLAGS="-O2 -g -ffunction-sections -fdata-sections -Wall -Wextra -D SMALL_MEM"
+	$(MAKE) -C gzip-1.3.3-ique clean
+	$(MAKE) -C gzip-1.3.3-ique
+	$(MAKE) -C gzip-1.3.3-ique clean
+	$(MAKE) -C gzip-1.3.3-ique CFLAGS="-O2 -g -ffunction-sections -fdata-sections -Wall -Wextra -D SMALL_MEM" TARGET="gzip_smallmem"
+	$(MAKE) -C gzip-1.3.3-ique clean
 
 clean:
 	$(RM) -rf $(KMC_DIR) gcc_kmc $(EGCS_DIR) gcc_egcs
