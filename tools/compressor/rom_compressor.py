@@ -154,10 +154,8 @@ def romCompressorMain():
 
                     # with open(f"'{sectionEntryName}'.bin", "wb") as compressedBinFile:
                     #     compressedBinFile.write(compressedBytearray)
-            elif segmentEntry.compressionTool == "gzip_smallmem":
-                compressedBytearray = compression_common.compressGzipSmallMem(segmentBytearray, segmentEntry.compressionLevel, sectionEntryName, version, debug=DEBUGGING)
-            elif segmentEntry.compressionTool == "gzip":
-                compressedBytearray = compression_common.compressGzip(segmentBytearray, segmentEntry.compressionLevel, sectionEntryName, version, debug=DEBUGGING)
+            elif segmentEntry.compressionTool in ("gzip", "gzip_smallmem"):
+                compressedBytearray = compression_common.compressGzip(segmentBytearray, segmentEntry.compressionLevel, small_mem=segmentEntry.compressionTool=="gzip_smallmem")
             elif segmentEntry.compressionTool == "zlib":
                 compressedBytearray = compression_common.compressZlib(segmentBytearray, segmentEntry.compressionLevel)
             else:

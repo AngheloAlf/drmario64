@@ -1,6 +1,7 @@
 mapfile-parser>=2.3.2,<3.0.0
 ipl3checksum>=1.0.0,<2.0.0
 splat64[mips]>=0.24.3,<1.0.0
+crunch64>=0.5.0,<1.0.0
 
 # for m2c
 pycparser

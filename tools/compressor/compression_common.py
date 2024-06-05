@@ -5,11 +5,10 @@
 
 from __future__ import annotations
 
+import crunch64
 import dataclasses
 import spimdisasm
 from pathlib import Path
-import subprocess
-import tempfile
 import zlib
 
 
@@ -48,36 +47,8 @@ def compressZlib(data: bytearray, compressionLevel: int) -> bytearray:
 
     return output
 
-def compressGzipCommon(gzip_path: str, data: bytearray, compressionLevel: int, name: str, version: str, debug: bool=False) -> bytearray:
-    input_temp_file = tempfile.NamedTemporaryFile(mode="wb", suffix=".bin", prefix=f"{version}_{name}.", delete=False)
-    output_temp_file = tempfile.NamedTemporaryFile(suffix=".bin.gz", prefix=f"{version}_{name}.", delete=False)
-
-    if debug:
-        print(f"Creating temp files: {input_temp_file.name}, {output_temp_file.name}")
-
-    input_temp_file.write(data)
-    input_temp_file.close()
-
-    output_temp_file.close()
-
-    command = [gzip_path, f"-{compressionLevel}", input_temp_file.name, output_temp_file.name]
-    if debug:
-        print(f"Running command: {' '.join(command)}")
-    subprocess.run(command, check=True)
-
-    out = bytearray(Path(output_temp_file.name).read_bytes()[0xA:])
-
-    if not debug:
-        Path(input_temp_file.name).unlink()
-        Path(output_temp_file.name).unlink()
-
-    return out
-
-def compressGzip(data: bytearray, compressionLevel: int, name: str, version: str, debug: bool=False) -> bytearray:
-    return compressGzipCommon("tools/gzip-1.3.3-ique/gzip", data, compressionLevel, name, version, debug=debug)
-
-def compressGzipSmallMem(data: bytearray, compressionLevel: int, name: str, version: str, debug: bool=False) -> bytearray:
-    return compressGzipCommon("tools/gzip-1.3.3-ique/gzip_smallmem", data, compressionLevel, name, version, debug=debug)
+def compressGzip(data: bytearray, compressionLevel: int, small_mem: bool) -> bytearray:
+    return bytearray(crunch64.gzip.compress(data, compressionLevel, small_mem=small_mem))
 
 
 @dataclasses.dataclass
