@@ -31,6 +31,8 @@ COMPILER_VERBOSE ?= 0
 DEP_ASM ?= 1
 # If non-zero touching an included file will rebuild any file that depends on it
 DEP_INCLUDE ?= 1
+# Use LLVM linker lld instead of GNU LD
+USE_LLD ?= 0
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -101,13 +103,19 @@ endif
 CC              := COMPILER_PATH=$(COMPILER_DIR) $(COMPILER_DIR)/gcc
 
 AS              := $(CROSS)as
-LD              := $(CROSS)ld
+GNULD           := $(CROSS)ld
 OBJCOPY         := $(CROSS)objcopy
 OBJDUMP         := $(CROSS)objdump
 GCC             := $(CROSS)gcc
 CPP             := $(CROSS)cpp
 STRIP           := $(CROSS)strip
 ICONV           := iconv
+
+ifneq ($(USE_LLD),0)
+    LD              := ld.lld
+else
+    LD              := $(GNULD)
+endif
 
 SPLAT             ?= python3 -m splat split
 SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
@@ -148,7 +156,7 @@ else
     CC_CHECK          := @:
 endif
 
-CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32
+CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -mabi=32
 
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -mabi=32 -G0 -no-pad-sections
@@ -338,7 +346,8 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
 
 $(ELF): $(LINKER_SCRIPTS)
-	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ $(filter %.o, $^)
+	$(file >$(BUILD_DIR)/o_files, $(filter %.o, $^))
+	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ @$(BUILD_DIR)/o_files
 
 ## Order-only prerequisites
 # These ensure e.g. the PNG_INC_FILES are built before the O_FILES.

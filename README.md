@@ -100,7 +100,7 @@ build/us/drmario64.us.z64: OK
 
 ### Other versions
 
-This repository has experimental support for the iQue and the Gateway versions of this game too.
+This repository supports for the iQue and the Gateway versions of this game too.
 
 To build any of this versions place your ROM in the root of the repo and rename it to `baserom.cn.z64` or `baserom.gw.z64`. Pass `VERSION=cn` or `VERSION=gw` to the above make commands.
 

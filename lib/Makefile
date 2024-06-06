@@ -54,7 +54,7 @@ STRIP      := $(CROSS)strip
 
 IINC       := -Iultralib/include -Iultralib/include/gcc -Iultralib/include/PR -Iultralib/src -Ilibmus/src
 
-CFLAGS          := -nostdinc -fno-PIC -G 0 -mgp32 -mfp32
+CFLAGS          := -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -mabi=32
 MIPS_VERSION    := -mips3
 WARNINGS        := -w
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
