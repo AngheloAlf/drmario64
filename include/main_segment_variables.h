@@ -198,7 +198,7 @@ extern void **lws_data;
 // extern struct_lws_scene *lws_scene;
 extern MessageWnd mess_st;
 extern MessageWnd mess_roll_st;
-// extern UNK_TYPE B_800E5AF0;
+// extern UNK_TYPE mess_heap_area;
 extern void *mess_roll_heap;
 // extern UNK_TYPE st_message_count;
 // extern UNK_TYPE st_mes_ptr;

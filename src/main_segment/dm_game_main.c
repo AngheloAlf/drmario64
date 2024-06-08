@@ -7103,7 +7103,7 @@ void dm_game_init_snap_bg(void) {
             break;
 
         default:
-            heapTop = func_80077170((BgRomDataIndex)story_proc_no, heapTop);
+            heapTop = story_bg_init((BgRomDataIndex)story_proc_no, heapTop);
             break;
     }
 }

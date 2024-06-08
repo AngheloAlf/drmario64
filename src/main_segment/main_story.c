@@ -21,7 +21,7 @@
 #include "lws.h"
 #include "066840.h"
 
-#if VERSION_US || CC_CHECK
+#if VERSION_US || VERSION_GW || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version
 #include "joy.h"
 #endif
@@ -29,7 +29,6 @@
 extern struct_lws_scene *lws_scene;
 extern struct_wakuGraphic *wakuGraphic;
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: story_zoomfade
  */
@@ -99,9 +98,10 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: get_gbi_stat
+ */
 void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1) {
     arg0->width = arg1->unk_008;
     arg0->height = arg1->unk_00A;
@@ -109,9 +109,10 @@ void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1) {
     arg0->tlut = &arg1->unk_010;
     arg0->texture = &arg1->unk_210;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: curtain_proc
+ */
 void curtain_proc(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     f32 temp;
@@ -136,12 +137,13 @@ void curtain_proc(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
 extern u8 curtain_alpha_00_tex[];
 extern u16 curtain_00_tex[];
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: curtain_proc_org
+ */
 void curtain_proc_org(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     f32 temp_fv1;
@@ -184,9 +186,7 @@ void curtain_proc_org(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800770E8(Gfx **gfxP, struct_wakuGraphic *arg1) {
     Gfx *gfx = *gfxP;
 
@@ -194,21 +194,23 @@ void func_800770E8(Gfx **gfxP, struct_wakuGraphic *arg1) {
     StretchTexBlock8(&gfx, 328, 240, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-void *func_80077170(BgRomDataIndex index, void *dstAddr) {
+/**
+ * Original name: story_bg_init
+ */
+void *story_bg_init(BgRomDataIndex index, void *dstAddr) {
     bgGraphic = dstAddr;
     wakuGraphic =
         ALIGN_PTR(DecompressRomToRam(bgRomData[index].start, dstAddr, bgRomData[index].end - bgRomData[index].start));
     return ALIGN_PTR(DecompressRomToRam(storyRomData[STORYROMDATA_WAKU2].start, wakuGraphic,
                                         storyRomData[STORYROMDATA_WAKU2].end - storyRomData[STORYROMDATA_WAKU2].start));
 }
-#endif
 
-extern s32 D_800AAD48[];
+extern s32 wakuGraphic_ofs[];
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: story_bg_proc
+ */
 void story_bg_proc(Gfx **gfxP) {
     struct_get_gbi_stat_arg0 sp48;
     struct_get_gbi_stat_arg0 sp60;
@@ -220,14 +222,14 @@ void story_bg_proc(Gfx **gfxP) {
     gSPDisplayList(gfx++, normal_texture_init_dl);
     StretchTexBlock8(&gfx, sp48.width, sp48.height, sp48.tlut, sp48.texture, 0.0f, 0.0f, sp48.width, sp48.height);
 
-    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + D_800AAD48[0]));
-    get_gbi_stat(&sp60, (void *)(((u8 *)wakuGraphic) + D_800AAD48[1]));
+    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + wakuGraphic_ofs[0]));
+    get_gbi_stat(&sp60, (void *)(((u8 *)wakuGraphic) + wakuGraphic_ofs[1]));
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     StretchAlphaTexTile(&gfx, sp48.width, sp48.height, sp48.texture, sp48.width, sp60.texture, sp60.width, 0, 0,
                         sp48.width, sp48.height, 0.0f, 140.0f, sp48.width, sp48.height);
 
-    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + D_800AAD48[2]));
+    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + wakuGraphic_ofs[2]));
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
     StretchTexTile8(&gfx, sp48.width, sp48.height, sp48.tlut, sp48.texture, 0, 0, sp48.width, sp48.height, 0.0f, 160.0f,
@@ -235,9 +237,7 @@ void story_bg_proc(Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800773F0(void) {
     if (story_curtain == 0) {
         story_time_cnt = 0;
@@ -249,27 +249,21 @@ void func_800773F0(void) {
         story_curtain--;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8007744C(void) {
     story_doing = 0;
     story_zoom++;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8007746C(void) {
     msgWnd_clear(&mess_st);
-    D_800AAD1C = 0;
+    story_kay_wait = 0;
     story_message_start = 0;
     story_time_cnt = 0;
     story_message_start = 0;
     story_seq_step++;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_800774C4(void) {
     bool temp_v0 = msgWnd_isEnd(&mess_st);
 
@@ -278,9 +272,10 @@ bool func_800774C4(void) {
     }
     return temp_v0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: story_bg_proc
+ */
 void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, void *tex) {
     s32 pad[6] UNUSED;
     Gfx *gfx = *gfxP;
@@ -357,15 +352,14 @@ void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, void *tex) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     story_spot(gfxP, arg1, arg2, arg3, &changestar_tex);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: init_coffee_break
+ */
 void *init_coffee_break(void *dstAddr, UNK_TYPE arg1 UNUSED) {
     void *temp_s0;
 
@@ -376,9 +370,10 @@ void *init_coffee_break(void *dstAddr, UNK_TYPE arg1 UNUSED) {
     init_coffee_break_cnt();
     return temp_s0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: init_coffee_break_cnt
+ */
 void init_coffee_break_cnt(void) {
     guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
     bgtime = 0;
@@ -386,9 +381,10 @@ void init_coffee_break_cnt(void) {
     story_time_cnt = -0x59;
     story_seq_step = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: draw_coffee_break
+ */
 void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     Mtx sp20;
     Gfx *sp60;
@@ -498,9 +494,10 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
     *gfxP = sp60;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: init_menu_bg
+ */
 void *init_menu_bg(void *dstAddr, bool arg1) {
     void *alignedAddress;
     RomOffset segmentRomStart;
@@ -519,9 +516,10 @@ void *init_menu_bg(void *dstAddr, bool arg1) {
     }
     return ALIGN_PTR(DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: draw_menu_bg
+ */
 void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
     Mtx mtx;
     Gfx *gfx;
@@ -548,9 +546,7 @@ void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: init_title
  */
@@ -574,9 +570,7 @@ void *init_title(void *dstAddr, bool arg1) {
         DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_BMP].start, title_bmp_data,
                            storyRomData[STORYROMDATA_TITLE_BMP].end - storyRomData[STORYROMDATA_TITLE_BMP].start));
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: demo_title
  */
@@ -708,9 +702,7 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     *gfxP = gfx;
     return var_s3;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 // unused
 void func_80078648(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
@@ -718,7 +710,6 @@ void func_80078648(Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
 extern s32 st_message_count;
 
@@ -726,7 +717,6 @@ extern s32 fin_frame_543;
 extern struct_mes_data *st_mes_ptr;
 extern struct_mes_data *mes_data[];
 
-#if VERSION_US || VERSION_CN
 void func_8007865C(void) {
     if (st_message_count < st_mes_ptr->unk_0) {
         if (st_mes_ptr[st_message_count + 1].unk_0 < framecont) {
@@ -742,12 +732,13 @@ void func_8007865C(void) {
         st_message_count = 9999;
     }
 }
-#endif
 
 extern s32 fin_frame_440;
 extern s32 fin_demo_441;
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: story_st_new_op
+ */
 void story_st_new_op(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
@@ -938,9 +929,10 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: story_st_new
+ */
 void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2) {
     Mtx mtx;
     Gfx *gfx = *gfxP;
@@ -992,12 +984,13 @@ void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
 extern s32 fin_frame_568;
 extern s32 fin_demo_569;
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: story_st_new2_f
+ */
 void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
@@ -1095,12 +1088,13 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     *gfxP = gfx;
 }
-#endif
 
 extern s32 fin_frame_623;
 extern s32 fin_demo_624;
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: story_st_new2
+ */
 void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     Mtx sp20;
     Gfx *gfx = *gfxP;
@@ -1179,11 +1173,12 @@ void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     *gfxP = gfx;
 }
-#endif
 
 extern s32 fin_frame_667;
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: story_m_end
+ */
 void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
     Mtx sp20;
     Gfx *gfx = *gfxP;
@@ -1311,11 +1306,12 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
 extern s32 fin_frame_737;
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: story_st_new_w9
+ */
 void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
@@ -1389,11 +1385,12 @@ void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
 extern s32 fin_frame_768;
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: story_w_end
+ */
 void story_w_end(Gfx **gfxP, s32 arg1) {
     Mtx sp20;
     Gfx *gfx = *gfxP;
@@ -1502,9 +1499,7 @@ void story_w_end(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8007A9DC(void) {
     void *ptr = story_buffer;
 
@@ -1524,35 +1519,20 @@ void func_8007A9DC(void) {
                            storyRomData[STORYROMDATA_MENU_BG].end - storyRomData[STORYROMDATA_MENU_BG].start));
     messageData = ptr;
 }
-#endif
 
-extern s32 B_800E5A20;
-extern s32 B_800E5A24;
-extern s32 B_800E5A2C;
-extern s32 B_800E5A38;
-extern f32 B_800E5A44;
-
-extern s32 B_800E5A90;
-extern s32 B_800E5A94;
-extern s32 B_800E5AA0;
-extern s32 B_800E5AA4;
-extern s32 B_800E5AAC;
-extern s32 B_800E5AB8;
-extern f32 B_800E5AC4;
-extern u64 B_800E5AF0[];
-
-extern s16 B_800F6CDE[];
+extern u64 mess_heap_area[];
 
 extern SeqIndex snd_tbl_838[];
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 #define MESS_ROLL_ST_ARG2 0x77A
-#endif
-#if VERSION_CN
+#elif VERSION_CN
 #define MESS_ROLL_ST_ARG2 0x7A7
 #endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: main_story
+ */
 void main_story(NNSched *sc) {
     OSMesgQueue scMQ;
     OSMesg scMsgBuf[NN_SC_MAX_MESGS];
@@ -1575,12 +1555,12 @@ void main_story(NNSched *sc) {
         joyflg[var_s1] = U_JPAD | L_JPAD | R_JPAD | D_JPAD;
     }
 
-    D_800AAD38 = gfx_freebuf;
-    story_buffer = D_800AAD38 + 0x10000;
+    story_read_buf = gfx_freebuf;
+    story_buffer = story_read_buf + 0x10000;
     framecont = 0;
     story_time_cnt = 0;
     story_seq_step = 0;
-    D_800AAD1C = 0;
+    story_kay_wait = 0;
     story_curtain = 0x1E;
     story_zoom = 0;
     story_message_on = 0;
@@ -1590,7 +1570,7 @@ void main_story(NNSched *sc) {
     st_message_count = 0;
     loop_flg = true;
 
-    mess_heap = &B_800E5AF0;
+    mess_heap = &mess_heap_area;
     msgWnd_init(&mess_st, &mess_heap, 0x10, 3, 0x42, 0xB1);
     mess_st.unk_30 = 0xC;
     mess_st.unk_34 = 0xC;
@@ -1655,9 +1635,7 @@ void main_story(NNSched *sc) {
     temp = evs_story_no;
     evs_seqnumb = temp % 3;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: init_objMtx
  */
@@ -1665,9 +1643,10 @@ void init_objMtx(void) {
     pObjectMtx = story_objectMtx[objMtx_FF];
     objMtx_FF ^= 1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: graphic_story
+ */
 void graphic_story(void) {
     s32 pad[6] UNUSED;
     OSScTask *temp_s4;
@@ -1852,10 +1831,7 @@ void graphic_story(void) {
     gfxTaskStart(temp_s4, gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0,
                  OS_SC_SWAPBUFFER);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8007B62C(Gfx **gfxP) {
     draw_menu_bg(gfxP, 0xA0, 0x78);
 }
-#endif

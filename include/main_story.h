@@ -73,7 +73,7 @@ void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1);
 void curtain_proc(Gfx **gfxP, s32 arg1);
 void curtain_proc_org(Gfx **gfxP, s32 arg1);
 void func_800770E8(Gfx **gfxP, struct_wakuGraphic *arg1);
-void *func_80077170(BgRomDataIndex index, void *dstAddr);
+void *story_bg_init(BgRomDataIndex index, void *dstAddr);
 void story_bg_proc(Gfx **gfxP);
 void func_800773F0(void);
 void func_8007744C(void);
@@ -254,13 +254,13 @@ extern s32 story_seq_step; // TODO: enum?
 extern s32 story_zoom;
 extern s32 story_curtain;
 extern s32 story_spot_cnt;
-extern UNK_TYPE4 D_800AAD1C;
+extern UNK_TYPE4 story_kay_wait;
 extern s32 story_message_on;
 extern UNK_TYPE4 story_message_start;
 extern s32 story_doing;
 extern s32 bgtime; /* Original name: bgtime */
 extern s32 mes_time;
-extern u8 *D_800AAD38;
+extern u8 *story_read_buf;
 extern void *story_buffer;
 extern void *story_z_buffer;
 extern s32 objMtx_FF;
