@@ -21,37 +21,32 @@
 #include "static.h"
 #include "dm_virus_init.h"
 #include "util.h"
+#include "libc/assert.h"
 
 #if VERSION_US || VERSION_GW || CC_CHECK
 #include "aiset.h"
 #endif
 
-#if VERSION_US || VERSION_CN
 void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_00 = arg1;
     arg0->unk_04 = arg2;
     arg0->messageWnd.xPos = arg1 + 8;
     arg0->messageWnd.yPos = arg2 + 8;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80071F0C(void) {
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 #define FUNC_80071F14_UNK_48 0xD
-#endif
-#if VERSION_CN
+#elif VERSION_CN
 #define FUNC_80071F14_UNK_48 0xE
 #endif
 
 void func_80071F14(struct_800F4890_unk_034 *arg0, UNK_PTR *arg1) {
     arg0->unk_08 = 0;
-    arg0->unk_0C = -0.0625f;
+    arg0->unk_0C = (-1 / 16.0f);
     msgWnd_init(&arg0->messageWnd, arg1, 0xD, 4, 0x20, 0x20);
     arg0->messageWnd.unk_30 = 0xA;
     arg0->messageWnd.unk_34 = 0xC;
@@ -60,9 +55,7 @@ void func_80071F14(struct_800F4890_unk_034 *arg0, UNK_PTR *arg1) {
     arg0->messageWnd.unk_54 = 1.0f / 6.0f;
     func_80071EF0(arg0, 0x20, 0x20);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80071FA0(struct_800F4890_unk_034 *arg0) {
     arg0->unk_08 = CLAMP(arg0->unk_08 + arg0->unk_0C, 0.0f, 1.0f);
 
@@ -70,9 +63,10 @@ void func_80071FA0(struct_800F4890_unk_034 *arg0) {
         msgWnd_update(&arg0->messageWnd);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: tutolWnd_draw
+ */
 void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 alpha = arg0->unk_08 * 255;
@@ -101,180 +95,125 @@ void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800721A0(struct_800F4890_unk_034 *arg0) {
     msgWnd_clear(&arg0->messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800721BC(struct_800F4890_unk_034 *arg0, const char *arg1) {
     msgWnd_addStr(&arg0->messageWnd, arg1);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800721D8(struct_800F4890_unk_034 *arg0) {
     if (arg0->unk_0C < 0.0f) {
         arg0->unk_0C = -arg0->unk_0C;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80072204(struct_800F4890_unk_034 *arg0) {
     if (arg0->unk_0C > 0.0f) {
         arg0->unk_0C = -arg0->unk_0C;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_80072230(struct_800F4890_unk_034 *arg0) {
     return msgWnd_isEnd(&arg0->messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_8007224C(struct_800F4890_unk_034 *arg0) {
     return msgWnd_isSpeaking(&arg0->messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_0 = arg1;
     arg0->unk_1 = 1;
     arg0->unk_2 = arg2;
     arg0->unk_3[0] = 1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2408[] = { 0xC8, 0x28 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2410[] = { 0x6C, 0x28 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2418[] = { 0x24, 0x28 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2420[] = { 0xB4, 0x28 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2428[] = { 0xD8, 0x70 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2430[] = { 0x7C, 0x70 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2438[] = { 0x34, 0x70 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2440[] = { 0xC4, 0x70 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 virus_1_1[][3] = {
     { 1, 1, 0x10 }, { 2, 2, 0xD }, { 2, 2, 0xE }, { 0, 5, 0xF }, { 0, 1, 6 }, { 0, 5, 6 },
     { 2, 0, 6 },    { 2, 4, 6 },   { 1, 2, 6 },   { 1, 3, 6 },   { 1, 6, 6 }, { 1, 7, 6 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 RO_800B246C[] = { 0x12, 0x20, 0, 0x10, 0x21 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 RO_800B2474[] = { 0x21, 0x10, 0x20, 0, 0x21 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 position_1_1[][4] = {
     { 3, 5, 1, 0 },
     { 3, 3, 0, 0 },
     { 3, 2, 0, 0 },
     { 3, 1, 0, 0 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 virus_2_1[][3] = {
     { 0, 0, 0xE }, { 0, 2, 0xA }, { 0, 2, 0xB }, { 0, 5, 8 },    { 0, 5, 9 },    { 0, 6, 0xC }, { 0, 6, 0xE },
     { 2, 3, 0xE }, { 2, 4, 7 },   { 2, 4, 8 },   { 2, 5, 0xB },  { 2, 5, 0xC },  { 2, 5, 0xE }, { 2, 5, 0xF },
     { 1, 1, 7 },   { 1, 1, 0xA }, { 1, 1, 0xB }, { 1, 1, 0x10 }, { 1, 2, 0x10 }, { 1, 7, 0xF },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 capsel_2_1[] = {
     0x21, 0x02, 0x10, 0x12, 0x21, 0x00, 0x01, 0x20, 0x21, 0x12, 0x10, 0x10,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 position_2_1[][4] = {
     { 4, 6, 0, 0 },   { 4, 5, 0, 1 }, { 7, 0xE, 1, 0 }, { 6, 0xB, 0, 1 }, { 5, 0xD, 0, 0 },
     { 0, 0xD, 1, 0 }, { 0, 9, 0, 0 }, { 3, 0xD, 1, 0 }, { 2, 9, 0, 1 },   { 1, 8, 0, 0 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 virus_3_1[][3] = {
     { 0, 0, 0xC }, { 0, 1, 0xD }, { 0, 1, 0xF }, { 0, 4, 0xF }, { 0, 6, 0xD },  { 0, 6, 8 },    { 0, 7, 0x10 },
     { 2, 3, 8 },   { 2, 3, 9 },   { 2, 3, 0xB }, { 2, 3, 0xC }, { 2, 7, 0xE },  { 2, 7, 0xF },  { 1, 1, 0x10 },
     { 1, 2, 8 },   { 1, 2, 0xC }, { 1, 4, 0xD }, { 1, 4, 0xE }, { 1, 4, 0x10 }, { 1, 5, 0x10 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 capsel_3_1[] = {
     0x12, 0x22, 0x12, 0, 0x10, 2, 0x21, 0, 0x12, 1, 0,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 position_3_1[][4] = {
     { 4, 0xC, 0, 0 }, { 3, 0xA, 0, 0 }, { 1, 0xB, 0, 1 }, { 1, 0xA, 1, 0 },  { 2, 0xA, 1, 0 },
     { 6, 0xC, 0, 0 }, { 6, 0xB, 0, 1 }, { 6, 0xA, 1, 0 }, { 2, 0x10, 1, 1 }, { 3, 0x10, 1, 0 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 virus_4_1[][3] = {
     { 0, 0, 0xD }, { 0, 2, 7 },   { 0, 5, 0xA }, { 0, 5, 0xB }, { 0, 7, 0x10 }, { 2, 2, 0xE },
     { 2, 2, 0xF }, { 2, 3, 0xA }, { 2, 3, 0xD }, { 2, 5, 8 },   { 1, 1, 0xD },  { 1, 4, 8 },
     { 1, 4, 9 },   { 1, 5, 0xE }, { 1, 5, 0xF }, { 1, 6, 0xA },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 capsel_4_1[] = {
     0x10, 0x11, 0x20, 1, 0x12, 0x20, 1, 0x10, 0, 0x20, 0, 0x21, 1, 0x20, 0x22, 0, 0x10,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 position_4_1[][4] = {
     { 4, 7, 1, 0 },   { 5, 7, 0, 1 },   { 5, 6, 1, 0 },   { 5, 8, 0, 0 },   { 5, 7, 0, 1 },   { 3, 0xC, 1, 0 },
     { 0, 0xC, 0, 0 }, { 1, 0xB, 1, 0 }, { 0, 0xB, 1, 0 }, { 2, 0xD, 1, 0 }, { 7, 0xF, 1, 0 }, { 6, 0xD, 0, 0 },
     { 2, 6, 0, 0 },   { 3, 5, 1, 0 },   { 3, 3, 0, 0 },   { 2, 5, 1, 0 },
 };
-#endif
 
 #include "dm_manual_main.msg.inc"
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_attack_capsel_down
+ */
 void dm_manual_attack_capsel_down(void) {
     struct_watchManual *watchManualP = watchManual;
     s32 i;
@@ -318,30 +257,30 @@ void dm_manual_attack_capsel_down(void) {
         dm_snd_play(SND_INDEX_55);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800723EC(struct_game_state_data *gameStateDataP, GameMapCell *mapCells, s32 arg2 UNUSED) {
     if ((gameStateDataP->unk_014 != GAMESTATEDATA_UNK_014_1) && (gameStateDataP->unk_014 != GAMESTATEDATA_UNK_014_D)) {
         dm_black_up(gameStateDataP, mapCells);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_update_virus_anime
+ */
 void dm_manual_update_virus_anime(struct_game_state_data *arg0) {
     s32 i;
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < ANIMES_COUNT; i++) {
         animeState_update(get_virus_anime_state(i));
         animeSmog_update(get_virus_smog_state(i));
     }
 
     dm_calc_big_virus_pos(arg0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_main_cnt
+ */
 s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCells, u8 arg2, s32 arg3 UNUSED) {
     struct_watchManual *temp_s3 = watchManual;
     s32 i;
@@ -531,9 +470,10 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
 
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_make_key
+ */
 void dm_manual_make_key(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
     struct_watchManual *temp_s2 = watchManual;
     struct_game_state_data_unk_178 *temp_s4 = &gameStateData->unk_178;
@@ -568,9 +508,10 @@ void dm_manual_make_key(struct_game_state_data *gameStateData, GameMapCell *mapC
         gameStateData->unk_030 = temp_v1;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_1_main
+ */
 bool dm_manual_1_main(void) {
     struct_watchManual *temp_s2 = watchManual;
     bool var_s6 = true;
@@ -857,9 +798,10 @@ bool dm_manual_1_main(void) {
 
     return var_s6;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_2_main
+ */
 bool dm_manual_2_main(void) {
     struct_watchManual *watchManualP = watchManual;
     struct_game_state_data *gameStateDataP = game_state_data;
@@ -1057,9 +999,10 @@ bool dm_manual_2_main(void) {
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_3_main
+ */
 bool dm_manual_3_main(void) {
     struct_game_state_data *gameStateData = game_state_data;
     GameMapCell *mapCells = game_map_data[0];
@@ -1345,9 +1288,10 @@ bool dm_manual_3_main(void) {
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_4_main
+ */
 bool dm_manual_4_main(void) {
     struct_watchManual *temp_s2 = watchManual;
     bool ret = true;
@@ -1553,23 +1497,26 @@ bool dm_manual_4_main(void) {
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-ASM_RODATA;
-
+/**
+ * Original name: _tex_884
+ */
 const s32 _tex_884[][2] = {
     { 0, 2 },
     { 1, 3 },
 };
 
+/**
+ * Original name: _pos_885
+ */
 const s32 _pos_885[][2] = {
     { 0, 0 },
     { 0, 0xC },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: draw_AB_guide
+ */
 void draw_AB_guide(s32 arg0, s32 arg1) {
     s32 i;
 
@@ -1590,9 +1537,7 @@ void draw_AB_guide(s32 arg0, s32 arg1) {
                             arg1 + _pos_885[i][1], var_t0, temp_a3->info[1]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B3150[] = {
     0, 1, 2, 3, 2, 1,
 };
@@ -1658,14 +1603,11 @@ void func_80074B08(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s32 a
     *mtxP = mtx;
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: _posContPanel
+ */
 const s32 _posContPanel[] = { 0x0000000A, 0x0000000E };
-#endif
-
-#if VERSION_US || VERSION_CN
-ASM_TEXT;
 
 void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E8 *arg1, s32 arg2) {
     s32 i;
@@ -1684,19 +1626,17 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: _posCircle_924
  */
-const s32 _posCircle_924[STRUCT_WATCHGAME_MANUAL_UNK_LEN2][2] = {
-#if VERSION_US
+const s32 _posCircle_924[][2] = {
+#if VERSION_US || VERSION_GW
     { 0xD, 0x14 },
     { 0x1C, 0x15 },
     { 0x46, 0x20 },
     { 0x3E, 0x1A },
-#else
+#elif VERSION_CN
     { 0x16, 0x2E },
     { 0x1F, 0x2A },
     { 0x34, 0x1B },
@@ -1704,22 +1644,26 @@ const s32 _posCircle_924[STRUCT_WATCHGAME_MANUAL_UNK_LEN2][2] = {
 #endif
 };
 
+static_assert(ARRAY_COUNT(_posCircle_924) == STRUCT_WATCHGAME_MANUAL_UNK_LEN2, "");
+
 /**
  * Original name: _posFinger_925
  */
-const s32 _posFinger_925[STRUCT_WATCHGAME_MANUAL_UNK_LEN2][2] = {
-#if VERSION_US
+const s32 _posFinger_925[][2] = {
+#if VERSION_US || VERSION_GW
     { 0xD, 6 },
     { 0x1C, 7 },
     { 0x46, 0x12 },
     { 0x3E, 0xC },
-#else
+#elif VERSION_CN
     { 0x16, 0x20 },
     { 0x1F, 0x1C },
     { 0x34, 0xD },
     { 0x2B, 0xB },
 #endif
 };
+
+static_assert(ARRAY_COUNT(_posFinger_925) == STRUCT_WATCHGAME_MANUAL_UNK_LEN2, "");
 
 /**
  * Original name: disp_cont
@@ -1766,9 +1710,10 @@ void disp_cont(void) {
                              temp_t1->info[1]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_draw_fg
+ */
 void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
     struct_watchManual *temp_s4 = watchManual;
     s32 i;
@@ -1844,18 +1789,34 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
 
     tutolWnd_draw(&temp_s4->unk_034, &gGfxHead);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: map_x_table_1036
+ */
 const u16 map_x_table_1036[][4] = {
     { 0x76, 0x76, 0x76, 0x76 },
     { 0x1C, 0xD4, 0x1C, 0xD4 },
     { 0x14, 0x5C, 0xA4, 0xEC },
 };
+
+/**
+ * Original name: _seqTbl_1037
+ */
 const u8 _seqTbl_1037[] = { 2, 3 };
+
+/**
+ * Original name: map_y_table_1038
+ */
 const u8 map_y_table_1038[] = { 0x2E, 0x2E };
+
+/**
+ * Original name: size_table_1039
+ */
 const u8 size_table_1039[] = { 0xA, 8 };
 
+/**
+ * Original name: dm_manual_all_init
+ */
 void dm_manual_all_init(void) {
     struct_watchManual *temp_s4;
     RomOffsetPair *tbl;
@@ -2002,9 +1963,7 @@ void dm_manual_all_init(void) {
     temp_s4->unk_16C = 0;
     temp_s4->unk_030 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: dm_manual_main
  */
@@ -2123,9 +2082,10 @@ enum_main_no dm_manual_main(NNSched *sc) {
     return MAIN_NO_3;
 #endif
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_graphic
+ */
 void dm_manual_graphic(void) {
     Mtx *mtx;
     Vtx *vtx;
@@ -2161,4 +2121,3 @@ void dm_manual_graphic(void) {
     osWritebackDCacheAll();
     gfxTaskStart(ptr, gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
-#endif
