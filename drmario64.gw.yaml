@@ -503,7 +503,7 @@ segments:
 
       - [0x0478E0, c, main_segment/dm_virus_init]
 
-      - [0x048B80, asm, main_segment/048B80] # TODO: figure out # dm_game_main?
+      - [0x048B80, c, main_segment/dm_game_main]
       - [0x05A9D0, c, main_segment/dm_manual_main]
       - [0x05EA30, c, main_segment/dm_title_main]
 
@@ -534,7 +534,7 @@ segments:
 
       - [0x070C90, .data, main_segment/nnsched]
       - [0x070D10, .data, main_segment/graphic]
-      - [0x070D50, data, main_segment/070D50] # main_segment/graphics/graphic_dlists
+      - [0x070D50, data, main_segment/070D50] # TODO: main_segment/graphics/graphic_dlists
       - [0x070FF0, .data, main_segment/audio/music_driver]
       - [0x071000, .data, main_segment/main1x]
       - [0x071080, .data, main_segment/vr_init]
@@ -623,7 +623,7 @@ segments:
       - [0x09A660, .rodata, main_segment/char_anime]
 
       - [0x09A7A0, .rodata, main_segment/dm_virus_init]
-      - [0x09A830, rodata, main_segment/09A830]
+      - [0x09A830, .rodata, main_segment/dm_game_main]
       - [0x09B000, .rodata, main_segment/dm_manual_main]
       - [0x09BE40, .rodata, main_segment/dm_title_main]
       - [0x09BF60, .rodata, main_segment/main_story]
