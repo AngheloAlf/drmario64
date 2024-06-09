@@ -37,7 +37,6 @@ void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {
 void func_80071F0C(void) {
 }
 
-
 #if VERSION_US || VERSION_GW
 #define FUNC_80071F14_UNK_48 0xD
 #elif VERSION_CN

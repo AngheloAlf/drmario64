@@ -8,11 +8,12 @@
         ".section .text\n" \
         "    .set noat\n" \
         "    .set noreorder\n" \
+        "    .globl " #NAME ".NON_MATCHING\n" \
+        "    .type " #NAME ".NON_MATCHING, @object\n" \
+        "    " #NAME ".NON_MATCHING:\n" \
         "    .include \"" FOLDER "/" #NAME ".s\"\n" \
         "    .set reorder\n" \
         "    .set at\n" \
-        "    .globl " #NAME ".NON_MATCHING\n" \
-        "    " #NAME ".NON_MATCHING" " = 0x0" "\n" \
     )
 #endif
 #ifndef INCLUDE_RODATA
