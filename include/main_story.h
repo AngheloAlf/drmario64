@@ -264,7 +264,7 @@ extern u8 *story_read_buf;
 extern void *story_buffer;
 extern void *story_z_buffer;
 extern s32 objMtx_FF;
-// extern UNK_TYPE D_800AAD48;
+// extern UNK_TYPE wakuGraphic_ofs;
 // extern UNK_TYPE D_800AAD4C;
 // extern UNK_TYPE D_800AAD50;
 extern Vp D_800AAD58;
