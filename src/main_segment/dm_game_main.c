@@ -33,6 +33,7 @@
 #include "calc.h"
 #include "066580.h"
 #include "libc/assert.h"
+#include "dm_thread.h"
 
 #if VERSION_US || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version
@@ -8767,7 +8768,7 @@ void dm_game_graphic(void) {
     struct_watchGame *watchGameP = watchGame;
 
     if (watchGameP->unk_878 != 0x7F) {
-        osSetThreadPri(NULL, 0xF);
+        osSetThreadPri(NULL, THREAD_PRI_GRAPHIC);
         watchGameP->unk_878 = 0;
         return;
     }
@@ -8781,9 +8782,9 @@ void dm_game_graphic(void) {
 
     gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx),
                  0, (watchGameP->unk_880 == 0) ? OS_SC_SWAPBUFFER : 0);
-    osSetThreadPri(NULL, 0xF);
+    osSetThreadPri(NULL, THREAD_PRI_GRAPHIC);
     dm_game_graphic2();
-    osSetThreadPri(NULL, 0x7F);
+    osSetThreadPri(NULL, OS_PRIORITY_APPMAX);
 }
 #endif
 

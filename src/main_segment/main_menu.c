@@ -25,6 +25,7 @@
 #include "nnsched.h"
 #include "font.h"
 #include "dm_virus_init.h"
+#include "dm_thread.h"
 
 #if VERSION_US || CC_CHECK
 #include "joy.h"
@@ -11126,7 +11127,7 @@ void graphic_menu(void) {
     struct_watchMenu *ptr = watchMenu;
 
     if ((ptr->unk_111D4 != MAIN_NO_6) && (ptr->unk_111DC == 1.0f)) {
-        osSetThreadPri(NULL, 0xF);
+        osSetThreadPri(NULL, THREAD_PRI_GRAPHIC);
         ptr->unk_111F4 = 0xF;
         return;
     }
@@ -11141,7 +11142,7 @@ void graphic_menu(void) {
         gGfxHead = gGfxGlist[gfx_gtask_no];
     }
 
-    osSetThreadPri(NULL, 0xF);
+    osSetThreadPri(NULL, THREAD_PRI_GRAPHIC);
     F3RCPinitRtn();
     F3ClearFZRtn(0);
     menuAll_draw(ptr, &gGfxHead);
@@ -11152,6 +11153,6 @@ void graphic_menu(void) {
     }
 #endif
 
-    osSetThreadPri(NULL, 0x7F);
+    osSetThreadPri(NULL, OS_PRIORITY_APPMAX);
 }
 #endif

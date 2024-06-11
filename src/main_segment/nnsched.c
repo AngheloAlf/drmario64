@@ -67,7 +67,7 @@ void nnScCreateScheduler(NNSched *sc, u8 viModeIndex, u8 retraceCount) {
     osSetEventMesg(OS_EVENT_PRENMI, &sc->retraceMQ, (OSMesg)PRE_NMI_MSG);
 
     /* start scheduler thread */
-    osCreateThread(&sc->schedulerThread, THREAD_ID_19, nnScEventHandler, sc, STACK_TOP(nnScStack),
+    osCreateThread(&sc->schedulerThread, THREAD_ID_NN_SC_EVENT, nnScEventHandler, sc, STACK_TOP(nnScStack),
                    THREAD_PRI_NN_SC_EVENT);
     osStartThread(&sc->schedulerThread);
 
@@ -75,11 +75,11 @@ void nnScCreateScheduler(NNSched *sc, u8 viModeIndex, u8 retraceCount) {
     func_8002B8B4_cn();
 #endif
 
-    osCreateThread(&sc->audioThread, THREAD_ID_18, nnScExecuteAudio, sc, STACK_TOP(nnScAudioStack),
+    osCreateThread(&sc->audioThread, THREAD_ID_NN_SC_AUDIO, nnScExecuteAudio, sc, STACK_TOP(nnScAudioStack),
                    THREAD_PRI_NN_SC_AUDIO);
     osStartThread(&sc->audioThread);
 
-    osCreateThread(&sc->graphicsThread, THREAD_ID_17, nnScExecuteGraphics, sc, STACK_TOP(nnScGraphicsStack),
+    osCreateThread(&sc->graphicsThread, THREAD_ID_NN_SC_GRAPHICS, nnScExecuteGraphics, sc, STACK_TOP(nnScGraphicsStack),
                    THREAD_PRI_NN_SC_GRAPHICS);
     osStartThread(&sc->graphicsThread);
 }
