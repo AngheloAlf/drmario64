@@ -340,7 +340,6 @@ char *gcvt(double x, s32 ndig, char *bufp, s32 letter_e, s32 sharp_flg) {
 #endif
 
 #if VERSION_US
-#ifdef NON_MATCHING
 int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
     char sp18[ABUFSIZE];
     char sp118;
@@ -373,6 +372,7 @@ int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
     char *var_s1;
     char *var_s2_3;
     s32 var_s0;
+    s32 letter_e;
 
     var_fp = 0;
 
@@ -604,7 +604,8 @@ int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
                 if (sp124 == 0x7FFFFFFF) {
                     strcpy(var_s0_3, temp_a1);
                 } else {
-                    eprt_sub(temp_a1, var_s4, sp124 - 1, var_s0_3, sp118, sp164);
+                    letter_e = sp118;
+                    eprt_sub(temp_a1, var_s4, sp124 - 1, var_s0_3, letter_e, sp164);
                 }
                 var_s0 = strlen(var_s1);
                 var_s2 = 0;
@@ -619,7 +620,8 @@ int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
                     var_s3 |= 0x100;
                     var_fa0 = -var_fa0;
                 }
-                var_s1 = gcvt(var_fa0, var_s4, sp18 + 1, sp118 - 2, sp164);
+                letter_e = sp118-2;
+                var_s1 = gcvt(var_fa0, var_s4, sp18 + 1, letter_e, sp164);
                 var_s0 = strlen(var_s1);
                 var_s2 = 0;
                 sp154 = 1;
@@ -800,7 +802,4 @@ int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
     next:;
     }
 }
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/screen_print/printf_impl", _kmcprt);
-#endif
 #endif
