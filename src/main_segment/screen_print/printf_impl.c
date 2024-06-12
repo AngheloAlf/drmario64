@@ -16,7 +16,6 @@
 #include "screen_print/printer.h"
 #include "libkmc/explog.h"
 
-#if VERSION_US
 char basc[] = "0123456789abcdefx";
 
 char BASC[] = "0123456789ABCDEFX";
@@ -30,9 +29,7 @@ f64 _mul_data[] = {
 };
 
 static char fbuf[FBUF_SIZE];
-#endif
 
-#if VERSION_US
 char *cvt_radix(char buf[ABUFSIZE], unsigned int value, int radix, const char *binasc) {
     buf += ABUFSIZE;
 
@@ -45,9 +42,7 @@ char *cvt_radix(char buf[ABUFSIZE], unsigned int value, int radix, const char *b
 
     return buf;
 }
-#endif
 
-#if VERSION_US
 char *cvtl_radix(char buf[ABUFSIZE], unsigned long long value, int radix, const char *binasc) {
     buf += ABUFSIZE;
 
@@ -62,9 +57,7 @@ char *cvtl_radix(char buf[ABUFSIZE], unsigned long long value, int radix, const 
 
     return buf;
 }
-#endif
 
-#if VERSION_US
 int round_asc(char *p, int exp, int n) {
     char *pbak;
 
@@ -95,9 +88,7 @@ int round_asc(char *p, int exp, int n) {
     *pbak++ = '\0';
     return exp + 1;
 }
-#endif
 
-#if VERSION_US
 void eprt_sub(char *s, s32 ndig, s32 exp, char *arg3, s32 letter_e, bool sharp_flg) {
     ndig--;
     *arg3++ = *s++;
@@ -135,9 +126,7 @@ void eprt_sub(char *s, s32 ndig, s32 exp, char *arg3, s32 letter_e, bool sharp_f
     *arg3++ = exp + '0';
     *arg3++ = '\0';
 }
-#endif
 
-#if VERSION_US
 char *ecvt(double x, int ndig, int *dec, int *sign) {
     int exp = 0;
     int exp_index = 0x100;
@@ -231,9 +220,7 @@ exp_loop:
 
     return fbuf;
 }
-#endif
 
-#if VERSION_US
 char *fcvt(double x, int ndig, int *dec, int *sign) {
     char *p = ecvt(x, VALID_CT + 1, dec, sign);
     int exp = *dec;
@@ -262,9 +249,7 @@ char *fcvt(double x, int ndig, int *dec, int *sign) {
 
     return fbuf;
 }
-#endif
 
-#if VERSION_US
 char *gcvt(double x, s32 ndig, char *bufp, s32 letter_e, bool sharp_flg) {
     int exp;
     int sign;
@@ -337,7 +322,6 @@ char *gcvt(double x, s32 ndig, char *bufp, s32 letter_e, bool sharp_flg) {
     eprt_sub(p, ndig, exp - 1, q, letter_e, sharp_flg);
     return bufp;
 }
-#endif
 
 /* printf flags */
 #define MINUS 1 /* - */
@@ -352,7 +336,6 @@ char *gcvt(double x, s32 ndig, char *bufp, s32 letter_e, bool sharp_flg) {
 
 #define SIGNE_M 0x100 /* minus value */
 
-#if VERSION_US
 int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
     char _asc_buf[ABUFSIZE];
     char c;
@@ -809,4 +792,3 @@ int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
     next:;
     }
 }
-#endif

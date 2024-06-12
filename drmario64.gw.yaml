@@ -486,7 +486,7 @@ segments:
       - [0x0231D0, c, main_segment/game_etc]
 
       - [0x0255D0, c, main_segment/screen_print/printer]
-      - [0x025650, asm, main_segment/screen_print/printf_impl]
+      - [0x025650, c, main_segment/screen_print/printf_impl]
       - [0x026A10, c, main_segment/screen_print/debug_print]
 
       - [0x026F60, c, main_segment/debug_menu]
@@ -543,6 +543,10 @@ segments:
       - [0x0723A0, data, main_segment/0723A0]
       - [0x075BA0, data, main_segment/unused/020D10]
       - [0x075BF0, data, main_segment/075BF0]
+
+      - [0x075DE0, .data, main_segment/screen_print/printf_impl]
+
+      - [0x075EA0, data, main_segment/0750C0]
 
       - start: 0x075ED0
         type: .data
@@ -606,7 +610,7 @@ segments:
       - [0x095BB0, rodata, main_segment/unused/020D10]
       - [0x095D50, .rodata, main_segment/game_etc]
 
-      - [0x095D90, rodata, main_segment/screen_print/printf_impl]
+      - [0x095D90, .rodata, main_segment/screen_print/printf_impl]
 
       - [0x095EE0, .rodata, main_segment/debug_menu]
 
@@ -637,6 +641,8 @@ segments:
       - [0x09C230, .rodata, ../lib/libmus/src/player_fx]
 
       - { type: bss, vram: 0x800B44A0, name: main_segment/800B44A0 }
+      - { type: .bss, vram: 0x800E66C0, name: main_segment/screen_print/printf_impl }
+      - { type: bss, vram: 0x800E66F0, name: main_segment/800E66F0 }
 
       - { type: .bss, vram: 0x800EA770, name: ../lib/libmus/src/player }
       - { type: .bss, vram: 0x800EA7E0, name: ../lib/libmus/src/aud_dma }

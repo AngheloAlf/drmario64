@@ -153,7 +153,6 @@ extern u8 _cache_1333[0x200]; /* Original name: _cache_1333 */
 
 // extern UNK_TYPE B_800E53B0;
 
-// extern UNK_TYPE fbuf;
 // extern UNK_TYPE sPrinterState;
 extern s32 B_800E58B0;
 extern s32 B_800E58B4;

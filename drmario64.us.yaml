@@ -575,6 +575,7 @@ segments:
       - [0x074E10, data, main_segment/game_etc]
 
       - [0x075000, .data, main_segment/screen_print/printf_impl]
+
       - [0x0750C0, data, main_segment/0750C0] # unreferenced?
 
       - start: 0x0750F0
