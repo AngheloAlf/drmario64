@@ -493,7 +493,7 @@ segments:
 
       - [0x026550, c, main_segment/debug_menu]
 
-      - [0x028820, c, main_segment/028820]
+      - [0x028820, c, main_segment/bg_tasks]
 
       - [0x0289D0, c, main_segment/tex_func]
 
@@ -588,7 +588,7 @@ segments:
 
       - [0x076190, .data, main_segment/debug_menu]
 
-      - [0x0763F0, .data, main_segment/028820]
+      - [0x0763F0, .data, main_segment/bg_tasks]
 
       - start: 0x076400
         type: .data

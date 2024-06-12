@@ -19,7 +19,7 @@
 #include "graphic.h"
 #include "record.h"
 #include "main1x.h"
-#include "028820.h"
+#include "bg_tasks.h"
 #include "tex_func.h"
 #include "main_story.h"
 #include "nnsched.h"
@@ -3636,7 +3636,7 @@ void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenu
         case 1:
             play2Panel->unk_002C = ALIGN_PTR(heap);
             heap = (void *)((uintptr_t)play2Panel->unk_002C + animeState_getDataSize(arg8));
-            func_80040B10(func_8004D258, play2Panel);
+            BgTasksManager_SendTask(func_8004D258, play2Panel);
             break;
     }
 
@@ -6160,7 +6160,7 @@ void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, void *
         heap = menuStory->unk_0038[var_s1_3] + temp_v0_2;
     }
 
-    func_80040B10(func_800514C4, menuStory);
+    BgTasksManager_SendTask(func_800514C4, menuStory);
 
     for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0300); i++) {
         func_800479A8(&menuStory->unk_0300[i], watchMenuRef, 0, 0, _posChar_6445[i][0] - 0x18,
@@ -10256,7 +10256,7 @@ void func_80059AF0(struct_watchMenu *arg0) {
 void _eepWritePlayer(struct_watchMenu *arg0) {
     RecWritingMsg_setStr(&arg0->recMessage, _mesWriting_mainmenu);
     arg0->unk_111D8++;
-    func_80040B10(func_80059A58, arg0);
+    BgTasksManager_SendTask(func_80059A58, arg0);
     func_80059AF0(arg0);
 }
 #endif
@@ -10265,7 +10265,7 @@ void _eepWritePlayer(struct_watchMenu *arg0) {
 void _eepErasePlayer(struct_watchMenu *arg0) {
     RecWritingMsg_setStr(&arg0->recMessage, _mesDeleting_mainmenu);
     arg0->unk_111D8++;
-    func_80040B10(func_80059A58, arg0);
+    BgTasksManager_SendTask(func_80059A58, arg0);
     func_80059AF0(arg0);
 }
 #endif
@@ -10274,7 +10274,7 @@ void _eepErasePlayer(struct_watchMenu *arg0) {
 void _eepEraseData(struct_watchMenu *arg0) {
     RecWritingMsg_setStr(&arg0->recMessage, _mesDeleting_mainmenu);
     arg0->unk_111D8++;
-    func_80040B10(func_80059AA4, arg0);
+    BgTasksManager_SendTask(func_80059AA4, arg0);
     func_80059AF0(arg0);
 }
 #endif
@@ -11029,7 +11029,7 @@ enum_main_no main_menu(NNSched *sc) {
         _menuMain_lastSelect[0] = 0;
     }
 
-    func_80040A64();
+    BgTasksManager_Init();
     sp10 = &ptr[1];
     bzero(ptr, sizeof(struct_watchMenu));
     watchMenu = ptr;
@@ -11048,7 +11048,7 @@ enum_main_no main_menu(NNSched *sc) {
 
     while ((ptr->unk_111D4 == MAIN_NO_6) || (ptr->unk_111DC < 1.0f)) {
         if (graphic_no == GRAPHIC_NO_0) {
-            while ((pendingGFX != 0) || (func_80040BA4() != 0)) {
+            while ((pendingGFX != 0) || (BgTasksManager_GetRemainingTasks() != 0)) {
                 _waitRetrace(ptr);
             }
 
@@ -11110,13 +11110,13 @@ enum_main_no main_menu(NNSched *sc) {
     graphic_no = GRAPHIC_NO_0;
     dm_seq_stop();
 
-    while ((pendingGFX != 0) || !func_8002B178() || (func_80040BA4() != 0)) {
+    while ((pendingGFX != 0) || !func_8002B178() || (BgTasksManager_GetRemainingTasks() != 0)) {
         osRecvMesg(&ptr->scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
     func_8005A2AC(ptr);
-    func_80040AE4();
+    BgTasksManager_Destroy();
 
     return ptr->unk_111D4;
 }

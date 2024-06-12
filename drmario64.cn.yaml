@@ -401,7 +401,8 @@ segments:
       - [0x027DF0, c, main_segment/screen_print/debug_print]
 
       - [0x028350, c, main_segment/debug_menu]
-      - [0x02AC40, c, main_segment/028820]
+
+      - [0x02AC40, c, main_segment/bg_tasks]
 
       - [0x02AE30, c, main_segment/tex_func]
 
@@ -477,7 +478,7 @@ segments:
 
       - [0x080DF0, .data, main_segment/debug_menu]
 
-      - [0x081050, .data, main_segment/028820]
+      - [0x081050, .data, main_segment/bg_tasks]
 
       - start: 0x081060
         type: .data

@@ -22,7 +22,7 @@
 #include "record.h"
 #include "vr_init.h"
 #include "main1x.h"
-#include "028820.h"
+#include "bg_tasks.h"
 #include "tex_func.h"
 #include "main_story.h"
 #include "debug_menu.h"
@@ -3192,7 +3192,7 @@ void dm_save_all(void) {
             break;
     }
 
-    func_80040B10(func_80064940, NULL);
+    BgTasksManager_SendTask(func_80064940, NULL);
 }
 #endif
 
@@ -8293,7 +8293,7 @@ enum_main_no dm_game_main(NNSched *sc) {
 
     osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
     nnScAddClient(sc, &scClient, &scMQ);
-    func_80040A64();
+    BgTasksManager_Init();
 
     dm_game_init_heap();
     watchGameP = watchGame;
@@ -8395,11 +8395,12 @@ enum_main_no dm_game_main(NNSched *sc) {
     }
 
     ret = dm_game_main3(var_s4);
-    while (func_80040BA4() != 0) {
+
+    while (BgTasksManager_GetRemainingTasks() != 0) {
         osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
     }
+    BgTasksManager_Destroy();
 
-    func_80040AE4();
     nnScRemoveClient(sc, &scClient);
 
     return ret;
