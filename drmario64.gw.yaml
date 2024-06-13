@@ -494,8 +494,7 @@ segments:
       - [0x029230, c, main_segment/bg_tasks]
 
       - [0x0293E0, c, main_segment/tex_func]
-
-      - [0x02E600, asm, main_segment/02E600] # TODO: figure out # main_menu?
+      - [0x02E600, c, main_segment/main_menu]
 
       - [0x044180, c, main_segment/font]
 
@@ -572,7 +571,7 @@ segments:
           - { start: 0x077328, type: gfx, data_only: True, name: D_8008E728 }
           - { start: 0x077348, type: gfx, data_only: True, name: init_dl_155 }
 
-      - [0x077370, data, main_segment/077370]
+      - [0x077370, .data, main_segment/main_menu]
 
       - start: 0x0774C0
         type: .data
@@ -615,7 +614,7 @@ segments:
       - [0x095EE0, .rodata, main_segment/debug_menu]
 
       - [0x096740, .rodata, main_segment/tex_func]
-      - [0x096810, rodata, main_segment/02E600]
+      - [0x096810, .rodata, main_segment/main_menu]
 
       - start: 0x09A550
         type: .rodata

@@ -1847,7 +1847,7 @@ _mesWriting_mainmenu = 0x800AF4C4; // force_not_migration:True
 _mesDeleting_mainmenu = 0x800AF4EC; // force_not_migration:True type:asciz
 _gameLvItemColor = 0x800AF514; // force_not_migration:True size:0x18
 _musicItemColor = 0x800AF52C; // force_not_migration:True size:0x8
-RO_800AF530 = 0x800AF530; // force_not_migration:True
+RO_800AF534 = 0x800AF534; // force_not_migration:True
 jtbl_800AF538 = 0x800AF538; // type:jtbl
 
 _menuCursor_cursor_4_pattern = 0x800AF660; // size:0x78

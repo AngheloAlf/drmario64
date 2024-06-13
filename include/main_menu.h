@@ -705,7 +705,7 @@ typedef struct struct_watchMenu {
     /* 0x111CC */ MainMenuMode unk_111CC;
     /* 0x111D0 */ MainMenuMode unk_111D0;
     /* 0x111D4 */ enum_main_no unk_111D4;
-    #ifdef VERSION_CN
+    #ifdef NN_SC_PERF
     /*         0x111D8 */ UNK_TYPE4 unk_cn_pad;
     #endif
     /* 0x111D8 0x111DC */ UNK_TYPE unk_111D8;
