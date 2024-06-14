@@ -474,7 +474,7 @@ segments:
 
       - [0x013290, c, main_segment/audio/sound]
       - [0x013CA0, c, main_segment/graphic]
-      - [0x014540, asm, main_segment/graphics/static]
+      - [0x014540, c, main_segment/graphics/static]
 
       - [0x015990, c, main_segment/audio/music_driver]
 
