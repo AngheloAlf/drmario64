@@ -176,7 +176,6 @@ void aifGameInit(void) {
     }
 }
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifFirstInit
  */
@@ -197,12 +196,10 @@ void aifFirstInit(void) {
 
     aifGameInit();
 }
-#endif
 
 /**
  * Original name: aifMake
  */
-#if VERSION_US || VERSION_CN
 void aifMake(struct_game_state_data *gameStateDataRef) {
     pGameState = gameStateDataRef;
 
@@ -252,9 +249,7 @@ void aifMake(struct_game_state_data *gameStateDataRef) {
         gameStateDataRef->unk_23D = 1;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifMake2
  */
@@ -299,9 +294,7 @@ bool aifMake2(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2, s32 
 
     return true;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aiHiruSideLineEraser
  */
@@ -525,11 +518,9 @@ void aiHiruSideLineEraser(struct_game_state_data *gameStateDataRef) {
         decide = var_t1;
     }
 }
-#endif
 
 extern u8 srh_466[][2];
 
-#if VERSION_US || VERSION_CN
 BAD_RETURN(s32) func_8002F924(u8 row, u8 col) {
     if (aif_field[row][col].unk_1 != 4) {
         s8 temp_a0_2 = aif_field[row][col].unk_1;
@@ -541,9 +532,7 @@ BAD_RETURN(s32) func_8002F924(u8 row, u8 col) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifEraseLineCore
  */
@@ -642,9 +631,7 @@ bool aifEraseLineCore(s32 col, s32 row) {
 
     return sp1C;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifRensaCheckCore
  */
@@ -860,9 +847,7 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifRensaCheck
  */
@@ -909,10 +894,13 @@ s32 aifRensaCheck(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFla
     return aifRensaCheckCore(gameStateDataRef, aiFlagRef, temp_a2, temp_a3, var_t0, var_t5, var_t4, var_t3, var_t1,
                              var_t2);
 }
-#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifSearchLineCore);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/aiset", aifSearchLineCore);
 #endif
 
 #if VERSION_CN
@@ -1129,7 +1117,6 @@ extern s16 pri_point[];
 extern s16 HeiLinesAllp[];
 extern s16 WidLinesAllp[];
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifMiniPointK3
  */
@@ -1166,9 +1153,7 @@ s32 aifMiniPointK3(u8 *arg0, u8 arg1, u8 *arg2, u8 arg3, u8 arg4, u8 arg5) {
 
     return var_t1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifMiniAloneCapNumber
  */
@@ -1199,9 +1184,7 @@ s32 aifMiniAloneCapNumber(u8 arg0, u8 arg1, u8 arg2, s32 arg3) {
 
     return var_t0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifMiniAloneCapNumberW
  */
@@ -1229,9 +1212,7 @@ s32 aifMiniAloneCapNumberW(u8 arg0, u8 arg1, u8 arg2, s32 arg3) {
 
     return var_v1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: flash_virus
  */
@@ -1247,9 +1228,7 @@ s32 flash_virus(s32 col, s32 row) {
 
     return -1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: search_Vflash
  */
@@ -1279,9 +1258,7 @@ bool search_Vflash(s32 arg0, s32 arg1, s32 arg2) {
 
     return false;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_8003151C(s32 arg0 UNUSED, s32 arg1) {
     s32 i;
 
@@ -1293,13 +1270,11 @@ bool func_8003151C(s32 arg0 UNUSED, s32 arg1) {
 
     return false;
 }
-#endif
 
 extern s16 WallRate[][8];
 extern s16 bad_point[];
 extern s16 bad_point2[];
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifSearchLineMS
  */
@@ -1670,7 +1645,6 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
     }
     return 0;
 }
-#endif
 
 #if VERSION_US
 /**
@@ -2087,6 +2061,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
 #endif
 #endif
 
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
+#endif
+
 #if VERSION_CN
 #ifdef NON_EQUIVALENT
 //#if 1
@@ -2454,7 +2432,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
 #endif
 #endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aiSetCharacter
  */
@@ -2915,9 +2892,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifFieldCopy
  */
@@ -2949,9 +2924,7 @@ void aifFieldCopy(struct_game_state_data *gameStateDataRef) {
         aiRecurData[row][ARRAY_COUNTU(aiRecurData[row]) - 1].unk_1 = 0xFF;
     }
 }
-#endif
 
-// no original name :c
 void func_80034310(void) {
     s32 column;
 
@@ -2968,7 +2941,6 @@ void func_80034310(void) {
 extern u8 aiTEdgeCnt;
 extern u8 aiYEdgeCnt;
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifPlaceSearch
  */
@@ -3068,12 +3040,10 @@ void aifPlaceSearch(void) {
 
     aiFlagCnt = var_t5;
 }
-#endif
 
 void aifTRecur(u8 arg0, u8 arg1, u8 arg2);
 void aifYRecur(u8 arg0, u8 arg1, u8 arg2);
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifMoveCheck
  */
@@ -3142,9 +3112,7 @@ void aifMoveCheck(void) {
         aiRootP = 0.0f;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifTRecur
  */
@@ -3187,9 +3155,7 @@ void aifTRecur(u8 arg0, u8 arg1, u8 arg2) {
         aiRootCnt++;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifTRecurUP
  */
@@ -3210,9 +3176,7 @@ void aifTRecurUP(u8 arg0, u8 arg1, u8 arg2) {
         aiRootCnt++;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifYRecur
  */
@@ -3255,9 +3219,7 @@ void aifYRecur(u8 arg0, u8 arg1, u8 arg2) {
         aiRootCnt++;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifYRecurUP
  */
@@ -3278,9 +3240,7 @@ void aifYRecurUP(u8 arg0, u8 arg1, u8 arg2) {
         aiRootCnt += 1;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifReMoveCheck
  */
@@ -3326,9 +3286,7 @@ void aifReMoveCheck(void) {
     aiRoot[aiRootCnt][0] = aiRoot[aiRootCnt - 1][0];
     aiRoot[aiRootCnt][1] = aiRoot[aiRootCnt - 1][1] + 1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: aifKeyMake
  */
@@ -3368,9 +3326,7 @@ void aifKeyMake(struct_game_state_data *gameStateDataRef) {
         gameStateDataRef->unk_23B = genrand(5);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 wave_tbl_2879[] = {
     0, 1, 1, 0, -1, -1, 0, 1,
 };
@@ -3523,11 +3479,9 @@ void aifKeyOut(struct_game_state_data *gameStateDataRef) {
         gameStateDataRef->unk_235 = 1;
     }
 }
-#endif
 
 extern s32 tbl_2973[];
 
-#if VERSION_US || VERSION_CN
 s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s8 sp8[8];
     s8 sp10[8];
@@ -3757,11 +3711,9 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     return 0;
 }
-#endif
 
 extern s32 delpos_tbl[];
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: flash_special
  */
@@ -3837,7 +3789,6 @@ s32 flash_special(void) {
 
     return delpos_cnt;
 }
-#endif
 
 /**
  * Original name: aiCOM_MissTake
