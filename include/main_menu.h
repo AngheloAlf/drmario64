@@ -100,6 +100,8 @@ typedef void (*MenuItem_ColorCallback)(struct MenuItem *);
 
 #define MENUITEM_UNK_LEN 2U
 #define MENUITEM_UNK_LEN2 2U
+#define MENUITEM_UNK_LEN3 2U
+#define MENUITEM_UNK_LEN4 4U
 
 typedef struct MenuItem {
     /* 0x00 */ f32 unk_00[2];
@@ -119,7 +121,7 @@ typedef struct MenuItem {
     /* 0x54 */ Color_RGBAf32 color;
     /* 0x64 */ f32 unk_64;
     /* 0x68 */ f32 unk_68;
-    /* 0x6C */ f32 unk_6C[2][4];
+    /* 0x6C */ f32 unk_6C[MENUITEM_UNK_LEN3][MENUITEM_UNK_LEN4]; // float color?
     /* 0x8C */ union {
                     u32 w;
                     struct {
@@ -181,6 +183,8 @@ typedef struct MenuSpeedAsk {
     /* 0xC */ MenuItem unk_C;
 } MenuSpeedAsk; // size = 0x9C
 
+#define MENUSPEEDITEM_UNK_LEN 3U
+
 typedef struct MenuSpeedItem {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x004 */ s32 unk_004;
@@ -189,7 +193,7 @@ typedef struct MenuSpeedItem {
     /* 0x010 */ s32 unk_010;
     /* 0x014 */ MenuItem unk_014;
     /* 0x0A4 */ MenuItem unk_0A4[3];
-    /* 0x254 */ MenuItem unk_254[3];
+    /* 0x254 */ MenuItem unk_254[MENUSPEEDITEM_UNK_LEN];
     /* 0x404 */ MenuCursor unk_404;
 } MenuSpeedItem; // size = 0x664
 
@@ -372,11 +376,13 @@ typedef struct MenuNameSelPanel {
     /* 0x5C8 */ MenuCursor unk_5C8[2];
 } MenuNameSelPanel; // size = 0xA88
 
+#define MENUNAMEOPPANEL_UNK_LEN 4U
+
 typedef struct MenuNameOpPanel {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004*/ s32 unk_004;
-    /* 0x008*/ s32 unk_008;
-    /* 0x00C */ u8 unk_00C[4];
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
+    /* 0x00C */ u8 unk_00C[MENUNAMEOPPANEL_UNK_LEN];
     /* 0x010 */ MenuItem unk_010;
     /* 0x0A0 */ MenuItem unk_0A0;
     /* 0x130 */ MenuItem unk_130[2];
