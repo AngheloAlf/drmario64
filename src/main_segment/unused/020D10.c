@@ -55,15 +55,6 @@ extern struct_800E53B0 *B_800E53B0;
 
 void func_8003974C(Vtx *vtx);
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/unused/020D10", RO_800ACFB0);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/unused/020D10", RO_800ACFC8);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_80038EF0(Mtx *mtx, u16 *perspNorm) {
     f32 sp28[4][4];
     f32 sp68[4][4];
@@ -82,7 +73,6 @@ void func_80038EF0(Mtx *mtx, u16 *perspNorm) {
     guMtxCatF(sp28, sp68, sp28);
     guMtxF2L(sp28, mtx);
 }
-#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/020D10", func_8003901C);
@@ -92,7 +82,10 @@ INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/020D10", func_8003901C);
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/unused/020D10", func_8003901C);
 #endif
 
-#if VERSION_US || VERSION_CN
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/unused/020D10", func_8003901C);
+#endif
+
 void func_800393DC(Vtx **vtxP, void **heapP) {
     s32 i;
 
@@ -125,9 +118,7 @@ void func_800393DC(Vtx **vtxP, void **heapP) {
         vtx->v.tc[1] -= 0x80;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800394A0(Gfx **gfxP, Vtx *vtx, u16 *framebuffer, void **heapP) {
     Gfx *gfx;
     s32 var_t2;
@@ -162,10 +153,13 @@ void func_800394A0(Gfx **gfxP, Vtx *vtx, u16 *framebuffer, void **heapP) {
 
     *heapP = gfx;
 }
-#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/020D10", func_8003974C);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/unused/020D10", func_8003974C);
 #endif
 
 #if VERSION_CN
@@ -454,7 +448,6 @@ INCLUDE_ASM("asm/cn/nonmatchings/main_segment/unused/020D10", func_8003974C);
 #endif
 #endif
 
-#if VERSION_US || VERSION_CN
 void func_80039BE0(Vtx *vtx, f32 arg1, f32 arg2, f32 arg3) {
     f32 sp18[0x10];
     s32 var_t0;
@@ -477,9 +470,7 @@ void func_80039BE0(Vtx *vtx, f32 arg1, f32 arg2, f32 arg3) {
 
     func_8003974C(vtx);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80039D08(Vtx *vtx, s32 arg1, struct_800E53B0_b_unk_7C *arg2, struct_800E53B0_b_unk_80 *arg3, f32 arg4) {
     s32 i;
 
@@ -503,13 +494,7 @@ void func_80039D08(Vtx *vtx, s32 arg1, struct_800E53B0_b_unk_7C *arg2, struct_80
         vtx[i].v.cn[2] = (s8)temp_fv0;
     }
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/020D10", func_80039E14);
-#endif
-
-#if VERSION_CN
 void *func_80039E14(void *heap) {
     struct_800E53B0_a *temp_s1;
     s32 i;
@@ -543,9 +528,37 @@ void *func_80039E14(void *heap) {
 
     return heap;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+const Lights1 RO_800ACFB0 = {
+    { { { 0x9F, 0x9F, 0x9F }, 0, { 0x9F, 0x9F, 0x9F }, 0 } },
+    {
+        {
+            { { 0xFF, 0xFF, 0xFF }, 0, { 0xFF, 0xFF, 0xFF }, 0, { 0x49, 0x49, 0x49 }, 0 },
+        },
+    },
+};
+
+const Gfx RO_800ACFC8[] = {
+    gsDPPipeSync(),
+    gsDPSetCycleType(G_CYC_1CYCLE),
+    gsSPClearGeometryMode(G_ZBUFFER | G_CULL_BOTH | G_FOG | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD | G_CLIPPING),
+    gsSPSetGeometryMode(G_SHADE | G_LIGHTING | G_SHADING_SMOOTH),
+    gsSPSetLights1(RO_800ACFB0),
+    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
+    gsDPSetRenderMode(G_RM_OPA_SURF, G_RM_OPA_SURF2),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA),
+    gsDPSetCombineKey(G_CK_NONE),
+    gsDPSetAlphaCompare(G_AC_NONE),
+    gsDPSetTextureFilter(G_TF_BILERP),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPSetTexturePersp(G_TP_PERSP),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsDPSetConvert(G_CV_K0, G_CV_K1, G_CV_K2, G_CV_K3, G_CV_K4, G_CV_K5),
+    gsSPEndDisplayList(),
+};
+
 // TODO: return bool?
 s32 func_80039F74(void) {
     struct_800E53B0_a *temp_s2 = &B_800E53B0->a;
@@ -582,19 +595,7 @@ s32 func_80039F74(void) {
 
     return 1;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/unused/020D10", RO_800AD080);
-#endif
-
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/unused/020D10", RO_800AD098);
-#endif
-
-extern const Gfx RO_800ACFC8[];
-
-#if VERSION_US || VERSION_CN
 void func_8003A1B4(Gfx **gfxP) {
     struct_800E53B0_a *ptr = &B_800E53B0->a;
     Gfx *gfx;
@@ -616,9 +617,7 @@ void func_8003A1B4(Gfx **gfxP) {
     *gfxP = gfx;
     ptr->unk_78++;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void *func_8003A26C(void *heap) {
     f32 temp_fs0_2;
     f32 temp_fs1;
@@ -705,9 +704,37 @@ void *func_8003A26C(void *heap) {
 
     return heap;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+const Lights1 RO_800AD080 = {
+    { { { 0x9F, 0x9F, 0x9F }, 0, { 0x9F, 0x9F, 0x9F }, 0 } },
+    {
+        {
+            { { 0xFF, 0xFF, 0xFF }, 0, { 0xFF, 0xFF, 0xFF }, 0, { 0x49, 0x49, 0x49 }, 0 },
+        },
+    },
+};
+
+const Gfx RO_800AD098[] = {
+    gsDPPipeSync(),
+    gsDPSetCycleType(G_CYC_1CYCLE),
+    gsSPClearGeometryMode(G_ZBUFFER | G_CULL_FRONT | G_FOG | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD | G_CLIPPING),
+    gsSPSetGeometryMode(G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH),
+    gsSPSetLights1(RO_800AD080),
+    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
+    gsDPSetRenderMode(G_RM_OPA_SURF, G_RM_OPA_SURF2),
+    gsDPSetCombineMode(G_CC_MODULATEIDECALA, G_CC_MODULATEIDECALA),
+    gsDPSetCombineKey(G_CK_NONE),
+    gsDPSetAlphaCompare(G_AC_NONE),
+    gsDPSetTextureFilter(G_TF_BILERP),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPSetTexturePersp(G_TP_PERSP),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsDPSetConvert(G_CV_K0, G_CV_K1, G_CV_K2, G_CV_K3, G_CV_K4, G_CV_K5),
+    gsSPEndDisplayList(),
+};
+
 s32 func_8003A618(void) {
     struct_800E53B0_b *temp_s1 = &B_800E53B0->b;
     f32 var_fs0;
@@ -740,11 +767,7 @@ s32 func_8003A618(void) {
 
     return 1;
 }
-#endif
 
-extern const Gfx RO_800AD098[];
-
-#if VERSION_US || VERSION_CN
 void func_8003A7E4(Gfx **gfxP) {
     struct_800E53B0_b *ptr = &B_800E53B0->b;
     Gfx *gfx;
@@ -767,9 +790,7 @@ void func_8003A7E4(Gfx **gfxP) {
 
     ptr->unk_78 += 1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void *func_8003A89C(void *heap, s32 arg1) {
     D_8008CFE0 = arg1;
 
@@ -785,9 +806,7 @@ void *func_8003A89C(void *heap, s32 arg1) {
 
     return heap;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8003A8F4(void) {
     s32 var_v1 = 0;
 
@@ -803,9 +822,7 @@ s32 func_8003A8F4(void) {
 
     return var_v1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8003A950(Gfx **gfxP) {
     switch (D_8008CFE0) {
         case 0x1:
@@ -817,16 +834,3 @@ void func_8003A950(Gfx **gfxP) {
             break;
     }
 }
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/unused/020D10", RO_800C4080_cn);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/unused/020D10", RO_800ACFC8);
-#endif
-
-#if VERSION_CN
-INCLUDE_RODATA("asm/cn/nonmatchings/main_segment/unused/020D10", RO_800AD098);
-#endif
