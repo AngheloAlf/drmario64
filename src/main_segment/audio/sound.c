@@ -176,15 +176,12 @@ void func_8002AAD8(struct_800FACE0_unk_08 *arg0, s32 index) {
     arg0->unk_8 = 0;
 }
 
-#if VERSION_US || VERSION_CN
 void func_8002AAE8(struct_800FACE0_unk_08 *arg0, const SndEntry *arg1) {
     func_8002D810(arg0->index, 0);
     arg0->sndEntry = arg1;
     arg0->unk_8 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_8002AB28(struct_800FACE0_unk_08 *arg0) {
     if ((arg0->sndEntry == NULL) || (func_8002D7E0(arg0->index) != 0)) {
         return false;
@@ -195,9 +192,7 @@ bool func_8002AB28(struct_800FACE0_unk_08 *arg0) {
     func_8002D8A0(arg0->index, arg0->sndEntry->offset * 0.125);
     return true;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_8002ABC0(struct_800FACE0_unk_08 *arg0) {
     if ((arg0->sndEntry == NULL) || (func_8002D7E0(arg0->index) != 0)) {
         return false;
@@ -207,9 +202,7 @@ bool func_8002ABC0(struct_800FACE0_unk_08 *arg0) {
     func_8002D8A0(arg0->index, arg0->sndEntry->offset * 0.125);
     return true;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
     if (arg0->sndEntry == NULL) {
         return;
@@ -228,17 +221,6 @@ void func_8002AC64(struct_800FACE0_unk_08 *arg0) {
         arg0->sndEntry = NULL;
     }
 }
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002AAE8);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002AB28);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002ABC0);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002AC64);
-#endif
 
 /**
  * Changes the audio configuration to stereo or mono
@@ -292,8 +274,6 @@ void dm_audio_init_driver(NNSched *sc) {
     func_8002D6A4(_romDataTbl[ROMDATATBL_INDEX2].start,
                   _romDataTbl[ROMDATATBL_INDEX2].end - _romDataTbl[ROMDATATBL_INDEX2].start);
 }
-
-#if VERSION_US || VERSION_CN
 
 /**
  * Original name: dm_audio_update
@@ -352,32 +332,18 @@ void dm_seq_play(SeqIndex seqIndex) {
 void _dm_seq_play(s32 arg0, SeqIndex seqIndex) {
     _dm_seq_play_fade(arg0, seqIndex, 0);
 }
-#endif
 
 /**
  * Original name: dm_seq_play_fade
  */
-#if VERSION_US || VERSION_CN
 void dm_seq_play_fade(SeqIndex seqIndex, s32 arg1) {
     _dm_seq_play_fade(0, seqIndex, arg1);
 }
-#endif
 
 /**
  * Original name: _dm_seq_play_fade
  */
-#if VERSION_US
-void _dm_seq_play_fade(s32 arg0, SeqIndex seqIndex, s32 arg2) {
-    if (seqIndex == sound_song_id.seqIndex[arg0]) {
-        return;
-    }
 
-    func_8002D554(arg0, arg2);
-    sound_song_id.seqIndex[arg0] = seqIndex;
-}
-#endif
-
-#if VERSION_CN
 void _dm_seq_play_fade(s32 arg0, SeqIndex seqIndex, s32 arg2) {
     struct_800FACE0 *ptr = &sound_song_id;
 
@@ -388,21 +354,17 @@ void _dm_seq_play_fade(s32 arg0, SeqIndex seqIndex, s32 arg2) {
     func_8002D554(arg0, arg2);
     ptr->seqIndex[arg0] = seqIndex;
 }
-#endif
 
 /**
  * Original name: dm_seq_play_in_game
  */
-#if VERSION_US || VERSION_CN
 void dm_seq_play_in_game(SeqIndex seqIndex) {
     _dm_seq_play_in_game(0, seqIndex);
 }
-#endif
 
 /**
  * Original name: dm_seq_play_in_game
  */
-#if VERSION_US || VERSION_CN
 void _dm_seq_play_in_game(s32 arg0, SeqIndex seqIndex) {
     if (evs_seqence == 0) {
         if (seqIndex < SEQ_INDEX_10) {
@@ -415,9 +377,7 @@ void _dm_seq_play_in_game(s32 arg0, SeqIndex seqIndex) {
 
     _dm_seq_play(arg0, seqIndex);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: dm_seq_stop
  */
@@ -432,39 +392,29 @@ void _dm_seq_stop(s32 arg0) {
     func_8002D554(arg0, 0);
     sound_song_id.seqIndex[arg0] = SEQ_INDEX_NONE;
 }
-#endif
 
 /**
  * Original name: dm_seq_set_volume
  */
-#if VERSION_US || VERSION_CN
 void dm_seq_set_volume(s32 volume) {
     _dm_seq_set_volume(0, volume);
 }
-#endif
 
 /**
  * Original name: _dm_seq_set_volume
  */
-#if VERSION_US || VERSION_CN
 void _dm_seq_set_volume(s32 arg0, s32 volume) {
     func_8002D58C(arg0, volume);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_8002B178(void) {
     return func_8002B194(0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_8002B194(s32 arg0) {
     return func_8002D51C(arg0) == 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: dm_snd_play
  */
@@ -518,29 +468,22 @@ void dm_snd_play(SndIndex sndIndex) {
         }
     }
 }
-#endif
 
 /**
  * Original name: dm_snd_play_in_game
  */
-#if VERSION_US || VERSION_CN
 void dm_snd_play_in_game(SndIndex sndIndex) {
     if (evs_gamespeed < 6) {
         dm_snd_play(sndIndex);
     }
 }
-#endif
-
-#if VERSION_US || VERSION_CN
 s32 func_8002B370(void) {
     return MusFxBankNumberOfEffects(func_8002D710());
 }
-#endif
 
 /**
  * Original name: dm_snd_play_strange_sound
  */
-#if VERSION_US || VERSION_CN
 void dm_snd_play_strange_sound(void) {
     s32 sp10[4];
     s32 i;
@@ -561,44 +504,3 @@ void dm_snd_play_strange_sound(void) {
         dm_snd_play(_charSE_tbl[sp10[i]] + 3);
     }
 }
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_audio_update);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_audio_stop);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_audio_is_stopped);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_seq_play);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", _dm_seq_play);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_seq_play_fade);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", _dm_seq_play_fade);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_seq_play_in_game);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", _dm_seq_play_in_game);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_seq_stop);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", _dm_seq_stop);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_seq_set_volume);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", _dm_seq_set_volume);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B178);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B194);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_snd_play);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_snd_play_in_game);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", func_8002B370);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/audio/sound", dm_snd_play_strange_sound);
-#endif
