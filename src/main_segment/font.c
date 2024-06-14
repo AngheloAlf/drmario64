@@ -1311,7 +1311,6 @@ bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, unsigned c
     return fontAsc_drawID(gfxP, arg1, arg2, arg3, arg4, index);
 }
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: fontAsc_drawID
  */
@@ -1354,11 +1353,6 @@ bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 inde
 
     return true;
 }
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/font", fontAsc_drawID);
-#endif
 
 /**
  * Original name: fontAsc_draw2
