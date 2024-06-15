@@ -35,7 +35,7 @@
 #include "libc/assert.h"
 #include "dm_thread.h"
 
-#if VERSION_US || CC_CHECK
+#if VERSION_US || VERSION_GW || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version
 #include "joy.h"
 #endif
@@ -47,7 +47,6 @@ void joyCursorFastSet(u16 mask, u8 index);
 extern s32 D_800BEF08_cn;
 #endif
 
-#if VERSION_US || VERSION_CN
 s32 func_800601F0(struct_game_state_data *gameStateDataRef, s32 arg1) {
     s32 var_a3 = 0;
     s32 var_a2;
@@ -61,9 +60,7 @@ s32 func_800601F0(struct_game_state_data *gameStateDataRef, s32 arg1) {
     gameStateDataRef->unk_038 = gameStateDataRef->unk_037;
     return var_a3;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80060270(struct_game_state_data *gameStateDataRef, s32 arg1) {
     gameStateDataRef->unk_000 += arg1;
     if (gameStateDataRef->unk_000 > 9999900) {
@@ -74,9 +71,7 @@ void func_80060270(struct_game_state_data *gameStateDataRef, s32 arg1) {
         evs_high_score = gameStateDataRef->unk_000;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 dm_make_score(struct_game_state_data *gameStateDataRef) {
     s32 temp_v0;
     s32 temp;
@@ -126,12 +121,10 @@ s32 dm_make_score(struct_game_state_data *gameStateDataRef) {
     func_80060270(gameStateDataRef, temp_v0);
     return temp_v0;
 }
-#endif
 
 extern s8 dm_chaine_se_table_vs_178[];    // sndindex
 extern s8 dm_chaine_se_table_4p_179[][3]; // sndindex
 
-#if VERSION_US || VERSION_CN
 void dm_attack_se(struct_game_state_data *gameStateData, s32 arg1) {
     s32 i;
 
@@ -161,9 +154,7 @@ void dm_attack_se(struct_game_state_data *gameStateData, s32 arg1) {
             break;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_warning_h_line(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
     bool var_s2 = false;
     s32 rowPlusOne;
@@ -191,9 +182,7 @@ void dm_warning_h_line(struct_game_state_data *gameStateData, GameMapCell *mapCe
         gameStateData->unk_044 = 0;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 set_down_flg(GameMapCell *mapCells) {
     s32 sp10[2];
     s32 var_s4;
@@ -269,9 +258,7 @@ s32 set_down_flg(GameMapCell *mapCells) {
 
     return var_v1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void go_down(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 arg2) {
     bool var_a0 = false;
     s32 row;
@@ -326,9 +313,7 @@ void go_down(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 a
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void erase_anime(GameMapCell *mapCells) {
     s32 i;
 
@@ -350,28 +335,24 @@ void erase_anime(GameMapCell *mapCells) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: rotate_table_399
  */
 const s32 rotate_table_399[] = {
-    0x00000001,
-    0x00000003,
-    0x00000004,
-    0x00000002,
+    1,
+    3,
+    4,
+    2,
 };
 
 /**
  * Original name: rotate_mtx_400
  */
 const s32 rotate_mtx_400[] = {
-    0x00000002, 0x00000000, 0x00000003, 0x00000001, 0x00000002, 0x00000000,
+    2, 0, 3, 1, 2, 0,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: throw_rotate_capsel
  */
@@ -402,9 +383,7 @@ void throw_rotate_capsel(struct_game_state_data_unk_178 *arg0) {
         arg0->unk_4[i] = rotate_mtx_400[temp_a2];
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void translate_capsel(GameMapCell *mapCells, struct_game_state_data *arg1, s32 arg2, s32 arg3) {
     s32 var_s1 = 0;
     struct_game_state_data_unk_178 *temp_s5 = &arg1->unk_178;
@@ -461,9 +440,7 @@ void translate_capsel(GameMapCell *mapCells, struct_game_state_data *arg1, s32 a
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void rotate_capsel(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, s32 arg2) {
     s32 var_s1 = 0;
     s32 temp;
@@ -527,12 +504,10 @@ void rotate_capsel(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, 
         }
     }
 }
-#endif
 
 #define CAPSMAGAZINE_GET_A(mag) (((mag) >> 4) % 3)
 #define CAPSMAGAZINE_GET_B(mag) ((mag) % 3)
 
-#if VERSION_US || VERSION_CN
 void dm_make_magazine(void) {
     u8 sp18[2];
     s32 i;
@@ -558,9 +533,7 @@ void dm_make_magazine(void) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80060F60(struct_game_state_data_unk_178 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_0[0] = 3;
     arg0->unk_0[1] = 4;
@@ -574,16 +547,12 @@ void func_80060F60(struct_game_state_data_unk_178 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_A = 0;
     arg0->unk_9 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80060FA0(struct_game_state_data_unk_178 *arg0, s32 arg1, s32 arg2) {
     func_80060F60(arg0, arg1, arg2);
     arg0->unk_9 = 1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_set_capsel(struct_game_state_data *arg0) {
     arg0->unk_034 = 0;
 
@@ -599,17 +568,13 @@ void dm_set_capsel(struct_game_state_data *arg0) {
     func_80060F60(&arg0->unk_184, CAPSMAGAZINE_GET_A(CapsMagazine[arg0->unk_032]),
                   CAPSMAGAZINE_GET_B(CapsMagazine[arg0->unk_032]));
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 _speed_561[] = {
     0x0F,
     0x14,
     0x19,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_capsel_speed_up(struct_game_state_data *gameStateDataRef) {
     gameStateDataRef->unk_02E++;
     if (gameStateDataRef->unk_02E >= 0xA) {
@@ -629,18 +594,14 @@ void dm_capsel_speed_up(struct_game_state_data *gameStateDataRef) {
         gameStateDataRef->unk_02D = MIN(_speed_561[gameStateDataRef->unk_16C], gameStateDataRef->unk_02D);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool dm_check_game_over(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells UNUSED) {
     if (gameStateDataRef->unk_020 == 4) {
         return true;
     }
     return false;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapCell *mapCells, s32 arg2) {
     s32 ret = 0;
     s32 i;
@@ -659,9 +620,7 @@ s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapCell *mapCells
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, UNK_TYPE arg2) {
     if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
         gameStateDataRef->unk_025 = update_flash_virus_count(gameStateDataRef, mapCells, arg2);
@@ -671,9 +630,7 @@ s32 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapCell *mapCell
 
     return gameStateDataRef->unk_025;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, struct_virus_map_data *virusMapData,
                   u8 virusMapDispOrder[VIRUS_MAP_DISP_ORDER_LEN]) {
     s32 temp_v0;
@@ -714,9 +671,7 @@ void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCell
 
     func_8006121C(gameStateDataRef, mapCells, 0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_virus_anime(struct_game_state_data *arg0, GameMapCell *mapCells) {
     s32 index;
 
@@ -742,9 +697,7 @@ void dm_virus_anime(struct_game_state_data *arg0, GameMapCell *mapCells) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_capsel_erase_anime(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells) {
     gameStateDataRef->unk_036++;
 
@@ -759,9 +712,7 @@ void dm_capsel_erase_anime(struct_game_state_data *gameStateDataRef, GameMapCell
         gameStateDataRef->unk_036 = 14;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_make_erase_h_line(struct_game_state_data *arg0, GameMapCell *mapCells, s32 rowStart, s32 count, s32 column) {
     s32 row;
 
@@ -784,9 +735,7 @@ void dm_make_erase_h_line(struct_game_state_data *arg0, GameMapCell *mapCells, s
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool dm_h_erase_chack(GameMapCell *mapCells) {
     s32 column;
 
@@ -829,9 +778,7 @@ bool dm_h_erase_chack(GameMapCell *mapCells) {
 
     return false;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells) {
     s32 column;
 
@@ -899,9 +846,7 @@ void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapCell 
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_make_erase_w_line(struct_game_state_data *arg0, GameMapCell *mapCells, s32 columnStart, s32 count, s32 row) {
     s32 column = columnStart;
     u32 columnEnd = column + count + 1;
@@ -923,9 +868,7 @@ void dm_make_erase_w_line(struct_game_state_data *arg0, GameMapCell *mapCells, s
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool dm_w_erase_chack(GameMapCell *mapCells) {
     s32 row;
 
@@ -965,9 +908,7 @@ bool dm_w_erase_chack(GameMapCell *mapCells) {
     }
     return false;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapCell *mapCells) {
     s32 row;
 
@@ -1035,9 +976,7 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapCell *mapCells) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_h_ball_chack(GameMapCell *mapCells) {
     u32 column;
 
@@ -1070,9 +1009,7 @@ void dm_h_ball_chack(GameMapCell *mapCells) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_w_ball_chack(GameMapCell *mapCells) {
     u32 row;
 
@@ -1093,9 +1030,7 @@ void dm_w_ball_chack(GameMapCell *mapCells) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool dm_black_up(struct_game_state_data *gameStateDataP, GameMapCell *mapCells) {
     if ((gameStateDataP->unk_048 != 0) && (gameStateDataP->unk_049 == 0)) {
         gameStateDataP->unk_036++;
@@ -1123,9 +1058,7 @@ bool dm_black_up(struct_game_state_data *gameStateDataP, GameMapCell *mapCells) 
 
     return false;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool dm_broken_set(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
     struct_game_state_data_unk_050 sp20[ARRAY_COUNTU(gameStateData->unk_050)];
     s32 pad[0x18] UNUSED;
@@ -1176,9 +1109,7 @@ bool dm_broken_set(struct_game_state_data *gameStateData, GameMapCell *mapCells)
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapCell *mapCells, dm_calc_erase_score_pos_arg2 *arg2) {
     s32 row;
     s32 var_t2 = 0;
@@ -1205,9 +1136,7 @@ void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapCell *mapCells
         arg2->unk_4 = arg2->unk_4 * arg0->unk_00A / var_t2;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]) {
     struct_game_state_data_unk_178 *temp_s1 = &gameStateDataRef->unk_178;
     s32 var_t0;
@@ -1287,9 +1216,7 @@ bool dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s
 
     return true;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32 *arg2) {
     struct_game_state_data_unk_178 *temp_s1 = &gameStateData->unk_178;
     s32 var_s3;
@@ -1314,15 +1241,7 @@ void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32
                  temp_s1->unk_4[i] * gameStateData->unk_00A);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-const u8 _retryMenu_itemCount[] = {
-    2, 3, 2, 3, 2, 3,
-};
-#endif
-
-#if VERSION_US || VERSION_CN
 /**
  * Original name: dm_draw_capsel_by_cpu_tentative
  *
@@ -1398,207 +1317,31 @@ void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 UNK_PTR *dm_game_heap_top(void) {
     return &heapTop;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 AnimeState *get_virus_anime_state(s32 arg0) {
     struct_watchGame *ptr = watchGame;
 
     return &ptr->animeStates[arg0];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 AnimeSmog *get_virus_smog_state(s32 arg0) {
     struct_watchGame *ptr = watchGame;
 
     return &ptr->animeSmogs[arg0];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 Mtx *dm_get_mtx_buf(void) {
     return gameGeom->mtxBuf[gfx_gtask_no];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 Vtx *dm_get_vtx_buf(void) {
     return gameGeom->vtxBuf[gfx_gtask_no];
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_800601F0);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80060270);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_make_score);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_attack_se);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_warning_h_line);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", set_down_flg);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", go_down);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", erase_anime);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", throw_rotate_capsel);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", translate_capsel);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", rotate_capsel);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_make_magazine);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80060F60);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80060FA0);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_set_capsel);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_capsel_speed_up);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_check_game_over);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", update_flash_virus_count);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006121C);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_set_virus);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_virus_anime);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_capsel_erase_anime);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_make_erase_h_line);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_h_erase_chack);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_h_erase_chack_set);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_make_erase_w_line);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_w_erase_chack);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_w_erase_chack_set);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_h_ball_chack);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_w_ball_chack);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_black_up);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_broken_set);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_calc_erase_score_pos);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_calc_capsel_pos);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_draw_capsel_by_gfx);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_draw_capsel_by_cpu_tentative);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_heap_top);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", get_virus_anime_state);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", get_virus_smog_state);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_get_mtx_buf);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_get_vtx_buf);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_80062920(void) {
     struct_watchGame *ptr = watchGame;
     s32 i;
@@ -1609,58 +1352,40 @@ void func_80062920(void) {
 
     initEtcWork(ptr->unk_884, evs_playcnt);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80062978(s32 index, s32 arg1) {
     watchGame->unk_888[index] = arg1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80062990(s32 arg0) {
     func_80062978(arg0, 0xB4);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800629AC(s32 arg0) {
     func_80062978(arg0, 0xB4);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800629C8(s32 arg0) {
     func_80062978(arg0, 0xB4);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800629E4(s32 arg0) {
     func_80062978(arg0, 0xB4);
     init_pause_disp();
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80062A08(s32 index) {
     func_80062978(index, 0xB4);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80062A24(s32 index) {
     func_80062978(index, 0xB4);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80062A40(s32 arg0) {
     func_80062978(arg0, 0xB4);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_80062A5C(s32 arg0) {
     struct_watchGame *ptr = watchGame;
 
@@ -1669,51 +1394,35 @@ bool func_80062A5C(s32 arg0) {
     }
     return ptr->unk_888[arg0] != 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_80062A8C(s32 arg0) {
     return func_80062A5C(arg0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_80062AA8(s32 arg0) {
     return func_80062A5C(arg0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_80062AC4(s32 arg0) {
     return func_80062A5C(arg0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80062AE0(s32 arg0) {
     func_80062A5C(arg0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_80062AFC(s32 arg0) {
     return func_80062A5C(arg0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_80062B18(s32 arg0) {
     return func_80062A5C(arg0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_80062B34(s32 arg0) {
     return func_80062A5C(arg0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80062B50(struct_watchGame_unk_9D0 *arg0, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3, UNK_TYPE arg4,
                    UNK_TYPE arg5, UNK_TYPE arg6) {
     arg0->unk_00 = arg1;
@@ -1726,22 +1435,16 @@ void func_80062B50(struct_watchGame_unk_9D0 *arg0, UNK_TYPE arg1, UNK_TYPE arg2,
     arg0->unk_1C = arg5;
     arg0->unk_20 = arg6;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80062B84(struct_watchGame_unk_9D0 *arg0) {
     func_80062B50(arg0, 0, 0, 0, 0, 0, 0);
     arg0->unk_28 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_80062BC4(struct_watchGame_unk_9D0 *arg0) {
     return arg0->unk_08 == 0x63;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool timeAttackResult_update(struct_watchGame_unk_9D0 *arg0, s32 arg1) {
     bool v1 = true;
 
@@ -1810,99 +1513,11 @@ bool timeAttackResult_update(struct_watchGame_unk_9D0 *arg0, s32 arg1) {
 
     return v1;
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062920);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062978);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062990);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_800629AC);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_800629C8);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_800629E4);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062A08);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062A24);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062A40);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062A5C);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062A8C);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062AA8);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062AC4);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062AE0);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062AFC);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062B18);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062B34);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062B50);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062B84);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062BC4);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", timeAttackResult_update);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_80062DA4(struct_watchGame_unk_9D0 *arg0) {
     while (timeAttackResult_update(arg0, 0)) {}
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_80062DD8(struct_watchGame_unk_9D0 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     func_80062B50(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
     func_80062DA4(arg0);
@@ -1910,9 +1525,7 @@ s32 func_80062DD8(struct_watchGame_unk_9D0 *arg0, s32 arg1, s32 arg2, s32 arg3, 
     func_80062B50(arg0, arg1, arg2, arg3, arg4, arg5, arg6);
     return arg0->unk_28;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80062E84(struct_watchGame_unk_0B8 *arg0) {
     s32 i;
 
@@ -1926,14 +1539,28 @@ void func_80062E84(struct_watchGame_unk_0B8 *arg0) {
 
     arg0->unk_A0 = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-const f32 _big_virus_def_wait[] = { 12.5f, 10.0f, 7.5f };
+const u8 _retryMenu_itemCount[] = {
+    2, 3, 2, 3, 2, 3,
+};
 
-const f32 _big_virus_min_wait[3] = { 5.0f, 4.5f, 4.0f };
+const f32 _big_virus_def_wait[] = {
+    12.5f,
+    10.0f,
+    7.5f,
+};
 
-const f32 _big_virus_max_wait[3] = { 12.5f, 10.0f, 7.5f };
+const f32 _big_virus_min_wait[3] = {
+    5.0f,
+    4.5f,
+    4.0f,
+};
+
+const f32 _big_virus_max_wait[3] = {
+    12.5f,
+    10.0f,
+    7.5f,
+};
 
 const Color_RGB8 _scoreNumsColor[] = {
     { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 }, { 255, 255, 255 },
@@ -1941,7 +1568,12 @@ const Color_RGB8 _scoreNumsColor[] = {
 
 #include "dm_game_main.msg.inc"
 
-const s32 _posStP4StarX[4] = { 0xCD, 0xE6, 0xFF, 0x118 };
+const s32 _posStP4StarX[4] = {
+    0xCD,
+    0xE6,
+    0xFF,
+    0x118,
+};
 
 const s32 _posStStar[2][2] = {
     { 0x80, 0x48 },
@@ -1952,7 +1584,11 @@ const s32 RO_800B1D28[2] = { 0x27, 0x5F };
 
 const s32 _posP2StarX[2] = { 0x80, 0xAC };
 
-const s32 _posP2StarY[3][3] = { { 0x48, -1, -1 }, { 0x50, 0x40, -1 }, { 0x58, 0x48, 0x38 } };
+const s32 _posP2StarY[3][3] = {
+    { 0x48, -1, -1 },
+    { 0x50, 0x40, -1 },
+    { 0x58, 0x48, 0x38 },
+};
 
 const s32 _posP4Bottle[4][2] = {
     { 0x10, 0x25 },
@@ -1977,24 +1613,9 @@ const s32 _posP4TeamStarX[3][2][3] = {
 };
 
 const s32 _posP4CharStarX[3][4][3] = {
-    {
-        { 0x29, -1, -1 },
-        { 0x71, -1, -1 },
-        { 0xB9, -1, -1 },
-        { 0x101, -1, -1 },
-    },
-    {
-        { 0x1E, 0x35, -1 },
-        { 0x66, 0x7D, -1 },
-        { 0xAE, 0xC5, -1 },
-        { 0xF6, 0x10D, -1 },
-    },
-    {
-        { 0x12, 0x2A, 0x41 },
-        { 0x5A, 0x72, 0x89 },
-        { 0xA2, 0xBA, 0xD1 },
-        { 0xEA, 0x102, 0x119 },
-    },
+    { { 0x29, -1, -1 }, { 0x71, -1, -1 }, { 0xB9, -1, -1 }, { 0x101, -1, -1 } },
+    { { 0x1E, 0x35, -1 }, { 0x66, 0x7D, -1 }, { 0xAE, 0xC5, -1 }, { 0xF6, 0x10D, -1 } },
+    { { 0x12, 0x2A, 0x41 }, { 0x5A, 0x72, 0x89 }, { 0xA2, 0xBA, 0xD1 }, { 0xEA, 0x102, 0x119 } },
 };
 
 const s32 _posP4StockCap[2][2] = {
@@ -2011,9 +1632,7 @@ const s32 _posP2CharFrm[2][2] = {
     { 0x8A, 0x95 },
     { 0xB5, 0x95 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80062EC0(struct_watchGame_unk_0B8 *arg0) {
     f32 val = 0.025f;
     s32 i;
@@ -2029,9 +1648,7 @@ void func_80062EC0(struct_watchGame_unk_0B8 *arg0) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void scoreNums_set(struct_watchGame_unk_0B8 *arg0, u32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 temp = CLAMP(arg2 - 1, 0, 5);
     s32 sp18[16];
@@ -2061,141 +1678,7 @@ void scoreNums_set(struct_watchGame_unk_0B8 *arg0, u32 arg1, s32 arg2, s32 arg3,
         arg0->unk_A0 = WrapI(0, 8, arg0->unk_A0 + 1);
     }
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062DA4);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062DD8);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062E84);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2AAC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2ABC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2AD4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2AD8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_FLT_800B2AE0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_FLT_800B2AEC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_FLT_800B2AF8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2B04_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_STR_800B2B18_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2B68_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2B78_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2B7C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2B88_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2B8C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2B90_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2BBC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2BC0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2BDC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2BE0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2BE4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2BE8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2BEC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2C1C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2CDC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_FLT_800B2CE0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2CEC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2CF0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_FLT_800B2CFC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80062EC0);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", scoreNums_set);
-#endif
-
-#if VERSION_US || VERSION_CN
 void backup_game_state(s32 index) {
     struct_gameBackup *ptr = gameBackup[index];
     s32 i;
@@ -2217,9 +1700,7 @@ void backup_game_state(s32 index) {
     ptr->highScore = evs_high_score;
     ptr->gameTime = evs_game_time;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void resume_game_state(s32 index) {
     struct_gameBackup *ptr = gameBackup[index];
     s32 i;
@@ -2241,9 +1722,7 @@ void resume_game_state(s32 index) {
     evs_high_score = ptr->highScore;
     evs_game_time = ptr->gameTime;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80063378(void) {
     struct_watchGame *watchGameRef = watchGame;
 
@@ -2254,9 +1733,7 @@ void func_80063378(void) {
     resume_game_state(0);
     watchGameRef->unk_000 = 1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800633C0(void) {
     struct_watchGame *watchGameRef = watchGame;
 
@@ -2265,9 +1742,7 @@ void func_800633C0(void) {
         watchGameRef->unk_000 = 0;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800633FC(void) {
     if (watchGame->unk_000 != 0) {
         replay_play_init();
@@ -2275,9 +1750,7 @@ void func_800633FC(void) {
         replay_record_init(evs_playcnt);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_warning_h_line_se(void) {
     struct_watchGame *watchGameP = watchGame;
     s32 var_a0 = 0;
@@ -2303,9 +1776,7 @@ void dm_warning_h_line_se(void) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_play_count_down_se(void) {
     s32 i;
 
@@ -2334,9 +1805,7 @@ void dm_play_count_down_se(void) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: black_color_1384
  */
@@ -2429,9 +1898,7 @@ void dm_capsel_down(struct_game_state_data *gameStateData, GameMapCell *mapCells
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_80063844(u32 arg0) {
     s32 var_v1 = 0;
 
@@ -2444,9 +1911,7 @@ s32 func_80063844(u32 arg0) {
     }
     return var_v1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 dm_set_attack_2p(struct_game_state_data *gameStateDataRef) {
     s32 temp_v0;
     s32 var_s0;
@@ -2511,9 +1976,7 @@ s32 dm_set_attack_2p(struct_game_state_data *gameStateDataRef) {
 
     return 1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: attack_table_1531
  */
@@ -2691,9 +2154,7 @@ s32 dm_set_attack_4p(struct_game_state_data *gameStateDataRef) {
 
     return 1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80063FF4(void) {
     s32 i;
     s32 var_a3;
@@ -2719,9 +2180,7 @@ void func_80063FF4(void) {
         visible_fall_point[i] = (ptr->unk_00 & 2) ? 1 : 0;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void save_visible_fall_point_flag(void) {
     s32 i;
     s32 var_t0;
@@ -2750,9 +2209,7 @@ void save_visible_fall_point_flag(void) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void retryMenu_init(s32 arg0, s32 arg1) {
     struct_watchGame *watchGameP = watchGame;
 
@@ -2769,15 +2226,11 @@ void retryMenu_init(s32 arg0, s32 arg1) {
             break;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8006417C(s32 arg0) {
     retryMenu_init(arg0, 0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 retryMenu_input(s32 arg0) {
     s32 direction = 0;
     SndIndex soundIndex = SND_INDEX_INVALID;
@@ -2810,9 +2263,7 @@ s32 retryMenu_input(s32 arg0) {
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80064298(s32 arg0, Gfx **gfxP, s32 arg2) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -2826,9 +2277,7 @@ void func_80064298(s32 arg0, Gfx **gfxP, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8006431C(s32 arg0, Gfx **gfxP) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -2847,9 +2296,7 @@ void func_8006431C(s32 arg0, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells) {
     u8 sp20[GAME_MAP_COLUMNS];
     s32 col;
@@ -2934,9 +2381,7 @@ void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells) {
         set_virus(mapCells, col, GAME_MAP_ROWS, temp_v0_2, virus_anime_table[temp_v0_2][arg0->unk_027]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool bottom_up_bottle_items(GameMapCell *mapCells) {
     s32 i;
     bool ret = false;
@@ -2965,9 +2410,7 @@ bool bottom_up_bottle_items(GameMapCell *mapCells) {
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: _bonus_1884
  */
@@ -2998,9 +2441,7 @@ void add_taiQ_bonus_wait(struct_game_state_data *arg0) {
     }
     watchGameP->unk_410 += var_a0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_80064848(void) {
     s32 i;
 
@@ -3014,9 +2455,7 @@ bool func_80064848(void) {
 
     return (i ^ evs_playcnt) == 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_game_eep_write_callback(void *arg0) {
     struct_watchGame *watchGameP = arg0;
     RecordWritingMessage *recMessage = &watchGameP->recMessage;
@@ -3028,9 +2467,7 @@ void dm_game_eep_write_callback(void *arg0) {
     RecWritingMsg_start(recMessage);
     setSleepTimer(500);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80064940(void *arg0 UNUSED) {
     struct_watchGame *watchGameP = watchGame;
 
@@ -3041,9 +2478,7 @@ void func_80064940(void *arg0 UNUSED) {
         EepRom_DumpErrMes(status);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_8006498C(s32 storyLevel, s32 storyNumber, s32 arg2) {
     bool var_v1 = false;
 
@@ -3059,9 +2494,7 @@ bool func_8006498C(s32 storyLevel, s32 storyNumber, s32 arg2) {
 
     return var_v1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_save_all(void) {
     struct_game_state_data *game_state_ptr = &game_state_data[0];
     struct_watchGame *watchGameP = watchGame;
@@ -3194,9 +2627,7 @@ void dm_save_all(void) {
 
     BgTasksManager_SendTask(func_80064940, NULL);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_query_pause_player(struct_game_state_data *arg0) {
     struct_watchGame *watchGameP = watchGame;
     u16 btn = gControllerPressedButtons[main_joy[arg0->unk_04B]];
@@ -3235,9 +2666,7 @@ void dm_query_pause_player(struct_game_state_data *arg0) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 // TODO: enum return type?
 s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 arg2) {
     struct_watchGame *watchGameP = watchGame;
@@ -3584,7 +3013,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                         dm_snd_play_in_game(SND_INDEX_62);
                         return 1;
 
-                    case 0x2: /* switch 3 */
+                    case 0x2:
                         func_800633C0();
                         if (gameStateData->unk_004 < 0x3E7U) {
                             gameStateData->unk_004++;
@@ -3598,7 +3027,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                         }
                         return 2;
 
-                    case 0x3: /* switch 3 */
+                    case 0x3:
                         dm_snd_play_in_game(SND_INDEX_62);
                         return 0x64;
                 }
@@ -3639,9 +3068,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
 
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 // return enum?
 s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, s32 index) {
     struct_watchGame *temp_s1 = watchGame;
@@ -4085,9 +3512,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
 
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1) {
     struct_watchGame *temp_s3 = watchGame;
     s32 temp_s1 = gameStateData->unk_04B;
@@ -4125,9 +3550,7 @@ void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1) {
         gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_17;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80066808(struct_game_state_data *gameStateData) {
     gameStateData->unk_020 = 1;
     gameStateData->unk_014 = gameStateData->unk_018;
@@ -4136,9 +3559,7 @@ void func_80066808(struct_game_state_data *gameStateData) {
         gameStateData->unk_020 = 8;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_set_pause_and_volume(struct_game_state_data **gameStateDataP, s32 arg1) {
     struct_watchGame *watchGameP = watchGame;
     s32 var_s2 = watchGameP->unk_9C4;
@@ -4184,17 +3605,13 @@ void dm_set_pause_and_volume(struct_game_state_data **gameStateDataP, s32 arg1) 
         dm_snd_play_in_game(var_s4);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800669A0(struct_game_state_data *arg0) {
     struct_game_state_data *sp10 = arg0;
 
     dm_set_pause_and_volume(&sp10, 1);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const s16 _tbl_2997[3][2] = {
     { 0x1E, 4 },
     { 0x3C, 6 },
@@ -4337,165 +3754,7 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
         watchGameP->unk_3D0[i][1] = cosf((watchGameP->unk_3E8[i] * 3.141592654) / 180.0) * -20.0f + 171.0f;
     }
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", backup_game_state);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", resume_game_state);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80063378);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_800633C0);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_800633FC);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_warning_h_line_se);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_play_count_down_se);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_capsel_down);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80063844);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_set_attack_2p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_set_attack_4p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80063FF4);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", save_visible_fall_point_flag);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", retryMenu_init);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006417C);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", retryMenu_input);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80064298);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006431C);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", set_bottom_up_virus);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", bottom_up_bottle_items);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2D18_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2D20_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2D2C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", add_taiQ_bonus_wait);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80064848);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_eep_write_callback);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80064940);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006498C);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_save_all);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_query_pause_player);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_main_cnt_1P);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_main_cnt);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_set_pause_on);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80066808);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_set_pause_and_volume);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_800669A0);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2E80_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2E8C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_calc_big_virus_pos);
-#endif
-
-#if VERSION_US || VERSION_CN
 s32 dm_game_main_1p(void) {
     s32 temp_s3;
     struct_watchGame *watchGameP = watchGame;
@@ -4627,9 +3886,7 @@ s32 dm_game_main_1p(void) {
     }
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 dm_add_win_2p(struct_game_state_data *gameStateDataRef) {
     struct_watchGame *watchGameP = watchGame;
     s32 temp_a3 = gameStateDataRef->unk_04B;
@@ -4675,9 +3932,7 @@ s32 dm_add_win_2p(struct_game_state_data *gameStateDataRef) {
     dm_seq_play_in_game(var_t1);
     return var_s0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) {
     s32 temp_s1 = gameStateDataRef->unk_04B;
 
@@ -4708,9 +3963,7 @@ s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) 
 
     return arg2;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) {
     s32 temp_s1 = gameStateDataRef->unk_04B;
 
@@ -4746,9 +3999,7 @@ s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2)
 
     return arg2;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_800675C8(struct_game_state_data *gameStateDataRef, s32 arg1) {
     s32 temp_s2 = gameStateDataRef->unk_04B;
 
@@ -4768,9 +4019,7 @@ s32 func_800675C8(struct_game_state_data *gameStateDataRef, s32 arg1) {
 
     return arg1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 dm_set_time_attack_result_2p(struct_game_state_data **gameStateDataRefP) {
     struct_watchGame *watchGameP = watchGame;
     u32 sp18[2];
@@ -4808,9 +4057,7 @@ s32 dm_set_time_attack_result_2p(struct_game_state_data **gameStateDataRefP) {
 
     return var_s5;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 dm_game_main_2p(void) {
     struct_watchGame *watchGameP = watchGame;
     s32 var_s4 = 0;
@@ -5019,9 +4266,7 @@ s32 dm_game_main_2p(void) {
     }
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 dm_game_main_4p(void) {
     struct_watchGame *temp_s4 = watchGame;
 
@@ -5326,9 +4571,7 @@ s32 dm_game_main_4p(void) {
 
     return 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool dm_game_demo_1p(void) {
     struct_watchGame *watchGameP = watchGame;
     s32 temp_s4 = dm_game_main_cnt_1P(game_state_data, game_map_data[0], 0);
@@ -5370,9 +4613,7 @@ bool dm_game_demo_1p(void) {
 
     return false;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool dm_game_demo_2p(void) {
     struct_watchGame *watchGameP = watchGame;
     s32 sp10[2];
@@ -5410,9 +4651,7 @@ bool dm_game_demo_2p(void) {
 
     return false;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool dm_game_demo_4p(void) {
     struct_watchGame *watchGameP = watchGame;
     s32 sp10[4];
@@ -5452,74 +4691,22 @@ bool dm_game_demo_4p(void) {
 
     return false;
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_main_1p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_add_win_2p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_set_win_2p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_set_lose_2p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_800675C8);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_set_time_attack_result_2p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_main_2p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_main_4p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_demo_1p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_demo_2p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_demo_4p);
-#endif
-
-#if VERSION_US || VERSION_CN
 const s32 cap_tex_4162[2] = { 8, 2 };
 
 TiTexData *dm_game_get_capsel_tex(s32 arg0) {
     return &watchGame->unk_444[cap_tex_4162[arg0]];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const u32 cap_pal_4164[][6] = {
     { 8, 10, 6, 9, 11, 7 },
     { 2, 4, 0, 3, 5, 1 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 TiTexData *dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
     return &watchGame->unk_444[cap_pal_4164[arg0][arg1]];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -5570,9 +4757,7 @@ void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg2) {
     s32 i;
 
@@ -5583,9 +4768,7 @@ void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg
         arg0->unk_08[i] = 0;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80069188(struct_watchGame_unk_070 *arg0, s32 arg1) {
     s32 i;
 
@@ -5599,9 +4782,7 @@ void func_80069188(struct_watchGame_unk_070 *arg0, s32 arg1) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -5651,9 +4832,7 @@ void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -5667,9 +4846,7 @@ void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 _tbl_4274[4][4] = { { 0, 5, 8, 0xA }, { 0, 1, 6, 9 }, { 0, 1, 2, 4 }, { 0, 1, 2, 3 } };
 
 void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
@@ -5712,9 +4889,7 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_map_draw(GameMapCell *mapCells, u8 arg1, s16 arg2, s16 arg3, s8 arg4) {
     s32 i;
 
@@ -5729,9 +4904,7 @@ void dm_map_draw(GameMapCell *mapCells, u8 arg1, s16 arg2, s16 arg3, s8 arg4) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80069ACC(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, s32 arg2[2]) {
     s32 var_s3 = 0x10;
     s32 i;
@@ -5751,9 +4924,7 @@ void func_80069ACC(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, 
     arg2[0] = var_s3 - (arg1->unk_2[0] < arg1->unk_2[1] ? 1 : 0);
     arg2[1] = var_s3 - (arg1->unk_2[0] > arg1->unk_2[1] ? 1 : 0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const char _tbl_4345[] = { 9, 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
 void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 arg5 UNUSED) {
@@ -5784,14 +4955,10 @@ void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 a
         var_s4 += 0xE;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 _tex_4374[] = { 3, 4, 5 };
 const s32 _row_4375[] = { 0xD, 0xC, 0xC };
-#endif
 
-#if VERSION_US || VERSION_CN
 void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 arg5) {
     struct_watchGame *watchGameP = watchGame;
     TiTexData *temp_a1 = watchGameP->unk_438;
@@ -5831,9 +4998,7 @@ void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 a
         arg4 += 9;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 _pos_4415[] = { 0, 0x11, 0x1A };
 const s8 _col_4416[] = { 2, -3, 2 };
 static_assert(ARRAY_COUNT(_pos_4415) == 3, "");
@@ -5850,9 +5015,7 @@ void func_8006A098(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3) {
         draw_count_number(gfxP, 0, _col_4416[i], sp20[i], arg2 + _pos_4415[i], arg3);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 _pos_4426[] = { 0, 6, 13, 28, 35 };
 const s8 _col_4427[] = { 1, -3, 2, -3, 1 };
 static_assert(ARRAY_COUNT(_pos_4426) == 5, "");
@@ -5871,9 +5034,7 @@ void draw_time2(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3) {
         draw_count_number(gfxP, 0, _col_4427[i], sp20[i], arg2 + _pos_4426[i], arg3);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void push_any_key_draw(s32 arg0, s32 arg1) {
     struct_watchGame *watchGameP = watchGame;
     s32 alpha;
@@ -5882,7 +5043,7 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
     TiTexData *temp1;
     TiTexData *temp2;
 
-    alpha = sins((watchGameP->unk_424 << 10) & 0xFC00) * ((f32)0xFF / 0x8000) + 127;
+    alpha = sins((watchGameP->unk_424 << 10) & 0xFC00) * ((f32)0xFF / 0x8000) + 0x7F;
     alpha = CLAMP(alpha, 0, 255);
 
     gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
@@ -5899,9 +5060,7 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
     StretchAlphaTexTile(&gGfxHead, var_a1_2, temp1->info[1], temp1->texs[1], temp1->info[0], temp2->texs[1],
                         temp2->info[0], 0, 0, var_a1_2, temp1->info[1], arg0, arg1, var_a1_2, temp1->info[1]);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 _tex_4459[3][2] = { { 0xE, 0x13 }, { 0x1B, 0x1C }, { 0x19, 0x1A } };
 
 void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
@@ -5942,9 +5101,7 @@ void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2134[2][2] = { { 0x17, 0x18 }, { 0xF, 0x14 } };
 
 void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
@@ -5973,85 +5130,7 @@ void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_get_capsel_tex);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_get_capsel_pal);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2EC8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2ED0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", scoreNums_draw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80069160);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80069188);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", starForce_draw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_800695A8);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", draw_4p_attack_guide_panel);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_map_draw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80069ACC);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", draw_virus_number);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", draw_count_number);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006A098);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", draw_time2);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", push_any_key_draw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", draw_demo_logo);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", draw_replay_logo);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_8006A938(s32 arg0) {
     struct_watchGame *watchGameP = watchGame;
     s32 i;
@@ -6065,13 +5144,7 @@ void func_8006A938(s32 arg0) {
         }
     }
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006B528_gw);
-#endif
-
-#if VERSION_US || VERSION_CN
 void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -6128,70 +5201,10 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_DBL_800B2F28_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F2C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F40_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F4C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F58_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F64_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F68_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F6C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F74_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F7C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F80_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F94_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2F98_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", _disp_coin_logo);
-#endif
-
-void draw_flash_virus_light(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 extern u8 tbl_4589[];
 extern Color_RGBA8 col_4590[];
 
-#if VERSION_US || VERSION_CN
 void draw_flash_virus_light(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -6211,9 +5224,7 @@ void draw_flash_virus_light(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) 
     tiStretchTexBlock(&gfx, temp, arg1, (f32)arg2, (f32)arg3, 20.0f, 20.0f);
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRef, GameMapCell *mapCells UNUSED) {
     s32 var_t1 = 0;
     s32 var_s5;
@@ -6247,11 +5258,7 @@ void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRe
         var_t1 = 1;
     }
 }
-#endif
 
-void func_8006AEFC(struct_watchGame_unk_9D0 *arg0, Gfx **gfxP, s32 arg2, s32 arg3);
-
-#if VERSION_US || VERSION_CN
 void func_8006AEFC(struct_watchGame_unk_9D0 *arg0, Gfx **gfxP, s32 arg2, s32 arg3) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -6273,9 +5280,7 @@ void func_8006AEFC(struct_watchGame_unk_9D0 *arg0, Gfx **gfxP, s32 arg2, s32 arg
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void draw_story_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_watchGame *temp_s1 = watchGame;
     Gfx *gfx = *gfxP;
@@ -6301,9 +5306,7 @@ void draw_story_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 _x_4663[2] = { 0x63, 0xB8 };
 const s32 _x_4670[2] = { 0x71, 0xBD };
 const s32 _x_4676[2] = { 0x6C, 0xB8 };
@@ -6393,29 +5396,7 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     }
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006B850_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006B9F4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006BAEC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", draw_story_board);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", draw_vsmode_board);
-#endif
-
-#if VERSION_US || VERSION_CN
 const s32 _rect_4752[][4] = {
     { 0, 0, 0x60, 0x14 }, { 0, 0x14, 0x60, 0x14 }, { 0, 0x28, 8, 0xA0 }, { 0x58, 0x28, 8, 0xA0 }, { 0, 0xC8, 0x60, 8 },
 };
@@ -6456,9 +5437,7 @@ void _draw_bottle_10(Gfx **gfxP, const s32 *arg1, const s32 *arg2, s32 arg3) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_calc_bottle_2p(void) {
     s32 i = (0x14 - watchGame->unk_394) * 8;
     s32 sp8[2] = { 0x1C - i, i + 0xD4 };
@@ -6470,12 +5449,10 @@ void dm_calc_bottle_2p(void) {
         temp->unk_008 = 0x2E;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_draw_bottle_2p(Gfx **gfxP) {
     struct_watchGame *watchGameP = watchGame;
-    Gfx *sp30 = *gfxP;
+    Gfx *gfx = *gfxP;
     s32 var_a0 = (0x14 - watchGameP->unk_394) * 8;
     s32 arr[2] UNUSED = { -var_a0, var_a0 };
     s32 sp20[2];
@@ -6488,13 +5465,11 @@ void dm_draw_bottle_2p(Gfx **gfxP) {
         sp28[var_a0] = temp->unk_008 - 0x1E;
     }
 
-    _draw_bottle_10(&sp30, sp20, sp28, 2);
+    _draw_bottle_10(&gfx, sp20, sp28, 2);
 
-    *gfxP = sp30;
+    *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_draw_big_virus(Gfx **gfxP) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
@@ -6510,25 +5485,7 @@ void dm_draw_big_virus(Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006C4D0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_calc_bottle_2p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_draw_bottle_2p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_draw_big_virus);
-#endif
-
-#if VERSION_US || VERSION_CN
 const s32 _pat_4838[6] = { 0, 1, 2, 3, 2, 1 };
 
 void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking, s32 arg4, s32 arg5, s32 arg6,
@@ -6589,9 +5546,7 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     *mtxP = mtx;
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, GameMapCell *mapCells) {
     s32 sp28[2];
     TiTexData *temp_v0;
@@ -6665,9 +5620,7 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
         gDPSetRenderMode(gGfxHead++, G_RM_TEX_EDGE, G_RM_TEX_EDGE2);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapCell *mapCells) {
     struct_watchGame *watchGameP = watchGame;
     s32 sp20[2];
@@ -6697,7 +5650,7 @@ void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapC
         return;
     }
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN; i++) {
         load_TexPal(dm_game_get_capsel_pal(temp_s6, gameStateData->unk_184.unk_6[i])->texs[0]);
         draw_Tex(gameStateData->unk_184.unk_0[i] * gameStateData->unk_00A + gameStateData->unk_006,
                  (gameStateData->unk_184.unk_2[i] * gameStateData->unk_00A + gameStateData->unk_008) - 0xA,
@@ -6705,9 +5658,7 @@ void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapC
                  gameStateData->unk_184.unk_4[i] * gameStateData->unk_00A);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, GameMapCell *mapCells) {
     struct_watchGame *temp_s2 = watchGame;
     s32 sp20[2];
@@ -6754,9 +5705,7 @@ void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, Game
         draw_Tex(0xDA + i * 0xA, 0x34, 0xA, 0xA, 0, gameStateDataRef->unk_184.unk_4[i] * 0xA);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2 UNUSED) {
     struct_watchGame *temp_s4 = watchGame;
     s32 temp_fv0;
@@ -6878,7 +5827,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         case GAMESTATEDATA_UNK_014_11:
             if (temp_s4->unk_000 == 0) {
                 if (gameStateDataRef->unk_04C == 0) {
-                    temp_fv0 = sins(((s16)temp_s4->unk_424 << 0xA) & 0xFC00) * 0.0038757324f + 127.0f;
+                    temp_fv0 = sins(((s16)temp_s4->unk_424 << 0xA) & 0xFC00) * ((f32)0x7F / 0x8000) + 0x7F;
                     temp_s1 = &temp_s4->unk_440[0x1B];
                     other = &temp_s4->unk_440[0x1C];
 
@@ -7070,70 +6019,12 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
 
     gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, 0, 0, 0x140, 0xF0);
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2FC0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2FC8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2FD0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2FD8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2FE0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2FE4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2FE8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B2FEC_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B3030_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_draw_KaSaMaRu);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_graphic_common);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_graphic_p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_graphic_1p);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_graphic_effect);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_8006D0E8(void) {
     s32 i;
 
     for (i = 0; i < MAXCONTROLLERS; i++) {
-        joyflg[i] = (0x8000 | 0x4000 | 0x800 | 0x400 | 0x200 | 0x100 | 0x8 | 0x4 | 0x2 | 0x1);
+        joyflg[i] = ANY_BUTTON & ~(Z_TRIG | START_BUTTON | L_TRIG | R_TRIG);
         joygmf[i] = 1;
         joygam[i] = 0;
     }
@@ -7141,9 +6032,7 @@ void func_8006D0E8(void) {
     joycur1 = evs_keyrept[0];
     joycur2 = evs_keyrept[1];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_make_key(void) {
     s32 var_t3;
     s32 i;
@@ -7178,9 +6067,7 @@ void dm_make_key(void) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, s32 arg2, s32 arg3) {
     struct_watchGame *temp_s5 = watchGame;
     s32 sp18[2];
@@ -7280,9 +6167,7 @@ void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *map
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: make_ai_main
  */
@@ -7331,25 +6216,7 @@ void make_ai_main(void) {
             break;
     }
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006DCF8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006DD60_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006DE64_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", make_ai_main);
-#endif
-
-#if VERSION_US || VERSION_CN
 void dm_effect_make(void) {
     struct_watchGame *watchGameP = watchGame;
     s32 i;
@@ -7366,9 +6233,7 @@ void dm_effect_make(void) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_game_init_heap(void) {
     s32 i;
 
@@ -7382,9 +6247,7 @@ void dm_game_init_heap(void) {
 
     BUFFER_MALLOC(&gameGeom, heapTop, sizeof(struct_gameGeom));
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const u16 map_x_table_5383[][4] = {
     { 0x76, 0x76, 0x76, 0x76 },
     { 0x1C, 0xD4, 0x1C, 0xD4 },
@@ -7392,9 +6255,7 @@ const u16 map_x_table_5383[][4] = {
 };
 const u8 map_y_table_5384[] = { 0x2E, 0x2E };
 const u8 size_table_5385[] = { 0xA, 8 };
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_game_init(bool arg0) {
     struct_watchGame *watchGameP = watchGame;
     s32 i;
@@ -7655,12 +6516,10 @@ void dm_game_init(bool arg0) {
         }
     }
 }
-#endif
 
 /**
  * Original name: dm_game_init_static
  */
-#if VERSION_US || VERSION_CN
 void dm_game_init_static(void) {
     RomOffsetPair *romTableP = _romDataTbl;
     struct_watchGame *watchGameP = watchGame;
@@ -7674,33 +6533,35 @@ void dm_game_init_static(void) {
     RomOffset temp_a0;
     s8 temp;
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
     start = romTableP[ROMDATATBL_GAME_AL].start;
 
     watchGameP->unk_3B0 = 0;
 
     //! FAKE
     watchGameP->unk_878 = var_v0 = 0x7F;
-#endif
-#if VERSION_CN
+#elif VERSION_CN
     watchGameP->unk_3B0 = 0;
 
     //! FAKE
     watchGameP->unk_878 = var_v0 = 0x7F;
 
     start = romTableP[ROMDATATBL_GAME_AL].start;
+#else
+#error ""
 #endif
     end = romTableP[ROMDATATBL_GAME_AL].end;
 
     result = tiLoadTexData(&heapTop, start, end);
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
     start = romTableP[ROMDATATBL_GAME_ITEM].start;
     watchGameP->unk_430 = result;
-#endif
-#if VERSION_CN
+#elif VERSION_CN
     watchGameP->unk_430 = result;
     start = romTableP[ROMDATATBL_GAME_ITEM].start;
+#else
+#error ""
 #endif
 
     end = romTableP[ROMDATATBL_GAME_ITEM].end;
@@ -7711,13 +6572,14 @@ void dm_game_init_static(void) {
             tiLoadTexData(&heapTop, romTableP[ROMDATATBL_MENU_KASA].start, romTableP[ROMDATATBL_MENU_KASA].end);
     }
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
     temp_a0 = _romDataTbl[ROMDATATBL_GAME_ETC].start;
     watchGameP->unk_884 = heapTop;
-#endif
-#if VERSION_CN
+#elif VERSION_CN
     watchGameP->unk_884 = heapTop;
     temp_a0 = _romDataTbl[ROMDATATBL_GAME_ETC].start;
+#else
+#error ""
 #endif
     heapTop = DecompressRomToRam(temp_a0, heapTop, romTableP[ROMDATATBL_GAME_ETC].end - temp_a0);
 
@@ -7742,12 +6604,13 @@ void dm_game_init_static(void) {
         func_80062B84(&watchGameP->unk_9D0[i]);
     }
 
-#if VERSION_US
+#if VERSION_US || VERSION_GW
     msgWnd_init2(&watchGameP->unk_A28, &heapTop, 0x100, 0xA, 5, temp, 0);
-#endif
-#if VERSION_CN
+#elif VERSION_CN
     //! FAKE
     msgWnd_init2(&watchGameP->unk_A28, &heapTop, 0x100, 0xA, var_v0 = 5, temp, 0);
+#else
+#error ""
 #endif
 
     watchGameP->unk_A28.xPos = (s32)(SCREEN_WIDTH - (watchGameP->unk_A28.unk_3C * 20)) >> 1;
@@ -7915,13 +6778,11 @@ void dm_game_init_static(void) {
             break;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_game_init_snap_bg(void) {
     struct_watchGame *watchGameP = watchGame;
 
-    BUFFER_MALLOC64(&watchGameP->unk_87C, heapTop, sizeof(u16) * 0x13380);
+    BUFFER_MALLOC64(&watchGameP->unk_87C, heapTop, sizeof(u16) * ((SCREEN_WIDTH + 8) * SCREEN_HEIGHT));
     watchGameP->unk_880 = 0;
 
     switch (evs_gamesel) {
@@ -7934,9 +6795,7 @@ void dm_game_init_snap_bg(void) {
             break;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const s16 _bgPos_5792[7][2] = {
     { 0, 0 }, { 0x50, 0 }, { 0xA0, 0 }, { 0xF0, 0 }, { 0x78, 0x78 }, { 0xC8, 0x78 }, { 0x118, 0x78 },
 };
@@ -7975,7 +6834,7 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
     s32 i;
 
     if (temp_s7->unk_880 != 0) {
-        gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 328, osVirtualToPhysical(temp_s7->unk_87C));
+        gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH + 8, osVirtualToPhysical(temp_s7->unk_87C));
     }
 
     switch (evs_gamesel) {
@@ -8200,86 +7059,14 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_effect_make);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_init_heap);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B30F4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B310C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B3110_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_init);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_init_static);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_init_snap_bg);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B3174_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B3190_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B319C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B31A0_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B31A4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B31A8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B31B4_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B31B8_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_draw_snap_bg);
-#endif
-
-#if VERSION_US || VERSION_CN
 void func_8006F628(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
-    CopyTexBlock16(&gfx, watchGame->unk_87C, 0, 0, 0x148, 0xF0);
+    CopyTexBlock16(&gfx, watchGame->unk_87C, 0, 0, SCREEN_WIDTH + 8, SCREEN_HEIGHT);
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 enum_main_no dm_game_main(NNSched *sc) {
     OSMesgQueue scMQ;
     OSMesg scMsgBuf[NN_SC_MAX_MESGS];
@@ -8405,9 +7192,7 @@ enum_main_no dm_game_main(NNSched *sc) {
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 dm_game_main2(void) {
     struct_watchGame *temp_s3 = watchGame;
     s32 var_s1 = 0;
@@ -8661,9 +7446,7 @@ s32 dm_game_main2(void) {
 
     return var_s4_2;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: dm_game_main3
  */
@@ -8762,9 +7545,7 @@ enum_main_no dm_game_main3(s32 arg0) {
 
     return var_a1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void dm_game_graphic(void) {
     struct_watchGame *watchGameP = watchGame;
 
@@ -8787,29 +7568,7 @@ void dm_game_graphic(void) {
     dm_game_graphic2();
     osSetThreadPri(NULL, OS_PRIORITY_APPMAX);
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_8006F628);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_main);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_main2);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_main3);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_graphic);
-#endif
-
-#if VERSION_US || VERSION_CN
 const s32 _x_6416[] = { 0x77, 0xB6 };
 static_assert(ARRAY_COUNT(watchGame->unk_8B4) == ARRAY_COUNT(_x_6416), "");
 
@@ -9234,25 +7993,7 @@ void dm_game_graphic2(void) {
         temp_s7->unk_880 = 0;
     }
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B3224_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_FLT_800B322C_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_RODATA("asm/gw/nonmatchings/main_segment/dm_game_main", RO_800B3234_gw);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", dm_game_graphic2);
-#endif
-
-#if VERSION_US || VERSION_CN
 void dm_game_graphic_onDoneSawp(void) {
     struct_watchGame *watchGameP = watchGame;
     s32 microseconds;
@@ -9357,11 +8098,6 @@ void dm_game_graphic_onDoneSawp(void) {
     func_8002BA98_cn(ENUM_8002BA98_CN_ARG0_13, 0);
 #endif
 }
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", func_80072310_gw);
-#endif
 
 void func_80071A44(void) {
 }
@@ -9369,7 +8105,6 @@ void func_80071A44(void) {
 /**
  * Original name: main_techmes
  */
-#if VERSION_US || VERSION_CN
 enum_main_no main_techmes(NNSched *sc) {
     struct_watchGame *watchGameP;
     bool keepRunning = true;
@@ -9459,13 +8194,7 @@ enum_main_no main_techmes(NNSched *sc) {
 
     return MAIN_NO_3;
 }
-#endif
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", main_techmes);
-#endif
-
-#if VERSION_US || VERSION_CN
 void graphic_techmes(void) {
     struct_watchGame *watchGameP = watchGame;
     Mtx *mtx;
@@ -9499,8 +8228,3 @@ void graphic_techmes(void) {
     gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx),
                  0, OS_SC_SWAPBUFFER);
 }
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/dm_game_main", graphic_techmes);
-#endif
