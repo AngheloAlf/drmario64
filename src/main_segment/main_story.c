@@ -26,6 +26,130 @@
 #include "joy.h"
 #endif
 
+extern STACK(mess_heap_area, 0x400);
+
+u8 curtain_alpha_00_tex[] ALIGNED8 = {
+#include "main_segment/main_story/curtain_alpha_00_tex.i4.inc"
+};
+
+u16 curtain_00_tex[] ALIGNED8 = {
+#include "main_segment/main_story/curtain_00_tex.rgba16.inc"
+};
+
+u8 changestar_tex[] ALIGNED8 = {
+#include "main_segment/main_story/changestar_tex.i4.inc"
+};
+
+// TODO: these are offsets into the asset file
+s32 title_bmp_tbl[3] = {
+    0,
+    0x11D0,
+    0x25E0,
+};
+
+void *mess_heap = mess_heap_area;
+
+struct_mes_data *mes_data[];
+#include "main_story.msg.inc"
+
+enum_story_proc_no story_proc_no = STORY_PROC_NO_0;
+
+char STR_800AACF0[] = "~0ＴＥＳＴ　~w2~z";
+
+char *EndingLastMessage = STR_800AACF0;
+
+s32 story_time_cnt = 0;
+
+s32 story_seq_step = 0;
+
+s32 story_zoom = 0;
+
+s32 story_curtain = 0;
+
+s32 story_spot_cnt = 0;
+
+s32 story_kay_wait = 0;
+
+s32 story_message_on = 0;
+
+s32 story_message_start = 0;
+
+s32 story_doing = 1;
+
+s32 bgtime = 0;
+
+s32 D_800AAD30 = 0;
+
+s32 mes_time = 0;
+
+u8 *story_read_buf = gfx_freebuf;
+
+void *story_buffer = &gfx_freebuf[0x10000];
+
+void *story_z_buffer = gfx_freebuf;
+
+s32 objMtx_FF = 0;
+
+// TODO: these are offsets into the asset file
+s32 wakuGraphic_ofs[3] = {
+    0,
+    0x3410,
+    0x42A0,
+};
+
+Vp D_800AAD58 = { { { 0x280, 0x1E0, 0x1FF, 0 }, { 0x280, 0x1E0, 0x1FF, 0 } } };
+
+Gfx story_setup[] = {
+    gsDPPipeSync(),
+    gsSPViewport(&D_800AAD58),
+    gsDPSetBlendColor(0, 0, 0, 4),
+    gsDPSetScissor(G_SC_NON_INTERLACE, 60, 37, 260, 137),
+    gsDPSetCycleType(G_CYC_1CYCLE),
+    gsDPPipelineMode(G_PM_1PRIMITIVE),
+    gsDPSetRenderMode(G_RM_AA_OPA_SURF, G_RM_AA_OPA_SURF2),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
+    gsSPClearGeometryMode(G_ZBUFFER | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD |
+                          G_SHADING_SMOOTH),
+    gsSPSetGeometryMode(G_SHADE | G_CULL_BACK),
+    gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPSetTextureFilter(G_TF_BILERP),
+    gsDPSetTexturePersp(G_TP_NONE),
+    gsDPPipeSync(),
+    gsSPEndDisplayList(),
+};
+
+// TODO: static_assert for array size
+SeqIndex snd_tbl_838[] = {
+    SEQ_INDEX_10, // STORY_PROC_NO_0
+    SEQ_INDEX_10, // STORY_PROC_NO_1
+    SEQ_INDEX_20, // STORY_PROC_NO_2
+    SEQ_INDEX_19, // STORY_PROC_NO_3
+    SEQ_INDEX_20, // STORY_PROC_NO_4
+    SEQ_INDEX_19, // STORY_PROC_NO_5
+    SEQ_INDEX_20, // STORY_PROC_NO_6
+    SEQ_INDEX_19, // STORY_PROC_NO_7
+    SEQ_INDEX_21, // STORY_PROC_NO_8
+    SEQ_INDEX_20, // STORY_PROC_NO_9
+    SEQ_INDEX_22, // STORY_PROC_NO_10
+    SEQ_INDEX_22, // STORY_PROC_NO_11
+    SEQ_INDEX_10, // STORY_PROC_NO_12
+    SEQ_INDEX_10, // STORY_PROC_NO_13
+    SEQ_INDEX_20, // STORY_PROC_NO_14
+    SEQ_INDEX_19, // STORY_PROC_NO_15
+    SEQ_INDEX_20, // STORY_PROC_NO_16
+    SEQ_INDEX_19, // STORY_PROC_NO_17
+    SEQ_INDEX_20, // STORY_PROC_NO_18
+    SEQ_INDEX_19, // STORY_PROC_NO_19
+    SEQ_INDEX_21, // STORY_PROC_NO_20
+    SEQ_INDEX_20, // STORY_PROC_NO_21
+    SEQ_INDEX_22, // STORY_PROC_NO_22
+    SEQ_INDEX_22, // STORY_PROC_NO_23
+};
+
 extern struct_lws_scene *lws_scene;
 extern struct_wakuGraphic *wakuGraphic;
 
@@ -138,9 +262,6 @@ void curtain_proc(Gfx **gfxP, s32 arg1) {
     *gfxP = gfx;
 }
 
-extern u8 curtain_alpha_00_tex[];
-extern u16 curtain_00_tex[];
-
 /**
  * Original name: curtain_proc_org
  */
@@ -205,8 +326,6 @@ void *story_bg_init(BgRomDataIndex index, void *dstAddr) {
     return ALIGN_PTR(DecompressRomToRam(storyRomData[STORYROMDATA_WAKU2].start, wakuGraphic,
                                         storyRomData[STORYROMDATA_WAKU2].end - storyRomData[STORYROMDATA_WAKU2].start));
 }
-
-extern s32 wakuGraphic_ofs[];
 
 /**
  * Original name: story_bg_proc
@@ -354,7 +473,7 @@ void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, void *tex) {
 }
 
 void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
-    story_spot(gfxP, arg1, arg2, arg3, &changestar_tex);
+    story_spot(gfxP, arg1, arg2, arg3, changestar_tex);
 }
 
 /**
@@ -715,7 +834,6 @@ extern s32 st_message_count;
 
 extern s32 fin_frame_543;
 extern struct_mes_data *st_mes_ptr;
-extern struct_mes_data *mes_data[];
 
 void func_8007865C(void) {
     if (st_message_count < st_mes_ptr->unk_0) {
@@ -1519,10 +1637,6 @@ void func_8007A9DC(void) {
                            storyRomData[STORYROMDATA_MENU_BG].end - storyRomData[STORYROMDATA_MENU_BG].start));
     messageData = ptr;
 }
-
-extern u64 mess_heap_area[];
-
-extern SeqIndex snd_tbl_838[];
 
 #if VERSION_US || VERSION_GW
 #define MESS_ROLL_ST_ARG2 0x77A

@@ -34,7 +34,7 @@ typedef enum enum_story_proc_no {
     /* 21 */ STORY_PROC_NO_21,
     /* 22 */ STORY_PROC_NO_22,
     /* 23 */ STORY_PROC_NO_23,
-    /* 24 */ STORY_PROC_NO_24
+    /* 24 */ STORY_PROC_NO_24 // TODO: MAX?
 } enum_story_proc_no;
 
 // GraphBin?
@@ -247,7 +247,7 @@ extern char st_staffroll_txt[];
 // extern UNK_TYPE D_800AACD0;
 // extern UNK_TYPE D_800AACD4;
 extern enum_story_proc_no story_proc_no; /* Original name: story_proc_no */
-extern char STR_800AACF0[];
+
 extern char *EndingLastMessage; /* Original name: EndingLastMessage */
 extern s32 story_time_cnt;
 extern s32 story_seq_step; // TODO: enum?

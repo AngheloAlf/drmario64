@@ -555,10 +555,11 @@ segments:
           - { start: 0x0701C8, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/D_800883A8 }
 
       - [0x070210, .data, main_segment/audio/music_driver]
+
       - [0x070220, .data, main_segment/main1x]
 
       - [0x0702A0, .data, main_segment/vr_init]
-      - [0x0702B0, data, main_segment/aiset]
+      - [0x0702B0, .data, main_segment/aiset]
 
       - start: 0x0715C0
         type: .data
@@ -570,9 +571,9 @@ segments:
           - [0x0717C8, ci8, mess_panel_tex, 200, 69]
           - [0x074DC0]
 
-      - [0x074DC0, data, main_segment/unused/020D10]
+      - [0x074DC0, .data, main_segment/unused/020D10]
 
-      - [0x074E10, data, main_segment/game_etc]
+      - [0x074E10, .data, main_segment/game_etc]
 
       - [0x075000, .data, main_segment/screen_print/printf_impl]
 
@@ -615,13 +616,20 @@ segments:
           - [0x08B8A8, i4, main_segment/font/font_grade_tex, 12, 12]
           - [0x08B8F0]
 
-      - [0x08EDA0, data, main_segment/dm_game_main]
+      - [0x08EDA0, .data, main_segment/dm_game_main]
 
-      - [0x08F1B0, data, main_segment/dm_title_main]
+      - [0x08F1B0, .data, main_segment/dm_title_main]
 
-      - [0x08F1C0, data, main_segment/08F1C0] # unreferenced
+      - [0x08F1C0, data, main_segment/08F1C0] # unreferenced, maybe part of main_story?
 
-      - [0x08F1E0, data, main_segment/main_story]
+      - start: 0x08F1E0
+        type: .data
+        name: main_segment/main_story
+        subsegments:
+          - [0x08F1E0, i4, main_segment/main_story/curtain_alpha_00_tex, 32, 48]
+          - [0x08F4E0, rgba16, main_segment/main_story/curtain_00_tex, 32, 48]
+          - [0x0900E0, i4, main_segment/main_story/changestar_tex, 64, 64]
+          - [0x0908E0]
 
       - [0x092C80, .data, main_segment/calc]
 

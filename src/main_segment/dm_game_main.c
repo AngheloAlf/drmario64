@@ -43,8 +43,40 @@
 void joyCursorFastSet(u16 mask, u8 index);
 #endif
 
+u8 virus_anime_table[3][4] = { { 7, 8, 0x10, 0x11 }, { 9, 0xA, 0x12, 0x13 }, { 0xB, 0xC, 0x14, 0x15 } };
+s8 dm_chaine_se_table_vs_178[4] = {
+    SND_INDEX_59,
+    SND_INDEX_75,
+    SND_INDEX_0,
+    SND_INDEX_0,
+};
+s8 dm_chaine_se_table_4p_179[4][3] = {
+    { SND_INDEX_77, SND_INDEX_76, SND_INDEX_75 },
+    { SND_INDEX_59, SND_INDEX_77, SND_INDEX_76 },
+    { SND_INDEX_75, SND_INDEX_59, SND_INDEX_77 },
+    { SND_INDEX_76, SND_INDEX_75, SND_INDEX_59 },
+};
+s32 rotate_table_474[4] = { 1, 3, 4, 2 };
+s32 rotate_mtx_475[6] = { 2, 0, 3, 1, 2, 0 };
+s32 D_800A6FC4 = 0;
+bool visible_fall_point[4] = {
+#if VERSION_US
+    true,
+    true,
+    true,
+    true,
+#elif VERSION_GW || VERSION_CN
+    false,
+    false,
+    false,
+    false,
+#else
+#error ""
+#endif
+};
+
 #ifdef NN_SC_PERF
-extern s32 D_800BEF08_cn;
+s32 D_800BEF08_cn = 0;
 #endif
 
 s32 func_800601F0(struct_game_state_data *gameStateDataRef, s32 arg1) {
@@ -121,9 +153,6 @@ s32 dm_make_score(struct_game_state_data *gameStateDataRef) {
     func_80060270(gameStateDataRef, temp_v0);
     return temp_v0;
 }
-
-extern s8 dm_chaine_se_table_vs_178[];    // sndindex
-extern s8 dm_chaine_se_table_4p_179[][3]; // sndindex
 
 void dm_attack_se(struct_game_state_data *gameStateData, s32 arg1) {
     s32 i;
@@ -1567,6 +1596,17 @@ const Color_RGB8 _scoreNumsColor[] = {
 };
 
 #include "dm_game_main.msg.inc"
+
+s32 _n_1199[] = { 0xA, 0x14, 0x1E };
+u8 D_800A7360[] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x11, 0, 0, 0, 0x22, 0, 0, 0, 0x33,
+};
+u8 tbl_4589[] = { 0, 1, 2, 1 };
+Color_RGBA8 col_4590[3] = {
+    { 255, 0, 80, 255 },
+    { 255, 200, 0, 255 },
+    { 100, 100, 255, 255 },
+};
 
 const s32 _posStP4StarX[4] = {
     0xCD,
@@ -5201,9 +5241,6 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-
-extern u8 tbl_4589[];
-extern Color_RGBA8 col_4590[];
 
 void draw_flash_virus_light(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     struct_watchGame *watchGameP = watchGame;

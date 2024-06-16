@@ -535,13 +535,17 @@ segments:
       - [0x070C90, .data, main_segment/nnsched]
       - [0x070D10, .data, main_segment/graphic]
       - [0x070D50, data, main_segment/070D50] # TODO: main_segment/graphics/graphic_dlists
+
       - [0x070FF0, .data, main_segment/audio/music_driver]
+
       - [0x071000, .data, main_segment/main1x]
+
       - [0x071080, .data, main_segment/vr_init]
-      - [0x071090, data, main_segment/071090]
+      - [0x071090, .data, main_segment/aiset]
+
       - [0x0723A0, data, main_segment/0723A0]
-      - [0x075BA0, data, main_segment/unused/020D10]
-      - [0x075BF0, data, main_segment/075BF0]
+      - [0x075BA0, .data, main_segment/unused/020D10]
+      - [0x075BF0, .data, main_segment/game_etc]
 
       - [0x075DE0, .data, main_segment/screen_print/printf_impl]
 
@@ -584,7 +588,18 @@ segments:
           - [0x08C688, i4, main_segment/font/font_grade_tex, 12, 12]
           - [0x08C6D0]
 
-      - [0x08FB80, data, main_segment/08FB80]
+      - [0x08FB80, .data, main_segment/dm_game_main]
+      - [0x08FF90, .data, main_segment/dm_title_main]
+      - [0x08FFA0, data, main_segment/08F1C0]
+
+      - start: 0x08FFC0
+        type: .data
+        name: main_segment/main_story
+        subsegments:
+          - [0x08FFC0, i4, main_segment/main_story/curtain_alpha_00_tex, 32, 48]
+          - [0x0902C0, rgba16, main_segment/main_story/curtain_00_tex, 32, 48]
+          - [0x090EC0, i4, main_segment/main_story/changestar_tex, 64, 64]
+          - [0x0916C0]
 
       - [0x093A60, .data, main_segment/calc]
 

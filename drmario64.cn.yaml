@@ -456,16 +456,17 @@ segments:
       - [0x07AF30, .data, main_segment/audio/music_driver]
 
       - [0x07AF40, .data, main_segment/main1x]
+
       - [0x07AFC0, .data, main_segment/vr_init]
-      - [0x07AFD0, data, main_segment/aiset]
+      - [0x07AFD0, .data, main_segment/aiset]
 
       - [0x07C2E0, data, main_segment/record]
 
-      - [0x07FAE0, data, main_segment/unused/020D10]
+      - [0x07FAE0, .data, main_segment/unused/020D10]
 
-      - [0x07FB30, data, main_segment/game_etc]
+      - [0x07FB30, .data, main_segment/game_etc]
 
-      - [0x07FD20, data, main_segment/07FD20] # unreferenced
+      - [0x07FD20, data, main_segment/0750C0] # unreferenced
 
       - start: 0x07FD50
         type: .data
@@ -507,13 +508,20 @@ segments:
           - [0x0A6BD0]
 
 
-      - [0x0A6BE0, data, main_segment/dm_game_main]
+      - [0x0A6BE0, .data, main_segment/dm_game_main]
 
-      - [0x0A6FC0, data, main_segment/dm_title_main]
+      - [0x0A6FC0, .data, main_segment/dm_title_main]
 
       - [0x0A6FD0, data, main_segment/0A6FD0] # unreferenced
 
-      - [0x0A6FF0, data, main_segment/main_story]
+      - start: 0x0A6FF0
+        type: .data
+        name: main_segment/main_story
+        subsegments:
+          - [0x0A6FF0, i4, main_segment/main_story/curtain_alpha_00_tex, 32, 48]
+          - [0x0A72F0, rgba16, main_segment/main_story/curtain_00_tex, 32, 48]
+          - [0x0A7EF0, i4, main_segment/main_story/changestar_tex, 64, 64]
+          - [0x0A86F0]
 
       - [0x0AA710, .data, main_segment/calc]
 
@@ -531,6 +539,7 @@ segments:
       - [0x0ABB00, .rodata, main_segment/graphic]
       - [0x0ABB20, .rodata, main_segment/main1x]
       - [0x0ABCB0, .rodata, main_segment/aiset]
+
       - { start: 0x0ABD40, type: .rodata, name: main_segment/record, str_encoding: shift-jis }
 
       - [0x0ABDB0, .rodata, main_segment/unused/020D10]
@@ -560,6 +569,7 @@ segments:
       - [0x0B1220, .rodata, main_segment/dm_title_main]
 
       - [0x0B12B0, .rodata, main_segment/main_story]
+
       - [0x0B1330, .rodata, main_segment/calc]
 
       - [0x0B1380, .rodata, main_segment/unused/065080]

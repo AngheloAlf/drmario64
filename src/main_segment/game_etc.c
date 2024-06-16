@@ -13,8 +13,65 @@
 #include "lws.h"
 #include "066840.h"
 
+s32 pause_table[][6] = {
+    { 2, 8, 1, 0, 2, 2 },
+    { 3, 7, 2, 0, 1, 2 },
+};
+s32 cont_table[][6] = {
+    { 2, 0, 1, 0, 3, 3 },
+    { 3, 6, 2, 0, 2, 3 },
+    { 2, 4, 1, 0, 1, 1 },
+    { 3, 9, 2, 0, 1, 3 },
+};
+// TODO: these are offsets within the asset file.
+s32 etc_parts_tbl[] = {
+    0,      0x1310, 0x1960, 0x21B0, 0x2620, 0x3930, 0x3F80, 0x5A90,
+    0x75A0, 0x88B0, 0xA3C0, 0xA7D0, 0xABE0, 0,      0xAF58, 0x24198,
+};
+s32 x2p[2] = { -0x5C, 0x5C };
+s32 x4p[4] = { -0x6C, -0x24, 0x24, 0x6C };
+Vp etc_vp = { {
+    { 0x280, 0x1E0, 0x1FF, 0 },
+    { 0x280, 0x1E0, 0x1FF, 0 },
+} };
+Gfx etc_setup[] = {
+    gsDPPipeSync(),
+    gsSPViewport(&etc_vp),
+    gsDPSetBlendColor(0, 0, 0, 4),
+    gsDPSetScissor(G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
+    gsDPSetCycleType(G_CYC_1CYCLE),
+    gsDPPipelineMode(G_PM_1PRIMITIVE),
+    gsDPSetRenderMode(G_RM_AA_OPA_SURF, G_RM_AA_OPA_SURF2),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
+    gsSPClearGeometryMode(G_ZBUFFER | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD |
+                          G_SHADING_SMOOTH),
+    gsSPSetGeometryMode(G_SHADE | G_CULL_BACK),
+    gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPSetTextureFilter(G_TF_BILERP),
+    gsDPSetTexturePersp(G_TP_NONE),
+    gsDPPipeSync(),
+    gsSPEndDisplayList(),
+};
+Color_RGB32 col_prim_434[] = {
+    { 255, 0, 48 },
+    { 64, 64, 255 },
+    { 255, 200, 0 },
+    { 0, 255, 0 },
+};
+Color_RGB32 col_env_435[] = {
+    { 255, 192, 210 },
+    { 220, 220, 255 },
+    { 255, 255, 220 },
+    { 210, 255, 210 },
+};
+
 void initEtcWork(void *arg0, s32 arg1) {
     s32 i;
+
     if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
         logo_ofsY = 0x10;
     } else {
@@ -29,7 +86,7 @@ void initEtcWork(void *arg0, s32 arg1) {
     for (i = 0; i < 0xE; i++) {
         uintptr_t temp = (uintptr_t)etcLwsAddress[i];
 
-        temp = (temp & 0x00FFFFFF) + (uintptr_t)arg0 + etc_parts_tbl[0xE];
+        temp = (uintptr_t)RELOCATE_SEGMENTED(temp, arg0) + etc_parts_tbl[0xE];
         etcLwsTbl.unk_00[i] = (UNK_PTR)temp;
     }
 
@@ -705,17 +762,16 @@ void disp_timestop_logo(Gfx **gfxP, s32 arg1) {
     gDPSetCombineLERP(gfx++, 0, 0, 0, 0, 0, 0, 0, TEXEL0, 0, 0, 0, 0, 0, 0, 0, TEXEL0);
     gDPSetTextureLUT(gfx++, G_TT_NONE);
 
-    StretchTexBlock4i(&gfx, sp30.width, sp30.height, sp30.texture, 43.0f, 157.0f, (f32)sp30.width, (f32)sp30.height);
+    StretchTexBlock4i(&gfx, sp30.width, sp30.height, sp30.texture, 43.0f, 157.0f, sp30.width, sp30.height);
     get_gbi_stat(&sp30, etcTexAddress + etc_parts_tbl[0xA]);
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
-    StretchTexBlock4(&gfx, sp30.width, sp30.height, sp30.tlut, sp30.texture, 43.0f, 157.0f, (f32)sp30.width,
-                     (f32)sp30.height);
+    StretchTexBlock4(&gfx, sp30.width, sp30.height, sp30.tlut, sp30.texture, 43.0f, 157.0f, sp30.width, sp30.height);
     if (temp_s3->unk_10[4] & 0x10) {
         get_gbi_stat(&sp30, etcTexAddress + etc_parts_tbl[0xC]);
-        StretchTexBlock4(&gfx, sp30.width, sp30.height, sp30.tlut, sp30.texture, 37.0f, 175.0f, (f32)sp30.width,
-                         (f32)sp30.height);
+        StretchTexBlock4(&gfx, sp30.width, sp30.height, sp30.tlut, sp30.texture, 37.0f, 175.0f, sp30.width,
+                         sp30.height);
     }
     temp_s3->unk_10[4]++;
 
@@ -788,7 +844,7 @@ void disp_attack_effect(Gfx **gfxP) {
 
         temp_fs0 =
             attack_effect[var_s6].unk_14 - temp_ft0 * (attack_effect[var_s6].unk_14 - attack_effect[var_s6].unk_0C);
-        temp_fs0 -= var_fs4 * sinf(((temp_ft0 * 180.0 * 3.141592653589793) / 180.0));
+        temp_fs0 -= var_fs4 * sinf(((temp_ft0 * 180.0 * M_PI) / 180.0));
 
         attack_effect[var_s6].unk_00 = temp_fs1 + 0.5;
         attack_effect[var_s6].unk_04 = temp_fs0 + 0.5;

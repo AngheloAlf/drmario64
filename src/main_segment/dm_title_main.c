@@ -23,6 +23,26 @@
 #include "main_story.h"
 #include "nnsched.h"
 
+/**
+ * Original name: title_demo_flg
+ */
+s32 title_demo_flg = 0;
+
+/**
+ * Original name: title_demo_no
+ */
+s32 title_demo_no = 0;
+
+/**
+ * Original name: title_manual_no
+ */
+s32 title_manual_no = 0;
+
+/**
+ * Original name: title_exit_flag
+ */
+s32 title_exit_flag = 0;
+
 void func_80075F30(void) {
     title_exit_flag = 0;
     title_mode_type = 0;

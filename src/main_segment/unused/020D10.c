@@ -7,6 +7,19 @@
 #include "buffers.h"
 #include "graphic.h"
 
+Gfx D_8008CFA0[] = {
+    gsDPPipeSync(),
+    gsSPGeometryMode(0, 0),
+    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
+    gsDPSetCycleType(G_CYC_COPY),
+    gsDPSetRenderMode(G_RM_NOOP, G_RM_NOOP2),
+    gsDPSetCombineLERP(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsSPEndDisplayList(),
+};
+
+s32 D_8008CFE0 = 0;
+
 #define STRUCT_800E53B0_A_UNK_LEN 3
 
 typedef struct struct_800E53B0_a {
@@ -791,6 +804,7 @@ void func_8003A7E4(Gfx **gfxP) {
     ptr->unk_78 += 1;
 }
 
+// init?
 void *func_8003A89C(void *heap, s32 arg1) {
     D_8008CFE0 = arg1;
 
@@ -807,6 +821,7 @@ void *func_8003A89C(void *heap, s32 arg1) {
     return heap;
 }
 
+// update?
 s32 func_8003A8F4(void) {
     s32 var_v1 = 0;
 
@@ -823,6 +838,7 @@ s32 func_8003A8F4(void) {
     return var_v1;
 }
 
+// draw?
 void func_8003A950(Gfx **gfxP) {
     switch (D_8008CFE0) {
         case 0x1:

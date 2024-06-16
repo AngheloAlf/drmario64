@@ -106,34 +106,34 @@ typedef enum enum_800E5930 {
 } enum_800E5930;
 
 typedef struct struct_ai_param {
-    /* 0x00 */ UNK_TYPE2 unk_00;
-    /* 0x02 */ UNK_TYPE2 unk_02;
-    /* 0x04 */ UNK_TYPE2 unk_04;
-    /* 0x06 */ UNK_TYPE2 unk_06;
-    /* 0x08 */ UNK_TYPE2 unk_08;
-    /* 0x0A */ UNK_TYPE2 unk_0A;
-    /* 0x0C */ UNK_TYPE2 unk_0C;
-    /* 0x0E */ UNK_TYPE2 unk_0E;
-    /* 0x10 */ UNK_TYPE2 unk_10;
-    /* 0x12 */ UNK_TYPE2 unk_12;
-    /* 0x14 */ UNK_TYPE2 unk_14;
-    /* 0x16 */ UNK_TYPE2 unk_16;
-    /* 0x18 */ UNK_TYPE2 unk_18;
-    /* 0x1A */ UNK_TYPE2 unk_1A;
-    /* 0x1C */ UNK_TYPE2 unk_1C;
-    /* 0x1E */ UNK_TYPE2 unk_1E;
-    /* 0x20 */ UNK_TYPE2 unk_20;
-    /* 0x22 */ UNK_TYPE2 unk_22;
-    /* 0x24 */ UNK_TYPE2 unk_24;
-    /* 0x26 */ UNK_TYPE2 unk_26;
-    /* 0x28 */ UNK_TYPE2 unk_28;
-    /* 0x2A */ UNK_TYPE2 unk_2A;
-    /* 0x2C */ UNK_TYPE2 unk_2C;
-    /* 0x2E */ UNK_TYPE2 unk_2E;
-    /* 0x30 */ UNK_TYPE2 unk_30;
-    /* 0x32 */ UNK_TYPE2 unk_32;
-    /* 0x34 */ UNK_TYPE2 unk_34;
-    /* 0x36 */ UNK_TYPE2 unk_36;
+    /* 0x00 */ s16 unk_00;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ s16 unk_08;
+    /* 0x0A */ s16 unk_0A;
+    /* 0x0C */ s16 unk_0C;
+    /* 0x0E */ s16 unk_0E;
+    /* 0x10 */ s16 unk_10;
+    /* 0x12 */ s16 unk_12;
+    /* 0x14 */ s16 unk_14;
+    /* 0x16 */ s16 unk_16;
+    /* 0x18 */ s16 unk_18;
+    /* 0x1A */ s16 unk_1A;
+    /* 0x1C */ s16 unk_1C;
+    /* 0x1E */ s16 unk_1E;
+    /* 0x20 */ s16 unk_20;
+    /* 0x22 */ s16 unk_22;
+    /* 0x24 */ s16 unk_24;
+    /* 0x26 */ s16 unk_26;
+    /* 0x28 */ s16 unk_28;
+    /* 0x2A */ s16 unk_2A;
+    /* 0x2C */ s16 unk_2C;
+    /* 0x2E */ s16 unk_2E;
+    /* 0x30 */ s16 unk_30;
+    /* 0x32 */ s16 unk_32;
+    /* 0x34 */ s16 unk_34;
+    /* 0x36 */ s16 unk_36;
 } struct_ai_param; // size = 0x38
 
 #define AI_PARAM_LEN1 6

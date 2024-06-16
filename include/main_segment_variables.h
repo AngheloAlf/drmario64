@@ -74,9 +74,6 @@ extern u8 capsCCnv_123[];
 extern struct_ai_param ai_param_org[AI_PARAM_LEN1][AI_PARAM_LEN2];
 extern struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN];
 
-// extern UNK_TYPE D_8008CFA0;
-extern s32 D_8008CFE0;
-
 extern u8 virus_anime_table[3][4];
 // extern UNK_TYPE dm_chaine_se_table_vs_178;
 // extern UNK_TYPE dm_chaine_se_table_4p_179;
@@ -100,10 +97,6 @@ extern u8 D_800A7360[];
 // extern UNK_TYPE D_800A7379;
 // extern UNK_TYPE D_800A737A;
 // extern UNK_TYPE D_800A737B;
-extern s32 title_demo_flg;
-extern s32 title_demo_no; /* Original name: title_demo_no */
-extern s32 title_manual_no;
-extern s32 title_exit_flag; /* Original name: title_exit_flag */
 
 // extern UNK_TYPE D_800A73A0;
 // extern UNK_TYPE D_800A73B8;

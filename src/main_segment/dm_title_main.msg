@@ -1,4 +1,4 @@
-const char STR_800B32A8[] = ""
+const char STR_800B32A8[] =
 #if VERSION_US || VERSION_GW
     "This game is not designed" MSG_NEWLINE
     "for use on this system."

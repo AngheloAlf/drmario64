@@ -262,18 +262,20 @@ $(BUILD_DIR)/src/buffers/%.o:  CFLAGS   += -fno-common
 
 # per-file flags
 
-$(BUILD_DIR)/asm/cn/data/main_segment/debug_menu.rodata.o: OUT_ENCODING := Shift-JIS
-$(BUILD_DIR)/src/main_segment/debug_menu.o:                OUT_ENCODING := Shift-JIS
+$(BUILD_DIR)/asm/cn/data/main_segment/debug_menu.rodata.o: 		OUT_ENCODING := Shift-JIS
+$(BUILD_DIR)/src/main_segment/debug_menu.o:                		OUT_ENCODING := Shift-JIS
 
-$(BUILD_DIR)/asm/cn/data/main_segment/msgwnd.rodata.o: OUT_ENCODING := Shift-JIS
-$(BUILD_DIR)/src/main_segment/msgwnd.o:                OUT_ENCODING := Shift-JIS
+$(BUILD_DIR)/asm/cn/data/main_segment/msgwnd.rodata.o:     		OUT_ENCODING := Shift-JIS
+$(BUILD_DIR)/src/main_segment/msgwnd.o:                    		OUT_ENCODING := Shift-JIS
 
-$(BUILD_DIR)/src/main_segment/record.o:                OUT_ENCODING := Shift-JIS
+$(BUILD_DIR)/src/main_segment/record.o:                    		OUT_ENCODING := Shift-JIS
 
-$(BUILD_DIR)/src/main_segment/main_menu.o:             OUT_ENCODING := Shift-JIS
+$(BUILD_DIR)/src/main_segment/main_menu.o:                    	OUT_ENCODING := Shift-JIS
 
 $(BUILD_DIR)/asm/$(VERSION)/data/main_segment/066580.data.o:    OUT_ENCODING := Shift-JIS
 $(BUILD_DIR)/src/main_segment/066580.o:                         OUT_ENCODING := Shift-JIS
+
+$(BUILD_DIR)/src/main_segment/main_story.o:                     OUT_ENCODING := Shift-JIS
 
 #### Main Targets ###
 
