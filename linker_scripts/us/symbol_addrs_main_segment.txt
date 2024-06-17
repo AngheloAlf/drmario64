@@ -1250,7 +1250,9 @@ BASC = 0x8008D1F4; //
 _div_data = 0x8008D208; // type:f64 size:0x48
 _mul_data = 0x8008D250; // type:f64 size:0x48
 
-D_8008D2A0 = 0x8008D2A0; // type:s32
+D_8008D2A0 = 0x8008D2A0; // type:Gfx
+D_8008D2A8 = 0x8008D2A8; //
+D_8008D2C8 = 0x8008D2C8; // type:Gfx
 sDebugPrintFontTex = 0x8008D2D0; // size:0xF00
 sDebugPrintFontMap = 0x8008E1D0; //
 D_8008E290 = 0x8008E290; //
@@ -1347,8 +1349,9 @@ title_demo_flg = 0x800A7390; //
 title_demo_no = 0x800A7394; //
 title_manual_no = 0x800A7398; //
 title_exit_flag = 0x800A739C; //
+
 D_800A73A0 = 0x800A73A0; //
-D_800A73B8 = 0x800A73B8; //
+D_800A73B8 = 0x800A73B8; // type:Gfx
 curtain_alpha_00_tex = 0x800A73C0; //
 curtain_00_tex = 0x800A76C0; //
 changestar_tex = 0x800A82C0; //

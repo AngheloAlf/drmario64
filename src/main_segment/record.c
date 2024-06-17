@@ -20,7 +20,6 @@
 #include "audio/sound.h"
 #endif
 
-#if VERSION_US
 #define MESS_PANEL_TEX_WIDTH 200
 #define MESS_PANEL_TEX_HEIGHT 69
 
@@ -38,7 +37,6 @@ static_assert(sizeof(mess_panel_tex) == MESS_PANEL_TEX_WIDTH * MESS_PANEL_TEX_HE
               "Texture does not have the expected resolution");
 
 bool _cached_1332 = false;
-#endif
 
 /**
  * Original name: eeprom_header

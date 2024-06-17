@@ -472,7 +472,6 @@ segments:
       - [0x0128A0, c, main_segment/audio/sound]
       - [0x0132B0, c, main_segment/graphic]
       - [0x013B40, c, main_segment/graphics/static]
-      - [auto, c, main_segment/graphics/graphic_dlists]
 
       - [0x014F90, c, main_segment/audio/music_driver]
 
@@ -540,20 +539,7 @@ segments:
 
       - [0x06FF20, .data, main_segment/nnsched]
       - [0x06FF30, .data, main_segment/graphic]
-
-      - start: 0x06FF70
-        type: .data
-        name: main_segment/graphics/graphic_dlists
-        subsegments:
-          - { start: 0x06FF70, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/S2RDPinit_dl }
-          - { start: 0x06FFD8, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/S2ClearCFB_dl }
-          - { start: 0x070000, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/S2Spriteinit_dl }
-          - { start: 0x070048, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/F3RDPinit_dl }
-          - { start: 0x070128, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/F3SetupRDP_dl }
-          - { start: 0x070148, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/F3SetupRSP_dl }
-          - { start: 0x070180, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/D_80088360 }
-          - { start: 0x0701C8, type: gfx, data_only: True, name: main_segment/graphics/graphic_dlists/D_800883A8 }
-
+      - [0x06FF70, .data, main_segment/graphics/static]
       - [0x070210, .data, main_segment/audio/music_driver]
 
       - [0x070220, .data, main_segment/main1x]
@@ -577,31 +563,20 @@ segments:
 
       - [0x075000, .data, main_segment/screen_print/printf_impl]
 
-      - [0x0750C0, data, main_segment/0750C0] # unreferenced?
-
-      - start: 0x0750F0
+      - start: 0x0750C0
         type: .data
         name: main_segment/screen_print/debug_print
+        dir: main_segment/screen_print/debug_print
         subsegments:
-        - [0x0750F0, i4, main_segment/screen_print/debug_print/sDebugPrintFontTex, 160, 48]
+        - [0x0750C0]
+        - [0x0750F0, i4, sDebugPrintFontTex, 160, 48]
         - [0x075FF0]
-        - { start: 0x0760B0, type: gfx, data_only: True, name: main_segment/screen_print/debug_print/D_8008E290 }
-        - [0x076160]
 
       - [0x076190, .data, main_segment/debug_menu]
 
       - [0x0763F0, .data, main_segment/bg_tasks]
 
-      - start: 0x076400
-        type: .data
-        name: main_segment/tex_func
-        dir: main_segment/tex_func
-        subsegments:
-          - { start: 0x076400, type: gfx, data_only: True, name: copy_texture_init_dl }
-          - { start: 0x076470, type: gfx, data_only: True, name: alpha_texture_init_dl }
-          - { start: 0x0764D8, type: gfx, data_only: True, name: normal_texture_init_dl }
-          - { start: 0x076548, type: gfx, data_only: True, name: D_8008E728 }
-          - { start: 0x076568, type: gfx, data_only: True, name: init_dl_155 }
+      - [0x076400, .data, main_segment/tex_func]
 
       - [0x076590, .data, main_segment/main_menu]
 
@@ -620,15 +595,15 @@ segments:
 
       - [0x08F1B0, .data, main_segment/dm_title_main]
 
-      - [0x08F1C0, data, main_segment/08F1C0] # unreferenced, maybe part of main_story?
-
-      - start: 0x08F1E0
+      - start: 0x08F1C0
         type: .data
         name: main_segment/main_story
+        dir: main_segment/main_story
         subsegments:
-          - [0x08F1E0, i4, main_segment/main_story/curtain_alpha_00_tex, 32, 48]
-          - [0x08F4E0, rgba16, main_segment/main_story/curtain_00_tex, 32, 48]
-          - [0x0900E0, i4, main_segment/main_story/changestar_tex, 64, 64]
+          - [0x08F1C0]
+          - [0x08F1E0, i4, curtain_alpha_00_tex, 32, 48]
+          - [0x08F4E0, rgba16, curtain_00_tex, 32, 48]
+          - [0x0900E0, i4, changestar_tex, 64, 64]
           - [0x0908E0]
 
       - [0x092C80, .data, main_segment/calc]
@@ -664,12 +639,7 @@ segments:
       - [0x095960, .rodata, main_segment/tex_func]
       - [0x095A30, .rodata, main_segment/main_menu]
 
-      - start: 0x099770
-        type: .rodata
-        name: main_segment/font
-        subsegments:
-        - { start: 0x099770, type: gfx, data_only: True, name: main_segment/font/init_dl_135 }
-        - [0x099798]
+      - [0x099770, .rodata, main_segment/font]
 
       - [0x0997B0, .rodata, main_segment/msgwnd]
       - [0x099880, .rodata, main_segment/char_anime]

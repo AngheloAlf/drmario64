@@ -1,14 +1,43 @@
+#include "screen_print/debug_print.h"
+
 #include "libultra.h"
-#include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "main_segment_variables.h"
-#include "screen_print/debug_print.h"
 #include "screen_print/printf_impl.h"
+#include "libc/assert.h"
+
+// unused
+Gfx D_8008D2A0[] = {
+    gsSPEndDisplayList(),
+};
+
+// unused
+u8 D_8008D2A8[] = {
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0xFF, 0xFF,
+};
+
+// unused
+Gfx D_8008D2C8[] = {
+    gsSPEndDisplayList(),
+};
+
+#define DEBUG_PRINT_FONT_TEX_WIDTH 160
+#define DEBUG_PRINT_FONT_TEX_HEIGHT 48
 
 u8 sDebugPrintFontTex[] ALIGNED8 = {
 #include "main_segment/screen_print/debug_print/sDebugPrintFontTex.i4.inc"
 };
+
+static_assert(sizeof(sDebugPrintFontTex) == DEBUG_PRINT_FONT_TEX_WIDTH * DEBUG_PRINT_FONT_TEX_HEIGHT * sizeof(u8) / 2,
+              "Texture does not have the expected resolution");
 
 #define FONT_COLS_PER_ROW (26)
 
@@ -16,13 +45,7 @@ u8 sDebugPrintFontTex[] ALIGNED8 = {
 #define FONT_MAP_GET_ROW(value) ((value) % FONT_COLS_PER_ROW)
 #define FONT_MAP_GET_COL(value) ((value) / FONT_COLS_PER_ROW)
 
-#if VERSION_US || VERSION_GW
-#define FONTMAP_TYPE u8
-#else
-#define FONTMAP_TYPE s8
-#endif
-
-FONTMAP_TYPE sDebugPrintFontMap[] = {
+char sDebugPrintFontMap[] = {
     /* 0x20 ' '  */ -1,
     /* 0x21 '!'  */ -1,
     /* 0x22 '"'  */ -1,
@@ -218,7 +241,22 @@ FONTMAP_TYPE sDebugPrintFontMap[] = {
 };
 
 Gfx D_8008E290[] = {
-#include "main_segment/screen_print/debug_print/D_8008E290.gfx.inc.c"
+    gsDPPipeSync(),
+    gsDPSetCycleType(G_CYC_1CYCLE),
+    gsDPSetScissor(G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1),
+    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
+    gsDPSetRenderMode(G_RM_TEX_EDGE, G_RM_TEX_EDGE2),
+    gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
+    gsDPSetTexturePersp(G_TP_NONE),
+    gsDPSetTextureFilter(G_TF_POINT),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsDPSetColorDither(G_CD_BAYER),
+    gsDPLoadTextureBlock_4b(sDebugPrintFontTex, G_IM_FMT_I, DEBUG_PRINT_FONT_TEX_WIDTH, DEBUG_PRINT_FONT_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
+    gsSPEndDisplayList(),
 };
 
 Color_RGB8 D_8008E340[] = {
@@ -250,34 +288,16 @@ void DebugPrint_SetColor(Gfx **gfxP, s32 colorIndex) {
     *gfxP = gfx;
 }
 
-#if VERSION_US || VERSION_GW
-void DebugPrint_8003E278(Gfx **gfxP, s32 x, s32 y, s32 arg3) {
+void DebugPrint_8003E278(Gfx **gfxP, int x, int y, int arg3) {
     Gfx *gfx = *gfxP;
-    //! FAKE:
-    s32 s UNUSED = FONT_MAP_GET_ROW(arg3) * (DBGPRT_FONT_CHAR_WIDTH << 5);
-    s32 t UNUSED = FONT_MAP_GET_COL(arg3) * (DBGPRT_FONT_CHAR_HEIGHT << 5);
-
-    gSPScisTextureRectangle(gfx++, x << 2, y << 2, (x + DBGPRT_FONT_CHAR_WIDTH) << 2,
-                            (y + DBGPRT_FONT_CHAR_HEIGHT) << 2, G_TX_RENDERTILE,
-                            FONT_MAP_GET_ROW(arg3) * (DBGPRT_FONT_CHAR_WIDTH << 5),
-                            FONT_MAP_GET_COL(arg3) * (DBGPRT_FONT_CHAR_HEIGHT << 5), 1 << 10, 1 << 10);
-
-    *gfxP = gfx;
-}
-#endif
-
-#if VERSION_CN
-void DebugPrint_8003E278(Gfx **gfxP, s32 x, s32 y, s32 arg3) {
-    Gfx *gfx = *gfxP;
-    s32 s = FONT_MAP_GET_ROW(arg3) * (DBGPRT_FONT_CHAR_WIDTH << 5);
-    s32 t = FONT_MAP_GET_COL(arg3) * (DBGPRT_FONT_CHAR_HEIGHT << 5);
+    int s = (FONT_MAP_GET_ROW(arg3) * DBGPRT_FONT_CHAR_WIDTH) << 5;
+    int t = (FONT_MAP_GET_COL(arg3) * DBGPRT_FONT_CHAR_HEIGHT) << 5;
 
     gSPScisTextureRectangle(gfx++, x << 2, y << 2, (x + DBGPRT_FONT_CHAR_WIDTH) << 2,
                             (y + DBGPRT_FONT_CHAR_HEIGHT) << 2, G_TX_RENDERTILE, s, t, 1 << 10, 1 << 10);
 
     *gfxP = gfx;
 }
-#endif
 
 void DebugPrint_DrawCharacter(Gfx **gfxP, s32 x, s32 y, s32 character) {
     if (character - 0x20 - 1 < ARRAY_COUNTU(sDebugPrintFontMap) - 1) {
@@ -362,7 +382,7 @@ s32 DebugPrint_CallbackPutChars(Printer *printer, const char *chars, size_t leng
             } else if (character < ' ') {
                 switch (character) {
                     case '\t':
-                        state->curCol = (state->curCol + 4) & ~3;
+                        state->curCol = ALIGN4(state->curCol + 1);
                         break;
 
                     case '\n':

@@ -1010,7 +1010,11 @@ struct_800A6F70 *_tbl_133[] = { D_800A3AD0, D_800A3BD0 };
  * Original name: static init_dl
  */
 const Gfx init_dl_135[] = {
-#include "main_segment/font/init_dl_135.gfx.inc.c"
+    gsSPDisplayList(normal_texture_init_dl),
+    gsDPSetRenderMode(G_RM_XLU_SURF, G_RM_XLU_SURF2),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0),
+    gsSPEndDisplayList(),
 };
 
 /**

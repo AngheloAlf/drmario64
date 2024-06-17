@@ -17,7 +17,6 @@
 #include "joy.h"
 #include "record.h"
 #include "vr_init.h"
-#include "graphics/graphic_dlists.h"
 #include "main1x.h"
 #include "tex_func.h"
 #include "main_story.h"

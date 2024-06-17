@@ -15,32 +15,77 @@
  * Original name: copy_texture_init_dl
  */
 Gfx copy_texture_init_dl[] = {
-#include "main_segment/tex_func/copy_texture_init_dl.gfx.inc.c"
+    gsDPPipeSync(),
+    gsDPSetCycleType(G_CYC_COPY),
+    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
+    gsDPSetRenderMode(G_RM_NOOP, G_RM_NOOP2),
+    gsDPSetCombineLERP(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    gsDPSetAlphaCompare(G_AC_THRESHOLD),
+    gsDPSetBlendColor(0x00, 0x00, 0x00, 0x01),
+    gsDPSetTextureFilter(G_TF_POINT),
+    gsDPSetTextureLUT(G_TT_RGBA16),
+    gsDPSetTexturePersp(G_TP_NONE),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsSPEndDisplayList(),
 };
 
 /**
  * Original name: alpha_texture_init_dl
  */
 Gfx alpha_texture_init_dl[] = {
-#include "main_segment/tex_func/alpha_texture_init_dl.gfx.inc.c"
+    gsDPPipeSync(),
+    gsDPSetCycleType(G_CYC_2CYCLE),
+    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
+    gsDPSetRenderMode(G_RM_PASS, G_RM_XLU_SURF2),
+    gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, TEXEL0, 0, 0, 0, COMBINED, 0, 0, 0, TEXEL0),
+    gsDPSetAlphaCompare(G_AC_NONE),
+    gsDPSetTextureFilter(G_TF_POINT),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPSetTexturePersp(G_TP_NONE),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsSPEndDisplayList(),
 };
 
 /**
  * Original name: normal_texture_init_dl
  */
 Gfx normal_texture_init_dl[] = {
-#include "main_segment/tex_func/normal_texture_init_dl.gfx.inc.c"
+    gsDPPipeSync(),
+    gsDPSetCycleType(G_CYC_1CYCLE),
+    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
+    gsDPSetRenderMode(G_RM_OPA_SURF, G_RM_OPA_SURF2),
+    gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
+    gsDPSetAlphaCompare(G_AC_THRESHOLD),
+    gsDPSetBlendColor(0x00, 0x00, 0x00, 0x01),
+    gsDPSetTextureFilter(G_TF_POINT),
+    gsDPSetTextureLUT(G_TT_RGBA16),
+    gsDPSetTexturePersp(G_TP_NONE),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsSPEndDisplayList(),
 };
 
 Gfx D_8008E728[] = {
-#include "main_segment/tex_func/D_8008E728.gfx.inc.c"
+    gsDPPipeSync(),
+    gsDPSetCycleType(G_CYC_FILL),
+    gsDPSetRenderMode(G_RM_NOOP, G_RM_NOOP2),
+    gsSPEndDisplayList(),
 };
 
 /**
  * Original name: init_dl_155
  */
 Gfx init_dl_155[] = {
-#include "main_segment/tex_func/init_dl_155.gfx.inc.c"
+    gsDPPipeSync(),
+    gsDPSetCycleType(G_CYC_1CYCLE),
+    gsDPSetRenderMode(G_RM_XLU_SURF, G_RM_XLU_SURF2),
+    gsDPSetCombineMode(G_CC_PRIMITIVE, G_CC_PRIMITIVE),
+    gsSPEndDisplayList(),
 };
 
 /**

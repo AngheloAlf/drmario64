@@ -1249,7 +1249,8 @@ col_prim_434 = 0x80097F90; // size:0x30
 col_env_435 = 0x80097FC0; // size:0x30
 
 D_8008D2A0 = 0x80097FF0; // type:Gfx
-
+D_8008D2A8 = 0x80097FF8; //
+D_8008D2C8 = 0x80098018; // type:Gfx
 sDebugPrintFontTex = 0x80098020; // size:0xF00
 sDebugPrintFontMap = 0x80098F20; //
 D_8008E290 = 0x80098FE0; //
@@ -1350,6 +1351,8 @@ title_demo_no = 0x800BF294; // size:0x4
 title_manual_no = 0x800BF298; // size:0x4
 title_exit_flag = 0x800BF29C; // size:0x4
 
+D_800A73A0 = 0x800BF2A0; //
+D_800A73B8 = 0x800BF2B8; // type:Gfx
 curtain_alpha_00_tex = 0x800BF2C0; //
 curtain_00_tex = 0x800BF5C0; //
 changestar_tex = 0x800C01C0; //

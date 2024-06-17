@@ -15,7 +15,6 @@
 #include "buffers.h"
 #include "gs2dex.h"
 #include "dm_thread.h"
-#include "graphics/graphic_dlists.h"
 #include "main_story.h"
 #include "dm_manual_main.h"
 #include "main_menu.h"

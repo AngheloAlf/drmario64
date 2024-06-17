@@ -534,8 +534,7 @@ segments:
 
       - [0x070C90, .data, main_segment/nnsched]
       - [0x070D10, .data, main_segment/graphic]
-      - [0x070D50, data, main_segment/070D50] # TODO: main_segment/graphics/graphic_dlists
-
+      - [0x070D50, .data, main_segment/graphics/static]
       - [0x070FF0, .data, main_segment/audio/music_driver]
 
       - [0x071000, .data, main_segment/main1x]
@@ -543,37 +542,35 @@ segments:
       - [0x071080, .data, main_segment/vr_init]
       - [0x071090, .data, main_segment/aiset]
 
-      - [0x0723A0, data, main_segment/0723A0]
+      - start: 0x0723A0
+        type: .data
+        name: main_segment/record
+        dir: main_segment/record
+        subsegments:
+          - [0x0723A0]
+          - [0x0723A8, palette, mess_panel_tex]
+          - [0x0725A8, ci8, mess_panel_tex, 200, 69]
+          - [0x075B90]
+
       - [0x075BA0, .data, main_segment/unused/020D10]
       - [0x075BF0, .data, main_segment/game_etc]
 
       - [0x075DE0, .data, main_segment/screen_print/printf_impl]
 
-      - [0x075EA0, data, main_segment/0750C0]
-
-      - start: 0x075ED0
+      - start: 0x075EA0
         type: .data
         name: main_segment/screen_print/debug_print
+        dir: main_segment/screen_print/debug_print
         subsegments:
-        - [0x075ED0, i4, main_segment/screen_print/debug_print/sDebugPrintFontTex, 160, 48]
+        - [0x075EA0]
+        - [0x075ED0, i4, sDebugPrintFontTex, 160, 48]
         - [0x076DD0]
-        - { start: 0x076E90, type: gfx, data_only: True, name: main_segment/screen_print/debug_print/D_8008E290 }
-        - [0x076F70]
 
       - [0x076F70, .data, main_segment/debug_menu]
 
       - [0x0771D0, .data, main_segment/bg_tasks]
 
-      - start: 0x0771E0
-        type: .data
-        name: main_segment/tex_func
-        dir: main_segment/tex_func
-        subsegments:
-          - { start: 0x0771E0, type: gfx, data_only: True, name: copy_texture_init_dl }
-          - { start: 0x077250, type: gfx, data_only: True, name: alpha_texture_init_dl }
-          - { start: 0x0772B8, type: gfx, data_only: True, name: normal_texture_init_dl }
-          - { start: 0x077328, type: gfx, data_only: True, name: D_8008E728 }
-          - { start: 0x077348, type: gfx, data_only: True, name: init_dl_155 }
+      - [0x0771E0, .data, main_segment/tex_func]
 
       - [0x077370, .data, main_segment/main_menu]
 
@@ -590,15 +587,16 @@ segments:
 
       - [0x08FB80, .data, main_segment/dm_game_main]
       - [0x08FF90, .data, main_segment/dm_title_main]
-      - [0x08FFA0, data, main_segment/08F1C0]
 
-      - start: 0x08FFC0
+      - start: 0x08FFA0
         type: .data
         name: main_segment/main_story
+        dir: main_segment/main_story
         subsegments:
-          - [0x08FFC0, i4, main_segment/main_story/curtain_alpha_00_tex, 32, 48]
-          - [0x0902C0, rgba16, main_segment/main_story/curtain_00_tex, 32, 48]
-          - [0x090EC0, i4, main_segment/main_story/changestar_tex, 64, 64]
+          - [0x08FFA0]
+          - [0x08FFC0, i4, curtain_alpha_00_tex, 32, 48]
+          - [0x0902C0, rgba16, curtain_00_tex, 32, 48]
+          - [0x090EC0, i4, changestar_tex, 64, 64]
           - [0x0916C0]
 
       - [0x093A60, .data, main_segment/calc]
@@ -631,12 +629,7 @@ segments:
       - [0x096740, .rodata, main_segment/tex_func]
       - [0x096810, .rodata, main_segment/main_menu]
 
-      - start: 0x09A550
-        type: .rodata
-        name: main_segment/font
-        subsegments:
-        - { start: 0x09A550, type: gfx, data_only: True, name: main_segment/font/init_dl_135 }
-        - [0x09A578]
+      - [0x09A550, .rodata, main_segment/font]
 
       - [0x09A590, .rodata, main_segment/msgwnd]
       - [0x09A660, .rodata, main_segment/char_anime]

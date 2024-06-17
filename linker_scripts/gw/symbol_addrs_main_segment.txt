@@ -1254,7 +1254,8 @@ _div_data = 0x8008E068; // type:f64 size:0x48
 _mul_data = 0x8008E0B0; // type:f64 size:0x48
 
 D_8008D2A0 = 0x8008E100; // type:Gfx
-
+D_8008D2A8 = 0x8008E108; //
+D_8008D2C8 = 0x8008E128; // type:Gfx
 sDebugPrintFontTex = 0x8008E130; // size:0xF00
 sDebugPrintFontMap = 0x8008F030; // type:u8
 D_8008E290 = 0x8008F0F0; //
@@ -1352,6 +1353,9 @@ title_demo_flg = 0x800A81F0; //
 title_demo_no = 0x800A81F4; //
 title_manual_no = 0x800A81F8; //
 title_exit_flag = 0x800A81FC; //
+
+D_800A73A0 = 0x800A8200; //
+D_800A73B8 = 0x800A8218; // type:Gfx
 curtain_alpha_00_tex = 0x800A8220; //
 curtain_00_tex = 0x800A8520; //
 changestar_tex = 0x800A9120; //

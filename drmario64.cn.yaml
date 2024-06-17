@@ -452,7 +452,7 @@ segments:
 
       - [0x07ABD0, .data, main_segment/nnsched]
       - [0x07AC50, .data, main_segment/graphic]
-      - [0x07AC90, data, main_segment/graphics/graphic_dlists]
+      - [0x07AC90, .data, main_segment/graphics/static]
       - [0x07AF30, .data, main_segment/audio/music_driver]
 
       - [0x07AF40, .data, main_segment/main1x]
@@ -460,37 +460,34 @@ segments:
       - [0x07AFC0, .data, main_segment/vr_init]
       - [0x07AFD0, .data, main_segment/aiset]
 
-      - [0x07C2E0, data, main_segment/record]
+      - start: 0x07C2E0
+        type: .data
+        name: main_segment/record
+        dir: main_segment/record
+        subsegments:
+          - [0x07C2E0]
+          - [0x07C2E8, palette, mess_panel_tex]
+          - [0x07C4E8, ci8, mess_panel_tex, 200, 69]
+          - [0x07FAD0]
 
       - [0x07FAE0, .data, main_segment/unused/020D10]
 
       - [0x07FB30, .data, main_segment/game_etc]
 
-      - [0x07FD20, data, main_segment/0750C0] # unreferenced
-
-      - start: 0x07FD50
+      - start: 0x07FD20
         type: .data
         name: main_segment/screen_print/debug_print
+        dir: main_segment/screen_print/debug_print
         subsegments:
-        - [0x07FD50, i4, main_segment/screen_print/debug_print/sDebugPrintFontTex, 160, 48]
+        - [0x07FD20]
+        - [0x07FD50, i4, sDebugPrintFontTex, 160, 48]
         - [0x080C50]
-        - { start: 0x080D10, type: gfx, data_only: True, name: main_segment/screen_print/debug_print/D_8008E290 }
-        - [0x080DF0]
 
       - [0x080DF0, .data, main_segment/debug_menu]
 
       - [0x081050, .data, main_segment/bg_tasks]
 
-      - start: 0x081060
-        type: .data
-        name: main_segment/tex_func
-        dir: main_segment/tex_func
-        subsegments:
-          - { start: 0x081060, type: gfx, data_only: True, name: copy_texture_init_dl }
-          - { start: 0x0810D0, type: gfx, data_only: True, name: alpha_texture_init_dl }
-          - { start: 0x081138, type: gfx, data_only: True, name: normal_texture_init_dl }
-          - { start: 0x0811A8, type: gfx, data_only: True, name: D_8008E728 }
-          - { start: 0x0811C8, type: gfx, data_only: True, name: init_dl_155 }
+      - [0x081060, .data, main_segment/tex_func]
 
       - [0x0811F0, .data, main_segment/main_menu]
 
@@ -512,15 +509,15 @@ segments:
 
       - [0x0A6FC0, .data, main_segment/dm_title_main]
 
-      - [0x0A6FD0, data, main_segment/0A6FD0] # unreferenced
-
-      - start: 0x0A6FF0
+      - start: 0x0A6FD0
         type: .data
         name: main_segment/main_story
+        dir: main_segment/main_story
         subsegments:
-          - [0x0A6FF0, i4, main_segment/main_story/curtain_alpha_00_tex, 32, 48]
-          - [0x0A72F0, rgba16, main_segment/main_story/curtain_00_tex, 32, 48]
-          - [0x0A7EF0, i4, main_segment/main_story/changestar_tex, 64, 64]
+          - [0x0A6FD0]
+          - [0x0A6FF0, i4, curtain_alpha_00_tex, 32, 48]
+          - [0x0A72F0, rgba16, curtain_00_tex, 32, 48]
+          - [0x0A7EF0, i4, changestar_tex, 64, 64]
           - [0x0A86F0]
 
       - [0x0AA710, .data, main_segment/calc]
@@ -551,11 +548,7 @@ segments:
 
       - [0x0AC7F0, .rodata, main_segment/main_menu]
 
-      - start: 0x0AFCE0
-        type: .rodata
-        name: main_segment/font
-        subsegments:
-        - { start: 0x0AFCE0, type: gfx, data_only: True, name: main_segment/font/init_dl_135 }
+      - [0x0AFCE0, .rodata, main_segment/font]
 
       - { start: 0x0AFD10, type: .rodata, name: main_segment/msgwnd, str_encoding: shift-jis }
       - [0x0AFDD0, .rodata, main_segment/char_anime]
