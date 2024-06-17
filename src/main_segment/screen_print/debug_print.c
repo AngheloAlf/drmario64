@@ -14,14 +14,8 @@ Gfx D_8008D2A0[] = {
 
 // unused
 u8 D_8008D2A8[] = {
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0xFF, 0xFF,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF,
 };
 
 // unused
@@ -243,7 +237,7 @@ char sDebugPrintFontMap[] = {
 Gfx D_8008E290[] = {
     gsDPPipeSync(),
     gsDPSetCycleType(G_CYC_1CYCLE),
-    gsDPSetScissor(G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH-1, SCREEN_HEIGHT-1),
+    gsDPSetScissor(G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1),
     gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
     gsDPSetRenderMode(G_RM_TEX_EDGE, G_RM_TEX_EDGE2),
     gsDPSetCombineMode(G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM),
@@ -254,7 +248,9 @@ Gfx D_8008E290[] = {
     gsDPSetTextureLUT(G_TT_NONE),
     gsDPSetTextureConvert(G_TC_FILT),
     gsDPSetColorDither(G_CD_BAYER),
-    gsDPLoadTextureBlock_4b(sDebugPrintFontTex, G_IM_FMT_I, DEBUG_PRINT_FONT_TEX_WIDTH, DEBUG_PRINT_FONT_TEX_HEIGHT, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD),
+    gsDPLoadTextureBlock_4b(sDebugPrintFontTex, G_IM_FMT_I, DEBUG_PRINT_FONT_TEX_WIDTH, DEBUG_PRINT_FONT_TEX_HEIGHT, 0,
+                            G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                            G_TX_NOLOD, G_TX_NOLOD),
     gsDPSetPrimColor(0, 0, 255, 255, 255, 255),
     gsSPEndDisplayList(),
 };
