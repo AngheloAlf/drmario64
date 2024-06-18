@@ -14,6 +14,7 @@
 #include "rom_offsets.h"
 #include "buffers.h"
 #include "main1x.h"
+#include "dm_thread.h"
 
 #define AUDIO_HEAP_SIZE 0x31000
 
@@ -268,7 +269,7 @@ void dm_audio_init_driver(NNSched *sc) {
     InitMusicDriver(sc, audio_memory, AUDIO_HEAP_SIZE,
                     _romDataTbl[ROMDATATBL_N64_PTR_TABLES].end - _romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
                     func_8002AA80(), 2, _romDataTbl[ROMDATATBL_INDEX2].end - _romDataTbl[ROMDATATBL_INDEX2].start, 4,
-                    50);
+                    THREAD_PRI_MUSIC_DRIVER);
 
     func_8002D3B0(_romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
                   _romDataTbl[ROMDATATBL_N64_PTR_TABLES].end - _romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
