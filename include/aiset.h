@@ -9,6 +9,55 @@
 
 struct struct_game_state_data;
 
+#define AI_PARAM_LEN1 6
+#define AI_PARAM_LEN2 8
+
+#define AI_CHAR_DATA_LEN (12+4)
+
+typedef struct struct_ai_param {
+    /* 0x00 */ s16 unk_00;
+    /* 0x02 */ s16 unk_02;
+    /* 0x04 */ s16 unk_04;
+    /* 0x06 */ s16 unk_06;
+    /* 0x08 */ s16 unk_08;
+    /* 0x0A */ s16 unk_0A;
+    /* 0x0C */ s16 unk_0C;
+    /* 0x0E */ s16 unk_0E;
+    /* 0x10 */ s16 unk_10;
+    /* 0x12 */ s16 unk_12;
+    /* 0x14 */ s16 unk_14;
+    /* 0x16 */ s16 unk_16;
+    /* 0x18 */ s16 unk_18;
+    /* 0x1A */ s16 unk_1A;
+    /* 0x1C */ s16 unk_1C;
+    /* 0x1E */ s16 unk_1E;
+    /* 0x20 */ s16 unk_20;
+    /* 0x22 */ s16 unk_22;
+    /* 0x24 */ s16 unk_24;
+    /* 0x26 */ s16 unk_26;
+    /* 0x28 */ s16 unk_28;
+    /* 0x2A */ s16 unk_2A;
+    /* 0x2C */ s16 unk_2C;
+    /* 0x2E */ s16 unk_2E;
+    /* 0x30 */ s16 unk_30;
+    /* 0x32 */ s16 unk_32;
+    /* 0x34 */ s16 unk_34;
+    /* 0x36 */ s16 unk_36;
+} struct_ai_param; // size = 0x38
+
+#define STRUCT_AI_CHAR_DATA_LEN 16
+
+typedef struct struct_ai_char_data {
+    /* 0x00 */ UNK_TYPE1 unk_00;
+    /* 0x01 */ UNK_TYPE1 unk_01;
+    /* 0x02 */ UNK_TYPE2 unk_02;
+    /* 0x04 */ s8 unk_04[8];
+    /* 0x0C */ s8 unk_0C[STRUCT_AI_CHAR_DATA_LEN];
+    /* 0x1C */ s16 unk_1C[STRUCT_AI_CHAR_DATA_LEN];
+    /* 0x3C */ s8 unk_3C[STRUCT_AI_CHAR_DATA_LEN];
+    /* 0x4C */ s16 unk_4C[STRUCT_AI_CHAR_DATA_LEN];
+} struct_ai_char_data; // size = 0x6C
+
 typedef struct Unk_AIFEntry {
     /* 0x0 */ u8 unk_0;
     /* 0x1 */ u8 unk_1;
@@ -57,5 +106,43 @@ void aifKeyOut(struct struct_game_state_data *gameStateDataRef);
 s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 flash_special(void);
 void aiCOM_MissTake(void);
+
+// data
+
+extern u8 D_80088490[];
+extern u8 aiVirusLevel[][3];
+extern u8 aiDownSpeed[][3];
+extern u8 aiSlideFSpeed[][3];
+extern u8 aiSlideSpeed[][3];
+extern s8 aiDebugP1;
+extern u8 capsGCnv_122[];
+extern u8 capsCCnv_123[];
+extern u8 aiLinePri[];
+extern u8 srh_466[][2];
+extern s16 bad_point[];
+extern s16 bad_point2[];
+extern s16 pri_point[];
+extern s16 EraseLinP[];
+extern f32 HeiEraseLinRate;
+extern f32 WidEraseLinRate;
+extern s16 HeiLinesAllp[];
+extern s16 WidLinesAllp[];
+extern s16 AloneCapP[];
+extern s16 AloneCapWP[];
+extern s32 OnVirusP;
+extern s16 D_800885D0;
+extern s16 RensaP;
+extern s16 RensaMP;
+extern s16 LPriP;
+extern u8 BadLineRate[][8];
+extern s16 WallRate[][8];
+extern s32 tbl_2973[];
+extern struct_ai_param ai_param_org[AI_PARAM_LEN1][AI_PARAM_LEN2];
+extern struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN];
+
+// bss
+
+extern struct_ai_char_data ai_char_data[AI_CHAR_DATA_LEN];
+extern struct_ai_param ai_param[AI_PARAM_LEN1][AI_PARAM_LEN2];
 
 #endif

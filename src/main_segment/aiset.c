@@ -37,12 +37,11 @@
  */
 
 #include "aiset.h"
+
 #include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
 #include "main_segment_variables.h"
 #include "gamemap.h"
 #include "main1x.h"
@@ -72,14 +71,14 @@ u8 aiSlideSpeed[8][3] = {
     { 5, 5, 5 },         { 5, 3, 2 },         { 1, 1, 1 },       { 5, 5, 5 },
 };
 s8 aiDebugP1 = -1;
-u8 capsGCnv_122[0x16] = { 0, 1, 2, 3, 4, 8, 8, 5, 5, 6, 6, 7, 7, 9, 9, 0xA, 5, 5, 6, 6, 7, 7 };
-u8 capsCCnv_123[6] = { 0, 1, 2, 0, 1, 2 };
-u8 aiLinePri[8] = { 4, 3, 5, 2, 6, 1, 7, 0 };
-u8 srh_466[4][2] = { { 1, 0 }, { 0xFF, 0 }, { 0, 1 }, { 0, 0xFF } };
-s16 bad_point[8] = { -0x5A, -0x10E, -0x168, -0x384, -0x384, -0x168, -0x10E, -0x5A };
-s16 bad_point2[8] = { -0x5A, -0x10E, -0x168, -0x2328, -0x2328, -0x168, -0x10E, -0x5A };
-s16 pri_point[9] = { 0, 0xB4, 9, 0, 0x1F, 0, 0, 0, 0 };
-s16 EraseLinP[9] = { 0, 0x1E, 0x5A, 0xB4, 0x10E, 0x168, 0x21C, 0x21C, 0x21C };
+u8 capsGCnv_122[] = { 0, 1, 2, 3, 4, 8, 8, 5, 5, 6, 6, 7, 7, 9, 9, 0xA, 5, 5, 6, 6, 7, 7, };
+u8 capsCCnv_123[] = { 0, 1, 2, 0, 1, 2, };
+u8 aiLinePri[] = { 4, 3, 5, 2, 6, 1, 7, 0, };
+u8 srh_466[][2] = { { 1, 0 }, { 0xFF, 0 }, { 0, 1 }, { 0, 0xFF }, };
+s16 bad_point[] = { -0x5A, -0x10E, -0x168, -0x384, -0x384, -0x168, -0x10E, -0x5A, };
+s16 bad_point2[] = { -0x5A, -0x10E, -0x168, -0x2328, -0x2328, -0x168, -0x10E, -0x5A, };
+s16 pri_point[] = { 0, 0xB4, 9, 0, 0x1F, 0, 0, 0, 0, };
+s16 EraseLinP[] = { 0, 0x1E, 0x5A, 0xB4, 0x10E, 0x168, 0x21C, 0x21C, 0x21C, };
 f32 HeiEraseLinRate = 1.0f;
 f32 WidEraseLinRate = 1.0f;
 
@@ -87,9 +86,9 @@ s16 HeiLinesAllp[] = {
     0x00, 0x00, 0x0E, 0x28, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D,
 };
 
-s16 WidLinesAllp[9] = { 0, 0, 0xE, 0x28, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D };
-s16 AloneCapP[6] = { 0, -0x3C, -0x46, -0x5A, -0x50, -0x64 };
-s16 AloneCapWP[6] = { 0, 0, 0, 0, 0, 0 };
+s16 WidLinesAllp[] = { 0, 0, 0xE, 0x28, 0x2D, 0x2D, 0x2D, 0x2D, 0x2D };
+s16 AloneCapP[] = { 0, -0x3C, -0x46, -0x5A, -0x50, -0x64 };
+s16 AloneCapWP[] = { 0, 0, 0, 0, 0, 0 };
 s32 OnVirusP = 0;
 
 // unused
@@ -98,20 +97,20 @@ s16 D_800885D0 = 0x0028;
 s16 RensaP = 0x12C;
 s16 RensaMP = -0x12C;
 s16 LPriP = 0;
-u8 BadLineRate[4][8] = {
+u8 BadLineRate[][8] = {
     { 6, 7, 8, 9, 9, 8, 7, 6 },
     { 6, 7, 8, 9, 9, 8, 7, 6 },
     { 2, 2, 4, 7, 7, 4, 2, 2 },
     { 1, 1, 2, 4, 4, 2, 1, 1 },
 };
-s16 WallRate[4][8] = {
+s16 WallRate[][8] = {
     { 0xA, 0xA, 0xA, 0xA, 0xA, 0xA, 0xA, 0xA },
     { 0x40, 0x40, 0x20, 0x10, 8, 4, 2, 1 },
     { 1, 2, 4, 8, 0x10, 0x20, 0x40, 0x40 },
     { 0x40, 0x40, 0x10, 4, 4, 0x10, 0x40, 0x40 },
 };
-s32 tbl_2973[0xA] = { -3, -2, -1, 0, 1, 2, 3, 0, 0, 0 };
-struct_ai_param ai_param_org[6][8] = {
+s32 tbl_2973[] = { -3, -2, -1, 0, 1, 2, 3, 0, 0, 0 };
+struct_ai_param ai_param_org[AI_PARAM_LEN1][AI_PARAM_LEN2] = {
     {
         { 0, 0, -0x32, 0,     0x64,   0x64, 0xA, -0xAA, -0xBE, -0xE6, -0xFA, 0, 0, 0,
           0, 0, 0,     0x3E8, -0x190, 0,    0,   0,     0xC2,  0x1EA, 0x1EA, 0, 0, 0 },
@@ -221,7 +220,7 @@ struct_ai_param ai_param_org[6][8] = {
     },
 };
 
-struct_ai_char_data ai_char_data_org[0x10] = {
+struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
     {
         1,
         3,

@@ -1,6 +1,8 @@
+#include "boot_main.h"
+
+#include "libc/stdbool.h"
+
 #include "libultra.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
 #include "dma_table.h"
 #include "segment_symbols.h"
 #include "macros_defines.h"

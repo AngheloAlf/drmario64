@@ -30,4 +30,10 @@ s32 func_8007F720(s32 arg0, s32 arg1);
 // void func_8007F798();
 // void func_8007F824();
 
+extern u8 D_800AB320[];
+extern u32 D_800AB32C[];
+extern u32 D_800AB334[];
+extern u32 D_800AB3B4[];
+extern u16 D_800AB440[];
+
 #endif

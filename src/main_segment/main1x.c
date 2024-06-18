@@ -3,6 +3,7 @@
  */
 
 #include "main1x.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
@@ -10,6 +11,7 @@
 #include "record.h"
 #include "vr_init.h"
 #include "main_story.h"
+#include "aiset.h"
 
 /**
  * Original name: evs_stereo

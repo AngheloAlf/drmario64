@@ -8,6 +8,7 @@
 
 char D_800AB170[] = "ＡＢＣＤＥＦＧＨＪＫＬＭＮＰＱＲＳＴＶＷＸＹ１２３４５６７８９０";
 
+// no null character
 char D_800AB1B4[32] = "ABCDEFGHJKLMNPQRSTVWXY1234567890";
 
 char D_800AB1D4[] = "01234567890123456789";

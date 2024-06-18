@@ -7,8 +7,6 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
 #include "main_segment_variables.h"
 #include "util.h"
 #include "rom_offsets.h"
@@ -59,12 +57,12 @@ s32 title_bmp_tbl[3] = {
 
 void *mess_heap = mess_heap_area;
 
-struct_mes_data *mes_data[];
+extern struct_mes_data *mes_data[];
 #include "main_story.msg.inc"
 
 enum_story_proc_no story_proc_no = STORY_PROC_NO_0;
 
-char STR_800AACF0[] = "~0ＴＥＳＴ　~w2~z";
+char STR_800AACF0[] = MSG_COLOR(BLACK) "ＴＥＳＴ　" MSG_WAIT(2) MSG_END;
 
 char *EndingLastMessage = STR_800AACF0;
 

@@ -5,11 +5,13 @@
  */
 
 #include "debug_menu.h"
+
 #include "screen_print/debug_print.h"
 #include "util.h"
 #include "macros_defines.h"
 #include "main_segment_variables.h"
 #include "main1x.h"
+#include "aiset.h"
 
 s32 D_8008E370[] = {
     1,

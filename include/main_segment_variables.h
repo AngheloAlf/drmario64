@@ -12,126 +12,6 @@
 
 struct struct_watchMenu;
 
-
-// data
-
-// extern UNK_TYPE D_80088490;
-extern u8 aiVirusLevel[][3];
-extern u8 aiDownSpeed[][3];
-extern u8 aiSlideFSpeed[][3];
-extern u8 aiSlideSpeed[][3];
-extern s8 aiDebugP1;
-extern u8 capsGCnv_122[];
-extern u8 capsCCnv_123[];
-// extern UNK_TYPE aiLinePri;
-// extern UNK_TYPE srh_466;
-// extern UNK_TYPE D_80088535;
-// extern UNK_TYPE bad_point;
-// extern UNK_TYPE bad_point2;
-// extern UNK_TYPE D_8008855E;
-// extern UNK_TYPE D_80088564;
-// extern UNK_TYPE D_8008856A;
-// extern UNK_TYPE D_8008856C;
-// extern UNK_TYPE EraseLinP;
-// extern UNK_TYPE D_80088572;
-// extern UNK_TYPE D_80088574;
-// extern UNK_TYPE HeiEraseLinRate;
-// extern UNK_TYPE WidEraseLinRate;
-// extern UNK_TYPE HeiLinesAllp;
-// extern UNK_TYPE D_80088590;
-// extern UNK_TYPE D_80088592;
-// extern UNK_TYPE D_80088594;
-// extern UNK_TYPE D_80088596;
-// extern UNK_TYPE D_80088598;
-// extern UNK_TYPE D_8008859A;
-// extern UNK_TYPE D_8008859C;
-// extern UNK_TYPE WidLinesAllp;
-// extern UNK_TYPE D_800885A4;
-// extern UNK_TYPE D_800885A6;
-// extern UNK_TYPE D_800885A8;
-// extern UNK_TYPE D_800885AA;
-// extern UNK_TYPE D_800885AC;
-// extern UNK_TYPE D_800885AE;
-// extern UNK_TYPE D_800885B0;
-// extern UNK_TYPE AloneCapP;
-// extern UNK_TYPE D_800885B8;
-// extern UNK_TYPE D_800885BA;
-// extern UNK_TYPE D_800885BC;
-// extern UNK_TYPE D_800885BE;
-// extern UNK_TYPE AloneCapWP;
-// extern UNK_TYPE D_800885C2;
-// extern UNK_TYPE D_800885C4;
-// extern UNK_TYPE D_800885C6;
-// extern UNK_TYPE D_800885C8;
-// extern UNK_TYPE D_800885CA;
-// extern UNK_TYPE OnVirusP;
-// extern UNK_TYPE RensaP;
-// extern UNK_TYPE RensaMP;
-// extern UNK_TYPE LPriP;
-// extern UNK_TYPE BadLineRate;
-// extern UNK_TYPE WallRate;
-// extern UNK_TYPE tbl_2973;
-extern struct_ai_param ai_param_org[AI_PARAM_LEN1][AI_PARAM_LEN2];
-extern struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN];
-
-extern u8 virus_anime_table[3][4];
-// extern UNK_TYPE dm_chaine_se_table_vs_178;
-// extern UNK_TYPE dm_chaine_se_table_4p_179;
-extern s32 rotate_table_474[];
-extern s32 rotate_mtx_475[];
-extern s32 D_800A6FC4;
-extern bool visible_fall_point[];
-extern char _mesPassword[];
-extern char _mesEasyCont[];
-extern char _mesEasyNoCont[];
-extern char _mesNormalCont[];
-extern char _mesNormalNoCont[];
-extern char _mesHardCont[];
-extern char _mesHardNoCont[];
-extern char _mesSHardCont[];
-extern char _mesSHardNoCont[];
-extern s32 _n_1199[];
-extern u8 D_800A7360[];
-// extern UNK_TYPE tbl_4589;
-// extern UNK_TYPE col_4590;
-// extern UNK_TYPE D_800A7379;
-// extern UNK_TYPE D_800A737A;
-// extern UNK_TYPE D_800A737B;
-
-// extern UNK_TYPE D_800A73A0;
-// extern UNK_TYPE D_800A73B8;
-
-// extern UNK_TYPE D_800AB170;
-// extern UNK_TYPE D_800AB1B4;
-// extern UNK_TYPE D_800AB1D4;
-// extern UNK_TYPE D_800AB1EC;
-// extern UNK_TYPE D_800AB1FC;
-// extern UNK_TYPE D_800AB20C;
-// extern UNK_TYPE D_800AB21C;
-// extern UNK_TYPE D_800AB29C;
-// extern UNK_TYPE D_800AB320;
-// extern UNK_TYPE D_800AB32C;
-// extern UNK_TYPE D_800AB334;
-// extern UNK_TYPE D_800AB3B4;
-extern u16 D_800AB440[];
-// extern UNK_TYPE D_800ABC50;
-// extern UNK_TYPE D_800ABD10;
-// extern UNK_TYPE D_800ABD78;
-// extern UNK_TYPE D_800ABE00;
-// extern UNK_TYPE D_800ABE28;
-// extern UNK_TYPE D_800ABEB0;
-// extern UNK_TYPE D_800ABED8;
-// extern UNK_TYPE D_800ABF00;
-// extern UNK_TYPE D_800ABF04;
-// extern UNK_TYPE D_800ABF20;
-// extern UNK_TYPE D_800ABF2C;
-// extern UNK_TYPE D_800ABF30;
-// extern UNK_TYPE D_800ABF40;
-
-
-// rodata
-
-
 // bss
 
 extern u8 B_800B3640[0x31000];
@@ -224,7 +104,7 @@ extern s32 randomtable[55];
 // extern UNK_TYPE aiRootP;
 // extern UNK_TYPE aiWall;
 extern s16 gfx_msg_no;
-extern struct_ai_char_data ai_char_data[AI_CHAR_DATA_LEN];
+
 extern u8 success;
 // extern UNK_TYPE attack_sprite_idx;
 
@@ -307,7 +187,6 @@ extern OSMesgQueue gfx_msgQ;
 extern u16 joygam[4];
 
 extern u16 joycur[MAXCONTROLLERS+1];
-extern struct_ai_param ai_param[AI_PARAM_LEN1][AI_PARAM_LEN2];
 extern s32 MissRate;
 extern OSContStatus B_800F5358[4];
 

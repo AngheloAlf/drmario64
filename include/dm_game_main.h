@@ -4,6 +4,7 @@
 #include "libultra.h"
 #include "ai.h"
 #include "char_anime.h"
+#include "color.h"
 #include "gamemap.h"
 #include "msgwnd.h"
 #include "recwritingmsg.h"
@@ -505,6 +506,29 @@ void dm_game_graphic_onDoneSawp(void);
 void func_80071A44(void);
 enum_main_no main_techmes(struct NNSched *sc);
 void graphic_techmes(void);
+
+// data
+
+extern u8 virus_anime_table[3][4];
+extern s8 dm_chaine_se_table_vs_178[4];
+extern s8 dm_chaine_se_table_4p_179[4][3];
+extern s32 rotate_table_474[];
+extern s32 rotate_mtx_475[];
+extern s32 D_800A6FC4;
+extern bool visible_fall_point[];
+extern char _mesPassword[];
+extern char _mesEasyCont[];
+extern char _mesEasyNoCont[];
+extern char _mesNormalCont[];
+extern char _mesNormalNoCont[];
+extern char _mesHardCont[];
+extern char _mesHardNoCont[];
+extern char _mesSHardCont[];
+extern char _mesSHardNoCont[];
+extern s32 _n_1199[];
+extern u8 D_800A7360[];
+extern u8 tbl_4589[];
+extern Color_RGBA8 col_4590[];
 
 extern struct_gameGeom *gameGeom;
 

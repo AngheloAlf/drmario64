@@ -1,7 +1,9 @@
 #include "dmadata.h"
 
+#include "libc/stdbool.h"
+#include "libc/stdint.h"
+
 #include "macros_defines.h"
-#include "boot_variables.h"
 
 #if VERSION_US
 static OSMesgQueue B_800151C0;

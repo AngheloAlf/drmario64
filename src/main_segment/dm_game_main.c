@@ -8,8 +8,6 @@
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "main_segment_variables.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
 #include "util.h"
 #include "gcc/memory.h"
 #include "rom_offsets.h"
@@ -43,7 +41,7 @@
 void joyCursorFastSet(u16 mask, u8 index);
 #endif
 
-u8 virus_anime_table[3][4] = { { 7, 8, 0x10, 0x11 }, { 9, 0xA, 0x12, 0x13 }, { 0xB, 0xC, 0x14, 0x15 } };
+u8 virus_anime_table[3][4] = { { 7, 8, 0x10, 0x11 }, { 9, 0xA, 0x12, 0x13 }, { 0xB, 0xC, 0x14, 0x15 }, };
 s8 dm_chaine_se_table_vs_178[4] = {
     SND_INDEX_59,
     SND_INDEX_75,
@@ -1602,7 +1600,7 @@ u8 D_800A7360[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x11, 0, 0, 0, 0x22, 0, 0, 0, 0x33,
 };
 u8 tbl_4589[] = { 0, 1, 2, 1 };
-Color_RGBA8 col_4590[3] = {
+Color_RGBA8 col_4590[] = {
     { 255, 0, 80, 255 },
     { 255, 200, 0, 255 },
     { 100, 100, 255, 255 },
