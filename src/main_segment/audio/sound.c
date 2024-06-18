@@ -15,6 +15,10 @@
 #include "buffers.h"
 #include "main1x.h"
 
+#define AUDIO_HEAP_SIZE 0x31000
+
+static HEAP(audio_memory, AUDIO_HEAP_SIZE);
+
 const u8 _charSE_tbl[] = {
     SND_INDEX_94 - 3, SND_INDEX_84 - 3, SND_INDEX_38 - 3, SND_INDEX_43 - 3, SND_INDEX_48 - 3,
     SND_INDEX_18 - 3, SND_INDEX_28 - 3, SND_INDEX_23 - 3, SND_INDEX_3 - 3,  SND_INDEX_8 - 3,
@@ -261,7 +265,7 @@ void dm_audio_init_driver(NNSched *sc) {
         func_8002AAD8(&ptr->unk_08[i], i);
     }
 
-    InitMusicDriver(sc, B_800B3640, sizeof(B_800B3640),
+    InitMusicDriver(sc, audio_memory, AUDIO_HEAP_SIZE,
                     _romDataTbl[ROMDATATBL_N64_PTR_TABLES].end - _romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
                     func_8002AA80(), 2, _romDataTbl[ROMDATATBL_INDEX2].end - _romDataTbl[ROMDATATBL_INDEX2].start, 4,
                     50);

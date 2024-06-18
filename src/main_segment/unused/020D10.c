@@ -7,19 +7,6 @@
 #include "buffers.h"
 #include "graphic.h"
 
-Gfx D_8008CFA0[] = {
-    gsDPPipeSync(),
-    gsSPGeometryMode(0, 0),
-    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
-    gsDPSetCycleType(G_CYC_COPY),
-    gsDPSetRenderMode(G_RM_NOOP, G_RM_NOOP2),
-    gsDPSetCombineLERP(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
-    gsDPSetTextureLUT(G_TT_NONE),
-    gsSPEndDisplayList(),
-};
-
-s32 D_8008CFE0 = 0;
-
 #define STRUCT_800E53B0_A_UNK_LEN 3
 
 typedef struct struct_800E53B0_a {
@@ -64,9 +51,20 @@ typedef union struct_800E53B0 {
     struct_800E53B0_b b;
 } struct_800E53B0;
 
-extern struct_800E53B0 *B_800E53B0;
+static struct_800E53B0 *B_800E53B0;
 
-void func_8003974C(Vtx *vtx);
+Gfx D_8008CFA0[] = {
+    gsDPPipeSync(),
+    gsSPGeometryMode(0, 0),
+    gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
+    gsDPSetCycleType(G_CYC_COPY),
+    gsDPSetRenderMode(G_RM_NOOP, G_RM_NOOP2),
+    gsDPSetCombineLERP(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsSPEndDisplayList(),
+};
+
+s32 D_8008CFE0 = 0;
 
 void func_80038EF0(Mtx *mtx, u16 *perspNorm) {
     f32 sp28[4][4];
@@ -166,6 +164,8 @@ void func_800394A0(Gfx **gfxP, Vtx *vtx, u16 *framebuffer, void **heapP) {
 
     *heapP = gfx;
 }
+
+void func_8003974C(Vtx *vtx);
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/020D10", func_8003974C);

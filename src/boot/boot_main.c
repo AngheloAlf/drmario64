@@ -12,17 +12,10 @@
 
 void Idle_ThreadEntry(void *arg);
 
-#if VERSION_US
 static OSThread sIdleThread;
 static OSThread sMainThread;
 static STACK(sIdleStack, 0x2000);
 static STACK(sMainStack, 0x2000);
-#else
-extern OSThread sIdleThread;
-extern OSThread sMainThread;
-extern STACK(sIdleStack, 0x2000);
-extern STACK(sMainStack, 0x2000);
-#endif
 
 void Idle_Nop(void) {
 }

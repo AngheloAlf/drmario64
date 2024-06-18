@@ -26,7 +26,7 @@ Gfx D_8008D2C8[] = {
 #define DEBUG_PRINT_FONT_TEX_WIDTH 160
 #define DEBUG_PRINT_FONT_TEX_HEIGHT 48
 
-u8 sDebugPrintFontTex[] ALIGNED8 = {
+u8 sDebugPrintFontTex[] ALIGNED(8) = {
 #include "main_segment/screen_print/debug_print/sDebugPrintFontTex.i4.inc"
 };
 
@@ -405,7 +405,7 @@ PrinterCallbacks sPrinterCallbacks = {
     DebugPrint_CallbackPutChars,
 };
 
-extern PrinterState sPrinterState;
+static PrinterState sPrinterState;
 
 Printer sPrinterInstance = {
     &sPrinterCallbacks,

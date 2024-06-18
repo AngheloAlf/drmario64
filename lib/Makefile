@@ -1,6 +1,9 @@
 MAKEFLAGS += --no-builtin-rules
 
 
+# If non zero then compilation commands won't be printed to the terminal
+QUIET ?= 0
+
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
 CROSS ?= mips-linux-gnu-
@@ -34,6 +37,12 @@ else ifeq ($(UNAME_S),Linux)
 else ifeq ($(UNAME_S),Darwin)
 	DETECTED_OS := macos
 	MAKE := gmake
+endif
+
+ifneq ($(QUIET), 0)
+    QUIET_CMD := @
+else
+    QUIET_CMD :=
 endif
 
 #### Tools ####
@@ -131,7 +140,7 @@ distclean: clean
 .SECONDARY:
 
 $(BUILD_DIR)/%.o: %.s
-	$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(CFLAGS) $(MIPS_VERSION) -x assembler-with-cpp -o $@ $<
+	$(QUIET_CMD)$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(CFLAGS) $(MIPS_VERSION) -x assembler-with-cpp -o $@ $<
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<
+	$(QUIET_CMD)$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<

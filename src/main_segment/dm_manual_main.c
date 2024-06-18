@@ -25,6 +25,9 @@
 #include "aiset.h"
 #endif
 
+static struct TiTexData *_texAll;
+static struct TiTexData *_texKaSa;
+
 void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_00 = arg1;
     arg0->unk_04 = arg2;

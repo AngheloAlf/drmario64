@@ -355,11 +355,19 @@ segments:
       - [0x00123E0, .rodata, libegcs/libgcc2]
 
       - { start: 0x0124E0, type: bss, vram: 0x800118E0, name: boot/800118E0 }
-      - { start: 0x0124E0, type: bss, vram: 0x80011950, name: boot/boot_main }
-      - { start: 0x0124E0, type: bss, vram: 0x80015CB0, name: boot/80015CB0 }
-      - { start: 0x0124E0, type: bss, vram: 0x80019CD0, name: gateway/003630 }
+
+      - { start: 0x0124E0, type: .bss, vram: 0x80011950, name: boot/boot_main }
+      - { start: 0x0124E0, type: .bss, vram: 0x80015CB0, name: boot/dmadata }
+
+      - { start: 0x0124E0, type: .bss, vram: 0x80015CD0, name: gzip/inflate }
+
+      - { start: 0x0124E0, type: .bss, vram: 0x80019CD0, name: gateway/003630 }
+
+      # libultra?
       - { start: 0x0124E0, type: bss, vram: 0x80019D50, name: boot/80019D50 }
+
       - { start: 0x0124E0, type: .bss, vram: 0x8001C1A0, name: libnustd/srand }
+
       - { start: 0x0124E0, type: bss, vram: 0x8001C1B0, name: boot/8001C1B0 }
 
   - name: dma_table
@@ -504,7 +512,6 @@ segments:
           - [0x099FA0, i4, main_segment/font/D_800B2270_cn, 12, 8712]
           - [0x0A6BD0]
 
-
       - [0x0A6BE0, .data, main_segment/dm_game_main]
 
       - [0x0A6FC0, .data, main_segment/dm_title_main]
@@ -574,9 +581,26 @@ segments:
       - { start: 0x0B1710, type: databin, name: rsp/f3dex2,  linker_section_order: .rodata }
       - { start: 0x0B1B30, type: databin, name: rsp/s2dex,   linker_section_order: .rodata }
 
-      - { start: 0x0B1EF0, type: bss, vram: 0x800CA1C0, name: main_segment/800CA1C0 }
-      - { type: bss, vram: 0x800FC040, name: main_segment/game_etc }
-      - { type: bss, vram: 0x800FC4E0, name: main_segment/800FC4E0 }
+      - { type: bss, vram: 0x800CA1C0, name: main_segment/800CA1C0 }
+
+      - { type: .bss, vram: 0x800CA2D0, name: main_segment/audio/sound }
+
+      - { type: .bss, vram: 0x800FB2D0, name: main_segment/vr_init }
+      - { type: .bss, vram: 0x800FBC90, name: main_segment/aiset }
+      - { type: .bss, vram: 0x800FBE30, name: main_segment/record }
+      - { type: .bss, vram: 0x800FC030, name: main_segment/unused/020D10 }
+      - { type: .bss, vram: 0x800FC040, name: main_segment/game_etc }
+
+      - { type: .bss, vram: 0x800FC4E0, name: main_segment/screen_print/debug_print }
+      - { type: .bss, vram: 0x800FC500, name: main_segment/debug_menu }
+
+      - { type: .bss, vram: 0x800FC5D0, name: main_segment/dm_game_main }
+      - { type: .bss, vram: 0x800FC5E0, name: main_segment/dm_manual_main }
+      - { type: .bss, vram: 0x800FC5F0, name: main_segment/dm_title_main }
+      - { type: .bss, vram: 0x800FC600, name: main_segment/main_story }
+      - { type: .bss, vram: 0x800FF400, name: main_segment/lws }
+      - { type: .bss, vram: 0x80100400, name: main_segment/calc }
+      - { type: .bss, vram: 0x801004E0, name: main_segment/replay }
 
       - { type: .bss, vram: 0x80100540, name: ../lib/libmus/src/player }
       - { type: .bss, vram: 0x801005B0, name: ../lib/libmus/src/aud_dma }

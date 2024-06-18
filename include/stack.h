@@ -9,4 +9,7 @@
 #define STACK_TOP(stack) \
     ((u64*)((u8*)(stack) + sizeof(stack)))
 
+#define HEAP(stack, size) \
+    u64 stack[ALIGN8(size) / sizeof(u64)] ALIGNED(16)
+
 #endif

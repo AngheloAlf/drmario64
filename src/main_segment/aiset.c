@@ -49,6 +49,12 @@
 #include "dm_virus_init.h"
 #include "nnsched.h"
 
+static struct_game_state_data *pGameState;
+static s32 delpos_tbl[100];
+static s32 delpos_cnt;
+static s32 OnVirusP_org;
+static s32 last_flash;
+
 // unused
 u8 D_80088490[] = {
     0x03, 0x02, 0x01, 0x03, 0x02, 0x01, 0x02, 0x02, 0x01, 0x02, 0x01, 0x01,
@@ -71,14 +77,33 @@ u8 aiSlideSpeed[8][3] = {
     { 5, 5, 5 },         { 5, 3, 2 },         { 1, 1, 1 },       { 5, 5, 5 },
 };
 s8 aiDebugP1 = -1;
-u8 capsGCnv_122[] = { 0, 1, 2, 3, 4, 8, 8, 5, 5, 6, 6, 7, 7, 9, 9, 0xA, 5, 5, 6, 6, 7, 7, };
-u8 capsCCnv_123[] = { 0, 1, 2, 0, 1, 2, };
-u8 aiLinePri[] = { 4, 3, 5, 2, 6, 1, 7, 0, };
-u8 srh_466[][2] = { { 1, 0 }, { 0xFF, 0 }, { 0, 1 }, { 0, 0xFF }, };
-s16 bad_point[] = { -0x5A, -0x10E, -0x168, -0x384, -0x384, -0x168, -0x10E, -0x5A, };
-s16 bad_point2[] = { -0x5A, -0x10E, -0x168, -0x2328, -0x2328, -0x168, -0x10E, -0x5A, };
-s16 pri_point[] = { 0, 0xB4, 9, 0, 0x1F, 0, 0, 0, 0, };
-s16 EraseLinP[] = { 0, 0x1E, 0x5A, 0xB4, 0x10E, 0x168, 0x21C, 0x21C, 0x21C, };
+u8 capsGCnv_122[] = {
+    0, 1, 2, 3, 4, 8, 8, 5, 5, 6, 6, 7, 7, 9, 9, 0xA, 5, 5, 6, 6, 7, 7,
+};
+u8 capsCCnv_123[] = {
+    0, 1, 2, 0, 1, 2,
+};
+u8 aiLinePri[] = {
+    4, 3, 5, 2, 6, 1, 7, 0,
+};
+u8 srh_466[][2] = {
+    { 1, 0 },
+    { 0xFF, 0 },
+    { 0, 1 },
+    { 0, 0xFF },
+};
+s16 bad_point[] = {
+    -0x5A, -0x10E, -0x168, -0x384, -0x384, -0x168, -0x10E, -0x5A,
+};
+s16 bad_point2[] = {
+    -0x5A, -0x10E, -0x168, -0x2328, -0x2328, -0x168, -0x10E, -0x5A,
+};
+s16 pri_point[] = {
+    0, 0xB4, 9, 0, 0x1F, 0, 0, 0, 0,
+};
+s16 EraseLinP[] = {
+    0, 0x1E, 0x5A, 0xB4, 0x10E, 0x168, 0x21C, 0x21C, 0x21C,
+};
 f32 HeiEraseLinRate = 1.0f;
 f32 WidEraseLinRate = 1.0f;
 
@@ -388,8 +413,6 @@ extern f32 aiRootP;
 extern u8 aiRollFinal;
 
 extern u8 aiSelCom;
-
-extern s32 OnVirusP_org;
 
 extern u8 aiWall;
 
@@ -4017,8 +4040,6 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     return 0;
 }
-
-extern s32 delpos_tbl[];
 
 /**
  * Original name: flash_special

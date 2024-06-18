@@ -438,7 +438,12 @@ segments:
       - [0x011BA0, .rodata,  libkmc/fmod]
       # end of libkmc
 
-      - { type: bss, vram: 0x80010FB0, name: boot/80010FB0 }
+      - { type: .bss, vram: 0x80010FB0, name: boot/boot_main }
+      - { type: .bss, vram: 0x80015310, name: boot/dmadata }
+
+      - { type: .bss, vram: 0x80015330, name: gzip/inflate }
+
+      - { type: .bss, vram: 0x80019330, name: gateway/003630 }
 
       - { type: .bss, vram: 0x800193B0, name: ../lib/ultralib/src/io/pimgr }
       - { type: .bss, vram: 0x8001A580, name: ../lib/ultralib/src/io/piacs }
@@ -647,9 +652,25 @@ segments:
       - [0x09C150, .rodata, ../lib/libmus/src/player]
       - [0x09C230, .rodata, ../lib/libmus/src/player_fx]
 
-      - { type: bss, vram: 0x800B44A0, name: main_segment/800B44A0 }
+      - { type: .bss, vram: 0x800B44A0, name: main_segment/audio/sound }
+
+      - { type: .bss, vram: 0x800E54A0, name: main_segment/vr_init }
+      - { type: .bss, vram: 0x800E5E60, name: main_segment/aiset }
+      - { type: .bss, vram: 0x800E6010, name: main_segment/record }
+      - { type: .bss, vram: 0x800E6210, name: main_segment/unused/020D10 }
+      - { type: .bss, vram: 0x800E6220, name: main_segment/game_etc }
+
       - { type: .bss, vram: 0x800E66C0, name: main_segment/screen_print/printf_impl }
-      - { type: bss, vram: 0x800E66F0, name: main_segment/800E66F0 }
+      - { type: .bss, vram: 0x800E66F0, name: main_segment/screen_print/debug_print }
+      - { type: .bss, vram: 0x800E6710, name: main_segment/debug_menu }
+
+      - { type: .bss, vram: 0x800E67E0, name: main_segment/dm_game_main }
+      - { type: .bss, vram: 0x800E67F0, name: main_segment/dm_manual_main }
+      - { type: .bss, vram: 0x800E6800, name: main_segment/dm_title_main }
+      - { type: .bss, vram: 0x800E6810, name: main_segment/main_story }
+      - { type: .bss, vram: 0x800E9620, name: main_segment/lws }
+      - { type: .bss, vram: 0x800EA620, name: main_segment/calc }
+      - { type: .bss, vram: 0x800EA710, name: main_segment/replay }
 
       - { type: .bss, vram: 0x800EA770, name: ../lib/libmus/src/player }
       - { type: .bss, vram: 0x800EA7E0, name: ../lib/libmus/src/aud_dma }

@@ -24,7 +24,39 @@
 #include "joy.h"
 #endif
 
-extern STACK(mess_heap_area, 0x400);
+static s32 fin_frame_440;
+static s32 fin_demo_441;
+static s32 fin_frame_543;
+static s32 fin_frame_568;
+static s32 fin_demo_569;
+static s32 fin_frame_623;
+static s32 fin_demo_624;
+static s32 fin_frame_667;
+static s32 fin_frame_737;
+static s32 fin_frame_768;
+static s32 title_time;
+static s32 title_wait;
+static void **title_data;
+static void *title_bmp_data;
+static void **lws_data;
+static struct_lws_scene *lws_scene;
+static MessageWnd mess_st;
+static MessageWnd mess_roll_st;
+static HEAP(mess_heap_area, 0x400);
+static void *mess_roll_heap;
+static s32 st_message_count;
+static struct_mes_data *st_mes_ptr;
+static bool loop_flg;
+static s32 story_staff_roll;
+static u16 story_norm;    /* Original name: story_norm */
+static Mtx story_viewMtx; /* Original name: story_viewMtx */
+static Mtx story_objectMtx[2][0x50];
+static struct_wakuGraphic *wakuGraphic;
+static u8 D_800E8750[0x50] UNUSED;
+static void *bgGraphic; /* Original name: bgGraphic */
+static void *storyGraphic;
+static void *messageData;
+static s32 first_copy;
 
 u8 D_800A73A0[] = {
     0x03, 0x25, 0x23, 0x2A, 0x24, 0x28, 0x27, 0x2B, 0x2C, 0x2C, 0x2C, 0x00,
@@ -36,15 +68,15 @@ Gfx D_800A73B8[] = {
     gsSPEndDisplayList(),
 };
 
-u8 curtain_alpha_00_tex[] ALIGNED8 = {
+u8 curtain_alpha_00_tex[] ALIGNED(8) = {
 #include "main_segment/main_story/curtain_alpha_00_tex.i4.inc"
 };
 
-u16 curtain_00_tex[] ALIGNED8 = {
+u16 curtain_00_tex[] ALIGNED(8) = {
 #include "main_segment/main_story/curtain_00_tex.rgba16.inc"
 };
 
-u8 changestar_tex[] ALIGNED8 = {
+u8 changestar_tex[] ALIGNED(8) = {
 #include "main_segment/main_story/changestar_tex.i4.inc"
 };
 
@@ -57,7 +89,6 @@ s32 title_bmp_tbl[3] = {
 
 void *mess_heap = mess_heap_area;
 
-extern struct_mes_data *mes_data[];
 #include "main_story.msg.inc"
 
 enum_story_proc_no story_proc_no = STORY_PROC_NO_0;
@@ -157,9 +188,6 @@ SeqIndex snd_tbl_838[] = {
     SEQ_INDEX_22, // STORY_PROC_NO_22
     SEQ_INDEX_22, // STORY_PROC_NO_23
 };
-
-extern struct_lws_scene *lws_scene;
-extern struct_wakuGraphic *wakuGraphic;
 
 /**
  * Original name: story_zoomfade
@@ -838,11 +866,6 @@ void func_80078648(Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-extern s32 st_message_count;
-
-extern s32 fin_frame_543;
-extern struct_mes_data *st_mes_ptr;
-
 void func_8007865C(void) {
     if (st_message_count < st_mes_ptr->unk_0) {
         if (st_mes_ptr[st_message_count + 1].unk_0 < framecont) {
@@ -858,9 +881,6 @@ void func_8007865C(void) {
         st_message_count = 9999;
     }
 }
-
-extern s32 fin_frame_440;
-extern s32 fin_demo_441;
 
 /**
  * Original name: story_st_new_op
@@ -1111,9 +1131,6 @@ void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2) {
     *gfxP = gfx;
 }
 
-extern s32 fin_frame_568;
-extern s32 fin_demo_569;
-
 /**
  * Original name: story_st_new2_f
  */
@@ -1215,9 +1232,6 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     *gfxP = gfx;
 }
 
-extern s32 fin_frame_623;
-extern s32 fin_demo_624;
-
 /**
  * Original name: story_st_new2
  */
@@ -1299,8 +1313,6 @@ void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     *gfxP = gfx;
 }
-
-extern s32 fin_frame_667;
 
 /**
  * Original name: story_m_end
@@ -1433,8 +1445,6 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
     *gfxP = gfx;
 }
 
-extern s32 fin_frame_737;
-
 /**
  * Original name: story_st_new_w9
  */
@@ -1511,8 +1521,6 @@ void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-
-extern s32 fin_frame_768;
 
 /**
  * Original name: story_w_end

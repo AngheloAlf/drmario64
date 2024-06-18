@@ -65,18 +65,6 @@ extern Color_RGB32 col_env_435[];
 
 // bss
 
-extern s32 binCount;
-extern bool cont_bg_flg;
-extern UNK_PTR etcTexAddress;
-extern UNK_PTR *etcLwsAddress;
-extern struct_etcLwsTbl etcLwsTbl;
-extern s32 logo_ofsY;
-extern s32 etc_mode;
-extern struct_g_etc_work g_etc_work[];
-// B_800FC458_cn
-extern Mtx etc_viewMtx;
-
-
 extern s32 attack_effect_idx;
 extern struct_attack_effect attack_effect[0x10];
 

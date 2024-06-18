@@ -18,16 +18,23 @@
 #include "audio/sound.h"
 #endif
 
+/**
+ * Original name: _cache_1333
+ *
+ * Its size must be a multiple of 8
+ */
+static u8 _cache_1333[0x200];
+
 #define MESS_PANEL_TEX_WIDTH 200
 #define MESS_PANEL_TEX_HEIGHT 69
 
 struct_mess_panel_tex_size mess_panel_tex_size = { MESS_PANEL_TEX_WIDTH, MESS_PANEL_TEX_HEIGHT, 8, 1 };
 
-u16 mess_panel_lut[] ALIGNED8 = {
+u16 mess_panel_lut[] ALIGNED(8) = {
 #include "main_segment/record/mess_panel_tex.palette.inc"
 };
 
-u8 mess_panel_tex[] ALIGNED8 = {
+u8 mess_panel_tex[] ALIGNED(8) = {
 #include "main_segment/record/mess_panel_tex.ci8.inc"
 };
 

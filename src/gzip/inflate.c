@@ -29,14 +29,10 @@ extern void *gzip_malloc_addr;
 
 #define GZIP_BUFF_SIZE 0x4000
 
-#if VERSION_US
 /**
  * Original name: gzip_mem_buff
  */
 static u8 gzip_mem_buff[GZIP_BUFF_SIZE];
-#else
-extern u8 gzip_mem_buff[];
-#endif
 
 /**
  * Original name: bk

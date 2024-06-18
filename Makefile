@@ -33,6 +33,8 @@ DEP_ASM ?= 1
 DEP_INCLUDE ?= 1
 # Use LLVM linker lld instead of GNU LD
 USE_LLD ?= 0
+# If non zero then compilation commands won't be printed to the terminal
+QUIET ?= 0
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -88,6 +90,12 @@ else ifeq ($(UNAME_S),Darwin)
     DETECTED_OS := mac
     MAKE := gmake
     CPPFLAGS += -xc++
+endif
+
+ifneq ($(QUIET), 0)
+    QUIET_CMD := @
+else
+    QUIET_CMD :=
 endif
 
 #### Tools ####
@@ -168,6 +176,7 @@ C_DEFINES       := -D_LANGUAGE_C
 ENDIAN          := -EB
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
+CFLAGS          += -Wa,--force-n64align
 OPTFLAGS        := -O2
 DBGFLAGS        :=
 # DBGFLAGS        := -gdwarf
@@ -340,16 +349,16 @@ tidy:
 #### Various Recipes ####
 
 $(ROM): $(ELF)
-	$(OBJCOPY) -O binary $< $(@:.z64=.bin)
-	$(CHECKSUMMER) $(@:.z64=.bin) $@
+	$(QUIET_CMD)$(OBJCOPY) -O binary $< $(@:.z64=.bin)
+	$(QUIET_CMD)$(CHECKSUMMER) $(@:.z64=.bin) $@
 
 $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
-	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
-	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
+	$(QUIET_CMD)$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
+	$(QUIET_CMD)$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
 
 $(ELF): $(LINKER_SCRIPTS)
 	$(file >$(BUILD_DIR)/o_files, $(filter %.o, $^))
-	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ @$(BUILD_DIR)/o_files
+	$(QUIET_CMD)$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ @$(BUILD_DIR)/o_files
 
 ## Order-only prerequisites
 # These ensure e.g. the PNG_INC_FILES are built before the O_FILES.
@@ -370,49 +379,49 @@ msg_files_clean:
 .PHONY: asset_files asset_files_clean msg_files msg_files_clean o_files
 
 $(BUILD_DIR)/%.ld: %.ld
-	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
+	$(QUIET_CMD)$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
 
 $(BUILD_DIR)/%.o: %.s
-	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(COMP_VERBOSE_FLAG) $< | $(ICONV) $(ICONV_FLAGS) | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -o $@
+	$(QUIET_CMD)$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(COMP_VERBOSE_FLAG) $< | $(ICONV) $(ICONV_FLAGS) | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -o $@
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
+	$(QUIET_CMD)$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
 ifeq ($(MULTISTEP_BUILD), 0)
-	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) | $(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ -
+	$(QUIET_CMD)$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) | $(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ -
 else
-	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) -o $(@:.o=.i)
-	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -S -o $(@:.o=.s) $(@:.o=.i)
-	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $(@:.o=.s)
+	$(QUIET_CMD)$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) -o $(@:.o=.i)
+	$(QUIET_CMD)$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -S -o $(@:.o=.s) $(@:.o=.i)
+	$(QUIET_CMD)$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $(@:.o=.s)
 endif
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/lib/%.o: lib/%.c
-	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) -w $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
-	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) ../$@
+	$(QUIET_CMD)$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) -w $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
+	$(QUIET_CMD)$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) QUIET=$(QUIET) ../$@
 
 $(BUILD_DIR)/lib/%.o: lib/%.s
-	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) ../$@
+	$(QUIET_CMD)$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) QUIET=$(QUIET) ../$@
 
 $(BUILD_DIR)/segments/%.o: linker_scripts/$(VERSION)/partial/%.ld
-	$(LD) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@
+	$(QUIET_CMD)$(LD) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@
 
 # Make inc files from assets
 
 $(BUILD_DIR)/%.inc: %.png
-	$(PIGMENT64) to-bin --c-array --format $(subst .,,$(suffix $*)) -o $@ $<
+	$(QUIET_CMD)$(PIGMENT64) to-bin --c-array --format $(subst .,,$(suffix $*)) -o $@ $<
 
 $(BUILD_DIR)/%.ci8.inc: %.ci8.png
-	$(PIGMENT64) to-bin --c-array --format palette -o $(@:.ci8.inc=.palette.inc) $<
-	$(PIGMENT64) to-bin --c-array --format ci8 -o $@ $<
+	$(QUIET_CMD)$(PIGMENT64) to-bin --c-array --format palette -o $(@:.ci8.inc=.palette.inc) $<
+	$(QUIET_CMD)$(PIGMENT64) to-bin --c-array --format ci8 -o $@ $<
 
 $(BUILD_DIR)/%.ci4.inc: %.ci4.png
-	$(PIGMENT64) to-bin --c-array --format palette -o $(@:.ci4.inc=.palette.inc) $<
-	$(PIGMENT64) to-bin --c-array --format ci4 -o $@ $<
+	$(QUIET_CMD)$(PIGMENT64) to-bin --c-array --format palette -o $(@:.ci4.inc=.palette.inc) $<
+	$(QUIET_CMD)$(PIGMENT64) to-bin --c-array --format ci4 -o $@ $<
 
 $(BUILD_DIR)/%.msg.inc: %.msg
-	$(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< -o $(@:.inc=.i)
-	$(MSG_REENCODER) $(@:.inc=.i) $@ $(OUT_ENCODING)
+	$(QUIET_CMD)$(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< -o $(@:.inc=.i)
+	$(QUIET_CMD)$(MSG_REENCODER) $(@:.inc=.i) $@ $(OUT_ENCODING)
 
 -include $(DEP_FILES)
 

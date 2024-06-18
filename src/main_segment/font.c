@@ -16,23 +16,23 @@ typedef struct struct_800A6F70 {
     /* 0x1 */ u8 size;
 } struct_800A6F70; // size = 0x2
 
-u8 font_a_tex[] ALIGNED8 = {
+u8 font_a_tex[] ALIGNED(8) = {
 #include "main_segment/font/font_a_tex.i4.inc"
 };
 
-u8 font_2_tex[] ALIGNED8 = {
+u8 font_2_tex[] ALIGNED(8) = {
 #include "main_segment/font/font_2_tex.i4.inc"
 };
 
-u8 font_e_tex[] ALIGNED8 = {
+u8 font_e_tex[] ALIGNED(8) = {
 #include "main_segment/font/font_e_tex.i4.inc"
 };
 
-u8 font_e2_tex[] ALIGNED8 = {
+u8 font_e2_tex[] ALIGNED(8) = {
 #include "main_segment/font/font_e2_tex.i4.inc"
 };
 
-u8 font_grade_tex[] ALIGNED8 = {
+u8 font_grade_tex[] ALIGNED(8) = {
 #include "main_segment/font/font_grade_tex.i4.inc"
 };
 
@@ -995,7 +995,7 @@ u16 D_800B1CC4_cn[] = {
 
 };
 
-u8 D_800B2270_cn[] ALIGNED8 = {
+u8 D_800B2270_cn[] ALIGNED(8) = {
 #include "main_segment/font/D_800B2270_cn.i4.inc"
 };
 #endif

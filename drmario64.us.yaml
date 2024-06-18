@@ -658,23 +658,25 @@ segments:
       - [0x09B370, .rodata, ../lib/libmus/src/player]
       - [0x09B450, .rodata, ../lib/libmus/src/player_fx]
 
-      - { type: bss, vram: 0x800B3640, name: main_segment/audio/sound }
-      - { type: bss, vram: 0x800E4640, name: main_segment/vr_init }
-      - { type: bss, vram: 0x800E5000, name: main_segment/aiset }
-      - { type: bss, vram: 0x800E51B0, name: main_segment/record }
-      - { type: bss, vram: 0x800E53B0, name: main_segment/unused/020D10 }
-      - { type: bss, vram: 0x800E53C0, name: main_segment/game_etc }
+      - { type: .bss, vram: 0x800B3640, name: main_segment/audio/sound }
+
+      - { type: .bss, vram: 0x800E4640, name: main_segment/vr_init }
+      - { type: .bss, vram: 0x800E5000, name: main_segment/aiset }
+      - { type: .bss, vram: 0x800E51B0, name: main_segment/record }
+      - { type: .bss, vram: 0x800E53B0, name: main_segment/unused/020D10 }
+      - { type: .bss, vram: 0x800E53C0, name: main_segment/game_etc }
 
       - { type: .bss, vram: 0x800E5860, name: main_segment/screen_print/printf_impl }
-      - { type: bss, vram: 0x800E5890, name: main_segment/screen_print/debug_print }
-      - { type: bss, vram: 0x800E58B0, name: main_segment/debug_menu }
+      - { type: .bss, vram: 0x800E5890, name: main_segment/screen_print/debug_print }
+      - { type: .bss, vram: 0x800E58B0, name: main_segment/debug_menu }
 
-      - { type: bss, vram: 0x800E5980, name: main_segment/dm_game_main }
-      - { type: bss, vram: 0x800E5990, name: main_segment/dm_manual_main }
-      - { type: bss, vram: 0x800E59A0, name: main_segment/dm_title_main }
-      - { type: bss, vram: 0x800E59B0, name: main_segment/main_story }
-      - { type: bss, vram: 0x800E87C0, name: main_segment/lws }
-      - { type: bss, vram: 0x800E97C0, name: main_segment/replay }
+      - { type: .bss, vram: 0x800E5980, name: main_segment/dm_game_main }
+      - { type: .bss, vram: 0x800E5990, name: main_segment/dm_manual_main }
+      - { type: .bss, vram: 0x800E59A0, name: main_segment/dm_title_main }
+      - { type: .bss, vram: 0x800E59B0, name: main_segment/main_story }
+      - { type: .bss, vram: 0x800E87C0, name: main_segment/lws }
+      - { type: .bss, vram: 0x800E97C0, name: main_segment/calc }
+      - { type: .bss, vram: 0x800E98B0, name: main_segment/replay }
 
       - { type: .bss, vram: 0x800E9910, name: ../lib/libmus/src/player }
       - { type: .bss, vram: 0x800E9980, name: ../lib/libmus/src/aud_dma }

@@ -13,6 +13,17 @@
 #include "lws.h"
 #include "066840.h"
 
+static s32 binCount;
+static bool cont_bg_flg;
+static void *etcTexAddress;
+static void **etcLwsAddress;
+static struct_etcLwsTbl etcLwsTbl;
+static s32 logo_ofsY;
+static s32 etc_mode;
+static struct_g_etc_work g_etc_work[MAXCONTROLLERS];
+static u8 D_800E57D8[0x40] UNUSED;
+static Mtx etc_viewMtx;
+
 s32 pause_table[][6] = {
     { 2, 8, 1, 0, 2, 2 },
     { 3, 7, 2, 0, 1, 2 },

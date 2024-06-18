@@ -2376,9 +2376,10 @@ DBL_800B3638 = 0x800B3638; // type:f64
 
 // bss
 
-B_800B3640 = 0x800B3640; // size:0x31000
+audio_memory = 0x800B3640; // size:0x31000
 mt = 0x800E4640; // size:0x9C0
 pGameState = 0x800E5000; //
+D_800FBC94 = 0x800FBC94; //
 delpos_tbl = 0x800E5008; //
 delpos_cnt = 0x800E5198; //
 OnVirusP_org = 0x800E519C; //
@@ -2400,8 +2401,7 @@ sPrinterState = 0x800E5890; // size:0x12
 B_800E58B0 = 0x800E58B0; //
 B_800E58B4 = 0x800E58B4; //
 B_800E58B8 = 0x800E58B8; //
-B_800E58BC = 0x800E58BC; //
-B_800E58BE = 0x800E58BE; //
+B_800E58BC = 0x800E58BC; // size:0x4
 B_800E58C0 = 0x800E58C0; // size:0x50
 B_800E5910 = 0x800E5910; //
 B_800E5914 = 0x800E5914; //
@@ -2450,7 +2450,7 @@ story_staff_roll = 0x800E5F00; //
 story_norm = 0x800E5F04; //
 story_viewMtx = 0x800E5F08; // size:0x40
 story_objectMtx = 0x800E5F50; // size:0x2800
-wakuGraphic = 0x800E8750; //
+wakuGraphic = 0x800E8750; // size:0x4
 bgGraphic = 0x800E87A8; //
 storyGraphic = 0x800E87AC; //
 messageData = 0x800E87B0; //

@@ -10,7 +10,4 @@ u16 genrand(u16 arg0);
 extern s32 mti;
 extern s32 mag01_108[];
 
-// bss
-extern u32 mt[0x270];
-
 #endif

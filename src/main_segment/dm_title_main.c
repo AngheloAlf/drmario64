@@ -20,6 +20,20 @@
 #include "main_story.h"
 #include "nnsched.h"
 
+// TODO: enum?
+/**
+ * Original name: title_mode_type
+ */
+static s32 title_mode_type;
+/**
+ * Original name: title_fade_count
+ */
+static s32 title_fade_count;
+/**
+ * Original name: title_fade_step
+ */
+static s32 title_fade_step;
+
 /**
  * Original name: title_demo_flg
  */

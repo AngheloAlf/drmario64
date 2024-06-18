@@ -41,7 +41,16 @@
 void joyCursorFastSet(u16 mask, u8 index);
 #endif
 
-u8 virus_anime_table[3][4] = { { 7, 8, 0x10, 0x11 }, { 9, 0xA, 0x12, 0x13 }, { 0xB, 0xC, 0x14, 0x15 }, };
+/**
+ * Original name: heapTop
+ */
+static void *heapTop;
+
+u8 virus_anime_table[3][4] = {
+    { 7, 8, 0x10, 0x11 },
+    { 9, 0xA, 0x12, 0x13 },
+    { 0xB, 0xC, 0x14, 0x15 },
+};
 s8 dm_chaine_se_table_vs_178[4] = {
     SND_INDEX_59,
     SND_INDEX_75,

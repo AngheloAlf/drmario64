@@ -11,6 +11,8 @@
 #include "calc.h"
 #include "066840.h"
 
+static Mtx AnimProc[0x40];
+
 s32 lws_anim(Gfx **gfxP, Mtx *mtx, struct_lws_scene *arg2, s32 arg3, void *arg4) {
     Gfx *gfx = *gfxP;
     s32 i;
