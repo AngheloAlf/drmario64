@@ -32,8 +32,7 @@ void func_80000488(void (*arg0)()) {
 
 void bootproc(void) {
     osInitialize();
-    osCreateThread(&sIdleThread, THREAD_ID_IDLE, Idle_ThreadEntry, NULL, STACK_TOP(sIdleStack),
-                   THREAD_PRI_IDLE_BOOT);
+    osCreateThread(&sIdleThread, THREAD_ID_IDLE, Idle_ThreadEntry, NULL, STACK_TOP(sIdleStack), THREAD_PRI_IDLE_BOOT);
     osStartThread(&sIdleThread);
 }
 

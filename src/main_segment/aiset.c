@@ -423,8 +423,8 @@ extern u8 wid_data[HEI_WEI_DATA_LEN];
 
 extern s16 aiHiErB;
 extern u16 aiPriOfs;
-extern u16 aiHiErY;
-extern u16 aiHiErR;
+extern s16 aiHiErY;
+extern s16 aiHiErR;
 extern u16 aiHiEraseCtr;
 
 // no original name :c
@@ -1384,7 +1384,7 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
                             if ((aiFlag[j].unk_00 == 1) && (aiFlag[j].unk_01 == 0) && ((aiFlag[j].unk_02 - 1) == i)) {
                                 if ((aiFlag[j].unk_03 == arg1) || (aiFlag[j].unk_03 == (arg1 + 1))) {
                                     var_t0_3 = true;
-                                    wid_data[5] += 1;
+                                    wid_data[5]++;
                                     j = aiFlagCnt;
                                 }
                             }
@@ -2397,92 +2397,83 @@ INCLUDE_ASM("asm/gw/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
 #endif
 
 #if VERSION_CN
-#ifdef NON_EQUIVALENT
-//#if 1
+#ifdef NON_MATCHING
 void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
+    struct_aiFlag *temp;
     s32 sp30;
-    u8 sp34;
+    s32 temp_s0;
+    s32 temp2;
+    s32 var_s2;
+    s32 var_t1;
+    s32 var_s3_2;
+
+    u8 var_s0;
+    u8 var_s1;
+    u8 var_s3;
+    u8 var_s4;
+    u8 var_s5;
+    u8 var_s6;
+    u8 var_s7;
+    u8 var_v0_2;
     u8 sp38;
     u8 sp3C;
     u8 sp40;
     u8 sp44;
 
-    s32 var_a2;
-
-    u8 var_s0;
-    s32 var_s0_2;
-    s32 temp_s0;
-
-    u8 var_s1;
-
-    s32 var_s2;
-    s32 var_s2_2;
-
-    u8 var_s3;
-
-    u8 var_s4;
-    u8 var_s5;
-    u8 var_s6;
-    u8 var_s7;
-
-    u8 temp_t0;
-    s32 var_t1;
-
-    u8 var_v0_2;
-
     for (sp30 = 0; sp30 < aiFlagCnt; sp30++) {
         if (aiFlag[sp30].unk_00 != 0) {
-            struct_aiFlag *temp = &aiFlag[sp30];
+            temp = &aiFlag[sp30];
 
             bcopy(aiFieldData, aif_field, sizeof(Unk_AIFEntry) * GAME_MAP_ROWS * GAME_MAP_COLUMNS);
-            var_t1 = 0;
 
             temp_s0 = temp->unk_02 - 1;
+            temp2 = temp->unk_03;
+            var_t1 = 0;
+
             if (temp->unk_01 == 0) {
                 var_s6 = temp_s0;
-                var_s7 = temp->unk_03;
+                var_s7 = temp2;
                 var_s4 = 1;
-                var_s1 = var_s6;
-                temp_t0 = temp->unk_03 - 1;
-                var_s3 = temp_t0;
+                var_s1 = temp_s0;
+                var_s3 = temp2 - 1;
 
-                if (temp_t0 > 0) {
+                if (temp2 - 1 > 0) {
                     sp38 = 0;
                 }
 
                 if (temp->unk_04 == 0) {
                     var_s5 = aiNext[1];
-                    if (temp_t0 > 0) {
-                        sp34 = aiNext[0];
+                    if (temp2 - 1 > 0) {
+                        var_v0_2 = aiNext[0];
                     }
                 } else {
                     var_s5 = aiNext[0];
-                    if (temp_t0 > 0) {
-                        sp34 = aiNext[1];
+                    if (temp2 - 1 > 0) {
+                        var_v0_2 = aiNext[1];
                     }
                 }
 
                 if (var_s7 != 0) {
-                    aif_field[var_s7][var_s6].unk_1 = 1;
+                    aif_field[var_s7][var_s6].unk_1 = var_s4;
                     aif_field[var_s7][var_s6].unk_0 = var_s5;
                 }
 
                 if (var_s3 != 0) {
-                    aif_field[var_s3][var_s6].unk_1 = sp38;
-                    aif_field[var_s3][var_s6].unk_0 = (u8)sp34;
+                    aif_field[var_s3][var_s1].unk_1 = sp38;
+                    aif_field[var_s3][var_s1].unk_0 = var_v0_2;
                 }
 
-                if (aif_field[temp_t0][temp_s0].unk_0 == aif_field[temp->unk_03][temp_s0].unk_0) {
+                if (aif_field[temp2 - 1][temp_s0].unk_0 == aif_field[temp2][temp_s0].unk_0) {
                     var_t1 = 1;
                 }
-                var_s2 = aifSearchLineMS(temp, temp_s0, temp->unk_03, var_s5, temp_s0, temp_t0, sp34, var_t1);
+                var_s2 = aifSearchLineMS(temp, temp_s0, temp2, var_s5, temp_s0, temp2 - 1, var_v0_2, var_t1);
             } else {
-                var_s6 = temp_s0;
-                if (aif_field[temp->unk_03 + 1][temp_s0].unk_1 != 0xA) {
-                    var_s7 = temp->unk_03;
+                if (aif_field[temp2 + 1][temp_s0].unk_1 != 0xA) {
+                    var_s6 = temp_s0;
+                    var_s7 = temp2;
                     var_s4 = 2;
-                    var_s1 = temp->unk_02;
-                    var_s3 = var_s7;
+                    var_s1 = temp_s0 + 1;
+                    var_s3 = temp2;
                     sp38 = 3;
                     if (temp->unk_04 != 0) {
                         var_s5 = aiNext[1];
@@ -2492,11 +2483,11 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                         var_v0_2 = aiNext[1];
                     }
                 } else {
-                    var_s6 = temp->unk_02;
-                    var_s7 = temp->unk_03;
+                    var_s6 = temp_s0 + 1;
+                    var_s7 = temp2;
                     var_s4 = 3;
                     var_s1 = temp_s0;
-                    var_s3 = var_s7;
+                    var_s3 = temp2;
                     sp38 = 2;
                     if (temp->unk_04 == 0) {
                         var_s5 = aiNext[1];
@@ -2506,8 +2497,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                         var_v0_2 = aiNext[1];
                     }
                 }
-                sp34 = var_v0_2;
-                if (var_s5 == sp34) {
+                if (var_s5 == var_v0_2) {
                     var_t1 = 1;
                 }
                 if (var_s7 != 0) {
@@ -2515,196 +2505,199 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                     aif_field[var_s7][var_s6].unk_0 = var_s5;
                 }
                 if (var_s3 != 0) {
-                    aif_field[var_s7][var_s1].unk_1 = sp38;
-                    aif_field[var_s7][var_s1].unk_0 = sp34;
+                    aif_field[var_s3][var_s1].unk_1 = sp38;
+                    aif_field[var_s3][var_s1].unk_0 = var_v0_2;
                 }
-                var_s2 = aifSearchLineMS(temp, var_s6, var_s7, var_s5, var_s1, var_s7, sp34, var_t1);
+                var_s2 = aifSearchLineMS(temp, var_s6, var_s7, var_s5, var_s1, var_s3, var_v0_2, var_t1);
             }
 
-            if (var_s2 != 0) {
-                if (RensaP != 0) {
-                    if (var_s2 == 2) {
-                        var_s0 = var_s6;
-                        var_s6 = var_s1;
-                        var_s1 = var_s0;
+            if ((var_s2 != 0) && (RensaP != 0)) {
+                if (var_s2 == 2) {
+                    var_s0 = var_s6;
+                    var_s6 = var_s1;
+                    var_s1 = var_s0;
 
-                        var_s0 = var_s7;
-                        var_s7 = var_s3;
-                        var_s3 = var_s0;
+                    var_s0 = var_s7;
+                    var_s7 = var_s3;
+                    var_s3 = var_s0;
 
-                        var_s0 = var_s5;
-                        var_s5 = sp34;
-                        sp34 = var_s0;
+                    var_s0 = var_s5;
+                    var_s5 = var_v0_2;
+                    var_v0_2 = var_s0;
 
-                        var_s0 = var_s4;
-                        var_s4 = sp38;
-                        sp38 = var_s0;
-                    }
+                    var_s0 = var_s4;
+                    var_s4 = sp38;
+                    sp38 = var_s0;
+                }
 
-                    sp3C = aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1, var_s3, 0,
-                                             sp38);
-                    aiHiErR = aiHiEraseCtr;
-                    sp40 = aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1, var_s3, 1,
-                                             sp38);
-                    aiHiErY = aiHiEraseCtr;
-                    sp44 = aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1, var_s3, 2,
-                                             sp38);
-                    aiHiErB = aiHiEraseCtr;
+                sp3C =
+                    aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1, var_s3, 0, sp38);
+                aiHiErR = aiHiEraseCtr;
+                sp40 =
+                    aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1, var_s3, 1, sp38);
+                aiHiErY = aiHiEraseCtr;
+                sp44 =
+                    aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1, var_s3, 2, sp38);
+                aiHiErB = aiHiEraseCtr;
 
-                    var_s0 = 0;
-                    if (var_s6 == var_s1) {
-                        if (var_s3 < var_s7) {
-                            var_s1 = var_s6 - 1;
-                            var_s3 = var_s3 + 1;
-                            if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
-                                var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 3, var_s1,
-                                                            var_s3, 0, 2);
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 3,
-                                                                     var_s1, var_s3, 1, 2));
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 3,
-                                                                     var_s1, var_s3, 2, 2));
-                            }
+                var_s0 = 0;
+                if (var_s6 == var_s1) {
+                    if (var_s3 < var_s7) {
+                        var_s4 = 3;
+                        var_s1--;
+                        var_s3++;
+                        sp38 = 2;
+                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 0, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 1, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 2, sp38);
+                        }
 
-                            var_s1 += 2;
-                            sp38 = 3;
-                            if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 2,
-                                                                     var_s1, var_s3, 0, sp38));
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 2,
-                                                                     var_s1, var_s3, 1, sp38));
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 2,
-                                                                     var_s1, var_s3, 2, sp38));
-                            }
-                        } else {
-                            var_s1 = var_s6 - 1;
-                            var_s3 = (var_s3 - 1);
-                            if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
-                                var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 3, var_s1,
-                                                            var_s3, 0, 2);
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 3,
-                                                                     var_s1, var_s3, 1, 2));
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 3,
-                                                                     var_s1, var_s3, 2, 2));
-                            }
-                            var_s1 += 2;
-                            sp38 = 3;
-                            if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 2,
-                                                                     var_s1, var_s3, 0, sp38));
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 2,
-                                                                     var_s1, var_s3, 1, sp38));
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 2,
-                                                                     var_s1, var_s3, 2, sp38));
-                            }
+                        var_s4 = 2;
+                        var_s1 += 2;
+                        sp38 = 3;
+                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 0, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 1, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 2, sp38);
                         }
                     } else {
-                        if (var_s1 < var_s6) {
-                            var_s1 = (var_s1 + 2);
-                            sp38 = 3;
-                            if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
-                                var_s0 = aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 2, var_s1,
-                                                           var_s3, 0, sp38);
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 2,
-                                                                     var_s1, var_s3, 1, sp38));
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 2,
-                                                                     var_s1, var_s3, 2, sp38));
-                            }
-                            var_s1 = var_s1 - 1;
-                        } else {
-                            var_s1 = (var_s1 - 2);
-                            if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
-                                var_s0 = aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 3, var_s1,
-                                                           var_s3, 0, 2);
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 3,
-                                                                     var_s1, var_s3, 1, 2));
-                                var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 3,
-                                                                     var_s1, var_s3, 2, 2));
-                            }
-                            var_s1 = var_s1 + 1;
+                        var_s4 = 3;
+                        var_s1--;
+                        var_s3--;
+                        sp38 = 2;
+                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 0, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 1, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 2, sp38);
                         }
 
-                        var_s3 = (var_s3 - 1);
+                        var_s4 = 2;
+                        var_s1 += 2;
+                        sp38 = 3;
+                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 0, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 1, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 2, sp38);
+                        }
+                    }
+                } else {
+                    if (var_s1 < var_s6) {
+                        var_s4 = 2;
+                        var_s1 += 2;
+                        sp38 = 3;
+                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 0, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 1, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 2, sp38);
+                        }
+
+                        var_s4 = 1;
+                        var_s1--;
+                        var_s3--;
                         sp38 = 0;
                         if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
-                            var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 1,
-                                                                 var_s1, var_s3, 0, 0));
-                            var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 1,
-                                                                 var_s1, var_s3, 1, 0));
-                            var_s0 = (var_s0 | aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, 1,
-                                                                 var_s1, var_s3, 2, 0));
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 0, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 1, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 2, sp38);
+                        }
+                    } else {
+                        var_s4 = 3;
+                        var_s1 -= 2;
+                        sp38 = 2;
+                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 0, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 1, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 2, sp38);
+                        }
+
+                        var_s4 = 1;
+                        var_s1++;
+                        var_s3--;
+                        sp38 = 0;
+                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 0, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 1, sp38);
+                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
+                                                        var_s3, 2, sp38);
                         }
                     }
+                }
 
-                    switch (sp34) {
-                        case 0:
-                            temp->unk_08 += ((s16)aiHiErR * pri_point[7]);
-                            if (sp3C != 0) {
-                                if ((sp40 != 0) || (sp44 != 0) || (var_s0 != 0)) {
-                                    temp->unk_08 += RensaP * sp3C;
-                                } else {
-                                    temp->unk_08 += RensaP * sp3C;
-                                }
+                switch (var_v0_2) {
+                    case 0:
+                        temp->unk_08 += aiHiErR * pri_point[7];
+                        if (sp3C != 0) {
+                            if ((sp40 != 0) || (sp44 != 0) || (var_s0 != 0)) {
+                                temp->unk_08 += RensaP * sp3C;
                             } else {
-                                if ((sp40 == 0) && (sp44 == 0)) {
-                                    if (var_s0 != 0) {
-                                        if (var_s7 >= 3U) {
-                                            temp->unk_08 += RensaMP;
-                                        }
-                                    }
-                                } else {
-                                    if (var_s7 >= 3U) {
-                                        temp->unk_08 += RensaMP;
-                                    }
+                                temp->unk_08 += RensaP * sp3C;
+                            }
+                        } else {
+                            if ((sp40 != 0) || (sp44 != 0) || (var_s0 != 0)) {
+                                if (var_s7 >= 3U) {
+                                    temp->unk_08 += RensaMP;
                                 }
                             }
-                            break;
+                        }
+                        break;
 
-                        case 1:
-                            temp->unk_08 += ((s16)aiHiErY * pri_point[7]);
-                            if (sp40 != 0) {
-                                if ((sp3C != 0) || (sp44 != 0) || (var_s0 != 0)) {
-                                    temp->unk_08 += RensaP * sp40;
-                                } else {
-                                    temp->unk_08 += RensaP * sp40;
-                                }
+                    case 1:
+                        temp->unk_08 += aiHiErY * pri_point[7];
+                        if (sp40 != 0) {
+                            if ((sp3C != 0) || (sp44 != 0) || (var_s0 != 0)) {
+                                temp->unk_08 += RensaP * sp40;
                             } else {
-                                if ((sp3C == 0) && (sp44 == 0)) {
-                                    if (var_s0 != 0) {
-                                        if (var_s7 >= 3U) {
-                                            temp->unk_08 += RensaMP;
-                                        }
-                                    }
-                                } else {
-                                    if (var_s7 >= 3U) {
-                                        temp->unk_08 += RensaMP;
-                                    }
+                                temp->unk_08 += RensaP * sp40;
+                            }
+                        } else {
+                            if ((sp3C != 0) || (sp44 != 0) || (var_s0 != 0)) {
+                                if (var_s7 >= 3U) {
+                                    temp->unk_08 += RensaMP;
                                 }
                             }
-                            break;
+                        }
+                        break;
 
-                        case 2:
-                            temp->unk_08 += (aiHiErB * pri_point[7]);
-                            if (sp44 != 0) {
-                                if ((sp40 != 0) || (sp3C != 0) || (var_s0 != 0)) {
-                                    temp->unk_08 += RensaP * sp44;
-                                } else {
-                                    temp->unk_08 += RensaP * sp44;
-                                }
+                    case 2:
+                        temp->unk_08 += (aiHiErB * pri_point[7]);
+                        if (sp44 != 0) {
+                            if ((sp40 != 0) || (sp3C != 0) || (var_s0 != 0)) {
+                                temp->unk_08 += RensaP * sp44;
                             } else {
-                                if ((sp40 == 0) && (sp3C == 0)) {
-                                    if (var_s0 != 0) {
-                                        if (var_s7 >= 3U) {
-                                            temp->unk_08 += RensaMP;
-                                        }
-                                    }
-                                } else {
-                                    if (var_s7 >= 3U) {
-                                        temp->unk_08 += RensaMP;
-                                    }
+                                temp->unk_08 += RensaP * sp44;
+                            }
+                        } else {
+                            if ((sp40 != 0) || (sp3C != 0) || (var_s0 != 0)) {
+                                if (var_s7 >= 3U) {
+                                    temp->unk_08 += RensaMP;
                                 }
                             }
-                            break;
-                    }
+                        }
+                        break;
                 }
             }
         } else {
@@ -2713,50 +2706,41 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
     }
 
     if (gameStateDataRef->unk_23E != 0) {
-        var_s0_2 = -0xF4241;
-        var_s2_2 = 0;
-
-        for (sp30 = 0; sp30 < aiFlagCnt; sp30++) {
+        for (sp30 = var_s2 = 0, temp_s0 = -0xF4241; sp30 < aiFlagCnt; sp30++) {
             if (aiPriOfs != 0) {
-                var_a2 = genrand(aiPriOfs);
+                temp2 = genrand(aiPriOfs);
             } else {
-                var_a2 = 0;
+                temp2 = 0;
             }
 
-            if (var_s0_2 < aiFlag[sp30].unk_08 + var_a2) {
-                var_s0_2 = aiFlag[sp30].unk_08 + var_a2;
-                var_s2_2 = sp30;
+            if (temp_s0 < aiFlag[sp30].unk_08 + temp2) {
+                temp_s0 = aiFlag[sp30].unk_08 + temp2;
+                var_s2 = sp30;
             }
         }
     } else {
-        s32 var_s3_2;
-
-        var_s3_2 = -0xF4241;
-        var_s0_2 = -0xF4241;
-        var_s2_2 = 0;
-
-        for (sp30 = 0; sp30 < aiFlagCnt; sp30++) {
+        for (sp30 = var_s2 = 0, temp_s0 = var_s3_2 = -0xF4241; sp30 < aiFlagCnt; sp30++) {
             if (aiPriOfs != 0) {
-                var_a2 = aiFlag[sp30].unk_08 + genrand(aiPriOfs + 0x64);
+                temp2 = genrand(aiPriOfs + 0x64);
             } else {
-                var_a2 = aiFlag[sp30].unk_08 + genrand(0x64);
+                temp2 = genrand(0x64);
             }
 
-            if (var_s3_2 < var_a2) {
-                var_s3_2 = var_a2;
-                if (var_s0_2 < aiFlag[sp30].unk_08) {
-                    var_s0_2 = aiFlag[sp30].unk_08;
+            if (var_s3_2 < temp2 + aiFlag[sp30].unk_08) {
+                var_s3_2 = temp2 + aiFlag[sp30].unk_08;
+                if (temp_s0 < aiFlag[sp30].unk_08) {
+                    temp_s0 = aiFlag[sp30].unk_08;
                 }
-                var_s2_2 = sp30;
+                var_s2 = sp30;
             }
 
-            if (aiFlag[sp30].unk_08 < var_s0_2) {
+            if (aiFlag[var_s2].unk_08 < temp_s0) {
                 gameStateDataRef->unk_23E = 1;
             }
         }
     }
 
-    decide = var_s2_2;
+    decide = var_s2;
 }
 #else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/aiset", aiHiruAllPriSet);
