@@ -1235,15 +1235,6 @@ s32 aifRensaCheck(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFla
                              var_t2);
 }
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/aiset", aifSearchLineCore);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/aiset", aifSearchLineCore);
-#endif
-
-#if VERSION_CN
 /**
  * Original name: aifSearchLineCore
  */
@@ -1252,6 +1243,7 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
     u8 temp_s2 = aif_field[arg1][arg0].unk_0;
     s32 i;
     s32 j;
+    s32 k;
     s32 var_t3;
     bool var_t0_3;
     bool var_t4;
@@ -1267,52 +1259,52 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
     if (arg2 != 2) {
         var_t4 = true;
 
-        for (i = arg1 - 1; (i > 0) && (i > arg1 - 4); i--) {
-            if (aif_field[i][arg0].unk_0 != temp_s2) {
-                if (aif_field[i][arg0].unk_0 != 3) {
-                    i = 0;
+        for (k = arg1 - 1; (k > 0) && (k > arg1 - 4); k--) {
+            if (aif_field[k][arg0].unk_0 != temp_s2) {
+                if (aif_field[k][arg0].unk_0 != 3) {
+                    k = 0;
                 } else {
                     var_t4 = false;
                 }
             } else {
                 hei_data[3]++;
-                if ((aif_field[i][arg0].unk_1 > 4) && (aif_field[i][arg0].unk_1 < 8)) {
+                if ((aif_field[k][arg0].unk_1 > 4) && (aif_field[k][arg0].unk_1 < 8)) {
                     hei_data[4]++;
-                    if (i < 4) {
-                        hei_data[8] += BadLineRate[i][arg0];
+                    if (k < 4) {
+                        hei_data[8] += BadLineRate[k][arg0];
                     }
-                } else if (i < 4) {
-                    hei_data[7] += BadLineRate[i][arg0];
+                } else if (k < 4) {
+                    hei_data[7] += BadLineRate[k][arg0];
                 }
                 if (var_t4) {
                     hei_data[2]++;
                 }
             }
 
-            if (i > 0) {
+            if (k > 0) {
                 hei_data[5]++;
             }
         }
 
-        for (i = arg1 + 1, var_t4 = true, var_t3 = 0; i < GAME_MAP_ROWS; i++, var_t3++) {
-            if (aif_field[i][arg0].unk_0 != temp_s2) {
-                if (aif_field[i][arg0].unk_0 != 3) {
-                    i = 0x11;
+        for (k = arg1 + 1, var_t4 = true, var_t3 = 0; k < GAME_MAP_ROWS; k++, var_t3++) {
+            if (aif_field[k][arg0].unk_0 != temp_s2) {
+                if (aif_field[k][arg0].unk_0 != 3) {
+                    k = 0x11;
                 } else {
                     var_t4 = false;
                 }
             } else {
                 hei_data[3]++;
 
-                if ((aif_field[i][arg0].unk_1 > 4) && (aif_field[i][arg0].unk_1 < 8)) {
+                if ((aif_field[k][arg0].unk_1 > 4) && (aif_field[k][arg0].unk_1 < 8)) {
                     if (var_t3 < 3) {
                         hei_data[4]++;
-                        if (i < 4) {
-                            hei_data[8] += BadLineRate[i][arg0];
+                        if (k < 4) {
+                            hei_data[8] += BadLineRate[k][arg0];
                         }
                     }
-                } else if (i < 4) {
-                    hei_data[7] += BadLineRate[i][arg0];
+                } else if (k < 4) {
+                    hei_data[7] += BadLineRate[k][arg0];
                 }
 
                 if (var_t4) {
@@ -1450,7 +1442,6 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
 
     return var_t4;
 }
-#endif
 
 /**
  * Original name: aifMiniPointK3
