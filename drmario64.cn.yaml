@@ -345,14 +345,19 @@ segments:
       # libnustd
       - [0x011FD0, .data, libnustd/ctype]
 
-      - [0x00120E0, rodata, boot/0120E0] # guess
-      - [0x0012180, rodata, boot/012180]
-      - [0x00121E0, rodata, boot/0121E0]
-      - [0x0012240, rodata, boot/012240]
-      - [0x0012260, rodata, boot/012260]
-      - [0x00122B0, rodata, boot/0122B0]
-      - [0x00123D0, rodata, boot/0123D0]
-      - [0x00123E0, .rodata, libegcs/libgcc2]
+      - [0x0120E0, rodata, libultra/env]
+      - [0x012180, rodata, libultra/cosf]
+      - [0x0121E0, rodata, libultra/sinf]
+      - [0x012240, rodata, libultra/sched]
+      - [0x012260, rodata, libultra/os/exceptasm]
+      - [0x0122B0, rodata, libultra/setintmask]
+      - [0x012330, rodata, libultra/devmgr]
+      - [0x012350, rodata, libultra/drvrNew]
+      - [0x012370, rodata, libultra/resample]
+      - [0x0123A0, rodata, libultra/reverb]
+      - [0x0123D0, rodata, libultra/libm_vals]
+
+      - [0x0123E0, .rodata, libegcs/libgcc2]
 
       - { start: 0x0124E0, type: bss, vram: 0x800118E0, name: boot/800118E0 }
 

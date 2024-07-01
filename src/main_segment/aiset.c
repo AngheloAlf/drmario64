@@ -2400,11 +2400,11 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
 
     u8 var_s0;
     u8 var_s1;
-    u8 var_s3;
+    u8 var_s7;
     u8 var_s4;
     u8 var_s5;
     u8 var_s6;
-    u8 var_s7;
+    u8 var_s3;
     u8 var_v0_2;
     u8 sp38;
     u8 sp3C;
@@ -2652,6 +2652,8 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                                 if (var_s7 >= 3U) {
                                     temp->unk_08 += RensaMP;
                                 }
+                            } else {
+                                temp->unk_08 += 0;
                             }
                         }
                         break;

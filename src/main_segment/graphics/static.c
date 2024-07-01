@@ -178,17 +178,11 @@ void func_8002C4EC(TexturePtr texture, s32 width, s32 height) {
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", func_8002C688);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002E36C_cn);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphics/static", func_8002C688);
-#endif
+void func_8002C688(u8 *texture, s32 width, s32 height UNUSED, s32 uls, s32 ult, s32 lrs, s32 lrt) {
+    gDPLoadTextureTile(gGfxHead++, texture, G_IM_FMT_CI, G_IM_SIZ_8b, width, height, uls, ult, lrs, lrt, 0,
+                       G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                       G_TX_NOLOD);
+}
 
 /**
  * Original name: draw_Tex
@@ -198,50 +192,47 @@ void draw_Tex(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
                             arg4 << 5, arg5 << 5, 1 << 10, 1 << 10);
 }
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", func_8002C914);
-#endif
+void func_8002C914(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
+    gSPScisTextureRectangle(gGfxHead++, arg0 << 2, arg1 << 2, (arg0 + arg2) << 2, (arg1 + arg3) << 2, G_TX_RENDERTILE,
+                            arg4 << 5, arg5 << 5, 1 << 12, 1 << 12);
+}
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002E5E8_cn);
-#endif
+void func_8002CA68(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7) {
+    gSPScisTextureRectangle(gGfxHead++, arg0 << 2, arg1 << 2, (arg0 + arg4) << 2, (arg1 + arg5) << 2, G_TX_RENDERTILE,
+                            arg6 << 5, arg7 << 5, (arg2 << 10) / arg4, (arg3 << 10) / arg5);
+}
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphics/static", func_8002C914);
-#endif
+void func_8002CD08(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, bool arg6, bool arg7) {
+    s32 var_t3 = 1 << 10;
+    s32 var_t2 = 1 << 10;
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", func_8002CA68);
-#endif
+    if (arg6) {
+        var_t2 = ((u32)-1 << 10) & 0xFFFF;
+        arg4 = arg2 - 1;
+    }
+    if (arg7) {
+        var_t3 = ((u32)-1 << 10) & 0xFFFF;
+        arg5 = arg3 - 1;
+    }
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002E710_cn);
-#endif
+    gSPScisTextureRectangle(gGfxHead++, arg0 << 2, arg1 << 2, (arg0 + arg2) << 2, (arg1 + arg3) << 2, G_TX_RENDERTILE,
+                            arg4 << 5, arg5 << 5, var_t2, var_t3);
+}
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphics/static", func_8002CA68);
-#endif
+void func_8002CF04(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9,
+                   bool argA, bool argB) {
+    s32 var_a2 = (arg2 << 10) / arg4;
+    s32 var_a3 = (arg3 << 10) / arg5;
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", func_8002CD08);
-#endif
+    if (argA) {
+        var_a2 = -var_a2 & 0xFFFF;
+        arg6 = arg8 - 1;
+    }
+    if (argB) {
+        var_a3 = -var_a3 & 0xFFFF;
+        arg7 = arg9 - 1;
+    }
 
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002E968_cn);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphics/static", func_8002CD08);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/graphics/static", func_8002CF04);
-#endif
-
-#if VERSION_CN
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/graphics/static", func_8002EB24_cn);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphics/static", func_8002CF04);
-#endif
+    gSPScisTextureRectangle(gGfxHead++, arg0 << 2, arg1 << 2, (arg0 + arg4) << 2, (arg1 + arg5) << 2, G_TX_RENDERTILE,
+                            arg6 << 5, arg7 << 5, var_a2, var_a3);
+}
