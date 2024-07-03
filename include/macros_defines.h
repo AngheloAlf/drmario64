@@ -50,6 +50,7 @@
 #define ANY_BUTTON (A_BUTTON | B_BUTTON | L_TRIG | R_TRIG | Z_TRIG | START_BUTTON | U_JPAD | L_JPAD | R_JPAD | D_JPAD | U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS)
 
 #define RELOCATE_SEGMENTED(ptr, baseAddr) ((void *)(SEGMENT_OFFSET((ptr)) + (uintptr_t)(baseAddr)))
+#define RELOCATE_OFFSET(ptr, offset) ((void *)((uintptr_t)(ptr) + (uintptr_t)(offset)))
 
 
 #define saved_reg_s0 0

@@ -8,6 +8,9 @@
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "main_segment_variables.h"
+
+#include "libc/assert.h"
+
 #include "util.h"
 #include "rom_offsets.h"
 #include "audio/sound.h"
@@ -18,6 +21,9 @@
 #include "nnsched.h"
 #include "lws.h"
 #include "066840.h"
+
+#include "assets/title/title_bmp.h"
+#include "assets/waku/waku2.h"
 
 #if VERSION_US || VERSION_GW || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version
@@ -80,12 +86,23 @@ u8 changestar_tex[] ALIGNED(8) = {
 #include "main_segment/main_story/changestar_tex.i4.inc"
 };
 
-// TODO: these are offsets into the asset file
-s32 title_bmp_tbl[3] = {
-    0,
-    0x11D0,
-    0x25E0,
+typedef enum TitleBmpIndex {
+    /* 0 */ TITLE_BMP_INDEX_NINTENDO_LOGO,
+    /* 1 */ TITLE_BMP_INDEX_PRESS_ANY_BUTTON,
+    /* 2 */ TITLE_BMP_INDEX_PRESS_ANY_BUTTON_SHADOW,
+    /* 3 */ TITLE_BMP_INDEX_MAX,
+} TitleBmpIndex;
+
+/**
+ * Original name: title_bmp_tbl
+ */
+void *title_bmp_tbl[] = {
+    &title_bmp_00,
+    &title_bmp_01,
+    &title_bmp_02,
 };
+
+static_assert(ARRAY_COUNT(title_bmp_tbl) == TITLE_BMP_INDEX_MAX, "");
 
 void *mess_heap = mess_heap_area;
 
@@ -129,12 +146,23 @@ void *story_z_buffer = gfx_freebuf;
 
 s32 objMtx_FF = 0;
 
-// TODO: these are offsets into the asset file
-s32 wakuGraphic_ofs[3] = {
-    0,
-    0x3410,
-    0x42A0,
+typedef enum wakuGraphicIndex {
+    /* 0 */ WAKUGRAPHICINDEX_0,
+    /* 1 */ WAKUGRAPHICINDEX_1,
+    /* 2 */ WAKUGRAPHICINDEX_2,
+    /* 3 */ WAKUGRAPHICINDEX_MAX,
+} wakuGraphicIndex;
+
+/**
+ * Original name: wakuGraphic_ofs
+ */
+void *wakuGraphic_ofs[] = {
+    &waku2_00,
+    &waku2_01,
+    &waku2_02,
 };
+
+static_assert(ARRAY_COUNT(wakuGraphic_ofs) == WAKUGRAPHICINDEX_MAX, "");
 
 Vp D_800AAD58 = { { { 0x280, 0x1E0, 0x1FF, 0 }, { 0x280, 0x1E0, 0x1FF, 0 } } };
 
@@ -378,14 +406,14 @@ void story_bg_proc(Gfx **gfxP) {
     gSPDisplayList(gfx++, normal_texture_init_dl);
     StretchTexBlock8(&gfx, sp48.width, sp48.height, sp48.tlut, sp48.texture, 0.0f, 0.0f, sp48.width, sp48.height);
 
-    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + wakuGraphic_ofs[0]));
-    get_gbi_stat(&sp60, (void *)(((u8 *)wakuGraphic) + wakuGraphic_ofs[1]));
+    get_gbi_stat(&sp48, RELOCATE_OFFSET(wakuGraphic, wakuGraphic_ofs[WAKUGRAPHICINDEX_0]));
+    get_gbi_stat(&sp60, RELOCATE_OFFSET(wakuGraphic, wakuGraphic_ofs[WAKUGRAPHICINDEX_1]));
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     StretchAlphaTexTile(&gfx, sp48.width, sp48.height, sp48.texture, sp48.width, sp60.texture, sp60.width, 0, 0,
                         sp48.width, sp48.height, 0.0f, 140.0f, sp48.width, sp48.height);
 
-    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + wakuGraphic_ofs[2]));
+    get_gbi_stat(&sp48, RELOCATE_OFFSET(wakuGraphic, wakuGraphic_ofs[WAKUGRAPHICINDEX_2]));
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
     StretchTexTile8(&gfx, sp48.width, sp48.height, sp48.tlut, sp48.texture, 0, 0, sp48.width, sp48.height, 0.0f, 160.0f,
@@ -731,12 +759,12 @@ void *init_title(void *dstAddr, bool arg1) {
  * Original name: demo_title
  */
 s32 demo_title(Gfx **gfxP, bool arg1) {
-    struct_get_gbi_stat_arg0 sp30;
-    struct_get_gbi_stat_arg0 sp48;
-    Mtx sp60;
+    struct_get_gbi_stat_arg0 textureInfo;
+    struct_get_gbi_stat_arg0 shadowInfo;
+    Mtx mtx;
     Gfx *gfx;
     bool temp_s2;
-    s32 temp_v1_2;
+    s32 color;
     s32 var_s3;
     u32 var_v0_3;
 
@@ -769,7 +797,7 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
         lws_scene = RELOCATE_SEGMENTED(lws_data[0], title_data);
     }
 
-    makeTransrateMatrix(&sp60, 0, 0xFFC4 << 16, 0xFC4A << 16);
+    makeTransrateMatrix(&mtx, 0, 0xFFC4 << 16, 0xFC4A << 16);
 
     if ((story_spot_cnt > 0) && (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON)) {
         if (temp_s2) {
@@ -789,7 +817,7 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
         }
     }
 
-    if (lws_anim(&gfx, &sp60, lws_scene, title_time, title_data) == 1) {
+    if (lws_anim(&gfx, &mtx, lws_scene, title_time, title_data) == 1) {
         var_s3 = -1;
     }
 
@@ -804,36 +832,36 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
         story_spot(&gfx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, story_spot_cnt, changestar_tex);
 
         if (story_spot_cnt < 0) {
-            temp_v1_2 = 0xFF;
+            color = 255;
             if (story_spot_cnt > -0x18) {
-                temp_v1_2 = (story_spot_cnt * -0xFF) / 24;
-                if (temp_v1_2 > 0xFF) {
-                    temp_v1_2 = 0xFF;
+                color = (story_spot_cnt * -255) / 24;
+                if (color > 255) {
+                    color = 255;
                 }
-                if (temp_v1_2 < 0) {
-                    temp_v1_2 = 0;
+                if (color < 0) {
+                    color = 0;
                 }
             }
 
             if (story_spot_cnt < -0x4C) {
-                temp_v1_2 = 0xFF - (((story_spot_cnt + 0x4C) * -0xFF) / 24);
-                if (temp_v1_2 >= 0x100) {
-                    temp_v1_2 = 0xFF;
+                color = 255 - (((story_spot_cnt + 0x4C) * -255) / 24);
+                if (color > 255) {
+                    color = 255;
                 }
-                if (temp_v1_2 < 0) {
-                    temp_v1_2 = 0;
+                if (color < 0) {
+                    color = 0;
                 }
             }
 
-            get_gbi_stat(&sp30, title_bmp_data + title_bmp_tbl[0]);
+            get_gbi_stat(&textureInfo, RELOCATE_OFFSET(title_bmp_data, title_bmp_tbl[TITLE_BMP_INDEX_NINTENDO_LOGO]));
 
             gDPSetTextureLUT(gfx++, G_TT_NONE);
-            gDPSetPrimColor(gfx++, 0, 0, temp_v1_2, temp_v1_2, temp_v1_2, 255);
+            gDPSetPrimColor(gfx++, 0, 0, color, color, color, 255);
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
 
-            StretchTexBlock4i(&gfx, sp30.width, sp30.height, sp30.texture, SCREEN_WIDTH / 2 - sp30.width / 2,
-                              SCREEN_HEIGHT / 2 - sp30.height / 2, sp30.width, sp30.height);
+            StretchTexBlock4i(&gfx, textureInfo.width, textureInfo.height, textureInfo.texture, SCREEN_WIDTH / 2 - textureInfo.width / 2,
+                              SCREEN_HEIGHT / 2 - textureInfo.height / 2, textureInfo.width, textureInfo.height);
 
             story_spot_cnt += 1;
         } else {
@@ -847,12 +875,12 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     }
 
     if ((title_time & var_v0_3) && (title_time > 720) && (title_wait == 0)) {
-        get_gbi_stat(&sp30, title_bmp_data + title_bmp_tbl[1]);
-        get_gbi_stat(&sp48, title_bmp_data + title_bmp_tbl[2]);
+        get_gbi_stat(&textureInfo, RELOCATE_OFFSET(title_bmp_data, title_bmp_tbl[TITLE_BMP_INDEX_PRESS_ANY_BUTTON]));
+        get_gbi_stat(&shadowInfo, RELOCATE_OFFSET(title_bmp_data, title_bmp_tbl[TITLE_BMP_INDEX_PRESS_ANY_BUTTON_SHADOW]));
 
         gSPDisplayList(gfx++, alpha_texture_init_dl);
-        StretchAlphaTexBlock(&gfx, sp30.width, sp30.height, sp30.texture, sp30.width, sp48.texture, sp48.width, 88.0f,
-                             165.0f, sp30.width, sp30.height);
+        StretchAlphaTexBlock(&gfx, textureInfo.width, textureInfo.height, textureInfo.texture, textureInfo.width, shadowInfo.texture, shadowInfo.width, 88.0f,
+                             165.0f, textureInfo.width, textureInfo.height);
     }
 
     *gfxP = gfx;

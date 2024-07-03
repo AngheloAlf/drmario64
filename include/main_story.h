@@ -109,7 +109,6 @@ extern Gfx D_800A73B8[];
 extern u8 curtain_alpha_00_tex[];
 extern u16 curtain_00_tex[];
 extern u8 changestar_tex[];
-extern s32 title_bmp_tbl[];
 extern void *mess_heap;
 extern char st_staffroll_txt[];
 extern struct_mes_data *mes_data[];
@@ -131,7 +130,6 @@ extern u8 *story_read_buf;
 extern void *story_buffer;
 extern void *story_z_buffer;
 extern s32 objMtx_FF;
-extern s32 wakuGraphic_ofs[];
 extern Vp D_800AAD58;
 extern Gfx story_setup[];
 

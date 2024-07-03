@@ -748,8 +748,27 @@ segments:
     start: 0x24BB80
 
   - name: segment_title_bmp # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x3785E0
+    vram: 0x0
+    exclusive_ram_id: title
+    subsegments:
+      - [auto, c, assets/title/title_bmp]
+      - start: 0x3785E0
+        type: .data
+        name: assets/title/title_bmp
+        dir: assets/title/title_bmp
+        subsegments:
+          - [0x3785E0]
+          - [0x3785F0, palette, title_bmp_00]
+          - [0x3787F0, ci4, title_bmp_00, 192, 42]
+          - [0x3797B0]
+          - [0x3797C0, rgba16, title_bmp_01_tlut, 16, 16]
+          - [0x3799C0, rgba16, title_bmp_01_tex, 144, 16]
+          - [0x37ABC0]
+          - [0x37ABD0, palette, title_bmp_02]
+          - [0x37ADD0, ci4, title_bmp_02, 144, 16]
+
 
   - name: segment_waku # compressed # GraphBin
     type: code

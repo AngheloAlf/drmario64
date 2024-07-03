@@ -1,4 +1,4 @@
-#include "graphbin.h"
+#include "assets/waku/waku2.h"
 
 GraphBin_u16_320_20 waku2_00 = {
     {

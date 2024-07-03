@@ -30,12 +30,15 @@ typedef struct GraphBinHeader {
         /* 0x210 */ u16 texture[width * height]; \
     } GraphBin_u16_ ## width ## _ ## height
 
+DECLARE_GRAPHBIN_u4(144, 16);
+DECLARE_GRAPHBIN_u4(192, 42);
 DECLARE_GRAPHBIN_u4(320, 20);
 
 DECLARE_GRAPHBIN_u8(320, 80);
 DECLARE_GRAPHBIN_u8(320, 160);
 DECLARE_GRAPHBIN_u8(328, 240);
 
+DECLARE_GRAPHBIN_u16(144, 16);
 DECLARE_GRAPHBIN_u16(320, 20);
 
 #endif
