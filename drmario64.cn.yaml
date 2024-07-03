@@ -756,36 +756,167 @@ segments:
   - name: segment_waku2 # compressed # GraphBin
     type: databin
     start: 0x38E7E0
+
+
   - name: segment_story_bg01 # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x399090
+    vram: 0x0
+    exclusive_ram_id: story
+    subsegments:
+      - [auto, c, assets/story/bg01]
+      - start: 0x399090
+        type: .data
+        name: assets/story/bg01
+        dir: assets/story/bg01
+        subsegments:
+          - [0x399090]
+          - [0x3990A0, palette, bg01]
+          - [0x3992A0, ci8, bg01, 320, 160]
+
   - name: segment_story_bg02 # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x3A5AA0
+    vram: 0x0
+    exclusive_ram_id: story
+    subsegments:
+      - [auto, c, assets/story/bg02]
+      - start: 0x3A5AA0
+        type: .data
+        name: assets/story/bg02
+        dir: assets/story/bg02
+        subsegments:
+          - [0x3A5AA0]
+          - [0x3A5AB0, palette, bg02]
+          - [0x3A5CB0, ci8, bg02, 320, 160]
+
   - name: segment_story_bg03 # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x3B24B0
+    vram: 0x0
+    exclusive_ram_id: story
+    subsegments:
+      - [auto, c, assets/story/bg03]
+      - start: 0x3B24B0
+        type: .data
+        name: assets/story/bg03
+        dir: assets/story/bg03
+        subsegments:
+          - [0x3B24B0]
+          - [0x3B24C0, palette, bg03]
+          - [0x3B26C0, ci8, bg03, 320, 160]
+
   - name: segment_story_bg04 # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x3BEEC0
+    vram: 0x0
+    exclusive_ram_id: story
+    subsegments:
+      - [auto, c, assets/story/bg04]
+      - start: 0x3BEEC0
+        type: .data
+        name: assets/story/bg04
+        dir: assets/story/bg04
+        subsegments:
+          - [0x3BEEC0]
+          - [0x3BEED0, palette, bg04]
+          - [0x3BF0D0, ci8, bg04, 320, 160]
+
   - name: segment_story_bg05 # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x3CB8D0
+    vram: 0x0
+    exclusive_ram_id: story
+    subsegments:
+      - [auto, c, assets/story/bg05]
+      - start: 0x3CB8D0
+        type: .data
+        name: assets/story/bg05
+        dir: assets/story/bg05
+        subsegments:
+          - [0x3CB8D0]
+          - [0x3CB8E0, palette, bg05]
+          - [0x3CBAE0, ci8, bg05, 320, 160]
+
   - name: segment_story_bg07 # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x3D82E0
+    vram: 0x0
+    exclusive_ram_id: story
+    subsegments:
+      - [auto, c, assets/story/bg07]
+      - start: 0x3D82E0
+        type: .data
+        name: assets/story/bg07
+        dir: assets/story/bg07
+        subsegments:
+          - [0x3D82E0]
+          - [0x3D82F0, palette, bg07]
+          - [0x3D84F0, ci8, bg07, 320, 160]
+
   - name: segment_story_bg08 # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x3E4CF0
+    vram: 0x0
+    exclusive_ram_id: story
+    subsegments:
+      - [auto, c, assets/story/bg08]
+      - start: 0x3E4CF0
+        type: .data
+        name: assets/story/bg08
+        dir: assets/story/bg08
+        subsegments:
+          - [0x3E4CF0]
+          - [0x3E4D00, palette, bg08]
+          - [0x3E4F00, ci8, bg08, 320, 160]
+
   - name: segment_story_bg09 # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x3F1700
+    vram: 0x0
+    exclusive_ram_id: story
+    subsegments:
+      - [auto, c, assets/story/bg09]
+      - start: 0x3F1700
+        type: .data
+        name: assets/story/bg09
+        dir: assets/story/bg09
+        subsegments:
+          - [0x3F1700]
+          - [0x3F1710, palette, bg09]
+          - [0x3F1910, ci8, bg09, 320, 160]
+
   - name: segment_story_bg10 # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x3FE110
+    vram: 0x0
+    exclusive_ram_id: story
+    subsegments:
+      - [auto, c, assets/story/bg10]
+      - start: 0x3FE110
+        type: .data
+        name: assets/story/bg10
+        dir: assets/story/bg10
+        subsegments:
+          - [0x3FE110]
+          - [0x3FE120, palette, bg10]
+          - [0x3FE320, ci8, bg10, 320, 160]
+
   - name: segment_story_bg11 # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x40AB20
+    vram: 0x0
+    exclusive_ram_id: story
+    subsegments:
+      - [auto, c, assets/story/bg11]
+      - start: 0x40AB20
+        type: .data
+        name: assets/story/bg11
+        dir: assets/story/bg11
+        subsegments:
+          - [0x40AB20]
+          - [0x40AB30, palette, bg11]
+          - [0x40AD30, ci8, bg11, 320, 160]
 
 
   - name: segment_menu_char # compressed

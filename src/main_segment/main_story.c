@@ -263,11 +263,11 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
  * Original name: get_gbi_stat
  */
 void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1) {
-    arg0->width = arg1->unk_008;
-    arg0->height = arg1->unk_00A;
+    arg0->width = arg1->width;
+    arg0->height = arg1->height;
     arg0->unk_00 = arg1->unk_00E;
-    arg0->tlut = &arg1->unk_010;
-    arg0->texture = &arg1->unk_210;
+    arg0->tlut = arg1->tlut;
+    arg0->texture = arg1->texture;
 }
 
 /**
@@ -348,7 +348,8 @@ void func_800770E8(Gfx **gfxP, struct_wakuGraphic *arg1) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
-    StretchTexBlock8(&gfx, 328, 240, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
+    StretchTexBlock8(&gfx, SCREEN_WIDTH + 8, SCREEN_HEIGHT, arg1->tlut, &arg1->texture, 0.0f, 0.0f, SCREEN_WIDTH + 8,
+                     SCREEN_HEIGHT);
     *gfxP = gfx;
 }
 

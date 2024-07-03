@@ -41,15 +41,13 @@ typedef enum enum_story_proc_no {
 // I wonder if this is a real struct or not
 typedef struct struct_wakuGraphic {
     /* 0x000 */ UNK_TYPE1 unk_000[0x8];
-    /* 0x008 */ u16 unk_008;
-    /* 0x00A */ u16 unk_00A;
-    /* 0x00C */ UNK_TYPE2 unk_00C;
+    /* 0x008 */ u16 width;
+    /* 0x00A */ u16 height;
+    /* 0x00C */ UNK_TYPE1 unk_00C[0x2];
     /* 0x00E */ u8 unk_00E;
     /* 0x00F */ UNK_TYPE1 unk_00F[0x1];
-    /* 0x010 */ u16 unk_010;
-    /* 0x012 */ UNK_TYPE1 unk_012[0x2];
-    /* 0x014 */ UNK_TYPE1 unk_014[0x1FC];
-    /* 0x210 */ u8 unk_210;
+    /* 0x010 */ u16 tlut[0x100];
+    /* 0x210 */ u8 texture[UNK_SIZE];
 } struct_wakuGraphic; // size >= 0x212
 
 typedef struct struct_get_gbi_stat_arg0 {
