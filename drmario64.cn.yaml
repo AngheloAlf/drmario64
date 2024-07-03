@@ -750,12 +750,44 @@ segments:
   - name: segment_title_bmp # compressed # GraphBin
     type: databin
     start: 0x3785E0
+
   - name: segment_waku # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x37B250
+    vram: 0x0
+    exclusive_ram_id: waku
+    subsegments:
+      - [auto, c, assets/waku/waku]
+      - start: 0x37B250
+        type: .data
+        name: assets/waku/waku
+        dir: assets/waku/waku
+        subsegments:
+          - [0x37B250]
+          - [0x37B260, palette, waku]
+          - [0x37B460, ci8, waku, 328, 240]
+
   - name: segment_waku2 # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x38E7E0
+    vram: 0x0
+    exclusive_ram_id: waku
+    subsegments:
+      - [auto, c, assets/waku/waku2]
+      - start: 0x38E7E0
+        type: .data
+        name: assets/waku/waku2
+        dir: assets/waku/waku2
+        subsegments:
+          - [0x38E7E0]
+          - [0x38E7F0, rgba16, waku2_00_tlut, 16, 16]
+          - [0x38E9F0, rgba16, waku2_00_tex, 320, 20]
+          - [0x391BF0]
+          - [0x391C00, palette, waku2_01]
+          - [0x391E00, ci4, waku2_01, 320, 20]
+          - [0x392A80]
+          - [0x392A90, palette, waku2_02]
+          - [0x392C90, ci8, waku2_02, 320, 80]
 
 
   - name: segment_story_bg01 # compressed # GraphBin

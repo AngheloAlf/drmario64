@@ -1,6 +1,6 @@
 #include "graphbin.h"
 
-GraphBin_320_160 story_bg07 = {
+GraphBin_u8_320_160 story_bg07 = {
     {
         "GraphBin",
         320,

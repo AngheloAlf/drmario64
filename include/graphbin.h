@@ -12,9 +12,30 @@ typedef struct GraphBinHeader {
     /* 0x010 */ u16 tlut[0x100];
 } GraphBinHeader; // size = 0x210
 
-typedef struct GraphBin_320_160 {
-    /* 0x000 */ GraphBinHeader header;
-    /* 0x210 */ u8 texture[320 * 160];
-} GraphBin_320_160; // size = 0xCA10
+#define DECLARE_GRAPHBIN_u4(width, height) \
+    typedef struct GraphBin_u4_ ## width ## _ ## height { \
+        /* 0x000 */ GraphBinHeader header; \
+        /* 0x210 */ u8 texture[width * height / 2]; \
+    } GraphBin_u4_ ## width ## _ ## height
+
+#define DECLARE_GRAPHBIN_u8(width, height) \
+    typedef struct GraphBin_u8_ ## width ## _ ## height { \
+        /* 0x000 */ GraphBinHeader header; \
+        /* 0x210 */ u8 texture[width * height]; \
+    } GraphBin_u8_ ## width ## _ ## height
+
+#define DECLARE_GRAPHBIN_u16(width, height) \
+    typedef struct GraphBin_u16_ ## width ## _ ## height { \
+        /* 0x000 */ GraphBinHeader header; \
+        /* 0x210 */ u16 texture[width * height]; \
+    } GraphBin_u16_ ## width ## _ ## height
+
+DECLARE_GRAPHBIN_u4(320, 20);
+
+DECLARE_GRAPHBIN_u8(320, 80);
+DECLARE_GRAPHBIN_u8(320, 160);
+DECLARE_GRAPHBIN_u8(328, 240);
+
+DECLARE_GRAPHBIN_u16(320, 20);
 
 #endif
