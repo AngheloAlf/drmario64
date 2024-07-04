@@ -26,6 +26,10 @@
 #define SYM_END(x)              \
     .size x, . - x
 
+#define EXPORT(x)               \
+    .globl  x                  ;\
+    x:
+
 .macro move dst, src
     addu \dst, \src, $zero
 .endm

@@ -532,10 +532,10 @@ segments:
       - [0x06C2B0, c, ../lib/libmus/src/lib_memory]
       - [0x06C3F0, c, ../lib/libmus/src/aud_samples]
 
-      - [0x06C4B0, textbin, rsp/rspboot]
-      - [0x06C580, textbin, rsp/aspMain]
-      - [0x06D3A0, textbin, rsp/f3dex2]
-      - [0x06E730, textbin, rsp/s2dex]
+      - { start: 0x06C4B0, type: textbin, use_src_path: True, name: rsp/rspboot }
+      - { start: 0x06C580, type: textbin, use_src_path: True, name: rsp/aspMain }
+      - { start: 0x06D3A0, type: textbin, use_src_path: True, name: rsp/f3dex2 }
+      - { start: 0x06E730, type: textbin, use_src_path: True, name: rsp/s2dex }
 
       - [0x06FF20, .data, main_segment/nnsched]
       - [0x06FF30, .data, main_segment/graphic]
@@ -616,9 +616,9 @@ segments:
       - [0x093D40, .data, ../lib/libmus/src/aud_sched]
       - [0x093D50, .data, ../lib/libmus/src/aud_thread]
 
-      - [0x093D60, databin, rsp/aspMain]
-      - [0x094020, databin, rsp/f3dex2]
-      - [0x094440, databin, rsp/s2dex]
+      - { start: 0x093D60, type: databin, use_src_path: True, name: rsp/aspMain }
+      - { start: 0x094020, type: databin, use_src_path: True, name: rsp/f3dex2 }
+      - { start: 0x094440, type: databin, use_src_path: True, name: rsp/s2dex }
 
       - [0x094800, .rodata, main_segment/main]
 

@@ -458,10 +458,10 @@ segments:
       - [0x076F60, c, ../lib/libmus/src/lib_memory]
       - [0x0770A0, c, ../lib/libmus/src/aud_samples]
 
-      - [0x077160, textbin, rsp/rspboot]
-      - [0x077230, textbin, rsp/aspMain]
-      - [0x078050, textbin, rsp/f3dex2]
-      - [0x0793E0, textbin, rsp/s2dex]
+      - { start: 0x077160, type: textbin, use_src_path: True, name: rsp/rspboot }
+      - { start: 0x077230, type: textbin, use_src_path: True, name: rsp/aspMain }
+      - { start: 0x078050, type: textbin, use_src_path: True, name: rsp/f3dex2 }
+      - { start: 0x0793E0, type: textbin, use_src_path: True, name: rsp/s2dex }
 
       - [0x07ABD0, .data, main_segment/nnsched]
       - [0x07AC50, .data, main_segment/graphic]
@@ -582,9 +582,9 @@ segments:
       - [0x0B13C0, .rodata, ../lib/libmus/src/player]
       - [0x0B1440, .rodata, ../lib/libmus/src/player_fx]
 
-      - { start: 0x0B1450, type: databin, name: rsp/aspMain, linker_section_order: .rodata }
-      - { start: 0x0B1710, type: databin, name: rsp/f3dex2,  linker_section_order: .rodata }
-      - { start: 0x0B1B30, type: databin, name: rsp/s2dex,   linker_section_order: .rodata }
+      - { start: 0x0B1450, type: databin, use_src_path: True, linker_section_order: .rodata, name: rsp/aspMain }
+      - { start: 0x0B1710, type: databin, use_src_path: True, linker_section_order: .rodata, name: rsp/f3dex2 }
+      - { start: 0x0B1B30, type: databin, use_src_path: True, linker_section_order: .rodata, name: rsp/s2dex }
 
       - { type: bss, vram: 0x800CA1C0, name: main_segment/800CA1C0 }
 
