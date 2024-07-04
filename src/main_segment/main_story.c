@@ -860,8 +860,9 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
 
-            StretchTexBlock4i(&gfx, textureInfo.width, textureInfo.height, textureInfo.texture, SCREEN_WIDTH / 2 - textureInfo.width / 2,
-                              SCREEN_HEIGHT / 2 - textureInfo.height / 2, textureInfo.width, textureInfo.height);
+            StretchTexBlock4i(&gfx, textureInfo.width, textureInfo.height, textureInfo.texture,
+                              SCREEN_WIDTH / 2 - textureInfo.width / 2, SCREEN_HEIGHT / 2 - textureInfo.height / 2,
+                              textureInfo.width, textureInfo.height);
 
             story_spot_cnt += 1;
         } else {
@@ -876,11 +877,13 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
 
     if ((title_time & var_v0_3) && (title_time > 720) && (title_wait == 0)) {
         get_gbi_stat(&textureInfo, RELOCATE_OFFSET(title_bmp_data, title_bmp_tbl[TITLE_BMP_INDEX_PRESS_ANY_BUTTON]));
-        get_gbi_stat(&shadowInfo, RELOCATE_OFFSET(title_bmp_data, title_bmp_tbl[TITLE_BMP_INDEX_PRESS_ANY_BUTTON_SHADOW]));
+        get_gbi_stat(&shadowInfo,
+                     RELOCATE_OFFSET(title_bmp_data, title_bmp_tbl[TITLE_BMP_INDEX_PRESS_ANY_BUTTON_SHADOW]));
 
         gSPDisplayList(gfx++, alpha_texture_init_dl);
-        StretchAlphaTexBlock(&gfx, textureInfo.width, textureInfo.height, textureInfo.texture, textureInfo.width, shadowInfo.texture, shadowInfo.width, 88.0f,
-                             165.0f, textureInfo.width, textureInfo.height);
+        StretchAlphaTexBlock(&gfx, textureInfo.width, textureInfo.height, textureInfo.texture, textureInfo.width,
+                             shadowInfo.texture, shadowInfo.width, 88.0f, 165.0f, textureInfo.width,
+                             textureInfo.height);
     }
 
     *gfxP = gfx;
