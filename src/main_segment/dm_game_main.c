@@ -1386,7 +1386,7 @@ void func_80062920(void) {
         ptr->unk_888[i] = 0;
     }
 
-    initEtcWork(ptr->unk_884, evs_playcnt);
+    initEtcWork(ptr->gameEtcSeg, evs_playcnt);
 }
 
 void func_80062978(s32 index, s32 arg1) {
@@ -6618,9 +6618,9 @@ void dm_game_init_static(void) {
 
 #if VERSION_US || VERSION_GW
     temp_a0 = _romDataTbl[ROMDATATBL_GAME_ETC].start;
-    watchGameP->unk_884 = heapTop;
+    watchGameP->gameEtcSeg = heapTop;
 #elif VERSION_CN
-    watchGameP->unk_884 = heapTop;
+    watchGameP->gameEtcSeg = heapTop;
     temp_a0 = _romDataTbl[ROMDATATBL_GAME_ETC].start;
 #else
 #error ""

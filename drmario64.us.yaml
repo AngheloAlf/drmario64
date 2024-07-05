@@ -805,9 +805,13 @@ segments:
   - name: segment_menu_bg # compressed
     type: databin
     start: 0x207AA0
+    vram: 0x05000000
+    exclusive_ram_id: number_05
   - name: segment_menu_bg2 # compressed
     type: databin
     start: 0x20B530
+    vram: 0x05000000
+    exclusive_ram_id: number_05
   - name: segment_coffee01 # compressed
     type: databin
     start: 0x20EFC0

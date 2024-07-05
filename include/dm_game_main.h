@@ -120,7 +120,7 @@ typedef struct struct_watchGame {
     /* 0x878 */ UNK_TYPE unk_878;
     /* 0x87C */ TexturePtr unk_87C; // SnapBg?
     /* 0x880 */ s32 unk_880;
-    /* 0x884 */ UNK_PTR unk_884;
+    /* 0x884 */ void *gameEtcSeg;
     /* 0x888 */ UNK_TYPE4 unk_888[UNK_SIZE];
     /* 0x88C */ UNK_TYPE1 unk_88C[0xC];
     /* 0x898 */ s32 unk_898;

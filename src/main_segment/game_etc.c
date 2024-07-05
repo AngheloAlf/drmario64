@@ -4,6 +4,8 @@
 
 #include "game_etc.h"
 
+#include "libc/assert.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
@@ -17,28 +19,73 @@ static s32 binCount;
 static bool cont_bg_flg;
 static void *etcTexAddress;
 static void **etcLwsAddress;
-static struct_etcLwsTbl etcLwsTbl;
+static void *etcLwsTbl[14];
+static u8 D_800E5408[0x8] UNUSED;
 static s32 logo_ofsY;
 static s32 etc_mode;
 static struct_g_etc_work g_etc_work[MAXCONTROLLERS];
 static u8 D_800E57D8[0x40] UNUSED;
 static Mtx etc_viewMtx;
 
+typedef enum EtcPartIndex {
+    /*  0 */ ETC_PART_INDEX_GRAPHBIN_0,
+    /*  1 */ ETC_PART_INDEX_GRAPHBIN_1,
+    /*  2 */ ETC_PART_INDEX_GRAPHBIN_2,
+    /*  3 */ ETC_PART_INDEX_GRAPHBIN_3,
+    /*  4 */ ETC_PART_INDEX_GRAPHBIN_4,
+    /*  5 */ ETC_PART_INDEX_GRAPHBIN_5,
+    /*  6 */ ETC_PART_INDEX_GRAPHBIN_6,
+    /*  7 */ ETC_PART_INDEX_GRAPHBIN_7,
+    /*  8 */ ETC_PART_INDEX_GRAPHBIN_8,
+    /*  9 */ ETC_PART_INDEX_GRAPHBIN_9,
+    /* 10 */ ETC_PART_INDEX_GRAPHBIN_10,
+    /* 11 */ ETC_PART_INDEX_GRAPHBIN_11,
+    /* 12 */ ETC_PART_INDEX_GRAPHBIN_12,
+    /* 13 */ ETC_PART_INDEX_GRAPHBIN_13,
+    /* 14 */ ETC_PART_INDEX_LWS,
+    /* 15 */ ETC_PART_INDEX_ATTACK_SPRITE,
+    /* 16 */ ETC_PART_INDEX_MAX,
+} EtcPartIndex;
+
 s32 pause_table[][6] = {
-    { 2, 8, 1, 0, 2, 2 },
-    { 3, 7, 2, 0, 1, 2 },
+    { ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_8, ETC_PART_INDEX_GRAPHBIN_1, ETC_PART_INDEX_GRAPHBIN_0,
+      ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_2 },
+    { ETC_PART_INDEX_GRAPHBIN_3, ETC_PART_INDEX_GRAPHBIN_7, ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_0,
+      ETC_PART_INDEX_GRAPHBIN_1, ETC_PART_INDEX_GRAPHBIN_2 },
 };
 s32 cont_table[][6] = {
-    { 2, 0, 1, 0, 3, 3 },
-    { 3, 6, 2, 0, 2, 3 },
-    { 2, 4, 1, 0, 1, 1 },
-    { 3, 9, 2, 0, 1, 3 },
+    { ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_0, ETC_PART_INDEX_GRAPHBIN_1, ETC_PART_INDEX_GRAPHBIN_0,
+      ETC_PART_INDEX_GRAPHBIN_3, ETC_PART_INDEX_GRAPHBIN_3 },
+    { ETC_PART_INDEX_GRAPHBIN_3, ETC_PART_INDEX_GRAPHBIN_6, ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_0,
+      ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_3 },
+    { ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_4, ETC_PART_INDEX_GRAPHBIN_1, ETC_PART_INDEX_GRAPHBIN_0,
+      ETC_PART_INDEX_GRAPHBIN_1, ETC_PART_INDEX_GRAPHBIN_1 },
+    { ETC_PART_INDEX_GRAPHBIN_3, ETC_PART_INDEX_GRAPHBIN_9, ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_0,
+      ETC_PART_INDEX_GRAPHBIN_1, ETC_PART_INDEX_GRAPHBIN_3 },
 };
+
 // TODO: these are offsets within the asset file.
-s32 etc_parts_tbl[] = {
-    0,      0x1310, 0x1960, 0x21B0, 0x2620, 0x3930, 0x3F80, 0x5A90,
-    0x75A0, 0x88B0, 0xA3C0, 0xA7D0, 0xABE0, 0,      0xAF58, 0x24198,
+void *etc_parts_tbl[] = {
+    (void *)0,       // ETC_PART_INDEX_GRAPHBIN_0
+    (void *)0x1310,  // ETC_PART_INDEX_GRAPHBIN_1
+    (void *)0x1960,  // ETC_PART_INDEX_GRAPHBIN_2
+    (void *)0x21B0,  // ETC_PART_INDEX_GRAPHBIN_3
+    (void *)0x2620,  // ETC_PART_INDEX_GRAPHBIN_4
+    (void *)0x3930,  // ETC_PART_INDEX_GRAPHBIN_5
+    (void *)0x3F80,  // ETC_PART_INDEX_GRAPHBIN_6
+    (void *)0x5A90,  // ETC_PART_INDEX_GRAPHBIN_7
+    (void *)0x75A0,  // ETC_PART_INDEX_GRAPHBIN_8
+    (void *)0x88B0,  // ETC_PART_INDEX_GRAPHBIN_9
+    (void *)0xA3C0,  // ETC_PART_INDEX_GRAPHBIN_10
+    (void *)0xA7D0,  // ETC_PART_INDEX_GRAPHBIN_11
+    (void *)0xABE0,  // ETC_PART_INDEX_GRAPHBIN_12
+    (void *)0,       // ETC_PART_INDEX_GRAPHBIN_13
+    (void *)0xAF58,  // ETC_PART_INDEX_LWS
+    (void *)0x24198, // ETC_PART_INDEX_ATTACK_SPRITE
 };
+
+static_assert(ARRAY_COUNT(etc_parts_tbl) == ETC_PART_INDEX_MAX, "");
+
 s32 x2p[2] = { -0x5C, 0x5C };
 s32 x4p[4] = { -0x6C, -0x24, 0x24, 0x6C };
 Vp etc_vp = { {
@@ -80,7 +127,7 @@ Color_RGB32 col_env_435[] = {
     { 210, 255, 210 },
 };
 
-void initEtcWork(void *arg0, s32 arg1) {
+void initEtcWork(void *gameEtcSeg, s32 count) {
     s32 i;
 
     if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
@@ -89,16 +136,16 @@ void initEtcWork(void *arg0, s32 arg1) {
         logo_ofsY = 0;
     }
 
-    binCount = arg1;
-    etcTexAddress = arg0;
-    etcLwsAddress = (void **)((uintptr_t)arg0 + etc_parts_tbl[0xE]);
-    attack_sprite_address = (void *)(uintptr_t)arg0 + etc_parts_tbl[0xF];
+    binCount = count;
+    etcTexAddress = gameEtcSeg;
+    etcLwsAddress = RELOCATE_OFFSET(gameEtcSeg, etc_parts_tbl[ETC_PART_INDEX_LWS]);
+    attack_sprite_address = RELOCATE_OFFSET(gameEtcSeg, etc_parts_tbl[ETC_PART_INDEX_ATTACK_SPRITE]);
 
-    for (i = 0; i < 0xE; i++) {
-        uintptr_t temp = (uintptr_t)etcLwsAddress[i];
+    for (i = 0; i < ARRAY_COUNT(etcLwsTbl); i++) {
+        void *temp = etcLwsAddress[i];
 
-        temp = (uintptr_t)RELOCATE_SEGMENTED(temp, arg0) + etc_parts_tbl[0xE];
-        etcLwsTbl.unk_00[i] = (UNK_PTR)temp;
+        temp = RELOCATE_OFFSET(RELOCATE_SEGMENTED(temp, gameEtcSeg), etc_parts_tbl[ETC_PART_INDEX_LWS]);
+        etcLwsTbl[i] = temp;
     }
 
     switch (binCount) {
@@ -194,7 +241,7 @@ UNK_TYPE disp_count_logo(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
     }
 
     makeTransrateMatrix(&mtx, var_a1 << 15, var_a2 << 15, 0xFE0C << 16);
-    ret = lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[9], arg2, etcLwsAddress);
+    ret = lws_anim(&gfx, &mtx, etcLwsTbl[9], arg2, etcLwsAddress);
 
     *gfxP = gfx;
     return ret;
@@ -230,13 +277,13 @@ void disp_clear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
 
-    if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0xA], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+    if (lws_anim(&gfx, &mtx, etcLwsTbl[0xA], temp_s0->unk_10[0], etcLwsAddress) == 1) {
         temp_s0->unk_10[0] = 0x27;
     }
     temp_s0->unk_10[0]++;
 
     if (arg2 != 0) {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0xB], temp_s0->unk_10[1], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[0xB], temp_s0->unk_10[1], etcLwsAddress) == 1) {
             temp_s0->unk_10[1] = 0x3B;
         }
         temp_s0->unk_10[1]++;
@@ -275,13 +322,13 @@ void disp_allclear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
 
-    if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0xD], temp_s0->unk_10[1], etcLwsAddress) == 1) {
+    if (lws_anim(&gfx, &mtx, etcLwsTbl[0xD], temp_s0->unk_10[1], etcLwsAddress) == 1) {
         temp_s0->unk_10[1] = 0x27;
     }
     temp_s0->unk_10[1]++;
 
     if (arg2 != 0) {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0xB], temp_s0->unk_10[2], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[0xB], temp_s0->unk_10[2], etcLwsAddress) == 1) {
             temp_s0->unk_10[2] = 0x3B;
         }
         temp_s0->unk_10[2]++;
@@ -321,11 +368,11 @@ void disp_win_logo(Gfx **gfxP, s32 arg1) {
     makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
 
     if (binCount != 4) {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[0], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0x3F;
         }
     } else {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[1], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[1], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0x3F;
         }
     }
@@ -365,11 +412,11 @@ void disp_lose_logo(Gfx **gfxP, s32 arg1) {
     makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
 
     if (binCount != 4) {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[2], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[2], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0x37;
         }
     } else {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[3], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[3], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0x37;
         }
     }
@@ -409,11 +456,11 @@ void disp_draw_logo(Gfx **gfxP, s32 arg1) {
     makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
 
     if (binCount != 4) {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[4], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[4], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0xF;
         }
     } else {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[5], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[5], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0xF;
         }
     }
@@ -466,11 +513,11 @@ s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2 UNUSED, s32 arg3, s32 arg4) {
 
     makeTransrateMatrix(&sp68, var_a1 << 0xF, var_a2 << 0xF, 0xFE0C0000);
     if (binCount != 4) {
-        if (lws_anim(&gfx, &sp68, etcLwsTbl.unk_00[7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &sp68, etcLwsTbl[7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
             temp_s1->unk_10[7] = 0x19;
         }
     } else {
-        if (lws_anim(&gfx, &sp68, etcLwsTbl.unk_00[7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &sp68, etcLwsTbl[7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
             temp_s1->unk_10[7] = 0x19;
         }
     }
@@ -482,8 +529,8 @@ s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2 UNUSED, s32 arg3, s32 arg4) {
         f32 var_fs0;
         f32 var_fs1;
 
-        get_gbi_stat(&sp38, (struct_wakuGraphic *)((uintptr_t)etcTexAddress + etc_parts_tbl[pause_table[arg4][1]]));
-        get_gbi_stat(&sp50, (struct_wakuGraphic *)((uintptr_t)etcTexAddress + etc_parts_tbl[pause_table[arg4][2]]));
+        get_gbi_stat(&sp38, RELOCATE_OFFSET(etcTexAddress, etc_parts_tbl[pause_table[arg4][1]]));
+        get_gbi_stat(&sp50, RELOCATE_OFFSET(etcTexAddress, etc_parts_tbl[pause_table[arg4][2]]));
         StretchAlphaTexBlock(&gfx, sp38.width, sp38.height, sp38.texture, sp38.width, sp50.texture, sp50.width,
                              temp_s1->unk_30[2], temp_s1->unk_50[2], sp38.width, sp38.height);
 
@@ -520,7 +567,7 @@ s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2 UNUSED, s32 arg3, s32 arg4) {
 
         if (temp_s1->unk_10[5] & 0x10) {
             gSPDisplayList(gfx++, normal_texture_init_dl);
-            get_gbi_stat(&sp38, (struct_wakuGraphic *)((uintptr_t)etcTexAddress + etc_parts_tbl[3]));
+            get_gbi_stat(&sp38, RELOCATE_OFFSET(etcTexAddress, etc_parts_tbl[ETC_PART_INDEX_GRAPHBIN_3]));
             StretchTexBlock4(&gfx, sp38.width, sp38.height, sp38.tlut, sp38.texture, var_fs1, var_fs0, sp38.width,
                              sp38.height);
         }
@@ -555,7 +602,7 @@ s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
                 gDPSetTextureLUT(gfx++, G_TT_NONE);
                 gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, 160);
 
-                get_gbi_stat(&sp50, etcTexAddress + etc_parts_tbl[cont_table[arg3][2]]);
+                get_gbi_stat(&sp50, RELOCATE_OFFSET(etcTexAddress, etc_parts_tbl[cont_table[arg3][2]]));
                 StretchTexBlock4i(&gfx, sp50.width, sp50.height, sp50.texture, temp_s2->unk_30[6] + 6.0f,
                                   temp_s2->unk_50[6] + 6.0f, sp50.width, sp50.height);
             }
@@ -563,8 +610,8 @@ s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
         gSPDisplayList(gfx++, alpha_texture_init_dl);
 
-        get_gbi_stat(&sp38, etcTexAddress + etc_parts_tbl[cont_table[arg3][1]]);
-        get_gbi_stat(&sp50, etcTexAddress + etc_parts_tbl[cont_table[arg3][2]]);
+        get_gbi_stat(&sp38, RELOCATE_OFFSET(etcTexAddress, etc_parts_tbl[cont_table[arg3][1]]));
+        get_gbi_stat(&sp50, RELOCATE_OFFSET(etcTexAddress, etc_parts_tbl[cont_table[arg3][2]]));
         StretchAlphaTexBlock(&gfx, sp38.width, sp38.height, sp38.texture, sp38.width, sp50.texture, sp50.width,
                              temp_s2->unk_30[6], temp_s2->unk_50[6], sp38.width, sp38.height);
 
@@ -599,7 +646,7 @@ s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         if (temp_s2->unk_10[6] & 0x10) {
             gSPDisplayList(gfx++, normal_texture_init_dl);
 
-            get_gbi_stat(&sp38, (void *)((uintptr_t)etcTexAddress + etc_parts_tbl[3]));
+            get_gbi_stat(&sp38, RELOCATE_OFFSET(etcTexAddress, etc_parts_tbl[ETC_PART_INDEX_GRAPHBIN_3]));
             StretchTexBlock4(&gfx, sp38.width, sp38.height, sp38.tlut, sp38.texture, var_fs1, var_fs0, sp38.width,
                              sp38.height);
         }
@@ -677,7 +724,7 @@ void disp_gameover_logo(Gfx **gfxP, s32 arg1) {
 
     makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
 
-    if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[8], temp_s0->unk_10[1], etcLwsAddress) == 1) {
+    if (lws_anim(&gfx, &mtx, etcLwsTbl[8], temp_s0->unk_10[1], etcLwsAddress) == 1) {
         temp_s0->unk_10[1] = 0x39;
     }
     temp_s0->unk_10[1]++;
@@ -715,7 +762,7 @@ void disp_timeover_logo(Gfx **gfxP, s32 arg1) {
 
     makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
 
-    if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0xC], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+    if (lws_anim(&gfx, &mtx, etcLwsTbl[0xC], temp_s0->unk_10[0], etcLwsAddress) == 1) {
         temp_s0->unk_10[0] = 0x39;
     }
     temp_s0->unk_10[0]++;
@@ -753,7 +800,7 @@ void disp_retire_logo(Gfx **gfxP, s32 arg1) {
 
     makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
 
-    if (lws_anim(&gfx, &mtx, etcLwsTbl.unk_00[0x6], temp_s0->unk_10[2], etcLwsAddress) == 1) {
+    if (lws_anim(&gfx, &mtx, etcLwsTbl[0x6], temp_s0->unk_10[2], etcLwsAddress) == 1) {
         temp_s0->unk_10[2] = 0x8B;
     }
     temp_s0->unk_10[2]++;
@@ -766,7 +813,7 @@ void disp_timestop_logo(Gfx **gfxP, s32 arg1) {
     struct_g_etc_work *temp_s3 = &g_etc_work[arg1];
     struct_get_gbi_stat_arg0 sp30;
 
-    get_gbi_stat(&sp30, etcTexAddress + etc_parts_tbl[0xB]);
+    get_gbi_stat(&sp30, RELOCATE_OFFSET(etcTexAddress, etc_parts_tbl[ETC_PART_INDEX_GRAPHBIN_11]));
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
@@ -774,13 +821,13 @@ void disp_timestop_logo(Gfx **gfxP, s32 arg1) {
     gDPSetTextureLUT(gfx++, G_TT_NONE);
 
     StretchTexBlock4i(&gfx, sp30.width, sp30.height, sp30.texture, 43.0f, 157.0f, sp30.width, sp30.height);
-    get_gbi_stat(&sp30, etcTexAddress + etc_parts_tbl[0xA]);
+    get_gbi_stat(&sp30, RELOCATE_OFFSET(etcTexAddress, etc_parts_tbl[ETC_PART_INDEX_GRAPHBIN_10]));
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
     StretchTexBlock4(&gfx, sp30.width, sp30.height, sp30.tlut, sp30.texture, 43.0f, 157.0f, sp30.width, sp30.height);
     if (temp_s3->unk_10[4] & 0x10) {
-        get_gbi_stat(&sp30, etcTexAddress + etc_parts_tbl[0xC]);
+        get_gbi_stat(&sp30, RELOCATE_OFFSET(etcTexAddress, etc_parts_tbl[ETC_PART_INDEX_GRAPHBIN_12]));
         StretchTexBlock4(&gfx, sp30.width, sp30.height, sp30.tlut, sp30.texture, 37.0f, 175.0f, sp30.width,
                          sp30.height);
     }
@@ -815,9 +862,9 @@ void disp_attack_effect(Gfx **gfxP) {
     f32 temp_ft0;
     f32 var_fs4;
     s32 var_s5;
-    s32 var_s6;
+    s32 i;
     s32 var_t1;
-    void *temp;
+    void *texture;
 
     gfx = *gfxP;
 
@@ -841,64 +888,60 @@ void disp_attack_effect(Gfx **gfxP) {
     }
 
     var_s5 = -1;
-    for (var_s6 = 0; var_s6 < 0x10; var_s6++) {
-        if (attack_effect[var_s6].unk_20 <= 0) {
+    for (i = 0; i < ARRAY_COUNT(attack_effect); i++) {
+        if (attack_effect[i].unk_20 <= 0) {
             continue;
         }
 
-        attack_effect[var_s6].unk_20--;
+        attack_effect[i].unk_20--;
 
-        temp_ft0 = attack_effect[var_s6].unk_20 / 48.0f;
+        temp_ft0 = attack_effect[i].unk_20 / 48.0f;
 
-        temp_fs1 =
-            attack_effect[var_s6].unk_10 - temp_ft0 * (attack_effect[var_s6].unk_10 - attack_effect[var_s6].unk_08);
+        temp_fs1 = attack_effect[i].unk_10 - temp_ft0 * (attack_effect[i].unk_10 - attack_effect[i].unk_08);
 
-        temp_fs0 =
-            attack_effect[var_s6].unk_14 - temp_ft0 * (attack_effect[var_s6].unk_14 - attack_effect[var_s6].unk_0C);
-        temp_fs0 -= var_fs4 * sinf(((temp_ft0 * 180.0 * M_PI) / 180.0));
+        temp_fs0 = attack_effect[i].unk_14 - temp_ft0 * (attack_effect[i].unk_14 - attack_effect[i].unk_0C);
+        temp_fs0 -= var_fs4 * sinf((temp_ft0 * 180.0 * M_PI) / 180.0);
 
-        attack_effect[var_s6].unk_00 = temp_fs1 + 0.5;
-        attack_effect[var_s6].unk_04 = temp_fs0 + 0.5;
+        attack_effect[i].unk_00 = temp_fs1 + 0.5;
+        attack_effect[i].unk_04 = temp_fs0 + 0.5;
 
         var_t1 = 0xF0;
-        if (attack_effect[var_s6].unk_20 >= 0x29) {
-            var_t1 = (0x30 - attack_effect[var_s6].unk_20);
+        if (attack_effect[i].unk_20 >= 0x29) {
+            var_t1 = (0x30 - attack_effect[i].unk_20);
             var_t1 = var_t1 * 0x1E;
         }
-        if (attack_effect[var_s6].unk_20 < 8) {
-            var_t1 = attack_effect[var_s6].unk_20 * 0x1E;
+        if (attack_effect[i].unk_20 < 8) {
+            var_t1 = attack_effect[i].unk_20 * 0x1E;
         }
 
-        if (attack_effect[var_s6].unk_28 != var_s5) {
-            gDPSetPrimColor(gfx++, 0, 0, col_prim_434[attack_effect[var_s6].unk_28].r,
-                            col_prim_434[attack_effect[var_s6].unk_28].g, col_prim_434[attack_effect[var_s6].unk_28].b,
-                            255);
+        if (attack_effect[i].unk_28 != var_s5) {
+            gDPSetPrimColor(gfx++, 0, 0, col_prim_434[attack_effect[i].unk_28].r,
+                            col_prim_434[attack_effect[i].unk_28].g, col_prim_434[attack_effect[i].unk_28].b, 255);
 
-            gDPSetEnvColor(gfx++, col_env_435[attack_effect[var_s6].unk_28].r,
-                           col_env_435[attack_effect[var_s6].unk_28].g, col_env_435[attack_effect[var_s6].unk_28].b,
-                           var_t1);
+            gDPSetEnvColor(gfx++, col_env_435[attack_effect[i].unk_28].r, col_env_435[attack_effect[i].unk_28].g,
+                           col_env_435[attack_effect[i].unk_28].b, var_t1);
 
-            var_s5 = attack_effect[var_s6].unk_28;
+            var_s5 = attack_effect[i].unk_28;
         }
 
-        temp = (void *)((uintptr_t)attack_sprite_address + 0x1800 + attack_effect[var_s6].unk_24 * 0x200);
-        StretchTexBlock4i(&gfx, 0x20, 0x20, temp, temp_fs1, temp_fs0, 32.0f, 32.0f);
+        texture = (void *)((uintptr_t)attack_sprite_address + 0x1800 + attack_effect[i].unk_24 * 0x200);
+        StretchTexBlock4i(&gfx, 0x20, 0x20, texture, temp_fs1, temp_fs0, 32.0f, 32.0f);
 
-        attack_effect[var_s6].unk_24++;
-        if (attack_effect[var_s6].unk_24 >= 8) {
-            attack_effect[var_s6].unk_24 = 0;
+        attack_effect[i].unk_24++;
+        if (attack_effect[i].unk_24 >= 8) {
+            attack_effect[i].unk_24 = 0;
         }
 
-        if ((attack_effect[var_s6].unk_20 & 3) == 3) {
+        if ((attack_effect[i].unk_20 & 3) == 3) {
             attack_sprite[attack_sprite_idx].unk_10 = 0x10;
-            attack_sprite[attack_sprite_idx].unk_08 = attack_effect[var_s6].unk_28;
+            attack_sprite[attack_sprite_idx].unk_08 = attack_effect[i].unk_28;
 
             attack_sprite[attack_sprite_idx].unk_0C = rand() % 3;
-            attack_sprite[attack_sprite_idx].unk_00 = attack_effect[var_s6].unk_00 + (rand() % 4);
-            attack_sprite[attack_sprite_idx].unk_04 = attack_effect[var_s6].unk_04 + (rand() % 4);
+            attack_sprite[attack_sprite_idx].unk_00 = attack_effect[i].unk_00 + (rand() % 4);
+            attack_sprite[attack_sprite_idx].unk_04 = attack_effect[i].unk_04 + (rand() % 4);
 
             attack_sprite_idx++;
-            if (attack_sprite_idx >= 0x80) {
+            if (attack_sprite_idx >= ARRAY_COUNT(attack_sprite)) {
                 attack_sprite_idx = 0;
             }
         }
@@ -906,28 +949,25 @@ void disp_attack_effect(Gfx **gfxP) {
 
     var_s5 = -1;
 
-    for (var_s6 = 0; var_s6 < 0x80; var_s6++) {
-        if (attack_sprite[var_s6].unk_10 <= 0) {
+    for (i = 0; i < ARRAY_COUNT(attack_sprite); i++) {
+        if (attack_sprite[i].unk_10 <= 0) {
             continue;
         }
 
-        attack_sprite[var_s6].unk_10--;
-        if (attack_sprite[var_s6].unk_08 != var_s5) {
-            gDPSetPrimColor(gfx++, 0, 0, col_prim_434[attack_sprite[var_s6].unk_08].r,
-                            col_prim_434[attack_sprite[var_s6].unk_08].g, col_prim_434[attack_sprite[var_s6].unk_08].b,
-                            255);
+        attack_sprite[i].unk_10--;
+        if (attack_sprite[i].unk_08 != var_s5) {
+            gDPSetPrimColor(gfx++, 0, 0, col_prim_434[attack_sprite[i].unk_08].r,
+                            col_prim_434[attack_sprite[i].unk_08].g, col_prim_434[attack_sprite[i].unk_08].b, 255);
 
-            gDPSetEnvColor(gfx++, col_env_435[attack_sprite[var_s6].unk_08].r,
-                           col_env_435[attack_sprite[var_s6].unk_08].g, col_env_435[attack_sprite[var_s6].unk_08].b,
-                           240);
+            gDPSetEnvColor(gfx++, col_env_435[attack_sprite[i].unk_08].r, col_env_435[attack_sprite[i].unk_08].g,
+                           col_env_435[attack_sprite[i].unk_08].b, 240);
 
-            var_s5 = attack_sprite[var_s6].unk_08;
+            var_s5 = attack_sprite[i].unk_08;
         }
 
-        temp = (void *)((uintptr_t)attack_sprite_address +
-                        0x200 * (attack_sprite[var_s6].unk_0C * 4 + attack_sprite[var_s6].unk_10 / 2));
-        StretchTexBlock4i(&gfx, 0x20, 0x20, temp, attack_sprite[var_s6].unk_00, attack_sprite[var_s6].unk_04, 32.0f,
-                          32.0f);
+        texture = (void *)((uintptr_t)attack_sprite_address +
+                           0x200 * (attack_sprite[i].unk_0C * 4 + attack_sprite[i].unk_10 / 2));
+        StretchTexBlock4i(&gfx, 0x20, 0x20, texture, attack_sprite[i].unk_00, attack_sprite[i].unk_04, 32.0f, 32.0f);
     }
 
     *gfxP = gfx;

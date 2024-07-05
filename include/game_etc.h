@@ -7,11 +7,6 @@
 #include "color.h"
 #include "unk.h"
 
-typedef struct struct_etcLwsTbl {
-    /* 0x00 */ UNK_PTR unk_00[0xE];
-    /* 0x38 */ UNK_TYPE1 unk_38[0x8];
-} struct_etcLwsTbl; // size = 0x40
-
 typedef struct struct_attack_effect {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
@@ -51,18 +46,6 @@ typedef struct struct_g_etc_work {
 } struct_g_etc_work; // size = 0xF0
 
 
-// data
-
-extern s32 pause_table[][6];
-extern s32 cont_table[][6];
-extern UNK_TYPE4 etc_parts_tbl[];
-extern UNK_TYPE4 x2p[];
-extern UNK_TYPE4 x4p[];
-// extern UNK_TYPE etc_vp;
-extern Gfx etc_setup[];
-extern Color_RGB32 col_prim_434[];
-extern Color_RGB32 col_env_435[];
-
 // bss
 
 extern s32 attack_effect_idx;
@@ -73,8 +56,7 @@ extern struct_attack_sprite attack_sprite[0x80];
 
 extern void *attack_sprite_address;
 
-
-void initEtcWork(UNK_PTR arg0, s32 arg1);
+void initEtcWork(void *gameEtcSeg, s32 count);
 void init_pause_disp(void);
 void disp_logo_setup(Gfx **gfxP);
 UNK_TYPE disp_count_logo(Gfx **gfxP, s32 arg1, UNK_TYPE arg2);
