@@ -15,6 +15,8 @@
 #include "lws.h"
 #include "066840.h"
 
+#include "assets/game_etc/etc.h"
+
 static s32 binCount;
 static bool cont_bg_flg;
 static void *etcTexAddress;
@@ -66,6 +68,24 @@ s32 cont_table[][6] = {
 
 // TODO: these are offsets within the asset file.
 void *etc_parts_tbl[] = {
+#if VERSION_US
+    &etc_00,             // ETC_PART_INDEX_GRAPHBIN_0
+    &etc_01,             // ETC_PART_INDEX_GRAPHBIN_1
+    &etc_02,             // ETC_PART_INDEX_GRAPHBIN_2
+    &etc_03,             // ETC_PART_INDEX_GRAPHBIN_3
+    &etc_04,             // ETC_PART_INDEX_GRAPHBIN_4
+    &etc_05,             // ETC_PART_INDEX_GRAPHBIN_5
+    &etc_06,             // ETC_PART_INDEX_GRAPHBIN_6
+    &etc_07,             // ETC_PART_INDEX_GRAPHBIN_7
+    &etc_08,             // ETC_PART_INDEX_GRAPHBIN_8
+    &etc_09,             // ETC_PART_INDEX_GRAPHBIN_9
+    &etc_10,             // ETC_PART_INDEX_GRAPHBIN_10
+    &etc_11,             // ETC_PART_INDEX_GRAPHBIN_11
+    &etc_12,             // ETC_PART_INDEX_GRAPHBIN_12
+    &etc_00,             // ETC_PART_INDEX_GRAPHBIN_13
+    &game_etc_lws,       // ETC_PART_INDEX_LWS
+    &etc_attack_sprites, // ETC_PART_INDEX_ATTACK_SPRITE
+#else
     (void *)0,       // ETC_PART_INDEX_GRAPHBIN_0
     (void *)0x1310,  // ETC_PART_INDEX_GRAPHBIN_1
     (void *)0x1960,  // ETC_PART_INDEX_GRAPHBIN_2
@@ -82,6 +102,7 @@ void *etc_parts_tbl[] = {
     (void *)0,       // ETC_PART_INDEX_GRAPHBIN_13
     (void *)0xAF58,  // ETC_PART_INDEX_LWS
     (void *)0x24198, // ETC_PART_INDEX_ATTACK_SPRITE
+#endif
 };
 
 static_assert(ARRAY_COUNT(etc_parts_tbl) == ETC_PART_INDEX_MAX, "");
@@ -857,14 +878,14 @@ void add_attack_effect(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
 void disp_attack_effect(Gfx **gfxP) {
     Gfx *gfx;
-    f32 temp_fs0;
-    f32 temp_fs1;
+    f32 x;
+    f32 y;
     f32 temp_ft0;
     f32 var_fs4;
     s32 var_s5;
     s32 i;
-    s32 var_t1;
-    void *texture;
+    s32 alpha;
+    u8 *texture;
 
     gfx = *gfxP;
 
@@ -897,21 +918,21 @@ void disp_attack_effect(Gfx **gfxP) {
 
         temp_ft0 = attack_effect[i].unk_20 / 48.0f;
 
-        temp_fs1 = attack_effect[i].unk_10 - temp_ft0 * (attack_effect[i].unk_10 - attack_effect[i].unk_08);
+        x = attack_effect[i].unk_10 - temp_ft0 * (attack_effect[i].unk_10 - attack_effect[i].unk_08);
 
-        temp_fs0 = attack_effect[i].unk_14 - temp_ft0 * (attack_effect[i].unk_14 - attack_effect[i].unk_0C);
-        temp_fs0 -= var_fs4 * sinf((temp_ft0 * 180.0 * M_PI) / 180.0);
+        y = attack_effect[i].unk_14 - temp_ft0 * (attack_effect[i].unk_14 - attack_effect[i].unk_0C);
+        y -= var_fs4 * sinf((temp_ft0 * 180.0 * M_PI) / 180.0);
 
-        attack_effect[i].unk_00 = temp_fs1 + 0.5;
-        attack_effect[i].unk_04 = temp_fs0 + 0.5;
+        attack_effect[i].unk_00 = x + 0.5;
+        attack_effect[i].unk_04 = y + 0.5;
 
-        var_t1 = 0xF0;
+        alpha = 240;
         if (attack_effect[i].unk_20 >= 0x29) {
-            var_t1 = (0x30 - attack_effect[i].unk_20);
-            var_t1 = var_t1 * 0x1E;
+            alpha = 48 - attack_effect[i].unk_20;
+            alpha = alpha * 30;
         }
         if (attack_effect[i].unk_20 < 8) {
-            var_t1 = attack_effect[i].unk_20 * 0x1E;
+            alpha = attack_effect[i].unk_20 * 30;
         }
 
         if (attack_effect[i].unk_28 != var_s5) {
@@ -919,13 +940,16 @@ void disp_attack_effect(Gfx **gfxP) {
                             col_prim_434[attack_effect[i].unk_28].g, col_prim_434[attack_effect[i].unk_28].b, 255);
 
             gDPSetEnvColor(gfx++, col_env_435[attack_effect[i].unk_28].r, col_env_435[attack_effect[i].unk_28].g,
-                           col_env_435[attack_effect[i].unk_28].b, var_t1);
+                           col_env_435[attack_effect[i].unk_28].b, alpha);
 
             var_s5 = attack_effect[i].unk_28;
         }
 
-        texture = (void *)((uintptr_t)attack_sprite_address + 0x1800 + attack_effect[i].unk_24 * 0x200);
-        StretchTexBlock4i(&gfx, 0x20, 0x20, texture, temp_fs1, temp_fs0, 32.0f, 32.0f);
+        //! @bug ?
+        //! Is the `+ 2` intentional?
+        texture = attack_sprite_address[1][attack_effect[i].unk_24 + 2];
+        StretchTexBlock4i(&gfx, ETC_ATTACK_SPRITES_WIDTH, ETC_ATTACK_SPRITES_HEIGHT, texture, x, y,
+                          ETC_ATTACK_SPRITES_WIDTH, ETC_ATTACK_SPRITES_HEIGHT);
 
         attack_effect[i].unk_24++;
         if (attack_effect[i].unk_24 >= 8) {
@@ -937,8 +961,8 @@ void disp_attack_effect(Gfx **gfxP) {
             attack_sprite[attack_sprite_idx].unk_08 = attack_effect[i].unk_28;
 
             attack_sprite[attack_sprite_idx].unk_0C = rand() % 3;
-            attack_sprite[attack_sprite_idx].unk_00 = attack_effect[i].unk_00 + (rand() % 4);
-            attack_sprite[attack_sprite_idx].unk_04 = attack_effect[i].unk_04 + (rand() % 4);
+            attack_sprite[attack_sprite_idx].x = attack_effect[i].unk_00 + (rand() % 4);
+            attack_sprite[attack_sprite_idx].y = attack_effect[i].unk_04 + (rand() % 4);
 
             attack_sprite_idx++;
             if (attack_sprite_idx >= ARRAY_COUNT(attack_sprite)) {
@@ -965,9 +989,9 @@ void disp_attack_effect(Gfx **gfxP) {
             var_s5 = attack_sprite[i].unk_08;
         }
 
-        texture = (void *)((uintptr_t)attack_sprite_address +
-                           0x200 * (attack_sprite[i].unk_0C * 4 + attack_sprite[i].unk_10 / 2));
-        StretchTexBlock4i(&gfx, 0x20, 0x20, texture, attack_sprite[i].unk_00, attack_sprite[i].unk_04, 32.0f, 32.0f);
+        texture = attack_sprite_address[0][attack_sprite[i].unk_0C * 4 + attack_sprite[i].unk_10 / 2];
+        StretchTexBlock4i(&gfx, ETC_ATTACK_SPRITES_WIDTH, ETC_ATTACK_SPRITES_HEIGHT, texture, attack_sprite[i].x,
+                          attack_sprite[i].y, ETC_ATTACK_SPRITES_WIDTH, ETC_ATTACK_SPRITES_HEIGHT);
     }
 
     *gfxP = gfx;

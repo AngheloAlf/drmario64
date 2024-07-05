@@ -45,7 +45,7 @@ static s32 title_wait;
 static void **title_data;
 static void *title_bmp_data;
 static void **lws_data;
-static struct_lws_scene *lws_scene;
+static Lws *lws_scene;
 static MessageWnd mess_st;
 static MessageWnd mess_roll_st;
 static HEAP(mess_heap_area, 0x400);

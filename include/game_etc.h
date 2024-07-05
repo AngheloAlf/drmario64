@@ -22,8 +22,8 @@ typedef struct struct_attack_effect {
 } struct_attack_effect; // size = 0x2C
 
 typedef struct struct_attack_sprite {
-    /* 0x00 */ UNK_TYPE4 unk_00;
-    /* 0x04 */ UNK_TYPE4 unk_04;
+    /* 0x00 */ s32 x;
+    /* 0x04 */ s32 y;
     /* 0x08 */ UNK_TYPE4 unk_08;
     /* 0x0C */ UNK_TYPE4 unk_0C;
     /* 0x10 */ UNK_TYPE4 unk_10;
@@ -54,7 +54,7 @@ extern struct_attack_effect attack_effect[0x10];
 extern s32 attack_sprite_idx;
 extern struct_attack_sprite attack_sprite[0x80];
 
-extern void *attack_sprite_address;
+extern u8 (*attack_sprite_address)[10][32*32/2];
 
 void initEtcWork(void *gameEtcSeg, s32 count);
 void init_pause_disp(void);

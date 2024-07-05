@@ -138,13 +138,14 @@ ROM_DECOMPRESSOR  ?= tools/compressor/rom_decompressor.py
 SEGMENT_EXTRACTOR ?= tools/compressor/extract_compressed_segments.py
 CHECKSUMMER       ?= tools/checksummer.py
 MSG_REENCODER     ?= tools/buildtools/msg_reencoder.py
+INC_FROM_BIN      ?= tools/buildtools/inc_from_bin.py
 PIGMENT64         ?= pigment64
 
 export SPIMDISASM_PANIC_RANGE_CHECK="True"
 
 
-IINC       := -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I.
 IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/include -Ilib/ultralib/include/gcc
+IINC       += -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I $(BUILD_DIR) -I.
 
 # Check code syntax with host compiler
 CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
@@ -165,6 +166,7 @@ else
 endif
 
 CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -mabi=32
+CFLAGS_EXTRA    ?=
 
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -mabi=32 -G0 -no-pad-sections
@@ -176,7 +178,7 @@ C_DEFINES       := -D_LANGUAGE_C
 ENDIAN          := -EB
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
-CFLAGS          += -Wa,--force-n64align
+CFLAGS_EXTRA    += -Wa,--force-n64align
 OPTFLAGS        := -O2
 DBGFLAGS        :=
 # DBGFLAGS        := -gdwarf
@@ -199,7 +201,7 @@ endif
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
 
 # Variable to simplify C compiler invocation
-C_COMPILER_FLAGS = $(ABIFLAG) $(CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS)
+C_COMPILER_FLAGS = $(ABIFLAG) $(CFLAGS) $(CFLAGS_EXTRA) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS)
 
 ICONV_FLAGS      = --from-code=UTF-8 --to-code=$(OUT_ENCODING)
 
@@ -268,6 +270,14 @@ $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DI
 $(BUILD_DIR)/src/libkmc/%.o:   OPTFLAGS := -O1
 $(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/buffers/%.o:  CFLAGS   += -fno-common
+
+$(BUILD_DIR)/src/assets/%.o:   CC       := $(GCC)
+$(BUILD_DIR)/src/assets/%.o:   CFLAGS   := -G 0 -nostdinc -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -fno-zero-initialized-in-bss -fno-toplevel-reorder
+$(BUILD_DIR)/src/assets/%.o:   MIPS_VERSION:= -mips3
+$(BUILD_DIR)/src/assets/%.o:   CFLAGS_EXTRA:= -Wa,-no-pad-sections
+$(BUILD_DIR)/src/assets/%.o:   OPTFLAGS := -O0
+$(BUILD_DIR)/src/assets/%.o:   DBGFLAGS := -ggdb
+
 
 # per-file flags
 
@@ -422,6 +432,19 @@ $(BUILD_DIR)/%.ci4.inc: %.ci4.png
 $(BUILD_DIR)/%.msg.inc: %.msg
 	$(QUIET_CMD)$(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< -o $(@:.inc=.i)
 	$(QUIET_CMD)$(MSG_REENCODER) $(@:.inc=.i) $@ $(OUT_ENCODING)
+
+
+# Setup game_etc weirdness
+
+$(BUILD_DIR)/src/assets/game_etc/etc.o: $(BUILD_DIR)/src/assets/game_etc/etc_lws.subseg.inc
+
+$(BUILD_DIR)/%.subseg.inc: $(BUILD_DIR)/%.subseg
+	$(QUIET_CMD)$(INC_FROM_BIN) $< $@
+
+$(BUILD_DIR)/%.subseg: $(BUILD_DIR)/%.o $(BUILD_DIR)/linker_scripts/subseg_05.ld
+	$(QUIET_CMD)$(LD) $(ENDIAN) $(LDFLAGS) -Map $(@:.subseg=.map) -T  $(BUILD_DIR)/linker_scripts/subseg_05.ld -o $(@:.subseg=.subelf) $<
+	$(QUIET_CMD)$(OBJCOPY) -O binary $(@:.subseg=.subelf) $@
+
 
 -include $(DEP_FILES)
 
