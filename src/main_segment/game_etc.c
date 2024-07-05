@@ -66,9 +66,7 @@ s32 cont_table[][6] = {
       ETC_PART_INDEX_GRAPHBIN_1, ETC_PART_INDEX_GRAPHBIN_3 },
 };
 
-// TODO: these are offsets within the asset file.
 void *etc_parts_tbl[] = {
-#if VERSION_US
     &etc_00,             // ETC_PART_INDEX_GRAPHBIN_0
     &etc_01,             // ETC_PART_INDEX_GRAPHBIN_1
     &etc_02,             // ETC_PART_INDEX_GRAPHBIN_2
@@ -85,24 +83,6 @@ void *etc_parts_tbl[] = {
     &etc_00,             // ETC_PART_INDEX_GRAPHBIN_13
     &game_etc_lws,       // ETC_PART_INDEX_LWS
     &etc_attack_sprites, // ETC_PART_INDEX_ATTACK_SPRITE
-#else
-    (void *)0,       // ETC_PART_INDEX_GRAPHBIN_0
-    (void *)0x1310,  // ETC_PART_INDEX_GRAPHBIN_1
-    (void *)0x1960,  // ETC_PART_INDEX_GRAPHBIN_2
-    (void *)0x21B0,  // ETC_PART_INDEX_GRAPHBIN_3
-    (void *)0x2620,  // ETC_PART_INDEX_GRAPHBIN_4
-    (void *)0x3930,  // ETC_PART_INDEX_GRAPHBIN_5
-    (void *)0x3F80,  // ETC_PART_INDEX_GRAPHBIN_6
-    (void *)0x5A90,  // ETC_PART_INDEX_GRAPHBIN_7
-    (void *)0x75A0,  // ETC_PART_INDEX_GRAPHBIN_8
-    (void *)0x88B0,  // ETC_PART_INDEX_GRAPHBIN_9
-    (void *)0xA3C0,  // ETC_PART_INDEX_GRAPHBIN_10
-    (void *)0xA7D0,  // ETC_PART_INDEX_GRAPHBIN_11
-    (void *)0xABE0,  // ETC_PART_INDEX_GRAPHBIN_12
-    (void *)0,       // ETC_PART_INDEX_GRAPHBIN_13
-    (void *)0xAF58,  // ETC_PART_INDEX_LWS
-    (void *)0x24198, // ETC_PART_INDEX_ATTACK_SPRITE
-#endif
 };
 
 static_assert(ARRAY_COUNT(etc_parts_tbl) == ETC_PART_INDEX_MAX, "");

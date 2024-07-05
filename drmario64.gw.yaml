@@ -794,8 +794,341 @@ segments:
 
 
   - name: segment_game_etc # compressed
-    type: databin
+    type: code
     start: 0x1E1EE0
+    vram: 0x0
+    exclusive_ram_id: game_etc
+    align: 1
+    subsegments:
+      - [auto, c, assets/game_etc/etc]
+      - start: 0x1E1EE0
+        type: .data
+        name: assets/game_etc/etc
+        dir: assets/game_etc
+        subsegments:
+          - [0x1E1EE0]
+          - [0x1E1EF0, rgba16, graphbin/etc_00_tlut, 16, 16]
+          - [0x1E20F0, rgba16, graphbin/etc_00_tex, 64, 34]
+          - [0x1E31F0]
+          - [0x1E3200, palette, graphbin/etc_01]
+          - [0x1E3400, ci4, graphbin/etc_01, 64, 34]
+          - [0x1E3840]
+          - [0x1E3850, palette, graphbin/etc_02]
+          - [0x1E3A50, ci4, graphbin/etc_02, 64, 50]
+          - [0x1E4090]
+          - [0x1E40A0, palette, graphbin/etc_03]
+          - [0x1E42A0, ci4, graphbin/etc_03, 64, 19]
+          - [0x1E4500]
+          - [0x1E4510, rgba16, graphbin/etc_04_tlut, 16, 16]
+          - [0x1E4710, rgba16, graphbin/etc_04_tex, 64, 34]
+          - [0x1E5810]
+          - [0x1E5820, palette, graphbin/etc_05]
+          - [0x1E5A20, ci4, graphbin/etc_05, 64, 34]
+          - [0x1E5E60]
+          - [0x1E5E70, rgba16, graphbin/etc_06_tlut, 16, 16]
+          - [0x1E6070, rgba16, graphbin/etc_06_tex, 64, 50]
+          - [0x1E7970]
+          - [0x1E7980, rgba16, graphbin/etc_07_tlut, 16, 16]
+          - [0x1E7B80, rgba16, graphbin/etc_07_tex, 64, 50]
+          - [0x1E9480]
+          - [0x1E9490, rgba16, graphbin/etc_08_tlut, 16, 16]
+          - [0x1E9690, rgba16, graphbin/etc_08_tex, 64, 34]
+          - [0x1EA790]
+          - [0x1EA7A0, rgba16, graphbin/etc_09_tlut, 16, 16]
+          - [0x1EA9A0, rgba16, graphbin/etc_09_tex, 64, 50]
+          - [0x1EC2A0]
+          - [0x1EC2B0, palette, graphbin/etc_10]
+          - [0x1EC4B0, ci4, graphbin/etc_10, 32, 32]
+          - [0x1EC6B0]
+          - [0x1EC6C0, palette, graphbin/etc_11]
+          - [0x1EC8C0, ci4, graphbin/etc_11, 32, 32]
+          - [0x1ECAC0]
+          - [0x1ECAD0, palette, graphbin/etc_12]
+          - [0x1ECCD0, ci4, graphbin/etc_12, 48, 15]
+          - [0x1ECE38]
+
+          - { start: 0x1ECEA8, type: vtx, data_only: True, name: lws/D_05000070 }
+          - [0x1ECEE8, palette, lws/D_050000D0]
+          - [0x1ECF08, ci4, lws/D_050000D0, 32, 30]
+          - [0x1ED0E8]
+          - { start: 0x1ED1F8, type: vtx, data_only: True, name: lws/D_050003C0 }
+          - [0x1ED238, palette, lws/D_05000420]
+          - [0x1ED258, ci4, lws/D_05000420, 32, 27]
+          - [0x1ED408]
+          - { start: 0x1ED518, type: vtx, data_only: True, name: lws/D_050006E0 }
+          - [0x1ED558, palette, lws/D_05000740]
+          - [0x1ED578, ci4, lws/D_05000740, 32, 28]
+          - [0x1ED738]
+          - { start: 0x1ED848, type: vtx, data_only: True, name: lws/D_05000A10 }
+          - [0x1ED888, palette, lws/D_05000A70]
+          - [0x1ED8A8, ci4, lws/D_05000A70, 32, 29]
+          - [0x1EDA78]
+          - { start: 0x1EE7F0, type: vtx, data_only: True, name: lws/D_050019B8 }
+          - [0x1EE830, palette, lws/D_05001A18]
+          - [0x1EE850, ci4, lws/D_05001A18, 32, 35]
+          - [0x1EEA80]
+          - { start: 0x1EEB90, type: vtx, data_only: True, name: lws/D_05001D58 }
+          - [0x1EEBD0, palette, lws/D_05001DB8]
+          - [0x1EEBF0, ci4, lws/D_05001DB8, 32, 32]
+          - [0x1EEDF0]
+          - { start: 0x1EEF00, type: vtx, data_only: True, name: lws/D_050020C8 }
+          - [0x1EEF40, palette, lws/D_05002128]
+          - [0x1EEF60, ci4, lws/D_05002128, 32, 35]
+          - [0x1EF190]
+          - { start: 0x1EF2A0, type: vtx, data_only: True, name: lws/D_05002468 }
+          - [0x1EF2E0, palette, lws/D_050024C8]
+          - [0x1EF300, ci4, lws/D_050024C8, 32, 36]
+          - [0x1EF540]
+          - { start: 0x1F02B8, type: vtx, data_only: True, name: lws/D_05003480 }
+          - [0x1F02F8, palette, lws/D_050034E0]
+          - [0x1F0318, ci4, lws/D_050034E0, 32, 28]
+          - [0x1F04D8]
+          - { start: 0x1F05E8, type: vtx, data_only: True, name: lws/D_050037B0 }
+          - [0x1F0628, palette, lws/D_05003810]
+          - [0x1F0648, ci4, lws/D_05003810, 32, 28]
+          - [0x1F0808]
+          - { start: 0x1F0918, type: vtx, data_only: True, name: lws/D_05003AE0 }
+          - [0x1F0958, palette, lws/D_05003B40]
+          - [0x1F0978, ci4, lws/D_05003B40, 32, 29]
+          - [0x1F0B48]
+          - { start: 0x1F0C58, type: vtx, data_only: True, name: lws/D_05003E20 }
+          - [0x1F0C98, palette, lws/D_05003E80]
+          - [0x1F0CB8, ci4, lws/D_05003E80, 32, 28]
+          - [0x1F0E78]
+          - { start: 0x1F1288, type: vtx, data_only: True, name: lws/D_05004450 }
+          - [0x1F12C8, palette, lws/D_050044B0]
+          - [0x1F12E8, ci4, lws/D_050044B0, 32, 33]
+          - [0x1F14F8]
+          - { start: 0x1F1608, type: vtx, data_only: True, name: lws/D_050047D0 }
+          - [0x1F1648, palette, lws/D_05004830]
+          - [0x1F1668, ci4, lws/D_05004830, 32, 33]
+          - [0x1F1878]
+          - { start: 0x1F1988, type: vtx, data_only: True, name: lws/D_05004B50 }
+          - [0x1F19C8, palette, lws/D_05004BB0]
+          - [0x1F19E8, ci4, lws/D_05004BB0, 32, 34]
+          - [0x1F1C08]
+          - { start: 0x1F1D18, type: vtx, data_only: True, name: lws/D_05004EE0 }
+          - [0x1F1D58, palette, lws/D_05004F40]
+          - [0x1F1D78, ci4, lws/D_05004F40, 32, 33]
+          - [0x1F1F88]
+          - { start: 0x1F24B0, type: vtx, data_only: True, name: lws/D_05005678 }
+          - [0x1F24F0, palette, lws/D_050056D8]
+          - [0x1F2510, ci4, lws/D_050056D8, 48, 39]
+          - [0x1F28B8]
+          - { start: 0x1F29C8, type: vtx, data_only: True, name: lws/D_05005B90 }
+          - [0x1F2A08, palette, lws/D_05005BF0]
+          - [0x1F2A28, ci4, lws/D_05005BF0, 16, 38]
+          - [0x1F2B58]
+          - { start: 0x1F2C68, type: vtx, data_only: True, name: lws/D_05005E30 }
+          - [0x1F2CA8, palette, lws/D_05005E90]
+          - [0x1F2CC8, ci4, lws/D_05005E90, 48, 39]
+          - [0x1F3070]
+          - { start: 0x1F36D0, type: vtx, data_only: True, name: lws/D_05006898 }
+          - [0x1F3710, palette, lws/D_050068F8]
+          - [0x1F3730, ci4, lws/D_050068F8, 48, 31]
+          - [0x1F3A18]
+          - { start: 0x1F3B28, type: vtx, data_only: True, name: lws/D_05006CF0 }
+          - [0x1F3B68, palette, lws/D_05006D50]
+          - [0x1F3B88, ci4, lws/D_05006D50, 16, 32]
+          - [0x1F3C88]
+          - { start: 0x1F3D98, type: vtx, data_only: True, name: lws/D_05006F60 }
+          - [0x1F3DD8, palette, lws/D_05006FC0]
+          - [0x1F3DF8, ci4, lws/D_05006FC0, 32, 32]
+          - [0x1F3FF8]
+          - { start: 0x1F4620, type: vtx, data_only: True, name: lws/D_050077E8 }
+          - [0x1F4660, palette, lws/D_05007A28]
+          - [0x1F4860, ci8, lws/D_05007A28, 24, 25]
+          - [0x1F4AB8]
+          - { start: 0x1F4BC8, type: vtx, data_only: True, name: lws/D_05007D90 }
+          - [0x1F4C08, palette, lws/D_05007FD0]
+          - [0x1F4E08, ci8, lws/D_05007FD0, 16, 18]
+          - [0x1F4F28]
+          - { start: 0x1F5038, type: vtx, data_only: True, name: lws/D_05008200 }
+          - [0x1F5078, palette, lws/D_05008440]
+          - [0x1F5278, ci8, lws/D_05008440, 24, 26]
+          - [0x1F54E8]
+          - { start: 0x1F55F8, type: vtx, data_only: True, name: lws/D_050087C0 }
+          - [0x1F5638, palette, lws/D_05008A00]
+          - [0x1F5838, ci8, lws/D_05008A00, 16, 19]
+          - [0x1F5968]
+          - { start: 0x1F5A78, type: vtx, data_only: True, name: lws/D_05008C40 }
+          - [0x1F5AB8, palette, lws/D_05008E80]
+          - [0x1F5CB8, ci8, lws/D_05008E80, 16, 25]
+          - [0x1F5E48]
+          - { start: 0x1F5F58, type: vtx, data_only: True, name: lws/D_05009120 }
+          - [0x1F5F98, palette, lws/D_05009360]
+          - [0x1F6198, ci8, lws/D_05009360, 16, 19]
+          - [0x1F62C8]
+          - { start: 0x1F6F20, type: vtx, data_only: True, name: lws/D_0500A0E8 }
+          - [0x1F6F60, palette, lws/D_0500A328]
+          - [0x1F7160, ci8, lws/D_0500A328, 64, 22]
+          - [0x1F76E0]
+          - { start: 0x1F7920, type: vtx, data_only: True, name: lws/D_0500AAE8 }
+          - [0x1F7960, palette, lws/D_0500AD28]
+          - [0x1F7B60, ci8, lws/D_0500AD28, 32, 32]
+          - [0x1F7F60]
+          - { start: 0x1F8070, type: vtx, data_only: True, name: lws/D_0500B238 }
+          - [0x1F80B0, palette, lws/D_0500B478]
+          - [0x1F82B0, ci8, lws/D_0500B478, 32, 32]
+          - [0x1F86B0]
+          - { start: 0x1F87C0, type: vtx, data_only: True, name: lws/D_0500B988 }
+          - [0x1F8800, palette, lws/D_0500BBC8]
+          - [0x1F8A00, ci8, lws/D_0500BBC8, 32, 32]
+          - [0x1F8E00]
+          - { start: 0x1F93B8, type: vtx, data_only: True, name: lws/D_0500C580 }
+          - [0x1F93F8]
+          - [0x1F9418, i4, lws/D_0500C5E0, 32, 33]
+          - [0x1F9628]
+          - { start: 0x1F9708, type: vtx, data_only: True, name: lws/D_0500C8D0 }
+          - [0x1F9748, palette, lws/D_0500CB10]
+          - [0x1F9948, ci8, lws/D_0500CB10, 32, 33]
+          - [0x1F9D68]
+          - { start: 0x1F9E78, type: vtx, data_only: True, name: lws/D_0500D040 }
+          - [0x1F9EB8]
+          - [0x1F9ED8, i4, lws/D_0500D0A0, 48, 25]
+          - [0x1FA130]
+          - { start: 0x1FA210, type: vtx, data_only: True, name: lws/D_0500D3D8 }
+          - [0x1FA250, palette, lws/D_0500D618]
+          - [0x1FA450, ci8, lws/D_0500D618, 40, 25]
+          - [0x1FA838]
+          - { start: 0x1FA948, type: vtx, data_only: True, name: lws/D_0500DB10 }
+          - [0x1FA988]
+          - [0x1FA9A8, i4, lws/D_0500DB70, 32, 35]
+          - [0x1FABD8]
+          - { start: 0x1FACB8, type: vtx, data_only: True, name: lws/D_0500DE80 }
+          - [0x1FACF8, palette, lws/D_0500E0C0]
+          - [0x1FAEF8, ci8, lws/D_0500E0C0, 32, 35]
+          - [0x1FB358]
+          - { start: 0x1FB468, type: vtx, data_only: True, name: lws/D_0500E630 }
+          - [0x1FB4A8]
+          - [0x1FB4C8, i4, lws/D_0500E690, 32, 28]
+          - [0x1FB688]
+          - { start: 0x1FB768, type: vtx, data_only: True, name: lws/D_0500E930 }
+          - [0x1FB7A8, palette, lws/D_0500EB70]
+          - [0x1FB9A8, ci8, lws/D_0500EB70, 24, 28]
+          - [0x1FBC48]
+          - { start: 0x1FBD58, type: vtx, data_only: True, name: lws/D_0500EF20 }
+          - [0x1FBD98]
+          - [0x1FBDB8, i4, lws/D_0500EF80, 32, 34]
+          - [0x1FBFD8]
+          - { start: 0x1FC0B8, type: vtx, data_only: True, name: lws/D_0500F280 }
+          - [0x1FC0F8, palette, lws/D_0500F4C0]
+          - [0x1FC2F8, ci8, lws/D_0500F4C0, 32, 34]
+          - [0x1FC738]
+          - { start: 0x1FC848, type: vtx, data_only: True, name: lws/D_0500FA10 }
+          - [0x1FC888]
+          - [0x1FC8A8, i4, lws/D_0500FA70, 32, 33]
+          - [0x1FCAB8]
+          - { start: 0x1FCB98, type: vtx, data_only: True, name: lws/D_0500FD60 }
+          - [0x1FCBD8, palette, lws/D_0500FFA0]
+          - [0x1FCDD8, ci8, lws/D_0500FFA0, 32, 33]
+          - [0x1FD1F8]
+          - { start: 0x1FD308, type: vtx, data_only: True, name: lws/D_050104D0 }
+          - [0x1FD348]
+          - [0x1FD368, i4, lws/D_05010530, 32, 33]
+          - [0x1FD578]
+          - { start: 0x1FD658, type: vtx, data_only: True, name: lws/D_05010820 }
+          - [0x1FD698, palette, lws/D_05010A60]
+          - [0x1FD898, ci8, lws/D_05010A60, 32, 33]
+          - [0x1FDCB8]
+          - { start: 0x1FDDC8, type: vtx, data_only: True, name: lws/D_05010F90 }
+          - [0x1FDE08]
+          - [0x1FDE28, i4, lws/D_05010FF0, 32, 25]
+          - [0x1FDFB8]
+          - { start: 0x1FE098, type: vtx, data_only: True, name: lws/D_05011260 }
+          - [0x1FE0D8, palette, lws/D_050114A0]
+          - [0x1FE2D8, ci8, lws/D_050114A0, 32, 25]
+          - [0x1FE5F8]
+          - { start: 0x1FE708, type: vtx, data_only: True, name: lws/D_050118D0 }
+          - [0x1FE748]
+          - [0x1FE768, i4, lws/D_05011930, 32, 26]
+          - [0x1FE908]
+          - { start: 0x1FE9E8, type: vtx, data_only: True, name: lws/D_05011BB0 }
+          - [0x1FEA28, palette, lws/D_05011DF0]
+          - [0x1FEC28, ci8, lws/D_05011DF0, 24, 26]
+          - [0x1FEE98]
+          - { start: 0x1FEFA8, type: vtx, data_only: True, name: lws/D_05012170 }
+          - [0x1FEFE8]
+          - [0x1FF008, i4, lws/D_050121D0, 32, 36]
+          - [0x1FF248]
+          - { start: 0x1FF328, type: vtx, data_only: True, name: lws/D_050124F0 }
+          - [0x1FF368, palette, lws/D_05012730]
+          - [0x1FF568, ci8, lws/D_05012730, 32, 36]
+          - [0x1FF9E8]
+          - { start: 0x2007C8, type: vtx, data_only: True, name: lws/D_05013990 }
+          - [0x200808, palette, lws/D_05013BD0]
+          - [0x200A08, ci8, lws/D_05013BD0, 80, 15]
+          - [0x200EB8]
+          - { start: 0x201110, type: vtx, data_only: True, name: lws/D_050142D8 }
+          - [0x201150]
+          - [0x201170, i4, lws/D_05014338, 80, 30]
+          - [0x201620]
+          - { start: 0x201700, type: vtx, data_only: True, name: lws/D_050148C8 }
+          - [0x201740]
+          - [0x201760, i4, lws/D_05014928, 80, 30]
+          - [0x201C10]
+          - { start: 0x201CF0, type: vtx, data_only: True, name: lws/D_05014EB8 }
+          - [0x201D30, palette, lws/D_05014F18]
+          - [0x201D50, ci4, lws/D_05014F18, 80, 30]
+          - [0x202200]
+          - { start: 0x202310, type: vtx, data_only: True, name: lws/D_050154D8 }
+          - [0x202350, palette, lws/D_05015538]
+          - [0x202370, ci4, lws/D_05015538, 80, 30]
+          - [0x202820]
+          - { start: 0x202FC8, type: vtx, data_only: True, name: lws/D_05016190 }
+          - [0x203008]
+          - [0x203028, i4, lws/D_050161F0, 80, 30]
+          - [0x2034D8]
+          - { start: 0x2035B8, type: vtx, data_only: True, name: lws/D_05016780 }
+          - [0x2035F8, palette, lws/D_050167E0]
+          - [0x203618, ci4, lws/D_050167E0, 80, 30]
+          - [0x203AC8]
+          - { start: 0x204270, type: vtx, data_only: True, name: lws/D_05017438 }
+          - [0x2042B0]
+          - [0x2042D0, i4, lws/D_05017498, 32, 28]
+          - [0x204490]
+          - { start: 0x204570, type: vtx, data_only: True, name: lws/D_05017738 }
+          - [0x2045B0, palette, lws/D_05017798]
+          - [0x2045D0, ci4, lws/D_05017798, 32, 28]
+          - [0x204790]
+          - { start: 0x2048A0, type: vtx, data_only: True, name: lws/D_05017A68 }
+          - [0x2048E0]
+          - [0x204900, i4, lws/D_05017AC8, 32, 28]
+          - [0x204AC0]
+          - { start: 0x204BA0, type: vtx, data_only: True, name: lws/D_05017D68 }
+          - [0x204BE0, palette, lws/D_05017DC8]
+          - [0x204C00, ci4, lws/D_05017DC8, 32, 28]
+          - [0x204DC0]
+          - { start: 0x204ED0, type: vtx, data_only: True, name: lws/D_05018098 }
+          - [0x204F10]
+          - [0x204F30, i4, lws/D_050180F8, 48, 25]
+          - [0x205188]
+          - { start: 0x205268, type: vtx, data_only: True, name: lws/D_05018430 }
+          - [0x2052A8, palette, lws/D_05018490]
+          - [0x2052C8, ci4, lws/D_05018490, 48, 25]
+          - [0x205520]
+
+          - [0x206078, i4, attack_sprites/attack_sprite_0_0, 32, 32]
+          - [0x206278, i4, attack_sprites/attack_sprite_0_1, 32, 32]
+          - [0x206478, i4, attack_sprites/attack_sprite_0_2, 32, 32]
+          - [0x206678, i4, attack_sprites/attack_sprite_0_3, 32, 32]
+          - [0x206878, i4, attack_sprites/attack_sprite_0_4, 32, 32]
+          - [0x206A78, i4, attack_sprites/attack_sprite_0_5, 32, 32]
+          - [0x206C78, i4, attack_sprites/attack_sprite_0_6, 32, 32]
+          - [0x206E78, i4, attack_sprites/attack_sprite_0_7, 32, 32]
+          - [0x207078, i4, attack_sprites/attack_sprite_0_8, 32, 32]
+          - [0x207278, i4, attack_sprites/attack_sprite_0_9, 32, 32]
+          - [0x207478, i4, attack_sprites/attack_sprite_1_0, 32, 32]
+          - [0x207678, i4, attack_sprites/attack_sprite_1_1, 32, 32]
+          - [0x207878, i4, attack_sprites/attack_sprite_1_2, 32, 32]
+          - [0x207A78, i4, attack_sprites/attack_sprite_1_3, 32, 32]
+          - [0x207C78, i4, attack_sprites/attack_sprite_1_4, 32, 32]
+          - [0x207E78, i4, attack_sprites/attack_sprite_1_5, 32, 32]
+          - [0x208078, i4, attack_sprites/attack_sprite_1_6, 32, 32]
+          - [0x208278, i4, attack_sprites/attack_sprite_1_7, 32, 32]
+          - [0x208478, i4, attack_sprites/attack_sprite_1_8, 32, 32]
+          - [0x208678, i4, attack_sprites/attack_sprite_1_9, 32, 32]
+
   - [0x208878]
 
 

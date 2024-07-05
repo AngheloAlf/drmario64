@@ -729,8 +729,341 @@ segments:
 
 
   - name: segment_game_etc # compressed # GraphBin
-    type: databin
+    type: code
     start: 0x1F7B90
+    vram: 0x0
+    exclusive_ram_id: game_etc
+    align: 1
+    subsegments:
+      - [auto, c, assets/game_etc/etc]
+      - start: 0x1F7B90
+        type: .data
+        name: assets/game_etc/etc
+        dir: assets/game_etc
+        subsegments:
+          - [0x1F7B90]
+          - [0x1F7BA0, rgba16, graphbin/etc_00_tlut, 16, 16]
+          - [0x1F7DA0, rgba16, graphbin/etc_00_tex, 64, 34]
+          - [0x1F8EA0]
+          - [0x1F8EB0, palette, graphbin/etc_01]
+          - [0x1F90B0, ci4, graphbin/etc_01, 64, 34]
+          - [0x1F94F0]
+          - [0x1F9500, palette, graphbin/etc_02]
+          - [0x1F9700, ci4, graphbin/etc_02, 64, 50]
+          - [0x1F9D40]
+          - [0x1F9D50, palette, graphbin/etc_03]
+          - [0x1F9F50, ci4, graphbin/etc_03, 64, 19]
+          - [0x1FA1B0]
+          - [0x1FA1C0, rgba16, graphbin/etc_04_tlut, 16, 16]
+          - [0x1FA3C0, rgba16, graphbin/etc_04_tex, 64, 34]
+          - [0x1FB4C0]
+          - [0x1FB4D0, palette, graphbin/etc_05]
+          - [0x1FB6D0, ci4, graphbin/etc_05, 64, 34]
+          - [0x1FBB10]
+          - [0x1FBB20, rgba16, graphbin/etc_06_tlut, 16, 16]
+          - [0x1FBD20, rgba16, graphbin/etc_06_tex, 64, 50]
+          - [0x1FD620]
+          - [0x1FD630, rgba16, graphbin/etc_07_tlut, 16, 16]
+          - [0x1FD830, rgba16, graphbin/etc_07_tex, 64, 50]
+          - [0x1FF130]
+          - [0x1FF140, rgba16, graphbin/etc_08_tlut, 16, 16]
+          - [0x1FF340, rgba16, graphbin/etc_08_tex, 64, 34]
+          - [0x200440]
+          - [0x200450, rgba16, graphbin/etc_09_tlut, 16, 16]
+          - [0x200650, rgba16, graphbin/etc_09_tex, 64, 50]
+          - [0x201F50]
+          - [0x201F60, palette, graphbin/etc_10]
+          - [0x202160, ci4, graphbin/etc_10, 32, 32]
+          - [0x202360]
+          - [0x202370, palette, graphbin/etc_11]
+          - [0x202570, ci4, graphbin/etc_11, 32, 32]
+          - [0x202770]
+          - [0x202780, palette, graphbin/etc_12]
+          - [0x202980, ci4, graphbin/etc_12, 48, 15]
+          - [0x202AE8]
+
+          - { start: 0x202B58, type: vtx, data_only: True, name: lws/D_05000070 }
+          - [0x202B98, palette, lws/D_050000D0]
+          - [0x202BB8, ci4, lws/D_050000D0, 32, 30]
+          - [0x202D98]
+          - { start: 0x202EA8, type: vtx, data_only: True, name: lws/D_050003C0 }
+          - [0x202EE8, palette, lws/D_05000420]
+          - [0x202F08, ci4, lws/D_05000420, 32, 27]
+          - [0x2030B8]
+          - { start: 0x2031C8, type: vtx, data_only: True, name: lws/D_050006E0 }
+          - [0x203208, palette, lws/D_05000740]
+          - [0x203228, ci4, lws/D_05000740, 32, 28]
+          - [0x2033E8]
+          - { start: 0x2034F8, type: vtx, data_only: True, name: lws/D_05000A10 }
+          - [0x203538, palette, lws/D_05000A70]
+          - [0x203558, ci4, lws/D_05000A70, 32, 29]
+          - [0x203728]
+          - { start: 0x2044A0, type: vtx, data_only: True, name: lws/D_050019B8 }
+          - [0x2044E0, palette, lws/D_05001A18]
+          - [0x204500, ci4, lws/D_05001A18, 32, 35]
+          - [0x204730]
+          - { start: 0x204840, type: vtx, data_only: True, name: lws/D_05001D58 }
+          - [0x204880, palette, lws/D_05001DB8]
+          - [0x2048A0, ci4, lws/D_05001DB8, 32, 32]
+          - [0x204AA0]
+          - { start: 0x204BB0, type: vtx, data_only: True, name: lws/D_050020C8 }
+          - [0x204BF0, palette, lws/D_05002128]
+          - [0x204C10, ci4, lws/D_05002128, 32, 35]
+          - [0x204E40]
+          - { start: 0x204F50, type: vtx, data_only: True, name: lws/D_05002468 }
+          - [0x204F90, palette, lws/D_050024C8]
+          - [0x204FB0, ci4, lws/D_050024C8, 32, 36]
+          - [0x2051F0]
+          - { start: 0x205F68, type: vtx, data_only: True, name: lws/D_05003480 }
+          - [0x205FA8, palette, lws/D_050034E0]
+          - [0x205FC8, ci4, lws/D_050034E0, 32, 28]
+          - [0x206188]
+          - { start: 0x206298, type: vtx, data_only: True, name: lws/D_050037B0 }
+          - [0x2062D8, palette, lws/D_05003810]
+          - [0x2062F8, ci4, lws/D_05003810, 32, 28]
+          - [0x2064B8]
+          - { start: 0x2065C8, type: vtx, data_only: True, name: lws/D_05003AE0 }
+          - [0x206608, palette, lws/D_05003B40]
+          - [0x206628, ci4, lws/D_05003B40, 32, 29]
+          - [0x2067F8]
+          - { start: 0x206908, type: vtx, data_only: True, name: lws/D_05003E20 }
+          - [0x206948, palette, lws/D_05003E80]
+          - [0x206968, ci4, lws/D_05003E80, 32, 28]
+          - [0x206B28]
+          - { start: 0x206F38, type: vtx, data_only: True, name: lws/D_05004450 }
+          - [0x206F78, palette, lws/D_050044B0]
+          - [0x206F98, ci4, lws/D_050044B0, 32, 33]
+          - [0x2071A8]
+          - { start: 0x2072B8, type: vtx, data_only: True, name: lws/D_050047D0 }
+          - [0x2072F8, palette, lws/D_05004830]
+          - [0x207318, ci4, lws/D_05004830, 32, 33]
+          - [0x207528]
+          - { start: 0x207638, type: vtx, data_only: True, name: lws/D_05004B50 }
+          - [0x207678, palette, lws/D_05004BB0]
+          - [0x207698, ci4, lws/D_05004BB0, 32, 34]
+          - [0x2078B8]
+          - { start: 0x2079C8, type: vtx, data_only: True, name: lws/D_05004EE0 }
+          - [0x207A08, palette, lws/D_05004F40]
+          - [0x207A28, ci4, lws/D_05004F40, 32, 33]
+          - [0x207C38]
+          - { start: 0x208160, type: vtx, data_only: True, name: lws/D_05005678 }
+          - [0x2081A0, palette, lws/D_050056D8]
+          - [0x2081C0, ci4, lws/D_050056D8, 48, 39]
+          - [0x208568]
+          - { start: 0x208678, type: vtx, data_only: True, name: lws/D_05005B90 }
+          - [0x2086B8, palette, lws/D_05005BF0]
+          - [0x2086D8, ci4, lws/D_05005BF0, 16, 38]
+          - [0x208808]
+          - { start: 0x208918, type: vtx, data_only: True, name: lws/D_05005E30 }
+          - [0x208958, palette, lws/D_05005E90]
+          - [0x208978, ci4, lws/D_05005E90, 48, 39]
+          - [0x208D20]
+          - { start: 0x209380, type: vtx, data_only: True, name: lws/D_05006898 }
+          - [0x2093C0, palette, lws/D_050068F8]
+          - [0x2093E0, ci4, lws/D_050068F8, 48, 31]
+          - [0x2096C8]
+          - { start: 0x2097D8, type: vtx, data_only: True, name: lws/D_05006CF0 }
+          - [0x209818, palette, lws/D_05006D50]
+          - [0x209838, ci4, lws/D_05006D50, 16, 32]
+          - [0x209938]
+          - { start: 0x209A48, type: vtx, data_only: True, name: lws/D_05006F60 }
+          - [0x209A88, palette, lws/D_05006FC0]
+          - [0x209AA8, ci4, lws/D_05006FC0, 32, 32]
+          - [0x209CA8]
+          - { start: 0x20A2D0, type: vtx, data_only: True, name: lws/D_050077E8 }
+          - [0x20A310, palette, lws/D_05007A28]
+          - [0x20A510, ci8, lws/D_05007A28, 24, 25]
+          - [0x20A768]
+          - { start: 0x20A878, type: vtx, data_only: True, name: lws/D_05007D90 }
+          - [0x20A8B8, palette, lws/D_05007FD0]
+          - [0x20AAB8, ci8, lws/D_05007FD0, 16, 18]
+          - [0x20ABD8]
+          - { start: 0x20ACE8, type: vtx, data_only: True, name: lws/D_05008200 }
+          - [0x20AD28, palette, lws/D_05008440]
+          - [0x20AF28, ci8, lws/D_05008440, 24, 26]
+          - [0x20B198]
+          - { start: 0x20B2A8, type: vtx, data_only: True, name: lws/D_050087C0 }
+          - [0x20B2E8, palette, lws/D_05008A00]
+          - [0x20B4E8, ci8, lws/D_05008A00, 16, 19]
+          - [0x20B618]
+          - { start: 0x20B728, type: vtx, data_only: True, name: lws/D_05008C40 }
+          - [0x20B768, palette, lws/D_05008E80]
+          - [0x20B968, ci8, lws/D_05008E80, 16, 25]
+          - [0x20BAF8]
+          - { start: 0x20BC08, type: vtx, data_only: True, name: lws/D_05009120 }
+          - [0x20BC48, palette, lws/D_05009360]
+          - [0x20BE48, ci8, lws/D_05009360, 16, 19]
+          - [0x20BF78]
+          - { start: 0x20CBD0, type: vtx, data_only: True, name: lws/D_0500A0E8 }
+          - [0x20CC10, palette, lws/D_0500A328]
+          - [0x20CE10, ci8, lws/D_0500A328, 64, 22]
+          - [0x20D390]
+          - { start: 0x20D5D0, type: vtx, data_only: True, name: lws/D_0500AAE8 }
+          - [0x20D610, palette, lws/D_0500AD28]
+          - [0x20D810, ci8, lws/D_0500AD28, 32, 32]
+          - [0x20DC10]
+          - { start: 0x20DD20, type: vtx, data_only: True, name: lws/D_0500B238 }
+          - [0x20DD60, palette, lws/D_0500B478]
+          - [0x20DF60, ci8, lws/D_0500B478, 32, 32]
+          - [0x20E360]
+          - { start: 0x20E470, type: vtx, data_only: True, name: lws/D_0500B988 }
+          - [0x20E4B0, palette, lws/D_0500BBC8]
+          - [0x20E6B0, ci8, lws/D_0500BBC8, 32, 32]
+          - [0x20EAB0]
+          - { start: 0x20F068, type: vtx, data_only: True, name: lws/D_0500C580 }
+          - [0x20F0A8]
+          - [0x20F0C8, i4, lws/D_0500C5E0, 32, 33]
+          - [0x20F2D8]
+          - { start: 0x20F3B8, type: vtx, data_only: True, name: lws/D_0500C8D0 }
+          - [0x20F3F8, palette, lws/D_0500CB10]
+          - [0x20F5F8, ci8, lws/D_0500CB10, 32, 33]
+          - [0x20FA18]
+          - { start: 0x20FB28, type: vtx, data_only: True, name: lws/D_0500D040 }
+          - [0x20FB68]
+          - [0x20FB88, i4, lws/D_0500D0A0, 48, 25]
+          - [0x20FDE0]
+          - { start: 0x20FEC0, type: vtx, data_only: True, name: lws/D_0500D3D8 }
+          - [0x20FF00, palette, lws/D_0500D618]
+          - [0x210100, ci8, lws/D_0500D618, 40, 25]
+          - [0x2104E8]
+          - { start: 0x2105F8, type: vtx, data_only: True, name: lws/D_0500DB10 }
+          - [0x210638]
+          - [0x210658, i4, lws/D_0500DB70, 32, 35]
+          - [0x210888]
+          - { start: 0x210968, type: vtx, data_only: True, name: lws/D_0500DE80 }
+          - [0x2109A8, palette, lws/D_0500E0C0]
+          - [0x210BA8, ci8, lws/D_0500E0C0, 32, 35]
+          - [0x211008]
+          - { start: 0x211118, type: vtx, data_only: True, name: lws/D_0500E630 }
+          - [0x211158]
+          - [0x211178, i4, lws/D_0500E690, 32, 28]
+          - [0x211338]
+          - { start: 0x211418, type: vtx, data_only: True, name: lws/D_0500E930 }
+          - [0x211458, palette, lws/D_0500EB70]
+          - [0x211658, ci8, lws/D_0500EB70, 24, 28]
+          - [0x2118F8]
+          - { start: 0x211A08, type: vtx, data_only: True, name: lws/D_0500EF20 }
+          - [0x211A48]
+          - [0x211A68, i4, lws/D_0500EF80, 32, 34]
+          - [0x211C88]
+          - { start: 0x211D68, type: vtx, data_only: True, name: lws/D_0500F280 }
+          - [0x211DA8, palette, lws/D_0500F4C0]
+          - [0x211FA8, ci8, lws/D_0500F4C0, 32, 34]
+          - [0x2123E8]
+          - { start: 0x2124F8, type: vtx, data_only: True, name: lws/D_0500FA10 }
+          - [0x212538]
+          - [0x212558, i4, lws/D_0500FA70, 32, 33]
+          - [0x212768]
+          - { start: 0x212848, type: vtx, data_only: True, name: lws/D_0500FD60 }
+          - [0x212888, palette, lws/D_0500FFA0]
+          - [0x212A88, ci8, lws/D_0500FFA0, 32, 33]
+          - [0x212EA8]
+          - { start: 0x212FB8, type: vtx, data_only: True, name: lws/D_050104D0 }
+          - [0x212FF8]
+          - [0x213018, i4, lws/D_05010530, 32, 33]
+          - [0x213228]
+          - { start: 0x213308, type: vtx, data_only: True, name: lws/D_05010820 }
+          - [0x213348, palette, lws/D_05010A60]
+          - [0x213548, ci8, lws/D_05010A60, 32, 33]
+          - [0x213968]
+          - { start: 0x213A78, type: vtx, data_only: True, name: lws/D_05010F90 }
+          - [0x213AB8]
+          - [0x213AD8, i4, lws/D_05010FF0, 32, 25]
+          - [0x213C68]
+          - { start: 0x213D48, type: vtx, data_only: True, name: lws/D_05011260 }
+          - [0x213D88, palette, lws/D_050114A0]
+          - [0x213F88, ci8, lws/D_050114A0, 32, 25]
+          - [0x2142A8]
+          - { start: 0x2143B8, type: vtx, data_only: True, name: lws/D_050118D0 }
+          - [0x2143F8]
+          - [0x214418, i4, lws/D_05011930, 32, 26]
+          - [0x2145B8]
+          - { start: 0x214698, type: vtx, data_only: True, name: lws/D_05011BB0 }
+          - [0x2146D8, palette, lws/D_05011DF0]
+          - [0x2148D8, ci8, lws/D_05011DF0, 24, 26]
+          - [0x214B48]
+          - { start: 0x214C58, type: vtx, data_only: True, name: lws/D_05012170 }
+          - [0x214C98]
+          - [0x214CB8, i4, lws/D_050121D0, 32, 36]
+          - [0x214EF8]
+          - { start: 0x214FD8, type: vtx, data_only: True, name: lws/D_050124F0 }
+          - [0x215018, palette, lws/D_05012730]
+          - [0x215218, ci8, lws/D_05012730, 32, 36]
+          - [0x215698]
+          - { start: 0x216478, type: vtx, data_only: True, name: lws/D_05013990 }
+          - [0x2164B8, palette, lws/D_05013BD0]
+          - [0x2166B8, ci8, lws/D_05013BD0, 80, 15]
+          - [0x216B68]
+          - { start: 0x216DC0, type: vtx, data_only: True, name: lws/D_050142D8 }
+          - [0x216E00]
+          - [0x216E20, i4, lws/D_05014338, 80, 30]
+          - [0x2172D0]
+          - { start: 0x2173B0, type: vtx, data_only: True, name: lws/D_050148C8 }
+          - [0x2173F0]
+          - [0x217410, i4, lws/D_05014928, 80, 30]
+          - [0x2178C0]
+          - { start: 0x2179A0, type: vtx, data_only: True, name: lws/D_05014EB8 }
+          - [0x2179E0, palette, lws/D_05014F18]
+          - [0x217A00, ci4, lws/D_05014F18, 80, 30]
+          - [0x217EB0]
+          - { start: 0x217FC0, type: vtx, data_only: True, name: lws/D_050154D8 }
+          - [0x218000, palette, lws/D_05015538]
+          - [0x218020, ci4, lws/D_05015538, 80, 30]
+          - [0x2184D0]
+          - { start: 0x218C78, type: vtx, data_only: True, name: lws/D_05016190 }
+          - [0x218CB8]
+          - [0x218CD8, i4, lws/D_050161F0, 80, 30]
+          - [0x219188]
+          - { start: 0x219268, type: vtx, data_only: True, name: lws/D_05016780 }
+          - [0x2192A8, palette, lws/D_050167E0]
+          - [0x2192C8, ci4, lws/D_050167E0, 80, 30]
+          - [0x219778]
+          - { start: 0x219F20, type: vtx, data_only: True, name: lws/D_05017438 }
+          - [0x219F60]
+          - [0x219F80, i4, lws/D_05017498, 32, 28]
+          - [0x21A140]
+          - { start: 0x21A220, type: vtx, data_only: True, name: lws/D_05017738 }
+          - [0x21A260, palette, lws/D_05017798]
+          - [0x21A280, ci4, lws/D_05017798, 32, 28]
+          - [0x21A440]
+          - { start: 0x21A550, type: vtx, data_only: True, name: lws/D_05017A68 }
+          - [0x21A590]
+          - [0x21A5B0, i4, lws/D_05017AC8, 32, 28]
+          - [0x21A770]
+          - { start: 0x21A850, type: vtx, data_only: True, name: lws/D_05017D68 }
+          - [0x21A890, palette, lws/D_05017DC8]
+          - [0x21A8B0, ci4, lws/D_05017DC8, 32, 28]
+          - [0x21AA70]
+          - { start: 0x21AB80, type: vtx, data_only: True, name: lws/D_05018098 }
+          - [0x21ABC0]
+          - [0x21ABE0, i4, lws/D_050180F8, 48, 25]
+          - [0x21AE38]
+          - { start: 0x21AF18, type: vtx, data_only: True, name: lws/D_05018430 }
+          - [0x21AF58, palette, lws/D_05018490]
+          - [0x21AF78, ci4, lws/D_05018490, 48, 25]
+          - [0x21B1D0]
+
+          - [0x21BD28, i4, attack_sprites/attack_sprite_0_0, 32, 32]
+          - [0x21BF28, i4, attack_sprites/attack_sprite_0_1, 32, 32]
+          - [0x21C128, i4, attack_sprites/attack_sprite_0_2, 32, 32]
+          - [0x21C328, i4, attack_sprites/attack_sprite_0_3, 32, 32]
+          - [0x21C528, i4, attack_sprites/attack_sprite_0_4, 32, 32]
+          - [0x21C728, i4, attack_sprites/attack_sprite_0_5, 32, 32]
+          - [0x21C928, i4, attack_sprites/attack_sprite_0_6, 32, 32]
+          - [0x21CB28, i4, attack_sprites/attack_sprite_0_7, 32, 32]
+          - [0x21CD28, i4, attack_sprites/attack_sprite_0_8, 32, 32]
+          - [0x21CF28, i4, attack_sprites/attack_sprite_0_9, 32, 32]
+          - [0x21D128, i4, attack_sprites/attack_sprite_1_0, 32, 32]
+          - [0x21D328, i4, attack_sprites/attack_sprite_1_1, 32, 32]
+          - [0x21D528, i4, attack_sprites/attack_sprite_1_2, 32, 32]
+          - [0x21D728, i4, attack_sprites/attack_sprite_1_3, 32, 32]
+          - [0x21D928, i4, attack_sprites/attack_sprite_1_4, 32, 32]
+          - [0x21DB28, i4, attack_sprites/attack_sprite_1_5, 32, 32]
+          - [0x21DD28, i4, attack_sprites/attack_sprite_1_6, 32, 32]
+          - [0x21DF28, i4, attack_sprites/attack_sprite_1_7, 32, 32]
+          - [0x21E128, i4, attack_sprites/attack_sprite_1_8, 32, 32]
+          - [0x21E328, i4, attack_sprites/attack_sprite_1_9, 32, 32]
+
   - [0x21E528]
 
 
