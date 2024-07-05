@@ -9,19 +9,19 @@
 #define ETC_ATTACK_SPRITES_HEIGHT (32)
 
 
-extern GraphBin_u16_64_34 etc_00;
-extern GraphBin_u4_64_34 etc_01;
-extern GraphBin_u4_64_50 etc_02;
-extern GraphBin_u4_64_19 etc_03;
-extern GraphBin_u16_64_34 etc_04;
-extern GraphBin_u4_64_34 etc_05;
-extern GraphBin_u16_64_50 etc_06;
-extern GraphBin_u16_64_50 etc_07;
-extern GraphBin_u16_64_34 etc_08;
-extern GraphBin_u16_64_50 etc_09;
-extern GraphBin_u4_32_32 etc_10;
-extern GraphBin_u4_32_32 etc_11;
-extern GraphBin_u4_48_15 etc_12;
+DECLARE_VARIABLE_GRAPHBIN_u16(etc_00, 64, 34);
+DECLARE_VARIABLE_GRAPHBIN_u4 (etc_01, 64, 34);
+DECLARE_VARIABLE_GRAPHBIN_u4 (etc_02, 64, 50);
+DECLARE_VARIABLE_GRAPHBIN_u4 (etc_03, 64, 19);
+DECLARE_VARIABLE_GRAPHBIN_u16(etc_04, 64, 34);
+DECLARE_VARIABLE_GRAPHBIN_u4 (etc_05, 64, 34);
+DECLARE_VARIABLE_GRAPHBIN_u16(etc_06, 64, 50);
+DECLARE_VARIABLE_GRAPHBIN_u16(etc_07, 64, 50);
+DECLARE_VARIABLE_GRAPHBIN_u16(etc_08, 64, 34);
+DECLARE_VARIABLE_GRAPHBIN_u16(etc_09, 64, 50);
+DECLARE_VARIABLE_GRAPHBIN_u4 (etc_10, 32, 32);
+DECLARE_VARIABLE_GRAPHBIN_u4 (etc_11, 32, 32);
+DECLARE_VARIABLE_GRAPHBIN_u4 (etc_12, 48, 15);
 extern u8 game_etc_lws[];
 extern u8 etc_attack_sprites[2][10][ETC_ATTACK_SPRITES_WIDTH*ETC_ATTACK_SPRITES_HEIGHT/2];
 

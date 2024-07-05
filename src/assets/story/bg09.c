@@ -1,17 +1,7 @@
 #include "graphbin.h"
 
-GraphBin_u8_320_160 story_bg09 = {
-    {
-        "GraphBin",
-        320,
-        160,
-        1,
-        8,
-        {
+GRAPHBIN_START_u8(story_bg09, 320, 160)
 #include "assets/story/bg09/bg09.palette.inc"
-        },
-    },
-    {
+GRAPHBIN_MIDDLE()
 #include "assets/story/bg09/bg09.ci8.inc"
-    },
-};
+GRAPHBIN_END();

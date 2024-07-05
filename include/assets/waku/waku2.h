@@ -3,8 +3,8 @@
 
 #include "graphbin.h"
 
-extern GraphBin_u16_320_20 waku2_00;
-extern GraphBin_u4_320_20 waku2_01;
-extern GraphBin_u8_320_80 waku2_02;
+DECLARE_VARIABLE_GRAPHBIN_u16(waku2_00, 320, 20);
+DECLARE_VARIABLE_GRAPHBIN_u4(waku2_01, 320, 20);
+DECLARE_VARIABLE_GRAPHBIN_u8(waku2_02, 320, 80);
 
 #endif

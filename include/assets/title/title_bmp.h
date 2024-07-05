@@ -3,8 +3,8 @@
 
 #include "graphbin.h"
 
-extern GraphBin_u4_192_42 title_bmp_00;
-extern GraphBin_u16_144_16 title_bmp_01;
-extern GraphBin_u4_144_16 title_bmp_02;
+DECLARE_VARIABLE_GRAPHBIN_u4(title_bmp_00, 192, 42);
+DECLARE_VARIABLE_GRAPHBIN_u16(title_bmp_01, 144, 16);
+DECLARE_VARIABLE_GRAPHBIN_u4(title_bmp_02, 144, 16);
 
 #endif

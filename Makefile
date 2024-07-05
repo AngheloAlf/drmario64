@@ -148,7 +148,7 @@ IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/incl
 IINC       += -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I $(BUILD_DIR) -I.
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-missing-braces -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
+CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
 CHECK_WARNINGS += -Wno-invalid-source-encoding
 
 ifneq ($(WERROR), 0)

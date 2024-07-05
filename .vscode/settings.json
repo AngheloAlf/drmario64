@@ -17,7 +17,8 @@
         "*.txt": "plaintext",
         "*.inc": "n64asm",
         "*.md": "markdown",
-        ".make_options": "makefile"
+        ".make_options": "makefile",
+        "typeinfo": "c",
     },
     "python.terminal.activateEnvironment": true,
     "favorites.resources": [
