@@ -7,10 +7,15 @@ typedef struct GraphBinHeader {
     /* 0x000 */ char magic[0x8];
     /* 0x008 */ u16 width;
     /* 0x00A */ u16 height;
-    /* 0x00C */ u16 unk_00C;
-    /* 0x00E */ u8 unk_00E;
+    /* 0x00C */ u16 unk_00C; // unused?
+    /* 0x00E */ u8 siz;
     /* 0x010 */ u16 tlut[0x100];
 } GraphBinHeader; // size = 0x210
+
+typedef struct GraphBinGeneric {
+    /* 0x000 */ GraphBinHeader header;
+    /* 0x210 */ u8 texture[1]; // Placeholder. Allows to reference the texture member
+} GraphBinGeneric;
 
 #define DECLARE_STRUCT_GRAPHBIN_u4(width, height) \
     typedef struct GraphBin_u4_ ## width ## _ ## height { \

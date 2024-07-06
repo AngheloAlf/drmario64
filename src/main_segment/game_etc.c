@@ -473,8 +473,8 @@ void disp_draw_logo(Gfx **gfxP, s32 arg1) {
 s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2 UNUSED, s32 arg3, s32 arg4) {
     Gfx *gfx = *gfxP;
     struct_g_etc_work *temp_s1 = &g_etc_work[arg1];
-    struct_get_gbi_stat_arg0 sp38;
-    struct_get_gbi_stat_arg0 sp50;
+    GbiStat sp38;
+    GbiStat sp50;
     Mtx sp68;
     s32 var_a1;
     s32 var_a2;
@@ -588,8 +588,8 @@ s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2 UNUSED, s32 arg3, s32 arg4) {
 s32 etc_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     Gfx *gfx = *gfxP;
     struct_g_etc_work *temp_s2 = &g_etc_work[arg1];
-    struct_get_gbi_stat_arg0 sp38;
-    struct_get_gbi_stat_arg0 sp50;
+    GbiStat sp38;
+    GbiStat sp50;
     f32 var_fs0;
     f32 var_fs1;
 
@@ -812,7 +812,7 @@ void disp_retire_logo(Gfx **gfxP, s32 arg1) {
 void disp_timestop_logo(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     struct_g_etc_work *temp_s3 = &g_etc_work[arg1];
-    struct_get_gbi_stat_arg0 sp30;
+    GbiStat sp30;
 
     get_gbi_stat(&sp30, RELOCATE_OFFSET(etcTexAddress, etc_parts_tbl[ETC_PART_INDEX_GRAPHBIN_11]));
 

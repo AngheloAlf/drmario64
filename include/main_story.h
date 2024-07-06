@@ -7,6 +7,7 @@
 #include "rom_offsets.h"
 
 struct NNSched;
+struct GraphBinGeneric;
 
 // Maybe same enum as `BgRomDataIndex`
 typedef enum enum_story_proc_no {
@@ -37,27 +38,13 @@ typedef enum enum_story_proc_no {
     /* 24 */ STORY_PROC_NO_24 // TODO: MAX?
 } enum_story_proc_no;
 
-// GraphBin?
-// I wonder if this is a real struct or not
-typedef struct struct_wakuGraphic {
-    /* 0x000 */ UNK_TYPE1 unk_000[0x8];
-    /* 0x008 */ u16 width;
-    /* 0x00A */ u16 height;
-    /* 0x00C */ UNK_TYPE1 unk_00C[0x2];
-    /* 0x00E */ u8 unk_00E;
-    /* 0x00F */ UNK_TYPE1 unk_00F[0x1];
-    /* 0x010 */ u16 tlut[0x100];
-    /* 0x210 */ u8 texture[UNK_SIZE];
-} struct_wakuGraphic; // size >= 0x212
-
-typedef struct struct_get_gbi_stat_arg0 {
-    /* 0x00 */ s32 unk_00;
+typedef struct GbiStat {
+    /* 0x00 */ s32 siz;
     /* 0x04 */ s32 width;
     /* 0x08 */ s32 height;
     /* 0x0C */ u16 *tlut;
-    /* 0x10 */ u8 *texture; // ci
-    /* 0x14 */ UNK_TYPE1 unk_14[0x4];
-} struct_get_gbi_stat_arg0; // size = 0x18
+    /* 0x10 */ u8 *texture; // ci // TexturePtr?
+} GbiStat; // size = 0x14
 
 
 typedef struct struct_mes_data {
@@ -67,10 +54,10 @@ typedef struct struct_mes_data {
 
 
 void story_zoomfade(Gfx **gfxP, s32 arg1);
-void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1);
+void get_gbi_stat(GbiStat *arg0, struct GraphBinGeneric *graphBin);
 void curtain_proc(Gfx **gfxP, s32 arg1);
 void curtain_proc_org(Gfx **gfxP, s32 arg1);
-void func_800770E8(Gfx **gfxP, struct_wakuGraphic *arg1);
+void func_800770E8(Gfx **gfxP, struct GraphBinGeneric *graphBin);
 void *story_bg_init(BgRomDataIndex index, void *dstAddr);
 void story_bg_proc(Gfx **gfxP);
 void func_800773F0(void);

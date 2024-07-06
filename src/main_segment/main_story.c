@@ -22,6 +22,8 @@
 #include "lws.h"
 #include "066840.h"
 
+#include "graphbin.h"
+
 #include "assets/title/title_bmp.h"
 #include "assets/waku/waku2.h"
 
@@ -57,7 +59,7 @@ static s32 story_staff_roll;
 static u16 story_norm;    /* Original name: story_norm */
 static Mtx story_viewMtx; /* Original name: story_viewMtx */
 static Mtx story_objectMtx[2][0x50];
-static struct_wakuGraphic *wakuGraphic;
+static void *wakuGraphic;
 static u8 D_800E8750[0x50] UNUSED;
 static void *bgGraphic; /* Original name: bgGraphic */
 static void *storyGraphic;
@@ -290,12 +292,12 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
 /**
  * Original name: get_gbi_stat
  */
-void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1) {
-    arg0->width = arg1->width;
-    arg0->height = arg1->height;
-    arg0->unk_00 = arg1->unk_00E;
-    arg0->tlut = arg1->tlut;
-    arg0->texture = arg1->texture;
+void get_gbi_stat(GbiStat *arg0, GraphBinGeneric *graphBin) {
+    arg0->width = graphBin->header.width;
+    arg0->height = graphBin->header.height;
+    arg0->siz = graphBin->header.siz;
+    arg0->tlut = graphBin->header.tlut;
+    arg0->texture = graphBin->texture;
 }
 
 /**
@@ -372,11 +374,11 @@ void curtain_proc_org(Gfx **gfxP, s32 arg1) {
     *gfxP = gfx;
 }
 
-void func_800770E8(Gfx **gfxP, struct_wakuGraphic *arg1) {
+void func_800770E8(Gfx **gfxP, GraphBinGeneric *graphBin) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
-    StretchTexBlock8(&gfx, SCREEN_WIDTH + 8, SCREEN_HEIGHT, arg1->tlut, &arg1->texture, 0.0f, 0.0f, SCREEN_WIDTH + 8,
+    StretchTexBlock8(&gfx, SCREEN_WIDTH + 8, SCREEN_HEIGHT, graphBin->header.tlut, &graphBin->texture, 0.0f, 0.0f, SCREEN_WIDTH + 8,
                      SCREEN_HEIGHT);
     *gfxP = gfx;
 }
@@ -396,8 +398,8 @@ void *story_bg_init(BgRomDataIndex index, void *dstAddr) {
  * Original name: story_bg_proc
  */
 void story_bg_proc(Gfx **gfxP) {
-    struct_get_gbi_stat_arg0 sp48;
-    struct_get_gbi_stat_arg0 sp60;
+    GbiStat sp48;
+    GbiStat sp60;
     s32 pad[0x10] UNUSED;
     Gfx *gfx = *gfxP;
 
@@ -759,8 +761,8 @@ void *init_title(void *dstAddr, bool arg1) {
  * Original name: demo_title
  */
 s32 demo_title(Gfx **gfxP, bool arg1) {
-    struct_get_gbi_stat_arg0 textureInfo;
-    struct_get_gbi_stat_arg0 shadowInfo;
+    GbiStat textureInfo;
+    GbiStat shadowInfo;
     Mtx mtx;
     Gfx *gfx;
     bool temp_s2;
