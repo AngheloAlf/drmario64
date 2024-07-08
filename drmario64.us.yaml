@@ -979,7 +979,7 @@ segments:
           - [0x1F7C20, ci8, lws/D_0500BBC8, 32, 32]
           - [0x1F8020]
           - { start: 0x1F85D8, type: vtx, data_only: True, name: lws/D_0500C580 }
-          - [0x1F8618]
+          - [0x1F8618, rgba16, lws/D_0500C5C0, 4, 4]
           - [0x1F8638, i4, lws/D_0500C5E0, 32, 33]
           - [0x1F8848]
           - { start: 0x1F8928, type: vtx, data_only: True, name: lws/D_0500C8D0 }
@@ -987,7 +987,7 @@ segments:
           - [0x1F8B68, ci8, lws/D_0500CB10, 32, 33]
           - [0x1F8F88]
           - { start: 0x1F9098, type: vtx, data_only: True, name: lws/D_0500D040 }
-          - [0x1F90D8]
+          - [0x1F90D8, rgba16, lws/D_0500D080, 4, 4]
           - [0x1F90F8, i4, lws/D_0500D0A0, 48, 25]
           - [0x1F9350]
           - { start: 0x1F9430, type: vtx, data_only: True, name: lws/D_0500D3D8 }
@@ -995,7 +995,7 @@ segments:
           - [0x1F9670, ci8, lws/D_0500D618, 40, 25]
           - [0x1F9A58]
           - { start: 0x1F9B68, type: vtx, data_only: True, name: lws/D_0500DB10 }
-          - [0x1F9BA8]
+          - [0x1F9BA8, rgba16, lws/D_0500DB50, 4, 4]
           - [0x1F9BC8, i4, lws/D_0500DB70, 32, 35]
           - [0x1F9DF8]
           - { start: 0x1F9ED8, type: vtx, data_only: True, name: lws/D_0500DE80 }
@@ -1003,7 +1003,7 @@ segments:
           - [0x1FA118, ci8, lws/D_0500E0C0, 32, 35]
           - [0x1FA578]
           - { start: 0x1FA688, type: vtx, data_only: True, name: lws/D_0500E630 }
-          - [0x1FA6C8]
+          - [0x1FA6C8, rgba16, lws/D_0500E670, 4, 4]
           - [0x1FA6E8, i4, lws/D_0500E690, 32, 28]
           - [0x1FA8A8]
           - { start: 0x1FA988, type: vtx, data_only: True, name: lws/D_0500E930 }
@@ -1011,7 +1011,7 @@ segments:
           - [0x1FABC8, ci8, lws/D_0500EB70, 24, 28]
           - [0x1FAE68]
           - { start: 0x1FAF78, type: vtx, data_only: True, name: lws/D_0500EF20 }
-          - [0x1FAFB8]
+          - [0x1FAFB8, rgba16, lws/D_0500EF60, 4, 4]
           - [0x1FAFD8, i4, lws/D_0500EF80, 32, 34]
           - [0x1FB1F8]
           - { start: 0x1FB2D8, type: vtx, data_only: True, name: lws/D_0500F280 }
@@ -1019,7 +1019,7 @@ segments:
           - [0x1FB518, ci8, lws/D_0500F4C0, 32, 34]
           - [0x1FB958]
           - { start: 0x1FBA68, type: vtx, data_only: True, name: lws/D_0500FA10 }
-          - [0x1FBAA8]
+          - [0x1FBAA8, rgba16, lws/D_0500FA50, 4, 4]
           - [0x1FBAC8, i4, lws/D_0500FA70, 32, 33]
           - [0x1FBCD8]
           - { start: 0x1FBDB8, type: vtx, data_only: True, name: lws/D_0500FD60 }
@@ -1027,7 +1027,7 @@ segments:
           - [0x1FBFF8, ci8, lws/D_0500FFA0, 32, 33]
           - [0x1FC418]
           - { start: 0x1FC528, type: vtx, data_only: True, name: lws/D_050104D0 }
-          - [0x1FC568]
+          - [0x1FC568, rgba16, lws/D_05010510, 4, 4]
           - [0x1FC588, i4, lws/D_05010530, 32, 33]
           - [0x1FC798]
           - { start: 0x1FC878, type: vtx, data_only: True, name: lws/D_05010820 }
@@ -1035,7 +1035,7 @@ segments:
           - [0x1FCAB8, ci8, lws/D_05010A60, 32, 33]
           - [0x1FCED8]
           - { start: 0x1FCFE8, type: vtx, data_only: True, name: lws/D_05010F90 }
-          - [0x1FD028]
+          - [0x1FD028, rgba16, lws/D_05010FD0, 4, 4]
           - [0x1FD048, i4, lws/D_05010FF0, 32, 25]
           - [0x1FD1D8]
           - { start: 0x1FD2B8, type: vtx, data_only: True, name: lws/D_05011260 }
@@ -1043,7 +1043,7 @@ segments:
           - [0x1FD4F8, ci8, lws/D_050114A0, 32, 25]
           - [0x1FD818]
           - { start: 0x1FD928, type: vtx, data_only: True, name: lws/D_050118D0 }
-          - [0x1FD968]
+          - [0x1FD968, rgba16, lws/D_05011910, 4, 4]
           - [0x1FD988, i4, lws/D_05011930, 32, 26]
           - [0x1FDB28]
           - { start: 0x1FDC08, type: vtx, data_only: True, name: lws/D_05011BB0 }
@@ -1051,7 +1051,7 @@ segments:
           - [0x1FDE48, ci8, lws/D_05011DF0, 24, 26]
           - [0x1FE0B8]
           - { start: 0x1FE1C8, type: vtx, data_only: True, name: lws/D_05012170 }
-          - [0x1FE208]
+          - [0x1FE208, rgba16, lws/D_050121B0, 4, 4]
           - [0x1FE228, i4, lws/D_050121D0, 32, 36]
           - [0x1FE468]
           - { start: 0x1FE548, type: vtx, data_only: True, name: lws/D_050124F0 }
@@ -1063,11 +1063,11 @@ segments:
           - [0x1FFC28, ci8, lws/D_05013BD0, 80, 15]
           - [0x2000D8]
           - { start: 0x200330, type: vtx, data_only: True, name: lws/D_050142D8 }
-          - [0x200370]
+          - [0x200370, rgba16, lws/D_05014318, 4, 4]
           - [0x200390, i4, lws/D_05014338, 80, 30]
           - [0x200840]
           - { start: 0x200920, type: vtx, data_only: True, name: lws/D_050148C8 }
-          - [0x200960]
+          - [0x200960, rgba16, lws/D_05014908, 4, 4]
           - [0x200980, i4, lws/D_05014928, 80, 30]
           - [0x200E30]
           - { start: 0x200F10, type: vtx, data_only: True, name: lws/D_05014EB8 }
@@ -1079,7 +1079,7 @@ segments:
           - [0x201590, ci4, lws/D_05015538, 80, 30]
           - [0x201A40]
           - { start: 0x2021E8, type: vtx, data_only: True, name: lws/D_05016190 }
-          - [0x202228]
+          - [0x202228, rgba16, lws/D_050161D0, 4, 4]
           - [0x202248, i4, lws/D_050161F0, 80, 30]
           - [0x2026F8]
           - { start: 0x2027D8, type: vtx, data_only: True, name: lws/D_05016780 }
@@ -1087,7 +1087,7 @@ segments:
           - [0x202838, ci4, lws/D_050167E0, 80, 30]
           - [0x202CE8]
           - { start: 0x203490, type: vtx, data_only: True, name: lws/D_05017438 }
-          - [0x2034D0]
+          - [0x2034D0, rgba16, lws/D_05017478, 4, 4]
           - [0x2034F0, i4, lws/D_05017498, 32, 28]
           - [0x2036B0]
           - { start: 0x203790, type: vtx, data_only: True, name: lws/D_05017738 }
@@ -1095,7 +1095,7 @@ segments:
           - [0x2037F0, ci4, lws/D_05017798, 32, 28]
           - [0x2039B0]
           - { start: 0x203AC0, type: vtx, data_only: True, name: lws/D_05017A68 }
-          - [0x203B00]
+          - [0x203B00, rgba16, lws/D_05017AA8, 4, 4]
           - [0x203B20, i4, lws/D_05017AC8, 32, 28]
           - [0x203CE0]
           - { start: 0x203DC0, type: vtx, data_only: True, name: lws/D_05017D68 }
@@ -1103,7 +1103,7 @@ segments:
           - [0x203E20, ci4, lws/D_05017DC8, 32, 28]
           - [0x203FE0]
           - { start: 0x2040F0, type: vtx, data_only: True, name: lws/D_05018098 }
-          - [0x204130]
+          - [0x204130, rgba16, lws/D_050180D8, 4, 4]
           - [0x204150, i4, lws/D_050180F8, 48, 25]
           - [0x2043A8]
           - { start: 0x204488, type: vtx, data_only: True, name: lws/D_05018430 }

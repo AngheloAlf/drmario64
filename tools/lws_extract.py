@@ -273,8 +273,6 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
 
             new_vram = vram + size
             assert new_vram <= next_vram, f"{typ} 0x{vram:08X} 0x{new_vram:08X} 0x{next_vram:08X} {next_vram_typ}"
-            if new_vram < next_vram:
-                f.write(f"extern u32 {sym_prefix}D_{new_vram:08X}[];\n")
 
 
         f.write("\n")
