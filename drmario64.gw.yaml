@@ -1138,9 +1138,183 @@ segments:
   - name: segment_menu_bg2 # compressed
     type: databin
     start: 0x20C310
+
   - name: segment_coffee01 # compressed
-    type: databin
+    type: code
     start: 0x20FDA0
+    vram: 0x05000000
+    exclusive_ram_id: number_05
+    subsegments:
+      - [auto, c, assets/coffee/coffee01]
+      - start: 0x20FDA0
+        type: .data
+        name: assets/coffee/coffee01
+        dir: assets/coffee/coffee01
+        subsegments:
+          - [0x20FDA0]
+          - [0x20FDC8, palette, coffee01_D_05000048]
+          - [0x20FDE8, ci4, coffee01_D_05000048, 80, 40]
+          - [0x210428, palette, coffee01_D_050006A8]
+          - [0x210448, ci4, coffee01_D_050006A8, 16, 32]
+          - [0x210548, palette, coffee01_D_050007C8]
+          - [0x210568, ci4, coffee01_D_050007C8, 64, 64]
+          - [0x210D68, palette, coffee01_D_05000FE8]
+          - [0x210D88, ci4, coffee01_D_05000FE8, 64, 64]
+          - [0x211588, palette, coffee01_D_05001808]
+          - [0x2115A8, ci4, coffee01_D_05001808, 64, 64]
+          - [0x211DA8, palette, coffee01_D_05002028]
+          - [0x211DC8, ci4, coffee01_D_05002028, 64, 64]
+          - [0x2125C8, palette, coffee01_D_05002848]
+          - [0x2125E8, ci4, coffee01_D_05002848, 64, 64]
+          - [0x212DE8, palette, coffee01_D_05003068]
+          - [0x212E08, ci4, coffee01_D_05003068, 64, 64]
+          - [0x213608, palette, coffee01_D_05003888]
+          - [0x213628, ci4, coffee01_D_05003888, 64, 64]
+          - [0x213E28, palette, coffee01_D_050040A8]
+          - [0x213E48, ci4, coffee01_D_050040A8, 64, 64]
+          - [0x214648, palette, coffee01_D_050048C8]
+          - [0x214668, ci4, coffee01_D_050048C8, 64, 64]
+          - [0x214E68, palette, coffee01_D_050050E8]
+          - [0x214E88, ci4, coffee01_D_050050E8, 64, 64]
+          - [0x215688, palette, coffee01_D_05005908]
+          - [0x2156A8, ci4, coffee01_D_05005908, 32, 32]
+          - [0x2158A8, palette, coffee01_D_05005D08]
+          - [0x215AA8, ci8, coffee01_D_05005D08, 56, 36]
+          - [0x216288, palette, coffee01_D_05006508]
+          - [0x2162A8, ci4, coffee01_D_05006508, 64, 32]
+          - [0x2166A8, palette, coffee01_D_05006928]
+          - [0x2166C8, ci4, coffee01_D_05006928, 64, 32]
+          - [0x216AC8, palette, coffee01_D_05006D48]
+          - [0x216AE8, ci4, coffee01_D_05006D48, 64, 64]
+          - [0x2172E8, palette, coffee01_D_05007568]
+          - [0x217308, ci4, coffee01_D_05007568, 32, 32]
+          - [0x217508, palette, coffee01_D_05007788]
+          - [0x217528, ci4, coffee01_D_05007788, 32, 32]
+          - [0x217728, palette, coffee01_D_050079A8]
+          - [0x217748, ci4, coffee01_D_050079A8, 64, 35]
+          - [0x217BA8, palette, coffee01_D_05007E28]
+          - [0x217BC8, ci4, coffee01_D_05007E28, 64, 32]
+          - [0x217FC8, palette, coffee01_D_05008248]
+          - [0x217FE8, ci4, coffee01_D_05008248, 80, 40]
+          - [0x218628, palette, coffee01_D_050088A8]
+          - [0x218648, ci4, coffee01_D_050088A8, 80, 40]
+          - [0x218C88, palette, coffee01_D_05008F08]
+          - [0x218CA8, ci4, coffee01_D_05008F08, 32, 32]
+          - [0x218EA8, palette, coffee01_D_05009128]
+          - [0x218EC8, ci4, coffee01_D_05009128, 80, 40]
+          - [0x219508, palette, coffee01_D_05009788]
+          - [0x219528, ci4, coffee01_D_05009788, 32, 32]
+          - [0x219728, palette, coffee01_D_050099A8]
+          - [0x219748, ci4, coffee01_D_050099A8, 32, 32]
+          - [0x219948, palette, coffee01_D_05009DA8]
+          - [0x219B48, ci8, coffee01_D_05009DA8, 40, 51]
+          - [0x21A340, palette, coffee01_D_0500A5C0]
+          - [0x21A360, ci4, coffee01_D_0500A5C0, 80, 50]
+          - [0x21AB30, palette, coffee01_D_0500ADB0]
+          - [0x21AB50, ci4, coffee01_D_0500ADB0, 80, 50]
+          - [0x21B320, palette, coffee01_D_0500B5A0]
+          - [0x21B340, ci4, coffee01_D_0500B5A0, 80, 50]
+          - [0x21BB10, palette, coffee01_D_0500BD90]
+          - [0x21BB30, ci4, coffee01_D_0500BD90, 80, 50]
+          - [0x21C300, palette, coffee01_D_0500C580]
+          - [0x21C320, ci4, coffee01_D_0500C580, 128, 32]
+          - [0x21CB20, palette, coffee01_D_0500CDA0]
+          - [0x21CB40, ci4, coffee01_D_0500CDA0, 160, 25]
+          - [0x21D310, palette, coffee01_D_0500D590]
+          - [0x21D330, ci4, coffee01_D_0500D590, 32, 32]
+          - [0x21D530, palette, coffee01_D_0500D7B0]
+          - [0x21D550, ci4, coffee01_D_0500D7B0, 32, 32]
+          - [0x21D750, palette, coffee01_D_0500D9D0]
+          - [0x21D770, ci4, coffee01_D_0500D9D0, 32, 32]
+          - [0x21D970, palette, coffee01_D_0500DBF0]
+          - [0x21D990, ci4, coffee01_D_0500DBF0, 32, 32]
+          - [0x21DB90, palette, coffee01_D_0500DE10]
+          - [0x21DBB0, ci4, coffee01_D_0500DE10, 32, 32]
+          - [0x21DDB0, palette, coffee01_D_0500E030]
+          - [0x21DDD0, ci4, coffee01_D_0500E030, 64, 35]
+          - [0x21E230, palette, coffee01_D_0500E4B0]
+          - [0x21E250, ci4, coffee01_D_0500E4B0, 64, 35]
+          - [0x21E6B0, palette, coffee01_D_0500E930]
+          - [0x21E6D0, ci4, coffee01_D_0500E930, 48, 70]
+          - [0x21ED60, palette, coffee01_D_0500EFE0]
+          - [0x21ED80, ci4, coffee01_D_0500EFE0, 32, 32]
+          - [0x21EF80, palette, coffee01_D_0500F3E0]
+          - [0x21F180, ci8, coffee01_D_0500F3E0, 40, 40]
+          - [0x21F7C0, palette, coffee01_D_0500FC20]
+          - [0x21F9C0, ci8, coffee01_D_0500FC20, 40, 40]
+          - [0x220000, palette, coffee01_D_05010460]
+          - [0x220200, ci8, coffee01_D_05010460, 40, 40]
+          - [0x220840, palette, coffee01_D_05010CA0]
+          - [0x220A40, ci8, coffee01_D_05010CA0, 8, 240]
+          - [0x2211C0]
+          - { start: 0x2211E0, type: vtx, data_only: True, name: coffee01_D_05011440 }
+          - [0x221220]
+          - { start: 0x221330, type: vtx, data_only: True, name: coffee01_D_05011590 }
+          - [0x221370]
+          - { start: 0x221480, type: vtx, data_only: True, name: coffee01_D_050116E0 }
+          - [0x221500]
+          - { start: 0x221680, type: vtx, data_only: True, name: coffee01_D_050118E0 }
+          - [0x221780]
+          - { start: 0x2219E0, type: vtx, data_only: True, name: coffee01_D_05011C40 }
+          - [0x221AE0]
+          - { start: 0x221D40, type: vtx, data_only: True, name: coffee01_D_05011FA0 }
+          - [0x221D80]
+          - { start: 0x221E90, type: vtx, data_only: True, name: coffee01_D_050120F0 }
+          - [0x221ED0]
+          - { start: 0x221FE0, type: vtx, data_only: True, name: coffee01_D_05012240 }
+          - [0x222020]
+          - { start: 0x222130, type: vtx, data_only: True, name: coffee01_D_05012390 }
+          - [0x222170]
+          - { start: 0x222280, type: vtx, data_only: True, name: coffee01_D_050124E0 }
+          - [0x2222C0]
+          - { start: 0x2223D0, type: vtx, data_only: True, name: coffee01_D_05012630 }
+          - [0x222410]
+          - { start: 0x222520, type: vtx, data_only: True, name: coffee01_D_05012780 }
+          - [0x222560]
+          - { start: 0x222670, type: vtx, data_only: True, name: coffee01_D_050128D0 }
+          - [0x2226B0]
+          - { start: 0x2227C0, type: vtx, data_only: True, name: coffee01_D_05012A20 }
+          - [0x2228C0]
+          - { start: 0x222B20, type: vtx, data_only: True, name: coffee01_D_05012D80 }
+          - [0x222B60]
+          - { start: 0x222C70, type: vtx, data_only: True, name: coffee01_D_05012ED0 }
+          - [0x222CB0]
+          - { start: 0x222DC0, type: vtx, data_only: True, name: coffee01_D_05013020 }
+          - [0x222F00]
+          - { start: 0x223058, type: vtx, data_only: True, name: coffee01_D_050132B8 }
+          - [0x223098]
+          - { start: 0x2231A8, type: vtx, data_only: True, name: coffee01_D_05013408 }
+          - [0x2232A8]
+          - { start: 0x223508, type: vtx, data_only: True, name: coffee01_D_05013768 }
+          - [0x223568]
+          - { start: 0x223680, type: vtx, data_only: True, name: coffee01_D_050138E0 }
+          - [0x2236E0]
+          - { start: 0x2237F8, type: vtx, data_only: True, name: coffee01_D_05013A58 }
+          - [0x223838]
+          - { start: 0x223948, type: vtx, data_only: True, name: coffee01_D_05013BA8 }
+          - [0x223988]
+          - { start: 0x223A98, type: vtx, data_only: True, name: coffee01_D_05013CF8 }
+          - [0x223AD8]
+          - { start: 0x223BE8, type: vtx, data_only: True, name: coffee01_D_05013E48 }
+          - [0x223C28]
+          - { start: 0x223D38, type: vtx, data_only: True, name: coffee01_D_05013F98 }
+          - [0x223DB8]
+          - { start: 0x223E68, type: vtx, data_only: True, name: coffee01_D_050140C8 }
+          - [0x223EA8]
+          - { start: 0x223FB8, type: vtx, data_only: True, name: coffee01_D_05014218 }
+          - [0x224038]
+          - { start: 0x2241B8, type: vtx, data_only: True, name: coffee01_D_05014418 }
+          - [0x2241F8]
+          - { start: 0x224308, type: vtx, data_only: True, name: coffee01_D_05014568 }
+          - [0x224348]
+          - { start: 0x224458, type: vtx, data_only: True, name: coffee01_D_050146B8 }
+          - [0x224558]
+          - { start: 0x224698, type: vtx, data_only: True, name: coffee01_D_050148F8 }
+          - [0x224778]
+          - { start: 0x2248B0, type: vtx, data_only: True, name: coffee01_D_05014B10 }
+          - [0x2249B0]
+          - { start: 0x224AF0, type: vtx, data_only: True, name: coffee01_D_05014D50 }
+          - [0x224B30]
 
   - name: segment_title_all # compressed
     type: code
