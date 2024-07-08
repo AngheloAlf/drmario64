@@ -1,5 +1,6 @@
 #include "libc/assert.h"
 
+#include "alignment.h"
 #include "lws.h"
 #include "macros_defines.h"
 
@@ -419,11 +420,11 @@ Vtx D_05000070[] = {
 #include "assets/game_etc/lws/D_05000070.vtx.inc.c"
 };
 
-u16 D_050000B0[] = {
+u16 D_050000B0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050000D0.palette.inc"
 };
 
-u8 D_050000D0[] = {
+u8 D_050000D0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050000D0.ci4.inc"
 };
 
@@ -460,11 +461,11 @@ Vtx D_050003C0[] = {
 #include "assets/game_etc/lws/D_050003C0.vtx.inc.c"
 };
 
-u16 D_05000400[] = {
+u16 D_05000400[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05000420.palette.inc"
 };
 
-u8 D_05000420[] = {
+u8 D_05000420[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05000420.ci4.inc"
 };
 
@@ -501,11 +502,11 @@ Vtx D_050006E0[] = {
 #include "assets/game_etc/lws/D_050006E0.vtx.inc.c"
 };
 
-u16 D_05000720[] = {
+u16 D_05000720[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05000740.palette.inc"
 };
 
-u8 D_05000740[] = {
+u8 D_05000740[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05000740.ci4.inc"
 };
 
@@ -542,11 +543,11 @@ Vtx D_05000A10[] = {
 #include "assets/game_etc/lws/D_05000A10.vtx.inc.c"
 };
 
-u16 D_05000A50[] = {
+u16 D_05000A50[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05000A70.palette.inc"
 };
 
-u8 D_05000A70[] = {
+u8 D_05000A70[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05000A70.ci4.inc"
 };
 
@@ -689,11 +690,11 @@ Vtx D_050019B8[] = {
 #include "assets/game_etc/lws/D_050019B8.vtx.inc.c"
 };
 
-u16 D_050019F8[] = {
+u16 D_050019F8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05001A18.palette.inc"
 };
 
-u8 D_05001A18[] = {
+u8 D_05001A18[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05001A18.ci4.inc"
 };
 
@@ -730,11 +731,11 @@ Vtx D_05001D58[] = {
 #include "assets/game_etc/lws/D_05001D58.vtx.inc.c"
 };
 
-u16 D_05001D98[] = {
+u16 D_05001D98[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05001DB8.palette.inc"
 };
 
-u8 D_05001DB8[] = {
+u8 D_05001DB8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05001DB8.ci4.inc"
 };
 
@@ -771,11 +772,11 @@ Vtx D_050020C8[] = {
 #include "assets/game_etc/lws/D_050020C8.vtx.inc.c"
 };
 
-u16 D_05002108[] = {
+u16 D_05002108[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05002128.palette.inc"
 };
 
-u8 D_05002128[] = {
+u8 D_05002128[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05002128.ci4.inc"
 };
 
@@ -812,11 +813,11 @@ Vtx D_05002468[] = {
 #include "assets/game_etc/lws/D_05002468.vtx.inc.c"
 };
 
-u16 D_050024A8[] = {
+u16 D_050024A8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050024C8.palette.inc"
 };
 
-u8 D_050024C8[] = {
+u8 D_050024C8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050024C8.ci4.inc"
 };
 
@@ -959,11 +960,11 @@ Vtx D_05003480[] = {
 #include "assets/game_etc/lws/D_05003480.vtx.inc.c"
 };
 
-u16 D_050034C0[] = {
+u16 D_050034C0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050034E0.palette.inc"
 };
 
-u8 D_050034E0[] = {
+u8 D_050034E0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050034E0.ci4.inc"
 };
 
@@ -1000,11 +1001,11 @@ Vtx D_050037B0[] = {
 #include "assets/game_etc/lws/D_050037B0.vtx.inc.c"
 };
 
-u16 D_050037F0[] = {
+u16 D_050037F0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05003810.palette.inc"
 };
 
-u8 D_05003810[] = {
+u8 D_05003810[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05003810.ci4.inc"
 };
 
@@ -1041,11 +1042,11 @@ Vtx D_05003AE0[] = {
 #include "assets/game_etc/lws/D_05003AE0.vtx.inc.c"
 };
 
-u16 D_05003B20[] = {
+u16 D_05003B20[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05003B40.palette.inc"
 };
 
-u8 D_05003B40[] = {
+u8 D_05003B40[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05003B40.ci4.inc"
 };
 
@@ -1082,11 +1083,11 @@ Vtx D_05003E20[] = {
 #include "assets/game_etc/lws/D_05003E20.vtx.inc.c"
 };
 
-u16 D_05003E60[] = {
+u16 D_05003E60[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05003E80.palette.inc"
 };
 
-u8 D_05003E80[] = {
+u8 D_05003E80[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05003E80.ci4.inc"
 };
 
@@ -1162,11 +1163,11 @@ Vtx D_05004450[] = {
 #include "assets/game_etc/lws/D_05004450.vtx.inc.c"
 };
 
-u16 D_05004490[] = {
+u16 D_05004490[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050044B0.palette.inc"
 };
 
-u8 D_050044B0[] = {
+u8 D_050044B0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050044B0.ci4.inc"
 };
 
@@ -1203,11 +1204,11 @@ Vtx D_050047D0[] = {
 #include "assets/game_etc/lws/D_050047D0.vtx.inc.c"
 };
 
-u16 D_05004810[] = {
+u16 D_05004810[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05004830.palette.inc"
 };
 
-u8 D_05004830[] = {
+u8 D_05004830[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05004830.ci4.inc"
 };
 
@@ -1244,11 +1245,11 @@ Vtx D_05004B50[] = {
 #include "assets/game_etc/lws/D_05004B50.vtx.inc.c"
 };
 
-u16 D_05004B90[] = {
+u16 D_05004B90[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05004BB0.palette.inc"
 };
 
-u8 D_05004BB0[] = {
+u8 D_05004BB0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05004BB0.ci4.inc"
 };
 
@@ -1285,11 +1286,11 @@ Vtx D_05004EE0[] = {
 #include "assets/game_etc/lws/D_05004EE0.vtx.inc.c"
 };
 
-u16 D_05004F20[] = {
+u16 D_05004F20[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05004F40.palette.inc"
 };
 
-u8 D_05004F40[] = {
+u8 D_05004F40[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05004F40.ci4.inc"
 };
 
@@ -1373,11 +1374,11 @@ Vtx D_05005678[] = {
 #include "assets/game_etc/lws/D_05005678.vtx.inc.c"
 };
 
-u16 D_050056B8[] = {
+u16 D_050056B8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050056D8.palette.inc"
 };
 
-u8 D_050056D8[] = {
+u8 D_050056D8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050056D8.ci4.inc"
 };
 
@@ -1414,11 +1415,11 @@ Vtx D_05005B90[] = {
 #include "assets/game_etc/lws/D_05005B90.vtx.inc.c"
 };
 
-u16 D_05005BD0[] = {
+u16 D_05005BD0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05005BF0.palette.inc"
 };
 
-u8 D_05005BF0[] = {
+u8 D_05005BF0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05005BF0.ci4.inc"
 };
 
@@ -1455,11 +1456,11 @@ Vtx D_05005E30[] = {
 #include "assets/game_etc/lws/D_05005E30.vtx.inc.c"
 };
 
-u16 D_05005E70[] = {
+u16 D_05005E70[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05005E90.palette.inc"
 };
 
-u8 D_05005E90[] = {
+u8 D_05005E90[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05005E90.ci4.inc"
 };
 
@@ -1551,11 +1552,11 @@ Vtx D_05006898[] = {
 #include "assets/game_etc/lws/D_05006898.vtx.inc.c"
 };
 
-u16 D_050068D8[] = {
+u16 D_050068D8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050068F8.palette.inc"
 };
 
-u8 D_050068F8[] = {
+u8 D_050068F8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050068F8.ci4.inc"
 };
 
@@ -1592,11 +1593,11 @@ Vtx D_05006CF0[] = {
 #include "assets/game_etc/lws/D_05006CF0.vtx.inc.c"
 };
 
-u16 D_05006D30[] = {
+u16 D_05006D30[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05006D50.palette.inc"
 };
 
-u8 D_05006D50[] = {
+u8 D_05006D50[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05006D50.ci4.inc"
 };
 
@@ -1633,11 +1634,11 @@ Vtx D_05006F60[] = {
 #include "assets/game_etc/lws/D_05006F60.vtx.inc.c"
 };
 
-u16 D_05006FA0[] = {
+u16 D_05006FA0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05006FC0.palette.inc"
 };
 
-u8 D_05006FC0[] = {
+u8 D_05006FC0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05006FC0.ci4.inc"
 };
 
@@ -1728,11 +1729,11 @@ Vtx D_050077E8[] = {
 #include "assets/game_etc/lws/D_050077E8.vtx.inc.c"
 };
 
-u16 D_05007828[] = {
+u16 D_05007828[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05007A28.palette.inc"
 };
 
-u8 D_05007A28[] = {
+u8 D_05007A28[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05007A28.ci8.inc"
 };
 
@@ -1769,11 +1770,11 @@ Vtx D_05007D90[] = {
 #include "assets/game_etc/lws/D_05007D90.vtx.inc.c"
 };
 
-u16 D_05007DD0[] = {
+u16 D_05007DD0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05007FD0.palette.inc"
 };
 
-u8 D_05007FD0[] = {
+u8 D_05007FD0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05007FD0.ci8.inc"
 };
 
@@ -1810,11 +1811,11 @@ Vtx D_05008200[] = {
 #include "assets/game_etc/lws/D_05008200.vtx.inc.c"
 };
 
-u16 D_05008240[] = {
+u16 D_05008240[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05008440.palette.inc"
 };
 
-u8 D_05008440[] = {
+u8 D_05008440[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05008440.ci8.inc"
 };
 
@@ -1851,11 +1852,11 @@ Vtx D_050087C0[] = {
 #include "assets/game_etc/lws/D_050087C0.vtx.inc.c"
 };
 
-u16 D_05008800[] = {
+u16 D_05008800[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05008A00.palette.inc"
 };
 
-u8 D_05008A00[] = {
+u8 D_05008A00[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05008A00.ci8.inc"
 };
 
@@ -1892,11 +1893,11 @@ Vtx D_05008C40[] = {
 #include "assets/game_etc/lws/D_05008C40.vtx.inc.c"
 };
 
-u16 D_05008C80[] = {
+u16 D_05008C80[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05008E80.palette.inc"
 };
 
-u8 D_05008E80[] = {
+u8 D_05008E80[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05008E80.ci8.inc"
 };
 
@@ -1933,11 +1934,11 @@ Vtx D_05009120[] = {
 #include "assets/game_etc/lws/D_05009120.vtx.inc.c"
 };
 
-u16 D_05009160[] = {
+u16 D_05009160[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05009360.palette.inc"
 };
 
-u8 D_05009360[] = {
+u8 D_05009360[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05009360.ci8.inc"
 };
 
@@ -2069,11 +2070,11 @@ Vtx D_0500A0E8[] = {
 #include "assets/game_etc/lws/D_0500A0E8.vtx.inc.c"
 };
 
-u16 D_0500A128[] = {
+u16 D_0500A128[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500A328.palette.inc"
 };
 
-u8 D_0500A328[] = {
+u8 D_0500A328[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500A328.ci8.inc"
 };
 
@@ -2135,11 +2136,11 @@ Vtx D_0500AAE8[] = {
 #include "assets/game_etc/lws/D_0500AAE8.vtx.inc.c"
 };
 
-u16 D_0500AB28[] = {
+u16 D_0500AB28[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500AD28.palette.inc"
 };
 
-u8 D_0500AD28[] = {
+u8 D_0500AD28[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500AD28.ci8.inc"
 };
 
@@ -2176,11 +2177,11 @@ Vtx D_0500B238[] = {
 #include "assets/game_etc/lws/D_0500B238.vtx.inc.c"
 };
 
-u16 D_0500B278[] = {
+u16 D_0500B278[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500B478.palette.inc"
 };
 
-u8 D_0500B478[] = {
+u8 D_0500B478[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500B478.ci8.inc"
 };
 
@@ -2217,11 +2218,11 @@ Vtx D_0500B988[] = {
 #include "assets/game_etc/lws/D_0500B988.vtx.inc.c"
 };
 
-u16 D_0500B9C8[] = {
+u16 D_0500B9C8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500BBC8.palette.inc"
 };
 
-u8 D_0500BBC8[] = {
+u8 D_0500BBC8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500BBC8.ci8.inc"
 };
 
@@ -2318,7 +2319,7 @@ u32 D_0500C5C0[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_0500C5E0[] = {
+u8 D_0500C5E0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500C5E0.i4.inc"
 };
 
@@ -2354,11 +2355,11 @@ Vtx D_0500C8D0[] = {
 #include "assets/game_etc/lws/D_0500C8D0.vtx.inc.c"
 };
 
-u16 D_0500C910[] = {
+u16 D_0500C910[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500CB10.palette.inc"
 };
 
-u8 D_0500CB10[] = {
+u8 D_0500CB10[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500CB10.ci8.inc"
 };
 
@@ -2405,7 +2406,7 @@ u32 D_0500D080[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_0500D0A0[] = {
+u8 D_0500D0A0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500D0A0.i4.inc"
 };
 
@@ -2441,11 +2442,11 @@ Vtx D_0500D3D8[] = {
 #include "assets/game_etc/lws/D_0500D3D8.vtx.inc.c"
 };
 
-u16 D_0500D418[] = {
+u16 D_0500D418[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500D618.palette.inc"
 };
 
-u8 D_0500D618[] = {
+u8 D_0500D618[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500D618.ci8.inc"
 };
 
@@ -2492,7 +2493,7 @@ u32 D_0500DB50[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_0500DB70[] = {
+u8 D_0500DB70[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500DB70.i4.inc"
 };
 
@@ -2528,11 +2529,11 @@ Vtx D_0500DE80[] = {
 #include "assets/game_etc/lws/D_0500DE80.vtx.inc.c"
 };
 
-u16 D_0500DEC0[] = {
+u16 D_0500DEC0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500E0C0.palette.inc"
 };
 
-u8 D_0500E0C0[] = {
+u8 D_0500E0C0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500E0C0.ci8.inc"
 };
 
@@ -2579,7 +2580,7 @@ u32 D_0500E670[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_0500E690[] = {
+u8 D_0500E690[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500E690.i4.inc"
 };
 
@@ -2615,11 +2616,11 @@ Vtx D_0500E930[] = {
 #include "assets/game_etc/lws/D_0500E930.vtx.inc.c"
 };
 
-u16 D_0500E970[] = {
+u16 D_0500E970[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500EB70.palette.inc"
 };
 
-u8 D_0500EB70[] = {
+u8 D_0500EB70[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500EB70.ci8.inc"
 };
 
@@ -2666,7 +2667,7 @@ u32 D_0500EF60[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_0500EF80[] = {
+u8 D_0500EF80[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500EF80.i4.inc"
 };
 
@@ -2702,11 +2703,11 @@ Vtx D_0500F280[] = {
 #include "assets/game_etc/lws/D_0500F280.vtx.inc.c"
 };
 
-u16 D_0500F2C0[] = {
+u16 D_0500F2C0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500F4C0.palette.inc"
 };
 
-u8 D_0500F4C0[] = {
+u8 D_0500F4C0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500F4C0.ci8.inc"
 };
 
@@ -2753,7 +2754,7 @@ u32 D_0500FA50[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_0500FA70[] = {
+u8 D_0500FA70[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500FA70.i4.inc"
 };
 
@@ -2789,11 +2790,11 @@ Vtx D_0500FD60[] = {
 #include "assets/game_etc/lws/D_0500FD60.vtx.inc.c"
 };
 
-u16 D_0500FDA0[] = {
+u16 D_0500FDA0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500FFA0.palette.inc"
 };
 
-u8 D_0500FFA0[] = {
+u8 D_0500FFA0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_0500FFA0.ci8.inc"
 };
 
@@ -2840,7 +2841,7 @@ u32 D_05010510[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_05010530[] = {
+u8 D_05010530[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05010530.i4.inc"
 };
 
@@ -2876,11 +2877,11 @@ Vtx D_05010820[] = {
 #include "assets/game_etc/lws/D_05010820.vtx.inc.c"
 };
 
-u16 D_05010860[] = {
+u16 D_05010860[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05010A60.palette.inc"
 };
 
-u8 D_05010A60[] = {
+u8 D_05010A60[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05010A60.ci8.inc"
 };
 
@@ -2927,7 +2928,7 @@ u32 D_05010FD0[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_05010FF0[] = {
+u8 D_05010FF0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05010FF0.i4.inc"
 };
 
@@ -2963,11 +2964,11 @@ Vtx D_05011260[] = {
 #include "assets/game_etc/lws/D_05011260.vtx.inc.c"
 };
 
-u16 D_050112A0[] = {
+u16 D_050112A0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050114A0.palette.inc"
 };
 
-u8 D_050114A0[] = {
+u8 D_050114A0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050114A0.ci8.inc"
 };
 
@@ -3014,7 +3015,7 @@ u32 D_05011910[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_05011930[] = {
+u8 D_05011930[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05011930.i4.inc"
 };
 
@@ -3050,11 +3051,11 @@ Vtx D_05011BB0[] = {
 #include "assets/game_etc/lws/D_05011BB0.vtx.inc.c"
 };
 
-u16 D_05011BF0[] = {
+u16 D_05011BF0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05011DF0.palette.inc"
 };
 
-u8 D_05011DF0[] = {
+u8 D_05011DF0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05011DF0.ci8.inc"
 };
 
@@ -3101,7 +3102,7 @@ u32 D_050121B0[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_050121D0[] = {
+u8 D_050121D0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050121D0.i4.inc"
 };
 
@@ -3137,11 +3138,11 @@ Vtx D_050124F0[] = {
 #include "assets/game_etc/lws/D_050124F0.vtx.inc.c"
 };
 
-u16 D_05012530[] = {
+u16 D_05012530[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05012730.palette.inc"
 };
 
-u8 D_05012730[] = {
+u8 D_05012730[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05012730.ci8.inc"
 };
 
@@ -3283,11 +3284,11 @@ Vtx D_05013990[] = {
 #include "assets/game_etc/lws/D_05013990.vtx.inc.c"
 };
 
-u16 D_050139D0[] = {
+u16 D_050139D0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05013BD0.palette.inc"
 };
 
-u8 D_05013BD0[] = {
+u8 D_05013BD0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05013BD0.ci8.inc"
 };
 
@@ -3359,7 +3360,7 @@ u32 D_05014318[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_05014338[] = {
+u8 D_05014338[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05014338.i4.inc"
 };
 
@@ -3405,7 +3406,7 @@ u32 D_05014908[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_05014928[] = {
+u8 D_05014928[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05014928.i4.inc"
 };
 
@@ -3441,11 +3442,11 @@ Vtx D_05014EB8[] = {
 #include "assets/game_etc/lws/D_05014EB8.vtx.inc.c"
 };
 
-u16 D_05014EF8[] = {
+u16 D_05014EF8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05014F18.palette.inc"
 };
 
-u8 D_05014F18[] = {
+u8 D_05014F18[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05014F18.ci4.inc"
 };
 
@@ -3482,11 +3483,11 @@ Vtx D_050154D8[] = {
 #include "assets/game_etc/lws/D_050154D8.vtx.inc.c"
 };
 
-u16 D_05015518[] = {
+u16 D_05015518[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05015538.palette.inc"
 };
 
-u8 D_05015538[] = {
+u8 D_05015538[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05015538.ci4.inc"
 };
 
@@ -3598,7 +3599,7 @@ u32 D_050161D0[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_050161F0[] = {
+u8 D_050161F0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050161F0.i4.inc"
 };
 
@@ -3634,11 +3635,11 @@ Vtx D_05016780[] = {
 #include "assets/game_etc/lws/D_05016780.vtx.inc.c"
 };
 
-u16 D_050167C0[] = {
+u16 D_050167C0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050167E0.palette.inc"
 };
 
-u8 D_050167E0[] = {
+u8 D_050167E0[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050167E0.ci4.inc"
 };
 
@@ -3750,7 +3751,7 @@ u32 D_05017478[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_05017498[] = {
+u8 D_05017498[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05017498.i4.inc"
 };
 
@@ -3786,11 +3787,11 @@ Vtx D_05017738[] = {
 #include "assets/game_etc/lws/D_05017738.vtx.inc.c"
 };
 
-u16 D_05017778[] = {
+u16 D_05017778[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05017798.palette.inc"
 };
 
-u8 D_05017798[] = {
+u8 D_05017798[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05017798.ci4.inc"
 };
 
@@ -3837,7 +3838,7 @@ u32 D_05017AA8[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_05017AC8[] = {
+u8 D_05017AC8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05017AC8.i4.inc"
 };
 
@@ -3873,11 +3874,11 @@ Vtx D_05017D68[] = {
 #include "assets/game_etc/lws/D_05017D68.vtx.inc.c"
 };
 
-u16 D_05017DA8[] = {
+u16 D_05017DA8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05017DC8.palette.inc"
 };
 
-u8 D_05017DC8[] = {
+u8 D_05017DC8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05017DC8.ci4.inc"
 };
 
@@ -3924,7 +3925,7 @@ u32 D_050180D8[] = {
     0x2109318D, 0x42115295, 0x6319739D, 0x8C639CE7, 0xAD6BBDEF, 0xCE73DEF7, 0xEF7BFFFF,
 };
 
-u8 D_050180F8[] = {
+u8 D_050180F8[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_050180F8.i4.inc"
 };
 
@@ -3960,11 +3961,11 @@ Vtx D_05018430[] = {
 #include "assets/game_etc/lws/D_05018430.vtx.inc.c"
 };
 
-u16 D_05018470[] = {
+u16 D_05018470[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05018490.palette.inc"
 };
 
-u8 D_05018490[] = {
+u8 D_05018490[] ALIGNED(8) = {
 #include "assets/game_etc/lws/D_05018490.ci4.inc"
 };
 

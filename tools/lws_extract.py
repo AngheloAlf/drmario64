@@ -60,6 +60,9 @@ def parse_lws(data: bytes, offset: int, vram: int):
     unk_10_vram = read_u32(data, offset + 0x10)
     unk_14_vram = read_u32(data, offset + 0x14)
 
+    assert unk_10_vram != 0
+    assert unk_14_vram != 0
+
     LWS_INFO[vram] = (count, unk_10_vram, unk_14_vram)
     UNK_10_PARENT[unk_10_vram] = vram
     UNK_14_PARENT[unk_14_vram] = vram
@@ -73,76 +76,90 @@ def parse_lws(data: bytes, offset: int, vram: int):
         unk_10_offset = unk_10_vram - NUMBER_05 + i * unk_10_size
 
         unk_00_gfx_vram = read_u32(data, unk_10_offset + 0x0)
-        gfx_count = 1
-        gfx_size = TYPE_SIZES["Gfx"]
-        unk_00_gfx_offset = unk_00_gfx_vram - NUMBER_05
-        gfx_raw = ""
-        while read_u32(data, unk_00_gfx_offset) != GFX_END:
-            word0 = read_u32(data, unk_00_gfx_offset)
-            word1 = read_u32(data, unk_00_gfx_offset + 0x4)
-            gfx_raw += f"{word0:08X}{word1:08X}"
-            opcode = word0 >> 24
-            if opcode == 0x01: # VTX
-                vtx_count = (word0 >> 12) & 0xFF
-                SYMBOLS[word1] = ("Vtx", TYPE_SIZES["Vtx"] * vtx_count, True)
-            gfx_count += 1
-            unk_00_gfx_offset += gfx_size
+        if unk_00_gfx_vram != 0:
+            if (unk_00_gfx_vram & 0xFF000000) == NUMBER_05:
+                gfx_count = 0
+                gfx_size = TYPE_SIZES["Gfx"]
+                unk_00_gfx_offset = unk_00_gfx_vram - NUMBER_05
+                gfx_raw = ""
+                while True:
+                    word0 = read_u32(data, unk_00_gfx_offset)
+                    word1 = read_u32(data, unk_00_gfx_offset + 0x4)
+                    gfx_raw += f"{word0:08X}{word1:08X}"
+                    opcode = word0 >> 24
+                    if opcode == 0x01: # VTX
+                        vtx_count = (word0 >> 12) & 0xFF
+                        SYMBOLS[word1] = ("Vtx", TYPE_SIZES["Vtx"] * vtx_count, True)
+                    gfx_count += 1
+                    unk_00_gfx_offset += gfx_size
+                    if word0 == GFX_END:
+                        break
 
-        # This is terrible
-        disassembled_gfx = subprocess.check_output(["gfxdis.f3dex2", "-x", "-dc", "-d", gfx_raw]).decode()
-        last_tlut: int|None = None
-        last_ci: int|None = None
-        for line in disassembled_gfx.split("\n"):
-            if "gsDPLoadTLUT_pal16" in line:
-                addr = int(line.split("),")[0].split(", ")[1], 16)
-                SYMBOLS[addr] = ("Palette16", TYPE_SIZES["Palette16"], True)
-                last_tlut = addr
-                if addr not in TLUT_TO_CI:
-                    TLUT_TO_CI[addr] = last_ci
-                    if last_ci is not None and CI_TO_TLUT.get(last_ci) is None:
-                        CI_TO_TLUT[last_ci] = addr
-            elif "gsDPLoadTLUT_pal256" in line:
-                addr = int(line.split("),")[0].split("(")[1], 16)
-                SYMBOLS[addr] = ("Palette256", TYPE_SIZES["Palette256"], True)
-                last_tlut = addr
-                if addr not in TLUT_TO_CI:
-                    TLUT_TO_CI[addr] = last_ci
-                    if last_ci is not None and CI_TO_TLUT.get(last_ci) is None:
-                        CI_TO_TLUT[last_ci] = addr
-            elif "gsDPLoadTextureBlock_4b" in line:
-                addr, fmt, width, height, *_ = line.split("(")[1].split(", ")
-                addr = int(addr, 16)
-                width = int(width)
-                height = int(height)
-                TEX_DIMENSIONS[addr] = (width, height)
-                if fmt == "G_IM_FMT_CI":
-                    SYMBOLS[addr] = ("CI4", TYPE_SIZES["CI4"] * width * height // 2, True)
-                    last_ci = addr
-                    if addr not in CI_TO_TLUT:
-                        CI_TO_TLUT[addr] = last_tlut
-                        if last_tlut is not None and TLUT_TO_CI.get(last_tlut) is None:
-                            TLUT_TO_CI[last_tlut] = addr
-                elif fmt == "G_IM_FMT_I":
-                    SYMBOLS[addr] = ("I4", TYPE_SIZES["I4"] * width * height // 2, True)
-                else:
-                    assert False, f"0x{addr:08X}"
-            elif "gsDPLoadTextureBlock" in line:
-                addr, fmt, siz, width, height, *_ = line.split("(")[1].split(", ")
-                addr = int(addr, 16)
-                width = int(width)
-                height = int(height)
-                TEX_DIMENSIONS[addr] = (width, height)
-                if fmt == "G_IM_FMT_CI":
-                    SYMBOLS[addr] = ("CI8", TYPE_SIZES["CI8"] * width * height, True)
-                    last_ci = addr
-                    if addr not in CI_TO_TLUT:
-                        CI_TO_TLUT[addr] = last_tlut
-                        if last_tlut is not None and TLUT_TO_CI.get(last_tlut) is None:
-                            TLUT_TO_CI[last_tlut] = addr
-                else:
-                    assert False, f"0x{addr:08X}"
+                # This is terrible
+                disassembled_gfx = subprocess.check_output(["gfxdis.f3dex2", "-x", "-dc", "-d", gfx_raw]).decode()
+                last_tlut: int|None = None
+                last_ci: int|None = None
+                for line in disassembled_gfx.split("\n"):
+                    if "gsDPLoadTLUT_pal16" in line:
+                        addr = int(line.split("),")[0].split(", ")[1], 16)
+                        SYMBOLS[addr] = ("Palette16", TYPE_SIZES["Palette16"], True)
+                        last_tlut = addr
+                        if addr not in TLUT_TO_CI:
+                            TLUT_TO_CI[addr] = last_ci
+                            if last_ci is not None and CI_TO_TLUT.get(last_ci) is None:
+                                CI_TO_TLUT[last_ci] = addr
+                                last_tlut = None
+                                last_ci = None
+                    elif "gsDPLoadTLUT_pal256" in line:
+                        addr = int(line.split("),")[0].split("(")[1], 16)
+                        SYMBOLS[addr] = ("Palette256", TYPE_SIZES["Palette256"], True)
+                        last_tlut = addr
+                        if addr not in TLUT_TO_CI:
+                            TLUT_TO_CI[addr] = last_ci
+                            if last_ci is not None and CI_TO_TLUT.get(last_ci) is None:
+                                CI_TO_TLUT[last_ci] = addr
+                                last_tlut = None
+                                last_ci = None
+                    elif "gsDPLoadTextureBlock_4b" in line:
+                        addr, fmt, width, height, *_ = line.split("(")[1].split(", ")
+                        addr = int(addr, 16)
+                        width = int(width)
+                        height = int(height)
+                        TEX_DIMENSIONS[addr] = (width, height)
+                        if fmt == "G_IM_FMT_CI":
+                            SYMBOLS[addr] = ("CI4", TYPE_SIZES["CI4"] * width * height // 2, True)
+                            last_ci = addr
+                            if addr not in CI_TO_TLUT:
+                                CI_TO_TLUT[addr] = last_tlut
+                                if last_tlut is not None and TLUT_TO_CI.get(last_tlut) is None:
+                                    TLUT_TO_CI[last_tlut] = addr
+                                    last_tlut = None
+                                    last_ci = None
+                        elif fmt == "G_IM_FMT_I":
+                            SYMBOLS[addr] = ("I4", TYPE_SIZES["I4"] * width * height // 2, True)
+                        else:
+                            assert False, f"0x{addr:08X}"
+                    elif "gsDPLoadTextureBlock" in line:
+                        addr, fmt, siz, width, height, *_ = line.split("(")[1].split(", ")
+                        addr = int(addr, 16)
+                        width = int(width)
+                        height = int(height)
+                        TEX_DIMENSIONS[addr] = (width, height)
+                        if fmt == "G_IM_FMT_CI":
+                            SYMBOLS[addr] = ("CI8", TYPE_SIZES["CI8"] * width * height, True)
+                            last_ci = addr
+                            if addr not in CI_TO_TLUT:
+                                CI_TO_TLUT[addr] = last_tlut
+                                if last_tlut is not None and TLUT_TO_CI.get(last_tlut) is None:
+                                    TLUT_TO_CI[last_tlut] = addr
+                                    last_tlut = None
+                                    last_ci = None
+                        else:
+                            assert False, f"0x{addr:08X}"
 
-        SYMBOLS[unk_00_gfx_vram] = ("Gfx", gfx_size * gfx_count, True)
+                SYMBOLS[unk_00_gfx_vram] = ("Gfx", gfx_size * gfx_count, True)
+            else:
+                print(f"gfx vram? 0x{unk_00_gfx_vram:08X} at offset 0x{unk_10_offset:06X}")
 
 
 def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix: str):
@@ -151,6 +168,7 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
     with out_path.open("w") as f:
         f.write("#include \"libc/assert.h\"\n")
         f.write("\n")
+        f.write("#include \"alignment.h\"\n")
         f.write("#include \"lws.h\"\n")
         f.write("#include \"macros_defines.h\"\n")
         f.write("\n")
@@ -267,7 +285,7 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
 
             elif typ in {"Palette16", "Palette256"}:
                 assert is_array
-                f.write(f"u16 D_{vram:08X}[] = {{\n")
+                f.write(f"u16 D_{vram:08X}[] ALIGNED(8) = {{\n")
 
                 assert TLUT_TO_CI[vram] is not None, f"0x{vram:08X}"
                 f.write(f"#include \"{inc_path}/{sym_prefix}D_{TLUT_TO_CI[vram]:08X}.palette.inc\"\n")
@@ -285,7 +303,7 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
 
             elif typ == "CI4":
                 assert is_array
-                f.write(f"u8 D_{vram:08X}[] = {{\n")
+                f.write(f"u8 D_{vram:08X}[] ALIGNED(8) = {{\n")
 
                 assert CI_TO_TLUT[vram] is not None, f"0x{vram:08X}"
                 f.write(f"#include \"{inc_path}/{sym_prefix}D_{vram:08X}.ci4.inc\"\n")
@@ -305,7 +323,7 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
 
             elif typ == "CI8":
                 assert is_array
-                f.write(f"u8 D_{vram:08X}[] = {{\n")
+                f.write(f"u8 D_{vram:08X}[] ALIGNED(8) = {{\n")
 
                 assert CI_TO_TLUT[vram] is not None, f"0x{vram:08X}"
                 f.write(f"#include \"{inc_path}/{sym_prefix}D_{vram:08X}.ci8.inc\"\n")
@@ -324,7 +342,7 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
 
             elif typ == "I4":
                 assert is_array
-                f.write(f"u8 D_{vram:08X}[] = {{\n")
+                f.write(f"u8 D_{vram:08X}[] ALIGNED(8) = {{\n")
 
                 f.write(f"#include \"{inc_path}/{sym_prefix}D_{vram:08X}.i4.inc\"\n")
                 offset += size
@@ -342,7 +360,7 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
 
             elif typ == "I8":
                 assert is_array
-                f.write(f"u8 D_{vram:08X}[] = {{\n")
+                f.write(f"u8 D_{vram:08X}[] ALIGNED(8) = {{\n")
 
                 f.write(f"#include \"{inc_path}/{sym_prefix}D_{vram:08X}.i8.inc\"\n")
                 offset += size
@@ -370,7 +388,7 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
             new_vram = vram + size
             assert new_vram <= next_vram, f"0x{vram:08X} 0x{new_vram:08X} 0x{next_vram:08X}"
             if new_vram < next_vram:
-                f.write(f" /* unreferenced data */\n")
+                f.write(f"/* unreferenced data */\n")
                 f.write(f"u32 D_{new_vram:08X}[] = {{\n")
 
                 i = 0
@@ -379,7 +397,7 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
 
                     if i == 0:
                         f.write("   ")
-                    elif i % 8 == 0:
+                    elif i % 9 == 0:
                         f.write("\n   ")
                     f.write(f" 0x{read_u32(data, offset):08X},")
 
@@ -426,6 +444,8 @@ def main_lws_extract():
             offset = vram - NUMBER_05
             parse_lws(in_bytes, offset, vram)
     else:
+        if ((read_u32(in_bytes, 0) & 0xFF000000) == NUMBER_05) and ((read_u32(in_bytes, 4) & 0xFF000000) == NUMBER_05):
+            print("This looks like an array type, not a plain type")
         parse_lws(in_bytes, 0, NUMBER_05)
 
     emit(out_path, in_bytes, rom_offset, inc_path, sym_prefix)

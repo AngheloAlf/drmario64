@@ -378,8 +378,8 @@ void func_800770E8(Gfx **gfxP, GraphBinGeneric *graphBin) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
-    StretchTexBlock8(&gfx, SCREEN_WIDTH + 8, SCREEN_HEIGHT, graphBin->header.tlut, &graphBin->texture, 0.0f, 0.0f, SCREEN_WIDTH + 8,
-                     SCREEN_HEIGHT);
+    StretchTexBlock8(&gfx, SCREEN_WIDTH + 8, SCREEN_HEIGHT, graphBin->header.tlut, &graphBin->texture, 0.0f, 0.0f,
+                     SCREEN_WIDTH + 8, SCREEN_HEIGHT);
     *gfxP = gfx;
 }
 

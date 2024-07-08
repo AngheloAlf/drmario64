@@ -1141,9 +1141,805 @@ segments:
   - name: segment_coffee01 # compressed
     type: databin
     start: 0x20FDA0
+
   - name: segment_title_all # compressed
-    type: databin
+    type: code
     start: 0x235ED0
+    vram: 0x05000000
+    exclusive_ram_id: number_05
+    subsegments:
+      - [auto, c, assets/title/title_all]
+      - start: 0x235ED0
+        type: .data
+        name: assets/title/title_all
+        dir: assets/title/title_all
+        subsegments:
+          - [0x235ED0]
+          - [0x235F68, palette, D_05000298]
+          - [0x236168, ci8, D_05000298, 24, 24]
+          - [0x2363A8, palette, D_050004F8]
+          - [0x2363C8, ci4, D_050004F8, 32, 64]
+          - [0x2367C8, palette, D_05000918]
+          - [0x2367E8, ci4, D_05000918, 16, 32]
+          - [0x2368E8, palette, D_05000A38]
+          - [0x236908, ci4, D_05000A38, 16, 32]
+          - [0x236A08, palette, D_05000D38]
+          - [0x236C08, ci8, D_05000D38, 8, 240]
+          - [0x237388, palette, D_050014D8]
+          - [0x2373A8, ci4, D_050014D8, 16, 32]
+          - [0x2374A8, palette, D_050015F8]
+          - [0x2374C8, ci4, D_050015F8, 16, 32]
+          - [0x2375C8]
+          - [0x237FC0, palette, D_05002110]
+          - [0x237FE0, ci4, D_05002110, 64, 64]
+          - [0x2387E0, palette, D_05002930]
+          - [0x238800, ci4, D_05002930, 64, 64]
+          - [0x239000, palette, D_05003150]
+          - [0x239020, ci4, D_05003150, 64, 64]
+          - [0x239820, palette, D_05003970]
+          - [0x239840, ci4, D_05003970, 32, 64]
+          - [0x239C40, palette, D_05003D90]
+          - [0x239C60, ci4, D_05003D90, 64, 64]
+          - [0x23A460, palette, D_050045B0]
+          - [0x23A480, ci4, D_050045B0, 64, 64]
+          - [0x23AC80]
+          - [0x23B280, palette, D_050055B0]
+          - [0x23B480, ci8, D_050055B0, 56, 36]
+          - [0x23BC60, palette, D_05005DB0]
+          - [0x23BC80, ci4, D_05005DB0, 64, 64]
+          - [0x23C480]
+          - [0x23C4A0, i4, D_050065D0, 64, 64]
+          - [0x23CCA0, palette, D_05006DF0]
+          - [0x23CCC0, ci4, D_05006DF0, 80, 51]
+          - [0x23D4B8, palette, D_05007608]
+          - [0x23D4D8, ci4, D_05007608, 80, 51]
+          - [0x23DCD0, palette, D_05007E20]
+          - [0x23DCF0, ci4, D_05007E20, 80, 51]
+          - [0x23E4E8, palette, D_05008638]
+          - [0x23E508, ci4, D_05008638, 80, 51]
+          - [0x23ED00, palette, D_05009030]
+          - [0x23EF00, ci8, D_05009030, 40, 25]
+          - [0x23F2E8, palette, D_05009438]
+          - [0x23F308, ci4, D_05009438, 128, 32]
+          - [0x23FB08, palette, D_05009C58]
+          - [0x23FB28, ci4, D_05009C58, 64, 64]
+          - [0x240328, palette, D_0500A478]
+          - [0x240348, ci4, D_0500A478, 64, 64]
+          - [0x240B48, palette, D_0500AC98]
+          - [0x240B68, ci4, D_0500AC98, 48, 50]
+          - [0x241018, palette, D_0500B168]
+          - [0x241038, ci4, D_0500B168, 48, 50]
+          - [0x2414E8, palette, D_0500B638]
+          - [0x241508, ci4, D_0500B638, 64, 64]
+          - [0x241D08, palette, D_0500BE58]
+          - [0x241D28, ci4, D_0500BE58, 64, 64]
+          - [0x242528, palette, D_0500C678]
+          - [0x242548, ci4, D_0500C678, 32, 128]
+          - [0x242D48, palette, D_0500CE98]
+          - [0x242D68, ci4, D_0500CE98, 64, 64]
+          - [0x243568, palette, D_0500D6B8]
+          - [0x243588, ci4, D_0500D6B8, 64, 64]
+          - [0x243D88, palette, D_0500DED8]
+          - [0x243DA8, ci4, D_0500DED8, 64, 64]
+          - [0x2445A8, palette, D_0500E8D8]
+          - [0x2447A8, ci8, D_0500E8D8, 64, 32]
+          - [0x244FA8, palette, D_0500F0F8]
+          - [0x244FC8, ci4, D_0500F0F8, 128, 32]
+          - [0x2457C8, palette, D_0500F918]
+          - [0x2457E8, ci4, D_0500F918, 64, 64]
+          - [0x245FE8, palette, D_05010138]
+          - [0x246008, ci4, D_05010138, 80, 51]
+          - [0x246800, palette, D_05010950]
+          - [0x246820, ci4, D_05010950, 80, 50]
+          - [0x246FF0]
+          - [0x248390, palette, D_050124E0]
+          - [0x2483B0, ci4, D_050124E0, 80, 50]
+          - [0x248B80]
+          - [0x249F20, palette, D_05014070]
+          - [0x249F40, ci4, D_05014070, 80, 50]
+          - [0x24A710, palette, D_05014860]
+          - [0x24A730, ci4, D_05014860, 80, 50]
+          - [0x24AF00, palette, D_05015050]
+          - [0x24AF20, ci4, D_05015050, 80, 50]
+          - [0x24B6F0, palette, D_05015840]
+          - [0x24B710, ci4, D_05015840, 80, 50]
+          - [0x24BEE0, palette, D_05016030]
+          - [0x24BF00, ci4, D_05016030, 64, 35]
+          - [0x24C360, palette, D_050164B0]
+          - [0x24C380, ci4, D_050164B0, 64, 32]
+          - [0x24C780, palette, D_050168D0]
+          - [0x24C7A0, ci4, D_050168D0, 64, 64]
+          - [0x24CFA0, palette, D_050170F0]
+          - [0x24CFC0, ci4, D_050170F0, 64, 64]
+          - [0x24D7C0, palette, D_05017910]
+          - [0x24D7E0, ci4, D_05017910, 80, 40]
+          - [0x24DE20, palette, D_05017F70]
+          - [0x24DE40, ci4, D_05017F70, 80, 40]
+          - [0x24E480, palette, D_050185D0]
+          - [0x24E4A0, ci4, D_050185D0, 80, 40]
+          - [0x24EAE0, palette, D_05018C30]
+          - [0x24EB00, ci4, D_05018C30, 80, 40]
+          - [0x24F140, palette, D_05019290]
+          - [0x24F160, ci4, D_05019290, 32, 128]
+          - [0x24F960, palette, D_05019AB0]
+          - [0x24F980, ci4, D_05019AB0, 64, 64]
+          - [0x250180]
+          - [0x2501A0, i4, D_0501A2D0, 64, 64]
+          - [0x2509A0, palette, D_0501AAF0]
+          - [0x2509C0, ci4, D_0501AAF0, 80, 48]
+          - [0x251140, palette, D_0501B290]
+          - [0x251160, ci4, D_0501B290, 80, 48]
+          - [0x2518E0, palette, D_0501BA30]
+          - [0x251900, ci4, D_0501BA30, 64, 64]
+          - [0x252100, palette, D_0501C250]
+          - [0x252120, ci4, D_0501C250, 80, 50]
+          - [0x2528F0, palette, D_0501CC20]
+          - [0x252AF0, ci8, D_0501CC20, 48, 42]
+          - [0x2532D0, palette, D_0501D600]
+          - [0x2534D0, ci8, D_0501D600, 48, 42]
+          - [0x253CB0, palette, D_0501DFE0]
+          - [0x253EB0, ci8, D_0501DFE0, 48, 42]
+          - [0x254690, palette, D_0501E9C0]
+          - [0x254890, ci8, D_0501E9C0, 48, 42]
+          - [0x255070, palette, D_0501F3A0]
+          - [0x255270, ci8, D_0501F3A0, 56, 36]
+          - [0x255A50, palette, D_0501FD80]
+          - [0x255C50, ci8, D_0501FD80, 56, 36]
+          - [0x256430, palette, D_05020760]
+          - [0x256630, ci8, D_05020760, 56, 36]
+          - [0x256E10, palette, D_05021140]
+          - [0x257010, ci8, D_05021140, 40, 51]
+          - [0x257808, palette, D_05021B38]
+          - [0x257A08, ci8, D_05021B38, 40, 51]
+          - [0x258200, palette, D_05022530]
+          - [0x258400, ci8, D_05022530, 48, 42]
+          - [0x258BE0, palette, D_05022F10]
+          - [0x258DE0, ci8, D_05022F10, 48, 42]
+          - [0x2595C0, palette, D_050238F0]
+          - [0x2597C0, ci8, D_050238F0, 48, 42]
+          - [0x259FA0, i4, D_050240D0, 128, 14]
+          - [0x25A320]
+          - [0x25C6A0, palette, D_050269D0]
+          - [0x25C8A0, ci8, D_050269D0, 48, 42]
+          - [0x25D080, palette, D_050273B0]
+          - [0x25D280, ci8, D_050273B0, 32, 63]
+          - [0x25DA60, palette, D_05027D90]
+          - [0x25DC60, ci8, D_05027D90, 32, 63]
+          - [0x25E440, palette, D_05028770]
+          - [0x25E640, ci8, D_05028770, 48, 42]
+          - [0x25EE20, palette, D_05029150]
+          - [0x25F020, ci8, D_05029150, 56, 36]
+          - [0x25F800, palette, D_05029B30]
+          - [0x25FA00, ci8, D_05029B30, 56, 36]
+          - [0x2601E0, palette, D_0502A510]
+          - [0x2603E0, ci8, D_0502A510, 40, 50]
+          - [0x260BB0, palette, D_0502AEE0]
+          - [0x260DB0, ci8, D_0502AEE0, 64, 32]
+          - [0x2615B0, palette, D_0502B8E0]
+          - [0x2617B0, ci8, D_0502B8E0, 48, 42]
+          - [0x261F90, palette, D_0502C2C0]
+          - [0x262190, ci8, D_0502C2C0, 48, 42]
+          - [0x262970, palette, D_0502CCA0]
+          - [0x262B70, ci8, D_0502CCA0, 48, 42]
+          - [0x263350, palette, D_0502D680]
+          - [0x263550, ci8, D_0502D680, 40, 51]
+          - [0x263D48, palette, D_0502E078]
+          - [0x263F48, ci8, D_0502E078, 40, 51]
+          - [0x264740, palette, D_0502EA70]
+          - [0x264940, ci8, D_0502EA70, 40, 51]
+          - [0x265138, palette, D_0502F468]
+          - [0x265338, ci8, D_0502F468, 40, 46]
+          - [0x265A68, palette, D_0502FD98]
+          - [0x265C68, ci8, D_0502FD98, 40, 51]
+          - [0x266460, palette, D_050305B0]
+          - [0x266480, ci4, D_050305B0, 64, 64]
+          - [0x266C80, palette, D_05030FB0]
+          - [0x266E80, ci8, D_05030FB0, 48, 42]
+          - [0x267660, palette, D_05031990]
+          - [0x267860, ci8, D_05031990, 48, 42]
+          - [0x268040, palette, D_05032370]
+          - [0x268240, ci8, D_05032370, 40, 51]
+          - [0x268A38, palette, D_05032D68]
+          - [0x268C38, ci8, D_05032D68, 48, 42]
+          - [0x269418, palette, D_05033748]
+          - [0x269618, ci8, D_05033748, 40, 48]
+          - [0x269D98, palette, D_050340C8]
+          - [0x269F98, ci8, D_050340C8, 40, 51]
+          - [0x26A790, palette, D_05034AC0]
+          - [0x26A990, ci8, D_05034AC0, 40, 40]
+          - [0x26AFD0, palette, D_05035300]
+          - [0x26B1D0, ci8, D_05035300, 48, 35]
+          - [0x26B860, palette, D_05035B90]
+          - [0x26BA60, ci8, D_05035B90, 48, 35]
+          - [0x26C0F0, palette, D_05036420]
+          - [0x26C2F0, ci8, D_05036420, 40, 48]
+          - [0x26CA70, palette, D_05036BC0]
+          - [0x26CA90, ci4, D_05036BC0, 80, 50]
+          - [0x26D260, palette, D_050373B0]
+          - [0x26D280, ci4, D_050373B0, 80, 50]
+          - [0x26DA50, palette, D_05037BA0]
+          - [0x26DA70, ci4, D_05037BA0, 80, 50]
+          - [0x26E240, palette, D_05038390]
+          - [0x26E260, ci4, D_05038390, 80, 50]
+          - [0x26EA30]
+          - [0x271170, palette, D_0503B2C0]
+          - [0x271190, ci4, D_0503B2C0, 128, 32]
+          - [0x271990]
+          - [0x272D90, palette, D_0503CEE0]
+          - [0x272DB0, ci4, D_0503CEE0, 160, 25]
+          - [0x273580]
+          - [0x2757A0, palette, D_0503FAD0]
+          - [0x2759A0, ci8, D_0503FAD0, 48, 42]
+          - [0x276180, palette, D_050404B0]
+          - [0x276380, ci8, D_050404B0, 48, 42]
+          - [0x276B60, palette, D_05040E90]
+          - [0x276D60, ci8, D_05040E90, 48, 42]
+          - [0x277540, palette, D_05041870]
+          - [0x277740, ci8, D_05041870, 48, 42]
+          - [0x277F20, palette, D_05042250]
+          - [0x278120, ci8, D_05042250, 56, 36]
+          - [0x278900, palette, D_05042C30]
+          - [0x278B00, ci8, D_05042C30, 48, 42]
+          - [0x2792E0]
+          - [0x279300, i4, D_05043430, 64, 98]
+          - [0x279F40]
+          - [0x279F60, i4, D_05044090, 64, 64]
+          - [0x27A760, palette, D_050448B0]
+          - [0x27A780, ci4, D_050448B0, 64, 64]
+          - [0x27AF80, palette, D_050450D0]
+          - [0x27AFA0, ci4, D_050450D0, 64, 64]
+          - [0x27B7A0]
+          - [0x27E840, palette, D_05048990]
+          - [0x27E860, ci4, D_05048990, 64, 64]
+          - [0x27F060]
+          - [0x27F080, i4, D_050491B0, 64, 32]
+          - [0x27F480, palette, D_050497B0]
+          - [0x27F680, ci8, D_050497B0, 48, 42]
+          - [0x27FE60, palette, D_0504A190]
+          - [0x280060, ci8, D_0504A190, 40, 50]
+          - [0x280830, palette, D_0504AB60]
+          - [0x280A30, ci8, D_0504AB60, 40, 48]
+          - [0x2811B0, palette, D_0504B4E0]
+          - [0x2813B0, ci8, D_0504B4E0, 48, 42]
+          - [0x281B90, palette, D_0504BEC0]
+          - [0x281D90, ci8, D_0504BEC0, 48, 42]
+          - [0x282570, palette, D_0504C8A0]
+          - [0x282770, ci8, D_0504C8A0, 48, 42]
+          - [0x282F50, palette, D_0504D280]
+          - [0x283150, ci8, D_0504D280, 48, 42]
+          - [0x283930, palette, D_0504DC60]
+          - [0x283B30, ci8, D_0504DC60, 56, 36]
+          - [0x284310, palette, D_0504E640]
+          - [0x284510, ci8, D_0504E640, 48, 42]
+          - [0x284CF0, palette, D_0504EE40]
+          - [0x284D10, ci4, D_0504EE40, 64, 64]
+          - [0x285510, palette, D_0504F660]
+          - [0x285530, ci4, D_0504F660, 80, 51]
+          - [0x285D28, palette, D_0504FE78]
+          - [0x285D48, ci4, D_0504FE78, 64, 64]
+          - [0x286548, palette, D_05050698]
+          - [0x286568, ci4, D_05050698, 64, 64]
+          - [0x286D68]
+          - [0x287368, palette, D_050514B8]
+          - [0x287388, ci4, D_050514B8, 48, 85]
+          - [0x287B80, palette, D_05051CD0]
+          - [0x287BA0, ci4, D_05051CD0, 128, 32]
+          - [0x2883A0, palette, D_050524F0]
+          - [0x2883C0, ci4, D_050524F0, 64, 64]
+          - [0x288BC0, palette, D_05052D10]
+          - [0x288BE0, ci4, D_05052D10, 64, 64]
+          - [0x2893E0, palette, D_05053530]
+          - [0x289400, ci4, D_05053530, 64, 35]
+          - [0x289860, palette, D_050539B0]
+          - [0x289880, ci4, D_050539B0, 64, 35]
+          - [0x289CE0, palette, D_05053E30]
+          - [0x289D00, ci4, D_05053E30, 48, 70]
+          - [0x28A390]
+          - [0x28B6E0, palette, D_05055A10]
+          - [0x28B8E0, ci8, D_05055A10, 40, 40]
+          - [0x28BF20, palette, D_05056250]
+          - [0x28C120, ci8, D_05056250, 40, 40]
+          - [0x28C760, palette, D_05056A90]
+          - [0x28C960, ci8, D_05056A90, 40, 40]
+          - [0x28CFA0, palette, D_050572D0]
+          - [0x28D1A0, ci8, D_050572D0, 40, 40]
+          - [0x28D7E0, palette, D_05057B10]
+          - [0x28D9E0, ci8, D_05057B10, 40, 40]
+          - [0x28E020, palette, D_05058350]
+          - [0x28E220, ci8, D_05058350, 40, 40]
+          - [0x28E860, palette, D_05058B90]
+          - [0x28EA60, ci8, D_05058B90, 40, 40]
+          - [0x28F0A0, palette, D_050593D0]
+          - [0x28F2A0, ci8, D_050593D0, 40, 40]
+          - [0x28F8E0, palette, D_05059C10]
+          - [0x28FAE0, ci8, D_05059C10, 40, 40]
+          - [0x290120, palette, D_0505A270]
+          - [0x290140, ci4, D_0505A270, 64, 64]
+          - [0x290940, palette, D_0505AA90]
+          - [0x290960, ci4, D_0505AA90, 64, 64]
+          - [0x291160, palette, D_0505B490]
+          - [0x291360, ci8, D_0505B490, 56, 24]
+          - [0x2918A0, palette, D_0505BBD0]
+          - [0x291AA0, ci8, D_0505BBD0, 56, 24]
+          - [0x291FE0, palette, D_0505C310]
+          - [0x2921E0, ci8, D_0505C310, 48, 42]
+          - [0x2929C0, palette, D_0505CCF0]
+          - [0x292BC0, ci8, D_0505CCF0, 48, 42]
+          - [0x2933A0, palette, D_0505D6D0]
+          - [0x2935A0, ci8, D_0505D6D0, 48, 42]
+          - [0x293D80, palette, D_0505E0B0]
+          - [0x293F80, ci8, D_0505E0B0, 48, 42]
+          - [0x294760, palette, D_0505EA90]
+          - [0x294960, ci8, D_0505EA90, 48, 42]
+          - [0x295140, palette, D_0505F470]
+          - [0x295340, ci8, D_0505F470, 40, 51]
+          - [0x295B38, palette, D_0505FE68]
+          - [0x295D38, ci8, D_0505FE68, 48, 42]
+          - [0x296518, palette, D_05060848]
+          - [0x296718, ci8, D_05060848, 48, 42]
+          - [0x296EF8, palette, D_05061228]
+          - [0x2970F8, ci8, D_05061228, 40, 51]
+          - [0x2978F0, palette, D_05061C20]
+          - [0x297AF0, ci8, D_05061C20, 48, 42]
+          - [0x2982D0, palette, D_05062420]
+          - [0x2982F0, ci4, D_05062420, 32, 34]
+          - [0x298510, palette, D_05062660]
+          - [0x298530, ci4, D_05062660, 48, 42]
+          - [0x298920, palette, D_05062A70]
+          - [0x298940, ci4, D_05062A70, 48, 42]
+          - [0x298D30, palette, D_05062E80]
+          - [0x298D50, ci4, D_05062E80, 48, 42]
+          - [0x299140]
+          - [0x299740, palette, D_05063A70]
+          - [0x299940, ci8, D_05063A70, 24, 74]
+          - [0x29A030, palette, D_05064360]
+          - [0x29A230, ci8, D_05064360, 24, 74]
+          - [0x29A920, palette, D_05064C50]
+          - [0x29AB20, ci8, D_05064C50, 24, 74]
+          - [0x29B210, palette, D_05065540]
+          - [0x29B410, ci8, D_05065540, 24, 74]
+          - [0x29BB00, palette, D_05065E30]
+          - [0x29BD00, ci8, D_05065E30, 24, 74]
+          - [0x29C3F0, palette, D_05066720]
+          - [0x29C5F0, ci8, D_05066720, 24, 74]
+          - [0x29CCE0, palette, D_05067010]
+          - [0x29CEE0, ci8, D_05067010, 24, 74]
+          - [0x29D5D0, palette, D_05067900]
+          - [0x29D7D0, ci8, D_05067900, 24, 74]
+          - [0x29DEC0, palette, D_050681F0]
+          - [0x29E0C0, ci8, D_050681F0, 24, 74]
+          - [0x29E7B0, palette, D_05068AE0]
+          - [0x29E9B0, ci8, D_05068AE0, 24, 74]
+          - [0x29F0A0, palette, D_050693D0]
+          - [0x29F2A0, ci8, D_050693D0, 24, 74]
+          - [0x29F990]
+          - [0x29FB90, i4, D_05069CC0, 48, 80]
+          - [0x2A0310]
+          - [0x2A0510, i4, D_0506A640, 48, 80]
+          - [0x2A0C90]
+          - [0x2A0E90, i4, D_0506AFC0, 48, 80]
+          - [0x2A1610]
+          - [0x2A1810, i4, D_0506B940, 48, 80]
+          - [0x2A1F90]
+          - [0x2A2190, i4, D_0506C2C0, 48, 80]
+          - [0x2A2910]
+          - [0x2A2B10, i4, D_0506CC40, 48, 80]
+          - [0x2A3290]
+          - { start: 0x2A32B0, type: vtx, data_only: True, name: D_0506D3E0 }
+          - [0x2A32F0]
+          - { start: 0x2A3400, type: vtx, data_only: True, name: D_0506D530 }
+          - [0x2A3440]
+          - { start: 0x2A3550, type: vtx, data_only: True, name: D_0506D680 }
+          - [0x2A3590]
+          - { start: 0x2A36A0, type: vtx, data_only: True, name: D_0506D7D0 }
+          - [0x2A3710]
+          - { start: 0x2A3830, type: vtx, data_only: True, name: D_0506D960 }
+          - [0x2A3870]
+          - { start: 0x2A3980, type: vtx, data_only: True, name: D_0506DAB0 }
+          - [0x2A39C0]
+          - { start: 0x2A3AD0, type: vtx, data_only: True, name: D_0506DC00 }
+          - [0x2A3BD0]
+          - { start: 0x2A3E30, type: vtx, data_only: True, name: D_0506DF60 }
+          - [0x2A3E70]
+          - { start: 0x2A3F80, type: vtx, data_only: True, name: D_0506E0B0 }
+          - [0x2A3FC0]
+          - { start: 0x2A40D0, type: vtx, data_only: True, name: D_0506E200 }
+          - [0x2A4110]
+          - { start: 0x2A4220, type: vtx, data_only: True, name: D_0506E350 }
+          - [0x2A4260]
+          - { start: 0x2A4370, type: vtx, data_only: True, name: D_0506E4A0 }
+          - [0x2A43B0]
+          - { start: 0x2A44C0, type: vtx, data_only: True, name: D_0506E5F0 }
+          - [0x2A4500]
+          - { start: 0x2A4610, type: vtx, data_only: True, name: D_0506E740 }
+          - [0x2A4650]
+          - { start: 0x2A4760, type: vtx, data_only: True, name: D_0506E890 }
+          - [0x2A47A0]
+          - { start: 0x2A4880, type: vtx, data_only: True, name: D_0506E9B0 }
+          - [0x2A4980]
+          - { start: 0x2A4BE0, type: vtx, data_only: True, name: D_0506ED10 }
+          - [0x2A4C20]
+          - { start: 0x2A4D30, type: vtx, data_only: True, name: D_0506EE60 }
+          - [0x2A4DB0]
+          - { start: 0x2A4F30, type: vtx, data_only: True, name: D_0506F060 }
+          - [0x2A4FB0]
+          - { start: 0x2A5130, type: vtx, data_only: True, name: D_0506F260 }
+          - [0x2A51B0]
+          - { start: 0x2A5330, type: vtx, data_only: True, name: D_0506F460 }
+          - [0x2A5370]
+          - { start: 0x2A5480, type: vtx, data_only: True, name: D_0506F5B0 }
+          - [0x2A54C0]
+          - { start: 0x2A55D0, type: vtx, data_only: True, name: D_0506F700 }
+          - [0x2A5610]
+          - { start: 0x2A5728, type: vtx, data_only: True, name: D_0506F858 }
+          - [0x2A5768]
+          - { start: 0x2A5880, type: vtx, data_only: True, name: D_0506F9B0 }
+          - [0x2A58C0]
+          - { start: 0x2A59D0, type: vtx, data_only: True, name: D_0506FB00 }
+          - [0x2A5A10]
+          - { start: 0x2A5B20, type: vtx, data_only: True, name: D_0506FC50 }
+          - [0x2A5B60]
+          - { start: 0x2A5C70, type: vtx, data_only: True, name: D_0506FDA0 }
+          - [0x2A5DF0]
+          - { start: 0x2A5F38, type: vtx, data_only: True, name: D_05070068 }
+          - [0x2A5F78]
+          - { start: 0x2A6088, type: vtx, data_only: True, name: D_050701B8 }
+          - [0x2A60C8]
+          - { start: 0x2A61D8, type: vtx, data_only: True, name: D_05070308 }
+          - [0x2A6218]
+          - { start: 0x2A6328, type: vtx, data_only: True, name: D_05070458 }
+          - [0x2A6368]
+          - { start: 0x2A6480, type: vtx, data_only: True, name: D_050705B0 }
+          - [0x2A64C0]
+          - { start: 0x2A65D0, type: vtx, data_only: True, name: D_05070700 }
+          - [0x2A6610]
+          - { start: 0x2A6720, type: vtx, data_only: True, name: D_05070850 }
+          - [0x2A6760]
+          - { start: 0x2A6878, type: vtx, data_only: True, name: D_050709A8 }
+          - [0x2A6978]
+          - { start: 0x2A6BE0, type: vtx, data_only: True, name: D_05070D10 }
+          - [0x2A6C20]
+          - { start: 0x2A6D30, type: vtx, data_only: True, name: D_05070E60 }
+          - [0x2A6D70]
+          - { start: 0x2A6E80, type: vtx, data_only: True, name: D_05070FB0 }
+          - [0x2A6EC0]
+          - { start: 0x2A6FD8, type: vtx, data_only: True, name: D_05071108 }
+          - [0x2A7018]
+          - { start: 0x2A7130, type: vtx, data_only: True, name: D_05071260 }
+          - [0x2A7170]
+          - { start: 0x2A7280, type: vtx, data_only: True, name: D_050713B0 }
+          - [0x2A72C0]
+          - { start: 0x2A73D0, type: vtx, data_only: True, name: D_05071500 }
+          - [0x2A7410]
+          - { start: 0x2A7528, type: vtx, data_only: True, name: D_05071658 }
+          - [0x2A7568]
+          - { start: 0x2A7680, type: vtx, data_only: True, name: D_050717B0 }
+          - [0x2A7780]
+          - { start: 0x2A79E0, type: vtx, data_only: True, name: D_05071B10 }
+          - [0x2A7A40]
+          - { start: 0x2A7B58, type: vtx, data_only: True, name: D_05071C88 }
+          - [0x2A7BB8]
+          - { start: 0x2A7CD0, type: vtx, data_only: True, name: D_05071E00 }
+          - [0x2A7D30]
+          - { start: 0x2A7E48, type: vtx, data_only: True, name: D_05071F78 }
+          - [0x2A8048]
+          - { start: 0x2A8190, type: vtx, data_only: True, name: D_050722C0 }
+          - [0x2A81D0]
+          - { start: 0x2A82B8, type: vtx, data_only: True, name: D_050723E8 }
+          - [0x2A82F8]
+          - { start: 0x2A8408, type: vtx, data_only: True, name: D_05072538 }
+          - [0x2A8448]
+          - { start: 0x2A8558, type: vtx, data_only: True, name: D_05072688 }
+          - [0x2A8598]
+          - { start: 0x2A86A8, type: vtx, data_only: True, name: D_050727D8 }
+          - [0x2A86E8]
+          - { start: 0x2A87F8, type: vtx, data_only: True, name: D_05072928 }
+          - [0x2A8898]
+          - { start: 0x2A89C0, type: vtx, data_only: True, name: D_05072AF0 }
+          - [0x2A8A80]
+          - { start: 0x2A8BB0, type: vtx, data_only: True, name: D_05072CE0 }
+          - [0x2A8C70]
+          - { start: 0x2A8DA0, type: vtx, data_only: True, name: D_05072ED0 }
+          - [0x2A8E60]
+          - { start: 0x2A8F90, type: vtx, data_only: True, name: D_050730C0 }
+          - [0x2A9090]
+          - { start: 0x2A91D0, type: vtx, data_only: True, name: D_05073300 }
+          - [0x2A9270]
+          - { start: 0x2A9398, type: vtx, data_only: True, name: D_050734C8 }
+          - [0x2A9418]
+          - { start: 0x2A9538, type: vtx, data_only: True, name: D_05073668 }
+          - [0x2A95A8]
+          - { start: 0x2A96C8, type: vtx, data_only: True, name: D_050737F8 }
+          - [0x2A9738]
+          - { start: 0x2A9858, type: vtx, data_only: True, name: D_05073988 }
+          - [0x2A98D8]
+          - { start: 0x2A99F8, type: vtx, data_only: True, name: D_05073B28 }
+          - [0x2A9A98]
+          - { start: 0x2A9BC0, type: vtx, data_only: True, name: D_05073CF0 }
+          - [0x2A9C60]
+          - { start: 0x2A9D88, type: vtx, data_only: True, name: D_05073EB8 }
+          - [0x2A9DC8]
+          - { start: 0x2A9ED8, type: vtx, data_only: True, name: D_05074008 }
+          - [0x2A9F78]
+          - { start: 0x2AA0A0, type: vtx, data_only: True, name: D_050741D0 }
+          - [0x2AA190]
+          - { start: 0x2AA2D0, type: vtx, data_only: True, name: D_05074400 }
+          - [0x2AA390]
+          - { start: 0x2AA4C0, type: vtx, data_only: True, name: D_050745F0 }
+          - [0x2AA500]
+          - { start: 0x2AA5E8, type: vtx, data_only: True, name: D_05074718 }
+          - [0x2AA688]
+          - { start: 0x2AA7B0, type: vtx, data_only: True, name: D_050748E0 }
+          - [0x2AA8C0]
+          - { start: 0x2AAA68, type: vtx, data_only: True, name: D_05074B98 }
+          - [0x2AAB28]
+          - { start: 0x2AAC58, type: vtx, data_only: True, name: D_05074D88 }
+          - [0x2AAD28]
+          - { start: 0x2AAEC0, type: vtx, data_only: True, name: D_05074FF0 }
+          - [0x2AAF90]
+          - { start: 0x2AB128, type: vtx, data_only: True, name: D_05075258 }
+          - [0x2AB1C8]
+          - { start: 0x2AB2F0, type: vtx, data_only: True, name: D_05075420 }
+          - [0x2AB380]
+          - { start: 0x2AB4A8, type: vtx, data_only: True, name: D_050755D8 }
+          - [0x2AB4E8]
+          - { start: 0x2AB5F8, type: vtx, data_only: True, name: D_05075728 }
+          - [0x2AB698]
+          - { start: 0x2AB7C0, type: vtx, data_only: True, name: D_050758F0 }
+          - [0x2AB890]
+          - { start: 0x2AB9C8, type: vtx, data_only: True, name: D_05075AF8 }
+          - [0x2ABA88]
+          - { start: 0x2ABBB8, type: vtx, data_only: True, name: D_05075CE8 }
+          - [0x2ABBF8]
+          - { start: 0x2ABD08, type: vtx, data_only: True, name: D_05075E38 }
+          - [0x2ABDE8]
+          - { start: 0x2ABF20, type: vtx, data_only: True, name: D_05076050 }
+          - [0x2AC060]
+          - { start: 0x2AC1B0, type: vtx, data_only: True, name: D_050762E0 }
+          - [0x2AC2F0]
+          - { start: 0x2AC448, type: vtx, data_only: True, name: D_05076578 }
+          - [0x2AC588]
+          - { start: 0x2AC6E0, type: vtx, data_only: True, name: D_05076810 }
+          - [0x2AC790]
+          - { start: 0x2AC8C0, type: vtx, data_only: True, name: D_050769F0 }
+          - [0x2ACA10]
+          - { start: 0x2ACB68, type: vtx, data_only: True, name: D_05076C98 }
+          - [0x2ACBE8]
+          - { start: 0x2ACD08, type: vtx, data_only: True, name: D_05076E38 }
+          - [0x2ACDB8]
+          - { start: 0x2ACEE8, type: vtx, data_only: True, name: D_05077018 }
+          - [0x2ACF88]
+          - { start: 0x2AD0B0, type: vtx, data_only: True, name: D_050771E0 }
+          - [0x2AD1B0]
+          - { start: 0x2AD2F0, type: vtx, data_only: True, name: D_05077420 }
+          - [0x2AD3C0]
+          - { start: 0x2AD4F8, type: vtx, data_only: True, name: D_05077628 }
+          - [0x2AD5C8]
+          - { start: 0x2AD700, type: vtx, data_only: True, name: D_05077830 }
+          - [0x2AD740]
+          - { start: 0x2AD828, type: vtx, data_only: True, name: D_05077958 }
+          - [0x2AD908]
+          - { start: 0x2ADA40, type: vtx, data_only: True, name: D_05077B70 }
+          - [0x2ADAC0]
+          - { start: 0x2ADBE0, type: vtx, data_only: True, name: D_05077D10 }
+          - [0x2ADCA0]
+          - { start: 0x2ADDD0, type: vtx, data_only: True, name: D_05077F00 }
+          - [0x2ADE70]
+          - { start: 0x2ADF98, type: vtx, data_only: True, name: D_050780C8 }
+          - [0x2AE028]
+          - { start: 0x2AE150, type: vtx, data_only: True, name: D_05078280 }
+          - [0x2AE190]
+          - { start: 0x2AE2A0, type: vtx, data_only: True, name: D_050783D0 }
+          - [0x2AE460]
+          - { start: 0x2AE578, type: vtx, data_only: True, name: D_050786A8 }
+          - [0x2AE678]
+          - { start: 0x2AE8D8, type: vtx, data_only: True, name: D_05078A08 }
+          - [0x2AE938]
+          - { start: 0x2AEA50, type: vtx, data_only: True, name: D_05078B80 }
+          - [0x2AEAB0]
+          - { start: 0x2AEBC8, type: vtx, data_only: True, name: D_05078CF8 }
+          - [0x2AEC78]
+          - { start: 0x2AEDA8, type: vtx, data_only: True, name: D_05078ED8 }
+          - [0x2AEE88]
+          - { start: 0x2AEFC0, type: vtx, data_only: True, name: D_050790F0 }
+          - [0x2AF090]
+          - { start: 0x2AF1C8, type: vtx, data_only: True, name: D_050792F8 }
+          - [0x2AF268]
+          - { start: 0x2AF380, type: vtx, data_only: True, name: D_050794B0 }
+          - [0x2AF430]
+          - { start: 0x2AF560, type: vtx, data_only: True, name: D_05079690 }
+          - [0x2AF5E0]
+          - { start: 0x2AF700, type: vtx, data_only: True, name: D_05079830 }
+          - [0x2AF740]
+          - { start: 0x2AF820, type: vtx, data_only: True, name: D_05079950 }
+          - [0x2AF860]
+          - { start: 0x2AF940, type: vtx, data_only: True, name: D_05079A70 }
+          - [0x2AF980]
+          - { start: 0x2AFA90, type: vtx, data_only: True, name: D_05079BC0 }
+          - [0x2AFAD0]
+          - { start: 0x2AFBE0, type: vtx, data_only: True, name: D_05079D10 }
+          - [0x2AFC20]
+          - { start: 0x2AFD30, type: vtx, data_only: True, name: D_05079E60 }
+          - [0x2AFD70]
+          - { start: 0x2AFE80, type: vtx, data_only: True, name: D_05079FB0 }
+          - [0x2AFEC0]
+          - { start: 0x2AFFA0, type: vtx, data_only: True, name: D_0507A0D0 }
+          - [0x2B0020]
+          - { start: 0x2B0140, type: vtx, data_only: True, name: D_0507A270 }
+          - [0x2B01F0]
+          - { start: 0x2B0320, type: vtx, data_only: True, name: D_0507A450 }
+          - [0x2B03F0]
+          - { start: 0x2B0528, type: vtx, data_only: True, name: D_0507A658 }
+          - [0x2B05C8]
+          - { start: 0x2B06F0, type: vtx, data_only: True, name: D_0507A820 }
+          - [0x2B07C0]
+          - { start: 0x2B08F8, type: vtx, data_only: True, name: D_0507AA28 }
+          - [0x2B09C8]
+          - { start: 0x2B0B00, type: vtx, data_only: True, name: D_0507AC30 }
+          - [0x2B0BA0]
+          - { start: 0x2B0CC8, type: vtx, data_only: True, name: D_0507ADF8 }
+          - [0x2B0D68]
+          - { start: 0x2B0E90, type: vtx, data_only: True, name: D_0507AFC0 }
+          - [0x2B0F70]
+          - { start: 0x2B10A8, type: vtx, data_only: True, name: D_0507B1D8 }
+          - [0x2B10E8]
+          - { start: 0x2B11F8, type: vtx, data_only: True, name: D_0507B328 }
+          - { start: 0x2B13F8, type: vtx, data_only: True, name: D_0507B528 }
+          - { start: 0x2B14C8, type: vtx, data_only: True, name: D_0507B5F8 }
+          - [0x2B1508]
+          - { start: 0x2B1798, type: vtx, data_only: True, name: D_0507B8C8 }
+          - [0x2B17D8]
+          - { start: 0x2B18E8, type: vtx, data_only: True, name: D_0507BA18 }
+          - [0x2B1928]
+          - { start: 0x2B1A38, type: vtx, data_only: True, name: D_0507BB68 }
+          - [0x2B1A78]
+          - { start: 0x2B1B90, type: vtx, data_only: True, name: D_0507BCC0 }
+          - [0x2B1BD0]
+          - { start: 0x2B1CE8, type: vtx, data_only: True, name: D_0507BE18 }
+          - [0x2B1D28]
+          - { start: 0x2B1E38, type: vtx, data_only: True, name: D_0507BF68 }
+          - [0x2B1E78]
+          - { start: 0x2B1F88, type: vtx, data_only: True, name: D_0507C0B8 }
+          - [0x2B1FC8]
+          - { start: 0x2B20D8, type: vtx, data_only: True, name: D_0507C208 }
+          - [0x2B2118]
+          - { start: 0x2B2230, type: vtx, data_only: True, name: D_0507C360 }
+          - [0x2B2270]
+          - { start: 0x2B2388, type: vtx, data_only: True, name: D_0507C4B8 }
+          - [0x2B23C8]
+          - { start: 0x2B24D8, type: vtx, data_only: True, name: D_0507C608 }
+          - [0x2B2518]
+          - { start: 0x2B2628, type: vtx, data_only: True, name: D_0507C758 }
+          - [0x2B2668]
+          - { start: 0x2B2778, type: vtx, data_only: True, name: D_0507C8A8 }
+          - [0x2B27B8]
+          - { start: 0x2B28C8, type: vtx, data_only: True, name: D_0507C9F8 }
+          - [0x2B2908]
+          - { start: 0x2B2A18, type: vtx, data_only: True, name: D_0507CB48 }
+          - [0x2B2A58]
+          - { start: 0x2B2B68, type: vtx, data_only: True, name: D_0507CC98 }
+          - [0x2B2BA8]
+          - { start: 0x2B2CB8, type: vtx, data_only: True, name: D_0507CDE8 }
+          - [0x2B2CF8]
+          - { start: 0x2B2E08, type: vtx, data_only: True, name: D_0507CF38 }
+          - [0x2B2E48]
+          - { start: 0x2B2F58, type: vtx, data_only: True, name: D_0507D088 }
+          - [0x2B2F98]
+          - { start: 0x2B30A8, type: vtx, data_only: True, name: D_0507D1D8 }
+          - [0x2B30E8]
+          - { start: 0x2B31F8, type: vtx, data_only: True, name: D_0507D328 }
+          - [0x2B3238]
+          - { start: 0x2B3348, type: vtx, data_only: True, name: D_0507D478 }
+          - [0x2B3388]
+          - { start: 0x2B3498, type: vtx, data_only: True, name: D_0507D5C8 }
+          - [0x2B34D8]
+          - { start: 0x2B35E8, type: vtx, data_only: True, name: D_0507D718 }
+          - { start: 0x2B37E8, type: vtx, data_only: True, name: D_0507D918 }
+          - { start: 0x2B38F8, type: vtx, data_only: True, name: D_0507DA28 }
+          - { start: 0x2B3AF8, type: vtx, data_only: True, name: D_0507DC28 }
+          - { start: 0x2B3C78, type: vtx, data_only: True, name: D_0507DDA8 }
+          - { start: 0x2B3E78, type: vtx, data_only: True, name: D_0507DFA8 }
+          - { start: 0x2B4078, type: vtx, data_only: True, name: D_0507E1A8 }
+          - [0x2B4278]
+          - { start: 0x2B4668, type: vtx, data_only: True, name: D_0507E798 }
+          - { start: 0x2B4868, type: vtx, data_only: True, name: D_0507E998 }
+          - { start: 0x2B49E8, type: vtx, data_only: True, name: D_0507EB18 }
+          - { start: 0x2B4B98, type: vtx, data_only: True, name: D_0507ECC8 }
+          - { start: 0x2B4BB8, type: vtx, data_only: True, name: D_0507ECE8 }
+          - { start: 0x2B4DB8, type: vtx, data_only: True, name: D_0507EEE8 }
+          - { start: 0x2B4EE8, type: vtx, data_only: True, name: D_0507F018 }
+          - { start: 0x2B4F58, type: vtx, data_only: True, name: D_0507F088 }
+          - { start: 0x2B4FB8, type: vtx, data_only: True, name: D_0507F0E8 }
+          - [0x2B4FD8]
+          - { start: 0x2B5310, type: vtx, data_only: True, name: D_0507F440 }
+          - [0x2B5350]
+          - { start: 0x2B5460, type: vtx, data_only: True, name: D_0507F590 }
+          - [0x2B54E0]
+          - { start: 0x2B5660, type: vtx, data_only: True, name: D_0507F790 }
+          - [0x2B56E0]
+          - { start: 0x2B5860, type: vtx, data_only: True, name: D_0507F990 }
+          - [0x2B58E0]
+          - { start: 0x2B5A68, type: vtx, data_only: True, name: D_0507FB98 }
+          - [0x2B5AE8]
+          - { start: 0x2B5C70, type: vtx, data_only: True, name: D_0507FDA0 }
+          - [0x2B5CB0]
+          - { start: 0x2B5DC0, type: vtx, data_only: True, name: D_0507FEF0 }
+          - [0x2B5E00]
+          - { start: 0x2B5F10, type: vtx, data_only: True, name: D_05080040 }
+          - [0x2B5F50]
+          - { start: 0x2B6068, type: vtx, data_only: True, name: D_05080198 }
+          - [0x2B60A8]
+          - { start: 0x2B61C0, type: vtx, data_only: True, name: D_050802F0 }
+          - [0x2B6300]
+          - { start: 0x2B6450, type: vtx, data_only: True, name: D_05080580 }
+          - [0x2B6550]
+          - { start: 0x2B6690, type: vtx, data_only: True, name: D_050807C0 }
+          - [0x2B67D0]
+          - { start: 0x2B6920, type: vtx, data_only: True, name: D_05080A50 }
+          - [0x2B6A60]
+          - { start: 0x2B6BB0, type: vtx, data_only: True, name: D_05080CE0 }
+          - [0x2B6C90]
+          - { start: 0x2B6DC8, type: vtx, data_only: True, name: D_05080EF8 }
+          - [0x2B6EA8]
+          - { start: 0x2B6FE0, type: vtx, data_only: True, name: D_05081110 }
+          - [0x2B7110]
+          - { start: 0x2B7260, type: vtx, data_only: True, name: D_05081390 }
+          - [0x2B7390]
+          - { start: 0x2B74E0, type: vtx, data_only: True, name: D_05081610 }
+          - [0x2B7600]
+          - { start: 0x2B7748, type: vtx, data_only: True, name: D_05081878 }
+          - [0x2B7848]
+          - { start: 0x2B7988, type: vtx, data_only: True, name: D_05081AB8 }
+          - [0x2B7AD8]
+          - { start: 0x2B7C30, type: vtx, data_only: True, name: D_05081D60 }
+          - [0x2B7D80]
+          - { start: 0x2B7ED8, type: vtx, data_only: True, name: D_05082008 }
+          - [0x2B7F58]
+          - { start: 0x2B8070, type: vtx, data_only: True, name: D_050821A0 }
+          - [0x2B81D0]
+          - { start: 0x2B8380, type: vtx, data_only: True, name: D_050824B0 }
+          - [0x2B8440]
+          - { start: 0x2B8570, type: vtx, data_only: True, name: D_050826A0 }
+          - [0x2B8650]
+          - { start: 0x2B8788, type: vtx, data_only: True, name: D_050828B8 }
+          - [0x2B8858]
+          - { start: 0x2B8990, type: vtx, data_only: True, name: D_05082AC0 }
+          - [0x2B8A70]
+          - { start: 0x2B8BA8, type: vtx, data_only: True, name: D_05082CD8 }
+          - [0x2B8C48]
+          - { start: 0x2B8D70, type: vtx, data_only: True, name: D_05082EA0 }
+          - [0x2B8E50]
+          - { start: 0x2B8F88, type: vtx, data_only: True, name: D_050830B8 }
+          - [0x2B9068]
+          - { start: 0x2B91A0, type: vtx, data_only: True, name: D_050832D0 }
+          - [0x2B9250]
+          - { start: 0x2B9380, type: vtx, data_only: True, name: D_050834B0 }
+          - [0x2B9460]
+          - { start: 0x2B9598, type: vtx, data_only: True, name: D_050836C8 }
+          - [0x2B9678]
+          - { start: 0x2B97B0, type: vtx, data_only: True, name: D_050838E0 }
+          - [0x2B98F0]
+          - { start: 0x2B9A40, type: vtx, data_only: True, name: D_05083B70 }
+          - [0x2B9A80]
+          - { start: 0x2B9B90, type: vtx, data_only: True, name: D_05083CC0 }
+          - [0x2B9C00]
+          - { start: 0x2B9D20, type: vtx, data_only: True, name: D_05083E50 }
+          - [0x2B9D60]
+          - { start: 0x2B9E70, type: vtx, data_only: True, name: D_05083FA0 }
+          - [0x2B9EF0]
+          - { start: 0x2BA010, type: vtx, data_only: True, name: D_05084140 }
+          - [0x2BA090]
+          - { start: 0x2BA1B0, type: vtx, data_only: True, name: D_050842E0 }
+          - [0x2BA280]
+          - { start: 0x2BA3B8, type: vtx, data_only: True, name: D_050844E8 }
+          - [0x2BA438]
+          - { start: 0x2BA558, type: vtx, data_only: True, name: D_05084688 }
+          - [0x2BA598]
+          - { start: 0x2BA6A8, type: vtx, data_only: True, name: D_050847D8 }
+          - { start: 0x2BA8A8, type: vtx, data_only: True, name: D_050849D8 }
+          - [0x2BA968]
+          - { start: 0x2BAEE0, type: vtx, data_only: True, name: D_05085010 }
+          - [0x2BB060]
 
   - name: segment_title_bmp # compressed
     type: code
