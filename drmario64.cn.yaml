@@ -1068,11 +1068,60 @@ segments:
 
 
   - name: segment_menu_bg # compressed
-    type: databin
+    type: code
     start: 0x21E530
+    vram: 0x05000000
+    exclusive_ram_id: number_05
+    subsegments:
+      - [auto, c, assets/menu_bg/menu_bg]
+      - start: 0x21E530
+        type: .data
+        name: assets/menu_bg/menu_bg
+        dir: assets/menu_bg/menu_bg
+        subsegments:
+          - [0x21E530]
+          - [0x21E558, palette, menu_bg_D_05000228]
+          - [0x21E758, ci8, menu_bg_D_05000228, 8, 240]
+          - [0x21EED8, i4, menu_bg_D_050009A8, 112, 73]
+          - [0x21FED0, i4, menu_bg_D_050019A0, 80, 102]
+          - [0x220EC0, i4, menu_bg_D_05002990, 48, 64]
+          - [0x2214C0]
+          - { start: 0x2214E8, type: vtx, data_only: True, name: menu_bg_D_05002FB8 }
+          - [0x221528]
+          - { start: 0x221640, type: vtx, data_only: True, name: menu_bg_D_05003110 }
+          - [0x221840]
+          - { start: 0x221998, type: vtx, data_only: True, name: menu_bg_D_05003468 }
+          - [0x221B18]
+          - { start: 0x221C60, type: vtx, data_only: True, name: menu_bg_D_05003730 }
+          - [0x221D20]
+
   - name: segment_menu_bg2 # compressed
-    type: databin
+    type: code
     start: 0x221FC0
+    vram: 0x05000000
+    exclusive_ram_id: number_05
+    subsegments:
+      - [auto, c, assets/menu_bg/menu_bg2]
+      - start: 0x221FC0
+        type: .data
+        name: assets/menu_bg/menu_bg2
+        dir: assets/menu_bg/menu_bg2
+        subsegments:
+          - [0x221FC0]
+          - [0x221FE8, palette, menu_bg2_D_05000228]
+          - [0x2221E8, ci8, menu_bg2_D_05000228, 8, 240]
+          - [0x222968, i4, menu_bg2_D_050009A8, 112, 73]
+          - [0x223960, i4, menu_bg2_D_050019A0, 80, 102]
+          - [0x224950, i4, menu_bg2_D_05002990, 48, 64]
+          - [0x224F50]
+          - { start: 0x224F78, type: vtx, data_only: True, name: menu_bg2_D_05002FB8 }
+          - [0x224FB8]
+          - { start: 0x2250D0, type: vtx, data_only: True, name: menu_bg2_D_05003110 }
+          - [0x2252D0]
+          - { start: 0x225428, type: vtx, data_only: True, name: menu_bg2_D_05003468 }
+          - [0x2255A8]
+          - { start: 0x2256F0, type: vtx, data_only: True, name: menu_bg2_D_05003730 }
+          - [0x2257B0]
 
   - name: segment_coffee01 # compressed
     type: code
