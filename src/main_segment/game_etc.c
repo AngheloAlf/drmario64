@@ -242,7 +242,7 @@ UNK_TYPE disp_count_logo(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
     }
 
     makeTransrateMatrix(&mtx, var_a1 << 15, var_a2 << 15, 0xFE0C << 16);
-    ret = lws_anim(&gfx, &mtx, etcLwsTbl[9], arg2, etcLwsAddress);
+    ret = lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_9], arg2, etcLwsAddress);
 
     *gfxP = gfx;
     return ret;
@@ -278,13 +278,13 @@ void disp_clear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
 
-    if (lws_anim(&gfx, &mtx, etcLwsTbl[0xA], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+    if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_10], temp_s0->unk_10[0], etcLwsAddress) == 1) {
         temp_s0->unk_10[0] = 0x27;
     }
     temp_s0->unk_10[0]++;
 
     if (arg2 != 0) {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl[0xB], temp_s0->unk_10[1], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_11], temp_s0->unk_10[1], etcLwsAddress) == 1) {
             temp_s0->unk_10[1] = 0x3B;
         }
         temp_s0->unk_10[1]++;
@@ -323,13 +323,13 @@ void disp_allclear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
 
-    if (lws_anim(&gfx, &mtx, etcLwsTbl[0xD], temp_s0->unk_10[1], etcLwsAddress) == 1) {
+    if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_13], temp_s0->unk_10[1], etcLwsAddress) == 1) {
         temp_s0->unk_10[1] = 0x27;
     }
     temp_s0->unk_10[1]++;
 
     if (arg2 != 0) {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl[0xB], temp_s0->unk_10[2], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_11], temp_s0->unk_10[2], etcLwsAddress) == 1) {
             temp_s0->unk_10[2] = 0x3B;
         }
         temp_s0->unk_10[2]++;
@@ -369,11 +369,11 @@ void disp_win_logo(Gfx **gfxP, s32 arg1) {
     makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
 
     if (binCount != 4) {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl[0], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_0], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0x3F;
         }
     } else {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl[1], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_1], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0x3F;
         }
     }
@@ -413,11 +413,11 @@ void disp_lose_logo(Gfx **gfxP, s32 arg1) {
     makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
 
     if (binCount != 4) {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl[2], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_2], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0x37;
         }
     } else {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl[3], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_3], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0x37;
         }
     }
@@ -457,11 +457,11 @@ void disp_draw_logo(Gfx **gfxP, s32 arg1) {
     makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
 
     if (binCount != 4) {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl[4], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_4], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0xF;
         }
     } else {
-        if (lws_anim(&gfx, &mtx, etcLwsTbl[5], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_5], temp_s0->unk_10[0], etcLwsAddress) == 1) {
             temp_s0->unk_10[0] = 0xF;
         }
     }
@@ -514,11 +514,11 @@ s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2 UNUSED, s32 arg3, s32 arg4) {
 
     makeTransrateMatrix(&sp68, var_a1 << 0xF, var_a2 << 0xF, 0xFE0C0000);
     if (binCount != 4) {
-        if (lws_anim(&gfx, &sp68, etcLwsTbl[7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &sp68, etcLwsTbl[ETC_LWS_INDEX_7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
             temp_s1->unk_10[7] = 0x19;
         }
     } else {
-        if (lws_anim(&gfx, &sp68, etcLwsTbl[7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &sp68, etcLwsTbl[ETC_LWS_INDEX_7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
             temp_s1->unk_10[7] = 0x19;
         }
     }
@@ -725,7 +725,7 @@ void disp_gameover_logo(Gfx **gfxP, s32 arg1) {
 
     makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
 
-    if (lws_anim(&gfx, &mtx, etcLwsTbl[8], temp_s0->unk_10[1], etcLwsAddress) == 1) {
+    if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_8], temp_s0->unk_10[1], etcLwsAddress) == 1) {
         temp_s0->unk_10[1] = 0x39;
     }
     temp_s0->unk_10[1]++;
@@ -763,7 +763,7 @@ void disp_timeover_logo(Gfx **gfxP, s32 arg1) {
 
     makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
 
-    if (lws_anim(&gfx, &mtx, etcLwsTbl[0xC], temp_s0->unk_10[0], etcLwsAddress) == 1) {
+    if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_12], temp_s0->unk_10[0], etcLwsAddress) == 1) {
         temp_s0->unk_10[0] = 0x39;
     }
     temp_s0->unk_10[0]++;
@@ -801,7 +801,7 @@ void disp_retire_logo(Gfx **gfxP, s32 arg1) {
 
     makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
 
-    if (lws_anim(&gfx, &mtx, etcLwsTbl[0x6], temp_s0->unk_10[2], etcLwsAddress) == 1) {
+    if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_6], temp_s0->unk_10[2], etcLwsAddress) == 1) {
         temp_s0->unk_10[2] = 0x8B;
     }
     temp_s0->unk_10[2]++;

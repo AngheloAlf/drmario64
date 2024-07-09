@@ -174,7 +174,7 @@ s32 func_8002AA80(void) {
 }
 
 void func_8002AAD8(struct_800FACE0_unk_08 *arg0, s32 index) {
-    arg0->sndEntry = 0;
+    arg0->sndEntry = NULL;
     arg0->index = index;
     arg0->unk_8 = 0;
 }
@@ -268,14 +268,14 @@ void dm_audio_init_driver(NNSched *sc) {
 
     InitMusicDriver(sc, audio_memory, AUDIO_HEAP_SIZE,
                     _romDataTbl[ROMDATATBL_N64_PTR_TABLES].end - _romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
-                    func_8002AA80(), 2, _romDataTbl[ROMDATATBL_INDEX2].end - _romDataTbl[ROMDATATBL_INDEX2].start, 4,
+                    func_8002AA80(), 2, _romDataTbl[ROMDATATBL_FXBANK].end - _romDataTbl[ROMDATATBL_FXBANK].start, 4,
                     THREAD_PRI_MUSIC_DRIVER);
 
     func_8002D3B0(_romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
                   _romDataTbl[ROMDATATBL_N64_PTR_TABLES].end - _romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
                   (void *)_romDataTbl[ROMDATATBL_N64_WAVE_TABLES].start);
-    func_8002D6A4(_romDataTbl[ROMDATATBL_INDEX2].start,
-                  _romDataTbl[ROMDATATBL_INDEX2].end - _romDataTbl[ROMDATATBL_INDEX2].start);
+    func_8002D6A4(_romDataTbl[ROMDATATBL_FXBANK].start,
+                  _romDataTbl[ROMDATATBL_FXBANK].end - _romDataTbl[ROMDATATBL_FXBANK].start);
 }
 
 /**

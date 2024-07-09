@@ -2561,7 +2561,7 @@ void dm_save_all(void) {
                     temp_arg5++;
                 }
 
-                dm_story_sort_set(evs_select_name_no[0], (s32)story_proc_no >= STORY_PROC_NO_12, evs_story_level,
+                dm_story_sort_set(evs_select_name_no[0], (s32)story_proc_no >= BGROMDATA_INDEX12, evs_story_level,
                                   game_state_ptr->unk_000, evs_game_time, temp_arg5, evs_one_game_flg);
                 watchGameP->unk_3B0 = 1;
             }
@@ -2611,7 +2611,7 @@ void dm_save_all(void) {
                 struct_evs_mem_data *temp_a0 = &evs_mem_data[evs_select_name_no[0]];
                 struct_evs_mem_data_unk_B4 *temp = &temp_a0->unk_B4;
                 s32 var_s0_2 = evs_story_no;
-                s32 temp_s1 = (s32)story_proc_no >= STORY_PROC_NO_12;
+                s32 temp_s1 = (s32)story_proc_no >= BGROMDATA_INDEX12;
 
                 temp->unk_02 = CLAMP(var_s0_2 - 1, 0, 7);
 
@@ -7532,8 +7532,8 @@ enum_main_no dm_game_main3(s32 arg0) {
                     var_a1 = MAIN_NO_6;
                 }
 
-                if ((story_proc_no - STORY_PROC_NO_10 < STORY_PROC_NO_12 - STORY_PROC_NO_10) ||
-                    (story_proc_no == STORY_PROC_NO_22) || (story_proc_no == STORY_PROC_NO_23)) {
+                if ((story_proc_no - BGROMDATA_INDEX10 < BGROMDATA_INDEX12 - BGROMDATA_INDEX10) ||
+                    (story_proc_no == BGROMDATA_INDEX22) || (story_proc_no == BGROMDATA_INDEX23)) {
                     switch (evs_story_level) {
                         case 0:
                             if (game_state_data[0].unk_004 != 0) {

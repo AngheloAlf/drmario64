@@ -650,7 +650,7 @@ segments:
   - name: n64_ptr_tables_v2
     type: databin
     start: 0x1CC150
-  - name: segment_172130
+  - name: fxbank
     type: databin
     start: 0x1D46A0
 

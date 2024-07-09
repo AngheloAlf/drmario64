@@ -1,3 +1,5 @@
+#include "assets/coffee/coffee01.h"
+
 #include "libc/assert.h"
 
 #include "alignment.h"
@@ -235,9 +237,15 @@ extern Lws_unk_10 coffee01_D_05024450[];
 extern Lws_unk_14 coffee01_D_050245E8[];
 
 Lws *coffee01_D_05000000[] = {
-    &coffee01_D_05014E80, &coffee01_D_05014E98, &coffee01_D_05015A40, &coffee01_D_0501A1D8,
-    &coffee01_D_05020138, &coffee01_D_05024288, &coffee01_D_050242A0,
+    &coffee01_D_05014E80, // COFFEE01_LWS_INDEX_0
+    &coffee01_D_05014E98, // COFFEE01_LWS_INDEX_1
+    &coffee01_D_05015A40, // COFFEE01_LWS_INDEX_2
+    &coffee01_D_0501A1D8, // COFFEE01_LWS_INDEX_3
+    &coffee01_D_05020138, // COFFEE01_LWS_INDEX_4
+    &coffee01_D_05024288, // COFFEE01_LWS_INDEX_5
+    &coffee01_D_050242A0, // COFFEE01_LWS_INDEX_6
 };
+static_assert(ARRAY_COUNT(coffee01_D_05000000) == COFFEE01_LWS_INDEX_MAX, "");
 
 /* unreferenced data */
 Gfx coffee01_D_05000020[] = {

@@ -9,35 +9,6 @@
 struct NNSched;
 struct GraphBinGeneric;
 
-// Maybe same enum as `BgRomDataIndex`
-typedef enum enum_story_proc_no {
-    /*  0 */ STORY_PROC_NO_0,
-    /*  1 */ STORY_PROC_NO_1,
-    /*  2 */ STORY_PROC_NO_2,
-    /*  3 */ STORY_PROC_NO_3,
-    /*  4 */ STORY_PROC_NO_4,
-    /*  5 */ STORY_PROC_NO_5,
-    /*  6 */ STORY_PROC_NO_6,
-    /*  7 */ STORY_PROC_NO_7,
-    /*  8 */ STORY_PROC_NO_8,
-    /*  9 */ STORY_PROC_NO_9,
-    /* 10 */ STORY_PROC_NO_10,
-    /* 11 */ STORY_PROC_NO_11,
-    /* 12 */ STORY_PROC_NO_12,
-    /* 13 */ STORY_PROC_NO_13,
-    /* 14 */ STORY_PROC_NO_14,
-    /* 15 */ STORY_PROC_NO_15,
-    /* 16 */ STORY_PROC_NO_16,
-    /* 17 */ STORY_PROC_NO_17,
-    /* 18 */ STORY_PROC_NO_18,
-    /* 19 */ STORY_PROC_NO_19,
-    /* 20 */ STORY_PROC_NO_20,
-    /* 21 */ STORY_PROC_NO_21,
-    /* 22 */ STORY_PROC_NO_22,
-    /* 23 */ STORY_PROC_NO_23,
-    /* 24 */ STORY_PROC_NO_24 // TODO: MAX?
-} enum_story_proc_no;
-
 typedef struct GbiStat {
     /* 0x00 */ s32 siz;
     /* 0x04 */ s32 width;
@@ -75,13 +46,7 @@ void *init_title(void *dstAddr, bool arg1);
 s32 demo_title(Gfx **gfxP, bool arg1);
 // void func_80078648();
 void func_8007865C(void);
-void story_st_new_op(Gfx **gfxP, s32 arg1);
-void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2);
-void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2);
-void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2);
-void story_w_end(Gfx **gfxP, s32 arg1);
+
 void func_8007A9DC(void);
 void main_story(struct NNSched *sc);
 void init_objMtx(void);
@@ -99,7 +64,7 @@ extern u8 changestar_tex[];
 extern void *mess_heap;
 extern char st_staffroll_txt[];
 extern struct_mes_data *mes_data[];
-extern enum_story_proc_no story_proc_no; /* Original name: story_proc_no */
+extern BgRomDataIndex story_proc_no;
 extern char STR_800AACF0[];
 extern char *EndingLastMessage; /* Original name: EndingLastMessage */
 extern s32 story_time_cnt;

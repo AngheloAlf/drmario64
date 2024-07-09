@@ -715,7 +715,7 @@ segments:
   - name: n64_ptr_tables_v2 # not compressed
     type: databin
     start: 0x1B64A0
-  - name: segment_172130 # not compressed
+  - name: fxbank # not compressed
     type: databin
     start: 0x1BE9F0
 

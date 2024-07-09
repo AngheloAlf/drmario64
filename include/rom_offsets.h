@@ -52,7 +52,7 @@ typedef enum BgRomDataIndex {
 typedef enum RomDataTblIndex {
     /*  0 */ ROMDATATBL_N64_WAVE_TABLES,
     /*  1 */ ROMDATATBL_N64_PTR_TABLES,
-    /*  2 */ ROMDATATBL_INDEX2,
+    /*  2 */ ROMDATATBL_FXBANK,
     /*  3 */ ROMDATATBL_INDEX3,
     /*  4 */ ROMDATATBL_INDEX4,
     /*  5 */ ROMDATATBL_INDEX5,

@@ -36,8 +36,8 @@ musSched nn_mus_sched = {
 /**
  * Original name: InitMusicDriver
  */
-size_t InitMusicDriver(NNSched *sc, void *heap, size_t heap_length, size_t arg3, s32 arg4, s32 arg5, size_t arg6 UNUSED,
-                       s32 arg7, OSPri thread_priority) {
+size_t InitMusicDriver(NNSched *sc, void *heap, size_t heap_length, size_t arg3, s32 arg4, s32 arg5,
+                       size_t fxbank_size UNUSED, s32 arg7, OSPri thread_priority) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98 = ALIGN_PTR(heap);
     musConfig init;
     s32 i;
@@ -64,9 +64,9 @@ size_t InitMusicDriver(NNSched *sc, void *heap, size_t heap_length, size_t arg3,
         heap = temp_s0->unk_14[i].unk_0 + arg4;
     }
 
-    temp_s0->unk_1C = ALIGN_PTR(heap);
+    temp_s0->fxbank = ALIGN_PTR(heap);
     temp_s0->unk_20 = arg3;
-    heap = temp_s0->unk_1C + temp_s0->unk_20;
+    heap = temp_s0->fxbank + temp_s0->unk_20;
 
     temp_s0->unk_24 = ALIGN_PTR(heap);
     temp_s0->unk_28 = arg7;
@@ -181,15 +181,15 @@ bool func_8002D6A4(RomOffset segmentRom, size_t segmentSize) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
     if (MusAsk(MUSFLAG_EFFECTS) == 0) {
-        DmaRomToRam(segmentRom, temp_s0->unk_1C, segmentSize);
-        MusFxBankInitialize(temp_s0->unk_1C);
+        DmaRomToRam(segmentRom, temp_s0->fxbank, segmentSize);
+        MusFxBankInitialize(temp_s0->fxbank);
         return true;
     }
     return false;
 }
 
 void *func_8002D710(void) {
-    return gAudio_800FAF98->unk_1C;
+    return gAudio_800FAF98->fxbank;
 }
 
 void func_8002D720(s32 index, s32 number) {

@@ -1849,7 +1849,7 @@ void dm_manual_all_init(void) {
     }
 
     evs_gamemode = ENUM_EVS_GAMEMODE_0;
-    story_proc_no = STORY_PROC_NO_1;
+    story_proc_no = BGROMDATA_INDEX1;
 
     dm_game_init_heap();
     heap = dm_game_heap_top();
