@@ -123,7 +123,7 @@ def analyze_dlist_line(line: str, last_tlut: int|None, last_ci: int|None) -> tup
         width = int(width)
         height = int(height)
         TEX_DIMENSIONS[addr] = (width, height)
-        if fmt == "G_IM_FMT_CI":
+        if fmt == "G_IM_FMT_CI" and siz == "G_IM_SIZ_8b":
             SYMBOLS[addr] = ("CI8", TYPE_SIZES["CI8"] * width * height, True)
             last_ci = addr
             if addr not in CI_TO_TLUT:
@@ -206,7 +206,7 @@ def search_for_dlists(data: bytes):
         if word0 == GFX_END and word1 == 0:
             # We found the end of the dlist
 
-            # gfx_raw_full = f"{word0:08X}{word1:08X}"
+            gfx_raw_full = f"{word0:08X}{word1:08X}"
             dlist_start = i
             dlist_size = 8
 
@@ -225,11 +225,21 @@ def search_for_dlists(data: bytes):
                 if find_symbol(j + NUMBER_05) is not None:
                     break
 
-                line = command.split("\n")[1]
-                last_tlut, last_ci = analyze_dlist_line(line, last_tlut, last_ci)
+                gfx_raw_full = f"{word0:08X}{word1:08X}{gfx_raw_full}"
+                last_tlut, last_ci = analyze_dlist_line(command, last_tlut, last_ci)
 
                 dlist_start = j
                 dlist_size += 8
+
+            if find_symbol(dlist_start + NUMBER_05) is None:
+                dlist_full = run_gfxdis(gfx_raw_full)
+                if dlist_full is not None:
+                    last_tlut: int|None = None
+                    last_ci: int|None = None
+
+                    for command in dlist_full.split("\n"):
+                        print(command)
+                        last_tlut, last_ci = analyze_dlist_line(command, last_tlut, last_ci)
 
             if find_symbol(dlist_start + NUMBER_05) is None:
                 SYMBOLS[dlist_start + NUMBER_05] = ("Gfx", dlist_size, True)
@@ -272,7 +282,7 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
                 next_vram_typ = symbols[index+1][1][0]
 
             new_vram = vram + size
-            assert new_vram <= next_vram, f"{typ} 0x{vram:08X} 0x{new_vram:08X} 0x{next_vram:08X} {next_vram_typ}"
+            assert new_vram <= next_vram, f"0x{vram:08X} ({typ} 0x{size:X}) 0x{new_vram:08X} 0x{next_vram:08X} {next_vram_typ}"
 
 
         f.write("\n")
