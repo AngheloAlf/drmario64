@@ -1,8 +1,8 @@
 settings:
-  base_path: build/us
+  base_path: build/{version}
 
-  d_path: linker_scripts/us/drmario64.d
-  target_path: build/us/drmario64.us.elf
+  d_path: linker_scripts/{version}/drmario64.d
+  target_path: build/{version}/drmario64.{version}.elf
 
   sections_allowlist:
     # mips debug sections
@@ -61,8 +61,8 @@ settings:
     - .interp
     - .eh_frame
   discard_wildcard_section: True
-  partial_scripts_folder: linker_scripts/us/partial
-  partial_build_segments_folder: build/us/segments
+  partial_scripts_folder: linker_scripts/{version}/partial
+  partial_build_segments_folder: build/{version}/segments
 
   subalign: 0x10
   wildcard_sections: True
@@ -77,7 +77,7 @@ segments:
   - name: ipl3
     section_end_align: null
     files:
-      - { path: asm/us/data/ipl3.o }
+      - { path: "asm/{version}/data/ipl3.o" }
 
   - name: entry
     fixed_vram: 0x80000400
@@ -280,7 +280,7 @@ segments:
       - { path: src/libkmc/ctype.o }
       # end of libkmc
 
-      - { path: asm/us/data/boot/8001B640.bss.o }
+      - { path: "asm/{version}/data/boot/8001B640.bss.o" }
 
   - name: dma_table
     files:
@@ -344,7 +344,7 @@ segments:
       - { path: src/rsp/f3dex2.o }
       - { path: src/rsp/s2dex.o }
 
-      - { path: asm/us/data/main_segment/800E9BB0.bss.o }
+      - { path: "asm/{version}/data/main_segment/800E9BB0.bss.o" }
 
   - name: buffer1
     files:
@@ -363,137 +363,137 @@ segments:
   - name: n64_wave_tables
     section_end_align: null
     files:
-      - { path: asm/us/data/n64_wave_tables.o }
+      - { path: "asm/{version}/data/n64_wave_tables.o" }
 
   - name: n64_ptr_tables_v2
     section_end_align: null
     files:
-      - { path: asm/us/data/n64_ptr_tables_v2.o }
+      - { path: "asm/{version}/data/n64_ptr_tables_v2.o" }
 
   - name: fxbank
     section_end_align: null
     files:
-      - { path: asm/us/data/fxbank.o }
+      - { path: "asm/{version}/data/fxbank.o" }
 
   - name: segment_172D60
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_172D60.o }
+      - { path: "asm/{version}/data/segment_172D60.o" }
 
   - name: segment_1750C0
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_1750C0.o }
+      - { path: "asm/{version}/data/segment_1750C0.o" }
 
   - name: segment_177420
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_177420.o }
+      - { path: "asm/{version}/data/segment_177420.o" }
 
   - name: segment_179620
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_179620.o }
+      - { path: "asm/{version}/data/segment_179620.o" }
 
   - name: segment_17B790
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_17B790.o }
+      - { path: "asm/{version}/data/segment_17B790.o" }
 
   - name: segment_17C1E0
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_17C1E0.o }
+      - { path: "asm/{version}/data/segment_17C1E0.o" }
 
   - name: segment_17D130
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_17D130.o }
+      - { path: "asm/{version}/data/segment_17D130.o" }
 
   - name: segment_17E090
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_17E090.o }
+      - { path: "asm/{version}/data/segment_17E090.o" }
 
   - name: segment_181840
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_181840.o }
+      - { path: "asm/{version}/data/segment_181840.o" }
 
   - name: segment_184FF0
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_184FF0.o }
+      - { path: "asm/{version}/data/segment_184FF0.o" }
 
   - name: segment_186FF0
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_186FF0.o }
+      - { path: "asm/{version}/data/segment_186FF0.o" }
 
   - name: segment_188FF0
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_188FF0.o }
+      - { path: "asm/{version}/data/segment_188FF0.o" }
 
   - name: segment_189D40
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_189D40.o }
+      - { path: "asm/{version}/data/segment_189D40.o" }
 
   - name: segment_18CB40
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_18CB40.o }
+      - { path: "asm/{version}/data/segment_18CB40.o" }
 
   - name: segment_18DB90
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_18DB90.o }
+      - { path: "asm/{version}/data/segment_18DB90.o" }
 
   - name: segment_18F160
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_18F160.o }
+      - { path: "asm/{version}/data/segment_18F160.o" }
 
   - name: segment_1906E0
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_1906E0.o }
+      - { path: "asm/{version}/data/segment_1906E0.o" }
 
   - name: segment_1911D0
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_1911D0.o }
+      - { path: "asm/{version}/data/segment_1911D0.o" }
 
   - name: segment_1936C0
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_1936C0.o }
+      - { path: "asm/{version}/data/segment_1936C0.o" }
 
   - name: segment_1937F0
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_1937F0.o }
+      - { path: "asm/{version}/data/segment_1937F0.o" }
 
   - name: segment_194070
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_194070.o }
+      - { path: "asm/{version}/data/segment_194070.o" }
 
   - name: segment_194150
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_194150.o }
+      - { path: "asm/{version}/data/segment_194150.o" }
 
   - name: segment_194910
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_194910.o }
+      - { path: "asm/{version}/data/segment_194910.o" }
 
   - name: segment_195290
     section_end_align: null
     files:
-      - { path: asm/us/data/segment_195290.o }
+      - { path: "asm/{version}/data/segment_195290.o" }
 
   - name: segment_game_etc
     fixed_vram: 0x00000000

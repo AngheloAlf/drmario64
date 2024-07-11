@@ -1,34 +1,45 @@
 settings:
-  base_path: build/cn
-  linker_symbols_style: splat
-  target_path: build/cn/drmario64.cn.elf
-  d_path: linker_scripts/cn/drmario64.d
+  base_path: build/{version}
+
+  d_path: linker_scripts/{version}/drmario64.d
+  target_path: build/{version}/drmario64.{version}.elf
+
   sections_allowlist:
-    - .strtab
-    - .symtab
+    # mips debug sections
     - .pdr
     - .mdebug
     - .mdebug.abi32
+    # DWARF debug sections
+    # Symbols in the DWARF debugging sections are relative to the beginning of the section so we begin them at 0.
+    # DWARF 1
     - .debug
     - .line
+    # GNU DWARF 1 extensions
     - .debug_srcinfo
     - .debug_sfnames
+    # DWARF 1.1 and DWARF 2
     - .debug_aranges
     - .debug_pubnames
+    # DWARF 2
     - .debug_info
+    # - .gnu.linkonce.wi.*
     - .debug_abbrev
     - .debug_line
+    # - .debug_line.*
     - .debug_line_end
     - .debug_frame
     - .debug_str
     - .debug_loc
     - .debug_macinfo
+    # SGI/MIPS DWARF 2 extensions
     - .debug_weaknames
     - .debug_funcnames
     - .debug_typenames
     - .debug_varnames
+    # DWARF 3
     - .debug_pubtypes
     - .debug_ranges
+    # DWARF 5
     - .debug_addr
     - .debug_line_str
     - .debug_loclists
@@ -37,7 +48,9 @@ settings:
     - .debug_rnglists
     - .debug_str_offsets
     - .debug_sup
+    # gnu attributes
     - .gnu.attributes
+    # misc
     - .note
     - .comment
   sections_denylist:
@@ -48,14 +61,9 @@ settings:
     - .interp
     - .eh_frame
   discard_wildcard_section: True
-  partial_scripts_folder: linker_scripts/cn/partial
-  partial_build_segments_folder: build/cn/segments
-  alloc_sections:
-    - .text
-    - .data
-    - .rodata
-  noload_sections:
-    - .bss
+  partial_scripts_folder: linker_scripts/{version}/partial
+  partial_build_segments_folder: build/{version}/segments
+
   subalign: 0x10
   wildcard_sections: True
   segment_start_align: 0x10
@@ -63,211 +71,227 @@ settings:
 segments:
   - name: header
     fixed_vram: 0x80000000
-    section_end_align: 0x10
     files:
       - { path: src/rom_header/rom_header.o }
 
   - name: ipl3
     section_end_align: null
     files:
-      - { path: asm/cn/data/ipl3.o }
+      - { path: "asm/{version}/data/ipl3.o" }
 
   - name: entry
     fixed_vram: 0x80000400
-    section_end_align: 0x10
     files:
       - { path: src/entry/entry.o }
 
   - name: boot
-    section_end_align: 0x10
+    subalign: null
     files:
-      - { path: asm/cn/data/boot/800118E0.bss.o }
+      - { path: "asm/{version}/data/boot/800118E0.bss.o" }
       - { path: src/boot/boot_main.o }
       - { path: src/boot/dmadata.o }
+
       - { path: src/gzip/inflate.o }
       - { path: src/gzip/unzip.o }
+
       - { path: src/boot/util.o }
+
       - { path: src/boot/rom_offsets.o }
+
       - { path: src/gateway/003630.o }
-      - { path: asm/cn/libultra/aigetlen.o }
-      - { path: asm/cn/libultra/aigetstat.o }
-      - { path: asm/cn/libultra/aisetfreq.o }
-      - { path: asm/cn/libultra/aisetnextbuf.o }
-      - { path: asm/cn/data/libultra/env.rodata.o }
-      - { path: asm/cn/libultra/env.o }
-      - { path: asm/cn/libultra/sl.o }
-      - { path: asm/cn/libultra/heapinit.o }
-      - { path: asm/cn/libultra/synthesizer.o }
-      - { path: asm/cn/libultra/syndelete.o }
-      - { path: asm/cn/libultra/synaddplayer.o }
-      - { path: asm/cn/libultra/synallocvoice.o }
-      - { path: asm/cn/libultra/synstopvoice.o }
-      - { path: asm/cn/libultra/synstartvoice.o }
-      - { path: asm/cn/libultra/synsetpitch.o }
-      - { path: asm/cn/libultra/synsetvol.o }
-      - { path: asm/cn/libultra/synsetfxmix.o }
-      - { path: asm/cn/libultra/synsetpan.o }
-      - { path: asm/cn/libultra/synallocfx.o }
-      - { path: asm/cn/libultra/invaldcache.o }
-      - { path: asm/cn/libultra/writebackdcacheall.o }
-      - { path: asm/cn/libultra/contquery.o }
-      - { path: asm/cn/libultra/contreaddata.o }
-      - { path: asm/cn/libultra/controller.o }
-      - { path: asm/cn/libultra/contsetch.o }
-      - { path: asm/cn/libultra/os/virtualtophysical.o }
-      - { path: asm/cn/libultra/sqrtf.o }
-      - { path: asm/cn/data/libultra/cosf.rodata.o }
-      - { path: asm/cn/libultra/cosf.o }
-      - { path: asm/cn/libultra/ortho.o }
-      - { path: asm/cn/libultra/perspective.o }
-      - { path: asm/cn/libultra/rotateRPY.o }
-      - { path: asm/cn/data/libultra/sinf.rodata.o }
-      - { path: asm/cn/libultra/sinf.o }
-      - { path: asm/cn/libultra/sins.o }
-      - { path: asm/cn/libultra/bcmp.o }
-      - { path: asm/cn/libultra/bcopy.o }
-      - { path: asm/cn/libultra/bzero.o }
-      - { path: asm/cn/libultra/string.o }
-      - { path: asm/cn/libultra/os/createmesgqueue.o }
-      - { path: asm/cn/libultra/os/recvmesg.o }
-      - { path: asm/cn/libultra/sptask.o }
-      - { path: asm/cn/libultra/sptaskyield.o }
-      - { path: asm/cn/libultra/sptaskyielded.o }
-      - { path: asm/cn/data/libultra/sched.rodata.o }
-      - { path: asm/cn/libultra/sched.o }
-      - { path: asm/cn/libultra/sirawdma.o }
-      - { path: asm/cn/libultra/io/siacs.o }
-      - { path: asm/cn/libultra/os/createthread.o }
-      - { path: asm/cn/libultra/os/startthread.o }
-      - { path: asm/cn/libultra/os/stopthread.o }
-      - { path: asm/cn/libultra/os/thread.o }
-      - { path: asm/cn/libultra/os/gettime.o }
-      - { path: asm/cn/libultra/os/settime.o }
-      - { path: asm/cn/libultra/os/settimer.o }
-      - { path: asm/cn/libultra/os/timerintr.o }
-      - { path: asm/cn/libultra/probetlb.o }
-      - { path: asm/cn/libultra/io/vigetcurrframebuf.o }
-      - { path: asm/cn/libultra/io/vigetnextframebuf.o }
-      - { path: asm/cn/libultra/io/vimgr.o }
-      - { path: asm/cn/libultra/visetevent.o }
-      - { path: asm/cn/libultra/visetmode.o }
-      - { path: asm/cn/libultra/visetspecial.o }
-      - { path: asm/cn/libultra/visetyscale.o }
-      - { path: asm/cn/libultra/viswapbuf.o }
-      - { path: asm/cn/libultra/viswapcontext.o }
-      - { path: asm/cn/libultra/viblack.o }
-      - { path: asm/cn/libultra/mtxident.o }
-      - { path: asm/cn/libultra/mtxidentf.o }
-      - { path: asm/cn/libultra/mtxf2l.o }
-      - { path: asm/cn/libultra/mtxl2f.o }
-      - { path: asm/cn/libultra/mtxcatf.o }
-      - { path: asm/cn/libultra/scale.o }
-      - { path: asm/cn/libultra/scalef.o }
-      - { path: asm/cn/libultra/translate.o }
-      - { path: asm/cn/libultra/translatef.o }
-      - { path: asm/cn/libultra/conteepprobe.o }
-      - { path: asm/cn/libultra/conteeplongwrite.o }
-      - { path: asm/cn/libultra/conteeplongread.o }
-      - { path: asm/cn/data/libultra/os/exceptasm.rodata.o }
-      - { path: asm/cn/libultra/os/exceptasm.o }
-      - { path: asm/cn/libultra/interrupt.o }
-      - { path: asm/cn/data/libultra/setintmask.rodata.o }
-      - { path: asm/cn/libultra/setintmask.o }
-      - { path: asm/cn/libultra/io/pimgr.o }
-      - { path: asm/cn/libultra/epirawdma.o }
-      - { path: asm/cn/libultra/io/epiwrite.o }
-      - { path: asm/cn/libultra/epidma.o }
-      - { path: asm/cn/libultra/epilinkhandle.o }
-      - { path: asm/cn/libultra/cartrominit.o }
-      - { path: asm/cn/data/libultra/devmgr.rodata.o }
-      - { path: asm/cn/libultra/devmgr.o }
-      - { path: asm/cn/libultra/io/piacs.o }
-      - { path: asm/cn/libultra/skapi.o }
-      - { path: asm/cn/libultra/common.o }
-      - { path: asm/cn/libultra/nops_00B250.o }
-      - { path: asm/cn/libultra/os/initialize.o }
-      - { path: asm/cn/libultra/ai.o }
-      - { path: asm/cn/data/libultra/drvrNew.rodata.o }
-      - { path: asm/cn/libultra/drvrNew.o }
-      - { path: asm/cn/libultra/load.o }
-      - { path: asm/cn/libultra/auxbus.o }
-      - { path: asm/cn/libultra/filter.o }
-      - { path: asm/cn/libultra/mainbus.o }
-      - { path: asm/cn/data/libultra/resample.rodata.o }
-      - { path: asm/cn/libultra/resample.o }
-      - { path: asm/cn/data/libultra/reverb.rodata.o }
-      - { path: asm/cn/libultra/reverb.o }
-      - { path: asm/cn/libultra/save.o }
-      - { path: asm/cn/libultra/heapalloc.o }
-      - { path: asm/cn/libultra/copy.o }
-      - { path: asm/cn/libultra/invalicache.o }
-      - { path: asm/cn/libultra/writebackdcache.o }
-      - { path: asm/cn/libultra/os/jammesg.o }
-      - { path: asm/cn/libultra/os/sendmesg.o }
-      - { path: asm/cn/libultra/os/seteventmesg.o }
-      - { path: asm/cn/libultra/dpsetnextbuf.o }
-      - { path: asm/cn/libultra/getcause.o }
-      - { path: asm/cn/libultra/getsr.o }
-      - { path: asm/cn/libultra/setfpccsr.o }
-      - { path: asm/cn/libultra/setsr.o }
-      - { path: asm/cn/libultra/setwatchlo.o }
-      - { path: asm/cn/libultra/reg/_getcount.o }
-      - { path: asm/cn/libultra/reg/_setcompare.o }
-      - { path: asm/cn/libultra/sp.o }
-      - { path: asm/cn/libultra/spgetstat.o }
-      - { path: asm/cn/libultra/spsetstat.o }
-      - { path: asm/cn/libultra/spsetpc.o }
-      - { path: asm/cn/libultra/sprawdma.o }
-      - { path: asm/cn/libultra/io/sirawread.o }
-      - { path: asm/cn/libultra/io/sirawwrite.o }
-      - { path: asm/cn/libultra/os/destroythread.o }
-      - { path: asm/cn/libultra/os/getthreadid.o }
-      - { path: asm/cn/libultra/os/setthreadpri.o }
-      - { path: asm/cn/libultra/os/yieldthread.o }
-      - { path: asm/cn/libultra/maptlbrdb.o }
-      - { path: asm/cn/libultra/unmaptlball.o }
-      - { path: asm/cn/libultra/vi.o }
-      - { path: asm/cn/libultra/io/vigetcurrcontext.o }
-      - { path: asm/cn/libultra/conteepread.o }
-      - { path: asm/cn/libultra/conteepwrite.o }
-      - { path: asm/cn/libultra/os/setglobalintmask.o }
-      - { path: asm/cn/libultra/os/resetglobalintmask.o }
-      - { path: asm/cn/libultra/pirawdma.o }
-      - { path: asm/cn/libultra/pigetcmdq.o }
-      - { path: asm/cn/libultra/epirawread.o }
-      - { path: asm/cn/libultra/epirawwrite.o }
-      - { path: asm/cn/libultra/dp.o }
-      - { path: asm/cn/libultra/si.o }
-      - { path: asm/cn/data/libultra/libm_vals.rodata.o }
+
+      # Start of libultra
+      - { path: "asm/{version}/libultra/aigetlen.o" }
+      - { path: "asm/{version}/libultra/aigetstat.o" }
+      - { path: "asm/{version}/libultra/aisetfreq.o" }
+      - { path: "asm/{version}/libultra/aisetnextbuf.o" }
+      - { path: "asm/{version}/data/libultra/env.rodata.o" }
+      - { path: "asm/{version}/libultra/env.o" }
+      - { path: "asm/{version}/libultra/sl.o" }
+      - { path: "asm/{version}/libultra/heapinit.o" }
+      - { path: "asm/{version}/libultra/synthesizer.o" }
+      - { path: "asm/{version}/libultra/syndelete.o" }
+      - { path: "asm/{version}/libultra/synaddplayer.o" }
+      - { path: "asm/{version}/libultra/synallocvoice.o" }
+      - { path: "asm/{version}/libultra/synstopvoice.o" }
+      - { path: "asm/{version}/libultra/synstartvoice.o" }
+      - { path: "asm/{version}/libultra/synsetpitch.o" }
+      - { path: "asm/{version}/libultra/synsetvol.o" }
+      - { path: "asm/{version}/libultra/synsetfxmix.o" }
+      - { path: "asm/{version}/libultra/synsetpan.o" }
+      - { path: "asm/{version}/libultra/synallocfx.o" }
+      - { path: "asm/{version}/libultra/invaldcache.o" }
+      - { path: "asm/{version}/libultra/writebackdcacheall.o" }
+      - { path: "asm/{version}/libultra/contquery.o" }
+      - { path: "asm/{version}/libultra/contreaddata.o" }
+      - { path: "asm/{version}/libultra/controller.o" }
+      - { path: "asm/{version}/libultra/contsetch.o" }
+      - { path: "asm/{version}/libultra/os/virtualtophysical.o" }
+      - { path: "asm/{version}/libultra/sqrtf.o" }
+      - { path: "asm/{version}/data/libultra/cosf.rodata.o" }
+      - { path: "asm/{version}/libultra/cosf.o" }
+      - { path: "asm/{version}/libultra/ortho.o" }
+      - { path: "asm/{version}/libultra/perspective.o" }
+      - { path: "asm/{version}/libultra/rotateRPY.o" }
+      - { path: "asm/{version}/data/libultra/sinf.rodata.o" }
+      - { path: "asm/{version}/libultra/sinf.o" }
+      - { path: "asm/{version}/libultra/sins.o" }
+      - { path: "asm/{version}/libultra/bcmp.o" }
+      - { path: "asm/{version}/libultra/bcopy.o" }
+      - { path: "asm/{version}/libultra/bzero.o" }
+      - { path: "asm/{version}/libultra/string.o" }
+      - { path: "asm/{version}/libultra/os/createmesgqueue.o" }
+      - { path: "asm/{version}/libultra/os/recvmesg.o" }
+      - { path: "asm/{version}/libultra/sptask.o" }
+      - { path: "asm/{version}/libultra/sptaskyield.o" }
+      - { path: "asm/{version}/libultra/sptaskyielded.o" }
+      - { path: "asm/{version}/data/libultra/sched.rodata.o" }
+      - { path: "asm/{version}/libultra/sched.o" }
+      - { path: "asm/{version}/libultra/sirawdma.o" }
+      - { path: "asm/{version}/libultra/io/siacs.o" }
+      - { path: "asm/{version}/libultra/os/createthread.o" }
+      - { path: "asm/{version}/libultra/os/startthread.o" }
+      - { path: "asm/{version}/libultra/os/stopthread.o" }
+      - { path: "asm/{version}/libultra/os/thread.o" }
+      - { path: "asm/{version}/libultra/os/gettime.o" }
+      - { path: "asm/{version}/libultra/os/settime.o" }
+      - { path: "asm/{version}/libultra/os/settimer.o" }
+      - { path: "asm/{version}/libultra/os/timerintr.o" }
+      - { path: "asm/{version}/libultra/probetlb.o" }
+      - { path: "asm/{version}/libultra/io/vigetcurrframebuf.o" }
+      - { path: "asm/{version}/libultra/io/vigetnextframebuf.o" }
+      - { path: "asm/{version}/libultra/io/vimgr.o" }
+      - { path: "asm/{version}/libultra/visetevent.o" }
+      - { path: "asm/{version}/libultra/visetmode.o" }
+      - { path: "asm/{version}/libultra/visetspecial.o" }
+      - { path: "asm/{version}/libultra/visetyscale.o" }
+      - { path: "asm/{version}/libultra/viswapbuf.o" }
+      - { path: "asm/{version}/libultra/viswapcontext.o" }
+      - { path: "asm/{version}/libultra/viblack.o" }
+      - { path: "asm/{version}/libultra/mtxident.o" }
+      - { path: "asm/{version}/libultra/mtxidentf.o" }
+      - { path: "asm/{version}/libultra/mtxf2l.o" }
+      - { path: "asm/{version}/libultra/mtxl2f.o" }
+      - { path: "asm/{version}/libultra/mtxcatf.o" }
+      - { path: "asm/{version}/libultra/scale.o" }
+      - { path: "asm/{version}/libultra/scalef.o" }
+      - { path: "asm/{version}/libultra/translate.o" }
+      - { path: "asm/{version}/libultra/translatef.o" }
+      - { path: "asm/{version}/libultra/conteepprobe.o" }
+      - { path: "asm/{version}/libultra/conteeplongwrite.o" }
+      - { path: "asm/{version}/libultra/conteeplongread.o" }
+      - { path: "asm/{version}/data/libultra/os/exceptasm.rodata.o" }
+      - { path: "asm/{version}/libultra/os/exceptasm.o" }
+      - { path: "asm/{version}/libultra/interrupt.o" }
+      - { path: "asm/{version}/data/libultra/setintmask.rodata.o" }
+      - { path: "asm/{version}/libultra/setintmask.o" }
+      - { path: "asm/{version}/libultra/io/pimgr.o" }
+      - { path: "asm/{version}/libultra/epirawdma.o" }
+      - { path: "asm/{version}/libultra/io/epiwrite.o" }
+      - { path: "asm/{version}/libultra/epidma.o" }
+      - { path: "asm/{version}/libultra/epilinkhandle.o" }
+      - { path: "asm/{version}/libultra/cartrominit.o" }
+      - { path: "asm/{version}/data/libultra/devmgr.rodata.o" }
+      - { path: "asm/{version}/libultra/devmgr.o" }
+      - { path: "asm/{version}/libultra/io/piacs.o" }
+      - { path: "asm/{version}/libultra/skapi.o" }
+      - { path: "asm/{version}/libultra/common.o" }
+      - { path: "asm/{version}/libultra/nops_00B250.o" }
+      - { path: "asm/{version}/libultra/os/initialize.o" }
+      - { path: "asm/{version}/libultra/ai.o" }
+      - { path: "asm/{version}/data/libultra/drvrNew.rodata.o" }
+      - { path: "asm/{version}/libultra/drvrNew.o" }
+      - { path: "asm/{version}/libultra/load.o" }
+      - { path: "asm/{version}/libultra/auxbus.o" }
+      - { path: "asm/{version}/libultra/filter.o" }
+      - { path: "asm/{version}/libultra/mainbus.o" }
+      - { path: "asm/{version}/data/libultra/resample.rodata.o" }
+      - { path: "asm/{version}/libultra/resample.o" }
+      - { path: "asm/{version}/data/libultra/reverb.rodata.o" }
+      - { path: "asm/{version}/libultra/reverb.o" }
+      - { path: "asm/{version}/libultra/save.o" }
+      - { path: "asm/{version}/libultra/heapalloc.o" }
+      - { path: "asm/{version}/libultra/copy.o" }
+      - { path: "asm/{version}/libultra/invalicache.o" }
+      - { path: "asm/{version}/libultra/writebackdcache.o" }
+      - { path: "asm/{version}/libultra/os/jammesg.o" }
+      - { path: "asm/{version}/libultra/os/sendmesg.o" }
+      - { path: "asm/{version}/libultra/os/seteventmesg.o" }
+      - { path: "asm/{version}/libultra/dpsetnextbuf.o" }
+      - { path: "asm/{version}/libultra/getcause.o" }
+      - { path: "asm/{version}/libultra/getsr.o" }
+      - { path: "asm/{version}/libultra/setfpccsr.o" }
+      - { path: "asm/{version}/libultra/setsr.o" }
+      - { path: "asm/{version}/libultra/setwatchlo.o" }
+      - { path: "asm/{version}/libultra/reg/_getcount.o" }
+      - { path: "asm/{version}/libultra/reg/_setcompare.o" }
+      - { path: "asm/{version}/libultra/sp.o" }
+      - { path: "asm/{version}/libultra/spgetstat.o" }
+      - { path: "asm/{version}/libultra/spsetstat.o" }
+      - { path: "asm/{version}/libultra/spsetpc.o" }
+      - { path: "asm/{version}/libultra/sprawdma.o" }
+      - { path: "asm/{version}/libultra/io/sirawread.o" }
+      - { path: "asm/{version}/libultra/io/sirawwrite.o" }
+      - { path: "asm/{version}/libultra/os/destroythread.o" }
+      - { path: "asm/{version}/libultra/os/getthreadid.o" }
+      - { path: "asm/{version}/libultra/os/setthreadpri.o" }
+      - { path: "asm/{version}/libultra/os/yieldthread.o" }
+      - { path: "asm/{version}/libultra/maptlbrdb.o" }
+      - { path: "asm/{version}/libultra/unmaptlball.o" }
+      - { path: "asm/{version}/libultra/vi.o" }
+      - { path: "asm/{version}/libultra/io/vigetcurrcontext.o" }
+      - { path: "asm/{version}/libultra/conteepread.o" }
+      - { path: "asm/{version}/libultra/conteepwrite.o" }
+      - { path: "asm/{version}/libultra/os/setglobalintmask.o" }
+      - { path: "asm/{version}/libultra/os/resetglobalintmask.o" }
+      - { path: "asm/{version}/libultra/pirawdma.o" }
+      - { path: "asm/{version}/libultra/pigetcmdq.o" }
+      - { path: "asm/{version}/libultra/epirawread.o" }
+      - { path: "asm/{version}/libultra/epirawwrite.o" }
+      - { path: "asm/{version}/libultra/dp.o" }
+      - { path: "asm/{version}/libultra/si.o" }
+      - { path: "asm/{version}/data/libultra/libm_vals.rodata.o" }
+      - { path: "asm/{version}/data/boot/010100.data.o" }
+      - { path: "asm/{version}/data/boot/80019D50.bss.o" }
+      # end of libultra
+
+      # start of libegcs
       - { path: src/libegcs/libgcc2.o }
+      # end of libegcs
+
+      # start of libnustd
       - { path: src/libnustd/strcpy.o }
       - { path: src/libnustd/modf.o }
-      - { path: asm/cn/data/boot/80019D50.bss.o }
       - { path: src/libnustd/srand.o }
       - { path: src/libnustd/fmod.o }
       - { path: src/libnustd/memmove.o }
-      - { path: asm/cn/data/boot/010100.data.o }
       - { path: src/libnustd/ctype.o }
-      - { path: asm/cn/data/boot/8001C1B0.bss.o }
+      # end of libnustd
+
+      - { path: "asm/{version}/data/boot/8001C1B0.bss.o" }
 
   - name: dma_table
-    section_end_align: 0x10
     files:
       - { path: src/dma_table/dma_table.o }
 
   - name: main_segment
-    section_end_align: 0x10
     files:
+      - { path: "asm/{version}/data/main_segment/800CA1C0.bss.o" }
       - { path: src/main_segment/main.o }
       - { path: src/main_segment/nnsched.o }
       - { path: src/main_segment/joy.o }
-      - { path: asm/cn/data/main_segment/800CA1C0.bss.o }
+
       - { path: src/main_segment/audio/sound.o }
+
       - { path: src/main_segment/graphic.o }
       - { path: src/main_segment/graphics/static.o }
+
       - { path: src/main_segment/audio/music_driver.o }
+
       - { path: src/main_segment/main1x.o }
+
       - { path: src/main_segment/vr_init.o }
+
       - { path: src/main_segment/aiset.o }
       - { path: src/main_segment/record.o }
       - { path: src/main_segment/unused/020D10.o }
@@ -294,6 +318,7 @@ segments:
       - { path: src/main_segment/066580.o }
       - { path: src/main_segment/066840.o }
       - { path: src/main_segment/unused/055C40.o }
+
       - { path: lib/libmus/src/player.o }
       - { path: lib/libmus/src/player_fx.o }
       - { path: lib/libmus/src/aud_dma.o }
@@ -301,166 +326,165 @@ segments:
       - { path: lib/libmus/src/aud_thread.o }
       - { path: lib/libmus/src/lib_memory.o }
       - { path: lib/libmus/src/aud_samples.o }
+
       - { path: src/rsp/rspboot.o }
       - { path: src/rsp/aspMain.o, section_order: { .data: .rodata } }
       - { path: src/rsp/f3dex2.o, section_order: { .data: .rodata } }
       - { path: src/rsp/s2dex.o, section_order: { .data: .rodata } }
-      - { path: src/rsp/aspMain.o, section_order: { .data: .rodata } }
-      - { path: src/rsp/f3dex2.o, section_order: { .data: .rodata } }
-      - { path: src/rsp/s2dex.o, section_order: { .data: .rodata } }
-      - { path: asm/cn/data/main_segment/801007E0.bss.o }
+      # - { path: src/rsp/aspMain.o, section_order: { .data: .rodata } }
+      # - { path: src/rsp/f3dex2.o, section_order: { .data: .rodata } }
+      # - { path: src/rsp/s2dex.o, section_order: { .data: .rodata } }
+
+      - { path: "asm/{version}/data/main_segment/801007E0.bss.o" }
 
   - name: buffer1
-    section_end_align: 0x10
     files:
       - { path: src/buffers/buffer1.o }
 
   - name: buffer2
     fixed_vram: 0x80205000
-    section_end_align: 0x10
     files:
       - { path: src/buffers/buffer2.o }
 
   - name: framebuffer
     fixed_vram: 0x803B5000
-    section_end_align: 0x10
     files:
       - { path: src/buffers/framebuffer.o }
 
   - name: n64_wave_tables
     section_end_align: null
     files:
-      - { path: asm/cn/data/n64_wave_tables.o }
+      - { path: "asm/{version}/data/n64_wave_tables.o" }
 
   - name: n64_ptr_tables_v2
     section_end_align: null
     files:
-      - { path: asm/cn/data/n64_ptr_tables_v2.o }
+      - { path: "asm/{version}/data/n64_ptr_tables_v2.o" }
 
   - name: fxbank
     section_end_align: null
     files:
-      - { path: asm/cn/data/fxbank.o }
+      - { path: "asm/{version}/data/fxbank.o" }
 
   - name: segment_172D60
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_172D60.o }
+      - { path: "asm/{version}/data/segment_172D60.o" }
 
   - name: segment_1750C0
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_1750C0.o }
+      - { path: "asm/{version}/data/segment_1750C0.o" }
 
   - name: segment_177420
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_177420.o }
+      - { path: "asm/{version}/data/segment_177420.o" }
 
   - name: segment_179620
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_179620.o }
+      - { path: "asm/{version}/data/segment_179620.o" }
 
   - name: segment_17B790
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_17B790.o }
+      - { path: "asm/{version}/data/segment_17B790.o" }
 
   - name: segment_17C1E0
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_17C1E0.o }
+      - { path: "asm/{version}/data/segment_17C1E0.o" }
 
   - name: segment_17D130
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_17D130.o }
+      - { path: "asm/{version}/data/segment_17D130.o" }
 
   - name: segment_17E090
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_17E090.o }
+      - { path: "asm/{version}/data/segment_17E090.o" }
 
   - name: segment_181840
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_181840.o }
+      - { path: "asm/{version}/data/segment_181840.o" }
 
   - name: segment_184FF0
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_184FF0.o }
+      - { path: "asm/{version}/data/segment_184FF0.o" }
 
   - name: segment_186FF0
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_186FF0.o }
+      - { path: "asm/{version}/data/segment_186FF0.o" }
 
   - name: segment_188FF0
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_188FF0.o }
+      - { path: "asm/{version}/data/segment_188FF0.o" }
 
   - name: segment_189D40
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_189D40.o }
+      - { path: "asm/{version}/data/segment_189D40.o" }
 
   - name: segment_18CB40
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_18CB40.o }
+      - { path: "asm/{version}/data/segment_18CB40.o" }
 
   - name: segment_18DB90
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_18DB90.o }
+      - { path: "asm/{version}/data/segment_18DB90.o" }
 
   - name: segment_18F160
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_18F160.o }
+      - { path: "asm/{version}/data/segment_18F160.o" }
 
   - name: segment_1906E0
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_1906E0.o }
+      - { path: "asm/{version}/data/segment_1906E0.o" }
 
   - name: segment_1911D0
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_1911D0.o }
+      - { path: "asm/{version}/data/segment_1911D0.o" }
 
   - name: segment_1936C0
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_1936C0.o }
+      - { path: "asm/{version}/data/segment_1936C0.o" }
 
   - name: segment_1937F0
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_1937F0.o }
+      - { path: "asm/{version}/data/segment_1937F0.o" }
 
   - name: segment_194070
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_194070.o }
+      - { path: "asm/{version}/data/segment_194070.o" }
 
   - name: segment_194150
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_194150.o }
+      - { path: "asm/{version}/data/segment_194150.o" }
 
   - name: segment_194910
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_194910.o }
+      - { path: "asm/{version}/data/segment_194910.o" }
 
   - name: segment_195290
     section_end_align: null
     files:
-      - { path: asm/cn/data/segment_195290.o }
+      - { path: "asm/{version}/data/segment_195290.o" }
 
   - name: segment_game_etc
     fixed_vram: 0x00000000
@@ -470,341 +494,284 @@ segments:
 
   - name: segment_menu_bg
     fixed_vram: 0x05000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu_bg/menu_bg.o }
 
   - name: segment_menu_bg2
     fixed_vram: 0x05000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu_bg/menu_bg2.o }
 
   - name: segment_coffee01
     fixed_vram: 0x05000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/coffee/coffee01.o }
 
   - name: segment_title_all
     fixed_vram: 0x05000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/title/title_all.o }
 
   - name: segment_title_bmp
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/title/title_bmp.o }
 
   - name: segment_waku
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/waku/waku.o }
 
   - name: segment_waku2
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/waku/waku2.o }
 
   - name: segment_story_bg01
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/story/bg01.o }
 
   - name: segment_story_bg02
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/story/bg02.o }
 
   - name: segment_story_bg03
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/story/bg03.o }
 
   - name: segment_story_bg04
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/story/bg04.o }
 
   - name: segment_story_bg05
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/story/bg05.o }
 
   - name: segment_story_bg07
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/story/bg07.o }
 
   - name: segment_story_bg08
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/story/bg08.o }
 
   - name: segment_story_bg09
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/story/bg09.o }
 
   - name: segment_story_bg10
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/story/bg10.o }
 
   - name: segment_story_bg11
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/story/bg11.o }
 
   - name: segment_menu_char
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_char.o }
 
   - name: segment_menu_common
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_common.o }
 
   - name: segment_menu_level
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_level.o }
 
   - name: segment_menu_main
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_main.o }
 
   - name: segment_menu_name
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_name.o }
 
   - name: segment_menu_p2
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_p2.o }
 
   - name: segment_menu_p4
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_p4.o }
 
   - name: segment_menu_rank
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_rank.o }
 
   - name: segment_menu_setup
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_setup.o }
 
   - name: segment_menu_story
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_story.o }
 
   - name: segment_menu_cont
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_cont.o }
 
   - name: segment_menu_kasa
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/menu/menu_kasa.o }
 
   - name: segment_game_al
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/game/game_al.o }
 
   - name: segment_game_p1
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/game/game_p1.o }
 
   - name: segment_game_p2
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/game/game_p2.o }
 
   - name: segment_game_p4
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/game/game_p4.o }
 
   - name: segment_game_ls
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/game/game_ls.o }
 
   - name: segment_game_item
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/game/game_item.o }
 
   - name: segment_anime_a
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_a.o }
 
   - name: segment_anime_b
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_b.o }
 
   - name: segment_anime_c
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_c.o }
 
   - name: segment_anime_d
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_d.o }
 
   - name: segment_anime_e
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_e.o }
 
   - name: segment_anime_f
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_f.o }
 
   - name: segment_anime_g
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_g.o }
 
   - name: segment_anime_h
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_h.o }
 
   - name: segment_anime_i
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_i.o }
 
   - name: segment_anime_j
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_j.o }
 
   - name: segment_anime_k
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_k.o }
 
   - name: segment_anime_l
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_l.o }
 
   - name: segment_anime_m
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_m.o }
 
   - name: segment_anime_n
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_n.o }
 
   - name: segment_anime_o
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_o.o }
 
   - name: segment_anime_mario
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_mario.o }
 
   - name: segment_anime_virus_b
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_virus_b.o }
 
   - name: segment_anime_virus_r
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_virus_r.o }
 
   - name: segment_anime_virus_y
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_virus_y.o }
 
   - name: segment_anime_smog
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/anime/anime_smog.o }
 
   - name: segment_tutorial_data
     fixed_vram: 0x00000000
-    section_end_align: 0x10
     files:
       - { path: src/assets/tutorial/tutorial_kasa.o }
 
   - name: _65CF00
-    section_end_align: null
     files:
-      - { path: asm/cn/data/65CF00.o }
+      - { path: "asm/{version}/data/65CF00.o" }
