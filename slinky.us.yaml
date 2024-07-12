@@ -97,188 +97,192 @@ segments:
 
       - { path: src/boot/rom_offsets.o }
 
-      # Start of libultra
-      - { path: lib/ultralib/src/io/conteepprobe.o }
-      - { path: lib/ultralib/src/io/conteeplongwrite.o }
-      - { path: lib/ultralib/src/io/conteeplongread.o }
-      - { path: lib/ultralib/src/io/pimgr.o }
-      - { path: lib/ultralib/src/io/epirawdma.o }
-      - { path: lib/ultralib/src/io/epidma.o }
-      - { path: lib/ultralib/src/io/cartrominit.o }
-      - { path: lib/ultralib/src/io/devmgr.o }
-      - { path: lib/ultralib/src/io/piacs.o }
-      - { path: lib/ultralib/src/io/pidma.o }
-      - { path: lib/ultralib/src/io/aigetlen.o }
-      - { path: lib/ultralib/src/io/aigetstat.o }
-      - { path: lib/ultralib/src/io/aisetfreq.o }
-      - { path: lib/ultralib/src/io/aisetnextbuf.o }
+      # libultra
+      - kind: group
+        dir: lib/ultralib/src
+        files:
+          - { path: io/conteepprobe.o }
+          - { path: io/conteeplongwrite.o }
+          - { path: io/conteeplongread.o }
+          - { path: io/pimgr.o }
+          - { path: io/epirawdma.o }
+          - { path: io/epidma.o }
+          - { path: io/cartrominit.o }
+          - { path: io/devmgr.o }
+          - { path: io/piacs.o }
+          - { path: io/pidma.o }
+          - { path: io/aigetlen.o }
+          - { path: io/aigetstat.o }
+          - { path: io/aisetfreq.o }
+          - { path: io/aisetnextbuf.o }
 
-      - { path: lib/ultralib/src/audio/env.o }
-      - { path: lib/ultralib/src/audio/sl.o }
-      - { path: lib/ultralib/src/audio/heapinit.o }
-      - { path: lib/ultralib/src/audio/synthesizer.o }
-      - { path: lib/ultralib/src/audio/syndelete.o }
-      - { path: lib/ultralib/src/audio/synaddplayer.o }
-      - { path: lib/ultralib/src/audio/synallocvoice.o }
-      - { path: lib/ultralib/src/audio/synstopvoice.o }
-      - { path: lib/ultralib/src/audio/synstartvoice.o }
-      - { path: lib/ultralib/src/audio/synsetpitch.o }
-      - { path: lib/ultralib/src/audio/synsetvol.o }
-      - { path: lib/ultralib/src/audio/synsetfxmix.o }
-      - { path: lib/ultralib/src/audio/synsetpan.o }
-      - { path: lib/ultralib/src/audio/synallocfx.o }
+          - { path: audio/env.o }
+          - { path: audio/sl.o }
+          - { path: audio/heapinit.o }
+          - { path: audio/synthesizer.o }
+          - { path: audio/syndelete.o }
+          - { path: audio/synaddplayer.o }
+          - { path: audio/synallocvoice.o }
+          - { path: audio/synstopvoice.o }
+          - { path: audio/synstartvoice.o }
+          - { path: audio/synsetpitch.o }
+          - { path: audio/synsetvol.o }
+          - { path: audio/synsetfxmix.o }
+          - { path: audio/synsetpan.o }
+          - { path: audio/synallocfx.o }
 
-      - { path: lib/ultralib/src/os/invaldcache.o }
-      - { path: lib/ultralib/src/os/writebackdcacheall.o }
+          - { path: os/invaldcache.o }
+          - { path: os/writebackdcacheall.o }
 
-      - { path: lib/ultralib/src/io/contquery.o }
-      - { path: lib/ultralib/src/io/contreaddata.o }
-      - { path: lib/ultralib/src/io/controller.o }
-      - { path: lib/ultralib/src/io/contsetch.o }
+          - { path: io/contquery.o }
+          - { path: io/contreaddata.o }
+          - { path: io/controller.o }
+          - { path: io/contsetch.o }
 
-      - { path: lib/ultralib/src/os/virtualtophysical.o }
+          - { path: os/virtualtophysical.o }
 
-      - { path: lib/ultralib/src/gu/sqrtf.o }
-      - { path: lib/ultralib/src/gu/cosf.o }
-      - { path: lib/ultralib/src/gu/ortho.o }
-      - { path: lib/ultralib/src/gu/perspective.o }
-      - { path: lib/ultralib/src/gu/rotaterpy.o }
-      - { path: lib/ultralib/src/gu/sinf.o }
-      - { path: lib/ultralib/src/gu/sins.o }
+          - { path: gu/sqrtf.o }
+          - { path: gu/cosf.o }
+          - { path: gu/ortho.o }
+          - { path: gu/perspective.o }
+          - { path: gu/rotaterpy.o }
+          - { path: gu/sinf.o }
+          - { path: gu/sins.o }
 
-      - { path: lib/ultralib/src/libc/bcmp.o }
-      - { path: lib/ultralib/src/libc/bcopy.o }
-      - { path: lib/ultralib/src/libc/bzero.o }
-      - { path: lib/ultralib/src/libc/string.o }
+          - { path: libc/bcmp.o }
+          - { path: libc/bcopy.o }
+          - { path: libc/bzero.o }
+          - { path: libc/string.o }
 
-      - { path: lib/ultralib/src/os/createmesgqueue.o }
-      - { path: lib/ultralib/src/os/jammesg.o }
-      - { path: lib/ultralib/src/os/recvmesg.o }
-      - { path: lib/ultralib/src/os/sendmesg.o }
-      - { path: lib/ultralib/src/os/seteventmesg.o }
+          - { path: os/createmesgqueue.o }
+          - { path: os/jammesg.o }
+          - { path: os/recvmesg.o }
+          - { path: os/sendmesg.o }
+          - { path: os/seteventmesg.o }
 
-      - { path: lib/ultralib/src/io/sptask.o }
-      - { path: lib/ultralib/src/io/sptaskyield.o }
-      - { path: lib/ultralib/src/io/sptaskyielded.o }
+          - { path: io/sptask.o }
+          - { path: io/sptaskyield.o }
+          - { path: io/sptaskyielded.o }
 
-      - { path: lib/ultralib/src/sched/sched.o }
+          - { path: sched/sched.o }
 
-      - { path: lib/ultralib/src/io/sirawdma.o }
-      - { path: lib/ultralib/src/io/siacs.o }
+          - { path: io/sirawdma.o }
+          - { path: io/siacs.o }
 
-      - { path: lib/ultralib/src/os/createthread.o }
-      - { path: lib/ultralib/src/os/getthreadpri.o }
-      - { path: lib/ultralib/src/os/setthreadpri.o }
-      - { path: lib/ultralib/src/os/startthread.o }
-      - { path: lib/ultralib/src/os/stopthread.o }
-      - { path: lib/ultralib/src/os/thread.o }
-      - { path: lib/ultralib/src/os/yieldthread.o }
-      - { path: lib/ultralib/src/os/gettime.o }
-      - { path: lib/ultralib/src/os/settime.o }
-      - { path: lib/ultralib/src/os/settimer.o }
-      - { path: lib/ultralib/src/os/timerintr.o }
-      - { path: lib/ultralib/src/os/probetlb.o }
+          - { path: os/createthread.o }
+          - { path: os/getthreadpri.o }
+          - { path: os/setthreadpri.o }
+          - { path: os/startthread.o }
+          - { path: os/stopthread.o }
+          - { path: os/thread.o }
+          - { path: os/yieldthread.o }
+          - { path: os/gettime.o }
+          - { path: os/settime.o }
+          - { path: os/settimer.o }
+          - { path: os/timerintr.o }
+          - { path: os/probetlb.o }
 
-      - { path: lib/ultralib/src/io/vigetcurrframebuf.o }
-      - { path: lib/ultralib/src/io/vigetnextframebuf.o }
-      - { path: lib/ultralib/src/io/vimgr.o }
-      - { path: lib/ultralib/src/io/vitbl.o }
-      - { path: lib/ultralib/src/io/visetevent.o }
-      - { path: lib/ultralib/src/io/visetmode.o }
-      - { path: lib/ultralib/src/io/visetspecial.o }
-      - { path: lib/ultralib/src/io/visetyscale.o }
-      - { path: lib/ultralib/src/io/viswapbuf.o }
-      - { path: lib/ultralib/src/io/viswapcontext.o }
-      - { path: lib/ultralib/src/io/viblack.o }
+          - { path: io/vigetcurrframebuf.o }
+          - { path: io/vigetnextframebuf.o }
+          - { path: io/vimgr.o }
+          - { path: io/vitbl.o }
+          - { path: io/visetevent.o }
+          - { path: io/visetmode.o }
+          - { path: io/visetspecial.o }
+          - { path: io/visetyscale.o }
+          - { path: io/viswapbuf.o }
+          - { path: io/viswapcontext.o }
+          - { path: io/viblack.o }
 
-      - { path: lib/ultralib/src/mgu/mtxident.o }
-      - { path: lib/ultralib/src/mgu/mtxidentf.o }
-      - { path: lib/ultralib/src/mgu/mtxf2l.o }
-      - { path: lib/ultralib/src/mgu/mtxl2f.o }
-      - { path: lib/ultralib/src/mgu/mtxcatf.o }
-      - { path: lib/ultralib/src/mgu/scale.o }
-      - { path: lib/ultralib/src/mgu/scalef.o }
-      - { path: lib/ultralib/src/mgu/translate.o }
-      - { path: lib/ultralib/src/mgu/translatef.o }
+          - { path: mgu/mtxident.o }
+          - { path: mgu/mtxidentf.o }
+          - { path: mgu/mtxf2l.o }
+          - { path: mgu/mtxl2f.o }
+          - { path: mgu/mtxcatf.o }
+          - { path: mgu/scale.o }
+          - { path: mgu/scalef.o }
+          - { path: mgu/translate.o }
+          - { path: mgu/translatef.o }
 
-      - { path: lib/ultralib/src/os/initialize.o }
+          - { path: os/initialize.o }
 
-      - { path: lib/ultralib/src/io/conteepread.o }
-      - { path: lib/ultralib/src/io/conteepwrite.o }
+          - { path: io/conteepread.o }
+          - { path: io/conteepwrite.o }
 
-      - { path: lib/ultralib/src/os/exceptasm.o }
-      - { path: lib/ultralib/src/os/interrupt.o }
-      - { path: lib/ultralib/src/os/setintmask.o }
-      - { path: lib/ultralib/src/os/setglobalintmask.o }
-      - { path: lib/ultralib/src/os/resetglobalintmask.o }
+          - { path: os/exceptasm.o }
+          - { path: os/interrupt.o }
+          - { path: os/setintmask.o }
+          - { path: os/setglobalintmask.o }
+          - { path: os/resetglobalintmask.o }
 
-      - { path: lib/ultralib/src/io/pirawdma.o }
-      - { path: lib/ultralib/src/io/pigetcmdq.o }
-      - { path: lib/ultralib/src/io/epirawread.o }
-      - { path: lib/ultralib/src/io/epirawwrite.o }
-      - { path: lib/ultralib/src/io/ai.o }
+          - { path: io/pirawdma.o }
+          - { path: io/pigetcmdq.o }
+          - { path: io/epirawread.o }
+          - { path: io/epirawwrite.o }
+          - { path: io/ai.o }
 
-      - { path: lib/ultralib/src/audio/drvrnew.o }
-      - { path: lib/ultralib/src/audio/load.o }
-      - { path: lib/ultralib/src/audio/auxbus.o }
-      - { path: lib/ultralib/src/audio/filter.o }
-      - { path: lib/ultralib/src/audio/mainbus.o }
-      - { path: lib/ultralib/src/audio/resample.o }
-      - { path: lib/ultralib/src/audio/reverb.o }
-      - { path: lib/ultralib/src/audio/save.o }
-      - { path: lib/ultralib/src/audio/heapalloc.o }
-      - { path: lib/ultralib/src/audio/copy.o }
+          - { path: audio/drvrnew.o }
+          - { path: audio/load.o }
+          - { path: audio/auxbus.o }
+          - { path: audio/filter.o }
+          - { path: audio/mainbus.o }
+          - { path: audio/resample.o }
+          - { path: audio/reverb.o }
+          - { path: audio/save.o }
+          - { path: audio/heapalloc.o }
+          - { path: audio/copy.o }
 
-      - { path: lib/ultralib/src/os/invalicache.o }
-      - { path: lib/ultralib/src/os/writebackdcache.o }
+          - { path: os/invalicache.o }
+          - { path: os/writebackdcache.o }
 
-      - { path: lib/ultralib/src/io/dpsetnextbuf.o }
+          - { path: io/dpsetnextbuf.o }
 
-      - { path: lib/ultralib/src/os/getcause.o }
-      - { path: lib/ultralib/src/os/getcount.o }
-      - { path: lib/ultralib/src/os/getsr.o }
-      - { path: lib/ultralib/src/os/setcompare.o }
-      - { path: lib/ultralib/src/os/setfpccsr.o }
-      - { path: lib/ultralib/src/os/setsr.o }
-      - { path: lib/ultralib/src/os/setwatchlo.o }
+          - { path: os/getcause.o }
+          - { path: os/getcount.o }
+          - { path: os/getsr.o }
+          - { path: os/setcompare.o }
+          - { path: os/setfpccsr.o }
+          - { path: os/setsr.o }
+          - { path: os/setwatchlo.o }
 
-      - { path: lib/ultralib/src/io/sp.o }
-      - { path: lib/ultralib/src/io/spgetstat.o }
-      - { path: lib/ultralib/src/io/spsetstat.o }
-      - { path: lib/ultralib/src/io/spsetpc.o }
-      - { path: lib/ultralib/src/io/sprawdma.o }
-      - { path: lib/ultralib/src/io/sirawread.o }
-      - { path: lib/ultralib/src/io/sirawwrite.o }
+          - { path: io/sp.o }
+          - { path: io/spgetstat.o }
+          - { path: io/spsetstat.o }
+          - { path: io/spsetpc.o }
+          - { path: io/sprawdma.o }
+          - { path: io/sirawread.o }
+          - { path: io/sirawwrite.o }
 
-      - { path: lib/ultralib/src/os/destroythread.o }
-      - { path: lib/ultralib/src/os/maptlbrdb.o }
-      - { path: lib/ultralib/src/os/unmaptlball.o }
+          - { path: os/destroythread.o }
+          - { path: os/maptlbrdb.o }
+          - { path: os/unmaptlball.o }
 
-      - { path: lib/ultralib/src/io/vi.o }
-      - { path: lib/ultralib/src/io/vigetcurrcontext.o }
+          - { path: io/vi.o }
+          - { path: io/vigetcurrcontext.o }
 
-      - { path: lib/ultralib/src/vimodes/vimodentsclan1.o }
-      - { path: lib/ultralib/src/vimodes/vimodepallan1.o }
-      - { path: lib/ultralib/src/vimodes/vimodempallan1.o }
+          - { path: vimodes/vimodentsclan1.o }
+          - { path: vimodes/vimodepallan1.o }
+          - { path: vimodes/vimodempallan1.o }
 
-      - { path: lib/ultralib/src/os/parameters.o }
+          - { path: os/parameters.o }
 
-      - { path: lib/ultralib/src/gu/libm_vals.o }
+          - { path: gu/libm_vals.o }
 
-      - { path: lib/ultralib/src/io/dp.o }
-      - { path: lib/ultralib/src/io/si.o }
-      # end of libultra
+          - { path: io/dp.o }
+          - { path: io/si.o }
 
-      # start of libkmc
-      - { path: src/libkmc/fmod.o }
-      - { path: src/libkmc/memmove.o }
-      - { path: src/libkmc/memset.o }
-      - { path: src/libkmc/modf.o }
-      - { path: src/libkmc/rand.o }
-      - { path: src/libkmc/strcpy.o }
-      - { path: src/libkmc/mmuldi3.o }
-      - { path: src/libkmc/ctype.o }
-      # end of libkmc
+      # libkmc
+      - kind: group
+        dir: src/libkmc
+        files:
+          - { path: fmod.o }
+          - { path: memmove.o }
+          - { path: memset.o }
+          - { path: modf.o }
+          - { path: rand.o }
+          - { path: strcpy.o }
+          - { path: mmuldi3.o }
+          - { path: ctype.o }
 
       - { path: "asm/{version}/data/boot/8001B640.bss.o" }
 
@@ -331,13 +335,16 @@ segments:
       - { path: src/main_segment/066840.o }
       - { path: src/main_segment/unused/055C40.o }
 
-      - { path: lib/libmus/src/player.o }
-      - { path: lib/libmus/src/player_fx.o }
-      - { path: lib/libmus/src/aud_dma.o }
-      - { path: lib/libmus/src/aud_sched.o }
-      - { path: lib/libmus/src/aud_thread.o }
-      - { path: lib/libmus/src/lib_memory.o }
-      - { path: lib/libmus/src/aud_samples.o }
+      - kind: group
+        dir: lib/libmus/src
+        files:
+          - { path: player.o }
+          - { path: player_fx.o }
+          - { path: aud_dma.o }
+          - { path: aud_sched.o }
+          - { path: aud_thread.o }
+          - { path: lib_memory.o }
+          - { path: aud_samples.o }
 
       - { path: src/rsp/rspboot.o }
       - { path: src/rsp/aspMain.o }

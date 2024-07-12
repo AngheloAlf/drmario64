@@ -88,6 +88,7 @@ segments:
     subalign: null
     files:
       - { path: "asm/{version}/data/boot/800118E0.bss.o" }
+
       - { path: src/boot/boot_main.o }
       - { path: src/boot/dmadata.o }
 
@@ -100,173 +101,178 @@ segments:
 
       - { path: src/gateway/003630.o }
 
-      # Start of libultra
-      - { path: "asm/{version}/libultra/aigetlen.o" }
-      - { path: "asm/{version}/libultra/aigetstat.o" }
-      - { path: "asm/{version}/libultra/aisetfreq.o" }
-      - { path: "asm/{version}/libultra/aisetnextbuf.o" }
-      - { path: "asm/{version}/data/libultra/env.rodata.o" }
-      - { path: "asm/{version}/libultra/env.o" }
-      - { path: "asm/{version}/libultra/sl.o" }
-      - { path: "asm/{version}/libultra/heapinit.o" }
-      - { path: "asm/{version}/libultra/synthesizer.o" }
-      - { path: "asm/{version}/libultra/syndelete.o" }
-      - { path: "asm/{version}/libultra/synaddplayer.o" }
-      - { path: "asm/{version}/libultra/synallocvoice.o" }
-      - { path: "asm/{version}/libultra/synstopvoice.o" }
-      - { path: "asm/{version}/libultra/synstartvoice.o" }
-      - { path: "asm/{version}/libultra/synsetpitch.o" }
-      - { path: "asm/{version}/libultra/synsetvol.o" }
-      - { path: "asm/{version}/libultra/synsetfxmix.o" }
-      - { path: "asm/{version}/libultra/synsetpan.o" }
-      - { path: "asm/{version}/libultra/synallocfx.o" }
-      - { path: "asm/{version}/libultra/invaldcache.o" }
-      - { path: "asm/{version}/libultra/writebackdcacheall.o" }
-      - { path: "asm/{version}/libultra/contquery.o" }
-      - { path: "asm/{version}/libultra/contreaddata.o" }
-      - { path: "asm/{version}/libultra/controller.o" }
-      - { path: "asm/{version}/libultra/contsetch.o" }
-      - { path: "asm/{version}/libultra/os/virtualtophysical.o" }
-      - { path: "asm/{version}/libultra/sqrtf.o" }
-      - { path: "asm/{version}/data/libultra/cosf.rodata.o" }
-      - { path: "asm/{version}/libultra/cosf.o" }
-      - { path: "asm/{version}/libultra/ortho.o" }
-      - { path: "asm/{version}/libultra/perspective.o" }
-      - { path: "asm/{version}/libultra/rotateRPY.o" }
-      - { path: "asm/{version}/data/libultra/sinf.rodata.o" }
-      - { path: "asm/{version}/libultra/sinf.o" }
-      - { path: "asm/{version}/libultra/sins.o" }
-      - { path: "asm/{version}/libultra/bcmp.o" }
-      - { path: "asm/{version}/libultra/bcopy.o" }
-      - { path: "asm/{version}/libultra/bzero.o" }
-      - { path: "asm/{version}/libultra/string.o" }
-      - { path: "asm/{version}/libultra/os/createmesgqueue.o" }
-      - { path: "asm/{version}/libultra/os/recvmesg.o" }
-      - { path: "asm/{version}/libultra/sptask.o" }
-      - { path: "asm/{version}/libultra/sptaskyield.o" }
-      - { path: "asm/{version}/libultra/sptaskyielded.o" }
-      - { path: "asm/{version}/data/libultra/sched.rodata.o" }
-      - { path: "asm/{version}/libultra/sched.o" }
-      - { path: "asm/{version}/libultra/sirawdma.o" }
-      - { path: "asm/{version}/libultra/io/siacs.o" }
-      - { path: "asm/{version}/libultra/os/createthread.o" }
-      - { path: "asm/{version}/libultra/os/startthread.o" }
-      - { path: "asm/{version}/libultra/os/stopthread.o" }
-      - { path: "asm/{version}/libultra/os/thread.o" }
-      - { path: "asm/{version}/libultra/os/gettime.o" }
-      - { path: "asm/{version}/libultra/os/settime.o" }
-      - { path: "asm/{version}/libultra/os/settimer.o" }
-      - { path: "asm/{version}/libultra/os/timerintr.o" }
-      - { path: "asm/{version}/libultra/probetlb.o" }
-      - { path: "asm/{version}/libultra/io/vigetcurrframebuf.o" }
-      - { path: "asm/{version}/libultra/io/vigetnextframebuf.o" }
-      - { path: "asm/{version}/libultra/io/vimgr.o" }
-      - { path: "asm/{version}/libultra/visetevent.o" }
-      - { path: "asm/{version}/libultra/visetmode.o" }
-      - { path: "asm/{version}/libultra/visetspecial.o" }
-      - { path: "asm/{version}/libultra/visetyscale.o" }
-      - { path: "asm/{version}/libultra/viswapbuf.o" }
-      - { path: "asm/{version}/libultra/viswapcontext.o" }
-      - { path: "asm/{version}/libultra/viblack.o" }
-      - { path: "asm/{version}/libultra/mtxident.o" }
-      - { path: "asm/{version}/libultra/mtxidentf.o" }
-      - { path: "asm/{version}/libultra/mtxf2l.o" }
-      - { path: "asm/{version}/libultra/mtxl2f.o" }
-      - { path: "asm/{version}/libultra/mtxcatf.o" }
-      - { path: "asm/{version}/libultra/scale.o" }
-      - { path: "asm/{version}/libultra/scalef.o" }
-      - { path: "asm/{version}/libultra/translate.o" }
-      - { path: "asm/{version}/libultra/translatef.o" }
-      - { path: "asm/{version}/libultra/conteepprobe.o" }
-      - { path: "asm/{version}/libultra/conteeplongwrite.o" }
-      - { path: "asm/{version}/libultra/conteeplongread.o" }
-      - { path: "asm/{version}/data/libultra/os/exceptasm.rodata.o" }
-      - { path: "asm/{version}/libultra/os/exceptasm.o" }
-      - { path: "asm/{version}/libultra/interrupt.o" }
-      - { path: "asm/{version}/data/libultra/setintmask.rodata.o" }
-      - { path: "asm/{version}/libultra/setintmask.o" }
-      - { path: "asm/{version}/libultra/io/pimgr.o" }
-      - { path: "asm/{version}/libultra/epirawdma.o" }
-      - { path: "asm/{version}/libultra/io/epiwrite.o" }
-      - { path: "asm/{version}/libultra/epidma.o" }
-      - { path: "asm/{version}/libultra/epilinkhandle.o" }
-      - { path: "asm/{version}/libultra/cartrominit.o" }
-      - { path: "asm/{version}/data/libultra/devmgr.rodata.o" }
-      - { path: "asm/{version}/libultra/devmgr.o" }
-      - { path: "asm/{version}/libultra/io/piacs.o" }
-      - { path: "asm/{version}/libultra/skapi.o" }
-      - { path: "asm/{version}/libultra/common.o" }
-      - { path: "asm/{version}/libultra/nops_00B250.o" }
-      - { path: "asm/{version}/libultra/os/initialize.o" }
-      - { path: "asm/{version}/libultra/ai.o" }
-      - { path: "asm/{version}/data/libultra/drvrNew.rodata.o" }
-      - { path: "asm/{version}/libultra/drvrNew.o" }
-      - { path: "asm/{version}/libultra/load.o" }
-      - { path: "asm/{version}/libultra/auxbus.o" }
-      - { path: "asm/{version}/libultra/filter.o" }
-      - { path: "asm/{version}/libultra/mainbus.o" }
-      - { path: "asm/{version}/data/libultra/resample.rodata.o" }
-      - { path: "asm/{version}/libultra/resample.o" }
-      - { path: "asm/{version}/data/libultra/reverb.rodata.o" }
-      - { path: "asm/{version}/libultra/reverb.o" }
-      - { path: "asm/{version}/libultra/save.o" }
-      - { path: "asm/{version}/libultra/heapalloc.o" }
-      - { path: "asm/{version}/libultra/copy.o" }
-      - { path: "asm/{version}/libultra/invalicache.o" }
-      - { path: "asm/{version}/libultra/writebackdcache.o" }
-      - { path: "asm/{version}/libultra/os/jammesg.o" }
-      - { path: "asm/{version}/libultra/os/sendmesg.o" }
-      - { path: "asm/{version}/libultra/os/seteventmesg.o" }
-      - { path: "asm/{version}/libultra/dpsetnextbuf.o" }
-      - { path: "asm/{version}/libultra/getcause.o" }
-      - { path: "asm/{version}/libultra/getsr.o" }
-      - { path: "asm/{version}/libultra/setfpccsr.o" }
-      - { path: "asm/{version}/libultra/setsr.o" }
-      - { path: "asm/{version}/libultra/setwatchlo.o" }
-      - { path: "asm/{version}/libultra/reg/_getcount.o" }
-      - { path: "asm/{version}/libultra/reg/_setcompare.o" }
-      - { path: "asm/{version}/libultra/sp.o" }
-      - { path: "asm/{version}/libultra/spgetstat.o" }
-      - { path: "asm/{version}/libultra/spsetstat.o" }
-      - { path: "asm/{version}/libultra/spsetpc.o" }
-      - { path: "asm/{version}/libultra/sprawdma.o" }
-      - { path: "asm/{version}/libultra/io/sirawread.o" }
-      - { path: "asm/{version}/libultra/io/sirawwrite.o" }
-      - { path: "asm/{version}/libultra/os/destroythread.o" }
-      - { path: "asm/{version}/libultra/os/getthreadid.o" }
-      - { path: "asm/{version}/libultra/os/setthreadpri.o" }
-      - { path: "asm/{version}/libultra/os/yieldthread.o" }
-      - { path: "asm/{version}/libultra/maptlbrdb.o" }
-      - { path: "asm/{version}/libultra/unmaptlball.o" }
-      - { path: "asm/{version}/libultra/vi.o" }
-      - { path: "asm/{version}/libultra/io/vigetcurrcontext.o" }
-      - { path: "asm/{version}/libultra/conteepread.o" }
-      - { path: "asm/{version}/libultra/conteepwrite.o" }
-      - { path: "asm/{version}/libultra/os/setglobalintmask.o" }
-      - { path: "asm/{version}/libultra/os/resetglobalintmask.o" }
-      - { path: "asm/{version}/libultra/pirawdma.o" }
-      - { path: "asm/{version}/libultra/pigetcmdq.o" }
-      - { path: "asm/{version}/libultra/epirawread.o" }
-      - { path: "asm/{version}/libultra/epirawwrite.o" }
-      - { path: "asm/{version}/libultra/dp.o" }
-      - { path: "asm/{version}/libultra/si.o" }
-      - { path: "asm/{version}/data/libultra/libm_vals.rodata.o" }
-      - { path: "asm/{version}/data/boot/010100.data.o" }
-      - { path: "asm/{version}/data/boot/80019D50.bss.o" }
-      # end of libultra
+      # libultra
+      - kind: group
+        files:
+          - { path: "asm/{version}/libultra/aigetlen.o" }
+          - { path: "asm/{version}/libultra/aigetstat.o" }
+          - { path: "asm/{version}/libultra/aisetfreq.o" }
+          - { path: "asm/{version}/libultra/aisetnextbuf.o" }
+          - { path: "asm/{version}/data/libultra/env.rodata.o" }
+          - { path: "asm/{version}/libultra/env.o" }
+          - { path: "asm/{version}/libultra/sl.o" }
+          - { path: "asm/{version}/libultra/heapinit.o" }
+          - { path: "asm/{version}/libultra/synthesizer.o" }
+          - { path: "asm/{version}/libultra/syndelete.o" }
+          - { path: "asm/{version}/libultra/synaddplayer.o" }
+          - { path: "asm/{version}/libultra/synallocvoice.o" }
+          - { path: "asm/{version}/libultra/synstopvoice.o" }
+          - { path: "asm/{version}/libultra/synstartvoice.o" }
+          - { path: "asm/{version}/libultra/synsetpitch.o" }
+          - { path: "asm/{version}/libultra/synsetvol.o" }
+          - { path: "asm/{version}/libultra/synsetfxmix.o" }
+          - { path: "asm/{version}/libultra/synsetpan.o" }
+          - { path: "asm/{version}/libultra/synallocfx.o" }
+          - { path: "asm/{version}/libultra/invaldcache.o" }
+          - { path: "asm/{version}/libultra/writebackdcacheall.o" }
+          - { path: "asm/{version}/libultra/contquery.o" }
+          - { path: "asm/{version}/libultra/contreaddata.o" }
+          - { path: "asm/{version}/libultra/controller.o" }
+          - { path: "asm/{version}/libultra/contsetch.o" }
+          - { path: "asm/{version}/libultra/os/virtualtophysical.o" }
+          - { path: "asm/{version}/libultra/sqrtf.o" }
+          - { path: "asm/{version}/data/libultra/cosf.rodata.o" }
+          - { path: "asm/{version}/libultra/cosf.o" }
+          - { path: "asm/{version}/libultra/ortho.o" }
+          - { path: "asm/{version}/libultra/perspective.o" }
+          - { path: "asm/{version}/libultra/rotateRPY.o" }
+          - { path: "asm/{version}/data/libultra/sinf.rodata.o" }
+          - { path: "asm/{version}/libultra/sinf.o" }
+          - { path: "asm/{version}/libultra/sins.o" }
+          - { path: "asm/{version}/libultra/bcmp.o" }
+          - { path: "asm/{version}/libultra/bcopy.o" }
+          - { path: "asm/{version}/libultra/bzero.o" }
+          - { path: "asm/{version}/libultra/string.o" }
+          - { path: "asm/{version}/libultra/os/createmesgqueue.o" }
+          - { path: "asm/{version}/libultra/os/recvmesg.o" }
+          - { path: "asm/{version}/libultra/sptask.o" }
+          - { path: "asm/{version}/libultra/sptaskyield.o" }
+          - { path: "asm/{version}/libultra/sptaskyielded.o" }
+          - { path: "asm/{version}/data/libultra/sched.rodata.o" }
+          - { path: "asm/{version}/libultra/sched.o" }
+          - { path: "asm/{version}/libultra/sirawdma.o" }
+          - { path: "asm/{version}/libultra/io/siacs.o" }
+          - { path: "asm/{version}/libultra/os/createthread.o" }
+          - { path: "asm/{version}/libultra/os/startthread.o" }
+          - { path: "asm/{version}/libultra/os/stopthread.o" }
+          - { path: "asm/{version}/libultra/os/thread.o" }
+          - { path: "asm/{version}/libultra/os/gettime.o" }
+          - { path: "asm/{version}/libultra/os/settime.o" }
+          - { path: "asm/{version}/libultra/os/settimer.o" }
+          - { path: "asm/{version}/libultra/os/timerintr.o" }
+          - { path: "asm/{version}/libultra/probetlb.o" }
+          - { path: "asm/{version}/libultra/io/vigetcurrframebuf.o" }
+          - { path: "asm/{version}/libultra/io/vigetnextframebuf.o" }
+          - { path: "asm/{version}/libultra/io/vimgr.o" }
+          - { path: "asm/{version}/libultra/visetevent.o" }
+          - { path: "asm/{version}/libultra/visetmode.o" }
+          - { path: "asm/{version}/libultra/visetspecial.o" }
+          - { path: "asm/{version}/libultra/visetyscale.o" }
+          - { path: "asm/{version}/libultra/viswapbuf.o" }
+          - { path: "asm/{version}/libultra/viswapcontext.o" }
+          - { path: "asm/{version}/libultra/viblack.o" }
+          - { path: "asm/{version}/libultra/mtxident.o" }
+          - { path: "asm/{version}/libultra/mtxidentf.o" }
+          - { path: "asm/{version}/libultra/mtxf2l.o" }
+          - { path: "asm/{version}/libultra/mtxl2f.o" }
+          - { path: "asm/{version}/libultra/mtxcatf.o" }
+          - { path: "asm/{version}/libultra/scale.o" }
+          - { path: "asm/{version}/libultra/scalef.o" }
+          - { path: "asm/{version}/libultra/translate.o" }
+          - { path: "asm/{version}/libultra/translatef.o" }
+          - { path: "asm/{version}/libultra/conteepprobe.o" }
+          - { path: "asm/{version}/libultra/conteeplongwrite.o" }
+          - { path: "asm/{version}/libultra/conteeplongread.o" }
+          - { path: "asm/{version}/data/libultra/os/exceptasm.rodata.o" }
+          - { path: "asm/{version}/libultra/os/exceptasm.o" }
+          - { path: "asm/{version}/libultra/interrupt.o" }
+          - { path: "asm/{version}/data/libultra/setintmask.rodata.o" }
+          - { path: "asm/{version}/libultra/setintmask.o" }
+          - { path: "asm/{version}/libultra/io/pimgr.o" }
+          - { path: "asm/{version}/libultra/epirawdma.o" }
+          - { path: "asm/{version}/libultra/io/epiwrite.o" }
+          - { path: "asm/{version}/libultra/epidma.o" }
+          - { path: "asm/{version}/libultra/epilinkhandle.o" }
+          - { path: "asm/{version}/libultra/cartrominit.o" }
+          - { path: "asm/{version}/data/libultra/devmgr.rodata.o" }
+          - { path: "asm/{version}/libultra/devmgr.o" }
+          - { path: "asm/{version}/libultra/io/piacs.o" }
+          - { path: "asm/{version}/libultra/skapi.o" }
+          - { path: "asm/{version}/libultra/common.o" }
+          - { path: "asm/{version}/libultra/nops_00B250.o" }
+          - { path: "asm/{version}/libultra/os/initialize.o" }
+          - { path: "asm/{version}/libultra/ai.o" }
+          - { path: "asm/{version}/data/libultra/drvrNew.rodata.o" }
+          - { path: "asm/{version}/libultra/drvrNew.o" }
+          - { path: "asm/{version}/libultra/load.o" }
+          - { path: "asm/{version}/libultra/auxbus.o" }
+          - { path: "asm/{version}/libultra/filter.o" }
+          - { path: "asm/{version}/libultra/mainbus.o" }
+          - { path: "asm/{version}/data/libultra/resample.rodata.o" }
+          - { path: "asm/{version}/libultra/resample.o" }
+          - { path: "asm/{version}/data/libultra/reverb.rodata.o" }
+          - { path: "asm/{version}/libultra/reverb.o" }
+          - { path: "asm/{version}/libultra/save.o" }
+          - { path: "asm/{version}/libultra/heapalloc.o" }
+          - { path: "asm/{version}/libultra/copy.o" }
+          - { path: "asm/{version}/libultra/invalicache.o" }
+          - { path: "asm/{version}/libultra/writebackdcache.o" }
+          - { path: "asm/{version}/libultra/os/jammesg.o" }
+          - { path: "asm/{version}/libultra/os/sendmesg.o" }
+          - { path: "asm/{version}/libultra/os/seteventmesg.o" }
+          - { path: "asm/{version}/libultra/dpsetnextbuf.o" }
+          - { path: "asm/{version}/libultra/getcause.o" }
+          - { path: "asm/{version}/libultra/getsr.o" }
+          - { path: "asm/{version}/libultra/setfpccsr.o" }
+          - { path: "asm/{version}/libultra/setsr.o" }
+          - { path: "asm/{version}/libultra/setwatchlo.o" }
+          - { path: "asm/{version}/libultra/reg/_getcount.o" }
+          - { path: "asm/{version}/libultra/reg/_setcompare.o" }
+          - { path: "asm/{version}/libultra/sp.o" }
+          - { path: "asm/{version}/libultra/spgetstat.o" }
+          - { path: "asm/{version}/libultra/spsetstat.o" }
+          - { path: "asm/{version}/libultra/spsetpc.o" }
+          - { path: "asm/{version}/libultra/sprawdma.o" }
+          - { path: "asm/{version}/libultra/io/sirawread.o" }
+          - { path: "asm/{version}/libultra/io/sirawwrite.o" }
+          - { path: "asm/{version}/libultra/os/destroythread.o" }
+          - { path: "asm/{version}/libultra/os/getthreadid.o" }
+          - { path: "asm/{version}/libultra/os/setthreadpri.o" }
+          - { path: "asm/{version}/libultra/os/yieldthread.o" }
+          - { path: "asm/{version}/libultra/maptlbrdb.o" }
+          - { path: "asm/{version}/libultra/unmaptlball.o" }
+          - { path: "asm/{version}/libultra/vi.o" }
+          - { path: "asm/{version}/libultra/io/vigetcurrcontext.o" }
+          - { path: "asm/{version}/libultra/conteepread.o" }
+          - { path: "asm/{version}/libultra/conteepwrite.o" }
+          - { path: "asm/{version}/libultra/os/setglobalintmask.o" }
+          - { path: "asm/{version}/libultra/os/resetglobalintmask.o" }
+          - { path: "asm/{version}/libultra/pirawdma.o" }
+          - { path: "asm/{version}/libultra/pigetcmdq.o" }
+          - { path: "asm/{version}/libultra/epirawread.o" }
+          - { path: "asm/{version}/libultra/epirawwrite.o" }
+          - { path: "asm/{version}/libultra/dp.o" }
+          - { path: "asm/{version}/libultra/si.o" }
+          - { path: "asm/{version}/data/libultra/libm_vals.rodata.o" }
+          - { path: "asm/{version}/data/boot/010100.data.o" }
+          - { path: "asm/{version}/data/boot/80019D50.bss.o" }
 
-      # start of libegcs
-      - { path: src/libegcs/libgcc2.o }
-      # end of libegcs
+      # libegcs
+      - kind: group
+        dir: src/libegcs
+        files:
+          - { path: libgcc2.o }
 
-      # start of libnustd
-      - { path: src/libnustd/strcpy.o }
-      - { path: src/libnustd/modf.o }
-      - { path: src/libnustd/srand.o }
-      - { path: src/libnustd/fmod.o }
-      - { path: src/libnustd/memmove.o }
-      - { path: src/libnustd/ctype.o }
-      # end of libnustd
+      # libnustd
+      - kind: group
+        dir: src/libnustd
+        files:
+          - { path: strcpy.o }
+          - { path: modf.o }
+          - { path: srand.o }
+          - { path: fmod.o }
+          - { path: memmove.o }
+          - { path: ctype.o }
 
       - { path: "asm/{version}/data/boot/8001C1B0.bss.o" }
 
@@ -319,21 +325,21 @@ segments:
       - { path: src/main_segment/066840.o }
       - { path: src/main_segment/unused/055C40.o }
 
-      - { path: lib/libmus/src/player.o }
-      - { path: lib/libmus/src/player_fx.o }
-      - { path: lib/libmus/src/aud_dma.o }
-      - { path: lib/libmus/src/aud_sched.o }
-      - { path: lib/libmus/src/aud_thread.o }
-      - { path: lib/libmus/src/lib_memory.o }
-      - { path: lib/libmus/src/aud_samples.o }
+      - kind: group
+        dir: lib/libmus/src
+        files:
+          - { path: player.o }
+          - { path: player_fx.o }
+          - { path: aud_dma.o }
+          - { path: aud_sched.o }
+          - { path: aud_thread.o }
+          - { path: lib_memory.o }
+          - { path: aud_samples.o }
 
       - { path: src/rsp/rspboot.o }
       - { path: src/rsp/aspMain.o, section_order: { .data: .rodata } }
       - { path: src/rsp/f3dex2.o, section_order: { .data: .rodata } }
       - { path: src/rsp/s2dex.o, section_order: { .data: .rodata } }
-      # - { path: src/rsp/aspMain.o, section_order: { .data: .rodata } }
-      # - { path: src/rsp/f3dex2.o, section_order: { .data: .rodata } }
-      # - { path: src/rsp/s2dex.o, section_order: { .data: .rodata } }
 
       - { path: "asm/{version}/data/main_segment/801007E0.bss.o" }
 
