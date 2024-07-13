@@ -70,7 +70,7 @@ settings:
 
 segments:
   - name: header
-    fixed_vram: 0x80000000
+    fixed_vram: 0x8F000000
     files:
       - { path: src/rom_header/rom_header.o }
 
@@ -87,7 +87,7 @@ segments:
   - name: boot
     subalign: null
     files:
-      - { path: "asm/{version}/data/boot/800118E0.bss.o" }
+      - { path: "asm/{version}/data/boot/800118E0.bss.o", include_if_any: [[version, cn]] }
 
       - { path: src/boot/boot_main.o }
       - { path: src/boot/dmadata.o }
@@ -99,10 +99,188 @@ segments:
 
       - { path: src/boot/rom_offsets.o }
 
-      - { path: src/gateway/003630.o }
+      - { path: src/gateway/003630.o, include_if_any: [[version, gw], [version, cn]] }
 
       # libultra
       - kind: group
+        dir: lib/ultralib/src
+        include_if_any: [[version, us], [version, gw]]
+        files:
+          - { path: io/conteepprobe.o }
+          - { path: io/conteeplongwrite.o }
+          - { path: io/conteeplongread.o }
+          - { path: io/pimgr.o }
+          - { path: io/epirawdma.o }
+          - { path: io/epiwrite.o, include_if_any: [[version, gw]] }
+          - { path: io/epidma.o }
+          - { path: io/epilinkhandle.o, include_if_any: [[version, gw]] }
+          - { path: io/cartrominit.o }
+          - { path: io/devmgr.o }
+          - { path: io/piacs.o }
+          - { path: io/pidma.o, include_if_any: [[version, us]] }
+          - { path: io/aigetlen.o }
+          - { path: io/aigetstat.o }
+          - { path: io/aisetfreq.o }
+          - { path: io/aisetnextbuf.o }
+
+          - { path: audio/env.o }
+          - { path: audio/sl.o }
+          - { path: audio/heapinit.o }
+          - { path: audio/synthesizer.o }
+          - { path: audio/syndelete.o }
+          - { path: audio/synaddplayer.o }
+          - { path: audio/synallocvoice.o }
+          - { path: audio/synstopvoice.o }
+          - { path: audio/synstartvoice.o }
+          - { path: audio/synsetpitch.o }
+          - { path: audio/synsetvol.o }
+          - { path: audio/synsetfxmix.o }
+          - { path: audio/synsetpan.o }
+          - { path: audio/synallocfx.o }
+
+          - { path: os/invaldcache.o }
+          - { path: os/writebackdcacheall.o }
+
+          - { path: io/contquery.o }
+          - { path: io/contreaddata.o }
+          - { path: io/controller.o }
+          - { path: io/contsetch.o }
+
+          - { path: os/virtualtophysical.o }
+
+          - { path: gu/sqrtf.o }
+          - { path: gu/cosf.o }
+          - { path: gu/ortho.o }
+          - { path: gu/perspective.o }
+          - { path: gu/rotaterpy.o }
+          - { path: gu/sinf.o }
+          - { path: gu/sins.o }
+
+          - { path: libc/bcmp.o }
+          - { path: libc/bcopy.o }
+          - { path: libc/bzero.o }
+          - { path: libc/string.o }
+
+          - { path: os/createmesgqueue.o }
+          - { path: os/jammesg.o }
+          - { path: os/recvmesg.o }
+          - { path: os/sendmesg.o }
+          - { path: os/seteventmesg.o }
+
+          - { path: io/sptask.o }
+          - { path: io/sptaskyield.o }
+          - { path: io/sptaskyielded.o }
+
+          - { path: sched/sched.o }
+
+          - { path: io/sirawdma.o }
+          - { path: io/siacs.o }
+
+          - { path: os/createthread.o }
+          - { path: os/getthreadpri.o }
+          - { path: os/setthreadpri.o }
+          - { path: os/startthread.o }
+          - { path: os/stopthread.o }
+          - { path: os/thread.o }
+          - { path: os/yieldthread.o }
+          - { path: os/gettime.o }
+          - { path: os/settime.o }
+          - { path: os/settimer.o }
+          - { path: os/timerintr.o }
+          - { path: os/probetlb.o }
+
+          - { path: io/vigetcurrframebuf.o }
+          - { path: io/vigetnextframebuf.o }
+          - { path: io/vimgr.o }
+          - { path: io/vitbl.o }
+          - { path: io/visetevent.o }
+          - { path: io/visetmode.o }
+          - { path: io/visetspecial.o }
+          - { path: io/visetyscale.o }
+          - { path: io/viswapbuf.o }
+          - { path: io/viswapcontext.o }
+          - { path: io/viblack.o }
+
+          - { path: mgu/mtxident.o }
+          - { path: mgu/mtxidentf.o }
+          - { path: mgu/mtxf2l.o }
+          - { path: mgu/mtxl2f.o }
+          - { path: mgu/mtxcatf.o }
+          - { path: mgu/scale.o }
+          - { path: mgu/scalef.o }
+          - { path: mgu/translate.o }
+          - { path: mgu/translatef.o }
+
+          - { path: os/initialize.o }
+
+          - { path: io/conteepread.o }
+          - { path: io/conteepwrite.o }
+
+          - { path: os/exceptasm.o }
+          - { path: os/interrupt.o }
+          - { path: os/setintmask.o }
+          - { path: os/setglobalintmask.o }
+          - { path: os/resetglobalintmask.o }
+
+          - { path: io/pirawdma.o }
+          - { path: io/pigetcmdq.o }
+          - { path: io/epirawread.o }
+          - { path: io/epirawwrite.o }
+          - { path: io/ai.o }
+
+          - { path: audio/drvrnew.o }
+          - { path: audio/load.o }
+          - { path: audio/auxbus.o }
+          - { path: audio/filter.o }
+          - { path: audio/mainbus.o }
+          - { path: audio/resample.o }
+          - { path: audio/reverb.o }
+          - { path: audio/save.o }
+          - { path: audio/heapalloc.o }
+          - { path: audio/copy.o }
+
+          - { path: os/invalicache.o }
+          - { path: os/writebackdcache.o }
+
+          - { path: io/dpsetnextbuf.o }
+
+          - { path: os/getcause.o }
+          - { path: os/getcount.o }
+          - { path: os/getsr.o }
+          - { path: os/setcompare.o }
+          - { path: os/setfpccsr.o }
+          - { path: os/setsr.o }
+          - { path: os/setwatchlo.o }
+
+          - { path: io/sp.o }
+          - { path: io/spgetstat.o }
+          - { path: io/spsetstat.o }
+          - { path: io/spsetpc.o }
+          - { path: io/sprawdma.o }
+          - { path: io/sirawread.o }
+          - { path: io/sirawwrite.o }
+
+          - { path: os/destroythread.o }
+          - { path: os/maptlbrdb.o }
+          - { path: os/unmaptlball.o }
+
+          - { path: io/vi.o }
+          - { path: io/vigetcurrcontext.o }
+
+          - { path: vimodes/vimodentsclan1.o }
+          - { path: vimodes/vimodepallan1.o }
+          - { path: vimodes/vimodempallan1.o }
+
+          - { path: os/parameters.o }
+
+          - { path: gu/libm_vals.o }
+
+          - { path: io/dp.o }
+          - { path: io/si.o }
+
+      # libultra
+      - kind: group
+        include_if_any: [[version, cn]]
         files:
           - { path: "asm/{version}/libultra/aigetlen.o" }
           - { path: "asm/{version}/libultra/aigetstat.o" }
@@ -257,15 +435,31 @@ segments:
           - { path: "asm/{version}/data/boot/010100.data.o" }
           - { path: "asm/{version}/data/boot/80019D50.bss.o" }
 
+      # libkmc
+      - kind: group
+        dir: src/libkmc
+        include_if_any: [[version, us], [version, gw]]
+        files:
+          - { path: fmod.o }
+          - { path: memmove.o }
+          - { path: memset.o }
+          - { path: modf.o }
+          - { path: rand.o }
+          - { path: strcpy.o }
+          - { path: mmuldi3.o }
+          - { path: ctype.o }
+
       # libegcs
       - kind: group
         dir: src/libegcs
+        include_if_any: [[version, cn]]
         files:
           - { path: libgcc2.o }
 
       # libnustd
       - kind: group
         dir: src/libnustd
+        include_if_any: [[version, cn]]
         files:
           - { path: strcpy.o }
           - { path: modf.o }
@@ -274,7 +468,9 @@ segments:
           - { path: memmove.o }
           - { path: ctype.o }
 
-      - { path: "asm/{version}/data/boot/8001C1B0.bss.o" }
+      - { path: "asm/{version}/data/boot/8001B640.bss.o", include_if_any: [[version, us]] }
+      - { path: "asm/{version}/data/boot/8001B810.bss.o", include_if_any: [[version, gw]] }
+      - { path: "asm/{version}/data/boot/8001C1B0.bss.o", include_if_any: [[version, cn]] }
 
   - name: dma_table
     files:
@@ -282,7 +478,8 @@ segments:
 
   - name: main_segment
     files:
-      - { path: "asm/{version}/data/main_segment/800CA1C0.bss.o" }
+      - { path: "asm/{version}/data/main_segment/800CA1C0.bss.o", include_if_any: [[version, cn]] }
+
       - { path: src/main_segment/main.o }
       - { path: src/main_segment/nnsched.o }
       - { path: src/main_segment/joy.o }
@@ -303,6 +500,7 @@ segments:
       - { path: src/main_segment/unused/020D10.o }
       - { path: src/main_segment/game_etc.o }
       - { path: src/main_segment/screen_print/printer.o }
+      - { path: src/main_segment/screen_print/printf_impl.o, include_if_any: [[version, us], [version, gw]] }
       - { path: src/main_segment/screen_print/debug_print.o }
       - { path: src/main_segment/debug_menu.o }
       - { path: src/main_segment/bg_tasks.o }
@@ -337,11 +535,16 @@ segments:
           - { path: aud_samples.o }
 
       - { path: src/rsp/rspboot.o }
-      - { path: src/rsp/aspMain.o, section_order: { .data: .rodata } }
-      - { path: src/rsp/f3dex2.o, section_order: { .data: .rodata } }
-      - { path: src/rsp/s2dex.o, section_order: { .data: .rodata } }
+      - { path: src/rsp/aspMain.o,  include_if_any: [[version, us], [version, gw]] }
+      - { path: src/rsp/f3dex2.o,   include_if_any: [[version, us], [version, gw]] }
+      - { path: src/rsp/s2dex.o,    include_if_any: [[version, us], [version, gw]] }
+      - { path: src/rsp/aspMain.o,  include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
+      - { path: src/rsp/f3dex2.o,   include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
+      - { path: src/rsp/s2dex.o,    include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
 
-      - { path: "asm/{version}/data/main_segment/801007E0.bss.o" }
+      - { path: "asm/{version}/data/main_segment/800E9BB0.bss.o", include_if_any: [[version, us]] }
+      - { path: "asm/{version}/data/main_segment/800EAA10.bss.o", include_if_any: [[version, gw]] }
+      - { path: "asm/{version}/data/main_segment/801007E0.bss.o", include_if_any: [[version, cn]] }
 
   - name: buffer1
     files:
@@ -778,6 +981,8 @@ segments:
     files:
       - { path: src/assets/tutorial/tutorial_kasa.o }
 
+  # wtf is this segment?
   - name: _65CF00
+    include_if_any: [[version, cn]]
     files:
       - { path: "asm/{version}/data/65CF00.o" }
