@@ -1,7 +1,7 @@
 settings:
   base_path: build/{version}
 
-  d_path: linker_scripts/{version}/drmario64.d
+  d_path: build/{version}/drmario64.{version}.d
   target_path: build/{version}/drmario64.{version}.elf
 
   sections_allowlist:

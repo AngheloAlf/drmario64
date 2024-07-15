@@ -54,7 +54,7 @@ BUILD_DIR := build/$(VERSION)
 ROM       := $(BUILD_DIR)/$(TARGET)_uncompressed.$(VERSION).z64
 ELF       := $(BUILD_DIR)/$(TARGET).$(VERSION).elf
 LD_MAP    := $(BUILD_DIR)/$(TARGET).$(VERSION).map
-LD_SCRIPT := linker_scripts/$(VERSION)/$(TARGET).ld
+LD_SCRIPT := $(BUILD_DIR)/$(TARGET).$(VERSION).ld
 ROMC      := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 
 
@@ -133,6 +133,8 @@ ifneq ($(FULL_DISASM),0)
     SPLAT_FLAGS       += --disassemble-all
 endif
 
+SLINKY_YAML       ?= slinky.yaml
+
 ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
 ROM_DECOMPRESSOR  ?= tools/compressor/rom_decompressor.py
 SEGMENT_EXTRACTOR ?= tools/compressor/extract_compressed_segments.py
@@ -140,6 +142,7 @@ CHECKSUMMER       ?= tools/checksummer.py
 MSG_REENCODER     ?= tools/buildtools/msg_reencoder.py
 INC_FROM_BIN      ?= tools/buildtools/inc_from_bin.py
 PIGMENT64         ?= pigment64
+SLINKY            ?= tools/slinky/slinky-cli
 
 export SPIMDISASM_PANIC_RANGE_CHECK="True"
 
@@ -387,6 +390,9 @@ msg_files_clean:
 	$(RM) -r $(TEXT_INC_FILES)
 
 .PHONY: asset_files asset_files_clean msg_files msg_files_clean o_files
+
+$(LD_SCRIPT): $(SLINKY_YAML)
+	$(SLINKY) --custom-options version=$(VERSION) -o $@ $<
 
 $(BUILD_DIR)/%.ld: %.ld
 	$(QUIET_CMD)$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
