@@ -64,10 +64,13 @@ settings:
   partial_scripts_folder: linker_scripts/{version}/partial
   partial_build_segments_folder: build/{version}/segments
 
-  subalign: 0x10
-  wildcard_sections: True
   segment_start_align: 0x10
+  segment_end_align: 0x10
 
+  # Required for matching
+  section_end_align: 0x10
+
+  wildcard_sections: True
 segments:
   - name: header
     fixed_vram: 0x8F000000
@@ -75,7 +78,6 @@ segments:
       - { path: src/rom_header/rom_header.o }
 
   - name: ipl3
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/ipl3.o" }
 
@@ -85,7 +87,6 @@ segments:
       - { path: src/entry/entry.o }
 
   - name: boot
-    subalign: null
     files:
       - { path: "asm/{version}/data/boot/800118E0.bss.o", include_if_any: [[version, cn]] }
 
@@ -561,143 +562,117 @@ segments:
       - { path: src/buffers/framebuffer.o }
 
   - name: n64_wave_tables
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/n64_wave_tables.o" }
 
   - name: n64_ptr_tables_v2
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/n64_ptr_tables_v2.o" }
 
   - name: fxbank
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/fxbank.o" }
 
   - name: segment_172D60
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_172D60.o" }
 
   - name: segment_1750C0
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_1750C0.o" }
 
   - name: segment_177420
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_177420.o" }
 
   - name: segment_179620
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_179620.o" }
 
   - name: segment_17B790
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_17B790.o" }
 
   - name: segment_17C1E0
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_17C1E0.o" }
 
   - name: segment_17D130
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_17D130.o" }
 
   - name: segment_17E090
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_17E090.o" }
 
   - name: segment_181840
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_181840.o" }
 
   - name: segment_184FF0
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_184FF0.o" }
 
   - name: segment_186FF0
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_186FF0.o" }
 
   - name: segment_188FF0
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_188FF0.o" }
 
   - name: segment_189D40
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_189D40.o" }
 
   - name: segment_18CB40
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_18CB40.o" }
 
   - name: segment_18DB90
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_18DB90.o" }
 
   - name: segment_18F160
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_18F160.o" }
 
   - name: segment_1906E0
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_1906E0.o" }
 
   - name: segment_1911D0
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_1911D0.o" }
 
   - name: segment_1936C0
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_1936C0.o" }
 
   - name: segment_1937F0
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_1937F0.o" }
 
   - name: segment_194070
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_194070.o" }
 
   - name: segment_194150
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_194150.o" }
 
   - name: segment_194910
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_194910.o" }
 
   - name: segment_195290
-    section_end_align: null
     files:
       - { path: "asm/{version}/data/segment_195290.o" }
 
   - name: segment_game_etc
     fixed_vram: 0x00000000
-    section_end_align: 0x1
+    segment_end_align: null
+    section_end_align: null
     files:
       - { path: src/assets/game_etc/etc.o }
 

@@ -4,6 +4,8 @@
 
 #include "char_anime.h"
 
+#include "libc/assert.h"
+
 #include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
@@ -17,33 +19,34 @@
 /**
  * Original name: static _size
  */
-const size_t _size_122[CHARANIMEMODE_MAX] = {
-    SEGMENT_DATA_SIZE_CONST(segment_anime_m),       // CHARANIMEMODE_M
-    SEGMENT_DATA_SIZE_CONST(segment_anime_n),       // CHARANIMEMODE_N
-    SEGMENT_DATA_SIZE_CONST(segment_anime_h),       // CHARANIMEMODE_H
-    SEGMENT_DATA_SIZE_CONST(segment_anime_i),       // CHARANIMEMODE_I
-    SEGMENT_DATA_SIZE_CONST(segment_anime_j),       // CHARANIMEMODE_J
-    SEGMENT_DATA_SIZE_CONST(segment_anime_d),       // CHARANIMEMODE_D
-    SEGMENT_DATA_SIZE_CONST(segment_anime_e),       // CHARANIMEMODE_E
-    SEGMENT_DATA_SIZE_CONST(segment_anime_f),       // CHARANIMEMODE_F
-    SEGMENT_DATA_SIZE_CONST(segment_anime_a),       // CHARANIMEMODE_A
-    SEGMENT_DATA_SIZE_CONST(segment_anime_b),       // CHARANIMEMODE_B
-    SEGMENT_DATA_SIZE_CONST(segment_anime_c),       // CHARANIMEMODE_C
-    SEGMENT_DATA_SIZE_CONST(segment_anime_g),       // CHARANIMEMODE_G
-    SEGMENT_DATA_SIZE_CONST(segment_anime_k),       // CHARANIMEMODE_K
-    SEGMENT_DATA_SIZE_CONST(segment_anime_l),       // CHARANIMEMODE_L
-    SEGMENT_DATA_SIZE_CONST(segment_anime_o),       // CHARANIMEMODE_O
-    SEGMENT_DATA_SIZE_CONST(segment_anime_mario),   // CHARANIMEMODE_MARIO
-    SEGMENT_DATA_SIZE_CONST(segment_anime_virus_r), // CHARANIMEMODE_VIRUS_R
-    SEGMENT_DATA_SIZE_CONST(segment_anime_virus_y), // CHARANIMEMODE_VIRUS_Y
-    SEGMENT_DATA_SIZE_CONST(segment_anime_virus_b), // CHARANIMEMODE_VIRUS_B
-    SEGMENT_DATA_SIZE_CONST(segment_anime_smog),    // CHARANIMEMODE_SMOG
+const size_t _size_122[] = {
+    SEGMENT_ROM_SIZE_CONST(segment_anime_m),       // CHARANIMEMODE_M
+    SEGMENT_ROM_SIZE_CONST(segment_anime_n),       // CHARANIMEMODE_N
+    SEGMENT_ROM_SIZE_CONST(segment_anime_h),       // CHARANIMEMODE_H
+    SEGMENT_ROM_SIZE_CONST(segment_anime_i),       // CHARANIMEMODE_I
+    SEGMENT_ROM_SIZE_CONST(segment_anime_j),       // CHARANIMEMODE_J
+    SEGMENT_ROM_SIZE_CONST(segment_anime_d),       // CHARANIMEMODE_D
+    SEGMENT_ROM_SIZE_CONST(segment_anime_e),       // CHARANIMEMODE_E
+    SEGMENT_ROM_SIZE_CONST(segment_anime_f),       // CHARANIMEMODE_F
+    SEGMENT_ROM_SIZE_CONST(segment_anime_a),       // CHARANIMEMODE_A
+    SEGMENT_ROM_SIZE_CONST(segment_anime_b),       // CHARANIMEMODE_B
+    SEGMENT_ROM_SIZE_CONST(segment_anime_c),       // CHARANIMEMODE_C
+    SEGMENT_ROM_SIZE_CONST(segment_anime_g),       // CHARANIMEMODE_G
+    SEGMENT_ROM_SIZE_CONST(segment_anime_k),       // CHARANIMEMODE_K
+    SEGMENT_ROM_SIZE_CONST(segment_anime_l),       // CHARANIMEMODE_L
+    SEGMENT_ROM_SIZE_CONST(segment_anime_o),       // CHARANIMEMODE_O
+    SEGMENT_ROM_SIZE_CONST(segment_anime_mario),   // CHARANIMEMODE_MARIO
+    SEGMENT_ROM_SIZE_CONST(segment_anime_virus_r), // CHARANIMEMODE_VIRUS_R
+    SEGMENT_ROM_SIZE_CONST(segment_anime_virus_y), // CHARANIMEMODE_VIRUS_Y
+    SEGMENT_ROM_SIZE_CONST(segment_anime_virus_b), // CHARANIMEMODE_VIRUS_B
+    SEGMENT_ROM_SIZE_CONST(segment_anime_smog),    // CHARANIMEMODE_SMOG
 };
+static_assert(ARRAY_COUNT(_size_122) == CHARANIMEMODE_MAX, "");
 
 /**
  * Original name: static _addrTbl
  */
-const RomDataTblIndex _addrTbl_124[CHARANIMEMODE_MAX] = {
+const RomDataTblIndex _addrTbl_124[] = {
     ROMDATATBL_ANIME_M,       // CHARANIMEMODE_M
     ROMDATATBL_ANIME_N,       // CHARANIMEMODE_N
     ROMDATATBL_ANIME_H,       // CHARANIMEMODE_H
@@ -65,11 +68,12 @@ const RomDataTblIndex _addrTbl_124[CHARANIMEMODE_MAX] = {
     ROMDATATBL_ANIME_VIRUS_B, // CHARANIMEMODE_VIRUS_B
     ROMDATATBL_ANIME_SMOG,    // CHARANIMEMODE_SMOG
 };
+static_assert(ARRAY_COUNT(_addrTbl_124) == CHARANIMEMODE_MAX, "");
 
 /**
  * Original name: static _centerTbl
  */
-const struct_800B1B00 _centerTbl_125[CHARANIMEMODE_MAX] = {
+const struct_800B1B00 _centerTbl_125[] = {
     { 0x10, 0x2B }, // CHARANIMEMODE_M
     { 0x19, 0x2C }, // CHARANIMEMODE_N
     { 0x10, 0x29 }, // CHARANIMEMODE_H
@@ -91,6 +95,7 @@ const struct_800B1B00 _centerTbl_125[CHARANIMEMODE_MAX] = {
     { 0x10, 0x10 }, // CHARANIMEMODE_VIRUS_B
     { 0x10, 0x10 }, // CHARANIMEMODE_SMOG
 };
+static_assert(ARRAY_COUNT(_centerTbl_125) == CHARANIMEMODE_MAX, "");
 
 /**
  * Original name: animeSeq_init
