@@ -4,6 +4,9 @@ settings:
   d_path: build/{version}/drmario64.{version}.d
   target_path: build/{version}/drmario64.{version}.elf
 
+  partial_scripts_folder: build/{version}/linker_scripts/partial
+  partial_build_segments_folder: segments
+
   sections_allowlist:
     # mips debug sections
     - .pdr
@@ -61,8 +64,6 @@ settings:
     - .interp
     - .eh_frame
   discard_wildcard_section: True
-  partial_scripts_folder: linker_scripts/{version}/partial
-  partial_build_segments_folder: build/{version}/segments
 
   segment_start_align: 0x10
   segment_end_align: 0x10
