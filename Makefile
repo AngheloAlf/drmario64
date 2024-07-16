@@ -55,6 +55,7 @@ ROM       := $(BUILD_DIR)/$(TARGET)_uncompressed.$(VERSION).z64
 ELF       := $(BUILD_DIR)/$(TARGET).$(VERSION).elf
 LD_MAP    := $(BUILD_DIR)/$(TARGET).$(VERSION).map
 LD_SCRIPT := $(BUILD_DIR)/$(TARGET).$(VERSION).ld
+D_FILE    := $(BUILD_DIR)/$(TARGET).$(VERSION).d
 ROMC      := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 
 
@@ -255,7 +256,7 @@ LINKER_SCRIPTS   := $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware
 
 
 # Automatic dependency files
-DEP_FILES := $(LD_SCRIPT:.ld=.d) $(SEGMENTS_D)
+DEP_FILES := $(D_FILE) $(SEGMENTS_D)
 
 ifneq ($(DEP_ASM), 0)
     DEP_FILES += $(O_FILES:.o=.asmproc.d)
@@ -323,15 +324,16 @@ libclean:
 
 distclean: clean
 	$(RM) -r $(BUILD_DIR) asm/ bin/ .splat/
-	$(RM) -r linker_scripts/$(VERSION)/auto $(LD_SCRIPT)
+	$(RM) -r linker_scripts/$(VERSION)/auto
 	$(MAKE) -C tools distclean
 
 setup:
 	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 	$(MAKE) -C tools
+	$(MAKE) $(LD_SCRIPT)
 
 extract:
-	$(RM) -r asm/$(VERSION) bin/$(VERSION) linker_scripts/$(VERSION)/partial $(LD_SCRIPT) $(LD_SCRIPT:.ld=.d)
+	$(RM) -r asm/$(VERSION) bin/$(VERSION) linker_scripts/$(VERSION)/partial
 	$(SPLAT) $(SPLAT_YAML) $(SPLAT_FLAGS)
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
@@ -391,7 +393,7 @@ msg_files_clean:
 
 .PHONY: asset_files asset_files_clean msg_files msg_files_clean o_files
 
-$(LD_SCRIPT): $(SLINKY_YAML)
+$(LD_SCRIPT) $(D_FILE): $(SLINKY_YAML) $(SLINKY)
 	$(SLINKY) --custom-options version=$(VERSION) -o $@ $<
 
 $(BUILD_DIR)/%.ld: %.ld
