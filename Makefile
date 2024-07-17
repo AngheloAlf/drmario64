@@ -400,14 +400,13 @@ msg_files_clean:
 
 .PHONY: asset_files asset_files_clean msg_files msg_files_clean o_files
 
-$(LD_SCRIPT): $(SLINKY_YAML) $(SLINKY)
-	$(SLINKY) --custom-options version=$(VERSION) $(SLINKY_FLAGS) -o $@ $<
-
 # The main .d file is a subproduct of generating the main linker script.
-# We have this rule so Make can automatically regenerate the dependencies file
-# if we have touched the slinky yaml (via the `-include` statement), so we
-# always only build the .c/.s files listed on the yaml.
-$(D_FILE): $(LD_SCRIPT)
+# We have list both the .ld and the .d files in this rule so Make can
+# automatically regenerate the dependencies file if we have touched the slinky
+# yaml (via the `-include` statement), so we always only build the .c/.s files
+# listed on the yaml.
+$(LD_SCRIPT) $(D_FILE): $(SLINKY_YAML) $(SLINKY)
+	$(SLINKY) --custom-options version=$(VERSION) $(SLINKY_FLAGS) -o $(LD_SCRIPT) $(SLINKY_YAML)
 
 $(BUILD_DIR)/%.ld: %.ld
 	$(QUIET_CMD)$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@

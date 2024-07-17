@@ -64,7 +64,7 @@ $(EGCS_BINUTILS): | $(EGCS_DIR)
 	$(RM) mips-binutils-egcs-2.9.5-$(DETECTED_OS).tar.gz
 
 $(SLINKY): | $(SLINKY_DIR)
-	wget https://github.com/decompals/slinky/releases/download/0.2.4/slinky-cli-$(HOST_TRIPLE).tar.gz
+	wget https://github.com/decompals/slinky/releases/download/0.2.5/slinky-cli-$(HOST_TRIPLE).tar.gz
 	tar xf slinky-cli-$(HOST_TRIPLE).tar.gz -C $(SLINKY_DIR)
 	$(RM) slinky-cli-$(HOST_TRIPLE).tar.gz
 
