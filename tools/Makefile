@@ -6,12 +6,15 @@ VERSION ?= us
 UNAME_S := $(shell uname -s)
 ifeq ($(OS),Windows_NT)
 	DETECTED_OS := windows
+	HOST_TRIPLE := x86_64-pc-windows-msvc
 else ifeq ($(UNAME_S),Linux)
 	DETECTED_OS := linux
+	HOST_TRIPLE := x86_64-unknown-linux-musl
 else ifeq ($(UNAME_S),Darwin)
 	DETECTED_OS := mac
 	MAKE := gmake
 	CPPFLAGS += -xc++
+	HOST_TRIPLE := x86_64-apple-darwin
 endif
 
 
@@ -28,11 +31,13 @@ EGCS_DIR        := gcc_egcs/$(DETECTED_OS)/1.1.2-4
 EGCS_GCC        := $(EGCS_DIR)/gcc
 EGCS_BINUTILS   := $(EGCS_DIR)/as
 
+SLINKY_DIR      := slinky
+SLINKY          := $(SLINKY_DIR)/slinky-cli
 
-all: $(KMC_GCC) $(KMC_BINUTILS) $(EGCS_GCC) $(EGCS_BINUTILS)
+all: $(KMC_GCC) $(KMC_BINUTILS) $(EGCS_GCC) $(EGCS_BINUTILS) $(SLINKY)
 
 clean:
-	$(RM) -rf $(KMC_DIR) gcc_kmc $(EGCS_DIR) gcc_egcs
+	$(RM) -rf $(KMC_DIR) gcc_kmc $(EGCS_DIR) gcc_egcs $(SLINKY_DIR)
 
 distclean: clean
 
@@ -58,8 +63,16 @@ $(EGCS_BINUTILS): | $(EGCS_DIR)
 	tar xf mips-binutils-egcs-2.9.5-$(DETECTED_OS).tar.gz -C $(EGCS_DIR)
 	$(RM) mips-binutils-egcs-2.9.5-$(DETECTED_OS).tar.gz
 
+$(SLINKY): | $(SLINKY_DIR)
+	wget https://github.com/decompals/slinky/releases/download/0.2.5/slinky-cli-$(HOST_TRIPLE).tar.gz
+	tar xf slinky-cli-$(HOST_TRIPLE).tar.gz -C $(SLINKY_DIR)
+	$(RM) slinky-cli-$(HOST_TRIPLE).tar.gz
+
 $(KMC_DIR):
 	mkdir -p $@
 
 $(EGCS_DIR):
+	mkdir -p $@
+
+$(SLINKY_DIR):
 	mkdir -p $@

@@ -166,9 +166,9 @@ segments:
 
       - [0x002FD0, c, boot/util]
 
-      - [0x0030F0, c, gateway/003630]
-
       - [auto, c, boot/rom_offsets]
+
+      - [0x0030F0, c, gateway/003630]
 
       # Start of libultra
       - [0x0031E0, c, ../lib/ultralib/src/io/conteepprobe]

@@ -35,6 +35,8 @@ DEP_INCLUDE ?= 1
 USE_LLD ?= 0
 # If non zero then compilation commands won't be printed to the terminal
 QUIET ?= 0
+# If non-zero, partially links each segment, making the first build slower but improving build times afterwards
+PARTIAL_LINKING ?= 0
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -54,7 +56,8 @@ BUILD_DIR := build/$(VERSION)
 ROM       := $(BUILD_DIR)/$(TARGET)_uncompressed.$(VERSION).z64
 ELF       := $(BUILD_DIR)/$(TARGET).$(VERSION).elf
 LD_MAP    := $(BUILD_DIR)/$(TARGET).$(VERSION).map
-LD_SCRIPT := linker_scripts/$(VERSION)/$(TARGET).ld
+LD_SCRIPT := $(BUILD_DIR)/$(TARGET).$(VERSION).ld
+D_FILE    := $(BUILD_DIR)/$(TARGET).$(VERSION).d
 ROMC      := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 
 
@@ -131,6 +134,14 @@ SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
 SPLAT_FLAGS       ?=
 ifneq ($(FULL_DISASM),0)
     SPLAT_FLAGS       += --disassemble-all
+endif
+
+SLINKY            ?= tools/slinky/slinky-cli
+SLINKY_YAML       ?= slinky.yaml
+
+SLINKY_FLAGS      ?=
+ifneq ($(PARTIAL_LINKING),0)
+    SLINKY_FLAGS    += --partial-linking
 endif
 
 ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
@@ -243,7 +254,7 @@ O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
 PNG_INC_FILES  := $(foreach f,$(PNG_FILES:.png=.inc),$(BUILD_DIR)/$f)
 TEXT_INC_FILES := $(foreach f,$(MSG_FILES:.msg=.msg.inc),$(BUILD_DIR)/$f)
 
-SEGMENTS_SCRIPTS := $(wildcard linker_scripts/$(VERSION)/partial/*.ld)
+SEGMENTS_SCRIPTS := $(wildcard $(BUILD_DIR)/linker_scripts/partial/*.ld)
 SEGMENTS_D       := $(SEGMENTS_SCRIPTS:.ld=.d)
 SEGMENTS         := $(foreach f, $(SEGMENTS_SCRIPTS:.ld=), $(notdir $f))
 SEGMENTS_O       := $(foreach f, $(SEGMENTS), $(BUILD_DIR)/segments/$f.o)
@@ -252,7 +263,7 @@ LINKER_SCRIPTS   := $(LD_SCRIPT) $(BUILD_DIR)/linker_scripts/$(VERSION)/hardware
 
 
 # Automatic dependency files
-DEP_FILES := $(LD_SCRIPT:.ld=.d) $(SEGMENTS_D)
+DEP_FILES := $(D_FILE) $(SEGMENTS_D)
 
 ifneq ($(DEP_ASM), 0)
     DEP_FILES += $(O_FILES:.o=.asmproc.d)
@@ -320,15 +331,16 @@ libclean:
 
 distclean: clean
 	$(RM) -r $(BUILD_DIR) asm/ bin/ .splat/
-	$(RM) -r linker_scripts/$(VERSION)/auto $(LD_SCRIPT)
+	$(RM) -r linker_scripts/$(VERSION)/auto
 	$(MAKE) -C tools distclean
 
 setup:
 	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 	$(MAKE) -C tools
+	$(MAKE) $(LD_SCRIPT)
 
 extract:
-	$(RM) -r asm/$(VERSION) bin/$(VERSION) linker_scripts/$(VERSION)/partial $(LD_SCRIPT) $(LD_SCRIPT:.ld=.d)
+	$(RM) -r asm/$(VERSION) bin/$(VERSION)
 	$(SPLAT) $(SPLAT_YAML) $(SPLAT_FLAGS)
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
@@ -367,8 +379,8 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 	$(QUIET_CMD)$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
 
 $(ELF): $(LINKER_SCRIPTS)
-	$(file >$(BUILD_DIR)/o_files, $(filter %.o, $^))
-	$(QUIET_CMD)$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ @$(BUILD_DIR)/o_files
+	$(file >$(@:.elf=.o_files.txt), $(filter %.o, $^))
+	$(QUIET_CMD)$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ @$(@:.elf=.o_files.txt)
 
 ## Order-only prerequisites
 # These ensure e.g. the PNG_INC_FILES are built before the O_FILES.
@@ -387,6 +399,14 @@ msg_files_clean:
 	$(RM) -r $(TEXT_INC_FILES)
 
 .PHONY: asset_files asset_files_clean msg_files msg_files_clean o_files
+
+# The main .d file is a subproduct of generating the main linker script.
+# We have list both the .ld and the .d files in this rule so Make can
+# automatically regenerate the dependencies file if we have touched the slinky
+# yaml (via the `-include` statement), so we always only build the .c/.s files
+# listed on the yaml.
+$(LD_SCRIPT) $(D_FILE): $(SLINKY_YAML) $(SLINKY)
+	$(SLINKY) --custom-options version=$(VERSION) $(SLINKY_FLAGS) -o $(LD_SCRIPT) $(SLINKY_YAML)
 
 $(BUILD_DIR)/%.ld: %.ld
 	$(QUIET_CMD)$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
@@ -413,8 +433,9 @@ $(BUILD_DIR)/lib/%.o: lib/%.c
 $(BUILD_DIR)/lib/%.o: lib/%.s
 	$(QUIET_CMD)$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) QUIET=$(QUIET) ../$@
 
-$(BUILD_DIR)/segments/%.o: linker_scripts/$(VERSION)/partial/%.ld
-	$(QUIET_CMD)$(LD) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@
+$(BUILD_DIR)/segments/%.o: $(BUILD_DIR)/linker_scripts/partial/%.ld
+	$(file >$(@:.o=.o_files.txt), $(filter %.o, $^))
+	$(QUIET_CMD)$(LD) $(ENDIAN) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@ @$(@:.o=.o_files.txt)
 
 # Make inc files from assets
 
