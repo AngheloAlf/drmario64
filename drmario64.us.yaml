@@ -1198,12 +1198,12 @@ segments:
     exclusive_ram_id: number_05
     subsegments:
       - [auto, c, assets/coffee/coffee01]
-      - start: 0x2350F0
+      - start: 0x20EFC0
         type: .data
         name: assets/coffee/coffee01
         dir: assets/coffee/coffee01
         subsegments:
-          - [0x2350F0]
+          - [0x20EFC0]
           - [0x20EFE8, palette, coffee01_D_05000048]
           - [0x20F008, ci4, coffee01_D_05000048, 80, 40]
           - [0x20F648, palette, coffee01_D_050006A8]
