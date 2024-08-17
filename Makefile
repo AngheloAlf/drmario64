@@ -238,13 +238,13 @@ DBGFLAGS        := -ggdb
 MIPS_VERSION    := -mips3
 WARNINGS        := $(CHECK_WARNINGS)
 
+CFLAGS_EXTRA    :=
 CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
 CFLAGS          += -mdivide-breaks -ffreestanding
 CFLAGS          += -fno-toplevel-reorder
 # Consider removing in the future
 CFLAGS          += -fno-zero-initialized-in-bss
 # LDFLAGS         += -lgcc_vr4300
-CFLAGS_EXTRA    :=
 endif
 
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)

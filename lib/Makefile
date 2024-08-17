@@ -85,7 +85,8 @@ endif
 
 IINC       := -Iultralib/include -Iultralib/include/gcc -Iultralib/include/PR -Iultralib/src -Ilibmus/src
 
-CFLAGS          := -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -mabi=32
+ABIFLAG         ?= -mabi=32 -mgp32 -mfp32
+CFLAGS          := -nostdinc -fno-PIC -G 0
 MIPS_VERSION    := -mips3
 WARNINGS        := -w
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
@@ -108,22 +109,19 @@ LIBULTRA_VERSION:= 9
 endif
 
 ifeq ($(COMPILER), original)
-    AS_DEFINES      += -D_MIPS_SIM=1
+AS_DEFINES      += -D_MIPS_SIM=1
 else ifeq ($(COMPILER), gcc)
-    ABIFLAG         := -mabi=32
-#    OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
-    OPTFLAGS        := -O1
-    DBGFLAGS        := -ggdb
-    MIPS_VERSION    := -mips3
-	WARNINGS        := -Wall -Wextra -Wno-unused-parameter
-#	WARNINGS        += -Werror=implicit-function-declaration
+# OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
+OPTFLAGS        := -O1
+DBGFLAGS        := -ggdb
+MIPS_VERSION    := -mips3
 
-    CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
-    CFLAGS          += -mdivide-breaks -ffreestanding
-    CFLAGS          += -fno-toplevel-reorder
+CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
+CFLAGS          += -mdivide-breaks -ffreestanding
+CFLAGS          += -fno-toplevel-reorder
 # Consider removing in the future
-    CFLAGS          += -fno-zero-initialized-in-bss
-    CFLAGS          += -fcommon -fno-strict-aliasing
+CFLAGS          += -fno-zero-initialized-in-bss
+CFLAGS          += -fcommon -fno-strict-aliasing
 endif
 
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
@@ -199,7 +197,7 @@ distclean: clean
 .SECONDARY:
 
 $(BUILD_DIR)/%.o: %.s
-	$(QUIET_CMD)$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(CFLAGS) $(MIPS_VERSION) -x assembler-with-cpp -o $@ $<
+	$(QUIET_CMD)$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(ABIFLAG) $(CFLAGS) $(MIPS_VERSION) -x assembler-with-cpp -o $@ $<
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
