@@ -3790,7 +3790,7 @@ void aifKeyOut(struct_game_state_data *gameStateDataRef) {
 
 s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s8 sp8[8];
-    s8 sp10[8];
+    s8 sp10[8] UNUSED;
     s32 pad[2] UNUSED;
     s32 temp_t6;
     s32 temp_t8;

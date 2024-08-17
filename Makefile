@@ -37,7 +37,7 @@ USE_LLD ?= 0
 QUIET ?= 0
 # If non-zero, partially links each segment, making the first build slower but improving build times afterwards
 PARTIAL_LINKING ?= 0
-# 
+# TODO. Options: original, gcc
 COMPILER ?= original
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
@@ -178,6 +178,8 @@ IINC       += -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I $(BUIL
 CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
 ifeq ($(COMPILER), original)
     CHECK_WARNINGS += -Wno-invalid-source-encoding
+else
+    CHECK_WARNINGS += -Wno-builtin-declaration-mismatch
 endif
 
 ifneq ($(WERROR), 0)
@@ -194,7 +196,8 @@ else
     CC_CHECK          := @:
 endif
 
-CFLAGS          += -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -mabi=32
+ABIFLAG         ?= -mabi=32 -mgp32 -mfp32
+CFLAGS          += -nostdinc -fno-PIC -G 0
 CFLAGS_EXTRA    ?=
 
 WARNINGS        := -w
@@ -229,19 +232,19 @@ LIBULTRA_VERSION:= 9
 endif
 
 ifeq ($(COMPILER), gcc)
-    ABIFLAG         := -mabi=32
-#    OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
-    OPTFLAGS        := -O1
-    DBGFLAGS        := -ggdb
-    MIPS_VERSION    := -mips3
-    WARNINGS        := $(CHECK_WARNINGS)
+# OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
+OPTFLAGS        := -O1
+DBGFLAGS        := -ggdb
+MIPS_VERSION    := -mips3
+WARNINGS        := $(CHECK_WARNINGS)
 
-    CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
-    CFLAGS          += -mdivide-breaks -ffreestanding
-    CFLAGS          += -fno-toplevel-reorder
+CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
+CFLAGS          += -mdivide-breaks -ffreestanding
+CFLAGS          += -fno-toplevel-reorder
 # Consider removing in the future
-    CFLAGS          += -fno-zero-initialized-in-bss
-#    LDFLAGS         += -lgcc_vr4300
+CFLAGS          += -fno-zero-initialized-in-bss
+# LDFLAGS         += -lgcc_vr4300
+CFLAGS_EXTRA    :=
 endif
 
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
