@@ -8,8 +8,6 @@
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "main_segment_variables.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
 #include "audio/sound.h"
 #include "graphic.h"
 #include "msgwnd.h"
@@ -21,37 +19,34 @@
 #include "static.h"
 #include "dm_virus_init.h"
 #include "util.h"
+#include "libc/assert.h"
 
 #if VERSION_US || VERSION_GW || CC_CHECK
 #include "aiset.h"
 #endif
 
-#if VERSION_US || VERSION_CN
+static struct TiTexData *_texAll;
+static struct TiTexData *_texKaSa;
+
 void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_00 = arg1;
     arg0->unk_04 = arg2;
-    arg0->messageWnd.unk_28 = arg1 + 8;
-    arg0->messageWnd.unk_2C = arg2 + 8;
+    arg0->messageWnd.xPos = arg1 + 8;
+    arg0->messageWnd.yPos = arg2 + 8;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80071F0C(void) {
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 #define FUNC_80071F14_UNK_48 0xD
-#endif
-#if VERSION_CN
+#elif VERSION_CN
 #define FUNC_80071F14_UNK_48 0xE
 #endif
 
 void func_80071F14(struct_800F4890_unk_034 *arg0, UNK_PTR *arg1) {
     arg0->unk_08 = 0;
-    arg0->unk_0C = -0.0625f;
+    arg0->unk_0C = (-1 / 16.0f);
     msgWnd_init(&arg0->messageWnd, arg1, 0xD, 4, 0x20, 0x20);
     arg0->messageWnd.unk_30 = 0xA;
     arg0->messageWnd.unk_34 = 0xC;
@@ -60,9 +55,7 @@ void func_80071F14(struct_800F4890_unk_034 *arg0, UNK_PTR *arg1) {
     arg0->messageWnd.unk_54 = 1.0f / 6.0f;
     func_80071EF0(arg0, 0x20, 0x20);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80071FA0(struct_800F4890_unk_034 *arg0) {
     arg0->unk_08 = CLAMP(arg0->unk_08 + arg0->unk_0C, 0.0f, 1.0f);
 
@@ -70,9 +63,10 @@ void func_80071FA0(struct_800F4890_unk_034 *arg0) {
         msgWnd_update(&arg0->messageWnd);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: tutolWnd_draw
+ */
 void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 alpha = arg0->unk_08 * 255;
@@ -92,189 +86,134 @@ void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
 
     temp_a1 = &_texAll[8];
-    tiStretchTexBlock(&gfx, temp_a1, 0, arg0->unk_00, arg0->unk_04, temp_a1->unk_4[0], temp_a1->unk_4[1]);
+    tiStretchTexBlock(&gfx, temp_a1, 0, arg0->unk_00, arg0->unk_04, temp_a1->info[0], temp_a1->info[1]);
 
     if (arg0->unk_08 != 0.0f) {
-        arg0->messageWnd.unk_74 = alpha;
+        arg0->messageWnd.alpha = alpha;
         msgWnd_draw(&arg0->messageWnd, &gfx);
     }
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800721A0(struct_800F4890_unk_034 *arg0) {
     msgWnd_clear(&arg0->messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800721BC(struct_800F4890_unk_034 *arg0, const char *arg1) {
     msgWnd_addStr(&arg0->messageWnd, arg1);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800721D8(struct_800F4890_unk_034 *arg0) {
     if (arg0->unk_0C < 0.0f) {
         arg0->unk_0C = -arg0->unk_0C;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80072204(struct_800F4890_unk_034 *arg0) {
     if (arg0->unk_0C > 0.0f) {
         arg0->unk_0C = -arg0->unk_0C;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_80072230(struct_800F4890_unk_034 *arg0) {
     return msgWnd_isEnd(&arg0->messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_8007224C(struct_800F4890_unk_034 *arg0) {
     return msgWnd_isSpeaking(&arg0->messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_80072268(struct_800F4890_unk_0E8 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_0 = arg1;
     arg0->unk_1 = 1;
     arg0->unk_2 = arg2;
     arg0->unk_3[0] = 1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2408[] = { 0xC8, 0x28 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2410[] = { 0x6C, 0x28 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2418[] = { 0x24, 0x28 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2420[] = { 0xB4, 0x28 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2428[] = { 0xD8, 0x70 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2430[] = { 0x7C, 0x70 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2438[] = { 0x34, 0x70 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const s32 RO_800B2440[] = { 0xC4, 0x70 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 virus_1_1[][3] = {
     { 1, 1, 0x10 }, { 2, 2, 0xD }, { 2, 2, 0xE }, { 0, 5, 0xF }, { 0, 1, 6 }, { 0, 5, 6 },
     { 2, 0, 6 },    { 2, 4, 6 },   { 1, 2, 6 },   { 1, 3, 6 },   { 1, 6, 6 }, { 1, 7, 6 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 RO_800B246C[] = { 0x12, 0x20, 0, 0x10, 0x21 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 RO_800B2474[] = { 0x21, 0x10, 0x20, 0, 0x21 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 position_1_1[][4] = {
     { 3, 5, 1, 0 },
     { 3, 3, 0, 0 },
     { 3, 2, 0, 0 },
     { 3, 1, 0, 0 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 virus_2_1[][3] = {
     { 0, 0, 0xE }, { 0, 2, 0xA }, { 0, 2, 0xB }, { 0, 5, 8 },    { 0, 5, 9 },    { 0, 6, 0xC }, { 0, 6, 0xE },
     { 2, 3, 0xE }, { 2, 4, 7 },   { 2, 4, 8 },   { 2, 5, 0xB },  { 2, 5, 0xC },  { 2, 5, 0xE }, { 2, 5, 0xF },
     { 1, 1, 7 },   { 1, 1, 0xA }, { 1, 1, 0xB }, { 1, 1, 0x10 }, { 1, 2, 0x10 }, { 1, 7, 0xF },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 capsel_2_1[] = {
     0x21, 0x02, 0x10, 0x12, 0x21, 0x00, 0x01, 0x20, 0x21, 0x12, 0x10, 0x10,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 position_2_1[][4] = {
     { 4, 6, 0, 0 },   { 4, 5, 0, 1 }, { 7, 0xE, 1, 0 }, { 6, 0xB, 0, 1 }, { 5, 0xD, 0, 0 },
     { 0, 0xD, 1, 0 }, { 0, 9, 0, 0 }, { 3, 0xD, 1, 0 }, { 2, 9, 0, 1 },   { 1, 8, 0, 0 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 virus_3_1[][3] = {
     { 0, 0, 0xC }, { 0, 1, 0xD }, { 0, 1, 0xF }, { 0, 4, 0xF }, { 0, 6, 0xD },  { 0, 6, 8 },    { 0, 7, 0x10 },
     { 2, 3, 8 },   { 2, 3, 9 },   { 2, 3, 0xB }, { 2, 3, 0xC }, { 2, 7, 0xE },  { 2, 7, 0xF },  { 1, 1, 0x10 },
     { 1, 2, 8 },   { 1, 2, 0xC }, { 1, 4, 0xD }, { 1, 4, 0xE }, { 1, 4, 0x10 }, { 1, 5, 0x10 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 capsel_3_1[] = {
     0x12, 0x22, 0x12, 0, 0x10, 2, 0x21, 0, 0x12, 1, 0,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 position_3_1[][4] = {
     { 4, 0xC, 0, 0 }, { 3, 0xA, 0, 0 }, { 1, 0xB, 0, 1 }, { 1, 0xA, 1, 0 },  { 2, 0xA, 1, 0 },
     { 6, 0xC, 0, 0 }, { 6, 0xB, 0, 1 }, { 6, 0xA, 1, 0 }, { 2, 0x10, 1, 1 }, { 3, 0x10, 1, 0 },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 virus_4_1[][3] = {
     { 0, 0, 0xD }, { 0, 2, 7 },   { 0, 5, 0xA }, { 0, 5, 0xB }, { 0, 7, 0x10 }, { 2, 2, 0xE },
     { 2, 2, 0xF }, { 2, 3, 0xA }, { 2, 3, 0xD }, { 2, 5, 8 },   { 1, 1, 0xD },  { 1, 4, 8 },
     { 1, 4, 9 },   { 1, 5, 0xE }, { 1, 5, 0xF }, { 1, 6, 0xA },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 capsel_4_1[] = {
     0x10, 0x11, 0x20, 1, 0x12, 0x20, 1, 0x10, 0, 0x20, 0, 0x21, 1, 0x20, 0x22, 0, 0x10,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 const u8 position_4_1[][4] = {
     { 4, 7, 1, 0 },   { 5, 7, 0, 1 },   { 5, 6, 1, 0 },   { 5, 8, 0, 0 },   { 5, 7, 0, 1 },   { 3, 0xC, 1, 0 },
     { 0, 0xC, 0, 0 }, { 1, 0xB, 1, 0 }, { 0, 0xB, 1, 0 }, { 2, 0xD, 1, 0 }, { 7, 0xF, 1, 0 }, { 6, 0xD, 0, 0 },
     { 2, 6, 0, 0 },   { 3, 5, 1, 0 },   { 3, 3, 0, 0 },   { 2, 5, 1, 0 },
 };
-#endif
 
-#include "build/src/main_segment/dm_manual_main.msg.inc"
+#include "dm_manual_main.msg.inc"
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_attack_capsel_down
+ */
 void dm_manual_attack_capsel_down(void) {
     struct_watchManual *watchManualP = watchManual;
     s32 i;
@@ -318,70 +257,70 @@ void dm_manual_attack_capsel_down(void) {
         dm_snd_play(SND_INDEX_55);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800723EC(struct_game_state_data *gameStateDataP, GameMapCell *mapCells, s32 arg2 UNUSED) {
-    if ((gameStateDataP->unk_014 != 1) && (gameStateDataP->unk_014 != 0xD)) {
+    if ((gameStateDataP->unk_014 != GAMESTATEDATA_UNK_014_1) && (gameStateDataP->unk_014 != GAMESTATEDATA_UNK_014_D)) {
         dm_black_up(gameStateDataP, mapCells);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_update_virus_anime
+ */
 void dm_manual_update_virus_anime(struct_game_state_data *arg0) {
     s32 i;
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < ANIMES_COUNT; i++) {
         animeState_update(get_virus_anime_state(i));
         animeSmog_update(get_virus_smog_state(i));
     }
 
     dm_calc_big_virus_pos(arg0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_main_cnt
+ */
 s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCells, u8 arg2, s32 arg3 UNUSED) {
     struct_watchManual *temp_s3 = watchManual;
     s32 i;
     s32 var_s0_3;
 
     switch (gameStateData->unk_00C) {
-        case 0x1:
-        case 0x2:
+        case GAMESTATEDATA_UNK_00C_1:
+        case GAMESTATEDATA_UNK_00C_2:
             return 3;
 
-        case 0x4:
+        case GAMESTATEDATA_UNK_00C_4:
             dm_capsel_down(gameStateData, mapCells);
             break;
 
-        case 0x5:
+        case GAMESTATEDATA_UNK_00C_5:
             if (dm_check_game_over(gameStateData, mapCells)) {
-                gameStateData->unk_014 = 4;
-                gameStateData->unk_00C = 0xB;
+                gameStateData->unk_014 = GAMESTATEDATA_UNK_014_4;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_B;
                 return -1;
             }
 
             if (dm_h_erase_chack(mapCells) || dm_w_erase_chack(mapCells)) {
                 if (gameStateData->unk_049 == 0) {
-                    gameStateData->unk_00C = 6;
+                    gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_6;
                 } else {
-                    gameStateData->unk_00C = 0x15;
+                    gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_15;
                 }
                 gameStateData->unk_02F = 0;
             } else if (gameStateData->unk_049 == 0) {
-                gameStateData->unk_00C = 9;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_9;
             } else {
-                gameStateData->unk_00C = 0x16;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_16;
             }
             break;
 
-        case 0x6:
+        case GAMESTATEDATA_UNK_00C_6:
             gameStateData->unk_02F++;
             if (gameStateData->unk_02F >= 0x12U) {
                 gameStateData->unk_02F = 0;
-                gameStateData->unk_00C = 7;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_7;
                 dm_h_erase_chack_set(gameStateData, mapCells);
                 dm_w_erase_chack_set(gameStateData, mapCells);
                 dm_h_ball_chack(mapCells);
@@ -417,8 +356,8 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
 
                 if (gameStateData->unk_025 == 0) {
                     dm_make_score(gameStateData);
-                    gameStateData->unk_014 = 3;
-                    gameStateData->unk_00C = 0xA;
+                    gameStateData->unk_014 = GAMESTATEDATA_UNK_014_3;
+                    gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_A;
                     return 6;
                 }
                 if (((gameStateData->unk_025 != 0) && (gameStateData->unk_025 < 4U)) && (temp_s3->unk_170 == 0)) {
@@ -437,15 +376,15 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
             }
             break;
 
-        case 0x7:
+        case GAMESTATEDATA_UNK_00C_7:
             dm_capsel_erase_anime(gameStateData, mapCells);
             break;
 
-        case 0x8:
+        case GAMESTATEDATA_UNK_00C_8:
             go_down(gameStateData, mapCells, 0xE);
             break;
 
-        case 0x9:
+        case GAMESTATEDATA_UNK_00C_9:
             dm_attack_se(gameStateData, arg2);
             dm_warning_h_line(gameStateData, mapCells);
             aifMakeFlagSet(gameStateData);
@@ -459,10 +398,10 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
                 gameStateData->unk_03C[i] = 0;
             }
 
-            gameStateData->unk_00C = 4;
+            gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_4;
             break;
 
-        case 0xA:
+        case GAMESTATEDATA_UNK_00C_A:
             temp_s3->unk_02C++;
             if (temp_s3->unk_02C > 120) {
                 temp_s3->unk_02C = 0;
@@ -470,10 +409,10 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
             }
             break;
 
-        case 0xB:
-        case 0xD:
-        case 0xF:
-        case 0x11:
+        case GAMESTATEDATA_UNK_00C_B:
+        case GAMESTATEDATA_UNK_00C_D:
+        case GAMESTATEDATA_UNK_00C_F:
+        case GAMESTATEDATA_UNK_00C_11:
             temp_s3->unk_02C++;
             if (temp_s3->unk_02C > 120) {
                 temp_s3->unk_02C = 0;
@@ -481,11 +420,11 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
             }
             break;
 
-        case 0x15:
+        case GAMESTATEDATA_UNK_00C_15:
             gameStateData->unk_02F++;
             if (gameStateData->unk_02F >= 0x12U) {
                 gameStateData->unk_02F = 0;
-                gameStateData->unk_00C = 7;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_7;
                 dm_h_erase_chack_set(gameStateData, mapCells);
                 dm_w_erase_chack_set(gameStateData, mapCells);
                 dm_h_ball_chack(mapCells);
@@ -500,14 +439,14 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
             }
             break;
 
-        case 0x16:
+        case GAMESTATEDATA_UNK_00C_16:
             dm_attack_se(gameStateData, arg2);
             dm_warning_h_line(gameStateData, mapCells);
 
             var_s0_3 = true;
-            // reading i non initialized
+            //! @bug reading i non initialized
             if ((game_state_data[i].unk_04A != 0) && dm_broken_set(gameStateData, mapCells)) {
-                gameStateData->unk_00C = 8;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_8;
                 var_s0_3 = false;
             }
             if (var_s0_3) {
@@ -521,7 +460,7 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
                     gameStateData->unk_03C[i] = 0;
                 }
 
-                gameStateData->unk_00C = 4;
+                gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_4;
             }
             break;
 
@@ -531,50 +470,10 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
 
     return 0;
 }
-#endif
 
-#if VERSION_US
-#ifdef NON_MATCHING
-// regalloc
-void dm_manual_make_key(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
-    struct_watchManual *temp_s3 = watchManual;
-    struct_game_state_data_unk_178 *temp_s4;
-    u16 temp_s2;
-    s32 temp_v0;
-
-    aifKeyOut(gameStateData);
-
-    temp_s2 = joygam[gameStateData->unk_04B];
-    temp_s4 = &gameStateData->unk_178;
-
-    if (temp_s2 & 0x4000) {
-        rotate_capsel(mapCells, temp_s4, -1);
-        temp_s3->unk_01C[3] = 8;
-    } else if (temp_s2 & 0x8000) {
-        rotate_capsel(mapCells, temp_s4, 1);
-        temp_s3->unk_01C[2] = 8;
-    }
-
-    if (temp_s2 & 0x200) {
-        translate_capsel(mapCells, gameStateData, -1, main_joy[gameStateData->unk_04B]);
-        temp_s3->unk_01C[0] = 8;
-    } else if (temp_s2 & 0x100) {
-        translate_capsel(mapCells, gameStateData, 1, main_joy[gameStateData->unk_04B]);
-        temp_s3->unk_01C[1] = 8;
-    }
-
-    gameStateData->unk_030 = 1;
-    if ((temp_s2 & 0x400) && (temp_s4->unk_2[0] > 0)) {
-        temp_v0 = FallSpeed[gameStateData->unk_02D];
-        gameStateData->unk_030 = (temp_v0 >> 1) + (temp_v0 & 1);
-    }
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_make_key);
-#endif
-#endif
-
-#if VERSION_CN
+/**
+ * Original name: dm_manual_make_key
+ */
 void dm_manual_make_key(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
     struct_watchManual *temp_s2 = watchManual;
     struct_game_state_data_unk_178 *temp_s4 = &gameStateData->unk_178;
@@ -609,311 +508,20 @@ void dm_manual_make_key(struct_game_state_data *gameStateData, GameMapCell *mapC
         gameStateData->unk_030 = temp_v1;
     }
 }
-#endif
 
-#if VERSION_US
-#ifdef NON_MATCHING
-bool dm_manual_1_main(void) {
-    struct_watchManual *temp_s1 = watchManual;
-    struct_game_state_data *gameStateDataP = game_state_data;
-    bool var_s6 = true;
-    GameMapCell *mapCells = game_map_data[0];
-    s32 var_s5;
-    u32 temp_s0_4;
-    s32 var_s0;
-
-    struct_game_state_data_unk_178 *unk_178 = &gameStateDataP->unk_178;
-
-    // var_s5 = saved_reg_s5;
-
-    for (var_s0 = 0; var_s0 < ARRAY_COUNTU(temp_s1->unk_01C); var_s0++) {
-        if (temp_s1->unk_01C[var_s0] != -0x14) {
-            temp_s1->unk_01C[var_s0]--;
-        }
-    }
-
-    if (temp_s1->unk_16C != 0) {
-        var_s5 = dm_manual_main_cnt(gameStateDataP, game_map_data[0], 0, 0);
-        dm_manual_make_key(gameStateDataP, game_map_data[0]);
-    }
-
-    func_800723EC(gameStateDataP, game_map_data[0], 0);
-    dm_virus_anime(gameStateDataP, game_map_data[0]);
-    dm_manual_update_virus_anime(gameStateDataP);
-    dm_warning_h_line_se();
-
-    switch (temp_s1->unk_164) {
-        case 0x0:
-            func_80071EF0(&temp_s1->unk_034, RO_800B2408[0], RO_800B2408[1]);
-            temp_s1->unk_000 = 1;
-            temp_s1->unk_004 = RO_800B2428[0];
-            temp_s1->unk_008 = RO_800B2428[1];
-            func_80072204(&temp_s1->unk_034);
-            temp_s1->unk_164 += 1;
-
-            for (var_s0 = 0; var_s0 < ARRAY_COUNTU(RO_800B246C); var_s0++) {
-                CapsMagazine[var_s0 + 1] = RO_800B246C[var_s0];
-            }
-
-            gameStateDataP->unk_032 = 1;
-            dm_set_capsel(gameStateDataP);
-            break;
-
-        case 0x1:
-            set_virus(mapCells, virus_1_1[gameStateDataP->unk_025][1], virus_1_1[gameStateDataP->unk_025][2],
-                      virus_1_1[gameStateDataP->unk_025][0],
-                      virus_anime_table[virus_1_1[gameStateDataP->unk_025][0]][gameStateDataP->unk_027]);
-
-            gameStateDataP->unk_025++;
-            if (gameStateDataP->unk_025 >= 4U) {
-                temp_s1->unk_164 = 0xA;
-            }
-            break;
-
-        case 0xA:
-            func_800721D8(&temp_s1->unk_034);
-            func_800721BC(&temp_s1->unk_034, mes_1_1);
-            temp_s1->unk_164 = 0x30A;
-            temp_s1->unk_168 = 0x14;
-            break;
-
-        case 0x14:
-            func_800721A0(&temp_s1->unk_034);
-            func_800721BC(&temp_s1->unk_034, mes_1_2);
-            temp_s1->unk_164 = 0x30A;
-            temp_s1->unk_168 = 0x1E;
-            break;
-
-        case 0x1E:
-            func_800721A0(&temp_s1->unk_034);
-            func_800721BC(&temp_s1->unk_034, mes_1_3);
-            temp_s1->unk_164 = 0x30A;
-            temp_s1->unk_168 = 0x28;
-            break;
-
-        case 0x28U:
-            func_800721A0(&temp_s1->unk_034);
-            func_800721BC(&temp_s1->unk_034, mes_1_4);
-            temp_s1->unk_164 = 0x30A;
-            temp_s1->unk_168 = 0x29;
-            break;
-
-        case 0x29:
-            temp_s1->unk_16C = 1;
-            gameStateDataP->unk_00C = 4;
-            aifMake2(gameStateDataP, 3, 0xC, 0, 0);
-            temp_s1->unk_164 += 1;
-            break;
-
-        case 0x2A:
-            gameStateDataP->unk_030 = 1;
-
-            switch (unk_178->unk_2[0]) {
-                case 0x4:
-                    if (unk_178->unk_2[0] == unk_178->unk_2[1]) {
-                        rotate_capsel(mapCells, unk_178, -1);
-                        temp_s1->unk_01C[3] = 8;
-                    }
-                    break;
-
-                case 0x6:
-                    if (unk_178->unk_2[0] != unk_178->unk_2[1]) {
-                        rotate_capsel(mapCells, unk_178, -1);
-                        temp_s1->unk_01C[3] = 8;
-                    }
-                    break;
-
-                case 0x8:
-                    if (unk_178->unk_2[0] == unk_178->unk_2[1]) {
-                        rotate_capsel(mapCells, unk_178, 1);
-                        temp_s1->unk_01C[2] = 8;
-                    }
-                    break;
-
-                case 0xA:
-                    if (unk_178->unk_2[0] != unk_178->unk_2[1]) {
-                        rotate_capsel(mapCells, unk_178, 1);
-                        temp_s1->unk_01C[2] = 8;
-                    }
-                    break;
-
-                case 0xC:
-                    aifMakeFlagSet(gameStateDataP);
-                    aifMake2(gameStateDataP, 4, 0xE, 0, 0);
-                    temp_s1->unk_164 += 1;
-                    break;
-            }
-            break;
-
-        case 0x2B:
-            if (gameStateDataP->unk_23D == 0) {
-                temp_s1->unk_164 = 0x32;
-            }
-            break;
-
-        case 0x32:
-            temp_s1->unk_16C = 0;
-            func_800721A0(&temp_s1->unk_034);
-            func_800721BC(&temp_s1->unk_034, mes_1_5);
-            temp_s1->unk_164 = 0x30A;
-            temp_s1->unk_168 = 0x33;
-            break;
-
-        case 0x33:
-            temp_s1->unk_16C = 1;
-            aifMake2(gameStateDataP, 2, 0xC, 1, 0);
-            temp_s1->unk_164 += 1;
-            break;
-
-        case 0x34:
-            if (gameStateDataP->unk_23D == 0) {
-                aifMake2(gameStateDataP, 5, 0xD, 1, 0);
-                temp_s1->unk_164 += 1;
-            }
-            break;
-
-        case 0x35:
-            if (gameStateDataP->unk_23D == 0) {
-                temp_s1->unk_164 = 0x3C;
-            }
-            break;
-
-        case 0x3C:
-            temp_s1->unk_16C = 0;
-            func_800721A0(&temp_s1->unk_034);
-            func_800721BC(&temp_s1->unk_034, mes_1_6);
-            temp_s1->unk_164 = 0x30A;
-            temp_s1->unk_168 = 0x3D;
-            break;
-
-        case 0x3D:
-            temp_s1->unk_16C = 1;
-            aifMake2(gameStateDataP, 2, 0x10, 0, 0);
-            temp_s1->unk_164 += 1;
-            break;
-
-        case 0x3E:
-            if (var_s5 == 6) {
-                dm_seq_play(SEQ_INDEX_14);
-                temp_s1->unk_014 = 0;
-                temp_s1->unk_018 = 0x78;
-                temp_s1->unk_164 += 1;
-            }
-            break;
-
-        case 0x3F:
-            if (var_s5 == 1) {
-                clear_map_all(mapCells);
-                temp_s1->unk_164 += 1;
-                gameStateDataP->unk_026 = 0xF;
-                _dm_virus_init(0, gameStateDataP, virus_map_data[0], virus_map_disp_order, var_s5);
-
-                for (var_s0 = 0; var_s0 < 3; var_s0++) {
-                    animeState_set(get_virus_anime_state(var_s0), 0);
-                    animeSmog_stop(get_virus_smog_state(var_s0));
-                }
-
-                for (var_s0 = 0; var_s0 < ARRAY_COUNTU(RO_800B2474); var_s0++) {
-                    CapsMagazine[var_s0 + 1] = RO_800B2474[var_s0];
-                }
-
-                gameStateDataP->unk_032 = 1;
-                dm_set_capsel(gameStateDataP);
-                gameStateDataP->unk_00C = 1;
-                gameStateDataP->unk_014 = 2;
-                gameStateDataP->unk_025 = 0;
-            }
-            break;
-
-        case 0x40:
-
-        {
-            s32 index = virus_map_disp_order->unk_00[gameStateDataP->unk_025];
-
-            set_virus(mapCells, virus_map_data[0][index].unk_1, virus_map_data[0][index].unk_2,
-                      virus_map_data[0][index].unk_0,
-                      virus_anime_table[virus_map_data[0][index].unk_0][gameStateDataP->unk_027]);
-        }
-
-            gameStateDataP->unk_025++;
-            if (gameStateDataP->unk_025 >= dm_get_first_virus_count(evs_gamemode, gameStateDataP)) {
-                temp_s1->unk_164 = 0x46;
-            }
-            break;
-
-        case 0x46:
-            func_800721A0(&temp_s1->unk_034);
-            func_800721BC(&temp_s1->unk_034, mes_1_7);
-            temp_s1->unk_164 = 0x30A;
-            temp_s1->unk_168 = 0x47;
-            break;
-
-        case 0x47:
-            temp_s1->unk_16C = 1;
-            gameStateDataP->unk_00C = 4;
-            aifMakeFlagSet(gameStateDataP);
-            temp_s1->unk_164 += 1;
-            break;
-
-        case 0x48:
-            temp_s0_4 = gameStateDataP->unk_032 - 2;
-            if (temp_s0_4 < ARRAY_COUNTU(position_1_1)) {
-                aifMake2(gameStateDataP, position_1_1[temp_s0_4][0], position_1_1[temp_s0_4][1],
-                         position_1_1[temp_s0_4][2], position_1_1[temp_s0_4][3]);
-            } else {
-                temp_s1->unk_164 = 0x49;
-            }
-            break;
-
-        case 0x49:
-            if (var_s5 == -1) {
-                dm_seq_play(SEQ_INDEX_17);
-                temp_s1->unk_164 += 1;
-            }
-            break;
-
-        case 0x4A:
-            if (var_s5 == 0x64) {
-                temp_s1->unk_164 = 0x50;
-            }
-            break;
-
-        case 0x50:
-            func_800721A0(&temp_s1->unk_034);
-            func_800721BC(&temp_s1->unk_034, mes_1_8);
-            temp_s1->unk_164 = 0x30A;
-            temp_s1->unk_168 = 0x30C;
-            break;
-
-        case 0x30A:
-            if (func_80072230(&temp_s1->unk_034)) {
-                temp_s1->unk_164 = temp_s1->unk_168;
-            }
-            break;
-
-        case 0x30C:
-            var_s6 = false;
-            break;
-    }
-
-    return var_s6;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_1_main);
-#endif
-#endif
-
-#if VERSION_CN
+/**
+ * Original name: dm_manual_1_main
+ */
 bool dm_manual_1_main(void) {
     struct_watchManual *temp_s2 = watchManual;
     bool var_s6 = true;
-    s32 var_s5;
-    s32 var_s1;
     GameMapCell *mapCells = game_map_data[0];
     struct_game_state_data *gameStateDataP = game_state_data;
     struct_game_state_data_unk_178 *unk_178 = &gameStateDataP->unk_178;
+    s32 var_s5;
+    s32 var_s1;
 
-    for (var_s1 = 0; var_s1 < 4U; var_s1++) {
+    for (var_s1 = 0; var_s1 < ARRAY_COUNTU(temp_s2->unk_01C); var_s1++) {
         if (temp_s2->unk_01C[var_s1] != -0x14) {
             temp_s2->unk_01C[var_s1]--;
         }
@@ -925,6 +533,7 @@ bool dm_manual_1_main(void) {
     }
 
     func_800723EC(gameStateDataP, mapCells, 0);
+
     dm_virus_anime(gameStateDataP, mapCells);
     dm_manual_update_virus_anime(gameStateDataP);
     dm_warning_h_line_se();
@@ -990,7 +599,7 @@ bool dm_manual_1_main(void) {
 
         case 0x29:
             temp_s2->unk_16C = 1;
-            gameStateDataP->unk_00C = 4;
+            gameStateDataP->unk_00C = GAMESTATEDATA_UNK_00C_4;
             aifMake2(gameStateDataP, 3, 0xC, 0, 0);
             temp_s2->unk_164++;
             break;
@@ -1011,7 +620,6 @@ bool dm_manual_1_main(void) {
                         rotate_capsel(mapCells, unk_178, -1);
                         temp_s2->unk_01C[3] = 8;
                     }
-
                     break;
 
                 case 0x8:
@@ -1098,7 +706,7 @@ bool dm_manual_1_main(void) {
                 temp_s2->unk_164++;
 
                 gameStateDataP->unk_026 = 0xF;
-                _dm_virus_init(0, gameStateDataP, virus_map_data[0], virus_map_disp_order, 1);
+                _dm_virus_init(0, gameStateDataP, virus_map_data[0], virus_map_disp_order[0], 1);
 
                 for (var_s1 = 0; var_s1 < 3; var_s1++) {
                     animeState_set(get_virus_anime_state(var_s1), 0);
@@ -1112,14 +720,14 @@ bool dm_manual_1_main(void) {
                 gameStateDataP->unk_032 = 1;
                 dm_set_capsel(gameStateDataP);
 
-                gameStateDataP->unk_00C = 1;
-                gameStateDataP->unk_014 = 2;
+                gameStateDataP->unk_00C = GAMESTATEDATA_UNK_00C_1;
+                gameStateDataP->unk_014 = GAMESTATEDATA_UNK_014_2;
                 gameStateDataP->unk_025 = 0;
             }
             break;
 
         case 0x40:
-            var_s1 = virus_map_disp_order->unk_00[gameStateDataP->unk_025];
+            var_s1 = virus_map_disp_order[0][gameStateDataP->unk_025];
 
             set_virus(mapCells, virus_map_data[0][var_s1].unk_1, virus_map_data[0][var_s1].unk_2,
                       virus_map_data[0][var_s1].unk_0,
@@ -1142,7 +750,7 @@ bool dm_manual_1_main(void) {
 
         case 0x47:
             temp_s2->unk_16C = 1;
-            gameStateDataP->unk_00C = 4;
+            gameStateDataP->unk_00C = GAMESTATEDATA_UNK_00C_4;
             aifMakeFlagSet(gameStateDataP);
             temp_s2->unk_164++;
             break;
@@ -1190,9 +798,10 @@ bool dm_manual_1_main(void) {
 
     return var_s6;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_2_main
+ */
 bool dm_manual_2_main(void) {
     struct_watchManual *watchManualP = watchManual;
     struct_game_state_data *gameStateDataP = game_state_data;
@@ -1285,7 +894,7 @@ bool dm_manual_2_main(void) {
             break;
 
         case 0x3D:
-            gameStateDataP->unk_00C = 4;
+            gameStateDataP->unk_00C = GAMESTATEDATA_UNK_00C_4;
             watchManualP->unk_164 = 0x309;
             watchManualP->unk_168 = 0x46;
             break;
@@ -1390,9 +999,10 @@ bool dm_manual_2_main(void) {
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_3_main
+ */
 bool dm_manual_3_main(void) {
     struct_game_state_data *gameStateData = game_state_data;
     GameMapCell *mapCells = game_map_data[0];
@@ -1490,7 +1100,7 @@ bool dm_manual_3_main(void) {
             break;
 
         case 0x3D:
-            gameStateData->unk_00C = 4;
+            gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_4;
             temp_s2->unk_164 = 0x309;
             temp_s2->unk_168 = 0x46;
             break;
@@ -1678,9 +1288,10 @@ bool dm_manual_3_main(void) {
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_4_main
+ */
 bool dm_manual_4_main(void) {
     struct_watchManual *temp_s2 = watchManual;
     bool ret = true;
@@ -1746,7 +1357,7 @@ bool dm_manual_4_main(void) {
             break;
 
         case 0x15:
-            gameStateData->unk_00C = 4;
+            gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_4;
             temp_s2->unk_164 = 0x309;
             temp_s2->unk_168 = 0x1E;
             break;
@@ -1886,23 +1497,26 @@ bool dm_manual_4_main(void) {
 
     return ret;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-ASM_RODATA;
-
+/**
+ * Original name: _tex_884
+ */
 const s32 _tex_884[][2] = {
     { 0, 2 },
     { 1, 3 },
 };
 
+/**
+ * Original name: _pos_885
+ */
 const s32 _pos_885[][2] = {
     { 0, 0 },
     { 0, 0xC },
 };
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: draw_AB_guide
+ */
 void draw_AB_guide(s32 arg0, s32 arg1) {
     s32 i;
 
@@ -1916,30 +1530,20 @@ void draw_AB_guide(s32 arg0, s32 arg1) {
         TiTexData *temp_a0 = &_texAll[_tex_884[i][1]];
         s32 var_t0;
 
-        var_t0 = MIN(temp_a3->unk_4[0], temp_a0->unk_4[0]);
+        var_t0 = MIN(temp_a3->info[0], temp_a0->info[0]);
 
-        StretchAlphaTexTile(&gGfxHead, var_t0, temp_a3->unk_4[1], temp_a3->unk_0->tex, temp_a3->unk_4[0],
-                            temp_a0->unk_0->tex, temp_a0->unk_4[0], 0, 0, var_t0, temp_a3->unk_4[1],
-                            arg0 + _pos_885[i][0], arg1 + _pos_885[i][1], var_t0, temp_a3->unk_4[1]);
+        StretchAlphaTexTile(&gGfxHead, var_t0, temp_a3->info[1], temp_a3->texs[1], temp_a3->info[0], temp_a0->texs[1],
+                            temp_a0->info[0], 0, 0, var_t0, temp_a3->info[1], arg0 + _pos_885[i][0],
+                            arg1 + _pos_885[i][1], var_t0, temp_a3->info[1]);
     }
 }
-#endif
 
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", RO_800B3150);
-#endif
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", func_80074B08);
-#endif
-
-#if VERSION_CN
-const s32 RO_800C9408_cn[] = {
+const s32 RO_800B3150[] = {
     0, 1, 2, 3, 2, 1,
 };
 
 // unused
-void func_8007E774_cn(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+void func_80074B08(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
     struct_watchManual *temp_s0 = watchManual;
     Gfx *gfx = *gfxP;
     Mtx *mtx = *mtxP;
@@ -1950,6 +1554,7 @@ void func_8007E774_cn(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s3
     s32 var_s1;
     s32 var_s0;
     s32 var_s3;
+    f32 temp;
 
     guOrtho(mtx, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f, 10.0f, 1.0f);
     gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
@@ -1959,19 +1564,19 @@ void func_8007E774_cn(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s3
     gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
     mtx++;
 
-    guRotateRPYF(sp48, 0.0f, (1 - arg5) * 0x5A,
-                 sinf(WrapF(0.0f, 1.0f, temp_s0->unk_184 / 128.0) * M_PI * 2.0) * 4.0f * arg5);
+    temp = WrapF(0.0f, 1.0f, temp_s0->unk_184 * (1 / 128.0)) * M_PI * 2.0;
+    guRotateRPYF(sp48, 0.0f, (1 - arg5) * 0x5A, sinf(temp) * 4.0f * arg5);
 
-    var_s1 = WrapI(0, ARRAY_COUNT(RO_800C9408_cn), ((temp_s0->unk_184 & 0x7F) * 3) >> 2);
+    var_s1 = WrapI(0, ARRAY_COUNT(RO_800B3150), ((temp_s0->unk_184 & 0x7F) * 3) >> 2);
     if (func_8007224C(&temp_s0->unk_034) == false) {
         var_s1 = 0;
     }
 
-    temp_s4 = &_texKaSa[RO_800C9408_cn[var_s1] + 1];
+    temp_s4 = &_texKaSa[RO_800B3150[var_s1] + 1];
     temp_s1 = &_texKaSa[0];
 
-    var_s0 = MIN(temp_s4->unk_4[0], temp_s1->unk_4[0]);
-    var_s3 = MIN(temp_s4->unk_4[1], temp_s1->unk_4[1]);
+    var_s0 = MIN(temp_s4->info[0], temp_s1->info[0]);
+    var_s3 = MIN(temp_s4->info[1], temp_s1->info[1]);
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     gSPClearGeometryMode(gfx++, G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
@@ -1991,35 +1596,18 @@ void func_8007E774_cn(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s3
     gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     mtx++;
 
-    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->unk_0->tex, temp_s4->unk_4[0], temp_s1->unk_0->tex,
-                     temp_s1->unk_4[0], 0, 0, var_s0, var_s3, 0.0f, 0.0f, var_s0, var_s3);
+    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->texs[1], temp_s4->info[0], temp_s1->texs[1], temp_s1->info[0],
+                     0, 0, var_s0, var_s3, 0.0f, 0.0f, var_s0, var_s3);
 
     *vtxP = vtx;
     *mtxP = mtx;
     *gfxP = gfx;
 }
-#endif
 
-extern const s32 _posContPanel[];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posContPanel);
-#endif
-
-#if VERSION_CN
+/**
+ * Original name: _posContPanel
+ */
 const s32 _posContPanel[] = { 0x0000000A, 0x0000000E };
-#endif
-
-extern const s32 _posCircle_924[][2];
-extern const s32 _posFinger_925[][2];
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posCircle_924);
-#endif
-#if VERSION_US
-INCLUDE_RODATA("asm/us/nonmatchings/main_segment/dm_manual_main", _posFinger_925);
-#endif
-
-#if VERSION_US || VERSION_CN
-ASM_TEXT;
 
 void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E8 *arg1, s32 arg2) {
     s32 i;
@@ -2027,7 +1615,7 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
     for (i = 0; i < 3; i++) {
         s32 j;
 
-        load_TexPal(dm_game_get_capsel_pal(arg2, i)->unk_0->tlut);
+        load_TexPal(dm_game_get_capsel_pal(arg2, i)->texs[0]);
 
         for (j = 0; j < 4; j++) {
             if ((arg1[j].unk_3[0] != 0) && (arg1[j].unk_2 == i)) {
@@ -2038,118 +1626,44 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
         }
     }
 }
-#endif
 
-#if VERSION_US
-#ifdef NON_EQUIVALENT
-#define ABS(x) (((x) < 0) ? -(x) : (x))
-
-// disaster
-void disp_cont(void) {
-    s32 temp_s1;
-    s32 temp_s2;
-    s32 var_v0;
-    s32 var_v1;
-    struct_watchManual *temp_s3 = watchManual;
-    s32 var_a1;
-    s32 var_s4;
-    s32 temp_a0;
-    TiTexData *new_var;
-    TiTexData *new_var2;
-    // Gfx **gfxP = &gGfxHead;
-    s32 *new_var3;
-
-    for (var_s4 = 0; var_s4 < 4U; var_s4++) {
-
-        if (temp_s3->unk_01C[var_s4] != -0x14) {
-            s32 temp_arg4;
-            s32 temp_arg5;
-            s32 temp;
-            s32 *_posFinger_ptr;
-            TiTexData *temp_4;
-            TiTexData *temp_5;
-
-            // temp_s1 = _posContPanel[0];
-            // temp_s2 = _posContPanel[1];
-
-            gSPDisplayList(gGfxHead++, normal_texture_init_dl);
-            gDPSetCombineLERP(gGfxHead++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
-                              PRIMITIVE, 0);
-            gDPSetRenderMode(gGfxHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
-            gDPSetPrimColor(gGfxHead++, 0, 0, 255, 0, 0, 255);
-            gDPSetTextureLUT(gGfxHead++, G_TT_NONE);
-
-            new_var3 = _posCircle_924[var_s4];
-            temp_arg4 = _posContPanel[0] + new_var3[0];
-            temp_arg5 = _posContPanel[1] + new_var3[1];
-            // temp_arg4 = _posContPanel[0] + _posCircle_924[var_s4][0];
-            // temp_arg5 = _posContPanel[1] + _posCircle_924[var_s4][1];
-
-            StretchTexBlock4i(&gGfxHead, _texAll[6].unk_4[0], _texAll[6].unk_4[1], _texAll[6].unk_0->tex, temp_arg4,
-                              temp_arg5, _texAll[6].unk_4[0], _texAll[6].unk_4[1]);
-
-            gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
-
-            new_var2 = _texAll;
-
-            temp_4 = &new_var2[4];
-            temp_5 = &new_var2[5];
-
-            // var_v1 = temp_s3->unk_01C[var_s4];
-            // if (var_v1 < 0) {
-            //    var_v1 = -var_v1;
-            //}
-            // var_v1 = (temp_s3->unk_01C[var_s4] < 0) ? -temp_s3->unk_01C[var_s4] : temp_s3->unk_01C[var_s4];
-            var_v1 = ABS(temp_s3->unk_01C[var_s4]);
-
-            _posFinger_ptr = _posFinger_925[var_s4];
-
-            // var_a1 = _texAll[5].unk_4[0];
-            // if (_texAll[4].unk_4[0] < var_a1) {
-            //    var_a1 = _texAll[4].unk_4[0];
-            //}
-            var_a1 = MIN(temp_4->unk_4[0], temp_5->unk_4[0]);
-            // var_a1 = (new_var2[4].unk_4[0] < new_var2[5].unk_4[0]) ? (new_var2[4].unk_4[0]) : (new_var2[5].unk_4[0]);
-
-            // temp_a0 = _posContPanel[1] + _posFinger_925[var_s4][1];
-            // var_v0 = temp_a0 - var_v1;
-            // if (var_v1 > 4) {
-            //    var_v0 = temp_a0 - 4;
-            //}
-            // var_v0 = temp_a0 - MAX(var_v1, 4);
-            // var_v0 = (_posContPanel.unk_4 + _posFinger_925[var_s4][1]) - MAX(var_v1, 4);
-
-            StretchAlphaTexBlock(&gGfxHead, var_a1, temp_4->unk_4[1], temp_4->unk_0->tex, var_v1, temp_5->unk_0->tex,
-                                 temp_5->unk_4[0], (_posContPanel[0] + _posFinger_ptr[0]),
-                                 (_posContPanel[1] + _posFinger_ptr[1]) - MAX(var_v1, 4), var_a1, temp_4->unk_4[1]);
-        }
-    }
-}
-
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", disp_cont);
-#endif
-#endif
-
-#if VERSION_CN
 /**
  * Original name: _posCircle_924
  */
-const s32 _posCircle_924[STRUCT_WATCHGAME_MANUAL_UNK_LEN2][2] = {
+const s32 _posCircle_924[][2] = {
+#if VERSION_US || VERSION_GW
+    { 0xD, 0x14 },
+    { 0x1C, 0x15 },
+    { 0x46, 0x20 },
+    { 0x3E, 0x1A },
+#elif VERSION_CN
     { 0x16, 0x2E },
     { 0x1F, 0x2A },
     { 0x34, 0x1B },
     { 0x2B, 0x19 },
+#endif
 };
+
+static_assert(ARRAY_COUNT(_posCircle_924) == STRUCT_WATCHGAME_MANUAL_UNK_LEN2, "");
+
 /**
  * Original name: _posFinger_925
  */
-const s32 _posFinger_925[STRUCT_WATCHGAME_MANUAL_UNK_LEN2][2] = {
+const s32 _posFinger_925[][2] = {
+#if VERSION_US || VERSION_GW
+    { 0xD, 6 },
+    { 0x1C, 7 },
+    { 0x46, 0x12 },
+    { 0x3E, 0xC },
+#elif VERSION_CN
     { 0x16, 0x20 },
     { 0x1F, 0x1C },
     { 0x34, 0xD },
     { 0x2B, 0xB },
+#endif
 };
+
+static_assert(ARRAY_COUNT(_posFinger_925) == STRUCT_WATCHGAME_MANUAL_UNK_LEN2, "");
 
 /**
  * Original name: disp_cont
@@ -2178,9 +1692,9 @@ void disp_cont(void) {
 
         temp_t2 = _posCircle_924[i];
         temp_t1 = &_texAll[6];
-        StretchTexBlock4i(&gGfxHead, temp_t1->unk_4[0], temp_t1->unk_4[1], temp_t1->unk_0->tex,
-                          _posContPanel[0] + temp_t2[0], _posContPanel[1] + temp_t2[1], temp_t1->unk_4[0],
-                          temp_t1->unk_4[1]);
+        StretchTexBlock4i(&gGfxHead, temp_t1->info[0], temp_t1->info[1], temp_t1->texs[1],
+                          _posContPanel[0] + temp_t2[0], _posContPanel[1] + temp_t2[1], temp_t1->info[0],
+                          temp_t1->info[1]);
 
         gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
@@ -2188,17 +1702,18 @@ void disp_cont(void) {
         temp_a1 = &_texAll[5];
 
         temp_t2 = _posFinger_925[i];
-        var_t0 = MIN(temp_t1->unk_4[0], temp_a1->unk_4[0]);
+        var_t0 = MIN(temp_t1->info[0], temp_a1->info[0]);
 
-        StretchAlphaTexBlock(&gGfxHead, var_t0, temp_t1->unk_4[1], temp_t1->unk_0->tex, temp_t1->unk_4[0],
-                             temp_a1->unk_0->tex, temp_a1->unk_4[0], _posContPanel[0] + temp_t2[0],
+        StretchAlphaTexBlock(&gGfxHead, var_t0, temp_t1->info[1], temp_t1->texs[1], temp_t1->info[0], temp_a1->texs[1],
+                             temp_a1->info[0], _posContPanel[0] + temp_t2[0],
                              _posContPanel[1] + temp_t2[1] - MIN(4, ABS(watchManualP->unk_01C[i])), var_t0,
-                             temp_t1->unk_4[1]);
+                             temp_t1->info[1]);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_draw_fg
+ */
 void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
     struct_watchManual *temp_s4 = watchManual;
     s32 i;
@@ -2210,7 +1725,7 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
             gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
             temp = &_texAll[7];
-            tiStretchTexBlock(&gGfxHead, temp, 0, _posContPanel[0], _posContPanel[1], temp->unk_4[0], temp->unk_4[1]);
+            tiStretchTexBlock(&gGfxHead, temp, 0, _posContPanel[0], _posContPanel[1], temp->info[0], temp->info[1]);
             dm_draw_big_virus(&gGfxHead);
             break;
 
@@ -2274,18 +1789,34 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
 
     tutolWnd_draw(&temp_s4->unk_034, &gGfxHead);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: map_x_table_1036
+ */
 const u16 map_x_table_1036[][4] = {
     { 0x76, 0x76, 0x76, 0x76 },
     { 0x1C, 0xD4, 0x1C, 0xD4 },
     { 0x14, 0x5C, 0xA4, 0xEC },
 };
+
+/**
+ * Original name: _seqTbl_1037
+ */
 const u8 _seqTbl_1037[] = { 2, 3 };
+
+/**
+ * Original name: map_y_table_1038
+ */
 const u8 map_y_table_1038[] = { 0x2E, 0x2E };
+
+/**
+ * Original name: size_table_1039
+ */
 const u8 size_table_1039[] = { 0xA, 8 };
 
+/**
+ * Original name: dm_manual_all_init
+ */
 void dm_manual_all_init(void) {
     struct_watchManual *temp_s4;
     RomOffsetPair *tbl;
@@ -2318,7 +1849,7 @@ void dm_manual_all_init(void) {
     }
 
     evs_gamemode = ENUM_EVS_GAMEMODE_0;
-    story_proc_no = STORY_PROC_NO_1;
+    story_proc_no = BGROMDATA_INDEX1;
 
     dm_game_init_heap();
     heap = dm_game_heap_top();
@@ -2432,10 +1963,7 @@ void dm_manual_all_init(void) {
     temp_s4->unk_16C = 0;
     temp_s4->unk_030 = 0;
 }
-#endif
 
-#if VERSION_US
-#ifdef NON_MATCHING
 /**
  * Original name: dm_manual_main
  */
@@ -2443,117 +1971,12 @@ enum_main_no dm_manual_main(NNSched *sc) {
     OSMesgQueue scMQ;
     OSMesg scMsgBuf[NN_SC_MAX_MESGS];
     NNScClient scClient;
-    enum_main_no var_v0;
+    s32 temp_v1_2;
+    s32 var_a0;
     s32 i;
     bool var_s3 = true;
     bool var_s4 = false;
     struct_watchManual *temp_s2;
-
-    osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
-    nnScAddClient(sc, &scClient, &scMQ);
-    dm_manual_all_init();
-
-    temp_s2 = watchManual;
-    for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
-        aifMakeFlagSet(&game_state_data[i]);
-    }
-
-    while (!var_s4) {
-        joyProcCore();
-
-        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
-
-        func_80071FA0(&temp_s2->unk_034);
-        dm_effect_make();
-
-        temp_s2->unk_184++;
-        if (temp_s2->unk_010 > 0) {
-            var_s4 = temp_s2->unk_00C == 0xFF;
-        }
-
-        temp_s2->unk_00C = CLAMP(temp_s2->unk_00C + temp_s2->unk_010, 0, 0xFF);
-        switch (evs_manual_no) {
-            case EVS_MANUAL_NO_0:
-                var_s3 = dm_manual_1_main();
-                break;
-
-            case EVS_MANUAL_NO_1:
-                var_s3 = dm_manual_2_main();
-                break;
-
-            case EVS_MANUAL_NO_2:
-                var_s3 = dm_manual_3_main();
-                break;
-
-            case EVS_MANUAL_NO_3:
-                var_s3 = dm_manual_4_main();
-                break;
-        }
-        dm_seq_set_volume(0x60);
-        dm_audio_update();
-        if (temp_s2->unk_018 != 0) {
-            temp_s2->unk_014++;
-            if (temp_s2->unk_014 >= temp_s2->unk_018) {
-                temp_s2->unk_014 = 0;
-                temp_s2->unk_018 = 0;
-                dm_seq_play_in_game(evs_seqnumb * 2);
-            }
-        }
-
-        if (temp_s2->unk_00C == 0) {
-            s32 buttonMask = (main_old == MAIN_NO_3) ? ANY_BUTTON : B_BUTTON;
-
-            if (var_s3 && (gControllerPressedButtons[main_joy[0]] & buttonMask)) {
-                var_s3 = true;
-            } else {
-                var_s3 = false;
-            }
-        }
-
-        if (!var_s3) {
-            if (temp_s2->unk_010 < 0) {
-                temp_s2->unk_010 = -temp_s2->unk_010;
-            }
-        }
-
-        graphic_no = GRAPHIC_NO_3;
-    }
-
-    dm_audio_stop();
-    graphic_no = GRAPHIC_NO_0;
-
-    while (!dm_audio_is_stopped() || (pendingGFX != 0)) {
-        osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
-        dm_audio_update();
-    }
-
-    nnScRemoveClient(sc, &scClient);
-
-    var_v0 = MAIN_NO_3;
-    if (main_old != MAIN_NO_3) {
-        var_v0 = MAIN_NO_6;
-    }
-    return var_v0;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/dm_manual_main", dm_manual_main);
-#endif
-#endif
-
-#if VERSION_CN
-enum_main_no dm_manual_main(NNSched *sc) {
-    OSMesgQueue scMQ;
-    OSMesg scMsgBuf[NN_SC_MAX_MESGS];
-    NNScClient scClient;
-    s32 temp_v1_2;
-    s32 var_a0;
-    s32 i;
-    bool var_s3;
-    bool var_s4;
-    struct_watchManual *temp_s2;
-
-    var_s3 = true;
-    var_s4 = false;
 
     osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
     nnScAddClient(sc, &scClient, &scMQ);
@@ -2649,15 +2072,20 @@ enum_main_no dm_manual_main(NNSched *sc) {
 
     nnScRemoveClient(sc, &scClient);
 
-    if (main_old != MAIN_NO_3) {
+    if (main_old == MAIN_NO_3) {
+        return MAIN_NO_3;
+    } else if (main_old == MAIN_NO_6) {
         return MAIN_NO_6;
     }
 
+#ifdef PRESERVE_UB
     return MAIN_NO_3;
-}
 #endif
+}
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: dm_manual_graphic
+ */
 void dm_manual_graphic(void) {
     Mtx *mtx;
     Vtx *vtx;
@@ -2693,4 +2121,3 @@ void dm_manual_graphic(void) {
     osWritebackDCacheAll();
     gfxTaskStart(ptr, gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
-#endif

@@ -27,7 +27,6 @@ const Color_RGB8 sMessageColorTable[] = {
     /* 7 */ { 255, 255, 255 }, // White
 };
 
-#if VERSION_US || VERSION_CN
 bool func_8005CF20(s32 arg0, u32 buttonMask) {
     s32 i;
 
@@ -40,44 +39,41 @@ bool func_8005CF20(s32 arg0, u32 buttonMask) {
     }
     return i < 4;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_init
  */
-void msgWnd_init(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
-    uintptr_t temp_t1;
+void msgWnd_init(MessageWnd *messageWnd, void **heapP, s32 arg2, s32 arg3, s32 xPos, s32 yPos) {
+    void *heap = *heapP;
     u32 temp;
 
-    temp_t1 = (uintptr_t)*arg1;
     temp = 0x400;
-    temp -= ALIGN16(temp_t1) - temp_t1;
+    temp -= ALIGN16((uintptr_t)heap) - (uintptr_t)heap;
     temp -= ((arg3 + 1) * sizeof(MessageWnd_unk_04));
-    msgWnd_init2(messageWnd, arg1, temp, arg2, arg3, arg4, arg5);
+    msgWnd_init2(messageWnd, heapP, temp, arg2, arg3, xPos, yPos);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_init2
  */
-void msgWnd_init2(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    unsigned char *temp;
+void msgWnd_init2(MessageWnd *messageWnd, void **heapP, s32 arg2, s32 arg3, s32 arg4, s32 xPos, s32 yPos) {
+    void *heap;
 
-    messageWnd->unk_00 = *arg1;
-    messageWnd->unk_04 = ALIGN_PTR(messageWnd->unk_00);
+    heap = messageWnd->heap = *heapP;
+    messageWnd->unk_04 = ALIGN_PTR(heap);
 
-    messageWnd->unk_08 = (arg4 + 1);
-    temp = (void *)((uintptr_t)messageWnd->unk_04 + ((arg4 + 1) * sizeof(MessageWnd_unk_04)));
-    messageWnd->unk_0C = temp;
+    messageWnd->unk_08 = arg4 + 1;
+    heap = (void *)((uintptr_t)messageWnd->unk_04 + messageWnd->unk_08 * sizeof(MessageWnd_unk_04));
 
+    messageWnd->unk_0C = heap;
     messageWnd->unk_10 = arg2;
+    heap = (void *)((uintptr_t)messageWnd->unk_0C + arg2);
+
     messageWnd->unk_1C = 1;
     messageWnd->unk_20 = 0;
     messageWnd->unk_24 = 0;
-    messageWnd->unk_28 = arg5;
-    messageWnd->unk_2C = arg6;
+    messageWnd->xPos = xPos;
+    messageWnd->yPos = yPos;
     messageWnd->unk_30 = 0xC;
     messageWnd->unk_34 = 0xC;
     messageWnd->unk_38 = arg3;
@@ -88,20 +84,17 @@ void msgWnd_init2(MessageWnd *messageWnd, UNK_PTR *arg1, s32 arg2, s32 arg3, s32
     messageWnd->unk_48 = 0xE;
     messageWnd->unk_54 = 0.25f;
     messageWnd->unk_5C = 0.125f;
-    messageWnd->unk_74 = 0xFF;
-    messageWnd->unk_78 = 1;
+    messageWnd->alpha = 255;
+    messageWnd->unk_78 = true;
 
-    temp = &messageWnd->unk_0C[arg2];
-    *arg1 = temp;
+    *heapP = heap;
 
     msgWnd_clear(messageWnd);
 }
-#endif
 
 /**
  * Original name: msgWnd_clear
  */
-#if VERSION_US || VERSION_CN
 void msgWnd_clear(MessageWnd *messageWnd) {
     messageWnd->unk_0C[0] = '~';
     messageWnd->unk_0C[1] = 'z';
@@ -114,13 +107,11 @@ void msgWnd_clear(MessageWnd *messageWnd) {
     messageWnd->hasEnded = false;
     messageWnd->isSpeaking = false;
     messageWnd->color = MSGWND_COLOR_WHITE;
-    messageWnd->unk_6C = 0;
+    messageWnd->unk_6C = false;
     messageWnd->timer = 0;
     messageWnd->unk_7C = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_layout
  */
@@ -199,9 +190,10 @@ void msgWnd_layout(MessageWnd *messageWnd) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: msgWnd_addStr
+ */
 void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1) {
     s32 length1 = fontStr_length(&messageWnd->unk_0C[messageWnd->unk_14]);
     s32 length2;
@@ -224,18 +216,14 @@ void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1) {
     messageWnd->hasEnded = false;
     msgWnd_layout(messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8005D3F8(MessageWnd *messageWnd) {
     messageWnd->unk_14 = messageWnd->unk_04[1].unk_0;
     messageWnd->color = messageWnd->unk_04[1].color;
 
     msgWnd_layout(messageWnd);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_update
  */
@@ -244,7 +232,7 @@ void msgWnd_update(MessageWnd *messageWnd) {
     s32 width = msgWnd_getWidth(messageWnd);
     f32 temp_fs0 = messageWnd->unk_30 / 12.0f;
 
-    if ((messageWnd->unk_6C == 0) && func_8005CF20(messageWnd->unk_1C, A_BUTTON | B_BUTTON | START_BUTTON)) {
+    if (!messageWnd->unk_6C && func_8005CF20(messageWnd->unk_1C, A_BUTTON | B_BUTTON | START_BUTTON)) {
         msgWnd_skip(messageWnd);
     }
 
@@ -264,10 +252,10 @@ void msgWnd_update(MessageWnd *messageWnd) {
     }
 
     messageWnd->unk_58 = 0;
-    if (messageWnd->unk_6C != 0) {
+    if (messageWnd->unk_6C) {
         messageWnd->timer = 0;
         if (func_8005CF20(messageWnd->unk_1C, A_BUTTON | B_BUTTON | START_BUTTON)) {
-            messageWnd->unk_6C = 0;
+            messageWnd->unk_6C = false;
         }
         return;
     }
@@ -295,7 +283,7 @@ void msgWnd_update(MessageWnd *messageWnd) {
                     break;
 
                 case 'm':
-                    messageWnd->unk_6C = 1;
+                    messageWnd->unk_6C = true;
                     messageWnd->unk_50 = 0.0f;
                     if (width < (messageWnd->column + messageWnd->unk_3C)) {
                         messageWnd->column = 0;
@@ -334,242 +322,16 @@ void msgWnd_update(MessageWnd *messageWnd) {
         }
     }
 }
+
+#if VERSION_US || VERSION_GW
+#define MSGWND_DRAW_UNK_SPACE 0
+#elif VERSION_CN
+#define MSGWND_DRAW_UNK_SPACE 2
 #endif
 
-#if VERSION_US
-ASM_RODATA;
-const char STR_800B1A54[] = "▼";
-
-#ifdef NON_EQUIVALENT
 /**
  * Original name: msgWnd_draw
  */
-void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
-    Gfx *gfx;
-    s32 sp2C;
-    s32 sp34;
-    // Gfx *temp_a2;
-    // Gfx *temp_a2_2;
-    // Gfx *temp_v1;
-    // Gfx *temp_v1_4;
-    f32 var_f20;
-    s32 temp_a0;
-    s32 temp_a0_2;
-    s32 temp_a0_5;
-    s32 temp_a0_6;
-    s32 temp_s4;
-    s32 temp_s5;
-    s32 messageWidth; // temp_s6;
-    s32 temp_v0;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    s32 var_a2;
-    s32 var_fp;
-    s32 var_s0;
-    s32 var_s2;
-    s32 var_s3;
-    s32 var_s7;
-
-    gfx = *gfxP;
-
-    sp2C = (messageWnd->unk_3C * 2) - messageWnd->unk_30;
-    temp_a0 = messageWnd->unk_30;
-    var_s7 = messageWnd->color;
-    messageWidth = msgWnd_getWidth(messageWnd);
-    sp34 = (temp_a0 * 0xA) / 12;
-
-    if (messageWnd->unk_20 != 0) {
-        font16_initDL2(&gfx);
-    } else {
-        font16_initDL(&gfx);
-    }
-
-    if (messageWnd->unk_78 != 0) {
-        gfxSetScissor(&gfx, 2, messageWnd->unk_28, messageWnd->unk_2C, msgWnd_getWidth(messageWnd),
-                      msgWnd_getHeight(messageWnd));
-    }
-
-    var_s0 = messageWnd->unk_14;
-    var_s2 = 0;
-    var_fp = messageWnd->unk_44;
-    var_f20 = 0.0f;
-    var_s3 = 0;
-    if (messageWnd->unk_58 > 0.0) {
-        var_fp += 1;
-        var_f20 = (1.0 - messageWnd->unk_58) * messageWnd->unk_48;
-    }
-    // temp_a0_2 = var_s7 * 3;
-    // temp_a2 = gfx;
-    // gfx = temp_a2 + 8;
-    // temp_a2->words.w0 = 0xFA000000;
-    // temp_a2->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_a0_2) <<
-    // 0x10) | (*(&sMessageColorTable->unk_2 + temp_a0_2) << 8) | (u8)messageWnd->unk_74;
-    gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g,
-                    sMessageColorTable[var_s7].b, messageWnd->unk_74);
-
-    if ((messageWnd->unk_30 == 0xC) || (messageWnd->unk_34 != 0xC) || (var_f20 != 0.0f)) {
-        // temp_v1 = gfx;
-        // gfx = temp_v1 + 8;
-        // temp_v1->words.w0 = 0xE3001201;
-        // temp_v1->words.w1 = 0x2000;
-        gDPSetTextureFilter(gfx++, G_TF_BILERP);
-    }
-
-    do {
-        if (var_s0 >= messageWnd->unk_18) {
-            break;
-        }
-
-        if (messageWnd->unk_0C[var_s0] == '~') {
-            switch (messageWnd->unk_0C[var_s0 + 1]) {
-                case 'w':
-                    break;
-
-                case 'h':
-                    var_s2 = 0;
-                    var_s3 = 0;
-                    break;
-
-                case 'm':
-                    if (messageWidth >= (var_s2 + messageWnd->unk_3C)) {
-                        break;
-                    }
-                    /* Fallthrough */
-                case 'n':
-                    var_s2 = 0;
-                    var_s3 += 1;
-                    break;
-
-                default:
-                    var_s7 = messageWnd->unk_0C[var_s0 + 1] - '0';
-                    // temp_a0_5 = var_s7 * 3;
-                    // temp_a2_2 = gfx;
-                    // gfx = temp_a2_2 + 8;
-                    // temp_a2_2->words.w0 = 0xFA000000;
-                    // temp_a2_2->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1
-                    // + temp_a0_5) << 0x10) |
-                    // (*(&sMessageColorTable->unk_2 + temp_a0_5) << 8) | (u8)messageWnd->unk_74;
-                    gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g,
-                                    sMessageColorTable[var_s7].b, messageWnd->unk_74);
-                    break;
-            }
-
-            var_s0 += fontStr_nextChar(&messageWnd->unk_0C[var_s0]);
-        } else {
-            temp_s4 = fontStr_nextChar(&messageWnd->unk_0C[var_s0]);
-            temp_s5 = (s32)(
-                ((f32)fontStr_charSize(&messageWnd->unk_0C[var_s0], messageWnd->unk_20) * ((f32)temp_a0 / 12.0f)) +
-                (f32)sp2C);
-            if (messageWnd->unk_24 != 0) {
-#if 1
-                var_a2 = (s32)(messageWidth - ((u32 *)((var_s3 * 0x10) + messageWnd->unk_04))[0x8 / 4]) >> 1;
-#endif
-            } else {
-                var_a2 = 0;
-            }
-
-            switch (temp_s4) {
-                case 1:
-                    if (messageWidth >= (var_s2 + temp_s5)) {
-                        switch (messageWnd->unk_20) {
-                            case 0:
-                                fontAsc_draw(
-                                    &gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
-                                    (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
-                                    (f32)sp34, (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
-                                break;
-
-                            case 1:
-                                if (messageWnd->unk_20 == temp_s4) {
-                                    fontAsc_draw2(
-                                        &gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
-                                        (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
-                                        (f32)sp34, (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
-                                }
-                                break;
-                        }
-
-                        var_s0 += temp_s4;
-                    }
-                    var_s2 += temp_s5;
-                    break;
-
-                case 2:
-                    if (messageWidth >= (var_s2 + temp_s5)) {
-                        switch (messageWnd->unk_20) {
-                            case 0:
-                                fontXX_draw(
-                                    &gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
-                                    (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
-                                    (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
-                                break;
-                            case 1:
-                                fontXX_draw2(
-                                    &gfx, (f32)(messageWnd->unk_28 + var_s2 + var_a2),
-                                    (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
-                                    (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, &messageWnd->unk_0C[var_s0]);
-                                break;
-
-                            default:
-                                break;
-                        }
-
-                        var_s0 += temp_s4;
-                    }
-                    var_s2 += temp_s5;
-                    break;
-
-                default:
-                    break;
-            }
-
-            if (var_s2 >= messageWidth) {
-                var_s2 = 0;
-                var_s3 += 1;
-            }
-        }
-    } while (var_s3 < var_fp);
-
-    if ((messageWnd->unk_6C != false) && (messageWnd->unk_58 == 0.0)) {
-        temp_a0_6 =
-            (s32)(((f32)sins((messageWnd->unk_7C << 0xA) & 0xFC00) * 0.001953125f) + 191.0f) * messageWnd->unk_74;
-        // temp_v1_2 = var_s7 * 3;
-        // gfx->words.w0 = 0xFA000000;
-        // gfx->words.w1 = (sMessageColorTable[var_s7].unk_0 << 0x18) | (*(&sMessageColorTable->unk_1 + temp_v1_2) <<
-        // 0x10) | (*(&sMessageColorTable->unk_2 + temp_v1_2) << 8) | ((temp_a0_6 >> 8) & 0xFF); gfx += 8;
-        gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[var_s7].r, sMessageColorTable[var_s7].g,
-                        sMessageColorTable[var_s7].b, temp_a0_6 >> 8);
-
-        switch (messageWnd->unk_20) {
-            case 0x0:
-                fontXX_draw(&gfx, (f32)(messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)),
-                            (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
-                            (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, STR_800B1A54);
-                break;
-            case 0x1:
-                fontXX_draw2(&gfx, (f32)(messageWnd->unk_28 + (var_s2 * messageWnd->unk_3C)),
-                             (f32)(s32)((f32)(messageWnd->unk_2C + (var_s3 * messageWnd->unk_48)) - var_f20),
-                             (f32)messageWnd->unk_30, (f32)messageWnd->unk_34, STR_800B1A54);
-                break;
-
-            default:
-                break;
-        }
-    }
-    // gfx->words.w0 = 0xED000000;
-    // gfx->words.w1 = 0x4F0000 | 0xC3BC;
-    // temp_v1_4 = gfx + 8;
-    // gfx = temp_v1_4;
-    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
-    messageWnd->unk_7C += 1;
-    *gfxP = gfx;
-}
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/msgwnd", msgWnd_draw);
-#endif
-#endif
-
-#if VERSION_CN
 void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 sp24;
@@ -592,8 +354,8 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
         font16_initDL(&gfx);
     }
 
-    if (messageWnd->unk_78 != 0) {
-        gfxSetScissor(&gfx, 2, messageWnd->unk_28, messageWnd->unk_2C, msgWnd_getWidth(messageWnd),
+    if (messageWnd->unk_78) {
+        gfxSetScissor(&gfx, GFXSETSCISSOR_INTERLACE_NO, messageWnd->xPos, messageWnd->yPos, msgWnd_getWidth(messageWnd),
                       msgWnd_getHeight(messageWnd));
     }
 
@@ -609,7 +371,7 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
     }
 
     gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[color].r, sMessageColorTable[color].g, sMessageColorTable[color].b,
-                    messageWnd->unk_74);
+                    messageWnd->alpha);
 
     if ((messageWnd->unk_30 != 0xC) || (messageWnd->unk_34 != messageWnd->unk_30) || (var_fs0 != 0.0f)) {
         gDPSetTextureFilter(gfx++, G_TF_BILERP);
@@ -641,7 +403,7 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
                 default:
                     color = messageWnd->unk_0C[index + 1] - '0';
                     gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[color].r, sMessageColorTable[color].g,
-                                    sMessageColorTable[color].b, messageWnd->unk_74);
+                                    sMessageColorTable[color].b, messageWnd->alpha);
                     break;
             }
 
@@ -658,14 +420,14 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
                     if (column + charWidth <= width) {
                         switch (messageWnd->unk_20) {
                             case 0:
-                                fontAsc_draw(&gfx, messageWnd->unk_28 + column + var_a1,
-                                             (s32)(messageWnd->unk_2C + line * messageWnd->unk_48 - var_fs0), sp2C,
+                                fontAsc_draw(&gfx, messageWnd->xPos + column + var_a1,
+                                             (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0), sp2C,
                                              messageWnd->unk_34, &messageWnd->unk_0C[index]);
                                 break;
 
                             case 1:
-                                fontAsc_draw2(&gfx, messageWnd->unk_28 + column + var_a1,
-                                              (s32)(messageWnd->unk_2C + line * messageWnd->unk_48 - var_fs0), sp2C,
+                                fontAsc_draw2(&gfx, messageWnd->xPos + column + var_a1,
+                                              (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0), sp2C,
                                               messageWnd->unk_34, &messageWnd->unk_0C[index]);
                                 break;
                         }
@@ -678,20 +440,20 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
                     if (column + charWidth <= width) {
                         switch (messageWnd->unk_20) {
                             case 0:
-                                fontXX_draw(&gfx, messageWnd->unk_28 + column + var_a1,
-                                            (s32)(messageWnd->unk_2C + line * messageWnd->unk_48 - var_fs0),
+                                fontXX_draw(&gfx, messageWnd->xPos + column + var_a1,
+                                            (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0),
                                             messageWnd->unk_30, messageWnd->unk_34, &messageWnd->unk_0C[index]);
                                 break;
 
                             case 1:
-                                fontXX_draw2(&gfx, messageWnd->unk_28 + column + var_a1,
-                                             (s32)(messageWnd->unk_2C + line * messageWnd->unk_48 - var_fs0),
+                                fontXX_draw2(&gfx, messageWnd->xPos + column + var_a1,
+                                             (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0),
                                              messageWnd->unk_30, messageWnd->unk_34, &messageWnd->unk_0C[index]);
                                 break;
                         }
                         index += temp_s5;
                     }
-                    column += 2 + charWidth;
+                    column += MSGWND_DRAW_UNK_SPACE + charWidth;
                     break;
             }
 
@@ -706,23 +468,23 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
         }
     }
 
-    if ((messageWnd->unk_6C != 0) && (messageWnd->unk_58 == 0.0)) {
-        s32 temp = sins(messageWnd->unk_7C << 10) * (1.0f / 0x200) + 191.0f;
+    if (messageWnd->unk_6C && (messageWnd->unk_58 == 0.0)) {
+        s32 alpha = sins(messageWnd->unk_7C << 10) * (1.0f / 0x200) + 191.0f;
 
-        temp = (temp * messageWnd->unk_74) >> 8;
+        alpha = (alpha * messageWnd->alpha) >> 8;
         gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[color].r, sMessageColorTable[color].g,
-                        sMessageColorTable[color].b, temp);
+                        sMessageColorTable[color].b, alpha);
 
         switch (messageWnd->unk_20) {
             case 0:
-                fontXX_draw(&gfx, messageWnd->unk_28 + column * messageWnd->unk_3C,
-                            (s32)(messageWnd->unk_2C + line * messageWnd->unk_48 - var_fs0), messageWnd->unk_30,
+                fontXX_draw(&gfx, messageWnd->xPos + column * messageWnd->unk_3C,
+                            (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0), messageWnd->unk_30,
                             messageWnd->unk_34, "▼");
                 break;
 
             case 1:
-                fontXX_draw2(&gfx, messageWnd->unk_28 + column * messageWnd->unk_3C,
-                             (s32)(messageWnd->unk_2C + line * messageWnd->unk_48 - var_fs0), messageWnd->unk_30,
+                fontXX_draw2(&gfx, messageWnd->xPos + column * messageWnd->unk_3C,
+                             (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0), messageWnd->unk_30,
                              messageWnd->unk_34, "▼");
                 break;
         }
@@ -734,18 +496,14 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_isEnd
  */
 bool msgWnd_isEnd(MessageWnd *messageWnd) {
     return messageWnd->hasEnded;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_skip
  */
@@ -753,40 +511,31 @@ void msgWnd_skip(MessageWnd *messageWnd) {
     messageWnd->unk_50 = messageWnd->unk_10;
     messageWnd->timer = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: msgWnd_isSpeaking
  */
 bool msgWnd_isSpeaking(MessageWnd *messageWnd) {
     return messageWnd->isSpeaking;
 }
-#endif
 
 /**
  * Original name: msgWnd_isScroll
  */
-#if VERSION_US || VERSION_CN
 bool msgWnd_isScroll(MessageWnd *messageWnd) {
     return messageWnd->line >= messageWnd->unk_44;
 }
-#endif
 
 /**
  * Original name: msgWnd_getWidth
  */
-#if VERSION_US || VERSION_CN
 s32 msgWnd_getWidth(MessageWnd *messageWnd) {
     return messageWnd->unk_38 * messageWnd->unk_3C;
 }
-#endif
 
 /**
  * Original name: msgWnd_getHeight
  */
-#if VERSION_US || VERSION_CN
 s32 msgWnd_getHeight(MessageWnd *messageWnd) {
     return messageWnd->unk_44 * messageWnd->unk_48;
 }
-#endif

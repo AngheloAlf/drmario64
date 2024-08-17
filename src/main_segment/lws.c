@@ -11,8 +11,9 @@
 #include "calc.h"
 #include "066840.h"
 
-#if VERSION_US || VERSION_CN
-s32 lws_anim(Gfx **gfxP, Mtx *mtx, struct_lws_scene *arg2, s32 arg3, void *arg4) {
+static Mtx AnimProc[0x40];
+
+s32 lws_anim(Gfx **gfxP, Mtx *mtx, Lws *arg2, s32 arg3, void *arg4) {
     Gfx *gfx = *gfxP;
     s32 i;
     s32 ret;
@@ -24,7 +25,7 @@ s32 lws_anim(Gfx **gfxP, Mtx *mtx, struct_lws_scene *arg2, s32 arg3, void *arg4)
         ret = 0;
     }
 
-    for (i = 0; i < arg2->unk_0C; i++) {
+    for (i = 0; i < arg2->count; i++) {
         s32 j;
         Mtx sp28;
         Mtx sp68;
@@ -42,10 +43,10 @@ s32 lws_anim(Gfx **gfxP, Mtx *mtx, struct_lws_scene *arg2, s32 arg3, void *arg4)
         s16 temp_s0;
         s16 temp_s1;
         s16 a3;
-        struct_lws_scene_unk_14 *var_a1;
-        struct_lws_scene_unk_14 *var_a2;
-        struct_lws_scene_unk_14 *temp;
-        struct_lws_scene_unk_10 *temp_s5;
+        Lws_unk_14 *var_a1;
+        Lws_unk_14 *var_a2;
+        Lws_unk_14 *temp;
+        Lws_unk_10 *temp_s5;
         s32 a4;
         s32 a5;
         s32 a6;
@@ -135,4 +136,3 @@ s32 lws_anim(Gfx **gfxP, Mtx *mtx, struct_lws_scene *arg2, s32 arg3, void *arg4)
 
     return ret;
 }
-#endif

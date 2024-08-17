@@ -10,12 +10,8 @@
 
 #define DECLARE_ROM_SEGMENT(name) \
     extern u32 name ## _ROM_START[]; \
-    extern u32 name ## _ROM_END[]
-
-#define DECLARE_DATA_SEGMENT(name)   \
-    extern u32 name ## _DATA_START[]; \
-    extern u32 name ## _DATA_END[]; \
-    extern u32 name ## _DATA_SIZE[]
+    extern u32 name ## _ROM_END[]; \
+    extern u32 name ## _ROM_SIZE[]
 
 #define DECLARE_BSS_SEGMENT(name)   \
     extern u32 name ## _BSS_START[]; \
@@ -24,7 +20,6 @@
 #define DECLARE_SEGMENT(name) \
     DECLARE_VRAM_SEGMENT(name); \
     DECLARE_ROM_SEGMENT(name); \
-    DECLARE_DATA_SEGMENT(name); \
     DECLARE_BSS_SEGMENT(name)
 
 #define SEGMENT_VRAM_START(segment) (segment ## _VRAM)
@@ -34,8 +29,7 @@
 #define SEGMENT_ROM_START(segment) ((RomOffset)segment ## _ROM_START)
 #define SEGMENT_ROM_END(segment)   ((RomOffset)segment ## _ROM_END)
 #define SEGMENT_ROM_SIZE(segment)  (SEGMENT_ROM_END(segment) - SEGMENT_ROM_START(segment))
-
-#define SEGMENT_DATA_SIZE_CONST(segment) ((RomOffset)segment ## _DATA_SIZE)
+#define SEGMENT_ROM_SIZE_CONST(segment) ((RomOffset)segment ## _ROM_SIZE)
 
 #define SEGMENT_BSS_START(segment) (segment ## _BSS_START)
 #define SEGMENT_BSS_END(segment)   (segment ## _BSS_END)
@@ -55,7 +49,7 @@ DECLARE_SEGMENT(main_segment);
 
 DECLARE_SEGMENT(n64_wave_tables);
 DECLARE_SEGMENT(n64_ptr_tables_v2);
-DECLARE_SEGMENT(segment_172130);
+DECLARE_SEGMENT(fxbank);
 
 DECLARE_SEGMENT(segment_172D60);
 DECLARE_SEGMENT(segment_1750C0);

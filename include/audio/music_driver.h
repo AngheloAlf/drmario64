@@ -24,7 +24,7 @@ typedef struct Audio_struct_800FAF98 {
     /* 0x10 */ size_t unk_10;
     /* 0x14 */ Audio_struct_800FAF98_unk_14* unk_14;
     /* 0x18 */ UNK_TYPE unk_18;
-    /* 0x1C */ void *unk_1C;
+    /* 0x1C */ void *fxbank;
     /* 0x20 */ size_t unk_20;
     /* 0x24 */ musHandle *unk_24;
     /* 0x28 */ s32 unk_28; // len of unk_24

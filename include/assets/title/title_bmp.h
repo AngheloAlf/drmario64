@@ -1,0 +1,10 @@
+#ifndef ASSETS_TITLE_BMP_H
+#define ASSETS_TITLE_BMP_H
+
+#include "graphbin.h"
+
+DECLARE_VARIABLE_GRAPHBIN_u4(title_bmp_00, 192, 42);
+DECLARE_VARIABLE_GRAPHBIN_u16(title_bmp_01, 144, 16);
+DECLARE_VARIABLE_GRAPHBIN_u4(title_bmp_02, 144, 16);
+
+#endif

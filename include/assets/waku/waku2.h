@@ -1,0 +1,10 @@
+#ifndef ASSETS_WAKU2_H
+#define ASSETS_WAKU2_H
+
+#include "graphbin.h"
+
+DECLARE_VARIABLE_GRAPHBIN_u16(waku2_00, 320, 20);
+DECLARE_VARIABLE_GRAPHBIN_u4(waku2_01, 320, 20);
+DECLARE_VARIABLE_GRAPHBIN_u8(waku2_02, 320, 80);
+
+#endif

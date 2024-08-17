@@ -10,10 +10,9 @@
 #include "main_segment_variables.h"
 #include "066840.h"
 
-extern s32 D_800AAE60[];
-extern f32 D_800AAFF4[];
+static s32 randomindex;
+static s32 randomtable[55];
 
-#if VERSION_US || VERSION_CN
 s32 D_800AAE60[] = {
     0,  1,  2,  3,  4,  5,  6,  8,  9,  10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 28,
     29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
@@ -35,16 +34,12 @@ f32 D_800AAFF4[] = {
     0.83909965f, 0.8540807f,   0.8692867f,   0.8847253f,   0.90040404f, 0.9163312f,   0.9325151f,  0.9489646f,
     0.96568877f, 0.98269725f,  1.0f,         999.0f,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 // "tanf"
 f32 func_8007BC20(f32 arg0) {
     return sinf(arg0) / cosf(arg0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 // Matrix multiplication?
 void func_8007BC54(f32 arg0[4][4], f32 arg1[4][4], f32 arg2[4][4]) {
     f32 sp8[4][4];
@@ -68,9 +63,7 @@ void func_8007BC54(f32 arg0[4][4], f32 arg1[4][4], f32 arg2[4][4]) {
         }
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Creates a general rotation + translation matrix. Uses Y1 X2 Z3 Tait-Bryan angles
  * (https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix). `rotX`, `rotY`, `rotZ` are in degrees.
@@ -105,9 +98,7 @@ void func_8007BD30(f32 m[4][4], f32 rotX, f32 rotY, f32 rotZ, f32 transX, f32 tr
     m[0][3] = m[1][3] = m[2][3] = 0.0f;
     m[3][3] = 1.0f;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * convert a pair of binary angles theta, phi to spherical coordinates x, y, z; origin (0,0) -> (0,0,1) and theta points
  * towards the downwards y direction
@@ -134,9 +125,7 @@ void func_8007BEEC(s16 theta, s16 phi, f32 *x, f32 *y, f32 *z) {
     *y = -sinTheta;
     *z = cosTheta * cosPhi;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8007BFE0(f32 arg0, f32 arg1, f32 arg2, s16 *arg3, s16 *arg4) {
     s16 temp_s0 = angleF2S(func_8007C244(arg2, arg0));
 
@@ -151,9 +140,7 @@ void func_8007BFE0(f32 arg0, f32 arg1, f32 arg2, s16 *arg3, s16 *arg4) {
     *arg3 = angleF2S(func_8007C244(arg2, -arg1));
     *arg4 = temp_s0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 f32 func_8007C0C4(f32 arg0) {
     f32 var_fv1;
     s32 var_a0;
@@ -208,9 +195,7 @@ f32 func_8007C0C4(f32 arg0) {
     }
     return var_fv1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 f32 func_8007C244(f32 arg0, f32 arg1) {
     f32 temp_ft0;
     f32 var_fv1;
@@ -288,9 +273,7 @@ f32 func_8007C244(f32 arg0, f32 arg1) {
     }
     return var_fv1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name most likely angleS2F
  *
@@ -299,9 +282,7 @@ f32 func_8007C244(f32 arg0, f32 arg1) {
 f32 func_8007C480(s16 arg0) {
     return ((f32)arg0) * (360.0 / 0x10000);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: angleF2S
  *
@@ -310,9 +291,7 @@ f32 func_8007C480(s16 arg0) {
 s16 angleF2S(f32 arg0) {
     return (s32)(f32)(arg0 * (0x10000 / 360.0));
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Convert an Mtx to an MtxF.
  */
@@ -326,9 +305,7 @@ void func_8007C4D8(f32 mtxf[4][4], Mtx *mtx) {
         mtxf[i][3] = (f32)mtx->m[i][3] / 0x8000;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Convert an Mtx to an MtxF.
  */
@@ -342,9 +319,7 @@ void func_8007C540(Mtx *mtx, f32 mtxf[4][4]) {
         mtx->m[i][3] = mtxf[i][3] * 0x8000;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Convert an Mtx to an MtxF, and set the last row to (0, 0, 0, 1).
  */
@@ -362,9 +337,7 @@ void func_8007C5A8(Mtx *mtx, f32 mtxf[4][4]) {
     mtx->m[3][2] = 0;
     mtx->m[3][3] = 1.0f * 0x8000;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Rotate `(pointX, pointY)` about `(centreX, centreY)` by `angle` degrees, modifying in-place.
  */
@@ -378,10 +351,13 @@ void func_8007C624(f32 angle, f32 centreX, f32 centreY, f32 *pointX, f32 *pointY
     *pointX = (diffX * cos) - (diffY * sin) + centreX;
     *pointY = (diffY * cos) + (diffX * sin) + centreY;
 }
-#endif
 
 #if VERSION_US
 INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C6D8);
+#endif
+
+#if VERSION_GW
+INCLUDE_ASM("asm/gw/nonmatchings/main_segment/calc", func_8007C6D8);
 #endif
 
 #if VERSION_CN
@@ -423,7 +399,6 @@ f32 func_8007C6D8(f32 arg0, f32 arg1) {
 }
 #endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Calculate the distance between two points.
  */
@@ -434,9 +409,7 @@ f32 func_8007C780(f32 aX, f32 aY, f32 aZ, f32 bX, f32 bY, f32 bZ) {
 
     return sqrtf((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ));
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 f32 func_8007C7E8(f32 arg0, f32 *arg1) {
     f32 temp_ft1 = arg1[0];
     f32 temp_ft0 = arg1[1];
@@ -462,9 +435,7 @@ f32 func_8007C7E8(f32 arg0, f32 *arg1) {
     }
     return var_ft1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 f32 func_8007C894(f32 arg0, f32 *arg1, f32 arg2, f32 arg3) {
     f32 temp_ft1_2;
     f32 temp_ft2;
@@ -504,9 +475,7 @@ f32 func_8007C894(f32 arg0, f32 *arg1, f32 arg2, f32 arg3) {
     var_fv0 = temp_ft2 + var_fv0 * (temp_ft1_2 - temp_ft2) / 256.0f;
     return var_fv0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8007C9C8(f32 arg0[4][4], f32 *arg1, f32 *arg2, f32 *arg3) {
     f32 var_fs0;
     f32 var_fs1;
@@ -528,9 +497,7 @@ void func_8007C9C8(f32 arg0[4][4], f32 *arg1, f32 *arg2, f32 *arg3) {
     *arg2 = var_fs1;
     *arg3 = var_fs2;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8007CAFC(Mtx *arg0, s16 *arg1, s16 *arg2, s16 *arg3) {
     s32 var_s0;
     s32 var_s2;
@@ -552,9 +519,7 @@ void func_8007CAFC(Mtx *arg0, s16 *arg1, s16 *arg2, s16 *arg3) {
     *arg2 = var_s2;
     *arg3 = var_s3;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Multiply the vector `(inX, inY, inZ)` by the matrix `m` and write to `(outX, outY, outZ)`.
  *
@@ -572,9 +537,7 @@ void func_8007CBE4(f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY,
     *outY = vec[1];
     *outZ = vec[2];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Shift the vector `(inX, inY, inZ)` by the negative of the translational part of the matrix `m` and multiply it by the
  * linear part of `m` and write to `(outX, outY, outZ)`.
@@ -596,9 +559,7 @@ void func_8007CC68(f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY,
     *outY = vec[1];
     *outZ = vec[2];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Multiply the vector `(inX, inY, inZ)` by the linear part of the matrix `m` and write to `(outX, outY, outZ)`.
  *
@@ -616,9 +577,7 @@ void func_8007CCFC(f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY,
     *outY = vec[1];
     *outZ = vec[2];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8007CD78(f32 arg0[4][4], f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     f32 temp_fs4;
     f32 temp_fs5;
@@ -673,12 +632,10 @@ void func_8007CD78(f32 arg0[4][4], f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 a
         arg0[3][3] = 1.0f;
     }
 }
-#endif
 
 /**
  * Normalise a vector consisting of three passed floats in-place. Returns the length of the original vector.
  */
-#if VERSION_US || VERSION_CN
 f32 func_8007CFB4(f32 *x, f32 *y, f32 *z) {
     f32 tempX = *x;
     f32 tempY = *y;
@@ -695,9 +652,7 @@ f32 func_8007CFB4(f32 *x, f32 *y, f32 *z) {
     *z = tempZ;
     return length;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: randomize00
  */
@@ -727,9 +682,7 @@ void randomize00(void) {
         randomtable[i] = newValue;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: randomseed
  */
@@ -754,9 +707,7 @@ void randomseed(s32 seed) {
     randomize00();
     randomindex = 0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: irandom
  */
@@ -769,13 +720,10 @@ s32 irandom(void) {
     }
     return (u16)randomtable[randomindex];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: random
  */
 s32 random(s32 arg0) {
     return (arg0 * irandom()) >> 0x10;
 }
-#endif

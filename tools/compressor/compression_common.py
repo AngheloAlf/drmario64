@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
-# SPDX-FileCopyrightText: © 2022 AngheloAlf
+# SPDX-FileCopyrightText: © 2022-2024 AngheloAlf
 # SPDX-License-Identifier: MIT
 
 from __future__ import annotations
 
+import crunch64
 import dataclasses
 import spimdisasm
 from pathlib import Path
@@ -21,14 +22,33 @@ def decompressZlib(data: bytearray) -> bytearray:
     return output
 
 
-def compressZlib(data: bytearray) -> bytearray:
-    comp = zlib.compressobj(9, wbits=-zlib.MAX_WBITS)
+def numberToLittleEndianBytes(number: int) -> bytes:
+    return bytes([
+        (number >> 0) & 0xFF,
+        (number >> 8) & 0xFF,
+        (number >> 16) & 0xFF,
+        (number >> 24) & 0xFF,
+    ])
+
+
+def compressZlib(data: bytearray, compressionLevel: int) -> bytearray:
+    comp = zlib.compressobj(compressionLevel, wbits=-zlib.MAX_WBITS)
     output = bytearray()
     output.extend(comp.compress(data))
     # while comp.unconsumed_tail:
     #     output.extend(comp.decompress(comp.unconsumed_tail))
     output.extend(comp.flush())
+
+    # Write the crc of the input data
+    output.extend(numberToLittleEndianBytes(zlib.crc32(data)))
+
+    # Write the input size
+    output.extend(numberToLittleEndianBytes(len(data)))
+
     return output
+
+def compressGzip(data: bytearray, compressionLevel: int, small_mem: bool) -> bytearray:
+    return bytearray(crunch64.gzip.compress(data, compressionLevel, small_mem=small_mem))
 
 
 @dataclasses.dataclass
@@ -37,6 +57,8 @@ class SegmentEntry:
     compressedRomOffset: int
     compressedRomOffsetEnd: int
     uncompressedHash: str
+    compressionLevel: int
+    compressionTool: str
 
     version: str
 
@@ -65,7 +87,7 @@ def readSegmentsCsv(segmentsPath: Path, version: str) -> dict[str, SegmentEntry]
             continue
         if len(row) == 0:
             continue
-        name, compressedRomOffset, compressedRomOffsetEnd, segmentHash = row
-        segmentDict[f".{name}"] = SegmentEntry(name, int(compressedRomOffset, 0), int(compressedRomOffsetEnd, 0), segmentHash, version)
+        name, compressedRomOffset, compressedRomOffsetEnd, segmentHash, compressionLevel, compressionTool = row
+        segmentDict[f".{name}"] = SegmentEntry(name, int(compressedRomOffset, 0), int(compressedRomOffsetEnd, 0), segmentHash, int(compressionLevel), compressionTool, version)
 
     return segmentDict

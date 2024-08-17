@@ -8,7 +8,7 @@
 
 bool sGatewayInitialized = false;
 
-extern OSPiHandle sGatewayHandle;
+static OSPiHandle sGatewayHandle;
 
 OSPiHandle *Gateway_GetHandle(void) {
     if (sGatewayInitialized) {

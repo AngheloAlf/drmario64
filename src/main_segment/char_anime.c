@@ -4,13 +4,13 @@
 
 #include "char_anime.h"
 
+#include "libc/assert.h"
+
 #include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "main_segment_variables.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
 #include "rom_offsets.h"
 #include "segment_symbols.h"
 #include "util.h"
@@ -19,33 +19,34 @@
 /**
  * Original name: static _size
  */
-const size_t _size_122[CHARANIMEMODE_MAX] = {
-    SEGMENT_DATA_SIZE_CONST(segment_anime_m),       // CHARANIMEMODE_M
-    SEGMENT_DATA_SIZE_CONST(segment_anime_n),       // CHARANIMEMODE_N
-    SEGMENT_DATA_SIZE_CONST(segment_anime_h),       // CHARANIMEMODE_H
-    SEGMENT_DATA_SIZE_CONST(segment_anime_i),       // CHARANIMEMODE_I
-    SEGMENT_DATA_SIZE_CONST(segment_anime_j),       // CHARANIMEMODE_J
-    SEGMENT_DATA_SIZE_CONST(segment_anime_d),       // CHARANIMEMODE_D
-    SEGMENT_DATA_SIZE_CONST(segment_anime_e),       // CHARANIMEMODE_E
-    SEGMENT_DATA_SIZE_CONST(segment_anime_f),       // CHARANIMEMODE_F
-    SEGMENT_DATA_SIZE_CONST(segment_anime_a),       // CHARANIMEMODE_A
-    SEGMENT_DATA_SIZE_CONST(segment_anime_b),       // CHARANIMEMODE_B
-    SEGMENT_DATA_SIZE_CONST(segment_anime_c),       // CHARANIMEMODE_C
-    SEGMENT_DATA_SIZE_CONST(segment_anime_g),       // CHARANIMEMODE_G
-    SEGMENT_DATA_SIZE_CONST(segment_anime_k),       // CHARANIMEMODE_K
-    SEGMENT_DATA_SIZE_CONST(segment_anime_l),       // CHARANIMEMODE_L
-    SEGMENT_DATA_SIZE_CONST(segment_anime_o),       // CHARANIMEMODE_O
-    SEGMENT_DATA_SIZE_CONST(segment_anime_mario),   // CHARANIMEMODE_MARIO
-    SEGMENT_DATA_SIZE_CONST(segment_anime_virus_r), // CHARANIMEMODE_VIRUS_R
-    SEGMENT_DATA_SIZE_CONST(segment_anime_virus_y), // CHARANIMEMODE_VIRUS_Y
-    SEGMENT_DATA_SIZE_CONST(segment_anime_virus_b), // CHARANIMEMODE_VIRUS_B
-    SEGMENT_DATA_SIZE_CONST(segment_anime_smog),    // CHARANIMEMODE_SMOG
+const size_t _size_122[] = {
+    SEGMENT_ROM_SIZE_CONST(segment_anime_m),       // CHARANIMEMODE_M
+    SEGMENT_ROM_SIZE_CONST(segment_anime_n),       // CHARANIMEMODE_N
+    SEGMENT_ROM_SIZE_CONST(segment_anime_h),       // CHARANIMEMODE_H
+    SEGMENT_ROM_SIZE_CONST(segment_anime_i),       // CHARANIMEMODE_I
+    SEGMENT_ROM_SIZE_CONST(segment_anime_j),       // CHARANIMEMODE_J
+    SEGMENT_ROM_SIZE_CONST(segment_anime_d),       // CHARANIMEMODE_D
+    SEGMENT_ROM_SIZE_CONST(segment_anime_e),       // CHARANIMEMODE_E
+    SEGMENT_ROM_SIZE_CONST(segment_anime_f),       // CHARANIMEMODE_F
+    SEGMENT_ROM_SIZE_CONST(segment_anime_a),       // CHARANIMEMODE_A
+    SEGMENT_ROM_SIZE_CONST(segment_anime_b),       // CHARANIMEMODE_B
+    SEGMENT_ROM_SIZE_CONST(segment_anime_c),       // CHARANIMEMODE_C
+    SEGMENT_ROM_SIZE_CONST(segment_anime_g),       // CHARANIMEMODE_G
+    SEGMENT_ROM_SIZE_CONST(segment_anime_k),       // CHARANIMEMODE_K
+    SEGMENT_ROM_SIZE_CONST(segment_anime_l),       // CHARANIMEMODE_L
+    SEGMENT_ROM_SIZE_CONST(segment_anime_o),       // CHARANIMEMODE_O
+    SEGMENT_ROM_SIZE_CONST(segment_anime_mario),   // CHARANIMEMODE_MARIO
+    SEGMENT_ROM_SIZE_CONST(segment_anime_virus_r), // CHARANIMEMODE_VIRUS_R
+    SEGMENT_ROM_SIZE_CONST(segment_anime_virus_y), // CHARANIMEMODE_VIRUS_Y
+    SEGMENT_ROM_SIZE_CONST(segment_anime_virus_b), // CHARANIMEMODE_VIRUS_B
+    SEGMENT_ROM_SIZE_CONST(segment_anime_smog),    // CHARANIMEMODE_SMOG
 };
+static_assert(ARRAY_COUNT(_size_122) == CHARANIMEMODE_MAX, "");
 
 /**
  * Original name: static _addrTbl
  */
-const RomDataTblIndex _addrTbl_124[CHARANIMEMODE_MAX] = {
+const RomDataTblIndex _addrTbl_124[] = {
     ROMDATATBL_ANIME_M,       // CHARANIMEMODE_M
     ROMDATATBL_ANIME_N,       // CHARANIMEMODE_N
     ROMDATATBL_ANIME_H,       // CHARANIMEMODE_H
@@ -67,11 +68,12 @@ const RomDataTblIndex _addrTbl_124[CHARANIMEMODE_MAX] = {
     ROMDATATBL_ANIME_VIRUS_B, // CHARANIMEMODE_VIRUS_B
     ROMDATATBL_ANIME_SMOG,    // CHARANIMEMODE_SMOG
 };
+static_assert(ARRAY_COUNT(_addrTbl_124) == CHARANIMEMODE_MAX, "");
 
 /**
  * Original name: static _centerTbl
  */
-const struct_800B1B00 _centerTbl_125[CHARANIMEMODE_MAX] = {
+const struct_800B1B00 _centerTbl_125[] = {
     { 0x10, 0x2B }, // CHARANIMEMODE_M
     { 0x19, 0x2C }, // CHARANIMEMODE_N
     { 0x10, 0x29 }, // CHARANIMEMODE_H
@@ -93,12 +95,12 @@ const struct_800B1B00 _centerTbl_125[CHARANIMEMODE_MAX] = {
     { 0x10, 0x10 }, // CHARANIMEMODE_VIRUS_B
     { 0x10, 0x10 }, // CHARANIMEMODE_SMOG
 };
+static_assert(ARRAY_COUNT(_centerTbl_125) == CHARANIMEMODE_MAX, "");
 
 /**
  * Original name: animeSeq_init
  */
-#if VERSION_US || VERSION_CN
-void animeSeq_init(AnimeSeq *animeSeq, AnimeSeq_unk_0C *arg1, UNK_TYPE4 arg2) {
+void animeSeq_init(AnimeSeq *animeSeq, u8 **arg1, UNK_TYPE4 arg2) {
     animeSeq->unk_0C = arg1;
     animeSeq->unk_08 = -1;
     animeSeq->unk_10 = arg2;
@@ -106,31 +108,27 @@ void animeSeq_init(AnimeSeq *animeSeq, AnimeSeq_unk_0C *arg1, UNK_TYPE4 arg2) {
     animeSeq->unk_18 = -1;
     animeSeq_update(animeSeq, 0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8005E154(AnimeState *animeState, UNK_TYPE4 arg1) {
     animeSeq_init(&animeState->animeSeq, animeState->animeSeq.unk_0C, arg1);
 }
-#endif
 
 /**
  * Original name: animeSeq_update
  */
-#if VERSION_US || VERSION_CN
 void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
     while (arg1 >= 0) {
-        u8 *temp_a1 = &animeSeq->unk_0C[animeSeq->unk_10].unk_0[animeSeq->unk_14];
+        u8 *temp_a1 = &animeSeq->unk_0C[animeSeq->unk_10][animeSeq->unk_14];
 
         switch (temp_a1[0]) {
-            case 0xF0:
+            case ANIME_METADATA_F0:
                 animeSeq->unk_14 += 2;
                 animeSeq->unk_08++;
                 animeSeq->unk_00[animeSeq->unk_08] = animeSeq->unk_14;
                 animeSeq->unk_04[animeSeq->unk_08] = temp_a1[1];
                 break;
 
-            case 0xF1:
+            case ANIME_METADATA_F1:
                 if (animeSeq->unk_04[animeSeq->unk_08] != 0xFF) {
                     animeSeq->unk_04[animeSeq->unk_08]--;
                 }
@@ -143,13 +141,13 @@ void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
                 }
                 break;
 
-            case 0xF2:
+            case ANIME_METADATA_F2:
                 animeSeq->unk_14 = 0;
                 animeSeq->unk_10 = temp_a1[1];
                 animeSeq->unk_08 = -1;
                 break;
 
-            case 0xFF:
+            case ANIME_METADATA_END:
                 arg1 = -1;
                 break;
 
@@ -163,46 +161,38 @@ void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
         }
     }
 }
-#endif
 
 /**
  * Original name: animeSeq_isEnd
  */
-#if VERSION_US || VERSION_CN
 bool animeSeq_isEnd(AnimeSeq *animeSeq) {
-    return animeSeq->unk_0C[animeSeq->unk_10].unk_0[animeSeq->unk_14] == 0xFF;
+    return animeSeq->unk_0C[animeSeq->unk_10][animeSeq->unk_14] == 0xFF;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: animeState_getDataSize
  */
 size_t animeState_getDataSize(CharAnimeMode animeMode) {
     return _size_122[animeMode];
 }
-#endif
 
 /**
  * Original name: animeState_load
  */
-#if VERSION_US || VERSION_CN
 void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeMode) {
     TiTexData *sp18;
-    AnimeSeq_unk_0C *sp1C;
+    u8 **sp1C;
     RomDataTblIndex index = _addrTbl_124[animeMode];
 
     loadAnimeSeq(arg1, &sp18, &sp1C, _romDataTbl[index].start, _romDataTbl[index].end);
     animeState_init(animeState, sp1C, sp18, _centerTbl_125[animeMode].unk_0, _centerTbl_125[animeMode].unk_4,
                     animeMode);
 }
-#endif
 
 /**
  * Original name: animeState_init
  */
-#if VERSION_US || VERSION_CN
-void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, TiTexData *arg2, UNK_TYPE4 arg3, UNK_TYPE4 arg4,
+void animeState_init(AnimeState *animeState, u8 **arg1, TiTexData *arg2, UNK_TYPE4 arg3, UNK_TYPE4 arg4,
                      CharAnimeMode animeMode) {
     animeSeq_init(&animeState->animeSeq, arg1, 0);
     animeState->unk_1C = arg2;
@@ -215,35 +205,27 @@ void animeState_init(AnimeState *animeState, AnimeSeq_unk_0C *arg1, TiTexData *a
     animeState->primColor[2] = 255;
     animeState->primColor[3] = 255;
 }
-#endif
 
 /**
  * Original name: animeState_set
  */
-#if VERSION_US || VERSION_CN
 void animeState_set(AnimeState *animeState, UNK_TYPE4 arg1) {
     animeState->unk_20 = 0;
     func_8005E154(animeState, arg1);
 }
-#endif
 
 /**
  * Original name: animeState_update
  */
-#if VERSION_US || VERSION_CN
 void animeState_update(AnimeState *animeState) {
     animeSeq_update(&animeState->animeSeq, animeState->unk_20 % 2U);
     animeState->unk_20++;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool animeState_isEnd(AnimeState *animeState) {
     return animeSeq_isEnd(&animeState->animeSeq);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: animeState_initDL
  */
@@ -261,12 +243,10 @@ void animeState_initDL(AnimeState *animeState, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
 /**
  * Original name: animeState_initDL2
  */
-#if VERSION_US || VERSION_CN
 void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -281,12 +261,10 @@ void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
     }
     *gfxP = gfx;
 }
-#endif
 
 /**
  * Original name: animeState_initIntensityDL
  */
-#if VERSION_US || VERSION_CN
 void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
@@ -301,12 +279,10 @@ void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
 /**
  * Original name: animeState_draw
  */
-#if VERSION_US || VERSION_CN
 void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     Gfx *gfx = *gfxP;
     TiTexData *temp_a3;
@@ -319,40 +295,38 @@ void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32
     temp_t0 = animeState->unk_1C;
     temp_a3 = &temp_t0[animeState->animeSeq.unk_18];
     if (arg4 < 0.0f) {
-        arg2 = arg2 - (animeState->unk_24.unk_0 - temp_a3->unk_4[0]) * arg4;
+        arg2 = arg2 - (animeState->unk_24.unk_0 - temp_a3->info[0]) * arg4;
     } else {
         arg2 = arg2 - animeState->unk_24.unk_0 * arg4;
     }
 
     if (arg5 < 0.0f) {
-        arg3 -= (animeState->unk_24.unk_4 - temp_a3->unk_4[1]) * arg5;
+        arg3 -= (animeState->unk_24.unk_4 - temp_a3->info[1]) * arg5;
     } else {
         arg3 -= animeState->unk_24.unk_4 * arg5;
     }
 
     if (animeState->animeMode == CHARANIMEMODE_MARIO) {
-        arg3 -= (temp_a3->unk_4[1] - 0x40) * arg5;
+        arg3 -= (temp_a3->info[1] - 0x40) * arg5;
     }
 
-    switch (temp_a3->unk_4[2]) {
-        case 0x4:
-            StretchTexTile4(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_t0[0].unk_0->tlut, temp_a3->unk_0->tex, 0,
-                            0, temp_a3->unk_4[0], temp_a3->unk_4[1], arg2, arg3, temp_a3->unk_4[0] * arg4,
-                            temp_a3->unk_4[1] * arg5);
+    switch (temp_a3->info[2]) {
+        case TITEX_FORMAT_4:
+            StretchTexTile4(&gfx, temp_a3->info[0], temp_a3->info[1], temp_t0[0].texs[0], temp_a3->texs[1], 0, 0,
+                            temp_a3->info[0], temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4,
+                            temp_a3->info[1] * arg5);
             break;
 
-        case 0x8:
-            StretchTexTile8(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_t0[0].unk_0->tlut, temp_a3->unk_0->tex, 0,
-                            0, temp_a3->unk_4[0], temp_a3->unk_4[1], arg2, arg3, temp_a3->unk_4[0] * arg4,
-                            temp_a3->unk_4[1] * arg5);
+        case TITEX_FORMAT_8:
+            StretchTexTile8(&gfx, temp_a3->info[0], temp_a3->info[1], temp_t0[0].texs[0], temp_a3->texs[1], 0, 0,
+                            temp_a3->info[0], temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4,
+                            temp_a3->info[1] * arg5);
             break;
     }
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     Gfx *gfx = *gfxP;
     TiTexData *temp_a3;
@@ -364,27 +338,25 @@ void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 a
     temp_a3 = &animeState->unk_1C[animeState->animeSeq.unk_18];
 
     if (arg4 < 0.0f) {
-        arg2 -= (animeState->unk_24.unk_0 - temp_a3->unk_4[0]) * arg4;
+        arg2 -= (animeState->unk_24.unk_0 - temp_a3->info[0]) * arg4;
     } else {
         arg2 -= animeState->unk_24.unk_0 * arg4;
     }
 
     if (arg5 < 0.0f) {
-        arg3 -= (animeState->unk_24.unk_4 - temp_a3->unk_4[1]) * arg5;
+        arg3 -= (animeState->unk_24.unk_4 - temp_a3->info[1]) * arg5;
     } else {
         arg3 -= animeState->unk_24.unk_4 * arg5;
     }
 
-    StretchTexTile4i(&gfx, temp_a3->unk_4[0], temp_a3->unk_4[1], temp_a3->unk_0->tex, 0, 0, temp_a3->unk_4[0],
-                     temp_a3->unk_4[1], arg2, arg3, temp_a3->unk_4[0] * arg4, temp_a3->unk_4[1] * arg5);
+    StretchTexTile4i(&gfx, temp_a3->info[0], temp_a3->info[1], temp_a3->texs[1], 0, 0, temp_a3->info[0],
+                     temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4, temp_a3->info[1] * arg5);
     *gfxP = gfx;
 }
-#endif
 
 /**
  * Original name: animeSmog_init
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig) {
     s32 i;
 
@@ -397,31 +369,25 @@ void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig) {
     }
     animeSmog->unk_120 = 0xB4;
 }
-#endif
 
 /**
  * Original name: animeSmog_load
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_load(AnimeSmog *animeSmog, UNK_PTR *arg1) {
     animeState_load(animeSmog->unk_000, arg1, CHARANIMEMODE_SMOG);
     animeSmog_init(animeSmog, animeSmog);
 }
-#endif
 
 /**
  * Original name: animeSmog_start
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_start(AnimeSmog *animeSmog) {
     animeSmog->unk_120 = 0;
 }
-#endif
 
 /**
  * Original name: animeSmog_stop
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_stop(AnimeSmog *animeSmog) {
     u32 i;
 
@@ -431,12 +397,10 @@ void animeSmog_stop(AnimeSmog *animeSmog) {
 
     animeSmog->unk_120 = 0xB4;
 }
-#endif
 
 /**
  * Original name: animeSmog_update
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_update(AnimeSmog *animeSmog) {
     u32 i;
 
@@ -451,12 +415,10 @@ void animeSmog_update(AnimeSmog *animeSmog) {
 
     animeSmog->unk_120 = MIN(0xB4, animeSmog->unk_120 + 1);
 }
-#endif
 
 /**
  * Original name: animeSmog_draw
  */
-#if VERSION_US || VERSION_CN
 void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
     Gfx *gfx = *gfxP;
     u32 i;
@@ -472,46 +434,47 @@ void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 ar
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-void func_8005EE64(AnimeSeq_unk_0C *arg0, s32 arg1, u32 arg2) {
+void func_8005EE64(u8 **metadata, s32 len, uintptr_t addr) {
     s32 i;
 
-    for (i = 0; i < arg1; i++) {
-        //! FAKE: ?
-        arg0[i].unk_0 = &arg0[i].unk_0[arg2];
+    for (i = 0; i < len; i++) {
+        metadata[i] = (void *)((uintptr_t)metadata[i] + addr);
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: loadAnimeSeq
+ *
+ * Loads an anime segment.
+ *
+ * The segment is loaded into the passed heap and the heap argument will be updated to point to the memory after the
+ * used one.
+ *
+ * The data from the anime segment is placed into `texDataDst` and `metadataDst`
  */
-void loadAnimeSeq(void **arg0, TiTexData **arg1, AnimeSeq_unk_0C **arg2, RomOffset romOffsetStart,
+void loadAnimeSeq(void **heap, TiTexData **texDataDst, u8 ***metadataDst, RomOffset romOffsetStart,
                   RomOffset romOffsetEnd) {
-    u32 *temp_s0 = ALIGN_PTR(*arg0);
-    AnimeSeq_unk_0C *temp_a0_2;
-    TiTexData *temp_a0;
-    s32 *temp_v0;
-    s32 *temp_v0_2;
+    AnimeHeader *anime = ALIGN_PTR(*heap);
+    TiTexData *texData;
+    s32 *texDataLen;
+    u8 **metadata;
+    s32 *metadataLen;
 
-    *arg0 = DecompressRomToRam(romOffsetStart, temp_s0, romOffsetEnd - romOffsetStart);
+    *heap = DecompressRomToRam(romOffsetStart, anime, romOffsetEnd - romOffsetStart);
 
-    temp_a0 = (void *)(*(((u32 *)temp_s0) + 0) + (u32)temp_s0);
-    temp_v0 = (void *)(*(((u32 *)temp_s0) + 1) + (u32)temp_s0);
-    *(((u32 **)temp_s0) + 0) = (void *)temp_a0;
-    *(((u32 **)temp_s0) + 1) = (void *)temp_v0;
-    *arg1 = temp_a0;
-    tiMappingAddr(temp_a0, *temp_v0, (u32)temp_s0);
+    texData = (void *)((uintptr_t)anime->texData + (uintptr_t)anime);
+    texDataLen = (void *)((uintptr_t)anime->texDataLen + (uintptr_t)anime);
+    anime->texData = texData;
+    anime->texDataLen = texDataLen;
+    *texDataDst = texData;
+    tiMappingAddr(texData, *texDataLen, (uintptr_t)anime);
 
-    temp_a0_2 = (void *)(*(((u32 *)temp_s0) + 2) + (u32)temp_s0);
-    temp_v0_2 = (void *)(*(((u32 *)temp_s0) + 3) + (u32)temp_s0);
-    *(((u32 **)temp_s0) + 2) = (void *)temp_a0_2;
-    *(((u32 **)temp_s0) + 3) = (void *)temp_v0_2;
+    metadata = (void *)((uintptr_t)anime->metadata + (uintptr_t)anime);
+    metadataLen = (void *)((uintptr_t)anime->metadataLen + (uintptr_t)anime);
+    anime->metadata = metadata;
+    anime->metadataLen = metadataLen;
 
-    *arg2 = temp_a0_2;
-    func_8005EE64(temp_a0_2, *temp_v0_2, (u32)temp_s0);
+    *metadataDst = metadata;
+    func_8005EE64(metadata, *metadataLen, (uintptr_t)anime);
 }
-#endif

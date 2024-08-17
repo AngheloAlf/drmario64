@@ -4,6 +4,7 @@
 #include "libultra.h"
 #include "ai.h"
 #include "char_anime.h"
+#include "color.h"
 #include "gamemap.h"
 #include "msgwnd.h"
 #include "recwritingmsg.h"
@@ -11,7 +12,6 @@
 #include "unk.h"
 
 struct struct_virus_map_data;
-struct struct_virus_map_disp_order;
 struct NNSched;
 
 typedef enum enum_evs_gamemode {
@@ -75,12 +75,9 @@ typedef struct struct_watchGame {
     /* 0x06C */ s32 unk_06C;
     /* 0x070 */ struct_watchGame_unk_070 unk_070;
     /* 0x0B8 */ struct_watchGame_unk_0B8 unk_0B8[4];
-    /* 0x348 */ UNK_TYPE4 unk_348[UNK_SIZE];
-    /* 0x34C */ UNK_TYPE1 unk_34C[0xC];
-    /* 0x358 */ UNK_TYPE4 unk_358[UNK_SIZE];
-    /* 0x35C */ UNK_TYPE1 unk_35C[0xC];
-    /* 0x368 */ UNK_TYPE4 unk_368[UNK_SIZE];
-    /* 0x36C */ UNK_TYPE1 unk_36C[0xC];
+    /* 0x348 */ s32 unk_348[MAXCONTROLLERS];
+    /* 0x358 */ s32 unk_358[MAXCONTROLLERS];
+    /* 0x368 */ s32 unk_368[MAXCONTROLLERS];
     /* 0x378 */ UNK_TYPE4 unk_378;
     /* 0x37C */ s32 unk_37C[4];
     /* 0x38C */ UNK_TYPE unk_38C;
@@ -123,7 +120,7 @@ typedef struct struct_watchGame {
     /* 0x878 */ UNK_TYPE unk_878;
     /* 0x87C */ TexturePtr unk_87C; // SnapBg?
     /* 0x880 */ s32 unk_880;
-    /* 0x884 */ UNK_PTR unk_884;
+    /* 0x884 */ void *gameEtcSeg;
     /* 0x888 */ UNK_TYPE4 unk_888[UNK_SIZE];
     /* 0x88C */ UNK_TYPE1 unk_88C[0xC];
     /* 0x898 */ s32 unk_898;
@@ -155,37 +152,93 @@ typedef struct struct_watchGame {
     /* 0xAD8 */ RecordWritingMessage recMessage;
 } struct_watchGame; // size = 0xB60
 
-// not sure about this struct
-typedef struct struct_game_state_data_unk_0D4_unk_00 {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ s32 unk_4;
-    /* 0x8 */ s32 unk_8;
-} struct_game_state_data_unk_0D4_unk_00; // size = 0xC
-
-typedef struct struct_game_state_data_unk_0D4 {
-    /* 0x00 */ struct_game_state_data_unk_0D4_unk_00 unk_00[UNK_SIZE];
-    /* 0x0C */ UNK_TYPE1 unk_0C[0x60];
-} struct_game_state_data_unk_0D4; // size = 0x6C
-
+// Maybe fake struct?
 typedef struct struct_game_state_data_unk_140 {
     /* 0x00 */ UNK_TYPE4 unk_00[UNK_SIZE];
     /* 0x04 */ UNK_TYPE1 unk_04[0x20];
 } struct_game_state_data_unk_140; // size = 0x24
 
+#define STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN 2
+
 typedef struct struct_game_state_data_unk_178 {
-    /* 0x0 */ s8 unk_0[2];
-    /* 0x0 */ s8 unk_2[2];
-    /* 0x0 */ s8 unk_4[2];
-    /* 0x0 */ s8 unk_6[2];
-    /* 0x0 */ s8 unk_8;
-    /* 0x0 */ s8 unk_9;
-    /* 0x0 */ s8 unk_A;
+    /* 0x0 */ s8 unk_0[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
+    /* 0x2 */ s8 unk_2[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
+    /* 0x4 */ s8 unk_4[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
+    /* 0x6 */ s8 unk_6[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
+    /* 0x8 */ s8 unk_8;
+    /* 0x9 */ s8 unk_9;
+    /* 0xA */ s8 unk_A;
 } struct_game_state_data_unk_178; // size = 0xB
 
 typedef struct struct_game_state_data_unk_050 {
     /* 0x0 */ u16 unk_0;
     /* 0x2 */ u16 unk_2;
 } struct_game_state_data_unk_050; // size = 0x4
+
+typedef enum EnumGameStateDataUnk00C {
+    /* 0x00 */ GAMESTATEDATA_UNK_00C_0,
+    /* 0x01 */ GAMESTATEDATA_UNK_00C_1,
+    /* 0x02 */ GAMESTATEDATA_UNK_00C_2,
+    /* 0x03 */ GAMESTATEDATA_UNK_00C_3,
+    /* 0x04 */ GAMESTATEDATA_UNK_00C_4,
+    /* 0x05 */ GAMESTATEDATA_UNK_00C_5,
+    /* 0x06 */ GAMESTATEDATA_UNK_00C_6,
+    /* 0x07 */ GAMESTATEDATA_UNK_00C_7,
+    /* 0x08 */ GAMESTATEDATA_UNK_00C_8,
+    /* 0x09 */ GAMESTATEDATA_UNK_00C_9,
+    /* 0x0A */ GAMESTATEDATA_UNK_00C_A,
+    /* 0x0B */ GAMESTATEDATA_UNK_00C_B,
+    /* 0x0C */ GAMESTATEDATA_UNK_00C_C,
+    /* 0x0D */ GAMESTATEDATA_UNK_00C_D,
+    /* 0x0E */ GAMESTATEDATA_UNK_00C_E,
+    /* 0x0F */ GAMESTATEDATA_UNK_00C_F,
+    /* 0x10 */ GAMESTATEDATA_UNK_00C_10,
+    /* 0x11 */ GAMESTATEDATA_UNK_00C_11,
+    /* 0x12 */ GAMESTATEDATA_UNK_00C_12,
+    /* 0x13 */ GAMESTATEDATA_UNK_00C_13,
+    /* 0x14 */ GAMESTATEDATA_UNK_00C_14,
+    /* 0x15 */ GAMESTATEDATA_UNK_00C_15,
+    /* 0x16 */ GAMESTATEDATA_UNK_00C_16,
+    /* 0x17 */ GAMESTATEDATA_UNK_00C_17,
+    /* 0x18 */ GAMESTATEDATA_UNK_00C_18,
+    /* 0x19 */ GAMESTATEDATA_UNK_00C_19,
+    /* 0x1A */ GAMESTATEDATA_UNK_00C_1A,
+    /* 0x1B */ GAMESTATEDATA_UNK_00C_1B,
+    /* 0x1C */ GAMESTATEDATA_UNK_00C_1C,
+    /* 0x1D */ GAMESTATEDATA_UNK_00C_1D,
+    /* 0x1E */ GAMESTATEDATA_UNK_00C_1E,
+    /* 0x1F */ GAMESTATEDATA_UNK_00C_1F,
+    /* 0x20 */ GAMESTATEDATA_UNK_00C_20,
+    /* 0x21 */ GAMESTATEDATA_UNK_00C_21,
+} EnumGameStateDataUnk00C;
+
+typedef enum EnumGameStateDataUnk014 {
+    /* 0x00 */ GAMESTATEDATA_UNK_014_0,
+    /* 0x01 */ GAMESTATEDATA_UNK_014_1,
+    /* 0x02 */ GAMESTATEDATA_UNK_014_2,
+    /* 0x03 */ GAMESTATEDATA_UNK_014_3,
+    /* 0x04 */ GAMESTATEDATA_UNK_014_4,
+    /* 0x05 */ GAMESTATEDATA_UNK_014_5,
+    /* 0x06 */ GAMESTATEDATA_UNK_014_6,
+    /* 0x07 */ GAMESTATEDATA_UNK_014_7,
+    /* 0x08 */ GAMESTATEDATA_UNK_014_8,
+    /* 0x09 */ GAMESTATEDATA_UNK_014_9,
+    /* 0x0A */ GAMESTATEDATA_UNK_014_A,
+    /* 0x0B */ GAMESTATEDATA_UNK_014_B,
+    /* 0x0C */ GAMESTATEDATA_UNK_014_C,
+    /* 0x0D */ GAMESTATEDATA_UNK_014_D,
+    /* 0x0E */ GAMESTATEDATA_UNK_014_E,
+    /* 0x0F */ GAMESTATEDATA_UNK_014_F,
+    /* 0x10 */ GAMESTATEDATA_UNK_014_10,
+    /* 0x11 */ GAMESTATEDATA_UNK_014_11,
+    /* 0x12 */ GAMESTATEDATA_UNK_014_12,
+    /* 0x13 */ GAMESTATEDATA_UNK_014_13,
+    /* 0x14 */ GAMESTATEDATA_UNK_014_14,
+    /* 0x15 */ GAMESTATEDATA_UNK_014_15,
+    /* 0x16 */ GAMESTATEDATA_UNK_014_16,
+    /* 0x17 */ GAMESTATEDATA_UNK_014_17,
+    /* 0x18 */ GAMESTATEDATA_UNK_014_18,
+} EnumGameStateDataUnk014;
 
 typedef struct struct_game_state_data {
     /* 0x000 */ u32 unk_000;
@@ -194,12 +247,12 @@ typedef struct struct_game_state_data {
     /* 0x008 */ s16 unk_008;
     /* 0x008 */ s8 unk_00A;
     /* 0x008 */ UNK_TYPE1 unk_00B[0x1];
-    /* 0x00C */ s32 unk_00C;
-    /* 0x010 */ s32 unk_010;
-    /* 0x014 */ u32 unk_014; // TODO: enum?
-    /* 0x018 */ s32 unk_018;
+    /* 0x00C */ EnumGameStateDataUnk00C unk_00C;
+    /* 0x010 */ EnumGameStateDataUnk00C unk_010;
+    /* 0x014 */ EnumGameStateDataUnk014 unk_014;
+    /* 0x018 */ EnumGameStateDataUnk014 unk_018;
     /* 0x01C */ UNK_TYPE4 unk_01C;
-    /* 0x020 */ u32 unk_020;
+    /* 0x020 */ u32 unk_020; // TODO: enum?
     /* 0x024 */ u8 unk_024;
     /* 0x025 */ u8 unk_025;
     /* 0x026 */ u8 unk_026;
@@ -239,7 +292,7 @@ typedef struct struct_game_state_data {
     /* 0x050 */ struct_game_state_data_unk_050 unk_050[0x10];
     /* 0x090 */ CharAnimeMode unk_090;
     /* 0x094 */ AnimeState unk_094;
-    /* 0x0D4 */ struct_game_state_data_unk_0D4 unk_0D4;
+    /* 0x0D4 */ s32 unk_0D4[9][3];
     /* 0x140 */ struct_game_state_data_unk_140 unk_140;
     /* 0x164 */ s32 unk_164;
     /* 0x168 */ s32 unk_168;
@@ -257,7 +310,7 @@ typedef struct struct_game_state_data {
     /* 0x236 */ u8 unk_236;
     /* 0x237 */ u8 unk_237;
     /* 0x238 */ u8 unk_238;
-    /* 0x239 */ s8 unk_239;
+    /* 0x239 */ u8 unk_239;
     /* 0x23A */ u8 unk_23A;
     /* 0x23A */ u8 unk_23B;
     /* 0x23C */ u8 unk_23C;
@@ -267,17 +320,18 @@ typedef struct struct_game_state_data {
     /* 0x240 */ u8 unk_240;
     /* 0x241 */ u8 unk_241;
     /* 0x242 */ u8 unk_242[0x10];
-    /* 0x252 */ UNK_TYPE1 unk_252[2];
-    /* 0x254 */ UNK_TYPE1 unk_254[0x1C];
-    /* 0x270 */ UNK_TYPE1 unk_270[2];
+    /* 0x252 */ s16 unk_252[0x10];
     /* 0x272 */ s16 unk_272[0x10];
     /* 0x292 */ u8 unk_292;
     /* 0x293 */ u8 unk_293;
     /* 0x294 */ u8 unk_294;
-    /* 0x295 */ UNK_TYPE1 unk_295[0x3];
+    /* 0x295 */ UNK_TYPE1 unk_295[0x1];
+    /* 0x296 */ u16 unk_296;
     /* 0x298 */ u8 unk_298;
-    /* 0x299 */ UNK_TYPE1 unk_299[0x3];
-    /* 0x29C */ u8 unk_29C[GAME_MAP_ROWS][GAME_MAP_COLUMNS][2];
+    /* 0x299 */ u8 unk_299;
+    /* 0x29A */ u8 unk_29A;
+    /* 0x29B */ u8 unk_29B;
+    /* 0x29C */ u8 unk_29C[GAME_MAP_ROWS][GAME_MAP_COLUMNS][2]; // TODO: use Unk_AIFEntry instead?
     /* 0x34C */ UNK_TYPE1 unk_3AC[0x10];
     /* 0x3BC */ u8 unk_3BC;
     /* 0x3BD */ u8 unk_3BD;
@@ -295,7 +349,7 @@ void dm_warning_h_line(struct_game_state_data *gameStateData, GameMapCell *mapCe
 UNK_TYPE set_down_flg(GameMapCell *mapCells);
 void go_down(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 arg2);
 void erase_anime(GameMapCell *mapCells);
-// void func_800609B8();
+void throw_rotate_capsel(struct_game_state_data_unk_178 *arg0);
 void translate_capsel(GameMapCell *mapCells, struct_game_state_data * arg1, s32 arg2, s32 arg3);
 void rotate_capsel(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, s32 arg2);
 void dm_make_magazine(void);
@@ -305,8 +359,8 @@ void dm_set_capsel(struct_game_state_data *arg0);
 void dm_capsel_speed_up(struct_game_state_data *gameStateDataRef);
 bool dm_check_game_over(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells);
 s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapCell *mapCells, s32 arg2);
-u8 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, UNK_TYPE arg2);
-void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, struct struct_virus_map_data *virusMapData, struct struct_virus_map_disp_order *virusMapDispOrder);
+s32 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, UNK_TYPE arg2);
+void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, struct struct_virus_map_data *virusMapData, u8 virusMapDispOrder[0x60]);
 void dm_virus_anime(struct_game_state_data *arg0, GameMapCell *mapCells);
 void dm_capsel_erase_anime(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells);
 void dm_make_erase_h_line(struct_game_state_data *arg0, GameMapCell *mapCells, s32 rowStart, s32 count, s32 column);
@@ -320,9 +374,9 @@ void dm_w_ball_chack(GameMapCell *mapCells);
 bool dm_black_up(struct_game_state_data *gameStateDataP, GameMapCell *mapCells);
 bool dm_broken_set(struct_game_state_data *gameStateData, GameMapCell *mapCells);
 void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapCell *mapCells, dm_calc_erase_score_pos_arg2 *arg2);
-s32 dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]);
+bool dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]);
 void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32 *arg2);
-// void dm_draw_capsel_by_cpu_tentative();
+void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]);
 UNK_PTR *dm_game_heap_top(void);
 AnimeState *get_virus_anime_state(s32 arg0);
 AnimeSmog *get_virus_smog_state(s32 arg0);
@@ -330,13 +384,13 @@ Mtx *dm_get_mtx_buf(void);
 Vtx *dm_get_vtx_buf(void);
 void func_80062920(void);
 void func_80062978(s32 index, s32 arg1);
-// void func_80062990();
-// void func_800629AC();
-// void func_800629C8();
-// void func_800629E4();
+void func_80062990(s32 arg0);
+void func_800629AC(s32 arg0);
+void func_800629C8(s32 arg0);
+void func_800629E4(s32 arg0);
 void func_80062A08(s32 index);
 void func_80062A24(s32 index);
-// void func_80062A40();
+void func_80062A40(s32 arg0);
 bool func_80062A5C(s32 arg0);
 bool func_80062A8C(s32 arg0);
 bool func_80062AA8(s32 arg0);
@@ -365,50 +419,50 @@ void dm_capsel_down(struct_game_state_data *gameStateData, GameMapCell *mapCells
 s32 func_80063844(u32 arg0);
 s32 dm_set_attack_2p(struct_game_state_data *gameStateDataRef);
 s32 dm_set_attack_4p(struct_game_state_data *gameStateDataRef);
-// void func_80063FF4();
-// void save_visible_fall_point_flag();
+void func_80063FF4(void);
+void save_visible_fall_point_flag(void);
 void retryMenu_init(s32 arg0, s32 arg1);
-// void func_8006417C();
+void func_8006417C(s32 arg0);
 s32 retryMenu_input(s32 arg0);
-// void func_80064298();
-// void func_8006431C();
+void func_80064298(s32 arg0, Gfx **gfxP, s32 arg2);
+void func_8006431C(s32 arg0, Gfx **gfxP);
 void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells);
 bool bottom_up_bottle_items(GameMapCell *mapCells);
 void add_taiQ_bonus_wait(struct_game_state_data *arg0);
 bool func_80064848(void);
-// void dm_game_eep_write_callback();
+void dm_game_eep_write_callback(void *arg0);
 void func_80064940(void *arg0);
 bool func_8006498C(s32 storyLevel, s32 storyNumber, s32 arg2);
 void dm_save_all(void);
 void dm_query_pause_player(struct_game_state_data *arg0);
-s32 dm_game_main_cnt_1P(struct_game_state_data *arg0, GameMapCell *mapCells, s32 arg2);
+s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 arg2);
 s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, s32 index);
-// void func_800666FC();
-// void func_80066808();
+void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1);
+void func_80066808(struct_game_state_data *gameStateData);
 void dm_set_pause_and_volume(struct_game_state_data **gameStateDataP, s32 arg1);
 void func_800669A0(struct_game_state_data *arg0);
 void dm_calc_big_virus_pos(struct_game_state_data *arg0);
 s32 dm_game_main_1p(void);
-// void func_8006729C();
-// void func_800673FC();
-// void func_800674EC();
-// void func_800675C8();
-// void func_80067668();
+s32 dm_add_win_2p(struct_game_state_data *gameStateDataRef);
+s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2);
+s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2);
+s32 func_800675C8(struct_game_state_data *gameStateDataRef, s32 arg1);
+s32 dm_set_time_attack_result_2p(struct_game_state_data **gameStateDataRefP);
 s32 dm_game_main_2p(void);
 s32 dm_game_main_4p(void);
 bool dm_game_demo_1p(void);
 bool dm_game_demo_2p(void);
 bool dm_game_demo_4p(void);
-struct TiTexData *dm_game_get_capsel_tex(s32 arg0); // void dm_game_get_capsel_tex();
+struct TiTexData *dm_game_get_capsel_tex(s32 arg0);
 struct TiTexData *dm_game_get_capsel_pal(s32 arg0, s32 arg1);
-// void scoreNums_draw();
+void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP);
 void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg2);
 void func_80069188(struct_watchGame_unk_070 *arg0, s32 arg1);
 void starForce_draw(struct_watchGame_unk_070* arg0, Gfx** gfxP, s32 arg2);
 void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
-// void draw_4p_attack_guide_panel();
-// void dm_map_draw();
-// void func_80069ACC();
+void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+void dm_map_draw(GameMapCell *mapCells, u8 arg1, s16 arg2, s16 arg3, s8 arg4);
+void func_80069ACC(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, s32 arg2[2]);
 void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 arg5);
 void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 arg5);
 void func_8006A098(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3);
@@ -419,16 +473,16 @@ void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2);
 void func_8006A938(s32 arg0);
 void _disp_coin_logo(Gfx **gfxP, s32 arg1);
 // void draw_flash_virus_light();
-// void draw_flash_virus_lights();
+void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRef, GameMapCell *mapCells);
 // void func_8006AEFC();
 void draw_story_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void _draw_bottle_10(Gfx **gfxP, s32 *arg1, s32 *arg2, s32 arg3);
+void _draw_bottle_10(Gfx **gfxP, const s32 *arg1, const s32 *arg2, s32 arg3);
 void dm_calc_bottle_2p(void);
 void dm_draw_bottle_2p(Gfx **gfxP);
 void dm_draw_big_virus(Gfx **gfxP);
 void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking, s32 arg4, s32 arg5, s32 arg6, u32 alpha);
-// void dm_game_graphic_common();
+void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, GameMapCell *mapCells);
 void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapCell *mapCells);
 void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, GameMapCell* mapCells);
 void dm_game_graphic_effect(struct_game_state_data*gameStateDataRef, s32 arg1, s32 arg2);
@@ -452,6 +506,29 @@ void dm_game_graphic_onDoneSawp(void);
 void func_80071A44(void);
 enum_main_no main_techmes(struct NNSched *sc);
 void graphic_techmes(void);
+
+// data
+
+extern u8 virus_anime_table[3][4];
+extern s8 dm_chaine_se_table_vs_178[4];
+extern s8 dm_chaine_se_table_4p_179[4][3];
+extern s32 rotate_table_474[];
+extern s32 rotate_mtx_475[];
+extern s32 D_800A6FC4;
+extern bool visible_fall_point[];
+extern char _mesPassword[];
+extern char _mesEasyCont[];
+extern char _mesEasyNoCont[];
+extern char _mesNormalCont[];
+extern char _mesNormalNoCont[];
+extern char _mesHardCont[];
+extern char _mesHardNoCont[];
+extern char _mesSHardCont[];
+extern char _mesSHardNoCont[];
+extern s32 _n_1199[];
+extern u8 D_800A7360[];
+extern u8 tbl_4589[];
+extern Color_RGBA8 col_4590[];
 
 extern struct_gameGeom *gameGeom;
 

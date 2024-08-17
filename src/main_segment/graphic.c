@@ -7,15 +7,13 @@
 #include "graphic.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
+#include "boot_main.h"
 #include "include_asm.h"
 #include "main_segment_variables.h"
 #include "audio/sound.h"
 #include "buffers.h"
 #include "gs2dex.h"
 #include "dm_thread.h"
-#include "graphics/graphic_dlists.h"
 #include "main_story.h"
 #include "dm_manual_main.h"
 #include "main_menu.h"
@@ -24,7 +22,6 @@
 
 extern NNScClient gfx_client;
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: gfx_ucode
  */
@@ -59,7 +56,6 @@ Vp vp = { { { 0x280, 0x1E0, 0x1FF, 0 }, { 0x280, 0x1E0, 0x1FF, 0 } } };
  * flag to initialize RDP
  */
 s32 rdpinit_flag_161 = 1;
-#endif
 
 /**
  * Original name: gfxInit
@@ -221,7 +217,6 @@ void gfxCreateGraphicThread(NNSched *sc) {
     osStartThread(&gfxThread);
 }
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: gfxWaitMessage
  *
@@ -342,9 +337,9 @@ void F3ClearFZRtn(u8 arg0) {
 void S2RDPinitRtn(u8 arg0) {
     gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(S2RDPinit_dl));
     if (arg0) {
-        gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+        gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     } else {
-        gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 12, 8, 307, 231);
+        gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 12, 8, SCREEN_WIDTH - 1 - 12, SCREEN_HEIGHT - 1 - 8);
     }
 }
 
@@ -359,18 +354,3 @@ void S2ClearCFBRtn(u8 arg0) {
         gDPFillRectangle(gGfxHead++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
 }
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C280_gw);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C2B4_gw);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C458_gw);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C538_gw);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C658_gw);
-
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/graphic", func_8002C6D8_gw);
-#endif

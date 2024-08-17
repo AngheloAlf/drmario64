@@ -7,8 +7,6 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
 #include "main_segment_variables.h"
 #include "rom_offsets.h"
 #include "audio/sound.h"
@@ -17,11 +15,44 @@
 #include "joy.h"
 #include "record.h"
 #include "vr_init.h"
-#include "graphics/graphic_dlists.h"
 #include "main1x.h"
 #include "tex_func.h"
 #include "main_story.h"
 #include "nnsched.h"
+
+// TODO: enum?
+/**
+ * Original name: title_mode_type
+ */
+static s32 title_mode_type;
+/**
+ * Original name: title_fade_count
+ */
+static s32 title_fade_count;
+/**
+ * Original name: title_fade_step
+ */
+static s32 title_fade_step;
+
+/**
+ * Original name: title_demo_flg
+ */
+s32 title_demo_flg = 0;
+
+/**
+ * Original name: title_demo_no
+ */
+s32 title_demo_no = 0;
+
+/**
+ * Original name: title_manual_no
+ */
+s32 title_manual_no = 0;
+
+/**
+ * Original name: title_exit_flag
+ */
+s32 title_exit_flag = 0;
 
 void func_80075F30(void) {
     title_exit_flag = 0;
@@ -37,9 +68,9 @@ void func_80075F30(void) {
  * Original name: _stageTbl
  */
 const u8 _stageTbl[] = {
-    STORY_PROC_NO_1,  STORY_PROC_NO_2,  STORY_PROC_NO_3,  STORY_PROC_NO_4,  STORY_PROC_NO_5,  STORY_PROC_NO_6,
-    STORY_PROC_NO_7,  STORY_PROC_NO_8,  STORY_PROC_NO_9,  STORY_PROC_NO_13, STORY_PROC_NO_14, STORY_PROC_NO_15,
-    STORY_PROC_NO_16, STORY_PROC_NO_17, STORY_PROC_NO_18, STORY_PROC_NO_19, STORY_PROC_NO_20, STORY_PROC_NO_21,
+    BGROMDATA_INDEX1,  BGROMDATA_INDEX2,  BGROMDATA_INDEX3,  BGROMDATA_INDEX4,  BGROMDATA_INDEX5,  BGROMDATA_INDEX6,
+    BGROMDATA_INDEX7,  BGROMDATA_INDEX8,  BGROMDATA_INDEX9,  BGROMDATA_INDEX13, BGROMDATA_INDEX14, BGROMDATA_INDEX15,
+    BGROMDATA_INDEX16, BGROMDATA_INDEX17, BGROMDATA_INDEX18, BGROMDATA_INDEX19, BGROMDATA_INDEX20, BGROMDATA_INDEX21,
 };
 
 /**
@@ -60,7 +91,7 @@ enum_main_no dm_title_main(NNSched *sc) {
     evs_playmax = joyResponseCheck();
     osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
 
-#if VERSION_US
+#ifndef NN_SC_PERF
     graphic_no = GRAPHIC_NO_2;
 #endif
 
@@ -212,7 +243,7 @@ void dm_title_graphic(void) {
                  (gGfxHead - gGfxGlist[gCurrentFramebufferIndex]) * sizeof(Gfx), 0, OS_SC_SWAPBUFFER);
 }
 
-#include "build/src/main_segment/dm_title_main.msg.inc"
+#include "dm_title_main.msg.inc"
 
 /**
  * Original name: main_boot_error

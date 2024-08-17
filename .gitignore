@@ -1,15 +1,7 @@
 .splat/
 asm/
 bin/
-assets/
 build/
-
-linker_scripts/us/auto/
-linker_scripts/cn/auto/
-*_auto.ld
-drmario64.ld
-drmario64.d
-linker_scripts/*/partial/
 
 __pycache__/
 .venv/
@@ -32,3 +24,5 @@ puzzle_collection/
 deps_repo/
 
 asdf.c
+asdf.txt
+asdf.py

@@ -13,8 +13,8 @@
 
 #define ALIGN_PTR(ptr) ((void*)ALIGN16((uintptr_t)(ptr)))
 
-#ifndef ALIGNED8
-#define ALIGNED8 __attribute__ ((aligned (8)))
+#ifndef ALIGNED
+#define ALIGNED(x) __attribute__ ((aligned (x)))
 #endif
 
 #ifndef ALIGNOF

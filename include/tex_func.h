@@ -3,21 +3,42 @@
 
 #include "libultra.h"
 #include "unk.h"
+#include "libc/stdint.h"
 #include "other_types.h"
 
 struct StretchTexBlock_arg0;
 struct StretchTexTile_arg0;
 
 
-typedef struct TiTexData_unk_0 {
-    /* 0x0 */ u16 *tlut;
-    /* 0x4 */ TexturePtr tex; // TODO: u8*?
-} TiTexData_unk_0; // size >= 0x8
+typedef enum TiTexDataFormat {
+    /* 0x04 */ TITEX_FORMAT_4 = 4,
+    /* 0x08 */ TITEX_FORMAT_8 = 8,
+    /* 0x10 */ TITEX_FORMAT_16 = 16,
+} TiTexDataFormat;
+
+#define TITEX_FLAGS_TILE  (0x0)
+#define TITEX_FLAGS_BLOCK (0x1)
 
 typedef struct TiTexData {
-    /* 0x0 */ TiTexData_unk_0 *unk_0;
-    /* 0x4 */ u16 *unk_4;
+    /**
+     * [0]: tlut
+     * [1]: texture
+     */
+    /* 0x0 */ TexturePtr *texs;
+
+    /**
+     * [0]: width
+     * [1]: height
+     * [2]: format. See TiTexDataFormat
+     * [2]: bitflags: See TITEX_FLAGS_*
+     */
+    /* 0x4 */ u16 *info;
 } TiTexData; // size = 0x8
+
+typedef struct TiTexDataHeader {
+    /* 0x0 */ TiTexData *texData;
+    /* 0x4 */ s32 *texDataLen;
+} TiTexDataHeader; // size = 0x8
 
 
 typedef void (*StretchTexBlock_arg0_callback)(struct StretchTexBlock_arg0 *arg0);
@@ -115,10 +136,16 @@ typedef struct struct_CopyTexBlock_arg0 {
     /* 0x24 */ s32 unk_24;
 } struct_CopyTexBlock_arg0; // size >= 0x28
 
+typedef enum GfxSetScissorMode {
+    /* 0 */ GFXSETSCISSOR_INTERLACE_ODD,
+    /* 1 */ GFXSETSCISSOR_INTERLACE_EVEN,
+    /* 2 */ GFXSETSCISSOR_INTERLACE_NO,
+    /* 3 */ GFXSETSCISSOR_INTERLACE_NO2,
+} GfxSetScissorMode;
 
-void gfxSetScissor(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-void func_80040D34(Gfx **gxfP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 red, s32 green, s32 blue);
-void FillRectRGBA(Gfx **gfxP, s32 x0, s32 y0, s32 x1, s32 y1, s32 red, s32 green, s32 blue, s32 alpha);
+void gfxSetScissor(Gfx **gfxP, GfxSetScissorMode mode, s32 x, s32 y, s32 width, s32 height);
+void func_80040D34(Gfx **gxfP, s32 x, s32 y, s32 width, s32 height, s32 red, s32 green, s32 blue);
+void FillRectRGBA(Gfx **gfxP, s32 x, s32 y, s32 width, s32 height, s32 red, s32 green, s32 blue, s32 alpha);
 void CopyTexBlock(struct_CopyTexBlock_arg0 *arg0);
 void CopyTexBlock4_LoadTex(struct_CopyTexBlock_arg0 *arg0);
 void CopyTexBlock4(Gfx **gfxP, u16 *tlut, void *arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
@@ -158,21 +185,21 @@ void StretchTexTile16(Gfx **gfxP, s32 arg1, s32 arg2, u16 *arg3, s32 arg4, s32 a
 void StretchTexTile4i_LoadTex(StretchTexTile_arg0 *arg0);
 void StretchTexTile4i(Gfx **gfxP, s32 width, s32 height, u8 tex[], s32 arg4, s32 arg5, s32 arg6, s32 arg7, f32 arg8, f32 arg9, f32 argA, f32 argB);
 void RectTexTile4i(Gfx **gfxP, Vtx **vtxP, s32 width, s32 height, u8 *tex, s32 arg5, s32 arg6, s32 arg7, s32 arg8, f32 arg9, f32 argA, f32 argB, f32 argC);
-void tiMappingAddr(TiTexData *arg0, s32 arg1, u32 arg2);
-TiTexData *tiLoadTexData(UNK_PTR *arg0, RomOffset segmentRom, RomOffset segmentRomEnd);
+void tiMappingAddr(TiTexData *tiArr, s32 len, uintptr_t addr);
+TiTexData *tiLoadTexData(UNK_PTR *heap, RomOffset segmentRom, RomOffset segmentRomEnd);
 // void func_80045110();
 void tiCopyTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4);
 void tiStretchTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6);
 void tiStretchTexTile(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, f32 arg7, f32 arg8, f32 arg9, f32 argA);
 void tiStretchTexItem(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4, f32 arg5, f32 arg6, f32 arg7, f32 arg8);
 void tiStretchAlphaTexItem(Gfx **gfxP, TiTexData *arg1, TiTexData * arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 arg9);
-// void func_80045914();
+void func_80045914(Gfx **gfxP, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 arg9);
 void drawCursorPattern(Gfx** gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
 
 
 // .data
 
-extern Gfx D_8008E5E0[];
+extern Gfx copy_texture_init_dl[];
 extern Gfx alpha_texture_init_dl[];
 extern Gfx normal_texture_init_dl[];
 extern Gfx D_8008E728[];

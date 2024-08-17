@@ -3,10 +3,24 @@
  */
 
 #include "replay.h"
+
 #include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
+
+#define REPLAY_TOTAL_BUFF_SIZE 0x10000
+
+static u8 *rec_buff;
+static u8 *pRecBuff[MAXCONTROLLERS];
+static u16 oldCont[MAXCONTROLLERS];
+static s32 RecPos[MAXCONTROLLERS];
+static s32 PlayPos[MAXCONTROLLERS];
+static s32 WaitTime[MAXCONTROLLERS];
+static s32 max_rec;
+static s32 replay_player;
+
+// TODO: flags
 
 /**
  * Original name: replay_record_init_buffer
@@ -27,7 +41,7 @@ void replay_record_init(s32 arg0) {
 
     replay_player = arg0;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < MAXCONTROLLERS; i++) {
         RecPos[i] = 0;
         WaitTime[i] = 0;
         PlayPos[i] = 0;
@@ -55,7 +69,7 @@ void replay_record_init(s32 arg0) {
             break;
 
         default:
-            max_rec = 0x4000;
+            max_rec = REPLAY_TOTAL_BUFF_SIZE / 4;
             pRecBuff[0] = rec_buff + (REPLAY_TOTAL_BUFF_SIZE / 4) * 0;
             pRecBuff[1] = rec_buff + (REPLAY_TOTAL_BUFF_SIZE / 4) * 1;
             pRecBuff[2] = rec_buff + (REPLAY_TOTAL_BUFF_SIZE / 4) * 2;

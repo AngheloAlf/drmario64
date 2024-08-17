@@ -72,6 +72,8 @@ def getProgress(mapPath: Path, version: str, subpaths: bool=False) -> tuple[mapf
             filepathParts = list(file.filepath.parts)
             if version in filepathParts:
                 filepathParts.remove(version)
+            if version in filepathParts:
+                filepathParts.remove(version)
             file.filepath = Path(*filepathParts)
 
             # Fix symbol size calculation because of NON_MATCHING symbols
@@ -100,7 +102,7 @@ def progressMain():
 
     remaining: bool = args.remaining
 
-    mapPath = Path("build") / f"drmario64.{args.version}.map"
+    mapPath = Path("build") / args.version / f"drmario64.{args.version}.map"
 
     totalStats, progressPerFolder = getProgress(mapPath, args.version, args.subpaths)
 

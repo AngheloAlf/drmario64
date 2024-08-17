@@ -7,7 +7,7 @@
 #include "color.h"
 #include "msgwnd.h"
 #include "char_anime.h"
-#include "audio/sound.h"
+#include "audio/snd_seq.h"
 #include "nnsched.h"
 #include "main.h"
 #include "recwritingmsg.h"
@@ -100,11 +100,13 @@ typedef void (*MenuItem_ColorCallback)(struct MenuItem *);
 
 #define MENUITEM_UNK_LEN 2U
 #define MENUITEM_UNK_LEN2 2U
+#define MENUITEM_UNK_LEN3 2U
+#define MENUITEM_UNK_LEN4 4U
 
 typedef struct MenuItem {
     /* 0x00 */ f32 unk_00[2];
     /* 0x08 */ MenuItem_TransCallback transCallback;
-    /* 0x0C */ f32 unk_0C[MENUITEM_UNK_LEN2];
+    /* 0x0C */ f32 pos[MENUITEM_UNK_LEN2];
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ f32 unk_18;
     /* 0x1C */ f32 unk_1C[MENUITEM_UNK_LEN2];
@@ -119,7 +121,7 @@ typedef struct MenuItem {
     /* 0x54 */ Color_RGBAf32 color;
     /* 0x64 */ f32 unk_64;
     /* 0x68 */ f32 unk_68;
-    /* 0x6C */ f32 unk_6C[2][4];
+    /* 0x6C */ f32 unk_6C[MENUITEM_UNK_LEN3][MENUITEM_UNK_LEN4]; // float color?
     /* 0x8C */ union {
                     u32 w;
                     struct {
@@ -181,6 +183,8 @@ typedef struct MenuSpeedAsk {
     /* 0xC */ MenuItem unk_C;
 } MenuSpeedAsk; // size = 0x9C
 
+#define MENUSPEEDITEM_UNK_LEN 3U
+
 typedef struct MenuSpeedItem {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x004 */ s32 unk_004;
@@ -189,7 +193,7 @@ typedef struct MenuSpeedItem {
     /* 0x010 */ s32 unk_010;
     /* 0x014 */ MenuItem unk_014;
     /* 0x0A4 */ MenuItem unk_0A4[3];
-    /* 0x254 */ MenuItem unk_254[3];
+    /* 0x254 */ MenuItem unk_254[MENUSPEEDITEM_UNK_LEN];
     /* 0x404 */ MenuCursor unk_404;
 } MenuSpeedItem; // size = 0x664
 
@@ -211,7 +215,7 @@ typedef struct MenuMusicItem {
 
 typedef struct MenuBottle {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ s32 unk_004;
+    /* 0x004 */ s32 level;
     /* 0x008 */ MenuItem unk_08;
     /* 0x098 */ MenuItem unk_98;
 } MenuBottle; // size = 0x128
@@ -269,29 +273,38 @@ typedef struct MenuRank_unk_001C {
 
 typedef struct MenuRankLabel {
     /* 0x00 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
+    /* 0x04 */ s32 type;
+    /* 0x08 */ s32 id;
     /* 0x0C */ MenuItem unk_0C;
 } MenuRankLabel; // size = 0x9C
+
+#define MENURAKHEADER_UNK_98 5
 
 typedef struct MenuRankHeader {
     /* 0x00 */ struct struct_watchMenu *watchMenuRef;
     /* 0x04 */ s32 unk_04; // count of unk_98
     /* 0x08 */ MenuItem unk_08;
-    /* 0x98 */ MenuRankLabel unk_98[UNK_SIZE]; // Maybe 5?
-} MenuRankHeader; // size >= 0x134
+    /* 0x98 */ MenuRankLabel unk_98[MENURAKHEADER_UNK_98];
+} MenuRankHeader; // size = 0x3A4
+
+
+typedef enum MenuRankFigColor {
+    /* 0 */ MENURANKFIG_COLOR_WHITE,
+    /* 1 */ MENURANKFIG_COLOR_RED,
+    /* 2 */ MENURANKFIG_COLOR_BLUE,
+    /* 3 */ MENURANKFIG_COLOR_YELLOW,
+    /* 4 */ MENURANKFIG_COLOR_GREEN,
+    /* 5 */ MENURANKFIG_COLOR_ORANGE,
+    /* 6 */ MENURANKFIG_COLOR_PINK,
+    /* 7 */ MENURANKFIG_COLOR_CYAN,
+    /* 8 */ MENURANKFIG_COLOR_MAX
+} MenuRankFigColor;
 
 typedef struct MenuRankFig {
     /* 0x00 */ struct struct_watchMenu *watchMenuRef;
     /* 0x04 */ s32 unk_04; // enum?
     /* 0x08 */ s32 unk_08; // enum?
-    /* 0x0C */ s32 unk_0C[UNK_SIZE];
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ s32 unk_18;
-    /* 0x1C */ s32 unk_1C;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
+    /* 0x0C */ s32 unk_0C[7];
     /* 0x28 */ UNK_TYPE1 unk_28[0xC];
     /* 0x34 */ s32 unk_34;
     /* 0x38 */ MenuItem unk_38;
@@ -328,7 +341,6 @@ typedef struct MenuRankPanel {
 typedef struct MenuRank_unk_590 {
     /* 0x0000 */ s32 unk_0000;
     /* 0x0004 */ MenuRankHeader unk_0004;
-    /* 0x0138 */ UNK_TYPE1 unk_0138[0x270];
     /* 0x03A8 */ MenuRankPanel unk_3A8[8];
 } MenuRank_unk_590; // size = 0x24C8
 
@@ -364,16 +376,22 @@ typedef struct MenuNameSelPanel {
     /* 0x5C8 */ MenuCursor unk_5C8[2];
 } MenuNameSelPanel; // size = 0xA88
 
+#define MENUNAMEOPPANEL_UNK_LEN 4U
+
 typedef struct MenuNameOpPanel {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004*/ s32 unk_004;
-    /* 0x008*/ s32 unk_008;
-    /* 0x00C */ u8 unk_00C[4];
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
+    /* 0x00C */ u8 unk_00C[MENUNAMEOPPANEL_UNK_LEN];
     /* 0x010 */ MenuItem unk_010;
     /* 0x0A0 */ MenuItem unk_0A0;
     /* 0x130 */ MenuItem unk_130[2];
     /* 0x250 */ MenuCursor unk_250;
 } MenuNameOpPanel; // size >= 0x4B0
+
+
+#define MENUSNDSELPANEL_UNK_0A4_LEN 4
+#define MENUSNDSELPANEL_UNK_2E4_LEN 2
 
 typedef struct MenuSndSelPanel {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
@@ -382,16 +400,19 @@ typedef struct MenuSndSelPanel {
     /* 0x00C */ s32 unk_00C;
     /* 0x010 */ SndIndex unk_010;
     /* 0x014 */ MenuItem unk_014;
-    /* 0x0A4 */ MenuItem unk_0A4[4];
-    /* 0x2E4 */ MenuNumber unk_2E4[2];
+    /* 0x0A4 */ MenuItem unk_0A4[MENUSNDSELPANEL_UNK_0A4_LEN];
+    /* 0x2E4 */ MenuNumber unk_2E4[MENUSNDSELPANEL_UNK_2E4_LEN];
     /* 0x43C */ MenuCursor unk_43C;
 } MenuSndSelPanel; // size >= 0x69C
+
+#define MENUCONT_UNK_094_LEN 5
+#define MENUCONT_UNK_364_LEN 1
 
 typedef struct MenuCont {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x004 */ MenuItem unk_004;
-    /* 0x094 */ MenuItem unk_094[5];
-    /* 0x364 */ MenuItem unk_364[1];
+    /* 0x094 */ MenuItem unk_094[MENUCONT_UNK_094_LEN];
+    /* 0x364 */ MenuItem unk_364[MENUCONT_UNK_364_LEN];
     /* 0x3F4 */ MenuItem unk_3F4[1];
     /* 0x484 */ MenuItem unk_484[1];
 } MenuCont; // size >= 0x514
@@ -446,6 +467,9 @@ typedef struct MenuPlay2Panel {
     /* 0x12BC */ MenuSpeedItem unk_12BC;
 } MenuPlay2Panel; // size = 0x1920
 
+#define MENUPLAY2PANELSUB_UNK_17C 2
+#define MENUPLAY2PANELSUB_UNK_B9C 2
+
 typedef struct MenuPlay2PanelSub {
     /* 0x000 */ struct struct_watchMenu *watchMenuRef;
     /* 0x004 */ s32 unk_004;
@@ -455,8 +479,8 @@ typedef struct MenuPlay2PanelSub {
     /* 0x0A0 */ MenuMusicItem unk_0A0;
     /* 0x940 */ MenuNumber unk_940;
     /* 0x9EC */ MenuItem unk_9EC;
-    /* 0xA7C */ MenuItem unk_A7C[2];
-    /* 0xB9C */ MenuCursor unk_B9C[2];
+    /* 0xA7C */ MenuItem unk_A7C[MENUPLAY2PANELSUB_UNK_17C];
+    /* 0xB9C */ MenuCursor unk_B9C[MENUPLAY2PANELSUB_UNK_B9C];
 } MenuPlay2PanelSub; // size = 0x105C
 
 
@@ -484,7 +508,7 @@ typedef struct MenuMain {
     /* 0x1C64 */ MenuSndSelPanel unk_1C64;
     /* 0x2300 */ s32 unk_2300;
     /* 0x2304 */ const char *unk_2304;
-    /* 0x2308 */ MessageWnd unk_2308;
+    /* 0x2308 */ MessageWnd msgWnd;
     /* 0x2388 */ MenuItem unk_2388;
     /* 0x2418 */ MenuItem unk_2418;
     /* 0x24A8 */ MenuItem unk_24A8;
@@ -497,6 +521,8 @@ typedef struct MenuMain {
 
 #define MENU_STORY_UNK_LEN 2U
 #define MENU_STORY_UNK_LEN_2 2U
+#define MENU_STORY_UNK_LEN_3 3U
+#define MENU_STORY_UNK_LEN_4 2U
 
 typedef struct MenuStory {
     /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
@@ -509,16 +535,19 @@ typedef struct MenuStory {
     /* 0x00D0 */ MenuItem unk_00D0;
     /* 0x0160 */ MenuItem unk_0160[MENU_STORY_UNK_LEN];
     /* 0x0280 */ AnimeState unk_0280[MENU_STORY_UNK_LEN];
-    /* 0x0300 */ MenuCursor unk_0300[2];
+    /* 0x0300 */ MenuCursor unk_0300[MENU_STORY_UNK_LEN];
     /* 0x07C0 */ MenuSpeedAsk unk_07C0;
     /* 0x085C */ MenuSpeedItem unk_085C;
     /* 0x0EC0 */ MenuNumber unk_0EC0;
     /* 0x0F6C */ MenuItem unk_0F6C;
     /* 0x0FFC */ MenuItem unk_0FFC[MENU_STORY_UNK_LEN_2];
-    /* 0x111C */ MenuItem unk_111C[2];
+    /* 0x111C */ MenuItem unk_111C[MENU_STORY_UNK_LEN_4];
     /* 0x123C */ MenuItem unk_123C[MENU_STORY_UNK_LEN_2];
-    /* 0x135C */ MenuCursor unk_135C[3];
+    /* 0x135C */ MenuCursor unk_135C[MENU_STORY_UNK_LEN_3];
 } MenuStory; // size = 0x2D3C
+
+
+#define MENULVSEL_UNK_162C_LEN 3
 
 typedef struct MenuLvSel {
     /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
@@ -531,7 +560,7 @@ typedef struct MenuLvSel {
     /* 0x0600 */ MenuSpeedItem speedSelector;
     /* 0x0C64 */ MenuMusicItem musicSelector;
     /* 0x1504 */ MenuBottle bottle;
-    /* 0x162C */ MenuCursor unk_162C[3];
+    /* 0x162C */ MenuCursor unk_162C[MENULVSEL_UNK_162C_LEN];
     /* 0x1D4C */ MenuItem capsuleSpeedIcon;
     /* 0x1DDC */ MenuItem musicIcon;
     /* 0x1E6C */ MenuSpeedAsk gameLvlIcon;
@@ -633,10 +662,6 @@ typedef union MenusUnion {
 
 struct struct_watchMenu;
 
-typedef struct struct_watchMenu_unk_02470 {
-    /* 0x00000 */ UNK_TYPE1 unk_00000[0x60000];
-} struct_watchMenu_unk_02470; // size = 0x60000
-
 // menuTitle?
 typedef struct struct_watchMenu_unk_02548 {
     /* 0x00 */ struct struct_watchMenu *watchMenuRef;
@@ -658,9 +683,9 @@ typedef struct struct_watchMenu {
     /* 0x02448 */ Mtx *unk_02448[3];
     /* 0x02454 */ Vtx *unk_02454[3];
     /* 0x02460 */ UNK_PTR unk_02460;
-    /* 0x02464 */ UNK_TYPE unk_02464;
-    /* 0x02468 */ struct_watchMenu_unk_02470 *unk_02468[2];
-    /* 0x02470 */ struct_watchMenu_unk_02470 *unk_02470[2];
+    /* 0x02464 */ size_t unk_02464;
+    /* 0x02468 */ void *unk_02468[2];
+    /* 0x02470 */ void *unk_02470[2];
     /* 0x02478 */ struct TiTexData *unk_02478;
     /* 0x0247C */ struct TiTexData *unk_0247C;
     /* 0x02480 */ struct TiTexData *unk_02480; // unused
@@ -686,7 +711,7 @@ typedef struct struct_watchMenu {
     /* 0x111CC */ MainMenuMode unk_111CC;
     /* 0x111D0 */ MainMenuMode unk_111D0;
     /* 0x111D4 */ enum_main_no unk_111D4;
-    #ifdef VERSION_CN
+    #ifdef NN_SC_PERF
     /*         0x111D8 */ UNK_TYPE4 unk_cn_pad;
     #endif
     /* 0x111D8 0x111DC */ UNK_TYPE unk_111D8;
@@ -769,7 +794,7 @@ void func_800492D8(MenuYN *yn, MenuItem *parentItem);
 void menuYN_draw(MenuYN *yn, Gfx **gfxP);
 void func_80049540(MenuMes *mes, s32 arg1, f32 arg2);
 void func_80049578(MenuMes *mes, s32 arg1);
-void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 ** arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, void **heapP, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 void func_8004970C(MenuMes *mes, const char *arg1);
 void func_80049754(MenuMes *mes, MenuItem *parentItem);
 void func_800497D0(MenuMes *mes, Gfx **gfxP);
@@ -827,7 +852,8 @@ bool menuSndSelPanel_input(MenuSndSelPanel *sndSelPanel, s32 arg1);
 void func_8004CFB8(MenuSndSelPanel *sndSelPanel, MenuItem *parentItem);
 void menuSndSelPanel_draw(MenuSndSelPanel *sndSelPanel, Gfx **gfxP);
 void func_8004D258(void *arg);
-void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, bool arg7, CharAnimeMode arg8, s32 arg9, s32 argA, s32 argB, s32 argC);
+void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, void **heapP, s32 arg3, s32 arg4,
+                         s32 arg5, s32 arg6, bool arg7, CharAnimeMode arg8, s32 arg9, s32 argA, s32 argB, s32 argC);
 void menuPlay2Panel_copyConfig(MenuPlay2Panel *play2Panel, MenuPlay2Panel *arg1);
 void menuPlay2Panel_copyCursor(MenuPlay2Panel *play2Panel, MenuPlay2Panel *other);
 void menuPlay2Panel_input(MenuPlay2Panel *play2Panel, s32 arg1, s32 arg2, s32 arg3);
@@ -835,13 +861,13 @@ void menuPlay2Panel_update(MenuPlay2Panel *play2Panel, MenuItem *parentItem);
 void menuPlay2Panel_draw(MenuPlay2Panel *play2PanelArr[], s32 count, Gfx **gfxP);
 void func_8004E270(MenuPlay2PanelSub *play2PanelSub, s32 arg1, f32 arg2);
 void func_8004E2B4(MenuPlay2PanelSub *play2PanelSub, s32 arg1, f32 arg2, f32 arg3);
-void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 ** arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *watchMenuRef, void **heapP, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
 bool menuPlay2PanelSub_input(MenuPlay2PanelSub *play2PanelSub, s32 arg1);
 void menuPlay2PanelSub_update(MenuPlay2PanelSub *play2PanelSub, MenuItem *parentItem);
 void menuPlay2PanelSub_draw(MenuPlay2PanelSub *play2PanelSub, Gfx **gfxP);
 bool menuMain_setMsgStr(MenuMain *menuMain, MainMenuMode mode, s32 arg2);
 void menuMain_initPanel(MenuMain *menuMain, MainMenuMode mode, s32 arg2, s32 arg3);
-void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
+void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, void **heapP);
 void func_8004F2D8(MenuMain *menuMain);
 void func_8004F33C(MenuMain *menuMain);
 void menuMain_input(MenuMain *menuMain);
@@ -851,7 +877,7 @@ void menuMain_draw(MenuMain *menuMain, Gfx **gfxP);
 void func_800513F0(s32 arg0, s32 arg1, s32 arg2, s32 *xP, s32 *yP);
 void func_80051480(MenuStory *menuStory, s32 arg1, f32 arg2);
 void func_800514C4(void *arg);
-void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
+void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, void **heapP);
 void func_80051974(MenuStory *menuStory);
 s32 func_800519CC(MenuStory *menuStory);
 s32 func_800519EC(MenuStory *menuStory);
@@ -859,13 +885,13 @@ void menuStory_input(MenuStory *menuStory);
 void menuStory_update(MenuStory *menuStory);
 void menuStory_draw(MenuStory *menuStory, Gfx **gfxP);
 void func_800529FC(MenuLvSel *menuLvSel, s32 arg1, f32 arg2);
-void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
+void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, void **heapP);
 void func_80052DF0(MenuLvSel *menuLvSel);
 void menuLvSel_input(MenuLvSel *menuLvSel);
 void menuLvSel_update(MenuLvSel *menuLvSel);
 void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP);
 void func_8005380C(MenuChSel *menuChSel, s32 arg1, f32 arg2);
-void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
+void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, void **heapP);
 bool menuChSel_checkSelected(MenuChSel *menuChSel, s32 arg1, s32 arg2, s32 arg3);
 bool func_80053C84(MenuChSel *menuChSel, s32 arg1, s32 arg2);
 void menuChSel_input1(MenuChSel *menuChSel, s32 arg1, s32 arg2);
@@ -875,7 +901,7 @@ void menuChSel_input(MenuChSel *menuChSel);
 void menuChSel_update(MenuChSel *menuChSel);
 void menuChSel_draw(MenuChSel *menuChSel, Gfx **gfxP);
 void func_80054A94(MenuPlay2 *menuPlay2, s32 arg1, f32 arg2);
-void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
+void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void **heapP);
 void func_800550F4(MenuPlay2 *menuPlay2);
 bool func_80055154(MenuPlay2 *play2, s32 arg1, s32 arg2);
 void func_800551BC(MenuPlay2 *menuPlay2, s32 index);
@@ -886,7 +912,7 @@ void menuPlay2_input(MenuPlay2 *menuPlay2);
 void menuPlay2_update(MenuPlay2 *menuPlay2);
 void menuPlay2_draw(MenuPlay2 *menuPlay2, Gfx **gfxP);
 void func_80055DFC(MenuNmEnt *menuNmEnt, s32 arg1, f32 arg2);
-void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
+void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *watchMenuRef, void **heapP);
 void func_800560D4(MenuNmEnt *nmEnt);
 void menuNmEnt_input(MenuNmEnt *menuNmEnt);
 void menuNmEnt_update(MenuNmEnt *menuNmEnt);
@@ -897,16 +923,16 @@ void menuRankBase_draw(MenuRankBase *rankBaseArr[], s32 count, Gfx **gfxP);
 void func_80056DF0(MenuRankNum *menuRankNum, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4);
 void func_80056E1C(MenuRankNum *arg0, MenuItem *arg1);
 void menuRankNum_draw(MenuRankNum *rankNumArr[], s32 count, Gfx **gfxP);
-void menuRankFig_init(MenuRankFig *menuRankFig, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+void menuRankFig_init(MenuRankFig *menuRankFig, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3, MenuRankFigColor color, s32 arg5, s32 arg6);
 void menuRankFig_update(MenuRankFig *rankFig, MenuItem *arg1);
 void menuRankFig_draw(MenuRankFig *rankFigArr[], s32 count, Gfx **gfxP);
 void menuRankName_init(MenuRankName *menuRankName, struct_watchMenu *watchMenuRef, u8 arg2[4], s32 arg3, s32 arg4);
 void func_80057724(MenuRankName *arg0, MenuItem *arg1);
 void menuRankName_draw(MenuRankName *rankNameArr[], s32 count, Gfx **gfxP);
-void func_80057898(MenuRankLabel *menuRankLabel, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
+void func_80057898(MenuRankLabel *menuRankLabel, struct_watchMenu *watchMenuRef, s32 type, s32 id, s32 x, s32 y);
 void func_800578C8(MenuRankLabel *arg0, MenuItem *arg1);
 void menuRankLabel_draw(MenuRankLabel *rankLabelArr[], s32 count, Gfx **gfxP);
-void func_80057AFC(MenuRankHeader *menuRankHeader, struct_watchMenu *watchMenuRef, const s32 *arg2, const s32 *arg3, const s32 *arg4, const s32 *arg5, s32 arg6, s32 arg7, s32 arg8);
+void func_80057AFC(MenuRankHeader *menuRankHeader, struct_watchMenu *watchMenuRef, const s32 *typeP, const s32 *idP, const s32 *xP, const s32 *yP, s32 count, s32 arg7, s32 arg8);
 void func_80057BE8(MenuRankHeader *rankHeader, MenuItem *arg1);
 void menuRankHeader_draw(MenuRankHeader *rankHeaderArr[], s32 count, Gfx **gfxP);
 void func_80057D24(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, u32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
@@ -921,7 +947,7 @@ void menuRank_setSlide(MenuRank *menuRank, UNK_TYPE arg1, UNK_TYPE arg2, f32 arg
 void menuRank_setFrame(MenuRank *menuRank, UNK_TYPE arg1, UNK_TYPE arg2, f32 arg3);
 void func_80058A24(MenuRank *menuRank, s32 arg1);
 void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, UNK_TYPE arg3);
-void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, struct_watchMenu_unk_02470 **arg2);
+void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, void **heapP);
 void menuRank_input(MenuRank *menuRank);
 void menuRank_update(MenuRank *menuRank);
 void menuRank_draw(MenuRank *menuRank, Gfx **gfxP);

@@ -12,7 +12,6 @@
 #include "unknown_structs.h"
 #include "unk.h"
 #include "main_segment_variables.h"
-#include "boot_functions.h"
 #include "PR/sched.h"
 #include "nnsched.h"
 #include "dmadata.h"
@@ -23,7 +22,6 @@ void NnSchedInstall(void);
 void NnSchedWaitFrame(void);
 void NnSchedDoTask(musTask *musicTask);
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: nn_mus_sched
  *
@@ -34,14 +32,12 @@ musSched nn_mus_sched = {
     NnSchedWaitFrame,
     NnSchedDoTask,
 };
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: InitMusicDriver
  */
-size_t InitMusicDriver(NNSched *sc, void *heap, size_t heap_length, size_t arg3, s32 arg4, s32 arg5, size_t arg6 UNUSED,
-                       s32 arg7, OSPri thread_priority) {
+size_t InitMusicDriver(NNSched *sc, void *heap, size_t heap_length, size_t arg3, s32 arg4, s32 arg5,
+                       size_t fxbank_size UNUSED, s32 arg7, OSPri thread_priority) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98 = ALIGN_PTR(heap);
     musConfig init;
     s32 i;
@@ -68,9 +64,9 @@ size_t InitMusicDriver(NNSched *sc, void *heap, size_t heap_length, size_t arg3,
         heap = temp_s0->unk_14[i].unk_0 + arg4;
     }
 
-    temp_s0->unk_1C = ALIGN_PTR(heap);
+    temp_s0->fxbank = ALIGN_PTR(heap);
     temp_s0->unk_20 = arg3;
-    heap = temp_s0->unk_1C + temp_s0->unk_20;
+    heap = temp_s0->fxbank + temp_s0->unk_20;
 
     temp_s0->unk_24 = ALIGN_PTR(heap);
     temp_s0->unk_28 = arg7;
@@ -114,9 +110,7 @@ size_t InitMusicDriver(NNSched *sc, void *heap, size_t heap_length, size_t arg3,
 
     return MusInitialize(&init) + ((uintptr_t)heap - (uintptr_t)temp_s0->unk_04);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_8002D3B0(RomOffset segmentRom, size_t segmentSize, void *wbank) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
@@ -128,9 +122,7 @@ bool func_8002D3B0(RomOffset segmentRom, size_t segmentSize, void *wbank) {
 
     return false;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_8002D428(s32 index, RomOffset segmentRom, size_t segmentSize) {
     Audio_struct_800FAF98 *temp_s1 = gAudio_800FAF98;
 
@@ -140,142 +132,102 @@ bool func_8002D428(s32 index, RomOffset segmentRom, size_t segmentSize) {
     DmaRomToRam(segmentRom, temp_s1->unk_14[index].unk_0, segmentSize);
     return true;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8002D4A4(s32 index) {
     Audio_struct_800FAF98 *temp_s1 = gAudio_800FAF98;
 
     temp_s1->unk_14[index].unk_8 = MusStartSong(temp_s1->unk_14[index].unk_0);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 musHandle func_8002D4F8(s32 index) {
     return gAudio_800FAF98->unk_14[index].unk_8;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8002D51C(s32 index) {
     return MusHandleAsk(gAudio_800FAF98->unk_14[index].unk_8);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * _gc_songFadeSong / _gc_songStop
  */
 s32 func_8002D554(s32 index, s32 speed) {
     return MusHandleStop(gAudio_800FAF98->unk_14[index].unk_8, speed);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * _gc_songFadeSong
  */
 s32 func_8002D58C(s32 index, s32 volume) {
     return MusHandleSetVolume(gAudio_800FAF98->unk_14[index].unk_8, volume);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8002D5C4(s32 index, s32 pan) {
     return MusHandleSetPan(gAudio_800FAF98->unk_14[index].unk_8, pan);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8002D5FC(s32 index, s32 tempo) {
     return MusHandleSetTempo(gAudio_800FAF98->unk_14[index].unk_8, tempo);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8002D634(s32 index) {
     return MusHandlePause(gAudio_800FAF98->unk_14[index].unk_8);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8002D66C(s32 index) {
     return MusHandleUnPause(gAudio_800FAF98->unk_14[index].unk_8);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_8002D6A4(RomOffset segmentRom, size_t segmentSize) {
     Audio_struct_800FAF98 *temp_s0 = gAudio_800FAF98;
 
     if (MusAsk(MUSFLAG_EFFECTS) == 0) {
-        DmaRomToRam(segmentRom, temp_s0->unk_1C, segmentSize);
-        MusFxBankInitialize(temp_s0->unk_1C);
+        DmaRomToRam(segmentRom, temp_s0->fxbank, segmentSize);
+        MusFxBankInitialize(temp_s0->fxbank);
         return true;
     }
     return false;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void *func_8002D710(void) {
-    return gAudio_800FAF98->unk_1C;
+    return gAudio_800FAF98->fxbank;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8002D720(s32 index, s32 number) {
     Audio_struct_800FAF98 *temp_s1 = gAudio_800FAF98;
 
     temp_s1->unk_24[index] = MusStartEffect(number);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8002D768(s32 index, s32 number, s32 volume, s32 pan, s32 restartflag, s32 priority) {
     Audio_struct_800FAF98 *temp_s1 = gAudio_800FAF98;
 
     temp_s1->unk_24[index] = MusStartEffect2(number, volume, pan, restartflag, priority);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8002D7C4(s32 index) {
     return gAudio_800FAF98->unk_24[index];
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8002D7E0(s32 index) {
     return MusHandleAsk(gAudio_800FAF98->unk_24[index]);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8002D810(s32 index, s32 speed) {
     return MusHandleStop(gAudio_800FAF98->unk_24[index], speed);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8002D840(s32 index, s32 volume) {
     return MusHandleSetVolume(gAudio_800FAF98->unk_24[index], volume);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8002D870(s32 index, s32 pan) {
     return MusHandleSetPan(gAudio_800FAF98->unk_24[index], pan);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 s32 func_8002D8A0(s32 index, f32 offset) {
     return MusHandleSetFreqOffset(gAudio_800FAF98->unk_24[index], offset);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: DmaRomToRam
  *
@@ -302,17 +254,15 @@ void DmaRomToRam(RomOffset segmentRom, void *segmentVram, size_t segmentSize) {
 #endif
 
         currentRom += blkSize;
-        remainingSize -= blkSize;
         currentVram += blkSize;
+        remainingSize -= blkSize;
 
-#if VERSION_CN
+#if VERSION_CN || VERSION_GW
         osRecvMesg(&temp->dma_queue, &msg, OS_MESG_BLOCK);
 #endif
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: NnSchedInstall
  *
@@ -329,9 +279,7 @@ void NnSchedInstall(void) {
     /* add waitframe client */
     nnScAddClient(temp_s0->sc, &temp_s0->nnclient, &temp_s0->nnframe_queue);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: NnSchedWaitFrame
  *
@@ -351,9 +299,7 @@ void NnSchedWaitFrame(void) {
         osRecvMesg(temp_s0, NULL, OS_MESG_NOBLOCK);
     } while (*message != NN_SC_RETRACE_MSG);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: NnSchedDoTask
  *
@@ -390,4 +336,3 @@ void NnSchedDoTask(musTask *musicTask) {
     osSendMesg(nnScGetAudioMQ(temp_a1->sc), &scTask, OS_MESG_BLOCK);
     osRecvMesg(&temp_a1->nntask_queue, NULL, OS_MESG_BLOCK);
 }
-#endif

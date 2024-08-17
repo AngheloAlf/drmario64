@@ -5,11 +5,33 @@
  */
 
 #include "debug_menu.h"
+
 #include "screen_print/debug_print.h"
 #include "util.h"
 #include "macros_defines.h"
 #include "main_segment_variables.h"
 #include "main1x.h"
+#include "aiset.h"
+
+static s32 B_800E58B0;
+static s32 B_800E58B4;
+static s32 B_800E58B8;
+static bool B_800E58BC;
+static s16 B_800E58C0[40];
+static s32 B_800E5910;
+static s32 B_800E5914;
+static s32 B_800E5918;
+static s32 B_800E591C;
+static s32 B_800E5920;
+static s32 B_800E5924;
+static s32 B_800E5928;
+static s32 B_800E592C;
+static s32 B_800E5930;
+static s32 B_800E5934;
+static struct_800E5938 B_800E5938[12];
+static struct_800E5968 B_800E5968;
+static s32 B_800E596C;
+static s32 B_800E5970[4];
 
 s32 D_8008E370[] = {
     1,
@@ -54,8 +76,8 @@ typedef u8 (*D_8008E480_type)[3];
 
 D_8008E480_type D_8008E480[] = {
     aiVirusLevel,
-    D_800884C0,
-    D_800884F0,
+    aiDownSpeed,
+    aiSlideSpeed,
     aiSlideFSpeed,
 };
 
@@ -715,19 +737,19 @@ void DebugMenu_8003FD88(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
     } else if (button & A_BUTTON) {
         switch (temp_a0) {
             case 0x0:
-                B_800E5934 = B_800E5970[0];
+                B_800E5934 = B_800E5970[temp_a0];
                 return;
 
             case 0x1:
-                temp_a2->unk_0 = B_800E5970[1];
+                temp_a2->unk_0 = B_800E5970[temp_a0];
                 break;
 
             case 0x2:
-                temp_a2->unk_1 = B_800E5970[2];
+                temp_a2->unk_1 = B_800E5970[temp_a0];
                 break;
 
             case 0x3:
-                temp_a2->unk_2 ^= 1 << B_800E5970[3];
+                temp_a2->unk_2 ^= 1 << B_800E5970[temp_a0];
                 break;
         }
     }
@@ -1124,7 +1146,7 @@ void DebugMenu_80040578(void) {
         vertical++;
     }
 
-    B_800E596C = WrapI(0, 4, B_800E596C + horizontal);
+    B_800E596C = WrapI(0, ARRAY_COUNT(B_800E5970), B_800E596C + horizontal);
     B_800E5970[B_800E596C] = WrapI(0, D_8008E558[B_800E596C], B_800E5970[B_800E596C] + vertical);
 }
 

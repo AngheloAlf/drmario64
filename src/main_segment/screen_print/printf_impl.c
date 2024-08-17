@@ -16,7 +16,6 @@
 #include "screen_print/printer.h"
 #include "libkmc/explog.h"
 
-#if VERSION_US
 char basc[] = "0123456789abcdefx";
 
 char BASC[] = "0123456789ABCDEFX";
@@ -30,9 +29,7 @@ f64 _mul_data[] = {
 };
 
 static char fbuf[FBUF_SIZE];
-#endif
 
-#if VERSION_US
 char *cvt_radix(char buf[ABUFSIZE], unsigned int value, int radix, const char *binasc) {
     buf += ABUFSIZE;
 
@@ -45,9 +42,7 @@ char *cvt_radix(char buf[ABUFSIZE], unsigned int value, int radix, const char *b
 
     return buf;
 }
-#endif
 
-#if VERSION_US
 char *cvtl_radix(char buf[ABUFSIZE], unsigned long long value, int radix, const char *binasc) {
     buf += ABUFSIZE;
 
@@ -62,9 +57,7 @@ char *cvtl_radix(char buf[ABUFSIZE], unsigned long long value, int radix, const 
 
     return buf;
 }
-#endif
 
-#if VERSION_US
 int round_asc(char *p, int exp, int n) {
     char *pbak;
 
@@ -95,10 +88,8 @@ int round_asc(char *p, int exp, int n) {
     *pbak++ = '\0';
     return exp + 1;
 }
-#endif
 
-#if VERSION_US
-void eprt_sub(char *s, s32 ndig, s32 exp, char *arg3, s32 letter_e, s32 sharp_flg) {
+void eprt_sub(char *s, s32 ndig, s32 exp, char *arg3, s32 letter_e, bool sharp_flg) {
     ndig--;
     *arg3++ = *s++;
     *arg3++ = '.';
@@ -106,7 +97,7 @@ void eprt_sub(char *s, s32 ndig, s32 exp, char *arg3, s32 letter_e, s32 sharp_fl
     memcpy(arg3, s, ndig);
     arg3 = &arg3[ndig];
 
-    if (sharp_flg == 0) {
+    if (!sharp_flg) {
         while (arg3[-1] == '0') {
             arg3--;
         }
@@ -135,9 +126,7 @@ void eprt_sub(char *s, s32 ndig, s32 exp, char *arg3, s32 letter_e, s32 sharp_fl
     *arg3++ = exp + '0';
     *arg3++ = '\0';
 }
-#endif
 
-#if VERSION_US
 char *ecvt(double x, int ndig, int *dec, int *sign) {
     int exp = 0;
     int exp_index = 0x100;
@@ -231,9 +220,7 @@ exp_loop:
 
     return fbuf;
 }
-#endif
 
-#if VERSION_US
 char *fcvt(double x, int ndig, int *dec, int *sign) {
     char *p = ecvt(x, VALID_CT + 1, dec, sign);
     int exp = *dec;
@@ -262,10 +249,8 @@ char *fcvt(double x, int ndig, int *dec, int *sign) {
 
     return fbuf;
 }
-#endif
 
-#if VERSION_US
-char *gcvt(double x, s32 ndig, char *bufp, s32 letter_e, s32 sharp_flg) {
+char *gcvt(double x, s32 ndig, char *bufp, s32 letter_e, bool sharp_flg) {
     int exp;
     int sign;
     char *p = ecvt(x, ndig, &exp, &sign);
@@ -295,7 +280,7 @@ char *gcvt(double x, s32 ndig, char *bufp, s32 letter_e, s32 sharp_flg) {
             q += ndig;
 
         del_zero:
-            if (sharp_flg == 0) {
+            if (!sharp_flg) {
                 while (q[-1] == '0') {
                     q -= 1;
                 }
@@ -324,7 +309,7 @@ char *gcvt(double x, s32 ndig, char *bufp, s32 letter_e, s32 sharp_flg) {
         memcpy(q, p, exp);
         q[ndig] = '0';
 
-        if (sharp_flg == 0) {
+        if (!sharp_flg) {
             q[exp] = '\0';
         } else {
             q[exp] = '.';
@@ -337,470 +322,473 @@ char *gcvt(double x, s32 ndig, char *bufp, s32 letter_e, s32 sharp_flg) {
     eprt_sub(p, ndig, exp - 1, q, letter_e, sharp_flg);
     return bufp;
 }
-#endif
 
-#if VERSION_US
-#ifdef NON_MATCHING
+/* printf flags */
+#define MINUS 1 /* - */
+#define PLUS 2  /* + */
+#define ZERO 4  /* 0 */
+#define SPACE 8 /*   */
+
+/* printf type size */
+#define LONG_TYPE 0x20
+#define SHORT_TYPE 0x40
+#define LDOUBLE_TYPE 0x80
+
+#define SIGNE_M 0x100 /* minus value */
+
 int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
-    char sp18[ABUFSIZE];
-    char sp118;
-    int sp11C;
-    int sp120;
-    int sp124;
-    int sp128;
-    char sp12C;
-    char sp12D;
-    char sp12E;
-    char sp12F;
-    s32 sp144;
-    s32 sp14C;
-    s32 sp154;
-    char *sp15C;
-    s32 sp164;
-    double var_fa0;
-    double var_fs0;
-    s32 var_a1;
-    long long var_a2;
-    s32 var_fp;
-    s32 var_s2;
-    s32 var_s3;
-    int var_s4;
-    s32 var_s6;
-    s32 var_s7;
-    s32 var_v1_3;
-    char *temp_a1;
-    char *var_s0_3;
-    char *var_s1;
-    char *var_s2_3;
-    s32 var_s0;
+    char _asc_buf[ABUFSIZE];
+    char c;
+    bool sign;
+    int radix;
+    bool float_flg;
+    char *binasc;
+    bool sharp_flg;
+    double dval;
+    int n_ct;
+    int prec;
+    unsigned int flg;
+    int fprec;
+    int width;
+    int heder_len;
+    char *asc;
+    int len;
+    int letter_e;
 
-    var_fp = 0;
+    n_ct = 0;
 
     while (true) {
-        sp118 = *fmt++;
+        c = *fmt++;
 
-        if (sp118 != '%') {
-            if (sp118 == 0) {
-                sp164 = 0;
-                return var_fp;
+        if (c != '%') {
+            if (c == '\0') {
+                return n_ct;
             }
-            if (__ctype_map[sp118] & 0x80) {
-                Printer_PutChars(arg0, &sp118, 1);
-                var_fp += 1;
-                sp118 = *fmt++;
+            if (iskanji(c)) {
+                Printer_PutChars(arg0, &c, 1);
+                n_ct += 1;
+                c = *fmt++;
             }
-            Printer_PutChars(arg0, &sp118, 1);
-            var_fp += 1;
+            Printer_PutChars(arg0, &c, 1);
+            n_ct += 1;
             continue;
         }
 
-        var_s3 = 0;
-        sp164 = 0;
+        /* printf flag */
+        flg = 0;
+        sharp_flg = false;
 
-    loop_6:
-        sp118 = *fmt++;
-        switch (sp118) { /* switch 1 */
-            case 0x2D:   /* switch 1 */
-                var_s3 |= 1;
-                goto loop_6;
+    flag_loop:
+        c = *fmt++;
+        switch (c) {
+            case '-':
+                flg |= MINUS;
+                goto flag_loop;
 
-            case 0x2B: /* switch 1 */
-                var_s3 |= 2;
-                goto loop_6;
+            case '+':
+                flg |= PLUS;
+                goto flag_loop;
 
-            case 0x30: /* switch 1 */
-                var_s3 |= 4;
-                goto loop_6;
+            case '0':
+                flg |= ZERO;
+                goto flag_loop;
 
-            case 0x20: /* switch 1 */
-                var_s3 |= 8;
-                goto loop_6;
+            case ' ':
+                flg |= SPACE;
+                goto flag_loop;
 
-            case 0x23: /* switch 1 */
-                sp164 = 1;
-                goto loop_6;
+            case '#':
+                sharp_flg = true;
+                goto flag_loop;
         }
 
-        if (sp118 == '*') { // 0x2A
-            var_s6 = va_arg(args, int);
+        /* printf width */
+        if (c == '*') {
+            width = va_arg(args, int);
 
-            if (var_s6 < 0) {
-                var_s3 |= 1;
-                var_s6 = -var_s6;
+            if (width < 0) {
+                flg |= MINUS;
+                width = -width;
             }
-            sp118 = *fmt++;
+            c = *fmt++;
         } else {
-            var_s6 = 0;
-            while (__ctype_map[sp118] & 8) {
-                var_s6 = (var_s6 * 0xA) + (sp118 - 0x30);
-                sp118 = *fmt++;
+            width = 0;
+            while (isdigit(c)) {
+                width = (width * 10) + (c - '0');
+                c = *fmt++;
             }
         }
 
-        var_s2 = 0;
-        var_s4 = 6;
-        if (sp118 == '.') { // 0x2E
-            sp118 = *fmt++;
-            if (sp118 == '*') { // 0x2A
-                var_s2 = va_arg(args, int);
-                sp118 = *fmt++;
+        /* precision */
+        prec = 0;
+        fprec = 6;
+        if (c == '.') {
+            c = *fmt++;
+            if (c == '*') {
+                prec = va_arg(args, int);
+                c = *fmt++;
             } else {
-                var_s4 = 0;
-                while (__ctype_map[sp118] & 8) {
-                    var_s2 = (var_s2 * 0xA) + (sp118 - 0x30);
-                    sp118 = *fmt++;
+                fprec = 0;
+                while (isdigit(c)) {
+                    prec = (prec * 10) + (c - '0');
+                    c = *fmt++;
                 }
             }
 
-            var_s4 = var_s2;
+            fprec = prec;
         }
 
-        sp154 = 0;
-        sp144 = 0;
-        sp15C = basc;
-        sp14C = 0xA;
+        /* type */
+        float_flg = false;
+        sign = false;
+        binasc = basc;
+        radix = 10;
 
-    loop_26:
-        switch (sp118) {
-            case 'd': // 0x64
-            case 'i': // 0x69
-                sp144 = 1;
+    type_loop:
+        switch (c) {
+            case 'd':
+            case 'i':
+                sign = true;
                 goto block_100;
 
-            case 'u': // 0x75
+            case 'u':
                 goto block_100;
 
-            case 'o': // 0x6F
-                sp14C = 8;
-                var_s3 &= ~0xA;
+            case 'o':
+                radix = 8;
+                flg &= ~(PLUS | SPACE);
                 goto block_100;
 
-            case 'X': // 0x58
-                sp15C = BASC;
-                /* fallthrough */
+            case 'X':
+                binasc = BASC;
                 FALLTHROUGH;
-
-            case 'x': // 0x78
-                sp14C = 0x10;
-                var_s3 &= ~0xA;
+            case 'x':
+                radix = 0x10;
+                flg &= ~(PLUS | SPACE);
                 goto block_100;
 
-            case 'c': // 0x63
-                var_s1 = sp18;
-                sp18[0] = va_arg(args, int);
-                var_s0 = 1;
-                goto block_151;
+            case 'c':
+                asc = _asc_buf;
+                _asc_buf[0] = va_arg(args, int);
+                len = 1;
+                goto prt_all;
 
             case 's': // 0x73
-                var_s1 = va_arg(args, char *);
+                asc = va_arg(args, char *);
 
-                if (var_s1 == NULL) {
-                    var_s1 = "(null)";
+                if (asc == NULL) {
+                    asc = "(null)";
                 }
-                var_s0 = strlen(var_s1);
-                if ((var_s2 != 0) & (var_s2 < var_s0)) {
-                    var_s0 = var_s2;
+                len = strlen(asc);
+                if ((prec != 0) & (prec < len)) {
+                    len = prec;
                 }
-                goto block_151;
+                goto prt_all;
 
             case 'f': // 0x66
             {
-                var_fs0 = va_arg(args, double);
+                int fsign;
+                int exp;
+                int n;
+                char *p;
+                char *q;
 
-                var_s2_3 = fcvt(var_fs0, var_s4, &sp11C, &sp120);
-                if (sp120 != 0) {
-                    var_s3 |= 0x100;
+                dval = va_arg(args, double);
+
+                p = fcvt(dval, fprec, &exp, &fsign);
+                if (fsign != 0) {
+                    flg |= SIGNE_M;
                 }
-                var_s0_3 = var_s1 = &sp18[1];
-                if (sp11C == 0x7FFFFFFF) {
-                    strcpy(var_s0_3, var_s2_3);
-                } else {
-                    if (sp11C <= 0) {
-                        *var_s0_3++ = 0x30;
-                        *var_s0_3++ = 0x2E;
-                        var_v1_3 = 0;
-                        while (sp11C != 0) {
-                            *var_s0_3++ = 0x30;
-                            var_v1_3 += 1;
-                            sp11C = sp11C + 1;
-                            if (var_v1_3 == var_s4) {
-                                // goto block_80;
-                                break;
-                            }
+                q = asc = &_asc_buf[1];
+                if (exp == 0x7FFFFFFF) {
+                    strcpy(q, p);
+                } else if (exp <= 0) {
+                    *q++ = '0';
+                    *q++ = '.';
+                    n = 0;
+                    while (exp != 0) {
+                        *q++ = '0';
+                        n++;
+                        exp++;
+                        if (n == fprec) {
+                            break;
                         }
-
-                        while (var_v1_3 != var_s4) {
-                            *var_s0_3++ = *var_s2_3++;
-                            var_v1_3 += 1;
-                        }
-
-                        *var_s0_3 = 0;
-                    } else if (sp11C + var_s4 < 0x28) {
-                        memcpy(var_s0_3, var_s2_3, sp11C);
-                        var_s2_3 += sp11C;
-                        var_s0_3 += sp11C;
-                        if (var_s4 != 0) {
-                            *var_s0_3 = 0x2E;
-                            var_s0_3 = var_s0_3 + 1;
-                            memcpy(var_s0_3, var_s2_3, var_s4);
-                        } else {
-                            if (sp164 != 0) {
-                                *var_s0_3 = 0x2E;
-                                var_s0_3 += 1;
-                            }
-                        }
-                        var_s0_3[var_s4] = 0;
-                    } else if (sp11C + var_s4 < 0xFF) {
-                        memcpy(var_s0_3, var_s2_3, 0x28);
-
-                        if (sp11C <= 0x28) {
-                            var_s0_3 += sp11C;
-                        } else {
-                            var_s0_3 += 0x28;
-                            var_v1_3 = sp11C - 0x28;
-                            do {
-                                *var_s0_3++ = 0x30;
-                                var_v1_3 -= 1;
-                            } while (var_v1_3 != 0);
-                        }
-
-                        if (var_s4 != 0) {
-                            *var_s0_3++ = 0x2E;
-                            var_v1_3 = var_s4;
-                            do {
-                                *var_s0_3++ = 0x30;
-                                var_v1_3 -= 1;
-                            } while (var_v1_3 != 0);
-                        } else {
-                            if (sp164 != 0) {
-                                *var_s0_3 = 0x2E;
-                                var_s0_3 += 1;
-                            }
-                        }
-                        *var_s0_3 = 0;
-                    } else {
-                        var_s4 = 0x14;
-                        sp118 = 0x65;
-                        goto block_83;
                     }
-                }
-                var_s0 = strlen(var_s1);
-                var_s2 = 0;
-                sp154 = 1;
-            }
-                goto block_117;
 
-            case 'E': // 0x45
-            case 'e': // 0x65
-            {
-                var_fs0 = va_arg(args, double);
-            block_83:
-                temp_a1 = ecvt(var_fs0, var_s4, &sp124, &sp128);
-                var_s0_3 = var_s1 = &sp18[1];
-                if (sp128 != 0) {
-                    var_s3 |= 0x100;
-                }
+                    while (n != fprec) {
+                        *q++ = *p++;
+                        n++;
+                    }
 
-                if (sp124 == 0x7FFFFFFF) {
-                    strcpy(var_s0_3, temp_a1);
+                    *q = '\0';
+                } else if (exp + fprec < FBUF_SIZE) {
+                    memcpy(q, p, exp);
+                    p += exp;
+                    q += exp;
+                    if (fprec != 0) {
+                        *q++ = '.';
+                        memcpy(q, p, fprec);
+                    } else if (sharp_flg) {
+                        *q++ = '.';
+                    }
+                    q[fprec] = '\0';
+                } else if (exp + fprec < ABUFSIZE - 1) {
+                    memcpy(q, p, FBUF_SIZE);
+
+                    if (exp <= FBUF_SIZE) {
+                        q += exp;
+                    } else {
+                        q += FBUF_SIZE;
+                        n = exp - FBUF_SIZE;
+                        do {
+                            *q++ = '0';
+                            n -= 1;
+                        } while (n != 0);
+                    }
+
+                    if (fprec != 0) {
+                        *q++ = '.';
+                        n = fprec;
+                        do {
+                            *q++ = '0';
+                            n -= 1;
+                        } while (n != 0);
+                    } else {
+                        if (sharp_flg) {
+                            *q++ = '.';
+                        }
+                    }
+                    *q = '\0';
                 } else {
-                    eprt_sub(temp_a1, var_s4, sp124 - 1, var_s0_3, sp118, sp164);
+                    fprec = VALID_CT + 1;
+                    c = 'e';
+                    goto format_e;
                 }
-                var_s0 = strlen(var_s1);
-                var_s2 = 0;
-                sp154 = 1;
-                goto block_117;
+
+                len = strlen(asc);
+                prec = 0;
+                float_flg = true;
+            }
+                goto prt_float;
+
+            case 'E':
+            case 'e': {
+                int fsign;
+                int exp;
+                char *p;
+                char *q;
+
+                dval = va_arg(args, double);
+            format_e:
+                p = ecvt(dval, fprec, &exp, &fsign);
+                q = asc = &_asc_buf[1];
+                if (fsign != 0) {
+                    flg |= SIGNE_M;
+                }
+
+                if (exp == 0x7FFFFFFF) {
+                    strcpy(q, p);
+                } else {
+                    letter_e = c;
+                    eprt_sub(p, fprec, exp - 1, q, letter_e, sharp_flg);
+                }
+                len = strlen(asc);
+                prec = 0;
+                float_flg = true;
+                goto prt_float;
             }
 
-            case 'G': // 0x47
-            case 'g': // 0x67
-                var_fa0 = va_arg(args, double);
-                if (var_fa0 < 0.0) {
-                    var_s3 |= 0x100;
-                    var_fa0 = -var_fa0;
-                }
-                var_s1 = gcvt(var_fa0, var_s4, sp18 + 1, sp118 - 2, sp164);
-                var_s0 = strlen(var_s1);
-                var_s2 = 0;
-                sp154 = 1;
-                goto block_117;
+            case 'G':
+            case 'g': {
+                double dval;
 
-            case 'n': // 0x6E
-            {
-                int *n = va_arg(args, int *);
-                *n = var_fp;
+                dval = va_arg(args, double);
+                if (dval < 0.0) {
+                    flg |= SIGNE_M;
+                    dval = -dval;
+                }
+                letter_e = c - 2;
+                asc = gcvt(dval, fprec, &_asc_buf[1], letter_e, sharp_flg);
+                len = strlen(asc);
+                prec = 0;
+                float_flg = true;
+                goto prt_float;
             }
+
+            case 'n': {
+                int *np = va_arg(args, int *);
+
+                *np = n_ct;
                 goto next;
-                break;
+            }
 
-            case 'p': // 0x70
-                var_s3 = 0;
-                var_s2 = 8;
-                sp15C = BASC;
-                sp14C = 0x10;
+            case 'p':
+                flg = 0;
+                prec = 8;
+                binasc = BASC;
+                radix = 0x10;
                 goto block_100;
 
-            case 'h': // 0x68
-                var_s3 |= 0x40;
-                sp118 = *fmt++;
-                goto loop_26;
+            case 'h':
+                flg |= SHORT_TYPE;
+                c = *fmt++;
+                goto type_loop;
 
-            case 'l': // 0x6C
-                sp118 = *fmt++;
-                if (sp118 == 0x6C) {
-                    var_s3 |= 0x20;
-                    sp118 = *fmt++;
+            case 'l':
+                c = *fmt++;
+                if (c == 'l') {
+                    flg |= LONG_TYPE;
+                    c = *fmt++;
                 }
-                goto loop_26;
+                goto type_loop;
 
-            case 'L': // 0x4C
-                var_s3 |= 0x80;
-                sp118 = *fmt++;
-                goto loop_26;
+            case 'L':
+                flg |= LDOUBLE_TYPE;
+                c = *fmt++;
+                goto type_loop;
 
             default:
-                Printer_PutChars(arg0, &sp118, 1);
-                var_fp += 1;
+                Printer_PutChars(arg0, &c, 1);
+                n_ct += 1;
                 goto next;
                 break;
         }
         {
         block_100:
-            if (var_s2 != 0) {
-                var_s3 &= ~4;
+            if (prec != 0) {
+                flg &= ~ZERO;
             }
-            if (var_s3 & 0x20) {
-                var_a2 = va_arg(args, long long);
-                if (sp144 != 0) {
-                    if (var_a2 < 0) {
-                        var_a2 = -var_a2;
-                        var_s3 |= 0x100;
+
+            if (flg & LONG_TYPE) {
+                long long lval = va_arg(args, long long);
+
+                if (sign) {
+                    if (lval < 0) {
+                        lval = -lval;
+                        flg |= SIGNE_M;
                     }
                 }
-                var_s1 = cvtl_radix(sp18, var_a2, sp14C, sp15C);
+                asc = cvtl_radix(_asc_buf, lval, radix, binasc);
             } else {
-                var_a1 = va_arg(args, int);
-                if (var_s3 & 0x40) {
-                    if (sp144 != 0) {
-                        var_a1 = (s16)var_a1;
+                long val = va_arg(args, long);
+
+                if (flg & SHORT_TYPE) {
+                    if (sign) {
+                        val = (s16)val;
                     } else {
-                        var_a1 = (u16)var_a1;
+                        val = (u16)val;
                     }
                 }
-                if (sp144 != 0) {
-                    if (var_a1 < 0) {
-                        var_a1 = -var_a1;
-                        var_s3 |= 0x100;
+                if (sign) {
+                    if (val < 0) {
+                        val = -val;
+                        flg |= SIGNE_M;
                     }
                 }
-                var_s1 = cvt_radix(sp18, var_a1, sp14C, sp15C);
+                asc = cvt_radix(_asc_buf, val, radix, binasc);
             }
 
-            // what
-            // var_s0 = (sp - var_s1) + 0x118;
-            // var_s0 = var_s1[-sp118];
-            var_s0 = (u32)&sp18[0x100] - (u32)var_s1;
+            // what?
+            len = (s32)(&_asc_buf[ABUFSIZE] - asc);
 
-        block_117:
-            var_s7 = 0;
-            if (sp164 && (sp14C != 0xA)) {
-                if ((sp144 == 0) && (*var_s1 != 0x30)) {
-                    var_s7 = 1;
-                    if (sp14C == 0x10) {
-                        var_s7 = 2;
-                    }
+        prt_float:
+            heder_len = 0;
+            if (sharp_flg && (radix != 10)) {
+                if (!sign && (*asc != 0x30)) {
+                    heder_len = (radix == 0x10) ? 2 : 1;
                 }
             }
 
-            if ((var_s3 & 4) && !(var_s3 & 1)) {
-                var_s2 = var_s6;
+            if ((flg & ZERO) && !(flg & MINUS)) {
+                prec = width;
             }
-            if (var_s2 != 0) {
-                if (var_s3 & 0x10A) {
-                    var_s2 -= 1;
-                    if (sp154 != 0) {
-                        var_s6 -= 1;
-                        var_fp += 1;
-                        if (var_s3 & 0x100) {
-                            sp12C = 0x2D;
+            if (prec != 0) {
+                if (flg & (PLUS | SPACE | SIGNE_M)) {
+                    prec--;
+                    if (float_flg) {
+                        char sp12C;
+
+                        width--;
+                        n_ct++;
+                        if (flg & SIGNE_M) {
+                            sp12C = '-';
                             Printer_PutChars(arg0, &sp12C, 1);
                         } else {
-                            if (var_s3 & 2) {
-                                sp12C = 0x2B;
+                            if (flg & PLUS) {
+                                sp12C = '+';
                             } else {
-                                sp12C = 0x20;
+                                sp12C = ' ';
                             }
                             Printer_PutChars(arg0, &sp12C, 1);
                         }
-                        var_s3 &= ~0x10A;
+                        flg &= ~(PLUS | SPACE | SIGNE_M);
                     }
                 }
-                var_s2 = var_s2 - var_s7;
-                while (var_s0 < var_s2) {
-                    if (sp154 != 0) {
-                        sp12D = 0x30;
+
+                prec = prec - heder_len;
+                while (len < prec) {
+                    if (float_flg) {
+                        char sp12D = '0';
                         Printer_PutChars(arg0, &sp12D, 1);
-                        var_s6 -= 1;
-                        var_fp += 1;
-                        var_s2 -= 1;
+                        width--;
+                        n_ct++;
+                        prec--;
                     } else {
-                        var_s1 -= 1;
-                        *var_s1 = 0x30;
-                        var_s0 += 1;
+                        asc--;
+                        *asc = '0';
+                        len++;
                     }
                 }
             }
-            if (var_s7 != 0) {
-                if (var_s7 == 2) {
-                    var_s1 -= 1;
-                    *var_s1 = sp15C[0x10];
+
+            if (heder_len != 0) {
+                if (heder_len == 2) {
+                    asc--;
+                    *asc = binasc[0x10];
                 }
-                var_s1 -= 1;
-                *var_s1 = 0x30;
-                var_s0 += var_s7;
+                asc--;
+                *asc = '0';
+                len += heder_len;
             }
-            if (var_s3 & 0x10A) {
-                var_s0 += 1;
-                var_s1 -= 1;
-                if (var_s3 & 0x100) {
-                    *var_s1 = 0x2D;
+
+            if (flg & (PLUS | SPACE | SIGNE_M)) {
+                len++;
+                asc--;
+                if (flg & SIGNE_M) {
+                    *asc = '-';
+                } else if (flg & PLUS) {
+                    *asc = '+';
                 } else {
-                    if (var_s3 & 2) {
-                        *var_s1 = 0x2B;
-                    } else {
-                        *var_s1 = 0x20;
-                    }
+                    *asc = ' ';
                 }
             }
 
-        block_151:
-            if (!(var_s3 & 1)) {
-                while (var_s0 < var_s6) {
-                    sp12E = 0x20;
+        prt_all:
+            if (!(flg & MINUS)) {
+                while (len < width) {
+                    char sp12E = ' ';
+
                     Printer_PutChars(arg0, &sp12E, 1);
-                    var_s6 -= 1;
-                    var_fp += 1;
+                    width--;
+                    n_ct++;
                 }
             }
 
-            var_s6 = var_s6 - var_s0;
-            var_fp += var_s0;
-            var_s0 = var_s0 - 1;
-            while (var_s0 != -1) {
-                Printer_PutChars(arg0, var_s1++, 1);
-                var_s0 -= 1;
+            width -= len;
+            n_ct += len;
+            len--;
+            while (len != -1) {
+                Printer_PutChars(arg0, asc++, 1);
+                len -= 1;
             }
-            while (var_s6 > 0) {
-                sp12F = 0x20;
+            while (width > 0) {
+                char sp12F = ' ';
+
                 Printer_PutChars(arg0, &sp12F, 1);
-                var_s6 -= 1;
-                var_fp += 1;
+                width--;
+                n_ct++;
             }
         }
     next:;
     }
 }
-#else
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/screen_print/printf_impl", _kmcprt);
-#endif
-#endif

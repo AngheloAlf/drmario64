@@ -6,8 +6,7 @@
 #include "include_asm.h"
 #include "unk.h"
 #include "macros_defines.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
+#include "boot_main.h"
 #include "main_segment_variables.h"
 #include "audio/sound.h"
 #include "buffers.h"
@@ -107,11 +106,11 @@ void mainproc(void *arg UNUSED) {
             case MAIN_NO_2:
                 main_story(&B_800EB670);
 
-                if ((story_proc_no == STORY_PROC_NO_0) || (story_proc_no == STORY_PROC_NO_12)) {
+                if ((story_proc_no == BGROMDATA_INDEX0) || (story_proc_no == BGROMDATA_INDEX12)) {
                     story_proc_no++;
                     main_no = MAIN_NO_2;
-                } else if (((story_proc_no - STORY_PROC_NO_10) >= STORY_PROC_NO_12 - STORY_PROC_NO_10) &&
-                           (story_proc_no != STORY_PROC_NO_22) && (story_proc_no != STORY_PROC_NO_23)) {
+                } else if (((story_proc_no - BGROMDATA_INDEX10) >= BGROMDATA_INDEX12 - BGROMDATA_INDEX10) &&
+                           (story_proc_no != BGROMDATA_INDEX22) && (story_proc_no != BGROMDATA_INDEX23)) {
                     main_no = MAIN_NO_1;
                 } else {
                     main_no = MAIN_NO_7;

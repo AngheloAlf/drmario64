@@ -1,6 +1,8 @@
+#include "boot_main.h"
+
+#include "libc/stdbool.h"
+
 #include "libultra.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
 #include "dma_table.h"
 #include "segment_symbols.h"
 #include "macros_defines.h"
@@ -10,17 +12,10 @@
 
 void Idle_ThreadEntry(void *arg);
 
-#if VERSION_US
 static OSThread sIdleThread;
 static OSThread sMainThread;
 static STACK(sIdleStack, 0x2000);
 static STACK(sMainStack, 0x2000);
-#else
-extern OSThread sIdleThread;
-extern OSThread sMainThread;
-extern STACK(sIdleStack, 0x2000);
-extern STACK(sMainStack, 0x2000);
-#endif
 
 void Idle_Nop(void) {
 }
@@ -37,8 +32,7 @@ void func_80000488(void (*arg0)()) {
 
 void bootproc(void) {
     osInitialize();
-    osCreateThread(&sIdleThread, THREAD_ID_IDLE_BOOT, Idle_ThreadEntry, NULL, STACK_TOP(sIdleStack),
-                   THREAD_PRI_IDLE_BOOT);
+    osCreateThread(&sIdleThread, THREAD_ID_IDLE, Idle_ThreadEntry, NULL, STACK_TOP(sIdleStack), THREAD_PRI_IDLE_BOOT);
     osStartThread(&sIdleThread);
 }
 

@@ -1,15 +1,12 @@
 #include "dmadata.h"
 
-#include "macros_defines.h"
-#include "boot_variables.h"
+#include "libc/stdbool.h"
+#include "libc/stdint.h"
 
-#if VERSION_US
+#include "macros_defines.h"
+
 static OSMesgQueue B_800151C0;
 static OSMesg B_800151D8[1];
-#else
-extern OSMesgQueue B_800151C0;
-extern OSMesg B_800151D8[1];
-#endif
 
 #if VERSION_CN || VERSION_GW
 OSPiHandle *D_8000EC40_cn = NULL;

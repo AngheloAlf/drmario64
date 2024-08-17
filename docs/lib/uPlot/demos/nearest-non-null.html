@@ -39,7 +39,7 @@
 			let longDateHourMin = uPlot.fmtDate('{YYYY}-{MM}-{DD} {h}:{mm}{aa}');
 
 			const opts = {
-				title: "Nearest Non-Null",
+				title: "Nearest Non-Null (by nearest x scale value)",
 				width: 1920,
 				height: 600,
 			/*
@@ -130,54 +130,16 @@
 		</script>
 
 		<script>
-			const hoverProximityPx = 30;
-
 			const opts2 = {
-				title: "Nearest Non-Null",
+				title: "Nearest Non-Null (by 30px proximity)",
 				width: 1920,
 				height: 600,
 				cursor: {
-					dataIdx: (self, seriesIdx, hoveredIdx, cursorXVal) => {
-						let seriesData = self.data[seriesIdx];
-
-						if (seriesData[hoveredIdx] == null) {
-							let nonNullLft = null,
-								nonNullRgt = null,
-								i;
-
-							i = hoveredIdx;
-							while (nonNullLft == null && i-- > 0) {
-								if (seriesData[i] != null)
-									nonNullLft = i;
-							}
-
-							i = hoveredIdx;
-							while (nonNullRgt == null && i++ < seriesData.length) {
-								if (seriesData[i] != null)
-									nonNullRgt = i;
-							}
-
-							let xVals = self.data[0];
-
-							let curPos = self.valToPos(cursorXVal, 'x');
-							let rgtPos = nonNullRgt == null ?  Infinity : self.valToPos(xVals[nonNullRgt], 'x');
-							let lftPos = nonNullLft == null ? -Infinity : self.valToPos(xVals[nonNullLft], 'x');
-
-							let lftDelta = curPos - lftPos;
-							let rgtDelta = rgtPos - curPos;
-
-							if (lftDelta <= rgtDelta) {
-								if (lftDelta <= hoverProximityPx)
-									hoveredIdx = nonNullLft;
-							}
-							else {
-								if (rgtDelta <= hoverProximityPx)
-									hoveredIdx = nonNullRgt;
-							}
-						}
-
-						return hoveredIdx;
-					},
+					hover: {
+						prox: 30,
+						bias: 0,
+						skip: [null],
+					}
 				},
 				hooks: {
 					init: [
@@ -277,6 +239,94 @@
 			const data2 = uPlot.join(tables);
 
 			let u2 = new uPlot(opts2, data2, document.body);
+
+			let data3 = uPlot.join([
+				[
+					[
+						1626235540319,
+						1626235584004,
+						1626235627689,
+						1626235671374,
+						1626235715059,
+						1626235758744,
+						1626235802429,
+						1626235846114,
+						1626235889799,
+						1626235933484,
+						1626235977169
+					],
+					[
+						1,
+						20,
+						90,
+						30,
+						5,
+						0,
+						100,
+						20,
+						null,
+						100,
+						20
+					]
+				],
+				[
+					[
+						1626235540319,
+						1626235613128,
+						1626235685937,
+						1626235758746,
+						1626235831555,
+						1626235904364,
+						1626235977173
+					],
+					[
+						1,
+						20,
+						90,
+						30,
+						5,
+						null,
+						0
+					]
+				]
+			], [[0,2],[0,2]]);
+
+			let opts3 = {
+				...opts2,
+				title: "Nearest Non-Null (by 15px proximity only when hovered val === null)",
+				ms: 1,
+				scales: {
+					x: {
+						time: true,
+					}
+				},
+				series: [
+					{},
+					{
+						stroke: "red",
+						fill: "rgb(255,0,0,0.1)"
+					},
+					{
+						stroke: "blue",
+						fill: "rgb(0,0,255,0.1)"
+					},
+				],
+				cursor: {
+					hover: {
+						prox: (self, seriesIdx, hoveredIdx) => {
+							const yVal = self.data[seriesIdx][hoveredIdx];
+
+							if (yVal === null)
+								return 15; // 15px proximity when hovering nuulls, but not undefined
+
+							return null;
+						},
+						skip: [null],
+					},
+				}
+			};
+
+			let u3 = new uPlot(opts3, data3, document.body);
 		</script>
 	</body>
 </html>

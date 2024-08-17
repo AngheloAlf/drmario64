@@ -7,11 +7,6 @@
 #include "color.h"
 #include "unk.h"
 
-typedef struct struct_etcLwsTbl {
-    /* 0x00 */ UNK_PTR unk_00[0xE];
-    /* 0x38 */ UNK_TYPE1 unk_38[0x8];
-} struct_etcLwsTbl; // size = 0x40
-
 typedef struct struct_attack_effect {
     /* 0x00 */ s32 unk_00;
     /* 0x04 */ s32 unk_04;
@@ -27,8 +22,8 @@ typedef struct struct_attack_effect {
 } struct_attack_effect; // size = 0x2C
 
 typedef struct struct_attack_sprite {
-    /* 0x00 */ UNK_TYPE4 unk_00;
-    /* 0x04 */ UNK_TYPE4 unk_04;
+    /* 0x00 */ s32 x;
+    /* 0x04 */ s32 y;
     /* 0x08 */ UNK_TYPE4 unk_08;
     /* 0x0C */ UNK_TYPE4 unk_0C;
     /* 0x10 */ UNK_TYPE4 unk_10;
@@ -50,47 +45,8 @@ typedef struct struct_g_etc_work {
     /* 0x70 */ s32 unk_D0[G_ETC_WORK_VAL];
 } struct_g_etc_work; // size = 0xF0
 
-typedef struct struct_cont_table {
-    /* 0x00 */ s32 unk_00[UNK_SIZE];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C[UNK_SIZE];
-    /* 0x10 */ UNK_TYPE1 unk_10[0x8];
-} struct_cont_table; // size = 0x18
-
-typedef struct struct_pause_table {
-    /* 0x00 */ s32 unk_00[UNK_SIZE];
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ UNK_TYPE1 unk_0C[0xC];
-} struct_pause_table; // size = 0x18
-
-
-// data
-
-extern struct_pause_table pause_table[];
-extern struct_cont_table cont_table[];
-extern UNK_TYPE4 etc_parts_tbl[];
-extern UNK_TYPE4 x2p[];
-extern UNK_TYPE4 x4p[];
-// extern UNK_TYPE etc_vp;
-extern Gfx etc_setup[];
-extern Color_RGB32 col_prim_434[];
-extern Color_RGB32 col_env_435[];
 
 // bss
-
-extern s32 binCount;
-extern bool cont_bg_flg;
-extern UNK_PTR etcTexAddress;
-extern UNK_PTR *etcLwsAddress;
-extern struct_etcLwsTbl etcLwsTbl;
-extern s32 logo_ofsY;
-extern s32 etc_mode;
-extern struct_g_etc_work g_etc_work[];
-// B_800FC458_cn
-extern Mtx etc_viewMtx;
-
 
 extern s32 attack_effect_idx;
 extern struct_attack_effect attack_effect[0x10];
@@ -98,10 +54,9 @@ extern struct_attack_effect attack_effect[0x10];
 extern s32 attack_sprite_idx;
 extern struct_attack_sprite attack_sprite[0x80];
 
-extern void *attack_sprite_address;
+extern u8 (*attack_sprite_address)[10][32*32/2];
 
-
-void initEtcWork(UNK_PTR arg0, s32 arg1);
+void initEtcWork(void *gameEtcSeg, s32 count);
 void init_pause_disp(void);
 void disp_logo_setup(Gfx **gfxP);
 UNK_TYPE disp_count_logo(Gfx **gfxP, s32 arg1, UNK_TYPE arg2);

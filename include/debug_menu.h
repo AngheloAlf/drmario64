@@ -20,7 +20,4 @@ void DebugMenu_8003FD0C(Gfx** gxfP);
 void DebugMenu_800409A0(void);
 void DebugMenu_800409DC(Gfx **gfxP);
 
-extern struct_800E5938 B_800E5938[];
-extern struct_800E5968 B_800E5968;
-
 #endif

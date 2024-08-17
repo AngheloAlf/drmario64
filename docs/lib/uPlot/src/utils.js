@@ -78,17 +78,12 @@ export function getMinMaxLog(data, _i0, _i1) {
 		}
 	}
 
-	return [
-		_min ==  inf ?  1 : _min,
-		_max == -inf ? 10 : _max,
-	];
+	return [_min, _max];
 }
 
 export function rangeLog(min, max, base, fullMags) {
 	let minSign = sign(min);
 	let maxSign = sign(max);
-
-	let logFn = base == 10 ? log10 : log2;
 
 	if (min == max) {
 		if (minSign == -1) {
@@ -100,6 +95,8 @@ export function rangeLog(min, max, base, fullMags) {
 			max *= base;
 		}
 	}
+
+	let logFn = base == 10 ? log10 : log2;
 
 	let growMinAbs = minSign == 1 ? floor : ceil;
 	let growMaxAbs = maxSign == 1 ? ceil : floor;
@@ -410,6 +407,8 @@ export function fastIsObj(v) {
 
 const TypedArray = Object.getPrototypeOf(Uint8Array);
 
+const __proto__ = "__proto__";
+
 export function copy(o, _isObj = isObj) {
 	let out;
 
@@ -428,8 +427,10 @@ export function copy(o, _isObj = isObj) {
 		out = o.slice();
 	else if (_isObj(o)) {
 		out = {};
-		for (let k in o)
-			out[k] = copy(o[k], _isObj);
+		for (let k in o) {
+			if (k != __proto__)
+				out[k] = copy(o[k], _isObj);
+		}
 	}
 	else
 		out = o;
@@ -444,10 +445,12 @@ export function assign(targ) {
 		let src = args[i];
 
 		for (let key in src) {
-			if (isObj(targ[key]))
-				assign(targ[key], copy(src[key]));
-			else
-				targ[key] = copy(src[key]);
+			if (key != __proto__) {
+				if (isObj(targ[key]))
+					assign(targ[key], copy(src[key]));
+				else
+					targ[key] = copy(src[key]);
+			}
 		}
 	}
 

@@ -6,6 +6,9 @@
         "expected/**": true,
         "ctx.c": true,
         ".venv": true,
+        ".splat": true,
+        "linker_scripts/*/drmario64.d": true,
+        "linker_scripts/*/drmario64.ld": true,
     },
     "files.associations": {
         "*.C": "c",
@@ -14,7 +17,14 @@
         "*.txt": "plaintext",
         "*.inc": "n64asm",
         "*.md": "markdown",
-        "typeinfo": "c"
+        ".make_options": "makefile",
+        "typeinfo": "c",
     },
-    "python.terminal.activateEnvironment": true
+    "python.terminal.activateEnvironment": true,
+    "favorites.resources": [
+        {
+            "filePath": "puzzle_collection/Dr_MARIO.c",
+            "group": "Default"
+        }
+    ]
 }

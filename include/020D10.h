@@ -10,13 +10,13 @@
 // void func_8003974C();
 // void func_80039BE0();
 // void func_80039D08();
-void *func_80039E14(void *arg0);
+void *func_80039E14(void *heap);
 s32 func_80039F74(void);
 void func_8003A1B4(Gfx **gfxP);
-void *func_8003A26C(void *arg0);
+void *func_8003A26C(void *heap);
 s32 func_8003A618(void);
 void func_8003A7E4(Gfx **gfxP);
-void *func_8003A89C(void *arg0, s32 arg1);
+void *func_8003A89C(void *heap, s32 arg1);
 s32 func_8003A8F4(void);
 void func_8003A950(Gfx **gfxP);
 

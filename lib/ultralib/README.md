@@ -23,7 +23,7 @@ Currently this repo supports building the following versions:
 
 After cloning the repo, put a copy of the target archive(s) in their correct version folder in `base/`.
 For example, if your target archive is libgultra_rom.a 2.0L then you'd place it in `base/L/`.
-If you will be building without a target archive by setting `NON_MATCHING` then you can skip this step.
+If you will be building without a target archive by setting `COMPARE=0` then you can skip this step.
 
 ## Build dependencies
 
@@ -56,4 +56,10 @@ For example, if building the 2.0L PC archive you'd do the following:
 
 Every target flag combination requires separate a setup command.
 
-If building without a target archive using `NON_MATCHING` then you can skip the setup command.
+If building without an target archive, than you can use `COMPARE=0` like the the following:
+
+- `make VERSION=L TARGET=libgultra_rom COMPARE=0 setup`
+- `make VERSION=L TARGET=libgultra_rom COMPARE=0`
+
+note that running setup without `COMPARE=0` and no archive will result in an error,
+and only needs to be run once instead of per target flag combination

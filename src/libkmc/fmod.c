@@ -1,6 +1,5 @@
 #include "libultra.h"
 #include "include_asm.h"
-#include "boot_functions.h"
 #include "libc/math.h"
 #include "libkmc/explog.h"
 

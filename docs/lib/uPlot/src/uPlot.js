@@ -705,6 +705,13 @@ export default function uPlot(opts, data, then) {
 	let plotLftCss = 0;
 	let plotTopCss = 0;
 
+	// previous values for diffing
+	let _plotLftCss = plotLftCss;
+	let _plotTopCss = plotTopCss;
+	let _plotWidCss = plotWidCss;
+	let _plotHgtCss = plotHgtCss;
+
+
 	let plotLft = 0;
 	let plotTop = 0;
 	let plotWid = 0;
@@ -727,9 +734,6 @@ export default function uPlot(opts, data, then) {
 
 		shouldConvergeSize = true;
 		shouldSetSize = true;
-
-		if (cursor.left >= 0)
-			shouldSetCursor = shouldSetLegend = true;
 
 		commit();
 	}
@@ -868,6 +872,88 @@ export default function uPlot(opts, data, then) {
 	}
 
 	const cursor = self.cursor = assign({}, cursorOpts, {drag: {y: mode == 2}}, opts.cursor);
+
+	if (cursor.dataIdx == null) {
+		let hov = cursor.hover;
+
+		let skip = hov.skip = new Set(hov.skip ?? []);
+		skip.add(void 0); // alignment artifacts
+		let prox = hov.prox = fnOrSelf(hov.prox);
+		let bias = hov.bias ??= 0;
+
+		// TODO: only scan between in-view idxs (i0, i1)
+		cursor.dataIdx = (self, seriesIdx, cursorIdx, valAtPosX) => {
+			if (seriesIdx == 0)
+				return cursorIdx;
+
+			let idx2 = cursorIdx;
+
+			let _prox = prox(self, seriesIdx, cursorIdx, valAtPosX) ?? inf;
+			let withProx = _prox >= 0 && _prox < inf;
+			let xDim = scaleX.ori == 0 ? plotWidCss : plotHgtCss;
+			let cursorLft = cursor.left;
+
+			let xValues = data[0];
+			let yValues = data[seriesIdx];
+
+			if (skip.has(yValues[cursorIdx])) {
+				idx2 = null;
+
+				let nonNullLft = null,
+					nonNullRgt = null,
+					j;
+
+				if (bias == 0 || bias == -1) {
+					j = cursorIdx;
+					while (nonNullLft == null && j-- > 0) {
+						if (!skip.has(yValues[j]))
+							nonNullLft = j;
+					}
+				}
+
+				if (bias == 0 || bias == 1) {
+					j = cursorIdx;
+					while (nonNullRgt == null && j++ < yValues.length) {
+						if (!skip.has(yValues[j]))
+							nonNullRgt = j;
+					}
+				}
+
+				if (nonNullLft != null || nonNullRgt != null) {
+					if (withProx) {
+						let lftPos = nonNullLft == null ? -Infinity : valToPosX(xValues[nonNullLft], scaleX, xDim, 0);
+						let rgtPos = nonNullRgt == null ?  Infinity : valToPosX(xValues[nonNullRgt], scaleX, xDim, 0);
+
+						let lftDelta = cursorLft - lftPos;
+						let rgtDelta = rgtPos - cursorLft;
+
+						if (lftDelta <= rgtDelta) {
+							if (lftDelta <= _prox)
+								idx2 = nonNullLft;
+						} else {
+							if (rgtDelta <= _prox)
+								idx2 = nonNullRgt;
+						}
+					}
+					else {
+						idx2 =
+							nonNullRgt == null ? nonNullLft :
+							nonNullLft == null ? nonNullRgt :
+							cursorIdx - nonNullLft <= nonNullRgt - cursorIdx ? nonNullLft : nonNullRgt;
+					}
+				}
+			}
+			else if (withProx) {
+				let dist = abs(cursorLft - valToPosX(xValues[cursorIdx], scaleX, xDim, 0));
+
+				if (dist > _prox)
+					idx2 = null;
+			}
+
+			return idx2;
+		};
+	}
+
 	const setCursorEvent = e => { cursor.event = e; };
 
 	cursor.idxs = activeIdxs;
@@ -888,6 +974,9 @@ export default function uPlot(opts, data, then) {
 
 	// series-intersection markers
 	let cursorPts = [null];
+	// position caches in CSS pixels
+	let cursorPtsLft = [null];
+	let cursorPtsTop = [null];
 
 	function initCursorPt(s, si) {
 		if (si > 0) {
@@ -953,7 +1042,12 @@ export default function uPlot(opts, data, then) {
 			activeIdxs.splice(i, 0, null);
 
 			let pt = initCursorPt(s, i);
-			pt && cursorPts.splice(i, 0, pt);
+
+			if (pt != null) {
+				cursorPts.splice(i, 0, pt);
+				cursorPtsLft.splice(i, 0, 0);
+				cursorPtsTop.splice(i, 0, 0);
+			}
 		}
 
 		fire("addSeries", i);
@@ -985,7 +1079,11 @@ export default function uPlot(opts, data, then) {
 		if (cursor.show) {
 			activeIdxs.splice(i, 1);
 
-			cursorPts.length > 1 && cursorPts.splice(i, 1)[0].remove();
+			if (cursorPts.length > 1) {
+				cursorPts.splice(i, 1)[0].remove();
+				cursorPtsLft.splice(i, 1);
+				cursorPtsTop.splice(i, 1);
+			}
 		}
 
 		// TODO: de-init no-longer-needed scales?
@@ -1102,31 +1200,34 @@ export default function uPlot(opts, data, then) {
 	let viaAutoScaleX = false;
 
 	function setData(_data, _resetScales) {
-		data = _data == null ? [] : copy(_data, fastIsObj);
+		data = _data == null ? [] : _data;
+
+		self.data = self._data = data;
 
 		if (mode == 2) {
 			dataLen = 0;
 			for (let i = 1; i < series.length; i++)
 				dataLen += data[i][0].length;
-			self.data = data = _data;
 		}
 		else {
-			if (data[0] == null)
-				data[0] = [];
-
-			self.data = data.slice();
+			if (data.length == 0)
+				self.data = self._data = data = [[]];
 
 			data0 = data[0];
 			dataLen = data0.length;
 
-			if (xScaleDistr == 2) {
-				data[0] = Array(dataLen);
-				for (let i = 0; i < dataLen; i++)
-					data[0][i] = i;
-			}
-		}
+			let scaleData = data;
 
-		self._data = data;
+			if (xScaleDistr == 2) {
+				scaleData = data.slice();
+
+				let _data0 = scaleData[0] = Array(dataLen);
+				for (let i = 0; i < dataLen; i++)
+					_data0[i] = i;
+			}
+
+			self._data = data = scaleData;
+		}
 
 		resetYSeries(true);
 
@@ -1252,32 +1353,59 @@ export default function uPlot(opts, data, then) {
 		}
 	}
 
+	const AUTOSCALE = {min: null, max: null};
+
 	function setScales() {
 	//	log("setScales()", arguments);
 
-		// wip scales
-		let wipScales = copy(scales, fastIsObj);
+		// implicitly add auto scales, and unranged scales
+		for (let k in scales) {
+			let sc = scales[k];
 
-		for (let k in wipScales) {
-			let wsc = wipScales[k];
+			if (pendScales[k] == null &&
+				(
+					// scales that have never been set (on init)
+					sc.min == null ||
+					// or auto scales when the x scale was explicitly set
+					pendScales[xScaleKey] != null && sc.auto(self, viaAutoScaleX)
+				)
+			) {
+				pendScales[k] = AUTOSCALE;
+			}
+		}
+
+		// implicitly add dependent scales
+		for (let k in scales) {
+			let sc = scales[k];
+
+			if (pendScales[k] == null && sc.from != null && pendScales[sc.from] != null)
+				pendScales[k] = AUTOSCALE;
+		}
+
+		// explicitly setting the x-scale invalidates everything (acts as redraw)
+		if (pendScales[xScaleKey] != null)
+			resetYSeries(true); // TODO: only reset series on auto scales?
+
+		let wipScales = {};
+
+		for (let k in pendScales) {
 			let psc = pendScales[k];
 
-			if (psc != null && psc.min != null) {
-				assign(wsc, psc);
+			if (psc != null) {
+				let wsc = wipScales[k] = copy(scales[k], fastIsObj);
 
-				// explicitly setting the x-scale invalidates everything (acts as redraw)
-				if (k == xScaleKey)
-					resetYSeries(true);
-			}
-			else if (k != xScaleKey || mode == 2) {
-				if (dataLen == 0 && wsc.from == null) {
-					let minMax = wsc.range(self, null, null, k);
-					wsc.min = minMax[0];
-					wsc.max = minMax[1];
-				}
-				else {
-					wsc.min = inf;
-					wsc.max = -inf;
+				if (psc.min != null)
+					assign(wsc, psc);
+				else if (k != xScaleKey || mode == 2) {
+					if (dataLen == 0 && wsc.from == null) {
+						let minMax = wsc.range(self, null, null, k);
+						wsc.min = minMax[0];
+						wsc.max = minMax[1];
+					}
+					else {
+						wsc.min = inf;
+						wsc.max = -inf;
+					}
 				}
 			}
 		}
@@ -1287,8 +1415,12 @@ export default function uPlot(opts, data, then) {
 			series.forEach((s, i) => {
 				if (mode == 1) {
 					let k = s.scale;
-					let wsc = wipScales[k];
 					let psc = pendScales[k];
+
+					if (psc == null)
+						return;
+
+					let wsc = wipScales[k];
 
 					if (i == 0) {
 						let minMax = wsc.range(self, wsc.min, wsc.max, k);
@@ -1326,8 +1458,12 @@ export default function uPlot(opts, data, then) {
 							let yScaleKey = yFacet.scale;
 							let [ xData, yData ] = data[i];
 
-							accScale(wipScales[xScaleKey], pendScales[xScaleKey], xFacet, xData, xFacet.sorted);
-							accScale(wipScales[yScaleKey], pendScales[yScaleKey], yFacet, yData, yFacet.sorted);
+							let wscx = wipScales[xScaleKey];
+							let wscy = wipScales[yScaleKey];
+
+							// null can happen when only x is zoomed, but y has static range and doesnt get auto-added to pending
+							wscx != null && accScale(wscx, pendScales[xScaleKey], xFacet, xData, xFacet.sorted);
+							wscy != null && accScale(wscy, pendScales[yScaleKey], yFacet, yData, yFacet.sorted);
 
 							// temp
 							s.min = yFacet.min;
@@ -1440,8 +1576,14 @@ export default function uPlot(opts, data, then) {
 					FEAT_POINTS && cacheStrokeFill(i, true);
 
 					if (s._paths == null) {
+						if (ctxAlpha != s.alpha)
+							ctx.globalAlpha = ctxAlpha = s.alpha;
+
 						let _idxs = mode == 2 ? [0, data[i][0].length - 1] : getOuterIdxs(data[i]);
 						s._paths = s.paths(self, i, _idxs[0], _idxs[1]);
+
+						if (ctxAlpha != 1)
+							ctx.globalAlpha = ctxAlpha = 1;
 					}
 				}
 			});
@@ -1531,7 +1673,7 @@ export default function uPlot(opts, data, then) {
 
 		// for all bands where this series is the top edge, create upwards clips using the bottom edges
 		// and apply clips + fill with band fill or dfltFill
-		bands.forEach((b, bi) => {
+		flags != 0 && bands.forEach((b, bi) => {
 			// isUpperEdge?
 			if (b.series[0] == si) {
 				let lowerEdge = series[b.series[1]];
@@ -1960,6 +2102,17 @@ export default function uPlot(opts, data, then) {
 	}
 
 	let queuedCommit = false;
+	let deferHooks = false;
+	let hooksQueue = [];
+
+	function flushHooks() {
+		deferHooks = false;
+
+		for (let i = 0; i < hooksQueue.length; i++)
+			fire(...hooksQueue[i])
+
+		hooksQueue.length = 0;
+	}
 
 	function commit() {
 		if (!queuedCommit) {
@@ -1967,6 +2120,20 @@ export default function uPlot(opts, data, then) {
 			queuedCommit = true;
 		}
 	}
+
+	// manual batching (aka immediate mode), skips microtask queue
+	function batch(fn, _deferHooks = false) {
+		queuedCommit = true;
+		deferHooks = _deferHooks;
+
+		fn(self);
+		_commit();
+
+		if (_deferHooks && hooksQueue.length > 0)
+			queueMicrotask(flushHooks);
+	}
+
+	self.batch = batch;
 
 	function _commit() {
 	//	log("_commit()", arguments);
@@ -2023,6 +2190,47 @@ export default function uPlot(opts, data, then) {
 			ctxAlpha = 1;
 
 			syncRect(true);
+
+			if (
+				plotLftCss != _plotLftCss ||
+				plotTopCss != _plotTopCss ||
+				plotWidCss != _plotWidCss ||
+				plotHgtCss != _plotHgtCss
+			) {
+				resetYSeries(false);
+
+				let pctWid = plotWidCss / _plotWidCss;
+				let pctHgt = plotHgtCss / _plotHgtCss;
+
+				if (cursor.show && !shouldSetCursor && cursor.left >= 0) {
+					cursor.left *= pctWid;
+					cursor.top  *= pctHgt;
+
+					vCursor && elTrans(vCursor, round(cursor.left), 0, plotWidCss, plotHgtCss);
+					hCursor && elTrans(hCursor, 0, round(cursor.top), plotWidCss, plotHgtCss);
+
+					for (let i = 1; i < cursorPts.length; i++) {
+						cursorPtsLft[i] *= pctWid;
+						cursorPtsTop[i] *= pctHgt;
+						elTrans(cursorPts[i], incrRoundUp(cursorPtsLft[i], 1), incrRoundUp(cursorPtsTop[i], 1), plotWidCss, plotHgtCss);
+					}
+				}
+
+				if (select.show && !shouldSetSelect && select.left >= 0 && select.width > 0) {
+					select.left   *= pctWid;
+					select.width  *= pctWid;
+					select.top    *= pctHgt;
+					select.height *= pctHgt;
+
+					for (let prop in _hideProps)
+						setStylePx(selectDiv, prop, select[prop]);
+				}
+
+				_plotLftCss = plotLftCss;
+				_plotTopCss = plotTopCss;
+				_plotWidCss = plotWidCss;
+				_plotHgtCss = plotHgtCss;
+			}
 
 			fire("setSize");
 
@@ -2218,7 +2426,13 @@ export default function uPlot(opts, data, then) {
 					s.show = opts.show;
 					FEAT_LEGEND && toggleDOM(si, opts.show);
 
-					_setScale(mode == 2 ? s.facets[1].scale : s.scale, null, null);
+					if (mode == 2) {
+						_setScale(s.facets[0].scale, null, null);
+						_setScale(s.facets[1].scale, null, null);
+					}
+					else
+						_setScale(s.scale, null, null);
+
 					commit();
 				}
 			});
@@ -2278,9 +2492,11 @@ export default function uPlot(opts, data, then) {
 			let _setAlpha = focus.alpha != 1;
 
 			series.forEach((s, i2) => {
-				let isFocused = allFocused || i2 == 0 || i2 == i;
-				s._focus = allFocused ? null : isFocused;
-				_setAlpha && setAlpha(i2, isFocused ? 1 : focus.alpha);
+				if (mode == 1 || i2 > 0) {
+					let isFocused = allFocused || i2 == 0 || i2 == i;
+					s._focus = allFocused ? null : isFocused;
+					_setAlpha && setAlpha(i2, isFocused ? 1 : focus.alpha);
+				}
 			});
 
 			focusedSeries = i;
@@ -2350,14 +2566,6 @@ export default function uPlot(opts, data, then) {
 			can ? plotTop : 0,
 		)
 	);
-
-	// defers calling expensive functions
-	function batch(fn) {
-		fn(self);
-		commit();
-	}
-
-	self.batch = batch;
 
 	self.setCursor = (opts, _fire, _pub) => {
 		mouseLeft1 = opts.left;
@@ -2446,6 +2654,9 @@ export default function uPlot(opts, data, then) {
 
 		[mouseLeft1, mouseTop1] = cursor.move(self, mouseLeft1, mouseTop1);
 
+		cursor.left = mouseLeft1;
+		cursor.top = mouseTop1;
+
 		if (cursor.show) {
 			vCursor && elTrans(vCursor, round(mouseLeft1), 0, plotWidCss, plotHgtCss);
 			hCursor && elTrans(hCursor, 0, round(mouseTop1), plotWidCss, plotHgtCss);
@@ -2465,7 +2676,7 @@ export default function uPlot(opts, data, then) {
 
 		// if cursor hidden, hide points & clear legend vals
 		if (mouseLeft1 < 0 || dataLen == 0 || noDataInRange) {
-			idx = null;
+			idx = cursor.idx = null;
 
 			for (let i = 0; i < series.length; i++) {
 				if (i > 0) {
@@ -2489,7 +2700,7 @@ export default function uPlot(opts, data, then) {
 			if (mode == 1) {
 				mouseXPos = scaleX.ori == 0 ? mouseLeft1 : mouseTop1;
 				valAtPosX = posToVal(mouseXPos, xScaleKey);
-				idx = closestIdx(valAtPosX, data[0], i0, i1);
+				idx = cursor.idx = closestIdx(valAtPosX, data[0], i0, i1);
 				xPos = valToPosX(data[0][idx], scaleX, xDim, 0);
 			}
 
@@ -2497,28 +2708,29 @@ export default function uPlot(opts, data, then) {
 				let s = series[i];
 
 				let idx1  = activeIdxs[i];
-				let yVal1 = mode == 1 ? data[i][idx1] : data[i][1][idx1];
+				let yVal1 = idx1 == null ? null : (mode == 1 ? data[i][idx1] : data[i][1][idx1]);
 
 				let idx2  = cursor.dataIdx(self, i, idx, valAtPosX);
-				let yVal2 = mode == 1 ? data[i][idx2] : data[i][1][idx2];
+				let yVal2 = idx2 == null ? null : (mode == 1 ? data[i][idx2] : data[i][1][idx2]);
 
 				shouldSetLegend = shouldSetLegend || yVal2 != yVal1 || idx2 != idx1;
 
 				activeIdxs[i] = idx2;
 
-				let xPos2 = incrRoundUp(idx2 == idx ? xPos : valToPosX(mode == 1 ? data[0][idx2] : data[i][0][idx2], scaleX, xDim, 0), 1);
+				let xPos2 = idx2 == idx ? xPos : valToPosX(mode == 1 ? data[0][idx2] : data[i][0][idx2], scaleX, xDim, 0);
 
 				if (i > 0 && s.show) {
-					let yPos = yVal2 == null ? -10 : incrRoundUp(valToPosY(yVal2, mode == 1 ? scales[s.scale] : scales[s.facets[1].scale], yDim, 0), 1);
+					// this doesnt really work for state timeline, heatmap, status history (where the value maps to color, not y coords)
+					let yPos = yVal2 == null ? -10 : valToPosY(yVal2, mode == 1 ? scales[s.scale] : scales[s.facets[1].scale], yDim, 0);
 
-					if (cursorFocus && yPos >= 0 && mode == 1) {
-						let dist = abs(yPos - mouseTop1);
+					if (cursorFocus && yVal2 != null) {
+						let mouseYPos = scaleX.ori == 1 ? mouseLeft1 : mouseTop1;
+						let dist = abs(focus.dist(self, i, idx2, yPos, mouseYPos));
 
 						if (dist < closestDist) {
 							let bias = focus.bias;
 
 							if (bias != 0) {
-								let mouseYPos = scaleX.ori == 1 ? mouseLeft1 : mouseTop1;
 								let mouseYVal = posToVal(mouseYPos, s.scale);
 
 								let seriesYValSign = yVal2     >= 0 ? 1 : -1;
@@ -2576,20 +2788,16 @@ export default function uPlot(opts, data, then) {
 							ptWid = ptHgt = cursor.points.size(self, i);
 						}
 
+
 						elSize(cursorPts[i], ptWid, ptHgt, centered);
-						elTrans(cursorPts[i], ptLft, ptTop, plotWidCss, plotHgtCss);
+
+						cursorPtsLft[i] = ptLft;
+						cursorPtsTop[i] = ptTop;
+
+						elTrans(cursorPts[i], incrRoundUp(ptLft, 1), incrRoundUp(ptTop, 1), plotWidCss, plotHgtCss);
 					}
 				}
 			}
-		}
-
-		cursor.idx = idx;
-		cursor.left = mouseLeft1;
-		cursor.top = mouseTop1;
-
-		if (shouldSetLegend) {
-			legend.idx = idx;
-			setLegend();
 		}
 
 		// nit: cursor.drag.setSelect is assumed always true
@@ -2764,6 +2972,11 @@ export default function uPlot(opts, data, then) {
 						setSeries(closestSeries, FOCUS_TRUE, true, shouldPub);
 				}
 			}
+		}
+
+		if (shouldSetLegend) {
+			legend.idx = idx;
+			setLegend();
 		}
 
 		_fire !== false && fire("setCursor");
@@ -2975,9 +3188,7 @@ export default function uPlot(opts, data, then) {
 		}
 		else if (cursor.lock) {
 			cursor._lock = !cursor._lock;
-
-			if (!cursor._lock)
-				updateCursor(null, true, false);
+			updateCursor(null, true, false);
 		}
 
 		if (e != null) {
@@ -3092,10 +3303,14 @@ export default function uPlot(opts, data, then) {
 	const hooks = self.hooks = opts.hooks || {};
 
 	function fire(evName, a1, a2) {
-		if (evName in hooks) {
-			hooks[evName].forEach(fn => {
-				fn.call(null, self, a1, a2);
-			});
+		if (deferHooks)
+			hooksQueue.push([evName, a1, a2]);
+		else {
+			if (evName in hooks) {
+				hooks[evName].forEach(fn => {
+					fn.call(null, self, a1, a2);
+				});
+			}
 		}
 	}
 

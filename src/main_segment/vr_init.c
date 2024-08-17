@@ -9,7 +9,7 @@
 /**
  * Original name: mt
  */
-// extern u32 mt[0x270];
+static u32 mt[0x270];
 
 /**
  * Original name: mti
@@ -25,7 +25,7 @@ s32 mag01_108[] = {
 };
 
 /**
- * Original name: static sgenrand
+ * Original name: sgenrand
  */
 void sgenrand(u32 arg0) {
     mt[0] = arg0;
@@ -36,7 +36,7 @@ void sgenrand(u32 arg0) {
 }
 
 /**
- * Original name: static genrand
+ * Original name: genrand
  */
 u16 genrand(u16 arg0) {
     u32 s4 = arg0;

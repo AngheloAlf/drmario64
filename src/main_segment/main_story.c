@@ -7,9 +7,10 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "boot_functions.h"
-#include "boot_variables.h"
 #include "main_segment_variables.h"
+
+#include "libc/assert.h"
+
 #include "util.h"
 #include "rom_offsets.h"
 #include "audio/sound.h"
@@ -21,19 +22,212 @@
 #include "lws.h"
 #include "066840.h"
 
-#if VERSION_US || CC_CHECK
+#include "graphbin.h"
+
+#include "assets/coffee/coffee01.h"
+#include "assets/title/title_all.h"
+#include "assets/title/title_bmp.h"
+#include "assets/waku/waku2.h"
+
+#if VERSION_US || VERSION_GW || CC_CHECK
 // The compiler needs to not see the declared functions to match the cn version
 #include "joy.h"
 #endif
 
-extern struct_lws_scene *lws_scene;
-extern struct_wakuGraphic *wakuGraphic;
+static s32 fin_frame_440;
+static TitleAllLwsIndex fin_demo_441;
+static s32 fin_frame_543;
+static s32 fin_frame_568;
+static TitleAllLwsIndex fin_demo_569;
+static s32 fin_frame_623;
+static TitleAllLwsIndex fin_demo_624;
+static s32 fin_frame_667;
+static s32 fin_frame_737;
+static s32 fin_frame_768;
+static s32 title_time;
+static s32 title_wait;
+static void *title_data;
+static void *title_bmp_data;
+static void **lws_data;
+static Lws *lws_scene;
+static MessageWnd mess_st;
+static MessageWnd mess_roll_st;
+static HEAP(mess_heap_area, 0x400);
+static void *mess_roll_heap;
+static s32 st_message_count;
+static struct_mes_data *st_mes_ptr;
+static bool loop_flg;
+static s32 story_staff_roll;
+static u16 story_norm;    /* Original name: story_norm */
+static Mtx story_viewMtx; /* Original name: story_viewMtx */
+static Mtx story_objectMtx[2][0x50];
+static void *wakuGraphic;
+static u8 D_800E8750[0x50] UNUSED;
+static void *bgGraphic; /* Original name: bgGraphic */
+static void *storyGraphic;
+static void *messageData;
+static s32 first_copy;
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_zoomfade);
-#endif
+u8 D_800A73A0[] = {
+    0x03, 0x25, 0x23, 0x2A, 0x24, 0x28, 0x27, 0x2B, 0x2C, 0x2C, 0x2C, 0x00,
+    0x00, 0x25, 0x23, 0x2A, 0x24, 0x29, 0x26, 0x2B, 0x2C, 0x2C, 0x2C, 0x00,
+};
 
-#if VERSION_CN
+// unused
+Gfx D_800A73B8[] = {
+    gsSPEndDisplayList(),
+};
+
+u8 curtain_alpha_00_tex[] ALIGNED(8) = {
+#include "main_segment/main_story/curtain_alpha_00_tex.i4.inc"
+};
+
+u16 curtain_00_tex[] ALIGNED(8) = {
+#include "main_segment/main_story/curtain_00_tex.rgba16.inc"
+};
+
+u8 changestar_tex[] ALIGNED(8) = {
+#include "main_segment/main_story/changestar_tex.i4.inc"
+};
+
+typedef enum TitleBmpIndex {
+    /* 0 */ TITLE_BMP_INDEX_NINTENDO_LOGO,
+    /* 1 */ TITLE_BMP_INDEX_PRESS_ANY_BUTTON,
+    /* 2 */ TITLE_BMP_INDEX_PRESS_ANY_BUTTON_SHADOW,
+    /* 3 */ TITLE_BMP_INDEX_MAX,
+} TitleBmpIndex;
+
+/**
+ * Original name: title_bmp_tbl
+ */
+void *title_bmp_tbl[] = {
+    &title_bmp_00,
+    &title_bmp_01,
+    &title_bmp_02,
+};
+
+static_assert(ARRAY_COUNT(title_bmp_tbl) == TITLE_BMP_INDEX_MAX, "");
+
+void *mess_heap = mess_heap_area;
+
+#include "main_story.msg.inc"
+
+/**
+ * Original name: story_proc_no
+ */
+BgRomDataIndex story_proc_no = BGROMDATA_INDEX0;
+
+char STR_800AACF0[] = MSG_COLOR(BLACK) "ＴＥＳＴ　" MSG_WAIT(2) MSG_END;
+
+char *EndingLastMessage = STR_800AACF0;
+
+s32 story_time_cnt = 0;
+
+s32 story_seq_step = 0;
+
+s32 story_zoom = 0;
+
+s32 story_curtain = 0;
+
+s32 story_spot_cnt = 0;
+
+s32 story_kay_wait = 0;
+
+s32 story_message_on = 0;
+
+s32 story_message_start = 0;
+
+s32 story_doing = 1;
+
+s32 bgtime = 0;
+
+s32 D_800AAD30 = 0;
+
+s32 mes_time = 0;
+
+u8 *story_read_buf = gfx_freebuf;
+
+void *story_buffer = &gfx_freebuf[0x10000];
+
+void *story_z_buffer = gfx_freebuf;
+
+s32 objMtx_FF = 0;
+
+typedef enum wakuGraphicIndex {
+    /* 0 */ WAKUGRAPHICINDEX_0,
+    /* 1 */ WAKUGRAPHICINDEX_1,
+    /* 2 */ WAKUGRAPHICINDEX_2,
+    /* 3 */ WAKUGRAPHICINDEX_MAX,
+} wakuGraphicIndex;
+
+/**
+ * Original name: wakuGraphic_ofs
+ */
+void *wakuGraphic_ofs[] = {
+    &waku2_00,
+    &waku2_01,
+    &waku2_02,
+};
+
+static_assert(ARRAY_COUNT(wakuGraphic_ofs) == WAKUGRAPHICINDEX_MAX, "");
+
+Vp D_800AAD58 = { { { 0x280, 0x1E0, 0x1FF, 0 }, { 0x280, 0x1E0, 0x1FF, 0 } } };
+
+Gfx story_setup[] = {
+    gsDPPipeSync(),
+    gsSPViewport(&D_800AAD58),
+    gsDPSetBlendColor(0, 0, 0, 4),
+    gsDPSetScissor(G_SC_NON_INTERLACE, 60, 37, 260, 137),
+    gsDPSetCycleType(G_CYC_1CYCLE),
+    gsDPPipelineMode(G_PM_1PRIMITIVE),
+    gsDPSetRenderMode(G_RM_AA_OPA_SURF, G_RM_AA_OPA_SURF2),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
+    gsSPClearGeometryMode(G_ZBUFFER | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR | G_LOD |
+                          G_SHADING_SMOOTH),
+    gsSPSetGeometryMode(G_SHADE | G_CULL_BACK),
+    gsSPTexture(0, 0, 0, G_TX_RENDERTILE, G_OFF),
+    gsDPSetTextureLOD(G_TL_TILE),
+    gsDPSetTextureDetail(G_TD_CLAMP),
+    gsDPSetTextureConvert(G_TC_FILT),
+    gsDPSetTextureLUT(G_TT_NONE),
+    gsDPSetTextureFilter(G_TF_BILERP),
+    gsDPSetTexturePersp(G_TP_NONE),
+    gsDPPipeSync(),
+    gsSPEndDisplayList(),
+};
+
+// TODO: static_assert for array size
+SeqIndex snd_tbl_838[] = {
+    SEQ_INDEX_10, // BGROMDATA_INDEX0
+    SEQ_INDEX_10, // BGROMDATA_INDEX1
+    SEQ_INDEX_20, // BGROMDATA_INDEX2
+    SEQ_INDEX_19, // BGROMDATA_INDEX3
+    SEQ_INDEX_20, // BGROMDATA_INDEX4
+    SEQ_INDEX_19, // BGROMDATA_INDEX5
+    SEQ_INDEX_20, // BGROMDATA_INDEX6
+    SEQ_INDEX_19, // BGROMDATA_INDEX7
+    SEQ_INDEX_21, // BGROMDATA_INDEX8
+    SEQ_INDEX_20, // BGROMDATA_INDEX9
+    SEQ_INDEX_22, // BGROMDATA_INDEX10
+    SEQ_INDEX_22, // BGROMDATA_INDEX11
+    SEQ_INDEX_10, // BGROMDATA_INDEX12
+    SEQ_INDEX_10, // BGROMDATA_INDEX13
+    SEQ_INDEX_20, // BGROMDATA_INDEX14
+    SEQ_INDEX_19, // BGROMDATA_INDEX15
+    SEQ_INDEX_20, // BGROMDATA_INDEX16
+    SEQ_INDEX_19, // BGROMDATA_INDEX17
+    SEQ_INDEX_20, // BGROMDATA_INDEX18
+    SEQ_INDEX_19, // BGROMDATA_INDEX19
+    SEQ_INDEX_21, // BGROMDATA_INDEX20
+    SEQ_INDEX_20, // BGROMDATA_INDEX21
+    SEQ_INDEX_22, // BGROMDATA_INDEX22
+    SEQ_INDEX_22, // BGROMDATA_INDEX23
+};
+static_assert(ARRAY_COUNT(snd_tbl_838) == BGROMDATA_MAX, "");
+
+/**
+ * Original name: story_zoomfade
+ */
 void story_zoomfade(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     u16 *framebuffer = gFramebuffers[gCurrentFramebufferIndex ^ 1];
@@ -42,6 +236,7 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
     s32 var_v1;
     f32 temp;
     f32 argA;
+    f32 new_var;
     f32 argB;
     f32 temp3;
 
@@ -61,7 +256,7 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
     temp_ft1 = temp_ft1 / 90.0f;
 
     if (temp_ft1 > 0.75) {
-        temp = (temp_ft1 - 0.75) * 4.0;
+        temp = (temp_ft1 - 0.75) / (1 / 4.0);
         temp3 = 223.125f;
         temp_fs1_2 = 31.875f;
 
@@ -81,10 +276,12 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
     temp_fs1_2 *= temp_ft1;
     temp *= temp_ft1;
 
-    temp_fs1_2 = temp_fs1_2 + -10.0;
-    temp = temp + -7.5;
-    argA = 340.0f;
-    argB = 255.0f;
+    temp_ft1 = 1.0625;
+    argA = 320.0 * temp_ft1;
+    new_var = 320.0f;
+    argB = 240.0 * temp_ft1;
+    temp_fs1_2 += (320.0 - argA) / 2;
+    temp += (240.0 - argB) / 2;
     StretchTexTile16(&gfx, SCREEN_WIDTH, SCREEN_HEIGHT, framebuffer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, temp_fs1_2,
                      temp, argA, argB);
 
@@ -93,28 +290,25 @@ void story_zoomfade(Gfx **gfxP, s32 arg1) {
     gDPSetPrimColor(gfx++, 0, 0, 128, 128, 128, 50);
 
     StretchTexTile16(&gfx, SCREEN_WIDTH, SCREEN_HEIGHT, framebuffer, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 0.0f,
-                     320.0f, 240.0f);
+                     new_var, 240.0f);
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-void get_gbi_stat(struct_get_gbi_stat_arg0 *arg0, struct_wakuGraphic *arg1) {
-    arg0->width = arg1->unk_008;
-    arg0->height = arg1->unk_00A;
-    arg0->unk_00 = arg1->unk_00E;
-    arg0->tlut = &arg1->unk_010;
-    arg0->texture = &arg1->unk_210;
+/**
+ * Original name: get_gbi_stat
+ */
+void get_gbi_stat(GbiStat *arg0, GraphBinGeneric *graphBin) {
+    arg0->width = graphBin->header.width;
+    arg0->height = graphBin->header.height;
+    arg0->siz = graphBin->header.siz;
+    arg0->tlut = graphBin->header.tlut;
+    arg0->texture = graphBin->texture;
 }
-#endif
 
-#if VERSION_US
-// maybe curtain_proc?
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", curtain_proc);
-#endif
-
-#if VERSION_CN
+/**
+ * Original name: curtain_proc
+ */
 void curtain_proc(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     f32 temp;
@@ -139,16 +333,10 @@ void curtain_proc(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", curtain_proc_org);
-#endif
-
-extern u8 curtain_alpha_00_tex[];
-extern u16 curtain_00_tex[];
-
-#if VERSION_CN
+/**
+ * Original name: curtain_proc_org
+ */
 void curtain_proc_org(Gfx **gfxP, s32 arg1) {
     Gfx *gfx = *gfxP;
     f32 temp_fv1;
@@ -191,38 +379,33 @@ void curtain_proc_org(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-void func_800770E8(Gfx **gfxP, struct_wakuGraphic *arg1) {
+void func_800770E8(Gfx **gfxP, GraphBinGeneric *graphBin) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
-    StretchTexBlock8(&gfx, 328, 240, &arg1->unk_010, &arg1->unk_210, 0.0f, 0.0f, 328.0f, 240.0f);
+    StretchTexBlock8(&gfx, SCREEN_WIDTH + 8, SCREEN_HEIGHT, graphBin->header.tlut, &graphBin->texture, 0.0f, 0.0f,
+                     SCREEN_WIDTH + 8, SCREEN_HEIGHT);
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-void *func_80077170(BgRomDataIndex index, void *dstAddr) {
+/**
+ * Original name: story_bg_init
+ */
+void *story_bg_init(BgRomDataIndex index, void *dstAddr) {
     bgGraphic = dstAddr;
     wakuGraphic =
         ALIGN_PTR(DecompressRomToRam(bgRomData[index].start, dstAddr, bgRomData[index].end - bgRomData[index].start));
     return ALIGN_PTR(DecompressRomToRam(storyRomData[STORYROMDATA_WAKU2].start, wakuGraphic,
                                         storyRomData[STORYROMDATA_WAKU2].end - storyRomData[STORYROMDATA_WAKU2].start));
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_bg_proc);
-#endif
-
-extern s32 D_800C28C4_cn[];
-
-#if VERSION_CN
+/**
+ * Original name: story_bg_proc
+ */
 void story_bg_proc(Gfx **gfxP) {
-    struct_get_gbi_stat_arg0 sp48;
-    struct_get_gbi_stat_arg0 sp60;
+    GbiStat sp48;
+    GbiStat sp60;
     s32 pad[0x10] UNUSED;
     Gfx *gfx = *gfxP;
 
@@ -231,14 +414,14 @@ void story_bg_proc(Gfx **gfxP) {
     gSPDisplayList(gfx++, normal_texture_init_dl);
     StretchTexBlock8(&gfx, sp48.width, sp48.height, sp48.tlut, sp48.texture, 0.0f, 0.0f, sp48.width, sp48.height);
 
-    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + D_800C28C4_cn[0]));
-    get_gbi_stat(&sp60, (void *)(((u8 *)wakuGraphic) + D_800C28C4_cn[1]));
+    get_gbi_stat(&sp48, RELOCATE_OFFSET(wakuGraphic, wakuGraphic_ofs[WAKUGRAPHICINDEX_0]));
+    get_gbi_stat(&sp60, RELOCATE_OFFSET(wakuGraphic, wakuGraphic_ofs[WAKUGRAPHICINDEX_1]));
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     StretchAlphaTexTile(&gfx, sp48.width, sp48.height, sp48.texture, sp48.width, sp60.texture, sp60.width, 0, 0,
                         sp48.width, sp48.height, 0.0f, 140.0f, sp48.width, sp48.height);
 
-    get_gbi_stat(&sp48, (void *)(((u8 *)wakuGraphic) + D_800C28C4_cn[2]));
+    get_gbi_stat(&sp48, RELOCATE_OFFSET(wakuGraphic, wakuGraphic_ofs[WAKUGRAPHICINDEX_2]));
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
     StretchTexTile8(&gfx, sp48.width, sp48.height, sp48.tlut, sp48.texture, 0, 0, sp48.width, sp48.height, 0.0f, 160.0f,
@@ -246,9 +429,7 @@ void story_bg_proc(Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800773F0(void) {
     if (story_curtain == 0) {
         story_time_cnt = 0;
@@ -260,27 +441,21 @@ void func_800773F0(void) {
         story_curtain--;
     }
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8007744C(void) {
     story_doing = 0;
     story_zoom++;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8007746C(void) {
     msgWnd_clear(&mess_st);
-    D_800AAD1C = 0;
+    story_kay_wait = 0;
     story_message_start = 0;
     story_time_cnt = 0;
     story_message_start = 0;
     story_seq_step++;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 bool func_800774C4(void) {
     bool temp_v0 = msgWnd_isEnd(&mess_st);
 
@@ -289,9 +464,10 @@ bool func_800774C4(void) {
     }
     return temp_v0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: story_bg_proc
+ */
 void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, void *tex) {
     s32 pad[6] UNUSED;
     Gfx *gfx = *gfxP;
@@ -368,15 +544,14 @@ void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, void *tex) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
-    story_spot(gfxP, arg1, arg2, arg3, &changestar_tex);
+    story_spot(gfxP, arg1, arg2, arg3, changestar_tex);
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: init_coffee_break
+ */
 void *init_coffee_break(void *dstAddr, UNK_TYPE arg1 UNUSED) {
     void *temp_s0;
 
@@ -387,9 +562,10 @@ void *init_coffee_break(void *dstAddr, UNK_TYPE arg1 UNUSED) {
     init_coffee_break_cnt();
     return temp_s0;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: init_coffee_break_cnt
+ */
 void init_coffee_break_cnt(void) {
     guOrtho(&story_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
     bgtime = 0;
@@ -397,59 +573,56 @@ void init_coffee_break_cnt(void) {
     story_time_cnt = -0x59;
     story_seq_step = 0;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", draw_coffee_break);
-#endif
-
-#if VERSION_CN
+/**
+ * Original name: draw_coffee_break
+ */
 void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
-    Mtx sp20;
-    Gfx *sp60;
+    Mtx mtx;
+    Gfx *gfx;
     bool var_s1;
-    void *var_v0;
-    void *var_s0;
+    Lws *var_v0;
+    Lws *var_s0;
 
     init_objMtx();
 
-    sp60 = *gfxP;
+    gfx = *gfxP;
 
-    gSPSegment(sp60++, 0x00, 0x00000000);
-    gSPSegment(sp60++, 0x05, osVirtualToPhysical(bgGraphic));
-    gSPMatrix(sp60++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
-    gSPDisplayList(sp60++, normal_texture_init_dl);
-    gSPDisplayList(sp60++, story_setup);
-    gDPSetScissor(sp60++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+    gSPSegment(gfx++, 0x00, 0x00000000);
+    gSPSegment(gfx++, 0x05, osVirtualToPhysical(bgGraphic));
+    gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPDisplayList(gfx++, normal_texture_init_dl);
+    gSPDisplayList(gfx++, story_setup);
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
     lws_data = (void **)bgGraphic;
     if (arg2 != 0) {
-        gDPSetEnvColor(sp60++, 183, 127, 95, 255);
-        var_s0 = RELOCATE_SEGMENTED(lws_data[1], bgGraphic);
-        var_v0 = RELOCATE_SEGMENTED(lws_data[6], bgGraphic);
+        gDPSetEnvColor(gfx++, 183, 127, 95, 255);
+        var_s0 = RELOCATE_SEGMENTED(lws_data[COFFEE01_LWS_INDEX_1], bgGraphic);
+        var_v0 = RELOCATE_SEGMENTED(lws_data[COFFEE01_LWS_INDEX_6], bgGraphic);
     } else {
-        gDPSetEnvColor(sp60++, 255, 255, 255, 255);
-        var_s0 = RELOCATE_SEGMENTED(lws_data[0], bgGraphic);
-        var_v0 = RELOCATE_SEGMENTED(lws_data[5], bgGraphic);
+        gDPSetEnvColor(gfx++, 255, 255, 255, 255);
+        var_s0 = RELOCATE_SEGMENTED(lws_data[COFFEE01_LWS_INDEX_0], bgGraphic);
+        var_v0 = RELOCATE_SEGMENTED(lws_data[COFFEE01_LWS_INDEX_5], bgGraphic);
     }
 
-    makeTransrateMatrix(&sp20, 0U, 0xFFC40000U, 0xFC4A0000U);
-    if (lws_anim(&sp60, &sp20, var_s0, bgtime, bgGraphic) == 1) {
+    makeTransrateMatrix(&mtx, 0U, 0xFFC40000U, 0xFC4A0000U);
+    if (lws_anim(&gfx, &mtx, var_s0, bgtime, bgGraphic) == 1) {
         bgtime = 0x31;
     }
 
     bgtime += 1;
     switch (story_seq_step) {
         case 0:
-            var_s0 = RELOCATE_SEGMENTED(lws_data[2], bgGraphic);
+            var_s0 = RELOCATE_SEGMENTED(lws_data[COFFEE01_LWS_INDEX_2], bgGraphic);
             break;
 
         case 1:
-            var_s0 = RELOCATE_SEGMENTED(lws_data[3], bgGraphic);
+            var_s0 = RELOCATE_SEGMENTED(lws_data[COFFEE01_LWS_INDEX_3], bgGraphic);
             break;
 
         case 2:
-            var_s0 = RELOCATE_SEGMENTED(lws_data[4], bgGraphic);
+            var_s0 = RELOCATE_SEGMENTED(lws_data[COFFEE01_LWS_INDEX_4], bgGraphic);
             break;
 
         default:
@@ -460,7 +633,7 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
     var_s1 = false;
     if ((story_time_cnt >= 0) && (var_s0 != NULL)) {
-        if (lws_anim(&sp60, &sp20, var_s0, story_time_cnt, bgGraphic) == 1) {
+        if (lws_anim(&gfx, &mtx, var_s0, story_time_cnt, bgGraphic) == 1) {
             var_s1 = true;
             story_time_cnt = -1;
             story_seq_step++;
@@ -496,26 +669,27 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     }
 
     if (arg3 != 0) {
-        if (lws_anim(&sp60, &sp20, var_v0, mes_time, bgGraphic) == 1) {
+        if (lws_anim(&gfx, &mtx, var_v0, mes_time, bgGraphic) == 1) {
             mes_time = 0x28A;
         } else {
             mes_time = mes_time + 1;
         }
     }
 
-    gDPSetCycleType(sp60++, G_CYC_1CYCLE);
-    gDPSetRenderMode(sp60++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
-    gDPSetCombineMode(sp60++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
-    gDPSetPrimColor(sp60++, 0, 0, 0, 0, 0, 255);
-    gDPFillRectangle(sp60++, 0, 0, SCREEN_WIDTH, 32);
-    gDPFillRectangle(sp60++, 0, 208, SCREEN_WIDTH, SCREEN_HEIGHT);
-    gSPDisplayList(sp60++, normal_texture_init_dl);
+    gDPSetCycleType(gfx++, G_CYC_1CYCLE);
+    gDPSetRenderMode(gfx++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
+    gDPSetCombineMode(gfx++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
+    gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, 255);
+    gDPFillRectangle(gfx++, 0, 0, SCREEN_WIDTH, 32);
+    gDPFillRectangle(gfx++, 0, 208, SCREEN_WIDTH, SCREEN_HEIGHT);
+    gSPDisplayList(gfx++, normal_texture_init_dl);
 
-    *gfxP = sp60;
+    *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: init_menu_bg
+ */
 void *init_menu_bg(void *dstAddr, bool arg1) {
     void *alignedAddress;
     RomOffset segmentRomStart;
@@ -534,9 +708,10 @@ void *init_menu_bg(void *dstAddr, bool arg1) {
     }
     return ALIGN_PTR(DecompressRomToRam(segmentRomStart, alignedAddress, segmentRomEnd - segmentRomStart));
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: draw_menu_bg
+ */
 void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
     Mtx mtx;
     Gfx *gfx;
@@ -550,7 +725,7 @@ void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
     gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gSPDisplayList(gfx++, story_setup);
-    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, 319, 239);
+    gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
     makeTransrateMatrix(&mtx, arg1 << 0xF, arg2 << 0xF, 0x1F894 << 0xF);
     if (lws_anim(&gfx, &mtx, bgGraphic, bgtime, bgGraphic) == 1) {
@@ -563,9 +738,7 @@ void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: init_title
  */
@@ -589,19 +762,17 @@ void *init_title(void *dstAddr, bool arg1) {
         DecompressRomToRam(storyRomData[STORYROMDATA_TITLE_BMP].start, title_bmp_data,
                            storyRomData[STORYROMDATA_TITLE_BMP].end - storyRomData[STORYROMDATA_TITLE_BMP].start));
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: demo_title
  */
 s32 demo_title(Gfx **gfxP, bool arg1) {
-    struct_get_gbi_stat_arg0 sp30;
-    struct_get_gbi_stat_arg0 sp48;
-    Mtx sp60;
+    GbiStat textureInfo;
+    GbiStat shadowInfo;
+    Mtx mtx;
     Gfx *gfx;
     bool temp_s2;
-    s32 temp_v1_2;
+    s32 color;
     s32 var_s3;
     u32 var_v0_3;
 
@@ -627,14 +798,14 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     if (arg1) {
         gDPSetEnvColor(gfx++, 183, 127, 95, 255);
 
-        lws_scene = RELOCATE_SEGMENTED(lws_data[0x21], title_data);
+        lws_scene = RELOCATE_SEGMENTED(lws_data[TITLEALL_LWS_INDEX_33], title_data);
     } else {
         gDPSetEnvColor(gfx++, 255, 255, 255, 255);
 
-        lws_scene = RELOCATE_SEGMENTED(lws_data[0], title_data);
+        lws_scene = RELOCATE_SEGMENTED(lws_data[TITLEALL_LWS_INDEX_0], title_data);
     }
 
-    makeTransrateMatrix(&sp60, 0, 0xFFC4 << 16, 0xFC4A << 16);
+    makeTransrateMatrix(&mtx, 0, 0xFFC4 << 16, 0xFC4A << 16);
 
     if ((story_spot_cnt > 0) && (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON)) {
         if (temp_s2) {
@@ -654,7 +825,7 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
         }
     }
 
-    if (lws_anim(&gfx, &sp60, lws_scene, title_time, title_data) == 1) {
+    if (lws_anim(&gfx, &mtx, lws_scene, title_time, title_data) == 1) {
         var_s3 = -1;
     }
 
@@ -669,36 +840,37 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
         story_spot(&gfx, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, story_spot_cnt, changestar_tex);
 
         if (story_spot_cnt < 0) {
-            temp_v1_2 = 0xFF;
+            color = 255;
             if (story_spot_cnt > -0x18) {
-                temp_v1_2 = (story_spot_cnt * -0xFF) / 24;
-                if (temp_v1_2 > 0xFF) {
-                    temp_v1_2 = 0xFF;
+                color = (story_spot_cnt * -255) / 24;
+                if (color > 255) {
+                    color = 255;
                 }
-                if (temp_v1_2 < 0) {
-                    temp_v1_2 = 0;
+                if (color < 0) {
+                    color = 0;
                 }
             }
 
             if (story_spot_cnt < -0x4C) {
-                temp_v1_2 = 0xFF - (((story_spot_cnt + 0x4C) * -0xFF) / 24);
-                if (temp_v1_2 >= 0x100) {
-                    temp_v1_2 = 0xFF;
+                color = 255 - (((story_spot_cnt + 0x4C) * -255) / 24);
+                if (color > 255) {
+                    color = 255;
                 }
-                if (temp_v1_2 < 0) {
-                    temp_v1_2 = 0;
+                if (color < 0) {
+                    color = 0;
                 }
             }
 
-            get_gbi_stat(&sp30, title_bmp_data + title_bmp_tbl[0]);
+            get_gbi_stat(&textureInfo, RELOCATE_OFFSET(title_bmp_data, title_bmp_tbl[TITLE_BMP_INDEX_NINTENDO_LOGO]));
 
             gDPSetTextureLUT(gfx++, G_TT_NONE);
-            gDPSetPrimColor(gfx++, 0, 0, temp_v1_2, temp_v1_2, temp_v1_2, 255);
+            gDPSetPrimColor(gfx++, 0, 0, color, color, color, 255);
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0, 0, 0, 0, PRIMITIVE, 0, 0, 0, TEXEL0);
 
-            StretchTexBlock4i(&gfx, sp30.width, sp30.height, sp30.texture, SCREEN_WIDTH / 2 - sp30.width / 2,
-                              SCREEN_HEIGHT / 2 - sp30.height / 2, sp30.width, sp30.height);
+            StretchTexBlock4i(&gfx, textureInfo.width, textureInfo.height, textureInfo.texture,
+                              SCREEN_WIDTH / 2 - textureInfo.width / 2, SCREEN_HEIGHT / 2 - textureInfo.height / 2,
+                              textureInfo.width, textureInfo.height);
 
             story_spot_cnt += 1;
         } else {
@@ -712,39 +884,28 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
     }
 
     if ((title_time & var_v0_3) && (title_time > 720) && (title_wait == 0)) {
-        get_gbi_stat(&sp30, title_bmp_data + title_bmp_tbl[1]);
-        get_gbi_stat(&sp48, title_bmp_data + title_bmp_tbl[2]);
+        get_gbi_stat(&textureInfo, RELOCATE_OFFSET(title_bmp_data, title_bmp_tbl[TITLE_BMP_INDEX_PRESS_ANY_BUTTON]));
+        get_gbi_stat(&shadowInfo,
+                     RELOCATE_OFFSET(title_bmp_data, title_bmp_tbl[TITLE_BMP_INDEX_PRESS_ANY_BUTTON_SHADOW]));
 
         gSPDisplayList(gfx++, alpha_texture_init_dl);
-        StretchAlphaTexBlock(&gfx, sp30.width, sp30.height, sp30.texture, sp30.width, sp48.texture, sp48.width, 88.0f,
-                             165.0f, sp30.width, sp30.height);
+        StretchAlphaTexBlock(&gfx, textureInfo.width, textureInfo.height, textureInfo.texture, textureInfo.width,
+                             shadowInfo.texture, shadowInfo.width, 88.0f, 165.0f, textureInfo.width,
+                             textureInfo.height);
     }
 
     *gfxP = gfx;
     return var_s3;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_80078648);
-#endif
-
-#if VERSION_CN
 // unused
-UNK_TYPE func_80082D5C_cn(UNK_TYPE *arg0) {
+void func_80078648(Gfx **gfxP) {
+    Gfx *gfx = *gfxP;
     s32 pad[0x1C] UNUSED;
 
-    return *arg0;
+    *gfxP = gfx;
 }
-#endif
 
-extern s32 st_message_count;
-
-extern s32 fin_frame_543;
-extern struct_mes_data *st_mes_ptr;
-extern struct_mes_data *mes_data[];
-
-#if VERSION_US || VERSION_CN
 void func_8007865C(void) {
     if (st_message_count < st_mes_ptr->unk_0) {
         if (st_mes_ptr[st_message_count + 1].unk_0 < framecont) {
@@ -760,20 +921,14 @@ void func_8007865C(void) {
         st_message_count = 9999;
     }
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_op);
-#endif
-
-extern s32 fin_frame_440;
-extern s32 fin_demo_441;
-
-#if VERSION_CN
-void story_st_new_op(Gfx **gfxP, s32 arg1) {
+/**
+ * Original name: story_st_new_op
+ */
+void story_st_new_op(Gfx **gfxP, bool arg1) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
-    s32 var_s0;
+    TitleAllLwsIndex var_s0;
     s32 var_v0;
     s32 var_v1;
 
@@ -784,10 +939,10 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
 
     switch (story_seq_step) {
         case 0x0:
-            if (arg1 != 0) {
-                var_s0 = 0x1A;
+            if (arg1) {
+                var_s0 = TITLEALL_LWS_INDEX_26;
             } else {
-                var_s0 = 0x1B;
+                var_s0 = TITLEALL_LWS_INDEX_27;
             }
 
             func_800773F0();
@@ -798,11 +953,11 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
             break;
 
         case 0x1:
-            if (arg1 != 0) {
-                var_s0 = 0x1A;
+            if (arg1) {
+                var_s0 = TITLEALL_LWS_INDEX_26;
                 var_v1 = 0;
             } else {
-                var_s0 = 0x1B;
+                var_s0 = TITLEALL_LWS_INDEX_27;
                 var_v1 = 1;
             }
             fin_demo_441 = var_s0;
@@ -835,8 +990,8 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
             break;
 
         case 0x2:
-            var_s0 = 0x1C;
-            fin_demo_441 = 0x1C;
+            var_s0 = TITLEALL_LWS_INDEX_28;
+            fin_demo_441 = var_s0;
             story_time_cnt = framecont;
             fin_frame_440 = framecont;
             st_mes_ptr = mes_data[2];
@@ -873,8 +1028,8 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
             break;
 
         case 0x3:
-            var_s0 = 0x1D;
-            fin_demo_441 = 0x1D;
+            var_s0 = TITLEALL_LWS_INDEX_29;
+            fin_demo_441 = var_s0;
             story_time_cnt = framecont;
             fin_frame_440 = framecont;
             st_mes_ptr = mes_data[3];
@@ -919,8 +1074,8 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
             break;
 
         case 0x4:
-            var_s0 = 1;
-            fin_demo_441 = 1;
+            var_s0 = TITLEALL_LWS_INDEX_1;
+            fin_demo_441 = var_s0;
             story_time_cnt = framecont;
             fin_frame_440 = story_time_cnt;
             st_mes_ptr = mes_data[4];
@@ -960,13 +1115,14 @@ void story_st_new_op(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
-void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2) {
+/**
+ * Original name: story_st_new
+ */
+void story_st_new(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2) {
     Mtx mtx;
     Gfx *gfx = *gfxP;
-    void *temp_s1;
+    Lws *lws;
 
     st_mes_ptr = mes_data[arg2];
 
@@ -976,12 +1132,12 @@ void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     makeTransrateMatrix(&mtx, 0, 0x1FFE7 << 0xF, 0x1F894 << 0xF);
 
-    temp_s1 = RELOCATE_SEGMENTED(lws_data[arg1], story_buffer);
+    lws = RELOCATE_SEGMENTED(lws_data[arg1], story_buffer);
 
     switch (story_seq_step) {
         case 0:
             func_800773F0();
-            lws_anim(&gfx, &mtx, temp_s1, 0, story_buffer);
+            lws_anim(&gfx, &mtx, lws, 0, story_buffer);
             framecont = 0;
             break;
 
@@ -998,7 +1154,7 @@ void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2) {
             }
 
             func_8007865C();
-            if ((lws_anim(&gfx, &mtx, temp_s1, story_time_cnt, story_buffer) == 1) && msgWnd_isEnd(&mess_st)) {
+            if ((lws_anim(&gfx, &mtx, lws, story_time_cnt, story_buffer) == 1) && msgWnd_isEnd(&mess_st)) {
                 story_time_cnt = 0;
                 story_seq_step++;
             }
@@ -1006,7 +1162,7 @@ void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2) {
 
         default:
             func_8007744C();
-            lws_anim(&gfx, &mtx, temp_s1, fin_frame_543, story_buffer);
+            lws_anim(&gfx, &mtx, lws, fin_frame_543, story_buffer);
             break;
     }
 
@@ -1014,17 +1170,11 @@ void story_st_new(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new2_f);
-#endif
-
-extern s32 fin_frame_568;
-extern s32 fin_demo_569;
-
-#if VERSION_CN
-void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+/**
+ * Original name: story_st_new2_f
+ */
+void story_st_new2_f(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2, TitleAllLwsIndex arg3, s32 arg4) {
     Gfx *gfx = *gfxP;
     Mtx mtx;
     s32 temp;
@@ -1098,7 +1248,7 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
             func_8007865C();
             if ((lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[arg3], story_buffer), story_time_cnt, story_buffer) ==
                  1) &&
-                (msgWnd_isEnd(&mess_st) != false)) {
+                msgWnd_isEnd(&mess_st)) {
                 story_time_cnt = 0;
                 story_seq_step += 1;
             }
@@ -1121,13 +1271,11 @@ void story_st_new2_f(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     *gfxP = gfx;
 }
-#endif
 
-extern s32 fin_frame_623;
-extern s32 fin_demo_624;
-
-#if VERSION_US || VERSION_CN
-void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+/**
+ * Original name: story_st_new2
+ */
+void story_st_new2(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2, TitleAllLwsIndex arg3, s32 arg4) {
     Mtx sp20;
     Gfx *gfx = *gfxP;
 
@@ -1205,17 +1353,12 @@ void story_st_new2(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_m_end);
-#endif
-
-extern s32 fin_frame_667;
-
-#if VERSION_CN
-void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
-    Mtx sp20;
+/**
+ * Original name: story_m_end
+ */
+void story_m_end(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2) {
+    Mtx mtx;
     Gfx *gfx = *gfxP;
     s32 var_a3;
     s32 var_t0;
@@ -1225,12 +1368,12 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gSPDisplayList(gfx++, story_setup);
 
-    makeTransrateMatrix(&sp20, 0U, 0xFFF38000U, 0xFC4A0000U);
+    makeTransrateMatrix(&mtx, 0U, 0xFFF38000U, 0xFC4A0000U);
 
     switch (story_seq_step) {
         case 0:
             func_800773F0();
-            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
+            lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
             framecont = 0;
             story_spot_cnt = 0x100;
             st_mes_ptr = mes_data[arg2];
@@ -1248,7 +1391,7 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
                 story_seq_step += 1;
             }
 
-            if (lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt, story_buffer) ==
+            if (lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt, story_buffer) ==
                 1) {
                 framecont = 0;
                 story_time_cnt = 0;
@@ -1265,35 +1408,33 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
             var_a3 = 0xFF;
             var_t1 = 0xFF;
             var_t2 = 0xFF;
-            if ((s32)framecont >= 0x15F) {
-                var_t0 = framecont - 0x15E;
-                if ((s32)framecont < 0x1F4) {
+            if (story_time_cnt >= 0x15F) {
+                var_t0 = story_time_cnt - 0x15E;
+                if (story_time_cnt < 0x1F4) {
                     var_t2 = ((var_t0 * -0x69) / 149) + 0xFF;
                     var_t1 = (-(var_t0 * 0xA0) / 149) + 0xFF;
                     var_a3 = ((var_t0 * -0xAF) / 149) + 0xFF;
                 } else {
-                    var_t0 = (framecont - 0x1F4);
-                    if ((s32)framecont < 0x2BC) {
+                    var_t0 = (story_time_cnt - 0x1F4);
+                    if (story_time_cnt < 0x2BC) {
                         var_t2 = ((var_t0 * -0x5F) / 199) + 0x96;
                         var_t1 = (-(var_t0 * 0x10) / 199) + 0x5F;
                         var_a3 = ((var_t0 * 0x1E) / 199) + 0x50;
-                    } else if ((s32)framecont < 0x3E8) {
+                    } else if (story_time_cnt < 0x3E8) {
                         var_t2 = 0x37;
                         var_t1 = 0x4F;
                         var_a3 = 0x6E;
-                    } else {
-                        var_t0 = framecont - 0x3E8;
-                        if ((s32)framecont < 0x4E2) {
-                            var_t2 = ((var_t0 * 0xC8) / 249) + 0x37;
-                            var_t1 = ((var_t0 * 0xB0) / 249) + 0x4F;
-                            var_a3 = ((var_t0 * 0x91) / 249) + 0x6E;
-                        }
+                    } else if (story_time_cnt < 0x4E2) {
+                        var_t0 = story_time_cnt - 0x3E8;
+                        var_t2 = ((var_t0 * 0xC8) / 249) + 0x37;
+                        var_t1 = ((var_t0 * 0xB0) / 249) + 0x4F;
+                        var_a3 = ((var_t0 * 0x91) / 249) + 0x6E;
                     }
                 }
             }
 
             var_t0 = 0xFF;
-            if ((u32)(story_time_cnt - 0x277) < 0x171U) {
+            if ((story_time_cnt > 0x276) && (story_time_cnt < 0x3E8)) {
                 if (story_time_cnt < 0x2BC) {
                     var_t0 = story_time_cnt - 0x276;
                     var_t0 = ((var_t0 * -0xFF) / 69) + 0xFF;
@@ -1308,15 +1449,15 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
             gDPSetEnvColor(gfx++, var_t2, var_t1, var_a3, var_t0);
 
             if (story_staff_roll != 0) {
-                if (st_message_count != 0x270F) {
+                if (st_message_count != 9999) {
                     func_8007865C();
                 }
             }
 
-            if (lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[0x15], story_buffer), story_time_cnt, story_buffer) ==
-                1) {
+            if (lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[TITLEALL_LWS_INDEX_21], story_buffer), story_time_cnt,
+                         story_buffer) == 1) {
                 framecont = 0x117;
-                story_time_cnt = 0x117U;
+                story_time_cnt = 0x117;
             }
 
             if (story_time_cnt >= 0x1F) {
@@ -1329,7 +1470,7 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-    if ((story_staff_roll == 2) && (msgWnd_isScroll(&mess_roll_st) == false)) {
+    if ((story_staff_roll == 2) && !msgWnd_isScroll(&mess_roll_st)) {
         story_staff_roll = -1;
     }
 
@@ -1343,38 +1484,32 @@ void story_m_end(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", story_st_new_w9);
-#endif
-
-extern s32 fin_frame_737;
-
-#if VERSION_CN
-void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
-    Mtx mtx;
+/**
+ * Original name: story_st_new_w9
+ */
+void story_st_new_w9(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2) {
     Gfx *gfx = *gfxP;
+    Mtx mtx;
     s32 red;
     s32 green;
     s32 blue;
     s32 alpha;
-    void *temp_s0;
+    Lws *lws;
 
     st_mes_ptr = mes_data[arg2];
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
-
     gSPDisplayList(gfx++, story_setup);
 
     makeTransrateMatrix(&mtx, 0, 0xFFF38000, 0xFC4A0000);
 
-    temp_s0 = RELOCATE_SEGMENTED(lws_data[arg1], story_buffer);
+    lws = RELOCATE_SEGMENTED(lws_data[arg1], story_buffer);
 
     switch (story_seq_step) {
         case 0:
             func_800773F0();
-            lws_anim(&gfx, &mtx, temp_s0, 0, story_buffer);
+            lws_anim(&gfx, &mtx, lws, 0, story_buffer);
             framecont = 0;
             break;
 
@@ -1382,19 +1517,19 @@ void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
             story_time_cnt = framecont;
             fin_frame_737 = framecont;
 
-            blue = 0;
-            green = 0;
-            red = 0;
+            red = green = blue = 0;
 
-            if ((story_time_cnt >= 0x2F7) && (story_time_cnt < 0x334)) {
-                alpha = ((story_time_cnt - 0x2F7) * 0xFF) / 60;
+            if ((story_time_cnt >= 0x2F7) && (story_time_cnt <= 0x333)) {
+                alpha = story_time_cnt - 0x2F7;
+                alpha = (alpha * 0xFF) / 60;
+
                 green = alpha;
                 red = alpha;
                 blue = alpha;
-            } else if (story_time_cnt >= 0x334) {
-                blue = 0xFF;
-                green = 0xFF;
-                red = 0xFF;
+            } else if (story_time_cnt > 0x333) {
+                blue = 255;
+                green = 255;
+                red = 255;
             }
             alpha = 255;
 
@@ -1410,7 +1545,7 @@ void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
             }
 
             func_8007865C();
-            if (lws_anim(&gfx, &mtx, temp_s0, story_time_cnt, story_buffer) == 1) {
+            if (lws_anim(&gfx, &mtx, lws, story_time_cnt, story_buffer) == 1) {
                 story_time_cnt = 0;
                 story_seq_step += 1;
             }
@@ -1418,7 +1553,7 @@ void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
 
         default:
             func_8007744C();
-            lws_anim(&gfx, &mtx, temp_s0, fin_frame_737, story_buffer);
+            lws_anim(&gfx, &mtx, lws, fin_frame_737, story_buffer);
             break;
     }
 
@@ -1426,29 +1561,27 @@ void story_st_new_w9(Gfx **gfxP, s32 arg1, s32 arg2) {
 
     *gfxP = gfx;
 }
-#endif
 
-extern s32 fin_frame_768;
-
-#if VERSION_US || VERSION_CN
-void story_w_end(Gfx **gfxP, s32 arg1) {
-    Mtx sp20;
+/**
+ * Original name: story_w_end
+ */
+void story_w_end(Gfx **gfxP, TitleAllLwsIndex arg1) {
+    Mtx mtx;
     Gfx *gfx = *gfxP;
-    s32 temp_t0_2;
-    s32 var_a3;
-    s32 var_t0;
-    s32 var_t1;
+    s32 blue;
+    s32 green;
+    s32 red;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
     gSPDisplayList(gfx++, story_setup);
 
-    makeTransrateMatrix(&sp20, 0U, 0xFFF38000U, 0xFC4A0000U);
+    makeTransrateMatrix(&mtx, 0U, 0xFFF38000U, 0xFC4A0000U);
 
     switch (story_seq_step) {
         case 0:
             func_800773F0();
-            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
+            lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
             framecont = 0;
             story_spot_cnt = 0x100;
             st_mes_ptr = mes_data[0x17];
@@ -1458,13 +1591,13 @@ void story_w_end(Gfx **gfxP, s32 arg1) {
             story_time_cnt = (s32)framecont;
             fin_frame_768 = (s32)framecont;
             func_8007865C();
-            if (gControllerPressedButtons[*main_joy] & 0x5000) {
+            if (gControllerPressedButtons[main_joy[0]] & (B_BUTTON | START_BUTTON)) {
                 framecont = 0;
                 story_time_cnt = 0;
                 st_message_count = 0;
                 story_seq_step += 1;
             }
-            if (lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt, story_buffer) ==
+            if (lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt, story_buffer) ==
                 1) {
                 framecont = 0;
                 story_time_cnt = 0;
@@ -1477,43 +1610,45 @@ void story_w_end(Gfx **gfxP, s32 arg1) {
             story_time_cnt = (s32)framecont;
             fin_frame_768 = (s32)framecont;
             st_mes_ptr = mes_data[0x18];
-            var_a3 = 0xFF;
-            var_t0 = 0xFF;
-            var_t1 = 0xFF;
+            blue = 255;
+            green = 255;
+            red = 255;
             if ((s32)framecont >= 0x262) {
+                s32 temp_t0_2;
+
                 if ((s32)framecont < 0x31B) {
                     temp_t0_2 = framecont - 0x262;
-                    var_t1 = ((temp_t0_2 * -0x69) / 184) + 0xFF;
-                    var_t0 = (-(temp_t0_2 * 0xA0) / 184) + 0xFF;
-                    var_a3 = ((temp_t0_2 * -0xAF) / 184) + 0xFF;
+                    red = ((temp_t0_2 * -0x69) / 184) + 0xFF;
+                    green = (-(temp_t0_2 * 0xA0) / 184) + 0xFF;
+                    blue = ((temp_t0_2 * -0xAF) / 184) + 0xFF;
                 } else if ((s32)framecont < 0x3D4) {
                     temp_t0_2 = framecont - 0x31B;
-                    var_t1 = ((temp_t0_2 * -0x5F) / 184) + 0x96;
-                    var_t0 = (-(temp_t0_2 * 0x10) / 184) + 0x5F;
-                    var_a3 = ((temp_t0_2 * 0x1E) / 184) + 0x50;
+                    red = ((temp_t0_2 * -0x5F) / 184) + 0x96;
+                    green = (-(temp_t0_2 * 0x10) / 184) + 0x5F;
+                    blue = ((temp_t0_2 * 0x1E) / 184) + 0x50;
                 } else if ((s32)framecont < 0x5C8) {
-                    var_t1 = 0x37;
-                    var_t0 = 0x4F;
-                    var_a3 = 0x6E;
+                    red = 0x37;
+                    green = 0x4F;
+                    blue = 0x6E;
                 } else if ((s32)framecont < 0x708) {
                     temp_t0_2 = framecont - 0x5C8;
-                    var_t1 = ((temp_t0_2 * 0xC8) / 319) + 0x37;
-                    var_t0 = ((temp_t0_2 * 0xB0) / 319) + 0x4F;
-                    var_a3 = ((temp_t0_2 * 0x91) / 319) + 0x6E;
+                    red = ((temp_t0_2 * 0xC8) / 319) + 0x37;
+                    green = ((temp_t0_2 * 0xB0) / 319) + 0x4F;
+                    blue = ((temp_t0_2 * 0x91) / 319) + 0x6E;
                 }
             }
 
-            gDPSetEnvColor(gfx++, var_t1, var_t0, var_a3, 255);
+            gDPSetEnvColor(gfx++, red, green, blue, 255);
 
             if (story_staff_roll != 0) {
                 if (st_message_count != 0x270F) {
                     func_8007865C();
                 }
             }
-            if (lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[0x18], story_buffer), story_time_cnt, story_buffer) ==
-                1) {
+            if (lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[TITLEALL_LWS_INDEX_24], story_buffer), story_time_cnt,
+                         story_buffer) == 1) {
                 framecont = 0x6D;
-                story_time_cnt = (s32)0x6DU;
+                story_time_cnt = 0x6D;
             }
             if (story_time_cnt >= 0x1F) {
                 if (story_staff_roll == 0) {
@@ -1525,7 +1660,7 @@ void story_w_end(Gfx **gfxP, s32 arg1) {
 
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-    if ((story_staff_roll == 2) && (msgWnd_isScroll(&mess_roll_st) == false)) {
+    if ((story_staff_roll == 2) && !msgWnd_isScroll(&mess_roll_st)) {
         story_staff_roll = -1;
     }
 
@@ -1539,9 +1674,7 @@ void story_w_end(Gfx **gfxP, s32 arg1) {
 
     *gfxP = gfx;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 void func_8007A9DC(void) {
     void *ptr = story_buffer;
 
@@ -1561,40 +1694,21 @@ void func_8007A9DC(void) {
                            storyRomData[STORYROMDATA_MENU_BG].end - storyRomData[STORYROMDATA_MENU_BG].start));
     messageData = ptr;
 }
-#endif
 
-extern s32 B_800E5A20;
-extern s32 B_800E5A24;
-extern s32 B_800E5A2C;
-extern s32 B_800E5A38;
-extern f32 B_800E5A44;
-
-extern s32 B_800E5A90;
-extern s32 B_800E5A94;
-extern s32 B_800E5AA0;
-extern s32 B_800E5AA4;
-extern s32 B_800E5AAC;
-extern s32 B_800E5AB8;
-extern f32 B_800E5AC4;
-extern u64 B_800E5AF0[];
-
-extern s16 B_800F6CDE[];
-
-extern SeqIndex snd_tbl_838[];
-
-#if VERSION_US
+#if VERSION_US || VERSION_GW
 #define MESS_ROLL_ST_ARG2 0x77A
-#endif
-#if VERSION_CN
+#elif VERSION_CN
 #define MESS_ROLL_ST_ARG2 0x7A7
 #endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: main_story
+ */
 void main_story(NNSched *sc) {
     OSMesgQueue scMQ;
     OSMesg scMsgBuf[NN_SC_MAX_MESGS];
     NNScClient scClient;
-    s32 var_s1;
+    s32 i;
     s32 temp;
 
     osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
@@ -1603,21 +1717,20 @@ void main_story(NNSched *sc) {
     graphic_no = GRAPHIC_NO_0;
     story_z_buffer = gfx_freebuf;
     guPerspective(&story_viewMtx, &story_norm, 45.0f, 4.0f / 3.0f, 1.0f, 1000.0f, 1.0f);
-    var_s1 = 0;
     guOrtho(&story_viewMtx, -SCREEN_WIDTH / 2, SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 2, 1.0f, 2000.0f,
             1.0f);
 
     first_copy = 1;
-    for (; var_s1 < ARRAY_COUNT(joyflg); var_s1++) {
-        joyflg[var_s1] = U_JPAD | L_JPAD | R_JPAD | D_JPAD;
+    for (i = 0; i < ARRAY_COUNT(joyflg); i++) {
+        joyflg[i] = U_JPAD | L_JPAD | R_JPAD | D_JPAD;
     }
 
-    D_800AAD38 = gfx_freebuf;
-    story_buffer = D_800AAD38 + 0x10000;
+    story_read_buf = gfx_freebuf;
+    story_buffer = &story_read_buf[0x10000];
     framecont = 0;
     story_time_cnt = 0;
     story_seq_step = 0;
-    D_800AAD1C = 0;
+    story_kay_wait = 0;
     story_curtain = 0x1E;
     story_zoom = 0;
     story_message_on = 0;
@@ -1627,7 +1740,7 @@ void main_story(NNSched *sc) {
     st_message_count = 0;
     loop_flg = true;
 
-    mess_heap = &B_800E5AF0;
+    mess_heap = &mess_heap_area;
     msgWnd_init(&mess_st, &mess_heap, 0x10, 3, 0x42, 0xB1);
     mess_st.unk_30 = 0xC;
     mess_st.unk_34 = 0xC;
@@ -1680,7 +1793,7 @@ void main_story(NNSched *sc) {
         dm_audio_update();
     }
 
-    for (var_s1 = 0; var_s1 < 3; var_s1++) {
+    for (i = 0; i < 3; i++) {
         osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
     }
 
@@ -1692,9 +1805,7 @@ void main_story(NNSched *sc) {
     temp = evs_story_no;
     evs_seqnumb = temp % 3;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: init_objMtx
  */
@@ -1702,15 +1813,16 @@ void init_objMtx(void) {
     pObjectMtx = story_objectMtx[objMtx_FF];
     objMtx_FF ^= 1;
 }
-#endif
 
-#if VERSION_US || VERSION_CN
+/**
+ * Original name: graphic_story
+ */
 void graphic_story(void) {
     s32 pad[6] UNUSED;
-    OSScTask *temp_s4;
+    OSScTask *task;
 
     gGfxHead = gGfxGlist[gfx_gtask_no];
-    temp_s4 = &B_800FAE80[gfx_gtask_no];
+    task = &B_800FAE80[gfx_gtask_no];
 
     init_objMtx();
 
@@ -1718,14 +1830,14 @@ void graphic_story(void) {
     gSPSegment(gGfxHead++, 0x05, osVirtualToPhysical(story_buffer));
 
     lws_data = story_buffer;
-    S2RDPinitRtn(1U);
+    S2RDPinitRtn(1);
 
     gDPPipeSync(gGfxHead++);
     gDPSetCycleType(gGfxHead++, G_CYC_FILL);
     gDPSetCycleType(gGfxHead++, G_CYC_1CYCLE);
     gDPSetEnvColor(gGfxHead++, 255, 255, 255, 255);
 
-    S2ClearCFBRtn(1U);
+    S2ClearCFBRtn(1);
 
     gSPMatrix(gGfxHead++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
@@ -1734,116 +1846,116 @@ void graphic_story(void) {
         story_zoom++;
     } else {
         switch (story_proc_no) {
-            case STORY_PROC_NO_0:
-            case STORY_PROC_NO_12:
-                story_st_new(&gGfxHead, 1, 0);
+            case BGROMDATA_INDEX0:
+            case BGROMDATA_INDEX12:
+                story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_1, 0);
                 break;
 
-            case STORY_PROC_NO_10:
-                story_m_end(&gGfxHead, 0x14, 0x1B);
+            case BGROMDATA_INDEX10:
+                story_m_end(&gGfxHead, TITLEALL_LWS_INDEX_20, 0x1B);
                 break;
 
-            case STORY_PROC_NO_11:
-                story_m_end(&gGfxHead, 0x16, 0x1C);
+            case BGROMDATA_INDEX11:
+                story_m_end(&gGfxHead, TITLEALL_LWS_INDEX_22, 0x1C);
                 break;
 
-            case STORY_PROC_NO_22:
-                story_w_end(&gGfxHead, 0x17);
+            case BGROMDATA_INDEX22:
+                story_w_end(&gGfxHead, TITLEALL_LWS_INDEX_23);
                 break;
 
-            case STORY_PROC_NO_23:
-                story_w_end(&gGfxHead, 0x19);
+            case BGROMDATA_INDEX23:
+                story_w_end(&gGfxHead, TITLEALL_LWS_INDEX_25);
                 break;
 
-            case STORY_PROC_NO_1:
-                story_st_new_op(&gGfxHead, 1);
+            case BGROMDATA_INDEX1:
+                story_st_new_op(&gGfxHead, true);
                 break;
 
-            case STORY_PROC_NO_2:
-                story_st_new2(&gGfxHead, 2, 5, 3, 7);
+            case BGROMDATA_INDEX2:
+                story_st_new2(&gGfxHead, TITLEALL_LWS_INDEX_2, 5, TITLEALL_LWS_INDEX_3, 7);
                 break;
 
-            case STORY_PROC_NO_3:
+            case BGROMDATA_INDEX3:
                 gDPSetEnvColor(gGfxHead++, 170, 150, 185, 255);
 
-                story_st_new(&gGfxHead, 5, 9);
+                story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_5, 9);
                 break;
 
-            case STORY_PROC_NO_4:
-                story_st_new2_f(&gGfxHead, 0x22, 0x1D, 7, 0xB);
+            case BGROMDATA_INDEX4:
+                story_st_new2_f(&gGfxHead, TITLEALL_LWS_INDEX_34, 0x1D, TITLEALL_LWS_INDEX_7, 0xB);
                 break;
 
-            case STORY_PROC_NO_5:
-                story_st_new(&gGfxHead, 9, 0xD);
+            case BGROMDATA_INDEX5:
+                story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_9, 0xD);
                 break;
 
-            case STORY_PROC_NO_6:
-                story_st_new(&gGfxHead, 0xC, 0xF);
+            case BGROMDATA_INDEX6:
+                story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_12, 0xF);
                 break;
 
-            case STORY_PROC_NO_7:
+            case BGROMDATA_INDEX7:
                 if (evs_story_level == 0) {
-                    story_st_new(&gGfxHead, 0x1E, 0x19);
+                    story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_30, 0x19);
                 } else {
-                    story_st_new(&gGfxHead, 0xD, 0x11);
+                    story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_13, 0x11);
                 }
                 break;
 
-            case STORY_PROC_NO_8:
+            case BGROMDATA_INDEX8:
                 if (evs_story_level == 0) {
-                    story_st_new2_f(&gGfxHead, 0x20, 0x1A, 0x10, 0x13);
+                    story_st_new2_f(&gGfxHead, TITLEALL_LWS_INDEX_32, 0x1A, TITLEALL_LWS_INDEX_16, 0x13);
                 } else {
-                    story_st_new2_f(&gGfxHead, 0xE, 0x12, 0x10, 0x13);
+                    story_st_new2_f(&gGfxHead, TITLEALL_LWS_INDEX_14, 0x12, TITLEALL_LWS_INDEX_16, 0x13);
                 }
                 break;
 
-            case STORY_PROC_NO_9:
-                story_st_new(&gGfxHead, 0x12, 0x14);
+            case BGROMDATA_INDEX9:
+                story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_18, 0x14);
                 break;
 
-            case STORY_PROC_NO_13:
-                story_st_new_op(&gGfxHead, 0);
+            case BGROMDATA_INDEX13:
+                story_st_new_op(&gGfxHead, false);
                 break;
 
-            case STORY_PROC_NO_14:
-                story_st_new2(&gGfxHead, 2, 6, 4, 8);
+            case BGROMDATA_INDEX14:
+                story_st_new2(&gGfxHead, TITLEALL_LWS_INDEX_2, 6, TITLEALL_LWS_INDEX_4, 8);
                 break;
 
-            case STORY_PROC_NO_15:
+            case BGROMDATA_INDEX15:
                 gDPSetEnvColor(gGfxHead++, 170, 150, 185, 255);
-                story_st_new(&gGfxHead, 6, 0xA);
+                story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_6, 0xA);
                 break;
 
-            case STORY_PROC_NO_16:
-                story_st_new2_f(&gGfxHead, 0x22, 0x1D, 8, 0xC);
+            case BGROMDATA_INDEX16:
+                story_st_new2_f(&gGfxHead, TITLEALL_LWS_INDEX_34, 0x1D, TITLEALL_LWS_INDEX_8, 0xC);
                 break;
 
-            case STORY_PROC_NO_17:
-                story_st_new(&gGfxHead, 0xA, 0xE);
+            case BGROMDATA_INDEX17:
+                story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_10, 0xE);
                 break;
 
-            case STORY_PROC_NO_18:
-                story_st_new(&gGfxHead, 0xB, 0x10);
+            case BGROMDATA_INDEX18:
+                story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_11, 0x10);
                 break;
 
-            case STORY_PROC_NO_19:
+            case BGROMDATA_INDEX19:
                 if (evs_story_level == 0) {
-                    story_st_new(&gGfxHead, 0x1F, 0x19);
+                    story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_31, 0x19);
                 } else {
-                    story_st_new(&gGfxHead, 0xD, 0x11);
+                    story_st_new(&gGfxHead, TITLEALL_LWS_INDEX_13, 0x11);
                 }
                 break;
 
-            case STORY_PROC_NO_20:
+            case BGROMDATA_INDEX20:
                 if (evs_story_level == 0) {
-                    story_st_new2_f(&gGfxHead, 0x20, 0x1A, 0x11, 0x13);
+                    story_st_new2_f(&gGfxHead, TITLEALL_LWS_INDEX_32, 0x1A, TITLEALL_LWS_INDEX_17, 0x13);
                 } else {
-                    story_st_new2_f(&gGfxHead, 0xF, 0x12, 0x11, 0x13);
+                    story_st_new2_f(&gGfxHead, TITLEALL_LWS_INDEX_15, 0x12, TITLEALL_LWS_INDEX_17, 0x13);
                 }
                 break;
 
-            case STORY_PROC_NO_21:
-                story_st_new_w9(&gGfxHead, 0x13, 0x15);
+            case BGROMDATA_INDEX21:
+                story_st_new_w9(&gGfxHead, TITLEALL_LWS_INDEX_19, 0x15);
                 break;
 
             default:
@@ -1886,17 +1998,10 @@ void graphic_story(void) {
     gSPEndDisplayList(gGfxHead++);
 
     osWritebackDCacheAll();
-    gfxTaskStart(temp_s4, gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0,
+    gfxTaskStart(task, gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx), 0,
                  OS_SC_SWAPBUFFER);
 }
-#endif
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/main_story", func_8007B62C);
-#endif
-
-#if VERSION_CN
-void func_8008648C_cn(Gfx **gfxP) {
+void func_8007B62C(Gfx **gfxP) {
     draw_menu_bg(gfxP, 0xA0, 0x78);
 }
-#endif

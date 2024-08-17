@@ -3,6 +3,7 @@
  */
 
 #include "main1x.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
@@ -10,8 +11,8 @@
 #include "record.h"
 #include "vr_init.h"
 #include "main_story.h"
+#include "aiset.h"
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: evs_stereo
  */
@@ -77,8 +78,14 @@ u8 evs_one_game_flg = 0;
  */
 u8 evs_level_21 = 0;
 
+/**
+ * Original name: evs_manual_no
+ */
 s8 evs_manual_no = EVS_MANUAL_NO_0;
 
+/**
+ * Original name: evs_high_score
+ */
 u32 evs_high_score = 0;
 
 /**
@@ -94,14 +101,18 @@ u8 FlyingCnt[3] = { 0x28, 0x14, 0x14 };
 /**
  * Original name: BonusWait
  */
-u8 BonusWait[3][3] = { { 2, 2, 3 }, { 1, 1, 1 }, { 1, 0, 1 } };
+u8 BonusWait[][3] = {
+    { 2, 2, 3 },
+    { 1, 1, 1 },
+    { 1, 0, 1 },
+};
 
 u8 D_8008842C[] = { 0x01, 0x02, 0x02, 0x02 };
 
 /**
  * Original name: GameSpeed
  */
-s8 GameSpeed[4] = { 0, 0xA, 0xF, 0x37 };
+s8 GameSpeed[] = { 0, 0xA, 0xF, 0x37 };
 
 /**
  * Original name: FallSpeed
@@ -120,7 +131,6 @@ u8 Score1p[3][6] = {
     { 2, 4, 8, 0x10, 0x20, 0x40 },
     { 3, 6, 0xC, 0x18, 0x30, 0x60 },
 };
-#endif
 
 /**
  * Original name: main11
@@ -158,7 +168,6 @@ enum_main_no main11(void) {
     return ret;
 }
 
-#if VERSION_US || VERSION_CN
 /**
  * Original name: adjust_story_ai
  */
@@ -392,9 +401,6 @@ void adjust_story_ai(void) {
         }
     }
 }
-#endif
-
-ASM_RODATA;
 
 const u8 _seqTbl_224[] = {
     0x03, 0x02, 0x03, 0x02, 0x03, 0x02, 0x03, 0x02, 0x04, 0x02,
