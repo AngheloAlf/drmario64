@@ -29,8 +29,11 @@ def align(value: int, n: int) -> int:
     return (((value) + ((n)-1)) & ~((n)-1))
 
 
-def align8MB(value: int) -> int:
+def align1MB(value: int) -> int:
     return align(value, 0x100000)
+
+def align8KB(value: int) -> int:
+    return align(value, 0x2000)
 
 def addSymbolToRelocate(relsOffetsToApply: dict[int, tuple[str, spimdisasm.common.RelocType]], symName: str, rel: spimdisasm.elf32.Elf32RelEntry, segmentRomOffset: int, segmentVram: int):
     relVram = rel.offset
@@ -50,6 +53,7 @@ def romCompressorMain():
     parser.add_argument("elf", help="path to the uncompressed rom elf file")
     parser.add_argument("segments", help="path to segments file")
     parser.add_argument("version", help="version to process")
+    parser.add_argument("-p", "--pad-rom", help="Pad the rom to the next 1MiB boundary", action="store_true")
     parser.add_argument("-d", "--debug", help="Enable debug prints", action="store_true")
 
     args = parser.parse_args()
@@ -59,6 +63,7 @@ def romCompressorMain():
     elfPath = Path(args.elf)
     segmentsPath = Path(args.segments)
     version = args.version
+    padRom = bool(args.pad_rom)
 
     global DEBUGGING
     DEBUGGING = args.debug
@@ -182,10 +187,14 @@ def romCompressorMain():
         offset += align(entry.size, 0x10)
         printDebug()
 
-    alignedSize = align8MB(sizeWrote)
-    if args.version != "cn":
-        # pad
-        outRomBin.extend(bytearray((alignedSize - sizeWrote) * [0xFF]))
+    if padRom:
+        if version == "cn":
+            alignedSize = align8KB(sizeWrote)
+            fillValue = 0x00
+        else:
+            alignedSize = align1MB(sizeWrote)
+            fillValue = 0xFF
+        outRomBin.extend(bytearray((alignedSize - sizeWrote) * [fillValue]))
 
     for relRomOffset, (symName, rType) in relsOffetsToApply.items():
         value = romOffsetValues[symName]

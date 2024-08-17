@@ -275,6 +275,11 @@ else
     COMP_VERBOSE_FLAG :=
 endif
 
+ROM_COMPRESSOR_FLAGS ?=
+ifeq ($(COMPILER), original)
+	ROM_COMPRESSOR_FLAGS += --pad-rom
+endif
+
 
 #### Files ####
 
@@ -427,7 +432,7 @@ $(ROM): $(ELF)
 	$(CHECKSUMMER) $(@:.z64=.bin) $@
 
 $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
-	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
+	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION) $(ROM_COMPRESSOR_FLAGS)
 	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
 
 $(ELF): $(LINKER_SCRIPTS)
