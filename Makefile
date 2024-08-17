@@ -37,8 +37,12 @@ USE_LLD ?= 0
 QUIET ?= 0
 # If non-zero, partially links each segment, making the first build slower but improving build times afterwards
 PARTIAL_LINKING ?= 0
-# TODO. Options: original, gcc
+
+# Allows changing the compiler to be used. Options: original, gcc
 COMPILER ?= original
+# If non-zero then reduce optimization flags and improve debugging flags.
+# This setting is ignored when COMPILER is set to original
+DEBUGABLE ?= 0
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -216,6 +220,7 @@ ENDIAN          := -EB
 LDFLAGS         := --emit-relocs
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
+CFLAGS          += -mno-abicalls
 CFLAGS_EXTRA    += -Wa,--force-n64align
 OPTFLAGS        := -O2
 DBGFLAGS        :=
@@ -237,19 +242,23 @@ LIBULTRA_VERSION:= 9
 endif
 
 ifeq ($(COMPILER), gcc)
-# OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
-OPTFLAGS        := -O1
-DBGFLAGS        := -ggdb
-MIPS_VERSION    := -mips3
-WARNINGS        := $(CHECK_WARNINGS)
+    ifneq ($(DEBUGABLE), 0)
+        OPTFLAGS        := -O1
+        DBGFLAGS        := -ggdb
+    else
+        OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
+        DBGFLAGS        := -g0
+    endif
+    MIPS_VERSION    := -mips3
+    WARNINGS        := $(CHECK_WARNINGS)
 
-CFLAGS_EXTRA    :=
-CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
-CFLAGS          += -mdivide-breaks -ffreestanding
-CFLAGS          += -fno-toplevel-reorder
-# Consider removing in the future
-CFLAGS          += -fno-zero-initialized-in-bss
-# LDFLAGS         += -lgcc_vr4300
+    CFLAGS_EXTRA    :=
+    CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
+    CFLAGS          += -mdivide-breaks -ffreestanding
+    CFLAGS          += -fno-toplevel-reorder
+    # LDFLAGS         += -lgcc_vr4300
+    # Consider removing in the future
+    CFLAGS          += -fcommon
 endif
 
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
@@ -329,6 +338,7 @@ $(BUILD_DIR)/src/buffers/%.o:  CFLAGS   += -fno-common
 else ifeq ($(COMPILER), gcc)
 $(BUILD_DIR)/src/libkmc/%.o:   OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -Ofast
+# $(BUILD_DIR)/src/main_segment/%.o: CFLAGS += -G 16
 endif
 
 $(BUILD_DIR)/src/assets/%.o:   CC       := $(GCC)
@@ -474,10 +484,10 @@ endif
 
 $(BUILD_DIR)/lib/%.o: lib/%.c
 	$(QUIET_CMD)$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) -w $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) -o $@ $<
-	$(QUIET_CMD)$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) QUIET=$(QUIET) COMPILER=$(COMPILER) ../$@
+	$(QUIET_CMD)$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) QUIET=$(QUIET) COMPILER=$(COMPILER) DEBUGABLE=$(DEBUGABLE) ../$@
 
 $(BUILD_DIR)/lib/%.o: lib/%.s
-	$(QUIET_CMD)$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) QUIET=$(QUIET) ../$@
+	$(QUIET_CMD)$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) QUIET=$(QUIET) COMPILER=original DEBUGABLE=$(DEBUGABLE) ../$@
 
 $(BUILD_DIR)/segments/%.o: $(BUILD_DIR)/linker_scripts/partial/%.ld
 	$(file >$(@:.o=.o_files.txt), $(filter %.o, $^))

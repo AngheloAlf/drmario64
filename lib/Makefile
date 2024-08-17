@@ -86,7 +86,7 @@ endif
 IINC       := -Iultralib/include -Iultralib/include/gcc -Iultralib/include/PR -Iultralib/src -Ilibmus/src
 
 ABIFLAG         ?= -mabi=32 -mgp32 -mfp32
-CFLAGS          := -nostdinc -fno-PIC -G 0
+CFLAGS          := -nostdinc -fno-PIC -mno-abicalls -G 0
 MIPS_VERSION    := -mips3
 WARNINGS        := -w
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
@@ -101,7 +101,7 @@ DBGFLAGS        :=
 # libultra 2.0K
 LIBULTRA_VERSION:= 8
 else ifeq ($(VERSION),cn)
-CFLAGS          += -mcpu=4300 -mno-abicalls
+CFLAGS          += -mcpu=4300
 OPTFLAGS        := -O2
 DBGFLAGS        := -ggdb
 # libultra 2.0L
@@ -109,19 +109,22 @@ LIBULTRA_VERSION:= 9
 endif
 
 ifeq ($(COMPILER), original)
-AS_DEFINES      += -D_MIPS_SIM=1
+    AS_DEFINES      += -D_MIPS_SIM=1
 else ifeq ($(COMPILER), gcc)
-# OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
-OPTFLAGS        := -O1
-DBGFLAGS        := -ggdb
-MIPS_VERSION    := -mips3
+    ifneq ($(DEBUGABLE), 0)
+        OPTFLAGS        := -O1
+        DBGFLAGS        := -ggdb
+    else
+        OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
+        DBGFLAGS        := -g0
+    endif
+    MIPS_VERSION    := -mips3
 
-CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
-CFLAGS          += -mdivide-breaks -ffreestanding
-CFLAGS          += -fno-toplevel-reorder
-# Consider removing in the future
-CFLAGS          += -fno-zero-initialized-in-bss
-CFLAGS          += -fcommon -fno-strict-aliasing
+    CFLAGS          += -march=vr4300 -mfix4300
+    CFLAGS          += -mdivide-breaks -ffreestanding
+    CFLAGS          += -fno-toplevel-reorder
+    # Consider removing in the future
+    CFLAGS          += -fcommon -fno-strict-aliasing
 endif
 
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
@@ -130,9 +133,9 @@ BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
 OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
 
 ifneq ($(OBJDUMP_BUILD), 0)
-	OBJDUMP_CMD = @$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
+    OBJDUMP_CMD = @$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
 else
-	OBJDUMP_CMD = @:
+    OBJDUMP_CMD = @:
 endif
 
 #### Files ####
@@ -165,9 +168,13 @@ $(BUILD_DIR)/libmus/src/%.o:   MIPS_VERSION := -mips3
 $(BUILD_DIR)/libmus/src/%.o:   CFLAGS += -Wa,--force-n64align
 else ifeq ($(VERSION),cn)
 $(BUILD_DIR)/libmus/src/%.o:   MIPS_VERSION := -mips2
-endif
+endif # VERSION
 $(BUILD_DIR)/libmus/src/%.o:   RELEASE_DEFINES :=
-endif
+
+else ifeq ($(COMPILER), gcc)
+# $(BUILD_DIR)/libmus/src/%.o: CFLAGS += -G 16
+
+endif # COMPILER
 
 # per-file flags
 
@@ -201,5 +208,5 @@ $(BUILD_DIR)/%.o: %.s
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(QUIET_CMD)$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<
+	$(QUIET_CMD)$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(ABIFLAG) $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<
 	$(OBJDUMP_CMD)
