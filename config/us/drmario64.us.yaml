@@ -2,24 +2,24 @@ name: Dr.Mario 64 (North America)
 sha1: 96ba0ce2f9e98e5790df120320cd3d1a3d7080d2
 options:
   basename: drmario64
-  target_path: baserom_uncompressed.us.z64
+  target_path: config/us/baserom_uncompressed.us.z64
   elf_path: build/us/drmario64.us.elf
-  ld_script_path: linker_scripts/us/drmario64.ld
-  base_path: .
+  ld_script_path: .splat/us/drmario64.ld
+  base_path: ../../
   compiler: GCC
   find_file_boundaries: True
   header_encoding: ASCII
   platform: n64
-  undefined_funcs_auto_path: linker_scripts/us/auto/undefined_funcs_auto.ld
-  undefined_syms_auto_path: linker_scripts/us/auto/undefined_syms_auto.ld
+  undefined_funcs_auto_path: .splat/us/auto/undefined_funcs_auto.ld
+  undefined_syms_auto_path: .splat/us/auto/undefined_syms_auto.ld
   symbol_addrs_path:
-    - linker_scripts/us/symbol_addrs_boot.txt
-    - linker_scripts/us/symbol_addrs_dma_table.txt
-    - linker_scripts/us/symbol_addrs_main_segment.txt
-    - linker_scripts/us/symbol_addrs_buffers.txt
-    - linker_scripts/us/ignored_addresses.txt
+    - config/us/symbol_addrs/symbol_addrs_boot.txt
+    - config/us/symbol_addrs/symbol_addrs_dma_table.txt
+    - config/us/symbol_addrs/symbol_addrs_main_segment.txt
+    - config/us/symbol_addrs/symbol_addrs_buffers.txt
+    - config/us/symbol_addrs/ignored_addresses.txt
   reloc_addrs_path:
-    - relocs/reloc_addrs.us.txt
+    - config/us/relocs/reloc_addrs.us.txt
 
   auto_all_sections: [".data", ".rodata", ".bss"]
 
@@ -88,7 +88,7 @@ options:
 
   ld_dependencies: True
   ld_partial_linking: False
-  ld_partial_scripts_path: linker_scripts/us/partial
+  ld_partial_scripts_path: .splat/us/partial
   ld_partial_build_segments_path: build/us/segments
 
   ld_wildcard_sections: True

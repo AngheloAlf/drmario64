@@ -3,13 +3,6 @@ asm/
 bin/
 build/
 
-linker_scripts/us/auto/
-linker_scripts/cn/auto/
-*_auto.ld
-drmario64.ld
-drmario64.d
-linker_scripts/*/partial/
-
 __pycache__/
 .venv/
 

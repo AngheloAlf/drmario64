@@ -45,8 +45,8 @@ CROSS ?= mips-linux-gnu-
 
 VERSION ?= us
 
-BASEROM              := baserom.$(VERSION).z64
-BASEROM_UNCOMPRESSED := baserom_uncompressed.$(VERSION).z64
+BASEROM              := config/$(VERSION)/baserom.$(VERSION).z64
+BASEROM_UNCOMPRESSED := config/$(VERSION)/baserom_uncompressed.$(VERSION).z64
 TARGET               := drmario64
 
 
@@ -129,7 +129,7 @@ else
 endif
 
 SPLAT             ?= python3 -m splat split
-SPLAT_YAML        ?= $(TARGET).$(VERSION).yaml
+SPLAT_YAML        ?= config/$(VERSION)/$(TARGET).$(VERSION).yaml
 
 SPLAT_FLAGS       ?=
 ifneq ($(FULL_DISASM),0)
@@ -137,7 +137,7 @@ ifneq ($(FULL_DISASM),0)
 endif
 
 SLINKY            ?= tools/slinky/slinky-cli
-SLINKY_YAML       ?= slinky.yaml
+SLINKY_YAML       ?= config/slinky.yaml
 
 SLINKY_FLAGS      ?=
 ifneq ($(PARTIAL_LINKING),0)
@@ -234,7 +234,7 @@ endif
 
 #### Files ####
 
-$(shell mkdir -p asm bin linker_scripts/$(VERSION)/auto)
+$(shell mkdir -p asm bin)
 
 SRC_DIRS      := $(shell find src -type d)
 ASM_DIRS      := $(shell find asm/$(VERSION) -type d -not -path "asm/$(VERSION)/nonmatchings/*" -not -path "asm/$(VERSION)/lib/*")
@@ -274,7 +274,7 @@ ifneq ($(DEP_INCLUDE), 0)
 endif
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/linker_scripts/$(VERSION)/auto $(BUILD_DIR)/segments)
+$(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/segments)
 $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
@@ -314,13 +314,13 @@ all: compressed
 uncompressed: $(ROM)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROM)
-	@md5sum -c $(TARGET)_uncompressed.$(VERSION).md5
+	@md5sum -c config/$(VERSION)/$(TARGET)_uncompressed.$(VERSION).md5
 endif
 
 compressed: $(ROMC)
 ifneq ($(COMPARE),0)
 	@md5sum $(ROMC)
-	@md5sum -c $(TARGET).$(VERSION).md5
+	@md5sum -c config/$(VERSION)/$(TARGET).$(VERSION).md5
 endif
 
 clean:
@@ -331,7 +331,6 @@ libclean:
 
 distclean: clean
 	$(RM) -r $(BUILD_DIR) asm/ bin/ .splat/
-	$(RM) -r linker_scripts/$(VERSION)/auto
 	$(MAKE) -C tools distclean
 
 setup:
@@ -390,8 +389,6 @@ asset_files: $(PNG_INC_FILES)
 $(O_FILES): | asset_files
 msg_files: $(TEXT_INC_FILES)
 $(O_FILES): | msg_files
-o_files: $(O_FILES)
-$(SEGMENTS_O): | o_files
 
 asset_files_clean:
 	$(RM) -r $(PNG_INC_FILES)

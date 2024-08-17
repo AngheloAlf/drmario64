@@ -2,24 +2,24 @@ name: Dr.Mario 64 (China)
 sha1: 82c995b76a118c4a8a4cef558c2ef7062b3de528
 options:
   basename: drmario64
-  target_path: baserom_uncompressed.cn.z64
+  target_path: config/cn/baserom_uncompressed.cn.z64
   elf_path: build/cn/drmario64.cn.elf
-  ld_script_path: linker_scripts/cn/drmario64.ld
-  base_path: .
+  ld_script_path: .splat/cn/drmario64.ld
+  base_path: ../../
   compiler: GCC
   find_file_boundaries: True
   header_encoding: ASCII
   platform: n64
-  undefined_funcs_auto_path: linker_scripts/cn/auto/undefined_funcs_auto.ld
-  undefined_syms_auto_path: linker_scripts/cn/auto/undefined_syms_auto.ld
+  undefined_funcs_auto_path: .splat/cn/auto/undefined_funcs_auto.ld
+  undefined_syms_auto_path: .splat/cn/auto/undefined_syms_auto.ld
   symbol_addrs_path:
-    - linker_scripts/cn/symbol_addrs_boot.txt
-    - linker_scripts/cn/symbol_addrs_dma_table.txt
-    - linker_scripts/cn/symbol_addrs_main_segment.txt
-    - linker_scripts/cn/symbol_addrs_buffers.txt
-    - linker_scripts/cn/ignored_addresses.txt
+    - config/cn/symbol_addrs/symbol_addrs_boot.txt
+    - config/cn/symbol_addrs/symbol_addrs_dma_table.txt
+    - config/cn/symbol_addrs/symbol_addrs_main_segment.txt
+    - config/cn/symbol_addrs/symbol_addrs_buffers.txt
+    - config/cn/symbol_addrs/ignored_addresses.txt
   reloc_addrs_path:
-    - relocs/reloc_addrs.cn.txt
+    - config/cn/relocs/reloc_addrs.cn.txt
 
   auto_all_sections: [".data", ".rodata", ".bss"]
 
@@ -88,7 +88,7 @@ options:
 
   ld_dependencies: True
   ld_partial_linking: False
-  ld_partial_scripts_path: linker_scripts/cn/partial
+  ld_partial_scripts_path: .splat/cn/partial
   ld_partial_build_segments_path: build/cn/segments
 
   ld_wildcard_sections: True
@@ -102,8 +102,6 @@ options:
   hasm_in_src_path: True
 
   mips_abi_float_regs: o32
-  # mips_abi_gpr: numeric
-  # mips_abi_float_regs: numeric
   do_c_func_detection: True
   o_as_suffix: True
   gfx_ucode: f3dex2

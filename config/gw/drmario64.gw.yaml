@@ -2,25 +2,25 @@ name: Dr.Mario 64 (Gateway 64 (NTSC))
 sha1: c71398ec500763b563f065c9eea61d47025b66ba
 options:
   basename: drmario64
-  target_path: baserom_uncompressed.gw.z64
+  target_path: config/gw/baserom_uncompressed.gw.z64
   elf_path: build/gw/drmario64.gw.elf
-  ld_script_path: linker_scripts/gw/drmario64.ld
-  base_path: .
+  ld_script_path: .splat/gw/drmario64.ld
+  base_path: ../../
   compiler: GCC
   find_file_boundaries: True
   header_encoding: ASCII
   platform: n64
-  undefined_funcs_auto_path: linker_scripts/gw/auto/undefined_funcs_auto.ld
-  undefined_syms_auto_path: linker_scripts/gw/auto/undefined_syms_auto.ld
+  undefined_funcs_auto_path: .splat/gw/auto/undefined_funcs_auto.ld
+  undefined_syms_auto_path: .splat/gw/auto/undefined_syms_auto.ld
   symbol_addrs_path:
-    - linker_scripts/gw/symbol_addrs_boot.txt
-    - linker_scripts/gw/symbol_addrs_libultra.txt
-    - linker_scripts/gw/symbol_addrs_dma_table.txt
-    - linker_scripts/gw/symbol_addrs_main_segment.txt
-    - linker_scripts/gw/symbol_addrs_buffers.txt
-    - linker_scripts/gw/ignored_addresses.txt
+    - config/gw/symbol_addrs/symbol_addrs_boot.txt
+    - config/gw/symbol_addrs/symbol_addrs_libultra.txt
+    - config/gw/symbol_addrs/symbol_addrs_dma_table.txt
+    - config/gw/symbol_addrs/symbol_addrs_main_segment.txt
+    - config/gw/symbol_addrs/symbol_addrs_buffers.txt
+    - config/gw/symbol_addrs/ignored_addresses.txt
   reloc_addrs_path:
-    - relocs/reloc_addrs.gw.txt
+    - config/gw/relocs/reloc_addrs.gw.txt
 
   auto_all_sections: [".data", ".rodata", ".bss"]
 
@@ -89,7 +89,7 @@ options:
 
   ld_dependencies: True
   ld_partial_linking: False
-  ld_partial_scripts_path: linker_scripts/gw/partial
+  ld_partial_scripts_path: .splat/gw/partial
   ld_partial_build_segments_path: build/gw/segments
 
   ld_wildcard_sections: True
