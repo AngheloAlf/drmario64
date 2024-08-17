@@ -188,12 +188,17 @@ endif
 
 # Have CC_CHECK pretend to be a MIPS compiler
 MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1 -D_MIPS_SIM=_ABIO32 -D_MIPS_SZINT=32 -D_MIPS_SZPTR=32
+ifeq ($(COMPILER), original)
 ifneq ($(RUN_CC_CHECK),0)
 #   The -MMD flags additionaly creates a .d file with the same name as the .o file.
     CC_CHECK          := $(CC_CHECK_COMP)
-    CC_CHECK_FLAGS    := -MMD -MP -fno-builtin -funsigned-char -fsyntax-only -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DPRESERVE_UB -DCC_CHECK=1
+    CC_CHECK_FLAGS    := -MMD -MP -fsyntax-only -fno-builtin -funsigned-char -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DPRESERVE_UB -DCC_CHECK=1 $(MIPS_BUILTIN_DEFS)
 else
     CC_CHECK          := @:
+endif
+else
+    CC_CHECK          := $(GCC)
+    CC_CHECK_FLAGS    := -MMD -MP -fsyntax-only -DNON_MATCHING -DPRESERVE_UB -DCC_CHECK=1
 endif
 
 ABIFLAG         ?= -mabi=32 -mgp32 -mfp32
@@ -457,7 +462,7 @@ $(BUILD_DIR)/%.o: %.s
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(QUIET_CMD)$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
+	$(QUIET_CMD)$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) -o $@ $<
 ifeq ($(MULTISTEP_BUILD), 0)
 	$(QUIET_CMD)$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) | $(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ -
 else
@@ -468,7 +473,7 @@ endif
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/lib/%.o: lib/%.c
-	$(QUIET_CMD)$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) -w $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -o $@ $<
+	$(QUIET_CMD)$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) -w $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) -o $@ $<
 	$(QUIET_CMD)$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) QUIET=$(QUIET) COMPILER=$(COMPILER) ../$@
 
 $(BUILD_DIR)/lib/%.o: lib/%.s
