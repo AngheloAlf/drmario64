@@ -34,7 +34,7 @@ jobs:
         token: ${{ secrets.SECRETTOKEN }}
         path: deps_repo
     - name: Get the dependency
-      run: cp deps_repo/drmario64/* .
+      run: cp deps_repo/drmario64/baserom.${{ matrix.version }}.z64 config/${{ matrix.version }}/baserom.${{ matrix.version }}.z64
 
     - name: Setup
       run: make setup -j $(nproc) VERSION=${{ matrix.version }}
