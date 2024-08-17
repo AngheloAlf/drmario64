@@ -5,8 +5,8 @@ OBJDUMP_BUILD ?= 1
 # 
 COMPILER ?= original
 
-# If non zero then compilation commands won't be printed to the terminal
-QUIET ?= 0
+# Dump build object files
+OBJDUMP_BUILD ?= 1
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -53,17 +53,12 @@ else ifeq ($(UNAME_S),Darwin)
 	MAKE := gmake
 endif
 
-ifneq ($(QUIET), 0)
-    QUIET_CMD := @
-else
-    QUIET_CMD :=
-endif
-
 #### Tools ####
 ifneq ($(shell type $(CROSS)ld >/dev/null 2>/dev/null; echo $$?), 0)
 	$(error Please install or build $(CROSS))
 endif
 
+OBJDUMP         := $(CROSS)objdump
 
 OBJDUMP         := $(CROSS)objdump
 GCC             := $(CROSS)gcc
@@ -204,9 +199,9 @@ distclean: clean
 .SECONDARY:
 
 $(BUILD_DIR)/%.o: %.s
-	$(QUIET_CMD)$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(ABIFLAG) $(CFLAGS) $(MIPS_VERSION) -x assembler-with-cpp -o $@ $<
+	$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(ABIFLAG) $(CFLAGS) $(MIPS_VERSION) -x assembler-with-cpp -o $@ $<
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(QUIET_CMD)$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(ABIFLAG) $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<
+	$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(ABIFLAG) $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<
 	$(OBJDUMP_CMD)

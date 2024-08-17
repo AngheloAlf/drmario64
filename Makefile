@@ -33,8 +33,6 @@ DEP_ASM ?= 1
 DEP_INCLUDE ?= 1
 # Use LLVM linker lld instead of GNU LD
 USE_LLD ?= 0
-# If non zero then compilation commands won't be printed to the terminal
-QUIET ?= 0
 # If non-zero, partially links each segment, making the first build slower but improving build times afterwards
 PARTIAL_LINKING ?= 0
 
@@ -108,12 +106,6 @@ else ifeq ($(UNAME_S),Darwin)
     DETECTED_OS := mac
     MAKE := gmake
     CPPFLAGS += -xc++
-endif
-
-ifneq ($(QUIET), 0)
-    QUIET_CMD := @
-else
-    QUIET_CMD :=
 endif
 
 #### Tools ####
@@ -197,7 +189,7 @@ ifneq ($(RUN_CC_CHECK),0)
 #   The -MMD flags additionaly creates a .d file with the same name as the .o file.
     CC_CHECK          := $(CC_CHECK_COMP)
     CC_CHECK_FLAGS    := -MMD -MP -fsyntax-only -fno-builtin -funsigned-char -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DPRESERVE_UB -DCC_CHECK=1 $(MIPS_BUILTIN_DEFS)
-else
+else # RUN_CC_CHECK
     CC_CHECK          := @:
 endif
 else
@@ -286,7 +278,7 @@ endif
 
 #### Files ####
 
-$(shell mkdir -p asm bin)
+$(shell mkdir -p asm/$(VERSION) bin/$(VERSION))
 
 SRC_DIRS      := $(shell find src -type d)
 ASM_DIRS      := $(shell find asm/$(VERSION) -type d -not -path "asm/$(VERSION)/nonmatchings/*" -not -path "asm/$(VERSION)/lib/*")
@@ -403,9 +395,11 @@ extract:
 	$(SEGMENT_EXTRACTOR) $(BASEROM) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 
 diff-init: all
+ifneq ($(COMPARE), 0)
 	$(RM) -rf expected/$(BUILD_DIR)
 	mkdir -p expected/$(BUILD_DIR)
 	cp -r $(BUILD_DIR)/* expected/$(BUILD_DIR)
+endif
 
 init:
 	$(MAKE) distclean
@@ -429,16 +423,16 @@ tidy:
 #### Various Recipes ####
 
 $(ROM): $(ELF)
-	$(QUIET_CMD)$(OBJCOPY) -O binary $< $(@:.z64=.bin)
-	$(QUIET_CMD)$(CHECKSUMMER) $(@:.z64=.bin) $@
+	$(OBJCOPY) -O binary $< $(@:.z64=.bin)
+	$(CHECKSUMMER) $(@:.z64=.bin) $@
 
 $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
-	$(QUIET_CMD)$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
-	$(QUIET_CMD)$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
+	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
+	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
 
 $(ELF): $(LINKER_SCRIPTS)
 	$(file >$(@:.elf=.o_files.txt), $(filter %.o, $^))
-	$(QUIET_CMD)$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ @$(@:.elf=.o_files.txt)
+	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ @$(@:.elf=.o_files.txt)
 
 ## Order-only prerequisites
 # These ensure e.g. the PNG_INC_FILES are built before the O_FILES.
@@ -465,50 +459,50 @@ $(LD_SCRIPT) $(D_FILE): $(SLINKY_YAML) $(SLINKY)
 	$(SLINKY) --custom-options version=$(VERSION) $(SLINKY_FLAGS) -o $(LD_SCRIPT) $(SLINKY_YAML)
 
 $(BUILD_DIR)/%.ld: %.ld
-	$(QUIET_CMD)$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
+	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
 
 $(BUILD_DIR)/%.o: %.s
-	$(QUIET_CMD)$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(COMP_VERBOSE_FLAG) $< | $(ICONV) $(ICONV_FLAGS) | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -o $@
+	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(COMP_VERBOSE_FLAG) $< | $(ICONV) $(ICONV_FLAGS) | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -o $@
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(QUIET_CMD)$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) -o $@ $<
+	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) -o $@ $<
 ifeq ($(MULTISTEP_BUILD), 0)
-	$(QUIET_CMD)$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) | $(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ -
+	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) | $(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ -
 else
-	$(QUIET_CMD)$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) -o $(@:.o=.i)
-	$(QUIET_CMD)$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -S -o $(@:.o=.s) $(@:.o=.i)
-	$(QUIET_CMD)$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $(@:.o=.s)
+	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) -o $(@:.o=.i)
+	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -S -o $(@:.o=.s) $(@:.o=.i)
+	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $(@:.o=.s)
 endif
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/lib/%.o: lib/%.c
-	$(QUIET_CMD)$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) -w $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) -o $@ $<
-	$(QUIET_CMD)$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) QUIET=$(QUIET) COMPILER=$(COMPILER) DEBUGABLE=$(DEBUGABLE) ../$@
+	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) -w $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) -o $@ $<
+	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) OBJDUMP_BUILD=$(OBJDUMP_BUILD) COMPILER=$(COMPILER) DEBUGABLE=$(DEBUGABLE) ../$@
 
 $(BUILD_DIR)/lib/%.o: lib/%.s
-	$(QUIET_CMD)$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) QUIET=$(QUIET) COMPILER=original DEBUGABLE=$(DEBUGABLE) ../$@
+	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) OBJDUMP_BUILD=$(OBJDUMP_BUILD) COMPILER=original DEBUGABLE=$(DEBUGABLE) ../$@
 
 $(BUILD_DIR)/segments/%.o: $(BUILD_DIR)/linker_scripts/partial/%.ld
 	$(file >$(@:.o=.o_files.txt), $(filter %.o, $^))
-	$(QUIET_CMD)$(LD) $(ENDIAN) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@ @$(@:.o=.o_files.txt)
+	$(LD) $(ENDIAN) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@ @$(@:.o=.o_files.txt)
 
 # Make inc files from assets
 
 $(BUILD_DIR)/%.inc: %.png
-	$(QUIET_CMD)$(PIGMENT64) to-bin --c-array --format $(subst .,,$(suffix $*)) -o $@ $<
+	$(PIGMENT64) to-bin --c-array --format $(subst .,,$(suffix $*)) -o $@ $<
 
 $(BUILD_DIR)/%.ci8.inc: %.ci8.png
-	$(QUIET_CMD)$(PIGMENT64) to-bin --c-array --format palette -o $(@:.ci8.inc=.palette.inc) $<
-	$(QUIET_CMD)$(PIGMENT64) to-bin --c-array --format ci8 -o $@ $<
+	$(PIGMENT64) to-bin --c-array --format palette -o $(@:.ci8.inc=.palette.inc) $<
+	$(PIGMENT64) to-bin --c-array --format ci8 -o $@ $<
 
 $(BUILD_DIR)/%.ci4.inc: %.ci4.png
-	$(QUIET_CMD)$(PIGMENT64) to-bin --c-array --format palette -o $(@:.ci4.inc=.palette.inc) $<
-	$(QUIET_CMD)$(PIGMENT64) to-bin --c-array --format ci4 -o $@ $<
+	$(PIGMENT64) to-bin --c-array --format palette -o $(@:.ci4.inc=.palette.inc) $<
+	$(PIGMENT64) to-bin --c-array --format ci4 -o $@ $<
 
 $(BUILD_DIR)/%.msg.inc: %.msg
-	$(QUIET_CMD)$(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< -o $(@:.inc=.i)
-	$(QUIET_CMD)$(MSG_REENCODER) $(@:.inc=.i) $@ $(OUT_ENCODING)
+	$(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< -o $(@:.inc=.i)
+	$(MSG_REENCODER) $(@:.inc=.i) $@ $(OUT_ENCODING)
 
 
 # Setup game_etc weirdness
@@ -516,11 +510,11 @@ $(BUILD_DIR)/%.msg.inc: %.msg
 $(BUILD_DIR)/src/assets/game_etc/etc.o: $(BUILD_DIR)/src/assets/game_etc/etc_lws.subseg.inc
 
 $(BUILD_DIR)/%.subseg.inc: $(BUILD_DIR)/%.subseg
-	$(QUIET_CMD)$(INC_FROM_BIN) $< $@
+	$(INC_FROM_BIN) $< $@
 
 $(BUILD_DIR)/%.subseg: $(BUILD_DIR)/%.o $(BUILD_DIR)/linker_scripts/subseg_05.ld
-	$(QUIET_CMD)$(LD) $(ENDIAN) $(LDFLAGS) -Map $(@:.subseg=.map) -T  $(BUILD_DIR)/linker_scripts/subseg_05.ld -o $(@:.subseg=.subelf) $<
-	$(QUIET_CMD)$(OBJCOPY) -O binary $(@:.subseg=.subelf) $@
+	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(@:.subseg=.map) -T  $(BUILD_DIR)/linker_scripts/subseg_05.ld -o $(@:.subseg=.subelf) $<
+	$(OBJCOPY) -O binary $(@:.subseg=.subelf) $@
 
 
 -include $(DEP_FILES)
