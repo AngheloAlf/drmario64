@@ -5,13 +5,14 @@ on: [push, pull_request_target]
 
 jobs:
   build_repo:
-    name: Build repo (${{ matrix.version }})
+    name: Build (${{ matrix.version }} with ${{ matrix.compiler }})
     runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
         version: [us, cn, gw]
+        compiler: [original, gcc]
 
     steps:
     - name: Checkout repository
@@ -46,22 +47,26 @@ jobs:
       run: make -j $(nproc) WERROR=1 VERSION=${{ matrix.version }}
 
     - name: Print progress
+      if: matrix.compiler == 'original'
       run: python3 tools/progress.py --version ${{ matrix.version }}
 
     - name: Upload frogress
-      if: ${{ github.ref == 'refs/heads/master' && github.event_name != 'pull_request_target' }}
+      if: ${{ github.ref == 'refs/heads/master' && github.event_name != 'pull_request_target' && matrix.compiler == 'original' }}
       run: python3 tools/upload_frogress.py ${{ matrix.version }} --apikey ${{ secrets.PROGRESS_API_KEY }}
 
     - name: Upload map
+      if: matrix.compiler == 'original'
       uses: actions/upload-artifact@v3
       with:
         name: drmario64.${{ matrix.version }}.map
         path: build/${{ matrix.version }}/drmario64.${{ matrix.version }}.map
 
     - name: Generate PJ64 symbols file
+      if: matrix.compiler == 'original'
       run: python3 tools/pj64_syms.py --version ${{ matrix.version }} -o drmario.${{ matrix.version }}.sym
 
     - name: Upload PJ64 symbols file
+      if: matrix.compiler == 'original'
       uses: actions/upload-artifact@v3
       with:
         name: drmario.${{ matrix.version }}.sym
