@@ -125,7 +125,6 @@ options:
   # asm_end_label: endlabel
   asm_jtbl_label_macro: jlabel
   asm_data_macro: dlabel
-  include_macro_inc: False
   libultra_symbols: True
   hardware_regs: True
   image_type_in_extension: True

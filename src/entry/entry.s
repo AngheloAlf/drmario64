@@ -1,8 +1,10 @@
 #include "hasm.h"
 
+ABS(STACK_SIZE, BOOT_STACK_SIZE)
+
 .section .text
 
-.balign 16
+.align 4
 
 LEAF(entrypoint)
     LA($t0, boot_BSS_START)

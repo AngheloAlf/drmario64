@@ -30,6 +30,10 @@
     .globl  x                  ;\
     x:
 
+#define ABS(x, y)               \
+    .globl  x                  ;\
+    x = y
+
 .macro move dst, src
     addu \dst, \src, $zero
 .endm

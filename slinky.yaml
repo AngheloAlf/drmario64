@@ -72,9 +72,13 @@ settings:
   section_end_align: 0x10
 
   wildcard_sections: True
+
+vram_classes:
+  - { name: asset_00, fixed_vram: 0x00000000 }
+  - { name: asset_05, fixed_vram: 0x05000000 }
+
 segments:
   - name: header
-    fixed_vram: 0x8F000000
     files:
       - { path: src/rom_header/rom_header.o }
 
@@ -671,289 +675,289 @@ segments:
       - { path: "asm/{version}/data/segment_195290.o" }
 
   - name: segment_game_etc
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     segment_end_align: null
     section_end_align: null
     files:
       - { path: src/assets/game_etc/etc.o }
 
   - name: segment_menu_bg
-    fixed_vram: 0x05000000
+    vram_class: asset_05
     files:
       - { path: src/assets/menu_bg/menu_bg.o }
 
   - name: segment_menu_bg2
-    fixed_vram: 0x05000000
+    vram_class: asset_05
     files:
       - { path: src/assets/menu_bg/menu_bg2.o }
 
   - name: segment_coffee01
-    fixed_vram: 0x05000000
+    vram_class: asset_05
     files:
       - { path: src/assets/coffee/coffee01.o }
 
   - name: segment_title_all
-    fixed_vram: 0x05000000
+    vram_class: asset_05
     files:
       - { path: src/assets/title/title_all.o }
 
   - name: segment_title_bmp
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/title/title_bmp.o }
 
   - name: segment_waku
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/waku/waku.o }
 
   - name: segment_waku2
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/waku/waku2.o }
 
   - name: segment_story_bg01
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/story/bg01.o }
 
   - name: segment_story_bg02
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/story/bg02.o }
 
   - name: segment_story_bg03
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/story/bg03.o }
 
   - name: segment_story_bg04
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/story/bg04.o }
 
   - name: segment_story_bg05
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/story/bg05.o }
 
   - name: segment_story_bg07
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/story/bg07.o }
 
   - name: segment_story_bg08
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/story/bg08.o }
 
   - name: segment_story_bg09
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/story/bg09.o }
 
   - name: segment_story_bg10
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/story/bg10.o }
 
   - name: segment_story_bg11
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/story/bg11.o }
 
   - name: segment_menu_char
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_char.o }
 
   - name: segment_menu_common
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_common.o }
 
   - name: segment_menu_level
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_level.o }
 
   - name: segment_menu_main
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_main.o }
 
   - name: segment_menu_name
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_name.o }
 
   - name: segment_menu_p2
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_p2.o }
 
   - name: segment_menu_p4
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_p4.o }
 
   - name: segment_menu_rank
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_rank.o }
 
   - name: segment_menu_setup
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_setup.o }
 
   - name: segment_menu_story
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_story.o }
 
   - name: segment_menu_cont
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_cont.o }
 
   - name: segment_menu_kasa
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/menu/menu_kasa.o }
 
   - name: segment_game_al
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/game/game_al.o }
 
   - name: segment_game_p1
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/game/game_p1.o }
 
   - name: segment_game_p2
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/game/game_p2.o }
 
   - name: segment_game_p4
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/game/game_p4.o }
 
   - name: segment_game_ls
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/game/game_ls.o }
 
   - name: segment_game_item
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/game/game_item.o }
 
   - name: segment_anime_a
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_a.o }
 
   - name: segment_anime_b
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_b.o }
 
   - name: segment_anime_c
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_c.o }
 
   - name: segment_anime_d
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_d.o }
 
   - name: segment_anime_e
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_e.o }
 
   - name: segment_anime_f
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_f.o }
 
   - name: segment_anime_g
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_g.o }
 
   - name: segment_anime_h
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_h.o }
 
   - name: segment_anime_i
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_i.o }
 
   - name: segment_anime_j
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_j.o }
 
   - name: segment_anime_k
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_k.o }
 
   - name: segment_anime_l
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_l.o }
 
   - name: segment_anime_m
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_m.o }
 
   - name: segment_anime_n
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_n.o }
 
   - name: segment_anime_o
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_o.o }
 
   - name: segment_anime_mario
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_mario.o }
 
   - name: segment_anime_virus_b
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_virus_b.o }
 
   - name: segment_anime_virus_r
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_virus_r.o }
 
   - name: segment_anime_virus_y
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_virus_y.o }
 
   - name: segment_anime_smog
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/anime/anime_smog.o }
 
   - name: segment_tutorial_data
-    fixed_vram: 0x00000000
+    vram_class: asset_00
     files:
       - { path: src/assets/tutorial/tutorial_kasa.o }
 
@@ -962,3 +966,460 @@ segments:
     include_if_any: [[version, cn]]
     files:
       - { path: "asm/{version}/data/65CF00.o" }
+
+entry: entrypoint
+
+symbol_assignments:
+  - name: boot_BSS_START_HI
+    value: boot_BSS_START >> 16;
+  - name: boot_BSS_START_LO
+    value: boot_BSS_START & 0xFFFF;
+  - name: boot_BSS_SIZE_HI
+    value: boot_BSS_SIZE >> 16;
+  - name: boot_BSS_SIZE_LO
+    value: boot_BSS_SIZE & 0xFFFF;
+
+  - name: bootproc_HI
+    value: bootproc >> 16;
+  - name: bootproc_LO
+    value: bootproc & 0xFFFF;
+
+  - name: gBootThreadStack_HI
+    value: gBootThreadStack >> 16;
+  - name: gBootThreadStack_LO
+    value: gBootThreadStack & 0xFFFF;
+
+  - name: gBootThreadStackTop
+    value: gBootThreadStack + STACK_SIZE;
+  - name: gBootThreadStackTop_HI
+    value: gBootThreadStackTop >> 16;
+  - name: gBootThreadStackTop_LO
+    value: gBootThreadStackTop & 0xFFFF;
+
+  # TODO: remove when we actually use libultra files on iQue builds
+  - name: leoBootID
+    value: 0x800001A0
+    include_if_any: [[version, cn]]
+  - name: osTvType
+    value: 0x80000300
+    include_if_any: [[version, cn]]
+  - name: osRomType
+    value: 0x80000304
+    include_if_any: [[version, cn]]
+  - name: osRomBase
+    value: 0x80000308
+    include_if_any: [[version, cn]]
+  - name: osResetType
+    value: 0x8000030C
+    include_if_any: [[version, cn]]
+  - name: osCicId
+    value: 0x80000310
+    include_if_any: [[version, cn]]
+  - name: osVersion
+    value: 0x80000314
+    include_if_any: [[version, cn]]
+  - name: osMemSize
+    value: 0x80000318
+    include_if_any: [[version, cn]]
+  - name: osAppNMIBuffer
+    value: 0x8000031C
+    include_if_any: [[version, cn]]
+  - name: __osBbEepromAddress
+    value: 0x8000035c
+    include_if_any: [[version, cn]]
+  - name: __osBbEepromSize
+    value: 0x80000360
+    include_if_any: [[version, cn]]
+  - name: __osBbFlashAddress
+    value: 0x80000364
+    include_if_any: [[version, cn]]
+  - name: __osBbFlashSize
+    value: 0x80000368
+    include_if_any: [[version, cn]]
+  - name: __osBbSramAddress
+    value: 0x8000036c
+    include_if_any: [[version, cn]]
+  - name: __osBbSramSize
+    value: 0x80000370
+    include_if_any: [[version, cn]]
+  - name: __osBbPakAddress
+    value: 0x80000374
+    include_if_any: [[version, cn]]
+  - name: __osBbPakSize
+    value: 0x80000384
+    include_if_any: [[version, cn]]
+  - name: __osBbIsBb
+    value: 0x80000388
+    include_if_any: [[version, cn]]
+  - name: __osBbHackFlags
+    value: 0x8000038c
+    include_if_any: [[version, cn]]
+  - name: __osBbStashMagic
+    value: 0x80000390
+    include_if_any: [[version, cn]]
+  - name: __osBbPakBindings
+    value: 0x80000394
+    include_if_any: [[version, cn]]
+  - name: __osBbStateName
+    value: 0x800003a4
+    include_if_any: [[version, cn]]
+  - name: __osBbStateDirty
+    value: 0x800003b4
+    include_if_any: [[version, cn]]
+  - name: __osBbAuxDataLimit
+    value: 0x800003b8
+    include_if_any: [[version, cn]]
+  # Signal Processor Registers
+  - name: SP_MEM_ADDR_REG
+    value: 0xA4040000
+    include_if_any: [[version, cn]]
+  - name: SP_DRAM_ADDR_REG
+    value: 0xA4040004
+    include_if_any: [[version, cn]]
+  - name: SP_RD_LEN_REG
+    value: 0xA4040008
+    include_if_any: [[version, cn]]
+  - name: SP_WR_LEN_REG
+    value: 0xA404000C
+    include_if_any: [[version, cn]]
+  - name: SP_STATUS_REG
+    value: 0xA4040010
+    include_if_any: [[version, cn]]
+  - name: SP_DMA_FULL_REG
+    value: 0xA4040014
+    include_if_any: [[version, cn]]
+  - name: SP_DMA_BUSY_REG
+    value: 0xA4040018
+    include_if_any: [[version, cn]]
+  - name: SP_SEMAPHORE_REG
+    value: 0xA404001C
+    include_if_any: [[version, cn]]
+
+  - name: SP_PC
+    value: 0xA4080000
+    include_if_any: [[version, cn]]
+
+  # Display Processor Command Registers / Rasterizer Interface
+  - name: DPC_START_REG
+    value: 0xA4100000
+    include_if_any: [[version, cn]]
+  - name: DPC_END_REG
+    value: 0xA4100004
+    include_if_any: [[version, cn]]
+  - name: DPC_CURRENT_REG
+    value: 0xA4100008
+    include_if_any: [[version, cn]]
+  - name: DPC_STATUS_REG
+    value: 0xA410000C
+    include_if_any: [[version, cn]]
+  - name: DPC_CLOCK_REG
+    value: 0xA4100010
+    include_if_any: [[version, cn]]
+  - name: DPC_BUFBUSY_REG
+    value: 0xA4100014
+    include_if_any: [[version, cn]]
+  - name: DPC_PIPEBUSY_REG
+    value: 0xA4100018
+    include_if_any: [[version, cn]]
+  - name: DPC_TMEM_REG
+    value: 0xA410001C
+    include_if_any: [[version, cn]]
+
+  # Display Processor Span Registers
+  - name: DPS_TBIST_REG
+    value: 0xA4200000
+    include_if_any: [[version, cn]]
+  - name: DPS_TEST_MODE_REG
+    value: 0xA4200004
+    include_if_any: [[version, cn]]
+  - name: DPS_BUFTEST_ADDR_REG
+    value: 0xA4200008
+    include_if_any: [[version, cn]]
+  - name: DPS_BUFTEST_DATA_REG
+    value: 0xA420000C
+    include_if_any: [[version, cn]]
+
+  # MIPS Interface Registers
+  - name: MI_MODE_REG
+    value: 0xA4300000
+    include_if_any: [[version, cn]]
+  - name: MI_VERSION_REG
+    value: 0xA4300004
+    include_if_any: [[version, cn]]
+  - name: MI_INTR_REG
+    value: 0xA4300008
+    include_if_any: [[version, cn]]
+  - name: MI_INTR_MASK_REG
+    value: 0xA430000C
+    include_if_any: [[version, cn]]
+  - name: D_A4300010
+    value: 0xA4300010
+    include_if_any: [[version, cn]]
+  - name: MI_SK_EXCEPTION_REG
+    value: 0xA4300014
+    include_if_any: [[version, cn]]
+  - name: MI_SK_WATCHDOG_TIMER
+    value: 0xA4300018
+    include_if_any: [[version, cn]]
+  - name: D_A4300028
+    value: 0xA4300028
+    include_if_any: [[version, cn]]
+  - name: MI_RANDOM_BIT
+    value: 0xA430002C
+    include_if_any: [[version, cn]]
+  - name: D_A4300030
+    value: 0xA4300030
+    include_if_any: [[version, cn]]
+  - name: MI_HW_INTR_REG
+    value: 0xA4300038
+    include_if_any: [[version, cn]]
+  - name: MI_HW_INTR_MASK_REG
+    value: 0xA430003C
+    include_if_any: [[version, cn]]
+
+  # Video Interface Registers
+  - name: VI_STATUS_REG
+    value: 0xA4400000
+    include_if_any: [[version, cn]]
+  - name: VI_DRAM_ADDR_REG
+    value: 0xA4400004
+    include_if_any: [[version, cn]]
+  - name: VI_WIDTH_REG
+    value: 0xA4400008
+    include_if_any: [[version, cn]]
+  - name: VI_INTR_REG
+    value: 0xA440000C
+    include_if_any: [[version, cn]]
+  - name: VI_CURRENT_REG
+    value: 0xA4400010
+    include_if_any: [[version, cn]]
+  - name: VI_BURST_REG
+    value: 0xA4400014
+    include_if_any: [[version, cn]]
+  - name: VI_V_SYNC_REG
+    value: 0xA4400018
+    include_if_any: [[version, cn]]
+  - name: VI_H_SYNC_REG
+    value: 0xA440001C
+    include_if_any: [[version, cn]]
+  - name: VI_LEAP_REG
+    value: 0xA4400020
+    include_if_any: [[version, cn]]
+  - name: VI_H_START_REG
+    value: 0xA4400024
+    include_if_any: [[version, cn]]
+  - name: VI_V_START_REG
+    value: 0xA4400028
+    include_if_any: [[version, cn]]
+  - name: VI_V_BURST_REG
+    value: 0xA440002C
+    include_if_any: [[version, cn]]
+  - name: VI_X_SCALE_REG
+    value: 0xA4400030
+    include_if_any: [[version, cn]]
+  - name: VI_Y_SCALE_REG
+    value: 0xA4400034
+    include_if_any: [[version, cn]]
+
+  # Audio Interface Registers
+  - name: AI_DRAM_ADDR_REG
+    value: 0xA4500000
+    include_if_any: [[version, cn]]
+  - name: AI_LEN_REG
+    value: 0xA4500004
+    include_if_any: [[version, cn]]
+  - name: AI_CONTROL_REG
+    value: 0xA4500008
+    include_if_any: [[version, cn]]
+  - name: AI_STATUS_REG
+    value: 0xA450000C
+    include_if_any: [[version, cn]]
+  - name: AI_DACRATE_REG
+    value: 0xA4500010
+    include_if_any: [[version, cn]]
+  - name: AI_BITRATE_REG
+    value: 0xA4500014
+    include_if_any: [[version, cn]]
+
+  # Peripheral/Parallel Interface Registers
+  - name: PI_DRAM_ADDR_REG
+    value: 0xA4600000
+    include_if_any: [[version, cn]]
+  - name: PI_CART_ADDR_REG
+    value: 0xA4600004
+    include_if_any: [[version, cn]]
+  - name: PI_RD_LEN_REG
+    value: 0xA4600008
+    include_if_any: [[version, cn]]
+  - name: PI_WR_LEN_REG
+    value: 0xA460000C
+    include_if_any: [[version, cn]]
+  - name: PI_STATUS_REG
+    value: 0xA4600010
+    include_if_any: [[version, cn]]
+  - name: PI_BSD_DOM1_LAT_REG
+    value: 0xA4600014
+    include_if_any: [[version, cn]]
+  - name: PI_BSD_DOM1_PWD_REG
+    value: 0xA4600018
+    include_if_any: [[version, cn]]
+  - name: PI_BSD_DOM1_PGS_REG
+    value: 0xA460001C
+    include_if_any: [[version, cn]]
+  - name: PI_BSD_DOM1_RLS_REG
+    value: 0xA4600020
+    include_if_any: [[version, cn]]
+  - name: PI_BSD_DOM2_LAT_REG
+    value: 0xA4600024
+    include_if_any: [[version, cn]]
+  - name: PI_BSD_DOM2_LWD_REG
+    value: 0xA4600028
+    include_if_any: [[version, cn]]
+  - name: PI_BSD_DOM2_PGS_REG
+    value: 0xA460002C
+    include_if_any: [[version, cn]]
+  - name: PI_BSD_DOM2_RLS_REG
+    value: 0xA4600030
+    include_if_any: [[version, cn]]
+  - name: PI_CARD_STATUS_REG
+    value: 0xA4600038
+    include_if_any: [[version, cn]]
+  - name: PI_ATB_NEXT_CONFIG
+    value: 0xA4600040
+    include_if_any: [[version, cn]]
+  - name: D_A4600044
+    value: 0xA4600044
+    include_if_any: [[version, cn]]
+  - name: PI_CARD_CNT_REG
+    value: 0xA4600048
+    include_if_any: [[version, cn]]
+  - name: PI_CARD_CONFIG_REG
+    value: 0xA460004C
+    include_if_any: [[version, cn]]
+  - name: PI_AES_CNT
+    value: 0xA4600050
+    include_if_any: [[version, cn]]
+  - name: PI_ALLOWED_IO
+    value: 0xA4600054
+    include_if_any: [[version, cn]]
+  - name: PI_EX_RD_LEN_REG
+    value: 0xA4600058
+    include_if_any: [[version, cn]]
+  - name: PI_EX_WR_LEN_REG
+    value: 0xA460005C
+    include_if_any: [[version, cn]]
+  - name: PI_MISC_REG
+    value: 0xA4600060
+    include_if_any: [[version, cn]]
+  - name: D_A4600064
+    value: 0xA4600064
+    include_if_any: [[version, cn]]
+  - name: PI_CARD_BLK_OFFSET_REG
+    value: 0xA4600070
+    include_if_any: [[version, cn]]
+  - name: PI_EX_DMA_BUF
+    value: 0xA4610000
+    include_if_any: [[version, cn]]
+  - name: PI_AES_EXPANDED_KEY
+    value: 0xA4610420
+    include_if_any: [[version, cn]]
+  - name: PI_AES_IV
+    value: 0xA46104D0
+    include_if_any: [[version, cn]]
+  - name: PI_ATB_ENTRY
+    value: 0xA4610500
+    include_if_any: [[version, cn]]
+  - name: D_A4620000
+    value: 0xA4620000
+    include_if_any: [[version, cn]]
+  - name: PI_RDB_REQ_HI_REG
+    value: 0xA46E0000
+    include_if_any: [[version, cn]]
+  - name: PI_RDB_REQ_LO_REG
+    value: 0xA46E0002
+    include_if_any: [[version, cn]]
+  - name: D_A46E0004
+    value: 0xA46E0004
+    include_if_any: [[version, cn]]
+  - name: D_A46E0400
+    value: 0xA46E0400
+    include_if_any: [[version, cn]]
+  - name: D_A46E0402
+    value: 0xA46E0402
+    include_if_any: [[version, cn]]
+  - name: PI_RDB_STATUS_REG
+    value: 0xA46E8000
+    include_if_any: [[version, cn]]
+
+  # RDRAM Interface Registers
+  - name: RI_MODE_REG
+    value: 0xA4700000
+    include_if_any: [[version, cn]]
+  - name: RI_CONFIG_REG
+    value: 0xA4700004
+    include_if_any: [[version, cn]]
+  - name: RI_CURRENT_LOAD_REG
+    value: 0xA4700008
+    include_if_any: [[version, cn]]
+  - name: RI_SELECT_REG
+    value: 0xA470000C
+    include_if_any: [[version, cn]]
+  - name: RI_REFRESH_REG
+    value: 0xA4700010
+    include_if_any: [[version, cn]]
+  - name: RI_LATENCY_REG
+    value: 0xA4700014
+    include_if_any: [[version, cn]]
+  - name: RI_RERROR_REG
+    value: 0xA4700018
+    include_if_any: [[version, cn]]
+  - name: RI_WERROR_REG
+    value: 0xA470001C
+    include_if_any: [[version, cn]]
+
+  # Serial Interface Registers
+  - name: SI_DRAM_ADDR_REG
+    value: 0xA4800000
+    include_if_any: [[version, cn]]
+  - name: SI_PIF_ADDR_RD64B_REG
+    value: 0xA4800004
+    include_if_any: [[version, cn]]
+  - name: D_A4800008
+    value: 0xA4800008
+    include_if_any: [[version, cn]]
+  - name: D_A480000C
+    value: 0xA480000C
+    include_if_any: [[version, cn]]
+  - name: SI_PIF_ADDR_WR64B_REG
+    value: 0xA4800010
+    include_if_any: [[version, cn]]
+  - name: D_A4800014
+    value: 0xA4800014
+    include_if_any: [[version, cn]]
+  - name: SI_STATUS_REG
+    value: 0xA4800018
+    include_if_any: [[version, cn]]
+  - name: D_A480001C
+    value: 0xA480001C
+    include_if_any: [[version, cn]]
+
+  - name: D_A4900000
+    value: 0xA4900000
+    include_if_any: [[version, cn]]
+  - name: USB0_STATUS_REG
+    value: 0xA4940010
+    include_if_any: [[version, cn]]
+  - name: D_A4A00000
+    value: 0xA4A00000
+    include_if_any: [[version, cn]]
+  - name: USB1_STATUS_REG
+    value: 0xA4A40010
+    include_if_any: [[version, cn]]
+
+asserts:
+  - check: buffer1_VRAM_END <= 0x80205000
+    error_message: The segment 'buffer1' is overflowing the ram limit
+  - check: buffer2_BSS_START == 0x80205000
+    error_message: buffer2 shifted?
+  - check: framebuffer_BSS_START == 0x803B5000
+    error_message: framebuffer shifted?
