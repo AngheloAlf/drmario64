@@ -1,8 +1,8 @@
 MAKEFLAGS += --no-builtin-rules
 
 
-# If non zero then compilation commands won't be printed to the terminal
-QUIET ?= 0
+# Dump build object files
+OBJDUMP_BUILD ?= 1
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -39,17 +39,12 @@ else ifeq ($(UNAME_S),Darwin)
 	MAKE := gmake
 endif
 
-ifneq ($(QUIET), 0)
-    QUIET_CMD := @
-else
-    QUIET_CMD :=
-endif
-
 #### Tools ####
 ifneq ($(shell type $(CROSS)ld >/dev/null 2>/dev/null; echo $$?), 0)
 	$(error Please install or build $(CROSS))
 endif
 
+OBJDUMP         := $(CROSS)objdump
 
 ifeq ($(VERSION),$(filter $(VERSION), us gw))
 COMPILER_DIR    := ../tools/gcc_kmc/$(DETECTED_OS)/2.7.2
@@ -63,7 +58,8 @@ STRIP      := $(CROSS)strip
 
 IINC       := -Iultralib/include -Iultralib/include/gcc -Iultralib/include/PR -Iultralib/src -Ilibmus/src
 
-CFLAGS          := -nostdinc -fno-PIC -G 0 -mgp32 -mfp32 -mabi=32
+ABIFLAG         ?= -mabi=32 -mgp32 -mfp32
+CFLAGS          := -nostdinc -fno-PIC -mno-abicalls -G 0
 MIPS_VERSION    := -mips3
 WARNINGS        := -w
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
@@ -78,7 +74,7 @@ DBGFLAGS        :=
 # libultra 2.0K
 LIBULTRA_VERSION:= 8
 else ifeq ($(VERSION),cn)
-CFLAGS          += -mcpu=4300 -mno-abicalls
+CFLAGS          += -mcpu=4300
 OPTFLAGS        := -O2
 DBGFLAGS        := -ggdb
 # libultra 2.0L
@@ -86,6 +82,15 @@ LIBULTRA_VERSION:= 9
 endif
 
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
+
+# Use relocations and abi fpr names in the dump
+OBJDUMP_FLAGS := --disassemble --reloc --disassemble-zeroes -Mreg-names=32
+
+ifneq ($(OBJDUMP_BUILD), 0)
+    OBJDUMP_CMD = @$(OBJDUMP) $(OBJDUMP_FLAGS) $@ > $(@:.o=.dump.s)
+else
+    OBJDUMP_CMD = @:
+endif
 
 #### Files ####
 
@@ -140,7 +145,9 @@ distclean: clean
 .SECONDARY:
 
 $(BUILD_DIR)/%.o: %.s
-	$(QUIET_CMD)$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(CFLAGS) $(MIPS_VERSION) -x assembler-with-cpp -o $@ $<
+	$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(ABIFLAG) $(CFLAGS) $(MIPS_VERSION) -x assembler-with-cpp -o $@ $<
+	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(QUIET_CMD)$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<
+	$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(ABIFLAG) $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) $(DBGFLAGS) -o $@ $<
+	$(OBJDUMP_CMD)
