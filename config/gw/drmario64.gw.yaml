@@ -801,7 +801,7 @@ segments:
     subsegments:
       - [auto, c, assets/game_etc/etc]
       - start: 0x1E1EE0
-        type: .data
+        type: group
         name: assets/game_etc/etc
         dir: assets/game_etc
         subsegments:
@@ -1139,7 +1139,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu_bg/menu_bg]
       - start: 0x208880
-        type: .data
+        type: group
         name: assets/menu_bg/menu_bg
         dir: assets/menu_bg/menu_bg
         subsegments:
@@ -1167,7 +1167,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu_bg/menu_bg2]
       - start: 0x20C310
-        type: .data
+        type: group
         name: assets/menu_bg/menu_bg2
         dir: assets/menu_bg/menu_bg2
         subsegments:
@@ -1195,7 +1195,7 @@ segments:
     subsegments:
       - [auto, c, assets/coffee/coffee01]
       - start: 0x20FDA0
-        type: .data
+        type: group
         name: assets/coffee/coffee01
         dir: assets/coffee/coffee01
         subsegments:
@@ -1372,7 +1372,7 @@ segments:
     subsegments:
       - [auto, c, assets/title/title_all]
       - start: 0x235ED0
-        type: .data
+        type: group
         name: assets/title/title_all
         dir: assets/title/title_all
         subsegments:
@@ -2171,7 +2171,7 @@ segments:
     subsegments:
       - [auto, c, assets/title/title_bmp]
       - start: 0x362FD0
-        type: .data
+        type: group
         name: assets/title/title_bmp
         dir: assets/title/title_bmp
         subsegments:
@@ -2193,7 +2193,7 @@ segments:
     subsegments:
       - [auto, c, assets/waku/waku]
       - start: 0x365C40
-        type: .data
+        type: group
         name: assets/waku/waku
         dir: assets/waku/waku
         subsegments:
@@ -2209,7 +2209,7 @@ segments:
     subsegments:
       - [auto, c, assets/waku/waku2]
       - start: 0x3791D0
-        type: .data
+        type: group
         name: assets/waku/waku2
         dir: assets/waku/waku2
         subsegments:
@@ -2232,7 +2232,7 @@ segments:
     subsegments:
       - [auto, c, assets/story/bg01]
       - start: 0x383A80
-        type: .data
+        type: group
         name: assets/story/bg01
         dir: assets/story/bg01
         subsegments:
@@ -2248,7 +2248,7 @@ segments:
     subsegments:
       - [auto, c, assets/story/bg02]
       - start: 0x390490
-        type: .data
+        type: group
         name: assets/story/bg02
         dir: assets/story/bg02
         subsegments:
@@ -2264,7 +2264,7 @@ segments:
     subsegments:
       - [auto, c, assets/story/bg03]
       - start: 0x39CEA0
-        type: .data
+        type: group
         name: assets/story/bg03
         dir: assets/story/bg03
         subsegments:
@@ -2280,7 +2280,7 @@ segments:
     subsegments:
       - [auto, c, assets/story/bg04]
       - start: 0x3A98B0
-        type: .data
+        type: group
         name: assets/story/bg04
         dir: assets/story/bg04
         subsegments:
@@ -2296,7 +2296,7 @@ segments:
     subsegments:
       - [auto, c, assets/story/bg05]
       - start: 0x3B62C0
-        type: .data
+        type: group
         name: assets/story/bg05
         dir: assets/story/bg05
         subsegments:
@@ -2312,7 +2312,7 @@ segments:
     subsegments:
       - [auto, c, assets/story/bg07]
       - start: 0x3C2CD0
-        type: .data
+        type: group
         name: assets/story/bg07
         dir: assets/story/bg07
         subsegments:
@@ -2328,7 +2328,7 @@ segments:
     subsegments:
       - [auto, c, assets/story/bg08]
       - start: 0x3CF6E0
-        type: .data
+        type: group
         name: assets/story/bg08
         dir: assets/story/bg08
         subsegments:
@@ -2344,7 +2344,7 @@ segments:
     subsegments:
       - [auto, c, assets/story/bg09]
       - start: 0x3DC0F0
-        type: .data
+        type: group
         name: assets/story/bg09
         dir: assets/story/bg09
         subsegments:
@@ -2360,7 +2360,7 @@ segments:
     subsegments:
       - [auto, c, assets/story/bg10]
       - start: 0x3E8B00
-        type: .data
+        type: group
         name: assets/story/bg10
         dir: assets/story/bg10
         subsegments:
@@ -2376,7 +2376,7 @@ segments:
     subsegments:
       - [auto, c, assets/story/bg11]
       - start: 0x3F5510
-        type: .data
+        type: group
         name: assets/story/bg11
         dir: assets/story/bg11
         subsegments:
@@ -2393,7 +2393,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_char]
       - start: 0x401F20
-        type: .data
+        type: group
         name: assets/menu/menu_char
         dir: assets/menu/menu_char
         subsegments:
@@ -2426,7 +2426,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_common]
       - start: 0x412B00
-        type: .data
+        type: group
         name: assets/menu/menu_common
         dir: assets/menu/menu_common
         subsegments:
@@ -2475,7 +2475,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_level]
       - start: 0x43B3D0
-        type: .data
+        type: group
         name: assets/menu/menu_level
         dir: assets/menu/menu_level
         subsegments:
@@ -2510,7 +2510,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_main]
       - start: 0x454BE0
-        type: .data
+        type: group
         name: assets/menu/menu_main
         dir: assets/menu/menu_main
         subsegments:
@@ -2567,7 +2567,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_name]
       - start: 0x47B4F0
-        type: .data
+        type: group
         name: assets/menu/menu_name
         dir: assets/menu/menu_name
         subsegments:
@@ -2594,7 +2594,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_p2]
       - start: 0x487310
-        type: .data
+        type: group
         name: assets/menu/menu_p2
         dir: assets/menu/menu_p2
         subsegments:
@@ -2614,7 +2614,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_p4]
       - start: 0x4911B0
-        type: .data
+        type: group
         name: assets/menu/menu_p4
         dir: assets/menu/menu_p4
         subsegments:
@@ -2649,7 +2649,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_rank]
       - start: 0x49EC70
-        type: .data
+        type: group
         name: assets/menu/menu_rank
         dir: assets/menu/menu_rank
         subsegments:
@@ -2690,7 +2690,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_setup]
       - start: 0x4A7F80
-        type: .data
+        type: group
         name: assets/menu/menu_setup
         dir: assets/menu/menu_setup
         subsegments:
@@ -2774,7 +2774,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_story]
       - start: 0x4C4640
-        type: .data
+        type: group
         name: assets/menu/menu_story
         dir: assets/menu/menu_story
         subsegments:
@@ -2821,7 +2821,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_cont]
       - start: 0x4DF880
-        type: .data
+        type: group
         name: assets/menu/menu_cont
         dir: assets/menu/menu_cont
         subsegments:
@@ -2843,7 +2843,7 @@ segments:
     subsegments:
       - [auto, c, assets/menu/menu_kasa]
       - start: 0x4E7D40
-        type: .data
+        type: group
         name: assets/menu/menu_kasa
         dir: assets/menu/menu_kasa
         subsegments:
@@ -2868,7 +2868,7 @@ segments:
     subsegments:
       - [auto, c, assets/game/game_al]
       - start: 0x4F6350
-        type: .data
+        type: group
         name: assets/game/game_al
         dir: assets/game/game_al
         subsegments:
@@ -2940,7 +2940,7 @@ segments:
     subsegments:
       - [auto, c, assets/game/game_p1]
       - start: 0x505810
-        type: .data
+        type: group
         name: assets/game/game_p1
         dir: assets/game/game_p1
         subsegments:
@@ -2976,7 +2976,7 @@ segments:
     subsegments:
       - [auto, c, assets/game/game_p2]
       - start: 0x516ED0
-        type: .data
+        type: group
         name: assets/game/game_p2
         dir: assets/game/game_p2
         subsegments:
@@ -3034,7 +3034,7 @@ segments:
     subsegments:
       - [auto, c, assets/game/game_p4]
       - start: 0x529180
-        type: .data
+        type: group
         name: assets/game/game_p4
         dir: assets/game/game_p4
         subsegments:
@@ -3120,7 +3120,7 @@ segments:
     subsegments:
       - [auto, c, assets/game/game_ls]
       - start: 0x5480F0
-        type: .data
+        type: group
         name: assets/game/game_ls
         dir: assets/game/game_ls
         subsegments:
@@ -3185,7 +3185,7 @@ segments:
     subsegments:
       - [auto, c, assets/game/game_item]
       - start: 0x57B4F0
-        type: .data
+        type: group
         name: assets/game/game_item
         dir: assets/game/game_item
         subsegments:
@@ -3234,7 +3234,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_a]
       - start: 0x57CF30
-        type: .data
+        type: group
         name: assets/anime/anime_a
         dir: assets/anime/anime_a
         subsegments:
@@ -3317,7 +3317,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_b]
       - start: 0x58D2A0
-        type: .data
+        type: group
         name: assets/anime/anime_b
         dir: assets/anime/anime_b
         subsegments:
@@ -3382,7 +3382,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_c]
       - start: 0x5933A0
-        type: .data
+        type: group
         name: assets/anime/anime_c
         dir: assets/anime/anime_c
         subsegments:
@@ -3465,7 +3465,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_d]
       - start: 0x5A4390
-        type: .data
+        type: group
         name: assets/anime/anime_d
         dir: assets/anime/anime_d
         subsegments:
@@ -3548,7 +3548,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_e]
       - start: 0x5ACDC0
-        type: .data
+        type: group
         name: assets/anime/anime_e
         dir: assets/anime/anime_e
         subsegments:
@@ -3631,7 +3631,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_f]
       - start: 0x5B6E70
-        type: .data
+        type: group
         name: assets/anime/anime_f
         dir: assets/anime/anime_f
         subsegments:
@@ -3714,7 +3714,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_g]
       - start: 0x5BDAC0
-        type: .data
+        type: group
         name: assets/anime/anime_g
         dir: assets/anime/anime_g
         subsegments:
@@ -3781,7 +3781,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_h]
       - start: 0x5CAEF0
-        type: .data
+        type: group
         name: assets/anime/anime_h
         dir: assets/anime/anime_h
         subsegments:
@@ -3858,7 +3858,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_i]
       - start: 0x5D0630
-        type: .data
+        type: group
         name: assets/anime/anime_i
         dir: assets/anime/anime_i
         subsegments:
@@ -3941,7 +3941,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_j]
       - start: 0x5D99D0
-        type: .data
+        type: group
         name: assets/anime/anime_j
         dir: assets/anime/anime_j
         subsegments:
@@ -4022,7 +4022,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_k]
       - start: 0x5E4600
-        type: .data
+        type: group
         name: assets/anime/anime_k
         dir: assets/anime/anime_k
         subsegments:
@@ -4079,7 +4079,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_l]
       - start: 0x5E97B0
-        type: .data
+        type: group
         name: assets/anime/anime_l
         dir: assets/anime/anime_l
         subsegments:
@@ -4154,7 +4154,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_m]
       - start: 0x5F6480
-        type: .data
+        type: group
         name: assets/anime/anime_m
         dir: assets/anime/anime_m
         subsegments:
@@ -4237,7 +4237,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_n]
       - start: 0x5FCFE0
-        type: .data
+        type: group
         name: assets/anime/anime_n
         dir: assets/anime/anime_n
         subsegments:
@@ -4312,7 +4312,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_o]
       - start: 0x605F60
-        type: .data
+        type: group
         name: assets/anime/anime_o
         dir: assets/anime/anime_o
         subsegments:
@@ -4395,7 +4395,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_mario]
       - start: 0x60CAC0
-        type: .data
+        type: group
         name: assets/anime/anime_mario
         dir: assets/anime/anime_mario
         subsegments:
@@ -4500,7 +4500,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_virus_b]
       - start: 0x63A250
-        type: .data
+        type: group
         name: assets/anime/anime_virus_b
         dir: assets/anime/anime_virus_b
         subsegments:
@@ -4541,7 +4541,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_virus_r]
       - start: 0x63BE40
-        type: .data
+        type: group
         name: assets/anime/anime_virus_r
         dir: assets/anime/anime_virus_r
         subsegments:
@@ -4576,7 +4576,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_virus_y]
       - start: 0x63D3E0
-        type: .data
+        type: group
         name: assets/anime/anime_virus_y
         dir: assets/anime/anime_virus_y
         subsegments:
@@ -4611,7 +4611,7 @@ segments:
     subsegments:
       - [auto, c, assets/anime/anime_smog]
       - start: 0x63E980
-        type: .data
+        type: group
         name: assets/anime/anime_smog
         dir: assets/anime/anime_smog
         subsegments:
@@ -4643,7 +4643,7 @@ segments:
     subsegments:
       - [auto, c, assets/tutorial/tutorial_kasa]
       - start: 0x63FCC0
-        type: .data
+        type: group
         name: assets/tutorial/tutorial_kasa
         dir: assets/tutorial/tutorial_kasa
         subsegments:
