@@ -132,40 +132,23 @@ bk = 0x8001D810; //
 
 ofd = 0x8001D9C8; // size:0x8
 
-B_8001DA14_gw = 0x8001DA14; // type:s8
-B_8001DA15_gw = 0x8001DA15; // type:s8
-B_8001DA16_gw = 0x8001DA16; // type:s8
-B_8001DA17_gw = 0x8001DA17; // type:s8
-B_8001DA18_gw = 0x8001DA18; // type:s8
 gBootThreadStack = 0x8001DA90; // size:0x2000
 sPiMgrCmdBuff = 0x8001FA90; //
 
 insize = 0x8001FB5C; //
 outcnt = 0x8001FB60; //
 
-B_8001FB65_gw = 0x8001FB65; //
-bb = 0x8001FB68; //
+bb = 0x8001FB68; // size:0x4
 
 hufts = 0x8001FB78; //
 
-B_8001FBF4_gw = 0x8001FBF4; //
-
-B_8001FC5C_gw = 0x8001FC5C; // type:s8
-B_8001FC5D_gw = 0x8001FC5D; // type:s8
-B_8001FC5E_gw = 0x8001FC5E; // type:s8
-B_8001FC5F_gw = 0x8001FC5F; // type:s8
-B_8001FC60_gw = 0x8001FC60; // type:s8
 bytes_in = 0x8001FCCC; //
 bytes_out = 0x8001FCD0; //
 
-B_8001FCD5_gw = 0x8001FCD5; //
+__osBaseTimer = 0x8001FCE0; // size:0x20
 
-B_8001FCDC_gw = 0x8001FCDC; //
-__osBaseTimer = 0x8001FCE0; //
+d_buf = 0x8001FD10; // size:0x2000
 
-B_8001FD04_gw = 0x8001FD04; //
-
-B_80021DAC_gw = 0x80021DAC; //
 window = 0x80021DB0; // type:s8
 inptr = 0x80029DB0; //
 
