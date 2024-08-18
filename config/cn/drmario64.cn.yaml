@@ -356,7 +356,7 @@ segments:
 
       - [0x0123E0, .rodata, libegcs/libgcc2]
 
-      - { start: 0x0124E0, type: bss, vram: 0x800118E0, name: boot/800118E0 }
+      - { start: 0x0124E0, type: bss, vram: 0x800118E0, name: boot/scommon }
 
       - { start: 0x0124E0, type: .bss, vram: 0x80011950, name: boot/boot_main }
       - { start: 0x0124E0, type: .bss, vram: 0x80015CB0, name: boot/dmadata }
@@ -370,7 +370,7 @@ segments:
 
       - { start: 0x0124E0, type: .bss, vram: 0x8001C1A0, name: libnustd/srand }
 
-      - { start: 0x0124E0, type: bss, vram: 0x8001C1B0, name: boot/8001C1B0 }
+      - { start: 0x0124E0, type: bss, vram: 0x8001C1B0, name: boot/COMMON }
 
   - name: dma_table
     type: code

@@ -454,7 +454,7 @@ segments:
       - { type: .bss, vram: 0x8001B800, name: libkmc/rand }
       # end of libkmc
 
-      - { type: bss, vram: 0x8001B810, name: boot/8001B810 }
+      - { type: .bss, vram: 0x8001B810, name: boot/COMMON }
 
   - name: dma_table
     type: code

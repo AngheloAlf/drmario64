@@ -93,11 +93,12 @@ segments:
 
   - name: boot
     files:
-      - { path: "asm/{version}/data/boot/800118E0.bss.o", include_if_any: [[version, cn]] }
+      - { path: src/boot/scommon.o }
 
       - { path: src/boot/boot_main.o }
       - { path: src/boot/dmadata.o }
 
+      - { path: src/gzip/gzip.o }
       - { path: src/gzip/inflate.o }
       - { path: src/gzip/unzip.o }
 
@@ -283,6 +284,8 @@ segments:
 
           - { path: io/dp.o }
           - { path: io/si.o }
+
+          - { path: debug/kdebugserver.o }
 
       # libultra
       - kind: group
@@ -474,9 +477,7 @@ segments:
           - { path: memmove.o }
           - { path: ctype.o }
 
-      - { path: "asm/{version}/data/boot/8001B640.bss.o", include_if_any: [[version, us]] }
-      - { path: "asm/{version}/data/boot/8001B810.bss.o", include_if_any: [[version, gw]] }
-      - { path: "asm/{version}/data/boot/8001C1B0.bss.o", include_if_any: [[version, cn]] }
+      - { path: src/boot/COMMON.o }
 
   - name: dma_table
     files:

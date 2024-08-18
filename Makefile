@@ -172,6 +172,8 @@ ABIFLAG         ?= -mabi=32 -mgp32 -mfp32
 CFLAGS          += -nostdinc -fno-PIC -G 0
 CFLAGS_EXTRA    ?=
 
+MODERN_CFLAGS   ?= -G 0 -nostdinc -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -fno-zero-initialized-in-bss -fno-toplevel-reorder
+
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -mabi=32 -G0 -no-pad-sections
 COMMON_DEFINES  := -D_MIPS_SZLONG=32 -D__USE_ISOC99
@@ -278,7 +280,7 @@ $(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/buffers/%.o:  CFLAGS   += -fno-common
 
 $(BUILD_DIR)/src/assets/%.o:   CC       := $(GCC)
-$(BUILD_DIR)/src/assets/%.o:   CFLAGS   := -G 0 -nostdinc -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -fno-zero-initialized-in-bss -fno-toplevel-reorder
+$(BUILD_DIR)/src/assets/%.o:   CFLAGS   := $(MODERN_CFLAGS)
 $(BUILD_DIR)/src/assets/%.o:   MIPS_VERSION:= -mips3
 $(BUILD_DIR)/src/assets/%.o:   CFLAGS_EXTRA:= -Wa,-no-pad-sections
 $(BUILD_DIR)/src/assets/%.o:   OPTFLAGS := -O0
@@ -286,6 +288,20 @@ $(BUILD_DIR)/src/assets/%.o:   DBGFLAGS := -ggdb
 
 
 # per-file flags
+
+$(BUILD_DIR)/src/%/COMMON.o: CC            := $(GCC)
+$(BUILD_DIR)/src/%/COMMON.o: CFLAGS        := $(MODERN_CFLAGS)
+$(BUILD_DIR)/src/%/COMMON.o: CFLAGS_EXTRA  :=
+$(BUILD_DIR)/src/%/COMMON.o: MIPS_VERSION  := -mips3
+$(BUILD_DIR)/src/%/COMMON.o: OPTFLAGS      := -O0
+$(BUILD_DIR)/src/%/COMMON.o: DBGFLAGS      := -ggdb
+
+$(BUILD_DIR)/src/%/scommon.o: CC            := $(GCC)
+$(BUILD_DIR)/src/%/scommon.o: CFLAGS        := $(MODERN_CFLAGS)
+$(BUILD_DIR)/src/%/scommon.o: CFLAGS_EXTRA  :=
+$(BUILD_DIR)/src/%/scommon.o: MIPS_VERSION  := -mips3
+$(BUILD_DIR)/src/%/scommon.o: OPTFLAGS      := -O0
+$(BUILD_DIR)/src/%/scommon.o: DBGFLAGS      := -ggdb
 
 $(BUILD_DIR)/asm/cn/data/main_segment/debug_menu.rodata.o: 		OUT_ENCODING := Shift-JIS
 $(BUILD_DIR)/src/main_segment/debug_menu.o:                		OUT_ENCODING := Shift-JIS

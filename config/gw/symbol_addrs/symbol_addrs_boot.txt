@@ -140,17 +140,17 @@ outcnt = 0x8001FB60; //
 
 bb = 0x8001FB68; // size:0x4
 
-hufts = 0x8001FB78; //
+hufts = 0x8001FB78; // size:0x4
 
 bytes_in = 0x8001FCCC; //
 bytes_out = 0x8001FCD0; //
 
 __osBaseTimer = 0x8001FCE0; // size:0x20
 
-d_buf = 0x8001FD10; // size:0x2000
+D_8001FB40 = 0x8001FD10; // size:0x2000
 
 window = 0x80021DB0; // type:s8
-inptr = 0x80029DB0; //
+inptr = 0x80029DB0; // size:0x4
 
 ifd = 0x80029DD0; // size:0x8
 sPiMgrCmdQueue = 0x80029DD8; //

@@ -429,24 +429,24 @@ segments:
       - [0x011A50, .rodata, libkmc/fmod]
       # end of libkmc
 
-      - { start: 0x011A60, type: .bss, vram: 0x80010E60, name: boot/boot_main }
-      - { start: 0x011A60, type: .bss, vram: 0x800151C0, name: boot/dmadata }
+      - { type: .bss, vram: 0x80010E60, name: boot/boot_main }
+      - { type: .bss, vram: 0x800151C0, name: boot/dmadata }
 
-      - { start: 0x011A60, type: .bss, vram: 0x800151E0, name: gzip/inflate }
+      - { type: .bss, vram: 0x800151E0, name: gzip/inflate }
 
       # Start of libultra
-      - { start: 0x011A60, type: .bss, vram: 0x800191E0, name: ../lib/ultralib/src/io/pimgr }
-      - { start: 0x011A60, type: .bss, vram: 0x8001A3B0, name: ../lib/ultralib/src/io/piacs }
-      - { start: 0x011A60, type: .bss, vram: 0x8001A3C0, name: ../lib/ultralib/src/io/sptask }
-      - { start: 0x011A60, type: .bss, vram: 0x8001A400, name: ../lib/ultralib/src/io/siacs }
-      - { start: 0x011A60, type: .bss, vram: 0x8001A410, name: ../lib/ultralib/src/io/vimgr }
+      - { type: .bss, vram: 0x800191E0, name: ../lib/ultralib/src/io/pimgr }
+      - { type: .bss, vram: 0x8001A3B0, name: ../lib/ultralib/src/io/piacs }
+      - { type: .bss, vram: 0x8001A3C0, name: ../lib/ultralib/src/io/sptask }
+      - { type: .bss, vram: 0x8001A400, name: ../lib/ultralib/src/io/siacs }
+      - { type: .bss, vram: 0x8001A410, name: ../lib/ultralib/src/io/vimgr }
       # end of libultra
 
       # libkmc
-      - { start: 0x011A60, type: .bss, vram: 0x8001B630, name: libkmc/rand }
+      - { type: .bss, vram: 0x8001B630, name: libkmc/rand }
       # end of libkmc
 
-      - { start: 0x011A60, type: bss, vram: 0x8001B640, name: boot/8001B640 }
+      - { type: .bss, vram: 0x8001B640, name: boot/COMMON }
 
   - name: dma_table
     type: code
