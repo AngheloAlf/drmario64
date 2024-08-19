@@ -1,5 +1,5 @@
-#ifndef _000280_H
-#define _000280_H
+#ifndef NNSCHED_H
+#define NNSCHED_H
 
 #include "libultra.h"
 #include "PR/sched.h"
@@ -139,9 +139,7 @@ extern NNScPerf nnsc_perf[NN_SC_PERF_NUM];
 #endif
 
 extern STACK(nnScStack, NN_SC_STACKSIZE);
-
 extern STACK(nnScAudioStack, NN_SC_STACKSIZE);
-
 extern STACK(nnScGraphicsStack, NN_SC_STACKSIZE);
 
 #endif

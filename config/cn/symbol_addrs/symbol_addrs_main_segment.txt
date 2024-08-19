@@ -2132,7 +2132,7 @@ gspS2DEX_fifoDataStart = 0x800C9E00; // size:0x3C0 name_end:gspS2DEX_fifoDataEnd
 
 B_800CA1C0_cn = 0x800CA1C0; //
 aiRootP = 0x800CA1C4; //
-aiWall = 0x800CA1C8; //
+aiWall = 0x800CA1C8; // size:0x1
 gfx_msg_no = 0x800CA1CA; // size:0x2
 success = 0x800CA1CC; // size:0x1
 attack_sprite_idx = 0x800CA1D0; // size:0x4
@@ -2190,7 +2190,7 @@ joygmf = 0x800CA2A0; // size:0x4
 aiGoalY = 0x800CA2A4; //
 aipn = 0x800CA2A6; // size:0x1
 evs_select_name_no = 0x800CA2A8; //
-aiSelSpeed = 0x800CA2AA; //
+aiSelSpeed = 0x800CA2AA; // size:0x1
 sched_gfxMQ = 0x800CA2AC; //
 gAudio_800FAF98 = 0x800CA2B0; //
 aiHiEraseCtr = 0x800CA2B4; // size:0x2

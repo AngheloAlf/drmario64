@@ -3,10 +3,10 @@
 
 #include "alignment.h"
 
-#if VERSION_CN
-#define STACK_ALIGNMENT 8
-#else
+#if VERSION_US || VERSION_GW || MODDING
 #define STACK_ALIGNMENT 16
+#else // VERSION_GW
+#define STACK_ALIGNMENT 8
 #endif
 
 #define STACK(stack, size) \

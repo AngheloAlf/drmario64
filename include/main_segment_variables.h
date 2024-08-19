@@ -69,7 +69,7 @@ extern u8 evs_playmax; /* Original name: evs_playmax */
 extern Mtx *pObjectMtx;
 extern s32 evs_default_name[];
 extern u16 joycur2; /* Original name: joycur2 */
-extern STACK(sGraphicStack, 0x2000);
+
 // extern UNK_TYPE aiHiErB;
 // extern UNK_TYPE aiPriOfs;
 // extern UNK_TYPE aiRollFinal;
@@ -129,13 +129,13 @@ extern u8 aipn;
 // extern UNK_TYPE B_800FAE70;
 // extern UNK_TYPE B_800FAE74;
 extern u8 evs_select_name_no[2];
-extern OSScTask B_800FAE80[];
+extern OSScTask B_800FAE80[/*GTASK_NO_MAX*/];
 extern u16 gControllerPressedButtons[MAXCONTROLLERS+1]; /* Original name: joyupd */
 extern s8 aiSelSpeed;
 extern OSMesgQueue *sched_gfxMQ;
 
 // extern UNK_TYPE aiHiEraseCtr;
-extern STACK(dram_stack, 0x400); // dram_stack?
+extern STACK(dram_stack, 0x400);
 extern u8 aiMoveSF; // maybe bool?
 extern u32 evs_game_time;
 // extern UNK_TYPE attack_effect;

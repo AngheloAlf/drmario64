@@ -57,6 +57,8 @@ Vp vp = { { { 0x280, 0x1E0, 0x1FF, 0 }, { 0x280, 0x1E0, 0x1FF, 0 } } };
  */
 s32 rdpinit_flag_161 = 1;
 
+STACK(sGraphicStack, GRAPHIC_STACK_SIZE);
+
 /**
  * Original name: gfxInit
  *

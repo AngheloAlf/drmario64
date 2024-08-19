@@ -2531,7 +2531,7 @@ extra_samples = 0x800EAA0C; //
 
 B_800CA1C0_cn = 0x800EAA10; //
 aiRootP = 0x800EAA14; // type:f32
-aiWall = 0x800EAA18; // type:u8
+aiWall = 0x800EAA18; // size:0x1
 gfx_msg_no = 0x800EAA1A; // size:0x2
 ai_char_data = 0x800EAA20; // size:0x6C0
 success = 0x800EB0E0; // size:0x1
@@ -2631,7 +2631,7 @@ gReverbFx = 0x800FC468; // size:0x28
 evs_select_name_no = 0x800FC490; // size:0x2
 B_800FAE80 = 0x800FC498; //
 gControllerPressedButtons = 0x800FC5A0; // size:0xA
-aiSelSpeed = 0x800FC5AA; // type:s8
+aiSelSpeed = 0x800FC5AA; // size:0x1
 sched_gfxMQ = 0x800FC5AC; //
 gAudio_800FAF98 = 0x800FC5B0; //
 aiHiEraseCtr = 0x800FC5B4; // size:0x2

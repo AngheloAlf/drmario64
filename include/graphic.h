@@ -3,8 +3,12 @@
 
 #include "libultra.h"
 
+#include "stack.h"
+
 struct OSScTask_s;
 struct NNSched;
+
+#define GRAPHIC_STACK_SIZE 0x2000
 
 #define GTASK_NO_MAX 3
 
@@ -52,5 +56,9 @@ extern Gfx D_800883A8[];
 
 // bss
 extern u32 gfx_gtask_no;
+
+#if DECLARE_COMMON_SYMS
+extern STACK(sGraphicStack, GRAPHIC_STACK_SIZE);
+#endif
 
 #endif

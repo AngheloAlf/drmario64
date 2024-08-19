@@ -549,7 +549,8 @@ segments:
       - { path: src/rsp/f3dex2.o,   include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
       - { path: src/rsp/s2dex.o,    include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
 
-      - { path: "asm/{version}/data/main_segment/COMMON.bss.o", include_if_any: [[version, us]] }
+      - { path: src/main_segment/COMMON.o }
+      # - { path: "asm/{version}/data/main_segment/COMMON.bss.o", include_if_any: [[version, us]] }
       - { path: "asm/{version}/data/main_segment/COMMON.bss.o", include_if_any: [[version, gw]] }
       - { path: "asm/{version}/data/main_segment/COMMON.bss.o", include_if_any: [[version, cn]] }
 
