@@ -11,17 +11,27 @@
 #include "nnsched.h"
 #include "record.h"
 
-#if VERSION_US
+#if VERSION_GW
+u8 B_800CA1C0_cn[0x4] BSS; // TODO
+#endif
+
+#if VERSION_US || VERSION_GW
 u8 aiRootP[0x04] BSS; // TODO
 
 u8 aiWall BSS; // TODO
 
 s16 gfx_msg_no BSS; // TODO
 
+#if VERSION_US
 /* Automatically generated and unreferenced pad */
 u8 D_800E9BB8[0x08] BSS; // TODO
+#endif
+#if VERSION_GW
+/* Automatically generated and unreferenced pad */
+u8 D_800EAA1C[0x4] BSS; // TODO
+#endif
 
-struct_ai_char_data ai_char_data[AI_CHAR_DATA_LEN] BSS; // TODO
+struct_ai_char_data ai_char_data[AI_CHAR_DATA_LEN] ALIGNED(0x10) BSS; // TODO
 
 u8 success BSS; // TODO
 
@@ -34,6 +44,10 @@ s32 attack_sprite_idx BSS; // TODO
 u8 D_800EA288[0x08] BSS; // TODO
 
 u8 sBgTasksManager_Manager[0x1248] BSS; // TODO
+
+#if VERSION_GW
+u8 B_801020E8_cn[0x300] BSS; // TODO
+#endif
 
 u8 B_800EB4D8[0x18] BSS; // TODO
 
@@ -62,6 +76,10 @@ u8 hei_data[0x0A] ALIGNED(ALIGNOF(u8)) BSS; // TODO
 u8 D_800EBD0C[0x04] BSS; // TODO
 
 u8 PlayTime[0x04] BSS; // TODO
+
+#if VERSION_GW
+u8 B_800CA1F0_cn[0x4] BSS; // TODO
+#endif
 
 u8 aiNext[0x02] BSS; // TODO
 
@@ -134,6 +152,13 @@ STACK(sGraphicStack, GRAPHIC_STACK_SIZE) BSS; // TODO
 
 s16 aiHiErB BSS; // TODO
 
+#if VERSION_GW
+/* Automatically generated and unreferenced pad */
+u8 D_800F4F92[0x0E] ALIGNED(ALIGNOF(u8)) BSS; // TODO
+
+NNScPerf nnsc_perf[NN_SC_PERF_NUM] BSS; // TODO
+#endif
+
 u16 aiPriOfs BSS; // TODO
 
 u8 aiRollFinal BSS; // TODO
@@ -141,13 +166,17 @@ u8 aiRollFinal BSS; // TODO
 /* Automatically generated and unreferenced pad */
 // u8 D_800F3E35[0x03] BSS; // TODO
 
-OSMesgQueue B_800F3E38 BSS; // TODO
+OSMesgQueue B_800F3E38 ALIGNED(8) BSS; // TODO
 
 u8 watchGame[0x04] BSS; // TODO
 
 u8 aiFlagCnt BSS; // TODO
 
 u16 aiGoalX BSS; // TODO
+
+#if VERSION_GW
+NNScPerf *nnsc_perf_ptr BSS; // TODO
+#endif
 
 /* Automatically generated and unreferenced pad */
 u8 D_800F3E58[0x04] BSS; // TODO
@@ -164,8 +193,20 @@ u8 link_joy[0x04] BSS; // TODO
 
 u8 aiHiErY[0x02] BSS; // TODO
 
+#if VERSION_US
 /* Automatically generated and unreferenced pad */
 u8 D_800F3E7E[0x12] ALIGNED(ALIGNOF(u8)) BSS; // TODO
+#endif
+
+#if VERSION_GW
+/* Automatically generated and unreferenced pad */
+u8 D_800F5452[0x06] ALIGNED(ALIGNOF(u8)) BSS; // TODO
+
+u8 B_8010B140_cn[0x40] BSS; // TODO
+
+/* Automatically generated and unreferenced pad */
+u8 D_800F5498[0x08] ALIGNED(ALIGNOF(u8)) BSS; // TODO
+#endif
 
 struct_attack_sprite attack_sprite[0x80] BSS; // TODO
 
@@ -191,10 +232,16 @@ u8 joycur[0x0A] BSS; // TODO
 
 struct_ai_param ai_param[AI_PARAM_LEN1][AI_PARAM_LEN2] BSS; // TODO
 
+#if VERSION_GW
+u8 B_800CA26C_cn[0x4] BSS; // TODO
+#endif
+
 u8 MissRate[0x04] BSS; // TODO
 
+#if VERSION_US
 /* Automatically generated and unreferenced pad */
 u8 D_800F5354[0x04] BSS; // TODO
+#endif
 
 u8 B_800F5358[0x10] BSS; // TODO
 
@@ -220,6 +267,10 @@ u8 virus_map_disp_order[4][VIRUS_MAP_DISP_ORDER_LEN] BSS; // TODO
 
 struct_evs_cfg_4p evs_cfg_4p BSS; // TODO
 
+#if VERSION_GW
+s8 B_800CA281_cn BSS; // TODO
+#endif
+
 /* Automatically generated and unreferenced pad */
 // u8 D_800F7486[0x02] BSS; // TODO
 
@@ -243,9 +294,21 @@ u8 sound_song_id[0x48] BSS; // TODO
 
 u8 aiHiErR[0x04] BSS; // TODO
 
+#if VERSION_GW
+u8 B_800CA290_cn[0x4] BSS; // TODO
+#endif
+
 u32 gfx_gtask_no BSS; // TODO
 
+#if VERSION_GW
+NNScPerf *nnsc_perf_inptr BSS; // TODO
+#endif
+
 u8 aiSelCom BSS; // TODO
+
+#if VERSION_GW
+u8 B_800CA29B_cn BSS; // TODO
+#endif
 
 u8 joygmf[0x04] ALIGNED(ALIGNOF(u8)) BSS; // TODO
 
@@ -309,4 +372,8 @@ u8 evs_gamemode[0x04] BSS; // TODO
 u8 D_801236F4[0x0C] BSS; // TODO
 
 u8 game_state_data[0xF10] BSS; // TODO
+#endif
+
+#if VERSION_GW
+u8 B_800CA2C0_cn[2] BSS; // TODO
 #endif

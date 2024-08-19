@@ -551,7 +551,7 @@ segments:
 
       - { path: src/main_segment/COMMON.o }
       # - { path: "asm/{version}/data/main_segment/COMMON.bss.o", include_if_any: [[version, us]] }
-      - { path: "asm/{version}/data/main_segment/COMMON.bss.o", include_if_any: [[version, gw]] }
+      # - { path: "asm/{version}/data/main_segment/COMMON.bss.o", include_if_any: [[version, gw]] }
       - { path: "asm/{version}/data/main_segment/COMMON.bss.o", include_if_any: [[version, cn]] }
 
   - name: buffer1
