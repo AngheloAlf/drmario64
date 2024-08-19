@@ -68,7 +68,7 @@ typedef struct NNSched {
     /* 0x670 */ OSScTask *curAudioTask; /* Original name: curAudioTask */
     /* 0x674 */ OSScTask *graphicsTaskSuspended; /* Original name: graphicsTaskSuspended */
     /* 0x678 */ bool firstTime; /* Original name: firstTime */
-} NNSched; // size = 0x67C
+} NNSched; // size = 0x680
 
 #ifdef NN_SC_PERF
 /**

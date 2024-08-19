@@ -20,4 +20,9 @@ typedef enum enum_main_no {
 
 void mainproc(void *arg);
 
+#if DECLARE_COMMON_SYMS
+struct NNSched;
+extern struct NNSched B_800EB670;
+#endif
+
 #endif
