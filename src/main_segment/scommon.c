@@ -28,7 +28,7 @@ u8 D_800E9BB8[0x08] BSS; // TODO
 #endif
 #if VERSION_GW || VERSION_CN
 /* Automatically generated and unreferenced pad */
-u8 D_800EAA1C[0x4] BSS; // TODO
+//u8 D_800EAA1C[0x4] BSS; // TODO
 #endif
 
 
@@ -41,9 +41,10 @@ u8 success BSS; // TODO
 
 s32 attack_sprite_idx BSS; // TODO
 
+#if VERSION_US || VERSION_GW
 /* Automatically generated and unreferenced pad */
-u8 D_800EA288[0x08] BSS; // TODO
-
+// u8 D_800EA288[0x08] BSS; // TODO
+#endif
 
 
 
@@ -57,13 +58,15 @@ u8 _menuMain_lastDepth[0x04] BSS; // TODO
 
 u8 aiTEdgeCnt BSS; // TODO
 
+#if VERSION_US || VERSION_GW
 /* Automatically generated and unreferenced pad */
-u8 D_800EB660[0xF] ALIGNED(ALIGNOF(u8)) BSS; // TODO
+// u8 D_800EB660[0xF] ALIGNED(ALIGNOF(u8)) BSS; // TODO
 
 
 
 /* Automatically generated and unreferenced pad */
-u8 D_800EBCEC[0x04] BSS; // TODO
+// u8 D_800EBCEC[0x04] BSS; // TODO
+#endif
 
 u8 main_no[0x04] BSS; // TODO
 
@@ -83,7 +86,7 @@ u8 B_800CA1F0_cn[0x4] BSS; // TODO
 
 u8 aiNext[0x02] BSS; // TODO
 
-u8 main_joy[0x04] ALIGNED(ALIGNOF(u8)) BSS; // TODO
+u8 main_joy[0x04] BSS; // TODO
 
 
 
@@ -113,9 +116,10 @@ u8 decide BSS; // TODO
 
 u8 evs_gamesel[0x04] BSS; // TODO
 
+#if VERSION_US || VERSION_GW
 /* Automatically generated and unreferenced pad */
-u8 D_800EFCD4[0x0C] BSS; // TODO
-
+// u8 D_800EFCD4[0x0C] BSS; // TODO
+#endif
 
 
 
@@ -131,8 +135,10 @@ u8 evs_playmax BSS; // TODO
 
 u8 pObjectMtx[0x04] BSS; // TODO
 
+#if VERSION_US || VERSION_GW
 /* Automatically generated and unreferenced pad */
-u8 D_800F1DFC[0x04] BSS; // TODO
+// u8 D_800F1DFC[0x04] BSS; // TODO
+#endif
 
 
 
@@ -185,10 +191,10 @@ u8 aiHiErY[0x02] BSS; // TODO
 
 
 
+u32 D_800CA24C_cn BSS; // TODO
 
 
-
-u8 watchManual[0x04] BSS; // TODO
+u32 watchManual BSS; // TODO
 
 u8 aiRootCnt[0x01] BSS; // TODO
 
@@ -226,8 +232,10 @@ u8 joyflg[0x08] BSS; // TODO
 
 u8 aiYEdgeCnt BSS; // TODO
 
+#if VERSION_US || VERSION_GW
 /* Automatically generated and unreferenced pad */
-u8 D_800F6CE1[0x0F] ALIGNED(ALIGNOF(u8)) BSS; // TODO
+// u8 D_800F6CE1[0x0F] ALIGNED(ALIGNOF(u8)) BSS; // TODO
+#endif
 
 
 
@@ -275,7 +283,7 @@ u8 aiSelCom BSS; // TODO
 u8 B_800CA29B_cn BSS; // TODO
 #endif
 
-u8 joygmf[0x04] ALIGNED(ALIGNOF(u8)) BSS; // TODO
+u8 joygmf[0x04] BSS; // TODO
 
 /* Automatically generated and unreferenced pad */
 // u8 D_800FAD35[0x01] BSS; // TODO
@@ -284,8 +292,10 @@ u16 aiGoalY BSS; // TODO
 
 u8 aipn BSS; // TODO
 
+#if VERSION_US || VERSION_GW
 /* Automatically generated and unreferenced pad */
-u8 D_800FAD39[0x07] ALIGNED(ALIGNOF(u8)) BSS; // TODO
+// u8 D_800FAD39[0x07] ALIGNED(ALIGNOF(u8)) BSS; // TODO
+#endif
 
 
 
@@ -334,8 +344,10 @@ u32 evs_game_time BSS; // TODO
 
 
 
+#if VERSION_US || VERSION_GW
 /* Automatically generated and unreferenced pad */
-u8 D_800FB668[0x08] BSS; // TODO
+// u8 D_800FB668[0x08] BSS; // TODO
+#endif
 
 
 
@@ -346,8 +358,10 @@ u8 D_800FB668[0x08] BSS; // TODO
 
 u8 evs_gamemode[0x04] BSS; // TODO
 
+#if VERSION_US || VERSION_GW
 /* Automatically generated and unreferenced pad */
-u8 D_801236F4[0x0C] BSS; // TODO
+// u8 D_801236F4[0x0C] BSS; // TODO
+#endif
 
 
 

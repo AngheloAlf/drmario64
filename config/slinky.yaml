@@ -485,7 +485,7 @@ segments:
 
   - name: main_segment
     files:
-      - { path: "asm/{version}/data/main_segment/scommon.bss.o", include_if_any: [[version, cn]] }
+      - { path: src/main_segment/scommon.o }
 
       - { path: src/main_segment/main.o }
       - { path: src/main_segment/nnsched.o }
