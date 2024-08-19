@@ -3,11 +3,12 @@
  */
 #include "static.h"
 
-#include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "unk.h"
 #include "main_segment_variables.h"
+
+#include "graphic.h"
 
 Gfx S2RDPinit_dl[] = {
     gsDPPipeSync(),

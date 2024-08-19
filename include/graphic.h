@@ -2,13 +2,17 @@
 #define GRAPHIC_H
 
 #include "libultra.h"
+#include "PR/sched.h"
 
 #include "stack.h"
 
-struct OSScTask_s;
 struct NNSched;
+struct NNScClient;
 
 #define GRAPHIC_STACK_SIZE 0x2000
+#define RDP_OUTPUT_SIZE 0x10000
+#define DRAM_STACK_SIZE 0x400
+#define GFXYIELDBUF_SIZE 0xC00
 
 #define GTASK_NO_MAX 3
 
@@ -31,7 +35,7 @@ void func_8002B728(void);
 void func_8002B754(void);
 void gfxCreateGraphicThread(struct NNSched *sc);
 s16 gfxWaitMessage(void);
-void gfxTaskStart(struct OSScTask_s *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags);
+void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags);
 void F3RCPinitRtn(void);
 void F3ClearFZRtn(u8 arg0);
 void S2RDPinitRtn(u8 arg0);
@@ -54,11 +58,22 @@ extern Gfx F3SetupRSP_dl[];
 extern Gfx D_80088360[];
 extern Gfx D_800883A8[];
 
-// bss
-extern u32 gfx_gtask_no;
+// COMMON
 
-#if DECLARE_COMMON_SYMS
 extern STACK(sGraphicStack, GRAPHIC_STACK_SIZE);
-#endif
+extern STACK(rdp_output, RDP_OUTPUT_SIZE);
+extern STACK(dram_stack, DRAM_STACK_SIZE);
+extern STACK(gfxYieldBuf, GFXYIELDBUF_SIZE);
+extern u32 gfx_gtask_no;
+extern struct NNScClient gfx_client;
+extern Gfx *gGfxHead;
+extern Gfx gGfxGlist[GTASK_NO_MAX][0x1000];
+extern OSScTask B_800FAE80[GTASK_NO_MAX];
+extern s16 gfx_msg;
+extern s16 gfx_msg_no;
+extern OSMesgQueue gfx_msgQ;
+extern OSMesg gfx_msgbuf[8];
+extern OSMesgQueue *sched_gfxMQ;
+extern OSThread gfxThread;
 
 #endif

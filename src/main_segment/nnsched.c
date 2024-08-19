@@ -9,6 +9,10 @@
 #include "macros_defines.h"
 #include "dm_thread.h"
 
+STACK(nnScStack, NN_SC_STACKSIZE);
+STACK(nnScAudioStack, NN_SC_STACKSIZE);
+STACK(nnScGraphicsStack, NN_SC_STACKSIZE);
+
 /**
  * Original name: framecont
  */

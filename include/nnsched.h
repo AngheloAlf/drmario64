@@ -138,6 +138,8 @@ extern NNScPerf *nnsc_perf_inptr;
 extern NNScPerf nnsc_perf[NN_SC_PERF_NUM];
 #endif
 
+// COMMON
+
 extern STACK(nnScStack, NN_SC_STACKSIZE);
 extern STACK(nnScAudioStack, NN_SC_STACKSIZE);
 extern STACK(nnScGraphicsStack, NN_SC_STACKSIZE);

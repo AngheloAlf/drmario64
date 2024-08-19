@@ -341,6 +341,15 @@ typedef struct struct_game_state_data {
     /* 0x3C2 */ UNK_TYPE1 unk_3C2[0x2];
 } struct_game_state_data; // size = 0x3C4
 
+// GameStateBackup?
+typedef struct struct_gameBackup {
+    /* 0x0000 */ struct_watchGame unk_0000;
+    /* 0x0B60 */ struct_game_state_data unk_0B60[4];
+    /* 0x1A70 */ GameMapCell unk_1A70[4][GAME_MAP_ROWS * GAME_MAP_COLUMNS];
+    /* 0x2FB0 */ s32 highScore;
+    /* 0x2FB4 */ s32 gameTime;
+} struct_gameBackup; // size = 0x2FB8
+
 UNK_TYPE func_800601F0(struct_game_state_data *gameStateDataRef, s32 arg1);
 void func_80060270(struct_game_state_data * gameStateDataRef, UNK_TYPE arg1);
 UNK_TYPE dm_make_score(struct_game_state_data *arg0);
@@ -530,6 +539,13 @@ extern u8 D_800A7360[];
 extern u8 tbl_4589[];
 extern Color_RGBA8 col_4590[];
 
+// COMMON
+
 extern struct_gameGeom *gameGeom;
+extern struct_game_state_data game_state_data[4];
+extern struct_watchGame *watchGame;
+extern enum_evs_gamemode evs_gamemode;
+extern u8 CapsMagazine[0x100];
+extern struct_gameBackup *gameBackup[2];
 
 #endif

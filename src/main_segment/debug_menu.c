@@ -6,12 +6,14 @@
 
 #include "debug_menu.h"
 
-#include "screen_print/debug_print.h"
 #include "util.h"
 #include "macros_defines.h"
 #include "main_segment_variables.h"
-#include "main1x.h"
+
 #include "aiset.h"
+#include "joy.h"
+#include "main1x.h"
+#include "screen_print/debug_print.h"
 
 static s32 B_800E58B0;
 static s32 B_800E58B4;

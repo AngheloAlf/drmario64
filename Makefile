@@ -172,7 +172,7 @@ ABIFLAG         ?= -mabi=32 -mgp32 -mfp32
 CFLAGS          += -nostdinc -fno-PIC -G 0
 CFLAGS_EXTRA    ?=
 
-MODERN_CFLAGS   ?= -G 0 -nostdinc -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -fno-zero-initialized-in-bss -fno-toplevel-reorder
+MODERN_CFLAGS   ?= -G 0 -nostdinc -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -fno-zero-initialized-in-bss -fno-toplevel-reorder -std=gnu89
 
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -mabi=32 -G0 -no-pad-sections

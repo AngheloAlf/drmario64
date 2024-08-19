@@ -140,9 +140,27 @@ extern s32 tbl_2973[];
 extern struct_ai_param ai_param_org[AI_PARAM_LEN1][AI_PARAM_LEN2];
 extern struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN];
 
-// bss
+// COMMON
+
+#define HEI_WEI_DATA_LEN 10
 
 extern struct_ai_char_data ai_char_data[AI_CHAR_DATA_LEN];
 extern struct_ai_param ai_param[AI_PARAM_LEN1][AI_PARAM_LEN2];
+
+extern f32 aiRootP;
+extern u8 aiRollFinal;
+extern u8 aiSelCom;
+extern u8 aiWall;
+extern u8 hei_data[HEI_WEI_DATA_LEN];
+extern u8 wid_data[HEI_WEI_DATA_LEN];
+extern s16 aiHiErB;
+extern u16 aiPriOfs;
+extern s16 aiHiErY;
+extern s16 aiHiErR;
+extern u16 aiHiEraseCtr;
+extern bool fool_mode;
+extern bool s_hard_mode;
+extern u32 PlayTime;
+extern s32 MissRate;
 
 #endif

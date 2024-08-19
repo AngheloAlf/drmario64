@@ -46,7 +46,7 @@ typedef struct struct_g_etc_work {
 } struct_g_etc_work; // size = 0xF0
 
 
-// bss
+// COMMON
 
 extern s32 attack_effect_idx;
 extern struct_attack_effect attack_effect[0x10];

@@ -24,6 +24,16 @@
 NNSched B_800EB670;
 
 /**
+ * Original name: main_no
+ */
+enum_main_no main_no;
+
+/**
+ * Orignal name: main_old
+ */
+enum_main_no main_old;
+
+/**
  * Original name: mainproc
  */
 void mainproc(void *arg UNUSED) {

@@ -2,13 +2,73 @@
  * Original filename: joy.c
  */
 
-#include "libultra.h"
-#include "include_asm.h"
+#include "joy.h"
+
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "main_segment_variables.h"
+
 #include "gateway.h"
 #include "nnsched.h"
+
+/**
+ * Original name: joycur
+ */
+u16 joycur[MAXCONTROLLERS+1];
+
+/**
+ * Original name: joyupd
+ */
+u16 gControllerPressedButtons[MAXCONTROLLERS+1];
+
+u16 gControllerPrevHoldButtons[MAXCONTROLLERS+1];
+
+u16 gControllerHoldButtons[MAXCONTROLLERS+1];
+
+/**
+ * Original name: joycnt
+ */
+u16 joycnt[MAXCONTROLLERS][0x10];
+
+/**
+ * Original name: joyflg
+ */
+u16 joyflg[MAXCONTROLLERS];
+
+/**
+ * Original name: joygam
+ */
+u16 joygam[MAXCONTROLLERS];
+
+/**
+ * Original name: joygmf
+ */
+u8 joygmf[MAXCONTROLLERS];
+
+/**
+ * Original name: link_joy
+ */
+u8 link_joy[MAXCONTROLLERS];
+
+/**
+ * Original name: main_joy
+ */
+u8 main_joy[MAXCONTROLLERS];
+
+/**
+ * Original name: joycur1
+ */
+u16 joycur1;
+
+/**
+ * Original name: joycur2
+ */
+u16 joycur2;
+
+OSContStatus B_800F5358[4];
+OSMesgQueue B_800F3E38;
+OSMesg B_800F3E60[1];
+OSContPad B_800EB4D8[MAXCONTROLLERS];
 
 /**
  * Original filename: joyInit

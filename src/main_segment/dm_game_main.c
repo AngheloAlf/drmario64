@@ -4,10 +4,10 @@
 
 #include "dm_game_main.h"
 
-#include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "main_segment_variables.h"
+
 #include "util.h"
 #include "gcc/memory.h"
 #include "rom_offsets.h"
@@ -34,12 +34,59 @@
 #include "dm_thread.h"
 
 #if VERSION_US || VERSION_GW || CC_CHECK
-// The compiler needs to not see the declared functions to match the cn version
-#include "joy.h"
+#else
+#define AVOID_JOY_FUNCTIONS 1
 #endif
+#include "joy.h"
+
 #if VERSION_CN && !CC_CHECK
 void joyCursorFastSet(u16 mask, u8 index);
 #endif
+
+/**
+ * Original name: gameGeom
+ */
+struct_gameGeom *gameGeom;
+
+/**
+ * Original name: game_state_data
+ */
+struct_game_state_data game_state_data[4];
+
+/**
+ * Original name: game_map_data
+ */
+GameMapCell game_map_data[4][GAME_MAP_ROWS * GAME_MAP_COLUMNS];
+
+/**
+ * Original name: virus_map_data
+ */
+struct_virus_map_data virus_map_data[4][16*8]; // 16 << 3?
+
+/**
+ * Original name: virus_map_disp_order
+ */
+u8 virus_map_disp_order[4][VIRUS_MAP_DISP_ORDER_LEN];
+
+/**
+ * Original name: watchGame
+ */
+struct_watchGame *watchGame;
+
+/**
+ * Original name: evs_gamemode
+ */
+enum_evs_gamemode evs_gamemode;
+
+/**
+ * Original name: CapsMagazine
+ */
+u8 CapsMagazine[0x100];
+
+/**
+ * Original name: gameBackup
+ */
+struct_gameBackup *gameBackup[2];
 
 /**
  * Original name: heapTop
@@ -6549,14 +6596,14 @@ void dm_game_init(bool arg0) {
 
     func_80062920();
     aifGameInit();
-    s_hard_mode = 0;
-    fool_mode = 0;
+    s_hard_mode = false;
+    fool_mode = false;
 
     if (evs_story_level == 3) {
         if (evs_story_no == 7) {
-            fool_mode = 1;
+            fool_mode = true;
         } else {
-            s_hard_mode = 1;
+            s_hard_mode = true;
         }
     }
 }

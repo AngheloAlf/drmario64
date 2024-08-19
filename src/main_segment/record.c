@@ -3,13 +3,14 @@
  */
 
 #include "record.h"
-#include "include_asm.h"
+
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "main_segment_variables.h"
+
 #include "recwritingmsg.h"
 #include "main_menu.h"
 #include "main1x.h"
+#include "joy.h"
 #include "tex_func.h"
 #include "libc/assert.h"
 #include "font.h"
@@ -17,6 +18,8 @@
 #if VERSION_US || CC_CHECK
 #include "audio/sound.h"
 #endif
+
+struct_evs_mem_data evs_mem_data[9];
 
 /**
  * Original name: _cache_1333

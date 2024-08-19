@@ -2603,7 +2603,7 @@ __libmus_alglobals = 0x800F8C90; // size:0x4C
 nnScAudioStack = 0x800F8CE0; // size:0x2000
 
 sound_song_id = 0x800FACE0; //
-aiHiErR = 0x800FAD28; //
+aiHiErR = 0x800FAD28; // size:0x2
 gfx_gtask_no = 0x800FAD2C; //
 aiSelCom = 0x800FAD30; //
 joygmf = 0x800FAD31; // size:0x4

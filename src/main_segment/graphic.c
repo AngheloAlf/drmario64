@@ -5,11 +5,13 @@
  */
 
 #include "graphic.h"
+
 #include "macros_defines.h"
 #include "unknown_structs.h"
-#include "boot_main.h"
-#include "include_asm.h"
 #include "main_segment_variables.h"
+
+#include "boot_main.h"
+
 #include "audio/sound.h"
 #include "buffers.h"
 #include "gs2dex.h"
@@ -20,7 +22,70 @@
 #include "nnsched.h"
 #include "dm_title_main.h"
 
-extern NNScClient gfx_client;
+STACK(sGraphicStack, GRAPHIC_STACK_SIZE);
+
+/**
+ * Original name: rdp_output
+ */
+STACK(rdp_output, RDP_OUTPUT_SIZE);
+
+STACK(dram_stack, DRAM_STACK_SIZE);
+
+STACK(gfxYieldBuf, GFXYIELDBUF_SIZE);
+
+/**
+ * Original name: gfx_gtask_no
+ */
+u32 gfx_gtask_no;
+
+/**
+ * Original name: gfx_client
+ */
+NNScClient gfx_client;
+
+/**
+ * Original name: gp
+ *
+ * main display list head
+ */
+Gfx *gGfxHead;
+
+/**
+ * Original name: gfx_glist
+ */
+Gfx gGfxGlist[GTASK_NO_MAX][0x1000];
+
+OSScTask B_800FAE80[GTASK_NO_MAX];
+
+/**
+ * Original name: gfx_msg
+ */
+s16 gfx_msg;
+
+/**
+ * Original name: gfx_msg_no
+ */
+s16 gfx_msg_no;
+
+/**
+ * Original name: gfx_msgQ
+ */
+OSMesgQueue gfx_msgQ;
+
+/**
+ * Original name: gfx_msgbuf
+ */
+OSMesg gfx_msgbuf[8];
+
+/**
+ * Original name: sched_gfxMQ
+ */
+OSMesgQueue *sched_gfxMQ;
+
+/**
+ * Original name: gfxThread
+ */
+OSThread gfxThread;
 
 /**
  * Original name: gfx_ucode
