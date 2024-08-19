@@ -583,7 +583,7 @@ segments:
       - { start: 0x0B1710, type: databin, use_src_path: True, linker_section_order: .rodata, name: rsp/f3dex2 }
       - { start: 0x0B1B30, type: databin, use_src_path: True, linker_section_order: .rodata, name: rsp/s2dex }
 
-      - { type: bss, vram: 0x800CA1C0, name: main_segment/800CA1C0 }
+      - { type: bss, vram: 0x800CA1C0, name: main_segment/scommon }
 
       - { type: .bss, vram: 0x800CA2D0, name: main_segment/audio/sound }
 
@@ -611,7 +611,7 @@ segments:
       - { type: .bss, vram: 0x801007C0, name: ../lib/libmus/src/lib_memory }
       - { type: .bss, vram: 0x801007D0, name: ../lib/libmus/src/aud_samples }
 
-      - { type: bss, vram: 0x801007E0, name: main_segment/801007E0 }
+      - { type: bss, vram: 0x801007E0, name: main_segment/COMMON }
 
   - name: buffer1
     type: code

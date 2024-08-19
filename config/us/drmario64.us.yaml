@@ -684,7 +684,7 @@ segments:
       - { type: .bss, vram: 0x800E9B90, name: ../lib/libmus/src/lib_memory }
       - { type: .bss, vram: 0x800E9BA0, name: ../lib/libmus/src/aud_samples }
 
-      - { type: bss, vram: 0x800E9BB0, name: main_segment/800E9BB0 }
+      - { type: bss, vram: 0x800E9BB0, name: main_segment/COMMON }
 
   - name: buffer1
     type: code
