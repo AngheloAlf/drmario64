@@ -63,11 +63,6 @@ typedef struct Unk_AIFEntry {
     /* 0x1 */ u8 unk_1;
 } Unk_AIFEntry; // size = 0x2
 
-extern Unk_AIFEntry aiRecurData[GAME_MAP_ROWS+1][GAME_MAP_COLUMNS+2];
-extern Unk_AIFEntry aiFieldData[GAME_MAP_ROWS][GAME_MAP_COLUMNS];
-
-extern Unk_AIFEntry aif_field[GAME_MAP_ROWS][GAME_MAP_COLUMNS];
-
 void func_8002EB00(struct struct_game_state_data *gameStateDataRef);
 void aifMakeBlkWork(struct struct_game_state_data *gameStateDataRef);
 #if VERSION_US || VERSION_GW || CC_CHECK
@@ -142,10 +137,16 @@ extern struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN];
 
 // COMMON
 
+// TODO: consider moving the `ai*` variables to `ai.h` or merge that header with this one.
+
 #define HEI_WEI_DATA_LEN 10
 
 extern struct_ai_char_data ai_char_data[AI_CHAR_DATA_LEN];
 extern struct_ai_param ai_param[AI_PARAM_LEN1][AI_PARAM_LEN2];
+
+extern Unk_AIFEntry aiRecurData[GAME_MAP_ROWS+1][GAME_MAP_COLUMNS+2];
+extern Unk_AIFEntry aiFieldData[GAME_MAP_ROWS][GAME_MAP_COLUMNS];
+extern Unk_AIFEntry aif_field[GAME_MAP_ROWS][GAME_MAP_COLUMNS];
 
 extern f32 aiRootP;
 extern u8 aiRollFinal;
@@ -162,5 +163,18 @@ extern bool fool_mode;
 extern bool s_hard_mode;
 extern u32 PlayTime;
 extern s32 MissRate;
+extern u8 success;
+extern u8 decide;
+extern u8 aiFlagCnt;
+extern u16 aiGoalX;
+extern u16 aiGoalY;
+extern u8 aiMoveSF; // maybe bool?
+extern u8 aiNext[2]; // maybe a struct?
+extern u8 aipn;
+extern u8 aiRootCnt;
+extern s8 aiSelSpeed;
+extern u8 aiTEdgeCnt;
+extern u8 aiYEdgeCnt;
+
 
 #endif

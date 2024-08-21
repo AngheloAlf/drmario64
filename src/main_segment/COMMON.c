@@ -272,7 +272,7 @@ struct_attack_sprite attack_sprite[0x80] BSS; // TODO
 #if VERSION_US || VERSION_GW
 struct struct_watchManual *watchManual BSS; // TODO
 
-u8 aiRootCnt[0x01] BSS; // TODO
+u8 aiRootCnt BSS; // TODO
 
 /* Automatically generated and unreferenced pad */
 // u8 D_800F4895[0x03] BSS; // TODO
@@ -411,7 +411,7 @@ OSScTask B_800FAE80[GTASK_NO_MAX] BSS; // TODO
 u16 gControllerPressedButtons[MAXCONTROLLERS+1] BSS; // TODO
 
 #if VERSION_US || VERSION_GW
-u8 aiSelSpeed BSS; // TODO
+s8 aiSelSpeed BSS; // TODO
 
 OSMesgQueue *sched_gfxMQ BSS; // TODO
 

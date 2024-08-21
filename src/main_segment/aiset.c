@@ -62,6 +62,19 @@ struct_ai_char_data ai_char_data[AI_CHAR_DATA_LEN];
 struct_ai_param ai_param[AI_PARAM_LEN1][AI_PARAM_LEN2];
 
 /**
+ * Original name: aiRecurData
+ */
+Unk_AIFEntry aiRecurData[GAME_MAP_ROWS+1][GAME_MAP_COLUMNS+2];
+/**
+ * Original name: aiFieldData
+ */
+Unk_AIFEntry aiFieldData[GAME_MAP_ROWS][GAME_MAP_COLUMNS];
+/**
+ * Original name: aif_field
+ */
+Unk_AIFEntry aif_field[GAME_MAP_ROWS][GAME_MAP_COLUMNS];
+
+/**
  * Original name: aiRootP
  */
 f32 aiRootP;
@@ -136,10 +149,84 @@ u32 PlayTime;
  */
 s32 MissRate;
 
+
+/**
+ * Original name: success
+ */
+u8 success;
+/**
+ * Original name: decide
+ */
+u8 decide;
+/**
+ * Original name: aiFlagCnt
+ */
+u8 aiFlagCnt;
+/**
+ * Original name: aiGoalX
+ */
+u16 aiGoalX;
+/**
+ * Original name: aiGoalY
+ */
+u16 aiGoalY;
+/**
+ * Original name: aiMoveSF
+ */
+u8 aiMoveSF;
+/**
+ * Original name: aiNext
+ */
+u8 aiNext[2];
+/**
+ * Original name: aipn
+ */
+u8 aipn;
+/**
+ * Original name: aiRootCnt
+ */
+u8 aiRootCnt;
+/**
+ * Original name: aiSelSpeed
+ */
+s8 aiSelSpeed;
+/**
+ * Original name: aiTEdgeCnt
+ */
+u8 aiTEdgeCnt;
+/**
+ * Original name: aiYEdgeCnt
+ */
+u8 aiYEdgeCnt;
+
+/**
+ * Original name: aiFlag
+ */
+struct_aiFlag aiFlag[AIFLAG_LEN];
+/**
+ * Original name: aiRoot
+ */
+u8 aiRoot[AIROOT_LEN][2];
+
+/**
+ * Original name: pGameState
+ */
 static struct_game_state_data *pGameState;
+/**
+ * Original name: delpos_tbl
+ */
 static s32 delpos_tbl[100];
+/**
+ * Original name: delpos_cnt
+ */
 static s32 delpos_cnt;
+/**
+ * Original name: OnVirusP_org
+ */
 static s32 OnVirusP_org;
+/**
+ * Original name: last_flash
+ */
 static s32 last_flash;
 
 // unused
@@ -3313,9 +3400,6 @@ void func_80034310(void) {
         }
     }
 }
-
-extern u8 aiTEdgeCnt;
-extern u8 aiYEdgeCnt;
 
 /**
  * Original name: aifPlaceSearch
