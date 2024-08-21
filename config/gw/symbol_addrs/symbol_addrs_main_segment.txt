@@ -2589,6 +2589,7 @@ gControllerPrevHoldButtons = 0x800F5438; // size:0xA
 wid_data = 0x800F5442; // type:u8 size:0xA
 link_joy = 0x800F544C; // type:s8
 aiHiErY = 0x800F5450; // size:0x2
+D_800F3E80 = 0x800F5454;
 B_8010B140_cn = 0x800F5458; // size:0x40
 attack_sprite = 0x800F54A0; // size:0xA00
 watchManual = 0x800F5EA0; //

@@ -93,7 +93,7 @@ segments:
 
   - name: boot
     files:
-      - { path: src/boot/scommon.o }
+      - { path: src/boot/scommon.o, include_if_any: [[scommon_in_common, false]], exclude_if_any: [[modding, true]] }
 
       - { path: src/boot/boot_main.o }
       - { path: src/boot/dmadata.o }
@@ -477,7 +477,7 @@ segments:
           - { path: memmove.o }
           - { path: ctype.o }
 
-      - { path: src/boot/COMMON.o }
+      - { path: src/boot/COMMON.o, exclude_if_any: [[modding, true]] }
 
   - name: dma_table
     files:
@@ -485,7 +485,7 @@ segments:
 
   - name: main_segment
     files:
-      - { path: src/main_segment/scommon.o }
+      - { path: src/main_segment/scommon.o, include_if_any: [[scommon_in_common, false]], exclude_if_any: [[modding, true]] }
 
       - { path: src/main_segment/main.o }
       - { path: src/main_segment/nnsched.o }
@@ -549,7 +549,7 @@ segments:
       - { path: src/rsp/f3dex2.o,   include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
       - { path: src/rsp/s2dex.o,    include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
 
-      - { path: src/main_segment/COMMON.o }
+      - { path: src/main_segment/COMMON.o, exclude_if_any: [[modding, true]] }
 
   - name: buffer1
     files:

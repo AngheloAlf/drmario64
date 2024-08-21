@@ -31,7 +31,6 @@ extern size_t outcnt;
 
 extern u8 window[WSIZE];
 
-#if DECLARE_COMMON_SYMS
 // inflate
 extern u32 bk;
 extern u32 bb;
@@ -42,6 +41,5 @@ extern GzipFileDescriptor ofd;
 extern GzipFileDescriptor ifd;
 extern s32 bytes_in;
 extern s32 bytes_out;
-#endif
 
 #endif

@@ -1,5 +1,3 @@
-#define DECLARE_COMMON_SYMS 1
-
 #include "attributes.h"
 #include "alignment.h"
 #include "macros_defines.h"
@@ -15,7 +13,7 @@ ASM_BSS;
 
 u8 inbuf[INBUFSIZ] BSS;
 
-#if VERSION_US || VERSION_GW
+#if SCOMMON_IN_COMMON
 u32 bk BSS;
 
 u32 __osBaseCounter BSS;
@@ -23,7 +21,7 @@ u32 __osBaseCounter BSS;
 
 OSThread __osThreadSave;
 
-#if VERSION_US || VERSION_GW
+#if SCOMMON_IN_COMMON
 GzipFileDescriptor ofd BSS;
 #endif
 
@@ -35,7 +33,7 @@ STACK(gBootThreadStack, BOOT_STACK_SIZE) BSS;
 
 OSMesg sPiMgrCmdBuff[SPIMGRCMDBUFF_LEN] BSS;
 
-#if VERSION_US || VERSION_GW
+#if SCOMMON_IN_COMMON
 u32 __osViIntrCount BSS;
 
 u32 insize BSS;
@@ -59,7 +57,7 @@ OSMesgQueue __osPiAccessQueue ALIGNED(8) BSS;
 
 OSPiHandle __Dom1SpeedParam ALIGNED(8) BSS;
 
-#if VERSION_US || VERSION_GW
+#if SCOMMON_IN_COMMON
 s32 bytes_in BSS;
 
 s32 bytes_out BSS;
@@ -71,14 +69,11 @@ OSMesg __osEepromTimerMsg BSS;
 
 OSTimer __osBaseTimer BSS;
 
-#if VERSION_US || VERSION_GW
+#if SCOMMON_IN_COMMON
 u32 __osTimerCounter BSS;
-
-/* Automatically generated and unreferenced pad */
-u8 D_8001FB34[0x0C] BSS; // TODO
 #endif
 
-u8 D_8001FB40[0x2000] BSS; // TODO
+u8 D_8001FB40[0x2000] ALIGNED(0x10) BSS;
 
 OSTimer __osEepromTimer BSS;
 
@@ -88,22 +83,19 @@ OSTimer __osEepromTimer BSS;
 #endif
 __OSEventState __osEventStateTab[OS_NUM_EVENTS] ALIGNED(8) BSS;
 
-#if VERSION_US || VERSION_GW
+#if SCOMMON_IN_COMMON
 u32 __osFinalrom BSS;
-
-/* Automatically generated and unreferenced pad */
-u8 D_80021BDC[0x04] BSS; // TODO
 #endif
 
-u8 window[WSIZE] BSS;
+u8 window[WSIZE] ALIGNED(0x8) BSS;
 
-#if VERSION_US || VERSION_GW
+#if SCOMMON_IN_COMMON
 u32 inptr BSS;
 #endif
 
 OSMesgQueue __osEepromTimerQ BSS ALIGNED(8);
 
-#if VERSION_US || VERSION_GW
+#if SCOMMON_IN_COMMON
 GzipFileDescriptor ifd BSS;
 #endif
 

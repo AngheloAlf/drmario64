@@ -1,5 +1,3 @@
-#define DECLARE_COMMON_SYMS 1
-
 #include "attributes.h"
 #include "alignment.h"
 #include "macros_defines.h"
@@ -13,7 +11,7 @@
 
 ASM_BSS;
 
-#if VERSION_CN
+#if !SCOMMON_IN_COMMON
 u32 bk BSS;
 
 u32 __osBaseCounter BSS;

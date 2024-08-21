@@ -1,5 +1,3 @@
-#define DECLARE_COMMON_SYMS 1
-
 #include "attributes.h"
 #include "alignment.h"
 #include "macros_defines.h"
@@ -22,7 +20,9 @@
 #include "nnsched.h"
 #include "record.h"
 
-#if VERSION_CN
+ASM_BSS;
+
+#if !SCOMMON_IN_COMMON
 #ifdef NN_SC_PERF
 u8 *B_800CA1C0_cn BSS; // TODO
 #endif
@@ -33,30 +33,12 @@ u8 aiWall BSS; // TODO
 
 s16 gfx_msg_no BSS; // TODO
 
-#if VERSION_US
-/* Automatically generated and unreferenced pad */
-u8 D_800E9BB8[0x08] BSS; // TODO
-#endif
-#if VERSION_GW || VERSION_CN
-/* Automatically generated and unreferenced pad */
-//u8 D_800EAA1C[0x4] BSS; // TODO
-#endif
-
 
 
 
 u8 success BSS; // TODO
 
-/* Automatically generated and unreferenced pad */
-// u8 D_800EA281[0x03] BSS; // TODO
-
 s32 attack_sprite_idx BSS; // TODO
-
-#if VERSION_US || VERSION_GW
-/* Automatically generated and unreferenced pad */
-// u8 D_800EA288[0x08] BSS; // TODO
-#endif
-
 
 
 
@@ -68,16 +50,6 @@ s32 _menuMain_lastDepth BSS; // TODO
 
 
 u8 aiTEdgeCnt BSS; // TODO
-
-#if VERSION_US || VERSION_GW
-/* Automatically generated and unreferenced pad */
-// u8 D_800EB660[0xF] ALIGNED(ALIGNOF(u8)) BSS; // TODO
-
-
-
-/* Automatically generated and unreferenced pad */
-// u8 D_800EBCEC[0x04] BSS; // TODO
-#endif
 
 enum_main_no main_no BSS; // TODO
 
@@ -97,7 +69,7 @@ struct_801020E8_cn *B_800CA1F0_cn BSS; // TODO
 
 u8 aiNext[0x02] BSS; // TODO
 
-u8 main_joy[0x04] BSS; // TODO
+u8 main_joy[MAXCONTROLLERS] BSS; // TODO
 
 
 
@@ -127,36 +99,16 @@ u8 decide BSS; // TODO
 
 enum_evs_gamesel evs_gamesel BSS; // TODO
 
-#if VERSION_US || VERSION_GW
-/* Automatically generated and unreferenced pad */
-// u8 D_800EFCD4[0x0C] BSS; // TODO
-#endif
-
-
 
 
 u8 evs_playmax BSS; // TODO
-
-/* Automatically generated and unreferenced pad */
-// u8 D_800F1CE1[0x07] BSS; // TODO
-
-
 
 
 
 Mtx *pObjectMtx BSS; // TODO
 
-#if VERSION_US || VERSION_GW
-/* Automatically generated and unreferenced pad */
-// u8 D_800F1DFC[0x04] BSS; // TODO
-#endif
-
-
 
 u16 joycur2 BSS; // TODO
-
-/* Automatically generated and unreferenced pad */
-// u8 D_800F1E22[0x0E] BSS; // TODO
 
 
 
@@ -167,10 +119,6 @@ s16 aiHiErB BSS; // TODO
 u16 aiPriOfs BSS; // TODO
 
 u8 aiRollFinal BSS; // TODO
-
-/* Automatically generated and unreferenced pad */
-// u8 D_800F3E35[0x03] BSS; // TODO
-
 
 
 
@@ -202,15 +150,12 @@ s16 aiHiErY BSS; // TODO
 
 
 
-u32 D_800CA24C_cn BSS; // TODO
+u32 D_800F3E80 BSS; // TODO
 
 
 struct struct_watchManual *watchManual BSS; // TODO
 
 u8 aiRootCnt BSS; // TODO
-
-/* Automatically generated and unreferenced pad */
-// u8 D_800F4895[0x03] BSS; // TODO
 
 
 
@@ -237,17 +182,11 @@ s32 MissRate BSS; // TODO
 
 
 
-u8 __muscontrol_flag[0x04] BSS; // TODO
+unsigned long __muscontrol_flag BSS; // TODO
 
 u16 joyflg[MAXCONTROLLERS] BSS; // TODO
 
 u8 aiYEdgeCnt BSS; // TODO
-
-#if VERSION_US || VERSION_GW
-/* Automatically generated and unreferenced pad */
-// u8 D_800F6CE1[0x0F] ALIGNED(ALIGNOF(u8)) BSS; // TODO
-#endif
-
 
 
 
@@ -256,9 +195,6 @@ u8 aiYEdgeCnt BSS; // TODO
 #ifdef NN_SC_PERF
 s8 B_800CA281_cn BSS; // TODO
 #endif
-
-/* Automatically generated and unreferenced pad */
-// u8 D_800F7486[0x02] BSS; // TODO
 
 bool s_hard_mode BSS; // TODO
 
@@ -294,28 +230,17 @@ u8 aiSelCom BSS; // TODO
 u8 B_800CA29B_cn BSS; // TODO
 #endif
 
-u8 joygmf[0x04] BSS; // TODO
-
-/* Automatically generated and unreferenced pad */
-// u8 D_800FAD35[0x01] BSS; // TODO
+u8 joygmf[MAXCONTROLLERS] BSS; // TODO
 
 u16 aiGoalY BSS; // TODO
 
 u8 aipn BSS; // TODO
-
-#if VERSION_US || VERSION_GW
-/* Automatically generated and unreferenced pad */
-// u8 D_800FAD39[0x07] ALIGNED(ALIGNOF(u8)) BSS; // TODO
-#endif
 
 
 
 
 
 u8 evs_select_name_no[0x02] BSS; // TODO
-
-/* Automatically generated and unreferenced pad */
-// u8 D_800FAE7A[0x06] BSS; // TODO
 
 
 
@@ -343,9 +268,6 @@ u16 aiHiEraseCtr BSS; // TODO
 
 u8 aiMoveSF BSS; // TODO
 
-/* Automatically generated and unreferenced pad */
-// u8 D_800FB3A1[0x03] BSS; // TODO
-
 u32 evs_game_time BSS; // TODO
 
 
@@ -355,27 +277,10 @@ u32 evs_game_time BSS; // TODO
 
 
 
-#if VERSION_US || VERSION_GW
-/* Automatically generated and unreferenced pad */
-// u8 D_800FB668[0x08] BSS; // TODO
-#endif
-
-
-
-
-
 
 
 
 enum_evs_gamemode evs_gamemode BSS; // TODO
-
-#if VERSION_US || VERSION_GW
-/* Automatically generated and unreferenced pad */
-// u8 D_801236F4[0x0C] BSS; // TODO
-#endif
-
-
-
 
 
 

@@ -64,11 +64,11 @@ ROMC      := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 BUILD_DEFINES ?=
 
 ifeq ($(VERSION),us)
-    BUILD_DEFINES   += -DVERSION_US=1
+    BUILD_DEFINES   += -DVERSION_US=1 -DSCOMMON_IN_COMMON=1
 else ifeq ($(VERSION),cn)
-    BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1
+    BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1 -DSCOMMON_IN_COMMON=0
 else ifeq ($(VERSION),gw)
-    BUILD_DEFINES   += -DVERSION_GW=1
+    BUILD_DEFINES   += -DVERSION_GW=1 -DSCOMMON_IN_COMMON=1
 else
 $(error Invalid VERSION variable detected. Please use either 'us', 'cn' or 'gw')
 endif
@@ -132,6 +132,11 @@ SLINKY            ?= tools/slinky/slinky-cli
 SLINKY_YAML       ?= config/slinky.yaml
 
 SLINKY_FLAGS      ?=
+ifeq ($(VERSION),cn)
+    SLINKY_FLAGS    += --custom-options scommon_in_common=false
+else
+    SLINKY_FLAGS    += --custom-options scommon_in_common=true
+endif
 ifneq ($(PARTIAL_LINKING),0)
     SLINKY_FLAGS    += --partial-linking
 endif

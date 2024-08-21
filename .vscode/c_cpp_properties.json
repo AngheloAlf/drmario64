@@ -28,7 +28,8 @@
                 "_MIPS_SIM_ABI64=3",
                 "VERSION_US=1",
                 "BUILD_VERSION=8",
-                "CC_CHECK=1"
+                "CC_CHECK=1",
+                "SCOMMON_IN_COMMON=1"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true
@@ -71,7 +72,8 @@
                 "_MIPS_SIM_ABI64=3",
                 "VERSION_CN=1",
                 "BUILD_VERSION=8",
-                "CC_CHECK=1"
+                "CC_CHECK=1",
+                "SCOMMON_IN_COMMON=0"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true
@@ -114,7 +116,8 @@
                 "_MIPS_SIM_ABI64=3",
                 "VERSION_GW=1",
                 "BUILD_VERSION=8",
-                "CC_CHECK=1"
+                "CC_CHECK=1",
+                "SCOMMON_IN_COMMON=1"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true
@@ -163,7 +166,8 @@
                 "VERSION_CN=1",
                 "VERSION_GW=1",
                 "BUILD_VERSION=8",
-                "CC_CHECK=1"
+                "CC_CHECK=1",
+                "SCOMMON_IN_COMMON=1"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true
