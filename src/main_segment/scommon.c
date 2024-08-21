@@ -6,6 +6,7 @@
 
 #include "audio/music_driver.h"
 #include "audio/sound.h"
+#include "ai.h"
 #include "aiset.h"
 #include "bg_tasks.h"
 #include "dm_manual_main.h"
@@ -22,8 +23,8 @@
 #include "record.h"
 
 #if VERSION_CN
-#if VERSION_GW || VERSION_CN
-u8 B_800CA1C0_cn[0x4] BSS; // TODO
+#ifdef NN_SC_PERF
+u8 *B_800CA1C0_cn BSS; // TODO
 #endif
 
 f32 aiRootP BSS; // TODO
@@ -90,8 +91,8 @@ u8 D_800EBD0C[0x04] BSS; // TODO
 
 u32 PlayTime BSS; // TODO
 
-#if VERSION_GW || VERSION_CN
-u8 B_800CA1F0_cn[0x4] BSS; // TODO
+#ifdef NN_SC_PERF
+struct_801020E8_cn *B_800CA1F0_cn BSS; // TODO
 #endif
 
 u8 aiNext[0x02] BSS; // TODO
@@ -179,7 +180,7 @@ u8 aiFlagCnt BSS; // TODO
 
 u16 aiGoalX BSS; // TODO
 
-#if VERSION_GW || VERSION_CN
+#ifdef NN_SC_PERF
 NNScPerf *nnsc_perf_ptr BSS; // TODO
 #endif
 
@@ -206,7 +207,7 @@ u32 D_800CA24C_cn BSS; // TODO
 
 struct struct_watchManual *watchManual BSS; // TODO
 
-u8 aiRootCnt[0x01] BSS; // TODO
+u8 aiRootCnt BSS; // TODO
 
 /* Automatically generated and unreferenced pad */
 // u8 D_800F4895[0x03] BSS; // TODO
@@ -224,8 +225,8 @@ struct_gameGeom *gameGeom BSS; // TODO
 
 
 
-#if VERSION_GW || VERSION_CN
-u8 B_800CA26C_cn[0x4] BSS; // TODO
+#ifdef NN_SC_PERF
+u8 B_800CA26C_cn[B_800CA26C_CN_ARR_LEN] BSS; // TODO
 #endif
 
 s32 MissRate BSS; // TODO
@@ -252,7 +253,7 @@ u8 aiYEdgeCnt BSS; // TODO
 
 
 
-#if VERSION_GW || VERSION_CN
+#ifdef NN_SC_PERF
 s8 B_800CA281_cn BSS; // TODO
 #endif
 
@@ -277,19 +278,19 @@ u8 (*attack_sprite_address)[10][32 * 32 / 2] BSS; // TODO
 
 s16 aiHiErR BSS; // TODO
 
-#if VERSION_GW || VERSION_CN
-u8 B_800CA290_cn[0x4] BSS; // TODO
+#ifdef NN_SC_PERF
+struct_801020E8_cn *B_800CA290_cn BSS; // TODO
 #endif
 
 u32 gfx_gtask_no BSS; // TODO
 
-#if VERSION_GW || VERSION_CN
+#ifdef NN_SC_PERF
 NNScPerf *nnsc_perf_inptr BSS; // TODO
 #endif
 
 u8 aiSelCom BSS; // TODO
 
-#if VERSION_GW || VERSION_CN
+#ifdef NN_SC_PERF
 u8 B_800CA29B_cn BSS; // TODO
 #endif
 
@@ -324,7 +325,7 @@ u8 evs_select_name_no[0x02] BSS; // TODO
 
 
 
-u8 aiSelSpeed BSS; // TODO
+s8 aiSelSpeed BSS; // TODO
 
 OSMesgQueue *sched_gfxMQ BSS; // TODO
 

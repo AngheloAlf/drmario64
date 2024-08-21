@@ -6,6 +6,7 @@
 
 #include "audio/music_driver.h"
 #include "audio/sound.h"
+#include "ai.h"
 #include "aiset.h"
 #include "bg_tasks.h"
 #include "dm_manual_main.h"
@@ -22,8 +23,8 @@
 #include "record.h"
 
 #if VERSION_US || VERSION_GW
-#if VERSION_GW
-u8 B_800CA1C0_cn[0x4] BSS; // TODO
+#ifdef NN_SC_PERF
+u8 *B_800CA1C0_cn BSS; // TODO
 #endif
 
 f32 aiRootP BSS; // TODO
@@ -58,8 +59,8 @@ u8 D_800EA288[0x08] BSS; // TODO
 
 BgTasksManager sBgTasksManager_Manager BSS; // TODO
 
-#if VERSION_GW || VERSION_CN
-u8 B_801020E8_cn[0x300] BSS; // TODO
+#ifdef NN_SC_PERF
+struct_801020E8_cn B_801020E8_cn[B_800CA26C_CN_ARR_LEN][B_801020E8_CN_ARR_ARR_LEN] BSS; // TODO
 #endif
 
 OSContPad B_800EB4D8[MAXCONTROLLERS] BSS; // TODO
@@ -102,8 +103,8 @@ u8 D_800EBD0C[0x04] BSS; // TODO
 
 u32 PlayTime BSS; // TODO
 
-#if VERSION_GW
-u8 B_800CA1F0_cn[0x4] BSS; // TODO
+#ifdef NN_SC_PERF
+struct_801020E8_cn *B_800CA1F0_cn BSS; // TODO
 #endif
 
 u8 aiNext[0x02] BSS; // TODO
@@ -258,8 +259,8 @@ u8 D_800F3E7E[0x12] ALIGNED(ALIGNOF(u8)) BSS; // TODO
 u8 D_800F5452[0x06] ALIGNED(ALIGNOF(u8)) BSS; // TODO
 #endif
 
-#if VERSION_GW || VERSION_CN
-u8 B_8010B140_cn[0x40] BSS; // TODO
+#ifdef NN_SC_PERF
+u8 B_8010B140_cn[B_800CA26C_CN_ARR_LEN][B_801020E8_CN_ARR_ARR_LEN] BSS; // TODO
 #endif
 
 #if VERSION_GW
@@ -296,10 +297,12 @@ u16 joycur[MAXCONTROLLERS+1] BSS; // TODO
 struct_ai_param ai_param[AI_PARAM_LEN1][AI_PARAM_LEN2] BSS; // TODO
 
 #if VERSION_US || VERSION_GW
-#if VERSION_GW
-u8 B_800CA26C_cn[0x4] BSS; // TODO
+#ifdef NN_SC_PERF
+u8 B_800CA26C_cn[B_800CA26C_CN_ARR_LEN] BSS; // TODO
+#endif
 #endif
 
+#if VERSION_US || VERSION_GW
 s32 MissRate BSS; // TODO
 #endif
 
@@ -366,8 +369,8 @@ struct_800FACE0 sound_song_id BSS; // TODO
 #if VERSION_US || VERSION_GW
 s16 aiHiErR BSS; // TODO
 
-#if VERSION_GW
-u8 B_800CA290_cn[0x4] BSS; // TODO
+#ifdef NN_SC_PERF
+struct_801020E8_cn *B_800CA290_cn BSS; // TODO
 #endif
 
 u32 gfx_gtask_no BSS; // TODO
