@@ -21,7 +21,7 @@ options:
   reloc_addrs_path:
     - config/cn/relocs/reloc_addrs.cn.txt
 
-  auto_all_sections: [".data", ".rodata", ".bss"]
+  auto_link_sections: [".data", ".rodata", ".bss"]
 
   ld_discard_section: True
   ld_sections_allowlist:
