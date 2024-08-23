@@ -14,16 +14,16 @@
 /**
  * Original name: joycur
  */
-u16 joycur[MAXCONTROLLERS+1];
+u16 joycur[MAXCONTROLLERS + 1];
 
 /**
  * Original name: joyupd
  */
-u16 gControllerPressedButtons[MAXCONTROLLERS+1];
+u16 gControllerPressedButtons[MAXCONTROLLERS + 1];
 
-u16 gControllerPrevHoldButtons[MAXCONTROLLERS+1];
+u16 gControllerPrevHoldButtons[MAXCONTROLLERS + 1];
 
-u16 gControllerHoldButtons[MAXCONTROLLERS+1];
+u16 gControllerHoldButtons[MAXCONTROLLERS + 1];
 
 /**
  * Original name: joycnt

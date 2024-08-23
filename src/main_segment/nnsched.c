@@ -37,7 +37,6 @@ NNScPerf *nnsc_perf_inptr;
  */
 NNScPerf nnsc_perf[NN_SC_PERF_NUM];
 
-
 /**
  * Original name: nnsc_perf_index
  */

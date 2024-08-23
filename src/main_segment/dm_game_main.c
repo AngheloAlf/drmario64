@@ -61,7 +61,7 @@ GameMapCell game_map_data[4][GAME_MAP_ROWS * GAME_MAP_COLUMNS];
 /**
  * Original name: virus_map_data
  */
-struct_virus_map_data virus_map_data[4][16*8]; // 16 << 3?
+struct_virus_map_data virus_map_data[4][16 * 8]; // 16 << 3?
 
 /**
  * Original name: virus_map_disp_order

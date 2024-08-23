@@ -64,7 +64,7 @@ struct_ai_param ai_param[AI_PARAM_LEN1][AI_PARAM_LEN2];
 /**
  * Original name: aiRecurData
  */
-Unk_AIFEntry aiRecurData[GAME_MAP_ROWS+1][GAME_MAP_COLUMNS+2];
+Unk_AIFEntry aiRecurData[GAME_MAP_ROWS + 1][GAME_MAP_COLUMNS + 2];
 /**
  * Original name: aiFieldData
  */
@@ -148,7 +148,6 @@ u32 PlayTime;
  * Original name: MissRate
  */
 s32 MissRate;
-
 
 /**
  * Original name: success

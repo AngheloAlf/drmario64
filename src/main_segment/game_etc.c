@@ -40,7 +40,7 @@ struct_attack_sprite attack_sprite[0x80];
 /**
  * Original name: attack_sprite_address
  */
-u8 (*attack_sprite_address)[10][32*32/2];
+u8 (*attack_sprite_address)[10][32 * 32 / 2];
 
 static s32 binCount;
 static bool cont_bg_flg;
