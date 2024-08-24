@@ -2,6 +2,8 @@ MAKE = make
 
 VERSION ?= us
 
+ABI := o32
+
 
 UNAME_S := $(shell uname -s)
 ifeq ($(OS),Windows_NT)
@@ -34,10 +36,15 @@ EGCS_BINUTILS   := $(EGCS_DIR)/as
 SLINKY_DIR      := slinky
 SLINKY          := $(SLINKY_DIR)/slinky-cli
 
-all: $(KMC_GCC) $(KMC_BINUTILS) $(EGCS_GCC) $(EGCS_BINUTILS) $(SLINKY)
+LIBS_DIR        := libs
+LIBGCC_VR4300   := $(LIBS_DIR)/libgcc_vr4300.$(ABI).a
+
+LIBRARIES       := $(LIBGCC_VR4300)
+
+all: $(KMC_GCC) $(KMC_BINUTILS) $(EGCS_GCC) $(EGCS_BINUTILS) $(SLINKY) $(LIBRARIES)
 
 clean:
-	$(RM) -rf $(KMC_DIR) gcc_kmc $(EGCS_DIR) gcc_egcs $(SLINKY_DIR)
+	$(RM) -rf $(KMC_DIR) gcc_kmc $(EGCS_DIR) gcc_egcs $(SLINKY_DIR) $(LIBRARIES) $(LIBS_DIR)
 
 distclean: clean
 
@@ -68,11 +75,11 @@ $(SLINKY): | $(SLINKY_DIR)
 	tar xf slinky-cli-$(HOST_TRIPLE).tar.gz -C $(SLINKY_DIR)
 	$(RM) slinky-cli-$(HOST_TRIPLE).tar.gz
 
-$(KMC_DIR):
-	mkdir -p $@
+$(LIBGCC_VR4300): | $(LIBS_DIR)
+	wget $(WGET_FLAGS) https://github.com/Decompollaborate/libgcc_vr4300/releases/latest/download/libgcc_vr4300-$(ABI).tar.gz
+	tar xf libgcc_vr4300-$(ABI).tar.gz -C $(LIBS_DIR)
+	cp libs/libgcc_vr4300.a $(LIBGCC_VR4300)
+	$(RM) libgcc_vr4300-$(ABI).tar.gz
 
-$(EGCS_DIR):
-	mkdir -p $@
-
-$(SLINKY_DIR):
+$(KMC_DIR) $(EGCS_DIR) $(SLINKY_DIR) $(LIBS_DIR):
 	mkdir -p $@

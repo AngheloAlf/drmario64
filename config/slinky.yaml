@@ -450,18 +450,19 @@ segments:
         include_if_any: [[version, us], [version, gw]]
         files:
           - { path: fmod.o }
-          - { path: memmove.o }
-          - { path: memset.o }
+          - { path: memmove.o, exclude_if_any: [[modding, true]] }
+          - { path: memset.o, exclude_if_any: [[modding, true]] }
           - { path: modf.o }
           - { path: rand.o }
           - { path: strcpy.o }
-          - { path: mmuldi3.o }
+          - { path: mmuldi3.o, exclude_if_any: [[modding, true]] }
           - { path: ctype.o }
 
       # libegcs
       - kind: group
         dir: src/libegcs
         include_if_any: [[version, cn]]
+        exclude_if_any: [[modding, true]]
         files:
           - { path: libgcc2.o }
 
@@ -474,10 +475,12 @@ segments:
           - { path: modf.o }
           - { path: srand.o }
           - { path: fmod.o }
-          - { path: memmove.o }
+          - { path: memmove.o, exclude_if_any: [[modding, true]] }
           - { path: ctype.o }
 
       - { path: src/boot/COMMON.o, exclude_if_any: [[modding, true]] }
+
+      - { path: "libs/libgcc_vr4300.{abi}.a", include_if_any: [[modding, true]] }
 
   - name: dma_table
     files:

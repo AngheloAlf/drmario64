@@ -269,7 +269,7 @@ ifeq ($(COMPILER), gcc)
     CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls -mhard-float
     CFLAGS          += -mdivide-breaks -ffreestanding
     CFLAGS          += -fno-toplevel-reorder -fno-common
-    # LDFLAGS         += -lgcc_vr4300
+    LDFLAGS         += -L $(BUILD_DIR)/libs -l gcc_vr4300.o32
 endif
 
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
@@ -342,7 +342,7 @@ ifneq ($(DEP_INCLUDE), 0)
 endif
 
 # create build directories
-$(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/segments)
+$(shell mkdir -p $(BUILD_DIR)/linker_scripts/$(VERSION) $(BUILD_DIR)/segments $(BUILD_DIR)/libs)
 $(shell mkdir -p $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(BIN_DIRS) $(LIBULTRA_DIRS) $(LIBMUS_DIRS),$(BUILD_DIR)/$(dir)))
 
 # directory flags
@@ -473,7 +473,7 @@ $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
 
 $(ELF): $(LINKER_SCRIPTS)
 	$(file >$(@:.elf=.o_files.txt), $(filter %.o, $^))
-	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ @$(@:.elf=.o_files.txt)
+	$(LD) $(ENDIAN) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) $(LDFLAGS) -o $@ @$(@:.elf=.o_files.txt)
 
 ## Order-only prerequisites
 # These ensure e.g. the PNG_INC_FILES are built before the O_FILES.
@@ -500,7 +500,7 @@ o_files_clean:
 # yaml (via the `-include` statement), so we always only build the .c/.s files
 # listed on the yaml.
 $(LD_SCRIPT) $(D_FILE): $(SLINKY_YAML) $(SLINKY)
-	$(SLINKY) --custom-options version=$(VERSION) $(SLINKY_FLAGS) -o $(LD_SCRIPT) $(SLINKY_YAML)
+	$(SLINKY) --custom-options version=$(VERSION),abi=o32 $(SLINKY_FLAGS) -o $(LD_SCRIPT) $(SLINKY_YAML)
 
 $(BUILD_DIR)/%.ld: %.ld
 	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
@@ -530,6 +530,9 @@ $(BUILD_DIR)/lib/%.o: lib/%.s
 $(BUILD_DIR)/segments/%.o: $(BUILD_DIR)/linker_scripts/partial/%.ld
 	$(file >$(@:.o=.o_files.txt), $(filter %.o, $^))
 	$(LD) $(ENDIAN) $(LDFLAGS) --relocatable -T $< -Map $(@:.o=.map) -o $@ @$(@:.o=.o_files.txt)
+
+$(BUILD_DIR)/libs/%.a: tools/libs/%.a
+	cp $< $@
 
 # Make inc files from assets
 
