@@ -256,27 +256,24 @@ endif
 ifeq ($(COMPILER), gcc)
     ifneq ($(DEBUGABLE), 0)
         OPTFLAGS        := -O1
-        DBGFLAGS        := -ggdb
     else
         OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
-        DBGFLAGS        := -g0
     endif
+    DBGFLAGS        := -ggdb3
     MIPS_VERSION    := -mips3
     WARNINGS        := $(CHECK_WARNINGS)
 
     CFLAGS_EXTRA    :=
-    CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls
+    CFLAGS          += -march=vr4300 -mfix4300 -mno-abicalls -mhard-float
     CFLAGS          += -mdivide-breaks -ffreestanding
-    CFLAGS          += -fno-toplevel-reorder
+    CFLAGS          += -fno-toplevel-reorder -fno-common
     # LDFLAGS         += -lgcc_vr4300
-    # Consider removing in the future
-    CFLAGS          += -fcommon
 endif
 
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)
 
 # Variable to simplify C compiler invocation
-C_COMPILER_FLAGS = $(ABIFLAG) $(CFLAGS) $(CFLAGS_EXTRA) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS)
+C_COMPILER_FLAGS = $(ABIFLAG) $(CFLAGS) $(CFLAGS_EXTRA) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(MIPS_VERSION) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS)
 
 ICONV_FLAGS      = --from-code=UTF-8 --to-code=$(OUT_ENCODING)
 
@@ -355,7 +352,7 @@ $(BUILD_DIR)/src/buffers/%.o:  CFLAGS   += -fno-common
 else ifeq ($(COMPILER), gcc)
 $(BUILD_DIR)/src/libkmc/%.o:   OPTFLAGS := -Ofast
 $(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -Ofast
-# $(BUILD_DIR)/src/main_segment/%.o: CFLAGS += -G 16
+# $(BUILD_DIR)/src/main_segment/%.o: CFLAGS += -G 1024
 endif
 
 $(BUILD_DIR)/src/assets/%.o:   CC       := $(GCC)
@@ -414,7 +411,7 @@ ifneq ($(COMPARE),0)
 endif
 
 clean:
-	$(RM) -r $(BUILD_DIR)/asm $(BUILD_DIR)/bin $(BUILD_DIR)/src $(ROM) $(ROMC) $(ELF)
+	$(RM) -r $(BUILD_DIR)/asm $(BUILD_DIR)/bin $(BUILD_DIR)/src $(LD_SCRIPT) $(D_FILE) $(ROM) $(ROMC) $(ELF)
 
 libclean:
 	$(RM) -r $(BUILD_DIR)/lib
@@ -487,7 +484,10 @@ asset_files_clean:
 msg_files_clean:
 	$(RM) -r $(MSG_INC_FILES)
 
-.PHONY: asset_files asset_files_clean msg_files msg_files_clean o_files
+o_files_clean:
+	$(RM) -r $(O_FILES)
+
+.PHONY: asset_files asset_files_clean msg_files msg_files_clean o_files o_files_clean
 
 # The main .d file is a subproduct of generating the main linker script.
 # We have list both the .ld and the .d files in this rule so Make can
@@ -507,11 +507,11 @@ $(BUILD_DIR)/%.o: %.s
 $(BUILD_DIR)/%.o: %.c
 	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) -o $@ $<
 ifeq ($(MULTISTEP_BUILD), 0)
-	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) | $(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ -
+	$(CC) $(C_COMPILER_FLAGS) $(DBGFLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) | $(CC) -x cpp-output $(C_COMPILER_FLAGS) $(DBGFLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ -
 else
-	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) -o $(@:.o=.i)
-	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -S -o $(@:.o=.s) $(@:.o=.i)
-	$(CC) $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $(@:.o=.s)
+	$(CC) $(C_COMPILER_FLAGS) $(DBGFLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) -o $(@:.o=.i)
+	$(CC) $(C_COMPILER_FLAGS) $(DBGFLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -S -o $(@:.o=.s) $(@:.o=.i)
+	$(CC) $(C_COMPILER_FLAGS) $(DBGFLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $(@:.o=.s)
 endif
 	$(OBJDUMP_CMD)
 
@@ -540,7 +540,7 @@ $(BUILD_DIR)/%.ci4.inc: %.ci4.png
 	$(PIGMENT64) to-bin --c-array --format ci4 -o $@ $<
 
 $(BUILD_DIR)/%.msg.inc: %.msg
-	$(CC) -x c $(C_COMPILER_FLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< -o $(@:.inc=.i)
+	$(CC) -x c $(C_COMPILER_FLAGS) -g0 -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< -o $(@:.inc=.i)
 	$(MSG_REENCODER) $(@:.inc=.i) $@ $(OUT_ENCODING)
 
 

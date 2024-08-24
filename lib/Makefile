@@ -108,18 +108,17 @@ ifeq ($(COMPILER), original)
 else ifeq ($(COMPILER), gcc)
     ifneq ($(DEBUGABLE), 0)
         OPTFLAGS        := -O1
-        DBGFLAGS        := -ggdb
     else
         OPTFLAGS        := -Os -ffast-math -fno-unsafe-math-optimizations
-        DBGFLAGS        := -g0
     endif
+    DBGFLAGS        := -ggdb3
     MIPS_VERSION    := -mips3
 
-    CFLAGS          += -march=vr4300 -mfix4300
+    CFLAGS          += -march=vr4300 -mfix4300 -mhard-float
     CFLAGS          += -mdivide-breaks -ffreestanding
-    CFLAGS          += -fno-toplevel-reorder
+    CFLAGS          += -fno-toplevel-reorder -fno-common
     # Consider removing in the future
-    CFLAGS          += -fcommon -fno-strict-aliasing
+    CFLAGS          += -fno-strict-aliasing
 endif
 
 BUILD_DEFINES   += -DBUILD_VERSION=$(LIBULTRA_VERSION)

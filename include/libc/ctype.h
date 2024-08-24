@@ -1,6 +1,8 @@
 #ifndef LIBC_CTYPE_H
 #define LIBC_CTYPE_H
 
+#include "attributes.h"
+
 #if VERSION_US || VERSION_GW
 
 #define CTYPE_ISSPACE       0x01    /* 0x9~0xd , 0x20 */
@@ -13,7 +15,7 @@
 #define CTYPE_ISKANJI       0x80    /* SJIS 1st BYTE */
 #define CTYPE_ISXDIGIT      0
 
-extern unsigned char __ctype_map[0x100];
+extern unsigned char __ctype_map[0x100] DATA;
 
 #define isalnum(c)    (__ctype_map[(unsigned char)c] & (CTYPE_ISDIGIT | CTYPE_ISUPPER | CTYPE_ISLOWER))
 #define isalpha(c)    (__ctype_map[(unsigned char)c] & (CTYPE_ISUPPER | CTYPE_ISLOWER))
@@ -35,7 +37,7 @@ extern unsigned char __ctype_map[0x100];
 
 #elif VERSION_CN
 
-extern unsigned char __MojiStat[0x101];
+extern unsigned char __MojiStat[0x101] DATA;
 
 #define CTYPE_ISCONTROL     0x01    /* 0x00~0x1F, 0x7F */
 #define CTYPE_ISDIGIT       0x02    /* '0'~'9' */
