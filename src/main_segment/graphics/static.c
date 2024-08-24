@@ -4,9 +4,7 @@
 #include "static.h"
 
 #include "macros_defines.h"
-#include "unknown_structs.h"
 #include "unk.h"
-#include "main_segment_variables.h"
 
 #include "graphic.h"
 

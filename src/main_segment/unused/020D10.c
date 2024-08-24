@@ -1,9 +1,13 @@
 #include "020D10.h"
 
+#include "alignment.h"
+
+#include "libc/stdint.h"
+
 #include "include_asm.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
+#include "unk.h"
+
 #include "buffers.h"
 #include "graphic.h"
 

@@ -4,9 +4,8 @@
 
 #include "lws.h"
 
+#include "libc/stdint.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
 
 #include "calc.h"
 #include "main_story.h"

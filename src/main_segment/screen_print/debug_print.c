@@ -1,11 +1,12 @@
 #include "screen_print/debug_print.h"
 
-#include "libultra.h"
+#include "attributes.h"
+#include "alignment.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
-#include "screen_print/printf_impl.h"
 #include "libc/assert.h"
+
+#include "color.h"
+#include "screen_print/printf_impl.h"
 
 // unused
 Gfx D_8008D2A0[] = {

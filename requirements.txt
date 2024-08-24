@@ -5,3 +5,9 @@ crunch64>=0.5.0,<1.0.0
 
 # for m2c
 pycparser
+
+# for diff.py
+colorama
+watchdog
+levenshtein
+cxxfilt

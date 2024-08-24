@@ -41,8 +41,6 @@
 #include "libultra.h"
 #include "include_asm.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
 
 #include "dm_virus_init.h"
 #include "gamemap.h"

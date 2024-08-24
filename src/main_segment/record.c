@@ -5,7 +5,6 @@
 #include "record.h"
 
 #include "macros_defines.h"
-#include "unknown_structs.h"
 
 #include "recwritingmsg.h"
 #include "main_menu.h"

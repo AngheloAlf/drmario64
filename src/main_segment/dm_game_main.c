@@ -5,8 +5,6 @@
 #include "dm_game_main.h"
 
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
 
 #include "util.h"
 #include "gcc/memory.h"

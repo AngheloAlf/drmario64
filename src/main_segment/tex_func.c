@@ -3,11 +3,13 @@
  */
 
 #include "tex_func.h"
-#include "include_asm.h"
-#include "unk.h"
-#include "util.h"
+
+#include "alignment.h"
 #include "macros_defines.h"
-#include "main_segment_variables.h"
+#include "libc/stdint.h"
+#include "unk.h"
+
+#include "util.h"
 
 /**
  * Original name: copy_texture_init_dl

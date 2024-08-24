@@ -4,12 +4,13 @@
 
 #include "game_etc.h"
 
+#include "attributes.h"
 #include "libc/assert.h"
+#include "gcc/stdlib.h"
 
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
 
+#include "dm_game_main.h"
 #include "tex_func.h"
 #include "main_story.h"
 #include "lws.h"

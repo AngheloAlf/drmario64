@@ -35,6 +35,8 @@ DEP_INCLUDE ?= 1
 USE_LLD ?= 0
 # If non-zero, partially links each segment, making the first build slower but improving build times afterwards
 PARTIAL_LINKING ?= 0
+# Toggles a few commodities for modding
+MODDING ?= 0
 
 # Set prefix to mips binutils binaries (mips-linux-gnu-ld => 'mips-linux-gnu-') - Change at your own risk!
 # In nearly all cases, not having 'mips-linux-gnu-*' binaries on the PATH is indicative of missing dependencies
@@ -71,6 +73,11 @@ else ifeq ($(VERSION),gw)
     BUILD_DEFINES   += -DVERSION_GW=1 -DSCOMMON_IN_COMMON=1
 else
 $(error Invalid VERSION variable detected. Please use either 'us', 'cn' or 'gw')
+endif
+
+ifneq ($(MODDING), 0)
+    NON_MATCHING    := 1
+    BUILD_DEFINES   += -DMODDING=1
 endif
 
 ifeq ($(NON_MATCHING),1)
@@ -137,8 +144,13 @@ ifeq ($(VERSION),cn)
 else
     SLINKY_FLAGS    += --custom-options scommon_in_common=true
 endif
-ifneq ($(PARTIAL_LINKING),0)
+ifneq ($(PARTIAL_LINKING), 0)
     SLINKY_FLAGS    += --partial-linking
+endif
+ifneq ($(MODDING), 0)
+    SLINKY_FLAGS    += --custom-options modding=true
+else
+    SLINKY_FLAGS    += --custom-options modding=false
 endif
 
 ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py

@@ -4,13 +4,13 @@
 
 #include "msgwnd.h"
 
-#include "macros_defines.h"
-#include "unknown_structs.h"
-#include "unk.h"
-#include "main_segment_variables.h"
-
+#include "alignment.h"
 #include "gcc/memory.h"
+#include "libc/stdint.h"
+#include "macros_defines.h"
+#include "unk.h"
 
+#include "color.h"
 #include "font.h"
 #include "joy.h"
 #include "tex_func.h"

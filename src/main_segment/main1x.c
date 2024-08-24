@@ -4,14 +4,15 @@
 
 #include "main1x.h"
 
-#include "macros_defines.h"
-#include "unknown_structs.h"
+#include "gcc/stdlib.h"
 
-#include "main_segment_variables.h"
+#include "macros_defines.h"
+
+#include "aiset.h"
+#include "dm_game_main.h"
+#include "main_story.h"
 #include "record.h"
 #include "vr_init.h"
-#include "main_story.h"
-#include "aiset.h"
 
 /**
  * Original name: Original name: evs_playmax

@@ -7,20 +7,20 @@
 #include "graphic.h"
 
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
+
+#include "gs2dex.h"
 
 #include "boot_main.h"
 
 #include "audio/sound.h"
 #include "buffers.h"
-#include "gs2dex.h"
+#include "dm_game_main.h"
+#include "dm_manual_main.h"
+#include "dm_title_main.h"
 #include "dm_thread.h"
 #include "main_story.h"
-#include "dm_manual_main.h"
 #include "main_menu.h"
 #include "nnsched.h"
-#include "dm_title_main.h"
 
 STACK(sGraphicStack, GRAPHIC_STACK_SIZE);
 

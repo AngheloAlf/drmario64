@@ -1,5 +1,4 @@
 #include "libultra.h"
-#include "include_asm.h"
 #include "libkmc/explog.h"
 
 f64 modf(f64 x, f64 *ipart) {

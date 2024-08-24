@@ -4,13 +4,13 @@
 
 #include "dm_title_main.h"
 
-#include "include_asm.h"
+#include "gcc/stdlib.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
+
 #include "rom_offsets.h"
 #include "audio/sound.h"
 #include "buffers.h"
+#include "dm_game_main.h"
 #include "graphic.h"
 #include "joy.h"
 #include "record.h"

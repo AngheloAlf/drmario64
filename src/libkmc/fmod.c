@@ -1,5 +1,5 @@
 #include "libultra.h"
-#include "include_asm.h"
+
 #include "libc/math.h"
 #include "libkmc/explog.h"
 

@@ -113,7 +113,6 @@ options:
     #include "libultra.h"
     #include "include_asm.h"
     #include "macros_defines.h"
-    #include "unknown_structs.h"
   asm_inc_header: ""
   use_legacy_include_asm: False
   create_asm_dependencies: True

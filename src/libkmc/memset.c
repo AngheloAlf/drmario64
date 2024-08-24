@@ -1,5 +1,4 @@
 #include "libultra.h"
-#include "include_asm.h"
 #include "libkmc/kmclib.h"
 
 void *memset(REG5 void *dest, int ch, REG4 size_t n) {

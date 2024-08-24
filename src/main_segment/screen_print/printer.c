@@ -2,7 +2,7 @@
 #define _MIPS_SIM_ABI64 3
 
 #include "screen_print/printer.h"
-#include "include_asm.h"
+
 #include "macros_defines.h"
 
 s32 Printer_Open(Printer *printer, ...) {

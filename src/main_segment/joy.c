@@ -5,8 +5,6 @@
 #include "joy.h"
 
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
 
 #include "gateway.h"
 #include "nnsched.h"

@@ -5,9 +5,8 @@
 #include "replay.h"
 
 #include "libultra.h"
-#include "include_asm.h"
+
 #include "macros_defines.h"
-#include "unknown_structs.h"
 
 #define REPLAY_TOTAL_BUFF_SIZE 0x10000
 

@@ -4,10 +4,7 @@
 
 #include "main_story.h"
 
-#include "include_asm.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
 
 #include "libc/assert.h"
 
@@ -18,6 +15,7 @@
 #include "tex_func.h"
 #include "graphic.h"
 #include "main1x.h"
+#include "msgwnd.h"
 #include "nnsched.h"
 #include "lws.h"
 #include "066840.h"

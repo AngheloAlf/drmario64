@@ -4,13 +4,12 @@
 
 #include "char_anime.h"
 
+#include "alignment.h"
 #include "libc/assert.h"
-
-#include "libultra.h"
-#include "include_asm.h"
+#include "libc/stdint.h"
+#include "gcc/stdlib.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
+
 #include "rom_offsets.h"
 #include "segment_symbols.h"
 #include "util.h"
