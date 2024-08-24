@@ -36,7 +36,7 @@ ifeq ($(COMPILER), original)
 else ifeq ($(COMPILER), gcc)
     COMPARE       := 0
     RUN_CC_CHECK  := 0
-    BUILD_DEFINES += -DMODERN_GCC=1 -DPRESERVE_UB
+    BUILD_DEFINES += -DMODERN_GCC=1 -DMODERN_CC=1 -DPRESERVE_UB
 else
 $(error Invalid COMPILER variable detected. Please use either 'original', 'gcc')
 endif
@@ -78,7 +78,14 @@ else ifeq ($(COMPILER), gcc)
 endif
 
 
-IINC       := -Iultralib/include -Iultralib/include/gcc -Iultralib/include/PR -Iultralib/src -Ilibmus/src
+IINC            := -Iultralib/include -Iultralib/include/PR -Iultralib/src -Ilibmus/src
+ifeq ($(COMPILER), original)
+    IINC            += -I ultralib/include/gcc
+else ifeq ($(COMPILER), gcc)
+    IINC            += -I ultralib/include/modern_gcc
+    CC              := $(GCC)
+endif
+
 
 ABIFLAG         ?= -mabi=32 -mgp32 -mfp32
 CFLAGS          := -nostdinc -fno-PIC -mno-abicalls -G 0
@@ -176,10 +183,6 @@ ifeq ($(COMPILER), original)
 $(BUILD_DIR)/libmus/src/player.o:      DBGFLAGS :=
 $(BUILD_DIR)/libmus/src/player_fx.o:   DBGFLAGS :=
 else ifeq ($(COMPILER), gcc)
-$(BUILD_DIR)/ultralib/src/os/getfpccsr.o: CFLAGS += -D__osGetSR=__osGetFpcCsr
-$(BUILD_DIR)/ultralib/src/os/setfpccsr.o: CFLAGS += -D__osSetSR=__osSetFpcCsr
-$(BUILD_DIR)/ultralib/src/os/exceptasm.o: CC := $(ORIGINAL_CC)
-$(BUILD_DIR)/ultralib/src/os/exceptasm.o: AS_DEFINES      += -D_MIPS_SIM=1
 endif
 
 
@@ -198,7 +201,7 @@ distclean: clean
 .SECONDARY:
 
 $(BUILD_DIR)/%.o: %.s
-	$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(ABIFLAG) $(CFLAGS) $(MIPS_VERSION) -x assembler-with-cpp -o $@ $<
+	$(CC) -c $(IINC) -I $(dir $*) $(WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(ABIFLAG) $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) $(DBGFLAGS) -x assembler-with-cpp -o $@ $<
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c

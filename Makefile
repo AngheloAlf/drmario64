@@ -349,11 +349,6 @@ ifeq ($(COMPILER), original)
 $(BUILD_DIR)/src/libkmc/%.o:   OPTFLAGS := -O1
 $(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -O1
 $(BUILD_DIR)/src/buffers/%.o:  CFLAGS   += -fno-common
-else ifeq ($(COMPILER), gcc)
-$(BUILD_DIR)/src/libkmc/%.o:   OPTFLAGS := -Ofast
-$(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -Ofast
-# $(BUILD_DIR)/src/main_segment/%.o: CFLAGS += -G 1024
-endif
 
 $(BUILD_DIR)/src/assets/%.o:   CC       := $(GCC)
 $(BUILD_DIR)/src/assets/%.o:   CFLAGS   := $(MODERN_CFLAGS)
@@ -362,6 +357,14 @@ $(BUILD_DIR)/src/assets/%.o:   CFLAGS_EXTRA:= -Wa,-no-pad-sections
 $(BUILD_DIR)/src/assets/%.o:   OPTFLAGS := -O0
 $(BUILD_DIR)/src/assets/%.o:   DBGFLAGS := -ggdb
 
+else ifeq ($(COMPILER), gcc)
+$(BUILD_DIR)/src/libkmc/%.o:   OPTFLAGS := -Ofast
+$(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -Ofast
+
+# $(BUILD_DIR)/src/main_segment/%.o: CFLAGS += -G 1024
+
+$(BUILD_DIR)/src/assets/%.o:   CFLAGS   += -fno-toplevel-reorder
+endif
 
 # per-file flags
 
@@ -520,7 +523,7 @@ $(BUILD_DIR)/lib/%.o: lib/%.c
 	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) OBJDUMP_BUILD=$(OBJDUMP_BUILD) COMPILER=$(COMPILER) DEBUGABLE=$(DEBUGABLE) ../$@
 
 $(BUILD_DIR)/lib/%.o: lib/%.s
-	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) OBJDUMP_BUILD=$(OBJDUMP_BUILD) COMPILER=original DEBUGABLE=$(DEBUGABLE) ../$@
+	$(MAKE) -C lib VERSION=$(VERSION) CROSS=$(CROSS) OBJDUMP_BUILD=$(OBJDUMP_BUILD) COMPILER=$(COMPILER) DEBUGABLE=$(DEBUGABLE) ../$@
 
 $(BUILD_DIR)/segments/%.o: $(BUILD_DIR)/linker_scripts/partial/%.ld
 	$(file >$(@:.o=.o_files.txt), $(filter %.o, $^))

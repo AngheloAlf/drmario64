@@ -38,13 +38,13 @@ jobs:
       run: cp deps_repo/drmario64/baserom.${{ matrix.version }}.z64 config/${{ matrix.version }}/baserom.${{ matrix.version }}.z64
 
     - name: Setup
-      run: make setup -j $(nproc) VERSION=${{ matrix.version }}
+      run: make setup -j $(nproc) VERSION=${{ matrix.version }} COMPILER=${{ matrix.compiler }}
 
     - name: Disassemble and extraction
-      run: make extract -j $(nproc) VERSION=${{ matrix.version }}
+      run: make extract -j $(nproc) VERSION=${{ matrix.version }} COMPILER=${{ matrix.compiler }}
 
     - name: Build Dr. Mario 64
-      run: make -j $(nproc) WERROR=1 VERSION=${{ matrix.version }}
+      run: make -j $(nproc) WERROR=1 VERSION=${{ matrix.version }} COMPILER=${{ matrix.compiler }}
 
     - name: Print progress
       if: matrix.compiler == 'original'
