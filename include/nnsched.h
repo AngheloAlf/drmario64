@@ -1,5 +1,5 @@
-#ifndef _000280_H
-#define _000280_H
+#ifndef NNSCHED_H
+#define NNSCHED_H
 
 #include "libultra.h"
 #include "PR/sched.h"
@@ -68,7 +68,7 @@ typedef struct NNSched {
     /* 0x670 */ OSScTask *curAudioTask; /* Original name: curAudioTask */
     /* 0x674 */ OSScTask *graphicsTaskSuspended; /* Original name: graphicsTaskSuspended */
     /* 0x678 */ bool firstTime; /* Original name: firstTime */
-} NNSched; // size = 0x67C
+} NNSched; // size = 0x680
 
 #ifdef NN_SC_PERF
 /**
@@ -133,15 +133,40 @@ extern bool nnsc_perf_flag;
 extern u32 D_80092EB0_cn[];
 extern bool D_80092F10_cn;
 
+// COMMON
+
 extern NNScPerf *nnsc_perf_ptr;
 extern NNScPerf *nnsc_perf_inptr;
 extern NNScPerf nnsc_perf[NN_SC_PERF_NUM];
+
+#define B_800CA26C_CN_ARR_LEN 2
+#define B_801020E8_CN_ARR_ARR_LEN 0x20
+
+typedef struct struct_801020E8_cn {
+    /* 0x0 */ u8 unk_0; // enum_8002BA98_cn_arg0
+    /* 0x1 */ u8 unk_1;
+    /* 0x4 */ s32 unk_4;
+    /* 0x8 */ s32 unk_8;
+} struct_801020E8_cn; // size = 0xC
+
+extern struct_801020E8_cn B_801020E8_cn[B_800CA26C_CN_ARR_LEN][B_801020E8_CN_ARR_ARR_LEN];
+extern struct_801020E8_cn *B_800CA1F0_cn;
+extern u8 B_8010B140_cn[B_800CA26C_CN_ARR_LEN][B_801020E8_CN_ARR_ARR_LEN]; // enum_8002BA98_cn_arg0
+
+extern u8 B_800CA26C_cn[B_800CA26C_CN_ARR_LEN];
+extern s8 B_800CA281_cn;
+extern struct_801020E8_cn *B_800CA290_cn;
+extern u8 B_800CA29B_cn;
+extern u8 B_800CA2C0_cn[B_800CA26C_CN_ARR_LEN];
+extern u8 *B_800CA1C0_cn; // enum_8002BA98_cn_arg0
+
+
 #endif
 
+// COMMON
+
 extern STACK(nnScStack, NN_SC_STACKSIZE);
-
 extern STACK(nnScAudioStack, NN_SC_STACKSIZE);
-
 extern STACK(nnScGraphicsStack, NN_SC_STACKSIZE);
 
 #endif

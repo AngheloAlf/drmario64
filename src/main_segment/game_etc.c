@@ -6,16 +6,41 @@
 
 #include "libc/assert.h"
 
-#include "include_asm.h"
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "main_segment_variables.h"
+
 #include "tex_func.h"
 #include "main_story.h"
 #include "lws.h"
 #include "066840.h"
 
 #include "assets/game_etc/etc.h"
+
+/**
+ * Original name: attack_effect_idx
+ */
+s32 attack_effect_idx;
+
+/**
+ * Original name: attack_effect
+ */
+struct_attack_effect attack_effect[0x10];
+
+/**
+ * Original name: attack_sprite_idx
+ */
+s32 attack_sprite_idx;
+
+/**
+ * Original name: attack_sprite
+ */
+struct_attack_sprite attack_sprite[0x80];
+
+/**
+ * Original name: attack_sprite_address
+ */
+u8 (*attack_sprite_address)[10][32 * 32 / 2];
 
 static s32 binCount;
 static bool cont_bg_flg;

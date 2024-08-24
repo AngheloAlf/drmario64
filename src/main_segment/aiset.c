@@ -43,16 +43,189 @@
 #include "macros_defines.h"
 #include "unknown_structs.h"
 #include "main_segment_variables.h"
-#include "gamemap.h"
-#include "main1x.h"
-#include "vr_init.h"
-#include "dm_virus_init.h"
-#include "nnsched.h"
 
+#include "dm_virus_init.h"
+#include "gamemap.h"
+#include "joy.h"
+#include "main1x.h"
+#include "nnsched.h"
+#include "vr_init.h"
+
+/**
+ * Original name: ai_char_data
+ */
+struct_ai_char_data ai_char_data[AI_CHAR_DATA_LEN];
+
+/**
+ * Original name: ai_param
+ */
+struct_ai_param ai_param[AI_PARAM_LEN1][AI_PARAM_LEN2];
+
+/**
+ * Original name: aiRecurData
+ */
+Unk_AIFEntry aiRecurData[GAME_MAP_ROWS + 1][GAME_MAP_COLUMNS + 2];
+/**
+ * Original name: aiFieldData
+ */
+Unk_AIFEntry aiFieldData[GAME_MAP_ROWS][GAME_MAP_COLUMNS];
+/**
+ * Original name: aif_field
+ */
+Unk_AIFEntry aif_field[GAME_MAP_ROWS][GAME_MAP_COLUMNS];
+
+/**
+ * Original name: aiRootP
+ */
+f32 aiRootP;
+
+/**
+ * Original name: aiRollFinal
+ */
+u8 aiRollFinal;
+
+/**
+ * Original name: aiSelCom
+ */
+u8 aiSelCom;
+
+/**
+ * Original name: aiWall
+ */
+u8 aiWall;
+
+/**
+ * Original name: hei_data
+ */
+u8 hei_data[HEI_WEI_DATA_LEN];
+
+/**
+ * Original name: wid_data
+ */
+u8 wid_data[HEI_WEI_DATA_LEN];
+
+/**
+ * Original name: aiHiErB
+ */
+s16 aiHiErB;
+
+/**
+ * Original name: aiPriOfs
+ */
+u16 aiPriOfs;
+
+/**
+ * Original name: aiHiErY
+ */
+s16 aiHiErY;
+
+/**
+ * Original name: aiHiErR
+ */
+s16 aiHiErR;
+
+/**
+ * Original name: aiHiEraseCtr
+ */
+u16 aiHiEraseCtr;
+
+/**
+ * Original name: fool_mode
+ */
+bool fool_mode;
+
+/**
+ * Original name: s_hard_mode
+ */
+bool s_hard_mode;
+
+/**
+ * Original name: PlayTime
+ */
+u32 PlayTime;
+
+/**
+ * Original name: MissRate
+ */
+s32 MissRate;
+
+/**
+ * Original name: success
+ */
+u8 success;
+/**
+ * Original name: decide
+ */
+u8 decide;
+/**
+ * Original name: aiFlagCnt
+ */
+u8 aiFlagCnt;
+/**
+ * Original name: aiGoalX
+ */
+u16 aiGoalX;
+/**
+ * Original name: aiGoalY
+ */
+u16 aiGoalY;
+/**
+ * Original name: aiMoveSF
+ */
+u8 aiMoveSF;
+/**
+ * Original name: aiNext
+ */
+u8 aiNext[2];
+/**
+ * Original name: aipn
+ */
+u8 aipn;
+/**
+ * Original name: aiRootCnt
+ */
+u8 aiRootCnt;
+/**
+ * Original name: aiSelSpeed
+ */
+s8 aiSelSpeed;
+/**
+ * Original name: aiTEdgeCnt
+ */
+u8 aiTEdgeCnt;
+/**
+ * Original name: aiYEdgeCnt
+ */
+u8 aiYEdgeCnt;
+
+/**
+ * Original name: aiFlag
+ */
+struct_aiFlag aiFlag[AIFLAG_LEN];
+/**
+ * Original name: aiRoot
+ */
+u8 aiRoot[AIROOT_LEN][2];
+
+/**
+ * Original name: pGameState
+ */
 static struct_game_state_data *pGameState;
+/**
+ * Original name: delpos_tbl
+ */
 static s32 delpos_tbl[100];
+/**
+ * Original name: delpos_cnt
+ */
 static s32 delpos_cnt;
+/**
+ * Original name: OnVirusP_org
+ */
 static s32 OnVirusP_org;
+/**
+ * Original name: last_flash
+ */
 static s32 last_flash;
 
 // unused
@@ -408,25 +581,6 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
     },
 };
 
-extern f32 aiRootP;
-
-extern u8 aiRollFinal;
-
-extern u8 aiSelCom;
-
-extern u8 aiWall;
-
-#define HEI_WEI_DATA_LEN 10
-
-extern u8 hei_data[HEI_WEI_DATA_LEN];
-extern u8 wid_data[HEI_WEI_DATA_LEN];
-
-extern s16 aiHiErB;
-extern u16 aiPriOfs;
-extern s16 aiHiErY;
-extern s16 aiHiErR;
-extern u16 aiHiEraseCtr;
-
 // no original name :c
 void func_8002EB00(struct_game_state_data *gameStateDataRef) {
     gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.unk_0[0];
@@ -499,8 +653,8 @@ void aifMakeFlagSet(struct_game_state_data *gameStateDataRef) {
 void aifGameInit(void) {
     s32 i;
 
-    fool_mode = 0;
-    s_hard_mode = 0;
+    fool_mode = false;
+    s_hard_mode = false;
     MissRate = 0;
     PlayTime = 0;
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
@@ -2928,7 +3082,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
         }
     }
 
-    if (s_hard_mode != 0) {
+    if (s_hard_mode) {
         if (var_s5 == 7) {
             switch (aiSelCom) {
                 case 0x0:
@@ -2950,7 +3104,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
         }
     }
 
-    if ((fool_mode == 1) && (framecont & 0x200)) {
+    if ((fool_mode == true) && (framecont & 0x200)) {
         for (var_a1_2 = 0; var_a1_2 < 0x10; var_a1_2++) {
             gameStateDataRef->unk_242[var_a1_2] = 0;
         }
@@ -3245,9 +3399,6 @@ void func_80034310(void) {
         }
     }
 }
-
-extern u8 aiTEdgeCnt;
-extern u8 aiYEdgeCnt;
 
 /**
  * Original name: aifPlaceSearch

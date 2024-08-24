@@ -29,10 +29,10 @@ typedef struct struct_aiFlag {
     /* 0x3F */ u8 unk_3F;
 } struct_aiFlag; // size = 0x40
 
-extern struct_aiFlag aiFlag[];
+#define AIFLAG_LEN 100
+extern struct_aiFlag aiFlag[AIFLAG_LEN];
 
 #define AIROOT_LEN 50
-
 extern u8 aiRoot[AIROOT_LEN][2];
 
 #endif

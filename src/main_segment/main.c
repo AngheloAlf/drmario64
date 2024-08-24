@@ -3,7 +3,7 @@
  */
 
 #include "main.h"
-#include "include_asm.h"
+
 #include "unk.h"
 #include "macros_defines.h"
 #include "boot_main.h"
@@ -21,7 +21,17 @@
 #include "nnsched.h"
 #include "dm_title_main.h"
 
-extern NNSched B_800EB670;
+NNSched B_800EB670;
+
+/**
+ * Original name: main_no
+ */
+enum_main_no main_no;
+
+/**
+ * Orignal name: main_old
+ */
+enum_main_no main_old;
 
 /**
  * Original name: mainproc

@@ -7,6 +7,7 @@
 #include "unknown_structs.h"
 
 struct MenuRank_unk_001C;
+struct struct_evs_cfg_4p;
 
 typedef struct struct_800365B0_arg0 {
     /* 0x00 */ u8 *buffer;
@@ -110,7 +111,7 @@ void func_800365C8(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size);
 void BitField_PutBit(struct_800365B0_arg0 *arg0, s32 arg1, u32 arg2);
 s32 BitField_GetBit(struct_800365B0_arg0 *arg0, s32 arg1);
 void dm_init_config_save(struct_evs_mem_data_unk_B4 *arg0);
-void func_8003678C(struct_evs_cfg_4p *arg0);
+void func_8003678C(struct struct_evs_cfg_4p *arg0);
 void func_800367E0(struct_evs_mem_data_unk_28 *arg0);
 void func_800367F0(struct_evs_mem_data_unk_4C *arg0);
 void func_800367FC(struct_evs_mem_data_unk_64 *arg0);

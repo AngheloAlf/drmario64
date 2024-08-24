@@ -13,20 +13,6 @@ typedef struct huft {
 
 s32 huft_free(huft *arg0);
 
-extern u16 cplens[];
-extern u16 cplext[];
-extern u16 cpdist[];
-extern u16 cpdext[];
-
-extern u16 mask_bits[];
-
-extern u32 border[];
-extern s32 lbits;
-extern s32 dbits;
-
-extern s32 gzip_malloc_tmp;
-extern void *gzip_malloc_addr;
-
 #define GZIP_BUFF_SIZE 0x4000
 
 /**
@@ -37,15 +23,15 @@ static u8 gzip_mem_buff[GZIP_BUFF_SIZE];
 /**
  * Original name: bk
  */
-extern u32 bk;
+u32 bk;
 /**
  * Original name: bb
  */
-extern u32 bb;
+u32 bb;
 /**
  * Original name: hufts
  */
-extern u32 hufts;
+u32 hufts;
 
 /**
  * Original name: border

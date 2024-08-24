@@ -16,7 +16,7 @@
 
 bool sBgTasksManager_Initialized = false;
 
-extern BgTasksManager sBgTasksManager_Manager;
+BgTasksManager sBgTasksManager_Manager;
 
 void BgTasksManager_ThreadEntry(void *arg UNUSED) {
     BgTasksManager *manager = &sBgTasksManager_Manager;

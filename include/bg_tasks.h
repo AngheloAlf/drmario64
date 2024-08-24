@@ -13,7 +13,7 @@ typedef struct BgTask {
 } BgTask; // size = 0x8
 
 typedef struct BgTasksManager {
-    /* 0x0000 */ STACK(stack, 0x1000);
+    /* 0x0000 */ STACK8(stack, 0x1000);
     /* 0x1000 */ OSThread thread;
     /* 0x11B0 */ OSMesgQueue mq;
     /* 0x11C8 */ OSMesg msg[9];
@@ -27,5 +27,9 @@ void BgTasksManager_Init(void);
 void BgTasksManager_Destroy(void);
 void BgTasksManager_SendTask(BgTaskCallback callback, void* arg);
 s32 BgTasksManager_GetRemainingTasks(void);
+
+// COMMON
+
+extern BgTasksManager sBgTasksManager_Manager;
 
 #endif

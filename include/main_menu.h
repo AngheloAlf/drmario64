@@ -1007,5 +1007,10 @@ void menuAll_draw(struct_watchMenu *arg0, Gfx **gfxP);
 enum_main_no main_menu(NNSched *sc);
 void graphic_menu(void);
 
+// COMMON
+
+extern struct_watchMenu *watchMenu;
+extern s32 _menuMain_lastDepth;
+extern s32 _menuMain_lastSelect[8]; // probably an enum
 
 #endif

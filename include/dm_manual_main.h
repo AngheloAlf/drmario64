@@ -11,6 +11,7 @@ struct GameMapCell;
 struct struct_800F4890_unk_034;
 struct struct_800F4890_unk_0E8;
 struct NNSched;
+struct struct_watchManual;
 
 
 void func_80071EF0(struct struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2);
@@ -42,5 +43,9 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP);
 void dm_manual_all_init(void);
 enum_main_no dm_manual_main(struct NNSched *sc);
 void dm_manual_graphic(void);
+
+// COMMON
+
+extern struct struct_watchManual *watchManual;
 
 #endif

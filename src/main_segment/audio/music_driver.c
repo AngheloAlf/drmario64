@@ -16,6 +16,8 @@
 #include "nnsched.h"
 #include "dmadata.h"
 
+Audio_struct_800FAF98 *gAudio_800FAF98;
+
 void DmaRomToRam(RomOffset segmentRom, void *segmentVram, size_t segmentSize);
 
 void NnSchedInstall(void);

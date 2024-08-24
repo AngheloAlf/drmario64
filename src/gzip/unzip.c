@@ -3,29 +3,24 @@
 #include "alignment.h"
 #include "dmadata.h"
 
-typedef struct FileDescriptor {
-    /* 0x0 */ void *addr;
-    /* 0x4 */ size_t size;
-} FileDescriptor; // size == 0x8
-
 /**
  * Original name: ofd
  */
-extern FileDescriptor ofd;
+GzipFileDescriptor ofd;
 
 /**
  * Original name: ifd
  */
-extern FileDescriptor ifd;
+GzipFileDescriptor ifd;
 
 /**
  * Original name: bytes_in
  */
-extern s32 bytes_in;
+s32 bytes_in;
 /**
  * Original name: bytes_out
  */
-extern s32 bytes_out;
+s32 bytes_out;
 
 // unused
 u32 D_8000EDD0[] = {
@@ -56,7 +51,7 @@ size_t expand_gzip(RomOffset segmentRom, void *dstAddr, size_t segmentSize) {
 /**
  * Original name: auRomDataRead
  */
-size_t auRomDataRead(FileDescriptor *romInput, u8 *dst, size_t blockSize) {
+size_t auRomDataRead(GzipFileDescriptor *romInput, u8 *dst, size_t blockSize) {
     size_t alignedSize;
 
     if (blockSize > romInput->size) {
@@ -80,7 +75,7 @@ size_t auRomDataRead(FileDescriptor *romInput, u8 *dst, size_t blockSize) {
 /**
  * Original name: data_write
  */
-size_t data_write(FileDescriptor *outputDesc, u8 *arg1, size_t arg2) {
+size_t data_write(GzipFileDescriptor *outputDesc, u8 *arg1, size_t arg2) {
     u8 *var_v1 = outputDesc->addr;
     size_t i;
 
@@ -214,7 +209,7 @@ s32 fill_inbuf(s32 arg0) {
     return inbuf[0];
 }
 
-void func_800022A8(FileDescriptor *outputDesc, u8 *arg1, size_t arg2) {
+void func_800022A8(GzipFileDescriptor *outputDesc, u8 *arg1, size_t arg2) {
     do {
         size_t temp_v0 = data_write(outputDesc, arg1, arg2);
 

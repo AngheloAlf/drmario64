@@ -3,6 +3,8 @@
 
 #include "libultra.h"
 
+struct NNSched;
+
 typedef enum enum_main_no {
     /*  0 */ MAIN_NO_0,
     /*  1 */ MAIN_NO_1,
@@ -19,5 +21,12 @@ typedef enum enum_main_no {
 
 
 void mainproc(void *arg);
+
+// COMMON
+
+extern struct NNSched B_800EB670;
+extern enum_main_no main_no;
+extern enum_main_no main_old;
+
 
 #endif

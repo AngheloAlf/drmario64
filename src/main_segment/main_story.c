@@ -30,9 +30,11 @@
 #include "assets/waku/waku2.h"
 
 #if VERSION_US || VERSION_GW || CC_CHECK
+#else
 // The compiler needs to not see the declared functions to match the cn version
-#include "joy.h"
+#define AVOID_JOY_FUNCTIONS 1
 #endif
+#include "joy.h"
 
 static s32 fin_frame_440;
 static TitleAllLwsIndex fin_demo_441;
@@ -67,6 +69,8 @@ static void *bgGraphic; /* Original name: bgGraphic */
 static void *storyGraphic;
 static void *messageData;
 static s32 first_copy;
+
+Mtx *pObjectMtx;
 
 u8 D_800A73A0[] = {
     0x03, 0x25, 0x23, 0x2A, 0x24, 0x28, 0x27, 0x2B, 0x2C, 0x2C, 0x2C, 0x00,

@@ -18,6 +18,11 @@
 
 #define AUDIO_HEAP_SIZE 0x31000
 
+/**
+ * Original name: sound_song_seqNo
+ */
+struct_800FACE0 sound_song_id;
+
 static HEAP(audio_memory, AUDIO_HEAP_SIZE);
 
 const u8 _charSE_tbl[] = {

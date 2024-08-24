@@ -9,6 +9,10 @@
 #include "macros_defines.h"
 #include "dm_thread.h"
 
+STACK(nnScStack, NN_SC_STACKSIZE);
+STACK(nnScAudioStack, NN_SC_STACKSIZE);
+STACK(nnScGraphicsStack, NN_SC_STACKSIZE);
+
 /**
  * Original name: framecont
  */
@@ -18,8 +22,29 @@ u8 D_80088104 = 1;
 s8 D_80088105 = 0;
 
 #ifdef NN_SC_PERF
+/**
+ * Original name: nnsc_perf_ptr
+ */
+NNScPerf *nnsc_perf_ptr;
+
+/**
+ * Original name: nnsc_perf_inptr
+ */
+NNScPerf *nnsc_perf_inptr;
+
+/**
+ * Original name: nnsc_perf
+ */
+NNScPerf nnsc_perf[NN_SC_PERF_NUM];
+
+/**
+ * Original name: nnsc_perf_index
+ */
 s32 nnsc_perf_index = 0;
 
+/**
+ * Original name: nnsc_perf_flag
+ */
 bool nnsc_perf_flag = false;
 
 // unreferenced
@@ -403,26 +428,16 @@ void nnScWaitTaskReady(NNSched *sc, OSScTask *task) {
 }
 
 #ifdef NN_SC_PERF
-#define B_800CA26C_CN_ARR_LEN 2
-#define B_801020E8_CN_ARR_ARR_LEN 0x20
+struct_801020E8_cn B_801020E8_cn[B_800CA26C_CN_ARR_LEN][B_801020E8_CN_ARR_ARR_LEN];
+struct_801020E8_cn *B_800CA1F0_cn;
+u8 B_8010B140_cn[B_800CA26C_CN_ARR_LEN][B_801020E8_CN_ARR_ARR_LEN]; // enum_8002BA98_cn_arg0
 
-typedef struct struct_801020E8_cn {
-    /* 0x0 */ u8 unk_0; // enum_8002BA98_cn_arg0
-    /* 0x1 */ u8 unk_1;
-    /* 0x4 */ s32 unk_4;
-    /* 0x8 */ s32 unk_8;
-} struct_801020E8_cn; // size = 0xC
-
-extern struct_801020E8_cn B_801020E8_cn[][B_801020E8_CN_ARR_ARR_LEN];
-extern struct_801020E8_cn *B_800CA1F0_cn;
-extern u8 B_8010B140_cn[][B_801020E8_CN_ARR_ARR_LEN]; // enum_8002BA98_cn_arg0
-
-extern u8 B_800CA26C_cn[B_800CA26C_CN_ARR_LEN];
-extern s8 B_800CA281_cn;
-extern struct_801020E8_cn *B_800CA290_cn;
-extern u8 B_800CA29B_cn;
-extern u8 B_800CA2C0_cn[B_800CA26C_CN_ARR_LEN];
-extern u8 *B_800CA1C0_cn; // enum_8002BA98_cn_arg0
+u8 B_800CA26C_cn[B_800CA26C_CN_ARR_LEN];
+s8 B_800CA281_cn;
+struct_801020E8_cn *B_800CA290_cn;
+u8 B_800CA29B_cn;
+u8 B_800CA2C0_cn[B_800CA26C_CN_ARR_LEN];
+u8 *B_800CA1C0_cn; // enum_8002BA98_cn_arg0
 
 void func_8002B8B4_cn(void) {
     s32 i;
