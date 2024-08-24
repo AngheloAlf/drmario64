@@ -1,10 +1,11 @@
+#include "lib/ultralib/include/PRinternal/controller.h"
+#include "lib/ultralib/include/PRinternal/piint.h"
+#include "lib/ultralib/include/PRinternal/osint.h"
+#undef STACK
+
 #include "attributes.h"
 #include "alignment.h"
 #include "macros_defines.h"
-
-#include "lib/ultralib/src/io/controller.h"
-#include "lib/ultralib/src/io/piint.h"
-#include "lib/ultralib/src/os/osint.h"
 
 #include "boot_main.h"
 #include "gzip.h"
