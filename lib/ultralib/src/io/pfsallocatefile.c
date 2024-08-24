@@ -1,5 +1,6 @@
+#include "PRinternal/macros.h"
 #include "PR/os_internal.h"
-#include "controller.h"
+#include "PRinternal/controller.h"
 #include "PR/rmon.h"
 
 #define ROUND_UP_DIVIDE(numerator, denominator) (((numerator) + (denominator)-1) / (denominator))
@@ -178,7 +179,7 @@ s32 osPfsAllocateFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name
         return PFS_ERR_INVALID;
     }
 
-    PFS_CHECK_ID;
+    PFS_CHECK_ID();
 
     if (((ret = osPfsFindFile(pfs, company_code, game_code, game_name, ext_name, file_no)) != 0) &&
         ret != PFS_ERR_INVALID) {
@@ -240,7 +241,7 @@ s32 osPfsAllocateFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name
         
         backup_inode.inode_page[old_last_page].inode_t.bank = bank;
         backup_inode.inode_page[old_last_page].inode_t.page = start_page;
-        ERRCK(__osPfsRWInode(pfs, &backup_inode, OS_WRITE, old_bank));
+        ERRCK(__osPfsRWInode(pfs, &backup_inode, PFS_WRITE, old_bank));
 
         dir.start_page = fpage;
         dir.company_code = company_code;

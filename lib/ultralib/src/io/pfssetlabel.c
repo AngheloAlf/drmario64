@@ -1,5 +1,6 @@
+#include "PRinternal/macros.h"
 #include "PR/os_internal.h"
-#include "controller.h"
+#include "PRinternal/controller.h"
 
 s32 osPfsSetLabel(OSPfs* pfs, u8* label) {
     int i;
@@ -12,7 +13,7 @@ s32 osPfsSetLabel(OSPfs* pfs, u8* label) {
 
     ERRCK(__osCheckId(pfs));
 #else
-    PFS_CHECK_ID;
+    PFS_CHECK_ID();
 #endif
 
     if (label != NULL) {
@@ -34,7 +35,7 @@ s32 osPfsSetLabel(OSPfs* pfs, u8* label) {
     }
     return ret;
 #else
-    SET_ACTIVEBANK_TO_ZERO;
+    SET_ACTIVEBANK_TO_ZERO();
     ERRCK(__osContRamWrite(pfs->queue, pfs->channel, PFS_LABEL_AREA, pfs->label, FALSE));
     return 0;
 #endif
