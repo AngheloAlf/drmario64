@@ -70,11 +70,8 @@ void dm_snd_play_strange_sound(void);
 extern const u8 _charSE_tbl[];
 
 
-// bss
+// COMMON
 
-/**
- * Original name: sound_song_seqNo
- */
 extern struct_800FACE0 sound_song_id;
 
 

@@ -4,19 +4,25 @@
 
 #include "audio/sound.h"
 
+#include "gcc/stdlib.h"
+
+#include "macros_defines.h"
+#include "unk.h"
+
 #include "audio/music_driver.h"
 #include "nnsched.h"
-#include "include_asm.h"
-#include "macros_defines.h"
-#include "unknown_structs.h"
-#include "unk.h"
-#include "main_segment_variables.h"
+
 #include "rom_offsets.h"
 #include "buffers.h"
 #include "main1x.h"
 #include "dm_thread.h"
 
 #define AUDIO_HEAP_SIZE 0x31000
+
+/**
+ * Original name: sound_song_seqNo
+ */
+struct_800FACE0 sound_song_id;
 
 static HEAP(audio_memory, AUDIO_HEAP_SIZE);
 

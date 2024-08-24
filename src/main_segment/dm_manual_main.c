@@ -3,11 +3,12 @@
  */
 
 #include "dm_manual_main.h"
+
 #include "libultra.h"
-#include "include_asm.h"
+#include "libc/assert.h"
+
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
+
 #include "audio/sound.h"
 #include "graphic.h"
 #include "msgwnd.h"
@@ -19,11 +20,53 @@
 #include "static.h"
 #include "dm_virus_init.h"
 #include "util.h"
-#include "libc/assert.h"
 
 #if VERSION_US || VERSION_GW || CC_CHECK
 #include "aiset.h"
 #endif
+
+#define STRUCT_WATCHGAME_MANUAL_UNK_LEN 3
+#define STRUCT_WATCHGAME_MANUAL_UNK_LEN2 4
+
+typedef struct struct_800F4890_unk_0C4 {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ s32 unk_4;
+    /* 0x4 */ s32 unk_8;
+} struct_800F4890_unk_0C4; // size = 0xC
+
+typedef struct struct_800F4890_unk_14C {
+    /* 0x0 */ s32 unk_0;
+    /* 0x4 */ s32 unk_4;
+} struct_800F4890_unk_14C; // size = 0x8
+
+typedef struct struct_watchManual {
+    /* 0x000 */ s32 unk_000;
+    /* 0x004 */ s32 unk_004;
+    /* 0x008 */ s32 unk_008;
+    /* 0x00C */ s32 unk_00C;
+    /* 0x010 */ s32 unk_010;
+    /* 0x014 */ s32 unk_014;
+    /* 0x018 */ s32 unk_018;
+    /* 0x01C */ s32 unk_01C[STRUCT_WATCHGAME_MANUAL_UNK_LEN2];
+    /* 0x02C */ s32 unk_02C;
+    /* 0x030 */ s32 unk_030;
+    /* 0x034 */ struct_800F4890_unk_034 unk_034;
+    /* 0x0C4 */ struct_800F4890_unk_0C4 unk_0C4[STRUCT_WATCHGAME_MANUAL_UNK_LEN];
+    /* 0x0E8 */ struct_800F4890_unk_0E8 unk_0E8[4][4];
+    /* 0x148 */ u8 unk_148[3];
+    /* 0x14C */ struct_800F4890_unk_14C unk_14C[STRUCT_WATCHGAME_MANUAL_UNK_LEN];
+    /* 0x164 */ u32 unk_164; // enum?
+    /* 0x168 */ u32 unk_168;
+    /* 0x16C */ s32 unk_16C;
+    /* 0x170 */ s32 unk_170;
+    /* 0x174 */ s32 unk_174[4];
+    /* 0x184 */ s32 unk_184;
+} struct_watchManual; // size = 0x188
+
+/**
+ * Original name: watchManual
+ */
+struct_watchManual *watchManual;
 
 static struct TiTexData *_texAll;
 static struct TiTexData *_texKaSa;
@@ -44,10 +87,10 @@ void func_80071F0C(void) {
 #define FUNC_80071F14_UNK_48 0xE
 #endif
 
-void func_80071F14(struct_800F4890_unk_034 *arg0, UNK_PTR *arg1) {
+void func_80071F14(struct_800F4890_unk_034 *arg0, void **heapP) {
     arg0->unk_08 = 0;
     arg0->unk_0C = (-1 / 16.0f);
-    msgWnd_init(&arg0->messageWnd, arg1, 0xD, 4, 0x20, 0x20);
+    msgWnd_init(&arg0->messageWnd, heapP, 0xD, 4, 0x20, 0x20);
     arg0->messageWnd.unk_30 = 0xA;
     arg0->messageWnd.unk_34 = 0xC;
     arg0->messageWnd.unk_3C = 5;

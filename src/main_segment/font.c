@@ -4,11 +4,10 @@
 
 #include "font.h"
 
-#include "include_asm.h"
+#include "alignment.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
+
 #include "unk.h"
-#include "main_segment_variables.h"
 #include "tex_func.h"
 
 typedef struct struct_800A6F70 {

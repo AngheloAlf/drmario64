@@ -1,11 +1,9 @@
-COMPILER := ido
-AS := tools/ido/cc
-CC := tools/ido/cc
-AR_OLD := tools/ar.py
+COMPILER_DIR := $(WORKING_DIR)/tools/ido
+AS := $(COMPILER_DIR)/cc
+CC := $(COMPILER_DIR)/cc
+AR_OLD := $(WORKING_DIR)/tools/ar.py
 PATCH_AR_FLAGS := 40001 110 100644
 STRIP =
-
-export COMPILER_PATH := $(WORKING_DIR)/tools/ido
 
 CFLAGS := -c -Wab,-r4300_mul -G 0 -nostdinc -Xcpluscomm -fullwarn -woff 516,649,838,712
 ASFLAGS := -c -Wab,-r4300_mul -G 0 -nostdinc -woff 516,649,838,712

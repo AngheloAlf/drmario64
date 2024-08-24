@@ -93,11 +93,12 @@ segments:
 
   - name: boot
     files:
-      - { path: "asm/{version}/data/boot/800118E0.bss.o", include_if_any: [[version, cn]] }
+      - { path: src/boot/scommon.o, include_if_any: [[scommon_in_common, false]], exclude_if_any: [[modding, true]] }
 
       - { path: src/boot/boot_main.o }
       - { path: src/boot/dmadata.o }
 
+      - { path: src/gzip/gzip.o }
       - { path: src/gzip/inflate.o }
       - { path: src/gzip/unzip.o }
 
@@ -283,6 +284,8 @@ segments:
 
           - { path: io/dp.o }
           - { path: io/si.o }
+
+          - { path: debug/kdebugserver.o }
 
       # libultra
       - kind: group
@@ -474,9 +477,7 @@ segments:
           - { path: memmove.o }
           - { path: ctype.o }
 
-      - { path: "asm/{version}/data/boot/8001B640.bss.o", include_if_any: [[version, us]] }
-      - { path: "asm/{version}/data/boot/8001B810.bss.o", include_if_any: [[version, gw]] }
-      - { path: "asm/{version}/data/boot/8001C1B0.bss.o", include_if_any: [[version, cn]] }
+      - { path: src/boot/COMMON.o, exclude_if_any: [[modding, true]] }
 
   - name: dma_table
     files:
@@ -484,7 +485,7 @@ segments:
 
   - name: main_segment
     files:
-      - { path: "asm/{version}/data/main_segment/800CA1C0.bss.o", include_if_any: [[version, cn]] }
+      - { path: src/main_segment/scommon.o, include_if_any: [[scommon_in_common, false]], exclude_if_any: [[modding, true]] }
 
       - { path: src/main_segment/main.o }
       - { path: src/main_segment/nnsched.o }
@@ -548,9 +549,7 @@ segments:
       - { path: src/rsp/f3dex2.o,   include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
       - { path: src/rsp/s2dex.o,    include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
 
-      - { path: "asm/{version}/data/main_segment/800E9BB0.bss.o", include_if_any: [[version, us]] }
-      - { path: "asm/{version}/data/main_segment/800EAA10.bss.o", include_if_any: [[version, gw]] }
-      - { path: "asm/{version}/data/main_segment/801007E0.bss.o", include_if_any: [[version, cn]] }
+      - { path: src/main_segment/COMMON.o, exclude_if_any: [[modding, true]] }
 
   - name: buffer1
     files:

@@ -85,4 +85,7 @@ extern s32 objMtx_FF;
 extern Vp D_800AAD58;
 extern Gfx story_setup[];
 
+// COMMON
+extern Mtx *pObjectMtx;
+
 #endif

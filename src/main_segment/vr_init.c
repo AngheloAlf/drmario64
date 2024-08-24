@@ -3,7 +3,7 @@
  */
 
 #include "vr_init.h"
-#include "include_asm.h"
+
 #include "macros_defines.h"
 
 /**

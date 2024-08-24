@@ -6,12 +6,20 @@
 
 #include "debug_menu.h"
 
-#include "screen_print/debug_print.h"
 #include "util.h"
 #include "macros_defines.h"
-#include "main_segment_variables.h"
-#include "main1x.h"
+
 #include "aiset.h"
+#include "joy.h"
+#include "main1x.h"
+#include "screen_print/debug_print.h"
+
+typedef enum enum_800E5930 {
+    /* 0 */ ENUM_800E5930_0,
+    /* 1 */ ENUM_800E5930_1,
+    /* 2 */ ENUM_800E5930_2,
+    /* 3 */ ENUM_800E5930_MAX
+} enum_800E5930;
 
 static s32 B_800E58B0;
 static s32 B_800E58B4;
@@ -26,7 +34,7 @@ static s32 B_800E5920;
 static s32 B_800E5924;
 static s32 B_800E5928;
 static s32 B_800E592C;
-static s32 B_800E5930;
+static s32 B_800E5930; // enum_800E5930
 static s32 B_800E5934;
 static struct_800E5938 B_800E5938[12];
 static struct_800E5968 B_800E5968;

@@ -1,5 +1,6 @@
+#include "PRinternal/macros.h"
 #include "PR/os_internal.h"
-#include "controller.h"
+#include "PRinternal/controller.h"
 
 s32 osPfsFindFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, u8* ext_name, s32* file_no) {
     s32 j;
@@ -14,7 +15,7 @@ s32 osPfsFindFile(OSPfs* pfs, u16 company_code, u32 game_code, u8* game_name, u8
     }
     ERRCK(__osCheckId(pfs));
 #else
-    PFS_CHECK_ID;
+    PFS_CHECK_ID();
 #endif
 
     for (j = 0; j < pfs->dir_size; j++) {

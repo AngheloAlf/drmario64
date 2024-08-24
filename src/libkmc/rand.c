@@ -1,5 +1,5 @@
 #include "libultra.h"
-#include "include_asm.h"
+
 #include "gcc/stdlib.h"
 #include "macros_defines.h"
 #include "attributes.h"

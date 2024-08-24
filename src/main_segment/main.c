@@ -3,25 +3,37 @@
  */
 
 #include "main.h"
-#include "include_asm.h"
+
 #include "unk.h"
 #include "macros_defines.h"
+
 #include "boot_main.h"
-#include "main_segment_variables.h"
+
+#include "aiset.h"
 #include "audio/sound.h"
 #include "buffers.h"
+#include "dm_game_main.h"
+#include "dm_manual_main.h"
+#include "dm_title_main.h"
 #include "graphic.h"
-#include "aiset.h"
 #include "joy.h"
 #include "record.h"
 #include "main1x.h"
 #include "main_story.h"
-#include "dm_manual_main.h"
 #include "main_menu.h"
 #include "nnsched.h"
-#include "dm_title_main.h"
 
-extern NNSched B_800EB670;
+NNSched B_800EB670;
+
+/**
+ * Original name: main_no
+ */
+enum_main_no main_no;
+
+/**
+ * Orignal name: main_old
+ */
+enum_main_no main_old;
 
 /**
  * Original name: mainproc

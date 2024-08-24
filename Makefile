@@ -35,6 +35,8 @@ DEP_INCLUDE ?= 1
 USE_LLD ?= 0
 # If non-zero, partially links each segment, making the first build slower but improving build times afterwards
 PARTIAL_LINKING ?= 0
+# Toggles a few commodities for modding
+MODDING ?= 0
 
 # Allows changing the compiler to be used. Options: original, gcc
 COMPILER ?= original
@@ -70,11 +72,11 @@ ROMC      := $(BUILD_DIR)/$(TARGET).$(VERSION).z64
 BUILD_DEFINES ?=
 
 ifeq ($(VERSION),us)
-    BUILD_DEFINES   += -DVERSION_US=1
+    BUILD_DEFINES   += -DVERSION_US=1 -DSCOMMON_IN_COMMON=1
 else ifeq ($(VERSION),cn)
-    BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1
+    BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1 -DSCOMMON_IN_COMMON=0
 else ifeq ($(VERSION),gw)
-    BUILD_DEFINES   += -DVERSION_GW=1
+    BUILD_DEFINES   += -DVERSION_GW=1 -DSCOMMON_IN_COMMON=1
 else
 $(error Invalid VERSION variable detected. Please use either 'us', 'cn' or 'gw')
 endif
@@ -85,8 +87,14 @@ else ifeq ($(COMPILER), gcc)
     COMPARE       := 0
     RUN_CC_CHECK  := 0
     BUILD_DEFINES += -DMODERN_GCC=1 -DPRESERVE_UB
+    MODDING       := 1
 else
 $(error Invalid COMPILER variable detected. Please use either 'original', 'gcc')
+endif
+
+ifneq ($(MODDING), 0)
+    NON_MATCHING    := 1
+    BUILD_DEFINES   += -DMODDING=1
 endif
 
 ifeq ($(NON_MATCHING),1)
@@ -152,8 +160,18 @@ SLINKY            ?= tools/slinky/slinky-cli
 SLINKY_YAML       ?= config/slinky.yaml
 
 SLINKY_FLAGS      ?=
-ifneq ($(PARTIAL_LINKING),0)
+ifeq ($(VERSION),cn)
+    SLINKY_FLAGS    += --custom-options scommon_in_common=false
+else
+    SLINKY_FLAGS    += --custom-options scommon_in_common=true
+endif
+ifneq ($(PARTIAL_LINKING), 0)
     SLINKY_FLAGS    += --partial-linking
+endif
+ifneq ($(MODDING), 0)
+    SLINKY_FLAGS    += --custom-options modding=true
+else
+    SLINKY_FLAGS    += --custom-options modding=false
 endif
 
 ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
@@ -200,6 +218,8 @@ endif
 ABIFLAG         ?= -mabi=32 -mgp32 -mfp32
 CFLAGS          += -nostdinc -fno-PIC -G 0
 CFLAGS_EXTRA    ?=
+
+MODERN_CFLAGS   ?= -G 0 -nostdinc -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -fno-zero-initialized-in-bss -fno-toplevel-reorder -std=gnu89
 
 WARNINGS        := -w
 ASFLAGS         := -march=vr4300 -mabi=32 -G0 -no-pad-sections
@@ -339,7 +359,7 @@ $(BUILD_DIR)/src/libnustd/%.o: OPTFLAGS := -Ofast
 endif
 
 $(BUILD_DIR)/src/assets/%.o:   CC       := $(GCC)
-$(BUILD_DIR)/src/assets/%.o:   CFLAGS   := -G 0 -nostdinc -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-PIC -fno-common -fno-zero-initialized-in-bss -fno-toplevel-reorder
+$(BUILD_DIR)/src/assets/%.o:   CFLAGS   := $(MODERN_CFLAGS)
 $(BUILD_DIR)/src/assets/%.o:   MIPS_VERSION:= -mips3
 $(BUILD_DIR)/src/assets/%.o:   CFLAGS_EXTRA:= -Wa,-no-pad-sections
 $(BUILD_DIR)/src/assets/%.o:   OPTFLAGS := -O0
@@ -347,6 +367,20 @@ $(BUILD_DIR)/src/assets/%.o:   DBGFLAGS := -ggdb
 
 
 # per-file flags
+
+$(BUILD_DIR)/src/%/COMMON.o: CC            := $(GCC)
+$(BUILD_DIR)/src/%/COMMON.o: CFLAGS        := $(MODERN_CFLAGS)
+$(BUILD_DIR)/src/%/COMMON.o: CFLAGS_EXTRA  :=
+$(BUILD_DIR)/src/%/COMMON.o: MIPS_VERSION  := -mips3
+$(BUILD_DIR)/src/%/COMMON.o: OPTFLAGS      := -O0
+$(BUILD_DIR)/src/%/COMMON.o: DBGFLAGS      := -ggdb
+
+$(BUILD_DIR)/src/%/scommon.o: CC            := $(GCC)
+$(BUILD_DIR)/src/%/scommon.o: CFLAGS        := $(MODERN_CFLAGS)
+$(BUILD_DIR)/src/%/scommon.o: CFLAGS_EXTRA  :=
+$(BUILD_DIR)/src/%/scommon.o: MIPS_VERSION  := -mips3
+$(BUILD_DIR)/src/%/scommon.o: OPTFLAGS      := -O0
+$(BUILD_DIR)/src/%/scommon.o: DBGFLAGS      := -ggdb
 
 $(BUILD_DIR)/asm/cn/data/main_segment/debug_menu.rodata.o: 		OUT_ENCODING := Shift-JIS
 $(BUILD_DIR)/src/main_segment/debug_menu.o:                		OUT_ENCODING := Shift-JIS

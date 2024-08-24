@@ -16,6 +16,7 @@ static OSThread sIdleThread;
 static OSThread sMainThread;
 static STACK(sIdleStack, 0x2000);
 static STACK(sMainStack, 0x2000);
+STACK(gBootThreadStack, BOOT_STACK_SIZE);
 
 void Idle_Nop(void) {
 }
@@ -56,8 +57,8 @@ void Main_ThreadEntry(void *arg) {
     gMainSegmentDmaInfo.entry(arg);
 }
 
-extern OSMesg sPiMgrCmdBuff[50];
-extern OSMesgQueue sPiMgrCmdQueue;
+OSMesg sPiMgrCmdBuff[SPIMGRCMDBUFF_LEN];
+OSMesgQueue sPiMgrCmdQueue;
 
 void Idle_ThreadEntry(void *arg) {
     osCreatePiManager(OS_PRIORITY_PIMGR, &sPiMgrCmdQueue, sPiMgrCmdBuff, ARRAY_COUNT(sPiMgrCmdBuff));

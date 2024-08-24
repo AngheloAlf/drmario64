@@ -4,15 +4,18 @@
  * The name is completely made up.
  */
 
-#include "libultra.h"
-#include "include_asm.h"
-#include "macros_defines.h"
-#include "unknown_structs.h"
+#include "screen_print/printf_impl.h"
+
+#include "attributes.h"
 #include "gcc/memory.h"
 #include "gcc/string.h"
 #include "libc/ctype.h"
 #include "libc/stdarg.h"
+#include "libc/stdbool.h"
 #include "libc/math.h"
+
+#include "macros_defines.h"
+
 #include "screen_print/printer.h"
 #include "libkmc/explog.h"
 

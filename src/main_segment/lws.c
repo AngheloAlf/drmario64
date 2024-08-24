@@ -4,11 +4,11 @@
 
 #include "lws.h"
 
-#include "include_asm.h"
+#include "libc/stdint.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
+
 #include "calc.h"
+#include "main_story.h"
 #include "066840.h"
 
 static Mtx AnimProc[0x40];

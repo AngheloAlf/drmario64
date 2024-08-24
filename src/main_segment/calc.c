@@ -6,8 +6,7 @@
 
 #include "include_asm.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
+
 #include "066840.h"
 
 static s32 randomindex;

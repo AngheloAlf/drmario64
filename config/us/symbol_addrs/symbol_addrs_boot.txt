@@ -434,10 +434,10 @@ sPiMgrCmdBuff = 0x8001F8C0; // size:0xC8
 __osViIntrCount = 0x8001F988;
 insize = 0x8001F98C;
 outcnt = 0x8001F990;
-__osMaxControllers = 0x8001F994;
-bb = 0x8001F998;
+__osMaxControllers = 0x8001F994; // size:0x1
+bb = 0x8001F998; // size:0x4
 __osCurrentTime = 0x8001F9A0; // size:0x8
-hufts = 0x8001F9A8;
+hufts = 0x8001F9A8; // size:0x4
 
 __CartRomHandle = 0x8001F9B0; // size:0x74
 
@@ -449,15 +449,16 @@ __Dom1SpeedParam = 0x8001FA88; // size:0x74
 
 bytes_in = 0x8001FAFC;
 bytes_out = 0x8001FB00;
-__osContLastCmd = 0x8001FB04;
-__osEepromTimerMsg = 0x8001FB08;
-__osBaseTimer = 0x8001FB10;
+__osContLastCmd = 0x8001FB04; // size:0x1
+__osEepromTimerMsg = 0x8001FB08; // size:0x4
+__osBaseTimer = 0x8001FB10; // size:0x20
 __osTimerCounter = 0x8001FB30; // size:0x4
+D_8001FB40 = 0x8001FB40; // size:0x2000
 __osEepromTimer = 0x80021B40;
 __osEventStateTab = 0x80021B60; // size:0x78
-__osFinalrom = 0x80021BD8;
+__osFinalrom = 0x80021BD8; // size:0x4
 window = 0x80021BE0;
-inptr = 0x80029BE0;
+inptr = 0x80029BE0; // size:0x4
 __osEepromTimerQ = 0x80029BE8;
 ifd = 0x80029C00; // size:0x8
 sPiMgrCmdQueue = 0x80029C08;

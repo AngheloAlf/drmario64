@@ -3,11 +3,10 @@
  */
 
 #include "main_menu.h"
+
 #include "libultra.h"
-#include "include_asm.h"
+
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
 #include "util.h"
 #include "rom_offsets.h"
 #include "audio/sound.h"
@@ -26,8 +25,23 @@
 #include "dm_thread.h"
 
 #if VERSION_US || CC_CHECK
-#include "joy.h"
+#else
+#define AVOID_JOY_FUNCTIONS 1
 #endif
+#include "joy.h"
+
+/**
+ * Original name: watchMenu
+ */
+struct_watchMenu *watchMenu;
+/**
+ * Original name: _menuMain_lastDepth
+ */
+s32 _menuMain_lastDepth;
+/**
+ * Original name: _menuMain_lastSelect
+ */
+s32 _menuMain_lastSelect[8]; // probably an enum
 
 f32 func_80045DD0(f32 arg0, f32 arg1) {
     arg0 += arg1;

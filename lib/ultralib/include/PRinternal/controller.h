@@ -5,15 +5,15 @@
 #include "PR/os_version.h"
 #include "PR/rcp.h"
 
-//should go somewhere else but
-#define ARRLEN(x) ((s32)(sizeof(x) / sizeof(x[0])))
+#include "PRinternal/macros.h"
+
 #define CHNL_ERR(format) (((format).rxsize & CHNL_ERR_MASK) >> 4)
 
 typedef struct
 {
     /* 0x0 */ u32 ramarray[15];
     /* 0x3C */ u32 pifstatus;
-} OSPifRam;
+} OSPifRam ALIGNED(0x10);
 
 typedef struct
 {
@@ -251,36 +251,35 @@ extern u8 __osMaxControllers;
 #define SELECT_BANK(pfs, bank) \
     __osPfsSelectBank((pfs), (bank))
 
-#define SET_ACTIVEBANK_TO_ZERO        \
-    if (pfs->activebank != 0)         \
-    {                                 \
+#define SET_ACTIVEBANK_TO_ZERO()          \
+    if (pfs->activebank != 0)             \
+    {                                     \
         ERRCK(__osPfsSelectBank(pfs, 0)); \
     } (void)0
 
 #else
 
 #define SELECT_BANK(pfs, bank) \
-    (pfs->activebank = (bank), \
-    __osPfsSelectBank((pfs))) \
+    (pfs->activebank = (bank), __osPfsSelectBank((pfs)))
 
-#define SET_ACTIVEBANK_TO_ZERO        \
-    if (pfs->activebank != 0)         \
-    {                                 \
-        pfs->activebank = 0; \
+#define SET_ACTIVEBANK_TO_ZERO()       \
+    if (pfs->activebank != 0)          \
+    {                                  \
+        pfs->activebank = 0;           \
         ERRCK(__osPfsSelectBank(pfs)); \
     } (void)0
 
 #endif
 
-#define PFS_CHECK_ID                              \
+#define PFS_CHECK_ID()                        \
     if (__osCheckId(pfs) == PFS_ERR_NEW_PACK) \
         return PFS_ERR_NEW_PACK
 
-#define PFS_CHECK_STATUS                          \
+#define PFS_CHECK_STATUS()                    \
     if ((pfs->status & PFS_INITIALIZED) == 0) \
         return PFS_ERR_INVALID
 
-#define PFS_GET_STATUS                      \
+#define PFS_GET_STATUS()                    \
     __osSiGetAccess();                      \
     ret = __osPfsGetStatus(queue, channel); \
     __osSiRelAccess();                      \

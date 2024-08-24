@@ -4,14 +4,45 @@
 
 #include "main1x.h"
 
-#include "include_asm.h"
+#include "gcc/stdlib.h"
+
 #include "macros_defines.h"
-#include "unknown_structs.h"
-#include "main_segment_variables.h"
+
+#include "aiset.h"
+#include "dm_game_main.h"
+#include "main_story.h"
 #include "record.h"
 #include "vr_init.h"
-#include "main_story.h"
-#include "aiset.h"
+
+/**
+ * Original name: Original name: evs_playmax
+ */
+u8 evs_playmax;
+
+/**
+ * Original name: evs_gamesel
+ */
+enum_evs_gamesel evs_gamesel;
+
+/**
+ * Original name: evs_default_name
+ */
+s32 evs_default_name[8];
+
+/**
+ * Original name: evs_cfg_4p
+ */
+struct_evs_cfg_4p evs_cfg_4p;
+
+/**
+ * Original name: evs_select_name_no
+ */
+u8 evs_select_name_no[2];
+
+/**
+ * Original name: evs_game_time
+ */
+u32 evs_game_time;
 
 /**
  * Original name: evs_stereo

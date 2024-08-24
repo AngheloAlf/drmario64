@@ -7,14 +7,17 @@
 
 #include "audio/music_driver.h"
 
-#include "include_asm.h"
+#include "libc/stdint.h"
+
+#include "alignment.h"
 #include "macros_defines.h"
-#include "unknown_structs.h"
 #include "unk.h"
-#include "main_segment_variables.h"
+
 #include "PR/sched.h"
 #include "nnsched.h"
 #include "dmadata.h"
+
+Audio_struct_800FAF98 *gAudio_800FAF98;
 
 void DmaRomToRam(RomOffset segmentRom, void *segmentVram, size_t segmentSize);
 
