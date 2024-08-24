@@ -25,7 +25,7 @@
     )
 #endif
 
-#ifdef MODERN_GCC
+#if MODERN_GCC
 __asm__(".include \"macro.inc\"\n");
 #else
 __asm__(".include \"include/labels.inc\"\n");

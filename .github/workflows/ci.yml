@@ -5,7 +5,7 @@ on: [push, pull_request_target]
 
 jobs:
   build_repo:
-    name: Build (${{ matrix.version }} with ${{ matrix.compiler }})
+    name: Build version '${{ matrix.version }}' with compiler '${{ matrix.compiler }}'
     runs-on: ubuntu-latest
 
     strategy:
@@ -13,6 +13,9 @@ jobs:
       matrix:
         version: [us, cn, gw]
         compiler: [original, gcc]
+        exclude:
+          - version: cn # needs ultralib matching
+            compiler: gcc
 
     steps:
     - name: Checkout repository

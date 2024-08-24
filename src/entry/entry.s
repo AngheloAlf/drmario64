@@ -21,7 +21,13 @@ LEAF(entrypoint)
 #if VERSION_US || VERSION_GW
     LA($t2, bootproc)
 #endif
+
+#if VERSION_US || VERSION_GW || MODDING
+    la      $sp, gBootThreadStack + BOOT_STACK_SIZE
+#else
     LA($sp, gBootThreadStackTop)
+#endif
+
 #if VERSION_CN
     LA($t2, bootproc)
 #endif

@@ -24,7 +24,7 @@
 #include "dm_virus_init.h"
 #include "dm_thread.h"
 
-#if VERSION_US || CC_CHECK
+#if VERSION_US || CC_CHECK || MODDING
 #else
 #define AVOID_JOY_FUNCTIONS 1
 #endif

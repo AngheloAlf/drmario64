@@ -14,7 +14,7 @@
 #include "libc/assert.h"
 #include "font.h"
 
-#if VERSION_US || CC_CHECK
+#if VERSION_US || CC_CHECK || MODDING
 #include "audio/sound.h"
 #endif
 

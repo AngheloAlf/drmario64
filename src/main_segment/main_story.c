@@ -27,7 +27,7 @@
 #include "assets/title/title_bmp.h"
 #include "assets/waku/waku2.h"
 
-#if VERSION_US || VERSION_GW || CC_CHECK
+#if VERSION_US || VERSION_GW || CC_CHECK || MODDING
 #else
 // The compiler needs to not see the declared functions to match the cn version
 #define AVOID_JOY_FUNCTIONS 1

@@ -21,7 +21,7 @@
 #include "dm_virus_init.h"
 #include "util.h"
 
-#if VERSION_US || VERSION_GW || CC_CHECK
+#if VERSION_US || VERSION_GW || CC_CHECK || MODDING
 #include "aiset.h"
 #endif
 

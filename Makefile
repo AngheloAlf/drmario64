@@ -243,7 +243,9 @@ CHAR_SIGN       := -funsigned-char
 # libultra 2.0K
 LIBULTRA_VERSION:= 8
 else ifeq ($(VERSION),cn)
+ifeq ($(COMPILER), original)
 CFLAGS          += -mcpu=4300
+endif
 OPTFLAGS        := -O2
 DBGFLAGS        := -ggdb
 MIPS_VERSION    := -mips2

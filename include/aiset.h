@@ -65,7 +65,7 @@ typedef struct Unk_AIFEntry {
 
 void func_8002EB00(struct struct_game_state_data *gameStateDataRef);
 void aifMakeBlkWork(struct struct_game_state_data *gameStateDataRef);
-#if VERSION_US || VERSION_GW || CC_CHECK
+#if VERSION_US || VERSION_GW || CC_CHECK || MODDING
 void aifMakeFlagSet(struct struct_game_state_data *gameStateDataRef);
 #endif
 void aifGameInit(void);

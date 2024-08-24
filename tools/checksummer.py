@@ -24,6 +24,8 @@ def eprint(*args, **kwargs):
 
 
 def updateChecksum(romBytes: bytearray):
+    assert len(romBytes) >= 0x101000, f"ROM is too small: 0x{len(romBytes):06X} ({len(romBytes)//1024} KiB)"
+
     # Detect CIC
     cicKind = ipl3checksum.detectCIC(romBytes)
     if cicKind is None:

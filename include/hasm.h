@@ -52,8 +52,7 @@
 .endm
 
 #define LA(dst, address) \
-    lui         dst, %hi(address); \
-    addiu       dst, dst, %lo(address)
+    la          dst, address
 
 #define NOP_N64 nop
 #define NOP_IQUE
@@ -70,9 +69,14 @@
     .set reorder
 .endm
 
+#if MODDING
+#define LA(dst, address) \
+    la          dst, address
+#else
 #define LA(dst, address) \
     lui         dst, address ## _HI; \
     ori         dst, dst, address ## _LO
+#endif
 
 #define NOP_N64
 #define NOP_IQUE nop

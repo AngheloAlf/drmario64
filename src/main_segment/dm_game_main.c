@@ -31,7 +31,7 @@
 #include "libc/assert.h"
 #include "dm_thread.h"
 
-#if VERSION_US || VERSION_GW || CC_CHECK
+#if VERSION_US || VERSION_GW || CC_CHECK || MODDING
 #else
 #define AVOID_JOY_FUNCTIONS 1
 #endif
