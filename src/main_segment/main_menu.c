@@ -1213,7 +1213,11 @@ void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
+#ifdef PRESERVE_UB
+    a3 = 1;
+#endif
     //! @bug: reads unset $a2 register (us) / $a3 register (cn) variable
+    //! In the original game this register is always non-zero, so we just set `$a3` to 1 to replicate this behavior.
     if (a3 != 0) {
         MenuItem *item = &bottle->unk_98;
         TiTexData *temp_t1 = _getTexLevel(bottle->watchMenuRef, 0);
@@ -9549,6 +9553,8 @@ void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, s32 arg3
     }
 
     func_80057898(&menuRank->unk_03BC, menuRank->watchMenuRef, 3, sp3C, 0x23, 0x30);
+
+    //! @bug: `idP`, `xP`, `yP`, `count` may be unset
     func_80057AFC(&temp_s3->unk_0004, menuRank->watchMenuRef, _hedAllType_10392, idP, xP, yP, count, 0, -0x10);
 
     for (i = 0; i < temp_s3->unk_0000; i++) {
@@ -9791,6 +9797,8 @@ void menuRank_update(MenuRank *menuRank) {
     s32 i;
 
     func_800464BC(&menuRank->unk_017C, rootItem);
+
+    //! @bug `i` is used but not set.
     func_800464F8(&menuRank->unk_020C[i], ARRAY_COUNT(menuRank->unk_020C), rootItem);
 
     func_800464BC(&menuRank->unk_032C, rootItem);

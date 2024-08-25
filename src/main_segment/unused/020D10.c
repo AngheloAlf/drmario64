@@ -711,6 +711,7 @@ void *func_8003A26C(void *heap) {
         temp_s3->unk_60[var_s5] = ALIGN_PTR(heap);
         heap = (void *)((uintptr_t)temp_s3->unk_60[var_s5] + sizeof(Mtx));
 
+        //! @bug: `s6` read but not set
         guRotateRPY(temp_s3->unk_60[var_s5], 0.0f, s6 * 180.0f, 0.0f);
     }
 

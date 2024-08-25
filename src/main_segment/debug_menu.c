@@ -316,7 +316,7 @@ void DebugMenu_8003EEA4(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
             var_a1++;
         }
         if (buttonPressed & R_JPAD) {
-            var_a1 -= 1;
+            var_a1--;
         }
 
         B_800E58B4 = CLAMP(B_800E58B4 + var_a1, 0, var_t1 - 1);
@@ -326,7 +326,7 @@ void DebugMenu_8003EEA4(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
             var_a1++;
         }
         if (buttonCurrent & D_JPAD) {
-            var_a1 -= 1;
+            var_a1--;
         }
 
         B_800E58C0[character] = CLAMP(B_800E58C0[character] + D_8008E370[B_800E58B4] * var_a1, var_t2, var_t0);
@@ -862,6 +862,10 @@ s32 DebugMenu_8003FEE4(void) {
     for (i = 0; i < D_8008E558[3]; i++) {
         s32 var_a1;
 
+#if PRESERVE_UB
+        var_a1 = 0;
+#endif
+
         switch (sp8.unk_2 & (1 << i)) {
             case 0x1:
                 var_a1 = (sp8.unk_0 == 2) && (sp8.unk_1 >= 4);
@@ -944,7 +948,7 @@ s32 DebugMenu_8003FEE4(void) {
                 break;
         }
 
-        //! @bug: reading variable maybe not set
+        //! @bug: using `var_a1` which may be unitialized
         if (var_a1 != 0) {
             sp8.unk_2 &= ~(1 << i);
         }

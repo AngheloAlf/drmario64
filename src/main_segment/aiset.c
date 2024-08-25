@@ -2920,6 +2920,10 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
         }
     }
 
+#if PRESERVE_UB
+    var_a1_2 = 0;
+#endif
+
     var_s3 = 0;
 
     for (var_t1 = 2; var_t1 < 6; var_t1++) {
