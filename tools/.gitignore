@@ -3,3 +3,5 @@ gcc_egcs/
 gcc_egcs_og/
 
 slinky/
+
+libs/

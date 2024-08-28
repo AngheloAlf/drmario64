@@ -224,24 +224,24 @@ void adjust_story_ai(void) {
                     case CHARANIMEMODE_N:
                         if (evs_story_no == 1) {
                             *temp_a1 = ai_char_data[1];
-                            temp_a1->unk_01 = 1;
+                            temp_a1->speed = 1;
                         }
                         break;
 
                     case CHARANIMEMODE_K:
-                        temp_a1->unk_01 = 1;
+                        temp_a1->speed = 1;
                         temp_a1->unk_3C[0] = 0;
                         temp_a1->unk_3C[2] = 0;
                         break;
 
                     case CHARANIMEMODE_L:
                     case CHARANIMEMODE_O:
-                        temp_a1->unk_01 = 2;
+                        temp_a1->speed = 2;
                         temp_a1->unk_3C[0] = 0;
                         break;
 
                     case CHARANIMEMODE_C:
-                        temp_a1->unk_01 = 2;
+                        temp_a1->speed = 2;
                         break;
 
                     default:
@@ -255,45 +255,45 @@ void adjust_story_ai(void) {
                     case CHARANIMEMODE_N:
                         if (evs_story_no == 1) {
                             *temp_a1 = ai_char_data[1];
-                            temp_a1->unk_01 = 1;
+                            temp_a1->speed = 1;
                         } else {
-                            temp_a1->unk_01 = 1;
+                            temp_a1->speed = 1;
                             temp_a1->unk_3C[1] = 0;
                         }
                         break;
 
                     case CHARANIMEMODE_G:
-                        temp_a1->unk_01 = 1;
+                        temp_a1->speed = 1;
                         temp_a1->unk_3C[0] = 0;
                         temp_a1->unk_3C[1] = 0;
                         break;
 
                     case CHARANIMEMODE_K:
-                        temp_a1->unk_01 = 2;
+                        temp_a1->speed = 2;
                         temp_a1->unk_3C[0] = 0;
                         temp_a1->unk_3C[2] = 0;
                         break;
 
                     case CHARANIMEMODE_L:
                     case CHARANIMEMODE_O:
-                        temp_a1->unk_01 = 2;
+                        temp_a1->speed = 2;
                         temp_a1->unk_3C[0] = 0;
                         break;
 
                     case CHARANIMEMODE_A:
-                        temp_a1->unk_01 = 2;
+                        temp_a1->speed = 2;
                         break;
 
                     case CHARANIMEMODE_D:
-                        temp_a1->unk_01 = 1;
+                        temp_a1->speed = 1;
                         break;
 
                     case CHARANIMEMODE_F:
-                        temp_a1->unk_01 = 1;
+                        temp_a1->speed = 1;
                         break;
 
                     case CHARANIMEMODE_C:
-                        temp_a1->unk_01 = 1;
+                        temp_a1->speed = 1;
                         break;
 
                     case CHARANIMEMODE_E:
@@ -311,36 +311,36 @@ void adjust_story_ai(void) {
                     case CHARANIMEMODE_N:
                         if (evs_story_no == 1) {
                             *temp_a1 = ai_char_data[1];
-                            temp_a1->unk_01 = 1;
+                            temp_a1->speed = 1;
                         } else {
-                            temp_a1->unk_01 = 2;
+                            temp_a1->speed = 2;
                             temp_a1->unk_3C[1] = 0;
                         }
                         break;
 
                     case CHARANIMEMODE_I:
-                        temp_a1->unk_01 = 2;
+                        temp_a1->speed = 2;
                         temp_a1->unk_3C[1] = 0;
                         break;
 
                     case CHARANIMEMODE_B:
-                        temp_a1->unk_01 = 2;
+                        temp_a1->speed = 2;
                         temp_a1->unk_3C[2] = 0;
                         break;
 
                     case CHARANIMEMODE_F:
-                        temp_a1->unk_01 = 3;
+                        temp_a1->speed = 3;
                         temp_a1->unk_3C[1] = 0;
                         break;
 
                     case CHARANIMEMODE_G:
-                        temp_a1->unk_01 = 2;
+                        temp_a1->speed = 2;
                         temp_a1->unk_3C[0] = 0;
                         temp_a1->unk_3C[1] = 0;
                         break;
 
                     case CHARANIMEMODE_K:
-                        temp_a1->unk_01 = 3;
+                        temp_a1->speed = 3;
                         temp_a1->unk_00 = 0;
                         temp_a1->unk_0C[2] = 2;
                         temp_a1->unk_1C[2] = 0xF;
@@ -351,16 +351,16 @@ void adjust_story_ai(void) {
                     case CHARANIMEMODE_J:
                     case CHARANIMEMODE_L:
                     case CHARANIMEMODE_O:
-                        temp_a1->unk_01 = 3;
+                        temp_a1->speed = 3;
                         temp_a1->unk_3C[0] = 0;
                         break;
 
                     case CHARANIMEMODE_C:
-                        temp_a1->unk_01 = 2;
+                        temp_a1->speed = 2;
                         break;
 
                     case CHARANIMEMODE_A:
-                        temp_a1->unk_01 = 5;
+                        temp_a1->speed = 5;
                         break;
 
                     default:
@@ -376,49 +376,49 @@ void adjust_story_ai(void) {
                             *temp_a1 = ai_char_data[1];
                             temp_a1->unk_3C[1] = 0;
                         }
-                        temp_a1->unk_01 = 1;
+                        temp_a1->speed = 1;
                         break;
 
                     case CHARANIMEMODE_I:
-                        temp_a1->unk_01 = 2;
+                        temp_a1->speed = 2;
                         temp_a1->unk_3C[1] = 0;
                         break;
 
                     case CHARANIMEMODE_B:
-                        temp_a1->unk_01 = 2;
+                        temp_a1->speed = 2;
                         break;
 
                     case CHARANIMEMODE_A:
-                        temp_a1->unk_01 = 5;
+                        temp_a1->speed = 5;
                         break;
 
                     case CHARANIMEMODE_D:
-                        temp_a1->unk_01 = 4;
+                        temp_a1->speed = 4;
                         break;
 
                     case CHARANIMEMODE_H:
-                        temp_a1->unk_01 = 3;
+                        temp_a1->speed = 3;
                         break;
 
                     case CHARANIMEMODE_J:
-                        temp_a1->unk_01 = 3;
+                        temp_a1->speed = 3;
                         break;
 
                     case CHARANIMEMODE_E:
-                        temp_a1->unk_01 = 3;
+                        temp_a1->speed = 3;
                         break;
                     case CHARANIMEMODE_F:
-                        temp_a1->unk_01 = 3;
+                        temp_a1->speed = 3;
                         break;
 
                     case CHARANIMEMODE_K:
-                        temp_a1->unk_01 = 5;
+                        temp_a1->speed = 5;
                         temp_a1->unk_3C[1] = 0;
                         break;
 
                     case CHARANIMEMODE_L:
                     case CHARANIMEMODE_O:
-                        temp_a1->unk_01 = 5;
+                        temp_a1->speed = 5;
                         temp_a1->unk_3C[0] = 6;
                         break;
 

@@ -6,6 +6,8 @@
 
 #include "debug_menu.h"
 
+#include "libc/assert.h"
+
 #include "util.h"
 #include "macros_defines.h"
 
@@ -14,19 +16,107 @@
 #include "main1x.h"
 #include "screen_print/debug_print.h"
 
-typedef enum enum_800E5930 {
-    /* 0 */ ENUM_800E5930_0,
-    /* 1 */ ENUM_800E5930_1,
-    /* 2 */ ENUM_800E5930_2,
-    /* 3 */ ENUM_800E5930_MAX
-} enum_800E5930;
+typedef enum SettingsPage {
+    /* 0 */ SETTINGS_PAGE_LOGIC_MENU,
+    /* 1 */ SETTINGS_PAGE_CHARACTER_MENU,
+    /* 2 */ SETTINGS_PAGE_SPEED_MENU,
+
+// This macro should expand to (the last entry + 1)
+#define SETTINGS_PAGE_MAX (3)
+} SettingsPage;
+
+typedef enum CharacterEditColumn {
+    /* 0 */ CHARACTER_EDIT_COLUMN_NAME,
+    /* 1 */ CHARACTER_EDIT_COLUMN_PERFORMANCE,
+    /* 2 */ CHARACTER_EDIT_COLUMN_SPEED,
+    /* 3 */ CHARACTER_EDIT_COLUMN_SPECIAL,
+
+// This macro should expand to (the last entry + 1)
+#define CHARACTER_EDIT_COLUMN_MAX (4)
+} CharacterEditColumn;
+
+typedef enum CharacterEditChar {
+    /*  0 */ CHARACTER_EDIT_CHAR_MARIO,
+    /*  1 */ CHARACTER_EDIT_CHAR_KOOPATROOPA,
+    /*  2 */ CHARACTER_EDIT_CHAR_BOBOMB,
+    /*  3 */ CHARACTER_EDIT_CHAR_CHEEPCHEEP,
+    /*  4 */ CHARACTER_EDIT_CHAR_MONTYMOLE,
+    /*  5 */ CHARACTER_EDIT_CHAR_FLYGUY,
+    /*  6 */ CHARACTER_EDIT_CHAR_WIGGLER,
+    /*  7 */ CHARACTER_EDIT_CHAR_TERESA,
+    /*  8 */ CHARACTER_EDIT_CHAR_PIRANHAPLANT,
+    /*  9 */ CHARACTER_EDIT_CHAR_KAMEK,
+    /* 10 */ CHARACTER_EDIT_CHAR_BOWSER,
+    /* 11 */ CHARACTER_EDIT_CHAR_PRINCESSPEACH,
+
+// This macro should expand to (the last entry + 1)
+#define CHARACTER_EDIT_CHAR_MAX (12)
+} CharacterEditChar;
+
+typedef enum CharacterEditPerformance {
+    /* 0 */ CHARACTER_EDIT_PERF_SPEED,
+    /* 1 */ CHARACTER_EDIT_PERF_BALANCE,
+    /* 2 */ CHARACTER_EDIT_PERF_ATTACK,
+    /* 3 */ CHARACTER_EDIT_PERF_BIG_CHAIN,
+    /* 4 */ CHARACTER_EDIT_PERF_YOKOZUKI,
+
+// This macro should expand to (the last entry + 1)
+#define CHARACTER_EDIT_PERF_MAX (5)
+} CharacterEditPerformance;
+
+typedef enum CharacterEditSpeed {
+    /* 0 */ CHARACTER_EDIT_SPEED_VERY_SLOW,
+    /* 1 */ CHARACTER_EDIT_SPEED_SLOW,
+    /* 2 */ CHARACTER_EDIT_SPEED_NORMAL,
+    /* 3 */ CHARACTER_EDIT_SPEED_QUICK,
+    /* 4 */ CHARACTER_EDIT_SPEED_VERY_QUICK,
+    /* 5 */ CHARACTER_EDIT_SPEED_MORE_QUICK,
+
+// This macro should expand to (the last entry + 1)
+#define CHARACTER_EDIT_SPEED_MAX (6)
+} CharacterEditSpeed;
+
+typedef enum CharacterEditSpecial {
+    /*  0 */ CHARACTER_EDIT_SPECIAL_PREEMTIVE_ATTACK,
+    /*  1 */ CHARACTER_EDIT_SPECIAL_COUNTER,
+    /*  2 */ CHARACTER_EDIT_SPECIAL_LUCK,
+    /*  3 */ CHARACTER_EDIT_SPECIAL_BEWILDERMENT,
+    /*  4 */ CHARACTER_EDIT_SPECIAL_ROTATE,
+    /*  5 */ CHARACTER_EDIT_SPECIAL_PROVOKE,
+    /*  6 */ CHARACTER_EDIT_SPECIAL_DOUYOU,
+    /*  7 */ CHARACTER_EDIT_SPECIAL_SPEED,
+    /*  8 */ CHARACTER_EDIT_SPECIAL_OIAGERU,
+    /*  9 */ CHARACTER_EDIT_SPECIAL_SHODDY,
+    /* 10 */ CHARACTER_EDIT_SPECIAL_OIKOMI,
+    /* 11 */ CHARACTER_EDIT_SPECIAL_DEFAULT,
+
+// This macro should expand to (the last entry + 1)
+#define CHARACTER_EDIT_SPECIAL_MAX (12)
+} CharacterEditSpecial;
+
+#if MODDING
+#define SettingsPage_type SettingsPage
+#else
+#define SettingsPage_type s32
+#endif
+
+typedef struct CharacterStats {
+    /* 0x0 */ s8 performance;
+    /* 0x1 */ s8 speed;
+    /* 0x2 */ u16 specials;
+} CharacterStats; // size = 0x4
+
+typedef struct CharacterStatsDefaults {
+    /* 0x0 */ s8 performance;
+    /* 0x1 */ s8 speed;
+} CharacterStatsDefaults; // size = 0x2
 
 static s32 B_800E58B0;
 static s32 B_800E58B4;
 static s32 B_800E58B8;
 static bool B_800E58BC;
 static s16 B_800E58C0[40];
-static s32 B_800E5910;
+static s32 sDebugMenu_CursorCounter;
 static s32 B_800E5914;
 static s32 B_800E5918;
 static s32 B_800E591C;
@@ -34,12 +124,12 @@ static s32 B_800E5920;
 static s32 B_800E5924;
 static s32 B_800E5928;
 static s32 B_800E592C;
-static s32 B_800E5930; // enum_800E5930
-static s32 B_800E5934;
-static struct_800E5938 B_800E5938[12];
-static struct_800E5968 B_800E5968;
-static s32 B_800E596C;
-static s32 B_800E5970[4];
+static SettingsPage_type sDebugMenu_CurrentSettingsPage;
+static s32 sDebugMenu_CharacterEdit_SelectedCharacter;
+static CharacterStats sDebugMenu_CharacterEdit_CharacterStats[CHARACTER_EDIT_CHAR_MAX];
+static CharacterStatsDefaults sDebugMenu_CharacterEdit_DefaultStats;
+static s32 sDebugMenu_CharacterEdit_SelectedColumn;
+static s32 sDebugMenu_CharacterEdit_SelectedRow[CHARACTER_EDIT_COLUMN_MAX];
 
 s32 D_8008E370[] = {
     1,
@@ -105,8 +195,8 @@ void DebugMenu_8003E730(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
     }
 
     if (gfxP != NULL) {
-        B_800E5910++;
-        if (B_800E5910 & 0x10) {
+        sDebugMenu_CursorCounter++;
+        if (sDebugMenu_CursorCounter & 0x10) {
             DebugPrint_DrawCharacter(gfxP, posX + ((2 - B_800E58B0) * DBGPRT_FONT_CHAR_WIDTH),
                                      posY + DBGPRT_FONT_CHAR_HEIGHT, '^');
         }
@@ -143,41 +233,32 @@ const char *D_8008E4A0[] = {
     "Hard",
 };
 
-void DebugMenu_8003E8C8(Gfx **gxfP, s32 posX, s32 posY) {
+void DebugMenu_Page_SpeedMenu_Draw(Gfx **gxfP, s32 posX, s32 posY) {
     PrinterState_Callback callback = DebugMenu_8003E730;
     s32 i;
     s32 j;
 
     DebugPrint_Open(gxfP, callback, posX, posY + DBGPRT_FONT_CHAR_HEIGHT);
-
     DebugPrint_Printf(DBGPRT_COLOR(GREEN) "");
-
     for (i = 0; i < ARRAY_COUNT(D_8008E490); i++) {
         DebugPrint_Printf("%s\n\n\n\n\n\n", D_8008E490[i]);
     }
-
     DebugPrint_Close();
 
     DebugPrint_Open(gxfP, callback, posX + 7 * DBGPRT_FONT_CHAR_WIDTH, posY + DBGPRT_FONT_CHAR_HEIGHT);
-
     DebugPrint_Printf(DBGPRT_COLOR(GREEN) "");
-
     for (i = 0; i < 4; i++) {
         for (j = 0; j < ARRAY_COUNT(D_8008E4A0); j++) {
             DebugPrint_Printf("%6s\n\n", D_8008E4A0[j]);
         }
     }
-
     DebugPrint_Close();
 
     DebugPrint_Open(gxfP, callback, posX + 14 * DBGPRT_FONT_CHAR_WIDTH, posY);
-
     DebugPrint_Printf(DBGPRT_COLOR(GREEN) "S_er Slow Fast F_er Fest N_Wt F_NW");
-
     DebugPrint_Close();
 
     DebugPrint_Open(gxfP, callback, posX + 15 * DBGPRT_FONT_CHAR_WIDTH, posY + DBGPRT_FONT_CHAR_HEIGHT);
-
     for (i = 0; i < ARRAY_COUNT(D_8008E480); i++) {
         for (j = 0; j < ARRAY_COUNT(*D_8008E480[i]); j++) {
             s32 k;
@@ -189,7 +270,6 @@ void DebugMenu_8003E8C8(Gfx **gxfP, s32 posX, s32 posY) {
             DebugPrint_Printf("\n\n");
         }
     }
-
     DebugPrint_Close();
 
     DebugPrint_Open(gxfP, callback, posX, posY + 25 * DBGPRT_FONT_CHAR_HEIGHT);
@@ -303,8 +383,8 @@ void DebugMenu_8003EEA4(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
     }
 
     if (gfxP != NULL) {
-        B_800E5910++;
-        if (B_800E5910 & 0x10) {
+        sDebugMenu_CursorCounter++;
+        if (sDebugMenu_CursorCounter & 0x10) {
             DebugPrint_DrawCharacter(gfxP, posX + (((var_t1 - B_800E58B4) - 1) * DBGPRT_FONT_CHAR_WIDTH),
                                      posY + DBGPRT_FONT_CHAR_HEIGHT, '^');
         }
@@ -333,7 +413,7 @@ void DebugMenu_8003EEA4(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
     }
 }
 
-void DebugMenu_8003F050(Gfx **gxfP, s32 posX, s32 posY) {
+void DebugMenu_Page_LogicMenu_Draw(Gfx **gxfP, s32 posX, s32 posY) {
     s16 *temp = B_800E58C0;
     s32 index = 0;
     s32 i;
@@ -411,11 +491,11 @@ void DebugMenu_8003F360(void) {
 
     *var_a3++ = B_800E5928;
     *var_a3++ = temp_a1->unk_00;
-    *var_a3++ = temp_a1->unk_01;
+    *var_a3++ = temp_a1->speed;
     *var_a3++ = temp_a1->unk_02;
 
-    for (i = 0; i < ARRAY_COUNT(temp_a1->unk_04); i++) {
-        *var_a3++ = temp_a1->unk_04[i];
+    for (i = 0; i < ARRAY_COUNT(temp_a1->performance); i++) {
+        *var_a3++ = temp_a1->performance[i];
     }
 
     for (i = B_800E592C; i < B_800E592C + 4; i++) {
@@ -433,11 +513,11 @@ void DebugMenu_8003F474(void) {
 
     B_800E5928 = *var_t1++;
     temp_t3->unk_00 = *var_t1++;
-    temp_t3->unk_01 = *var_t1++;
+    temp_t3->speed = *var_t1++;
     temp_t3->unk_02 = *var_t1++;
 
-    for (i = 0; i < ARRAY_COUNT(temp_t3->unk_04); i++) {
-        temp_t3->unk_04[i] = *var_t1++;
+    for (i = 0; i < ARRAY_COUNT(temp_t3->performance); i++) {
+        temp_t3->performance[i] = *var_t1++;
     }
 
     for (i = B_800E592C; i < B_800E592C + 4; i++) {
@@ -510,8 +590,8 @@ void DebugMenu_8003F568(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
     }
 
     if (gfxP != NULL) {
-        B_800E5910++;
-        if (B_800E5910 & 0x10) {
+        sDebugMenu_CursorCounter++;
+        if (sDebugMenu_CursorCounter & 0x10) {
             DebugPrint_DrawCharacter(gfxP, posX + (((var_t0 - B_800E58B8) - 1) * DBGPRT_FONT_CHAR_WIDTH),
                                      posY + DBGPRT_FONT_CHAR_HEIGHT, '^');
         }
@@ -524,7 +604,7 @@ void DebugMenu_8003F568(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
             var_a1++;
         }
         if (buttonPressed & R_JPAD) {
-            var_a1 -= 1;
+            var_a1--;
         }
 
         B_800E58B8 = CLAMP(B_800E58B8 + var_a1, 0, var_t0 - 1);
@@ -566,7 +646,7 @@ void DebugMenu_8003F568(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
     }
 }
 
-void DebugMenu_8003F7DC(Gfx **gxfP, s32 posX, s32 posY) {
+void DebugMenu_Page_CharacterMenu_Draw(Gfx **gxfP, s32 posX, s32 posY) {
     s16 *new_var = B_800E58C0;
     s32 var_s0 = 0;
     s32 i;
@@ -642,39 +722,39 @@ void DebugMenu_8003F7DC(Gfx **gxfP, s32 posX, s32 posY) {
     DebugPrint_Close();
 }
 
-void DebugMenu_8003FB00(void) {
-    s32 temp_s0 = joycur[0];
-    s32 temp;
+void DebugMenu_Settings_Update(void) {
+    u16 button = joycur[0];
+    s32 dir;
 
-    temp = 0;
+    dir = 0;
     if (gControllerPressedButtons[0] & L_CBUTTONS) {
-        temp--;
+        dir--;
     }
     if (gControllerPressedButtons[0] & R_CBUTTONS) {
-        temp++;
+        dir++;
     }
 
-    B_800E5930 = WrapI(0, ENUM_800E5930_MAX, B_800E5930 + temp);
+    sDebugMenu_CurrentSettingsPage = WrapI(0, SETTINGS_PAGE_MAX, sDebugMenu_CurrentSettingsPage + dir);
 
-    temp = 0;
-    if (temp_s0 & L_TRIG) {
-        temp--;
+    dir = 0;
+    if (button & L_TRIG) {
+        dir--;
     }
-    if (temp_s0 & R_TRIG) {
-        temp++;
+    if (button & R_TRIG) {
+        dir++;
     }
 
-    switch (B_800E5930) {
-        case ENUM_800E5930_0:
-            B_800E5918 = WrapI(0, 0x1F, B_800E5918 + temp);
+    switch (sDebugMenu_CurrentSettingsPage) {
+        case SETTINGS_PAGE_LOGIC_MENU:
+            B_800E5918 = WrapI(0, 0x1F, B_800E5918 + dir);
             DebugMenu_8003EB20();
-            DebugMenu_8003F050(NULL, 0x10, 0x10);
+            DebugMenu_Page_LogicMenu_Draw(NULL, 0x10, 0x10);
             DebugMenu_8003ECDC();
             break;
 
-        case ENUM_800E5930_1:
-            B_800E5924 = WrapI(0, 0x1C, B_800E5924 + temp);
-            if (temp > 0) {
+        case SETTINGS_PAGE_CHARACTER_MENU:
+            B_800E5924 = WrapI(0, 0x1C, B_800E5924 + dir);
+            if (dir > 0) {
                 if (B_800E5924 == 0) {
                     B_800E592C = WrapI(0, 0x10, B_800E592C + 4);
                     if (B_800E592C != 0) {
@@ -683,7 +763,7 @@ void DebugMenu_8003FB00(void) {
                 } else if (B_800E5924 == 0xC) {
                     B_800E592C = 0;
                 }
-            } else if (temp < 0) {
+            } else if (dir < 0) {
                 if (B_800E5924 == 0xB) {
                     if (B_800E592C != 0) {
                         B_800E5924 = 0x1B;
@@ -695,124 +775,130 @@ void DebugMenu_8003FB00(void) {
             }
 
             DebugMenu_8003F360();
-            DebugMenu_8003F7DC(NULL, 0x10, 0x10);
+            DebugMenu_Page_CharacterMenu_Draw(NULL, 0x10, 0x10);
             DebugMenu_8003F474();
             break;
 
-        case ENUM_800E5930_2:
-            B_800E5914 = WrapI(0, 0x54, B_800E5914 + temp);
-            DebugMenu_8003E8C8(NULL, 0x10, 0x10);
+        case SETTINGS_PAGE_SPEED_MENU:
+            B_800E5914 = WrapI(0, 0x54, B_800E5914 + dir);
+            DebugMenu_Page_SpeedMenu_Draw(NULL, 0x10, 0x10);
             break;
     }
 }
 
-void DebugMenu_8003FD0C(Gfx **gxfP) {
-    switch (B_800E5930) {
-        case ENUM_800E5930_0:
-            DebugMenu_8003F050(gxfP, 0x10, 0x10);
+void DebugMenu_Settings_Draw(Gfx **gxfP) {
+    switch (sDebugMenu_CurrentSettingsPage) {
+        case SETTINGS_PAGE_LOGIC_MENU:
+            DebugMenu_Page_LogicMenu_Draw(gxfP, 0x10, 0x10);
             break;
 
-        case ENUM_800E5930_1:
-            DebugMenu_8003F7DC(gxfP, 0x10, 0x10);
+        case SETTINGS_PAGE_CHARACTER_MENU:
+            DebugMenu_Page_CharacterMenu_Draw(gxfP, 0x10, 0x10);
             break;
 
-        case ENUM_800E5930_2:
-            DebugMenu_8003E8C8(gxfP, 0x10, 0x10);
+        case SETTINGS_PAGE_SPEED_MENU:
+            DebugMenu_Page_SpeedMenu_Draw(gxfP, 0x10, 0x10);
             break;
     }
 }
 
-void DebugMenu_8003FD88(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
+void DebugMenu_Page_CharacterEdit_Callback(Gfx **gfxP, s32 posX, s32 posY, s32 character) {
     u16 button = gControllerPressedButtons[0];
-    struct_800E5938 *temp_a2 = &B_800E5938[B_800E5934];
-    s32 temp_a0 = character >> 5;
-    s32 temp_a3 = character & 0x1F;
+    CharacterStats *stats = &sDebugMenu_CharacterEdit_CharacterStats[sDebugMenu_CharacterEdit_SelectedCharacter];
+    s32 column = character >> 5;
+    s32 row = character & 0x1F;
 
-    if (temp_a0 != B_800E596C) {
+    if (column != sDebugMenu_CharacterEdit_SelectedColumn) {
         return;
     }
 
-    if (temp_a3 != B_800E5970[temp_a0]) {
+    if (row != sDebugMenu_CharacterEdit_SelectedRow[column]) {
         return;
     }
 
     if (gfxP != NULL) {
-        B_800E5910++;
-        if (B_800E5910 & 0x10) {
+        sDebugMenu_CursorCounter++;
+        if (sDebugMenu_CursorCounter & 0x10) {
             DebugPrint_SetColor(gfxP, DBGPRT_COLOR_WHITE);
             DebugPrint_DrawCharacter(gfxP, posX - DBGPRT_FONT_CHAR_WIDTH, posY, '>');
         }
     } else if (button & A_BUTTON) {
-        switch (temp_a0) {
-            case 0x0:
-                B_800E5934 = B_800E5970[temp_a0];
+        switch (column) {
+            case CHARACTER_EDIT_COLUMN_NAME:
+                sDebugMenu_CharacterEdit_SelectedCharacter = sDebugMenu_CharacterEdit_SelectedRow[column];
                 return;
 
-            case 0x1:
-                temp_a2->unk_0 = B_800E5970[temp_a0];
+            case CHARACTER_EDIT_COLUMN_PERFORMANCE:
+                stats->performance = sDebugMenu_CharacterEdit_SelectedRow[column];
                 break;
 
-            case 0x2:
-                temp_a2->unk_1 = B_800E5970[temp_a0];
+            case CHARACTER_EDIT_COLUMN_SPEED:
+                stats->speed = sDebugMenu_CharacterEdit_SelectedRow[column];
                 break;
 
-            case 0x3:
-                temp_a2->unk_2 ^= 1 << B_800E5970[temp_a0];
+            case CHARACTER_EDIT_COLUMN_SPECIAL:
+                stats->specials ^= 1 << sDebugMenu_CharacterEdit_SelectedRow[column];
                 break;
         }
     }
 }
 
-const char *D_8008E4AC[] = {
-    "ﾏﾘｵ",        // "Mario"
-    "ﾉｺﾉｺ",       // "Koopa Troopa"
-    "ﾎﾞﾑﾍｲ",      // "Bob-omb"
-    "ﾌﾟｸﾌﾟｸ",     // "Cheep cheep"
-    "ﾁｮﾛﾌﾟｰ",     // "Monty Mole"
-    "ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ", // "Fly Guy"
-    "ﾊﾅﾁｬﾝ",      // "Wiggler"
-    "ﾃﾚｻ",        // "Teresa", Boo?
-    "ﾊﾟｯｸﾝﾌﾗﾜｰ",  // "Piranha Plant"
-    "ｶﾒｯｸ",       // "Kamek"
-    "ｸｯﾊﾟ",       // "Bowser"
-    "ﾌﾟﾘﾝｾｽﾋﾟｰﾁ", // "Princess Peach"
+const char *sDebugMenu_CharacterEdit_CharacterNames[] = {
+    [CHARACTER_EDIT_CHAR_MARIO] = T("ﾏﾘｵ", "Mario"),
+    [CHARACTER_EDIT_CHAR_KOOPATROOPA] = T("ﾉｺﾉｺ", "KoopaTroopa"),
+    [CHARACTER_EDIT_CHAR_BOBOMB] = T("ﾎﾞﾑﾍｲ", "Bob-omb"),
+    [CHARACTER_EDIT_CHAR_CHEEPCHEEP] = T("ﾌﾟｸﾌﾟｸ", "CheepCheep"),
+    [CHARACTER_EDIT_CHAR_MONTYMOLE] = T("ﾁｮﾛﾌﾟｰ", "Monty Mole"),
+    [CHARACTER_EDIT_CHAR_FLYGUY] = T("ﾌﾟﾛﾍﾟﾗﾍｲﾎｰ", "Fly Guy"),
+    [CHARACTER_EDIT_CHAR_WIGGLER] = T("ﾊﾅﾁｬﾝ", "Wiggler"),
+    [CHARACTER_EDIT_CHAR_TERESA] = T("ﾃﾚｻ", "Teresa"), // Boo?
+    [CHARACTER_EDIT_CHAR_PIRANHAPLANT] = T("ﾊﾟｯｸﾝﾌﾗﾜｰ", "Piranha Plant"),
+    [CHARACTER_EDIT_CHAR_KAMEK] = T("ｶﾒｯｸ", "Kamek"),
+    [CHARACTER_EDIT_CHAR_BOWSER] = T("ｸｯﾊﾟ", "Bowser"),
+    [CHARACTER_EDIT_CHAR_PRINCESSPEACH] = T("ﾌﾟﾘﾝｾｽﾋﾟｰﾁ", "Princess Peach"),
 };
+static_assert(ARRAY_COUNT(sDebugMenu_CharacterEdit_CharacterNames) == CHARACTER_EDIT_CHAR_MAX, "");
 
 const char *D_8008E4DC[] = {
-    "ｽﾋﾟｰﾄﾞ",    // "Speed"
-    "ﾊﾞﾗﾝｽ",     // "Balance"
-    "ｺｳｹﾞｷ",     // "Attack"
-    "ﾀﾞｲﾚﾝｻﾈﾗｲ", // "Big chain"
-    "ﾖｺｽﾞｷ",     //
+    [CHARACTER_EDIT_PERF_SPEED] = T("ｽﾋﾟｰﾄﾞ", "Speed"),
+    [CHARACTER_EDIT_PERF_BALANCE] = T("ﾊﾞﾗﾝｽ", "Balance"),
+    [CHARACTER_EDIT_PERF_ATTACK] = T("ｺｳｹﾞｷ", "Attack"),
+    [CHARACTER_EDIT_PERF_BIG_CHAIN] = T("ﾀﾞｲﾚﾝｻﾈﾗｲ", "Big chain"),
+    [CHARACTER_EDIT_PERF_YOKOZUKI] = T("ﾖｺｽﾞｷ", "Yokozuki"), // TODO
 };
+static_assert(ARRAY_COUNT(D_8008E4DC) == CHARACTER_EDIT_PERF_MAX, "");
 
 const char *D_8008E4F0[] = {
-    "ﾋｼﾞｮｳﾆｵｿｲ", // "Very slow"
-    "ｵｿｲ",       // "Slow"
-    "ﾌﾂｳ",       // "Normal"
-    "ﾊﾔｲ",       // "Quick"
-    "ﾋｼﾞｮｳﾆﾊﾔｲ", // "Very quick"
-    "ﾓｯﾄﾓﾊﾔｲ",   // "More quick"
+    [CHARACTER_EDIT_SPEED_VERY_SLOW] = T("ﾋｼﾞｮｳﾆｵｿｲ", "Very slow"),
+    [CHARACTER_EDIT_SPEED_SLOW] = T("ｵｿｲ", "Slow"),
+    [CHARACTER_EDIT_SPEED_NORMAL] = T("ﾌﾂｳ", "Normal"),
+    [CHARACTER_EDIT_SPEED_QUICK] = T("ﾊﾔｲ", "Quick"),
+    [CHARACTER_EDIT_SPEED_VERY_QUICK] = T("ﾋｼﾞｮｳﾆﾊﾔｲ", "Very quick"),
+    [CHARACTER_EDIT_SPEED_MORE_QUICK] = T("ﾓｯﾄﾓﾊﾔｲ", "More quick"),
 };
+static_assert(ARRAY_COUNT(D_8008E4F0) == CHARACTER_EDIT_SPEED_MAX, "");
 
 const char *D_8008E508[] = {
-    "ｾﾝｾｲｺｳｹﾞｷ",  // "Preemptive attack"
-    "ｶｳﾝﾀｰ",      // "Counter"
-    "ﾗｯｸ",        // "Luck"
-    "ﾏﾖｲ",        // "Bewilderment"
-    "ｸﾙｸﾙﾏﾜｽ",    // "Rotate"
-    "ﾁｮｳﾊﾂ",      // "Provoke"
-    "ﾄﾞｳﾖｳ",      //
-    "ｽﾋﾟｰﾄﾞｱｯﾌﾟ", // "Speed up"
-    "ｵｲｱｹﾞﾙ",     //
-    "ﾃﾇｷ",        // "Shoddy"
-    "ｵｲｺﾐ",       //
-    "ﾃﾞﾌｫﾙﾄ",     // "Default"
+    [CHARACTER_EDIT_SPECIAL_PREEMTIVE_ATTACK] = T("ｾﾝｾｲｺｳｹﾞｷ", "Preemptive attack"),
+    [CHARACTER_EDIT_SPECIAL_COUNTER] = T("ｶｳﾝﾀｰ", "Counter"),
+    [CHARACTER_EDIT_SPECIAL_LUCK] = T("ﾗｯｸ", "Luck"),
+    [CHARACTER_EDIT_SPECIAL_BEWILDERMENT] = T("ﾏﾖｲ", "Bewilderment"),
+    [CHARACTER_EDIT_SPECIAL_ROTATE] = T("ｸﾙｸﾙﾏﾜｽ", "Rotate"),
+    [CHARACTER_EDIT_SPECIAL_PROVOKE] = T("ﾁｮｳﾊﾂ", "Provoke"),
+    [CHARACTER_EDIT_SPECIAL_DOUYOU] = T("ﾄﾞｳﾖｳ", "Douyou"), // TODO
+    [CHARACTER_EDIT_SPECIAL_SPEED] = T("ｽﾋﾟｰﾄﾞｱｯﾌﾟ", "Speed up"),
+    [CHARACTER_EDIT_SPECIAL_OIAGERU] = T("ｵｲｱｹﾞﾙ", "Oiageru"), // TODO
+    [CHARACTER_EDIT_SPECIAL_SHODDY] = T("ﾃﾇｷ", "Shoddy"),
+    [CHARACTER_EDIT_SPECIAL_OIKOMI] = T("ｵｲｺﾐ", "Oikomi"), // TODO
+    [CHARACTER_EDIT_SPECIAL_DEFAULT] = T("ﾃﾞﾌｫﾙﾄ", "Default"),
 };
+static_assert(ARRAY_COUNT(D_8008E508) == CHARACTER_EDIT_SPECIAL_MAX, "");
 
 s8 D_8008E538[] = {
-    0x00, 0x02, 0x03, 0x05, 0x04, 0x00, 0x00, 0x00,
+    [CHARACTER_EDIT_PERF_SPEED] = 0x00,     [CHARACTER_EDIT_PERF_BALANCE] = 0x02,  [CHARACTER_EDIT_PERF_ATTACK] = 0x03,
+    [CHARACTER_EDIT_PERF_BIG_CHAIN] = 0x05, [CHARACTER_EDIT_PERF_YOKOZUKI] = 0x04,
 };
+static_assert(ARRAY_COUNT(D_8008E538) == CHARACTER_EDIT_PERF_MAX, "");
 
 #if VERSION_CN
 #define D_8008E540_ARR D_80099290_cn
@@ -821,209 +907,245 @@ s8 D_8008E538[] = {
 #endif
 
 s8 D_8008E540_ARR[] = {
-    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x00, 0x00,
+    [CHARACTER_EDIT_SPEED_VERY_SLOW] = 1, [CHARACTER_EDIT_SPEED_SLOW] = 2,       [CHARACTER_EDIT_SPEED_NORMAL] = 3,
+    [CHARACTER_EDIT_SPEED_QUICK] = 4,     [CHARACTER_EDIT_SPEED_VERY_QUICK] = 5, [CHARACTER_EDIT_SPEED_MORE_QUICK] = 6,
 };
+static_assert(ARRAY_COUNT(D_8008E540_ARR) == CHARACTER_EDIT_SPEED_MAX, "");
 
 const char **D_8008E548[] = {
-    D_8008E4AC,
-    D_8008E4DC,
-    D_8008E4F0,
-    D_8008E508,
+    [CHARACTER_EDIT_COLUMN_NAME] = sDebugMenu_CharacterEdit_CharacterNames,
+    [CHARACTER_EDIT_COLUMN_PERFORMANCE] = D_8008E4DC,
+    [CHARACTER_EDIT_COLUMN_SPEED] = D_8008E4F0,
+    [CHARACTER_EDIT_COLUMN_SPECIAL] = D_8008E508,
 };
+static_assert(ARRAY_COUNTU(D_8008E548) == CHARACTER_EDIT_COLUMN_MAX, "");
 
-s32 D_8008E558[] = {
-    0x0000000C,
-    0x00000005,
-    0x00000006,
-    0x0000000C,
+s32 sDebugMenu_CharacterEdit_RowsPerColumn[] = {
+    [CHARACTER_EDIT_COLUMN_NAME] = 12,
+    [CHARACTER_EDIT_COLUMN_PERFORMANCE] = 5,
+    [CHARACTER_EDIT_COLUMN_SPEED] = 6,
+    [CHARACTER_EDIT_COLUMN_SPECIAL] = 12,
 };
+static_assert(ARRAY_COUNTU(sDebugMenu_CharacterEdit_RowsPerColumn) == CHARACTER_EDIT_COLUMN_MAX, "");
 
 s8 D_8008E568[] = {
-    0x00, 0xF2, 0x00, 0x00, 0x02, 0xFE, 0x00, 0x02, 0xFE, 0x04, 0x02, 0x00,
+    [CHARACTER_EDIT_CHAR_MARIO] = 0,         [CHARACTER_EDIT_CHAR_KOOPATROOPA] = -14,
+    [CHARACTER_EDIT_CHAR_BOBOMB] = 0,        [CHARACTER_EDIT_CHAR_CHEEPCHEEP] = 0,
+    [CHARACTER_EDIT_CHAR_MONTYMOLE] = 2,     [CHARACTER_EDIT_CHAR_FLYGUY] = -2,
+    [CHARACTER_EDIT_CHAR_WIGGLER] = 0,       [CHARACTER_EDIT_CHAR_TERESA] = 2,
+    [CHARACTER_EDIT_CHAR_PIRANHAPLANT] = -2, [CHARACTER_EDIT_CHAR_KAMEK] = 4,
+    [CHARACTER_EDIT_CHAR_BOWSER] = 2,        [CHARACTER_EDIT_CHAR_PRINCESSPEACH] = 0,
 };
+static_assert(ARRAY_COUNTU(D_8008E568) == CHARACTER_EDIT_CHAR_MAX, "");
 
 s8 D_8008E574[] = {
-    0x21, 0x28, 0x19, 0x0A, 0x22, 0x00, 0x00, 0x00,
+    [CHARACTER_EDIT_PERF_SPEED] = 33,     [CHARACTER_EDIT_PERF_BALANCE] = 40,  [CHARACTER_EDIT_PERF_ATTACK] = 25,
+    [CHARACTER_EDIT_PERF_BIG_CHAIN] = 10, [CHARACTER_EDIT_PERF_YOKOZUKI] = 34,
 };
+static_assert(ARRAY_COUNTU(D_8008E574) == CHARACTER_EDIT_PERF_MAX, "");
 
 s8 D_8008E57C[] = {
-    0x00, 0x08, 0x10, 0x18, 0x20, 0x28, 0x00, 0x00,
+    [CHARACTER_EDIT_SPEED_VERY_SLOW] = 0,   [CHARACTER_EDIT_SPEED_SLOW] = 8,
+    [CHARACTER_EDIT_SPEED_NORMAL] = 16,     [CHARACTER_EDIT_SPEED_QUICK] = 24,
+    [CHARACTER_EDIT_SPEED_VERY_QUICK] = 32, [CHARACTER_EDIT_SPEED_MORE_QUICK] = 40,
 };
+static_assert(ARRAY_COUNTU(D_8008E57C) == CHARACTER_EDIT_SPEED_MAX, "");
 
 s8 D_8008E584[] = {
-    0x06, 0x04, 0x0A, 0xFE, 0xFE, 0xFE, 0xF6, 0x04, 0x02, 0xFA, 0x04, 0x00,
+    [CHARACTER_EDIT_SPECIAL_PREEMTIVE_ATTACK] = 6,
+    [CHARACTER_EDIT_SPECIAL_COUNTER] = 4,
+    [CHARACTER_EDIT_SPECIAL_LUCK] = 10,
+    [CHARACTER_EDIT_SPECIAL_BEWILDERMENT] = -2,
+    [CHARACTER_EDIT_SPECIAL_ROTATE] = -2,
+    [CHARACTER_EDIT_SPECIAL_PROVOKE] = -2,
+    [CHARACTER_EDIT_SPECIAL_DOUYOU] = -10,
+    [CHARACTER_EDIT_SPECIAL_SPEED] = 4,
+    [CHARACTER_EDIT_SPECIAL_OIAGERU] = 2,
+    [CHARACTER_EDIT_SPECIAL_SHODDY] = -6,
+    [CHARACTER_EDIT_SPECIAL_OIKOMI] = 4,
+    [CHARACTER_EDIT_SPECIAL_DEFAULT] = 0,
 };
+static_assert(ARRAY_COUNTU(D_8008E584) == CHARACTER_EDIT_SPECIAL_MAX, "");
 
-s32 DebugMenu_8003FEE4(void) {
-    s32 var_t1 = 0;
-    struct_800E5938 sp8 = B_800E5938[B_800E5934];
+s32 DebugMenu_GetCharacterStrength(void) {
+    s32 strength = 0;
+    CharacterStats stats = sDebugMenu_CharacterEdit_CharacterStats[sDebugMenu_CharacterEdit_SelectedCharacter];
     s32 i;
 
-    for (i = 0; i < D_8008E558[3]; i++) {
-        s32 var_a1;
+    for (i = 0; i < sDebugMenu_CharacterEdit_RowsPerColumn[CHARACTER_EDIT_COLUMN_SPECIAL]; i++) {
+        bool turnOff;
 
-        switch (sp8.unk_2 & (1 << i)) {
-            case 0x1:
-                var_a1 = (sp8.unk_0 == 2) && (sp8.unk_1 >= 4);
+        switch (stats.specials & (1 << i)) {
+            case 1 << CHARACTER_EDIT_SPECIAL_PREEMTIVE_ATTACK:
+                turnOff = (stats.performance == CHARACTER_EDIT_PERF_ATTACK) &&
+                          (stats.speed >= CHARACTER_EDIT_SPEED_VERY_QUICK);
                 break;
 
-            case 0x2:
-                var_a1 = sp8.unk_0 == 2;
+            case 1 << CHARACTER_EDIT_SPECIAL_COUNTER:
+                turnOff = stats.performance == CHARACTER_EDIT_PERF_ATTACK;
                 break;
 
-            case 0x4:
+            case 1 << CHARACTER_EDIT_SPECIAL_LUCK:
                 break;
 
-            case 0x8:
+            case 1 << CHARACTER_EDIT_SPECIAL_BEWILDERMENT:
                 break;
 
-            case 0x10:
+            case 1 << CHARACTER_EDIT_SPECIAL_ROTATE:
                 break;
 
-            case 0x20:
+            case 1 << CHARACTER_EDIT_SPECIAL_PROVOKE:
                 break;
 
-            case 0x40:
+            case 1 << CHARACTER_EDIT_SPECIAL_DOUYOU:
                 break;
 
-            case 0x80:
-                var_a1 = (sp8.unk_1 >= 4);
+            case 1 << CHARACTER_EDIT_SPECIAL_SPEED:
+                turnOff = stats.speed >= CHARACTER_EDIT_SPEED_VERY_QUICK;
                 break;
 
-            case 0x100:
-                var_a1 = (sp8.unk_1 >= 4);
+            case 1 << CHARACTER_EDIT_SPECIAL_OIAGERU:
+                turnOff = stats.speed >= CHARACTER_EDIT_SPEED_VERY_QUICK;
                 break;
 
-            case 0x200:
-                var_a1 = sp8.unk_1 < 2;
+            case 1 << CHARACTER_EDIT_SPECIAL_SHODDY:
+                turnOff = stats.speed <= CHARACTER_EDIT_SPEED_SLOW;
                 break;
 
-            case 0x400:
-                var_a1 = (sp8.unk_1 >= 4);
+            case 1 << CHARACTER_EDIT_SPECIAL_OIKOMI:
+                turnOff = stats.speed >= CHARACTER_EDIT_SPEED_VERY_QUICK;
                 break;
 
-            case 0x800:
-                switch (B_800E5934) {
-                    case 0x0:
+            case 1 << CHARACTER_EDIT_SPECIAL_DEFAULT:
+                switch (sDebugMenu_CharacterEdit_SelectedCharacter) {
+                    case CHARACTER_EDIT_CHAR_MARIO:
                         break;
 
-                    case 0x1:
-                        var_a1 = sp8.unk_2 & 0x58;
+                    case CHARACTER_EDIT_CHAR_KOOPATROOPA:
+                        turnOff = stats.specials &
+                                  ((1 << CHARACTER_EDIT_SPECIAL_BEWILDERMENT) | (1 << CHARACTER_EDIT_SPECIAL_ROTATE) |
+                                   (1 << CHARACTER_EDIT_SPECIAL_DOUYOU));
                         break;
 
-                    case 0x4:
-                        var_a1 = sp8.unk_1 == 5;
+                    case CHARACTER_EDIT_CHAR_MONTYMOLE:
+                        turnOff = stats.speed == CHARACTER_EDIT_SPEED_MORE_QUICK;
                         break;
 
-                    case 0x5:
-                        var_a1 = sp8.unk_2 & 0x10;
+                    case CHARACTER_EDIT_CHAR_FLYGUY:
+                        turnOff = stats.specials & (1 << CHARACTER_EDIT_SPECIAL_ROTATE);
                         break;
 
-                    case 0x7:
-                        var_a1 = sp8.unk_2 & 0x80;
+                    case CHARACTER_EDIT_CHAR_TERESA:
+                        turnOff = stats.specials & (1 << CHARACTER_EDIT_SPECIAL_SPEED);
                         break;
 
-                    case 0x8:
-                        var_a1 = sp8.unk_2 & 8;
+                    case CHARACTER_EDIT_CHAR_PIRANHAPLANT:
+                        turnOff = stats.specials & (1 << CHARACTER_EDIT_SPECIAL_BEWILDERMENT);
                         break;
 
-                    case 0x9:
-                        var_a1 = (sp8.unk_1 >= 4);
+                    case CHARACTER_EDIT_CHAR_KAMEK:
+                        turnOff = (stats.speed >= CHARACTER_EDIT_SPEED_VERY_QUICK);
                         break;
 
-                    case 0xA:
-                        var_a1 = 0;
-                        if ((sp8.unk_1 >= 4) || (sp8.unk_2 & 0x402)) {
-                            var_a1 = 1;
+                    case CHARACTER_EDIT_CHAR_BOWSER:
+                        turnOff = false;
+                        if ((stats.speed >= CHARACTER_EDIT_SPEED_VERY_QUICK) ||
+                            (stats.specials &
+                             ((1 << CHARACTER_EDIT_SPECIAL_COUNTER) | (1 << CHARACTER_EDIT_SPECIAL_OIKOMI)))) {
+                            turnOff = true;
                         }
                         break;
 
-                    case 0xB:
+                    case CHARACTER_EDIT_CHAR_PRINCESSPEACH:
                         break;
                 }
                 break;
         }
 
-        //! @bug: reading variable maybe not set
-        if (var_a1 != 0) {
-            sp8.unk_2 &= ~(1 << i);
+        //! @bug: reading variable that may be not set
+        if (turnOff) {
+            stats.specials &= ~(1 << i);
         }
     }
 
-    if (sp8.unk_2 & 0x800) {
-        var_t1 += D_8008E568[B_800E5934];
+    if (stats.specials & (1 << CHARACTER_EDIT_SPECIAL_DEFAULT)) {
+        strength += D_8008E568[sDebugMenu_CharacterEdit_SelectedCharacter];
     }
 
-    if (sp8.unk_0 >= 0) {
-        var_t1 += D_8008E574[sp8.unk_0];
+    if (stats.performance >= 0) {
+        strength += D_8008E574[stats.performance];
     }
 
-    if (sp8.unk_1 >= 0) {
-        var_t1 += D_8008E57C[sp8.unk_1];
+    if (stats.speed >= 0) {
+        strength += D_8008E57C[stats.speed];
     }
 
     for (i = 0; i < ARRAY_COUNTU(D_8008E584); i++) {
-        if ((sp8.unk_2 >> i) & 1) {
-            var_t1 += D_8008E584[i];
+        if ((stats.specials >> i) & 1) {
+            strength += D_8008E584[i];
         }
     }
 
-    return var_t1;
+    return strength;
 }
 
 s8 D_8008E590[] = {
-    0x00, 0x00, 0x01, 0x02, 0x04, 0x03, 0x00, 0x00,
+    CHARACTER_EDIT_PERF_SPEED,  CHARACTER_EDIT_PERF_SPEED,    CHARACTER_EDIT_PERF_BALANCE,
+    CHARACTER_EDIT_PERF_ATTACK, CHARACTER_EDIT_PERF_YOKOZUKI, CHARACTER_EDIT_PERF_BIG_CHAIN,
+    CHARACTER_EDIT_PERF_SPEED,  CHARACTER_EDIT_PERF_SPEED,
 };
 
 s8 D_8008E598[] = {
-    0x00, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x05,
+    CHARACTER_EDIT_SPEED_VERY_SLOW,  CHARACTER_EDIT_SPEED_VERY_SLOW,  CHARACTER_EDIT_SPEED_SLOW,
+    CHARACTER_EDIT_SPEED_NORMAL,     CHARACTER_EDIT_SPEED_QUICK,      CHARACTER_EDIT_SPEED_VERY_QUICK,
+    CHARACTER_EDIT_SPEED_MORE_QUICK, CHARACTER_EDIT_SPEED_MORE_QUICK,
 };
 
-void DebugMenu_8004015C(void) {
-    struct_800E5968 *temp = &B_800E5968;
+void DebugMenu_Page_CharacterEdit_RetrieveStats(void) {
+    CharacterStatsDefaults *statsDefaults = &sDebugMenu_CharacterEdit_DefaultStats;
     s32 i;
 
-    for (i = 0; i < D_8008E558[0]; i++) {
+    for (i = 0; i < sDebugMenu_CharacterEdit_RowsPerColumn[CHARACTER_EDIT_COLUMN_NAME]; i++) {
         struct_ai_char_data *temp2 = &ai_char_data_org[i];
         struct_ai_char_data *var_a1 = &ai_char_data[i];
-        struct_800E5938 *var_v1 = &B_800E5938[i];
+        CharacterStats *stats = &sDebugMenu_CharacterEdit_CharacterStats[i];
 
-        var_v1->unk_0 = D_8008E590[var_a1->unk_04[7]];
-        var_v1->unk_1 = D_8008E598[var_a1->unk_01];
+        stats->performance = D_8008E590[var_a1->performance[7]];
+        stats->speed = D_8008E598[var_a1->speed];
 
         if (!B_800E58BC) {
-            var_v1->unk_2 = 0x800;
+            stats->specials = (1 << CHARACTER_EDIT_SPECIAL_DEFAULT);
         }
 
-        if (i == B_800E5934) {
-            temp->unk_0 = D_8008E590[temp2->unk_04[7]];
-            temp->unk_1 = D_8008E598[temp2->unk_01];
+        if (i == sDebugMenu_CharacterEdit_SelectedCharacter) {
+            statsDefaults->performance = D_8008E590[temp2->performance[7]];
+            statsDefaults->speed = D_8008E598[temp2->speed];
         }
     }
 
     B_800E58BC = true;
 }
 
-void DebugMenu_80040238(void) {
+void DebugMenu_Page_CharacterEdit_ApplyStats(void) {
     s32 i;
 
-    for (i = 0; i < D_8008E558[0]; i++) {
+    for (i = 0; i < sDebugMenu_CharacterEdit_RowsPerColumn[CHARACTER_EDIT_COLUMN_NAME]; i++) {
         struct_ai_char_data *temp_a2 = &ai_char_data_org[i];
         struct_ai_char_data *temp_t8 = &ai_char_data[i];
-        struct_800E5938 *temp_t9 = &B_800E5938[i];
+        CharacterStats *stats = &sDebugMenu_CharacterEdit_CharacterStats[i];
         s32 j;
         s32 index;
 
-        for (j = 0; j < 8; j++) {
-            temp_t8->unk_04[j] = D_8008E538[temp_t9->unk_0];
+        for (j = 0; j < ARRAY_COUNT(temp_t8->performance); j++) {
+            temp_t8->performance[j] = D_8008E538[stats->performance];
         }
 
         //! FAKE: renaming D_80099290_cn to D_8008E540 produces different codegen
-        temp_t8->unk_01 = D_8008E540_ARR[temp_t9->unk_1];
+        temp_t8->speed = D_8008E540_ARR[stats->speed];
 
         index = 0;
 
-        if (temp_t9->unk_2 & 0x800) {
+        if (stats->specials & (1 << CHARACTER_EDIT_SPECIAL_DEFAULT)) {
             for (j = 0; j < 4; j++) {
                 temp_t8->unk_0C[index] = temp_a2->unk_0C[j];
                 temp_t8->unk_1C[index] = temp_a2->unk_1C[j];
@@ -1033,9 +1155,9 @@ void DebugMenu_80040238(void) {
             }
         }
 
-        for (j = 0; j < D_8008E558[3]; j++) {
-            switch (temp_t9->unk_2 & (1 << j)) {
-                case 0x1:
+        for (j = 0; j < sDebugMenu_CharacterEdit_RowsPerColumn[CHARACTER_EDIT_COLUMN_SPECIAL]; j++) {
+            switch (stats->specials & (1 << j)) {
+                case 1 << CHARACTER_EDIT_SPECIAL_PREEMTIVE_ATTACK:
                     temp_t8->unk_0C[index] = 0xC;
                     temp_t8->unk_1C[index] = 5;
                     temp_t8->unk_3C[index] = 4;
@@ -1049,7 +1171,7 @@ void DebugMenu_80040238(void) {
                     index++;
                     break;
 
-                case 0x2:
+                case 1 << CHARACTER_EDIT_SPECIAL_COUNTER:
                     temp_t8->unk_0C[index] = 3;
                     temp_t8->unk_1C[index] = 0;
                     temp_t8->unk_3C[index] = 8;
@@ -1057,11 +1179,11 @@ void DebugMenu_80040238(void) {
                     index++;
                     break;
 
-                case 0x4:
+                case 1 << CHARACTER_EDIT_SPECIAL_LUCK:
                     temp_t8->unk_02 = 0x32;
                     break;
 
-                case 0x8:
+                case 1 << CHARACTER_EDIT_SPECIAL_BEWILDERMENT:
                     temp_t8->unk_0C[index] = 2;
                     temp_t8->unk_1C[index] = 0x21;
                     temp_t8->unk_3C[index] = 2;
@@ -1069,7 +1191,7 @@ void DebugMenu_80040238(void) {
                     index++;
                     break;
 
-                case 0x10:
+                case 1 << CHARACTER_EDIT_SPECIAL_ROTATE:
                     temp_t8->unk_0C[index] = 1;
                     temp_t8->unk_1C[index] = 0;
                     temp_t8->unk_3C[index] = 1;
@@ -1077,7 +1199,7 @@ void DebugMenu_80040238(void) {
                     index++;
                     break;
 
-                case 0x20:
+                case 1 << CHARACTER_EDIT_SPECIAL_PROVOKE:
                     temp_t8->unk_0C[index] = 5;
                     temp_t8->unk_1C[index] = 5;
                     temp_t8->unk_3C[index] = 1;
@@ -1085,7 +1207,7 @@ void DebugMenu_80040238(void) {
                     index++;
                     break;
 
-                case 0x40:
+                case 1 << CHARACTER_EDIT_SPECIAL_DOUYOU:
                     temp_t8->unk_0C[index] = 3;
                     temp_t8->unk_1C[index] = 0;
                     temp_t8->unk_3C[index] = 3;
@@ -1093,7 +1215,7 @@ void DebugMenu_80040238(void) {
                     index++;
                     break;
 
-                case 0x80:
+                case 1 << CHARACTER_EDIT_SPECIAL_SPEED:
                     temp_t8->unk_0C[index] = 1;
                     temp_t8->unk_1C[index] = 0;
                     temp_t8->unk_3C[index] = 7;
@@ -1101,7 +1223,7 @@ void DebugMenu_80040238(void) {
                     index++;
                     break;
 
-                case 0x100:
+                case 1 << CHARACTER_EDIT_SPECIAL_OIAGERU:
                     temp_t8->unk_0C[index] = 4;
                     temp_t8->unk_1C[index] = 5;
                     temp_t8->unk_3C[index] = 6;
@@ -1109,7 +1231,7 @@ void DebugMenu_80040238(void) {
                     index++;
                     break;
 
-                case 0x200:
+                case 1 << CHARACTER_EDIT_SPECIAL_SHODDY:
                     temp_t8->unk_0C[index] = 5;
                     temp_t8->unk_1C[index] = 5;
                     temp_t8->unk_3C[index] = 5;
@@ -1117,7 +1239,7 @@ void DebugMenu_80040238(void) {
                     index++;
                     break;
 
-                case 0x400:
+                case 1 << CHARACTER_EDIT_SPECIAL_OIKOMI:
                     temp_t8->unk_0C[index] = 0xA;
                     temp_t8->unk_1C[index] = 0xA;
                     temp_t8->unk_3C[index] = 4;
@@ -1136,7 +1258,7 @@ void DebugMenu_80040238(void) {
     }
 }
 
-void DebugMenu_80040578(void) {
+void DebugMenu_Page_CharacterEdit_UpdateController(void) {
     s32 vertical = 0;
     s32 horizontal = 0;
 
@@ -1154,47 +1276,48 @@ void DebugMenu_80040578(void) {
         vertical++;
     }
 
-    B_800E596C = WrapI(0, ARRAY_COUNT(B_800E5970), B_800E596C + horizontal);
-    B_800E5970[B_800E596C] = WrapI(0, D_8008E558[B_800E596C], B_800E5970[B_800E596C] + vertical);
+    sDebugMenu_CharacterEdit_SelectedColumn = WrapI(0, ARRAY_COUNT(sDebugMenu_CharacterEdit_SelectedRow),
+                                                    sDebugMenu_CharacterEdit_SelectedColumn + horizontal);
+    sDebugMenu_CharacterEdit_SelectedRow[sDebugMenu_CharacterEdit_SelectedColumn] =
+        WrapI(0, sDebugMenu_CharacterEdit_RowsPerColumn[sDebugMenu_CharacterEdit_SelectedColumn],
+              sDebugMenu_CharacterEdit_SelectedRow[sDebugMenu_CharacterEdit_SelectedColumn] + vertical);
 }
 
-const char *D_8008E5A0[] = {
-    "<ｷｬﾗｸﾀｰ>", // "<Character>"
-    "<ｾｲｶｸ>",   // "<Performance>"
-    "<ｽﾋﾟｰﾄﾞ>", // "<Speed>"
-    "<ﾄｸｼｭ>",   // "<Special>"
+const char *sDebugMenu_CharacterEdit_ColumnNames[] = {
+    [CHARACTER_EDIT_COLUMN_NAME] = "<" T("ｷｬﾗｸﾀｰ", "Character") ">",
+    [CHARACTER_EDIT_COLUMN_PERFORMANCE] = "<" T("ｾｲｶｸ", "Performance") ">",
+    [CHARACTER_EDIT_COLUMN_SPEED] = "<" T("ｽﾋﾟｰﾄﾞ", "Speed") ">",
+    [CHARACTER_EDIT_COLUMN_SPECIAL] = "<" T("ﾄｸｼｭ", "Special") ">",
 };
+static_assert(ARRAY_COUNTU(sDebugMenu_CharacterEdit_ColumnNames) == CHARACTER_EDIT_COLUMN_MAX, "");
 
-s32 D_8008E5B0 = 0x00000035;
+s32 sDebugMenu_CharacterEdit_DefaultColor = '0' + DBGPRT_COLOR_MAGENTA;
 
-s32 D_8008E5B4[] = {
-    11,
-    10,
-    10,
-    14,
+s32 sDebugMenu_CharacterEdit_ColumnWidths[] = {
+    [CHARACTER_EDIT_COLUMN_NAME] = 11,
+    [CHARACTER_EDIT_COLUMN_PERFORMANCE] = 10,
+    [CHARACTER_EDIT_COLUMN_SPEED] = 10,
+    [CHARACTER_EDIT_COLUMN_SPECIAL] = 14,
 };
+static_assert(ARRAY_COUNTU(sDebugMenu_CharacterEdit_ColumnWidths) == CHARACTER_EDIT_COLUMN_MAX, "");
 
-void DebugMenu_80040624(Gfx **gfxP, s32 posX, s32 posY) {
-    struct_800E5938 *temp_s5 = &B_800E5938[B_800E5934];
-    s32 var_s0 = CLAMP(DebugMenu_8003FEE4() / 10, 0, 10);
-    s32 var_a2;
-    s32 var_s0_2;
-    s32 var_s1;
-    s32 var_s2;
-    s32 var_s7;
+void DebugMenu_Page_CharacterEdit_Draw(Gfx **gfxP, s32 posX, s32 posY) {
+    CharacterStats *stats = &sDebugMenu_CharacterEdit_CharacterStats[sDebugMenu_CharacterEdit_SelectedCharacter];
+    s32 strength = CLAMP(DebugMenu_GetCharacterStrength() / 10, 0, 10);
+    s32 column;
 
-    DebugPrint_Open(gfxP, DebugMenu_8003FD88, posX, posY);
+    DebugPrint_Open(gfxP, DebugMenu_Page_CharacterEdit_Callback, posX, posY);
 
-    // "Character edit"
-    DebugPrint_Printf(DBGPRT_COLOR(GREEN) "[ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ]\n\n");
-    // "Strength"?
-    DebugPrint_Printf(DBGPRT_COLOR(GREEN) "ﾂﾖｻ ");
+    DebugPrint_Printf(DBGPRT_COLOR(GREEN) "[" T("ｷｬﾗｸﾀｰｴﾃﾞｨｯﾄ", "Character edit") "]\n\n");
+    DebugPrint_Printf(DBGPRT_COLOR(GREEN) T("ﾂﾖｻ", "Strength") " ");
 
-    for (var_s1 = 0; var_s1 < var_s0; var_s1++) {
+    for (column = 0; column < strength; column++) {
+        // ★
         DebugPrint_Printf("%c", 0x83);
     }
 
-    for (; var_s1 < 10; var_s1++) {
+    for (; column < 10; column++) {
+        // ☆
         DebugPrint_Printf("%c", 0x82);
     }
 
@@ -1203,81 +1326,85 @@ void DebugMenu_80040624(Gfx **gfxP, s32 posX, s32 posY) {
     posX += DBGPRT_FONT_CHAR_WIDTH;
     posY += 4 * DBGPRT_FONT_CHAR_HEIGHT;
 
-    for (var_s1 = 0; var_s1 < 4; var_s1++) {
-        DebugPrint_Open(gfxP, DebugMenu_8003FD88, posX, posY);
+    for (column = 0; column < CHARACTER_EDIT_COLUMN_MAX; column++) {
+        s32 row;
+        s32 callbackArg;
 
-        DebugPrint_Printf(DBGPRT_COLOR(GREEN) "%s\n", D_8008E5A0[var_s1]);
+        DebugPrint_Open(gfxP, DebugMenu_Page_CharacterEdit_Callback, posX, posY);
 
-        var_s2 = var_s1 << 5;
+        DebugPrint_Printf(DBGPRT_COLOR(GREEN) "%s\n", sDebugMenu_CharacterEdit_ColumnNames[column]);
 
-        for (var_s0_2 = 0; var_s0_2 < D_8008E558[var_s1]; var_s0_2++) {
-            var_a2 = 0x37;
+        callbackArg = column << 5;
 
-            switch (var_s1) {
-                case 0:
-                    if (var_s0_2 == B_800E5934) {
-                        var_a2 = 0x33;
+        for (row = 0; row < sDebugMenu_CharacterEdit_RowsPerColumn[column]; row++) {
+            s32 color = '0' + DBGPRT_COLOR_WHITE;
+            s32 checkbox;
+
+            switch (column) {
+                case CHARACTER_EDIT_COLUMN_NAME:
+                    if (row == sDebugMenu_CharacterEdit_SelectedCharacter) {
+                        color = '0' + DBGPRT_COLOR_CYAN;
                     }
                     break;
 
-                case 1:
-                    if (var_s0_2 == temp_s5->unk_0) {
-                        var_a2 = 0x33;
-                    } else if (var_s0_2 == B_800E5968.unk_0) {
-                        var_a2 = D_8008E5B0;
+                case CHARACTER_EDIT_COLUMN_PERFORMANCE:
+                    if (row == stats->performance) {
+                        color = '0' + DBGPRT_COLOR_CYAN;
+                    } else if (row == sDebugMenu_CharacterEdit_DefaultStats.performance) {
+                        color = sDebugMenu_CharacterEdit_DefaultColor;
                     }
                     break;
 
-                case 2:
-                    if (var_s0_2 == temp_s5->unk_1) {
-                        var_a2 = 0x33;
-                    } else if (var_s0_2 == B_800E5968.unk_1) {
-                        var_a2 = D_8008E5B0;
+                case CHARACTER_EDIT_COLUMN_SPEED:
+                    if (row == stats->speed) {
+                        color = '0' + DBGPRT_COLOR_CYAN;
+                    } else if (row == sDebugMenu_CharacterEdit_DefaultStats.speed) {
+                        color = sDebugMenu_CharacterEdit_DefaultColor;
                     }
                     break;
 
-                case 3:
-                    var_s7 = 0x80;
-                    if ((temp_s5->unk_2 >> var_s0_2) % 2 != 0) {
-                        var_a2 = 0x33;
-                        var_s7 = 0x81;
-                    } else if (var_s0_2 == 0xB) {
-                        var_a2 = D_8008E5B0;
+                case CHARACTER_EDIT_COLUMN_SPECIAL:
+                    checkbox = 0x80; // ⎕
+                    if ((stats->specials >> row) & 1) {
+                        color = '0' + DBGPRT_COLOR_CYAN;
+                        checkbox = 0x81; // ⍂
+                    } else if (row == CHARACTER_EDIT_SPECIAL_DEFAULT) {
+                        color = sDebugMenu_CharacterEdit_DefaultColor;
                     }
                     break;
             }
 
-            switch (var_s1) {
-                case 0:
-                case 1:
-                case 2:
+            switch (column) {
+                case CHARACTER_EDIT_COLUMN_NAME:
+                case CHARACTER_EDIT_COLUMN_PERFORMANCE:
+                case CHARACTER_EDIT_COLUMN_SPEED:
                     DebugPrint_Printf(DBGPRT_CALLBACK "%c" DBGPRT_COLOR_RAW "%c"
                                                       "%s\n",
-                                      var_s2, var_a2, D_8008E548[var_s1][var_s0_2]);
-                    var_s2 += 1;
+                                      callbackArg, color, D_8008E548[column][row]);
+                    callbackArg += 1;
                     break;
 
-                case 3:
+                case CHARACTER_EDIT_COLUMN_SPECIAL:
                     DebugPrint_Printf(DBGPRT_CALLBACK "%c" DBGPRT_COLOR_RAW "%c"
                                                       "%c:%s\n",
-                                      var_s2, var_a2, var_s7, D_8008E548[var_s1][var_s0_2]);
-                    var_s2 += 1;
+                                      callbackArg, color, checkbox, D_8008E548[column][row]);
+                    callbackArg += 1;
                     break;
             }
         }
 
         DebugPrint_Close();
-        posX += D_8008E5B4[var_s1] * DBGPRT_FONT_CHAR_WIDTH;
+        posX += sDebugMenu_CharacterEdit_ColumnWidths[column] * DBGPRT_FONT_CHAR_WIDTH;
     }
 }
 
-void DebugMenu_800409A0(void) {
-    DebugMenu_80040578();
-    DebugMenu_8004015C();
-    DebugMenu_80040624(NULL, 0x20, 0x20);
-    DebugMenu_80040238();
+void DebugMenu_CharacterEdit_Update(void) {
+    DebugMenu_Page_CharacterEdit_UpdateController();
+    DebugMenu_Page_CharacterEdit_RetrieveStats();
+    DebugMenu_Page_CharacterEdit_Draw(NULL, 0x20, 0x20);
+    DebugMenu_Page_CharacterEdit_ApplyStats();
 }
 
-void DebugMenu_800409DC(Gfx **gfxP) {
-    DebugMenu_80040624(gfxP, 0x20, 0x20);
+void DebugMenu_CharacterEdit_Draw(Gfx **gfxP) {
+    DebugMenu_Page_CharacterEdit_Draw(gfxP, 0x20, 0x20);
 }

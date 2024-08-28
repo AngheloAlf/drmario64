@@ -46,12 +46,13 @@ typedef struct struct_ai_param {
 } struct_ai_param; // size = 0x38
 
 #define STRUCT_AI_CHAR_DATA_LEN 16
+#define STRUCT_AI_CHAR_DATA_LEN2 8
 
 typedef struct struct_ai_char_data {
     /* 0x00 */ UNK_TYPE1 unk_00;
-    /* 0x01 */ UNK_TYPE1 unk_01;
+    /* 0x01 */ UNK_TYPE1 speed;
     /* 0x02 */ UNK_TYPE2 unk_02;
-    /* 0x04 */ s8 unk_04[8];
+    /* 0x04 */ s8 performance[STRUCT_AI_CHAR_DATA_LEN2];
     /* 0x0C */ s8 unk_0C[STRUCT_AI_CHAR_DATA_LEN];
     /* 0x1C */ s16 unk_1C[STRUCT_AI_CHAR_DATA_LEN];
     /* 0x3C */ s8 unk_3C[STRUCT_AI_CHAR_DATA_LEN];

@@ -3078,15 +3078,17 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     var_t2 = evs_mem_data[evs_select_name_no[0]].unk_01;
                 }
 
-                if (watchGameP->unk_AAC[0] == 0) {
-                    func_8007E760(watchGameP->unk_AAC, var_s1, var_s2, gameStateData->unk_02C,
+                if (watchGameP->password[0] == 0) {
+                    func_8007E760(watchGameP->password, var_s1, var_s2, gameStateData->unk_02C,
                                   gameStateData->unk_000 / 10, evs_game_time / 6, var_t2);
-                    watchGameP->unk_AAC[ARRAY_COUNT(watchGameP->unk_AAC) - 2] = 0x7E;
-                    watchGameP->unk_AAC[ARRAY_COUNT(watchGameP->unk_AAC) - 1] = 0x7A;
+
+                    // Write MSG_END
+                    watchGameP->password[ARRAY_COUNT(watchGameP->password) - 2] = '~';
+                    watchGameP->password[ARRAY_COUNT(watchGameP->password) - 1] = 'z';
                 }
                 msgWnd_clear(&watchGameP->unk_A28);
                 msgWnd_addStr(&watchGameP->unk_A28, _mesPassword);
-                msgWnd_addStr(&watchGameP->unk_A28, watchGameP->unk_AAC);
+                msgWnd_addStr(&watchGameP->unk_A28, watchGameP->password);
                 msgWnd_skip(&watchGameP->unk_A28);
                 watchGameP->unk_AA8 = -watchGameP->unk_AA8;
             } else {
@@ -6473,7 +6475,7 @@ void dm_game_init(bool arg0) {
     watchGameP->unk_9CC = -1;
     watchGameP->unk_A28.alpha = 0;
     watchGameP->unk_AA8 = -0x10;
-    bzero(watchGameP->unk_AAC, sizeof(watchGameP->unk_AAC));
+    bzero(watchGameP->password, sizeof(watchGameP->password));
 
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
@@ -7667,8 +7669,8 @@ const s32 color2index_6470[] = { 1, 0, 2 };
 
 void dm_game_graphic2(void) {
     struct_watchGame *temp_s7 = watchGame;
-    s32 temp_s2_2 = (game_state_data[0].unk_00C == GAMESTATEDATA_UNK_00C_20) ||
-                    (game_state_data[0].unk_00C == GAMESTATEDATA_UNK_00C_21);
+    bool debugMenuEnabled = (game_state_data[0].unk_00C == GAMESTATEDATA_UNK_00C_DEBUG_CHARACTER_EDIT) ||
+                            (game_state_data[0].unk_00C == GAMESTATEDATA_UNK_00C_DEBUG_SETTINGS);
     Mtx *mtx;
     Vtx *vtx;
     s32 i;
@@ -7685,8 +7687,8 @@ void dm_game_graphic2(void) {
 
     F3RCPinitRtn();
     gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    F3ClearFZRtn(temp_s2_2);
-    if (temp_s2_2 == 0) {
+    F3ClearFZRtn(debugMenuEnabled);
+    if (!debugMenuEnabled) {
         if (temp_s7->unk_394 < 0x14) {
             dm_game_draw_snap_bg(&gGfxHead, &mtx, &vtx, 1);
         } else if (temp_s7->unk_9AC == 0) {
@@ -7702,7 +7704,7 @@ void dm_game_graphic2(void) {
             s32 temp_s0 = temp_s7->unk_394 < 0x14;
             s32 temp_s1 = temp_s7->unk_880 == 0;
 
-            if (temp_s2_2 == 0) {
+            if (!debugMenuEnabled) {
                 if (temp_s7->unk_880 != 0) {
                     temp_s7->unk_394 = 0x14;
                 }
@@ -7731,7 +7733,7 @@ void dm_game_graphic2(void) {
         case ENUM_EVS_GAMESEL_3:
         case ENUM_EVS_GAMESEL_5:
         case ENUM_EVS_GAMESEL_6:
-            if ((temp_s2_2 == 0) && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
                 for (i = 0; i < evs_playcnt; i++) {
                     dm_virus_anime(&game_state_data[i], game_map_data[i]);
                     dm_game_graphic_p(&game_state_data[i], i, game_map_data[i]);
@@ -7746,7 +7748,7 @@ void dm_game_graphic2(void) {
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
         case ENUM_EVS_GAMESEL_4:
-            if ((temp_s2_2 == 0) && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
                 disp_logo_setup(&gGfxHead);
 
                 if (temp_s7->unk_9AC > 0) {
@@ -7821,7 +7823,7 @@ void dm_game_graphic2(void) {
         case ENUM_EVS_GAMESEL_1:
         case ENUM_EVS_GAMESEL_3:
         case ENUM_EVS_GAMESEL_5:
-            if ((temp_s2_2 == 0) && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
                 disp_logo_setup(&gGfxHead);
 
                 gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
@@ -7900,7 +7902,7 @@ void dm_game_graphic2(void) {
 
         case ENUM_EVS_GAMESEL_2:
         case ENUM_EVS_GAMESEL_6:
-            if ((temp_s2_2 == 0) && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
                 for (i = 0; i < 4; i++) {
                     animeState_initDL(&game_state_data[i].unk_094, &gGfxHead);
                     animeState_draw(&game_state_data[i].unk_094, &gGfxHead, _posP4CharBase[i][0] + 0x14,
@@ -7986,14 +7988,14 @@ void dm_game_graphic2(void) {
 
     if (temp_s7->unk_880 == 0) {
         switch (game_state_data[0].unk_00C) {
-            case GAMESTATEDATA_UNK_00C_21:
-                DebugMenu_8003FD0C(&gGfxHead);
-                DebugMenu_8003FB00();
+            case GAMESTATEDATA_UNK_00C_DEBUG_SETTINGS:
+                DebugMenu_Settings_Draw(&gGfxHead);
+                DebugMenu_Settings_Update();
                 break;
 
-            case GAMESTATEDATA_UNK_00C_20:
-                DebugMenu_800409A0();
-                DebugMenu_800409DC(&gGfxHead);
+            case GAMESTATEDATA_UNK_00C_DEBUG_CHARACTER_EDIT:
+                DebugMenu_CharacterEdit_Update();
+                DebugMenu_CharacterEdit_Draw(&gGfxHead);
                 break;
 
             default:

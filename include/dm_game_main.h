@@ -148,7 +148,7 @@ typedef struct struct_watchGame {
     /* 0x9D0 */ struct_watchGame_unk_9D0 unk_9D0[2];
     /* 0xA28 */ MessageWnd unk_A28;
     /* 0xAA8 */ s32 unk_AA8;
-    /* 0xAAC */ unsigned char unk_AAC[42]; // passwordPrompt?
+    /* 0xAAC */ unsigned char password[42];
     /* 0xAD8 */ RecordWritingMessage recMessage;
 } struct_watchGame; // size = 0xB60
 
@@ -208,8 +208,8 @@ typedef enum EnumGameStateDataUnk00C {
     /* 0x1D */ GAMESTATEDATA_UNK_00C_1D,
     /* 0x1E */ GAMESTATEDATA_UNK_00C_1E,
     /* 0x1F */ GAMESTATEDATA_UNK_00C_1F,
-    /* 0x20 */ GAMESTATEDATA_UNK_00C_20,
-    /* 0x21 */ GAMESTATEDATA_UNK_00C_21,
+    /* 0x20 */ GAMESTATEDATA_UNK_00C_DEBUG_CHARACTER_EDIT,
+    /* 0x21 */ GAMESTATEDATA_UNK_00C_DEBUG_SETTINGS,
 } EnumGameStateDataUnk00C;
 
 typedef enum EnumGameStateDataUnk014 {

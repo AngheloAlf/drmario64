@@ -68,5 +68,11 @@
 
 #define HELP (*(vu32*)0 = 0x1234)
 
+// #define DEBUG_EN 1
+#if DEBUG_EN
+#define T(jp, en) en
+#else
+#define T(jp, en) jp
+#endif
 
 #endif

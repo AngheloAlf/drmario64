@@ -3069,8 +3069,8 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
         }
     }
 
-    aiSelCom = temp_s2->unk_04[var_s5];
-    aiSelSpeed = temp_s2->unk_01;
+    aiSelCom = temp_s2->performance[var_s5];
+    aiSelSpeed = temp_s2->speed;
 
     if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
         if (last_flash > 1) {

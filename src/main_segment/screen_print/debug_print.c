@@ -342,8 +342,8 @@ s32 DebugPrint_CallbackPutChars(Printer *printer, const char *chars, size_t leng
         switch (state->modifierCharacter) {
             case '@':
                 switch (character) {
-                    case 'c':
-                    case 'm':
+                    case 'c': // DBGPRT_COLOR_RAW
+                    case 'm': // DBGPRT_CALLBACK
                         state->modifierCharacter = character;
                         break;
 
@@ -353,14 +353,14 @@ s32 DebugPrint_CallbackPutChars(Printer *printer, const char *chars, size_t leng
                 }
                 break;
 
-            case 'c':
+            case 'c': // DBGPRT_COLOR_RAW
                 if (state->gfxP != NULL) {
                     DebugPrint_SetColor(state->gfxP, character - '0');
                 }
                 state->modifierCharacter = 0xFF;
                 break;
 
-            case 'm':
+            case 'm': // DBGPRT_CALLBACK
                 if (state->callback != NULL) {
                     state->callback(state->gfxP, state->posX + (state->curCol * DBGPRT_FONT_CHAR_WIDTH),
                                     state->posY + (state->curRow * DBGPRT_FONT_CHAR_HEIGHT), character);
