@@ -79,10 +79,12 @@ vram_classes:
 
 segments:
   - name: header
+    fixed_vram: 0x00000000
     files:
       - { path: src/rom_header/rom_header.o }
 
   - name: ipl3
+    fixed_vram: 0x00000040
     files:
       - { path: "asm/{version}/data/ipl3.o" }
 
