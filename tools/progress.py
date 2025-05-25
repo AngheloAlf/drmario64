@@ -58,10 +58,15 @@ class Report:
         units: list[ReportUnit] = []
 
         measures = ReportMeasures.fromDict(info["measures"])
+        assert measures is not None, "all"
         for cat in info["categories"]:
-            categories.append(ReportCategory.fromDict(cat))
+            x = ReportCategory.fromDict(cat)
+            if x is not None:
+                categories.append(x)
         for unit in info["units"]:
-            units.append(ReportUnit.fromDict(unit))
+            x = ReportUnit.fromDict(unit)
+            if x is not None:
+                units.append(x)
 
         return Report(
             measures = measures,
@@ -76,11 +81,14 @@ class ReportCategory:
     measures: ReportMeasures
 
     @staticmethod
-    def fromDict(info: dict) -> ReportCategory:
+    def fromDict(info: dict) -> ReportCategory | None:
+        measures = ReportMeasures.fromDict(info["measures"])
+        if measures is None:
+            return None
         return ReportCategory(
             id = info["id"],
             name = info["name"],
-            measures = ReportMeasures.fromDict(info["measures"]),
+            measures = measures,
         )
 
 @dataclasses.dataclass
@@ -91,10 +99,13 @@ class ReportUnit:
     # metadata: 
 
     @staticmethod
-    def fromDict(info: dict) -> ReportUnit:
+    def fromDict(info: dict) -> ReportUnit | None:
+        measures = ReportMeasures.fromDict(info["measures"])
+        if measures is None:
+            return None
         return ReportUnit(
             name = info["name"],
-            measures = ReportMeasures.fromDict(info["measures"]),
+            measures = measures,
         )
 
 @dataclasses.dataclass
@@ -110,7 +121,7 @@ class ReportMeasures:
     total_units: int
 
     @staticmethod
-    def fromDict(info: dict) -> ReportMeasures:
+    def fromDict(info: dict) -> ReportMeasures|None:
         fuzzy_match_percent = info.get("fuzzy_match_percent")
         total_code = info.get("total_code")
         matched_code = info.get("matched_code")
@@ -119,6 +130,9 @@ class ReportMeasures:
         matched_functions_percent = info.get("matched_functions_percent")
         complete_code_percent = info.get("complete_code_percent")
         complete_data_percent = info.get("complete_data_percent")
+        total_units = info.get("total_units")
+        if total_units is None:
+            return None
         return ReportMeasures(
             fuzzy_match_percent = fuzzy_match_percent if fuzzy_match_percent is not None else 0.0,
             total_code = int(total_code) if total_code is not None else 0,
@@ -128,7 +142,7 @@ class ReportMeasures:
             matched_functions_percent = matched_functions_percent if matched_functions_percent is not None else 0.0,
             complete_code_percent = complete_code_percent if complete_code_percent is not None else 0.0,
             complete_data_percent = complete_data_percent if complete_data_percent is not None else 0.0,
-            total_units = info["total_units"],
+            total_units = total_units,
         )
 
     def as_entry_str(self, name: str, total_measures: ReportMeasures, column_size: int) -> str|None:
