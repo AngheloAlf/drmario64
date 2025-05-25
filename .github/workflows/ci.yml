@@ -14,55 +14,55 @@ jobs:
         version: [us, cn, gw]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Install package requirements
-      run: sudo apt-get install -y make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip clang-format-11 clang-tidy-11
+      - name: Install package requirements
+        run: sudo apt-get install -y make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip clang-format-14 clang-tidy-14
 
-    - name: Install Python dependencies
-      run: pip3 install -r requirements.txt
+      - name: Install Python dependencies
+        run: pip3 install -r requirements.txt
 
-    - name: Install Rust programs
-      run: |
-        cargo install pigment64 --version ">=0.3.0,<1.*"
+      - name: Install Rust programs
+        run: |
+          cargo install pigment64 --version ">=0.3.0,<1.*"
 
-    - name: Get extra dependencies
-      uses: actions/checkout@v3
-      with:
-        repository: ${{ secrets.SECRETREPO }}
-        token: ${{ secrets.SECRETTOKEN }}
-        path: deps_repo
-    - name: Get the dependency
-      run: cp deps_repo/drmario64/baserom.${{ matrix.version }}.z64 config/${{ matrix.version }}/baserom.${{ matrix.version }}.z64
+      - name: Get extra dependencies
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ secrets.SECRETREPO }}
+          token: ${{ secrets.SECRETTOKEN }}
+          path: deps_repo
+      - name: Get the dependency
+        run: cp deps_repo/drmario64/baserom.${{ matrix.version }}.z64 config/${{ matrix.version }}/baserom.${{ matrix.version }}.z64
 
-    - name: Setup
-      run: make setup -j $(nproc) VERSION=${{ matrix.version }}
+      - name: Setup
+        run: make setup -j $(nproc) VERSION=${{ matrix.version }}
 
-    - name: Disassemble and extraction
-      run: make extract -j $(nproc) VERSION=${{ matrix.version }}
+      - name: Disassemble and extraction
+        run: make extract -j $(nproc) VERSION=${{ matrix.version }}
 
-    - name: Build Dr. Mario 64
-      run: make -j $(nproc) WERROR=1 VERSION=${{ matrix.version }}
+      - name: Build Dr. Mario 64
+        run: make -j $(nproc) WERROR=1 VERSION=${{ matrix.version }}
 
-    - name: Print progress
-      run: python3 tools/progress.py --version ${{ matrix.version }}
+      - name: Print progress
+        run: python3 tools/progress.py --version ${{ matrix.version }}
 
-    - name: Upload frogress
-      if: ${{ github.ref == 'refs/heads/master' && github.event_name != 'pull_request_target' }}
-      run: python3 tools/upload_frogress.py ${{ matrix.version }} --apikey ${{ secrets.PROGRESS_API_KEY }}
+      - name: Upload frogress
+        if: ${{ github.ref == 'refs/heads/master' && github.event_name != 'pull_request_target' }}
+        run: python3 tools/upload_frogress.py ${{ matrix.version }} --apikey ${{ secrets.PROGRESS_API_KEY }}
 
-    - name: Upload map
-      uses: actions/upload-artifact@v3
-      with:
-        name: drmario64.${{ matrix.version }}.map
-        path: build/${{ matrix.version }}/drmario64.${{ matrix.version }}.map
+      - name: Upload map
+        uses: actions/upload-artifact@v4
+        with:
+          name: drmario64.${{ matrix.version }}.map
+          path: build/${{ matrix.version }}/drmario64.${{ matrix.version }}.map
 
-    - name: Generate PJ64 symbols file
-      run: python3 tools/pj64_syms.py --version ${{ matrix.version }} -o drmario.${{ matrix.version }}.sym
+      - name: Generate PJ64 symbols file
+        run: python3 tools/pj64_syms.py --version ${{ matrix.version }} -o drmario.${{ matrix.version }}.sym
 
-    - name: Upload PJ64 symbols file
-      uses: actions/upload-artifact@v3
-      with:
-        name: drmario.${{ matrix.version }}.sym
-        path: drmario.${{ matrix.version }}.sym
+      - name: Upload PJ64 symbols file
+        uses: actions/upload-artifact@v4
+        with:
+          name: drmario.${{ matrix.version }}.sym
+          path: drmario.${{ matrix.version }}.sym

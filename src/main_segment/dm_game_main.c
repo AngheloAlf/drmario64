@@ -22,7 +22,6 @@
 #include "tex_func.h"
 #include "main_story.h"
 #include "debug_menu.h"
-#include "aiset.h"
 #include "nnsched.h"
 #include "static.h"
 #include "dm_virus_init.h"
