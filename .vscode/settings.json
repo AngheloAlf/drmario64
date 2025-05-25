@@ -20,7 +20,7 @@
         ".make_options": "makefile",
         "typeinfo": "c",
     },
-    "python.terminal.activateEnvironment": true,
+    "python.terminal.activateEnvironment": false,
     "favorites.resources": [
         {
             "filePath": "puzzle_collection/Dr_MARIO.c",
