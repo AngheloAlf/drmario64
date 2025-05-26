@@ -1,16 +1,21 @@
 # Dr. Mario 64
 
-[![Build Status]][actions] ![Code us Progress] ![Code cn Progress] ![Code gw Progress]
+[![Build Status]][actions]
+[![Code us Progress]](https://decomp.dev/AngheloAlf/drmario64/us)
+[![Code cn Progress]](https://decomp.dev/AngheloAlf/drmario64/cn)
+[![Code gw Progress]](https://decomp.dev/AngheloAlf/drmario64/gw)
 
 [Build Status]: <https://github.com/AngheloAlf/drmario64/actions/workflows/ci.yml/badge.svg>
 [actions]: <https://github.com/AngheloAlf/drmario64/actions/workflows/ci.yml>
-[Code us Progress]: https://img.shields.io/endpoint?label=Code%20us&url=https%3A%2F%2Fprogress.deco.mp%2Fdata%2Fdrmario64%2Fus%2Fcode%2F%3Fmode%3Dshield%26measure%3Dall
-[Code cn Progress]: https://img.shields.io/endpoint?label=Code%20cn&url=https%3A%2F%2Fprogress.deco.mp%2Fdata%2Fdrmario64%2Fcn%2Fcode%2F%3Fmode%3Dshield%26measure%3Dall
-[Code gw Progress]: https://img.shields.io/endpoint?label=Code%20gw&url=https%3A%2F%2Fprogress.deco.mp%2Fdata%2Fdrmario64%2Fgw%2Fcode%2F%3Fmode%3Dshield%26measure%3Dall
+[Code us Progress]: https://decomp.dev/AngheloAlf/drmario64/us.svg?mode=shield&label=us&measure=matched_code_percent
+[Code cn Progress]: https://decomp.dev/AngheloAlf/drmario64/cn.svg?mode=shield&label=us&measure=matched_code_percent
+[Code gw Progress]: https://decomp.dev/AngheloAlf/drmario64/gw.svg?mode=shield&label=us&measure=matched_code_percent
 
 Matching decomp of Dr. Mario 64
 
-[Progress graph :chart_with_upwards_trend:](https://angheloalf.github.io/drmario64/)
+[Progress graph :chart_with_upwards_trend:](https://decomp.dev/AngheloAlf/drmario64?mode=history)
+
+[Legacy progress graph :chart_with_upwards_trend:](https://angheloalf.github.io/drmario64/)
 
 ## Dependencies
 
