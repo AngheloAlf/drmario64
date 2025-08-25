@@ -6,7 +6,7 @@ options:
   elf_path: build/gw/drmario64.gw.elf
   ld_script_path: .splat/gw/drmario64.ld
   base_path: ../../
-  compiler: GCC
+  compiler: KMC
   find_file_boundaries: True
   header_encoding: ASCII
   platform: n64
@@ -119,11 +119,7 @@ options:
   string_encoding: SHIFT-JIS
   data_string_encoding: SHIFT-JIS
   rodata_string_guesser_level: 2
-  asm_function_macro: glabel
-  # asm_function_alt_macro: alabel
-  # asm_end_label: endlabel
-  asm_jtbl_label_macro: jlabel
-  asm_data_macro: dlabel
+
   libultra_symbols: True
   hardware_regs: True
   image_type_in_extension: True

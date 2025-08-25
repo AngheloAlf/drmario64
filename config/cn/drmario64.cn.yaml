@@ -6,7 +6,7 @@ options:
   elf_path: build/cn/drmario64.cn.elf
   ld_script_path: .splat/cn/drmario64.ld
   base_path: ../../
-  compiler: GCC
+  compiler: EGCS
   find_file_boundaries: True
   header_encoding: ASCII
   platform: n64
@@ -118,11 +118,7 @@ options:
   string_encoding: EUC-CN
   data_string_encoding: EUC-CN
   rodata_string_guesser_level: 2
-  asm_function_macro: glabel
-  # asm_function_alt_macro: alabel
-  # asm_end_label: endlabel
-  asm_jtbl_label_macro: jlabel
-  asm_data_macro: dlabel
+
   libultra_symbols: True
   ique_symbols: True
   hardware_regs: True
