@@ -8,8 +8,8 @@
 [Build Status]: <https://github.com/AngheloAlf/drmario64/actions/workflows/ci.yml/badge.svg>
 [actions]: <https://github.com/AngheloAlf/drmario64/actions/workflows/ci.yml>
 [Code us Progress]: https://decomp.dev/AngheloAlf/drmario64/us.svg?mode=shield&label=us&measure=matched_code_percent
-[Code cn Progress]: https://decomp.dev/AngheloAlf/drmario64/cn.svg?mode=shield&label=us&measure=matched_code_percent
-[Code gw Progress]: https://decomp.dev/AngheloAlf/drmario64/gw.svg?mode=shield&label=us&measure=matched_code_percent
+[Code cn Progress]: https://decomp.dev/AngheloAlf/drmario64/cn.svg?mode=shield&label=cn&measure=matched_code_percent
+[Code gw Progress]: https://decomp.dev/AngheloAlf/drmario64/gw.svg?mode=shield&label=gw&measure=matched_code_percent
 
 Matching decomp of Dr. Mario 64
 
