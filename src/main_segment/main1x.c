@@ -167,7 +167,7 @@ u8 Score1p[3][6] = {
  * Original name: main11
  */
 enum_main_no main11(void) {
-    enum_main_no ret = MAIN_NO_3;
+    enum_main_no ret = MAIN_TITLE;
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
@@ -189,7 +189,7 @@ enum_main_no main11(void) {
             break;
 
         case EEPROM_STATUS_5:
-            ret = MAIN_NO_10;
+            ret = MAIN_CSUM_ERROR;
             break;
 
         default:
@@ -512,11 +512,11 @@ enum_main_no main12(void) {
         case ENUM_EVS_GAMESEL_0:
             game_state_data[0].unk_04C = 0;
             evs_story_flg = 0;
-            ret = MAIN_NO_5;
+            ret = MAIN_GAME;
             break;
 
         case ENUM_EVS_GAMESEL_1:
-            ret = MAIN_NO_5;
+            ret = MAIN_GAME;
             evs_story_flg = 0;
             for (i = 0; i < 2; i++) {
                 game_state_data[i].unk_04C = 0;
@@ -527,7 +527,7 @@ enum_main_no main12(void) {
             for (i = 0; i < 4; i++) {
                 game_state_data[i].unk_04D = _charToAi_227[game_state_data[i].unk_090];
             }
-            ret = MAIN_NO_5;
+            ret = MAIN_GAME;
             break;
 
         case ENUM_EVS_GAMESEL_3:
@@ -578,24 +578,24 @@ enum_main_no main12(void) {
                 game_state_data[1].unk_04D = _charToAi_227[game_state_data[1].unk_090];
             }
 
-            ret = MAIN_NO_5;
+            ret = MAIN_GAME;
             break;
 
         case ENUM_EVS_GAMESEL_4:
             evs_playcnt = 1;
             evs_game_time = 0;
             evs_one_game_flg = 0;
-            game_state_data->unk_000 = 0;
-            game_state_data->unk_04B = 0;
-            game_state_data->unk_04C = 1;
-            game_state_data->unk_04E = 1;
-            game_state_data->unk_026 = 0xA;
-            game_state_data->unk_02C = 1;
-            game_state_data->unk_090 = CHARANIMEMODE_M;
+            game_state_data[0].unk_000 = 0;
+            game_state_data[0].unk_04B = 0;
+            game_state_data[0].unk_04C = 1;
+            game_state_data[0].unk_04E = 1;
+            game_state_data[0].unk_026 = 0xA;
+            game_state_data[0].unk_02C = 1;
+            game_state_data[0].unk_090 = CHARANIMEMODE_M;
             evs_seqence = 1;
-            game_state_data->unk_04D = _charToAi_227[0];
+            game_state_data[0].unk_04D = _charToAi_227[0];
             evs_seqnumb = _demoSeqTbl_225[rand() & 2];
-            ret = MAIN_NO_5;
+            ret = MAIN_GAME;
             break;
 
         case ENUM_EVS_GAMESEL_5:
@@ -629,7 +629,7 @@ enum_main_no main12(void) {
 
             evs_seqence = 1;
             evs_seqnumb = _demoSeqTbl_225[rand() & 2];
-            ret = MAIN_NO_5;
+            ret = MAIN_GAME;
             break;
 
         case ENUM_EVS_GAMESEL_6:
@@ -661,7 +661,7 @@ enum_main_no main12(void) {
 
             evs_seqence = 1;
             evs_seqnumb = _demoSeqTbl_225[rand() & 2];
-            ret = MAIN_NO_5;
+            ret = MAIN_GAME;
             break;
 
         default:

@@ -6,17 +6,17 @@
 struct NNSched;
 
 typedef enum enum_main_no {
-    /*  0 */ MAIN_NO_0,
-    /*  1 */ MAIN_NO_1,
-    /*  2 */ MAIN_NO_2,
-    /*  3 */ MAIN_NO_3,
-    /*  4 */ MAIN_NO_4,
-    /*  5 */ MAIN_NO_5,
-    /*  6 */ MAIN_NO_6,
-    /*  7 */ MAIN_NO_7,
-    /*  8 */ MAIN_NO_8, // "no controller connected"
-    /*  9 */ MAIN_NO_9, // "game not designed for this system"
-    /* 10 */ MAIN_NO_10, // "backup file is damaged"
+    /*  0 */ MAIN_11,
+    /*  1 */ MAIN_12,
+    /*  2 */ MAIN_STORY,
+    /*  3 */ MAIN_TITLE,
+    /*  4 */ MAIN_MANUAL,
+    /*  5 */ MAIN_GAME,
+    /*  6 */ MAIN_MENU,
+    /*  7 */ MAIN_TECHMES,
+    /*  8 */ MAIN_CONT_ERROR, // "no controller connected"
+    /*  9 */ MAIN_TV_ERROR, // "game not designed for this system"
+    /* 10 */ MAIN_CSUM_ERROR, // "backup file is damaged"
 } enum_main_no;
 
 

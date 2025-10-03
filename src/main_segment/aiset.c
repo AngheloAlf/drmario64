@@ -613,11 +613,11 @@ void aifMakeBlkWork(struct_game_state_data *gameStateDataRef) {
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
             s32 index = GAME_MAP_GET_INDEX(row - 1, column);
 
-            if (game_map_data[gameStateDataRef->unk_298][index].unk_4[0] != 0) {
+            if (game_map_data[gameStateDataRef->unk_298][index].capsel_m_flg[0] != 0) {
                 gameStateDataRef->unk_29C[row][column][0] =
-                    capsGCnv_122[game_map_data[gameStateDataRef->unk_298][index].unk_2];
+                    capsGCnv_122[game_map_data[gameStateDataRef->unk_298][index].capsel_m_g];
                 gameStateDataRef->unk_29C[row][column][1] =
-                    capsCCnv_123[game_map_data[gameStateDataRef->unk_298][index].unk_3];
+                    capsCCnv_123[game_map_data[gameStateDataRef->unk_298][index].capsel_m_p];
             } else {
                 gameStateDataRef->unk_29C[row][column][0] = 10;
                 gameStateDataRef->unk_29C[row][column][1] = 3;
@@ -721,7 +721,7 @@ void aifMake(struct_game_state_data *gameStateDataRef) {
         aifMoveCheck();
         delpos_cnt = 0;
 
-        if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+        if (evs_gamemode == GMD_FLASH) {
             s32 var_v1;
 
             flash_special();
@@ -1045,7 +1045,7 @@ bool aifEraseLineCore(s32 col, s32 row) {
                     func_8002F924(i, col);
                 }
 
-                if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+                if (evs_gamemode == GMD_FLASH) {
                     if (flash_virus(col, i) != 0) {
                         sp1C = true;
                     }
@@ -1100,7 +1100,7 @@ bool aifEraseLineCore(s32 col, s32 row) {
                     func_8002F924(row, i);
                 }
 
-                if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+                if (evs_gamemode == GMD_FLASH) {
                     if (flash_virus(i, row) != 0) {
                         sp1C = true;
                     }
@@ -1868,7 +1868,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
         }
     }
 
-    if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+    if (evs_gamemode == GMD_FLASH) {
         OnVirusP = OnVirusP_org + 0x7D0;
         if (var_s4 == 0) {
             if (arg7 != 0) {
@@ -1959,7 +1959,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
         }
 
         var_s4 = 0;
-        if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+        if (evs_gamemode == GMD_FLASH) {
             if (var_s0 != 0) {
                 for (var_s1 = temp + 1; var_s1 < 0x11; var_s1++) {
                     if (flash_virus(arg1, var_s1) != -1) {
@@ -3072,7 +3072,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
     aiSelCom = temp_s2->performance[var_s5];
     aiSelSpeed = temp_s2->speed;
 
-    if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+    if (evs_gamemode == GMD_FLASH) {
         if (last_flash > 1) {
             aiSelCom = 0;
         } else {

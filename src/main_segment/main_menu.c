@@ -4670,7 +4670,7 @@ void func_8004F2D8(MenuMain *menuMain) {
 
     if ((keyTrg & B_BUTTON) && (menuMain->mode != MAINMENUMODE_MENUMAIN_0)) {
         _setFadeDir(menuMain->watchMenuRef, -1);
-        _setNextMain(menuMain->watchMenuRef, MAIN_NO_6);
+        _setNextMain(menuMain->watchMenuRef, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
@@ -4758,9 +4758,9 @@ const MainMenuMode _mode_5688[] = {
 };
 
 const enum_evs_gamemode _game_5689[] = {
-    ENUM_EVS_GAMEMODE_0,
-    ENUM_EVS_GAMEMODE_0,
-    ENUM_EVS_GAMEMODE_1,
+    GMD_NORMAL,
+    GMD_NORMAL,
+    GMD_FLASH,
 };
 
 const MainMenuMode _mode_5701[] = {
@@ -4912,7 +4912,7 @@ void menuMain_input(MenuMain *menuMain) {
             } else if (keyTrg & B_BUTTON) {
                 if (menuMain->unk_31E4.unk_004.unk_68 < 0.0f) {
                     _setFadeDir(menuMain->watchMenuRef, 1);
-                    _setNextMain(menuMain->watchMenuRef, MAIN_NO_3);
+                    _setNextMain(menuMain->watchMenuRef, MAIN_TITLE);
                     soundIndex = SND_INDEX_68;
                 }
                 sp34--;
@@ -4922,7 +4922,7 @@ void menuMain_input(MenuMain *menuMain) {
             break;
 
         case MAINMENUMODE_1:
-            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            menuMain->unk_0030 = GMD_FLASH;
             menuMain->unk_002C = _n_5535[var_s2];
 
             if (keyTrg & (A_BUTTON | START_BUTTON)) {
@@ -4931,19 +4931,19 @@ void menuMain_input(MenuMain *menuMain) {
 
                 switch (menuMain->mode) {
                     case MAINMENUMODE_18:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_1;
+                        evs_gamemode = GMD_FLASH;
                         break;
 
                     case MAINMENUMODE_8:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_2;
+                        evs_gamemode = GMD_TaiQ;
                         break;
 
                     case MAINMENUMODE_11:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_3;
+                        evs_gamemode = GMD_TIME_ATTACK;
                         break;
 
                     default:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_0;
+                        evs_gamemode = GMD_NORMAL;
                         break;
                 }
 
@@ -4999,7 +4999,7 @@ void menuMain_input(MenuMain *menuMain) {
 
         case MAINMENUMODE_22:
             menuMain->unk_002C = var_s2 + 6;
-            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            menuMain->unk_0030 = GMD_FLASH;
 
             if (keyTrg & (A_BUTTON | START_BUTTON)) {
                 menuMain->unk_0030 = -1;
@@ -5017,15 +5017,15 @@ void menuMain_input(MenuMain *menuMain) {
 
                 switch (menuMain->mode) {
                     case MAINMENUMODE_23:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_0;
+                        evs_gamemode = GMD_NORMAL;
                         break;
 
                     case MAINMENUMODE_27:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_1;
+                        evs_gamemode = GMD_FLASH;
                         break;
 
                     case MAINMENUMODE_31:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_3;
+                        evs_gamemode = GMD_TIME_ATTACK;
                         break;
 
                     default:
@@ -5041,7 +5041,7 @@ void menuMain_input(MenuMain *menuMain) {
             break;
         case MAINMENUMODE_35:
             menuMain->unk_002C = var_s2 + 0xC;
-            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            menuMain->unk_0030 = GMD_FLASH;
 
             if (keyTrg & (A_BUTTON | START_BUTTON)) {
                 evs_playmax = joyResponseCheck();
@@ -5054,7 +5054,7 @@ void menuMain_input(MenuMain *menuMain) {
                     evs_playcnt = 4;
                     evs_story_flg = 0;
                     evs_gamesel = ENUM_EVS_GAMESEL_2;
-                    evs_gamemode = ENUM_EVS_GAMEMODE_0;
+                    evs_gamemode = GMD_NORMAL;
 
                     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
                         game_state_data[i].unk_04C = var_s2 < i;
@@ -5323,7 +5323,7 @@ void menuMain_input(MenuMain *menuMain) {
         case MAINMENUMODE_38:
         case MAINMENUMODE_39:
             menuMain->unk_002C = var_s2 + 9;
-            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            menuMain->unk_0030 = GMD_FLASH;
             if (keyTrg & (A_BUTTON | START_BUTTON)) {
                 for (i = 0; i < ARRAY_COUNTU(_team_5687[var_s2]); i++) {
                     game_state_data[i].unk_04F = _team_5687[var_s2][i];
@@ -5394,7 +5394,7 @@ void menuMain_input(MenuMain *menuMain) {
                     soundIndex = SND_INDEX_62;
                 } else {
                     _setFadeDir(menuMain->watchMenuRef, 1);
-                    _setNextMain(menuMain->watchMenuRef, MAIN_NO_4);
+                    _setNextMain(menuMain->watchMenuRef, MAIN_MANUAL);
                     evs_manual_no = var_s2 - 1;
                     soundIndex = SND_INDEX_62;
                 }
@@ -6097,7 +6097,7 @@ void func_80051974(MenuStory *menuStory) {
 
     if (keyTrg & B_BUTTON) {
         _setFadeDir(menuStory->watchMenuRef, -1);
-        _setNextMain(menuStory->watchMenuRef, MAIN_NO_6);
+        _setNextMain(menuStory->watchMenuRef, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
@@ -6206,7 +6206,7 @@ void menuStory_input(MenuStory *menuStory) {
     if (soundIndex <= SND_INDEX_INVALID) {
         if ((keyTrg & (A_BUTTON | START_BUTTON)) && (menuStory->unk_0024 == 2)) {
             _setFadeDir(menuStory->watchMenuRef, 1);
-            _setNextMain(menuStory->watchMenuRef, MAIN_NO_2);
+            _setNextMain(menuStory->watchMenuRef, MAIN_STORY);
 
             temp_s5->unk_00 = menuStory->unk_085C.unk_008;
             temp_s5->unk_01 = menuStory->unk_085C.unk_010;
@@ -6628,7 +6628,7 @@ void func_80052DF0(MenuLvSel *menuLvSel) {
 
     if (keyTrg & B_BUTTON) {
         _setFadeDir(menuLvSel->watchMenuRef, -1);
-        _setNextMain(menuLvSel->watchMenuRef, MAIN_NO_6);
+        _setNextMain(menuLvSel->watchMenuRef, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
@@ -6693,7 +6693,7 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
 
     if ((keyTrg & (A_BUTTON | START_BUTTON)) && (menuLvSel->unk_256C == 2)) {
         _setFadeDir(menuLvSel->watchMenuRef, 1);
-        _setNextMain(menuLvSel->watchMenuRef, MAIN_NO_1);
+        _setNextMain(menuLvSel->watchMenuRef, MAIN_12);
 
         switch (menuLvSel->unk_0004) {
             case MAINMENUMODE_MENULVSEL_7:
@@ -7701,7 +7701,7 @@ void func_800550F4(MenuPlay2 *menuPlay2) {
         menuPlay2->unk_0004 = 2;
         menuPlay2->unk_6548.unk_008 = 0;
         _setFadeDir(menuPlay2->watchMenuRef, -1);
-        _setNextMain(menuPlay2->watchMenuRef, MAIN_NO_6);
+        _setNextMain(menuPlay2->watchMenuRef, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
@@ -8045,7 +8045,7 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
     evs_game_time = 0;
 
     _setFadeDir(menuPlay2->watchMenuRef, 1);
-    _setNextMain(menuPlay2->watchMenuRef, MAIN_NO_1);
+    _setNextMain(menuPlay2->watchMenuRef, MAIN_12);
 }
 
 void menuPlay2_update(MenuPlay2 *menuPlay2) {
@@ -10149,7 +10149,7 @@ void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, NNSched *sc) {
 
     arg0->unk_111C8 = arg0->unk_111CC = arg0->unk_111D0 = _menuAll_lastMode;
 
-    arg0->unk_111D4 = MAIN_NO_6;
+    arg0->unk_111D4 = MAIN_MENU;
 
 #ifdef NN_SC_PERF
     arg0->unk_cn_pad = 0;
@@ -10642,7 +10642,7 @@ enum_main_no main_menu(NNSched *sc) {
     struct_watchMenu *ptr = ALIGN_PTR(Heap_bufferp);
     s32 i;
 
-    if (main_old == MAIN_NO_3) {
+    if (main_old == MAIN_TITLE) {
         _menuAll_lastMode = MAINMENUMODE_MENUMAIN_0;
         _menuMain_lastMode = MAINMENUMODE_MENUMAIN_0;
         _menuMain_lastDepth = 0;
@@ -10666,7 +10666,7 @@ enum_main_no main_menu(NNSched *sc) {
     gGfxHead = gGfxGlist[gfx_gtask_no];
     dm_seq_play(SEQ_INDEX_12);
 
-    while ((ptr->unk_111D4 == MAIN_NO_6) || (ptr->unk_111DC < 1.0f)) {
+    while ((ptr->unk_111D4 == MAIN_MENU) || (ptr->unk_111DC < 1.0f)) {
         if (graphic_no == GRAPHIC_NO_0) {
             while ((pendingGFX != 0) || (BgTasksManager_GetRemainingTasks() != 0)) {
                 _waitRetrace(ptr);
@@ -10744,7 +10744,7 @@ enum_main_no main_menu(NNSched *sc) {
 void graphic_menu(void) {
     struct_watchMenu *ptr = watchMenu;
 
-    if ((ptr->unk_111D4 != MAIN_NO_6) && (ptr->unk_111DC == 1.0f)) {
+    if ((ptr->unk_111D4 != MAIN_MENU) && (ptr->unk_111DC == 1.0f)) {
         osSetThreadPri(NULL, THREAD_PRI_GRAPHIC);
         ptr->unk_111F4 = 0xF;
         return;

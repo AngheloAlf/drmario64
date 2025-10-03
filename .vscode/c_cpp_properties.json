@@ -10,7 +10,8 @@
                 ".",
                 "lib/ultralib/include",
                 "lib/ultralib/include/PR",
-                "lib/libmus/include"
+                "lib/libmus/include",
+                "build/us/src/main_segment",
             ],
             "defines": [
                 "NON_EQUIVALENT",
@@ -54,7 +55,8 @@
                 ".",
                 "lib/ultralib/include",
                 "lib/ultralib/include/PR",
-                "lib/libmus/include"
+                "lib/libmus/include",
+                "build/cn/src/main_segment",
             ],
             "defines": [
                 "NON_EQUIVALENT",
@@ -98,7 +100,8 @@
                 ".",
                 "lib/ultralib/include",
                 "lib/ultralib/include/PR",
-                "lib/libmus/include"
+                "lib/libmus/include",
+                "build/gw/src/main_segment",
             ],
             "defines": [
                 "NON_EQUIVALENT",

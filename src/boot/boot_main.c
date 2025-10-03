@@ -27,7 +27,7 @@ void Main_StopThread(void) {
     osStopThread(&sMainThread);
 }
 
-void func_80000488(void (*arg0)()) {
+void func_80000488(void (*arg0)(void)) {
     D_8000E190 = arg0;
 }
 

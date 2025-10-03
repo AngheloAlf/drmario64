@@ -44,22 +44,22 @@ void mainproc(void *arg UNUSED) {
     switch (osTvType) {
         case OS_TV_NTSC:
             nnScCreateScheduler(&B_800EB670, OS_VI_NTSC_LAN1, 1);
-            main_no = MAIN_NO_0;
+            main_no = MAIN_11;
             break;
 
         case OS_TV_MPAL:
             nnScCreateScheduler(&B_800EB670, OS_VI_MPAL_LAN1, 1);
-            main_no = MAIN_NO_0;
+            main_no = MAIN_11;
             break;
 
         case OS_TV_PAL:
             nnScCreateScheduler(&B_800EB670, OS_VI_PAL_LAN1, 1);
-            main_no = MAIN_NO_9;
+            main_no = MAIN_TV_ERROR;
             break;
 
         default:
             nnScCreateScheduler(&B_800EB670, OS_VI_NTSC_LAN1, 1);
-            main_no = MAIN_NO_9;
+            main_no = MAIN_TV_ERROR;
             break;
     }
 
@@ -70,66 +70,66 @@ void mainproc(void *arg UNUSED) {
     joyInit(MAXCONTROLLERS);
     evs_playmax = joyResponseCheck();
 
-    if ((evs_playmax == 0) && (main_no == MAIN_NO_0)) {
-        main_no = MAIN_NO_8;
+    if ((evs_playmax == 0) && (main_no == MAIN_11)) {
+        main_no = MAIN_CONT_ERROR;
     }
 
     aifFirstInit();
     func_80000488(make_ai_main);
 
     while (true) {
-        enum_main_no temp_s0 = main_no;
+        enum_main_no main_bak = main_no;
 
         switch (main_no) {
-            case MAIN_NO_0:
+            case MAIN_11:
                 main_no = main11();
                 break;
 
-            case MAIN_NO_1:
+            case MAIN_12:
                 main_no = main12();
                 break;
 
-            case MAIN_NO_3:
+            case MAIN_TITLE:
                 main_no = dm_title_main(&B_800EB670);
                 break;
 
-            case MAIN_NO_4:
+            case MAIN_MANUAL:
                 main_no = dm_manual_main(&B_800EB670);
                 break;
 
-            case MAIN_NO_5:
+            case MAIN_GAME:
                 main_no = dm_game_main(&B_800EB670);
                 break;
 
-            case MAIN_NO_6:
+            case MAIN_MENU:
                 main_no = main_menu(&B_800EB670);
                 break;
 
-            case MAIN_NO_7:
+            case MAIN_TECHMES:
                 main_no = main_techmes(&B_800EB670);
                 break;
 
-            case MAIN_NO_8:
-            case MAIN_NO_9:
-            case MAIN_NO_10:
+            case MAIN_CONT_ERROR:
+            case MAIN_TV_ERROR:
+            case MAIN_CSUM_ERROR:
                 main_no = main_boot_error(&B_800EB670);
                 break;
 
-            case MAIN_NO_2:
+            case MAIN_STORY:
                 main_story(&B_800EB670);
 
                 if ((story_proc_no == BGROMDATA_INDEX0) || (story_proc_no == BGROMDATA_INDEX12)) {
                     story_proc_no++;
-                    main_no = MAIN_NO_2;
+                    main_no = MAIN_STORY;
                 } else if (((story_proc_no - BGROMDATA_INDEX10) >= BGROMDATA_INDEX12 - BGROMDATA_INDEX10) &&
                            (story_proc_no != BGROMDATA_INDEX22) && (story_proc_no != BGROMDATA_INDEX23)) {
-                    main_no = MAIN_NO_1;
+                    main_no = MAIN_12;
                 } else {
-                    main_no = MAIN_NO_7;
+                    main_no = MAIN_TECHMES;
                 }
                 break;
         }
 
-        main_old = temp_s0;
+        main_old = main_bak;
     }
 }

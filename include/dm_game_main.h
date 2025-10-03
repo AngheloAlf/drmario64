@@ -15,10 +15,10 @@ struct struct_virus_map_data;
 struct NNSched;
 
 typedef enum enum_evs_gamemode {
-    /* 0 */ ENUM_EVS_GAMEMODE_0,
-    /* 1 */ ENUM_EVS_GAMEMODE_1,
-    /* 2 */ ENUM_EVS_GAMEMODE_2,
-    /* 3 */ ENUM_EVS_GAMEMODE_3
+    /* 0 */ GMD_NORMAL,
+    /* 1 */ GMD_FLASH,
+    /* 2 */ GMD_TaiQ,
+    /* 3 */ GMD_TIME_ATTACK
 } enum_evs_gamemode;
 
 typedef struct struct_gameGeom {

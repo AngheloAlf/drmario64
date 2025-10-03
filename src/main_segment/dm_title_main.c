@@ -58,10 +58,10 @@ void func_80075F30(void) {
     title_exit_flag = 0;
     title_mode_type = 0;
 
-    title_fade_count = main_old == MAIN_NO_6 ? 0xFF : 0;
+    title_fade_count = main_old == MAIN_MENU ? 0xFF : 0;
     title_fade_step = -8;
     evs_seqence = 0;
-    init_title(Heap_bufferp, main_old != MAIN_NO_6);
+    init_title(Heap_bufferp, main_old != MAIN_MENU);
 }
 
 /**
@@ -80,7 +80,7 @@ enum_main_no dm_title_main(NNSched *sc) {
     OSMesgQueue scMQ;
     OSMesg scMsgBuf[NN_SC_MAX_MESGS];
     NNScClient scClient;
-    s32 var_s1 = (main_old == MAIN_NO_6) ? 0x63 : 0;
+    s32 var_s1 = (main_old == MAIN_MENU) ? 0x63 : 0;
     u32 var_s0 = 0;
 
     osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
@@ -159,11 +159,11 @@ enum_main_no dm_title_main(NNSched *sc) {
     nnScRemoveClient(sc, &scClient);
 
     if (var_s0 == 1) {
-        return MAIN_NO_6;
+        return MAIN_MENU;
     }
 
     if (var_s0 != 2) {
-        return MAIN_NO_2;
+        return MAIN_STORY;
     }
 
     if (title_demo_flg == 0) {
@@ -179,14 +179,14 @@ enum_main_no dm_title_main(NNSched *sc) {
             evs_gamesel = ENUM_EVS_GAMESEL_6;
         }
 
-        evs_gamemode = ENUM_EVS_GAMEMODE_0;
+        evs_gamemode = GMD_NORMAL;
 
         title_demo_no++;
         if (title_demo_no >= 3) {
             title_demo_no = 0;
         }
         title_demo_flg ^= 1;
-        return MAIN_NO_1;
+        return MAIN_12;
     }
 
     if (title_demo_flg == 1) {
@@ -197,7 +197,7 @@ enum_main_no dm_title_main(NNSched *sc) {
             title_manual_no = 0;
         }
         title_demo_flg = 0;
-        return MAIN_NO_4;
+        return MAIN_MANUAL;
     }
 
 #ifdef PRESERVE_UB
@@ -263,17 +263,17 @@ enum_main_no main_boot_error(NNSched *sc) {
     nnScAddClient(sc, &scClient, &scMQ);
 
     switch (main_no) {
-        case MAIN_NO_8:
+        case MAIN_CONT_ERROR:
             msgWnd_init(messageWnd, &sp58, 0x40, 5, 0x40, 0x60);
             msgWnd_addStr(messageWnd, _mesBootContErr);
             break;
 
-        case MAIN_NO_9:
+        case MAIN_TV_ERROR:
             msgWnd_init(messageWnd, &sp58, 0x40, 5, 0x40, 0x72);
             msgWnd_addStr(messageWnd, STR_800B32A8);
             break;
 
-        case MAIN_NO_10:
+        case MAIN_CSUM_ERROR:
             msgWnd_init(messageWnd, &sp58, 0x40, 5, 0x28, 0x6C);
             msgWnd_addStr(messageWnd, _mesBootCSumErr);
             break;
@@ -297,7 +297,7 @@ enum_main_no main_boot_error(NNSched *sc) {
 #endif
 
         msgWnd_update(messageWnd);
-        if ((main_no == MAIN_NO_10) && (gControllerPressedButtons[main_joy[0]] & A_BUTTON)) {
+        if ((main_no == MAIN_CSUM_ERROR) && (gControllerPressedButtons[main_joy[0]] & A_BUTTON)) {
             var_s1 = false;
             dm_snd_play(SND_INDEX_70);
         }
@@ -311,11 +311,11 @@ enum_main_no main_boot_error(NNSched *sc) {
     }
 
     nnScRemoveClient(sc, &scClient);
-    if (main_no == MAIN_NO_10) {
+    if (main_no == MAIN_CSUM_ERROR) {
         EepRom_WriteAll(NULL, 0);
     }
 
-    return MAIN_NO_3;
+    return MAIN_TITLE;
 }
 
 /**

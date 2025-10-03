@@ -772,9 +772,9 @@ bool dm_manual_1_main(void) {
         case 0x40:
             var_s1 = virus_map_disp_order[0][gameStateDataP->unk_025];
 
-            set_virus(mapCells, virus_map_data[0][var_s1].unk_1, virus_map_data[0][var_s1].unk_2,
-                      virus_map_data[0][var_s1].unk_0,
-                      virus_anime_table[virus_map_data[0][var_s1].unk_0][gameStateDataP->unk_027]);
+            set_virus(mapCells, virus_map_data[0][var_s1].x_pos, virus_map_data[0][var_s1].y_pos,
+                      virus_map_data[0][var_s1].virus_type,
+                      virus_anime_table[virus_map_data[0][var_s1].virus_type][gameStateDataP->unk_027]);
 
             gameStateDataP->unk_025++;
 
@@ -1806,7 +1806,7 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
     switch (evs_manual_no) {
         case EVS_MANUAL_NO_0:
         case EVS_MANUAL_NO_3:
-            if (main_old == MAIN_NO_3) {
+            if (main_old == MAIN_TITLE) {
                 push_any_key_draw(0xDC, 0xD2);
             } else {
                 draw_AB_guide(0xC8, 0xCA);
@@ -1814,7 +1814,7 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
             break;
 
         case EVS_MANUAL_NO_1:
-            if (main_old == MAIN_NO_3) {
+            if (main_old == MAIN_TITLE) {
                 push_any_key_draw(0x80, 0xD2);
             } else {
                 draw_AB_guide(0x6E, 0xCA);
@@ -1822,7 +1822,7 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
             break;
 
         case EVS_MANUAL_NO_2:
-            if (main_old == MAIN_NO_3) {
+            if (main_old == MAIN_TITLE) {
                 push_any_key_draw(0xE6, 0xD2);
             } else {
                 draw_AB_guide(0x6E, 0xCA);
@@ -1891,7 +1891,7 @@ void dm_manual_all_init(void) {
             break;
     }
 
-    evs_gamemode = ENUM_EVS_GAMEMODE_0;
+    evs_gamemode = GMD_NORMAL;
     story_proc_no = BGROMDATA_INDEX1;
 
     dm_game_init_heap();
@@ -2088,7 +2088,7 @@ enum_main_no dm_manual_main(NNSched *sc) {
         }
         if (temp_s2->unk_00C == 0) {
             var_a0 = B_BUTTON;
-            if (main_old == MAIN_NO_3) {
+            if (main_old == MAIN_TITLE) {
                 var_a0 = ANY_BUTTON;
             }
             if (gControllerPressedButtons[main_joy[0]] & var_a0) {
@@ -2115,14 +2115,14 @@ enum_main_no dm_manual_main(NNSched *sc) {
 
     nnScRemoveClient(sc, &scClient);
 
-    if (main_old == MAIN_NO_3) {
-        return MAIN_NO_3;
-    } else if (main_old == MAIN_NO_6) {
-        return MAIN_NO_6;
+    if (main_old == MAIN_TITLE) {
+        return MAIN_TITLE;
+    } else if (main_old == MAIN_MENU) {
+        return MAIN_MENU;
     }
 
 #ifdef PRESERVE_UB
-    return MAIN_NO_3;
+    return MAIN_TITLE;
 #endif
 }
 

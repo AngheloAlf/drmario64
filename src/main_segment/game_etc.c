@@ -157,7 +157,7 @@ Color_RGB32 col_env_435[] = {
 void initEtcWork(void *gameEtcSeg, s32 count) {
     s32 i;
 
-    if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
+    if (evs_gamemode == GMD_TIME_ATTACK) {
         logo_ofsY = 0x10;
     } else {
         logo_ofsY = 0;
