@@ -110,7 +110,7 @@ const u8 limit_table[] = {
  * Original name: get_virus_color_count
  */
 s32 get_virus_color_count(GameMapCell *mapCells, u8 *red, u8 *yellow, u8 *blue) {
-    s32 color[3] = { 0, 0, 0 };
+    s32 color[VIRUS_NUM] = { 0, 0, 0 };
     s32 i;
     s32 count = 0;
 
@@ -131,7 +131,7 @@ s32 get_virus_color_count(GameMapCell *mapCells, u8 *red, u8 *yellow, u8 *blue) 
 }
 
 s32 get_virus_count(GameMapCell *mapCells) {
-    u8 ryb[3];
+    u8 ryb[VIRUS_NUM];
 
     return get_virus_color_count(mapCells, &ryb[0], &ryb[1], &ryb[2]);
 }
@@ -303,11 +303,7 @@ s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_game_state_da
             break;
 
         default:
-            if (state->unk_026 <= 0x17) {
-                ret = state->unk_026;
-            } else {
-                ret = 0x17;
-            }
+            ret = MIN(VIRUS_MAP_DISP_ORDER_LEN / 4 - 1, state->unk_026);
             ret = (ret + 1) * 4;
             break;
     }
@@ -322,7 +318,6 @@ const u8 _n_343[] = {
     0x1E,
     0x28,
     0x32,
-    0x00,
 };
 
 /**
@@ -344,110 +339,99 @@ const u8 _l_359[] = {
  */
 void _dm_virus_init(enum_evs_gamemode mode, struct_game_state_data *state, struct_virus_map_data *virusMapData,
                     u8 order[VIRUS_MAP_DISP_ORDER_LEN], s32 special) {
-    s16 var_s0;
-    s16 temp_s2;
+    s16 i;
+    s16 j;
     u16 virus_color[4];
-    u16 var_s0_2;
-    u16 var_s1;
+    u16 y_set;
+    u16 x_set;
     u16 var_s5_2;
     u16 var_s7;
-    u8 temp_s3;
-    u8 sp20;
-    u8 var_s4;
+    u8 color_set;
+    u8 virus_count;
+    u8 set_flg;
     u8 sp24;
-    u8 sp28;
+    u8 limit_line;
 
 #if 0
-    signed short i; // r4
-    signed short j; // r18
-    unsigned short virus_color[4]; // r1+0x44
     unsigned short cont_count; // r21
     unsigned short dead_count; // r20
-    unsigned short x_set; // r30
-    unsigned short y_set; // r31
-    unsigned char color_set; // r4
     unsigned char virus_work; // r1+0x8
     unsigned char virus_max; // r15
-    unsigned char virus_count; // r18
-    unsigned char limit_line; // r21
-    unsigned char set_flg; // r28
-    int a; // r24
-    int c; // r1+0x8
 #endif
 
     // TODO: fake label?
 loop_1:
 
-    for (var_s0 = 0; var_s0 < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; var_s0++) {
-        virusMapData[var_s0].virus_type = -1;
-        virusMapData[var_s0].y_pos = 0;
-        virusMapData[var_s0].x_pos = 0;
+    for (i = 0; i < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; i++) {
+        virusMapData[i].virus_type = -1;
+        virusMapData[i].y_pos = 0;
+        virusMapData[i].x_pos = 0;
     }
 
-    for (var_s0 = 0; var_s0 < VIRUS_MAP_DISP_ORDER_LEN; var_s0++) {
-        order[var_s0] = 0xFF;
+    for (i = 0; i < VIRUS_MAP_DISP_ORDER_LEN; i++) {
+        order[i] = 0xFF;
     }
 
     switch (mode) {
         case GMD_FLASH:
         case GMD_TIME_ATTACK:
-            sp28 = limit_table[(_l_359[state->unk_16C] < ARRAY_COUNT(limit_table) - 1) ? _l_359[state->unk_16C]
+            limit_line = limit_table[(_l_359[state->unk_16C] < ARRAY_COUNT(limit_table) - 1) ? _l_359[state->unk_16C]
                                                                                        : ARRAY_COUNT(limit_table) - 2];
             break;
 
         default:
-            sp28 = limit_table[(state->unk_026 < ARRAY_COUNT(limit_table) - 1) ? state->unk_026
+            limit_line = limit_table[(state->unk_026 < ARRAY_COUNT(limit_table) - 1) ? state->unk_026
                                                                                : ARRAY_COUNT(limit_table) - 2];
             break;
     }
 
-    sp20 = dm_get_first_virus_count(mode, state);
+    virus_count = dm_get_first_virus_count(mode, state);
 
-    for (var_s0 = 0; var_s0 < ARRAY_COUNT(virus_color); var_s0++) {
-        virus_color[var_s0] = sp20 / 3;
+    for (i = 0; i < ARRAY_COUNT(virus_color); i++) {
+        virus_color[i] = virus_count / 3;
     }
 
-    var_s0 = 0;
-    temp_s2 = (sp20 % 3);
-    while (var_s0 < temp_s2) {
-        s32 temp_v0_3 = random(3);
+    i = 0;
+    j = virus_count % VIRUS_NUM;
+    while (i < j) {
+        s32 temp_v0_3 = random(VIRUS_NUM);
 
-        if ((virus_color[temp_v0_3] <= virus_color[(temp_v0_3 + 1) % 3]) &&
-            (virus_color[temp_v0_3] <= virus_color[(temp_v0_3 + 2) % 3])) {
+        if ((virus_color[temp_v0_3] <= virus_color[(temp_v0_3 + 1) % VIRUS_NUM]) &&
+            (virus_color[temp_v0_3] <= virus_color[(temp_v0_3 + 2) % VIRUS_NUM])) {
             virus_color[temp_v0_3]++;
-            var_s0++;
+            i++;
         }
     }
 
     sp24 = 0;
     if (special == 1) {
-        var_s1 = 3;
-        var_s0_2 = sp28 + 1;
-        temp_s2 = 2;
-        temp_s3 = 2;
+        x_set = 3;
+        y_set = limit_line + 1;
+        j = 2;
+        color_set = 2;
 
-        virus_color[temp_s2] -= 1;
+        virus_color[j] -= 1;
 
-        temp_s2 = GAME_MAP_GET_INDEX_ALT2(var_s0_2 - 1, var_s1);
-        virusMapData[temp_s2].virus_type = temp_s3;
-        virusMapData[temp_s2].x_pos = var_s1;
-        virusMapData[temp_s2].y_pos = var_s0_2;
+        j = GAME_MAP_GET_INDEX_ALT2(y_set - 1, x_set);
+        virusMapData[j].virus_type = color_set;
+        virusMapData[j].x_pos = x_set;
+        virusMapData[j].y_pos = y_set;
 
-        order[sp24] = temp_s2;
+        order[sp24] = j;
 
         sp24 = 1;
     }
 
-    for (; sp24 < sp20; sp24++) {
+    for (; sp24 < virus_count; sp24++) {
         var_s7 = 0;
         var_s5_2 = 0;
 
         do {
 
             do {
-                temp_s2 = random(3);
-            } while (virus_color[temp_s2] == 0);
-            temp_s3 = temp_s2;
+                j = random(VIRUS_NUM);
+            } while (virus_color[j] == 0);
+            color_set = j;
 
             if (var_s5_2++ == 2) {
                 var_s7++;
@@ -457,21 +441,21 @@ loop_1:
 
                 var_s5_2 = 0;
 
-                for (var_s1 = 0; var_s1 < GAME_MAP_COLUMNS; var_s1++) {
-                    for (var_s0_2 = GAME_MAP_ROWS - 1; var_s0_2 > sp28; var_s0_2--) {
-                        var_s4 = 0;
+                for (x_set = 0; x_set < GAME_MAP_COLUMNS; x_set++) {
+                    for (y_set = GAME_MAP_ROWS - 1; y_set > limit_line; y_set--) {
+                        set_flg = false;
 
-                        if (dm_virus_check(virusMapData, var_s1, var_s0_2) != 0) {
+                        if (dm_virus_check(virusMapData, x_set, y_set)) {
                             continue;
                         }
 
-                        var_s4 = dm_check_color(virusMapData, var_s1, var_s0_2, temp_s3);
-                        if (var_s4 == 0) {
+                        set_flg = dm_check_color(virusMapData, x_set, y_set, color_set);
+                        if (!set_flg) {
                             continue;
                         }
 
-                        var_s4 = dm_check_color_2(virusMapData, var_s1, var_s0_2, temp_s3);
-                        if (var_s4 == 0) {
+                        set_flg = dm_check_color_2(virusMapData, x_set, y_set, color_set);
+                        if (!set_flg) {
                             continue;
                         }
 
@@ -484,28 +468,28 @@ loop_1:
             } else {
 
                 do {
-                    var_s1 = random(8);
+                    x_set = random(GAME_MAP_COLUMNS);
                     do {
-                        var_s0_2 = random(0x11);
-                    } while (var_s0_2 < (sp28 + 1));
-                } while (dm_virus_check(virusMapData, var_s1, var_s0_2) != 0);
+                        y_set = random(GAME_MAP_ROWS);
+                    } while (y_set < limit_line + 1);
+                } while (dm_virus_check(virusMapData, x_set, y_set));
 
-                var_s4 = dm_check_color(virusMapData, var_s1, var_s0_2, temp_s3);
-                if (var_s4 != 0) {
-                    var_s4 = dm_check_color_2(virusMapData, var_s1, var_s0_2, temp_s3);
+                set_flg = dm_check_color(virusMapData, x_set, y_set, color_set);
+                if (set_flg) {
+                    set_flg = dm_check_color_2(virusMapData, x_set, y_set, color_set);
                 }
             }
 
-        } while (var_s4 == 0);
+        } while (!set_flg);
 
-        virus_color[temp_s2]--;
+        virus_color[j]--;
 
-        temp_s2 = GAME_MAP_GET_INDEX_ALT2(var_s0_2 - 1, var_s1);
-        virusMapData[temp_s2].virus_type = temp_s3;
-        virusMapData[temp_s2].x_pos = var_s1;
-        virusMapData[temp_s2].y_pos = var_s0_2;
+        j = GAME_MAP_GET_INDEX_ALT2(y_set - 1, x_set);
+        virusMapData[j].virus_type = color_set;
+        virusMapData[j].x_pos = x_set;
+        virusMapData[j].y_pos = y_set;
 
-        order[sp24] = temp_s2;
+        order[sp24] = j;
     }
 }
 
@@ -522,6 +506,27 @@ const s32 _n_564[][5] = {
     { 1, 1, 1, 0x60, 0x60 },
     { 1, 2, 0, 0x60, 0x60 },
 };
+
+#define ORDER_BUF_LEN 0x20
+
+typedef struct struct_8005FC6C_arg0 {
+    /* 0x000 */ struct struct_virus_map_data *virusMapData;
+    /* 0x004 */ u8 *virusMapDispOrder;
+    /* 0x008 */ s32 virusCount;
+    /* 0x00C */ u8 selected[VIRUS_MAP_DISP_ORDER_LEN];
+    /* 0x06C */ u8 decideBuf[VIRUS_NUM][ORDER_BUF_LEN];
+    /* 0x0CC */ s32 decideCnt[VIRUS_NUM];
+    /* 0x0D8 */ u8 underBuf[VIRUS_NUM][ORDER_BUF_LEN];
+    /* 0x138 */ s32 underCnt[VIRUS_NUM];
+    /* 0x144 */ u8 under2Buf[VIRUS_NUM][ORDER_BUF_LEN];
+    /* 0x1A4 */ s32 under2Cnt[VIRUS_NUM];
+    /* 0x1B0 */ u8 under3Buf[VIRUS_NUM][ORDER_BUF_LEN];
+    /* 0x210 */ s32 under3Cnt[VIRUS_NUM];
+    /* 0x21C */ u8 centerBuf[VIRUS_NUM][ORDER_BUF_LEN];
+    /* 0x27C */ s32 centerCnt[VIRUS_NUM];
+    /* 0x288 */ u8 sideBuf[VIRUS_NUM][ORDER_BUF_LEN];
+    /* 0x2E8 */ s32 sideCnt[VIRUS_NUM];
+} struct_8005FC6C_arg0; // size = 0x2F4
 
 /**
  * Original name: _makeFlash_init
@@ -600,7 +605,7 @@ void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *st) {
 /**
  * Original name: _makeFlash_checkOrdre
  */
-s32 _makeFlash_decide(struct_8005FC6C_arg0 *st, u8 buf[3][0x20], s32 cnt[3], s32 color) {
+s32 _makeFlash_decide(struct_8005FC6C_arg0 *st, u8 buf[VIRUS_NUM][ORDER_BUF_LEN], s32 cnt[VIRUS_NUM], s32 color) {
     u8 *order = buf[color];
     s32 count = cnt[color];
     s32 i;
@@ -629,17 +634,14 @@ s32 make_flash_virus_pos(struct_game_state_data *state, struct_virus_map_data *v
     s32 var_s4;
     s32 var_v1;
     s32 *cnt;
-    u8(*buf)[0x20];
+    u8(*buf)[ORDER_BUF_LEN];
     s32 var_s3;
 
 #if 0
     int i; // r8
     int j; // r9
     int pos; // r6
-    int color; // r3
     int count; // r30
-    int * cnt; // r28
-    unsigned char (* buf)[32]; // r29
     int k; // r10
 #endif
 
@@ -682,10 +684,10 @@ s32 make_flash_virus_pos(struct_game_state_data *state, struct_virus_map_data *v
         var_s1 = 0;
 
         while ((var_s1 < 3) && (var_s4 > 0)) {
-            color = (color + 1) % 3;
+            color = (color + 1) % VIRUS_NUM;
 
-            if ((st->decideCnt[color] <= st->decideCnt[(color + 1) % 3]) &&
-                (st->decideCnt[color] <= st->decideCnt[(color + 2) % 3])) {
+            if ((st->decideCnt[color] <= st->decideCnt[(color + 1) % VIRUS_NUM]) &&
+                (st->decideCnt[color] <= st->decideCnt[(color + 2) % VIRUS_NUM])) {
                 var_v1 = _makeFlash_decide(st, buf, cnt, color);
             } else {
                 var_v1 = -1;
@@ -701,7 +703,7 @@ s32 make_flash_virus_pos(struct_game_state_data *state, struct_virus_map_data *v
     }
 
     var_s3 = 0;
-    for (color = 0; color < 3; color++) {
+    for (color = 0; color < VIRUS_NUM; color++) {
         for (var_s1 = 0; var_s1 < st->decideCnt[color]; var_s1++) {
             var_v1 = st->decideBuf[color][var_s1];
             state->unk_0D4[var_s3][0] = var_v1 & 7;
