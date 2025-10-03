@@ -7,12 +7,14 @@
 #include "alignment.h"
 #include "macros_defines.h"
 
+#include "libc/assert.h"
+
 #include "unk.h"
 #include "tex_func.h"
 
 typedef struct struct_800A6F70 {
     /* 0x0 */ u8 index;
-    /* 0x1 */ u8 size;
+    /* 0x1 */ u8 width;
 } struct_800A6F70; // size = 0x2
 
 u8 font_a_tex[] ALIGNED(8) = {
@@ -35,7 +37,9 @@ u8 font_grade_tex[] ALIGNED(8) = {
 #include "main_segment/font/font_grade_tex.i4.inc"
 };
 
-struct_800A6F70 D_800A3AD0[0x80] = {
+#define E_TBL_LEN 0x80U
+
+struct_800A6F70 font_e_tbl[0x80] = {
     /* 0x00 ''   */ { 0x5F, 0xFF },
     /* 0x01 ''   */ { 0x5F, 0xFF },
     /* 0x02 ''   */ { 0x5F, 0xFF },
@@ -165,7 +169,7 @@ struct_800A6F70 D_800A3AD0[0x80] = {
     /* 0x7E '~'  */ { 0x3F, 7 },
     /* 0x7F ''   */ { 0, 0 },
 };
-struct_800A6F70 D_800A3BD0[0x80] = {
+struct_800A6F70 font_e2_tbl[0x80] = {
     /* 0x00 ''   */ { 0x5F, 0xFF },
     /* 0x01 ''   */ { 0x5F, 0xFF },
     /* 0x02 ''   */ { 0x5F, 0xFF },
@@ -295,6 +299,9 @@ struct_800A6F70 D_800A3BD0[0x80] = {
     /* 0x7E '~'  */ { 0x3F, 7 },
     /* 0x7F ''   */ { 0, 0 },
 };
+
+static_assert(ARRAY_COUNT(font_e_tbl) == E_TBL_LEN, "");
+static_assert(ARRAY_COUNT(font_e2_tbl) == E_TBL_LEN, "");
 
 /**
  * Original name: char_code_tbl
@@ -692,7 +699,7 @@ u16 char_code_tbl[0x1860] = {
     0x143, 0x143, 0x143, 0x143, 0x143, 0x143, 0x143, 0x143, 0x143, 0x143, 0x143, 0x143, 0x143, 0x143, 0x13A, 0,
 };
 
-u16 D_800A6D90[0xF0] = {
+u16 code2kanji_tbl[0xF0] = {
     /* あ */ 0x82A0,
     /* い */ 0x82A2,
     /* う */ 0x82A4,
@@ -1003,7 +1010,7 @@ u8 D_800B2270_cn[] ALIGNED(8) = {
  * Original name:
  *  static _tbl
  */
-struct_800A6F70 *_tbl_133[] = { D_800A3AD0, D_800A3BD0 };
+struct_800A6F70 *_tbl_133[] = { font_e_tbl, font_e2_tbl };
 
 /**
  * Original name: static init_dl
@@ -1019,61 +1026,61 @@ const Gfx init_dl_135[] = {
 /**
  * Original name: fontStr_nextChar
  */
-s32 fontStr_nextChar(const unsigned char *arg0) {
-    unsigned char firstChar = arg0[0];
-    s32 var_v1;
+s32 fontStr_nextChar(const unsigned char *str) {
+    unsigned char firstChar = str[0];
+    s32 n;
 
     if (firstChar < 0x80) {
-        var_v1 = 1;
+        n = 1;
         if (firstChar == '~') {
-            if (arg0[1] == 'z') {
-                var_v1 = 0;
-            } else if (arg0[1] == 'w') {
-                var_v1 = 3;
+            if (str[1] == 'z') {
+                n = 0;
+            } else if (str[1] == 'w') {
+                n = 3;
             } else {
-                var_v1 = 2;
+                n = 2;
             }
         }
     } else {
         unsigned char temp;
 
 #if VERSION_US || VERSION_GW
-        var_v1 = 2;
-        temp = (arg0[0] + 0x5F);
+        n = 2;
+        temp = (str[0] + 0x5F);
 
         if (temp < 0x3F) {
-            var_v1 = 1;
+            n = 1;
         }
 #elif VERSION_CN
-        var_v1 = 1;
+        n = 1;
         temp = firstChar + 0x5F;
 
         if (temp < 0x5EU) {
-            var_v1 = 2;
+            n = 2;
 
-            temp = (arg0[1] + 0x5F);
+            temp = (str[1] + 0x5F);
             if (temp >= 0x5EU) {
-                var_v1 = 1;
+                n = 1;
             }
         }
 #endif
     }
 
-    return var_v1;
+    return n;
 }
 
 /**
  * Original name: fontStr_length
  */
-s32 fontStr_length(const unsigned char *arg0) {
-    s32 temp_v0;
-    s32 var_s0 = 0;
+s32 fontStr_length(const unsigned char *str) {
+    s32 n;
+    s32 i = 0;
 
     do {
-        temp_v0 = fontStr_nextChar(arg0 + var_s0);
-        var_s0 += temp_v0;
-    } while (temp_v0 != 0);
-    return var_s0;
+        n = fontStr_nextChar(&str[i]);
+        i += n;
+    } while (n != 0);
+    return i;
 }
 
 /**
@@ -1092,36 +1099,36 @@ s32 fontStr_charSize(const unsigned char *arg0, s32 arg1) {
     return size;
 }
 
-u16 func_8005B8D8(u8 arg0) {
-    return D_800A6D90[arg0];
+u16 index2font(u8 code) {
+    return code2kanji_tbl[code];
 }
 
 /**
  * Original name: font2index
  */
-s32 font2index(const unsigned char *arg0) {
-    s32 var_a1 = arg0[0];
+s32 font2index(const unsigned char *charcode) {
+    s32 n = charcode[0];
 
 #if VERSION_CN
-    if (var_a1 - 0xA1 < 0x5EU) {
-        unsigned char temp = arg0[1] + 0x5F;
+    if (n - 0xA1 < 0x5EU) {
+        unsigned char temp = charcode[1] + 0x5F;
 
         if (temp < 0x5EU) {
             s32 var_a2;
             s32 var_a0;
 
-            var_a1 = (var_a1 << 8) | arg0[1];
+            n = (n << 8) | charcode[1];
 
             var_a2 = 0;
             var_a0 = D_800B1CC0_cn - 1;
             while (var_a2 <= var_a0) {
                 s32 temp_v1 = (var_a2 + var_a0) >> 1;
 
-                if (var_a1 == D_800B1CC4_cn[temp_v1]) {
+                if (n == D_800B1CC4_cn[temp_v1]) {
                     return temp_v1 + 1001;
                 }
 
-                if (D_800B1CC4_cn[temp_v1] < var_a1) {
+                if (D_800B1CC4_cn[temp_v1] < n) {
                     var_a2 = temp_v1 + 1;
                 } else {
                     var_a0 = temp_v1 - 1;
@@ -1133,28 +1140,28 @@ s32 font2index(const unsigned char *arg0) {
     }
 #endif
 
-    if (var_a1 - 0x81 < 0x1FU) {
-        var_a1 = (var_a1 - 0x80) << 8;
-        var_a1 += arg0[1];
-    } else if ((var_a1 - 0xE0) < 0x10U) {
-        var_a1 = (var_a1 - 0xC0) << 8;
-        var_a1 += arg0[1];
+    if (n - 0x81 < 0x1FU) {
+        n = (n - 0x80) << 8;
+        n += charcode[1];
+    } else if ((n - 0xE0) < 0x10U) {
+        n = (n - 0xC0) << 8;
+        n += charcode[1];
     }
 
-    return char_code_tbl[var_a1];
+    return char_code_tbl[n];
 }
 
 /**
  * Original name: ascii2index
  */
-void ascii2index(s32 character, s32 arg1, s32 *indexP, s32 *sizeP) {
-    const struct_800A6F70 *ptr = _tbl_133[arg1 % ARRAY_COUNTU(_tbl_133)];
+void ascii2index(s32 code, s32 type, s32 *indexP, s32 *widthP) {
+    const struct_800A6F70 *ptr = _tbl_133[type % ARRAY_COUNTU(_tbl_133)];
     const struct_800A6F70 *ptr2;
 
-    ptr2 = &ptr[character % 0x80U];
+    ptr2 = &ptr[code % E_TBL_LEN];
 
     *indexP = ptr2->index;
-    *sizeP = ptr2->size;
+    *widthP = ptr2->width;
 }
 
 /**
@@ -1182,8 +1189,8 @@ void font16_initDL2(Gfx **gfxP) {
 /**
  * Original name: fontXX_draw
  */
-void fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const unsigned char *str) {
-    fontXX_drawID(gfxP, x, y, width, height, font2index(str));
+void fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const unsigned char *charcode) {
+    fontXX_drawID(gfxP, x, y, width, height, font2index(charcode));
 }
 
 /**
@@ -1238,8 +1245,8 @@ bool fontXX_drawID(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index) {
 /**
  * Original name: fontXX_draw2
  */
-void fontXX_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, const unsigned char *str) {
-    fontXX_drawID2(gfxP, arg1, arg2, arg3, arg4, font2index(str));
+void fontXX_draw2(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, const unsigned char *charcode) {
+    fontXX_drawID2(gfxP, x, y, w, h, font2index(charcode));
 }
 
 /**
@@ -1306,18 +1313,18 @@ bool fontXX_drawID2(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index) 
 /**
  * Original name: fontAsc_draw
  */
-bool fontAsc_draw(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, unsigned char *arg5) {
+bool fontAsc_draw(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, unsigned char *arg5) {
     s32 index;
-    s32 size;
+    s32 width;
 
-    ascii2index(*arg5, 0, &index, &size);
-    return fontAsc_drawID(gfxP, arg1, arg2, arg3, arg4, index);
+    ascii2index(*arg5, 0, &index, &width);
+    return fontAsc_drawID(gfxP, x, y, w, h, index);
 }
 
 /**
  * Original name: fontAsc_drawID
  */
-bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 index) {
+bool fontAsc_drawID(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, s32 index) {
     s32 sp8[8];
     s32 var_t4;
     s32 temp2;
@@ -1326,7 +1333,7 @@ bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 inde
     s32 b;
     u8 *texture;
 
-    if ((arg3 <= 0.0f) || (arg4 <= 0.0f) || (index == 0)) {
+    if ((w <= 0.0f) || (h <= 0.0f) || (index == 0)) {
         return false;
     }
 
@@ -1343,14 +1350,14 @@ bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 inde
                               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     }
 
-    sp8[0] = arg1 * 4.0f;
-    sp8[1] = arg2 * 4.0f;
-    sp8[2] = (arg1 + arg3) * 4.0f;
-    sp8[3] = (arg2 + arg4) * 4.0f;
+    sp8[0] = x * 4.0f;
+    sp8[1] = y * 4.0f;
+    sp8[2] = (x + w) * 4.0f;
+    sp8[3] = (y + h) * 4.0f;
     sp8[4] = 0;
     sp8[5] = var_t4 << 5;
-    sp8[6] = (a << 10) / arg3;
-    sp8[7] = (b << 10) / arg4;
+    sp8[6] = (a << 10) / w;
+    sp8[7] = (b << 10) / h;
 
     gSPScisTextureRectangle((*gfxP)++, sp8[0], sp8[1], sp8[2], sp8[3], G_TX_RENDERTILE, sp8[4], sp8[5], sp8[6], sp8[7]);
 
@@ -1360,25 +1367,25 @@ bool fontAsc_drawID(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 inde
 /**
  * Original name: fontAsc_draw2
  */
-bool fontAsc_draw2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, unsigned char *arg5) {
+bool fontAsc_draw2(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, unsigned char *charcode) {
     s32 index;
     s32 size;
 
-    ascii2index(*arg5, 1, &index, &size);
-    return fontAsc_drawID2(gfxP, arg1, arg2, arg3, arg4, index);
+    ascii2index(charcode[0], 1, &index, &size);
+    return fontAsc_drawID2(gfxP, x, y, w, h, index);
 }
 
 /**
  * Original name: fontAsc_drawID2
  */
-bool fontAsc_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
+bool fontAsc_drawID2(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, s32 arg5) {
     s32 sp8[8];
     s32 i;
     u8 *texture;
     s32 a;
     s32 b;
 
-    if ((arg3 <= 0.0f) || (arg4 <= 0.0f) || (arg5 == 0)) {
+    if ((w <= 0.0f) || (h <= 0.0f) || (arg5 == 0)) {
         return false;
     }
 
@@ -1387,14 +1394,14 @@ bool fontAsc_drawID2(Gfx **gfxP, f32 arg1, f32 arg2, f32 arg3, f32 arg4, s32 arg
     a = 10;
     b = 12;
 
-    sp8[0] = arg1 * 4;
-    sp8[1] = arg2 * 4;
-    sp8[2] = (arg1 + arg3) * 4;
-    sp8[3] = (arg2 + arg4) * 4;
+    sp8[0] = x * 4;
+    sp8[1] = y * 4;
+    sp8[2] = (x + w) * 4;
+    sp8[3] = (y + h) * 4;
     sp8[4] = 0;
     sp8[5] = 0;
-    sp8[6] = 0x2800 / arg3;
-    sp8[7] = 0x3000 / arg4;
+    sp8[6] = 0x2800 / w;
+    sp8[7] = 0x3000 / h;
 
     if (arg5 > 0) {
         s32 temp = ((arg5 - 1) * a * b);

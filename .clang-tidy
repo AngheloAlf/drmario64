@@ -5,6 +5,7 @@ Checks: >
   -readability-non-const-parameter,
   -readability-else-after-return,
   -readability-identifier-length,
+  -readability-function-cognitive-complexity,
   clang-diagnostic-*,
   clang-analyzer-*,
   -clang-analyzer-security.insecureAPI.*,

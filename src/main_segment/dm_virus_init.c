@@ -375,13 +375,14 @@ loop_1:
     switch (mode) {
         case GMD_FLASH:
         case GMD_TIME_ATTACK:
-            limit_line = limit_table[(_l_359[state->unk_16C] < ARRAY_COUNT(limit_table) - 1) ? _l_359[state->unk_16C]
-                                                                                       : ARRAY_COUNT(limit_table) - 2];
+            limit_line =
+                limit_table[(_l_359[state->unk_16C] < ARRAY_COUNT(limit_table) - 1) ? _l_359[state->unk_16C]
+                                                                                    : ARRAY_COUNT(limit_table) - 2];
             break;
 
         default:
             limit_line = limit_table[(state->unk_026 < ARRAY_COUNT(limit_table) - 1) ? state->unk_026
-                                                                               : ARRAY_COUNT(limit_table) - 2];
+                                                                                     : ARRAY_COUNT(limit_table) - 2];
             break;
     }
 
