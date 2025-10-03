@@ -40,6 +40,11 @@
 
 #define SQ(x) ((x) * (x))
 
+// Mark a value is a double literal.
+// This is usually unintended effect due to a missing `f` suffix.
+// Having this macro makes this easier to trackdown.
+#define DOUBLE_LITERAL(x) ((f64)(x))
+
 #define ASM_TEXT __asm__(".section .text")
 #define ASM_DATA __asm__(".section .data")
 #define ASM_RODATA __asm__(".section .rodata")

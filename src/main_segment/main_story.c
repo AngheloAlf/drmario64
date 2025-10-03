@@ -1224,8 +1224,8 @@ void story_st_new2_f(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2, TitleAllLwsInd
                 }
             }
 
-            if (fin_frame_568 > (lws_scene->unk_04 - 0x20)) {
-                temp = fin_frame_568 - (lws_scene->unk_04 - 0x20);
+            if (fin_frame_568 > (lws_scene->last_frame - 0x20)) {
+                temp = fin_frame_568 - (lws_scene->last_frame - 0x20);
                 temp = ((0x1E - temp) * 0xFF) / 30;
 
                 gSPDisplayList(gfx++, normal_texture_init_dl);

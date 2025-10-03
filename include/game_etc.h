@@ -29,22 +29,6 @@ typedef struct struct_attack_sprite {
     /* 0x10 */ UNK_TYPE4 unk_10;
 } struct_attack_sprite; // size = 0x14
 
-#define G_ETC_WORK_VAL 8
-
-typedef struct struct_g_etc_work {
-    /* 0x00 */ f32 unk_00;
-    /* 0x04 */ f32 unk_04;
-    /* 0x08 */ f32 unk_08;
-    /* 0x0C */ f32 unk_0C;
-    /* 0x10 */ s32 unk_10[G_ETC_WORK_VAL];
-    /* 0x30 */ f32 unk_30[G_ETC_WORK_VAL];
-    /* 0x50 */ f32 unk_50[G_ETC_WORK_VAL];
-    /* 0x70 */ s32 unk_70[G_ETC_WORK_VAL];
-    /* 0x70 */ s32 unk_90[G_ETC_WORK_VAL];
-    /* 0x70 */ s32 unk_B0[G_ETC_WORK_VAL];
-    /* 0x70 */ s32 unk_D0[G_ETC_WORK_VAL];
-} struct_g_etc_work; // size = 0xF0
-
 
 // COMMON
 

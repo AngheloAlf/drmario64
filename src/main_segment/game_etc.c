@@ -8,6 +8,7 @@
 #include "libc/assert.h"
 #include "gcc/stdlib.h"
 
+#include "defines.h"
 #include "macros_defines.h"
 
 #include "dm_game_main.h"
@@ -43,6 +44,22 @@ struct_attack_sprite attack_sprite[0x80];
  */
 u8 (*attack_sprite_address)[10][32 * 32 / 2];
 
+#define G_ETC_WORK_VAL 8
+
+typedef struct struct_g_etc_work {
+    /* 0x00 */ f32 x0;
+    /* 0x04 */ f32 unk_04;
+    /* 0x08 */ f32 unk_08;
+    /* 0x0C */ f32 unk_0C;
+    /* 0x10 */ s32 unk_10[G_ETC_WORK_VAL];
+    /* 0x30 */ f32 unk_30[G_ETC_WORK_VAL];
+    /* 0x50 */ f32 unk_50[G_ETC_WORK_VAL];
+    /* 0x70 */ s32 unk_70[G_ETC_WORK_VAL];
+    /* 0x70 */ s32 unk_90[G_ETC_WORK_VAL];
+    /* 0x70 */ s32 unk_B0[G_ETC_WORK_VAL];
+    /* 0x70 */ s32 unk_D0[G_ETC_WORK_VAL];
+} struct_g_etc_work; // size = 0xF0
+
 static s32 binCount;
 static bool cont_bg_flg;
 static void *etcTexAddress;
@@ -51,7 +68,7 @@ static void *etcLwsTbl[14];
 static u8 D_800E5408[0x8] UNUSED;
 static s32 logo_ofsY;
 static s32 etc_mode;
-static struct_g_etc_work g_etc_work[MAXCONTROLLERS];
+static struct_g_etc_work g_etc_work[MAX_PLAYERS];
 static u8 D_800E57D8[0x40] UNUSED;
 static Mtx etc_viewMtx;
 
@@ -75,13 +92,13 @@ typedef enum EtcPartIndex {
     /* 16 */ ETC_PART_INDEX_MAX,
 } EtcPartIndex;
 
-s32 pause_table[][6] = {
+EtcPartIndex pause_table[][6] = {
     { ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_8, ETC_PART_INDEX_GRAPHBIN_1, ETC_PART_INDEX_GRAPHBIN_0,
       ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_2 },
     { ETC_PART_INDEX_GRAPHBIN_3, ETC_PART_INDEX_GRAPHBIN_7, ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_0,
       ETC_PART_INDEX_GRAPHBIN_1, ETC_PART_INDEX_GRAPHBIN_2 },
 };
-s32 cont_table[][6] = {
+EtcPartIndex cont_table[][6] = {
     { ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_0, ETC_PART_INDEX_GRAPHBIN_1, ETC_PART_INDEX_GRAPHBIN_0,
       ETC_PART_INDEX_GRAPHBIN_3, ETC_PART_INDEX_GRAPHBIN_3 },
     { ETC_PART_INDEX_GRAPHBIN_3, ETC_PART_INDEX_GRAPHBIN_6, ETC_PART_INDEX_GRAPHBIN_2, ETC_PART_INDEX_GRAPHBIN_0,
@@ -191,7 +208,7 @@ void initEtcWork(void *gameEtcSeg, s32 count) {
     for (i = 0; i < binCount; i++) {
         s32 j;
 
-        g_etc_work[i].unk_00 = game_state_data[i].unk_006;
+        g_etc_work[i].x0 = game_state_data[i].unk_006;
         g_etc_work[i].unk_04 = game_state_data[i].unk_008;
         g_etc_work[i].unk_08 = game_state_data[i].unk_00A * 8.0f;
         g_etc_work[i].unk_0C = game_state_data[i].unk_00A * 17.0f;
@@ -220,7 +237,7 @@ void initEtcWork(void *gameEtcSeg, s32 count) {
 void init_pause_disp(void) {
     s32 i;
 
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < ARRAY_COUNT(g_etc_work); i++) {
         s32 j;
 
         for (j = 0; j < G_ETC_WORK_VAL; j++) {
@@ -507,10 +524,10 @@ s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2 UNUSED, s32 arg3, s32 arg4) {
     s32 temp;
     s32 pad[5] UNUSED;
 
-    temp_s1->unk_30[7] = temp_s1->unk_00 + (temp_s1->unk_08 / 2.0) - 20.0;
+    temp_s1->unk_30[7] = temp_s1->x0 + (temp_s1->unk_08 / 2.0) - 20.0;
     temp_s1->unk_50[7] = temp_s1->unk_04 + 10.0f;
 
-    temp_s1->unk_30[2] = temp_s1->unk_00 + (temp_s1->unk_08 / 2.0) - 31.0;
+    temp_s1->unk_30[2] = temp_s1->x0 + (temp_s1->unk_08 / 2.0) - 31.0;
 
     if (pause_table[arg4][0] == 2) {
         temp_s1->unk_50[2] = (temp_s1->unk_04 + temp_s1->unk_0C - 35) - 2;
@@ -694,7 +711,7 @@ s32 disp_continue_logo(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     cont_bg_flg = false;
     temp_t0 = &g_etc_work[arg1];
 
-    temp_t0->unk_30[6] = temp_t0->unk_00 + temp_t0->unk_08 / 2.0 - 31;
+    temp_t0->unk_30[6] = temp_t0->x0 + temp_t0->unk_08 / 2.0 - 31;
 
     if (cont_table[arg3][0] == 2) {
         temp_t0->unk_50[6] = temp_t0->unk_04 + temp_t0->unk_0C - 35 - 2;
