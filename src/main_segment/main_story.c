@@ -18,7 +18,7 @@
 #include "msgwnd.h"
 #include "nnsched.h"
 #include "lws.h"
-#include "066840.h"
+#include "calcsub.h"
 
 #include "graphbin.h"
 

@@ -9,7 +9,7 @@
 
 #include "calc.h"
 #include "main_story.h"
-#include "066840.h"
+#include "calcsub.h"
 
 static Mtx AnimProc[0x40];
 

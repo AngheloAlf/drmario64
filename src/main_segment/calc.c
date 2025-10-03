@@ -7,7 +7,7 @@
 #include "include_asm.h"
 #include "macros_defines.h"
 
-#include "066840.h"
+#include "calcsub.h"
 
 static s32 randomindex;
 static s32 randomtable[55];

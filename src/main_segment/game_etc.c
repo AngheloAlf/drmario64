@@ -15,7 +15,7 @@
 #include "tex_func.h"
 #include "main_story.h"
 #include "lws.h"
-#include "066840.h"
+#include "calcsub.h"
 
 #include "assets/game_etc/etc.h"
 

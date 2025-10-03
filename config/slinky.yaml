@@ -529,7 +529,7 @@ segments:
       - { path: src/main_segment/unused/066080.o }
       - { path: src/main_segment/replay.o }
       - { path: src/main_segment/066580.o }
-      - { path: src/main_segment/066840.o }
+      - { path: src/main_segment/calcsub.o }
       - { path: src/main_segment/unused/055C40.o }
 
       - kind: group

@@ -438,7 +438,7 @@ segments:
 
       - [0x071550, c, main_segment/066580]
 
-      - [0x071830, hasm, main_segment/066840]
+      - [0x071830, hasm, main_segment/calcsub]
 
       - [0x0726F0, c, main_segment/unused/055C40]
 
@@ -527,7 +527,7 @@ segments:
       - [0x0AA710, .data, main_segment/calc]
 
       - { start: 0x0AAA20, type: .data, name: main_segment/066580, str_encoding: shift-jis }
-      - [0x0AABD0, .data, main_segment/066840]
+      - [0x0AABD0, .data, main_segment/calcsub]
 
       - [0x0AB500, .data, ../lib/libmus/src/player]
       - [0x0AB5C0, .data, ../lib/libmus/src/player_fx]
