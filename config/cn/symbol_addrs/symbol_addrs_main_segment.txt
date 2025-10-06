@@ -976,10 +976,10 @@ replay_play_init = 0x80089690; // type:func
 replay_play = 0x800896FC; // type:func
 func_8007E760 = 0x80089820; // type:func
 
-func_8007EA20 = 0x80089B00; // type:func
+waitEQ4 = 0x80089B00; // type:func
 func_8007EA38 = 0x80089B18; // type:func
 func_8007EA58 = 0x80089B34; // type:func
-func_8007EAEC = 0x80089BCC; // type:func
+get_angle = 0x80089BCC; // type:func
 sinL = 0x80089D50; // type:func
 cosL = 0x80089D98; // type:func
 func_8007ECE0 = 0x80089DE4; // type:func
@@ -1522,10 +1522,9 @@ D_800AB20C = 0x800C2D8C; //
 D_800AB21C = 0x800C2D9C; //
 D_800AB29C = 0x800C2E1C; //
 
-D_800AB320 = 0x800C2EA0; //
-D_800AB32C = 0x800C2EAC; //
-D_800AB334 = 0x800C2EB4; //
-D_800AB3B4 = 0x800C2F34; //
+D_800AB320 = 0x800C2EA0; // type:u8 size:0x14
+D_800AB334 = 0x800C2EB4; // size:0x88
+D_800AB3BC = 0x800C2F3C; // size:0x84
 calc_sintable = 0x800C2FC0; // size:0x810
 
 jumptable = 0x800C37D0; // size:0xB4

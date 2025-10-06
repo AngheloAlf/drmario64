@@ -3,21 +3,23 @@
 
 #include "libultra.h"
 
-// void func_8007EA20();
-// void func_8007EA38();
-// void func_8007EA58();
-s32 func_8007EAEC(s32 arg0, s32 arg1);
-
 #if 0
 // Erased
 static long mulS32S32(long a /* r27 */, long b /* r25 */, long shift /* r22 */) {
     // Local variables
     long long c; // r24
 }
+#endif
 
-// Erased
-static int waitEQ4(int * var /* r1+0x0 */, int data /* r1+0x4 */) {}
+/**
+ * This function does not halt until `*var` is equal to `data`.
+ */
+void waitEQ4(vs32 *var, s32 data);
 
+s32 func_8007EA38(s32 value);
+// void func_8007EA58();
+
+#if 0
 // Erased
 static long sqrtS(unsigned long v /* r1+0x8 */) {
     // References
@@ -28,12 +30,12 @@ static long sqrtS(unsigned long v /* r1+0x8 */) {
 // Erased
 static long sqrtL() {}
 
-// Erased
-static long get_angle(long x /* r1+0x0 */, long y /* r1+0x4 */) {
-    // Local variables
-    long nAngle; // r1+0x0
-}
 #endif
+
+/**
+ * Compute an angle by using atan2.
+ */
+s32 get_angle(s32 x, s32 y);
 
 /**
  * Calculate sin of a binary angle.
@@ -144,9 +146,8 @@ static void makeVect() {}
 #endif
 
 extern u8 D_800AB320[];
-extern u32 D_800AB32C[];
-extern u32 D_800AB334[];
-extern u32 D_800AB3B4[];
+extern s32 D_800AB334[];
+extern s32 D_800AB3BC[];
 extern s16 calc_sintable[1026];
 
 #endif

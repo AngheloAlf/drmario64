@@ -505,13 +505,13 @@ void func_8007CAFC(Mtx *arg0, s16 *arg1, s16 *arg2, s16 *arg3) {
     if ((arg0->m[2][0] == 0) && (arg0->m[2][2] == 0)) {
         var_s0 = (arg0->m[2][1] > 0) ? -0x4000 : 0x4000;
         var_s3 = 0;
-        var_s2 = func_8007EAEC(arg0->m[0][0], -arg0->m[0][2]);
+        var_s2 = get_angle(arg0->m[0][0], -arg0->m[0][2]);
     } else {
         s32 temp_s0 = sqrt_a2b2(arg0->m[2][0], arg0->m[2][2]);
 
-        var_s3 = func_8007EAEC(arg0->m[1][1], arg0->m[0][1]);
-        var_s2 = func_8007EAEC(arg0->m[2][2], arg0->m[2][0]);
-        var_s0 = func_8007EAEC(temp_s0, -arg0->m[2][1]);
+        var_s3 = get_angle(arg0->m[1][1], arg0->m[0][1]);
+        var_s2 = get_angle(arg0->m[2][2], arg0->m[2][0]);
+        var_s0 = get_angle(temp_s0, -arg0->m[2][1]);
     }
 
     *arg1 = var_s0;

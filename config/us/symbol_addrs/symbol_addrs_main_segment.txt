@@ -978,10 +978,10 @@ replay_play_init = 0x8007E5C4; //
 replay_play = 0x8007E638; //
 func_8007E760 = 0x8007E760; //
 
-func_8007EA20 = 0x8007EA20; //
+waitEQ4 = 0x8007EA20; //
 func_8007EA38 = 0x8007EA38; //
 func_8007EA58 = 0x8007EA58; //
-func_8007EAEC = 0x8007EAEC; //
+get_angle = 0x8007EAEC; //
 sinL = 0x8007EC54; //
 cosL = 0x8007EC98; //
 func_8007ECE0 = 0x8007ECE0; //
@@ -1521,10 +1521,9 @@ D_800AB20C = 0x800AB20C; //
 D_800AB21C = 0x800AB21C; //
 D_800AB29C = 0x800AB29C; //
 
-D_800AB320 = 0x800AB320; //
-D_800AB32C = 0x800AB32C; //
-D_800AB334 = 0x800AB334; //
-D_800AB3B4 = 0x800AB3B4; //
+D_800AB320 = 0x800AB320; // type:u8 size:0x14
+D_800AB334 = 0x800AB334; // size:0x88
+D_800AB3BC = 0x800AB3BC; // size:0x84
 calc_sintable = 0x800AB440; // size:0x810
 
 // libmus
