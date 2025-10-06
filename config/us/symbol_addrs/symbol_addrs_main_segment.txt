@@ -982,8 +982,8 @@ func_8007EA20 = 0x8007EA20; //
 func_8007EA38 = 0x8007EA38; //
 func_8007EA58 = 0x8007EA58; //
 func_8007EAEC = 0x8007EAEC; //
-func_8007EC54 = 0x8007EC54; //
-func_8007EC98 = 0x8007EC98; //
+sinL = 0x8007EC54; //
+cosL = 0x8007EC98; //
 func_8007ECE0 = 0x8007ECE0; //
 func_8007ED74 = 0x8007ED74; //
 matrixMulL = 0x8007EE18; //
@@ -995,14 +995,14 @@ func_8007F284 = 0x8007F284; //
 func_8007F2F4 = 0x8007F2F4; //
 func_8007F364 = 0x8007F364; //
 matrixConv = 0x8007F420; //
-func_8007F514 = 0x8007F514; //
+matrixCopyL = 0x8007F514; //
 func_8007F550 = 0x8007F550; //
 func_8007F60C = 0x8007F60C; //
 func_8007F670 = 0x8007F670; //
 func_8007F6C4 = 0x8007F6C4; //
-func_8007F720 = 0x8007F720; //
-func_8007F754 = 0x8007F754; //
-func_8007F798 = 0x8007F798; //
+sqrt_a2b2 = 0x8007F720; //
+sqrt_abc = 0x8007F754; //
+muldiv = 0x8007F798; //
 func_8007F824 = 0x8007F824; //
 
 func_8007F890 = 0x8007F890; //
@@ -1525,7 +1525,7 @@ D_800AB320 = 0x800AB320; //
 D_800AB32C = 0x800AB32C; //
 D_800AB334 = 0x800AB334; //
 D_800AB3B4 = 0x800AB3B4; //
-D_800AB440 = 0x800AB440; // size:0x810
+calc_sintable = 0x800AB440; // size:0x810
 
 // libmus
 

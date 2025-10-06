@@ -507,7 +507,7 @@ void func_8007CAFC(Mtx *arg0, s16 *arg1, s16 *arg2, s16 *arg3) {
         var_s3 = 0;
         var_s2 = func_8007EAEC(arg0->m[0][0], -arg0->m[0][2]);
     } else {
-        s32 temp_s0 = func_8007F720(arg0->m[2][0], arg0->m[2][2]);
+        s32 temp_s0 = sqrt_a2b2(arg0->m[2][0], arg0->m[2][2]);
 
         var_s3 = func_8007EAEC(arg0->m[1][1], arg0->m[0][1]);
         var_s2 = func_8007EAEC(arg0->m[2][2], arg0->m[2][0]);

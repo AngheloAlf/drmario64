@@ -37,7 +37,8 @@ typedef struct Audio_struct_800FAF98 {
     /* 0xAC */ OSMesg nntask_messages[4];
 } Audio_struct_800FAF98; // size = 0xBC
 
-size_t InitMusicDriver(struct NNSched *sc, void *heap, size_t heap_length, size_t arg3, UNK_TYPE arg4, UNK_TYPE arg5, size_t arg6, UNK_TYPE arg7, OSPri thread_priority);
+size_t InitMusicDriver(struct NNSched *sc, void *heap, size_t heap_length, size_t arg3, s32 arg4, s32 arg5,
+                       size_t fxbank_size, s32 arg7, OSPri thread_priority);
 bool func_8002D3B0(RomOffset segmentRom, size_t segmentSize, void *wbank);
 bool func_8002D428(s32 index, RomOffset segmentRom, size_t segmentSize);
 void func_8002D4A4(s32 index);
