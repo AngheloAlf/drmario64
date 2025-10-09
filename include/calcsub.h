@@ -3,34 +3,13 @@
 
 #include "libultra.h"
 
-#if 0
-// Erased
-static long mulS32S32(long a /* r27 */, long b /* r25 */, long shift /* r22 */) {
-    // Local variables
-    long long c; // r24
-}
-#endif
-
 /**
  * This function does not halt until `*var` is equal to `data`.
  */
 void waitEQ4(vs32 *var, s32 data);
 
-s32 func_8007EA38(s32 value);
-// void func_8007EA58();
-
-#if 0
-// Erased
-static long sqrtS(unsigned long v /* r1+0x8 */) {
-    // References
-    // -> static int __float_huge[];
-    // -> static int __float_nan[];
-}
-
-// Erased
-static long sqrtL() {}
-
-#endif
+s32 sqrtS(s32 value);
+s32 sqrtL(s32 arg0, s32 arg1);
 
 /**
  * Compute an angle by using atan2.
@@ -47,16 +26,8 @@ s16 sinL(s16 angle);
  */
 s16 cosL(s16 angle);
 
-// void func_8007ECE0();
-// void func_8007ED74();
-
-#if 0
-// Erased
-static void lc2wc() {}
-
-// Erased
-static void wc2lc() {}
-#endif
+void lc2wc(Mtx *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 *arg5, s32 *arg6);
+void wc2lc(Mtx *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 *arg5, s32 *arg6);
 
 /**
  * r = m * n;

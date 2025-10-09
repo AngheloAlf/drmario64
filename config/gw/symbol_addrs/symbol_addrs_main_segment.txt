@@ -985,13 +985,13 @@ replay_play = 0x8007F428; // type:func
 func_8007E760 = 0x8007F550; // type:func
 
 waitEQ4 = 0x8007F810; // type:func
-func_8007EA38 = 0x8007F828; // type:func
-func_8007EA58 = 0x8007F848; // type:func
+sqrtS = 0x8007F828; // type:func
+sqrtL = 0x8007F848; // type:func
 get_angle = 0x8007F8DC; // type:func
 sinL = 0x8007FA44; // type:func
 cosL = 0x8007FA88; // type:func
-func_8007ECE0 = 0x8007FAD0; // type:func
-func_8007ED74 = 0x8007FB64; // type:func
+lc2wc = 0x8007FAD0; // type:func
+wc2lc = 0x8007FB64; // type:func
 matrixMulL = 0x8007FC08; // type:func
 makeTransrateMatrix = 0x8007FDF4; // type:func
 makeScaleMatrix = 0x8007FE3C; // type:func

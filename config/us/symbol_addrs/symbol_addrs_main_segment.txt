@@ -979,13 +979,13 @@ replay_play = 0x8007E638; //
 func_8007E760 = 0x8007E760; //
 
 waitEQ4 = 0x8007EA20; //
-func_8007EA38 = 0x8007EA38; //
-func_8007EA58 = 0x8007EA58; //
+sqrtS = 0x8007EA38; //
+sqrtL = 0x8007EA58; //
 get_angle = 0x8007EAEC; //
 sinL = 0x8007EC54; //
 cosL = 0x8007EC98; //
-func_8007ECE0 = 0x8007ECE0; //
-func_8007ED74 = 0x8007ED74; //
+lc2wc = 0x8007ECE0; //
+wc2lc = 0x8007ED74; //
 matrixMulL = 0x8007EE18; //
 makeTransrateMatrix = 0x8007F004; //
 makeScaleMatrix = 0x8007F04C; //

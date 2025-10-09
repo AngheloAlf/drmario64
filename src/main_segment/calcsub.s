@@ -38,18 +38,18 @@ LEAF(waitEQ4)
 END(waitEQ4)
 
 /**
- * s32 func_8007EA38(s32 value);
+ * s32 sqrtS(s32 value);
  *
  * Returns square root of `value`.
  *
  * Roughly equivalent to:
  * ```
-s32 func_8007EA38(s32 value) {
+s32 sqrtS(s32 value) {
     return sqrtf(value);
 }
  * ```
  */
-LEAF(func_8007EA38)
+LEAF(sqrtS)
     mtc1        $a0, $ft0
     NOP_N64
     cvt.s.w     $fv0, $ft0
@@ -58,12 +58,56 @@ LEAF(func_8007EA38)
     mfc1        $v0, $ft2
     nop
     jr          $ra
-END(func_8007EA38)
+END(sqrtS)
 
 /**
- * u32 func_8007EA58(s32 arg0, s32 arg1);
+ * s32 sqrtL(s32 arg0, s32 arg1);
+ *
+ * Roughly equivalent to:
+ * ```
+s32 sqrtL(s32 arg0, s32 arg1) {
+    s32 v0;
+    s32 v1;
+    s32 t8;
+    s32 t9;
+    s32 i;
+
+    v0 = 0;
+    v1 = 0;
+
+    t8 = arg1 < 0;
+    t9 = arg0 < 0;
+
+    arg1 = arg1 << 1;
+    arg0 = (arg0 << 1) | t8;
+    v1 = (v1 << 1) | t9;
+
+    for (i = 0; i < 32; i++) {
+        t8 = arg1 < 0;
+        t9 = arg0 < 0;
+
+        arg1 = arg1 << 1;
+        arg0 = (arg0 << 1) | t8;
+        v1 = (v1 << 1) | t9;
+        v0 = (v0 << 1) + 1;
+        if (v1 >= v0) {
+            v1 -= v0;
+            v0 += 2;
+        }
+
+        t8 = arg1 < 0;
+        t9 = arg0 < 0;
+
+        arg1 = arg1 << 1;
+        arg0 = (arg0 << 1) | t8;
+        v1 = (v1 << 1) | t9;
+        v0 = v0 - 1;
+    }
+    return v0 >> 1;
+}
+ * ```
  */
-LEAF(func_8007EA58)
+LEAF(sqrtL)
     move        $v0, $zero
     move        $v1, $zero
     li          $t0, 0x20
@@ -105,7 +149,7 @@ LEAF(func_8007EA58)
     srl        $v0, $v0, 1
     NOP_IQUE
     jr          $ra
-END(func_8007EA58)
+END(sqrtL)
 
 .section .data, "wa"
 
@@ -619,9 +663,34 @@ LEAF(cosL)
 END(cosL)
 
 /**
- * void func_8007ECE0(UNK_TYPE *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4)
+ * void lc2wc(Mtx *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 *arg5, s32 *arg6);
+ *
+ * Roughly equivalent to:
+ * ```
+```
+void lc2wc(Mtx *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 *arg5, s32 *arg6) {
+    s32 *arr[] = {arg4, arg5, arg6};
+    s32 i;
+    s64 value;
+    s32 hi;
+    s32 lo;
+    s32 shifted;
+
+    for (i = 0; i < 3; i++) {
+        value  = (s64)arg0->m[0][i] * (s64)arg1;
+        value += (s64)arg0->m[1][i] * (s64)arg2;
+        value += (s64)arg0->m[2][i] * (s64)arg3;
+
+        hi = ((u64)value) >> 32;
+        lo = ((u64)value) & 0xFFFFFFFF;
+        shifted = (lo >> 15) | (hi << 17);
+
+        *(arr[i]) = arg0->m[3][i] + shifted;
+    }
+}
+```
  */
-LEAF(func_8007ECE0)
+LEAF(lc2wc)
     li          $v0, 0x3
     addiu       $t1, $sp, 0x10
 
@@ -629,11 +698,13 @@ LEAF(func_8007ECE0)
         lw          $t0, 0x0($a0)
         lw          $t7, 0x10($a0)
         lw          $t6, 0x20($a0)
+
         mult        $t0, $a1
         mfhi        $t8
         mflo        $t9
         lw          $t0, 0x0($t1)
         addiu       $t1, $t1, 0x4
+
         mult        $t7, $a2
         mfhi        $t2
         mflo        $t3
@@ -641,6 +712,7 @@ LEAF(func_8007ECE0)
         sltu        $t3, $t5, $t9
         addu        $t3, $t3, $t2
         addu        $t4, $t3, $t8
+
         NOP_N64
         mult        $t6, $a3
         mfhi        $t2
@@ -660,12 +732,41 @@ LEAF(func_8007ECE0)
     bgtz        $v0, .L8007ECE8
 
     jr          $ra
-END(func_8007ECE0)
+END(lc2wc)
 
 /**
- * void func_8007ED74(UNK_TYPE *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4)
+ * void wc2lc(Mtx *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 *arg5, s32 *arg6);
+ *
+ * Roughly equivalent to:
+ * ```
+```
+void wc2lc(Mtx *arg0, s32 arg1, s32 arg2, s32 arg3, s32 *arg4, s32 *arg5, s32 *arg6) {
+    s32 *arr[] = {arg4, arg5, arg6};
+    s32 i;
+    s64 value;
+    s32 hi;
+    s32 lo;
+    s32 shifted;
+
+    arg1 -= arg0->m[3][0];
+    arg2 -= arg0->m[3][1];
+    arg3 -= arg0->m[3][2];
+
+    for (i = 0; i < 3; i++) {
+        value  = (s64)arg0->m[i][0] * (s64)arg1;
+        value += (s64)arg0->m[i][1] * (s64)arg2;
+        value += (s64)arg0->m[i][2] * (s64)arg3;
+
+        hi = ((u64)value) >> 32;
+        lo = ((u64)value) & 0xFFFFFFFF;
+        shifted = (lo >> 15) | (hi << 17);
+
+        *(arr[i]) = shifted;
+    }
+}
+```
  */
-LEAF(func_8007ED74)
+LEAF(wc2lc)
     li          $v0, 0x3
     addiu       $t1, $sp, 0x10
     lw          $t5, 0x30($a0)
@@ -708,7 +809,7 @@ LEAF(func_8007ED74)
     bgtz        $v0, .L8007ED94
 
     jr          $ra
-END(func_8007ED74)
+END(wc2lc)
 
 /**
  * void matrixMulL(const Mtx *m, const Mtx *n, Mtx *r);
