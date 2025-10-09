@@ -58,6 +58,9 @@ static void lc2wc() {}
 static void wc2lc() {}
 #endif
 
+/**
+ * r = m * n;
+ */
 void matrixMulL(const Mtx *m, const Mtx *n, Mtx *r);
 
 /**
@@ -69,6 +72,9 @@ void matrixMulL(const Mtx *m, const Mtx *n, Mtx *r);
  * |      x      y      z 0x8000 |
  */
 void makeTransrateMatrix(Mtx *m, s32 xofs, s32 yofs, s32 zofs);
+
+#define MAKE_TRANSRATE_MATRIX(m, x, y, z) \
+    makeTransrateMatrix(m, ((u32)(x)) << 15, ((u32)(y)) << 15, ((u32)(z)) << 15)
 
 /**
  * Initializes `mtx` to :
@@ -82,47 +88,35 @@ void makeScaleMatrix(Mtx *m, s32 scale);
 
 void makeMatrix(Mtx *m, s16 xrot, s16 yrot, s16 zrot, s32 xofs, s32 yofs, s32 zofs);
 
-// void func_8007F214();
-// void func_8007F284();
-// void func_8007F2F4();
-// void func_8007F364();
-
-#if 0
-// Erased
-static void makeXrotMatrix() {}
-
-// Erased
-static void makeYrotMatrix() {}
-
-// Erased
-static void makeZrotMatrix() {}
-
-// Erased
-static void makeXZMatrix() {}
-#endif
+void makeXrotMatrix(Mtx *m, s16 xrot, s32 xofs, s32 yofs, s32 zofs);
+void makeYrotMatrix(Mtx *m, s16 yrot, s32 xofs, s32 yofs, s32 zofs);
+void makeZrotMatrix(Mtx *m, s16 zrot, s32 xofs, s32 yofs, s32 zofs);
+void makeXZMatrix(Mtx *m, s16 xrot, s16 zrot);
 
 void matrixConv(const Mtx *m, Mtx *mtx, s32 shift);
 
 void matrixCopyL(Mtx *dst, const Mtx *src);
 
-// void func_8007F550();
-// void func_8007F60C();
-// void func_8007F670();
-// void func_8007F6C4();
+/**
+ * Rotate (`x`, `y`) relative to (`center_x`, `center_y`) by `angle` degrees.
+ */
+void rotpointL(s16 angle, s32 center_x, s32 center_y, s32 *x, s32 *y);
 
-#if 0
-// Erased
-static void rotpointL() {}
+s32 defangleL(u16 arg0, u16 arg1);
 
-// Erased
-static long defangleL() {}
+/**
+ * Distance between 3D points.
+ *
+ * Uses integer operations internally, so there will be precision loss.
+ */
+s32 distanceS(s32 x0, s32 y0, s32 z0, s32 x1, s32 y1, s32 z1);
 
-// Erased
-static long distanceS() {}
-
-// Erased
-static long distanceL() {}
-#endif
+/**
+ * Distance between 3D points.
+ *
+ * Uses float operations internally for minimal precision loss.
+ */
+s32 distanceL(s32 x0, s32 y0, s32 z0, s32 x1, s32 y1, s32 z1);
 
 /**
  * ((a^2) + (b^2)) ^ (1/2)
@@ -139,11 +133,7 @@ s32 sqrt_abc(s32 a, s32 b, s32 c);
  */
 s32 muldiv(s32 a, s32 b, s32 c);
 
-// void func_8007F824();
-#if 0
-// Erased
-static void makeVect() {}
-#endif
+void makeVect(s16 arg0, s16 arg1, s32 *arg2, s32 *arg3, s32 *arg4);
 
 extern u8 D_800AB320[];
 extern s32 D_800AB334[];

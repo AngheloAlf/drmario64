@@ -590,7 +590,7 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
     gfx = *gfxP;
 
-    gSPSegment(gfx++, 0x00, 0x00000000);
+    gSPSegment(gfx++, 0x00, NULL);
     gSPSegment(gfx++, 0x05, osVirtualToPhysical(bgGraphic));
     gSPMatrix(gfx++, OS_K0_TO_PHYSICAL(&story_viewMtx), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
     gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -608,7 +608,7 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         var_v0 = RELOCATE_SEGMENTED(lws_data[COFFEE01_LWS_INDEX_5], bgGraphic);
     }
 
-    makeTransrateMatrix(&mtx, 0U, 0xFFC40000U, 0xFC4A0000U);
+    MAKE_TRANSRATE_MATRIX(&mtx, 0, -120, -1900);
     if (lws_anim(&gfx, &mtx, var_s0, bgtime, bgGraphic) == 1) {
         bgtime = 0x31;
     }
@@ -714,7 +714,7 @@ void *init_menu_bg(void *dstAddr, bool arg1) {
 /**
  * Original name: draw_menu_bg
  */
-void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
+void draw_menu_bg(Gfx **gfxP, s32 x, s32 y) {
     Mtx mtx;
     Gfx *gfx;
 
@@ -729,7 +729,7 @@ void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2) {
     gSPDisplayList(gfx++, story_setup);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-    makeTransrateMatrix(&mtx, arg1 << 0xF, arg2 << 0xF, 0x1F894 << 0xF);
+    MAKE_TRANSRATE_MATRIX(&mtx, x, y, -1900);
     if (lws_anim(&gfx, &mtx, bgGraphic, bgtime, bgGraphic) == 1) {
         bgtime = 0;
     } else {
@@ -807,7 +807,7 @@ s32 demo_title(Gfx **gfxP, bool arg1) {
         lws_scene = RELOCATE_SEGMENTED(lws_data[TITLEALL_LWS_INDEX_0], title_data);
     }
 
-    makeTransrateMatrix(&mtx, 0, 0xFFC4 << 16, 0xFC4A << 16);
+    MAKE_TRANSRATE_MATRIX(&mtx, 0, -120, -1900);
 
     if ((story_spot_cnt > 0) && (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON)) {
         if (temp_s2) {
@@ -937,7 +937,7 @@ void story_st_new_op(Gfx **gfxP, bool arg1) {
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gSPDisplayList(gfx++, story_setup);
 
-    makeTransrateMatrix(&mtx, 0U, 0xFFF38000U, 0xFC4A0000U);
+    MAKE_TRANSRATE_MATRIX(&mtx, 0, -25, -1900);
 
     switch (story_seq_step) {
         case 0x0:
@@ -1129,10 +1129,9 @@ void story_st_new(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2) {
     st_mes_ptr = mes_data[arg2];
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
-
     gSPDisplayList(gfx++, story_setup);
 
-    makeTransrateMatrix(&mtx, 0, 0x1FFE7 << 0xF, 0x1F894 << 0xF);
+    MAKE_TRANSRATE_MATRIX(&mtx, 0, -25, -1900);
 
     lws = RELOCATE_SEGMENTED(lws_data[arg1], story_buffer);
 
@@ -1184,7 +1183,7 @@ void story_st_new2_f(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2, TitleAllLwsInd
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gSPDisplayList(gfx++, story_setup);
 
-    makeTransrateMatrix(&mtx, 0U, 0xFFF38000U, 0xFC4A0000U);
+    MAKE_TRANSRATE_MATRIX(&mtx, 0, -25, -1900);
 
     lws_scene = RELOCATE_SEGMENTED(lws_data[arg1], story_buffer);
 
@@ -1278,18 +1277,18 @@ void story_st_new2_f(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2, TitleAllLwsInd
  * Original name: story_st_new2
  */
 void story_st_new2(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2, TitleAllLwsIndex arg3, s32 arg4) {
-    Mtx sp20;
+    Mtx mtx;
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gSPDisplayList(gfx++, story_setup);
 
-    makeTransrateMatrix(&sp20, 0U, 0xFFF38000U, 0xFC4A0000U);
+    MAKE_TRANSRATE_MATRIX(&mtx, 0, -25, -1900);
 
     switch (story_seq_step) {
         case 0x0:
             func_800773F0();
-            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
+            lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), 0, story_buffer);
             framecont = 0;
             fin_frame_623 = 0;
             fin_demo_624 = arg1;
@@ -1311,9 +1310,9 @@ void story_st_new2(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2, TitleAllLwsIndex
                 framecont += 3;
             }
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt,
-                          story_buffer) == 1) &&
-                (msgWnd_isEnd(&mess_st) != false)) {
+            if ((lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[arg1], story_buffer), story_time_cnt, story_buffer) ==
+                 1) &&
+                msgWnd_isEnd(&mess_st)) {
                 framecont = 0;
                 story_time_cnt = 0;
                 st_message_count = 0;
@@ -1336,8 +1335,8 @@ void story_st_new2(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2, TitleAllLwsIndex
             }
 
             func_8007865C();
-            if ((lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[arg3], story_buffer), story_time_cnt,
-                          story_buffer) == 1) &&
+            if ((lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[arg3], story_buffer), story_time_cnt, story_buffer) ==
+                 1) &&
                 (msgWnd_isEnd(&mess_st) != false)) {
                 story_time_cnt = 0;
                 story_seq_step++;
@@ -1346,8 +1345,7 @@ void story_st_new2(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2, TitleAllLwsIndex
 
         default:
             func_8007744C();
-            lws_anim(&gfx, &sp20, RELOCATE_SEGMENTED(lws_data[fin_demo_624], story_buffer), fin_frame_623,
-                     story_buffer);
+            lws_anim(&gfx, &mtx, RELOCATE_SEGMENTED(lws_data[fin_demo_624], story_buffer), fin_frame_623, story_buffer);
             break;
     }
 
@@ -1370,7 +1368,7 @@ void story_m_end(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2) {
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gSPDisplayList(gfx++, story_setup);
 
-    makeTransrateMatrix(&mtx, 0U, 0xFFF38000U, 0xFC4A0000U);
+    MAKE_TRANSRATE_MATRIX(&mtx, 0, -25, -1900);
 
     switch (story_seq_step) {
         case 0:
@@ -1504,7 +1502,7 @@ void story_st_new_w9(Gfx **gfxP, TitleAllLwsIndex arg1, s32 arg2) {
     gSPDisplayList(gfx++, normal_texture_init_dl);
     gSPDisplayList(gfx++, story_setup);
 
-    makeTransrateMatrix(&mtx, 0, 0xFFF38000, 0xFC4A0000);
+    MAKE_TRANSRATE_MATRIX(&mtx, 0, -25, -1900);
 
     lws = RELOCATE_SEGMENTED(lws_data[arg1], story_buffer);
 
@@ -1578,7 +1576,7 @@ void story_w_end(Gfx **gfxP, TitleAllLwsIndex arg1) {
 
     gSPDisplayList(gfx++, story_setup);
 
-    makeTransrateMatrix(&mtx, 0U, 0xFFF38000U, 0xFC4A0000U);
+    MAKE_TRANSRATE_MATRIX(&mtx, 0, -25, -1900);
 
     switch (story_seq_step) {
         case 0:

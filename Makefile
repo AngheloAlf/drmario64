@@ -86,7 +86,7 @@ ifeq ($(NON_MATCHING),1)
 endif
 
 MAKE = make
-CPPFLAGS += -fno-dollars-in-identifiers -P
+CPPFLAGS += -fno-dollars-in-identifiers
 
 UNAME_S := $(shell uname -s)
 ifeq ($(OS),Windows_NT)
@@ -434,7 +434,7 @@ $(LD_SCRIPT) $(D_FILE): $(SLINKY_YAML) $(SLINKY)
 	$(SLINKY) --custom-options version=$(VERSION) $(SLINKY_FLAGS) -o $(LD_SCRIPT) $(SLINKY_YAML)
 
 $(BUILD_DIR)/%.ld: %.ld
-	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
+	$(CPP) -P $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
 
 $(BUILD_DIR)/%.o: %.s
 ifeq ($(MULTISTEP_BUILD), 0)

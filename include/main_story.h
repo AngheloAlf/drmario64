@@ -41,7 +41,7 @@ void *init_coffee_break(void *dstAddr, UNK_TYPE arg1);
 void init_coffee_break_cnt(void);
 void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
 void *init_menu_bg(void *dstAddr, bool arg1);
-void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2);
+void draw_menu_bg(Gfx **gfxP, s32 x, s32 y);
 void *init_title(void *dstAddr, bool arg1);
 s32 demo_title(Gfx **gfxP, bool arg1);
 // void func_80078648();

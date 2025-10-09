@@ -1,3 +1,9 @@
+/**
+ * Original assumed filename: calcsub.s
+ *
+ * The Gamecube version implements these functions in calcsub.c
+ */
+
 #include "hasm.h"
 .include "macro.inc"
 
@@ -535,6 +541,12 @@ s16 sinL(s16 angle) {
  * ```
  */
 LEAF(sinL)
+    /*
+    Implementation detail:
+    Functions down below call this function and they rely on this function not
+    clobbering many most $tX registers nor $aX registers.
+    */
+
     srl         $t8, $a0, 5
     andi        $t9, $a0, 0x3F
     andi        $t8, $t8, 0x7FE
@@ -580,6 +592,12 @@ s16 cosL(s16 angle) {
 ```
  */
 LEAF(cosL)
+    /*
+    Implementation detail:
+    Functions down below call this function and they rely on this function not
+    clobbering many most $tX registers nor $aX registers.
+    */
+
     addiu       $v0, $a0, 0x4000
     srl         $t8, $v0, 5
     andi        $t9, $v0, 0x3F
@@ -694,8 +712,56 @@ END(func_8007ED74)
 
 /**
  * void matrixMulL(const Mtx *m, const Mtx *n, Mtx *r);
+ *
+ * r = m * n;
+ *
+ * Roughly equivalent to:
+ * ```
+void matrixMulL(const Mtx *m, const Mtx *n, Mtx *r) {
+    s32 i;
+
+    r->m[2][3] = 0;
+    r->m[1][3] = 0;
+    r->m[0][3] = 0;
+
+    r->m[3][3] = 0x8000;
+
+    for (i = 0; i < 3; i++) {
+        s64 value;
+        s32 j;
+        s32 k;
+        s32 hi;
+        s32 lo;
+        s32 shifted;
+
+        for (j = 0; j < 3; j++) {
+            value = 0;
+            for (k = 0; k < 3; k++) {
+                value += (s64)m->m[i][k] * (s64)n->m[k][j];
+            }
+
+            hi = ((u64)value) >> 32;
+            lo = ((u64)value) & 0xFFFFFFFF;
+            shifted = (lo >> 15) | (hi << 17);
+            r->m[i][j] = shifted;
+        }
+
+        value = 0;
+        for (k = 0; k < 3; k++) {
+            value += (s64)m->m[3][k] * (s64)n->m[k][i];
+        }
+
+        hi = ((u64)value) >> 32;
+        lo = ((u64)value) & 0xFFFFFFFF;
+        shifted = (lo >> 15) | (hi << 17);
+
+        r->m[3][i] = n->m[3][i] + shifted;
+    }
+}
+ * ```
  */
 LEAF(matrixMulL)
+    /* Set last column to [0, 0, 0, 0x8000] */
     li          $t8, 0x8000
     sw          $zero, 0x2C($a2)
     sw          $zero, 0x1C($a2)
@@ -706,7 +772,19 @@ LEAF(matrixMulL)
     move        $t0, $a1
     move        $t1, $a0
 
-.L8007EE3C:
+    .Lmul_loop:
+        /*
+            j = 0;
+            value = 0;
+            for (k = 0; k < 3; k++) {
+                value += (s64)m->m[i][k] * (s64)n->m[k][j];
+            }
+
+            hi = ((u64)value) >> 32;
+            lo = ((u64)value) & 0xFFFFFFFF;
+            shifted = (lo >> 15) | (hi << 17);
+            r->m[i][j] = shifted;
+        */
         lw          $t7, 0x0($t1)
         lw          $t6, 0x4($t1)
         lw          $t9, 0x0($a1)
@@ -734,6 +812,8 @@ LEAF(matrixMulL)
         srl         $t3, $t9, 15
         or          $t8, $t3, $t2
         sw          $t8, 0x0($v1)
+
+        /* Same as previous block, but j = 1; */
         lw          $t9, 0x4($a1)
         lw          $t5, 0x14($a1)
         mult        $t7, $t9
@@ -759,6 +839,8 @@ LEAF(matrixMulL)
         srl         $t3, $t9, 15
         or          $t8, $t3, $t2
         sw          $t8, 0x4($v1)
+
+        /* Same as previous block, but j = 2; */
         lw          $t9, 0x8($a1)
         lw          $t5, 0x18($a1)
         mult        $t7, $t9
@@ -784,6 +866,19 @@ LEAF(matrixMulL)
         srl         $t3, $t9, 15
         or          $t8, $t3, $t2
         sw          $t8, 0x8($v1)
+
+        /*
+        value = 0;
+        for (k = 0; k < 3; k++) {
+            value += (s64)m->m[3][k] * (s64)n->m[k][i];
+        }
+
+        hi = ((u64)value) >> 32;
+        lo = ((u64)value) & 0xFFFFFFFF;
+        shifted = (lo >> 15) | (hi << 17);
+
+        r->m[3][i] = n->m[3][i] + shifted;
+        */
         lw          $t2, 0x30($a0)
         lw          $t3, 0x0($t0)
         lw          $t4, 0x34($a0)
@@ -813,13 +908,15 @@ LEAF(matrixMulL)
         or          $t9, $t3, $t2
         addu        $t3, $t6, $t9
         sw          $t3, 0x30($a2)
+
+        /* loop stuff */
         addiu       $v0, $v0, -0x1
         addiu       $v1, $v1, 0x10
         addiu       $t1, $t1, 0x10
         addiu       $a2, $a2, 0x4
         addiu       $t0, $t0, 0x4
         NOP_IQUE
-    bgtz        $v0, .L8007EE3C
+    bgtz        $v0, .Lmul_loop
 
     jr          $ra
 END(matrixMulL)
@@ -827,12 +924,34 @@ END(matrixMulL)
 /**
  * void makeTransrateMatrix(Mtx *m, s32 xofs, s32 yofs, s32 zofs);
  *
- * Initializes `mtx` to :
+ * Initializes `m` to:
  *
  * | 0x8000      0      0      0 |
  * |      0 0x8000      0      0 |
  * |      0      0 0x8000      0 |
  * |      x      y      z 0x8000 |
+ *
+ * Roughly equivalent to:
+ * ```
+void makeTransrateMatrix(Mtx *m, s32 xofs, s32 yofs, s32 zofs) {
+    m->m[0][0] = 0x8000;
+    m->m[0][1] = 0;
+    m->m[0][2] = 0;
+    m->m[0][3] = 0;
+    m->m[1][0] = 0;
+    m->m[1][1] = 0x8000;
+    m->m[1][2] = 0;
+    m->m[1][3] = 0;
+    m->m[2][0] = 0;
+    m->m[2][1] = 0;
+    m->m[2][2] = 0x8000;
+    m->m[2][3] = 0;
+    m->m[3][0] = xofs;
+    m->m[3][1] = yofs;
+    m->m[3][2] = zofs;
+    m->m[3][3] = 0x8000;
+}
+ * ```
  */
 LEAF(makeTransrateMatrix)
     li          $v0, 0x8000
@@ -859,12 +978,34 @@ END(makeTransrateMatrix)
 /**
  * void makeScaleMatrix(Mtx *m, s32 scale);
  *
- * Initializes `mtx` to :
+ * Initializes `m` to :
  *
  * |  scale      0      0      0 |
  * |      0  scale      0      0 |
  * |      0      0  scale      0 |
  * |      0      0      0 0x8000 |
+ *
+ * Roughly equivalent to:
+ * ```
+void makeScaleMatrix(Mtx *m, s32 scale) {
+    m->m[0][0] = scale;
+    m->m[0][1] = 0;
+    m->m[0][2] = 0;
+    m->m[0][3] = 0;
+    m->m[1][0] = 0;
+    m->m[1][1] = scale;
+    m->m[1][2] = 0;
+    m->m[1][3] = 0;
+    m->m[2][0] = 0;
+    m->m[2][1] = 0;
+    m->m[2][2] = scale;
+    m->m[2][3] = 0;
+    m->m[3][0] = 0;
+    m->m[3][1] = 0;
+    m->m[3][2] = 0;
+    m->m[3][3] = 0x8000;
+}
+ * ```
  */
 LEAF(makeScaleMatrix)
     li          $v0, 0x8000
@@ -890,8 +1031,62 @@ END(makeScaleMatrix)
 
 /**
  * void makeMatrix(Mtx *m, s16 xrot, s16 yrot, s16 zrot, s32 xofs, s32 yofs, s32 zofs);
+ *
+ * Initializes `m` to (kinda):
+ *
+ * |    sin(z) * sin(y) * sin(x) + cos(z) * cos(y)                               sin(z) * cos(x)    sin(z) * cos(y) * sin(x) - cos(z) * sin(y)                                             0 |
+ * |    cos(z) * sin(y) * sin(x) - sin(z) * cos(y)                               cos(z) * cos(x)    cos(z) * cos(y) * sin(x) + sin(z) * sin(y)                                             0 |
+ * |                               sin(y) * cos(x)                                       -sin(x)                               cos(y) * cos(x)                                             0 |
+ * |                                          xofs                                          yofs                                          zofs                                        0x8000 |
+ *
+ * Roughly equivalent to:
+ * ```
+void makeMatrix(Mtx *m, s16 xrot, s16 yrot, s16 zrot, s32 xofs, s32 yofs, s32 zofs) {
+    s32 sin_y;
+    s32 cos_y;
+    s32 sin_z;
+    s32 cos_z;
+    s32 sin_x;
+    s32 cos_x;
+
+    m->m[2][3] = 0;
+    m->m[1][3] = 0;
+    m->m[0][3] = 0;
+    m->m[3][3] = 0x8000;
+    m->m[3][0] = xofs;
+    m->m[3][1] = yofs;
+    m->m[3][2] = zofs;
+
+    sin_x = sinL(xrot);
+    cos_x = cosL(xrot);
+    sin_y = sinL(yrot);
+    cos_y = cosL(yrot);
+    sin_z = sinL(zrot);
+    cos_z = cosL(zrot);
+
+    m->m[0][0] = ((sin_z * ((sin_y * sin_x) >> 15)) + (cos_z * cos_y)) >> 15;
+    m->m[0][1] = (sin_z * cos_x) >> 15;
+    m->m[0][2] = ((sin_z * ((cos_y * sin_x) >> 15)) - (cos_z * sin_y)) >> 15;
+
+    m->m[1][0] = ((cos_z * ((sin_y * sin_x) >> 15)) - (sin_z * cos_y)) >> 15;
+    m->m[1][1] = (cos_z * cos_x) >> 15;
+    m->m[1][2] = ((cos_z * ((cos_y * sin_x) >> 15)) + (sin_z * sin_y)) >> 15;
+
+    m->m[2][0] = (sin_y * cos_x) >> 15;
+    m->m[2][1] = -sin_x;
+    m->m[2][2] = (cos_y * cos_x) >> 15;
+}
+ * ```
  */
 LEAF(makeMatrix)
+    /*
+    The following code abuses the fact that we know what registers by sinL
+    and cosL functions, so it doesn't bother with avoiding registers from being
+    clobbered, i.e. it just uses $tX registers instead of $sX before the `bal`s
+    or not setting $a0 again after a call because it knows the function doesn't
+    modify it.
+    */
+
     move        $t1, $ra
     move        $t0, $a0
     lw          $t2, 0x10($sp)
@@ -905,52 +1100,58 @@ LEAF(makeMatrix)
     sw          $t2, 0x30($t0)
     sw          $t3, 0x34($t0)
     sw          $t4, 0x38($t0)
+
     move        $a0, $a2
     NOP_IQUE
     bal         sinL
-
     move        $t2, $v0
+
     NOP_IQUE
     bal         cosL
-
     move        $t3, $v0
+
     move        $a0, $a3
     NOP_IQUE
     bal         sinL
-
     move        $t4, $v0
+
     NOP_IQUE
     bal         cosL
-
     move        $t5, $v0
+
     move        $a0, $a1
     NOP_IQUE
     bal         sinL
-
     move        $t6, $v0
+
     NOP_IQUE
     bal         cosL
 
     negu        $t8, $t6
     sw          $t8, 0x24($t0)
+
     NOP_N64
     multu       $t4, $v0
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x4($t0)
+
     multu       $t5, $v0
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x14($t0)
+
     multu       $t2, $v0
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x20($t0)
+
     NOP_N64
     multu       $t3, $v0
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x28($t0)
+
     NOP_N64
     multu       $t2, $t6
     mflo        $t8
@@ -965,6 +1166,7 @@ LEAF(makeMatrix)
     addu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x0($t0)
+
     multu       $t4, $t3
     mflo        $t9
     nop
@@ -974,6 +1176,7 @@ LEAF(makeMatrix)
     subu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x10($t0)
+
     NOP_N64
     multu       $t3, $t6
     mflo        $t8
@@ -988,6 +1191,7 @@ LEAF(makeMatrix)
     subu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x8($t0)
+
     multu       $t4, $t2
     mflo        $t9
     nop
@@ -997,17 +1201,55 @@ LEAF(makeMatrix)
     addu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x18($t0)
+
     move        $ra, $t1
     jr          $ra
 END(makeMatrix)
 
 /**
- * void func_8007F214(UNK_TYPE *arg0, u32 arg1, s32 arg2, s32 arg3, s32 arg4);
+ * void makeXrotMatrix(Mtx *m, s16 xrot, s32 xofs, s32 yofs, s32 zofs);
  *
- * `arg0` may be a `Mtx *`
+ * Initializes `m` to:
+ *
+ * |  0x8000       0       0       0 |
+ * |       0  cos(x)  sin(x)       0 |
+ * |       0 -sin(x)  cos(x)       0 |
+ * |    xofs    yofs    zofs  0x8000 |
+ *
+ * Roughly equivalent to:
+ * ```
+void makeXrotMatrix(Mtx *m, s16 xrot, s32 xofs, s32 yofs, s32 zofs) {
+    s32 sin_x;
+    s32 cos_x;
+
+    m->m[2][3] = 0;
+    m->m[1][3] = 0;
+    m->m[0][3] = 0;
+    m->m[3][0] = xofs;
+    m->m[3][1] = yofs;
+    m->m[3][2] = zofs;
+    m->m[3][3] = 0x8000;
+
+    sin_x = sinL(xrot);
+    cos_x = cosL(xrot);
+
+    m->m[0][0] = 0x8000;
+    m->m[0][1] = 0;
+    m->m[0][2] = 0;
+
+    m->m[1][0] = 0;
+    m->m[1][1] = cos_x;
+    m->m[1][2] = sin_x;
+
+    m->m[2][0] = 0;
+    m->m[2][1] = -sin_x;
+    m->m[2][2] = cos_x;
+}
+ * ```
  */
-LEAF(func_8007F214)
+LEAF(makeXrotMatrix)
     move        $t1, $ra
+
     move        $t0, $a0
     lw          $t2, 0x10($sp)
     sw          $zero, 0x2C($t0)
@@ -1018,35 +1260,76 @@ LEAF(func_8007F214)
     sw          $t2, 0x38($t0)
     li          $t2, 0x8000
     sw          $t2, 0x3C($t0)
+
     move        $a0, $a1
     NOP_IQUE
     bal         sinL
-
     move        $t3, $v0
+
     NOP_IQUE
     bal         cosL
 
     sw          $t2, 0x0($t0)
     sw          $zero, 0x4($t0)
     sw          $zero, 0x8($t0)
+
     sw          $zero, 0x10($t0)
     sw          $v0, 0x14($t0)
     sw          $t3, 0x18($t0)
+
     sw          $zero, 0x20($t0)
     negu        $t8, $t3
     sw          $t8, 0x24($t0)
     sw          $v0, 0x28($t0)
+
     move        $ra, $t1
     jr          $ra
-END(func_8007F214)
+END(makeXrotMatrix)
 
 /**
- * void func_8007F284(UNK_TYPE *arg0, u32 arg1, s32 arg2, s32 arg3, s32 arg4);
+ * void makeYrotMatrix(Mtx *m, s16 yrot, s32 xofs, s32 yofs, s32 zofs);
  *
- * `arg0` may be a `Mtx *`
+ * Initializes `m` to:
+ *
+ * |  cos(y)       0 -sin(y)       0 |
+ * |       0  0x8000       0       0 |
+ * |  sin(y)       0  cos(y)       0 |
+ * |    xofs    yofs    zofs  0x8000 |
+ *
+ * Roughly equivalent to:
+ * ```
+void makeYrotMatrix(Mtx *m, s16 yrot, s32 xofs, s32 yofs, s32 zofs) {
+    s32 sin_y;
+    s32 cos_y;
+
+    m->m[2][3] = 0;
+    m->m[1][3] = 0;
+    m->m[0][3] = 0;
+    m->m[3][0] = xofs;
+    m->m[3][1] = yofs;
+    m->m[3][2] = zofs;
+    m->m[3][3] = 0x8000;
+
+    sin_y = sinL(yrot);
+    cos_y = cosL(yrot);
+
+    m->m[0][0] = cos_y;
+    m->m[0][1] = 0;
+    m->m[0][2] = -sin_y;
+
+    m->m[1][0] = 0;
+    m->m[1][1] = 0x8000;
+    m->m[1][2] = 0;
+
+    m->m[2][0] = sin_y;
+    m->m[2][1] = 0;
+    m->m[2][2] = cos_y;
+}
+ * ```
  */
-LEAF(func_8007F284)
+LEAF(makeYrotMatrix)
     move        $t1, $ra
+
     move        $t0, $a0
     lw          $t2, 0x10($sp)
     sw          $zero, 0x2C($t0)
@@ -1057,11 +1340,12 @@ LEAF(func_8007F284)
     sw          $t2, 0x38($t0)
     li          $t2, 0x8000
     sw          $t2, 0x3C($t0)
+
     move        $a0, $a1
     NOP_IQUE
     bal         sinL
-
     move        $t3, $v0
+
     NOP_IQUE
     bal         cosL
 
@@ -1069,23 +1353,63 @@ LEAF(func_8007F284)
     sw          $zero, 0x4($t0)
     negu        $t8, $t3
     sw          $t8, 0x8($t0)
+
     sw          $zero, 0x10($t0)
     sw          $t2, 0x14($t0)
     sw          $zero, 0x18($t0)
+
     sw          $t3, 0x20($t0)
     sw          $zero, 0x24($t0)
     sw          $v0, 0x28($t0)
+
     move        $ra, $t1
     jr          $ra
-END(func_8007F284)
+END(makeYrotMatrix)
 
 /**
- * void func_8007F2F4(UNK_TYPE *arg0, u32 arg1, s32 arg2, s32 arg3, s32 arg4);
+ * void makeZrotMatrix(Mtx *m, s16 zrot, s32 xofs, s32 yofs, s32 zofs);
  *
- * `arg0` may be a `Mtx *`
+ * Initializes `m` to:
+ *
+ * |  cos(z)  sin(z)       0       0 |
+ * | -sin(z)  cos(z)       0       0 |
+ * |       0       0       0       0 |
+ * |    xofs    yofs    zofs  0x8000 |
+ *
+ * Roughly equivalent to:
+ * ```
+void makeZrotMatrix(Mtx *m, s16 zrot, s32 xofs, s32 yofs, s32 zofs) {
+    s32 sin_z;
+    s32 cos_z;
+
+    m->m[2][3] = 0;
+    m->m[1][3] = 0;
+    m->m[0][3] = 0;
+    m->m[3][0] = xofs;
+    m->m[3][1] = yofs;
+    m->m[3][2] = zofs;
+    m->m[3][3] = 0x8000;
+
+    sin_z = sinL(zrot);
+    cos_z = cosL(zrot);
+
+    m->m[0][0] = cos_z;
+    m->m[0][1] = sin_z;
+    m->m[0][2] = 0;
+
+    m->m[1][0] = -sin_z;
+    m->m[1][1] = cos_z;
+    m->m[1][2] = 0;
+
+    m->m[2][0] = 0;
+    m->m[2][1] = 0;
+    m->m[2][2] = 0x8000;
+}
+ * ```
  */
-LEAF(func_8007F2F4)
+LEAF(makeZrotMatrix)
     move        $t1, $ra
+
     move        $t0, $a0
     lw          $t2, 0x10($sp)
     sw          $zero, 0x2C($t0)
@@ -1096,35 +1420,81 @@ LEAF(func_8007F2F4)
     sw          $t2, 0x38($t0)
     li          $t2, 0x8000
     sw          $t2, 0x3C($t0)
+
     move        $a0, $a1
     NOP_IQUE
     bal         sinL
-
     move        $t3, $v0
+
     NOP_IQUE
     bal         cosL
 
     sw          $v0, 0x0($t0)
     sw          $t3, 0x4($t0)
     sw          $zero, 0x8($t0)
+
     negu        $t8, $t3
     sw          $t8, 0x10($t0)
     sw          $v0, 0x14($t0)
     sw          $zero, 0x18($t0)
+
     sw          $zero, 0x20($t0)
     sw          $zero, 0x24($t0)
     sw          $t2, 0x28($t0)
+
     move        $ra, $t1
     jr          $ra
-END(func_8007F2F4)
+END(makeZrotMatrix)
 
 /**
- * void func_8007F364(UNK_TYPE *arg0, s32 arg1, s32 arg2);
+ * void makeXZMatrix(Mtx *m, s16 xrot, s16 zrot);
  *
- * `arg0` may be a `Mtx *`
+ * Initializes `m` to:
+ *
+ * |           cos(z)           sin(z)                0                0 |
+ * | -sin(z) * cos(x)  cos(z) * cos(x)           sin(x)                0 |
+ * |  sin(z) * sin(x) -cos(z) * sin(x)           cos(x)                0 |
+ * |                0                0                0                0 |
+ * |                0                0                0           0x8000 |
+ *
+ * Roughly equivalent to:
+ * ```
+void makeXZMatrix(Mtx *m, s32 xrot, s32 zrot) {
+    s32 sin_z;
+    s32 cos_z;
+    s32 sin_x;
+    s32 cos_x;
+
+    m->m[2][3] = 0;
+    m->m[1][3] = 0;
+    m->m[0][3] = 0;
+    m->m[3][0] = 0;
+    m->m[3][1] = 0;
+    m->m[3][2] = 0;
+    m->m[3][3] = 0x8000;
+
+    sin_z = sinL(zrot);
+    cos_z = cosL(zrot);
+    sin_x = sinL(xrot);
+    cos_x = cosL(xrot);
+
+    m->m[0][0] = cos_z;
+    m->m[0][1] = sin_z;
+    m->m[0][2] = 0;
+
+    m->m[1][0] = (-sin_z * cos_x) >> 0xF;
+    m->m[1][1] = (cos_z * cos_x) >> 0xF;
+    m->m[1][2] = sin_x;
+
+    m->m[2][0] = (sin_z * sin_x) >> 0xF;
+    m->m[2][1] = (-sin_x * cos_z) >> 0xF;
+    m->m[2][2] = cos_x;
+}
+ * ```
  */
-LEAF(func_8007F364)
+LEAF(makeXZMatrix)
     move        $t1, $ra
+
     move        $t0, $a0
     sw          $zero, 0x2C($t0)
     sw          $zero, 0x1C($t0)
@@ -1134,26 +1504,28 @@ LEAF(func_8007F364)
     sw          $zero, 0x38($t0)
     li          $t2, 0x8000
     sw          $t2, 0x3C($t0)
+
     move        $a0, $a2
     NOP_IQUE
     bal         sinL
-
     move        $t2, $v0
+
     NOP_IQUE
     bal         cosL
-
     move        $t3, $v0
+
     move        $a0, $a1
     NOP_IQUE
     bal         sinL
-
     move        $t4, $v0
+
     NOP_IQUE
     bal         cosL
 
     sw          $t3, 0x0($t0)
     sw          $t2, 0x4($t0)
     sw          $zero, 0x8($t0)
+
     negu        $t8, $t2
     multu       $t8, $v0
     mflo        $t9
@@ -1165,6 +1537,7 @@ LEAF(func_8007F364)
     sra         $t8, $t9, 15
     sw          $t8, 0x14($t0)
     sw          $t4, 0x18($t0)
+
     NOP_N64
     multu       $t2, $t4
     mflo        $t9
@@ -1176,12 +1549,60 @@ LEAF(func_8007F364)
     sra         $t8, $t9, 15
     sw          $t8, 0x24($t0)
     sw          $v0, 0x28($t0)
+
     move        $ra, $t1
     jr          $ra
-END(func_8007F364)
+END(makeXZMatrix)
 
 /**
  * void matrixConv(const Mtx *m, Mtx *mtx, s32 shift);
+ *
+ * Roughly equivalent to:
+ * ```
+void matrixConv(const Mtx *m, Mtx *mtx, s32 shift) {
+    const s32 *a0 = (const s32 *)m->m;
+    s32 *a1 = (s32 *)mtx->m;
+    s32 temp_a2;
+    s32 temp_t2;
+    s32 temp_t3;
+    s32 var_v0;
+
+    if (shift != 0) {
+        var_v0 = 6;
+        if (shift <= 0) {
+            temp_a2 = -(shift + 1);
+            for (; var_v0 > 0; var_v0--) {
+                temp_t2 = (*a0++) >> temp_a2;
+                temp_t3 = (*a0++) >> temp_a2;
+                a1[0] = (temp_t2 & 0xFFFF0000) | (temp_t3 >> 0x10);
+                a1[8] = (temp_t2 << 0x10) | (temp_t3 & 0xFFFF);
+                a1++;
+            }
+        } else {
+            temp_a2 = shift + 1;
+            for (; var_v0 > 0; var_v0--) {
+                temp_t2 = (*a0++) << temp_a2;
+                temp_t3 = (*a0++) << temp_a2;
+                a1[0] = (temp_t2 & 0xFFFF0000) | (temp_t3 >> 0x10);
+                a1[8] = (temp_t2 << 0x10) | (temp_t3 & 0xFFFF);
+                a1++;
+            }
+        }
+
+        var_v0 = 2;
+    } else {
+        var_v0 = 8;
+    }
+
+    for (; var_v0 > 0; var_v0--) {
+        temp_t2 = (*a0++) << 1;
+        temp_t3 = (*a0++) << 1;
+        a1[0] = (temp_t2 & 0xFFFF0000) | (temp_t3 >> 0x10);
+        a1[8] = (temp_t2 << 0x10) | (temp_t3 & 0xFFFF);
+        a1++;
+    }
+}
+ * ```
  */
 LEAF(matrixConv)
     li          $t0, 0xFFFF0000
@@ -1302,17 +1723,46 @@ LEAF(matrixCopyL)
 END(matrixCopyL)
 
 /**
- * void func_8007F550(UNK_TYPE *arg0, u32 arg1, s32 arg2, s32 arg3, s32 arg4);
+ * void rotpointL(s16 angle, s32 center_x, s32 center_y, s32 *x, s32 *y);
  *
- * `arg0` may be a `Mtx *`
+ * Rotate (`x`, `y`) relative to (`center_x`, `center_y`) by `angle` degrees.
+ *
+ * Roughly equivalent to:
+ * ```
+void rotpointL(s16 angle, s32 center_x, s32 center_y, s32 *x, s32 *y) {
+    s64 cos = (s64)(s32)cosL(angle);
+    s64 sin = (s64)(s32)sinL(angle);
+    s64 delta_y = *y - center_y;
+    s64 delta_x = *x - center_x;
+    s64 value;
+    s32 hi;
+    s32 lo;
+    s32 shifted;
+
+    value = delta_x * sin + delta_y * cos;
+    hi = ((u64)value) >> 32;
+    lo = ((u64)value) & 0xFFFFFFFF;
+    shifted = (lo >> 15) | (hi << 17);
+
+    *y = center_y + shifted;
+
+    value = delta_x * cos - delta_y * sin;
+    hi = ((u64)value) >> 32;
+    lo = ((u64)value) & 0xFFFFFFFF;
+    shifted = (lo >> 15) | (hi << 17);
+
+    *x = center_x + shifted;
+}
+ * ```
  */
-LEAF(func_8007F550)
+LEAF(rotpointL)
     move        $t1, $ra
     lw          $t0, 0x10($sp)
+
     NOP_IQUE
     bal         cosL
-
     move        $v1, $v0
+
     NOP_IQUE
     bal         sinL
 
@@ -1325,6 +1775,7 @@ LEAF(func_8007F550)
     mflo        $t3
     subu        $t8, $t6, $a1
     negu        $t9, $t9
+
     NOP_N64
     mult        $t8, $v0
     mfhi        $t4
@@ -1341,6 +1792,7 @@ LEAF(func_8007F550)
     mflo        $t3
     or          $v1, $t4, $t5
     addu        $a2, $a2, $v1
+
     NOP_N64
     mult        $t9, $v0
     mfhi        $t4
@@ -1353,16 +1805,43 @@ LEAF(func_8007F550)
     sll         $t4, $v1, 17
     or          $v1, $t4, $t5
     addu        $a1, $a1, $v1
+
     sw          $a2, 0x0($t0)
     sw          $a1, 0x0($a3)
+
     move        $ra, $t1
     jr          $ra
-END(func_8007F550)
+END(rotpointL)
 
 /**
- * s32 func_8007F60C(s32 arg0, s32 arg1)
+ * s32 defangleL(u16 arg0, u16 arg1);
+ *
+ * Roughly equivalent to:
+ * ```
+s32 defangleL(u16 arg0, u16 arg1) {
+    s32 temp_v1;
+    s32 var_t4;
+    s32 var_t5;
+    s32 var_v0;
+
+    if (arg0 < arg1) {
+        var_t4 = (s32)arg0 + 0x10000;
+        var_t5 = arg1;
+    } else {
+        var_t4 = arg0;
+        var_t5 = (s32)arg1 + 0x10000;
+    }
+
+    var_v0 = arg1 - arg0;
+    temp_v1 = var_t5 - var_t4;
+    if (ABS(temp_v1) < ABS(var_v0)) {
+        var_v0 = temp_v1;
+    }
+    return var_v0;
+}
+ * ```
  */
-LEAF(func_8007F60C)
+LEAF(defangleL)
     andi        $t2, $a0, 0xFFFF
     andi        $t3, $a1, 0xFFFF
     li          $v0, 0x10000
@@ -1394,25 +1873,45 @@ LEAF(func_8007F60C)
     move        $v0, $v1
 .L8007F668:
     jr          $ra
-END(func_8007F60C)
+END(defangleL)
 
 /**
- * s32 func_8007F670(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
+ * s32 distanceS(s32 x0, s32 y0, s32 z0, s32 x1, s32 y1, s32 z1);
+ *
+ * Distance between 3D points.
+ *
+ * Uses integer operations internally, so there will be precision loss.
+ *
+ * Roughly equivalent to:
+ * ```
+s32 distanceS(s32 x0, s32 y0, s32 z0, s32 x1, s32 y1, s32 z1) {
+    s32 x_diff = x1 - x0;
+    s32 y_diff = y1 - y0;
+    s32 z_diff = z1 - z0;
+    f32 sq = SQ(x_diff) + SQ(y_diff) + SQ(z_diff);
+
+    return sqrtf(sq);
+}
+ * ```
  */
-LEAF(func_8007F670)
+LEAF(distanceS)
     subu        $v1, $a3, $a0
     lw          $t6, 0x10($sp)
     mult        $v1, $v1
     mflo        $t8
+
     subu        $t0, $t6, $a1
     lw          $t7, 0x14($sp)
     mult        $t0, $t0
     mflo        $t9
+
     subu        $t1, $t7, $a2
     addu        $t2, $t8, $t9
     mult        $t1, $t1
     mflo        $t3
+
     addu        $t4, $t2, $t3
+
     mtc1        $t4, $ft0
     NOP_N64
     cvt.s.w     $fv0, $ft0
@@ -1420,37 +1919,60 @@ LEAF(func_8007F670)
     trunc.w.s   $ft2, $ft1
     mfc1        $v0, $ft2
     nop
+
     jr          $ra
-END(func_8007F670)
+END(distanceS)
 
 /**
- * s32 func_8007F6C4(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
+ * s32 distanceL(s32 x0, s32 y0, s32 z0, s32 x1, s32 y1, s32 z1);
+ *
+ * Distance between 3D points.
+ *
+ * Uses float operations internally for minimal precision loss.
+ *
+ * Roughly equivalent to:
+ * ```
+s32 distanceL(s32 x0, s32 y0, s32 z0, s32 x1, s32 y1, s32 z1) {
+    f32 x_diff = x1 - x0;
+    f32 y_diff = y1 - y0;
+    f32 z_diff = z1 - z0;
+    f32 sq = SQ(x_diff) + SQ(y_diff) + SQ(z_diff);
+
+    return sqrtf(sq);
+}
+ * ```
  */
-LEAF(func_8007F6C4)
+LEAF(distanceL)
     lw          $t8, 0x10($sp)
     lw          $t9, 0x14($sp)
+
     subu        $v0, $a3, $a0
     subu        $t8, $t8, $a1
     subu        $t9, $t9, $a2
+
     mtc1        $v0, $ft0
     mtc1        $t8, $ft1
     mtc1        $t9, $ft2
     cvt.s.w     $fv0, $ft0
     cvt.s.w     $ft0, $ft1
     cvt.s.w     $ft1, $ft2
+
     mul.s       $fv0, $fv0, $fv0
     NOP_N64
     mul.s       $ft0, $ft0, $ft0
     NOP_N64
     mul.s       $ft1, $ft1, $ft1
+
     add.s       $ft2, $fv0, $ft0
     add.s       $fv0, $ft1, $ft2
+
     sqrt.s      $ft1, $fv0
     trunc.w.s   $ft2, $ft1
     mfc1        $v0, $ft2
     nop
+
     jr          $ra
-END(func_8007F6C4)
+END(distanceL)
 
 /**
  * s32 sqrt_a2b2(s32 a, s32 b);
@@ -1609,41 +2131,58 @@ END(muldiv)
 
 
 /**
- * void func_8007F824(UNK_TYPE *arg0, u32 arg1, s32 arg2, s32 arg3, s32 arg4);
+ * void makeVect(s16 arg0, s16 arg1, s32 *arg2, s32 *arg3, s32 *arg4);
  *
- * `arg0` may be a `Mtx *`
+ * Roughly equivalent to:
+ * ```
+void makeVect(s16 arg0, s16 arg1, s32 *arg2, s32 *arg3, s32 *arg4) {
+    s32 temp_s5 = -sinL(arg0);
+    s32 temp_s6 = cosL(arg0);
+    s32 temp_s7 = sinL(arg1);
+    s32 temp_t3 = cosL(arg1);
+
+    // spherical coordinates of radius 1?
+    *arg3 = temp_s5;
+    *arg2 = (temp_s7 * temp_s6) >> 15;
+    *arg4 = (temp_t3 * temp_s6) >> 15;
+}
+ * ```
  */
-LEAF(func_8007F824)
+LEAF(makeVect)
     move        $t1, $ra
+
     lw          $t0, 0x10($sp)
     NOP_IQUE
     bal         sinL
-
     negu        $t4, $v0
+
     NOP_IQUE
     bal         cosL
-
     move        $t5, $v0
+
     move        $a0, $a1
     NOP_IQUE
     bal         sinL
-
     move        $t2, $v0
+
     NOP_IQUE
     bal         cosL
-
     move        $t3, $v0
+
     sw          $t4, 0x0($a3)
+
     NOP_N64
     multu       $t2, $t5
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x0($a2)
+
     NOP_N64
     multu       $t3, $t5
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x0($t0)
+
     move        $ra, $t1
     jr          $ra
-END(func_8007F824)
+END(makeVect)

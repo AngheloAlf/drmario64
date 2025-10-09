@@ -258,33 +258,33 @@ void disp_logo_setup(Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-UNK_TYPE disp_count_logo(Gfx **gfxP, s32 arg1, UNK_TYPE arg2) {
+s32 disp_count_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     Mtx mtx;
     Gfx *gfx = *gfxP;
-    s32 var_a1;
-    s32 var_a2;
-    UNK_TYPE ret;
+    s32 x;
+    s32 y;
+    s32 ret;
 
     gSPDisplayList(gfx++, etc_setup);
 
     switch (binCount) {
         case 1:
-            var_a1 = 0;
-            var_a2 = 0;
+            x = 0;
+            y = 0;
             break;
 
         case 2:
-            var_a1 = x2p[arg1];
-            var_a2 = 0;
+            x = x2p[arg1];
+            y = 0;
             break;
 
         default:
-            var_a1 = x4p[arg1];
-            var_a2 = 0;
+            x = x4p[arg1];
+            y = 0;
             break;
     }
 
-    makeTransrateMatrix(&mtx, var_a1 << 15, var_a2 << 15, 0xFE0C << 16);
+    MAKE_TRANSRATE_MATRIX(&mtx, x, y, -1000);
     ret = lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_9], arg2, etcLwsAddress);
 
     *gfxP = gfx;
@@ -319,7 +319,7 @@ void disp_clear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
             break;
     }
 
-    makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
+    MAKE_TRANSRATE_MATRIX(&mtx, x, y, -1000);
 
     if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_10], temp_s0->unk_10[0], etcLwsAddress) == 1) {
         temp_s0->unk_10[0] = 0x27;
@@ -364,7 +364,7 @@ void disp_allclear_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
             break;
     }
 
-    makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
+    MAKE_TRANSRATE_MATRIX(&mtx, x, y, -1000);
 
     if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_13], temp_s0->unk_10[1], etcLwsAddress) == 1) {
         temp_s0->unk_10[1] = 0x27;
@@ -409,7 +409,7 @@ void disp_win_logo(Gfx **gfxP, s32 arg1) {
             break;
     }
 
-    makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
+    MAKE_TRANSRATE_MATRIX(&mtx, x, y + logo_ofsY, -1000);
 
     if (binCount != 4) {
         if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_0], temp_s0->unk_10[0], etcLwsAddress) == 1) {
@@ -453,7 +453,7 @@ void disp_lose_logo(Gfx **gfxP, s32 arg1) {
             break;
     }
 
-    makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
+    MAKE_TRANSRATE_MATRIX(&mtx, x, y + logo_ofsY, -1000);
 
     if (binCount != 4) {
         if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_2], temp_s0->unk_10[0], etcLwsAddress) == 1) {
@@ -497,7 +497,7 @@ void disp_draw_logo(Gfx **gfxP, s32 arg1) {
             break;
     }
 
-    makeTransrateMatrix(&mtx, x << 0xF, (y + logo_ofsY) << 0xF, 0x1FC18 << 0xF);
+    MAKE_TRANSRATE_MATRIX(&mtx, x, y + logo_ofsY, -1000);
 
     if (binCount != 4) {
         if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_4], temp_s0->unk_10[0], etcLwsAddress) == 1) {
@@ -518,9 +518,9 @@ s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2 UNUSED, s32 arg3, s32 arg4) {
     struct_g_etc_work *temp_s1 = &g_etc_work[arg1];
     GbiStat sp38;
     GbiStat sp50;
-    Mtx sp68;
-    s32 var_a1;
-    s32 var_a2;
+    Mtx mtx;
+    s32 x;
+    s32 y;
     s32 temp;
     s32 pad[5] UNUSED;
 
@@ -539,29 +539,28 @@ s32 disp_pause_logo(Gfx **gfxP, s32 arg1, s32 arg2 UNUSED, s32 arg3, s32 arg4) {
 
     switch (binCount) {
         case 1:
-            var_a1 = 0;
-            var_a2 = 0;
+            x = 0;
+            y = 0;
             break;
 
         case 2:
-            var_a1 = x2p[arg1];
-            var_a2 = 0;
+            x = x2p[arg1];
+            y = 0;
             break;
 
         default:
-            // case 4:
-            var_a1 = x4p[arg1];
-            var_a2 = 8;
+            x = x4p[arg1];
+            y = 8;
             break;
     }
 
-    makeTransrateMatrix(&sp68, var_a1 << 0xF, var_a2 << 0xF, 0xFE0C0000);
+    MAKE_TRANSRATE_MATRIX(&mtx, x, y, -1000);
     if (binCount != 4) {
-        if (lws_anim(&gfx, &sp68, etcLwsTbl[ETC_LWS_INDEX_7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
             temp_s1->unk_10[7] = 0x19;
         }
     } else {
-        if (lws_anim(&gfx, &sp68, etcLwsTbl[ETC_LWS_INDEX_7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
+        if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_7], temp_s1->unk_10[7], etcLwsAddress) == 1) {
             temp_s1->unk_10[7] = 0x19;
         }
     }
@@ -766,7 +765,7 @@ void disp_gameover_logo(Gfx **gfxP, s32 arg1) {
             break;
     }
 
-    makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
+    MAKE_TRANSRATE_MATRIX(&mtx, x, y, -1000);
 
     if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_8], temp_s0->unk_10[1], etcLwsAddress) == 1) {
         temp_s0->unk_10[1] = 0x39;
@@ -804,7 +803,7 @@ void disp_timeover_logo(Gfx **gfxP, s32 arg1) {
             break;
     }
 
-    makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
+    MAKE_TRANSRATE_MATRIX(&mtx, x, y, -1000);
 
     if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_12], temp_s0->unk_10[0], etcLwsAddress) == 1) {
         temp_s0->unk_10[0] = 0x39;
@@ -842,7 +841,7 @@ void disp_retire_logo(Gfx **gfxP, s32 arg1) {
             break;
     }
 
-    makeTransrateMatrix(&mtx, x << 0xF, y << 0xF, 0x1FC18 << 0xF);
+    MAKE_TRANSRATE_MATRIX(&mtx, x, y, -1000);
 
     if (lws_anim(&gfx, &mtx, etcLwsTbl[ETC_LWS_INDEX_6], temp_s0->unk_10[2], etcLwsAddress) == 1) {
         temp_s0->unk_10[2] = 0x8B;
