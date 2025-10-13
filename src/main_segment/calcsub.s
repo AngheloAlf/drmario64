@@ -5,7 +5,6 @@
  */
 
 #include "hasm.h"
-.include "macro.inc"
 
 .section .text, "ax"
 
@@ -51,12 +50,11 @@ s32 sqrtS(s32 value) {
  */
 LEAF(sqrtS)
     mtc1        $a0, $ft0
-    NOP_N64
     cvt.s.w     $fv0, $ft0
     sqrt.s      $ft1, $fv0
     trunc.w.s   $ft2, $ft1
     mfc1        $v0, $ft2
-    nop
+
     jr          $ra
 END(sqrtS)
 
@@ -146,8 +144,7 @@ LEAF(sqrtL)
         addiu       $t0, $t0, -0x1
     bgtz        $t0, .L8007EA80
 
-    srl        $v0, $v0, 1
-    NOP_IQUE
+    srl         $v0, $v0, 1
     jr          $ra
 END(sqrtL)
 
@@ -290,26 +287,22 @@ LEAF(get_angle)
     #define ATAN2_FLG_NEGX 0x100
 
     move        $t4, $zero
-    NOP_IQUE
 
     bnez        $a0, .Latan2_x_not_zero
     bnez        $a1, .Latan2_x_zero_y_not_zero
 
     /* x and y are 0 */
     li          $v0, 0x0
-    NOP_IQUE
     b           .Latan2_ret
 
 .Latan2_x_zero_y_not_zero:
     bgez        $a1, .Latan2_x_zero_y_ge_zero
 
     li          $v0, 0xC000 /* -PI/2 */
-    NOP_IQUE
     b           .Latan2_ret
 
 .Latan2_x_zero_y_ge_zero:
     li          $v0, 0x4000 /* PI/2 */
-    NOP_IQUE
     b           .Latan2_ret
 
 .Latan2_x_not_zero:
@@ -327,12 +320,10 @@ LEAF(get_angle)
 
     /* Both are zero */
     li          $v0, 0x0
-    NOP_IQUE
     b           .Latan2_ret
 
 .Latan2_y_zero_x_negative:
     li          $v0, 0x8000 /* PI */
-    NOP_IQUE
     b           .Latan2_ret
 
 .Latan2_y_non_zero:
@@ -355,11 +346,8 @@ LEAF(get_angle)
 
 .Latan2_after_swap:
     li          $t8, 0x40000000
-    divu_ds     $t8, $t8, $a0
-    nop
-    nop
-    multu       $t8, $a1
-    mflo        $t9
+    divu        $t8, $t8, $a0
+    mul         $t9, $t8, $a1
     srl         $a0, $t9, 2
     srl         $t8, $a0, 24
     lbu         $v1, (D_800AB320)($t8)
@@ -376,7 +364,6 @@ LEAF(get_angle)
     lw          $t8, (D_800AB334 - 0x8)($t2)
     sll         $v0, $v1, 8
 
-    NOP_IQUE
     beq         $a0, $t8, .Latan2_flg_swap
 
     /* Interpolate a value */
@@ -410,7 +397,6 @@ LEAF(get_angle)
 .Latan2_ret:
     sll         $t8, $v0, 16
     sra         $v0, $t8, 16
-    NOP_IQUE
     jr          $ra
 
     #undef ATAN2_FLG_SWAP
@@ -595,14 +581,12 @@ LEAF(sinL)
     andi        $t9, $a0, 0x3F
     andi        $t8, $t8, 0x7FE
     lh          $v0, (calc_sintable)($t8)
-    NOP_IQUE
     beqz        $t9, 1f
 
     // Interpolate angle
     lh          $t8, (calc_sintable + 0x2)($t8)
     subu        $t8, $t8, $v0
-    multu       $t8, $t9
-    mflo        $t8
+    mul         $t8, $t8, $t9
     sra         $t9, $t8, 6
     addu        $v0, $v0, $t9
 
@@ -647,14 +631,12 @@ LEAF(cosL)
     andi        $t9, $v0, 0x3F
     andi        $t8, $t8, 0x7FE
     lh          $v0, (calc_sintable)($t8)
-    NOP_IQUE
     beqz        $t9, 1f
 
     // Interpolate angle
     lh          $t8, (calc_sintable + 0x2)($t8)
     subu        $t8, $t8, $v0
-    multu       $t8, $t9
-    mflo        $t8
+    mul         $t8, $t8, $t9
     sra         $t9, $t8, 6
     addu        $v0, $v0, $t9
 
@@ -698,25 +680,28 @@ LEAF(lc2wc)
         lw          $t0, 0x0($a0)
         lw          $t7, 0x10($a0)
         lw          $t6, 0x20($a0)
-
+        /* (s64)arg0->m[0][i] * (s64)arg1 */
         mult        $t0, $a1
         mfhi        $t8
         mflo        $t9
+
         lw          $t0, 0x0($t1)
         addiu       $t1, $t1, 0x4
-
+        /* (s64)arg0->m[1][i] * (s64)arg2 */
         mult        $t7, $a2
         mfhi        $t2
         mflo        $t3
+
         addu        $t5, $t3, $t9
         sltu        $t3, $t5, $t9
         addu        $t3, $t3, $t2
         addu        $t4, $t3, $t8
 
-        NOP_N64
+        /* (s64)arg0->m[2][i] * (s64)arg3 */
         mult        $t6, $a3
         mfhi        $t2
         mflo        $t3
+
         addu        $t9, $t3, $t5
         sltu        $t3, $t9, $t5
         addu        $t3, $t3, $t2
@@ -781,22 +766,27 @@ LEAF(wc2lc)
         lw          $t7, 0x4($a0)
         lw          $t6, 0x8($a0)
         addiu       $a0, $a0, 0x10
+        /* (s64)arg0->m[i][0] * (s64)arg1 */
         mult        $t0, $a1
         mfhi        $t8
         mflo        $t9
+        /* (s64)arg0->m[i][1] * (s64)arg2 */
         lw          $t0, 0x0($t1)
         addiu       $t1, $t1, 0x4
         mult        $t7, $a2
         mfhi        $t2
         mflo        $t3
+
         addu        $t5, $t3, $t9
         sltu        $t3, $t5, $t9
         addu        $t3, $t3, $t2
         addu        $t4, $t3, $t8
-        NOP_N64
+
+        /* (s64)arg0->m[i][2] * (s64)arg3 */
         mult        $t6, $a3
         mfhi        $t2
         mflo        $t3
+
         addu        $t9, $t3, $t5
         sltu        $t3, $t9, $t5
         addu        $t3, $t3, $t2
@@ -1016,7 +1006,6 @@ LEAF(matrixMulL)
         addiu       $t1, $t1, 0x10
         addiu       $a2, $a2, 0x4
         addiu       $t0, $t0, 0x4
-        NOP_IQUE
     bgtz        $v0, .Lmul_loop
 
     jr          $ra
@@ -1072,7 +1061,6 @@ LEAF(makeTransrateMatrix)
     sw          $a2, 0x34($a0)
     sw          $a3, 0x38($a0)
     sw          $v0, 0x3C($a0)
-    NOP_IQUE
     jr          $ra
 END(makeTransrateMatrix)
 
@@ -1126,7 +1114,7 @@ LEAF(makeScaleMatrix)
     sw          $zero, 0x34($a0)
     sw          $zero, 0x38($a0)
     sw          $v0, 0x3C($a0)
-    NOP_IQUE
+
     jr          $ra
 END(makeScaleMatrix)
 
@@ -1203,100 +1191,80 @@ LEAF(makeMatrix)
     sw          $t4, 0x38($t0)
 
     move        $a0, $a2
-    NOP_IQUE
     bal         sinL
     move        $t2, $v0
 
-    NOP_IQUE
     bal         cosL
     move        $t3, $v0
 
     move        $a0, $a3
-    NOP_IQUE
     bal         sinL
     move        $t4, $v0
 
-    NOP_IQUE
     bal         cosL
     move        $t5, $v0
 
     move        $a0, $a1
-    NOP_IQUE
     bal         sinL
     move        $t6, $v0
 
-    NOP_IQUE
     bal         cosL
 
     negu        $t8, $t6
     sw          $t8, 0x24($t0)
 
-    NOP_N64
-    multu       $t4, $v0
-    mflo        $t8
+    mul         $t8, $t4, $v0
     sra         $t9, $t8, 15
     sw          $t9, 0x4($t0)
-
     multu       $t5, $v0
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x14($t0)
-
     multu       $t2, $v0
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x20($t0)
 
-    NOP_N64
     multu       $t3, $v0
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x28($t0)
 
-    NOP_N64
     multu       $t2, $t6
     mflo        $t8
     sra         $v0, $t8, 15
-    nop
+
     multu       $t5, $t3
     mflo        $t9
-    nop
-    nop
     multu       $t4, $v0
     mflo        $t8
     addu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x0($t0)
-
     multu       $t4, $t3
     mflo        $t9
-    nop
-    nop
+
     multu       $t5, $v0
     mflo        $t8
     subu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x10($t0)
 
-    NOP_N64
     multu       $t3, $t6
     mflo        $t8
     sra         $v0, $t8, 15
-    nop
+
     multu       $t5, $t2
     mflo        $t9
-    nop
-    nop
+
     multu       $t4, $v0
     mflo        $t8
     subu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x8($t0)
-
     multu       $t4, $t2
     mflo        $t9
-    nop
-    nop
+
     multu       $t5, $v0
     mflo        $t8
     addu        $t7, $t8, $t9
@@ -1363,11 +1331,9 @@ LEAF(makeXrotMatrix)
     sw          $t2, 0x3C($t0)
 
     move        $a0, $a1
-    NOP_IQUE
     bal         sinL
     move        $t3, $v0
 
-    NOP_IQUE
     bal         cosL
 
     sw          $t2, 0x0($t0)
@@ -1443,11 +1409,9 @@ LEAF(makeYrotMatrix)
     sw          $t2, 0x3C($t0)
 
     move        $a0, $a1
-    NOP_IQUE
     bal         sinL
     move        $t3, $v0
 
-    NOP_IQUE
     bal         cosL
 
     sw          $v0, 0x0($t0)
@@ -1523,11 +1487,9 @@ LEAF(makeZrotMatrix)
     sw          $t2, 0x3C($t0)
 
     move        $a0, $a1
-    NOP_IQUE
     bal         sinL
     move        $t3, $v0
 
-    NOP_IQUE
     bal         cosL
 
     sw          $v0, 0x0($t0)
@@ -1607,20 +1569,16 @@ LEAF(makeXZMatrix)
     sw          $t2, 0x3C($t0)
 
     move        $a0, $a2
-    NOP_IQUE
     bal         sinL
     move        $t2, $v0
 
-    NOP_IQUE
     bal         cosL
     move        $t3, $v0
 
     move        $a0, $a1
-    NOP_IQUE
     bal         sinL
     move        $t4, $v0
 
-    NOP_IQUE
     bal         cosL
 
     sw          $t3, 0x0($t0)
@@ -1632,14 +1590,13 @@ LEAF(makeXZMatrix)
     mflo        $t9
     sra         $t8, $t9, 15
     sw          $t8, 0x10($t0)
-    NOP_N64
+
     multu       $t3, $v0
     mflo        $t9
     sra         $t8, $t9, 15
     sw          $t8, 0x14($t0)
     sw          $t4, 0x18($t0)
 
-    NOP_N64
     multu       $t2, $t4
     mflo        $t9
     sra         $t8, $t9, 15
@@ -1708,11 +1665,9 @@ void matrixConv(const Mtx *m, Mtx *mtx, s32 shift) {
 LEAF(matrixConv)
     li          $t0, 0xFFFF0000
     li          $v0, 0x8
-    NOP_IQUE
     beqz        $a2, .L8007F4CC
 
     li          $v0, 0x6
-    NOP_IQUE
     bgtz        $a2, .L8007F484
 
     negu        $a2, $a2
@@ -1734,7 +1689,6 @@ LEAF(matrixConv)
         sw          $t8, 0x0($a1)
         sw          $t9, 0x20($a1)
         addiu       $a1, $a1, 0x4
-        NOP_IQUE
     bgtz        $v0, .L8007F43C
 
     b           .L8007F4C8
@@ -1758,7 +1712,6 @@ LEAF(matrixConv)
         sw          $t8, 0x0($a1)
         sw          $t9, 0x20($a1)
         addiu       $a1, $a1, 0x4
-        NOP_IQUE
     bgtz        $v0, .L8007F488
 
 .L8007F4C8:
@@ -1780,7 +1733,6 @@ LEAF(matrixConv)
         sw          $t8, 0x0($a1)
         sw          $t9, 0x20($a1)
         addiu       $a1, $a1, 0x4
-        NOP_IQUE
     bgtz        $v0, .L8007F4CC
 
     jr          $ra
@@ -1817,7 +1769,6 @@ LEAF(matrixCopyL)
         addi        $t8, $t8, -0x1
         addi        $a0, $a0, 0x10
         addi        $a1, $a1, 0x10
-        NOP_IQUE
     bgtz        $t8, 1b
 
     jr          $ra
@@ -1860,24 +1811,21 @@ LEAF(rotpointL)
     move        $t1, $ra
     lw          $t0, 0x10($sp)
 
-    NOP_IQUE
     bal         cosL
     move        $v1, $v0
 
-    NOP_IQUE
     bal         sinL
 
     lw          $t7, 0x0($t0)
     lw          $t6, 0x0($a3)
     subu        $t9, $t7, $a2
-    NOP_N64
+
     mult        $t9, $v1
     mfhi        $t2
     mflo        $t3
     subu        $t8, $t6, $a1
     negu        $t9, $t9
 
-    NOP_N64
     mult        $t8, $v0
     mfhi        $t4
     mflo        $t5
@@ -1887,14 +1835,13 @@ LEAF(rotpointL)
     addu        $t6, $t7, $t4
     srl         $t5, $a0, 15
     sll         $t4, $t6, 17
-    NOP_N64
+
     mult        $t8, $v1
     mfhi        $t2
     mflo        $t3
     or          $v1, $t4, $t5
     addu        $a2, $a2, $v1
 
-    NOP_N64
     mult        $t9, $v0
     mfhi        $t4
     mflo        $t5
@@ -1942,6 +1889,13 @@ s32 defangleL(u16 arg0, u16 arg1) {
 }
  * ```
  */
+
+#if VERSION_CN
+.global defangleL.NON_MATCHING
+.type defangleL.NON_MATCHING, @object
+defangleL.NON_MATCHING:
+#endif
+
 LEAF(defangleL)
     andi        $t2, $a0, 0xFFFF
     andi        $t3, $a1, 0xFFFF
@@ -1950,7 +1904,6 @@ LEAF(defangleL)
 
     addu        $t4, $t2, $v0
     move        $t5, $t3
-    NOP_IQUE
     b           .L8007F638
 
 .L8007F630:
@@ -1959,22 +1912,45 @@ LEAF(defangleL)
 .L8007F638:
     subu        $v0, $t3, $t2
     subu        $v1, $t5, $t4
+
+    // TODO: No clue how to fix this
+#if VERSION_CN
+.set noreorder
+    bgez        $v0, .L8007F64C
+     move        $t2, $v0
+.set reorder
+#else
     move        $t2, $v0
     bgez        $v0, .L8007F64C
+#endif
 
     neg         $t2, $v0
 .L8007F64C:
+
+#if VERSION_CN
+.set noreorder
+    bgez        $v1, .L8007F658
+     move        $t3, $v1
+.set reorder
+#else
     move        $t3, $v1
     bgez        $v1, .L8007F658
+#endif
 
     neg         $t3, $v1
 .L8007F658:
+
     bge         $t3, $t2, .L8007F668
 
     move        $v0, $v1
 .L8007F668:
     jr          $ra
 END(defangleL)
+
+#if VERSION_CN
+.size defangleL.NON_MATCHING, . - defangleL.NON_MATCHING
+#endif
+
 
 /**
  * s32 distanceS(s32 x0, s32 y0, s32 z0, s32 x1, s32 y1, s32 z1);
@@ -2014,12 +1990,10 @@ LEAF(distanceS)
     addu        $t4, $t2, $t3
 
     mtc1        $t4, $ft0
-    NOP_N64
     cvt.s.w     $fv0, $ft0
     sqrt.s      $ft1, $fv0
     trunc.w.s   $ft2, $ft1
     mfc1        $v0, $ft2
-    nop
 
     jr          $ra
 END(distanceS)
@@ -2057,11 +2031,8 @@ LEAF(distanceL)
     cvt.s.w     $fv0, $ft0
     cvt.s.w     $ft0, $ft1
     cvt.s.w     $ft1, $ft2
-
     mul.s       $fv0, $fv0, $fv0
-    NOP_N64
     mul.s       $ft0, $ft0, $ft0
-    NOP_N64
     mul.s       $ft1, $ft1, $ft1
 
     add.s       $ft2, $fv0, $ft0
@@ -2070,7 +2041,6 @@ LEAF(distanceL)
     sqrt.s      $ft1, $fv0
     trunc.w.s   $ft2, $ft1
     mfc1        $v0, $ft2
-    nop
 
     jr          $ra
 END(distanceL)
@@ -2091,13 +2061,12 @@ LEAF(sqrt_a2b2)
     cvt.s.w     $fv0, $ft0
     cvt.s.w     $ft0, $ft1
     mul.s       $ft1, $fv0, $fv0
-    NOP_N64
     mul.s       $ft2, $ft0, $ft0
     add.s       $fv0, $ft1, $ft2
     sqrt.s      $ft1, $fv0
     trunc.w.s   $ft2, $ft1
     mfc1        $v0, $ft2
-    nop
+
     jr          $ra
 END(sqrt_a2b2)
 
@@ -2118,7 +2087,6 @@ LEAF(sqrt_abc)
     cvt.s.w     $fv0, $ft0
     cvt.s.w     $ft0, $ft1
     mul.s       $ft1, $fv0, $fv0
-    NOP_N64
     mul.s       $fv0, $ft0, $ft0
     cvt.s.w     $ft0, $ft2
     mul.s       $ft2, $ft0, $ft0
@@ -2127,7 +2095,7 @@ LEAF(sqrt_abc)
     sqrt.s      $ft1, $fv0
     trunc.w.s   $ft2, $ft1
     mfc1        $v0, $ft2
-    nop
+
     jr          $ra
 END(sqrt_abc)
 
@@ -2174,12 +2142,40 @@ s32 muldiv(s32 a, s32 b, s32 c) {
 }
  * ```
  */
+
+#if VERSION_CN
+.global muldiv.NON_MATCHING
+.type muldiv.NON_MATCHING, @object
+muldiv.NON_MATCHING:
+#endif
+
 LEAF(muldiv)
-    NOP_N64
     // Figure out the sign
     xor         $t9, $a0, $a1
     xor         $t8, $t9, $a2
 
+    // TODO: No clue how to fix this
+#if VERSION_CN
+.set noreorder
+    // Abs a
+    bgez        $a0, 1f
+     move        $t2, $a0
+    neg         $t2, $a0
+1:
+
+    // Abs b
+    bgez        $a1, 1f
+     move        $t3, $a1
+    neg         $t3, $a1
+1:
+
+    // Abs c
+    bgez        $a2, 1f
+     move        $t7, $a2
+    neg         $t7, $a2
+1:
+.set reorder
+#else
     // Abs a
     move        $t2, $a0
     bgez        $a0, 1f
@@ -2197,8 +2193,8 @@ LEAF(muldiv)
     bgez        $a2, 1f
     neg         $t7, $a2
 1:
+#endif
 
-    NOP_N64
     mult        $t2, $t3
     li          $t9, 32
     move        $v0, $zero
@@ -2219,7 +2215,6 @@ LEAF(muldiv)
         sll         $t3, $t0, 1
         sll         $t1, $t1, 1
         or          $t0, $t2, $t3
-        NOP_IQUE
     bgez        $t9, .Ldiv_loop
 
     // Negate result if there was an odd amount of negative inputs.
@@ -2229,6 +2224,10 @@ LEAF(muldiv)
 .Lend:
     jr          $ra
 END(muldiv)
+
+#if VERSION_CN
+.size muldiv.NON_MATCHING, . - muldiv.NON_MATCHING
+#endif
 
 
 /**
@@ -2253,32 +2252,26 @@ LEAF(makeVect)
     move        $t1, $ra
 
     lw          $t0, 0x10($sp)
-    NOP_IQUE
     bal         sinL
     negu        $t4, $v0
 
-    NOP_IQUE
     bal         cosL
     move        $t5, $v0
 
     move        $a0, $a1
-    NOP_IQUE
     bal         sinL
     move        $t2, $v0
 
-    NOP_IQUE
     bal         cosL
     move        $t3, $v0
 
     sw          $t4, 0x0($a3)
 
-    NOP_N64
     multu       $t2, $t5
     mflo        $t8
     sra         $t9, $t8, 15
     sw          $t9, 0x0($a2)
 
-    NOP_N64
     multu       $t3, $t5
     mflo        $t8
     sra         $t9, $t8, 15
