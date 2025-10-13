@@ -34,42 +34,14 @@
     .globl  x                  ;\
     x = y
 
-.macro move dst, src
-    addu \dst, \src, $zero
-.endm
-
 #if VERSION_US || VERSION_GW
-// divu dst
-.macro divu_ds dst, dividend, divisor
-    .set noreorder
-    divu        $zero, \dividend, \divisor
-    bnez        \divisor, 0f
-     nop
-    break       7
-0:
-    mflo        \dst
-    .set reorder
-.endm
-
 #define LA(dst, address) \
     lui         dst, %hi(address); \
     addiu       dst, dst, %lo(address)
-
 #elif VERSION_CN
-// divu dst
-.macro divu_ds dst, dividend, divisor
-    .set noreorder
-    bnez        \divisor, 0f
-     divu       $zero, \dividend, \divisor
-    break       7
-0:
-    mflo        \dst
-    .set reorder
-.endm
-
 #define LA(dst, address) \
-    lui         dst, address ## _HI; \
-    ori         dst, dst, address ## _LO
+    lui         dst, %lo(address ## _HI); \
+    ori         dst, dst, %lo(address ## _LO)
 #endif
 
 #if !__IS_OLD_COMP__

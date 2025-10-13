@@ -264,7 +264,7 @@ S_FILES       := $(foreach dir,$(ASM_DIRS) $(SRC_DIRS),$(wildcard $(dir)/*.s))
 PNG_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.png))
 MSG_FILES     := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.msg))
 
-C_O_FILES     := $(foreach f,$(S_FILES:.c=.o),$(BUILD_DIR)/$f)
+C_O_FILES     := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f)
 S_O_FILES     := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f)
 
 O_FILES       := $(C_O_FILES) \
@@ -272,9 +272,7 @@ O_FILES       := $(C_O_FILES) \
 
 # Asm files to be built with modern GAS.
 M_GAS_S_O_FILES  := $(filter $(BUILD_DIR)/asm/%, $(S_O_FILES)) \
-                    $(filter $(BUILD_DIR)/src/rsp/%, $(S_O_FILES)) \
-                    $(filter $(BUILD_DIR)/src/entry/%, $(S_O_FILES)) \
-                    $(filter $(BUILD_DIR)/src/libkmc/%, $(S_O_FILES))
+                    $(filter $(BUILD_DIR)/src/rsp/%, $(S_O_FILES))
 
 # Asm files to be built with og compiler.
 COMP_S_O_FILES   := $(filter-out $(ASDF), $(S_O_FILES))

@@ -1216,57 +1216,44 @@ LEAF(makeMatrix)
     mul         $t8, $t4, $v0
     sra         $t9, $t8, 15
     sw          $t9, 0x4($t0)
-    multu       $t5, $v0
-    mflo        $t8
+    mul         $t8, $t5, $v0
     sra         $t9, $t8, 15
     sw          $t9, 0x14($t0)
-    multu       $t2, $v0
-    mflo        $t8
+    mul         $t8, $t2, $v0
     sra         $t9, $t8, 15
     sw          $t9, 0x20($t0)
 
-    multu       $t3, $v0
-    mflo        $t8
+    mul         $t8, $t3, $v0
     sra         $t9, $t8, 15
     sw          $t9, 0x28($t0)
 
-    multu       $t2, $t6
-    mflo        $t8
+    mul         $t8, $t2, $t6
     sra         $v0, $t8, 15
 
-    multu       $t5, $t3
-    mflo        $t9
-    multu       $t4, $v0
-    mflo        $t8
+    mul         $t9, $t5, $t3
+    mul         $t8, $t4, $v0
     addu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x0($t0)
-    multu       $t4, $t3
-    mflo        $t9
+    mul         $t9, $t4, $t3
 
-    multu       $t5, $v0
-    mflo        $t8
+    mul         $t8, $t5, $v0
     subu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x10($t0)
 
-    multu       $t3, $t6
-    mflo        $t8
+    mul         $t8, $t3, $t6
     sra         $v0, $t8, 15
 
-    multu       $t5, $t2
-    mflo        $t9
+    mul         $t9, $t5, $t2
 
-    multu       $t4, $v0
-    mflo        $t8
+    mul         $t8, $t4, $v0
     subu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x8($t0)
-    multu       $t4, $t2
-    mflo        $t9
+    mul         $t9, $t4, $t2
 
-    multu       $t5, $v0
-    mflo        $t8
+    mul         $t8, $t5, $v0
     addu        $t7, $t8, $t9
     sra         $t8, $t7, 15
     sw          $t8, 0x18($t0)
@@ -1586,24 +1573,20 @@ LEAF(makeXZMatrix)
     sw          $zero, 0x8($t0)
 
     negu        $t8, $t2
-    multu       $t8, $v0
-    mflo        $t9
+    mul         $t9, $t8, $v0
     sra         $t8, $t9, 15
     sw          $t8, 0x10($t0)
 
-    multu       $t3, $v0
-    mflo        $t9
+    mul         $t9, $t3, $v0
     sra         $t8, $t9, 15
     sw          $t8, 0x14($t0)
     sw          $t4, 0x18($t0)
 
-    multu       $t2, $t4
-    mflo        $t9
+    mul         $t9, $t2, $t4
     sra         $t8, $t9, 15
     sw          $t8, 0x20($t0)
     negu        $t8, $t4
-    multu       $t8, $t3
-    mflo        $t9
+    mul         $t9, $t8, $t3
     sra         $t8, $t9, 15
     sw          $t8, 0x24($t0)
     sw          $v0, 0x28($t0)
@@ -1909,6 +1892,7 @@ LEAF(defangleL)
 .L8007F630:
     move        $t4, $t2
     addu        $t5, $t3, $v0
+
 .L8007F638:
     subu        $v0, $t3, $t2
     subu        $v1, $t5, $t4
@@ -2267,13 +2251,11 @@ LEAF(makeVect)
 
     sw          $t4, 0x0($a3)
 
-    multu       $t2, $t5
-    mflo        $t8
+    mul         $t8, $t2, $t5
     sra         $t9, $t8, 15
     sw          $t9, 0x0($a2)
 
-    multu       $t3, $t5
-    mflo        $t8
+    mul         $t8, $t3, $t5
     sra         $t9, $t8, 15
     sw          $t9, 0x0($t0)
 

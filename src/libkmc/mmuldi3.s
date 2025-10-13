@@ -21,20 +21,14 @@
 */
 .align    4
 LEAF(__muldi3)
-    nop
-    multu   $a1, $a2
-    mflo    $t0
-    nop
-    nop
-    multu   $a0, $a3
-    mflo    $v1
+    mul     $t0, $a1, $a2
+    mul     $v1, $a0, $a3
     addu    $t0, $t0, $v1
-    nop
-    multu   $a0, $a2
-    mflo    $v1
+    mul     $v1, $a0, $a2
     mfhi    $v0
     addu    $v0, $v0, $t0
-    j       $ra
+
+    jr      $ra
 END(__muldi3)
 
 
@@ -142,7 +136,7 @@ END(div64_64)
 
 */
 LEAF(div64_32)
-    divu_ds $t2,$a0,$a3
+    divu    $t2,$a0,$a3
     mfhi    $a0
     xor     $t0, $t0, $t0
 
@@ -161,7 +155,7 @@ div64_32_1:
     bnez    $v0, div64_32_1
 
     addiu   $t1, $t1, 0x1
-    divu_ds $v1, $v1, $t1           /* $v1 = a1[$v0:$v1]/(b1[$t1]+1) */
+    divu    $v1, $v1, $t1           /* $v1 = a1[$v0:$v1]/(b1[$t1]+1) */
 
     xor     $v0, $v0, $v0
     addu    $t0, $t0, $v1
@@ -169,11 +163,9 @@ div64_32_1:
     addu    $t2, $t2, $v0
     addu    $t2, $t2, $t9           /* c1[$t2:$t0] += 0:$v1 */
 
-    nop
-    multu   $v1, $a3
-
-    mflo    $v1
+    mul     $v1, $v1, $a3
     mfhi    $v0
+
     sltu    $t9, $a1, $v1
     subu    $a1, $a1, $v1
     subu    $a0, $a0, $v0
@@ -181,14 +173,14 @@ div64_32_1:
     j       div64_32_0
 
 div64_32_2:
-    divu_ds $v1, $a1, $a3           /* $v1 = a1[bx]/b[$a3] */
+    divu    $v1, $a1, $a3           /* $v1 = a1[bx]/b[$a3] */
     mfhi    $t1
     xor     $v0, $v0, $v0
     addu    $v1, $v1, $t0
     sltu    $t9, $v1, $t0
     addu    $v0, $v0, $t2
     addu    $v0, $v0, $t9
-    j       $ra
+    jr      $ra
 END(div64_32)
 
 
@@ -205,7 +197,7 @@ LEAF(__divdi3)
     xor     $v1, $v1, $a2
     and     $t9, $t0, $a0
     beqz    $t9, divdi1
-    li      $t1, 0xFFFFFFFF
+    li      $t1, -1
     xor     $a1, $a1, $t1
     xor     $a0, $a0, $t1
     addiu   $a1, $a1, 0x1
@@ -215,7 +207,7 @@ LEAF(__divdi3)
 divdi1:
     and     $t9, $t0, $a2
     beqz    $t9, divdi2
-    li      $t1, 0xFFFFFFFF
+    li      $t1, -1
     xor     $a3, $a3, $t1
     xor     $a2, $a2, $t1
     addiu   $a3, $a3, 0x1
@@ -244,7 +236,7 @@ divdi_ret:
     addiu   $v1, $v1, 0x1
     sltiu   $t9, $v1, 0x1
     addu    $v0, $v0, $t9
-    j       $ra
+    jr      $ra
 END(__divdi3)
 
 
@@ -262,7 +254,7 @@ LEAF(__moddi3)
     and     $t9, $t0, $a0
     beqz    $t9, moddi1
 
-    li      $t1, 0xFFFFFFFF
+    li      $t1, -1
     xor     $a1, $a1, $t1
     xor     $a0, $a0, $t1
     addiu   $a1, $a1, 0x1
@@ -273,7 +265,7 @@ moddi1:
     and     $t9, $t0, $a2
     beqz    $t9, moddi2
 
-    li      $t1, 0xFFFFFFFF
+    li      $t1, -1
     xor     $a3, $a3, $t1
     xor     $a2, $a2, $t1
     addu    $a3, $a3, 0x1
@@ -302,7 +294,7 @@ moddi64:
     move    $v0, $a0
 
 moddi_ret:
-    li      $a3, 0xFFFFFFFF
+    li      $a3, -1
     xor     $v1, $v1, $a3
     xor     $v0, $v0, $a3
     addiu   $v1, $v1, 0x1
@@ -329,7 +321,7 @@ mod_com:
     move    $ra, $t5
     move    $v1, $t1
     xor     $v0, $v0, $v0
-    j       $ra
+    jr      $ra
 
 umoddi64:
     move    $t5, $ra
@@ -337,5 +329,5 @@ umoddi64:
     move    $ra, $t5
     move    $v1, $a1
     move    $v0, $a0
-    j       $ra
+    jr      $ra
 END(__umoddi3)
