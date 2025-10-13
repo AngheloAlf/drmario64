@@ -11,11 +11,11 @@
 #endif
 
 
-#ifndef CONST
+#ifndef CONST_FN
     #if __STDC_VERSION__ >= 202000L
-        #define CONST [[gnu::const]]
+        #define CONST_FN [[gnu::const]]
     #else
-        #define CONST __attribute__((const))
+        #define CONST_FN __attribute__((const))
     #endif
 #endif
 

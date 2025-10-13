@@ -36,6 +36,15 @@
 #define BAD_RETURN(type) void
 #endif
 
+// Use this when an argument can be const, but marking it as such breaks matching
+#ifndef CONST_ARG
+#if MODDING
+#define CONST_ARG const
+#else
+#define CONST_ARG
+#endif
+#endif
+
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 
 #define SQ(x) ((x) * (x))
