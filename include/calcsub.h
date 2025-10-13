@@ -73,7 +73,7 @@ void matrixCopyL(Mtx *dst, const Mtx *src);
  */
 void rotpointL(s16 angle, s32 center_x, s32 center_y, s32 *x, s32 *y);
 
-s32 defangleL(u16 arg0, u16 arg1);
+s32 defangleL(s32 a1, s32 a2);
 
 /**
  * Distance between 3D points.

@@ -4,7 +4,6 @@
 
 #include "calc.h"
 
-#include "include_asm.h"
 #include "macros_defines.h"
 
 #include "calcsub.h"
@@ -385,55 +384,36 @@ void rotpoint(f32 angle, f32 centreX, f32 centreY, f32 *pointX, f32 *pointY) {
     *pointY = (diffY * cos) + (diffX * sin) + centreY;
 }
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", defangle);
-#endif
+#undef ABS
+#define ABS(x) (((x) < 0) ? (-x) : (x))
 
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/calc", defangle);
-#endif
-
-#if VERSION_CN
 /**
  * Original name: defangle
  */
-f32 defangle(f32 arg0, f32 arg1) {
-    s32 temp_s0 = angleF2S(arg0) & 0xFFFF;
-    s32 temp_a1 = angleF2S(arg1) & 0xFFFF;
-    s32 var_v0;
-    s32 var_a0;
-    s32 var_v1;
+f32 defangle(f32 a1, f32 a2) {
+    s32 angle1 = angleF2S(a1) & 0xFFFF;
+    s32 angle2 = angleF2S(a2) & 0xFFFF;
+    s32 d;
+    s32 angle01;
+    s32 angle02;
 
-    if (temp_s0 < temp_a1) {
-        var_v1 = temp_s0 + 0x10000;
-        var_a0 = temp_a1;
+    if (angle1 < angle2) {
+        angle01 = angle1 + 0x10000;
+        angle02 = angle2;
     } else {
-        var_v1 = temp_s0;
-        var_a0 = temp_a1 + 0x10000;
+        angle01 = angle1;
+        angle02 = angle2 + 0x10000;
     }
 
-    temp_a1 -= temp_s0;
-    var_a0 -= var_v1;
-
-    var_v1 = (temp_a1 >= 0) ? temp_a1 : -temp_a1;
-
-    if (var_a0 >= 0) {
-        if (var_a0 < var_v1) {
-            var_v0 = var_a0;
-        } else {
-            var_v0 = temp_a1;
-        }
+    angle2 -= angle1;
+    angle02 -= angle01;
+    if (ABS(angle2) > ABS(angle02)) {
+        d = angle02;
     } else {
-        if (-var_a0 < var_v1) {
-            var_v0 = var_a0;
-        } else {
-            var_v0 = temp_a1;
-        }
+        d = angle2;
     }
-
-    return angleS2F(var_v0);
+    return angleS2F(d);
 }
-#endif
 
 /**
  * Original name: distance

@@ -1845,30 +1845,33 @@ LEAF(rotpointL)
 END(rotpointL)
 
 /**
- * s32 defangleL(u16 arg0, u16 arg1);
+ * s32 defangleL(s32 a1, s32 a2);
  *
  * Roughly equivalent to:
  * ```
-s32 defangleL(u16 arg0, u16 arg1) {
-    s32 temp_v1;
-    s32 var_t4;
-    s32 var_t5;
-    s32 var_v0;
+s32 defangleL(s32 a1, s32 a2) {
+    s32 angle1 = a1 & 0xFFFF;
+    s32 angle2 = a2 & 0xFFFF;
+    s32 angle01;
+    s32 angle02;
+    s32 d;
 
-    if (arg0 < arg1) {
-        var_t4 = (s32)arg0 + 0x10000;
-        var_t5 = arg1;
+    if (angle1 < angle2) {
+        angle01 = angle1 + 0x10000;
+        angle02 = angle2;
     } else {
-        var_t4 = arg0;
-        var_t5 = (s32)arg1 + 0x10000;
+        angle01 = angle1;
+        angle02 = angle2 + 0x10000;
     }
 
-    var_v0 = arg1 - arg0;
-    temp_v1 = var_t5 - var_t4;
-    if (ABS(temp_v1) < ABS(var_v0)) {
-        var_v0 = temp_v1;
+    angle2 -= angle1;
+    angle02 -= angle01;
+    if (ABS(angle2) > ABS(angle02)) {
+        d = angle02;
+    } else {
+        d = angle2;
     }
-    return var_v0;
+    return d;
 }
  * ```
  */

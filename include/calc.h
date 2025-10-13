@@ -20,7 +20,7 @@ void matrixL2F(f32 mtxf[4][4], CONST_ARG Mtx *mtx);
 void matrixF2L(Mtx *mtx, CONST_ARG f32 mtxf[4][4]);
 void matrixF2Lloc0(Mtx *mtx, CONST_ARG f32 mtxf[4][4]);
 void rotpoint(f32 angle, f32 centreX, f32 centreY, f32 *pointX, f32 *pointY);
-f32 defangle(f32 arg0, f32 arg1);
+f32 defangle(f32 a1, f32 a2);
 f32 distance(f32 aX, f32 aY, f32 aZ, f32 bX, f32 bY, f32 bZ);
 f32 calcTableF(f32 x, const f32 table[]);
 f32 calcTableF_Rev(f32 x, const f32 *table, f32 s, f32 e);
