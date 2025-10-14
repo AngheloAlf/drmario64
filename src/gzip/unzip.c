@@ -23,9 +23,11 @@ s32 bytes_in;
 s32 bytes_out;
 
 // unused
-u32 D_8000EDD0[] = {
-    0xDF000000,
-    0x00000000,
+/**
+ * Original name: gzip_dummy_dl
+ */
+Gfx gzip_dummy_dl[] = {
+    gsSPEndDisplayList(),
 };
 
 s32 unzip(void);
@@ -49,9 +51,9 @@ size_t expand_gzip(RomOffset segmentRom, void *dstAddr, size_t segmentSize) {
 }
 
 /**
- * Original name: auRomDataRead
+ * Original name: data_read
  */
-size_t auRomDataRead(GzipFileDescriptor *romInput, u8 *dst, size_t blockSize) {
+size_t data_read(GzipFileDescriptor *romInput, u8 *dst, size_t blockSize) {
     size_t alignedSize;
 
     if (blockSize > romInput->size) {
@@ -75,41 +77,43 @@ size_t auRomDataRead(GzipFileDescriptor *romInput, u8 *dst, size_t blockSize) {
 /**
  * Original name: data_write
  */
-size_t data_write(GzipFileDescriptor *outputDesc, u8 *arg1, size_t arg2) {
+size_t data_write(GzipFileDescriptor *outputDesc, u8 *src_addr, size_t size) {
     u8 *var_v1 = outputDesc->addr;
     size_t i;
 
-    for (i = 0; i < arg2; i++) {
-        *var_v1++ = arg1[i];
+    for (i = 0; i < size; i++) {
+        *var_v1++ = src_addr[i];
     }
 
     outputDesc->addr = var_v1;
-    outputDesc->size += arg2;
+    outputDesc->size += size;
 
-    return arg2;
+    return size;
 }
 
 /**
  * Original name: unzip
  */
 s32 unzip(void) {
-    u8 sp10[8];
+    u8 buf[8];
+    // Seems like originally sp18 was part of buf, but I don't see why make it
+    // that big.
     u8 sp18[8 * 3] UNUSED;
-    s32 temp_v0;
+    s32 res;
     s32 i;
 
     updcrc(NULL, 0);
-    temp_v0 = inflate();
+    res = inflate();
 
-    if (temp_v0 == 3) {
+    if (res == 3) {
         return -1;
     }
-    if (temp_v0 != 0) {
+    if (res != 0) {
         return -1;
     }
 
-    for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-        sp10[i] = (inptr < insize) ? inbuf[inptr++] : fill_inbuf(0);
+    for (i = 0; i < ARRAY_COUNT(buf); i++) {
+        buf[i] = (inptr < insize) ? inbuf[inptr++] : fill_inbuf(0);
     }
     return 0;
 }
@@ -158,19 +162,19 @@ u32 crc_132 = 0xFFFFFFFF;
  * Original name: updcrc
  */
 u32 updcrc(u8 *arg0, size_t arg1) {
-    u32 var_a2 = -1;
+    u32 c = -1;
 
     if (arg0 != NULL) {
-        var_a2 = crc_132;
+        c = crc_132;
         while (arg1 > 0) {
-            var_a2 = crc_32_tab[(var_a2 ^ *arg0) % ARRAY_COUNTU(crc_32_tab)] ^ (var_a2 >> 8);
+            c = crc_32_tab[(c ^ *arg0) % ARRAY_COUNTU(crc_32_tab)] ^ (c >> 8);
             arg0 += 1;
             arg1 -= 1;
         }
     }
 
-    crc_132 = var_a2;
-    return ~var_a2;
+    crc_132 = c;
+    return ~c;
 }
 
 /**
@@ -190,12 +194,13 @@ void clear_bufs(void) {
 s32 fill_inbuf(s32 arg0) {
     insize = 0;
     do {
-        s32 temp_v0 = auRomDataRead(&ifd, &inbuf[insize], 0x2000 - insize);
+        // TODO: maybe INBUFSIZ?
+        s32 len = data_read(&ifd, &inbuf[insize], 0x2000 - insize);
 
-        if ((temp_v0 == 0) || (temp_v0 == -1)) {
+        if ((len == 0) || (len == -1)) {
             break;
         }
-        insize = insize + temp_v0;
+        insize = insize + len;
     } while (insize < ARRAY_COUNTU(inbuf));
 
     if (insize == 0) {
@@ -209,16 +214,19 @@ s32 fill_inbuf(s32 arg0) {
     return inbuf[0];
 }
 
-void func_800022A8(GzipFileDescriptor *outputDesc, u8 *arg1, size_t arg2) {
+/**
+ * Original name: write_buf
+ */
+void write_buf(GzipFileDescriptor *outputDesc, u8 *buf, size_t cnt) {
     do {
-        size_t temp_v0 = data_write(outputDesc, arg1, arg2);
+        size_t n = data_write(outputDesc, buf, cnt);
 
-        if (temp_v0 == arg2) {
+        if (n == cnt) {
             break;
         }
 
-        arg2 -= temp_v0;
-        arg1 += temp_v0;
+        cnt -= n;
+        buf += n;
     } while (true);
 }
 
@@ -228,7 +236,7 @@ void func_800022A8(GzipFileDescriptor *outputDesc, u8 *arg1, size_t arg2) {
 void flush_window(void) {
     if (outcnt != 0) {
         updcrc(window, outcnt);
-        func_800022A8(&ofd, window, outcnt);
+        write_buf(&ofd, window, outcnt);
         bytes_out += outcnt;
         outcnt = 0;
     }
