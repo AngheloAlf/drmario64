@@ -203,7 +203,8 @@ void initEtcWork(void *gameEtcSeg, s32 count) {
             break;
     }
 
-    guOrtho(&etc_viewMtx, -160.0f, 160.0f, -120.0f, 120.0f, 1.0f, 2000.0f, 1.0f);
+    guOrtho(&etc_viewMtx, -SCREEN_WIDTH / 2, SCREEN_WIDTH / 2, -SCREEN_HEIGHT / 2, SCREEN_HEIGHT / 2, 1.0f, 2000.0f,
+            1.0f);
 
     for (i = 0; i < binCount; i++) {
         s32 j;

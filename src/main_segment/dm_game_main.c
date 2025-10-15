@@ -5003,7 +5003,7 @@ void dm_map_draw(GameMapCell *mapCells, u8 arg1, s16 arg2, s16 arg3, s8 arg4) {
 
             gSPTextureRectangle(gGfxHead++, (cell->pos_m_x * arg4 + arg2) << 2, ((cell->pos_m_y * arg4) + arg3) << 2,
                                 (cell->pos_m_x * arg4 + arg2 + arg4) << 2, (cell->pos_m_y * arg4 + arg3 + arg4) << 2,
-                                G_TX_RENDERTILE, 0, (cell->capsel_m_g * arg4) << 5, 0x0400, 0x0400);
+                                G_TX_RENDERTILE, 0, (cell->capsel_m_g * arg4) << 5, 1 << 10, 1 << 10);
         }
     }
 }
@@ -5620,7 +5620,7 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     s32 var_s0;
     s32 var_s3;
 
-    guOrtho(mtx, 0.0f, 320.0f, 240.0f, 0.0f, 1.0f, 10.0f, 1.0f);
+    guOrtho(mtx, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f, 10.0f, 1.0f);
     gSPMatrix(gfx++, mtx++, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
     guTranslate(mtx, 0.0f, 0.0f, -5.0f);
@@ -5733,7 +5733,7 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
 
             gSPTextureRectangle(gGfxHead++, (temp_a1_2 * 4), (temp_a2 * 4), ((temp_a1_2 + temp_t0_2) * 4),
                                 ((temp_a2 + temp_t0_2) * 4), G_TX_RENDERTILE, 0x0000, (temp->unk_4[i] * temp_t0_2 << 5),
-                                0x0400, 0x0400);
+                                1 << 10, 1 << 10);
         }
 
         gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, 255);

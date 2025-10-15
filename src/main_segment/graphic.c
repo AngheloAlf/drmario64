@@ -360,7 +360,7 @@ void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, 
 void F3RCPinitRtn(void) {
     /* set RSP segment register */
     /* for CPU virtual address */
-    gSPSegment(gGfxHead++, 0x00, 0x00000000);
+    gSPSegment(gGfxHead++, 0x00, NULL);
 
     /* set RSP  */
     gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(F3SetupRSP_dl));
