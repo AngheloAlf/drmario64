@@ -146,71 +146,73 @@ void FillRectRGBA(Gfx **gfxP, s32 x, s32 y, s32 width, s32 height, s32 red, s32 
 
 /* Copy block */
 
-struct struct_CopyTexBlock_arg0;
+struct SCopyTexBlock;
 
-typedef void (*struct_CopyTexBlock_arg0_unk_18)(struct struct_CopyTexBlock_arg0 *arg0);
+typedef void(SCopyTexBlock_callback)(CONST_ARG struct SCopyTexBlock *st);
 
-typedef struct struct_CopyTexBlock_arg0 {
-    /* 0x00 */ Gfx **gfxP;
-    /* 0x04 */ TexturePtr unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ s32 unk_14;
-    /* 0x18 */ struct_CopyTexBlock_arg0_unk_18 unk_18;
-    /* 0x1C */ s32 unk_1C;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
-} struct_CopyTexBlock_arg0; // size >= 0x28
+/**
+ * Original name: SCopyTexBlock
+ */
+typedef struct SCopyTexBlock {
+    /* 0x00 */ Gfx **gfxP;                   /* Original name: gpp */
+    /* 0x04 */ const Texture *tex;           /* Original name: tex */
+    /* 0x08 */ s32 x;                        /* Original name: x */
+    /* 0x0C */ s32 y;                        /* Original name: y */
+    /* 0x10 */ s32 w;                        /* Original name: w */
+    /* 0x14 */ s32 h;                        /* Original name: h */
+    /* 0x18 */ SCopyTexBlock_callback *func; /* Original name: func */
+    /* 0x1C */ s32 step;                     /* Original name: step */
+    /* 0x20 */ s32 top;                      /* Original name: top */
+    /* 0x24 */ s32 bottom;                   /* Original name: bottom */
+} SCopyTexBlock;                             // size = 0x28
 
 /**
  * Original name: CopyTexBlock
  */
-void CopyTexBlock(struct_CopyTexBlock_arg0 *arg0) {
-    s32 var_v0;
+void CopyTexBlock(SCopyTexBlock *st) {
+    s32 x;
 
-    var_v0 = arg0->unk_08;
-    if (var_v0 >= 0) {
-        var_v0 *= 4;
+    x = st->x;
+    if (x >= 0) {
+        x <<= 2;
     }
 
-    for (arg0->unk_20 = 0; arg0->unk_20 < arg0->unk_14; arg0->unk_20 += arg0->unk_1C) {
-        arg0->unk_24 = MIN(arg0->unk_20 + arg0->unk_1C, arg0->unk_14);
+    for (st->top = 0; st->top < st->h; st->top += st->step) {
+        st->bottom = MIN(st->top + st->step, st->h);
 
-        if (arg0->unk_04 != NULL) {
-            arg0->unk_18(arg0);
+        if (st->tex != NULL) {
+            st->func(st);
         }
 
-        gSPScisTextureRectangle((*arg0->gfxP)++, var_v0, (arg0->unk_0C + arg0->unk_20) << 2,
-                                ((arg0->unk_08 + arg0->unk_10) - 1) << 2, ((arg0->unk_0C + arg0->unk_24) - 1) << 2,
-                                G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
+        gSPScisTextureRectangle((*st->gfxP)++, x, (st->y + st->top) << 2, ((st->x + st->w) - 1) << 2,
+                                ((st->y + st->bottom) - 1) << 2, G_TX_RENDERTILE, 0, 0, 4 << 10, 1 << 10);
     }
 }
 
 /**
  * Original name: CopyTexBlock4_LoadTex
  */
-void CopyTexBlock4_LoadTex(struct_CopyTexBlock_arg0 *arg0) {
-    gDPLoadTextureBlock_4b((*arg0->gfxP)++, (u8 *)arg0->unk_04 + ((arg0->unk_10 * arg0->unk_20) / 2), G_IM_FMT_CI,
-                           arg0->unk_10, arg0->unk_24 - arg0->unk_20, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-                           G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+void CopyTexBlock4_LoadTex(CONST_ARG SCopyTexBlock *st) {
+    gDPLoadTextureBlock_4b((*st->gfxP)++, (u8 *)st->tex + ((st->w * st->top) / 2), G_IM_FMT_CI, st->w,
+                           st->bottom - st->top, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
+                           G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: CopyTexBlock4
  */
-void CopyTexBlock4(Gfx **gfxP, u16 *tlut, void *arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    struct_CopyTexBlock_arg0 sp18;
+void CopyTexBlock4(Gfx **gfxP, const u16 tlut[], const u8 tex[], s32 x, s32 y, s32 w, s32 h) {
+    SCopyTexBlock st;
 
-    sp18.gfxP = gfxP;
+    st.gfxP = gfxP;
 
-    sp18.unk_04 = arg2;
-    sp18.unk_08 = arg3;
-    sp18.unk_0C = arg4;
-    sp18.unk_10 = arg5;
-    sp18.unk_14 = arg6;
-    sp18.unk_18 = CopyTexBlock4_LoadTex;
-    sp18.unk_1C = 0x1000 / arg5;
+    st.tex = tex;
+    st.x = x;
+    st.y = y;
+    st.w = w;
+    st.h = h;
+    st.func = CopyTexBlock4_LoadTex;
+    st.step = 0x1000 / w;
 
     gSPDisplayList((*gfxP)++, copy_texture_init_dl);
 
@@ -218,32 +220,32 @@ void CopyTexBlock4(Gfx **gfxP, u16 *tlut, void *arg2, s32 arg3, s32 arg4, s32 ar
         gDPLoadTLUT_pal16((*gfxP)++, 0, tlut);
     }
 
-    CopyTexBlock(&sp18);
+    CopyTexBlock(&st);
 }
 
 /**
  * Original name: CopyTexBlock8_LoadTex
  */
-void CopyTexBlock8_LoadTex(struct_CopyTexBlock_arg0 *arg0) {
-    gDPLoadTextureBlock((*arg0->gfxP)++, (u8 *)arg0->unk_04 + arg0->unk_10 * arg0->unk_20, G_IM_FMT_CI, G_IM_SIZ_8b,
-                        arg0->unk_10, arg0->unk_24 - arg0->unk_20, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
-                        G_TX_NOLOD, G_TX_NOLOD);
+void CopyTexBlock8_LoadTex(CONST_ARG SCopyTexBlock *st) {
+    gDPLoadTextureBlock((*st->gfxP)++, (u8 *)st->tex + st->w * st->top, G_IM_FMT_CI, G_IM_SIZ_8b, st->w,
+                        st->bottom - st->top, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
 }
 
 /**
  * Original name: CopyTexBlock8
  */
-void CopyTexBlock8(Gfx **gfxP, u16 tlut[], TexturePtr arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    struct_CopyTexBlock_arg0 sp18;
+void CopyTexBlock8(Gfx **gfxP, const u16 tlut[], const u8 tex[], s32 x, s32 y, s32 w, s32 h) {
+    SCopyTexBlock st;
 
-    sp18.gfxP = gfxP;
-    sp18.unk_04 = arg2;
-    sp18.unk_08 = arg3;
-    sp18.unk_18 = CopyTexBlock8_LoadTex;
-    sp18.unk_0C = arg4;
-    sp18.unk_10 = arg5;
-    sp18.unk_14 = arg6;
-    sp18.unk_1C = 0x800 / arg5;
+    st.gfxP = gfxP;
+    st.tex = tex;
+    st.x = x;
+    st.y = y;
+    st.w = w;
+    st.h = h;
+    st.func = CopyTexBlock8_LoadTex;
+    st.step = 0x800 / w;
 
     gSPDisplayList((*gfxP)++, copy_texture_init_dl);
 
@@ -251,581 +253,579 @@ void CopyTexBlock8(Gfx **gfxP, u16 tlut[], TexturePtr arg2, s32 arg3, s32 arg4, 
         gDPLoadTLUT_pal256((*gfxP)++, tlut);
     }
 
-    CopyTexBlock(&sp18);
+    CopyTexBlock(&st);
 }
 
 /**
  * Original name: CopyTexBlock16_LoadTex
  */
-void CopyTexBlock16_LoadTex(struct_CopyTexBlock_arg0 *arg0) {
-    gDPLoadTextureBlock((*arg0->gfxP)++, (u16 *)arg0->unk_04 + arg0->unk_10 * arg0->unk_20, G_IM_FMT_RGBA, G_IM_SIZ_16b,
-                        arg0->unk_10, arg0->unk_24 - arg0->unk_20, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
-                        G_TX_NOLOD, G_TX_NOLOD);
+void CopyTexBlock16_LoadTex(CONST_ARG SCopyTexBlock *st) {
+    gDPLoadTextureBlock((*st->gfxP)++, (u16 *)st->tex + st->w * st->top, G_IM_FMT_RGBA, G_IM_SIZ_16b, st->w,
+                        st->bottom - st->top, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                        G_TX_NOLOD);
 }
 
 /**
  * Original name: CopyTexBlock16
  */
-void CopyTexBlock16(Gfx **gfxP, TexturePtr arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5) {
-    struct_CopyTexBlock_arg0 sp18;
+void CopyTexBlock16(Gfx **gfxP, const u16 tex[], s32 x, s32 y, s32 w, s32 h) {
+    SCopyTexBlock st;
 
-    sp18.gfxP = gfxP;
-    sp18.unk_04 = arg1;
-    sp18.unk_08 = arg2;
-    sp18.unk_0C = arg3;
-    sp18.unk_18 = CopyTexBlock16_LoadTex;
-    sp18.unk_10 = arg4;
-    sp18.unk_14 = arg5;
-    sp18.unk_1C = 0x800 / arg4;
+    st.gfxP = gfxP;
+    st.tex = tex;
+
+    st.x = x;
+    st.y = y;
+    st.w = w;
+    st.h = h;
+
+    st.func = CopyTexBlock16_LoadTex;
+    st.step = 0x800 / w;
 
     gSPDisplayList((*gfxP)++, copy_texture_init_dl);
     gDPSetTextureLUT((*gfxP)++, G_TT_NONE);
 
-    CopyTexBlock(&sp18);
+    CopyTexBlock(&st);
 }
 
 /* Stretch block */
 
-struct StretchTexBlock_arg0;
+struct SStretchTexBlock;
 
-typedef void (*StretchTexBlock_arg0_callback)(struct StretchTexBlock_arg0 *arg0);
+typedef void(SStretchTexBlock_callback)(CONST_ARG struct SStretchTexBlock *st);
 
-typedef struct StretchTexBlock_arg0_unk_4C {
-    /* 0x00 */ s32 unk_00;     // xl
-    /* 0x04 */ s32 unk_04;     // yl
-    /* 0x08 */ s32 unk_08;     // xh
-    /* 0x0C */ s32 unk_0C;     // yh
-    /* 0x0C */ s32 unk_10;     // s
-    /* 0x0C */ s32 unk_14;     // t
-    /* 0x0C */ s32 unk_18;     // dsdx
-    /* 0x0C */ s32 unk_1C;     // dtdy
-} StretchTexBlock_arg0_unk_4C; // size = 0x20
+typedef struct SStretchTex_Rect {
+    /* 0x00 */ s32 xl;
+    /* 0x04 */ s32 yl;
+    /* 0x08 */ s32 xh;
+    /* 0x0C */ s32 yh;
+    /* 0x10 */ s32 s;
+    /* 0x14 */ s32 t;
+    /* 0x18 */ s32 dsdx;
+    /* 0x1C */ s32 dtdy;
+} SStretchTex_Rect; // size = 0x20
 
-typedef struct StretchTexBlock_arg0 {
-    /* 0x00 */ Gfx **gfxP;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ TexturePtr unk_10;
-    /* 0x14 */ s32 width;
-    /* 0x18 */ TexturePtr unk_18;
-    /* 0x1C */ s32 unk_1C;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
-    /* 0x28 */ s32 unk_28;
-    /* 0x2C */ s32 unk_2C;
-    /* 0x30 */ StretchTexBlock_arg0_callback unk_30;
-    /* 0x34 */ StretchTexBlock_arg0_callback unk_34;
-    /* 0x38 */ s32 unk_38;
-    /* 0x3C */ StretchTexBlock_arg0_callback unk_3C;
-    /* 0x40 */ s32 unk_40;
-    /* 0x44 */ s32 unk_44;
-    /* 0x48 */ s32 height;
-    /* 0x4C */ StretchTexBlock_arg0_unk_4C unk_4C;
-} StretchTexBlock_arg0; // size = 0x6C
+/**
+ * Original name: SStretchTexBlock
+ */
+typedef struct SStretchTexBlock {
+    /* 0x00 */ Gfx **gfxP;                                      /* Original name: gpp */
+    /* 0x04 */ Vtx **vpp; /* Original name: vpp */              // unused
+    /* 0x08 */ s32 texW;                                        /* Original name: texW */
+    /* 0x0C */ s32 texH;                                        /* Original name: texH */
+    /* 0x10 */ const Texture *colorTex;                         /* Original name: colorTex */
+    /* 0x14 */ s32 colorTexW;                                   /* Original name: colorTexW */
+    /* 0x18 */ const Texture *alphaTex;                         /* Original name: alphaTex */
+    /* 0x1C */ s32 alphaTexW;                                   /* Original name: alphaTexW */
+    /* 0x20 */ s32 x;                                           /* Original name: x */
+    /* 0x24 */ s32 y;                                           /* Original name: y */
+    /* 0x28 */ s32 w;                                           /* Original name: w */
+    /* 0x2C */ s32 h;                                           /* Original name: h */
+    /* 0x30 */ SStretchTexBlock_callback *colorFunc;            /* Original name: colorFunc */
+    /* 0x34 */ SStretchTexBlock_callback *alphaFunc;            /* Original name: alphaFunc */
+    /* 0x38 */ s32 step;                                        /* Original name: step */
+    /* 0x3C */ SStretchTexBlock_callback *rectFunc;             /* Original name: rectFunc */
+    /* 0x40 */ s32 top;                                         /* Original name: top */
+    /* 0x44 */ s32 bottom;                                      /* Original name: bottom */
+    /* 0x48 */ s32 loadH;                                       /* Original name: loadH */
+    /* 0x4C */ SStretchTex_Rect rect; /* Original name: rect */ // Originally int rect[8]
+} SStretchTexBlock;                                             // size = 0x6C
 
 /**
  * Original name: StretchTexBlock
  */
-void StretchTexBlock(StretchTexBlock_arg0 *arg0) {
+void StretchTexBlock(SStretchTexBlock *st) {
     s32 sp18[2];
-    StretchTexBlock_arg0_unk_4C *temp_s0;
-    s32 var_a3;
-    s32 var_s2;
-    s32 var_s3;
-    s32 var_s4;
-    s32 var_v0_3;
-    s32 var_v1;
+    SStretchTex_Rect *t;
+    s32 w;
+    s32 h;
+    s32 biStep;
+    u32 var_s4;
 
-    if (arg0->unk_28 < 0) {
-        var_a3 = -arg0->unk_28;
+    if (st->w < 0) {
+        w = -st->w;
         sp18[0] = -1;
-    } else if (arg0->unk_28 > 0) {
-        var_a3 = arg0->unk_28;
+    } else if (st->w > 0) {
+        w = st->w;
         sp18[0] = 1;
     } else {
         return;
     }
 
-    if (arg0->unk_2C < 0) {
-        var_s2 = -arg0->unk_2C;
+    if (st->h < 0) {
+        h = -st->h;
         sp18[1] = -1;
-    } else if (arg0->unk_2C > 0) {
-        var_s2 = arg0->unk_2C;
+    } else if (st->h > 0) {
+        h = st->h;
         sp18[1] = 1;
     } else {
         return;
     }
 
-    if ((arg0->unk_04 == 0) && (var_a3 == (arg0->unk_08 << 2)) && (var_s2 == (arg0->unk_0C << 2))) {
-        gDPSetTextureFilter((*arg0->gfxP)++, G_TF_POINT);
+    if ((st->vpp == NULL) && (w == (st->texW << 2)) && (h == (st->texH << 2))) {
+        gDPSetTextureFilter((*st->gfxP)++, G_TF_POINT);
         var_s4 = 0;
-        var_s3 = arg0->unk_38;
+        biStep = st->step;
     } else {
-        gDPSetTextureFilter((*arg0->gfxP)++, G_TF_BILERP);
-        var_s4 = -1;
-        var_s3 = MAX(arg0->unk_38 - 1, 1);
+        gDPSetTextureFilter((*st->gfxP)++, G_TF_BILERP);
+        var_s4 = ~0;
+        biStep = MAX(st->step - 1, 1);
     }
 
-    temp_s0 = &arg0->unk_4C;
+    t = &st->rect;
 
-    arg0->unk_4C.unk_00 = arg0->unk_20;
-    temp_s0->unk_08 = arg0->unk_20 + var_a3;
+    t->xl = st->x;
+    t->xh = st->x + w;
+    t->s = ((sp18[0] < 0) ? (st->texW - 1) : 0) << 5;
+    t->dsdx = ((sp18[0] << 0xC) * st->texW) / w;
 
-    if (sp18[0] < 0) {
-        var_v0_3 = (arg0->unk_08 - 1) << 5;
-    } else {
-        var_v0_3 = 0;
-    }
-    temp_s0->unk_10 = var_v0_3;
-
-    temp_s0->unk_18 = ((sp18[0] << 0xC) * arg0->unk_08) / var_a3;
-
-    for (arg0->unk_40 = 0; arg0->unk_40 < arg0->unk_0C; arg0->unk_40 += var_s3) {
-        arg0->unk_44 = MIN(arg0->unk_40 + arg0->unk_38, arg0->unk_0C);
-        arg0->height = arg0->unk_44 - arg0->unk_40;
-        if (arg0->unk_10 != NULL) {
-            arg0->unk_30(arg0);
+    for (st->top = 0; st->top < st->texH; st->top += biStep) {
+        st->bottom = MIN(st->top + st->step, st->texH);
+        st->loadH = st->bottom - st->top;
+        if (st->colorTex != NULL) {
+            st->colorFunc(st);
         }
-        if (arg0->unk_18 != NULL) {
-            arg0->unk_34(arg0);
+        if (st->alphaTex != NULL) {
+            st->alphaFunc(st);
         }
 
         if (sp18[1] < 0) {
-            temp_s0->unk_04 = arg0->unk_0C - arg0->unk_44;
-            temp_s0->unk_0C = arg0->unk_0C - arg0->unk_40;
-            temp_s0->unk_14 = arg0->height - 1;
+            t->yl = st->texH - st->bottom;
+            t->yh = st->texH - st->top;
+            t->t = st->loadH - 1;
         } else {
-            temp_s0->unk_04 = arg0->unk_40;
-            temp_s0->unk_0C = arg0->unk_44;
-            temp_s0->unk_14 = 0;
+            t->yl = st->top;
+            t->yh = st->bottom;
+            t->t = 0;
         }
 
-        temp_s0->unk_04 = arg0->unk_24 + (((temp_s0->unk_04 << 2) * var_s2) / (arg0->unk_0C << 2));
-        temp_s0->unk_0C = arg0->unk_24 + (((temp_s0->unk_0C << 2) * var_s2) / (arg0->unk_0C << 2));
-        temp_s0->unk_14 = temp_s0->unk_14 << 5;
-        temp_s0->unk_1C = (sp18[1] << 0xC) * arg0->unk_0C / var_s2;
+        t->yl = st->y + (((t->yl << 2) * h) / (st->texH << 2));
+        t->yh = st->y + (((t->yh << 2) * h) / (st->texH << 2));
+        t->t = t->t << 5;
+        t->dtdy = (sp18[1] << 0xC) * st->texH / h;
+        t->t -= (t->dtdy / (1 << 6)) & var_s4;
 
-        var_v1 = temp_s0->unk_1C;
-        if (var_v1 < 0) {
-            var_v1 += 0x3F;
-        }
-        temp_s0->unk_14 -= (var_v1 >> 6) & var_s4;
-
-        arg0->unk_3C(arg0);
+        st->rectFunc(st);
     }
 }
 
 /**
  * Original name: StretchTexBlock_ScisRect
  */
-void StretchTexBlock_ScisRect(StretchTexBlock_arg0 *arg0) {
-    StretchTexBlock_arg0_unk_4C *temp_a2 = &arg0->unk_4C;
+void StretchTexBlock_ScisRect(CONST_ARG SStretchTexBlock *st) {
+    CONST_ARG SStretchTex_Rect *t = &st->rect;
 
-    gSPScisTextureRectangle((*arg0->gfxP)++, temp_a2->unk_00, temp_a2->unk_04, temp_a2->unk_08, temp_a2->unk_0C,
-                            G_TX_RENDERTILE, temp_a2->unk_10, temp_a2->unk_14, temp_a2->unk_18, temp_a2->unk_1C);
+    gSPScisTextureRectangle((*st->gfxP)++, t->xl, t->yl, t->xh, t->yh, G_TX_RENDERTILE, t->s, t->t, t->dsdx, t->dtdy);
 }
 
 /**
  * Original name: StretchAlphaTexBlock_LoadColorTex
  */
-void StretchAlphaTexBlock_LoadColorTex(StretchTexBlock_arg0 *arg0) {
-    gDPLoadTextureBlock((*arg0->gfxP)++, (u16 *)arg0->unk_10 + (arg0->width * arg0->unk_40), G_IM_FMT_RGBA,
-                        G_IM_SIZ_16b, arg0->width, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+void StretchAlphaTexBlock_LoadColorTex(CONST_ARG SStretchTexBlock *st) {
+    gDPLoadTextureBlock((*st->gfxP)++, (u16 *)st->colorTex + (st->colorTexW * st->top), G_IM_FMT_RGBA, G_IM_SIZ_16b,
+                        st->colorTexW, st->loadH, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchAlphaTexBlock_LoadAlphaTex
  */
-void StretchAlphaTexBlock_LoadAlphaTex(StretchTexBlock_arg0 *arg0) {
-    gDPLoadMultiBlock_4b((*arg0->gfxP)++, arg0->unk_18 + (arg0->unk_1C * arg0->unk_40) / 2, 0x19A, 1, G_IM_FMT_I,
-                         arg0->unk_1C, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+void StretchAlphaTexBlock_LoadAlphaTex(CONST_ARG SStretchTexBlock *st) {
+    // TODO: what is 0x19A?
+    gDPLoadMultiBlock_4b((*st->gfxP)++, (u8 *)st->alphaTex + (st->alphaTexW * st->top) / 2, 0x19A, 1, G_IM_FMT_I,
+                         st->alphaTexW, st->loadH, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                          G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchAlphaTexBlock
  */
-void StretchAlphaTexBlock(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr arg3, s32 arg4, TexturePtr arg5, s32 arg6,
-                          f32 arg7, f32 arg8, f32 arg9, f32 argA) {
-    StretchTexBlock_arg0 sp18;
+void StretchAlphaTexBlock(Gfx **gfxP, s32 texW, s32 texH, const u16 colorTex[], s32 colorTexW, const u8 alphaTex[],
+                          s32 alphaTexW, f32 x, f32 y, f32 w, f32 h) {
+    SStretchTexBlock st;
 
-    sp18.gfxP = gfxP;
-    sp18.unk_04 = 0;
-    sp18.unk_08 = arg1;
-    sp18.unk_20 = arg7 * 4.0;
-    sp18.unk_24 = arg8 * 4.0;
-    sp18.unk_28 = arg9 * 4.0;
-    sp18.unk_2C = argA * 4.0;
-    sp18.unk_0C = arg2;
-    sp18.unk_10 = arg3;
-    sp18.unk_30 = StretchAlphaTexBlock_LoadColorTex;
-    sp18.unk_34 = StretchAlphaTexBlock_LoadAlphaTex;
-    sp18.width = arg4;
-    sp18.unk_18 = arg5;
-    sp18.unk_1C = arg6;
+    st.gfxP = gfxP;
+    st.vpp = NULL;
+    st.texW = texW;
+    st.texH = texH;
+    st.colorTex = colorTex;
+    st.colorTexW = colorTexW;
+    st.alphaTex = alphaTex;
+    st.alphaTexW = alphaTexW;
 
-    sp18.unk_38 = 0x660 / MAX(arg4, arg6);
-    sp18.unk_3C = StretchTexBlock_ScisRect;
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
 
-    StretchTexBlock(&sp18);
+    st.colorFunc = StretchAlphaTexBlock_LoadColorTex;
+    st.alphaFunc = StretchAlphaTexBlock_LoadAlphaTex;
+
+    st.step = 0x660 / MAX(colorTexW, alphaTexW);
+    st.rectFunc = StretchTexBlock_ScisRect;
+
+    StretchTexBlock(&st);
 }
 
 /**
  * Original name: StretchTexBlock4_LoadTex
  */
-void StretchTexBlock4_LoadTex(StretchTexBlock_arg0 *arg0) {
-    gDPLoadTextureBlock_4b((*arg0->gfxP)++, arg0->unk_10 + ((arg0->width * arg0->unk_40) / 2), G_IM_FMT_CI, arg0->width,
-                           arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
-                           G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+void StretchTexBlock4_LoadTex(CONST_ARG SStretchTexBlock *st) {
+    gDPLoadTextureBlock_4b((*st->gfxP)++, (u8 *)st->colorTex + ((st->colorTexW * st->top) / 2), G_IM_FMT_CI,
+                           st->colorTexW, st->loadH, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                           G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchTexBlock4
  */
-void StretchTexBlock4(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7,
-                      f32 arg8) {
-    StretchTexBlock_arg0 sp10;
+void StretchTexBlock4(Gfx **gfxP, s32 texW, s32 texH, const u16 tlut[], const u8 tex[], f32 x, f32 y, f32 w, f32 h) {
+    SStretchTexBlock st;
 
-    sp10.gfxP = gfxP;
-    sp10.unk_04 = 0;
-    sp10.unk_08 = arg1;
-    sp10.unk_0C = arg2;
-    sp10.width = arg1;
-    sp10.unk_18 = 0;
-    sp10.unk_1C = 0;
-    sp10.unk_34 = NULL;
-    sp10.unk_30 = StretchTexBlock4_LoadTex;
-    sp10.unk_3C = StretchTexBlock_ScisRect;
-    sp10.unk_10 = arg4;
-    sp10.unk_20 = arg5 * 4.0;
-    sp10.unk_24 = arg6 * 4.0;
-    sp10.unk_28 = arg7 * 4.0;
-    sp10.unk_2C = arg8 * 4.0;
-    sp10.unk_38 = 0x1000 / arg1;
+    st.gfxP = gfxP;
+    st.vpp = NULL;
+    st.texW = texW;
+    st.texH = texH;
+
+    st.colorTexW = texW;
+    st.alphaTex = NULL;
+
+    st.alphaTexW = 0;
+    st.alphaFunc = NULL;
+
+    st.colorFunc = StretchTexBlock4_LoadTex;
+    st.rectFunc = StretchTexBlock_ScisRect;
+    st.colorTex = tex;
+
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
+
+    st.step = 0x1000 / texW;
+
     if (tlut != NULL) {
         gDPLoadTLUT_pal16((*gfxP)++, 0, tlut);
     }
-    StretchTexBlock(&sp10);
+
+    StretchTexBlock(&st);
 }
 
 /**
  * Original name: StretchTexBlock8_LoadTex
  */
-void StretchTexBlock8_LoadTex(StretchTexBlock_arg0 *arg0) {
-    gDPLoadTextureBlock((*arg0->gfxP)++, (u8 *)arg0->unk_10 + (arg0->width * arg0->unk_40), G_IM_FMT_CI, G_IM_SIZ_8b,
-                        arg0->width, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+void StretchTexBlock8_LoadTex(CONST_ARG SStretchTexBlock *st) {
+    gDPLoadTextureBlock((*st->gfxP)++, (u8 *)st->colorTex + (st->colorTexW * st->top), G_IM_FMT_CI, G_IM_SIZ_8b,
+                        st->colorTexW, st->loadH, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
                         G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchTexBlock8
  */
-void StretchTexBlock8(Gfx **gfxP, s32 arg1, s32 arg2, TexturePtr tlut, UNK_PTR arg4, f32 arg5, f32 arg6, f32 arg7,
-                      f32 arg8) {
-    StretchTexBlock_arg0 sp10;
+void StretchTexBlock8(Gfx **gfxP, s32 texW, s32 texH, const u16 tlut[], const u8 tex[], f32 x, f32 y, f32 w, f32 h) {
+    SStretchTexBlock st;
 
-    sp10.gfxP = gfxP;
-    sp10.unk_04 = 0;
-    sp10.unk_30 = StretchTexBlock8_LoadTex;
-    sp10.unk_08 = arg1;
-    sp10.unk_0C = arg2;
-    sp10.width = arg1;
-    sp10.unk_18 = 0;
-    sp10.unk_1C = 0;
-    sp10.unk_34 = NULL;
-    sp10.unk_3C = StretchTexBlock_ScisRect;
-    sp10.unk_10 = arg4;
-    sp10.unk_20 = arg5 * 4.0;
-    sp10.unk_24 = arg6 * 4.0;
-    sp10.unk_28 = arg7 * 4.0;
-    sp10.unk_2C = arg8 * 4.0;
-    sp10.unk_38 = 0x800 / arg1;
+    st.gfxP = gfxP;
+    st.vpp = NULL;
+    st.texW = texW;
+    st.texH = texH;
+
+    st.colorTexW = texW;
+    st.alphaTex = NULL;
+
+    st.alphaTexW = 0;
+    st.alphaFunc = NULL;
+
+    st.colorFunc = StretchTexBlock8_LoadTex;
+    st.rectFunc = StretchTexBlock_ScisRect;
+    st.colorTex = tex;
+
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
+
+    st.step = 0x800 / texW;
+
     if (tlut != NULL) {
         gDPLoadTLUT_pal256((*gfxP)++, tlut);
     }
 
-    StretchTexBlock(&sp10);
+    StretchTexBlock(&st);
 }
 
 /**
  * Original name: StretchTexBlock16_LoadTex
  */
-void StretchTexBlock16_LoadTex(StretchTexBlock_arg0 *arg0) {
-    gDPLoadTextureBlock((*arg0->gfxP)++, (u16 *)arg0->unk_10 + (arg0->width * arg0->unk_40), G_IM_FMT_RGBA,
-                        G_IM_SIZ_16b, arg0->width, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+void StretchTexBlock16_LoadTex(CONST_ARG SStretchTexBlock *st) {
+    gDPLoadTextureBlock((*st->gfxP)++, (u16 *)st->colorTex + (st->colorTexW * st->top), G_IM_FMT_RGBA, G_IM_SIZ_16b,
+                        st->colorTexW, st->loadH, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchTexBlock16
  */
-void StretchTexBlock16(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
-    StretchTexBlock_arg0 sp18;
+void StretchTexBlock16(Gfx **gfxP, s32 texW, s32 texH, const u16 tex[], f32 x, f32 y, f32 w, f32 h) {
+    SStretchTexBlock st;
 
-    sp18.gfxP = gfxP;
-    sp18.unk_04 = 0;
-    sp18.unk_08 = arg1;
-    sp18.unk_0C = arg2;
-    sp18.unk_10 = arg3;
-    sp18.width = arg1;
-    sp18.unk_18 = NULL;
-    sp18.unk_1C = 0;
-    sp18.unk_30 = StretchTexBlock16_LoadTex;
-    sp18.unk_34 = NULL;
-    sp18.unk_3C = StretchTexBlock_ScisRect;
-    sp18.unk_20 = arg4 * 4.0;
-    sp18.unk_24 = arg5 * 4.0;
-    sp18.unk_28 = arg6 * 4.0;
-    sp18.unk_2C = arg7 * 4.0;
-    sp18.unk_38 = 0x800 / arg1;
-    StretchTexBlock(&sp18);
+    st.gfxP = gfxP;
+    st.vpp = NULL;
+    st.texW = texW;
+    st.texH = texH;
+
+    st.colorTex = tex;
+    st.colorTexW = texW;
+    st.alphaTex = NULL;
+    st.alphaTexW = 0;
+
+    st.colorFunc = StretchTexBlock16_LoadTex;
+    st.alphaFunc = NULL;
+    st.rectFunc = StretchTexBlock_ScisRect;
+
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
+
+    st.step = 0x800 / texW;
+
+    StretchTexBlock(&st);
 }
 
 /**
  * Original name: StretchTexBlock4i_LoadTex
  */
-void StretchTexBlock4i_LoadTex(StretchTexBlock_arg0 *arg0) {
-    gDPLoadTextureBlock_4b((*arg0->gfxP)++, arg0->unk_10 + (arg0->width * arg0->unk_40) / 2, G_IM_FMT_I, arg0->width,
-                           arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
+void StretchTexBlock4i_LoadTex(CONST_ARG SStretchTexBlock *st) {
+    gDPLoadTextureBlock_4b((*st->gfxP)++, st->colorTex + (st->colorTexW * st->top) / 2, G_IM_FMT_I, st->colorTexW,
+                           st->loadH, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK,
                            G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchTexBlock4i
  */
-void StretchTexBlock4i(Gfx **gfxP, s32 arg1, s32 arg2, void *arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
-    StretchTexBlock_arg0 sp10;
+void StretchTexBlock4i(Gfx **gfxP, s32 texW, s32 texH, const u8 tex[], f32 x, f32 y, f32 w, f32 h) {
+    SStretchTexBlock st;
 
-    sp10.gfxP = gfxP;
-    sp10.unk_04 = 0;
-    sp10.unk_08 = arg1;
-    sp10.unk_0C = arg2;
-    sp10.unk_10 = arg3;
-    sp10.width = arg1;
-    sp10.unk_18 = NULL;
-    sp10.unk_1C = 0;
-    sp10.unk_30 = StretchTexBlock4i_LoadTex;
-    sp10.unk_34 = NULL;
-    sp10.unk_3C = StretchTexBlock_ScisRect;
-    sp10.unk_20 = arg4 * 4.0;
-    sp10.unk_24 = arg5 * 4.0;
-    sp10.unk_28 = arg6 * 4.0;
-    sp10.unk_2C = arg7 * 4.0;
-    sp10.unk_38 = 0x2000 / arg1;
+    st.gfxP = gfxP;
+    st.vpp = NULL;
 
-    StretchTexBlock(&sp10);
+    st.texW = texW;
+    st.texH = texH;
+
+    st.colorTex = tex;
+    st.colorTexW = texW;
+
+    st.alphaTex = NULL;
+    st.alphaTexW = 0;
+
+    st.colorFunc = StretchTexBlock4i_LoadTex;
+    st.alphaFunc = NULL;
+    st.rectFunc = StretchTexBlock_ScisRect;
+
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
+
+    st.step = 0x2000 / texW;
+
+    StretchTexBlock(&st);
 }
 
-void func_800430D0(StretchTexBlock_arg0 *arg0) {
-    gDPLoadTextureBlock((*arg0->gfxP)++, arg0->unk_10 + (arg0->width * arg0->unk_40), G_IM_FMT_I, G_IM_SIZ_8b,
-                        arg0->width, arg0->height, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
-                        G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+void StretchTexBlock8i_LoadTex(CONST_ARG SStretchTexBlock *st) {
+    gDPLoadTextureBlock((*st->gfxP)++, st->colorTex + (st->colorTexW * st->top), G_IM_FMT_I, G_IM_SIZ_8b, st->colorTexW,
+                        st->loadH, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                        G_TX_NOLOD, G_TX_NOLOD);
 }
 
-void func_800432A8(Gfx **gfxP, s32 arg1, s32 arg2, UNK_PTR arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
-    StretchTexBlock_arg0 sp10;
+void StretchTexBlock8i(Gfx **gfxP, s32 texW, s32 texH, const u8 tex[], f32 x, f32 y, f32 w, f32 h) {
+    SStretchTexBlock st;
 
-    sp10.gfxP = gfxP;
-    sp10.unk_04 = 0;
-    sp10.unk_08 = arg1;
-    sp10.unk_0C = arg2;
-    sp10.unk_10 = arg3;
-    sp10.width = arg1;
-    sp10.unk_18 = 0;
-    sp10.unk_1C = 0;
+    st.gfxP = gfxP;
+    st.vpp = NULL;
 
-    sp10.unk_30 = func_800430D0;
-    sp10.unk_34 = NULL;
-    sp10.unk_3C = StretchTexBlock_ScisRect;
+    st.texW = texW;
+    st.texH = texH;
 
-    sp10.unk_20 = arg4 * 4.0;
-    sp10.unk_24 = arg5 * 4.0;
-    sp10.unk_28 = arg6 * 4.0;
-    sp10.unk_2C = arg7 * 4.0;
-    sp10.unk_38 = 0x1000 / arg1;
+    st.colorTex = tex;
+    st.colorTexW = texW;
+    st.alphaTex = NULL;
+    st.alphaTexW = 0;
 
-    StretchTexBlock(&sp10);
+    st.colorFunc = StretchTexBlock8i_LoadTex;
+    st.alphaFunc = NULL;
+    st.rectFunc = StretchTexBlock_ScisRect;
+
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
+
+    st.step = 0x1000 / texW;
+
+    StretchTexBlock(&st);
 }
 
 /* Stretch tile */
 
-struct StretchTexTile_arg0;
+struct SStretchTexTile;
 
-typedef void (*StretchTexTile_arg0_callback)(struct StretchTexTile_arg0 *arg0);
+typedef void (*SStretchTexTile_callback)(CONST_ARG struct SStretchTexTile *st);
 
-// Maybe merge with StretchTexBlock_arg0_unk_4C ?
-typedef struct StretchTexTile_arg0_unk_58 {
-    /* 0x00 */ s32 unk_00;    // xl
-    /* 0x04 */ s32 unk_04;    // yl
-    /* 0x08 */ s32 unk_08;    // xh
-    /* 0x0C */ s32 unk_0C;    // yh
-    /* 0x0C */ s32 unk_10;    // s
-    /* 0x0C */ s32 unk_14;    // t
-    /* 0x0C */ s32 unk_18;    // dsdx
-    /* 0x0C */ s32 unk_1C;    // dtdy
-} StretchTexTile_arg0_unk_58; // size = 0x20
-
-typedef struct StretchTexTile_arg0 {
-    /* 0x00 */ Gfx **gfxP;
-    /* 0x04 */ Vtx **vtxP;
-    /* 0x08 */ UNK_TYPE unk_08;
-    /* 0x0C */ UNK_TYPE unk_0C;
-    /* 0x10 */ TexturePtr texture;
-    /* 0x14 */ s32 unk_14; // width
-    /* 0x18 */ TexturePtr unk_18;
-    /* 0x1C */ UNK_TYPE unk_1C;
-    /* 0x20 */ s32 unk_20; // uls
-    /* 0x24 */ UNK_TYPE unk_24;
-    /* 0x28 */ UNK_TYPE unk_28;
-    /* 0x2C */ UNK_TYPE unk_2C;
-    /* 0x30 */ UNK_TYPE unk_30;
-    /* 0x34 */ UNK_TYPE unk_34;
-    /* 0x38 */ UNK_TYPE unk_38;
-    /* 0x3C */ UNK_TYPE unk_3C;
-    /* 0x40 */ StretchTexTile_arg0_callback unk_40;
-    /* 0x44 */ StretchTexTile_arg0_callback unk_44;
-    /* 0x48 */ UNK_TYPE unk_48;
-    /* 0x4C */ StretchTexTile_arg0_callback unk_4C;
-    /* 0x50 */ s32 unk_50; // ult
-    /* 0x54 */ UNK_TYPE unk_54;
-    /* 0x58 */ StretchTexTile_arg0_unk_58 unk_58;
-} StretchTexTile_arg0; // size = 0x78
+/**
+ * Original name: SStretchTexTile
+ */
+typedef struct SStretchTexTile {
+    /* 0x00 */ Gfx **gfxP;                                      /* Original name: gpp */
+    /* 0x04 */ Vtx **vtxP;                                      /* Original name: vpp */
+    /* 0x08 */ s32 texW;                                        /* Original name: texW */
+    /* 0x0C */ s32 texH;                                        /* Original name: texH */
+    /* 0x10 */ const Texture *colorTex;                         /* Original name: colorTex */
+    /* 0x14 */ s32 colorTexW;                                   /* Original name: colorTexW */
+    /* 0x18 */ const u8 *alphaTex;                              /* Original name: alphaTex */
+    /* 0x1C */ s32 alphaTexW;                                   /* Original name: alphaTexW */
+    /* 0x20 */ s32 lx;                                          /* Original name: lx */
+    /* 0x24 */ s32 ly;                                          /* Original name: ly */
+    /* 0x28 */ s32 lw;                                          /* Original name: lw */
+    /* 0x2C */ s32 lh;                                          /* Original name: lh */
+    /* 0x30 */ s32 x;                                           /* Original name: x */
+    /* 0x34 */ s32 y;                                           /* Original name: y */
+    /* 0x38 */ s32 w;                                           /* Original name: w */
+    /* 0x3C */ s32 h;                                           /* Original name: h */
+    /* 0x40 */ SStretchTexTile_callback colorFunc;              /* Original name: colorFunc */
+    /* 0x44 */ SStretchTexTile_callback alphaFunc;              /* Original name: alphaFunc */
+    /* 0x48 */ s32 step;                                        /* Original name: step */
+    /* 0x4C */ SStretchTexTile_callback rectFunc;               /* Original name: rectFunc */
+    /* 0x50 */ s32 top;                                         /* Original name: top */
+    /* 0x54 */ s32 bottom;                                      /* Original name: bottom */
+    /* 0x58 */ SStretchTex_Rect rect; /* Original name: rect */ // Originally int rect[8]
+} SStretchTexTile;                                              // size = 0x78
 
 /**
  * Original name: StretchTexTile
  */
-void StretchTexTile(StretchTexTile_arg0 *arg0) {
+void StretchTexTile(SStretchTexTile *st) {
     s32 sp18[2];
-    StretchTexTile_arg0_unk_58 *temp_s0;
-    s32 temp_s2;
-    s32 var_a3;
-    s32 var_s3;
-    s32 var_s4;
-    s32 var_s5;
-    s32 var_v1;
-    s32 v0;
-    s32 t0;
+    SStretchTex_Rect *t;
+    s32 w;
+    s32 h;
+    s32 biStep;
+    u32 var_s5;
+    s32 endX;
+    s32 endY;
 
-    if (arg0->unk_38 < 0) {
-        var_a3 = -arg0->unk_38;
+    if (st->w < 0) {
+        w = -st->w;
         sp18[0] = -1;
-    } else if (arg0->unk_38 > 0) {
-        var_a3 = arg0->unk_38;
+    } else if (st->w > 0) {
+        w = st->w;
         sp18[0] = 1;
     } else {
         return;
     }
 
-    if (arg0->unk_3C < 0) {
-        var_s3 = -arg0->unk_3C;
+    if (st->h < 0) {
+        h = -st->h;
         sp18[1] = -1;
-    } else if (arg0->unk_3C > 0) {
-        var_s3 = arg0->unk_3C;
+    } else if (st->h > 0) {
+        h = st->h;
         sp18[1] = 1;
     } else {
         return;
     }
 
-    v0 = arg0->unk_20;
-    t0 = v0 + arg0->unk_28;
-    temp_s2 = arg0->unk_24 + arg0->unk_2C;
-    if ((arg0->vtxP == NULL) && (var_a3 == (arg0->unk_28 << 2)) && (var_s3 == (arg0->unk_2C << 2))) {
-        gDPSetTextureFilter((*arg0->gfxP)++, G_TF_POINT);
+    endX = st->lx + st->lw;
+    endY = st->ly + st->lh;
+    if ((st->vtxP == NULL) && (w == (st->lw << 2)) && (h == (st->lh << 2))) {
+        gDPSetTextureFilter((*st->gfxP)++, G_TF_POINT);
         var_s5 = 0;
-        var_s4 = arg0->unk_48;
+        biStep = st->step;
     } else {
-        gDPSetTextureFilter((*arg0->gfxP)++, G_TF_BILERP);
-        var_s5 = -1;
-        var_s4 = MAX(arg0->unk_48 - 1, 1);
+        gDPSetTextureFilter((*st->gfxP)++, G_TF_BILERP);
+        var_s5 = ~0;
+        biStep = MAX(st->step - 1, 1);
     }
 
-    temp_s0 = &arg0->unk_58;
+    t = &st->rect;
 
-    arg0->unk_58.unk_00 = arg0->unk_30;
-    temp_s0->unk_08 = arg0->unk_30 + var_a3;
+    st->rect.xl = st->x;
+    t->xh = st->x + w;
 
-    temp_s0->unk_10 = ((sp18[0] < 0) ? (t0 - 1) : arg0->unk_20) << 5;
+    t->s = ((sp18[0] < 0) ? (endX - 1) : st->lx) << 5;
 
-    temp_s0->unk_18 = ((sp18[0] << 0xC) * arg0->unk_28) / var_a3;
+    t->dsdx = ((sp18[0] << 0xC) * st->lw) / w;
 
-    for (arg0->unk_50 = arg0->unk_24; arg0->unk_50 < temp_s2; arg0->unk_50 += var_s4) {
-        arg0->unk_54 = MIN(arg0->unk_50 + arg0->unk_48, temp_s2);
+    for (st->top = st->ly; st->top < endY; st->top += biStep) {
+        st->bottom = MIN(st->top + st->step, endY);
 
-        if (arg0->texture != NULL) {
-            arg0->unk_40(arg0);
+        if (st->colorTex != NULL) {
+            st->colorFunc(st);
         }
 
-        if (arg0->unk_18 != NULL) {
-            arg0->unk_44(arg0);
+        if (st->alphaTex != NULL) {
+            st->alphaFunc(st);
         }
 
         if (sp18[1] < 0) {
-            temp_s0->unk_04 = temp_s2 - arg0->unk_54;
-            temp_s0->unk_0C = temp_s2 - arg0->unk_50;
-            temp_s0->unk_14 = arg0->unk_54 - 1;
+            t->yl = endY - st->bottom;
+            t->yh = endY - st->top;
+            t->t = st->bottom - 1;
         } else {
-            temp_s0->unk_04 = arg0->unk_50;
-            temp_s0->unk_0C = arg0->unk_54;
-            temp_s0->unk_14 = arg0->unk_50;
+            t->yl = st->top;
+            t->yh = st->bottom;
+            t->t = st->top;
         }
 
-        temp_s0->unk_04 =
-            arg0->unk_34 + ((((temp_s0->unk_04 - arg0->unk_24) << 2) * var_s3) / (s32)(arg0->unk_2C << 2));
-        temp_s0->unk_0C =
-            arg0->unk_34 + ((((temp_s0->unk_0C - arg0->unk_24) << 2) * var_s3) / (s32)(arg0->unk_2C << 2));
+        t->yl = st->y + ((t->yl - st->ly) << 2) * h / (st->lh << 2);
+        t->yh = st->y + ((t->yh - st->ly) << 2) * h / (st->lh << 2);
 
-        temp_s0->unk_14 = temp_s0->unk_14 << 5;
-        temp_s0->unk_1C = ((sp18[1] << 0xC) * arg0->unk_2C) / var_s3;
+        t->t <<= 5;
 
-        var_v1 = temp_s0->unk_1C;
-        if (var_v1 < 0) {
-            var_v1 += 0x3F;
-        }
-        temp_s0->unk_14 -= (var_v1 >> 6) & var_s5;
+        t->dtdy = ((sp18[1] << 0xC) * st->lh) / h;
+        t->t -= (t->dtdy / (1 << 6)) & var_s5;
 
-        arg0->unk_4C(arg0);
+        st->rectFunc(st);
     }
 }
 
 /**
  * Original name: StretchTexTile_ScisRect
  */
-void StretchTexTile_ScisRect(StretchTexTile_arg0 *arg0) {
-    StretchTexTile_arg0_unk_58 *temp_a2 = &arg0->unk_58;
+void StretchTexTile_ScisRect(CONST_ARG SStretchTexTile *st) {
+    CONST_ARG SStretchTex_Rect *t = &st->rect;
 
-    gSPScisTextureRectangle((*arg0->gfxP)++, temp_a2->unk_00, temp_a2->unk_04, temp_a2->unk_08, temp_a2->unk_0C,
-                            G_TX_RENDERTILE, temp_a2->unk_10, temp_a2->unk_14, temp_a2->unk_18, temp_a2->unk_1C);
+    gSPScisTextureRectangle((*st->gfxP)++, t->xl, t->yl, t->xh, t->yh, G_TX_RENDERTILE, t->s, t->t, t->dsdx, t->dtdy);
 }
 
 /**
  * Original name: RectTexTile_ScisRect
  */
-void RectTexTile_ScisRect(StretchTexTile_arg0 *arg0) {
-    Gfx *gfx = *arg0->gfxP;
-    Vtx *vtx = *arg0->vtxP;
-    StretchTexTile_arg0_unk_58 *temp_a3;
+void RectTexTile_ScisRect(CONST_ARG SStretchTexTile *st) {
+    Gfx *gfx = *st->gfxP;
+    Vtx *vtx = *st->vtxP;
+    CONST_ARG SStretchTex_Rect *t;
 
     gSPVertex(gfx++, vtx, 4, 0);
     gSP2Triangles(gfx++, 0, 1, 2, 0, 3, 2, 1, 0);
 
-    temp_a3 = &arg0->unk_58;
+    t = &st->rect;
 
-    vtx[0].v.ob[0] = vtx[1].v.ob[0] = temp_a3->unk_00 >> 2;
-    vtx[0].v.ob[1] = vtx[2].v.ob[1] = temp_a3->unk_04 >> 2;
-    vtx[2].v.ob[0] = vtx[3].v.ob[0] = temp_a3->unk_08 >> 2;
-    vtx[1].v.ob[1] = vtx[3].v.ob[1] = temp_a3->unk_0C >> 2;
+    vtx[0].v.ob[0] = vtx[1].v.ob[0] = t->xl >> 2;
+    vtx[0].v.ob[1] = vtx[2].v.ob[1] = t->yl >> 2;
+    vtx[2].v.ob[0] = vtx[3].v.ob[0] = t->xh >> 2;
+    vtx[1].v.ob[1] = vtx[3].v.ob[1] = t->yh >> 2;
 
-    vtx[0].v.tc[0] = vtx[1].v.tc[0] = temp_a3->unk_10 << 2;
-    vtx[0].v.tc[1] = vtx[2].v.tc[1] = temp_a3->unk_14 << 2;
+    vtx[0].v.tc[0] = vtx[1].v.tc[0] = t->s << 2;
+    vtx[0].v.tc[1] = vtx[2].v.tc[1] = t->t << 2;
 
-    vtx[2].v.tc[0] = vtx[3].v.tc[0] =
-        (((temp_a3->unk_08 - temp_a3->unk_00) * temp_a3->unk_18) + (temp_a3->unk_10 << 7)) >> 5;
+    vtx[2].v.tc[0] = vtx[3].v.tc[0] = (((t->xh - t->xl) * t->dsdx) + (t->s << 7)) >> 5;
 
-    vtx[1].v.tc[1] = vtx[3].v.tc[1] =
-        (((temp_a3->unk_0C - temp_a3->unk_04) * temp_a3->unk_1C) + (temp_a3->unk_14 << 7)) >> 5;
+    vtx[1].v.tc[1] = vtx[3].v.tc[1] = (((t->yh - t->yl) * t->dtdy) + (t->t << 7)) >> 5;
 
+    // Stinky code
     *(u32 *)&vtx[3].v.ob[2] = 0;
     *(u32 *)&vtx[2].v.ob[2] = 0;
     *(u32 *)&vtx[1].v.ob[2] = 0;
@@ -835,343 +835,378 @@ void RectTexTile_ScisRect(StretchTexTile_arg0 *arg0) {
     *(u32 *)vtx[1].v.cn = 0xFFFFFFFF;
     *(u32 *)vtx[0].v.cn = 0xFFFFFFFF;
 
-    *arg0->vtxP = &vtx[4];
-    *arg0->gfxP = gfx;
+    *st->vtxP = &vtx[4];
+    *st->gfxP = gfx;
 }
 
 /**
  * Original name: StretchAlphaTexTile_LoadColorTex
  */
-void StretchAlphaTexTile_LoadColorTex(StretchTexTile_arg0 *arg0) {
-    gDPLoadTextureTile((*arg0->gfxP)++, arg0->texture, G_IM_FMT_RGBA, G_IM_SIZ_16b, arg0->unk_14, 0, arg0->unk_20,
-                       arg0->unk_50, ((arg0->unk_20 + arg0->unk_28) - 1), (arg0->unk_54 - 1), 0,
-                       G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                       G_TX_NOLOD);
+void StretchAlphaTexTile_LoadColorTex(CONST_ARG SStretchTexTile *st) {
+    gDPLoadTextureTile((*st->gfxP)++, st->colorTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, st->colorTexW, 0, st->lx, st->top,
+                       ((st->lx + st->lw) - 1), (st->bottom - 1), 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                       G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchAlphaTexTile_LoadAlphaTex
  */
-void StretchAlphaTexTile_LoadAlphaTex(StretchTexTile_arg0 *arg0) {
-    gDPLoadMultiTile_4b((*arg0->gfxP)++, arg0->unk_18, 0x019A, 1, G_IM_FMT_I, arg0->unk_1C, 0, arg0->unk_20,
-                        arg0->unk_50, (arg0->unk_20 + arg0->unk_28) - 1, arg0->unk_54 - 1, 0,
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
-                        G_TX_NOLOD);
+void StretchAlphaTexTile_LoadAlphaTex(CONST_ARG SStretchTexTile *st) {
+    // TODO: what is 0x019A?
+    gDPLoadMultiTile_4b((*st->gfxP)++, st->alphaTex, 0x019A, 1, G_IM_FMT_I, st->alphaTexW, 0, st->lx, st->top,
+                        (st->lx + st->lw) - 1, st->bottom - 1, 0, G_TX_NOMIRROR | G_TX_CLAMP,
+                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchAlphaTexTile
  */
-void StretchAlphaTexTile(Gfx **gfxP, s32 arg1, s32 arg2, void *arg3, s32 arg4, void *arg5, s32 arg6, s32 arg7, s32 arg8,
-                         s32 arg9, s32 argA, f32 argB, f32 argC, f32 argD, f32 argE) {
-    StretchTexTile_arg0 sp18;
+void StretchAlphaTexTile(Gfx **gfxP, s32 texW, s32 texH, const u16 colorTex[], s32 colorTexW, const u8 alphaTex[],
+                         s32 alphaTexW, s32 lx, s32 ly, s32 lw, s32 lh, f32 x, f32 y, f32 w, f32 h) {
+    SStretchTexTile st;
 
-    sp18.gfxP = gfxP;
-    sp18.vtxP = NULL;
-    sp18.unk_08 = arg1;
-    sp18.unk_0C = arg2;
-    sp18.texture = arg3;
-    sp18.unk_14 = arg4;
-    sp18.unk_18 = arg5;
-    sp18.unk_1C = arg6;
-    sp18.unk_20 = arg7;
-    sp18.unk_24 = arg8;
-    sp18.unk_28 = arg9;
-    sp18.unk_2C = argA;
-    sp18.unk_40 = StretchAlphaTexTile_LoadColorTex;
-    sp18.unk_44 = StretchAlphaTexTile_LoadAlphaTex;
-    sp18.unk_30 = argB * 4.0;
-    sp18.unk_34 = argC * 4.0;
-    sp18.unk_38 = argD * 4.0;
-    sp18.unk_3C = argE * 4.0;
+    st.gfxP = gfxP;
+    st.vtxP = NULL;
 
-    sp18.unk_48 = 0x660 / MAX(ALIGN4(arg4), ALIGN16(arg6));
-    sp18.unk_4C = StretchTexTile_ScisRect;
+    st.texW = texW;
+    st.texH = texH;
 
-    StretchTexTile(&sp18);
+    st.colorTex = colorTex;
+    st.colorTexW = colorTexW;
+    st.alphaTex = alphaTex;
+    st.alphaTexW = alphaTexW;
+
+    st.lx = lx;
+    st.ly = ly;
+    st.lw = lw;
+    st.lh = lh;
+
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
+
+    st.colorFunc = StretchAlphaTexTile_LoadColorTex;
+    st.alphaFunc = StretchAlphaTexTile_LoadAlphaTex;
+
+    st.step = 0x660 / MAX(ALIGN4(colorTexW), ALIGN16(alphaTexW));
+
+    st.rectFunc = StretchTexTile_ScisRect;
+
+    StretchTexTile(&st);
 }
 
 /**
  * Original name: RectAlphaTexTile
  */
-void RectAlphaTexTile(Gfx **gfxP, Vtx **vtxP, s32 arg2, s32 arg3, void *arg4, s32 arg5, void *arg6, s32 arg7, s32 arg8,
-                      s32 arg9, s32 argA, s32 argB, f32 argC, f32 argD, f32 argE, f32 argF) {
-    StretchTexTile_arg0 sp18;
+void RectAlphaTexTile(Gfx **gfxP, Vtx **vtxP, s32 texW, s32 texH, const u16 colorTex[], s32 colorTexW,
+                      const u8 alphaTex[], s32 alphaTexW, s32 lx, s32 ly, s32 lw, s32 lh, f32 x, f32 y, f32 w, f32 h) {
+    SStretchTexTile st;
 
-    sp18.gfxP = gfxP;
-    sp18.vtxP = vtxP;
-    sp18.unk_08 = arg2;
-    sp18.unk_0C = arg3;
+    st.gfxP = gfxP;
+    st.vtxP = vtxP;
 
-    sp18.texture = arg4;
-    sp18.unk_14 = arg5;
-    sp18.unk_18 = arg6;
-    sp18.unk_1C = arg7;
-    sp18.unk_20 = arg8;
-    sp18.unk_24 = arg9;
-    sp18.unk_28 = argA;
-    sp18.unk_2C = argB;
-    sp18.unk_30 = argC * 4.0;
-    sp18.unk_34 = argD * 4.0;
-    sp18.unk_38 = argE * 4.0;
-    sp18.unk_3C = argF * 4.0;
+    st.texW = texW;
+    st.texH = texH;
 
-    sp18.unk_40 = StretchAlphaTexTile_LoadColorTex;
-    sp18.unk_44 = StretchAlphaTexTile_LoadAlphaTex;
+    st.colorTex = colorTex;
+    st.colorTexW = colorTexW;
+    st.alphaTex = alphaTex;
+    st.alphaTexW = alphaTexW;
 
-    sp18.unk_48 = 0x660 / MAX(ALIGN4(arg5), ALIGN16(arg7));
-    sp18.unk_4C = RectTexTile_ScisRect;
+    st.lx = lx;
+    st.ly = ly;
+    st.lw = lw;
+    st.lh = lh;
 
-    StretchTexTile(&sp18);
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
+
+    st.colorFunc = StretchAlphaTexTile_LoadColorTex;
+    st.alphaFunc = StretchAlphaTexTile_LoadAlphaTex;
+
+    st.step = 0x660 / MAX(ALIGN4(colorTexW), ALIGN16(alphaTexW));
+    st.rectFunc = RectTexTile_ScisRect;
+
+    StretchTexTile(&st);
 }
 
 /**
  * Original name: StretchTexTile4_LoadTex
  */
-void StretchTexTile4_LoadTex(StretchTexTile_arg0 *arg0) {
-    gDPLoadTextureTile_4b((*arg0->gfxP)++, arg0->texture, G_IM_FMT_CI, arg0->unk_14, 1, arg0->unk_20, arg0->unk_50,
-                          arg0->unk_20 + arg0->unk_28 - 1, arg0->unk_54 - 1, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK,
-                          G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+void StretchTexTile4_LoadTex(CONST_ARG SStretchTexTile *st) {
+    gDPLoadTextureTile_4b((*st->gfxP)++, st->colorTex, G_IM_FMT_CI, st->colorTexW, 1, st->lx, st->top,
+                          st->lx + st->lw - 1, st->bottom - 1, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                          G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchTexTile4
  */
-void StretchTexTile4(Gfx **gfxP, s32 width, s32 height, u16 *tlut, u8 *tex, s32 arg5, s32 arg6, s32 arg7, s32 arg8,
-                     f32 arg9, f32 argA, f32 argB, f32 argC) {
-    StretchTexTile_arg0 sp18;
+void StretchTexTile4(Gfx **gfxP, s32 texW, s32 texH, const u16 tlut[], const u8 tex[], s32 lx, s32 ly, s32 lw, s32 lh,
+                     f32 x, f32 y, f32 w, f32 h) {
+    SStretchTexTile st;
 
-    sp18.gfxP = gfxP;
-    sp18.vtxP = NULL;
+    st.gfxP = gfxP;
+    st.vtxP = NULL;
 
-    sp18.unk_08 = width;
-    sp18.unk_0C = height;
-    sp18.texture = tex;
-    sp18.unk_14 = width;
+    st.texW = texW;
+    st.texH = texH;
 
-    sp18.unk_18 = NULL;
-    sp18.unk_1C = 0;
-    sp18.unk_20 = arg5;
-    sp18.unk_24 = arg6;
-    sp18.unk_28 = arg7;
-    sp18.unk_2C = arg8;
+    st.colorTex = tex;
+    st.colorTexW = texW;
+    st.alphaTex = NULL;
+    st.alphaTexW = 0;
 
-    sp18.unk_30 = arg9 * 4.0;
-    sp18.unk_34 = argA * 4.0;
-    sp18.unk_38 = argB * 4.0;
-    sp18.unk_3C = argC * 4.0;
+    st.lx = lx;
+    st.ly = ly;
+    st.lw = lw;
+    st.lh = lh;
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
 
-    sp18.unk_40 = StretchTexTile4_LoadTex;
-    sp18.unk_44 = NULL;
-    sp18.unk_48 = 0x1000 / ALIGN16(arg7);
-    sp18.unk_4C = StretchTexTile_ScisRect;
+    st.colorFunc = StretchTexTile4_LoadTex;
+    st.alphaFunc = NULL;
+
+    st.step = 0x1000 / ALIGN16(lw);
+
+    st.rectFunc = StretchTexTile_ScisRect;
 
     if (tlut != NULL) {
         gDPLoadTLUT_pal16((*gfxP)++, 0, tlut);
     }
 
-    StretchTexTile(&sp18);
+    StretchTexTile(&st);
 }
 
 /**
  * Original name: StretchTexTile8_LoadTex
  */
-void StretchTexTile8_LoadTex(StretchTexTile_arg0 *arg0) {
-    gDPLoadTextureTile((*arg0->gfxP)++, arg0->texture, G_IM_FMT_CI, G_IM_SIZ_8b, arg0->unk_14, 0, arg0->unk_20,
-                       arg0->unk_50, arg0->unk_20 + arg0->unk_28 - 1, arg0->unk_54 - 1, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-                       G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+void StretchTexTile8_LoadTex(CONST_ARG SStretchTexTile *st) {
+    gDPLoadTextureTile((*st->gfxP)++, st->colorTex, G_IM_FMT_CI, G_IM_SIZ_8b, st->colorTexW, 0, st->lx, st->top,
+                       st->lx + st->lw - 1, st->bottom - 1, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                       G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchTexTile8
  */
-void StretchTexTile8(Gfx **gfxP, s32 width, s32 height, u16 *tlut, u8 *tex, s32 arg5, s32 arg6, s32 arg7, s32 arg8,
-                     f32 arg9, f32 argA, f32 argB, f32 argC) {
-    StretchTexTile_arg0 sp18;
+void StretchTexTile8(Gfx **gfxP, s32 texW, s32 texH, const u16 tlut[], const u8 tex[], s32 lx, s32 ly, s32 lw, s32 lh,
+                     f32 x, f32 y, f32 w, f32 h) {
+    SStretchTexTile st;
 
-    sp18.gfxP = gfxP;
-    sp18.vtxP = NULL;
-    sp18.unk_08 = width;
-    sp18.unk_0C = height;
-    sp18.texture = tex;
-    sp18.unk_14 = width;
-    sp18.unk_18 = NULL;
-    sp18.unk_1C = 0;
-    sp18.unk_20 = arg5;
-    sp18.unk_24 = arg6;
-    sp18.unk_28 = arg7;
-    sp18.unk_30 = arg9 * 4.0;
-    sp18.unk_34 = argA * 4.0;
-    sp18.unk_38 = argB * 4.0;
-    sp18.unk_3C = argC * 4.0;
-    sp18.unk_48 = 0x800 / ALIGN8(arg7);
-    sp18.unk_40 = StretchTexTile8_LoadTex;
-    sp18.unk_2C = arg8;
-    sp18.unk_44 = NULL;
-    sp18.unk_4C = StretchTexTile_ScisRect;
+    st.gfxP = gfxP;
+    st.vtxP = NULL;
+
+    st.texW = texW;
+    st.texH = texH;
+
+    st.colorTex = tex;
+    st.colorTexW = texW;
+    st.alphaTex = NULL;
+    st.alphaTexW = 0;
+
+    st.lx = lx;
+    st.ly = ly;
+    st.lw = lw;
+    st.lh = lh;
+
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
+
+    st.step = 0x800 / ALIGN8(lw);
+    st.colorFunc = StretchTexTile8_LoadTex;
+    st.alphaFunc = NULL;
+    st.rectFunc = StretchTexTile_ScisRect;
 
     if (tlut != NULL) {
         gDPLoadTLUT_pal256((*gfxP)++, tlut);
     }
 
-    StretchTexTile(&sp18);
+    StretchTexTile(&st);
 }
 
 /**
  * Original name: RectTexTile8
  */
-void RectTexTile8(Gfx **gfxP, Vtx **vtxP, s32 arg2, s32 arg3, u16 *tlut, u8 *texture, s32 arg6, s32 arg7, s32 arg8,
-                  s32 arg9, f32 argA, f32 argB, f32 argC, f32 argD) {
-    StretchTexTile_arg0 sp18;
+void RectTexTile8(Gfx **gfxP, Vtx **vtxP, s32 texW, s32 texH, const u16 tlut[], const u8 tex[], s32 lx, s32 ly, s32 lw,
+                  s32 lh, f32 x, f32 y, f32 w, f32 h) {
+    SStretchTexTile st;
 
-    sp18.gfxP = gfxP;
-    sp18.vtxP = vtxP;
-    sp18.unk_08 = arg2;
-    sp18.unk_0C = arg3;
-    sp18.unk_14 = arg2;
-    sp18.unk_18 = NULL;
-    sp18.unk_1C = 0;
-    sp18.unk_44 = NULL;
-    sp18.texture = texture;
-    sp18.unk_20 = arg6;
-    sp18.unk_24 = arg7;
-    sp18.unk_28 = arg8;
-    sp18.unk_2C = arg9;
-    sp18.unk_30 = argA * 4.0;
-    sp18.unk_34 = argB * 4.0;
-    sp18.unk_38 = argC * 4.0;
-    sp18.unk_3C = argD * 4.0;
-    sp18.unk_40 = StretchTexTile8_LoadTex;
-    sp18.unk_48 = 0x800 / ALIGN8(arg8);
-    sp18.unk_4C = RectTexTile_ScisRect;
+    st.gfxP = gfxP;
+    st.vtxP = vtxP;
+
+    st.texW = texW;
+    st.texH = texH;
+
+    st.colorTex = tex;
+    st.colorTexW = texW;
+    st.alphaTex = NULL;
+    st.alphaTexW = 0;
+
+    st.lx = lx;
+    st.ly = ly;
+    st.lw = lw;
+    st.lh = lh;
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
+
+    st.colorFunc = StretchTexTile8_LoadTex;
+    st.alphaFunc = NULL;
+
+    st.step = 0x800 / ALIGN8(lw);
+
+    st.rectFunc = RectTexTile_ScisRect;
 
     if (tlut != NULL) {
         gDPLoadTLUT_pal256((*gfxP)++, tlut);
     }
 
-    StretchTexTile(&sp18);
+    StretchTexTile(&st);
 }
 
 /**
  * Original name: StretchTexTile16_LoadTex
  */
-void StretchTexTile16_LoadTex(StretchTexTile_arg0 *arg0) {
-    gDPLoadTextureTile((*arg0->gfxP)++, arg0->texture, G_IM_FMT_RGBA, G_IM_SIZ_16b, arg0->unk_14, 0, arg0->unk_20,
-                       arg0->unk_50, arg0->unk_20 + arg0->unk_28 - 1, arg0->unk_54 - 1, 0, G_TX_NOMIRROR | G_TX_CLAMP,
-                       G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+void StretchTexTile16_LoadTex(CONST_ARG SStretchTexTile *st) {
+    gDPLoadTextureTile((*st->gfxP)++, st->colorTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, st->colorTexW, 0, st->lx, st->top,
+                       st->lx + st->lw - 1, st->bottom - 1, 0, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP,
+                       G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchTexTile16
  */
-void StretchTexTile16(Gfx **gfxP, s32 arg1, s32 arg2, u16 *arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, f32 arg8,
-                      f32 arg9, f32 argA, f32 argB) {
-    StretchTexTile_arg0 sp18;
+void StretchTexTile16(Gfx **gfxP, s32 texW, s32 texH, const u16 tex[], s32 lx, s32 ly, s32 lw, s32 lh, f32 x, f32 y,
+                      f32 w, f32 h) {
+    SStretchTexTile st;
 
-    sp18.gfxP = gfxP;
-    sp18.vtxP = NULL;
-    sp18.unk_08 = arg1;
-    sp18.unk_0C = arg2;
-    sp18.texture = arg3;
-    sp18.unk_14 = arg1;
-    sp18.unk_18 = NULL;
-    sp18.unk_1C = 0;
-    sp18.unk_44 = NULL;
-    sp18.unk_40 = StretchTexTile16_LoadTex;
-    sp18.unk_4C = StretchTexTile_ScisRect;
-    sp18.unk_20 = arg4;
-    sp18.unk_24 = arg5;
-    sp18.unk_28 = arg6;
-    sp18.unk_2C = arg7;
-    sp18.unk_30 = arg8 * 4.0;
-    sp18.unk_34 = arg9 * 4.0;
-    sp18.unk_38 = argA * 4.0;
-    sp18.unk_3C = argB * 4.0;
-    sp18.unk_48 = 0x800 / ALIGN4(arg6);
-    StretchTexTile(&sp18);
+    st.gfxP = gfxP;
+    st.vtxP = NULL;
+
+    st.texW = texW;
+    st.texH = texH;
+
+    st.colorTex = tex;
+    st.colorTexW = texW;
+    st.alphaTex = NULL;
+    st.alphaTexW = 0;
+
+    st.lx = lx;
+    st.ly = ly;
+    st.lw = lw;
+    st.lh = lh;
+
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
+
+    st.colorFunc = StretchTexTile16_LoadTex;
+    st.alphaFunc = NULL;
+
+    st.step = 0x800 / ALIGN4(lw);
+
+    st.rectFunc = StretchTexTile_ScisRect;
+
+    StretchTexTile(&st);
 }
 
 /**
  * Original name: StretchTexTile4i_LoadTex
  */
-void StretchTexTile4i_LoadTex(StretchTexTile_arg0 *arg0) {
-    gDPLoadTextureTile_4b((*arg0->gfxP)++, arg0->texture, G_IM_FMT_I, arg0->unk_14, 1, arg0->unk_20, arg0->unk_50,
-                          arg0->unk_20 + arg0->unk_28 - 1, arg0->unk_54 - 1, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK,
-                          G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+void StretchTexTile4i_LoadTex(CONST_ARG SStretchTexTile *st) {
+    gDPLoadTextureTile_4b((*st->gfxP)++, st->colorTex, G_IM_FMT_I, st->colorTexW, 1, st->lx, st->top,
+                          st->lx + st->lw - 1, st->bottom - 1, 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                          G_TX_NOLOD, G_TX_NOLOD);
 }
 
 /**
  * Original name: StretchTexTile4i
  */
-void StretchTexTile4i(Gfx **gfxP, s32 width, s32 height, u8 tex[], s32 arg4, s32 arg5, s32 arg6, s32 arg7, f32 arg8,
-                      f32 arg9, f32 argA, f32 argB) {
-    StretchTexTile_arg0 sp18;
+void StretchTexTile4i(Gfx **gfxP, s32 texW, s32 texH, const u8 tex[], s32 lx, s32 ly, s32 lw, s32 lh, f32 x, f32 y,
+                      f32 w, f32 h) {
+    SStretchTexTile st;
 
-    sp18.gfxP = gfxP;
-    sp18.vtxP = NULL;
+    st.gfxP = gfxP;
+    st.vtxP = NULL;
 
-    sp18.unk_08 = width;
-    sp18.unk_0C = height;
-    sp18.texture = tex;
-    sp18.unk_14 = width;
+    st.texW = texW;
+    st.texH = texH;
 
-    sp18.unk_18 = NULL;
-    sp18.unk_1C = 0;
-    sp18.unk_20 = arg4;
-    sp18.unk_24 = arg5;
-    sp18.unk_28 = arg6;
-    sp18.unk_2C = arg7;
-    sp18.unk_30 = arg8 * 4.0;
-    sp18.unk_34 = arg9 * 4.0;
-    sp18.unk_38 = argA * 4.0;
-    sp18.unk_3C = argB * 4.0;
+    st.colorTex = tex;
+    st.colorTexW = texW;
+    st.alphaTex = NULL;
+    st.alphaTexW = 0;
 
-    sp18.unk_40 = StretchTexTile4i_LoadTex;
-    sp18.unk_44 = NULL;
-    sp18.unk_48 = 0x2000 / ALIGN16(arg6);
-    sp18.unk_4C = StretchTexTile_ScisRect;
+    st.lx = lx;
+    st.ly = ly;
+    st.lw = lw;
+    st.lh = lh;
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
 
-    StretchTexTile(&sp18);
+    st.colorFunc = StretchTexTile4i_LoadTex;
+    st.alphaFunc = NULL;
+
+    st.step = 0x2000 / ALIGN16(lw);
+
+    st.rectFunc = StretchTexTile_ScisRect;
+
+    StretchTexTile(&st);
 }
 
 /**
  * Original name: RectTexTile4i
  */
-void RectTexTile4i(Gfx **gfxP, Vtx **vtxP, s32 width, s32 height, u8 *tex, s32 arg5, s32 arg6, s32 arg7, s32 arg8,
-                   f32 arg9, f32 argA, f32 argB, f32 argC) {
-    StretchTexTile_arg0 sp18;
+void RectTexTile4i(Gfx **gfxP, Vtx **vtxP, s32 texW, s32 texH, const u8 tex[], s32 lx, s32 ly, s32 lw, s32 lh, f32 x,
+                   f32 y, f32 w, f32 h) {
+    SStretchTexTile st;
 
-    sp18.gfxP = gfxP;
-    sp18.vtxP = vtxP;
+    st.gfxP = gfxP;
+    st.vtxP = vtxP;
 
-    sp18.unk_08 = width;
-    sp18.unk_0C = height;
-    sp18.texture = tex;
-    sp18.unk_14 = width;
+    st.texW = texW;
+    st.texH = texH;
 
-    sp18.unk_18 = NULL;
-    sp18.unk_1C = 0;
-    sp18.unk_20 = arg5;
-    sp18.unk_24 = arg6;
-    sp18.unk_28 = arg7;
-    sp18.unk_2C = arg8;
-    sp18.unk_30 = arg9 * 4.0;
-    sp18.unk_34 = argA * 4.0;
-    sp18.unk_38 = argB * 4.0;
-    sp18.unk_3C = argC * 4.0;
+    st.colorTex = tex;
+    st.colorTexW = texW;
+    st.alphaTex = NULL;
+    st.alphaTexW = 0;
 
-    sp18.unk_40 = StretchTexTile4i_LoadTex;
-    sp18.unk_44 = NULL;
-    sp18.unk_48 = 0x2000 / ALIGN16(arg7);
-    sp18.unk_4C = RectTexTile_ScisRect;
+    st.lx = lx;
+    st.ly = ly;
+    st.lw = lw;
+    st.lh = lh;
+    st.x = x * DOUBLE_LITERAL(4);
+    st.y = y * DOUBLE_LITERAL(4);
+    st.w = w * DOUBLE_LITERAL(4);
+    st.h = h * DOUBLE_LITERAL(4);
 
-    StretchTexTile(&sp18);
+    st.colorFunc = StretchTexTile4i_LoadTex;
+    st.alphaFunc = NULL;
+
+    st.step = 0x2000 / ALIGN16(lw);
+
+    st.rectFunc = RectTexTile_ScisRect;
+
+    StretchTexTile(&st);
 }
 
 /**
  * Original name: tiMappingAddr
  */
-void tiMappingAddr(TiTexData *tiArr, s32 len, uintptr_t addr) {
+void tiMappingAddr(TiTexData tiArr[], s32 len, uintptr_t addr) {
     s32 i;
 
     for (i = 0; i < len; i++) {
@@ -1180,12 +1215,12 @@ void tiMappingAddr(TiTexData *tiArr, s32 len, uintptr_t addr) {
         if (tiTex->texs != NULL) {
             tiTex->texs = (void *)((u8 *)tiTex->texs + addr);
 
-            if (tiTex->texs[0] != NULL) {
-                tiTex->texs[0] = (void *)((uintptr_t)tiTex->texs[0] + addr);
+            if (tiTex->texs[TI_TEX_TLUT] != NULL) {
+                tiTex->texs[TI_TEX_TLUT] = (void *)((uintptr_t)tiTex->texs[TI_TEX_TLUT] + addr);
             }
 
-            if (tiTex->texs[1] != NULL) {
-                tiTex->texs[1] = (void *)((uintptr_t)tiTex->texs[1] + addr);
+            if (tiTex->texs[TI_TEX_TEX] != NULL) {
+                tiTex->texs[TI_TEX_TEX] = (void *)((uintptr_t)tiTex->texs[TI_TEX_TEX] + addr);
             }
         }
 
@@ -1239,29 +1274,29 @@ void *func_80045110(void **arg0, void **arg1, s32 arg2, RomOffset segmentRom, Ro
 /**
  * Original name: tiCopyTexBlock
  */
-void tiCopyTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4) {
-    u16 *tlut;
-    TexturePtr texture;
+void tiCopyTexBlock(Gfx **gfxP, const TiTexData *ti, bool cached, s32 x, s32 y) {
+    const u16 *tlut;
+    const Texture *tex;
 
-    if (arg2 != 0) {
+    if (cached) {
         tlut = NULL;
-        texture = NULL;
+        tex = NULL;
     } else {
-        tlut = arg1->texs[0];
-        texture = arg1->texs[1];
+        tlut = ti->texs[TI_TEX_TLUT];
+        tex = ti->texs[TI_TEX_TEX];
     }
 
-    switch (arg1->info[2]) {
+    switch (ti->info[TI_INFO_IDX_FORMAT]) {
         case TITEX_FORMAT_4:
-            CopyTexBlock4(gfxP, tlut, texture, arg3, arg4, arg1->info[0], arg1->info[1]);
+            CopyTexBlock4(gfxP, tlut, tex, x, y, ti->info[TI_INFO_IDX_WIDTH], ti->info[TI_INFO_IDX_HEIGHT]);
             break;
 
         case TITEX_FORMAT_8:
-            CopyTexBlock8(gfxP, tlut, texture, arg3, arg4, arg1->info[0], arg1->info[1]);
+            CopyTexBlock8(gfxP, tlut, tex, x, y, ti->info[TI_INFO_IDX_WIDTH], ti->info[TI_INFO_IDX_HEIGHT]);
             break;
 
         case TITEX_FORMAT_16:
-            CopyTexBlock16(gfxP, texture, arg3, arg4, arg1->info[0], arg1->info[1]);
+            CopyTexBlock16(gfxP, tex, x, y, ti->info[TI_INFO_IDX_WIDTH], ti->info[TI_INFO_IDX_HEIGHT]);
             break;
     }
 }
@@ -1269,36 +1304,38 @@ void tiCopyTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4) {
 /**
  * Original name: tiStretchTexBlock
  */
-void tiStretchTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6) {
-    TexturePtr var_a3;
-    TexturePtr var_t0;
+void tiStretchTexBlock(Gfx **gfxP, const TiTexData *ti, bool cached, f32 x, f32 y, f32 w, f32 h) {
+    const Texture *tlut;
+    const Texture *tex;
 
-    if (arg2 != 0) {
-        var_a3 = NULL;
-        var_t0 = NULL;
+    if (cached) {
+        tlut = NULL;
+        tex = NULL;
     } else {
-        var_a3 = arg1->texs[0];
-        var_t0 = arg1->texs[1];
+        tlut = ti->texs[TI_TEX_TLUT];
+        tex = ti->texs[TI_TEX_TEX];
     }
 
-    if (arg1->texs[0] != NULL) {
-        switch (arg1->info[2]) {
+    if (ti->texs[TI_TEX_TLUT] != NULL) {
+        switch (ti->info[TI_INFO_IDX_FORMAT]) {
             case TITEX_FORMAT_4:
-                StretchTexBlock4(gfxP, arg1->info[0], arg1->info[1], var_a3, var_t0, arg3, arg4, arg5, arg6);
+                StretchTexBlock4(gfxP, ti->info[TI_INFO_IDX_WIDTH], ti->info[TI_INFO_IDX_HEIGHT], tlut, tex, x, y, w,
+                                 h);
                 break;
 
             case TITEX_FORMAT_8:
-                StretchTexBlock8(gfxP, arg1->info[0], arg1->info[1], var_a3, var_t0, arg3, arg4, arg5, arg6);
+                StretchTexBlock8(gfxP, ti->info[TI_INFO_IDX_WIDTH], ti->info[TI_INFO_IDX_HEIGHT], tlut, tex, x, y, w,
+                                 h);
                 break;
         }
     } else {
-        switch (arg1->info[2]) {
+        switch (ti->info[TI_INFO_IDX_FORMAT]) {
             case TITEX_FORMAT_4:
-                StretchTexBlock4i(gfxP, arg1->info[0], arg1->info[1], var_t0, arg3, arg4, arg5, arg6);
+                StretchTexBlock4i(gfxP, ti->info[TI_INFO_IDX_WIDTH], ti->info[TI_INFO_IDX_HEIGHT], tex, x, y, w, h);
                 break;
 
             case TITEX_FORMAT_16:
-                StretchTexBlock16(gfxP, arg1->info[0], arg1->info[1], var_t0, arg3, arg4, arg5, arg6);
+                StretchTexBlock16(gfxP, ti->info[TI_INFO_IDX_WIDTH], ti->info[TI_INFO_IDX_HEIGHT], tex, x, y, w, h);
                 break;
         }
     }
@@ -1307,41 +1344,41 @@ void tiStretchTexBlock(Gfx **gfxP, TiTexData *arg1, s32 arg2, f32 arg3, f32 arg4
 /**
  * Original name: tiStretchTexTile
  */
-void tiStretchTexTile(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, f32 arg7, f32 arg8,
-                      f32 arg9, f32 argA) {
-    u16 *tlut;
-    TexturePtr texture;
+void tiStretchTexTile(Gfx **gfxP, const TiTexData *ti, bool cached, s32 lx, s32 ly, s32 lw, s32 lh, f32 x, f32 y, f32 w,
+                      f32 h) {
+    const u16 *tlut;
+    const Texture *tex;
 
-    if (arg2 != 0) {
+    if (cached) {
         tlut = NULL;
-        texture = NULL;
+        tex = NULL;
     } else {
-        tlut = arg1->texs[0];
-        texture = arg1->texs[1];
+        tlut = ti->texs[TI_TEX_TLUT];
+        tex = ti->texs[TI_TEX_TEX];
     }
 
-    if (arg1->texs[0] != NULL) {
-        switch (arg1->info[2]) {
+    if (ti->texs[TI_TEX_TLUT] != NULL) {
+        switch (ti->info[TI_INFO_IDX_FORMAT]) {
             case TITEX_FORMAT_4:
-                StretchTexTile4(gfxP, arg1->info[0], arg1->info[1], tlut, texture, arg3, arg4, arg5, arg6, arg7, arg8,
-                                arg9, argA);
+                StretchTexTile4(gfxP, ti->info[TI_INFO_IDX_WIDTH], ti->info[TI_INFO_IDX_HEIGHT], tlut, tex, lx, ly, lw,
+                                lh, x, y, w, h);
                 break;
 
             case TITEX_FORMAT_8:
-                StretchTexTile8(gfxP, arg1->info[0], arg1->info[1], tlut, texture, arg3, arg4, arg5, arg6, arg7, arg8,
-                                arg9, argA);
+                StretchTexTile8(gfxP, ti->info[TI_INFO_IDX_WIDTH], ti->info[TI_INFO_IDX_HEIGHT], tlut, tex, lx, ly, lw,
+                                lh, x, y, w, h);
                 break;
         }
     } else {
-        switch (arg1->info[2]) {
+        switch (ti->info[TI_INFO_IDX_FORMAT]) {
             case TITEX_FORMAT_4:
-                StretchTexTile4i(gfxP, arg1->info[0], arg1->info[1], texture, arg3, arg4, arg5, arg6, arg7, arg8, arg9,
-                                 argA);
+                StretchTexTile4i(gfxP, ti->info[TI_INFO_IDX_WIDTH], ti->info[TI_INFO_IDX_HEIGHT], tex, lx, ly, lw, lh,
+                                 x, y, w, h);
                 break;
 
             case TITEX_FORMAT_16:
-                StretchTexTile16(gfxP, arg1->info[0], arg1->info[1], texture, arg3, arg4, arg5, arg6, arg7, arg8, arg9,
-                                 argA);
+                StretchTexTile16(gfxP, ti->info[TI_INFO_IDX_WIDTH], ti->info[TI_INFO_IDX_HEIGHT], tex, lx, ly, lw, lh,
+                                 x, y, w, h);
                 break;
         }
     }
@@ -1350,55 +1387,54 @@ void tiStretchTexTile(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4,
 /**
  * Original name: tiStretchTexItem
  */
-void tiStretchTexItem(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4, f32 arg5, f32 arg6, f32 arg7,
-                      f32 arg8) {
-    s32 temp_lo = arg1->info[1] / arg3;
-    s32 temp_lo_2 = arg1->info[0] * temp_lo * arg4;
-    u16 *tlut;
-    TexturePtr texture;
+void tiStretchTexItem(Gfx **gfxP, const TiTexData *ti, bool cached, s32 count, s32 index, f32 x, f32 y, f32 w, f32 h) {
+    s32 height = ti->info[TI_INFO_IDX_HEIGHT] / count;
+    s32 offset = ti->info[TI_INFO_IDX_WIDTH] * height * index;
+    const u16 *tlut;
+    const Texture *texture;
 
-    if (arg2 != 0) {
+    if (cached) {
         tlut = NULL;
         texture = NULL;
     } else {
-        tlut = arg1->texs[0];
-        texture = arg1->texs[1];
+        tlut = ti->texs[TI_TEX_TLUT];
+        texture = ti->texs[TI_TEX_TEX];
 
-        switch (arg1->info[2]) {
+        switch (ti->info[TI_INFO_IDX_FORMAT]) {
             case TITEX_FORMAT_4:
-                texture = (u8 *)texture + temp_lo_2 / 2;
+                texture = (const u8 *)texture + offset / 2;
                 break;
 
             case TITEX_FORMAT_8:
-                texture = (u8 *)texture + temp_lo_2;
+                texture = (const u8 *)texture + offset;
                 break;
 
             case TITEX_FORMAT_16:
-                texture = (u8 *)texture + temp_lo_2 * 2;
+                texture = (const u16 *)texture + offset;
                 break;
         }
     }
 
-    if (arg1->info[3] & TITEX_FLAGS_BLOCK) {
-        switch (arg1->info[2]) {
+    if (ti->info[TI_INFO_IDX_FLAGS] & TITEX_FLAGS_BLOCK) {
+        switch (ti->info[TI_INFO_IDX_FORMAT]) {
             case TITEX_FORMAT_4:
-                StretchTexBlock4(gfxP, arg1->info[0], temp_lo, tlut, texture, arg5, arg6, arg7, arg8);
+                StretchTexBlock4(gfxP, ti->info[TI_INFO_IDX_WIDTH], height, tlut, texture, x, y, w, h);
                 break;
 
             case TITEX_FORMAT_8:
-                StretchTexBlock8(gfxP, arg1->info[0], temp_lo, tlut, texture, arg5, arg6, arg7, arg8);
+                StretchTexBlock8(gfxP, ti->info[TI_INFO_IDX_WIDTH], height, tlut, texture, x, y, w, h);
                 break;
         }
     } else {
-        switch (arg1->info[2]) {
+        switch (ti->info[TI_INFO_IDX_FORMAT]) {
             case TITEX_FORMAT_4:
-                StretchTexTile4(gfxP, arg1->info[0], temp_lo, tlut, texture, 0, 0, arg1->info[0], temp_lo, arg5, arg6,
-                                arg7, arg8);
+                StretchTexTile4(gfxP, ti->info[TI_INFO_IDX_WIDTH], height, tlut, texture, 0, 0,
+                                ti->info[TI_INFO_IDX_WIDTH], height, x, y, w, h);
                 break;
 
             case TITEX_FORMAT_8:
-                StretchTexTile8(gfxP, arg1->info[0], temp_lo, tlut, texture, 0, 0, arg1->info[0], temp_lo, arg5, arg6,
-                                arg7, arg8);
+                StretchTexTile8(gfxP, ti->info[TI_INFO_IDX_WIDTH], height, tlut, texture, 0, 0,
+                                ti->info[TI_INFO_IDX_WIDTH], height, x, y, w, h);
                 break;
         }
     }
@@ -1407,49 +1443,49 @@ void tiStretchTexItem(Gfx **gfxP, TiTexData *arg1, s32 arg2, s32 arg3, s32 arg4,
 /**
  * Original name: tiStretchAlphaTexItem
  */
-void tiStretchAlphaTexItem(Gfx **gfxP, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6,
-                           f32 arg7, f32 arg8, f32 arg9) {
-    s32 var_t3 = MIN(arg1->info[0], arg2->info[0]);
-    s32 var_t2 = MIN(arg1->info[1] / arg4, arg2->info[1]);
-    TexturePtr sp48[2];
+void tiStretchAlphaTexItem(Gfx **gfxP, const TiTexData *tiC, const TiTexData *tiA, bool cached, s32 count, s32 index,
+                           f32 x, f32 y, f32 w, f32 h) {
+    s32 var_t3 = MIN(tiC->info[TI_INFO_IDX_WIDTH], tiA->info[TI_INFO_IDX_WIDTH]);
+    s32 var_t2 = MIN(tiC->info[TI_INFO_IDX_HEIGHT] / count, tiA->info[TI_INFO_IDX_HEIGHT]);
+    const Texture *texs[2];
 
-    if (arg3 != 0) {
-        sp48[0] = NULL;
-        sp48[1] = NULL;
+    if (cached) {
+        texs[0] = NULL;
+        texs[1] = NULL;
     } else {
-        sp48[0] = (u8 *)arg1->texs[1] + (arg1->info[0] * var_t2 * arg5 * 2);
-        sp48[1] = (u8 *)arg2->texs[1] + (arg2->info[0] * var_t2 * arg5 / 2);
+        texs[0] = (const u16 *)tiC->texs[TI_TEX_TEX] + tiC->info[TI_INFO_IDX_WIDTH] * var_t2 * index;
+        texs[1] = (const u8 *)tiA->texs[TI_TEX_TEX] + tiA->info[TI_INFO_IDX_WIDTH] * var_t2 * index / 2;
     }
 
-    if ((arg1->info[3] & TITEX_FLAGS_BLOCK) && (arg2->info[3] & TITEX_FLAGS_BLOCK)) {
-        StretchAlphaTexBlock(gfxP, var_t3, var_t2, sp48[0], arg1->info[0], sp48[1], arg2->info[0], arg6, arg7, arg8,
-                             arg9);
+    if ((tiC->info[TI_INFO_IDX_FLAGS] & TITEX_FLAGS_BLOCK) && (tiA->info[TI_INFO_IDX_FLAGS] & TITEX_FLAGS_BLOCK)) {
+        StretchAlphaTexBlock(gfxP, var_t3, var_t2, texs[0], tiC->info[TI_INFO_IDX_WIDTH], texs[1],
+                             tiA->info[TI_INFO_IDX_WIDTH], x, y, w, h);
     } else {
-        StretchAlphaTexTile(gfxP, var_t3, var_t2, sp48[0], arg1->info[0], sp48[1], arg2->info[0], 0, 0, var_t3, var_t2,
-                            arg6, arg7, arg8, arg9);
+        StretchAlphaTexTile(gfxP, var_t3, var_t2, texs[0], tiC->info[TI_INFO_IDX_WIDTH], texs[1],
+                            tiA->info[TI_INFO_IDX_WIDTH], 0, 0, var_t3, var_t2, x, y, w, h);
     }
 }
 
-void func_80045914(Gfx **gfxP, TiTexData *arg1, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7,
-                   f32 arg8, f32 arg9) {
-    s32 var_t3 = MIN(arg1->info[0], arg2->info[0]);
-    s32 var_t1 = MIN(arg1->info[1] / arg4, arg2->info[1]);
-    TexturePtr sp40[2];
+void tiStretchAlphaTexItem2(Gfx **gfxP, const TiTexData *tiC, const TiTexData *tiA, bool cached, s32 count, s32 index,
+                            f32 x, f32 y, f32 w, f32 h) {
+    s32 var_t3 = MIN(tiC->info[TI_INFO_IDX_WIDTH], tiA->info[TI_INFO_IDX_WIDTH]);
+    s32 var_t1 = MIN(tiC->info[TI_INFO_IDX_HEIGHT] / count, tiA->info[TI_INFO_IDX_HEIGHT]);
+    const Texture *sp40[2];
 
-    if (arg3 != 0) {
+    if (cached) {
         sp40[0] = NULL;
         sp40[1] = NULL;
     } else {
-        sp40[0] = (u8 *)arg1->texs[1] + arg1->info[0] * var_t1 * arg5 * 2;
-        sp40[1] = (u8 *)arg2->texs[1];
+        sp40[0] = (const u16 *)tiC->texs[TI_TEX_TEX] + tiC->info[TI_INFO_IDX_WIDTH] * var_t1 * index;
+        sp40[1] = tiA->texs[TI_TEX_TEX];
     }
 
-    if ((arg1->info[3] & TITEX_FLAGS_BLOCK) && (arg2->info[3] & TITEX_FLAGS_BLOCK)) {
-        StretchAlphaTexBlock(gfxP, var_t3, var_t1, sp40[0], arg1->info[0], sp40[1], arg2->info[0], arg6, arg7, arg8,
-                             arg9);
+    if ((tiC->info[TI_INFO_IDX_FLAGS] & TITEX_FLAGS_BLOCK) && (tiA->info[TI_INFO_IDX_FLAGS] & TITEX_FLAGS_BLOCK)) {
+        StretchAlphaTexBlock(gfxP, var_t3, var_t1, sp40[0], tiC->info[TI_INFO_IDX_WIDTH], sp40[1],
+                             tiA->info[TI_INFO_IDX_WIDTH], x, y, w, h);
     } else {
-        StretchAlphaTexTile(gfxP, var_t3, var_t1, sp40[0], arg1->info[0], sp40[1], arg2->info[0], 0, 0, var_t3, var_t1,
-                            arg6, arg7, arg8, arg9);
+        StretchAlphaTexTile(gfxP, var_t3, var_t1, sp40[0], tiC->info[TI_INFO_IDX_WIDTH], sp40[1],
+                            tiA->info[TI_INFO_IDX_WIDTH], 0, 0, var_t3, var_t1, x, y, w, h);
     }
 }
 
@@ -1465,50 +1501,50 @@ const u8 _pnts_871[][8] = {
 /**
  * Original name: tiStretchAlphaTexItem
  */
-void drawCursorPattern(Gfx **gfxP, s32 arg1 UNUSED, s32 arg2 UNUSED, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7,
-                       s32 arg8) {
+void drawCursorPattern(Gfx **gfxP, s32 arg1 UNUSED, s32 arg2 UNUSED, s32 frmW, s32 frmH, s32 posX, s32 posY, s32 posW,
+                       s32 posH) {
     Gfx *gfx = *gfxP;
-    s32 sp8[4];
-    s32 sp18[4];
-    s32 sp28[4];
-    s32 sp38[4];
-    s32 sp48[4];
+    s32 px[4];
+    s32 py[4];
+    s32 tx[3];
+    s32 ty[3];
+    s32 dx[3];
     s32 i;
     s32 temp;
 
-    temp = arg7 + arg3;
+    temp = posW + frmW;
 
-    sp8[0] = (arg5 * 4) - (arg3 * 2);
-    sp8[3] = sp8[0] + temp * 4;
-    sp8[1] = sp8[0] + arg3 * 4;
-    sp8[2] = sp8[3] - arg3 * 4;
+    px[0] = (posX * 4) - (frmW * 2);
+    px[3] = px[0] + temp * 4;
+    px[1] = px[0] + frmW * 4;
+    px[2] = px[3] - frmW * 4;
 
-    sp28[0] = 0;
-    sp28[1] = (arg3 - 1) << 5;
-    sp28[2] = arg3 << 5;
+    tx[0] = 0;
+    tx[1] = (frmW - 1) << 5;
+    tx[2] = frmW << 5;
 
-    temp = arg8 + arg4;
+    temp = posH + frmH;
 
-    sp18[0] = (arg6 * 4) - (arg4 * 2);
-    sp18[3] = sp18[0] + temp * 4;
-    sp18[1] = sp18[0] + arg4 * 4;
-    sp18[2] = sp18[3] - arg4 * 4;
+    py[0] = (posY * 4) - (frmH * 2);
+    py[3] = py[0] + temp * 4;
+    py[1] = py[0] + frmH * 4;
+    py[2] = py[3] - frmH * 4;
 
-    sp38[0] = 0;
-    sp38[1] = (arg4 - 1) << 5;
-    sp38[2] = arg4 << 5;
+    ty[0] = 0;
+    ty[1] = (frmH - 1) << 5;
+    ty[2] = frmH << 5;
 
-    sp48[0] = -0x400;
-    sp48[1] = 0;
-    sp48[2] = 0x400;
+    dx[0] = -0x400;
+    dx[1] = 0;
+    dx[2] = 0x400;
 
     for (i = 0; i < ARRAY_COUNTU(_pnts_871); i++) {
         // Cast away the const
-        u8 *temp_a3_2 = (u8 *)_pnts_871[i];
+        u8 *pnts = (void *)_pnts_871[i];
 
-        gSPScisTextureRectangle(gfx++, sp8[temp_a3_2[0]], sp18[temp_a3_2[1]], sp8[temp_a3_2[2]], sp18[temp_a3_2[3]],
-                                G_TX_RENDERTILE, sp28[temp_a3_2[4]], sp38[temp_a3_2[5]], sp48[temp_a3_2[6]],
-                                sp48[temp_a3_2[7]]);
+        gSPScisTextureRectangle(gfx++, px[pnts[0]], py[pnts[1]], px[pnts[2]], py[pnts[3]], G_TX_RENDERTILE, tx[pnts[4]],
+                                ty[pnts[5]], dx[pnts[6]], dx[pnts[7]]);
     }
+
     *gfxP = gfx;
 }

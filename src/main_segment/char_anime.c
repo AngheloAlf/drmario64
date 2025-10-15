@@ -294,32 +294,34 @@ void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32
     temp_t0 = animeState->unk_1C;
     temp_a3 = &temp_t0[animeState->animeSeq.unk_18];
     if (arg4 < 0.0f) {
-        arg2 = arg2 - (animeState->unk_24.unk_0 - temp_a3->info[0]) * arg4;
+        arg2 = arg2 - (animeState->unk_24.unk_0 - temp_a3->info[TI_INFO_IDX_WIDTH]) * arg4;
     } else {
         arg2 = arg2 - animeState->unk_24.unk_0 * arg4;
     }
 
     if (arg5 < 0.0f) {
-        arg3 -= (animeState->unk_24.unk_4 - temp_a3->info[1]) * arg5;
+        arg3 -= (animeState->unk_24.unk_4 - temp_a3->info[TI_INFO_IDX_HEIGHT]) * arg5;
     } else {
         arg3 -= animeState->unk_24.unk_4 * arg5;
     }
 
     if (animeState->animeMode == CHARANIMEMODE_MARIO) {
-        arg3 -= (temp_a3->info[1] - 0x40) * arg5;
+        arg3 -= (temp_a3->info[TI_INFO_IDX_HEIGHT] - 0x40) * arg5;
     }
 
-    switch (temp_a3->info[2]) {
+    switch (temp_a3->info[TI_INFO_IDX_FORMAT]) {
         case TITEX_FORMAT_4:
-            StretchTexTile4(&gfx, temp_a3->info[0], temp_a3->info[1], temp_t0[0].texs[0], temp_a3->texs[1], 0, 0,
-                            temp_a3->info[0], temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4,
-                            temp_a3->info[1] * arg5);
+            StretchTexTile4(&gfx, temp_a3->info[TI_INFO_IDX_WIDTH], temp_a3->info[TI_INFO_IDX_HEIGHT],
+                            temp_t0[0].texs[TI_TEX_TLUT], temp_a3->texs[TI_TEX_TEX], 0, 0,
+                            temp_a3->info[TI_INFO_IDX_WIDTH], temp_a3->info[TI_INFO_IDX_HEIGHT], arg2, arg3,
+                            temp_a3->info[TI_INFO_IDX_WIDTH] * arg4, temp_a3->info[TI_INFO_IDX_HEIGHT] * arg5);
             break;
 
         case TITEX_FORMAT_8:
-            StretchTexTile8(&gfx, temp_a3->info[0], temp_a3->info[1], temp_t0[0].texs[0], temp_a3->texs[1], 0, 0,
-                            temp_a3->info[0], temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4,
-                            temp_a3->info[1] * arg5);
+            StretchTexTile8(&gfx, temp_a3->info[TI_INFO_IDX_WIDTH], temp_a3->info[TI_INFO_IDX_HEIGHT],
+                            temp_t0[0].texs[TI_TEX_TLUT], temp_a3->texs[TI_TEX_TEX], 0, 0,
+                            temp_a3->info[TI_INFO_IDX_WIDTH], temp_a3->info[TI_INFO_IDX_HEIGHT], arg2, arg3,
+                            temp_a3->info[TI_INFO_IDX_WIDTH] * arg4, temp_a3->info[TI_INFO_IDX_HEIGHT] * arg5);
             break;
     }
 
@@ -337,19 +339,21 @@ void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 a
     temp_a3 = &animeState->unk_1C[animeState->animeSeq.unk_18];
 
     if (arg4 < 0.0f) {
-        arg2 -= (animeState->unk_24.unk_0 - temp_a3->info[0]) * arg4;
+        arg2 -= (animeState->unk_24.unk_0 - temp_a3->info[TI_INFO_IDX_WIDTH]) * arg4;
     } else {
         arg2 -= animeState->unk_24.unk_0 * arg4;
     }
 
     if (arg5 < 0.0f) {
-        arg3 -= (animeState->unk_24.unk_4 - temp_a3->info[1]) * arg5;
+        arg3 -= (animeState->unk_24.unk_4 - temp_a3->info[TI_INFO_IDX_HEIGHT]) * arg5;
     } else {
         arg3 -= animeState->unk_24.unk_4 * arg5;
     }
 
-    StretchTexTile4i(&gfx, temp_a3->info[0], temp_a3->info[1], temp_a3->texs[1], 0, 0, temp_a3->info[0],
-                     temp_a3->info[1], arg2, arg3, temp_a3->info[0] * arg4, temp_a3->info[1] * arg5);
+    StretchTexTile4i(&gfx, temp_a3->info[TI_INFO_IDX_WIDTH], temp_a3->info[TI_INFO_IDX_HEIGHT],
+                     temp_a3->texs[TI_TEX_TEX], 0, 0, temp_a3->info[TI_INFO_IDX_WIDTH],
+                     temp_a3->info[TI_INFO_IDX_HEIGHT], arg2, arg3, temp_a3->info[TI_INFO_IDX_WIDTH] * arg4,
+                     temp_a3->info[TI_INFO_IDX_HEIGHT] * arg5);
     *gfxP = gfx;
 }
 

@@ -13,8 +13,9 @@ typedef struct GbiStat {
     /* 0x00 */ s32 siz;
     /* 0x04 */ s32 width;
     /* 0x08 */ s32 height;
-    /* 0x0C */ u16 *tlut;
-    /* 0x10 */ u8 *texture; // ci // TexturePtr?
+    // TODO: const
+    /* 0x0C */ /*const*/ u16 *tlut;
+    /* 0x10 */ /*const*/ Texture *texture;
 } GbiStat; // size = 0x14
 
 

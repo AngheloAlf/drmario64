@@ -468,7 +468,7 @@ void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP);
 void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg2);
 void func_80069188(struct_watchGame_unk_070 *arg0, s32 arg1);
 void starForce_draw(struct_watchGame_unk_070* arg0, Gfx** gfxP, s32 arg2);
-void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
+void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, bool cached);
 void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void dm_map_draw(GameMapCell *mapCells, u8 arg1, s16 arg2, s16 arg3, s8 arg4);
 void func_80069ACC(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, s32 arg2[2]);
