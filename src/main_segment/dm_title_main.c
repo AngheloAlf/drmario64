@@ -19,6 +19,7 @@
 #include "tex_func.h"
 #include "main_story.h"
 #include "nnsched.h"
+#include "static.h"
 
 // TODO: enum?
 /**

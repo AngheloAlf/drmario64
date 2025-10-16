@@ -21,6 +21,7 @@
 #include "main_story.h"
 #include "main_menu.h"
 #include "nnsched.h"
+#include "static.h"
 
 STACK(sGraphicStack, GRAPHIC_STACK_SIZE);
 
