@@ -39,14 +39,9 @@
     la          dst, address
 
 #elif VERSION_CN
-#if MODDING
 #define LA(dst, address) \
-    la          dst, address
-#else
-#define LA(dst, address) \
-    lui         dst, address ## _HI; \
-    ori         dst, dst, address ## _LO
-#endif
+    lui         dst, %lo(address ## _HI); \
+    ori         dst, dst, %lo(address ## _LO)
 
 #endif
 

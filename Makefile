@@ -537,7 +537,7 @@ endif
 # Assembly files that are built with the appropiate compiler.
 $(BUILD_DIR)/%.o: %.s
 	$(GCC) -x assembler-with-cpp -MMD -MP -E $(ABIFLAG) $(MODERN_CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS) -U _LANGUAGE_C $(AS_DEFINES) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -o $@ $<
-	$(CC) -x assembler-with-cpp $(C_COMPILER_FLAGS) -U _LANGUAGE_C $(AS_DEFINES) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $<
+	$(CC) -x assembler-with-cpp $(C_COMPILER_FLAGS) $(DBGFLAGS) -U _LANGUAGE_C $(AS_DEFINES) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $<
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
