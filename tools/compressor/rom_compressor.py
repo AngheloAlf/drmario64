@@ -29,8 +29,11 @@ def align(value: int, n: int) -> int:
     return (((value) + ((n)-1)) & ~((n)-1))
 
 
-def align8MB(value: int) -> int:
+def align1MB(value: int) -> int:
     return align(value, 0x100000)
+
+def align8KB(value: int) -> int:
+    return align(value, 0x2000)
 
 def addSymbolToRelocate(relsOffetsToApply: dict[int, tuple[str, spimdisasm.common.RelocType]], symName: str, rel: spimdisasm.elf32.Elf32RelEntry, segmentRomOffset: int, segmentVram: int):
     relVram = rel.offset
@@ -50,6 +53,7 @@ def romCompressorMain():
     parser.add_argument("elf", help="path to the uncompressed rom elf file")
     parser.add_argument("segments", help="path to segments file")
     parser.add_argument("version", help="version to process")
+    parser.add_argument("-p", "--pad-rom", help="Pad the rom to the next 1MiB boundary", action="store_true")
     parser.add_argument("-d", "--debug", help="Enable debug prints", action="store_true")
 
     args = parser.parse_args()
@@ -59,6 +63,7 @@ def romCompressorMain():
     elfPath = Path(args.elf)
     segmentsPath = Path(args.segments)
     version = args.version
+    padRom = bool(args.pad_rom)
 
     global DEBUGGING
     DEBUGGING = args.debug
@@ -149,7 +154,7 @@ def romCompressorMain():
                 else:
                     spimdisasm.common.Utils.eprint(f"Segment '{sectionEntryName}' doesn't match, should have hash '{segmentEntry.uncompressedHash}' but has hash '{uncompressedHash}'.")
                     printDebug(f"Segment '{sectionEntryName}' is at offset 0x{offset:06X} and has a size of 0x{entry.size:06X} (ends at offset 0x{offset+entry.size:06X}).")
-                    spimdisasm.common.Utils.eprint(f"Compressing...\n")
+                    spimdisasm.common.Utils.eprint("Compressing...\n")
                     compressedBytearray = compression_common.compressZlib(segmentBytearray, segmentEntry.compressionLevel)
 
                     # with open(f"'{sectionEntryName}'.bin", "wb") as compressedBinFile:
@@ -182,10 +187,14 @@ def romCompressorMain():
         offset += align(entry.size, 0x10)
         printDebug()
 
-    alignedSize = align8MB(sizeWrote)
-    if args.version != "cn":
-        # pad
-        outRomBin.extend(bytearray((alignedSize - sizeWrote) * [0xFF]))
+    if padRom:
+        if version == "cn":
+            alignedSize = align8KB(sizeWrote)
+            fillValue = 0x00
+        else:
+            alignedSize = align1MB(sizeWrote)
+            fillValue = 0xFF
+        outRomBin.extend(bytearray((alignedSize - sizeWrote) * [fillValue]))
 
     for relRomOffset, (symName, rType) in relsOffetsToApply.items():
         value = romOffsetValues[symName]
@@ -195,11 +204,11 @@ def romCompressorMain():
             hiValue += 1
 
         if rType == spimdisasm.common.Relocation.RelocType.MIPS_HI16:
-            struct.pack_into(f">H", outRomBin, relRomOffset+2, hiValue)
+            struct.pack_into(">H", outRomBin, relRomOffset+2, hiValue)
         elif rType == spimdisasm.common.Relocation.RelocType.MIPS_LO16:
-            struct.pack_into(f">H", outRomBin, relRomOffset+2, loValue)
+            struct.pack_into(">H", outRomBin, relRomOffset+2, loValue)
         elif rType == spimdisasm.common.Relocation.RelocType.MIPS_32:
-            struct.pack_into(f">I", outRomBin, relRomOffset, value)
+            struct.pack_into(">I", outRomBin, relRomOffset, value)
         else:
             assert False, rType
 

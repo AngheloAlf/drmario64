@@ -24,6 +24,8 @@ def eprint(*args, **kwargs):
 
 
 def updateChecksum(romBytes: bytearray):
+    assert len(romBytes) >= 0x101000, f"ROM is too small: 0x{len(romBytes):06X} ({len(romBytes)//1024} KiB)"
+
     # Detect CIC
     cicKind = ipl3checksum.detectCIC(romBytes)
     if cicKind is None:
@@ -38,7 +40,7 @@ def updateChecksum(romBytes: bytearray):
     printDebug(f"checksum2: {calculatedChecksum[1]:X}")
 
     # Write checksum
-    struct.pack_into(f">II", romBytes, 0x10, calculatedChecksum[0], calculatedChecksum[1])
+    struct.pack_into(">II", romBytes, 0x10, calculatedChecksum[0], calculatedChecksum[1])
 
 def updaterMain():
     description = ""

@@ -68,11 +68,5 @@ $(SLINKY): | $(SLINKY_DIR)
 	tar xf slinky-cli-$(HOST_TRIPLE).tar.gz -C $(SLINKY_DIR)
 	$(RM) slinky-cli-$(HOST_TRIPLE).tar.gz
 
-$(KMC_DIR):
-	mkdir -p $@
-
-$(EGCS_DIR):
-	mkdir -p $@
-
-$(SLINKY_DIR):
+$(KMC_DIR) $(EGCS_DIR) $(SLINKY_DIR):
 	mkdir -p $@

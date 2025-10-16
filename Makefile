@@ -180,7 +180,7 @@ MIPS_BUILTIN_DEFS := -D_MIPS_ISA_MIPS2=2 -D_MIPS_ISA=_MIPS_ISA_MIPS2 -D_ABIO32=1
 ifneq ($(RUN_CC_CHECK),0)
 #   The -MMD flags additionaly creates a .d file with the same name as the .o file.
     CC_CHECK          := $(CC_CHECK_COMP)
-    CC_CHECK_FLAGS    := -MMD -MP -fno-builtin -funsigned-char -fsyntax-only -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DPRESERVE_UB -DCC_CHECK=1 $(MIPS_BUILTIN_DEFS)
+    CC_CHECK_FLAGS    := -MMD -MP -fsyntax-only -fno-builtin -funsigned-char -fdiagnostics-color -std=gnu89 -m32 -DNON_MATCHING -DPRESERVE_UB -DCC_CHECK=1 $(MIPS_BUILTIN_DEFS)
 else # RUN_CC_CHECK
     CC_CHECK          := @:
 endif
@@ -246,6 +246,8 @@ ifneq ($(COMPILER_VERBOSE), 0)
 else
     COMP_VERBOSE_FLAG :=
 endif
+
+ROM_COMPRESSOR_FLAGS := --pad-rom
 
 
 #### Files ####
@@ -420,12 +422,12 @@ $(ROM): $(ELF)
 	$(CHECKSUMMER) $(@:.z64=.bin) $@
 
 $(ROMC): $(ROM) tools/compressor/compress_segments.$(VERSION).csv
-	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
+	$(ROM_COMPRESSOR) $(ROM) $(ROMC:.z64=.bin) $(ELF) tools/compressor/compress_segments.$(VERSION).csv $(VERSION) $(ROM_COMPRESSOR_FLAGS)
 	$(CHECKSUMMER) $(ROMC:.z64=.bin) $@
 
 $(ELF): $(LINKER_SCRIPTS)
 	$(file >$(@:.elf=.o_files.txt), $(filter %.o, $^))
-	$(LD) $(ENDIAN) $(LDFLAGS) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) -o $@ @$(@:.elf=.o_files.txt)
+	$(LD) $(ENDIAN) -Map $(LD_MAP) $(foreach ld, $(LINKER_SCRIPTS), -T $(ld)) $(LDFLAGS) -o $@ @$(@:.elf=.o_files.txt)
 
 ## Order-only prerequisites
 # These ensure e.g. the PNG_INC_FILES are built before the O_FILES.

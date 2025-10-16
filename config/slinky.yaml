@@ -962,12 +962,6 @@ segments:
     files:
       - { path: src/assets/tutorial/tutorial_kasa.o }
 
-  # wtf is this segment?
-  - name: _65CF00
-    include_if_any: [[version, cn]]
-    files:
-      - { path: "asm/{version}/data/65CF00.o" }
-
 entry: entrypoint
 
 symbol_assignments:

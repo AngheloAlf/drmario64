@@ -4602,5 +4602,4 @@ segments:
           - [0x65ABA8, ci8, tutorial_kasa_titexdata_08_texs_tex, 128, 70]
           - [0x65CEA8]
 
-  - [0x65CF00, databin]
-  - [0x65E150]
+  - [0x65CF00]
