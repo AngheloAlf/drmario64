@@ -36,9 +36,23 @@
 #define BAD_RETURN(type) void
 #endif
 
+// Use this when an argument can be const, but marking it as such breaks matching
+#ifndef CONST_ARG
+#if MODDING
+#define CONST_ARG const
+#else
+#define CONST_ARG
+#endif
+#endif
+
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 
 #define SQ(x) ((x) * (x))
+
+// Mark a value is a double literal.
+// This is usually unintended effect due to a missing `f` suffix.
+// Having this macro makes this easier to trackdown.
+#define DOUBLE_LITERAL(x) ((f64)(x))
 
 #define ASM_TEXT __asm__(".section .text")
 #define ASM_DATA __asm__(".section .data")
@@ -68,5 +82,11 @@
 
 #define HELP (*(vu32*)0 = 0x1234)
 
+// #define DEBUG_EN 1
+#if DEBUG_EN
+#define T(jp, en) en
+#else
+#define T(jp, en) jp
+#endif
 
 #endif

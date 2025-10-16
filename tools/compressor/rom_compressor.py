@@ -154,7 +154,7 @@ def romCompressorMain():
                 else:
                     spimdisasm.common.Utils.eprint(f"Segment '{sectionEntryName}' doesn't match, should have hash '{segmentEntry.uncompressedHash}' but has hash '{uncompressedHash}'.")
                     printDebug(f"Segment '{sectionEntryName}' is at offset 0x{offset:06X} and has a size of 0x{entry.size:06X} (ends at offset 0x{offset+entry.size:06X}).")
-                    spimdisasm.common.Utils.eprint(f"Compressing...\n")
+                    spimdisasm.common.Utils.eprint("Compressing...\n")
                     compressedBytearray = compression_common.compressZlib(segmentBytearray, segmentEntry.compressionLevel)
 
                     # with open(f"'{sectionEntryName}'.bin", "wb") as compressedBinFile:
@@ -204,11 +204,11 @@ def romCompressorMain():
             hiValue += 1
 
         if rType == spimdisasm.common.Relocation.RelocType.MIPS_HI16:
-            struct.pack_into(f">H", outRomBin, relRomOffset+2, hiValue)
+            struct.pack_into(">H", outRomBin, relRomOffset+2, hiValue)
         elif rType == spimdisasm.common.Relocation.RelocType.MIPS_LO16:
-            struct.pack_into(f">H", outRomBin, relRomOffset+2, loValue)
+            struct.pack_into(">H", outRomBin, relRomOffset+2, loValue)
         elif rType == spimdisasm.common.Relocation.RelocType.MIPS_32:
-            struct.pack_into(f">I", outRomBin, relRomOffset, value)
+            struct.pack_into(">I", outRomBin, relRomOffset, value)
         else:
             assert False, rType
 

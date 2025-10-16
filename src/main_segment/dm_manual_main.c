@@ -129,7 +129,8 @@ void tutolWnd_draw(struct_800F4890_unk_034 *arg0, Gfx **gfxP) {
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
 
     temp_a1 = &_texAll[8];
-    tiStretchTexBlock(&gfx, temp_a1, 0, arg0->unk_00, arg0->unk_04, temp_a1->info[0], temp_a1->info[1]);
+    tiStretchTexBlock(&gfx, temp_a1, false, arg0->unk_00, arg0->unk_04, temp_a1->info[TI_INFO_IDX_WIDTH],
+                      temp_a1->info[TI_INFO_IDX_HEIGHT]);
 
     if (arg0->unk_08 != 0.0f) {
         arg0->messageWnd.alpha = alpha;
@@ -772,9 +773,9 @@ bool dm_manual_1_main(void) {
         case 0x40:
             var_s1 = virus_map_disp_order[0][gameStateDataP->unk_025];
 
-            set_virus(mapCells, virus_map_data[0][var_s1].unk_1, virus_map_data[0][var_s1].unk_2,
-                      virus_map_data[0][var_s1].unk_0,
-                      virus_anime_table[virus_map_data[0][var_s1].unk_0][gameStateDataP->unk_027]);
+            set_virus(mapCells, virus_map_data[0][var_s1].x_pos, virus_map_data[0][var_s1].y_pos,
+                      virus_map_data[0][var_s1].virus_type,
+                      virus_anime_table[virus_map_data[0][var_s1].virus_type][gameStateDataP->unk_027]);
 
             gameStateDataP->unk_025++;
 
@@ -1573,11 +1574,12 @@ void draw_AB_guide(s32 arg0, s32 arg1) {
         TiTexData *temp_a0 = &_texAll[_tex_884[i][1]];
         s32 var_t0;
 
-        var_t0 = MIN(temp_a3->info[0], temp_a0->info[0]);
+        var_t0 = MIN(temp_a3->info[TI_INFO_IDX_WIDTH], temp_a0->info[TI_INFO_IDX_WIDTH]);
 
-        StretchAlphaTexTile(&gGfxHead, var_t0, temp_a3->info[1], temp_a3->texs[1], temp_a3->info[0], temp_a0->texs[1],
-                            temp_a0->info[0], 0, 0, var_t0, temp_a3->info[1], arg0 + _pos_885[i][0],
-                            arg1 + _pos_885[i][1], var_t0, temp_a3->info[1]);
+        StretchAlphaTexTile(&gGfxHead, var_t0, temp_a3->info[TI_INFO_IDX_HEIGHT], temp_a3->texs[TI_TEX_TEX],
+                            temp_a3->info[TI_INFO_IDX_WIDTH], temp_a0->texs[TI_TEX_TEX],
+                            temp_a0->info[TI_INFO_IDX_WIDTH], 0, 0, var_t0, temp_a3->info[TI_INFO_IDX_HEIGHT],
+                            arg0 + _pos_885[i][0], arg1 + _pos_885[i][1], var_t0, temp_a3->info[TI_INFO_IDX_HEIGHT]);
     }
 }
 
@@ -1618,8 +1620,8 @@ void func_80074B08(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s32 a
     temp_s4 = &_texKaSa[RO_800B3150[var_s1] + 1];
     temp_s1 = &_texKaSa[0];
 
-    var_s0 = MIN(temp_s4->info[0], temp_s1->info[0]);
-    var_s3 = MIN(temp_s4->info[1], temp_s1->info[1]);
+    var_s0 = MIN(temp_s4->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_WIDTH]);
+    var_s3 = MIN(temp_s4->info[TI_INFO_IDX_HEIGHT], temp_s1->info[TI_INFO_IDX_HEIGHT]);
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     gSPClearGeometryMode(gfx++, G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
@@ -1639,8 +1641,9 @@ void func_80074B08(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s32 a
     gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     mtx++;
 
-    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->texs[1], temp_s4->info[0], temp_s1->texs[1], temp_s1->info[0],
-                     0, 0, var_s0, var_s3, 0.0f, 0.0f, var_s0, var_s3);
+    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->texs[TI_TEX_TEX], temp_s4->info[TI_INFO_IDX_WIDTH],
+                     temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], 0, 0, var_s0, var_s3, 0.0f, 0.0f,
+                     var_s0, var_s3);
 
     *vtxP = vtx;
     *mtxP = mtx;
@@ -1658,7 +1661,7 @@ void func_80074EF0(struct_game_state_data *gameStateData, struct_800F4890_unk_0E
     for (i = 0; i < 3; i++) {
         s32 j;
 
-        load_TexPal(dm_game_get_capsel_pal(arg2, i)->texs[0]);
+        load_TexPal(dm_game_get_capsel_pal(arg2, i)->texs[TI_TEX_TLUT]);
 
         for (j = 0; j < 4; j++) {
             if ((arg1[j].unk_3[0] != 0) && (arg1[j].unk_2 == i)) {
@@ -1735,9 +1738,9 @@ void disp_cont(void) {
 
         temp_t2 = _posCircle_924[i];
         temp_t1 = &_texAll[6];
-        StretchTexBlock4i(&gGfxHead, temp_t1->info[0], temp_t1->info[1], temp_t1->texs[1],
-                          _posContPanel[0] + temp_t2[0], _posContPanel[1] + temp_t2[1], temp_t1->info[0],
-                          temp_t1->info[1]);
+        StretchTexBlock4i(&gGfxHead, temp_t1->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT],
+                          temp_t1->texs[TI_TEX_TEX], _posContPanel[0] + temp_t2[0], _posContPanel[1] + temp_t2[1],
+                          temp_t1->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT]);
 
         gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
@@ -1745,12 +1748,13 @@ void disp_cont(void) {
         temp_a1 = &_texAll[5];
 
         temp_t2 = _posFinger_925[i];
-        var_t0 = MIN(temp_t1->info[0], temp_a1->info[0]);
+        var_t0 = MIN(temp_t1->info[TI_INFO_IDX_WIDTH], temp_a1->info[TI_INFO_IDX_WIDTH]);
 
-        StretchAlphaTexBlock(&gGfxHead, var_t0, temp_t1->info[1], temp_t1->texs[1], temp_t1->info[0], temp_a1->texs[1],
-                             temp_a1->info[0], _posContPanel[0] + temp_t2[0],
+        StretchAlphaTexBlock(&gGfxHead, var_t0, temp_t1->info[TI_INFO_IDX_HEIGHT], temp_t1->texs[TI_TEX_TEX],
+                             temp_t1->info[TI_INFO_IDX_WIDTH], temp_a1->texs[TI_TEX_TEX],
+                             temp_a1->info[TI_INFO_IDX_WIDTH], _posContPanel[0] + temp_t2[0],
                              _posContPanel[1] + temp_t2[1] - MIN(4, ABS(watchManualP->unk_01C[i])), var_t0,
-                             temp_t1->info[1]);
+                             temp_t1->info[TI_INFO_IDX_HEIGHT]);
     }
 }
 
@@ -1768,7 +1772,8 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
             gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
             temp = &_texAll[7];
-            tiStretchTexBlock(&gGfxHead, temp, 0, _posContPanel[0], _posContPanel[1], temp->info[0], temp->info[1]);
+            tiStretchTexBlock(&gGfxHead, temp, false, _posContPanel[0], _posContPanel[1], temp->info[TI_INFO_IDX_WIDTH],
+                              temp->info[TI_INFO_IDX_HEIGHT]);
             dm_draw_big_virus(&gGfxHead);
             break;
 
@@ -1806,7 +1811,7 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
     switch (evs_manual_no) {
         case EVS_MANUAL_NO_0:
         case EVS_MANUAL_NO_3:
-            if (main_old == MAIN_NO_3) {
+            if (main_old == MAIN_TITLE) {
                 push_any_key_draw(0xDC, 0xD2);
             } else {
                 draw_AB_guide(0xC8, 0xCA);
@@ -1814,7 +1819,7 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
             break;
 
         case EVS_MANUAL_NO_1:
-            if (main_old == MAIN_NO_3) {
+            if (main_old == MAIN_TITLE) {
                 push_any_key_draw(0x80, 0xD2);
             } else {
                 draw_AB_guide(0x6E, 0xCA);
@@ -1822,7 +1827,7 @@ void dm_manual_draw_fg(Mtx **mtxP, Vtx **vtxP) {
             break;
 
         case EVS_MANUAL_NO_2:
-            if (main_old == MAIN_NO_3) {
+            if (main_old == MAIN_TITLE) {
                 push_any_key_draw(0xE6, 0xD2);
             } else {
                 draw_AB_guide(0x6E, 0xCA);
@@ -1891,7 +1896,7 @@ void dm_manual_all_init(void) {
             break;
     }
 
-    evs_gamemode = ENUM_EVS_GAMEMODE_0;
+    evs_gamemode = GMD_NORMAL;
     story_proc_no = BGROMDATA_INDEX1;
 
     dm_game_init_heap();
@@ -2088,7 +2093,7 @@ enum_main_no dm_manual_main(NNSched *sc) {
         }
         if (temp_s2->unk_00C == 0) {
             var_a0 = B_BUTTON;
-            if (main_old == MAIN_NO_3) {
+            if (main_old == MAIN_TITLE) {
                 var_a0 = ANY_BUTTON;
             }
             if (gControllerPressedButtons[main_joy[0]] & var_a0) {
@@ -2115,14 +2120,14 @@ enum_main_no dm_manual_main(NNSched *sc) {
 
     nnScRemoveClient(sc, &scClient);
 
-    if (main_old == MAIN_NO_3) {
-        return MAIN_NO_3;
-    } else if (main_old == MAIN_NO_6) {
-        return MAIN_NO_6;
+    if (main_old == MAIN_TITLE) {
+        return MAIN_TITLE;
+    } else if (main_old == MAIN_MENU) {
+        return MAIN_MENU;
     }
 
 #ifdef PRESERVE_UB
-    return MAIN_NO_3;
+    return MAIN_TITLE;
 #endif
 }
 

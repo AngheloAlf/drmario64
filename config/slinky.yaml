@@ -79,10 +79,12 @@ vram_classes:
 
 segments:
   - name: header
+    fixed_vram: 0x00000000
     files:
       - { path: src/rom_header/rom_header.o }
 
   - name: ipl3
+    fixed_vram: 0x00000040
     files:
       - { path: "asm/{version}/data/ipl3.o" }
 
@@ -106,7 +108,7 @@ segments:
 
       - { path: src/boot/rom_offsets.o }
 
-      - { path: src/gateway/003630.o, include_if_any: [[version, gw], [version, cn]] }
+      - { path: src/gateway/003630.o }
 
       # libultra
       - kind: group
@@ -530,7 +532,7 @@ segments:
       - { path: src/main_segment/unused/066080.o }
       - { path: src/main_segment/replay.o }
       - { path: src/main_segment/066580.o }
-      - { path: src/main_segment/066840.o }
+      - { path: src/main_segment/calcsub.o }
       - { path: src/main_segment/unused/055C40.o }
 
       - kind: group
@@ -544,13 +546,13 @@ segments:
           - { path: lib_memory.o }
           - { path: aud_samples.o }
 
-      - { path: src/rsp/rspboot.o }
-      - { path: src/rsp/aspMain.o,  include_if_any: [[version, us], [version, gw]] }
-      - { path: src/rsp/f3dex2.o,   include_if_any: [[version, us], [version, gw]] }
-      - { path: src/rsp/s2dex.o,    include_if_any: [[version, us], [version, gw]] }
-      - { path: src/rsp/aspMain.o,  include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
-      - { path: src/rsp/f3dex2.o,   include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
-      - { path: src/rsp/s2dex.o,    include_if_any: [[version, cn]],                section_order: { .data: .rodata } }
+      - kind: group
+        dir: src/rsp
+        files:
+          - { path: rspboot.o }
+          - { path: aspMain.o }
+          - { path: f3dex2.o }
+          - { path: s2dex.o }
 
       - { path: src/main_segment/COMMON.o, exclude_if_any: [[modding, true]] }
 

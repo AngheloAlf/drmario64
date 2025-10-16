@@ -10,7 +10,8 @@
                 ".",
                 "lib/ultralib/include",
                 "lib/ultralib/include/PR",
-                "lib/libmus/include"
+                "lib/libmus/include",
+                "build/us/src/main_segment",
             ],
             "defines": [
                 "NON_EQUIVALENT",
@@ -29,7 +30,7 @@
                 "VERSION_US=1",
                 "BUILD_VERSION=8",
                 "CC_CHECK=1",
-                "SCOMMON_IN_COMMON=1"
+                "SCOMMON_IN_COMMON=1",
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true
@@ -54,7 +55,8 @@
                 ".",
                 "lib/ultralib/include",
                 "lib/ultralib/include/PR",
-                "lib/libmus/include"
+                "lib/libmus/include",
+                "build/cn/src/main_segment",
             ],
             "defines": [
                 "NON_EQUIVALENT",
@@ -73,7 +75,8 @@
                 "VERSION_CN=1",
                 "BUILD_VERSION=8",
                 "CC_CHECK=1",
-                "SCOMMON_IN_COMMON=0"
+                "SCOMMON_IN_COMMON=0",
+                "NN_SC_PERF",
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true
@@ -98,7 +101,8 @@
                 ".",
                 "lib/ultralib/include",
                 "lib/ultralib/include/PR",
-                "lib/libmus/include"
+                "lib/libmus/include",
+                "build/gw/src/main_segment",
             ],
             "defines": [
                 "NON_EQUIVALENT",
@@ -117,7 +121,8 @@
                 "VERSION_GW=1",
                 "BUILD_VERSION=8",
                 "CC_CHECK=1",
-                "SCOMMON_IN_COMMON=1"
+                "SCOMMON_IN_COMMON=1",
+                "NN_SC_PERF",
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true

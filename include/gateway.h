@@ -4,6 +4,7 @@
 #include "libultra.h"
 #include "libc/stdbool.h"
 
+#ifdef NN_SC_PERF
 /**
  * http://n64devkit.square7.ch/info/submission/gateway/01-01.html
  */
@@ -16,5 +17,6 @@
 #define GATEWAY_HALT_REG_RELDURATION  0x2
 
 s32 Gateway_80002AE8_cn(bool set);
+#endif
 
 #endif

@@ -97,7 +97,10 @@ void *gzip_malloc_addr = gzip_mem_buff;
  */
 s32 gzip_malloc_tmp = 0;
 
-void *func_80000720(size_t size) {
+/**
+ * Original name: gzip_malloc
+ */
+void *gzip_malloc(size_t size) {
     void *ret;
 
     gzip_malloc_tmp += size;
@@ -110,7 +113,10 @@ void *func_80000720(size_t size) {
     return ret;
 }
 
-void func_8000075C(void *arg UNUSED) {
+/**
+ * Original name: gzip_malloc
+ */
+void gzip_free(void *arg UNUSED) {
     gzip_malloc_tmp = 0;
     gzip_malloc_addr = gzip_mem_buff;
 }
@@ -139,7 +145,7 @@ s32 huft_build(u32 *arg0, u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5,
     s32 var_t5;      // y
     u32 var_s3;      // z
 
-    for (var_s0_2 = 0; var_s0_2 < 0x11U; var_s0_2++) {
+    for (var_s0_2 = 0; var_s0_2 < ARRAY_COUNTU(sp18); var_s0_2++) {
         sp18[var_s0_2] = 0;
     }
 
@@ -158,7 +164,7 @@ s32 huft_build(u32 *arg0, u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5,
     }
 
     var_a3 = *arg6;
-    for (var_s0_2 = 1; var_s0_2 < 0x11U; var_s0_2++) {
+    for (var_s0_2 = 1; var_s0_2 < ARRAY_COUNTU(sp18); var_s0_2++) {
         if (sp18[var_s0_2] != 0) {
             break;
         }
@@ -259,7 +265,7 @@ s32 huft_build(u32 *arg0, u32 arg1, u32 arg2, u16 *arg3, u16 *arg4, huft **arg5,
 
                 var_s3 = 1 << var_s0_2;
 
-                temp_v0_3 = func_80000720((var_s3 + 1) * sizeof(huft));
+                temp_v0_3 = gzip_malloc((var_s3 + 1) * sizeof(huft));
                 if (temp_v0_3 == NULL) {
                     if (var_t1 != 0) {
                         huft_free(sp68[0]);
@@ -330,7 +336,7 @@ s32 huft_free(huft *arg0) {
         arg0--;
 
         temp_s0 = arg0->v.t;
-        func_8000075C(arg0);
+        gzip_free(arg0);
         arg0 = temp_s0;
     }
     return 0;

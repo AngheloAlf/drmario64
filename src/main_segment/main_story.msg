@@ -1,4 +1,3 @@
-
 char st_staffroll_txt[] =
     MSG_NEWLINE
     MSG_NEWLINE
@@ -1466,34 +1465,34 @@ struct_mes_data mes_ep_data[3] = {
 };
 
 struct_mes_data *mes_data[] = {
-    mes_mo1_data,
-    mes_wo1_data,
-    mes_o2_data,
-    mes_o3_data,
-    mes_01_data,
-    mes_m02a_data,
-    mes_w02a_data,
-    mes_m02b_data,
-    mes_w02b_data,
-    mes_m03_data,
-    mes_w03_data,
-    mes_m04_data,
-    mes_w04_data,
-    mes_m05_data,
-    mes_w05_data,
-    mes_m06_data,
-    mes_w06_data,
-    mes_07_data,
-    mes_08a_data,
-    mes_08b_data,
-    mes_m09_data,
-    mes_w09_data,
-    mes_m0e_data,
-    mes_w0e1_data,
-    mes_w0e2_data,
-    mes_07E_data,
-    mes_08Ea_data,
-    mes_m0e1_data,
-    mes_m0e2_data,
-    mes_ep_data,
+    mes_mo1_data,  // MESDATAINDEX_0
+    mes_wo1_data,  // MESDATAINDEX_1
+    mes_o2_data,   // MESDATAINDEX_2
+    mes_o3_data,   // MESDATAINDEX_3
+    mes_01_data,   // MESDATAINDEX_4
+    mes_m02a_data, // MESDATAINDEX_5
+    mes_w02a_data, // MESDATAINDEX_6
+    mes_m02b_data, // MESDATAINDEX_7
+    mes_w02b_data, // MESDATAINDEX_8
+    mes_m03_data,  // MESDATAINDEX_9
+    mes_w03_data,  // MESDATAINDEX_10
+    mes_m04_data,  // MESDATAINDEX_11
+    mes_w04_data,  // MESDATAINDEX_12
+    mes_m05_data,  // MESDATAINDEX_13
+    mes_w05_data,  // MESDATAINDEX_14
+    mes_m06_data,  // MESDATAINDEX_15
+    mes_w06_data,  // MESDATAINDEX_16
+    mes_07_data,   // MESDATAINDEX_17
+    mes_08a_data,  // MESDATAINDEX_18
+    mes_08b_data,  // MESDATAINDEX_19
+    mes_m09_data,  // MESDATAINDEX_20
+    mes_w09_data,  // MESDATAINDEX_21
+    mes_m0e_data,  // MESDATAINDEX_22
+    mes_w0e1_data, // MESDATAINDEX_23
+    mes_w0e2_data, // MESDATAINDEX_24
+    mes_07E_data,  // MESDATAINDEX_25
+    mes_08Ea_data, // MESDATAINDEX_26
+    mes_m0e1_data, // MESDATAINDEX_27
+    mes_m0e2_data, // MESDATAINDEX_28
+    mes_ep_data,   // MESDATAINDEX_29
 };

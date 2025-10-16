@@ -7,7 +7,11 @@ LEAF(gspF3DEX2_fifoTextStart)
 END(gspF3DEX2_fifoTextStart)
 EXPORT(gspF3DEX2_fifoTextEnd)
 
+#if VERSION_CN
+.section .rodata, "a"
+#else
 .section .data, "wa"
+#endif
 
 SYM_START(gspF3DEX2_fifoDataStart)
 .incbin "rsp/f3dex2.databin.bin"

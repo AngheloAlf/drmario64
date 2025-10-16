@@ -74,9 +74,9 @@ BUILD_DEFINES ?=
 ifeq ($(VERSION),us)
     BUILD_DEFINES   += -DVERSION_US=1 -DSCOMMON_IN_COMMON=1
 else ifeq ($(VERSION),cn)
-    BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1 -DSCOMMON_IN_COMMON=0
+    BUILD_DEFINES   += -DVERSION_CN=1 -DBBPLAYER=1 -DSCOMMON_IN_COMMON=0 -DNN_SC_PERF
 else ifeq ($(VERSION),gw)
-    BUILD_DEFINES   += -DVERSION_GW=1 -DSCOMMON_IN_COMMON=1
+    BUILD_DEFINES   += -DVERSION_GW=1 -DSCOMMON_IN_COMMON=1 -DNN_SC_PERF
 else
 $(error Invalid VERSION variable detected. Please use either 'us', 'cn' or 'gw')
 endif
@@ -103,7 +103,7 @@ ifeq ($(NON_MATCHING),1)
 endif
 
 MAKE = make
-CPPFLAGS += -fno-dollars-in-identifiers -P
+CPPFLAGS += -fno-dollars-in-identifiers
 
 UNAME_S := $(shell uname -s)
 ifeq ($(OS),Windows_NT)
@@ -237,6 +237,7 @@ CFLAGS_EXTRA    += -Wa,--force-n64align
 OPTFLAGS        := -O2
 DBGFLAGS        :=
 # DBGFLAGS        := -gdwarf
+COMMON_DEFINES  += -D __IS_KMC__=1
 MIPS_VERSION    := -mips3
 OUT_ENCODING    := Shift-JIS
 CHAR_SIGN       := -funsigned-char
@@ -248,6 +249,7 @@ CFLAGS          += -mcpu=4300
 endif
 OPTFLAGS        := -O2
 DBGFLAGS        := -ggdb
+COMMON_DEFINES  += -D __IS_EGCS__=1
 MIPS_VERSION    := -mips2
 OUT_ENCODING    := EUC-CN
 CHAR_SIGN       := -fsigned-char
@@ -316,8 +318,19 @@ S_FILES       := $(foreach dir,$(ASM_DIRS) $(SRC_DIRS),$(wildcard $(dir)/*.s))
 PNG_FILES     := $(foreach dir,$(BIN_DIRS),$(wildcard $(dir)/*.png))
 MSG_FILES     := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.msg))
 
-O_FILES       := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f) \
-                 $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f)
+C_O_FILES     := $(foreach f,$(C_FILES:.c=.o),$(BUILD_DIR)/$f)
+S_O_FILES     := $(foreach f,$(S_FILES:.s=.o),$(BUILD_DIR)/$f)
+
+O_FILES       := $(C_O_FILES) \
+                 $(S_O_FILES)
+
+# Asm files to be built with modern GAS.
+M_GAS_S_O_FILES  := $(filter $(BUILD_DIR)/asm/%, $(S_O_FILES)) \
+                    $(filter $(BUILD_DIR)/src/rsp/%, $(S_O_FILES))
+
+# Asm files to be built with og compiler.
+COMP_S_O_FILES   := $(filter-out $(ASDF), $(S_O_FILES))
+
 
 PNG_INC_FILES := $(foreach f,$(PNG_FILES:.png=.inc),$(BUILD_DIR)/$f)
 MSG_INC_FILES := $(foreach f,$(MSG_FILES:.msg=.msg.inc),$(BUILD_DIR)/$f)
@@ -399,6 +412,11 @@ $(BUILD_DIR)/src/main_segment/066580.o:                         OUT_ENCODING := 
 
 $(BUILD_DIR)/src/main_segment/main_story.o:                     OUT_ENCODING := Shift-JIS
 
+ifeq ($(VERSION),cn)
+# TODO: check if using -g for cn improves anything in the C code.
+$(BUILD_DIR)/src/main_segment/calcsub.o:                        DBGFLAGS        := -g
+endif
+
 #### Main Targets ###
 
 all: compressed
@@ -450,10 +468,10 @@ init:
 	$(MAKE) diff-init
 
 format:
-	clang-format-11 -i -style=file $(C_FILES)
+	clang-format-14 -i -style=file $(C_FILES)
 
 tidy:
-	clang-tidy-11 -p . --fix --fix-errors $(filter-out %libgcc2.c, $(C_FILES)) -- $(CC_CHECK_FLAGS) $(IINC) -I build/$(VERSION)/src/main_segment $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS)
+	clang-tidy-14 -p . --fix --fix-errors --fix-notes $(filter-out %libgcc2.c, $(C_FILES)) -- $(CC_CHECK_FLAGS) $(IINC) -I build/$(VERSION)/src/main_segment $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(MIPS_BUILTIN_DEFS) -U __IS_KMC__ -U __IS_EGCS__
 
 .PHONY: all compressed uncompressed clean distclean setup extract diff-init init format tidy
 .DEFAULT_GOAL := all
@@ -503,14 +521,27 @@ $(LD_SCRIPT) $(D_FILE): $(SLINKY_YAML) $(SLINKY)
 	$(SLINKY) --custom-options version=$(VERSION),abi=o32 $(SLINKY_FLAGS) -o $(LD_SCRIPT) $(SLINKY_YAML)
 
 $(BUILD_DIR)/%.ld: %.ld
-	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
+	$(CPP) -P $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) $(COMP_VERBOSE_FLAG) $< > $@
 
-$(BUILD_DIR)/%.o: %.s
+# Assembly files that must be built with modern GAS.
+$(M_GAS_S_O_FILES): $(BUILD_DIR)/%.o: %.s
+	$(GCC) -x assembler-with-cpp -MMD -MP -E $(ABIFLAG) $(MODERN_CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS) -U _LANGUAGE_C $(AS_DEFINES) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -U __IS_KMC__ -U __IS_EGCS__ -o $@ $<
+ifeq ($(MULTISTEP_BUILD), 0)
 	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(COMP_VERBOSE_FLAG) $< | $(ICONV) $(ICONV_FLAGS) | $(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -o $@
+else
+	$(CPP) $(CPPFLAGS) $(BUILD_DEFINES) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(AS_DEFINES) $(COMP_VERBOSE_FLAG) $< | $(ICONV) $(ICONV_FLAGS) -o $(@:.o=.s)
+	$(AS) $(ASFLAGS) $(ENDIAN) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -o $@ $(@:.o=.s)
+endif
+	$(OBJDUMP_CMD)
+
+# Assembly files that are built with the appropiate compiler.
+$(BUILD_DIR)/%.o: %.s
+	$(GCC) -x assembler-with-cpp -MMD -MP -E $(ABIFLAG) $(MODERN_CFLAGS) $(CHAR_SIGN) $(BUILD_DEFINES) $(IINC) $(WARNINGS) $(ENDIAN) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) $(OPTFLAGS) $(DBGFLAGS) -U _LANGUAGE_C $(AS_DEFINES) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -U __IS_KMC__ -U __IS_EGCS__ -o $@ $<
+	$(CC) -x assembler-with-cpp $(C_COMPILER_FLAGS) -U _LANGUAGE_C $(AS_DEFINES) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ $<
 	$(OBJDUMP_CMD)
 
 $(BUILD_DIR)/%.o: %.c
-	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) -o $@ $<
+	$(CC_CHECK) $(CC_CHECK_FLAGS) $(IINC) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(CHECK_WARNINGS) $(BUILD_DEFINES) $(COMMON_DEFINES) $(RELEASE_DEFINES) $(GBI_DEFINES) $(C_DEFINES) -U __IS_KMC__ -U __IS_EGCS__ -o $@ $<
 ifeq ($(MULTISTEP_BUILD), 0)
 	$(CC) $(C_COMPILER_FLAGS) $(DBGFLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -E $< | $(ICONV) $(ICONV_FLAGS) | $(CC) -x cpp-output $(C_COMPILER_FLAGS) $(DBGFLAGS) -I $(dir $*) -I $(BUILD_DIR)/$(dir $*) $(COMP_VERBOSE_FLAG) -c -o $@ -
 else

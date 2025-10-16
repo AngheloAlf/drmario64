@@ -3,20 +3,29 @@
 
 #include "libultra.h"
 #include "libc/stdbool.h"
-#include "other_types.h"
 
-void func_8002BD20(u8 red, u8 green, u8 blue, u8 alpha, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-void load_TexPal(TexturePtr tlut);
-void func_8002BF90(TexturePtr tlut, u32 pal);
-void load_TexBlock_4b(TexturePtr texture, s32 width, s32 height);
-void func_8002C1E8(TexturePtr texture, s32 width, s32 height);
-void load_TexTile_4b(TexturePtr texture, s32 width, s32 height, s32 uls, s32 ult, s32 lrs, s32 lrt);
-void func_8002C4EC(TexturePtr texture, s32 width, s32 height);
-void func_8002C688(u8 *texture, s32 width, s32 height, s32 uls, s32 ult, s32 lrs, s32 lrt);
-void draw_Tex(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-void func_8002C914(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-void func_8002CA68(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-void func_8002CD08(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, bool arg6, bool arg7);
-void func_8002CF04(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9, bool argA, bool argB);
+void disp_rect(u8 red, u8 green, u8 blue, u8 alpha, s32 x, s32 y, s32 width, s32 height);
+void load_TexPal(const u16 tlut[]);
+void load_TexPal_16(const u16 tlut[], s32 pal_no);
+void load_TexBlock_4b(const u8 texture[], s32 size_w, s32 size_h);
+void load_TexBlock_i(const u8 texture[], s32 size_w, s32 size_h);
+void load_TexTile_4b(const u8 texture[], s32 size_w, s32 height, s32 start_w, s32 start_h, s32 end_w, s32 end_h);
+void load_TexBlock_8b(const u8 texture[], s32 size_w, s32 size_h);
+void load_TexTile_8b(const u8 texture[], s32 size_w, s32 height, s32 start_w, s32 start_h, s32 end_w, s32 end_h);
+void draw_Tex(s32 x_pos, s32 y_pos, s32 draw_w, s32 draw_h, s32 start_w, s32 start_h);
+void draw_Tex_Copy(s32 x_pos, s32 y_pos, s32 draw_w, s32 draw_h, s32 start_w, s32 start_h);
+void draw_ScaleTex(s32 x_pos, s32 y_pos, s32 size_w, s32 size_h, s32 draw_w, s32 draw_h, s32 start_w, s32 start_h);
+void draw_TexFlip(s32 x_pos, s32 y_pos, s32 draw_w, s32 draw_h, s32 start_w, s32 start_h, bool x_flip, bool y_flip);
+void draw_TexScaleFlip(s32 x_pos, s32 y_pos, s32 size_w, s32 size_h, s32 draw_w, s32 draw_h, s32 start_w, s32 start_h,
+                       s32 end_w, s32 end_h, bool x_flip, bool y_flip);
+
+extern Gfx S2RDPinit_dl[];
+extern Gfx S2ClearCFB_dl[];
+extern Gfx S2Spriteinit_dl[];
+extern Gfx F3RDPinit_dl[];
+extern Gfx F3SetupRDP_dl[];
+extern Gfx F3SetupRSP_dl[];
+extern Gfx D_80088360[];
+extern Gfx D_800883A8[];
 
 #endif

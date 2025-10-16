@@ -414,23 +414,25 @@ bool menuItem_outOfScreen(MenuItem *item, s32 arg1, s32 arg2) {
 /**
  * Original name: menuItem_drawTex
  */
-bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3) {
-    if (menuItem_outOfScreen(item, arg2->info[0], arg2->info[1])) {
+bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, bool cached) {
+    if (menuItem_outOfScreen(item, arg2->info[TI_INFO_IDX_WIDTH], arg2->info[TI_INFO_IDX_HEIGHT])) {
         return false;
     }
 
     func_80046844(item, gfxP);
-    if (arg2->info[3] & TITEX_FLAGS_BLOCK) {
-        tiStretchTexBlock(gfxP, arg2, arg3, item->pos[0], item->pos[1], arg2->info[0] * item->unk_30[0],
-                          arg2->info[1] * item->unk_30[1]);
+    if (arg2->info[TI_INFO_IDX_FLAGS] & TITEX_FLAGS_BLOCK) {
+        tiStretchTexBlock(gfxP, arg2, cached, item->pos[0], item->pos[1],
+                          arg2->info[TI_INFO_IDX_WIDTH] * item->unk_30[0],
+                          arg2->info[TI_INFO_IDX_HEIGHT] * item->unk_30[1]);
     } else {
-        tiStretchTexTile(gfxP, arg2, arg3, 0, 0, arg2->info[0], arg2->info[1], item->pos[0], item->pos[1],
-                         arg2->info[0] * item->unk_30[0], arg2->info[1] * item->unk_30[1]);
+        tiStretchTexTile(gfxP, arg2, cached, 0, 0, arg2->info[TI_INFO_IDX_WIDTH], arg2->info[TI_INFO_IDX_HEIGHT],
+                         item->pos[0], item->pos[1], arg2->info[TI_INFO_IDX_WIDTH] * item->unk_30[0],
+                         arg2->info[TI_INFO_IDX_HEIGHT] * item->unk_30[1]);
     }
     return true;
 }
 
-bool func_80046C74(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
+bool func_80046C74(MenuItem *item, Gfx **gfxP, TiTexData *arg2, bool cached, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
     f32 sp28[4] = {
         item->pos[0],
         item->pos[1],
@@ -444,7 +446,7 @@ bool func_80046C74(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3, f32 ar
     item->unk_30[0] *= arg6;
     item->unk_30[1] *= arg7;
 
-    drawn = menuItem_drawTex(item, gfxP, arg2, arg3);
+    drawn = menuItem_drawTex(item, gfxP, arg2, cached);
 
     item->pos[0] = sp28[0];
     item->pos[1] = sp28[1];
@@ -457,16 +459,16 @@ bool func_80046C74(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3, f32 ar
 /**
  * Original name: menuItem_drawAlphaTex
  */
-s32 menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData *arg3, s32 arg4) {
-    TexturePtr sp48[2];
+bool menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData *arg3, s32 arg4) {
+    const Texture *sp48[2];
     s32 var_s0;
     s32 var_s1;
 
-    var_s0 = MIN(arg2->info[0], arg3->info[0]);
-    var_s1 = MIN(arg2->info[1], arg3->info[1]);
+    var_s0 = MIN(arg2->info[TI_INFO_IDX_WIDTH], arg3->info[TI_INFO_IDX_WIDTH]);
+    var_s1 = MIN(arg2->info[TI_INFO_IDX_HEIGHT], arg3->info[TI_INFO_IDX_HEIGHT]);
 
     if (menuItem_outOfScreen(item, var_s0, var_s1)) {
-        return 0;
+        return false;
     }
 
     func_80046844(item, gfxP);
@@ -475,32 +477,34 @@ s32 menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData
         sp48[0] = NULL;
         sp48[1] = NULL;
     } else {
-        sp48[0] = arg2->texs[1];
-        sp48[1] = arg3->texs[1];
+        sp48[0] = arg2->texs[TI_TEX_TEX];
+        sp48[1] = arg3->texs[TI_TEX_TEX];
     }
 
-    if ((arg2->info[3] & TITEX_FLAGS_BLOCK) && (arg3->info[3] & TITEX_FLAGS_BLOCK)) {
-        StretchAlphaTexBlock(gfxP, var_s0, var_s1, sp48[0], arg2->info[0], sp48[1], arg3->info[0], item->pos[0],
-                             item->pos[1], var_s0 * item->unk_30[0], var_s1 * item->unk_30[1]);
+    if ((arg2->info[TI_INFO_IDX_FLAGS] & TITEX_FLAGS_BLOCK) && (arg3->info[TI_INFO_IDX_FLAGS] & TITEX_FLAGS_BLOCK)) {
+        StretchAlphaTexBlock(gfxP, var_s0, var_s1, sp48[0], arg2->info[TI_INFO_IDX_WIDTH], sp48[1],
+                             arg3->info[TI_INFO_IDX_WIDTH], item->pos[0], item->pos[1], var_s0 * item->unk_30[0],
+                             var_s1 * item->unk_30[1]);
     } else {
-        StretchAlphaTexTile(gfxP, var_s0, var_s1, arg2->texs[1], arg2->info[0], arg3->texs[1], arg3->info[0], 0, 0,
-                            var_s0, arg2->info[1], item->pos[0], item->pos[1], var_s0 * item->unk_30[0],
+        StretchAlphaTexTile(gfxP, var_s0, var_s1, arg2->texs[TI_TEX_TEX], arg2->info[TI_INFO_IDX_WIDTH],
+                            arg3->texs[TI_TEX_TEX], arg3->info[TI_INFO_IDX_WIDTH], 0, 0, var_s0,
+                            arg2->info[TI_INFO_IDX_HEIGHT], item->pos[0], item->pos[1], var_s0 * item->unk_30[0],
                             var_s1 * item->unk_30[1]);
     }
 
-    return 1;
+    return true;
 }
 
 s32 func_80046F58(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5) {
-    s32 temp_lo = arg2->info[1] / arg4;
+    s32 temp_lo = arg2->info[TI_INFO_IDX_HEIGHT] / arg4;
 
-    if (menuItem_outOfScreen(item, arg2->info[0], temp_lo)) {
+    if (menuItem_outOfScreen(item, arg2->info[TI_INFO_IDX_WIDTH], temp_lo)) {
         return 0;
     }
 
     func_80046844(item, gfxP);
-    tiStretchTexItem(gfxP, arg2, arg3, arg4, arg5, item->pos[0], item->pos[1], arg2->info[0] * item->unk_30[0],
-                     temp_lo * item->unk_30[1]);
+    tiStretchTexItem(gfxP, arg2, arg3, arg4, arg5, item->pos[0], item->pos[1],
+                     arg2->info[TI_INFO_IDX_WIDTH] * item->unk_30[0], temp_lo * item->unk_30[1]);
     return 1;
 }
 
@@ -524,31 +528,31 @@ void func_80047074(MenuItem *item, Gfx **gfxP, TiTexData *arg2, s32 arg3, s32 ar
     item->unk_30[1] = sp20[3];
 }
 
-bool func_8004714C(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData *arg3, s32 arg4, s32 arg5, s32 arg6) {
-    s32 var_s1 = MIN(arg2->info[0], arg3->info[0]);
-    s32 temp_lo = MIN(arg2->info[1], arg3->info[1]) / arg5;
+bool func_8004714C(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData *arg3, bool cached, s32 arg5, s32 arg6) {
+    s32 var_s1 = MIN(arg2->info[TI_INFO_IDX_WIDTH], arg3->info[TI_INFO_IDX_WIDTH]);
+    s32 temp_lo = MIN(arg2->info[TI_INFO_IDX_HEIGHT], arg3->info[TI_INFO_IDX_HEIGHT]) / arg5;
 
     if (menuItem_outOfScreen(item, var_s1, temp_lo)) {
         return false;
     }
 
     func_80046844(item, gfxP);
-    tiStretchAlphaTexItem(gfxP, arg2, arg3, arg4, arg5, arg6, item->pos[0], item->pos[1], var_s1 * item->unk_30[0],
+    tiStretchAlphaTexItem(gfxP, arg2, arg3, cached, arg5, arg6, item->pos[0], item->pos[1], var_s1 * item->unk_30[0],
                           temp_lo * item->unk_30[1]);
     return true;
 }
 
-bool func_800472D0(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData *arg3, s32 arg4, s32 arg5, s32 arg6) {
-    s32 var_s1 = MIN(arg2->info[0], arg3->info[0]);
-    s32 var_s0 = MIN(arg2->info[1] / arg5, arg3->info[1]);
+bool func_800472D0(MenuItem *item, Gfx **gfxP, TiTexData *arg2, TiTexData *arg3, bool cached, s32 arg5, s32 arg6) {
+    s32 var_s1 = MIN(arg2->info[TI_INFO_IDX_WIDTH], arg3->info[TI_INFO_IDX_WIDTH]);
+    s32 var_s0 = MIN(arg2->info[TI_INFO_IDX_HEIGHT] / arg5, arg3->info[TI_INFO_IDX_HEIGHT]);
 
     if (menuItem_outOfScreen(item, var_s1, var_s0)) {
         return false;
     }
 
     func_80046844(item, gfxP);
-    func_80045914(gfxP, arg2, arg3, arg4, arg5, arg6, item->pos[0], item->pos[1], var_s1 * item->unk_30[0],
-                  var_s0 * item->unk_30[1]);
+    tiStretchAlphaTexItem2(gfxP, arg2, arg3, cached, arg5, arg6, item->pos[0], item->pos[1], var_s1 * item->unk_30[0],
+                           var_s0 * item->unk_30[1]);
     return true;
 }
 
@@ -1026,8 +1030,9 @@ void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
             if (var_s7 == 0) {
                 var_s5 = _getTexCommon(cursor->watchMenuRef, var_s0);
 
-                gDPLoadTextureBlock_4b(gfx++, var_s5->texs[1], G_IM_FMT_I, var_s5->info[0], var_s5->info[1], 0,
-                                       G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+                gDPLoadTextureBlock_4b(gfx++, var_s5->texs[TI_TEX_TEX], G_IM_FMT_I, var_s5->info[TI_INFO_IDX_WIDTH],
+                                       var_s5->info[TI_INFO_IDX_HEIGHT], 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK,
+                                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
                 var_s7 += 1;
             }
 
@@ -1076,7 +1081,7 @@ void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
             if (i < 4) {
                 for (var_s0 = 0; var_s0 < ARRAY_COUNTU(_pnts_1106); var_s0++) {
                     // Cast the const away, needed for matching
-                    s32 *pnts = (s32 *)_pnts_1106[var_s0];
+                    s32 *pnts = (void *)_pnts_1106[var_s0];
 
                     gSPScisTextureRectangle(gfx++, sp18[pnts[0]], sp28[pnts[1]], sp18[pnts[2]], sp28[pnts[3]],
                                             G_TX_RENDERTILE, sp38[pnts[4]], sp48[pnts[5]], sp58[pnts[6]],
@@ -1085,8 +1090,8 @@ void menuCursor_draw1(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
             } else {
                 s32 a = item->pos[0];
                 s32 b = item->pos[1];
-                s32 c = a + var_s5->info[0];
-                s32 d = b + var_s5->info[1];
+                s32 c = a + var_s5->info[TI_INFO_IDX_WIDTH];
+                s32 d = b + var_s5->info[TI_INFO_IDX_HEIGHT];
 
                 gSPScisTextureRectangle(gfx++, a << 2, b << 2, c << 2, d << 2, G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
             }
@@ -1117,24 +1122,24 @@ void menuCursor_draw2(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
     MenuCursor *temp_s0;
     TiTexData *temp_s1;
     TiTexData *temp;
-    s32 var_s3;
+    bool cached;
     s32 i;
     s32 j;
 
     gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
 
-    var_s3 = 0;
+    cached = false;
     for (i = 0; i < count; i++) {
         temp_s0 = cursorArr[i];
 
         if (temp_s0->unk_01C.b.unk_30) {
             temp_s1 = _getTexCommon(temp_s0->watchMenuRef, 1);
             temp = _getTexCommon(temp_s0->watchMenuRef, 0);
-            var_s3 += menuItem_drawAlphaTex(&temp_s0->unk_140, &gfx, temp_s1, temp, var_s3);
+            cached += menuItem_drawAlphaTex(&temp_s0->unk_140, &gfx, temp_s1, temp, cached);
         }
     }
 
-    for (i = 0; var_s3 = 0, i < 0xB; i++) {
+    for (i = 0; cached = 0, i < 0xB; i++) {
         for (j = 0; j < count; j++) {
             s32 var_v1;
 
@@ -1151,7 +1156,7 @@ void menuCursor_draw2(MenuCursor **cursorArr, s32 count, Gfx **gxfP) {
 
             temp_s1 = _getTexSetup(temp_s0->watchMenuRef, 8);
             temp = _getTexSetup(temp_s0->watchMenuRef, 1);
-            var_s3 += func_8004714C(&temp_s0->unk_1D0, &gfx, temp_s1, temp, var_s3, 0xB, i);
+            cached += func_8004714C(&temp_s0->unk_1D0, &gfx, temp_s1, temp, cached, 0xB, i);
         }
     }
 
@@ -1224,9 +1229,10 @@ void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
         s32 var_t7;
         s32 i;
 
-        gDPLoadTLUT_pal16(gfx++, 0, temp_t1->texs[0]);
-        gDPLoadTextureBlock_4b(gfx++, temp_t1->texs[1], G_IM_FMT_CI, temp_t1->info[0], temp_t1->info[1], 0, G_TX_CLAMP,
-                               G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTLUT_pal16(gfx++, 0, temp_t1->texs[TI_TEX_TLUT]);
+        gDPLoadTextureBlock_4b(gfx++, temp_t1->texs[TI_TEX_TEX], G_IM_FMT_CI, temp_t1->info[TI_INFO_IDX_WIDTH],
+                               temp_t1->info[TI_INFO_IDX_HEIGHT], 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+                               G_TX_NOLOD, G_TX_NOLOD);
 
         func_80046844(item, &gfx);
 
@@ -1655,9 +1661,9 @@ void menuSpeedAsk_draw(MenuSpeedAsk *speedAskArr[], s32 count, Gfx **gxfP) {
 
     for (i = 0; i < ARRAY_COUNT(_row_1866); i++) {
         s32 j;
-        s32 var_s3;
+        bool cached;
 
-        for (j = 0, var_s3 = 0; j < _row_1866[i]; j++, var_s3 = 0) {
+        for (j = 0, cached = 0; j < _row_1866[i]; j++, cached = 0) {
             s32 k;
 
             for (k = 0; k < count; k++) {
@@ -1667,7 +1673,7 @@ void menuSpeedAsk_draw(MenuSpeedAsk *speedAskArr[], s32 count, Gfx **gxfP) {
                     TiTexData *temp_s0 = _getTexSetup(menuSpeedAsk->watchMenuRef, _tex_1865[menuSpeedAsk->unk_4][0]);
                     TiTexData *a3 = _getTexSetup(menuSpeedAsk->watchMenuRef, _tex_1865[menuSpeedAsk->unk_4][1]);
 
-                    var_s3 += func_8004714C(&menuSpeedAsk->unk_C, &gfx, temp_s0, a3, var_s3, _row_1866[i], j);
+                    cached += func_8004714C(&menuSpeedAsk->unk_C, &gfx, temp_s0, a3, cached, _row_1866[i], j);
                 }
             }
         }
@@ -2133,7 +2139,7 @@ void menuNumber_draw(MenuNumber **numberP, s32 arg1, Gfx **gxfP) {
     s32 temp_t4_2;
     s32 temp_t4;
     s32 var_s2;
-    s32 var_s6;
+    bool cached;
     s32 var_s5;
     s32 temp_s4;
     s32 sp40;
@@ -2141,8 +2147,7 @@ void menuNumber_draw(MenuNumber **numberP, s32 arg1, Gfx **gxfP) {
     gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
 
     for (temp_t4 = 0; temp_t4 < ARRAY_COUNT(_step_2517); temp_t4++) {
-        //! FAKE? var_s6 asignment needs to be on the conditional part of the loop
-        for (var_fp = 0; var_s6 = 0, var_fp < ARRAY_COUNT(_tbl_2516); var_fp++) {
+        for (var_fp = 0; cached = 0, var_fp < ARRAY_COUNT(_tbl_2516); var_fp++) {
             for (temp_t4_2 = 0; temp_t4_2 < arg1; temp_t4_2++) {
                 temp_s0 = numberP[temp_t4_2];
                 temp_s3 = &temp_s0->unk_1C;
@@ -2160,8 +2165,8 @@ void menuNumber_draw(MenuNumber **numberP, s32 arg1, Gfx **gxfP) {
                         break;
                 }
 
-                var_s5 = MIN(sp34->info[0], var_t1->info[0]);
-                temp_s4 = MIN(sp34->info[1], var_t1->info[1]) / 10;
+                var_s5 = MIN(sp34->info[TI_INFO_IDX_WIDTH], var_t1->info[TI_INFO_IDX_WIDTH]);
+                temp_s4 = MIN(sp34->info[TI_INFO_IDX_HEIGHT], var_t1->info[TI_INFO_IDX_HEIGHT]) / 10;
 
                 if (menuItem_outOfScreen(temp_s3, var_s5 * temp_s0->unk_08, temp_s4)) {
                     continue;
@@ -2179,7 +2184,7 @@ void menuNumber_draw(MenuNumber **numberP, s32 arg1, Gfx **gxfP) {
                         continue;
                     }
 
-                    tiStretchAlphaTexItem(&gfx, sp34, var_t1, var_s6++, 0xA, _tbl_2516[var_fp],
+                    tiStretchAlphaTexItem(&gfx, sp34, var_t1, cached++, 0xA, _tbl_2516[var_fp],
                                           temp_s3->pos[0] + (_step_2517[temp_t4] * temp_s3->unk_30[0] * var_s2),
                                           temp_s3->pos[1], var_s5 * temp_s3->unk_30[0], temp_s4 * temp_s3->unk_30[1]);
                 }
@@ -2227,7 +2232,7 @@ void func_8004AD84(MenuComLvPanel *comLvPanel, MenuItem *parent) {
  */
 void menuComLvPanel_draw(MenuComLvPanel **comLvPanelP, s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    s32 var_s6 = 0;
+    bool cached = false;
     MenuComLvPanel *comLvPanel;
     MenuItem *item;
     TiTexData *temp_v0;
@@ -2241,7 +2246,7 @@ void menuComLvPanel_draw(MenuComLvPanel **comLvPanelP, s32 count, Gfx **gfxP) {
         temp_v0 = _getTexChar(comLvPanel->watchMenuRef, 6);
         item = &comLvPanel->unk_008;
 
-        if (menuItem_outOfScreen(item, temp_v0->info[0], temp_v0->info[1])) {
+        if (menuItem_outOfScreen(item, temp_v0->info[TI_INFO_IDX_WIDTH], temp_v0->info[TI_INFO_IDX_HEIGHT])) {
             continue;
         }
 
@@ -2252,12 +2257,12 @@ void menuComLvPanel_draw(MenuComLvPanel **comLvPanelP, s32 count, Gfx **gfxP) {
         }
         func_80046844(item, &gfx);
 
-        tiStretchTexTile(&gfx, temp_v0, var_s6, 0, 0, temp_v0->info[0], 0x14, item->pos[0], item->pos[1],
-                         item->unk_30[0] * temp_v0->info[0], item->unk_30[1] * 20.0f);
-        var_s6++;
+        tiStretchTexTile(&gfx, temp_v0, cached, 0, 0, temp_v0->info[TI_INFO_IDX_WIDTH], 0x14, item->pos[0],
+                         item->pos[1], item->unk_30[0] * temp_v0->info[TI_INFO_IDX_WIDTH], item->unk_30[1] * 20.0f);
+        cached++;
     }
 
-    var_s6 = 0;
+    cached = 0;
     for (j = 7; j > 0; j--) {
         for (i = 0; i < count; i++) {
             comLvPanel = comLvPanelP[i];
@@ -2267,7 +2272,8 @@ void menuComLvPanel_draw(MenuComLvPanel **comLvPanelP, s32 count, Gfx **gfxP) {
 
             temp_v0 = _getTexChar(comLvPanel->watchMenuRef, 6);
             item = &comLvPanel->unk_098;
-            if (menuItem_outOfScreen(&comLvPanel->unk_008, temp_v0->info[0], temp_v0->info[1])) {
+            if (menuItem_outOfScreen(&comLvPanel->unk_008, temp_v0->info[TI_INFO_IDX_WIDTH],
+                                     temp_v0->info[TI_INFO_IDX_HEIGHT])) {
                 continue;
             }
 
@@ -2277,8 +2283,9 @@ void menuComLvPanel_draw(MenuComLvPanel **comLvPanelP, s32 count, Gfx **gfxP) {
                 gDPSetRenderMode(gfx++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
             }
             func_80046844(item, &gfx);
-            tiStretchTexTile(&gfx, temp_v0, var_s6, 0, 0x14, (temp_v0->info[0] * j) / 7, 0xA, item->pos[0],
-                             item->pos[1], (item->unk_30[0] * temp_v0->info[0] * j) / 7.0f, item->unk_30[1] * 10.0f);
+            tiStretchTexTile(&gfx, temp_v0, cached, 0, 0x14, (temp_v0->info[TI_INFO_IDX_WIDTH] * j) / 7, 0xA,
+                             item->pos[0], item->pos[1],
+                             (item->unk_30[0] * temp_v0->info[TI_INFO_IDX_WIDTH] * j) / 7.0f, item->unk_30[1] * 10.0f);
         }
     }
 
@@ -4674,7 +4681,7 @@ void func_8004F2D8(MenuMain *menuMain) {
 
     if ((keyTrg & B_BUTTON) && (menuMain->mode != MAINMENUMODE_MENUMAIN_0)) {
         _setFadeDir(menuMain->watchMenuRef, -1);
-        _setNextMain(menuMain->watchMenuRef, MAIN_NO_6);
+        _setNextMain(menuMain->watchMenuRef, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
@@ -4762,9 +4769,9 @@ const MainMenuMode _mode_5688[] = {
 };
 
 const enum_evs_gamemode _game_5689[] = {
-    ENUM_EVS_GAMEMODE_0,
-    ENUM_EVS_GAMEMODE_0,
-    ENUM_EVS_GAMEMODE_1,
+    GMD_NORMAL,
+    GMD_NORMAL,
+    GMD_FLASH,
 };
 
 const MainMenuMode _mode_5701[] = {
@@ -4916,7 +4923,7 @@ void menuMain_input(MenuMain *menuMain) {
             } else if (keyTrg & B_BUTTON) {
                 if (menuMain->unk_31E4.unk_004.unk_68 < 0.0f) {
                     _setFadeDir(menuMain->watchMenuRef, 1);
-                    _setNextMain(menuMain->watchMenuRef, MAIN_NO_3);
+                    _setNextMain(menuMain->watchMenuRef, MAIN_TITLE);
                     soundIndex = SND_INDEX_68;
                 }
                 sp34--;
@@ -4926,7 +4933,7 @@ void menuMain_input(MenuMain *menuMain) {
             break;
 
         case MAINMENUMODE_1:
-            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            menuMain->unk_0030 = GMD_FLASH;
             menuMain->unk_002C = _n_5535[var_s2];
 
             if (keyTrg & (A_BUTTON | START_BUTTON)) {
@@ -4935,19 +4942,19 @@ void menuMain_input(MenuMain *menuMain) {
 
                 switch (menuMain->mode) {
                     case MAINMENUMODE_18:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_1;
+                        evs_gamemode = GMD_FLASH;
                         break;
 
                     case MAINMENUMODE_8:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_2;
+                        evs_gamemode = GMD_TaiQ;
                         break;
 
                     case MAINMENUMODE_11:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_3;
+                        evs_gamemode = GMD_TIME_ATTACK;
                         break;
 
                     default:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_0;
+                        evs_gamemode = GMD_NORMAL;
                         break;
                 }
 
@@ -5003,7 +5010,7 @@ void menuMain_input(MenuMain *menuMain) {
 
         case MAINMENUMODE_22:
             menuMain->unk_002C = var_s2 + 6;
-            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            menuMain->unk_0030 = GMD_FLASH;
 
             if (keyTrg & (A_BUTTON | START_BUTTON)) {
                 menuMain->unk_0030 = -1;
@@ -5021,15 +5028,15 @@ void menuMain_input(MenuMain *menuMain) {
 
                 switch (menuMain->mode) {
                     case MAINMENUMODE_23:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_0;
+                        evs_gamemode = GMD_NORMAL;
                         break;
 
                     case MAINMENUMODE_27:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_1;
+                        evs_gamemode = GMD_FLASH;
                         break;
 
                     case MAINMENUMODE_31:
-                        evs_gamemode = ENUM_EVS_GAMEMODE_3;
+                        evs_gamemode = GMD_TIME_ATTACK;
                         break;
 
                     default:
@@ -5045,7 +5052,7 @@ void menuMain_input(MenuMain *menuMain) {
             break;
         case MAINMENUMODE_35:
             menuMain->unk_002C = var_s2 + 0xC;
-            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            menuMain->unk_0030 = GMD_FLASH;
 
             if (keyTrg & (A_BUTTON | START_BUTTON)) {
                 evs_playmax = joyResponseCheck();
@@ -5058,7 +5065,7 @@ void menuMain_input(MenuMain *menuMain) {
                     evs_playcnt = 4;
                     evs_story_flg = 0;
                     evs_gamesel = ENUM_EVS_GAMESEL_2;
-                    evs_gamemode = ENUM_EVS_GAMEMODE_0;
+                    evs_gamemode = GMD_NORMAL;
 
                     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
                         game_state_data[i].unk_04C = var_s2 < i;
@@ -5327,7 +5334,7 @@ void menuMain_input(MenuMain *menuMain) {
         case MAINMENUMODE_38:
         case MAINMENUMODE_39:
             menuMain->unk_002C = var_s2 + 9;
-            menuMain->unk_0030 = ENUM_EVS_GAMEMODE_1;
+            menuMain->unk_0030 = GMD_FLASH;
             if (keyTrg & (A_BUTTON | START_BUTTON)) {
                 for (i = 0; i < ARRAY_COUNTU(_team_5687[var_s2]); i++) {
                     game_state_data[i].unk_04F = _team_5687[var_s2][i];
@@ -5398,7 +5405,7 @@ void menuMain_input(MenuMain *menuMain) {
                     soundIndex = SND_INDEX_62;
                 } else {
                     _setFadeDir(menuMain->watchMenuRef, 1);
-                    _setNextMain(menuMain->watchMenuRef, MAIN_NO_4);
+                    _setNextMain(menuMain->watchMenuRef, MAIN_MANUAL);
                     evs_manual_no = var_s2 - 1;
                     soundIndex = SND_INDEX_62;
                 }
@@ -5773,7 +5780,7 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
         sp88[i] = WrapF(0.0f, 1.0f, menuMain->unk_0038 - (i * 0.125)) * M_PI * 2.0;
     }
 
-    guOrtho(mtx, 0.0f, 320.0f, 240.0f, 0.0f, 1.0f, 10.0f, 1.0f);
+    guOrtho(mtx, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f, 10.0f, 1.0f);
 
     gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
@@ -5800,8 +5807,8 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
     var_s3 = _getTexKasa(menuMain->watchMenuRef, _pat_6137[i] + 1);
     temp_v0_2 = _getTexKasa(menuMain->watchMenuRef, 0);
 
-    var_s5 = MIN(var_s3->info[0], temp_v0_2->info[0]);
-    var_s1_3 = MIN(var_s3->info[1], temp_v0_2->info[1]);
+    var_s5 = MIN(var_s3->info[TI_INFO_IDX_WIDTH], temp_v0_2->info[TI_INFO_IDX_WIDTH]);
+    var_s1_3 = MIN(var_s3->info[TI_INFO_IDX_HEIGHT], temp_v0_2->info[TI_INFO_IDX_HEIGHT]);
 
     if (!menuItem_outOfScreen(item, var_s5, var_s1_3)) {
         gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
@@ -5814,8 +5821,9 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
         gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx++;
 
-        RectAlphaTexTile(&gfx, &vtx, var_s5, var_s1_3, var_s3->texs[1], var_s3->info[0], temp_v0_2->texs[1],
-                         temp_v0_2->info[0], 0, 0, var_s5, var_s1_3, 0.0f, 0.0f, var_s5, var_s1_3);
+        RectAlphaTexTile(&gfx, &vtx, var_s5, var_s1_3, var_s3->texs[TI_TEX_TEX], var_s3->info[TI_INFO_IDX_WIDTH],
+                         temp_v0_2->texs[TI_TEX_TEX], temp_v0_2->info[TI_INFO_IDX_WIDTH], 0, 0, var_s5, var_s1_3, 0.0f,
+                         0.0f, var_s5, var_s1_3);
     }
 
     item = &menuMain->unk_25C8;
@@ -5833,10 +5841,10 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
 #endif
     }
 
-    var_s5 = var_s3->info[0];
-    var_s1_3 = var_s3->info[1] / temp;
+    var_s5 = var_s3->info[TI_INFO_IDX_WIDTH];
+    var_s1_3 = var_s3->info[TI_INFO_IDX_HEIGHT] / temp;
 
-    if (!menuItem_outOfScreen(item, var_s3->info[0], var_s3->info[1])) {
+    if (!menuItem_outOfScreen(item, var_s3->info[TI_INFO_IDX_WIDTH], var_s3->info[TI_INFO_IDX_HEIGHT])) {
         gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
         func_80046844(item, &gfx);
@@ -5847,9 +5855,9 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
         gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx++;
 
-        RectTexTile8(&gfx, &vtx, var_s3->info[0], var_s3->info[1], var_s3->texs[0],
-                     (u8 *)var_s3->texs[1] + (var_s5 * var_s1_3 * i), 0, 0, var_s5, var_s1_3, 0, 0,
-                     var_s5 * item->unk_30[0], var_s1_3 * item->unk_30[1]);
+        RectTexTile8(&gfx, &vtx, var_s3->info[TI_INFO_IDX_WIDTH], var_s3->info[TI_INFO_IDX_HEIGHT],
+                     var_s3->texs[TI_TEX_TLUT], (u8 *)var_s3->texs[TI_TEX_TEX] + (var_s5 * var_s1_3 * i), 0, 0, var_s5,
+                     var_s1_3, 0, 0, var_s5 * item->unk_30[0], var_s1_3 * item->unk_30[1]);
     }
 
     gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
@@ -5874,7 +5882,7 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
                 break;
         }
 
-        if (!menuItem_outOfScreen(item, var_s3->info[0], var_s3->info[1])) {
+        if (!menuItem_outOfScreen(item, var_s3->info[TI_INFO_IDX_WIDTH], var_s3->info[TI_INFO_IDX_HEIGHT])) {
             func_80046844(item, &gfx);
             sp48[3][0] = item->pos[0];
             sp48[3][1] = item->pos[1] + (sinf(sp88[i + 1]) * temp_fs2);
@@ -5883,9 +5891,11 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
             gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             mtx++;
 
-            RectTexTile4i(&gfx, &vtx, var_s3->info[0], var_s3->info[1], var_s3->texs[1], 0, 0, var_s3->info[0],
-                          var_s3->info[1], 0, 0, (var_s3->info[0] + spA0) * item->unk_30[0],
-                          (var_s3->info[1] + var_fp) * item->unk_30[1]);
+            RectTexTile4i(&gfx, &vtx, var_s3->info[TI_INFO_IDX_WIDTH], var_s3->info[TI_INFO_IDX_HEIGHT],
+                          var_s3->texs[TI_TEX_TEX], 0, 0, var_s3->info[TI_INFO_IDX_WIDTH],
+                          var_s3->info[TI_INFO_IDX_HEIGHT], 0, 0,
+                          (var_s3->info[TI_INFO_IDX_WIDTH] + spA0) * item->unk_30[0],
+                          (var_s3->info[TI_INFO_IDX_HEIGHT] + var_fp) * item->unk_30[1]);
         }
     }
 
@@ -6101,7 +6111,7 @@ void func_80051974(MenuStory *menuStory) {
 
     if (keyTrg & B_BUTTON) {
         _setFadeDir(menuStory->watchMenuRef, -1);
-        _setNextMain(menuStory->watchMenuRef, MAIN_NO_6);
+        _setNextMain(menuStory->watchMenuRef, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
@@ -6210,7 +6220,7 @@ void menuStory_input(MenuStory *menuStory) {
     if (soundIndex <= SND_INDEX_INVALID) {
         if ((keyTrg & (A_BUTTON | START_BUTTON)) && (menuStory->unk_0024 == 2)) {
             _setFadeDir(menuStory->watchMenuRef, 1);
-            _setNextMain(menuStory->watchMenuRef, MAIN_NO_2);
+            _setNextMain(menuStory->watchMenuRef, MAIN_STORY);
 
             temp_s5->unk_00 = menuStory->unk_085C.unk_008;
             temp_s5->unk_01 = menuStory->unk_085C.unk_010;
@@ -6435,8 +6445,9 @@ void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
             gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
 
             temp_v0 = _getTexStory(menuStory->watchMenuRef, 0xC);
-            tiStretchTexTile(&gfx, temp_v0, 0, 0, 0, temp_v0->info[0], temp_v0->info[1], item->pos[0], item->pos[1],
-                             temp_v0->info[0], temp_v0->info[1]);
+            tiStretchTexTile(&gfx, temp_v0, false, 0, 0, temp_v0->info[TI_INFO_IDX_WIDTH],
+                             temp_v0->info[TI_INFO_IDX_HEIGHT], item->pos[0], item->pos[1],
+                             temp_v0->info[TI_INFO_IDX_WIDTH], temp_v0->info[TI_INFO_IDX_HEIGHT]);
 
             item->pos[0] = temp_fs1 + 5.0f;
             item->pos[1] = temp_fs0 + 2.0f;
@@ -6481,14 +6492,14 @@ void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
         tempIndex = func_800519EC(menuStory);
 
         var_s0_2 = _filter_6930[menuStory->unk_0028[0]][i][tempIndex - 1];
-        var_s0_2 = MIN(var_s0_2, temp_v0->info[0] - 1);
+        var_s0_2 = MIN(var_s0_2, temp_v0->info[TI_INFO_IDX_WIDTH] - 1);
 
-        temp_s2 = temp_v0->info[0] - var_s0_2;
-        if (!menuItem_outOfScreen(item, temp_s2, temp_v0->info[1])) {
+        temp_s2 = temp_v0->info[TI_INFO_IDX_WIDTH] - var_s0_2;
+        if (!menuItem_outOfScreen(item, temp_s2, temp_v0->info[TI_INFO_IDX_HEIGHT])) {
             gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, item->color.v.a * 127.0f);
 
-            tiStretchTexTile(&gfx, temp_v0, 0, var_s0_2, 0, temp_s2, temp_v0->info[1], item->pos[0] + var_s0_2,
-                             item->pos[1], temp_s2, temp_v0->info[1]);
+            tiStretchTexTile(&gfx, temp_v0, false, var_s0_2, 0, temp_s2, temp_v0->info[TI_INFO_IDX_HEIGHT],
+                             item->pos[0] + var_s0_2, item->pos[1], temp_s2, temp_v0->info[TI_INFO_IDX_HEIGHT]);
         }
     }
 
@@ -6521,7 +6532,7 @@ void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
 
     temp_v0 = _getTexStory(menuStory->watchMenuRef, 1);
     temp_s1 = _getTexStory(menuStory->watchMenuRef, 0);
-    func_8004714C(&menuStory->unk_00D0, &gfx, temp_v0, temp_s1, 0, 2, menuStory->unk_0028[0]);
+    func_8004714C(&menuStory->unk_00D0, &gfx, temp_v0, temp_s1, false, 2, menuStory->unk_0028[0]);
 
     for (i = 0; i < ARRAY_COUNTU(menuStory->unk_135C); i++) {
         sp38[i] = &menuStory->unk_135C[i];
@@ -6632,7 +6643,7 @@ void func_80052DF0(MenuLvSel *menuLvSel) {
 
     if (keyTrg & B_BUTTON) {
         _setFadeDir(menuLvSel->watchMenuRef, -1);
-        _setNextMain(menuLvSel->watchMenuRef, MAIN_NO_6);
+        _setNextMain(menuLvSel->watchMenuRef, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
@@ -6697,7 +6708,7 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
 
     if ((keyTrg & (A_BUTTON | START_BUTTON)) && (menuLvSel->unk_256C == 2)) {
         _setFadeDir(menuLvSel->watchMenuRef, 1);
-        _setNextMain(menuLvSel->watchMenuRef, MAIN_NO_1);
+        _setNextMain(menuLvSel->watchMenuRef, MAIN_12);
 
         switch (menuLvSel->unk_0004) {
             case MAINMENUMODE_MENULVSEL_7:
@@ -7705,7 +7716,7 @@ void func_800550F4(MenuPlay2 *menuPlay2) {
         menuPlay2->unk_0004 = 2;
         menuPlay2->unk_6548.unk_008 = 0;
         _setFadeDir(menuPlay2->watchMenuRef, -1);
-        _setNextMain(menuPlay2->watchMenuRef, MAIN_NO_6);
+        _setNextMain(menuPlay2->watchMenuRef, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
@@ -8049,7 +8060,7 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
     evs_game_time = 0;
 
     _setFadeDir(menuPlay2->watchMenuRef, 1);
-    _setNextMain(menuPlay2->watchMenuRef, MAIN_NO_1);
+    _setNextMain(menuPlay2->watchMenuRef, MAIN_12);
 }
 
 void menuPlay2_update(MenuPlay2 *menuPlay2) {
@@ -8290,9 +8301,9 @@ void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
         menuNmEnt->unk_001C[sp24][1] = 8;
         soundIndex = SND_INDEX_62;
     } else if (keyTrg & (A_BUTTON | START_BUTTON)) {
-        char *characterP =
-            (char *)&_nameEntry_charTable[menuNmEnt->unk_0014[sp24]]
-                                         [(menuNmEnt->unk_001C[sp24][0] + (menuNmEnt->unk_001C[sp24][1] * 0xF)) * 2];
+        const char *characterP =
+            &_nameEntry_charTable[menuNmEnt->unk_0014[sp24]]
+                                 [(menuNmEnt->unk_001C[sp24][0] + (menuNmEnt->unk_001C[sp24][1] * 0xF)) * 2];
 
         switch (menuNmEnt->unk_000C[sp24]) {
             case -0x1:
@@ -8616,9 +8627,9 @@ void menuRankNum_draw(MenuRankNum *rankNumArr[], s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 var_s6;
     bool var_s4;
-    s32 var_s3;
+    bool cached;
 
-    for (var_s6 = -1; var_s4 = false, var_s3 = 0, var_s6 < 0xA; var_s6++) {
+    for (var_s6 = -1; var_s4 = false, cached = false, var_s6 < 0xA; var_s6++) {
         s32 var_s7;
 
         for (var_s7 = 0; var_s7 < count; var_s7++) {
@@ -8638,7 +8649,7 @@ void menuRankNum_draw(MenuRankNum *rankNumArr[], s32 count, Gfx **gfxP) {
                 }
 
                 temp_s2 = _getTexRank(rankNum->watchMenuRef, 6);
-                var_s3 += menuItem_drawTex(item, &gfx, temp_s2, var_s3);
+                cached += menuItem_drawTex(item, &gfx, temp_s2, cached);
             } else {
                 f32 temp_fs1;
                 f32 temp_fs0;
@@ -8657,7 +8668,7 @@ void menuRankNum_draw(MenuRankNum *rankNumArr[], s32 count, Gfx **gfxP) {
                 item->pos[0] += 2.0f;
                 item->pos[1] += 2.0f;
 
-                var_s3 += func_8004714C(item, &gfx, temp_s2, temp_v0_2, var_s3, 0xC, rankNum->unk_04 + 2);
+                cached += func_8004714C(item, &gfx, temp_s2, temp_v0_2, cached, 0xC, rankNum->unk_04 + 2);
                 item->pos[0] = temp_fs1;
                 item->pos[1] = temp_fs0;
             }
@@ -10157,7 +10168,7 @@ void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, NNSched *sc) {
 
     arg0->unk_111C8 = arg0->unk_111CC = arg0->unk_111D0 = _menuAll_lastMode;
 
-    arg0->unk_111D4 = MAIN_NO_6;
+    arg0->unk_111D4 = MAIN_MENU;
 
 #ifdef NN_SC_PERF
     arg0->unk_cn_pad = 0;
@@ -10511,7 +10522,7 @@ void menuAll_drawBg(struct_watchMenu *arg0, Gfx **gfxP) {
     MenuItem *temp_s4 = &arg0->unk_024B8[0];
     TiTexData *temp_s3;
     s32 i;
-    s32 var_s2;
+    bool cached;
 
     func_80046844(temp_s4, &gfx);
     draw_menu_bg(&gfx, temp_s4->pos[0] + 0.0f, -temp_s4->pos[1] - 120.0f);
@@ -10519,14 +10530,14 @@ void menuAll_drawBg(struct_watchMenu *arg0, Gfx **gfxP) {
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
     func_80046844(temp_s4, &gfx);
 
-    var_s2 = 0;
+    cached = false;
     temp_s3 = _getTexCommon(arg0, 2);
     for (i = 0; i < 5; i++) {
-        var_s2 += func_80046C74(temp_s4, &gfx, temp_s3, var_s2, i << 6, 0, 1.0f, 1.0f);
+        cached += func_80046C74(temp_s4, &gfx, temp_s3, cached, i << 6, 0, 1.0f, 1.0f);
     }
 
     for (; i < 10; i++) {
-        var_s2 += func_80046C74(temp_s4, &gfx, temp_s3, var_s2, (i - 5) << 6, 200.0f, 1.0f, -1.0f);
+        cached += func_80046C74(temp_s4, &gfx, temp_s3, cached, (i - 5) << 6, 200.0f, 1.0f, -1.0f);
     }
 
     *gfxP = gfx;
@@ -10650,7 +10661,7 @@ enum_main_no main_menu(NNSched *sc) {
     struct_watchMenu *ptr = ALIGN_PTR(Heap_bufferp);
     s32 i;
 
-    if (main_old == MAIN_NO_3) {
+    if (main_old == MAIN_TITLE) {
         _menuAll_lastMode = MAINMENUMODE_MENUMAIN_0;
         _menuMain_lastMode = MAINMENUMODE_MENUMAIN_0;
         _menuMain_lastDepth = 0;
@@ -10674,7 +10685,7 @@ enum_main_no main_menu(NNSched *sc) {
     gGfxHead = gGfxGlist[gfx_gtask_no];
     dm_seq_play(SEQ_INDEX_12);
 
-    while ((ptr->unk_111D4 == MAIN_NO_6) || (ptr->unk_111DC < 1.0f)) {
+    while ((ptr->unk_111D4 == MAIN_MENU) || (ptr->unk_111DC < 1.0f)) {
         if (graphic_no == GRAPHIC_NO_0) {
             while ((pendingGFX != 0) || (BgTasksManager_GetRemainingTasks() != 0)) {
                 _waitRetrace(ptr);
@@ -10738,7 +10749,7 @@ enum_main_no main_menu(NNSched *sc) {
     graphic_no = GRAPHIC_NO_0;
     dm_seq_stop();
 
-    while ((pendingGFX != 0) || !func_8002B178() || (BgTasksManager_GetRemainingTasks() != 0)) {
+    while ((pendingGFX != 0) || !dm_seq_is_stopped() || (BgTasksManager_GetRemainingTasks() != 0)) {
         osRecvMesg(&ptr->scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
@@ -10752,7 +10763,7 @@ enum_main_no main_menu(NNSched *sc) {
 void graphic_menu(void) {
     struct_watchMenu *ptr = watchMenu;
 
-    if ((ptr->unk_111D4 != MAIN_NO_6) && (ptr->unk_111DC == 1.0f)) {
+    if ((ptr->unk_111D4 != MAIN_MENU) && (ptr->unk_111DC == 1.0f)) {
         osSetThreadPri(NULL, THREAD_PRI_GRAPHIC);
         ptr->unk_111F4 = 0xF;
         return;

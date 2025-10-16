@@ -40,7 +40,7 @@ def updateChecksum(romBytes: bytearray):
     printDebug(f"checksum2: {calculatedChecksum[1]:X}")
 
     # Write checksum
-    struct.pack_into(f">II", romBytes, 0x10, calculatedChecksum[0], calculatedChecksum[1])
+    struct.pack_into(">II", romBytes, 0x10, calculatedChecksum[0], calculatedChecksum[1])
 
 def updaterMain():
     description = ""

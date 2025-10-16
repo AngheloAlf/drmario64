@@ -19,8 +19,8 @@ UNREFERENCED_SYMBOLS: set[int] = set()
 TYPE_SIZES: dict[str, int] = {
     "Lws": 0x18, # larger?
     "Lws *": 0x4,
-    "Lws_unk_10": 0x18,
-    "Lws_unk_14": 0x1C,
+    "LwsObj": 0x18,
+    "LwsKey": 0x1C,
     "Gfx": 0x8,
     "Vtx": 0x10,
     "Palette16": 16*2,
@@ -152,9 +152,9 @@ def parse_lws(data: bytes, offset: int, vram: int):
     UNK_10_PARENT[unk_10_vram] = vram
     UNK_14_PARENT[unk_14_vram] = vram
 
-    unk_10_size = TYPE_SIZES["Lws_unk_10"]
-    unk_14_size = TYPE_SIZES["Lws_unk_14"]
-    SYMBOLS[unk_10_vram] = ("Lws_unk_10", unk_10_size * count, True)
+    unk_10_size = TYPE_SIZES["LwsObj"]
+    unk_14_size = TYPE_SIZES["LwsKey"]
+    SYMBOLS[unk_10_vram] = ("LwsObj", unk_10_size * count, True)
 
     unk_14_count = 1
 
@@ -195,7 +195,7 @@ def parse_lws(data: bytes, offset: int, vram: int):
         if unk_10_offset_unk_0C + unk_10_offset_unk_08 > unk_14_count:
             unk_14_count = unk_10_offset_unk_0C + unk_10_offset_unk_08
 
-    SYMBOLS[unk_14_vram] = ("Lws_unk_14", unk_14_size * unk_14_count, True)
+    SYMBOLS[unk_14_vram] = ("LwsKey", unk_14_size * unk_14_count, True)
 
 
 def search_for_dlists(data: bytes):
@@ -312,7 +312,7 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
                 f.write(f"}};\n\n")
                 offset += size
 
-            elif typ == "Lws_unk_10":
+            elif typ == "LwsObj":
                 assert is_array
                 f.write(f"{typ} {sym_prefix}D_{vram:08X}[] = {{\n")
 
@@ -324,7 +324,7 @@ def emit(out_path: Path, data: bytes, rom_offset: int, inc_path: str, sym_prefix
                 f.write(f"static_assert(ARRAY_COUNT({sym_prefix}D_{vram:08X}) == {sym_prefix}D_{UNK_10_PARENT[vram]:08X}_COUNT, \"\");\n")
                 f.write("\n")
 
-            elif typ == "Lws_unk_14":
+            elif typ == "LwsKey":
                 assert is_array
                 f.write(f"{typ} {sym_prefix}D_{vram:08X}[] = {{\n")
 

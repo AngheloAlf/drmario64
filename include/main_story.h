@@ -10,48 +10,42 @@ struct NNSched;
 struct GraphBinGeneric;
 
 typedef struct GbiStat {
-    /* 0x00 */ s32 siz;
-    /* 0x04 */ s32 width;
-    /* 0x08 */ s32 height;
-    /* 0x0C */ u16 *tlut;
-    /* 0x10 */ u8 *texture; // ci // TexturePtr?
+    /* 0x00 */ s32 siz; /* Original name: type */
+    /* 0x04 */ s32 width; /* Original name: x */
+    /* 0x08 */ s32 height; /* Original name: y */
+    // TODO: const
+    /* 0x0C */ /*const*/ u16 *tlut; /* Original name: lut_addr */
+    /* 0x10 */ /*const*/ Texture *texture; /* Original name: tex_addr */
 } GbiStat; // size = 0x14
 
-
-typedef struct struct_mes_data {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ const char *unk_4;
-} struct_mes_data; // size = 0x8
-
-
-void story_zoomfade(Gfx **gfxP, s32 arg1);
-void get_gbi_stat(GbiStat *arg0, struct GraphBinGeneric *graphBin);
-void curtain_proc(Gfx **gfxP, s32 arg1);
-void curtain_proc_org(Gfx **gfxP, s32 arg1);
-void func_800770E8(Gfx **gfxP, struct GraphBinGeneric *graphBin);
+void story_zoomfade(Gfx **gfxP, s32 count);
+void get_gbi_stat(GbiStat *gbi, struct GraphBinGeneric *graphBin);
+void curtain_proc(Gfx **gfxP, s32 count);
+void curtain_proc_org(Gfx **gfxP, s32 count);
+void waku_disp(Gfx **gfxP, struct GraphBinGeneric *graphBin);
 void *story_bg_init(BgRomDataIndex index, void *dstAddr);
 void story_bg_proc(Gfx **gfxP);
-void func_800773F0(void);
-void func_8007744C(void);
-void func_8007746C(void);
-bool func_800774C4(void);
-void story_spot(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, UNK_PTR tex);
-void func_800777E8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
+void story_st_start(void);
+void story_st_end(void);
+void story_st_clear(void);
+bool story_st_meswait(void);
+void story_spot(Gfx **gfxP, s32 x, s32 y, s32 count, const u8 tex[]);
+void star_spot(Gfx **gfxP, s32 x, s32 y, s32 count);
 void *init_coffee_break(void *dstAddr, UNK_TYPE arg1);
 void init_coffee_break_cnt(void);
 void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
-void *init_menu_bg(void *dstAddr, bool arg1);
-void draw_menu_bg(Gfx **gfxP, s32 arg1, s32 arg2);
-void *init_title(void *dstAddr, bool arg1);
-s32 demo_title(Gfx **gfxP, bool arg1);
-// void func_80078648();
-void func_8007865C(void);
+void *init_menu_bg(void *dstAddr, bool flg);
+void draw_menu_bg(Gfx **gfxP, s32 x, s32 y);
+void *init_title(void *dstAddr, bool flg);
+s32 demo_title(Gfx **gfxP, bool flg21);
+// void main_open();
+void st_message_proc(void);
 
-void func_8007A9DC(void);
+void read_graphic_data(void);
 void main_story(struct NNSched *sc);
 void init_objMtx(void);
 void graphic_story(void);
-// void func_8007B62C();
+// void draw_ending_mess_bg();
 
 
 // .data
@@ -63,7 +57,7 @@ extern u16 curtain_00_tex[];
 extern u8 changestar_tex[];
 extern void *mess_heap;
 extern char st_staffroll_txt[];
-extern struct_mes_data *mes_data[];
+
 extern BgRomDataIndex story_proc_no;
 extern char STR_800AACF0[];
 extern char *EndingLastMessage; /* Original name: EndingLastMessage */

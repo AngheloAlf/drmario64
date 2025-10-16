@@ -758,12 +758,14 @@ void func_80046734(MenuItem *item, f32 arg0, f32 arg1, f32 arg2);
 void func_800467E0(MenuItem *item);
 void func_80046844(MenuItem *item, Gfx **gfxP);
 bool menuItem_outOfScreen(MenuItem *item, s32 arg1, s32 arg2);
-bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, struct TiTexData *arg2, s32 arg3);
-bool func_80046C74(MenuItem *item, Gfx **gfxP, struct TiTexData *arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7);
-s32 menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, struct TiTexData * arg2, struct TiTexData * arg3, s32 arg4);
+bool menuItem_drawTex(MenuItem *item, Gfx **gfxP, struct TiTexData *arg2, bool cached);
+bool func_80046C74(MenuItem *item, Gfx **gfxP, struct TiTexData *arg2, bool cached, f32 arg4, f32 arg5, f32 arg6,
+                   f32 arg7);
+bool menuItem_drawAlphaTex(MenuItem *item, Gfx **gfxP, struct TiTexData * arg2, struct TiTexData * arg3, s32 arg4);
 s32 func_80046F58(MenuItem *item, Gfx **gfxP, struct TiTexData * arg2, s32 arg3, s32 arg4, s32 arg5);
 void func_80047074(MenuItem *item, Gfx **gfxP, struct TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 arg9);
-bool func_8004714C(MenuItem *item, Gfx **gfxP, struct TiTexData *arg2, struct TiTexData *arg3, s32 arg4, s32 arg5, s32 arg6);
+bool func_8004714C(MenuItem *item, Gfx **gfxP, struct TiTexData *arg2, struct TiTexData *arg3, bool cached, s32 arg5,
+                   s32 arg6);
 // void func_800472D0();
 void menuTitle_setTitle(struct_watchMenu_unk_02548 *arg0, MainMenuMode arg1);
 void func_800474EC(struct_watchMenu_unk_02548 *arg0, struct_watchMenu *watchMenuRef, UNK_TYPE arg2, UNK_TYPE arg3);

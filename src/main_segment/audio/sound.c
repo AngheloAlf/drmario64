@@ -168,9 +168,9 @@ const SndEntry gSndsEntries[SND_INDEX_MAX] = {
 
 s32 func_8002AA80(void) {
     s32 ret = 0;
-    u32 i;
+    s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(RO_800ACA20); i++) {
+    for (i = 0; i < ARRAY_COUNTU(RO_800ACA20); i++) {
         RomOffsetPair *pair = &_romDataTbl[RO_800ACA20[i]];
         s32 segmentSize = pair->end - pair->start;
 
@@ -191,24 +191,24 @@ void func_8002AAE8(struct_800FACE0_unk_08 *arg0, const SndEntry *arg1) {
     arg0->unk_8 = 0;
 }
 
-bool func_8002AB28(struct_800FACE0_unk_08 *arg0) {
+bool func_8002AB28(CONST_ARG struct_800FACE0_unk_08 *arg0) {
     if ((arg0->sndEntry == NULL) || (func_8002D7E0(arg0->index) != 0)) {
         return false;
     }
 
     func_8002D720(arg0->index, arg0->sndEntry->number);
     func_8002D840(arg0->index, arg0->sndEntry->volume);
-    func_8002D8A0(arg0->index, arg0->sndEntry->offset * 0.125);
+    func_8002D8A0(arg0->index, arg0->sndEntry->offset * DOUBLE_LITERAL(0.125));
     return true;
 }
 
-bool func_8002ABC0(struct_800FACE0_unk_08 *arg0) {
+bool func_8002ABC0(CONST_ARG struct_800FACE0_unk_08 *arg0) {
     if ((arg0->sndEntry == NULL) || (func_8002D7E0(arg0->index) != 0)) {
         return false;
     }
 
     func_8002D768(arg0->index, arg0->sndEntry->number, arg0->sndEntry->volume, 0x80, true, arg0->sndEntry->priority);
-    func_8002D8A0(arg0->index, arg0->sndEntry->offset * 0.125);
+    func_8002D8A0(arg0->index, arg0->sndEntry->offset * DOUBLE_LITERAL(0.125));
     return true;
 }
 
@@ -276,7 +276,8 @@ void dm_audio_init_driver(NNSched *sc) {
 
     InitMusicDriver(sc, audio_memory, AUDIO_HEAP_SIZE,
                     _romDataTbl[ROMDATATBL_N64_PTR_TABLES].end - _romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
-                    func_8002AA80(), 2, _romDataTbl[ROMDATATBL_FXBANK].end - _romDataTbl[ROMDATATBL_FXBANK].start, 4,
+                    func_8002AA80(), SOUNDBUFNUMBER_MAX,
+                    _romDataTbl[ROMDATATBL_FXBANK].end - _romDataTbl[ROMDATATBL_FXBANK].start, 4,
                     THREAD_PRI_MUSIC_DRIVER);
 
     func_8002D3B0(_romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
@@ -294,7 +295,7 @@ void dm_audio_update(void) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(var_s0->seqIndex); i++) {
-        if ((var_s0->seqIndex[i] > SEQ_INDEX_NONE) && func_8002B194(i)) {
+        if ((var_s0->seqIndex[i] > SEQ_INDEX_NONE) && _dm_seq_is_stopped(i)) {
             RomOffsetPair *pair = &_romDataTbl[RO_800ACA20[var_s0->seqIndex[i]]];
 
             func_8002D428(i, pair->start, pair->end - pair->start);
@@ -334,59 +335,59 @@ bool dm_audio_is_stopped(void) {
  * Original name: dm_seq_play
  */
 void dm_seq_play(SeqIndex seqIndex) {
-    _dm_seq_play(0, seqIndex);
+    _dm_seq_play(SOUNDBUFNUMBER_0, seqIndex);
 }
 
 /**
  * Original name: _dm_seq_play
  */
-void _dm_seq_play(s32 arg0, SeqIndex seqIndex) {
-    _dm_seq_play_fade(arg0, seqIndex, 0);
+void _dm_seq_play(SoundBufNumber bufNo, SeqIndex seqIndex) {
+    _dm_seq_play_fade(bufNo, seqIndex, 0);
 }
 
 /**
  * Original name: dm_seq_play_fade
  */
-void dm_seq_play_fade(SeqIndex seqIndex, s32 arg1) {
-    _dm_seq_play_fade(0, seqIndex, arg1);
+void dm_seq_play_fade(SeqIndex seqIndex, s32 fade) {
+    _dm_seq_play_fade(SOUNDBUFNUMBER_0, seqIndex, fade);
 }
 
 /**
  * Original name: _dm_seq_play_fade
  */
 
-void _dm_seq_play_fade(s32 arg0, SeqIndex seqIndex, s32 arg2) {
+void _dm_seq_play_fade(SoundBufNumber bufNo, SeqIndex seqIndex, s32 fade) {
     struct_800FACE0 *ptr = &sound_song_id;
 
-    if (seqIndex == ptr->seqIndex[arg0]) {
+    if (seqIndex == ptr->seqIndex[bufNo]) {
         return;
     }
 
-    func_8002D554(arg0, arg2);
-    ptr->seqIndex[arg0] = seqIndex;
+    func_8002D554(bufNo, fade);
+    ptr->seqIndex[bufNo] = seqIndex;
 }
 
 /**
  * Original name: dm_seq_play_in_game
  */
 void dm_seq_play_in_game(SeqIndex seqIndex) {
-    _dm_seq_play_in_game(0, seqIndex);
+    _dm_seq_play_in_game(SOUNDBUFNUMBER_0, seqIndex);
 }
 
 /**
  * Original name: dm_seq_play_in_game
  */
-void _dm_seq_play_in_game(s32 arg0, SeqIndex seqIndex) {
+void _dm_seq_play_in_game(SoundBufNumber bufNo, SeqIndex seqIndex) {
     if (evs_seqence == 0) {
         if (seqIndex < SEQ_INDEX_10) {
             if (seqIndex > SEQ_INDEX_NONE) {
-                _dm_seq_stop(arg0);
+                _dm_seq_stop(bufNo);
                 return;
             }
         }
     }
 
-    _dm_seq_play(arg0, seqIndex);
+    _dm_seq_play(bufNo, seqIndex);
 }
 
 /**
@@ -399,31 +400,37 @@ void dm_seq_stop(void) {
 /**
  * Original name: _dm_seq_stop
  */
-void _dm_seq_stop(s32 arg0) {
-    func_8002D554(arg0, 0);
-    sound_song_id.seqIndex[arg0] = SEQ_INDEX_NONE;
+void _dm_seq_stop(SoundBufNumber bufNo) {
+    func_8002D554(bufNo, 0);
+    sound_song_id.seqIndex[bufNo] = SEQ_INDEX_NONE;
 }
 
 /**
  * Original name: dm_seq_set_volume
  */
 void dm_seq_set_volume(s32 volume) {
-    _dm_seq_set_volume(0, volume);
+    _dm_seq_set_volume(SOUNDBUFNUMBER_0, volume);
 }
 
 /**
  * Original name: _dm_seq_set_volume
  */
-void _dm_seq_set_volume(s32 arg0, s32 volume) {
-    func_8002D58C(arg0, volume);
+void _dm_seq_set_volume(SoundBufNumber bufNo, s32 volume) {
+    func_8002D58C(bufNo, volume);
 }
 
-bool func_8002B178(void) {
-    return func_8002B194(0);
+/**
+ * Original name: _dm_seq_is_stopped
+ */
+bool dm_seq_is_stopped(void) {
+    return _dm_seq_is_stopped(SOUNDBUFNUMBER_0);
 }
 
-bool func_8002B194(s32 arg0) {
-    return func_8002D51C(arg0) == 0;
+/**
+ * Original name: _dm_seq_is_stopped
+ */
+bool _dm_seq_is_stopped(SoundBufNumber bufNo) {
+    return func_8002D51C(bufNo) == 0;
 }
 
 /**
@@ -488,6 +495,7 @@ void dm_snd_play_in_game(SndIndex sndIndex) {
         dm_snd_play(sndIndex);
     }
 }
+
 s32 func_8002B370(void) {
     return MusFxBankNumberOfEffects(func_8002D710());
 }
@@ -496,22 +504,22 @@ s32 func_8002B370(void) {
  * Original name: dm_snd_play_strange_sound
  */
 void dm_snd_play_strange_sound(void) {
-    s32 sp10[4];
+    s32 snd[4];
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNTU(sp10); i++) {
+    for (i = 0; i < ARRAY_COUNTU(snd); i++) {
         s32 j;
 
-        sp10[i] = rand() % ARRAY_COUNT(_charSE_tbl);
+        snd[i] = rand() % ARRAY_COUNT(_charSE_tbl);
         for (j = 0; j < i; j++) {
-            if (sp10[i] == sp10[j]) {
+            if (snd[i] == snd[j]) {
                 i -= 1;
                 break;
             }
         }
     }
 
-    for (i = 0; i < ARRAY_COUNTU(sp10); i++) {
-        dm_snd_play(_charSE_tbl[sp10[i]] + 3);
+    for (i = 0; i < ARRAY_COUNTU(snd); i++) {
+        dm_snd_play(_charSE_tbl[snd[i]] + 3);
     }
 }

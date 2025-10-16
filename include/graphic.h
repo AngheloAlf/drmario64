@@ -49,15 +49,6 @@ extern u32 pendingGFX;
 extern Vp vp;
 extern s32 rdpinit_flag_161;
 
-extern Gfx S2RDPinit_dl[];
-extern Gfx S2ClearCFB_dl[];
-extern Gfx S2Spriteinit_dl[];
-extern Gfx F3RDPinit_dl[];
-extern Gfx F3SetupRDP_dl[];
-extern Gfx F3SetupRSP_dl[];
-extern Gfx D_80088360[];
-extern Gfx D_800883A8[];
-
 // COMMON
 
 extern STACK(sGraphicStack, GRAPHIC_STACK_SIZE);

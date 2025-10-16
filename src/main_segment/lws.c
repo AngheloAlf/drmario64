@@ -9,126 +9,131 @@
 
 #include "calc.h"
 #include "main_story.h"
-#include "066840.h"
+#include "calcsub.h"
 
 static Mtx AnimProc[0x40];
 
-s32 lws_anim(Gfx **gfxP, Mtx *mtx, Lws *arg2, s32 arg3, void *arg4) {
+s32 lws_anim(Gfx **gfxP, Mtx *mtx, Lws *pSceneData, s32 frame, void *baseAddr) {
     Gfx *gfx = *gfxP;
     s32 i;
     s32 ret;
 
-    if (arg3 >= arg2->unk_04) {
+    if (frame >= pSceneData->last_frame) {
         ret = 1;
-        arg3 = arg2->unk_04 - 1;
+        frame = pSceneData->last_frame - 1;
     } else {
         ret = 0;
     }
 
-    for (i = 0; i < arg2->count; i++) {
-        s32 j;
-        Mtx sp28;
+    for (i = 0; i < pSceneData->obj_count; i++) {
+        s32 key;
+        Mtx m;
         Mtx sp68;
         Mtx spA8;
-        f32 var_fs3;
-        f32 var_fs5;
-        f32 var_fs4;
-        f32 spF4;
-        f32 spF8;
-        f32 spFC;
-        f32 sp110;
-        f32 var_fs2;
-        f32 var_fs1;
-        f32 var_ft5;
-        s16 temp_s0;
-        s16 temp_s1;
-        s16 a3;
-        Lws_unk_14 *var_a1;
-        Lws_unk_14 *var_a2;
-        Lws_unk_14 *temp;
-        Lws_unk_10 *temp_s5;
-        s32 a4;
-        s32 a5;
-        s32 a6;
+        f32 lx;
+        f32 ly;
+        f32 lz;
+        f32 rx;
+        f32 ry;
+        f32 rz;
+        f32 sx;
+        f32 sy;
+        f32 sz;
+        f32 step;
+        s16 irx;
+        s16 iry;
+        s16 irz;
+        LwsKey *pKey1;
+        LwsKey *pKey2;
+        LwsKey *pKey;
+        LwsObj *pObj;
+        s32 ilx;
+        s32 ily;
+        s32 ilz;
 
-        temp_s5 = RELOCATE_SEGMENTED(arg2->unk_10, arg4);
-        temp_s5 = &temp_s5[i];
+#if 0
+        long ms[4][4]; // r1+0x5C
+        long mt[4][4]; // r1+0x1C
+#endif
 
-        temp = RELOCATE_SEGMENTED(arg2->unk_14, arg4);
-        temp = &temp[temp_s5->unk_0C];
+        pObj = RELOCATE_SEGMENTED(pSceneData->obj, baseAddr);
+        pObj = &pObj[i];
 
-        var_a1 = var_a2 = temp;
+        pKey = RELOCATE_SEGMENTED(pSceneData->key, baseAddr);
+        pKey = &pKey[pObj->key_index];
 
-        for (j = 1; j < temp_s5->unk_08; j++) {
-            var_a1 = &temp[j - 1];
-            var_a2 = &temp[j];
-            if (var_a2->unk_00 > arg3) {
+        pKey1 = pKey2 = pKey;
+
+        for (key = 1; key < pObj->key_count; key++) {
+            pKey1 = &pKey[key - 1];
+            pKey2 = &pKey[key];
+            if (pKey2->key_no > frame) {
                 break;
             }
         }
 
-        if (arg3 >= var_a2->unk_00) {
-            var_ft5 = 0.0f;
-            var_a1 = var_a2;
-        } else if (var_a1 == var_a2) {
-            var_ft5 = 0.0f;
+        if (frame >= pKey2->key_no) {
+            step = 0.0f;
+            pKey1 = pKey2;
+        } else if (pKey1 == pKey2) {
+            step = 0.0f;
         } else {
-            var_ft5 = arg3 - var_a1->unk_00;
+            step = frame - pKey1->key_no;
         }
 
-        var_fs3 = var_a1->unk_08;
-        var_fs5 = var_a1->unk_0A;
-        var_fs4 = var_a1->unk_0C;
-        spF4 = var_a1->unk_0E;
-        spF8 = var_a1->unk_10;
-        spFC = var_a1->unk_12;
-        sp110 = var_a1->unk_14;
-        var_fs2 = var_a1->unk_16;
-        var_fs1 = var_a1->unk_18;
-        if (var_ft5 > 0.0f) {
-            var_ft5 /= (var_a2->unk_00 - var_a1->unk_00);
+        lx = pKey1->lx;
+        ly = pKey1->ly;
+        lz = pKey1->lz;
+        rx = pKey1->rx;
+        ry = pKey1->ry;
+        rz = pKey1->rz;
+        sx = pKey1->sx;
+        sy = pKey1->sy;
+        sz = pKey1->sz;
+        if (step > 0.0f) {
+            step /= (pKey2->key_no - pKey1->key_no);
 
-            var_fs3 += (var_a2->unk_08 - var_fs3) * var_ft5;
-            var_fs5 += (var_a2->unk_0A - var_fs5) * var_ft5;
-            var_fs4 += (var_a2->unk_0C - var_fs4) * var_ft5;
-            spF4 += (var_a2->unk_0E - spF4) * var_ft5;
-            spF8 += (var_a2->unk_10 - spF8) * var_ft5;
-            spFC += (var_a2->unk_12 - spFC) * var_ft5;
-            sp110 += (var_a2->unk_14 - sp110) * var_ft5;
-            var_fs2 += (var_a2->unk_16 - var_fs2) * var_ft5;
-            var_fs1 += (var_a2->unk_18 - var_fs1) * var_ft5;
+            lx += (pKey2->lx - lx) * step;
+            ly += (pKey2->ly - ly) * step;
+            lz += (pKey2->lz - lz) * step;
+            rx += (pKey2->rx - rx) * step;
+            ry += (pKey2->ry - ry) * step;
+            rz += (pKey2->rz - rz) * step;
+            sx += (pKey2->sx - sx) * step;
+            sy += (pKey2->sy - sy) * step;
+            sz += (pKey2->sz - sz) * step;
         }
 
         makeScaleMatrix(&sp68, 0x8000);
 
-        sp68.m[0][0] = sp110 * 8.0 + 0.5;
-        sp68.m[1][1] = var_fs2 * 8.0 + 0.5;
-        sp68.m[2][2] = var_fs1 * 8.0 + 0.5;
+        sp68.m[0][0] = sx * 8.0 + 0.5;
+        sp68.m[1][1] = sy * 8.0 + 0.5;
+        sp68.m[2][2] = sz * 8.0 + 0.5;
 
-        a4 = var_fs3 * 4096.0;
-        a5 = var_fs5 * 4096.0;
-        a6 = var_fs4 * 4096.0;
+        ilx = lx * DOUBLE_LITERAL(0x1000);
+        ily = ly * DOUBLE_LITERAL(0x1000);
+        ilz = lz * DOUBLE_LITERAL(0x1000);
 
-        temp_s1 = angleF2S(spF4 / 16.0);
-        temp_s0 = angleF2S(spF8 / 16.0);
-        a3 = angleF2S(spFC / 16.0);
+        irx = angleF2S(rx / 16.0);
+        iry = angleF2S(ry / 16.0);
+        irz = angleF2S(rz / 16.0);
 
-        makeMatrix(&spA8, temp_s1, temp_s0, a3, a4, a5, a6);
-        matrixMulL(&sp68, &spA8, &sp28);
+        makeMatrix(&spA8, irx, iry, irz, ilx, ily, ilz);
+        matrixMulL(&sp68, &spA8, &m);
 
-        if (temp_s5->unk_04 == -1) {
-            matrixMulL(&sp28, mtx, &AnimProc[i]);
+        if (pObj->parent == -1) {
+            matrixMulL(&m, mtx, &AnimProc[i]);
         } else {
-            matrixMulL(&sp28, &AnimProc[temp_s5->unk_04], &AnimProc[i]);
+            matrixMulL(&m, &AnimProc[pObj->parent], &AnimProc[i]);
         }
 
-        if (temp_s5->unk_00 != NULL) {
+        if (pObj->dl != NULL) {
             matrixConv(&AnimProc[i], pObjectMtx, 0);
 
             gSPMatrix(gfx++, pObjectMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             pObjectMtx++;
 
-            gSPDisplayList(gfx++, temp_s5->unk_00);
+            gSPDisplayList(gfx++, pObj->dl);
         }
     }
 

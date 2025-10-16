@@ -3,9 +3,11 @@
  */
 
 #include "gateway.h"
+
 #include "libc/stdbool.h"
 #include "macros_defines.h"
 
+#ifdef NN_SC_PERF
 bool sGatewayInitialized = false;
 
 static OSPiHandle sGatewayHandle;
@@ -43,3 +45,4 @@ s32 Gateway_80002AE8_cn(bool set) {
 
     return osEPiWriteIo(handle, GATEWAY_HALT_REG_START_ADDR, data);
 }
+#endif

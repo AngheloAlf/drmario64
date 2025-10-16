@@ -12,8 +12,8 @@ Idle_ThreadEntry = 0x80000580; // type:func
 DmaData_80000690_cn = 0x80000620; // type:func
 DmaData_RomToRam = 0x80000658; // type:func
 
-func_80000720 = 0x80000770; // type:func
-func_8000075C = 0x800007AC; // type:func
+gzip_malloc = 0x80000770; // type:func
+gzip_free = 0x800007AC; // type:func
 huft_build = 0x800007C8; // type:func
 huft_free = 0x80000D5C; // type:func
 inflate_codes = 0x80000D98; // type:func
@@ -24,13 +24,13 @@ inflate_block = 0x80001D9C; // type:func
 inflate = 0x80001F04; // type:func
 
 expand_gzip = 0x80001FE0; // type:func
-auRomDataRead = 0x80002028; // type:func
+data_read = 0x80002028; // type:func
 data_write = 0x800020B4; // type:func
 unzip = 0x800020F0; // type:func
 updcrc = 0x80002198; // type:func
 clear_bufs = 0x800021F0; // type:func
 fill_inbuf = 0x8000221C; // type:func
-func_800022A8 = 0x800022F8; // type:func
+write_buf = 0x800022F8; // type:func
 flush_window = 0x80002350; // type:func
 
 DecompressRomToRam = 0x800023D0; // type:func
@@ -78,7 +78,7 @@ dbits = 0x8000E45C; //
 gzip_malloc_addr = 0x8000E460; //
 gzip_malloc_tmp = 0x8000E464; //
 
-D_8000EDD0 = 0x8000E470; //
+gzip_dummy_dl = 0x8000E470; // type:Gfx size:0x8
 crc_32_tab = 0x8000E478; //
 crc_132 = 0x8000E878; //
 

@@ -4,22 +4,21 @@
 
 #include "calc.h"
 
-#include "include_asm.h"
 #include "macros_defines.h"
 
-#include "066840.h"
+#include "calcsub.h"
 
 static s32 randomindex;
 static s32 randomtable[55];
 
-s32 D_800AAE60[] = {
+s32 start_tbl[] = {
     0,  1,  2,  3,  4,  5,  6,  8,  9,  10, 11, 12, 13, 14, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 28,
     29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54,
     54, 55, 56, 57, 58, 59, 60, 61, 61, 62, 63, 64, 65, 66, 66, 67, 68, 69, 69, 70, 71, 72, 73, 73, 74, 75,
     75, 76, 77, 78, 78, 79, 80, 80, 81, 82, 82, 83, 83, 84, 85, 85, 86, 87, 87, 88, 88, 89, 90,
 };
 
-f32 D_800AAFF4[] = {
+f32 tan_table[] = {
     0.0f,        0.008726868f, 0.017455066f, 0.026185922f, 0.03492077f, 0.043660942f, 0.05240778f, 0.06116262f,
     0.06992681f, 0.078701705f, 0.087488666f, 0.096289046f, 0.10510424f, 0.113935605f, 0.12278456f, 0.1316525f,
     0.14054084f, 0.149451f,    0.15838444f,  0.1673426f,   0.17632698f, 0.18533905f,  0.19438031f, 0.2034523f,
@@ -34,84 +33,93 @@ f32 D_800AAFF4[] = {
     0.96568877f, 0.98269725f,  1.0f,         999.0f,
 };
 
-// "tanf"
-f32 func_8007BC20(f32 arg0) {
-    return sinf(arg0) / cosf(arg0);
+/**
+ * Original name: tanf
+ */
+f32 tanf(f32 a) {
+    return sinf(a) / cosf(a);
 }
 
-// Matrix multiplication?
-void func_8007BC54(f32 arg0[4][4], f32 arg1[4][4], f32 arg2[4][4]) {
-    f32 sp8[4][4];
+/**
+ * Original name: matrixMulF
+ */
+void matrixMulF(const f32 s[4][4], const f32 d[4][4], f32 r[4][4]) {
+    f32 res[4][4];
     s32 i;
     s32 j;
     s32 k;
 
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
-            sp8[i][j] = 0.0f;
+            res[i][j] = 0.0f;
 
             for (k = 0; k < 4; k++) {
-                sp8[i][j] += arg0[i][k] * arg1[k][j];
+                res[i][j] += s[i][k] * d[k][j];
             }
         }
     }
 
     for (i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
-            arg2[i][j] = sp8[i][j];
+            r[i][j] = res[i][j];
         }
     }
 }
 
 /**
+ * Original name: makeMatrixF
+ *
  * Creates a general rotation + translation matrix. Uses Y1 X2 Z3 Tait-Bryan angles
- * (https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix). `rotX`, `rotY`, `rotZ` are in degrees.
+ * (https://en.wikipedia.org/wiki/Euler_angles#Rotation_matrix). `rx`, `ry`, `rz` are in degrees.
+ * `lx`, `ly` and `lz` are the translation part.
  */
-void func_8007BD30(f32 m[4][4], f32 rotX, f32 rotY, f32 rotZ, f32 transX, f32 transY, f32 transZ) {
-    f32 a2 = DEG_TO_RAD(rotX);
-    f32 a1 = DEG_TO_RAD(rotY);
-    f32 a3 = DEG_TO_RAD(rotZ);
-    f32 s2 = sinf(a2);
-    f32 s1 = sinf(a1);
-    f32 s3 = sinf(a3);
-    f32 c2 = cosf(a2);
-    f32 c1 = cosf(a1);
-    f32 c3 = cosf(a3);
+void makeMatrixF(f32 m[4][4], f32 rx, f32 ry, f32 rz, f32 lx, f32 ly, f32 lz) {
+    f32 rad_x = DEG_TO_RAD(rx);
+    f32 rad_y = DEG_TO_RAD(ry);
+    f32 rad_z = DEG_TO_RAD(rz);
+    f32 sx = sinf(rad_x);
+    f32 sy = sinf(rad_y);
+    f32 sz = sinf(rad_z);
+    f32 cx = cosf(rad_x);
+    f32 cy = cosf(rad_y);
+    f32 cz = cosf(rad_z);
 
-    m[0][0] = (s3 * s2 * s1) + (c3 * c1);
-    m[0][1] = s3 * c2;
-    m[0][2] = (s3 * s2 * c1) - (c3 * s1);
+    m[0][0] = (sz * sx * sy) + (cz * cy);
+    m[0][1] = sz * cx;
+    m[0][2] = (sz * sx * cy) - (cz * sy);
 
-    m[1][0] = (c3 * s2 * s1) - (s3 * c1);
-    m[1][1] = c3 * c2;
-    m[1][2] = (c3 * s2 * c1) + (s3 * s1);
+    m[1][0] = (cz * sx * sy) - (sz * cy);
+    m[1][1] = cz * cx;
+    m[1][2] = (cz * sx * cy) + (sz * sy);
 
-    m[2][0] = c2 * s1;
-    m[2][1] = -s2;
-    m[2][2] = c2 * c1;
+    m[2][0] = cx * sy;
+    m[2][1] = -sx;
+    m[2][2] = cx * cy;
 
-    m[3][0] = transX;
-    m[3][1] = transY;
-    m[3][2] = transZ;
+    m[3][0] = lx;
+    m[3][1] = ly;
+    m[3][2] = lz;
 
     m[0][3] = m[1][3] = m[2][3] = 0.0f;
     m[3][3] = 1.0f;
 }
 
 /**
+ * Original name: angle2vct
+ *
  * convert a pair of binary angles theta, phi to spherical coordinates x, y, z; origin (0,0) -> (0,0,1) and theta points
- * towards the downwards y direction
+ * towards the downwards y direction.
+ *
+ * `pit` is `theta`, `yaw` is `phi`.
  */
-void func_8007BEEC(s16 theta, s16 phi, f32 *x, f32 *y, f32 *z) {
-    f32 thetaRad;
-    f32 phiRad;
+void angle2vct(s16 pit, s16 yaw, f32 *x, f32 *y, f32 *z) {
+    f32 thetaRad = angleS2F(pit);
+    f32 phiRad = angleS2F(yaw);
     f32 cosTheta;
     f32 sinTheta;
     f32 cosPhi;
     f32 sinPhi;
 
-    thetaRad = func_8007C480(theta);
-    phiRad = func_8007C480(phi);
     thetaRad = DEG_TO_RAD(thetaRad);
     phiRad = DEG_TO_RAD(phiRad);
 
@@ -125,161 +133,178 @@ void func_8007BEEC(s16 theta, s16 phi, f32 *x, f32 *y, f32 *z) {
     *z = cosTheta * cosPhi;
 }
 
-void func_8007BFE0(f32 arg0, f32 arg1, f32 arg2, s16 *arg3, s16 *arg4) {
-    s16 temp_s0 = angleF2S(func_8007C244(arg2, arg0));
+/**
+ * Original name: vct2angle
+ */
+void vct2angle(f32 x, f32 y, f32 z, s16 *pit, s16 *yaw) {
+    s16 temp_s0 = angleF2S(get_angleF(z, x));
 
-    arg2 = sqrtf(SQ(arg0) + SQ(arg2));
+    z = sqrtf(SQ(x) + SQ(z));
 
     if (temp_s0 & 0x8000) {
-        if (arg0 >= 0.0f) {
-            arg2 = -arg2;
+        if (x >= 0.0f) {
+            z = -z;
         }
     }
 
-    *arg3 = angleF2S(func_8007C244(arg2, -arg1));
-    *arg4 = temp_s0;
+    *pit = angleF2S(get_angleF(z, -y));
+    *yaw = temp_s0;
 }
 
-f32 func_8007C0C4(f32 arg0) {
-    f32 var_fv1;
-    s32 var_a0;
-    u8 var_a1;
-    f32 temp;
+/**
+ * Original name: atanF
+ */
+f32 atanF(f32 t) {
+    f32 ang;
+    s32 i;
+    u8 flag;
+    f32 wk;
 
-    var_a1 = 0;
-    if (arg0 == 0.0f) {
+    flag = 0;
+    if (t == 0.0f) {
         return 0.0f;
     }
 
-    if (arg0 < 0.0f) {
-        var_a1 = 0x10;
-        arg0 = -arg0;
+    if (t < 0.0f) {
+        flag = 0x10;
+        t = -t;
     }
-    if (arg0 == 1.0f) {
-        if (var_a1 == 0) {
+    if (t == 1.0f) {
+        if (flag == 0) {
             return 45.0f;
         } else {
             return -45.0f;
         }
     }
-    if (arg0 > 1.0f) {
-        arg0 = 1.0f / arg0;
-        var_a1 |= 1;
+    if (t > 1.0f) {
+        t = 1.0f / t;
+        flag |= 1;
     }
 
-    temp = arg0;
+    wk = t;
 
-    var_a0 = temp * 100.0f;
-    var_a0 = D_800AAE60[var_a0];
+    i = wk * 100.0f;
+    i = start_tbl[i];
 
-    while (D_800AAFF4[var_a0] <= temp) {
-        var_a0++;
+    while (tan_table[i] <= wk) {
+        i++;
     }
 
-    var_a0--;
-    var_fv1 = var_a0;
+    i--;
+    ang = i;
 
-    if (temp != D_800AAFF4[var_a0]) {
-        temp -= D_800AAFF4[var_a0];
-        temp /= D_800AAFF4[var_a0 + 1] - D_800AAFF4[var_a0];
-        var_fv1 += temp;
+    if (wk != tan_table[i]) {
+        wk -= tan_table[i];
+        wk /= tan_table[i + 1] - tan_table[i];
+        ang += wk;
     }
 
-    var_fv1 = var_fv1 / 2.0f;
-    if (var_a1 & 1) {
-        var_fv1 = 90.0f - var_fv1;
+    ang = ang / 2.0f;
+    if (flag & 1) {
+        ang = 90.0f - ang;
     }
-    if (var_a1 & 0x10) {
-        var_fv1 = -var_fv1;
+    if (flag & 0x10) {
+        ang = -ang;
     }
-    return var_fv1;
+    return ang;
 }
 
-f32 func_8007C244(f32 arg0, f32 arg1) {
-    f32 temp_ft0;
-    f32 var_fv1;
-    s32 var_a0;
-    s32 var_a1;
+/**
+ * Original name: get_angleF
+ */
+f32 get_angleF(f32 x, f32 y) {
+#define ATAN2_FLG_SWAP 0x1
+#define ATAN2_FLG_NEGY 0x10
+#define ATAN2_FLG_NEGX 0x100
 
-    var_a1 = 0;
-    if (arg0 == 0.0f) {
-        if (arg1 == 0.0f) {
+    f32 wk;
+    f32 ang;
+    s32 i;
+    u32 flag;
+
+    flag = 0;
+    if (x == 0.0f) {
+        if (y == 0.0f) {
             return 0.0f;
         }
 
-        if (arg1 < 0.0f) {
+        if (y < 0.0f) {
             return -90.0f;
         } else {
             return 90.0f;
         }
     }
 
-    if (arg0 < 0.0f) {
-        var_a1 = 0x110;
-        arg0 = -arg0;
+    if (x < 0.0f) {
+        x = -x;
+        flag = ATAN2_FLG_NEGX | ATAN2_FLG_NEGY;
     }
 
-    if (arg1 == 0.0f) {
-        if (var_a1 == 0) {
+    if (y == 0.0f) {
+        if (flag == 0) {
             return 0.0f;
         } else {
             return 180.0f;
         }
     }
 
-    if (arg1 < 0.0f) {
-        var_a1 ^= 0x10;
-        arg1 = -arg1;
+    if (y < 0.0f) {
+        flag ^= ATAN2_FLG_NEGY;
+        y = -y;
     }
-    if (arg0 < arg1) {
-        temp_ft0 = arg0;
-        arg0 = arg1;
-        arg1 = temp_ft0;
-        var_a1 ^= 1;
+    if (x < y) {
+        wk = x;
+        x = y;
+        y = wk;
+        flag ^= ATAN2_FLG_SWAP;
     }
-    temp_ft0 = arg1 / arg0;
+    wk = y / x;
 
-    var_a0 = temp_ft0 * 100.0f;
-    var_a0 = D_800AAE60[var_a0];
-    while (D_800AAFF4[var_a0] <= temp_ft0) {
-        var_a0++;
-    }
-
-    var_a0--;
-    var_fv1 = var_a0;
-    if (temp_ft0 != D_800AAFF4[var_a0]) {
-        temp_ft0 -= D_800AAFF4[var_a0];
-        temp_ft0 /= D_800AAFF4[var_a0 + 1] - D_800AAFF4[var_a0];
-        var_fv1 += temp_ft0;
+    i = wk * 100.0f;
+    i = start_tbl[i];
+    while (tan_table[i] <= wk) {
+        i++;
     }
 
-    var_fv1 /= 2.0f;
-    if (var_a1 & 1) {
-        var_fv1 = 90.0f - var_fv1;
-    }
-    if (var_a1 & 0x10) {
-        var_fv1 = -var_fv1;
-    }
-    if (var_a1 & 0x100) {
-        var_fv1 += 180.0f;
-    }
-    if (var_fv1 > 180.0f) {
-        var_fv1 -= 360.0f;
+    i--;
+    ang = i;
+    if (wk != tan_table[i]) {
+        wk -= tan_table[i];
+        wk /= tan_table[i + 1] - tan_table[i];
+        ang += wk;
     }
 
-    if (var_fv1 < -180.0f) {
-        var_fv1 += 360.0f;
+    ang /= 2.0f;
+    if (flag & ATAN2_FLG_SWAP) {
+        ang = 90.0f - ang;
     }
-    return var_fv1;
+    if (flag & ATAN2_FLG_NEGY) {
+        ang = -ang;
+    }
+    if (flag & ATAN2_FLG_NEGX) {
+        ang += 180.0f;
+    }
+    if (ang > 180.0f) {
+        ang -= 360.0f;
+    }
+
+    if (ang < -180.0f) {
+        ang += 360.0f;
+    }
+    return ang;
+
+#undef ATAN2_FLG_SWAP
+#undef ATAN2_FLG_NEGY
+#undef ATAN2_FLG_NEGX
 }
 
 /**
- * Original name most likely angleS2F
+ * Original name: angleS2F
  *
  * Convert binary angle to float angle in degrees.
  */
-f32 func_8007C480(s16 arg0) {
-    return ((f32)arg0) * (360.0 / 0x10000);
+f32 angleS2F(s16 a) {
+    return ((f32)(s32)a) * (360.0 / 0x10000);
 }
 
 /**
@@ -287,14 +312,16 @@ f32 func_8007C480(s16 arg0) {
  *
  * Convert float angle in degrees to a binary angle.
  */
-s16 angleF2S(f32 arg0) {
-    return (s32)(f32)(arg0 * (0x10000 / 360.0));
+s16 angleF2S(f32 a) {
+    return (s32)(f32)(a * (0x10000 / 360.0));
 }
 
 /**
+ * Original name: matrixL2F
+ *
  * Convert an Mtx to an MtxF.
  */
-void func_8007C4D8(f32 mtxf[4][4], Mtx *mtx) {
+void matrixL2F(f32 mtxf[4][4], CONST_ARG Mtx *mtx) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
@@ -306,9 +333,11 @@ void func_8007C4D8(f32 mtxf[4][4], Mtx *mtx) {
 }
 
 /**
+ * Original name: matrixL2F
+ *
  * Convert an Mtx to an MtxF.
  */
-void func_8007C540(Mtx *mtx, f32 mtxf[4][4]) {
+void matrixF2L(Mtx *mtx, CONST_ARG f32 mtxf[4][4]) {
     s32 i;
 
     for (i = 0; i < 4; i++) {
@@ -320,9 +349,11 @@ void func_8007C540(Mtx *mtx, f32 mtxf[4][4]) {
 }
 
 /**
+ * Original name: matrixF2Lloc0
+ *
  * Convert an Mtx to an MtxF, and set the last row to (0, 0, 0, 1).
  */
-void func_8007C5A8(Mtx *mtx, f32 mtxf[4][4]) {
+void matrixF2Lloc0(Mtx *mtx, CONST_ARG f32 mtxf[4][4]) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
@@ -338,9 +369,11 @@ void func_8007C5A8(Mtx *mtx, f32 mtxf[4][4]) {
 }
 
 /**
+ * Original name: rotpoint
+ *
  * Rotate `(pointX, pointY)` about `(centreX, centreY)` by `angle` degrees, modifying in-place.
  */
-void func_8007C624(f32 angle, f32 centreX, f32 centreY, f32 *pointX, f32 *pointY) {
+void rotpoint(f32 angle, f32 centreX, f32 centreY, f32 *pointX, f32 *pointY) {
     f32 angleRad = angle * M_DTOR;
     f32 sin = sinf(angleRad);
     f32 cos = cosf(angleRad);
@@ -351,57 +384,43 @@ void func_8007C624(f32 angle, f32 centreX, f32 centreY, f32 *pointX, f32 *pointY
     *pointY = (diffY * cos) + (diffX * sin) + centreY;
 }
 
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/calc", func_8007C6D8);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/calc", func_8007C6D8);
-#endif
-
-#if VERSION_CN
-f32 func_8007C6D8(f32 arg0, f32 arg1) {
-    s32 temp_s0 = angleF2S(arg0) & 0xFFFF;
-    s32 temp_a1 = angleF2S(arg1) & 0xFFFF;
-    s32 var_v0;
-    s32 var_a0;
-    s32 var_v1;
-
-    if (temp_s0 < temp_a1) {
-        var_v1 = temp_s0 + 0x10000;
-        var_a0 = temp_a1;
-    } else {
-        var_v1 = temp_s0;
-        var_a0 = temp_a1 + 0x10000;
-    }
-
-    temp_a1 -= temp_s0;
-    var_a0 -= var_v1;
-
-    var_v1 = (temp_a1 >= 0) ? temp_a1 : -temp_a1;
-
-    if (var_a0 >= 0) {
-        if (var_a0 < var_v1) {
-            var_v0 = var_a0;
-        } else {
-            var_v0 = temp_a1;
-        }
-    } else {
-        if (-var_a0 < var_v1) {
-            var_v0 = var_a0;
-        } else {
-            var_v0 = temp_a1;
-        }
-    }
-
-    return func_8007C480(var_v0);
-}
-#endif
+#undef ABS
+#define ABS(x) (((x) < 0) ? (-x) : (x))
 
 /**
+ * Original name: defangle
+ */
+f32 defangle(f32 a1, f32 a2) {
+    s32 angle1 = angleF2S(a1) & 0xFFFF;
+    s32 angle2 = angleF2S(a2) & 0xFFFF;
+    s32 d;
+    s32 angle01;
+    s32 angle02;
+
+    if (angle1 < angle2) {
+        angle01 = angle1 + 0x10000;
+        angle02 = angle2;
+    } else {
+        angle01 = angle1;
+        angle02 = angle2 + 0x10000;
+    }
+
+    angle2 -= angle1;
+    angle02 -= angle01;
+    if (ABS(angle2) > ABS(angle02)) {
+        d = angle02;
+    } else {
+        d = angle2;
+    }
+    return angleS2F(d);
+}
+
+/**
+ * Original name: distance
+ *
  * Calculate the distance between two points.
  */
-f32 func_8007C780(f32 aX, f32 aY, f32 aZ, f32 bX, f32 bY, f32 bZ) {
+f32 distance(f32 aX, f32 aY, f32 aZ, f32 bX, f32 bY, f32 bZ) {
     f32 diffX = bX - aX;
     f32 diffY = bY - aY;
     f32 diffZ = bZ - aZ;
@@ -409,95 +428,110 @@ f32 func_8007C780(f32 aX, f32 aY, f32 aZ, f32 bX, f32 bY, f32 bZ) {
     return sqrtf((diffX * diffX) + (diffY * diffY) + (diffZ * diffZ));
 }
 
-f32 func_8007C7E8(f32 arg0, f32 *arg1) {
-    f32 temp_ft1 = arg1[0];
-    f32 temp_ft0 = arg1[1];
-    f32 var_ft1;
+/**
+ * Original name: calcTableF
+ */
+f32 calcTableF(f32 x, const f32 table[]) {
+    f32 min = table[0];
+    f32 max = table[1];
+    f32 res;
     s32 temp_ft2;
     s32 temp_v1;
     s32 index;
 
-    if (arg0 < temp_ft1) {
-        arg0 = temp_ft1;
+#if 0
+    long n; // r4
+    long h; // r1+0x8
+    long l; // r4
+#endif
+
+    if (x < min) {
+        x = min;
     }
-    if (temp_ft0 < arg0) {
-        arg0 = temp_ft0;
+    if (max < x) {
+        x = max;
     }
 
-    temp_ft2 = (arg0 - temp_ft1) * 65536.0f / (temp_ft0 - temp_ft1);
+    temp_ft2 = (x - min) * 0x10000 / (max - min);
     index = temp_ft2 >> 8;
     temp_v1 = temp_ft2 & 0xFF;
 
-    var_ft1 = arg1[index + 2];
+    res = table[index + 2];
     if (temp_v1 != 0) {
-        var_ft1 = temp_v1 * (arg1[index + 3] - var_ft1) / 256.0 + var_ft1;
+        res = temp_v1 * (table[index + 3] - res) / DOUBLE_LITERAL(0x100) + res;
     }
-    return var_ft1;
+    return res;
 }
 
-f32 func_8007C894(f32 arg0, f32 *arg1, f32 arg2, f32 arg3) {
-    f32 temp_ft1_2;
-    f32 temp_ft2;
-    f32 var_ft0;
-    f32 var_fv0;
+/**
+ * Original name: calcTableF_Rev
+ */
+f32 calcTableF_Rev(f32 x, const f32 table[], f32 s, f32 e) {
+    f32 max;
+    f32 min;
+    f32 old;
+    f32 res;
     s32 temp_v1;
     s32 var_a2;
 
-    temp_ft2 = arg1[0];
-    temp_ft1_2 = arg1[1];
-    if (arg0 < temp_ft2) {
-        arg0 = temp_ft2;
+    min = table[0];
+    max = table[1];
+    if (x < min) {
+        x = min;
     }
-    if (temp_ft1_2 < arg0) {
-        arg0 = temp_ft1_2;
+    if (max < x) {
+        x = max;
     }
 
-    var_a2 = (s32)(((arg2 - temp_ft2) * 65536.0f) / (temp_ft1_2 - temp_ft2)) >> 8;
-    temp_v1 = (s32)(((arg3 - temp_ft2) * 65536.0f) / (temp_ft1_2 - temp_ft2)) >> 8;
+    var_a2 = (s32)(((s - min) * 0x10000) / (max - min)) >> 8;
+    temp_v1 = (s32)(((e - min) * 0x10000) / (max - min)) >> 8;
 
-    var_ft0 = 9999999.0f;
+    old = 9999999.0f;
 
     while (var_a2 < temp_v1) {
-        var_fv0 = arg0 - arg1[var_a2 + 3];
-        if (var_fv0 < 0.0f) {
-            var_fv0 = -var_fv0;
+        res = x - table[var_a2 + 3];
+        if (res < 0.0f) {
+            res = -res;
         }
 
-        if (!(var_ft0 > var_fv0)) {
+        if (!(old > res)) {
             break;
         }
-        var_ft0 = var_fv0;
+        old = res;
         var_a2 += 1;
     }
 
-    var_fv0 = 2.0f * (arg0 - arg1[var_a2 + 1]) / (arg1[var_a2 + 3] - arg1[var_a2 + 1]) + (var_a2 - 1);
-    var_fv0 = temp_ft2 + var_fv0 * (temp_ft1_2 - temp_ft2) / 256.0f;
-    return var_fv0;
+    res = 2.0f * (x - table[var_a2 + 1]) / (table[var_a2 + 3] - table[var_a2 + 1]) + (var_a2 - 1);
+    res = min + res * (max - min) / 0x100;
+    return res;
 }
 
-void func_8007C9C8(f32 arg0[4][4], f32 *arg1, f32 *arg2, f32 *arg3) {
-    f32 var_fs0;
-    f32 var_fs1;
-    f32 var_fs2;
+/**
+ * Original name: mtx2angleF
+ */
+void mtx2angleF(CONST_ARG f32 m[4][4], f32 *rx, f32 *ry, f32 *rz) {
+    f32 xr;
+    f32 yr;
+    f32 zr;
 
-    if ((arg0[2][0] == 0.0f) && (arg0[2][2] == 0.0f)) {
-        var_fs0 = (arg0[2][1] > 0.0f) ? -16384.0f : 16384.0f;
-        var_fs1 = func_8007C244(arg0[0][0], -arg0[0][2]);
-        var_fs2 = 0.0f;
+    if ((m[2][0] == 0.0f) && (m[2][2] == 0.0f)) {
+        xr = (m[2][1] > 0.0f) ? -0x4000 : 0x4000;
+        yr = get_angleF(m[0][0], -m[0][2]);
+        zr = 0.0f;
     } else {
-        f32 var_fs0_2 = sqrtf(SQ(arg0[2][0]) + SQ(arg0[2][2]));
+        f32 wk = sqrtf(SQ(m[2][0]) + SQ(m[2][2]));
 
-        var_fs2 = func_8007C244(arg0[1][1], arg0[0][1]);
-        var_fs1 = func_8007C244(arg0[2][2], arg0[2][0]);
-        var_fs0 = func_8007C244(var_fs0_2, -arg0[2][1]);
+        zr = get_angleF(m[1][1], m[0][1]);
+        yr = get_angleF(m[2][2], m[2][0]);
+        xr = get_angleF(wk, -m[2][1]);
     }
 
-    *arg1 = var_fs0;
-    *arg2 = var_fs1;
-    *arg3 = var_fs2;
+    *rx = xr;
+    *ry = yr;
+    *rz = zr;
 }
 
-void func_8007CAFC(Mtx *arg0, s16 *arg1, s16 *arg2, s16 *arg3) {
+void func_8007CAFC(CONST_ARG Mtx *arg0, s16 *arg1, s16 *arg2, s16 *arg3) {
     s32 var_s0;
     s32 var_s2;
     s32 var_s3;
@@ -505,13 +539,13 @@ void func_8007CAFC(Mtx *arg0, s16 *arg1, s16 *arg2, s16 *arg3) {
     if ((arg0->m[2][0] == 0) && (arg0->m[2][2] == 0)) {
         var_s0 = (arg0->m[2][1] > 0) ? -0x4000 : 0x4000;
         var_s3 = 0;
-        var_s2 = func_8007EAEC(arg0->m[0][0], -arg0->m[0][2]);
+        var_s2 = get_angle(arg0->m[0][0], -arg0->m[0][2]);
     } else {
-        s32 temp_s0 = func_8007F720(arg0->m[2][0], arg0->m[2][2]);
+        s32 temp_s0 = sqrt_a2b2(arg0->m[2][0], arg0->m[2][2]);
 
-        var_s3 = func_8007EAEC(arg0->m[1][1], arg0->m[0][1]);
-        var_s2 = func_8007EAEC(arg0->m[2][2], arg0->m[2][0]);
-        var_s0 = func_8007EAEC(temp_s0, -arg0->m[2][1]);
+        var_s3 = get_angle(arg0->m[1][1], arg0->m[0][1]);
+        var_s2 = get_angle(arg0->m[2][2], arg0->m[2][0]);
+        var_s0 = get_angle(temp_s0, -arg0->m[2][1]);
     }
 
     *arg1 = var_s0;
@@ -520,11 +554,13 @@ void func_8007CAFC(Mtx *arg0, s16 *arg1, s16 *arg2, s16 *arg3) {
 }
 
 /**
+ * Original name: lc2wcF
+ *
  * Multiply the vector `(inX, inY, inZ)` by the matrix `m` and write to `(outX, outY, outZ)`.
  *
  * Caries out a general affine transformation.
  */
-void func_8007CBE4(f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32 *outZ) {
+void lc2wcF(const f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32 *outZ) {
     f32 vec[3];
     s32 i;
 
@@ -538,12 +574,14 @@ void func_8007CBE4(f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY,
 }
 
 /**
+ * Original name: wc2lcF
+ *
  * Shift the vector `(inX, inY, inZ)` by the negative of the translational part of the matrix `m` and multiply it by the
  * linear part of `m` and write to `(outX, outY, outZ)`.
  *
  * (This is equivalent to multiplying by the inverse of `m` if the linear part of `m` is orthogonal.)
  */
-void func_8007CC68(f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32 *outZ) {
+void wc2lcF(const f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32 *outZ) {
     f32 vec[3];
     f32 tempX = inX - m[3][0];
     f32 tempY = inY - m[3][1];
@@ -560,12 +598,14 @@ void func_8007CC68(f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY,
 }
 
 /**
+ * Original name: wc2lcF0
+ *
  * Multiply the vector `(inX, inY, inZ)` by the linear part of the matrix `m` and write to `(outX, outY, outZ)`.
  *
  * (This is equivalent to multiplying by the inverse of the linear part of `m`, if the linear part of `m` is
  * orthogonal.)
  */
-void func_8007CCFC(f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32 *outZ) {
+void wc2lcF0(const f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY, f32 *outZ) {
     f32 vec[3];
     s32 i;
 
@@ -577,65 +617,72 @@ void func_8007CCFC(f32 m[4][4], f32 inX, f32 inY, f32 inZ, f32 *outX, f32 *outY,
     *outZ = vec[2];
 }
 
-void func_8007CD78(f32 arg0[4][4], f32 arg1, f32 arg2, f32 arg3, f32 arg4, f32 arg5, f32 arg6, f32 arg7) {
-    f32 temp_fs4;
-    f32 temp_fs5;
-    f32 var_fs2;
+/**
+ * Original name: makeMatrixVctZ
+ */
+void makeMatrixVctZ(f32 mf[4][4], f32 a, f32 x, f32 y, f32 z, f32 lx, f32 ly, f32 lz) {
+    f32 c;
+    f32 s;
+    f32 h;
 
-    func_8007CFB4(&arg2, &arg3, &arg4);
+    normalVct(&x, &y, &z);
 
-    arg1 = DEG_TO_RAD(arg1);
-    temp_fs5 = sinf(arg1);
-    temp_fs4 = cosf(arg1);
+    a = DEG_TO_RAD(a);
+    s = sinf(a);
+    c = cosf(a);
 
-    var_fs2 = sqrtf((arg2 * arg2) + (arg4 * arg4));
-    if (var_fs2 != 0.0f) {
-        arg0[0][0] = (arg4 * temp_fs4 - temp_fs5 * arg3 * arg2) * (1.0f / var_fs2);
-        arg0[0][1] = temp_fs5 * var_fs2;
-        arg0[0][2] = -(arg2 * temp_fs4 + temp_fs5 * arg3 * arg4) * (1.0f / var_fs2);
-        arg0[0][3] = 0.0f;
+    h = sqrtf(SQ(x) + SQ(z));
+    if (h != 0.0f) {
+        f32 hinv = 1 / h;
 
-        arg0[1][0] = -(arg4 * temp_fs5 + temp_fs4 * arg3 * arg2) * (1.0f / var_fs2);
-        arg0[1][1] = temp_fs4 * var_fs2;
-        arg0[1][2] = (arg2 * temp_fs5 - temp_fs4 * arg3 * arg4) * (1.0f / var_fs2);
-        arg0[1][3] = 0.0f;
+        mf[0][0] = (z * c - s * y * x) * hinv;
+        mf[0][1] = s * h;
+        mf[0][2] = -(x * c + s * y * z) * hinv;
+        mf[0][3] = 0.0f;
 
-        arg0[2][0] = arg2;
-        arg0[2][1] = arg3;
-        arg0[2][2] = arg4;
-        arg0[2][3] = 0.0f;
+        mf[1][0] = -(z * s + c * y * x) * hinv;
+        mf[1][1] = c * h;
+        mf[1][2] = (x * s - c * y * z) * hinv;
+        mf[1][3] = 0.0f;
 
-        arg0[3][0] = arg5;
-        arg0[3][1] = arg6;
-        arg0[3][2] = arg7;
-        arg0[3][3] = 1.0f;
+        mf[2][0] = x;
+        mf[2][1] = y;
+        mf[2][2] = z;
+        mf[2][3] = 0.0f;
+
+        mf[3][0] = lx;
+        mf[3][1] = ly;
+        mf[3][2] = lz;
+        mf[3][3] = 1.0f;
     } else {
-        arg0[0][0] = temp_fs4;
-        arg0[0][2] = -arg3 * temp_fs5;
-        arg0[0][1] = 0.0f;
-        arg0[0][3] = 0.0f;
+        mf[0][0] = c;
+        mf[0][2] = -y * s;
+        mf[0][1] = 0.0f;
+        mf[0][3] = 0.0f;
 
-        arg0[1][0] = -temp_fs5;
-        arg0[1][1] = 0.0f;
-        arg0[1][2] = -arg3 * temp_fs4;
-        arg0[1][3] = 0.0f;
+        mf[1][0] = -s;
+        mf[1][1] = 0.0f;
+        mf[1][2] = -y * c;
+        mf[1][3] = 0.0f;
 
-        arg0[2][0] = 0.0f;
-        arg0[2][1] = arg3;
-        arg0[2][2] = 0.0f;
-        arg0[2][3] = 0.0f;
+        mf[2][0] = 0.0f;
+        mf[2][1] = y;
+        mf[2][2] = 0.0f;
+        mf[2][3] = 0.0f;
 
-        arg0[3][0] = arg5;
-        arg0[3][1] = arg6;
-        arg0[3][2] = arg7;
-        arg0[3][3] = 1.0f;
+        mf[3][0] = lx;
+        mf[3][1] = ly;
+        mf[3][2] = lz;
+        mf[3][3] = 1.0f;
     }
 }
 
 /**
+ * Original name: normalVct
+ *
  * Normalise a vector consisting of three passed floats in-place. Returns the length of the original vector.
  */
-f32 func_8007CFB4(f32 *x, f32 *y, f32 *z) {
+f32 normalVct(f32 *x, f32 *y, f32 *z) {
     f32 tempX = *x;
     f32 tempY = *y;
     f32 tempZ = *z;
@@ -723,6 +770,6 @@ s32 irandom(void) {
 /**
  * Original name: random
  */
-s32 random(s32 arg0) {
-    return (arg0 * irandom()) >> 0x10;
+s32 random(s32 n) {
+    return (n * irandom()) >> 0x10;
 }

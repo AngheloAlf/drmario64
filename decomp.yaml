@@ -1,0 +1,163 @@
+name: Dr. Mario 64
+repo: https://github.com/AngheloAlf/drmario64
+platform: n64
+build_system: make
+versions:
+  - name: us
+    fullname: us
+    sha1: 96ba0ce2f9e98e5790df120320cd3d1a3d7080d2
+    paths:
+      target: "config/us/baserom_uncompressed.us.z64"
+
+      build_dir: "build/us"
+      map: "build/us/drmario64.us.map"
+      compiled_target: "build/us/drmario64_uncompressed.us.z64"
+      elf: "build/us/drmario64.us.elf"
+
+      expected_dir: "expected/"
+
+      asm: "asm/us"
+      nonmatchings: "asm/us/nonmatchings"
+
+      compressed_target: "config/us/baserom.us.z64"
+      compressed_compiled_target: "build/us/drmario64.us.z64"
+
+  - name: cn
+    fullname: cn
+    sha1: 82c995b76a118c4a8a4cef558c2ef7062b3de528
+    paths:
+      target: "config/cn/baserom_uncompressed.cn.z64"
+
+      build_dir: "build/cn"
+      map: "build/cn/drmario64.cn.map"
+      compiled_target: "build/cn/drmario64_uncompressed.cn.z64"
+      elf: "build/cn/drmario64.cn.elf"
+
+      expected_dir: "expected/"
+
+      asm: "asm/cn"
+      nonmatchings: "asm/cn/nonmatchings"
+
+      compressed_target: "config/cn/baserom.cn.z64"
+      compressed_compiled_target: "build/cn/drmario64.cn.z64"
+
+  - name: gw
+    fullname: gw
+    sha1: c71398ec500763b563f065c9eea61d47025b66ba
+    paths:
+      target: "config/gw/baserom_uncompressed.gw.z64"
+
+      build_dir: "build/gw"
+      map: "build/gw/drmario64.gw.map"
+      compiled_target: "build/gw/drmario64_uncompressed.gw.z64"
+      elf: "build/gw/drmario64.gw.elf"
+
+      expected_dir: "expected/"
+
+      asm: "asm/gw"
+      nonmatchings: "asm/gw/nonmatchings"
+
+      compressed_target: "config/gw/baserom.gw.z64"
+      compressed_compiled_target: "build/gw/drmario64.gw.z64"
+
+tools:
+  mapfile_parser:
+    progress_report:
+      # output: report.json # Optional
+      check_asm_paths: True
+      path_index: 4
+      prefixes_to_trim:
+        - build/us/lib/
+        - build/us/src/
+        - build/us/asm/us/data
+        - build/us/asm/us/
+        - build/us/
+        - build/cn/lib/
+        - build/cn/src/
+        - build/cn/asm/cn/data
+        - build/cn/asm/cn/
+        - build/cn/
+        - build/gw/lib/
+        - build/gw/src/
+        - build/gw/asm/gw/data
+        - build/gw/asm/gw/
+        - build/gw/
+        - build/
+      categories:
+        - id: rom_header
+          name: rom_header
+          paths:
+            - rom_header/
+        - id: ipl3
+          name: ipl3
+          paths:
+            - us/data/ipl3
+        - id: entry
+          name: entry
+          paths:
+            - entry/
+
+        - id: boot
+          name: boot
+          paths:
+            - boot/
+        - id: dma_table
+          name: dma_table
+          paths:
+            - dma_table/
+        - id: game_cod
+          name: Game code
+          paths:
+            - main_segment/
+
+        - id: libkmc
+          name: libkmc
+          paths:
+            - libkmc/
+        - id: gzip
+          name: gzip
+          paths:
+            - gzip/
+        - id: libultra
+          name: libultra
+          paths:
+            - libultra/
+            - ultralib/
+        - id: libmus
+          name: libmus
+          paths:
+            - libmus/
+
+        - id: libs
+          name: Libraries
+          paths:
+            - libkmc/
+            - libultra/
+            - ultralib/
+            - gzip/
+            - libmus/
+
+        - id: rsp
+          name: RSP
+          paths:
+            - rsp/
+        - id: buffers
+          name: Buffers
+          paths:
+            - buffers/
+
+        - id: assets
+          name: Assets
+          paths:
+            - assets/
+            - n64_wave_tables
+            - n64_ptr_tables_v2
+            - fxbank
+            - segment_
+
+        - id: music
+          name: Music
+          paths:
+            - n64_wave_tables
+            - n64_ptr_tables_v2
+            - fxbank

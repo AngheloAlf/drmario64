@@ -8,8 +8,8 @@ Main_ThreadEntry = 0x800004F0;
 Idle_ThreadEntry = 0x80000580;
 
 DmaData_RomToRam = 0x80000620;
-func_80000720 = 0x80000720;
-func_8000075C = 0x8000075C;
+gzip_malloc = 0x80000720;
+gzip_free = 0x8000075C;
 huft_build = 0x80000778;
 huft_free = 0x80000D0C;
 inflate_codes = 0x80000D48;
@@ -19,13 +19,13 @@ inflate_dynamic = 0x80001620;
 inflate_block = 0x80001D4C;
 inflate = 0x80001EB4;
 expand_gzip = 0x80001F90;
-auRomDataRead = 0x80001FD8;
+data_read = 0x80001FD8;
 data_write = 0x80002064;
 unzip = 0x800020A0;
 updcrc = 0x80002148;
 clear_bufs = 0x800021A0;
 fill_inbuf = 0x800021CC;
-func_800022A8 = 0x800022A8;
+write_buf = 0x800022A8;
 flush_window = 0x80002300;
 DecompressRomToRam = 0x80002380;
 WrapI = 0x800023B4;
@@ -307,7 +307,7 @@ dbits = 0x8000E31C;
 gzip_malloc_addr = 0x8000E320;
 gzip_malloc_tmp = 0x8000E324;
 
-D_8000E330 = 0x8000E330; // type:s32
+gzip_dummy_dl = 0x8000E330; // type:Gfx size:0x8
 crc_32_tab = 0x8000E338;
 crc_132 = 0x8000E738;
 

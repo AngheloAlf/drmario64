@@ -7,8 +7,8 @@
 #include "other_types.h"
 
 typedef struct GzipFileDescriptor {
-    /* 0x0 */ void *addr;
-    /* 0x4 */ size_t size;
+    /* 0x0 */ void *addr; /* Original name: next_addr */
+    /* 0x4 */ size_t size; /* Original name: rest_size */
 } GzipFileDescriptor; // size == 0x8
 
 s32 inflate(void);

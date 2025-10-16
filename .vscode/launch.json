@@ -8,7 +8,7 @@
             "name": "(gdb) ares us",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/drmario64.us.elf",
+            "program": "${workspaceFolder}/build/us/drmario64.us.elf",
             "MIMode": "gdb",
             "cwd": "${workspaceFolder}",
             "miDebuggerPath": "gdb-multiarch",

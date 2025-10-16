@@ -15,10 +15,10 @@ struct struct_virus_map_data;
 struct NNSched;
 
 typedef enum enum_evs_gamemode {
-    /* 0 */ ENUM_EVS_GAMEMODE_0,
-    /* 1 */ ENUM_EVS_GAMEMODE_1,
-    /* 2 */ ENUM_EVS_GAMEMODE_2,
-    /* 3 */ ENUM_EVS_GAMEMODE_3
+    /* 0 */ GMD_NORMAL,
+    /* 1 */ GMD_FLASH,
+    /* 2 */ GMD_TaiQ,
+    /* 3 */ GMD_TIME_ATTACK
 } enum_evs_gamemode;
 
 typedef struct struct_gameGeom {
@@ -148,7 +148,7 @@ typedef struct struct_watchGame {
     /* 0x9D0 */ struct_watchGame_unk_9D0 unk_9D0[2];
     /* 0xA28 */ MessageWnd unk_A28;
     /* 0xAA8 */ s32 unk_AA8;
-    /* 0xAAC */ unsigned char unk_AAC[42]; // passwordPrompt?
+    /* 0xAAC */ unsigned char password[42];
     /* 0xAD8 */ RecordWritingMessage recMessage;
 } struct_watchGame; // size = 0xB60
 
@@ -208,8 +208,8 @@ typedef enum EnumGameStateDataUnk00C {
     /* 0x1D */ GAMESTATEDATA_UNK_00C_1D,
     /* 0x1E */ GAMESTATEDATA_UNK_00C_1E,
     /* 0x1F */ GAMESTATEDATA_UNK_00C_1F,
-    /* 0x20 */ GAMESTATEDATA_UNK_00C_20,
-    /* 0x21 */ GAMESTATEDATA_UNK_00C_21,
+    /* 0x20 */ GAMESTATEDATA_UNK_00C_DEBUG_CHARACTER_EDIT,
+    /* 0x21 */ GAMESTATEDATA_UNK_00C_DEBUG_SETTINGS,
 } EnumGameStateDataUnk00C;
 
 typedef enum EnumGameStateDataUnk014 {
@@ -468,7 +468,7 @@ void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP);
 void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg2);
 void func_80069188(struct_watchGame_unk_070 *arg0, s32 arg1);
 void starForce_draw(struct_watchGame_unk_070* arg0, Gfx** gfxP, s32 arg2);
-void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
+void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, bool cached);
 void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 void dm_map_draw(GameMapCell *mapCells, u8 arg1, s16 arg2, s16 arg3, s8 arg4);
 void func_80069ACC(GameMapCell *mapCells, struct_game_state_data_unk_178 *arg1, s32 arg2[2]);

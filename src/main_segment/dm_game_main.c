@@ -22,7 +22,6 @@
 #include "tex_func.h"
 #include "main_story.h"
 #include "debug_menu.h"
-#include "aiset.h"
 #include "nnsched.h"
 #include "static.h"
 #include "dm_virus_init.h"
@@ -272,22 +271,22 @@ s32 set_down_flg(GameMapCell *mapCells) {
     s32 var_s1;
 
     for (var_s4 = 0; var_s4 < (GAME_MAP_ROWS - 2) * GAME_MAP_COLUMNS; var_s4++) {
-        mapCells[var_s4].unk_4[1] = 1;
+        mapCells[var_s4].capsel_m_flg[1] = 1;
     }
 
     for (var_s7 = GAME_MAP_ROWS - 3; var_s7 >= 0; var_s7--) {
         for (var_s4 = 0; var_s4 < GAME_MAP_COLUMNS; var_s4++) {
             s32 index = GAME_MAP_GET_INDEX(var_s7, var_s4);
 
-            if ((mapCells + index)->unk_4[0] != 0) {
-                if ((mapCells + index)->unk_4[4] < 0) {
-                    if (((mapCells + index)->unk_2 == 2) || ((mapCells + index)->unk_2 == 3)) {
-                        if ((mapCells + index)->unk_2 == 2) {
+            if ((mapCells + index)->capsel_m_flg[0] != 0) {
+                if ((mapCells + index)->capsel_m_flg[4] < 0) {
+                    if (((mapCells + index)->capsel_m_g == 2) || ((mapCells + index)->capsel_m_g == 3)) {
+                        if ((mapCells + index)->capsel_m_g == 2) {
                             for (var_s1 = 0; var_s1 < 2U; var_s1++) {
                                 sp10[var_s1] = 1;
-                                if (get_map_info(mapCells, (mapCells + index + var_s1)->unk_0,
-                                                 (mapCells + index + var_s1)->unk_1 + 1) == 1) {
-                                    if ((mapCells + index + var_s1 + GAME_MAP_COLUMNS)->unk_4[1] != 1) {
+                                if (get_map_info(mapCells, (mapCells + index + var_s1)->pos_m_x,
+                                                 (mapCells + index + var_s1)->pos_m_y + 1) == 1) {
+                                    if ((mapCells + index + var_s1 + GAME_MAP_COLUMNS)->capsel_m_flg[1] != 1) {
                                         sp10[var_s1] = 0;
                                     }
                                 }
@@ -295,15 +294,15 @@ s32 set_down_flg(GameMapCell *mapCells) {
 
                             if ((sp10[0] == 0) || (sp10[1] == 0)) {
                                 for (var_s1 = 0; var_s1 < 2U; var_s1++) {
-                                    (mapCells + index + var_s1)->unk_4[1] = 0;
+                                    (mapCells + index + var_s1)->capsel_m_flg[1] = 0;
                                 }
                             }
-                        } else if ((mapCells + index)->unk_2 == 3) {
+                        } else if ((mapCells + index)->capsel_m_g == 3) {
                             for (var_s1 = 0; var_s1 < 2U; var_s1++) {
                                 sp10[var_s1] = 1;
-                                if (get_map_info(mapCells, (mapCells + index - var_s1)->unk_0,
-                                                 (mapCells + index - var_s1)->unk_1 + 1) == 1) {
-                                    if ((mapCells + index - var_s1 + GAME_MAP_COLUMNS)->unk_4[1] != 1) {
+                                if (get_map_info(mapCells, (mapCells + index - var_s1)->pos_m_x,
+                                                 (mapCells + index - var_s1)->pos_m_y + 1) == 1) {
+                                    if ((mapCells + index - var_s1 + GAME_MAP_COLUMNS)->capsel_m_flg[1] != 1) {
                                         sp10[var_s1] = 0;
                                     }
                                 }
@@ -311,27 +310,28 @@ s32 set_down_flg(GameMapCell *mapCells) {
 
                             if ((sp10[0] == 0) || (sp10[1] == 0)) {
                                 for (var_s1 = 0; var_s1 < 2U; var_s1++) {
-                                    (mapCells + index - var_s1)->unk_4[1] = 0;
+                                    (mapCells + index - var_s1)->capsel_m_flg[1] = 0;
                                 }
                             }
                         }
-                    } else if (get_map_info(mapCells, (mapCells + index)->unk_0, (mapCells + index)->unk_1 + 1) == 1) {
-                        if ((mapCells + index + GAME_MAP_COLUMNS)->unk_4[1] != 1) {
-                            (mapCells + index)->unk_4[1] = 0;
+                    } else if (get_map_info(mapCells, (mapCells + index)->pos_m_x, (mapCells + index)->pos_m_y + 1) ==
+                               1) {
+                        if ((mapCells + index + GAME_MAP_COLUMNS)->capsel_m_flg[1] != 1) {
+                            (mapCells + index)->capsel_m_flg[1] = 0;
                         }
                     }
                 } else {
-                    (mapCells + index)->unk_4[1] = 0;
+                    (mapCells + index)->capsel_m_flg[1] = 0;
                 }
             } else {
-                (mapCells + index)->unk_4[1] = 0;
+                (mapCells + index)->capsel_m_flg[1] = 0;
             }
         }
     }
 
     for (var_s4 = var_v1 = 0; var_s4 < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; var_s4++) {
-        if (mapCells[var_s4].unk_4[0] != 0) {
-            if (mapCells[var_s4].unk_4[1] != 0) {
+        if (mapCells[var_s4].capsel_m_flg[0] != 0) {
+            if (mapCells[var_s4].capsel_m_flg[1] != 0) {
                 var_v1++;
             }
         }
@@ -356,10 +356,10 @@ void go_down(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 a
         for (j = 0; j < GAME_MAP_COLUMNS; j++) {
             s32 index = GAME_MAP_GET_INDEX(row, j);
 
-            if (mapCells[index].unk_4[1] != 0) {
-                set_map(mapCells, mapCells[index].unk_0, mapCells[index].unk_1 + 1, mapCells[index].unk_2,
-                        mapCells[index].unk_3);
-                clear_map(mapCells, mapCells[index].unk_0, mapCells[index].unk_1);
+            if (mapCells[index].capsel_m_flg[1] != 0) {
+                set_map(mapCells, mapCells[index].pos_m_x, mapCells[index].pos_m_y + 1, mapCells[index].capsel_m_g,
+                        mapCells[index].capsel_m_p);
+                clear_map(mapCells, mapCells[index].pos_m_x, mapCells[index].pos_m_y);
                 var_a0 = true;
             }
         }
@@ -371,8 +371,9 @@ void go_down(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 a
 
     if ((gameStateData->unk_049 != 0) && (gameStateData->unk_01C == 0x12)) {
         for (j = 0; j < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; j++) {
-            if ((mapCells[j].unk_4[0] != 0) && (mapCells[j].unk_4[1] == 0) && (mapCells[j].unk_3 < 3)) {
-                mapCells[j].unk_3 += 3;
+            if ((mapCells[j].capsel_m_flg[0] != 0) && (mapCells[j].capsel_m_flg[1] == 0) &&
+                (mapCells[j].capsel_m_p < 3)) {
+                mapCells[j].capsel_m_p += 3;
             }
         }
     }
@@ -401,16 +402,16 @@ void erase_anime(GameMapCell *mapCells) {
     for (i = 0; i < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; i++) {
         GameMapCell *cell = &mapCells[i];
 
-        if ((cell->unk_4[0] != 0) && (cell->unk_4[2] != 0)) {
-            cell->unk_2++;
+        if ((cell->capsel_m_flg[0] != 0) && (cell->capsel_m_flg[2] != 0)) {
+            cell->capsel_m_g++;
 
-            if (cell->unk_4[4] >= 0) {
-                if (cell->unk_2 >= 0xF) {
-                    clear_map(mapCells, cell->unk_0, cell->unk_1);
+            if (cell->capsel_m_flg[4] >= 0) {
+                if (cell->capsel_m_g >= 0xF) {
+                    clear_map(mapCells, cell->pos_m_x, cell->pos_m_y);
                 }
             } else {
-                if (cell->unk_2 >= 7) {
-                    clear_map(mapCells, cell->unk_0, cell->unk_1);
+                if (cell->capsel_m_g >= 7) {
+                    clear_map(mapCells, cell->pos_m_x, cell->pos_m_y);
                 }
             }
         }
@@ -671,7 +672,7 @@ void dm_capsel_speed_up(struct_game_state_data *gameStateDataRef) {
         }
     }
 
-    if (evs_gamemode == ENUM_EVS_GAMEMODE_2) {
+    if (evs_gamemode == GMD_TaiQ) {
         gameStateDataRef->unk_02D = MIN(_speed_561[gameStateDataRef->unk_16C], gameStateDataRef->unk_02D);
     }
 }
@@ -690,7 +691,8 @@ s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapCell *mapCells
     for (i = 0; i < arg0->unk_164; i++) {
         s32 index = GAME_MAP_GET_INDEX_ALT(arg0->unk_0D4[i][1], arg0->unk_0D4[i][0]);
 
-        if (((mapCells[index].unk_4[0] == 0) || (mapCells[index].unk_4[2] != 0) || (mapCells[index].unk_4[4] < 0))) {
+        if (((mapCells[index].capsel_m_flg[0] == 0) || (mapCells[index].capsel_m_flg[2] != 0) ||
+             (mapCells[index].capsel_m_flg[4] < 0))) {
             if (arg2 != 0) {
                 arg0->unk_0D4[i][2] = -1;
             }
@@ -703,7 +705,7 @@ s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapCell *mapCells
 }
 
 s32 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, UNK_TYPE arg2) {
-    if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+    if (evs_gamemode == GMD_FLASH) {
         gameStateDataRef->unk_025 = update_flash_virus_count(gameStateDataRef, mapCells, arg2);
     } else {
         gameStateDataRef->unk_025 = get_virus_count(mapCells);
@@ -736,11 +738,11 @@ void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCell
 
             *temp_a0 |= 0x80;
 
-            set_virus(mapCells, virusMapData[cellIndex].unk_1, virusMapData[cellIndex].unk_2,
-                      virusMapData[cellIndex].unk_0,
-                      virus_anime_table[virusMapData[cellIndex].unk_0][gameStateDataRef->unk_027]);
+            set_virus(mapCells, virusMapData[cellIndex].x_pos, virusMapData[cellIndex].y_pos,
+                      virusMapData[cellIndex].virus_type,
+                      virus_anime_table[virusMapData[cellIndex].virus_type][gameStateDataRef->unk_027]);
             if (gameStateDataRef->unk_01C == 0x12) {
-                mapCells[cellIndex].unk_3 += 3;
+                mapCells[cellIndex].capsel_m_p += 3;
             }
         }
     }
@@ -771,9 +773,9 @@ void dm_virus_anime(struct_game_state_data *arg0, GameMapCell *mapCells) {
     }
 
     for (index = 0; index < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; index++) {
-        if ((mapCells[index].unk_4[0] != 0) && (mapCells[index].unk_4[2] == 0)) {
-            if (mapCells[index].unk_4[4] >= 0) {
-                mapCells[index].unk_2 = virus_anime_table[mapCells[index].unk_4[4]][arg0->unk_027];
+        if ((mapCells[index].capsel_m_flg[0] != 0) && (mapCells[index].capsel_m_flg[2] == 0)) {
+            if (mapCells[index].capsel_m_flg[4] >= 0) {
+                mapCells[index].capsel_m_g = virus_anime_table[mapCells[index].capsel_m_flg[4]][arg0->unk_027];
             }
         }
     }
@@ -800,19 +802,19 @@ void dm_make_erase_h_line(struct_game_state_data *arg0, GameMapCell *mapCells, s
     for (row = rowStart; row < rowStart + count + 1; row++) {
         s32 index = GAME_MAP_GET_INDEX(row, column);
 
-        if (mapCells[index].unk_4[2] == 1) {
+        if (mapCells[index].capsel_m_flg[2] == 1) {
             continue;
         }
 
-        mapCells[index].unk_4[2] = 1;
+        mapCells[index].capsel_m_flg[2] = 1;
 
-        if (mapCells[index].unk_4[4] < 0) {
-            mapCells[index].unk_2 = 5;
+        if (mapCells[index].capsel_m_flg[4] < 0) {
+            mapCells[index].capsel_m_g = 5;
         } else {
-            mapCells[index].unk_2 = 0xD;
+            mapCells[index].capsel_m_g = 0xD;
             arg0->unk_037 += 1;
             arg0->unk_03C[3] |= 8;
-            arg0->unk_03C[3] |= (0x10 << mapCells[index].unk_4[3]);
+            arg0->unk_03C[3] |= (0x10 << mapCells[index].capsel_m_flg[3]);
         }
     }
 }
@@ -827,13 +829,13 @@ bool dm_h_erase_chack(GameMapCell *mapCells) {
         s32 var_a3 = -1;
 
         for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
-            if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
-                if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_a3) {
+            if (mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_flg[0] != 0) {
+                if (mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_flg[3] != var_a3) {
                     if (var_a1 < 3) {
                         if (row >= 0xD) {
                             break;
                         }
-                        var_a3 = mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
+                        var_a3 = mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_flg[3];
                         var_a1 = 0;
                     } else {
                         return true;
@@ -871,8 +873,8 @@ void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapCell 
         s32 row;
 
         for (row = 0; row < GAME_MAP_ROWS - 1; row++) {
-            if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
-                if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_s2) {
+            if (mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_flg[0] != 0) {
+                if (mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_flg[3] != var_s2) {
                     if (var_s1 >= 3) {
                         dm_make_erase_h_line(gameStateDataRef, mapCells, var_s5, var_s1, column);
                         if (gameStateDataRef->unk_039 == 0) {
@@ -884,7 +886,7 @@ void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapCell 
 
                     if (row < 0xD) {
                         var_s5 = row;
-                        var_s2 = mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
+                        var_s2 = mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_flg[3];
                         var_s1 = 0;
                     } else {
                         var_fp = 1;
@@ -935,16 +937,16 @@ void dm_make_erase_w_line(struct_game_state_data *arg0, GameMapCell *mapCells, s
     for (; column < columnEnd; column++) {
         s32 index = GAME_MAP_GET_INDEX(row, column);
 
-        if (mapCells[index].unk_4[2] != 1) {
-            mapCells[index].unk_4[2] = 1;
+        if (mapCells[index].capsel_m_flg[2] != 1) {
+            mapCells[index].capsel_m_flg[2] = 1;
 
-            if (mapCells[index].unk_4[4] < 0) {
-                mapCells[index].unk_2 = 5;
+            if (mapCells[index].capsel_m_flg[4] < 0) {
+                mapCells[index].capsel_m_g = 5;
             } else {
-                mapCells[index].unk_2 = 0xD;
+                mapCells[index].capsel_m_g = 0xD;
                 arg0->unk_037 += 1;
                 arg0->unk_03C[3] |= 8;
-                arg0->unk_03C[3] |= (0x10 << mapCells[index].unk_4[3]);
+                arg0->unk_03C[3] |= (0x10 << mapCells[index].capsel_m_flg[3]);
             }
         }
     }
@@ -959,12 +961,12 @@ bool dm_w_erase_chack(GameMapCell *mapCells) {
         s32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
-                if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3] != var_a3) {
+            if (mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_flg[0] != 0) {
+                if (mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_flg[3] != var_a3) {
                     if (var_a1 >= 3) {
                         return true;
                     } else if (column < 5) {
-                        var_a3 = mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[3];
+                        var_a3 = mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_flg[3];
                         var_a1 = 0;
                     } else {
                         break;
@@ -1002,8 +1004,8 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapCell *mapCells) {
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
             s32 index = GAME_MAP_GET_INDEX(row, column);
-            if (mapCells[index].unk_4[0] != 0) {
-                if (mapCells[index].unk_4[3] != var_s3) {
+            if (mapCells[index].capsel_m_flg[0] != 0) {
+                if (mapCells[index].capsel_m_flg[3] != var_s3) {
                     if (var_s1 >= 3) {
                         dm_make_erase_w_line(arg0, mapCells, var_s6, var_s1, row);
                         if (arg0->unk_039 == 0) {
@@ -1016,7 +1018,7 @@ void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapCell *mapCells) {
                         var_fp = true;
                     } else {
                         var_s6 = column;
-                        var_s3 = mapCells[index].unk_4[3];
+                        var_s3 = mapCells[index].capsel_m_flg[3];
                         var_s1 = 0;
                     }
                 } else {
@@ -1068,22 +1070,22 @@ void dm_h_ball_chack(GameMapCell *mapCells) {
             s32 index = GAME_MAP_GET_INDEX(row, column);
             s32 temp;
 
-            if (mapCells[index].unk_4[0] == 0) {
+            if (mapCells[index].capsel_m_flg[0] == 0) {
                 continue;
             }
 
-            if (mapCells[index].unk_2 == 0) {
+            if (mapCells[index].capsel_m_g == 0) {
                 temp = GAME_MAP_GET_INDEX(row + 1, column);
-                if (mapCells[temp].unk_2 != 1) {
-                    mapCells[index].unk_2 = 4;
+                if (mapCells[temp].capsel_m_g != 1) {
+                    mapCells[index].capsel_m_g = 4;
                 }
-            } else if (mapCells[index].unk_2 == 1) {
-                if (mapCells[index].unk_1 == 1) {
-                    mapCells[index].unk_2 = 4;
+            } else if (mapCells[index].capsel_m_g == 1) {
+                if (mapCells[index].pos_m_y == 1) {
+                    mapCells[index].capsel_m_g = 4;
                 } else {
                     temp = GAME_MAP_GET_INDEX(row - 1, column);
-                    if (mapCells[temp].unk_2 != 0) {
-                        mapCells[index].unk_2 = 4;
+                    if (mapCells[temp].capsel_m_g != 0) {
+                        mapCells[index].capsel_m_g = 4;
                     }
                 }
             }
@@ -1098,14 +1100,14 @@ void dm_w_ball_chack(GameMapCell *mapCells) {
         u32 column;
 
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-            if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_4[0] != 0) {
-                if (mapCells[GAME_MAP_GET_INDEX(row, column)].unk_2 == 2) {
-                    if (mapCells[GAME_MAP_GET_INDEX(row, column + 1)].unk_2 != 3) {
-                        mapCells[GAME_MAP_GET_INDEX(row, column)].unk_2 = 4;
+            if (mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_flg[0] != 0) {
+                if (mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_g == 2) {
+                    if (mapCells[GAME_MAP_GET_INDEX(row, column + 1)].capsel_m_g != 3) {
+                        mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_g = 4;
                     }
-                } else if ((mapCells[GAME_MAP_GET_INDEX(row, column)].unk_2 == 3) &&
-                           (mapCells[GAME_MAP_GET_INDEX(row, column - 1)].unk_2 != 2)) {
-                    mapCells[GAME_MAP_GET_INDEX(row, column)].unk_2 = 4;
+                } else if ((mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_g == 3) &&
+                           (mapCells[GAME_MAP_GET_INDEX(row, column - 1)].capsel_m_g != 2)) {
+                    mapCells[GAME_MAP_GET_INDEX(row, column)].capsel_m_g = 4;
                 }
             }
         }
@@ -1124,8 +1126,8 @@ bool dm_black_up(struct_game_state_data *gameStateDataP, GameMapCell *mapCells) 
 
             for (column = 0; column < GAME_MAP_COLUMNS; column++) {
                 // hate this
-                if ((mapCells + temp + column)->unk_4[0] != 0) {
-                    (mapCells + temp + column)->unk_3 += 3;
+                if ((mapCells + temp + column)->capsel_m_flg[0] != 0) {
+                    (mapCells + temp + column)->capsel_m_p += 3;
                 }
             }
 
@@ -1204,9 +1206,9 @@ void dm_calc_erase_score_pos(struct_game_state_data *arg0, GameMapCell *mapCells
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
             GameMapCell *cell = &mapCells[GAME_MAP_GET_INDEX_ALT(row, column)];
 
-            if (cell->unk_4[2] != 0) {
-                arg2->unk_0 += cell->unk_0;
-                arg2->unk_4 += cell->unk_1;
+            if (cell->capsel_m_flg[2] != 0) {
+                arg2->unk_0 += cell->pos_m_x;
+                arg2->unk_4 += cell->pos_m_y;
                 var_t2++;
             }
         }
@@ -1314,10 +1316,10 @@ void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32
 
     temp_v0 = dm_game_get_capsel_tex(var_s3);
 
-    load_TexBlock_4b(temp_v0->texs[1], temp_v0->info[0], temp_v0->info[1]);
+    load_TexBlock_4b(temp_v0->texs[TI_TEX_TEX], temp_v0->info[TI_INFO_IDX_WIDTH], temp_v0->info[TI_INFO_IDX_HEIGHT]);
 
     for (i = 0; i < 2; i++) {
-        load_TexPal(dm_game_get_capsel_pal(var_s3, temp_s1->unk_6[i])->texs[0]);
+        load_TexPal(dm_game_get_capsel_pal(var_s3, temp_s1->unk_6[i])->texs[TI_TEX_TLUT]);
         draw_Tex(arg1[i], arg2[i], gameStateData->unk_00A, gameStateData->unk_00A, 0,
                  temp_s1->unk_4[i] * gameStateData->unk_00A);
     }
@@ -1359,14 +1361,14 @@ void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s
         }
 
         tex_data = dm_game_get_capsel_pal(var_s5, temp_s6->unk_6[var_s1]);
-        tlut = tex_data->texs[0];
+        tlut = tex_data->texs[TI_TEX_TLUT];
 
         tex_data = dm_game_get_capsel_tex(var_s5);
 
-        ci4_texture = tex_data->texs[1];
-        ci4_texture += (temp_s6->unk_4[var_s1] * gameStateDataRef->unk_00A * tex_data->info[0]) >> 1;
+        ci4_texture = tex_data->texs[TI_TEX_TEX];
+        ci4_texture += (temp_s6->unk_4[var_s1] * gameStateDataRef->unk_00A * tex_data->info[TI_INFO_IDX_WIDTH]) >> 1;
 
-        temp_a3_2 = (tex_data->info[0] - gameStateDataRef->unk_00A) >> 1;
+        temp_a3_2 = (tex_data->info[TI_INFO_IDX_WIDTH] - gameStateDataRef->unk_00A) >> 1;
 
         fb = &gFramebuffers[gCurrentFramebufferIndex ^ 1][arg2[var_s1] * SCREEN_WIDTH + arg1[var_s1]];
         temp_t1 = SCREEN_WIDTH - gameStateDataRef->unk_00A;
@@ -1683,10 +1685,10 @@ const s32 _posP2StarY[3][3] = {
 };
 
 const s32 _posP4Bottle[4][2] = {
-    { 0x10, 0x25 },
-    { 0x58, 0x25 },
-    { 0xA0, 0x25 },
-    { 0xE8, 0x25 },
+    { 16, 37 },
+    { 88, 37 },
+    { 160, 37 },
+    { 232, 37 },
 };
 
 const s32 RO_800B1D7C[2] = { 4, 3 };
@@ -1872,7 +1874,7 @@ void dm_warning_h_line_se(void) {
 void dm_play_count_down_se(void) {
     s32 i;
 
-    if (evs_gamemode != ENUM_EVS_GAMEMODE_3) {
+    if (evs_gamemode != GMD_TIME_ATTACK) {
         return;
     }
 
@@ -2376,7 +2378,7 @@ void func_8006431C(s32 arg0, Gfx **gfxP) {
 
     if (watchGameP->unk_348[arg0] < 6) {
         if (watchGameP->unk_348[arg0] >= 2) {
-            if ((evs_gamesel == ENUM_EVS_GAMESEL_1) && (evs_gamemode == ENUM_EVS_GAMEMODE_3)) {
+            if ((evs_gamesel == ENUM_EVS_GAMESEL_1) && (evs_gamemode == GMD_TIME_ATTACK)) {
                 watchGameP->unk_368[arg0] =
                     disp_continue_logo_score(&gfx, arg0, watchGameP->unk_358[arg0], watchGameP->unk_348[arg0] - 2);
             } else {
@@ -2405,11 +2407,11 @@ void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells) {
     col = 0;
 
     for (; cellIndex < cellEnd; cellIndex++, col++) {
-        if (mapCells[cellIndex].unk_4[0] == 0) {
+        if (mapCells[cellIndex].capsel_m_flg[0] == 0) {
             continue;
         }
 
-        if (mapCells[cellIndex].unk_4[4] >= 0) {
+        if (mapCells[cellIndex].capsel_m_flg[4] >= 0) {
             continue;
         }
 
@@ -2457,8 +2459,8 @@ void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells) {
                 continue;
             }
 
-            if (mapCells[sp48[var_s2]].unk_4[0] != 0) {
-                sp28[mapCells[sp48[var_s2]].unk_4[3]] += 1;
+            if (mapCells[sp48[var_s2]].capsel_m_flg[0] != 0) {
+                sp28[mapCells[sp48[var_s2]].capsel_m_flg[3]] += 1;
             }
         }
 
@@ -2482,7 +2484,7 @@ bool bottom_up_bottle_items(GameMapCell *mapCells) {
     s32 var;
 
     for (i = 0; i < GAME_MAP_COLUMNS; i++) {
-        if (mapCells[i].unk_4[0] != 0) {
+        if (mapCells[i].capsel_m_flg[0] != 0) {
             ret = true;
         }
     }
@@ -2490,14 +2492,14 @@ bool bottom_up_bottle_items(GameMapCell *mapCells) {
     var = (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS;
     for (i = 0, cell = &mapCells[GAME_MAP_GET_INDEX(1, 0)]; i < var; i++, cell++) {
         mapCells[i] = *cell;
-        mapCells[i].unk_1--;
+        mapCells[i].pos_m_y--;
     }
 
     var += GAME_MAP_COLUMNS;
     for (column = 0; i < var; i++, column++) {
         bzero(&mapCells[i], sizeof(GameMapCell));
-        mapCells[i].unk_0 = column;
-        mapCells[i].unk_1 = 0x11;
+        mapCells[i].pos_m_x = column;
+        mapCells[i].pos_m_y = 0x11;
     }
 
     return ret;
@@ -2516,7 +2518,7 @@ void add_taiQ_bonus_wait(struct_game_state_data *arg0) {
     s32 var_a0;
     s32 i;
 
-    if (evs_gamemode != ENUM_EVS_GAMEMODE_2) {
+    if (evs_gamemode != GMD_TaiQ) {
         return;
     }
 
@@ -2615,13 +2617,13 @@ void dm_save_all(void) {
         case ENUM_EVS_GAMESEL_1:
             for (i = 0; i < 2; i++) {
                 switch (evs_gamemode) {
-                    case ENUM_EVS_GAMEMODE_0:
+                    case GMD_NORMAL:
                         dm_vsman_set(evs_select_name_no[i], watchGameP->unk_8AC[i], watchGameP->unk_8AC[i ^ 1]);
                         break;
-                    case ENUM_EVS_GAMEMODE_1:
+                    case GMD_FLASH:
                         dm_vm_fl_set(evs_select_name_no[i], watchGameP->unk_8AC[i], watchGameP->unk_8AC[i ^ 1]);
                         break;
-                    case ENUM_EVS_GAMEMODE_3:
+                    case GMD_TIME_ATTACK:
                         dm_vm_ta_set(evs_select_name_no[i], watchGameP->unk_8AC[i], watchGameP->unk_8AC[i ^ 1]);
                         break;
 
@@ -2638,11 +2640,11 @@ void dm_save_all(void) {
         case ENUM_EVS_GAMESEL_3:
             if (evs_story_flg == 0) {
                 switch (evs_gamemode) {
-                    case ENUM_EVS_GAMEMODE_0:
+                    case GMD_NORMAL:
                         dm_vscom_set(evs_select_name_no[0], watchGameP->unk_8AC[0], watchGameP->unk_8AC[1]);
                         break;
 
-                    case ENUM_EVS_GAMEMODE_1:
+                    case GMD_FLASH:
                         dm_vc_fl_set(evs_select_name_no[0], watchGameP->unk_8AC[0], watchGameP->unk_8AC[1]);
                         break;
 
@@ -2680,7 +2682,7 @@ void dm_save_all(void) {
 
         case ENUM_EVS_GAMESEL_0:
             switch (evs_gamemode) {
-                case ENUM_EVS_GAMEMODE_0:
+                case GMD_NORMAL:
                     var_s1_2 = game_state_ptr->unk_026;
                     if (game_state_ptr->unk_020 == 5) {
                         if (var_s1_2 >= 0x15) {
@@ -2697,12 +2699,12 @@ void dm_save_all(void) {
                     evs_mem_data[evs_select_name_no[0]].unk_B4.unk_04 = MIN(0x15, var_s1_2);
                     break;
 
-                case ENUM_EVS_GAMEMODE_2:
+                case GMD_TaiQ:
                     dm_taiQ_sort_set(evs_select_name_no[0], game_state_ptr->unk_16C, game_state_ptr->unk_000,
                                      evs_game_time);
                     break;
 
-                case ENUM_EVS_GAMEMODE_3:
+                case GMD_TIME_ATTACK:
                     dm_timeAt_sort_set(evs_select_name_no[0], game_state_ptr->unk_16C, game_state_ptr->unk_000,
                                        evs_game_time, game_state_ptr->unk_170);
                     break;
@@ -2771,7 +2773,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
     dm_query_pause_player(gameStateData);
     animeState_update(&gameStateData->unk_094);
     func_80062EC0(&watchGameP->unk_0B8[arg2]);
-    if ((evs_gamemode == ENUM_EVS_GAMEMODE_3) && (evs_game_time >= 10800) && (gameStateData->unk_020 == 1)) {
+    if ((evs_gamemode == GMD_TIME_ATTACK) && (evs_game_time >= 10800) && (gameStateData->unk_020 == 1)) {
         return -1;
     }
 
@@ -2803,7 +2805,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     }
                 }
 
-                if (evs_gamemode == ENUM_EVS_GAMEMODE_2) {
+                if (evs_gamemode == GMD_TaiQ) {
                     watchGameP->unk_410 = 0;
                 }
                 return -1;
@@ -2863,7 +2865,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                               gameStateData->unk_006 + gameStateData->unk_00A / 2 + sp28.unk_0,
                               gameStateData->unk_008 + gameStateData->unk_00A / 2 + sp28.unk_4);
 
-                if ((gameStateData->unk_025 == 0) && (evs_gamemode != ENUM_EVS_GAMEMODE_2)) {
+                if ((gameStateData->unk_025 == 0) && (evs_gamemode != GMD_TaiQ)) {
                     gameStateData->unk_014 = GAMESTATEDATA_UNK_014_3;
                     gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_A;
                     if (gameStateData->unk_03B < gameStateData->unk_03A) {
@@ -2872,7 +2874,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     return 6;
                 }
 
-                if ((gameStateData->unk_025 < 4U) && (evs_gamemode != ENUM_EVS_GAMEMODE_2)) {
+                if ((gameStateData->unk_025 < 4U) && (evs_gamemode != GMD_TaiQ)) {
                     if (watchGameP->unk_3C0 == 0) {
                         watchGameP->unk_3C0 = 1;
                         dm_snd_play_in_game(SND_INDEX_80);
@@ -3053,17 +3055,17 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
             var_s0 = (Z_TRIG | L_JPAD | L_TRIG | R_TRIG);
             if ((watchGameP->unk_AA8 < 0) && CHECK_FLAG_ALL(gControllerHoldButtons[main_joy[0]], var_s0)) {
                 switch (evs_gamemode) {
-                    case ENUM_EVS_GAMEMODE_0:
+                    case GMD_NORMAL:
                         var_s1 = 0;
                         var_s2 = gameStateData->unk_026;
                         break;
 
-                    case ENUM_EVS_GAMEMODE_3:
+                    case GMD_TIME_ATTACK:
                         var_s1 = 1;
                         var_s2 = gameStateData->unk_16C;
                         break;
 
-                    case ENUM_EVS_GAMEMODE_2:
+                    case GMD_TaiQ:
                         var_s1 = 2;
                         var_s2 = gameStateData->unk_16C;
                         break;
@@ -3078,15 +3080,17 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     var_t2 = evs_mem_data[evs_select_name_no[0]].unk_01;
                 }
 
-                if (watchGameP->unk_AAC[0] == 0) {
-                    func_8007E760(watchGameP->unk_AAC, var_s1, var_s2, gameStateData->unk_02C,
+                if (watchGameP->password[0] == 0) {
+                    func_8007E760(watchGameP->password, var_s1, var_s2, gameStateData->unk_02C,
                                   gameStateData->unk_000 / 10, evs_game_time / 6, var_t2);
-                    watchGameP->unk_AAC[ARRAY_COUNT(watchGameP->unk_AAC) - 2] = 0x7E;
-                    watchGameP->unk_AAC[ARRAY_COUNT(watchGameP->unk_AAC) - 1] = 0x7A;
+
+                    // Write MSG_END
+                    watchGameP->password[ARRAY_COUNT(watchGameP->password) - 2] = '~';
+                    watchGameP->password[ARRAY_COUNT(watchGameP->password) - 1] = 'z';
                 }
                 msgWnd_clear(&watchGameP->unk_A28);
                 msgWnd_addStr(&watchGameP->unk_A28, _mesPassword);
-                msgWnd_addStr(&watchGameP->unk_A28, watchGameP->unk_AAC);
+                msgWnd_addStr(&watchGameP->unk_A28, watchGameP->password);
                 msgWnd_skip(&watchGameP->unk_A28);
                 watchGameP->unk_AA8 = -watchGameP->unk_AA8;
             } else {
@@ -3180,7 +3184,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
         dm_black_up(gameStateDataRef, mapCells);
     }
 
-    if ((evs_gamemode == ENUM_EVS_GAMEMODE_3) && (evs_game_time >= 10800) && (gameStateDataRef->unk_020 == 1)) {
+    if ((evs_gamemode == GMD_TIME_ATTACK) && (evs_game_time >= 10800) && (gameStateDataRef->unk_020 == 1)) {
         return -1;
     }
 
@@ -3259,7 +3263,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                         if (gameStateDataRef->unk_03A < 2) {
                             if (gameStateDataRef->unk_03C[3] & 8) {
                                 gameStateDataRef->unk_03C[3] &= ~8;
-                                if ((evs_gamemode == ENUM_EVS_GAMEMODE_1) && (temp_s4_2 != 0)) {
+                                if ((evs_gamemode == GMD_FLASH) && (temp_s4_2 != 0)) {
                                     dm_snd_play_in_game(SND_INDEX_102);
                                 } else {
                                     dm_snd_play_in_game(SND_INDEX_56);
@@ -3288,7 +3292,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                     case ENUM_EVS_GAMESEL_6:
                         if (gameStateDataRef->unk_03C[3] & 8) {
                             gameStateDataRef->unk_03C[3] &= ~8;
-                            if ((evs_gamemode == ENUM_EVS_GAMEMODE_1) && (temp_s4_2 != 0)) {
+                            if ((evs_gamemode == GMD_FLASH) && (temp_s4_2 != 0)) {
                                 dm_snd_play_in_game(SND_INDEX_102);
                             } else {
                                 dm_snd_play_in_game(SND_INDEX_56);
@@ -3325,7 +3329,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                 case ENUM_EVS_GAMESEL_1:
                 case ENUM_EVS_GAMESEL_3:
                 case ENUM_EVS_GAMESEL_5:
-                    if (evs_gamemode != ENUM_EVS_GAMEMODE_3) {
+                    if (evs_gamemode != GMD_TIME_ATTACK) {
                         i = dm_set_attack_2p(gameStateDataRef);
                         if (i != 0) {
                             animeState_set(&gameStateDataRef->unk_094, 1);
@@ -3766,13 +3770,13 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
 
         switch (temp->animeSeq.unk_10) {
             case 0x4:
-                if ((evs_gamemode != ENUM_EVS_GAMEMODE_2) && !animeSeq_isEnd(&temp->animeSeq)) {
+                if ((evs_gamemode != GMD_TaiQ) && !animeSeq_isEnd(&temp->animeSeq)) {
                     var_s1 += 1;
                 }
                 break;
 
             case 0x2:
-                if (evs_gamemode != ENUM_EVS_GAMEMODE_2) {
+                if (evs_gamemode != GMD_TaiQ) {
                     var_s1 += 1;
                 }
                 break;
@@ -3809,7 +3813,7 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
                 }
             }
 
-            if ((evs_gamemode == ENUM_EVS_GAMEMODE_2) && (var_s5 == 3)) {
+            if ((evs_gamemode == GMD_TaiQ) && (var_s5 == 3)) {
                 for (i = 0; i < ARRAY_COUNT(watchGameP->unk_3E8); i++) {
                     watchGameP->unk_3E8[i] = i * 0x78 + 1;
                 }
@@ -3832,7 +3836,7 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
             watchGameP->unk_3E8[i] += var_v1_4;
             if (watchGameP->unk_3E8[i] >= 360.0f) {
                 watchGameP->unk_3E8[i] -= 360.0f;
-                if ((watchGameP->unk_400[i] == 0) && (evs_gamemode == ENUM_EVS_GAMEMODE_2)) {
+                if ((watchGameP->unk_400[i] == 0) && (evs_gamemode == GMD_TaiQ)) {
                     watchGameP->unk_9BC = 1;
                     watchGameP->unk_3CC = 0;
                     animeState_set(&watchGameP->animeStates[i], 3);
@@ -3885,7 +3889,7 @@ s32 dm_game_main_1p(void) {
         gameStateData->unk_020 = 5;
 
         switch (evs_gamemode) {
-            case ENUM_EVS_GAMEMODE_3: {
+            case GMD_TIME_ATTACK: {
                 //! FAKE
                 s32 temp_v0;
 
@@ -3904,11 +3908,11 @@ s32 dm_game_main_1p(void) {
         }
 
         switch (evs_gamemode) {
-            case ENUM_EVS_GAMEMODE_3:
+            case GMD_TIME_ATTACK:
                 retryMenu_init(0, 3);
                 break;
 
-            case ENUM_EVS_GAMEMODE_0:
+            case GMD_NORMAL:
                 retryMenu_init(0, 5);
                 break;
 
@@ -3919,14 +3923,14 @@ s32 dm_game_main_1p(void) {
         animeState_set(&gameStateData->unk_094, 3);
 
         switch (evs_gamemode) {
-            case ENUM_EVS_GAMEMODE_3:
+            case GMD_TIME_ATTACK:
                 temp_s1 = game_state_data[0].unk_000;
                 game_state_data[0].unk_000 = watchGameP->unk_9D0[0].unk_28;
                 dm_save_all();
                 game_state_data[0].unk_000 = temp_s1;
                 break;
 
-            case ENUM_EVS_GAMEMODE_0:
+            case GMD_NORMAL:
                 dm_save_all();
                 break;
 
@@ -3939,7 +3943,7 @@ s32 dm_game_main_1p(void) {
         dm_seq_play_in_game(SEQ_INDEX_17);
         gameStateData->unk_02B = 1;
         gameStateData->unk_020 = 8;
-        if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
+        if (evs_gamemode == GMD_TIME_ATTACK) {
             gameStateData->unk_014 = GAMESTATEDATA_UNK_014_15;
             gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_1C;
 
@@ -4204,7 +4208,7 @@ s32 dm_game_main_2p(void) {
     } else {
         for (i = 0; i < 2; i++) {
             if (sp38[i] == 0x6) {
-                if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
+                if (evs_gamemode == GMD_TIME_ATTACK) {
                     func_80062A24(i);
 
                     sp28[i]->unk_00C = GAMESTATEDATA_UNK_00C_1A;
@@ -4220,7 +4224,7 @@ s32 dm_game_main_2p(void) {
                     sp28[i]->unk_020 = 5;
                 }
             } else if (sp38[i] == -0x1) {
-                if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
+                if (evs_gamemode == GMD_TIME_ATTACK) {
                     if (evs_game_time >= 0x2A30U) {
                         func_80062A08(i);
                         sp28[i]->unk_00C = GAMESTATEDATA_UNK_00C_1C;
@@ -4804,8 +4808,8 @@ void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     TiTexData *temp_s4 = &watchGameP->unk_430[0x11];
     TiTexData *temp_s2 = &watchGameP->unk_430[0x16];
-    s32 var_s3 = MIN(temp_s4->info[0], temp_s2->info[0]);
-    s32 temp_s0 = temp_s4->info[1] / 12;
+    s32 var_s3 = MIN(temp_s4->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
+    s32 temp_s0 = temp_s4->info[TI_INFO_IDX_HEIGHT] / 12;
     s32 i;
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
@@ -4842,9 +4846,11 @@ void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP) {
                         _scoreNumsColor[temp_t3->unk_0C].b, alpha);
 
         StretchAlphaTexBlock(
-            &gfx, var_s3, temp_s0, (u8 *)temp_s4->texs[1] + (temp_s4->info[0] * temp_s0 * temp_t3->unk_08 * 2),
-            temp_s4->info[0], (u8 *)temp_s2->texs[1] + (temp_s2->info[0] * temp_s0 * temp_t3->unk_08 / 2),
-            temp_s2->info[0], temp_t3->unk_00, temp_t3->unk_04 - var_fv0_2, var_s3, temp_s0);
+            &gfx, var_s3, temp_s0,
+            (u16 *)temp_s4->texs[TI_TEX_TEX] + temp_s4->info[TI_INFO_IDX_WIDTH] * temp_s0 * temp_t3->unk_08,
+            temp_s4->info[TI_INFO_IDX_WIDTH],
+            (u8 *)temp_s2->texs[TI_TEX_TEX] + (temp_s2->info[TI_INFO_IDX_WIDTH] * temp_s0 * temp_t3->unk_08 / 2),
+            temp_s2->info[TI_INFO_IDX_WIDTH], temp_t3->unk_00, temp_t3->unk_04 - var_fv0_2, var_s3, temp_s0);
     }
 
     *gfxP = gfx;
@@ -4893,8 +4899,8 @@ void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
         if (arg0->unk_08[i] < 0x30) {
             gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 255);
 
-            tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, 0, 0x10, 0, (f32)arg0->unk_00[i], (f32)arg0->unk_04[i],
-                                  (f32)temp_s0->info[0], (f32)((u16)temp_s0->info[1] >> 4));
+            tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, false, 0x10, 0, arg0->unk_00[i], arg0->unk_04[i],
+                                  temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT] >> 4);
         }
 
         var_a3 = MIN(255, arg0->unk_08[i] * 8);
@@ -4902,8 +4908,8 @@ void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, var_a3);
 
         var_a3 = MAX(0, arg0->unk_08[i] - 0x30) >> 2;
-        tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, 0, 0x10, var_a3 + 1, (f32)arg0->unk_00[i], (f32)arg0->unk_04[i],
-                              (f32)temp_s0->info[0], (f32)((u16)temp_s0->info[1] >> 4));
+        tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, false, 0x10, var_a3 + 1, arg0->unk_00[i], arg0->unk_04[i],
+                              temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT] >> 4);
     }
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -4918,23 +4924,26 @@ void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
             continue;
         }
         temp_s0 = &watchGameP->unk_430[var_a3];
-        StretchTexTile4i(&gfx, temp_s0->info[0], temp_s0->info[1], temp_s0->texs[1], 0, 0, temp_s0->info[0],
-                         temp_s0->info[1], arg0->unk_00[i], arg0->unk_04[i], temp_s0->info[0], temp_s0->info[1]);
+        StretchTexTile4i(&gfx, temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT],
+                         temp_s0->texs[TI_TEX_TEX], 0, 0, temp_s0->info[TI_INFO_IDX_WIDTH],
+                         temp_s0->info[TI_INFO_IDX_HEIGHT], arg0->unk_00[i], arg0->unk_04[i],
+                         temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT]);
     }
 
     *gfxP = gfx;
 }
 
-void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, bool cached) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
     TiTexData *temp_a1 = &watchGameP->unk_430[0x10];
     TiTexData *temp = &watchGameP->unk_430[0x15];
 
-    if (arg3 == 0) {
+    if (!cached) {
         gSPDisplayList(gfx++, alpha_texture_init_dl);
     }
-    tiStretchAlphaTexItem(&gfx, temp_a1, temp, arg3, 0x10, 0, arg1, arg2, temp_a1->info[0], temp_a1->info[1] >> 4);
+    tiStretchAlphaTexItem(&gfx, temp_a1, temp, cached, 0x10, 0, arg1, arg2, temp_a1->info[TI_INFO_IDX_WIDTH],
+                          temp_a1->info[TI_INFO_IDX_HEIGHT] >> 4);
 
     *gfxP = gfx;
 }
@@ -4951,7 +4960,8 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
     temp_t1 = &watchGameP->unk_440[9];
-    tiStretchTexItem(&gfx, temp_t1, 0, 4, arg2, arg3, arg4, temp_t1->info[0], temp_t1->info[1] / 4);
+    tiStretchTexItem(&gfx, temp_t1, 0, 4, arg2, arg3, arg4, temp_t1->info[TI_INFO_IDX_WIDTH],
+                     temp_t1->info[TI_INFO_IDX_HEIGHT] / 4);
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
 
@@ -4964,9 +4974,10 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
         if (temp_a2 == temp2) {
             temp_t1 = &watchGameP->unk_440[temp_a2 + 0x10];
             temp = &watchGameP->unk_440[0x18];
-            StretchAlphaTexBlock(&gfx, temp_t1->info[0], temp_t1->info[1], temp_t1->texs[1], temp_t1->info[0],
-                                 temp->texs[1], temp->info[0], temp_fs0, temp_fv1 + 1.0f, temp_t1->info[0],
-                                 temp_t1->info[1]);
+            StretchAlphaTexBlock(&gfx, temp_t1->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT],
+                                 temp_t1->texs[TI_TEX_TEX], temp_t1->info[TI_INFO_IDX_WIDTH], temp->texs[TI_TEX_TEX],
+                                 temp->info[TI_INFO_IDX_WIDTH], temp_fs0, temp_fv1 + 1.0f,
+                                 temp_t1->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT]);
         } else {
             s32 temp3;
 
@@ -4974,8 +4985,8 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
             temp = &watchGameP->unk_440[0x12];
 
             temp3 = _tbl_4274[arg1 - 1][(arg2 + var_a1 + 1) % ARRAY_COUNT(_tbl_4274[0])];
-            tiStretchAlphaTexItem(&gfx, temp_t1, temp, 0, 0xB, temp3, temp_fs0, temp_fv1, temp_t1->info[0],
-                                  temp_t1->info[1] / 11);
+            tiStretchAlphaTexItem(&gfx, temp_t1, temp, false, 0xB, temp3, temp_fs0, temp_fv1,
+                                  temp_t1->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT] / 11);
         }
     }
 
@@ -4988,11 +4999,11 @@ void dm_map_draw(GameMapCell *mapCells, u8 arg1, s16 arg2, s16 arg3, s8 arg4) {
     for (i = 0; i < GAME_MAP_ROWS * GAME_MAP_COLUMNS; i++) {
         GameMapCell *cell = &mapCells[i];
 
-        if ((cell->unk_4[0] != 0) && (cell->unk_3 == arg1)) {
+        if ((cell->capsel_m_flg[0] != 0) && (cell->capsel_m_p == arg1)) {
 
-            gSPTextureRectangle(gGfxHead++, (cell->unk_0 * arg4 + arg2) << 2, ((cell->unk_1 * arg4) + arg3) << 2,
-                                (cell->unk_0 * arg4 + arg2 + arg4) << 2, (cell->unk_1 * arg4 + arg3 + arg4) << 2,
-                                G_TX_RENDERTILE, 0, (cell->unk_2 * arg4) << 5, 0x0400, 0x0400);
+            gSPTextureRectangle(gGfxHead++, (cell->pos_m_x * arg4 + arg2) << 2, ((cell->pos_m_y * arg4) + arg3) << 2,
+                                (cell->pos_m_x * arg4 + arg2 + arg4) << 2, (cell->pos_m_y * arg4 + arg3 + arg4) << 2,
+                                G_TX_RENDERTILE, 0, (cell->capsel_m_g * arg4) << 5, 1 << 10, 1 << 10);
         }
     }
 }
@@ -5024,8 +5035,8 @@ void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 a
     TiTexData *temp_s5 = &watchGameP->unk_430[0xD];
     TiTexData *temp_s3 = &watchGameP->unk_430[0x12];
     s32 var_t1 = 0;
-    s32 var_s6 = MIN(temp_s5->info[0], temp_s3->info[0]);
-    s32 temp_s1 = temp_s5->info[1] / 10;
+    s32 var_s6 = MIN(temp_s5->info[TI_INFO_IDX_WIDTH], temp_s3->info[TI_INFO_IDX_WIDTH]);
+    s32 temp_s1 = temp_s5->info[TI_INFO_IDX_HEIGHT] / 10;
     s32 sp38[16];
     s32 temp_fs0;
     s32 var_s0;
@@ -5041,9 +5052,12 @@ void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 a
     temp_fs0 = temp_s1 / -2;
     for (var_s0 = var_t1 - 1; var_s0 >= 0; var_s0--) {
         StretchAlphaTexBlock(
-            gfxP, var_s6, temp_s1, temp_s5->texs[1] + (temp_s5->info[0] * temp_s1 * _tbl_4345[sp38[var_s0]] * 2),
-            temp_s5->info[0], temp_s3->texs[1] + (temp_s3->info[0] * temp_s1 * _tbl_4345[sp38[var_s0]]) / 2,
-            temp_s3->info[0], arg2 + (var_s4 * arg4), arg3 + temp_fs0 * arg4, var_s6 * arg4, temp_s1 * arg4);
+            gfxP, var_s6, temp_s1,
+            temp_s5->texs[TI_TEX_TEX] + (temp_s5->info[TI_INFO_IDX_WIDTH] * temp_s1 * _tbl_4345[sp38[var_s0]] * 2),
+            temp_s5->info[TI_INFO_IDX_WIDTH],
+            temp_s3->texs[TI_TEX_TEX] + (temp_s3->info[TI_INFO_IDX_WIDTH] * temp_s1 * _tbl_4345[sp38[var_s0]]) / 2,
+            temp_s3->info[TI_INFO_IDX_WIDTH], arg2 + (var_s4 * arg4), arg3 + temp_fs0 * arg4, var_s6 * arg4,
+            temp_s1 * arg4);
         var_s4 += 0xE;
     }
 }
@@ -5056,8 +5070,8 @@ void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 a
     TiTexData *temp_a1 = watchGameP->unk_438;
     TiTexData *temp_s5 = &temp_a1[_tex_4374[arg1]];
     TiTexData *temp_s2 = &temp_a1[7];
-    s32 var_s7 = MIN(temp_s5->info[0], temp_s2->info[0]);
-    s32 temp_s6 = temp_s5->info[1] / _row_4375[arg1];
+    s32 var_s7 = MIN(temp_s5->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
+    s32 temp_s6 = temp_s5->info[TI_INFO_IDX_HEIGHT] / _row_4375[arg1];
     s32 sp38[16];
     s32 i;
 
@@ -5084,9 +5098,11 @@ void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 a
     }
 
     for (i = arg2 - 1; i >= 0; i--) {
-        StretchAlphaTexBlock(gfxP, var_s7, temp_s6, temp_s5->texs[1] + temp_s5->info[0] * temp_s6 * sp38[i] * 2,
-                             temp_s5->info[0], temp_s2->texs[1] + temp_s2->info[0] * temp_s6 * sp38[i] / 2,
-                             temp_s2->info[0], arg4, arg5, var_s7, temp_s6);
+        StretchAlphaTexBlock(gfxP, var_s7, temp_s6,
+                             temp_s5->texs[TI_TEX_TEX] + temp_s5->info[TI_INFO_IDX_WIDTH] * temp_s6 * sp38[i] * 2,
+                             temp_s5->info[TI_INFO_IDX_WIDTH],
+                             temp_s2->texs[TI_TEX_TEX] + temp_s2->info[TI_INFO_IDX_WIDTH] * temp_s6 * sp38[i] / 2,
+                             temp_s2->info[TI_INFO_IDX_WIDTH], arg4, arg5, var_s7, temp_s6);
         arg4 += 9;
     }
 }
@@ -5147,10 +5163,12 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
     temp1 = &temp_a3[0x17];
     temp2 = &temp_a3[0x18];
 
-    var_a1_2 = MIN(temp1->info[0], temp2->info[0]);
+    var_a1_2 = MIN(temp1->info[TI_INFO_IDX_WIDTH], temp2->info[TI_INFO_IDX_WIDTH]);
 
-    StretchAlphaTexTile(&gGfxHead, var_a1_2, temp1->info[1], temp1->texs[1], temp1->info[0], temp2->texs[1],
-                        temp2->info[0], 0, 0, var_a1_2, temp1->info[1], arg0, arg1, var_a1_2, temp1->info[1]);
+    StretchAlphaTexTile(&gGfxHead, var_a1_2, temp1->info[TI_INFO_IDX_HEIGHT], temp1->texs[TI_TEX_TEX],
+                        temp1->info[TI_INFO_IDX_WIDTH], temp2->texs[TI_TEX_TEX], temp2->info[TI_INFO_IDX_WIDTH], 0, 0,
+                        var_a1_2, temp1->info[TI_INFO_IDX_HEIGHT], arg0, arg1, var_a1_2,
+                        temp1->info[TI_INFO_IDX_HEIGHT]);
 }
 
 const s32 _tex_4459[3][2] = { { 0xE, 0x13 }, { 0x1B, 0x1C }, { 0x19, 0x1A } };
@@ -5183,12 +5201,13 @@ void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
         temp_t0 = &watchGameP->unk_430[_tex_4459[i][0]];
         temp_t2 = &watchGameP->unk_430[_tex_4459[i][1]];
 
-        var_a3 = MIN(temp_t0->info[0], temp_t2->info[0]);
-        var_t1 = MIN(temp_t0->info[1], temp_t2->info[1]);
+        var_a3 = MIN(temp_t0->info[TI_INFO_IDX_WIDTH], temp_t2->info[TI_INFO_IDX_WIDTH]);
+        var_t1 = MIN(temp_t0->info[TI_INFO_IDX_HEIGHT], temp_t2->info[TI_INFO_IDX_HEIGHT]);
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha[i]);
-        StretchAlphaTexTile(&gfx, var_a3, var_t1, temp_t0->texs[1], temp_t0->info[0], temp_t2->texs[1],
-                            temp_t2->info[0], 0, 0, var_a3, var_t1, arg1, arg2, var_a3, var_t1);
+        StretchAlphaTexTile(&gfx, var_a3, var_t1, temp_t0->texs[TI_TEX_TEX], temp_t0->info[TI_INFO_IDX_WIDTH],
+                            temp_t2->texs[TI_TEX_TEX], temp_t2->info[TI_INFO_IDX_WIDTH], 0, 0, var_a3, var_t1, arg1,
+                            arg2, var_a3, var_t1);
     }
 
     *gfxP = gfx;
@@ -5212,12 +5231,13 @@ void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     for (i = 0; i < ARRAY_COUNTU(alpha); i++) {
         TiTexData *temp_t0 = &watchGameP->unk_430[RO_800B2134[i][0]];
         TiTexData *temp_t3 = &watchGameP->unk_430[RO_800B2134[i][1]];
-        s32 var_t2 = MIN(temp_t0->info[0], temp_t3->info[0]);
-        s32 var_t1 = MIN(temp_t0->info[1], temp_t3->info[1]);
+        s32 var_t2 = MIN(temp_t0->info[TI_INFO_IDX_WIDTH], temp_t3->info[TI_INFO_IDX_WIDTH]);
+        s32 var_t1 = MIN(temp_t0->info[TI_INFO_IDX_HEIGHT], temp_t3->info[TI_INFO_IDX_HEIGHT]);
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha[i]);
-        StretchAlphaTexTile(&gfx, var_t2, var_t1, temp_t0->texs[1], temp_t0->info[0], temp_t3->texs[1],
-                            temp_t3->info[0], 0, 0, var_t2, var_t1, arg1, arg2, var_t2, var_t1);
+        StretchAlphaTexTile(&gfx, var_t2, var_t1, temp_t0->texs[TI_TEX_TEX], temp_t0->info[TI_INFO_IDX_WIDTH],
+                            temp_t3->texs[TI_TEX_TEX], temp_t3->info[TI_INFO_IDX_WIDTH], 0, 0, var_t2, var_t1, arg1,
+                            arg2, var_t2, var_t1);
     }
 
     *gfxP = gfx;
@@ -5275,7 +5295,7 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
 
     temp_s2 = &watchGameP->unk_434[0x15];
 
-    temp_s5 = temp_s2->info[0] >> 2;
+    temp_s5 = temp_s2->info[TI_INFO_IDX_WIDTH] >> 2;
     for (i = 0; i < arg1; i++) {
         f32 var_s4 = 0xED + i * 0x10;
         f32 temp_ft0 = watchGameP->unk_9A0[i] - 0xF;
@@ -5286,20 +5306,21 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
 
-        StretchTexTile4(&gfx, temp_s2->info[0], temp_s2->info[1], temp_s2->texs[0], temp_s2->texs[1],
-                        temp_s5 * ((watchGameP->unk_9A0[i] >> 1) & 3), 0, temp_s5, temp_s2->info[1], var_s4, temp_ft0,
-                        temp_s5, temp_s2->info[1]);
+        StretchTexTile4(&gfx, temp_s2->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_HEIGHT],
+                        temp_s2->texs[TI_TEX_TLUT], temp_s2->texs[TI_TEX_TEX],
+                        temp_s5 * ((watchGameP->unk_9A0[i] >> 1) & 3), 0, temp_s5, temp_s2->info[TI_INFO_IDX_HEIGHT],
+                        var_s4, temp_ft0, temp_s5, temp_s2->info[TI_INFO_IDX_HEIGHT]);
     }
 
     *gfxP = gfx;
 }
 
-void draw_flash_virus_light(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void draw_flash_virus_light(Gfx **gfxP, bool cached, s32 arg2, s32 arg3, s32 arg4) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexData *temp = &watchGameP->unk_444[tbl_4589[(watchGameP->unk_424 >> 1) & 3] + 0xC];
+    TiTexData *ti = &watchGameP->unk_444[tbl_4589[(watchGameP->unk_424 >> 1) % ARRAY_COUNTU(tbl_4589)] + 0xC];
 
-    if (arg1 == 0) {
+    if (!cached) {
         gSPDisplayList(gfx++, normal_texture_init_dl);
         gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
         gDPSetCombineLERP(gfx++, ENVIRONMENT, PRIMITIVE, TEXEL0, PRIMITIVE, ENVIRONMENT, 0, TEXEL0, 0, ENVIRONMENT,
@@ -5310,12 +5331,12 @@ void draw_flash_virus_light(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) 
 
     gDPSetPrimColor(gfx++, 0, 0, col_4590[arg4].r, col_4590[arg4].g, col_4590[arg4].b, col_4590[arg4].a);
 
-    tiStretchTexBlock(&gfx, temp, arg1, (f32)arg2, (f32)arg3, 20.0f, 20.0f);
+    tiStretchTexBlock(&gfx, ti, cached, arg2, arg3, 20.0f, 20.0f);
     *gfxP = gfx;
 }
 
 void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRef, GameMapCell *mapCells UNUSED) {
-    s32 var_t1 = 0;
+    bool cached = false;
     s32 var_s5;
     s32 var_s6;
     s32 i;
@@ -5340,11 +5361,11 @@ void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRe
         }
 
         draw_flash_virus_light(
-            gfxP, var_t1,
+            gfxP, cached,
             var_s5 + gameStateDataRef->unk_006 + (gameStateDataRef->unk_00A * gameStateDataRef->unk_0D4[i][0]),
             var_s6 + gameStateDataRef->unk_008 + (gameStateDataRef->unk_00A * (gameStateDataRef->unk_0D4[i][1] + 1)),
             gameStateDataRef->unk_0D4[i][2]);
-        var_t1 = 1;
+        cached = true;
     }
 }
 
@@ -5359,9 +5380,11 @@ void func_8006AEFC(struct_watchGame_unk_9D0 *arg0, Gfx **gfxP, s32 arg2, s32 arg
     temp_t3 = &watchGameP->unk_438[8];
     temp = &watchGameP->unk_438[9];
 
-    StretchAlphaTexTile(&gfx, temp_t3->info[0], (s32)temp_t3->info[1], temp_t3->texs[1], temp_t3->info[0],
-                        temp->texs[1], (s32)temp->info[0], 0, 0, (s32)temp_t3->info[0], (s32)temp_t3->info[1],
-                        (f32)arg2, (f32)arg3, (f32)temp_t3->info[0], (f32)temp_t3->info[1]);
+    StretchAlphaTexTile(&gfx, temp_t3->info[TI_INFO_IDX_WIDTH], (s32)temp_t3->info[TI_INFO_IDX_HEIGHT],
+                        temp_t3->texs[TI_TEX_TEX], temp_t3->info[TI_INFO_IDX_WIDTH], temp->texs[TI_TEX_TEX],
+                        (s32)temp->info[TI_INFO_IDX_WIDTH], 0, 0, (s32)temp_t3->info[TI_INFO_IDX_WIDTH],
+                        (s32)temp_t3->info[TI_INFO_IDX_HEIGHT], (f32)arg2, (f32)arg3,
+                        (f32)temp_t3->info[TI_INFO_IDX_WIDTH], (f32)temp_t3->info[TI_INFO_IDX_HEIGHT]);
     draw_time2(&gfx, arg0->unk_14 + 5, arg2 + 0x12, arg3 + 0xE);
     draw_count_number(&gfx, 0, 2, (u32)arg0->unk_18, arg2 + 0x1F, arg3 + 0x23);
     draw_count_number(&gfx, 0, 2, (u32)arg0->unk_1C, arg2 + 0x1F, arg3 + 0x38);
@@ -5380,13 +5403,14 @@ void draw_story_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         TiTexData *temp_t3 = &temp_s1->unk_43C[0x12];
         TiTexData *temp_t1 = &temp_s1->unk_43C[0x13];
 
-        StretchAlphaTexBlock(&gfx, temp_t3->info[0], temp_t1->info[1], temp_t3->texs[1], temp_t3->info[0],
-                             temp_t1->texs[1], temp_t1->info[0], arg1 + 0x78, arg2 + 0xB, temp_t3->info[0],
-                             temp_t3->info[1]);
+        StretchAlphaTexBlock(&gfx, temp_t3->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT],
+                             temp_t3->texs[TI_TEX_TEX], temp_t3->info[TI_INFO_IDX_WIDTH], temp_t1->texs[TI_TEX_TEX],
+                             temp_t1->info[TI_INFO_IDX_WIDTH], arg1 + 0x78, arg2 + 0xB,
+                             temp_t3->info[TI_INFO_IDX_WIDTH], temp_t3->info[TI_INFO_IDX_HEIGHT]);
 
         temp_t3 = &temp_s1->unk_43C[9];
-        tiStretchAlphaTexItem(&gfx, temp_t3, &temp_s1->unk_43C[2], 0, 4, evs_story_level, arg1 + 0x8E, arg2 + 0x36,
-                              temp_t3->info[0], temp_t3->info[1] >> 2);
+        tiStretchAlphaTexItem(&gfx, temp_t3, &temp_s1->unk_43C[2], false, 4, evs_story_level, arg1 + 0x8E, arg2 + 0x36,
+                              temp_t3->info[TI_INFO_IDX_WIDTH], temp_t3->info[TI_INFO_IDX_HEIGHT] >> 2);
     }
 
     if (arg4 != 0) {
@@ -5413,28 +5437,31 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     if (arg3 != 0) {
         switch (evs_gamemode) {
-            case ENUM_EVS_GAMEMODE_1:
-            case ENUM_EVS_GAMEMODE_3:
+            case GMD_FLASH:
+            case GMD_TIME_ATTACK:
                 temp_s1 = &temp_s6->unk_43C[0x10];
                 temp_s5 = &temp_s6->unk_43C[0x11];
-                StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                                     temp_s5->texs[1], temp_s5->info[0], arg1 + 0x5F, arg2 + 9, temp_s1->info[0],
-                                     temp_s1->info[1]);
+                StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
+                                     temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
+                                     temp_s5->texs[TI_TEX_TEX], temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x5F, arg2 + 9,
+                                     temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
 
                 temp_s1 = &temp_s6->unk_43C[9];
                 temp_s5 = &temp_s6->unk_43C[2];
                 for (i = 0; i < 2; i++) {
-                    tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, 0, 4, game_state_data[i].unk_16C, arg1 + _x_4663[i],
-                                          arg2 + 0xB, temp_s1->info[0], temp_s1->info[1] >> 2);
+                    tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, false, 4, game_state_data[i].unk_16C,
+                                          arg1 + _x_4663[i], arg2 + 0xB, temp_s1->info[TI_INFO_IDX_WIDTH],
+                                          temp_s1->info[TI_INFO_IDX_HEIGHT] >> 2);
                 }
                 break;
 
             default:
                 temp_s1 = &temp_s6->unk_43C[0x14];
                 temp_s5 = &temp_s6->unk_43C[0x15];
-                StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                                     temp_s5->texs[1], temp_s5->info[0], arg1 + 0x68, arg2 + 9, temp_s1->info[0],
-                                     temp_s1->info[1]);
+                StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
+                                     temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
+                                     temp_s5->texs[TI_TEX_TEX], temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x68, arg2 + 9,
+                                     temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
 
                 for (i = 0; i < 2; i++) {
                     draw_count_number(&gfx, 0, 2, game_state_data[i].unk_026, arg1 + _x_4670[i], arg2 + 0xB);
@@ -5444,15 +5471,16 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
         temp_s1 = &temp_s6->unk_43C[0xD];
         temp_s5 = &temp_s6->unk_43C[6];
-        StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                             temp_s5->texs[1], temp_s5->info[0], arg1 + 0x68, (arg2 + 0x19), temp_s1->info[0],
-                             temp_s1->info[1]);
+        StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
+                             temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], temp_s5->texs[TI_TEX_TEX],
+                             temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x68, (arg2 + 0x19),
+                             temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
 
         temp_s1 = &temp_s6->unk_43C[0xC];
         temp_s5 = &temp_s6->unk_43C[5];
         for (i = 0; i < 2; i++) {
-            tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, 0, 3, 2 - game_state_data[i].unk_02C, arg1 + _x_4676[i],
-                                  arg2 + 0x1B, temp_s1->info[0], temp_s1->info[1] / 3);
+            tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, false, 3, 2 - game_state_data[i].unk_02C, arg1 + _x_4676[i],
+                                  arg2 + 0x1B, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT] / 3);
         }
     }
 
@@ -5460,9 +5488,10 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         if (arg3 != 0) {
             temp_s1 = &temp_s6->unk_43C[0xA];
             temp_s5 = &temp_s6->unk_43C[3];
-            StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                                 temp_s5->texs[1], temp_s5->info[0], arg1 + 0x70, arg2 + 0x29, temp_s1->info[0],
-                                 temp_s1->info[1]);
+            StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
+                                 temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], temp_s5->texs[TI_TEX_TEX],
+                                 temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x70, arg2 + 0x29,
+                                 temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
         }
 
         if (arg4 != 0) {
@@ -5472,9 +5501,10 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         if (arg3 != 0) {
             temp_s1 = &temp_s6->unk_43C[0xB];
             temp_s5 = &temp_s6->unk_43C[4];
-            StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                                 temp_s5->texs[1], temp_s5->info[0], arg1 + 0x58, arg2 + 0x29, temp_s1->info[0],
-                                 temp_s1->info[1]);
+            StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
+                                 temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], temp_s5->texs[TI_TEX_TEX],
+                                 temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x58, arg2 + 0x29,
+                                 temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
         }
 
         if (arg4 != 0) {
@@ -5503,13 +5533,13 @@ void _draw_bottle_10(Gfx **gfxP, const s32 *arg1, const s32 *arg2, s32 arg3) {
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 192);
 
     temp_s6 = &watchGameP->unk_438[1];
-    for (i = 0; i < temp_s6->info[1]; i += 0x2A) {
+    for (i = 0; i < temp_s6->info[TI_INFO_IDX_HEIGHT]; i += 0x2A) {
         for (j = 0; j < arg3; j++) {
             s32 var_t1;
 
-            var_t1 = MIN(0x2A, temp_s6->info[1] - i);
-            tiStretchTexTile(&gfx, temp_s6, j, 0, i, temp_s6->info[0], var_t1, arg1[j], arg2[j] + i, temp_s6->info[0],
-                             var_t1);
+            var_t1 = MIN(0x2A, temp_s6->info[TI_INFO_IDX_HEIGHT] - i);
+            tiStretchTexTile(&gfx, temp_s6, j, 0, i, temp_s6->info[TI_INFO_IDX_WIDTH], var_t1, arg1[j], arg2[j] + i,
+                             temp_s6->info[TI_INFO_IDX_WIDTH], var_t1);
         }
     }
 
@@ -5590,7 +5620,7 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     s32 var_s0;
     s32 var_s3;
 
-    guOrtho(mtx, 0.0f, 320.0f, 240.0f, 0.0f, 1.0f, 10.0f, 1.0f);
+    guOrtho(mtx, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f, 10.0f, 1.0f);
     gSPMatrix(gfx++, mtx++, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
     guTranslate(mtx, 0.0f, 0.0f, -5.0f);
@@ -5608,8 +5638,8 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     temp_s4 = &watchGameP->unk_448[_pat_4838[var_v0] + 1];
     temp_a2 = &watchGameP->unk_448[0];
 
-    var_s0 = MIN(temp_s4->info[0], temp_a2->info[0]);
-    var_s3 = MIN(temp_s4->info[1], temp_a2->info[1]);
+    var_s0 = MIN(temp_s4->info[TI_INFO_IDX_WIDTH], temp_a2->info[TI_INFO_IDX_WIDTH]);
+    var_s3 = MIN(temp_s4->info[TI_INFO_IDX_HEIGHT], temp_a2->info[TI_INFO_IDX_HEIGHT]);
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     gSPClearGeometryMode(gfx++, G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
@@ -5628,8 +5658,9 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     guMtxF2L(sp48, mtx);
     gSPMatrix(gfx++, mtx++, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->texs[1], temp_s4->info[0], temp_a2->texs[1], temp_a2->info[0],
-                     0, 0, var_s0, var_s3, 0.0f, 0.0f, var_s0, var_s3);
+    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->texs[TI_TEX_TEX], temp_s4->info[TI_INFO_IDX_WIDTH],
+                     temp_a2->texs[TI_TEX_TEX], temp_a2->info[TI_INFO_IDX_WIDTH], 0, 0, var_s0, var_s3, 0.0f, 0.0f,
+                     var_s0, var_s3);
 
     *vtxP = vtx;
     *mtxP = mtx;
@@ -5652,14 +5683,14 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
     // Draw the pills and virus on the bottle.
     // Does not draw the falling pills nor the next pill.
     temp_v0 = dm_game_get_capsel_tex(temp_s6);
-    load_TexTile_4b(temp_v0->texs[1], temp_v0->info[0], temp_v0->info[1], 0, 0, temp_v0->info[0] - 1,
-                    temp_v0->info[1] - 1);
+    load_TexTile_4b(temp_v0->texs[TI_TEX_TEX], temp_v0->info[TI_INFO_IDX_WIDTH], temp_v0->info[TI_INFO_IDX_HEIGHT], 0,
+                    0, temp_v0->info[TI_INFO_IDX_WIDTH] - 1, temp_v0->info[TI_INFO_IDX_HEIGHT] - 1);
     gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, gameStateData->unk_006,
                   gameStateData->unk_008 + gameStateData->unk_00A, gameStateData->unk_00A * 8,
                   gameStateData->unk_00A * 0x10);
     for (i = 0; i < 6; i++) {
         temp_v0 = dm_game_get_capsel_pal(temp_s6, i);
-        load_TexPal(temp_v0->texs[0]);
+        load_TexPal(temp_v0->texs[TI_TEX_TLUT]);
         dm_map_draw(mapCells, i, gameStateData->unk_006, gameStateData->unk_008 - gameStateData->unk_168,
                     gameStateData->unk_00A);
     }
@@ -5695,14 +5726,14 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
             s32 temp_a2;
 
             temp_v0 = dm_game_get_capsel_pal(temp_s6, temp->unk_6[i]);
-            load_TexPal(temp_v0->texs[0]);
+            load_TexPal(temp_v0->texs[TI_TEX_TLUT]);
             temp_t0_2 = gameStateData->unk_00A;
             temp_a1_2 = (temp->unk_0[i] * temp_t0_2) + gameStateData->unk_006;
             temp_a2 = (sp28[i] * temp_t0_2) + gameStateData->unk_008;
 
             gSPTextureRectangle(gGfxHead++, (temp_a1_2 * 4), (temp_a2 * 4), ((temp_a1_2 + temp_t0_2) * 4),
                                 ((temp_a2 + temp_t0_2) * 4), G_TX_RENDERTILE, 0x0000, (temp->unk_4[i] * temp_t0_2 << 5),
-                                0x0400, 0x0400);
+                                1 << 10, 1 << 10);
         }
 
         gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, 255);
@@ -5740,7 +5771,7 @@ void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapC
     }
 
     for (i = 0; i < STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN; i++) {
-        load_TexPal(dm_game_get_capsel_pal(temp_s6, gameStateData->unk_184.unk_6[i])->texs[0]);
+        load_TexPal(dm_game_get_capsel_pal(temp_s6, gameStateData->unk_184.unk_6[i])->texs[TI_TEX_TLUT]);
         draw_Tex(gameStateData->unk_184.unk_0[i] * gameStateData->unk_00A + gameStateData->unk_006,
                  (gameStateData->unk_184.unk_2[i] * gameStateData->unk_00A + gameStateData->unk_008) - 0xA,
                  gameStateData->unk_00A, gameStateData->unk_00A, 0,
@@ -5790,7 +5821,7 @@ void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, Game
     for (i = 0; i < 2; i++) {
         TiTexData *temp = dm_game_get_capsel_pal(0, gameStateDataRef->unk_184.unk_6[i]);
 
-        load_TexPal(temp->texs[0]);
+        load_TexPal(temp->texs[TI_TEX_TLUT]);
         draw_Tex(0xDA + i * 0xA, 0x34, 0xA, 0xA, 0, gameStateDataRef->unk_184.unk_4[i] * 0xA);
     }
 }
@@ -5818,7 +5849,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         case GAMESTATEDATA_UNK_014_B:
         case GAMESTATEDATA_UNK_014_C:
             switch (evs_gamemode) {
-                case ENUM_EVS_GAMEMODE_1:
+                case GMD_FLASH:
                     draw_flash_virus_lights(&gGfxHead, gameStateDataRef, game_map_data[arg1]);
                     break;
 
@@ -5849,18 +5880,20 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, temp_fv0);
 
         temp_fv0 = ((f32)sins(((s16)temp_s4->unk_424 << 0xA) & 0xFC00) * 0.00015258789f);
-        StretchAlphaTexBlock(&gGfxHead, temp_s1->info[0], temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                             other->texs[1], other->info[0], gameStateDataRef->unk_006,
-                             (gameStateDataRef->unk_008 + temp_fv0 + 0xA0), temp_s1->info[0], temp_s1->info[1]);
+        StretchAlphaTexBlock(&gGfxHead, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
+                             temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], other->texs[TI_TEX_TEX],
+                             other->info[TI_INFO_IDX_WIDTH], gameStateDataRef->unk_006,
+                             (gameStateDataRef->unk_008 + temp_fv0 + 0xA0), temp_s1->info[TI_INFO_IDX_WIDTH],
+                             temp_s1->info[TI_INFO_IDX_HEIGHT]);
     }
 
     switch (gameStateDataRef->unk_014) {
         case GAMESTATEDATA_UNK_014_3:
             switch (evs_gamemode) {
-                case ENUM_EVS_GAMEMODE_3:
+                case GMD_TIME_ATTACK:
                     break;
 
-                case ENUM_EVS_GAMEMODE_2:
+                case GMD_TaiQ:
                     disp_clear_logo(&gGfxHead, arg1, 0);
                     break;
 
@@ -5889,10 +5922,10 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
             break;
 
         case GAMESTATEDATA_UNK_014_4:
-            if (evs_gamemode != ENUM_EVS_GAMEMODE_3) {
+            if (evs_gamemode != GMD_TIME_ATTACK) {
             block_28:
                 switch (evs_gamemode) {
-                    case ENUM_EVS_GAMEMODE_3:
+                    case GMD_TIME_ATTACK:
                         if (evs_game_time >= 0x2A30U) {
                             disp_timeover_logo(&gGfxHead, arg1);
                         } else {
@@ -5927,10 +5960,11 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
 
                     gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, temp_fv0);
 
-                    StretchAlphaTexBlock(&gGfxHead, temp_s1->info[0], temp_s1->info[1], temp_s1->texs[1],
-                                         temp_s1->info[0], other->texs[1], other->info[0],
+                    StretchAlphaTexBlock(&gGfxHead, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
+                                         temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
+                                         other->texs[TI_TEX_TEX], other->info[TI_INFO_IDX_WIDTH],
                                          (f32)gameStateDataRef->unk_006, (f32)(gameStateDataRef->unk_008 + 0x5C),
-                                         (f32)temp_s1->info[0], (f32)temp_s1->info[1]);
+                                         (f32)temp_s1->info[TI_INFO_IDX_WIDTH], (f32)temp_s1->info[TI_INFO_IDX_HEIGHT]);
                 }
             }
             disp_retire_logo(&gGfxHead, arg1);
@@ -5958,7 +5992,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         case GAMESTATEDATA_UNK_014_14:
         case GAMESTATEDATA_UNK_014_16:
         case GAMESTATEDATA_UNK_014_18:
-            if (evs_gamemode == ENUM_EVS_GAMEMODE_3) {
+            if (evs_gamemode == GMD_TIME_ATTACK) {
                 if (evs_gamesel == ENUM_EVS_GAMESEL_0) {
                     var_v0_4 = 0xA;
                 } else {
@@ -6046,7 +6080,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     switch (gameStateDataRef->unk_014) {
         case GAMESTATEDATA_UNK_014_13:
         case GAMESTATEDATA_UNK_014_15:
-            if ((evs_gamesel == ENUM_EVS_GAMESEL_0) && (evs_gamemode == ENUM_EVS_GAMEMODE_3) &&
+            if ((evs_gamesel == ENUM_EVS_GAMESEL_0) && (evs_gamemode == GMD_TIME_ATTACK) &&
                 (temp_s4->unk_888[arg1] == 0)) {
                 push_any_key_draw(gameStateDataRef->unk_006 + 8, gameStateDataRef->unk_008 + 0xA0);
             }
@@ -6396,8 +6430,8 @@ void dm_game_init(bool arg0) {
     watchGameP->unk_3B8 = 0;
     watchGameP->unk_3B4 = 0;
     watchGameP->unk_3C0 = 0;
-    watchGameP->unk_3BC = (evs_gamemode == ENUM_EVS_GAMEMODE_1) ? 1 : 3;
-    watchGameP->unk_3C4 = main_no != MAIN_NO_5;
+    watchGameP->unk_3BC = (evs_gamemode == GMD_FLASH) ? 1 : 3;
+    watchGameP->unk_3C4 = main_no != MAIN_GAME;
 
     for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_400); i++) {
         watchGameP->unk_400[i] = 0;
@@ -6412,7 +6446,7 @@ void dm_game_init(bool arg0) {
     watchGameP->unk_3C8 = 10.0f;
 
     switch (evs_gamemode) {
-        case ENUM_EVS_GAMEMODE_2:
+        case GMD_TaiQ:
             watchGameP->unk_3C8 = _big_virus_def_wait[game_state_data[0].unk_16C];
             break;
 
@@ -6448,8 +6482,8 @@ void dm_game_init(bool arg0) {
     }
 
     switch (evs_gamemode) {
-        case ENUM_EVS_GAMEMODE_2:
-        case ENUM_EVS_GAMEMODE_3:
+        case GMD_TaiQ:
+        case GMD_TIME_ATTACK:
             evs_game_time = 0;
             break;
 
@@ -6473,7 +6507,7 @@ void dm_game_init(bool arg0) {
     watchGameP->unk_9CC = -1;
     watchGameP->unk_A28.alpha = 0;
     watchGameP->unk_AA8 = -0x10;
-    bzero(watchGameP->unk_AAC, sizeof(watchGameP->unk_AAC));
+    bzero(watchGameP->password, sizeof(watchGameP->password));
 
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
@@ -6569,7 +6603,7 @@ void dm_game_init(bool arg0) {
     var_s0_2 = game_state_data;
     for (i = 0; i < evs_playcnt; i++) {
         dm_virus_init(evs_gamemode, &var_s0_2[i], virus_map_data[i], virus_map_disp_order[i]);
-        if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+        if (evs_gamemode == GMD_FLASH) {
             make_flash_virus_pos(&var_s0_2[i], virus_map_data[i], virus_map_disp_order[i]);
         } else {
             game_state_data[i].unk_164 = 0;
@@ -6581,7 +6615,7 @@ void dm_game_init(bool arg0) {
             if (game_state_data[i].unk_026 == game_state_data[j].unk_026) {
                 dm_virus_map_copy(virus_map_data[i], virus_map_data[j], virus_map_disp_order[i],
                                   virus_map_disp_order[j]);
-                if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+                if (evs_gamemode == GMD_FLASH) {
                     game_state_data[j].unk_164 = game_state_data[i].unk_164;
                     bcopy(&game_state_data[i].unk_0D4, &game_state_data[j].unk_0D4, sizeof(game_state_data[j].unk_0D4));
                     bcopy(&game_state_data[i].unk_140, &game_state_data[j].unk_140,
@@ -6656,7 +6690,7 @@ void dm_game_init_static(void) {
     end = romTableP[ROMDATATBL_GAME_ITEM].end;
     watchGameP->unk_444 = tiLoadTexData(&heapTop, start, end);
 
-    if (main_no != MAIN_NO_5) {
+    if (main_no != MAIN_GAME) {
         watchGameP->unk_448 =
             tiLoadTexData(&heapTop, romTableP[ROMDATATBL_MENU_KASA].start, romTableP[ROMDATATBL_MENU_KASA].end);
     }
@@ -6717,15 +6751,15 @@ void dm_game_init_static(void) {
                 evs_high_score = 56600;
             } else {
                 switch (evs_gamemode) {
-                    case ENUM_EVS_GAMEMODE_0:
+                    case GMD_NORMAL:
                         evs_high_score = temp_a3->unk_4C[game_state_data[0].unk_02C].unk_0;
                         break;
 
-                    case ENUM_EVS_GAMEMODE_2:
+                    case GMD_TaiQ:
                         evs_high_score = temp_a3->unk_64[game_state_data[0].unk_16C].unk_0;
                         break;
 
-                    case ENUM_EVS_GAMEMODE_3:
+                    case GMD_TIME_ATTACK:
                         evs_high_score = temp_a3->unk_7C[game_state_data[0].unk_16C].unk_0;
                         break;
 
@@ -6930,15 +6964,15 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
         case ENUM_EVS_GAMESEL_0:
         case ENUM_EVS_GAMESEL_4:
             switch (evs_gamemode) {
-                case ENUM_EVS_GAMEMODE_0:
+                case GMD_NORMAL:
                     var_s6 = 0;
                     break;
 
-                case ENUM_EVS_GAMEMODE_2:
+                case GMD_TaiQ:
                     var_s6 = 1;
                     break;
 
-                case ENUM_EVS_GAMEMODE_3:
+                case GMD_TIME_ATTACK:
                     var_s6 = 2;
                     break;
 
@@ -6951,13 +6985,15 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             temp_s1 = &temp_s7->unk_434[_bgTex_5794[var_s6]];
 
             for (i = 0; i < ARRAY_COUNTU(_bgPos_5792); i++) {
-                tiStretchTexTile(&gfx, temp_s1, 0, 0, 0, temp_s1->info[0], temp_s1->info[1], _bgPos_5792[i][0],
-                                 _bgPos_5792[i][1], temp_s1->info[0], temp_s1->info[1]);
+                tiStretchTexTile(&gfx, temp_s1, false, 0, 0, temp_s1->info[TI_INFO_IDX_WIDTH],
+                                 temp_s1->info[TI_INFO_IDX_HEIGHT], _bgPos_5792[i][0], _bgPos_5792[i][1],
+                                 temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
             }
 
             temp_s1 = &temp_s7->unk_434[_magTex_5795[var_s6]];
-            tiStretchTexTile(&gfx, temp_s1, 0, 0, 0, temp_s1->info[0], temp_s1->info[1], 0.0f, 120.0f, temp_s1->info[0],
-                             temp_s1->info[1]);
+            tiStretchTexTile(&gfx, temp_s1, false, 0, 0, temp_s1->info[TI_INFO_IDX_WIDTH],
+                             temp_s1->info[TI_INFO_IDX_HEIGHT], 0.0f, 120.0f, temp_s1->info[TI_INFO_IDX_WIDTH],
+                             temp_s1->info[TI_INFO_IDX_HEIGHT]);
 
             if (arg3 != 0) {
                 gSPDisplayList(gfx++, alpha_texture_init_dl);
@@ -6965,40 +7001,44 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                 temp_s1 = &temp_s7->unk_434[9];
                 temp_s2 = &temp_s7->unk_434[2];
 
-                var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
+                var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
 
-                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                                    temp_s2->texs[1], *temp_s2->info, 0, 0, var_s0_2, temp_s1->info[1], 202.0f, 12.0f,
-                                    var_s0_2, temp_s1->info[1]);
+                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT], temp_s1->texs[TI_TEX_TEX],
+                                    temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->texs[TI_TEX_TEX], *temp_s2->info, 0, 0,
+                                    var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT], 202.0f, 12.0f, var_s0_2,
+                                    temp_s1->info[TI_INFO_IDX_HEIGHT]);
 
                 temp_s1 = &temp_s7->unk_434[_scrTex_5796[var_s6]];
                 temp_s2 = &temp_s7->unk_434[1];
 
-                var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
+                var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
 
-                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                                    temp_s2->texs[1], temp_s2->info[0], 0, 0, var_s0_2, temp_s1->info[1], 11.0f, 17.0f,
-                                    var_s0_2, temp_s1->info[1]);
+                StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT], temp_s1->texs[TI_TEX_TEX],
+                                    temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->texs[TI_TEX_TEX],
+                                    temp_s2->info[TI_INFO_IDX_WIDTH], 0, 0, var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT],
+                                    11.0f, 17.0f, var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT]);
 
                 temp_s2 = &temp_s7->unk_434[4];
 
                 for (i = 0; i < ARRAY_COUNTU(_panelTex_5797[var_s6]); i++) {
                     temp_s1 = &temp_s7->unk_434[_panelTex_5797[var_s6][i]];
 
-                    var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
+                    var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
 
-                    StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                                        temp_s2->texs[1], temp_s2->info[0], 0, 0, var_s0_2, temp_s1->info[1],
-                                        _panelPos_5793[i][0], _panelPos_5793[i][1], var_s0_2, temp_s1->info[1]);
+                    StretchAlphaTexTile(&gfx, var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT], temp_s1->texs[TI_TEX_TEX],
+                                        temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->texs[TI_TEX_TEX],
+                                        temp_s2->info[TI_INFO_IDX_WIDTH], 0, 0, var_s0_2,
+                                        temp_s1->info[TI_INFO_IDX_HEIGHT], _panelPos_5793[i][0], _panelPos_5793[i][1],
+                                        var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT]);
                 }
 
                 switch (evs_gamemode) {
-                    case ENUM_EVS_GAMEMODE_2:
-                    case ENUM_EVS_GAMEMODE_3:
+                    case GMD_TaiQ:
+                    case GMD_TIME_ATTACK:
                         temp_s1 = &temp_s7->unk_434[0xA];
                         temp_s2 = &temp_s7->unk_434[3];
-                        tiStretchAlphaTexItem(&gfx, temp_s1, temp_s2, 0, 3, game_state_data->unk_16C, 232.0f, 120.0f,
-                                              48.0f, 16.0f);
+                        tiStretchAlphaTexItem(&gfx, temp_s1, temp_s2, false, 3, game_state_data->unk_16C, 232.0f,
+                                              120.0f, 48.0f, 16.0f);
                         break;
 
                     default:
@@ -7007,7 +7047,7 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
 
                 temp_s1 = &temp_s7->unk_434[5];
                 temp_s2 = &temp_s7->unk_434[0];
-                tiStretchAlphaTexItem(&gfx, temp_s1, temp_s2, 0, 3, game_state_data->unk_02C, 232.0f, 162.0f, 48.0f,
+                tiStretchAlphaTexItem(&gfx, temp_s1, temp_s2, false, 3, game_state_data->unk_02C, 232.0f, 162.0f, 48.0f,
                                       16.0f);
             }
 
@@ -7017,15 +7057,16 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 96);
 
+            // Why draw twice?
             temp_s1 = &temp_s7->unk_438[1];
-
             for (i = 0; i < 2; i++) {
-                tiStretchTexBlock(&gfx, temp_s1, 0, 110.0f, 16.0f, temp_s1->info[0], temp_s1->info[1]);
+                tiStretchTexBlock(&gfx, temp_s1, false, 110.0f, 16.0f, temp_s1->info[TI_INFO_IDX_WIDTH],
+                                  temp_s1->info[TI_INFO_IDX_HEIGHT]);
             }
 
             temp_s1 = &temp_s7->unk_438[0];
             for (i = 0; i < 2; i++) {
-                tiCopyTexBlock(&gfx, temp_s1, 0, 0x6E, 0x10);
+                tiCopyTexBlock(&gfx, temp_s1, false, 110, 16);
             }
             break;
 
@@ -7040,31 +7081,31 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 192);
 
             temp_s1 = &temp_s7->unk_440[1];
-
-            for (i = 0; i < 4; i++) {
-                tiStretchTexBlock(&gfx, temp_s1, 0, _posP4Bottle[i][0] + RO_800B1D7C[0],
-                                  _posP4Bottle[i][1] + RO_800B1D7C[1], temp_s1->info[0], temp_s1->info[1]);
+            for (i = 0; i < ARRAY_COUNT(_posP4Bottle); i++) {
+                tiStretchTexBlock(&gfx, temp_s1, false, _posP4Bottle[i][0] + RO_800B1D7C[0],
+                                  _posP4Bottle[i][1] + RO_800B1D7C[1], temp_s1->info[TI_INFO_IDX_WIDTH],
+                                  temp_s1->info[TI_INFO_IDX_HEIGHT]);
             }
 
             temp_s1 = &temp_s7->unk_440[0];
 
-            for (i = 0; i < 4; i++) {
-                tiCopyTexBlock(&gfx, temp_s1, 0, _posP4Bottle[i][0], _posP4Bottle[i][1]);
+            for (i = 0; i < ARRAY_COUNT(_posP4Bottle); i++) {
+                tiCopyTexBlock(&gfx, temp_s1, false, _posP4Bottle[i][0], _posP4Bottle[i][1]);
             }
 
             if (arg3 != 0) {
                 gSPDisplayList(gfx++, normal_texture_init_dl);
 
                 temp_s1 = &temp_s7->unk_440[8];
-                for (i = 0; i < 4; i++) {
-                    tiStretchTexBlock(&gfx, temp_s1, 0, _posP4CharBase[i][0], _posP4CharBase[i][1], temp_s1->info[0],
-                                      temp_s1->info[1]);
+                for (i = 0; i < ARRAY_COUNT(_posP4CharBase); i++) {
+                    tiStretchTexBlock(&gfx, temp_s1, false, _posP4CharBase[i][0], _posP4CharBase[i][1],
+                                      temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
                 }
 
                 gSPDisplayList(gfx++, alpha_texture_init_dl);
 
                 if ((evs_story_flg != 0) || (temp_s7->unk_8C0 == 0)) {
-                    if (evs_gamemode == ENUM_EVS_GAMEMODE_1) {
+                    if (evs_gamemode == GMD_FLASH) {
                         temp_s1 = &temp_s7->unk_440[0xB];
                         temp_s2 = &temp_s7->unk_440[0x13];
                     } else {
@@ -7072,12 +7113,14 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                         temp_s2 = &temp_s7->unk_440[0x1A];
                     }
 
-                    var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
+                    var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
 
                     for (i = 0; i < 4; i++) {
-                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                                             temp_s2->texs[1], temp_s2->info[0], _posP4CharBase[i][0] + 0x19,
-                                             _posP4CharBase[i][1], var_s0_2, temp_s1->info[1]);
+                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT],
+                                             temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
+                                             temp_s2->texs[TI_TEX_TEX], temp_s2->info[TI_INFO_IDX_WIDTH],
+                                             _posP4CharBase[i][0] + 0x19, _posP4CharBase[i][1], var_s0_2,
+                                             temp_s1->info[TI_INFO_IDX_HEIGHT]);
                     }
                 }
 
@@ -7085,10 +7128,12 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                     temp_s1 = &temp_s7->unk_440[0xF];
                     temp_s2 = &temp_s7->unk_440[0x17];
 
-                    var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
+                    var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
 
-                    StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                                         temp_s2->texs[1], temp_s1->info[0], 16.0f, 11.0f, var_s0_2, temp_s1->info[1]);
+                    StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT], temp_s1->texs[TI_TEX_TEX],
+                                         temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->texs[TI_TEX_TEX],
+                                         temp_s1->info[TI_INFO_IDX_WIDTH], 16.0f, 11.0f, var_s0_2,
+                                         temp_s1->info[TI_INFO_IDX_HEIGHT]);
                 } else if (temp_s7->unk_8C0 != 0) {
                     for (i = 0; i < 4; i++) {
                         s32 temp_v0_9;
@@ -7097,24 +7142,26 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                         temp_s1 = &temp_s7->unk_440[tbl_5867[temp_v0_9][0]];
                         temp_s2 = &temp_s7->unk_440[tbl_5867[temp_v0_9][1]];
 
-                        var_s0_2 = MIN(temp_s1->info[0], temp_s2->info[0]);
+                        var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
 
-                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                                             temp_s2->texs[1], temp_s1->info[0], _posP4CharBase[i][0] + 0x19,
-                                             _posP4CharBase[i][1], var_s0_2, temp_s1->info[1]);
+                        StretchAlphaTexBlock(&gfx, var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT],
+                                             temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
+                                             temp_s2->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
+                                             _posP4CharBase[i][0] + 0x19, _posP4CharBase[i][1], var_s0_2,
+                                             temp_s1->info[TI_INFO_IDX_HEIGHT]);
                     }
 
                     //! FAKE:
                     temp_s1 = temp_s7->unk_440 + 2 + evs_vs_count - 1;
 
-                    CopyTexBlock8(&gfx, temp_s1->texs[0], temp_s1->texs[1], 0x10, 8, temp_s1->info[0],
-                                  temp_s1->info[1]);
+                    CopyTexBlock8(&gfx, temp_s1->texs[TI_TEX_TLUT], temp_s1->texs[TI_TEX_TEX], 0x10, 8,
+                                  temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
                 } else {
                     //! FAKE:
                     temp_s1 = temp_s7->unk_440 + 5 + evs_vs_count - 1;
 
-                    CopyTexBlock8(&gfx, temp_s1->texs[0], temp_s1->texs[1], 0x10, 0xB, temp_s1->info[0],
-                                  temp_s1->info[1]);
+                    CopyTexBlock8(&gfx, temp_s1->texs[TI_TEX_TLUT], temp_s1->texs[TI_TEX_TEX], 0x10, 0xB,
+                                  temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
                 }
             }
             break;
@@ -7133,9 +7180,10 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                 }
                 temp_s2 = &temp_s7->unk_43C[0];
 
-                StretchAlphaTexBlock(&gfx, temp_s1->info[0], temp_s1->info[1], temp_s1->texs[1], temp_s1->info[0],
-                                     temp_s2->texs[1], temp_s2->info[0], 114.0f, 150.0f, temp_s1->info[0],
-                                     temp_s1->info[1]);
+                StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
+                                     temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
+                                     temp_s2->texs[TI_TEX_TEX], temp_s2->info[TI_INFO_IDX_WIDTH], 114.0f, 150.0f,
+                                     temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
                 if (evs_story_flg != 0) {
                     draw_count_number(&gfx, 0, 1, evs_story_no, 0xB0, 0x98);
                 }
@@ -7423,7 +7471,7 @@ s32 dm_game_main2(void) {
                     if (var_s1 == 0) {
                         var_s4_2 = 0;
                         switch (evs_gamemode) {
-                            case ENUM_EVS_GAMEMODE_3:
+                            case GMD_TIME_ATTACK:
                                 for (var_s0 = 0; var_s0 < 2; var_s0++) {
                                     game_state_data[var_s0].unk_000 = 0;
                                 }
@@ -7545,7 +7593,7 @@ enum_main_no dm_game_main3(s32 arg0) {
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
         case ENUM_EVS_GAMESEL_1:
-            var_a1 = MAIN_NO_6;
+            var_a1 = MAIN_MENU;
             break;
 
         case ENUM_EVS_GAMESEL_2:
@@ -7553,12 +7601,12 @@ enum_main_no dm_game_main3(s32 arg0) {
                 evs_gamesel = ENUM_EVS_GAMESEL_3;
                 if ((game_state_data[0].unk_020 == 5) && (arg0 != -2)) {
                     story_proc_no++;
-                    var_a1 = MAIN_NO_2;
+                    var_a1 = MAIN_STORY;
                 } else {
-                    var_a1 = MAIN_NO_6;
+                    var_a1 = MAIN_MENU;
                 }
             } else {
-                var_a1 = MAIN_NO_6;
+                var_a1 = MAIN_MENU;
             }
             break;
 
@@ -7570,11 +7618,11 @@ enum_main_no dm_game_main3(s32 arg0) {
                     } else {
                         story_proc_no += 2;
                     }
-                    var_a1 = MAIN_NO_2;
+                    var_a1 = MAIN_STORY;
                 } else if (evs_story_no == 9) {
-                    var_a1 = MAIN_NO_6;
+                    var_a1 = MAIN_MENU;
                 } else {
-                    var_a1 = MAIN_NO_6;
+                    var_a1 = MAIN_MENU;
                 }
 
                 if ((story_proc_no - BGROMDATA_INDEX10 < BGROMDATA_INDEX12 - BGROMDATA_INDEX10) ||
@@ -7617,14 +7665,14 @@ enum_main_no dm_game_main3(s32 arg0) {
                     }
                 }
             } else {
-                var_a1 = MAIN_NO_6;
+                var_a1 = MAIN_MENU;
             }
             break;
 
         case ENUM_EVS_GAMESEL_4:
         case ENUM_EVS_GAMESEL_5:
         case ENUM_EVS_GAMESEL_6:
-            var_a1 = MAIN_NO_3;
+            var_a1 = MAIN_TITLE;
             break;
 
         default:
@@ -7667,13 +7715,13 @@ const s32 color2index_6470[] = { 1, 0, 2 };
 
 void dm_game_graphic2(void) {
     struct_watchGame *temp_s7 = watchGame;
-    s32 temp_s2_2 = (game_state_data[0].unk_00C == GAMESTATEDATA_UNK_00C_20) ||
-                    (game_state_data[0].unk_00C == GAMESTATEDATA_UNK_00C_21);
+    bool debugMenuEnabled = (game_state_data[0].unk_00C == GAMESTATEDATA_UNK_00C_DEBUG_CHARACTER_EDIT) ||
+                            (game_state_data[0].unk_00C == GAMESTATEDATA_UNK_00C_DEBUG_SETTINGS);
     Mtx *mtx;
     Vtx *vtx;
     s32 i;
     s32 j;
-    s32 var_s4_2;
+    s32 cached;
     TiTexData *var_t2;
     TiTexData *var_s6;
 
@@ -7685,8 +7733,8 @@ void dm_game_graphic2(void) {
 
     F3RCPinitRtn();
     gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    F3ClearFZRtn(temp_s2_2);
-    if (temp_s2_2 == 0) {
+    F3ClearFZRtn(debugMenuEnabled);
+    if (!debugMenuEnabled) {
         if (temp_s7->unk_394 < 0x14) {
             dm_game_draw_snap_bg(&gGfxHead, &mtx, &vtx, 1);
         } else if (temp_s7->unk_9AC == 0) {
@@ -7702,7 +7750,7 @@ void dm_game_graphic2(void) {
             s32 temp_s0 = temp_s7->unk_394 < 0x14;
             s32 temp_s1 = temp_s7->unk_880 == 0;
 
-            if (temp_s2_2 == 0) {
+            if (!debugMenuEnabled) {
                 if (temp_s7->unk_880 != 0) {
                     temp_s7->unk_394 = 0x14;
                 }
@@ -7731,7 +7779,7 @@ void dm_game_graphic2(void) {
         case ENUM_EVS_GAMESEL_3:
         case ENUM_EVS_GAMESEL_5:
         case ENUM_EVS_GAMESEL_6:
-            if ((temp_s2_2 == 0) && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
                 for (i = 0; i < evs_playcnt; i++) {
                     dm_virus_anime(&game_state_data[i], game_map_data[i]);
                     dm_game_graphic_p(&game_state_data[i], i, game_map_data[i]);
@@ -7746,7 +7794,7 @@ void dm_game_graphic2(void) {
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
         case ENUM_EVS_GAMESEL_4:
-            if ((temp_s2_2 == 0) && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
                 disp_logo_setup(&gGfxHead);
 
                 if (temp_s7->unk_9AC > 0) {
@@ -7771,7 +7819,7 @@ void dm_game_graphic2(void) {
                     gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
                     switch (evs_gamemode) {
-                        case ENUM_EVS_GAMEMODE_0:
+                        case GMD_NORMAL:
                             draw_virus_number(&gGfxHead, game_state_data[0].unk_026, 0xFE, 0x7E, 1.0f, 1.0f);
                             break;
 
@@ -7780,12 +7828,12 @@ void dm_game_graphic2(void) {
                     }
 
                     switch (evs_gamemode) {
-                        case ENUM_EVS_GAMEMODE_2:
-                        case ENUM_EVS_GAMEMODE_0:
+                        case GMD_TaiQ:
+                        case GMD_NORMAL:
                             func_8006A098(&gGfxHead, evs_game_time, RO_800B1D28[0], RO_800B1D28[1]);
                             break;
 
-                        case ENUM_EVS_GAMEMODE_3:
+                        case GMD_TIME_ATTACK:
                             i = 0x2A30 - evs_game_time;
                             if (i < 0) {
                                 i = 0;
@@ -7799,7 +7847,7 @@ void dm_game_graphic2(void) {
                     }
 
                     switch (evs_gamemode) {
-                        case ENUM_EVS_GAMEMODE_2:
+                        case GMD_TaiQ:
                             i = game_state_data[0].unk_170;
                             break;
 
@@ -7821,7 +7869,7 @@ void dm_game_graphic2(void) {
         case ENUM_EVS_GAMESEL_1:
         case ENUM_EVS_GAMESEL_3:
         case ENUM_EVS_GAMESEL_5:
-            if ((temp_s2_2 == 0) && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
                 disp_logo_setup(&gGfxHead);
 
                 gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
@@ -7832,7 +7880,7 @@ void dm_game_graphic2(void) {
                 }
 
                 switch (evs_gamemode) {
-                    case ENUM_EVS_GAMEMODE_3:
+                    case GMD_TIME_ATTACK:
                         i = 0x2A30 - evs_game_time;
                         if (i < 0) {
                             i = 0;
@@ -7847,10 +7895,10 @@ void dm_game_graphic2(void) {
                 }
 
                 if (evs_story_flg != 0) {
-                    for (i = var_s4_2 = 0; i < 2U; i++) {
+                    for (i = cached = 0; i < 2U; i++) {
                         if (temp_s7->unk_89C[i] == 0) {
-                            func_800695A8(&gGfxHead, _posStStar[i][0], _posStStar[i][1], var_s4_2);
-                            var_s4_2++;
+                            func_800695A8(&gGfxHead, _posStStar[i][0], _posStStar[i][1], cached);
+                            cached++;
                         }
                     }
                 } else {
@@ -7858,16 +7906,16 @@ void dm_game_graphic2(void) {
                         draw_count_number(&gGfxHead, 0, 2, temp_s7->unk_8B4[i], _x_6416[i], 0x98);
                     }
 
-                    for (i = var_s4_2 = 0; i < 2; i++) {
+                    for (i = cached = 0; i < 2; i++) {
                         for (j = temp_s7->unk_89C[i]; j < evs_vs_count; j++) {
-                            func_800695A8(&gGfxHead, _posP2StarX[i], _posP2StarY[evs_vs_count - 1][j], var_s4_2);
-                            var_s4_2++;
+                            func_800695A8(&gGfxHead, _posP2StarX[i], _posP2StarY[evs_vs_count - 1][j], cached);
+                            cached++;
                         }
                     }
                 }
 
                 switch (evs_gamemode) {
-                    case ENUM_EVS_GAMEMODE_1:
+                    case GMD_FLASH:
                         var_s6 = &temp_s7->unk_43C[7];
                         break;
 
@@ -7877,9 +7925,10 @@ void dm_game_graphic2(void) {
                 }
                 var_t2 = &temp_s7->unk_43C[1];
 
-                StretchAlphaTexBlock(&gGfxHead, var_s6->info[0], var_s6->info[1], var_s6->texs[1], var_s6->info[0],
-                                     var_t2->texs[1], var_t2->info[0], 131.0f, 181.0f, var_s6->info[0],
-                                     var_s6->info[1]);
+                StretchAlphaTexBlock(&gGfxHead, var_s6->info[TI_INFO_IDX_WIDTH], var_s6->info[TI_INFO_IDX_HEIGHT],
+                                     var_s6->texs[TI_TEX_TEX], var_s6->info[TI_INFO_IDX_WIDTH],
+                                     var_t2->texs[TI_TEX_TEX], var_t2->info[TI_INFO_IDX_WIDTH], 131.0f, 181.0f,
+                                     var_s6->info[TI_INFO_IDX_WIDTH], var_s6->info[TI_INFO_IDX_HEIGHT]);
 
                 func_80069188(&temp_s7->unk_070, temp_s7->unk_06C);
                 starForce_draw(&temp_s7->unk_070, &gGfxHead, temp_s7->unk_06C);
@@ -7900,7 +7949,7 @@ void dm_game_graphic2(void) {
 
         case ENUM_EVS_GAMESEL_2:
         case ENUM_EVS_GAMESEL_6:
-            if ((temp_s2_2 == 0) && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
                 for (i = 0; i < 4; i++) {
                     animeState_initDL(&game_state_data[i].unk_094, &gGfxHead);
                     animeState_draw(&game_state_data[i].unk_094, &gGfxHead, _posP4CharBase[i][0] + 0x14,
@@ -7919,10 +7968,10 @@ void dm_game_graphic2(void) {
                 if (evs_story_flg != 0) {
                     func_8006A098(&gGfxHead, evs_game_time, 0x3B, 0x12);
 
-                    for (i = var_s4_2 = 0; i < 4U; i++) {
+                    for (i = cached = 0; i < 4U; i++) {
                         if (temp_s7->unk_89C[i] == 0) {
-                            func_800695A8(&gGfxHead, _posStP4StarX[i], 0xD, var_s4_2);
-                            var_s4_2++;
+                            func_800695A8(&gGfxHead, _posStP4StarX[i], 0xD, cached);
+                            cached++;
                         }
                     }
                 } else if (temp_s7->unk_8C0 != 0) {
@@ -7935,8 +7984,8 @@ void dm_game_graphic2(void) {
                     var_s6 = &temp_s7->unk_440[0xE];
                     var_t2 = &temp_s7->unk_440[0x16];
 
-                    temp_s5 = var_s6->info[0] >> 1;
-                    temp_s2_4 = var_s6->info[1] / 3;
+                    temp_s5 = var_s6->info[TI_INFO_IDX_WIDTH] >> 1;
+                    temp_s2_4 = var_s6->info[TI_INFO_IDX_HEIGHT] / 3;
 
                     for (i = 0; i < 2; i++) {
                         for (j = 0; j < 4; j++) {
@@ -7948,24 +7997,25 @@ void dm_game_graphic2(void) {
                             a = temp_s5 * i;
                             b = temp_s2_4 * color2index_6470[temp_a3_10];
 
-                            StretchAlphaTexTile(&gGfxHead, var_s6->info[0], var_s6->info[1], var_s6->texs[1],
-                                                var_s6->info[0], var_t2->texs[1], var_t2->info[0], a, b, temp_s5,
-                                                temp_s2_4, _posP4StockCap[i][0] + j * 9, _posP4StockCap[i][1], temp_s5,
-                                                temp_s2_4);
+                            StretchAlphaTexTile(&gGfxHead, var_s6->info[TI_INFO_IDX_WIDTH],
+                                                var_s6->info[TI_INFO_IDX_HEIGHT], var_s6->texs[TI_TEX_TEX],
+                                                var_s6->info[TI_INFO_IDX_WIDTH], var_t2->texs[TI_TEX_TEX],
+                                                var_t2->info[TI_INFO_IDX_WIDTH], a, b, temp_s5, temp_s2_4,
+                                                _posP4StockCap[i][0] + j * 9, _posP4StockCap[i][1], temp_s5, temp_s2_4);
                         }
                     }
 
-                    for (i = var_s4_2 = 0; i < 2; i++) {
+                    for (i = cached = 0; i < 2; i++) {
                         for (j = temp_s7->unk_89C[i]; j < evs_vs_count; j++) {
-                            func_800695A8(&gGfxHead, _posP4TeamStarX[evs_vs_count - 1][i][j], 0xD, var_s4_2);
-                            var_s4_2++;
+                            func_800695A8(&gGfxHead, _posP4TeamStarX[evs_vs_count - 1][i][j], 0xD, cached);
+                            cached++;
                         }
                     }
                 } else {
-                    for (i = var_s4_2 = 0; i < 4; i++) {
+                    for (i = cached = 0; i < 4; i++) {
                         for (j = temp_s7->unk_89C[i]; j < evs_vs_count; j++) {
-                            func_800695A8(&gGfxHead, _posP4CharStarX[evs_vs_count - 1][i][j], 0xD, var_s4_2);
-                            var_s4_2++;
+                            func_800695A8(&gGfxHead, _posP4CharStarX[evs_vs_count - 1][i][j], 0xD, cached);
+                            cached++;
                         }
                     }
                 }
@@ -7986,14 +8036,14 @@ void dm_game_graphic2(void) {
 
     if (temp_s7->unk_880 == 0) {
         switch (game_state_data[0].unk_00C) {
-            case GAMESTATEDATA_UNK_00C_21:
-                DebugMenu_8003FD0C(&gGfxHead);
-                DebugMenu_8003FB00();
+            case GAMESTATEDATA_UNK_00C_DEBUG_SETTINGS:
+                DebugMenu_Settings_Draw(&gGfxHead);
+                DebugMenu_Settings_Update();
                 break;
 
-            case GAMESTATEDATA_UNK_00C_20:
-                DebugMenu_800409A0();
-                DebugMenu_800409DC(&gGfxHead);
+            case GAMESTATEDATA_UNK_00C_DEBUG_CHARACTER_EDIT:
+                DebugMenu_CharacterEdit_Update();
+                DebugMenu_CharacterEdit_Draw(&gGfxHead);
                 break;
 
             default:
@@ -8052,12 +8102,13 @@ void dm_game_graphic2(void) {
             gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 200, temp_s7->unk_A28.alpha);
             gDPSetTextureLUT(gGfxHead++, G_TT_NONE);
 
-            gDPLoadTextureBlock_4b(gGfxHead++, var_s6->texs[1], G_IM_FMT_I, var_s6->info[0], var_s6->info[1], 0,
-                                   G_TX_NOMIRROR, G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+            gDPLoadTextureBlock_4b(gGfxHead++, var_s6->texs[TI_TEX_TEX], G_IM_FMT_I, var_s6->info[TI_INFO_IDX_WIDTH],
+                                   var_s6->info[TI_INFO_IDX_HEIGHT], 0, G_TX_NOMIRROR, G_TX_NOMIRROR, G_TX_NOMASK,
+                                   G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-            drawCursorPattern(&gGfxHead, var_s6->info[0], var_s6->info[1], 0x10, 0x10, temp_s7->unk_A28.xPos - 6,
-                              temp_s7->unk_A28.yPos - 6, (temp_s7->unk_A28.unk_3C * 0x14) + 0xC,
-                              (temp_s7->unk_A28.unk_48 * 3) + 0xC);
+            drawCursorPattern(&gGfxHead, var_s6->info[TI_INFO_IDX_WIDTH], var_s6->info[TI_INFO_IDX_HEIGHT], 0x10, 0x10,
+                              temp_s7->unk_A28.xPos - 6, temp_s7->unk_A28.yPos - 6,
+                              (temp_s7->unk_A28.unk_3C * 0x14) + 0xC, (temp_s7->unk_A28.unk_48 * 3) + 0xC);
 
             msgWnd_update(&temp_s7->unk_A28);
             msgWnd_draw(&temp_s7->unk_A28, &gGfxHead);
@@ -8155,7 +8206,7 @@ void dm_game_graphic_onDoneSawp(void) {
             }
         }
 
-        watchGameP->unk_40C = (evs_gamemode == ENUM_EVS_GAMEMODE_2) && (joygam[0] & (L_TRIG | R_TRIG));
+        watchGameP->unk_40C = (evs_gamemode == GMD_TaiQ) && (joygam[0] & (L_TRIG | R_TRIG));
 
         switch (evs_gamesel) {
             case ENUM_EVS_GAMESEL_0:
@@ -8281,7 +8332,7 @@ enum_main_no main_techmes(NNSched *sc) {
 
     nnScRemoveClient(sc, &scClient);
 
-    return MAIN_NO_3;
+    return MAIN_TITLE;
 }
 
 void graphic_techmes(void) {

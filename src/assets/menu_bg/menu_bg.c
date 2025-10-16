@@ -26,8 +26,8 @@ extern Gfx menu_bg_D_050035E8[];
 extern u32 menu_bg_D_05003710[];
 extern Vtx menu_bg_D_05003730[];
 extern Gfx menu_bg_D_050037F0[];
-extern Lws_unk_10 menu_bg_D_050038C8[];
-extern Lws_unk_14 menu_bg_D_05003940[];
+extern LwsObj menu_bg_D_050038C8[];
+extern LwsKey menu_bg_D_05003940[];
 extern u32 menu_bg_D_05003A74[];
 
 Lws menu_bg_D_05000000 = {
@@ -220,14 +220,14 @@ Gfx menu_bg_D_050037F0[] = {
     gsSPEndDisplayList(),
 };
 
-Lws_unk_10 menu_bg_D_050038C8[] = {
-    { menu_bg_D_05002F90, -1, 1, 0, 0, 0 }, { menu_bg_D_05002FF8, -1, 1, 1, 0, 0 },
-    { menu_bg_D_05003310, -1, 4, 2, 0, 0 }, { menu_bg_D_050035E8, -1, 3, 6, 0, 0 },
-    { menu_bg_D_050037F0, -1, 2, 9, 0, 0 },
+LwsObj menu_bg_D_050038C8[] = {
+    { menu_bg_D_05002F90, -1, 1, 0, 0, 0, 0 }, { menu_bg_D_05002FF8, -1, 1, 1, 0, 0, 0 },
+    { menu_bg_D_05003310, -1, 4, 2, 0, 0, 0 }, { menu_bg_D_050035E8, -1, 3, 6, 0, 0, 0 },
+    { menu_bg_D_050037F0, -1, 2, 9, 0, 0, 0 },
 };
 static_assert(ARRAY_COUNT(menu_bg_D_050038C8) == menu_bg_D_05000000_COUNT, "");
 
-Lws_unk_14 menu_bg_D_05003940[] = {
+LwsKey menu_bg_D_05003940[] = {
     { 0, -1, 0, 0, 0, -2880, 2880, -2880, 4096, 4096, 4096 },
     { 0, -1, 0, 960, 0, -2880, 2880, -2880, 4096, 4096, 4096 },
     { 0, 3, 1280, 1920, 80, -2880, 2880, -2880, 4096, 4096, 4096 },

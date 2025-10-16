@@ -6,7 +6,7 @@ options:
   elf_path: build/gw/drmario64.gw.elf
   ld_script_path: .splat/gw/drmario64.ld
   base_path: ../../
-  compiler: GCC
+  compiler: KMC
   find_file_boundaries: True
   header_encoding: ASCII
   platform: n64
@@ -119,11 +119,7 @@ options:
   string_encoding: SHIFT-JIS
   data_string_encoding: SHIFT-JIS
   rodata_string_guesser_level: 2
-  asm_function_macro: glabel
-  # asm_function_alt_macro: alabel
-  # asm_end_label: endlabel
-  asm_jtbl_label_macro: jlabel
-  asm_data_macro: dlabel
+
   libultra_symbols: True
   hardware_regs: True
   image_type_in_extension: True
@@ -519,7 +515,7 @@ segments:
       - [0x066E70, c, main_segment/replay]
       - [0x0672F0, c, main_segment/066580]
 
-      - [0x0675B0, hasm, main_segment/066840]
+      - [0x0675B0, hasm, main_segment/calcsub]
       - [0x068420, c, main_segment/unused/055C40]
 
       - [0x068590, c, ../lib/libmus/src/player]
@@ -605,7 +601,7 @@ segments:
       - [0x093A60, .data, main_segment/calc]
 
       - [0x093D70, .data, main_segment/066580]
-      - [0x093F20, .data, main_segment/066840]
+      - [0x093F20, .data, main_segment/calcsub]
 
       - [0x094850, .data, ../lib/libmus/src/player]
       - [0x094910, .data, ../lib/libmus/src/player_fx]
