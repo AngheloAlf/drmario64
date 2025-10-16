@@ -7,7 +7,11 @@ LEAF(gspS2DEX_fifoTextStart)
 END(gspS2DEX_fifoTextStart)
 EXPORT(gspS2DEX_fifoTextEnd)
 
+#if VERSION_CN
+.section .rodata, "a"
+#else
 .section .data, "wa"
+#endif
 
 SYM_START(gspS2DEX_fifoDataStart)
 .incbin "rsp/s2dex.databin.bin"
