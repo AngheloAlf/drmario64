@@ -30,7 +30,7 @@
                 "VERSION_US=1",
                 "BUILD_VERSION=8",
                 "CC_CHECK=1",
-                "SCOMMON_IN_COMMON=1"
+                "SCOMMON_IN_COMMON=1",
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true
@@ -75,7 +75,8 @@
                 "VERSION_CN=1",
                 "BUILD_VERSION=8",
                 "CC_CHECK=1",
-                "SCOMMON_IN_COMMON=0"
+                "SCOMMON_IN_COMMON=0",
+                "NN_SC_PERF",
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true
@@ -120,7 +121,8 @@
                 "VERSION_GW=1",
                 "BUILD_VERSION=8",
                 "CC_CHECK=1",
-                "SCOMMON_IN_COMMON=1"
+                "SCOMMON_IN_COMMON=1",
+                "NN_SC_PERF",
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true

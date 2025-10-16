@@ -108,7 +108,7 @@ segments:
 
       - { path: src/boot/rom_offsets.o }
 
-      - { path: src/gateway/003630.o, include_if_any: [[version, gw], [version, cn]] }
+      - { path: src/gateway/003630.o }
 
       # libultra
       - kind: group

@@ -25,9 +25,6 @@
     For performance check.
     Please define NN_SC_PERF in order to check PCP performance.
  */
-#if VERSION_CN || VERSION_GW
-#define NN_SC_PERF
-#endif
 #define NN_SC_PERF_NUM    4
 #define NN_SC_GTASK_NUM   8   /* graphic task maximum number */
 #define NN_SC_AUTASK_NUM   4  /* audio task maximum number */
