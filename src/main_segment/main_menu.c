@@ -10741,7 +10741,7 @@ enum_main_no main_menu(NNSched *sc) {
     graphic_no = GRAPHIC_NO_0;
     dm_seq_stop();
 
-    while ((pendingGFX != 0) || !func_8002B178() || (BgTasksManager_GetRemainingTasks() != 0)) {
+    while ((pendingGFX != 0) || !dm_seq_is_stopped() || (BgTasksManager_GetRemainingTasks() != 0)) {
         osRecvMesg(&ptr->scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }

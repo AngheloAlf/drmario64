@@ -19,26 +19,30 @@ static s32 WaitTime[MAXCONTROLLERS];
 static s32 max_rec;
 static s32 replay_player;
 
-// TODO: flags
+#define REC_DATA_LEFT (1 << 0)
+#define REC_DATA_RIGHT (1 << 1)
+#define REC_DATA_DOWN (1 << 2)
+#define REC_DATA_TRIGGER (1 << 3)
+#define REC_DATA_A (1 << 4)
+#define REC_DATA_B (1 << 5)
+#define REC_DATA_40 (1 << 6)
+#define REC_DATA_80 (1 << 7)
 
 /**
  * Original name: replay_record_init_buffer
  */
-void replay_record_init_buffer(void **arg0) {
-    void *temp_v0;
-
-    temp_v0 = *arg0;
-    rec_buff = temp_v0;
-    *arg0 = temp_v0 + REPLAY_TOTAL_BUFF_SIZE;
+void replay_record_init_buffer(void **heap) {
+    rec_buff = *heap;
+    *heap = rec_buff + REPLAY_TOTAL_BUFF_SIZE;
 }
 
 /**
  * Original name: replay_record_init
  */
-void replay_record_init(s32 arg0) {
+void replay_record_init(s32 player) {
     s32 i;
 
-    replay_player = arg0;
+    replay_player = player;
 
     for (i = 0; i < MAXCONTROLLERS; i++) {
         RecPos[i] = 0;
@@ -47,7 +51,7 @@ void replay_record_init(s32 arg0) {
         oldCont[i] = 0;
     }
 
-    switch (arg0) {
+    switch (player) {
         case 1:
             max_rec = REPLAY_TOTAL_BUFF_SIZE;
             pRecBuff[0] = rec_buff;
@@ -82,65 +86,68 @@ void replay_record_init(s32 arg0) {
 /**
  * Original name: replay_record
  */
-bool replay_record(s32 arg0, u32 arg1) {
-    u16 temp_a1;
-    u8 var_t1;
-    u8 *temp_t3;
-    u8 a3; //! @bug a3 is used uninitialized
+bool replay_record(s32 player, u16 pad) {
+    u8 flg = false;
+    u8 *pRec = pRecBuff[player];
+    u8 data; //! @bug `data` is used uninitialized
 
-    var_t1 = false;
-    temp_t3 = pRecBuff[arg0];
-    temp_a1 = arg1 & 0xC730;
-    if (RecPos[arg0] == 0) {
-        oldCont[arg0] = ~temp_a1;
+    // Only allow certain inputs.
+    pad &= A_BUTTON | B_BUTTON | D_JPAD | L_JPAD | R_JPAD | L_TRIG | R_TRIG;
+
+    if (RecPos[player] == 0) {
+        oldCont[player] = ~pad;
     }
 
-    if (oldCont[arg0] != temp_a1) {
-        a3 = 0;
-        if (temp_a1 & 0x200) {
-            a3 |= 1;
+    if (oldCont[player] != pad) {
+        data = 0;
+        if (pad & L_JPAD) {
+            data |= REC_DATA_LEFT;
         }
-        if (temp_a1 & 0x100) {
-            a3 |= 2;
+        if (pad & R_JPAD) {
+            data |= REC_DATA_RIGHT;
         }
-        if (temp_a1 & 0x400) {
-            a3 |= 4;
+        if (pad & D_JPAD) {
+            data |= REC_DATA_DOWN;
         }
-        if (temp_a1 & 0x8000) {
-            a3 |= 0x10;
+        if (pad & A_BUTTON) {
+            data |= REC_DATA_A;
         }
-        if (temp_a1 & 0x4000) {
-            a3 |= 0x20;
+        if (pad & B_BUTTON) {
+            data |= REC_DATA_B;
         }
-        if (temp_a1 & 0x30) {
-            a3 |= 8;
+        if (pad & (L_TRIG | R_TRIG)) {
+            data |= REC_DATA_TRIGGER;
         }
-        oldCont[arg0] = temp_a1;
-        var_t1 = true;
+        oldCont[player] = pad;
+        flg = true;
     }
 
-    if (RecPos[arg0] < max_rec) {
-        if (var_t1) {
-            temp_t3[RecPos[arg0]] = WaitTime[arg0];
-            RecPos[arg0]++;
-            temp_t3[RecPos[arg0]] = a3;
-            RecPos[arg0]++;
-            WaitTime[arg0] = 0;
-        } else if (WaitTime[arg0] == 0xFF) {
-            temp_t3[RecPos[arg0]] = WaitTime[arg0];
-            RecPos[arg0]++;
-            temp_t3[RecPos[arg0]] = 0x40;
-            RecPos[arg0]++;
-            WaitTime[arg0] = 0;
+    if (RecPos[player] < max_rec) {
+        if (flg) {
+            pRec[RecPos[player]] = WaitTime[player];
+            RecPos[player]++;
+
+            pRec[RecPos[player]] = data;
+            RecPos[player]++;
+
+            WaitTime[player] = 0;
+        } else if (WaitTime[player] == 0xFF) {
+            pRec[RecPos[player]] = WaitTime[player];
+            RecPos[player]++;
+
+            pRec[RecPos[player]] = REC_DATA_40;
+            RecPos[player]++;
+
+            WaitTime[player] = 0;
         } else {
-            WaitTime[arg0]++;
+            WaitTime[player]++;
         }
     } else {
         return false;
     }
 
-    temp_t3[RecPos[arg0]] = WaitTime[arg0];
-    temp_t3[RecPos[arg0] + 1] = 0x80;
+    pRec[RecPos[player]] = WaitTime[player];
+    pRec[RecPos[player] + 1] = REC_DATA_80;
 
     return true;
 }
@@ -161,52 +168,54 @@ void replay_play_init(void) {
 /**
  * Original name: replay_play
  */
-u16 replay_play(s32 arg0) {
-    u8 *temp_t0 = pRecBuff[arg0];
-    u8 var_a0;
-    u8 a3; //! @bug a3 is used uninitialized
+u16 replay_play(s32 player) {
+    u8 *pRec = pRecBuff[player];
+    u8 flg;
+    u8 data; //! @bug `data` is used uninitialized
 
-    if (WaitTime[arg0] == 0) {
-        if (temp_t0[PlayPos[arg0]] == 0x80) {
-            return 0x1000;
+    if (WaitTime[player] == 0) {
+        if (pRec[PlayPos[player]] == REC_DATA_80) {
+            return START_BUTTON;
         }
     }
 
-    var_a0 = false;
+    flg = false;
 
-    if (WaitTime[arg0] == 0) {
-        a3 = temp_t0[PlayPos[arg0]];
-        PlayPos[arg0]++;
-        WaitTime[arg0] = temp_t0[PlayPos[arg0]];
-        PlayPos[arg0]++;
-        var_a0 = a3 != 0x40;
+    if (WaitTime[player] == 0) {
+        data = pRec[PlayPos[player]];
+        PlayPos[player]++;
+
+        WaitTime[player] = pRec[PlayPos[player]];
+        PlayPos[player]++;
+
+        flg = data != REC_DATA_40;
     } else {
-        WaitTime[arg0]--;
+        WaitTime[player]--;
     }
 
-    if (var_a0) {
-        u16 var_a0_2 = 0;
+    if (flg) {
+        u16 cont = 0;
 
-        if (a3 & 1) {
-            var_a0_2 |= 0x200;
+        if (data & REC_DATA_LEFT) {
+            cont |= L_JPAD;
         }
-        if (a3 & 2) {
-            var_a0_2 |= 0x100;
+        if (data & REC_DATA_RIGHT) {
+            cont |= R_JPAD;
         }
-        if (a3 & 4) {
-            var_a0_2 |= 0x400;
+        if (data & REC_DATA_DOWN) {
+            cont |= D_JPAD;
         }
-        if (a3 & 8) {
-            var_a0_2 |= 0x30;
+        if (data & REC_DATA_TRIGGER) {
+            cont |= L_TRIG | R_TRIG;
         }
-        if (a3 & 0x10) {
-            var_a0_2 |= 0x8000;
+        if (data & REC_DATA_A) {
+            cont |= A_BUTTON;
         }
-        if (a3 & 0x20) {
-            var_a0_2 |= 0x4000;
+        if (data & REC_DATA_B) {
+            cont |= B_BUTTON;
         }
-        oldCont[arg0] = var_a0_2;
+        oldCont[player] = cont;
     }
 
-    return oldCont[arg0];
+    return oldCont[player];
 }
