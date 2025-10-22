@@ -221,55 +221,73 @@ typedef struct MenuBottle {
 } MenuBottle; // size = 0x128
 
 
+// TODO: merge together?
+#define SRANKSORTINFO_SORT_LEN 8
+#define SRANKSORTINFO_RANK_LEN 8
+
+// TODO: merge with SRANKSORTINFO_SORT_LEN and SRANKSORTINFO_RANK_LEN?
+#define SRANKSORTINFO_VSRESULT_LEN 8
+
+#define SRANKSORTINFO_LEVEL_NUM 3
+
 // Maybe move to record.h?
-typedef struct MenuRank_unk_001C {
-    /* 0x000 */ u8 unk_000[UNK_SIZE][8];
-    /* 0x008 */ UNK_TYPE1 unk_008[0x10];
-    /* 0x018 */ u8 unk_018[UNK_SIZE][8];
-    /* 0x020 */ UNK_TYPE1 unk_020[0x10];
-    /* 0x030 */ u8 unk_030[UNK_SIZE][8];
-    /* 0x038 */ UNK_TYPE1 unk_038[0x10];
-    /* 0x048 */ u8 unk_048[UNK_SIZE][8];
-    /* 0x050 */ UNK_TYPE1 unk_050[0x10];
-    /* 0x060 */ u8 unk_060[UNK_SIZE][8];
-    /* 0x068 */ UNK_TYPE1 unk_068[0x10];
-    /* 0x078 */ u8 unk_078[UNK_SIZE][8];
-    /* 0x080 */ UNK_TYPE1 unk_080[0x10];
-    /* 0x090 */ u8 unk_090[UNK_SIZE][8];
-    /* 0x098 */ UNK_TYPE1 unk_098[0x10];
-    /* 0x0A8 */ u8 unk_0A8[UNK_SIZE][8];
-    /* 0x0B0 */ UNK_TYPE1 unk_0B0[0x10];
-    /* 0x0C0 */ u8 unk_0C0[UNK_SIZE];
-    /* 0x0C1 */ UNK_TYPE1 unk_0C1[0x7];
-    /* 0x0C8 */ u8 unk_0C8[UNK_SIZE];
-    /* 0x0C9 */ UNK_TYPE1 unk_0C9[0x7];
-    /* 0x0D0 */ u16 unk_0D0[UNK_SIZE];
-    /* 0x0D2 */ UNK_TYPE1 unk_0D2[0xE];
-    /* 0x0E0 */ u8 unk_0E0[UNK_SIZE];
-    /* 0x0C1 */ UNK_TYPE1 unk_0E1[0x7];
-    /* 0x0E8 */ u8 unk_0E8[UNK_SIZE];
-    /* 0x0E9 */ UNK_TYPE1 unk_0E9[0x7];
-    /* 0x0F0 */ u16 unk_0F0[UNK_SIZE];
-    /* 0x0F2 */ UNK_TYPE1 unk_0F2[0xE];
-    /* 0x100 */ u8 unk_100[UNK_SIZE];
-    /* 0x101 */ UNK_TYPE1 unk_101[0x7];
-    /* 0x108 */ u8 unk_108[UNK_SIZE];
-    /* 0x109 */ UNK_TYPE1 unk_109[0x7];
-    /* 0x110 */ u16 unk_110[UNK_SIZE];
-    /* 0x112 */ UNK_TYPE1 unk_112[0xE];
-    /* 0x120 */ u8 unk_120[UNK_SIZE];
-    /* 0x121 */ UNK_TYPE1 unk_121[0x7];
-    /* 0x128 */ u8 unk_128[UNK_SIZE];
-    /* 0x129 */ UNK_TYPE1 unk_129[0x7];
-    /* 0x130 */ u16 unk_130[UNK_SIZE];
-    /* 0x132 */ UNK_TYPE1 unk_132[0xE];
-    /* 0x140 */ u8 unk_140[UNK_SIZE];
-    /* 0x141 */ UNK_TYPE1 unk_141[0x7];
-    /* 0x148 */ u8 unk_148[UNK_SIZE];
-    /* 0x149 */ UNK_TYPE1 unk_149[0x7];
-    /* 0x150 */ u16 unk_150[UNK_SIZE];
-    /* 0x152 */ UNK_TYPE1 unk_152[0x2];
-} MenuRank_unk_001C; // size >= 0x154, <= 0x160
+/**
+ * Original name: SRankSortInfo
+ */
+typedef struct SRankSortInfo {
+    /* 0x000 */ u8 unk_000[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_SORT_LEN];
+    /* 0x018 */ u8 unk_018[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_RANK_LEN];
+    /* 0x030 */ u8 unk_030[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_SORT_LEN];
+    /* 0x048 */ u8 unk_048[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_RANK_LEN];
+    /* 0x060 */ u8 unk_060[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_SORT_LEN];
+    /* 0x078 */ u8 unk_078[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_RANK_LEN];
+    /* 0x090 */ u8 unk_090[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_SORT_LEN];
+    /* 0x0A8 */ u8 unk_0A8[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_RANK_LEN];
+    /* 0x0C0 */ u8 unk_0C0[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x0C8 */ u8 unk_0C8[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x0D0 */ u16 unk_0D0[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x0E0 */ u8 unk_0E0[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x0E8 */ u8 unk_0E8[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x0F0 */ u16 unk_0F0[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x100 */ u8 unk_100[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x108 */ u8 unk_108[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x110 */ u16 unk_110[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x120 */ u8 unk_120[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x128 */ u8 unk_128[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x130 */ u16 unk_130[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x140 */ u8 unk_140[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x148 */ u8 unk_148[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x150 */ u16 unk_150[SRANKSORTINFO_VSRESULT_LEN];
+} SRankSortInfo; // size = 0x160
+#if 0
+struct SRankSortInfo {
+    // total size: 0x160
+    unsigned char story_sort[3][8]; // offset 0x0, size 0x18
+    unsigned char story_rank[3][8]; // offset 0x18, size 0x18
+    unsigned char level_sort[3][8]; // offset 0x30, size 0x18
+    unsigned char level_rank[3][8]; // offset 0x48, size 0x18
+    unsigned char taiQ_sort[3][8]; // offset 0x60, size 0x18
+    unsigned char taiQ_rank[3][8]; // offset 0x78, size 0x18
+    unsigned char timeAt_sort[3][8]; // offset 0x90, size 0x18
+    unsigned char timeAt_rank[3][8]; // offset 0xA8, size 0x18
+    unsigned char vscom_sort[8]; // offset 0xC0, size 0x8
+    unsigned char vscom_rank[8]; // offset 0xC8, size 0x8
+    unsigned short vscom_ave[8]; // offset 0xD0, size 0x10
+    unsigned char vc_fl_sort[8]; // offset 0xE0, size 0x8
+    unsigned char vc_fl_rank[8]; // offset 0xE8, size 0x8
+    unsigned short vc_fl_ave[8]; // offset 0xF0, size 0x10
+    unsigned char vsman_sort[8]; // offset 0x100, size 0x8
+    unsigned char vsman_rank[8]; // offset 0x108, size 0x8
+    unsigned short vsman_ave[8]; // offset 0x110, size 0x10
+    unsigned char vm_fl_sort[8]; // offset 0x120, size 0x8
+    unsigned char vm_fl_rank[8]; // offset 0x128, size 0x8
+    unsigned short vm_fl_ave[8]; // offset 0x130, size 0x10
+    unsigned char vm_ta_sort[8]; // offset 0x140, size 0x8
+    unsigned char vm_ta_rank[8]; // offset 0x148, size 0x8
+    unsigned short vm_ta_ave[8]; // offset 0x150, size 0x10
+};
+#endif
+
 
 typedef struct MenuRankLabel {
     /* 0x00 */ struct struct_watchMenu *watchMenuRef;
@@ -635,8 +653,7 @@ typedef struct MenuRank {
     /* 0x0010 */ UNK_TYPE unk_0010;
     /* 0x0014 */ UNK_TYPE unk_0014;
     /* 0x0018 */ UNK_TYPE unk_0018;
-    /* 0x001C */ MenuRank_unk_001C unk_001C;
-    /* 0x0170 */ UNK_TYPE1 unk_0170[0xC];
+    /* 0x001C */ SRankSortInfo unk_001C;
     /* 0x017C */ MenuItem unk_017C;
     /* 0x020C */ MenuItem unk_020C[2];
     /* 0x032C */ MenuItem unk_032C;

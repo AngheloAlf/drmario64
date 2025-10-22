@@ -184,11 +184,11 @@ enum_main_no main11(void) {
     evs_select_name_no[0] = evs_select_name_no[1] = 8;
 
     switch (EepRom_Init()) {
-        case EEPROM_STATUS_2:
-            EepRom_InitFirst(NULL, 0);
+        case EepRomErr_NotInit:
+            EepRom_InitFirst(NULL, NULL);
             break;
 
-        case EEPROM_STATUS_5:
+        case EepRomErr_BadSum:
             ret = MAIN_CSUM_ERROR;
             break;
 

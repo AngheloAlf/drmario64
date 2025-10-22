@@ -4,11 +4,32 @@
 #include "libultra.h"
 #include "main.h"
 
+// TODO: use MAXCONTROLLERS instead?
+#define STRUCT_EVS_CFG_4P_COUNT 4
+
 typedef struct struct_evs_cfg_4p {
-    /* 0x00 */ u8 unk_00[5][4];
+    /* 0x00 */ u8 p4_team[STRUCT_EVS_CFG_4P_COUNT]; /* Original name: p4_team */
+    /* 0x04 */ u8 p4_lv[STRUCT_EVS_CFG_4P_COUNT]; /* Original name: p4_lv */
+    /* 0x08 */ u8 p4_fl_lv[STRUCT_EVS_CFG_4P_COUNT]; /* Original name: p4_fl_lv */
+    /* 0x0C */ u8 p4_no[STRUCT_EVS_CFG_4P_COUNT]; /* Original name: p4_no */
+    /* 0x10 */ u8 p4_sp[STRUCT_EVS_CFG_4P_COUNT]; /* Original name: p4_sp */
     /* 0x14 */ u8 unk_14;
     /* 0x15 */ u8 unk_15;
 } struct_evs_cfg_4p; // size = 0x16
+
+#if 0
+typedef struct /* struct_record_c_66 */ {
+    // total size: 0x16
+    unsigned char p4_team[4]; // offset 0x0, size 0x4
+    unsigned char p4_lv[4]; // offset 0x4, size 0x4
+    unsigned char p4_fl_lv[4]; // offset 0x8, size 0x4
+    unsigned char p4_no[4]; // offset 0xC, size 0x4
+    unsigned char p4_sp[4]; // offset 0x10, size 0x4
+    unsigned char p4_st; // offset 0x14, size 0x1
+    unsigned char p4_m; // offset 0x15, size 0x1
+} struct_record_c_66;
+#endif
+
 
 typedef enum enum_evs_manual_no {
     /* 0 */ EVS_MANUAL_NO_0,

@@ -5,32 +5,38 @@
 #include "unk.h"
 #include "libc/stdbool.h"
 
-struct MenuRank_unk_001C;
+struct SRankSortInfo;
 struct struct_evs_cfg_4p;
 
-typedef struct struct_800365B0_arg0 {
-    /* 0x00 */ u8 *buffer;
-    /* 0x04 */ size_t size;
-    /* 0x08 */ UNK_TYPE4 unk_08;
-    /* 0x0C */ UNK_TYPE4 unk_0C;
-    /* 0x10 */ UNK_TYPE4 unk_10;
-    /* 0x14 */ UNK_TYPE1 unk_14[0x4];
-} struct_800365B0_arg0; // size <= 0x18?
+/**
+ * Original name: BitField
+ */
+typedef struct BitField {
+    /* 0x00 */ u8 *buffer; /* Original name: buf */
+    /* 0x04 */ size_t size; /* Original name: bufSiz */
+    /* 0x08 */ s32 bufIdx; /* Original name: bufIdx */
+    /* 0x0C */ s32 bitIdx; /* Original name: bitIdx */
+    /* 0x10 */ u32 sum; /* Original name: sum */
+} BitField; // size = 0x14
 
-typedef void (*EepRom_WriteDif_arg3)(void*);
+typedef void (EepRom_WriteDif_arg3)(void*);
 
-typedef enum EepRomStatus {
-    /* 0 */ EEPROM_STATUS_0,
-    /* 1 */ EEPROM_STATUS_1,
-    /* 2 */ EEPROM_STATUS_2,
-    /* 3 */ EEPROM_STATUS_3,
-    /* 4 */ EEPROM_STATUS_4,
-    /* 5 */ EEPROM_STATUS_5
-} EepRomStatus;
+/**
+ * Original name: EepRomErr
+ */
+typedef enum EepRomErr {
+    /* 0 */ EepRomErr_NoError, /* Original name: EepRomErr_NoError */
+    /* 1 */ EepRomErr_NotFound, /* Original name: EepRomErr_NotFound */
+    /* 2 */ EepRomErr_NotInit, /* Original name: EepRomErr_NotInit */
+    /* 3 */ EepRomErr_ReadError, /* Original name: EepRomErr_ReadError */
+    /* 4 */ EepRomErr_WriteError, /* Original name: EepRomErr_WriteError */
+    /* 5 */ EepRomErr_BadSum, /* Original name: EepRomErr_BadSum */
+} EepRomErr;
 
 
 
-typedef struct struct_evs_mem_data_unk_B4 {
+
+typedef struct struct_evs_mem_data_config {
     /* 0x00 */ u8 unk_00;
     /* 0x01 */ u8 unk_01;
     /* 0x02 */ u8 unk_02;
@@ -53,47 +59,78 @@ typedef struct struct_evs_mem_data_unk_B4 {
     /* 0x17 */ u8 unk_17;
     /* 0x18 */ u8 unk_18;
     /* 0x19 */ u8 unk_19;
-} struct_evs_mem_data_unk_B4; // size >= 0x1A
+} struct_evs_mem_data_config; // size = 0x1A
 
-typedef struct struct_evs_mem_data_unk_28 {
-    /* 0x0 */ u32 unk_0; // score?
-    /* 0x4 */ s32 unk_4;
-    /* 0x8 */ u8 unk_8;
-} struct_evs_mem_data_unk_28; // size = 0xC
+#if 0
+typedef struct /* struct_dm_game_main_c_13768 */ {
+    // total size: 0x1A
+    unsigned char st_lv; // offset 0x0, size 0x1
+    unsigned char st_sh; // offset 0x1, size 0x1
+    unsigned char st_st; // offset 0x2, size 0x1
+    unsigned char st_no; // offset 0x3, size 0x1
+    unsigned char p1_lv; // offset 0x4, size 0x1
+    unsigned char p1_sp; // offset 0x5, size 0x1
+    unsigned char p1_m; // offset 0x6, size 0x1
+    unsigned char p1_ta_lv; // offset 0x7, size 0x1
+    unsigned char p1_tq_lv; // offset 0x8, size 0x1
+    unsigned char vc_fl_lv[2]; // offset 0x9, size 0x2
+    unsigned char vc_lv[2]; // offset 0xB, size 0x2
+    unsigned char vc_sp[2]; // offset 0xD, size 0x2
+    unsigned char vc_no[2]; // offset 0xF, size 0x2
+    unsigned char vc_st; // offset 0x11, size 0x1
+    unsigned char vc_m; // offset 0x12, size 0x1
+    unsigned char vm_fl_lv; // offset 0x13, size 0x1
+    unsigned char vm_ta_lv; // offset 0x14, size 0x1
+    unsigned char vm_lv; // offset 0x15, size 0x1
+    unsigned char vm_sp; // offset 0x16, size 0x1
+    unsigned char vm_no; // offset 0x17, size 0x1
+    unsigned char vm_st; // offset 0x18, size 0x1
+    unsigned char vm_m; // offset 0x19, size 0x1
+} struct_dm_game_main_c_13768;
+#endif
 
-typedef struct struct_evs_mem_data_unk_4C {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ u8 unk_4;
-} struct_evs_mem_data_unk_4C; // size = 0x8
 
-typedef struct struct_evs_mem_data_unk_64 {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ UNK_TYPE unk_4;
-} struct_evs_mem_data_unk_64; // size = 0x8
 
-typedef struct struct_evs_mem_data_unk_7C {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ s32 unk_4;
-    /* 0x4 */ u8 unk_8;
-} struct_evs_mem_data_unk_7C; // size = 0xC
+typedef struct struct_evs_mem_data_story_data {
+    /* 0x0 */ u32 score; /* Original name: score */
+    /* 0x4 */ u32 time; /* Original name: time */
+    /* 0x8 */ u8 c_stage; /* Original name: c_stage */
+} struct_evs_mem_data_story_data; // size = 0xC
+
+typedef struct struct_evs_mem_data_level_data {
+    /* 0x0 */ u32 score; /* Original name: score */
+    /* 0x4 */ u8 c_level; /* Original name: c_level */
+} struct_evs_mem_data_level_data; // size = 0x8
+
+typedef struct struct_evs_mem_data_taiQ_data {
+    /* 0x0 */ u32 score; /* Original name: score*/
+    /* 0x4 */ u32 time; /* Original name: time*/
+} struct_evs_mem_data_taiQ_data; // size = 0x8
+
+typedef struct struct_evs_mem_data_timeAt_data {
+    /* 0x0 */ u32 score; /* Original name: score */
+    /* 0x4 */ u32 time; /* Original name: time */
+    /* 0x4 */ u8 erase; /* Original name: erase */
+} struct_evs_mem_data_timeAt_data; // size = 0xC
+
+#define VSRESULT_LEN 2
 
 typedef struct struct_evs_mem_data {
-    /* 0x00 */ u8 unk_00;
-    /* 0x01 */ u8 unk_01[4];
-    /* 0x05 */ UNK_TYPE1 unk_05[0x3];
-    /* 0x08 */ s32 unk_08[4][2];
-    /* 0x28 */ struct_evs_mem_data_unk_28 unk_28[3];
-    /* 0x4C */ struct_evs_mem_data_unk_4C unk_4C[3];
-    /* 0x64 */ struct_evs_mem_data_unk_64 unk_64[3];
-    /* 0x7C */ struct_evs_mem_data_unk_7C unk_7C[3];
-    /* 0xA0 */ u16 unk_A0[2];
-    /* 0xA4 */ u16 unk_A4[2];
-    /* 0xA8 */ u16 unk_A8[2];
-    /* 0xAC */ u16 unk_AC[2];
-    /* 0xB0 */ u16 unk_B0[2];
-    /* 0xB4 */ struct_evs_mem_data_unk_B4 unk_B4;
-    /* 0xCE */ UNK_TYPE1 unk_CE[0x2]; // pad?
+    /* 0x00 */ u8 mem_use_flg; /* Original name: mem_use_flg */
+    /* 0x01 */ u8 mem_name[4]; /* Original name: mem_name */
+    /* 0x08 */ s32 clear_stage[4][2]; /* Original name: clear_stage */
+    /* 0x28 */ struct_evs_mem_data_story_data story_data[3]; /* Original name: story_data */
+    /* 0x4C */ struct_evs_mem_data_level_data level_data[3]; /* Original name: level_data */
+    /* 0x64 */ struct_evs_mem_data_taiQ_data taiQ_data[3]; /* Original name: taiQ_data */
+    /* 0x7C */ struct_evs_mem_data_timeAt_data timeAt_data[3]; /* Original name: timeAt_data */
+    /* 0xA0 */ u16 vscom_data[VSRESULT_LEN]; /* Original name: vscom_data */
+    /* 0xA4 */ u16 vc_fl_data[VSRESULT_LEN]; /* Original name: vc_fl_data */
+    /* 0xA8 */ u16 vsman_data[VSRESULT_LEN]; /* Original name: vsman_data */
+    /* 0xAC */ u16 vm_fl_data[VSRESULT_LEN]; /* Original name: vm_fl_data */
+    /* 0xB0 */ u16 vm_ta_data[VSRESULT_LEN]; /* Original name: vm_ta_data */
+    /* 0xB4 */ struct_evs_mem_data_config config; /* Original name: config */
 } struct_evs_mem_data; // size = 0xD0
+
 
 
 typedef struct struct_mess_panel_tex_size {
@@ -103,80 +140,48 @@ typedef struct struct_mess_panel_tex_size {
     /* 0x6 */ u16 unk_6;
 } struct_mess_panel_tex_size; // size = 0x8
 
+void BitField_Attach(BitField *st, u8 *buffer, size_t size);
+void BitField_Init(BitField *st, u8 *buffer, size_t size);
+void BitField_PutBit(BitField *st, s32 count, u32 bits);
+u32 BitField_GetBit(BitField *st, s32 count);
 
-
-void func_800365B0(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size);
-void func_800365C8(struct_800365B0_arg0 *arg0, u8 *buffer, size_t size);
-void BitField_PutBit(struct_800365B0_arg0 *arg0, s32 arg1, u32 arg2);
-s32 BitField_GetBit(struct_800365B0_arg0 *arg0, s32 arg1);
-void dm_init_config_save(struct_evs_mem_data_unk_B4 *arg0);
-void func_8003678C(struct struct_evs_cfg_4p *arg0);
-void func_800367E0(struct_evs_mem_data_unk_28 *arg0);
-void func_800367F0(struct_evs_mem_data_unk_4C *arg0);
-void func_800367FC(struct_evs_mem_data_unk_64 *arg0);
-void func_80036808(struct_evs_mem_data_unk_7C *arg0);
-void dm_init_save_mem(struct_evs_mem_data *arg0);
+void dm_init_config_save(struct_evs_mem_data_config *config);
+void dm_init_config_4p_save(struct struct_evs_cfg_4p *config);
+void dm_init_story_save(struct_evs_mem_data_story_data *st);
+void dm_init_level_save(struct_evs_mem_data_level_data *st);
+void dm_init_taiQ_save(struct_evs_mem_data_taiQ_data *st);
+void dm_init_timeAt_save(struct_evs_mem_data_timeAt_data *st);
+void dm_init_save_mem(struct_evs_mem_data *mem);
 void dm_init_system_mem(void);
-void dm_story_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
-void dm_level_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void dm_taiQ_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-void dm_timeAt_sort_set(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void dm_vscom_set(s32 arg0, s32 arg1, s32 arg2);
-void dm_vc_fl_set(s32 arg0, s32 arg1, s32 arg2);
-void dm_vsman_set(s32 arg0, s32 arg1, s32 arg2);
-void dm_vm_fl_set(s32 arg0, s32 arg1, s32 arg2);
-void dm_vm_ta_set(s32 arg0, s32 arg1, s32 arg2);
-// void func_80036EC8();
-// void func_80036F1C();
-// void _get1PLess();
-// void _sort1PMode();
-void dm_data_mode_story_sort(struct MenuRank_unk_001C *arg0);
-void dm_data_mode_level_sort(struct MenuRank_unk_001C *arg0);
-void dm_data_mode_taiQ_sort(struct MenuRank_unk_001C *arg0);
-void dm_data_mode_timeAt_sort(struct MenuRank_unk_001C *arg0);
-// void func_80037378();
-// void func_800373C8();
-// void func_80037418();
-// void func_80037468();
-// void _sortVsMode();
-void dm_data_vscom_sort(struct MenuRank_unk_001C *arg0);
-void dm_data_vc_fl_sort(struct MenuRank_unk_001C *arg0);
-void dm_data_vsman_sort(struct MenuRank_unk_001C *arg0);
-void dm_data_vm_fl_sort(struct MenuRank_unk_001C *arg0);
-void dm_data_vm_ta_sort(struct MenuRank_unk_001C *arg0);
-// void func_8003779C();
-void func_80037808(struct_800365B0_arg0 *arg0);
-void func_800378B0(struct_800365B0_arg0 *arg0);
-void func_80037950(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_800379D4(struct_800365B0_arg0 *arg0, s32 arg1);
-void RecStory_Compress(struct_800365B0_arg0 *arg0, s32 arg1);
-void RecStory_Extract(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_80037C7C(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_80037D40(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_80037DF0(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_80037EB4(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_80037F64(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_80038038(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_800380F0(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_80038168(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_800381DC(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_80038254(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_800382C8(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_80038340(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_800383B4(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_8003842C(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_800384A0(struct_800365B0_arg0 *arg0, s32 arg1);
-void func_80038518(struct_800365B0_arg0 *arg0, s32 arg1);
-void RecAll_Compress(struct_800365B0_arg0 *arg0);
-s32 RecAll_Extract(struct_800365B0_arg0 *arg0, char arg1[4]);
-EepRomStatus EepRom_Init(void);
-EepRomStatus EepRom_InitFirst(EepRom_WriteDif_arg3 arg0, void *arg1);
+void dm_story_sort_set(s32 player_no, s32 char_no, s32 g_level, s32 score, s32 time, s32 c_stage, bool ignoreFlag);
+void dm_level_sort_set(s32 player_no, s32 g_speed, s32 score, s32 c_level);
+void dm_taiQ_sort_set(s32 player_no, s32 dif, s32 score, s32 time);
+void dm_timeAt_sort_set(s32 player_no, s32 dif, s32 score, s32 time, s32 erase);
+void dm_vscom_set(s32 player_no, s32 win, s32 lose);
+void dm_vc_fl_set(s32 player_no, s32 win, s32 lose);
+void dm_vsman_set(s32 player_no, s32 win, s32 lose);
+void dm_vm_fl_set(s32 player_no, s32 win, s32 lose);
+void dm_vm_ta_set(s32 player_no, s32 win, s32 lose);
+
+void dm_data_mode_story_sort(struct SRankSortInfo *st);
+void dm_data_mode_level_sort(struct SRankSortInfo *st);
+void dm_data_mode_taiQ_sort(struct SRankSortInfo *st);
+void dm_data_mode_timeAt_sort(struct SRankSortInfo *st);
+
+void dm_data_vscom_sort(struct SRankSortInfo *st);
+void dm_data_vc_fl_sort(struct SRankSortInfo *st);
+void dm_data_vsman_sort(struct SRankSortInfo *st);
+void dm_data_vm_fl_sort(struct SRankSortInfo *st);
+void dm_data_vm_ta_sort(struct SRankSortInfo *st);
+
+EepRomErr EepRom_Init(void);
+EepRomErr EepRom_InitFirst(EepRom_WriteDif_arg3 proc, void *args);
 void EepRom_InitVars(void);
-u8 *func_80038938(bool arg0);
-EepRomStatus EepRom_WriteDif(u8 *arg0, u8 *arg1, size_t size, EepRom_WriteDif_arg3 arg3, void *arg4);
-EepRomStatus EepRom_ReadAll(void);
-EepRomStatus EepRom_WriteAll(EepRom_WriteDif_arg3 arg0, void *arg1);
-void EepRom_DumpErrMes(EepRomStatus status);
+u8 *eepRom_longRead(bool forceRead);
+EepRomErr EepRom_WriteDif(const void *oldBuf, void *newBuf, size_t size, EepRom_WriteDif_arg3 proc, void *args);
+EepRomErr EepRom_ReadAll(void);
+EepRomErr EepRom_WriteAll(EepRom_WriteDif_arg3 proc, void *args);
+void EepRom_DumpErrMes(EepRomErr status);
 void EepRom_DumpDataSize(void);
 void setSleepTimer(s32 milliseconds);
 

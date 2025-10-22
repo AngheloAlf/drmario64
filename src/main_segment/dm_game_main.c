@@ -2271,7 +2271,7 @@ void func_80063FF4(void) {
     for (i = 0; i < var_a3; i++) {
         struct_evs_mem_data *ptr = &evs_mem_data[evs_select_name_no[i]];
 
-        visible_fall_point[i] = (ptr->unk_00 & 2) ? 1 : 0;
+        visible_fall_point[i] = (ptr->mem_use_flg & 2) ? 1 : 0;
     }
 }
 
@@ -2297,9 +2297,9 @@ void save_visible_fall_point_flag(void) {
     for (i = 0; i < var_t0; i++) {
         struct_evs_mem_data *temp_a1 = &evs_mem_data[evs_select_name_no[i]];
 
-        temp_a1->unk_00 &= ~2;
+        temp_a1->mem_use_flg &= ~2;
         if (visible_fall_point[i] != 0) {
-            temp_a1->unk_00 |= 2;
+            temp_a1->mem_use_flg |= 2;
         }
     }
 }
@@ -2566,7 +2566,7 @@ void func_80064940(void *arg0 UNUSED) {
     struct_watchGame *watchGameP = watchGame;
 
     if (watchGameP->unk_3B0 != 0) {
-        EepRomStatus status = EepRom_WriteAll(dm_game_eep_write_callback, watchGameP);
+        EepRomErr status = EepRom_WriteAll(dm_game_eep_write_callback, watchGameP);
 
         watchGameP->unk_3B0 = 0;
         EepRom_DumpErrMes(status);
@@ -2656,7 +2656,7 @@ void dm_save_all(void) {
                 watchGameP->unk_8AC[0] = 0;
             } else {
                 struct_evs_mem_data *temp_a0 = &evs_mem_data[evs_select_name_no[0]];
-                struct_evs_mem_data_unk_B4 *temp = &temp_a0->unk_B4;
+                struct_evs_mem_data_config *temp = &temp_a0->config;
                 s32 var_s0_2 = evs_story_no;
                 s32 temp_s1 = (s32)story_proc_no >= BGROMDATA_INDEX12;
 
@@ -2696,7 +2696,7 @@ void dm_save_all(void) {
                     dm_level_sort_set(evs_select_name_no[0], game_state_ptr->unk_02C, game_state_ptr->unk_000,
                                       var_s1_2);
 
-                    evs_mem_data[evs_select_name_no[0]].unk_B4.unk_04 = MIN(0x15, var_s1_2);
+                    evs_mem_data[evs_select_name_no[0]].config.unk_04 = MIN(0x15, var_s1_2);
                     break;
 
                 case GMD_TaiQ:
@@ -3077,7 +3077,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                 if (evs_select_name_no[0] == 8) {
                     var_t2 = D_800A7360;
                 } else {
-                    var_t2 = evs_mem_data[evs_select_name_no[0]].unk_01;
+                    var_t2 = evs_mem_data[evs_select_name_no[0]].mem_name;
                 }
 
                 if (watchGameP->password[0] == 0) {
@@ -6752,15 +6752,15 @@ void dm_game_init_static(void) {
             } else {
                 switch (evs_gamemode) {
                     case GMD_NORMAL:
-                        evs_high_score = temp_a3->unk_4C[game_state_data[0].unk_02C].unk_0;
+                        evs_high_score = temp_a3->level_data[game_state_data[0].unk_02C].score;
                         break;
 
                     case GMD_TaiQ:
-                        evs_high_score = temp_a3->unk_64[game_state_data[0].unk_16C].unk_0;
+                        evs_high_score = temp_a3->taiQ_data[game_state_data[0].unk_16C].score;
                         break;
 
                     case GMD_TIME_ATTACK:
-                        evs_high_score = temp_a3->unk_7C[game_state_data[0].unk_16C].unk_0;
+                        evs_high_score = temp_a3->timeAt_data[game_state_data[0].unk_16C].score;
                         break;
 
                     default:
@@ -6827,7 +6827,7 @@ void dm_game_init_static(void) {
                 switch (evs_gamesel) {
                     case ENUM_EVS_GAMESEL_1:
                         for (i = 0; i < ARRAY_COUNT(watchGameP->unk_8B4); i++) {
-                            watchGameP->unk_8B4[i] = evs_mem_data[evs_select_name_no[i]].unk_A8[0];
+                            watchGameP->unk_8B4[i] = evs_mem_data[evs_select_name_no[i]].vsman_data[0];
                         }
                         break;
 
