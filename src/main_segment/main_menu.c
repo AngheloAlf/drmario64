@@ -1555,13 +1555,13 @@ void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, void **heapP, s3
     //! FAKE: ?
     msgWnd = &mes->unk_094;
 
-    mes->unk_094.unk_24 = 1;
-    msgWnd->unk_34 = 0xC;
-    mes->unk_094.unk_30 = 0xC;
-    mes->unk_094.unk_3C = 6;
-    mes->unk_094.unk_48 = 0xE;
-    func_800479A8(&mes->unk_174, watchMenuRef, 2, 0, -0x10, -0x10, mes->unk_094.unk_3C * arg3 * 2 + 0x20,
-                  mes->unk_094.unk_48 * arg4 + 0x20);
+    mes->unk_094.centering = true;
+    msgWnd->fntH = 0xC;
+    mes->unk_094.fntW = 0xC;
+    mes->unk_094.colStep = 6;
+    mes->unk_094.rowStep = 0xE;
+    func_800479A8(&mes->unk_174, watchMenuRef, 2, 0, -0x10, -0x10, mes->unk_094.colStep * arg3 * 2 + 0x20,
+                  mes->unk_094.rowStep * arg4 + 0x20);
 
     item = &mes->unk_174.unk_0B0;
     item->colorCallback = colorFunc_curve;
@@ -1588,8 +1588,8 @@ void func_8004970C(MenuMes *mes, const char *arg1) {
 
 void func_80049754(MenuMes *mes, MenuItem *parentItem) {
     func_800464BC(&mes->unk_004, parentItem);
-    mes->unk_094.xPos = mes->unk_004.pos[0];
-    mes->unk_094.yPos = mes->unk_004.pos[1];
+    mes->unk_094.posX = mes->unk_004.pos[0];
+    mes->unk_094.posY = mes->unk_004.pos[1];
     mes->unk_094.alpha = mes->unk_004.color.v.a * 255.0f;
     msgWnd_update(&mes->unk_094);
     menuCursor_update(&mes->unk_174, &mes->unk_004);
@@ -1601,8 +1601,8 @@ void func_800497D0(MenuMes *mes, Gfx **gfxP) {
     MessageWnd *msgWnd = &mes->unk_094;
 
     gfx = *gfxP;
-    if (menuItem_outOfScreen(&mes->unk_004, (msgWnd->unk_38 - 2) * msgWnd->unk_3C + msgWnd->unk_30 + 0xC,
-                             (msgWnd->unk_44 - 1) * msgWnd->unk_48 + msgWnd->unk_34 + 0xC)) {
+    if (menuItem_outOfScreen(&mes->unk_004, (msgWnd->colSize - 2) * msgWnd->colStep + msgWnd->fntW + 0xC,
+                             (msgWnd->rowSize - 1) * msgWnd->rowStep + msgWnd->fntH + 0xC)) {
         return;
     }
 
@@ -4626,12 +4626,12 @@ void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, void **he
     }
 
     msgWnd_init(&menuMain->msgWnd, heapP, 12, 4, 156, 34);
-    menuMain->msgWnd.unk_1C = 0;
+    menuMain->msgWnd.contFlags = 0;
 
 #if VERSION_CN
-    menuMain->msgWnd.unk_48 = 14;
+    menuMain->msgWnd.rowStep = 14;
 #else
-    menuMain->msgWnd.unk_48 = 13;
+    menuMain->msgWnd.rowStep = 13;
 #endif
 
     item = &menuMain->unk_2388;
@@ -5700,8 +5700,8 @@ void menuMain_update(MenuMain *menuMain) {
     func_800464BC(&menuMain->unk_2388, rootItem);
 
     item = &menuMain->unk_2388;
-    menuMain->msgWnd.xPos = item->pos[0] + item->unk_30[0] * 6;
-    menuMain->msgWnd.yPos = item->pos[1] + item->unk_30[1] * 6;
+    menuMain->msgWnd.posX = item->pos[0] + item->unk_30[0] * 6;
+    menuMain->msgWnd.posY = item->pos[1] + item->unk_30[1] * 6;
 
     if (!menuMain_setMsgStr(menuMain, menuMain->mode, menuMain->unk_000C[menuMain->unk_0008])) {
         msgWnd_update(&menuMain->msgWnd);
@@ -5912,8 +5912,8 @@ void menuMain_draw(MenuMain *menuMain, Gfx **gfxP) {
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
     menuItem_drawTex(&menuMain->unk_2388, &gfx, _getTexMain(menuMain->watchMenuRef, 6), 0);
-    if (!menuItem_outOfScreen(&menuMain->unk_2388, menuMain->msgWnd.unk_3C * menuMain->msgWnd.unk_38,
-                              menuMain->msgWnd.unk_48 * menuMain->msgWnd.unk_44)) {
+    if (!menuItem_outOfScreen(&menuMain->unk_2388, menuMain->msgWnd.colStep * menuMain->msgWnd.colSize,
+                              menuMain->msgWnd.rowStep * menuMain->msgWnd.rowSize)) {
         msgWnd_draw(&menuMain->msgWnd, &gfx);
     }
 

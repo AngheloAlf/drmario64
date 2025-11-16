@@ -4,67 +4,66 @@
 #include "libultra.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
-#include "unk.h"
+
+#include "font.h"
 
 
-typedef struct MessageWnd_unk_04 {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ s32 unk_4;
-    /* 0x8 */ s32 unk_8;
-    /* 0xC */ s32 color;
-} MessageWnd_unk_04; // size = 0x10
+typedef struct MessageWndLayout {
+    /* 0x0 */ s32 top; /* Original name: top */
+    /* 0x4 */ s32 end; /* Original name: end */
+    /* 0x8 */ s32 width; /* Original name: width */
+    /* 0xC */ s32 color; /* Original name: color */
+} MessageWndLayout; // size = 0x10
 
 typedef struct MessageWnd {
-    /* 0x00 */ void *heap;
-    /* 0x04 */ MessageWnd_unk_04 *unk_04;
-    /* 0x08 */ UNK_TYPE unk_08;
-    /* 0x0C */ unsigned char *unk_0C;
-    /* 0x10 */ s32 unk_10;
-    /* 0x14 */ UNK_TYPE unk_14;
-    /* 0x18 */ UNK_TYPE unk_18;
-    /* 0x1C */ UNK_TYPE unk_1C;
-    /* 0x20 */ s32 unk_20;
-    /* 0x24 */ s32 unk_24;
-    /* 0x28 */ s32 xPos;
-    /* 0x2C */ s32 yPos;
-    /* 0x30 */ UNK_TYPE unk_30;
-    /* 0x34 */ UNK_TYPE unk_34;
-    /* 0x38 */ UNK_TYPE unk_38;
-    /* 0x3C */ UNK_TYPE unk_3C;
-    /* 0x40 */ s32 column;
-    /* 0x44 */ UNK_TYPE unk_44;
-    /* 0x48 */ UNK_TYPE unk_48;
-    /* 0x4C */ s32 line;
-    /* 0x50 */ f32 unk_50;
-    /* 0x54 */ f32 unk_54;
-    /* 0x58 */ f32 unk_58;
-    /* 0x5C */ f32 unk_5C;
-    /* 0x60 */ bool hasEnded;
-    /* 0x64 */ bool isSpeaking;
-    /* 0x68 */ s32 color;
-    /* 0x6C */ bool unk_6C;
-    /* 0x70 */ s32 timer;
-    /* 0x74 */ s32 alpha;
-    /* 0x78 */ bool unk_78;
-    /* 0x7C */ s32 unk_7C;
+    /* 0x00 */ void *heap; /* Original name: heap */
+    /* 0x04 */ MessageWndLayout *layout; /* Original name: layout */
+    /* 0x08 */ s32 layoutSize; /* Original name: layoutSize */
+    /* 0x0C */ unsigned char *msgBuf; /* Original name: msgBuf */
+    /* 0x10 */ s32 msgBufSize; /* Original name: msgBufSize */
+    /* 0x14 */ s32 msgBufTop; /* Original name: msgBufTop */
+    /* 0x18 */ s32 msgBufNow; /* Original name: msgBufNow */
+    /* 0x1C */ s32 contFlags; /* Original name: contFlags */
+    /* 0x20 */ FontType fontType; /* Original name: fontType */
+    /* 0x24 */ bool centering; /* Original name: centering */
+    /* 0x28 */ s32 posX; /* Original name: posX */
+    /* 0x2C */ s32 posY; /* Original name: posY */
+    /* 0x30 */ s32 fntW; /* Original name: fntW */
+    /* 0x34 */ s32 fntH; /* Original name: fntH */
+    /* 0x38 */ s32 colSize; /* Original name: colSize */
+    /* 0x3C */ s32 colStep; /* Original name: colStep */
+    /* 0x40 */ s32 colNow; /* Original name: colNow */
+    /* 0x44 */ s32 rowSize; /* Original name: rowSize */
+    /* 0x48 */ s32 rowStep; /* Original name: rowStep */
+    /* 0x4C */ s32 rowNow; /* Original name: rowNow */
+    /* 0x50 */ f32 msgCount; /* Original name: msgCount */
+    /* 0x54 */ f32 msgSpeed; /* Original name: msgSpeed */
+    /* 0x58 */ f32 scrCount; /* Original name: scrCount */
+    /* 0x5C */ f32 scrSpeed; /* Original name: scrSpeed */
+    /* 0x60 */ bool msgIsEnd; /* Original name: msgIsEnd */
+    /* 0x64 */ bool isSpeak; /* Original name: isSpeak */
+    /* 0x68 */ s32 topColor; /* Original name: topColor */
+    /* 0x6C */ bool keyWait; /* Original name: keyWait */
+    /* 0x70 */ s32 countWait; /* Original name: countWait */
+    /* 0x74 */ s32 alpha; /* Original name: alpha */
+    /* 0x78 */ bool scisFlag; /* Original name: scisFlag */
+    /* 0x7C */ s32 grapCount; /* Original name: grapCount */
 } MessageWnd; // size = 0x80
 
-
-bool func_8005CF20(s32 arg0, u32 buttonMask);
-void msgWnd_init(MessageWnd *messageWnd, void **heapP, s32 arg2, s32 arg3, s32 xPos, s32 yPos);
-void msgWnd_init2(MessageWnd *messageWnd, void **heapP, s32 arg2, s32 arg3, s32 arg4, s32 xPos, s32 yPos);
+void msgWnd_init(MessageWnd *messageWnd, void **heapP, s32 cols, s32 rows, s32 xPos, s32 yPos);
+void msgWnd_init2(MessageWnd *messageWnd, void **heapP, s32 bufSize, s32 cols, s32 rows, s32 xPos, s32 yPos);
 void msgWnd_clear(MessageWnd *messageWnd);
 void msgWnd_layout(MessageWnd *messageWnd);
-void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1);
-// void func_8005D3F8();
+void msgWnd_addStr(MessageWnd *messageWnd, const char *str);
 void msgWnd_update(MessageWnd *messageWnd);
 void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP);
-bool msgWnd_isEnd(MessageWnd *messageWnd);
+
+bool msgWnd_isEnd(const MessageWnd *messageWnd);
 void msgWnd_skip(MessageWnd *messageWnd);
-bool msgWnd_isSpeaking(MessageWnd *messageWnd);
-bool msgWnd_isScroll(MessageWnd *messageWnd);
-s32 msgWnd_getWidth(MessageWnd *messageWnd);
-s32 msgWnd_getHeight(MessageWnd *messageWnd);
+bool msgWnd_isSpeaking(const MessageWnd *messageWnd);
+bool msgWnd_isScroll(const MessageWnd *messageWnd);
+s32 msgWnd_getWidth(const MessageWnd *messageWnd);
+s32 msgWnd_getHeight(const MessageWnd *messageWnd);
 
 #define MSGWND_COLOR_BLACK   0
 #define MSGWND_COLOR_BLUE    1

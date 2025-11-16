@@ -7,7 +7,6 @@
 #include "alignment.h"
 #include "macros_defines.h"
 #include "libc/stdint.h"
-#include "unk.h"
 
 #include "util.h"
 

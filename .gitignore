@@ -26,3 +26,7 @@ deps_repo/
 asdf.c
 asdf.txt
 asdf.py
+
+.clangd
+compile_commands.json
+.cache/

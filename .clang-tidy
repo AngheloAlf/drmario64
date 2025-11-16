@@ -7,6 +7,7 @@ Checks: >
   -readability-identifier-length,
   -readability-function-cognitive-complexity,
   -readability-suspicious-call-argument,
+  -readability-math-missing-parentheses,
   clang-diagnostic-*,
   clang-analyzer-*,
   -clang-analyzer-security.insecureAPI.*,
@@ -32,7 +33,8 @@ Checks: >
   diagnostic-*,
   analyzer-*,
   misc*,
-  -misc-no-recursion
+  -misc-no-recursion,
+  -clang-analyzer-optin.performance.Padding,
 WarningsAsErrors: ''
 HeaderFilterRegex: '^(src|include)\/.*\.h$'
 FormatStyle: 'file'

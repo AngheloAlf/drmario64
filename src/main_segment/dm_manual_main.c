@@ -74,8 +74,8 @@ static struct TiTexData *_texKaSa;
 void func_80071EF0(struct_800F4890_unk_034 *arg0, s32 arg1, s32 arg2) {
     arg0->unk_00 = arg1;
     arg0->unk_04 = arg2;
-    arg0->messageWnd.xPos = arg1 + 8;
-    arg0->messageWnd.yPos = arg2 + 8;
+    arg0->messageWnd.posX = arg1 + 8;
+    arg0->messageWnd.posY = arg2 + 8;
 }
 
 void func_80071F0C(void) {
@@ -91,11 +91,11 @@ void func_80071F14(struct_800F4890_unk_034 *arg0, void **heapP) {
     arg0->unk_08 = 0;
     arg0->unk_0C = (-1 / 16.0f);
     msgWnd_init(&arg0->messageWnd, heapP, 0xD, 4, 0x20, 0x20);
-    arg0->messageWnd.unk_30 = 0xA;
-    arg0->messageWnd.unk_34 = 0xC;
-    arg0->messageWnd.unk_3C = 5;
-    arg0->messageWnd.unk_48 = FUNC_80071F14_UNK_48;
-    arg0->messageWnd.unk_54 = 1.0f / 6.0f;
+    arg0->messageWnd.fntW = 0xA;
+    arg0->messageWnd.fntH = 0xC;
+    arg0->messageWnd.colStep = 5;
+    arg0->messageWnd.rowStep = FUNC_80071F14_UNK_48;
+    arg0->messageWnd.msgSpeed = 1.0f / 6.0f;
     func_80071EF0(arg0, 0x20, 0x20);
 }
 

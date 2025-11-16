@@ -1565,9 +1565,9 @@ void story_m_end(Gfx **gfxP, TitleAllLwsIndex type, MesDataIndex mes) {
     if (story_staff_roll == 1) {
         msgWnd_addStr(&mess_roll_st, st_staffroll_txt);
         msgWnd_skip(&mess_roll_st);
-        mess_roll_st.unk_1C = 0;
+        mess_roll_st.contFlags = 0;
         story_staff_roll = 2;
-        mess_roll_st.unk_5C = 1.0f / 60.0f;
+        mess_roll_st.scrSpeed = 1.0f / 60.0f;
     }
 
     *gfxP = gfx;
@@ -1755,9 +1755,9 @@ void story_w_end(Gfx **gfxP, TitleAllLwsIndex type) {
     if (story_staff_roll == 1) {
         msgWnd_addStr(&mess_roll_st, st_staffroll_txt);
         msgWnd_skip(&mess_roll_st);
-        mess_roll_st.unk_1C = 0;
+        mess_roll_st.contFlags = 0;
         story_staff_roll = 2;
-        mess_roll_st.unk_5C = 1.0f / 60.0f;
+        mess_roll_st.scrSpeed = 1.0f / 60.0f;
     }
 
     *gfxP = gfx;
@@ -1830,21 +1830,21 @@ void main_story(NNSched *sc) {
 
     mess_heap = &mess_heap_area;
     msgWnd_init(&mess_st, &mess_heap, 0x10, 3, 0x42, 0xB1);
-    mess_st.unk_30 = 0xC;
-    mess_st.unk_34 = 0xC;
-    mess_st.unk_3C = 6;
-    mess_st.unk_48 = 0xE;
-    mess_st.unk_54 = 0.4f;
+    mess_st.fntW = 0xC;
+    mess_st.fntH = 0xC;
+    mess_st.colStep = 6;
+    mess_st.rowStep = 0xE;
+    mess_st.msgSpeed = 0.4f;
 
     mess_roll_heap = gfx_freebuf;
     msgWnd_init2(&mess_roll_st, &mess_roll_heap, MESS_ROLL_ST_ARG2, 0x14, 0xB, 0x28, 0x16);
-    mess_roll_st.unk_24 = 1;
-    mess_roll_st.unk_30 = 0xC;
-    mess_roll_st.unk_34 = 0xC;
-    mess_roll_st.unk_3C = 6;
-    mess_roll_st.unk_48 = 0xE;
-    mess_roll_st.unk_20 = 1;
-    mess_roll_st.unk_54 = 0.25f;
+    mess_roll_st.centering = true;
+    mess_roll_st.fntW = 0xC;
+    mess_roll_st.fntH = 0xC;
+    mess_roll_st.colStep = 6;
+    mess_roll_st.rowStep = 0xE;
+    mess_roll_st.fontType = FONTTYPE_1;
+    mess_roll_st.msgSpeed = 0.25f;
 
     read_graphic_data();
     joyProcCore();
@@ -2064,9 +2064,9 @@ void graphic_story(void) {
             }
 
             if (gControllerHoldButtons[main_joy[0]] & (A_BUTTON | B_BUTTON)) {
-                mess_roll_st.unk_5C = 1.0f / 6.0f;
+                mess_roll_st.scrSpeed = 1.0f / 6.0f;
             } else {
-                mess_roll_st.unk_5C = 1.0f / 60.0f;
+                mess_roll_st.scrSpeed = 1.0f / 60.0f;
             }
         }
 

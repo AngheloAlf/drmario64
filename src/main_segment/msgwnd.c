@@ -8,7 +8,6 @@
 #include "gcc/memory.h"
 #include "libc/stdint.h"
 #include "macros_defines.h"
-#include "unk.h"
 
 #include "color.h"
 #include "font.h"
@@ -29,65 +28,66 @@ const Color_RGB8 sMessageColorTable[] = {
     /* 7 */ { 255, 255, 255 }, // White
 };
 
-bool func_8005CF20(s32 arg0, u32 buttonMask) {
+/**
+ * Original name: _checkKeyTrg
+ */
+bool _checkKeyTrg(s32 contFlags, u32 buttonMask) {
     s32 i;
 
-    for (i = 0; i < 4; i++) {
-        if ((arg0 >> i) & 1) {
+    for (i = 0; i < MAXCONTROLLERS; i++) {
+        if ((contFlags >> i) & 1) {
             if (gControllerPressedButtons[main_joy[i]] & buttonMask) {
                 break;
             }
         }
     }
-    return i < 4;
+    return i < MAXCONTROLLERS;
 }
 
 /**
  * Original name: msgWnd_init
  */
-void msgWnd_init(MessageWnd *messageWnd, void **heapP, s32 arg2, s32 arg3, s32 xPos, s32 yPos) {
+void msgWnd_init(MessageWnd *messageWnd, void **heapP, s32 cols, s32 rows, s32 xPos, s32 yPos) {
     void *heap = *heapP;
-    u32 temp;
+    s32 size;
 
-    temp = 0x400;
-    temp -= ALIGN16((uintptr_t)heap) - (uintptr_t)heap;
-    temp -= ((arg3 + 1) * sizeof(MessageWnd_unk_04));
-    msgWnd_init2(messageWnd, heapP, temp, arg2, arg3, xPos, yPos);
+    size = 0x40 * sizeof(MessageWndLayout);
+    size -= ALIGN16((uintptr_t)heap) - (uintptr_t)heap;
+    size -= ((rows + 1) * sizeof(MessageWndLayout));
+    msgWnd_init2(messageWnd, heapP, size, cols, rows, xPos, yPos);
 }
 
 /**
  * Original name: msgWnd_init2
  */
-void msgWnd_init2(MessageWnd *messageWnd, void **heapP, s32 arg2, s32 arg3, s32 arg4, s32 xPos, s32 yPos) {
+void msgWnd_init2(MessageWnd *messageWnd, void **heapP, s32 bufSize, s32 cols, s32 rows, s32 xPos, s32 yPos) {
     void *heap;
 
     heap = messageWnd->heap = *heapP;
-    messageWnd->unk_04 = ALIGN_PTR(heap);
 
-    messageWnd->unk_08 = arg4 + 1;
-    heap = (void *)((uintptr_t)messageWnd->unk_04 + messageWnd->unk_08 * sizeof(MessageWnd_unk_04));
+    messageWnd->layout = ALIGN_PTR(heap);
+    messageWnd->layoutSize = rows + 1;
+    heap = (void *)((uintptr_t)messageWnd->layout + messageWnd->layoutSize * sizeof(MessageWndLayout));
 
-    messageWnd->unk_0C = heap;
-    messageWnd->unk_10 = arg2;
-    heap = (void *)((uintptr_t)messageWnd->unk_0C + arg2);
+    messageWnd->msgBuf = heap;
+    messageWnd->msgBufSize = bufSize;
+    heap = (void *)((uintptr_t)messageWnd->msgBuf + bufSize);
 
-    messageWnd->unk_1C = 1;
-    messageWnd->unk_20 = 0;
-    messageWnd->unk_24 = 0;
-    messageWnd->xPos = xPos;
-    messageWnd->yPos = yPos;
-    messageWnd->unk_30 = 0xC;
-    messageWnd->unk_34 = 0xC;
-    messageWnd->unk_38 = arg3;
-    messageWnd->unk_38 = arg3;
-    messageWnd->unk_38 = arg3 * 2;
-    messageWnd->unk_3C = 6;
-    messageWnd->unk_44 = arg4;
-    messageWnd->unk_48 = 0xE;
-    messageWnd->unk_54 = 0.25f;
-    messageWnd->unk_5C = 0.125f;
+    messageWnd->contFlags = 1 << 0;
+    messageWnd->fontType = FONTTYPE_0;
+    messageWnd->centering = false;
+    messageWnd->posX = xPos;
+    messageWnd->posY = yPos;
+    messageWnd->fntW = 0xC;
+    messageWnd->fntH = 0xC;
+    messageWnd->colSize = cols * 2;
+    messageWnd->colStep = 6;
+    messageWnd->rowSize = rows;
+    messageWnd->rowStep = 14;
+    messageWnd->msgSpeed = 1.0f / 4;
+    messageWnd->scrSpeed = 1.0f / 8;
     messageWnd->alpha = 255;
-    messageWnd->unk_78 = true;
+    messageWnd->scisFlag = true;
 
     *heapP = heap;
 
@@ -98,20 +98,22 @@ void msgWnd_init2(MessageWnd *messageWnd, void **heapP, s32 arg2, s32 arg3, s32 
  * Original name: msgWnd_clear
  */
 void msgWnd_clear(MessageWnd *messageWnd) {
-    messageWnd->unk_0C[0] = '~';
-    messageWnd->unk_0C[1] = 'z';
-    messageWnd->unk_14 = 0;
-    messageWnd->unk_18 = 0;
-    messageWnd->column = 0;
-    messageWnd->line = 0;
-    messageWnd->unk_50 = 0.0f;
-    messageWnd->unk_58 = 0;
-    messageWnd->hasEnded = false;
-    messageWnd->isSpeaking = false;
-    messageWnd->color = MSGWND_COLOR_WHITE;
-    messageWnd->unk_6C = false;
-    messageWnd->timer = 0;
-    messageWnd->unk_7C = 0;
+    // MSG_END
+    messageWnd->msgBuf[0] = '~';
+    messageWnd->msgBuf[1] = 'z';
+
+    messageWnd->msgBufTop = 0;
+    messageWnd->msgBufNow = 0;
+    messageWnd->colNow = 0;
+    messageWnd->rowNow = 0;
+    messageWnd->msgCount = 0.0f;
+    messageWnd->scrCount = 0;
+    messageWnd->msgIsEnd = false;
+    messageWnd->isSpeak = false;
+    messageWnd->topColor = MSGWND_COLOR_WHITE;
+    messageWnd->keyWait = false;
+    messageWnd->countWait = 0;
+    messageWnd->grapCount = 0;
 }
 
 /**
@@ -119,73 +121,72 @@ void msgWnd_clear(MessageWnd *messageWnd) {
  */
 void msgWnd_layout(MessageWnd *messageWnd) {
     bool keepGoing = true;
-    s32 var_s5 = 0;
-    s32 var_s6 = 0;
-    s32 var_s3 = messageWnd->unk_14;
-    s32 sp18 = (messageWnd->unk_3C * 2) - messageWnd->unk_30;
+    s32 col = 0;
+    s32 row = 0;
+    s32 top = messageWnd->msgBufTop;
+    s32 space = messageWnd->colStep * 2 - messageWnd->fntW;
     s32 width = msgWnd_getWidth(messageWnd);
-    f32 temp_fs0 = messageWnd->unk_30 / 12.0f;
-    s32 color = messageWnd->color;
+    f32 fnt2scr = messageWnd->fntW / 12.0f;
+    s32 color = messageWnd->topColor;
 
-    messageWnd->unk_04->unk_0 = var_s3;
-    messageWnd->unk_04->color = color;
+    messageWnd->layout[0].top = top;
+    messageWnd->layout[0].color = color;
 
     while (keepGoing) {
-        s32 var_s1 = false;
+        s32 layoutFlag = false;
 
-        if (messageWnd->unk_0C[var_s3] == '~') {
-            switch (messageWnd->unk_0C[var_s3 + 1]) {
-                case 'w':
+        if (messageWnd->msgBuf[top] == '~') {
+            switch (messageWnd->msgBuf[top + 1]) {
+                case 'w': // MSG_WAIT
                     break;
 
-                case 'h':
-                    var_s1 = true;
+                case 'h': // MSG_H
+                    layoutFlag = true;
                     break;
 
-                case 'm':
-                    var_s1 = (var_s5 + messageWnd->unk_3C);
-                    var_s1 = width < var_s1;
+                case 'm': // MSG_M
+                    layoutFlag = col + messageWnd->colStep > width;
                     break;
 
-                case 'z':
-                    var_s1 = true;
+                case 'z': // MSG_END
+                    layoutFlag = true;
                     keepGoing = false;
                     break;
 
-                case 'n':
-                    var_s1 = true;
+                case 'n': // MSG_NEWLINE
+                    layoutFlag = true;
                     break;
 
-                default:
-                    color = messageWnd->unk_0C[var_s3 + 1] - '0';
+                default: // MSG_COLOR
+                    color = messageWnd->msgBuf[top + 1] - '0';
                     break;
             }
 
-            var_s3 += fontStr_nextChar(&messageWnd->unk_0C[var_s3]);
+            top += fontStr_nextChar(&messageWnd->msgBuf[top]);
         } else {
-            s32 temp = fontStr_charSize(&messageWnd->unk_0C[var_s3], messageWnd->unk_20) * temp_fs0 + sp18;
-            s32 temp_s0 = var_s5 + temp;
+            s32 step = fontStr_charSize(&messageWnd->msgBuf[top], messageWnd->fontType) * fnt2scr + space;
+            s32 temp_s0 = col + step;
 
             if (width >= temp_s0) {
-                var_s3 += fontStr_nextChar(&messageWnd->unk_0C[var_s3]);
+                top += fontStr_nextChar(&messageWnd->msgBuf[top]);
             }
             if (temp_s0 >= width) {
-                var_s1 = true;
+                layoutFlag = true;
             }
             if (width >= temp_s0) {
-                var_s5 = temp_s0;
+                col = temp_s0;
             }
         }
 
-        if (var_s1) {
-            messageWnd->unk_04[var_s6].unk_4 = var_s3;
-            messageWnd->unk_04[var_s6].unk_8 = var_s5;
-            var_s5 = 0;
+        if (layoutFlag) {
+            messageWnd->layout[row].end = top;
+            messageWnd->layout[row].width = col;
+            col = 0;
 
-            var_s6++;
-            if (var_s6 < messageWnd->unk_08) {
-                messageWnd->unk_04[var_s6].unk_0 = var_s3;
-                messageWnd->unk_04[var_s6].color = color;
+            row++;
+            if (row < messageWnd->layoutSize) {
+                messageWnd->layout[row].top = top;
+                messageWnd->layout[row].color = color;
             } else {
                 keepGoing = false;
             }
@@ -196,32 +197,33 @@ void msgWnd_layout(MessageWnd *messageWnd) {
 /**
  * Original name: msgWnd_addStr
  */
-void msgWnd_addStr(MessageWnd *messageWnd, const char *arg1) {
-    s32 length1 = fontStr_length(&messageWnd->unk_0C[messageWnd->unk_14]);
-    s32 length2;
+void msgWnd_addStr(MessageWnd *messageWnd, const char *str) {
+    s32 bufLen = fontStr_length(&messageWnd->msgBuf[messageWnd->msgBufTop]);
+    s32 strLen = fontStr_length(str);
 
-    length2 = fontStr_length(arg1);
-    if (messageWnd->unk_10 < (length1 + length2 + 2)) {
-        length2 = (messageWnd->unk_10 - length1) - 2;
+    // +2 to account for the extra MSG_END
+    if (messageWnd->msgBufSize < bufLen + strLen + 2) {
+        strLen = messageWnd->msgBufSize - bufLen - 2;
     }
 
-    memmove(messageWnd->unk_0C, &messageWnd->unk_0C[messageWnd->unk_14], length1);
+    memmove(messageWnd->msgBuf, &messageWnd->msgBuf[messageWnd->msgBufTop], bufLen);
 
-    messageWnd->unk_18 -= messageWnd->unk_14;
-    messageWnd->unk_14 = 0;
+    messageWnd->msgBufNow -= messageWnd->msgBufTop;
+    messageWnd->msgBufTop = 0;
 
-    memmove(&messageWnd->unk_0C[length1], (void *)arg1, length2);
+    memmove(&messageWnd->msgBuf[bufLen], (void *)str, strLen);
 
-    messageWnd->unk_0C[length1 + length2] = '~';
-    messageWnd->unk_0C[length1 + length2 + 1] = 'z';
+    // Make sure there's an MSG_END at the end of the string
+    messageWnd->msgBuf[bufLen + strLen] = '~';
+    messageWnd->msgBuf[bufLen + strLen + 1] = 'z';
 
-    messageWnd->hasEnded = false;
+    messageWnd->msgIsEnd = false;
     msgWnd_layout(messageWnd);
 }
 
-void func_8005D3F8(MessageWnd *messageWnd) {
-    messageWnd->unk_14 = messageWnd->unk_04[1].unk_0;
-    messageWnd->color = messageWnd->unk_04[1].color;
+void msgWnd_shiftUp(MessageWnd *messageWnd) {
+    messageWnd->msgBufTop = messageWnd->layout[1].top;
+    messageWnd->topColor = messageWnd->layout[1].color;
 
     msgWnd_layout(messageWnd);
 }
@@ -230,97 +232,98 @@ void func_8005D3F8(MessageWnd *messageWnd) {
  * Original name: msgWnd_update
  */
 void msgWnd_update(MessageWnd *messageWnd) {
-    s32 temp_s2 = messageWnd->unk_3C * 2 - messageWnd->unk_30;
+    s32 space = messageWnd->colStep * 2 - messageWnd->fntW;
     s32 width = msgWnd_getWidth(messageWnd);
-    f32 temp_fs0 = messageWnd->unk_30 / 12.0f;
+    f32 fnt2scr = messageWnd->fntW / 12.0f;
 
-    if (!messageWnd->unk_6C && func_8005CF20(messageWnd->unk_1C, A_BUTTON | B_BUTTON | START_BUTTON)) {
+    if (!messageWnd->keyWait && _checkKeyTrg(messageWnd->contFlags, A_BUTTON | B_BUTTON | START_BUTTON)) {
         msgWnd_skip(messageWnd);
     }
 
-    if (messageWnd->unk_58 > 0.0) {
-        messageWnd->unk_58 -= messageWnd->unk_5C;
-        if (messageWnd->unk_58 > 0.0) {
+    if (messageWnd->scrCount > 0.0) {
+        messageWnd->scrCount -= messageWnd->scrSpeed;
+        if (messageWnd->scrCount > 0.0) {
             return;
         }
 
-        messageWnd->line--;
-        func_8005D3F8(messageWnd);
+        messageWnd->rowNow--;
+        msgWnd_shiftUp(messageWnd);
     }
 
-    if (messageWnd->line >= messageWnd->unk_44) {
-        messageWnd->unk_58 += 1.0;
+    if (messageWnd->rowNow >= messageWnd->rowSize) {
+        messageWnd->scrCount += 1.0;
         return;
     }
 
-    messageWnd->unk_58 = 0;
-    if (messageWnd->unk_6C) {
-        messageWnd->timer = 0;
-        if (func_8005CF20(messageWnd->unk_1C, A_BUTTON | B_BUTTON | START_BUTTON)) {
-            messageWnd->unk_6C = false;
+    messageWnd->scrCount = 0;
+    if (messageWnd->keyWait) {
+        messageWnd->countWait = 0;
+        if (_checkKeyTrg(messageWnd->contFlags, A_BUTTON | B_BUTTON | START_BUTTON)) {
+            messageWnd->keyWait = false;
         }
         return;
     }
 
-    if (messageWnd->timer > 0) {
-        messageWnd->timer--;
+    if (messageWnd->countWait > 0) {
+        messageWnd->countWait--;
         return;
     }
 
-    messageWnd->unk_50 += messageWnd->unk_54;
-    while (messageWnd->unk_50 >= 1.0) {
-        if (messageWnd->unk_0C[messageWnd->unk_18] == '~') {
-            switch (messageWnd->unk_0C[messageWnd->unk_18 + 1]) {
-                case 'w':
-                    messageWnd->timer = (messageWnd->unk_0C[messageWnd->unk_18 + 2] - '0') * 60;
-                    messageWnd->unk_50 = 0.0f;
+    messageWnd->msgCount += messageWnd->msgSpeed;
+    while (messageWnd->msgCount >= 1.0) {
+        if (messageWnd->msgBuf[messageWnd->msgBufNow] == '~') {
+            switch (messageWnd->msgBuf[messageWnd->msgBufNow + 1]) {
+                case 'w': // MSG_WAIT
+                    messageWnd->countWait = (messageWnd->msgBuf[messageWnd->msgBufNow + 2] - '0') * 60;
+                    messageWnd->msgCount = 0.0f;
                     break;
 
-                case 'h':
-                    messageWnd->unk_50 = 0.0f;
-                    messageWnd->column = 0;
-                    messageWnd->line = 0;
-                    messageWnd->unk_14 = messageWnd->unk_18 + fontStr_nextChar(&messageWnd->unk_0C[messageWnd->unk_18]);
+                case 'h': // MSG_H
+                    messageWnd->msgCount = 0.0f;
+                    messageWnd->colNow = 0;
+                    messageWnd->rowNow = 0;
+                    messageWnd->msgBufTop =
+                        messageWnd->msgBufNow + fontStr_nextChar(&messageWnd->msgBuf[messageWnd->msgBufNow]);
                     msgWnd_layout(messageWnd);
                     break;
 
-                case 'm':
-                    messageWnd->unk_6C = true;
-                    messageWnd->unk_50 = 0.0f;
-                    if (width < (messageWnd->column + messageWnd->unk_3C)) {
-                        messageWnd->column = 0;
-                        messageWnd->line++;
+                case 'm': // MSG_M
+                    messageWnd->keyWait = true;
+                    messageWnd->msgCount = 0.0f;
+                    if (width < messageWnd->colNow + messageWnd->colStep) {
+                        messageWnd->colNow = 0;
+                        messageWnd->rowNow++;
                     }
                     break;
 
-                case 'n':
-                    messageWnd->column = 0;
-                    messageWnd->line++;
+                case 'n': // MSG_NEWLINE
+                    messageWnd->colNow = 0;
+                    messageWnd->rowNow++;
                     break;
 
-                case 'z':
-                    messageWnd->hasEnded = true;
-                    messageWnd->unk_50 = 0.0f;
+                case 'z': // MSG_END
+                    messageWnd->msgIsEnd = true;
+                    messageWnd->msgCount = 0.0f;
                     break;
             }
 
-            messageWnd->unk_18 += fontStr_nextChar(messageWnd->unk_0C + messageWnd->unk_18);
-            messageWnd->isSpeaking = false;
+            messageWnd->msgBufNow += fontStr_nextChar(&messageWnd->msgBuf[messageWnd->msgBufNow]);
+            messageWnd->isSpeak = false;
         } else {
-            messageWnd->column +=
-                fontStr_charSize(&messageWnd->unk_0C[messageWnd->unk_18], messageWnd->unk_20) * temp_fs0 + temp_s2;
+            messageWnd->colNow +=
+                fontStr_charSize(&messageWnd->msgBuf[messageWnd->msgBufNow], messageWnd->fontType) * fnt2scr + space;
 
-            if (width >= messageWnd->column) {
-                messageWnd->unk_18 += fontStr_nextChar(&messageWnd->unk_0C[messageWnd->unk_18]);
-                messageWnd->unk_50 -= 1.0;
+            if (width >= messageWnd->colNow) {
+                messageWnd->msgBufNow += fontStr_nextChar(&messageWnd->msgBuf[messageWnd->msgBufNow]);
+                messageWnd->msgCount -= DOUBLE_LITERAL(1);
             }
 
-            if (messageWnd->column >= width) {
-                messageWnd->column = 0;
-                messageWnd->line++;
+            if (messageWnd->colNow >= width) {
+                messageWnd->colNow = 0;
+                messageWnd->rowNow++;
             }
 
-            messageWnd->isSpeaking = true;
+            messageWnd->isSpeak = true;
         }
     }
 }
@@ -336,165 +339,169 @@ void msgWnd_update(MessageWnd *messageWnd) {
  */
 void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    s32 sp24;
-    s32 sp28 = (messageWnd->unk_3C * 2) - messageWnd->unk_30;
+    s32 now;
+    s32 col;
+    s32 row;
+    s32 rowSize;
+    s32 space = messageWnd->colStep * 2 - messageWnd->fntW;
     s32 width = msgWnd_getWidth(messageWnd);
-    s32 sp2C = (messageWnd->unk_30 * 0xA) / 12;
-    f32 new_var2 = messageWnd->unk_30 / 12.0f;
-    s32 color = messageWnd->color;
-    f32 var_fs0;
-    s32 charWidth;
-    s32 temp_s5;
-    s32 var_a1;
-    s32 index;
-    s32 column;
-    s32 line;
+    s32 color = messageWnd->topColor;
+    s32 ascFntW = (messageWnd->fntW * 0xA) / 12;
+    f32 fnt2scr = messageWnd->fntW / 12.0f;
+    f32 scrY;
 
-    if (messageWnd->unk_20 != 0) {
+    if (messageWnd->fontType != FONTTYPE_0) {
         font16_initDL2(&gfx);
     } else {
         font16_initDL(&gfx);
     }
 
-    if (messageWnd->unk_78) {
-        gfxSetScissor(&gfx, GFXSETSCISSOR_INTERLACE_NO, messageWnd->xPos, messageWnd->yPos, msgWnd_getWidth(messageWnd),
+    if (messageWnd->scisFlag) {
+        gfxSetScissor(&gfx, GFXSETSCISSOR_INTERLACE_NO, messageWnd->posX, messageWnd->posY, msgWnd_getWidth(messageWnd),
                       msgWnd_getHeight(messageWnd));
     }
 
-    index = messageWnd->unk_14;
-    column = 0;
+    now = messageWnd->msgBufTop;
+    col = 0;
 
-    sp24 = messageWnd->unk_44;
-    var_fs0 = 0.0f;
-    line = 0;
-    if (messageWnd->unk_58 > 0.0) {
-        sp24++;
-        var_fs0 = (1.0 - messageWnd->unk_58) * messageWnd->unk_48;
+    rowSize = messageWnd->rowSize;
+    scrY = 0.0f;
+    row = 0;
+    if (messageWnd->scrCount > 0.0) {
+        rowSize++;
+        scrY = (1.0 - messageWnd->scrCount) * messageWnd->rowStep;
     }
 
     gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[color].r, sMessageColorTable[color].g, sMessageColorTable[color].b,
                     messageWnd->alpha);
 
-    if ((messageWnd->unk_30 != 0xC) || (messageWnd->unk_34 != messageWnd->unk_30) || (var_fs0 != 0.0f)) {
+    if ((messageWnd->fntW != 0xC) || (messageWnd->fntH != messageWnd->fntW) || (scrY != 0.0f)) {
         gDPSetTextureFilter(gfx++, G_TF_BILERP);
     }
 
-    while (index < messageWnd->unk_18) {
-        if (messageWnd->unk_0C[index] == '~') {
-            switch (messageWnd->unk_0C[index + 1]) {
-                case 'n':
-                    column = 0;
-                    line++;
+    while (now < messageWnd->msgBufNow) {
+        if (messageWnd->msgBuf[now] == '~') {
+            switch (messageWnd->msgBuf[now + 1]) {
+                case 'n': // MSG_NEWLINE
+                    col = 0;
+                    row++;
                     break;
 
-                case 'm':
-                    if (width < (column + messageWnd->unk_3C)) {
-                        column = 0;
-                        line++;
+                case 'm': // MSG_M
+                    if (width < (col + messageWnd->colStep)) {
+                        col = 0;
+                        row++;
                     }
                     break;
 
-                case 'w':
+                case 'w': // MSG_WAIT
                     break;
 
-                case 'h':
-                    column = 0;
-                    line = 0;
+                case 'h': // MSG_H
+                    col = 0;
+                    row = 0;
                     break;
 
-                default:
-                    color = messageWnd->unk_0C[index + 1] - '0';
+                default: // MSG_COLOR
+                    color = messageWnd->msgBuf[now + 1] - '0';
                     gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[color].r, sMessageColorTable[color].g,
                                     sMessageColorTable[color].b, messageWnd->alpha);
                     break;
             }
 
-            index += fontStr_nextChar(&messageWnd->unk_0C[index]);
+            now += fontStr_nextChar(&messageWnd->msgBuf[now]);
         } else {
-            temp_s5 = fontStr_nextChar(&messageWnd->unk_0C[index]);
+            s32 nextChar = fontStr_nextChar(&messageWnd->msgBuf[now]);
+            s32 charSize = fontStr_charSize(&messageWnd->msgBuf[now], messageWnd->fontType) * fnt2scr + space;
+            s32 orgX = messageWnd->centering ? (width - messageWnd->layout[row].width) >> 1 : 0;
 
-            charWidth = fontStr_charSize(&messageWnd->unk_0C[index], messageWnd->unk_20) * new_var2 + sp28;
-
-            var_a1 = (messageWnd->unk_24 != 0) ? (width - messageWnd->unk_04[line].unk_8) >> 1 : 0;
-
-            switch (temp_s5) {
+            switch (nextChar) {
                 case 1:
-                    if (column + charWidth <= width) {
-                        switch (messageWnd->unk_20) {
-                            case 0:
-                                fontAsc_draw(&gfx, messageWnd->xPos + column + var_a1,
-                                             (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0), sp2C,
-                                             messageWnd->unk_34, &messageWnd->unk_0C[index]);
+                    if (col + charSize <= width) {
+                        switch (messageWnd->fontType) {
+                            case FONTTYPE_0:
+                                fontAsc_draw(&gfx, messageWnd->posX + col + orgX,
+                                             (s32)(messageWnd->posY + row * messageWnd->rowStep - scrY), ascFntW,
+                                             messageWnd->fntH, &messageWnd->msgBuf[now]);
                                 break;
 
-                            case 1:
-                                fontAsc_draw2(&gfx, messageWnd->xPos + column + var_a1,
-                                              (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0), sp2C,
-                                              messageWnd->unk_34, &messageWnd->unk_0C[index]);
+                            case FONTTYPE_1:
+                                fontAsc_draw2(&gfx, messageWnd->posX + col + orgX,
+                                              (s32)(messageWnd->posY + row * messageWnd->rowStep - scrY), ascFntW,
+                                              messageWnd->fntH, &messageWnd->msgBuf[now]);
+                                break;
+
+                            default:
                                 break;
                         }
-                        index += temp_s5;
+                        now += nextChar;
                     }
-                    column += charWidth;
+                    col += charSize;
                     break;
 
                 case 2:
-                    if (column + charWidth <= width) {
-                        switch (messageWnd->unk_20) {
-                            case 0:
-                                fontXX_draw(&gfx, messageWnd->xPos + column + var_a1,
-                                            (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0),
-                                            messageWnd->unk_30, messageWnd->unk_34, &messageWnd->unk_0C[index]);
+                    if (col + charSize <= width) {
+                        switch (messageWnd->fontType) {
+                            case FONTTYPE_0:
+                                fontXX_draw(&gfx, messageWnd->posX + col + orgX,
+                                            (s32)(messageWnd->posY + row * messageWnd->rowStep - scrY),
+                                            messageWnd->fntW, messageWnd->fntH, &messageWnd->msgBuf[now]);
                                 break;
 
-                            case 1:
-                                fontXX_draw2(&gfx, messageWnd->xPos + column + var_a1,
-                                             (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0),
-                                             messageWnd->unk_30, messageWnd->unk_34, &messageWnd->unk_0C[index]);
+                            case FONTTYPE_1:
+                                fontXX_draw2(&gfx, messageWnd->posX + col + orgX,
+                                             (s32)(messageWnd->posY + row * messageWnd->rowStep - scrY),
+                                             messageWnd->fntW, messageWnd->fntH, &messageWnd->msgBuf[now]);
+                                break;
+
+                            default:
                                 break;
                         }
-                        index += temp_s5;
+                        now += nextChar;
                     }
-                    column += MSGWND_DRAW_UNK_SPACE + charWidth;
+                    col += charSize + MSGWND_DRAW_UNK_SPACE;
                     break;
             }
 
-            if (column >= width) {
-                column = 0;
-                line += 1;
+            if (col >= width) {
+                col = 0;
+                row++;
             }
         }
 
-        if (line >= sp24) {
+        if (row >= rowSize) {
             break;
         }
     }
 
-    if (messageWnd->unk_6C && (messageWnd->unk_58 == 0.0)) {
-        s32 alpha = sins(messageWnd->unk_7C << 10) * (1.0f / 0x200) + 191.0f;
+    if (messageWnd->keyWait && (messageWnd->scrCount == 0.0)) {
+        s32 blink = sins(messageWnd->grapCount << 10) * (1.0f / 0x200) + 191.0f;
 
-        alpha = (alpha * messageWnd->alpha) >> 8;
+        blink = (blink * messageWnd->alpha) >> 8;
         gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[color].r, sMessageColorTable[color].g,
-                        sMessageColorTable[color].b, alpha);
+                        sMessageColorTable[color].b, blink);
 
-        switch (messageWnd->unk_20) {
-            case 0:
-                fontXX_draw(&gfx, messageWnd->xPos + column * messageWnd->unk_3C,
-                            (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0), messageWnd->unk_30,
-                            messageWnd->unk_34, "▼");
+        switch (messageWnd->fontType) {
+            case FONTTYPE_0:
+                fontXX_draw(&gfx, messageWnd->posX + col * messageWnd->colStep,
+                            (s32)(messageWnd->posY + row * messageWnd->rowStep - scrY), messageWnd->fntW,
+                            messageWnd->fntH, "▼");
                 break;
 
-            case 1:
-                fontXX_draw2(&gfx, messageWnd->xPos + column * messageWnd->unk_3C,
-                             (s32)(messageWnd->yPos + line * messageWnd->unk_48 - var_fs0), messageWnd->unk_30,
-                             messageWnd->unk_34, "▼");
+            case FONTTYPE_1:
+                fontXX_draw2(&gfx, messageWnd->posX + col * messageWnd->colStep,
+                             (s32)(messageWnd->posY + row * messageWnd->rowStep - scrY), messageWnd->fntW,
+                             messageWnd->fntH, "▼");
+                break;
+
+            default:
                 break;
         }
     }
 
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
-    messageWnd->unk_7C++;
+    messageWnd->grapCount++;
 
     *gfxP = gfx;
 }
@@ -502,42 +509,42 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
 /**
  * Original name: msgWnd_isEnd
  */
-bool msgWnd_isEnd(MessageWnd *messageWnd) {
-    return messageWnd->hasEnded;
+bool msgWnd_isEnd(const MessageWnd *messageWnd) {
+    return messageWnd->msgIsEnd;
 }
 
 /**
  * Original name: msgWnd_skip
  */
 void msgWnd_skip(MessageWnd *messageWnd) {
-    messageWnd->unk_50 = messageWnd->unk_10;
-    messageWnd->timer = 0;
+    messageWnd->msgCount = messageWnd->msgBufSize;
+    messageWnd->countWait = 0;
 }
 
 /**
  * Original name: msgWnd_isSpeaking
  */
-bool msgWnd_isSpeaking(MessageWnd *messageWnd) {
-    return messageWnd->isSpeaking;
+bool msgWnd_isSpeaking(const MessageWnd *messageWnd) {
+    return messageWnd->isSpeak;
 }
 
 /**
  * Original name: msgWnd_isScroll
  */
-bool msgWnd_isScroll(MessageWnd *messageWnd) {
-    return messageWnd->line >= messageWnd->unk_44;
+bool msgWnd_isScroll(const MessageWnd *messageWnd) {
+    return messageWnd->rowNow >= messageWnd->rowSize;
 }
 
 /**
  * Original name: msgWnd_getWidth
  */
-s32 msgWnd_getWidth(MessageWnd *messageWnd) {
-    return messageWnd->unk_38 * messageWnd->unk_3C;
+s32 msgWnd_getWidth(const MessageWnd *messageWnd) {
+    return messageWnd->colSize * messageWnd->colStep;
 }
 
 /**
  * Original name: msgWnd_getHeight
  */
-s32 msgWnd_getHeight(MessageWnd *messageWnd) {
-    return messageWnd->unk_44 * messageWnd->unk_48;
+s32 msgWnd_getHeight(const MessageWnd *messageWnd) {
+    return messageWnd->rowSize * messageWnd->rowStep;
 }

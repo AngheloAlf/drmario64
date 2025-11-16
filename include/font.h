@@ -4,12 +4,18 @@
 #include "libultra.h"
 #include "libc/stdbool.h"
 
+typedef enum FontType {
+    /* 0 */ FONTTYPE_0,
+    /* 1 */ FONTTYPE_1,
+    /* 2 */ FONTTYPE_MAX,
+} FontType;
+
 s32 fontStr_nextChar(const unsigned char *str);
 s32 fontStr_length(const unsigned char *str);
-s32 fontStr_charSize(const unsigned char *arg0, s32 arg1);
+s32 fontStr_charSize(const unsigned char *str, FontType type);
 u16 index2font(u8 code);
 s32 font2index(const unsigned char *charcode);
-void ascii2index(s32 code, s32 type, s32 *indexP, s32 *widthP);
+void ascii2index(s32 code, FontType type, s32 *indexP, s32 *widthP);
 void font16_initDL(Gfx **gfxP);
 void font16_initDL2(Gfx **gfxP);
 void fontXX_draw(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, const unsigned char *charcode);

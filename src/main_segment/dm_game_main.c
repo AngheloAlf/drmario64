@@ -6736,8 +6736,8 @@ void dm_game_init_static(void) {
 #error ""
 #endif
 
-    watchGameP->unk_A28.xPos = (s32)(SCREEN_WIDTH - (watchGameP->unk_A28.unk_3C * 20)) >> 1;
-    watchGameP->unk_A28.yPos = (s32)(SCREEN_HEIGHT - (watchGameP->unk_A28.unk_48 * 2)) >> 1;
+    watchGameP->unk_A28.posX = (s32)(SCREEN_WIDTH - (watchGameP->unk_A28.colStep * 20)) >> 1;
+    watchGameP->unk_A28.posY = (s32)(SCREEN_HEIGHT - (watchGameP->unk_A28.rowStep * 2)) >> 1;
     RecWritingMsg_init(&watchGameP->recMessage, &heapTop);
 
     switch (evs_gamesel) {
@@ -6804,11 +6804,11 @@ void dm_game_init_static(void) {
             }
 
             msgWnd_init2(&watchGameP->messageWnd, &heapTop, 0x1000, 0x14, 0xF, 0x28, 0xF);
-            watchGameP->messageWnd.unk_24 = 1;
+            watchGameP->messageWnd.centering = true;
             msgWnd_addStr(&watchGameP->messageWnd, st_staffroll_txt);
             msgWnd_skip(&watchGameP->messageWnd);
-            watchGameP->messageWnd.unk_20 = 1;
-            watchGameP->messageWnd.unk_1C = 0;
+            watchGameP->messageWnd.fontType = FONTTYPE_1;
+            watchGameP->messageWnd.contFlags = 0;
             heapTop = init_coffee_break(heapTop, game_state_data[0].unk_02C);
             break;
 
@@ -7348,9 +7348,9 @@ s32 dm_game_main2(void) {
         case ENUM_EVS_GAMESEL_0:
             if (temp_s3->unk_9AC > 0) {
                 if (gControllerHoldButtons[main_joy[0]] & (A_BUTTON | B_BUTTON)) {
-                    temp_s3->messageWnd.unk_5C = 1.0f / 8.0f;
+                    temp_s3->messageWnd.scrSpeed = 1.0f / 8.0f;
                 } else {
-                    temp_s3->messageWnd.unk_5C = 1.0f / 60.0f;
+                    temp_s3->messageWnd.scrSpeed = 1.0f / 60.0f;
                 }
                 msgWnd_update(&temp_s3->messageWnd);
 
@@ -8107,8 +8107,8 @@ void dm_game_graphic2(void) {
                                    G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
             drawCursorPattern(&gGfxHead, var_s6->info[TI_INFO_IDX_WIDTH], var_s6->info[TI_INFO_IDX_HEIGHT], 0x10, 0x10,
-                              temp_s7->unk_A28.xPos - 6, temp_s7->unk_A28.yPos - 6,
-                              (temp_s7->unk_A28.unk_3C * 0x14) + 0xC, (temp_s7->unk_A28.unk_48 * 3) + 0xC);
+                              temp_s7->unk_A28.posX - 6, temp_s7->unk_A28.posY - 6,
+                              (temp_s7->unk_A28.colStep * 0x14) + 0xC, (temp_s7->unk_A28.rowStep * 3) + 0xC);
 
             msgWnd_update(&temp_s7->unk_A28);
             msgWnd_draw(&temp_s7->unk_A28, &gGfxHead);
@@ -8264,8 +8264,8 @@ enum_main_no main_techmes(NNSched *sc) {
     heapTop = init_menu_bg(heapTop, false);
     msgWnd_init2(&watchGameP->messageWnd, &heapTop, 0x1000, 0x12, 0x10, 0x34, 0x22);
     msgWnd_addStr(&watchGameP->messageWnd, EndingLastMessage);
-    watchGameP->messageWnd.unk_20 = 1;
-    watchGameP->messageWnd.unk_24 = 1;
+    watchGameP->messageWnd.fontType = FONTTYPE_1;
+    watchGameP->messageWnd.centering = true;
 
     sequenceBackup = evs_seqence;
     evs_seqence = 0;

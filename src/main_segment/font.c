@@ -1010,7 +1010,11 @@ u8 D_800B2270_cn[] ALIGNED(8) = {
  * Original name:
  *  static _tbl
  */
-struct_800A6F70 *_tbl_133[] = { font_e_tbl, font_e2_tbl };
+struct_800A6F70 *_tbl_133[] = {
+    font_e_tbl,  // FONTTYPE_0
+    font_e2_tbl, // FONTTYPE_1
+};
+static_assert(ARRAY_COUNT(_tbl_133) == FONTTYPE_MAX, "");
 
 /**
  * Original name: static init_dl
@@ -1086,13 +1090,13 @@ s32 fontStr_length(const unsigned char *str) {
 /**
  * Original name: fontStr_charSize
  */
-s32 fontStr_charSize(const unsigned char *arg0, s32 arg1) {
-    s32 character = arg0[0];
+s32 fontStr_charSize(const unsigned char *str, FontType type) {
+    s32 character = str[0];
     s32 index;
     s32 size;
 
     if (character < 0x80) {
-        ascii2index(character, arg1, &index, &size);
+        ascii2index(character, type, &index, &size);
     } else {
         size = 0xC;
     }
@@ -1154,8 +1158,8 @@ s32 font2index(const unsigned char *charcode) {
 /**
  * Original name: ascii2index
  */
-void ascii2index(s32 code, s32 type, s32 *indexP, s32 *widthP) {
-    const struct_800A6F70 *ptr = _tbl_133[type % ARRAY_COUNTU(_tbl_133)];
+void ascii2index(s32 code, FontType type, s32 *indexP, s32 *widthP) {
+    const struct_800A6F70 *ptr = _tbl_133[type % FONTTYPE_MAX];
     const struct_800A6F70 *ptr2;
 
     ptr2 = &ptr[code % E_TBL_LEN];
@@ -1317,7 +1321,7 @@ bool fontAsc_draw(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, unsigned char *arg5) {
     s32 index;
     s32 width;
 
-    ascii2index(*arg5, 0, &index, &width);
+    ascii2index(*arg5, FONTTYPE_0, &index, &width);
     return fontAsc_drawID(gfxP, x, y, w, h, index);
 }
 
@@ -1371,7 +1375,7 @@ bool fontAsc_draw2(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, unsigned char *charco
     s32 index;
     s32 size;
 
-    ascii2index(charcode[0], 1, &index, &size);
+    ascii2index(charcode[0], FONTTYPE_1, &index, &size);
     return fontAsc_drawID2(gfxP, x, y, w, h, index);
 }
 

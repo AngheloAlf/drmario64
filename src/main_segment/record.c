@@ -1498,7 +1498,7 @@ void EepRom_DumpDataSize(void) {
  */
 void RecWritingMsg_init(RecordWritingMessage *recMessage, void **heap) {
     msgWnd_init(&recMessage->messageWnd, heap, 0x18, 2, 0, 0);
-    recMessage->messageWnd.unk_24 = 1;
+    recMessage->messageWnd.centering = true;
     RecWritingMsg_setPos(recMessage, 0, 0);
     recMessage->unk_84 = 0x78;
     recMessage->unk_80 = 0x78;
@@ -1545,8 +1545,8 @@ void RecWritingMsg_draw(RecordWritingMessage *recMessage, Gfx **gfxP) {
 
     StretchTexTile8(&gfx, mess_panel_tex_size.width, mess_panel_tex_size.height, mess_panel_lut, mess_panel_tex, 0, 0,
                     mess_panel_tex_size.width, mess_panel_tex_size.height,
-                    recMessage->messageWnd.xPos - ((mess_panel_tex_size.width - width) / 2),
-                    recMessage->messageWnd.yPos - ((mess_panel_tex_size.height - height) / 2),
+                    recMessage->messageWnd.posX - ((mess_panel_tex_size.width - width) / 2),
+                    recMessage->messageWnd.posY - ((mess_panel_tex_size.height - height) / 2),
                     mess_panel_tex_size.width, mess_panel_tex_size.height);
     msgWnd_draw(&recMessage->messageWnd, &gfx);
 
@@ -1578,8 +1578,8 @@ bool RecWritingMsg_isEnd(const RecordWritingMessage *recMessage) {
  * Original name: RecWritingMsg_setPos
  */
 void RecWritingMsg_setPos(RecordWritingMessage *recMessage, s32 x, s32 y) {
-    recMessage->messageWnd.xPos = x;
-    recMessage->messageWnd.yPos = y;
+    recMessage->messageWnd.posX = x;
+    recMessage->messageWnd.posY = y;
 }
 
 /**
