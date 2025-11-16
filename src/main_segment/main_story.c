@@ -361,7 +361,7 @@ void story_zoomfade(Gfx **gfxP, s32 count) {
 /**
  * Original name: get_gbi_stat
  */
-void get_gbi_stat(GbiStat *gbi, GraphBinGeneric *graphBin) {
+void get_gbi_stat(GbiStat *gbi, CONST_ARG GraphBinGeneric *graphBin) {
     gbi->width = graphBin->header.width;
     gbi->height = graphBin->header.height;
     gbi->siz = graphBin->header.siz;
@@ -631,7 +631,7 @@ void star_spot(Gfx **gfxP, s32 x, s32 y, s32 count) {
 /**
  * Original name: init_coffee_break
  */
-void *init_coffee_break(void *dstAddr, UNK_TYPE arg1 UNUSED) {
+void *init_coffee_break(void *dstAddr, s32 arg1 UNUSED) {
     void *next;
 
     bgGraphic = ALIGN_PTR(dstAddr);

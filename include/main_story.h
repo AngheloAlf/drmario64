@@ -2,9 +2,9 @@
 #define MAIN_STORY_H
 
 #include "libultra.h"
-#include "unk.h"
 #include "libc/stdbool.h"
 #include "rom_offsets.h"
+#include "macros_defines.h"
 
 struct NNSched;
 struct GraphBinGeneric;
@@ -13,13 +13,12 @@ typedef struct GbiStat {
     /* 0x00 */ s32 siz; /* Original name: type */
     /* 0x04 */ s32 width; /* Original name: x */
     /* 0x08 */ s32 height; /* Original name: y */
-    // TODO: const
-    /* 0x0C */ /*const*/ u16 *tlut; /* Original name: lut_addr */
-    /* 0x10 */ /*const*/ Texture *texture; /* Original name: tex_addr */
+    /* 0x0C */ const u16 *tlut; /* Original name: lut_addr */
+    /* 0x10 */ const Texture *texture; /* Original name: tex_addr */
 } GbiStat; // size = 0x14
 
 void story_zoomfade(Gfx **gfxP, s32 count);
-void get_gbi_stat(GbiStat *gbi, struct GraphBinGeneric *graphBin);
+void get_gbi_stat(GbiStat *gbi, CONST_ARG struct GraphBinGeneric *graphBin);
 void curtain_proc(Gfx **gfxP, s32 count);
 void curtain_proc_org(Gfx **gfxP, s32 count);
 void waku_disp(Gfx **gfxP, struct GraphBinGeneric *graphBin);
@@ -31,7 +30,7 @@ void story_st_clear(void);
 bool story_st_meswait(void);
 void story_spot(Gfx **gfxP, s32 x, s32 y, s32 count, const u8 tex[]);
 void star_spot(Gfx **gfxP, s32 x, s32 y, s32 count);
-void *init_coffee_break(void *dstAddr, UNK_TYPE arg1);
+void *init_coffee_break(void *dstAddr, s32 arg1);
 void init_coffee_break_cnt(void);
 void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
 void *init_menu_bg(void *dstAddr, bool flg);
@@ -66,9 +65,9 @@ extern s32 story_seq_step; // TODO: enum?
 extern s32 story_zoom;
 extern s32 story_curtain;
 extern s32 story_spot_cnt;
-extern UNK_TYPE4 story_kay_wait;
+extern s32 story_kay_wait;
 extern s32 story_message_on;
-extern UNK_TYPE4 story_message_start;
+extern s32 story_message_start;
 extern s32 story_doing;
 extern s32 bgtime; /* Original name: bgtime */
 extern s32 mes_time;

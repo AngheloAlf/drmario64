@@ -30,16 +30,16 @@ typedef enum enum_graphic_no {
 void gfxInit(void *arg0);
 void gfxproc(void *arg);
 void gfxproc_onRetrace(void);
-void func_8002B710(void);
-void func_8002B728(void);
-void func_8002B754(void);
+void gfxproc_onDoneSwap(void);
+void gfxproc_onDoneTask(void);
+void gfxproc_onPreNMI(void);
 void gfxCreateGraphicThread(struct NNSched *sc);
 s16 gfxWaitMessage(void);
 void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags);
 void F3RCPinitRtn(void);
-void F3ClearFZRtn(u8 arg0);
-void S2RDPinitRtn(u8 arg0);
-void S2ClearCFBRtn(u8 arg0);
+void F3ClearFZRtn(u8 f);
+void S2RDPinitRtn(u8 f);
+void S2ClearCFBRtn(u8 f);
 
 // data
 extern void* gfx_ucode[][2];

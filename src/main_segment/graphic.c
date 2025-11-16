@@ -172,16 +172,16 @@ void gfxproc(void *arg) {
 
             case NN_SC_DONE_MSG:
                 /* graphic task end message*/
-                func_8002B710();
+                gfxproc_onDoneSwap();
                 break;
 
             case NN_SC_GTASKEND_MSG:
-                func_8002B728();
+                gfxproc_onDoneTask();
                 break;
 
             case NN_SC_PRE_NMI_MSG:
                 /* PRE NMI message */
-                func_8002B754();
+                gfxproc_onPreNMI();
                 break;
         }
     }
@@ -248,22 +248,29 @@ void gfxproc_onRetrace(void) {
 }
 
 /**
+ * Original name: gfxproc_onDoneSwap
+ *
  * graphic task end message
  */
-void func_8002B710(void) {
+void gfxproc_onDoneSwap(void) {
     pendingGFX--;
 }
 
-void func_8002B728(void) {
+/**
+ * Original name: gfxproc_onDoneTask
+ */
+void gfxproc_onDoneTask(void) {
     if (graphic_no == GRAPHIC_NO_4) {
         func_80071A44();
     }
 }
 
 /**
+ * Original name: gfxproc_onPreNMI
+ *
  * PRE NMI message
  */
-void func_8002B754(void) {
+void gfxproc_onPreNMI(void) {
     /* !!important!! Make Y scale value back to 1.0  */
     osViSetYScale(1.0f);
 
@@ -385,12 +392,12 @@ void F3RCPinitRtn(void) {
  *
  * Based on DrawWindow?
  */
-void F3ClearFZRtn(u8 arg0) {
+void F3ClearFZRtn(u8 f) {
     gDPSetCycleType(gGfxHead++, G_CYC_FILL);
     gDPSetColorImage(gGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH,
                      osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
 
-    if (arg0) {
+    if (f) {
         gDPSetFillColor(gGfxHead++, (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
         gDPFillRectangle(gGfxHead++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
@@ -402,9 +409,10 @@ void F3ClearFZRtn(u8 arg0) {
 /**
  * Original name: S2RDPinitRtn
  */
-void S2RDPinitRtn(u8 arg0) {
+void S2RDPinitRtn(u8 f) {
     gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(S2RDPinit_dl));
-    if (arg0) {
+
+    if (f) {
         gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     } else {
         gDPSetScissor(gGfxHead++, G_SC_NON_INTERLACE, 12, 8, SCREEN_WIDTH - 1 - 12, SCREEN_HEIGHT - 1 - 8);
@@ -414,10 +422,11 @@ void S2RDPinitRtn(u8 arg0) {
 /**
  * Original name: S2ClearCFBRtn
  */
-void S2ClearCFBRtn(u8 arg0) {
+void S2ClearCFBRtn(u8 f) {
     gDPSetColorImage(gGfxHead++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH,
                      osVirtualToPhysical(gFramebuffers[gCurrentFramebufferIndex]));
-    if (arg0) {
+
+    if (f) {
         gSPDisplayList(gGfxHead++, OS_K0_TO_PHYSICAL(S2ClearCFB_dl));
         gDPFillRectangle(gGfxHead++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
     }
