@@ -5,6 +5,7 @@
 #include "ai.h"
 #include "char_anime.h"
 #include "color.h"
+#include "game_etc.h"
 #include "gamemap.h"
 #include "msgwnd.h"
 #include "recwritingmsg.h"
@@ -77,7 +78,7 @@ typedef struct struct_watchGame {
     /* 0x0B8 */ struct_watchGame_unk_0B8 unk_0B8[4];
     /* 0x348 */ s32 unk_348[MAXCONTROLLERS];
     /* 0x358 */ s32 unk_358[MAXCONTROLLERS];
-    /* 0x368 */ s32 unk_368[MAXCONTROLLERS];
+    /* 0x368 */ EtcPartIndex unk_368[MAXCONTROLLERS];
     /* 0x378 */ UNK_TYPE4 unk_378;
     /* 0x37C */ s32 unk_37C[4];
     /* 0x38C */ UNK_TYPE unk_38C;
@@ -432,7 +433,7 @@ void func_80063FF4(void);
 void save_visible_fall_point_flag(void);
 void retryMenu_init(s32 arg0, s32 arg1);
 void func_8006417C(s32 arg0);
-s32 retryMenu_input(s32 arg0);
+EtcPartIndex retryMenu_input(s32 arg0);
 void func_80064298(s32 arg0, Gfx **gfxP, s32 arg2);
 void func_8006431C(s32 arg0, Gfx **gfxP);
 void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells);

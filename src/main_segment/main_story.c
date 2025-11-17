@@ -170,40 +170,91 @@ static_assert(ARRAY_COUNT(mes_data) == MESDATAINDEX_MAX, "");
  */
 BgRomDataIndex story_proc_no = BGROMDATA_INDEX0;
 
-char STR_800AACF0[] = MSG_COLOR(BLACK) "ＴＥＳＴ　" MSG_WAIT(2) MSG_END;
+/**
+ * Original name: end_dumm
+ */
+char end_dumm[] = MSG_COLOR(BLACK) "ＴＥＳＴ　" MSG_WAIT(2) MSG_END;
 
-char *EndingLastMessage = STR_800AACF0;
+/**
+ * Original name: EndingLastMessage
+ */
+char *EndingLastMessage = end_dumm;
 
+/**
+ * Original name: story_time_cnt
+ */
 s32 story_time_cnt = 0;
 
+/**
+ * Original name: story_seq_step
+ */
 s32 story_seq_step = 0;
 
+/**
+ * Original name: story_zoom
+ */
 s32 story_zoom = 0;
 
+/**
+ * Original name: story_curtain
+ */
 s32 story_curtain = 0;
 
+/**
+ * Original name: story_spot_cnt
+ */
 s32 story_spot_cnt = 0;
 
+/**
+ * Original name: story_kay_wait
+ */
 s32 story_kay_wait = 0;
 
+/**
+ * Original name: story_message_on
+ */
 s32 story_message_on = 0;
 
+/**
+ * Original name: story_message_start
+ */
 s32 story_message_start = 0;
 
+/**
+ * Original name: story_doing
+ */
 s32 story_doing = 1;
 
+/**
+ * Original name: bgtime
+ */
 s32 bgtime = 0;
 
 s32 D_800AAD30 = 0;
 
+/**
+ * Original name: mes_time
+ */
 s32 mes_time = 0;
 
+/**
+ * Original name: story_read_buf
+ */
 u8 *story_read_buf = gfx_freebuf;
 
+/**
+ * Original name: story_buffer
+ */
 void *story_buffer = &gfx_freebuf[0x10000];
 
+/**
+ * Original name: story_z_buffer
+ */
 void *story_z_buffer = gfx_freebuf;
 
+/**
+ * Original name: objMtx_FF
+ */
 s32 objMtx_FF = 0;
 
 typedef enum wakuGraphicIndex {
@@ -227,8 +278,10 @@ static_assert(ARRAY_COUNT(wakuGraphic_ofs) == WAKUGRAPHICINDEX_MAX, "");
 /**
  * Original name: vp
  */
-Vp D_800AAD58 = { { { SCREEN_WIDTH / 2 * 4, SCREEN_HEIGHT / 2 * 4, 0x1FF, 0 },
-                    { SCREEN_WIDTH / 2 * 4, SCREEN_HEIGHT / 2 * 4, 0x1FF, 0 } } };
+Vp D_800AAD58 = { {
+    { SCREEN_WIDTH / 2 * 4, SCREEN_HEIGHT / 2 * 4, 0x1FF, 0 },
+    { SCREEN_WIDTH / 2 * 4, SCREEN_HEIGHT / 2 * 4, 0x1FF, 0 },
+} };
 
 /**
  * Original name: story_setup

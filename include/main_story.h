@@ -58,7 +58,7 @@ extern void *mess_heap;
 extern char st_staffroll_txt[];
 
 extern BgRomDataIndex story_proc_no;
-extern char STR_800AACF0[];
+extern char end_dumm[];
 extern char *EndingLastMessage; /* Original name: EndingLastMessage */
 extern s32 story_time_cnt;
 extern s32 story_seq_step; // TODO: enum?

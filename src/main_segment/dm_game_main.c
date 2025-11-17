@@ -2309,7 +2309,7 @@ void retryMenu_init(s32 arg0, s32 arg1) {
 
     watchGameP->unk_348[arg0] = arg1;
     watchGameP->unk_358[arg0] = 0;
-    watchGameP->unk_368[arg0] = -1;
+    watchGameP->unk_368[arg0] = ETC_PART_INDEX_GRAPHBIN_INVALID;
 
     switch (watchGameP->unk_348[arg0]) {
         case 2:
@@ -2325,10 +2325,10 @@ void func_8006417C(s32 arg0) {
     retryMenu_init(arg0, 0);
 }
 
-s32 retryMenu_input(s32 arg0) {
+EtcPartIndex retryMenu_input(s32 arg0) {
     s32 direction = 0;
     SndIndex soundIndex = SND_INDEX_INVALID;
-    s32 ret = -1;
+    EtcPartIndex ret = ETC_PART_INDEX_GRAPHBIN_INVALID;
     struct_watchGame *temp_s4 = watchGame;
     u16 curButton = joycur[main_joy[arg0]];
     u16 pressedButton = gControllerPressedButtons[main_joy[arg0]];
@@ -3099,17 +3099,17 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                 }
 
                 switch (retryMenu_input(arg2)) {
-                    case 0:
+                    case ETC_PART_INDEX_GRAPHBIN_0:
                         func_80063378();
                         dm_snd_play_in_game(SND_INDEX_62);
                         return 9;
 
-                    case 1:
+                    case ETC_PART_INDEX_GRAPHBIN_1:
                         func_800633C0();
                         dm_snd_play_in_game(SND_INDEX_62);
                         return 1;
 
-                    case 0x2:
+                    case ETC_PART_INDEX_GRAPHBIN_2:
                         func_800633C0();
                         if (gameStateData->unk_004 < 0x3E7U) {
                             gameStateData->unk_004++;
@@ -3123,23 +3123,26 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                         }
                         return 2;
 
-                    case 0x3:
+                    case ETC_PART_INDEX_GRAPHBIN_3:
                         dm_snd_play_in_game(SND_INDEX_62);
                         return 0x64;
+
+                    default:
+                        break;
                 }
             }
             break;
 
         case GAMESTATEDATA_UNK_00C_18:
             switch (retryMenu_input(arg2)) {
-                case 0:
+                case ETC_PART_INDEX_GRAPHBIN_0:
                     if (watchGameP->unk_9C4 < 0) {
                         watchGameP->unk_9C4 = arg2;
                     }
                     dm_snd_play_in_game(SND_INDEX_62);
                     break;
 
-                case 1:
+                case ETC_PART_INDEX_GRAPHBIN_1:
                     if (gameStateData->unk_004 < 0x3E7U) {
                         gameStateData->unk_004 = gameStateData->unk_004 + 1;
                     }
@@ -3152,9 +3155,12 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     }
                     return 2;
 
-                case 2:
+                case ETC_PART_INDEX_GRAPHBIN_2:
                     dm_snd_play_in_game(SND_INDEX_62);
                     return 0x64;
+
+                default:
+                    break;
             }
             break;
 
@@ -3438,17 +3444,17 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             }
 
             switch (retryMenu_input(index)) {
-                case 0:
+                case ETC_PART_INDEX_GRAPHBIN_0:
                     func_80063378();
                     dm_snd_play_in_game(SND_INDEX_62);
                     return 9;
 
-                case 1:
+                case ETC_PART_INDEX_GRAPHBIN_1:
                     func_800633C0();
                     dm_snd_play_in_game(SND_INDEX_62);
                     return 0x64;
 
-                case 2:
+                case ETC_PART_INDEX_GRAPHBIN_2:
                     func_800633C0();
                     if (gameStateDataRef->unk_004 < 999) {
                         gameStateDataRef->unk_004++;
@@ -3456,9 +3462,12 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                     dm_snd_play_in_game(SND_INDEX_62);
                     return 2;
 
-                case 3:
+                case ETC_PART_INDEX_GRAPHBIN_3:
                     dm_snd_play_in_game(SND_INDEX_62);
                     return -2;
+
+                default:
+                    break;
             }
             break;
 
@@ -3580,24 +3589,25 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
 
         case GAMESTATEDATA_UNK_00C_18:
             switch (retryMenu_input(index)) {
-                case 0:
+                case ETC_PART_INDEX_GRAPHBIN_0:
                     if (temp_s1->unk_9C4 < 0) {
                         temp_s1->unk_9C4 = index;
                     }
                     dm_snd_play_in_game(SND_INDEX_62);
                     break;
 
-                case 1:
+                case ETC_PART_INDEX_GRAPHBIN_1:
                     if (gameStateDataRef->unk_004 < 999) {
                         gameStateDataRef->unk_004++;
                     }
                     dm_snd_play_in_game(SND_INDEX_62);
                     return 2;
-                    break;
 
-                case 2:
+                case ETC_PART_INDEX_GRAPHBIN_2:
                     dm_snd_play_in_game(SND_INDEX_62);
                     return -2;
+
+                default:
                     break;
             }
             break;
@@ -5894,11 +5904,11 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
                     break;
 
                 case GMD_TaiQ:
-                    disp_clear_logo(&gGfxHead, arg1, 0);
+                    disp_clear_logo(&gGfxHead, arg1, false);
                     break;
 
                 default:
-                    disp_clear_logo(&gGfxHead, arg1, 1);
+                    disp_clear_logo(&gGfxHead, arg1, true);
                     break;
             }
             break;
@@ -5909,7 +5919,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
 
     switch (gameStateDataRef->unk_014) {
         case 0x13:
-            disp_allclear_logo(&gGfxHead, arg1, 0);
+            disp_allclear_logo(&gGfxHead, arg1, false);
             break;
 
         default:
