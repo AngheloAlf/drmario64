@@ -1,5 +1,7 @@
 #include "065080.h"
 
+#include "macros_defines.h"
+
 void func_8007D260(f32 arg0[3], Mtx *arg1, f32 arg2[3]) {
     f32 sp18[4][4];
     f32 sp58[4];
@@ -218,11 +220,11 @@ bool func_8007D83C(f32 arg0[3][3], f32 arg1[3][3], s32 arg2) {
 
     temp = (var_a2 == var_a3) ? var_a0 : var_a3;
 
-    if ((arg0[var_a2][1] < 1e-08) && (arg0[var_a2][1] > -1e-08)) {
+    if ((arg0[var_a2][1] < DOUBLE_LITERAL(1.0 / 100000000)) && (arg0[var_a2][1] > -DOUBLE_LITERAL(1.0 / 100000000))) {
         return false;
     }
 
-    temp_ft1 = 1.0 / arg0[var_a2][1];
+    temp_ft1 = DOUBLE_LITERAL(1) / arg0[var_a2][1];
     arg0[var_a2][1] = 1.0f;
     arg0[var_a2][2] *= temp_ft1;
     arg1[var_a2][var_a2] = temp_ft1;
@@ -239,11 +241,11 @@ bool func_8007D83C(f32 arg0[3][3], f32 arg1[3][3], s32 arg2) {
         arg1[var_t1][arg2] += temp_ft1 * arg1[var_a2][arg2];
     }
 
-    if ((arg0[temp][2] < 1e-08) && (arg0[temp][2] > -1e-08)) {
+    if ((arg0[temp][2] < DOUBLE_LITERAL(1.0 / 100000000)) && (arg0[temp][2] > -DOUBLE_LITERAL(1.0 / 100000000))) {
         return false;
     }
 
-    temp_ft1 = 1.0 / arg0[temp][2];
+    temp_ft1 = DOUBLE_LITERAL(1) / arg0[temp][2];
     arg0[temp][2] = 1.0f;
     arg1[temp][temp] = temp_ft1;
     arg1[temp][arg2] *= temp_ft1;
@@ -293,11 +295,11 @@ bool func_8007DB78(f32 arg0[3][3], f32 arg1[3][3]) {
         }
     }
 
-    if ((arg0[var_a2][0] < 1e-08) && (arg0[var_a2][0] > -1e-08)) {
+    if ((arg0[var_a2][0] < DOUBLE_LITERAL(1.0 / 100000000)) && (arg0[var_a2][0] > -DOUBLE_LITERAL(1.0 / 100000000))) {
         return 0;
     }
 
-    temp_ft1 = 1.0 / arg0[var_a2][0];
+    temp_ft1 = DOUBLE_LITERAL(1) / arg0[var_a2][0];
     arg0[var_a2][0] = 1.0f;
     arg0[var_a2][1] *= temp_ft1;
     arg0[var_a2][2] *= temp_ft1;
@@ -331,7 +333,7 @@ bool func_8007DD70(f32 arg0[4][4], f32 arg1[4], f32 *arg2, s32 *arg3) {
     *arg3 = -1;
     var_fv0 = arg0[3][3] >= 0.0f ? arg0[3][3] : -arg0[3][3];
 
-    if (var_fv0 < 1e-08) {
+    if (var_fv0 < DOUBLE_LITERAL(1.0 / 100000000)) {
         var_ft0 = 0.0f;
         for (i = 0; i < 4; i++) {
             if (var_ft0 < arg0[i][3]) {
@@ -357,7 +359,7 @@ bool func_8007DD70(f32 arg0[4][4], f32 arg1[4], f32 *arg2, s32 *arg3) {
     arg1[0] = -arg0[0][3];
     arg1[1] = -arg0[1][3];
     arg1[2] = -arg0[2][3];
-    *arg2 = 1.0 / arg0[3][3];
+    *arg2 = DOUBLE_LITERAL(1) / arg0[3][3];
 
     arg0[0][3] = arg0[1][3] = arg0[2][3] = 0.0f;
     arg0[3][3] = 1.0f;
@@ -401,7 +403,8 @@ bool func_8007DF64(f32 arg0[4][4], f32 arg1[4][4]) {
     arg0[3][3] = 1.0f;
 
     var_s2 = 0;
-    if ((sp18[0][3] == 0.0) && (sp18[1][3] == 0.0) && (sp18[2][3] == 0.0) && (sp18[3][3] == 1.0)) {
+    if ((sp18[0][3] == DOUBLE_LITERAL(0)) && (sp18[1][3] == DOUBLE_LITERAL(0)) && (sp18[2][3] == DOUBLE_LITERAL(0)) &&
+        (sp18[3][3] == DOUBLE_LITERAL(1))) {
         var_s2 = 1;
     }
 

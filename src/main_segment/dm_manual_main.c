@@ -102,7 +102,7 @@ void func_80071F14(struct_800F4890_unk_034 *arg0, void **heapP) {
 void func_80071FA0(struct_800F4890_unk_034 *arg0) {
     arg0->unk_08 = CLAMP(arg0->unk_08 + arg0->unk_0C, 0.0f, 1.0f);
 
-    if (arg0->unk_08 == 1.0) {
+    if (arg0->unk_08 == DOUBLE_LITERAL(1)) {
         msgWnd_update(&arg0->messageWnd);
     }
 }
@@ -1609,7 +1609,7 @@ void func_80074B08(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, s32 arg3, s32 arg4, s32 a
     gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
     mtx++;
 
-    temp = WrapF(0.0f, 1.0f, temp_s0->unk_184 * (1 / 128.0)) * M_PI * 2.0;
+    temp = WrapF(0.0f, 1.0f, temp_s0->unk_184 * DOUBLE_LITERAL(1.0 / 128)) * DOUBLE_LITERAL(M_PI) * 2;
     guRotateRPYF(sp48, 0.0f, (1 - arg5) * 0x5A, sinf(temp) * 4.0f * arg5);
 
     var_s1 = WrapI(0, ARRAY_COUNT(RO_800B3150), ((temp_s0->unk_184 & 0x7F) * 3) >> 2);
@@ -1936,8 +1936,8 @@ void dm_manual_all_init(void) {
         temp_s4->unk_14C[i].unk_4 = 0;
 
         temp_s4->unk_0C4[i].unk_8 = j;
-        temp_s4->unk_0C4[i].unk_0 = sinf(temp_s4->unk_0C4[i].unk_8 * 3.141592654 / 180.0) * 20.0f + 45.0f;
-        temp_s4->unk_0C4[i].unk_4 = cosf(temp_s4->unk_0C4[i].unk_8 * 3.141592654 / 180.0) * -20.0f + 155.0f;
+        temp_s4->unk_0C4[i].unk_0 = sinf(temp_s4->unk_0C4[i].unk_8 * DOUBLE_LITERAL(PI_D) / 180) * 20.0f + 45.0f;
+        temp_s4->unk_0C4[i].unk_4 = cosf(temp_s4->unk_0C4[i].unk_8 * DOUBLE_LITERAL(PI_D) / 180) * -20.0f + 155.0f;
 
         j += 0x78;
     }

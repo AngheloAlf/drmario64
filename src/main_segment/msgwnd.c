@@ -240,9 +240,9 @@ void msgWnd_update(MessageWnd *messageWnd) {
         msgWnd_skip(messageWnd);
     }
 
-    if (messageWnd->scrCount > 0.0) {
+    if (messageWnd->scrCount > DOUBLE_LITERAL(0)) {
         messageWnd->scrCount -= messageWnd->scrSpeed;
-        if (messageWnd->scrCount > 0.0) {
+        if (messageWnd->scrCount > DOUBLE_LITERAL(0)) {
             return;
         }
 
@@ -251,11 +251,11 @@ void msgWnd_update(MessageWnd *messageWnd) {
     }
 
     if (messageWnd->rowNow >= messageWnd->rowSize) {
-        messageWnd->scrCount += 1.0;
+        messageWnd->scrCount += DOUBLE_LITERAL(1);
         return;
     }
 
-    messageWnd->scrCount = 0;
+    messageWnd->scrCount = 0.0f;
     if (messageWnd->keyWait) {
         messageWnd->countWait = 0;
         if (_checkKeyTrg(messageWnd->contFlags, A_BUTTON | B_BUTTON | START_BUTTON)) {
@@ -270,7 +270,7 @@ void msgWnd_update(MessageWnd *messageWnd) {
     }
 
     messageWnd->msgCount += messageWnd->msgSpeed;
-    while (messageWnd->msgCount >= 1.0) {
+    while (messageWnd->msgCount >= DOUBLE_LITERAL(1)) {
         if (messageWnd->msgBuf[messageWnd->msgBufNow] == '~') {
             switch (messageWnd->msgBuf[messageWnd->msgBufNow + 1]) {
                 case 'w': // MSG_WAIT
@@ -367,9 +367,9 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
     rowSize = messageWnd->rowSize;
     scrY = 0.0f;
     row = 0;
-    if (messageWnd->scrCount > 0.0) {
+    if (messageWnd->scrCount > DOUBLE_LITERAL(0)) {
         rowSize++;
-        scrY = (1.0 - messageWnd->scrCount) * messageWnd->rowStep;
+        scrY = (DOUBLE_LITERAL(1) - messageWnd->scrCount) * messageWnd->rowStep;
     }
 
     gDPSetPrimColor(gfx++, 0, 0, sMessageColorTable[color].r, sMessageColorTable[color].g, sMessageColorTable[color].b,
@@ -474,7 +474,7 @@ void msgWnd_draw(MessageWnd *messageWnd, Gfx **gfxP) {
         }
     }
 
-    if (messageWnd->keyWait && (messageWnd->scrCount == 0.0)) {
+    if (messageWnd->keyWait && (messageWnd->scrCount == DOUBLE_LITERAL(0))) {
         s32 blink = sins(messageWnd->grapCount << 10) * (1.0f / 0x200) + 191.0f;
 
         blink = (blink * messageWnd->alpha) >> 8;

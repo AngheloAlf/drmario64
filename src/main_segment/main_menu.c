@@ -59,11 +59,11 @@ f32 func_80045E18(f32 arg0, f32 arg1) {
 }
 
 f32 func_80045E48(f32 arg0) {
-    if (arg0 < 0.5) {
+    if (arg0 < DOUBLE_LITERAL(0.5)) {
         arg0 = SQ(arg0);
     } else {
-        arg0 = 1.0 - arg0;
-        arg0 = 0.5 - SQ(arg0);
+        arg0 = DOUBLE_LITERAL(1) - arg0;
+        arg0 = DOUBLE_LITERAL(0.5) - SQ(arg0);
     }
 
     return 2.0f * arg0;
@@ -105,7 +105,7 @@ void transFunc_finger(MenuItem *item) {
     f32 temp_fv0_2;
 
     temp_fv0 = func_80045E18(item->unk_14, item->unk_18);
-    temp_fv0_2 = (sinf(temp_fv0 * (2 * M_PI)) + 1.0) * 0.5;
+    temp_fv0_2 = (sinf(2 * DOUBLE_LITERAL(M_PI) * temp_fv0) + DOUBLE_LITERAL(1)) * DOUBLE_LITERAL(0.5);
     item->unk_14 = temp_fv0;
 
     for (i = 0; i < ARRAY_COUNTU(item->pos); i++) {
@@ -176,7 +176,7 @@ void colorFunc_cursor(MenuItem *item) {
     f32 temp_fv0_2;
 
     temp_fv0 = func_80045E18(item->unk_64, item->unk_68);
-    temp_fv0_2 = (sinf(2 * M_PI * temp_fv0) + 1.0) * 0.5;
+    temp_fv0_2 = (sinf(2 * DOUBLE_LITERAL(M_PI) * temp_fv0) + DOUBLE_LITERAL(1)) * DOUBLE_LITERAL(0.5);
     item->unk_64 = temp_fv0;
 
     for (i = 0; i < ARRAY_COUNTU(item->color.arr); i++) {
@@ -1742,7 +1742,7 @@ void menuSpeedItem_init(MenuSpeedItem *speedItem, struct_watchMenu *watchMenuRef
             s32 k;
 
             for (k = 0; k < MENUITEM_UNK_LEN4; k++) {
-                item->unk_6C[j][k] = _gameLvItemColor[i][j][k] * (1.0 / 0xFF);
+                item->unk_6C[j][k] = _gameLvItemColor[i][j][k] * (DOUBLE_LITERAL(1) / 0xFF);
             }
         }
     }
@@ -1795,13 +1795,13 @@ void menuSpeedItem_update(MenuSpeedItem *arg0, MenuItem *arg1) {
             }
 
             for (j = 0; j < MENUITEM_UNK_LEN4; j++) {
-                var_a0->unk_6C[0][j] = _gameLvItemColor[i][1][j] * (1.0 / 0x1FF);
+                var_a0->unk_6C[0][j] = _gameLvItemColor[i][1][j] * (DOUBLE_LITERAL(1) / 0x1FF);
             }
         } else {
             var_a2 = var_a0->unk_6C[0];
 
             for (j = 0; j < MENUITEM_UNK_LEN4; j++) {
-                var_a0->unk_6C[0][j] = _gameLvItemColor[i][0][j] * (1.0 / 0xFF);
+                var_a0->unk_6C[0][j] = _gameLvItemColor[i][0][j] * (DOUBLE_LITERAL(1) / 0xFF);
             }
         }
 
@@ -1941,7 +1941,7 @@ void menuMusicItem_init(MenuMusicItem *musicItem, struct_watchMenu *watchMenuRef
             s32 k;
 
             for (k = 0; k < ARRAY_COUNTU(_musicItemColor[j]); k++) {
-                item->unk_6C[j][k] = _musicItemColor[j][k] * (1.0 / 255.0);
+                item->unk_6C[j][k] = _musicItemColor[j][k] * (DOUBLE_LITERAL(1) / 255);
             }
         }
     }
@@ -2016,12 +2016,12 @@ void menuMusicItem_update(MenuMusicItem *menuMusicItem, MenuItem *arg1) {
             }
 
             for (j = 0; j < ARRAY_COUNTU(_musicItemColor[1]); j++) {
-                temp_s0_2->unk_6C[0][j] = _musicItemColor[1][j] * (1.0 / 0x1FF);
+                temp_s0_2->unk_6C[0][j] = _musicItemColor[1][j] * (DOUBLE_LITERAL(1) / 0x1FF);
             }
         } else {
             var_a1 = temp_s0_2->unk_6C[0];
             for (j = 0; j < ARRAY_COUNTU(_musicItemColor[0]); j++) {
-                temp_s0_2->unk_6C[0][j] = _musicItemColor[0][j] * (1.0 / 0xFF);
+                temp_s0_2->unk_6C[0][j] = _musicItemColor[0][j] * (DOUBLE_LITERAL(1) / 0xFF);
             }
         }
 
@@ -2654,17 +2654,17 @@ void menuNameSelPanel_init(MenuNameSelPanel *nameSelPanel, struct_watchMenu *wat
             MenuItem *item;
 
             item = &nameSelPanel->unk_5C8[i].unk_0B0;
-            item->unk_64 = WrapF(0.0f, 1.0f, item->unk_64 + 0.5);
+            item->unk_64 = WrapF(0.0f, 1.0f, item->unk_64 + DOUBLE_LITERAL(0.5));
 
             item = &nameSelPanel->unk_5C8[i].unk_140;
-            item->unk_14 = WrapF(0.0f, 1.0f, item->unk_14 + 0.5);
+            item->unk_14 = WrapF(0.0f, 1.0f, item->unk_14 + DOUBLE_LITERAL(0.5));
             item->unk_1C[0] += nameSelPanel->unk_5C8[i].unk_014 + 0x10;
             item->unk_24[0] += nameSelPanel->unk_5C8[i].unk_014 + 0x10;
             item->unk_40[0] = -item->unk_40[0];
             item->unk_48[0] = -item->unk_48[0];
 
             item = &nameSelPanel->unk_5C8[i].unk_1D0;
-            item->unk_14 = WrapF(0.0f, 1.0f, item->unk_14 + 0.5);
+            item->unk_14 = WrapF(0.0f, 1.0f, item->unk_14 + DOUBLE_LITERAL(0.5));
             item->unk_1C[0] += nameSelPanel->unk_5C8[i].unk_014 + 0x10;
             item->unk_24[0] += nameSelPanel->unk_5C8[i].unk_014 + 0x10;
         }
@@ -5720,7 +5720,7 @@ void menuMain_update(MenuMain *menuMain) {
 
     func_8004B488(&menuMain->unk_2658, rootItem);
 
-    menuMain->unk_0038 = WrapF(0.0f, 1.0f, menuMain->unk_0038 + 0.0078125);
+    menuMain->unk_0038 = WrapF(0.0f, 1.0f, menuMain->unk_0038 + DOUBLE_LITERAL(1.0 / 128));
 
     func_800492D8(&menuMain->unk_2B6C, rootItem);
     func_80049754(&menuMain->unk_31E4, rootItem);
@@ -5773,7 +5773,7 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
     s32 temp;
 
     for (i = 0; i < ARRAY_COUNTU(sp88); i++) {
-        sp88[i] = WrapF(0.0f, 1.0f, menuMain->unk_0038 - (i * 0.125)) * M_PI * 2.0;
+        sp88[i] = WrapF(0.0f, 1.0f, menuMain->unk_0038 - (i * DOUBLE_LITERAL(0.125))) * DOUBLE_LITERAL(M_PI) * 2;
     }
 
     guOrtho(mtx, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f, 10.0f, 1.0f);
@@ -6135,7 +6135,7 @@ void menuStory_input(MenuStory *menuStory) {
     s32 var_a1;
     long i;
 
-    if (menuStory->unk_0040.unk_14 != 1.0) {
+    if (menuStory->unk_0040.unk_14 != DOUBLE_LITERAL(1)) {
         return;
     }
 
@@ -8723,7 +8723,7 @@ void menuRankFig_init(MenuRankFig *menuRankFig, struct_watchMenu *watchMenuRef, 
     item = &menuRankFig->unk_38;
     ptr = _color_9658[color];
     for (i = 0; i < ARRAY_COUNT(_color_9658[color]); i++) {
-        item->unk_6C[0][i] = item->unk_6C[1][i] = ptr[i] * (1.0 / 255.0);
+        item->unk_6C[0][i] = item->unk_6C[1][i] = ptr[i] * (DOUBLE_LITERAL(1) / 255);
     }
 }
 
@@ -8898,7 +8898,7 @@ void menuRankName_init(MenuRankName *menuRankName, struct_watchMenu *watchMenuRe
     menuItem_init(item, arg3, arg4);
 
     for (i = 0; i < ARRAY_COUNT(RO_800B1210); i++) {
-        item->unk_6C[0][i] = item->unk_6C[1][i] = RO_800B1210[i] * (1.0 / 255.0);
+        item->unk_6C[0][i] = item->unk_6C[1][i] = RO_800B1210[i] * (DOUBLE_LITERAL(1) / 255);
     }
 }
 
@@ -10404,8 +10404,8 @@ void menuAll_update(struct_watchMenu *arg0) {
 
     arg0->unk_111DC = CLAMP(arg0->unk_111DC + arg0->unk_111E0, 0.0f, 1.0f);
 
-    temp_f2_2 = (arg0->unk_111DC - 0.5) * 1.2 + 0.5;
-    temp_f2_2 = 1.0 - CLAMP(temp_f2_2, 0.0f, 1.0f);
+    temp_f2_2 = (arg0->unk_111DC - DOUBLE_LITERAL(0.5)) * DOUBLE_LITERAL(1.2) + DOUBLE_LITERAL(0.5);
+    temp_f2_2 = DOUBLE_LITERAL(1) - CLAMP(temp_f2_2, 0.0f, 1.0f);
 
     for (i = 0; i < 3; i++) {
         var_v1->unk_6C[1][i] = temp_f2_2;
@@ -10542,7 +10542,8 @@ void menuAll_draw(struct_watchMenu *arg0, Gfx **gfxP) {
     arg0->unk_02448[gfx_gtask_no] = &arg0->unk_00048[gfx_gtask_no][0];
     arg0->unk_02454[gfx_gtask_no] = &arg0->unk_00C48[gfx_gtask_no][0];
 
-    color = (((arg0->unk_111DC - 0.5) * 1.2) + 0.5) * 255.0;
+    color =
+        (((arg0->unk_111DC - DOUBLE_LITERAL(0.5)) * DOUBLE_LITERAL(1.2)) + DOUBLE_LITERAL(0.5)) * DOUBLE_LITERAL(255);
     color = CLAMP(color, 0, 255);
 
     gDPSetEnvColor(gGfxHead++, color, color, color, 255);

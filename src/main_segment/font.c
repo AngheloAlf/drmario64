@@ -1276,14 +1276,14 @@ bool fontXX_drawID2(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index) 
     textureWidth = 0xC;
     textureHeight = 0xC;
 
-    sp20[0] = (x * 4.0) + 0.5;
-    sp20[1] = (y * 4.0) + 0.5;
-    sp20[2] = (x + width) * 4.0 + 0.5;
-    sp20[3] = (y + height) * 4.0 + 0.5;
+    sp20[0] = (x * DOUBLE_LITERAL(4)) + DOUBLE_LITERAL(0.5);
+    sp20[1] = (y * DOUBLE_LITERAL(4)) + DOUBLE_LITERAL(0.5);
+    sp20[2] = (x + width) * DOUBLE_LITERAL(4) + DOUBLE_LITERAL(0.5);
+    sp20[3] = (y + height) * DOUBLE_LITERAL(4) + DOUBLE_LITERAL(0.5);
     sp20[4] = 0;
     sp20[5] = 0;
-    sp20[6] = (f64)0x3000 / width + 0.5;
-    sp20[7] = (f64)0x3000 / height + 0.5;
+    sp20[6] = DOUBLE_LITERAL(0x3000) / width + DOUBLE_LITERAL(0.5);
+    sp20[7] = DOUBLE_LITERAL(0x3000) / height + DOUBLE_LITERAL(0.5);
 
     texture = font_2_tex;
 

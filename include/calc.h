@@ -5,7 +5,7 @@
 
 #include "macros_defines.h"
 
-#define DEG_TO_RAD(x) ((x)*M_PI / 180.0)
+#define DEG_TO_RAD(x) ((x) * DOUBLE_LITERAL(M_PI) / 180)
 
 f32 tanf(f32 a);
 void matrixMulF(const f32 s[4][4], const f32 d[4][4], f32 r[4][4]);

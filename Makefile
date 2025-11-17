@@ -23,7 +23,7 @@ RUN_CC_CHECK ?= 1
 CC_CHECK_COMP ?= clang
 # Dump build object files
 OBJDUMP_BUILD ?= 1
-# 
+#
 MULTISTEP_BUILD ?= 0
 # If non-zero, passes -v to compiler
 COMPILER_VERBOSE ?= 0
@@ -77,7 +77,7 @@ endif
 
 ifneq ($(MODDING), 0)
     NON_MATCHING    := 1
-    BUILD_DEFINES   += -DMODDING=1
+    BUILD_DEFINES   += -DMODDING=1 -DAVOID_DOUBLE_LIT_PROMOTION=1
 endif
 
 ifeq ($(NON_MATCHING),1)
@@ -168,7 +168,11 @@ IINC       += -Ilib/ultralib/include -Ilib/ultralib/include/PR -Ilib/libmus/incl
 IINC       += -Iinclude -Ibin/$(VERSION) -I$(BUILD_DIR)/bin/$(VERSION) -I $(BUILD_DIR) -I.
 
 # Check code syntax with host compiler
-CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough -Wno-unknown-pragmas -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
+CHECK_WARNINGS := -Wall -Wextra -Wimplicit-fallthrough
+CHECK_WARNINGS += -Wno-sign-compare -Wno-uninitialized -Wno-char-subscripts -Wno-pointer-sign
+CHECK_WARNINGS += -Wdouble-promotion -DAVOID_DOUBLE_LIT_PROMOTION=1
+# TODO: consider enabling these and addressing this
+# CHECK_WARNINGS += -Wconversion
 CHECK_WARNINGS += -Wno-invalid-source-encoding
 
 ifneq ($(WERROR), 0)

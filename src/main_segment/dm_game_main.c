@@ -1737,7 +1737,7 @@ void func_80062EC0(struct_watchGame_unk_0B8 *arg0) {
         struct_watchGame_unk_0B8_unk_00 *temp_s1 = &arg0->unk_00[var_s0];
         struct_watchGame_unk_0B8_unk_00 *new_var = &arg0->unk_00[WrapI(0, ARRAY_COUNTU(arg0->unk_00), var_s0 - 1)];
 
-        if (new_var->unk_10 > 0.2) {
+        if (new_var->unk_10 > DOUBLE_LITERAL(0.2)) {
             temp_s1->unk_10 = MIN(1.0f, temp_s1->unk_10 + val);
         }
     }
@@ -2960,7 +2960,8 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                 gameStateData->unk_168 = 0;
                 watchGameP->unk_9BC = 0;
 
-                watchGameP->unk_3C8 = MAX(_big_virus_min_wait[gameStateData->unk_16C], watchGameP->unk_3C8 - 0.5);
+                watchGameP->unk_3C8 =
+                    MAX(_big_virus_min_wait[gameStateData->unk_16C], watchGameP->unk_3C8 - DOUBLE_LITERAL(0.5));
 
                 gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_8;
                 if (bottom_up_bottle_items(mapCells)) {
@@ -3739,7 +3740,7 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
             var_fv0 = -1.0f;
         }
 
-        watchGameP->unk_3F4[i] = CLAMP(watchGameP->unk_3F4[i] + (var_fv0 / 60.0), 0, 1);
+        watchGameP->unk_3F4[i] = CLAMP(watchGameP->unk_3F4[i] + var_fv0 / DOUBLE_LITERAL(60), 0, 1);
     }
 
     do {
@@ -3856,8 +3857,8 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
     }
 
     for (i = 0; i < ARRAY_COUNT(watchGameP->unk_3E8); i++) {
-        watchGameP->unk_3D0[i][0] = sinf((watchGameP->unk_3E8[i] * 3.141592654) / 180.0) * 20.0f + 61.0f;
-        watchGameP->unk_3D0[i][1] = cosf((watchGameP->unk_3E8[i] * 3.141592654) / 180.0) * -20.0f + 171.0f;
+        watchGameP->unk_3D0[i][0] = sinf(watchGameP->unk_3E8[i] * DOUBLE_LITERAL(PI_D) / 180) * 20.0f + 61.0f;
+        watchGameP->unk_3D0[i][1] = cosf(watchGameP->unk_3E8[i] * DOUBLE_LITERAL(PI_D) / 180) * -20.0f + 171.0f;
     }
 }
 
@@ -4832,25 +4833,25 @@ void scoreNums_draw(struct_watchGame_unk_0B8 *arg0, Gfx **gfxP) {
         f32 var_fv0_2;
         s32 alpha;
 
-        if (temp_ft0 == 1.0) {
+        if (temp_ft0 == DOUBLE_LITERAL(1.0)) {
             continue;
         }
 
-        if (temp_ft0 < 0.2) {
+        if (temp_ft0 < DOUBLE_LITERAL(0.2)) {
             alpha = temp_ft0 * 1275.0f;
-        } else if (temp_ft0 < 0.8) {
+        } else if (temp_ft0 < DOUBLE_LITERAL(0.8)) {
             alpha = 255;
         } else {
             alpha = (1.0f - temp_ft0) * 1275.0f;
         }
 
-        if (temp_ft0 > 0.5) {
+        if (temp_ft0 > DOUBLE_LITERAL(0.5)) {
             var_fv0_2 = 1.0f;
         } else {
-            var_fv0_2 = (temp_ft0 * 4.0) - 1.0;
+            var_fv0_2 = temp_ft0 * DOUBLE_LITERAL(4) - DOUBLE_LITERAL(1);
         }
 
-        var_fv0_2 = (1.0 - (var_fv0_2 * var_fv0_2)) * 8.0;
+        var_fv0_2 = (DOUBLE_LITERAL(1) - var_fv0_2 * var_fv0_2) * DOUBLE_LITERAL(8);
 
         gDPSetPrimColor(gfx++, 0, 0, _scoreNumsColor[temp_t3->unk_0C].r, _scoreNumsColor[temp_t3->unk_0C].g,
                         _scoreNumsColor[temp_t3->unk_0C].b, alpha);
@@ -5311,7 +5312,7 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
         f32 temp_ft0 = watchGameP->unk_9A0[i] - 0xF;
         s32 alpha;
 
-        temp_ft0 = SQ(temp_ft0) * 0.125 + 81.0 - 28.125;
+        temp_ft0 = SQ(temp_ft0) * DOUBLE_LITERAL(0.125) + DOUBLE_LITERAL(81) - DOUBLE_LITERAL(28.125);
         alpha = 255 - watchGameP->unk_9A0[i] * 0xFF / 30;
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
@@ -5629,6 +5630,7 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     s32 var_v0;
     s32 var_s0;
     s32 var_s3;
+    f32 angle;
 
     guOrtho(mtx, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f, 10.0f, 1.0f);
     gSPMatrix(gfx++, mtx++, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
@@ -5636,8 +5638,8 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     guTranslate(mtx, 0.0f, 0.0f, -5.0f);
     gSPMatrix(gfx++, mtx++, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
 
-    guRotateRPYF(sp48, 0.0f, (1 - arg6) * 0x5A,
-                 sinf(2.0 * (WrapF(0.0f, 1.0f, watchGameP->unk_424 * (1.0 / 128.0)) * M_PI)) * 4.0f * arg6);
+    angle = WrapF(0.0f, 1.0f, watchGameP->unk_424 * DOUBLE_LITERAL(1.0 / 128)) * DOUBLE_LITERAL(M_PI) * 2;
+    guRotateRPYF(sp48, 0.0f, (1 - arg6) * 0x5A, sinf(angle) * 4.0f * arg6);
 
     var_v0 = WrapI(0, ARRAY_COUNT(_pat_4838), ((watchGameP->unk_424 % 128U) * 9) >> 4);
 

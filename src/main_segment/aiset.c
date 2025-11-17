@@ -3039,13 +3039,14 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
     temp_s2 = &ai_char_data[var_a0_8];
 
     gameStateDataRef->unk_296 = 0;
+    // TODO: bitflags
     gameStateDataRef->unk_239 &= ~0xFE;
     gameStateDataRef->unk_292 &= ~4;
     aiPriOfs = 0;
 
     if (gameStateDataRef->unk_299 != 0) {
         var_s5 = 0;
-    } else if (aiRootP < 4.0) {
+    } else if (aiRootP < DOUBLE_LITERAL(4)) {
         var_s5 = 1;
     } else if (((gameStateDataRef->unk_29B < 7) && (var_a3_4 != 0)) || (var_t0_2 < 3)) {
         if ((var_t0_2 != 0) || (var_t3_2 < var_a2_3 - 4) || (var_t3_2 < 9)) {

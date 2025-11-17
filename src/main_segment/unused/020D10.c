@@ -470,7 +470,7 @@ void func_80039BE0(Vtx *vtx, f32 arg1, f32 arg2, f32 arg3) {
     s32 var_t0;
     s32 var_s0;
 
-    arg2 = 3.141592f / arg2;
+    arg2 = PI_F / arg2;
 
     for (var_t0 = 0; var_t0 < ARRAY_COUNT(sp18); var_t0++) {
         sp18[var_t0] = (var_t0 + 1) * arg3;
@@ -681,18 +681,18 @@ void *func_8003A26C(void *heap) {
     heap = (void *)((uintptr_t)temp_s3->unk_80 + sizeof(struct_800E53B0_b_unk_80) * 0x15 * 0x10);
 
     for (var_s2 = 0; var_s2 < 0x15; var_s2++) {
-        temp_fs1 = sinf(var_s2 * (3.141592f / 10));
-        temp_fs2 = cosf(var_s2 * (3.141592f / 10));
+        temp_fs1 = sinf(PI_F / 10 * var_s2);
+        temp_fs2 = cosf(PI_F / 10 * var_s2);
 
         for (var_s1 = 0; var_s1 < 0x10; var_s1++) {
-            temp_s0 = temp_s3->unk_80[(var_s2 * 0x10) + var_s1];
+            temp_s0 = temp_s3->unk_80[var_s2 * 0x10 + var_s1];
 
-            temp_fs0_2 = sinf(var_s1 * (3.141592f / 15));
-            temp_fv0_2 = cosf(var_s1 * (3.141592f / 15));
+            temp_fs0_2 = sinf(PI_F / 15 * var_s1);
+            temp_fv0_2 = cosf(PI_F / 15 * var_s1);
 
-            temp_s0[0x04 / 4] = temp_s0[0x10 / 4] = temp_fv0_2;
-            temp_s0[0x00 / 4] = temp_s0[0x0C / 4] = -temp_fs1 * temp_fs0_2;
-            temp_s0[0x08 / 4] = temp_s0[0x14 / 4] = -temp_fs2 * temp_fs0_2;
+            temp_s0[1] = temp_s0[1 + 3] = temp_fv0_2;
+            temp_s0[0] = temp_s0[0 + 3] = -temp_fs1 * temp_fs0_2;
+            temp_s0[2] = temp_s0[2 + 3] = -temp_fs2 * temp_fs0_2;
 
             temp_s0[0] *= 80.0f;
             temp_s0[1] *= 80.0f;

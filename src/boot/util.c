@@ -39,11 +39,13 @@ f32 WrapF(f32 start, f32 end, f32 value) {
     } else {
         f32 size = end - start;
 
-        value = fmod(value - start, size);
+        // Ideally this would use `fmodf` instead, but that function wasn't
+        // part of the C standard yet back then.
+        value = fmod((f64)(value - start), (f64)size);
         if (value < 0.0f) {
             value += size;
         }
-        value = value + start;
+        value += start;
         return value;
     }
 }

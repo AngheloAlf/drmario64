@@ -106,17 +106,17 @@ s32 lws_anim(Gfx **gfxP, Mtx *mtx, Lws *pSceneData, s32 frame, void *baseAddr) {
 
         makeScaleMatrix(&sp68, 0x8000);
 
-        sp68.m[0][0] = sx * 8.0 + 0.5;
-        sp68.m[1][1] = sy * 8.0 + 0.5;
-        sp68.m[2][2] = sz * 8.0 + 0.5;
+        sp68.m[0][0] = sx * DOUBLE_LITERAL(8) + DOUBLE_LITERAL(0.5);
+        sp68.m[1][1] = sy * DOUBLE_LITERAL(8) + DOUBLE_LITERAL(0.5);
+        sp68.m[2][2] = sz * DOUBLE_LITERAL(8) + DOUBLE_LITERAL(0.5);
 
         ilx = lx * DOUBLE_LITERAL(0x1000);
         ily = ly * DOUBLE_LITERAL(0x1000);
         ilz = lz * DOUBLE_LITERAL(0x1000);
 
-        irx = angleF2S(rx / 16.0);
-        iry = angleF2S(ry / 16.0);
-        irz = angleF2S(rz / 16.0);
+        irx = angleF2S(rx / DOUBLE_LITERAL(16));
+        iry = angleF2S(ry / DOUBLE_LITERAL(16));
+        irz = angleF2S(rz / DOUBLE_LITERAL(16));
 
         makeMatrix(&spA8, irx, iry, irz, ilx, ily, ilz);
         matrixMulL(&sp68, &spA8, &m);

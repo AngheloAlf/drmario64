@@ -304,7 +304,7 @@ f32 get_angleF(f32 x, f32 y) {
  * Convert binary angle to float angle in degrees.
  */
 f32 angleS2F(s16 a) {
-    return ((f32)(s32)a) * (360.0 / 0x10000);
+    return ((f32)(s32)a) * (DOUBLE_LITERAL(360) / 0x10000);
 }
 
 /**
@@ -313,7 +313,7 @@ f32 angleS2F(s16 a) {
  * Convert float angle in degrees to a binary angle.
  */
 s16 angleF2S(f32 a) {
-    return (s32)(f32)(a * (0x10000 / 360.0));
+    return (s32)(f32)(a * (0x10000 / DOUBLE_LITERAL(360)));
 }
 
 /**
@@ -374,7 +374,7 @@ void matrixF2Lloc0(Mtx *mtx, CONST_ARG f32 mtxf[4][4]) {
  * Rotate `(pointX, pointY)` about `(centreX, centreY)` by `angle` degrees, modifying in-place.
  */
 void rotpoint(f32 angle, f32 centreX, f32 centreY, f32 *pointX, f32 *pointY) {
-    f32 angleRad = angle * M_DTOR;
+    f32 angleRad = angle * DOUBLE_LITERAL(M_DTOR);
     f32 sin = sinf(angleRad);
     f32 cos = cosf(angleRad);
     f32 diffX = *pointX - centreX;

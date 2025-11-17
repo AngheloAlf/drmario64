@@ -11,11 +11,12 @@
 #include "defines.h"
 #include "macros_defines.h"
 
-#include "dm_game_main.h"
-#include "tex_func.h"
-#include "main_story.h"
-#include "lws.h"
+#include "calc.h"
 #include "calcsub.h"
+#include "dm_game_main.h"
+#include "lws.h"
+#include "main_story.h"
+#include "tex_func.h"
 
 #include "assets/game_etc/etc.h"
 
@@ -1083,10 +1084,10 @@ void disp_attack_effect(Gfx **gfxP) {
         x = attack_effect[i].ex - t * (attack_effect[i].ex - attack_effect[i].sx);
 
         y = attack_effect[i].ey - t * (attack_effect[i].ey - attack_effect[i].sy);
-        y -= scl * sinf((t * DOUBLE_LITERAL(180) * M_PI) / DOUBLE_LITERAL(180));
+        y -= scl * sinf(DEG_TO_RAD(t * DOUBLE_LITERAL(180)));
 
-        attack_effect[i].x = x + 0.5;
-        attack_effect[i].y = y + 0.5;
+        attack_effect[i].x = x + DOUBLE_LITERAL(0.5);
+        attack_effect[i].y = y + DOUBLE_LITERAL(0.5);
 
         alpha = 240;
         if (attack_effect[i].time > 40) {

@@ -16,6 +16,10 @@
 #define SCREEN_WIDTH  320
 #define SCREEN_HEIGHT 240
 
+// An arbitrary definition for pi. Prefer M_PI
+#define PI_D 3.141592654
+#define PI_F 3.141592f
+
 
 #define CHECK_FLAG_ALL(flags, mask) (((flags) & (mask)) == (mask))
 
@@ -42,8 +46,8 @@
 #define CONST_ARG const
 #else
 #define CONST_ARG
-#endif
-#endif
+#endif /* MODDING */
+#endif /* CONST_ARG */
 
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 
@@ -51,8 +55,14 @@
 
 // Mark a value is a double literal.
 // This is usually unintended effect due to a missing `f` suffix.
-// Having this macro makes this easier to trackdown.
+// Having this macro makes this issue easier to trackdown.
+#ifndef DOUBLE_LITERAL
+#if AVOID_DOUBLE_LIT_PROMOTION
+#define DOUBLE_LITERAL(x) ((f32)(x))
+#else
 #define DOUBLE_LITERAL(x) ((f64)(x))
+#endif /* AVOID_DOUBLE_LIT_PROMOTION */
+#endif /* DOUBLE_LITERAL */
 
 #define ASM_TEXT __asm__(".section .text")
 #define ASM_DATA __asm__(".section .data")
