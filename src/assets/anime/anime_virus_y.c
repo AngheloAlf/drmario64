@@ -305,9 +305,7 @@ u8 anime_virus_y_metadata_00[] = {
 };
 
 u8 anime_virus_y_metadata_01[] = {
-    ANIME_METADATA_CMD_F2(0x00),
-    0x00,
-    0x00,
+    ANIME_METADATA_CMD_F2(ANIMENO_0),
 };
 
 u8 anime_virus_y_metadata_02[] = {
@@ -329,9 +327,7 @@ u8 anime_virus_y_metadata_02[] = {
     0x04,
     0x04,
     ANIME_METADATA_CMD_F1(0x64),
-    ANIME_METADATA_CMD_F2(0x00),
-    0x00,
-    0x00,
+    ANIME_METADATA_CMD_F2(ANIMENO_0),
 };
 
 u8 anime_virus_y_metadata_03[] = {

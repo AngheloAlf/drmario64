@@ -1289,12 +1289,10 @@ u8 anime_mario_metadata_00[] = {
     0x02,
     0x02,
     ANIME_METADATA_CMD_F1(0x64),
-    0x00,
-    0x00,
 };
 
 u8 anime_mario_metadata_01[] = {
-    0x31, 0x35, 0x35, 0x35, 0x35, 0x34, 0x34, 0x34, 0x31, 0x31, 0x31, ANIME_METADATA_CMD_F2(0x00), 0x00, 0x00, 0x00,
+    0x31, 0x35, 0x35, 0x35, 0x35, 0x34, 0x34, 0x34, 0x31, 0x31, 0x31, ANIME_METADATA_CMD_F2(ANIMENO_0),
 };
 
 u8 anime_mario_metadata_02[] = {
@@ -1334,8 +1332,6 @@ u8 anime_mario_metadata_02[] = {
     0x02,
     0x02,
     ANIME_METADATA_CMD_F1(0x64),
-    0x00,
-    0x00,
 };
 
 u8 anime_mario_metadata_03[] = {
@@ -1377,8 +1373,6 @@ u8 anime_mario_metadata_03[] = {
     0x18,
     ANIME_METADATA_CMD_F1(0x64),
     ANIME_METADATA_CMD_F1(0x64),
-    0x00,
-    0x00,
 };
 
 u8 anime_mario_metadata_04[] = {
@@ -1465,7 +1459,6 @@ u8 anime_mario_metadata_04[] = {
     0x2D,
     0x2D,
     ANIME_METADATA_CMD_F1(0x64),
-    0x00,
 };
 
 u8 *anime_mario_metadata[] = {

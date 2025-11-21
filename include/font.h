@@ -25,6 +25,6 @@ bool fontXX_drawID2(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index);
 bool fontAsc_draw(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, unsigned char *arg5);
 bool fontAsc_drawID(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, s32 index);
 bool fontAsc_draw2(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, unsigned char *charcode);
-bool fontAsc_drawID2(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, s32 arg5);
+bool fontAsc_drawID2(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, s32 index);
 
 #endif

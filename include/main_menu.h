@@ -478,7 +478,7 @@ typedef struct MenuPlay2Panel {
     /* 0x0290 */ MenuLvGauge unk_0290;
     /* 0x0590 */ MenuSpeedAsk unk_0590;
     /* 0x062C */ MenuSpeedItem unk_062C;
-    /* 0x0C90 */ AnimeState unk_0C90;
+    /* 0x0C90 */ SAnimeState unk_0C90;
     /* 0x0CD0 */ MenuItem unk_0CD0;
     /* 0x0D60 */ MenuCursor unk_0D60[2];
     /* 0x1220 */ MenuSpeedAsk unk_1220;
@@ -552,7 +552,7 @@ typedef struct MenuStory {
     /* 0x0040 */ MenuItem unk_0040;
     /* 0x00D0 */ MenuItem unk_00D0;
     /* 0x0160 */ MenuItem unk_0160[MENU_STORY_UNK_LEN];
-    /* 0x0280 */ AnimeState unk_0280[MENU_STORY_UNK_LEN];
+    /* 0x0280 */ SAnimeState unk_0280[MENU_STORY_UNK_LEN];
     /* 0x0300 */ MenuCursor unk_0300[MENU_STORY_UNK_LEN];
     /* 0x07C0 */ MenuSpeedAsk unk_07C0;
     /* 0x085C */ MenuSpeedItem unk_085C;

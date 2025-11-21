@@ -991,8 +991,6 @@ u8 anime_j_metadata_00[] = {
     0x02,
     0x02,
     ANIME_METADATA_CMD_F1(0x64),
-    0x00,
-    0x00,
 };
 
 u8 anime_j_metadata_01[] = {
@@ -1044,7 +1042,7 @@ u8 anime_j_metadata_01[] = {
     0x0F,
     0x0F,
     0x0F,
-    ANIME_METADATA_CMD_F2(0x00),
+    ANIME_METADATA_CMD_F2(ANIMENO_0),
 };
 
 u8 anime_j_metadata_02[] = {
@@ -1071,8 +1069,7 @@ u8 anime_j_metadata_02[] = {
     0x15,
     0x15,
     0x15,
-    ANIME_METADATA_CMD_F2(0x00),
-    0x00,
+    ANIME_METADATA_CMD_F2(ANIMENO_0),
 };
 
 u8 anime_j_metadata_03[] = {
@@ -1101,7 +1098,6 @@ u8 anime_j_metadata_03[] = {
     0x19,
     0x19,
     ANIME_METADATA_CMD_F1(0x64),
-    0x00,
 };
 
 u8 anime_j_metadata_04[] = {

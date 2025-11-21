@@ -1405,13 +1405,13 @@ UNK_PTR *dm_game_heap_top(void) {
     return &heapTop;
 }
 
-AnimeState *get_virus_anime_state(s32 arg0) {
+SAnimeState *get_virus_anime_state(s32 arg0) {
     struct_watchGame *ptr = watchGame;
 
     return &ptr->animeStates[arg0];
 }
 
-AnimeSmog *get_virus_smog_state(s32 arg0) {
+SAnimeSmog *get_virus_smog_state(s32 arg0) {
     struct_watchGame *ptr = watchGame;
 
     return &ptr->animeSmogs[arg0];
@@ -2800,8 +2800,8 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
         case GAMESTATEDATA_UNK_00C_5:
             if (dm_check_game_over(gameStateData, mapCells)) {
                 for (var_s0 = 0; var_s0 < 3; var_s0++) {
-                    if (watchGameP->animeStates[var_s0].animeSeq.unk_10 != 4) {
-                        animeState_set(&watchGameP->animeStates[var_s0], 3);
+                    if (watchGameP->animeStates[var_s0].animeSeq.animeNo != ANIMENO_4) {
+                        animeState_set(&watchGameP->animeStates[var_s0], ANIMENO_3);
                     }
                 }
 
@@ -2841,7 +2841,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     if (watchGameP->unk_418[var_s0] == 0) {
                         if (watchGameP->unk_400[var_s0] == 0) {
                             watchGameP->unk_400[var_s0] = 1;
-                            animeState_set(&watchGameP->animeStates[var_s0], 4);
+                            animeState_set(&watchGameP->animeStates[var_s0], ANIMENO_4);
                             animeSmog_start(&watchGameP->animeSmogs[var_s0]);
                             if (gameStateData->unk_025 != 0) {
                                 dm_snd_play_in_game(SND_INDEX_74);
@@ -2851,7 +2851,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     } else {
                         if (gameStateData->unk_03C[3] & (0x10 << var_s0)) {
                             if (watchGameP->unk_410 == 0) {
-                                animeState_set(&watchGameP->animeStates[var_s0], 2);
+                                animeState_set(&watchGameP->animeStates[var_s0], ANIMENO_2);
                                 dm_snd_play_in_game(SND_INDEX_74);
                             }
                         }
@@ -2929,7 +2929,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                 dm_set_capsel(gameStateData);
                 dm_capsel_speed_up(gameStateData);
                 dm_attack_se(gameStateData, arg2);
-                animeState_set(&gameStateData->unk_094, 1);
+                animeState_set(&gameStateData->unk_094, ANIMENO_1);
 
                 if ((gameStateData->unk_04C == 1) ||
                     (((gameStateData->unk_04C != 1) && (arg2 == 0)) && (aiDebugP1 >= 0))) {
@@ -2973,11 +2973,11 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
 
                 for (var_s0 = 0; var_s0 < 3; var_s0++) {
                     if ((watchGameP->unk_418[var_s0] != 0) && (watchGameP->unk_400[var_s0] != 0)) {
-                        animeState_set(&watchGameP->animeStates[var_s0], 0);
+                        animeState_set(&watchGameP->animeStates[var_s0], ANIMENO_0);
                         animeSmog_start(&watchGameP->animeSmogs[var_s0]);
                         watchGameP->unk_400[var_s0] = 0;
-                    } else if (watchGameP->animeStates[var_s0].animeSeq.unk_10 == 3) {
-                        animeState_set(&watchGameP->animeStates[var_s0], 0);
+                    } else if (watchGameP->animeStates[var_s0].animeSeq.animeNo == ANIMENO_3) {
+                        animeState_set(&watchGameP->animeStates[var_s0], ANIMENO_0);
                     }
                 }
             }
@@ -3339,11 +3339,11 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                     if (evs_gamemode != GMD_TIME_ATTACK) {
                         i = dm_set_attack_2p(gameStateDataRef);
                         if (i != 0) {
-                            animeState_set(&gameStateDataRef->unk_094, 1);
+                            animeState_set(&gameStateDataRef->unk_094, ANIMENO_1);
                         }
 
                         if (dm_broken_set(gameStateDataRef, mapCells)) {
-                            animeState_set(&gameStateDataRef->unk_094, 2);
+                            animeState_set(&gameStateDataRef->unk_094, ANIMENO_2);
                             var_s6 = false;
                             dm_snd_play_in_game(_charSE_tbl[gameStateDataRef->unk_090] + 3);
                             gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_8;
@@ -3360,11 +3360,11 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                 case ENUM_EVS_GAMESEL_6:
                     i = dm_set_attack_4p(gameStateDataRef);
                     if (i != 0) {
-                        animeState_set(&gameStateDataRef->unk_094, 1);
+                        animeState_set(&gameStateDataRef->unk_094, ANIMENO_1);
                     }
 
                     if (dm_broken_set(gameStateDataRef, mapCells)) {
-                        animeState_set(&gameStateDataRef->unk_094, 2);
+                        animeState_set(&gameStateDataRef->unk_094, ANIMENO_2);
                         var_s6 = false;
                         gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_8;
                         if (gameStateDataRef->unk_292 & 1) {
@@ -3561,7 +3561,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             if (gameStateDataRef->unk_04A != 0) {
                 dm_attack_se(gameStateDataRef, index);
                 dm_set_attack_4p(gameStateDataRef);
-                animeState_set(&gameStateDataRef->unk_094, 1);
+                animeState_set(&gameStateDataRef->unk_094, ANIMENO_1);
                 if (dm_broken_set(gameStateDataRef, mapCells)) {
                     gameStateDataRef->unk_00C = GAMESTATEDATA_UNK_00C_8;
                     var_s6 = false;
@@ -3733,10 +3733,10 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
     s32 var_s1;
 
     for (i = 0; i < ARRAY_COUNT(watchGameP->unk_3F4); i++) {
-        AnimeState *temp = &watchGameP->animeStates[i];
+        SAnimeState *temp = &watchGameP->animeStates[i];
         f32 var_fv0 = 1.0f;
 
-        if ((temp->animeSeq.unk_10 == 4) && (temp->unk_20 >= 0x5AU)) {
+        if ((temp->animeSeq.animeNo == ANIMENO_4) && (temp->frameCount >= 90)) {
             var_fv0 = -1.0f;
         }
 
@@ -3754,7 +3754,7 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
         }
 
         for (i = 0; i < ARRAY_COUNT(watchGameP->animeStates); i++) {
-            AnimeState *temp = &watchGameP->animeStates[i];
+            SAnimeState *temp = &watchGameP->animeStates[i];
 
             temp->primColor[0] = temp->primColor[1] = temp->primColor[2] = var_a2;
         }
@@ -3777,28 +3777,29 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
 
     var_s1 = 0;
     for (i = 0; i < ARRAY_COUNT(watchGameP->animeStates); i++) {
-        AnimeState *temp = &watchGameP->animeStates[i];
+        SAnimeState *temp = &watchGameP->animeStates[i];
 
-        switch (temp->animeSeq.unk_10) {
-            case 0x4:
+        switch ((s32)temp->animeSeq.animeNo) {
+            case ANIMENO_4:
                 if ((evs_gamemode != GMD_TaiQ) && !animeSeq_isEnd(&temp->animeSeq)) {
                     var_s1 += 1;
                 }
                 break;
 
-            case 0x2:
+            case ANIMENO_2:
                 if (evs_gamemode != GMD_TaiQ) {
                     var_s1 += 1;
                 }
                 break;
 
-            case 0x3:
+            case ANIMENO_3:
                 if (arg0->unk_020 != 1) {
                     var_s1 += 1;
                 }
                 break;
 
-            case 0:
+            case ANIMENO_0:
+            default:
                 break;
         }
     }
@@ -3813,7 +3814,7 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
             s32 var_s5 = 0;
 
             for (i = 0; i < ARRAY_COUNT(watchGameP->unk_3E8); i++) {
-                AnimeState *temp = &watchGameP->animeStates[i];
+                SAnimeState *temp = &watchGameP->animeStates[i];
 
                 if (watchGameP->unk_400[i] == 0) {
                     if (var_s6 < watchGameP->unk_3E8[i]) {
@@ -3850,7 +3851,7 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
                 if ((watchGameP->unk_400[i] == 0) && (evs_gamemode == GMD_TaiQ)) {
                     watchGameP->unk_9BC = 1;
                     watchGameP->unk_3CC = 0;
-                    animeState_set(&watchGameP->animeStates[i], 3);
+                    animeState_set(&watchGameP->animeStates[i], ANIMENO_3);
                 }
             }
         }
@@ -3887,7 +3888,7 @@ s32 dm_game_main_1p(void) {
             if (gameStateData->unk_00C == GAMESTATEDATA_UNK_00C_2) {
                 watchGameP->unk_3C4 = 1;
                 gameStateData->unk_00C = GAMESTATEDATA_UNK_00C_3;
-                animeState_set(&gameStateData->unk_094, 1);
+                animeState_set(&gameStateData->unk_094, ANIMENO_1);
                 func_800633FC();
             }
         }
@@ -3931,7 +3932,7 @@ s32 dm_game_main_1p(void) {
                 break;
         }
 
-        animeState_set(&gameStateData->unk_094, 3);
+        animeState_set(&gameStateData->unk_094, ANIMENO_3);
 
         switch (evs_gamemode) {
             case GMD_TIME_ATTACK:
@@ -3950,7 +3951,7 @@ s32 dm_game_main_1p(void) {
         }
     } else if (temp_s3 == -1) {
         func_80062A08(gameStateData->unk_04B);
-        animeState_set(&gameStateData->unk_094, 4);
+        animeState_set(&gameStateData->unk_094, ANIMENO_4);
         dm_seq_play_in_game(SEQ_INDEX_17);
         gameStateData->unk_02B = 1;
         gameStateData->unk_020 = 8;
@@ -4045,7 +4046,7 @@ s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) 
 
     gameStateDataRef->unk_020 = 5;
     func_80062990(temp_s1);
-    animeState_set(&gameStateDataRef->unk_094, 3);
+    animeState_set(&gameStateDataRef->unk_094, ANIMENO_3);
     dm_snd_play_in_game(_charSE_tbl[gameStateDataRef->unk_090] + 4);
 
     if ((arg2 == 0) && (gameStateDataRef->unk_04C == 0)) {
@@ -4075,7 +4076,7 @@ s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2)
     s32 temp_s1 = gameStateDataRef->unk_04B;
 
     gameStateDataRef->unk_020 = 8;
-    animeState_set(&gameStateDataRef->unk_094, 4);
+    animeState_set(&gameStateDataRef->unk_094, ANIMENO_4);
     func_800629AC(temp_s1);
 
     if ((arg2 == 0) && (gameStateDataRef->unk_04C == 0)) {
@@ -4112,7 +4113,7 @@ s32 func_800675C8(struct_game_state_data *gameStateDataRef, s32 arg1) {
 
     gameStateDataRef->unk_020 = 0xB;
     func_800629C8(temp_s2);
-    animeState_set(&gameStateDataRef->unk_094, 4);
+    animeState_set(&gameStateDataRef->unk_094, ANIMENO_4);
     if ((arg1 == 0) && (gameStateDataRef->unk_04C == 0)) {
         arg1 = 1;
 
@@ -4687,8 +4688,8 @@ bool dm_game_demo_1p(void) {
     dm_warning_h_line_se();
 
     for (i = 0; i < 3; i++) {
-        AnimeState *animeState = &watchGameP->animeStates[i];
-        AnimeSmog *animeSmog = &watchGameP->animeSmogs[i];
+        SAnimeState *animeState = &watchGameP->animeStates[i];
+        SAnimeSmog *animeSmog = &watchGameP->animeSmogs[i];
 
         animeState_update(animeState);
         animeSmog_update(animeSmog);
@@ -4698,7 +4699,7 @@ bool dm_game_demo_1p(void) {
 
     if ((temp_s4 == 3) && (watchGameP->unk_3AC < 0)) {
         game_state_data[0].unk_00C = GAMESTATEDATA_UNK_00C_3;
-        animeState_set(&game_state_data[0].unk_094, 1);
+        animeState_set(&game_state_data[0].unk_094, ANIMENO_1);
         if ((game_state_data[0].unk_04C == 1) || (aiDebugP1 >= 0)) {
             aifMakeFlagSet(game_state_data);
         }
@@ -6800,7 +6801,7 @@ void dm_game_init_static(void) {
         case ENUM_EVS_GAMESEL_4:
             watchGameP->unk_898 = 1;
             animeState_load(&game_state_data[0].unk_094, &heapTop, CHARANIMEMODE_MARIO);
-            animeState_set(&game_state_data[0].unk_094, 2);
+            animeState_set(&game_state_data[0].unk_094, ANIMENO_2);
             watchGameP->unk_438 =
                 tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
             watchGameP->unk_434 =
@@ -6812,7 +6813,7 @@ void dm_game_init_static(void) {
 
             animeSmog_load(&watchGameP->animeSmogs[0], &heapTop);
             for (i = 1; i < ARRAY_COUNT(watchGameP->animeSmogs); i++) {
-                animeSmog_init(&watchGameP->animeSmogs[i], &watchGameP->animeSmogs[0]);
+                animeSmog_init(&watchGameP->animeSmogs[i], &watchGameP->animeSmogs[0].animeState[0]);
             }
 
             msgWnd_init2(&watchGameP->messageWnd, &heapTop, 0x1000, 0x14, 0xF, 0x28, 0xF);
@@ -7445,10 +7446,10 @@ s32 dm_game_main2(void) {
                     case 2:
                         var_s4_2 = 0;
                         dm_game_init(true);
-                        animeState_set(&game_state_data[0].unk_094, 2);
+                        animeState_set(&game_state_data[0].unk_094, ANIMENO_2);
 
                         for (var_s0 = 0; var_s0 < 3; var_s0++) {
-                            animeState_set(&temp_s3->animeStates[var_s0], 0);
+                            animeState_set(&temp_s3->animeStates[var_s0], ANIMENO_0);
                             animeSmog_stop(&temp_s3->animeSmogs[var_s0]);
                         }
 
@@ -7496,7 +7497,7 @@ s32 dm_game_main2(void) {
                         dm_game_init(true);
 
                         for (var_s0 = 0; var_s0 < 2; var_s0++) {
-                            animeState_set(&game_state_data[var_s0].unk_094, 0);
+                            animeState_set(&game_state_data[var_s0].unk_094, ANIMENO_0);
                         }
 
                         backup_game_state(0);
@@ -7512,7 +7513,7 @@ s32 dm_game_main2(void) {
                     dm_game_init(false);
 
                     for (var_s0 = 0; var_s0 < 2; var_s0++) {
-                        animeState_set(&game_state_data[var_s0].unk_094, 0);
+                        animeState_set(&game_state_data[var_s0].unk_094, ANIMENO_0);
                     }
 
                     backup_game_state(0);
@@ -7547,7 +7548,7 @@ s32 dm_game_main2(void) {
                         var_s4_2 = 0;
                         dm_game_init(true);
                         for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                            animeState_set(&game_state_data[var_s0].unk_094, 0);
+                            animeState_set(&game_state_data[var_s0].unk_094, ANIMENO_0);
                         }
                         backup_game_state(0);
                     }
@@ -7563,7 +7564,7 @@ s32 dm_game_main2(void) {
 
                     var_s0 = 0;
                     for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                        animeState_set(&game_state_data[var_s0].unk_094, 0);
+                        animeState_set(&game_state_data[var_s0].unk_094, ANIMENO_0);
                     }
 
                     backup_game_state(0);

@@ -116,8 +116,8 @@ typedef struct struct_watchGame {
     /* 0x440 */ struct TiTexData *unk_440;
     /* 0x444 */ struct TiTexData *unk_444;
     /* 0x448 */ struct TiTexData *unk_448;
-    /* 0x44C */ AnimeState animeStates[ANIMES_COUNT];
-    /* 0x50C */ AnimeSmog animeSmogs[ANIMES_COUNT];
+    /* 0x44C */ SAnimeState animeStates[ANIMES_COUNT];
+    /* 0x50C */ SAnimeSmog animeSmogs[ANIMES_COUNT];
     /* 0x878 */ UNK_TYPE unk_878;
     /* 0x87C */ TexturePtr unk_87C; // SnapBg?
     /* 0x880 */ s32 unk_880;
@@ -292,7 +292,7 @@ typedef struct struct_game_state_data {
     /* 0x04F */ u8 unk_04F;
     /* 0x050 */ struct_game_state_data_unk_050 unk_050[0x10];
     /* 0x090 */ CharAnimeMode unk_090;
-    /* 0x094 */ AnimeState unk_094;
+    /* 0x094 */ SAnimeState unk_094;
     /* 0x0D4 */ s32 unk_0D4[9][3];
     /* 0x140 */ struct_game_state_data_unk_140 unk_140;
     /* 0x164 */ s32 unk_164;
@@ -388,8 +388,8 @@ bool dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s
 void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32 *arg2);
 void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]);
 UNK_PTR *dm_game_heap_top(void);
-AnimeState *get_virus_anime_state(s32 arg0);
-AnimeSmog *get_virus_smog_state(s32 arg0);
+SAnimeState *get_virus_anime_state(s32 arg0);
+SAnimeSmog *get_virus_smog_state(s32 arg0);
 Mtx *dm_get_mtx_buf(void);
 Vtx *dm_get_vtx_buf(void);
 void func_80062920(void);

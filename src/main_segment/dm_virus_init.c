@@ -4,8 +4,6 @@
 
 #include "dm_virus_init.h"
 
-#include "libultra.h"
-
 #include "macros_defines.h"
 #include "calc.h"
 

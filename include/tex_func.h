@@ -25,7 +25,7 @@ typedef struct TiTexData {
      * [0]: tlut
      * [1]: texture
      */
-    /* 0x0 */ Texture **texs;
+    /* 0x0 */ Texture **texs; /* Original name: addr */
 
     #define TI_INFO_IDX_WIDTH (0)
     #define TI_INFO_IDX_HEIGHT (1)
@@ -37,7 +37,7 @@ typedef struct TiTexData {
      * [2]: format. See TiTexDataFormat
      * [3]: bitflags: See TITEX_FLAGS_*
      */
-    /* 0x4 */ u16 *info;
+    /* 0x4 */ u16 *info; /* Original name: size */
 } TiTexData; // size = 0x8
 
 typedef struct TiTexDataHeader {

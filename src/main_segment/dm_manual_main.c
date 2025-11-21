@@ -379,14 +379,14 @@ s32 dm_manual_main_cnt(struct_game_state_data *gameStateData, GameMapCell *mapCe
                             if (temp_s3->unk_148[i] == 0) {
                                 if (temp_s3->unk_14C[i].unk_0 == 0) {
                                     temp_s3->unk_14C[i].unk_0 = 1;
-                                    animeState_set(get_virus_anime_state(i), 4);
+                                    animeState_set(get_virus_anime_state(i), ANIMENO_4);
                                     animeSmog_start(get_virus_smog_state(i));
                                     if (gameStateData->unk_025 != 0) {
                                         dm_snd_play(SND_INDEX_74);
                                     }
                                 }
                             } else if (gameStateData->unk_03C[3] & (0x10 << i)) {
-                                animeState_set(get_virus_anime_state(i), 2);
+                                animeState_set(get_virus_anime_state(i), ANIMENO_2);
                                 dm_snd_play(SND_INDEX_74);
                             }
                         }
@@ -753,7 +753,7 @@ bool dm_manual_1_main(void) {
                 _dm_virus_init(0, gameStateDataP, virus_map_data[0], virus_map_disp_order[0], 1);
 
                 for (var_s1 = 0; var_s1 < 3; var_s1++) {
-                    animeState_set(get_virus_anime_state(var_s1), 0);
+                    animeState_set(get_virus_anime_state(var_s1), ANIMENO_0);
                     animeSmog_stop(get_virus_smog_state(var_s1));
                 }
 

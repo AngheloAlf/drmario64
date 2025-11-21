@@ -5,7 +5,6 @@
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
 #include "other_types.h"
-#include "unk.h"
 
 struct TiTexData;
 
@@ -38,9 +37,9 @@ typedef enum CharAnimeMode {
 #define ANIME_METADATA_F2  0xF2
 #define ANIME_METADATA_END 0xFF
 
-#define ANIME_METADATA_CMD_F0(x)  0xF0, x
-#define ANIME_METADATA_CMD_F1(x)  0xF1, x
-#define ANIME_METADATA_CMD_F2(x)  0xF2, x
+#define ANIME_METADATA_CMD_F0(x)  ANIME_METADATA_F0, x
+#define ANIME_METADATA_CMD_F1(x)  ANIME_METADATA_F1, x
+#define ANIME_METADATA_CMD_F2(x)  ANIME_METADATA_F2, x
 
 typedef struct AnimeHeader {
     /* 0x0 */ struct TiTexData *texData;
@@ -49,64 +48,78 @@ typedef struct AnimeHeader {
     /* 0xC */ s32 *metadataLen;
 } AnimeHeader; // size = 0x10
 
-typedef struct struct_800B1B00 {
-    /* 0x0 */ UNK_TYPE4 unk_0;
-    /* 0x4 */ UNK_TYPE4 unk_4;
-} struct_800B1B00; // size = 0x8
+typedef struct SAnimeStateCenter {
+    /* 0x0 */ s32 cx;
+    /* 0x4 */ s32 cy;
+} SAnimeStateCenter; // size = 0x8
 
-typedef struct AnimeSeq {
-    /* 0x00 */ u8 unk_00[0x4];
-    /* 0x04 */ u8 unk_04[0x4];
-    /* 0x08 */ UNK_TYPE4 unk_08;
-    /* 0x0C */ u8 **unk_0C;
-    /* 0x10 */ UNK_TYPE4 unk_10; // TODO: enum?
-    /* 0x14 */ UNK_TYPE4 unk_14;
-    /* 0x18 */ UNK_TYPE4 unk_18;
-} AnimeSeq; // size = 0x1C
+// Likely to be "animation number" or similar
+typedef enum AnimeNo {
+    /* 0 */ ANIMENO_0,
+    /* 1 */ ANIMENO_1,
+    /* 2 */ ANIMENO_2,
+    /* 3 */ ANIMENO_3,
+    /* 4 */ ANIMENO_4,
+} AnimeNo;
 
-typedef struct AnimeState {
-    /* 0x00 */ AnimeSeq animeSeq;
-    /* 0x1C */ struct TiTexData *unk_1C;
-    /* 0x20 */ UNK_TYPE4 unk_20;
-    /* 0x24 */ struct_800B1B00 unk_24;
-    /* 0x2C */ CharAnimeMode animeMode;
-    /* 0x30 */ s32 primColor[4];
-} AnimeState; // size = 0x40
+/* Original name: SAnimeSeq */
+typedef struct SAnimeSeq {
+    /* 0x00 */ u8 labelStack[4]; /* Original name: labelStack */
+    /* 0x04 */ u8 countStack[4]; /* Original name: countStack */
+    /* 0x08 */ s32 stackDepth; /* Original name: stackDepth */
+    /* 0x0C */ u8 **seqArray; /* Original name: seqArray */ // indexed by animeNo (AnimeNo) and seqCount
+    /* 0x10 */ AnimeNo animeNo; /* Original name: animeNo */ // TODO: enum?
+    /* 0x14 */ s32 seqCount; /* Original name: seqCount */
+    /* 0x18 */ s32 textureNo; /* Original name: textureNo */
+} SAnimeSeq; // size = 0x1C
 
-typedef struct AnimeSmog_unk_100 {
-    /* 0x0 */ s32 unk_0;
-    /* 0x4 */ s32 unk_4;
-} AnimeSmog_unk_100; // size = 0x8
+/* Original name: SAnimeState */
+typedef struct SAnimeState {
+    /* 0x00 */ SAnimeSeq animeSeq; /* Original name: animeSeq */
+    /* 0x1C */ struct TiTexData *texArray; /* Original name: texArray */
+    /* 0x20 */ u32 frameCount; /* Original name: frameCount */
+    /* 0x24 */ SAnimeStateCenter center; /* Original name: center */
+    /* 0x2C */ CharAnimeMode animeMode; /* Original name: charNo */
+    /* 0x30 */ s32 primColor[4]; /* Original name: color */
+} SAnimeState; // size = 0x40
 
-typedef struct AnimeSmog {
-    /* 0x000 */ AnimeState unk_000[4];
-    /* 0x100 */ AnimeSmog_unk_100 unk_100[4];
-    /* 0x120 */ UNK_TYPE4 unk_120;
-} AnimeSmog; // size = 0x124
+typedef struct SAnimeSmogPos {
+    /* 0x0 */ s32 x;
+    /* 0x4 */ s32 y;
+} SAnimeSmogPos; // size = 0x8
 
-void animeSeq_init(AnimeSeq *animeSeq, u8 **arg1, UNK_TYPE4 arg2);
-void func_8005E154(AnimeState *animeState, UNK_TYPE4 arg1);
-void animeSeq_update(AnimeSeq *animeSeq, UNK_TYPE arg1);
-bool animeSeq_isEnd(AnimeSeq *animeSeq);
+// TODO: use MAXCONTROLLERS?
+#define ANIMESMOG_COUNT 4U
+
+/* Original name: SAnimeSmog */
+typedef struct SAnimeSmog {
+    /* 0x000 */ SAnimeState animeState[ANIMESMOG_COUNT]; /* Original name: animeState */
+    /* 0x100 */ SAnimeSmogPos pos[ANIMESMOG_COUNT]; /* Original name: pos */
+    /* 0x120 */ s32 frameCount; /* Original name: frameCount */
+} SAnimeSmog; // size = 0x124
+
+void animeSeq_init(SAnimeSeq *animeSeq, u8 **seqArray, AnimeNo animeNo);
+void animeSeq_set(SAnimeSeq *animeSeq, AnimeNo animeNo);
+void animeSeq_update(SAnimeSeq *animeSeq, s32 step);
+bool animeSeq_isEnd(const SAnimeSeq *animeSeq);
 size_t animeState_getDataSize(CharAnimeMode animeMode);
-void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeMode);
-void animeState_init(AnimeState *animeState, u8 **arg1, struct TiTexData *arg2, UNK_TYPE4 arg3,
-                     UNK_TYPE4 arg4, CharAnimeMode animeMode);
-void animeState_set(AnimeState *animeState, UNK_TYPE4 arg1);
-void animeState_update(AnimeState *animeState);
-bool animeState_isEnd(AnimeState *animeState);
-void animeState_initDL(AnimeState *animeState, Gfx **gfxP);
-void animeState_initDL2(AnimeState *animeState, Gfx **gfxP);
-void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP);
-void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
-void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
-void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig);
-void animeSmog_load(AnimeSmog *animeSmog, UNK_PTR *arg1);
-void animeSmog_start(AnimeSmog *animeSmog);
-void animeSmog_stop(AnimeSmog *animeSmog);
-void animeSmog_update(AnimeSmog *animeSmog);
-void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5);
-// void func_8005EE64();
-void loadAnimeSeq(void **heap, struct TiTexData **texDataDst, u8 ***metadataDst, RomOffset romOffsetStart, RomOffset romOffsetEnd);
+void animeState_load(SAnimeState *animeState, void **heap, CharAnimeMode animeMode);
+void animeState_init(SAnimeState *animeState, u8 **seqArray, struct TiTexData *texArray, s32 cx, s32 cy, CharAnimeMode animeMode);
+void animeState_set(SAnimeState *animeState, AnimeNo animeNo);
+void animeState_update(SAnimeState *animeState);
+bool animeState_isEnd(const SAnimeState *animeState);
+void animeState_initDL(SAnimeState *animeState, Gfx **gfxP);
+void animeState_initDL2(SAnimeState *animeState, Gfx **gfxP);
+void animeState_initIntensityDL(SAnimeState *animeState, Gfx **gfxP);
+void animeState_draw(SAnimeState *animeState, Gfx **gfxP, f32 x, f32 y, f32 sx, f32 sy);
+void animeState_drawI(SAnimeState *animeState, Gfx **gfxP, f32 x, f32 y, f32 sx, f32 sy);
+void animeSmog_init(SAnimeSmog *animeSmog, SAnimeState *state);
+void animeSmog_load(SAnimeSmog *animeSmog, void **ptr);
+void animeSmog_start(SAnimeSmog *animeSmog);
+void animeSmog_stop(SAnimeSmog *animeSmog);
+void animeSmog_update(SAnimeSmog *animeSmog);
+void animeSmog_draw(SAnimeSmog *animeSmog, Gfx **gfxP, f32 x, f32 y, f32 sx, f32 sy);
+// void mappingAnimeSeq();
+void loadAnimeSeq(void **heapP, struct TiTexData **texDataDst, u8 ***metadataDst, RomOffset romOffsetStart, RomOffset romOffsetEnd);
 
 #endif

@@ -1382,14 +1382,14 @@ bool fontAsc_draw2(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, unsigned char *charco
 /**
  * Original name: fontAsc_drawID2
  */
-bool fontAsc_drawID2(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, s32 arg5) {
+bool fontAsc_drawID2(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, s32 index) {
     s32 sp8[8];
     s32 i;
     u8 *texture;
     s32 a;
     s32 b;
 
-    if ((w <= 0.0f) || (h <= 0.0f) || (arg5 == 0)) {
+    if ((w <= 0.0f) || (h <= 0.0f) || (index == 0)) {
         return false;
     }
 
@@ -1407,8 +1407,8 @@ bool fontAsc_drawID2(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, s32 arg5) {
     sp8[6] = 0x2800 / w;
     sp8[7] = 0x3000 / h;
 
-    if (arg5 > 0) {
-        s32 temp = ((arg5 - 1) * a * b);
+    if (index > 0) {
+        s32 temp = ((index - 1) * a * b);
 
         gDPLoadTextureTile_4b((*gfxP)++, &texture[temp], G_IM_FMT_I, 20, 0, 0, 0, 19, 11, 0, G_TX_NOMIRROR | G_TX_CLAMP,
                               G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);

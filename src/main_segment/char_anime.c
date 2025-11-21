@@ -72,7 +72,7 @@ static_assert(ARRAY_COUNT(_addrTbl_124) == CHARANIMEMODE_MAX, "");
 /**
  * Original name: static _centerTbl
  */
-const struct_800B1B00 _centerTbl_125[] = {
+const SAnimeStateCenter _centerTbl_125[] = {
     { 0x10, 0x2B }, // CHARANIMEMODE_M
     { 0x19, 0x2C }, // CHARANIMEMODE_N
     { 0x10, 0x29 }, // CHARANIMEMODE_H
@@ -99,63 +99,63 @@ static_assert(ARRAY_COUNT(_centerTbl_125) == CHARANIMEMODE_MAX, "");
 /**
  * Original name: animeSeq_init
  */
-void animeSeq_init(AnimeSeq *animeSeq, u8 **arg1, UNK_TYPE4 arg2) {
-    animeSeq->unk_0C = arg1;
-    animeSeq->unk_08 = -1;
-    animeSeq->unk_10 = arg2;
-    animeSeq->unk_14 = 0;
-    animeSeq->unk_18 = -1;
+void animeSeq_init(SAnimeSeq *animeSeq, u8 **seqArray, AnimeNo animeNo) {
+    animeSeq->seqArray = seqArray;
+    animeSeq->stackDepth = -1;
+    animeSeq->animeNo = animeNo;
+    animeSeq->seqCount = 0;
+    animeSeq->textureNo = -1;
     animeSeq_update(animeSeq, 0);
 }
 
-void func_8005E154(AnimeState *animeState, UNK_TYPE4 arg1) {
-    animeSeq_init(&animeState->animeSeq, animeState->animeSeq.unk_0C, arg1);
+void animeSeq_set(SAnimeSeq *animeSeq, AnimeNo animeNo) {
+    animeSeq_init(animeSeq, animeSeq->seqArray, animeNo);
 }
 
 /**
  * Original name: animeSeq_update
  */
-void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
-    while (arg1 >= 0) {
-        u8 *temp_a1 = &animeSeq->unk_0C[animeSeq->unk_10][animeSeq->unk_14];
+void animeSeq_update(SAnimeSeq *animeSeq, s32 step) {
+    while (step >= 0) {
+        u8 *seqPtr = &animeSeq->seqArray[animeSeq->animeNo][animeSeq->seqCount];
 
-        switch (temp_a1[0]) {
+        switch (seqPtr[0]) {
             case ANIME_METADATA_F0:
-                animeSeq->unk_14 += 2;
-                animeSeq->unk_08++;
-                animeSeq->unk_00[animeSeq->unk_08] = animeSeq->unk_14;
-                animeSeq->unk_04[animeSeq->unk_08] = temp_a1[1];
+                animeSeq->seqCount += 2;
+                animeSeq->stackDepth++;
+                animeSeq->labelStack[animeSeq->stackDepth] = animeSeq->seqCount;
+                animeSeq->countStack[animeSeq->stackDepth] = seqPtr[1];
                 break;
 
             case ANIME_METADATA_F1:
-                if (animeSeq->unk_04[animeSeq->unk_08] != 0xFF) {
-                    animeSeq->unk_04[animeSeq->unk_08]--;
+                if (animeSeq->countStack[animeSeq->stackDepth] != 0xFF) {
+                    animeSeq->countStack[animeSeq->stackDepth]--;
                 }
 
-                if ((animeSeq->unk_04[animeSeq->unk_08] != 0) && (temp_a1[1] > (rand() % 100))) {
-                    animeSeq->unk_14 = animeSeq->unk_00[animeSeq->unk_08];
+                if ((animeSeq->countStack[animeSeq->stackDepth] != 0) && (seqPtr[1] > (rand() % 100))) {
+                    animeSeq->seqCount = animeSeq->labelStack[animeSeq->stackDepth];
                 } else {
-                    animeSeq->unk_14 += 2;
-                    animeSeq->unk_08--;
+                    animeSeq->seqCount += 2;
+                    animeSeq->stackDepth--;
                 }
                 break;
 
             case ANIME_METADATA_F2:
-                animeSeq->unk_14 = 0;
-                animeSeq->unk_10 = temp_a1[1];
-                animeSeq->unk_08 = -1;
+                animeSeq->seqCount = 0;
+                animeSeq->animeNo = seqPtr[1];
+                animeSeq->stackDepth = -1;
                 break;
 
             case ANIME_METADATA_END:
-                arg1 = -1;
+                step = -1;
                 break;
 
             default:
-                if (arg1 > 0) {
-                    animeSeq->unk_14++;
+                if (step > 0) {
+                    animeSeq->seqCount++;
                 }
-                animeSeq->unk_18 = temp_a1[0] - 1;
-                arg1--;
+                animeSeq->textureNo = seqPtr[0] - 1;
+                step--;
                 break;
         }
     }
@@ -164,8 +164,8 @@ void animeSeq_update(AnimeSeq *animeSeq, s32 arg1) {
 /**
  * Original name: animeSeq_isEnd
  */
-bool animeSeq_isEnd(AnimeSeq *animeSeq) {
-    return animeSeq->unk_0C[animeSeq->unk_10][animeSeq->unk_14] == 0xFF;
+bool animeSeq_isEnd(const SAnimeSeq *animeSeq) {
+    return animeSeq->seqArray[animeSeq->animeNo][animeSeq->seqCount] == ANIME_METADATA_END;
 }
 
 /**
@@ -178,26 +178,26 @@ size_t animeState_getDataSize(CharAnimeMode animeMode) {
 /**
  * Original name: animeState_load
  */
-void animeState_load(AnimeState *animeState, UNK_PTR *arg1, CharAnimeMode animeMode) {
-    TiTexData *sp18;
-    u8 **sp1C;
+void animeState_load(SAnimeState *animeState, void **heap, CharAnimeMode animeMode) {
+    TiTexData *texArray;
+    u8 **seqArray;
     RomDataTblIndex index = _addrTbl_124[animeMode];
 
-    loadAnimeSeq(arg1, &sp18, &sp1C, _romDataTbl[index].start, _romDataTbl[index].end);
-    animeState_init(animeState, sp1C, sp18, _centerTbl_125[animeMode].unk_0, _centerTbl_125[animeMode].unk_4,
+    loadAnimeSeq(heap, &texArray, &seqArray, _romDataTbl[index].start, _romDataTbl[index].end);
+    animeState_init(animeState, seqArray, texArray, _centerTbl_125[animeMode].cx, _centerTbl_125[animeMode].cy,
                     animeMode);
 }
 
 /**
  * Original name: animeState_init
  */
-void animeState_init(AnimeState *animeState, u8 **arg1, TiTexData *arg2, UNK_TYPE4 arg3, UNK_TYPE4 arg4,
+void animeState_init(SAnimeState *animeState, u8 **seqArray, TiTexData *texArray, s32 cx, s32 cy,
                      CharAnimeMode animeMode) {
-    animeSeq_init(&animeState->animeSeq, arg1, 0);
-    animeState->unk_1C = arg2;
-    animeState->unk_20 = 0;
-    animeState->unk_24.unk_0 = arg3;
-    animeState->unk_24.unk_4 = arg4;
+    animeSeq_init(&animeState->animeSeq, seqArray, ANIMENO_0);
+    animeState->texArray = texArray;
+    animeState->frameCount = 0;
+    animeState->center.cx = cx;
+    animeState->center.cy = cy;
     animeState->animeMode = animeMode;
     animeState->primColor[0] = 255;
     animeState->primColor[1] = 255;
@@ -208,27 +208,27 @@ void animeState_init(AnimeState *animeState, u8 **arg1, TiTexData *arg2, UNK_TYP
 /**
  * Original name: animeState_set
  */
-void animeState_set(AnimeState *animeState, UNK_TYPE4 arg1) {
-    animeState->unk_20 = 0;
-    func_8005E154(animeState, arg1);
+void animeState_set(SAnimeState *animeState, AnimeNo animeNo) {
+    animeState->frameCount = 0;
+    animeSeq_set(&animeState->animeSeq, animeNo);
 }
 
 /**
  * Original name: animeState_update
  */
-void animeState_update(AnimeState *animeState) {
-    animeSeq_update(&animeState->animeSeq, animeState->unk_20 % 2U);
-    animeState->unk_20++;
+void animeState_update(SAnimeState *animeState) {
+    animeSeq_update(&animeState->animeSeq, animeState->frameCount % 2);
+    animeState->frameCount++;
 }
 
-bool animeState_isEnd(AnimeState *animeState) {
+bool animeState_isEnd(const SAnimeState *animeState) {
     return animeSeq_isEnd(&animeState->animeSeq);
 }
 
 /**
  * Original name: animeState_initDL
  */
-void animeState_initDL(AnimeState *animeState, Gfx **gfxP) {
+void animeState_initDL(SAnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -246,7 +246,7 @@ void animeState_initDL(AnimeState *animeState, Gfx **gfxP) {
 /**
  * Original name: animeState_initDL2
  */
-void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
+void animeState_initDL2(SAnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -264,7 +264,7 @@ void animeState_initDL2(AnimeState *animeState, Gfx **gfxP) {
 /**
  * Original name: animeState_initIntensityDL
  */
-void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
+void animeState_initIntensityDL(SAnimeState *animeState, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -282,163 +282,168 @@ void animeState_initIntensityDL(AnimeState *animeState, Gfx **gfxP) {
 /**
  * Original name: animeState_draw
  */
-void animeState_draw(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
+void animeState_draw(SAnimeState *animeState, Gfx **gfxP, f32 x, f32 y, f32 sx, f32 sy) {
     Gfx *gfx = *gfxP;
-    TiTexData *temp_a3;
-    TiTexData *temp_t0;
+    TiTexData *texC;
+    TiTexData *pal;
 
-    if (animeState->animeSeq.unk_18 < 0) {
+    if (animeState->animeSeq.textureNo < 0) {
         return;
     }
 
-    temp_t0 = animeState->unk_1C;
-    temp_a3 = &temp_t0[animeState->animeSeq.unk_18];
-    if (arg4 < 0.0f) {
-        arg2 = arg2 - (animeState->unk_24.unk_0 - temp_a3->info[TI_INFO_IDX_WIDTH]) * arg4;
+    pal = &animeState->texArray[0];
+    texC = &animeState->texArray[animeState->animeSeq.textureNo];
+    if (sx < 0.0f) {
+        x = x - (animeState->center.cx - texC->info[TI_INFO_IDX_WIDTH]) * sx;
     } else {
-        arg2 = arg2 - animeState->unk_24.unk_0 * arg4;
+        x = x - animeState->center.cx * sx;
     }
 
-    if (arg5 < 0.0f) {
-        arg3 -= (animeState->unk_24.unk_4 - temp_a3->info[TI_INFO_IDX_HEIGHT]) * arg5;
+    if (sy < 0.0f) {
+        y -= (animeState->center.cy - texC->info[TI_INFO_IDX_HEIGHT]) * sy;
     } else {
-        arg3 -= animeState->unk_24.unk_4 * arg5;
+        y -= animeState->center.cy * sy;
     }
 
     if (animeState->animeMode == CHARANIMEMODE_MARIO) {
-        arg3 -= (temp_a3->info[TI_INFO_IDX_HEIGHT] - 0x40) * arg5;
+        y -= (texC->info[TI_INFO_IDX_HEIGHT] - 0x40) * sy;
     }
 
-    switch (temp_a3->info[TI_INFO_IDX_FORMAT]) {
+    switch (texC->info[TI_INFO_IDX_FORMAT]) {
         case TITEX_FORMAT_4:
-            StretchTexTile4(&gfx, temp_a3->info[TI_INFO_IDX_WIDTH], temp_a3->info[TI_INFO_IDX_HEIGHT],
-                            temp_t0[0].texs[TI_TEX_TLUT], temp_a3->texs[TI_TEX_TEX], 0, 0,
-                            temp_a3->info[TI_INFO_IDX_WIDTH], temp_a3->info[TI_INFO_IDX_HEIGHT], arg2, arg3,
-                            temp_a3->info[TI_INFO_IDX_WIDTH] * arg4, temp_a3->info[TI_INFO_IDX_HEIGHT] * arg5);
+            StretchTexTile4(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                            pal[0].texs[TI_TEX_TLUT], texC->texs[TI_TEX_TEX], 0, 0, texC->info[TI_INFO_IDX_WIDTH],
+                            texC->info[TI_INFO_IDX_HEIGHT], x, y, texC->info[TI_INFO_IDX_WIDTH] * sx,
+                            texC->info[TI_INFO_IDX_HEIGHT] * sy);
             break;
 
         case TITEX_FORMAT_8:
-            StretchTexTile8(&gfx, temp_a3->info[TI_INFO_IDX_WIDTH], temp_a3->info[TI_INFO_IDX_HEIGHT],
-                            temp_t0[0].texs[TI_TEX_TLUT], temp_a3->texs[TI_TEX_TEX], 0, 0,
-                            temp_a3->info[TI_INFO_IDX_WIDTH], temp_a3->info[TI_INFO_IDX_HEIGHT], arg2, arg3,
-                            temp_a3->info[TI_INFO_IDX_WIDTH] * arg4, temp_a3->info[TI_INFO_IDX_HEIGHT] * arg5);
+            StretchTexTile8(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                            pal[0].texs[TI_TEX_TLUT], texC->texs[TI_TEX_TEX], 0, 0, texC->info[TI_INFO_IDX_WIDTH],
+                            texC->info[TI_INFO_IDX_HEIGHT], x, y, texC->info[TI_INFO_IDX_WIDTH] * sx,
+                            texC->info[TI_INFO_IDX_HEIGHT] * sy);
             break;
     }
 
     *gfxP = gfx;
 }
 
-void func_8005E998(AnimeState *animeState, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
+/**
+ * Original name: animeState_drawI
+ */
+void animeState_drawI(SAnimeState *animeState, Gfx **gfxP, f32 x, f32 y, f32 sx, f32 sy) {
     Gfx *gfx = *gfxP;
-    TiTexData *temp_a3;
+    TiTexData *texC;
 
-    if (animeState->animeSeq.unk_18 < 0) {
+    if (animeState->animeSeq.textureNo < 0) {
         return;
     }
 
-    temp_a3 = &animeState->unk_1C[animeState->animeSeq.unk_18];
+    texC = &animeState->texArray[animeState->animeSeq.textureNo];
 
-    if (arg4 < 0.0f) {
-        arg2 -= (animeState->unk_24.unk_0 - temp_a3->info[TI_INFO_IDX_WIDTH]) * arg4;
+    if (sx < 0.0f) {
+        x -= (animeState->center.cx - texC->info[TI_INFO_IDX_WIDTH]) * sx;
     } else {
-        arg2 -= animeState->unk_24.unk_0 * arg4;
+        x -= animeState->center.cx * sx;
     }
 
-    if (arg5 < 0.0f) {
-        arg3 -= (animeState->unk_24.unk_4 - temp_a3->info[TI_INFO_IDX_HEIGHT]) * arg5;
+    if (sy < 0.0f) {
+        y -= (animeState->center.cy - texC->info[TI_INFO_IDX_HEIGHT]) * sy;
     } else {
-        arg3 -= animeState->unk_24.unk_4 * arg5;
+        y -= animeState->center.cy * sy;
     }
 
-    StretchTexTile4i(&gfx, temp_a3->info[TI_INFO_IDX_WIDTH], temp_a3->info[TI_INFO_IDX_HEIGHT],
-                     temp_a3->texs[TI_TEX_TEX], 0, 0, temp_a3->info[TI_INFO_IDX_WIDTH],
-                     temp_a3->info[TI_INFO_IDX_HEIGHT], arg2, arg3, temp_a3->info[TI_INFO_IDX_WIDTH] * arg4,
-                     temp_a3->info[TI_INFO_IDX_HEIGHT] * arg5);
+    StretchTexTile4i(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT], texC->texs[TI_TEX_TEX], 0, 0,
+                     texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT], x, y,
+                     texC->info[TI_INFO_IDX_WIDTH] * sx, texC->info[TI_INFO_IDX_HEIGHT] * sy);
     *gfxP = gfx;
 }
 
 /**
  * Original name: animeSmog_init
  */
-void animeSmog_init(AnimeSmog *animeSmog, AnimeSmog *orig) {
+void animeSmog_init(SAnimeSmog *animeSmog, SAnimeState *state) {
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNTU(animeSmog->unk_000); i++) {
-        animeState_init(&animeSmog->unk_000[i], orig->unk_000[0].animeSeq.unk_0C, orig->unk_000[0].unk_1C,
-                        orig->unk_000[0].unk_24.unk_0, orig->unk_000[0].unk_24.unk_4, 19);
-        animeState_set(&animeSmog->unk_000[i], 2);
-        animeSmog->unk_100[i].unk_4 = 0;
-        animeSmog->unk_100[i].unk_0 = 0;
+    for (i = 0; i < ARRAY_COUNTU(animeSmog->animeState); i++) {
+        animeState_init(&animeSmog->animeState[i], state->animeSeq.seqArray, state->texArray, state->center.cx,
+                        state->center.cy, CHARANIMEMODE_SMOG);
+        animeState_set(&animeSmog->animeState[i], ANIMENO_2);
+        animeSmog->pos[i].y = 0;
+        animeSmog->pos[i].x = 0;
     }
-    animeSmog->unk_120 = 0xB4;
+    animeSmog->frameCount = 180;
 }
 
 /**
  * Original name: animeSmog_load
  */
-void animeSmog_load(AnimeSmog *animeSmog, UNK_PTR *arg1) {
-    animeState_load(animeSmog->unk_000, arg1, CHARANIMEMODE_SMOG);
-    animeSmog_init(animeSmog, animeSmog);
+void animeSmog_load(SAnimeSmog *animeSmog, void **ptr) {
+    animeState_load(animeSmog->animeState, ptr, CHARANIMEMODE_SMOG);
+    animeSmog_init(animeSmog, &animeSmog->animeState[0]);
 }
 
 /**
  * Original name: animeSmog_start
  */
-void animeSmog_start(AnimeSmog *animeSmog) {
-    animeSmog->unk_120 = 0;
+void animeSmog_start(SAnimeSmog *animeSmog) {
+    animeSmog->frameCount = 0;
 }
 
 /**
  * Original name: animeSmog_stop
  */
-void animeSmog_stop(AnimeSmog *animeSmog) {
+void animeSmog_stop(SAnimeSmog *animeSmog) {
     u32 i;
 
-    for (i = 0; i < ARRAY_COUNT(animeSmog->unk_000); i++) {
-        animeState_set(&animeSmog->unk_000[i], 2);
+    for (i = 0; i < ARRAY_COUNT(animeSmog->animeState); i++) {
+        animeState_set(&animeSmog->animeState[i], ANIMENO_2);
     }
 
-    animeSmog->unk_120 = 0xB4;
+    animeSmog->frameCount = 180;
 }
 
 /**
  * Original name: animeSmog_update
  */
-void animeSmog_update(AnimeSmog *animeSmog) {
-    u32 i;
+void animeSmog_update(SAnimeSmog *animeSmog) {
+    s32 i;
 
-    for (i = 0; i < 4; i++) {
-        animeState_update(&animeSmog->unk_000[i]);
-        if ((animeSmog->unk_120 < 0xB4) && animeState_isEnd(&animeSmog->unk_000[i]) && (rand() % 16 == 0)) {
-            animeState_set(&animeSmog->unk_000[i], 0);
-            animeSmog->unk_100[i].unk_0 = (rand() % 20) - 10;
-            animeSmog->unk_100[i].unk_4 = (rand() % 20) - 10;
+    for (i = 0; i < ANIMESMOG_COUNT; i++) {
+        animeState_update(&animeSmog->animeState[i]);
+        if ((animeSmog->frameCount < 180) && animeState_isEnd(&animeSmog->animeState[i]) && (rand() % 16 == 0)) {
+            animeState_set(&animeSmog->animeState[i], ANIMENO_0);
+            animeSmog->pos[i].x = (rand() % 20) - 10;
+            animeSmog->pos[i].y = (rand() % 20) - 10;
         }
     }
 
-    animeSmog->unk_120 = MIN(0xB4, animeSmog->unk_120 + 1);
+    animeSmog->frameCount = MIN(180, animeSmog->frameCount + 1);
 }
 
 /**
  * Original name: animeSmog_draw
  */
-void animeSmog_draw(AnimeSmog *animeSmog, Gfx **gfxP, f32 arg2, f32 arg3, f32 arg4, f32 arg5) {
+void animeSmog_draw(SAnimeSmog *animeSmog, Gfx **gfxP, f32 x, f32 y, f32 sx, f32 sy) {
     Gfx *gfx = *gfxP;
     u32 i;
 
-    for (i = 0; i < ARRAY_COUNT(animeSmog->unk_000); i++) {
-        animeState_initIntensityDL(&animeSmog->unk_000[i], &gfx);
+    for (i = 0; i < ARRAY_COUNT(animeSmog->animeState); i++) {
+        animeState_initIntensityDL(&animeSmog->animeState[i], &gfx);
 
-        if (!animeState_isEnd(&animeSmog->unk_000[i])) {
-            func_8005E998(&animeSmog->unk_000[i], &gfx, arg2 + animeSmog->unk_100[i].unk_0 * arg4,
-                          arg3 + animeSmog->unk_100[i].unk_4 * arg5, arg4, arg5);
+        if (!animeState_isEnd(&animeSmog->animeState[i])) {
+            animeState_drawI(&animeSmog->animeState[i], &gfx, x + animeSmog->pos[i].x * sx,
+                             y + animeSmog->pos[i].y * sy, sx, sy);
         }
     }
 
     *gfxP = gfx;
 }
 
-void func_8005EE64(u8 **metadata, s32 len, uintptr_t addr) {
+/**
+ * Original name: mappingAnimeSeq
+ */
+void mappingAnimeSeq(u8 **metadata, s32 len, uintptr_t addr) {
     s32 i;
 
     for (i = 0; i < len; i++) {
@@ -456,15 +461,15 @@ void func_8005EE64(u8 **metadata, s32 len, uintptr_t addr) {
  *
  * The data from the anime segment is placed into `texDataDst` and `metadataDst`
  */
-void loadAnimeSeq(void **heap, TiTexData **texDataDst, u8 ***metadataDst, RomOffset romOffsetStart,
+void loadAnimeSeq(void **heapP, TiTexData **texDataDst, u8 ***metadataDst, RomOffset romOffsetStart,
                   RomOffset romOffsetEnd) {
-    AnimeHeader *anime = ALIGN_PTR(*heap);
+    AnimeHeader *anime = ALIGN_PTR(*heapP);
     TiTexData *texData;
     s32 *texDataLen;
     u8 **metadata;
     s32 *metadataLen;
 
-    *heap = DecompressRomToRam(romOffsetStart, anime, romOffsetEnd - romOffsetStart);
+    *heapP = DecompressRomToRam(romOffsetStart, anime, romOffsetEnd - romOffsetStart);
 
     texData = (void *)((uintptr_t)anime->texData + (uintptr_t)anime);
     texDataLen = (void *)((uintptr_t)anime->texDataLen + (uintptr_t)anime);
@@ -479,5 +484,5 @@ void loadAnimeSeq(void **heap, TiTexData **texDataDst, u8 ***metadataDst, RomOff
     anime->metadataLen = metadataLen;
 
     *metadataDst = metadata;
-    func_8005EE64(metadata, *metadataLen, (uintptr_t)anime);
+    mappingAnimeSeq(metadata, *metadataLen, (uintptr_t)anime);
 }
