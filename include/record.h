@@ -2,7 +2,6 @@
 #define RECORD_H
 
 #include "libultra.h"
-#include "unk.h"
 #include "libc/stdbool.h"
 
 struct SRankSortInfo;
@@ -19,7 +18,7 @@ typedef struct BitField {
     /* 0x10 */ u32 sum; /* Original name: sum */
 } BitField; // size = 0x14
 
-typedef void (EepRom_WriteDif_arg3)(void*);
+typedef void (EepRom_Proc)(void*);
 
 /**
  * Original name: EepRomErr
@@ -33,63 +32,30 @@ typedef enum EepRomErr {
     /* 5 */ EepRomErr_BadSum, /* Original name: EepRomErr_BadSum */
 } EepRomErr;
 
-
-
-
 typedef struct struct_evs_mem_data_config {
-    /* 0x00 */ u8 unk_00;
-    /* 0x01 */ u8 unk_01;
-    /* 0x02 */ u8 unk_02;
-    /* 0x03 */ u8 unk_03;
-    /* 0x04 */ u8 unk_04;
-    /* 0x05 */ u8 unk_05;
-    /* 0x06 */ u8 unk_06;
-    /* 0x07 */ u8 unk_07;
-    /* 0x08 */ u8 unk_08;
-    /* 0x09 */ u8 unk_09[2];
-    /* 0x0B */ u8 unk_0B[2];
-    /* 0x0D */ u8 unk_0D[2];
-    /* 0x0F */ u8 unk_0F[2];
-    /* 0x11 */ u8 unk_11;
-    /* 0x12 */ u8 unk_12;
-    /* 0x13 */ u8 unk_13;
-    /* 0x14 */ u8 unk_14;
-    /* 0x15 */ u8 unk_15;
-    /* 0x16 */ u8 unk_16;
-    /* 0x17 */ u8 unk_17;
-    /* 0x18 */ u8 unk_18;
-    /* 0x19 */ u8 unk_19;
+    /* 0x00 */ u8 st_lv;
+    /* 0x01 */ u8 st_sh;
+    /* 0x02 */ u8 st_st;
+    /* 0x03 */ u8 st_no;
+    /* 0x04 */ u8 p1_lv;
+    /* 0x05 */ u8 p1_sp;
+    /* 0x06 */ u8 p1_m;
+    /* 0x07 */ u8 p1_ta_lv;
+    /* 0x08 */ u8 p1_tq_lv;
+    /* 0x09 */ u8 vc_fl_lv[2];
+    /* 0x0B */ u8 vc_lv[2];
+    /* 0x0D */ u8 vc_sp[2];
+    /* 0x0F */ u8 vc_no[2];
+    /* 0x11 */ u8 vc_st;
+    /* 0x12 */ u8 vc_m;
+    /* 0x13 */ u8 vm_fl_lv;
+    /* 0x14 */ u8 vm_ta_lv;
+    /* 0x15 */ u8 vm_lv;
+    /* 0x16 */ u8 vm_sp;
+    /* 0x17 */ u8 vm_no;
+    /* 0x18 */ u8 vm_st;
+    /* 0x19 */ u8 vm_m;
 } struct_evs_mem_data_config; // size = 0x1A
-
-#if 0
-typedef struct /* struct_dm_game_main_c_13768 */ {
-    // total size: 0x1A
-    unsigned char st_lv; // offset 0x0, size 0x1
-    unsigned char st_sh; // offset 0x1, size 0x1
-    unsigned char st_st; // offset 0x2, size 0x1
-    unsigned char st_no; // offset 0x3, size 0x1
-    unsigned char p1_lv; // offset 0x4, size 0x1
-    unsigned char p1_sp; // offset 0x5, size 0x1
-    unsigned char p1_m; // offset 0x6, size 0x1
-    unsigned char p1_ta_lv; // offset 0x7, size 0x1
-    unsigned char p1_tq_lv; // offset 0x8, size 0x1
-    unsigned char vc_fl_lv[2]; // offset 0x9, size 0x2
-    unsigned char vc_lv[2]; // offset 0xB, size 0x2
-    unsigned char vc_sp[2]; // offset 0xD, size 0x2
-    unsigned char vc_no[2]; // offset 0xF, size 0x2
-    unsigned char vc_st; // offset 0x11, size 0x1
-    unsigned char vc_m; // offset 0x12, size 0x1
-    unsigned char vm_fl_lv; // offset 0x13, size 0x1
-    unsigned char vm_ta_lv; // offset 0x14, size 0x1
-    unsigned char vm_lv; // offset 0x15, size 0x1
-    unsigned char vm_sp; // offset 0x16, size 0x1
-    unsigned char vm_no; // offset 0x17, size 0x1
-    unsigned char vm_st; // offset 0x18, size 0x1
-    unsigned char vm_m; // offset 0x19, size 0x1
-} struct_dm_game_main_c_13768;
-#endif
-
-
 
 typedef struct struct_evs_mem_data_story_data {
     /* 0x0 */ u32 score; /* Original name: score */
@@ -175,12 +141,12 @@ void dm_data_vm_fl_sort(struct SRankSortInfo *st);
 void dm_data_vm_ta_sort(struct SRankSortInfo *st);
 
 EepRomErr EepRom_Init(void);
-EepRomErr EepRom_InitFirst(EepRom_WriteDif_arg3 proc, void *args);
+EepRomErr EepRom_InitFirst(EepRom_Proc *proc, void *args);
 void EepRom_InitVars(void);
 u8 *eepRom_longRead(bool forceRead);
-EepRomErr EepRom_WriteDif(const void *oldBuf, void *newBuf, size_t size, EepRom_WriteDif_arg3 proc, void *args);
+EepRomErr EepRom_WriteDif(const void *oldBuf, void *newBuf, size_t size, EepRom_Proc *proc, void *args);
 EepRomErr EepRom_ReadAll(void);
-EepRomErr EepRom_WriteAll(EepRom_WriteDif_arg3 proc, void *args);
+EepRomErr EepRom_WriteAll(EepRom_Proc *proc, void *args);
 void EepRom_DumpErrMes(EepRomErr status);
 void EepRom_DumpDataSize(void);
 void setSleepTimer(s32 milliseconds);
@@ -193,8 +159,6 @@ extern u8 mess_panel_tex[];
 extern bool _cached_1332;
 
 
-
 extern struct_evs_mem_data evs_mem_data[9];
-
 
 #endif

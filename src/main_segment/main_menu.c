@@ -6034,10 +6034,10 @@ void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, void *
     }
 
     menuStory->unk_0024 = 0;
-    menuStory->unk_0028[0] = temp_s4->unk_03;
+    menuStory->unk_0028[0] = temp_s4->st_no;
     menuStory->unk_0034 = false;
     menuItem_init(&menuStory->unk_0040, 0x19, 0x2F);
-    menuStory->unk_0028[0] = temp_s4->unk_03;
+    menuStory->unk_0028[0] = temp_s4->st_no;
     menuItem_init(&menuStory->unk_00D0, 0x45, 0x12);
 
     for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0160); i++) {
@@ -6059,13 +6059,13 @@ void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, void *
                       _posChar_6445[i][1] - 0x2C, 0x30, 0x2F);
     }
 
-    menuStory->unk_0028[1] = temp_s4->unk_00;
-    func_80049894(&menuStory->unk_07C0, watchMenuRef, 3, temp_s4->unk_00, 0x45, 0x3D);
-    menuSpeedItem_init(&menuStory->unk_085C, watchMenuRef, 3, 0, temp_s4->unk_00, 0x7D, 0x39, 0x34);
-    menuStory->unk_085C.unk_010 = temp_s4->unk_01 != 0;
+    menuStory->unk_0028[1] = temp_s4->st_lv;
+    func_80049894(&menuStory->unk_07C0, watchMenuRef, 3, temp_s4->st_lv, 0x45, 0x3D);
+    menuSpeedItem_init(&menuStory->unk_085C, watchMenuRef, 3, 0, temp_s4->st_lv, 0x7D, 0x39, 0x34);
+    menuStory->unk_085C.unk_010 = temp_s4->st_sh != 0;
 
-    menuStory->unk_0028[2] = temp_s4->unk_02 + 1;
-    func_8004A860(&menuStory->unk_0EC0, watchMenuRef, 1, 1, temp_s4->unk_02 + 1, 0x65, 0x5A);
+    menuStory->unk_0028[2] = temp_s4->st_st + 1;
+    func_8004A860(&menuStory->unk_0EC0, watchMenuRef, 1, 1, temp_s4->st_st + 1, 0x65, 0x5A);
     menuItem_init(&menuStory->unk_0F6C, 0x10, 0x6E);
 
     for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0FFC); i++) {
@@ -6218,10 +6218,10 @@ void menuStory_input(MenuStory *menuStory) {
             _setFadeDir(menuStory->watchMenuRef, 1);
             _setNextMain(menuStory->watchMenuRef, MAIN_STORY);
 
-            temp_s5->unk_00 = menuStory->unk_085C.unk_008;
-            temp_s5->unk_01 = menuStory->unk_085C.unk_010;
-            temp_s5->unk_02 = menuStory->unk_0EC0.unk_0C - 1;
-            temp_s5->unk_03 = menuStory->unk_0028[0];
+            temp_s5->st_lv = menuStory->unk_085C.unk_008;
+            temp_s5->st_sh = menuStory->unk_085C.unk_010;
+            temp_s5->st_st = menuStory->unk_0EC0.unk_0C - 1;
+            temp_s5->st_no = menuStory->unk_0028[0];
 
             evs_story_level = func_800519CC(menuStory);
 
@@ -6582,18 +6582,18 @@ void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, void *
 
     switch (menuLvSel->unk_0004) {
         case MAINMENUMODE_MENULVSEL_10:
-            func_80049894(&menuLvSel->gameLvlIcon, watchMenuRef, 3, temp_s2->unk_08, 0x44, 9);
-            menuSpeedItem_init(&menuLvSel->gameLvlSelector, watchMenuRef, 3, 0, temp_s2->unk_08, 0x82, 5, 0x2E);
+            func_80049894(&menuLvSel->gameLvlIcon, watchMenuRef, 3, temp_s2->p1_tq_lv, 0x44, 9);
+            menuSpeedItem_init(&menuLvSel->gameLvlSelector, watchMenuRef, 3, 0, temp_s2->p1_tq_lv, 0x82, 5, 0x2E);
             break;
 
         case MAINMENUMODE_MENULVSEL_13:
-            func_80049894(&menuLvSel->gameLvlIcon, watchMenuRef, 3, temp_s2->unk_07, 0x44, 9);
-            menuSpeedItem_init(&menuLvSel->gameLvlSelector, watchMenuRef, 3, 0, temp_s2->unk_07, 0x82, 5, 0x2E);
+            func_80049894(&menuLvSel->gameLvlIcon, watchMenuRef, 3, temp_s2->p1_ta_lv, 0x44, 9);
+            menuSpeedItem_init(&menuLvSel->gameLvlSelector, watchMenuRef, 3, 0, temp_s2->p1_ta_lv, 0x82, 5, 0x2E);
             break;
 
         case MAINMENUMODE_MENULVSEL_7:
-            if (temp_s2->unk_04 <= menuLvSel->unk_2570) {
-                i = temp_s2->unk_04;
+            if (temp_s2->p1_lv <= menuLvSel->unk_2570) {
+                i = temp_s2->p1_lv;
             } else {
                 i = menuLvSel->unk_2570;
             }
@@ -6608,11 +6608,11 @@ void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, void *
             break;
     }
 
-    func_80049894(&menuLvSel->speedIcon, watchMenuRef, 1, temp_s2->unk_05, 0x44, 0x28);
-    menuSpeedItem_init(&menuLvSel->speedSelector, watchMenuRef, 1, 0, temp_s2->unk_05, 0x82, 0x24, 0x2E);
+    func_80049894(&menuLvSel->speedIcon, watchMenuRef, 1, temp_s2->p1_sp, 0x44, 0x28);
+    menuSpeedItem_init(&menuLvSel->speedSelector, watchMenuRef, 1, 0, temp_s2->p1_sp, 0x82, 0x24, 0x2E);
 
     func_800466A0(&menuLvSel->speedSelector.unk_014, 1.0f, 0.5f);
-    menuMusicItem_init(&menuLvSel->musicSelector, watchMenuRef, temp_s2->unk_06, 0x46, 0x46);
+    menuMusicItem_init(&menuLvSel->musicSelector, watchMenuRef, temp_s2->p1_m, 0x46, 0x46);
     func_80048680(&menuLvSel->bottle, watchMenuRef, 0x19, 7);
 
     for (i = 0; i < ARRAY_COUNTU(menuLvSel->unk_162C); i++) {
@@ -6710,29 +6710,29 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
             case MAINMENUMODE_MENULVSEL_7:
                 gameStateData->unk_026 = menuLvSel->virusLvlGauge.unk_00C;
                 gameStateData->unk_02C = menuLvSel->speedSelector.unk_008;
-                temp_s5->unk_04 = menuLvSel->virusLvlGauge.unk_00C;
+                temp_s5->p1_lv = menuLvSel->virusLvlGauge.unk_00C;
                 break;
 
             case MAINMENUMODE_MENULVSEL_10:
                 gameStateData->unk_026 = 0xA;
                 gameStateData->unk_02C = menuLvSel->speedSelector.unk_008;
                 gameStateData->unk_16C = menuLvSel->gameLvlSelector.unk_008;
-                temp_s5->unk_08 = menuLvSel->gameLvlSelector.unk_008;
+                temp_s5->p1_tq_lv = menuLvSel->gameLvlSelector.unk_008;
                 break;
 
             case MAINMENUMODE_MENULVSEL_13:
                 gameStateData->unk_026 = _timeAttack_levelTable[menuLvSel->gameLvlSelector.unk_008];
                 gameStateData->unk_02C = menuLvSel->speedSelector.unk_008;
                 gameStateData->unk_16C = menuLvSel->gameLvlSelector.unk_008;
-                temp_s5->unk_07 = menuLvSel->gameLvlSelector.unk_008;
+                temp_s5->p1_ta_lv = menuLvSel->gameLvlSelector.unk_008;
                 break;
 
             default:
                 break;
         }
 
-        temp_s5->unk_05 = menuLvSel->speedSelector.unk_008;
-        temp_s5->unk_06 = menuLvSel->musicSelector.unk_004;
+        temp_s5->p1_sp = menuLvSel->speedSelector.unk_008;
+        temp_s5->p1_m = menuLvSel->musicSelector.unk_004;
 
         evs_seqnumb = menuLvSel->musicSelector.unk_004;
         evs_game_time = 0;
@@ -7007,14 +7007,14 @@ void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, void *
             case MAINMENUMODE_MENUCHSEL_16:
             case MAINMENUMODE_MENUCHSEL_20:
                 temp = &evs_mem_data[evs_select_name_no[0]].config;
-                var_s3 = temp->unk_0F[i];
+                var_s3 = temp->vc_no[i];
                 break;
 
             case MAINMENUMODE_MENUCHSEL_25:
             case MAINMENUMODE_MENUCHSEL_29:
             case MAINMENUMODE_MENUCHSEL_33:
                 temp = &evs_mem_data[evs_select_name_no[i]].config;
-                var_s3 = temp->unk_17;
+                var_s3 = temp->vm_no;
                 break;
 
             case MAINMENUMODE_MENUCHSEL_40:
@@ -7291,7 +7291,7 @@ void menuChSel_input(MenuChSel *menuChSel) {
         case MAINMENUMODE_MENUCHSEL_20:
             temp = &evs_mem_data[evs_select_name_no[0]].config;
             for (i = 0; i < menuChSel->unk_0004; i++) {
-                temp->unk_0F[i] = menuChSel->unk_0008[i];
+                temp->vc_no[i] = menuChSel->unk_0008[i];
             }
             break;
 
@@ -7299,12 +7299,12 @@ void menuChSel_input(MenuChSel *menuChSel) {
         case MAINMENUMODE_MENUCHSEL_29:
         case MAINMENUMODE_MENUCHSEL_33:
             if (evs_select_name_no[0] == evs_select_name_no[1]) {
-                evs_mem_data[0].config.unk_17 = 0;
+                evs_mem_data[0].config.vm_no = 0;
             } else {
                 for (i = 0; i < menuChSel->unk_0004; i++) {
                     temp = &evs_mem_data[evs_select_name_no[i]].config;
 
-                    temp->unk_17 = menuChSel->unk_0008[i];
+                    temp->vm_no = menuChSel->unk_0008[i];
                 }
             }
             break;
@@ -7578,8 +7578,8 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void *
         case MAINMENUMODE_MENUPLAY2_30:
         case MAINMENUMODE_MENUPLAY2_34:
             temp_s0 = &evs_mem_data[evs_select_name_no[0]].config;
-            sp4C = temp_s0->unk_19;
-            sp44 = temp_s0->unk_18 + 1;
+            sp4C = temp_s0->vm_m;
+            sp44 = temp_s0->vm_st + 1;
 
             menuPlay2->unk_000C = 2;
             menuPlay2->unk_0010[0] = 0;
@@ -7593,15 +7593,15 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void *
 
                 switch (_getMode(menuPlay2->watchMenuRef)) {
                     case MAINMENUMODE_MENUPLAY2_26:
-                        var_s5 = temp_s0->unk_15;
+                        var_s5 = temp_s0->vm_lv;
                         break;
 
                     case MAINMENUMODE_MENUPLAY2_30:
-                        var_s5 = temp_s0->unk_13;
+                        var_s5 = temp_s0->vm_fl_lv;
                         break;
 
                     case MAINMENUMODE_MENUPLAY2_34:
-                        var_s5 = temp_s0->unk_14;
+                        var_s5 = temp_s0->vm_ta_lv;
                         break;
 
                     default:
@@ -7610,15 +7610,15 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void *
 
                 menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, heapP, 1, menuPlay2->unk_000C,
                                     menuPlay2->unk_0020, i, temp_s3_3->unk_04C == 1, temp_s3_3->unk_090, var_s5,
-                                    temp_s0->unk_16, _panel2_8535[i][0], _panel2_8535[i][1]);
+                                    temp_s0->vm_sp, _panel2_8535[i][0], _panel2_8535[i][1]);
             }
             break;
 
         case MAINMENUMODE_MENUPLAY2_17:
         case MAINMENUMODE_MENUPLAY2_21:
             temp_s0 = &evs_mem_data[evs_select_name_no[0]].config;
-            sp4C = temp_s0->unk_12;
-            sp44 = temp_s0->unk_11 + 1;
+            sp4C = temp_s0->vc_m;
+            sp44 = temp_s0->vc_st + 1;
 
             menuPlay2->unk_000C = 1;
             menuPlay2->unk_0010[0] = 0;
@@ -7631,11 +7631,11 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void *
 
                 switch (_getMode(menuPlay2->watchMenuRef)) {
                     case MAINMENUMODE_MENUPLAY2_17:
-                        var_s5 = temp_s0->unk_0B[i];
+                        var_s5 = temp_s0->vc_lv[i];
                         break;
 
                     case MAINMENUMODE_MENUPLAY2_21:
-                        var_s5 = temp_s0->unk_09[i];
+                        var_s5 = temp_s0->vc_fl_lv[i];
                         break;
 
                     default:
@@ -7644,15 +7644,15 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void *
 
                 menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, heapP, 1, menuPlay2->unk_000C,
                                     menuPlay2->unk_0020, i, temp_s3_3->unk_04C == 1, temp_s3_3->unk_090, var_s5,
-                                    temp_s0->unk_0D[i], _panel2_8535[i][0], _panel2_8535[i][1]);
+                                    temp_s0->vc_sp[i], _panel2_8535[i][0], _panel2_8535[i][1]);
             }
             break;
 
         case MAINMENUMODE_MENUPLAY2_41:
         case MAINMENUMODE_MENUPLAY2_43:
         case MAINMENUMODE_MENUPLAY2_45:
-            sp44 = evs_cfg_4p.unk_14 + 1;
-            sp4C = evs_cfg_4p.unk_15;
+            sp44 = evs_cfg_4p.p4_st + 1;
+            sp4C = evs_cfg_4p.p4_m;
 
             menuPlay2->unk_000C = 0;
             menuPlay2->unk_0020 = 0;
@@ -7976,15 +7976,15 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
                 temp_a2 = &evs_mem_data[evs_select_name_no[i]].config;
 
                 if (play2Panel->unk_0004 != 0) {
-                    temp_a2->unk_13 = play2Panel->unk_12BC.unk_008;
+                    temp_a2->vm_fl_lv = play2Panel->unk_12BC.unk_008;
                 } else if (play2Panel->unk_0008 != 0) {
-                    temp_a2->unk_14 = play2Panel->unk_12BC.unk_008;
+                    temp_a2->vm_ta_lv = play2Panel->unk_12BC.unk_008;
                 } else {
-                    temp_a2->unk_15 = play2Panel->unk_0290.unk_00C;
+                    temp_a2->vm_lv = play2Panel->unk_0290.unk_00C;
                 }
-                temp_a2->unk_16 = play2Panel->unk_062C.unk_008;
-                temp_a2->unk_18 = menuPlay2->unk_6548.unk_940.unk_0C - 1;
-                temp_a2->unk_19 = menuPlay2->unk_6548.unk_0A0.unk_004;
+                temp_a2->vm_sp = play2Panel->unk_062C.unk_008;
+                temp_a2->vm_st = menuPlay2->unk_6548.unk_940.unk_0C - 1;
+                temp_a2->vm_m = menuPlay2->unk_6548.unk_0A0.unk_004;
             }
             break;
 
@@ -7996,15 +7996,15 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
                 play2Panel = &menuPlay2->unk_00C8[i];
 
                 if (play2Panel->unk_0004 != 0) {
-                    temp_a2->unk_09[i] = play2Panel->unk_12BC.unk_008;
+                    temp_a2->vc_fl_lv[i] = play2Panel->unk_12BC.unk_008;
                 } else {
-                    temp_a2->unk_0B[i] = play2Panel->unk_0290.unk_00C;
+                    temp_a2->vc_lv[i] = play2Panel->unk_0290.unk_00C;
                 }
-                temp_a2->unk_0D[i] = play2Panel->unk_062C.unk_008;
+                temp_a2->vc_sp[i] = play2Panel->unk_062C.unk_008;
             }
 
-            temp_a2->unk_11 = menuPlay2->unk_6548.unk_940.unk_0C - 1;
-            temp_a2->unk_12 = menuPlay2->unk_6548.unk_0A0.unk_004;
+            temp_a2->vc_st = menuPlay2->unk_6548.unk_940.unk_0C - 1;
+            temp_a2->vc_m = menuPlay2->unk_6548.unk_0A0.unk_004;
             break;
 
         default:
@@ -8024,8 +8024,8 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
                 evs_cfg_4p.p4_sp[i] = play2Panel->unk_062C.unk_008;
             }
 
-            evs_cfg_4p.unk_14 = menuPlay2->unk_6548.unk_940.unk_0C - 1;
-            evs_cfg_4p.unk_15 = menuPlay2->unk_6548.unk_0A0.unk_004;
+            evs_cfg_4p.p4_st = menuPlay2->unk_6548.unk_940.unk_0C - 1;
+            evs_cfg_4p.p4_m = menuPlay2->unk_6548.unk_0A0.unk_004;
             break;
     }
 
@@ -9575,74 +9575,74 @@ void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, s32 arg3
 
         switch (arg2) {
             case MAINMENUMODE_MENURANK_49:
-                var_s1 = temp_s2->unk_000[arg3][i];
+                var_s1 = temp_s2->story_sort[arg3][i];
                 ptr = &evs_mem_data[var_s1];
                 temp_t0 = &ptr->story_data[arg3];
-                func_80057D24(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->unk_018[arg3][i], ptr->mem_name,
+                func_80057D24(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->story_rank[arg3][i], ptr->mem_name,
                               temp_t0->score, temp_t0->time, temp_t0->c_stage + 1, 0, i * 0x11);
                 break;
 
             case MAINMENUMODE_MENURANK_50:
-                var_s1 = temp_s2->unk_030[arg3][i];
+                var_s1 = temp_s2->level_sort[arg3][i];
                 ptr = &evs_mem_data[var_s1];
                 temp_t0_2 = &ptr->level_data[arg3];
-                func_80057E68(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->unk_048[arg3][i], ptr->mem_name,
+                func_80057E68(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->level_rank[arg3][i], ptr->mem_name,
                               (s32)temp_t0_2->c_level, temp_t0_2->score, 0, i * 0x11);
                 break;
 
             case MAINMENUMODE_MENURANK_51:
-                var_s1 = temp_s2->unk_060[arg3][i];
+                var_s1 = temp_s2->taiQ_sort[arg3][i];
                 ptr = &evs_mem_data[var_s1];
                 temp_t0_3 = &ptr->taiQ_data[arg3];
-                func_80057F6C(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->unk_078[arg3][i], ptr->mem_name,
+                func_80057F6C(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->taiQ_rank[arg3][i], ptr->mem_name,
                               temp_t0_3->time, temp_t0_3->score, 0, i * 0x11);
                 break;
 
             case MAINMENUMODE_MENURANK_52:
-                var_s1 = temp_s2->unk_090[arg3][i];
+                var_s1 = temp_s2->timeAt_sort[arg3][i];
                 ptr = &evs_mem_data[var_s1];
                 temp_t0_4 = &ptr->timeAt_data[arg3];
-                func_8005806C(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->unk_0A8[arg3][i], ptr->mem_name,
-                              temp_t0_4->score, temp_t0_4->time, temp_t0_4->erase, arg3, 0, i * 0x11);
+                func_8005806C(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->timeAt_rank[arg3][i],
+                              ptr->mem_name, temp_t0_4->score, temp_t0_4->time, temp_t0_4->erase, arg3, 0, i * 0x11);
                 break;
 
             case MAINMENUMODE_MENURANK_53:
-                var_s1 = temp_s2->unk_0C0[i];
+                var_s1 = temp_s2->vscom_sort[i];
                 ptr = &evs_mem_data[var_s1];
-                var_s7 = temp_s2->unk_0D0;
-                var_s6 = temp_s2->unk_0C8;
+                var_s7 = temp_s2->vscom_ave;
+                var_s6 = temp_s2->vscom_rank;
                 var_s4 = ptr->vscom_data;
                 break;
 
             case MAINMENUMODE_MENURANK_54:
-                var_s1 = temp_s2->unk_0E0[i];
+                var_s1 = temp_s2->vc_fl_sort[i];
                 ptr = &evs_mem_data[var_s1];
-                var_s7 = temp_s2->unk_0F0;
-                var_s6 = temp_s2->unk_0E8;
+                var_s7 = temp_s2->vc_fl_ave;
+                var_s6 = temp_s2->vc_fl_rank;
                 var_s4 = ptr->vc_fl_data;
                 break;
 
             case MAINMENUMODE_MENURANK_56:
-                var_s1 = temp_s2->unk_100[i];
+                var_s1 = temp_s2->vsman_sort[i];
                 ptr = &evs_mem_data[var_s1];
-                var_s7 = temp_s2->unk_110;
-                var_s6 = temp_s2->unk_108;
+                var_s7 = temp_s2->vsman_ave;
+                var_s6 = temp_s2->vsman_rank;
                 var_s4 = ptr->vsman_data;
                 break;
 
             case MAINMENUMODE_MENURANK_57:
-                var_s1 = temp_s2->unk_120[i];
+                var_s1 = temp_s2->vm_fl_sort[i];
                 ptr = &evs_mem_data[var_s1];
-                var_s7 = temp_s2->unk_130;
-                var_s6 = temp_s2->unk_128;
+                var_s7 = temp_s2->vm_fl_ave;
+                var_s6 = temp_s2->vm_fl_rank;
                 var_s4 = ptr->vm_fl_data;
                 break;
 
             case MAINMENUMODE_MENURANK_58:
-                var_s1 = temp_s2->unk_140[i];
+                var_s1 = temp_s2->vm_ta_sort[i];
                 ptr = &evs_mem_data[var_s1];
-                var_s7 = temp_s2->unk_150;
-                var_s6 = temp_s2->unk_148;
+                var_s7 = temp_s2->vm_ta_ave;
+                var_s6 = temp_s2->vm_ta_rank;
                 var_s4 = ptr->vm_ta_data;
                 break;
 

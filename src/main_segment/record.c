@@ -145,32 +145,32 @@ u32 BitField_GetBit(BitField *st, s32 count) {
  * Original name: dm_init_config_save
  */
 void dm_init_config_save(struct_evs_mem_data_config *config) {
-    config->unk_00 = 1;
-    config->unk_01 = 0;
-    config->unk_02 = 0;
-    config->unk_03 = 0;
-    config->unk_04 = 0xA;
-    config->unk_05 = 1;
-    config->unk_06 = 0;
-    config->unk_07 = 1;
-    config->unk_08 = 1;
-    config->unk_09[0] = 1;
-    config->unk_09[1] = 1;
-    config->unk_0B[0] = 0xA;
-    config->unk_0B[1] = 0xA;
-    config->unk_0D[0] = 1;
-    config->unk_0D[1] = 1;
-    config->unk_0F[0] = 0;
-    config->unk_0F[1] = 1;
-    config->unk_11 = 0;
-    config->unk_12 = 0;
-    config->unk_13 = 1;
-    config->unk_14 = 1;
-    config->unk_15 = 0xA;
-    config->unk_16 = 1;
-    config->unk_17 = 0;
-    config->unk_18 = 0;
-    config->unk_19 = 0;
+    config->st_lv = 1;
+    config->st_sh = 0;
+    config->st_st = 0;
+    config->st_no = 0;
+    config->p1_lv = 0xA;
+    config->p1_sp = 1;
+    config->p1_m = 0;
+    config->p1_ta_lv = 1;
+    config->p1_tq_lv = 1;
+    config->vc_fl_lv[0] = 1;
+    config->vc_fl_lv[1] = 1;
+    config->vc_lv[0] = 0xA;
+    config->vc_lv[1] = 0xA;
+    config->vc_sp[0] = 1;
+    config->vc_sp[1] = 1;
+    config->vc_no[0] = 0;
+    config->vc_no[1] = 1;
+    config->vc_st = 0;
+    config->vc_m = 0;
+    config->vm_fl_lv = 1;
+    config->vm_ta_lv = 1;
+    config->vm_lv = 0xA;
+    config->vm_sp = 1;
+    config->vm_no = 0;
+    config->vm_st = 0;
+    config->vm_m = 0;
 }
 
 /**
@@ -187,8 +187,8 @@ void dm_init_config_4p_save(struct_evs_cfg_4p *config) {
         config->p4_sp[i] = 1;
     }
 
-    config->unk_14 = 0;
-    config->unk_15 = 0;
+    config->p4_st = 0;
+    config->p4_m = 0;
 }
 
 /**
@@ -496,19 +496,19 @@ u8 *_get1PSort(SRankSortInfo *st, DataModeSort mode, s32 level) {
 
     switch (mode) {
         case _1P_STORY:
-            ptr = st->unk_000[level];
+            ptr = st->story_sort[level];
             break;
 
         case _1P_LEVEL:
-            ptr = st->unk_030[level];
+            ptr = st->level_sort[level];
             break;
 
         case _1P_TaiQ:
-            ptr = st->unk_060[level];
+            ptr = st->taiQ_sort[level];
             break;
 
         case _1P_TimeAt:
-            ptr = st->unk_090[level];
+            ptr = st->timeAt_sort[level];
             break;
     }
 
@@ -523,19 +523,19 @@ u8 *_get1PRank(SRankSortInfo *st, DataModeSort mode, s32 level) {
 
     switch (mode) {
         case _1P_STORY:
-            ptr = st->unk_018[level];
+            ptr = st->story_rank[level];
             break;
 
         case _1P_LEVEL:
-            ptr = st->unk_048[level];
+            ptr = st->level_rank[level];
             break;
 
         case _1P_TaiQ:
-            ptr = st->unk_078[level];
+            ptr = st->taiQ_rank[level];
             break;
 
         case _1P_TimeAt:
-            ptr = st->unk_0A8[level];
+            ptr = st->timeAt_rank[level];
             break;
     }
 
@@ -740,23 +740,23 @@ u8 *_getVsSort(SRankSortInfo *st, VsModeSort mode) {
 
     switch (mode) {
         case _VS_COM:
-            ptr = st->unk_0C0;
+            ptr = st->vscom_sort;
             break;
 
         case _VS_COM_FLASH:
-            ptr = st->unk_0E0;
+            ptr = st->vc_fl_sort;
             break;
 
         case _VS_MAN:
-            ptr = st->unk_100;
+            ptr = st->vsman_sort;
             break;
 
         case _VS_MAN_FLASH:
-            ptr = st->unk_120;
+            ptr = st->vm_fl_sort;
             break;
 
         case _VS_MAN_TIME_AT:
-            ptr = st->unk_140;
+            ptr = st->vm_ta_sort;
             break;
     }
 
@@ -771,23 +771,23 @@ u8 *_getVsRank(SRankSortInfo *st, VsModeSort mode) {
 
     switch (mode) {
         case _VS_COM:
-            ptr = st->unk_0C8;
+            ptr = st->vscom_rank;
             break;
 
         case _VS_COM_FLASH:
-            ptr = st->unk_0E8;
+            ptr = st->vc_fl_rank;
             break;
 
         case _VS_MAN:
-            ptr = st->unk_108;
+            ptr = st->vsman_rank;
             break;
 
         case _VS_MAN_FLASH:
-            ptr = st->unk_128;
+            ptr = st->vm_fl_rank;
             break;
 
         case _VS_MAN_TIME_AT:
-            ptr = st->unk_148;
+            ptr = st->vm_ta_rank;
             break;
     }
 
@@ -802,23 +802,23 @@ u16 *_getVsAve(SRankSortInfo *st, VsModeSort mode) {
 
     switch (mode) {
         case _VS_COM:
-            ptr = st->unk_0D0;
+            ptr = st->vscom_ave;
             break;
 
         case _VS_COM_FLASH:
-            ptr = st->unk_0F0;
+            ptr = st->vc_fl_ave;
             break;
 
         case _VS_MAN:
-            ptr = st->unk_110;
+            ptr = st->vsman_ave;
             break;
 
         case _VS_MAN_FLASH:
-            ptr = st->unk_130;
+            ptr = st->vm_fl_ave;
             break;
 
         case _VS_MAN_TIME_AT:
-            ptr = st->unk_150;
+            ptr = st->vm_ta_ave;
             break;
     }
 
@@ -1361,7 +1361,7 @@ EepRomErr EepRom_Init(void) {
 /**
  * Original name: EepRom_InitFirst
  */
-EepRomErr EepRom_InitFirst(EepRom_WriteDif_arg3 *proc, void *args) {
+EepRomErr EepRom_InitFirst(EepRom_Proc *proc, void *args) {
     s32 temp;
 
     EepRom_InitVars();
@@ -1402,7 +1402,7 @@ u8 *eepRom_longRead(bool forceRead) {
 /**
  * Original name: EepRom_WriteDif
  */
-EepRomErr EepRom_WriteDif(const void *oldBuf, void *newBuf, size_t size, EepRom_WriteDif_arg3 *proc, void *args) {
+EepRomErr EepRom_WriteDif(const void *oldBuf, void *newBuf, size_t size, EepRom_Proc *proc, void *args) {
     const u8 *oldPtr = oldBuf;
     u8 *newPtr = newBuf;
     s32 i;
@@ -1460,7 +1460,7 @@ EepRomErr EepRom_ReadAll(void) {
 /**
  * Original name: EepRom_WriteAll
  */
-EepRomErr EepRom_WriteAll(EepRom_WriteDif_arg3 *proc, void *args) {
+EepRomErr EepRom_WriteAll(EepRom_Proc *proc, void *args) {
     BitField bf;
     u8 out[CACHE_SIZE];
     u8 *in = eepRom_longRead(true);

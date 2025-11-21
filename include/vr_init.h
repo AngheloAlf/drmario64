@@ -3,8 +3,8 @@
 
 #include "libultra.h"
 
-void sgenrand(u32 arg0);
-u16 genrand(u16 arg0);
+void sgenrand(u32 seed);
+u16 genrand(u16 in_limit);
 
 // data
 extern s32 mti;

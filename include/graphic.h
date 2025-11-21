@@ -42,7 +42,7 @@ void S2RDPinitRtn(u8 f);
 void S2ClearCFBRtn(u8 f);
 
 // data
-extern void* gfx_ucode[][2];
+extern void *gfx_ucode[][2];
 extern s32 gCurrentFramebufferIndex;
 extern enum_graphic_no graphic_no;
 extern u32 pendingGFX;

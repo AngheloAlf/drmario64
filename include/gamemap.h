@@ -4,20 +4,20 @@
 #include "libultra.h"
 
 typedef struct GameMapCell {
-    /* 0x0 */ s8 pos_m_x; // column?
-    /* 0x1 */ s8 pos_m_y; // row?
-    /* 0x2 */ s8 capsel_m_g;
-    /* 0x3 */ s8 capsel_m_p;
-    /* 0x4 */ s8 capsel_m_flg[6]; // map_info?
+    /* 0x0 */ s8 pos_m_x; /* Original name: pos_m_x */
+    /* 0x1 */ s8 pos_m_y; /* Original name: pos_m_y */
+    /* 0x2 */ s8 capsel_m_g; /* Original name: capsel_m_g */
+    /* 0x3 */ s8 capsel_m_p; /* Original name: capsel_m_p */
+    /* 0x4 */ s8 capsel_m_flg[6]; /* Original name: capsel_m_flg */ // map_info?
 } GameMapCell; // size = 0xA
 
 /**
- * unk_4[0] // map_info?
- * unk_4[1]
- * unk_4[2]
- * unk_4[3] // virus color? top color?
- * unk_4[4]
- * unk_4[5]
+ * capsel_m_flg[0] // map_info?
+ * capsel_m_flg[1]
+ * capsel_m_flg[2]
+ * capsel_m_flg[3] // virus color? top color?
+ * capsel_m_flg[4]
+ * capsel_m_flg[5]
  */
 
 

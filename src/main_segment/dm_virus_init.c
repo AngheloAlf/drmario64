@@ -58,8 +58,8 @@ void clear_map_all(GameMapCell *mapCells) {
 /**
  * Original name: get_map_info
  */
-s32 get_map_info(GameMapCell *mapCells, s32 column, s32 rowPlusOne) {
-    s32 index = GAME_MAP_GET_INDEX(rowPlusOne - 1, column);
+s32 get_map_info(const GameMapCell *mapCells, s32 column, s32 row) {
+    s32 index = GAME_MAP_GET_INDEX(row - 1, column);
 
     if (mapCells[index].capsel_m_flg[0] != 0) {
         return 1;
@@ -71,7 +71,7 @@ s32 get_map_info(GameMapCell *mapCells, s32 column, s32 rowPlusOne) {
 /**
  * Original name: get_map_top_color
  */
-s32 get_map_top_color(GameMapCell *mapCells, s32 y_pos) {
+s32 get_map_top_color(const GameMapCell *mapCells, s32 y_pos) {
     s32 y;
 
     mapCells += y_pos;
@@ -89,7 +89,7 @@ s32 get_map_top_color(GameMapCell *mapCells, s32 y_pos) {
 /**
  * Original name: get_map_top_colors
  */
-void get_map_top_colors(GameMapCell *mapCells, s32 colors[GAME_MAP_COLUMNS]) {
+void get_map_top_colors(const GameMapCell *mapCells, s32 colors[GAME_MAP_COLUMNS]) {
     s32 i;
 
     for (i = 0; i < GAME_MAP_COLUMNS; i++) {
@@ -107,7 +107,7 @@ const u8 limit_table[] = {
 /**
  * Original name: get_virus_color_count
  */
-s32 get_virus_color_count(GameMapCell *mapCells, u8 *red, u8 *yellow, u8 *blue) {
+s32 get_virus_color_count(const GameMapCell *mapCells, u8 *red, u8 *yellow, u8 *blue) {
     s32 color[VIRUS_NUM] = { 0, 0, 0 };
     s32 i;
     s32 count = 0;
@@ -128,7 +128,7 @@ s32 get_virus_color_count(GameMapCell *mapCells, u8 *red, u8 *yellow, u8 *blue) 
     return count;
 }
 
-s32 get_virus_count(GameMapCell *mapCells) {
+s32 get_virus_count(const GameMapCell *mapCells) {
     u8 ryb[VIRUS_NUM];
 
     return get_virus_color_count(mapCells, &ryb[0], &ryb[1], &ryb[2]);
@@ -186,7 +186,7 @@ u16 y_point_set(void) {
     return rnd_cnt;
 }
 
-u8 dm_virus_check(struct_virus_map_data *virusMapData, u16 x_pos, u16 y_pos) {
+u8 dm_virus_check(const struct_virus_map_data *virusMapData, u16 x_pos, u16 y_pos) {
     u8 temp = GAME_MAP_GET_INDEX_ALT2(y_pos - 1, x_pos);
 
     if (virusMapData[temp].virus_type < 0) {
@@ -195,7 +195,7 @@ u8 dm_virus_check(struct_virus_map_data *virusMapData, u16 x_pos, u16 y_pos) {
     return true;
 }
 
-u8 dm_check_color(struct_virus_map_data *virusMapData, u16 x_pos, u16 y_pos, u8 check_color) {
+u8 dm_check_color(const struct_virus_map_data *virusMapData, u16 x_pos, u16 y_pos, u8 check_color) {
     u8 p = GAME_MAP_GET_INDEX_ALT2(y_pos - 1, x_pos);
     u8 sp8[2];
 
@@ -241,7 +241,7 @@ u8 dm_check_color(struct_virus_map_data *virusMapData, u16 x_pos, u16 y_pos, u8 
     return true;
 }
 
-u8 dm_check_color_2(struct_virus_map_data *virusMapData, u16 x_pos, u16 y_pos, u8 check_color) {
+u8 dm_check_color_2(const struct_virus_map_data *virusMapData, u16 x_pos, u16 y_pos, u8 check_color) {
     u8 p = GAME_MAP_GET_INDEX_ALT2(y_pos - 1, x_pos);
 
     if (x_pos >= 2) {
@@ -273,8 +273,9 @@ u8 dm_check_color_2(struct_virus_map_data *virusMapData, u16 x_pos, u16 y_pos, u
     return true;
 }
 
-void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data *virusMapDst,
-                       u8 virusDispOrderSrc[VIRUS_MAP_DISP_ORDER_LEN], u8 virusDispOrderDst[VIRUS_MAP_DISP_ORDER_LEN]) {
+void dm_virus_map_copy(CONST_ARG struct_virus_map_data *virusMapSrc, struct_virus_map_data *virusMapDst,
+                       const u8 virusDispOrderSrc[VIRUS_MAP_DISP_ORDER_LEN],
+                       u8 virusDispOrderDst[VIRUS_MAP_DISP_ORDER_LEN]) {
     s32 i;
 
     for (i = 0; i < (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS; i++) {
@@ -291,7 +292,7 @@ void dm_virus_map_copy(struct_virus_map_data *virusMapSrc, struct_virus_map_data
     }
 }
 
-s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, struct_game_state_data *state) {
+s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, const struct_game_state_data *state) {
     s32 ret;
 
     switch (evsGamemode) {
@@ -335,7 +336,7 @@ const u8 _l_359[] = {
 /**
  * Original name: _dm_virus_init
  */
-void _dm_virus_init(enum_evs_gamemode mode, struct_game_state_data *state, struct_virus_map_data *virusMapData,
+void _dm_virus_init(enum_evs_gamemode mode, const struct_game_state_data *state, struct_virus_map_data *virusMapData,
                     u8 order[VIRUS_MAP_DISP_ORDER_LEN], s32 special) {
     s16 i;
     s16 j;
@@ -495,7 +496,7 @@ loop_1:
 /**
  * Original name: dm_virus_init
  */
-void dm_virus_init(enum_evs_gamemode mode, struct_game_state_data *state, struct_virus_map_data *virusMapData,
+void dm_virus_init(enum_evs_gamemode mode, const struct_game_state_data *state, struct_virus_map_data *virusMapData,
                    u8 order[VIRUS_MAP_DISP_ORDER_LEN]) {
     _dm_virus_init(mode, state, virusMapData, order, 0);
 }
@@ -508,9 +509,9 @@ const s32 _n_564[][5] = {
 
 #define ORDER_BUF_LEN 0x20
 
-typedef struct struct_8005FC6C_arg0 {
-    /* 0x000 */ struct struct_virus_map_data *virusMapData;
-    /* 0x004 */ u8 *virusMapDispOrder;
+typedef struct MakeFlash {
+    /* 0x000 */ const struct_virus_map_data *virusMapData;
+    /* 0x004 */ const u8 *virusMapDispOrder;
     /* 0x008 */ s32 virusCount;
     /* 0x00C */ u8 selected[VIRUS_MAP_DISP_ORDER_LEN];
     /* 0x06C */ u8 decideBuf[VIRUS_NUM][ORDER_BUF_LEN];
@@ -525,14 +526,14 @@ typedef struct struct_8005FC6C_arg0 {
     /* 0x27C */ s32 centerCnt[VIRUS_NUM];
     /* 0x288 */ u8 sideBuf[VIRUS_NUM][ORDER_BUF_LEN];
     /* 0x2E8 */ s32 sideCnt[VIRUS_NUM];
-} struct_8005FC6C_arg0; // size = 0x2F4
+} MakeFlash; // size = 0x2F4
 
 /**
  * Original name: _makeFlash_init
  */
-void _makeFlash_init(struct_8005FC6C_arg0 *st, struct_virus_map_data *virusMapData,
-                     u8 virusMapDispOrder[VIRUS_MAP_DISP_ORDER_LEN], s32 virusCount) {
-    bzero(st, sizeof(struct_8005FC6C_arg0));
+void _makeFlash_init(MakeFlash *st, const struct_virus_map_data *virusMapData,
+                     const u8 virusMapDispOrder[VIRUS_MAP_DISP_ORDER_LEN], s32 virusCount) {
+    bzero(st, sizeof(MakeFlash));
     st->virusMapData = virusMapData;
     st->virusMapDispOrder = virusMapDispOrder;
     st->virusCount = virusCount;
@@ -541,7 +542,7 @@ void _makeFlash_init(struct_8005FC6C_arg0 *st, struct_virus_map_data *virusMapDa
 /**
  * Original name: _makeFlash_checkOrdre
  */
-void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *st) {
+void _makeFlash_checkOrdre(MakeFlash *st) {
     s32 var_t2 = -1;
     s32 i;
     s32 temp;
@@ -604,7 +605,7 @@ void _makeFlash_checkOrdre(struct_8005FC6C_arg0 *st) {
 /**
  * Original name: _makeFlash_checkOrdre
  */
-s32 _makeFlash_decide(struct_8005FC6C_arg0 *st, u8 buf[VIRUS_NUM][ORDER_BUF_LEN], s32 cnt[VIRUS_NUM], s32 color) {
+s32 _makeFlash_decide(MakeFlash *st, u8 buf[VIRUS_NUM][ORDER_BUF_LEN], s32 cnt[VIRUS_NUM], s32 color) {
     u8 *order = buf[color];
     s32 count = cnt[color];
     s32 i;
@@ -623,10 +624,10 @@ s32 _makeFlash_decide(struct_8005FC6C_arg0 *st, u8 buf[VIRUS_NUM][ORDER_BUF_LEN]
     return -1;
 }
 
-s32 make_flash_virus_pos(struct_game_state_data *state, struct_virus_map_data *virusMapData,
-                         u8 virusMapDispOrder[VIRUS_MAP_DISP_ORDER_LEN]) {
-    struct_8005FC6C_arg0 watchMakeFlash;
-    struct_8005FC6C_arg0 *st = &watchMakeFlash;
+s32 make_flash_virus_pos(struct_game_state_data *state, const struct_virus_map_data *virusMapData,
+                         const u8 virusMapDispOrder[VIRUS_MAP_DISP_ORDER_LEN]) {
+    MakeFlash watchMakeFlash;
+    MakeFlash *st = &watchMakeFlash;
     s32 var_fp;
     s32 color;
     s32 var_s1;

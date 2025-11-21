@@ -317,6 +317,7 @@ s16 gfxWaitMessage(void) {
  *   u32         ucode_type:type of micro code (see graphic.h)
  *   u32         flag      :flag to change frame buffer
  */
+// TODO: enum for arg3
 void gfxTaskStart(OSScTask *scTask, void *data_ptr, size_t data_size, s32 arg3, u32 flags) {
     scTask->list.t.data_ptr = data_ptr;
     scTask->list.t.data_size = data_size;

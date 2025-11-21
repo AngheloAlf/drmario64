@@ -1317,11 +1317,11 @@ bool fontXX_drawID2(Gfx **gfxP, f32 x, f32 y, f32 width, f32 height, s32 index) 
 /**
  * Original name: fontAsc_draw
  */
-bool fontAsc_draw(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, unsigned char *arg5) {
+bool fontAsc_draw(Gfx **gfxP, f32 x, f32 y, f32 w, f32 h, unsigned char *charcode) {
     s32 index;
     s32 width;
 
-    ascii2index(*arg5, FONTTYPE_0, &index, &width);
+    ascii2index(*charcode, FONTTYPE_0, &index, &width);
     return fontAsc_drawID(gfxP, x, y, w, h, index);
 }
 

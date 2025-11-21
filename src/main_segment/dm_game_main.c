@@ -2660,7 +2660,7 @@ void dm_save_all(void) {
                 s32 var_s0_2 = evs_story_no;
                 s32 temp_s1 = (s32)story_proc_no >= BGROMDATA_INDEX12;
 
-                temp->unk_02 = CLAMP(var_s0_2 - 1, 0, 7);
+                temp->st_st = CLAMP(var_s0_2 - 1, 0, 7);
 
                 if (game_state_ptr->unk_020 == 5) {
                     if ((var_s0_2 == 9) && (game_state_ptr->unk_004 == 0)) {
@@ -2696,7 +2696,7 @@ void dm_save_all(void) {
                     dm_level_sort_set(evs_select_name_no[0], game_state_ptr->unk_02C, game_state_ptr->unk_000,
                                       var_s1_2);
 
-                    evs_mem_data[evs_select_name_no[0]].config.unk_04 = MIN(0x15, var_s1_2);
+                    evs_mem_data[evs_select_name_no[0]].config.p1_lv = MIN(0x15, var_s1_2);
                     break;
 
                 case GMD_TaiQ:

@@ -27,8 +27,8 @@ s32 mag01_108[] = {
 /**
  * Original name: sgenrand
  */
-void sgenrand(u32 arg0) {
-    mt[0] = arg0;
+void sgenrand(u32 seed) {
+    mt[0] = seed;
 
     for (mti = 1; mti < ARRAY_COUNT(mt); mti++) {
         mt[mti] = mt[mti - 1] * 69069;
@@ -38,8 +38,8 @@ void sgenrand(u32 arg0) {
 /**
  * Original name: genrand
  */
-u16 genrand(u16 arg0) {
-    u32 s4 = arg0;
+u16 genrand(u16 in_limit) {
+    u32 s4 = in_limit;
     u32 temp_t0;
 
     do {
