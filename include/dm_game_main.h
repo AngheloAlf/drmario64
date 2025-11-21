@@ -162,13 +162,13 @@ typedef struct struct_game_state_data_unk_140 {
 #define STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN 2
 
 typedef struct struct_game_state_data_unk_178 {
-    /* 0x0 */ s8 unk_0[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
-    /* 0x2 */ s8 unk_2[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
-    /* 0x4 */ s8 unk_4[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
-    /* 0x6 */ s8 unk_6[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
-    /* 0x8 */ s8 unk_8;
-    /* 0x9 */ s8 unk_9;
-    /* 0xA */ s8 unk_A;
+    /* 0x0 */ s8 pos_x[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
+    /* 0x2 */ s8 pos_y[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
+    /* 0x4 */ s8 casel_g[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
+    /* 0x6 */ s8 capsel_p[STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN];
+    /* 0x8 */ s8 capsel_flg_0;
+    /* 0x9 */ s8 capsel_flg_1;
+    /* 0xA */ s8 capsel_flg_2;
 } struct_game_state_data_unk_178; // size = 0xB
 
 typedef struct struct_game_state_data_unk_050 {
@@ -241,6 +241,7 @@ typedef enum EnumGameStateDataUnk014 {
     /* 0x18 */ GAMESTATEDATA_UNK_014_18,
 } EnumGameStateDataUnk014;
 
+// TODO: struct_dm_game_main_c_171
 typedef struct struct_game_state_data {
     /* 0x000 */ u32 unk_000;
     /* 0x004 */ u16 unk_004;

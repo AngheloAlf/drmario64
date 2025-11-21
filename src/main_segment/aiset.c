@@ -581,12 +581,12 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
 
 // no original name :c
 void func_8002EB00(struct_game_state_data *gameStateDataRef) {
-    gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.unk_0[0];
-    gameStateDataRef->unk_3BD = gameStateDataRef->unk_178.unk_2[0];
+    gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.pos_x[0];
+    gameStateDataRef->unk_3BD = gameStateDataRef->unk_178.pos_y[0];
     gameStateDataRef->unk_3C1 = gameStateDataRef->unk_02F;
     gameStateDataRef->unk_3C0 = gameStateDataRef->unk_02D;
-    gameStateDataRef->unk_3BE[0] = gameStateDataRef->unk_178.unk_6[0];
-    gameStateDataRef->unk_3BE[1] = gameStateDataRef->unk_178.unk_6[1];
+    gameStateDataRef->unk_3BE[0] = gameStateDataRef->unk_178.capsel_p[0];
+    gameStateDataRef->unk_3BE[1] = gameStateDataRef->unk_178.capsel_p[1];
     gameStateDataRef->unk_29B = gameStateDataRef->unk_025;
     gameStateDataRef->unk_29A = gameStateDataRef->unk_026;
     gameStateDataRef->unk_299 = gameStateDataRef->unk_014 == GAMESTATEDATA_UNK_014_12;
@@ -625,11 +625,11 @@ void aifMakeBlkWork(struct_game_state_data *gameStateDataRef) {
         }
     }
 
-    if (gameStateDataRef->unk_178.unk_2[0] != 0) {
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2[0] - 1][gameStateDataRef->unk_178.unk_0[0]][0] = 10;
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2[0] - 1][gameStateDataRef->unk_178.unk_0[0]][1] = 3;
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2[1] - 1][gameStateDataRef->unk_178.unk_0[1]][0] = 10;
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.unk_2[1] - 1][gameStateDataRef->unk_178.unk_0[1]][1] = 3;
+    if (gameStateDataRef->unk_178.pos_y[0] != 0) {
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.pos_y[0] - 1][gameStateDataRef->unk_178.pos_x[0]][0] = 10;
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.pos_y[0] - 1][gameStateDataRef->unk_178.pos_x[0]][1] = 3;
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.pos_y[1] - 1][gameStateDataRef->unk_178.pos_x[1]][0] = 10;
+        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.pos_y[1] - 1][gameStateDataRef->unk_178.pos_x[1]][1] = 3;
     }
 }
 
