@@ -304,10 +304,10 @@ void initEtcWork(void *gameEtcSeg, s32 count) {
     for (i = 0; i < binCount; i++) {
         s32 j;
 
-        g_etc_work[i].x0 = game_state_data[i].unk_006;
-        g_etc_work[i].y0 = game_state_data[i].unk_008;
-        g_etc_work[i].xs = game_state_data[i].unk_00A * 8.0f;
-        g_etc_work[i].ys = game_state_data[i].unk_00A * 17.0f;
+        g_etc_work[i].x0 = game_state_data[i].map_x;
+        g_etc_work[i].y0 = game_state_data[i].map_y;
+        g_etc_work[i].xs = game_state_data[i].map_item_size * 8.0f;
+        g_etc_work[i].ys = game_state_data[i].map_item_size * 17.0f;
 
         for (j = 0; j < G_ETC_WORK_VAL; j++) {
             g_etc_work[i].timer[j] = 0;

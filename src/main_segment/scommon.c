@@ -62,7 +62,7 @@ u8 main_joy[MAXCONTROLLERS] BSS;
 
 s16 gfx_msg BSS;
 
-struct_gameBackup *gameBackup[2] BSS;
+struct struct_gameBackup *gameBackup[2] BSS;
 
 s32 attack_effect_idx BSS;
 
@@ -119,7 +119,7 @@ NNScClient gfx_client BSS;
 
 u16 joygam[MAXCONTROLLERS] BSS;
 
-struct_gameGeom *gameGeom BSS;
+struct struct_gameGeom *gameGeom BSS;
 
 #ifdef NN_SC_PERF
 u8 B_800CA26C_cn[B_800CA26C_CN_ARR_LEN] BSS;

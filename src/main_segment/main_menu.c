@@ -4753,9 +4753,9 @@ const MainMenuMode tbl_5664[] = {
 };
 
 const u8 _team_5687[][4] = {
-    { 0, 1, 2, 3 },
-    { 0, 0, 1, 1 },
-    { 0, 1, 2, 3 },
+    { TEAMNUMBER_0, TEAMNUMBER_1, TEAMNUMBER_2, TEAMNUMBER_3 },
+    { TEAMNUMBER_0, TEAMNUMBER_0, TEAMNUMBER_1, TEAMNUMBER_1 },
+    { TEAMNUMBER_0, TEAMNUMBER_1, TEAMNUMBER_2, TEAMNUMBER_3 },
 };
 
 const MainMenuMode _mode_5688[] = {
@@ -4960,8 +4960,8 @@ void menuMain_input(MenuMain *menuMain) {
                         evs_story_flg = 1;
                         evs_gamesel = ENUM_EVS_GAMESEL_3;
 
-                        game_state_data[0].unk_04C = 0;
-                        game_state_data[1].unk_04C = 1;
+                        game_state_data[0].player_type = PLAYERTYPE_0;
+                        game_state_data[1].player_type = PLAYERTYPE_1;
                         var_s7++;
                         break;
 
@@ -4972,9 +4972,9 @@ void menuMain_input(MenuMain *menuMain) {
                         evs_story_flg = 0;
                         evs_gamesel = ENUM_EVS_GAMESEL_0;
 
-                        game_state_data[0].unk_04B = 0;
-                        game_state_data[0].unk_04C = 0;
-                        game_state_data[0].unk_090 = CHARANIMEMODE_M;
+                        game_state_data[0].player_no = 0;
+                        game_state_data[0].player_type = PLAYERTYPE_0;
+                        game_state_data[0].charNo = CHARANIMEMODE_M;
                         var_s7++;
                         break;
 
@@ -4984,8 +4984,8 @@ void menuMain_input(MenuMain *menuMain) {
                         evs_story_flg = 0;
                         evs_gamesel = ENUM_EVS_GAMESEL_3;
 
-                        game_state_data[0].unk_04C = 0;
-                        game_state_data[1].unk_04C = 1;
+                        game_state_data[0].player_type = PLAYERTYPE_0;
+                        game_state_data[1].player_type = PLAYERTYPE_1;
                         var_s7++;
                         break;
 
@@ -5015,8 +5015,8 @@ void menuMain_input(MenuMain *menuMain) {
                 evs_story_flg = 0;
                 evs_gamesel = ENUM_EVS_GAMESEL_1;
 
-                game_state_data[0].unk_04C = 0;
-                game_state_data[1].unk_04C = 0;
+                game_state_data[0].player_type = PLAYERTYPE_0;
+                game_state_data[1].player_type = PLAYERTYPE_0;
 
                 var_s7++;
                 var_s3++;
@@ -5064,7 +5064,7 @@ void menuMain_input(MenuMain *menuMain) {
                     evs_gamemode = GMD_NORMAL;
 
                     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
-                        game_state_data[i].unk_04C = var_s2 < i;
+                        game_state_data[i].player_type = var_s2 < i ? PLAYERTYPE_1 : PLAYERTYPE_0;
                     }
 
                     var_s3++;
@@ -5333,7 +5333,7 @@ void menuMain_input(MenuMain *menuMain) {
             menuMain->unk_0030 = GMD_FLASH;
             if (keyTrg & (A_BUTTON | START_BUTTON)) {
                 for (i = 0; i < ARRAY_COUNTU(_team_5687[var_s2]); i++) {
-                    game_state_data[i].unk_04F = _team_5687[var_s2][i];
+                    game_state_data[i].team_no = _team_5687[var_s2][i];
                 }
 
                 evs_gamemode = _game_5689[var_s2];
@@ -6228,7 +6228,7 @@ void menuStory_input(MenuStory *menuStory) {
             evs_story_no = menuStory->unk_0EC0.unk_0C;
 
             i = (evs_story_no > 1) ? 1 : 0;
-            game_state_data[0].unk_004 = i;
+            game_state_data[0].game_retry = i;
             evs_one_game_flg = i;
 
             story_proc_no = menuStory->unk_0EC0.unk_0C;
@@ -6708,22 +6708,22 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
 
         switch (menuLvSel->unk_0004) {
             case MAINMENUMODE_MENULVSEL_7:
-                gameStateData->unk_026 = menuLvSel->virusLvlGauge.unk_00C;
-                gameStateData->unk_02C = menuLvSel->speedSelector.unk_008;
+                gameStateData->virus_level = menuLvSel->virusLvlGauge.unk_00C;
+                gameStateData->cap_def_speed = menuLvSel->speedSelector.unk_008;
                 temp_s5->p1_lv = menuLvSel->virusLvlGauge.unk_00C;
                 break;
 
             case MAINMENUMODE_MENULVSEL_10:
-                gameStateData->unk_026 = 0xA;
-                gameStateData->unk_02C = menuLvSel->speedSelector.unk_008;
-                gameStateData->unk_16C = menuLvSel->gameLvlSelector.unk_008;
+                gameStateData->virus_level = 0xA;
+                gameStateData->cap_def_speed = menuLvSel->speedSelector.unk_008;
+                gameStateData->game_level = menuLvSel->gameLvlSelector.unk_008;
                 temp_s5->p1_tq_lv = menuLvSel->gameLvlSelector.unk_008;
                 break;
 
             case MAINMENUMODE_MENULVSEL_13:
-                gameStateData->unk_026 = _timeAttack_levelTable[menuLvSel->gameLvlSelector.unk_008];
-                gameStateData->unk_02C = menuLvSel->speedSelector.unk_008;
-                gameStateData->unk_16C = menuLvSel->gameLvlSelector.unk_008;
+                gameStateData->virus_level = _timeAttack_levelTable[menuLvSel->gameLvlSelector.unk_008];
+                gameStateData->cap_def_speed = menuLvSel->speedSelector.unk_008;
+                gameStateData->game_level = menuLvSel->gameLvlSelector.unk_008;
                 temp_s5->p1_ta_lv = menuLvSel->gameLvlSelector.unk_008;
                 break;
 
@@ -6993,7 +6993,7 @@ void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, void *
         s32 var_s3;
         struct_evs_mem_data_config *temp;
 
-        if (game_state_data[i].unk_04C == 0) {
+        if (game_state_data[i].player_type == PLAYERTYPE_0) {
             menuChSel->unk_0040[menuChSel->unk_003C] = i;
             menuChSel->unk_003C += 1;
             menuChSel->unk_0050[i] = 0;
@@ -7281,7 +7281,7 @@ void menuChSel_input(MenuChSel *menuChSel) {
         return;
     }
 
-    var_s2 = 0;
+    var_s2 = THINKLEVEL_0;
     if (menuChSel->unk_002C != 0) {
         var_s2 = menuChSel->unk_0030;
     }
@@ -7362,8 +7362,8 @@ void menuChSel_input(MenuChSel *menuChSel) {
     for (i = 0; i < menuChSel->unk_0004; i++) {
         struct_game_state_data *gameStateDataP = &game_state_data[i];
 
-        gameStateDataP->unk_090 = _charTbl_8108[menuChSel->unk_0008[i]];
-        gameStateDataP->unk_04E = var_s2;
+        gameStateDataP->charNo = _charTbl_8108[menuChSel->unk_0008[i]];
+        gameStateDataP->think_level = var_s2;
     }
 
     _setMode(menuChSel->watchMenuRef, mode);
@@ -7609,8 +7609,8 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void *
                 }
 
                 menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, heapP, 1, menuPlay2->unk_000C,
-                                    menuPlay2->unk_0020, i, temp_s3_3->unk_04C == 1, temp_s3_3->unk_090, var_s5,
-                                    temp_s0->vm_sp, _panel2_8535[i][0], _panel2_8535[i][1]);
+                                    menuPlay2->unk_0020, i, temp_s3_3->player_type == PLAYERTYPE_1, temp_s3_3->charNo,
+                                    var_s5, temp_s0->vm_sp, _panel2_8535[i][0], _panel2_8535[i][1]);
             }
             break;
 
@@ -7643,8 +7643,8 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void *
                 }
 
                 menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, heapP, 1, menuPlay2->unk_000C,
-                                    menuPlay2->unk_0020, i, temp_s3_3->unk_04C == 1, temp_s3_3->unk_090, var_s5,
-                                    temp_s0->vc_sp[i], _panel2_8535[i][0], _panel2_8535[i][1]);
+                                    menuPlay2->unk_0020, i, temp_s3_3->player_type == PLAYERTYPE_1, temp_s3_3->charNo,
+                                    var_s5, temp_s0->vc_sp[i], _panel2_8535[i][0], _panel2_8535[i][1]);
             }
             break;
 
@@ -7661,7 +7661,7 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void *
             for (i = 0; i < menuPlay2->unk_00C4; i++) {
                 temp_s3_3 = &game_state_data[i];
 
-                if (temp_s3_3->unk_04C == 1) {
+                if (temp_s3_3->player_type == PLAYERTYPE_1) {
                     menuPlay2->unk_0024[menuPlay2->unk_0020] = i;
                     menuPlay2->unk_0020 += 1;
                 } else {
@@ -7687,8 +7687,8 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void *
                 }
 
                 menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, heapP, 0, menuPlay2->unk_000C,
-                                    menuPlay2->unk_0020, i, temp_s3_3->unk_04C == 1, temp_s3_3->unk_090, var_s5,
-                                    evs_cfg_4p.p4_sp[i], _panel4_8536[i][0], _panel4_8536[i][1]);
+                                    menuPlay2->unk_0020, i, temp_s3_3->player_type == PLAYERTYPE_1, temp_s3_3->charNo,
+                                    var_s5, evs_cfg_4p.p4_sp[i], _panel4_8536[i][0], _panel4_8536[i][1]);
             }
             break;
 
@@ -8034,15 +8034,15 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
         play2Panel = &menuPlay2->unk_00C8[i];
 
         if (play2Panel->unk_0004 != 0) {
-            ptr->unk_026 = _timeAttack_levelTable[play2Panel->unk_12BC.unk_008];
-            ptr->unk_16C = play2Panel->unk_12BC.unk_008;
+            ptr->virus_level = _timeAttack_levelTable[play2Panel->unk_12BC.unk_008];
+            ptr->game_level = play2Panel->unk_12BC.unk_008;
         } else if (play2Panel->unk_0008 != 0) {
-            ptr->unk_026 = _timeAttack_levelTable[play2Panel->unk_12BC.unk_008];
-            ptr->unk_16C = play2Panel->unk_12BC.unk_008;
+            ptr->virus_level = _timeAttack_levelTable[play2Panel->unk_12BC.unk_008];
+            ptr->game_level = play2Panel->unk_12BC.unk_008;
         } else {
-            ptr->unk_026 = play2Panel->unk_0290.unk_00C;
+            ptr->virus_level = play2Panel->unk_0290.unk_00C;
         }
-        ptr->unk_02C = play2Panel->unk_062C.unk_008;
+        ptr->cap_def_speed = play2Panel->unk_062C.unk_008;
     }
 
     i = menuPlay2->unk_6548.unk_940.unk_0C - 1;
@@ -10187,8 +10187,8 @@ void menuAll_init(struct_watchMenu *arg0, UNK_PTR *arg1, NNSched *sc) {
     }
 
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
-        game_state_data[i].unk_000 = 0;
-        game_state_data[i].unk_004 = 0;
+        game_state_data[i].game_score = 0;
+        game_state_data[i].game_retry = 0;
     }
 
     evs_one_game_flg = 0;

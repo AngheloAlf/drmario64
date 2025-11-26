@@ -298,11 +298,11 @@ s32 dm_get_first_virus_count(enum_evs_gamemode evsGamemode, const struct_game_st
     switch (evsGamemode) {
         case GMD_FLASH:
         case GMD_TIME_ATTACK:
-            ret = dm_get_first_virus_count_in_new_mode(state->unk_16C);
+            ret = dm_get_first_virus_count_in_new_mode(state->game_level);
             break;
 
         default:
-            ret = MIN(VIRUS_MAP_DISP_ORDER_LEN / 4 - 1, state->unk_026);
+            ret = MIN(VIRUS_MAP_DISP_ORDER_LEN / 4 - 1, state->virus_level);
             ret = (ret + 1) * 4;
             break;
     }
@@ -375,13 +375,14 @@ loop_1:
         case GMD_FLASH:
         case GMD_TIME_ATTACK:
             limit_line =
-                limit_table[(_l_359[state->unk_16C] < ARRAY_COUNT(limit_table) - 1) ? _l_359[state->unk_16C]
-                                                                                    : ARRAY_COUNT(limit_table) - 2];
+                limit_table[(_l_359[state->game_level] < ARRAY_COUNT(limit_table) - 1) ? _l_359[state->game_level]
+                                                                                       : ARRAY_COUNT(limit_table) - 2];
             break;
 
         default:
-            limit_line = limit_table[(state->unk_026 < ARRAY_COUNT(limit_table) - 1) ? state->unk_026
-                                                                                     : ARRAY_COUNT(limit_table) - 2];
+            limit_line =
+                limit_table[(state->virus_level < ARRAY_COUNT(limit_table) - 1) ? state->virus_level
+                                                                                : ARRAY_COUNT(limit_table) - 2];
             break;
     }
 
@@ -645,14 +646,14 @@ s32 make_flash_virus_pos(struct_game_state_data *state, const struct_virus_map_d
     int k; // r10
 #endif
 
-    state->unk_164 = 3;
+    state->flash_virus_count = 3;
     var_fp = 3;
     _makeFlash_init(st, virusMapData, virusMapDispOrder, dm_get_first_virus_count(GMD_FLASH, state));
     _makeFlash_checkOrdre(st);
     color = random(3);
 
-    for (var_s3 = 0; var_s3 < ARRAY_COUNT(_n_564[state->unk_16C]); var_s3++) {
-        var_s4 = MIN(var_fp, _n_564[state->unk_16C][var_s3]);
+    for (var_s3 = 0; var_s3 < ARRAY_COUNT(_n_564[state->game_level]); var_s3++) {
+        var_s4 = MIN(var_fp, _n_564[state->game_level][var_s3]);
 
         switch (var_s3) {
             case 0:
@@ -706,10 +707,10 @@ s32 make_flash_virus_pos(struct_game_state_data *state, const struct_virus_map_d
     for (color = 0; color < VIRUS_NUM; color++) {
         for (var_s1 = 0; var_s1 < st->decideCnt[color]; var_s1++) {
             var_v1 = st->decideBuf[color][var_s1];
-            state->unk_0D4[var_s3][0] = var_v1 & 7;
-            state->unk_0D4[var_s3][1] = (var_v1 >> 3) & 0xF;
-            state->unk_0D4[var_s3][2] = color;
-            state->unk_140.unk_00[var_s3] = color;
+            state->flash_virus_pos[var_s3].column = var_v1 & 7;
+            state->flash_virus_pos[var_s3].row = (var_v1 >> 3) & 0xF;
+            state->flash_virus_pos[var_s3].color = color;
+            state->flash_virus_bak[var_s3] = color;
             var_s3 += 1;
         }
     }

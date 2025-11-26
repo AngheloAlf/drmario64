@@ -111,7 +111,7 @@ s16 gfx_msg BSS;
 STACK(nnScGraphicsStack, NN_SC_STACKSIZE) BSS;
 
 #if SCOMMON_IN_COMMON
-struct_gameBackup *gameBackup[2] BSS;
+struct struct_gameBackup *gameBackup[2] BSS;
 #endif /* SCOMMON_IN_COMMON */
 
 u8 CapsMagazine[0x100] BSS;
@@ -225,7 +225,7 @@ NNScClient gfx_client BSS;
 
 u16 joygam[MAXCONTROLLERS] BSS;
 
-struct_gameGeom *gameGeom BSS;
+struct struct_gameGeom *gameGeom BSS;
 #endif /* SCOMMON_IN_COMMON */
 
 u16 joycur[MAXCONTROLLERS + 1] BSS;
@@ -252,7 +252,7 @@ ALIGNED(0x10)
 #endif
 struct_aiFlag aiFlag[AIFLAG_LEN] BSS;
 
-u8 aiRoot[AIROOT_LEN][2] BSS;
+struct_aiRoot aiRoot[AIROOT_LEN] BSS;
 
 #if SCOMMON_IN_COMMON
 unsigned long __muscontrol_flag BSS;

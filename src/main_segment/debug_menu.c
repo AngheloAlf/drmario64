@@ -490,19 +490,19 @@ void DebugMenu_8003F360(void) {
     s32 i;
 
     *var_a3++ = B_800E5928;
-    *var_a3++ = temp_a1->unk_00;
+    *var_a3++ = temp_a1->wait_attack;
     *var_a3++ = temp_a1->speed;
-    *var_a3++ = temp_a1->unk_02;
+    *var_a3++ = temp_a1->luck;
 
     for (i = 0; i < ARRAY_COUNT(temp_a1->performance); i++) {
         *var_a3++ = temp_a1->performance[i];
     }
 
     for (i = B_800E592C; i < B_800E592C + 4; i++) {
-        *var_a3++ = temp_a1->unk_0C[i];
-        *var_a3++ = temp_a1->unk_1C[i];
-        *var_a3++ = temp_a1->unk_3C[i];
-        *var_a3++ = temp_a1->unk_4C[i];
+        *var_a3++ = temp_a1->condition[i];
+        *var_a3++ = temp_a1->condition_param[i];
+        *var_a3++ = temp_a1->effect[i];
+        *var_a3++ = temp_a1->effect_param[i];
     }
 }
 
@@ -512,19 +512,19 @@ void DebugMenu_8003F474(void) {
     s32 i;
 
     B_800E5928 = *var_t1++;
-    temp_t3->unk_00 = *var_t1++;
+    temp_t3->wait_attack = *var_t1++;
     temp_t3->speed = *var_t1++;
-    temp_t3->unk_02 = *var_t1++;
+    temp_t3->luck = *var_t1++;
 
     for (i = 0; i < ARRAY_COUNT(temp_t3->performance); i++) {
         temp_t3->performance[i] = *var_t1++;
     }
 
     for (i = B_800E592C; i < B_800E592C + 4; i++) {
-        temp_t3->unk_0C[i] = *var_t1++;
-        temp_t3->unk_1C[i] = *var_t1++;
-        temp_t3->unk_3C[i] = *var_t1++;
-        temp_t3->unk_4C[i] = *var_t1++;
+        temp_t3->condition[i] = *var_t1++;
+        temp_t3->condition_param[i] = *var_t1++;
+        temp_t3->effect[i] = *var_t1++;
+        temp_t3->effect_param[i] = *var_t1++;
     }
 }
 
@@ -1147,10 +1147,10 @@ void DebugMenu_Page_CharacterEdit_ApplyStats(void) {
 
         if (stats->specials & (1 << CHARACTER_EDIT_SPECIAL_DEFAULT)) {
             for (j = 0; j < 4; j++) {
-                temp_t8->unk_0C[index] = temp_a2->unk_0C[j];
-                temp_t8->unk_1C[index] = temp_a2->unk_1C[j];
-                temp_t8->unk_3C[index] = temp_a2->unk_3C[j];
-                temp_t8->unk_4C[index] = temp_a2->unk_4C[j];
+                temp_t8->condition[index] = temp_a2->condition[j];
+                temp_t8->condition_param[index] = temp_a2->condition_param[j];
+                temp_t8->effect[index] = temp_a2->effect[j];
+                temp_t8->effect_param[index] = temp_a2->effect_param[j];
                 index++;
             }
         }
@@ -1158,102 +1158,102 @@ void DebugMenu_Page_CharacterEdit_ApplyStats(void) {
         for (j = 0; j < sDebugMenu_CharacterEdit_RowsPerColumn[CHARACTER_EDIT_COLUMN_SPECIAL]; j++) {
             switch (stats->specials & (1 << j)) {
                 case 1 << CHARACTER_EDIT_SPECIAL_PREEMTIVE_ATTACK:
-                    temp_t8->unk_0C[index] = 0xC;
-                    temp_t8->unk_1C[index] = 5;
-                    temp_t8->unk_3C[index] = 4;
-                    temp_t8->unk_4C[index] = 1;
+                    temp_t8->condition[index] = 0xC;
+                    temp_t8->condition_param[index] = 5;
+                    temp_t8->effect[index] = 4;
+                    temp_t8->effect_param[index] = 1;
                     index++;
 
-                    temp_t8->unk_0C[index] = 0xC;
-                    temp_t8->unk_1C[index] = 5;
-                    temp_t8->unk_3C[index] = 8;
-                    temp_t8->unk_4C[index] = 1;
+                    temp_t8->condition[index] = 0xC;
+                    temp_t8->condition_param[index] = 5;
+                    temp_t8->effect[index] = 8;
+                    temp_t8->effect_param[index] = 1;
                     index++;
                     break;
 
                 case 1 << CHARACTER_EDIT_SPECIAL_COUNTER:
-                    temp_t8->unk_0C[index] = 3;
-                    temp_t8->unk_1C[index] = 0;
-                    temp_t8->unk_3C[index] = 8;
-                    temp_t8->unk_4C[index] = 7;
+                    temp_t8->condition[index] = 3;
+                    temp_t8->condition_param[index] = 0;
+                    temp_t8->effect[index] = 8;
+                    temp_t8->effect_param[index] = 7;
                     index++;
                     break;
 
                 case 1 << CHARACTER_EDIT_SPECIAL_LUCK:
-                    temp_t8->unk_02 = 0x32;
+                    temp_t8->luck = 50;
                     break;
 
                 case 1 << CHARACTER_EDIT_SPECIAL_BEWILDERMENT:
-                    temp_t8->unk_0C[index] = 2;
-                    temp_t8->unk_1C[index] = 0x21;
-                    temp_t8->unk_3C[index] = 2;
-                    temp_t8->unk_4C[index] = 0;
+                    temp_t8->condition[index] = 2;
+                    temp_t8->condition_param[index] = 0x21;
+                    temp_t8->effect[index] = 2;
+                    temp_t8->effect_param[index] = 0;
                     index++;
                     break;
 
                 case 1 << CHARACTER_EDIT_SPECIAL_ROTATE:
-                    temp_t8->unk_0C[index] = 1;
-                    temp_t8->unk_1C[index] = 0;
-                    temp_t8->unk_3C[index] = 1;
-                    temp_t8->unk_4C[index] = 0;
+                    temp_t8->condition[index] = 1;
+                    temp_t8->condition_param[index] = 0;
+                    temp_t8->effect[index] = 1;
+                    temp_t8->effect_param[index] = 0;
                     index++;
                     break;
 
                 case 1 << CHARACTER_EDIT_SPECIAL_PROVOKE:
-                    temp_t8->unk_0C[index] = 5;
-                    temp_t8->unk_1C[index] = 5;
-                    temp_t8->unk_3C[index] = 1;
-                    temp_t8->unk_4C[index] = 0;
+                    temp_t8->condition[index] = 5;
+                    temp_t8->condition_param[index] = 5;
+                    temp_t8->effect[index] = 1;
+                    temp_t8->effect_param[index] = 0;
                     index++;
                     break;
 
                 case 1 << CHARACTER_EDIT_SPECIAL_DOUYOU:
-                    temp_t8->unk_0C[index] = 3;
-                    temp_t8->unk_1C[index] = 0;
-                    temp_t8->unk_3C[index] = 3;
-                    temp_t8->unk_4C[index] = 1;
+                    temp_t8->condition[index] = 3;
+                    temp_t8->condition_param[index] = 0;
+                    temp_t8->effect[index] = 3;
+                    temp_t8->effect_param[index] = 1;
                     index++;
                     break;
 
                 case 1 << CHARACTER_EDIT_SPECIAL_SPEED:
-                    temp_t8->unk_0C[index] = 1;
-                    temp_t8->unk_1C[index] = 0;
-                    temp_t8->unk_3C[index] = 7;
-                    temp_t8->unk_4C[index] = 0;
+                    temp_t8->condition[index] = 1;
+                    temp_t8->condition_param[index] = 0;
+                    temp_t8->effect[index] = 7;
+                    temp_t8->effect_param[index] = 0;
                     index++;
                     break;
 
                 case 1 << CHARACTER_EDIT_SPECIAL_OIAGERU:
-                    temp_t8->unk_0C[index] = 4;
-                    temp_t8->unk_1C[index] = 5;
-                    temp_t8->unk_3C[index] = 6;
-                    temp_t8->unk_4C[index] = 1;
+                    temp_t8->condition[index] = 4;
+                    temp_t8->condition_param[index] = 5;
+                    temp_t8->effect[index] = 6;
+                    temp_t8->effect_param[index] = 1;
                     index++;
                     break;
 
                 case 1 << CHARACTER_EDIT_SPECIAL_SHODDY:
-                    temp_t8->unk_0C[index] = 5;
-                    temp_t8->unk_1C[index] = 5;
-                    temp_t8->unk_3C[index] = 5;
-                    temp_t8->unk_4C[index] = 1;
+                    temp_t8->condition[index] = 5;
+                    temp_t8->condition_param[index] = 5;
+                    temp_t8->effect[index] = 5;
+                    temp_t8->effect_param[index] = 1;
                     index++;
                     break;
 
                 case 1 << CHARACTER_EDIT_SPECIAL_OIKOMI:
-                    temp_t8->unk_0C[index] = 0xA;
-                    temp_t8->unk_1C[index] = 0xA;
-                    temp_t8->unk_3C[index] = 4;
-                    temp_t8->unk_4C[index] = 1;
+                    temp_t8->condition[index] = 0xA;
+                    temp_t8->condition_param[index] = 0xA;
+                    temp_t8->effect[index] = 4;
+                    temp_t8->effect_param[index] = 1;
                     index++;
                     break;
             }
         }
 
         for (j = index; j < STRUCT_AI_CHAR_DATA_LEN; j++) {
-            temp_t8->unk_0C[j] = 0;
-            temp_t8->unk_1C[j] = 0;
-            temp_t8->unk_3C[j] = 0;
-            temp_t8->unk_4C[j] = 0;
+            temp_t8->condition[j] = 0;
+            temp_t8->condition_param[j] = 0;
+            temp_t8->effect[j] = 0;
+            temp_t8->effect_param[j] = 0;
         }
     }
 }

@@ -38,7 +38,7 @@
 
 #include "aiset.h"
 
-#include "libultra.h"
+#include "libc/assert.h"
 #include "include_asm.h"
 #include "macros_defines.h"
 
@@ -203,7 +203,7 @@ struct_aiFlag aiFlag[AIFLAG_LEN];
 /**
  * Original name: aiRoot
  */
-u8 aiRoot[AIROOT_LEN][2];
+struct_aiRoot aiRoot[AIROOT_LEN];
 
 /**
  * Original name: pGameState
@@ -239,15 +239,56 @@ u8 aiVirusLevel[8][3] = {
 u8 aiDownSpeed[8][3] = {
     { 7, 4, 4 }, { 7, 4, 4 }, { 7, 4, 4 }, { 7, 4, 4 }, { 7, 4, 4 }, { 4, 3, 2 }, { 1, 1, 1 }, { 7, 4, 4 },
 };
+
 u8 aiSlideFSpeed[8][3] = {
-    { 0x1E, 0x18, 0x12 }, { 0x1E, 0x18, 0x12 }, { 0x19, 0x14, 0x10 }, { 0x15, 0x11, 0xD },
-    { 0x11, 0xE, 0xB },   { 0xA, 6, 4 },        { 1, 1, 1 },          { 0x11, 0xE, 0xB },
+    {
+        0x1E, // THINKLEVEL_0
+        0x18, // THINKLEVEL_1
+        0x12, // THINKLEVEL_2
+    },
+    {
+        0x1E, // THINKLEVEL_0
+        0x18, // THINKLEVEL_1
+        0x12, // THINKLEVEL_2
+    },
+    {
+        0x19, // THINKLEVEL_0
+        0x14, // THINKLEVEL_1
+        0x10, // THINKLEVEL_2
+    },
+    {
+        0x15, // THINKLEVEL_0
+        0x11, // THINKLEVEL_1
+        0xD,  // THINKLEVEL_2
+    },
+    {
+        0x11, // THINKLEVEL_0
+        0xE,  // THINKLEVEL_1
+        0xB,  // THINKLEVEL_2
+    },
+    {
+        0xA, // THINKLEVEL_0
+        6,   // THINKLEVEL_1
+        4,   // THINKLEVEL_2
+    },
+    {
+        1, // THINKLEVEL_0
+        1, // THINKLEVEL_1
+        1, // THINKLEVEL_2
+    },
+    {
+        0x11, // THINKLEVEL_0
+        0xE,  // THINKLEVEL_1
+        0xB,  // THINKLEVEL_2
+    },
 };
+static_assert(ARRAY_COUNT(aiSlideFSpeed[0]) == THINKLEVEL_MAX, "");
+
 u8 aiSlideSpeed[8][3] = {
     { 0x1E, 0x16, 0xE }, { 0x1E, 0x16, 0xE }, { 0xF, 0xC, 0xA }, { 8, 7, 6 },
     { 5, 5, 5 },         { 5, 3, 2 },         { 1, 1, 1 },       { 5, 5, 5 },
 };
-s8 aiDebugP1 = -1;
+s8 aiDebugP1 = THINKTYPE_INVALID;
 u8 capsGCnv_122[] = {
     0, 1, 2, 3, 4, 8, 8, 5, 5, 6, 6, 7, 7, 9, 9, 0xA, 5, 5, 6, 6, 7, 7,
 };
@@ -417,6 +458,7 @@ struct_ai_param ai_param_org[AI_PARAM_LEN1][AI_PARAM_LEN2] = {
 };
 
 struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
+    // THINKTYPE_0
     {
         1,
         3,
@@ -427,6 +469,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 2, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_1
     {
         0,
         1,
@@ -437,6 +480,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 2, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_2
     {
         0,
         1,
@@ -447,6 +491,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 4, 8, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 5, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_3
     {
         0,
         2,
@@ -457,6 +502,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 1, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_4
     {
         0,
         2,
@@ -467,6 +513,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 6, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_5
     {
         0,
         4,
@@ -477,6 +524,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_6
     {
         0,
         3,
@@ -487,6 +535,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 8, 2, 1, 0xA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_7
     {
         1,
         1,
@@ -497,6 +546,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 7, 0xA, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_8
     {
         1,
         4,
@@ -507,6 +557,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_9
     {
         1,
         3,
@@ -517,6 +568,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 6, 4, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_A
     {
         1,
         4,
@@ -527,6 +579,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 4, 5, 6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_B
     {
         0,
         4,
@@ -537,6 +590,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 4, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_C
     {
         1,
         3,
@@ -547,6 +601,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_D
     {
         1,
         3,
@@ -557,6 +612,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_E
     {
         1,
         3,
@@ -567,6 +623,7 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
         { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
     },
+    // THINKTYPE_F
     {
         1,
         3,
@@ -579,21 +636,23 @@ struct_ai_char_data ai_char_data_org[AI_CHAR_DATA_LEN] = {
     },
 };
 
-// no original name :c
-void func_8002EB00(struct_game_state_data *gameStateDataRef) {
-    gameStateDataRef->unk_3BC = gameStateDataRef->unk_178.pos_x[0];
-    gameStateDataRef->unk_3BD = gameStateDataRef->unk_178.pos_y[0];
-    gameStateDataRef->unk_3C1 = gameStateDataRef->unk_02F;
-    gameStateDataRef->unk_3C0 = gameStateDataRef->unk_02D;
-    gameStateDataRef->unk_3BE[0] = gameStateDataRef->unk_178.capsel_p[0];
-    gameStateDataRef->unk_3BE[1] = gameStateDataRef->unk_178.capsel_p[1];
-    gameStateDataRef->unk_29B = gameStateDataRef->unk_025;
-    gameStateDataRef->unk_29A = gameStateDataRef->unk_026;
-    gameStateDataRef->unk_299 = gameStateDataRef->unk_014 == GAMESTATEDATA_UNK_014_12;
-    gameStateDataRef->unk_298 = gameStateDataRef->unk_04B;
+/**
+ * Original name: aifMakeWork
+ */
+void aifMakeWork(struct_game_state_data *uupw) {
+    uupw->cap.mx = uupw->now_cap.pos_x[0];
+    uupw->cap.my = uupw->now_cap.pos_y[0];
+    uupw->cap.cn = uupw->cap_speed_count;
+    uupw->cap.sp = uupw->cap_speed;
+    uupw->cap.ca = uupw->now_cap.capsel_p[0];
+    uupw->cap.cb = uupw->now_cap.capsel_p[1];
+    uupw->vs = uupw->virus_number;
+    uupw->lv = uupw->virus_level;
+    uupw->gs = uupw->cnd_now == dm_cnd_training;
+    uupw->pn = uupw->player_no;
 
-    if (gameStateDataRef->unk_298 == 0) {
-        game_state_data[0].unk_04E = game_state_data[1].unk_04E;
+    if (uupw->pn == 0) {
+        game_state_data[0].think_level = game_state_data[1].think_level;
     }
 }
 
@@ -605,31 +664,31 @@ void aifMakeBlkWork(struct_game_state_data *gameStateDataRef) {
     s32 row;
 
     for (column = 0; column < GAME_MAP_COLUMNS; column++) {
-        gameStateDataRef->unk_29C[0][column][0] = 10;
-        gameStateDataRef->unk_29C[0][column][1] = 3;
+        gameStateDataRef->blk[0][column].st = 10;
+        gameStateDataRef->blk[0][column].co = 3;
     }
 
     for (row = 1; row < GAME_MAP_ROWS; row++) {
         for (column = 0; column < GAME_MAP_COLUMNS; column++) {
             s32 index = GAME_MAP_GET_INDEX(row - 1, column);
 
-            if (game_map_data[gameStateDataRef->unk_298][index].capsel_m_flg[0] != 0) {
-                gameStateDataRef->unk_29C[row][column][0] =
-                    capsGCnv_122[game_map_data[gameStateDataRef->unk_298][index].capsel_m_g];
-                gameStateDataRef->unk_29C[row][column][1] =
-                    capsCCnv_123[game_map_data[gameStateDataRef->unk_298][index].capsel_m_p];
+            if (game_map_data[gameStateDataRef->pn][index].capsel_m_flg[0] != 0) {
+                gameStateDataRef->blk[row][column].st =
+                    capsGCnv_122[game_map_data[gameStateDataRef->pn][index].capsel_m_g];
+                gameStateDataRef->blk[row][column].co =
+                    capsCCnv_123[game_map_data[gameStateDataRef->pn][index].capsel_m_p];
             } else {
-                gameStateDataRef->unk_29C[row][column][0] = 10;
-                gameStateDataRef->unk_29C[row][column][1] = 3;
+                gameStateDataRef->blk[row][column].st = 10;
+                gameStateDataRef->blk[row][column].co = 3;
             }
         }
     }
 
-    if (gameStateDataRef->unk_178.pos_y[0] != 0) {
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.pos_y[0] - 1][gameStateDataRef->unk_178.pos_x[0]][0] = 10;
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.pos_y[0] - 1][gameStateDataRef->unk_178.pos_x[0]][1] = 3;
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.pos_y[1] - 1][gameStateDataRef->unk_178.pos_x[1]][0] = 10;
-        gameStateDataRef->unk_29C[gameStateDataRef->unk_178.pos_y[1] - 1][gameStateDataRef->unk_178.pos_x[1]][1] = 3;
+    if (gameStateDataRef->now_cap.pos_y[0] != 0) {
+        gameStateDataRef->blk[gameStateDataRef->now_cap.pos_y[0] - 1][gameStateDataRef->now_cap.pos_x[0]].st = 10;
+        gameStateDataRef->blk[gameStateDataRef->now_cap.pos_y[0] - 1][gameStateDataRef->now_cap.pos_x[0]].co = 3;
+        gameStateDataRef->blk[gameStateDataRef->now_cap.pos_y[1] - 1][gameStateDataRef->now_cap.pos_x[1]].st = 10;
+        gameStateDataRef->blk[gameStateDataRef->now_cap.pos_y[1] - 1][gameStateDataRef->now_cap.pos_x[1]].co = 3;
     }
 }
 
@@ -637,11 +696,11 @@ void aifMakeBlkWork(struct_game_state_data *gameStateDataRef) {
  * Original name: aifMakeFlagSet
  */
 void aifMakeFlagSet(struct_game_state_data *gameStateDataRef) {
-    gameStateDataRef->unk_23D = 0;
-    gameStateDataRef->unk_241 = 0;
-    gameStateDataRef->unk_237 = 0;
-    gameStateDataRef->unk_238 = 0;
-    gameStateDataRef->unk_239 = 0;
+    gameStateDataRef->ai.aiok = false;
+    gameStateDataRef->ai.aiOldRollCnt = 0;
+    gameStateDataRef->ai.aiRollCnt = 0;
+    gameStateDataRef->ai.aiRollFinal = 0;
+    gameStateDataRef->ai.aiRollHabit = 0;
 }
 
 /**
@@ -658,14 +717,14 @@ void aifGameInit(void) {
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
         s32 j;
 
-        game_state_data[i].unk_23D = 1;
-        game_state_data[i].unk_23E = 1;
-        game_state_data[i].unk_292 = 0;
-        game_state_data[i].unk_294 = 0x64;
+        game_state_data[i].ai.aiok = true;
+        game_state_data[i].ai.aiRandFlag = true;
+        game_state_data[i].ai.aiState = 0;
+        game_state_data[i].ai.aiRootP = 0x64;
 
         for (j = 0; j < 0x10; j++) {
-            game_state_data[i].unk_242[j] = 0;
-            game_state_data[i].unk_272[j] = 0;
+            game_state_data[i].ai.aiEffectNo[j] = 0;
+            game_state_data[i].ai.aiEffectCount[j] = 0;
         }
     }
 }
@@ -697,20 +756,20 @@ void aifFirstInit(void) {
 void aifMake(struct_game_state_data *gameStateDataRef) {
     pGameState = gameStateDataRef;
 
-    if (gameStateDataRef->unk_23D == 0) {
-        func_8002EB00(gameStateDataRef);
+    if (!gameStateDataRef->ai.aiok) {
+        aifMakeWork(gameStateDataRef);
         aifMakeBlkWork(gameStateDataRef);
 
-        aiGoalX = gameStateDataRef->unk_3BC + 1;
+        aiGoalX = gameStateDataRef->cap.mx + 1;
 
-        aiGoalY = gameStateDataRef->unk_3BD;
+        aiGoalY = gameStateDataRef->cap.my;
         if (aiGoalY == 0) {
             aiGoalY++;
         }
 
-        aipn = gameStateDataRef->unk_298;
-        gameStateDataRef->unk_23C = gameStateDataRef->unk_04E;
-        if (FallSpeed[gameStateDataRef->unk_3C0] > aiSlideFSpeed[aiSelSpeed][gameStateDataRef->unk_23C]) {
+        aipn = gameStateDataRef->pn;
+        gameStateDataRef->ai.aivl = gameStateDataRef->think_level;
+        if (FallSpeed[gameStateDataRef->cap.sp] > aiSlideFSpeed[aiSelSpeed][gameStateDataRef->ai.aivl]) {
             aiMoveSF = 1;
         } else {
             aiMoveSF = 0;
@@ -727,8 +786,8 @@ void aifMake(struct_game_state_data *gameStateDataRef) {
             flash_special();
             last_flash = 0;
 
-            for (var_v1 = 0; var_v1 < pGameState->unk_164; var_v1++) {
-                if (pGameState->unk_0D4[var_v1][2] >= 0) {
+            for (var_v1 = 0; var_v1 < pGameState->flash_virus_count; var_v1++) {
+                if (pGameState->flash_virus_pos[var_v1].color >= 0) {
                     last_flash++;
                 }
             }
@@ -739,8 +798,8 @@ void aifMake(struct_game_state_data *gameStateDataRef) {
         aiHiruSideLineEraser(gameStateDataRef);
         aifReMoveCheck();
         aifKeyMake(gameStateDataRef);
-        gameStateDataRef->unk_234 = 0;
-        gameStateDataRef->unk_23D = 1;
+        gameStateDataRef->ai.aiKeyCount = 0;
+        gameStateDataRef->ai.aiok = true;
     }
 }
 
@@ -748,25 +807,23 @@ void aifMake(struct_game_state_data *gameStateDataRef) {
  * Original name: aifMake2
  */
 bool aifMake2(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    if (gameStateDataRef->unk_23D != 0) {
+    if (gameStateDataRef->ai.aiok) {
         return false;
     }
 
-    func_8002EB00(gameStateDataRef);
+    aifMakeWork(gameStateDataRef);
     aifMakeBlkWork(gameStateDataRef);
 
     MissRate = 0;
-    aiGoalX = gameStateDataRef->unk_3BC + 1;
-
-    aiGoalY = gameStateDataRef->unk_3BD;
+    aiGoalX = gameStateDataRef->cap.mx + 1;
+    aiGoalY = gameStateDataRef->cap.my;
     if (aiGoalY == 0) {
         aiGoalY++;
     }
 
-    aipn = gameStateDataRef->unk_298;
-    gameStateDataRef->unk_23C = gameStateDataRef->unk_04E;
-
-    if (FallSpeed[gameStateDataRef->unk_3C0] > aiSlideFSpeed[aiSelSpeed][gameStateDataRef->unk_23C]) {
+    aipn = gameStateDataRef->pn;
+    gameStateDataRef->ai.aivl = gameStateDataRef->think_level;
+    if (FallSpeed[gameStateDataRef->cap.sp] > aiSlideFSpeed[aiSelSpeed][gameStateDataRef->ai.aivl]) {
         aiMoveSF = 1;
     } else {
         aiMoveSF = 0;
@@ -774,17 +831,17 @@ bool aifMake2(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2, s32 
 
     aifFieldCopy(gameStateDataRef);
 
-    aiFlag[0].unk_01 = arg3 == 0;
-    aiFlag[0].unk_02 = arg1 + 1;
-    aiFlag[0].unk_03 = arg2;
-    aiFlag[0].unk_04 = arg4 != 0;
+    aiFlag[0].tory = arg3 == 0;
+    aiFlag[0].x = arg1 + 1;
+    aiFlag[0].y = arg2;
+    aiFlag[0].rev = arg4 != 0;
 
     aiFlagCnt = 1;
     decide = 0;
     aifReMoveCheck();
     aifKeyMake(gameStateDataRef);
-    gameStateDataRef->unk_234 = 0;
-    gameStateDataRef->unk_23D = 1;
+    gameStateDataRef->ai.aiKeyCount = 0;
+    gameStateDataRef->ai.aiok = true;
 
     return true;
 }
@@ -817,7 +874,7 @@ void aiHiruSideLineEraser(struct_game_state_data *gameStateDataRef) {
     s32 var_a1;
     s32 var_t6_2;
 
-    if ((aiFlag[decide].unk_10[4] != 0) || (aiFlag[decide].unk_1A[4] != 0)) {
+    if ((aiFlag[decide].hei[0][4] != 0) || (aiFlag[decide].hei[1][4] != 0)) {
         return;
     }
 
@@ -831,20 +888,20 @@ void aiHiruSideLineEraser(struct_game_state_data *gameStateDataRef) {
     }
 
     for (var_a3 = 0; var_a3 < 8; var_a3++) {
-        for (var_a1 = 0x10, var_t0 = 0, var_t1 = 0; var_a1 >= 2; var_a1--) {
-            if (gameStateDataRef->unk_29C[var_a1][var_a3][0] == 0xA) {
+        for (var_a1 = GAME_MAP_ROWS - 1, var_t0 = 0, var_t1 = 0; var_a1 >= 2; var_a1--) {
+            if (gameStateDataRef->blk[var_a1][var_a3].st == 0xA) {
                 var_t1 += 1;
-            } else if ((gameStateDataRef->unk_29C[var_a1][var_a3][0] >= 5) &&
-                       (gameStateDataRef->unk_29C[var_a1][var_a3][0] <= 7)) {
+            } else if ((gameStateDataRef->blk[var_a1][var_a3].st >= 5) &&
+                       (gameStateDataRef->blk[var_a1][var_a3].st <= 7)) {
                 if (var_t0 == 0) {
                     sp40[var_a3] = var_a1;
                     if (var_t1 >= 3) {
                         sp20[var_a3] = var_a1;
                     } else {
-                        temp_a2_2 = gameStateDataRef->unk_29C[var_a1][var_a3][1];
-                        if (((gameStateDataRef->unk_29C[var_a1 + 2][var_a3][0] == 0xA) ||
-                             (gameStateDataRef->unk_29C[var_a1 + 2][var_a3][1] == temp_a2_2)) &&
-                            (gameStateDataRef->unk_29C[var_a1 + 3][var_a3][1] == temp_a2_2)) {
+                        temp_a2_2 = gameStateDataRef->blk[var_a1][var_a3].co;
+                        if (((gameStateDataRef->blk[var_a1 + 2][var_a3].st == 0xA) ||
+                             (gameStateDataRef->blk[var_a1 + 2][var_a3].co == temp_a2_2)) &&
+                            (gameStateDataRef->blk[var_a1 + 3][var_a3].co == temp_a2_2)) {
                             sp20[var_a3] = var_a1;
                         } else if ((var_a3 == 2) || (var_a3 == 3) || (var_a3 == 4) || (var_a3 == 5)) {
                             var_t0 = -1;
@@ -916,16 +973,16 @@ void aiHiruSideLineEraser(struct_game_state_data *gameStateDataRef) {
         }
 
         for (var_t3_2 = 0, sp8[0] = sp8[1] = sp10[0] = sp10[1] = 0; var_t3_2 < aiFlagCnt; var_t3_2++) {
-            if ((aiFlag[var_t3_2].unk_00 != 1) || (aiFlag[var_t3_2].unk_03 != temp_v0_8 - 1)) {
+            if ((aiFlag[var_t3_2].ok != 1) || (aiFlag[var_t3_2].y != temp_v0_8 - 1)) {
                 continue;
             }
 
-            if (aiFlag[var_t3_2].unk_01 == 0) {
-                if (aiFlag[var_t3_2].unk_02 - 1 == var_a3) {
-                    sp8[aiFlag[var_t3_2].unk_04] = var_t3_2 + 1;
+            if (aiFlag[var_t3_2].tory == 0) {
+                if (aiFlag[var_t3_2].x - 1 == var_a3) {
+                    sp8[aiFlag[var_t3_2].rev] = var_t3_2 + 1;
                 }
-            } else if (aiFlag[var_t3_2].unk_02 - 1 == var_t6_2) {
-                sp10[aiFlag[var_t3_2].unk_04] = var_t3_2 + 1;
+            } else if (aiFlag[var_t3_2].x - 1 == var_t6_2) {
+                sp10[aiFlag[var_t3_2].rev] = var_t3_2 + 1;
             }
         }
 
@@ -933,7 +990,7 @@ void aiHiruSideLineEraser(struct_game_state_data *gameStateDataRef) {
             continue;
         }
 
-        temp_a2_2 = gameStateDataRef->unk_29C[temp_t5][var_a3][1];
+        temp_a2_2 = gameStateDataRef->blk[temp_t5][var_a3].co;
         if (temp_s3 == 5) {
             if ((sp10[0] + sp10[1]) != 0) {
                 var_s1 = sp10[0];
@@ -988,20 +1045,18 @@ void aiHiruSideLineEraser(struct_game_state_data *gameStateDataRef) {
     var_a3 = -1000001;
 
     for (var_t0_3 = 0; var_t0_3 < aiFlagCnt; var_t0_3++) {
-        if (aiFlag[var_t0_3].unk_01 == 0) {
-            if ((sp60[aiFlag[var_t0_3].unk_02 - 1] != 0) ||
-                (sp20[aiFlag[var_t0_3].unk_02 - 1] > aiFlag[var_t0_3].unk_03)) {
-                if (aiFlag[var_t0_3].unk_08 > var_a3) {
-                    var_a3 = aiFlag[var_t0_3].unk_08;
+        if (aiFlag[var_t0_3].tory == 0) {
+            if ((sp60[aiFlag[var_t0_3].x - 1] != 0) || (sp20[aiFlag[var_t0_3].x - 1] > aiFlag[var_t0_3].y)) {
+                if (aiFlag[var_t0_3].pri > var_a3) {
+                    var_a3 = aiFlag[var_t0_3].pri;
                     var_t1 = var_t0_3;
                 }
             }
         } else {
-            if (((sp60[aiFlag[var_t0_3].unk_02 - 1] != 0) ||
-                 (sp20[aiFlag[var_t0_3].unk_02 - 1] > aiFlag[var_t0_3].unk_03)) &&
-                ((sp60[aiFlag[var_t0_3].unk_02] != 0) || (sp20[aiFlag[var_t0_3].unk_02] > aiFlag[var_t0_3].unk_03))) {
-                if (aiFlag[var_t0_3].unk_08 > var_a3) {
-                    var_a3 = aiFlag[var_t0_3].unk_08;
+            if (((sp60[aiFlag[var_t0_3].x - 1] != 0) || (sp20[aiFlag[var_t0_3].x - 1] > aiFlag[var_t0_3].y)) &&
+                ((sp60[aiFlag[var_t0_3].x] != 0) || (sp20[aiFlag[var_t0_3].x] > aiFlag[var_t0_3].y))) {
+                if (aiFlag[var_t0_3].pri > var_a3) {
+                    var_a3 = aiFlag[var_t0_3].pri;
                     var_t1 = var_t0_3;
                 }
             }
@@ -1014,13 +1069,13 @@ void aiHiruSideLineEraser(struct_game_state_data *gameStateDataRef) {
 }
 
 BAD_RETURN(s32) func_8002F924(u8 row, u8 col) {
-    if (aif_field[row][col].unk_1 != 4) {
-        s8 temp_a0_2 = aif_field[row][col].unk_1;
+    if (aif_field[row][col].st != 4) {
+        s8 temp_a0_2 = aif_field[row][col].st;
         s8 temp_v0 = row + srh_466[temp_a0_2][0];
         s8 temp_v1 = col + srh_466[temp_a0_2][1];
 
         if ((temp_v0 > 0) && (temp_v0 < 17) && (temp_v1 >= 0) && (temp_v1 < 8)) {
-            aif_field[temp_v0][temp_v1].unk_1 = 4;
+            aif_field[temp_v0][temp_v1].st = 4;
         }
     }
 }
@@ -1031,15 +1086,15 @@ BAD_RETURN(s32) func_8002F924(u8 row, u8 col) {
 bool aifEraseLineCore(s32 col, s32 row) {
     bool sp18 = false;
     bool sp1C = false;
-    u8 temp_s7 = aif_field[row][col].unk_0;
+    u8 temp_s7 = aif_field[row][col].co;
     s32 i;
 
     if (hei_data[2] >= 4) {
         sp18 = true;
 
         for (i = row - 1; (i > 0) && (i > row - 4); i--) {
-            if (aif_field[i][col].unk_0 == temp_s7) {
-                if ((aif_field[i][col].unk_1 > 4) && (aif_field[i][col].unk_1 < 8)) {
+            if (aif_field[i][col].co == temp_s7) {
+                if ((aif_field[i][col].st > 4) && (aif_field[i][col].st < 8)) {
                     hei_data[1]++;
                 } else {
                     func_8002F924(i, col);
@@ -1051,23 +1106,23 @@ bool aifEraseLineCore(s32 col, s32 row) {
                     }
                 }
 
-                aif_field[i][col].unk_1 = 0xA;
-                aif_field[i][col].unk_0 = 3;
+                aif_field[i][col].st = 0xA;
+                aif_field[i][col].co = 3;
             } else {
                 i = 0;
             }
         }
 
         for (i = row + 1; (i < row + 4) && (i < GAME_MAP_ROWS); i++) {
-            if (aif_field[i][col].unk_0 == temp_s7) {
-                if ((aif_field[i][col].unk_1 > 4) && (aif_field[i][col].unk_1 < 8)) {
+            if (aif_field[i][col].co == temp_s7) {
+                if ((aif_field[i][col].st > 4) && (aif_field[i][col].st < 8)) {
                     hei_data[1]++;
                 } else {
                     func_8002F924(i, col);
                 }
 
-                aif_field[i][col].unk_1 = 0xA;
-                aif_field[i][col].unk_0 = 3;
+                aif_field[i][col].st = 0xA;
+                aif_field[i][col].co = 3;
             } else {
                 i = GAME_MAP_ROWS;
             }
@@ -1078,23 +1133,23 @@ bool aifEraseLineCore(s32 col, s32 row) {
         sp18 = true;
 
         for (i = col - 1; (i > -1) && (i > col - 4); i--) {
-            if (aif_field[row][i].unk_0 == temp_s7) {
-                if ((aif_field[row][i].unk_1 > 4) && (aif_field[row][i].unk_1 < 8)) {
+            if (aif_field[row][i].co == temp_s7) {
+                if ((aif_field[row][i].st > 4) && (aif_field[row][i].st < 8)) {
                     wid_data[1]++;
                 } else {
                     func_8002F924(row, i);
                 }
 
-                aif_field[row][i].unk_1 = 0xA;
-                aif_field[row][i].unk_0 = 3;
+                aif_field[row][i].st = 0xA;
+                aif_field[row][i].co = 3;
             } else {
                 i = -1;
             }
         }
 
         for (i = col + 1; (i < col + 4) && (i < GAME_MAP_COLUMNS); i++) {
-            if (aif_field[row][i].unk_0 == temp_s7) {
-                if ((aif_field[row][i].unk_1 > 4) && (aif_field[row][i].unk_1 < 8)) {
+            if (aif_field[row][i].co == temp_s7) {
+                if ((aif_field[row][i].st > 4) && (aif_field[row][i].st < 8)) {
                     wid_data[1]++;
                 } else {
                     func_8002F924(row, i);
@@ -1106,8 +1161,8 @@ bool aifEraseLineCore(s32 col, s32 row) {
                     }
                 }
 
-                aif_field[row][i].unk_1 = 0xA;
-                aif_field[row][i].unk_0 = 3;
+                aif_field[row][i].st = 0xA;
+                aif_field[row][i].co = 3;
             } else {
                 i = GAME_MAP_COLUMNS;
             }
@@ -1117,8 +1172,8 @@ bool aifEraseLineCore(s32 col, s32 row) {
     if (sp18) {
         func_8002F924(row, col);
 
-        aif_field[row][col].unk_1 = 0xA;
-        aif_field[row][col].unk_0 = 3;
+        aif_field[row][col].st = 0xA;
+        aif_field[row][col].co = 3;
     }
 
     return sp1C;
@@ -1138,8 +1193,8 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 
     for (col = 0; col < GAME_MAP_COLUMNS; col++) {
         for (row = 0; row < GAME_MAP_ROWS; row++) {
-            aif_field[row][col].unk_0 = gameStateDataRef->unk_29C[row][col][1];
-            aif_field[row][col].unk_1 = gameStateDataRef->unk_29C[row][col][0];
+            aif_field[row][col].co = gameStateDataRef->blk[row][col].co;
+            aif_field[row][col].st = gameStateDataRef->blk[row][col].st;
         }
     }
 
@@ -1147,28 +1202,28 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 
     for (col = 0; col < GAME_MAP_COLUMNS; col++) {
         for (row = 1; row < 4; row++) {
-            if (aif_field[row][col].unk_1 < 8U) {
+            if (aif_field[row][col].st < 8U) {
                 aiHiEraseCtr += BadLineRate[row][col];
             }
         }
     }
 
     if (arg3 != 0) {
-        aif_field[arg3][arg2].unk_1 = arg5;
-        aif_field[arg3][arg2].unk_0 = arg4;
+        aif_field[arg3][arg2].st = arg5;
+        aif_field[arg3][arg2].co = arg4;
     }
 
     if (arg7 != 0) {
-        aif_field[arg7][arg6].unk_1 = arg9;
-        aif_field[arg7][arg6].unk_0 = arg8;
+        aif_field[arg7][arg6].st = arg9;
+        aif_field[arg7][arg6].co = arg8;
     }
 
     for (row = 1; row < GAME_MAP_ROWS; row++) {
         for (col = 0; col < GAME_MAP_COLUMNS - 3; col++) {
-            if (aif_field[row][col].unk_1 != 0xA) {
-                temp = aif_field[row][col].unk_0;
+            if (aif_field[row][col].st != 0xA) {
+                temp = aif_field[row][col].co;
                 for (var_s3 = 1; col + var_s3 < 8; var_s3++) {
-                    if ((aif_field[row][col + var_s3].unk_1 == 0xA) || (aif_field[row][col + var_s3].unk_0 != temp)) {
+                    if ((aif_field[row][col + var_s3].st == 0xA) || (aif_field[row][col + var_s3].co != temp)) {
                         break;
                     }
                 }
@@ -1178,7 +1233,7 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 
                     for (var_s1 = 0; var_s1 < var_s3; var_s1++) {
                         func_8002F924(row, col + var_s1);
-                        aif_field[row][col + var_s1].unk_1 = 8;
+                        aif_field[row][col + var_s1].st = 8;
                     }
                 }
                 col += var_s3 - 1;
@@ -1188,10 +1243,10 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 
     for (col = 0; col < GAME_MAP_COLUMNS; col++) {
         for (row = 1; row < GAME_MAP_ROWS - 3; row++) {
-            if (aif_field[row][col].unk_1 != 0xA) {
-                temp = aif_field[row][col].unk_0;
+            if (aif_field[row][col].st != 0xA) {
+                temp = aif_field[row][col].co;
                 for (var_s3 = 1; row + var_s3 < GAME_MAP_ROWS; var_s3++) {
-                    if ((aif_field[row + var_s3][col].unk_1 == 0xA) || (aif_field[row + var_s3][col].unk_0 != temp)) {
+                    if ((aif_field[row + var_s3][col].st == 0xA) || (aif_field[row + var_s3][col].co != temp)) {
                         break;
                     }
                 }
@@ -1201,7 +1256,7 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 
                     for (var_s1 = 0; var_s1 < var_s3; var_s1++) {
                         func_8002F924(row + var_s1, col);
-                        aif_field[row + var_s1][col].unk_1 = 8;
+                        aif_field[row + var_s1][col].st = 8;
                     }
                 }
 
@@ -1214,73 +1269,73 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 
     for (row = GAME_MAP_ROWS - 1; row > 0; row--) {
         for (col = GAME_MAP_COLUMNS - 1; col >= 0; col--) {
-            switch (aif_field[row][col].unk_1) {
+            switch (aif_field[row][col].st) {
                 case 0x8:
-                    aif_field[row][col].unk_1 = 0xA;
+                    aif_field[row][col].st = 0xA;
                     break;
 
                 case 0x4:
                     if (row != GAME_MAP_ROWS - 1) {
-                        if (aif_field[row + 1][col].unk_1 == 0xA) {
+                        if (aif_field[row + 1][col].st == 0xA) {
                             var_s3 = 0;
 
                             for (var_s1 = row + 1; var_s1 < GAME_MAP_ROWS; var_s1++) {
-                                if (aif_field[var_s1][col].unk_1 != 0xA) {
+                                if (aif_field[var_s1][col].st != 0xA) {
                                     break;
                                 }
                             }
 
                             var_s1--;
-                            aif_field[var_s1][col].unk_1 = aif_field[row][col].unk_1;
-                            aif_field[var_s1][col].unk_0 = aif_field[row][col].unk_0;
-                            aif_field[row][col].unk_1 = 0xA;
+                            aif_field[var_s1][col].st = aif_field[row][col].st;
+                            aif_field[var_s1][col].co = aif_field[row][col].co;
+                            aif_field[row][col].st = 0xA;
                         }
                     }
                     break;
 
                 case 1:
                     if (row != GAME_MAP_ROWS - 1) {
-                        if (aif_field[row + 1][col].unk_1 == 0xA) {
+                        if (aif_field[row + 1][col].st == 0xA) {
                             var_s3 = 0;
 
                             for (var_s1 = row + 1; var_s1 < GAME_MAP_ROWS; var_s1++) {
-                                if (aif_field[var_s1][col].unk_1 != 0xA) {
+                                if (aif_field[var_s1][col].st != 0xA) {
                                     break;
                                 }
                             }
 
                             var_s1--;
-                            aif_field[var_s1][col].unk_1 = aif_field[row][col].unk_1;
-                            aif_field[var_s1][col].unk_0 = aif_field[row][col].unk_0;
-                            aif_field[row][col].unk_1 = 0xA;
+                            aif_field[var_s1][col].st = aif_field[row][col].st;
+                            aif_field[var_s1][col].co = aif_field[row][col].co;
+                            aif_field[row][col].st = 0xA;
 
-                            aif_field[var_s1 - 1][col].unk_1 = aif_field[row - 1][col].unk_1;
-                            aif_field[var_s1 - 1][col].unk_0 = aif_field[row - 1][col].unk_0;
-                            aif_field[row - 1][col].unk_1 = 0xA;
+                            aif_field[var_s1 - 1][col].st = aif_field[row - 1][col].st;
+                            aif_field[var_s1 - 1][col].co = aif_field[row - 1][col].co;
+                            aif_field[row - 1][col].st = 0xA;
                         }
                     }
                     break;
 
                 case 2:
                     if (row != GAME_MAP_ROWS - 1) {
-                        if ((aif_field[row + 1][col].unk_1 == 0xA) &&
-                            (aif_field[row + 1][col + 1].unk_1 == aif_field[row + 1][col].unk_1)) {
+                        if ((aif_field[row + 1][col].st == 0xA) &&
+                            (aif_field[row + 1][col + 1].st == aif_field[row + 1][col].st)) {
                             var_s3 = 0;
 
-                            for (var_s1 = row + 1; (var_s1 < GAME_MAP_ROWS) && (aif_field[var_s1][col].unk_1 == 0xA) &&
-                                                   (aif_field[var_s1][col + 1].unk_1 == 0xA);
+                            for (var_s1 = row + 1; (var_s1 < GAME_MAP_ROWS) && (aif_field[var_s1][col].st == 0xA) &&
+                                                   (aif_field[var_s1][col + 1].st == 0xA);
                                  var_s1++) {
                                 ;
                             }
 
                             var_s1--;
-                            aif_field[var_s1][col].unk_1 = aif_field[row][col].unk_1;
-                            aif_field[var_s1][col].unk_0 = aif_field[row][col].unk_0;
-                            aif_field[row][col].unk_1 = 0xA;
+                            aif_field[var_s1][col].st = aif_field[row][col].st;
+                            aif_field[var_s1][col].co = aif_field[row][col].co;
+                            aif_field[row][col].st = 0xA;
 
-                            aif_field[var_s1][col + 1].unk_1 = aif_field[row][col + 1].unk_1;
-                            aif_field[var_s1][col + 1].unk_0 = aif_field[row][col + 1].unk_0;
-                            aif_field[row][col + 1].unk_1 = 0xA;
+                            aif_field[var_s1][col + 1].st = aif_field[row][col + 1].st;
+                            aif_field[var_s1][col + 1].co = aif_field[row][col + 1].co;
+                            aif_field[row][col + 1].st = 0xA;
                         }
                     }
                     break;
@@ -1290,7 +1345,7 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 
     for (col = 0; col < GAME_MAP_COLUMNS; col++) {
         for (row = 1; row < 4; row++) {
-            if (aif_field[row][col].unk_1 < 8U) {
+            if (aif_field[row][col].st < 8U) {
                 aiHiEraseCtr -= BadLineRate[row][col];
             }
         }
@@ -1305,10 +1360,10 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 
     for (row = 1; row < GAME_MAP_ROWS; row++) {
         for (col = 0; col < GAME_MAP_COLUMNS - 3; col++) {
-            if (aif_field[row][col].unk_1 != 0xA) {
-                temp = aif_field[row][col].unk_0;
-                for (var_s3 = 1; (col + var_s3 < GAME_MAP_COLUMNS) && (aif_field[row][col + var_s3].unk_1 != 0xA) &&
-                                 (aif_field[row][col + var_s3].unk_0 == temp);
+            if (aif_field[row][col].st != 0xA) {
+                temp = aif_field[row][col].co;
+                for (var_s3 = 1; (col + var_s3 < GAME_MAP_COLUMNS) && (aif_field[row][col + var_s3].st != 0xA) &&
+                                 (aif_field[row][col + var_s3].co == temp);
                      var_s3++) {
                     ;
                 }
@@ -1322,10 +1377,10 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
 
     for (col = 0; col < GAME_MAP_COLUMNS; col++) {
         for (row = 1; row < GAME_MAP_ROWS - 3; row++) {
-            if (aif_field[row][col].unk_1 != 0xA) {
-                temp = aif_field[row][col].unk_0;
-                for (var_s3 = 1; (row + var_s3 < GAME_MAP_ROWS) && (aif_field[row + var_s3][col].unk_1 != 0xA) &&
-                                 (aif_field[row + var_s3][col].unk_0 == temp);
+            if (aif_field[row][col].st != 0xA) {
+                temp = aif_field[row][col].co;
+                for (var_s3 = 1; (row + var_s3 < GAME_MAP_ROWS) && (aif_field[row + var_s3][col].st != 0xA) &&
+                                 (aif_field[row + var_s3][col].co == temp);
                      var_s3++) {
                     ;
                 }
@@ -1344,8 +1399,8 @@ s32 aifRensaCheckCore(struct_game_state_data *gameStateDataRef, struct_aiFlag *a
  * Original name: aifRensaCheck
  */
 s32 aifRensaCheck(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFlagRef) {
-    u8 temp_a2 = aiFlagRef->unk_02 - 1;
-    u8 temp_a3 = aiFlagRef->unk_03;
+    u8 temp_a2 = aiFlagRef->x - 1;
+    u8 temp_a3 = aiFlagRef->y;
     u8 var_t0;
     u8 var_t5;
     u8 var_t4;
@@ -1353,12 +1408,12 @@ s32 aifRensaCheck(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFla
     u8 var_t1; //! @bug: sometimes not set
     u8 var_t2;
 
-    if (aiFlagRef->unk_01 == 0) {
+    if (aiFlagRef->tory == 0) {
         var_t5 = 1;
         var_t4 = temp_a2;
         var_t3 = temp_a3 - 1;
         var_t2 = 0;
-        if (aiFlagRef->unk_04 == 0) {
+        if (aiFlagRef->rev == 0) {
             var_t0 = aiNext[1];
             if (temp_a3 - 1 > 0) {
                 var_t1 = aiNext[0];
@@ -1374,7 +1429,7 @@ s32 aifRensaCheck(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFla
         var_t4 = temp_a2 + 1;
         var_t3 = temp_a3;
         var_t2 = 3;
-        if (aiFlagRef->unk_04 == 0) {
+        if (aiFlagRef->rev == 0) {
             var_t0 = aiNext[0];
             var_t1 = aiNext[1];
         } else {
@@ -1392,7 +1447,7 @@ s32 aifRensaCheck(struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFla
  */
 // TODO: I wonder if arg2 could be an enum
 bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
-    u8 temp_s2 = aif_field[arg1][arg0].unk_0;
+    u8 temp_s2 = aif_field[arg1][arg0].co;
     s32 i;
     s32 j;
     s32 k;
@@ -1404,7 +1459,7 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
         hei_data[j] = wid_data[j] = 0;
     }
 
-    if (aif_field[arg1][arg0].unk_1 == 0xA) {
+    if (aif_field[arg1][arg0].st == 0xA) {
         return false;
     }
 
@@ -1412,15 +1467,15 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
         var_t4 = true;
 
         for (k = arg1 - 1; (k > 0) && (k > arg1 - 4); k--) {
-            if (aif_field[k][arg0].unk_0 != temp_s2) {
-                if (aif_field[k][arg0].unk_0 != 3) {
+            if (aif_field[k][arg0].co != temp_s2) {
+                if (aif_field[k][arg0].co != 3) {
                     k = 0;
                 } else {
                     var_t4 = false;
                 }
             } else {
                 hei_data[3]++;
-                if ((aif_field[k][arg0].unk_1 > 4) && (aif_field[k][arg0].unk_1 < 8)) {
+                if ((aif_field[k][arg0].st > 4) && (aif_field[k][arg0].st < 8)) {
                     hei_data[4]++;
                     if (k < 4) {
                         hei_data[8] += BadLineRate[k][arg0];
@@ -1439,8 +1494,8 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
         }
 
         for (k = arg1 + 1, var_t4 = true, var_t3 = 0; k < GAME_MAP_ROWS; k++, var_t3++) {
-            if (aif_field[k][arg0].unk_0 != temp_s2) {
-                if (aif_field[k][arg0].unk_0 != 3) {
+            if (aif_field[k][arg0].co != temp_s2) {
+                if (aif_field[k][arg0].co != 3) {
                     k = 0x11;
                 } else {
                     var_t4 = false;
@@ -1448,7 +1503,7 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
             } else {
                 hei_data[3]++;
 
-                if ((aif_field[k][arg0].unk_1 > 4) && (aif_field[k][arg0].unk_1 < 8)) {
+                if ((aif_field[k][arg0].st > 4) && (aif_field[k][arg0].st < 8)) {
                     if (var_t3 < 3) {
                         hei_data[4]++;
                         if (k < 4) {
@@ -1473,8 +1528,8 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
 
     if (arg2 != 1) {
         for (i = arg0 - 1, var_t3 = 1, var_t4 = true; (i >= 0) && (i > arg0 - 4); i--) {
-            if (aif_field[arg1][i].unk_0 != temp_s2) {
-                if (aif_field[arg1][i].unk_0 != 3) {
+            if (aif_field[arg1][i].co != temp_s2) {
+                if (aif_field[arg1][i].co != 3) {
                     i = -1;
                 } else {
                     var_t4 = false;
@@ -1482,8 +1537,8 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
                         var_t0_3 = false;
 
                         for (j = 0; j < aiFlagCnt; j++) {
-                            if ((aiFlag[j].unk_00 == 1) && (aiFlag[j].unk_01 == 0) && ((aiFlag[j].unk_02 - 1) == i)) {
-                                if ((aiFlag[j].unk_03 == arg1) || (aiFlag[j].unk_03 == (arg1 + 1))) {
+                            if ((aiFlag[j].ok == 1) && (aiFlag[j].tory == 0) && ((aiFlag[j].x - 1) == i)) {
+                                if ((aiFlag[j].y == arg1) || (aiFlag[j].y == (arg1 + 1))) {
                                     var_t0_3 = true;
                                     wid_data[5]++;
                                     j = aiFlagCnt;
@@ -1498,7 +1553,7 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
                 }
             } else {
                 wid_data[3]++;
-                if ((aif_field[arg1][i].unk_1 > 4) && (aif_field[arg1][i].unk_1 < 8)) {
+                if ((aif_field[arg1][i].st > 4) && (aif_field[arg1][i].st < 8)) {
                     wid_data[4]++;
                     if (arg1 < 4) {
                         wid_data[8] += BadLineRate[arg1][i];
@@ -1516,8 +1571,8 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
         }
 
         for (i = arg0 + 1, var_t3 = 1, var_t4 = true; (i < arg0 + 4) && (i < GAME_MAP_COLUMNS); i++) {
-            if (aif_field[arg1][i].unk_0 != temp_s2) {
-                if (aif_field[arg1][i].unk_0 != 3) {
+            if (aif_field[arg1][i].co != temp_s2) {
+                if (aif_field[arg1][i].co != 3) {
                     i = 8;
                 } else {
                     var_t4 = false;
@@ -1525,8 +1580,8 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
                         var_t0_3 = false;
 
                         for (j = 0; j < aiFlagCnt; j++) {
-                            if ((aiFlag[j].unk_00 == 1) && (aiFlag[j].unk_01 == 0) && ((aiFlag[j].unk_02 - 1) == i)) {
-                                if ((aiFlag[j].unk_03 == arg1) || (aiFlag[j].unk_03 == (arg1 + 1))) {
+                            if ((aiFlag[j].ok == 1) && (aiFlag[j].tory == 0) && ((aiFlag[j].x - 1) == i)) {
+                                if ((aiFlag[j].y == arg1) || (aiFlag[j].y == (arg1 + 1))) {
                                     var_t0_3 = true;
                                     wid_data[5]++;
                                     j = aiFlagCnt;
@@ -1541,7 +1596,7 @@ bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2) {
                 }
             } else {
                 wid_data[3] += 1;
-                if ((aif_field[arg1][i].unk_1 > 4) && (aif_field[arg1][i].unk_1 < 8)) {
+                if ((aif_field[arg1][i].st > 4) && (aif_field[arg1][i].st < 8)) {
                     wid_data[4]++;
                     if (arg1 < 4) {
                         wid_data[8] += BadLineRate[arg1][i];
@@ -1637,7 +1692,7 @@ s32 aifMiniPointK3(u8 *arg0, u8 arg1, u8 *arg2, u8 arg3, u8 arg4, u8 arg5) {
  */
 s32 aifMiniAloneCapNumber(u8 arg0, u8 arg1, u8 arg2, s32 arg3) {
     s32 var_t0 = 0;
-    s32 temp = aif_field[arg1 + 1][arg0].unk_1;
+    s32 temp = aif_field[arg1 + 1][arg0].st;
 
     if ((((hei_data[2] == 1) || ((hei_data[2] != 0) && (hei_data[5] < 4))) &&
          ((wid_data[2] == 1) || ((wid_data[2] != 0) && (wid_data[5] < 4)))) ||
@@ -1668,7 +1723,7 @@ s32 aifMiniAloneCapNumber(u8 arg0, u8 arg1, u8 arg2, s32 arg3) {
  */
 s32 aifMiniAloneCapNumberW(u8 arg0, u8 arg1, u8 arg2, s32 arg3) {
     s32 var_v1 = 0;
-    s32 temp = aif_field[arg1 + 1][arg0].unk_1;
+    s32 temp = aif_field[arg1 + 1][arg0].st;
 
     if ((wid_data[2] == 1) || ((arg3 == 1) && (wid_data[2] == 2))) {
         if (arg1 == 0x10) {
@@ -1697,10 +1752,10 @@ s32 aifMiniAloneCapNumberW(u8 arg0, u8 arg1, u8 arg2, s32 arg3) {
 s32 flash_virus(s32 col, s32 row) {
     s32 i;
 
-    for (i = 0; i < pGameState->unk_164; i++) {
-        if ((pGameState->unk_0D4[i][2] >= 0) && (col == pGameState->unk_0D4[i][0]) &&
-            (row == pGameState->unk_0D4[i][1])) {
-            return pGameState->unk_0D4[i][2];
+    for (i = 0; i < pGameState->flash_virus_count; i++) {
+        if ((pGameState->flash_virus_pos[i].color >= 0) && (col == pGameState->flash_virus_pos[i].column) &&
+            (row == pGameState->flash_virus_pos[i].row)) {
+            return pGameState->flash_virus_pos[i].color;
         }
     }
 
@@ -1718,13 +1773,13 @@ bool search_Vflash(s32 arg0, s32 arg1, s32 arg2) {
             return false;
         }
 
-        if (aiFieldData[i][arg0].unk_0 != 3) {
-            if (aiFieldData[i][arg0].unk_0 == arg2) {
+        if (aiFieldData[i][arg0].co != 3) {
+            if (aiFieldData[i][arg0].co == arg2) {
                 s32 j;
 
-                for (j = 0; j < pGameState->unk_164; j++) {
-                    if (pGameState->unk_0D4[j][2] >= 0) {
-                        if (arg0 == pGameState->unk_0D4[j][0]) {
+                for (j = 0; j < pGameState->flash_virus_count; j++) {
+                    if (pGameState->flash_virus_pos[j].color >= 0) {
+                        if (arg0 == pGameState->flash_virus_pos[j].column) {
                             return true;
                         }
                     }
@@ -1740,8 +1795,8 @@ bool search_Vflash(s32 arg0, s32 arg1, s32 arg2) {
 bool func_8003151C(s32 arg0 UNUSED, s32 arg1) {
     s32 i;
 
-    for (i = 0; i < pGameState->unk_164; i++) {
-        if ((pGameState->unk_0D4[i][2] >= 0) && (arg1 == pGameState->unk_0D4[i][1])) {
+    for (i = 0; i < pGameState->flash_virus_count; i++) {
+        if ((pGameState->flash_virus_pos[i].color >= 0) && (arg1 == pGameState->flash_virus_pos[i].row)) {
             return true;
         }
     }
@@ -1772,37 +1827,34 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
     sp30 = arg5;
 
     for (var_a2 = 0; var_a2 < STRUCT_AIFLAG_UNK_LEN; var_a2++) {
-        arg0->unk_24[var_a2] = arg0->unk_10[var_a2] = arg0->unk_2E[var_a2] = arg0->unk_1A[var_a2] = 0;
+        arg0->wid[0][var_a2] = arg0->hei[0][var_a2] = arg0->wid[1][var_a2] = arg0->hei[1][var_a2] = 0;
     }
 
-    arg0->unk_39 = 0;
-    arg0->unk_38[0] = 0;
-    arg0->unk_3E = 0;
-    arg0->unk_3B = 0;
-    arg0->unk_3A = 0;
-    arg0->unk_3D = 0;
-    arg0->unk_3C = 0;
+    arg0->elin[0] = arg0->elin[1] = 0;
+    arg0->sub = 0;
+    arg0->only[0] = arg0->only[1] = 0;
+    arg0->wonly[0] = arg0->wonly[1] = 0;
     sp28 = aifSearchLineCore(arg1, arg2, 0);
     sp2C = false;
 
     if (aifEraseLineCore(arg1, arg2)) {
         var_s4 = 1;
-        arg0->unk_08 += 0x2710;
+        arg0->pri += 0x2710;
     }
 
     if (sp28 == false) {
-        arg0->unk_3A = aifMiniAloneCapNumber(arg1, arg2, 0, arg7);
-        arg0->unk_3C = aifMiniAloneCapNumberW(arg1, arg2, 0, arg7);
+        arg0->only[0] = aifMiniAloneCapNumber(arg1, arg2, 0, arg7);
+        arg0->wonly[0] = aifMiniAloneCapNumberW(arg1, arg2, 0, arg7);
     }
 
     for (var_a2_2 = 0; var_a2_2 < STRUCT_AIFLAG_UNK_LEN; var_a2_2++) {
-        arg0->unk_10[var_a2_2] = hei_data[var_a2_2];
-        arg0->unk_24[var_a2_2] = wid_data[var_a2_2];
+        arg0->hei[0][var_a2_2] = hei_data[var_a2_2];
+        arg0->wid[0][var_a2_2] = wid_data[var_a2_2];
     }
 
-    if (aif_field[arg5][arg4].unk_1 != 0xA) {
+    if (aif_field[arg5][arg4].st != 0xA) {
         if (arg7 != 0) {
-            if (arg0->unk_01 == 0) {
+            if (arg0->tory == 0) {
                 var_a2_3 = 2;
             } else {
                 var_a2_3 = 1;
@@ -1816,37 +1868,37 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
         if (sp2C == false) {
             if (sp28 != false) {
                 for (var_s1 = 0x10; var_s1 > arg5; var_s1--) {
-                    if (aif_field[var_s1][arg4].unk_1 == 4) {
+                    if (aif_field[var_s1][arg4].st == 4) {
                         for (var_a2_2 = var_s1 + 1; var_a2_2 < 0x11; var_a2_2++) {
-                            if (aif_field[var_a2_2][arg4].unk_1 != 0xA) {
+                            if (aif_field[var_a2_2][arg4].st != 0xA) {
                                 break;
                             }
                         }
 
                         if (var_a2_2 != var_s1 + 1) {
-                            aif_field[var_a2_2 - 1][arg4].unk_1 = 4;
-                            aif_field[var_a2_2 - 1][arg4].unk_0 = aif_field[var_s1][arg4].unk_0;
-                            aif_field[var_s1][arg4].unk_1 = 0xA;
-                            aif_field[var_s1][arg4].unk_0 = 3;
+                            aif_field[var_a2_2 - 1][arg4].st = 4;
+                            aif_field[var_a2_2 - 1][arg4].co = aif_field[var_s1][arg4].co;
+                            aif_field[var_s1][arg4].st = 0xA;
+                            aif_field[var_s1][arg4].co = 3;
                         }
                     }
                 }
             }
 
-            for (var_a2_2 = arg5 + 1; (var_a2_2 < 0x11) && (aif_field[var_a2_2][arg4].unk_1 == 0xA); var_a2_2++) {
+            for (var_a2_2 = arg5 + 1; (var_a2_2 < 0x11) && (aif_field[var_a2_2][arg4].st == 0xA); var_a2_2++) {
                 ;
             }
 
             if (var_a2_2 != arg5 + 1) {
-                aif_field[var_a2_2 - 1][arg4].unk_1 = 4;
-                aif_field[var_a2_2 - 1][arg4].unk_0 = aif_field[arg5][arg4].unk_0;
-                aif_field[arg5][arg4].unk_1 = 0xA;
-                aif_field[arg5][arg4].unk_0 = 3;
+                aif_field[var_a2_2 - 1][arg4].st = 4;
+                aif_field[var_a2_2 - 1][arg4].co = aif_field[arg5][arg4].co;
+                aif_field[arg5][arg4].st = 0xA;
+                aif_field[arg5][arg4].co = 3;
 
                 var_s0 = 1;
                 arg5 = var_a2_2 - 1;
                 if (sp28 == false) {
-                    arg0->unk_3E = 1;
+                    arg0->sub = 1;
                 }
                 sp2C = aifSearchLineCore(arg4, arg5, 0);
             }
@@ -1854,17 +1906,17 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
 
         if (aifEraseLineCore(arg4, arg5)) {
             var_s4 = 1;
-            arg0->unk_08 += 0x2710;
+            arg0->pri += 0x2710;
         }
 
         if (sp2C == false) {
-            arg0->unk_3B = aifMiniAloneCapNumber(arg4, arg5, var_s0, arg7);
-            arg0->unk_3D = aifMiniAloneCapNumberW(arg4, arg5, var_s0, arg7);
+            arg0->only[1] = aifMiniAloneCapNumber(arg4, arg5, var_s0, arg7);
+            arg0->wonly[1] = aifMiniAloneCapNumberW(arg4, arg5, var_s0, arg7);
         }
 
         for (var_a2_2 = 0; var_a2_2 < 0xA; var_a2_2++) {
-            arg0->unk_1A[var_a2_2] = hei_data[var_a2_2];
-            arg0->unk_2E[var_a2_2] = wid_data[var_a2_2];
+            arg0->hei[1][var_a2_2] = hei_data[var_a2_2];
+            arg0->wid[1][var_a2_2] = wid_data[var_a2_2];
         }
     }
 
@@ -1879,9 +1931,9 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
                     var_s4 = 1;
                 }
                 if (var_s4 != 0) {
-                    arg0->unk_08 += 0xBB8;
+                    arg0->pri += 0xBB8;
                 }
-            } else if (arg0->unk_01 == evs_gamemode) {
+            } else if (arg0->tory == evs_gamemode) {
                 if (search_Vflash(arg1, arg2, arg3) != false) {
                     var_s4 = 1;
                 }
@@ -1889,41 +1941,41 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
                     var_s4 = 1;
                 }
                 if (var_s4 != 0) {
-                    arg0->unk_08 += 0x3E8;
+                    arg0->pri += 0x3E8;
                 }
             }
         }
     }
 
-    arg0->unk_08 += aifMiniPointK3(arg0->unk_10, 0, &arg0->unk_38[0], 1, arg0->unk_01, arg7);
-    arg0->unk_08 += aifMiniPointK3(arg0->unk_1A, arg0->unk_3E, &arg0->unk_38[arg0->unk_3E], 1, arg0->unk_01, arg7);
-    arg0->unk_08 += aifMiniPointK3(arg0->unk_24, 0, &arg0->unk_38[0], 0, arg0->unk_01, arg7);
-    arg0->unk_08 += aifMiniPointK3(arg0->unk_2E, arg0->unk_3E, &arg0->unk_38[arg0->unk_3E], 0, arg0->unk_01, arg7);
+    arg0->pri += aifMiniPointK3(arg0->hei[0], 0, &arg0->elin[0], 1, arg0->tory, arg7);
+    arg0->pri += aifMiniPointK3(arg0->hei[1], arg0->sub, &arg0->elin[arg0->sub], 1, arg0->tory, arg7);
+    arg0->pri += aifMiniPointK3(arg0->wid[0], 0, &arg0->elin[0], 0, arg0->tory, arg7);
+    arg0->pri += aifMiniPointK3(arg0->wid[1], arg0->sub, &arg0->elin[arg0->sub], 0, arg0->tory, arg7);
 
-    if (AloneCapP[arg0->unk_3A] != 0) {
-        arg0->unk_08 += AloneCapP[arg0->unk_3A];
+    if (AloneCapP[arg0->only[0]] != 0) {
+        arg0->pri += AloneCapP[arg0->only[0]];
     }
-    if (AloneCapP[arg0->unk_3B] != 0) {
-        arg0->unk_08 += AloneCapP[arg0->unk_3B];
+    if (AloneCapP[arg0->only[1]] != 0) {
+        arg0->pri += AloneCapP[arg0->only[1]];
     }
-    if ((AloneCapP[arg0->unk_3A] != 0) && (AloneCapP[arg0->unk_3B] != 0)) {
-        arg0->unk_08 -= (0x11 - temp) * LPriP;
+    if ((AloneCapP[arg0->only[0]] != 0) && (AloneCapP[arg0->only[1]] != 0)) {
+        arg0->pri -= (0x11 - temp) * LPriP;
     }
-    if (AloneCapWP[arg0->unk_3C] != 0) {
-        arg0->unk_08 += AloneCapWP[arg0->unk_3A];
+    if (AloneCapWP[arg0->wonly[0]] != 0) {
+        arg0->pri += AloneCapWP[arg0->only[0]];
     }
-    if (AloneCapWP[arg0->unk_3D] != 0) {
-        arg0->unk_08 += AloneCapWP[arg0->unk_3B];
+    if (AloneCapWP[arg0->wonly[1]] != 0) {
+        arg0->pri += AloneCapWP[arg0->only[1]];
     }
 
-    arg0->unk_08 += (s32)(EraseLinP[arg0->unk_10[0] + arg0->unk_1A[0]] * HeiEraseLinRate);
-    arg0->unk_08 += (s32)(EraseLinP[arg0->unk_24[0] + arg0->unk_2E[0]] * WidEraseLinRate);
+    arg0->pri += (s32)(EraseLinP[arg0->hei[0][0] + arg0->hei[1][0]] * HeiEraseLinRate);
+    arg0->pri += (s32)(EraseLinP[arg0->wid[0][0] + arg0->wid[1][0]] * WidEraseLinRate);
 
     if ((OnVirusP != 0) && (temp < 0x10)) {
         var_s0 = 1;
 
         for (var_s1 = temp - 1; var_s1 >= 4; var_s1--) {
-            if ((aiFieldData[var_s1][arg1].unk_1 >= 5) && (aiFieldData[var_s1][arg1].unk_1 <= 7)) {
+            if ((aiFieldData[var_s1][arg1].st >= 5) && (aiFieldData[var_s1][arg1].st <= 7)) {
                 var_s0 = 0;
                 break;
             }
@@ -1933,7 +1985,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
             var_s0 = 0;
 
             for (var_s1 = temp + 1; var_s1 < 0x11; var_s1 += 1) {
-                if ((aiFieldData[var_s1][arg1].unk_1 >= 5) && (aiFieldData[var_s1][arg1].unk_1 <= 7)) {
+                if ((aiFieldData[var_s1][arg1].st >= 5) && (aiFieldData[var_s1][arg1].st <= 7)) {
                     var_s0 = 1;
                     break;
                 }
@@ -1942,7 +1994,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
 
         var_s2 = 1;
         for (var_s1 = sp30 - 1; var_s1 >= 4; var_s1--) {
-            if ((aiFieldData[var_s1][arg4].unk_1 >= 5) && (aiFieldData[var_s1][arg4].unk_1 <= 7)) {
+            if ((aiFieldData[var_s1][arg4].st >= 5) && (aiFieldData[var_s1][arg4].st <= 7)) {
                 var_s2 = 0;
                 break;
             }
@@ -1951,7 +2003,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
         if (var_s2 != 0) {
             var_s2 = 0;
             for (var_s1 = sp30 + 1; var_s1 < 0x11; var_s1++) {
-                if ((aiFieldData[var_s1][arg4].unk_1 >= 5) && (aiFieldData[var_s1][arg4].unk_1 <= 7)) {
+                if ((aiFieldData[var_s1][arg4].st >= 5) && (aiFieldData[var_s1][arg4].st <= 7)) {
                     var_s2 = 1;
                     break;
                 }
@@ -1977,71 +2029,71 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
             }
         }
 
-        if (aiFieldData[arg2 + 1][arg1].unk_1 < 8U) {
+        if (aiFieldData[arg2 + 1][arg1].st < 8U) {
             if (var_s0 != 0) {
-                if ((arg0->unk_10[2] >= (((arg7 != 0) && (arg0->unk_01 == 0)) ? 3 : 2)) && (arg0->unk_10[5] >= 4)) {
-                    if (arg0->unk_01 == 0) {
+                if ((arg0->hei[0][2] >= (((arg7 != 0) && (arg0->tory == 0)) ? 3 : 2)) && (arg0->hei[0][5] >= 4)) {
+                    if (arg0->tory == 0) {
                         if (arg7 != 0) {
-                            arg0->unk_08 += (OnVirusP + var_s4) * 2;
+                            arg0->pri += (OnVirusP + var_s4) * 2;
                         } else if (sp28 == false) {
-                            arg0->unk_08 -= OnVirusP * 2;
+                            arg0->pri -= OnVirusP * 2;
                         }
                     } else {
                         if (var_s2 != 0) {
-                            if ((arg0->unk_1A[3] >= 2) && (arg0->unk_1A[5] >= 4)) {
-                                arg0->unk_08 += OnVirusP + var_s4;
+                            if ((arg0->hei[1][3] >= 2) && (arg0->hei[1][5] >= 4)) {
+                                arg0->pri += OnVirusP + var_s4;
                             } else {
-                                arg0->unk_08 -= OnVirusP * 2;
+                                arg0->pri -= OnVirusP * 2;
                             }
                         } else {
-                            arg0->unk_08 += OnVirusP + var_s4;
+                            arg0->pri += OnVirusP + var_s4;
                         }
                     }
                 } else {
-                    arg0->unk_08 -= OnVirusP * 2;
+                    arg0->pri -= OnVirusP * 2;
                 }
             } else if (var_s2 != 0) {
-                if ((arg0->unk_1A[3] >= 2) && (arg0->unk_1A[5] >= 4)) {
-                    if ((arg0->unk_10[2] >= 3) && (arg0->unk_10[5] >= 4)) {
-                        arg0->unk_08 += OnVirusP + var_s4;
+                if ((arg0->hei[1][3] >= 2) && (arg0->hei[1][5] >= 4)) {
+                    if ((arg0->hei[0][2] >= 3) && (arg0->hei[0][5] >= 4)) {
+                        arg0->pri += OnVirusP + var_s4;
                     } else {
-                        arg0->unk_08 -= OnVirusP * 2;
+                        arg0->pri -= OnVirusP * 2;
                     }
                 } else {
-                    arg0->unk_08 -= OnVirusP * 2;
+                    arg0->pri -= OnVirusP * 2;
                 }
             }
         } else if (var_s2 != 0) {
-            if ((arg0->unk_1A[2] >= 2) && (arg0->unk_1A[5] >= 4)) {
+            if ((arg0->hei[1][2] >= 2) && (arg0->hei[1][5] >= 4)) {
                 if (var_s0 != 0) {
-                    if ((arg0->unk_10[3] >= 2) && (arg0->unk_10[5] >= 4)) {
-                        arg0->unk_08 += OnVirusP + var_s4;
+                    if ((arg0->hei[0][3] >= 2) && (arg0->hei[0][5] >= 4)) {
+                        arg0->pri += OnVirusP + var_s4;
                     } else {
-                        arg0->unk_08 -= OnVirusP * 2;
+                        arg0->pri -= OnVirusP * 2;
                     }
                 } else {
-                    arg0->unk_08 += OnVirusP + var_s4;
+                    arg0->pri += OnVirusP + var_s4;
                 }
             } else {
-                arg0->unk_08 -= OnVirusP * 2;
+                arg0->pri -= OnVirusP * 2;
             }
         } else if (var_s0 != 0) {
-            if ((arg0->unk_10[3] >= 2) && (arg0->unk_10[5] >= 4)) {
-                if ((arg0->unk_1A[2] >= 3) && (arg0->unk_1A[5] >= 4)) {
-                    arg0->unk_08 += OnVirusP + var_s4;
+            if ((arg0->hei[0][3] >= 2) && (arg0->hei[0][5] >= 4)) {
+                if ((arg0->hei[1][2] >= 3) && (arg0->hei[1][5] >= 4)) {
+                    arg0->pri += OnVirusP + var_s4;
                 } else {
-                    arg0->unk_08 -= OnVirusP * 2;
+                    arg0->pri -= OnVirusP * 2;
                 }
             } else {
-                arg0->unk_08 -= OnVirusP * 2;
+                arg0->pri -= OnVirusP * 2;
             }
         }
 
-        if ((sp28 != false) && (arg7 == 0) && (arg0->unk_01 == 0) && (temp < 0x10)) {
+        if ((sp28 != false) && (arg7 == 0) && (arg0->tory == 0) && (temp < 0x10)) {
             var_a2_2 = 0;
 
             for (var_s0 = temp + 1; var_s0 < 0x11; var_s0++) {
-                if ((aiFieldData[var_s0][arg4].unk_1 >= 8U) || (aiFieldData[var_s0][arg4].unk_0 != arg3)) {
+                if ((aiFieldData[var_s0][arg4].st >= 8U) || (aiFieldData[var_s0][arg4].co != arg3)) {
                     var_a2_2 = 1;
                     break;
                 }
@@ -2050,7 +2102,7 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
             if (var_a2_2 != 0) {
                 var_a2_2 = 0;
                 for (var_s1 = var_s0; var_s1 < 0x11; var_s1++) {
-                    if ((aiFieldData[var_s1][arg4].unk_1 >= 5) && (aiFieldData[var_s1][arg4].unk_1 <= 7)) {
+                    if ((aiFieldData[var_s1][arg4].st >= 5) && (aiFieldData[var_s1][arg4].st <= 7)) {
                         var_a2_2 = 1;
                         break;
                     }
@@ -2059,11 +2111,11 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
 
             if (var_a2_2 != 0) {
                 for (var_s1 = var_s0; var_s1 < 0x11; var_s1++) {
-                    if (aiFieldData[var_s1][arg4].unk_1 < 8) {
-                        if (aiFieldData[var_s1][arg4].unk_0 == arg6) {
-                            arg0->unk_08 += (OnVirusP + var_s4) * 4;
+                    if (aiFieldData[var_s1][arg4].st < 8) {
+                        if (aiFieldData[var_s1][arg4].co == arg6) {
+                            arg0->pri += (OnVirusP + var_s4) * 4;
                         } else {
-                            arg0->unk_08 -= OnVirusP * 2;
+                            arg0->pri -= OnVirusP * 2;
                         }
                         break;
                     }
@@ -2074,40 +2126,40 @@ s32 aifSearchLineMS(struct_aiFlag *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4,
 
     for (var_a0 = 0; var_a0 < 8; var_a0++) {
         for (var_s1 = 1; var_s1 < 0x11; var_s1++) {
-            if (aif_field[var_s1][var_a0].unk_1 != 0xA) {
+            if (aif_field[var_s1][var_a0].st != 0xA) {
                 sp20[var_a0] = var_s1 - 1;
                 break;
             }
         }
     }
 
-    arg0->unk_0C = 0;
+    arg0->dead = 0;
     var_s0 = 0;
     if ((sp20[arg4] < 4U) && (arg5 < 5) && (arg5 > 0)) {
-        if (aif_field[arg5][arg4].unk_1 != 0xA) {
-            if (arg0->unk_1A[2] + sp20[arg4] < 4) {
-                arg0->unk_0C += (bad_point[arg4] / (arg5 * 2 - 1));
+        if (aif_field[arg5][arg4].st != 0xA) {
+            if (arg0->hei[1][2] + sp20[arg4] < 4) {
+                arg0->dead += (bad_point[arg4] / (arg5 * 2 - 1));
                 var_s0 = 1;
             }
         }
     }
 
-    if ((sp20[arg1] < 4U) && (arg2 < 4) && (arg2 > 0) && ((arg7 == 0) || (arg0->unk_01 != 0))) {
-        if ((aif_field[arg2][arg1].unk_1 != 0xA) && ((arg0->unk_10[2] + sp20[arg1]) < 4)) {
+    if ((sp20[arg1] < 4) && (arg2 < 4) && (arg2 > 0) && ((arg7 == 0) || (arg0->tory != 0))) {
+        if ((aif_field[arg2][arg1].st != 0xA) && ((arg0->hei[0][2] + sp20[arg1]) < 4)) {
             if (var_s0 != 0) {
-                arg0->unk_0C += bad_point2[arg1] + bad_point2[arg4] - (bad_point[arg4] / (arg5 * 2 - 1));
+                arg0->dead += bad_point2[arg1] + bad_point2[arg4] - (bad_point[arg4] / (arg5 * 2 - 1));
             } else {
-                arg0->unk_0C += bad_point[arg1] / (arg2 * 2 - 1);
+                arg0->dead += bad_point[arg1] / (arg2 * 2 - 1);
             }
         }
     }
 
-    arg0->unk_08 += arg0->unk_0C;
+    arg0->pri += arg0->dead;
     if (aiWall != 0) {
         if (WallRate[aiWall][arg1] > WallRate[aiWall][arg4]) {
-            arg0->unk_08 = arg0->unk_08 * WallRate[aiWall][arg1] / 10;
+            arg0->pri = arg0->pri * WallRate[aiWall][arg1] / 10;
         } else {
-            arg0->unk_08 = arg0->unk_08 * WallRate[aiWall][arg4] / 10;
+            arg0->pri = arg0->pri * WallRate[aiWall][arg4] / 10;
         }
     }
 
@@ -2564,16 +2616,16 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
     u8 sp44;
 
     for (sp30 = 0; sp30 < aiFlagCnt; sp30++) {
-        if (aiFlag[sp30].unk_00 != 0) {
+        if (aiFlag[sp30].ok != 0) {
             temp = &aiFlag[sp30];
 
             bcopy(aiFieldData, aif_field, sizeof(Unk_AIFEntry) * GAME_MAP_ROWS * GAME_MAP_COLUMNS);
 
-            temp_s0 = temp->unk_02 - 1;
-            temp2 = temp->unk_03;
+            temp_s0 = temp->x - 1;
+            temp2 = temp->y;
             var_t1 = 0;
 
-            if (temp->unk_01 == 0) {
+            if (temp->tory == 0) {
                 var_s6 = temp_s0;
                 var_s7 = temp2;
                 var_s4 = 1;
@@ -2584,7 +2636,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                     sp38 = 0;
                 }
 
-                if (temp->unk_04 == 0) {
+                if (temp->rev == 0) {
                     var_s5 = aiNext[1];
                     if (temp2 - 1 > 0) {
                         var_v0_2 = aiNext[0];
@@ -2597,28 +2649,28 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                 }
 
                 if (var_s7 != 0) {
-                    aif_field[var_s7][var_s6].unk_1 = var_s4;
-                    aif_field[var_s7][var_s6].unk_0 = var_s5;
+                    aif_field[var_s7][var_s6].st = var_s4;
+                    aif_field[var_s7][var_s6].co = var_s5;
                 }
 
                 if (var_s3 != 0) {
-                    aif_field[var_s3][var_s1].unk_1 = sp38;
-                    aif_field[var_s3][var_s1].unk_0 = var_v0_2;
+                    aif_field[var_s3][var_s1].st = sp38;
+                    aif_field[var_s3][var_s1].co = var_v0_2;
                 }
 
-                if (aif_field[temp2 - 1][temp_s0].unk_0 == aif_field[temp2][temp_s0].unk_0) {
+                if (aif_field[temp2 - 1][temp_s0].st == aif_field[temp2][temp_s0].st) {
                     var_t1 = 1;
                 }
                 var_s2 = aifSearchLineMS(temp, temp_s0, temp2, var_s5, temp_s0, temp2 - 1, var_v0_2, var_t1);
             } else {
-                if (aif_field[temp2 + 1][temp_s0].unk_1 != 0xA) {
+                if (aif_field[temp2 + 1][temp_s0].st != 0xA) {
                     var_s6 = temp_s0;
                     var_s7 = temp2;
                     var_s4 = 2;
                     var_s1 = temp_s0 + 1;
                     var_s3 = temp2;
                     sp38 = 3;
-                    if (temp->unk_04 != 0) {
+                    if (temp->rev != 0) {
                         var_s5 = aiNext[1];
                         var_v0_2 = aiNext[0];
                     } else {
@@ -2632,7 +2684,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                     var_s1 = temp_s0;
                     var_s3 = temp2;
                     sp38 = 2;
-                    if (temp->unk_04 == 0) {
+                    if (temp->rev == 0) {
                         var_s5 = aiNext[1];
                         var_v0_2 = aiNext[0];
                     } else {
@@ -2644,12 +2696,12 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                     var_t1 = 1;
                 }
                 if (var_s7 != 0) {
-                    aif_field[var_s7][var_s6].unk_1 = var_s4;
-                    aif_field[var_s7][var_s6].unk_0 = var_s5;
+                    aif_field[var_s7][var_s6].st = var_s4;
+                    aif_field[var_s7][var_s6].co = var_s5;
                 }
                 if (var_s3 != 0) {
-                    aif_field[var_s3][var_s1].unk_1 = sp38;
-                    aif_field[var_s3][var_s1].unk_0 = var_v0_2;
+                    aif_field[var_s3][var_s1].st = sp38;
+                    aif_field[var_s3][var_s1].co = var_v0_2;
                 }
                 var_s2 = aifSearchLineMS(temp, var_s6, var_s7, var_s5, var_s1, var_s3, var_v0_2, var_t1);
             }
@@ -2690,7 +2742,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                         var_s1--;
                         var_s3++;
                         sp38 = 2;
-                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
                                                         var_s3, 0, sp38);
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
@@ -2702,7 +2754,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                         var_s4 = 2;
                         var_s1 += 2;
                         sp38 = 3;
-                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
                                                         var_s3, 0, sp38);
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
@@ -2715,7 +2767,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                         var_s1--;
                         var_s3--;
                         sp38 = 2;
-                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
                                                         var_s3, 0, sp38);
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
@@ -2727,7 +2779,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                         var_s4 = 2;
                         var_s1 += 2;
                         sp38 = 3;
-                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
                                                         var_s3, 0, sp38);
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
@@ -2741,7 +2793,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                         var_s4 = 2;
                         var_s1 += 2;
                         sp38 = 3;
-                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
                                                         var_s3, 0, sp38);
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
@@ -2754,7 +2806,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                         var_s1--;
                         var_s3--;
                         sp38 = 0;
-                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
                                                         var_s3, 0, sp38);
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
@@ -2766,7 +2818,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                         var_s4 = 3;
                         var_s1 -= 2;
                         sp38 = 2;
-                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
                                                         var_s3, 0, sp38);
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
@@ -2779,7 +2831,7 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                         var_s1++;
                         var_s3--;
                         sp38 = 0;
-                        if (gameStateDataRef->unk_29C[var_s3][var_s1][0] == 0xA) {
+                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
                                                         var_s3, 0, sp38);
                             var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
@@ -2792,53 +2844,53 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
 
                 switch (var_v0_2) {
                     case 0:
-                        temp->unk_08 += aiHiErR * pri_point[7];
+                        temp->pri += aiHiErR * pri_point[7];
                         if (sp3C != 0) {
                             if ((sp40 != 0) || (sp44 != 0) || (var_s0 != 0)) {
-                                temp->unk_08 += RensaP * sp3C;
+                                temp->pri += RensaP * sp3C;
                             } else {
-                                temp->unk_08 += RensaP * sp3C;
+                                temp->pri += RensaP * sp3C;
                             }
                         } else {
                             if ((sp40 != 0) || (sp44 != 0) || (var_s0 != 0)) {
                                 if (var_s7 >= 3U) {
-                                    temp->unk_08 += RensaMP;
+                                    temp->pri += RensaMP;
                                 }
                             } else {
-                                temp->unk_08 += 0;
+                                temp->pri += 0;
                             }
                         }
                         break;
 
                     case 1:
-                        temp->unk_08 += aiHiErY * pri_point[7];
+                        temp->pri += aiHiErY * pri_point[7];
                         if (sp40 != 0) {
                             if ((sp3C != 0) || (sp44 != 0) || (var_s0 != 0)) {
-                                temp->unk_08 += RensaP * sp40;
+                                temp->pri += RensaP * sp40;
                             } else {
-                                temp->unk_08 += RensaP * sp40;
+                                temp->pri += RensaP * sp40;
                             }
                         } else {
                             if ((sp3C != 0) || (sp44 != 0) || (var_s0 != 0)) {
                                 if (var_s7 >= 3U) {
-                                    temp->unk_08 += RensaMP;
+                                    temp->pri += RensaMP;
                                 }
                             }
                         }
                         break;
 
                     case 2:
-                        temp->unk_08 += (aiHiErB * pri_point[7]);
+                        temp->pri += (aiHiErB * pri_point[7]);
                         if (sp44 != 0) {
                             if ((sp40 != 0) || (sp3C != 0) || (var_s0 != 0)) {
-                                temp->unk_08 += RensaP * sp44;
+                                temp->pri += RensaP * sp44;
                             } else {
-                                temp->unk_08 += RensaP * sp44;
+                                temp->pri += RensaP * sp44;
                             }
                         } else {
                             if ((sp40 != 0) || (sp3C != 0) || (var_s0 != 0)) {
                                 if (var_s7 >= 3U) {
-                                    temp->unk_08 += RensaMP;
+                                    temp->pri += RensaMP;
                                 }
                             }
                         }
@@ -2846,11 +2898,11 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                 }
             }
         } else {
-            aiFlag[sp30].unk_08 = -0xF4240;
+            aiFlag[sp30].pri = -0xF4240;
         }
     }
 
-    if (gameStateDataRef->unk_23E != 0) {
+    if (gameStateDataRef->ai.aiRandFlag != 0) {
         for (sp30 = var_s2 = 0, temp_s0 = -0xF4241; sp30 < aiFlagCnt; sp30++) {
             if (aiPriOfs != 0) {
                 temp2 = genrand(aiPriOfs);
@@ -2858,8 +2910,8 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                 temp2 = 0;
             }
 
-            if (temp_s0 < aiFlag[sp30].unk_08 + temp2) {
-                temp_s0 = aiFlag[sp30].unk_08 + temp2;
+            if (temp_s0 < aiFlag[sp30].pri + temp2) {
+                temp_s0 = aiFlag[sp30].pri + temp2;
                 var_s2 = sp30;
             }
         }
@@ -2871,16 +2923,16 @@ void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
                 temp2 = genrand(0x64);
             }
 
-            if (var_s3_2 < temp2 + aiFlag[sp30].unk_08) {
-                var_s3_2 = temp2 + aiFlag[sp30].unk_08;
-                if (temp_s0 < aiFlag[sp30].unk_08) {
-                    temp_s0 = aiFlag[sp30].unk_08;
+            if (var_s3_2 < temp2 + aiFlag[sp30].pri) {
+                var_s3_2 = temp2 + aiFlag[sp30].pri;
+                if (temp_s0 < aiFlag[sp30].pri) {
+                    temp_s0 = aiFlag[sp30].pri;
                 }
                 var_s2 = sp30;
             }
 
-            if (aiFlag[var_s2].unk_08 < temp_s0) {
-                gameStateDataRef->unk_23E = 1;
+            if (aiFlag[var_s2].pri < temp_s0) {
+                gameStateDataRef->ai.aiRandFlag = 1;
             }
         }
     }
@@ -2913,7 +2965,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
     struct_ai_param(*temp)[AI_PARAM_LEN2];
 
     {
-        s32 dummy = gameStateDataRef->unk_29A;
+        s32 dummy = gameStateDataRef->lv;
 
         if (dummy < 0x18) {
             dummy = 1;
@@ -2927,15 +2979,14 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
 
         for (var_v1 = 1; var_v1 < 4; var_v1++) {
             if (var_s0 == 0) {
-                if (aiFieldData[var_v1][var_t1].unk_1 != 0xA) {
+                if (aiFieldData[var_v1][var_t1].st != 0xA) {
                     var_s0 = 1;
-                    var_a1_2 = aiFieldData[var_v1][var_t1].unk_0;
+                    var_a1_2 = aiFieldData[var_v1][var_t1].co;
                 }
             }
 
             if (var_s0 != 0) {
-                if ((aiFieldData[var_v1 + 1][var_t1].unk_1 == 0xA) ||
-                    (aiFieldData[var_v1 + 1][var_t1].unk_0 != var_a1_2)) {
+                if ((aiFieldData[var_v1 + 1][var_t1].st == 0xA) || (aiFieldData[var_v1 + 1][var_t1].co != var_a1_2)) {
                     if ((var_t1 == 3) || (var_t1 == 4)) {
                         var_s0 = 2;
                     } else {
@@ -2960,7 +3011,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
 
     for (var_t1 = 4; var_t1 < 8; var_t1++) {
         for (var_v1 = 1; var_v1 < 4; var_v1++) {
-            if (aiFieldData[var_v1][var_t1].unk_1 != 0xA) {
+            if (aiFieldData[var_v1][var_t1].st != 0xA) {
                 break;
             }
         }
@@ -2972,10 +3023,10 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
         }
 
         for (; var_v1 < 0x11; var_v1++) {
-            if ((aiFieldData[var_v1][var_t1].unk_1 != 0xA) && (var_v1 < var_t3_2)) {
+            if ((aiFieldData[var_v1][var_t1].st != 0xA) && (var_v1 < var_t3_2)) {
                 var_t3_2 = var_v1;
             }
-            if ((aiFieldData[var_v1][var_t1].unk_1 >= 5) && (aiFieldData[var_v1][var_t1].unk_1 <= 7)) {
+            if ((aiFieldData[var_v1][var_t1].st >= 5) && (aiFieldData[var_v1][var_t1].st <= 7)) {
                 var_t0_2 += 1;
             }
         }
@@ -2983,7 +3034,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
 
     for (var_t1 = 3; var_t1 >= 0; var_t1--) {
         for (var_v1 = 1; var_v1 < 4; var_v1++) {
-            if (aiFieldData[var_v1][var_t1].unk_1 != 0xA) {
+            if (aiFieldData[var_v1][var_t1].st != 0xA) {
                 break;
             }
         }
@@ -2992,16 +3043,16 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
             var_s6 |= 1;
             if ((var_a1_2 - var_t1) < 4) {
                 var_s6 = 0;
-                var_t0_2 = gameStateDataRef->unk_29B;
+                var_t0_2 = gameStateDataRef->vs;
             }
             break;
         }
 
         for (; var_v1 < 0x11; var_v1++) {
-            if ((aiFieldData[var_v1][var_t1].unk_1 != 0xA) && (var_v1 < var_t3_2)) {
+            if ((aiFieldData[var_v1][var_t1].st != 0xA) && (var_v1 < var_t3_2)) {
                 var_t3_2 = var_v1;
             }
-            if ((aiFieldData[var_v1][var_t1].unk_1 >= 5) && (aiFieldData[var_v1][var_t1].unk_1 <= 7)) {
+            if ((aiFieldData[var_v1][var_t1].st >= 5) && (aiFieldData[var_v1][var_t1].st <= 7)) {
                 var_t0_2 += 1;
             }
         }
@@ -3011,7 +3062,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
 
     for (var_t1 = 0; var_t1 < 8; var_t1++) {
         for (var_v1 = 0x11; var_v1 >= 4; var_v1--) {
-            if ((aiFieldData[var_v1][var_t1].unk_1 >= 5) && (aiFieldData[var_v1][var_t1].unk_1 <= 7)) {
+            if ((aiFieldData[var_v1][var_t1].st >= 5) && (aiFieldData[var_v1][var_t1].st <= 7)) {
                 if (var_a2_3 < var_v1) {
                     var_a2_3 = var_v1;
                 }
@@ -3023,7 +3074,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
     var_a3_4 = 1;
     if (evs_gamesel == ENUM_EVS_GAMESEL_3) {
         for (var_s0 = 0; var_s0 < evs_playcnt; var_s0++) {
-            if (game_state_data[var_s0].unk_29B < game_state_data[aipn].unk_29B) {
+            if (game_state_data[var_s0].vs < game_state_data[aipn].vs) {
                 var_a3_4 = 0;
             }
         }
@@ -3032,23 +3083,22 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
     //! FAKE?
     temp = ai_param;
 
-    var_a0_8 = gameStateDataRef->unk_04D;
-    if ((aipn == 0) && (aiDebugP1 >= 0)) {
+    var_a0_8 = gameStateDataRef->think_type;
+    if ((aipn == 0) && (aiDebugP1 > THINKTYPE_INVALID)) {
         var_a0_8 = aiDebugP1;
     }
     temp_s2 = &ai_char_data[var_a0_8];
 
-    gameStateDataRef->unk_296 = 0;
-    // TODO: bitflags
-    gameStateDataRef->unk_239 &= ~0xFE;
-    gameStateDataRef->unk_292 &= ~4;
+    gameStateDataRef->ai.aiPriOfs = 0;
+    gameStateDataRef->ai.aiRollHabit &= ~0xFE;
+    gameStateDataRef->ai.aiState &= ~4;
     aiPriOfs = 0;
 
-    if (gameStateDataRef->unk_299 != 0) {
+    if (gameStateDataRef->gs != 0) {
         var_s5 = 0;
     } else if (aiRootP < DOUBLE_LITERAL(4)) {
         var_s5 = 1;
-    } else if (((gameStateDataRef->unk_29B < 7) && (var_a3_4 != 0)) || (var_t0_2 < 3)) {
+    } else if (((gameStateDataRef->vs < 7) && (var_a3_4 != 0)) || (var_t0_2 < 3)) {
         if ((var_t0_2 != 0) || (var_t3_2 < var_a2_3 - 4) || (var_t3_2 < 9)) {
             if (var_t0_2 != 0) {
                 var_s5 = 2;
@@ -3105,7 +3155,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
 
     if ((fool_mode == true) && (framecont & 0x200)) {
         for (var_a1_2 = 0; var_a1_2 < 0x10; var_a1_2++) {
-            gameStateDataRef->unk_242[var_a1_2] = 0;
+            gameStateDataRef->ai.aiEffectNo[var_a1_2] = 0;
         }
 
         aiSelCom = 0;
@@ -3115,12 +3165,12 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
         s32 var_t1_5; // bool
         var_t1_5 = 0;
 
-        gameStateDataRef->unk_272[var_s0] = MIN(0x3E7, gameStateDataRef->unk_272[var_s0] + 1);
+        gameStateDataRef->ai.aiEffectCount[var_s0] = MIN(0x3E7, gameStateDataRef->ai.aiEffectCount[var_s0] + 1);
 
-        switch (gameStateDataRef->unk_242[var_s0]) {
+        switch (gameStateDataRef->ai.aiEffectNo[var_s0]) {
             case 1:
             case 2:
-                gameStateDataRef->unk_242[var_s0] = 0;
+                gameStateDataRef->ai.aiEffectNo[var_s0] = 0;
                 break;
 
             case 3:
@@ -3130,24 +3180,24 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
             case 7:
             case 8:
             case 9:
-                if (gameStateDataRef->unk_252[var_s0] != 0) {
-                    if (gameStateDataRef->unk_272[var_s0] >= gameStateDataRef->unk_252[var_s0]) {
-                        gameStateDataRef->unk_242[var_s0] = 0;
+                if (gameStateDataRef->ai.aiEffectParam[var_s0] != 0) {
+                    if (gameStateDataRef->ai.aiEffectCount[var_s0] >= gameStateDataRef->ai.aiEffectParam[var_s0]) {
+                        gameStateDataRef->ai.aiEffectNo[var_s0] = 0;
                     }
                 }
                 break;
         }
 
-        if (gameStateDataRef->unk_242[var_s0] == 0) {
-            switch (temp_s2->unk_0C[var_s0]) {
+        if (gameStateDataRef->ai.aiEffectNo[var_s0] == 0) {
+            switch (temp_s2->condition[var_s0]) {
                 case 0x2:
-                    var_t1_5 = genrand(0x64U) <= temp_s2->unk_1C[var_s0];
+                    var_t1_5 = genrand(0x64U) <= temp_s2->condition_param[var_s0];
                     break;
 
                 case 0x3:
-                    if (gameStateDataRef->unk_292 & 1) {
+                    if (gameStateDataRef->ai.aiState & 1) {
                         var_t1_5 = 1;
-                        gameStateDataRef->unk_292 &= ~1;
+                        gameStateDataRef->ai.aiState &= ~1;
                     }
                     break;
 
@@ -3156,8 +3206,8 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
                         if (var_a1_2 == aipn) {
                             continue;
                         }
-                        if ((game_state_data[aipn].unk_29B - game_state_data[var_a1_2].unk_025) >=
-                            temp_s2->unk_1C[var_s0]) {
+                        if ((game_state_data[aipn].vs - game_state_data[var_a1_2].virus_number) >=
+                            temp_s2->condition_param[var_s0]) {
                             var_t1_5 = 1;
                             break;
                         }
@@ -3169,8 +3219,8 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
                         if (var_a1_2 == aipn) {
                             continue;
                         }
-                        if ((game_state_data[var_a1_2].unk_025 - game_state_data[aipn].unk_29B) >=
-                            temp_s2->unk_1C[var_s0]) {
+                        if ((game_state_data[var_a1_2].virus_number - game_state_data[aipn].vs) >=
+                            temp_s2->condition_param[var_s0]) {
                             var_t1_5 = 1;
                             break;
                         }
@@ -3182,7 +3232,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
                         if (var_a1_2 == aipn) {
                             continue;
                         }
-                        if (game_state_data[var_a1_2].unk_294 < 5U) {
+                        if (game_state_data[var_a1_2].ai.aiRootP < 5) {
                             var_t1_5 = 1;
                             break;
                         }
@@ -3190,23 +3240,23 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
                     break;
 
                 case 0x7:
-                    var_t1_5 = gameStateDataRef->unk_23C == 0;
+                    var_t1_5 = gameStateDataRef->ai.aivl == THINKLEVEL_0;
                     break;
 
                 case 0x8:
-                    var_t1_5 = gameStateDataRef->unk_23C == 1;
+                    var_t1_5 = gameStateDataRef->ai.aivl == THINKLEVEL_1;
                     break;
 
                 case 0x9:
-                    var_t1_5 = gameStateDataRef->unk_23C == 2;
+                    var_t1_5 = gameStateDataRef->ai.aivl == THINKLEVEL_2;
                     break;
 
                 case 0xA:
-                    var_t1_5 = gameStateDataRef->unk_29B <= temp_s2->unk_1C[var_s0];
+                    var_t1_5 = gameStateDataRef->vs <= temp_s2->condition_param[var_s0];
                     break;
 
                 case 0xB:
-                    var_t1_5 = gameStateDataRef->unk_190.unk_3F != 0;
+                    var_t1_5 = gameStateDataRef->ai.aiFlagDecide.rensa != 0;
                     break;
 
                 case 0x1:
@@ -3214,26 +3264,27 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
                     break;
 
                 case 0xC:
-                    var_t1_5 = dm_get_first_virus_count(evs_gamemode, gameStateDataRef) >= temp_s2->unk_1C[var_s0];
+                    var_t1_5 =
+                        dm_get_first_virus_count(evs_gamemode, gameStateDataRef) >= temp_s2->condition_param[var_s0];
                     break;
             }
 
             if (var_t1_5 != 0) {
-                gameStateDataRef->unk_242[var_s0] = temp_s2->unk_3C[var_s0];
-                gameStateDataRef->unk_252[var_s0] = temp_s2->unk_4C[var_s0];
-                gameStateDataRef->unk_272[var_s0] = 0;
+                gameStateDataRef->ai.aiEffectNo[var_s0] = temp_s2->effect[var_s0];
+                gameStateDataRef->ai.aiEffectParam[var_s0] = temp_s2->effect_param[var_s0];
+                gameStateDataRef->ai.aiEffectCount[var_s0] = 0;
             }
         }
     }
 
     for (var_s0 = 0; var_s0 < 0x10; var_s0++) {
-        switch (gameStateDataRef->unk_242[var_s0]) {
+        switch (gameStateDataRef->ai.aiEffectNo[var_s0]) {
             case 0x1:
-                gameStateDataRef->unk_239 |= 2;
+                gameStateDataRef->ai.aiRollHabit |= 2;
                 break;
 
             case 0x3:
-                gameStateDataRef->unk_292 |= 4;
+                gameStateDataRef->ai.aiState |= 4;
                 break;
 
             case 0x4:
@@ -3249,7 +3300,7 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
                 break;
 
             case 0x7:
-                aiSelSpeed = (gameStateDataRef->unk_272[var_s0] / 5) + 1;
+                aiSelSpeed = (gameStateDataRef->ai.aiEffectCount[var_s0] / 5) + 1;
                 aiSelSpeed = MIN(aiSelSpeed, 6);
                 break;
 
@@ -3262,11 +3313,12 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
                 break;
 
             case 0xA:
-                if (gameStateDataRef->unk_252[var_s0] != 0) {
-                    gameStateDataRef->unk_242[(gameStateDataRef->unk_252[var_s0] - 1) % 0x10] = 0;
+                if (gameStateDataRef->ai.aiEffectParam[var_s0] != 0) {
+                    gameStateDataRef->ai.aiEffectNo[(gameStateDataRef->ai.aiEffectParam[var_s0] - 1) % AI_EFFECT_LEN] =
+                        0;
                 } else {
                     for (var_a1_2 = 0; var_a1_2 < 0x10; var_a1_2++) {
-                        gameStateDataRef->unk_242[var_a1_2] = 0;
+                        gameStateDataRef->ai.aiEffectNo[var_a1_2] = 0;
                     }
                 }
                 break;
@@ -3274,10 +3326,10 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
     }
 
     if (aiSelSpeed == 6) {
-        gameStateDataRef->unk_239 &= ~0x2;
+        gameStateDataRef->ai.aiRollHabit &= ~0x2;
         for (var_s0 = 0; var_s0 < 0x10; var_s0++) {
-            if (gameStateDataRef->unk_242[var_s0] == 2) {
-                gameStateDataRef->unk_242[var_s0] = 0;
+            if (gameStateDataRef->ai.aiEffectNo[var_s0] == 2) {
+                gameStateDataRef->ai.aiEffectNo[var_s0] = 0;
             }
         }
     }
@@ -3334,13 +3386,13 @@ void aiSetCharacter(struct_game_state_data *gameStateDataRef) {
     WidLinesAllp[7] = temp_t1->unk_36;
     WidLinesAllp[8] = temp_t1->unk_36;
 
-    if (temp_s2->unk_00 != 0) {
+    if (temp_s2->wait_attack) {
         for (var_s0 = 0; var_s0 < evs_playcnt; var_s0++) {
             if (var_s0 == aipn) {
                 continue;
             }
 
-            if (game_state_data[var_s0].unk_050[0].unk_0 == 0) {
+            if (game_state_data[var_s0].cap_attack_work[0].unk_0 == 0) {
                 continue;
             }
 
@@ -3361,28 +3413,26 @@ void aifFieldCopy(struct_game_state_data *gameStateDataRef) {
     s32 column;
     s32 row;
 
-    aiNext[0] = gameStateDataRef->unk_3BE[0];
-    aiNext[1] = gameStateDataRef->unk_3BE[1];
+    aiNext[0] = gameStateDataRef->cap.ca;
+    aiNext[1] = gameStateDataRef->cap.cb;
 
     for (column = 0; column < GAME_MAP_COLUMNS; column++) {
         for (row = 0; row < GAME_MAP_ROWS; row++) {
-            aiRecurData[row][column + 1].unk_0 = aiFieldData[row][column].unk_0 =
-                gameStateDataRef->unk_29C[row][column][1];
-            aiRecurData[row][column + 1].unk_1 = aiFieldData[row][column].unk_1 =
-                gameStateDataRef->unk_29C[row][column][0];
+            aiRecurData[row][column + 1].co = aiFieldData[row][column].co = gameStateDataRef->blk[row][column].co;
+            aiRecurData[row][column + 1].st = aiFieldData[row][column].st = gameStateDataRef->blk[row][column].st;
         }
     }
 
     for (column = 0; column < ARRAY_COUNT(*aiRecurData); column++) {
-        aiRecurData[ARRAY_COUNTU(aiRecurData) - 1][column].unk_0 = 0xFF;
-        aiRecurData[ARRAY_COUNTU(aiRecurData) - 1][column].unk_1 = 0xFF;
+        aiRecurData[ARRAY_COUNTU(aiRecurData) - 1][column].co = 0xFF;
+        aiRecurData[ARRAY_COUNTU(aiRecurData) - 1][column].st = 0xFF;
     }
 
     for (row = 0; row < ARRAY_COUNT(aiRecurData); row++) {
-        aiRecurData[row][0].unk_0 = 0xFF;
-        aiRecurData[row][0].unk_1 = 0xFF;
-        aiRecurData[row][ARRAY_COUNTU(aiRecurData[row]) - 1].unk_0 = 0xFF;
-        aiRecurData[row][ARRAY_COUNTU(aiRecurData[row]) - 1].unk_1 = 0xFF;
+        aiRecurData[row][0].co = 0xFF;
+        aiRecurData[row][0].st = 0xFF;
+        aiRecurData[row][ARRAY_COUNTU(aiRecurData[row]) - 1].co = 0xFF;
+        aiRecurData[row][ARRAY_COUNTU(aiRecurData[row]) - 1].st = 0xFF;
     }
 }
 
@@ -3393,8 +3443,8 @@ void func_80034310(void) {
         s32 row;
 
         for (row = 0; row < GAME_MAP_ROWS; row++) {
-            aiRecurData[row][column + 1].unk_0 = aiFieldData[row][column].unk_0;
-            aiRecurData[row][column + 1].unk_1 = aiFieldData[row][column].unk_1;
+            aiRecurData[row][column + 1].co = aiFieldData[row][column].co;
+            aiRecurData[row][column + 1].st = aiFieldData[row][column].st;
         }
     }
 }
@@ -3413,13 +3463,13 @@ void aifPlaceSearch(void) {
 
     for (row = 1; row < ARRAY_COUNT(aiRecurData) - 1; row++) {
         for (column = 1; column < ARRAY_COUNT(aiRecurData[0]) - 1; column++) {
-            if (aiRecurData[row][column].unk_0 != 3) {
+            if (aiRecurData[row][column].co != 3) {
                 continue;
             }
-            if (aiRecurData[row + 1][column].unk_0 == 3) {
+            if (aiRecurData[row + 1][column].co == 3) {
                 continue;
             }
-            if (aiRecurData[row - 1][column].unk_0 != 3) {
+            if (aiRecurData[row - 1][column].co != 3) {
                 continue;
             }
 
@@ -3434,15 +3484,15 @@ void aifPlaceSearch(void) {
 
     for (row = 1; row < 0x11; row++) {
         for (column = 1; column < 8; column++) {
-            if (aiRecurData[row][column].unk_0 != 3) {
+            if (aiRecurData[row][column].co != 3) {
                 continue;
             }
 
-            if ((aiRecurData[row + 1][column].unk_0 == 3) && (aiRecurData[row + 1][column + 1].unk_0 == 3)) {
+            if ((aiRecurData[row + 1][column].co == 3) && (aiRecurData[row + 1][column + 1].co == 3)) {
                 continue;
             }
 
-            if (aiRecurData[row][column + 1].unk_0 != 3) {
+            if (aiRecurData[row][column + 1].co != 3) {
                 continue;
             }
 
@@ -3457,40 +3507,40 @@ void aifPlaceSearch(void) {
     var_t5 = 0;
 
     for (column = 0; column < aiTEdgeCnt; column++) {
-        aiFlag[var_t5].unk_01 = 0;
-        aiFlag[var_t5].unk_02 = sp8[column][1];
-        aiFlag[var_t5].unk_03 = sp8[column][2];
-        aiFlag[var_t5].unk_04 = 0;
+        aiFlag[var_t5].tory = 0;
+        aiFlag[var_t5].x = sp8[column][1];
+        aiFlag[var_t5].y = sp8[column][2];
+        aiFlag[var_t5].rev = 0;
 
         var_t5++;
     }
 
     if (aiNext[0] != aiNext[1]) {
         for (column = 0; column < aiTEdgeCnt; column++) {
-            aiFlag[var_t5].unk_01 = 0;
-            aiFlag[var_t5].unk_02 = sp8[column][1];
-            aiFlag[var_t5].unk_03 = sp8[column][2];
-            aiFlag[var_t5].unk_04 = 1;
+            aiFlag[var_t5].tory = 0;
+            aiFlag[var_t5].x = sp8[column][1];
+            aiFlag[var_t5].y = sp8[column][2];
+            aiFlag[var_t5].rev = 1;
 
             var_t5++;
         }
     }
 
     for (column = 0; column < aiYEdgeCnt; column++) {
-        aiFlag[var_t5].unk_01 = 1;
-        aiFlag[var_t5].unk_02 = sp8[aiTEdgeCnt + column][1];
-        aiFlag[var_t5].unk_03 = sp8[aiTEdgeCnt + column][2];
-        aiFlag[var_t5].unk_04 = 0;
+        aiFlag[var_t5].tory = 1;
+        aiFlag[var_t5].x = sp8[aiTEdgeCnt + column][1];
+        aiFlag[var_t5].y = sp8[aiTEdgeCnt + column][2];
+        aiFlag[var_t5].rev = 0;
 
         var_t5++;
     }
 
     if (aiNext[0] != aiNext[1]) {
         for (column = 0; column < aiYEdgeCnt; column++) {
-            aiFlag[var_t5].unk_01 = 1;
-            aiFlag[var_t5].unk_02 = sp8[aiTEdgeCnt + column][1];
-            aiFlag[var_t5].unk_03 = sp8[aiTEdgeCnt + column][2];
-            aiFlag[var_t5].unk_04 = 1;
+            aiFlag[var_t5].tory = 1;
+            aiFlag[var_t5].x = sp8[aiTEdgeCnt + column][1];
+            aiFlag[var_t5].y = sp8[aiTEdgeCnt + column][2];
+            aiFlag[var_t5].rev = 1;
 
             var_t5++;
         }
@@ -3512,7 +3562,7 @@ void aifMoveCheck(void) {
     s32 var_s6;
 
     for (j = 0; j < aiFlagCnt; j++) {
-        aiFlag[j].unk_08 = 0;
+        aiFlag[j].pri = 0;
     }
 
     var_s7 = 0;
@@ -3520,7 +3570,7 @@ void aifMoveCheck(void) {
 
     for (i = 0; i < aiFlagCnt; i++) {
         for (j = 0; j < ARRAY_COUNT(aiRecurData[0]); j++) {
-            aiRecurData[0][j].unk_0 = 0xF;
+            aiRecurData[0][j].co = 0xF;
         }
 
         func_80034310();
@@ -3529,32 +3579,32 @@ void aifMoveCheck(void) {
         aiRollFinal = 0;
         success = 0;
 
-        if (aiFlag[i].unk_01 == 0) {
-            aifTRecur(aiFlag[i].unk_02, aiFlag[i].unk_03, i);
+        if (aiFlag[i].tory == 0) {
+            aifTRecur(aiFlag[i].x, aiFlag[i].y, i);
         } else {
-            aifYRecur(aiFlag[i].unk_02, aiFlag[i].unk_03, i);
+            aifYRecur(aiFlag[i].x, aiFlag[i].y, i);
         }
 
-        aiFlag[i].unk_00 = success;
+        aiFlag[i].ok = success;
         if (success == 0) {
             if (aiSelCom >= 2) {
                 aiRollFinal = 1;
 
-                if (aiFlag[i].unk_01 == 0) {
-                    if (aiFlag[i].unk_02 < 7U) {
-                        if (aiRecurData[aiFlag[i].unk_03][aiFlag[i].unk_02 + 1].unk_1 == 0xA) {
-                            aifYRecur(aiFlag[i].unk_02, aiFlag[i].unk_03, i);
+                if (aiFlag[i].tory == 0) {
+                    if (aiFlag[i].x < 7) {
+                        if (aiRecurData[aiFlag[i].y][aiFlag[i].x + 1].st == 0xA) {
+                            aifYRecur(aiFlag[i].x, aiFlag[i].y, i);
                         }
                     }
-                } else if (aiRecurData[aiFlag[i].unk_03 - 1][aiFlag[i].unk_02].unk_1 == 0xA) {
-                    aifTRecur(aiFlag[i].unk_02, aiFlag[i].unk_03, i);
-                } else if (aiRecurData[aiFlag[i].unk_03 - 1][aiFlag[i].unk_02 + 1].unk_1 == 0xA) {
-                    if ((aiRecurData[aiFlag[i].unk_03][aiFlag[i].unk_02 + 2].unk_1 != 0xA) || (aiFlag[i].unk_02 == 6)) {
-                        aifTRecur(aiFlag[i].unk_02 + 1, aiFlag[i].unk_03, i);
+                } else if (aiRecurData[aiFlag[i].y - 1][aiFlag[i].x].st == 0xA) {
+                    aifTRecur(aiFlag[i].x, aiFlag[i].y, i);
+                } else if (aiRecurData[aiFlag[i].y - 1][aiFlag[i].x + 1].st == 0xA) {
+                    if ((aiRecurData[aiFlag[i].y][aiFlag[i].x + 2].st != 0xA) || (aiFlag[i].x == 6)) {
+                        aifTRecur(aiFlag[i].x + 1, aiFlag[i].y, i);
                     }
                 }
 
-                aiFlag[i].unk_00 = success;
+                aiFlag[i].ok = success;
             }
         }
 
@@ -3575,20 +3625,20 @@ void aifMoveCheck(void) {
  * Original name: aifTRecur
  */
 void aifTRecur(u8 arg0, u8 arg1, u8 arg2) {
-    aiRecurData[arg1][arg0].unk_0 = 0xF;
+    aiRecurData[arg1][arg0].co = 0xF;
 
     if ((arg0 == aiGoalX) && (arg1 == aiGoalY)) {
         success = 1;
     }
 
     if (success != 1) {
-        if ((aiRecurData[arg1 - 1][arg0].unk_0 == 3) && (aiRecurData[arg1 - 2][arg0].unk_1 == 0xA)) {
+        if ((aiRecurData[arg1 - 1][arg0].co == 3) && (aiRecurData[arg1 - 2][arg0].st == 0xA)) {
             aifTRecur(arg0, arg1 - 1, arg2);
         }
     }
 
     if (success != 1) {
-        if ((aiRecurData[arg1][arg0 + 1].unk_0 == 3) && (aiRecurData[arg1 - 1][arg0 + 1].unk_1 == 0xA)) {
+        if ((aiRecurData[arg1][arg0 + 1].co == 3) && (aiRecurData[arg1 - 1][arg0 + 1].st == 0xA)) {
             if (aiMoveSF != 0) {
                 aifTRecur(arg0 + 1, arg1, arg2);
             } else {
@@ -3598,7 +3648,7 @@ void aifTRecur(u8 arg0, u8 arg1, u8 arg2) {
     }
 
     if (success != 1) {
-        if ((aiRecurData[arg1][arg0 - 1].unk_0 == 3) && (aiRecurData[arg1 - 1][arg0 - 1].unk_1 == 0xA)) {
+        if ((aiRecurData[arg1][arg0 - 1].co == 3) && (aiRecurData[arg1 - 1][arg0 - 1].st == 0xA)) {
             if (aiMoveSF != 0) {
                 aifTRecur(arg0 - 1, arg1, arg2);
             } else {
@@ -3608,8 +3658,8 @@ void aifTRecur(u8 arg0, u8 arg1, u8 arg2) {
     }
 
     if (success == 1) {
-        aiRoot[aiRootCnt][0] = arg0;
-        aiRoot[aiRootCnt][1] = arg1;
+        aiRoot[aiRootCnt].x = arg0;
+        aiRoot[aiRootCnt].y = arg1;
         aiRootCnt++;
     }
 }
@@ -3623,14 +3673,14 @@ void aifTRecurUP(u8 arg0, u8 arg1, u8 arg2) {
     }
 
     if (success != 1) {
-        if ((aiRecurData[arg1 - 1][arg0].unk_0 == 3) && (aiRecurData[arg1 - 2][arg0].unk_1 == 0xA)) {
+        if ((aiRecurData[arg1 - 1][arg0].co == 3) && (aiRecurData[arg1 - 2][arg0].st == 0xA)) {
             aifTRecur(arg0, arg1 - 1, arg2);
         }
     }
 
     if (success == 1) {
-        aiRoot[aiRootCnt][0] = arg0;
-        aiRoot[aiRootCnt][1] = arg1;
+        aiRoot[aiRootCnt].x = arg0;
+        aiRoot[aiRootCnt].y = arg1;
         aiRootCnt++;
     }
 }
@@ -3639,20 +3689,20 @@ void aifTRecurUP(u8 arg0, u8 arg1, u8 arg2) {
  * Original name: aifYRecur
  */
 void aifYRecur(u8 arg0, u8 arg1, u8 arg2) {
-    aiRecurData[arg1][arg0].unk_0 = 0xF;
+    aiRecurData[arg1][arg0].co = 0xF;
 
     if ((arg0 == aiGoalX) && (arg1 == aiGoalY)) {
         success = 1;
     }
 
     if (success != 1) {
-        if ((aiRecurData[arg1 - 1][arg0].unk_0 == 3) && (aiRecurData[arg1 - 1][arg0 + 1].unk_1 == 0xA)) {
+        if ((aiRecurData[arg1 - 1][arg0].co == 3) && (aiRecurData[arg1 - 1][arg0 + 1].st == 0xA)) {
             aifYRecur(arg0, arg1 - 1, arg2);
         }
     }
 
     if (success != 1) {
-        if ((aiRecurData[arg1][arg0 + 1].unk_0 == 3) && (aiRecurData[arg1][arg0 + 2].unk_1 == 0xA)) {
+        if ((aiRecurData[arg1][arg0 + 1].co == 3) && (aiRecurData[arg1][arg0 + 2].st == 0xA)) {
             if (aiMoveSF != 0) {
                 aifYRecur(arg0 + 1, arg1, arg2);
             } else {
@@ -3662,7 +3712,7 @@ void aifYRecur(u8 arg0, u8 arg1, u8 arg2) {
     }
 
     if (success != 1) {
-        if ((aiRecurData[arg1][arg0 - 1].unk_0 == 3) && (aiRecurData[arg1][arg0].unk_1 == 0xA)) {
+        if ((aiRecurData[arg1][arg0 - 1].co == 3) && (aiRecurData[arg1][arg0].st == 0xA)) {
             if (aiMoveSF != 0) {
                 aifYRecur(arg0 - 1, arg1, arg2);
             } else {
@@ -3672,8 +3722,8 @@ void aifYRecur(u8 arg0, u8 arg1, u8 arg2) {
     }
 
     if (success == 1) {
-        aiRoot[aiRootCnt][0] = arg0;
-        aiRoot[aiRootCnt][1] = arg1;
+        aiRoot[aiRootCnt].x = arg0;
+        aiRoot[aiRootCnt].y = arg1;
         aiRootCnt++;
     }
 }
@@ -3687,14 +3737,14 @@ void aifYRecurUP(u8 arg0, u8 arg1, u8 arg2) {
     }
 
     if (success != 1) {
-        if ((aiRecurData[arg1 - 1][arg0].unk_0 == 3) && (aiRecurData[arg1 - 1][arg0 + 1].unk_1 == 0xA)) {
+        if ((aiRecurData[arg1 - 1][arg0].co == 3) && (aiRecurData[arg1 - 1][arg0 + 1].st == 0xA)) {
             aifYRecur(arg0, arg1 - 1, arg2);
         }
     }
 
     if (success == 1) {
-        aiRoot[aiRootCnt][0] = arg0;
-        aiRoot[aiRootCnt][1] = arg1;
+        aiRoot[aiRootCnt].x = arg0;
+        aiRoot[aiRootCnt].y = arg1;
         aiRootCnt += 1;
     }
 }
@@ -3706,8 +3756,8 @@ void aifReMoveCheck(void) {
     s32 i;
 
     for (i = 0; i < 0x32; i++) {
-        aiRoot[i][0] = 0;
-        aiRoot[i][1] = 0;
+        aiRoot[i].x = 0;
+        aiRoot[i].y = 0;
     }
 
     aiRootCnt = 0;
@@ -3717,32 +3767,31 @@ void aifReMoveCheck(void) {
 
     func_80034310();
 
-    if (aiFlag[decide].unk_01 == 0) {
-        aifTRecur(aiFlag[decide].unk_02, aiFlag[decide].unk_03, decide);
+    if (aiFlag[decide].tory == 0) {
+        aifTRecur(aiFlag[decide].x, aiFlag[decide].y, decide);
     } else {
-        aifYRecur(aiFlag[decide].unk_02, aiFlag[decide].unk_03, decide);
+        aifYRecur(aiFlag[decide].x, aiFlag[decide].y, decide);
     }
 
     if (success == 0) {
         aiRollFinal = 1;
         func_80034310();
 
-        if (aiFlag[decide].unk_01 == 0) {
-            if (aiRecurData[aiFlag[decide].unk_03][aiFlag[decide].unk_02 + 1].unk_1 == 0xA) {
-                aifYRecur(aiFlag[decide].unk_02, aiFlag[decide].unk_03, decide);
+        if (aiFlag[decide].tory == 0) {
+            if (aiRecurData[aiFlag[decide].y][aiFlag[decide].x + 1].st == 0xA) {
+                aifYRecur(aiFlag[decide].x, aiFlag[decide].y, decide);
             }
-        } else if (aiRecurData[aiFlag[decide].unk_03 - 1][aiFlag[decide].unk_02].unk_1 == 0xA) {
-            aifTRecur(aiFlag[decide].unk_02, aiFlag[decide].unk_03, decide);
-        } else if (aiRecurData[aiFlag[decide].unk_03 - 1][aiFlag[decide].unk_02 + 1].unk_1 == 0xA) {
-            if ((aiRecurData[aiFlag[decide].unk_03][aiFlag[decide].unk_02 + 2].unk_1 != 0xA) ||
-                (aiFlag[decide].unk_02 == 6)) {
-                aifTRecur(aiFlag[decide].unk_02 + 1, aiFlag[decide].unk_03, decide);
+        } else if (aiRecurData[aiFlag[decide].y - 1][aiFlag[decide].x].st == 0xA) {
+            aifTRecur(aiFlag[decide].x, aiFlag[decide].y, decide);
+        } else if (aiRecurData[aiFlag[decide].y - 1][aiFlag[decide].x + 1].st == 0xA) {
+            if ((aiRecurData[aiFlag[decide].y][aiFlag[decide].x + 2].st != 0xA) || (aiFlag[decide].x == 6)) {
+                aifTRecur(aiFlag[decide].x + 1, aiFlag[decide].y, decide);
             }
         }
     }
 
-    aiRoot[aiRootCnt][0] = aiRoot[aiRootCnt - 1][0];
-    aiRoot[aiRootCnt][1] = aiRoot[aiRootCnt - 1][1] + 1;
+    aiRoot[aiRootCnt].x = aiRoot[aiRootCnt - 1].x;
+    aiRoot[aiRootCnt].y = aiRoot[aiRootCnt - 1].y + 1;
 }
 
 /**
@@ -3753,35 +3802,36 @@ void aifKeyMake(struct_game_state_data *gameStateDataRef) {
     s32 i;
     u8 temp;
 
-    gameStateDataRef->unk_190 = aiFlag[decide];
+    gameStateDataRef->ai.aiFlagDecide = aiFlag[decide];
 
     for (i = 0; i < AIROOT_LEN; i++) {
-        gameStateDataRef->unk_1D0[i][0] = aiRoot[i][0];
-        gameStateDataRef->unk_1D0[i][1] = aiRoot[i][1];
+        gameStateDataRef->ai.aiRootDecide[i].x = aiRoot[i].x;
+        gameStateDataRef->ai.aiRootDecide[i].y = aiRoot[i].y;
     }
 
-    gameStateDataRef->unk_23F = aiRoot[aiRootCnt - 1][0];
-    gameStateDataRef->unk_240 = aiRoot[aiRootCnt - 1][1];
+    gameStateDataRef->ai.aiEX = aiRoot[aiRootCnt - 1].x;
+    gameStateDataRef->ai.aiEY = aiRoot[aiRootCnt - 1].y;
 
-    gameStateDataRef->unk_190.unk_3F = aifRensaCheck(gameStateDataRef, &gameStateDataRef->unk_190);
+    gameStateDataRef->ai.aiFlagDecide.rensa = aifRensaCheck(gameStateDataRef, &gameStateDataRef->ai.aiFlagDecide);
 
-    gameStateDataRef->unk_237 =
-        (0x28 + sp18[gameStateDataRef->unk_190.unk_01][gameStateDataRef->unk_190.unk_04] - gameStateDataRef->unk_241 +
-         gameStateDataRef->unk_237 - aiRollFinal + gameStateDataRef->unk_238) %
+    gameStateDataRef->ai.aiRollCnt =
+        (0x28 + sp18[gameStateDataRef->ai.aiFlagDecide.tory][gameStateDataRef->ai.aiFlagDecide.rev] -
+         gameStateDataRef->ai.aiOldRollCnt + gameStateDataRef->ai.aiRollCnt - aiRollFinal +
+         gameStateDataRef->ai.aiRollFinal) %
         4;
-    gameStateDataRef->unk_241 = gameStateDataRef->unk_237;
-    gameStateDataRef->unk_238 = aiRollFinal;
-    gameStateDataRef->unk_293 = aiSelSpeed;
-    gameStateDataRef->unk_235 = 2;
-    gameStateDataRef->unk_236 = 1;
-    gameStateDataRef->unk_294 = (aiRootP > 100.0f) ? 100 : aiRootP;
+    gameStateDataRef->ai.aiOldRollCnt = gameStateDataRef->ai.aiRollCnt;
+    gameStateDataRef->ai.aiRollFinal = aiRollFinal;
+    gameStateDataRef->ai.aiSelSpeed = aiSelSpeed;
+    gameStateDataRef->ai.aiSpeedCnt = 2;
+    gameStateDataRef->ai.aiKRFlag = true;
+    gameStateDataRef->ai.aiRootP = (aiRootP > 100.0f) ? 100 : aiRootP;
 
-    temp = genrand(aiVirusLevel[aiSelSpeed][gameStateDataRef->unk_23C]);
-    if (temp >= 7U) {
-        gameStateDataRef->unk_23A = 0;
+    temp = genrand(aiVirusLevel[aiSelSpeed][gameStateDataRef->ai.aivl]);
+    if (temp >= 7) {
+        gameStateDataRef->ai.aiSpUpFlag = false;
     } else {
-        gameStateDataRef->unk_23A = 1;
-        gameStateDataRef->unk_23B = genrand(5);
+        gameStateDataRef->ai.aiSpUpFlag = true;
+        gameStateDataRef->ai.aiSpUpStart = genrand(5);
     }
 }
 
@@ -3795,44 +3845,45 @@ void aifKeyOut(struct_game_state_data *gameStateDataRef) {
     s32 var_a0;
     s32 var_s1;
 
-    func_8002EB00(gameStateDataRef);
+    aifMakeWork(gameStateDataRef);
 
-    joygam[gameStateDataRef->unk_298] = 0;
-    if (gameStateDataRef->unk_23D == 0) {
+    joygam[gameStateDataRef->pn] = 0;
+    if (!gameStateDataRef->ai.aiok) {
         return;
     }
 
-    if (gameStateDataRef->unk_3BD == 0) {
+    if (gameStateDataRef->cap.my == 0) {
         return;
     }
 
-    if (gameStateDataRef->unk_3BC == (gameStateDataRef->unk_1D0[gameStateDataRef->unk_234][0] - 1)) {
-        if (gameStateDataRef->unk_3BD == gameStateDataRef->unk_1D0[gameStateDataRef->unk_234][1]) {
-            gameStateDataRef->unk_234++;
+    if (gameStateDataRef->cap.mx == (gameStateDataRef->ai.aiRootDecide[gameStateDataRef->ai.aiKeyCount].x - 1)) {
+        if (gameStateDataRef->cap.my == gameStateDataRef->ai.aiRootDecide[gameStateDataRef->ai.aiKeyCount].y) {
+            gameStateDataRef->ai.aiKeyCount++;
         }
     }
 
-    gameStateDataRef->unk_235--;
+    gameStateDataRef->ai.aiSpeedCnt--;
 
-    var_s1 = gameStateDataRef->unk_1D0[gameStateDataRef->unk_234][0] - 1 - gameStateDataRef->unk_3BC;
-    temp_s3 = gameStateDataRef->unk_1D0[gameStateDataRef->unk_234][1] - gameStateDataRef->unk_3BD;
+    var_s1 = gameStateDataRef->ai.aiRootDecide[gameStateDataRef->ai.aiKeyCount].x - 1 - gameStateDataRef->cap.mx;
+    temp_s3 = gameStateDataRef->ai.aiRootDecide[gameStateDataRef->ai.aiKeyCount].y - gameStateDataRef->cap.my;
 
-    if ((temp_s3 != 0) && (gameStateDataRef->unk_3BD < gameStateDataRef->unk_240 - 3)) {
-        for (var_a0 = 0; var_a0 < ARRAY_COUNT(gameStateDataRef->unk_242); var_a0++) {
+    if ((temp_s3 != 0) && (gameStateDataRef->cap.my < gameStateDataRef->ai.aiEY - 3)) {
+        for (var_a0 = 0; var_a0 < ARRAY_COUNT(gameStateDataRef->ai.aiEffectNo); var_a0++) {
             s32 temp;
 
-            if (gameStateDataRef->unk_242[var_a0] == 2) {
+            if (gameStateDataRef->ai.aiEffectNo[var_a0] == 2) {
 
-                temp = wave_tbl_2879[(gameStateDataRef->unk_240 + gameStateDataRef->unk_3BD) %
-                                     ARRAY_COUNTU(wave_tbl_2879)];
+                temp =
+                    wave_tbl_2879[(gameStateDataRef->ai.aiEY + gameStateDataRef->cap.my) % ARRAY_COUNTU(wave_tbl_2879)];
                 temp_t0_3 = var_s1 + temp;
 
-                if (gameStateDataRef
-                        ->unk_29C[gameStateDataRef->unk_3BD + 1][gameStateDataRef->unk_3BC + temp_t0_3 - 1][0] == 0xA) {
-                    if (gameStateDataRef
-                            ->unk_29C[gameStateDataRef->unk_3BD + 1][gameStateDataRef->unk_3BC + temp_t0_3][0] == 0xA) {
-                        if (gameStateDataRef->unk_29C[gameStateDataRef->unk_3BD + 1]
-                                                     [gameStateDataRef->unk_3BC + temp_t0_3 + 1][0] == 0xA) {
+                if (gameStateDataRef->blk[gameStateDataRef->cap.my + 1][gameStateDataRef->cap.mx + temp_t0_3 - 1].st ==
+                    0xA) {
+                    if (gameStateDataRef->blk[gameStateDataRef->cap.my + 1][gameStateDataRef->cap.mx + temp_t0_3].st ==
+                        0xA) {
+                        if (gameStateDataRef
+                                ->blk[gameStateDataRef->cap.my + 1][gameStateDataRef->cap.mx + temp_t0_3 + 1]
+                                .st == 0xA) {
                             var_s1 = temp_t0_3;
                         }
                     }
@@ -3842,99 +3893,104 @@ void aifKeyOut(struct_game_state_data *gameStateDataRef) {
         }
     }
 
-    if ((gameStateDataRef->unk_235 == 0) && !(gameStateDataRef->unk_292 & 4)) {
-        if ((gameStateDataRef->unk_237 == 0) && (gameStateDataRef->unk_239 & 2)) {
-            if (((genrand(5) == 0) && (gameStateDataRef->unk_3BD < gameStateDataRef->unk_240 - 3)) ||
-                (gameStateDataRef->unk_239 & 1)) {
-                gameStateDataRef->unk_237 += 2;
-                gameStateDataRef->unk_239 ^= 1;
+    if ((gameStateDataRef->ai.aiSpeedCnt == 0) && !(gameStateDataRef->ai.aiState & 4)) {
+        if ((gameStateDataRef->ai.aiRollCnt == 0) && (gameStateDataRef->ai.aiRollHabit & 2)) {
+            if (((genrand(5) == 0) && (gameStateDataRef->cap.my < gameStateDataRef->ai.aiEY - 3)) ||
+                (gameStateDataRef->ai.aiRollHabit & 1)) {
+                gameStateDataRef->ai.aiRollCnt += 2;
+                gameStateDataRef->ai.aiRollHabit ^= 1;
             }
         }
 
-        if (gameStateDataRef->unk_237 != 0) {
-            if (gameStateDataRef->unk_237 == 3) {
-                joygam[gameStateDataRef->unk_298] = B_BUTTON;
-                gameStateDataRef->unk_237 = 0;
+        if (gameStateDataRef->ai.aiRollCnt != 0) {
+            if (gameStateDataRef->ai.aiRollCnt == 3) {
+                joygam[gameStateDataRef->pn] = B_BUTTON;
+                gameStateDataRef->ai.aiRollCnt = 0;
             } else {
-                joygam[gameStateDataRef->unk_298] = A_BUTTON;
-                gameStateDataRef->unk_237--;
+                joygam[gameStateDataRef->pn] = A_BUTTON;
+                gameStateDataRef->ai.aiRollCnt--;
             }
-            gameStateDataRef->unk_235 = 5;
+            gameStateDataRef->ai.aiSpeedCnt = 5;
         }
 
         if (temp_s3 < 0) {
-            gameStateDataRef->unk_235 = 1;
-            gameStateDataRef->unk_234++;
-            if (gameStateDataRef->unk_240 < gameStateDataRef->unk_3BD) {
-                gameStateDataRef->unk_23D = 0;
+            gameStateDataRef->ai.aiSpeedCnt = 1;
+            gameStateDataRef->ai.aiKeyCount++;
+            if (gameStateDataRef->ai.aiEY < gameStateDataRef->cap.my) {
+                gameStateDataRef->ai.aiok = false;
             }
         }
 
         if (var_s1 > 0) {
-            joygam[gameStateDataRef->unk_298] |= R_JPAD;
+            joygam[gameStateDataRef->pn] |= R_JPAD;
 
-            gameStateDataRef->unk_235 = (gameStateDataRef->unk_236 == 0)
-                                            ? aiSlideFSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C]
-                                            : aiSlideSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
-            gameStateDataRef->unk_236++;
+            gameStateDataRef->ai.aiSpeedCnt =
+                !gameStateDataRef->ai.aiKRFlag
+                    ? aiSlideFSpeed[gameStateDataRef->ai.aiSelSpeed][gameStateDataRef->ai.aivl]
+                    : aiSlideSpeed[gameStateDataRef->ai.aiSelSpeed][gameStateDataRef->ai.aivl];
+            gameStateDataRef->ai.aiKRFlag++;
         }
 
         if (var_s1 < 0) {
-            joygam[gameStateDataRef->unk_298] |= L_JPAD;
+            joygam[gameStateDataRef->pn] |= L_JPAD;
 
-            gameStateDataRef->unk_235 = (gameStateDataRef->unk_236 == 0)
-                                            ? aiSlideFSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C]
-                                            : aiSlideSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
-            gameStateDataRef->unk_236++;
+            gameStateDataRef->ai.aiSpeedCnt =
+                !gameStateDataRef->ai.aiKRFlag
+                    ? aiSlideFSpeed[gameStateDataRef->ai.aiSelSpeed][gameStateDataRef->ai.aivl]
+                    : aiSlideSpeed[gameStateDataRef->ai.aiSelSpeed][gameStateDataRef->ai.aivl];
+            gameStateDataRef->ai.aiKRFlag++;
         }
 
         if (temp_s3 > 0) {
-            if (gameStateDataRef->unk_236 == 0) {
-                if ((gameStateDataRef->unk_293 == 6) || (gameStateDataRef->unk_1D0[gameStateDataRef->unk_234][1] !=
-                                                         gameStateDataRef->unk_1D0[gameStateDataRef->unk_234 + 1][1])) {
-                    if ((gameStateDataRef->unk_293 == 5) || (gameStateDataRef->unk_293 == 6) ||
-                        (gameStateDataRef->unk_3BD >= 3) ||
-                        ((gameStateDataRef->unk_293 >= 2) && (gameStateDataRef->unk_3BD == 2) &&
-                         (FallSpeed[gameStateDataRef->unk_3C0] / 2 < gameStateDataRef->unk_3C1))) {
+            if (!gameStateDataRef->ai.aiKRFlag) {
+                if ((gameStateDataRef->ai.aiSelSpeed == 6) ||
+                    (gameStateDataRef->ai.aiRootDecide[gameStateDataRef->ai.aiKeyCount].y !=
+                     gameStateDataRef->ai.aiRootDecide[gameStateDataRef->ai.aiKeyCount + 1].y)) {
+                    if ((gameStateDataRef->ai.aiSelSpeed == 5) || (gameStateDataRef->ai.aiSelSpeed == 6) ||
+                        (gameStateDataRef->cap.my >= 3) ||
+                        ((gameStateDataRef->ai.aiSelSpeed >= 2) && (gameStateDataRef->cap.my == 2) &&
+                         (FallSpeed[gameStateDataRef->cap.sp] / 2 < gameStateDataRef->cap.cn))) {
                         if (evs_gamesel != ENUM_EVS_GAMESEL_3) {
-                            joygam[gameStateDataRef->unk_298] |= D_JPAD;
-                        } else if (gameStateDataRef->unk_190.unk_3F == 0) {
-                            joygam[gameStateDataRef->unk_298] |= D_JPAD;
-                        } else if (game_state_data[1 - aipn].unk_050[0].unk_0 == 0) {
-                            joygam[gameStateDataRef->unk_298] |= D_JPAD;
+                            joygam[gameStateDataRef->pn] |= D_JPAD;
+                        } else if (gameStateDataRef->ai.aiFlagDecide.rensa == 0) {
+                            joygam[gameStateDataRef->pn] |= D_JPAD;
+                        } else if (game_state_data[1 - aipn].cap_attack_work[0].unk_0 == 0) {
+                            joygam[gameStateDataRef->pn] |= D_JPAD;
                         }
                     }
 
-                    if (gameStateDataRef->unk_23A == 1) {
-                        if (gameStateDataRef->unk_234 > gameStateDataRef->unk_23B) {
-                            gameStateDataRef->unk_235++;
+                    if (gameStateDataRef->ai.aiSpUpFlag == true) {
+                        if (gameStateDataRef->ai.aiKeyCount > gameStateDataRef->ai.aiSpUpStart) {
+                            gameStateDataRef->ai.aiSpeedCnt++;
                         } else {
-                            gameStateDataRef->unk_235 +=
-                                aiDownSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
+                            gameStateDataRef->ai.aiSpeedCnt +=
+                                aiDownSpeed[gameStateDataRef->ai.aiSelSpeed][gameStateDataRef->ai.aivl];
                         }
                     } else {
-                        gameStateDataRef->unk_235 += aiDownSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
+                        gameStateDataRef->ai.aiSpeedCnt +=
+                            aiDownSpeed[gameStateDataRef->ai.aiSelSpeed][gameStateDataRef->ai.aivl];
                     }
                 } else {
-                    gameStateDataRef->unk_235++;
+                    gameStateDataRef->ai.aiSpeedCnt++;
                 }
             } else {
-                gameStateDataRef->unk_235 += aiSlideFSpeed[gameStateDataRef->unk_293][gameStateDataRef->unk_23C];
-                gameStateDataRef->unk_236 = 0;
+                gameStateDataRef->ai.aiSpeedCnt +=
+                    aiSlideFSpeed[gameStateDataRef->ai.aiSelSpeed][gameStateDataRef->ai.aivl];
+                gameStateDataRef->ai.aiKRFlag = false;
             }
         }
     }
 
-    if ((gameStateDataRef->unk_3BC == (gameStateDataRef->unk_23F - 1)) &&
-        (gameStateDataRef->unk_3BD == gameStateDataRef->unk_240) && (gameStateDataRef->unk_238 != 0)) {
-        if ((joygam[gameStateDataRef->unk_298] != A_BUTTON) && (joygam[gameStateDataRef->unk_298] != B_BUTTON)) {
-            joygam[gameStateDataRef->unk_298] = A_BUTTON;
-            gameStateDataRef->unk_238 = 0;
+    if ((gameStateDataRef->cap.mx == gameStateDataRef->ai.aiEX - 1) &&
+        (gameStateDataRef->cap.my == gameStateDataRef->ai.aiEY) && (gameStateDataRef->ai.aiRollFinal != 0)) {
+        if ((joygam[gameStateDataRef->pn] != A_BUTTON) && (joygam[gameStateDataRef->pn] != B_BUTTON)) {
+            joygam[gameStateDataRef->pn] = A_BUTTON;
+            gameStateDataRef->ai.aiRollFinal = 0;
         }
     }
 
-    if (gameStateDataRef->unk_293 == 6) {
-        gameStateDataRef->unk_235 = 1;
+    if (gameStateDataRef->ai.aiSelSpeed == 6) {
+        gameStateDataRef->ai.aiSpeedCnt = 1;
     }
 }
 
@@ -3950,13 +4006,13 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     s32 j;
     s32 k;
 
-    for (i = 0; i < pGameState->unk_164; i++) {
-        if (pGameState->unk_0D4[i][2] != arg2) {
+    for (i = 0; i < pGameState->flash_virus_count; i++) {
+        if (pGameState->flash_virus_pos[i].color != arg2) {
             continue;
         }
 
-        temp_t6 = pGameState->unk_0D4[i][0];
-        temp_t8 = pGameState->unk_0D4[i][1];
+        temp_t6 = pGameState->flash_virus_pos[i].column;
+        temp_t8 = pGameState->flash_virus_pos[i].row;
 
         if (arg1 == temp_t8) {
             temp = 0;
@@ -3966,8 +4022,8 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
             for (j = -3; j < 4; j++) {
                 if ((temp_t6 + j >= 0) && (temp_t6 + j < GAME_MAP_COLUMNS)) {
-                    if (aiFieldData[temp_t8][temp_t6 + j].unk_0 != arg2) {
-                        if (aiFieldData[temp_t8][temp_t6 + j].unk_0 == 3) {
+                    if (aiFieldData[temp_t8][temp_t6 + j].co != arg2) {
+                        if (aiFieldData[temp_t8][temp_t6 + j].co == 3) {
                             sp8[temp] = 0;
                         } else {
                             sp8[temp] = -1;
@@ -4068,8 +4124,8 @@ s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
             for (j = -3; j < 4; j++) {
                 if ((temp_t8 + j >= 0) && (temp_t8 + j < GAME_MAP_ROWS)) {
-                    if (aiFieldData[temp_t8 + j][temp_t6].unk_0 != arg2) {
-                        if (aiFieldData[temp_t8 + j][temp_t6].unk_0 == 3) {
+                    if (aiFieldData[temp_t8 + j][temp_t6].co != arg2) {
+                        if (aiFieldData[temp_t8 + j][temp_t6].co == 3) {
                             sp8[temp] = 0;
                         } else {
                             sp8[temp] = -1;
@@ -4182,16 +4238,16 @@ s32 flash_special(void) {
     delpos_cnt = 0;
 
     for (i = 0; i < aiFlagCnt; i++) {
-        if (aiFlag[i].unk_00 != 1) {
+        if (aiFlag[i].ok != 1) {
             continue;
         }
 
-        sp20[0] = aiFlag[i].unk_02 - 1;
-        sp28[0] = aiFlag[i].unk_03;
-        if (aiFlag[i].unk_01 == 0) {
+        sp20[0] = aiFlag[i].x - 1;
+        sp28[0] = aiFlag[i].y;
+        if (aiFlag[i].tory == 0) {
             sp20[1] = sp20[0];
             sp28[1] = sp28[0] - 1;
-            if (aiFlag[i].unk_04 == 0) {
+            if (aiFlag[i].rev == 0) {
                 sp30[0] = aiNext[1];
                 sp30[1] = aiNext[0];
             } else {
@@ -4201,7 +4257,7 @@ s32 flash_special(void) {
         } else {
             sp20[1] = sp20[0] + 1;
             sp28[1] = sp28[0];
-            if (aiFlag[i].unk_04 == 0) {
+            if (aiFlag[i].rev == 0) {
                 sp30[0] = aiNext[0];
                 sp30[1] = aiNext[1];
             } else {
@@ -4216,28 +4272,28 @@ s32 flash_special(void) {
             var_s0 = 0;
         }
 
-        temp_v0 = search_flash_3(sp20[0], sp28[0], sp30[0], aiFlag[i].unk_01, var_s0);
+        temp_v0 = search_flash_3(sp20[0], sp28[0], sp30[0], aiFlag[i].tory, var_s0);
         if (temp_v0 > 0) {
             delpos_tbl[delpos_cnt] = i;
             delpos_cnt += 1;
-            aiFlag[i].unk_08 += temp_v0;
+            aiFlag[i].pri += temp_v0;
         }
 
-        temp_v0 = search_flash_3(sp20[1], sp28[1], sp30[1], aiFlag[i].unk_01, var_s0);
+        temp_v0 = search_flash_3(sp20[1], sp28[1], sp30[1], aiFlag[i].tory, var_s0);
         if (temp_v0 > 0) {
             delpos_tbl[delpos_cnt] = i;
             delpos_cnt += 1;
-            aiFlag[i].unk_08 += temp_v0;
+            aiFlag[i].pri += temp_v0;
         }
     }
 
     if (delpos_cnt > 0) {
         for (i = 0; i < aiFlagCnt; i++) {
-            aiFlag[i].unk_00 = 0;
+            aiFlag[i].ok = 0;
         }
 
         for (i = 0; i < delpos_cnt; i++) {
-            aiFlag[delpos_tbl[i]].unk_00 = 1;
+            aiFlag[delpos_tbl[i]].ok = 1;
         }
     }
 

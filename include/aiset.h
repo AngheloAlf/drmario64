@@ -12,8 +12,6 @@ struct struct_game_state_data;
 #define AI_PARAM_LEN1 6
 #define AI_PARAM_LEN2 8
 
-#define AI_CHAR_DATA_LEN (12+4)
-
 typedef struct struct_ai_param {
     /* 0x00 */ s16 unk_00;
     /* 0x02 */ s16 unk_02;
@@ -48,23 +46,25 @@ typedef struct struct_ai_param {
 #define STRUCT_AI_CHAR_DATA_LEN 16
 #define STRUCT_AI_CHAR_DATA_LEN2 8
 
+// TODO: when adding enums remember to use those values in ai_char_data_org too
 typedef struct struct_ai_char_data {
-    /* 0x00 */ UNK_TYPE1 unk_00;
-    /* 0x01 */ UNK_TYPE1 speed;
-    /* 0x02 */ UNK_TYPE2 unk_02;
-    /* 0x04 */ s8 performance[STRUCT_AI_CHAR_DATA_LEN2];
-    /* 0x0C */ s8 unk_0C[STRUCT_AI_CHAR_DATA_LEN];
-    /* 0x1C */ s16 unk_1C[STRUCT_AI_CHAR_DATA_LEN];
-    /* 0x3C */ s8 unk_3C[STRUCT_AI_CHAR_DATA_LEN];
-    /* 0x4C */ s16 unk_4C[STRUCT_AI_CHAR_DATA_LEN];
+    /* 0x00 */ s8 wait_attack; /* Original name: wait_attack */
+    /* 0x01 */ s8 speed; /* Original name: speed */
+    /* 0x02 */ s16 luck; /* Original name: luck */ /* unused */
+    /* 0x04 */ s8 performance[STRUCT_AI_CHAR_DATA_LEN2]; /* Original name: logic */
+    /* 0x0C */ s8 condition[STRUCT_AI_CHAR_DATA_LEN]; /* Original name: condition */ /* TODO: enum */
+    /* 0x1C */ s16 condition_param[STRUCT_AI_CHAR_DATA_LEN]; /* Original name: condition_param */ /* TODO: enum? */
+    /* 0x3C */ s8 effect[STRUCT_AI_CHAR_DATA_LEN]; /* Original name: effect */ /* TODO: enum? */
+    /* 0x4C */ s16 effect_param[STRUCT_AI_CHAR_DATA_LEN]; /* Original name: effect_param */ /* TODO: enum? */
 } struct_ai_char_data; // size = 0x6C
 
+// See `struct_game_state_data_blk`
 typedef struct Unk_AIFEntry {
-    /* 0x0 */ u8 unk_0;
-    /* 0x1 */ u8 unk_1;
+    /* 0x0 */ u8 co; /* Original name: co */
+    /* 0x1 */ u8 st; /* Original name: st */
 } Unk_AIFEntry; // size = 0x2
 
-void func_8002EB00(struct struct_game_state_data *gameStateDataRef);
+void aifMakeWork(struct struct_game_state_data *uupw);
 void aifMakeBlkWork(struct struct_game_state_data *gameStateDataRef);
 #if VERSION_US || VERSION_GW || CC_CHECK
 void aifMakeFlagSet(struct struct_game_state_data *gameStateDataRef);

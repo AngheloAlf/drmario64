@@ -710,7 +710,7 @@ void init_coffee_break_cnt(void) {
 /**
  * Original name: draw_coffee_break
  */
-void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
+void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 mode, bool disp_flg) {
     Mtx mtx;
     Gfx *gfx;
     bool var_s1;
@@ -729,7 +729,7 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
 
     lws_data = (void **)bgGraphic;
-    if (arg2 != 0) {
+    if (mode != 0) {
         gDPSetEnvColor(gfx++, 183, 127, 95, 255);
         scn_dat = RELOCATE_SEGMENTED(lws_data[COFFEE01_LWS_INDEX_1], bgGraphic);
         scn_dat2 = RELOCATE_SEGMENTED(lws_data[COFFEE01_LWS_INDEX_6], bgGraphic);
@@ -741,7 +741,7 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
 
     MAKE_TRANSRATE_MATRIX(&mtx, 0, -120, -1900);
     if (lws_anim(&gfx, &mtx, scn_dat, bgtime, bgGraphic) == 1) {
-        bgtime = 0x31;
+        bgtime = 49;
     }
 
     bgtime += 1;
@@ -801,9 +801,9 @@ void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3) {
         }
     }
 
-    if (arg3 != 0) {
+    if (disp_flg) {
         if (lws_anim(&gfx, &mtx, scn_dat2, mes_time, bgGraphic) == 1) {
-            mes_time = 0x28A;
+            mes_time = 650;
         } else {
             mes_time = mes_time + 1;
         }

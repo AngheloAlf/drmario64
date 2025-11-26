@@ -32,7 +32,7 @@ void story_spot(Gfx **gfxP, s32 x, s32 y, s32 count, const u8 tex[]);
 void star_spot(Gfx **gfxP, s32 x, s32 y, s32 count);
 void *init_coffee_break(void *dstAddr, s32 arg1);
 void init_coffee_break_cnt(void);
-void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3);
+void draw_coffee_break(Gfx **gfxP, s32 arg1, s32 mode, bool disp_flg);
 void *init_menu_bg(void *dstAddr, bool flg);
 void draw_menu_bg(Gfx **gfxP, s32 x, s32 y);
 void *init_title(void *dstAddr, bool flg);
