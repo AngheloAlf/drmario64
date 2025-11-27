@@ -64,43 +64,38 @@ typedef struct Unk_AIFEntry {
     /* 0x1 */ u8 st; /* Original name: st */
 } Unk_AIFEntry; // size = 0x2
 
-void aifMakeWork(struct struct_game_state_data *uupw);
-void aifMakeBlkWork(struct struct_game_state_data *gameStateDataRef);
+void aifMakeBlkWork(struct struct_game_state_data *uupw);
 #if VERSION_US || VERSION_GW || CC_CHECK
-void aifMakeFlagSet(struct struct_game_state_data *gameStateDataRef);
+void aifMakeFlagSet(struct struct_game_state_data *uupw);
 #endif
 void aifGameInit(void);
 void aifFirstInit(void);
-void aifMake(struct struct_game_state_data *gameStateDataRef);
-bool aifMake2(struct struct_game_state_data * gameStateDataRef, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-void aiHiruSideLineEraser(struct struct_game_state_data *gameStateDataRef);
-// void func_8002F924();
+void aifMake(struct struct_game_state_data *uupw);
+bool aifMake2(struct struct_game_state_data *uupw, s32 x, s32 y, s32 tateFlag, s32 revFlag);
+void aiHiruSideLineEraser(struct struct_game_state_data *xpw);
 bool aifEraseLineCore(s32 col, s32 row);
-s32 aifRensaCheckCore(struct struct_game_state_data *gameStateDataRef, struct_aiFlag *aiFlagRef, u8 arg2, u8 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7, u8 arg8, u8 arg9);
-// void aifRensaCheck();
-bool aifSearchLineCore(s32 arg0, s32 arg1, s32 arg2);
-s32 aifMiniPointK3(u8 *arg0, u8 arg1, u8 *arg2, u8 arg3, u8 arg4, u8 arg5);
-s32 aifMiniAloneCapNumber(u8 arg0, u8 arg1, u8 arg2, s32 arg3);
-s32 aifMiniAloneCapNumberW(u8 arg0, u8 arg1, u8 arg2, s32 arg3);
-s32 flash_virus(s32 col, s32 row);
-bool search_Vflash(s32 arg0, s32 arg1, s32 arg2);
-// void func_8003151C();
-s32 aifSearchLineMS(struct_aiFlag *arg0, UNK_TYPE arg1, UNK_TYPE arg2, UNK_TYPE arg3, UNK_TYPE arg4, UNK_TYPE arg5, UNK_TYPE arg6, UNK_TYPE arg7);
+s32 aifRensaCheckCore(struct struct_game_state_data *uupw, struct_aiFlag *aiFlagRef, u8 mx, u8 my, u8 mco, u8 mst,
+                      u8 sx, u8 sy, u8 sco, u8 sst);
+s32 aifRensaCheck(struct struct_game_state_data *uupw, struct_aiFlag *af);
+bool aifSearchLineCore(s32 mx, s32 my, s32 fg);
+s32 aifMiniPointK3(u8 *tbl, u8 sub, u8 *elin, u8 flag, u8 tory, u8 ec);
+s32 aifMiniAloneCapNumber(u8 x, u8 y, u8 f, s32 ec);
+s32 aifMiniAloneCapNumberW(u8 x, u8 y, u8 f, s32 ec);
+
+s32 aifSearchLineMS(struct_aiFlag *ag, UNK_TYPE mx, UNK_TYPE my, UNK_TYPE mco, UNK_TYPE sx, UNK_TYPE sy, UNK_TYPE sco,
+                    UNK_TYPE ec);
 void aiHiruAllPriSet(struct struct_game_state_data *gameStateDataRef);
-void aiSetCharacter(struct struct_game_state_data *gameStateDataRef);
-void aifFieldCopy(struct struct_game_state_data *gameStateDataRef);
-// void func_80034310();
+void aiSetCharacter(struct struct_game_state_data *xpw);
+void aifFieldCopy(struct struct_game_state_data *uupw);
 void aifPlaceSearch(void);
 void aifMoveCheck(void);
-// void aifTRecur();
-void aifTRecurUP(u8 arg0, u8 arg1, u8 arg2);
-// void aifYRecur();
-void aifYRecurUP(u8 arg0, u8 arg1, u8 arg2);
+void aifTRecur(u8 x, u8 y, u8 cnt);
+void aifTRecurUP(u8 x, u8 y, u8 cnt);
+void aifYRecur(u8 x, u8 y, u8 cnt);
+void aifYRecurUP(u8 x, u8 y, u8 cnt);
 void aifReMoveCheck(void);
-void aifKeyMake(struct struct_game_state_data *gameStateDataRef);
+void aifKeyMake(struct struct_game_state_data *uupw);
 void aifKeyOut(struct struct_game_state_data *gameStateDataRef);
-s32 search_flash_3(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-s32 flash_special(void);
 void aiCOM_MissTake(void);
 
 // data
@@ -151,7 +146,7 @@ extern Unk_AIFEntry aif_field[GAME_MAP_ROWS][GAME_MAP_COLUMNS];
 
 extern f32 aiRootP;
 extern u8 aiRollFinal;
-extern u8 aiSelCom;
+extern u8 aiSelCom; // TODO: enum
 extern u8 aiWall;
 extern u8 hei_data[HEI_WEI_DATA_LEN];
 extern u8 wid_data[HEI_WEI_DATA_LEN];
