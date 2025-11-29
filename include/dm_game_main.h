@@ -255,70 +255,44 @@ typedef struct struct_game_state_data {
     /* 0x3BC */ struct_game_state_data_cap cap; /* Original name: cap */
 } struct_game_state_data; // size = 0x3C4
 
-UNK_TYPE func_800601F0(struct_game_state_data *gameStateDataRef, s32 arg1);
-void func_80060270(struct_game_state_data * gameStateDataRef, UNK_TYPE arg1);
-UNK_TYPE dm_make_score(struct_game_state_data *arg0);
-void dm_attack_se(struct_game_state_data *gameStateData, s32 arg1);
-void dm_warning_h_line(struct_game_state_data *gameStateData, GameMapCell *mapCells);
-UNK_TYPE set_down_flg(GameMapCell *mapCells);
-void go_down(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 arg2);
-void erase_anime(GameMapCell *mapCells);
-void throw_rotate_capsel(struct_game_state_data_now_cap *arg0);
-void translate_capsel(GameMapCell *mapCells, struct_game_state_data * arg1, s32 arg2, s32 arg3);
-void rotate_capsel(GameMapCell *mapCells, struct_game_state_data_now_cap *arg1, s32 arg2);
-void dm_make_magazine(void);
-void func_80060F60(struct_game_state_data_now_cap *arg0, s32 arg1, s32 arg2);
-void func_80060FA0(struct_game_state_data_now_cap *arg0, s32 arg1, s32 arg2);
-void dm_set_capsel(struct_game_state_data *arg0);
-void dm_capsel_speed_up(struct_game_state_data *gameStateDataRef);
-bool dm_check_game_over(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells);
-s32 update_flash_virus_count(struct_game_state_data *arg0, GameMapCell *mapCells, s32 arg2);
-s32 func_8006121C(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, UNK_TYPE arg2);
-void dm_set_virus(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, struct struct_virus_map_data *virusMapData, u8 virusMapDispOrder[0x60]);
-void dm_virus_anime(struct_game_state_data *arg0, GameMapCell *mapCells);
-void dm_capsel_erase_anime(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells);
-void dm_make_erase_h_line(struct_game_state_data *arg0, GameMapCell *mapCells, s32 rowStart, s32 count, s32 column);
-bool dm_h_erase_chack(GameMapCell *mapCells);
-void dm_h_erase_chack_set(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells);
-void dm_make_erase_w_line(struct_game_state_data *arg0, GameMapCell *mapCells, s32 columnStart, s32 count, s32 row);
-bool dm_w_erase_chack(GameMapCell *mapCells);
-void dm_w_erase_chack_set(struct_game_state_data *arg0, GameMapCell *mapCells);
-void dm_h_ball_chack(GameMapCell *mapCells);
-void dm_w_ball_chack(GameMapCell *mapCells);
-bool dm_black_up(struct_game_state_data *gameStateDataP, GameMapCell *mapCells);
-bool dm_broken_set(struct_game_state_data *gameStateData, GameMapCell *mapCells);
+u32 dm_make_score(struct_game_state_data *state);
+void dm_attack_se(struct_game_state_data *state, s32 player_no);
+void dm_warning_h_line(struct_game_state_data *state, GameMapCell *map);
 
-bool dm_calc_capsel_pos(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]);
-void dm_draw_capsel_by_gfx(struct_game_state_data *gameStateData, s32 *arg1, s32 *arg2);
-void dm_draw_capsel_by_cpu_tentative(struct_game_state_data *gameStateDataRef, s32 arg1[2], s32 arg2[2]);
-UNK_PTR *dm_game_heap_top(void);
-SAnimeState *get_virus_anime_state(s32 arg0);
-SAnimeSmog *get_virus_smog_state(s32 arg0);
+void go_down(struct_game_state_data *state, GameMapCell *map, s32 cout);
+void erase_anime(GameMapCell *map);
+
+void translate_capsel(GameMapCell *map, struct_game_state_data *state, s32 move_vec, s32 joy_no);
+void rotate_capsel(GameMapCell *map, struct_game_state_data_now_cap *cap, s32 move_vec);
+
+void dm_set_capsel(struct_game_state_data *state);
+void dm_capsel_speed_up(struct_game_state_data *state);
+bool dm_check_game_over(struct_game_state_data *state, GameMapCell *mapCells);
+
+void dm_virus_anime(struct_game_state_data *state, GameMapCell *map);
+void dm_capsel_erase_anime(struct_game_state_data *state, GameMapCell *map);
+
+bool dm_h_erase_chack(GameMapCell *map);
+void dm_h_erase_chack_set(struct_game_state_data *state, GameMapCell *map);
+
+bool dm_w_erase_chack(GameMapCell *map);
+void dm_w_erase_chack_set(struct_game_state_data *state, GameMapCell *map);
+void dm_h_ball_chack(GameMapCell *map);
+void dm_w_ball_chack(GameMapCell *map);
+bool dm_black_up(struct_game_state_data *state, GameMapCell *map);
+bool dm_broken_set(struct_game_state_data *state, GameMapCell *map);
+
+void **dm_game_heap_top(void);
+SAnimeState *get_virus_anime_state(s32 index);
+SAnimeSmog *get_virus_smog_state(s32 index);
 Mtx *dm_get_mtx_buf(void);
 Vtx *dm_get_vtx_buf(void);
-void func_80062920(void);
-void func_80062978(s32 index, s32 arg1);
-void func_80062990(s32 arg0);
-void func_800629AC(s32 arg0);
-void func_800629C8(s32 arg0);
-void func_800629E4(s32 arg0);
-void func_80062A08(s32 index);
-void func_80062A24(s32 index);
-void func_80062A40(s32 arg0);
-bool func_80062A5C(s32 arg0);
-bool func_80062A8C(s32 arg0);
-bool func_80062AA8(s32 arg0);
-bool func_80062AC4(s32 arg0);
-// void func_80062AE0();
-bool func_80062AFC(s32 arg0);
-bool func_80062B18(s32 arg0);
-bool func_80062B34(s32 arg0);
 
-void backup_game_state(s32 index);
-void resume_game_state(s32 index);
-void func_80063378(void);
-void func_800633C0(void);
-void func_800633FC(void);
+void backup_game_state(s32 bufNo);
+void resume_game_state(s32 bufNo);
+void set_replay_state(void);
+void reset_replay_state(void);
+void start_replay_proc(void);
 void dm_warning_h_line_se(void);
 void dm_play_count_down_se(void);
 void dm_capsel_down(struct_game_state_data *gameStateData, GameMapCell *mapCells);

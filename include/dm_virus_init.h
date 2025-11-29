@@ -13,9 +13,9 @@
 #define VIRUS_NUM 3
 
 typedef struct struct_virus_map_data {
-    /* 0x0 */ s8 virus_type; // TODO: enum?
-    /* 0x1 */ u8 x_pos;
-    /* 0x2 */ u8 y_pos;
+    /* 0x0 */ s8 virus_type; /* Original name: virus_type */ // TODO: enum?
+    /* 0x1 */ u8 x_pos; /* Original name: x_pos */
+    /* 0x2 */ u8 y_pos; /* Original name: y_pos */
 } struct_virus_map_data; // size = 0x3
 
 extern struct_virus_map_data virus_map_data[MAX_PLAYERS][(GAME_MAP_ROWS-1)*GAME_MAP_COLUMNS];
