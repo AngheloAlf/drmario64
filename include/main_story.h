@@ -17,6 +17,8 @@ typedef struct GbiStat {
     /* 0x10 */ const Texture *texture; /* Original name: tex_addr */
 } GbiStat; // size = 0x14
 
+#define CURTAIN_COUNT_VAL 30
+
 void story_zoomfade(Gfx **gfxP, s32 count);
 void get_gbi_stat(GbiStat *gbi, CONST_ARG struct GraphBinGeneric *graphBin);
 void curtain_proc(Gfx **gfxP, s32 count);

@@ -434,10 +434,10 @@ void curtain_proc(Gfx **gfxP, s32 count) {
         return;
     }
 
-    count = MIN(count, 30);
+    count = MIN(count, CURTAIN_COUNT_VAL);
 
     w = count + 1;
-    w /= 30.0f;
+    w /= CURTAIN_COUNT_VAL;
 
     alpha = w * DOUBLE_LITERAL(255.0) + DOUBLE_LITERAL(0.5);
     alpha = MIN(alpha, 255);

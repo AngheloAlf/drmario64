@@ -64,6 +64,16 @@
 #endif /* AVOID_DOUBLE_LIT_PROMOTION */
 #endif /* DOUBLE_LITERAL */
 
+// Struct members that are completely unreferenced and could be removed safety.
+#ifndef UNUSED_MEMBER
+#if MODDING
+#define UNUSED_MEMBER(x)
+#else
+#define UNUSED_MEMBER(x) x
+#endif
+#endif
+
+
 #define ASM_TEXT __asm__(".section .text")
 #define ASM_DATA __asm__(".section .data")
 #define ASM_RODATA __asm__(".section .rodata")

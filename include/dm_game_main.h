@@ -124,7 +124,7 @@ typedef enum EnumGameStateDataCnd {
 } EnumGameStateDataCnd;
 
 typedef enum PlayerType {
-    /* 0x0 */ PLAYERTYPE_0,
+    /* 0x0 */ PLAYERTYPE_0, // Human?
     /* 0x1 */ PLAYERTYPE_1,
 } PlayerType;
 
@@ -301,7 +301,7 @@ s32 dm_set_attack_2p(struct_game_state_data *gameStateDataRef);
 s32 dm_set_attack_4p(struct_game_state_data *gameStateDataRef);
 void func_80063FF4(void);
 void save_visible_fall_point_flag(void);
-void retryMenu_init(s32 arg0, s32 arg1);
+
 void func_8006417C(s32 arg0);
 EtcPartIndex retryMenu_input(s32 arg0);
 void func_80064298(s32 arg0, Gfx **gfxP, s32 arg2);

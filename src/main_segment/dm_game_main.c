@@ -73,11 +73,11 @@ struct_virus_map_data virus_map_data[4][16 * 8]; // 16 << 3?
  */
 u8 virus_map_disp_order[4][VIRUS_MAP_DISP_ORDER_LEN];
 
-typedef struct struct_watchGame_unk_070 {
-    /* 0x00 */ UNK_TYPE *unk_00;
-    /* 0x04 */ UNK_TYPE *unk_04;
-    /* 0x08 */ s32 unk_08[0x10];
-} struct_watchGame_unk_070; // size = 0x48
+typedef struct StarForce {
+    /* 0x00 */ s32 *xtbl;       /* Original name: xtbl */
+    /* 0x04 */ s32 *ytbl;       /* Original name: ytbl */
+    /* 0x08 */ s32 frame[0x10]; /* Original name: frame */
+} StarForce;                    // size = 0x48
 
 typedef struct ScoreNumsNumbers {
     /* 0x00 */ s32 pos[2]; /* Original name: pos */
@@ -105,92 +105,103 @@ typedef struct TimeAttackResult {
     /* 0x28 */ u32 result;                         /* Original name: result */
 } TimeAttackResult;                                // size = 0x2C
 
-// struct_dm_game_main_c_5535
+typedef enum RetryType {
+    /* 0x0 */ RETRYTYPE_0,
+    /* 0x1 */ RETRYTYPE_1,
+    /* 0x2 */ RETRYTYPE_2,
+    /* 0x3 */ RETRYTYPE_3,
+    /* 0x4 */ RETRYTYPE_4,
+    /* 0x5 */ RETRYTYPE_5,
+    /* 0x6 */ RETRYTYPE_MAX,
+} RetryType;
+
+#define STAR_POS_LEN 12U
+#define FRAME_MOVEMENT_MAX 20
+
 typedef struct struct_watchGame {
-    /* 0x000 */ UNK_TYPE4 unk_000;
-    /* 0x004 */ s32 unk_004;
-    /* 0x008 */ s32 unk_008;
-    /* 0x00C */ s32 unk_00C[0xC];
-    /* 0x03C */ s32 unk_03C[0xC];
-    /* 0x06C */ s32 unk_06C;
-    /* 0x070 */ struct_watchGame_unk_070 unk_070;
-    /* 0x0B8 */ ScoreNums unk_0B8[4];
-    /* 0x348 */ s32 unk_348[MAXCONTROLLERS];
-    /* 0x358 */ s32 unk_358[MAXCONTROLLERS];
-    /* 0x368 */ EtcPartIndex unk_368[MAXCONTROLLERS];
-    /* 0x378 */ UNK_TYPE4 unk_378;
-    /* 0x37C */ s32 unk_37C[4];
-    /* 0x38C */ UNK_TYPE unk_38C;
-    /* 0x390 */ UNK_TYPE unk_390;
-    /* 0x394 */ s32 unk_394;
-    /* 0x398 */ s32 unk_398;
-    /* 0x39C */ s32 unk_39C[4];
-    /* 0x3AC */ s32 unk_3AC;
-    /* 0x3B0 */ s32 unk_3B0;
-    /* 0x3B4 */ s32 unk_3B4;
-    /* 0x3B8 */ s32 unk_3B8;
-    /* 0x3BC */ s32 unk_3BC; // enum_evs_gamemode?
-    /* 0x3C0 */ s32 unk_3C0;
-    /* 0x3C4 */ s32 unk_3C4;
-    /* 0x3C8 */ f32 unk_3C8;
-    /* 0x3CC */ f32 unk_3CC;
-    /* 0x3D0 */ f32 unk_3D0[ANIMES_COUNT][2];
-    /* 0x3E8 */ f32 unk_3E8[3];
-    /* 0x3F4 */ f32 unk_3F4[ANIMES_COUNT];
-    /* 0x400 */ UNK_TYPE4 unk_400[3]; // bool?
-    /* 0x40C */ s32 unk_40C;
-    /* 0x410 */ UNK_TYPE unk_410;
-    /* 0x414 */ s32 unk_414;
-    /* 0x418 */ u8 unk_418[3];
-    /* 0x41B */ UNK_TYPE1 pad_41B[1]; // pad?
-    /* 0x41C */ s32 unk_41C;
-    /* 0x420 */ s32 unk_420;
-    /* 0x424 */ s32 unk_424;
-    /* 0x428 */ UNK_TYPE4 unk_428;
-    /* 0x42C */ UNK_TYPE1 unk_42C[0x4];
-    /* 0x430 */ struct TiTexData *unk_430;
-    /* 0x434 */ struct TiTexData *unk_434;
-    /* 0x438 */ struct TiTexData *unk_438;
-    /* 0x43C */ struct TiTexData *unk_43C;
-    /* 0x440 */ struct TiTexData *unk_440;
-    /* 0x444 */ struct TiTexData *unk_444;
-    /* 0x448 */ struct TiTexData *unk_448;
-    /* 0x44C */ SAnimeState animeStates[ANIMES_COUNT];
-    /* 0x50C */ SAnimeSmog animeSmogs[ANIMES_COUNT];
-    /* 0x878 */ UNK_TYPE unk_878;
-    /* 0x87C */ TexturePtr unk_87C; // SnapBg?
-    /* 0x880 */ s32 unk_880;
-    /* 0x884 */ void *gameEtcSeg;
-    /* 0x888 */ s32 effect_timer[4];
-    /* 0x898 */ s32 unk_898;
-    /* 0x89C */ s32 unk_89C[TEAMNUMBER_MAX]; // Indexed by TeamNumber/`struct_game_state_data::team_no`
-    /* 0x8AC */ s32 unk_8AC[2];
-    /* 0x8B4 */ s32 unk_8B4[2];
-    /* 0x8BC */ s32 unk_8BC;
-    /* 0x8C0 */ s32 unk_8C0;
-    /* 0x8C4 */ s32 unk_8C4;
-    /* 0x8C8 */ s32 unk_8C8;
-    /* 0x8CC */ s32 unk_8CC[TEAMNUMBER_MAX];    // Indexed by TeamNumber/`struct_game_state_data::team_no`
-    /* 0x8DC */ s32 unk_8DC[TEAMNUMBER_MAX][4]; // Outer indexed by TeamNumber/`struct_game_state_data::team_no`
-    /* 0x91C */ MessageWnd messageWnd;
-    /* 0x99C */ s32 unk_99C;
-    /* 0x9A0 */ s32 unk_9A0[3];
-    /* 0x9AC */ s32 unk_9AC; // TODO: func_8006A938 implies this member is part of unk_9A0, but it doesn't seem to make
-                             // much sense to do so
-    /* 0x9B0 */ s32 unk_9B0;
-    /* 0x9B4 */ s32 unk_9B4;
-    /* 0x9B8 */ s32 unk_9B8;
-    /* 0x9BC */ s32 unk_9BC;
-    /* 0x9C0 */ UNK_TYPE4 unk_9C0;
-    /* 0x9C4 */ UNK_TYPE4 unk_9C4;
-    /* 0x9C8 */ s32 unk_9C8;
-    /* 0x9CC */ s32 unk_9CC;
-    /* 0x9D0 */ TimeAttackResult unk_9D0[2];
-    /* 0xA28 */ MessageWnd unk_A28;
-    /* 0xAA8 */ s32 unk_AA8;
-    /* 0xAAC */ unsigned char password[42];
-    /* 0xAD8 */ RecordWritingMessage recMessage;
-} struct_watchGame; // size = 0xB60
+    /* 0x000 */ bool replayFlag;                                                 /* Original name: replayFlag */
+    /* 0x004 */ s32 randSeed;                                                    /* Original name: randSeed */
+    /* 0x008 */ s32 randSeed2;                                                   /* Original name: randSeed2 */
+    /* 0x00C */ s32 star_pos_x[STAR_POS_LEN]; /* Original name: star_pos_x */    /* Indexed by star_count */
+    /* 0x03C */ s32 star_pos_y[STAR_POS_LEN]; /* Original name: star_pos_y */    /* Indexed by star_count */
+    /* 0x06C */ s32 star_count;                                                  /* Original name: star_count */
+    /* 0x070 */ StarForce starForce;                                             /* Original name: starForce */
+    /* 0x0B8 */ ScoreNums scoreNums[MAX_PLAYERS];                                /* Original name: scoreNums */
+    /* 0x348 */ s32 retry_type[MAX_PLAYERS]; /* Original name: retry_type */     /* Type: RetryType */
+    /* 0x358 */ s32 retry_select[MAX_PLAYERS]; /* Original name: retry_select */ // TODO: enum
+    /* 0x368 */ EtcPartIndex retry_result[MAX_PLAYERS];                          /* Original name: retry_result */
+    /* 0x378 */ s32 retry_coin;                                                  /* Original name: retry_coin */
+    /* 0x37C */ s32 force_draw_capsel_count[MAX_PLAYERS]; /* Original name: force_draw_capsel_count */
+    /* 0x38C */ s32 curtain_count;                        /* Original name: curtain_count */
+    /* 0x390 */ s32 curtain_step;                         /* Original name: curtain_step */
+    /* 0x394 */ s32 frame_move_count;                     /* Original name: frame_move_count */
+    /* 0x398 */ s32 frame_move_step;                      /* Original name: frame_move_step */
+    /* 0x39C */ s32 face_anime_count[4]; /* unused */     /* Original name: face_anime_count */
+    /* 0x3AC */ s32 count_down_ctrl;                      /* Original name: count_down_ctrl */
+    /* 0x3B0 */ bool eep_rom_flg;                         /* Original name: eep_rom_flg */
+    /* 0x3B4 */ bool bgm_bpm_flg[2];                      /* Original name: bgm_bpm_flg */
+    /* 0x3BC */ s32 last_3_se_cnt;                        /* Original name: last_3_se_cnt */
+    /* 0x3C0 */ bool last_3_se_flg;                       /* Original name: last_3_se_flg */
+    /* 0x3C4 */ bool started_game_flg;                    /* Original name: started_game_flg */
+    /* 0x3C8 */ f32 big_virus_wait;                       /* Original name: big_virus_wait */
+    /* 0x3CC */ f32 big_virus_timer;                      /* Original name: big_virus_timer */
+    /* 0x3D0 */ f32 big_virus_pos[ANIMES_COUNT][2];       /* Original name: big_virus_pos */
+    /* 0x3E8 */ f32 big_virus_rot[ANIMES_COUNT];          /* Original name: big_virus_rot */
+    /* 0x3F4 */ f32 big_virus_scale[ANIMES_COUNT];        /* Original name: big_virus_scale */
+    /* 0x400 */ bool big_virus_flg[ANIMES_COUNT];         /* Original name: big_virus_flg */
+    /* 0x40C */ bool big_virus_no_wait;                   /* Original name: big_virus_no_wait */
+    /* 0x410 */ s32 big_virus_stop_count;                 /* Original name: big_virus_stop_count */
+    /* 0x414 */ s32 big_virus_blink_count; /* Original name: big_virus_blink_count */ /* unused */
+    /* 0x418 */ u8 big_virus_count[ANIMES_COUNT];                        /* Original name: big_virus_count */
+    /* 0x41C */ s32 demo_timer;                                          /* Original name: demo_timer */
+    /* 0x420 */ bool demo_flag;                                          /* Original name: demo_flag */
+    /* 0x424 */ s32 blink_count;                                         /* Original name: blink_count */
+    /* 0x428 */ s32 warning_se_count;                                    /* Original name: warning_se_count */
+    /* 0x42C */ UNUSED_MEMBER(void *objSeg); /* Original name: objSeg */ /* Completely unreferenced */
+    /* 0x430 */ TiTexData *texAL;                                        /* Original name: texAL */
+    /* 0x434 */ TiTexData *texLS;                                        /* Original name: texLS */
+    /* 0x438 */ TiTexData *texP1;                                        /* Original name: texP1 */
+    /* 0x43C */ TiTexData *texP2;                                        /* Original name: texP2 */
+    /* 0x440 */ TiTexData *texP4;                                        /* Original name: texP4 */
+    /* 0x444 */ TiTexData *texItem;                                      /* Original name: texItem */
+    /* 0x448 */ TiTexData *texKaSa;                                      /* Original name: texKaSa */
+    /* 0x44C */ SAnimeState virus_anime_state[ANIMES_COUNT];             /* Original name: virus_anime_state */
+    /* 0x50C */ SAnimeSmog virus_smog_state[ANIMES_COUNT];               /* Original name: virus_smog_state */
+    /* 0x878 */ s32 graphic_thread_pri;                                  /* Original name: graphic_thread_pri */
+    /* 0x87C */ u16 *bg_snap_buf;                                        /* Original name: bg_snap_buf */
+    /* 0x880 */ bool bg_snapping;                                        /* Original name: bg_snapping */
+    /* 0x884 */ void *gameEtcSeg;                                        /* Original name: effect_data_buf */
+    /* 0x888 */ s32 effect_timer[MAX_PLAYERS];                           /* Original name: effect_timer */
+    /* 0x898 */ s32 touch_down_wait;                                     /* Original name: touch_down_wait */
+    /* 0x89C */ s32 win_count[TEAMNUMBER_MAX];
+        /* Original name: win_count */  /* Indexed by TeamNumber/`struct_game_state_data::team_no` */
+    /* 0x8AC */ s32 vs_win_count[2];    /* Original name: vs_win_count */
+    /* 0x8B4 */ s32 vs_win_total[2];    /* Original name: vs_win_total */
+    /* 0x8BC */ s32 vs_4p_player_count; /* Original name: vs_4p_player_count */
+    /* 0x8C0 */ bool vs_4p_team_flg;    /* Original name: vs_4p_team_flg */
+    /* 0x8C4 */ u32 vs_4p_team_bits[2]; /* Original name: vs_4p_team_bits */
+    /* 0x8CC */ s32 story_4p_name_num[TEAMNUMBER_MAX];
+        /* Original name: story_4p_name_num */ // Indexed by TeamNumber/`struct_game_state_data::team_no`
+    /* 0x8DC */ s32 story_4p_stock_cap[TEAMNUMBER_MAX][4];
+        /* Original name: story_4p_stock_cap */ // Outer indexed by TeamNumber/`struct_game_state_data::team_no`
+    /* 0x91C */ MessageWnd msgWnd;              /* Original name: msgWnd */
+    /* 0x99C */ s32 coin_count;                 /* Original name: coin_count */
+    /* 0x9A0 */ s32 coin_time[3];               /* Original name: coin_time */
+    /* 0x9AC */ s32 coffee_break_flow; /* Original name: coffee_break_flow */   // TODO: enum?
+    /* 0x9B0 */ s32 coffee_break_timer;                                         /* Original name: coffee_break_timer */
+    /* 0x9B4 */ s32 coffee_break_level; /* Original name: coffee_break_level */ // TODO: enum
+    /* 0x9B8 */ s32 coffee_break_shard; /* Original name: coffee_break_shard */ // TODO: enum
+    /* 0x9BC */ bool bottom_up_flag;                                            /* Original name: bottom_up_flag */
+    /* 0x9C0 */ bool query_play_pause_se;                                       /* Original name: query_play_pause_se */
+    /* 0x9C4 */ s32 query_pause_player_no;            /* Original name: query_pause_player_no */
+    /* 0x9C8 */ s32 query_debug_player_no;            /* Original name: query_debug_player_no */
+    /* 0x9CC */ s32 query_config_player_no;           /* Original name: query_config_player_no */
+    /* 0x9D0 */ TimeAttackResult timeAttackResult[2]; /* Original name: timeAttackResult */
+    /* 0xA28 */ MessageWnd passWnd;                   /* Original name: passWnd */
+    /* 0xAA8 */ s32 passAlphaStep;                    /* Original name: passWnd */
+    /* 0xAAC */ unsigned char passBuf[42];            /* Original name: passBuf */
+    /* 0xAD8 */ RecordWritingMessage writingMsg;      /* Original name: writingMsg */
+} struct_watchGame;                                   // size = 0xB60
 
 /**
  * Original name: watchGame
@@ -860,7 +871,10 @@ void dm_capsel_speed_up(struct_game_state_data *state) {
  * Original name: dm_check_game_over
  */
 bool dm_check_game_over(struct_game_state_data *state, GameMapCell *map UNUSED) {
-    return state->cnd_static == dm_cnd_game_over;
+    if (state->cnd_static == dm_cnd_game_over) {
+        return true;
+    }
+    return false;
 }
 
 /**
@@ -1661,7 +1675,7 @@ void **dm_game_heap_top(void) {
 SAnimeState *get_virus_anime_state(s32 index) {
     struct_watchGame *ptr = watchGame;
 
-    return &ptr->animeStates[index];
+    return &ptr->virus_anime_state[index];
 }
 
 /**
@@ -1670,7 +1684,7 @@ SAnimeState *get_virus_anime_state(s32 index) {
 SAnimeSmog *get_virus_smog_state(s32 index) {
     struct_watchGame *ptr = watchGame;
 
-    return &ptr->animeSmogs[index];
+    return &ptr->virus_smog_state[index];
 }
 
 /**
@@ -1940,8 +1954,14 @@ u32 timeAttackResult_result(TimeAttackResult *st, s32 level, bool bonus, u32 tim
 }
 
 const u8 _retryMenu_itemCount[] = {
-    2, 3, 2, 3, 2, 3,
+    2, // RETRYTYPE_0
+    3, // RETRYTYPE_1
+    2, // RETRYTYPE_2
+    3, // RETRYTYPE_3
+    2, // RETRYTYPE_4
+    3, // RETRYTYPE_5
 };
+static_assert(ARRAY_COUNT(_retryMenu_itemCount) == RETRYTYPE_MAX, "");
 
 const f32 _big_virus_def_wait[] = {
     12.5f,
@@ -2103,12 +2123,12 @@ void scoreNums_set(ScoreNums *st, u32 score, s32 erase, s32 x, s32 y) {
         ScoreNumsNumbers *num = &st->numbers[st->index];
 
         num->pos[0] = x;
+        x += 7;
         num->pos[1] = y;
         num->number = column[i];
         num->color = color;
         num->time = 0.0f;
         st->index = WrapI(0, ARRAY_COUNT(st->numbers), st->index + 1);
-        x += 7;
     }
 }
 
@@ -2168,12 +2188,12 @@ void resume_game_state(s32 bufNo) {
 void set_replay_state(void) {
     struct_watchGame *st = watchGame;
 
-    if (st->unk_000 == 0) {
+    if (!st->replayFlag) {
         backup_game_state(1);
     }
 
     resume_game_state(0);
-    st->unk_000 = 1;
+    st->replayFlag = true;
 }
 
 /**
@@ -2182,9 +2202,9 @@ void set_replay_state(void) {
 void reset_replay_state(void) {
     struct_watchGame *watchGameRef = watchGame;
 
-    if (watchGameRef->unk_000 != 0) {
+    if (watchGameRef->replayFlag) {
         resume_game_state(1);
-        watchGameRef->unk_000 = 0;
+        watchGameRef->replayFlag = false;
     }
 }
 
@@ -2192,7 +2212,7 @@ void reset_replay_state(void) {
  * Original name: start_replay_proc
  */
 void start_replay_proc(void) {
-    if (watchGame->unk_000 != 0) {
+    if (watchGame->replayFlag) {
         replay_play_init();
     } else {
         replay_record_init(evs_playcnt);
@@ -2216,14 +2236,14 @@ void dm_warning_h_line_se(void) {
     }
 
     if (var_a0 == 0) {
-        watchGameP->unk_428 = 0;
+        watchGameP->warning_se_count = 0;
     } else {
-        watchGameP->unk_428++;
+        watchGameP->warning_se_count++;
 
-        if (watchGameP->unk_428 == 1) {
+        if (watchGameP->warning_se_count == 1) {
             dm_snd_play_in_game(SND_INDEX_79);
-        } else if (watchGameP->unk_428 >= 300) {
-            watchGameP->unk_428 = 0;
+        } else if (watchGameP->warning_se_count >= 300) {
+            watchGameP->warning_se_count = 0;
         }
     }
 }
@@ -2279,7 +2299,7 @@ void dm_capsel_down(struct_game_state_data *gameStateData, GameMapCell *mapCells
         }
         var_s1_2 = 0;
         if (get_map_info(mapCells, gameStateData->now_cap.pos_x[0], temp_s2->pos_y[0] + 1) != 0) {
-            var_s1_2 = watchGameP->unk_898;
+            var_s1_2 = watchGameP->touch_down_wait;
         }
         gameStateData->cap_speed_max = var_s0_2 + var_s1_2;
     } else {
@@ -2496,14 +2516,14 @@ s32 dm_set_attack_4p(struct_game_state_data *gameStateDataRef) {
             var_fp = (s32)gameStateDataRef->chain_line;
         }
 
-        for (var_s0 = 0; var_s0 < ARRAY_COUNTU(watchGameP->unk_8DC[gameStateDataRef->team_no]); var_s0++) {
+        for (var_s0 = 0; var_s0 < ARRAY_COUNTU(watchGameP->story_4p_stock_cap[gameStateDataRef->team_no]); var_s0++) {
             if (var_fp >= 4) {
                 break;
             }
 
-            if (watchGameP->unk_8DC[gameStateDataRef->team_no][var_s0] != -1) {
-                gameStateDataRef->chain_color[watchGameP->unk_8DC[gameStateDataRef->team_no][var_s0]]++;
-                watchGameP->unk_8DC[gameStateDataRef->team_no][var_s0] = -1;
+            if (watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] != -1) {
+                gameStateDataRef->chain_color[watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0]]++;
+                watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] = -1;
                 var_fp++;
             }
         }
@@ -2568,17 +2588,18 @@ s32 dm_set_attack_4p(struct_game_state_data *gameStateDataRef) {
 
     var_s0 = 0;
 
-    for (var_s6 = 0; var_s6 < ARRAY_COUNT(watchGameP->unk_8DC[gameStateDataRef->team_no]); var_s6++) {
-        if (watchGameP->unk_8DC[gameStateDataRef->team_no][var_s6] == -1) {
+    for (var_s6 = 0; var_s6 < ARRAY_COUNT(watchGameP->story_4p_stock_cap[gameStateDataRef->team_no]); var_s6++) {
+        if (watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s6] == -1) {
             continue;
         }
 
-        watchGameP->unk_8DC[gameStateDataRef->team_no][var_s0] = watchGameP->unk_8DC[gameStateDataRef->team_no][var_s6];
+        watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] =
+            watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s6];
         var_s0 += 1;
     }
 
-    for (; var_s0 < ARRAY_COUNT(watchGameP->unk_8DC[gameStateDataRef->team_no]); var_s0++) {
-        watchGameP->unk_8DC[gameStateDataRef->team_no][var_s0] = -1;
+    for (; var_s0 < ARRAY_COUNT(watchGameP->story_4p_stock_cap[gameStateDataRef->team_no]); var_s0++) {
+        watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] = -1;
     }
 
     for (var_s6 = 0; var_s6 < 4; var_s6++) {
@@ -2591,15 +2612,15 @@ s32 dm_set_attack_4p(struct_game_state_data *gameStateDataRef) {
         }
 
         temp_v0_3 = 0;
-        for (var_s0 = 0; var_s0 < ARRAY_COUNT(watchGameP->unk_8DC[gameStateDataRef->team_no]); var_s0++) {
-            if (watchGameP->unk_8DC[gameStateDataRef->team_no][var_s0] != -1) {
+        for (var_s0 = 0; var_s0 < ARRAY_COUNT(watchGameP->story_4p_stock_cap[gameStateDataRef->team_no]); var_s0++) {
+            if (watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] != -1) {
                 continue;
             }
 
             for (; temp_v0_3 < 3; temp_v0_3++) {
                 if (sp20[temp_v0_3] > 0) {
                     sp20[temp_v0_3]--;
-                    watchGameP->unk_8DC[gameStateDataRef->team_no][var_s0] = temp_v0_3;
+                    watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] = temp_v0_3;
                     break;
                 }
             }
@@ -2664,25 +2685,28 @@ void save_visible_fall_point_flag(void) {
     }
 }
 
-void retryMenu_init(s32 arg0, s32 arg1) {
+void retryMenu_init(s32 arg0, RetryType arg1) {
     struct_watchGame *watchGameP = watchGame;
 
-    watchGameP->unk_348[arg0] = arg1;
-    watchGameP->unk_358[arg0] = 0;
-    watchGameP->unk_368[arg0] = ETC_PART_INDEX_GRAPHBIN_INVALID;
+    watchGameP->retry_type[arg0] = arg1;
+    watchGameP->retry_select[arg0] = 0;
+    watchGameP->retry_result[arg0] = ETC_PART_INDEX_GRAPHBIN_INVALID;
 
-    switch (watchGameP->unk_348[arg0]) {
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-            watchGameP->unk_358[arg0]++;
+    switch (watchGameP->retry_type[arg0]) {
+        case RETRYTYPE_2:
+        case RETRYTYPE_3:
+        case RETRYTYPE_4:
+        case RETRYTYPE_5:
+            watchGameP->retry_select[arg0]++;
+            break;
+
+        default:
             break;
     }
 }
 
 void func_8006417C(s32 arg0) {
-    retryMenu_init(arg0, 0);
+    retryMenu_init(arg0, RETRYTYPE_0);
 }
 
 EtcPartIndex retryMenu_input(s32 arg0) {
@@ -2694,7 +2718,8 @@ EtcPartIndex retryMenu_input(s32 arg0) {
     u16 pressedButton = gControllerPressedButtons[main_joy[arg0]];
     s32 temp_v0;
 
-    temp_s4->unk_358[arg0] = WrapI(0, _retryMenu_itemCount[temp_s4->unk_348[arg0]], temp_s4->unk_358[arg0]);
+    temp_s4->retry_select[arg0] =
+        WrapI(0, _retryMenu_itemCount[temp_s4->retry_type[arg0]], temp_s4->retry_select[arg0]);
 
     if (curButton & U_JPAD) {
         direction--;
@@ -2703,12 +2728,12 @@ EtcPartIndex retryMenu_input(s32 arg0) {
         direction++;
     }
 
-    temp_v0 = WrapI(0, _retryMenu_itemCount[temp_s4->unk_348[arg0]], temp_s4->unk_358[arg0] + direction);
-    if (temp_v0 != temp_s4->unk_358[arg0]) {
-        temp_s4->unk_358[arg0] = temp_v0;
+    temp_v0 = WrapI(0, _retryMenu_itemCount[temp_s4->retry_type[arg0]], temp_s4->retry_select[arg0] + direction);
+    if (temp_v0 != temp_s4->retry_select[arg0]) {
+        temp_s4->retry_select[arg0] = temp_v0;
         soundIndex = SND_INDEX_64;
     } else if (pressedButton & (A_BUTTON | START_BUTTON)) {
-        ret = temp_s4->unk_368[arg0];
+        ret = temp_s4->retry_result[arg0];
     }
 
     if (soundIndex > SND_INDEX_INVALID) {
@@ -2722,10 +2747,11 @@ void func_80064298(s32 arg0, Gfx **gfxP, s32 arg2) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
 
-    if (watchGameP->unk_348[arg0] < 2) {
-        if (watchGameP->unk_348[arg0] >= 0) {
-            watchGameP->unk_368[arg0] =
-                disp_pause_logo(&gfx, arg0, 0, (arg2 != 0) ? watchGameP->unk_358[arg0] : -1, watchGameP->unk_348[arg0]);
+    if (watchGameP->retry_type[arg0] <= RETRYTYPE_1) {
+        if (watchGameP->retry_type[arg0] >= RETRYTYPE_0) {
+            watchGameP->retry_result[arg0] =
+                disp_pause_logo(&gfx, arg0, 0, (arg2 != 0) ? watchGameP->retry_select[arg0] : -1,
+                                watchGameP->retry_type[arg0] - RETRYTYPE_0);
         }
     }
 
@@ -2736,14 +2762,14 @@ void func_8006431C(s32 arg0, Gfx **gfxP) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
 
-    if (watchGameP->unk_348[arg0] < 6) {
-        if (watchGameP->unk_348[arg0] >= 2) {
+    if (watchGameP->retry_type[arg0] <= RETRYTYPE_5) {
+        if (watchGameP->retry_type[arg0] >= RETRYTYPE_2) {
             if ((evs_gamesel == ENUM_EVS_GAMESEL_1) && (evs_gamemode == GMD_TIME_ATTACK)) {
-                watchGameP->unk_368[arg0] =
-                    disp_continue_logo_score(&gfx, arg0, watchGameP->unk_358[arg0], watchGameP->unk_348[arg0] - 2);
+                watchGameP->retry_result[arg0] = disp_continue_logo_score(&gfx, arg0, watchGameP->retry_select[arg0],
+                                                                          watchGameP->retry_type[arg0] - RETRYTYPE_2);
             } else {
-                watchGameP->unk_368[arg0] =
-                    disp_continue_logo(&gfx, arg0, watchGameP->unk_358[arg0], watchGameP->unk_348[arg0] - 2);
+                watchGameP->retry_result[arg0] = disp_continue_logo(&gfx, arg0, watchGameP->retry_select[arg0],
+                                                                    watchGameP->retry_type[arg0] - RETRYTYPE_2);
             }
         }
     }
@@ -2886,14 +2912,14 @@ void add_taiQ_bonus_wait(struct_game_state_data *arg0) {
         return;
     }
 
-    watchGameP->unk_3C8 += (arg0->chain_line - 1) * 0.25;
-    watchGameP->unk_3C8 = MIN(watchGameP->unk_3C8, _big_virus_max_wait[arg0->game_level]);
+    watchGameP->big_virus_wait += DOUBLE_LITERAL(0.25) * (s32)(arg0->chain_line - 1);
+    watchGameP->big_virus_wait = MIN(watchGameP->big_virus_wait, _big_virus_max_wait[arg0->game_level]);
 
     var_a0 = _bonus_1884[0] * (arg0->erase_virus_count + arg0->chain_line);
     for (i = 1; i < arg0->chain_count; i++) {
         var_a0 += _bonus_1884[MIN(i, ARRAY_COUNTU(_bonus_1884) - 1)];
     }
-    watchGameP->unk_410 += var_a0;
+    watchGameP->big_virus_stop_count += var_a0;
 }
 
 bool func_80064848(void) {
@@ -2912,7 +2938,7 @@ bool func_80064848(void) {
 
 void dm_game_eep_write_callback(void *arg0) {
     struct_watchGame *watchGameP = arg0;
-    RecordWritingMessage *recMessage = &watchGameP->recMessage;
+    RecordWritingMessage *recMessage = &watchGameP->writingMsg;
     s32 temp_s0;
 
     RecWritingMsg_setStr(recMessage, _mesWriting_dmgamemain);
@@ -2925,10 +2951,10 @@ void dm_game_eep_write_callback(void *arg0) {
 void func_80064940(void *arg0 UNUSED) {
     struct_watchGame *watchGameP = watchGame;
 
-    if (watchGameP->unk_3B0 != 0) {
+    if (watchGameP->eep_rom_flg) {
         EepRomErr status = EepRom_WriteAll(dm_game_eep_write_callback, watchGameP);
 
-        watchGameP->unk_3B0 = 0;
+        watchGameP->eep_rom_flg = false;
         EepRom_DumpErrMes(status);
     }
 }
@@ -2955,7 +2981,7 @@ void dm_save_all(void) {
     s32 i;
     s32 var_s1_2;
 
-    if ((watchGameP->unk_000 != 0) || (watchGameP->unk_3B0 != 0)) {
+    if (watchGameP->replayFlag || watchGameP->eep_rom_flg) {
         return;
     }
 
@@ -2970,7 +2996,7 @@ void dm_save_all(void) {
 
                 dm_story_sort_set(evs_select_name_no[0], (s32)story_proc_no >= BGROMDATA_INDEX12, evs_story_level,
                                   game_state_ptr->game_score, evs_game_time, temp_arg5, evs_one_game_flg);
-                watchGameP->unk_3B0 = 1;
+                watchGameP->eep_rom_flg = true;
             }
             break;
 
@@ -2978,13 +3004,16 @@ void dm_save_all(void) {
             for (i = 0; i < 2; i++) {
                 switch (evs_gamemode) {
                     case GMD_NORMAL:
-                        dm_vsman_set(evs_select_name_no[i], watchGameP->unk_8AC[i], watchGameP->unk_8AC[i ^ 1]);
+                        dm_vsman_set(evs_select_name_no[i], watchGameP->vs_win_count[i],
+                                     watchGameP->vs_win_count[i ^ 1]);
                         break;
                     case GMD_FLASH:
-                        dm_vm_fl_set(evs_select_name_no[i], watchGameP->unk_8AC[i], watchGameP->unk_8AC[i ^ 1]);
+                        dm_vm_fl_set(evs_select_name_no[i], watchGameP->vs_win_count[i],
+                                     watchGameP->vs_win_count[i ^ 1]);
                         break;
                     case GMD_TIME_ATTACK:
-                        dm_vm_ta_set(evs_select_name_no[i], watchGameP->unk_8AC[i], watchGameP->unk_8AC[i ^ 1]);
+                        dm_vm_ta_set(evs_select_name_no[i], watchGameP->vs_win_count[i],
+                                     watchGameP->vs_win_count[i ^ 1]);
                         break;
 
                     default:
@@ -2992,28 +3021,28 @@ void dm_save_all(void) {
                 }
             }
 
-            watchGameP->unk_3B0 = 1;
-            watchGameP->unk_8AC[1] = 0;
-            watchGameP->unk_8AC[0] = 0;
+            watchGameP->eep_rom_flg = true;
+            watchGameP->vs_win_count[1] = 0;
+            watchGameP->vs_win_count[0] = 0;
             break;
 
         case ENUM_EVS_GAMESEL_3:
             if (evs_story_flg == 0) {
                 switch (evs_gamemode) {
                     case GMD_NORMAL:
-                        dm_vscom_set(evs_select_name_no[0], watchGameP->unk_8AC[0], watchGameP->unk_8AC[1]);
+                        dm_vscom_set(evs_select_name_no[0], watchGameP->vs_win_count[0], watchGameP->vs_win_count[1]);
                         break;
 
                     case GMD_FLASH:
-                        dm_vc_fl_set(evs_select_name_no[0], watchGameP->unk_8AC[0], watchGameP->unk_8AC[1]);
+                        dm_vc_fl_set(evs_select_name_no[0], watchGameP->vs_win_count[0], watchGameP->vs_win_count[1]);
                         break;
 
                     default:
                         break;
                 }
-                watchGameP->unk_3B0 = 1;
-                watchGameP->unk_8AC[1] = 0;
-                watchGameP->unk_8AC[0] = 0;
+                watchGameP->eep_rom_flg = true;
+                watchGameP->vs_win_count[1] = 0;
+                watchGameP->vs_win_count[0] = 0;
             } else {
                 struct_evs_mem_data *temp_a0 = &evs_mem_data[evs_select_name_no[0]];
                 struct_evs_mem_data_config *temp = &temp_a0->config;
@@ -3036,7 +3065,7 @@ void dm_save_all(void) {
                 dm_story_sort_set(evs_select_name_no[0], temp_s1, evs_story_level, game_state_ptr->game_score,
                                   evs_game_time, var_s0_2, evs_one_game_flg);
 
-                watchGameP->unk_3B0 = 1;
+                watchGameP->eep_rom_flg = true;
             }
             break;
 
@@ -3072,7 +3101,7 @@ void dm_save_all(void) {
                 default:
                     break;
             }
-            watchGameP->unk_3B0 = 1;
+            watchGameP->eep_rom_flg = true;
             break;
 
         default:
@@ -3086,7 +3115,7 @@ void dm_query_pause_player(struct_game_state_data *arg0) {
     struct_watchGame *watchGameP = watchGame;
     u16 btn = gControllerPressedButtons[main_joy[arg0->player_no]];
 
-    if (watchGameP->unk_9C4 >= 0) {
+    if (watchGameP->query_pause_player_no >= 0) {
         return;
     }
 
@@ -3096,7 +3125,7 @@ void dm_query_pause_player(struct_game_state_data *arg0) {
             break;
 
         case dm_cnd_lose:
-            if (watchGameP->unk_000 == 0) {
+            if (!watchGameP->replayFlag) {
                 return;
             }
 
@@ -3110,13 +3139,13 @@ void dm_query_pause_player(struct_game_state_data *arg0) {
     }
 
     if ((arg0->cnd_now != dm_cnd_init) && (arg0->player_type == PLAYERTYPE_0)) {
-        if (watchGameP->unk_000 == 0) {
+        if (!watchGameP->replayFlag) {
             if (btn & START_BUTTON) {
-                watchGameP->unk_9C0 = 1;
-                watchGameP->unk_9C4 = arg0->player_no;
+                watchGameP->query_play_pause_se = true;
+                watchGameP->query_pause_player_no = arg0->player_no;
             }
         } else if (btn & ANY_BUTTON) {
-            watchGameP->unk_9C4 = arg0->player_no;
+            watchGameP->query_pause_player_no = arg0->player_no;
         }
     }
 }
@@ -3132,7 +3161,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
 
     dm_query_pause_player(gameStateData);
     animeState_update(&gameStateData->anime);
-    scoreNums_update(&watchGameP->unk_0B8[arg2]);
+    scoreNums_update(&watchGameP->scoreNums[arg2]);
     if ((evs_gamemode == GMD_TIME_ATTACK) && (evs_game_time >= 10800) && (gameStateData->cnd_static == dm_cnd_wait)) {
         return -1;
     }
@@ -3159,14 +3188,14 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
 
         case dm_mode_down_wait:
             if (dm_check_game_over(gameStateData, mapCells)) {
-                for (var_s0 = 0; var_s0 < 3; var_s0++) {
-                    if (watchGameP->animeStates[var_s0].animeSeq.animeNo != ANIMENO_4) {
-                        animeState_set(&watchGameP->animeStates[var_s0], ANIMENO_3);
+                for (var_s0 = 0; var_s0 < ANIMES_COUNT; var_s0++) {
+                    if (watchGameP->virus_anime_state[var_s0].animeSeq.animeNo != ANIMENO_4) {
+                        animeState_set(&watchGameP->virus_anime_state[var_s0], ANIMENO_3);
                     }
                 }
 
                 if (evs_gamemode == GMD_TaiQ) {
-                    watchGameP->unk_410 = 0;
+                    watchGameP->big_virus_stop_count = 0;
                 }
                 return -1;
             }
@@ -3191,18 +3220,18 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                 dm_w_ball_chack(mapCells);
 
                 var_s0 = gameStateData->virus_number;
-                var_s0 -= get_virus_color_count(mapCells, watchGameP->unk_418, &watchGameP->unk_418[1],
-                                                &watchGameP->unk_418[2]);
+                var_s0 -= get_virus_color_count(mapCells, &watchGameP->big_virus_count[0],
+                                                &watchGameP->big_virus_count[1], &watchGameP->big_virus_count[2]);
                 gameStateData->virus_number -= var_s0;
 
                 gameStateData->total_erase_count += var_s0;
 
-                for (var_s0 = 0; var_s0 < 3; var_s0++) {
-                    if (watchGameP->unk_418[var_s0] == 0) {
-                        if (watchGameP->unk_400[var_s0] == 0) {
-                            watchGameP->unk_400[var_s0] = 1;
-                            animeState_set(&watchGameP->animeStates[var_s0], ANIMENO_4);
-                            animeSmog_start(&watchGameP->animeSmogs[var_s0]);
+                for (var_s0 = 0; var_s0 < ANIMES_COUNT; var_s0++) {
+                    if (watchGameP->big_virus_count[var_s0] == 0) {
+                        if (!watchGameP->big_virus_flg[var_s0]) {
+                            watchGameP->big_virus_flg[var_s0] = true;
+                            animeState_set(&watchGameP->virus_anime_state[var_s0], ANIMENO_4);
+                            animeSmog_start(&watchGameP->virus_smog_state[var_s0]);
                             if (gameStateData->virus_number != 0) {
                                 dm_snd_play_in_game(SND_INDEX_74);
                                 dm_snd_play_in_game(SND_INDEX_57);
@@ -3210,8 +3239,8 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                         }
                     } else {
                         if (gameStateData->chain_color[3] & (0x10 << var_s0)) {
-                            if (watchGameP->unk_410 == 0) {
-                                animeState_set(&watchGameP->animeStates[var_s0], ANIMENO_2);
+                            if (watchGameP->big_virus_stop_count == 0) {
+                                animeState_set(&watchGameP->virus_anime_state[var_s0], ANIMENO_2);
                                 dm_snd_play_in_game(SND_INDEX_74);
                             }
                         }
@@ -3221,7 +3250,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                 gameStateData->chain_color[3] &= 0xF;
 
                 dm_calc_erase_score_pos(gameStateData, mapCells, &sp28);
-                scoreNums_set(&watchGameP->unk_0B8[arg2], dm_make_score(gameStateData),
+                scoreNums_set(&watchGameP->scoreNums[arg2], dm_make_score(gameStateData),
                               gameStateData->erase_virus_count,
                               gameStateData->map_x + gameStateData->map_item_size / 2 + sp28.x,
                               gameStateData->map_y + gameStateData->map_item_size / 2 + sp28.y);
@@ -3236,13 +3265,13 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                 }
 
                 if ((gameStateData->virus_number < 4U) && (evs_gamemode != GMD_TaiQ)) {
-                    if (watchGameP->unk_3C0 == 0) {
-                        watchGameP->unk_3C0 = 1;
+                    if (!watchGameP->last_3_se_flg) {
+                        watchGameP->last_3_se_flg = true;
                         dm_snd_play_in_game(SND_INDEX_80);
                     }
-                    if (watchGameP->unk_3B4 == 0) {
-                        watchGameP->unk_3B4 = 1;
-                        watchGameP->unk_3B8 = 1;
+                    if (!watchGameP->bgm_bpm_flg[0]) {
+                        watchGameP->bgm_bpm_flg[0] = true;
+                        watchGameP->bgm_bpm_flg[1] = true;
                     }
                 }
 
@@ -3276,7 +3305,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
         case dm_mode_cap_set:
             add_taiQ_bonus_wait(gameStateData);
 
-            if ((watchGameP->unk_9BC != 0) && (watchGameP->unk_410 == 0)) {
+            if (watchGameP->bottom_up_flag && (watchGameP->big_virus_stop_count == 0)) {
                 gameStateData->bottom_up_scroll = 0;
                 gameStateData->mode_now = dm_mode_bottom_up;
                 set_bottom_up_virus(gameStateData, mapCells);
@@ -3320,26 +3349,27 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
             gameStateData->bottom_up_scroll++;
             if (gameStateData->bottom_up_scroll >= gameStateData->map_item_size) {
                 gameStateData->bottom_up_scroll = 0;
-                watchGameP->unk_9BC = 0;
+                watchGameP->bottom_up_flag = false;
 
-                watchGameP->unk_3C8 =
-                    MAX(_big_virus_min_wait[gameStateData->game_level], watchGameP->unk_3C8 - DOUBLE_LITERAL(0.5));
+                watchGameP->big_virus_wait = MAX(_big_virus_min_wait[gameStateData->game_level],
+                                                 watchGameP->big_virus_wait - DOUBLE_LITERAL(0.5));
 
                 gameStateData->mode_now = dm_mode_ball_down;
                 if (bottom_up_bottle_items(mapCells)) {
                     return -1;
                 }
 
-                gameStateData->virus_number = get_virus_color_count(mapCells, watchGameP->unk_418,
-                                                                    &watchGameP->unk_418[1], &watchGameP->unk_418[2]);
+                gameStateData->virus_number =
+                    get_virus_color_count(mapCells, watchGameP->big_virus_count, &watchGameP->big_virus_count[1],
+                                          &watchGameP->big_virus_count[2]);
 
-                for (var_s0 = 0; var_s0 < 3; var_s0++) {
-                    if ((watchGameP->unk_418[var_s0] != 0) && (watchGameP->unk_400[var_s0] != 0)) {
-                        animeState_set(&watchGameP->animeStates[var_s0], ANIMENO_0);
-                        animeSmog_start(&watchGameP->animeSmogs[var_s0]);
-                        watchGameP->unk_400[var_s0] = 0;
-                    } else if (watchGameP->animeStates[var_s0].animeSeq.animeNo == ANIMENO_3) {
-                        animeState_set(&watchGameP->animeStates[var_s0], ANIMENO_0);
+                for (var_s0 = 0; var_s0 < ANIMES_COUNT; var_s0++) {
+                    if ((watchGameP->big_virus_count[var_s0] != 0) && watchGameP->big_virus_flg[var_s0]) {
+                        animeState_set(&watchGameP->virus_anime_state[var_s0], ANIMENO_0);
+                        animeSmog_start(&watchGameP->virus_smog_state[var_s0]);
+                        watchGameP->big_virus_flg[var_s0] = false;
+                    } else if (watchGameP->virus_anime_state[var_s0].animeSeq.animeNo == ANIMENO_3) {
+                        animeState_set(&watchGameP->virus_anime_state[var_s0], ANIMENO_0);
                     }
                 }
             }
@@ -3378,14 +3408,14 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
         case dm_mode_clear_result:
         case dm_mode_gover_result:
             if (gControllerPressedButtons[main_joy[arg2]] & ANY_BUTTON) {
-                timeAttackResult_skip(&watchGameP->unk_9D0[arg2]);
+                timeAttackResult_skip(&watchGameP->timeAttackResult[arg2]);
             }
 
-            timeAttackResult_update(&watchGameP->unk_9D0[arg2], true);
+            timeAttackResult_update(&watchGameP->timeAttackResult[arg2], true);
 
-            dm_add_score(gameStateData, watchGameP->unk_9D0[arg2].scoreDelta);
-            watchGameP->unk_9D0[arg2].scoreDelta = 0;
-            if (timeAttackResult_isEnd(&watchGameP->unk_9D0[arg2])) {
+            dm_add_score(gameStateData, watchGameP->timeAttackResult[arg2].scoreDelta);
+            watchGameP->timeAttackResult[arg2].scoreDelta = 0;
+            if (timeAttackResult_isEnd(&watchGameP->timeAttackResult[arg2])) {
                 switch (gameStateData->mode_now) {
                     case dm_mode_clear_result:
                         gameStateData->cnd_now = dm_cnd_stage_clear;
@@ -3416,7 +3446,7 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
             }
 
             var_s0 = (Z_TRIG | L_JPAD | L_TRIG | R_TRIG);
-            if ((watchGameP->unk_AA8 < 0) && CHECK_FLAG_ALL(gControllerHoldButtons[main_joy[0]], var_s0)) {
+            if ((watchGameP->passAlphaStep < 0) && CHECK_FLAG_ALL(gControllerHoldButtons[main_joy[0]], var_s0)) {
                 switch (evs_gamemode) {
                     case GMD_NORMAL:
                         var_s1 = 0;
@@ -3443,22 +3473,22 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     var_t2 = evs_mem_data[evs_select_name_no[0]].mem_name;
                 }
 
-                if (watchGameP->password[0] == 0) {
-                    func_8007E760(watchGameP->password, var_s1, var_s2, gameStateData->cap_def_speed,
+                if (watchGameP->passBuf[0] == 0) {
+                    func_8007E760(watchGameP->passBuf, var_s1, var_s2, gameStateData->cap_def_speed,
                                   gameStateData->game_score / 10, evs_game_time / 6, var_t2);
 
                     // Write MSG_END
-                    watchGameP->password[ARRAY_COUNT(watchGameP->password) - 2] = '~';
-                    watchGameP->password[ARRAY_COUNT(watchGameP->password) - 1] = 'z';
+                    watchGameP->passBuf[ARRAY_COUNT(watchGameP->passBuf) - 2] = '~';
+                    watchGameP->passBuf[ARRAY_COUNT(watchGameP->passBuf) - 1] = 'z';
                 }
-                msgWnd_clear(&watchGameP->unk_A28);
-                msgWnd_addStr(&watchGameP->unk_A28, _mesPassword);
-                msgWnd_addStr(&watchGameP->unk_A28, watchGameP->password);
-                msgWnd_skip(&watchGameP->unk_A28);
-                watchGameP->unk_AA8 = -watchGameP->unk_AA8;
+                msgWnd_clear(&watchGameP->passWnd);
+                msgWnd_addStr(&watchGameP->passWnd, _mesPassword);
+                msgWnd_addStr(&watchGameP->passWnd, watchGameP->passBuf);
+                msgWnd_skip(&watchGameP->passWnd);
+                watchGameP->passAlphaStep = -watchGameP->passAlphaStep;
             } else {
-                if ((gControllerPressedButtons[main_joy[0]] != 0) && (watchGameP->unk_AA8 > 0)) {
-                    watchGameP->unk_AA8 = -watchGameP->unk_AA8;
+                if ((gControllerPressedButtons[main_joy[0]] != 0) && (watchGameP->passAlphaStep > 0)) {
+                    watchGameP->passAlphaStep = -watchGameP->passAlphaStep;
                 }
 
                 switch (retryMenu_input(arg2)) {
@@ -3478,8 +3508,8 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                             gameStateData->game_retry++;
                         }
 
-                        if ((gameStateData->virus_level >= 0x16U) && (watchGameP->unk_378 > 0)) {
-                            watchGameP->unk_378--;
+                        if ((gameStateData->virus_level >= 0x16U) && (watchGameP->retry_coin > 0)) {
+                            watchGameP->retry_coin--;
                             dm_snd_play_in_game(SND_INDEX_78);
                         } else {
                             dm_snd_play_in_game(SND_INDEX_62);
@@ -3499,8 +3529,8 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
         case dm_mode_pause_retry:
             switch (retryMenu_input(arg2)) {
                 case ETC_PART_INDEX_GRAPHBIN_0:
-                    if (watchGameP->unk_9C4 < 0) {
-                        watchGameP->unk_9C4 = arg2;
+                    if (watchGameP->query_pause_player_no < 0) {
+                        watchGameP->query_pause_player_no = arg2;
                     }
                     dm_snd_play_in_game(SND_INDEX_62);
                     break;
@@ -3510,8 +3540,8 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                         gameStateData->game_retry = gameStateData->game_retry + 1;
                     }
 
-                    if ((gameStateData->virus_level >= 0x16U) && (watchGameP->unk_378 > 0)) {
-                        watchGameP->unk_378--;
+                    if ((gameStateData->virus_level >= 0x16U) && (watchGameP->retry_coin > 0)) {
+                        watchGameP->retry_coin--;
                         dm_snd_play_in_game(SND_INDEX_78);
                     } else {
                         dm_snd_play_in_game(SND_INDEX_62);
@@ -3547,7 +3577,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
 
     animeState_update(&gameStateDataRef->anime);
 
-    scoreNums_update(&temp_s1->unk_0B8[index]);
+    scoreNums_update(&temp_s1->scoreNums[index]);
 
     if ((gameStateDataRef->cnd_static != dm_cnd_wait) && (gameStateDataRef->cnd_static != dm_cnd_pause)) {
         dm_black_up(gameStateDataRef, mapCells);
@@ -3604,7 +3634,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
 
                 dm_calc_erase_score_pos(gameStateDataRef, mapCells, &sp20);
 
-                scoreNums_set(&temp_s1->unk_0B8[index], dm_make_score(gameStateDataRef),
+                scoreNums_set(&temp_s1->scoreNums[index], dm_make_score(gameStateDataRef),
                               gameStateDataRef->erase_virus_count,
                               gameStateDataRef->map_x + gameStateDataRef->map_item_size / 2 + sp20.x,
                               gameStateDataRef->map_y + gameStateDataRef->map_item_size / 2 + sp20.y);
@@ -3615,14 +3645,14 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                     }
                     return 6;
                 }
-                if (temp_s1->unk_3BC >= gameStateDataRef->virus_number) {
-                    if (temp_s1->unk_3C0 == 0) {
-                        temp_s1->unk_3C0 = 1;
+                if (temp_s1->last_3_se_cnt >= gameStateDataRef->virus_number) {
+                    if (!temp_s1->last_3_se_flg) {
+                        temp_s1->last_3_se_flg = true;
                         dm_snd_play_in_game(SND_INDEX_80);
                     }
-                    if (temp_s1->unk_3B4 == 0) {
-                        temp_s1->unk_3B4 = 1;
-                        temp_s1->unk_3B8 = 1;
+                    if (!temp_s1->bgm_bpm_flg[0]) {
+                        temp_s1->bgm_bpm_flg[0] = true;
+                        temp_s1->bgm_bpm_flg[1] = true;
                     }
                 }
                 gameStateDataRef->chain_count++;
@@ -3784,12 +3814,12 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
         case dm_mode_gover_result:
         case dm_mode_retire_result:
             if (gControllerPressedButtons[main_joy[index]] & ANY_BUTTON) {
-                timeAttackResult_skip(&temp_s1->unk_9D0[index]);
+                timeAttackResult_skip(&temp_s1->timeAttackResult[index]);
             }
 
-            timeAttackResult_update(&temp_s1->unk_9D0[index], true);
-            dm_add_score(gameStateDataRef, temp_s1->unk_9D0[index].scoreDelta);
-            temp_s1->unk_9D0[index].scoreDelta = 0;
+            timeAttackResult_update(&temp_s1->timeAttackResult[index], true);
+            dm_add_score(gameStateDataRef, temp_s1->timeAttackResult[index].scoreDelta);
+            temp_s1->timeAttackResult[index].scoreDelta = 0;
             break;
 
         case dm_mode_win_retry:
@@ -3850,7 +3880,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             break;
 
         case dm_mode_tr_chaeck:
-            if ((button & START_BUTTON) && (temp_s1->unk_000 == 0)) {
+            if ((button & START_BUTTON) && !temp_s1->replayFlag) {
                 return 7;
             }
             break;
@@ -3956,8 +3986,8 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
         case dm_mode_pause_retry:
             switch (retryMenu_input(index)) {
                 case ETC_PART_INDEX_GRAPHBIN_0:
-                    if (temp_s1->unk_9C4 < 0) {
-                        temp_s1->unk_9C4 = index;
+                    if (temp_s1->query_pause_player_no < 0) {
+                        temp_s1->query_pause_player_no = index;
                     }
                     dm_snd_play_in_game(SND_INDEX_62);
                     break;
@@ -3998,10 +4028,10 @@ void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1) {
     if (evs_gamesel == ENUM_EVS_GAMESEL_0) {
         gameStateData->mode_now = dm_mode_pause_retry;
         gameStateData->cnd_now = dm_cnd_pause_re;
-        if ((gameStateData->virus_level < 0x16) || (temp_s3->unk_378 > 0)) {
-            retryMenu_init(0, 1);
+        if ((gameStateData->virus_level < 0x16) || (temp_s3->retry_coin > 0)) {
+            retryMenu_init(0, RETRYTYPE_1);
         } else {
-            retryMenu_init(0, 0);
+            retryMenu_init(0, RETRYTYPE_0);
         }
     } else if (temp_s1 == arg1) {
         gameStateData->mode_now = dm_mode_pause_retry;
@@ -4009,12 +4039,12 @@ void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1) {
         if (evs_story_flg != 0) {
             gameStateData->cnd_now = dm_cnd_pause_re_sc;
             if (evs_story_no == 9) {
-                retryMenu_init(temp_s1, 1);
+                retryMenu_init(temp_s1, RETRYTYPE_1);
             } else {
-                retryMenu_init(temp_s1, 1);
+                retryMenu_init(temp_s1, RETRYTYPE_1);
             }
         } else {
-            retryMenu_init(temp_s1, 1);
+            retryMenu_init(temp_s1, RETRYTYPE_1);
         }
     } else {
         func_8006417C(temp_s1);
@@ -4034,19 +4064,19 @@ void func_80066808(struct_game_state_data *gameStateData) {
 
 void dm_set_pause_and_volume(struct_game_state_data **gameStateDataP, s32 arg1) {
     struct_watchGame *watchGameP = watchGame;
-    s32 var_s2 = watchGameP->unk_9C4;
+    s32 var_s2 = watchGameP->query_pause_player_no;
     struct_game_state_data *temp_a1;
     SndIndex var_s4;
     s32 i;
 
-    if (watchGameP->unk_9C0 != 0) {
+    if (watchGameP->query_play_pause_se) {
         var_s4 = SND_INDEX_60;
     } else {
         var_s4 = SND_INDEX_INVALID;
     }
 
-    watchGameP->unk_9C4 = -1;
-    watchGameP->unk_9C0 = 0;
+    watchGameP->query_pause_player_no = -1;
+    watchGameP->query_play_pause_se = false;
     if (var_s2 < 0) {
         return;
     }
@@ -4054,7 +4084,7 @@ void dm_set_pause_and_volume(struct_game_state_data **gameStateDataP, s32 arg1) 
     temp_a1 = gameStateDataP[var_s2];
     if (temp_a1->cnd_static == dm_cnd_wait) {
         dm_seq_set_volume(0x40);
-        if (watchGameP->unk_000 == 0) {
+        if (!watchGameP->replayFlag) {
             for (i = 0; i < arg1; i++) {
                 dm_set_pause_on(gameStateDataP[i], var_s2);
             }
@@ -4068,7 +4098,7 @@ void dm_set_pause_and_volume(struct_game_state_data **gameStateDataP, s32 arg1) 
             func_80066808(gameStateDataP[i]);
         }
         var_s2 = -1;
-    } else if ((watchGameP->unk_000 != 0) && (temp_a1->cnd_now == dm_cnd_tr_chack)) {
+    } else if (watchGameP->replayFlag && (temp_a1->cnd_now == dm_cnd_tr_chack)) {
         dm_seq_set_volume(0x40);
         resume_game_state(1);
     }
@@ -4097,52 +4127,52 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
     s32 i;
     s32 var_s1;
 
-    for (i = 0; i < ARRAY_COUNT(watchGameP->unk_3F4); i++) {
-        SAnimeState *temp = &watchGameP->animeStates[i];
+    for (i = 0; i < ARRAY_COUNT(watchGameP->big_virus_scale); i++) {
+        SAnimeState *temp = &watchGameP->virus_anime_state[i];
         f32 var_fv0 = 1.0f;
 
         if ((temp->animeSeq.animeNo == ANIMENO_4) && (temp->frameCount >= 90)) {
             var_fv0 = -1.0f;
         }
 
-        watchGameP->unk_3F4[i] = CLAMP(watchGameP->unk_3F4[i] + var_fv0 / DOUBLE_LITERAL(60), 0, 1);
+        watchGameP->big_virus_scale[i] = CLAMP(watchGameP->big_virus_scale[i] + var_fv0 / DOUBLE_LITERAL(60), 0, 1);
     }
 
     do {
         s32 var_a2 = 0x7F;
 
         for (i = 0; i < ARRAY_COUNTU(_tbl_2997); i++) {
-            if (watchGameP->unk_410 < _tbl_2997[i][0]) {
-                var_a2 = _clr_3004[(watchGameP->unk_410 / _tbl_2997[i][1]) % ARRAY_COUNTU(_clr_3004)];
+            if (watchGameP->big_virus_stop_count < _tbl_2997[i][0]) {
+                var_a2 = _clr_3004[(watchGameP->big_virus_stop_count / _tbl_2997[i][1]) % ARRAY_COUNTU(_clr_3004)];
                 break;
             }
         }
 
-        for (i = 0; i < ARRAY_COUNT(watchGameP->animeStates); i++) {
-            SAnimeState *temp = &watchGameP->animeStates[i];
+        for (i = 0; i < ARRAY_COUNT(watchGameP->virus_anime_state); i++) {
+            SAnimeState *temp = &watchGameP->virus_anime_state[i];
 
             temp->primColor[0] = temp->primColor[1] = temp->primColor[2] = var_a2;
         }
 
-        watchGameP->unk_414 += 1;
+        watchGameP->big_virus_blink_count++;
     } while (0);
 
     if (arg0->cnd_static != dm_cnd_wait) {
         return;
     }
 
-    if (watchGameP->unk_410 > 0) {
-        if (watchGameP->unk_40C != 0) {
-            watchGameP->unk_410 = 0;
-            watchGameP->unk_40C = 0;
+    if (watchGameP->big_virus_stop_count > 0) {
+        if (watchGameP->big_virus_no_wait) {
+            watchGameP->big_virus_stop_count = 0;
+            watchGameP->big_virus_no_wait = false;
         } else {
-            watchGameP->unk_410--;
+            watchGameP->big_virus_stop_count--;
         }
     }
 
     var_s1 = 0;
-    for (i = 0; i < ARRAY_COUNT(watchGameP->animeStates); i++) {
-        SAnimeState *temp = &watchGameP->animeStates[i];
+    for (i = 0; i < ARRAY_COUNT(watchGameP->virus_anime_state); i++) {
+        SAnimeState *temp = &watchGameP->virus_anime_state[i];
 
         switch ((s32)temp->animeSeq.animeNo) {
             case ANIMENO_4:
@@ -4169,21 +4199,21 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
         }
     }
 
-    if (watchGameP->unk_410 > 0) {
+    if (watchGameP->big_virus_stop_count > 0) {
         var_s1 += 1;
     }
 
     if (var_s1 == 0) {
-        if (watchGameP->unk_3C4 != 0) {
+        if (watchGameP->started_game_flg) {
             s32 var_s6 = -1;
             s32 var_s5 = 0;
 
-            for (i = 0; i < ARRAY_COUNT(watchGameP->unk_3E8); i++) {
-                SAnimeState *temp = &watchGameP->animeStates[i];
+            for (i = 0; i < ARRAY_COUNT(watchGameP->big_virus_rot); i++) {
+                SAnimeState *temp = &watchGameP->virus_anime_state[i];
 
-                if (watchGameP->unk_400[i] == 0) {
-                    if (var_s6 < watchGameP->unk_3E8[i]) {
-                        var_s6 = watchGameP->unk_3E8[i];
+                if (!watchGameP->big_virus_flg[i]) {
+                    if (var_s6 < watchGameP->big_virus_rot[i]) {
+                        var_s6 = watchGameP->big_virus_rot[i];
                     }
                 } else if (animeSeq_isEnd(&temp->animeSeq)) {
                     var_s5 += 1;
@@ -4191,40 +4221,42 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
             }
 
             if ((evs_gamemode == GMD_TaiQ) && (var_s5 == 3)) {
-                for (i = 0; i < ARRAY_COUNT(watchGameP->unk_3E8); i++) {
-                    watchGameP->unk_3E8[i] = i * 0x78 + 1;
+                for (i = 0; i < ARRAY_COUNT(watchGameP->big_virus_rot); i++) {
+                    watchGameP->big_virus_rot[i] = i * (360 / ARRAY_COUNT(watchGameP->big_virus_rot)) + 1;
                 }
-                watchGameP->unk_9BC = 1;
-            } else if (watchGameP->unk_40C != 0) {
-                watchGameP->unk_3CC = watchGameP->unk_3C8 * (0x168 - var_s6);
-            } else if (watchGameP->unk_3CC < watchGameP->unk_3C8) {
-                watchGameP->unk_3CC += 1.0f;
+                watchGameP->bottom_up_flag = true;
+            } else if (watchGameP->big_virus_no_wait) {
+                watchGameP->big_virus_timer = watchGameP->big_virus_wait * (0x168 - var_s6);
+            } else if (watchGameP->big_virus_timer < watchGameP->big_virus_wait) {
+                watchGameP->big_virus_timer += 1.0f;
             }
         }
     }
 
-    if (watchGameP->unk_3CC >= watchGameP->unk_3C8) {
-        s32 var_v1_4 = watchGameP->unk_3CC / watchGameP->unk_3C8;
+    if (watchGameP->big_virus_timer >= watchGameP->big_virus_wait) {
+        s32 var_v1_4 = watchGameP->big_virus_timer / watchGameP->big_virus_wait;
 
         var_v1_4 = MIN(var_v1_4, 4);
 
-        watchGameP->unk_3CC -= watchGameP->unk_3C8 * var_v1_4;
-        for (i = 0; i < ARRAY_COUNT(watchGameP->unk_3E8); i++) {
-            watchGameP->unk_3E8[i] += var_v1_4;
-            if (watchGameP->unk_3E8[i] >= 360.0f) {
-                watchGameP->unk_3E8[i] -= 360.0f;
-                if ((watchGameP->unk_400[i] == 0) && (evs_gamemode == GMD_TaiQ)) {
-                    watchGameP->unk_9BC = 1;
-                    watchGameP->unk_3CC = 0;
-                    animeState_set(&watchGameP->animeStates[i], ANIMENO_3);
+        watchGameP->big_virus_timer -= watchGameP->big_virus_wait * var_v1_4;
+        for (i = 0; i < ARRAY_COUNT(watchGameP->big_virus_rot); i++) {
+            watchGameP->big_virus_rot[i] += var_v1_4;
+            if (watchGameP->big_virus_rot[i] >= 360.0f) {
+                watchGameP->big_virus_rot[i] -= 360.0f;
+                if (!watchGameP->big_virus_flg[i] && (evs_gamemode == GMD_TaiQ)) {
+                    watchGameP->bottom_up_flag = true;
+                    watchGameP->big_virus_timer = 0;
+                    animeState_set(&watchGameP->virus_anime_state[i], ANIMENO_3);
                 }
             }
         }
     }
 
-    for (i = 0; i < ARRAY_COUNT(watchGameP->unk_3E8); i++) {
-        watchGameP->unk_3D0[i][0] = sinf(watchGameP->unk_3E8[i] * DOUBLE_LITERAL(PI_D) / 180) * 20.0f + 61.0f;
-        watchGameP->unk_3D0[i][1] = cosf(watchGameP->unk_3E8[i] * DOUBLE_LITERAL(PI_D) / 180) * -20.0f + 171.0f;
+    for (i = 0; i < ARRAY_COUNT(watchGameP->big_virus_rot); i++) {
+        watchGameP->big_virus_pos[i][0] =
+            sinf(watchGameP->big_virus_rot[i] * DOUBLE_LITERAL(PI_D) / 180) * 20.0f + 61.0f;
+        watchGameP->big_virus_pos[i][1] =
+            cosf(watchGameP->big_virus_rot[i] * DOUBLE_LITERAL(PI_D) / 180) * -20.0f + 171.0f;
     }
 }
 
@@ -4236,12 +4268,12 @@ s32 dm_game_main_1p(void) {
     func_800669A0(gameStateData);
     temp_s3 = dm_game_main_cnt_1P(gameStateData, game_map_data[0], 0);
     dm_warning_h_line_se();
-    if (watchGameP->unk_410 == 0) {
+    if (watchGameP->big_virus_stop_count == 0) {
         s32 var_s2;
 
-        for (var_s2 = 0; var_s2 < 3; var_s2++) {
-            animeState_update(&watchGameP->animeStates[var_s2]);
-            animeSmog_update(&watchGameP->animeSmogs[var_s2]);
+        for (var_s2 = 0; var_s2 < ANIMES_COUNT; var_s2++) {
+            animeState_update(&watchGameP->virus_anime_state[var_s2]);
+            animeSmog_update(&watchGameP->virus_smog_state[var_s2]);
         }
     }
 
@@ -4249,9 +4281,9 @@ s32 dm_game_main_1p(void) {
     dm_play_count_down_se();
 
     if (temp_s3 == 3) {
-        if (watchGameP->unk_3AC < 0) {
+        if (watchGameP->count_down_ctrl < 0) {
             if (gameStateData->mode_now == dm_mode_wait) {
-                watchGameP->unk_3C4 = 1;
+                watchGameP->started_game_flg = true;
                 gameStateData->mode_now = dm_mode_throw;
                 animeState_set(&gameStateData->anime, ANIMENO_1);
                 start_replay_proc();
@@ -4262,7 +4294,7 @@ s32 dm_game_main_1p(void) {
 
         effectNextStage_init(gameStateData->player_no);
         dm_seq_play_in_game(SEQ_INDEX_14);
-        watchGameP->unk_3C4 = 0;
+        watchGameP->started_game_flg = false;
         gameStateData->cnd_static = dm_cnd_win;
 
         switch (evs_gamemode) {
@@ -4273,7 +4305,7 @@ s32 dm_game_main_1p(void) {
                 gameStateData->cnd_now = dm_cnd_clear_wait;
                 gameStateData->mode_now = dm_mode_clear_wait;
 
-                timeAttackResult_result(&watchGameP->unk_9D0[0], gameStateData->game_level, true,
+                timeAttackResult_result(&watchGameP->timeAttackResult[0], gameStateData->game_level, true,
                                         MAX(0, temp_v0 = 0x2A30 - evs_game_time), gameStateData->total_chain_count,
                                         gameStateData->total_erase_count, gameStateData->game_score);
             } break;
@@ -4286,11 +4318,11 @@ s32 dm_game_main_1p(void) {
 
         switch (evs_gamemode) {
             case GMD_TIME_ATTACK:
-                retryMenu_init(0, 3);
+                retryMenu_init(0, RETRYTYPE_3);
                 break;
 
             case GMD_NORMAL:
-                retryMenu_init(0, 5);
+                retryMenu_init(0, RETRYTYPE_5);
                 break;
 
             default:
@@ -4302,7 +4334,7 @@ s32 dm_game_main_1p(void) {
         switch (evs_gamemode) {
             case GMD_TIME_ATTACK:
                 temp_s1 = game_state_data[0].game_score;
-                game_state_data[0].game_score = watchGameP->unk_9D0[0].result;
+                game_state_data[0].game_score = watchGameP->timeAttackResult[0].result;
                 dm_save_all();
                 game_state_data[0].game_score = temp_s1;
                 break;
@@ -4324,20 +4356,20 @@ s32 dm_game_main_1p(void) {
             gameStateData->cnd_now = dm_cnd_gover_wait;
             gameStateData->mode_now = dm_mode_gover_wait;
 
-            timeAttackResult_result(&watchGameP->unk_9D0[0], gameStateData->game_level, false, 0,
+            timeAttackResult_result(&watchGameP->timeAttackResult[0], gameStateData->game_level, false, 0,
                                     gameStateData->total_chain_count, gameStateData->total_erase_count,
                                     gameStateData->game_score);
-            watchGameP->unk_3C4 = 0;
+            watchGameP->started_game_flg = false;
         } else {
             gameStateData->cnd_now = dm_cnd_game_over;
             gameStateData->mode_now = dm_mode_game_over;
-            watchGameP->unk_3C4 = 0;
+            watchGameP->started_game_flg = false;
         }
 
-        if ((gameStateData->virus_level < 0x16U) || ((watchGameP->unk_378 > 0))) {
-            retryMenu_init(0U, 3);
+        if ((gameStateData->virus_level < 0x16U) || ((watchGameP->retry_coin > 0))) {
+            retryMenu_init(0, RETRYTYPE_3);
         } else {
-            retryMenu_init(0U, 2);
+            retryMenu_init(0U, RETRYTYPE_2);
         }
 
         dm_save_all();
@@ -4369,7 +4401,7 @@ s32 dm_add_win_2p(struct_game_state_data *gameStateDataRef) {
     s32 var_s0;
     s32 var_t3;
 
-    watchGameP->unk_89C[temp_a3]++;
+    watchGameP->win_count[temp_a3]++;
 
     if (evs_story_flg != 0) {
         var_t3 = _posStStar[temp_a3][0];
@@ -4382,13 +4414,13 @@ s32 dm_add_win_2p(struct_game_state_data *gameStateDataRef) {
         }
     } else {
         var_t3 = _posP2StarX[temp_a3];
-        var_a3 = _posP2StarY[evs_vs_count - 1][watchGameP->unk_89C[temp_a3] - 1];
+        var_a3 = _posP2StarY[evs_vs_count - 1][watchGameP->win_count[temp_a3] - 1];
 
-        var_s0 = watchGameP->unk_89C[temp_a3] == evs_vs_count;
+        var_s0 = watchGameP->win_count[temp_a3] == evs_vs_count;
 
         if (var_s0 != 0) {
-            watchGameP->unk_8B4[temp_a3] = MIN(0x63, watchGameP->unk_8B4[temp_a3] + 1);
-            watchGameP->unk_8AC[temp_a3] = MIN(0x3E7, watchGameP->unk_8AC[temp_a3] + 1);
+            watchGameP->vs_win_total[temp_a3] = MIN(99, watchGameP->vs_win_total[temp_a3] + 1);
+            watchGameP->vs_win_count[temp_a3] = MIN(999, watchGameP->vs_win_count[temp_a3] + 1);
         }
 
         if ((evs_gamesel != ENUM_EVS_GAMESEL_3) || (gameStateDataRef->player_type == PLAYERTYPE_0)) {
@@ -4400,9 +4432,9 @@ s32 dm_add_win_2p(struct_game_state_data *gameStateDataRef) {
         }
     }
 
-    watchGameP->unk_00C[watchGameP->unk_06C] = var_t3;
-    watchGameP->unk_03C[watchGameP->unk_06C] = var_a3;
-    watchGameP->unk_06C += 1;
+    watchGameP->star_pos_x[watchGameP->star_count] = var_t3;
+    watchGameP->star_pos_y[watchGameP->star_count] = var_a3;
+    watchGameP->star_count++;
     dm_seq_play_in_game(var_t1);
     return var_s0;
 }
@@ -4422,13 +4454,13 @@ s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) 
         gameStateDataRef->mode_now = dm_mode_win_retry;
         if (evs_story_flg == 0) {
             if (arg1 != 0) {
-                retryMenu_init(temp_s1, 3);
+                retryMenu_init(temp_s1, RETRYTYPE_3);
             } else {
-                retryMenu_init(temp_s1, 5);
+                retryMenu_init(temp_s1, RETRYTYPE_5);
             }
         } else {
             gameStateDataRef->cnd_now = dm_cnd_win_retry_sc;
-            retryMenu_init(temp_s1, 5);
+            retryMenu_init(temp_s1, RETRYTYPE_5);
         }
     } else {
         gameStateDataRef->cnd_now = dm_cnd_win;
@@ -4454,15 +4486,15 @@ s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2)
         if (evs_story_flg != 0) {
             gameStateDataRef->cnd_now = dm_cnd_lose_retry_sc;
             if (evs_story_no != 9) {
-                retryMenu_init(temp_s1, 3);
+                retryMenu_init(temp_s1, RETRYTYPE_3);
             } else {
-                retryMenu_init(temp_s1, 3);
+                retryMenu_init(temp_s1, RETRYTYPE_3);
             }
         } else {
             if (arg1 != 0) {
-                retryMenu_init(temp_s1, 3);
+                retryMenu_init(temp_s1, RETRYTYPE_3);
             } else {
-                retryMenu_init(temp_s1, 5);
+                retryMenu_init(temp_s1, RETRYTYPE_5);
             }
         }
     } else {
@@ -4485,7 +4517,7 @@ s32 func_800675C8(struct_game_state_data *gameStateDataRef, s32 arg1) {
 
         gameStateDataRef->cnd_now = dm_cnd_draw_retry;
         gameStateDataRef->mode_now = dm_mode_draw_retry;
-        retryMenu_init(temp_s2, 5);
+        retryMenu_init(temp_s2, RETRYTYPE_5);
     } else {
         gameStateDataRef->cnd_now = dm_cnd_draw;
         gameStateDataRef->mode_now = dm_mode_draw;
@@ -4501,8 +4533,8 @@ s32 dm_set_time_attack_result_2p(struct_game_state_data **gameStateDataRefP) {
     s32 var_s5 = 0;
     s32 var_s3 = 0;
 
-    sp18[0] = watchGameP->unk_9D0[0].result;
-    sp18[1] = watchGameP->unk_9D0[1].result;
+    sp18[0] = watchGameP->timeAttackResult[0].result;
+    sp18[1] = watchGameP->timeAttackResult[1].result;
 
     for (i = 0; i < 2; i++) {
         if (sp18[i] > sp18[i ^ 1]) {
@@ -4563,7 +4595,7 @@ s32 dm_game_main_2p(void) {
     dm_play_count_down_se();
 
     if ((sp38[0] == 3) && (sp38[1] == sp38[0])) {
-        if (watchGameP->unk_3AC < 0) {
+        if (watchGameP->count_down_ctrl < 0) {
             for (i = 0; i < 2; i++) {
                 if (sp28[i]->mode_now != dm_mode_wait) {
                     break;
@@ -4571,7 +4603,7 @@ s32 dm_game_main_2p(void) {
             }
 
             if (i == 2) {
-                watchGameP->unk_3C4 = 1;
+                watchGameP->started_game_flg = true;
 
                 for (i = 0; i < 2; i++) {
                     sp28[i]->mode_now = dm_mode_down;
@@ -4594,7 +4626,7 @@ s32 dm_game_main_2p(void) {
                     sp28[i]->cnd_now = dm_cnd_clear_wait;
                     sp28[i]->cnd_static = dm_cnd_clear_wait;
 
-                    timeAttackResult_result(&watchGameP->unk_9D0[i], sp28[i]->game_level, true,
+                    timeAttackResult_result(&watchGameP->timeAttackResult[i], sp28[i]->game_level, true,
                                             0 > 0x2A30 - (s32)evs_game_time ? 0 : 0x2A30 - evs_game_time,
                                             sp28[i]->total_chain_count, sp28[i]->total_erase_count,
                                             sp28[i]->game_score);
@@ -4617,7 +4649,7 @@ s32 dm_game_main_2p(void) {
                         sp28[i]->cnd_static = dm_cnd_retire_wait;
                     }
 
-                    timeAttackResult_result(&watchGameP->unk_9D0[i], sp28[i]->game_level, false, 0,
+                    timeAttackResult_result(&watchGameP->timeAttackResult[i], sp28[i]->game_level, false, 0,
                                             sp28[i]->total_chain_count, sp28[i]->total_erase_count,
                                             sp28[i]->game_score);
                     _dm_seq_play_in_game(1, SEQ_INDEX_18);
@@ -4656,7 +4688,7 @@ s32 dm_game_main_2p(void) {
                 case dm_cnd_clear_result:
                 case dm_cnd_gover_result:
                 case dm_cnd_retire_result:
-                    if (timeAttackResult_isEnd(&watchGameP->unk_9D0[i])) {
+                    if (timeAttackResult_isEnd(&watchGameP->timeAttackResult[i])) {
                         var_s2_2 += 1;
                     }
                     break;
@@ -4761,7 +4793,7 @@ s32 dm_game_main_4p(void) {
     s32 var_s7;
 
     s32 var_a1_3;
-    s32 var_a1_4;
+    u32 var_a1_4;
 
     s32 var_a2_2;
     TeamNumber temp_a2_2;
@@ -4786,7 +4818,7 @@ s32 dm_game_main_4p(void) {
     dm_warning_h_line_se();
 
     if ((sp38[0] == 3) && (sp38[1] == sp38[0]) && (sp38[2] == sp38[1]) && (sp38[3] == sp38[2])) {
-        if (temp_s4->unk_3AC < 0) {
+        if (temp_s4->count_down_ctrl < 0) {
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
                 if (sp18[var_s0]->mode_now != dm_mode_wait) {
                     break;
@@ -4794,7 +4826,7 @@ s32 dm_game_main_4p(void) {
             }
 
             if (var_s0 == 4) {
-                temp_s4->unk_3C4 = 1;
+                temp_s4->started_game_flg = 1;
 
                 for (var_s0 = 0; var_s0 < 4; var_s0++) {
                     sp18[var_s0]->mode_now = dm_mode_down;
@@ -4873,12 +4905,13 @@ s32 dm_game_main_4p(void) {
             }
         }
 
-        if ((temp_s4->unk_8C0 == 0) && (var_t3 > 1)) {
+        if (!temp_s4->vs_4p_team_flg && (var_t3 > 1)) {
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
                 var_s2_2 = func_800675C8(sp18[var_s0], var_s2_2);
             }
             var_s5 = SEQ_INDEX_17;
-        } else if ((temp_s4->unk_8C0 != 0) && (var_a1_3 & temp_s4->unk_8C4) && (var_a1_3 & temp_s4->unk_8C8)) {
+        } else if (temp_s4->vs_4p_team_flg && (var_a1_3 & temp_s4->vs_4p_team_bits[0]) &&
+                   (var_a1_3 & temp_s4->vs_4p_team_bits[1])) {
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
                 var_s2_2 = func_800675C8(sp18[var_s0], var_s2_2);
             }
@@ -4891,24 +4924,24 @@ s32 dm_game_main_4p(void) {
                 }
 
                 temp_a2_2 = sp18[var_s0]->team_no;
-                temp_a3 = temp_s4->unk_89C[temp_a2_2];
+                temp_a3 = temp_s4->win_count[temp_a2_2];
                 if (evs_story_flg != 0) {
-                    temp_s4->unk_00C[temp_s4->unk_06C] = _posStP4StarX[var_s0];
-                    temp_s4->unk_03C[temp_s4->unk_06C] = 0xD;
-                } else if (temp_s4->unk_8C0 != 0) {
-                    temp_s4->unk_00C[temp_s4->unk_06C] = _posP4TeamStarX[evs_vs_count - 1][temp_a2_2][temp_a3];
-                    temp_s4->unk_03C[temp_s4->unk_06C] = 0xD;
+                    temp_s4->star_pos_x[temp_s4->star_count] = _posStP4StarX[var_s0];
+                    temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
+                } else if (temp_s4->vs_4p_team_flg) {
+                    temp_s4->star_pos_x[temp_s4->star_count] = _posP4TeamStarX[evs_vs_count - 1][temp_a2_2][temp_a3];
+                    temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
                 } else {
-                    temp_s4->unk_00C[temp_s4->unk_06C] = _posP4CharStarX[evs_vs_count - 1][temp_a2_2][temp_a3];
-                    temp_s4->unk_03C[temp_s4->unk_06C] = 0xD;
+                    temp_s4->star_pos_x[temp_s4->star_count] = _posP4CharStarX[evs_vs_count - 1][temp_a2_2][temp_a3];
+                    temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
                 }
 
-                temp_s4->unk_06C++;
+                temp_s4->star_count++;
 
-                temp_s4->unk_89C[temp_a2_2]++;
+                temp_s4->win_count[temp_a2_2]++;
                 if (evs_story_flg != 0) {
                     var_s3_2 = 1;
-                } else if (temp_s4->unk_89C[temp_a2_2] == evs_vs_count) {
+                } else if (temp_s4->win_count[temp_a2_2] == evs_vs_count) {
                     var_s3_2 = 1;
                     var_s5 = SEQ_INDEX_15;
                 }
@@ -4961,7 +4994,7 @@ s32 dm_game_main_4p(void) {
                 var_s2_2 = dm_set_win_2p(sp18[var_s0], var_s3_2, var_s2_2);
             }
             dm_seq_play_in_game(SEQ_INDEX_17);
-        } else if ((temp_s4->unk_8C0 == 0) && (var_a2_2 == 3)) {
+        } else if (!temp_s4->vs_4p_team_flg && (var_a2_2 == 3)) {
             s32 temp;
 
             var_s7 = 1;
@@ -4970,54 +5003,54 @@ s32 dm_game_main_4p(void) {
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
                 if (!sp18[var_s0]->flg_retire) {
                     temp_a2_3 = sp18[var_s0]->team_no;
-                    temp = temp_s4->unk_89C[temp_a2_3];
+                    temp = temp_s4->win_count[temp_a2_3];
 
                     if (evs_story_flg != 0) {
-                        temp_s4->unk_00C[temp_s4->unk_06C] = _posStP4StarX[var_s0];
-                        temp_s4->unk_03C[temp_s4->unk_06C] = 0xD;
+                        temp_s4->star_pos_x[temp_s4->star_count] = _posStP4StarX[var_s0];
+                        temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
                     } else {
-                        temp_s4->unk_00C[temp_s4->unk_06C] = _posP4CharStarX[evs_vs_count - 1][temp_a2_3][temp];
-                        temp_s4->unk_03C[temp_s4->unk_06C] = 0xD;
+                        temp_s4->star_pos_x[temp_s4->star_count] = _posP4CharStarX[evs_vs_count - 1][temp_a2_3][temp];
+                        temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
                     }
 
-                    temp_s4->unk_06C += 1;
-                    temp_s4->unk_89C[temp_a2_3]++;
+                    temp_s4->star_count++;
+                    temp_s4->win_count[temp_a2_3]++;
                     var_s6 = temp_a2_3;
                     if (evs_story_flg != 0) {
                         if (sp18[var_s0]->player_type != PLAYERTYPE_0) {
                             var_s5 = SEQ_INDEX_17;
                         }
                         var_s3_2 = 1;
-                    } else if (temp_s4->unk_89C[temp_a2_3] == evs_vs_count) {
+                    } else if (temp_s4->win_count[temp_a2_3] == evs_vs_count) {
                         var_s3_2 = 1;
                         var_s5 = SEQ_INDEX_15;
                     }
                     break;
                 }
             }
-        } else if (temp_s4->unk_8C0 != 0) {
-            if ((var_a1_4 & temp_s4->unk_8C4) == temp_s4->unk_8C4) {
+        } else if (temp_s4->vs_4p_team_flg) {
+            if ((var_a1_4 & temp_s4->vs_4p_team_bits[0]) == temp_s4->vs_4p_team_bits[0]) {
                 sp48 = 1;
                 var_s6 = 1;
                 var_s7 = 1;
-                sp4C = temp_s4->unk_89C[1];
-                temp_s4->unk_89C[1]++;
-            } else if ((var_a1_4 & temp_s4->unk_8C8) == temp_s4->unk_8C8) {
+                sp4C = temp_s4->win_count[1];
+                temp_s4->win_count[1]++;
+            } else if ((var_a1_4 & temp_s4->vs_4p_team_bits[1]) == temp_s4->vs_4p_team_bits[1]) {
                 sp48 = 0;
                 var_s6 = 0;
                 var_s7 = 1;
-                sp4C = temp_s4->unk_89C[0];
-                temp_s4->unk_89C[0]++;
+                sp4C = temp_s4->win_count[0];
+                temp_s4->win_count[0]++;
             }
 
             if (var_s7 != 0) {
-                temp_s4->unk_00C[temp_s4->unk_06C] = _posP4TeamStarX[evs_vs_count - 1][sp48][sp4C];
-                temp_s4->unk_03C[temp_s4->unk_06C] = 0xD;
-                temp_s4->unk_06C += 1;
+                temp_s4->star_pos_x[temp_s4->star_count] = _posP4TeamStarX[evs_vs_count - 1][sp48][sp4C];
+                temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
+                temp_s4->star_count++;
 
                 var_s5 = SEQ_INDEX_14;
                 for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                    if (temp_s4->unk_89C[var_s0] == evs_vs_count) {
+                    if (temp_s4->win_count[var_s0] == evs_vs_count) {
                         var_s3_2 = 1;
                         var_s5 = SEQ_INDEX_15;
                         break;
@@ -5056,9 +5089,9 @@ bool dm_game_demo_1p(void) {
 
     dm_warning_h_line_se();
 
-    for (i = 0; i < 3; i++) {
-        SAnimeState *animeState = &watchGameP->animeStates[i];
-        SAnimeSmog *animeSmog = &watchGameP->animeSmogs[i];
+    for (i = 0; i < ANIMES_COUNT; i++) {
+        SAnimeState *animeState = &watchGameP->virus_anime_state[i];
+        SAnimeSmog *animeSmog = &watchGameP->virus_smog_state[i];
 
         animeState_update(animeState);
         animeSmog_update(animeSmog);
@@ -5066,24 +5099,24 @@ bool dm_game_demo_1p(void) {
 
     dm_calc_big_virus_pos(game_state_data);
 
-    if ((temp_s4 == 3) && (watchGameP->unk_3AC < 0)) {
+    if ((temp_s4 == 3) && (watchGameP->count_down_ctrl < 0)) {
         game_state_data[0].mode_now = dm_mode_throw;
         animeState_set(&game_state_data[0].anime, ANIMENO_1);
         if ((game_state_data[0].player_type == PLAYERTYPE_1) || (aiDebugP1 >= 0)) {
             aifMakeFlagSet(game_state_data);
         }
 
-        watchGameP->unk_3C4 = 1;
+        watchGameP->started_game_flg = true;
     }
 
-    if (watchGameP->unk_41C != 0) {
-        watchGameP->unk_41C--;
+    if (watchGameP->demo_timer != 0) {
+        watchGameP->demo_timer--;
 
         if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
-            watchGameP->unk_41C = 0;
+            watchGameP->demo_timer = 0;
         }
 
-        if (watchGameP->unk_41C == 0) {
+        if (watchGameP->demo_timer == 0) {
             return true;
         }
     }
@@ -5102,7 +5135,7 @@ bool dm_game_demo_2p(void) {
 
     dm_warning_h_line_se();
 
-    if ((sp10[0] == 3) && (sp10[1] == sp10[0]) && (watchGameP->unk_3AC < 0)) {
+    if ((sp10[0] == 3) && (sp10[1] == sp10[0]) && (watchGameP->count_down_ctrl < 0)) {
         for (i = 0; i < ARRAY_COUNT(sp10); i++) {
             game_state_data[i].mode_now = dm_mode_down;
 
@@ -5112,16 +5145,16 @@ bool dm_game_demo_2p(void) {
             }
         }
 
-        watchGameP->unk_3C4 = 1;
+        watchGameP->started_game_flg = true;
     }
 
-    if (watchGameP->unk_41C != 0) {
-        watchGameP->unk_41C--;
+    if (watchGameP->demo_timer != 0) {
+        watchGameP->demo_timer--;
         if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
-            watchGameP->unk_41C = 0;
+            watchGameP->demo_timer = 0;
         }
 
-        if (watchGameP->unk_41C == 0) {
+        if (watchGameP->demo_timer == 0) {
             return true;
         }
     }
@@ -5141,7 +5174,7 @@ bool dm_game_demo_4p(void) {
     dm_warning_h_line_se();
 
     if ((sp10[0] == 3) && (sp10[1] == sp10[0]) && (sp10[2] == sp10[1]) && (sp10[3] == sp10[2]) &&
-        (watchGameP->unk_3AC < 0)) {
+        (watchGameP->count_down_ctrl < 0)) {
         for (i = 0; i < ARRAY_COUNT(sp10); i++) {
             game_state_data[i].mode_now = dm_mode_down;
 
@@ -5151,17 +5184,17 @@ bool dm_game_demo_4p(void) {
             }
         }
 
-        watchGameP->unk_3C4 = 1;
+        watchGameP->started_game_flg = true;
     }
 
-    if (watchGameP->unk_41C != 0) {
-        watchGameP->unk_41C--;
+    if (watchGameP->demo_timer != 0) {
+        watchGameP->demo_timer--;
 
         if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
-            watchGameP->unk_41C = 0;
+            watchGameP->demo_timer = 0;
         }
 
-        if (watchGameP->unk_41C == 0) {
+        if (watchGameP->demo_timer == 0) {
             return true;
         }
     }
@@ -5172,7 +5205,7 @@ bool dm_game_demo_4p(void) {
 const s32 cap_tex_4162[2] = { 8, 2 };
 
 TiTexData *dm_game_get_capsel_tex(s32 arg0) {
-    return &watchGame->unk_444[cap_tex_4162[arg0]];
+    return &watchGame->texItem[cap_tex_4162[arg0]];
 }
 
 const u32 cap_pal_4164[][6] = {
@@ -5181,14 +5214,14 @@ const u32 cap_pal_4164[][6] = {
 };
 
 TiTexData *dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
-    return &watchGame->unk_444[cap_pal_4164[arg0][arg1]];
+    return &watchGame->texItem[cap_pal_4164[arg0][arg1]];
 }
 
 void scoreNums_draw(ScoreNums *arg0, Gfx **gfxP) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexData *temp_s4 = &watchGameP->unk_430[0x11];
-    TiTexData *temp_s2 = &watchGameP->unk_430[0x16];
+    TiTexData *temp_s4 = &watchGameP->texAL[0x11];
+    TiTexData *temp_s2 = &watchGameP->texAL[0x16];
     s32 var_s3 = MIN(temp_s4->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
     s32 temp_s0 = temp_s4->info[TI_INFO_IDX_HEIGHT] / 12;
     s32 i;
@@ -5237,32 +5270,32 @@ void scoreNums_draw(ScoreNums *arg0, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-void func_80069160(struct_watchGame_unk_070 *arg0, UNK_TYPE *arg1, UNK_TYPE *arg2) {
+void func_80069160(StarForce *arg0, s32 arg1[], s32 arg2[]) {
     s32 i;
 
-    arg0->unk_00 = arg1;
-    arg0->unk_04 = arg2;
+    arg0->xtbl = arg1;
+    arg0->ytbl = arg2;
 
-    for (i = 0; i < ARRAY_COUNTU(arg0->unk_08); i++) {
-        arg0->unk_08[i] = 0;
+    for (i = 0; i < ARRAY_COUNTU(arg0->frame); i++) {
+        arg0->frame[i] = 0;
     }
 }
 
-void func_80069188(struct_watchGame_unk_070 *arg0, s32 arg1) {
+void func_80069188(StarForce *arg0, s32 arg1) {
     s32 i;
 
     for (i = 0; i < arg1; i++) {
-        s32 temp_a2 = arg0->unk_08[i];
+        s32 temp_a2 = arg0->frame[i];
 
         if (temp_a2 < 0x30) {
-            arg0->unk_08[i] = temp_a2 + 1;
+            arg0->frame[i] = temp_a2 + 1;
         } else {
-            arg0->unk_08[i] = WrapI(0x30, 0x6C, temp_a2 + 1);
+            arg0->frame[i] = WrapI(0x30, 0x6C, temp_a2 + 1);
         }
     }
 }
 
-void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
+void starForce_draw(StarForce *arg0, Gfx **gfxP, s32 arg2) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
     TiTexData *temp_s0;
@@ -5273,23 +5306,23 @@ void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
-    temp_s0 = &watchGameP->unk_430[0x10];
-    temp_s5 = &watchGameP->unk_430[0x15];
+    temp_s0 = &watchGameP->texAL[0x10];
+    temp_s5 = &watchGameP->texAL[0x15];
 
     for (i = 0; i < arg2; i++) {
-        if (arg0->unk_08[i] < 0x30) {
+        if (arg0->frame[i] < 0x30) {
             gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 255);
 
-            tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, false, 0x10, 0, arg0->unk_00[i], arg0->unk_04[i],
+            tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, false, 0x10, 0, arg0->xtbl[i], arg0->ytbl[i],
                                   temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT] >> 4);
         }
 
-        var_a3 = MIN(255, arg0->unk_08[i] * 8);
+        var_a3 = MIN(255, arg0->frame[i] * 8);
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, var_a3);
 
-        var_a3 = MAX(0, arg0->unk_08[i] - 0x30) >> 2;
-        tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, false, 0x10, var_a3 + 1, arg0->unk_00[i], arg0->unk_04[i],
+        var_a3 = MAX(0, arg0->frame[i] - 0x30) >> 2;
+        tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, false, 0x10, var_a3 + 1, arg0->xtbl[i], arg0->ytbl[i],
                               temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT] >> 4);
     }
 
@@ -5300,14 +5333,14 @@ void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
     gDPSetTextureLUT(gfx++, G_TT_NONE);
 
     for (i = 0; i < arg2; i++) {
-        var_a3 = arg0->unk_08[i] >> 2;
+        var_a3 = arg0->frame[i] >> 2;
         if (var_a3 >= 0xC) {
             continue;
         }
-        temp_s0 = &watchGameP->unk_430[var_a3];
+        temp_s0 = &watchGameP->texAL[var_a3];
         StretchTexTile4i(&gfx, temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT],
                          temp_s0->texs[TI_TEX_TEX], 0, 0, temp_s0->info[TI_INFO_IDX_WIDTH],
-                         temp_s0->info[TI_INFO_IDX_HEIGHT], arg0->unk_00[i], arg0->unk_04[i],
+                         temp_s0->info[TI_INFO_IDX_HEIGHT], arg0->xtbl[i], arg0->ytbl[i],
                          temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT]);
     }
 
@@ -5317,8 +5350,8 @@ void starForce_draw(struct_watchGame_unk_070 *arg0, Gfx **gfxP, s32 arg2) {
 void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, bool cached) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexData *temp_a1 = &watchGameP->unk_430[0x10];
-    TiTexData *temp = &watchGameP->unk_430[0x15];
+    TiTexData *temp_a1 = &watchGameP->texAL[0x10];
+    TiTexData *temp = &watchGameP->texAL[0x15];
 
     if (!cached) {
         gSPDisplayList(gfx++, alpha_texture_init_dl);
@@ -5340,7 +5373,7 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
-    temp_t1 = &watchGameP->unk_440[9];
+    temp_t1 = &watchGameP->texP4[9];
     tiStretchTexItem(&gfx, temp_t1, 0, 4, arg2, arg3, arg4, temp_t1->info[TI_INFO_IDX_WIDTH],
                      temp_t1->info[TI_INFO_IDX_HEIGHT] / 4);
 
@@ -5353,8 +5386,8 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
         TeamNumber temp2 = game_state_data[(arg2 + 1 + var_a1) % 4].team_no;
 
         if (temp_a2 == temp2) {
-            temp_t1 = &watchGameP->unk_440[temp_a2 + 0x10];
-            temp = &watchGameP->unk_440[0x18];
+            temp_t1 = &watchGameP->texP4[temp_a2 + 0x10];
+            temp = &watchGameP->texP4[0x18];
             StretchAlphaTexBlock(&gfx, temp_t1->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT],
                                  temp_t1->texs[TI_TEX_TEX], temp_t1->info[TI_INFO_IDX_WIDTH], temp->texs[TI_TEX_TEX],
                                  temp->info[TI_INFO_IDX_WIDTH], temp_fs0, temp_fv1 + 1.0f,
@@ -5362,8 +5395,8 @@ void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 ar
         } else {
             s32 temp3;
 
-            temp_t1 = &watchGameP->unk_440[0xA];
-            temp = &watchGameP->unk_440[0x12];
+            temp_t1 = &watchGameP->texP4[0xA];
+            temp = &watchGameP->texP4[0x12];
 
             temp3 = _tbl_4274[arg1 - 1][(arg2 + var_a1 + 1) % ARRAY_COUNT(_tbl_4274[0])];
             tiStretchAlphaTexItem(&gfx, temp_t1, temp, false, 0xB, temp3, temp_fs0, temp_fv1,
@@ -5413,8 +5446,8 @@ const char _tbl_4345[] = { 9, 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
 void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 arg5 UNUSED) {
     struct_watchGame *watchGameP = watchGame;
-    TiTexData *temp_s5 = &watchGameP->unk_430[0xD];
-    TiTexData *temp_s3 = &watchGameP->unk_430[0x12];
+    TiTexData *temp_s5 = &watchGameP->texAL[0xD];
+    TiTexData *temp_s3 = &watchGameP->texAL[0x12];
     s32 var_t1 = 0;
     s32 var_s6 = MIN(temp_s5->info[TI_INFO_IDX_WIDTH], temp_s3->info[TI_INFO_IDX_WIDTH]);
     s32 temp_s1 = temp_s5->info[TI_INFO_IDX_HEIGHT] / 10;
@@ -5448,7 +5481,7 @@ const s32 _row_4375[] = { 0xD, 0xC, 0xC };
 
 void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 arg5) {
     struct_watchGame *watchGameP = watchGame;
-    TiTexData *temp_a1 = watchGameP->unk_438;
+    TiTexData *temp_a1 = watchGameP->texP1;
     TiTexData *temp_s5 = &temp_a1[_tex_4374[arg1]];
     TiTexData *temp_s2 = &temp_a1[7];
     s32 var_s7 = MIN(temp_s5->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
@@ -5532,7 +5565,7 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
     TiTexData *temp1;
     TiTexData *temp2;
 
-    alpha = sins((watchGameP->unk_424 << 10) & 0xFC00) * ((f32)0xFF / 0x8000) + 0x7F;
+    alpha = sins((watchGameP->blink_count << 10) & 0xFC00) * (255.0f / 0x8000) + 127;
     alpha = CLAMP(alpha, 0, 255);
 
     gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
@@ -5540,7 +5573,7 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
                       COMBINED);
     gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, alpha);
 
-    temp_a3 = watchGameP->unk_430;
+    temp_a3 = watchGameP->texAL;
     temp1 = &temp_a3[0x17];
     temp2 = &temp_a3[0x18];
 
@@ -5560,7 +5593,7 @@ void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     s32 alpha[3];
     s32 i;
 
-    alpha[0] = sins((watchGameP->unk_424 << 0xA) & 0xFC00) * (255.0f / 0x8000) + 127;
+    alpha[0] = sins((watchGameP->blink_count << 10) & 0xFC00) * (255.0f / 0x8000) + 127;
     alpha[0] = CLAMP(alpha[0], 0, 255);
     alpha[1] = 255 - alpha[0];
     alpha[2] = 255;
@@ -5579,8 +5612,8 @@ void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
             arg2 = 0x12;
         }
 
-        temp_t0 = &watchGameP->unk_430[_tex_4459[i][0]];
-        temp_t2 = &watchGameP->unk_430[_tex_4459[i][1]];
+        temp_t0 = &watchGameP->texAL[_tex_4459[i][0]];
+        temp_t2 = &watchGameP->texAL[_tex_4459[i][1]];
 
         var_a3 = MIN(temp_t0->info[TI_INFO_IDX_WIDTH], temp_t2->info[TI_INFO_IDX_WIDTH]);
         var_t1 = MIN(temp_t0->info[TI_INFO_IDX_HEIGHT], temp_t2->info[TI_INFO_IDX_HEIGHT]);
@@ -5602,7 +5635,7 @@ void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     s32 alpha[2];
     s32 i;
 
-    alpha[0] = sins((watchGameP->unk_424 << 0xA) & 0xFC00) * (255.0f / 0x8000) + 127;
+    alpha[0] = sins((watchGameP->blink_count << 10) & 0xFC00) * (255.0f / 0x8000) + 127;
     alpha[0] = CLAMP(alpha[0], 0, 255);
     alpha[1] = 255 - alpha[0];
 
@@ -5610,8 +5643,8 @@ void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
     for (i = 0; i < ARRAY_COUNTU(alpha); i++) {
-        TiTexData *temp_t0 = &watchGameP->unk_430[RO_800B2134[i][0]];
-        TiTexData *temp_t3 = &watchGameP->unk_430[RO_800B2134[i][1]];
+        TiTexData *temp_t0 = &watchGameP->texAL[RO_800B2134[i][0]];
+        TiTexData *temp_t3 = &watchGameP->texAL[RO_800B2134[i][1]];
         s32 var_t2 = MIN(temp_t0->info[TI_INFO_IDX_WIDTH], temp_t3->info[TI_INFO_IDX_WIDTH]);
         s32 var_t1 = MIN(temp_t0->info[TI_INFO_IDX_HEIGHT], temp_t3->info[TI_INFO_IDX_HEIGHT]);
 
@@ -5628,12 +5661,14 @@ void func_8006A938(s32 arg0) {
     struct_watchGame *watchGameP = watchGame;
     s32 i;
 
-    watchGame->unk_99C = arg0;
+    watchGame->coin_count = arg0;
+
+    //! @bug: Iterating past the end of the array
     for (i = 0; i < 4; i++) {
         if (i < arg0) {
-            watchGameP->unk_9A0[i] = 0;
+            watchGameP->coin_time[i] = 0;
         } else {
-            watchGameP->unk_9A0[i] = -1;
+            watchGameP->coin_time[i] = -1;
         }
     }
 }
@@ -5645,27 +5680,27 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
     TiTexData *temp_s2;
     s32 temp_s5;
 
-    if (watchGameP->unk_99C < arg1) {
-        for (i = watchGameP->unk_99C; i < arg1; i++) {
-            if (watchGameP->unk_9A0[i] == 0) {
-                watchGameP->unk_9A0[i] = 0;
-                watchGameP->unk_99C += 1;
-            } else if (watchGameP->unk_9A0[i] < 0) {
-                watchGameP->unk_9A0[i] = 0x1E;
+    if (watchGameP->coin_count < arg1) {
+        for (i = watchGameP->coin_count; i < arg1; i++) {
+            if (watchGameP->coin_time[i] == 0) {
+                watchGameP->coin_time[i] = 0;
+                watchGameP->coin_count += 1;
+            } else if (watchGameP->coin_time[i] < 0) {
+                watchGameP->coin_time[i] = 30;
             } else {
-                watchGameP->unk_9A0[i] = watchGameP->unk_9A0[i] - 1;
+                watchGameP->coin_time[i] = watchGameP->coin_time[i] - 1;
             }
         }
-    } else if (arg1 < watchGameP->unk_99C) {
-        for (i = watchGameP->unk_99C - 1; i >= arg1; i--) {
-            if (watchGameP->unk_9A0[i] >= 0x1E) {
-                watchGameP->unk_99C -= 1;
-                watchGameP->unk_9A0[i] = -1;
+    } else if (arg1 < watchGameP->coin_count) {
+        for (i = watchGameP->coin_count - 1; i >= arg1; i--) {
+            if (watchGameP->coin_time[i] >= 30) {
+                watchGameP->coin_count -= 1;
+                watchGameP->coin_time[i] = -1;
             } else {
-                watchGameP->unk_9A0[i] = watchGameP->unk_9A0[i] + 1;
+                watchGameP->coin_time[i] = watchGameP->coin_time[i] + 1;
             }
         }
-        arg1 = watchGameP->unk_99C;
+        arg1 = watchGameP->coin_count;
     }
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -5674,22 +5709,22 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
 
     gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, PRIMITIVE, 0, TEXEL0, 0, 0, 0, 0, TEXEL0, PRIMITIVE, 0, TEXEL0, 0);
 
-    temp_s2 = &watchGameP->unk_434[0x15];
+    temp_s2 = &watchGameP->texLS[0x15];
 
     temp_s5 = temp_s2->info[TI_INFO_IDX_WIDTH] >> 2;
     for (i = 0; i < arg1; i++) {
         f32 var_s4 = 0xED + i * 0x10;
-        f32 temp_ft0 = watchGameP->unk_9A0[i] - 0xF;
+        f32 temp_ft0 = watchGameP->coin_time[i] - 15;
         s32 alpha;
 
         temp_ft0 = SQ(temp_ft0) * DOUBLE_LITERAL(0.125) + DOUBLE_LITERAL(81) - DOUBLE_LITERAL(28.125);
-        alpha = 255 - watchGameP->unk_9A0[i] * 0xFF / 30;
+        alpha = 255 - watchGameP->coin_time[i] * 0xFF / 30;
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
 
         StretchTexTile4(&gfx, temp_s2->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_HEIGHT],
                         temp_s2->texs[TI_TEX_TLUT], temp_s2->texs[TI_TEX_TEX],
-                        temp_s5 * ((watchGameP->unk_9A0[i] >> 1) & 3), 0, temp_s5, temp_s2->info[TI_INFO_IDX_HEIGHT],
+                        temp_s5 * ((watchGameP->coin_time[i] >> 1) & 3), 0, temp_s5, temp_s2->info[TI_INFO_IDX_HEIGHT],
                         var_s4, temp_ft0, temp_s5, temp_s2->info[TI_INFO_IDX_HEIGHT]);
     }
 
@@ -5699,7 +5734,7 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
 void draw_flash_virus_light(Gfx **gfxP, bool cached, s32 arg2, s32 arg3, s32 arg4) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexData *ti = &watchGameP->unk_444[tbl_4589[(watchGameP->unk_424 >> 1) % ARRAY_COUNTU(tbl_4589)] + 0xC];
+    TiTexData *ti = &watchGameP->texItem[tbl_4589[(watchGameP->blink_count >> 1) % ARRAY_COUNTU(tbl_4589)] + 0xC];
 
     if (!cached) {
         gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -5759,8 +5794,8 @@ void func_8006AEFC(TimeAttackResult *arg0, Gfx **gfxP, s32 arg2, s32 arg3) {
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
 
-    temp_t3 = &watchGameP->unk_438[8];
-    temp = &watchGameP->unk_438[9];
+    temp_t3 = &watchGameP->texP1[8];
+    temp = &watchGameP->texP1[9];
 
     StretchAlphaTexTile(&gfx, temp_t3->info[TI_INFO_IDX_WIDTH], (s32)temp_t3->info[TI_INFO_IDX_HEIGHT],
                         temp_t3->texs[TI_TEX_TEX], temp_t3->info[TI_INFO_IDX_WIDTH], temp->texs[TI_TEX_TEX],
@@ -5782,16 +5817,16 @@ void draw_story_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     gSPDisplayList(gfx++, alpha_texture_init_dl);
 
     if (arg3 != 0) {
-        TiTexData *temp_t3 = &temp_s1->unk_43C[0x12];
-        TiTexData *temp_t1 = &temp_s1->unk_43C[0x13];
+        TiTexData *temp_t3 = &temp_s1->texP2[0x12];
+        TiTexData *temp_t1 = &temp_s1->texP2[0x13];
 
         StretchAlphaTexBlock(&gfx, temp_t3->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT],
                              temp_t3->texs[TI_TEX_TEX], temp_t3->info[TI_INFO_IDX_WIDTH], temp_t1->texs[TI_TEX_TEX],
                              temp_t1->info[TI_INFO_IDX_WIDTH], arg1 + 0x78, arg2 + 0xB,
                              temp_t3->info[TI_INFO_IDX_WIDTH], temp_t3->info[TI_INFO_IDX_HEIGHT]);
 
-        temp_t3 = &temp_s1->unk_43C[9];
-        tiStretchAlphaTexItem(&gfx, temp_t3, &temp_s1->unk_43C[2], false, 4, evs_story_level, arg1 + 0x8E, arg2 + 0x36,
+        temp_t3 = &temp_s1->texP2[9];
+        tiStretchAlphaTexItem(&gfx, temp_t3, &temp_s1->texP2[2], false, 4, evs_story_level, arg1 + 0x8E, arg2 + 0x36,
                               temp_t3->info[TI_INFO_IDX_WIDTH], temp_t3->info[TI_INFO_IDX_HEIGHT] >> 2);
     }
 
@@ -5821,15 +5856,15 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         switch (evs_gamemode) {
             case GMD_FLASH:
             case GMD_TIME_ATTACK:
-                temp_s1 = &temp_s6->unk_43C[0x10];
-                temp_s5 = &temp_s6->unk_43C[0x11];
+                temp_s1 = &temp_s6->texP2[0x10];
+                temp_s5 = &temp_s6->texP2[0x11];
                 StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
                                      temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
                                      temp_s5->texs[TI_TEX_TEX], temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x5F, arg2 + 9,
                                      temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
 
-                temp_s1 = &temp_s6->unk_43C[9];
-                temp_s5 = &temp_s6->unk_43C[2];
+                temp_s1 = &temp_s6->texP2[9];
+                temp_s5 = &temp_s6->texP2[2];
                 for (i = 0; i < 2; i++) {
                     tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, false, 4, game_state_data[i].game_level,
                                           arg1 + _x_4663[i], arg2 + 0xB, temp_s1->info[TI_INFO_IDX_WIDTH],
@@ -5838,8 +5873,8 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                 break;
 
             default:
-                temp_s1 = &temp_s6->unk_43C[0x14];
-                temp_s5 = &temp_s6->unk_43C[0x15];
+                temp_s1 = &temp_s6->texP2[0x14];
+                temp_s5 = &temp_s6->texP2[0x15];
                 StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
                                      temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
                                      temp_s5->texs[TI_TEX_TEX], temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x68, arg2 + 9,
@@ -5851,15 +5886,15 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
                 break;
         }
 
-        temp_s1 = &temp_s6->unk_43C[0xD];
-        temp_s5 = &temp_s6->unk_43C[6];
+        temp_s1 = &temp_s6->texP2[0xD];
+        temp_s5 = &temp_s6->texP2[6];
         StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
                              temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], temp_s5->texs[TI_TEX_TEX],
                              temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x68, (arg2 + 0x19),
                              temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
 
-        temp_s1 = &temp_s6->unk_43C[0xC];
-        temp_s5 = &temp_s6->unk_43C[5];
+        temp_s1 = &temp_s6->texP2[0xC];
+        temp_s5 = &temp_s6->texP2[5];
         for (i = 0; i < 2; i++) {
             tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, false, 3, 2 - game_state_data[i].cap_def_speed,
                                   arg1 + _x_4676[i], arg2 + 0x1B, temp_s1->info[TI_INFO_IDX_WIDTH],
@@ -5869,8 +5904,8 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
 
     if (evs_gamesel == ENUM_EVS_GAMESEL_3) {
         if (arg3 != 0) {
-            temp_s1 = &temp_s6->unk_43C[0xA];
-            temp_s5 = &temp_s6->unk_43C[3];
+            temp_s1 = &temp_s6->texP2[0xA];
+            temp_s5 = &temp_s6->texP2[3];
             StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
                                  temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], temp_s5->texs[TI_TEX_TEX],
                                  temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x70, arg2 + 0x29,
@@ -5882,8 +5917,8 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         }
     } else {
         if (arg3 != 0) {
-            temp_s1 = &temp_s6->unk_43C[0xB];
-            temp_s5 = &temp_s6->unk_43C[4];
+            temp_s1 = &temp_s6->texP2[0xB];
+            temp_s5 = &temp_s6->texP2[4];
             StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
                                  temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], temp_s5->texs[TI_TEX_TEX],
                                  temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x58, arg2 + 0x29,
@@ -5915,7 +5950,7 @@ void _draw_bottle_10(Gfx **gfxP, const s32 *arg1, const s32 *arg2, s32 arg3) {
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 192);
 
-    temp_s6 = &watchGameP->unk_438[1];
+    temp_s6 = &watchGameP->texP1[1];
     for (i = 0; i < temp_s6->info[TI_INFO_IDX_HEIGHT]; i += 0x2A) {
         for (j = 0; j < arg3; j++) {
             s32 var_t1;
@@ -5928,7 +5963,7 @@ void _draw_bottle_10(Gfx **gfxP, const s32 *arg1, const s32 *arg2, s32 arg3) {
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
-    temp_s6 = &watchGameP->unk_438[0];
+    temp_s6 = &watchGameP->texP1[0];
     for (i = 0; i < ARRAY_COUNTU(_rect_4752); i++) {
         for (j = 0; j < arg3; j++) {
             tiStretchTexTile(&gfx, temp_s6, j, _rect_4752[i][0], _rect_4752[i][1], _rect_4752[i][2], _rect_4752[i][3],
@@ -5941,7 +5976,7 @@ void _draw_bottle_10(Gfx **gfxP, const s32 *arg1, const s32 *arg2, s32 arg3) {
 }
 
 void dm_calc_bottle_2p(void) {
-    s32 i = (0x14 - watchGame->unk_394) * 8;
+    s32 i = (FRAME_MOVEMENT_MAX - watchGame->frame_move_count) * 8;
     s32 sp8[2] = { 0x1C - i, i + 0xD4 };
 
     for (i = 0; i < ARRAY_COUNT(sp8); i++) {
@@ -5955,7 +5990,7 @@ void dm_calc_bottle_2p(void) {
 void dm_draw_bottle_2p(Gfx **gfxP) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
-    s32 var_a0 = (0x14 - watchGameP->unk_394) * 8;
+    s32 var_a0 = (FRAME_MOVEMENT_MAX - watchGameP->frame_move_count) * 8;
     s32 arr[2] UNUSED = { -var_a0, var_a0 };
     s32 sp20[2];
     s32 sp28[2];
@@ -5978,11 +6013,12 @@ void dm_draw_big_virus(Gfx **gfxP) {
     s32 i;
 
     for (i = 0; i < ANIMES_COUNT; i++) {
-        animeState_initDL2(&watchGameP->animeStates[i], &gfx);
-        animeState_draw(&watchGameP->animeStates[i], &gfx, watchGameP->unk_3D0[i][0], watchGameP->unk_3D0[i][1],
-                        watchGameP->unk_3F4[i], watchGameP->unk_3F4[i]);
-        animeSmog_draw(&watchGameP->animeSmogs[i], &gfx, watchGameP->unk_3D0[i][0], watchGameP->unk_3D0[i][1],
-                       watchGameP->unk_3F4[i], watchGameP->unk_3F4[i]);
+        animeState_initDL2(&watchGameP->virus_anime_state[i], &gfx);
+        animeState_draw(&watchGameP->virus_anime_state[i], &gfx, watchGameP->big_virus_pos[i][0],
+                        watchGameP->big_virus_pos[i][1], watchGameP->big_virus_scale[i],
+                        watchGameP->big_virus_scale[i]);
+        animeSmog_draw(&watchGameP->virus_smog_state[i], &gfx, watchGameP->big_virus_pos[i][0],
+                       watchGameP->big_virus_pos[i][1], watchGameP->big_virus_scale[i], watchGameP->big_virus_scale[i]);
     }
 
     *gfxP = gfx;
@@ -6010,17 +6046,17 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     guTranslate(mtx, 0.0f, 0.0f, -5.0f);
     gSPMatrix(gfx++, mtx++, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
 
-    angle = WrapF(0.0f, 1.0f, watchGameP->unk_424 * DOUBLE_LITERAL(1.0 / 128)) * DOUBLE_LITERAL(M_PI) * 2;
+    angle = WrapF(0.0f, 1.0f, watchGameP->blink_count * DOUBLE_LITERAL(1.0 / 128)) * DOUBLE_LITERAL(M_PI) * 2;
     guRotateRPYF(sp48, 0.0f, (1 - arg6) * 0x5A, sinf(angle) * 4.0f * arg6);
 
-    var_v0 = WrapI(0, ARRAY_COUNT(_pat_4838), ((watchGameP->unk_424 % 128U) * 9) >> 4);
+    var_v0 = WrapI(0, ARRAY_COUNT(_pat_4838), ((watchGameP->blink_count % 128U) * 9) >> 4);
 
     if (messageIsSpeaking == false) {
         var_v0 = 0;
     }
 
-    temp_s4 = &watchGameP->unk_448[_pat_4838[var_v0] + 1];
-    temp_a2 = &watchGameP->unk_448[0];
+    temp_s4 = &watchGameP->texKaSa[_pat_4838[var_v0] + 1];
+    temp_a2 = &watchGameP->texKaSa[0];
 
     var_s0 = MIN(temp_s4->info[TI_INFO_IDX_WIDTH], temp_a2->info[TI_INFO_IDX_WIDTH]);
     var_s3 = MIN(temp_s4->info[TI_INFO_IDX_HEIGHT], temp_a2->info[TI_INFO_IDX_HEIGHT]);
@@ -6144,7 +6180,7 @@ void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapC
     gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
     if (dm_calc_capsel_pos(gameStateData, sp20, sp28)) {
-        if ((watchGameP->unk_420 != 0) || (gameStateData->now_cap.pos_y[0] <= 0) ||
+        if (watchGameP->demo_flag || (gameStateData->now_cap.pos_y[0] <= 0) ||
             ((gameStateData->cnd_now != dm_cnd_pause) && (gameStateData->cnd_now != dm_cnd_wait))) {
             dm_draw_capsel_by_gfx(gameStateData, sp20, sp28);
         }
@@ -6187,7 +6223,7 @@ void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, Game
             sp28[0] = 0x34;
             sp20[1] += sp20[0];
             sp28[1] += sp28[0];
-        } else if (temp_s2->unk_420 != 0) {
+        } else if (temp_s2->demo_flag) {
             i++;
         }
 
@@ -6246,23 +6282,23 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     }
 
     if (evs_score_flag != 0) {
-        scoreNums_draw(&temp_s4->unk_0B8[arg1], &gGfxHead);
+        scoreNums_draw(&temp_s4->scoreNums[arg1], &gGfxHead);
     }
 
     if ((gameStateDataRef->cnd_training == dm_cnd_training) && (gameStateDataRef->cnd_static == dm_cnd_wait)) {
-        temp_s1 = &temp_s4->unk_440[0x1D];
-        other = &temp_s4->unk_440[0x1E];
+        temp_s1 = &temp_s4->texP4[0x1D];
+        other = &temp_s4->texP4[0x1E];
 
         gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
         gDPSetCombineLERP(gGfxHead++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
                           COMBINED);
 
-        temp_fv0 = ((f32)sins(((s16)temp_s4->unk_424 << 9) & 0xFE00) * 0.0038757324f) + 127.0f;
+        temp_fv0 = ((f32)sins(((s16)temp_s4->blink_count << 9) & 0xFE00) * 0.0038757324f) + 127.0f;
 
         gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, temp_fv0);
 
-        temp_fv0 = ((f32)sins(((s16)temp_s4->unk_424 << 0xA) & 0xFC00) * 0.00015258789f);
+        temp_fv0 = ((f32)sins(((s16)temp_s4->blink_count << 10) & 0xFC00) * 0.00015258789f);
         StretchAlphaTexBlock(&gGfxHead, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
                              temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], other->texs[TI_TEX_TEX],
                              other->info[TI_INFO_IDX_WIDTH], gameStateDataRef->map_x,
@@ -6330,11 +6366,11 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     switch (gameStateDataRef->cnd_now) {
         case dm_cnd_retire:
         case dm_cnd_tr_chack:
-            if (temp_s4->unk_000 == 0) {
+            if (!temp_s4->replayFlag) {
                 if (gameStateDataRef->player_type == PLAYERTYPE_0) {
-                    temp_fv0 = sins(((s16)temp_s4->unk_424 << 0xA) & 0xFC00) * ((f32)0x7F / 0x8000) + 0x7F;
-                    temp_s1 = &temp_s4->unk_440[0x1B];
-                    other = &temp_s4->unk_440[0x1C];
+                    temp_fv0 = sins(((s16)temp_s4->blink_count << 10) & 0xFC00) * ((f32)0x7F / 0x8000) + 0x7F;
+                    temp_s1 = &temp_s4->texP4[0x1B];
+                    other = &temp_s4->texP4[0x1C];
 
                     gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
@@ -6381,7 +6417,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
                 } else {
                     var_v0_4 = 0x4A;
                 }
-                func_8006AEFC(&temp_s4->unk_9D0[arg1], &gGfxHead, gameStateDataRef->map_x,
+                func_8006AEFC(&temp_s4->timeAttackResult[arg1], &gGfxHead, gameStateDataRef->map_x,
                               gameStateDataRef->map_y + var_v0_4);
             }
             break;
@@ -6436,12 +6472,12 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     switch (gameStateDataRef->cnd_now) {
         case dm_cnd_wait:
         case dm_cnd_init:
-            temp_lo = temp_s4->unk_3AC / (s32)evs_playcnt;
-            temp_s0_2 = (temp_s4->unk_3AC / (s32)evs_playcnt) / 48;
+            temp_lo = temp_s4->count_down_ctrl / (s32)evs_playcnt;
+            temp_s0_2 = (temp_s4->count_down_ctrl / (s32)evs_playcnt) / 48;
 
-            if (temp_s4->unk_3AC >= 0) {
+            if (temp_s4->count_down_ctrl >= 0) {
                 if (disp_count_logo(&gGfxHead, arg1, temp_lo) != 0) {
-                    temp_s4->unk_3AC = -1;
+                    temp_s4->count_down_ctrl = -1;
                     if (arg1 == 0) {
                         dm_snd_play_in_game(SND_INDEX_73);
                     }
@@ -6451,7 +6487,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
                             dm_snd_play_in_game(SND_INDEX_72);
                         }
                     }
-                    temp_s4->unk_3AC += 1;
+                    temp_s4->count_down_ctrl++;
                 }
             }
             break;
@@ -6493,8 +6529,8 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         case dm_cnd_pause_re_sc:
             switch (evs_gamesel) {
                 case ENUM_EVS_GAMESEL_2:
-                    draw_4p_attack_guide_panel(&gGfxHead, temp_s4->unk_8BC, arg1, (s32)gameStateDataRef->map_x,
-                                               gameStateDataRef->map_y - 0x24);
+                    draw_4p_attack_guide_panel(&gGfxHead, temp_s4->vs_4p_player_count, arg1,
+                                               (s32)gameStateDataRef->map_x, gameStateDataRef->map_y - 0x24);
                     break;
 
                 default:
@@ -6591,7 +6627,7 @@ void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *map
     save_visible_fall_point_flag();
 
     if (gameStateDataRef->mode_now == dm_mode_throw) {
-        if ((temp_s5->unk_420 == 0) && dm_calc_capsel_pos(gameStateDataRef, sp18, sp20)) {
+        if (!temp_s5->demo_flag && dm_calc_capsel_pos(gameStateDataRef, sp18, sp20)) {
             dm_draw_capsel_by_cpu_tentative(gameStateDataRef, sp18, sp20);
         }
 
@@ -6612,7 +6648,7 @@ void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *map
                 u16 temp_s1_2 = joygam[arg2];
 
                 aifKeyOut(gameStateDataRef);
-                if (temp_s5->unk_000 != 0) {
+                if (temp_s5->replayFlag) {
                     joygam[arg2] = temp_s1_2;
                 }
             }
@@ -6647,25 +6683,25 @@ void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *map
             }
         }
 
-        if (temp_s5->unk_420 == 0) {
+        if (!temp_s5->demo_flag) {
             if (dm_calc_capsel_pos(gameStateDataRef, sp18, sp20)) {
                 dm_draw_capsel_by_cpu_tentative(gameStateDataRef, sp18, sp20);
             }
         }
         dm_capsel_down(gameStateDataRef, mapCells);
-        temp_s5->unk_37C[arg2] = 2;
+        temp_s5->force_draw_capsel_count[arg2] = 2;
     } else {
-        if (temp_s5->unk_37C[arg2] != 0) {
+        if (temp_s5->force_draw_capsel_count[arg2] != 0) {
             s32 temp_s3 = gameStateDataRef->now_cap.capsel_flg_0;
 
             gameStateDataRef->now_cap.capsel_flg_0 = 1;
-            if (temp_s5->unk_420 == 0) {
+            if (!temp_s5->demo_flag) {
                 if (dm_calc_capsel_pos(gameStateDataRef, sp18, sp20)) {
                     dm_draw_capsel_by_cpu_tentative(gameStateDataRef, sp18, sp20);
                 }
             }
             gameStateDataRef->now_cap.capsel_flg_0 = temp_s3;
-            temp_s5->unk_37C[arg2] -= 1;
+            temp_s5->force_draw_capsel_count[arg2]--;
         }
 
         if (gameStateDataRef->player_type == PLAYERTYPE_0) {
@@ -6730,12 +6766,13 @@ void dm_effect_make(void) {
     struct_watchGame *watchGameP = watchGame;
     s32 i;
 
-    watchGameP->unk_424++;
-    watchGameP->unk_394 = CLAMP(watchGameP->unk_394 + watchGameP->unk_398, 0, 20);
+    watchGameP->blink_count++;
+    watchGameP->frame_move_count =
+        CLAMP(watchGameP->frame_move_count + watchGameP->frame_move_step, 0, FRAME_MOVEMENT_MAX);
 
     for (i = 0; i < evs_playcnt; i++) {
         if (game_state_data[i].cnd_static == dm_cnd_wait) {
-            if ((watchGameP->unk_3C4 != 0) && (evs_game_time < 0x57E04)) {
+            if (watchGameP->started_game_flg && (evs_game_time < 0x57E04)) {
                 evs_game_time++;
             }
             break;
@@ -6773,97 +6810,97 @@ void dm_game_init(bool arg0) {
     struct_game_state_data *temp_s0_3;
     struct_game_state_data *var_s0_2;
 
-    if (!arg0 || (watchGameP->unk_000 == 0)) {
-        watchGameP->unk_000 = 0;
-        watchGameP->unk_004 = (genrand(0xFFFF) + osGetTime()) * 0x10001;
-        watchGameP->unk_008 = irandom() + osGetTime();
+    if (!arg0 || !watchGameP->replayFlag) {
+        watchGameP->replayFlag = 0;
+        watchGameP->randSeed = (genrand(0xFFFF) + osGetTime()) * 0x10001;
+        watchGameP->randSeed2 = irandom() + osGetTime();
     }
 
-    sgenrand(watchGameP->unk_004);
-    randomseed(watchGameP->unk_008);
+    sgenrand(watchGameP->randSeed);
+    randomseed(watchGameP->randSeed2);
 
     if (!arg0) {
-        for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_00C); i++) {
-            watchGameP->unk_03C[i] = 0;
-            watchGameP->unk_00C[i] = 0;
+        for (i = 0; i < STAR_POS_LEN; i++) {
+            watchGameP->star_pos_y[i] = 0;
+            watchGameP->star_pos_x[i] = 0;
         }
 
-        watchGameP->unk_06C = 0;
-        func_80069160(&watchGameP->unk_070, watchGameP->unk_00C, watchGameP->unk_03C);
+        watchGameP->star_count = 0;
+        func_80069160(&watchGameP->starForce, watchGameP->star_pos_x, watchGameP->star_pos_y);
 
         // Redundant condition
         if (!arg0) {
-            watchGameP->unk_378 = 0;
+            watchGameP->retry_coin = 0;
         }
     }
 
-    for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_0B8); i++) {
-        scoreNums_init(&watchGameP->unk_0B8[i]);
+    for (i = 0; i < ARRAY_COUNTU(watchGameP->scoreNums); i++) {
+        scoreNums_init(&watchGameP->scoreNums[i]);
     }
 
-    for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_37C); i++) {
-        watchGameP->unk_37C[i] = 0;
+    for (i = 0; i < ARRAY_COUNTU(watchGameP->force_draw_capsel_count); i++) {
+        watchGameP->force_draw_capsel_count[i] = 0;
     }
 
-    watchGameP->unk_38C = 0x1E;
-    watchGameP->unk_390 = -1;
+    watchGameP->curtain_count = CURTAIN_COUNT_VAL;
+    watchGameP->curtain_step = -1;
 
-    for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_39C); i++) {
-        watchGameP->unk_39C[i] = 1;
+    for (i = 0; i < ARRAY_COUNTU(watchGameP->face_anime_count); i++) {
+        watchGameP->face_anime_count[i] = 1;
     }
 
-    watchGameP->unk_3AC = 0;
-    watchGameP->unk_3B8 = 0;
-    watchGameP->unk_3B4 = 0;
-    watchGameP->unk_3C0 = 0;
-    watchGameP->unk_3BC = (evs_gamemode == GMD_FLASH) ? 1 : 3;
-    watchGameP->unk_3C4 = main_no != MAIN_GAME;
+    watchGameP->count_down_ctrl = 0;
+    watchGameP->bgm_bpm_flg[1] = false;
+    watchGameP->bgm_bpm_flg[0] = false;
+    watchGameP->last_3_se_flg = false;
+    watchGameP->last_3_se_cnt = (evs_gamemode == GMD_FLASH) ? 1 : 3;
+    watchGameP->started_game_flg = main_no != MAIN_GAME;
 
-    for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_400); i++) {
-        watchGameP->unk_400[i] = 0;
-        watchGameP->unk_3E8[i] = 1 + i * 120;
-        watchGameP->unk_3F4[i] = 1.0f;
+    for (i = 0; i < ARRAY_COUNTU(watchGameP->big_virus_flg); i++) {
+        watchGameP->big_virus_flg[i] = false;
+        watchGameP->big_virus_rot[i] = 1 + i * (360 / ARRAY_COUNT(watchGameP->big_virus_rot));
+        watchGameP->big_virus_scale[i] = 1.0f;
     }
 
-    watchGameP->unk_3CC = 0;
-    watchGameP->unk_40C = 0;
-    watchGameP->unk_410 = 0;
-    watchGameP->unk_414 = 0;
-    watchGameP->unk_3C8 = 10.0f;
+    watchGameP->big_virus_timer = 0;
+    watchGameP->big_virus_no_wait = false;
+    watchGameP->big_virus_stop_count = 0;
+    watchGameP->big_virus_blink_count = 0;
+    watchGameP->big_virus_wait = 10.0f;
 
     switch (evs_gamemode) {
         case GMD_TaiQ:
-            watchGameP->unk_3C8 = _big_virus_def_wait[game_state_data[0].game_level];
+            watchGameP->big_virus_wait = _big_virus_def_wait[game_state_data[0].game_level];
             break;
 
         default:
             break;
     }
 
-    for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_418); i++) {
-        watchGameP->unk_418[i] = 0;
+    for (i = 0; i < ARRAY_COUNTU(watchGameP->big_virus_count); i++) {
+        watchGameP->big_virus_count[i] = 0;
     }
 
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_4:
         case ENUM_EVS_GAMESEL_5:
         case ENUM_EVS_GAMESEL_6:
-            watchGameP->unk_41C = 0x708;
-            watchGameP->unk_420 = 1;
+            watchGameP->demo_timer = 1800;
+            watchGameP->demo_flag = true;
             break;
 
         default:
-            watchGameP->unk_41C = 0;
-            watchGameP->unk_420 = 0;
+            watchGameP->demo_timer = 0;
+            watchGameP->demo_flag = false;
             break;
     }
 
-    watchGameP->unk_424 = 0;
-    watchGameP->unk_428 = 0;
+    watchGameP->blink_count = 0;
+    watchGameP->warning_se_count = 0;
 
     if (!arg0) {
-        for (i = 0; i < ARRAY_COUNT(watchGameP->unk_89C); i++) {
-            watchGameP->unk_89C[i] = 0;
+        for (i = 0; i < ARRAY_COUNT(watchGameP->win_count); i++) {
+            watchGameP->win_count[i] = 0;
         }
     }
 
@@ -6880,20 +6917,20 @@ void dm_game_init(bool arg0) {
     dm_seq_play_in_game(evs_seqnumb * 2);
     dm_make_magazine();
 
-    for (i = 0; i < ARRAY_COUNT(watchGameP->unk_8DC); i++) {
-        for (j = 0; j < ARRAY_COUNT(watchGameP->unk_8DC[i]); j++) {
-            watchGameP->unk_8DC[i][j] = -1;
+    for (i = 0; i < ARRAY_COUNT(watchGameP->story_4p_stock_cap); i++) {
+        for (j = 0; j < ARRAY_COUNT(watchGameP->story_4p_stock_cap[i]); j++) {
+            watchGameP->story_4p_stock_cap[i][j] = -1;
         }
     }
 
-    watchGameP->unk_9BC = 0;
-    watchGameP->unk_9C0 = 0;
-    watchGameP->unk_9C4 = -1;
-    watchGameP->unk_9C8 = -1;
-    watchGameP->unk_9CC = -1;
-    watchGameP->unk_A28.alpha = 0;
-    watchGameP->unk_AA8 = -0x10;
-    bzero(watchGameP->password, sizeof(watchGameP->password));
+    watchGameP->bottom_up_flag = false;
+    watchGameP->query_play_pause_se = false;
+    watchGameP->query_pause_player_no = -1;
+    watchGameP->query_debug_player_no = -1;
+    watchGameP->query_config_player_no = -1;
+    watchGameP->passWnd.alpha = 0;
+    watchGameP->passAlphaStep = -0x10;
+    bzero(watchGameP->passBuf, sizeof(watchGameP->passBuf));
 
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
@@ -7046,15 +7083,15 @@ void dm_game_init_static(void) {
 #if VERSION_US || VERSION_GW
     start = romTableP[ROMDATATBL_GAME_AL].start;
 
-    watchGameP->unk_3B0 = 0;
+    watchGameP->eep_rom_flg = false;
 
     //! FAKE
-    watchGameP->unk_878 = var_v0 = 0x7F;
+    watchGameP->graphic_thread_pri = var_v0 = 0x7F;
 #elif VERSION_CN
-    watchGameP->unk_3B0 = 0;
+    watchGameP->eep_rom_flg = false;
 
     //! FAKE
-    watchGameP->unk_878 = var_v0 = 0x7F;
+    watchGameP->graphic_thread_pri = var_v0 = 0x7F;
 
     start = romTableP[ROMDATATBL_GAME_AL].start;
 #else
@@ -7066,19 +7103,19 @@ void dm_game_init_static(void) {
 
 #if VERSION_US || VERSION_GW
     start = romTableP[ROMDATATBL_GAME_ITEM].start;
-    watchGameP->unk_430 = result;
+    watchGameP->texAL = result;
 #elif VERSION_CN
-    watchGameP->unk_430 = result;
+    watchGameP->texAL = result;
     start = romTableP[ROMDATATBL_GAME_ITEM].start;
 #else
 #error ""
 #endif
 
     end = romTableP[ROMDATATBL_GAME_ITEM].end;
-    watchGameP->unk_444 = tiLoadTexData(&heapTop, start, end);
+    watchGameP->texItem = tiLoadTexData(&heapTop, start, end);
 
     if (main_no != MAIN_GAME) {
-        watchGameP->unk_448 =
+        watchGameP->texKaSa =
             tiLoadTexData(&heapTop, romTableP[ROMDATATBL_MENU_KASA].start, romTableP[ROMDATATBL_MENU_KASA].end);
     }
 
@@ -7093,39 +7130,39 @@ void dm_game_init_static(void) {
 #endif
     heapTop = DecompressRomToRam(temp_a0, heapTop, romTableP[ROMDATATBL_GAME_ETC].end - temp_a0);
 
-    for (i = 0; i < ARRAY_COUNT(watchGameP->unk_8AC); i++) {
-        watchGameP->unk_8AC[i] = 0;
+    for (i = 0; i < ARRAY_COUNT(watchGameP->vs_win_count); i++) {
+        watchGameP->vs_win_count[i] = 0;
     }
 
-    watchGameP->unk_394 = 0;
-    watchGameP->unk_398 = 1;
-    watchGameP->unk_898 = 2;
+    watchGameP->frame_move_count = 0;
+    watchGameP->frame_move_step = 1;
+    watchGameP->touch_down_wait = 2;
     func_8006A938(0);
-    watchGameP->unk_9AC = 0;
-    watchGameP->unk_9B0 = 0;
-    watchGameP->unk_9B4 = 0;
-    watchGameP->unk_9B8 = 0;
+    watchGameP->coffee_break_flow = 0;
+    watchGameP->coffee_break_timer = 0;
+    watchGameP->coffee_break_level = 0;
+    watchGameP->coffee_break_shard = 0;
 
     replay_record_init_buffer(&heapTop);
     replay_record_init(evs_playcnt);
 
     temp = 0;
-    for (i = 0; i < ARRAY_COUNTU(watchGameP->unk_9D0); i++) {
-        timeAttackResult_init(&watchGameP->unk_9D0[i]);
+    for (i = 0; i < ARRAY_COUNTU(watchGameP->timeAttackResult); i++) {
+        timeAttackResult_init(&watchGameP->timeAttackResult[i]);
     }
 
 #if VERSION_US || VERSION_GW
-    msgWnd_init2(&watchGameP->unk_A28, &heapTop, 0x100, 0xA, 5, temp, 0);
+    msgWnd_init2(&watchGameP->passWnd, &heapTop, 0x100, 0xA, 5, temp, 0);
 #elif VERSION_CN
     //! FAKE
-    msgWnd_init2(&watchGameP->unk_A28, &heapTop, 0x100, 0xA, var_v0 = 5, temp, 0);
+    msgWnd_init2(&watchGameP->passWnd, &heapTop, 0x100, 0xA, var_v0 = 5, temp, 0);
 #else
 #error ""
 #endif
 
-    watchGameP->unk_A28.posX = (s32)(SCREEN_WIDTH - (watchGameP->unk_A28.colStep * 20)) >> 1;
-    watchGameP->unk_A28.posY = (s32)(SCREEN_HEIGHT - (watchGameP->unk_A28.rowStep * 2)) >> 1;
-    RecWritingMsg_init(&watchGameP->recMessage, &heapTop);
+    watchGameP->passWnd.posX = (SCREEN_WIDTH - 20 * watchGameP->passWnd.colStep) >> 1;
+    watchGameP->passWnd.posY = (SCREEN_HEIGHT - 2 * watchGameP->passWnd.rowStep) >> 1;
+    RecWritingMsg_init(&watchGameP->writingMsg, &heapTop);
 
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_4:
@@ -7173,29 +7210,29 @@ void dm_game_init_static(void) {
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
         case ENUM_EVS_GAMESEL_4:
-            watchGameP->unk_898 = 1;
+            watchGameP->touch_down_wait = 1;
             animeState_load(&game_state_data[0].anime, &heapTop, CHARANIMEMODE_MARIO);
             animeState_set(&game_state_data[0].anime, ANIMENO_2);
-            watchGameP->unk_438 =
+            watchGameP->texP1 =
                 tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
-            watchGameP->unk_434 =
+            watchGameP->texLS =
                 tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_LS].start, romTableP[ROMDATATBL_GAME_LS].end);
 
-            for (i = 0; i < ARRAY_COUNT(watchGameP->animeStates); i++) {
-                animeState_load(&watchGameP->animeStates[i], &heapTop, i + CHARANIMEMODE_VIRUS_R);
+            for (i = 0; i < ARRAY_COUNT(watchGameP->virus_anime_state); i++) {
+                animeState_load(&watchGameP->virus_anime_state[i], &heapTop, i + CHARANIMEMODE_VIRUS_R);
             }
 
-            animeSmog_load(&watchGameP->animeSmogs[0], &heapTop);
-            for (i = 1; i < ARRAY_COUNT(watchGameP->animeSmogs); i++) {
-                animeSmog_init(&watchGameP->animeSmogs[i], &watchGameP->animeSmogs[0].animeState[0]);
+            animeSmog_load(&watchGameP->virus_smog_state[0], &heapTop);
+            for (i = 1; i < ARRAY_COUNT(watchGameP->virus_smog_state); i++) {
+                animeSmog_init(&watchGameP->virus_smog_state[i], &watchGameP->virus_smog_state[0].animeState[0]);
             }
 
-            msgWnd_init2(&watchGameP->messageWnd, &heapTop, 0x1000, 0x14, 0xF, 0x28, 0xF);
-            watchGameP->messageWnd.centering = true;
-            msgWnd_addStr(&watchGameP->messageWnd, st_staffroll_txt);
-            msgWnd_skip(&watchGameP->messageWnd);
-            watchGameP->messageWnd.fontType = FONTTYPE_1;
-            watchGameP->messageWnd.contFlags = 0;
+            msgWnd_init2(&watchGameP->msgWnd, &heapTop, 0x1000, 0x14, 0xF, 0x28, 0xF);
+            watchGameP->msgWnd.centering = true;
+            msgWnd_addStr(&watchGameP->msgWnd, st_staffroll_txt);
+            msgWnd_skip(&watchGameP->msgWnd);
+            watchGameP->msgWnd.fontType = FONTTYPE_1;
+            watchGameP->msgWnd.contFlags = 0;
             heapTop = init_coffee_break(heapTop, game_state_data[0].cap_def_speed);
             break;
 
@@ -7207,14 +7244,14 @@ void dm_game_init_static(void) {
             }
 
             if (evs_story_flg == 0) {
-                for (i = 0; i < ARRAY_COUNT(watchGameP->unk_8B4); i++) {
-                    watchGameP->unk_8B4[i] = 0;
+                for (i = 0; i < ARRAY_COUNT(watchGameP->vs_win_total); i++) {
+                    watchGameP->vs_win_total[i] = 0;
                 }
 
                 switch (evs_gamesel) {
                     case ENUM_EVS_GAMESEL_1:
-                        for (i = 0; i < ARRAY_COUNT(watchGameP->unk_8B4); i++) {
-                            watchGameP->unk_8B4[i] = evs_mem_data[evs_select_name_no[i]].vsman_data[0];
+                        for (i = 0; i < ARRAY_COUNT(watchGameP->vs_win_total); i++) {
+                            watchGameP->vs_win_total[i] = evs_mem_data[evs_select_name_no[i]].vsman_data[0];
                         }
                         break;
 
@@ -7223,63 +7260,63 @@ void dm_game_init_static(void) {
                 }
             }
 
-            watchGameP->unk_438 =
+            watchGameP->texP1 =
                 tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
-            watchGameP->unk_43C =
+            watchGameP->texP2 =
                 tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P2].start, romTableP[ROMDATATBL_GAME_P2].end);
             break;
 
         case ENUM_EVS_GAMESEL_2:
         case ENUM_EVS_GAMESEL_6:
-            watchGameP->unk_438 =
+            watchGameP->texP1 =
                 tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
-            watchGameP->unk_440 =
+            watchGameP->texP4 =
                 tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P4].start, romTableP[ROMDATATBL_GAME_P4].end);
 
             for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
                 animeState_load(&game_state_data[i].anime, &heapTop, game_state_data[i].charNo);
             }
 
-            for (i = 0; i < ARRAY_COUNT(watchGameP->unk_8CC); i++) {
-                watchGameP->unk_8CC[i] = 0;
+            for (i = 0; i < ARRAY_COUNT(watchGameP->story_4p_name_num); i++) {
+                watchGameP->story_4p_name_num[i] = 0;
             }
 
-            for (i = 0; i < ARRAY_COUNT(watchGameP->unk_8CC); i++) {
-                watchGameP->unk_8CC[game_state_data[i].team_no]++;
+            for (i = 0; i < ARRAY_COUNT(watchGameP->story_4p_name_num); i++) {
+                watchGameP->story_4p_name_num[game_state_data[i].team_no]++;
             }
 
-            watchGameP->unk_8BC = 0;
+            watchGameP->vs_4p_player_count = 0;
 
             for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
                 if (game_state_data[i].player_type == PLAYERTYPE_0) {
-                    watchGameP->unk_8BC++;
+                    watchGameP->vs_4p_player_count++;
                 }
             }
 
-            if (watchGameP->unk_8CC[0] == 1) {
-                if (watchGameP->unk_8CC[1] == watchGameP->unk_8CC[0]) {
-                    if (watchGameP->unk_8CC[2] == watchGameP->unk_8CC[1]) {
-                        if (watchGameP->unk_8CC[3] == watchGameP->unk_8CC[2]) {
-                            watchGameP->unk_8C0 = 0;
+            if (watchGameP->story_4p_name_num[0] == 1) {
+                if (watchGameP->story_4p_name_num[1] == watchGameP->story_4p_name_num[0]) {
+                    if (watchGameP->story_4p_name_num[2] == watchGameP->story_4p_name_num[1]) {
+                        if (watchGameP->story_4p_name_num[3] == watchGameP->story_4p_name_num[2]) {
+                            watchGameP->vs_4p_team_flg = false;
                             return;
                         }
                     }
                 }
             }
 
-            watchGameP->unk_8C0 = 1;
-            watchGameP->unk_8C8 = 0;
-            watchGameP->unk_8C4 = 0;
+            watchGameP->vs_4p_team_flg = true;
+            watchGameP->vs_4p_team_bits[1] = 0;
+            watchGameP->vs_4p_team_bits[0] = 0;
 
             for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
                 if (game_state_data[i].team_no == TEAMNUMBER_0) {
-                    watchGameP->unk_8C4 |= (1 << i);
+                    watchGameP->vs_4p_team_bits[0] |= (1 << i);
                 }
             }
 
             for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
                 if (game_state_data[i].team_no == TEAMNUMBER_1) {
-                    watchGameP->unk_8C8 |= (1 << i);
+                    watchGameP->vs_4p_team_bits[1] |= (1 << i);
                 }
             }
             break;
@@ -7292,8 +7329,8 @@ void dm_game_init_static(void) {
 void dm_game_init_snap_bg(void) {
     struct_watchGame *watchGameP = watchGame;
 
-    BUFFER_MALLOC64(&watchGameP->unk_87C, heapTop, sizeof(u16) * ((SCREEN_WIDTH + 8) * SCREEN_HEIGHT));
-    watchGameP->unk_880 = 0;
+    BUFFER_MALLOC64(&watchGameP->bg_snap_buf, heapTop, sizeof(u16) * ((SCREEN_WIDTH + 8) * SCREEN_HEIGHT));
+    watchGameP->bg_snapping = false;
 
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
@@ -7343,8 +7380,9 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
     s32 var_s0_2;
     s32 i;
 
-    if (temp_s7->unk_880 != 0) {
-        gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH + 8, osVirtualToPhysical(temp_s7->unk_87C));
+    if (temp_s7->bg_snapping) {
+        gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH + 8,
+                         osVirtualToPhysical(temp_s7->bg_snap_buf));
     }
 
     switch (evs_gamesel) {
@@ -7369,7 +7407,7 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
 
             gSPDisplayList(gfx++, normal_texture_init_dl);
 
-            temp_s1 = &temp_s7->unk_434[_bgTex_5794[var_s6]];
+            temp_s1 = &temp_s7->texLS[_bgTex_5794[var_s6]];
 
             for (i = 0; i < ARRAY_COUNTU(_bgPos_5792); i++) {
                 tiStretchTexTile(&gfx, temp_s1, false, 0, 0, temp_s1->info[TI_INFO_IDX_WIDTH],
@@ -7377,7 +7415,7 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                                  temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
             }
 
-            temp_s1 = &temp_s7->unk_434[_magTex_5795[var_s6]];
+            temp_s1 = &temp_s7->texLS[_magTex_5795[var_s6]];
             tiStretchTexTile(&gfx, temp_s1, false, 0, 0, temp_s1->info[TI_INFO_IDX_WIDTH],
                              temp_s1->info[TI_INFO_IDX_HEIGHT], 0.0f, 120.0f, temp_s1->info[TI_INFO_IDX_WIDTH],
                              temp_s1->info[TI_INFO_IDX_HEIGHT]);
@@ -7385,8 +7423,8 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             if (arg3 != 0) {
                 gSPDisplayList(gfx++, alpha_texture_init_dl);
 
-                temp_s1 = &temp_s7->unk_434[9];
-                temp_s2 = &temp_s7->unk_434[2];
+                temp_s1 = &temp_s7->texLS[9];
+                temp_s2 = &temp_s7->texLS[2];
 
                 var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
 
@@ -7395,8 +7433,8 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                                     var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT], 202.0f, 12.0f, var_s0_2,
                                     temp_s1->info[TI_INFO_IDX_HEIGHT]);
 
-                temp_s1 = &temp_s7->unk_434[_scrTex_5796[var_s6]];
-                temp_s2 = &temp_s7->unk_434[1];
+                temp_s1 = &temp_s7->texLS[_scrTex_5796[var_s6]];
+                temp_s2 = &temp_s7->texLS[1];
 
                 var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
 
@@ -7405,10 +7443,10 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                                     temp_s2->info[TI_INFO_IDX_WIDTH], 0, 0, var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT],
                                     11.0f, 17.0f, var_s0_2, temp_s1->info[TI_INFO_IDX_HEIGHT]);
 
-                temp_s2 = &temp_s7->unk_434[4];
+                temp_s2 = &temp_s7->texLS[4];
 
                 for (i = 0; i < ARRAY_COUNTU(_panelTex_5797[var_s6]); i++) {
-                    temp_s1 = &temp_s7->unk_434[_panelTex_5797[var_s6][i]];
+                    temp_s1 = &temp_s7->texLS[_panelTex_5797[var_s6][i]];
 
                     var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
 
@@ -7422,8 +7460,8 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                 switch (evs_gamemode) {
                     case GMD_TaiQ:
                     case GMD_TIME_ATTACK:
-                        temp_s1 = &temp_s7->unk_434[0xA];
-                        temp_s2 = &temp_s7->unk_434[3];
+                        temp_s1 = &temp_s7->texLS[0xA];
+                        temp_s2 = &temp_s7->texLS[3];
                         tiStretchAlphaTexItem(&gfx, temp_s1, temp_s2, false, 3, game_state_data->game_level, 232.0f,
                                               120.0f, 48.0f, 16.0f);
                         break;
@@ -7432,8 +7470,8 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                         break;
                 }
 
-                temp_s1 = &temp_s7->unk_434[5];
-                temp_s2 = &temp_s7->unk_434[0];
+                temp_s1 = &temp_s7->texLS[5];
+                temp_s2 = &temp_s7->texLS[0];
                 tiStretchAlphaTexItem(&gfx, temp_s1, temp_s2, false, 3, game_state_data->cap_def_speed, 232.0f, 162.0f,
                                       48.0f, 16.0f);
             }
@@ -7445,13 +7483,13 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 96);
 
             // Why draw twice?
-            temp_s1 = &temp_s7->unk_438[1];
+            temp_s1 = &temp_s7->texP1[1];
             for (i = 0; i < 2; i++) {
                 tiStretchTexBlock(&gfx, temp_s1, false, 110.0f, 16.0f, temp_s1->info[TI_INFO_IDX_WIDTH],
                                   temp_s1->info[TI_INFO_IDX_HEIGHT]);
             }
 
-            temp_s1 = &temp_s7->unk_438[0];
+            temp_s1 = &temp_s7->texP1[0];
             for (i = 0; i < 2; i++) {
                 tiCopyTexBlock(&gfx, temp_s1, false, 110, 16);
             }
@@ -7467,14 +7505,14 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
             gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 192);
 
-            temp_s1 = &temp_s7->unk_440[1];
+            temp_s1 = &temp_s7->texP4[1];
             for (i = 0; i < ARRAY_COUNT(_posP4Bottle); i++) {
                 tiStretchTexBlock(&gfx, temp_s1, false, _posP4Bottle[i][0] + RO_800B1D7C[0],
                                   _posP4Bottle[i][1] + RO_800B1D7C[1], temp_s1->info[TI_INFO_IDX_WIDTH],
                                   temp_s1->info[TI_INFO_IDX_HEIGHT]);
             }
 
-            temp_s1 = &temp_s7->unk_440[0];
+            temp_s1 = &temp_s7->texP4[0];
 
             for (i = 0; i < ARRAY_COUNT(_posP4Bottle); i++) {
                 tiCopyTexBlock(&gfx, temp_s1, false, _posP4Bottle[i][0], _posP4Bottle[i][1]);
@@ -7483,7 +7521,7 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             if (arg3 != 0) {
                 gSPDisplayList(gfx++, normal_texture_init_dl);
 
-                temp_s1 = &temp_s7->unk_440[8];
+                temp_s1 = &temp_s7->texP4[8];
                 for (i = 0; i < ARRAY_COUNT(_posP4CharBase); i++) {
                     tiStretchTexBlock(&gfx, temp_s1, false, _posP4CharBase[i][0], _posP4CharBase[i][1],
                                       temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
@@ -7491,13 +7529,13 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
 
                 gSPDisplayList(gfx++, alpha_texture_init_dl);
 
-                if ((evs_story_flg != 0) || (temp_s7->unk_8C0 == 0)) {
+                if ((evs_story_flg != 0) || !temp_s7->vs_4p_team_flg) {
                     if (evs_gamemode == GMD_FLASH) {
-                        temp_s1 = &temp_s7->unk_440[0xB];
-                        temp_s2 = &temp_s7->unk_440[0x13];
+                        temp_s1 = &temp_s7->texP4[0xB];
+                        temp_s2 = &temp_s7->texP4[0x13];
                     } else {
-                        temp_s1 = &temp_s7->unk_440[0x19];
-                        temp_s2 = &temp_s7->unk_440[0x1A];
+                        temp_s1 = &temp_s7->texP4[0x19];
+                        temp_s2 = &temp_s7->texP4[0x1A];
                     }
 
                     var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
@@ -7512,8 +7550,8 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                 }
 
                 if (evs_story_flg != 0) {
-                    temp_s1 = &temp_s7->unk_440[0xF];
-                    temp_s2 = &temp_s7->unk_440[0x17];
+                    temp_s1 = &temp_s7->texP4[0xF];
+                    temp_s2 = &temp_s7->texP4[0x17];
 
                     var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
 
@@ -7521,13 +7559,13 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                                          temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->texs[TI_TEX_TEX],
                                          temp_s1->info[TI_INFO_IDX_WIDTH], 16.0f, 11.0f, var_s0_2,
                                          temp_s1->info[TI_INFO_IDX_HEIGHT]);
-                } else if (temp_s7->unk_8C0 != 0) {
+                } else if (temp_s7->vs_4p_team_flg) {
                     for (i = 0; i < 4; i++) {
                         s32 temp_v0_9;
 
                         temp_v0_9 = game_state_data[i].team_no != TEAMNUMBER_0;
-                        temp_s1 = &temp_s7->unk_440[tbl_5867[temp_v0_9][0]];
-                        temp_s2 = &temp_s7->unk_440[tbl_5867[temp_v0_9][1]];
+                        temp_s1 = &temp_s7->texP4[tbl_5867[temp_v0_9][0]];
+                        temp_s2 = &temp_s7->texP4[tbl_5867[temp_v0_9][1]];
 
                         var_s0_2 = MIN(temp_s1->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
 
@@ -7539,13 +7577,13 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                     }
 
                     //! FAKE:
-                    temp_s1 = temp_s7->unk_440 + 2 + evs_vs_count - 1;
+                    temp_s1 = temp_s7->texP4 + 2 + evs_vs_count - 1;
 
                     CopyTexBlock8(&gfx, temp_s1->texs[TI_TEX_TLUT], temp_s1->texs[TI_TEX_TEX], 0x10, 8,
                                   temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
                 } else {
                     //! FAKE:
-                    temp_s1 = temp_s7->unk_440 + 5 + evs_vs_count - 1;
+                    temp_s1 = temp_s7->texP4 + 5 + evs_vs_count - 1;
 
                     CopyTexBlock8(&gfx, temp_s1->texs[TI_TEX_TLUT], temp_s1->texs[TI_TEX_TEX], 0x10, 0xB,
                                   temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
@@ -7561,11 +7599,11 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
                 gSPDisplayList(gfx++, alpha_texture_init_dl);
 
                 if (evs_story_flg != 0) {
-                    temp_s1 = &temp_s7->unk_43C[8];
+                    temp_s1 = &temp_s7->texP2[8];
                 } else {
-                    temp_s1 = &temp_s7->unk_43C[0xE];
+                    temp_s1 = &temp_s7->texP2[0xE];
                 }
-                temp_s2 = &temp_s7->unk_43C[0];
+                temp_s2 = &temp_s7->texP2[0];
 
                 StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
                                      temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
@@ -7587,7 +7625,7 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
 void func_8006F628(Gfx **gfxP) {
     Gfx *gfx = *gfxP;
 
-    CopyTexBlock16(&gfx, watchGame->unk_87C, 0, 0, SCREEN_WIDTH + 8, SCREEN_HEIGHT);
+    CopyTexBlock16(&gfx, watchGame->bg_snap_buf, 0, 0, SCREEN_WIDTH + 8, SCREEN_HEIGHT);
     *gfxP = gfx;
 }
 
@@ -7610,13 +7648,13 @@ enum_main_no dm_game_main(NNSched *sc) {
     watchGameP = watchGame;
     dm_game_init_static();
     dm_game_init_snap_bg();
-    watchGameP->unk_880 = 1;
+    watchGameP->bg_snapping = true;
     dm_game_init(false);
     backup_game_state(0);
     D_800A6FC4 = 1;
     gGfxHead = gGfxGlist[gfx_gtask_no];
 
-    while (var_s2 || (watchGameP->unk_38C != 0x1E)) {
+    while (var_s2 || (watchGameP->curtain_count != CURTAIN_COUNT_VAL)) {
         s16 *sp50;
 
         osRecvMesg(&scMQ, (OSMesg *)&sp50, OS_MESG_BLOCK);
@@ -7640,8 +7678,8 @@ enum_main_no dm_game_main(NNSched *sc) {
         }
 
         if (!var_s2) {
-            if (watchGameP->unk_390 < 0) {
-                watchGameP->unk_390 = -watchGameP->unk_390;
+            if (watchGameP->curtain_step < 0) {
+                watchGameP->curtain_step = -watchGameP->curtain_step;
             }
         } else {
             u16 temp_s1;
@@ -7671,7 +7709,7 @@ enum_main_no dm_game_main(NNSched *sc) {
             func_8002BD04_cn();
 #endif
 
-            if (watchGameP->unk_420 != 0) {
+            if (watchGameP->demo_flag) {
                 dm_seq_set_volume(0x40);
             }
 
@@ -7689,9 +7727,9 @@ enum_main_no dm_game_main(NNSched *sc) {
     }
 
     D_800A6FC4 = 0;
-    watchGameP->unk_878 = 0xF;
+    watchGameP->graphic_thread_pri = THREAD_PRI_GRAPHIC;
 
-    while (watchGameP->unk_878 != 0) {
+    while (watchGameP->graphic_thread_pri != 0) {
         osRecvMesg(&scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
@@ -7723,50 +7761,50 @@ s32 dm_game_main2(void) {
     s32 var_s4_2;
     s32 var_s0;
 
-    if (temp_s3->unk_3B8 != 0) {
+    if (temp_s3->bgm_bpm_flg[1]) {
         dm_seq_play_in_game((evs_seqnumb * 2) + 1);
-        temp_s3->unk_3B8 = 0;
+        temp_s3->bgm_bpm_flg[1] = false;
     }
 
     dm_effect_make();
-    RecWritingMsg_calc(&temp_s3->recMessage);
+    RecWritingMsg_calc(&temp_s3->writingMsg);
 
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
-            if (temp_s3->unk_9AC > 0) {
+            if (temp_s3->coffee_break_flow > 0) {
                 if (gControllerHoldButtons[main_joy[0]] & (A_BUTTON | B_BUTTON)) {
-                    temp_s3->messageWnd.scrSpeed = 1.0f / 8.0f;
+                    temp_s3->msgWnd.scrSpeed = 1.0f / 8.0f;
                 } else {
-                    temp_s3->messageWnd.scrSpeed = 1.0f / 60.0f;
+                    temp_s3->msgWnd.scrSpeed = 1.0f / 60.0f;
                 }
-                msgWnd_update(&temp_s3->messageWnd);
+                msgWnd_update(&temp_s3->msgWnd);
 
-                switch (temp_s3->unk_9AC) {
+                switch (temp_s3->coffee_break_flow) {
                     case 0x1:
                         if (!(gControllerPressedButtons[main_joy[0]] & START_BUTTON)) {
-                            if (!msgWnd_isScroll(&temp_s3->messageWnd)) {
-                                temp_s3->unk_9AC = 2;
+                            if (!msgWnd_isScroll(&temp_s3->msgWnd)) {
+                                temp_s3->coffee_break_flow = 2;
                             }
                         } else {
-                            temp_s3->unk_9AC = 0;
+                            temp_s3->coffee_break_flow = 0;
                         }
                         break;
 
                     case 0x2:
-                        if (temp_s3->unk_9B0 < 0x168) {
-                            temp_s3->unk_9B0++;
+                        if (temp_s3->coffee_break_timer < 360) {
+                            temp_s3->coffee_break_timer++;
                         } else if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
-                            temp_s3->unk_9AC = 0;
+                            temp_s3->coffee_break_flow = 0;
                         }
                         break;
                 }
-                if (temp_s3->unk_9AC == 0) {
+                if (temp_s3->coffee_break_flow == 0) {
                     dm_seq_play_in_game(evs_seqnumb * 2);
                 }
                 var_s4_2 = 0;
             }
 
-            if (temp_s3->unk_9AC <= 0) {
+            if (temp_s3->coffee_break_flow <= 0) {
                 var_s4_2 = dm_game_main_1p();
 
                 switch (var_s4_2) {
@@ -7774,30 +7812,30 @@ s32 dm_game_main2(void) {
                         var_s0 = game_state_data[0].virus_level;
                         if ((var_s0 == 0x15) || (var_s0 == 0x18) ||
                             ((var_s0 >= 0x1E) && (var_s0 == ((var_s0 / 5) * 5)))) {
-                            temp_s3->unk_9AC = 1;
+                            temp_s3->coffee_break_flow = 1;
                             if (var_s0 >= 0x1E) {
                                 if (var_s0 < 0x28) {
-                                    temp_s3->unk_9B4 = 1;
+                                    temp_s3->coffee_break_level = 1;
                                 } else {
-                                    temp_s3->unk_9B4 = 2;
+                                    temp_s3->coffee_break_level = 2;
                                 }
                             } else {
-                                temp_s3->unk_9B4 = 0;
+                                temp_s3->coffee_break_level = 0;
                             }
 
                             if (var_s0 < 0x1E) {
-                                temp_s3->unk_9B8 = (var_s0 - 0x15) / 3;
+                                temp_s3->coffee_break_shard = (var_s0 - 0x15) / 3;
                             } else {
-                                temp_s3->unk_9B8 = (var_s0 / 5) & 1;
+                                temp_s3->coffee_break_shard = (var_s0 / 5) & 1;
                             }
                         }
 
-                        if (temp_s3->unk_9AC == 1) {
-                            temp_s3->unk_9B0 = 0;
+                        if (temp_s3->coffee_break_flow == 1) {
+                            temp_s3->coffee_break_timer = 0;
                             init_coffee_break_cnt();
-                            msgWnd_clear(&temp_s3->messageWnd);
-                            msgWnd_addStr(&temp_s3->messageWnd, st_staffroll_txt);
-                            msgWnd_skip(&temp_s3->messageWnd);
+                            msgWnd_clear(&temp_s3->msgWnd);
+                            msgWnd_addStr(&temp_s3->msgWnd, st_staffroll_txt);
+                            msgWnd_skip(&temp_s3->msgWnd);
                         }
 
                         if (game_state_data[0].virus_level < 0x63U) {
@@ -7822,16 +7860,16 @@ s32 dm_game_main2(void) {
                         dm_game_init(true);
                         animeState_set(&game_state_data[0].anime, ANIMENO_2);
 
-                        for (var_s0 = 0; var_s0 < 3; var_s0++) {
-                            animeState_set(&temp_s3->animeStates[var_s0], ANIMENO_0);
-                            animeSmog_stop(&temp_s3->animeSmogs[var_s0]);
+                        for (var_s0 = 0; var_s0 < ANIMES_COUNT; var_s0++) {
+                            animeState_set(&temp_s3->virus_anime_state[var_s0], ANIMENO_0);
+                            animeSmog_stop(&temp_s3->virus_smog_state[var_s0]);
                         }
 
-                        var_s0 = temp_s3->unk_9AC;
-                        temp_s3->unk_9AC = 0;
+                        var_s0 = temp_s3->coffee_break_flow;
+                        temp_s3->coffee_break_flow = 0;
                         backup_game_state(0);
-                        temp_s3->unk_9AC = var_s0;
-                        if (temp_s3->unk_9AC > 0) {
+                        temp_s3->coffee_break_flow = var_s0;
+                        if (temp_s3->coffee_break_flow > 0) {
                             dm_seq_play_in_game(SEQ_INDEX_23);
                         }
                         break;
@@ -7845,10 +7883,10 @@ s32 dm_game_main2(void) {
 
             for (var_s0 = 0; var_s0 < 2; var_s0++) {
                 if (evs_story_flg != 0) {
-                    if (temp_s3->unk_89C[var_s0] > 0) {
+                    if (temp_s3->win_count[var_s0] > 0) {
                         var_s1 = 1;
                     }
-                } else if (temp_s3->unk_89C[var_s0] == evs_vs_count) {
+                } else if (temp_s3->win_count[var_s0] == evs_vs_count) {
                     var_s1 = 1;
                 }
             }
@@ -7908,10 +7946,10 @@ s32 dm_game_main2(void) {
 
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
                 if (evs_story_flg != 0) {
-                    if (temp_s3->unk_89C[var_s0] > 0) {
+                    if (temp_s3->win_count[var_s0] > 0) {
                         var_s1 = 1;
                     }
-                } else if (temp_s3->unk_89C[var_s0] == evs_vs_count) {
+                } else if (temp_s3->win_count[var_s0] == evs_vs_count) {
                     var_s1 = 1;
                 }
             }
@@ -8073,13 +8111,13 @@ enum_main_no dm_game_main3(s32 arg0) {
 void dm_game_graphic(void) {
     struct_watchGame *watchGameP = watchGame;
 
-    if (watchGameP->unk_878 != 0x7F) {
+    if (watchGameP->graphic_thread_pri != 0x7F) {
         osSetThreadPri(NULL, THREAD_PRI_GRAPHIC);
-        watchGameP->unk_878 = 0;
+        watchGameP->graphic_thread_pri = 0;
         return;
     }
 
-    RecWritingMsg_draw(&watchGameP->recMessage, &gGfxHead);
+    RecWritingMsg_draw(&watchGameP->writingMsg, &gGfxHead);
 
     gDPFullSync(gGfxHead++);
     gSPEndDisplayList(gGfxHead++);
@@ -8087,14 +8125,14 @@ void dm_game_graphic(void) {
     osWritebackDCacheAll();
 
     gfxTaskStart(&B_800FAE80[gfx_gtask_no], gGfxGlist[gfx_gtask_no], (gGfxHead - gGfxGlist[gfx_gtask_no]) * sizeof(Gfx),
-                 0, (watchGameP->unk_880 == 0) ? OS_SC_SWAPBUFFER : 0);
+                 0, !watchGameP->bg_snapping ? OS_SC_SWAPBUFFER : 0);
     osSetThreadPri(NULL, THREAD_PRI_GRAPHIC);
     dm_game_graphic2();
     osSetThreadPri(NULL, OS_PRIORITY_APPMAX);
 }
 
 const s32 _x_6416[] = { 0x77, 0xB6 };
-static_assert(ARRAY_COUNT(watchGame->unk_8B4) == ARRAY_COUNT(_x_6416), "");
+static_assert(ARRAY_COUNT(watchGame->vs_win_total) == ARRAY_COUNT(_x_6416), "");
 
 const s32 dir_6435[2] = { -1, 1 };
 
@@ -8122,9 +8160,9 @@ void dm_game_graphic2(void) {
     gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     F3ClearFZRtn(debugMenuEnabled);
     if (!debugMenuEnabled) {
-        if (temp_s7->unk_394 < 0x14) {
+        if (temp_s7->frame_move_count < FRAME_MOVEMENT_MAX) {
             dm_game_draw_snap_bg(&gGfxHead, &mtx, &vtx, 1);
-        } else if (temp_s7->unk_9AC == 0) {
+        } else if (temp_s7->coffee_break_flow == 0) {
             func_8006F628(&gGfxHead);
         }
     }
@@ -8133,26 +8171,26 @@ void dm_game_graphic2(void) {
         case ENUM_EVS_GAMESEL_1:
         case ENUM_EVS_GAMESEL_3:
         case ENUM_EVS_GAMESEL_5: {
-            s32 temp_s4 = temp_s7->unk_394;
-            s32 temp_s0 = temp_s7->unk_394 < 0x14;
-            s32 temp_s1 = temp_s7->unk_880 == 0;
+            s32 temp_s4 = temp_s7->frame_move_count;
+            s32 temp_s0 = temp_s7->frame_move_count < FRAME_MOVEMENT_MAX;
+            s32 temp_s1 = !temp_s7->bg_snapping;
 
             if (!debugMenuEnabled) {
-                if (temp_s7->unk_880 != 0) {
-                    temp_s7->unk_394 = 0x14;
+                if (temp_s7->bg_snapping) {
+                    temp_s7->frame_move_count = FRAME_MOVEMENT_MAX;
                 }
                 dm_calc_bottle_2p();
                 if (temp_s0 != 0) {
                     dm_draw_bottle_2p(&gGfxHead);
                 }
 
-                i = (0x14 - temp_s7->unk_394) * 6;
+                i = (FRAME_MOVEMENT_MAX - temp_s7->frame_move_count) * 6;
                 if (evs_story_flg != 0) {
                     draw_story_board(&gGfxHead, 0, -i, temp_s0, temp_s1);
                 } else {
                     draw_vsmode_board(&gGfxHead, 0, -i, temp_s0, temp_s1);
                 }
-                temp_s7->unk_394 = temp_s4;
+                temp_s7->frame_move_count = temp_s4;
             }
         } break;
 
@@ -8166,7 +8204,7 @@ void dm_game_graphic2(void) {
         case ENUM_EVS_GAMESEL_3:
         case ENUM_EVS_GAMESEL_5:
         case ENUM_EVS_GAMESEL_6:
-            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && !temp_s7->bg_snapping) {
                 for (i = 0; i < evs_playcnt; i++) {
                     dm_virus_anime(&game_state_data[i], game_map_data[i]);
                     dm_game_graphic_p(&game_state_data[i], i, game_map_data[i]);
@@ -8181,13 +8219,14 @@ void dm_game_graphic2(void) {
     switch (evs_gamesel) {
         case ENUM_EVS_GAMESEL_0:
         case ENUM_EVS_GAMESEL_4:
-            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && !temp_s7->bg_snapping) {
                 disp_logo_setup(&gGfxHead);
 
-                if (temp_s7->unk_9AC > 0) {
-                    draw_coffee_break(&gGfxHead, temp_s7->unk_9B4, temp_s7->unk_9B8, temp_s7->unk_9AC > 1);
-                    msgWnd_draw(&temp_s7->messageWnd, &gGfxHead);
-                    if (temp_s7->unk_9B0 == 0x168) {
+                if (temp_s7->coffee_break_flow > 0) {
+                    draw_coffee_break(&gGfxHead, temp_s7->coffee_break_level, temp_s7->coffee_break_shard,
+                                      temp_s7->coffee_break_flow > 1);
+                    msgWnd_draw(&temp_s7->msgWnd, &gGfxHead);
+                    if (temp_s7->coffee_break_timer == 360) {
                         push_any_key_draw(0x80, 0xC0);
                     }
                 } else {
@@ -8196,7 +8235,7 @@ void dm_game_graphic2(void) {
 
                     dm_virus_anime(&game_state_data[0], game_map_data[0]);
                     dm_game_graphic_1p(&game_state_data[0], 0, game_map_data[0]);
-                    _disp_coin_logo(&gGfxHead, temp_s7->unk_378);
+                    _disp_coin_logo(&gGfxHead, temp_s7->retry_coin);
 
                     gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
@@ -8246,7 +8285,7 @@ void dm_game_graphic2(void) {
                     draw_virus_number(&gGfxHead, i, 0xFE, 0xD2, 1.0f, 1.0f);
                     dm_draw_big_virus(&gGfxHead);
                     dm_game_graphic_effect(&game_state_data[0], 0, 0);
-                    if (temp_s7->unk_410 != 0) {
+                    if (temp_s7->big_virus_stop_count != 0) {
                         disp_timestop_logo(&gGfxHead, 0);
                     }
                 }
@@ -8256,7 +8295,7 @@ void dm_game_graphic2(void) {
         case ENUM_EVS_GAMESEL_1:
         case ENUM_EVS_GAMESEL_3:
         case ENUM_EVS_GAMESEL_5:
-            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && !temp_s7->bg_snapping) {
                 disp_logo_setup(&gGfxHead);
 
                 gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
@@ -8283,18 +8322,18 @@ void dm_game_graphic2(void) {
 
                 if (evs_story_flg != 0) {
                     for (i = cached = 0; i < 2U; i++) {
-                        if (temp_s7->unk_89C[i] == 0) {
+                        if (temp_s7->win_count[i] == 0) {
                             func_800695A8(&gGfxHead, _posStStar[i][0], _posStStar[i][1], cached);
                             cached++;
                         }
                     }
                 } else {
-                    for (i = 0; i < ARRAY_COUNT(watchGame->unk_8B4); i++) {
-                        draw_count_number(&gGfxHead, 0, 2, temp_s7->unk_8B4[i], _x_6416[i], 0x98);
+                    for (i = 0; i < ARRAY_COUNT(watchGame->vs_win_total); i++) {
+                        draw_count_number(&gGfxHead, 0, 2, temp_s7->vs_win_total[i], _x_6416[i], 0x98);
                     }
 
                     for (i = cached = 0; i < 2; i++) {
-                        for (j = temp_s7->unk_89C[i]; j < evs_vs_count; j++) {
+                        for (j = temp_s7->win_count[i]; j < evs_vs_count; j++) {
                             func_800695A8(&gGfxHead, _posP2StarX[i], _posP2StarY[evs_vs_count - 1][j], cached);
                             cached++;
                         }
@@ -8303,22 +8342,22 @@ void dm_game_graphic2(void) {
 
                 switch (evs_gamemode) {
                     case GMD_FLASH:
-                        var_s6 = &temp_s7->unk_43C[7];
+                        var_s6 = &temp_s7->texP2[7];
                         break;
 
                     default:
-                        var_s6 = &temp_s7->unk_43C[0xF];
+                        var_s6 = &temp_s7->texP2[0xF];
                         break;
                 }
-                var_t2 = &temp_s7->unk_43C[1];
+                var_t2 = &temp_s7->texP2[1];
 
                 StretchAlphaTexBlock(&gGfxHead, var_s6->info[TI_INFO_IDX_WIDTH], var_s6->info[TI_INFO_IDX_HEIGHT],
                                      var_s6->texs[TI_TEX_TEX], var_s6->info[TI_INFO_IDX_WIDTH],
                                      var_t2->texs[TI_TEX_TEX], var_t2->info[TI_INFO_IDX_WIDTH], 131.0f, 181.0f,
                                      var_s6->info[TI_INFO_IDX_WIDTH], var_s6->info[TI_INFO_IDX_HEIGHT]);
 
-                func_80069188(&temp_s7->unk_070, temp_s7->unk_06C);
-                starForce_draw(&temp_s7->unk_070, &gGfxHead, temp_s7->unk_06C);
+                func_80069188(&temp_s7->starForce, temp_s7->star_count);
+                starForce_draw(&temp_s7->starForce, &gGfxHead, temp_s7->star_count);
 
                 for (i = 0; i < 2; i++) {
                     animeState_initDL(&game_state_data[i].anime, &gGfxHead);
@@ -8336,7 +8375,7 @@ void dm_game_graphic2(void) {
 
         case ENUM_EVS_GAMESEL_2:
         case ENUM_EVS_GAMESEL_6:
-            if (!debugMenuEnabled && (temp_s7->unk_880 == 0)) {
+            if (!debugMenuEnabled && !temp_s7->bg_snapping) {
                 for (i = 0; i < 4; i++) {
                     animeState_initDL(&game_state_data[i].anime, &gGfxHead);
                     animeState_draw(&game_state_data[i].anime, &gGfxHead, _posP4CharBase[i][0] + 0x14,
@@ -8355,28 +8394,28 @@ void dm_game_graphic2(void) {
                 if (evs_story_flg != 0) {
                     func_8006A098(&gGfxHead, evs_game_time, 0x3B, 0x12);
 
-                    for (i = cached = 0; i < 4U; i++) {
-                        if (temp_s7->unk_89C[i] == 0) {
+                    for (i = cached = 0; i < ARRAY_COUNTU(temp_s7->win_count); i++) {
+                        if (temp_s7->win_count[i] == 0) {
                             func_800695A8(&gGfxHead, _posStP4StarX[i], 0xD, cached);
                             cached++;
                         }
                     }
-                } else if (temp_s7->unk_8C0 != 0) {
+                } else if (temp_s7->vs_4p_team_flg) {
                     s32 a;
                     s32 b;
                     s32 temp_s5;
                     s32 temp_s2_4;
                     s32 temp_a3_10;
 
-                    var_s6 = &temp_s7->unk_440[0xE];
-                    var_t2 = &temp_s7->unk_440[0x16];
+                    var_s6 = &temp_s7->texP4[0xE];
+                    var_t2 = &temp_s7->texP4[0x16];
 
                     temp_s5 = var_s6->info[TI_INFO_IDX_WIDTH] >> 1;
                     temp_s2_4 = var_s6->info[TI_INFO_IDX_HEIGHT] / 3;
 
                     for (i = 0; i < 2; i++) {
                         for (j = 0; j < 4; j++) {
-                            temp_a3_10 = temp_s7->unk_8DC[i][j];
+                            temp_a3_10 = temp_s7->story_4p_stock_cap[i][j];
                             if (temp_a3_10 < 0) {
                                 continue;
                             }
@@ -8393,22 +8432,22 @@ void dm_game_graphic2(void) {
                     }
 
                     for (i = cached = 0; i < 2; i++) {
-                        for (j = temp_s7->unk_89C[i]; j < evs_vs_count; j++) {
+                        for (j = temp_s7->win_count[i]; j < evs_vs_count; j++) {
                             func_800695A8(&gGfxHead, _posP4TeamStarX[evs_vs_count - 1][i][j], 0xD, cached);
                             cached++;
                         }
                     }
                 } else {
                     for (i = cached = 0; i < 4; i++) {
-                        for (j = temp_s7->unk_89C[i]; j < evs_vs_count; j++) {
+                        for (j = temp_s7->win_count[i]; j < evs_vs_count; j++) {
                             func_800695A8(&gGfxHead, _posP4CharStarX[evs_vs_count - 1][i][j], 0xD, cached);
                             cached++;
                         }
                     }
                 }
 
-                func_80069188(&temp_s7->unk_070, temp_s7->unk_06C);
-                starForce_draw(&temp_s7->unk_070, &gGfxHead, temp_s7->unk_06C);
+                func_80069188(&temp_s7->starForce, temp_s7->star_count);
+                starForce_draw(&temp_s7->starForce, &gGfxHead, temp_s7->star_count);
 
                 for (i = 0; i < 4; i++) {
                     dm_game_graphic_effect(&game_state_data[i], i, 1);
@@ -8421,7 +8460,7 @@ void dm_game_graphic2(void) {
             break;
     }
 
-    if (temp_s7->unk_880 == 0) {
+    if (!temp_s7->bg_snapping) {
         switch (game_state_data[0].mode_now) {
             case dm_mode_debug:
                 DebugMenu_Settings_Draw(&gGfxHead);
@@ -8452,7 +8491,7 @@ void dm_game_graphic2(void) {
                 break;
         }
 
-        if ((temp_s7->unk_000 != 0) && !func_80064848()) {
+        if (temp_s7->replayFlag && !func_80064848()) {
             s32 sp50;
             s32 sp54;
 
@@ -8476,17 +8515,17 @@ void dm_game_graphic2(void) {
             draw_replay_logo(&gGfxHead, sp50, sp54);
 
             //! FAKE
-            j = temp_s7->unk_89C[i];
+            j = temp_s7->win_count[i];
         }
 
-        if (temp_s7->unk_A28.alpha > 0) {
-            var_s6 = &temp_s7->unk_430[0xC];
+        if (temp_s7->passWnd.alpha > 0) {
+            var_s6 = &temp_s7->texAL[0xC];
 
             gSPDisplayList(gGfxHead++, normal_texture_init_dl);
             gDPSetCombineLERP(gGfxHead++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                               PRIMITIVE, 0);
             gDPSetRenderMode(gGfxHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
-            gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 200, temp_s7->unk_A28.alpha);
+            gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 200, temp_s7->passWnd.alpha);
             gDPSetTextureLUT(gGfxHead++, G_TT_NONE);
 
             gDPLoadTextureBlock_4b(gGfxHead++, var_s6->texs[TI_TEX_TEX], G_IM_FMT_I, var_s6->info[TI_INFO_IDX_WIDTH],
@@ -8494,30 +8533,30 @@ void dm_game_graphic2(void) {
                                    G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
             drawCursorPattern(&gGfxHead, var_s6->info[TI_INFO_IDX_WIDTH], var_s6->info[TI_INFO_IDX_HEIGHT], 0x10, 0x10,
-                              temp_s7->unk_A28.posX - 6, temp_s7->unk_A28.posY - 6,
-                              (temp_s7->unk_A28.colStep * 0x14) + 0xC, (temp_s7->unk_A28.rowStep * 3) + 0xC);
+                              temp_s7->passWnd.posX - 6, temp_s7->passWnd.posY - 6,
+                              (temp_s7->passWnd.colStep * 0x14) + 0xC, (temp_s7->passWnd.rowStep * 3) + 0xC);
 
-            msgWnd_update(&temp_s7->unk_A28);
-            msgWnd_draw(&temp_s7->unk_A28, &gGfxHead);
+            msgWnd_update(&temp_s7->passWnd);
+            msgWnd_draw(&temp_s7->passWnd, &gGfxHead);
         }
 
-        temp_s7->unk_A28.alpha = CLAMP(temp_s7->unk_A28.alpha + temp_s7->unk_AA8, 0, 0xFF);
+        temp_s7->passWnd.alpha = CLAMP(temp_s7->passWnd.alpha + temp_s7->passAlphaStep, 0, 0xFF);
 
-        temp_s7->unk_38C = CLAMP(temp_s7->unk_38C + temp_s7->unk_390, 0, 0x1E);
+        temp_s7->curtain_count = CLAMP(temp_s7->curtain_count + temp_s7->curtain_step, 0, CURTAIN_COUNT_VAL);
 
-        curtain_proc(&gGfxHead, temp_s7->unk_38C);
+        curtain_proc(&gGfxHead, temp_s7->curtain_count);
     }
 
 #ifdef NN_SC_PERF
-    if (temp_s7->unk_880 == 0) {
+    if (!temp_s7->bg_snapping) {
         if (D_800BEF08_cn != 0) {
             func_8002BD7C_cn(&gGfxHead, 0x20, 0xB4);
         }
     }
 #endif
 
-    if (temp_s7->unk_880 != 0) {
-        temp_s7->unk_880 = 0;
+    if (temp_s7->bg_snapping) {
+        temp_s7->bg_snapping = false;
     }
 }
 
@@ -8544,7 +8583,7 @@ void dm_game_graphic_onDoneSawp(void) {
         osRecvMesg(&sp28, NULL, OS_MESG_BLOCK);
     }
 
-    if (watchGameP->unk_3B0 != 0) {
+    if (watchGameP->eep_rom_flg) {
         for (i = 0; i < MAXCONTROLLERS; i++) {
             joycur[i] = 0;
             gControllerPressedButtons[i] = 0;
@@ -8572,11 +8611,11 @@ void dm_game_graphic_onDoneSawp(void) {
             }
         }
 
-        if (!var_s3 && (watchGameP->unk_3C4 != 0)) {
+        if (!var_s3 && watchGameP->started_game_flg) {
             aiCOM_MissTake();
         }
 
-        if ((watchGameP->unk_000 != 0) && !var_s3 && !temp_s1 && (watchGameP->unk_3C4 != 0)) {
+        if (watchGameP->replayFlag && !var_s3 && !temp_s1 && watchGameP->started_game_flg) {
             for (i = 0; i < evs_playcnt; i++) {
                 joygam[i] = replay_play(i);
             }
@@ -8593,7 +8632,7 @@ void dm_game_graphic_onDoneSawp(void) {
             }
         }
 
-        watchGameP->unk_40C = (evs_gamemode == GMD_TaiQ) && (joygam[0] & (L_TRIG | R_TRIG));
+        watchGameP->big_virus_no_wait = (evs_gamemode == GMD_TaiQ) && (joygam[0] & (L_TRIG | R_TRIG));
 
         switch (evs_gamesel) {
             case ENUM_EVS_GAMESEL_0:
@@ -8614,7 +8653,7 @@ void dm_game_graphic_onDoneSawp(void) {
                 break;
         }
 
-        if ((watchGameP->unk_000 == 0) && !var_s3) {
+        if (!watchGameP->replayFlag && !var_s3) {
             for (i = 0; i < evs_playcnt; i++) {
                 replay_record(i, joygam[i]);
             }
@@ -8649,10 +8688,10 @@ enum_main_no main_techmes(NNSched *sc) {
     dm_game_init_static();
 
     heapTop = init_menu_bg(heapTop, false);
-    msgWnd_init2(&watchGameP->messageWnd, &heapTop, 0x1000, 0x12, 0x10, 0x34, 0x22);
-    msgWnd_addStr(&watchGameP->messageWnd, EndingLastMessage);
-    watchGameP->messageWnd.fontType = FONTTYPE_1;
-    watchGameP->messageWnd.centering = true;
+    msgWnd_init2(&watchGameP->msgWnd, &heapTop, 0x1000, 0x12, 0x10, 0x34, 0x22);
+    msgWnd_addStr(&watchGameP->msgWnd, EndingLastMessage);
+    watchGameP->msgWnd.fontType = FONTTYPE_1;
+    watchGameP->msgWnd.centering = true;
 
     sequenceBackup = evs_seqence;
     evs_seqence = 0;
@@ -8673,34 +8712,34 @@ enum_main_no main_techmes(NNSched *sc) {
         }
 #endif
 
-        switch (watchGameP->unk_9AC) {
+        switch (watchGameP->coffee_break_flow) {
             case 0x0:
-                if (watchGameP->unk_9B0 == 0xFF) {
-                    watchGameP->unk_9AC = 1;
+                if (watchGameP->coffee_break_timer == 255) {
+                    watchGameP->coffee_break_flow = 1;
                 } else {
-                    watchGameP->unk_9B0 = MIN(0xFF, watchGameP->unk_9B0 + 4);
+                    watchGameP->coffee_break_timer = MIN(255, watchGameP->coffee_break_timer + 4);
                 }
                 break;
 
             case 0x1:
-                if (msgWnd_isEnd(&watchGameP->messageWnd)) {
-                    watchGameP->unk_9AC++;
+                if (msgWnd_isEnd(&watchGameP->msgWnd)) {
+                    watchGameP->coffee_break_flow++;
                 } else {
-                    msgWnd_update(&watchGameP->messageWnd);
+                    msgWnd_update(&watchGameP->msgWnd);
                 }
                 break;
 
             case 0x2:
                 if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
-                    watchGameP->unk_9AC = 3;
+                    watchGameP->coffee_break_flow = 3;
                 }
                 break;
 
             case 0x3:
-                if (watchGameP->unk_9B0 == 0) {
+                if (watchGameP->coffee_break_timer == 0) {
                     keepRunning = false;
                 } else {
-                    watchGameP->unk_9B0 = MAX(0, watchGameP->unk_9B0 - 4);
+                    watchGameP->coffee_break_timer = MAX(0, watchGameP->coffee_break_timer - 4);
                 }
                 break;
         }
@@ -8738,15 +8777,15 @@ void graphic_techmes(void) {
 
     draw_menu_bg(&gGfxHead, 0, -0x78);
 
-    dm_draw_KaSaMaRu(&gGfxHead, &mtx, &vtx, msgWnd_isSpeaking(&watchGameP->messageWnd), 0xC8, 0x80, 1, 0xFF);
-    msgWnd_draw(&watchGameP->messageWnd, &gGfxHead);
-    if (watchGameP->unk_9AC == 2) {
+    dm_draw_KaSaMaRu(&gGfxHead, &mtx, &vtx, msgWnd_isSpeaking(&watchGameP->msgWnd), 0xC8, 0x80, 1, 0xFF);
+    msgWnd_draw(&watchGameP->msgWnd, &gGfxHead);
+    if (watchGameP->coffee_break_flow == 2) {
         push_any_key_draw(128, 192);
     }
 
-    FillRectRGBA(&gGfxHead, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 255 - watchGameP->unk_9B0);
+    FillRectRGBA(&gGfxHead, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 0, 255 - watchGameP->coffee_break_timer);
 
-    watchGameP->unk_424++;
+    watchGameP->blink_count++;
 
     gDPFullSync(gGfxHead++);
     gSPEndDisplayList(gGfxHead++);
