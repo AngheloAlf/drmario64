@@ -5,33 +5,34 @@
 #include "dm_game_main.h"
 
 #include "defines.h"
-#include "libc/stdbool.h"
 #include "macros_defines.h"
 
-#include "ultratypes.h"
-#include "util.h"
-#include "gcc/memory.h"
-#include "rom_offsets.h"
-#include "buffers.h"
-#include "audio/sound.h"
-#include "graphic.h"
-#include "aiset.h"
-#include "replay.h"
-#include "game_etc.h"
-#include "record.h"
-#include "vr_init.h"
-#include "main1x.h"
-#include "bg_tasks.h"
-#include "tex_func.h"
-#include "main_story.h"
-#include "debug_menu.h"
-#include "nnsched.h"
-#include "static.h"
-#include "dm_virus_init.h"
-#include "calc.h"
-#include "066580.h"
 #include "libc/assert.h"
+#include "libc/stdbool.h"
+#include "gcc/memory.h"
+
+#include "066580.h"
+#include "aiset.h"
+#include "audio/sound.h"
+#include "bg_tasks.h"
+#include "buffers.h"
+#include "calc.h"
+#include "debug_menu.h"
+#include "dm_main_cnt.h"
 #include "dm_thread.h"
+#include "dm_virus_init.h"
+#include "game_etc.h"
+#include "graphic.h"
+#include "main1x.h"
+#include "main_story.h"
+#include "nnsched.h"
+#include "record.h"
+#include "replay.h"
+#include "rom_offsets.h"
+#include "static.h"
+#include "tex_func.h"
+#include "util.h"
+#include "vr_init.h"
 
 #if VERSION_US || VERSION_GW || CC_CHECK
 #else
@@ -174,19 +175,19 @@ typedef struct struct_watchGame {
     /* 0x888 */ s32 effect_timer[MAX_PLAYERS];                           /* Original name: effect_timer */
     /* 0x898 */ s32 touch_down_wait;                                     /* Original name: touch_down_wait */
     /* 0x89C */ s32 win_count[TEAMNUMBER_MAX];
-        /* Original name: win_count */  /* Indexed by TeamNumber/`struct_game_state_data::team_no` */
-    /* 0x8AC */ s32 vs_win_count[2];    /* Original name: vs_win_count */
-    /* 0x8B4 */ s32 vs_win_total[2];    /* Original name: vs_win_total */
-    /* 0x8BC */ s32 vs_4p_player_count; /* Original name: vs_4p_player_count */
-    /* 0x8C0 */ bool vs_4p_team_flg;    /* Original name: vs_4p_team_flg */
-    /* 0x8C4 */ u32 vs_4p_team_bits[2]; /* Original name: vs_4p_team_bits */
+    /* Original name: win_count */ /* Indexed by TeamNumber/`struct_game_state_data::team_no` */
+    /* 0x8AC */ s32 vs_win_count[EVS_SELECT_NAME_NO_COUNT]; /* Original name: vs_win_count */
+    /* 0x8B4 */ s32 vs_win_total[2];                        /* Original name: vs_win_total */
+    /* 0x8BC */ s32 vs_4p_player_count;                     /* Original name: vs_4p_player_count */
+    /* 0x8C0 */ bool vs_4p_team_flg;                        /* Original name: vs_4p_team_flg */
+    /* 0x8C4 */ u32 vs_4p_team_bits[2];                     /* Original name: vs_4p_team_bits */
     /* 0x8CC */ s32 story_4p_name_num[TEAMNUMBER_MAX];
-        /* Original name: story_4p_name_num */ // Indexed by TeamNumber/`struct_game_state_data::team_no`
+    /* Original name: story_4p_name_num */ // Indexed by TeamNumber/`struct_game_state_data::team_no`
     /* 0x8DC */ s32 story_4p_stock_cap[TEAMNUMBER_MAX][4];
-        /* Original name: story_4p_stock_cap */ // Outer indexed by TeamNumber/`struct_game_state_data::team_no`
-    /* 0x91C */ MessageWnd msgWnd;              /* Original name: msgWnd */
-    /* 0x99C */ s32 coin_count;                 /* Original name: coin_count */
-    /* 0x9A0 */ s32 coin_time[3];               /* Original name: coin_time */
+    /* Original name: story_4p_stock_cap */ // Outer indexed by TeamNumber/`struct_game_state_data::team_no`
+    /* 0x91C */ MessageWnd msgWnd;          /* Original name: msgWnd */
+    /* 0x99C */ s32 coin_count;             /* Original name: coin_count */
+    /* 0x9A0 */ s32 coin_time[3];           /* Original name: coin_time */
     /* 0x9AC */ s32 coffee_break_flow; /* Original name: coffee_break_flow */   // TODO: enum?
     /* 0x9B0 */ s32 coffee_break_timer;                                         /* Original name: coffee_break_timer */
     /* 0x9B4 */ s32 coffee_break_level; /* Original name: coffee_break_level */ // TODO: enum
@@ -218,19 +219,18 @@ enum_evs_gamemode evs_gamemode;
  */
 u8 CapsMagazine[0x100];
 
-// GameStateBackup?
-typedef struct struct_gameBackup {
-    /* 0x0000 */ struct_watchGame game;
-    /* 0x0B60 */ struct_game_state_data state[MAX_PLAYERS];
-    /* 0x1A70 */ GameMapCell map[MAX_PLAYERS][GAME_MAP_ROWS * GAME_MAP_COLUMNS];
-    /* 0x2FB0 */ s32 highScore;
-    /* 0x2FB4 */ s32 gameTime;
-} struct_gameBackup; // size = 0x2FB8
+typedef struct GameStateBackup {
+    /* 0x0000 */ struct_watchGame game;                                          /* Original name: game */
+    /* 0x0B60 */ struct_game_state_data state[MAX_PLAYERS];                      /* Original name: state */
+    /* 0x1A70 */ GameMapCell map[MAX_PLAYERS][GAME_MAP_ROWS * GAME_MAP_COLUMNS]; /* Original name: map */
+    /* 0x2FB0 */ s32 highScore;                                                  /* Original name: highScore */
+    /* 0x2FB4 */ s32 gameTime;                                                   /* Original name: gameTime */
+} GameStateBackup;                                                               // size = 0x2FB8
 
 /**
  * Original name: gameBackup
  */
-struct_gameBackup *gameBackup[2];
+GameStateBackup *gameBackup[2];
 
 /**
  * Original name: heapTop
@@ -323,31 +323,31 @@ u32 dm_make_score(struct_game_state_data *state) {
         }
     } else {
         switch (evs_gamesel) {
-            case ENUM_EVS_GAMESEL_0:
+            case GSL_1PLAY:
                 level = state->cap_def_speed;
                 break;
 
-            case ENUM_EVS_GAMESEL_1:
+            case GSL_2PLAY:
                 level = state->cap_def_speed;
                 break;
 
-            case ENUM_EVS_GAMESEL_2:
+            case GSL_4PLAY:
                 level = state->cap_def_speed;
                 break;
 
-            case ENUM_EVS_GAMESEL_3:
+            case GSL_VSCPU:
                 level = state->cap_def_speed;
                 break;
 
-            case ENUM_EVS_GAMESEL_4:
+            case GSL_1DEMO:
                 level = state->cap_def_speed;
                 break;
 
-            case ENUM_EVS_GAMESEL_5:
+            case GSL_2DEMO:
                 level = state->cap_def_speed;
                 break;
 
-            case ENUM_EVS_GAMESEL_6:
+            case GSL_4DEMO:
                 level = state->cap_def_speed;
                 break;
 
@@ -372,16 +372,16 @@ void dm_attack_se(struct_game_state_data *state, s32 player_no) {
     }
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
+        case GSL_1PLAY:
             dm_snd_play_in_game(SND_INDEX_59);
             break;
 
-        case ENUM_EVS_GAMESEL_1:
-        case ENUM_EVS_GAMESEL_3:
+        case GSL_2PLAY:
+        case GSL_VSCPU:
             dm_snd_play_in_game(dm_chaine_se_table_vs_178[player_no]);
             break;
 
-        case ENUM_EVS_GAMESEL_2:
+        case GSL_4PLAY:
             for (i = 0; i < ARRAY_COUNT(dm_chaine_se_table_4p_179[player_no]); i++) {
                 if ((state->chain_color[3] >> i) & 1) {
                     dm_snd_play_in_game(dm_chaine_se_table_4p_179[player_no][i]);
@@ -2136,7 +2136,7 @@ void scoreNums_set(ScoreNums *st, u32 score, s32 erase, s32 x, s32 y) {
  * Original name: backup_game_state
  */
 void backup_game_state(s32 bufNo) {
-    struct_gameBackup *bak = gameBackup[bufNo];
+    GameStateBackup *bak = gameBackup[bufNo];
     s32 i;
 
     bak->game = *watchGame;
@@ -2161,7 +2161,7 @@ void backup_game_state(s32 bufNo) {
  * Original name: resume_game_state
  */
 void resume_game_state(s32 bufNo) {
-    struct_gameBackup *bak = gameBackup[bufNo];
+    GameStateBackup *bak = gameBackup[bufNo];
     s32 i;
 
     *watchGame = bak->game;
@@ -2200,11 +2200,11 @@ void set_replay_state(void) {
  * Original name: reset_replay_state
  */
 void reset_replay_state(void) {
-    struct_watchGame *watchGameRef = watchGame;
+    struct_watchGame *st = watchGame;
 
-    if (watchGameRef->replayFlag) {
+    if (st->replayFlag) {
         resume_game_state(1);
-        watchGameRef->replayFlag = false;
+        st->replayFlag = false;
     }
 }
 
@@ -2223,31 +2223,34 @@ void start_replay_proc(void) {
  * Original name: dm_warning_h_line_se
  */
 void dm_warning_h_line_se(void) {
-    struct_watchGame *watchGameP = watchGame;
-    s32 var_a0 = 0;
+    struct_watchGame *st = watchGame;
+    s32 warning = 0;
     s32 i;
 
     for (i = 0; i < evs_playcnt; i++) {
         if (game_state_data[i].cnd_static == dm_cnd_wait) {
             if (game_state_data[i].warning_se_flag) {
-                var_a0++;
+                warning++;
             }
         }
     }
 
-    if (var_a0 == 0) {
-        watchGameP->warning_se_count = 0;
+    if (warning == 0) {
+        st->warning_se_count = 0;
     } else {
-        watchGameP->warning_se_count++;
+        st->warning_se_count++;
 
-        if (watchGameP->warning_se_count == 1) {
+        if (st->warning_se_count == 1) {
             dm_snd_play_in_game(SND_INDEX_79);
-        } else if (watchGameP->warning_se_count >= 300) {
-            watchGameP->warning_se_count = 0;
+        } else if (st->warning_se_count >= 300) {
+            st->warning_se_count = 0;
         }
     }
 }
 
+/**
+ * Original name: dm_play_count_down_se
+ */
 void dm_play_count_down_se(void) {
     s32 i;
 
@@ -2286,158 +2289,168 @@ static_assert(ARRAY_COUNT(black_color_1384) == 2, "indexed by bool");
 /**
  * Original name: dm_capsel_down
  */
-void dm_capsel_down(struct_game_state_data *gameStateData, GameMapCell *mapCells) {
-    struct_watchGame *watchGameP = watchGame;
-    struct_game_state_data_now_cap *temp_s2 = &gameStateData->now_cap;
-    s32 var_s0_2;
-    s32 var_s1_2;
+void dm_capsel_down(struct_game_state_data *state, GameMapCell *map) {
+    struct_watchGame *st = watchGame;
+    struct_game_state_data_now_cap *cap = &state->now_cap;
+    s32 i;
+    s32 j;
 
-    if (temp_s2->pos_y[0] > 0) {
-        var_s0_2 = FallSpeed[gameStateData->cap_speed];
-        if ((temp_s2->pos_y[0] < 4) && (temp_s2->pos_y[0] > 0)) {
-            var_s0_2 += BonusWait[temp_s2->pos_y[0] - 1][gameStateData->cap_def_speed];
+    if (cap->pos_y[0] > 0) {
+        i = FallSpeed[state->cap_speed];
+        if ((cap->pos_y[0] < 4) && (cap->pos_y[0] > 0)) {
+            i += BonusWait[cap->pos_y[0] - 1][state->cap_def_speed];
         }
-        var_s1_2 = 0;
-        if (get_map_info(mapCells, gameStateData->now_cap.pos_x[0], temp_s2->pos_y[0] + 1) != 0) {
-            var_s1_2 = watchGameP->touch_down_wait;
+        j = 0;
+        if (get_map_info(map, state->now_cap.pos_x[0], cap->pos_y[0] + 1) != 0) {
+            j = st->touch_down_wait;
         }
-        gameStateData->cap_speed_max = var_s0_2 + var_s1_2;
+        state->cap_speed_max = i + j;
     } else {
-        gameStateData->cap_speed_max = 30;
+        state->cap_speed_max = 30;
     }
 
-    gameStateData->cap_speed_count = gameStateData->cap_speed_count + gameStateData->cap_speed_vec;
-    if (gameStateData->cap_speed_count < gameStateData->cap_speed_max) {
+    state->cap_speed_count = state->cap_speed_count + state->cap_speed_vec;
+    if (state->cap_speed_count < state->cap_speed_max) {
         return;
     }
 
-    gameStateData->cap_speed_count = 0;
-    if (temp_s2->capsel_flg_0 == 0) {
+    state->cap_speed_count = 0;
+    if (cap->capsel_flg_0 == 0) {
         return;
     }
 
-    if (temp_s2->pos_y[0] > 0) {
-        if (temp_s2->pos_x[0] == temp_s2->pos_x[1]) {
-            if (get_map_info(mapCells, temp_s2->pos_x[0], temp_s2->pos_y[0] + 1) != 0) {
-                temp_s2->capsel_flg_1 = 0;
+    if (cap->pos_y[0] > 0) {
+        if (cap->pos_x[0] == cap->pos_x[1]) {
+            if (get_map_info(map, cap->pos_x[0], cap->pos_y[0] + 1) != 0) {
+                cap->capsel_flg_1 = 0;
             }
         } else {
-            for (var_s1_2 = 0; var_s1_2 < ARRAY_COUNTU(temp_s2->pos_x); var_s1_2++) {
-                if (get_map_info(mapCells, temp_s2->pos_x[var_s1_2], temp_s2->pos_y[var_s1_2] + 1) != 0) {
-                    temp_s2->capsel_flg_1 = 0;
+            for (j = 0; j < ARRAY_COUNTU(cap->pos_x); j++) {
+                if (get_map_info(map, cap->pos_x[j], cap->pos_y[j] + 1) != 0) {
+                    cap->capsel_flg_1 = 0;
                     break;
                 }
             }
         }
     }
 
-    for (var_s0_2 = 0; var_s0_2 < ARRAY_COUNTU(temp_s2->pos_y); var_s0_2++) {
-        if (temp_s2->pos_y[var_s0_2] == 0x10) {
-            temp_s2->capsel_flg_1 = 0;
+    for (i = 0; i < ARRAY_COUNTU(cap->pos_y); i++) {
+        if (cap->pos_y[i] == 0x10) {
+            cap->capsel_flg_1 = 0;
             break;
         }
     }
 
-    if (temp_s2->capsel_flg_1 != 0) {
-        for (var_s0_2 = 0; var_s0_2 < ARRAY_COUNTU(temp_s2->pos_y); var_s0_2++) {
-            if (temp_s2->pos_y[var_s0_2] < 0x10) {
-                temp_s2->pos_y[var_s0_2]++;
+    if (cap->capsel_flg_1 != 0) {
+        for (i = 0; i < ARRAY_COUNTU(cap->pos_y); i++) {
+            if (cap->pos_y[i] < 0x10) {
+                cap->pos_y[i]++;
             }
         }
 
-        for (var_s0_2 = 0; var_s0_2 < ARRAY_COUNTU(temp_s2->pos_x); var_s0_2++) {
-            if (get_map_info(mapCells, temp_s2->pos_x[var_s0_2], temp_s2->pos_y[var_s0_2]) != 0) {
-                gameStateData->cnd_static = dm_cnd_game_over;
-                gameStateData->next_cap.capsel_flg_0 = 0;
-                temp_s2->capsel_flg_1 = 0;
+        for (i = 0; i < ARRAY_COUNTU(cap->pos_x); i++) {
+            if (get_map_info(map, cap->pos_x[i], cap->pos_y[i]) != 0) {
+                state->cnd_static = dm_cnd_game_over;
+                state->next_cap.capsel_flg_0 = 0;
+                cap->capsel_flg_1 = 0;
                 break;
             }
         }
 
-        if (temp_s2->capsel_flg_1 != 0) {
+        if (cap->capsel_flg_1 != 0) {
             return;
         }
     }
 
     dm_snd_play_in_game(SND_INDEX_66);
-    gameStateData->mode_now = dm_mode_down_wait;
-    temp_s2->capsel_flg_0 = 0;
+    state->mode_now = dm_mode_down_wait;
+    cap->capsel_flg_0 = 0;
 
-    for (var_s0_2 = 0; var_s0_2 < ARRAY_COUNTU(temp_s2->pos_y); var_s0_2++) {
-        if (temp_s2->pos_y[var_s0_2] != 0) {
-            set_map(mapCells, temp_s2->pos_x[var_s0_2], temp_s2->pos_y[var_s0_2], temp_s2->casel_g[var_s0_2],
-                    temp_s2->capsel_p[var_s0_2] + black_color_1384[gameStateData->flg_game_over]);
+    for (i = 0; i < ARRAY_COUNTU(cap->pos_y); i++) {
+        if (cap->pos_y[i] != 0) {
+            set_map(map, cap->pos_x[i], cap->pos_y[i], cap->casel_g[i],
+                    cap->capsel_p[i] + black_color_1384[state->flg_game_over]);
         }
     }
 }
 
-s32 func_80063844(u32 arg0) {
-    s32 var_v1 = 0;
+/**
+ * Original name: dm_capsel_down
+ */
+s32 dm_make_attack_pattern(u32 max) {
+    s32 pattern = 0;
 
-    if (arg0 >= 4) {
-        var_v1 = 0x55 << random(2);
-    } else if (arg0 >= 3) {
-        var_v1 = 0x15 << random(4);
-    } else if (arg0 >= 2) {
-        var_v1 = 0x11 << random(4);
+    if (max >= 4) {
+        pattern = 0x55 << random(2);
+    } else if (max >= 3) {
+        pattern = 0x15 << random(4);
+    } else if (max >= 2) {
+        pattern = 0x11 << random(4);
     }
-    return var_v1;
+    return pattern;
 }
 
-s32 dm_set_attack_2p(struct_game_state_data *gameStateDataRef) {
+/**
+ * Original name: dm_set_attack_2p
+ */
+s32 dm_set_attack_2p(struct_game_state_data *state) {
+    struct_game_state_data *enemy;
     s32 temp_v0;
     s32 var_s0;
-    s32 var_s2;
+    s32 pattern;
     s32 var_t1;
-    struct_game_state_data *temp_s3;
     s32 var_a0;
     s32 i;
 
-    if (gameStateDataRef->chain_line < 2U) {
+#if 0
+    int x; // r5
+    int flag; // r6
+    int c; // r1+0x8
+#endif
+
+    if (state->chain_line < 2) {
         return 0;
     }
 
-    temp_s3 = &game_state_data[gameStateDataRef->player_no ^ 1];
+    enemy = &game_state_data[state->player_no ^ 1];
 
-    var_a0 = MIN(4, gameStateDataRef->chain_line);
+    var_a0 = MIN(4, state->chain_line);
 
     for (i = 0; i < 1; i++) {
-        if (temp_s3->cap_attack_work[i].unk_0 != 0) {
-            var_s2 = 0;
+        if (enemy->cap_attack_work[i].unk_0 != 0) {
+            pattern = 0;
             for (var_s0 = 0; var_s0 < 8; var_s0++) {
-                if (temp_s3->cap_attack_work[i].unk_0 & (3 << (var_s0 << 1))) {
-                    var_s2 |= 1 << var_s0;
+                if (enemy->cap_attack_work[i].unk_0 & (3 << (var_s0 << 1))) {
+                    pattern |= 1 << var_s0;
                     var_t1 = var_s0 & 1;
                 }
             }
 
             for (var_s0 = 0; var_s0 < 8; var_s0++) {
                 if ((var_s0 & 1) == var_t1) {
-                    var_s2 ^= 1 << var_s0;
+                    pattern ^= 1 << var_s0;
                 }
             }
 
-            if (var_s2 == 0) {
+            if (pattern == 0) {
                 continue;
             }
-
         } else {
-            var_s2 = func_80063844(var_a0);
+            pattern = dm_make_attack_pattern(var_a0);
         }
 
-        temp_s3->cap_attack_work[i].unk_2 = gameStateDataRef->player_no;
+        enemy->cap_attack_work[i].unk_2 = state->player_no;
 
         for (var_s0 = 0; var_s0 < 8; var_s0++) {
-            if (!((var_s2 >> var_s0) & 1)) {
+            if (!((pattern >> var_s0) & 1)) {
                 continue;
             }
 
-            while ((gameStateDataRef->chain_color[0] != 0) || (gameStateDataRef->chain_color[1] != 0) ||
-                   (gameStateDataRef->chain_color[2] != 0)) {
+            while ((state->chain_color[0] != 0) || (state->chain_color[1] != 0) || (state->chain_color[2] != 0)) {
                 temp_v0 = random(3);
-                if (gameStateDataRef->chain_color[temp_v0] != 0) {
-                    gameStateDataRef->chain_color[temp_v0] -= 1;
-                    temp_s3->cap_attack_work[i].unk_0 |= (temp_v0 + 1) << (var_s0 << 1);
+                if (state->chain_color[temp_v0] != 0) {
+                    state->chain_color[temp_v0] -= 1;
+                    enemy->cap_attack_work[i].unk_0 |= (temp_v0 + 1) << (var_s0 << 1);
                     break;
                 }
             }
@@ -2463,122 +2476,123 @@ static_assert(ARRAY_COUNT(attack_table_1531) == MAX_PLAYERS, "");
 /**
  * Original name: dm_set_attack_4p
  */
-s32 dm_set_attack_4p(struct_game_state_data *gameStateDataRef) {
-    struct_watchGame *watchGameP = watchGame;
-    struct_game_state_data *temp_s1;
-    s32 sp20[3];
-    s32 sp30[3];
-    s32 sp40;
-    s32 sp44;
+s32 dm_set_attack_4p(struct_game_state_data *state) {
+    struct_watchGame *st = watchGame;
+    struct_game_state_data *enemy;
+#define WORK_LEN 3U
+    s32 work[WORK_LEN];
+    s32 attackWork[WORK_LEN];
+    s32 attackFlag;
+    s32 stockFlag;
     s32 temp_v0_3;
     s32 var_a1_2;
-    s32 var_fp;
+    s32 chainCount;
     s32 var_s1_2;
-    s32 var_s0;
-    s32 var_s6;
+    s32 j;
+    s32 i;
 
-    if (gameStateDataRef->chain_line < 2U) {
+#if 0
+    int c; // r1+0x8
+    int x; // r18
+#endif
+
+    if (state->chain_line < 2) {
         return 0;
     }
 
-    for (var_s6 = 0; var_s6 < 3U; var_s6++) {
-        sp30[var_s6] = 0;
+    for (i = 0; i < ARRAY_COUNTU(attackWork); i++) {
+        attackWork[i] = 0;
     }
 
-    var_fp = 0;
+    chainCount = 0;
 
-    sp44 = 0;
-    sp40 = 0;
-    for (var_s6 = 0; var_s6 < 3; var_s6++) {
-        if (!((gameStateDataRef->chain_color[3] >> var_s6) & 1)) {
+    stockFlag = 0;
+    attackFlag = 0;
+    for (i = 0; i < ARRAY_COUNT(attack_table_1531[0]); i++) {
+        if (!((state->chain_color[3] >> i) & 1)) {
             continue;
         }
 
-        temp_s1 = &game_state_data[attack_table_1531[gameStateDataRef->player_no][var_s6]];
-        if (temp_s1->team_no == gameStateDataRef->team_no) {
-            if (temp_s1->flg_retire) {
+        enemy = &game_state_data[attack_table_1531[state->player_no][i]];
+        if (enemy->team_no == state->team_no) {
+            if (enemy->flg_retire) {
                 continue;
             }
-            sp44 |= 1 << attack_table_1531[gameStateDataRef->player_no][var_s6];
+            stockFlag |= 1 << attack_table_1531[state->player_no][i];
         } else {
-            if (temp_s1->flg_retire && ((temp_s1->cnd_training != dm_cnd_training) || !temp_s1->flg_training)) {
+            if (enemy->flg_retire && ((enemy->cnd_training != dm_cnd_training) || !enemy->flg_training)) {
                 continue;
             }
-            sp40 |= 1 << attack_table_1531[gameStateDataRef->player_no][var_s6];
+            attackFlag |= 1 << attack_table_1531[state->player_no][i];
         }
 
-        if (var_fp > 0) {
+        if (chainCount > 0) {
             continue;
         }
 
-        var_fp = 4;
-        if (gameStateDataRef->chain_line < 5U) {
-            var_fp = (s32)gameStateDataRef->chain_line;
-        }
+        chainCount = MIN(4, state->chain_line);
 
-        for (var_s0 = 0; var_s0 < ARRAY_COUNTU(watchGameP->story_4p_stock_cap[gameStateDataRef->team_no]); var_s0++) {
-            if (var_fp >= 4) {
+        for (j = 0; j < ARRAY_COUNTU(st->story_4p_stock_cap[state->team_no]); j++) {
+            if (chainCount >= 4) {
                 break;
             }
 
-            if (watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] != -1) {
-                gameStateDataRef->chain_color[watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0]]++;
-                watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] = -1;
-                var_fp++;
+            if (st->story_4p_stock_cap[state->team_no][j] != -1) {
+                state->chain_color[st->story_4p_stock_cap[state->team_no][j]]++;
+                st->story_4p_stock_cap[state->team_no][j] = -1;
+                chainCount++;
             }
         }
 
-        for (var_s0 = 0; var_s0 < var_fp;) {
-            if ((gameStateDataRef->chain_color[0] + gameStateDataRef->chain_color[1] +
-                 gameStateDataRef->chain_color[2]) <= 0) {
+        for (j = 0; j < chainCount;) {
+            if ((state->chain_color[0] + state->chain_color[1] + state->chain_color[2]) <= 0) {
                 break;
             }
-            temp_v0_3 = random(3);
-            if (gameStateDataRef->chain_color[temp_v0_3] != 0) {
-                gameStateDataRef->chain_color[temp_v0_3]--;
-                sp30[temp_v0_3] += 1;
-                var_s0 += 1;
+            temp_v0_3 = random(WORK_LEN);
+            if (state->chain_color[temp_v0_3] != 0) {
+                state->chain_color[temp_v0_3]--;
+                attackWork[temp_v0_3]++;
+                j++;
             }
         }
     }
 
-    if ((sp40 + sp44) == 0) {
+    if ((attackFlag + stockFlag) == 0) {
         return 0;
     }
 
-    for (var_s6 = 0; var_s6 < 4; var_s6++) {
-        if (!((sp40 >> var_s6) & 1)) {
+    for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
+        if (!((attackFlag >> i) & 1)) {
             continue;
         }
 
-        temp_s1 = &game_state_data[var_s6];
+        enemy = &game_state_data[i];
 
-        add_attack_effect(gameStateDataRef->player_no, _posP4CharBase[gameStateDataRef->player_no][0],
-                          _posP4CharBase[gameStateDataRef->player_no][1], _posP4CharBase[temp_s1->player_no][0],
-                          _posP4CharBase[temp_s1->player_no][1]);
+        add_attack_effect(state->player_no, _posP4CharBase[state->player_no][0], _posP4CharBase[state->player_no][1],
+                          _posP4CharBase[enemy->player_no][0], _posP4CharBase[enemy->player_no][1]);
 
-        for (var_s0 = 0; var_s0 < ARRAY_COUNTU(sp20); var_s0++) {
-            sp20[var_s0] = sp30[var_s0];
+        for (j = 0; j < ARRAY_COUNTU(work); j++) {
+            work[j] = attackWork[j];
         }
 
-        for (var_s0 = 0; var_s0 < 0x10; var_s0++) {
-            if (temp_s1->cap_attack_work[var_s0].unk_0 != 0) {
+        for (j = 0; j < ARRAY_COUNT(enemy->cap_attack_work); j++) {
+            if (enemy->cap_attack_work[j].unk_0 != 0) {
                 continue;
             }
 
-            var_a1_2 = func_80063844(var_fp);
+            var_a1_2 = dm_make_attack_pattern(chainCount);
 
-            temp_s1->cap_attack_work[var_s0].unk_2 = gameStateDataRef->player_no;
+            enemy->cap_attack_work[j].unk_2 = state->player_no;
             for (var_s1_2 = 0; var_s1_2 < 8; var_s1_2++) {
                 if (!((var_a1_2 >> var_s1_2) & 1)) {
                     continue;
                 }
 
-                while ((sp20[0] + sp20[1] + sp20[2]) > 0) {
+                while ((work[0] + work[1] + work[2]) > 0) {
                     temp_v0_3 = random(3);
-                    if (sp20[temp_v0_3] > 0) {
-                        sp20[temp_v0_3]--;
-                        temp_s1->cap_attack_work[var_s0].unk_0 |= (temp_v0_3 + 1) << (var_s1_2 * 2);
+                    if (work[temp_v0_3] > 0) {
+                        work[temp_v0_3]--;
+                        enemy->cap_attack_work[j].unk_0 |= (temp_v0_3 + 1) << (var_s1_2 * 2);
                         break;
                     }
                 }
@@ -2586,41 +2600,40 @@ s32 dm_set_attack_4p(struct_game_state_data *gameStateDataRef) {
         }
     }
 
-    var_s0 = 0;
+    j = 0;
 
-    for (var_s6 = 0; var_s6 < ARRAY_COUNT(watchGameP->story_4p_stock_cap[gameStateDataRef->team_no]); var_s6++) {
-        if (watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s6] == -1) {
+    for (i = 0; i < ARRAY_COUNT(st->story_4p_stock_cap[state->team_no]); i++) {
+        if (st->story_4p_stock_cap[state->team_no][i] == -1) {
             continue;
         }
 
-        watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] =
-            watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s6];
-        var_s0 += 1;
+        st->story_4p_stock_cap[state->team_no][j] = st->story_4p_stock_cap[state->team_no][i];
+        j += 1;
     }
 
-    for (; var_s0 < ARRAY_COUNT(watchGameP->story_4p_stock_cap[gameStateDataRef->team_no]); var_s0++) {
-        watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] = -1;
+    for (; j < ARRAY_COUNT(st->story_4p_stock_cap[state->team_no]); j++) {
+        st->story_4p_stock_cap[state->team_no][j] = -1;
     }
 
-    for (var_s6 = 0; var_s6 < 4; var_s6++) {
-        if (!((sp44 >> var_s6) & 1)) {
+    for (i = 0; i < 4; i++) {
+        if (!((stockFlag >> i) & 1)) {
             continue;
         }
 
-        for (var_s0 = 0; var_s0 < 3U; var_s0++) {
-            sp20[var_s0] = sp30[var_s0];
+        for (j = 0; j < WORK_LEN; j++) {
+            work[j] = attackWork[j];
         }
 
         temp_v0_3 = 0;
-        for (var_s0 = 0; var_s0 < ARRAY_COUNT(watchGameP->story_4p_stock_cap[gameStateDataRef->team_no]); var_s0++) {
-            if (watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] != -1) {
+        for (j = 0; j < ARRAY_COUNT(st->story_4p_stock_cap[state->team_no]); j++) {
+            if (st->story_4p_stock_cap[state->team_no][j] != -1) {
                 continue;
             }
 
-            for (; temp_v0_3 < 3; temp_v0_3++) {
-                if (sp20[temp_v0_3] > 0) {
-                    sp20[temp_v0_3]--;
-                    watchGameP->story_4p_stock_cap[gameStateDataRef->team_no][var_s0] = temp_v0_3;
+            for (; temp_v0_3 < ARRAY_COUNT(work); temp_v0_3++) {
+                if (work[temp_v0_3] > 0) {
+                    work[temp_v0_3]--;
+                    st->story_4p_stock_cap[state->team_no][j] = temp_v0_3;
                     break;
                 }
             }
@@ -2628,76 +2641,86 @@ s32 dm_set_attack_4p(struct_game_state_data *gameStateDataRef) {
     }
 
     return 1;
+#undef WORK_LEN
 }
 
-void func_80063FF4(void) {
+/**
+ * Original name: load_visible_fall_point_flag
+ */
+void load_visible_fall_point_flag(void) {
     s32 i;
-    s32 var_a3;
+    s32 j;
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
-        case ENUM_EVS_GAMESEL_3:
-            var_a3 = 1;
+        case GSL_1PLAY:
+        case GSL_VSCPU:
+            j = 1;
             break;
 
-        case ENUM_EVS_GAMESEL_1:
-            var_a3 = 2;
+        case GSL_2PLAY:
+            j = 2;
             break;
 
         default:
-            var_a3 = 0;
+            j = 0;
             break;
     }
 
-    for (i = 0; i < var_a3; i++) {
+    for (i = 0; i < j; i++) {
         struct_evs_mem_data *ptr = &evs_mem_data[evs_select_name_no[i]];
 
-        visible_fall_point[i] = (ptr->mem_use_flg & 2) ? 1 : 0;
+        visible_fall_point[i] = (ptr->mem_use_flg & MEM_USE_FLG_2) ? 1 : 0;
     }
 }
 
+/**
+ * Original name: save_visible_fall_point_flag
+ */
 void save_visible_fall_point_flag(void) {
     s32 i;
-    s32 var_t0;
+    s32 j;
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
-        case ENUM_EVS_GAMESEL_3:
-            var_t0 = 1;
+        case GSL_1PLAY:
+        case GSL_VSCPU:
+            j = 1;
             break;
 
-        case ENUM_EVS_GAMESEL_1:
-            var_t0 = 2;
+        case GSL_2PLAY:
+            j = 2;
             break;
 
         default:
-            var_t0 = 0;
+            j = 0;
             break;
     }
 
-    for (i = 0; i < var_t0; i++) {
-        struct_evs_mem_data *temp_a1 = &evs_mem_data[evs_select_name_no[i]];
+    for (i = 0; i < j; i++) {
+        struct_evs_mem_data *mc = &evs_mem_data[evs_select_name_no[i]];
 
-        temp_a1->mem_use_flg &= ~2;
+        mc->mem_use_flg &= ~MEM_USE_FLG_2;
         if (visible_fall_point[i] != 0) {
-            temp_a1->mem_use_flg |= 2;
+            mc->mem_use_flg |= MEM_USE_FLG_2;
         }
     }
 }
 
-void retryMenu_init(s32 arg0, RetryType arg1) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: retryMenu_init
+ */
+void retryMenu_init(s32 playerNo, RetryType type) {
+    struct_watchGame *st = watchGame;
 
-    watchGameP->retry_type[arg0] = arg1;
-    watchGameP->retry_select[arg0] = 0;
-    watchGameP->retry_result[arg0] = ETC_PART_INDEX_GRAPHBIN_INVALID;
+    st->retry_type[playerNo] = type;
+    st->retry_select[playerNo] = 0;
+    st->retry_result[playerNo] = ETC_PART_INDEX_GRAPHBIN_INVALID;
 
-    switch (watchGameP->retry_type[arg0]) {
+    switch (st->retry_type[playerNo]) {
         case RETRYTYPE_2:
         case RETRYTYPE_3:
         case RETRYTYPE_4:
         case RETRYTYPE_5:
-            watchGameP->retry_select[arg0]++;
+            st->retry_select[playerNo]++;
             break;
 
         default:
@@ -2705,21 +2728,32 @@ void retryMenu_init(s32 arg0, RetryType arg1) {
     }
 }
 
-void func_8006417C(s32 arg0) {
-    retryMenu_init(arg0, RETRYTYPE_0);
+/**
+ * Original name: retryMenu_initPauseLogo
+ */
+void retryMenu_initPauseLogo(s32 playerNo) {
+    retryMenu_init(playerNo, RETRYTYPE_0);
 }
 
-EtcPartIndex retryMenu_input(s32 arg0) {
-    s32 direction = 0;
-    SndIndex soundIndex = SND_INDEX_INVALID;
-    EtcPartIndex ret = ETC_PART_INDEX_GRAPHBIN_INVALID;
-    struct_watchGame *temp_s4 = watchGame;
-    u16 curButton = joycur[main_joy[arg0]];
-    u16 pressedButton = gControllerPressedButtons[main_joy[arg0]];
-    s32 temp_v0;
+/**
+ * Original name: retryMenu_input
+ */
+EtcPartIndex retryMenu_input(s32 playerNo) {
+    struct_watchGame *st = watchGame;
+    s32 direction = 0; //
+    SndIndex sound = SND_INDEX_INVALID;
+    EtcPartIndex result = ETC_PART_INDEX_GRAPHBIN_INVALID;
+    u16 curButton = joycur[main_joy[playerNo]];                        //
+    u16 pressedButton = gControllerPressedButtons[main_joy[playerNo]]; //
+    s32 select;
 
-    temp_s4->retry_select[arg0] =
-        WrapI(0, _retryMenu_itemCount[temp_s4->retry_type[arg0]], temp_s4->retry_select[arg0]);
+#if 0
+    int rep; // r27
+    int trg; // r26
+    int vy; // r25
+#endif
+
+    st->retry_select[playerNo] = WrapI(0, _retryMenu_itemCount[st->retry_type[playerNo]], st->retry_select[playerNo]);
 
     if (curButton & U_JPAD) {
         direction--;
@@ -2728,48 +2762,53 @@ EtcPartIndex retryMenu_input(s32 arg0) {
         direction++;
     }
 
-    temp_v0 = WrapI(0, _retryMenu_itemCount[temp_s4->retry_type[arg0]], temp_s4->retry_select[arg0] + direction);
-    if (temp_v0 != temp_s4->retry_select[arg0]) {
-        temp_s4->retry_select[arg0] = temp_v0;
-        soundIndex = SND_INDEX_64;
+    select = WrapI(0, _retryMenu_itemCount[st->retry_type[playerNo]], st->retry_select[playerNo] + direction);
+    if (select != st->retry_select[playerNo]) {
+        st->retry_select[playerNo] = select;
+        sound = SND_INDEX_64;
     } else if (pressedButton & (A_BUTTON | START_BUTTON)) {
-        ret = temp_s4->retry_result[arg0];
+        result = st->retry_result[playerNo];
     }
 
-    if (soundIndex > SND_INDEX_INVALID) {
-        dm_snd_play_in_game(soundIndex);
+    if (sound > SND_INDEX_INVALID) {
+        dm_snd_play_in_game(sound);
     }
 
-    return ret;
+    return result;
 }
 
-void func_80064298(s32 arg0, Gfx **gfxP, s32 arg2) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: retryMenu_drawPause
+ */
+void retryMenu_drawPause(s32 playerNo, Gfx **gfxP, bool dispMenu) {
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
 
-    if (watchGameP->retry_type[arg0] <= RETRYTYPE_1) {
-        if (watchGameP->retry_type[arg0] >= RETRYTYPE_0) {
-            watchGameP->retry_result[arg0] =
-                disp_pause_logo(&gfx, arg0, 0, (arg2 != 0) ? watchGameP->retry_select[arg0] : -1,
-                                watchGameP->retry_type[arg0] - RETRYTYPE_0);
+    if (st->retry_type[playerNo] <= RETRYTYPE_1) {
+        if (st->retry_type[playerNo] >= RETRYTYPE_0) {
+            st->retry_result[playerNo] = disp_pause_logo(&gfx, playerNo, 0, dispMenu ? st->retry_select[playerNo] : -1,
+                                                         st->retry_type[playerNo] - RETRYTYPE_0);
         }
     }
 
     *gfxP = gfx;
 }
 
-void func_8006431C(s32 arg0, Gfx **gfxP) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: retryMenu_drawContinue
+ */
+void retryMenu_drawContinue(s32 playerNo, Gfx **gfxP) {
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
 
-    if (watchGameP->retry_type[arg0] <= RETRYTYPE_5) {
-        if (watchGameP->retry_type[arg0] >= RETRYTYPE_2) {
-            if ((evs_gamesel == ENUM_EVS_GAMESEL_1) && (evs_gamemode == GMD_TIME_ATTACK)) {
-                watchGameP->retry_result[arg0] = disp_continue_logo_score(&gfx, arg0, watchGameP->retry_select[arg0],
-                                                                          watchGameP->retry_type[arg0] - RETRYTYPE_2);
+    if (st->retry_type[playerNo] <= RETRYTYPE_5) {
+        if (st->retry_type[playerNo] >= RETRYTYPE_2) {
+            if ((evs_gamesel == GSL_2PLAY) && (evs_gamemode == GMD_TIME_ATTACK)) {
+                st->retry_result[playerNo] = disp_continue_logo_score(&gfx, playerNo, st->retry_select[playerNo],
+                                                                      st->retry_type[playerNo] - RETRYTYPE_2);
             } else {
-                watchGameP->retry_result[arg0] = disp_continue_logo(&gfx, arg0, watchGameP->retry_select[arg0],
-                                                                    watchGameP->retry_type[arg0] - RETRYTYPE_2);
+                st->retry_result[playerNo] = disp_continue_logo(&gfx, playerNo, st->retry_select[playerNo],
+                                                                st->retry_type[playerNo] - RETRYTYPE_2);
             }
         }
     }
@@ -2777,15 +2816,33 @@ void func_8006431C(s32 arg0, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells) {
-    u8 sp20[GAME_MAP_COLUMNS];
+/**
+ * Original name: set_bottom_up_virus
+ */
+void set_bottom_up_virus(struct_game_state_data *state, GameMapCell *map) {
+    u8 work[GAME_MAP_COLUMNS];
     s32 col;
     s32 cellIndex;
     s32 var_s2;
     s32 cellEnd;
+    s32 sp28[4];
+    s32 sp38[4];
+    s32 sp48[4];
+    s32 temp_v0_2;
+
+#if 0
+    int i; // r29
+    int j; // r30
+    int x; // r1+0x8
+    int endI; // r1+0x8
+    int color; // r6
+    int mask[3]; // r1+0x30
+    int flag[3]; // r1+0x24
+    int pos[3]; // r1+0x18
+#endif
 
     for (col = 0; col < 1 * GAME_MAP_COLUMNS; col++) {
-        sp20[col] = 0;
+        work[col] = 0;
     }
 
     cellEnd = (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS;
@@ -2793,42 +2850,37 @@ void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells) {
     col = 0;
 
     for (; cellIndex < cellEnd; cellIndex++, col++) {
-        if (mapCells[cellIndex].capsel_m_flg[0] == 0) {
+        if (map[cellIndex].capsel_m_flg[0] == 0) {
             continue;
         }
 
-        if (mapCells[cellIndex].capsel_m_flg[4] >= 0) {
+        if (map[cellIndex].capsel_m_flg[4] >= 0) {
             continue;
         }
 
-        sp20[col] = 1;
+        work[col] = 1;
     }
 
     var_s2 = 0;
 
     for (col = 0; col < GAME_MAP_COLUMNS; col++) {
         if (random(100) < 75) {
-            sp20[col] = 1;
+            work[col] = 1;
         }
-        if (sp20[col] != 0) {
+        if (work[col] != 0) {
             var_s2 += 1;
         }
     }
 
     if (var_s2 == 0) {
-        sp20[random(8)] = 1;
+        work[random(8)] = 1;
     }
 
     cellEnd += 1 * GAME_MAP_COLUMNS;
     col = 0;
 
     for (; cellIndex < cellEnd; cellIndex++, col++) {
-        s32 sp28[4];
-        s32 sp38[4];
-        s32 sp48[4];
-        s32 temp_v0_2;
-
-        if (sp20[col] == 0) {
+        if (work[col] == 0) {
             continue;
         }
 
@@ -2845,8 +2897,8 @@ void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells) {
                 continue;
             }
 
-            if (mapCells[sp48[var_s2]].capsel_m_flg[0] != 0) {
-                sp28[mapCells[sp48[var_s2]].capsel_m_flg[3]] += 1;
+            if (map[sp48[var_s2]].capsel_m_flg[0] != 0) {
+                sp28[map[sp48[var_s2]].capsel_m_flg[3]] += 1;
             }
         }
 
@@ -2858,34 +2910,37 @@ void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells) {
             temp_v0_2 = random(3);
         } while (sp28[temp_v0_2] != 0);
 
-        set_virus(mapCells, col, GAME_MAP_ROWS, temp_v0_2, virus_anime_table[temp_v0_2][arg0->virus_anime]);
+        set_virus(map, col, GAME_MAP_ROWS, temp_v0_2, virus_anime_table[temp_v0_2][state->virus_anime]);
     }
 }
 
-bool bottom_up_bottle_items(GameMapCell *mapCells) {
+/**
+ * Original name: bottom_up_bottle_items
+ */
+bool bottom_up_bottle_items(GameMapCell *map) {
     s32 i;
     bool ret = false;
     s32 column;
     GameMapCell *cell;
-    s32 var;
+    s32 size;
 
     for (i = 0; i < GAME_MAP_COLUMNS; i++) {
-        if (mapCells[i].capsel_m_flg[0] != 0) {
+        if (map[i].capsel_m_flg[0] != 0) {
             ret = true;
         }
     }
 
-    var = (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS;
-    for (i = 0, cell = &mapCells[GAME_MAP_GET_INDEX(1, 0)]; i < var; i++, cell++) {
-        mapCells[i] = *cell;
-        mapCells[i].pos_m_y--;
+    size = (GAME_MAP_ROWS - 1) * GAME_MAP_COLUMNS;
+    for (i = 0, cell = &map[GAME_MAP_GET_INDEX(1, 0)]; i < size; i++, cell++) {
+        map[i] = *cell;
+        map[i].pos_m_y--;
     }
 
-    var += GAME_MAP_COLUMNS;
-    for (column = 0; i < var; i++, column++) {
-        bzero(&mapCells[i], sizeof(GameMapCell));
-        mapCells[i].pos_m_x = column;
-        mapCells[i].pos_m_y = 0x11;
+    size += GAME_MAP_COLUMNS;
+    for (column = 0; i < size; i++, column++) {
+        bzero(&map[i], sizeof(GameMapCell));
+        map[i].pos_m_x = column;
+        map[i].pos_m_y = GAME_MAP_ROWS;
     }
 
     return ret;
@@ -2899,36 +2954,39 @@ const s32 _bonus_1884[6] = { 0x1E, 0x78, 0x96, 0xB4, 0xD2, 0xF0 };
 /**
  * Original name: add_taiQ_bonus_wait
  */
-void add_taiQ_bonus_wait(struct_game_state_data *arg0) {
-    struct_watchGame *watchGameP = watchGame;
-    s32 var_a0;
+void add_taiQ_bonus_wait(struct_game_state_data *state) {
+    struct_watchGame *st = watchGame;
+    s32 count;
     s32 i;
 
     if (evs_gamemode != GMD_TaiQ) {
         return;
     }
 
-    if (arg0->chain_line < 2) {
+    if (state->chain_line < 2) {
         return;
     }
 
-    watchGameP->big_virus_wait += DOUBLE_LITERAL(0.25) * (s32)(arg0->chain_line - 1);
-    watchGameP->big_virus_wait = MIN(watchGameP->big_virus_wait, _big_virus_max_wait[arg0->game_level]);
+    st->big_virus_wait += DOUBLE_LITERAL(0.25) * (s32)(state->chain_line - 1);
+    st->big_virus_wait = MIN(st->big_virus_wait, _big_virus_max_wait[state->game_level]);
 
-    var_a0 = _bonus_1884[0] * (arg0->erase_virus_count + arg0->chain_line);
-    for (i = 1; i < arg0->chain_count; i++) {
-        var_a0 += _bonus_1884[MIN(i, ARRAY_COUNTU(_bonus_1884) - 1)];
+    count = _bonus_1884[0] * (state->erase_virus_count + state->chain_line);
+    for (i = 1; i < state->chain_count; i++) {
+        count += _bonus_1884[MIN(i, ARRAY_COUNTU(_bonus_1884) - 1)];
     }
-    watchGameP->big_virus_stop_count += var_a0;
+    st->big_virus_stop_count += count;
 }
 
-bool func_80064848(void) {
+/**
+ * Original name: dm_check_one_game_finish
+ */
+bool dm_check_one_game_finish(void) {
     s32 i;
 
     for (i = 0; i < evs_playcnt; i++) {
-        u32 temp_v0 = game_state_data[i].cnd_static;
+        EnumGameStateDataCnd cnd = game_state_data[i].cnd_static;
 
-        if ((temp_v0 != 5) && (temp_v0 != 8) && (temp_v0 != 0xB)) {
+        if ((cnd != dm_cnd_win) && (cnd != dm_cnd_lose) && (cnd != dm_cnd_draw)) {
             break;
         }
     }
@@ -2936,84 +2994,97 @@ bool func_80064848(void) {
     return (i ^ evs_playcnt) == 0;
 }
 
-void dm_game_eep_write_callback(void *arg0) {
-    struct_watchGame *watchGameP = arg0;
+/**
+ * Original name: dm_game_eep_write_callback
+ */
+void dm_game_eep_write_callback(void *args) {
+    struct_watchGame *watchGameP = args;
     RecordWritingMessage *recMessage = &watchGameP->writingMsg;
-    s32 temp_s0;
+    s32 x;
+    s32 y;
 
     RecWritingMsg_setStr(recMessage, _mesWriting_dmgamemain);
-    temp_s0 = (SCREEN_WIDTH - msgWnd_getWidth(&recMessage->messageWnd)) / 2;
-    RecWritingMsg_setPos(recMessage, temp_s0, SCREEN_HEIGHT - 0x20 - msgWnd_getHeight(&recMessage->messageWnd));
+
+    x = (SCREEN_WIDTH - msgWnd_getWidth(&recMessage->messageWnd)) / 2;
+    y = SCREEN_HEIGHT - 0x20 - msgWnd_getHeight(&recMessage->messageWnd);
+    RecWritingMsg_setPos(recMessage, x, y);
+
     RecWritingMsg_start(recMessage);
     setSleepTimer(500);
 }
 
-void func_80064940(void *arg0 UNUSED) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: dm_game_eep_write
+ */
+void dm_game_eep_write(void *arg0 UNUSED) {
+    struct_watchGame *st = watchGame;
 
-    if (watchGameP->eep_rom_flg) {
-        EepRomErr status = EepRom_WriteAll(dm_game_eep_write_callback, watchGameP);
+    if (st->eep_rom_flg) {
+        EepRomErr status = EepRom_WriteAll(dm_game_eep_write_callback, st);
 
-        watchGameP->eep_rom_flg = false;
+        st->eep_rom_flg = false;
         EepRom_DumpErrMes(status);
     }
 }
 
-bool func_8006498C(s32 storyLevel, s32 storyNumber, s32 arg2) {
-    bool var_v1 = false;
+/**
+ * Original name: dm_query_next_stage
+ */
+bool dm_query_next_stage(s32 level, s32 stage, s32 retry) {
+    bool next = false;
 
-    if (storyNumber < 8) {
-        var_v1 = true;
-    } else if (storyNumber == 8) {
-        if (storyLevel >= 3) {
-            var_v1 = true;
-        } else if ((storyLevel > 0) && (arg2 == 0)) {
-            var_v1 = true;
+    if (stage < 8) {
+        next = true;
+    } else if (stage == 8) {
+        if (level >= 3) {
+            next = true;
+        } else if ((level > 0) && (retry == 0)) {
+            next = true;
         }
     }
 
-    return var_v1;
+    return next;
 }
 
+/**
+ * Original name: dm_save_all
+ */
 void dm_save_all(void) {
-    struct_game_state_data *game_state_ptr = &game_state_data[0];
-    struct_watchGame *watchGameP = watchGame;
+    struct_game_state_data *state = &game_state_data[0];
+    struct_watchGame *st = watchGame;
     s32 i;
-    s32 var_s1_2;
+    s32 level;
 
-    if (watchGameP->replayFlag || watchGameP->eep_rom_flg) {
+    if (st->replayFlag || st->eep_rom_flg) {
         return;
     }
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_2:
+        case GSL_4PLAY:
             if (evs_story_flg != 0) {
-                s32 temp_arg5 = evs_story_no;
+                s32 stage = evs_story_no;
 
-                if (game_state_ptr->cnd_static == dm_cnd_win) {
-                    temp_arg5++;
+                if (state->cnd_static == dm_cnd_win) {
+                    stage++;
                 }
 
                 dm_story_sort_set(evs_select_name_no[0], (s32)story_proc_no >= BGROMDATA_INDEX12, evs_story_level,
-                                  game_state_ptr->game_score, evs_game_time, temp_arg5, evs_one_game_flg);
-                watchGameP->eep_rom_flg = true;
+                                  state->game_score, evs_game_time, stage, evs_one_game_flg);
+                st->eep_rom_flg = true;
             }
             break;
 
-        case ENUM_EVS_GAMESEL_1:
-            for (i = 0; i < 2; i++) {
+        case GSL_2PLAY:
+            for (i = 0; i < EVS_SELECT_NAME_NO_COUNT; i++) {
                 switch (evs_gamemode) {
                     case GMD_NORMAL:
-                        dm_vsman_set(evs_select_name_no[i], watchGameP->vs_win_count[i],
-                                     watchGameP->vs_win_count[i ^ 1]);
+                        dm_vsman_set(evs_select_name_no[i], st->vs_win_count[i], st->vs_win_count[i ^ 1]);
                         break;
                     case GMD_FLASH:
-                        dm_vm_fl_set(evs_select_name_no[i], watchGameP->vs_win_count[i],
-                                     watchGameP->vs_win_count[i ^ 1]);
+                        dm_vm_fl_set(evs_select_name_no[i], st->vs_win_count[i], st->vs_win_count[i ^ 1]);
                         break;
                     case GMD_TIME_ATTACK:
-                        dm_vm_ta_set(evs_select_name_no[i], watchGameP->vs_win_count[i],
-                                     watchGameP->vs_win_count[i ^ 1]);
+                        dm_vm_ta_set(evs_select_name_no[i], st->vs_win_count[i], st->vs_win_count[i ^ 1]);
                         break;
 
                     default:
@@ -3021,115 +3092,116 @@ void dm_save_all(void) {
                 }
             }
 
-            watchGameP->eep_rom_flg = true;
-            watchGameP->vs_win_count[1] = 0;
-            watchGameP->vs_win_count[0] = 0;
+            st->eep_rom_flg = true;
+            st->vs_win_count[1] = 0;
+            st->vs_win_count[0] = 0;
             break;
 
-        case ENUM_EVS_GAMESEL_3:
+        case GSL_VSCPU:
             if (evs_story_flg == 0) {
                 switch (evs_gamemode) {
                     case GMD_NORMAL:
-                        dm_vscom_set(evs_select_name_no[0], watchGameP->vs_win_count[0], watchGameP->vs_win_count[1]);
+                        dm_vscom_set(evs_select_name_no[0], st->vs_win_count[0], st->vs_win_count[1]);
                         break;
 
                     case GMD_FLASH:
-                        dm_vc_fl_set(evs_select_name_no[0], watchGameP->vs_win_count[0], watchGameP->vs_win_count[1]);
+                        dm_vc_fl_set(evs_select_name_no[0], st->vs_win_count[0], st->vs_win_count[1]);
                         break;
 
                     default:
                         break;
                 }
-                watchGameP->eep_rom_flg = true;
-                watchGameP->vs_win_count[1] = 0;
-                watchGameP->vs_win_count[0] = 0;
+                st->eep_rom_flg = true;
+                st->vs_win_count[1] = 0;
+                st->vs_win_count[0] = 0;
             } else {
                 struct_evs_mem_data *temp_a0 = &evs_mem_data[evs_select_name_no[0]];
-                struct_evs_mem_data_config *temp = &temp_a0->config;
-                s32 var_s0_2 = evs_story_no;
-                s32 temp_s1 = (s32)story_proc_no >= BGROMDATA_INDEX12;
+                struct_evs_mem_data_config *cfg = &temp_a0->config;
+                s32 stage = evs_story_no;
+                s32 charNo = (s32)story_proc_no >= BGROMDATA_INDEX12 ? 1 : 0;
 
-                temp->st_st = CLAMP(var_s0_2 - 1, 0, 7);
+                cfg->st_st = CLAMP(stage - 1, 0, 7);
 
-                if (game_state_ptr->cnd_static == dm_cnd_win) {
-                    if ((var_s0_2 == 9) && (game_state_ptr->game_retry == 0)) {
-                        evs_secret_flg[temp_s1] = 1;
+                if (state->cnd_static == dm_cnd_win) {
+                    if ((stage == 9) && (state->game_retry == 0)) {
+                        evs_secret_flg[charNo] = 1;
                     }
-                    if (func_8006498C(evs_story_level, var_s0_2, game_state_ptr->game_retry)) {
-                        var_s0_2++;
-                    } else if (var_s0_2 == 9) {
-                        var_s0_2++;
+                    if (dm_query_next_stage(evs_story_level, stage, state->game_retry)) {
+                        stage++;
+                    } else if (stage == 9) {
+                        stage++;
                     }
                 }
 
-                dm_story_sort_set(evs_select_name_no[0], temp_s1, evs_story_level, game_state_ptr->game_score,
-                                  evs_game_time, var_s0_2, evs_one_game_flg);
+                dm_story_sort_set(evs_select_name_no[0], charNo, evs_story_level, state->game_score, evs_game_time,
+                                  stage, evs_one_game_flg);
 
-                watchGameP->eep_rom_flg = true;
+                st->eep_rom_flg = true;
             }
             break;
 
-        case ENUM_EVS_GAMESEL_0:
+        case GSL_1PLAY:
             switch (evs_gamemode) {
                 case GMD_NORMAL:
-                    var_s1_2 = game_state_ptr->virus_level;
-                    if (game_state_ptr->cnd_static == dm_cnd_win) {
-                        if (var_s1_2 >= 0x15) {
+                    level = state->virus_level;
+                    if (state->cnd_static == dm_cnd_win) {
+                        if (level >= 21) {
                             evs_level_21 = 1;
                         }
-                        if (var_s1_2 < 0x63) {
-                            var_s1_2++;
+                        if (level < 99) {
+                            level++;
                         }
                     }
 
-                    dm_level_sort_set(evs_select_name_no[0], game_state_ptr->cap_def_speed, game_state_ptr->game_score,
-                                      var_s1_2);
+                    dm_level_sort_set(evs_select_name_no[0], state->cap_def_speed, state->game_score, level);
 
-                    evs_mem_data[evs_select_name_no[0]].config.p1_lv = MIN(0x15, var_s1_2);
+                    evs_mem_data[evs_select_name_no[0]].config.p1_lv = MIN(21, level);
                     break;
 
                 case GMD_TaiQ:
-                    dm_taiQ_sort_set(evs_select_name_no[0], game_state_ptr->game_level, game_state_ptr->game_score,
-                                     evs_game_time);
+                    dm_taiQ_sort_set(evs_select_name_no[0], state->game_level, state->game_score, evs_game_time);
                     break;
 
                 case GMD_TIME_ATTACK:
-                    dm_timeAt_sort_set(evs_select_name_no[0], game_state_ptr->game_level, game_state_ptr->game_score,
-                                       evs_game_time, game_state_ptr->total_erase_count);
+                    dm_timeAt_sort_set(evs_select_name_no[0], state->game_level, state->game_score, evs_game_time,
+                                       state->total_erase_count);
                     break;
 
                 default:
                     break;
             }
-            watchGameP->eep_rom_flg = true;
+            st->eep_rom_flg = true;
             break;
 
         default:
             break;
     }
 
-    BgTasksManager_SendTask(func_80064940, NULL);
+    BgTasksManager_SendTask(dm_game_eep_write, NULL);
 }
 
-void dm_query_pause_player(struct_game_state_data *arg0) {
-    struct_watchGame *watchGameP = watchGame;
-    u16 btn = gControllerPressedButtons[main_joy[arg0->player_no]];
+/**
+ * Original name: dm_query_pause_player
+ */
+void dm_query_pause_player(struct_game_state_data *state) {
+    struct_watchGame *st = watchGame;
+    u16 btn = gControllerPressedButtons[main_joy[state->player_no]];
 
-    if (watchGameP->query_pause_player_no >= 0) {
+    if (st->query_pause_player_no >= 0) {
         return;
     }
 
-    switch (arg0->cnd_static) {
+    switch (state->cnd_static) {
         case dm_cnd_wait:
         case dm_cnd_pause:
             break;
 
         case dm_cnd_lose:
-            if (!watchGameP->replayFlag) {
+            if (!st->replayFlag) {
                 return;
             }
 
-            if (arg0->cnd_now != dm_cnd_tr_chack) {
+            if (state->cnd_now != dm_cnd_tr_chack) {
                 return;
             }
             break;
@@ -3138,56 +3210,58 @@ void dm_query_pause_player(struct_game_state_data *arg0) {
             return;
     }
 
-    if ((arg0->cnd_now != dm_cnd_init) && (arg0->player_type == PLAYERTYPE_0)) {
-        if (!watchGameP->replayFlag) {
+    if ((state->cnd_now != dm_cnd_init) && (state->player_type == PLAYERTYPE_0)) {
+        if (!st->replayFlag) {
             if (btn & START_BUTTON) {
-                watchGameP->query_play_pause_se = true;
-                watchGameP->query_pause_player_no = arg0->player_no;
+                st->query_play_pause_se = true;
+                st->query_pause_player_no = state->player_no;
             }
         } else if (btn & ANY_BUTTON) {
-            watchGameP->query_pause_player_no = arg0->player_no;
+            st->query_pause_player_no = state->player_no;
         }
     }
 }
 
-// TODO: enum return type?
-s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 arg2) {
+/**
+ * Original name: dm_game_main_cnt_1P
+ */
+DmMainCnt dm_game_main_cnt_1P(struct_game_state_data *state, GameMapCell *map, s32 player_no) {
     struct_watchGame *watchGameP = watchGame;
-    dm_calc_erase_score_pos_arg2 sp28;
+    dm_calc_erase_score_pos_arg2 pos;
     s32 var_s1;
     u8 *var_t2;
     s32 var_s2;
-    int var_s0;
+    s32 var_s0;
 
-    dm_query_pause_player(gameStateData);
-    animeState_update(&gameStateData->anime);
-    scoreNums_update(&watchGameP->scoreNums[arg2]);
-    if ((evs_gamemode == GMD_TIME_ATTACK) && (evs_game_time >= 10800) && (gameStateData->cnd_static == dm_cnd_wait)) {
-        return -1;
+    dm_query_pause_player(state);
+    animeState_update(&state->anime);
+    scoreNums_update(&watchGameP->scoreNums[player_no]);
+    if ((evs_gamemode == GMD_TIME_ATTACK) && (evs_game_time >= 10800) && (state->cnd_static == dm_cnd_wait)) {
+        return dm_ret_game_over;
     }
 
-    switch (gameStateData->mode_now) {
+    switch (state->mode_now) {
         case dm_mode_init:
-            dm_set_virus(gameStateData, mapCells, virus_map_data[arg2], virus_map_disp_order[arg2]);
-            return 3;
+            dm_set_virus(state, map, virus_map_data[player_no], virus_map_disp_order[player_no]);
+            return dm_ret_virus_wait;
 
         case dm_mode_wait:
-            return 3;
+            return dm_ret_virus_wait;
 
         case dm_mode_throw:
-            gameStateData->cap_speed_count++;
+            state->cap_speed_count++;
 
-            if (gameStateData->cap_speed_count == FlyingCnt[gameStateData->cap_def_speed]) {
-                dm_init_capsel_go(&gameStateData->now_cap, (CapsMagazine[gameStateData->cap_magazine_save] >> 4) % 3,
-                                  CapsMagazine[gameStateData->cap_magazine_save] % 3);
-                gameStateData->mode_now = dm_mode_down;
-                gameStateData->cap_speed_count = 30;
-                dm_capsel_down(gameStateData, mapCells);
+            if (state->cap_speed_count == FlyingCnt[state->cap_def_speed]) {
+                dm_init_capsel_go(&state->now_cap, (CapsMagazine[state->cap_magazine_save] >> 4) % 3,
+                                  CapsMagazine[state->cap_magazine_save] % 3);
+                state->mode_now = dm_mode_down;
+                state->cap_speed_count = 30;
+                dm_capsel_down(state, map);
             }
             break;
 
         case dm_mode_down_wait:
-            if (dm_check_game_over(gameStateData, mapCells)) {
+            if (dm_check_game_over(state, map)) {
                 for (var_s0 = 0; var_s0 < ANIMES_COUNT; var_s0++) {
                     if (watchGameP->virus_anime_state[var_s0].animeSeq.animeNo != ANIMENO_4) {
                         animeState_set(&watchGameP->virus_anime_state[var_s0], ANIMENO_3);
@@ -3197,34 +3271,34 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                 if (evs_gamemode == GMD_TaiQ) {
                     watchGameP->big_virus_stop_count = 0;
                 }
-                return -1;
+                return dm_ret_game_over;
             }
 
-            if (dm_h_erase_chack(mapCells) || dm_w_erase_chack(mapCells)) {
-                gameStateData->mode_now = dm_mode_erase_chack;
-                gameStateData->cap_speed_count = 0;
+            if (dm_h_erase_chack(map) || dm_w_erase_chack(map)) {
+                state->mode_now = dm_mode_erase_chack;
+                state->cap_speed_count = 0;
             } else {
-                gameStateData->mode_now = dm_mode_cap_set;
+                state->mode_now = dm_mode_cap_set;
             }
             break;
 
         case dm_mode_erase_chack:
-            gameStateData->cap_speed_count++;
+            state->cap_speed_count++;
 
-            if (gameStateData->cap_speed_count >= 18) {
-                gameStateData->cap_speed_count = 0;
-                gameStateData->mode_now = dm_mode_erase_anime;
-                dm_h_erase_chack_set(gameStateData, mapCells);
-                dm_w_erase_chack_set(gameStateData, mapCells);
-                dm_h_ball_chack(mapCells);
-                dm_w_ball_chack(mapCells);
+            if (state->cap_speed_count >= 18) {
+                state->cap_speed_count = 0;
+                state->mode_now = dm_mode_erase_anime;
+                dm_h_erase_chack_set(state, map);
+                dm_w_erase_chack_set(state, map);
+                dm_h_ball_chack(map);
+                dm_w_ball_chack(map);
 
-                var_s0 = gameStateData->virus_number;
-                var_s0 -= get_virus_color_count(mapCells, &watchGameP->big_virus_count[0],
-                                                &watchGameP->big_virus_count[1], &watchGameP->big_virus_count[2]);
-                gameStateData->virus_number -= var_s0;
+                var_s0 = state->virus_number;
+                var_s0 -= get_virus_color_count(map, &watchGameP->big_virus_count[0], &watchGameP->big_virus_count[1],
+                                                &watchGameP->big_virus_count[2]);
+                state->virus_number -= var_s0;
 
-                gameStateData->total_erase_count += var_s0;
+                state->total_erase_count += var_s0;
 
                 for (var_s0 = 0; var_s0 < ANIMES_COUNT; var_s0++) {
                     if (watchGameP->big_virus_count[var_s0] == 0) {
@@ -3232,13 +3306,13 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                             watchGameP->big_virus_flg[var_s0] = true;
                             animeState_set(&watchGameP->virus_anime_state[var_s0], ANIMENO_4);
                             animeSmog_start(&watchGameP->virus_smog_state[var_s0]);
-                            if (gameStateData->virus_number != 0) {
+                            if (state->virus_number != 0) {
                                 dm_snd_play_in_game(SND_INDEX_74);
                                 dm_snd_play_in_game(SND_INDEX_57);
                             }
                         }
                     } else {
-                        if (gameStateData->chain_color[3] & (0x10 << var_s0)) {
+                        if (state->chain_color[3] & (0x10 << var_s0)) {
                             if (watchGameP->big_virus_stop_count == 0) {
                                 animeState_set(&watchGameP->virus_anime_state[var_s0], ANIMENO_2);
                                 dm_snd_play_in_game(SND_INDEX_74);
@@ -3247,24 +3321,23 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     }
                 }
 
-                gameStateData->chain_color[3] &= 0xF;
+                state->chain_color[3] &= 0xF;
 
-                dm_calc_erase_score_pos(gameStateData, mapCells, &sp28);
-                scoreNums_set(&watchGameP->scoreNums[arg2], dm_make_score(gameStateData),
-                              gameStateData->erase_virus_count,
-                              gameStateData->map_x + gameStateData->map_item_size / 2 + sp28.x,
-                              gameStateData->map_y + gameStateData->map_item_size / 2 + sp28.y);
+                dm_calc_erase_score_pos(state, map, &pos);
+                scoreNums_set(&watchGameP->scoreNums[player_no], dm_make_score(state), state->erase_virus_count,
+                              state->map_x + state->map_item_size / 2 + pos.x,
+                              state->map_y + state->map_item_size / 2 + pos.y);
 
-                if ((gameStateData->virus_number == 0) && (evs_gamemode != GMD_TaiQ)) {
-                    gameStateData->cnd_now = dm_cnd_stage_clear;
-                    gameStateData->mode_now = dm_mode_stage_clear;
-                    if (gameStateData->chain_line_max < gameStateData->chain_line) {
-                        gameStateData->chain_line_max = gameStateData->chain_line;
+                if ((state->virus_number == 0) && (evs_gamemode != GMD_TaiQ)) {
+                    state->cnd_now = dm_cnd_stage_clear;
+                    state->mode_now = dm_mode_stage_clear;
+                    if (state->chain_line_max < state->chain_line) {
+                        state->chain_line_max = state->chain_line;
                     }
-                    return 6;
+                    return dm_ret_clear;
                 }
 
-                if ((gameStateData->virus_number < 4U) && (evs_gamemode != GMD_TaiQ)) {
+                if ((state->virus_number < 4U) && (evs_gamemode != GMD_TaiQ)) {
                     if (!watchGameP->last_3_se_flg) {
                         watchGameP->last_3_se_flg = true;
                         dm_snd_play_in_game(SND_INDEX_80);
@@ -3275,93 +3348,91 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     }
                 }
 
-                gameStateData->chain_count++;
-                if (gameStateData->chain_line < 2) {
-                    if (gameStateData->chain_color[3] & 8) {
-                        gameStateData->chain_color[3] &= (u8)~0x8;
+                state->chain_count++;
+                if (state->chain_line < 2) {
+                    if (state->chain_color[3] & 8) {
+                        state->chain_color[3] &= (u8)~0x8;
                         dm_snd_play_in_game(SND_INDEX_56);
                     } else {
                         dm_snd_play_in_game(SND_INDEX_61);
                     }
                 } else {
-                    if (gameStateData->chain_color[3] & 8) {
-                        gameStateData->chain_color[3] &= (u8)~0x8;
+                    if (state->chain_color[3] & 8) {
+                        state->chain_color[3] &= (u8)~0x8;
                     }
 
-                    var_s0 = MIN(2, gameStateData->chain_line - 2);
-                    dm_snd_play_in_game(_charSE_tbl[gameStateData->charNo] + var_s0);
+                    var_s0 = MIN(2, (s32)state->chain_line - 2);
+                    dm_snd_play_in_game(_charSE_tbl[state->charNo] + var_s0);
                 }
             }
             break;
 
         case dm_mode_erase_anime:
-            dm_capsel_erase_anime(gameStateData, mapCells);
+            dm_capsel_erase_anime(state, map);
             break;
 
         case dm_mode_ball_down:
-            go_down(gameStateData, mapCells, 0xE);
+            go_down(state, map, 0xE);
             break;
 
         case dm_mode_cap_set:
-            add_taiQ_bonus_wait(gameStateData);
+            add_taiQ_bonus_wait(state);
 
             if (watchGameP->bottom_up_flag && (watchGameP->big_virus_stop_count == 0)) {
-                gameStateData->bottom_up_scroll = 0;
-                gameStateData->mode_now = dm_mode_bottom_up;
-                set_bottom_up_virus(gameStateData, mapCells);
+                state->bottom_up_scroll = 0;
+                state->mode_now = dm_mode_bottom_up;
+                set_bottom_up_virus(state, map);
                 dm_snd_play_in_game(SND_INDEX_101);
             } else {
-                if (gameStateData->chain_count > 1) {
-                    gameStateData->total_chain_count =
-                        MIN(99, gameStateData->total_chain_count + gameStateData->chain_count - 1);
+                if (state->chain_count > 1) {
+                    state->total_chain_count = MIN(99, state->total_chain_count + state->chain_count - 1);
                 }
 
-                dm_warning_h_line(gameStateData, mapCells);
-                dm_set_capsel(gameStateData);
-                dm_capsel_speed_up(gameStateData);
-                dm_attack_se(gameStateData, arg2);
-                animeState_set(&gameStateData->anime, ANIMENO_1);
+                dm_warning_h_line(state, map);
+                dm_set_capsel(state);
+                dm_capsel_speed_up(state);
+                dm_attack_se(state, player_no);
+                animeState_set(&state->anime, ANIMENO_1);
 
-                if ((gameStateData->player_type == PLAYERTYPE_1) ||
-                    (((gameStateData->player_type != PLAYERTYPE_1) && (arg2 == 0)) && (aiDebugP1 >= 0))) {
-                    aifMakeFlagSet(gameStateData);
+                if ((state->player_type == PLAYERTYPE_1) ||
+                    (((state->player_type != PLAYERTYPE_1) && (player_no == 0)) && (aiDebugP1 >= 0))) {
+                    aifMakeFlagSet(state);
                 }
 
-                if (gameStateData->chain_line_max < gameStateData->chain_line) {
-                    gameStateData->chain_line_max = gameStateData->chain_line;
+                if (state->chain_line_max < state->chain_line) {
+                    state->chain_line_max = state->chain_line;
                 }
 
-                gameStateData->mode_now = dm_mode_throw;
-                gameStateData->cap_speed_count = 0;
-                gameStateData->cap_speed_max = 0;
-                gameStateData->chain_line = 0;
-                gameStateData->chain_count = 0;
-                gameStateData->erase_virus_count = 0;
-                gameStateData->erase_virus_count_old = 0;
+                state->mode_now = dm_mode_throw;
+                state->cap_speed_count = 0;
+                state->cap_speed_max = 0;
+                state->chain_line = 0;
+                state->chain_count = 0;
+                state->erase_virus_count = 0;
+                state->erase_virus_count_old = 0;
 
-                for (var_s0 = 0; var_s0 < ARRAY_COUNT(gameStateData->chain_color); var_s0++) {
-                    gameStateData->chain_color[var_s0] = 0;
+                for (var_s0 = 0; var_s0 < ARRAY_COUNT(state->chain_color); var_s0++) {
+                    state->chain_color[var_s0] = 0;
                 }
             }
             break;
 
         case dm_mode_bottom_up:
-            gameStateData->bottom_up_scroll++;
-            if (gameStateData->bottom_up_scroll >= gameStateData->map_item_size) {
-                gameStateData->bottom_up_scroll = 0;
+            state->bottom_up_scroll++;
+            if (state->bottom_up_scroll >= state->map_item_size) {
+                state->bottom_up_scroll = 0;
                 watchGameP->bottom_up_flag = false;
 
-                watchGameP->big_virus_wait = MAX(_big_virus_min_wait[gameStateData->game_level],
-                                                 watchGameP->big_virus_wait - DOUBLE_LITERAL(0.5));
+                watchGameP->big_virus_wait =
+                    MAX(_big_virus_min_wait[state->game_level], watchGameP->big_virus_wait - DOUBLE_LITERAL(0.5));
 
-                gameStateData->mode_now = dm_mode_ball_down;
-                if (bottom_up_bottle_items(mapCells)) {
-                    return -1;
+                state->mode_now = dm_mode_ball_down;
+                if (bottom_up_bottle_items(map)) {
+                    return dm_ret_game_over;
                 }
 
-                gameStateData->virus_number =
-                    get_virus_color_count(mapCells, watchGameP->big_virus_count, &watchGameP->big_virus_count[1],
-                                          &watchGameP->big_virus_count[2]);
+                state->virus_number = get_virus_color_count(
+                    map, watchGameP->big_virus_count, &watchGameP->big_virus_count[1], &watchGameP->big_virus_count[2]);
 
                 for (var_s0 = 0; var_s0 < ANIMES_COUNT; var_s0++) {
                     if ((watchGameP->big_virus_count[var_s0] != 0) && watchGameP->big_virus_flg[var_s0]) {
@@ -3377,26 +3448,26 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
 
         case dm_mode_clear_wait:
         case dm_mode_gover_wait:
-            if (gameStateData->mode_now == dm_mode_clear_wait) {
-                if (effectNextStage_calc(arg2)) {
+            if (state->mode_now == dm_mode_clear_wait) {
+                if (effectNextStage_calc(player_no)) {
                     break;
                 }
             } else {
-                if (effectGameOver_calc(arg2)) {
+                if (effectGameOver_calc(player_no)) {
                     break;
                 }
             }
 
-            if (gControllerPressedButtons[main_joy[arg2]] & ANY_BUTTON) {
-                switch (gameStateData->mode_now) {
+            if (gControllerPressedButtons[main_joy[player_no]] & ANY_BUTTON) {
+                switch (state->mode_now) {
                     case dm_mode_clear_wait:
-                        gameStateData->cnd_now = dm_cnd_clear_result;
-                        gameStateData->mode_now = dm_mode_clear_result;
+                        state->cnd_now = dm_cnd_clear_result;
+                        state->mode_now = dm_mode_clear_result;
                         break;
 
                     case dm_mode_gover_wait:
-                        gameStateData->cnd_now = dm_cnd_gover_result;
-                        gameStateData->mode_now = dm_mode_gover_result;
+                        state->cnd_now = dm_cnd_gover_result;
+                        state->mode_now = dm_mode_gover_result;
                         break;
 
                     default:
@@ -3407,24 +3478,24 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
 
         case dm_mode_clear_result:
         case dm_mode_gover_result:
-            if (gControllerPressedButtons[main_joy[arg2]] & ANY_BUTTON) {
-                timeAttackResult_skip(&watchGameP->timeAttackResult[arg2]);
+            if (gControllerPressedButtons[main_joy[player_no]] & ANY_BUTTON) {
+                timeAttackResult_skip(&watchGameP->timeAttackResult[player_no]);
             }
 
-            timeAttackResult_update(&watchGameP->timeAttackResult[arg2], true);
+            timeAttackResult_update(&watchGameP->timeAttackResult[player_no], true);
 
-            dm_add_score(gameStateData, watchGameP->timeAttackResult[arg2].scoreDelta);
-            watchGameP->timeAttackResult[arg2].scoreDelta = 0;
-            if (timeAttackResult_isEnd(&watchGameP->timeAttackResult[arg2])) {
-                switch (gameStateData->mode_now) {
+            dm_add_score(state, watchGameP->timeAttackResult[player_no].scoreDelta);
+            watchGameP->timeAttackResult[player_no].scoreDelta = 0;
+            if (timeAttackResult_isEnd(&watchGameP->timeAttackResult[player_no])) {
+                switch (state->mode_now) {
                     case dm_mode_clear_result:
-                        gameStateData->cnd_now = dm_cnd_stage_clear;
-                        gameStateData->mode_now = dm_mode_stage_clear;
+                        state->cnd_now = dm_cnd_stage_clear;
+                        state->mode_now = dm_mode_stage_clear;
                         break;
 
                     case dm_mode_gover_result:
-                        gameStateData->cnd_now = dm_cnd_game_over;
-                        gameStateData->mode_now = dm_mode_game_over;
+                        state->cnd_now = dm_cnd_game_over;
+                        state->mode_now = dm_mode_game_over;
                         break;
 
                     default:
@@ -3435,12 +3506,12 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
 
         case dm_mode_stage_clear:
         case dm_mode_game_over:
-            if (gameStateData->mode_now == dm_mode_stage_clear) {
-                if (effectNextStage_calc(arg2)) {
+            if (state->mode_now == dm_mode_stage_clear) {
+                if (effectNextStage_calc(player_no)) {
                     break;
                 }
             } else {
-                if (effectGameOver_calc(arg2)) {
+                if (effectGameOver_calc(player_no)) {
                     break;
                 }
             }
@@ -3450,17 +3521,17 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                 switch (evs_gamemode) {
                     case GMD_NORMAL:
                         var_s1 = 0;
-                        var_s2 = gameStateData->virus_level;
+                        var_s2 = state->virus_level;
                         break;
 
                     case GMD_TIME_ATTACK:
                         var_s1 = 1;
-                        var_s2 = gameStateData->game_level;
+                        var_s2 = state->game_level;
                         break;
 
                     case GMD_TaiQ:
                         var_s1 = 2;
-                        var_s2 = gameStateData->game_level;
+                        var_s2 = state->game_level;
                         break;
 
                     default:
@@ -3473,9 +3544,9 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     var_t2 = evs_mem_data[evs_select_name_no[0]].mem_name;
                 }
 
-                if (watchGameP->passBuf[0] == 0) {
-                    func_8007E760(watchGameP->passBuf, var_s1, var_s2, gameStateData->cap_def_speed,
-                                  gameStateData->game_score / 10, evs_game_time / 6, var_t2);
+                if (watchGameP->passBuf[0] == '\0') {
+                    func_8007E760(watchGameP->passBuf, var_s1, var_s2, state->cap_def_speed, state->game_score / 10,
+                                  evs_game_time / 6, var_t2);
 
                     // Write MSG_END
                     watchGameP->passBuf[ARRAY_COUNT(watchGameP->passBuf) - 2] = '~';
@@ -3491,34 +3562,34 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
                     watchGameP->passAlphaStep = -watchGameP->passAlphaStep;
                 }
 
-                switch (retryMenu_input(arg2)) {
+                switch (retryMenu_input(player_no)) {
                     case ETC_PART_INDEX_GRAPHBIN_0:
                         set_replay_state();
                         dm_snd_play_in_game(SND_INDEX_62);
-                        return 9;
+                        return dm_ret_replay;
 
                     case ETC_PART_INDEX_GRAPHBIN_1:
                         reset_replay_state();
                         dm_snd_play_in_game(SND_INDEX_62);
-                        return 1;
+                        return dm_ret_next_stage;
 
                     case ETC_PART_INDEX_GRAPHBIN_2:
                         reset_replay_state();
-                        if (gameStateData->game_retry < 0x3E7U) {
-                            gameStateData->game_retry++;
+                        if (state->game_retry < 999) {
+                            state->game_retry++;
                         }
 
-                        if ((gameStateData->virus_level >= 0x16U) && (watchGameP->retry_coin > 0)) {
+                        if ((state->virus_level > 21) && (watchGameP->retry_coin > 0)) {
                             watchGameP->retry_coin--;
                             dm_snd_play_in_game(SND_INDEX_78);
                         } else {
                             dm_snd_play_in_game(SND_INDEX_62);
                         }
-                        return 2;
+                        return dm_ret_retry;
 
                     case ETC_PART_INDEX_GRAPHBIN_3:
                         dm_snd_play_in_game(SND_INDEX_62);
-                        return 0x64;
+                        return dm_ret_end;
 
                     default:
                         break;
@@ -3527,30 +3598,30 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
             break;
 
         case dm_mode_pause_retry:
-            switch (retryMenu_input(arg2)) {
+            switch (retryMenu_input(player_no)) {
                 case ETC_PART_INDEX_GRAPHBIN_0:
                     if (watchGameP->query_pause_player_no < 0) {
-                        watchGameP->query_pause_player_no = arg2;
+                        watchGameP->query_pause_player_no = player_no;
                     }
                     dm_snd_play_in_game(SND_INDEX_62);
                     break;
 
                 case ETC_PART_INDEX_GRAPHBIN_1:
-                    if (gameStateData->game_retry < 0x3E7U) {
-                        gameStateData->game_retry = gameStateData->game_retry + 1;
+                    if (state->game_retry < 999) {
+                        state->game_retry = state->game_retry + 1;
                     }
 
-                    if ((gameStateData->virus_level >= 0x16U) && (watchGameP->retry_coin > 0)) {
+                    if ((state->virus_level > 21) && (watchGameP->retry_coin > 0)) {
                         watchGameP->retry_coin--;
                         dm_snd_play_in_game(SND_INDEX_78);
                     } else {
                         dm_snd_play_in_game(SND_INDEX_62);
                     }
-                    return 2;
+                    return dm_ret_retry;
 
                 case ETC_PART_INDEX_GRAPHBIN_2:
                     dm_snd_play_in_game(SND_INDEX_62);
-                    return 0x64;
+                    return dm_ret_end;
 
                 default:
                     break;
@@ -3561,109 +3632,109 @@ s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapC
             break;
     }
 
-    return 0;
+    return dm_ret_null;
 }
 
-// return enum?
-s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, s32 index) {
-    struct_watchGame *temp_s1 = watchGame;
-    dm_calc_erase_score_pos_arg2 sp20;
-    s32 button = gControllerPressedButtons[main_joy[index]];
+/**
+ * Original name: dm_game_main_cnt
+ */
+DmMainCnt dm_game_main_cnt(struct_game_state_data *state, GameMapCell *map, s32 player_no) {
+    struct_watchGame *st = watchGame;
+    dm_calc_erase_score_pos_arg2 pos;
+    s32 trg = gControllerPressedButtons[main_joy[player_no]];
     s32 i;
     s32 j;
     bool var_s6;
 
-    dm_query_pause_player(gameStateDataRef);
+    dm_query_pause_player(state);
 
-    animeState_update(&gameStateDataRef->anime);
+    animeState_update(&state->anime);
 
-    scoreNums_update(&temp_s1->scoreNums[index]);
+    scoreNums_update(&st->scoreNums[player_no]);
 
-    if ((gameStateDataRef->cnd_static != dm_cnd_wait) && (gameStateDataRef->cnd_static != dm_cnd_pause)) {
-        dm_black_up(gameStateDataRef, mapCells);
+    if ((state->cnd_static != dm_cnd_wait) && (state->cnd_static != dm_cnd_pause)) {
+        dm_black_up(state, map);
     }
 
-    if ((evs_gamemode == GMD_TIME_ATTACK) && (evs_game_time >= 10800) &&
-        (gameStateDataRef->cnd_static == dm_cnd_wait)) {
-        return -1;
+    if ((evs_gamemode == GMD_TIME_ATTACK) && (evs_game_time >= 10800) && (state->cnd_static == dm_cnd_wait)) {
+        return dm_ret_game_over;
     }
 
-    switch (gameStateDataRef->mode_now) {
+    switch (state->mode_now) {
         case dm_mode_init:
-            dm_set_virus(gameStateDataRef, mapCells, virus_map_data[index], virus_map_disp_order[index]);
-            return 3;
+            dm_set_virus(state, map, virus_map_data[player_no], virus_map_disp_order[player_no]);
+            return dm_ret_virus_wait;
 
         case dm_mode_wait:
-            return 3;
+            return dm_ret_virus_wait;
 
         case dm_mode_down_wait:
-            if (dm_check_game_over(gameStateDataRef, mapCells)) {
-                return -1;
+            if (dm_check_game_over(state, map)) {
+                return dm_ret_game_over;
             }
 
-            if (dm_h_erase_chack(mapCells) || dm_w_erase_chack(mapCells)) {
-                if (!gameStateDataRef->flg_game_over) {
-                    gameStateDataRef->mode_now = dm_mode_erase_chack;
+            if (dm_h_erase_chack(map) || dm_w_erase_chack(map)) {
+                if (!state->flg_game_over) {
+                    state->mode_now = dm_mode_erase_chack;
                 } else {
-                    gameStateDataRef->mode_now = dm_mode_tr_erase_chack;
+                    state->mode_now = dm_mode_tr_erase_chack;
                 }
 
-                gameStateDataRef->cap_speed_count = 0;
-            } else if (!gameStateDataRef->flg_game_over) {
-                gameStateDataRef->mode_now = dm_mode_cap_set;
+                state->cap_speed_count = 0;
+            } else if (!state->flg_game_over) {
+                state->mode_now = dm_mode_cap_set;
             } else {
-                gameStateDataRef->mode_now = dm_mode_tr_cap_set;
+                state->mode_now = dm_mode_tr_cap_set;
             }
             break;
 
         case dm_mode_erase_chack:
-            gameStateDataRef->cap_speed_count++;
-            if (gameStateDataRef->cap_speed_count >= 18) {
+            state->cap_speed_count++;
+            if (state->cap_speed_count >= 18) {
                 s32 temp_s4_2;
 
-                gameStateDataRef->mode_now = dm_mode_erase_anime;
-                gameStateDataRef->cap_speed_count = 0;
-                dm_h_erase_chack_set(gameStateDataRef, mapCells);
-                dm_w_erase_chack_set(gameStateDataRef, mapCells);
-                dm_h_ball_chack(mapCells);
-                dm_w_ball_chack(mapCells);
+                state->mode_now = dm_mode_erase_anime;
+                state->cap_speed_count = 0;
+                dm_h_erase_chack_set(state, map);
+                dm_w_erase_chack_set(state, map);
+                dm_h_ball_chack(map);
+                dm_w_ball_chack(map);
 
-                temp_s4_2 = gameStateDataRef->virus_number;
-                temp_s4_2 -= dm_update_virus_count(gameStateDataRef, mapCells, true);
-                gameStateDataRef->total_erase_count += temp_s4_2;
+                temp_s4_2 = state->virus_number;
+                temp_s4_2 -= dm_update_virus_count(state, map, true);
+                state->total_erase_count += temp_s4_2;
 
-                dm_calc_erase_score_pos(gameStateDataRef, mapCells, &sp20);
+                dm_calc_erase_score_pos(state, map, &pos);
 
-                scoreNums_set(&temp_s1->scoreNums[index], dm_make_score(gameStateDataRef),
-                              gameStateDataRef->erase_virus_count,
-                              gameStateDataRef->map_x + gameStateDataRef->map_item_size / 2 + sp20.x,
-                              gameStateDataRef->map_y + gameStateDataRef->map_item_size / 2 + sp20.y);
+                scoreNums_set(&st->scoreNums[player_no], dm_make_score(state), state->erase_virus_count,
+                              state->map_x + state->map_item_size / 2 + pos.x,
+                              state->map_y + state->map_item_size / 2 + pos.y);
 
-                if (gameStateDataRef->virus_number == 0) {
-                    if (gameStateDataRef->chain_line_max < gameStateDataRef->chain_line) {
-                        gameStateDataRef->chain_line_max = gameStateDataRef->chain_line;
+                if (state->virus_number == 0) {
+                    if (state->chain_line_max < state->chain_line) {
+                        state->chain_line_max = state->chain_line;
                     }
-                    return 6;
+                    return dm_ret_clear;
                 }
-                if (temp_s1->last_3_se_cnt >= gameStateDataRef->virus_number) {
-                    if (!temp_s1->last_3_se_flg) {
-                        temp_s1->last_3_se_flg = true;
+                if (st->last_3_se_cnt >= state->virus_number) {
+                    if (!st->last_3_se_flg) {
+                        st->last_3_se_flg = true;
                         dm_snd_play_in_game(SND_INDEX_80);
                     }
-                    if (!temp_s1->bgm_bpm_flg[0]) {
-                        temp_s1->bgm_bpm_flg[0] = true;
-                        temp_s1->bgm_bpm_flg[1] = true;
+                    if (!st->bgm_bpm_flg[0]) {
+                        st->bgm_bpm_flg[0] = true;
+                        st->bgm_bpm_flg[1] = true;
                     }
                 }
-                gameStateDataRef->chain_count++;
+                state->chain_count++;
 
                 switch (evs_gamesel) {
-                    case ENUM_EVS_GAMESEL_1:
-                    case ENUM_EVS_GAMESEL_3:
-                    case ENUM_EVS_GAMESEL_5:
-                        if (gameStateDataRef->chain_line < 2) {
-                            if (gameStateDataRef->chain_color[3] & 8) {
-                                gameStateDataRef->chain_color[3] &= ~8;
+                    case GSL_2PLAY:
+                    case GSL_VSCPU:
+                    case GSL_2DEMO:
+                        if (state->chain_line < 2) {
+                            if (state->chain_color[3] & 8) {
+                                state->chain_color[3] &= ~8;
                                 if ((evs_gamemode == GMD_FLASH) && (temp_s4_2 != 0)) {
                                     dm_snd_play_in_game(SND_INDEX_102);
                                 } else {
@@ -3673,7 +3744,7 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                                 dm_snd_play_in_game(SND_INDEX_61);
                             }
                         } else {
-                            s32 temp_v0_3 = gameStateDataRef->chain_line - 2;
+                            s32 temp_v0_3 = state->chain_line - 2;
 
                             if (temp_v0_3 <= 2) {
                                 j = temp_v0_3;
@@ -3681,18 +3752,18 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
                                 j = 2;
                             }
 
-                            dm_snd_play_in_game(_charSE_tbl[gameStateDataRef->charNo] + j);
+                            dm_snd_play_in_game(_charSE_tbl[state->charNo] + j);
 
-                            if (gameStateDataRef->chain_color[3] & 8) {
-                                gameStateDataRef->chain_color[3] &= ~8;
+                            if (state->chain_color[3] & 8) {
+                                state->chain_color[3] &= ~8;
                             }
                         }
                         break;
 
-                    case ENUM_EVS_GAMESEL_2:
-                    case ENUM_EVS_GAMESEL_6:
-                        if (gameStateDataRef->chain_color[3] & 8) {
-                            gameStateDataRef->chain_color[3] &= ~8;
+                    case GSL_4PLAY:
+                    case GSL_4DEMO:
+                        if (state->chain_color[3] & 8) {
+                            state->chain_color[3] &= ~8;
                             if ((evs_gamemode == GMD_FLASH) && (temp_s4_2 != 0)) {
                                 dm_snd_play_in_game(SND_INDEX_102);
                             } else {
@@ -3710,62 +3781,61 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             break;
 
         case dm_mode_erase_anime:
-            dm_capsel_erase_anime(gameStateDataRef, mapCells);
+            dm_capsel_erase_anime(state, map);
             break;
 
         case dm_mode_ball_down:
-            go_down(gameStateDataRef, mapCells, 0xE);
+            go_down(state, map, 0xE);
             break;
 
         case dm_mode_cap_set:
             var_s6 = true;
 
-            if (gameStateDataRef->chain_count > 1) {
-                gameStateDataRef->total_chain_count =
-                    MIN(99, gameStateDataRef->total_chain_count + gameStateDataRef->chain_count - 1);
+            if (state->chain_count > 1) {
+                state->total_chain_count = MIN(99, state->total_chain_count + state->chain_count - 1);
             }
 
-            dm_attack_se(gameStateDataRef, index);
-            dm_warning_h_line(gameStateDataRef, mapCells);
+            dm_attack_se(state, player_no);
+            dm_warning_h_line(state, map);
             switch (evs_gamesel) {
-                case ENUM_EVS_GAMESEL_1:
-                case ENUM_EVS_GAMESEL_3:
-                case ENUM_EVS_GAMESEL_5:
+                case GSL_2PLAY:
+                case GSL_VSCPU:
+                case GSL_2DEMO:
                     if (evs_gamemode != GMD_TIME_ATTACK) {
-                        i = dm_set_attack_2p(gameStateDataRef);
+                        i = dm_set_attack_2p(state);
                         if (i != 0) {
-                            animeState_set(&gameStateDataRef->anime, ANIMENO_1);
+                            animeState_set(&state->anime, ANIMENO_1);
                         }
 
-                        if (dm_broken_set(gameStateDataRef, mapCells)) {
-                            animeState_set(&gameStateDataRef->anime, ANIMENO_2);
+                        if (dm_broken_set(state, map)) {
+                            animeState_set(&state->anime, ANIMENO_2);
                             var_s6 = false;
-                            dm_snd_play_in_game(_charSE_tbl[gameStateDataRef->charNo] + 3);
-                            gameStateDataRef->mode_now = dm_mode_ball_down;
-                            if (gameStateDataRef->ai.aiState & 1) {
-                                gameStateDataRef->ai.aiState |= 2;
+                            dm_snd_play_in_game(_charSE_tbl[state->charNo] + 3);
+                            state->mode_now = dm_mode_ball_down;
+                            if (state->ai.aiState & 1) {
+                                state->ai.aiState |= 2;
                             } else {
-                                gameStateDataRef->ai.aiState |= 1;
+                                state->ai.aiState |= 1;
                             }
                         }
                     }
                     break;
 
-                case ENUM_EVS_GAMESEL_2:
-                case ENUM_EVS_GAMESEL_6:
-                    i = dm_set_attack_4p(gameStateDataRef);
+                case GSL_4PLAY:
+                case GSL_4DEMO:
+                    i = dm_set_attack_4p(state);
                     if (i != 0) {
-                        animeState_set(&gameStateDataRef->anime, ANIMENO_1);
+                        animeState_set(&state->anime, ANIMENO_1);
                     }
 
-                    if (dm_broken_set(gameStateDataRef, mapCells)) {
-                        animeState_set(&gameStateDataRef->anime, ANIMENO_2);
+                    if (dm_broken_set(state, map)) {
+                        animeState_set(&state->anime, ANIMENO_2);
                         var_s6 = false;
-                        gameStateDataRef->mode_now = dm_mode_ball_down;
-                        if (gameStateDataRef->ai.aiState & 1) {
-                            gameStateDataRef->ai.aiState |= 2;
+                        state->mode_now = dm_mode_ball_down;
+                        if (state->ai.aiState & 1) {
+                            state->ai.aiState |= 2;
                         } else {
-                            gameStateDataRef->ai.aiState |= 1;
+                            state->ai.aiState |= 1;
                         }
                     }
                     break;
@@ -3775,92 +3845,92 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             }
 
             if (var_s6) {
-                dm_set_capsel(gameStateDataRef);
-                dm_capsel_speed_up(gameStateDataRef);
-                if (gameStateDataRef->chain_line_max < gameStateDataRef->chain_line) {
-                    gameStateDataRef->chain_line_max = gameStateDataRef->chain_line;
+                dm_set_capsel(state);
+                dm_capsel_speed_up(state);
+                if (state->chain_line_max < state->chain_line) {
+                    state->chain_line_max = state->chain_line;
                 }
 
-                gameStateDataRef->chain_line = 0;
-                gameStateDataRef->chain_count = 0;
-                gameStateDataRef->erase_virus_count = 0;
-                gameStateDataRef->erase_virus_count_old = 0;
+                state->chain_line = 0;
+                state->chain_count = 0;
+                state->erase_virus_count = 0;
+                state->erase_virus_count_old = 0;
 
-                for (i = 0; i < ARRAY_COUNT(gameStateDataRef->chain_color); i++) {
-                    gameStateDataRef->chain_color[i] = 0;
+                for (i = 0; i < ARRAY_COUNT(state->chain_color); i++) {
+                    state->chain_color[i] = 0;
                 }
 
-                gameStateDataRef->mode_now = dm_mode_down;
-                if ((gameStateDataRef->player_type == PLAYERTYPE_1) ||
-                    (((gameStateDataRef->player_type != PLAYERTYPE_1) && (index == 0)) && (aiDebugP1 >= 0))) {
-                    aifMakeFlagSet(gameStateDataRef);
+                state->mode_now = dm_mode_down;
+                if ((state->player_type == PLAYERTYPE_1) ||
+                    (((state->player_type != PLAYERTYPE_1) && (player_no == 0)) && (aiDebugP1 >= 0))) {
+                    aifMakeFlagSet(state);
                 }
             }
             break;
 
         case dm_mode_clear_wait:
-            effectNextStage_calc(index);
+            effectNextStage_calc(player_no);
             break;
 
         case dm_mode_gover_wait:
-            effectGameOver_calc(index);
+            effectGameOver_calc(player_no);
             break;
 
         case dm_mode_retire_wait:
-            effectRetire_calc(index);
+            effectRetire_calc(player_no);
             break;
 
         case dm_mode_clear_result:
         case dm_mode_gover_result:
         case dm_mode_retire_result:
-            if (gControllerPressedButtons[main_joy[index]] & ANY_BUTTON) {
-                timeAttackResult_skip(&temp_s1->timeAttackResult[index]);
+            if (gControllerPressedButtons[main_joy[player_no]] & ANY_BUTTON) {
+                timeAttackResult_skip(&st->timeAttackResult[player_no]);
             }
 
-            timeAttackResult_update(&temp_s1->timeAttackResult[index], true);
-            dm_add_score(gameStateDataRef, temp_s1->timeAttackResult[index].scoreDelta);
-            temp_s1->timeAttackResult[index].scoreDelta = 0;
+            timeAttackResult_update(&st->timeAttackResult[player_no], true);
+            dm_add_score(state, st->timeAttackResult[player_no].scoreDelta);
+            st->timeAttackResult[player_no].scoreDelta = 0;
             break;
 
         case dm_mode_win_retry:
         case dm_mode_lose_retry:
         case dm_mode_draw_retry:
-            if (gameStateDataRef->mode_now == dm_mode_win_retry) {
-                if (effectWin_calc(index) != 0) {
+            if (state->mode_now == dm_mode_win_retry) {
+                if (effectWin_calc(player_no) != 0) {
                     break;
                 }
-            } else if (gameStateDataRef->mode_now == dm_mode_lose_retry) {
-                if (effectLose_calc(index) != 0) {
+            } else if (state->mode_now == dm_mode_lose_retry) {
+                if (effectLose_calc(player_no) != 0) {
                     break;
                 }
-            } else if (gameStateDataRef->mode_now == dm_mode_draw_retry) {
-                if (effectDraw_calc(index) != 0) {
+            } else if (state->mode_now == dm_mode_draw_retry) {
+                if (effectDraw_calc(player_no) != 0) {
                     break;
                 }
             }
 
-            switch (retryMenu_input(index)) {
+            switch (retryMenu_input(player_no)) {
                 case ETC_PART_INDEX_GRAPHBIN_0:
                     set_replay_state();
                     dm_snd_play_in_game(SND_INDEX_62);
-                    return 9;
+                    return dm_ret_replay;
 
                 case ETC_PART_INDEX_GRAPHBIN_1:
                     reset_replay_state();
                     dm_snd_play_in_game(SND_INDEX_62);
-                    return 0x64;
+                    return dm_ret_end;
 
                 case ETC_PART_INDEX_GRAPHBIN_2:
                     reset_replay_state();
-                    if (gameStateDataRef->game_retry < 999) {
-                        gameStateDataRef->game_retry++;
+                    if (state->game_retry < 999) {
+                        state->game_retry++;
                     }
                     dm_snd_play_in_game(SND_INDEX_62);
-                    return 2;
+                    return dm_ret_retry;
 
                 case ETC_PART_INDEX_GRAPHBIN_3:
                     dm_snd_play_in_game(SND_INDEX_62);
-                    return -2;
+                    return dm_ret_game_end;
 
                 default:
                     break;
@@ -3868,80 +3938,80 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             break;
 
         case dm_mode_win:
-            effectWin_calc(index);
+            effectWin_calc(player_no);
             break;
 
         case dm_mode_lose:
-            effectLose_calc(index);
+            effectLose_calc(player_no);
             break;
 
         case dm_mode_draw:
-            effectDraw_calc(index);
+            effectDraw_calc(player_no);
             break;
 
         case dm_mode_tr_chaeck:
-            if ((button & START_BUTTON) && !temp_s1->replayFlag) {
-                return 7;
+            if ((trg & START_BUTTON) && !st->replayFlag) {
+                return dm_ret_tr_a;
             }
             break;
 
         case dm_mode_training:
-            gameStateDataRef->flg_game_over = true;
-            clear_map_all(mapCells);
-            gameStateDataRef->virus_number = 0;
-            gameStateDataRef->virus_order_number = 0;
-            gameStateDataRef->virus_anime_spead = 0xC;
-            gameStateDataRef->warning_se_flag = false;
-            gameStateDataRef->cap_speed = GameSpeed[gameStateDataRef->cap_def_speed];
-            gameStateDataRef->cap_speed_max = 0;
-            gameStateDataRef->cap_speed_vec = 1;
-            gameStateDataRef->cap_magazine_cnt = 1;
-            gameStateDataRef->cap_speed_count = 0;
-            gameStateDataRef->cap_count = 0;
-            dm_set_capsel(gameStateDataRef);
-            gameStateDataRef->erase_anime = 0;
-            gameStateDataRef->erase_anime_count = 0;
-            gameStateDataRef->erase_virus_count = 0;
-            gameStateDataRef->erase_virus_count_old = 0;
-            gameStateDataRef->chain_line = 0;
-            gameStateDataRef->chain_count = 0;
+            state->flg_game_over = true;
+            clear_map_all(map);
+            state->virus_number = 0;
+            state->virus_order_number = 0;
+            state->virus_anime_spead = 0xC;
+            state->warning_se_flag = false;
+            state->cap_speed = GameSpeed[state->cap_def_speed];
+            state->cap_speed_max = 0;
+            state->cap_speed_vec = 1;
+            state->cap_magazine_cnt = 1;
+            state->cap_speed_count = 0;
+            state->cap_count = 0;
+            dm_set_capsel(state);
+            state->erase_anime = 0;
+            state->erase_anime_count = 0;
+            state->erase_virus_count = 0;
+            state->erase_virus_count_old = 0;
+            state->chain_line = 0;
+            state->chain_count = 0;
 
-            for (i = 0; i < ARRAY_COUNT(gameStateDataRef->chain_color); i++) {
-                gameStateDataRef->chain_color[i] = 0;
+            for (i = 0; i < ARRAY_COUNT(state->chain_color); i++) {
+                state->chain_color[i] = 0;
             }
 
-            for (i = 0; i < ARRAY_COUNT(gameStateDataRef->cap_attack_work); i++) {
-                gameStateDataRef->cap_attack_work[i].unk_0 = 0;
-                gameStateDataRef->cap_attack_work[i].unk_2 = 0;
+            for (i = 0; i < ARRAY_COUNT(state->cap_attack_work); i++) {
+                state->cap_attack_work[i].unk_0 = 0;
+                state->cap_attack_work[i].unk_2 = 0;
             }
 
-            gameStateDataRef->mode_now = dm_mode_init;
-            gameStateDataRef->cnd_now = dm_cnd_init;
+            state->mode_now = dm_mode_init;
+            state->cnd_now = dm_cnd_init;
 
-            for (i = 0; i < ARRAY_COUNTU(virus_map_disp_order[index]); i++) {
-                virus_map_disp_order[index][i] &= ~0x80;
+            for (i = 0; i < ARRAY_COUNTU(virus_map_disp_order[player_no]); i++) {
+                virus_map_disp_order[player_no][i] &= ~0x80;
             }
 
-            for (i = 0; i < gameStateDataRef->flash_virus_count; i++) {
-                gameStateDataRef->flash_virus_pos[i].color = gameStateDataRef->flash_virus_bak[i];
+            for (i = 0; i < state->flash_virus_count; i++) {
+                state->flash_virus_pos[i].color = state->flash_virus_bak[i];
             }
             break;
 
         case dm_mode_tr_erase_chack:
-            gameStateDataRef->cap_speed_count++;
-            if (gameStateDataRef->cap_speed_count >= 18) {
-                gameStateDataRef->cap_speed_count = 0;
-                gameStateDataRef->mode_now = dm_mode_erase_anime;
-                dm_h_erase_chack_set(gameStateDataRef, mapCells);
-                dm_w_erase_chack_set(gameStateDataRef, mapCells);
-                dm_h_ball_chack(mapCells);
-                dm_w_ball_chack(mapCells);
+            state->cap_speed_count++;
+            if (state->cap_speed_count >= 18) {
+                state->cap_speed_count = 0;
+                state->mode_now = dm_mode_erase_anime;
+                dm_h_erase_chack_set(state, map);
+                dm_w_erase_chack_set(state, map);
+                dm_h_ball_chack(map);
+                dm_w_ball_chack(map);
 
-                gameStateDataRef->chain_count++;
-                dm_update_virus_count(gameStateDataRef, mapCells, true);
+                state->chain_count++;
+                dm_update_virus_count(state, map, true);
 
-                if (gameStateDataRef->chain_color[3] & 8) {
-                    gameStateDataRef->chain_color[3] &= ~8;
+                if (state->chain_color[3] & 8) {
+                    state->chain_color[3] &= ~8;
                     dm_snd_play_in_game(SND_INDEX_56);
                 } else {
                     dm_snd_play_in_game(SND_INDEX_61);
@@ -3950,58 +4020,58 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             break;
 
         case dm_mode_tr_cap_set:
-            dm_warning_h_line(gameStateDataRef, mapCells);
+            dm_warning_h_line(state, map);
 
             var_s6 = true;
-            if (gameStateDataRef->flg_training) {
-                dm_attack_se(gameStateDataRef, index);
-                dm_set_attack_4p(gameStateDataRef);
-                animeState_set(&gameStateDataRef->anime, ANIMENO_1);
-                if (dm_broken_set(gameStateDataRef, mapCells)) {
-                    gameStateDataRef->mode_now = dm_mode_ball_down;
+            if (state->flg_training) {
+                dm_attack_se(state, player_no);
+                dm_set_attack_4p(state);
+                animeState_set(&state->anime, ANIMENO_1);
+                if (dm_broken_set(state, map)) {
+                    state->mode_now = dm_mode_ball_down;
                     var_s6 = false;
                 }
             } else {
                 for (j = 0; j < 0x10; j++) {
-                    gameStateDataRef->cap_attack_work[j].unk_0 = 0;
-                    gameStateDataRef->cap_attack_work[j].unk_2 = 0;
+                    state->cap_attack_work[j].unk_0 = 0;
+                    state->cap_attack_work[j].unk_2 = 0;
                 }
             }
 
             if (var_s6) {
-                dm_set_capsel(gameStateDataRef);
-                dm_capsel_speed_up(gameStateDataRef);
-                gameStateDataRef->chain_line = 0;
-                gameStateDataRef->chain_count = 0;
-                gameStateDataRef->erase_virus_count = 0;
-                gameStateDataRef->erase_virus_count_old = 0;
+                dm_set_capsel(state);
+                dm_capsel_speed_up(state);
+                state->chain_line = 0;
+                state->chain_count = 0;
+                state->erase_virus_count = 0;
+                state->erase_virus_count_old = 0;
 
-                for (i = 0; i < ARRAY_COUNT(gameStateDataRef->chain_color); i++) {
-                    gameStateDataRef->chain_color[i] = 0;
+                for (i = 0; i < ARRAY_COUNT(state->chain_color); i++) {
+                    state->chain_color[i] = 0;
                 }
-                gameStateDataRef->mode_now = dm_mode_down;
+                state->mode_now = dm_mode_down;
             }
             break;
 
         case dm_mode_pause_retry:
-            switch (retryMenu_input(index)) {
+            switch (retryMenu_input(player_no)) {
                 case ETC_PART_INDEX_GRAPHBIN_0:
-                    if (temp_s1->query_pause_player_no < 0) {
-                        temp_s1->query_pause_player_no = index;
+                    if (st->query_pause_player_no < 0) {
+                        st->query_pause_player_no = player_no;
                     }
                     dm_snd_play_in_game(SND_INDEX_62);
                     break;
 
                 case ETC_PART_INDEX_GRAPHBIN_1:
-                    if (gameStateDataRef->game_retry < 999) {
-                        gameStateDataRef->game_retry++;
+                    if (state->game_retry < 999) {
+                        state->game_retry++;
                     }
                     dm_snd_play_in_game(SND_INDEX_62);
-                    return 2;
+                    return dm_ret_retry;
 
                 case ETC_PART_INDEX_GRAPHBIN_2:
                     dm_snd_play_in_game(SND_INDEX_62);
-                    return -2;
+                    return dm_ret_game_end;
 
                 default:
                     break;
@@ -4012,81 +4082,90 @@ s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapC
             break;
     }
 
-    return 0;
+    return dm_ret_null;
 }
 
-void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1) {
-    struct_watchGame *temp_s3 = watchGame;
-    s32 temp_s1 = gameStateData->player_no;
+/**
+ * Original name: dm_set_pause_on
+ */
+void dm_set_pause_on(struct_game_state_data *state, s32 master) {
+    struct_watchGame *st = watchGame;
+    s32 p = state->player_no;
 
-    effectPause_init(temp_s1);
+    effectPause_init(p);
 
-    gameStateData->cnd_static = dm_cnd_pause;
-    gameStateData->cnd_old = gameStateData->cnd_now;
-    gameStateData->mode_old = gameStateData->mode_now;
+    state->cnd_static = dm_cnd_pause;
+    state->cnd_old = state->cnd_now;
+    state->mode_old = state->mode_now;
 
-    if (evs_gamesel == ENUM_EVS_GAMESEL_0) {
-        gameStateData->mode_now = dm_mode_pause_retry;
-        gameStateData->cnd_now = dm_cnd_pause_re;
-        if ((gameStateData->virus_level < 0x16) || (temp_s3->retry_coin > 0)) {
+    if (evs_gamesel == GSL_1PLAY) {
+        state->mode_now = dm_mode_pause_retry;
+        state->cnd_now = dm_cnd_pause_re;
+        if ((state->virus_level < 0x16) || (st->retry_coin > 0)) {
             retryMenu_init(0, RETRYTYPE_1);
         } else {
             retryMenu_init(0, RETRYTYPE_0);
         }
-    } else if (temp_s1 == arg1) {
-        gameStateData->mode_now = dm_mode_pause_retry;
-        gameStateData->cnd_now = dm_cnd_pause_re;
+    } else if (p == master) {
+        state->mode_now = dm_mode_pause_retry;
+        state->cnd_now = dm_cnd_pause_re;
         if (evs_story_flg != 0) {
-            gameStateData->cnd_now = dm_cnd_pause_re_sc;
+            state->cnd_now = dm_cnd_pause_re_sc;
             if (evs_story_no == 9) {
-                retryMenu_init(temp_s1, RETRYTYPE_1);
+                retryMenu_init(p, RETRYTYPE_1);
             } else {
-                retryMenu_init(temp_s1, RETRYTYPE_1);
+                retryMenu_init(p, RETRYTYPE_1);
             }
         } else {
-            retryMenu_init(temp_s1, RETRYTYPE_1);
+            retryMenu_init(p, RETRYTYPE_1);
         }
     } else {
-        func_8006417C(temp_s1);
-        gameStateData->cnd_now = dm_cnd_pause;
-        gameStateData->mode_now = dm_mode_pause;
+        retryMenu_initPauseLogo(p);
+        state->cnd_now = dm_cnd_pause;
+        state->mode_now = dm_mode_pause;
     }
 }
 
-void func_80066808(struct_game_state_data *gameStateData) {
-    gameStateData->cnd_static = dm_cnd_wait;
-    gameStateData->cnd_now = gameStateData->cnd_old;
-    gameStateData->mode_now = gameStateData->mode_old;
-    if (gameStateData->mode_now == dm_mode_tr_chaeck) {
-        gameStateData->cnd_static = dm_cnd_lose;
+/**
+ * Original name: dm_set_pause_off
+ */
+void dm_set_pause_off(struct_game_state_data *state) {
+    state->cnd_static = dm_cnd_wait;
+    state->cnd_now = state->cnd_old;
+    state->mode_now = state->mode_old;
+    if (state->mode_now == dm_mode_tr_chaeck) {
+        state->cnd_static = dm_cnd_lose;
     }
 }
 
-void dm_set_pause_and_volume(struct_game_state_data **gameStateDataP, s32 arg1) {
-    struct_watchGame *watchGameP = watchGame;
-    s32 var_s2 = watchGameP->query_pause_player_no;
+/**
+ * Original name: dm_set_pause_and_volume
+ */
+void dm_set_pause_and_volume(struct_game_state_data **state, s32 count) {
+    struct_watchGame *st = watchGame;
+    s32 var_s2 = st->query_pause_player_no;
     struct_game_state_data *temp_a1;
-    SndIndex var_s4;
+    SndIndex sound;
     s32 i;
 
-    if (watchGameP->query_play_pause_se) {
-        var_s4 = SND_INDEX_60;
+    if (st->query_play_pause_se) {
+        sound = SND_INDEX_60;
     } else {
-        var_s4 = SND_INDEX_INVALID;
+        sound = SND_INDEX_INVALID;
     }
 
-    watchGameP->query_pause_player_no = -1;
-    watchGameP->query_play_pause_se = false;
+    st->query_pause_player_no = -1;
+    st->query_play_pause_se = false;
     if (var_s2 < 0) {
         return;
     }
 
-    temp_a1 = gameStateDataP[var_s2];
+    temp_a1 = state[var_s2];
     if (temp_a1->cnd_static == dm_cnd_wait) {
         dm_seq_set_volume(0x40);
-        if (!watchGameP->replayFlag) {
-            for (i = 0; i < arg1; i++) {
-                dm_set_pause_on(gameStateDataP[i], var_s2);
+        if (!st->replayFlag) {
+            for (i = 0; i < count; i++) {
+                dm_set_pause_on(state[i], var_s2);
             }
         } else {
             resume_game_state(1);
@@ -4094,24 +4173,27 @@ void dm_set_pause_and_volume(struct_game_state_data **gameStateDataP, s32 arg1) 
         var_s2 = -1;
     } else if (temp_a1->cnd_static == dm_cnd_pause) {
         dm_seq_set_volume(0x80);
-        for (i = 0; i < arg1; i++) {
-            func_80066808(gameStateDataP[i]);
+        for (i = 0; i < count; i++) {
+            dm_set_pause_off(state[i]);
         }
         var_s2 = -1;
-    } else if (watchGameP->replayFlag && (temp_a1->cnd_now == dm_cnd_tr_chack)) {
+    } else if (st->replayFlag && (temp_a1->cnd_now == dm_cnd_tr_chack)) {
         dm_seq_set_volume(0x40);
         resume_game_state(1);
     }
 
-    if ((var_s2 < 0) && (var_s4 > SND_INDEX_INVALID)) {
-        dm_snd_play_in_game(var_s4);
+    if ((var_s2 < 0) && (sound > SND_INDEX_INVALID)) {
+        dm_snd_play_in_game(sound);
     }
 }
 
-void func_800669A0(struct_game_state_data *arg0) {
-    struct_game_state_data *sp10 = arg0;
+/**
+ * Original name: dm_set_pause_and_volume_1p
+ */
+void dm_set_pause_and_volume_1p(struct_game_state_data *state) {
+    struct_game_state_data *stateArray[1] = { state };
 
-    dm_set_pause_and_volume(&sp10, 1);
+    dm_set_pause_and_volume(stateArray, ARRAY_COUNT(stateArray));
 }
 
 const s16 _tbl_2997[3][2] = {
@@ -4122,74 +4204,77 @@ const s16 _tbl_2997[3][2] = {
 
 const s16 _clr_3004[2] = { 0xFF, 0x7F };
 
-void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: dm_calc_big_virus_pos
+ */
+void dm_calc_big_virus_pos(struct_game_state_data *state) {
+    struct_watchGame *st = watchGame;
     s32 i;
-    s32 var_s1;
+    s32 stopFlag;
 
-    for (i = 0; i < ARRAY_COUNT(watchGameP->big_virus_scale); i++) {
-        SAnimeState *temp = &watchGameP->virus_anime_state[i];
-        f32 var_fv0 = 1.0f;
+    for (i = 0; i < ARRAY_COUNT(st->big_virus_scale); i++) {
+        SAnimeState *ani = &st->virus_anime_state[i];
+        f32 vec = 1.0f;
 
-        if ((temp->animeSeq.animeNo == ANIMENO_4) && (temp->frameCount >= 90)) {
-            var_fv0 = -1.0f;
+        if ((ani->animeSeq.animeNo == ANIMENO_4) && (ani->frameCount >= 90)) {
+            vec = -1.0f;
         }
 
-        watchGameP->big_virus_scale[i] = CLAMP(watchGameP->big_virus_scale[i] + var_fv0 / DOUBLE_LITERAL(60), 0, 1);
+        st->big_virus_scale[i] = CLAMP(st->big_virus_scale[i] + vec / DOUBLE_LITERAL(60), 0, 1);
     }
 
     do {
-        s32 var_a2 = 0x7F;
+        s32 color = 0x7F;
 
         for (i = 0; i < ARRAY_COUNTU(_tbl_2997); i++) {
-            if (watchGameP->big_virus_stop_count < _tbl_2997[i][0]) {
-                var_a2 = _clr_3004[(watchGameP->big_virus_stop_count / _tbl_2997[i][1]) % ARRAY_COUNTU(_clr_3004)];
+            if (st->big_virus_stop_count < _tbl_2997[i][0]) {
+                color = _clr_3004[(st->big_virus_stop_count / _tbl_2997[i][1]) % ARRAY_COUNTU(_clr_3004)];
                 break;
             }
         }
 
-        for (i = 0; i < ARRAY_COUNT(watchGameP->virus_anime_state); i++) {
-            SAnimeState *temp = &watchGameP->virus_anime_state[i];
+        for (i = 0; i < ARRAY_COUNT(st->virus_anime_state); i++) {
+            SAnimeState *temp = &st->virus_anime_state[i];
 
-            temp->primColor[0] = temp->primColor[1] = temp->primColor[2] = var_a2;
+            temp->primColor[0] = temp->primColor[1] = temp->primColor[2] = color;
         }
 
-        watchGameP->big_virus_blink_count++;
+        st->big_virus_blink_count++;
     } while (0);
 
-    if (arg0->cnd_static != dm_cnd_wait) {
+    if (state->cnd_static != dm_cnd_wait) {
         return;
     }
 
-    if (watchGameP->big_virus_stop_count > 0) {
-        if (watchGameP->big_virus_no_wait) {
-            watchGameP->big_virus_stop_count = 0;
-            watchGameP->big_virus_no_wait = false;
+    if (st->big_virus_stop_count > 0) {
+        if (st->big_virus_no_wait) {
+            st->big_virus_stop_count = 0;
+            st->big_virus_no_wait = false;
         } else {
-            watchGameP->big_virus_stop_count--;
+            st->big_virus_stop_count--;
         }
     }
 
-    var_s1 = 0;
-    for (i = 0; i < ARRAY_COUNT(watchGameP->virus_anime_state); i++) {
-        SAnimeState *temp = &watchGameP->virus_anime_state[i];
+    stopFlag = false;
+    for (i = 0; i < ARRAY_COUNT(st->virus_anime_state); i++) {
+        SAnimeState *anim = &st->virus_anime_state[i];
 
-        switch ((s32)temp->animeSeq.animeNo) {
+        switch ((s32)anim->animeSeq.animeNo) {
             case ANIMENO_4:
-                if ((evs_gamemode != GMD_TaiQ) && !animeSeq_isEnd(&temp->animeSeq)) {
-                    var_s1 += 1;
+                if ((evs_gamemode != GMD_TaiQ) && !animeSeq_isEnd(&anim->animeSeq)) {
+                    stopFlag++;
                 }
                 break;
 
             case ANIMENO_2:
                 if (evs_gamemode != GMD_TaiQ) {
-                    var_s1 += 1;
+                    stopFlag++;
                 }
                 break;
 
             case ANIMENO_3:
-                if (arg0->cnd_static != dm_cnd_wait) {
-                    var_s1 += 1;
+                if (state->cnd_static != dm_cnd_wait) {
+                    stopFlag++;
                 }
                 break;
 
@@ -4199,21 +4284,21 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
         }
     }
 
-    if (watchGameP->big_virus_stop_count > 0) {
-        var_s1 += 1;
+    if (st->big_virus_stop_count > 0) {
+        stopFlag++;
     }
 
-    if (var_s1 == 0) {
-        if (watchGameP->started_game_flg) {
+    if (!stopFlag) {
+        if (st->started_game_flg) {
             s32 var_s6 = -1;
             s32 var_s5 = 0;
 
-            for (i = 0; i < ARRAY_COUNT(watchGameP->big_virus_rot); i++) {
-                SAnimeState *temp = &watchGameP->virus_anime_state[i];
+            for (i = 0; i < ARRAY_COUNT(st->big_virus_rot); i++) {
+                SAnimeState *temp = &st->virus_anime_state[i];
 
-                if (!watchGameP->big_virus_flg[i]) {
-                    if (var_s6 < watchGameP->big_virus_rot[i]) {
-                        var_s6 = watchGameP->big_virus_rot[i];
+                if (!st->big_virus_flg[i]) {
+                    if (var_s6 < st->big_virus_rot[i]) {
+                        var_s6 = st->big_virus_rot[i];
                     }
                 } else if (animeSeq_isEnd(&temp->animeSeq)) {
                     var_s5 += 1;
@@ -4221,98 +4306,99 @@ void dm_calc_big_virus_pos(struct_game_state_data *arg0) {
             }
 
             if ((evs_gamemode == GMD_TaiQ) && (var_s5 == 3)) {
-                for (i = 0; i < ARRAY_COUNT(watchGameP->big_virus_rot); i++) {
-                    watchGameP->big_virus_rot[i] = i * (360 / ARRAY_COUNT(watchGameP->big_virus_rot)) + 1;
+                for (i = 0; i < ARRAY_COUNT(st->big_virus_rot); i++) {
+                    st->big_virus_rot[i] = i * (360 / ARRAY_COUNT(st->big_virus_rot)) + 1;
                 }
-                watchGameP->bottom_up_flag = true;
-            } else if (watchGameP->big_virus_no_wait) {
-                watchGameP->big_virus_timer = watchGameP->big_virus_wait * (0x168 - var_s6);
-            } else if (watchGameP->big_virus_timer < watchGameP->big_virus_wait) {
-                watchGameP->big_virus_timer += 1.0f;
+                st->bottom_up_flag = true;
+            } else if (st->big_virus_no_wait) {
+                st->big_virus_timer = st->big_virus_wait * (0x168 - var_s6);
+            } else if (st->big_virus_timer < st->big_virus_wait) {
+                st->big_virus_timer += 1.0f;
             }
         }
     }
 
-    if (watchGameP->big_virus_timer >= watchGameP->big_virus_wait) {
-        s32 var_v1_4 = watchGameP->big_virus_timer / watchGameP->big_virus_wait;
+    if (st->big_virus_timer >= st->big_virus_wait) {
+        s32 var_v1_4 = st->big_virus_timer / st->big_virus_wait;
 
         var_v1_4 = MIN(var_v1_4, 4);
 
-        watchGameP->big_virus_timer -= watchGameP->big_virus_wait * var_v1_4;
-        for (i = 0; i < ARRAY_COUNT(watchGameP->big_virus_rot); i++) {
-            watchGameP->big_virus_rot[i] += var_v1_4;
-            if (watchGameP->big_virus_rot[i] >= 360.0f) {
-                watchGameP->big_virus_rot[i] -= 360.0f;
-                if (!watchGameP->big_virus_flg[i] && (evs_gamemode == GMD_TaiQ)) {
-                    watchGameP->bottom_up_flag = true;
-                    watchGameP->big_virus_timer = 0;
-                    animeState_set(&watchGameP->virus_anime_state[i], ANIMENO_3);
+        st->big_virus_timer -= st->big_virus_wait * var_v1_4;
+        for (i = 0; i < ARRAY_COUNT(st->big_virus_rot); i++) {
+            st->big_virus_rot[i] += var_v1_4;
+            if (st->big_virus_rot[i] >= 360.0f) {
+                st->big_virus_rot[i] -= 360.0f;
+                if (!st->big_virus_flg[i] && (evs_gamemode == GMD_TaiQ)) {
+                    st->bottom_up_flag = true;
+                    st->big_virus_timer = 0;
+                    animeState_set(&st->virus_anime_state[i], ANIMENO_3);
                 }
             }
         }
     }
 
-    for (i = 0; i < ARRAY_COUNT(watchGameP->big_virus_rot); i++) {
-        watchGameP->big_virus_pos[i][0] =
-            sinf(watchGameP->big_virus_rot[i] * DOUBLE_LITERAL(PI_D) / 180) * 20.0f + 61.0f;
-        watchGameP->big_virus_pos[i][1] =
-            cosf(watchGameP->big_virus_rot[i] * DOUBLE_LITERAL(PI_D) / 180) * -20.0f + 171.0f;
+    for (i = 0; i < ARRAY_COUNT(st->big_virus_rot); i++) {
+        st->big_virus_pos[i][0] = sinf(st->big_virus_rot[i] * DOUBLE_LITERAL(PI_D) / 180) * 20.0f + 61.0f;
+        st->big_virus_pos[i][1] = cosf(st->big_virus_rot[i] * DOUBLE_LITERAL(PI_D) / 180) * -20.0f + 171.0f;
     }
 }
 
-s32 dm_game_main_1p(void) {
-    s32 temp_s3;
-    struct_watchGame *watchGameP = watchGame;
-    struct_game_state_data *gameStateData = &game_state_data[0];
+/**
+ * Original name: dm_game_main_1p
+ */
+DmMainCnt dm_game_main_1p(void) {
+    DmMainCnt ret;
+    struct_watchGame *st = watchGame;
+    struct_game_state_data *state = &game_state_data[0];
 
-    func_800669A0(gameStateData);
-    temp_s3 = dm_game_main_cnt_1P(gameStateData, game_map_data[0], 0);
+    dm_set_pause_and_volume_1p(state);
+    ret = dm_game_main_cnt_1P(state, game_map_data[0], 0);
     dm_warning_h_line_se();
-    if (watchGameP->big_virus_stop_count == 0) {
-        s32 var_s2;
+    if (st->big_virus_stop_count == 0) {
+        s32 i;
 
-        for (var_s2 = 0; var_s2 < ANIMES_COUNT; var_s2++) {
-            animeState_update(&watchGameP->virus_anime_state[var_s2]);
-            animeSmog_update(&watchGameP->virus_smog_state[var_s2]);
+        for (i = 0; i < ANIMES_COUNT; i++) {
+            animeState_update(&st->virus_anime_state[i]);
+            animeSmog_update(&st->virus_smog_state[i]);
         }
     }
 
-    dm_calc_big_virus_pos(gameStateData);
+    dm_calc_big_virus_pos(state);
     dm_play_count_down_se();
 
-    if (temp_s3 == 3) {
-        if (watchGameP->count_down_ctrl < 0) {
-            if (gameStateData->mode_now == dm_mode_wait) {
-                watchGameP->started_game_flg = true;
-                gameStateData->mode_now = dm_mode_throw;
-                animeState_set(&gameStateData->anime, ANIMENO_1);
+    if (ret == dm_ret_virus_wait) {
+        if (st->count_down_ctrl < 0) {
+            if (state->mode_now == dm_mode_wait) {
+                st->started_game_flg = true;
+                state->mode_now = dm_mode_throw;
+                animeState_set(&state->anime, ANIMENO_1);
                 start_replay_proc();
             }
         }
-    } else if (temp_s3 == 6) {
-        s32 temp_s1;
+    } else if (ret == dm_ret_clear) {
+        u32 score;
 
-        effectNextStage_init(gameStateData->player_no);
+        effectNextStage_init(state->player_no);
         dm_seq_play_in_game(SEQ_INDEX_14);
-        watchGameP->started_game_flg = false;
-        gameStateData->cnd_static = dm_cnd_win;
+        st->started_game_flg = false;
+        state->cnd_static = dm_cnd_win;
 
         switch (evs_gamemode) {
             case GMD_TIME_ATTACK: {
                 //! FAKE
                 s32 temp_v0;
 
-                gameStateData->cnd_now = dm_cnd_clear_wait;
-                gameStateData->mode_now = dm_mode_clear_wait;
+                state->cnd_now = dm_cnd_clear_wait;
+                state->mode_now = dm_mode_clear_wait;
 
-                timeAttackResult_result(&watchGameP->timeAttackResult[0], gameStateData->game_level, true,
-                                        MAX(0, temp_v0 = 0x2A30 - evs_game_time), gameStateData->total_chain_count,
-                                        gameStateData->total_erase_count, gameStateData->game_score);
+                timeAttackResult_result(&st->timeAttackResult[0], state->game_level, true,
+                                        MAX(0, temp_v0 = 0x2A30 - evs_game_time), state->total_chain_count,
+                                        state->total_erase_count, state->game_score);
             } break;
 
             default:
-                gameStateData->cnd_now = dm_cnd_stage_clear;
-                gameStateData->mode_now = dm_mode_stage_clear;
+                state->cnd_now = dm_cnd_stage_clear;
+                state->mode_now = dm_mode_stage_clear;
                 break;
         }
 
@@ -4329,14 +4415,14 @@ s32 dm_game_main_1p(void) {
                 break;
         }
 
-        animeState_set(&gameStateData->anime, ANIMENO_3);
+        animeState_set(&state->anime, ANIMENO_3);
 
         switch (evs_gamemode) {
             case GMD_TIME_ATTACK:
-                temp_s1 = game_state_data[0].game_score;
-                game_state_data[0].game_score = watchGameP->timeAttackResult[0].result;
+                score = game_state_data[0].game_score;
+                game_state_data[0].game_score = st->timeAttackResult[0].result;
                 dm_save_all();
-                game_state_data[0].game_score = temp_s1;
+                game_state_data[0].game_score = score;
                 break;
 
             case GMD_NORMAL:
@@ -4346,270 +4432,287 @@ s32 dm_game_main_1p(void) {
             default:
                 break;
         }
-    } else if (temp_s3 == -1) {
-        effectGameOver_init(gameStateData->player_no);
-        animeState_set(&gameStateData->anime, ANIMENO_4);
+    } else if (ret == dm_ret_game_over) {
+        effectGameOver_init(state->player_no);
+        animeState_set(&state->anime, ANIMENO_4);
         dm_seq_play_in_game(SEQ_INDEX_17);
-        gameStateData->virus_anime_spead = 1;
-        gameStateData->cnd_static = dm_cnd_lose;
+        state->virus_anime_spead = 1;
+        state->cnd_static = dm_cnd_lose;
         if (evs_gamemode == GMD_TIME_ATTACK) {
-            gameStateData->cnd_now = dm_cnd_gover_wait;
-            gameStateData->mode_now = dm_mode_gover_wait;
+            state->cnd_now = dm_cnd_gover_wait;
+            state->mode_now = dm_mode_gover_wait;
 
-            timeAttackResult_result(&watchGameP->timeAttackResult[0], gameStateData->game_level, false, 0,
-                                    gameStateData->total_chain_count, gameStateData->total_erase_count,
-                                    gameStateData->game_score);
-            watchGameP->started_game_flg = false;
+            timeAttackResult_result(&st->timeAttackResult[0], state->game_level, false, 0, state->total_chain_count,
+                                    state->total_erase_count, state->game_score);
+            st->started_game_flg = false;
         } else {
-            gameStateData->cnd_now = dm_cnd_game_over;
-            gameStateData->mode_now = dm_mode_game_over;
-            watchGameP->started_game_flg = false;
+            state->cnd_now = dm_cnd_game_over;
+            state->mode_now = dm_mode_game_over;
+            st->started_game_flg = false;
         }
 
-        if ((gameStateData->virus_level < 0x16U) || ((watchGameP->retry_coin > 0))) {
+        if ((state->virus_level <= 21) || ((st->retry_coin > 0))) {
             retryMenu_init(0, RETRYTYPE_3);
         } else {
-            retryMenu_init(0U, RETRYTYPE_2);
+            retryMenu_init(0, RETRYTYPE_2);
         }
 
         dm_save_all();
-    } else {
-        if (temp_s3 == 1) {
-            return 1;
-        }
-        if (temp_s3 == 2) {
-            return 2;
-        }
-        if (temp_s3 == 9) {
-            return 9;
-        }
-        if (temp_s3 == 0x64) {
-            return -1;
-        }
-        if (temp_s3 == -2) {
-            return -2;
-        }
+    } else if (ret == dm_ret_next_stage) {
+        return dm_ret_next_stage;
+    } else if (ret == dm_ret_retry) {
+        return dm_ret_retry;
+    } else if (ret == dm_ret_replay) {
+        return dm_ret_replay;
+    } else if (ret == dm_ret_end) {
+        return dm_ret_game_over;
+    } else if (ret == dm_ret_game_end) {
+        return dm_ret_game_end;
     }
-    return 0;
+    return dm_ret_null;
 }
 
-s32 dm_add_win_2p(struct_game_state_data *gameStateDataRef) {
-    struct_watchGame *watchGameP = watchGame;
-    s32 temp_a3 = gameStateDataRef->player_no;
-    SeqIndex var_t1 = SEQ_INDEX_17;
-    s32 var_a3;
-    s32 var_s0;
-    s32 var_t3;
+/**
+ * Original name: dm_add_win_2p
+ */
+bool dm_add_win_2p(struct_game_state_data *state) {
+    struct_watchGame *st = watchGame;
+    s32 p = state->player_no;
+    SeqIndex sound = SEQ_INDEX_17;
+    bool finish;
+    s32 y;
+    s32 x;
 
-    watchGameP->win_count[temp_a3]++;
+    st->win_count[p]++;
 
     if (evs_story_flg != 0) {
-        var_t3 = _posStStar[temp_a3][0];
-        var_a3 = _posStStar[temp_a3][1];
+        x = _posStStar[p][0];
+        y = _posStStar[p][1];
 
-        var_s0 = 1;
+        finish = true;
 
-        if (gameStateDataRef->player_type == PLAYERTYPE_0) {
-            var_t1 = SEQ_INDEX_14;
+        if (state->player_type == PLAYERTYPE_0) {
+            sound = SEQ_INDEX_14;
         }
     } else {
-        var_t3 = _posP2StarX[temp_a3];
-        var_a3 = _posP2StarY[evs_vs_count - 1][watchGameP->win_count[temp_a3] - 1];
+        x = _posP2StarX[p];
+        y = _posP2StarY[evs_vs_count - 1][st->win_count[p] - 1];
 
-        var_s0 = watchGameP->win_count[temp_a3] == evs_vs_count;
+        finish = st->win_count[p] == evs_vs_count;
 
-        if (var_s0 != 0) {
-            watchGameP->vs_win_total[temp_a3] = MIN(99, watchGameP->vs_win_total[temp_a3] + 1);
-            watchGameP->vs_win_count[temp_a3] = MIN(999, watchGameP->vs_win_count[temp_a3] + 1);
+        if (finish) {
+            st->vs_win_total[p] = MIN(99, st->vs_win_total[p] + 1);
+            st->vs_win_count[p] = MIN(999, st->vs_win_count[p] + 1);
         }
 
-        if ((evs_gamesel != ENUM_EVS_GAMESEL_3) || (gameStateDataRef->player_type == PLAYERTYPE_0)) {
-            if (var_s0 != 0) {
-                var_t1 = SEQ_INDEX_15;
+        if ((evs_gamesel != GSL_VSCPU) || (state->player_type == PLAYERTYPE_0)) {
+            if (finish) {
+                sound = SEQ_INDEX_15;
             } else {
-                var_t1 = SEQ_INDEX_14;
+                sound = SEQ_INDEX_14;
             }
         }
     }
 
-    watchGameP->star_pos_x[watchGameP->star_count] = var_t3;
-    watchGameP->star_pos_y[watchGameP->star_count] = var_a3;
-    watchGameP->star_count++;
-    dm_seq_play_in_game(var_t1);
-    return var_s0;
+    st->star_pos_x[st->star_count] = x;
+    st->star_pos_y[st->star_count] = y;
+    st->star_count++;
+    dm_seq_play_in_game(sound);
+    return finish;
 }
 
-s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) {
-    s32 temp_s1 = gameStateDataRef->player_no;
+/**
+ * Original name: dm_set_win_2p
+ */
+bool dm_set_win_2p(struct_game_state_data *state, bool finish, bool menu) {
+    s32 p = state->player_no;
 
-    gameStateDataRef->cnd_static = dm_cnd_win;
-    effectWin_init(temp_s1);
-    animeState_set(&gameStateDataRef->anime, ANIMENO_3);
-    dm_snd_play_in_game(_charSE_tbl[gameStateDataRef->charNo] + 4);
+    state->cnd_static = dm_cnd_win;
+    effectWin_init(p);
+    animeState_set(&state->anime, ANIMENO_3);
+    dm_snd_play_in_game(_charSE_tbl[state->charNo] + 4);
 
-    if ((arg2 == 0) && (gameStateDataRef->player_type == PLAYERTYPE_0)) {
-        arg2 = 1;
+    if (!menu && (state->player_type == PLAYERTYPE_0)) {
+        menu = true;
 
-        gameStateDataRef->cnd_now = dm_cnd_win_retry;
-        gameStateDataRef->mode_now = dm_mode_win_retry;
-        if (evs_story_flg == 0) {
-            if (arg1 != 0) {
-                retryMenu_init(temp_s1, RETRYTYPE_3);
+        state->cnd_now = dm_cnd_win_retry;
+        state->mode_now = dm_mode_win_retry;
+        if (!evs_story_flg) {
+            if (finish) {
+                retryMenu_init(p, RETRYTYPE_3);
             } else {
-                retryMenu_init(temp_s1, RETRYTYPE_5);
+                retryMenu_init(p, RETRYTYPE_5);
             }
         } else {
-            gameStateDataRef->cnd_now = dm_cnd_win_retry_sc;
-            retryMenu_init(temp_s1, RETRYTYPE_5);
+            state->cnd_now = dm_cnd_win_retry_sc;
+            retryMenu_init(p, RETRYTYPE_5);
         }
     } else {
-        gameStateDataRef->cnd_now = dm_cnd_win;
-        gameStateDataRef->mode_now = dm_mode_win;
+        state->cnd_now = dm_cnd_win;
+        state->mode_now = dm_mode_win;
     }
 
-    return arg2;
+    return menu;
 }
 
-s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2) {
-    s32 temp_s1 = gameStateDataRef->player_no;
+/**
+ * Original name: dm_set_lose_2p
+ */
+bool dm_set_lose_2p(struct_game_state_data *state, bool finish, bool menu) {
+    s32 p = state->player_no;
 
-    gameStateDataRef->cnd_static = dm_cnd_lose;
-    animeState_set(&gameStateDataRef->anime, ANIMENO_4);
-    effectLose_init(temp_s1);
+    state->cnd_static = dm_cnd_lose;
+    animeState_set(&state->anime, ANIMENO_4);
+    effectLose_init(p);
 
-    if ((arg2 == 0) && (gameStateDataRef->player_type == PLAYERTYPE_0)) {
-        arg2 = 1;
+    if (!menu && (state->player_type == PLAYERTYPE_0)) {
+        menu = true;
 
-        gameStateDataRef->cnd_now = dm_cnd_lose_retry;
-        gameStateDataRef->mode_now = dm_mode_lose_retry;
+        state->cnd_now = dm_cnd_lose_retry;
+        state->mode_now = dm_mode_lose_retry;
 
-        if (evs_story_flg != 0) {
-            gameStateDataRef->cnd_now = dm_cnd_lose_retry_sc;
+        if (evs_story_flg) {
+            state->cnd_now = dm_cnd_lose_retry_sc;
             if (evs_story_no != 9) {
-                retryMenu_init(temp_s1, RETRYTYPE_3);
+                retryMenu_init(p, RETRYTYPE_3);
             } else {
-                retryMenu_init(temp_s1, RETRYTYPE_3);
+                retryMenu_init(p, RETRYTYPE_3);
             }
         } else {
-            if (arg1 != 0) {
-                retryMenu_init(temp_s1, RETRYTYPE_3);
+            if (finish) {
+                retryMenu_init(p, RETRYTYPE_3);
             } else {
-                retryMenu_init(temp_s1, RETRYTYPE_5);
+                retryMenu_init(p, RETRYTYPE_5);
             }
         }
     } else {
-
-        gameStateDataRef->cnd_now = dm_cnd_lose;
-        gameStateDataRef->mode_now = dm_mode_lose;
+        state->cnd_now = dm_cnd_lose;
+        state->mode_now = dm_mode_lose;
     }
 
-    return arg2;
+    return menu;
 }
 
-s32 func_800675C8(struct_game_state_data *gameStateDataRef, s32 arg1) {
-    s32 temp_s2 = gameStateDataRef->player_no;
+/**
+ * Original name: dm_set_draw_2p
+ */
+s32 dm_set_draw_2p(struct_game_state_data *state, s32 menu) {
+    s32 p = state->player_no;
 
-    gameStateDataRef->cnd_static = dm_cnd_draw;
-    effectDraw_init(temp_s2);
-    animeState_set(&gameStateDataRef->anime, ANIMENO_4);
-    if ((arg1 == 0) && (gameStateDataRef->player_type == PLAYERTYPE_0)) {
-        arg1 = 1;
+    state->cnd_static = dm_cnd_draw;
+    effectDraw_init(p);
+    animeState_set(&state->anime, ANIMENO_4);
+    if (!menu && (state->player_type == PLAYERTYPE_0)) {
+        menu = true;
 
-        gameStateDataRef->cnd_now = dm_cnd_draw_retry;
-        gameStateDataRef->mode_now = dm_mode_draw_retry;
-        retryMenu_init(temp_s2, RETRYTYPE_5);
+        state->cnd_now = dm_cnd_draw_retry;
+        state->mode_now = dm_mode_draw_retry;
+        retryMenu_init(p, RETRYTYPE_5);
     } else {
-        gameStateDataRef->cnd_now = dm_cnd_draw;
-        gameStateDataRef->mode_now = dm_mode_draw;
+        state->cnd_now = dm_cnd_draw;
+        state->mode_now = dm_mode_draw;
     }
 
-    return arg1;
+    return menu;
 }
 
-s32 dm_set_time_attack_result_2p(struct_game_state_data **gameStateDataRefP) {
-    struct_watchGame *watchGameP = watchGame;
-    u32 sp18[2];
+/**
+ * Original name: dm_set_time_attack_result_2p
+ */
+bool dm_set_time_attack_result_2p(struct_game_state_data **state) {
+    struct_watchGame *st = watchGame;
+    u32 result[2];
     s32 i;
-    s32 var_s5 = 0;
-    s32 var_s3 = 0;
+    bool finish = false;
+    bool menu = false;
 
-    sp18[0] = watchGameP->timeAttackResult[0].result;
-    sp18[1] = watchGameP->timeAttackResult[1].result;
+    result[0] = st->timeAttackResult[0].result;
+    result[1] = st->timeAttackResult[1].result;
 
     for (i = 0; i < 2; i++) {
-        if (sp18[i] > sp18[i ^ 1]) {
-            var_s5 = dm_add_win_2p(gameStateDataRefP[i]);
+        if (result[i] > result[i ^ 1]) {
+            finish = dm_add_win_2p(state[i]);
         }
     }
 
     for (i = 0; i < 2; i++) {
-        if (sp18[i] > sp18[i ^ 1]) {
-            var_s3 = dm_set_win_2p(gameStateDataRefP[i], var_s5, var_s3);
+        if (result[i] > result[i ^ 1]) {
+            menu = dm_set_win_2p(state[i], finish, menu);
         }
     }
 
     for (i = 0; i < 2; i++) {
-        if (sp18[i] < sp18[i ^ 1]) {
-            var_s3 = dm_set_lose_2p(gameStateDataRefP[i], var_s5, var_s3);
+        if (result[i] < result[i ^ 1]) {
+            menu = dm_set_lose_2p(state[i], finish, menu);
         }
     }
 
     for (i = 0; i < 2; i++) {
-        if (sp18[i] == sp18[i ^ 1]) {
-            var_s3 = func_800675C8(gameStateDataRefP[i], var_s3);
+        if (result[i] == result[i ^ 1]) {
+            menu = dm_set_draw_2p(state[i], menu);
             dm_seq_play_in_game(SEQ_INDEX_17);
         }
     }
 
-    return var_s5;
+    return finish;
 }
 
-s32 dm_game_main_2p(void) {
-    struct_watchGame *watchGameP = watchGame;
-    s32 var_s4 = 0;
-    s32 var_s6 = 0;
+/**
+ * Original name: dm_game_main_2p
+ */
+DmMainCnt dm_game_main_2p(void) {
+    struct_watchGame *st = watchGame;
+    bool menu = false;
+    bool finish = false;
     s32 var_fp;
     s32 sp40;
-    struct_game_state_data *sp28[2];
-    GameMapCell *sp30[2];
-    s32 sp38[2];
+    struct_game_state_data *state[2];
+    GameMapCell *map[2];
+    DmMainCnt ret[2];
     s32 var_s1_4;
     s32 var_s2_2;
     s32 i;
+
+#if 0
+    int clear; // r1+0x48
+    int gover; // r1+0x44
+    int waitTA; // r3
+    int resultTA; // r4
+#endif
 
     sp40 = 0;
     var_fp = 0;
 
     for (i = 0; i < 2; i++) {
-        sp28[i] = &game_state_data[i];
-        sp30[i] = &game_map_data[i][0];
+        state[i] = &game_state_data[i];
+        map[i] = &game_map_data[i][0];
     }
 
-    dm_set_pause_and_volume(sp28, 2);
+    dm_set_pause_and_volume(state, 2);
 
     for (i = 0; i < 2; i++) {
-        sp38[i] = dm_game_main_cnt(sp28[i], sp30[i], i);
+        ret[i] = dm_game_main_cnt(state[i], map[i], i);
     }
 
     dm_warning_h_line_se();
     dm_play_count_down_se();
 
-    if ((sp38[0] == 3) && (sp38[1] == sp38[0])) {
-        if (watchGameP->count_down_ctrl < 0) {
+    if ((ret[0] == dm_ret_virus_wait) && (ret[1] == ret[0])) {
+        if (st->count_down_ctrl < 0) {
             for (i = 0; i < 2; i++) {
-                if (sp28[i]->mode_now != dm_mode_wait) {
+                if (state[i]->mode_now != dm_mode_wait) {
                     break;
                 }
             }
 
             if (i == 2) {
-                watchGameP->started_game_flg = true;
+                st->started_game_flg = true;
 
                 for (i = 0; i < 2; i++) {
-                    sp28[i]->mode_now = dm_mode_down;
-                    if ((sp28[i]->player_type == 1) ||
-                        ((sp28[i]->player_type != PLAYERTYPE_1) && (i == 0) && (aiDebugP1 >= 0))) {
-                        aifMakeFlagSet(sp28[i]);
+                    state[i]->mode_now = dm_mode_down;
+                    if ((state[i]->player_type == PLAYERTYPE_1) ||
+                        ((state[i]->player_type != PLAYERTYPE_1) && (i == 0) && (aiDebugP1 >= 0))) {
+                        aifMakeFlagSet(state[i]);
                     }
                 }
 
@@ -4618,57 +4721,57 @@ s32 dm_game_main_2p(void) {
         }
     } else {
         for (i = 0; i < 2; i++) {
-            if (sp38[i] == 0x6) {
+            if (ret[i] == dm_ret_clear) {
                 if (evs_gamemode == GMD_TIME_ATTACK) {
                     effectNextStage_init(i);
 
-                    sp28[i]->mode_now = dm_mode_clear_wait;
-                    sp28[i]->cnd_now = dm_cnd_clear_wait;
-                    sp28[i]->cnd_static = dm_cnd_clear_wait;
+                    state[i]->mode_now = dm_mode_clear_wait;
+                    state[i]->cnd_now = dm_cnd_clear_wait;
+                    state[i]->cnd_static = dm_cnd_clear_wait;
 
-                    timeAttackResult_result(&watchGameP->timeAttackResult[i], sp28[i]->game_level, true,
-                                            0 > 0x2A30 - (s32)evs_game_time ? 0 : 0x2A30 - evs_game_time,
-                                            sp28[i]->total_chain_count, sp28[i]->total_erase_count,
-                                            sp28[i]->game_score);
+                    timeAttackResult_result(&st->timeAttackResult[i], state[i]->game_level, true,
+                                            0 > 10800 - (s32)evs_game_time ? 0 : 10800 - evs_game_time,
+                                            state[i]->total_chain_count, state[i]->total_erase_count,
+                                            state[i]->game_score);
                     _dm_seq_play_in_game(1, SEQ_INDEX_16);
                 } else {
-                    var_fp += 1;
-                    sp28[i]->cnd_static = dm_cnd_win;
+                    var_fp++;
+                    state[i]->cnd_static = dm_cnd_win;
                 }
-            } else if (sp38[i] == -0x1) {
+            } else if (ret[i] == dm_ret_game_over) {
                 if (evs_gamemode == GMD_TIME_ATTACK) {
-                    if (evs_game_time >= 0x2A30U) {
+                    if (evs_game_time >= 10800) {
                         effectGameOver_init(i);
-                        sp28[i]->mode_now = dm_mode_gover_wait;
-                        sp28[i]->cnd_now = dm_cnd_gover_wait;
-                        sp28[i]->cnd_static = dm_cnd_gover_wait;
+                        state[i]->mode_now = dm_mode_gover_wait;
+                        state[i]->cnd_now = dm_cnd_gover_wait;
+                        state[i]->cnd_static = dm_cnd_gover_wait;
                     } else {
                         effectRetire_init(i);
-                        sp28[i]->mode_now = dm_mode_retire_wait;
-                        sp28[i]->cnd_now = dm_cnd_retire_wait;
-                        sp28[i]->cnd_static = dm_cnd_retire_wait;
+                        state[i]->mode_now = dm_mode_retire_wait;
+                        state[i]->cnd_now = dm_cnd_retire_wait;
+                        state[i]->cnd_static = dm_cnd_retire_wait;
                     }
 
-                    timeAttackResult_result(&watchGameP->timeAttackResult[i], sp28[i]->game_level, false, 0,
-                                            sp28[i]->total_chain_count, sp28[i]->total_erase_count,
-                                            sp28[i]->game_score);
+                    timeAttackResult_result(&st->timeAttackResult[i], state[i]->game_level, false, 0,
+                                            state[i]->total_chain_count, state[i]->total_erase_count,
+                                            state[i]->game_score);
                     _dm_seq_play_in_game(1, SEQ_INDEX_18);
                 } else {
                     sp40 += 1;
-                    sp28[i]->cnd_static = dm_cnd_lose;
+                    state[i]->cnd_static = dm_cnd_lose;
                 }
 
-                sp28[i]->virus_anime_spead = 1;
-                sp28[i]->black_up_count = 0x10;
-                sp28[i]->flg_retire = true;
-            } else if (sp38[i] == 2) {
-                return 2;
-            } else if (sp38[i] == 9) {
-                return 9;
-            } else if (sp38[i] == 0x64) {
-                return -1;
-            } else if (sp38[i] == -0x2) {
-                return -2;
+                state[i]->virus_anime_spead = 1;
+                state[i]->black_up_count = 0x10;
+                state[i]->flg_retire = true;
+            } else if (ret[i] == dm_ret_retry) {
+                return dm_ret_retry;
+            } else if (ret[i] == dm_ret_replay) {
+                return dm_ret_replay;
+            } else if (ret[i] == dm_ret_end) {
+                return dm_ret_game_over;
+            } else if (ret[i] == dm_ret_game_end) {
+                return dm_ret_game_end;
             }
         }
 
@@ -4676,20 +4779,20 @@ s32 dm_game_main_2p(void) {
         var_s1_4 = 0;
 
         for (i = 0; i < 2; i++) {
-            switch (sp28[i]->cnd_now) {
+            switch (state[i]->cnd_now) {
                 case dm_cnd_clear_wait:
                 case dm_cnd_gover_wait:
                 case dm_cnd_retire_wait:
-                    if (watchGameP->effect_timer[i] == 0) {
-                        var_s1_4 += 1;
+                    if (st->effect_timer[i] == 0) {
+                        var_s1_4++;
                     }
                     break;
 
                 case dm_cnd_clear_result:
                 case dm_cnd_gover_result:
                 case dm_cnd_retire_result:
-                    if (timeAttackResult_isEnd(&watchGameP->timeAttackResult[i])) {
-                        var_s2_2 += 1;
+                    if (timeAttackResult_isEnd(&st->timeAttackResult[i])) {
+                        var_s2_2++;
                     }
                     break;
 
@@ -4700,23 +4803,23 @@ s32 dm_game_main_2p(void) {
 
         if (var_s1_4 == 2) {
             for (i = 0; i < 2; i++) {
-                switch (sp28[i]->cnd_now) {
+                switch (state[i]->cnd_now) {
                     case dm_cnd_clear_wait:
-                        sp28[i]->cnd_static = dm_cnd_clear_result;
-                        sp28[i]->cnd_now = dm_cnd_clear_result;
-                        sp28[i]->mode_now = dm_mode_clear_result;
+                        state[i]->cnd_static = dm_cnd_clear_result;
+                        state[i]->cnd_now = dm_cnd_clear_result;
+                        state[i]->mode_now = dm_mode_clear_result;
                         break;
 
                     case dm_cnd_gover_wait:
-                        sp28[i]->cnd_static = dm_cnd_gover_result;
-                        sp28[i]->cnd_now = dm_cnd_gover_result;
-                        sp28[i]->mode_now = dm_mode_gover_result;
+                        state[i]->cnd_static = dm_cnd_gover_result;
+                        state[i]->cnd_now = dm_cnd_gover_result;
+                        state[i]->mode_now = dm_mode_gover_result;
                         break;
 
                     case dm_cnd_retire_wait:
-                        sp28[i]->cnd_static = dm_cnd_retire_result;
-                        sp28[i]->cnd_now = dm_cnd_retire_result;
-                        sp28[i]->mode_now = dm_mode_retire_result;
+                        state[i]->cnd_static = dm_cnd_retire_result;
+                        state[i]->cnd_now = dm_cnd_retire_result;
+                        state[i]->mode_now = dm_mode_retire_result;
                         break;
 
                     default:
@@ -4724,56 +4827,57 @@ s32 dm_game_main_2p(void) {
                 }
             }
         } else if (var_s2_2 == 2) {
-            var_s6 = dm_set_time_attack_result_2p(sp28);
+            finish = dm_set_time_attack_result_2p(state);
         } else if ((var_fp == 2) || (sp40 == 2)) {
             for (i = 0; i < 2; i++) {
-                var_s4 = func_800675C8(sp28[i], var_s4);
+                menu = dm_set_draw_2p(state[i], menu);
             }
             dm_seq_play_in_game(SEQ_INDEX_17);
         } else if (var_fp != 0) {
             for (i = 0; i < 2; i++) {
-                if (sp28[i]->cnd_static == dm_cnd_win) {
-                    var_s6 = dm_add_win_2p(sp28[i]);
+                if (state[i]->cnd_static == dm_cnd_win) {
+                    finish = dm_add_win_2p(state[i]);
                 }
             }
 
             for (i = 0; i < 2; i++) {
-                if (sp28[i]->cnd_static == dm_cnd_win) {
-                    var_s4 = dm_set_win_2p(sp28[i], var_s6, var_s4);
+                if (state[i]->cnd_static == dm_cnd_win) {
+                    menu = dm_set_win_2p(state[i], finish, menu);
                 }
             }
 
             for (i = 0; i < 2; i++) {
-                if (sp28[i]->cnd_static != dm_cnd_win) {
-                    var_s4 = dm_set_lose_2p(sp28[i], var_s6, var_s4);
+                if (state[i]->cnd_static != dm_cnd_win) {
+                    menu = dm_set_lose_2p(state[i], finish, menu);
                 }
             }
         } else if (sp40 != 0) {
 
             for (i = 0; i < 2; i++) {
-                if (sp28[i]->cnd_static != dm_cnd_lose) {
-                    var_s6 = dm_add_win_2p(sp28[i]);
+                if (state[i]->cnd_static != dm_cnd_lose) {
+                    finish = dm_add_win_2p(state[i]);
                 }
             }
 
             for (i = 0; i < 2; i++) {
-                if (sp28[i]->cnd_static != dm_cnd_lose) {
-                    var_s4 = dm_set_win_2p(sp28[i], var_s6, var_s4);
+                if (state[i]->cnd_static != dm_cnd_lose) {
+                    menu = dm_set_win_2p(state[i], finish, menu);
                 }
             }
 
             for (i = 0; i < 2; i++) {
-                if (sp28[i]->cnd_static == dm_cnd_lose) {
-                    var_s4 = dm_set_lose_2p(sp28[i], var_s6, var_s4);
+                if (state[i]->cnd_static == dm_cnd_lose) {
+                    menu = dm_set_lose_2p(state[i], finish, menu);
                 }
             }
         }
 
-        if (var_s6 != 0) {
+        if (finish) {
             dm_save_all();
         }
     }
-    return 0;
+
+    return dm_ret_null;
 }
 
 s32 dm_game_main_4p(void) {
@@ -4781,12 +4885,12 @@ s32 dm_game_main_4p(void) {
 
     struct_game_state_data *sp18[4];
     GameMapCell *sp28[4];
-    s32 sp38[4];
+    DmMainCnt sp38[4];
     s32 sp48;
     s32 sp4C;
 
     s32 var_s0;
-    s32 var_s2_2;
+    bool var_s2_2;
     s32 var_s3_2;
     SeqIndex var_s5;
     TeamNumber var_s6;
@@ -4817,7 +4921,7 @@ s32 dm_game_main_4p(void) {
 
     dm_warning_h_line_se();
 
-    if ((sp38[0] == 3) && (sp38[1] == sp38[0]) && (sp38[2] == sp38[1]) && (sp38[3] == sp38[2])) {
+    if ((sp38[0] == dm_ret_virus_wait) && (sp38[1] == sp38[0]) && (sp38[2] == sp38[1]) && (sp38[3] == sp38[2])) {
         if (temp_s4->count_down_ctrl < 0) {
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
                 if (sp18[var_s0]->mode_now != dm_mode_wait) {
@@ -4842,20 +4946,20 @@ s32 dm_game_main_4p(void) {
         return 0;
     }
 
-    var_s2_2 = 0;
+    var_s2_2 = false;
     var_s3_2 = 0;
     var_t4 = 0;
     var_t3 = 0;
 
     for (var_s0 = 0; var_s0 < 4; var_s0++) {
-        if ((sp38[var_s0] == 3) && (sp18[var_s0]->cnd_training == dm_cnd_training)) {
+        if ((sp38[var_s0] == dm_ret_virus_wait) && (sp18[var_s0]->cnd_training == dm_cnd_training)) {
             if (sp18[var_s0]->mode_now == dm_mode_wait) {
                 sp18[var_s0]->mode_now = dm_mode_down;
             }
-        } else if (sp38[var_s0] == 0x6) {
+        } else if (sp38[var_s0] == dm_ret_clear) {
             var_t3 += 1;
             sp18[var_s0]->cnd_static = dm_cnd_win;
-        } else if (sp38[var_s0] == -1) {
+        } else if (sp38[var_s0] == dm_ret_game_over) {
             if (!sp18[var_s0]->flg_retire) {
                 sp18[var_s0]->cnd_now = dm_cnd_retire;
                 sp18[var_s0]->cnd_training = dm_cnd_retire;
@@ -4874,20 +4978,20 @@ s32 dm_game_main_4p(void) {
                 sp18[var_s0]->mode_now = dm_mode_tr_chaeck;
             }
             sp18[var_s0]->virus_anime_spead = 4;
-        } else if (sp38[var_s0] == 2) {
+        } else if (sp38[var_s0] == dm_ret_retry) {
             return 2;
-        } else if (sp38[var_s0] == 0x9) {
+        } else if (sp38[var_s0] == dm_ret_replay) {
             return 9;
-        } else if (sp38[var_s0] == 0x64) {
+        } else if (sp38[var_s0] == dm_ret_end) {
             return -1;
-        } else if (sp38[var_s0] == -2) {
+        } else if (sp38[var_s0] == dm_ret_game_end) {
             return -2;
-        } else if (sp38[var_s0] == 7) {
+        } else if (sp38[var_s0] == dm_ret_tr_a) {
             sp18[var_s0]->cnd_static = dm_cnd_wait;
             sp18[var_s0]->flg_training = false;
             sp18[var_s0]->cnd_training = dm_cnd_training;
             sp18[var_s0]->mode_now = dm_mode_training;
-        } else if (sp38[var_s0] == 8) {
+        } else if (sp38[var_s0] == dm_ret_tr_b) {
             sp18[var_s0]->cnd_static = dm_cnd_wait;
             sp18[var_s0]->flg_training = true;
             sp18[var_s0]->cnd_training = dm_cnd_training;
@@ -4907,13 +5011,13 @@ s32 dm_game_main_4p(void) {
 
         if (!temp_s4->vs_4p_team_flg && (var_t3 > 1)) {
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                var_s2_2 = func_800675C8(sp18[var_s0], var_s2_2);
+                var_s2_2 = dm_set_draw_2p(sp18[var_s0], var_s2_2);
             }
             var_s5 = SEQ_INDEX_17;
         } else if (temp_s4->vs_4p_team_flg && (var_a1_3 & temp_s4->vs_4p_team_bits[0]) &&
                    (var_a1_3 & temp_s4->vs_4p_team_bits[1])) {
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                var_s2_2 = func_800675C8(sp18[var_s0], var_s2_2);
+                var_s2_2 = dm_set_draw_2p(sp18[var_s0], var_s2_2);
             }
             var_s5 = SEQ_INDEX_17;
         } else {
@@ -4983,7 +5087,7 @@ s32 dm_game_main_4p(void) {
 
         if (var_a2_2 == 4) {
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                var_s2_2 = func_800675C8(sp18[var_s0], var_s2_2);
+                var_s2_2 = dm_set_draw_2p(sp18[var_s0], var_s2_2);
             }
             dm_seq_play_in_game(SEQ_INDEX_17);
         } else if ((evs_story_flg != 0) && (var_a1_4 & 1)) {
@@ -5082,9 +5186,9 @@ s32 dm_game_main_4p(void) {
     return 0;
 }
 
-bool dm_game_demo_1p(void) {
+DmMainCnt dm_game_demo_1p(void) {
     struct_watchGame *watchGameP = watchGame;
-    s32 temp_s4 = dm_game_main_cnt_1P(game_state_data, game_map_data[0], 0);
+    DmMainCnt temp_s4 = dm_game_main_cnt_1P(game_state_data, game_map_data[0], 0);
     s32 i;
 
     dm_warning_h_line_se();
@@ -5099,7 +5203,7 @@ bool dm_game_demo_1p(void) {
 
     dm_calc_big_virus_pos(game_state_data);
 
-    if ((temp_s4 == 3) && (watchGameP->count_down_ctrl < 0)) {
+    if ((temp_s4 == dm_ret_virus_wait) && (watchGameP->count_down_ctrl < 0)) {
         game_state_data[0].mode_now = dm_mode_throw;
         animeState_set(&game_state_data[0].anime, ANIMENO_1);
         if ((game_state_data[0].player_type == PLAYERTYPE_1) || (aiDebugP1 >= 0)) {
@@ -5117,16 +5221,16 @@ bool dm_game_demo_1p(void) {
         }
 
         if (watchGameP->demo_timer == 0) {
-            return true;
+            return dm_ret_next_stage;
         }
     }
 
-    return false;
+    return dm_ret_null;
 }
 
-bool dm_game_demo_2p(void) {
+DmMainCnt dm_game_demo_2p(void) {
     struct_watchGame *watchGameP = watchGame;
-    s32 sp10[2];
+    DmMainCnt sp10[2];
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sp10); i++) {
@@ -5135,7 +5239,7 @@ bool dm_game_demo_2p(void) {
 
     dm_warning_h_line_se();
 
-    if ((sp10[0] == 3) && (sp10[1] == sp10[0]) && (watchGameP->count_down_ctrl < 0)) {
+    if ((sp10[0] == dm_ret_virus_wait) && (sp10[1] == sp10[0]) && (watchGameP->count_down_ctrl < 0)) {
         for (i = 0; i < ARRAY_COUNT(sp10); i++) {
             game_state_data[i].mode_now = dm_mode_down;
 
@@ -5155,16 +5259,16 @@ bool dm_game_demo_2p(void) {
         }
 
         if (watchGameP->demo_timer == 0) {
-            return true;
+            return dm_ret_next_stage;
         }
     }
 
-    return false;
+    return dm_ret_null;
 }
 
-bool dm_game_demo_4p(void) {
+DmMainCnt dm_game_demo_4p(void) {
     struct_watchGame *watchGameP = watchGame;
-    s32 sp10[4];
+    DmMainCnt sp10[4];
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(sp10); i++) {
@@ -5173,7 +5277,7 @@ bool dm_game_demo_4p(void) {
 
     dm_warning_h_line_se();
 
-    if ((sp10[0] == 3) && (sp10[1] == sp10[0]) && (sp10[2] == sp10[1]) && (sp10[3] == sp10[2]) &&
+    if ((sp10[0] == dm_ret_virus_wait) && (sp10[1] == sp10[0]) && (sp10[2] == sp10[1]) && (sp10[3] == sp10[2]) &&
         (watchGameP->count_down_ctrl < 0)) {
         for (i = 0; i < ARRAY_COUNT(sp10); i++) {
             game_state_data[i].mode_now = dm_mode_down;
@@ -5195,11 +5299,11 @@ bool dm_game_demo_4p(void) {
         }
 
         if (watchGameP->demo_timer == 0) {
-            return true;
+            return dm_ret_next_stage;
         }
     }
 
-    return false;
+    return dm_ret_null;
 }
 
 const s32 cap_tex_4162[2] = { 8, 2 };
@@ -5902,7 +6006,7 @@ void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         }
     }
 
-    if (evs_gamesel == ENUM_EVS_GAMESEL_3) {
+    if (evs_gamesel == GSL_VSCPU) {
         if (arg3 != 0) {
             temp_s1 = &temp_s6->texP2[0xA];
             temp_s5 = &temp_s6->texP2[3];
@@ -6412,7 +6516,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         case dm_cnd_gover_result:
         case dm_cnd_retire_result:
             if (evs_gamemode == GMD_TIME_ATTACK) {
-                if (evs_gamesel == ENUM_EVS_GAMESEL_0) {
+                if (evs_gamesel == GSL_1PLAY) {
                     var_v0_4 = 0xA;
                 } else {
                     var_v0_4 = 0x4A;
@@ -6499,8 +6603,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     switch (gameStateDataRef->cnd_now) {
         case dm_cnd_clear_wait:
         case dm_cnd_gover_wait:
-            if ((evs_gamesel == ENUM_EVS_GAMESEL_0) && (evs_gamemode == GMD_TIME_ATTACK) &&
-                (temp_s4->effect_timer[arg1] == 0)) {
+            if ((evs_gamesel == GSL_1PLAY) && (evs_gamemode == GMD_TIME_ATTACK) && (temp_s4->effect_timer[arg1] == 0)) {
                 push_any_key_draw(gameStateDataRef->map_x + 8, gameStateDataRef->map_y + 0xA0);
             }
             break;
@@ -6511,12 +6614,12 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
 
     switch (gameStateDataRef->cnd_now) {
         case dm_cnd_pause:
-            func_80064298(arg1, &gGfxHead, 0);
+            retryMenu_drawPause(arg1, &gGfxHead, false);
             break;
 
         case dm_cnd_pause_re:
         case dm_cnd_pause_re_sc:
-            func_80064298(arg1, &gGfxHead, 1);
+            retryMenu_drawPause(arg1, &gGfxHead, true);
             break;
 
         default:
@@ -6528,7 +6631,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         case dm_cnd_pause_re:
         case dm_cnd_pause_re_sc:
             switch (evs_gamesel) {
-                case ENUM_EVS_GAMESEL_2:
+                case GSL_4PLAY:
                     draw_4p_attack_guide_panel(&gGfxHead, temp_s4->vs_4p_player_count, arg1,
                                                (s32)gameStateDataRef->map_x, gameStateDataRef->map_y - 0x24);
                     break;
@@ -6551,7 +6654,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         case dm_cnd_lose_retry_sc:
         case dm_cnd_draw_retry:
             if (temp_s4->effect_timer[arg1] == 0) {
-                func_8006431C(arg1, &gGfxHead);
+                retryMenu_drawContinue(arg1, &gGfxHead);
             }
             break;
 
@@ -6580,12 +6683,12 @@ void dm_make_key(void) {
     s32 i;
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
-        case ENUM_EVS_GAMESEL_3:
+        case GSL_1PLAY:
+        case GSL_VSCPU:
             var_t3 = 1;
             break;
 
-        case ENUM_EVS_GAMESEL_1:
+        case GSL_2PLAY:
             var_t3 = 2;
             break;
 
@@ -6615,7 +6718,7 @@ void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *map
     s32 sp18[2];
     s32 sp20[2];
 
-    func_80063FF4();
+    load_visible_fall_point_flag();
 
     if ((gameStateDataRef->player_type != PLAYERTYPE_1) &&
         ((gameStateDataRef->player_type == 1) || (arg2 != 0) || (aiDebugP1 < 0))) {
@@ -6723,9 +6826,9 @@ void make_ai_main(void) {
     }
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_1:
-        case ENUM_EVS_GAMESEL_3:
-        case ENUM_EVS_GAMESEL_5:
+        case GSL_2PLAY:
+        case GSL_VSCPU:
+        case GSL_2DEMO:
             for (i = 0; i < 2; i++) {
                 ptr = &game_state_data[i];
 
@@ -6737,8 +6840,8 @@ void make_ai_main(void) {
             }
             break;
 
-        case ENUM_EVS_GAMESEL_2:
-        case ENUM_EVS_GAMESEL_6:
+        case GSL_4PLAY:
+        case GSL_4DEMO:
             for (i = 0; i < 4; i++) {
                 ptr = &game_state_data[i];
 
@@ -6750,8 +6853,8 @@ void make_ai_main(void) {
             }
             break;
 
-        case ENUM_EVS_GAMESEL_0:
-        case ENUM_EVS_GAMESEL_4:
+        case GSL_1PLAY:
+        case GSL_1DEMO:
             if ((game_state_data->player_type == PLAYERTYPE_1) || (aiDebugP1 >= 0)) {
                 aifMake(&game_state_data[0]);
             }
@@ -6788,7 +6891,7 @@ void dm_game_init_heap(void) {
     BUFFER_CALLOC(&watchGame, heapTop, sizeof(struct_watchGame));
 
     for (i = 0; i < ARRAY_COUNTU(gameBackup); i++) {
-        BUFFER_MALLOC(&gameBackup[i], heapTop, sizeof(struct_gameBackup));
+        BUFFER_MALLOC(&gameBackup[i], heapTop, sizeof(GameStateBackup));
     }
 
     BUFFER_MALLOC(&gameGeom, heapTop, sizeof(struct_gameGeom));
@@ -6882,9 +6985,9 @@ void dm_game_init(bool arg0) {
     }
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_4:
-        case ENUM_EVS_GAMESEL_5:
-        case ENUM_EVS_GAMESEL_6:
+        case GSL_1DEMO:
+        case GSL_2DEMO:
+        case GSL_4DEMO:
             watchGameP->demo_timer = 1800;
             watchGameP->demo_flag = true;
             break;
@@ -6933,21 +7036,21 @@ void dm_game_init(bool arg0) {
     bzero(watchGameP->passBuf, sizeof(watchGameP->passBuf));
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
-        case ENUM_EVS_GAMESEL_4:
+        case GSL_1PLAY:
+        case GSL_1DEMO:
             var_s4 = 0;
             j = 0;
             break;
 
-        case ENUM_EVS_GAMESEL_1:
-        case ENUM_EVS_GAMESEL_3:
-        case ENUM_EVS_GAMESEL_5:
+        case GSL_2PLAY:
+        case GSL_VSCPU:
+        case GSL_2DEMO:
             var_s4 = 0;
             j = 1;
             break;
 
-        case ENUM_EVS_GAMESEL_2:
-        case ENUM_EVS_GAMESEL_6:
+        case GSL_4PLAY:
+        case GSL_4DEMO:
             var_s4 = 1;
             j = 2;
             break;
@@ -6999,8 +7102,8 @@ void dm_game_init(bool arg0) {
         temp_s0_3->total_chain_count = 0;
 
         switch (evs_gamesel) {
-            case ENUM_EVS_GAMESEL_2:
-            case ENUM_EVS_GAMESEL_6:
+            case GSL_4PLAY:
+            case GSL_4DEMO:
                 temp_s0_3->virus_anime_spead = 0xC;
                 temp_s0_3->virus_anime_max = 0;
                 break;
@@ -7165,11 +7268,11 @@ void dm_game_init_static(void) {
     RecWritingMsg_init(&watchGameP->writingMsg, &heapTop);
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_4:
+        case GSL_1DEMO:
             evs_high_score = 56600;
             break;
 
-        case ENUM_EVS_GAMESEL_0:
+        case GSL_1PLAY:
             temp_a3 = &evs_mem_data[evs_select_name_no[0]];
             if (evs_select_name_no[0] == 8) {
                 evs_high_score = 56600;
@@ -7193,11 +7296,11 @@ void dm_game_init_static(void) {
             }
             break;
 
-        case ENUM_EVS_GAMESEL_1:
-        case ENUM_EVS_GAMESEL_2:
-        case ENUM_EVS_GAMESEL_3:
-        case ENUM_EVS_GAMESEL_5:
-        case ENUM_EVS_GAMESEL_6:
+        case GSL_2PLAY:
+        case GSL_4PLAY:
+        case GSL_VSCPU:
+        case GSL_2DEMO:
+        case GSL_4DEMO:
             if (evs_story_flg == 0) {
                 evs_high_score = 0;
             }
@@ -7208,8 +7311,8 @@ void dm_game_init_static(void) {
     }
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
-        case ENUM_EVS_GAMESEL_4:
+        case GSL_1PLAY:
+        case GSL_1DEMO:
             watchGameP->touch_down_wait = 1;
             animeState_load(&game_state_data[0].anime, &heapTop, CHARANIMEMODE_MARIO);
             animeState_set(&game_state_data[0].anime, ANIMENO_2);
@@ -7236,9 +7339,9 @@ void dm_game_init_static(void) {
             heapTop = init_coffee_break(heapTop, game_state_data[0].cap_def_speed);
             break;
 
-        case ENUM_EVS_GAMESEL_1:
-        case ENUM_EVS_GAMESEL_3:
-        case ENUM_EVS_GAMESEL_5:
+        case GSL_2PLAY:
+        case GSL_VSCPU:
+        case GSL_2DEMO:
             for (i = 0; i < 2; i++) {
                 animeState_load(&game_state_data[i].anime, &heapTop, game_state_data[i].charNo);
             }
@@ -7249,7 +7352,7 @@ void dm_game_init_static(void) {
                 }
 
                 switch (evs_gamesel) {
-                    case ENUM_EVS_GAMESEL_1:
+                    case GSL_2PLAY:
                         for (i = 0; i < ARRAY_COUNT(watchGameP->vs_win_total); i++) {
                             watchGameP->vs_win_total[i] = evs_mem_data[evs_select_name_no[i]].vsman_data[0];
                         }
@@ -7266,8 +7369,8 @@ void dm_game_init_static(void) {
                 tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P2].start, romTableP[ROMDATATBL_GAME_P2].end);
             break;
 
-        case ENUM_EVS_GAMESEL_2:
-        case ENUM_EVS_GAMESEL_6:
+        case GSL_4PLAY:
+        case GSL_4DEMO:
             watchGameP->texP1 =
                 tiLoadTexData(&heapTop, romTableP[ROMDATATBL_GAME_P1].start, romTableP[ROMDATATBL_GAME_P1].end);
             watchGameP->texP4 =
@@ -7333,8 +7436,8 @@ void dm_game_init_snap_bg(void) {
     watchGameP->bg_snapping = false;
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
-        case ENUM_EVS_GAMESEL_4:
+        case GSL_1PLAY:
+        case GSL_1DEMO:
             break;
 
         default:
@@ -7386,8 +7489,8 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
     }
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
-        case ENUM_EVS_GAMESEL_4:
+        case GSL_1PLAY:
+        case GSL_1DEMO:
             switch (evs_gamemode) {
                 case GMD_NORMAL:
                     var_s6 = 0;
@@ -7495,8 +7598,8 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             }
             break;
 
-        case ENUM_EVS_GAMESEL_2:
-        case ENUM_EVS_GAMESEL_6:
+        case GSL_4PLAY:
+        case GSL_4DEMO:
             story_bg_proc(&gfx);
 
             gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -7591,9 +7694,9 @@ void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP UNUSED, Vtx **vtxP UNUSED, s32 
             }
             break;
 
-        case ENUM_EVS_GAMESEL_1:
-        case ENUM_EVS_GAMESEL_3:
-        case ENUM_EVS_GAMESEL_5:
+        case GSL_2PLAY:
+        case GSL_VSCPU:
+        case GSL_2DEMO:
             story_bg_proc(&gfx);
             if (arg3 != 0) {
                 gSPDisplayList(gfx++, alpha_texture_init_dl);
@@ -7758,7 +7861,7 @@ enum_main_no dm_game_main(NNSched *sc) {
 s32 dm_game_main2(void) {
     struct_watchGame *temp_s3 = watchGame;
     s32 var_s1 = 0;
-    s32 var_s4_2;
+    DmMainCnt var_s4_2;
     s32 var_s0;
 
     if (temp_s3->bgm_bpm_flg[1]) {
@@ -7770,7 +7873,7 @@ s32 dm_game_main2(void) {
     RecWritingMsg_calc(&temp_s3->writingMsg);
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
+        case GSL_1PLAY:
             if (temp_s3->coffee_break_flow > 0) {
                 if (gControllerHoldButtons[main_joy[0]] & (A_BUTTON | B_BUTTON)) {
                     temp_s3->msgWnd.scrSpeed = 1.0f / 8.0f;
@@ -7801,14 +7904,14 @@ s32 dm_game_main2(void) {
                 if (temp_s3->coffee_break_flow == 0) {
                     dm_seq_play_in_game(evs_seqnumb * 2);
                 }
-                var_s4_2 = 0;
+                var_s4_2 = dm_ret_null;
             }
 
             if (temp_s3->coffee_break_flow <= 0) {
                 var_s4_2 = dm_game_main_1p();
 
                 switch (var_s4_2) {
-                    case 1:
+                    case dm_ret_next_stage:
                         var_s0 = game_state_data[0].virus_level;
                         if ((var_s0 == 0x15) || (var_s0 == 0x18) ||
                             ((var_s0 >= 0x1E) && (var_s0 == ((var_s0 / 5) * 5)))) {
@@ -7843,20 +7946,23 @@ s32 dm_game_main2(void) {
                         }
                         break;
 
-                    case 2:
+                    case dm_ret_retry:
                         game_state_data[0].game_score = 0;
                         break;
 
-                    case 9:
-                        var_s4_2 = 0;
+                    case dm_ret_replay:
+                        var_s4_2 = dm_ret_null;
                         dm_game_init(true);
+                        break;
+
+                    default:
                         break;
                 }
 
                 switch (var_s4_2) {
-                    case 1:
-                    case 2:
-                        var_s4_2 = 0;
+                    case dm_ret_next_stage:
+                    case dm_ret_retry:
+                        var_s4_2 = dm_ret_null;
                         dm_game_init(true);
                         animeState_set(&game_state_data[0].anime, ANIMENO_2);
 
@@ -7873,12 +7979,15 @@ s32 dm_game_main2(void) {
                             dm_seq_play_in_game(SEQ_INDEX_23);
                         }
                         break;
+
+                    default:
+                        break;
                 }
             }
             break;
 
-        case ENUM_EVS_GAMESEL_1:
-        case ENUM_EVS_GAMESEL_3:
+        case GSL_2PLAY:
+        case GSL_VSCPU:
             var_s4_2 = dm_game_main_2p();
 
             for (var_s0 = 0; var_s0 < 2; var_s0++) {
@@ -7892,9 +8001,9 @@ s32 dm_game_main2(void) {
             }
 
             switch (var_s4_2) {
-                case -1:
+                case dm_ret_game_over:
                     if (var_s1 == 0) {
-                        var_s4_2 = 0;
+                        var_s4_2 = dm_ret_null;
                         switch (evs_gamemode) {
                             case GMD_TIME_ATTACK:
                                 for (var_s0 = 0; var_s0 < 2; var_s0++) {
@@ -7916,8 +8025,8 @@ s32 dm_game_main2(void) {
                     }
                     break;
 
-                case 2:
-                    var_s4_2 = 0;
+                case dm_ret_retry:
+                    var_s4_2 = dm_ret_null;
                     for (var_s0 = 0; var_s0 < 2; var_s0++) {
                         game_state_data[var_s0].game_score = 0;
                     }
@@ -7931,8 +8040,8 @@ s32 dm_game_main2(void) {
                     backup_game_state(0);
                     break;
 
-                case 9:
-                    var_s4_2 = 0;
+                case dm_ret_replay:
+                    var_s4_2 = dm_ret_null;
                     dm_game_init(true);
                     break;
 
@@ -7941,7 +8050,7 @@ s32 dm_game_main2(void) {
             }
             break;
 
-        case ENUM_EVS_GAMESEL_2:
+        case GSL_4PLAY:
             var_s4_2 = dm_game_main_4p();
 
             for (var_s0 = 0; var_s0 < 4; var_s0++) {
@@ -7955,9 +8064,9 @@ s32 dm_game_main2(void) {
             }
 
             switch (var_s4_2) {
-                case -1:
+                case dm_ret_game_over:
                     if (var_s1 == 0) {
-                        var_s4_2 = 0;
+                        var_s4_2 = dm_ret_null;
                         dm_game_init(true);
                         for (var_s0 = 0; var_s0 < 4; var_s0++) {
                             animeState_set(&game_state_data[var_s0].anime, ANIMENO_0);
@@ -7966,8 +8075,8 @@ s32 dm_game_main2(void) {
                     }
                     break;
 
-                case 2:
-                    var_s4_2 = 0;
+                case dm_ret_retry:
+                    var_s4_2 = dm_ret_null;
                     for (var_s0 = 0; var_s0 < 2; var_s0++) {
                         game_state_data[var_s0].game_score = 0;
                     }
@@ -7982,22 +8091,25 @@ s32 dm_game_main2(void) {
                     backup_game_state(0);
                     break;
 
-                case 9:
-                    var_s4_2 = 0;
+                case dm_ret_replay:
+                    var_s4_2 = dm_ret_null;
                     dm_game_init(true);
+                    break;
+
+                default:
                     break;
             }
             break;
 
-        case ENUM_EVS_GAMESEL_4:
+        case GSL_1DEMO:
             var_s4_2 = dm_game_demo_1p();
             break;
 
-        case ENUM_EVS_GAMESEL_5:
+        case GSL_2DEMO:
             var_s4_2 = dm_game_demo_2p();
             break;
 
-        case ENUM_EVS_GAMESEL_6:
+        case GSL_4DEMO:
             var_s4_2 = dm_game_demo_4p();
             break;
 
@@ -8016,14 +8128,14 @@ enum_main_no dm_game_main3(s32 arg0) {
     enum_main_no var_a1;
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
-        case ENUM_EVS_GAMESEL_1:
+        case GSL_1PLAY:
+        case GSL_2PLAY:
             var_a1 = MAIN_MENU;
             break;
 
-        case ENUM_EVS_GAMESEL_2:
+        case GSL_4PLAY:
             if (evs_story_flg != 0) {
-                evs_gamesel = ENUM_EVS_GAMESEL_3;
+                evs_gamesel = GSL_VSCPU;
                 if ((game_state_data[0].cnd_static == dm_cnd_win) && (arg0 != -2)) {
                     story_proc_no++;
                     var_a1 = MAIN_STORY;
@@ -8035,10 +8147,10 @@ enum_main_no dm_game_main3(s32 arg0) {
             }
             break;
 
-        case ENUM_EVS_GAMESEL_3:
+        case GSL_VSCPU:
             if (evs_story_flg != 0) {
                 if ((game_state_data[0].cnd_static == dm_cnd_win) && (arg0 != -2)) {
-                    if (func_8006498C(evs_story_level, evs_story_no, game_state_data[0].game_retry)) {
+                    if (dm_query_next_stage(evs_story_level, evs_story_no, game_state_data[0].game_retry)) {
                         story_proc_no++;
                     } else {
                         story_proc_no += 2;
@@ -8094,9 +8206,9 @@ enum_main_no dm_game_main3(s32 arg0) {
             }
             break;
 
-        case ENUM_EVS_GAMESEL_4:
-        case ENUM_EVS_GAMESEL_5:
-        case ENUM_EVS_GAMESEL_6:
+        case GSL_1DEMO:
+        case GSL_2DEMO:
+        case GSL_4DEMO:
             var_a1 = MAIN_TITLE;
             break;
 
@@ -8168,9 +8280,9 @@ void dm_game_graphic2(void) {
     }
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_1:
-        case ENUM_EVS_GAMESEL_3:
-        case ENUM_EVS_GAMESEL_5: {
+        case GSL_2PLAY:
+        case GSL_VSCPU:
+        case GSL_2DEMO: {
             s32 temp_s4 = temp_s7->frame_move_count;
             s32 temp_s0 = temp_s7->frame_move_count < FRAME_MOVEMENT_MAX;
             s32 temp_s1 = !temp_s7->bg_snapping;
@@ -8199,11 +8311,11 @@ void dm_game_graphic2(void) {
     }
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_1:
-        case ENUM_EVS_GAMESEL_2:
-        case ENUM_EVS_GAMESEL_3:
-        case ENUM_EVS_GAMESEL_5:
-        case ENUM_EVS_GAMESEL_6:
+        case GSL_2PLAY:
+        case GSL_4PLAY:
+        case GSL_VSCPU:
+        case GSL_2DEMO:
+        case GSL_4DEMO:
             if (!debugMenuEnabled && !temp_s7->bg_snapping) {
                 for (i = 0; i < evs_playcnt; i++) {
                     dm_virus_anime(&game_state_data[i], game_map_data[i]);
@@ -8217,8 +8329,8 @@ void dm_game_graphic2(void) {
     }
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
-        case ENUM_EVS_GAMESEL_4:
+        case GSL_1PLAY:
+        case GSL_1DEMO:
             if (!debugMenuEnabled && !temp_s7->bg_snapping) {
                 disp_logo_setup(&gGfxHead);
 
@@ -8292,9 +8404,9 @@ void dm_game_graphic2(void) {
             }
             break;
 
-        case ENUM_EVS_GAMESEL_1:
-        case ENUM_EVS_GAMESEL_3:
-        case ENUM_EVS_GAMESEL_5:
+        case GSL_2PLAY:
+        case GSL_VSCPU:
+        case GSL_2DEMO:
             if (!debugMenuEnabled && !temp_s7->bg_snapping) {
                 disp_logo_setup(&gGfxHead);
 
@@ -8373,8 +8485,8 @@ void dm_game_graphic2(void) {
             }
             break;
 
-        case ENUM_EVS_GAMESEL_2:
-        case ENUM_EVS_GAMESEL_6:
+        case GSL_4PLAY:
+        case GSL_4DEMO:
             if (!debugMenuEnabled && !temp_s7->bg_snapping) {
                 for (i = 0; i < 4; i++) {
                     animeState_initDL(&game_state_data[i].anime, &gGfxHead);
@@ -8477,9 +8589,9 @@ void dm_game_graphic2(void) {
         }
 
         switch (evs_gamesel) {
-            case ENUM_EVS_GAMESEL_4:
-            case ENUM_EVS_GAMESEL_5:
-            case ENUM_EVS_GAMESEL_6:
+            case GSL_1DEMO:
+            case GSL_2DEMO:
+            case GSL_4DEMO:
                 draw_demo_logo(&gGfxHead, 0x6A, 0xAA);
 
 #if VERSION_CN || VERSION_GW
@@ -8491,19 +8603,19 @@ void dm_game_graphic2(void) {
                 break;
         }
 
-        if (temp_s7->replayFlag && !func_80064848()) {
+        if (temp_s7->replayFlag && !dm_check_one_game_finish()) {
             s32 sp50;
             s32 sp54;
 
             switch (evs_gamesel) {
-                case ENUM_EVS_GAMESEL_0:
-                case ENUM_EVS_GAMESEL_2:
+                case GSL_1PLAY:
+                case GSL_4PLAY:
                     sp50 = 0x1E;
                     sp54 = 0x14;
                     break;
 
-                case ENUM_EVS_GAMESEL_1:
-                case ENUM_EVS_GAMESEL_3:
+                case GSL_2PLAY:
+                case GSL_VSCPU:
                     sp50 = 0x80;
                     sp54 = 0x90;
                     break;
@@ -8600,7 +8712,7 @@ void dm_game_graphic_onDoneSawp(void) {
 
     for (j = 0; j < evs_gamespeed; j++) {
         bool var_s3 = false;
-        bool temp_s1 = func_80064848();
+        bool temp_s1 = dm_check_one_game_finish();
 
         dm_make_key();
 
@@ -8635,12 +8747,12 @@ void dm_game_graphic_onDoneSawp(void) {
         watchGameP->big_virus_no_wait = (evs_gamemode == GMD_TaiQ) && (joygam[0] & (L_TRIG | R_TRIG));
 
         switch (evs_gamesel) {
-            case ENUM_EVS_GAMESEL_0:
+            case GSL_1PLAY:
                 key_control_main(&game_state_data[0], game_map_data[0], 0, main_joy[0]);
                 break;
 
-            case ENUM_EVS_GAMESEL_1:
-            case ENUM_EVS_GAMESEL_3:
+            case GSL_2PLAY:
+            case GSL_VSCPU:
                 for (i = 0; i < 2; i++) {
                     key_control_main(&game_state_data[i], game_map_data[i], i, main_joy[i]);
                 }

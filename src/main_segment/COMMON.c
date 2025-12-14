@@ -111,7 +111,7 @@ s16 gfx_msg BSS;
 STACK(nnScGraphicsStack, NN_SC_STACKSIZE) BSS;
 
 #if SCOMMON_IN_COMMON
-struct struct_gameBackup *gameBackup[2] BSS;
+struct GameStateBackup *gameBackup[2] BSS;
 #endif /* SCOMMON_IN_COMMON */
 
 u8 CapsMagazine[0x100] BSS;
@@ -323,7 +323,7 @@ Unk_AIFEntry aif_field[GAME_MAP_ROWS][GAME_MAP_COLUMNS] ALIGNED(8) BSS;
 u8 gReverbFx[0x28] BSS;
 
 #if SCOMMON_IN_COMMON
-u8 evs_select_name_no[0x2] BSS;
+u8 evs_select_name_no[EVS_SELECT_NAME_NO_COUNT] BSS;
 #endif /* SCOMMON_IN_COMMON */
 
 OSScTask B_800FAE80[GTASK_NO_MAX] BSS;

@@ -2617,7 +2617,7 @@ void menuNameSelPanel_clear(MenuNameSelPanel *nameSelPanel, bool arg1, s32 arg2)
         evs_select_name_no[1] = 8;
     }
 
-    for (var_a3 = 0; var_a3 < 2; var_a3++) {
+    for (var_a3 = 0; var_a3 < EVS_SELECT_NAME_NO_COUNT; var_a3++) {
         nameSelPanel->unk_00C[var_a3] = 0;
         nameSelPanel->unk_014[var_a3] = evs_select_name_no[var_a3];
         nameSelPanel->unk_01C[var_a3] = (evs_select_name_no[var_a3] & 1);
@@ -2943,14 +2943,14 @@ void menuNameSelPanel_draw(MenuNameSelPanel *nameSelPanel, Gfx **gfxP) {
         }
 
         // wtf
-        if (evs_mem_data[i].mem_use_flg & 1) {
+        if (evs_mem_data[i].mem_use_flg & MEM_USE_FLG_1) {
             temp = evs_mem_data[i].mem_name;
         } else {
             temp = evs_mem_data[i].mem_name;
         }
 
         j = item->color.v.a * 255.0f;
-        if (evs_mem_data[i].mem_use_flg & 1) {
+        if (evs_mem_data[i].mem_use_flg & MEM_USE_FLG_1) {
             gDPSetPrimColor(gfx++, 0, 0, 1, 1, 1, j);
         } else {
             gDPSetPrimColor(gfx++, 0, 0, 160, 160, 160, 255);
@@ -4958,7 +4958,7 @@ void menuMain_input(MenuMain *menuMain) {
                     case MAINMENUMODE_2:
                         evs_playcnt = 2;
                         evs_story_flg = 1;
-                        evs_gamesel = ENUM_EVS_GAMESEL_3;
+                        evs_gamesel = GSL_VSCPU;
 
                         game_state_data[0].player_type = PLAYERTYPE_0;
                         game_state_data[1].player_type = PLAYERTYPE_1;
@@ -4970,7 +4970,7 @@ void menuMain_input(MenuMain *menuMain) {
                     case MAINMENUMODE_11:
                         evs_playcnt = 1;
                         evs_story_flg = 0;
-                        evs_gamesel = ENUM_EVS_GAMESEL_0;
+                        evs_gamesel = GSL_1PLAY;
 
                         game_state_data[0].player_no = 0;
                         game_state_data[0].player_type = PLAYERTYPE_0;
@@ -4982,7 +4982,7 @@ void menuMain_input(MenuMain *menuMain) {
                     case MAINMENUMODE_18:
                         evs_playcnt = 2;
                         evs_story_flg = 0;
-                        evs_gamesel = ENUM_EVS_GAMESEL_3;
+                        evs_gamesel = GSL_VSCPU;
 
                         game_state_data[0].player_type = PLAYERTYPE_0;
                         game_state_data[1].player_type = PLAYERTYPE_1;
@@ -5013,7 +5013,7 @@ void menuMain_input(MenuMain *menuMain) {
                 menuMain->mode = mode_5557[var_s2];
                 evs_playcnt = 2;
                 evs_story_flg = 0;
-                evs_gamesel = ENUM_EVS_GAMESEL_1;
+                evs_gamesel = GSL_2PLAY;
 
                 game_state_data[0].player_type = PLAYERTYPE_0;
                 game_state_data[1].player_type = PLAYERTYPE_0;
@@ -5060,7 +5060,7 @@ void menuMain_input(MenuMain *menuMain) {
                     menuMain->unk_000C[menuMain->unk_0008] = 0;
                     evs_playcnt = 4;
                     evs_story_flg = 0;
-                    evs_gamesel = ENUM_EVS_GAMESEL_2;
+                    evs_gamesel = GSL_4PLAY;
                     evs_gamemode = GMD_NORMAL;
 
                     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
@@ -5111,7 +5111,7 @@ void menuMain_input(MenuMain *menuMain) {
                     sp18[i] = 0;
                     if (evs_select_name_no[i] != 8) {
                         sp18[i] = 1;
-                        if (!(evs_mem_data[evs_select_name_no[i]].mem_use_flg & 1)) {
+                        if (!(evs_mem_data[evs_select_name_no[i]].mem_use_flg & MEM_USE_FLG_1)) {
                             sp18[i] = 2;
                         }
                     }
@@ -8144,7 +8144,7 @@ void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *watchMenuRef, void *
             if (_getMode(watchMenuRef) == MAINMENUMODE_MENUNMENT_64) {
                 break;
             }
-            if (!(*ptr & 1)) {
+            if (!(*ptr & MEM_USE_FLG_1)) {
                 break;
             }
         }
@@ -8377,7 +8377,7 @@ void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
                 break;
         }
 
-        temp_s1_2->mem_use_flg |= 1;
+        temp_s1_2->mem_use_flg |= MEM_USE_FLG_1;
         for (i = 0; i < ARRAY_COUNT(menuNmEnt->unk_002C[sp24]); i++) {
             temp_s1_2->mem_name[i] = menuNmEnt->unk_002C[sp24][i];
         }
@@ -8389,7 +8389,7 @@ void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
                 if (_getMode(menuNmEnt->watchMenuRef) == MAINMENUMODE_MENUNMENT_64) {
                     break;
                 }
-                if (!(ptr->mem_use_flg & 1)) {
+                if (!(ptr->mem_use_flg & MEM_USE_FLG_1)) {
                     break;
                 }
             }
@@ -8459,7 +8459,7 @@ void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
                 if (_getMode(menuNmEnt->watchMenuRef) == MAINMENUMODE_MENUNMENT_64) {
                     break;
                 }
-                if (!(ptr->mem_use_flg & 1)) {
+                if (!(ptr->mem_use_flg & MEM_USE_FLG_1)) {
                     break;
                 }
             }

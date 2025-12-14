@@ -297,7 +297,7 @@ void dm_init_system_mem(void) {
     evs_stereo = true;
     temp = 1;
     dm_audio_set_stereo(evs_stereo);
-    evs_gamesel = ENUM_EVS_GAMESEL_0;
+    evs_gamesel = GSL_1PLAY;
     evs_secret_flg[temp] = 0;
     evs_secret_flg[0] = 0;
     evs_level_21 = 0;
@@ -629,8 +629,8 @@ void _sort1PMode(SRankSortInfo *st, DataModeSort mode, s32 level) {
         s32 j;
 
         for (j = i + 1; j < SRANKSORTINFO_SORT_LEN; j++) {
-            s32 lo = mc[sort[i]].mem_use_flg & 1;
-            s32 hi = mc[sort[j]].mem_use_flg & 1;
+            s32 lo = mc[sort[i]].mem_use_flg & MEM_USE_FLG_1;
+            s32 hi = mc[sort[j]].mem_use_flg & MEM_USE_FLG_1;
 
             if (_get1PLess(&mc[sort[i]], &mc[sort[j]], mode, level) || (lo < hi)) {
                 u8 temp = sort[i];
@@ -860,8 +860,8 @@ void _sortVsMode(SRankSortInfo *st, VsModeSort mode) {
             lo = ave[temp_t1];
             hi = ave[temp_t0];
             if (lo == hi) {
-                lo = mc[temp_t1].mem_use_flg & 1;
-                hi = mc[temp_t0].mem_use_flg & 1;
+                lo = mc[temp_t1].mem_use_flg & MEM_USE_FLG_1;
+                hi = mc[temp_t0].mem_use_flg & MEM_USE_FLG_1;
             }
 
             if (lo < hi) {

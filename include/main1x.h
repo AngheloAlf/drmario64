@@ -7,6 +7,8 @@
 // TODO: use MAXCONTROLLERS instead?
 #define STRUCT_EVS_CFG_4P_COUNT 4
 
+#define EVS_SELECT_NAME_NO_COUNT 2
+
 typedef struct struct_evs_cfg_4p {
     /* 0x00 */ u8 p4_team[STRUCT_EVS_CFG_4P_COUNT]; /* Original name: p4_team */
     /* 0x04 */ u8 p4_lv[STRUCT_EVS_CFG_4P_COUNT]; /* Original name: p4_lv */
@@ -28,14 +30,14 @@ typedef enum enum_evs_manual_no {
 } enum_evs_manual_no;
 
 typedef enum enum_evs_gamesel {
-    /* 0 */ ENUM_EVS_GAMESEL_0,
-    /* 1 */ ENUM_EVS_GAMESEL_1,
-    /* 2 */ ENUM_EVS_GAMESEL_2,
-    /* 3 */ ENUM_EVS_GAMESEL_3,
-    /* 4 */ ENUM_EVS_GAMESEL_4,
-    /* 5 */ ENUM_EVS_GAMESEL_5,
-    /* 6 */ ENUM_EVS_GAMESEL_6,
-    /* 7 */ ENUM_EVS_GAMESEL_MAX
+    /* 0 */ GSL_1PLAY, /* Original name: GSL_1PLAY */
+    /* 1 */ GSL_2PLAY, /* Original name: GSL_2PLAY */
+    /* 2 */ GSL_4PLAY, /* Original name: GSL_4PLAY */
+    /* 3 */ GSL_VSCPU, /* Original name: GSL_VSCPU */
+    /* 4 */ GSL_1DEMO, /* Original name: GSL_1DEMO */
+    /* 5 */ GSL_2DEMO, /* Original name: GSL_2DEMO */
+    /* 6 */ GSL_4DEMO, /* Original name: GSL_4DEMO */
+    /* 7 */ GSL_MAX /* Original name: GSL_MAX */
 } enum_evs_gamesel;
 
 
@@ -79,7 +81,7 @@ extern u8 evs_playmax;
 extern enum_evs_gamesel evs_gamesel;
 extern s32 evs_default_name[8];
 extern struct_evs_cfg_4p evs_cfg_4p;
-extern u8 evs_select_name_no[2];
+extern u8 evs_select_name_no[EVS_SELECT_NAME_NO_COUNT];
 extern u32 evs_game_time;
 
 #endif

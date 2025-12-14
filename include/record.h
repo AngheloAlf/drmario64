@@ -79,6 +79,9 @@ typedef struct struct_evs_mem_data_timeAt_data {
     /* 0x4 */ u8 erase; /* Original name: erase */
 } struct_evs_mem_data_timeAt_data; // size = 0xC
 
+#define MEM_USE_FLG_1 (1 << 0)
+#define MEM_USE_FLG_2 (1 << 1)
+
 #define VSRESULT_LEN 2
 
 typedef struct struct_evs_mem_data {

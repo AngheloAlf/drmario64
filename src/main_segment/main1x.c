@@ -39,7 +39,7 @@ struct_evs_cfg_4p evs_cfg_4p;
 /**
  * Original name: evs_select_name_no
  */
-u8 evs_select_name_no[2];
+u8 evs_select_name_no[EVS_SELECT_NAME_NO_COUNT];
 
 /**
  * Original name: evs_game_time
@@ -489,7 +489,7 @@ const u8 _team_flg_230[][MAX_PLAYERS] = {
     { TEAMNUMBER_0, TEAMNUMBER_1, TEAMNUMBER_2, TEAMNUMBER_3 },
 };
 
-const u8 GameSize_231[ENUM_EVS_GAMESEL_MAX] = {
+const u8 GameSize_231[GSL_MAX] = {
     0x01, // ENUM_EVS_GAMESEL_0
     0x02, // ENUM_EVS_GAMESEL_1
     0x04, // ENUM_EVS_GAMESEL_2
@@ -512,13 +512,13 @@ enum_main_no main12(void) {
     evs_playcnt = GameSize_231[evs_gamesel];
 
     switch (evs_gamesel) {
-        case ENUM_EVS_GAMESEL_0:
+        case GSL_1PLAY:
             game_state_data[0].player_type = PLAYERTYPE_0;
             evs_story_flg = 0;
             ret = MAIN_GAME;
             break;
 
-        case ENUM_EVS_GAMESEL_1:
+        case GSL_2PLAY:
             ret = MAIN_GAME;
             evs_story_flg = 0;
             for (i = 0; i < 2; i++) {
@@ -526,14 +526,14 @@ enum_main_no main12(void) {
             }
             break;
 
-        case ENUM_EVS_GAMESEL_2:
+        case GSL_4PLAY:
             for (i = 0; i < 4; i++) {
                 game_state_data[i].think_type = _charToAi_227[game_state_data[i].charNo];
             }
             ret = MAIN_GAME;
             break;
 
-        case ENUM_EVS_GAMESEL_3:
+        case GSL_VSCPU:
             if (evs_story_flg != 0) {
                 s32 temp_s2 = ((s32)story_proc_no >= 0xC);
 
@@ -552,7 +552,7 @@ enum_main_no main12(void) {
                 }
 
                 if ((evs_story_level > 0) && (evs_story_no == 7)) {
-                    evs_gamesel = ENUM_EVS_GAMESEL_2;
+                    evs_gamesel = GSL_4PLAY;
                     evs_playcnt = 4;
 
                     for (i = 0; i < 4; i++) {
@@ -584,7 +584,7 @@ enum_main_no main12(void) {
             ret = MAIN_GAME;
             break;
 
-        case ENUM_EVS_GAMESEL_4:
+        case GSL_1DEMO:
             evs_playcnt = 1;
             evs_game_time = 0;
             evs_one_game_flg = 0;
@@ -601,12 +601,12 @@ enum_main_no main12(void) {
             ret = MAIN_GAME;
             break;
 
-        case ENUM_EVS_GAMESEL_5:
+        case GSL_2DEMO:
             evs_playcnt = 2;
             evs_story_flg = 0;
             evs_one_game_flg = 0;
 
-            for (i = 0; i < 2; i++) {
+            for (i = 0; i < EVS_SELECT_NAME_NO_COUNT; i++) {
                 evs_select_name_no[i] = 8;
 
                 do {
@@ -635,7 +635,7 @@ enum_main_no main12(void) {
             ret = MAIN_GAME;
             break;
 
-        case ENUM_EVS_GAMESEL_6:
+        case GSL_4DEMO:
             evs_playcnt = 4;
             evs_story_flg = 0;
             evs_one_game_flg = 0;

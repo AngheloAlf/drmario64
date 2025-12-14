@@ -62,7 +62,7 @@ u8 main_joy[MAXCONTROLLERS] BSS;
 
 s16 gfx_msg BSS;
 
-struct struct_gameBackup *gameBackup[2] BSS;
+struct GameStateBackup *gameBackup[2] BSS;
 
 s32 attack_effect_idx BSS;
 
@@ -165,7 +165,7 @@ u16 aiGoalY BSS;
 
 u8 aipn BSS;
 
-u8 evs_select_name_no[0x02] BSS;
+u8 evs_select_name_no[EVS_SELECT_NAME_NO_COUNT] BSS;
 
 s8 aiSelSpeed BSS;
 

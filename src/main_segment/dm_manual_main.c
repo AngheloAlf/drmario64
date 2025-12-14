@@ -425,8 +425,7 @@ void dm_manual_update_virus_anime(struct_game_state_data *state) {
 /**
  * Original name: dm_manual_main_cnt
  */
-DmManualMainCntRet dm_manual_main_cnt(struct_game_state_data *state, GameMapCell *mapCells, u8 player_no,
-                                      s32 arg3 UNUSED) {
+DmMainCnt dm_manual_main_cnt(struct_game_state_data *state, GameMapCell *mapCells, u8 player_no, s32 arg3 UNUSED) {
     struct_watchManual *st = watchManual;
     s32 i;
     s32 out;
@@ -663,7 +662,7 @@ bool dm_manual_1_main(void) {
     GameMapCell *mapCells = game_map_data[0];
     struct_game_state_data *state = game_state_data;
     struct_game_state_data_now_cap *cap = &state->now_cap;
-    DmManualMainCntRet ret;
+    DmMainCnt ret;
     s32 i;
 
 #if PRESERVE_UB
@@ -1983,19 +1982,19 @@ void dm_manual_all_init(void) {
     switch (evs_manual_no) {
         case EVS_MANUAL_NO_0:
         case EVS_MANUAL_NO_3:
-            evs_gamesel = ENUM_EVS_GAMESEL_0;
+            evs_gamesel = GSL_1PLAY;
             evs_playcnt = 1;
             break;
 
         case EVS_MANUAL_NO_1:
         case EVS_MANUAL_NO_4:
-            evs_gamesel = ENUM_EVS_GAMESEL_1;
+            evs_gamesel = GSL_2PLAY;
             evs_playcnt = 2;
             break;
 
         case EVS_MANUAL_NO_2:
         case EVS_MANUAL_NO_5:
-            evs_gamesel = ENUM_EVS_GAMESEL_2;
+            evs_gamesel = GSL_4PLAY;
             evs_playcnt = 4;
             break;
     }

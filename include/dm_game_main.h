@@ -20,7 +20,7 @@ struct NNSched;
 struct struct_gameGeom;
 #define ANIMES_COUNT 3
 struct struct_watchGame;
-struct struct_gameBackup;
+struct GameStateBackup;
 
 typedef enum enum_evs_gamemode {
     /* 0 */ GMD_NORMAL,
@@ -294,45 +294,13 @@ void set_replay_state(void);
 void reset_replay_state(void);
 void start_replay_proc(void);
 void dm_warning_h_line_se(void);
-void dm_play_count_down_se(void);
-void dm_capsel_down(struct_game_state_data *gameStateData, GameMapCell *mapCells);
-s32 func_80063844(u32 arg0);
-s32 dm_set_attack_2p(struct_game_state_data *gameStateDataRef);
-s32 dm_set_attack_4p(struct_game_state_data *gameStateDataRef);
-void func_80063FF4(void);
-void save_visible_fall_point_flag(void);
 
-void func_8006417C(s32 arg0);
-EtcPartIndex retryMenu_input(s32 arg0);
-void func_80064298(s32 arg0, Gfx **gfxP, s32 arg2);
-void func_8006431C(s32 arg0, Gfx **gfxP);
-void set_bottom_up_virus(struct_game_state_data *arg0, GameMapCell *mapCells);
-bool bottom_up_bottle_items(GameMapCell *mapCells);
-void add_taiQ_bonus_wait(struct_game_state_data *arg0);
-bool func_80064848(void);
-void dm_game_eep_write_callback(void *arg0);
-void func_80064940(void *arg0);
-bool func_8006498C(s32 storyLevel, s32 storyNumber, s32 arg2);
-void dm_save_all(void);
-void dm_query_pause_player(struct_game_state_data *arg0);
-s32 dm_game_main_cnt_1P(struct_game_state_data *gameStateData, GameMapCell *mapCells, s32 arg2);
-s32 dm_game_main_cnt(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, s32 index);
-void dm_set_pause_on(struct_game_state_data *gameStateData, s32 arg1);
-void func_80066808(struct_game_state_data *gameStateData);
-void dm_set_pause_and_volume(struct_game_state_data **gameStateDataP, s32 arg1);
-void func_800669A0(struct_game_state_data *arg0);
-void dm_calc_big_virus_pos(struct_game_state_data *arg0);
-s32 dm_game_main_1p(void);
-s32 dm_add_win_2p(struct_game_state_data *gameStateDataRef);
-s32 dm_set_win_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2);
-s32 dm_set_lose_2p(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2);
-s32 func_800675C8(struct_game_state_data *gameStateDataRef, s32 arg1);
-s32 dm_set_time_attack_result_2p(struct_game_state_data **gameStateDataRefP);
-s32 dm_game_main_2p(void);
+void dm_capsel_down(struct_game_state_data *state, GameMapCell *map);
+
+void dm_calc_big_virus_pos(struct_game_state_data *state);
+
 s32 dm_game_main_4p(void);
-bool dm_game_demo_1p(void);
-bool dm_game_demo_2p(void);
-bool dm_game_demo_4p(void);
+
 struct TiTexData *dm_game_get_capsel_tex(s32 arg0);
 struct TiTexData *dm_game_get_capsel_pal(s32 arg0, s32 arg1);
 
@@ -414,6 +382,6 @@ extern struct_game_state_data game_state_data[MAX_PLAYERS];
 extern struct struct_watchGame *watchGame;
 extern enum_evs_gamemode evs_gamemode;
 extern u8 CapsMagazine[0x100];
-extern struct struct_gameBackup *gameBackup[2];
+extern struct GameStateBackup *gameBackup[2];
 
 #endif

@@ -3134,7 +3134,7 @@ void aiSetCharacter(struct_game_state_data *xpw) {
     }
 
     var_a3_4 = 1;
-    if (evs_gamesel == ENUM_EVS_GAMESEL_3) {
+    if (evs_gamesel == GSL_VSCPU) {
         for (var_s0 = 0; var_s0 < evs_playcnt; var_s0++) {
             if (game_state_data[var_s0].vs < game_state_data[aipn].vs) {
                 var_a3_4 = 0;
@@ -4008,7 +4008,7 @@ void aifKeyOut(struct_game_state_data *gameStateDataRef) {
                         (gameStateDataRef->cap.my >= 3) ||
                         ((gameStateDataRef->ai.aiSelSpeed >= 2) && (gameStateDataRef->cap.my == 2) &&
                          (FallSpeed[gameStateDataRef->cap.sp] / 2 < gameStateDataRef->cap.cn))) {
-                        if (evs_gamesel != ENUM_EVS_GAMESEL_3) {
+                        if (evs_gamesel != GSL_VSCPU) {
                             joygam[gameStateDataRef->pn] |= D_JPAD;
                         } else if (gameStateDataRef->ai.aiFlagDecide.rensa == 0) {
                             joygam[gameStateDataRef->pn] |= D_JPAD;

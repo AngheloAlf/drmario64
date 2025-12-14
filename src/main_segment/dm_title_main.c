@@ -173,11 +173,11 @@ enum_main_no dm_title_main(NNSched *sc) {
         story_proc_no = _stageTbl[temp % ARRAY_COUNT(_stageTbl)];
 
         if (title_demo_no == 0) {
-            evs_gamesel = ENUM_EVS_GAMESEL_4;
+            evs_gamesel = GSL_1DEMO;
         } else if (title_demo_no == 1) {
-            evs_gamesel = ENUM_EVS_GAMESEL_5;
+            evs_gamesel = GSL_2DEMO;
         } else if (title_demo_no == 2) {
-            evs_gamesel = ENUM_EVS_GAMESEL_6;
+            evs_gamesel = GSL_4DEMO;
         }
 
         evs_gamemode = GMD_NORMAL;
