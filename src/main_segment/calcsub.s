@@ -1875,13 +1875,6 @@ s32 defangleL(s32 a1, s32 a2) {
 }
  * ```
  */
-
-#if VERSION_CN
-.global defangleL.NON_MATCHING
-.type defangleL.NON_MATCHING, @object
-defangleL.NON_MATCHING:
-#endif
-
 LEAF(defangleL)
     andi        $t2, $a0, 0xFFFF
     andi        $t3, $a1, 0xFFFF
@@ -1900,32 +1893,8 @@ LEAF(defangleL)
     subu        $v0, $t3, $t2
     subu        $v1, $t5, $t4
 
-    // TODO: No clue how to fix this
-#if VERSION_CN
-.set noreorder
-    bgez        $v0, .L8007F64C
-     move        $t2, $v0
-.set reorder
-#else
-    move        $t2, $v0
-    bgez        $v0, .L8007F64C
-#endif
-
-    neg         $t2, $v0
-.L8007F64C:
-
-#if VERSION_CN
-.set noreorder
-    bgez        $v1, .L8007F658
-     move        $t3, $v1
-.set reorder
-#else
-    move        $t3, $v1
-    bgez        $v1, .L8007F658
-#endif
-
-    neg         $t3, $v1
-.L8007F658:
+    abs         $t2, $v0
+    abs         $t3, $v1
 
     bge         $t3, $t2, .L8007F668
 
@@ -1933,11 +1902,6 @@ LEAF(defangleL)
 .L8007F668:
     jr          $ra
 END(defangleL)
-
-#if VERSION_CN
-.size defangleL.NON_MATCHING, . - defangleL.NON_MATCHING
-#endif
-
 
 /**
  * s32 distanceS(s32 x0, s32 y0, s32 z0, s32 x1, s32 y1, s32 z1);
@@ -2129,58 +2093,19 @@ s32 muldiv(s32 a, s32 b, s32 c) {
 }
  * ```
  */
-
-#if VERSION_CN
-.global muldiv.NON_MATCHING
-.type muldiv.NON_MATCHING, @object
-muldiv.NON_MATCHING:
-#endif
-
 LEAF(muldiv)
     // Figure out the sign
     xor         $t9, $a0, $a1
     xor         $t8, $t9, $a2
 
-    // TODO: No clue how to fix this
-#if VERSION_CN
-.set noreorder
     // Abs a
-    bgez        $a0, 1f
-     move        $t2, $a0
-    neg         $t2, $a0
-1:
+    abs         $t2, $a0
 
     // Abs b
-    bgez        $a1, 1f
-     move        $t3, $a1
-    neg         $t3, $a1
-1:
+    abs         $t3, $a1
 
     // Abs c
-    bgez        $a2, 1f
-     move        $t7, $a2
-    neg         $t7, $a2
-1:
-.set reorder
-#else
-    // Abs a
-    move        $t2, $a0
-    bgez        $a0, 1f
-    neg         $t2, $a0
-1:
-
-    // Abs b
-    move        $t3, $a1
-    bgez        $a1, 1f
-    neg         $t3, $a1
-1:
-
-    // Abs c
-    move        $t7, $a2
-    bgez        $a2, 1f
-    neg         $t7, $a2
-1:
-#endif
+    abs         $t7, $a2
 
     mult        $t2, $t3
     li          $t9, 32
@@ -2211,11 +2136,6 @@ LEAF(muldiv)
 .Lend:
     jr          $ra
 END(muldiv)
-
-#if VERSION_CN
-.size muldiv.NON_MATCHING, . - muldiv.NON_MATCHING
-#endif
-
 
 /**
  * void makeVect(s16 arg0, s16 arg1, s32 *arg2, s32 *arg3, s32 *arg4);
