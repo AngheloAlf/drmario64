@@ -100,7 +100,7 @@ s32 joyInit(s32 arg0 UNUSED) {
 
         joyflg[i] = 0;
         joygam[i] = 0;
-        joygmf[i] = 0;
+        joygmf[i] = false;
     }
 
     joycur1 = 0x14;

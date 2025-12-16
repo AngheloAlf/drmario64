@@ -44,6 +44,13 @@
 void joyCursorFastSet(u16 mask, u8 index);
 #endif
 
+// Maybe it is checking if player0 is non-human? or maybe debug related?
+#define UNK_PLAYER0_CHECK2(state, player_no) \
+    (((state)->player_type != PLAYERTYPE_1) && ((player_no) == 0) && (aiDebugP1 >= 0))
+
+#define UNK_PLAYER0_CHECK(state, player_no) \
+    (((state)->player_type == PLAYERTYPE_1) || UNK_PLAYER0_CHECK2(state, player_no))
+
 typedef struct struct_gameGeom {
     /* 0x0000 */ Mtx mtxBuf[3][0x20];
     /* 0x1800 */ Vtx vtxBuf[3][0x80];
@@ -159,7 +166,7 @@ typedef struct struct_watchGame {
     /* 0x424 */ s32 blink_count;                                         /* Original name: blink_count */
     /* 0x428 */ s32 warning_se_count;                                    /* Original name: warning_se_count */
     /* 0x42C */ UNUSED_MEMBER(void *objSeg); /* Original name: objSeg */ /* Completely unreferenced */
-    /* 0x430 */ TiTexData *texAL;                                        /* Original name: texAL */
+    /* 0x430 */ TiTexData *texAL; /* Original name: texAL */             // TODO: make enums to index these bunch
     /* 0x434 */ TiTexData *texLS;                                        /* Original name: texLS */
     /* 0x438 */ TiTexData *texP1;                                        /* Original name: texP1 */
     /* 0x43C */ TiTexData *texP2;                                        /* Original name: texP2 */
@@ -256,7 +263,7 @@ s8 dm_chaine_se_table_4p_179[4][3] = {
 };
 s32 rotate_table_474[4] = { 1, 3, 4, 2 };
 s32 rotate_mtx_475[6] = { 2, 0, 3, 1, 2, 0 };
-s32 D_800A6FC4 = 0;
+bool dm_think_flg = false;
 bool visible_fall_point[4] = {
 #if VERSION_US
     true,
@@ -3394,8 +3401,7 @@ DmMainCnt dm_game_main_cnt_1P(struct_game_state_data *state, GameMapCell *map, s
                 dm_attack_se(state, player_no);
                 animeState_set(&state->anime, ANIMENO_1);
 
-                if ((state->player_type == PLAYERTYPE_1) ||
-                    (((state->player_type != PLAYERTYPE_1) && (player_no == 0)) && (aiDebugP1 >= 0))) {
+                if (UNK_PLAYER0_CHECK(state, player_no)) {
                     aifMakeFlagSet(state);
                 }
 
@@ -3861,8 +3867,7 @@ DmMainCnt dm_game_main_cnt(struct_game_state_data *state, GameMapCell *map, s32 
                 }
 
                 state->mode_now = dm_mode_down;
-                if ((state->player_type == PLAYERTYPE_1) ||
-                    (((state->player_type != PLAYERTYPE_1) && (player_no == 0)) && (aiDebugP1 >= 0))) {
+                if (UNK_PLAYER0_CHECK(state, player_no)) {
                     aifMakeFlagSet(state);
                 }
             }
@@ -4596,7 +4601,7 @@ bool dm_set_lose_2p(struct_game_state_data *state, bool finish, bool menu) {
 /**
  * Original name: dm_set_draw_2p
  */
-s32 dm_set_draw_2p(struct_game_state_data *state, s32 menu) {
+s32 dm_set_draw_2p(struct_game_state_data *state, bool menu) {
     s32 p = state->player_no;
 
     state->cnd_static = dm_cnd_draw;
@@ -4710,8 +4715,7 @@ DmMainCnt dm_game_main_2p(void) {
 
                 for (i = 0; i < 2; i++) {
                     state[i]->mode_now = dm_mode_down;
-                    if ((state[i]->player_type == PLAYERTYPE_1) ||
-                        ((state[i]->player_type != PLAYERTYPE_1) && (i == 0) && (aiDebugP1 >= 0))) {
+                    if (UNK_PLAYER0_CHECK(state[i], i)) {
                         aifMakeFlagSet(state[i]);
                     }
                 }
@@ -4880,21 +4884,24 @@ DmMainCnt dm_game_main_2p(void) {
     return dm_ret_null;
 }
 
-s32 dm_game_main_4p(void) {
-    struct_watchGame *temp_s4 = watchGame;
+/**
+ * Original name: dm_game_main_4p
+ */
+DmMainCnt dm_game_main_4p(void) {
+    struct_watchGame *st = watchGame;
+    struct_game_state_data *state[4];
+    GameMapCell *map[4];
+    DmMainCnt ret[4];
+    s32 i;
+    bool finish;
+    bool menu;
 
-    struct_game_state_data *sp18[4];
-    GameMapCell *sp28[4];
-    DmMainCnt sp38[4];
     s32 sp48;
     s32 sp4C;
 
-    s32 var_s0;
-    bool var_s2_2;
-    s32 var_s3_2;
-    SeqIndex var_s5;
+    SeqIndex sound;
     TeamNumber var_s6;
-    s32 var_s7;
+    bool var_s7; // end?
 
     s32 var_a1_3;
     u32 var_a1_4;
@@ -4908,294 +4915,313 @@ s32 dm_game_main_4p(void) {
     s32 var_t3;
     s32 var_t4;
 
-    for (var_s0 = 0; var_s0 < 4; var_s0++) {
-        sp18[var_s0] = &game_state_data[var_s0];
-        sp28[var_s0] = game_map_data[var_s0];
+#if 0
+    int clear; // r4
+    int gover; // r5
+    // int sound; // r22
+    int win_team; // r30
+    int clearBit; // r8
+    int team; // r1+0x8
+    int win; // r12
+    bool end; // r21
+    int retire; // r7
+    int retireBit; // r8
+    int team; // r1+0x8
+    int win; // r8
+    int team; // r7
+    int win; // r9
+#endif
+
+    for (i = 0; i < 4; i++) {
+        state[i] = &game_state_data[i];
+        map[i] = game_map_data[i];
     }
 
-    dm_set_pause_and_volume(sp18, 4);
+    dm_set_pause_and_volume(state, 4);
 
-    for (var_s0 = 0; var_s0 < 4; var_s0++) {
-        sp38[var_s0] = dm_game_main_cnt(sp18[var_s0], sp28[var_s0], var_s0);
+    for (i = 0; i < 4; i++) {
+        ret[i] = dm_game_main_cnt(state[i], map[i], i);
     }
 
     dm_warning_h_line_se();
 
-    if ((sp38[0] == dm_ret_virus_wait) && (sp38[1] == sp38[0]) && (sp38[2] == sp38[1]) && (sp38[3] == sp38[2])) {
-        if (temp_s4->count_down_ctrl < 0) {
-            for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                if (sp18[var_s0]->mode_now != dm_mode_wait) {
+    if ((ret[0] == dm_ret_virus_wait) && (ret[1] == ret[0]) && (ret[2] == ret[1]) && (ret[3] == ret[2])) {
+        if (st->count_down_ctrl < 0) {
+            for (i = 0; i < 4; i++) {
+                if (state[i]->mode_now != dm_mode_wait) {
                     break;
                 }
             }
 
-            if (var_s0 == 4) {
-                temp_s4->started_game_flg = 1;
+            if (i == 4) {
+                st->started_game_flg = true;
 
-                for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                    sp18[var_s0]->mode_now = dm_mode_down;
-                    if ((sp18[var_s0]->player_type == PLAYERTYPE_1) ||
-                        ((sp18[var_s0]->player_type != PLAYERTYPE_1) && (var_s0 == 0) && (aiDebugP1 >= 0))) {
-                        aifMakeFlagSet(sp18[var_s0]);
+                for (i = 0; i < 4; i++) {
+                    state[i]->mode_now = dm_mode_down;
+                    if (UNK_PLAYER0_CHECK(state[i], i)) {
+                        aifMakeFlagSet(state[i]);
                     }
                 }
                 start_replay_proc();
             }
         }
 
-        return 0;
+        return dm_ret_null;
     }
 
-    var_s2_2 = false;
-    var_s3_2 = 0;
+    menu = false;
+    finish = false;
     var_t4 = 0;
     var_t3 = 0;
 
-    for (var_s0 = 0; var_s0 < 4; var_s0++) {
-        if ((sp38[var_s0] == dm_ret_virus_wait) && (sp18[var_s0]->cnd_training == dm_cnd_training)) {
-            if (sp18[var_s0]->mode_now == dm_mode_wait) {
-                sp18[var_s0]->mode_now = dm_mode_down;
+    for (i = 0; i < 4; i++) {
+        if ((ret[i] == dm_ret_virus_wait) && (state[i]->cnd_training == dm_cnd_training)) {
+            if (state[i]->mode_now == dm_mode_wait) {
+                state[i]->mode_now = dm_mode_down;
             }
-        } else if (sp38[var_s0] == dm_ret_clear) {
-            var_t3 += 1;
-            sp18[var_s0]->cnd_static = dm_cnd_win;
-        } else if (sp38[var_s0] == dm_ret_game_over) {
-            if (!sp18[var_s0]->flg_retire) {
-                sp18[var_s0]->cnd_now = dm_cnd_retire;
-                sp18[var_s0]->cnd_training = dm_cnd_retire;
-                sp18[var_s0]->cnd_static = dm_cnd_lose;
-                sp18[var_s0]->black_up_count = 0x10;
-                sp18[var_s0]->flg_retire = true;
-                var_t4 += 1;
-                if (sp18[var_s0]->player_type == PLAYERTYPE_1) {
-                    sp18[var_s0]->mode_now = dm_mode_no_action;
+        } else if (ret[i] == dm_ret_clear) {
+            var_t3++;
+            state[i]->cnd_static = dm_cnd_win;
+        } else if (ret[i] == dm_ret_game_over) {
+            if (!state[i]->flg_retire) {
+                state[i]->cnd_now = dm_cnd_retire;
+                state[i]->cnd_training = dm_cnd_retire;
+                state[i]->cnd_static = dm_cnd_lose;
+                state[i]->black_up_count = 0x10;
+                state[i]->flg_retire = true;
+                var_t4++;
+                if (state[i]->player_type == PLAYERTYPE_1) {
+                    state[i]->mode_now = dm_mode_no_action;
                 } else {
-                    sp18[var_s0]->cnd_now = dm_cnd_tr_chack;
-                    sp18[var_s0]->mode_now = dm_mode_tr_chaeck;
+                    state[i]->cnd_now = dm_cnd_tr_chack;
+                    state[i]->mode_now = dm_mode_tr_chaeck;
                 }
             } else {
-                sp18[var_s0]->cnd_now = dm_cnd_tr_chack;
-                sp18[var_s0]->mode_now = dm_mode_tr_chaeck;
+                state[i]->cnd_now = dm_cnd_tr_chack;
+                state[i]->mode_now = dm_mode_tr_chaeck;
             }
-            sp18[var_s0]->virus_anime_spead = 4;
-        } else if (sp38[var_s0] == dm_ret_retry) {
-            return 2;
-        } else if (sp38[var_s0] == dm_ret_replay) {
-            return 9;
-        } else if (sp38[var_s0] == dm_ret_end) {
-            return -1;
-        } else if (sp38[var_s0] == dm_ret_game_end) {
-            return -2;
-        } else if (sp38[var_s0] == dm_ret_tr_a) {
-            sp18[var_s0]->cnd_static = dm_cnd_wait;
-            sp18[var_s0]->flg_training = false;
-            sp18[var_s0]->cnd_training = dm_cnd_training;
-            sp18[var_s0]->mode_now = dm_mode_training;
-        } else if (sp38[var_s0] == dm_ret_tr_b) {
-            sp18[var_s0]->cnd_static = dm_cnd_wait;
-            sp18[var_s0]->flg_training = true;
-            sp18[var_s0]->cnd_training = dm_cnd_training;
-            sp18[var_s0]->mode_now = dm_mode_training;
+            state[i]->virus_anime_spead = 4;
+        } else if (ret[i] == dm_ret_retry) {
+            return dm_ret_retry;
+        } else if (ret[i] == dm_ret_replay) {
+            return dm_ret_replay;
+        } else if (ret[i] == dm_ret_end) {
+            return dm_ret_game_over;
+        } else if (ret[i] == dm_ret_game_end) {
+            return dm_ret_game_end;
+        } else if (ret[i] == dm_ret_tr_a) {
+            state[i]->cnd_static = dm_cnd_wait;
+            state[i]->flg_training = false;
+            state[i]->cnd_training = dm_cnd_training;
+            state[i]->mode_now = dm_mode_training;
+        } else if (ret[i] == dm_ret_tr_b) {
+            state[i]->cnd_static = dm_cnd_wait;
+            state[i]->flg_training = true;
+            state[i]->cnd_training = dm_cnd_training;
+            state[i]->mode_now = dm_mode_training;
         }
     }
 
     if (var_t3 != 0) {
         var_a1_3 = 0;
 
-        for (var_s0 = 0; var_s0 < 4; var_s0++) {
-            if (sp18[var_s0]->cnd_static == dm_cnd_win) {
-                var_a1_3 |= 1 << var_s0;
-                var_s6 = sp18[var_s0]->team_no;
+        for (i = 0; i < 4; i++) {
+            if (state[i]->cnd_static == dm_cnd_win) {
+                var_a1_3 |= 1 << i;
+                var_s6 = state[i]->team_no;
             }
         }
 
-        if (!temp_s4->vs_4p_team_flg && (var_t3 > 1)) {
-            for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                var_s2_2 = dm_set_draw_2p(sp18[var_s0], var_s2_2);
+        if (!st->vs_4p_team_flg && (var_t3 > 1)) {
+            for (i = 0; i < 4; i++) {
+                menu = dm_set_draw_2p(state[i], menu);
             }
-            var_s5 = SEQ_INDEX_17;
-        } else if (temp_s4->vs_4p_team_flg && (var_a1_3 & temp_s4->vs_4p_team_bits[0]) &&
-                   (var_a1_3 & temp_s4->vs_4p_team_bits[1])) {
-            for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                var_s2_2 = dm_set_draw_2p(sp18[var_s0], var_s2_2);
+            sound = SEQ_INDEX_17;
+        } else if (st->vs_4p_team_flg && (var_a1_3 & st->vs_4p_team_bits[0]) && (var_a1_3 & st->vs_4p_team_bits[1])) {
+            for (i = 0; i < 4; i++) {
+                menu = dm_set_draw_2p(state[i], menu);
             }
-            var_s5 = SEQ_INDEX_17;
+            sound = SEQ_INDEX_17;
         } else {
-            var_s5 = SEQ_INDEX_14;
-            for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                if (sp18[var_s0]->cnd_static != dm_cnd_win) {
+            sound = SEQ_INDEX_14;
+
+            for (i = 0; i < 4; i++) {
+                if (state[i]->cnd_static != dm_cnd_win) {
                     continue;
                 }
 
-                temp_a2_2 = sp18[var_s0]->team_no;
-                temp_a3 = temp_s4->win_count[temp_a2_2];
+                temp_a2_2 = state[i]->team_no;
+                temp_a3 = st->win_count[temp_a2_2];
                 if (evs_story_flg != 0) {
-                    temp_s4->star_pos_x[temp_s4->star_count] = _posStP4StarX[var_s0];
-                    temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
-                } else if (temp_s4->vs_4p_team_flg) {
-                    temp_s4->star_pos_x[temp_s4->star_count] = _posP4TeamStarX[evs_vs_count - 1][temp_a2_2][temp_a3];
-                    temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
+                    st->star_pos_x[st->star_count] = _posStP4StarX[i];
+                    st->star_pos_y[st->star_count] = 0xD;
+                } else if (st->vs_4p_team_flg) {
+                    st->star_pos_x[st->star_count] = _posP4TeamStarX[evs_vs_count - 1][temp_a2_2][temp_a3];
+                    st->star_pos_y[st->star_count] = 0xD;
                 } else {
-                    temp_s4->star_pos_x[temp_s4->star_count] = _posP4CharStarX[evs_vs_count - 1][temp_a2_2][temp_a3];
-                    temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
+                    st->star_pos_x[st->star_count] = _posP4CharStarX[evs_vs_count - 1][temp_a2_2][temp_a3];
+                    st->star_pos_y[st->star_count] = 0xD;
                 }
 
-                temp_s4->star_count++;
+                st->star_count++;
 
-                temp_s4->win_count[temp_a2_2]++;
+                st->win_count[temp_a2_2]++;
                 if (evs_story_flg != 0) {
-                    var_s3_2 = 1;
-                } else if (temp_s4->win_count[temp_a2_2] == evs_vs_count) {
-                    var_s3_2 = 1;
-                    var_s5 = SEQ_INDEX_15;
+                    finish = true;
+                } else if (st->win_count[temp_a2_2] == evs_vs_count) {
+                    finish = true;
+                    sound = SEQ_INDEX_15;
                 }
             }
 
-            for (var_s0 = 0; var_s0 < ARRAY_COUNT(sp18); var_s0++) {
-                if (sp18[var_s0]->team_no != var_s6) {
+            for (i = 0; i < ARRAY_COUNT(state); i++) {
+                if (state[i]->team_no != var_s6) {
                     continue;
                 }
 
-                if ((evs_story_flg != 0) && (sp18[var_s0]->player_type == PLAYERTYPE_0)) {
-                    var_s5 = SEQ_INDEX_14;
+                if ((evs_story_flg != 0) && (state[i]->player_type == PLAYERTYPE_0)) {
+                    sound = SEQ_INDEX_14;
                 }
-                var_s2_2 = dm_set_win_2p(sp18[var_s0], var_s3_2, var_s2_2);
+                menu = dm_set_win_2p(state[i], finish, menu);
             }
 
-            for (var_s0 = 0; var_s0 < ARRAY_COUNT(sp18); var_s0++) {
-                if (sp18[var_s0]->team_no != var_s6) {
-                    if ((evs_story_flg != 0) && (sp18[var_s0]->player_type == PLAYERTYPE_0)) {
-                        var_s5 = SEQ_INDEX_17;
+            for (i = 0; i < ARRAY_COUNT(state); i++) {
+                if (state[i]->team_no != var_s6) {
+                    if (evs_story_flg && (state[i]->player_type == PLAYERTYPE_0)) {
+                        sound = SEQ_INDEX_17;
                     }
-                    var_s2_2 = dm_set_lose_2p(sp18[var_s0], var_s3_2, var_s2_2);
+                    menu = dm_set_lose_2p(state[i], finish, menu);
                 }
             }
         }
 
-        dm_seq_play_in_game(var_s5);
+        dm_seq_play_in_game(sound);
     } else if (var_t4 != 0) {
-        var_s7 = 0;
+        var_s7 = false;
         var_a2_2 = 0;
         var_a1_4 = 0;
 
-        for (var_s0 = 0; var_s0 < 4; var_s0++) {
-            if (sp18[var_s0]->flg_retire) {
-                var_a2_2 += 1;
-                var_a1_4 |= 1 << var_s0;
+        for (i = 0; i < 4; i++) {
+            if (state[i]->flg_retire) {
+                var_a2_2++;
+                var_a1_4 |= 1 << i;
             }
         }
 
         if (var_a2_2 == 4) {
-            for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                var_s2_2 = dm_set_draw_2p(sp18[var_s0], var_s2_2);
+            for (i = 0; i < 4; i++) {
+                menu = dm_set_draw_2p(state[i], menu);
             }
             dm_seq_play_in_game(SEQ_INDEX_17);
         } else if ((evs_story_flg != 0) && (var_a1_4 & 1)) {
-            var_s3_2 = 1;
+            finish = true;
 
-            var_s2_2 = dm_set_lose_2p(sp18[0], var_s3_2, var_s2_2);
-            for (var_s0 = 1; var_s0 < 4; var_s0++) {
-                var_s2_2 = dm_set_win_2p(sp18[var_s0], var_s3_2, var_s2_2);
+            menu = dm_set_lose_2p(state[0], finish, menu);
+            for (i = 1; i < 4; i++) {
+                menu = dm_set_win_2p(state[i], finish, menu);
             }
             dm_seq_play_in_game(SEQ_INDEX_17);
-        } else if (!temp_s4->vs_4p_team_flg && (var_a2_2 == 3)) {
+        } else if (!st->vs_4p_team_flg && (var_a2_2 == 3)) {
             s32 temp;
 
-            var_s7 = 1;
-            var_s5 = SEQ_INDEX_14;
+            var_s7 = true;
+            sound = SEQ_INDEX_14;
 
-            for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                if (!sp18[var_s0]->flg_retire) {
-                    temp_a2_3 = sp18[var_s0]->team_no;
-                    temp = temp_s4->win_count[temp_a2_3];
+            for (i = 0; i < 4; i++) {
+                if (!state[i]->flg_retire) {
+                    temp_a2_3 = state[i]->team_no;
+                    temp = st->win_count[temp_a2_3];
 
-                    if (evs_story_flg != 0) {
-                        temp_s4->star_pos_x[temp_s4->star_count] = _posStP4StarX[var_s0];
-                        temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
+                    if (evs_story_flg) {
+                        st->star_pos_x[st->star_count] = _posStP4StarX[i];
+                        st->star_pos_y[st->star_count] = 0xD;
                     } else {
-                        temp_s4->star_pos_x[temp_s4->star_count] = _posP4CharStarX[evs_vs_count - 1][temp_a2_3][temp];
-                        temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
+                        st->star_pos_x[st->star_count] = _posP4CharStarX[evs_vs_count - 1][temp_a2_3][temp];
+                        st->star_pos_y[st->star_count] = 0xD;
                     }
 
-                    temp_s4->star_count++;
-                    temp_s4->win_count[temp_a2_3]++;
+                    st->star_count++;
+                    st->win_count[temp_a2_3]++;
                     var_s6 = temp_a2_3;
-                    if (evs_story_flg != 0) {
-                        if (sp18[var_s0]->player_type != PLAYERTYPE_0) {
-                            var_s5 = SEQ_INDEX_17;
+                    if (evs_story_flg) {
+                        if (state[i]->player_type != PLAYERTYPE_0) {
+                            sound = SEQ_INDEX_17;
                         }
-                        var_s3_2 = 1;
-                    } else if (temp_s4->win_count[temp_a2_3] == evs_vs_count) {
-                        var_s3_2 = 1;
-                        var_s5 = SEQ_INDEX_15;
+                        finish = true;
+                    } else if (st->win_count[temp_a2_3] == evs_vs_count) {
+                        finish = true;
+                        sound = SEQ_INDEX_15;
                     }
                     break;
                 }
             }
-        } else if (temp_s4->vs_4p_team_flg) {
-            if ((var_a1_4 & temp_s4->vs_4p_team_bits[0]) == temp_s4->vs_4p_team_bits[0]) {
+        } else if (st->vs_4p_team_flg) {
+            if ((var_a1_4 & st->vs_4p_team_bits[0]) == st->vs_4p_team_bits[0]) {
                 sp48 = 1;
                 var_s6 = 1;
-                var_s7 = 1;
-                sp4C = temp_s4->win_count[1];
-                temp_s4->win_count[1]++;
-            } else if ((var_a1_4 & temp_s4->vs_4p_team_bits[1]) == temp_s4->vs_4p_team_bits[1]) {
+                var_s7 = true;
+                sp4C = st->win_count[1];
+                st->win_count[1]++;
+            } else if ((var_a1_4 & st->vs_4p_team_bits[1]) == st->vs_4p_team_bits[1]) {
                 sp48 = 0;
                 var_s6 = 0;
-                var_s7 = 1;
-                sp4C = temp_s4->win_count[0];
-                temp_s4->win_count[0]++;
+                var_s7 = true;
+                sp4C = st->win_count[0];
+                st->win_count[0]++;
             }
 
-            if (var_s7 != 0) {
-                temp_s4->star_pos_x[temp_s4->star_count] = _posP4TeamStarX[evs_vs_count - 1][sp48][sp4C];
-                temp_s4->star_pos_y[temp_s4->star_count] = 0xD;
-                temp_s4->star_count++;
+            if (var_s7) {
+                st->star_pos_x[st->star_count] = _posP4TeamStarX[evs_vs_count - 1][sp48][sp4C];
+                st->star_pos_y[st->star_count] = 0xD;
+                st->star_count++;
 
-                var_s5 = SEQ_INDEX_14;
-                for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                    if (temp_s4->win_count[var_s0] == evs_vs_count) {
-                        var_s3_2 = 1;
-                        var_s5 = SEQ_INDEX_15;
+                sound = SEQ_INDEX_14;
+                for (i = 0; i < 4; i++) {
+                    if (st->win_count[i] == evs_vs_count) {
+                        finish = true;
+                        sound = SEQ_INDEX_15;
                         break;
                     }
                 }
             }
         }
 
-        if (var_s7 != 0) {
-            for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                if (sp18[var_s0]->team_no == var_s6) {
-                    var_s2_2 = dm_set_win_2p(sp18[var_s0], var_s3_2, var_s2_2);
+        if (var_s7) {
+            for (i = 0; i < 4; i++) {
+                if (state[i]->team_no == var_s6) {
+                    menu = dm_set_win_2p(state[i], finish, menu);
                 }
             }
 
-            for (var_s0 = 0; var_s0 < 4; var_s0++) {
-                if (sp18[var_s0]->team_no != var_s6) {
-                    var_s2_2 = dm_set_lose_2p(sp18[var_s0], var_s3_2, var_s2_2);
+            for (i = 0; i < 4; i++) {
+                if (state[i]->team_no != var_s6) {
+                    menu = dm_set_lose_2p(state[i], finish, menu);
                 }
             }
-            dm_seq_play_in_game(var_s5);
+            dm_seq_play_in_game(sound);
         }
     }
 
-    if (var_s3_2 != 0) {
+    if (finish) {
         dm_save_all();
     }
 
-    return 0;
+    return dm_ret_null;
 }
 
+/**
+ * Original name: dm_game_demo_1p
+ */
 DmMainCnt dm_game_demo_1p(void) {
-    struct_watchGame *watchGameP = watchGame;
-    DmMainCnt temp_s4 = dm_game_main_cnt_1P(game_state_data, game_map_data[0], 0);
+    struct_watchGame *st = watchGame;
+    DmMainCnt ret = dm_game_main_cnt_1P(game_state_data, game_map_data[0], 0);
     s32 i;
 
     dm_warning_h_line_se();
 
     for (i = 0; i < ANIMES_COUNT; i++) {
-        SAnimeState *animeState = &watchGameP->virus_anime_state[i];
-        SAnimeSmog *animeSmog = &watchGameP->virus_smog_state[i];
+        SAnimeState *animeState = &st->virus_anime_state[i];
+        SAnimeSmog *animeSmog = &st->virus_smog_state[i];
 
         animeState_update(animeState);
         animeSmog_update(animeSmog);
@@ -5203,24 +5229,24 @@ DmMainCnt dm_game_demo_1p(void) {
 
     dm_calc_big_virus_pos(game_state_data);
 
-    if ((temp_s4 == dm_ret_virus_wait) && (watchGameP->count_down_ctrl < 0)) {
+    if ((ret == dm_ret_virus_wait) && (st->count_down_ctrl < 0)) {
         game_state_data[0].mode_now = dm_mode_throw;
         animeState_set(&game_state_data[0].anime, ANIMENO_1);
-        if ((game_state_data[0].player_type == PLAYERTYPE_1) || (aiDebugP1 >= 0)) {
+        if (UNK_PLAYER0_CHECK(&game_state_data[0], 0)) {
             aifMakeFlagSet(game_state_data);
         }
 
-        watchGameP->started_game_flg = true;
+        st->started_game_flg = true;
     }
 
-    if (watchGameP->demo_timer != 0) {
-        watchGameP->demo_timer--;
+    if (st->demo_timer != 0) {
+        st->demo_timer--;
 
         if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
-            watchGameP->demo_timer = 0;
+            st->demo_timer = 0;
         }
 
-        if (watchGameP->demo_timer == 0) {
+        if (st->demo_timer == 0) {
             return dm_ret_next_stage;
         }
     }
@@ -5228,37 +5254,39 @@ DmMainCnt dm_game_demo_1p(void) {
     return dm_ret_null;
 }
 
+/**
+ * Original name: dm_game_demo_2p
+ */
 DmMainCnt dm_game_demo_2p(void) {
-    struct_watchGame *watchGameP = watchGame;
-    DmMainCnt sp10[2];
+    struct_watchGame *st = watchGame;
+    DmMainCnt ret[2];
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-        sp10[i] = dm_game_main_cnt(&game_state_data[i], game_map_data[i], i);
+    for (i = 0; i < ARRAY_COUNT(ret); i++) {
+        ret[i] = dm_game_main_cnt(&game_state_data[i], game_map_data[i], i);
     }
 
     dm_warning_h_line_se();
 
-    if ((sp10[0] == dm_ret_virus_wait) && (sp10[1] == sp10[0]) && (watchGameP->count_down_ctrl < 0)) {
-        for (i = 0; i < ARRAY_COUNT(sp10); i++) {
+    if ((ret[0] == dm_ret_virus_wait) && (ret[1] == ret[0]) && (st->count_down_ctrl < 0)) {
+        for (i = 0; i < ARRAY_COUNT(ret); i++) {
             game_state_data[i].mode_now = dm_mode_down;
 
-            if (((&game_state_data[i])->player_type == PLAYERTYPE_1) ||
-                (((&game_state_data[i])->player_type != PLAYERTYPE_1) && (i == 0) && (aiDebugP1 >= 0))) {
+            if (UNK_PLAYER0_CHECK(&game_state_data[i], i)) {
                 aifMakeFlagSet(&game_state_data[i]);
             }
         }
 
-        watchGameP->started_game_flg = true;
+        st->started_game_flg = true;
     }
 
-    if (watchGameP->demo_timer != 0) {
-        watchGameP->demo_timer--;
+    if (st->demo_timer != 0) {
+        st->demo_timer--;
         if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
-            watchGameP->demo_timer = 0;
+            st->demo_timer = 0;
         }
 
-        if (watchGameP->demo_timer == 0) {
+        if (st->demo_timer == 0) {
             return dm_ret_next_stage;
         }
     }
@@ -5266,39 +5294,41 @@ DmMainCnt dm_game_demo_2p(void) {
     return dm_ret_null;
 }
 
+/**
+ * Original name: dm_game_demo_4p
+ */
 DmMainCnt dm_game_demo_4p(void) {
-    struct_watchGame *watchGameP = watchGame;
-    DmMainCnt sp10[4];
+    struct_watchGame *st = watchGame;
+    DmMainCnt ret[4];
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNT(sp10); i++) {
-        sp10[i] = dm_game_main_cnt(&game_state_data[i], game_map_data[i], i);
+    for (i = 0; i < ARRAY_COUNT(ret); i++) {
+        ret[i] = dm_game_main_cnt(&game_state_data[i], game_map_data[i], i);
     }
 
     dm_warning_h_line_se();
 
-    if ((sp10[0] == dm_ret_virus_wait) && (sp10[1] == sp10[0]) && (sp10[2] == sp10[1]) && (sp10[3] == sp10[2]) &&
-        (watchGameP->count_down_ctrl < 0)) {
-        for (i = 0; i < ARRAY_COUNT(sp10); i++) {
+    if ((ret[0] == dm_ret_virus_wait) && (ret[1] == ret[0]) && (ret[2] == ret[1]) && (ret[3] == ret[2]) &&
+        (st->count_down_ctrl < 0)) {
+        for (i = 0; i < ARRAY_COUNT(ret); i++) {
             game_state_data[i].mode_now = dm_mode_down;
 
-            if (((&game_state_data[i])->player_type == PLAYERTYPE_1) ||
-                ((((&game_state_data[i])->player_type != PLAYERTYPE_1) && (i == 0)) && (aiDebugP1 >= 0))) {
+            if (UNK_PLAYER0_CHECK(game_state_data + i, i)) {
                 aifMakeFlagSet(&game_state_data[i]);
             }
         }
 
-        watchGameP->started_game_flg = true;
+        st->started_game_flg = true;
     }
 
-    if (watchGameP->demo_timer != 0) {
-        watchGameP->demo_timer--;
+    if (st->demo_timer != 0) {
+        st->demo_timer--;
 
         if (gControllerPressedButtons[main_joy[0]] & ANY_BUTTON) {
-            watchGameP->demo_timer = 0;
+            st->demo_timer = 0;
         }
 
-        if (watchGameP->demo_timer == 0) {
+        if (st->demo_timer == 0) {
             return dm_ret_next_stage;
         }
     }
@@ -5308,126 +5338,142 @@ DmMainCnt dm_game_demo_4p(void) {
 
 const s32 cap_tex_4162[2] = { 8, 2 };
 
-TiTexData *dm_game_get_capsel_tex(s32 arg0) {
-    return &watchGame->texItem[cap_tex_4162[arg0]];
+/**
+ * Original name: dm_game_get_capsel_tex
+ */
+TiTexData *dm_game_get_capsel_tex(s32 sizeIndex) {
+    return &watchGame->texItem[cap_tex_4162[sizeIndex]];
 }
 
-const u32 cap_pal_4164[][6] = {
+const s32 cap_pal_4164[][6] = {
     { 8, 10, 6, 9, 11, 7 },
     { 2, 4, 0, 3, 5, 1 },
 };
 
-TiTexData *dm_game_get_capsel_pal(s32 arg0, s32 arg1) {
-    return &watchGame->texItem[cap_pal_4164[arg0][arg1]];
+/**
+ * Original name: dm_game_get_capsel_pal
+ */
+TiTexData *dm_game_get_capsel_pal(s32 sizeIndex, s32 colorIndex) {
+    return &watchGame->texItem[cap_pal_4164[sizeIndex][colorIndex]];
 }
 
-void scoreNums_draw(ScoreNums *arg0, Gfx **gfxP) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: scoreNums_draw
+ */
+void scoreNums_draw(ScoreNums *st, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    TiTexData *temp_s4 = &watchGameP->texAL[0x11];
-    TiTexData *temp_s2 = &watchGameP->texAL[0x16];
-    s32 var_s3 = MIN(temp_s4->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
-    s32 temp_s0 = temp_s4->info[TI_INFO_IDX_HEIGHT] / 12;
+    TiTexData *texC = &watchGame->texAL[0x11];
+    TiTexData *texA = &watchGame->texAL[0x16];
+    s32 width = MIN(texC->info[TI_INFO_IDX_WIDTH], texA->info[TI_INFO_IDX_WIDTH]);
+    s32 height = texC->info[TI_INFO_IDX_HEIGHT] / 12;
     s32 i;
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
 
     gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
-    for (i = 0; i < 8U; i++) {
-        ScoreNumsNumbers *temp_t3 = &arg0->numbers[WrapI(0, 8, arg0->index + i)];
-        f32 temp_ft0 = temp_t3->time;
-        f32 var_fv0_2;
+    for (i = 0; i < ARRAY_COUNTU(st->numbers); i++) {
+        ScoreNumsNumbers *num = &st->numbers[WrapI(0, 8, st->index + i)];
+        f32 time = num->time;
+        f32 bound;
         s32 alpha;
 
-        if (temp_ft0 == DOUBLE_LITERAL(1.0)) {
+        if (time == DOUBLE_LITERAL(1.0)) {
             continue;
         }
 
-        if (temp_ft0 < DOUBLE_LITERAL(0.2)) {
-            alpha = temp_ft0 * 1275.0f;
-        } else if (temp_ft0 < DOUBLE_LITERAL(0.8)) {
+        if (time < DOUBLE_LITERAL(0.2)) {
+            alpha = time * 1275.0f;
+        } else if (time < DOUBLE_LITERAL(0.8)) {
             alpha = 255;
         } else {
-            alpha = (1.0f - temp_ft0) * 1275.0f;
+            alpha = (1.0f - time) * 1275.0f;
         }
 
-        if (temp_ft0 > DOUBLE_LITERAL(0.5)) {
-            var_fv0_2 = 1.0f;
+        if (time > DOUBLE_LITERAL(0.5)) {
+            bound = 1.0f;
         } else {
-            var_fv0_2 = temp_ft0 * DOUBLE_LITERAL(4) - DOUBLE_LITERAL(1);
+            bound = time * DOUBLE_LITERAL(4) - DOUBLE_LITERAL(1);
         }
 
-        var_fv0_2 = (DOUBLE_LITERAL(1) - var_fv0_2 * var_fv0_2) * DOUBLE_LITERAL(8);
+        bound = (DOUBLE_LITERAL(1) - bound * bound) * DOUBLE_LITERAL(8);
 
-        gDPSetPrimColor(gfx++, 0, 0, _scoreNumsColor[temp_t3->color].r, _scoreNumsColor[temp_t3->color].g,
-                        _scoreNumsColor[temp_t3->color].b, alpha);
+        gDPSetPrimColor(gfx++, 0, 0, _scoreNumsColor[num->color].r, _scoreNumsColor[num->color].g,
+                        _scoreNumsColor[num->color].b, alpha);
 
-        StretchAlphaTexBlock(
-            &gfx, var_s3, temp_s0,
-            (u16 *)temp_s4->texs[TI_TEX_TEX] + temp_s4->info[TI_INFO_IDX_WIDTH] * temp_s0 * temp_t3->number,
-            temp_s4->info[TI_INFO_IDX_WIDTH],
-            (u8 *)temp_s2->texs[TI_TEX_TEX] + (temp_s2->info[TI_INFO_IDX_WIDTH] * temp_s0 * temp_t3->number / 2),
-            temp_s2->info[TI_INFO_IDX_WIDTH], temp_t3->pos[0], temp_t3->pos[1] - var_fv0_2, var_s3, temp_s0);
+        StretchAlphaTexBlock(&gfx, width, height,
+                             (u16 *)texC->texs[TI_TEX_TEX] + texC->info[TI_INFO_IDX_WIDTH] * height * num->number,
+                             texC->info[TI_INFO_IDX_WIDTH],
+                             (u8 *)texA->texs[TI_TEX_TEX] + (texA->info[TI_INFO_IDX_WIDTH] * height * num->number / 2),
+                             texA->info[TI_INFO_IDX_WIDTH], num->pos[0], num->pos[1] - bound, width, height);
     }
 
     *gfxP = gfx;
 }
 
-void func_80069160(StarForce *arg0, s32 arg1[], s32 arg2[]) {
+/**
+ * Original name: starForce_init
+ */
+void starForce_init(StarForce *star, s32 xx[], s32 yy[]) {
     s32 i;
 
-    arg0->xtbl = arg1;
-    arg0->ytbl = arg2;
+    star->xtbl = xx;
+    star->ytbl = yy;
 
-    for (i = 0; i < ARRAY_COUNTU(arg0->frame); i++) {
-        arg0->frame[i] = 0;
+    for (i = 0; i < ARRAY_COUNTU(star->frame); i++) {
+        star->frame[i] = 0;
     }
 }
 
-void func_80069188(StarForce *arg0, s32 arg1) {
+/**
+ * Original name: starForce_calc
+ */
+void starForce_calc(StarForce *star, s32 count) {
     s32 i;
 
-    for (i = 0; i < arg1; i++) {
-        s32 temp_a2 = arg0->frame[i];
+    for (i = 0; i < count; i++) {
+        s32 temp_a2 = star->frame[i];
 
         if (temp_a2 < 0x30) {
-            arg0->frame[i] = temp_a2 + 1;
+            star->frame[i] = temp_a2 + 1;
         } else {
-            arg0->frame[i] = WrapI(0x30, 0x6C, temp_a2 + 1);
+            star->frame[i] = WrapI(0x30, 0x6C, temp_a2 + 1);
         }
     }
 }
 
-void starForce_draw(StarForce *arg0, Gfx **gfxP, s32 arg2) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: starForce_draw
+ */
+void starForce_draw(StarForce *star, Gfx **gfxP, s32 count) {
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexData *temp_s0;
-    TiTexData *temp_s5;
+    TiTexData *texC;
+    TiTexData *texA;
     s32 i;
-    s32 var_a3;
+    s32 j;
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
-    temp_s0 = &watchGameP->texAL[0x10];
-    temp_s5 = &watchGameP->texAL[0x15];
+    texC = &st->texAL[0x10];
+    texA = &st->texAL[0x15];
 
-    for (i = 0; i < arg2; i++) {
-        if (arg0->frame[i] < 0x30) {
+    for (i = 0; i < count; i++) {
+        if (star->frame[i] < 0x30) {
             gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 255);
 
-            tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, false, 0x10, 0, arg0->xtbl[i], arg0->ytbl[i],
-                                  temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT] >> 4);
+            tiStretchAlphaTexItem(&gfx, texC, texA, false, 0x10, 0, star->xtbl[i], star->ytbl[i],
+                                  texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT] >> 4);
         }
 
-        var_a3 = MIN(255, arg0->frame[i] * 8);
+        j = MIN(255, star->frame[i] * 8);
 
-        gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, var_a3);
+        gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, j);
 
-        var_a3 = MAX(0, arg0->frame[i] - 0x30) >> 2;
-        tiStretchAlphaTexItem(&gfx, temp_s0, temp_s5, false, 0x10, var_a3 + 1, arg0->xtbl[i], arg0->ytbl[i],
-                              temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT] >> 4);
+        j = MAX(0, star->frame[i] - 0x30) >> 2;
+        tiStretchAlphaTexItem(&gfx, texC, texA, false, 0x10, j + 1, star->xtbl[i], star->ytbl[i],
+                              texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT] >> 4);
     }
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -5436,146 +5482,169 @@ void starForce_draw(StarForce *arg0, Gfx **gfxP, s32 arg2) {
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 200, 255);
     gDPSetTextureLUT(gfx++, G_TT_NONE);
 
-    for (i = 0; i < arg2; i++) {
-        var_a3 = arg0->frame[i] >> 2;
-        if (var_a3 >= 0xC) {
+    for (i = 0; i < count; i++) {
+        j = star->frame[i] >> 2;
+        if (j >= 0xC) {
             continue;
         }
-        temp_s0 = &watchGameP->texAL[var_a3];
-        StretchTexTile4i(&gfx, temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT],
-                         temp_s0->texs[TI_TEX_TEX], 0, 0, temp_s0->info[TI_INFO_IDX_WIDTH],
-                         temp_s0->info[TI_INFO_IDX_HEIGHT], arg0->xtbl[i], arg0->ytbl[i],
-                         temp_s0->info[TI_INFO_IDX_WIDTH], temp_s0->info[TI_INFO_IDX_HEIGHT]);
+        texC = &st->texAL[j];
+        StretchTexTile4i(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT], texC->texs[TI_TEX_TEX], 0,
+                         0, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT], star->xtbl[i], star->ytbl[i],
+                         texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT]);
     }
 
     *gfxP = gfx;
 }
 
-void func_800695A8(Gfx **gfxP, s32 arg1, s32 arg2, bool cached) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: draw_star_base
+ */
+void draw_star_base(Gfx **gfxP, s32 x, s32 y, bool cached) {
     Gfx *gfx = *gfxP;
-    TiTexData *temp_a1 = &watchGameP->texAL[0x10];
-    TiTexData *temp = &watchGameP->texAL[0x15];
+    TiTexData *texC = &watchGame->texAL[0x10];
+    TiTexData *texA = &watchGame->texAL[0x15];
 
     if (!cached) {
         gSPDisplayList(gfx++, alpha_texture_init_dl);
     }
-    tiStretchAlphaTexItem(&gfx, temp_a1, temp, cached, 0x10, 0, arg1, arg2, temp_a1->info[TI_INFO_IDX_WIDTH],
-                          temp_a1->info[TI_INFO_IDX_HEIGHT] >> 4);
+    tiStretchAlphaTexItem(&gfx, texC, texA, cached, 0x10, 0, x, y, texC->info[TI_INFO_IDX_WIDTH],
+                          texC->info[TI_INFO_IDX_HEIGHT] >> 4);
 
     *gfxP = gfx;
 }
 
-const u8 _tbl_4274[4][4] = { { 0, 5, 8, 0xA }, { 0, 1, 6, 9 }, { 0, 1, 2, 4 }, { 0, 1, 2, 3 } };
+const u8 _tbl_4274[4][4] = {
+    { 0, 5, 8, 0xA },
+    { 0, 1, 6, 9 },
+    { 0, 1, 2, 4 },
+    { 0, 1, 2, 3 },
+};
 
-void draw_4p_attack_guide_panel(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: draw_4p_attack_guide_panel
+ */
+void draw_4p_attack_guide_panel(Gfx **gfxP, s32 playerCount, s32 playerNo, s32 x, s32 y) {
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexData *temp_t1;
-    TiTexData *temp;
+    TiTexData *texC;
+    TiTexData *texA;
     s32 var_a1;
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
-    temp_t1 = &watchGameP->texP4[9];
-    tiStretchTexItem(&gfx, temp_t1, 0, 4, arg2, arg3, arg4, temp_t1->info[TI_INFO_IDX_WIDTH],
-                     temp_t1->info[TI_INFO_IDX_HEIGHT] / 4);
+    texC = &st->texP4[9];
+    tiStretchTexItem(&gfx, texC, 0, 4, playerNo, x, y, texC->info[TI_INFO_IDX_WIDTH],
+                     texC->info[TI_INFO_IDX_HEIGHT] / 4);
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
 
     for (var_a1 = 0; var_a1 < 3; var_a1++) {
-        f32 temp_fs0 = arg3 + 0x24;
-        f32 temp_fv1 = arg4 + 5 + var_a1 * 0xD;
-        TeamNumber temp_a2 = game_state_data[arg2].team_no;
-        TeamNumber temp2 = game_state_data[(arg2 + 1 + var_a1) % 4].team_no;
+        f32 xx = x + 0x24;
+        f32 yy = y + 5 + var_a1 * 0xD;
+        TeamNumber temp_a2 = game_state_data[playerNo].team_no;
+        TeamNumber temp2 = game_state_data[(playerNo + 1 + var_a1) % 4].team_no;
 
         if (temp_a2 == temp2) {
-            temp_t1 = &watchGameP->texP4[temp_a2 + 0x10];
-            temp = &watchGameP->texP4[0x18];
-            StretchAlphaTexBlock(&gfx, temp_t1->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT],
-                                 temp_t1->texs[TI_TEX_TEX], temp_t1->info[TI_INFO_IDX_WIDTH], temp->texs[TI_TEX_TEX],
-                                 temp->info[TI_INFO_IDX_WIDTH], temp_fs0, temp_fv1 + 1.0f,
-                                 temp_t1->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT]);
+            texC = &st->texP4[temp_a2 + 0x10];
+            texA = &st->texP4[0x18];
+            StretchAlphaTexBlock(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                                 texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX],
+                                 texA->info[TI_INFO_IDX_WIDTH], xx, yy + 1.0f, texC->info[TI_INFO_IDX_WIDTH],
+                                 texC->info[TI_INFO_IDX_HEIGHT]);
         } else {
-            s32 temp3;
+            s32 a;
 
-            temp_t1 = &watchGameP->texP4[0xA];
-            temp = &watchGameP->texP4[0x12];
+            texC = &st->texP4[0xA];
+            texA = &st->texP4[0x12];
 
-            temp3 = _tbl_4274[arg1 - 1][(arg2 + var_a1 + 1) % ARRAY_COUNT(_tbl_4274[0])];
-            tiStretchAlphaTexItem(&gfx, temp_t1, temp, false, 0xB, temp3, temp_fs0, temp_fv1,
-                                  temp_t1->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT] / 11);
+            a = _tbl_4274[playerCount - 1][(playerNo + var_a1 + 1) % ARRAY_COUNT(_tbl_4274[0])];
+            tiStretchAlphaTexItem(&gfx, texC, texA, false, 0xB, a, xx, yy, texC->info[TI_INFO_IDX_WIDTH],
+                                  texC->info[TI_INFO_IDX_HEIGHT] / 11);
         }
     }
 
     *gfxP = gfx;
 }
 
-void dm_map_draw(GameMapCell *mapCells, u8 arg1, s16 arg2, s16 arg3, s8 arg4) {
+/**
+ * Original name: dm_map_draw
+ */
+void dm_map_draw(GameMapCell *mapCells, u8 col_no, s16 x_p, s16 y_p, s8 size) {
     s32 i;
 
     for (i = 0; i < GAME_MAP_ROWS * GAME_MAP_COLUMNS; i++) {
         GameMapCell *cell = &mapCells[i];
 
-        if ((cell->capsel_m_flg[0] != 0) && (cell->capsel_m_p == arg1)) {
+        if ((cell->capsel_m_flg[0] != 0) && (cell->capsel_m_p == col_no)) {
 
-            gSPTextureRectangle(gGfxHead++, (cell->pos_m_x * arg4 + arg2) << 2, ((cell->pos_m_y * arg4) + arg3) << 2,
-                                (cell->pos_m_x * arg4 + arg2 + arg4) << 2, (cell->pos_m_y * arg4 + arg3 + arg4) << 2,
-                                G_TX_RENDERTILE, 0, (cell->capsel_m_g * arg4) << 5, 1 << 10, 1 << 10);
+            gSPTextureRectangle(gGfxHead++, (cell->pos_m_x * size + x_p) << 2, ((cell->pos_m_y * size) + y_p) << 2,
+                                (cell->pos_m_x * size + x_p + size) << 2, (cell->pos_m_y * size + y_p + size) << 2,
+                                G_TX_RENDERTILE, 0, (cell->capsel_m_g * size) << 5, 1 << 10, 1 << 10);
         }
     }
 }
 
-void func_80069ACC(GameMapCell *mapCells, struct_game_state_data_now_cap *arg1, s32 arg2[2]) {
-    s32 var_s3 = 0x10;
+/**
+ * Original name: dm_find_fall_point
+ */
+void dm_find_fall_point(GameMapCell *map, struct_game_state_data_now_cap *cap, s32 fallPosY[2]) {
+    s32 minY = 0x10;
     s32 i;
     int row;
 
     for (i = 0; i < 2; i++) {
-        row = MAX(1, arg1->pos_y[i]);
+        row = MAX(1, cap->pos_y[i]);
 
         for (; row < GAME_MAP_ROWS; row++) {
-            if (get_map_info(mapCells, arg1->pos_x[i], row) != 0) {
-                var_s3 = MIN(var_s3, row - 1);
+            if (get_map_info(map, cap->pos_x[i], row) != 0) {
+                minY = MIN(minY, row - 1);
                 break;
             }
         }
     }
 
-    arg2[0] = var_s3 - (arg1->pos_y[0] < arg1->pos_y[1] ? 1 : 0);
-    arg2[1] = var_s3 - (arg1->pos_y[0] > arg1->pos_y[1] ? 1 : 0);
+    fallPosY[0] = minY - (cap->pos_y[0] < cap->pos_y[1] ? 1 : 0);
+    fallPosY[1] = minY - (cap->pos_y[0] > cap->pos_y[1] ? 1 : 0);
 }
 
 const char _tbl_4345[] = { 9, 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
-void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 arg5 UNUSED) {
-    struct_watchGame *watchGameP = watchGame;
-    TiTexData *temp_s5 = &watchGameP->texAL[0xD];
-    TiTexData *temp_s3 = &watchGameP->texAL[0x12];
+/**
+ * Original name: draw_virus_number
+ */
+void draw_virus_number(Gfx **gfxP, u32 number, s32 x, s32 y, f32 sx, f32 arg5 UNUSED) {
+    TiTexData *texC = &watchGame->texAL[0xD];
+    TiTexData *texA = &watchGame->texAL[0x12];
     s32 var_t1 = 0;
-    s32 var_s6 = MIN(temp_s5->info[TI_INFO_IDX_WIDTH], temp_s3->info[TI_INFO_IDX_WIDTH]);
-    s32 temp_s1 = temp_s5->info[TI_INFO_IDX_HEIGHT] / 10;
-    s32 sp38[16];
+    s32 width = MIN(texC->info[TI_INFO_IDX_WIDTH], texA->info[TI_INFO_IDX_WIDTH]);
+    s32 height = texC->info[TI_INFO_IDX_HEIGHT] / 10;
+    s32 tmp[16];
     s32 temp_fs0;
     s32 var_s0;
     s32 var_s4;
 
+#if 0
+    int i; // r26
+    int xx; // r25
+    int yy; // r1+0x8
+    int column; // r3
+#endif
+
     do {
-        sp38[var_t1] = arg1 % 10;
-        arg1 /= 10;
+        tmp[var_t1] = number % 10;
+        number /= 10;
         var_t1 += 1;
-    } while (arg1 != 0);
+    } while (number != 0);
 
     var_s4 = var_t1 * -7;
-    temp_fs0 = temp_s1 / -2;
+    temp_fs0 = height / -2;
     for (var_s0 = var_t1 - 1; var_s0 >= 0; var_s0--) {
         StretchAlphaTexBlock(
-            gfxP, var_s6, temp_s1,
-            temp_s5->texs[TI_TEX_TEX] + (temp_s5->info[TI_INFO_IDX_WIDTH] * temp_s1 * _tbl_4345[sp38[var_s0]] * 2),
-            temp_s5->info[TI_INFO_IDX_WIDTH],
-            temp_s3->texs[TI_TEX_TEX] + (temp_s3->info[TI_INFO_IDX_WIDTH] * temp_s1 * _tbl_4345[sp38[var_s0]]) / 2,
-            temp_s3->info[TI_INFO_IDX_WIDTH], arg2 + (var_s4 * arg4), arg3 + temp_fs0 * arg4, var_s6 * arg4,
-            temp_s1 * arg4);
+            gfxP, width, height,
+            texC->texs[TI_TEX_TEX] + (texC->info[TI_INFO_IDX_WIDTH] * height * _tbl_4345[tmp[var_s0]] * 2),
+            texC->info[TI_INFO_IDX_WIDTH],
+            texA->texs[TI_TEX_TEX] + (texA->info[TI_INFO_IDX_WIDTH] * height * _tbl_4345[tmp[var_s0]]) / 2,
+            texA->info[TI_INFO_IDX_WIDTH], x + (var_s4 * sx), y + temp_fs0 * sx, width * sx, height * sx);
         var_s4 += 0xE;
     }
 }
@@ -5583,45 +5652,45 @@ void draw_virus_number(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3, f32 arg4, f32 a
 const s32 _tex_4374[] = { 3, 4, 5 };
 const s32 _row_4375[] = { 0xD, 0xC, 0xC };
 
-void draw_count_number(Gfx **gfxP, s32 arg1, s32 arg2, u32 arg3, s32 arg4, s32 arg5) {
-    struct_watchGame *watchGameP = watchGame;
-    TiTexData *temp_a1 = watchGameP->texP1;
-    TiTexData *temp_s5 = &temp_a1[_tex_4374[arg1]];
-    TiTexData *temp_s2 = &temp_a1[7];
-    s32 var_s7 = MIN(temp_s5->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_WIDTH]);
-    s32 temp_s6 = temp_s5->info[TI_INFO_IDX_HEIGHT] / _row_4375[arg1];
-    s32 sp38[16];
+/**
+ * Original name: draw_count_number
+ */
+void draw_count_number(Gfx **gfxP, s32 color, s32 column, u32 number, s32 x, s32 y) {
+    TiTexData *texC = &watchGame->texP1[_tex_4374[color]];
+    TiTexData *texA = &watchGame->texP1[7];
+    s32 width = MIN(texC->info[TI_INFO_IDX_WIDTH], texA->info[TI_INFO_IDX_WIDTH]);
+    s32 height = texC->info[TI_INFO_IDX_HEIGHT] / _row_4375[color];
+    s32 tmp[16];
     s32 i;
 
-    for (i = 0; i < arg2; i++) {
-        sp38[i] = arg3 % 10;
-        arg3 /= 10;
+    for (i = 0; i < column; i++) {
+        tmp[i] = number % 10;
+        number /= 10;
     }
 
-    switch (arg2) {
+    switch (column) {
         case -1:
-            sp38[0] = 0xA;
-            arg2 = 1;
+            tmp[0] = 0xA;
+            column = 1;
             break;
 
         case -2:
-            sp38[0] = 0xB;
-            arg2 = 1;
+            tmp[0] = 0xB;
+            column = 1;
             break;
 
         case -3:
-            sp38[0] = 0xC;
-            arg2 = 1;
+            tmp[0] = 0xC;
+            column = 1;
             break;
     }
 
-    for (i = arg2 - 1; i >= 0; i--) {
-        StretchAlphaTexBlock(gfxP, var_s7, temp_s6,
-                             temp_s5->texs[TI_TEX_TEX] + temp_s5->info[TI_INFO_IDX_WIDTH] * temp_s6 * sp38[i] * 2,
-                             temp_s5->info[TI_INFO_IDX_WIDTH],
-                             temp_s2->texs[TI_TEX_TEX] + temp_s2->info[TI_INFO_IDX_WIDTH] * temp_s6 * sp38[i] / 2,
-                             temp_s2->info[TI_INFO_IDX_WIDTH], arg4, arg5, var_s7, temp_s6);
-        arg4 += 9;
+    for (i = column - 1; i >= 0; i--) {
+        StretchAlphaTexBlock(
+            gfxP, width, height, texC->texs[TI_TEX_TEX] + texC->info[TI_INFO_IDX_WIDTH] * height * tmp[i] * 2,
+            texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX] + texA->info[TI_INFO_IDX_WIDTH] * height * tmp[i] / 2,
+            texA->info[TI_INFO_IDX_WIDTH], x, y, width, height);
+        x += 9;
     }
 }
 
@@ -5630,15 +5699,18 @@ const s8 _col_4416[] = { 2, -3, 2 };
 static_assert(ARRAY_COUNT(_pos_4415) == 3, "");
 static_assert(ARRAY_COUNT(_pos_4415) == ARRAY_COUNT(_col_4416), "");
 
-void func_8006A098(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3) {
-    s32 sp20[3];
+/**
+ * Original name: draw_time
+ */
+void draw_time(Gfx **gfxP, u32 time, s32 x, s32 y) {
+    s32 t[3];
     s32 i;
 
-    sp20[1] = 0;
-    sp20[2] = (arg1 / 60) % 60;
-    sp20[0] = ((arg1 / 60) / 60) % 100;
+    t[1] = 0;
+    t[2] = (time / 60) % 60;
+    t[0] = ((time / 60) / 60) % 100;
     for (i = 0; i < 3; i++) {
-        draw_count_number(gfxP, 0, _col_4416[i], sp20[i], arg2 + _pos_4415[i], arg3);
+        draw_count_number(gfxP, 0, _col_4416[i], t[i], x + _pos_4415[i], y);
     }
 }
 
@@ -5647,29 +5719,34 @@ const s8 _col_4427[] = { 1, -3, 2, -3, 1 };
 static_assert(ARRAY_COUNT(_pos_4426) == 5, "");
 static_assert(ARRAY_COUNT(_pos_4426) == ARRAY_COUNT(_col_4427), "");
 
-void draw_time2(Gfx **gfxP, u32 arg1, s32 arg2, s32 arg3) {
+/**
+ * Original name: draw_time2
+ */
+void draw_time2(Gfx **gfxP, u32 time, s32 x, s32 y) {
     s32 sp20[5];
     s32 i;
 
     sp20[3] = 0;
     sp20[1] = 0;
-    sp20[4] = (arg1 / 6) % 10;
-    sp20[2] = ((arg1 / 6) / 10) % 60;
-    sp20[0] = (((arg1 / 6) / 10) / 60) % 60;
+    sp20[4] = (time / 6) % 10;
+    sp20[2] = ((time / 6) / 10) % 60;
+    sp20[0] = (((time / 6) / 10) / 60) % 60;
     for (i = 0; i < 5; i++) {
-        draw_count_number(gfxP, 0, _col_4427[i], sp20[i], arg2 + _pos_4426[i], arg3);
+        draw_count_number(gfxP, 0, _col_4427[i], sp20[i], x + _pos_4426[i], y);
     }
 }
 
-void push_any_key_draw(s32 arg0, s32 arg1) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: push_any_key_draw
+ */
+void push_any_key_draw(s32 x_pos, s32 y_pos) {
+    struct_watchGame *st = watchGame;
+    TiTexData *texC;
+    TiTexData *texA;
     s32 alpha;
-    s32 var_a1_2;
-    TiTexData *temp_a3;
-    TiTexData *temp1;
-    TiTexData *temp2;
+    s32 width;
 
-    alpha = sins((watchGameP->blink_count << 10) & 0xFC00) * (255.0f / 0x8000) + 127;
+    alpha = sins((st->blink_count << 10) & 0xFC00) * (255.0f / 0x8000) + 127;
     alpha = CLAMP(alpha, 0, 255);
 
     gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
@@ -5677,27 +5754,28 @@ void push_any_key_draw(s32 arg0, s32 arg1) {
                       COMBINED);
     gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, alpha);
 
-    temp_a3 = watchGameP->texAL;
-    temp1 = &temp_a3[0x17];
-    temp2 = &temp_a3[0x18];
+    texC = &st->texAL[0x17];
+    texA = &st->texAL[0x18];
 
-    var_a1_2 = MIN(temp1->info[TI_INFO_IDX_WIDTH], temp2->info[TI_INFO_IDX_WIDTH]);
+    width = MIN(texC->info[TI_INFO_IDX_WIDTH], texA->info[TI_INFO_IDX_WIDTH]);
 
-    StretchAlphaTexTile(&gGfxHead, var_a1_2, temp1->info[TI_INFO_IDX_HEIGHT], temp1->texs[TI_TEX_TEX],
-                        temp1->info[TI_INFO_IDX_WIDTH], temp2->texs[TI_TEX_TEX], temp2->info[TI_INFO_IDX_WIDTH], 0, 0,
-                        var_a1_2, temp1->info[TI_INFO_IDX_HEIGHT], arg0, arg1, var_a1_2,
-                        temp1->info[TI_INFO_IDX_HEIGHT]);
+    StretchAlphaTexTile(&gGfxHead, width, texC->info[TI_INFO_IDX_HEIGHT], texC->texs[TI_TEX_TEX],
+                        texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX], texA->info[TI_INFO_IDX_WIDTH], 0, 0,
+                        width, texC->info[TI_INFO_IDX_HEIGHT], x_pos, y_pos, width, texC->info[TI_INFO_IDX_HEIGHT]);
 }
 
 const s32 _tex_4459[3][2] = { { 0xE, 0x13 }, { 0x1B, 0x1C }, { 0x19, 0x1A } };
 
-void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: draw_demo_logo
+ */
+void draw_demo_logo(Gfx **gfxP, s32 x, s32 y) {
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
     s32 alpha[3];
     s32 i;
 
-    alpha[0] = sins((watchGameP->blink_count << 10) & 0xFC00) * (255.0f / 0x8000) + 127;
+    alpha[0] = sins((st->blink_count << 10) & 0xFC00) * (255.0f / 0x8000) + 127;
     alpha[0] = CLAMP(alpha[0], 0, 255);
     alpha[1] = 255 - alpha[0];
     alpha[2] = 255;
@@ -5706,26 +5784,26 @@ void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
     for (i = 0; i < ARRAY_COUNTU(alpha); i++) {
-        TiTexData *temp_t0;
-        TiTexData *temp_t2;
-        s32 var_a3;
-        s32 var_t1;
+        TiTexData *texC;
+        TiTexData *texA;
+        s32 width;
+        s32 height;
 
         if (i == 2) {
-            arg1 = 0xE;
-            arg2 = 0x12;
+            x = 0xE;
+            y = 0x12;
         }
 
-        temp_t0 = &watchGameP->texAL[_tex_4459[i][0]];
-        temp_t2 = &watchGameP->texAL[_tex_4459[i][1]];
+        texC = &st->texAL[_tex_4459[i][0]];
+        texA = &st->texAL[_tex_4459[i][1]];
 
-        var_a3 = MIN(temp_t0->info[TI_INFO_IDX_WIDTH], temp_t2->info[TI_INFO_IDX_WIDTH]);
-        var_t1 = MIN(temp_t0->info[TI_INFO_IDX_HEIGHT], temp_t2->info[TI_INFO_IDX_HEIGHT]);
+        width = MIN(texC->info[TI_INFO_IDX_WIDTH], texA->info[TI_INFO_IDX_WIDTH]);
+        height = MIN(texC->info[TI_INFO_IDX_HEIGHT], texA->info[TI_INFO_IDX_HEIGHT]);
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha[i]);
-        StretchAlphaTexTile(&gfx, var_a3, var_t1, temp_t0->texs[TI_TEX_TEX], temp_t0->info[TI_INFO_IDX_WIDTH],
-                            temp_t2->texs[TI_TEX_TEX], temp_t2->info[TI_INFO_IDX_WIDTH], 0, 0, var_a3, var_t1, arg1,
-                            arg2, var_a3, var_t1);
+        StretchAlphaTexTile(&gfx, width, height, texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH],
+                            texA->texs[TI_TEX_TEX], texA->info[TI_INFO_IDX_WIDTH], 0, 0, width, height, x, y, width,
+                            height);
     }
 
     *gfxP = gfx;
@@ -5733,13 +5811,16 @@ void draw_demo_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
 
 const s32 RO_800B2134[2][2] = { { 0x17, 0x18 }, { 0xF, 0x14 } };
 
-void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: draw_replay_logo
+ */
+void draw_replay_logo(Gfx **gfxP, s32 x, s32 y) {
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
     s32 alpha[2];
     s32 i;
 
-    alpha[0] = sins((watchGameP->blink_count << 10) & 0xFC00) * (255.0f / 0x8000) + 127;
+    alpha[0] = sins((st->blink_count << 10) & 0xFC00) * (255.0f / 0x8000) + 127;
     alpha[0] = CLAMP(alpha[0], 0, 255);
     alpha[1] = 255 - alpha[0];
 
@@ -5747,64 +5828,70 @@ void draw_replay_logo(Gfx **gfxP, s32 arg1, s32 arg2) {
     gDPSetCombineLERP(gfx++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
     for (i = 0; i < ARRAY_COUNTU(alpha); i++) {
-        TiTexData *temp_t0 = &watchGameP->texAL[RO_800B2134[i][0]];
-        TiTexData *temp_t3 = &watchGameP->texAL[RO_800B2134[i][1]];
-        s32 var_t2 = MIN(temp_t0->info[TI_INFO_IDX_WIDTH], temp_t3->info[TI_INFO_IDX_WIDTH]);
-        s32 var_t1 = MIN(temp_t0->info[TI_INFO_IDX_HEIGHT], temp_t3->info[TI_INFO_IDX_HEIGHT]);
+        TiTexData *texC = &st->texAL[RO_800B2134[i][0]];
+        TiTexData *texA = &st->texAL[RO_800B2134[i][1]];
+        s32 width = MIN(texC->info[TI_INFO_IDX_WIDTH], texA->info[TI_INFO_IDX_WIDTH]);
+        s32 height = MIN(texC->info[TI_INFO_IDX_HEIGHT], texA->info[TI_INFO_IDX_HEIGHT]);
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha[i]);
-        StretchAlphaTexTile(&gfx, var_t2, var_t1, temp_t0->texs[TI_TEX_TEX], temp_t0->info[TI_INFO_IDX_WIDTH],
-                            temp_t3->texs[TI_TEX_TEX], temp_t3->info[TI_INFO_IDX_WIDTH], 0, 0, var_t2, var_t1, arg1,
-                            arg2, var_t2, var_t1);
+        StretchAlphaTexTile(&gfx, width, height, texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH],
+                            texA->texs[TI_TEX_TEX], texA->info[TI_INFO_IDX_WIDTH], 0, 0, width, height, x, y, width,
+                            height);
     }
 
     *gfxP = gfx;
 }
 
-void func_8006A938(s32 arg0) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: _init_coin_logo
+ */
+void _init_coin_logo(s32 count) {
+    struct_watchGame *st = watchGame;
     s32 i;
 
-    watchGame->coin_count = arg0;
+    watchGame->coin_count = count;
 
     //! @bug: Iterating past the end of the array
     for (i = 0; i < 4; i++) {
-        if (i < arg0) {
-            watchGameP->coin_time[i] = 0;
+        if (i < count) {
+            st->coin_time[i] = 0;
         } else {
-            watchGameP->coin_time[i] = -1;
+            st->coin_time[i] = -1;
         }
     }
 }
 
-void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: _disp_coin_logo
+ */
+void _disp_coin_logo(Gfx **gfxP, s32 count) {
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
     s32 i;
-    TiTexData *temp_s2;
-    s32 temp_s5;
+    TiTexData *texC;
+    s32 tileW;
 
-    if (watchGameP->coin_count < arg1) {
-        for (i = watchGameP->coin_count; i < arg1; i++) {
-            if (watchGameP->coin_time[i] == 0) {
-                watchGameP->coin_time[i] = 0;
-                watchGameP->coin_count += 1;
-            } else if (watchGameP->coin_time[i] < 0) {
-                watchGameP->coin_time[i] = 30;
+    if (st->coin_count < count) {
+        for (i = st->coin_count; i < count; i++) {
+            if (st->coin_time[i] == 0) {
+                st->coin_time[i] = 0;
+                st->coin_count += 1;
+            } else if (st->coin_time[i] < 0) {
+                st->coin_time[i] = 30;
             } else {
-                watchGameP->coin_time[i] = watchGameP->coin_time[i] - 1;
+                st->coin_time[i] = st->coin_time[i] - 1;
             }
         }
-    } else if (arg1 < watchGameP->coin_count) {
-        for (i = watchGameP->coin_count - 1; i >= arg1; i--) {
-            if (watchGameP->coin_time[i] >= 30) {
-                watchGameP->coin_count -= 1;
-                watchGameP->coin_time[i] = -1;
+    } else if (count < st->coin_count) {
+        for (i = st->coin_count - 1; i >= count; i--) {
+            if (st->coin_time[i] >= 30) {
+                st->coin_count -= 1;
+                st->coin_time[i] = -1;
             } else {
-                watchGameP->coin_time[i] = watchGameP->coin_time[i] + 1;
+                st->coin_time[i] = st->coin_time[i] + 1;
             }
         }
-        arg1 = watchGameP->coin_count;
+        count = st->coin_count;
     }
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -5813,32 +5900,34 @@ void _disp_coin_logo(Gfx **gfxP, s32 arg1) {
 
     gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, PRIMITIVE, 0, TEXEL0, 0, 0, 0, 0, TEXEL0, PRIMITIVE, 0, TEXEL0, 0);
 
-    temp_s2 = &watchGameP->texLS[0x15];
+    texC = &st->texLS[0x15];
 
-    temp_s5 = temp_s2->info[TI_INFO_IDX_WIDTH] >> 2;
-    for (i = 0; i < arg1; i++) {
-        f32 var_s4 = 0xED + i * 0x10;
-        f32 temp_ft0 = watchGameP->coin_time[i] - 15;
+    tileW = texC->info[TI_INFO_IDX_WIDTH] >> 2;
+    for (i = 0; i < count; i++) {
+        f32 fx = 0xED + i * 0x10;
+        f32 fy = st->coin_time[i] - 15;
         s32 alpha;
 
-        temp_ft0 = SQ(temp_ft0) * DOUBLE_LITERAL(0.125) + DOUBLE_LITERAL(81) - DOUBLE_LITERAL(28.125);
-        alpha = 255 - watchGameP->coin_time[i] * 0xFF / 30;
+        fy = SQ(fy) * DOUBLE_LITERAL(0.125) + DOUBLE_LITERAL(81) - DOUBLE_LITERAL(28.125);
+        alpha = 255 - st->coin_time[i] * 0xFF / 30;
 
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
 
-        StretchTexTile4(&gfx, temp_s2->info[TI_INFO_IDX_WIDTH], temp_s2->info[TI_INFO_IDX_HEIGHT],
-                        temp_s2->texs[TI_TEX_TLUT], temp_s2->texs[TI_TEX_TEX],
-                        temp_s5 * ((watchGameP->coin_time[i] >> 1) & 3), 0, temp_s5, temp_s2->info[TI_INFO_IDX_HEIGHT],
-                        var_s4, temp_ft0, temp_s5, temp_s2->info[TI_INFO_IDX_HEIGHT]);
+        StretchTexTile4(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT], texC->texs[TI_TEX_TLUT],
+                        texC->texs[TI_TEX_TEX], tileW * ((st->coin_time[i] >> 1) & 3), 0, tileW,
+                        texC->info[TI_INFO_IDX_HEIGHT], fx, fy, tileW, texC->info[TI_INFO_IDX_HEIGHT]);
     }
 
     *gfxP = gfx;
 }
 
-void draw_flash_virus_light(Gfx **gfxP, bool cached, s32 arg2, s32 arg3, s32 arg4) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: draw_flash_virus_light
+ */
+void draw_flash_virus_light(Gfx **gfxP, bool cached, s32 x, s32 y, s32 color) {
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexData *ti = &watchGameP->texItem[tbl_4589[(watchGameP->blink_count >> 1) % ARRAY_COUNTU(tbl_4589)] + 0xC];
+    TiTexData *tex = &st->texItem[tbl_4589[(st->blink_count >> 1) % ARRAY_COUNTU(tbl_4589)] + 0xC];
 
     if (!cached) {
         gSPDisplayList(gfx++, normal_texture_init_dl);
@@ -5849,93 +5938,99 @@ void draw_flash_virus_light(Gfx **gfxP, bool cached, s32 arg2, s32 arg3, s32 arg
         gDPSetEnvColor(gfx++, 255, 255, 255, 255);
     }
 
-    gDPSetPrimColor(gfx++, 0, 0, col_4590[arg4].r, col_4590[arg4].g, col_4590[arg4].b, col_4590[arg4].a);
+    gDPSetPrimColor(gfx++, 0, 0, col_4590[color].r, col_4590[color].g, col_4590[color].b, col_4590[color].a);
 
-    tiStretchTexBlock(&gfx, ti, cached, arg2, arg3, 20.0f, 20.0f);
+    tiStretchTexBlock(&gfx, tex, cached, x, y, 20.0f, 20.0f);
     *gfxP = gfx;
 }
 
-void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *gameStateDataRef, GameMapCell *mapCells UNUSED) {
+/**
+ * Original name: draw_flash_virus_lights
+ */
+void draw_flash_virus_lights(Gfx **gfxP, struct_game_state_data *state, GameMapCell *map UNUSED) {
     bool cached = false;
-    s32 var_s5;
-    s32 var_s6;
+    s32 dx;
+    s32 dy;
     s32 i;
 
-    switch (gameStateDataRef->map_item_size) {
+    switch (state->map_item_size) {
         case 0x8:
-            var_s6 = -6;
-            var_s5 = -6;
+            dy = -6;
+            dx = -6;
             break;
 
         case 0xA:
-            var_s6 = -5;
-            var_s5 = -5;
+            dy = -5;
+            dx = -5;
             break;
 
             // var_s6 and var_s5 are undefined
     }
 
-    for (i = 0; i < gameStateDataRef->flash_virus_count; i++) {
-        if (gameStateDataRef->flash_virus_pos[i].color < 0) {
+    for (i = 0; i < state->flash_virus_count; i++) {
+        if (state->flash_virus_pos[i].color < 0) {
             continue;
         }
 
         draw_flash_virus_light(gfxP, cached,
-                               var_s5 + gameStateDataRef->map_x +
-                                   (gameStateDataRef->map_item_size * gameStateDataRef->flash_virus_pos[i].column),
-                               var_s6 + gameStateDataRef->map_y +
-                                   (gameStateDataRef->map_item_size * (gameStateDataRef->flash_virus_pos[i].row + 1)),
-                               gameStateDataRef->flash_virus_pos[i].color);
+                               dx + state->map_x + (state->map_item_size * state->flash_virus_pos[i].column),
+                               dy + state->map_y + (state->map_item_size * (state->flash_virus_pos[i].row + 1)),
+                               state->flash_virus_pos[i].color);
         cached = true;
     }
 }
 
-void func_8006AEFC(TimeAttackResult *arg0, Gfx **gfxP, s32 arg2, s32 arg3) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: timeAttackResult_draw
+ */
+void timeAttackResult_draw(TimeAttackResult *st, Gfx **gfxP, s32 x, s32 y) {
+    struct_watchGame *g = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexData *temp_t3;
-    TiTexData *temp;
+    TiTexData *texC;
+    TiTexData *texA;
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
 
-    temp_t3 = &watchGameP->texP1[8];
-    temp = &watchGameP->texP1[9];
+    texC = &g->texP1[8];
+    texA = &g->texP1[9];
 
-    StretchAlphaTexTile(&gfx, temp_t3->info[TI_INFO_IDX_WIDTH], (s32)temp_t3->info[TI_INFO_IDX_HEIGHT],
-                        temp_t3->texs[TI_TEX_TEX], temp_t3->info[TI_INFO_IDX_WIDTH], temp->texs[TI_TEX_TEX],
-                        (s32)temp->info[TI_INFO_IDX_WIDTH], 0, 0, (s32)temp_t3->info[TI_INFO_IDX_WIDTH],
-                        (s32)temp_t3->info[TI_INFO_IDX_HEIGHT], (f32)arg2, (f32)arg3,
-                        (f32)temp_t3->info[TI_INFO_IDX_WIDTH], (f32)temp_t3->info[TI_INFO_IDX_HEIGHT]);
-    draw_time2(&gfx, arg0->time + 5, arg2 + 0x12, arg3 + 0xE);
-    draw_count_number(&gfx, 0, 2, arg0->combo, arg2 + 0x1F, arg3 + 0x23);
-    draw_count_number(&gfx, 0, 2, arg0->virus, arg2 + 0x1F, arg3 + 0x38);
-    draw_count_number(&gfx, 0, 7, arg0->score, arg2 + 9, arg3 + 0x50);
+    StretchAlphaTexTile(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT], texC->texs[TI_TEX_TEX],
+                        texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX], texA->info[TI_INFO_IDX_WIDTH], 0, 0,
+                        texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT], x, y,
+                        texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT]);
+    draw_time2(&gfx, st->time + 5, x + 0x12, y + 0xE);
+    draw_count_number(&gfx, 0, 2, st->combo, x + 0x1F, y + 0x23);
+    draw_count_number(&gfx, 0, 2, st->virus, x + 0x1F, y + 0x38);
+    draw_count_number(&gfx, 0, 7, st->score, x + 9, y + 0x50);
 
     *gfxP = gfx;
 }
 
-void draw_story_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+/**
+ * Original name: draw_story_board
+ */
+void draw_story_board(Gfx **gfxP, s32 x, s32 y, bool visBoard, bool visScore) {
     struct_watchGame *temp_s1 = watchGame;
     Gfx *gfx = *gfxP;
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
 
-    if (arg3 != 0) {
-        TiTexData *temp_t3 = &temp_s1->texP2[0x12];
-        TiTexData *temp_t1 = &temp_s1->texP2[0x13];
+    if (visBoard) {
+        TiTexData *texC = &temp_s1->texP2[0x12];
+        TiTexData *texA = &temp_s1->texP2[0x13];
 
-        StretchAlphaTexBlock(&gfx, temp_t3->info[TI_INFO_IDX_WIDTH], temp_t1->info[TI_INFO_IDX_HEIGHT],
-                             temp_t3->texs[TI_TEX_TEX], temp_t3->info[TI_INFO_IDX_WIDTH], temp_t1->texs[TI_TEX_TEX],
-                             temp_t1->info[TI_INFO_IDX_WIDTH], arg1 + 0x78, arg2 + 0xB,
-                             temp_t3->info[TI_INFO_IDX_WIDTH], temp_t3->info[TI_INFO_IDX_HEIGHT]);
+        StretchAlphaTexBlock(&gfx, texC->info[TI_INFO_IDX_WIDTH], texA->info[TI_INFO_IDX_HEIGHT],
+                             texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX],
+                             texA->info[TI_INFO_IDX_WIDTH], x + 0x78, y + 0xB, texC->info[TI_INFO_IDX_WIDTH],
+                             texC->info[TI_INFO_IDX_HEIGHT]);
 
-        temp_t3 = &temp_s1->texP2[9];
-        tiStretchAlphaTexItem(&gfx, temp_t3, &temp_s1->texP2[2], false, 4, evs_story_level, arg1 + 0x8E, arg2 + 0x36,
-                              temp_t3->info[TI_INFO_IDX_WIDTH], temp_t3->info[TI_INFO_IDX_HEIGHT] >> 2);
+        texC = &temp_s1->texP2[9];
+        tiStretchAlphaTexItem(&gfx, texC, &temp_s1->texP2[2], false, 4, evs_story_level, x + 0x8E, y + 0x36,
+                              texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT] >> 2);
     }
 
-    if (arg4 != 0) {
-        draw_count_number(&gfx, 0, 7, game_state_data->game_score, arg1 + 0x81, arg2 + 0x19);
+    if (visScore) {
+        draw_count_number(&gfx, 0, 7, game_state_data->game_score, x + 0x81, y + 0x19);
     }
 
     *gfxP = gfx;
@@ -5946,95 +6041,97 @@ const s32 _x_4670[2] = { 0x71, 0xBD };
 const s32 _x_4676[2] = { 0x6C, 0xB8 };
 const s32 _x_4693[2] = { 0x5E, 0xA2 };
 
-void draw_vsmode_board(Gfx **gfxP, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    struct_watchGame *temp_s6 = watchGame;
+/**
+ * Original name: draw_vsmode_board
+ */
+void draw_vsmode_board(Gfx **gfxP, s32 x, s32 y, bool visBoard, bool visScore) {
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
     s32 pad[3] UNUSED;
-    TiTexData *temp_s1;
-    TiTexData *temp_s5;
+    TiTexData *texC;
+    TiTexData *texA;
     s32 i;
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
 
-    if (arg3 != 0) {
+    if (visBoard) {
         switch (evs_gamemode) {
             case GMD_FLASH:
             case GMD_TIME_ATTACK:
-                temp_s1 = &temp_s6->texP2[0x10];
-                temp_s5 = &temp_s6->texP2[0x11];
-                StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
-                                     temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
-                                     temp_s5->texs[TI_TEX_TEX], temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x5F, arg2 + 9,
-                                     temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
+                texC = &st->texP2[0x10];
+                texA = &st->texP2[0x11];
+                StretchAlphaTexBlock(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                                     texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX],
+                                     texA->info[TI_INFO_IDX_WIDTH], x + 0x5F, y + 9, texC->info[TI_INFO_IDX_WIDTH],
+                                     texC->info[TI_INFO_IDX_HEIGHT]);
 
-                temp_s1 = &temp_s6->texP2[9];
-                temp_s5 = &temp_s6->texP2[2];
+                texC = &st->texP2[9];
+                texA = &st->texP2[2];
                 for (i = 0; i < 2; i++) {
-                    tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, false, 4, game_state_data[i].game_level,
-                                          arg1 + _x_4663[i], arg2 + 0xB, temp_s1->info[TI_INFO_IDX_WIDTH],
-                                          temp_s1->info[TI_INFO_IDX_HEIGHT] >> 2);
+                    tiStretchAlphaTexItem(&gfx, texC, texA, false, 4, game_state_data[i].game_level, x + _x_4663[i],
+                                          y + 0xB, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT] >> 2);
                 }
                 break;
 
             default:
-                temp_s1 = &temp_s6->texP2[0x14];
-                temp_s5 = &temp_s6->texP2[0x15];
-                StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
-                                     temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
-                                     temp_s5->texs[TI_TEX_TEX], temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x68, arg2 + 9,
-                                     temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
+                texC = &st->texP2[0x14];
+                texA = &st->texP2[0x15];
+                StretchAlphaTexBlock(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                                     texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX],
+                                     texA->info[TI_INFO_IDX_WIDTH], x + 0x68, y + 9, texC->info[TI_INFO_IDX_WIDTH],
+                                     texC->info[TI_INFO_IDX_HEIGHT]);
 
                 for (i = 0; i < 2; i++) {
-                    draw_count_number(&gfx, 0, 2, game_state_data[i].virus_level, arg1 + _x_4670[i], arg2 + 0xB);
+                    draw_count_number(&gfx, 0, 2, game_state_data[i].virus_level, x + _x_4670[i], y + 0xB);
                 }
                 break;
         }
 
-        temp_s1 = &temp_s6->texP2[0xD];
-        temp_s5 = &temp_s6->texP2[6];
-        StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
-                             temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], temp_s5->texs[TI_TEX_TEX],
-                             temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x68, (arg2 + 0x19),
-                             temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
+        texC = &st->texP2[0xD];
+        texA = &st->texP2[6];
+        StretchAlphaTexBlock(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                             texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX],
+                             texA->info[TI_INFO_IDX_WIDTH], x + 0x68, (y + 0x19), texC->info[TI_INFO_IDX_WIDTH],
+                             texC->info[TI_INFO_IDX_HEIGHT]);
 
-        temp_s1 = &temp_s6->texP2[0xC];
-        temp_s5 = &temp_s6->texP2[5];
+        texC = &st->texP2[0xC];
+        texA = &st->texP2[5];
         for (i = 0; i < 2; i++) {
-            tiStretchAlphaTexItem(&gfx, temp_s1, temp_s5, false, 3, 2 - game_state_data[i].cap_def_speed,
-                                  arg1 + _x_4676[i], arg2 + 0x1B, temp_s1->info[TI_INFO_IDX_WIDTH],
-                                  temp_s1->info[TI_INFO_IDX_HEIGHT] / 3);
+            tiStretchAlphaTexItem(&gfx, texC, texA, false, 3, 2 - game_state_data[i].cap_def_speed, x + _x_4676[i],
+                                  y + 0x1B, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT] / 3);
         }
     }
 
     if (evs_gamesel == GSL_VSCPU) {
-        if (arg3 != 0) {
-            temp_s1 = &temp_s6->texP2[0xA];
-            temp_s5 = &temp_s6->texP2[3];
-            StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
-                                 temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], temp_s5->texs[TI_TEX_TEX],
-                                 temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x70, arg2 + 0x29,
-                                 temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
+        if (visBoard) {
+            texC = &st->texP2[0xA];
+            texA = &st->texP2[3];
+            StretchAlphaTexBlock(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                                 texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX],
+                                 texA->info[TI_INFO_IDX_WIDTH], x + 0x70, y + 0x29, texC->info[TI_INFO_IDX_WIDTH],
+                                 texC->info[TI_INFO_IDX_HEIGHT]);
         }
 
-        if (arg4 != 0) {
-            draw_count_number(&gfx, 0, 7, game_state_data->game_score, arg1 + 0x90, arg2 + 0x2A);
+        if (visScore) {
+            draw_count_number(&gfx, 0, 7, game_state_data->game_score, x + 0x90, y + 0x2A);
         }
     } else {
-        if (arg3 != 0) {
-            temp_s1 = &temp_s6->texP2[0xB];
-            temp_s5 = &temp_s6->texP2[4];
-            StretchAlphaTexBlock(&gfx, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
-                                 temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], temp_s5->texs[TI_TEX_TEX],
-                                 temp_s5->info[TI_INFO_IDX_WIDTH], arg1 + 0x58, arg2 + 0x29,
-                                 temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT]);
+        if (visBoard) {
+            texC = &st->texP2[0xB];
+            texA = &st->texP2[4];
+            StretchAlphaTexBlock(&gfx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                                 texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX],
+                                 texA->info[TI_INFO_IDX_WIDTH], x + 0x58, y + 0x29, texC->info[TI_INFO_IDX_WIDTH],
+                                 texC->info[TI_INFO_IDX_HEIGHT]);
         }
 
-        if (arg4 != 0) {
+        if (visScore) {
             for (i = 0; i < 2; i++) {
-                draw_count_number(&gfx, i + 1, 7, game_state_data[i].game_score, arg1 + _x_4693[i], arg2 + 0x2A);
+                draw_count_number(&gfx, i + 1, 7, game_state_data[i].game_score, x + _x_4693[i], y + 0x2A);
             }
         }
     }
+
     *gfxP = gfx;
 }
 
@@ -6042,10 +6139,13 @@ const s32 _rect_4752[][4] = {
     { 0, 0, 0x60, 0x14 }, { 0, 0x14, 0x60, 0x14 }, { 0, 0x28, 8, 0xA0 }, { 0x58, 0x28, 8, 0xA0 }, { 0, 0xC8, 0x60, 8 },
 };
 
-void _draw_bottle_10(Gfx **gfxP, const s32 *arg1, const s32 *arg2, s32 arg3) {
-    struct_watchGame *watchGameP = watchGame;
+/**
+ * Original name: _draw_bottle_10
+ */
+void _draw_bottle_10(Gfx **gfxP, const s32 *xx, const s32 *yy, s32 count) {
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
-    TiTexData *temp_s6;
+    TiTexData *texC;
     s32 i;
     s32 j;
 
@@ -6054,75 +6154,82 @@ void _draw_bottle_10(Gfx **gfxP, const s32 *arg1, const s32 *arg2, s32 arg3) {
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, 192);
 
-    temp_s6 = &watchGameP->texP1[1];
-    for (i = 0; i < temp_s6->info[TI_INFO_IDX_HEIGHT]; i += 0x2A) {
-        for (j = 0; j < arg3; j++) {
-            s32 var_t1;
+    texC = &st->texP1[1];
+    for (i = 0; i < texC->info[TI_INFO_IDX_HEIGHT]; i += 0x2A) {
+        for (j = 0; j < count; j++) {
+            s32 h;
 
-            var_t1 = MIN(0x2A, temp_s6->info[TI_INFO_IDX_HEIGHT] - i);
-            tiStretchTexTile(&gfx, temp_s6, j, 0, i, temp_s6->info[TI_INFO_IDX_WIDTH], var_t1, arg1[j], arg2[j] + i,
-                             temp_s6->info[TI_INFO_IDX_WIDTH], var_t1);
+            h = MIN(0x2A, texC->info[TI_INFO_IDX_HEIGHT] - i);
+            tiStretchTexTile(&gfx, texC, j, 0, i, texC->info[TI_INFO_IDX_WIDTH], h, xx[j], yy[j] + i,
+                             texC->info[TI_INFO_IDX_WIDTH], h);
         }
     }
 
     gSPDisplayList(gfx++, normal_texture_init_dl);
 
-    temp_s6 = &watchGameP->texP1[0];
+    texC = &st->texP1[0];
     for (i = 0; i < ARRAY_COUNTU(_rect_4752); i++) {
-        for (j = 0; j < arg3; j++) {
-            tiStretchTexTile(&gfx, temp_s6, j, _rect_4752[i][0], _rect_4752[i][1], _rect_4752[i][2], _rect_4752[i][3],
-                             arg1[j] + _rect_4752[i][0], arg2[j] + _rect_4752[i][1], _rect_4752[i][2],
-                             _rect_4752[i][3]);
+        for (j = 0; j < count; j++) {
+            tiStretchTexTile(&gfx, texC, j, _rect_4752[i][0], _rect_4752[i][1], _rect_4752[i][2], _rect_4752[i][3],
+                             xx[j] + _rect_4752[i][0], yy[j] + _rect_4752[i][1], _rect_4752[i][2], _rect_4752[i][3]);
         }
     }
 
     *gfxP = gfx;
 }
 
+/**
+ * Original name: dm_calc_bottle_2p
+ */
 void dm_calc_bottle_2p(void) {
     s32 i = (FRAME_MOVEMENT_MAX - watchGame->frame_move_count) * 8;
-    s32 sp8[2] = { 0x1C - i, i + 0xD4 };
+    s32 mx[2] = { 0x1C - i, i + 0xD4 };
 
-    for (i = 0; i < ARRAY_COUNT(sp8); i++) {
-        struct_game_state_data *temp = &game_state_data[i];
+    for (i = 0; i < ARRAY_COUNT(mx); i++) {
+        struct_game_state_data *state = &game_state_data[i];
 
-        temp->map_x = sp8[i];
-        temp->map_y = 0x2E;
+        state->map_x = mx[i];
+        state->map_y = 0x2E;
     }
 }
 
+/**
+ * Original name: dm_draw_bottle_2p
+ */
 void dm_draw_bottle_2p(Gfx **gfxP) {
-    struct_watchGame *watchGameP = watchGame;
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
-    s32 var_a0 = (FRAME_MOVEMENT_MAX - watchGameP->frame_move_count) * 8;
-    s32 arr[2] UNUSED = { -var_a0, var_a0 };
-    s32 sp20[2];
-    s32 sp28[2];
+    s32 i = (FRAME_MOVEMENT_MAX - st->frame_move_count) * 8;
+    s32 arr[2] UNUSED = { -i, i };
+    s32 x[2];
+    s32 y[2];
 
-    for (var_a0 = 0; var_a0 < 2; var_a0++) {
-        struct_game_state_data *temp = &game_state_data[var_a0];
+    for (i = 0; i < 2; i++) {
+        struct_game_state_data *state = &game_state_data[i];
 
-        sp20[var_a0] = temp->map_x - 8;
-        sp28[var_a0] = temp->map_y - 0x1E;
+        x[i] = state->map_x - 8;
+        y[i] = state->map_y - 0x1E;
     }
 
-    _draw_bottle_10(&gfx, sp20, sp28, 2);
+    _draw_bottle_10(&gfx, x, y, 2);
 
     *gfxP = gfx;
 }
 
+/**
+ * Original name: dm_draw_big_virus
+ */
 void dm_draw_big_virus(Gfx **gfxP) {
-    struct_watchGame *watchGameP = watchGame;
+    struct_watchGame *st = watchGame;
     Gfx *gfx = *gfxP;
     s32 i;
 
     for (i = 0; i < ANIMES_COUNT; i++) {
-        animeState_initDL2(&watchGameP->virus_anime_state[i], &gfx);
-        animeState_draw(&watchGameP->virus_anime_state[i], &gfx, watchGameP->big_virus_pos[i][0],
-                        watchGameP->big_virus_pos[i][1], watchGameP->big_virus_scale[i],
-                        watchGameP->big_virus_scale[i]);
-        animeSmog_draw(&watchGameP->virus_smog_state[i], &gfx, watchGameP->big_virus_pos[i][0],
-                       watchGameP->big_virus_pos[i][1], watchGameP->big_virus_scale[i], watchGameP->big_virus_scale[i]);
+        animeState_initDL2(&st->virus_anime_state[i], &gfx);
+        animeState_draw(&st->virus_anime_state[i], &gfx, st->big_virus_pos[i][0], st->big_virus_pos[i][1],
+                        st->big_virus_scale[i], st->big_virus_scale[i]);
+        animeSmog_draw(&st->virus_smog_state[i], &gfx, st->big_virus_pos[i][0], st->big_virus_pos[i][1],
+                       st->big_virus_scale[i], st->big_virus_scale[i]);
     }
 
     *gfxP = gfx;
@@ -6130,18 +6237,20 @@ void dm_draw_big_virus(Gfx **gfxP) {
 
 const s32 _pat_4838[6] = { 0, 1, 2, 3, 2, 1 };
 
-void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking, s32 arg4, s32 arg5, s32 arg6,
-                      u32 alpha) {
+/**
+ * Original name: dm_draw_KaSaMaRu
+ */
+void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool speaking, s32 x, s32 y, s32 dir, u32 alpha) {
     struct_watchGame *watchGameP = watchGame;
     Gfx *gfx = *gfxP;
     Mtx *mtx = *mtxP;
     Vtx *vtx = *vtxP;
-    f32 sp48[4][4];
-    TiTexData *temp_a2;
-    TiTexData *temp_s4;
-    s32 var_v0;
-    s32 var_s0;
-    s32 var_s3;
+    TiTexData *texC;
+    TiTexData *texA;
+    s32 i;
+    s32 width;
+    s32 height;
+    f32 mf[4][4];
     f32 angle;
 
     guOrtho(mtx, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f, 10.0f, 1.0f);
@@ -6151,19 +6260,19 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     gSPMatrix(gfx++, mtx++, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
 
     angle = WrapF(0.0f, 1.0f, watchGameP->blink_count * DOUBLE_LITERAL(1.0 / 128)) * DOUBLE_LITERAL(M_PI) * 2;
-    guRotateRPYF(sp48, 0.0f, (1 - arg6) * 0x5A, sinf(angle) * 4.0f * arg6);
+    guRotateRPYF(mf, 0.0f, (1 - dir) * 0x5A, sinf(angle) * 4.0f * dir);
 
-    var_v0 = WrapI(0, ARRAY_COUNT(_pat_4838), ((watchGameP->blink_count % 128U) * 9) >> 4);
+    i = WrapI(0, ARRAY_COUNT(_pat_4838), ((watchGameP->blink_count % 128U) * 9) >> 4);
 
-    if (messageIsSpeaking == false) {
-        var_v0 = 0;
+    if (!speaking) {
+        i = 0;
     }
 
-    temp_s4 = &watchGameP->texKaSa[_pat_4838[var_v0] + 1];
-    temp_a2 = &watchGameP->texKaSa[0];
+    texA = &watchGameP->texKaSa[_pat_4838[i] + 1];
+    texC = &watchGameP->texKaSa[0];
 
-    var_s0 = MIN(temp_s4->info[TI_INFO_IDX_WIDTH], temp_a2->info[TI_INFO_IDX_WIDTH]);
-    var_s3 = MIN(temp_s4->info[TI_INFO_IDX_HEIGHT], temp_a2->info[TI_INFO_IDX_HEIGHT]);
+    width = MIN(texA->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_WIDTH]);
+    height = MIN(texA->info[TI_INFO_IDX_HEIGHT], texC->info[TI_INFO_IDX_HEIGHT]);
 
     gSPDisplayList(gfx++, alpha_texture_init_dl);
     gSPClearGeometryMode(gfx++, G_ZBUFFER | G_SHADE | G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN |
@@ -6172,51 +6281,48 @@ void dm_draw_KaSaMaRu(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool messageIsSpeaking
     gDPSetTexturePersp(gfx++, G_TP_NONE);
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
 
-    if (arg6 <= 0) {
-        sp48[3][0] = arg4 + var_s0;
+    if (dir <= 0) {
+        mf[3][0] = x + width;
     } else {
-        sp48[3][0] = arg4;
+        mf[3][0] = x;
     }
-    sp48[3][1] = arg5;
+    mf[3][1] = y;
 
-    guMtxF2L(sp48, mtx);
+    guMtxF2L(mf, mtx);
     gSPMatrix(gfx++, mtx++, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    RectAlphaTexTile(&gfx, &vtx, var_s0, var_s3, temp_s4->texs[TI_TEX_TEX], temp_s4->info[TI_INFO_IDX_WIDTH],
-                     temp_a2->texs[TI_TEX_TEX], temp_a2->info[TI_INFO_IDX_WIDTH], 0, 0, var_s0, var_s3, 0.0f, 0.0f,
-                     var_s0, var_s3);
+    RectAlphaTexTile(&gfx, &vtx, width, height, texA->texs[TI_TEX_TEX], texA->info[TI_INFO_IDX_WIDTH],
+                     texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH], 0, 0, width, height, 0.0f, 0.0f, width,
+                     height);
 
     *vtxP = vtx;
     *mtxP = mtx;
     *gfxP = gfx;
 }
 
-void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, GameMapCell *mapCells) {
-    s32 sp28[2];
-    TiTexData *temp_v0;
-    s32 temp_s6;
+/**
+ * Original name: dm_game_graphic_common
+ */
+void dm_game_graphic_common(struct_game_state_data *state, s32 player_no, GameMapCell *map) {
+    TiTexData *tex;
+    s32 size_flg;
     s32 i;
 
-    temp_s6 = 0;
-    if (gameStateData->map_item_size == 8) {
-        temp_s6 = 1;
-    }
+    size_flg = (state->map_item_size == 8) ? 1 : 0;
 
     gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
     // Draw the pills and virus on the bottle.
     // Does not draw the falling pills nor the next pill.
-    temp_v0 = dm_game_get_capsel_tex(temp_s6);
-    load_TexTile_4b(temp_v0->texs[TI_TEX_TEX], temp_v0->info[TI_INFO_IDX_WIDTH], temp_v0->info[TI_INFO_IDX_HEIGHT], 0,
-                    0, temp_v0->info[TI_INFO_IDX_WIDTH] - 1, temp_v0->info[TI_INFO_IDX_HEIGHT] - 1);
-    gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, gameStateData->map_x,
-                  gameStateData->map_y + gameStateData->map_item_size, gameStateData->map_item_size * 8,
-                  gameStateData->map_item_size * 0x10);
+    tex = dm_game_get_capsel_tex(size_flg);
+    load_TexTile_4b(tex->texs[TI_TEX_TEX], tex->info[TI_INFO_IDX_WIDTH], tex->info[TI_INFO_IDX_HEIGHT], 0, 0,
+                    tex->info[TI_INFO_IDX_WIDTH] - 1, tex->info[TI_INFO_IDX_HEIGHT] - 1);
+    gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, state->map_x, state->map_y + state->map_item_size,
+                  state->map_item_size * 8, state->map_item_size * 0x10);
     for (i = 0; i < 6; i++) {
-        temp_v0 = dm_game_get_capsel_pal(temp_s6, i);
-        load_TexPal(temp_v0->texs[TI_TEX_TLUT]);
-        dm_map_draw(mapCells, i, gameStateData->map_x, gameStateData->map_y - gameStateData->bottom_up_scroll,
-                    gameStateData->map_item_size);
+        tex = dm_game_get_capsel_pal(size_flg, i);
+        load_TexPal(tex->texs[TI_TEX_TLUT]);
+        dm_map_draw(map, i, state->map_x, state->map_y - state->bottom_up_scroll, state->map_item_size);
     }
 
 #if VERSION_CN || VERSION_GW
@@ -6225,40 +6331,39 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
 
     gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-    if ((gameStateData->player_type != PLAYERTYPE_1) &&
-        ((gameStateData->player_type == PLAYERTYPE_1) || (arg1 != 0) || (aiDebugP1 < 0))) {
-        struct_game_state_data_now_cap *temp;
+    if (!UNK_PLAYER0_CHECK(state, player_no)) {
+        s32 fallPosY[2];
+        struct_game_state_data_now_cap *cap;
 
-        if ((visible_fall_point[arg1] == 0) || (gameStateData->mode_now != dm_mode_down)) {
+        if ((visible_fall_point[player_no] == 0) || (state->mode_now != dm_mode_down)) {
             return;
         }
 
-        if ((gameStateData->now_cap.pos_y[0] <= 0) || (gameStateData->now_cap.capsel_flg_0 == 0)) {
+        if ((state->now_cap.pos_y[0] <= 0) || (state->now_cap.capsel_flg_0 == 0)) {
             return;
         }
 
-        temp = &gameStateData->now_cap;
+        cap = &state->now_cap;
 
-        func_80069ACC(mapCells, temp, sp28);
+        dm_find_fall_point(map, cap, fallPosY);
 
         gDPSetRenderMode(gGfxHead++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
         gDPSetCombineMode(gGfxHead++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetPrimColor(gGfxHead++, 0, 0, 96, 96, 96, 150);
 
         for (i = 0; i < 2; i++) {
-            s32 temp_t0_2;
-            s32 temp_a1_2;
-            s32 temp_a2;
+            s32 x;
+            s32 y;
+            s32 size;
 
-            temp_v0 = dm_game_get_capsel_pal(temp_s6, temp->capsel_p[i]);
-            load_TexPal(temp_v0->texs[TI_TEX_TLUT]);
-            temp_t0_2 = gameStateData->map_item_size;
-            temp_a1_2 = (temp->pos_x[i] * temp_t0_2) + gameStateData->map_x;
-            temp_a2 = (sp28[i] * temp_t0_2) + gameStateData->map_y;
+            tex = dm_game_get_capsel_pal(size_flg, cap->capsel_p[i]);
+            load_TexPal(tex->texs[TI_TEX_TLUT]);
+            size = state->map_item_size;
+            x = cap->pos_x[i] * size + state->map_x;
+            y = fallPosY[i] * size + state->map_y;
 
-            gSPTextureRectangle(gGfxHead++, (temp_a1_2 * 4), (temp_a2 * 4), ((temp_a1_2 + temp_t0_2) * 4),
-                                ((temp_a2 + temp_t0_2) * 4), G_TX_RENDERTILE, 0x0000,
-                                (temp->casel_g[i] * temp_t0_2 << 5), 1 << 10, 1 << 10);
+            gSPTextureRectangle(gGfxHead++, (x * 4), (y * 4), ((x + size) * 4), ((y + size) * 4), G_TX_RENDERTILE,
+                                0x0000, (cap->casel_g[i] * size << 5), 1 << 10, 1 << 10);
         }
 
         gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, 255);
@@ -6266,99 +6371,106 @@ void dm_game_graphic_common(struct_game_state_data *gameStateData, s32 arg1, Gam
     }
 }
 
-void dm_game_graphic_p(struct_game_state_data *gameStateData, s32 arg1, GameMapCell *mapCells) {
-    struct_watchGame *watchGameP = watchGame;
-    s32 sp20[2];
-    s32 sp28[2];
-    s32 temp_s6;
+/**
+ * Original name: dm_game_graphic_p
+ */
+void dm_game_graphic_p(struct_game_state_data *state, s32 player_no, GameMapCell *map) {
+    struct_watchGame *st = watchGame;
+    s32 xx[2];
+    s32 yy[2];
+    s32 size_flg;
     s32 i;
 
-    if (gameStateData->cnd_static == dm_cnd_pause) {
+    if (state->cnd_static == dm_cnd_pause) {
         return;
     }
 
-    temp_s6 = gameStateData->map_item_size == 8;
+    size_flg = state->map_item_size == 8 ? 1 : 0;
 
-    dm_game_graphic_common(gameStateData, arg1, mapCells);
+    dm_game_graphic_common(state, player_no, map);
 
     gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
-    if (dm_calc_capsel_pos(gameStateData, sp20, sp28)) {
-        if (watchGameP->demo_flag || (gameStateData->now_cap.pos_y[0] <= 0) ||
-            ((gameStateData->cnd_now != dm_cnd_pause) && (gameStateData->cnd_now != dm_cnd_wait))) {
-            dm_draw_capsel_by_gfx(gameStateData, sp20, sp28);
+    if (dm_calc_capsel_pos(state, xx, yy)) {
+        if (st->demo_flag || (state->now_cap.pos_y[0] <= 0) ||
+            ((state->cnd_now != dm_cnd_pause) && (state->cnd_now != dm_cnd_wait))) {
+            dm_draw_capsel_by_gfx(state, xx, yy);
         }
     }
 
-    if ((gameStateData->next_cap.capsel_flg_0 == 0) || (gameStateData->now_cap.pos_y[0] <= 0)) {
+    if ((state->next_cap.capsel_flg_0 == 0) || (state->now_cap.pos_y[0] <= 0)) {
         return;
     }
 
     for (i = 0; i < STRUCT_GAME_STATE_DATA_UNK_178_UNK_LEN; i++) {
-        load_TexPal(dm_game_get_capsel_pal(temp_s6, gameStateData->next_cap.capsel_p[i])->texs[TI_TEX_TLUT]);
-        draw_Tex(gameStateData->next_cap.pos_x[i] * gameStateData->map_item_size + gameStateData->map_x,
-                 (gameStateData->next_cap.pos_y[i] * gameStateData->map_item_size + gameStateData->map_y) - 0xA,
-                 gameStateData->map_item_size, gameStateData->map_item_size, 0,
-                 gameStateData->next_cap.casel_g[i] * gameStateData->map_item_size);
+        load_TexPal(dm_game_get_capsel_pal(size_flg, state->next_cap.capsel_p[i])->texs[TI_TEX_TLUT]);
+        draw_Tex(state->next_cap.pos_x[i] * state->map_item_size + state->map_x,
+                 (state->next_cap.pos_y[i] * state->map_item_size + state->map_y) - 0xA, state->map_item_size,
+                 state->map_item_size, 0, state->next_cap.casel_g[i] * state->map_item_size);
     }
 }
 
-void dm_game_graphic_1p(struct_game_state_data *gameStateDataRef, s32 arg1, GameMapCell *mapCells) {
-    struct_watchGame *temp_s2 = watchGame;
-    s32 sp20[2];
-    s32 sp28[2];
+/**
+ * Original name: dm_game_graphic_1p
+ */
+void dm_game_graphic_1p(struct_game_state_data *state, s32 player_no, GameMapCell *map) {
+    struct_watchGame *st = watchGame;
+    s32 xx[2];
+    s32 yy[2];
     s32 i;
 
-    if (gameStateDataRef->cnd_static == dm_cnd_pause) {
+    if (state->cnd_static == dm_cnd_pause) {
         return;
     }
 
-    dm_game_graphic_common(gameStateDataRef, arg1, mapCells);
+    dm_game_graphic_common(state, player_no, map);
 
     gSPDisplayList(gGfxHead++, normal_texture_init_dl);
 
-    if (dm_calc_capsel_pos(gameStateDataRef, sp20, sp28)) {
+    if (dm_calc_capsel_pos(state, xx, yy)) {
         i = 0;
-        if ((gameStateDataRef->mode_now == dm_mode_init) || (gameStateDataRef->mode_now == dm_mode_wait)) {
+        if ((state->mode_now == dm_mode_init) || (state->mode_now == dm_mode_wait)) {
             i++;
-            sp20[1] -= sp20[0];
-            sp28[1] -= sp28[0];
-            sp20[0] = 0xDA;
-            sp28[0] = 0x34;
-            sp20[1] += sp20[0];
-            sp28[1] += sp28[0];
-        } else if (temp_s2->demo_flag) {
+            xx[1] -= xx[0];
+            yy[1] -= yy[0];
+            xx[0] = 0xDA;
+            yy[0] = 0x34;
+            xx[1] += xx[0];
+            yy[1] += yy[0];
+        } else if (st->demo_flag) {
             i++;
         }
 
         if (i != 0) {
-            dm_draw_capsel_by_gfx(gameStateDataRef, sp20, sp28);
+            dm_draw_capsel_by_gfx(state, xx, yy);
         }
     }
 
-    if ((gameStateDataRef->next_cap.capsel_flg_0 == 0) || (gameStateDataRef->now_cap.pos_y[0] <= 0) ||
-        (gameStateDataRef->cnd_static != dm_cnd_wait)) {
+    if ((state->next_cap.capsel_flg_0 == 0) || (state->now_cap.pos_y[0] <= 0) || (state->cnd_static != dm_cnd_wait)) {
         return;
     }
 
     for (i = 0; i < 2; i++) {
-        TiTexData *temp = dm_game_get_capsel_pal(0, gameStateDataRef->next_cap.capsel_p[i]);
+        TiTexData *tex = dm_game_get_capsel_pal(0, state->next_cap.capsel_p[i]);
 
-        load_TexPal(temp->texs[TI_TEX_TLUT]);
-        draw_Tex(0xDA + i * 0xA, 0x34, 0xA, 0xA, 0, gameStateDataRef->next_cap.casel_g[i] * 0xA);
+        load_TexPal(tex->texs[TI_TEX_TLUT]);
+        draw_Tex(0xDA + i * 0xA, 0x34, 0xA, 0xA, 0, state->next_cap.casel_g[i] * 0xA);
     }
 }
 
-void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, s32 arg2 UNUSED) {
-    struct_watchGame *temp_s4 = watchGame;
+/**
+ * Original name: dm_game_graphic_effect
+ */
+void dm_game_graphic_effect(struct_game_state_data *state, s32 player_no, s32 arg2 UNUSED) {
+    struct_watchGame *st = watchGame;
     s32 temp_fv0;
     s32 temp_lo;
     s32 temp_s0_2;
     s32 var_v0_4;
-    TiTexData *temp_s1;
-    TiTexData *other;
+    TiTexData *texC;
+    TiTexData *texA;
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_null:
             break;
 
@@ -6373,7 +6485,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         case dm_cnd_draw_retry:
             switch (evs_gamemode) {
                 case GMD_FLASH:
-                    draw_flash_virus_lights(&gGfxHead, gameStateDataRef, game_map_data[arg1]);
+                    draw_flash_virus_lights(&gGfxHead, state, game_map_data[player_no]);
                     break;
 
                 default:
@@ -6386,42 +6498,41 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     }
 
     if (evs_score_flag != 0) {
-        scoreNums_draw(&temp_s4->scoreNums[arg1], &gGfxHead);
+        scoreNums_draw(&st->scoreNums[player_no], &gGfxHead);
     }
 
-    if ((gameStateDataRef->cnd_training == dm_cnd_training) && (gameStateDataRef->cnd_static == dm_cnd_wait)) {
-        temp_s1 = &temp_s4->texP4[0x1D];
-        other = &temp_s4->texP4[0x1E];
+    if ((state->cnd_training == dm_cnd_training) && (state->cnd_static == dm_cnd_wait)) {
+        texC = &st->texP4[0x1D];
+        texA = &st->texP4[0x1E];
 
         gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
         gDPSetCombineLERP(gGfxHead++, TEXEL0, 0, PRIMITIVE, 0, TEXEL1, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0,
                           COMBINED);
 
-        temp_fv0 = ((f32)sins(((s16)temp_s4->blink_count << 9) & 0xFE00) * 0.0038757324f) + 127.0f;
+        temp_fv0 = ((s32)sins(((s16)st->blink_count << 9) & 0xFE00) * 0.0038757324f) + 127.0f;
 
         gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, temp_fv0);
 
-        temp_fv0 = ((f32)sins(((s16)temp_s4->blink_count << 10) & 0xFC00) * 0.00015258789f);
-        StretchAlphaTexBlock(&gGfxHead, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
-                             temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH], other->texs[TI_TEX_TEX],
-                             other->info[TI_INFO_IDX_WIDTH], gameStateDataRef->map_x,
-                             (gameStateDataRef->map_y + temp_fv0 + 0xA0), temp_s1->info[TI_INFO_IDX_WIDTH],
-                             temp_s1->info[TI_INFO_IDX_HEIGHT]);
+        temp_fv0 = ((s32)sins(((s16)st->blink_count << 10) & 0xFC00) * 0.00015258789f);
+        StretchAlphaTexBlock(&gGfxHead, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                             texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX],
+                             texA->info[TI_INFO_IDX_WIDTH], state->map_x, (state->map_y + temp_fv0 + 0xA0),
+                             texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT]);
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_stage_clear:
             switch (evs_gamemode) {
                 case GMD_TIME_ATTACK:
                     break;
 
                 case GMD_TaiQ:
-                    disp_clear_logo(&gGfxHead, arg1, false);
+                    disp_clear_logo(&gGfxHead, player_no, false);
                     break;
 
                 default:
-                    disp_clear_logo(&gGfxHead, arg1, true);
+                    disp_clear_logo(&gGfxHead, player_no, true);
                     break;
             }
             break;
@@ -6430,16 +6541,16 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_clear_wait:
-            disp_allclear_logo(&gGfxHead, arg1, false);
+            disp_allclear_logo(&gGfxHead, player_no, false);
             break;
 
         default:
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_gover_wait:
             goto block_28;
             break;
@@ -6450,14 +6561,14 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
                 switch (evs_gamemode) {
                     case GMD_TIME_ATTACK:
                         if (evs_game_time >= 0x2A30U) {
-                            disp_timeover_logo(&gGfxHead, arg1);
+                            disp_timeover_logo(&gGfxHead, player_no);
                         } else {
-                            disp_gameover_logo(&gGfxHead, arg1);
+                            disp_gameover_logo(&gGfxHead, player_no);
                         }
                         break;
 
                     default:
-                        disp_gameover_logo(&gGfxHead, arg1);
+                        disp_gameover_logo(&gGfxHead, player_no);
                         break;
                 }
             }
@@ -6467,14 +6578,14 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_retire:
         case dm_cnd_tr_chack:
-            if (!temp_s4->replayFlag) {
-                if (gameStateDataRef->player_type == PLAYERTYPE_0) {
-                    temp_fv0 = sins(((s16)temp_s4->blink_count << 10) & 0xFC00) * ((f32)0x7F / 0x8000) + 0x7F;
-                    temp_s1 = &temp_s4->texP4[0x1B];
-                    other = &temp_s4->texP4[0x1C];
+            if (!st->replayFlag) {
+                if (state->player_type == PLAYERTYPE_0) {
+                    temp_fv0 = sins(((s16)st->blink_count << 10) & 0xFC00) * ((f32)0x7F / 0x8000) + 0x7F;
+                    texC = &st->texP4[0x1B];
+                    texA = &st->texP4[0x1C];
 
                     gSPDisplayList(gGfxHead++, alpha_texture_init_dl);
 
@@ -6483,25 +6594,24 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
 
                     gDPSetPrimColor(gGfxHead++, 0, 0, 255, 255, 255, temp_fv0);
 
-                    StretchAlphaTexBlock(&gGfxHead, temp_s1->info[TI_INFO_IDX_WIDTH], temp_s1->info[TI_INFO_IDX_HEIGHT],
-                                         temp_s1->texs[TI_TEX_TEX], temp_s1->info[TI_INFO_IDX_WIDTH],
-                                         other->texs[TI_TEX_TEX], other->info[TI_INFO_IDX_WIDTH],
-                                         (f32)gameStateDataRef->map_x, (f32)(gameStateDataRef->map_y + 0x5C),
-                                         (f32)temp_s1->info[TI_INFO_IDX_WIDTH], (f32)temp_s1->info[TI_INFO_IDX_HEIGHT]);
+                    StretchAlphaTexBlock(&gGfxHead, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                                         texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH], texA->texs[TI_TEX_TEX],
+                                         texA->info[TI_INFO_IDX_WIDTH], (f32)state->map_x, (f32)(state->map_y + 0x5C),
+                                         (f32)texC->info[TI_INFO_IDX_WIDTH], (f32)texC->info[TI_INFO_IDX_HEIGHT]);
                 }
             }
-            disp_retire_logo(&gGfxHead, arg1);
+            disp_retire_logo(&gGfxHead, player_no);
             break;
 
         case dm_cnd_retire_wait:
-            disp_retire_logo(&gGfxHead, arg1);
+            disp_retire_logo(&gGfxHead, player_no);
             break;
 
         default:
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_stage_clear:
         case dm_cnd_game_over:
         case dm_cnd_win:
@@ -6521,8 +6631,8 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
                 } else {
                     var_v0_4 = 0x4A;
                 }
-                func_8006AEFC(&temp_s4->timeAttackResult[arg1], &gGfxHead, gameStateDataRef->map_x,
-                              gameStateDataRef->map_y + var_v0_4);
+                timeAttackResult_draw(&st->timeAttackResult[player_no], &gGfxHead, state->map_x,
+                                      state->map_y + var_v0_4);
             }
             break;
 
@@ -6541,57 +6651,57 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_win:
         case dm_cnd_win_retry:
         case dm_cnd_win_retry_sc:
-            disp_win_logo(&gGfxHead, arg1);
+            disp_win_logo(&gGfxHead, player_no);
             break;
 
         default:
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_lose:
         case dm_cnd_lose_retry:
         case dm_cnd_lose_retry_sc:
-            disp_lose_logo(&gGfxHead, arg1);
+            disp_lose_logo(&gGfxHead, player_no);
             break;
 
         default:
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_draw:
         case dm_cnd_draw_retry:
-            disp_draw_logo(&gGfxHead, arg1);
+            disp_draw_logo(&gGfxHead, player_no);
             break;
 
         default:
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_wait:
         case dm_cnd_init:
-            temp_lo = temp_s4->count_down_ctrl / (s32)evs_playcnt;
-            temp_s0_2 = (temp_s4->count_down_ctrl / (s32)evs_playcnt) / 48;
+            temp_lo = st->count_down_ctrl / (s32)evs_playcnt;
+            temp_s0_2 = (st->count_down_ctrl / (s32)evs_playcnt) / 48;
 
-            if (temp_s4->count_down_ctrl >= 0) {
-                if (disp_count_logo(&gGfxHead, arg1, temp_lo) != 0) {
-                    temp_s4->count_down_ctrl = -1;
-                    if (arg1 == 0) {
+            if (st->count_down_ctrl >= 0) {
+                if (disp_count_logo(&gGfxHead, player_no, temp_lo) != 0) {
+                    st->count_down_ctrl = -1;
+                    if (player_no == 0) {
                         dm_snd_play_in_game(SND_INDEX_73);
                     }
                 } else {
-                    if ((arg1 == 0) && ((temp_s0_2 * 0x30) == (temp_lo - 0x14))) {
+                    if ((player_no == 0) && ((temp_s0_2 * 0x30) == (temp_lo - 0x14))) {
                         if (temp_s0_2 < 3) {
                             dm_snd_play_in_game(SND_INDEX_72);
                         }
                     }
-                    temp_s4->count_down_ctrl++;
+                    st->count_down_ctrl++;
                 }
             }
             break;
@@ -6600,11 +6710,11 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_clear_wait:
         case dm_cnd_gover_wait:
-            if ((evs_gamesel == GSL_1PLAY) && (evs_gamemode == GMD_TIME_ATTACK) && (temp_s4->effect_timer[arg1] == 0)) {
-                push_any_key_draw(gameStateDataRef->map_x + 8, gameStateDataRef->map_y + 0xA0);
+            if ((evs_gamesel == GSL_1PLAY) && (evs_gamemode == GMD_TIME_ATTACK) && (st->effect_timer[player_no] == 0)) {
+                push_any_key_draw(state->map_x + 8, state->map_y + 0xA0);
             }
             break;
 
@@ -6612,28 +6722,28 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_pause:
-            retryMenu_drawPause(arg1, &gGfxHead, false);
+            retryMenu_drawPause(player_no, &gGfxHead, false);
             break;
 
         case dm_cnd_pause_re:
         case dm_cnd_pause_re_sc:
-            retryMenu_drawPause(arg1, &gGfxHead, true);
+            retryMenu_drawPause(player_no, &gGfxHead, true);
             break;
 
         default:
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_pause:
         case dm_cnd_pause_re:
         case dm_cnd_pause_re_sc:
             switch (evs_gamesel) {
                 case GSL_4PLAY:
-                    draw_4p_attack_guide_panel(&gGfxHead, temp_s4->vs_4p_player_count, arg1,
-                                               (s32)gameStateDataRef->map_x, gameStateDataRef->map_y - 0x24);
+                    draw_4p_attack_guide_panel(&gGfxHead, st->vs_4p_player_count, player_no, (s32)state->map_x,
+                                               state->map_y - 0x24);
                     break;
 
                 default:
@@ -6645,7 +6755,7 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
             break;
     }
 
-    switch (gameStateDataRef->cnd_now) {
+    switch (state->cnd_now) {
         case dm_cnd_stage_clear:
         case dm_cnd_game_over:
         case dm_cnd_win_retry:
@@ -6653,8 +6763,8 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
         case dm_cnd_lose_retry:
         case dm_cnd_lose_retry_sc:
         case dm_cnd_draw_retry:
-            if (temp_s4->effect_timer[arg1] == 0) {
-                retryMenu_drawContinue(arg1, &gGfxHead);
+            if (st->effect_timer[player_no] == 0) {
+                retryMenu_drawContinue(player_no, &gGfxHead);
             }
             break;
 
@@ -6665,12 +6775,15 @@ void dm_game_graphic_effect(struct_game_state_data *gameStateDataRef, s32 arg1, 
     gfxSetScissor(&gGfxHead, GFXSETSCISSOR_INTERLACE_NO, 0, 0, 0x140, 0xF0);
 }
 
-void func_8006D0E8(void) {
+/**
+ * Original name: dm_game_graphic_effect
+ */
+void key_cntrol_init(void) {
     s32 i;
 
     for (i = 0; i < MAXCONTROLLERS; i++) {
         joyflg[i] = ANY_BUTTON & ~(Z_TRIG | START_BUTTON | L_TRIG | R_TRIG);
-        joygmf[i] = 1;
+        joygmf[i] = true;
         joygam[i] = 0;
     }
 
@@ -6678,28 +6791,31 @@ void func_8006D0E8(void) {
     joycur2 = evs_keyrept[1];
 }
 
+/**
+ * Original name: dm_make_key
+ */
 void dm_make_key(void) {
-    s32 var_t3;
+    s32 count;
     s32 i;
 
     switch (evs_gamesel) {
         case GSL_1PLAY:
         case GSL_VSCPU:
-            var_t3 = 1;
+            count = 1;
             break;
 
         case GSL_2PLAY:
-            var_t3 = 2;
+            count = 2;
             break;
 
         default:
-            var_t3 = 4;
+            count = 4;
             break;
     }
 
-    for (i = 0; i < var_t3; i++) {
+    for (i = 0; i < count; i++) {
         if (game_state_data[i].player_type == PLAYERTYPE_0) {
-            if (joygmf[main_joy[i]] != 0) {
+            if (joygmf[main_joy[i]]) {
                 u16 pressedButton = gControllerPressedButtons[main_joy[i]];
                 u16 curButton = joycur[main_joy[i]];
 
@@ -6713,103 +6829,104 @@ void dm_make_key(void) {
     }
 }
 
-void key_control_main(struct_game_state_data *gameStateDataRef, GameMapCell *mapCells, s32 arg2, s32 arg3) {
-    struct_watchGame *temp_s5 = watchGame;
-    s32 sp18[2];
-    s32 sp20[2];
+/**
+ * Original name: key_control_main
+ */
+void key_control_main(struct_game_state_data *state, GameMapCell *map, s32 player_no, s32 joy_no) {
+    struct_watchGame *st = watchGame;
+    s32 xx[2];
+    s32 yy[2];
 
     load_visible_fall_point_flag();
 
-    if ((gameStateDataRef->player_type != PLAYERTYPE_1) &&
-        ((gameStateDataRef->player_type == 1) || (arg2 != 0) || (aiDebugP1 < 0))) {
-        if (gControllerPressedButtons[arg3] & (U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS)) {
-            visible_fall_point[arg2] = !visible_fall_point[arg2];
+    if (!UNK_PLAYER0_CHECK(state, player_no)) {
+        if (gControllerPressedButtons[joy_no] & (U_CBUTTONS | L_CBUTTONS | R_CBUTTONS | D_CBUTTONS)) {
+            visible_fall_point[player_no] = !visible_fall_point[player_no];
         }
     }
 
     save_visible_fall_point_flag();
 
-    if (gameStateDataRef->mode_now == dm_mode_throw) {
-        if (!temp_s5->demo_flag && dm_calc_capsel_pos(gameStateDataRef, sp18, sp20)) {
-            dm_draw_capsel_by_cpu_tentative(gameStateDataRef, sp18, sp20);
+    if (state->mode_now == dm_mode_throw) {
+        if (!st->demo_flag && dm_calc_capsel_pos(state, xx, yy)) {
+            dm_draw_capsel_by_cpu_tentative(state, xx, yy);
         }
 
-        if (gameStateDataRef->player_type == PLAYERTYPE_0) {
-            if (gControllerHoldButtons[arg3] & R_JPAD) {
-                joyCursorFastSet(R_JPAD, arg3);
+        if (state->player_type == PLAYERTYPE_0) {
+            if (gControllerHoldButtons[joy_no] & R_JPAD) {
+                joyCursorFastSet(R_JPAD, joy_no);
             }
-            if (gControllerHoldButtons[arg3] & L_JPAD) {
-                joyCursorFastSet(L_JPAD, arg3);
+            if (gControllerHoldButtons[joy_no] & L_JPAD) {
+                joyCursorFastSet(L_JPAD, joy_no);
             }
         }
-    } else if (gameStateDataRef->mode_now == dm_mode_down) {
-        if (gameStateDataRef->cnd_static == dm_cnd_wait) {
-            struct_game_state_data_now_cap *temp_s0_2;
+    } else if (state->mode_now == dm_mode_down) {
+        if (state->cnd_static == dm_cnd_wait) {
+            struct_game_state_data_now_cap *cap;
 
-            if ((gameStateDataRef->player_type == PLAYERTYPE_1) ||
-                ((gameStateDataRef->player_type != PLAYERTYPE_1) && (arg2 == 0) && (aiDebugP1 >= 0))) {
-                u16 temp_s1_2 = joygam[arg2];
+            if (UNK_PLAYER0_CHECK(state, player_no)) {
+                u16 temp_s1_2 = joygam[player_no];
 
-                aifKeyOut(gameStateDataRef);
-                if (temp_s5->replayFlag) {
-                    joygam[arg2] = temp_s1_2;
+                aifKeyOut(state);
+                if (st->replayFlag) {
+                    joygam[player_no] = temp_s1_2;
                 }
             }
 
-            temp_s0_2 = &gameStateDataRef->now_cap;
-            if (joygam[arg2] & B_BUTTON) {
-                rotate_capsel(mapCells, temp_s0_2, -1);
-            } else if (joygam[arg2] & A_BUTTON) {
-                rotate_capsel(mapCells, temp_s0_2, 1);
+            cap = &state->now_cap;
+            if (joygam[player_no] & B_BUTTON) {
+                rotate_capsel(map, cap, -1);
+            } else if (joygam[player_no] & A_BUTTON) {
+                rotate_capsel(map, cap, 1);
             }
 
-            if (joygam[arg2] & L_JPAD) {
-                translate_capsel(mapCells, gameStateDataRef, -1, arg3);
-            } else if (joygam[arg2] & R_JPAD) {
-                translate_capsel(mapCells, gameStateDataRef, 1, arg3);
+            if (joygam[player_no] & L_JPAD) {
+                translate_capsel(map, state, -1, joy_no);
+            } else if (joygam[player_no] & R_JPAD) {
+                translate_capsel(map, state, 1, joy_no);
             }
 
-            gameStateDataRef->cap_speed_vec = 1;
-            if ((joygam[arg2] & D_JPAD) && (temp_s0_2->pos_y[0] > 0)) {
-                s32 val = FallSpeed[gameStateDataRef->cap_speed];
+            state->cap_speed_vec = 1;
+            if ((joygam[player_no] & D_JPAD) && (cap->pos_y[0] > 0)) {
+                s32 val = FallSpeed[state->cap_speed];
 
                 val = (val >> 1) + (val & 1);
 
-                gameStateDataRef->cap_speed_vec = val;
+                state->cap_speed_vec = val;
             }
-        } else if (gameStateDataRef->player_type == PLAYERTYPE_0) {
-            if (gControllerHoldButtons[arg3] & R_JPAD) {
-                joyCursorFastSet(R_JPAD, arg3);
+        } else if (state->player_type == PLAYERTYPE_0) {
+            if (gControllerHoldButtons[joy_no] & R_JPAD) {
+                joyCursorFastSet(R_JPAD, joy_no);
             }
-            if (gControllerHoldButtons[arg3] & L_JPAD) {
-                joyCursorFastSet(L_JPAD, arg3);
+            if (gControllerHoldButtons[joy_no] & L_JPAD) {
+                joyCursorFastSet(L_JPAD, joy_no);
             }
         }
 
-        if (!temp_s5->demo_flag) {
-            if (dm_calc_capsel_pos(gameStateDataRef, sp18, sp20)) {
-                dm_draw_capsel_by_cpu_tentative(gameStateDataRef, sp18, sp20);
+        if (!st->demo_flag) {
+            if (dm_calc_capsel_pos(state, xx, yy)) {
+                dm_draw_capsel_by_cpu_tentative(state, xx, yy);
             }
         }
-        dm_capsel_down(gameStateDataRef, mapCells);
-        temp_s5->force_draw_capsel_count[arg2] = 2;
+        dm_capsel_down(state, map);
+        st->force_draw_capsel_count[player_no] = 2;
     } else {
-        if (temp_s5->force_draw_capsel_count[arg2] != 0) {
-            s32 temp_s3 = gameStateDataRef->now_cap.capsel_flg_0;
+        if (st->force_draw_capsel_count[player_no] != 0) {
+            s32 bak = state->now_cap.capsel_flg_0;
 
-            gameStateDataRef->now_cap.capsel_flg_0 = 1;
-            if (!temp_s5->demo_flag) {
-                if (dm_calc_capsel_pos(gameStateDataRef, sp18, sp20)) {
-                    dm_draw_capsel_by_cpu_tentative(gameStateDataRef, sp18, sp20);
+            state->now_cap.capsel_flg_0 = 1;
+            if (!st->demo_flag) {
+                if (dm_calc_capsel_pos(state, xx, yy)) {
+                    dm_draw_capsel_by_cpu_tentative(state, xx, yy);
                 }
             }
-            gameStateDataRef->now_cap.capsel_flg_0 = temp_s3;
-            temp_s5->force_draw_capsel_count[arg2]--;
+            state->now_cap.capsel_flg_0 = bak;
+            st->force_draw_capsel_count[player_no]--;
         }
 
-        if (gameStateDataRef->player_type == PLAYERTYPE_0) {
-            joyCursorFastSet(R_JPAD, arg3);
-            joyCursorFastSet(L_JPAD, arg3);
+        if (state->player_type == PLAYERTYPE_0) {
+            joyCursorFastSet(R_JPAD, joy_no);
+            joyCursorFastSet(L_JPAD, joy_no);
         }
     }
 }
@@ -6821,7 +6938,7 @@ void make_ai_main(void) {
     s32 i;
     struct_game_state_data *ptr;
 
-    if (D_800A6FC4 == 0) {
+    if (!dm_think_flg) {
         return;
     }
 
@@ -6832,9 +6949,7 @@ void make_ai_main(void) {
             for (i = 0; i < 2; i++) {
                 ptr = &game_state_data[i];
 
-                if (((ptr->player_type == PLAYERTYPE_1) ||
-                     (((ptr->player_type != PLAYERTYPE_1) && (i == 0)) && (aiDebugP1 >= 0))) &&
-                    (game_state_data[i].cnd_static == dm_cnd_wait)) {
+                if (UNK_PLAYER0_CHECK(ptr, i) && (game_state_data[i].cnd_static == dm_cnd_wait)) {
                     aifMake(&game_state_data[i]);
                 }
             }
@@ -6845,9 +6960,7 @@ void make_ai_main(void) {
             for (i = 0; i < 4; i++) {
                 ptr = &game_state_data[i];
 
-                if (((ptr->player_type == PLAYERTYPE_1) ||
-                     (((ptr->player_type != PLAYERTYPE_1) && (i == 0)) && (aiDebugP1 >= 0))) &&
-                    (game_state_data[i].cnd_static == dm_cnd_wait)) {
+                if (UNK_PLAYER0_CHECK(ptr, i) && (game_state_data[i].cnd_static == dm_cnd_wait)) {
                     aifMake(&game_state_data[i]);
                 }
             }
@@ -6855,7 +6968,7 @@ void make_ai_main(void) {
 
         case GSL_1PLAY:
         case GSL_1DEMO:
-            if ((game_state_data->player_type == PLAYERTYPE_1) || (aiDebugP1 >= 0)) {
+            if (UNK_PLAYER0_CHECK(game_state_data, 0)) {
                 aifMake(&game_state_data[0]);
             }
             break;
@@ -6865,17 +6978,19 @@ void make_ai_main(void) {
     }
 }
 
+/**
+ * Original name: dm_effect_make
+ */
 void dm_effect_make(void) {
-    struct_watchGame *watchGameP = watchGame;
+    struct_watchGame *st = watchGame;
     s32 i;
 
-    watchGameP->blink_count++;
-    watchGameP->frame_move_count =
-        CLAMP(watchGameP->frame_move_count + watchGameP->frame_move_step, 0, FRAME_MOVEMENT_MAX);
+    st->blink_count++;
+    st->frame_move_count = CLAMP(st->frame_move_count + st->frame_move_step, 0, FRAME_MOVEMENT_MAX);
 
     for (i = 0; i < evs_playcnt; i++) {
         if (game_state_data[i].cnd_static == dm_cnd_wait) {
-            if (watchGameP->started_game_flg && (evs_game_time < 0x57E04)) {
+            if (st->started_game_flg && (evs_game_time < 5999 * 60)) {
                 evs_game_time++;
             }
             break;
@@ -6929,7 +7044,7 @@ void dm_game_init(bool arg0) {
         }
 
         watchGameP->star_count = 0;
-        func_80069160(&watchGameP->starForce, watchGameP->star_pos_x, watchGameP->star_pos_y);
+        starForce_init(&watchGameP->starForce, watchGameP->star_pos_x, watchGameP->star_pos_y);
 
         // Redundant condition
         if (!arg0) {
@@ -7240,7 +7355,7 @@ void dm_game_init_static(void) {
     watchGameP->frame_move_count = 0;
     watchGameP->frame_move_step = 1;
     watchGameP->touch_down_wait = 2;
-    func_8006A938(0);
+    _init_coin_logo(0);
     watchGameP->coffee_break_flow = 0;
     watchGameP->coffee_break_timer = 0;
     watchGameP->coffee_break_level = 0;
@@ -7741,7 +7856,7 @@ enum_main_no dm_game_main(NNSched *sc) {
     s32 var_s4;
     struct_watchGame *watchGameP;
 
-    func_8006D0E8();
+    key_cntrol_init();
 
     osCreateMesgQueue(&scMQ, scMsgBuf, ARRAY_COUNT(scMsgBuf));
     nnScAddClient(sc, &scClient, &scMQ);
@@ -7754,7 +7869,7 @@ enum_main_no dm_game_main(NNSched *sc) {
     watchGameP->bg_snapping = true;
     dm_game_init(false);
     backup_game_state(0);
-    D_800A6FC4 = 1;
+    dm_think_flg = true;
     gGfxHead = gGfxGlist[gfx_gtask_no];
 
     while (var_s2 || (watchGameP->curtain_count != CURTAIN_COUNT_VAL)) {
@@ -7829,7 +7944,7 @@ enum_main_no dm_game_main(NNSched *sc) {
         }
     }
 
-    D_800A6FC4 = 0;
+    dm_think_flg = false;
     watchGameP->graphic_thread_pri = THREAD_PRI_GRAPHIC;
 
     while (watchGameP->graphic_thread_pri != 0) {
@@ -8284,8 +8399,8 @@ void dm_game_graphic2(void) {
         case GSL_VSCPU:
         case GSL_2DEMO: {
             s32 temp_s4 = temp_s7->frame_move_count;
-            s32 temp_s0 = temp_s7->frame_move_count < FRAME_MOVEMENT_MAX;
-            s32 temp_s1 = !temp_s7->bg_snapping;
+            bool temp_s0 = temp_s7->frame_move_count < FRAME_MOVEMENT_MAX;
+            bool temp_s1 = !temp_s7->bg_snapping;
 
             if (!debugMenuEnabled) {
                 if (temp_s7->bg_snapping) {
@@ -8368,7 +8483,7 @@ void dm_game_graphic2(void) {
                     switch (evs_gamemode) {
                         case GMD_TaiQ:
                         case GMD_NORMAL:
-                            func_8006A098(&gGfxHead, evs_game_time, RO_800B1D28[0], RO_800B1D28[1]);
+                            draw_time(&gGfxHead, evs_game_time, RO_800B1D28[0], RO_800B1D28[1]);
                             break;
 
                         case GMD_TIME_ATTACK:
@@ -8428,14 +8543,14 @@ void dm_game_graphic2(void) {
                         break;
 
                     default:
-                        func_8006A098(&gGfxHead, evs_game_time, 0x9A, 0xA7);
+                        draw_time(&gGfxHead, evs_game_time, 0x9A, 0xA7);
                         break;
                 }
 
                 if (evs_story_flg != 0) {
                     for (i = cached = 0; i < 2U; i++) {
                         if (temp_s7->win_count[i] == 0) {
-                            func_800695A8(&gGfxHead, _posStStar[i][0], _posStStar[i][1], cached);
+                            draw_star_base(&gGfxHead, _posStStar[i][0], _posStStar[i][1], cached);
                             cached++;
                         }
                     }
@@ -8446,7 +8561,7 @@ void dm_game_graphic2(void) {
 
                     for (i = cached = 0; i < 2; i++) {
                         for (j = temp_s7->win_count[i]; j < evs_vs_count; j++) {
-                            func_800695A8(&gGfxHead, _posP2StarX[i], _posP2StarY[evs_vs_count - 1][j], cached);
+                            draw_star_base(&gGfxHead, _posP2StarX[i], _posP2StarY[evs_vs_count - 1][j], cached);
                             cached++;
                         }
                     }
@@ -8468,7 +8583,7 @@ void dm_game_graphic2(void) {
                                      var_t2->texs[TI_TEX_TEX], var_t2->info[TI_INFO_IDX_WIDTH], 131.0f, 181.0f,
                                      var_s6->info[TI_INFO_IDX_WIDTH], var_s6->info[TI_INFO_IDX_HEIGHT]);
 
-                func_80069188(&temp_s7->starForce, temp_s7->star_count);
+                starForce_calc(&temp_s7->starForce, temp_s7->star_count);
                 starForce_draw(&temp_s7->starForce, &gGfxHead, temp_s7->star_count);
 
                 for (i = 0; i < 2; i++) {
@@ -8504,11 +8619,11 @@ void dm_game_graphic2(void) {
                 }
 
                 if (evs_story_flg != 0) {
-                    func_8006A098(&gGfxHead, evs_game_time, 0x3B, 0x12);
+                    draw_time(&gGfxHead, evs_game_time, 0x3B, 0x12);
 
                     for (i = cached = 0; i < ARRAY_COUNTU(temp_s7->win_count); i++) {
                         if (temp_s7->win_count[i] == 0) {
-                            func_800695A8(&gGfxHead, _posStP4StarX[i], 0xD, cached);
+                            draw_star_base(&gGfxHead, _posStP4StarX[i], 0xD, cached);
                             cached++;
                         }
                     }
@@ -8545,20 +8660,20 @@ void dm_game_graphic2(void) {
 
                     for (i = cached = 0; i < 2; i++) {
                         for (j = temp_s7->win_count[i]; j < evs_vs_count; j++) {
-                            func_800695A8(&gGfxHead, _posP4TeamStarX[evs_vs_count - 1][i][j], 0xD, cached);
+                            draw_star_base(&gGfxHead, _posP4TeamStarX[evs_vs_count - 1][i][j], 0xD, cached);
                             cached++;
                         }
                     }
                 } else {
                     for (i = cached = 0; i < 4; i++) {
                         for (j = temp_s7->win_count[i]; j < evs_vs_count; j++) {
-                            func_800695A8(&gGfxHead, _posP4CharStarX[evs_vs_count - 1][i][j], 0xD, cached);
+                            draw_star_base(&gGfxHead, _posP4CharStarX[evs_vs_count - 1][i][j], 0xD, cached);
                             cached++;
                         }
                     }
                 }
 
-                func_80069188(&temp_s7->starForce, temp_s7->star_count);
+                starForce_calc(&temp_s7->starForce, temp_s7->star_count);
                 starForce_draw(&temp_s7->starForce, &gGfxHead, temp_s7->star_count);
 
                 for (i = 0; i < 4; i++) {
