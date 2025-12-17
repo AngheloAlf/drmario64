@@ -54,7 +54,7 @@ static_assert(ARRAY_COUNT(bgRomData) == BGROMDATA_MAX, "");
 /**
  * Original name: _romDataTbl
  */
-RomOffsetPair _romDataTbl[] = {
+RomOffset _romDataTbl[][ROMTABLEPAIR_MAX] = {
     { SEGMENT_ROM_START(n64_wave_tables), SEGMENT_ROM_END(n64_wave_tables) },             // ROMDATATBL_N64_WAVE_TABLES
     { SEGMENT_ROM_START(n64_ptr_tables_v2), SEGMENT_ROM_END(n64_ptr_tables_v2) },         // ROMDATATBL_N64_PTR_TABLES
     { SEGMENT_ROM_START(fxbank), SEGMENT_ROM_END(fxbank) },                               // ROMDATATBL_FXBANK

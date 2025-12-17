@@ -183,7 +183,8 @@ void animeState_load(SAnimeState *animeState, void **heap, CharAnimeMode animeMo
     u8 **seqArray;
     RomDataTblIndex index = _addrTbl_124[animeMode];
 
-    loadAnimeSeq(heap, &texArray, &seqArray, _romDataTbl[index].start, _romDataTbl[index].end);
+    loadAnimeSeq(heap, &texArray, &seqArray, _romDataTbl[index][ROMTABLEPAIR_START],
+                 _romDataTbl[index][ROMTABLEPAIR_END]);
     animeState_init(animeState, seqArray, texArray, _centerTbl_125[animeMode].cx, _centerTbl_125[animeMode].cy,
                     animeMode);
 }

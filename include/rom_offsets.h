@@ -120,8 +120,15 @@ typedef enum RomDataTblIndex {
     /* 67 */ ROMDATATBL_MAX
 } RomDataTblIndex;
 
+typedef enum RomTablePairIndex {
+    /* 0 */ ROMTABLEPAIR_START,
+    /* 1 */ ROMTABLEPAIR_END,
+    /* 2 */ ROMTABLEPAIR_MAX,
+} RomTablePairIndex;
+
+
 extern RomOffsetPair storyRomData[];
 extern RomOffsetPair bgRomData[];
-extern RomOffsetPair _romDataTbl[];
+extern RomOffset _romDataTbl[][ROMTABLEPAIR_MAX];
 
 #endif

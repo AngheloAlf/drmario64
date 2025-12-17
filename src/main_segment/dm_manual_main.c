@@ -1970,7 +1970,7 @@ const u8 size_table_1039[] = { 0xA, 8 };
  */
 void dm_manual_all_init(void) {
     struct_watchManual *st;
-    RomOffsetPair *tbl;
+    RomOffset(*tbl)[ROMTABLEPAIR_MAX];
     void **heap;
     s32 i;
     s32 j;
@@ -2010,8 +2010,10 @@ void dm_manual_all_init(void) {
     *heap = watchManual + 1;
 
     tbl = _romDataTbl;
-    _texAll = tiLoadTexData(heap, tbl[ROMDATATBL_TUTORIAL_KASA].start, tbl[ROMDATATBL_TUTORIAL_KASA].end);
-    _texKaSa = tiLoadTexData(heap, tbl[ROMDATATBL_MENU_KASA].start, tbl[ROMDATATBL_MENU_KASA].end);
+    _texAll = tiLoadTexData(heap, tbl[ROMDATATBL_TUTORIAL_KASA][ROMTABLEPAIR_START],
+                            tbl[ROMDATATBL_TUTORIAL_KASA][ROMTABLEPAIR_END]);
+    _texKaSa =
+        tiLoadTexData(heap, tbl[ROMDATATBL_MENU_KASA][ROMTABLEPAIR_START], tbl[ROMDATATBL_MENU_KASA][ROMTABLEPAIR_END]);
 
     tutolWnd_init(&st->msgWnd, heap);
     tutolWnd_fadeIn(&st->msgWnd);

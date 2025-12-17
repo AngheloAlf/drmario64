@@ -171,8 +171,8 @@ s32 func_8002AA80(void) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNTU(RO_800ACA20); i++) {
-        RomOffsetPair *pair = &_romDataTbl[RO_800ACA20[i]];
-        s32 segmentSize = pair->end - pair->start;
+        RomOffset *pair = _romDataTbl[RO_800ACA20[i]];
+        s32 segmentSize = pair[ROMTABLEPAIR_END] - pair[ROMTABLEPAIR_START];
 
         ret = MAX(segmentSize, ret);
     }
@@ -273,16 +273,20 @@ void dm_audio_init_driver(NNSched *sc) {
     }
 
     InitMusicDriver(sc, audio_memory, AUDIO_HEAP_SIZE,
-                    _romDataTbl[ROMDATATBL_N64_PTR_TABLES].end - _romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
+                    _romDataTbl[ROMDATATBL_N64_PTR_TABLES][ROMTABLEPAIR_END] -
+                        _romDataTbl[ROMDATATBL_N64_PTR_TABLES][ROMTABLEPAIR_START],
                     func_8002AA80(), SOUNDBUFNUMBER_MAX,
-                    _romDataTbl[ROMDATATBL_FXBANK].end - _romDataTbl[ROMDATATBL_FXBANK].start, 4,
-                    THREAD_PRI_MUSIC_DRIVER);
+                    _romDataTbl[ROMDATATBL_FXBANK][ROMTABLEPAIR_END] -
+                        _romDataTbl[ROMDATATBL_FXBANK][ROMTABLEPAIR_START],
+                    4, THREAD_PRI_MUSIC_DRIVER);
 
-    func_8002D3B0(_romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
-                  _romDataTbl[ROMDATATBL_N64_PTR_TABLES].end - _romDataTbl[ROMDATATBL_N64_PTR_TABLES].start,
-                  (void *)_romDataTbl[ROMDATATBL_N64_WAVE_TABLES].start);
-    func_8002D6A4(_romDataTbl[ROMDATATBL_FXBANK].start,
-                  _romDataTbl[ROMDATATBL_FXBANK].end - _romDataTbl[ROMDATATBL_FXBANK].start);
+    func_8002D3B0(_romDataTbl[ROMDATATBL_N64_PTR_TABLES][ROMTABLEPAIR_START],
+                  _romDataTbl[ROMDATATBL_N64_PTR_TABLES][ROMTABLEPAIR_END] -
+                      _romDataTbl[ROMDATATBL_N64_PTR_TABLES][ROMTABLEPAIR_START],
+                  (void *)_romDataTbl[ROMDATATBL_N64_WAVE_TABLES][ROMTABLEPAIR_START]);
+    func_8002D6A4(_romDataTbl[ROMDATATBL_FXBANK][ROMTABLEPAIR_START],
+                  _romDataTbl[ROMDATATBL_FXBANK][ROMTABLEPAIR_END] -
+                      _romDataTbl[ROMDATATBL_FXBANK][ROMTABLEPAIR_START]);
 }
 
 /**
@@ -294,9 +298,9 @@ void dm_audio_update(void) {
 
     for (i = 0; i < ARRAY_COUNT(var_s0->seqIndex); i++) {
         if ((var_s0->seqIndex[i] > SEQ_INDEX_NONE) && _dm_seq_is_stopped(i)) {
-            RomOffsetPair *pair = &_romDataTbl[RO_800ACA20[var_s0->seqIndex[i]]];
+            RomOffset *pair = _romDataTbl[RO_800ACA20[var_s0->seqIndex[i]]];
 
-            func_8002D428(i, pair->start, pair->end - pair->start);
+            func_8002D428(i, pair[ROMTABLEPAIR_START], pair[ROMTABLEPAIR_END] - pair[ROMTABLEPAIR_START]);
             func_8002D4A4(i);
             func_8002D58C(i, 0x80);
             var_s0->seqIndex[i] = SEQ_INDEX_NONE;

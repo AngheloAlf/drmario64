@@ -328,7 +328,7 @@ void key_control_main(struct_game_state_data *state, GameMapCell *map, s32 playe
 void make_ai_main();
 void dm_effect_make(void);
 void dm_game_init_heap(void);
-void dm_game_init(bool arg0);
+void dm_game_init(bool reinit);
 void dm_game_init_static(void);
 void dm_game_init_snap_bg(void);
 void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, UNK_TYPE arg3);
