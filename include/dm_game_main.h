@@ -7,6 +7,7 @@
 #include "char_anime.h"
 #include "color.h"
 #include "defines.h"
+#include "dm_main_cnt.h"
 #include "game_etc.h"
 #include "gamemap.h"
 #include "msgwnd.h"
@@ -331,15 +332,14 @@ void dm_game_init_heap(void);
 void dm_game_init(bool reinit);
 void dm_game_init_static(void);
 void dm_game_init_snap_bg(void);
-void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, UNK_TYPE arg3);
-void func_8006F628(Gfx **gfxP);
+void dm_game_draw_snap_bg(Gfx **gfxP, Mtx **mtxP, Vtx **vtxP, bool drawPanelFlag);
+
 enum_main_no dm_game_main(struct NNSched *sc);
-s32 dm_game_main2(void);
-enum_main_no dm_game_main3(UNK_TYPE arg0);
+
 void dm_game_graphic(void);
 void dm_game_graphic2(void);
 void dm_game_graphic_onDoneSawp(void);
-void func_80071A44(void);
+void dm_game_graphic_onDoneTask(void);
 enum_main_no main_techmes(struct NNSched *sc);
 void graphic_techmes(void);
 

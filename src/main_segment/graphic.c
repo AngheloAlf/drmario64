@@ -261,7 +261,7 @@ void gfxproc_onDoneSwap(void) {
  */
 void gfxproc_onDoneTask(void) {
     if (graphic_no == GRAPHIC_NO_4) {
-        func_80071A44();
+        dm_game_graphic_onDoneTask();
     }
 }
 
