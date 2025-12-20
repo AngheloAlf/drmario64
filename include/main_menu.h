@@ -17,80 +17,80 @@ struct SMenuItem;
 struct struct_watchMenu;
 
 typedef enum MainMenuMode {
-    /*  0 */ MAINMENUMODE_MENUMAIN_0,
-    /*  1 */ MAINMENUMODE_1,
-    /*  2 */ MAINMENUMODE_2,
-    /*  3 */ MAINMENUMODE_MENUNMENT_3,
-    /*  4 */ MAINMENUMODE_MENUSTORY_4,
-    /*  5 */ MAINMENUMODE_5,
-    /*  6 */ MAINMENUMODE_MENUNMENT_6,
-    /*  7 */ MAINMENUMODE_MENULVSEL_7, // Classic
-    /*  8 */ MAINMENUMODE_8,
-    /*  9 */ MAINMENUMODE_MENUNMENT_9,
-    /* 10 */ MAINMENUMODE_MENULVSEL_10, // Marathon
-    /* 11 */ MAINMENUMODE_11,
-    /* 12 */ MAINMENUMODE_MENUNMENT_12,
-    /* 13 */ MAINMENUMODE_MENULVSEL_13, // Score Attack
-    /* 14 */ MAINMENUMODE_14,
-    /* 15 */ MAINMENUMODE_MENUNMENT_15,
-    /* 16 */ MAINMENUMODE_MENUCHSEL_16,
-    /* 17 */ MAINMENUMODE_MENUPLAY2_17,
-    /* 18 */ MAINMENUMODE_18,
-    /* 19 */ MAINMENUMODE_MENUNMENT_19,
-    /* 20 */ MAINMENUMODE_MENUCHSEL_20,
-    /* 21 */ MAINMENUMODE_MENUPLAY2_21,
-    /* 22 */ MAINMENUMODE_22,
-    /* 23 */ MAINMENUMODE_23,
-    /* 24 */ MAINMENUMODE_MENUNMENT_24,
-    /* 25 */ MAINMENUMODE_MENUCHSEL_25,
-    /* 26 */ MAINMENUMODE_MENUPLAY2_26,
-    /* 27 */ MAINMENUMODE_27,
-    /* 28 */ MAINMENUMODE_MENUNMENT_28,
-    /* 29 */ MAINMENUMODE_MENUCHSEL_29,
-    /* 30 */ MAINMENUMODE_MENUPLAY2_30,
-    /* 31 */ MAINMENUMODE_31,
-    /* 32 */ MAINMENUMODE_MENUNMENT_32,
-    /* 33 */ MAINMENUMODE_MENUCHSEL_33,
-    /* 34 */ MAINMENUMODE_MENUPLAY2_34,
-    /* 35 */ MAINMENUMODE_35,
-    /* 36 */ MAINMENUMODE_36,
-    /* 37 */ MAINMENUMODE_37,
-    /* 38 */ MAINMENUMODE_38,
-    /* 39 */ MAINMENUMODE_39,
-    /* 40 */ MAINMENUMODE_MENUCHSEL_40,
-    /* 41 */ MAINMENUMODE_MENUPLAY2_41,
-    /* 42 */ MAINMENUMODE_MENUCHSEL_42,
-    /* 43 */ MAINMENUMODE_MENUPLAY2_43,
-    /* 44 */ MAINMENUMODE_MENUCHSEL_44,
-    /* 45 */ MAINMENUMODE_MENUPLAY2_45,
-    /* 46 */ MAINMENUMODE_46,
-    /* 47 */ MAINMENUMODE_47,
-    /* 48 */ MAINMENUMODE_48,
-    /* 49 */ MAINMENUMODE_MENURANK_49, // Records / One Player / Story
-    /* 50 */ MAINMENUMODE_MENURANK_50, // Records / One Player / Classic
-    /* 51 */ MAINMENUMODE_MENURANK_51, // Records / One Player / Marathon
-    /* 52 */ MAINMENUMODE_MENURANK_52, // Records / One Player / Score Attack
-    /* 53 */ MAINMENUMODE_MENURANK_53, // Records / One Player / Vs.Computer
-    /* 54 */ MAINMENUMODE_MENURANK_54, // Records / One Player / Flash
-    /* 55 */ MAINMENUMODE_MENURANK_55,
-    /* 56 */ MAINMENUMODE_MENURANK_56, // Records / Two Player / 2-Player Vs.
-    /* 57 */ MAINMENUMODE_MENURANK_57, // Records / Two Player / Flash
-    /* 58 */ MAINMENUMODE_MENURANK_58, // Records / Two Player / Score Attack
-    /* 59 */ MAINMENUMODE_59,
-    /* 60 */ MAINMENUMODE_60,
-    /* 61 */ MAINMENUMODE_61,
-    /* 62 */ MAINMENUMODE_62,
-    /* 63 */ MAINMENUMODE_MENUNMENT_63,
-    /* 64 */ MAINMENUMODE_MENUNMENT_64,
-    /* 65 */ MAINMENUMODE_65,
-    /* 66 */ MAINMENUMODE_66,
-    /* 67 */ MAINMENUMODE_67,
-    /* 68 */ MAINMENUMODE_68,
-    /* 69 */ MAINMENUMODE_69,
-    /* 70 */ MAINMENUMODE_70,
-    /* 71 */ MAINMENUMODE_71,
-    /* 72 */ MAINMENUMODE_72,
-    /* 73 */ MAINMENUMODE_73,
+    /*  0 */ MODE_MAIN, /* Original name: MODE_MAIN */
+    /*  1 */ MODE_PLAY1, /* Original name: MODE_PLAY1 */
+    /*  2 */ MODE_STORY_NS, /* Original name: MODE_STORY_NS */
+    /*  3 */ MODE_STORY_NE, /* Original name: MODE_STORY_NE */
+    /*  4 */ MODE_STORY, /* Original name: MODE_STORY */
+    /*  5 */ MODE_LVSEL_NS, /* Original name: MODE_LVSEL_NS */
+    /*  6 */ MODE_LVSEL_NE, /* Original name: MODE_LVSEL_NE */
+    /*  7 */ MODE_LVSEL, /* Original name: MODE_LVSEL */ // Classic
+    /*  8 */ MODE_LVSEL_TQ_NS, /* Original name: MODE_LVSEL_TQ_NS */
+    /*  9 */ MODE_LVSEL_TQ_NE, /* Original name: MODE_LVSEL_TQ_NE */
+    /* 10 */ MODE_LVSEL_TQ, /* Original name: MODE_LVSEL_TQ */ // Marathon
+    /* 11 */ MODE_LVSEL_TA_NS, /* Original name: MODE_LVSEL_TA_NS */
+    /* 12 */ MODE_LVSEL_TA_NE, /* Original name: MODE_LVSEL_TA_NE */
+    /* 13 */ MODE_LVSEL_TA, /* Original name: MODE_LVSEL_TA */ // Score Attack
+    /* 14 */ MODE_VSCOM_NS, /* Original name: MODE_VSCOM_NS */
+    /* 15 */ MODE_VSCOM_NE, /* Original name: MODE_VSCOM_NE */
+    /* 16 */ MODE_VSCOM_CH, /* Original name: MODE_VSCOM_CH */
+    /* 17 */ MODE_VSCOM, /* Original name: MODE_VSCOM */
+    /* 18 */ MODE_VSCOM_FL_NS, /* Original name: MODE_VSCOM_FL_NS */
+    /* 19 */ MODE_VSCOM_FL_NE, /* Original name: MODE_VSCOM_FL_NE */
+    /* 20 */ MODE_VSCOM_FL_CH, /* Original name: MODE_VSCOM_FL_CH */
+    /* 21 */ MODE_VSCOM_FL, /* Original name: MODE_VSCOM_FL */
+    /* 22 */ MODE_PLAY2, /* Original name: MODE_PLAY2 */
+    /* 23 */ MODE_VSMAN_NS, /* Original name: MODE_VSMAN_NS */
+    /* 24 */ MODE_VSMAN_NE, /* Original name: MODE_VSMAN_NE */
+    /* 25 */ MODE_VSMAN_CH, /* Original name: MODE_VSMAN_CH */
+    /* 26 */ MODE_VSMAN, /* Original name: MODE_VSMAN */
+    /* 27 */ MODE_VSMAN_FL_NS, /* Original name: MODE_VSMAN_FL_NS */
+    /* 28 */ MODE_VSMAN_FL_NE, /* Original name: MODE_VSMAN_FL_NE */
+    /* 29 */ MODE_VSMAN_FL_CH, /* Original name: MODE_VSMAN_FL_CH */
+    /* 30 */ MODE_VSMAN_FL, /* Original name: MODE_VSMAN_FL */
+    /* 31 */ MODE_VSMAN_TA_NS, /* Original name: MODE_VSMAN_TA_NS */
+    /* 32 */ MODE_VSMAN_TA_NE, /* Original name: MODE_VSMAN_TA_NE */
+    /* 33 */ MODE_VSMAN_TA_CH, /* Original name: MODE_VSMAN_TA_CH */
+    /* 34 */ MODE_VSMAN_TA, /* Original name: MODE_VSMAN_TA */
+    /* 35 */ MODE_PLAY4, /* Original name: MODE_PLAY4 */
+    /* 36 */ MODE_PLAY4_TYPE1, /* Original name: MODE_PLAY4_TYPE1 */
+    /* 37 */ MODE_PLAY4_TYPE2, /* Original name: MODE_PLAY4_TYPE2 */
+    /* 38 */ MODE_PLAY4_TYPE3, /* Original name: MODE_PLAY4_TYPE3 */
+    /* 39 */ MODE_PLAY4_TYPE4, /* Original name: MODE_PLAY4_TYPE4 */
+    /* 40 */ MODE_PLAY4_CH, /* Original name: MODE_PLAY4_CH */
+    /* 41 */ MODE_PLAY4_LV, /* Original name: MODE_PLAY4_LV */
+    /* 42 */ MODE_PLAY4_TB_CH, /* Original name: MODE_PLAY4_TB_CH */
+    /* 43 */ MODE_PLAY4_TB_LV, /* Original name: MODE_PLAY4_TB_LV */
+    /* 44 */ MODE_PLAY4_FL_CH, /* Original name: MODE_PLAY4_FL_CH */
+    /* 45 */ MODE_PLAY4_FL_LV, /* Original name: MODE_PLAY4_FL_LV */
+    /* 46 */ MODE_OPTION, /* Original name: MODE_OPTION */
+    /* 47 */ MODE_RECORD_MS, /* Original name: MODE_RECORD_MS */
+    /* 48 */ MODE_RECORD_PLAY1, /* Original name: MODE_RECORD_PLAY1 */
+    /* 49 */ MODE_RECORD_ST, /* Original name: MODE_RECORD_ST */ // Records / One Player / Story
+    /* 50 */ MODE_RECORD_LS, /* Original name: MODE_RECORD_LS */ // Records / One Player / Classic
+    /* 51 */ MODE_RECORD_LS_TQ, /* Original name: MODE_RECORD_LS_TQ */ // Records / One Player / Marathon
+    /* 52 */ MODE_RECORD_LS_TA, /* Original name: MODE_RECORD_LS_TA */ // Records / One Player / Score Attack
+    /* 53 */ MODE_RECORD_VC, /* Original name: MODE_RECORD_VC */ // Records / One Player / Vs.Computer
+    /* 54 */ MODE_RECORD_VC_FL, /* Original name: MODE_RECORD_VC_FL */ // Records / One Player / Flash
+    /* 55 */ MODE_RECORD_PLAY2, /* Original name: MODE_RECORD_PLAY2 */
+    /* 56 */ MODE_RECORD_VM, /* Original name: MODE_RECORD_VM */ // Records / Two Player / 2-Player Vs.
+    /* 57 */ MODE_RECORD_VM_FL, /* Original name: MODE_RECORD_VM_FL */ // Records / Two Player / Flash
+    /* 58 */ MODE_RECORD_VM_TA, /* Original name: MODE_RECORD_VM_TA */ // Records / Two Player / Score Attack
+    /* 59 */ MODE_TUTORIAL, /* Original name: MODE_TUTORIAL */
+    /* 60 */ MODE_CONT, /* Original name: MODE_CONT */
+    /* 61 */ MODE_NAME_NS, /* Original name: MODE_NAME_NS */
+    /* 62 */ MODE_NAME, /* Original name: MODE_NAME */
+    /* 63 */ MODE_NAME_NE, /* Original name: MODE_NAME_NE */
+    /* 64 */ MODE_NAME_NE2, /* Original name: MODE_NAME_NE2 */
+    /* 65 */ MODE_NAME_DEL_YN, /* Original name: MODE_NAME_DEL_YN */
+    /* 66 */ MODE_NAME_DEL_MES, /* Original name: MODE_NAME_DEL_MES */
+    /* 67 */ MODE_BACKUP, /* Original name: MODE_BACKUP */
+    /* 68 */ MODE_BACKUP_YN, /* Original name: MODE_BACKUP_YN */
+    /* 69 */ MODE_BACKUP_MES, /* Original name: MODE_BACKUP_MES */
+    /* 70 */ MODE_MISC, /* Original name: MODE_MISC */
+    /* 71 */ MODE_SOUND, /* Original name: MODE_SOUND */
+    /* 72 */ MODE_COUNT, /* Original name: MODE_COUNT */
+    /* 73 */ MODE_SCORE, /* Original name: MODE_SCORE */
 } MainMenuMode;
 
 
@@ -98,24 +98,23 @@ typedef void (MenuItem_TransFunc)(struct SMenuItem *);
 typedef void (MenuItem_ScaleFunc)(struct SMenuItem *);
 typedef void (MenuItem_ColorFunc)(struct SMenuItem *);
 
-#define MENUITEM_TRANS_COUNT 2U
-#define MENUITEM_SCALE_COUNT 2U
+#define MENUITEM_DIM 2U
 #define MENUITEM_UNK_LEN3 2U
 #define MENUITEM_COLOR_COUNT 4U
 
 /** Original name: SMenuItem */
 typedef struct SMenuItem {
-    /* 0x00 */ f32 center[2]; /* Original name: center */
+    /* 0x00 */ f32 center[MENUITEM_DIM]; /* Original name: center */
     /* 0x08 */ MenuItem_TransFunc *transFunc; /* Original name: transFunc */
-    /* 0x0C */ f32 trans[MENUITEM_TRANS_COUNT]; /* Original name: trans */ /* Position */
+    /* 0x0C */ f32 trans[MENUITEM_DIM]; /* Original name: trans */ /* Position */
     /* 0x14 */ f32 transTime; /* Original name: transTime */
     /* 0x18 */ f32 transStep; /* Original name: transStep */
-    /* 0x1C */ f32 transRange[2][MENUITEM_TRANS_COUNT]; /* Original name: transRange */
+    /* 0x1C */ f32 transRange[2][MENUITEM_DIM]; /* Original name: transRange */
     /* 0x2C */ MenuItem_ScaleFunc *scaleFunc; /* Original name: scaleFunc */
-    /* 0x30 */ f32 scale[MENUITEM_SCALE_COUNT]; /* Original name: scale */
+    /* 0x30 */ f32 scale[MENUITEM_DIM]; /* Original name: scale */
     /* 0x38 */ f32 scaleTime; /* Original name: scaleTime */
     /* 0x3C */ f32 scaleStep; /* Original name: scaleStep */
-    /* 0x40 */ f32 scaleRange[2][MENUITEM_SCALE_COUNT]; /* Original name: scaleRange */
+    /* 0x40 */ f32 scaleRange[2][MENUITEM_DIM]; /* Original name: scaleRange */
     /* 0x50 */ MenuItem_ColorFunc *colorFunc; /* Original name: colorFunc */
     /* 0x54 */ f32 color[MENUITEM_COLOR_COUNT]; /* Original name: color */
     /* 0x64 */ f32 colorTime; /* Original name: colorTime */
@@ -712,43 +711,43 @@ typedef struct struct_watchMenu {
 
 
 
-void func_80045E94(SMenuItem *item);
+void transFunc_linear(SMenuItem *item);
 void transFunc_curve(SMenuItem *item);
 void transFunc_finger(SMenuItem *item);
-void func_80046008(SMenuItem *item);
+void scaleFunc_linear(SMenuItem *item);
 void scaleFunc_curve(SMenuItem *item);
-void func_800460DC(SMenuItem *item);
+void colorFunc_linear(SMenuItem *item);
 void colorFunc_curve(SMenuItem *item);
 void colorFunc_cursor(SMenuItem * item);
-void menuItem_init(SMenuItem *item, UNK_TYPE xPos, UNK_TYPE yPos);
+void menuItem_init(SMenuItem *item, s32 x, s32 y);
 void menuItem_updateTransScale(SMenuItem *item, SMenuItem *parent);
 void menuItem_updateColor(SMenuItem *item, SMenuItem *parent);
-void func_800464BC(SMenuItem *item, SMenuItem *parent);
-void func_800464F8(SMenuItem items[], s32 count, SMenuItem *parent);
-void func_8004655C(SMenuItem *item, s32 arg1);
-void func_800465B8(SMenuItem *item, s32 arg1);
-void func_80046614(SMenuItem *item, s32 arg1);
+void menuItem_update(SMenuItem *item, SMenuItem *parent);
+void menuItem_updateN(SMenuItem items[], s32 count, SMenuItem *parent);
+void menuItem_setTransDir(SMenuItem *item, s32 dir);
+void menuItem_setScaleDir(SMenuItem *item, s32 dir);
+void menuItem_setColorDir(SMenuItem *item, s32 dir);
 
-void func_80046670(SMenuItem *item, f32 arg1, f32 arg2);
-void func_8004667C(SMenuItem *item, f32 arg1, f32 arg2);
-void func_80046688(SMenuItem *item, f32 arg1, f32 arg2);
-void func_80046694(SMenuItem *item, f32 arg1, f32 arg2);
-void func_800466A0(SMenuItem *item, f32 arg1, f32 arg2);
-void func_800466B8(SMenuItem *item, f32 arg0, f32 arg1);
-void func_800466D0(SMenuItem *item);
-void func_80046734(SMenuItem *item, f32 arg0, f32 arg1, f32 arg2);
-void func_800467E0(SMenuItem *item);
-void func_80046844(SMenuItem *item, Gfx **gfxP);
-bool menuItem_outOfScreen(SMenuItem *item, s32 arg1, s32 arg2);
-bool menuItem_drawTex(SMenuItem *item, Gfx **gfxP, struct TiTexData *arg2, bool cached);
-bool func_80046C74(SMenuItem *item, Gfx **gfxP, struct TiTexData *arg2, bool cached, f32 arg4, f32 arg5, f32 arg6,
-                   f32 arg7);
-bool menuItem_drawAlphaTex(SMenuItem *item, Gfx **gfxP, struct TiTexData * arg2, struct TiTexData * arg3, s32 arg4);
-s32 func_80046F58(SMenuItem *item, Gfx **gfxP, struct TiTexData * arg2, s32 arg3, s32 arg4, s32 arg5);
-void func_80047074(SMenuItem *item, Gfx **gfxP, struct TiTexData *arg2, s32 arg3, s32 arg4, s32 arg5, f32 arg6, f32 arg7, f32 arg8, f32 arg9);
-bool func_8004714C(SMenuItem *item, Gfx **gfxP, struct TiTexData *arg2, struct TiTexData *arg3, bool cached, s32 arg5,
-                   s32 arg6);
-// void func_800472D0();
+void menuItem_setTransLow(SMenuItem *item, f32 x, f32 y);
+void menuItem_setTransHi(SMenuItem *item, f32 x, f32 y);
+void menuItem_setScaleLow(SMenuItem *item, f32 x, f32 y);
+void menuItem_setScaleHi(SMenuItem *item, f32 x, f32 y);
+void menuItem_setColorLow(SMenuItem *item, f32 bright, f32 alpha);
+void menuItem_setColorHi(SMenuItem *item, f32 bright, f32 alpha);
+void menuItem_setColor_cursor(SMenuItem *item);
+void menuItem_setColor_cursor2(SMenuItem *item, f32 red, f32 green, f32 blue);
+void menuItem_setColor_fade(SMenuItem *item);
+void menuItem_setPrim(SMenuItem *item, Gfx **gfxP);
+bool menuItem_outOfScreen(SMenuItem *item, s32 width, s32 height);
+bool menuItem_drawTex(SMenuItem *item, Gfx **gfxP, struct TiTexData *tex, bool cached);
+bool menuItem_drawTex2(SMenuItem *item, Gfx **gfxP, struct TiTexData *tex, bool cached, f32 x, f32 y, f32 sx, f32 sy);
+bool menuItem_drawAlphaTex(SMenuItem *item, Gfx **gfxP, struct TiTexData *texC, struct TiTexData *texA, bool cached);
+bool menuItem_drawItem(SMenuItem *item, Gfx **gfxP, struct TiTexData *tex, bool cached, s32 itemCount, s32 itemIndex);
+bool menuItem_drawItem2(SMenuItem *item, Gfx **gfxP, struct TiTexData *tex, bool cached, s32 itemCount, s32 itemIndex,
+                        f32 x, f32 y, f32 sx, f32 sy);
+bool menuItem_drawAlphaItem(SMenuItem *item, Gfx **gfxP, struct TiTexData *texC, struct TiTexData *texA, bool cached,
+                            s32 itemCount, s32 itemIndex);
+// void menuItem_drawAlphaItem2();
 void menuTitle_setTitle(struct_watchMenu_unk_02548 *arg0, MainMenuMode arg1);
 void func_800474EC(struct_watchMenu_unk_02548 *arg0, struct_watchMenu *watchMenuRef, UNK_TYPE arg2, UNK_TYPE arg3);
 void func_80047584(struct_watchMenu_unk_02548 *arg0, SMenuItem *item);
