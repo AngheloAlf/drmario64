@@ -29,14 +29,4 @@ typedef struct Color_RGBA32 {
     /* 0x0C */ s32 a;
 } Color_RGBA32; // size = 0x10
 
-typedef union Color_RGBAf32 {
-    struct {
-    /* 0x00 */ f32 r;
-    /* 0x04 */ f32 g;
-    /* 0x08 */ f32 b;
-    /* 0x0C */ f32 a;
-    } v;
-    f32 arr[4];
-} Color_RGBAf32; // size = 0x10
-
 #endif
