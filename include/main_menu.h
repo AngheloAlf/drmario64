@@ -127,27 +127,36 @@ typedef struct SMenuItem {
 } SMenuItem; // size = 0x90
 
 
+typedef enum CursorType {
+    /* 0 */ CURSOR_ITEM,
+    /* 1 */ CURSOR_PANEL,
+    /* 2 */ CURSOR_WINDOW,
+    /* 3 */ CURSOR_THICK,
+    /* 4 */ CURSOR_NEW_4P,
+    /* 5 */ CURSOR_NEW_MUSIC,
+    /* 6 */ CURSOR_NEW_SPEED,
+    /* 7 */ CURSOR_NEW_VIRUS_LV_L,
+    /* 8 */ CURSOR_NEW_VIRUS_LV_S,
+    /* 9 */ CURSOR_TYPE_SUM,
+} CursorType;
+
 typedef struct MenuCursor {
-    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ s32 unk_004; // enum? // if enum then remmeber to update menuCursor_draw1
-    /* 0x008 */ s32 unk_008;
-    /* 0x00C */ s32 unk_00C;
-    /* 0x010 */ s32 unk_010;
-    /* 0x014 */ s32 unk_014;
-    /* 0x018 */ s32 unk_018;
-    /* 0x01C */ union {
-                    u32 w;
-                    struct {
-                        bool unk_31:1;
-                        bool unk_30:1;
-                        bool unk_29:1;
-                        bool unk_28:1;
-                    } b;
-                } unk_01C;
-    /* 0x020 */ SMenuItem unk_020;
-    /* 0x0B0 */ SMenuItem unk_0B0;
-    /* 0x140 */ SMenuItem unk_140;
-    /* 0x1D0 */ SMenuItem unk_1D0;
+    /* 0x000 */ struct struct_watchMenu *global;
+    /* 0x004 */ CursorType type;
+    /* 0x008 */ s32 playerCount;
+    /* 0x00C */ s32 cpuCount;
+    /* 0x010 */ s32 playerNo;
+    /* 0x014 */ s32 size[2];
+    /* 0x01C */ struct {
+                    bool cursor:1;
+                    bool finger:1;
+                    bool player:1;
+                    bool blink:1;
+                } flags;
+    /* 0x020 */ SMenuItem miBase;
+    /* 0x0B0 */ SMenuItem miCursor;
+    /* 0x140 */ SMenuItem miFinger;
+    /* 0x1D0 */ SMenuItem miPlayer;
 } MenuCursor; // size = 0x260
 
 
@@ -646,13 +655,14 @@ typedef union MenusUnion {
 
 struct struct_watchMenu;
 
-// menuTitle?
-typedef struct struct_watchMenu_unk_02548 {
-    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08[2]; // TODO: make enum?
-    /* 0x10 */ SMenuItem unk_10[2];
-} struct_watchMenu_unk_02548; // size >= 0x130
+#define MENUTITLE_TLT_COUNT 2U
+
+typedef struct MenuTitle {
+    /* 0x00 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x04 */ s32 current; /* Original name: current */
+    /* 0x08 */ s32 titleNo[MENUTITLE_TLT_COUNT]; /* Original name: titleNo */ // TODO: make enum?
+    /* 0x10 */ SMenuItem miBase[MENUTITLE_TLT_COUNT]; /* Original name: miBase */
+} MenuTitle; // size = 0x130
 
 // Left column: us
 // Right column: cn
@@ -670,7 +680,7 @@ typedef struct struct_watchMenu {
     /* 0x02464 */ size_t unk_02464;
     /* 0x02468 */ void *unk_02468[2];
     /* 0x02470 */ void *unk_02470[2];
-    /* 0x02478 */ struct TiTexData *unk_02478;
+    /* 0x02478 */ struct TiTexData *unk_02478; // TODO: enums to access those. Should the enum be shared or different for each?
     /* 0x0247C */ struct TiTexData *unk_0247C;
     /* 0x02480 */ struct TiTexData *unk_02480; // unused
     /* 0x02484 */ struct TiTexData *unk_02484;
@@ -687,7 +697,7 @@ typedef struct struct_watchMenu {
     /* 0x024B0 */ struct TiTexData *unk_024B0;
     /* 0x024B4 */ struct TiTexData *unk_024B4;
     /* 0x024B8 */ SMenuItem unk_024B8[1];
-    /* 0x02548 */ struct_watchMenu_unk_02548 unk_02548;
+    /* 0x02548 */ MenuTitle unk_02548;
     /* 0x02678 */ MenusUnion unk_02678[2];
     /* 0x111C0 */ UNK_TYPE unk_111C0;
     /* 0x111C4 */ UNK_TYPE unk_111C4;
@@ -748,18 +758,20 @@ bool menuItem_drawItem2(SMenuItem *item, Gfx **gfxP, struct TiTexData *tex, bool
 bool menuItem_drawAlphaItem(SMenuItem *item, Gfx **gfxP, struct TiTexData *texC, struct TiTexData *texA, bool cached,
                             s32 itemCount, s32 itemIndex);
 // void menuItem_drawAlphaItem2();
-void menuTitle_setTitle(struct_watchMenu_unk_02548 *arg0, MainMenuMode arg1);
-void func_800474EC(struct_watchMenu_unk_02548 *arg0, struct_watchMenu *watchMenuRef, UNK_TYPE arg2, UNK_TYPE arg3);
-void func_80047584(struct_watchMenu_unk_02548 *arg0, SMenuItem *item);
-void menuTitle_draw(struct_watchMenu_unk_02548 *arg0, Gfx **gfxP);
-void func_80047720(MenuCursor *cursor, s32 arg1, s32 arg2);
-void func_800477BC(MenuCursor *cursor, s32 arg1, s32 arg2);
-void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9);
-void func_800479A8(MenuCursor *cursor, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-void menuCursor_update(MenuCursor *cursor, SMenuItem *arg1);
+void menuTitle_setTitle(MenuTitle *title, MainMenuMode mode);
+void menuTitle_init(MenuTitle *title, struct_watchMenu *global, UNK_TYPE x, UNK_TYPE y);
+void menuTitle_update(MenuTitle *title, SMenuItem *parent);
+void menuTitle_draw(MenuTitle *title, Gfx **gfxP);
+void menuCursor_setFingerPos(MenuCursor *cursor, s32 x, s32 y);
+void menuCursor_setPlayerPos(MenuCursor *cursor, s32 x, s32 y);
+void menuCursor_init2(MenuCursor *cursor, struct_watchMenu *global, CursorType type, s32 playerCount, s32 cpuCount,
+                      s32 playerNo, s32 x, s32 y, s32 w, s32 h);
+void menuCursor_init(MenuCursor *cursor, struct_watchMenu *global, CursorType type, s32 playerNo, s32 x, s32 y, s32 w,
+                     s32 h);
+void menuCursor_update(MenuCursor *cursor, SMenuItem *parent);
 void menuCursor_draw1(MenuCursor *cursorArr[], s32 count, Gfx **gxfP);
 void menuCursor_draw2(MenuCursor *cursorArr[], s32 count, Gfx **gxfP);
-void func_80048634(MenuCursor *cursorArr[], s32 /*count*/, Gfx **gxfP);
+void menuCursor_draw(MenuCursor *cursorArr[], s32 /*count*/, Gfx **gxfP);
 void func_80048680(MenuBottle *bottle, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3);
 void func_800486C8(MenuBottle *bottle, SMenuItem *arg1);
 void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP);
