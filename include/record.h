@@ -18,6 +18,46 @@ typedef struct BitField {
     /* 0x10 */ u32 sum; /* Original name: sum */
 } BitField; // size = 0x14
 
+
+// TODO: merge together?
+#define SRANKSORTINFO_SORT_LEN 8
+#define SRANKSORTINFO_RANK_LEN 8
+
+// TODO: merge with SRANKSORTINFO_SORT_LEN and SRANKSORTINFO_RANK_LEN?
+#define SRANKSORTINFO_VSRESULT_LEN 8
+
+#define SRANKSORTINFO_LEVEL_NUM 3
+
+/**
+ * Original name: SRankSortInfo
+ */
+typedef struct SRankSortInfo {
+    /* 0x000 */ u8 story_sort[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_SORT_LEN];
+    /* 0x018 */ u8 story_rank[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_RANK_LEN];
+    /* 0x030 */ u8 level_sort[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_SORT_LEN];
+    /* 0x048 */ u8 level_rank[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_RANK_LEN];
+    /* 0x060 */ u8 taiQ_sort[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_SORT_LEN];
+    /* 0x078 */ u8 taiQ_rank[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_RANK_LEN];
+    /* 0x090 */ u8 timeAt_sort[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_SORT_LEN];
+    /* 0x0A8 */ u8 timeAt_rank[SRANKSORTINFO_LEVEL_NUM][SRANKSORTINFO_RANK_LEN];
+    /* 0x0C0 */ u8 vscom_sort[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x0C8 */ u8 vscom_rank[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x0D0 */ u16 vscom_ave[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x0E0 */ u8 vc_fl_sort[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x0E8 */ u8 vc_fl_rank[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x0F0 */ u16 vc_fl_ave[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x100 */ u8 vsman_sort[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x108 */ u8 vsman_rank[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x110 */ u16 vsman_ave[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x120 */ u8 vm_fl_sort[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x128 */ u8 vm_fl_rank[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x130 */ u16 vm_fl_ave[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x140 */ u8 vm_ta_sort[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x148 */ u8 vm_ta_rank[SRANKSORTINFO_VSRESULT_LEN];
+    /* 0x150 */ u16 vm_ta_ave[SRANKSORTINFO_VSRESULT_LEN];
+} SRankSortInfo; // size = 0x160
+
+
 typedef void (EepRom_Proc)(void*);
 
 /**

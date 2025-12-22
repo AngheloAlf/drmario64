@@ -1207,16 +1207,22 @@ void menuCursor_draw(MenuCursor *cursorArr[], s32 count, Gfx **gxfP) {
     menuCursor_draw2(cursorArr, count, gxfP);
 }
 
-void func_80048680(MenuBottle *bottle, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3) {
-    bottle->watchMenuRef = watchMenuRef;
+/**
+ * Original name: menuBottle_init
+ */
+void menuBottle_init(MenuBottle *bottle, struct_watchMenu *global, s32 x, s32 y) {
+    bottle->global = global;
     bottle->level = 0;
-    menuItem_init(&bottle->unk_08, arg2, arg3);
-    menuItem_init(&bottle->unk_98, 4, 0x10);
+    menuItem_init(&bottle->miBase, x, y);
+    menuItem_init(&bottle->miVirus, 4, 16);
 }
 
-void func_800486C8(MenuBottle *bottle, SMenuItem *arg1) {
-    menuItem_update(&bottle->unk_08, arg1);
-    menuItem_update(&bottle->unk_98, &bottle->unk_08);
+/**
+ * Original name: menuBottle_update
+ */
+void menuBottle_update(MenuBottle *bottle, SMenuItem *parent) {
+    menuItem_update(&bottle->miBase, parent);
+    menuItem_update(&bottle->miVirus, &bottle->miBase);
 }
 
 // bitwise, maybe macroify?
@@ -1259,42 +1265,42 @@ void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP) {
 
     //! @bug: reads unset $a2 register (us) / $a3 register (cn) variable
     if (a3 != 0) {
-        SMenuItem *item = &bottle->unk_98;
-        TiTexData *temp_t1 = _getTexLevel(bottle->watchMenuRef, 0);
-        s32 var_t7;
+        SMenuItem *item = &bottle->miVirus;
+        TiTexData *tex = _getTexLevel(bottle->global, 0);
+        s32 ty;
         s32 i;
 
-        gDPLoadTLUT_pal16(gfx++, 0, temp_t1->texs[TI_TEX_TLUT]);
-        gDPLoadTextureBlock_4b(gfx++, temp_t1->texs[TI_TEX_TEX], G_IM_FMT_CI, temp_t1->info[TI_INFO_IDX_WIDTH],
-                               temp_t1->info[TI_INFO_IDX_HEIGHT], 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
+        gDPLoadTLUT_pal16(gfx++, 0, tex->texs[TI_TEX_TLUT]);
+        gDPLoadTextureBlock_4b(gfx++, tex->texs[TI_TEX_TEX], G_IM_FMT_CI, tex->info[TI_INFO_IDX_WIDTH],
+                               tex->info[TI_INFO_IDX_HEIGHT], 0, G_TX_CLAMP, G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK,
                                G_TX_NOLOD, G_TX_NOLOD);
 
         menuItem_setPrim(item, &gfx);
 
-        var_t7 = 0;
+        ty = 0;
         for (i = 1; i < 4; i++) {
-            const u16 *ptr = &cap_pos_1442[bottle->level][2];
-            s32 var_t0 = (s32)item->trans[1] * 4;
+            const u16 *caps = &cap_pos_1442[bottle->level][2];
+            s32 py = (s32)item->trans[1] * 4;
             s32 j;
 
             for (j = 2; j < ARRAY_COUNT(cap_pos_1442[bottle->level]); j++) {
-                s32 var_t2 = (s32)item->trans[0] * 4;
-                s32 temp = *ptr;
+                s32 px = (s32)item->trans[0] * 4;
+                s32 cap = *caps;
                 s32 k;
 
                 for (k = 7; k >= 0; k--) {
-                    if (((temp >> (k * 2)) & 3) == i) {
-                        gSPScisTextureRectangle(gfx++, var_t2, var_t0, var_t2 + 0x14, var_t0 + 0x14, G_TX_RENDERTILE, 0,
-                                                var_t7, 1 << 10, 1 << 10);
+                    if (((cap >> (k * 2)) & 3) == i) {
+                        gSPScisTextureRectangle(gfx++, px, py, px + 0x14, py + 0x14, G_TX_RENDERTILE, 0, ty, 1 << 10,
+                                                1 << 10);
                     }
-                    var_t2 += 0x14;
+                    px += 0x14;
                 }
 
-                var_t0 += 0x14;
-                ptr++;
+                py += 0x14;
+                caps++;
             }
 
-            var_t7 += 0xA0;
+            ty += 0xA0;
         }
     }
 
@@ -2458,6 +2464,12 @@ static_assert(ARRAY_COUNT(_line_2914) == MENUCONT_UNK_364_LEN, "");
  */
 const s32 _desc_2915[] = {
     1,
+#ifdef PRESERVE_UB
+    //! @bug: OoB access: reads index 1 of array `_desc_2915` which has only one element.
+    //! This ends up being harmless since the accessed memory (`_panel_3220[0]`) happens to have the same contents
+    //! of this array.
+    1,
+#endif
 };
 
 /**
@@ -2496,16 +2508,7 @@ void menuCont_draw(MenuCont *cont, Gfx **gfxP) {
     for (; i < ARRAY_COUNTU(cont->unk_094); i++) {
         item = &cont->unk_094[i];
 
-#ifndef PRESERVE_UB
-        //! @bug: OoB access: reads index 1 of array `_desc_2915` which has only one element.
-        //! This ends up being harmless since the accessed memory (`_panel_3220[0]`) happens to have the same contents
-        //! of this array.
         temp_s3 = _getTexCont(cont->watchMenuRef, _desc_2915[i - (ARRAY_COUNTU(cont->unk_094) - 2)]);
-#else
-        //! This ensures the same array is being accessed even if the variables get reordered by the compiler.
-        extern const s32 _panel_3220[];
-        temp_s3 = _getTexCont(cont->watchMenuRef, _panel_3220[i - (ARRAY_COUNTU(cont->unk_094) - 1)]);
-#endif
 
         menuItem_drawTex(item, &gfx, temp_s3, 0);
     }
@@ -2902,8 +2905,8 @@ void menuNameSelPanel_update(MenuNameSelPanel *nameSelPanel, SMenuItem *parentIt
                 //! FAKE:
 
 #if VERSION_CN
-                SMenuItem *item = &nameSelPanel->unk_5C8[i].unk_0B0;
-                SMenuItem *item2 = &nameSelPanel->unk_5C8[j].unk_0B0;
+                SMenuItem *item = &nameSelPanel->unk_5C8[i].miCursor;
+                SMenuItem *item2 = &nameSelPanel->unk_5C8[j].miCursor;
 
                 item->colorRange[0][3] = 0.0f;
                 item2->colorRange[0][3] = 0.0f;
@@ -4214,8 +4217,6 @@ void menuPlay2PanelSub_draw(MenuPlay2PanelSub *play2PanelSub, Gfx **gfxP) {
 
     *gfxP = gfx;
 }
-
-ASM_DATA;
 
 MainMenuMode _menuMain_lastMode = MODE_MAIN;
 
@@ -6041,20 +6042,20 @@ const s32 _posChar_6445[][2] = {
     { 0xA0, 0x2E },
     { 0xE6, 0x2E },
 };
-static_assert(ARRAY_COUNT(_posChar_6445) == MENU_STORY_UNK_LEN, "");
+static_assert(ARRAY_COUNT(_posChar_6445) == MENUSTORY_UNK_LEN, "");
 
 const s32 _posBgCursor_6446[][2] = {
     { -8, 0x11 },
     { 0xE8, 0x11 },
 };
-static_assert(ARRAY_COUNT(_posBgCursor_6446) == MENU_STORY_UNK_LEN_4, "");
+static_assert(ARRAY_COUNT(_posBgCursor_6446) == MENUSTORY_UNK_LEN_4, "");
 
 const s32 _cursor_6447[][4] = {
     { 0, 0, 0x10E, 0x36 },
     { 0, 0x33, 0x10E, 0x24 },
     { 0, 0x54, 0x10E, 0x4E },
 };
-static_assert(ARRAY_COUNT(_cursor_6447) == MENU_STORY_UNK_LEN_3, "");
+static_assert(ARRAY_COUNT(_cursor_6447) == MENUSTORY_UNK_LEN_3, "");
 
 void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, void **heapP) {
     void *heap = *heapP;
@@ -6361,7 +6362,7 @@ void menuStory_update(MenuStory *menuStory) {
     menuItem_setColorDir(&menuStory->unk_0FFC[1], -i);
     menuItem_updateN(menuStory->unk_0FFC, ARRAY_COUNTU(menuStory->unk_0FFC), &menuStory->unk_0F6C);
 
-    for (i = 0; i < MENU_STORY_UNK_LEN_2; i++) {
+    for (i = 0; i < MENUSTORY_UNK_LEN_2; i++) {
         func_800513F0(menuStory->unk_0028[0], menuStory->unk_0028[2], i, &sp20, &sp24);
 
         item = &menuStory->unk_123C[i];
@@ -6456,7 +6457,7 @@ void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
     temp_v0 = _getTexStory(menuStory->watchMenuRef, 6);
     menuItem_drawTex(&menuStory->unk_0040, &gfx, temp_v0, 0);
 
-    for (i = 0; i < MENU_STORY_UNK_LEN; i++) {
+    for (i = 0; i < MENUSTORY_UNK_LEN; i++) {
         f32 temp_fs1;
         f32 temp_fs0;
 
@@ -6514,7 +6515,7 @@ void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
 
     gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
 
-    for (i = 0; i < MENU_STORY_UNK_LEN_2; i++) {
+    for (i = 0; i < MENUSTORY_UNK_LEN_2; i++) {
         s32 temp_s2;
         s32 var_s0_2;
         s32 tempIndex;
@@ -6651,7 +6652,7 @@ void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, void *
 
     menuItem_setColorLow(&menuLvSel->speedSelector.unk_014, 1.0f, 0.5f);
     menuMusicItem_init(&menuLvSel->musicSelector, watchMenuRef, temp_s2->p1_m, 0x46, 0x46);
-    func_80048680(&menuLvSel->bottle, watchMenuRef, 0x19, 7);
+    menuBottle_init(&menuLvSel->bottle, watchMenuRef, 0x19, 7);
 
     for (i = 0; i < ARRAY_COUNTU(menuLvSel->unk_162C); i++) {
         menuCursor_init(&menuLvSel->unk_162C[i], watchMenuRef, 1, 0, _cursor_7325[i][0], _cursor_7325[i][1],
@@ -6837,7 +6838,7 @@ void menuLvSel_update(MenuLvSel *menuLvSel) {
     func_800498C4(&menuLvSel->speedIcon, &menuLvSel->unk_0008);
     menuSpeedItem_update(&menuLvSel->speedSelector, &menuLvSel->unk_0008);
     menuMusicItem_update(&menuLvSel->musicSelector, &menuLvSel->unk_0008);
-    func_800486C8(&menuLvSel->bottle, &menuLvSel->unk_0098[1]);
+    menuBottle_update(&menuLvSel->bottle, &menuLvSel->unk_0098[1]);
 
     for (i = 0; i < ARRAY_COUNTU(menuLvSel->unk_162C); i++) {
         menuCursor_update(&menuLvSel->unk_162C[i], &menuLvSel->unk_0098[0]);
@@ -7079,7 +7080,7 @@ void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, void *
 
     menuItem_init(&menuChSel->unk_0074, 0x12, 0x2F);
 
-    for (i = 0; i < MENU_CH_SEL_UNK_LEN; i++) {
+    for (i = 0; i < MENUCH_SEL_UNK_LEN; i++) {
         menuItem_init(&menuChSel->unk_0194[i], ((i % 5) * 0x36) + 0xC, ((i / 5) * 0x35) + 0xC);
         menuItem_init(&menuChSel->unk_0A04[i], 3, 3);
         menuItem_setColorHi(&menuChSel->unk_0A04[i], 0.0f, 0.0f);
@@ -7411,7 +7412,7 @@ void menuChSel_input(MenuChSel *menuChSel) {
 const u8 _star_8183[] = {
     4, 4, 1, 1, 2, 2, 2, 2, 3, 3, 3, 4, 5, 5, 5,
 };
-static_assert(ARRAY_COUNT(_star_8183) == MENU_CH_SEL_UNK_LEN, "");
+static_assert(ARRAY_COUNT(_star_8183) == MENUCH_SEL_UNK_LEN, "");
 
 void menuChSel_update(MenuChSel *menuChSel) {
     SMenuItem *rootItem = _getRootItem(menuChSel->watchMenuRef);
@@ -7435,7 +7436,7 @@ void menuChSel_update(MenuChSel *menuChSel) {
 
     menuItem_updateN(menuChSel->unk_0194, ARRAY_COUNTU(menuChSel->unk_0194), &menuChSel->unk_0074);
 
-    for (i = 0; i < MENU_CH_SEL_UNK_LEN; i++) {
+    for (i = 0; i < MENUCH_SEL_UNK_LEN; i++) {
         if (menuChSel_checkSelected(menuChSel, -1, i, 1)) {
             menuItem_setColorDir(&menuChSel->unk_0A04[i], -1);
         } else {
@@ -7445,7 +7446,7 @@ void menuChSel_update(MenuChSel *menuChSel) {
         menuItem_update(&menuChSel->unk_0A04[i], &menuChSel->unk_0194[i]);
     }
 
-    for (i = 0; i < MENU_CH_SEL_UNK_LEN; i++) {
+    for (i = 0; i < MENUCH_SEL_UNK_LEN; i++) {
         var_a0 = _star_8183[i];
         if (menuChSel->unk_002C != 0) {
             var_a0 += menuChSel->unk_0030;
@@ -8231,7 +8232,6 @@ void func_800560D4(MenuNmEnt *nmEnt) {
     menuNmEnt_update(nmEnt);
 }
 
-ASM_DATA;
 // This array has only 1 entry
 const char *_nameEntry_charTable[] = {
     "ＡＢＣＤＥ__ａｂｃｄｅ__○×☆"
@@ -9504,7 +9504,7 @@ static_assert(ARRAY_COUNT(_hedAllType_10392) >=
                           ARRAY_COUNT(_hedVsId_10405))),
               "");
 
-static_assert(ARRAY_COUNT(_hedAllType_10392) <= MENURAKHEADER_UNK_98, "");
+static_assert(ARRAY_COUNT(_hedAllType_10392) <= MENURANKHEADER_UNK_98, "");
 
 void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, s32 arg3) {
     MenuRank_unk_590 *temp_s3 = &menuRank->unk_590[arg1];
