@@ -127,7 +127,6 @@ typedef struct SMenuItem {
                 } flags; /* Original name: flags */
 } SMenuItem; // size = 0x90
 
-
 #define MENUTITLE_TLT_COUNT 2U
 
 typedef struct MenuTitle {
@@ -136,7 +135,6 @@ typedef struct MenuTitle {
     /* 0x08 */ s32 titleNo[MENUTITLE_TLT_COUNT]; /* Original name: titleNo */ // TODO: make enum?
     /* 0x10 */ SMenuItem miBase[MENUTITLE_TLT_COUNT]; /* Original name: miBase */
 } MenuTitle; // size = 0x130
-
 
 typedef enum CursorType {
     /* 0 */ CURSOR_ITEM,
@@ -170,7 +168,6 @@ typedef struct MenuCursor {
     /* 0x1D0 */ SMenuItem miPlayer; /* Original name: miPlayer */
 } MenuCursor; // size = 0x260
 
-
 typedef struct MenuBottle {
     /* 0x000 */ struct struct_watchMenu *global; /* Original name: global */
     /* 0x004 */ s32 level; /* Original name: level */
@@ -178,84 +175,88 @@ typedef struct MenuBottle {
     /* 0x098 */ SMenuItem miVirus; /* Original name: miVirus */
 } MenuBottle; // size = 0x128
 
-
-typedef struct MenuLvGauge {
-    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ s32 unk_004;
-    /* 0x008 */ int unk_008;
-    /* 0x00C */ int unk_00C;
-    /* 0x010 */ SMenuItem unk_010;
-    /* 0x0A0 */ MenuCursor unk_0A0;
-} MenuLvGauge; // size = 0x300
+/** Original name: SMenuLvGauge */
+typedef struct SMenuLvGauge {
+    /* 0x000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x004 */ s32 size; /* Original name: size */ // TODO: enum?
+    /* 0x008 */ int levelMax; /* Original name: levelMax */
+    /* 0x00C */ int level; /* Original name: level */
+    /* 0x010 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x0A0 */ MenuCursor cursor; /* Original name: cursor */
+} SMenuLvGauge; // size = 0x300
 
 typedef struct MenuYN {
-    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ s32 unk_004;
-    /* 0x008 */ SMenuItem unk_008;
-    /* 0x098 */ SMenuItem unk_098[2];
-    /* 0x1B8 */ MenuCursor unk_1B8;
-    /* 0x418 */ MenuCursor unk_418;
+    /* 0x000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x004 */ s32 select; /* Original name: select */
+    /* 0x008 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x098 */ SMenuItem miYN[2]; /* Original name: miYN */
+    /* 0x1B8 */ MenuCursor cursor; /* Original name: cursor */
+    /* 0x418 */ MenuCursor window; /* Original name: window */
 } MenuYN; // size = 0x678
 
 typedef struct MenuMes {
-    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ SMenuItem unk_004;
-    /* 0x094 */ MessageWnd unk_094;
-    /* 0x174 */ MenuCursor unk_174;
-} MenuMes; // size >= 0x3D4
+    /* 0x000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x004 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x094 */ MessageWnd msgWnd; /* Original name: msgWnd */
+    /* 0x114 */ MenuCursor window; /* Original name: window */
+} MenuMes; // size = 0x374
 
 typedef struct MenuSpeedAsk {
-    /* 0x0 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x4 */ UNK_TYPE unk_4;
-    /* 0x8 */ UNK_TYPE unk_8;
-    /* 0xC */ SMenuItem unk_C;
+    /* 0x0 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x4 */ s32 size; /* Original name: size */
+    /* 0x8 */ s32 select; /* Original name: select */
+    /* 0xC */ SMenuItem miBase; /* Original name: miBase */
 } MenuSpeedAsk; // size = 0x9C
 
 #define MENUSPEEDITEM_UNK_LEN 3U
 
 typedef struct MenuSpeedItem {
-    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ s32 unk_004;
-    /* 0x008 */ s32 unk_008;
-    /* 0x00C */ bool unk_00C;
-    /* 0x010 */ s32 unk_010;
-    /* 0x014 */ SMenuItem unk_014;
-    /* 0x0A4 */ SMenuItem unk_0A4[3];
-    /* 0x254 */ SMenuItem unk_254[MENUSPEEDITEM_UNK_LEN];
-    /* 0x404 */ MenuCursor unk_404;
+    /* 0x000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x004 */ s32 size; /* Original name: size */
+    /* 0x008 */ s32 select; /* Original name: select */
+    /* 0x00C */ struct {
+                    // Likely intended to be bitfields
+                    bool blink; /* Original name: blink */
+                    bool special; /* Original name: special */
+                } flags; /* Original name: flags */
+    /* 0x014 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x0A4 */ SMenuItem miLabel[3]; /* Original name: miLabel */
+    /* 0x254 */ SMenuItem miMask[MENUSPEEDITEM_UNK_LEN]; /* Original name: miMask */
+    /* 0x404 */ MenuCursor cursor; /* Original name: cursor */
 } MenuSpeedItem; // size = 0x664
 
+#define MENUMUSICITEM_COUNT 5U
+
 typedef struct MenuMusicItem {
-    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ s32 unk_004;
-    /* 0x008 */ s32 unk_008;
-    /* 0x00C */ union {
-                    u32 w;
-                    struct {
-                        bool unk_31 : 1;
-                    } b;
-                } unk_00C;
-    /* 0x010 */ SMenuItem unk_010;
-    /* 0x0A0 */ SMenuItem unk_0A0[5];
-    /* 0x370 */ SMenuItem unk_370[5];
-    /* 0x640 */ MenuCursor unk_640;
+    /* 0x000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x004 */ s32 select; /* Original name: select */
+    /* 0x008 */ s32 playNo; /* Original name: playNo */
+    /* 0x00C */ struct {
+                    bool blink : 1; /* Original name: blink */
+                } flags; /* Original name: flags */
+    /* 0x010 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x0A0 */ SMenuItem miLabel[MENUMUSICITEM_COUNT]; /* Original name: miLabel */
+    /* 0x370 */ SMenuItem miMask[MENUMUSICITEM_COUNT]; /* Original name: miMask */
+    /* 0x640 */ MenuCursor cursor; /* Original name: cursor */
 } MenuMusicItem; // size = 0x8A0
 
 typedef struct MenuNumber {
-    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ s32 unk_08;
-    /* 0x0C */ s32 unk_0C;
-    /* 0x10 */ u32 unk_10; // bitfield?
-    /* 0x14 */ char unk_14[8];
-    /* 0x1C */ SMenuItem unk_1C;
+    /* 0x00 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x04 */ s32 size; /* Original name: size */
+    /* 0x08 */ s32 column; /* Original name: column */
+    /* 0x0C */ s32 number; /* Original name: number */
+    /* 0x10 */ struct {
+                    bool zero : 1; /* Original name: blink */
+                } flags; /* Original name: flags */
+    /* 0x14 */ char columns[8]; /* Original name: columns */
+    /* 0x1C */ SMenuItem miBase; /* Original name: miBase */
 } MenuNumber; // size = 0xAC
 
 typedef struct MenuComLvPanel {
-    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ s32 unk_004;
-    /* 0x008 */ SMenuItem unk_008;
-    /* 0x098 */ SMenuItem unk_098;
+    /* 0x000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x004 */ s32 level; /* Original name: level */
+    /* 0x008 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x098 */ SMenuItem miStar; /* Original name: miStar */
 } MenuComLvPanel; // size = 0x128
 
 #define MENUCONT_UNK_094_LEN 5
@@ -353,7 +354,7 @@ typedef struct MenuPlay2Panel {
     /* 0x00C4 */ SMenuItem unk_00C4;
     /* 0x0154 */ SMenuItem unk_0154;
     /* 0x01E4 */ MenuNumber unk_01E4;
-    /* 0x0290 */ MenuLvGauge unk_0290;
+    /* 0x0290 */ SMenuLvGauge unk_0290;
     /* 0x0590 */ MenuSpeedAsk unk_0590;
     /* 0x062C */ MenuSpeedItem unk_062C;
     /* 0x0C90 */ SAnimeState unk_0C90;
@@ -441,7 +442,7 @@ typedef struct MenuLvSel {
     /* 0x0008 */ SMenuItem unk_0008; // root?
     /* 0x0098 */ SMenuItem unk_0098[2]; // panels?
     /* 0x01B8 */ MenuNumber virusLvlNumber;
-    /* 0x0264 */ MenuLvGauge virusLvlGauge;
+    /* 0x0264 */ SMenuLvGauge virusLvlGauge;
     /* 0x0564 */ MenuSpeedAsk speedIcon;
     /* 0x0600 */ MenuSpeedItem speedSelector;
     /* 0x0C64 */ MenuMusicItem musicSelector;
@@ -729,48 +730,49 @@ void menuCursor_draw(MenuCursor *cursorArr[], s32 /*count*/, Gfx **gxfP);
 void menuBottle_init(MenuBottle *bottle, struct_watchMenu *global, s32 x, s32 y);
 void menuBottle_update(MenuBottle *bottle, SMenuItem *parent);
 void menuBottle_draw(MenuBottle *bottle, Gfx **gxfP);
-void func_80048B8C(MenuLvGauge *lvGauge, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
-void func_80048C48(MenuLvGauge *lvGauge, s32 arg1);
-void func_80048CC8(MenuLvGauge *arg0, SMenuItem *arg1);
-void menuLvGauge_draw1(MenuLvGauge *lvGaugeP[], s32 count, Gfx **gxfP);
-void func_80048FA0(MenuLvGauge *lvGaugeP[], s32 count, Gfx **gxfP);
-void func_80049034(MenuLvGauge *lvGaugeArr[], s32 count, Gfx **gfxP);
-void func_80049080(MenuYN *yn, s32 arg1, f32 arg2);
-void func_800490B8(MenuYN *yn, s32 arg1);
-void menuYN_init(MenuYN *yn, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3);
-bool menuYN_input(MenuYN *yn, s32 arg1);
-void func_800492D8(MenuYN *yn, SMenuItem *parentItem);
+void menuLvGauge_init(SMenuLvGauge *lvGauge, struct_watchMenu *global, s32 size, s32 playerNo, s32 level, s32 x, s32 y);
+void menuLvGauge_input(SMenuLvGauge *lvGauge, s32 playerNo);
+void menuLvGauge_update(SMenuLvGauge *lvGauge, SMenuItem *parent);
+void menuLvGauge_draw1(SMenuLvGauge *lvGaugeArr[], s32 count, Gfx **gxfP);
+void menuLvGauge_draw2(SMenuLvGauge *lvGaugeArr[], s32 count, Gfx **gxfP);
+void menuLvGauge_draw(SMenuLvGauge *lvGaugeArr[], s32 count, Gfx **gfxP);
+void menuYN_setFade(MenuYN *yn, s32 dir, f32 time);
+void menuYN_setFadeDir(MenuYN *yn, s32 dir);
+void menuYN_init(MenuYN *yn, struct_watchMenu *global, s32 x, s32 y);
+bool menuYN_input(MenuYN *yn, s32 playerNo);
+void menuYN_update(MenuYN *yn, SMenuItem *parent);
 void menuYN_draw(MenuYN *yn, Gfx **gfxP);
-void func_80049540(MenuMes *mes, s32 arg1, f32 arg2);
-void func_80049578(MenuMes *mes, s32 arg1);
-void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, void **heapP, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
-void func_8004970C(MenuMes *mes, const char *arg1);
-void func_80049754(MenuMes *mes, SMenuItem *parentItem);
-void func_800497D0(MenuMes *mes, Gfx **gfxP);
-void func_80049894(MenuSpeedAsk *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5);
-void func_800498C4(MenuSpeedAsk *arg0, SMenuItem *arg1);
+void menuMes_setFade(MenuMes *mes, s32 dir, f32 time);
+void menuMes_setFadeDir(MenuMes *mes, s32 dir);
+void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, void **heapP, s32 col, s32 row, s32 x, s32 y);
+void menuMes_setStr(MenuMes *mes, const char *str);
+void menuMes_update(MenuMes *mes, SMenuItem *parent);
+void menuMes_draw(MenuMes *mes, Gfx **gfxP);
+void menuSpeedAsk_init(MenuSpeedAsk *speedAsk, struct_watchMenu *global, s32 size, s32 speed, s32 x, s32 y);
+void menuSpeedAsk_update(MenuSpeedAsk *speedAsk, SMenuItem *parent);
 void menuSpeedAsk_draw(MenuSpeedAsk *speedAskArr[], s32 count, Gfx **gxfP);
-void menuSpeedItem_init(MenuSpeedItem *speedItem, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-void func_80049C54(MenuSpeedItem *speedItem, s32 arg1);
-void menuSpeedItem_update(MenuSpeedItem *arg0, SMenuItem *arg1);
-void menuSpeedItem_draw1(MenuSpeedItem **speedItemP, s32 count, Gfx **gfxP);
-void func_8004A160(MenuSpeedItem *speedItemP[], s32 count, Gfx **gxfP);
-void func_8004A1F4(MenuSpeedItem *speedItemArr[], s32 count, Gfx **gfxP);
-void menuMusicItem_init(MenuMusicItem *musicItem, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4);
-void menuMusicItem_input(MenuMusicItem *menuMusicItem, s32 arg1);
-void menuMusicItem_update(MenuMusicItem *menuMusicItem, SMenuItem *arg1);
+void menuSpeedItem_init(MenuSpeedItem *speedItem, struct_watchMenu *global, s32 size, s32 playerNo, s32 speed, s32 x,
+                        s32 y, s32 step);
+void menuSpeedItem_input(MenuSpeedItem *speedItem, s32 playerNo);
+void menuSpeedItem_update(MenuSpeedItem *speedItem, SMenuItem *parent);
+void menuSpeedItem_draw1(MenuSpeedItem *speedItemArr[], s32 count, Gfx **gfxP);
+void menuSpeedItem_draw2(MenuSpeedItem *speedItemArr[], s32 count, Gfx **gxfP);
+void menuSpeedItem_draw(MenuSpeedItem *speedItemArr[], s32 count, Gfx **gfxP);
+void menuMusicItem_init(MenuMusicItem *musicItem, struct_watchMenu *global, s32 musicNo, s32 x, s32 y);
+void menuMusicItem_input(MenuMusicItem *musicItem, s32 playerNo);
+void menuMusicItem_update(MenuMusicItem *musicItem, SMenuItem *parent);
 void menuMusicItem_draw1(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP);
 void menuMusicItem_draw2(MenuMusicItem *musicItemArr[], s32 count, Gfx **gxfP);
-void func_8004A814(MenuMusicItem *musicItemArr[], s32 arg1, Gfx **gfxP);
-void func_8004A860(MenuNumber *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
-void menuNumber_update(MenuNumber *menuNumber, SMenuItem *item);
-void menuNumber_draw(MenuNumber *numberP[], s32 arg1, Gfx **gxfP);
-void func_8004AC98(MenuComLvPanel *comLvPanel, s32 arg1, f32 arg2);
-void func_8004ACF4(MenuComLvPanel *comLvPanel, s32 arg1);
-void func_8004AD10(MenuComLvPanel *comLvPanel, s32 arg1, s32 arg2);
-void func_8004AD3C(MenuComLvPanel *arg0, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4);
-void func_8004AD84(MenuComLvPanel *comLvPanel, SMenuItem *parent);
-void menuComLvPanel_draw(MenuComLvPanel *comLvPanelP[], s32 count, Gfx **gfxP);
+void menuMusicItem_draw(MenuMusicItem *musicItemArr[], s32 count, Gfx **gfxP);
+void menuNumber_init(MenuNumber *number, struct_watchMenu *global, s32 size, s32 column, s32 n, s32 x, s32 y);
+void menuNumber_update(MenuNumber *number, SMenuItem *parent);
+void menuNumber_draw(MenuNumber *numberArr[], s32 count, Gfx **gxfP);
+void menuComLvPanel_setFade(MenuComLvPanel *comLvPanel, s32 dir, f32 time);
+void menuComLvPanel_setFadeDir(MenuComLvPanel *comLvPanel, s32 dir);
+void menuComLvPanel_setPos(MenuComLvPanel *comLvPanel, s32 x, s32 y);
+void menuComLvPanel_init(MenuComLvPanel *comLvPanel, struct_watchMenu *global, s32 level, s32 x, s32 y);
+void menuComLvPanel_update(MenuComLvPanel *comLvPanel, SMenuItem *parent);
+void menuComLvPanel_draw(MenuComLvPanel *comLvPanelArr[], s32 count, Gfx **gfxP);
 void menuCont_setFade(MenuCont *cont, s32 arg1, f32 arg2);
 void func_8004B2C8(MenuCont *cont, s32 arg1, s32 arg2);
 void menuCont_init(MenuCont *cont, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3);
