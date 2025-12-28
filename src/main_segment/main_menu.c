@@ -2365,8 +2365,8 @@ void menuComLvPanel_draw(MenuComLvPanel *comLvPanelArr[], s32 count, Gfx **gfxP)
         }
         menuItem_setPrim(item, &gfx);
 
-        tiStretchTexTile(&gfx, texC, cached, 0, 0, texC->info[TI_INFO_IDX_WIDTH], 0x14, item->trans[0],
-                         item->trans[1], item->scale[0] * texC->info[TI_INFO_IDX_WIDTH], item->scale[1] * 20.0f);
+        tiStretchTexTile(&gfx, texC, cached, 0, 0, texC->info[TI_INFO_IDX_WIDTH], 0x14, item->trans[0], item->trans[1],
+                         item->scale[0] * texC->info[TI_INFO_IDX_WIDTH], item->scale[1] * 20.0f);
         cached++;
     }
 
@@ -2400,7 +2400,10 @@ void menuComLvPanel_draw(MenuComLvPanel *comLvPanelArr[], s32 count, Gfx **gfxP)
     *gfxP = gfx;
 }
 
-const f32 RO_800AFBE0[] = {
+/**
+ * Original name: _color_2791
+ */
+const f32 _color_2791[] = {
     1.0f,
     0.0f,
     0.0f,
@@ -2409,57 +2412,57 @@ const f32 RO_800AFBE0[] = {
 /**
  * Original name: menuCont_setFade
  */
-void menuCont_setFade(MenuCont *cont, s32 arg1, f32 arg2) {
-    SMenuItem *sp10[ARRAY_COUNTU(cont->unk_094) + ARRAY_COUNTU(cont->unk_364) + ARRAY_COUNTU(cont->unk_3F4) +
-                    ARRAY_COUNTU(cont->unk_484)];
+void menuCont_setFade(MenuCont *cont, s32 dir, f32 time) {
+    SMenuItem *list[ARRAY_COUNTU(cont->miDesc) + ARRAY_COUNTU(cont->miLine) + ARRAY_COUNTU(cont->miLabel) +
+                    ARRAY_COUNTU(cont->miPushAnyKey)];
     s32 i;
     s32 j = 0;
 
-    for (i = 0; i < ARRAY_COUNTU(cont->unk_094); i++) {
-        sp10[j] = &cont->unk_094[i];
+    for (i = 0; i < ARRAY_COUNTU(cont->miDesc); i++) {
+        list[j] = &cont->miDesc[i];
         j++;
     }
 
-    for (i = 0; i < ARRAY_COUNTU(cont->unk_364); i++) {
-        sp10[j] = &cont->unk_364[i];
+    for (i = 0; i < ARRAY_COUNTU(cont->miLine); i++) {
+        list[j] = &cont->miLine[i];
         j++;
     }
 
-    for (i = 0; i < ARRAY_COUNTU(cont->unk_3F4); i++) {
-        sp10[j] = &cont->unk_3F4[i];
+    for (i = 0; i < ARRAY_COUNTU(cont->miLabel); i++) {
+        list[j] = &cont->miLabel[i];
         j++;
     }
 
-    for (i = 0; i < ARRAY_COUNTU(cont->unk_484); i++) {
-        sp10[j] = &cont->unk_484[i];
+    for (i = 0; i < ARRAY_COUNTU(cont->miPushAnyKey); i++) {
+        list[j] = &cont->miPushAnyKey[i];
         j++;
     }
 
     for (i = 0; i < j; i++) {
-        SMenuItem *temp_s0 = sp10[i];
+        SMenuItem *item = list[i];
 
-        menuItem_setColor_fade(temp_s0);
-        temp_s0->colorStep = 0.05f;
-        temp_s0->colorTime = arg2;
-        menuItem_setColorDir(temp_s0, arg1);
+        menuItem_setColor_fade(item);
+        item->colorStep = 0.05f;
+        item->colorTime = time;
+        menuItem_setColorDir(item, dir);
     }
 
-    for (i = 0; i < ARRAY_COUNTU(cont->unk_364); i++) {
-        SMenuItem *var_v1_5 = &cont->unk_364[i];
+    for (i = 0; i < ARRAY_COUNTU(cont->miLine); i++) {
+        SMenuItem *item = &cont->miLine[i];
 
-        for (j = 0; j < ARRAY_COUNT(RO_800AFBE0); j++) {
-            var_v1_5->colorRange[0][j] = var_v1_5->colorRange[1][j] = RO_800AFBE0[j];
+        for (j = 0; j < ARRAY_COUNT(_color_2791); j++) {
+            item->colorRange[0][j] = item->colorRange[1][j] = _color_2791[j];
         }
     }
 }
 
-void func_8004B2C8(MenuCont *cont, s32 arg1, s32 arg2) {
-    SMenuItem *item = &cont->unk_004;
+void menuCont_setFrame(MenuCont *cont, s32 dir, s32 time) {
+    SMenuItem *item = &cont->miBase;
 
-    item->transTime = arg2;
+    item->transTime = time;
     item->transStep = 0.05f;
     item->transRange[0][0] = item->transRange[1][0] - 160.0f;
-    menuItem_setTransDir(item, arg1);
+    menuItem_setTransDir(item, dir);
 }
 
 /**
@@ -2481,41 +2484,47 @@ static_assert(ARRAY_COUNT(_posLine_2861) == MENUCONT_UNK_364_LEN, "");
 /**
  * Original name: menuCont_init
  */
-void menuCont_init(MenuCont *cont, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3) {
+void menuCont_init(MenuCont *cont, struct_watchMenu *global, s32 x, s32 y) {
     s32 i;
 
-    cont->watchMenuRef = watchMenuRef;
+    cont->global = global;
 
-    menuItem_init(&cont->unk_004, arg2, arg3);
+    menuItem_init(&cont->miBase, x, y);
 
-    for (i = 0; i < ARRAY_COUNTU(cont->unk_094); i++) {
-        menuItem_init(&cont->unk_094[i], _posDesc_2860[i][0], _posDesc_2860[i][1]);
-        menuItem_setColor_fade(&cont->unk_094[i]);
+    for (i = 0; i < ARRAY_COUNTU(cont->miDesc); i++) {
+        menuItem_init(&cont->miDesc[i], _posDesc_2860[i][0], _posDesc_2860[i][1]);
+        menuItem_setColor_fade(&cont->miDesc[i]);
     }
 
-    for (i = 0; i < ARRAY_COUNTU(cont->unk_364); i++) {
-        menuItem_init(&cont->unk_364[i], _posLine_2861[i][0], _posLine_2861[i][1]);
-        menuItem_setColor_fade(&cont->unk_364[i]);
+    for (i = 0; i < ARRAY_COUNTU(cont->miLine); i++) {
+        menuItem_init(&cont->miLine[i], _posLine_2861[i][0], _posLine_2861[i][1]);
+        menuItem_setColor_fade(&cont->miLine[i]);
     }
 
-    menuItem_init(&cont->unk_3F4[0], 14, 47);
-    menuItem_init(&cont->unk_484[0], 214, 212);
+    menuItem_init(&cont->miLabel[0], 14, 47);
+    menuItem_init(&cont->miPushAnyKey[0], 214, 212);
     menuCont_setFade(cont, -1, 0.0f);
-    func_8004B2C8(cont, -1, 0);
+    menuCont_setFrame(cont, -1, 0);
 }
 
-bool func_8004B43C(MenuCont *cont, s32 arg1 UNUSED) {
-    SMenuItem *item = &cont->unk_004;
+/**
+ * Original name: menuCont_input
+ */
+bool menuCont_input(MenuCont *cont, s32 playerNo UNUSED) {
+    SMenuItem *item = &cont->miBase;
 
     return ((item->transStep > 0.0f) && (item->transTime == 1.0f));
 }
 
-void func_8004B488(MenuCont *cont, SMenuItem *parentItem) {
-    menuItem_update(&cont->unk_004, parentItem);
-    menuItem_updateN(cont->unk_094, ARRAY_COUNT(cont->unk_094), &cont->unk_004);
-    menuItem_updateN(cont->unk_364, ARRAY_COUNT(cont->unk_364), &cont->unk_004);
-    menuItem_update(cont->unk_3F4, parentItem);
-    menuItem_update(cont->unk_484, parentItem);
+/**
+ * Original name: menuCont_update
+ */
+void menuCont_update(MenuCont *cont, SMenuItem *parent) {
+    menuItem_update(&cont->miBase, parent);
+    menuItem_updateN(cont->miDesc, ARRAY_COUNT(cont->miDesc), &cont->miBase);
+    menuItem_updateN(cont->miLine, ARRAY_COUNT(cont->miLine), &cont->miBase);
+    menuItem_update(cont->miLabel, parent);
+    menuItem_update(cont->miPushAnyKey, parent);
 }
 
 /**
@@ -2545,130 +2554,133 @@ const s32 _desc_2915[] = {
 void menuCont_draw(MenuCont *cont, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     SMenuItem *item;
-    TiTexData *temp_s3;
-    TiTexData *temp;
+    TiTexData *texC;
+    TiTexData *texA;
     s32 i;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    item = &cont->unk_004;
-    temp_s3 = _getTexTutol(cont->watchMenuRef, 7);
-    menuItem_drawTex(item, &gfx, temp_s3, 0);
+    item = &cont->miBase;
+    texC = _getTexTutol(cont->global, 7);
+    menuItem_drawTex(item, &gfx, texC, 0);
 
     gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
 
-    for (i = 0; i < ARRAY_COUNTU(cont->unk_364); i++) {
-        item = &cont->unk_364[i];
-        temp_s3 = _getTexCont(cont->watchMenuRef, _line_2914[i]);
-        menuItem_drawTex(item, &gfx, temp_s3, 0);
+    for (i = 0; i < ARRAY_COUNTU(cont->miLine); i++) {
+        item = &cont->miLine[i];
+        texC = _getTexCont(cont->global, _line_2914[i]);
+        menuItem_drawTex(item, &gfx, texC, 0);
     }
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
 
-    temp_s3 = _getTexCont(cont->watchMenuRef, 2);
-    for (i = 0; i < ARRAY_COUNTU(cont->unk_094) - 1; i++) {
-        item = &cont->unk_094[i];
-        menuItem_drawItem(item, &gfx, temp_s3, 0, 4, i);
+    texC = _getTexCont(cont->global, 2);
+    for (i = 0; i < ARRAY_COUNTU(cont->miDesc) - 1; i++) {
+        item = &cont->miDesc[i];
+        menuItem_drawItem(item, &gfx, texC, 0, 4, i);
     }
 
-    for (; i < ARRAY_COUNTU(cont->unk_094); i++) {
-        item = &cont->unk_094[i];
+    for (; i < ARRAY_COUNTU(cont->miDesc); i++) {
+        item = &cont->miDesc[i];
 
-        temp_s3 = _getTexCont(cont->watchMenuRef, _desc_2915[i - (ARRAY_COUNTU(cont->unk_094) - 2)]);
+        //! @bug: OoB access: See note in _desc_2915 for more info
+        texC = _getTexCont(cont->global, _desc_2915[i - (ARRAY_COUNTU(cont->miDesc) - 2)]);
 
-        menuItem_drawTex(item, &gfx, temp_s3, 0);
+        menuItem_drawTex(item, &gfx, texC, 0);
     }
 
-    menuItem_drawItem(cont->unk_3F4, &gfx, _getTexCommon(cont->watchMenuRef, 0xE), 0, 0x2F, 0x13);
+    menuItem_drawItem(cont->miLabel, &gfx, _getTexCommon(cont->global, 0xE), 0, 47, 19);
 
     gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
 
-    temp_s3 = _getTexTutol(cont->watchMenuRef, 1);
-    temp = _getTexTutol(cont->watchMenuRef, 3);
-    menuItem_drawAlphaTex(cont->unk_484, &gfx, temp_s3, temp, 0);
+    texC = _getTexTutol(cont->global, 1);
+    texA = _getTexTutol(cont->global, 3);
+    menuItem_drawAlphaTex(cont->miPushAnyKey, &gfx, texC, texA, 0);
 
     *gfxP = gfx;
 }
 
-void func_8004B774(MenuMainPanel *mainPanel, s32 arg1, f32 arg2) {
-    SMenuItem *item = &mainPanel->unk_028;
+/**
+ * Original name: menuMainPanel_setFrame
+ */
+void menuMainPanel_setFrame(MenuMainPanel *mainPanel, s32 dir, f32 time) {
+    SMenuItem *item = &mainPanel->miBase;
 
-    item->transTime = arg2;
+    item->transTime = time;
     item->transStep = 0.05f;
-    // TODO: SCREEN_WIDTH?
-    item->transRange[0][0] = item->transRange[1][0] - 320.0f;
-    menuItem_setTransDir(item, arg1);
+    item->transRange[0][0] = item->transRange[1][0] - SCREEN_WIDTH;
+    menuItem_setTransDir(item, dir);
 }
 
 /**
  * Original name: menuMainPanel_init
  */
-void menuMainPanel_init(MenuMainPanel *mainPanel, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, const s32 *arg4,
-                        s32 arg5, s32 arg6) {
+void menuMainPanel_init(MenuMainPanel *mainPanel, struct_watchMenu *global, s32 count, s32 select, const s32 *indexes,
+                        s32 x, s32 y) {
     s32 i;
 
-    mainPanel->watchMenuRef = watchMenuRef;
-    mainPanel->unk_008 = arg2;
-    mainPanel->unk_00C = WrapI(0, arg2, arg3);
+    mainPanel->global = global;
+    mainPanel->count = count;
+    mainPanel->select = WrapI(0, count, select);
 
-    for (i = 0; i < ARRAY_COUNTU(mainPanel->unk_010); i++) {
-        //! @bug OoB read. End condition should be arg2
-        mainPanel->unk_010[i] = arg4[i];
+    for (i = 0; i < ARRAY_COUNTU(mainPanel->indexes); i++) {
+        //! @bug OoB read. End condition should be count
+        mainPanel->indexes[i] = indexes[i];
     }
 
-    menuItem_init(&mainPanel->unk_028, arg5, arg6);
-    for (i = 0; i < arg2; i++) {
-        menuItem_init(&mainPanel->unk_0B8[i], 0xB, 9 + i * 0x17);
+    menuItem_init(&mainPanel->miBase, x, y);
+    for (i = 0; i < count; i++) {
+        menuItem_init(&mainPanel->miPanel[i], 11, 9 + i * 23);
     }
 
-    menuCursor_init(&mainPanel->unk_418, watchMenuRef, CURSOR_ITEM, 0, 0, 0, 0x6A, 0x14);
-    mainPanel->unk_418.flags.finger = true;
+    menuCursor_init(&mainPanel->cursor, global, CURSOR_ITEM, 0, 0, 0, 106, 20);
+    mainPanel->cursor.flags.finger = true;
 }
 
 /**
  * Original name: menuMainPanel_input
  */
-bool menuMainPanel_input(MenuMainPanel *mainPanel, s32 arg1) {
-    u32 temp_a0 = _getKeyRep(mainPanel->watchMenuRef, arg1);
-    s32 var_v1 = 0;
-    s32 temp;
+bool menuMainPanel_input(MenuMainPanel *mainPanel, s32 playerNo) {
+    u32 rep = _getKeyRep(mainPanel->global, playerNo);
+    s32 vec = 0;
+    s32 select;
 
-    if ((mainPanel->unk_028.transStep < 0.0f) || (mainPanel->unk_028.transTime < 1.0f)) {
+    if ((mainPanel->miBase.transStep < 0.0f) || (mainPanel->miBase.transTime < 1.0f)) {
         return false;
     }
-    if (temp_a0 & U_JPAD) {
-        var_v1--;
+    if (rep & U_JPAD) {
+        vec--;
     }
-    if (temp_a0 & D_JPAD) {
-        var_v1++;
+    if (rep & D_JPAD) {
+        vec++;
     }
 
 #if VERSION_US
-    temp = WrapI(0, mainPanel->unk_008, mainPanel->unk_00C + var_v1);
+    select = WrapI(0, mainPanel->count, mainPanel->select + vec);
 #elif VERSION_GW
-    temp = mainPanel->unk_00C;
+    select = mainPanel->select;
     do {
-        temp = WrapI(0, mainPanel->unk_008, temp + var_v1);
-    } while ((var_v1 != 0) && (mainPanel->unk_0B8[temp].unk_64 == 0.0f));
+        select = WrapI(0, mainPanel->count, select + vec);
+    } while ((vec != 0) && (mainPanel->miPanel[select].colorTime == 0.0f));
 #elif VERSION_CN
-    temp = mainPanel->unk_00C;
-    temp = WrapI(0, mainPanel->unk_008, temp + var_v1);
+    select = mainPanel->select;
+    select = WrapI(0, mainPanel->count, select + vec);
 #else
 #error ""
 #endif
 
-    if (temp != mainPanel->unk_00C) {
+    if (select != mainPanel->select) {
         dm_snd_play(SND_INDEX_64);
-        mainPanel->unk_00C = temp;
+        mainPanel->select = select;
     }
     return true;
 }
 
 void func_8004B98C(MenuMainPanel *arg0, SMenuItem *parentItem) {
-    menuItem_update(&arg0->unk_028, parentItem);
-    menuItem_updateN(arg0->unk_0B8, arg0->unk_008, &arg0->unk_028);
-    menuCursor_update(&arg0->unk_418, &arg0->unk_0B8[arg0->unk_00C]);
+    menuItem_update(&arg0->miBase, parentItem);
+    menuItem_updateN(arg0->miPanel, arg0->count, &arg0->miBase);
+    menuCursor_update(&arg0->cursor, &arg0->miPanel[arg0->select]);
 }
 
 // TODO: enum?
@@ -2690,15 +2702,15 @@ void menuMainPanel_draw(MenuMainPanel *arg0, Gfx **gfxP) {
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    temp_s4 = _getTexMain(arg0->watchMenuRef, _panel_3220[arg0->unk_008 - 2]);
-    menuItem_drawTex(&arg0->unk_028, &gfx, temp_s4, 0);
+    temp_s4 = _getTexMain(arg0->global, _panel_3220[arg0->count - 2]);
+    menuItem_drawTex(&arg0->miBase, &gfx, temp_s4, 0);
 
-    temp_s4 = _getTexCommon(arg0->watchMenuRef, 0xE);
-    for (var_s0 = 0; var_s0 < arg0->unk_008; var_s0++) {
-        menuItem_drawItem(&arg0->unk_0B8[var_s0], &gfx, temp_s4, 0, 0x2F, arg0->unk_010[var_s0]);
+    temp_s4 = _getTexCommon(arg0->global, 0xE);
+    for (var_s0 = 0; var_s0 < arg0->count; var_s0++) {
+        menuItem_drawItem(&arg0->miPanel[var_s0], &gfx, temp_s4, 0, 0x2F, arg0->indexes[var_s0]);
     }
 
-    sp1C[0] = &arg0->unk_418;
+    sp1C[0] = &arg0->cursor;
     menuCursor_draw(sp1C, ARRAY_COUNT(sp1C), &gfx);
 
     *gfxP = gfx;
@@ -4642,16 +4654,16 @@ void menuMain_initPanel(MenuMain *menuMain, MainMenuMode mode, s32 arg2, s32 arg
 
 #if VERSION_GW
     switch (mode) {
-        case MAINMENUMODE_MENUMAIN_0:
-            menuItem_setColorDir(&menuMain->unk_003C[arg2].unk_0B8[1], -1);
-            menuMain->unk_003C[arg2].unk_0B8[1].unk_64 = 0;
-            menuItem_setColorDir(&menuMain->unk_003C[arg2].unk_0B8[2], -1);
-            menuMain->unk_003C[arg2].unk_0B8[2].unk_64 = 0;
+        case MODE_MAIN:
+            menuItem_setColorDir(&menuMain->unk_003C[arg2].miPanel[1], -1);
+            menuMain->unk_003C[arg2].miPanel[1].colorTime = 0.0f;
+            menuItem_setColorDir(&menuMain->unk_003C[arg2].miPanel[2], -1);
+            menuMain->unk_003C[arg2].miPanel[2].colorTime = 0.0f;
             break;
 
-        case MAINMENUMODE_47:
-            menuItem_setColorDir(&menuMain->unk_003C[arg2].unk_0B8[1], -1);
-            menuMain->unk_003C[arg2].unk_0B8[1].unk_64 = 0;
+        case MODE_RECORD_MS:
+            menuItem_setColorDir(&menuMain->unk_003C[arg2].miPanel[1], -1);
+            menuMain->unk_003C[arg2].miPanel[1].colorTime = 0.0f;
             break;
 
         default:
@@ -4689,7 +4701,7 @@ void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, void **he
 
     for (i = 0; i < ARRAY_COUNTU(menuMain->unk_003C); i++) {
         menuMain_initPanel(menuMain, menuMain->mode, i, menuMain->unk_000C[menuMain->unk_0008]);
-        func_8004B774(&menuMain->unk_003C[i], -1, 0);
+        menuMainPanel_setFrame(&menuMain->unk_003C[i], -1, 0);
     }
 
     i = 1;
@@ -4728,7 +4740,7 @@ void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, void **he
             break;
 
         default:
-            func_8004B774(menuMain->unk_003C, 1, 0);
+            menuMainPanel_setFrame(menuMain->unk_003C, 1, 0);
             break;
     }
 
@@ -4936,10 +4948,10 @@ void menuMain_input(MenuMain *menuMain) {
             break;
 
         default:
-            i = i || (menuMainPanel_input(sp20, 0) != false);
-            i = i || (menuNameSelPanel_input(&menuMain->unk_0D2C) != false);
-            i = i || (func_8004B43C(&menuMain->unk_2658, 0) != false);
-            i = i || (menuNameOpPanel_input(&menuMain->unk_17B4, 0) != false);
+            i = i || menuMainPanel_input(sp20, 0);
+            i = i || menuNameSelPanel_input(&menuMain->unk_0D2C);
+            i = i || menuCont_input(&menuMain->unk_2658, 0);
+            i = i || menuNameOpPanel_input(&menuMain->unk_17B4, 0);
             break;
     }
 
@@ -4987,7 +4999,7 @@ void menuMain_input(MenuMain *menuMain) {
             break;
 
         default:
-            var_s2 = menuMain->unk_000C[menuMain->unk_0008] = sp20->unk_00C;
+            var_s2 = menuMain->unk_000C[menuMain->unk_0008] = sp20->select;
             break;
     }
 
@@ -5536,7 +5548,7 @@ void menuMain_input(MenuMain *menuMain) {
             break;
 
         case MODE_CONT:
-            menuCont_setFade(&menuMain->unk_2658, 1, menuMain->unk_2658.unk_3F4[0].colorTime);
+            menuCont_setFade(&menuMain->unk_2658, 1, menuMain->unk_2658.miLabel[0].colorTime);
             if (keyTrg & B_BUTTON) {
                 menuMain->mode = MODE_TUTORIAL;
                 var_s3++;
@@ -5652,7 +5664,7 @@ void menuMain_input(MenuMain *menuMain) {
             }
             break;
         case MODE_BACKUP:
-            sp20->unk_418.flags.finger = true;
+            sp20->cursor.flags.finger = true;
             if (keyTrg & (A_BUTTON | START_BUTTON)) {
                 switch (var_s2) {
                     case 0x0:
@@ -5665,7 +5677,7 @@ void menuMain_input(MenuMain *menuMain) {
                     case 0x1:
                         menuMain->mode = MODE_BACKUP_YN;
                         menuMain->unk_2B6C.select = 0;
-                        sp20->unk_418.flags.finger = false;
+                        sp20->cursor.flags.finger = false;
                         var_fp++;
                         soundIndex = SND_INDEX_62;
                         break;
@@ -5731,7 +5743,7 @@ void menuMain_input(MenuMain *menuMain) {
     }
     if (sp30 < 0) {
         menuCont_setFade(&menuMain->unk_2658, -1, 1.0f);
-        func_8004B2C8(&menuMain->unk_2658, -1, menuMain->unk_2658.unk_004.transTime);
+        menuCont_setFrame(&menuMain->unk_2658, -1, menuMain->unk_2658.miBase.transTime);
     }
     if (sp24 < 0) {
         func_8004C820(&menuMain->unk_17B4, -1, 1.0f);
@@ -5743,14 +5755,14 @@ void menuMain_input(MenuMain *menuMain) {
         func_8004CCD0(&menuMain->unk_1C64, -1, menuMain->unk_1C64.unk_014.transTime);
     }
     if (var_s3 != 0) {
-        func_8004B774(sp20, -1, sp20->unk_028.transTime);
+        menuMainPanel_setFrame(sp20, -1, sp20->miBase.transTime);
         menuMain->unk_2300 ^= 1;
         sp20 = &menuMain->unk_003C[menuMain->unk_2300];
     }
 
     if (menuMain->mode != _menuMain_lastMode) {
         if (sp30 > 0) {
-            func_8004B2C8(&menuMain->unk_2658, 1, menuMain->unk_2658.unk_004.transTime);
+            menuCont_setFrame(&menuMain->unk_2658, 1, menuMain->unk_2658.miBase.transTime);
         } else if (sp24 > 0) {
             bcopy(evs_mem_data[evs_select_name_no[0]].mem_name, menuMain->unk_17B4.unk_00C, MENUNAMEOPPANEL_UNK_LEN);
             func_8004C820(&menuMain->unk_17B4, 1, 0.0f);
@@ -5774,10 +5786,10 @@ void menuMain_input(MenuMain *menuMain) {
             menuNameSelPanel_clear(&menuMain->unk_0D2C, menuMain->mode != MODE_NAME_NS, var_a2_8);
             func_8004BB14(&menuMain->unk_0D2C, 1, temp_fs0);
         } else if (var_s3 != 0) {
-            f32 temp_fs0_2 = sp20->unk_028.transTime;
+            f32 temp_fs0_2 = sp20->miBase.transTime;
 
             menuMain_initPanel(menuMain, menuMain->mode, menuMain->unk_2300, menuMain->unk_000C[menuMain->unk_0008]);
-            func_8004B774(sp20, 1, temp_fs0_2);
+            menuMainPanel_setFrame(sp20, 1, temp_fs0_2);
         }
     }
 
@@ -5824,14 +5836,14 @@ void menuMain_update(MenuMain *menuMain) {
         menuMain->unk_25C8.color[i] = rootItem->color[i];
     }
 
-    func_8004B488(&menuMain->unk_2658, rootItem);
+    menuCont_update(&menuMain->unk_2658, rootItem);
 
     menuMain->unk_0038 = WrapF(0.0f, 1.0f, menuMain->unk_0038 + DOUBLE_LITERAL(1.0 / 128));
 
     menuYN_update(&menuMain->unk_2B6C, rootItem);
     menuMes_update(&menuMain->unk_31E4, rootItem);
     menuMain->unk_17B4.unk_250.flags.blink = true;
-    temp_s5->unk_418.flags.blink = true;
+    temp_s5->cursor.flags.blink = true;
 
     switch (menuMain->mode) {
         case MODE_NAME_DEL_YN:
@@ -5841,7 +5853,7 @@ void menuMain_update(MenuMain *menuMain) {
 
         case MODE_BACKUP_YN:
         case MODE_BACKUP_MES:
-            temp_s5->unk_418.flags.blink = false;
+            temp_s5->cursor.flags.blink = false;
             break;
 
         default:

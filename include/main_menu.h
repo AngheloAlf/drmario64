@@ -4,7 +4,9 @@
 #include "libultra.h"
 #include "libc/stdint.h"
 #include "libc/stdbool.h"
-#include "color.h"
+
+#include "macros_defines.h"
+
 #include "msgwnd.h"
 #include "char_anime.h"
 #include "audio/snd_seq.h"
@@ -263,25 +265,25 @@ typedef struct MenuComLvPanel {
 #define MENUCONT_UNK_364_LEN 1
 
 typedef struct MenuCont {
-    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ SMenuItem unk_004;
-    /* 0x094 */ SMenuItem unk_094[MENUCONT_UNK_094_LEN];
-    /* 0x364 */ SMenuItem unk_364[MENUCONT_UNK_364_LEN];
-    /* 0x3F4 */ SMenuItem unk_3F4[1];
-    /* 0x484 */ SMenuItem unk_484[1];
+    /* 0x000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x004 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x094 */ SMenuItem miDesc[MENUCONT_UNK_094_LEN]; /* Original name: miDesc */
+    /* 0x364 */ SMenuItem miLine[MENUCONT_UNK_364_LEN]; /* Original name: miLine */
+    /* 0x3F4 */ SMenuItem miLabel[1]; /* Original name: miLabel */
+    /* 0x484 */ SMenuItem miPushAnyKey[1]; /* Original name: miPushAnyKey */
 } MenuCont; // size >= 0x514
 
 #define MENUMAINPANEL_UNK_LEN (6)
 
 typedef struct MenuMainPanel {
-    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ UNK_TYPE1 unk_004[0x4];
-    /* 0x008 */ s32 unk_008;
-    /* 0x00C */ s32 unk_00C;
-    /* 0x010 */ s32 unk_010[MENUMAINPANEL_UNK_LEN];
-    /* 0x028 */ SMenuItem unk_028;
-    /* 0x0B8 */ SMenuItem unk_0B8[MENUMAINPANEL_UNK_LEN];
-    /* 0x418 */ MenuCursor unk_418;
+    /* 0x000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x004 */ UNUSED_MEMBER(s32 size); /* Original name: size */
+    /* 0x008 */ s32 count; /* Original name: count */
+    /* 0x00C */ s32 select; /* Original name: select */
+    /* 0x010 */ s32 indexes[MENUMAINPANEL_UNK_LEN]; /* Original name: indexes */
+    /* 0x028 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x0B8 */ SMenuItem miPanel[MENUMAINPANEL_UNK_LEN]; /* Original name: miPanel */
+    /* 0x418 */ MenuCursor cursor; /* Original name: cursor */
 } MenuMainPanel; // size = 0x678
 
 typedef struct MenuNameSelPanel {
@@ -773,13 +775,13 @@ void menuComLvPanel_setPos(MenuComLvPanel *comLvPanel, s32 x, s32 y);
 void menuComLvPanel_init(MenuComLvPanel *comLvPanel, struct_watchMenu *global, s32 level, s32 x, s32 y);
 void menuComLvPanel_update(MenuComLvPanel *comLvPanel, SMenuItem *parent);
 void menuComLvPanel_draw(MenuComLvPanel *comLvPanelArr[], s32 count, Gfx **gfxP);
-void menuCont_setFade(MenuCont *cont, s32 arg1, f32 arg2);
-void func_8004B2C8(MenuCont *cont, s32 arg1, s32 arg2);
-void menuCont_init(MenuCont *cont, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3);
-bool func_8004B43C(MenuCont *cont, s32 arg1);
-void func_8004B488(MenuCont *cont, SMenuItem *parentItem);
+void menuCont_setFade(MenuCont *cont, s32 dir, f32 time);
+void menuCont_setFrame(MenuCont *cont, s32 dir, s32 time);
+void menuCont_init(MenuCont *cont, struct_watchMenu *global, s32 x, s32 y);
+bool menuCont_input(MenuCont *cont, s32 arg1);
+void menuCont_update(MenuCont *cont, SMenuItem *parent);
 void menuCont_draw(MenuCont *cont, Gfx **gfxP);
-void func_8004B774(MenuMainPanel *mainPanel, s32 arg1, f32 arg2);
+void menuMainPanel_setFrame(MenuMainPanel *mainPanel, s32 arg1, f32 arg2);
 void menuMainPanel_init(MenuMainPanel *mainPanel, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, const s32 *arg4, s32 arg5, s32 arg6);
 bool menuMainPanel_input(MenuMainPanel *mainPanel, s32 arg1);
 void func_8004B98C(MenuMainPanel *arg0, SMenuItem *parentItem);

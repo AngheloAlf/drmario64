@@ -447,12 +447,12 @@ menuComLvPanel_init = 0x8004AD3C; //
 menuComLvPanel_update = 0x8004AD84; //
 menuComLvPanel_draw = 0x8004ADC4; //
 menuCont_setFade = 0x8004B114; //
-func_8004B2C8 = 0x8004B2C8; //
+menuCont_setFrame = 0x8004B2C8; //
 menuCont_init = 0x8004B318; //
-func_8004B43C = 0x8004B43C; //
-func_8004B488 = 0x8004B488; //
+menuCont_input = 0x8004B43C; //
+menuCont_update = 0x8004B488; //
 menuCont_draw = 0x8004B500; //
-func_8004B774 = 0x8004B774; //
+menuMainPanel_setFrame = 0x8004B774; //
 menuMainPanel_init = 0x8004B7B8; //
 menuMainPanel_input = 0x8004B8CC; //
 func_8004B98C = 0x8004B98C; //
@@ -1891,7 +1891,7 @@ DBL_800AFBA8 = 0x800AFBA8; // type:f64
 
 _tbl_2516 = 0x800AFBB0; //
 _step_2517 = 0x800AFBD8; //
-RO_800AFBE0 = 0x800AFBE0; // force_not_migration:True
+_color_2791 = 0x800AFBE0; // force_not_migration:True
 
 _posDesc_2860 = 0x800AFBEC; // size:0x28 force_not_migration:True
 _posLine_2861 = 0x800AFC14; // size:0x8
