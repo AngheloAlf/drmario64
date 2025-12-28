@@ -1611,13 +1611,13 @@ void menuMes_setFadeDir(MenuMes *mes, s32 dir) {
 /**
  * Original name: menuMes_init
  */
-void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, void **heapP, s32 col, s32 row, s32 x, s32 y) {
+void menuMes_init(MenuMes *mes, struct_watchMenu *global, void **heapP, s32 col, s32 row, s32 x, s32 y) {
     MessageWnd *msgWnd;
     SMenuItem *item;
     void *heap = *heapP;
     f32 a2;
 
-    mes->global = watchMenuRef;
+    mes->global = global;
 
     menuItem_init(&mes->miBase, x, y);
     menuItem_setColor_fade(&mes->miBase);
@@ -1632,7 +1632,7 @@ void menuMes_init(MenuMes *mes, struct_watchMenu *watchMenuRef, void **heapP, s3
     mes->msgWnd.fntW = 0xC;
     mes->msgWnd.colStep = 6;
     mes->msgWnd.rowStep = 0xE;
-    menuCursor_init(&mes->window, watchMenuRef, CURSOR_WINDOW, 0, -0x10, -0x10, mes->msgWnd.colStep * col * 2 + 0x20,
+    menuCursor_init(&mes->window, global, CURSOR_WINDOW, 0, -0x10, -0x10, mes->msgWnd.colStep * col * 2 + 0x20,
                     mes->msgWnd.rowStep * row + 0x20);
 
     item = &mes->window.miCursor;
@@ -2677,10 +2677,13 @@ bool menuMainPanel_input(MenuMainPanel *mainPanel, s32 playerNo) {
     return true;
 }
 
-void func_8004B98C(MenuMainPanel *arg0, SMenuItem *parentItem) {
-    menuItem_update(&arg0->miBase, parentItem);
-    menuItem_updateN(arg0->miPanel, arg0->count, &arg0->miBase);
-    menuCursor_update(&arg0->cursor, &arg0->miPanel[arg0->select]);
+/**
+ * Original name: menuMainPanel_update
+ */
+void menuMainPanel_update(MenuMainPanel *mainPanel, SMenuItem *parent) {
+    menuItem_update(&mainPanel->miBase, parent);
+    menuItem_updateN(mainPanel->miPanel, mainPanel->count, &mainPanel->miBase);
+    menuCursor_update(&mainPanel->cursor, &mainPanel->miPanel[mainPanel->select]);
 }
 
 // TODO: enum?
@@ -2694,119 +2697,124 @@ const s32 _panel_3220[] = {
 /**
  * Original name: menuMainPanel_draw
  */
-void menuMainPanel_draw(MenuMainPanel *arg0, Gfx **gfxP) {
+void menuMainPanel_draw(MenuMainPanel *mainPanel, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    MenuCursor *sp1C[1];
-    TiTexData *temp_s4;
-    s32 var_s0;
+    MenuCursor *list[1];
+    TiTexData *texC;
+    s32 i;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    temp_s4 = _getTexMain(arg0->global, _panel_3220[arg0->count - 2]);
-    menuItem_drawTex(&arg0->miBase, &gfx, temp_s4, 0);
+    texC = _getTexMain(mainPanel->global, _panel_3220[mainPanel->count - 2]);
+    menuItem_drawTex(&mainPanel->miBase, &gfx, texC, 0);
 
-    temp_s4 = _getTexCommon(arg0->global, 0xE);
-    for (var_s0 = 0; var_s0 < arg0->count; var_s0++) {
-        menuItem_drawItem(&arg0->miPanel[var_s0], &gfx, temp_s4, 0, 0x2F, arg0->indexes[var_s0]);
+    texC = _getTexCommon(mainPanel->global, 0xE);
+    for (i = 0; i < mainPanel->count; i++) {
+        menuItem_drawItem(&mainPanel->miPanel[i], &gfx, texC, 0, 0x2F, mainPanel->indexes[i]);
     }
 
-    sp1C[0] = &arg0->cursor;
-    menuCursor_draw(sp1C, ARRAY_COUNT(sp1C), &gfx);
+    list[0] = &mainPanel->cursor;
+    menuCursor_draw(list, ARRAY_COUNT(list), &gfx);
 
     *gfxP = gfx;
 }
 
-void func_8004BB14(MenuNameSelPanel *nameSelPanel, s32 arg1, f32 arg2) {
-    SMenuItem *item = &nameSelPanel->unk_028;
+/**
+ * Original name: menuNameSelPanel_setFrame
+ */
+void menuNameSelPanel_setFrame(MenuNameSelPanel *nameSelPanel, s32 dir, f32 time) {
+    SMenuItem *item = &nameSelPanel->miBase;
 
-    item->transTime = arg2;
+    item->transTime = time;
     item->transStep = 0.05f;
     item->transRange[0][0] = item->transRange[1][0] - 320.0f;
-    menuItem_setTransDir(item, arg1);
+    menuItem_setTransDir(item, dir);
 }
 
 /**
  * Original name: menuNameSelPanel_clear
  */
-void menuNameSelPanel_clear(MenuNameSelPanel *nameSelPanel, bool arg1, s32 arg2) {
-    s32 var_a3;
+void menuNameSelPanel_clear(MenuNameSelPanel *nameSelPanel, bool guestFlag, s32 playerCount) {
+    s32 i;
 
-    nameSelPanel->unk_004 = arg2;
-    nameSelPanel->unk_008 = 0;
+    nameSelPanel->playerCount = playerCount;
+    nameSelPanel->flow = 0;
 
     if (evs_select_name_no[0] == evs_select_name_no[1]) {
         evs_select_name_no[1] = 8;
     }
 
-    for (var_a3 = 0; var_a3 < EVS_SELECT_NAME_NO_COUNT; var_a3++) {
-        nameSelPanel->unk_00C[var_a3] = 0;
-        nameSelPanel->unk_014[var_a3] = evs_select_name_no[var_a3];
-        nameSelPanel->unk_01C[var_a3] = (evs_select_name_no[var_a3] & 1);
+    for (i = 0; i < EVS_SELECT_NAME_NO_COUNT; i++) {
+        nameSelPanel->depth[i] = 0;
+        nameSelPanel->select[i] = evs_select_name_no[i];
+        nameSelPanel->column[i] = (evs_select_name_no[i] & 1);
     }
 
-    nameSelPanel->unk_024.b.unk_31 = (arg1 != false);
+    nameSelPanel->flags.guest = (guestFlag != false);
 
-    for (var_a3 = 0; var_a3 < ARRAY_COUNTU(nameSelPanel->unk_5C8); var_a3++) {
-        nameSelPanel->unk_5C8[var_a3].flags.finger = true;
-        nameSelPanel->unk_5C8[var_a3].flags.player = (nameSelPanel->unk_004 >= 2);
+    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->cursor); i++) {
+        nameSelPanel->cursor[i].flags.finger = true;
+        nameSelPanel->cursor[i].flags.player = (nameSelPanel->playerCount >= 2);
     }
 }
 
 /**
  * Original name: menuNameSelPanel_init
  */
-void menuNameSelPanel_init(MenuNameSelPanel *nameSelPanel, struct_watchMenu *watchMenuRef, bool arg2, s32 arg3,
-                           s32 arg4, s32 arg5) {
+void menuNameSelPanel_init(MenuNameSelPanel *nameSelPanel, struct_watchMenu *global, bool guestFlag, s32 playerCount,
+                           s32 x, s32 y) {
     s32 i;
 
-    nameSelPanel->watchMenuRef = watchMenuRef;
-    menuItem_init(&nameSelPanel->unk_028, arg4, arg5);
+    nameSelPanel->global = global;
+    menuItem_init(&nameSelPanel->miBase, x, y);
 
-    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->unk_0B8) - 1; i++) {
-        menuItem_init(&nameSelPanel->unk_0B8[i], (i % 2) * 60 + 6, (i / 2) * 23 + 31);
+    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->miLabel) - 1; i++) {
+        menuItem_init(&nameSelPanel->miLabel[i], (i % 2) * 60 + 6, (i / 2) * 23 + 31);
     }
+    menuItem_init(&nameSelPanel->miLabel[i], 0x24, 8);
 
-    menuItem_init(&nameSelPanel->unk_0B8[i], 0x24, 8);
-
-    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->unk_5C8); i++) {
-        menuCursor_init(&nameSelPanel->unk_5C8[i], watchMenuRef, CURSOR_ITEM, i, 0, 0, 0x38, 0x14);
+    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->cursor); i++) {
+        menuCursor_init(&nameSelPanel->cursor[i], global, CURSOR_ITEM, i, 0, 0, 56, 20);
 
         if (i % 2U != 0) {
             SMenuItem *item;
 
-            item = &nameSelPanel->unk_5C8[i].miCursor;
+            item = &nameSelPanel->cursor[i].miCursor;
             item->colorTime = WrapF(0.0f, 1.0f, item->colorTime + DOUBLE_LITERAL(0.5));
 
-            item = &nameSelPanel->unk_5C8[i].miFinger;
+            item = &nameSelPanel->cursor[i].miFinger;
             item->transTime = WrapF(0.0f, 1.0f, item->transTime + DOUBLE_LITERAL(0.5));
-            item->transRange[0][0] += nameSelPanel->unk_5C8[i].size[0] + 0x10;
-            item->transRange[1][0] += nameSelPanel->unk_5C8[i].size[0] + 0x10;
+            item->transRange[0][0] += nameSelPanel->cursor[i].size[0] + 0x10;
+            item->transRange[1][0] += nameSelPanel->cursor[i].size[0] + 0x10;
             item->scaleRange[0][0] = -item->scaleRange[0][0];
             item->scaleRange[1][0] = -item->scaleRange[1][0];
 
-            item = &nameSelPanel->unk_5C8[i].miPlayer;
+            item = &nameSelPanel->cursor[i].miPlayer;
             item->transTime = WrapF(0.0f, 1.0f, item->transTime + DOUBLE_LITERAL(0.5));
-            item->transRange[0][0] += nameSelPanel->unk_5C8[i].size[0] + 0x10;
-            item->transRange[1][0] += nameSelPanel->unk_5C8[i].size[0] + 0x10;
+            item->transRange[0][0] += nameSelPanel->cursor[i].size[0] + 0x10;
+            item->transRange[1][0] += nameSelPanel->cursor[i].size[0] + 0x10;
         }
     }
 
-    menuNameSelPanel_clear(nameSelPanel, arg2, arg3);
+    menuNameSelPanel_clear(nameSelPanel, guestFlag, playerCount);
 }
 
-bool func_8004BEB4(MenuNameSelPanel *nameSelPanel, s32 arg1, s32 arg2) {
-    if (arg2 != 8) {
+/**
+ * Original name: menuNameSelPanel_checkSelected
+ */
+bool menuNameSelPanel_checkSelected(MenuNameSelPanel *nameSelPanel, s32 playerNo, s32 nameNo) {
+    if (nameNo != 8) {
         s32 i;
 
-        for (i = 0; i < nameSelPanel->unk_004; i++) {
-            if (i == arg1) {
+        for (i = 0; i < nameSelPanel->playerCount; i++) {
+            if (i == playerNo) {
                 continue;
             }
-            if (nameSelPanel->unk_014[i] == 8) {
+            if (nameSelPanel->select[i] == 8) {
                 continue;
             }
 
-            if (nameSelPanel->unk_014[i] == arg2) {
+            if (nameSelPanel->select[i] == nameNo) {
                 return true;
             }
         }
@@ -2818,147 +2826,148 @@ bool func_8004BEB4(MenuNameSelPanel *nameSelPanel, s32 arg1, s32 arg2) {
 /**
  * Original name: menuNameSelPanel_input1
  */
-void menuNameSelPanel_input1(MenuNameSelPanel *nameSelPanel, s32 arg1) {
-    u32 keyRep = _getKeyRep(nameSelPanel->watchMenuRef, arg1);
-    u32 keyTrg = _getKeyTrg(nameSelPanel->watchMenuRef, arg1);
-    s32 var_a3;
-    SndIndex soundIndex = SND_INDEX_INVALID;
-    s32 var_s1 = nameSelPanel->unk_014[arg1];
+void menuNameSelPanel_input1(MenuNameSelPanel *nameSelPanel, s32 playerNo) {
+    u32 rep = _getKeyRep(nameSelPanel->global, playerNo);
+    u32 trg = _getKeyTrg(nameSelPanel->global, playerNo);
+    s32 vec;
+    SndIndex sound = SND_INDEX_INVALID;
+    s32 select = nameSelPanel->select[playerNo];
 
-    if (func_8004BEB4(nameSelPanel, arg1, var_s1)) {
-        nameSelPanel->unk_014[arg1] = 8;
-        var_s1 = 8;
+    if (menuNameSelPanel_checkSelected(nameSelPanel, playerNo, select)) {
+        nameSelPanel->select[playerNo] = 8;
+        select = 8;
     }
 
-    if (nameSelPanel->unk_00C[arg1] == 0) {
-        if (var_s1 == 8) {
-            var_a3 = 0;
-            if ((keyRep & L_JPAD)) {
-                var_a3--;
+    if (nameSelPanel->depth[playerNo] == 0) {
+        if (select == 8) {
+            vec = 0;
+            if ((rep & L_JPAD)) {
+                vec--;
             }
-            if ((keyRep & R_JPAD)) {
-                var_a3++;
-            }
-
-            nameSelPanel->unk_01C[arg1] = WrapI(0, 2, nameSelPanel->unk_01C[arg1] + var_a3);
-
-            var_a3 = 0;
-            if (keyRep & U_JPAD) {
-                var_a3--;
-            }
-            if (keyRep & D_JPAD) {
-                var_a3++;
+            if ((rep & R_JPAD)) {
+                vec++;
             }
 
-            if (var_a3 > 0) {
-                var_s1 = nameSelPanel->unk_01C[arg1];
+            nameSelPanel->column[playerNo] = WrapI(0, 2, nameSelPanel->column[playerNo] + vec);
 
-                while ((var_s1 < 8) && func_8004BEB4(nameSelPanel, arg1, var_s1)) {
-                    var_s1 += 2;
+            vec = 0;
+            if (rep & U_JPAD) {
+                vec--;
+            }
+            if (rep & D_JPAD) {
+                vec++;
+            }
+
+            if (vec > 0) {
+                select = nameSelPanel->column[playerNo];
+
+                while ((select < 8) && menuNameSelPanel_checkSelected(nameSelPanel, playerNo, select)) {
+                    select += 2;
                 }
-            } else if (var_a3 < 0) {
-                var_s1 = nameSelPanel->unk_01C[arg1] + 6;
-                while ((var_s1 > 0) && func_8004BEB4(nameSelPanel, arg1, var_s1)) {
-                    var_s1 -= 2;
+            } else if (vec < 0) {
+                select = nameSelPanel->column[playerNo] + 6;
+                while ((select > 0) && menuNameSelPanel_checkSelected(nameSelPanel, playerNo, select)) {
+                    select -= 2;
                 }
             }
 
-            if ((var_s1 < 0) || (var_s1 >= 8)) {
-                var_s1 = 8;
+            if ((select < 0) || (select >= 8)) {
+                select = 8;
             }
         } else {
-            s32 var_s2 = var_s1 & 1;
-            s32 var_s0 = var_s1 >> 1;
-            s32 var_s4 = 0;
-            s32 var_s1_2 = 0;
+            s32 ix = select & 1;
+            s32 iy = select >> 1;
+            s32 vy = 0;
+            s32 vx = 0;
 
-            if (keyRep & L_JPAD) {
-                var_s1_2--;
+            if (rep & L_JPAD) {
+                vx--;
             }
-            if (keyRep & R_JPAD) {
-                var_s1_2++;
-            }
-
-            if (keyRep & U_JPAD) {
-                var_s4--;
-            }
-            if (keyRep & D_JPAD) {
-                var_s4++;
+            if (rep & R_JPAD) {
+                vx++;
             }
 
-            if ((var_s1_2 != 0) || (var_s4 != 0)) {
+            if (rep & U_JPAD) {
+                vy--;
+            }
+            if (rep & D_JPAD) {
+                vy++;
+            }
+
+            if ((vx != 0) || (vy != 0)) {
                 do {
-                    var_s2 = WrapI(0, 2, var_s2 + var_s1_2);
-                    var_s0 += var_s4;
-                } while ((var_s0 >= 0) && (var_s0 < 4) && func_8004BEB4(nameSelPanel, arg1, var_s2 + (var_s0 * 2)));
+                    ix = WrapI(0, 2, ix + vx);
+                    iy += vy;
+                } while ((iy >= 0) && (iy < 4) &&
+                         menuNameSelPanel_checkSelected(nameSelPanel, playerNo, ix + (iy * 2)));
             }
 
-            if (var_s0 < 0 || var_s0 >= 4) {
-                nameSelPanel->unk_01C[arg1] = var_s1 & 1;
-                var_s1 = 8;
+            if (iy < 0 || iy >= 4) {
+                nameSelPanel->column[playerNo] = select & 1;
+                select = 8;
             } else {
-                var_s1 = var_s2 + (var_s0 * 2);
+                select = ix + (iy * 2);
             }
         }
     }
 
-    if (var_s1 != nameSelPanel->unk_014[arg1]) {
-        soundIndex = SND_INDEX_64;
-        nameSelPanel->unk_014[arg1] = var_s1;
+    if (select != nameSelPanel->select[playerNo]) {
+        sound = SND_INDEX_64;
+        nameSelPanel->select[playerNo] = select;
     }
 
-    if (keyTrg & (A_BUTTON | START_BUTTON)) {
-        var_a3 = MIN(1, nameSelPanel->unk_00C[arg1] + 1);
+    if (trg & (A_BUTTON | START_BUTTON)) {
+        vec = MIN(1, nameSelPanel->depth[playerNo] + 1);
 
-        if (var_a3 != nameSelPanel->unk_00C[arg1]) {
-            if (nameSelPanel->unk_024.b.unk_31 || (nameSelPanel->unk_014[arg1] != 8)) {
-                soundIndex = SND_INDEX_62;
+        if (vec != nameSelPanel->depth[playerNo]) {
+            if (nameSelPanel->flags.guest || (nameSelPanel->select[playerNo] != 8)) {
+                sound = SND_INDEX_62;
             }
 
-            nameSelPanel->unk_00C[arg1] = var_a3;
+            nameSelPanel->depth[playerNo] = vec;
         }
-    } else if (keyTrg & B_BUTTON) {
-        var_a3 = MAX(-1, nameSelPanel->unk_00C[arg1] - 1);
+    } else if (trg & B_BUTTON) {
+        vec = MAX(-1, nameSelPanel->depth[playerNo] - 1);
 
-        if (var_a3 != nameSelPanel->unk_00C[arg1]) {
-            soundIndex = SND_INDEX_68;
-            nameSelPanel->unk_00C[arg1] = var_a3;
+        if (vec != nameSelPanel->depth[playerNo]) {
+            sound = SND_INDEX_68;
+            nameSelPanel->depth[playerNo] = vec;
         }
     }
 
-    SND_PLAY_INDEX(soundIndex);
+    SND_PLAY_INDEX(sound);
 }
 
 /**
  * Original name: menuNameSelPanel_input
  */
 bool menuNameSelPanel_input(MenuNameSelPanel *nameSelPanel) {
-    s32 var_s3 = 0;
+    s32 ok = 0;
     s32 i;
 
-    if ((nameSelPanel->unk_028.transStep < 0.0f) || (nameSelPanel->unk_028.transTime < 1.0f)) {
+    if ((nameSelPanel->miBase.transStep < 0.0f) || (nameSelPanel->miBase.transTime < 1.0f)) {
         return false;
     }
 
-    nameSelPanel->unk_008 = 0;
+    nameSelPanel->flow = 0;
 
-    for (i = 0; i < nameSelPanel->unk_004; i++) {
+    for (i = 0; i < nameSelPanel->playerCount; i++) {
         menuNameSelPanel_input1(nameSelPanel, i);
 
-        if (nameSelPanel->unk_00C[i] > 0) {
-            var_s3++;
+        if (nameSelPanel->depth[i] > 0) {
+            ok++;
             continue;
         }
 
-        if (nameSelPanel->unk_00C[i] < 0) {
-            nameSelPanel->unk_00C[i] = 0;
-            nameSelPanel->unk_008 = -1;
+        if (nameSelPanel->depth[i] < 0) {
+            nameSelPanel->depth[i] = 0;
+            nameSelPanel->flow = -1;
             return true;
         }
     }
 
-    if (var_s3 == nameSelPanel->unk_004) {
-        nameSelPanel->unk_008 = 1;
+    if (ok == nameSelPanel->playerCount) {
+        nameSelPanel->flow = 1;
     }
 
     return true;
@@ -2967,31 +2976,31 @@ bool menuNameSelPanel_input(MenuNameSelPanel *nameSelPanel) {
 /**
  * Original name: menuNameSelPanel_update
  */
-void menuNameSelPanel_update(MenuNameSelPanel *nameSelPanel, SMenuItem *parentItem) {
+void menuNameSelPanel_update(MenuNameSelPanel *nameSelPanel, SMenuItem *parent) {
     s32 i;
     s32 j;
 
-    menuItem_update(&nameSelPanel->unk_028, parentItem);
-    menuItem_updateN(nameSelPanel->unk_0B8, ARRAY_COUNT(nameSelPanel->unk_0B8), &nameSelPanel->unk_028);
+    menuItem_update(&nameSelPanel->miBase, parent);
+    menuItem_updateN(nameSelPanel->miLabel, ARRAY_COUNT(nameSelPanel->miLabel), &nameSelPanel->miBase);
 
-    for (i = 0; i < nameSelPanel->unk_004; i++) {
-        nameSelPanel->unk_5C8[i].miCursor.colorRange[0][3] = 1.0f;
+    for (i = 0; i < nameSelPanel->playerCount; i++) {
+        nameSelPanel->cursor[i].miCursor.colorRange[0][3] = 1.0f;
     }
 
-    for (i = 0; i < (nameSelPanel->unk_004 - 1); i++) {
-        for (j = i + 1; j < nameSelPanel->unk_004; j++) {
-            if (nameSelPanel->unk_014[i] == nameSelPanel->unk_014[j]) {
+    for (i = 0; i < nameSelPanel->playerCount - 1; i++) {
+        for (j = i + 1; j < nameSelPanel->playerCount; j++) {
+            if (nameSelPanel->select[i] == nameSelPanel->select[j]) {
                 //! FAKE:
 
 #if VERSION_CN
-                SMenuItem *item = &nameSelPanel->unk_5C8[i].miCursor;
-                SMenuItem *item2 = &nameSelPanel->unk_5C8[j].miCursor;
+                SMenuItem *item = &nameSelPanel->cursor[i].miCursor;
+                SMenuItem *item2 = &nameSelPanel->cursor[j].miCursor;
 
                 item->colorRange[0][3] = 0.0f;
                 item2->colorRange[0][3] = 0.0f;
 #elif VERSION_US || VERSION_GW
-                nameSelPanel->unk_5C8[i].miCursor.colorRange[0][3] = 0.0f;
-                nameSelPanel->unk_5C8[j].miCursor.colorRange[0][3] = 0.0f;
+                nameSelPanel->cursor[i].miCursor.colorRange[0][3] = 0.0f;
+                nameSelPanel->cursor[j].miCursor.colorRange[0][3] = 0.0f;
 #else
 #error ""
 #endif
@@ -2999,20 +3008,20 @@ void menuNameSelPanel_update(MenuNameSelPanel *nameSelPanel, SMenuItem *parentIt
         }
     }
 
-    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->unk_5C8); i++) {
-        menuCursor_update(&nameSelPanel->unk_5C8[i], &nameSelPanel->unk_0B8[nameSelPanel->unk_014[i]]);
-        if (nameSelPanel->unk_00C[i] > 0) {
-            SMenuItem *item = &nameSelPanel->unk_5C8[i].miCursor;
+    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->cursor); i++) {
+        menuCursor_update(&nameSelPanel->cursor[i], &nameSelPanel->miLabel[nameSelPanel->select[i]]);
+        if (nameSelPanel->depth[i] > 0) {
+            SMenuItem *item = &nameSelPanel->cursor[i].miCursor;
 
             for (j = 0; j < MENUITEM_COLOR_COUNT; j++) {
                 item->color[j] = item->colorRange[1][j];
             }
 
-            nameSelPanel->unk_5C8[i].flags.finger = false;
-            nameSelPanel->unk_5C8[i].flags.blink = false;
+            nameSelPanel->cursor[i].flags.finger = false;
+            nameSelPanel->cursor[i].flags.blink = false;
         } else {
-            nameSelPanel->unk_5C8[i].flags.finger = true;
-            nameSelPanel->unk_5C8[i].flags.blink = true;
+            nameSelPanel->cursor[i].flags.finger = true;
+            nameSelPanel->cursor[i].flags.blink = true;
         }
     }
 }
@@ -3030,33 +3039,33 @@ const s32 _texEndOrGuest_3608[2] = {
  */
 void menuNameSelPanel_draw(MenuNameSelPanel *nameSelPanel, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    MenuCursor *sp2C[nameSelPanel->unk_004];
-    TiTexData *temp_s3;
-    s32 var_s1;
+    MenuCursor *list[nameSelPanel->playerCount];
+    TiTexData *texC;
+    s32 cached;
     s32 i;
     s32 pad[2] UNUSED;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    temp_s3 = _getTexMain(nameSelPanel->watchMenuRef, 4);
-    menuItem_drawTex(&nameSelPanel->unk_028, &gfx, temp_s3, 0);
+    texC = _getTexMain(nameSelPanel->global, 4);
+    menuItem_drawTex(&nameSelPanel->miBase, &gfx, texC, 0);
 
-    temp_s3 = _getTexMain(nameSelPanel->watchMenuRef, 7);
+    texC = _getTexMain(nameSelPanel->global, 7);
 
-    var_s1 = 0;
-    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->unk_0B8) - 1; i++) {
-        var_s1 += menuItem_drawTex(&nameSelPanel->unk_0B8[i], &gfx, temp_s3, var_s1);
+    cached = 0;
+    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->miLabel) - 1; i++) {
+        cached += menuItem_drawTex(&nameSelPanel->miLabel[i], &gfx, texC, cached);
     }
 
-    temp_s3 = _getTexMain(nameSelPanel->watchMenuRef, _texEndOrGuest_3608[nameSelPanel->unk_024.b.unk_31]);
-    menuItem_drawTex(&nameSelPanel->unk_0B8[i], &gfx, temp_s3, 0);
+    texC = _getTexMain(nameSelPanel->global, _texEndOrGuest_3608[nameSelPanel->flags.guest]);
+    menuItem_drawTex(&nameSelPanel->miLabel[i], &gfx, texC, 0);
 
     gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
     gDPSetTextureFilter(gfx++, G_TF_BILERP);
 
-    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->unk_0B8) - 1; i++) {
-        SMenuItem *item = &nameSelPanel->unk_0B8[i];
-        const u8 *temp;
+    for (i = 0; i < ARRAY_COUNTU(nameSelPanel->miLabel) - 1; i++) {
+        SMenuItem *item = &nameSelPanel->miLabel[i];
+        const u8 *name;
         s32 j;
 
         if (menuItem_outOfScreen(item, 0xE, 0xE)) {
@@ -3065,9 +3074,9 @@ void menuNameSelPanel_draw(MenuNameSelPanel *nameSelPanel, Gfx **gfxP) {
 
         // wtf
         if (evs_mem_data[i].mem_use_flg & MEM_USE_FLG_1) {
-            temp = evs_mem_data[i].mem_name;
+            name = evs_mem_data[i].mem_name;
         } else {
-            temp = evs_mem_data[i].mem_name;
+            name = evs_mem_data[i].mem_name;
         }
 
         j = item->color[3] * 255.0f;
@@ -3077,152 +3086,158 @@ void menuNameSelPanel_draw(MenuNameSelPanel *nameSelPanel, Gfx **gfxP) {
             gDPSetPrimColor(gfx++, 0, 0, 160, 160, 160, 255);
         }
 
-        for (j = 0; j < 4; j++) {
+        for (j = 0; j < MEM_NAME_LEN; j++) {
             fontXX_drawID(&gfx, item->trans[0] + 4.0f + j * 0xC, item->trans[1] + 4.0f, item->scale[0] * 12.0f,
-                          item->scale[1] * 12.0f, temp[j]);
+                          item->scale[1] * 12.0f, name[j]);
         }
     }
 
-    for (i = 0; i < nameSelPanel->unk_004; i++) {
-        sp2C[i] = &nameSelPanel->unk_5C8[i];
+    for (i = 0; i < nameSelPanel->playerCount; i++) {
+        list[i] = &nameSelPanel->cursor[i];
     }
-    menuCursor_draw(sp2C, nameSelPanel->unk_004, &gfx);
+    menuCursor_draw(list, nameSelPanel->playerCount, &gfx);
 
     *gfxP = gfx;
 }
 
-void func_8004C820(MenuNameOpPanel *nameOpPanel, s32 arg1, f32 arg2) {
-    SMenuItem *item = &nameOpPanel->unk_010;
+/**
+ * Original name: menuNameOpPanel_setFrame
+ */
+void menuNameOpPanel_setFrame(MenuNameOpPanel *nameOpPanel, s32 dir, f32 time) {
+    SMenuItem *item = &nameOpPanel->miBase;
 
-    item->transTime = arg2;
+    item->transTime = time;
     item->transStep = 0.05f;
     item->transRange[0][0] = item->transRange[1][0] - 320.0f;
-    menuItem_setTransDir(item, arg1);
+    menuItem_setTransDir(item, dir);
 }
 
 /**
  * Original name: _name_3803
  */
-const u8 _name_3803[MENUNAMEOPPANEL_UNK_LEN] = { 0 };
+const u8 _name_3803[MENUNAMEOPPANEL_NAME_LEN] = { 0 };
 
 /**
  * Original name: menuNameOpPanel_init
  */
-void menuNameOpPanel_init(MenuNameOpPanel *nameOpPanel, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3,
-                          const u8 *arg4, s32 xPos, s32 yPos) {
+void menuNameOpPanel_init(MenuNameOpPanel *nameOpPanel, struct_watchMenu *global, MenuNameOpPanelType type, s32 select,
+                          const u8 *name, s32 x, s32 y) {
     s32 i;
 
-    nameOpPanel->watchMenuRef = watchMenuRef;
-    nameOpPanel->unk_004 = arg2;
-    nameOpPanel->unk_008 = arg3;
+    nameOpPanel->global = global;
+    nameOpPanel->type = type;
+    nameOpPanel->select = select;
 
-    if (arg4 == NULL) {
-        arg4 = _name_3803;
+    if (name == NULL) {
+        name = _name_3803;
     }
 
-    for (i = 0; i < MENUNAMEOPPANEL_UNK_LEN; i++) {
-        nameOpPanel->unk_00C[i] = arg4[i];
+    for (i = 0; i < MENUNAMEOPPANEL_NAME_LEN; i++) {
+        nameOpPanel->name[i] = name[i];
     }
 
-    menuItem_init(&nameOpPanel->unk_010, xPos, yPos);
-    menuItem_init(&nameOpPanel->unk_0A0, 35, 8);
+    menuItem_init(&nameOpPanel->miBase, x, y);
+    menuItem_init(&nameOpPanel->miName, 35, 8);
 
-    for (i = 0; i < ARRAY_COUNTU(nameOpPanel->unk_130); i++) {
-        menuItem_init(&nameOpPanel->unk_130[i], 11, 31 + 23 * i);
+    for (i = 0; i < ARRAY_COUNTU(nameOpPanel->miPanel); i++) {
+        menuItem_init(&nameOpPanel->miPanel[i], 11, 31 + 23 * i);
     }
 
-    menuCursor_init(&nameOpPanel->unk_250, watchMenuRef, CURSOR_ITEM, 0, 0, 0, 0x69, 0x14);
-    nameOpPanel->unk_250.flags.finger = true;
+    menuCursor_init(&nameOpPanel->cursor, global, CURSOR_ITEM, 0, 0, 0, 105, 20);
+    nameOpPanel->cursor.flags.finger = true;
 }
 
 /**
  * Original name: menuNameOpPanel_input
  */
-bool menuNameOpPanel_input(MenuNameOpPanel *nameOpPanel, s32 arg1) {
-    u32 keyRep = _getKeyRep(nameOpPanel->watchMenuRef, arg1);
-    s32 var_s0 = nameOpPanel->unk_008;
+bool menuNameOpPanel_input(MenuNameOpPanel *nameOpPanel, s32 playerNo) {
+    u32 rep = _getKeyRep(nameOpPanel->global, playerNo);
+    s32 vec = nameOpPanel->select;
 
-    if ((nameOpPanel->unk_010.transStep < 0.0f) || (nameOpPanel->unk_010.transTime < 1.0f)) {
+    if ((nameOpPanel->miBase.transStep < 0.0f) || (nameOpPanel->miBase.transTime < 1.0f)) {
         return false;
     }
 
-    if (keyRep & U_JPAD) {
-        var_s0--;
+    if (rep & U_JPAD) {
+        vec--;
     }
-    if (keyRep & D_JPAD) {
-        var_s0++;
+    if (rep & D_JPAD) {
+        vec++;
     }
 
-    var_s0 = WrapI(0, 2, var_s0);
-    if (var_s0 != nameOpPanel->unk_008) {
+    vec = WrapI(0, 2, vec);
+    if (vec != nameOpPanel->select) {
         dm_snd_play(SND_INDEX_64);
-        nameOpPanel->unk_008 = var_s0;
+        nameOpPanel->select = vec;
     }
     return true;
 }
 
-void func_8004CA30(MenuNameOpPanel *nameOpPanel, SMenuItem *parentItem) {
-    menuItem_update(&nameOpPanel->unk_010, parentItem);
-    menuItem_update(&nameOpPanel->unk_0A0, &nameOpPanel->unk_010);
-    menuItem_updateN(nameOpPanel->unk_130, ARRAY_COUNT(nameOpPanel->unk_130), &nameOpPanel->unk_010);
-    menuCursor_update(&nameOpPanel->unk_250, &nameOpPanel->unk_130[nameOpPanel->unk_008]);
+/**
+ * Original name: menuNameOpPanel_update
+ */
+void menuNameOpPanel_update(MenuNameOpPanel *nameOpPanel, SMenuItem *parent) {
+    menuItem_update(&nameOpPanel->miBase, parent);
+    menuItem_update(&nameOpPanel->miName, &nameOpPanel->miBase);
+    menuItem_updateN(nameOpPanel->miPanel, ARRAY_COUNT(nameOpPanel->miPanel), &nameOpPanel->miBase);
+    menuCursor_update(&nameOpPanel->cursor, &nameOpPanel->miPanel[nameOpPanel->select]);
 }
 
-// TODO: enum?
 /**
  * Original name: _panel_3859
  */
 const s32 _panel_3859[][2] = {
-    { 24, 25 },
-    { 28, 25 },
+    { 24, 25 }, // MENUNAMEOPPANELTYPE_0
+    { 28, 25 }, // MENUNAMEOPPANELTYPE_1
 };
+static_assert(ARRAY_COUNT(_panel_3859) == MENUNAMEOPPANELTYPE_MAX, "");
 
 /**
  * Original name: menuNameOpPanel_draw
  */
 void menuNameOpPanel_draw(MenuNameOpPanel *nameOpPanel, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    MenuCursor *sp1C[1];
+    MenuCursor *list[1];
     SMenuItem *item;
-    TiTexData *temp_s1;
+    TiTexData *texC;
     s32 i;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    temp_s1 = _getTexMain(nameOpPanel->watchMenuRef, 2);
-    menuItem_drawTex(&nameOpPanel->unk_010, &gfx, temp_s1, 0);
+    texC = _getTexMain(nameOpPanel->global, 2);
+    menuItem_drawTex(&nameOpPanel->miBase, &gfx, texC, 0);
 
-    temp_s1 = _getTexCommon(nameOpPanel->watchMenuRef, 0xE);
-    for (i = 0; i < ARRAY_COUNTU(nameOpPanel->unk_130); i++) {
-        menuItem_drawItem(&nameOpPanel->unk_130[i], &gfx, temp_s1, 0, 0x2F, _panel_3859[nameOpPanel->unk_004][i]);
+    texC = _getTexCommon(nameOpPanel->global, 0xE);
+    for (i = 0; i < ARRAY_COUNTU(nameOpPanel->miPanel); i++) {
+        menuItem_drawItem(&nameOpPanel->miPanel[i], &gfx, texC, 0, 0x2F, _panel_3859[nameOpPanel->type][i]);
     }
 
-    temp_s1 = _getTexMain(nameOpPanel->watchMenuRef, 7);
-    menuItem_drawTex(&nameOpPanel->unk_0A0, &gfx, temp_s1, 0);
+    texC = _getTexMain(nameOpPanel->global, 7);
+    menuItem_drawTex(&nameOpPanel->miName, &gfx, texC, 0);
 
     gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
     gDPSetTextureFilter(gfx++, G_TF_BILERP);
     gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, 255);
 
-    item = &nameOpPanel->unk_0A0;
-    for (i = 0; i < ARRAY_COUNTU(nameOpPanel->unk_00C); i++) {
+    item = &nameOpPanel->miName;
+    for (i = 0; i < ARRAY_COUNTU(nameOpPanel->name); i++) {
         fontXX_drawID(&gfx, item->trans[0] + 4.0f + (i * 12), item->trans[1] + 4.0f, item->scale[0] * 12.0f,
-                      item->scale[1] * 12.0f, nameOpPanel->unk_00C[i]);
+                      item->scale[1] * 12.0f, nameOpPanel->name[i]);
     }
 
-    sp1C[0] = &nameOpPanel->unk_250;
-    menuCursor_draw(sp1C, ARRAY_COUNT(sp1C), &gfx);
+    list[0] = &nameOpPanel->cursor;
+    menuCursor_draw(list, ARRAY_COUNT(list), &gfx);
 
     *gfxP = gfx;
 }
 
-void func_8004CCD0(MenuSndSelPanel *sndSelPanel, s32 arg1, f32 arg2) {
-    SMenuItem *item = &sndSelPanel->unk_014;
+void menuSndSelPanel_setFrame(MenuSndSelPanel *sndSelPanel, s32 dir, f32 time) {
+    SMenuItem *item = &sndSelPanel->miBase;
 
-    item->transTime = arg2;
+    item->transTime = time;
     item->transStep = 0.05f;
     item->transRange[0][0] = item->transRange[1][0] - 320.0f;
-    menuItem_setTransDir(item, arg1);
+    menuItem_setTransDir(item, dir);
 }
 
 /**
@@ -3248,27 +3263,27 @@ static_assert(ARRAY_COUNT(_y_4020) == MENUSNDSELPANEL_UNK_0A4_LEN, "");
 /**
  * Original name: menuSndSelPanel_init
  */
-void menuSndSelPanel_init(MenuSndSelPanel *sndSelPanel, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4) {
+void menuSndSelPanel_init(MenuSndSelPanel *sndSelPanel, struct_watchMenu *global, s32 select, s32 x, s32 y) {
     s32 i;
 
-    sndSelPanel->watchMenuRef = watchMenuRef;
-    sndSelPanel->unk_004 = arg2;
-    sndSelPanel->unk_008 = 0;
-    sndSelPanel->unk_00C = 0;
-    sndSelPanel->unk_010 = SND_INDEX_0;
+    sndSelPanel->global = global;
+    sndSelPanel->select = select;
+    sndSelPanel->bgmNo = 0;
+    sndSelPanel->sndId = 0;
+    sndSelPanel->sndNo = SND_INDEX_0;
 
-    menuItem_init(&sndSelPanel->unk_014, arg3, arg4);
+    menuItem_init(&sndSelPanel->miBase, x, y);
 
-    for (i = 0; i < ARRAY_COUNTU(sndSelPanel->unk_0A4); i++) {
-        menuItem_init(&sndSelPanel->unk_0A4[i], 14, _y_4020[i]);
+    for (i = 0; i < ARRAY_COUNTU(sndSelPanel->miPanel); i++) {
+        menuItem_init(&sndSelPanel->miPanel[i], 14, _y_4020[i]);
     }
 
-    for (i = 0; i < ARRAY_COUNTU(sndSelPanel->unk_2E4); i++) {
-        menuNumber_init(&sndSelPanel->unk_2E4[i], watchMenuRef, 0, i + 2, 0, _pos_4015[i], 4);
+    for (i = 0; i < ARRAY_COUNTU(sndSelPanel->number); i++) {
+        menuNumber_init(&sndSelPanel->number[i], global, 0, i + 2, 0, _pos_4015[i], 4);
     }
 
-    menuCursor_init(&sndSelPanel->unk_43C, watchMenuRef, CURSOR_ITEM, 0, 0, 0, 0x69, 0x14);
-    sndSelPanel->unk_43C.flags.finger = true;
+    menuCursor_init(&sndSelPanel->cursor, global, CURSOR_ITEM, 0, 0, 0, 105, 20);
+    sndSelPanel->cursor.flags.finger = true;
 }
 
 /**
@@ -3384,76 +3399,79 @@ const u8 _tbl_4036[] = {
 /**
  * Original name: menuSndSelPanel_input
  */
-bool menuSndSelPanel_input(MenuSndSelPanel *sndSelPanel, s32 arg1) {
-    SndIndex soundIndex = SND_INDEX_INVALID;
-    u32 keyRep = _getKeyRep(sndSelPanel->watchMenuRef, arg1);
-    s32 var_a3 = sndSelPanel->unk_004;
+bool menuSndSelPanel_input(MenuSndSelPanel *sndSelPanel, s32 playerNo) {
+    SndIndex sound = SND_INDEX_INVALID;
+    u32 rep = _getKeyRep(sndSelPanel->global, playerNo);
+    s32 vec = sndSelPanel->select;
 
-    if ((sndSelPanel->unk_014.transStep < 0.0f) || (sndSelPanel->unk_014.transTime < 1.0f)) {
+    if ((sndSelPanel->miBase.transStep < 0.0f) || (sndSelPanel->miBase.transTime < 1.0f)) {
         return false;
     }
 
-    if (keyRep & U_JPAD) {
-        var_a3--;
+    if (rep & U_JPAD) {
+        vec--;
     }
-    if (keyRep & D_JPAD) {
-        var_a3++;
-    }
-
-    var_a3 = WrapI(0, 4, var_a3);
-    if (var_a3 != sndSelPanel->unk_004) {
-        soundIndex = SND_INDEX_64;
-        sndSelPanel->unk_004 = var_a3;
+    if (rep & D_JPAD) {
+        vec++;
     }
 
-    var_a3 = 0;
-    if (keyRep & L_JPAD) {
-        var_a3--;
-    }
-    if (keyRep & R_JPAD) {
-        var_a3++;
-    }
-    if (keyRep & L_TRIG) {
-        var_a3 -= 10;
-    }
-    if (keyRep & R_TRIG) {
-        var_a3 += 10;
+    vec = WrapI(0, 4, vec);
+    if (vec != sndSelPanel->select) {
+        sound = SND_INDEX_64;
+        sndSelPanel->select = vec;
     }
 
-    if (var_a3 != 0) {
-        if (sndSelPanel->unk_004 >= 2) {
-            soundIndex = SND_INDEX_63;
-            switch (sndSelPanel->unk_004) {
+    vec = 0;
+    if (rep & L_JPAD) {
+        vec--;
+    }
+    if (rep & R_JPAD) {
+        vec++;
+    }
+    if (rep & L_TRIG) {
+        vec -= 10;
+    }
+    if (rep & R_TRIG) {
+        vec += 10;
+    }
+
+    if (vec != 0) {
+        if (sndSelPanel->select >= 2) {
+            sound = SND_INDEX_63;
+            switch (sndSelPanel->select) {
                 case 0x2:
-                    sndSelPanel->unk_008 = WrapI(0, 24, sndSelPanel->unk_008 + var_a3);
+                    sndSelPanel->bgmNo = WrapI(0, 24, sndSelPanel->bgmNo + vec);
                     break;
 
                 case 0x3:
-                    sndSelPanel->unk_00C = WrapI(0, ARRAY_COUNT(_tbl_4036), sndSelPanel->unk_00C + var_a3);
-                    sndSelPanel->unk_010 = _tbl_4036[sndSelPanel->unk_00C];
+                    sndSelPanel->sndId = WrapI(0, ARRAY_COUNT(_tbl_4036), sndSelPanel->sndId + vec);
+                    sndSelPanel->sndNo = _tbl_4036[sndSelPanel->sndId];
                     break;
             }
         }
     }
 
-    SND_PLAY_INDEX(soundIndex);
+    SND_PLAY_INDEX(sound);
 
     return true;
 }
 
-void func_8004CFB8(MenuSndSelPanel *sndSelPanel, SMenuItem *parentItem) {
+/**
+ * Original name: menuSndSelPanel_update
+ */
+void menuSndSelPanel_update(MenuSndSelPanel *sndSelPanel, SMenuItem *parentItem) {
     s32 i;
 
-    sndSelPanel->unk_2E4[0].number = sndSelPanel->unk_008;
-    sndSelPanel->unk_2E4[1].number = sndSelPanel->unk_00C;
-    menuItem_update(&sndSelPanel->unk_014, parentItem);
-    menuItem_updateN(sndSelPanel->unk_0A4, 4, &sndSelPanel->unk_014);
+    sndSelPanel->number[0].number = sndSelPanel->bgmNo;
+    sndSelPanel->number[1].number = sndSelPanel->sndId;
+    menuItem_update(&sndSelPanel->miBase, parentItem);
+    menuItem_updateN(sndSelPanel->miPanel, ARRAY_COUNT(sndSelPanel->miPanel), &sndSelPanel->miBase);
 
-    for (i = 0; i < ARRAY_COUNT(sndSelPanel->unk_2E4); i++) {
-        menuNumber_update(&sndSelPanel->unk_2E4[i], &sndSelPanel->unk_0A4[i + 2]);
+    for (i = 0; i < ARRAY_COUNT(sndSelPanel->number); i++) {
+        menuNumber_update(&sndSelPanel->number[i], &sndSelPanel->miPanel[i + 2]);
     }
 
-    menuCursor_update(&sndSelPanel->unk_43C, &sndSelPanel->unk_0A4[sndSelPanel->unk_004]);
+    menuCursor_update(&sndSelPanel->cursor, &sndSelPanel->miPanel[sndSelPanel->select]);
 }
 
 /**
@@ -3471,55 +3489,58 @@ static_assert(ARRAY_COUNT(_panel_4108) == MENUSNDSELPANEL_UNK_0A4_LEN, "");
  * Original name: menuSndSelPanel_draw
  */
 void menuSndSelPanel_draw(MenuSndSelPanel *sndSelPanel, Gfx **gfxP) {
-    void *sp18[ARRAY_COUNT(sndSelPanel->unk_2E4)];
+    void *list[ARRAY_COUNT(sndSelPanel->number)];
     s32 pad[2] UNUSED;
     Gfx *gfx = *gfxP;
     SMenuItem *item;
     s32 i;
-    TiTexData *temp_v0;
-    f32 temp_fs0;
-    f32 temp_fs1;
+    TiTexData *texC;
+    f32 x;
+    f32 y;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    item = &sndSelPanel->unk_014;
+    item = &sndSelPanel->miBase;
 
-    temp_fs0 = item->trans[0];
-    temp_fs1 = item->trans[1];
-    temp_v0 = _getTexMain(sndSelPanel->watchMenuRef, 0xB);
+    x = item->trans[0];
+    y = item->trans[1];
+    texC = _getTexMain(sndSelPanel->global, 0xB);
 
-    menuItem_drawTex(item, &gfx, temp_v0, 0);
+    menuItem_drawTex(item, &gfx, texC, 0);
     item->trans[1] += 76.0f;
-    menuItem_drawTex(item, &gfx, temp_v0, 0);
-    item->trans[0] = temp_fs0 + 19.0f;
-    item->trans[1] = temp_fs1 + 2.0f;
-    temp_v0 = _getTexMain(sndSelPanel->watchMenuRef, 0xC);
-    menuItem_drawTex(item, &gfx, temp_v0, 0);
-    item->trans[0] = temp_fs0;
-    item->trans[1] = temp_fs1;
+    menuItem_drawTex(item, &gfx, texC, 0);
+    item->trans[0] = x + 19.0f;
+    item->trans[1] = y + 2.0f;
+    texC = _getTexMain(sndSelPanel->global, 0xC);
+    menuItem_drawTex(item, &gfx, texC, 0);
+    item->trans[0] = x;
+    item->trans[1] = y;
 
-    temp_v0 = _getTexCommon(sndSelPanel->watchMenuRef, 0xE);
-    for (i = 0; i < ARRAY_COUNTU(sndSelPanel->unk_0A4); i++) {
-        menuItem_drawItem(&sndSelPanel->unk_0A4[i], &gfx, temp_v0, 0, 0x2F, _panel_4108[i]);
+    texC = _getTexCommon(sndSelPanel->global, 0xE);
+    for (i = 0; i < ARRAY_COUNTU(sndSelPanel->miPanel); i++) {
+        menuItem_drawItem(&sndSelPanel->miPanel[i], &gfx, texC, 0, 0x2F, _panel_4108[i]);
     }
 
-    for (i = 0; i < ARRAY_COUNTU(sndSelPanel->unk_2E4); i++) {
-        sp18[i] = &sndSelPanel->unk_2E4[i];
+    for (i = 0; i < ARRAY_COUNTU(sndSelPanel->number); i++) {
+        list[i] = &sndSelPanel->number[i];
     }
-    menuNumber_draw((void *)sp18, ARRAY_COUNT(sp18), &gfx);
+    menuNumber_draw((void *)list, ARRAY_COUNT(list), &gfx);
 
-    sp18[0] = &sndSelPanel->unk_43C;
-    menuCursor_draw((void *)sp18, 1, &gfx);
+    list[0] = &sndSelPanel->cursor;
+    menuCursor_draw((void *)list, 1, &gfx);
 
     *gfxP = gfx;
 }
 
-void func_8004D258(void *arg) {
+/**
+ * Original name: _menuPlay2Panel_loadAnime
+ */
+void _menuPlay2Panel_loadAnime(void *arg) {
     MenuPlay2Panel *play2Panel = arg;
-    void *sp10 = play2Panel->unk_002C;
+    void *heap = play2Panel->animeAddr;
 
-    animeState_load(&play2Panel->unk_0C90, &sp10, play2Panel->unk_0020);
-    play2Panel->unk_0030.b.bit_30 = true;
+    animeState_load(&play2Panel->animeState, &heap, play2Panel->charNo);
+    play2Panel->flags.loaded = true;
 }
 
 // TODO: enum?
@@ -3606,224 +3627,234 @@ const s32 _cursor_4317[][2][4] = {
 /**
  * Original name: menuPlay2Panel_init
  */
-void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *watchMenuRef, void **heapP, s32 arg3, s32 arg4,
-                         s32 arg5, s32 arg6, bool arg7, CharAnimeMode arg8, s32 arg9, s32 argA, s32 argB, s32 argC) {
+void menuPlay2Panel_init(MenuPlay2Panel *play2Panel, struct_watchMenu *global, void **heapP, s32 size, s32 playerCount,
+                         s32 cpuCount, s32 playerNo, bool cpuFlag, CharAnimeMode charNo, s32 virusLevel, s32 gameSpeed,
+                         s32 x, s32 y) {
     void *heap = *heapP;
     SMenuItem *item;
     s32 i;
 
-    play2Panel->watchMenuRef = watchMenuRef;
+    play2Panel->global = global;
 
-    switch (_getMode(watchMenuRef)) {
+    switch (_getMode(global)) {
         case MODE_VSCOM:
         case MODE_VSMAN:
         case MODE_PLAY4_LV:
         case MODE_PLAY4_TB_LV:
-            play2Panel->unk_0004 = 0;
-            play2Panel->unk_0008 = 0;
-            play2Panel->unk_000C = 0;
+            play2Panel->flash = false;
+            play2Panel->timeAt = false;
+            play2Panel->FL_TA = false;
             break;
 
         case MODE_VSCOM_FL:
         case MODE_VSMAN_FL:
         case MODE_PLAY4_FL_LV:
-            play2Panel->unk_0004 = 1;
-            play2Panel->unk_0008 = 0;
-            play2Panel->unk_000C = 1;
+            play2Panel->flash = true;
+            play2Panel->timeAt = false;
+            play2Panel->FL_TA = true;
             break;
 
         case MODE_VSMAN_TA:
-            play2Panel->unk_0004 = 0;
-            play2Panel->unk_0008 = 1;
-            play2Panel->unk_000C = 1;
+            play2Panel->flash = false;
+            play2Panel->timeAt = true;
+            play2Panel->FL_TA = true;
             break;
 
         default:
             break;
     }
 
-    play2Panel->unk_0010 = arg3;
-    play2Panel->unk_0014 = arg4;
-    play2Panel->unk_0018 = arg5;
-    play2Panel->unk_001C = arg6;
-    play2Panel->unk_0020 = arg8;
-    play2Panel->unk_0024 = 0;
+    play2Panel->size = size;
+    play2Panel->playerCount = playerCount;
+    play2Panel->cpuCount = cpuCount;
+    play2Panel->playerNo = playerNo;
+    play2Panel->charNo = charNo;
+    play2Panel->depth = 0;
 
-    if (arg7) {
-        play2Panel->unk_0028 = -1;
+    if (cpuFlag) {
+        play2Panel->flow = -1;
     } else {
-        play2Panel->unk_0028 = 0;
+        play2Panel->flow = 0;
     }
 
-    play2Panel->unk_0030.b.bit_31 = arg7 != false;
-    play2Panel->unk_0030.b.bit_30 = false;
+    play2Panel->flags.cpu = !!cpuFlag;
+    play2Panel->flags.loaded = false;
 
-    menuItem_init(&play2Panel->unk_0034, argB, argC);
-    menuItem_init(&play2Panel->unk_00C4, _player_4309[arg3][0], _player_4309[arg3][1]);
-    menuItem_init(&play2Panel->unk_0154, 0xA, 4);
+    menuItem_init(&play2Panel->miBase, x, y);
+    menuItem_init(&play2Panel->miPlayer, _player_4309[size][0], _player_4309[size][1]);
+    menuItem_init(&play2Panel->miPlayerNo, 0xA, 4);
 
-    if (play2Panel->unk_000C != 0) {
-        menuSpeedAsk_init(&play2Panel->unk_1220, watchMenuRef, 2, arg9, _glvAsk_4314[arg3][0], _glvAsk_4314[arg3][1]);
-        menuSpeedItem_init(&play2Panel->unk_12BC, watchMenuRef, arg3 + 2, arg6, arg9, _glvItem_4315[arg3][0],
-                           _glvItem_4315[arg3][1], 0x2A);
+    if (play2Panel->FL_TA) {
+        menuSpeedAsk_init(&play2Panel->glvAsk, global, 2, virusLevel, _glvAsk_4314[size][0], _glvAsk_4314[size][1]);
+        menuSpeedItem_init(&play2Panel->glvItem, global, size + 2, playerNo, virusLevel, _glvItem_4315[size][0],
+                           _glvItem_4315[size][1], 0x2A);
     } else {
-        menuLvGauge_init(&play2Panel->unk_0290, watchMenuRef, arg3, arg6, arg9, _lvGauge_4311[arg3][0],
-                         _lvGauge_4311[arg3][1]);
-        menuNumber_init(&play2Panel->unk_01E4, watchMenuRef, arg3, 2, arg9, _lvNum_4310[arg3][0], _lvNum_4310[arg3][1]);
+        menuLvGauge_init(&play2Panel->lvGauge, global, size, playerNo, virusLevel, _lvGauge_4311[size][0],
+                         _lvGauge_4311[size][1]);
+        menuNumber_init(&play2Panel->lvNum, global, size, 2, virusLevel, _lvNum_4310[size][0], _lvNum_4310[size][1]);
 
-        item = &play2Panel->unk_01E4.miBase;
-        menuItem_setScaleLow(item, _lvNumScale_4308[arg3][0], _lvNumScale_4308[arg3][1]);
-        menuItem_setScaleHi(item, _lvNumScale_4308[arg3][0], _lvNumScale_4308[arg3][1]);
+        item = &play2Panel->lvNum.miBase;
+        menuItem_setScaleLow(item, _lvNumScale_4308[size][0], _lvNumScale_4308[size][1]);
+        menuItem_setScaleHi(item, _lvNumScale_4308[size][0], _lvNumScale_4308[size][1]);
     }
 
-    menuSpeedAsk_init(&play2Panel->unk_0590, watchMenuRef, 0, argA, _speedAsk_4312[arg3][0], _speedAsk_4312[arg3][1]);
-    menuSpeedItem_init(&play2Panel->unk_062C, watchMenuRef, arg3, arg6, argA, _speedItem_4313[arg3][0],
-                       _speedItem_4313[arg3][1], 0x2A);
+    menuSpeedAsk_init(&play2Panel->speedAsk, global, 0, gameSpeed, _speedAsk_4312[size][0], _speedAsk_4312[size][1]);
+    menuSpeedItem_init(&play2Panel->speedItem, global, size, playerNo, gameSpeed, _speedItem_4313[size][0],
+                       _speedItem_4313[size][1], 0x2A);
 
-    switch (arg3) {
+    switch (size) {
         case 0:
             break;
 
         case 1:
-            play2Panel->unk_002C = ALIGN_PTR(heap);
-            heap = (void *)((uintptr_t)play2Panel->unk_002C + animeState_getDataSize(arg8));
-            BgTasksManager_SendTask(func_8004D258, play2Panel);
+            play2Panel->animeAddr = ALIGN_PTR(heap);
+            heap = (void *)((uintptr_t)play2Panel->animeAddr + animeState_getDataSize(charNo));
+            BgTasksManager_SendTask(_menuPlay2Panel_loadAnime, play2Panel);
             break;
     }
 
-    menuItem_init(&play2Panel->unk_0CD0, 8, _okY_4316[arg3]);
-    menuItem_setColor_fade(&play2Panel->unk_0CD0);
-    menuItem_setColorDir(&play2Panel->unk_0CD0, -1);
-    play2Panel->unk_0CD0.colorTime = 0.0f;
+    menuItem_init(&play2Panel->miOk, 8, _okY_4316[size]);
+    menuItem_setColor_fade(&play2Panel->miOk);
+    menuItem_setColorDir(&play2Panel->miOk, -1);
+    play2Panel->miOk.colorTime = 0.0f;
 
-    for (i = 0; i < ARRAY_COUNTU(play2Panel->unk_0D60); i++) {
-        menuCursor_init(&play2Panel->unk_0D60[i], watchMenuRef, CURSOR_PANEL, arg6, _cursor_4317[arg3][i][0],
-                        _cursor_4317[arg3][i][1], _cursor_4317[arg3][i][2], _cursor_4317[arg3][i][3]);
+    for (i = 0; i < ARRAY_COUNTU(play2Panel->cursor); i++) {
+        menuCursor_init(&play2Panel->cursor[i], global, CURSOR_PANEL, playerNo, _cursor_4317[size][i][0],
+                        _cursor_4317[size][i][1], _cursor_4317[size][i][2], _cursor_4317[size][i][3]);
     }
 
     *heapP = heap;
 }
 
-void menuPlay2Panel_copyConfig(MenuPlay2Panel *play2Panel, MenuPlay2Panel *arg1) {
-    if (play2Panel == arg1) {
+/**
+ * Original name: menuPlay2Panel_copyConfig
+ */
+void menuPlay2Panel_copyConfig(MenuPlay2Panel *play2Panel, MenuPlay2Panel *from) {
+    if (play2Panel == from) {
         return;
     }
 
-    switch (arg1->unk_0024) {
+    switch (from->depth) {
         case 0:
-            if (play2Panel->unk_000C != 0) {
-                play2Panel->unk_12BC.select = arg1->unk_12BC.select;
+            if (play2Panel->FL_TA) {
+                play2Panel->glvItem.select = from->glvItem.select;
             } else {
-                play2Panel->unk_0290.level = arg1->unk_0290.level;
+                play2Panel->lvGauge.level = from->lvGauge.level;
             }
             break;
 
         case 1:
-            play2Panel->unk_062C.select = arg1->unk_062C.select;
+            play2Panel->speedItem.select = from->speedItem.select;
             break;
     }
 }
 
-void menuPlay2Panel_copyCursor(MenuPlay2Panel *play2Panel, MenuPlay2Panel *other) {
+/**
+ * Original name: menuPlay2Panel_copyCursor
+ */
+void menuPlay2Panel_copyCursor(MenuPlay2Panel *play2Panel, MenuPlay2Panel *from) {
     s32 i;
 
-    if (play2Panel == other) {
+    if (play2Panel == from) {
         return;
     }
 
-    for (i = 0; i < ARRAY_COUNTU(play2Panel->unk_0D60); i++) {
-        play2Panel->unk_0D60[i].flags.cursor = false;
+    for (i = 0; i < ARRAY_COUNTU(play2Panel->cursor); i++) {
+        play2Panel->cursor[i].flags.cursor = false;
     }
 
-    if (play2Panel->unk_000C != 0) {
-        play2Panel->unk_12BC.cursor.flags.cursor = false;
-        play2Panel->unk_12BC.cursor.flags.finger = false;
+    if (play2Panel->FL_TA) {
+        play2Panel->glvItem.cursor.flags.cursor = false;
+        play2Panel->glvItem.cursor.flags.finger = false;
     } else {
-        play2Panel->unk_0290.cursor.flags.cursor = false;
-        play2Panel->unk_0290.cursor.flags.finger = false;
+        play2Panel->lvGauge.cursor.flags.cursor = false;
+        play2Panel->lvGauge.cursor.flags.finger = false;
     }
 
-    play2Panel->unk_062C.cursor.flags.cursor = false;
-    play2Panel->unk_062C.cursor.flags.finger = false;
+    play2Panel->speedItem.cursor.flags.cursor = false;
+    play2Panel->speedItem.cursor.flags.finger = false;
 
-    switch (other->unk_0024) {
+    switch (from->depth) {
         case 0x0:
-            if (play2Panel->unk_000C != 0) {
-                play2Panel->unk_12BC.cursor.flags.finger = true;
+            if (play2Panel->FL_TA) {
+                play2Panel->glvItem.cursor.flags.finger = true;
             } else {
-                play2Panel->unk_0290.cursor.flags.finger = true;
+                play2Panel->lvGauge.cursor.flags.finger = true;
             }
             break;
 
         case 0x1:
-            play2Panel->unk_062C.cursor.flags.finger = true;
+            play2Panel->speedItem.cursor.flags.finger = true;
             break;
     }
 }
 
-void menuPlay2Panel_input(MenuPlay2Panel *play2Panel, s32 arg1, s32 arg2, s32 arg3) {
-    u32 keyRep = _getKeyRep(play2Panel->watchMenuRef, arg1);
-    u32 keyTrg = _getKeyTrg(play2Panel->watchMenuRef, arg1);
-    SndIndex soundIndex = SND_INDEX_INVALID;
-    s32 var_a0 = 0;
-    s32 var_v1;
+/**
+ * Original name: menuPlay2Panel_input
+ */
+void menuPlay2Panel_input(MenuPlay2Panel *play2Panel, s32 playerNo, bool topFlag, bool bottomFlag) {
+    u32 rep = _getKeyRep(play2Panel->global, playerNo);
+    u32 trg = _getKeyTrg(play2Panel->global, playerNo);
+    SndIndex sound = SND_INDEX_INVALID;
+    s32 vec = 0;
+    s32 depth;
 
-    switch (play2Panel->unk_0028) {
-        case -0x1:
-            play2Panel->unk_0028 = 0;
+    switch (play2Panel->flow) {
+        case -1:
+            play2Panel->flow = 0;
             FALLTHROUGH;
 
-        case 0x0:
-            if ((keyRep & U_JPAD) || (keyTrg & B_BUTTON)) {
-                var_a0--;
+        case 0:
+            if ((rep & U_JPAD) || (trg & B_BUTTON)) {
+                vec--;
             }
-            if ((keyRep & D_JPAD) || (keyTrg & (A_BUTTON | START_BUTTON))) {
-                var_a0++;
+            if ((rep & D_JPAD) || (trg & (A_BUTTON | START_BUTTON))) {
+                vec++;
             }
 
-            var_v1 = CLAMP(play2Panel->unk_0024 + var_a0, 0, 1);
+            depth = CLAMP(play2Panel->depth + vec, 0, 1);
 
-            if (var_v1 != play2Panel->unk_0024) {
-                soundIndex = SND_INDEX_64;
-                play2Panel->unk_0024 = var_v1;
+            if (depth != play2Panel->depth) {
+                sound = SND_INDEX_64;
+                play2Panel->depth = depth;
             } else {
-                switch (play2Panel->unk_0024) {
+                switch (play2Panel->depth) {
                     case 0:
-                        if (play2Panel->unk_000C == 0) {
-                            menuLvGauge_input(&play2Panel->unk_0290, arg1);
+                        if (!play2Panel->FL_TA) {
+                            menuLvGauge_input(&play2Panel->lvGauge, playerNo);
                         } else {
-                            menuSpeedItem_input(&play2Panel->unk_12BC, arg1);
+                            menuSpeedItem_input(&play2Panel->glvItem, playerNo);
                         }
                         break;
 
                     case 1:
-                        menuSpeedItem_input(&play2Panel->unk_062C, arg1);
+                        menuSpeedItem_input(&play2Panel->speedItem, playerNo);
                 }
             }
 
-            if (soundIndex <= SND_INDEX_INVALID) {
-                switch (play2Panel->unk_0024) {
+            if (sound <= SND_INDEX_INVALID) {
+                switch (play2Panel->depth) {
                     case 1:
-                        if ((keyTrg & (A_BUTTON | START_BUTTON)) || ((keyRep & D_JPAD) && (arg3 == 0))) {
-                            soundIndex = SND_INDEX_62;
-                            play2Panel->unk_0028 += 1;
+                        if ((trg & (A_BUTTON | START_BUTTON)) || ((rep & D_JPAD) && !bottomFlag)) {
+                            sound = SND_INDEX_62;
+                            play2Panel->flow += 1;
                         }
                         break;
 
                     case 0:
-                        if ((keyTrg & B_BUTTON) || ((keyRep & U_JPAD) && (arg2 == 0))) {
-                            soundIndex = SND_INDEX_68;
-                            play2Panel->unk_0028 -= 1;
+                        if ((trg & B_BUTTON) || ((rep & U_JPAD) && !topFlag)) {
+                            sound = SND_INDEX_68;
+                            play2Panel->flow -= 1;
                         }
                         break;
                 }
             }
             break;
 
-        case 0x1:
-            if ((keyTrg & B_BUTTON) || ((keyTrg & U_JPAD) && (arg2 == 0))) {
-                play2Panel->unk_0028 = 0;
-                soundIndex = SND_INDEX_68;
+        case 1:
+            if ((trg & B_BUTTON) || ((trg & U_JPAD) && !topFlag)) {
+                play2Panel->flow = 0;
+                sound = SND_INDEX_68;
             }
             break;
 
@@ -3831,100 +3862,109 @@ void menuPlay2Panel_input(MenuPlay2Panel *play2Panel, s32 arg1, s32 arg2, s32 ar
             break;
     }
 
-    SND_PLAY_INDEX(soundIndex);
+    SND_PLAY_INDEX(sound);
 }
 
-void menuPlay2Panel_update(MenuPlay2Panel *play2Panel, SMenuItem *parentItem) {
+/**
+ * Original name: menuPlay2Panel_update
+ */
+void menuPlay2Panel_update(MenuPlay2Panel *play2Panel, SMenuItem *parent) {
     SMenuItem *item;
     s32 i;
 
-    if (play2Panel->unk_000C != 0) {
-        play2Panel->unk_1220.select = play2Panel->unk_12BC.select;
+    if (play2Panel->FL_TA) {
+        play2Panel->glvAsk.select = play2Panel->glvItem.select;
     } else {
-        play2Panel->unk_01E4.number = play2Panel->unk_0290.level;
+        play2Panel->lvNum.number = play2Panel->lvGauge.level;
     }
 
-    play2Panel->unk_0590.select = play2Panel->unk_062C.select;
+    play2Panel->speedAsk.select = play2Panel->speedItem.select;
 
-    menuItem_update(&play2Panel->unk_0034, parentItem);
-    menuItem_update(&play2Panel->unk_00C4, &play2Panel->unk_0034);
-    menuItem_update(&play2Panel->unk_0154, &play2Panel->unk_0034);
+    menuItem_update(&play2Panel->miBase, parent);
+    menuItem_update(&play2Panel->miPlayer, &play2Panel->miBase);
+    menuItem_update(&play2Panel->miPlayerNo, &play2Panel->miBase);
 
-    if (play2Panel->unk_000C != 0) {
-        menuSpeedAsk_update(&play2Panel->unk_1220, &play2Panel->unk_0034);
-        menuSpeedItem_update(&play2Panel->unk_12BC, &play2Panel->unk_0034);
+    if (play2Panel->FL_TA) {
+        menuSpeedAsk_update(&play2Panel->glvAsk, &play2Panel->miBase);
+        menuSpeedItem_update(&play2Panel->glvItem, &play2Panel->miBase);
     } else {
-        menuNumber_update(&play2Panel->unk_01E4, &play2Panel->unk_0034);
-        menuLvGauge_update(&play2Panel->unk_0290, &play2Panel->unk_0034);
+        menuNumber_update(&play2Panel->lvNum, &play2Panel->miBase);
+        menuLvGauge_update(&play2Panel->lvGauge, &play2Panel->miBase);
     }
 
-    menuSpeedAsk_update(&play2Panel->unk_0590, &play2Panel->unk_0034);
-    menuSpeedItem_update(&play2Panel->unk_062C, &play2Panel->unk_0034);
+    menuSpeedAsk_update(&play2Panel->speedAsk, &play2Panel->miBase);
+    menuSpeedItem_update(&play2Panel->speedItem, &play2Panel->miBase);
 
-    switch (play2Panel->unk_0010) {
+    switch (play2Panel->size) {
         case 0:
             break;
 
         case 1:
-            if (play2Panel->unk_0030.b.bit_30) {
-                item = &play2Panel->unk_00C4;
+            if (play2Panel->flags.loaded) {
+                item = &play2Panel->miPlayer;
 
-                play2Panel->unk_0C90.primColor[0] = item->color[0] * 255.0f;
-                play2Panel->unk_0C90.primColor[1] = item->color[1] * 255.0f;
-                play2Panel->unk_0C90.primColor[2] = item->color[2] * 255.0f;
-                play2Panel->unk_0C90.primColor[3] = item->color[3] * 255.0f;
-                animeState_update(&play2Panel->unk_0C90);
+                play2Panel->animeState.primColor[0] = item->color[0] * 255.0f;
+                play2Panel->animeState.primColor[1] = item->color[1] * 255.0f;
+                play2Panel->animeState.primColor[2] = item->color[2] * 255.0f;
+                play2Panel->animeState.primColor[3] = item->color[3] * 255.0f;
+                animeState_update(&play2Panel->animeState);
             }
             break;
     }
 
-    menuItem_update(&play2Panel->unk_0CD0, &play2Panel->unk_0034);
+    menuItem_update(&play2Panel->miOk, &play2Panel->miBase);
 
-    if (play2Panel->unk_0028 == 1) {
-        item = &play2Panel->unk_0CD0;
+    if (play2Panel->flow == 1) {
+        item = &play2Panel->miOk;
 
         for (i = 0; i < MENUITEM_COLOR_COUNT; i++) {
-            item->color[i] = parentItem->color[i];
+            item->color[i] = parent->color[i];
         }
     }
 
-    for (i = 0; i < ARRAY_COUNTU(play2Panel->unk_0D60); i++) {
-        menuCursor_update(&play2Panel->unk_0D60[i], &play2Panel->unk_0034);
+    for (i = 0; i < ARRAY_COUNTU(play2Panel->cursor); i++) {
+        menuCursor_update(&play2Panel->cursor[i], &play2Panel->miBase);
     }
 
-    menuItem_setColorDir(&play2Panel->unk_0034, (play2Panel->unk_0028 != 0) ? -1 : 1);
+    menuItem_setColorDir(&play2Panel->miBase, (play2Panel->flow != 0) ? -1 : 1);
 
     i = 0;
-    if ((play2Panel->unk_0028 == 0) && (play2Panel->unk_0024 == 0)) {
+    if ((play2Panel->flow == 0) && (play2Panel->depth == 0)) {
         i = 1;
     }
 
-    play2Panel->unk_0D60[0].flags.cursor = i;
+    play2Panel->cursor[0].flags.cursor = i;
 
-    if (play2Panel->unk_000C != 0) {
-        play2Panel->unk_12BC.flags.blink = i;
-        play2Panel->unk_12BC.cursor.flags.finger = i;
+    if (play2Panel->FL_TA) {
+        play2Panel->glvItem.flags.blink = i;
+        play2Panel->glvItem.cursor.flags.finger = i;
     } else {
-        play2Panel->unk_0290.cursor.flags.finger = i;
-        play2Panel->unk_0290.cursor.flags.cursor = i;
-        play2Panel->unk_0290.cursor.flags.blink = i;
+        play2Panel->lvGauge.cursor.flags.finger = i;
+        play2Panel->lvGauge.cursor.flags.cursor = i;
+        play2Panel->lvGauge.cursor.flags.blink = i;
     }
 
     i = 0;
-    if ((play2Panel->unk_0028 == 0) && (play2Panel->unk_0024 == 1)) {
+    if ((play2Panel->flow == 0) && (play2Panel->depth == 1)) {
         i = 1;
     }
 
-    play2Panel->unk_062C.flags.blink = i;
-    play2Panel->unk_0D60[1].flags.cursor = i;
+    play2Panel->speedItem.flags.blink = i;
+    play2Panel->cursor[1].flags.cursor = i;
 
-    play2Panel->unk_062C.cursor.flags.finger = i;
+    play2Panel->speedItem.cursor.flags.finger = i;
 }
 
+/**
+ * Original name: _charTbl_4601
+ */
 const s32 _charTbl_4601[] = {
     0, 1, 2, 3, 7, 5, 8, 4, 9, 6, 0xA, 0xB, 0xC, 0xE, 0xD,
 };
 
+/**
+ * Original name: _type_4602
+ */
 const s32 _type_4602[][4] = {
     { 0, 4, 7, 9 },
     { 0, 1, 5, 8 },
@@ -3932,56 +3972,66 @@ const s32 _type_4602[][4] = {
     { 0, 1, 2, 3 },
 };
 
+/**
+ * Original name: _texPanelP4_4617
+ */
 const s32 _texPanelP4_4617[] = {
     1,
     2,
 };
 
+/**
+ * Original name: _texPanelP2_4618
+ */
 const s32 _texPanelP2_4618[] = { 0, 1 };
 
+/**
+ * Original name: menuPlay2Panel_draw
+ */
 void menuPlay2Panel_draw(MenuPlay2Panel *play2PanelArr[], s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     void *arr[8][count];
     s32 i;
-    SMenuItem *temp_s1_2;
-    MenuPlay2Panel *var_s2;
-    TiTexData *var_s3;
-    s32 var_s5;
+    SMenuItem *item;
+    MenuPlay2Panel *play2Panel;
+    TiTexData *texC;
+    TiTexData *texA;
+    s32 cached;
 
     for (i = 0; i < count; i++) {
-        var_s2 = play2PanelArr[i];
+        play2Panel = play2PanelArr[i];
 
-        arr[0][i] = &var_s2->unk_01E4;
-        arr[1][i] = &var_s2->unk_0290;
-        arr[2][i] = &var_s2->unk_0590;
-        arr[3][i] = &var_s2->unk_062C;
-        arr[4][i] = &var_s2->unk_1220;
-        arr[5][i] = &var_s2->unk_12BC;
-        arr[6][i] = &var_s2->unk_0D60[0];
-        arr[7][i] = &var_s2->unk_0D60[1];
+        arr[0][i] = &play2Panel->lvNum;
+        arr[1][i] = &play2Panel->lvGauge;
+        arr[2][i] = &play2Panel->speedAsk;
+        arr[3][i] = &play2Panel->speedItem;
+        arr[4][i] = &play2Panel->glvAsk;
+        arr[5][i] = &play2Panel->glvItem;
+        arr[6][i] = &play2Panel->cursor[0];
+        arr[7][i] = &play2Panel->cursor[1];
     }
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
     for (i = 0; i < count; i++) {
-        var_s2 = play2PanelArr[i];
+        play2Panel = play2PanelArr[i];
 
-        switch (var_s2->unk_0010) {
+        switch (play2Panel->size) {
             case 0:
-                var_s3 = _getTexP4(var_s2->watchMenuRef, _texPanelP4_4617[var_s2->unk_000C != 0 ? 1 : 0]);
+                texC = _getTexP4(play2Panel->global, _texPanelP4_4617[play2Panel->FL_TA ? 1 : 0]);
                 break;
 
             case 1:
-                var_s3 = _getTexP2(var_s2->watchMenuRef, _texPanelP2_4618[var_s2->unk_000C != 0 ? 1 : 0]);
+                texC = _getTexP2(play2Panel->global, _texPanelP2_4618[play2Panel->FL_TA ? 1 : 0]);
                 break;
         }
 
-        menuItem_drawTex(&var_s2->unk_0034, &gfx, var_s3, 0);
+        menuItem_drawTex(&play2Panel->miBase, &gfx, texC, 0);
     }
 
     menuSpeedAsk_draw((void *)arr[2], count, &gfx);
     menuSpeedItem_draw1((void *)arr[3], count, &gfx);
-    if (var_s2->unk_000C != 0) {
+    if (play2Panel->FL_TA) {
         menuSpeedAsk_draw((void *)arr[4], count, &gfx);
         menuSpeedItem_draw1((void *)arr[5], count, &gfx);
     } else {
@@ -3995,50 +4045,51 @@ void menuPlay2Panel_draw(MenuPlay2Panel *play2PanelArr[], s32 count, Gfx **gfxP)
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
     for (i = 0; i < count; i++) {
-        var_s2 = play2PanelArr[i];
-        temp_s1_2 = &var_s2->unk_00C4;
+        play2Panel = play2PanelArr[i];
+        item = &play2Panel->miPlayer;
 
-        switch (var_s2->unk_0010) {
+        switch (play2Panel->size) {
             case 0:
-                var_s3 = _getTexP4(var_s2->watchMenuRef, 0);
-                menuItem_drawItem(temp_s1_2, &gfx, var_s3, 0, 0xF, _charTbl_4601[var_s2->unk_0020]);
+                texC = _getTexP4(play2Panel->global, 0);
+                menuItem_drawItem(item, &gfx, texC, 0, 0xF, _charTbl_4601[play2Panel->charNo]);
                 break;
 
             case 1:
-                if (var_s2->unk_0030.b.bit_30) {
-                    menuItem_setPrim(temp_s1_2, &gfx);
-                    animeState_draw(&var_s2->unk_0C90, &gfx, temp_s1_2->trans[0], temp_s1_2->trans[1], -1.0f, 1.0f);
+                if (play2Panel->flags.loaded) {
+                    menuItem_setPrim(item, &gfx);
+                    animeState_draw(&play2Panel->animeState, &gfx, item->trans[0], item->trans[1], -1.0f, 1.0f);
                 }
                 break;
         }
     }
 
     for (i = 0; i < count; i++) {
-        s32 var_v1_2;
+        s32 itemIndex;
 
-        var_s2 = play2PanelArr[i];
-        var_s3 = _getTexSetup(var_s2->watchMenuRef, 0x11);
-        if ((var_s2->unk_001C == 1) && (var_s2->unk_0014 == var_s2->unk_001C) &&
-            (var_s2->unk_0018 == var_s2->unk_0014)) {
-            var_v1_2 = 0xA;
+        play2Panel = play2PanelArr[i];
+        texC = _getTexSetup(play2Panel->global, 0x11);
+        if ((play2Panel->playerNo == 1) && (play2Panel->playerCount == play2Panel->playerNo) &&
+            (play2Panel->cpuCount == play2Panel->playerCount)) {
+            itemIndex = 0xA;
         } else {
-            var_v1_2 = _type_4602[var_s2->unk_0014 - 1][var_s2->unk_001C];
+            itemIndex = _type_4602[play2Panel->playerCount - 1][play2Panel->playerNo];
         }
-        menuItem_drawItem(&var_s2->unk_0154, &gfx, var_s3, 0, 0xB, var_v1_2);
+        menuItem_drawItem(&play2Panel->miPlayerNo, &gfx, texC, 0, 0xB, itemIndex);
     }
 
     gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
 
-    var_s5 = 0;
+    cached = 0;
     for (i = 0; i < count; i++) {
-        var_s2 = play2PanelArr[i];
+        play2Panel = play2PanelArr[i];
 
-        var_s3 = _getTexSetup(var_s2->watchMenuRef, 0xB);
-        var_s5 += menuItem_drawAlphaTex(&var_s2->unk_0CD0, &gfx, var_s3, _getTexSetup(var_s2->watchMenuRef, 4), var_s5);
+        texC = _getTexSetup(play2Panel->global, 0xB);
+        texA = _getTexSetup(play2Panel->global, 4);
+        cached += menuItem_drawAlphaTex(&play2Panel->miOk, &gfx, texC, texA, cached);
     }
 
     menuSpeedItem_draw2((void *)arr[3], count, &gfx);
-    if (var_s2->unk_000C != 0) {
+    if (play2Panel->FL_TA) {
         menuSpeedItem_draw2((void *)arr[5], count, &gfx);
     } else {
         menuLvGauge_draw2((void *)arr[1], count, &gfx);
@@ -4047,27 +4098,32 @@ void menuPlay2Panel_draw(MenuPlay2Panel *play2PanelArr[], s32 count, Gfx **gfxP)
     *gfxP = gfx;
 }
 
-void func_8004E270(MenuPlay2PanelSub *play2PanelSub, s32 arg1, f32 arg2) {
-    SMenuItem *item = &play2PanelSub->unk_010;
+/**
+ * Original name: menuPlay2PanelSub_setFrame
+ */
+void menuPlay2PanelSub_setFrame(MenuPlay2PanelSub *play2PanelSub, s32 dir, f32 time) {
+    SMenuItem *item = &play2PanelSub->miBase;
 
-    item->transTime = arg2;
+    item->transTime = time;
     item->transStep = 0.05f;
-    item->transRange[0][1] = item->transRange[1][1] - 240.0f;
-    menuItem_setTransDir(item, arg1);
+    item->transRange[0][1] = item->transRange[1][1] - SCREEN_HEIGHT;
+    menuItem_setTransDir(item, dir);
 }
 
 const u8 _bgDataNo_to_stageNo[][2] = {
     { 0, 1 }, { 0, 3 }, { 0, 0 }, { 1, 5 }, { 0, 5 }, { 0, 4 }, { 1, 4 }, { 0, 2 }, { 0, 6 }, { 0, 7 },
 };
 
-void func_8004E2B4(MenuPlay2PanelSub *play2PanelSub, s32 arg1, f32 arg2, f32 arg3) {
-    SMenuItem *item;
+/**
+ * Original name: menuPlay2PanelSub_setStageBgFrame
+ */
+void menuPlay2PanelSub_setStageBgFrame(MenuPlay2PanelSub *play2PanelSub, s32 dir, f32 time, f32 vec) {
+    SMenuItem *item = &play2PanelSub->miStageBg;
 
-    item = &play2PanelSub->unk_9EC;
-    item->transTime = arg2;
+    item->transTime = time;
     item->transStep = 0.05f;
-    item->transRange[0][0] = item->transRange[1][0] + arg3;
-    menuItem_setTransDir(item, arg1);
+    item->transRange[0][0] = item->transRange[1][0] + vec;
+    menuItem_setTransDir(item, dir);
 }
 
 const s32 _bgCursor_4920[][2] = {
@@ -4082,223 +4138,241 @@ const s32 _cursor_4921[][4] = {
 };
 static_assert(ARRAY_COUNT(_cursor_4921) == MENUPLAY2PANELSUB_UNK_B9C, "");
 
-void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *watchMenuRef, void **heapP UNUSED,
-                            s32 arg3, s32 arg4, s32 arg5, s32 arg6) {
+/**
+ * Original name: menuPlay2PanelSub_init
+ */
+void menuPlay2PanelSub_init(MenuPlay2PanelSub *play2PanelSub, struct_watchMenu *global, void **heapP UNUSED,
+                            s32 stageNo, s32 musicNo, s32 x, s32 y) {
     SMenuItem *item;
     s32 i;
 
-    play2PanelSub->watchMenuRef = watchMenuRef;
-    play2PanelSub->unk_004 = 0;
-    play2PanelSub->unk_008 = 0;
-    play2PanelSub->unk_00C = -1;
+    play2PanelSub->global = global;
+    play2PanelSub->depth = 0;
+    play2PanelSub->flow = 0;
+    play2PanelSub->topBgGap = -1;
 
-    menuItem_init(&play2PanelSub->unk_010, arg5, arg6);
-    menuMusicItem_init(&play2PanelSub->unk_0A0, watchMenuRef, arg4, 0x46, 9);
+    menuItem_init(&play2PanelSub->miBase, x, y);
+    menuMusicItem_init(&play2PanelSub->musicItem, global, musicNo, 0x46, 9);
 
-    menuNumber_init(&play2PanelSub->unk_940, watchMenuRef, 1, 2, arg3, 0x60, 0x28);
+    menuNumber_init(&play2PanelSub->stageNum, global, 1, 2, stageNo, 0x60, 0x28);
 
-    item = &play2PanelSub->unk_940.miBase;
+    item = &play2PanelSub->stageNum.miBase;
     menuItem_setScaleLow(item, 7.0f / 8.0f, 15.0f / 16.0f);
     menuItem_setScaleHi(item, 7.0f / 8.0f, 15.0f / 16.0f);
 
-    menuItem_init(&play2PanelSub->unk_9EC, 0x9C, 0x30);
+    menuItem_init(&play2PanelSub->miStageBg, 0x9C, 0x30);
 
-    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_A7C); i++) {
-        menuItem_init(&play2PanelSub->unk_A7C[i], _bgCursor_4920[i][0], _bgCursor_4920[i][1]);
-        menuItem_setColor_cursor(&play2PanelSub->unk_A7C[i]);
+    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->miBgCursor); i++) {
+        menuItem_init(&play2PanelSub->miBgCursor[i], _bgCursor_4920[i][0], _bgCursor_4920[i][1]);
+        menuItem_setColor_cursor(&play2PanelSub->miBgCursor[i]);
     }
 
-    item = &play2PanelSub->unk_A7C[ARRAY_COUNTU(play2PanelSub->unk_A7C) - 1];
+    item = &play2PanelSub->miBgCursor[ARRAY_COUNTU(play2PanelSub->miBgCursor) - 1];
     item->scaleRange[0][0] = -item->scaleRange[0][0];
     item->scaleRange[1][0] = -item->scaleRange[1][0];
 
-    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_B9C); i++) {
-        menuCursor_init(&play2PanelSub->unk_B9C[i], watchMenuRef, CURSOR_ITEM, 0, _cursor_4921[i][0],
-                        _cursor_4921[i][1], _cursor_4921[i][2], _cursor_4921[i][3]);
+    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->cursor); i++) {
+        menuCursor_init(&play2PanelSub->cursor[i], global, CURSOR_ITEM, 0, _cursor_4921[i][0], _cursor_4921[i][1],
+                        _cursor_4921[i][2], _cursor_4921[i][3]);
     }
 
-    func_8004E270(play2PanelSub, -1, 0.0f);
+    menuPlay2PanelSub_setFrame(play2PanelSub, -1, 0.0f);
 }
 
-bool menuPlay2PanelSub_input(MenuPlay2PanelSub *play2PanelSub, s32 arg1) {
-    u32 keyRep = _getKeyRep(play2PanelSub->watchMenuRef, arg1);
-    u32 keyTrg = _getKeyTrg(play2PanelSub->watchMenuRef, arg1);
-    SndIndex soundIndex = SND_INDEX_INVALID;
-    s32 var_s0;
-    s32 var_v1;
+/**
+ * Original name: menuPlay2PanelSub_input
+ */
+bool menuPlay2PanelSub_input(MenuPlay2PanelSub *play2PanelSub, s32 playerNo) {
+    u32 rep = _getKeyRep(play2PanelSub->global, playerNo);
+    u32 trg = _getKeyTrg(play2PanelSub->global, playerNo);
+    SndIndex sound = SND_INDEX_INVALID;
+    s32 vec;
+    s32 depth;
 
-    if ((play2PanelSub->unk_010.transStep < 0.0f) || (play2PanelSub->unk_010.transTime < 1.0f)) {
+    if ((play2PanelSub->miBase.transStep < 0.0f) || (play2PanelSub->miBase.transTime < 1.0f)) {
         return false;
     }
 
-    switch (play2PanelSub->unk_008) {
-        case -0x1:
-            play2PanelSub->unk_008 = 0;
+    switch (play2PanelSub->flow) {
+        case -1:
+            play2PanelSub->flow = 0;
             FALLTHROUGH;
 
-        case 0x0:
-            var_s0 = 0;
-            if ((keyRep & U_JPAD) || (keyTrg & B_BUTTON)) {
-                var_s0--;
+        case 0:
+            vec = 0;
+            if ((rep & U_JPAD) || (trg & B_BUTTON)) {
+                vec--;
             }
-            if ((keyRep & D_JPAD) || (keyTrg & (A_BUTTON | START_BUTTON))) {
-                var_s0++;
+            if ((rep & D_JPAD) || (trg & (A_BUTTON | START_BUTTON))) {
+                vec++;
             }
 
-            var_v1 = CLAMP(play2PanelSub->unk_004 + var_s0, 0, 1);
-            if (var_v1 != play2PanelSub->unk_004) {
-                soundIndex = SND_INDEX_64;
-                play2PanelSub->unk_004 = var_v1;
+            depth = CLAMP(play2PanelSub->depth + vec, 0, 1);
+            if (depth != play2PanelSub->depth) {
+                sound = SND_INDEX_64;
+                play2PanelSub->depth = depth;
             } else {
-                switch (var_v1) {
-                    case 0x0:
-                        menuMusicItem_input(&play2PanelSub->unk_0A0, arg1);
+                switch (depth) {
+                    case 0:
+                        menuMusicItem_input(&play2PanelSub->musicItem, playerNo);
                         break;
 
-                    case 0x1:
-                        var_s0 = 0;
-                        if (keyRep & L_JPAD) {
-                            var_s0--;
+                    case 1:
+                        vec = 0;
+                        if (rep & L_JPAD) {
+                            vec--;
                         }
-                        if (keyRep & R_JPAD) {
-                            var_s0++;
+                        if (rep & R_JPAD) {
+                            vec++;
                         }
 
-                        if (var_s0 != 0) {
-                            play2PanelSub->unk_940.number = WrapI(1, 0xB, play2PanelSub->unk_940.number + var_s0);
-                            if (var_s0 < 0) {
-                                play2PanelSub->unk_00C = -1;
+                        if (vec != 0) {
+                            play2PanelSub->stageNum.number = WrapI(1, 0xB, play2PanelSub->stageNum.number + vec);
+                            if (vec < 0) {
+                                play2PanelSub->topBgGap = -1;
                             } else {
-                                play2PanelSub->unk_00C = -2;
+                                play2PanelSub->topBgGap = -2;
                             }
 
-                            soundIndex = SND_INDEX_63;
-                            func_8004E2B4(play2PanelSub, 1, 0.0f, var_s0 * 0x48);
+                            sound = SND_INDEX_63;
+                            menuPlay2PanelSub_setStageBgFrame(play2PanelSub, 1, 0.0f, vec * 72);
                         }
                         break;
                 }
             }
 
-            if (soundIndex <= SND_INDEX_INVALID) {
-                if ((keyTrg & (A_BUTTON | START_BUTTON)) && (play2PanelSub->unk_004 == 1)) {
-                    soundIndex = SND_INDEX_62;
-                    play2PanelSub->unk_008++;
-                } else if ((keyTrg & B_BUTTON) && (play2PanelSub->unk_004 == 0)) {
-                    soundIndex = SND_INDEX_68;
-                    play2PanelSub->unk_008--;
+            if (sound <= SND_INDEX_INVALID) {
+                if ((trg & (A_BUTTON | START_BUTTON)) && (play2PanelSub->depth == 1)) {
+                    sound = SND_INDEX_62;
+                    play2PanelSub->flow++;
+                } else if ((trg & B_BUTTON) && (play2PanelSub->depth == 0)) {
+                    sound = SND_INDEX_68;
+                    play2PanelSub->flow--;
                 }
             }
             break;
 
-        case 0x1:
-            if (keyTrg & B_BUTTON) {
-                soundIndex = SND_INDEX_68;
-                play2PanelSub->unk_008 = 0;
+        case 1:
+            if (trg & B_BUTTON) {
+                sound = SND_INDEX_68;
+                play2PanelSub->flow = 0;
             }
             break;
     }
 
-    SND_PLAY_INDEX(soundIndex);
+    SND_PLAY_INDEX(sound);
 
     return true;
 }
 
-void menuPlay2PanelSub_update(MenuPlay2PanelSub *play2PanelSub, SMenuItem *parentItem) {
-    SMenuItem *temp_s0 = &play2PanelSub->unk_010;
+/**
+ * Original name: menuPlay2PanelSub_update
+ */
+void menuPlay2PanelSub_update(MenuPlay2PanelSub *play2PanelSub, SMenuItem *parent) {
+    SMenuItem *item = &play2PanelSub->miBase;
     s32 i;
 
-    menuItem_update(temp_s0, parentItem);
-    if (play2PanelSub->unk_004 != 0) {
-        play2PanelSub->unk_0A0.cursor.miBase.colorTime = 1.0f;
+    menuItem_update(item, parent);
+    if (play2PanelSub->depth != 0) {
+        play2PanelSub->musicItem.cursor.miBase.colorTime = 1.0f;
     }
 
-    menuMusicItem_update(&play2PanelSub->unk_0A0, temp_s0);
-    menuNumber_update(&play2PanelSub->unk_940, temp_s0);
-    menuItem_update(&play2PanelSub->unk_9EC, temp_s0);
-    menuItem_updateN(play2PanelSub->unk_A7C, 2, temp_s0);
+    menuMusicItem_update(&play2PanelSub->musicItem, item);
+    menuNumber_update(&play2PanelSub->stageNum, item);
+    menuItem_update(&play2PanelSub->miStageBg, item);
+    menuItem_updateN(play2PanelSub->miBgCursor, ARRAY_COUNT(play2PanelSub->miBgCursor), item);
 
-    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_B9C); i++) {
-        menuCursor_update(&play2PanelSub->unk_B9C[i], &play2PanelSub->unk_010);
+    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->cursor); i++) {
+        menuCursor_update(&play2PanelSub->cursor[i], &play2PanelSub->miBase);
     }
 
-    i = play2PanelSub->unk_004 == 0;
-    play2PanelSub->unk_B9C[0].flags.cursor = i;
-    play2PanelSub->unk_0A0.cursor.flags.finger = i;
-    play2PanelSub->unk_0A0.flags.blink = i;
+    i = play2PanelSub->depth == 0;
+    play2PanelSub->cursor[0].flags.cursor = i;
+    play2PanelSub->musicItem.cursor.flags.finger = i;
+    play2PanelSub->musicItem.flags.blink = i;
 
-    i = play2PanelSub->unk_004 == 1;
-    play2PanelSub->unk_B9C[1].flags.cursor = i;
+    i = play2PanelSub->depth == 1;
+    play2PanelSub->cursor[1].flags.cursor = i;
 
-    if (play2PanelSub->unk_004 != 1) {
-        for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_A7C); i++) {
-            SMenuItem *var_v1 = &play2PanelSub->unk_A7C[i];
+    if (play2PanelSub->depth != 1) {
+        for (i = 0; i < ARRAY_COUNTU(play2PanelSub->miBgCursor); i++) {
+            SMenuItem *miBgCursor = &play2PanelSub->miBgCursor[i];
             s32 j;
 
             for (j = 0; j < 3; j++) {
-                var_v1->color[j] = var_v1->colorRange[1][j] * parentItem->color[j];
+                miBgCursor->color[j] = miBgCursor->colorRange[1][j] * parent->color[j];
             }
         }
     }
 }
 
+/**
+ * Original name: menuPlay2PanelSub_draw
+ */
 void menuPlay2PanelSub_draw(MenuPlay2PanelSub *play2PanelSub, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     void *arr[2 * 4];
     SMenuItem *item;
-    TiTexData *temp_s2;
-    s32 var_s4;
+    TiTexData *texC;
+    s32 cached;
     s32 i;
-    f32 temp_fs0;
+    f32 x;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    temp_s2 = _getTexSetup(play2PanelSub->watchMenuRef, 0x12);
-    menuItem_drawTex(&play2PanelSub->unk_010, &gfx, temp_s2, 0);
+    texC = _getTexSetup(play2PanelSub->global, 0x12);
+    menuItem_drawTex(&play2PanelSub->miBase, &gfx, texC, 0);
 
-    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_B9C); i++) {
-        arr[i] = &play2PanelSub->unk_B9C[i];
+    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->cursor); i++) {
+        arr[i] = &play2PanelSub->cursor[i];
     }
-    menuCursor_draw((void *)arr, ARRAY_COUNTU(play2PanelSub->unk_B9C), &gfx);
+    menuCursor_draw((void *)arr, ARRAY_COUNTU(play2PanelSub->cursor), &gfx);
 
-    arr[0] = &play2PanelSub->unk_0A0;
+    arr[0] = &play2PanelSub->musicItem;
     menuMusicItem_draw((void *)arr, 1, &gfx);
-    arr[0] = &play2PanelSub->unk_940;
+    arr[0] = &play2PanelSub->stageNum;
     menuNumber_draw((void *)arr, 1, &gfx);
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    item = &play2PanelSub->unk_9EC;
+    item = &play2PanelSub->miStageBg;
     menuItem_setPrim(item, &gfx);
-    gfxSetScissor(&gfx, GFXSETSCISSOR_INTERLACE_NO, play2PanelSub->unk_010.trans[0] + item->transRange[1][0] - 16.0f,
-                  play2PanelSub->unk_010.trans[1] + item->transRange[1][1], 0x68, 0x24);
+    gfxSetScissor(&gfx, GFXSETSCISSOR_INTERLACE_NO, play2PanelSub->miBase.trans[0] + item->transRange[1][0] - 16.0f,
+                  play2PanelSub->miBase.trans[1] + item->transRange[1][1], 0x68, 0x24);
 
-    temp_s2 = _getTexSetup(play2PanelSub->watchMenuRef, 0xE);
-    temp_fs0 = item->trans[0];
-    item->trans[0] += (play2PanelSub->unk_00C * 0x48);
+    texC = _getTexSetup(play2PanelSub->global, 0xE);
+    x = item->trans[0];
+    item->trans[0] += play2PanelSub->topBgGap * 0x48;
 
-    item = &play2PanelSub->unk_9EC;
+    item = &play2PanelSub->miStageBg;
     for (i = 0; i < 4; i++) {
-        menuItem_drawItem(item, &gfx, temp_s2, 0, 0xA,
-                          WrapI(0, 0xA, (play2PanelSub->unk_940.number + play2PanelSub->unk_00C + i) - 1));
+        menuItem_drawItem(item, &gfx, texC, 0, 0xA,
+                          WrapI(0, 0xA, play2PanelSub->stageNum.number + play2PanelSub->topBgGap + i - 1));
         item->trans[0] += 72.0f;
     }
 
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
-    item->trans[0] = temp_fs0;
+    item->trans[0] = x;
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    temp_s2 = _getTexSetup(play2PanelSub->watchMenuRef, 0x10);
+    texC = _getTexSetup(play2PanelSub->global, 0x10);
 
-    var_s4 = 0;
-    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->unk_A7C); i++) {
-        var_s4 += menuItem_drawTex(&play2PanelSub->unk_A7C[i], &gfx, temp_s2, var_s4);
+    cached = 0;
+    for (i = 0; i < ARRAY_COUNTU(play2PanelSub->miBgCursor); i++) {
+        cached += menuItem_drawTex(&play2PanelSub->miBgCursor[i], &gfx, texC, cached);
     }
 
     *gfxP = gfx;
 }
 
+/**
+ * Original name: _menuMain_lastMode
+ */
 MainMenuMode _menuMain_lastMode = MODE_MAIN;
 
+/**
+ * Original name: _tblMain_5279
+ */
 const char *_tblMain_5279[] = {
     _mesP1,
     _mes2P,
@@ -4306,37 +4380,55 @@ const char *_tblMain_5279[] = {
     _mesOpt,
 };
 
+/**
+ * Original name: _tblPlay1_5280
+ */
 const char *_tblPlay1_5280[] = {
     _mesLv, _mesSt, _mesVsCom, _mesVcFlash, _mesLvTaiQ, _mesLvTimeAt,
 };
 
+/**
+ * Original name: _tblPlay2_5281
+ */
 const char *_tblPlay2_5281[] = {
     _mesVsMan,
     _mesVmFlash,
     _mesVmTimeAt,
 };
 
-const char *D_8008E7C0[] = {
+const char *D_8008E7C0[] UNUSED = {
     _mesVsNum,
     _mesVsNum,
     _mesVsNum,
     _mesVsNum,
 };
 
+/**
+ * Original name: _tblBaTyp_5282
+ */
 const char *_tblBaTyp_5282[] = {
     _mesVs4P,
     _mes4PTag,
     _mes4PFlash,
 };
 
+/**
+ * Original name: _tblOpt_5283
+ */
 const char *_tblOpt_5283[] = {
     _mesRec, _mesTutol, _mesName, _mesBak, _mesMisc,
 };
 
+/**
+ * Original name: _tblTutol_5284
+ */
 const char *_tblTutol_5284[] = {
     _mesRule1, _mesRule2, _mesRule3, _mesRule4, _mesKotu,
 };
 
+/**
+ * Original name: _tblSound_5285
+ */
 const char *_tblSound_5285[] = {
     _mesStereo,
     _mesMono,
@@ -4344,99 +4436,108 @@ const char *_tblSound_5285[] = {
     _mesSound,
 };
 
+/**
+ * Original name: _tblMisc_5286
+ */
 const char *_tblMisc_5286[] = {
     _mesSnd,
     _mesVsCnt,
     _mesScore,
 };
 
+/**
+ * Original name: _loopTbl_5287
+ */
 const char *_loopTbl_5287[] = {
     _mesSt,       _mesLv,   _mesVsCom, _mesVcFlash, _mesLvTaiQ, _mesLvTimeAt, _mesVsMan,     _mesVmFlash,
     _mesVmTimeAt, _mesVs4P, _mes4PTag, _mes4PFlash, _mesSnd,    _mesNs1,      _mesNameErase, _mesDoErase,
 };
 
-bool menuMain_setMsgStr(MenuMain *menuMain, MainMenuMode mode, s32 arg2) {
-    bool ret = false;
-    const char **var_v1 = NULL;
-    const char *var_s1 = NULL;
+/**
+ * Original name: menuMain_setMsgStr
+ */
+bool menuMain_setMsgStr(MenuMain *mMain, MainMenuMode mode, s32 select) {
+    bool res = false;
+    const char **tbl = NULL;
+    const char *mes = NULL;
     s32 i;
 
     switch (mode) {
         case MODE_MAIN:
-            var_v1 = _tblMain_5279;
+            tbl = _tblMain_5279;
             break;
 
         case MODE_PLAY1:
-            var_v1 = _tblPlay1_5280;
+            tbl = _tblPlay1_5280;
             break;
 
         case MODE_PLAY2:
-            var_v1 = _tblPlay2_5281;
+            tbl = _tblPlay2_5281;
             break;
 
         case MODE_PLAY4:
-            var_s1 = _mesVsNum;
+            mes = _mesVsNum;
             break;
 
         case MODE_OPTION:
-            var_v1 = _tblOpt_5283;
+            tbl = _tblOpt_5283;
             break;
 
         case MODE_MISC:
-            var_v1 = _tblMisc_5286;
+            tbl = _tblMisc_5286;
             break;
 
         case MODE_SCORE:
-            var_s1 = _mesScoreOnOff;
+            mes = _mesScoreOnOff;
             break;
 
         case MODE_PLAY4_TYPE1:
         case MODE_PLAY4_TYPE2:
         case MODE_PLAY4_TYPE3:
         case MODE_PLAY4_TYPE4:
-            var_v1 = _tblBaTyp_5282;
+            tbl = _tblBaTyp_5282;
             break;
 
         case MODE_TUTORIAL:
-            var_v1 = _tblTutol_5284;
+            tbl = _tblTutol_5284;
             break;
 
         case MODE_SOUND:
-            var_s1 = _tblSound_5285[menuMain->unk_1C64.unk_004];
+            mes = _tblSound_5285[mMain->sndSel.select];
             break;
 
         case MODE_RECORD_MS:
-            var_s1 = _mesRecMs1;
+            mes = _mesRecMs1;
             break;
 
         case MODE_RECORD_PLAY1:
         case MODE_RECORD_PLAY2:
-            var_s1 = _mesRecMs2;
+            mes = _mesRecMs2;
             break;
 
         case MODE_NAME:
-            var_s1 = _mesNameSel;
+            mes = _mesNameSel;
             break;
 
         case MODE_NAME_DEL_YN:
-            var_s1 = _mesNameErase;
+            mes = _mesNameErase;
             break;
 
         case MODE_NAME_DEL_MES:
-            var_s1 = _mesNameErase2;
+            mes = _mesNameErase2;
             break;
 
         case MODE_COUNT:
-            var_s1 = _mesVsCnt2;
+            mes = _mesVsCnt2;
             break;
 
         case MODE_BACKUP:
         case MODE_BACKUP_YN:
-            var_s1 = _mesDoErase;
+            mes = _mesDoErase;
             break;
 
         case MODE_BACKUP_MES:
-            var_s1 = _mesDoErase1;
+            mes = _mesDoErase1;
             break;
 
         case MODE_STORY_NS:
@@ -4448,37 +4549,37 @@ bool menuMain_setMsgStr(MenuMain *menuMain, MainMenuMode mode, s32 arg2) {
         case MODE_VSMAN_NS:
         case MODE_VSMAN_FL_NS:
         case MODE_VSMAN_TA_NS:
-            var_s1 = _mesNs1;
+            mes = _mesNs1;
             break;
 
         case MODE_NAME_NS:
-            var_s1 = _mesNs2;
+            mes = _mesNs2;
             break;
 
         default:
             break;
     }
 
-    if (var_v1 != NULL) {
-        var_s1 = var_v1[arg2];
+    if (tbl != NULL) {
+        mes = tbl[select];
     }
 
     for (i = 0; i < ARRAY_COUNTU(_loopTbl_5287); i++) {
-        if ((var_s1 == _loopTbl_5287[i]) && msgWnd_isEnd(&menuMain->msgWnd)) {
-            menuMain->unk_2304 = NULL;
+        if ((mes == _loopTbl_5287[i]) && msgWnd_isEnd(&mMain->msgWnd)) {
+            mMain->msgStr = NULL;
         }
     }
 
-    if (var_s1 != menuMain->unk_2304) {
-        msgWnd_clear(&menuMain->msgWnd);
-        if (var_s1 != NULL) {
-            msgWnd_addStr(&menuMain->msgWnd, var_s1);
-            ret = true;
+    if (mes != mMain->msgStr) {
+        msgWnd_clear(&mMain->msgWnd);
+        if (mes != NULL) {
+            msgWnd_addStr(&mMain->msgWnd, mes);
+            res = true;
         }
-        menuMain->unk_2304 = var_s1;
+        mMain->msgStr = mes;
     }
 
-    return ret;
+    return res;
 }
 
 const s32 _root_5339[] = {
@@ -4570,100 +4671,103 @@ const s32 _score_5352[] = {
 };
 static_assert(ARRAY_COUNT(_score_5352) <= MENUMAINPANEL_UNK_LEN, "");
 
-void menuMain_initPanel(MenuMain *menuMain, MainMenuMode mode, s32 arg2, s32 arg3) {
-    const s32 *ptr;
-    s32 len;
+/**
+ * Original name: menuMain_initPanel
+ */
+void menuMain_initPanel(MenuMain *mMain, MainMenuMode mode, s32 panelSw, s32 select) {
+    const s32 *table;
+    s32 count;
 
     switch (mode) {
         case MODE_PLAY1:
-            ptr = _play1_5340;
-            len = ARRAY_COUNT(_play1_5340);
+            table = _play1_5340;
+            count = ARRAY_COUNT(_play1_5340);
             break;
 
         case MODE_PLAY2:
-            ptr = _play2_5341;
-            len = ARRAY_COUNT(_play2_5341);
+            table = _play2_5341;
+            count = ARRAY_COUNT(_play2_5341);
             break;
 
         case MODE_PLAY4:
-            ptr = _play4_5342;
-            len = ARRAY_COUNT(_play4_5342);
+            table = _play4_5342;
+            count = ARRAY_COUNT(_play4_5342);
             break;
 
         case MODE_OPTION:
-            ptr = _option_5344;
-            len = ARRAY_COUNT(_option_5344);
+            table = _option_5344;
+            count = ARRAY_COUNT(_option_5344);
             break;
 
         case MODE_PLAY4_TYPE1:
         case MODE_PLAY4_TYPE2:
         case MODE_PLAY4_TYPE3:
         case MODE_PLAY4_TYPE4:
-            ptr = _play4type_5343;
-            len = ARRAY_COUNT(_play4type_5343);
+            table = _play4type_5343;
+            count = ARRAY_COUNT(_play4type_5343);
             break;
 
         case MODE_RECORD_MS:
-            ptr = _recMs_5345;
-            len = ARRAY_COUNT(_recMs_5345);
+            table = _recMs_5345;
+            count = ARRAY_COUNT(_recMs_5345);
             break;
 
         case MODE_RECORD_PLAY1:
-            ptr = _recMs1_5346;
-            len = ARRAY_COUNT(_recMs1_5346);
+            table = _recMs1_5346;
+            count = ARRAY_COUNT(_recMs1_5346);
             break;
 
         case MODE_RECORD_PLAY2:
-            ptr = _recMs2_5347;
-            len = ARRAY_COUNT(_recMs2_5347);
+            table = _recMs2_5347;
+            count = ARRAY_COUNT(_recMs2_5347);
             break;
 
         case MODE_TUTORIAL:
-            ptr = _tutorial_5348;
-            len = ARRAY_COUNT(_tutorial_5348);
+            table = _tutorial_5348;
+            count = ARRAY_COUNT(_tutorial_5348);
             break;
 
         case MODE_COUNT:
-            ptr = _count_5349;
-            len = ARRAY_COUNT(_count_5349);
+            table = _count_5349;
+            count = ARRAY_COUNT(_count_5349);
             break;
 
         case MODE_BACKUP:
-            ptr = _backup_5350;
-            len = ARRAY_COUNT(_backup_5350);
+            table = _backup_5350;
+            count = ARRAY_COUNT(_backup_5350);
             break;
 
         case MODE_MISC:
-            ptr = _misc_5351;
-            len = ARRAY_COUNT(_misc_5351);
+            table = _misc_5351;
+            count = ARRAY_COUNT(_misc_5351);
             break;
 
         case MODE_SCORE:
-            ptr = _score_5352;
-            len = ARRAY_COUNT(_score_5352);
+            table = _score_5352;
+            count = ARRAY_COUNT(_score_5352);
             break;
 
         case MODE_MAIN:
         default:
-            ptr = _root_5339;
-            len = ARRAY_COUNT(_root_5339);
+            table = _root_5339;
+            count = ARRAY_COUNT(_root_5339);
             break;
     }
 
-    menuMainPanel_init(&menuMain->unk_003C[arg2], menuMain->watchMenuRef, len, arg3, ptr, 0x19, 0x3A);
+    menuMainPanel_init(&mMain->panel[panelSw], mMain->global, count, select, table, 25, 58);
 
 #if VERSION_GW
     switch (mode) {
         case MODE_MAIN:
-            menuItem_setColorDir(&menuMain->unk_003C[arg2].miPanel[1], -1);
-            menuMain->unk_003C[arg2].miPanel[1].colorTime = 0.0f;
-            menuItem_setColorDir(&menuMain->unk_003C[arg2].miPanel[2], -1);
-            menuMain->unk_003C[arg2].miPanel[2].colorTime = 0.0f;
+            menuItem_setColorDir(&mMain->panel[panelSw].miPanel[1], -1);
+            mMain->panel[panelSw].miPanel[1].colorTime = 0.0f;
+            menuItem_setColorDir(&mMain->panel[panelSw].miPanel[2], -1);
+            mMain->panel[panelSw].miPanel[2].colorTime = 0.0f;
             break;
 
         case MODE_RECORD_MS:
-            menuItem_setColorDir(&menuMain->unk_003C[arg2].miPanel[1], -1);
-            menuMain->unk_003C[arg2].miPanel[1].colorTime = 0.0f;
+            menuItem_setColorDir(&mMain->panel[panelSw].miPanel[1], -1);
+            mMain->panel[panelSw].miPanel[1].colorTime = 0.0f;
             break;
 
         default:
@@ -4672,40 +4776,43 @@ void menuMain_initPanel(MenuMain *menuMain, MainMenuMode mode, s32 arg2, s32 arg
 #endif
 }
 
-void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, void **heapP) {
+/**
+ * Original name: menuMain_initPanel
+ */
+void menuMain_init(MenuMain *mMain, struct_watchMenu *global, void **heapP) {
     SMenuItem *item;
     s32 i;
 
-    menuMain->watchMenuRef = watchMenuRef;
-    if (_getModeOld(watchMenuRef) == MODE_NAME_NE2) {
-        menuMain->mode = _menuMain_lastMode = MODE_NAME_NS;
+    mMain->global = global;
+    if (_getModeOld(global) == MODE_NAME_NE2) {
+        mMain->mode = _menuMain_lastMode = MODE_NAME_NS;
     } else {
-        menuMain->mode = _menuMain_lastMode;
+        mMain->mode = _menuMain_lastMode;
     }
 
-    menuMain->unk_0008 = _menuMain_lastDepth;
+    mMain->depth = _menuMain_lastDepth;
     for (i = 0; i < ARRAY_COUNTU(_menuMain_lastSelect); i++) {
-        menuMain->unk_000C[i] = _menuMain_lastSelect[i];
+        mMain->select[i] = _menuMain_lastSelect[i];
     }
 
-    if (_getModeOld(watchMenuRef) == MODE_MAIN) {
-        menuMain->unk_000C[0] = 0;
+    if (_getModeOld(global) == MODE_MAIN) {
+        mMain->select[0] = 0;
     }
 
-    menuMain->unk_002C = 0;
-    menuMain->unk_0030 = -1;
-    menuMain->unk_0034 = 0xC;
-    menuMain->unk_2304 = 0;
-    menuMain->unk_2300 = 0;
-    menuMain->unk_0038 = 0;
+    mMain->screenNo = 0;
+    mMain->screenDir = -1;
+    mMain->playSeqNo = SEQ_INDEX_12;
+    mMain->msgStr = 0;
+    mMain->current = 0;
+    mMain->kasaCount = 0;
 
-    for (i = 0; i < ARRAY_COUNTU(menuMain->unk_003C); i++) {
-        menuMain_initPanel(menuMain, menuMain->mode, i, menuMain->unk_000C[menuMain->unk_0008]);
-        menuMainPanel_setFrame(&menuMain->unk_003C[i], -1, 0);
+    for (i = 0; i < ARRAY_COUNTU(mMain->panel); i++) {
+        menuMain_initPanel(mMain, mMain->mode, i, mMain->select[mMain->depth]);
+        menuMainPanel_setFrame(&mMain->panel[i], -1, 0);
     }
 
     i = 1;
-    switch (menuMain->mode) {
+    switch (mMain->mode) {
         default:
             break;
 
@@ -4716,16 +4823,16 @@ void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, void **he
             break;
     }
 
-    menuNameSelPanel_init(&menuMain->unk_0D2C, watchMenuRef, menuMain->mode != MODE_NAME_NS, i, 0x19, 0x3A);
-    func_8004BB14(&menuMain->unk_0D2C, -1, 0.0f);
+    menuNameSelPanel_init(&mMain->nameSel, global, mMain->mode != MODE_NAME_NS, i, 0x19, 0x3A);
+    menuNameSelPanel_setFrame(&mMain->nameSel, -1, 0.0f);
 
-    menuNameOpPanel_init(&menuMain->unk_17B4, menuMain->watchMenuRef, 0, 0, NULL, 0x19, 0x3A);
-    func_8004C820(&menuMain->unk_17B4, -1, 0.0f);
+    menuNameOpPanel_init(&mMain->nameOp, mMain->global, MENUNAMEOPPANELTYPE_0, 0, NULL, 0x19, 0x3A);
+    menuNameOpPanel_setFrame(&mMain->nameOp, -1, 0.0f);
 
-    menuSndSelPanel_init(&menuMain->unk_1C64, watchMenuRef, 0, 0x14, 0x3A);
-    func_8004CCD0(&menuMain->unk_1C64, -1, 0.0f);
+    menuSndSelPanel_init(&mMain->sndSel, global, 0, 0x14, 0x3A);
+    menuSndSelPanel_setFrame(&mMain->sndSel, -1, 0.0f);
 
-    switch (menuMain->mode) {
+    switch (mMain->mode) {
         case MODE_STORY_NS:
         case MODE_LVSEL_NS:
         case MODE_LVSEL_TQ_NS:
@@ -4736,37 +4843,37 @@ void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, void **he
         case MODE_VSMAN_FL_NS:
         case MODE_VSMAN_TA_NS:
         case MODE_NAME_NS:
-            func_8004BB14(&menuMain->unk_0D2C, 1, 0);
+            menuNameSelPanel_setFrame(&mMain->nameSel, 1, 0);
             break;
 
         default:
-            menuMainPanel_setFrame(menuMain->unk_003C, 1, 0);
+            menuMainPanel_setFrame(mMain->panel, 1, 0);
             break;
     }
 
-    msgWnd_init(&menuMain->msgWnd, heapP, 12, 4, 156, 34);
-    menuMain->msgWnd.contFlags = 0;
+    msgWnd_init(&mMain->msgWnd, heapP, 12, 4, 156, 34);
+    mMain->msgWnd.contFlags = 0;
 
 #if VERSION_CN
-    menuMain->msgWnd.rowStep = 14;
+    mMain->msgWnd.rowStep = 14;
 #else
-    menuMain->msgWnd.rowStep = 13;
+    mMain->msgWnd.rowStep = 13;
 #endif
 
-    item = &menuMain->unk_2388;
+    item = &mMain->miMsgWnd;
     menuItem_init(item, 0x9E, 0x2F);
     item->transTime = 0.0f;
     item->transStep = 0.05f;
     item->transRange[0][0] += 320.0f;
 
-    menuItem_init(&menuMain->unk_2418, 0xDC, 0x63);
-    item = &menuMain->unk_2418;
+    menuItem_init(&mMain->miKaSaMaRu, 0xDC, 0x63);
+    item = &mMain->miKaSaMaRu;
     item->transStep = 0.05f;
     item->transTime = 0.0f;
     item->transRange[0][0] += 320.0f;
 
-    menuItem_init(&menuMain->unk_2538, -0x44, 0x16);
-    item = &menuMain->unk_2538;
+    menuItem_init(&mMain->miScrWnd, -0x44, 0x16);
+    item = &mMain->miScrWnd;
     item->transStep = 0.05f;
     item->transTime = 0.0f;
     item->transRange[0][0] = 32.0f;
@@ -4779,24 +4886,27 @@ void menuMain_init(MenuMain *menuMain, struct_watchMenu *watchMenuRef, void **he
     item->colorRange[1][1] = 0.9411765f;
     item->colorRange[1][2] = 0.972549f;
 
-    menuItem_init(&menuMain->unk_25C8, 6, 5);
-    menuMain->unk_25C8.flags.localColor = true;
+    menuItem_init(&mMain->miScreen, 6, 5);
+    mMain->miScreen.flags.localColor = true;
 
-    menuItem_init(&menuMain->unk_24A8, 0x51, 0x11);
+    menuItem_init(&mMain->miSmoke, 0x51, 0x11);
 
-    menuCont_init(&menuMain->unk_2658, watchMenuRef, 0xE, 0x71);
+    menuCont_init(&mMain->cont, global, 0xE, 0x71);
 
-    menuYN_init(&menuMain->unk_2B6C, watchMenuRef, 0x78, 0x8C);
+    menuYN_init(&mMain->yesNo, global, 0x78, 0x8C);
 
-    menuMes_init(&menuMain->unk_31E4, watchMenuRef, heapP, 0x11, 2, 0x40, 0xA6);
+    menuMes_init(&mMain->message, global, heapP, 0x11, 2, 0x40, 0xA6);
 }
 
-void func_8004F2D8(MenuMain *menuMain) {
-    u32 keyTrg = _getKeyTrg(menuMain->watchMenuRef, 0);
+/**
+ * Original name: menuMain_waitCancel
+ */
+void menuMain_waitCancel(MenuMain *mMain) {
+    u32 trg = _getKeyTrg(mMain->global, 0);
 
-    if ((keyTrg & B_BUTTON) && (menuMain->mode != MODE_MAIN)) {
-        _setFadeDir(menuMain->watchMenuRef, -1);
-        _setNextMain(menuMain->watchMenuRef, MAIN_MENU);
+    if ((trg & B_BUTTON) && (mMain->mode != MODE_MAIN)) {
+        _setFadeDir(mMain->global, -1);
+        _setNextMain(mMain->global, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
@@ -4807,8 +4917,13 @@ const char *mes_5577[] = {
     _mesNoCont4,
 };
 
-void func_8004F33C(MenuMain *menuMain) {
-    menuMain_update(menuMain);
+/**
+ * Original name: _menuMain_updateCallback
+ */
+void _menuMain_updateCallback(void *arg) {
+    MenuMain *mMain = arg;
+
+    menuMain_update(mMain);
 }
 
 const MainMenuMode tbl_5517[] = {
@@ -4909,30 +5024,33 @@ const MainMenuMode tbl_5735[] = {
     MODE_NAME_DEL_YN,
 };
 
-void menuMain_input(MenuMain *menuMain) {
-    MenuMainPanel *sp20 = &menuMain->unk_003C[menuMain->unk_2300];
-    u32 keyTrg = _getKeyTrg(menuMain->watchMenuRef, 0);
-    SndIndex soundIndex;
-    s32 sp18[2];
-    s32 var_s2;
-    s32 var_fp;
-    s32 var_s3;
-    s32 var_s7;
-    s32 sp24;
-    s32 sp28;
-    s32 sp2C;
-    s32 sp30;
-    s32 sp34;
-    s32 sp38;
+/**
+ * Original name: menuMain_input
+ */
+void menuMain_input(MenuMain *mMain) {
+    MenuMainPanel *panel = &mMain->panel[mMain->current];
+    u32 trg = _getKeyTrg(mMain->global, 0);
     s32 i;
+    s32 select;
+    SndIndex sound;
+    s32 nameDir;
+    s32 panelDir;
+    s32 nameSelDir;
+    s32 wndDir;
+    s32 kasaDir;
+    s32 contDir;
+    s32 ynDir;
+    s32 mesDir;
+    s32 sndSelDir;
+    s32 flow[2];
 
-    if (_getMode(menuMain->watchMenuRef) == MODE_MAIN) {
-        _setTitle(menuMain->watchMenuRef, menuMain->mode);
+    if (_getMode(mMain->global) == MODE_MAIN) {
+        _setTitle(mMain->global, mMain->mode);
     }
 
     i = 0;
 
-    switch (menuMain->mode) {
+    switch (mMain->mode) {
         case MODE_NAME_DEL_MES:
         case MODE_BACKUP_MES:
             i = 1;
@@ -4940,18 +5058,18 @@ void menuMain_input(MenuMain *menuMain) {
 
         case MODE_NAME_DEL_YN:
         case MODE_BACKUP_YN:
-            i = i || menuYN_input(&menuMain->unk_2B6C, 0);
+            i = i || menuYN_input(&mMain->yesNo, 0);
             break;
 
         case MODE_SOUND:
-            i = i || (menuSndSelPanel_input(&menuMain->unk_1C64, 0) != false);
+            i = i || (menuSndSelPanel_input(&mMain->sndSel, 0) != false);
             break;
 
         default:
-            i = i || menuMainPanel_input(sp20, 0);
-            i = i || menuNameSelPanel_input(&menuMain->unk_0D2C);
-            i = i || menuCont_input(&menuMain->unk_2658, 0);
-            i = i || menuNameOpPanel_input(&menuMain->unk_17B4, 0);
+            i = i || menuMainPanel_input(panel, 0);
+            i = i || menuNameSelPanel_input(&mMain->nameSel);
+            i = i || menuCont_input(&mMain->cont, 0);
+            i = i || menuNameOpPanel_input(&mMain->nameOp, 0);
             break;
     }
 
@@ -4959,10 +5077,10 @@ void menuMain_input(MenuMain *menuMain) {
         return;
     }
 
-    var_s3 = var_s7 = sp28 = sp2C = sp30 = var_fp = sp34 = sp24 = sp38 = 0;
-    soundIndex = SND_INDEX_INVALID;
+    panelDir = nameSelDir = wndDir = kasaDir = contDir = ynDir = mesDir = nameDir = sndSelDir = 0;
+    sound = SND_INDEX_INVALID;
 
-    switch (menuMain->mode) {
+    switch (mMain->mode) {
         case MODE_STORY_NS:
         case MODE_LVSEL_NS:
         case MODE_LVSEL_TQ_NS:
@@ -4973,88 +5091,88 @@ void menuMain_input(MenuMain *menuMain) {
         case MODE_VSMAN_FL_NS:
         case MODE_VSMAN_TA_NS:
         case MODE_NAME_NS:
-            var_s2 = 0;
+            select = 0;
             break;
 
         case MODE_CONT:
-            var_s2 = 0;
+            select = 0;
             break;
 
         case MODE_NAME_DEL_MES:
         case MODE_BACKUP_MES:
-            var_s2 = 0;
+            select = 0;
             break;
 
         case MODE_NAME:
-            var_s2 = menuMain->unk_17B4.unk_008;
+            select = mMain->nameOp.select;
             break;
 
         case MODE_SOUND:
-            var_s2 = menuMain->unk_1C64.unk_004;
+            select = mMain->sndSel.select;
             break;
 
         case MODE_NAME_DEL_YN:
         case MODE_BACKUP_YN:
-            var_s2 = menuMain->unk_2B6C.select;
+            select = mMain->yesNo.select;
             break;
 
         default:
-            var_s2 = menuMain->unk_000C[menuMain->unk_0008] = sp20->select;
+            select = mMain->select[mMain->depth] = panel->select;
             break;
     }
 
-    switch (menuMain->mode) {
+    switch (mMain->mode) {
         case MODE_MAIN:
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                switch (tbl_5517[var_s2]) {
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                switch (tbl_5517[select]) {
                     case MODE_PLAY2:
                         evs_playmax = joyResponseCheck();
                         if (evs_playmax < 2) {
-                            menuMes_setStr(&menuMain->unk_31E4, _mesNoCont2);
-                            sp34++;
-                            soundIndex = SND_INDEX_71;
+                            menuMes_setStr(&mMain->message, _mesNoCont2);
+                            mesDir++;
+                            sound = SND_INDEX_71;
                         } else {
-                            menuMain->mode = tbl_5517[var_s2];
-                            menuMain->unk_0008++;
-                            menuMain->unk_000C[menuMain->unk_0008] = 0;
-                            var_s3++;
-                            soundIndex = SND_INDEX_62;
+                            mMain->mode = tbl_5517[select];
+                            mMain->depth++;
+                            mMain->select[mMain->depth] = 0;
+                            panelDir++;
+                            sound = SND_INDEX_62;
                         }
                         break;
 
                     default:
-                        menuMain->mode = tbl_5517[var_s2];
-                        menuMain->unk_0008++;
-                        menuMain->unk_000C[menuMain->unk_0008] = 0;
-                        var_s3++;
-                        soundIndex = SND_INDEX_62;
+                        mMain->mode = tbl_5517[select];
+                        mMain->depth++;
+                        mMain->select[mMain->depth] = 0;
+                        panelDir++;
+                        sound = SND_INDEX_62;
                         break;
                 }
 
-                if (sp34 == 0) {
-                    sp34--;
+                if (mesDir == 0) {
+                    mesDir--;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                if (menuMain->unk_31E4.miBase.colorStep < 0.0f) {
-                    _setFadeDir(menuMain->watchMenuRef, 1);
-                    _setNextMain(menuMain->watchMenuRef, MAIN_TITLE);
-                    soundIndex = SND_INDEX_68;
+            } else if (trg & B_BUTTON) {
+                if (mMain->message.miBase.colorStep < 0.0f) {
+                    _setFadeDir(mMain->global, 1);
+                    _setNextMain(mMain->global, MAIN_TITLE);
+                    sound = SND_INDEX_68;
                 }
-                sp34--;
-            } else if (keyTrg != 0) {
-                sp34--;
+                mesDir--;
+            } else if (trg != 0) {
+                mesDir--;
             }
             break;
 
         case MODE_PLAY1:
-            menuMain->unk_0030 = GMD_FLASH;
-            menuMain->unk_002C = _n_5535[var_s2];
+            mMain->screenDir = GMD_FLASH;
+            mMain->screenNo = _n_5535[select];
 
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                menuMain->unk_0030 = -1;
-                menuMain->mode = _mode_5538[var_s2];
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                mMain->screenDir = -1;
+                mMain->mode = _mode_5538[select];
 
-                switch (menuMain->mode) {
+                switch (mMain->mode) {
                     case MODE_VSCOM_FL_NS:
                         evs_gamemode = GMD_FLASH;
                         break;
@@ -5072,7 +5190,7 @@ void menuMain_input(MenuMain *menuMain) {
                         break;
                 }
 
-                switch (menuMain->mode) {
+                switch (mMain->mode) {
                     case MODE_STORY_NS:
                         evs_playcnt = 2;
                         evs_story_flg = 1;
@@ -5080,7 +5198,7 @@ void menuMain_input(MenuMain *menuMain) {
 
                         game_state_data[0].player_type = PLAYERTYPE_0;
                         game_state_data[1].player_type = PLAYERTYPE_1;
-                        var_s7++;
+                        nameSelDir++;
                         break;
 
                     case MODE_LVSEL_NS:
@@ -5093,7 +5211,7 @@ void menuMain_input(MenuMain *menuMain) {
                         game_state_data[0].player_no = 0;
                         game_state_data[0].player_type = PLAYERTYPE_0;
                         game_state_data[0].charNo = CHARANIMEMODE_M;
-                        var_s7++;
+                        nameSelDir++;
                         break;
 
                     case MODE_VSCOM_NS:
@@ -5104,31 +5222,31 @@ void menuMain_input(MenuMain *menuMain) {
 
                         game_state_data[0].player_type = PLAYERTYPE_0;
                         game_state_data[1].player_type = PLAYERTYPE_1;
-                        var_s7++;
+                        nameSelDir++;
                         break;
 
                     default:
                         break;
                 }
 
-                var_s3++;
-                soundIndex = SND_INDEX_62;
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->unk_0030 = -1;
-                menuMain->mode = MODE_MAIN;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_68;
+                panelDir++;
+                sound = SND_INDEX_62;
+            } else if (trg & B_BUTTON) {
+                mMain->screenDir = -1;
+                mMain->mode = MODE_MAIN;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_68;
             }
             break;
 
         case MODE_PLAY2:
-            menuMain->unk_002C = var_s2 + 6;
-            menuMain->unk_0030 = GMD_FLASH;
+            mMain->screenNo = select + 6;
+            mMain->screenDir = GMD_FLASH;
 
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                menuMain->unk_0030 = -1;
-                menuMain->mode = mode_5557[var_s2];
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                mMain->screenDir = -1;
+                mMain->mode = mode_5557[select];
                 evs_playcnt = 2;
                 evs_story_flg = 0;
                 evs_gamesel = GSL_2PLAY;
@@ -5136,11 +5254,11 @@ void menuMain_input(MenuMain *menuMain) {
                 game_state_data[0].player_type = PLAYERTYPE_0;
                 game_state_data[1].player_type = PLAYERTYPE_0;
 
-                var_s7++;
-                var_s3++;
-                soundIndex = SND_INDEX_62;
+                nameSelDir++;
+                panelDir++;
+                sound = SND_INDEX_62;
 
-                switch (menuMain->mode) {
+                switch (mMain->mode) {
                     case MODE_VSMAN_NS:
                         evs_gamemode = GMD_NORMAL;
                         break;
@@ -5156,54 +5274,55 @@ void menuMain_input(MenuMain *menuMain) {
                     default:
                         break;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->unk_0030 = -1;
-                menuMain->mode = MODE_MAIN;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_68;
+            } else if (trg & B_BUTTON) {
+                mMain->screenDir = -1;
+                mMain->mode = MODE_MAIN;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_68;
             }
             break;
-        case MODE_PLAY4:
-            menuMain->unk_002C = var_s2 + 0xC;
-            menuMain->unk_0030 = GMD_FLASH;
 
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
+        case MODE_PLAY4:
+            mMain->screenNo = select + 0xC;
+            mMain->screenDir = GMD_FLASH;
+
+            if (trg & (A_BUTTON | START_BUTTON)) {
                 evs_playmax = joyResponseCheck();
 
-                if (var_s2 < evs_playmax) {
-                    menuMain->mode = _mode_5570[var_s2];
-                    menuMain->unk_0030 = -1;
-                    menuMain->unk_0008++;
-                    menuMain->unk_000C[menuMain->unk_0008] = 0;
+                if (select < evs_playmax) {
+                    mMain->mode = _mode_5570[select];
+                    mMain->screenDir = -1;
+                    mMain->depth++;
+                    mMain->select[mMain->depth] = 0;
                     evs_playcnt = 4;
                     evs_story_flg = 0;
                     evs_gamesel = GSL_4PLAY;
                     evs_gamemode = GMD_NORMAL;
 
                     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
-                        game_state_data[i].player_type = var_s2 < i ? PLAYERTYPE_1 : PLAYERTYPE_0;
+                        game_state_data[i].player_type = select < i ? PLAYERTYPE_1 : PLAYERTYPE_0;
                     }
 
-                    var_s3++;
-                    sp34--;
-                    soundIndex = SND_INDEX_62;
+                    panelDir++;
+                    mesDir--;
+                    sound = SND_INDEX_62;
                 } else {
-                    menuMes_setStr(&menuMain->unk_31E4, mes_5577[var_s2 - 1]);
-                    sp34++;
-                    soundIndex = SND_INDEX_71;
+                    menuMes_setStr(&mMain->message, mes_5577[select - 1]);
+                    mesDir++;
+                    sound = SND_INDEX_71;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                if (menuMain->unk_31E4.miBase.colorStep < 0.0f) {
-                    menuMain->unk_0030 = -1;
-                    menuMain->mode = MODE_MAIN;
-                    menuMain->unk_0008--;
-                    var_s3++;
-                    soundIndex = SND_INDEX_68;
+            } else if (trg & B_BUTTON) {
+                if (mMain->message.miBase.colorStep < 0.0f) {
+                    mMain->screenDir = -1;
+                    mMain->mode = MODE_MAIN;
+                    mMain->depth--;
+                    panelDir++;
+                    sound = SND_INDEX_68;
                 }
-                sp34--;
-            } else if (keyTrg != 0) {
-                sp34--;
+                mesDir--;
+            } else if (trg != 0) {
+                mesDir--;
             }
             break;
 
@@ -5217,229 +5336,229 @@ void menuMain_input(MenuMain *menuMain) {
         case MODE_VSMAN_FL_NS:
         case MODE_VSMAN_TA_NS:
         case MODE_NAME_NS:
-            if (menuMain->unk_0D2C.unk_008 > 0) {
-                MainMenuMode var_s6;
+            if (mMain->nameSel.flow > 0) {
+                MainMenuMode mode;
                 s32 var_s4;
 
-                for (i = 0; i < menuMain->unk_0D2C.unk_004; i++) {
-                    evs_select_name_no[i] = menuMain->unk_0D2C.unk_014[i];
+                for (i = 0; i < mMain->nameSel.playerCount; i++) {
+                    evs_select_name_no[i] = mMain->nameSel.select[i];
                 }
 
                 for (i = 0; i < ARRAY_COUNT(evs_select_name_no); i++) {
-                    sp18[i] = 0;
+                    flow[i] = 0;
                     if (evs_select_name_no[i] != 8) {
-                        sp18[i] = 1;
+                        flow[i] = 1;
                         if (!(evs_mem_data[evs_select_name_no[i]].mem_use_flg & MEM_USE_FLG_1)) {
-                            sp18[i] = 2;
+                            flow[i] = 2;
                         }
                     }
                 }
 
-                var_s4 = MAX(sp18[0], sp18[1]);
+                var_s4 = MAX(flow[0], flow[1]);
 
-                switch (menuMain->mode) {
+                switch (mMain->mode) {
                     case MODE_STORY_NS:
-                        var_s6 = _tbl_5598[var_s4][0];
+                        mode = _tbl_5598[var_s4][0];
                         break;
 
                     case MODE_NAME_NS:
-                        var_s6 = _tbl_5598[var_s4][1];
+                        mode = _tbl_5598[var_s4][1];
                         break;
 
                     case MODE_LVSEL_NS:
-                        var_s6 = _tblLS_5599[var_s4][0];
+                        mode = _tblLS_5599[var_s4][0];
                         break;
 
                     case MODE_LVSEL_TQ_NS:
-                        var_s6 = _tblLS_5599[var_s4][1];
+                        mode = _tblLS_5599[var_s4][1];
                         break;
 
                     case MODE_LVSEL_TA_NS:
-                        var_s6 = _tblLS_5599[var_s4][2];
+                        mode = _tblLS_5599[var_s4][2];
                         break;
 
                     case MODE_VSMAN_NS:
-                        var_s6 = _tblVM_5600[var_s4][0];
+                        mode = _tblVM_5600[var_s4][0];
                         break;
 
                     case MODE_VSMAN_FL_NS:
-                        var_s6 = _tblVM_5600[var_s4][1];
+                        mode = _tblVM_5600[var_s4][1];
                         break;
 
                     case MODE_VSMAN_TA_NS:
-                        var_s6 = _tblVM_5600[var_s4][2];
+                        mode = _tblVM_5600[var_s4][2];
                         break;
 
                     case MODE_VSCOM_NS:
-                        var_s6 = _tblVC_5601[var_s4][0];
+                        mode = _tblVC_5601[var_s4][0];
                         break;
 
                     case MODE_VSCOM_FL_NS:
-                        var_s6 = _tblVC_5601[var_s4][1];
+                        mode = _tblVC_5601[var_s4][1];
                         break;
 
                     default:
                         break;
                 }
 
-                switch (var_s6) {
+                switch (mode) {
                     case MODE_OPTION:
-                        menuMain->mode = MODE_OPTION;
-                        var_s3++;
-                        var_s7--;
-                        soundIndex = SND_INDEX_68;
+                        mMain->mode = MODE_OPTION;
+                        panelDir++;
+                        nameSelDir--;
+                        sound = SND_INDEX_68;
                         break;
 
                     case MODE_NAME:
-                        menuMain->mode = MODE_NAME;
-                        menuMain->unk_17B4.unk_008 = 0;
-                        var_s7--;
-                        sp24++;
-                        soundIndex = SND_INDEX_62;
+                        mMain->mode = MODE_NAME;
+                        mMain->nameOp.select = 0;
+                        nameSelDir--;
+                        nameDir++;
+                        sound = SND_INDEX_62;
                         break;
 
                     default:
-                        _setMode(menuMain->watchMenuRef, var_s6);
-                        var_s3++;
-                        var_s7--;
-                        sp28--;
-                        sp2C--;
-                        soundIndex = SND_INDEX_62;
+                        _setMode(mMain->global, mode);
+                        panelDir++;
+                        nameSelDir--;
+                        wndDir--;
+                        kasaDir--;
+                        sound = SND_INDEX_62;
                         break;
                 }
 
-            } else if (menuMain->unk_0D2C.unk_008 < 0) {
-                switch (menuMain->mode) {
+            } else if (mMain->nameSel.flow < 0) {
+                switch (mMain->mode) {
                     case MODE_STORY_NS:
                     case MODE_LVSEL_NS:
                     case MODE_LVSEL_TQ_NS:
                     case MODE_LVSEL_TA_NS:
                     case MODE_VSCOM_NS:
                     case MODE_VSCOM_FL_NS:
-                        menuMain->mode = MODE_PLAY1;
+                        mMain->mode = MODE_PLAY1;
                         break;
 
                     case MODE_VSMAN_NS:
                     case MODE_VSMAN_FL_NS:
                     case MODE_VSMAN_TA_NS:
-                        menuMain->mode = MODE_PLAY2;
+                        mMain->mode = MODE_PLAY2;
                         break;
 
                     case MODE_NAME_NS:
-                        menuMain->mode = MODE_OPTION;
+                        mMain->mode = MODE_OPTION;
                         break;
 
                     default:
                         break;
                 }
 
-                var_s3++;
-                var_s7--;
-                soundIndex = SND_INDEX_68;
+                panelDir++;
+                nameSelDir--;
+                sound = SND_INDEX_68;
             }
             break;
 
         case MODE_OPTION:
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                menuMain->mode = tbl_5648[var_s2];
-                switch (menuMain->mode) {
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                mMain->mode = tbl_5648[select];
+                switch (mMain->mode) {
                     case MODE_NAME_NS:
-                        var_s3++;
-                        var_s7++;
-                        soundIndex = SND_INDEX_62;
+                        panelDir++;
+                        nameSelDir++;
+                        sound = SND_INDEX_62;
                         break;
 
                     case MODE_RECORD_MS:
                     case MODE_TUTORIAL:
                     case MODE_BACKUP:
                     case MODE_MISC:
-                        menuMain->unk_0008++;
-                        menuMain->unk_000C[menuMain->unk_0008] = 0;
-                        var_s3++;
-                        soundIndex = SND_INDEX_62;
+                        mMain->depth++;
+                        mMain->select[mMain->depth] = 0;
+                        panelDir++;
+                        sound = SND_INDEX_62;
                         break;
 
                     default:
                         break;
                 }
 
-                switch (menuMain->mode) {
+                switch (mMain->mode) {
                     case MODE_RECORD_MS:
                         dm_seq_play_fade(SEQ_INDEX_13, 0x14);
                         break;
 
                     case MODE_COUNT:
-                        menuMain->unk_000C[menuMain->unk_0008] = 3 - evs_vs_count;
+                        mMain->select[mMain->depth] = 3 - evs_vs_count;
                         break;
 
                     default:
                         break;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_MAIN;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_68;
+            } else if (trg & B_BUTTON) {
+                mMain->mode = MODE_MAIN;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_68;
             }
             break;
 
         case MODE_MISC:
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                menuMain->mode = tbl_5664[var_s2];
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                mMain->mode = tbl_5664[select];
 
                 // switch?
-                switch (menuMain->mode) {
+                switch (mMain->mode) {
                     case MODE_SOUND:
-                        menuMain->unk_1C64.unk_004 = evs_stereo == 0;
-                        var_s3++;
-                        sp38++;
-                        soundIndex = SND_INDEX_62;
+                        mMain->sndSel.select = evs_stereo == 0;
+                        panelDir++;
+                        sndSelDir++;
+                        sound = SND_INDEX_62;
                         break;
 
                     case MODE_COUNT:
                     case MODE_SCORE:
-                        menuMain->unk_0008++;
-                        menuMain->unk_000C[menuMain->unk_0008] = 0;
-                        var_s3++;
-                        soundIndex = SND_INDEX_62;
+                        mMain->depth++;
+                        mMain->select[mMain->depth] = 0;
+                        panelDir++;
+                        sound = SND_INDEX_62;
                         break;
 
                     default:
                         break;
                 }
 
-                switch (menuMain->mode) {
+                switch (mMain->mode) {
                     case MODE_COUNT:
-                        menuMain->unk_000C[menuMain->unk_0008] = 3 - evs_vs_count;
+                        mMain->select[mMain->depth] = 3 - evs_vs_count;
                         break;
                     case MODE_SCORE:
-                        menuMain->unk_000C[menuMain->unk_0008] = evs_score_flag == 0;
+                        mMain->select[mMain->depth] = evs_score_flag == 0;
                         break;
 
                     default:
                         break;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                _eepWritePlayer(menuMain->watchMenuRef);
-                menuMain->mode = MODE_OPTION;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_68;
+            } else if (trg & B_BUTTON) {
+                _eepWritePlayer(mMain->global);
+                mMain->mode = MODE_OPTION;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_68;
             }
             break;
 
         case MODE_SCORE:
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                evs_score_flag = var_s2 == 0;
-                menuMain->mode = MODE_MISC;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_62;
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_MISC;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_68;
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                evs_score_flag = select == 0;
+                mMain->mode = MODE_MISC;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_62;
+            } else if (trg & B_BUTTON) {
+                mMain->mode = MODE_MISC;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_68;
             }
             break;
 
@@ -5447,281 +5566,282 @@ void menuMain_input(MenuMain *menuMain) {
         case MODE_PLAY4_TYPE2:
         case MODE_PLAY4_TYPE3:
         case MODE_PLAY4_TYPE4:
-            menuMain->unk_002C = var_s2 + 9;
-            menuMain->unk_0030 = GMD_FLASH;
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                for (i = 0; i < ARRAY_COUNTU(_team_5687[var_s2]); i++) {
-                    game_state_data[i].team_no = _team_5687[var_s2][i];
+            mMain->screenNo = select + 9;
+            mMain->screenDir = GMD_FLASH;
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                for (i = 0; i < ARRAY_COUNTU(_team_5687[select]); i++) {
+                    game_state_data[i].team_no = _team_5687[select][i];
                 }
 
-                evs_gamemode = _game_5689[var_s2];
-                var_s3++;
-                sp28--;
-                sp2C--;
-                soundIndex = SND_INDEX_62;
-                menuMain->unk_0030 = -1;
-                _setMode(menuMain->watchMenuRef, _mode_5688[var_s2]);
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->unk_0030 = -1;
-                menuMain->mode = MODE_PLAY4;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_68;
+                evs_gamemode = _game_5689[select];
+                panelDir++;
+                wndDir--;
+                kasaDir--;
+                sound = SND_INDEX_62;
+                mMain->screenDir = -1;
+                _setMode(mMain->global, _mode_5688[select]);
+            } else if (trg & B_BUTTON) {
+                mMain->screenDir = -1;
+                mMain->mode = MODE_PLAY4;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_68;
             }
             break;
 
         case MODE_RECORD_MS:
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                menuMain->mode = _mode_5701[var_s2];
-                menuMain->unk_0008++;
-                menuMain->unk_000C[menuMain->unk_0008] = 0;
-                var_s3++;
-                soundIndex = SND_INDEX_62;
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_OPTION;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_68;
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                mMain->mode = _mode_5701[select];
+                mMain->depth++;
+                mMain->select[mMain->depth] = 0;
+                panelDir++;
+                sound = SND_INDEX_62;
+            } else if (trg & B_BUTTON) {
+                mMain->mode = MODE_OPTION;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_68;
                 dm_seq_play_fade(SEQ_INDEX_12, 0x14);
             }
             break;
 
         case MODE_RECORD_PLAY1:
         case MODE_RECORD_PLAY2:
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                const MainMenuMode *var_v0_3;
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                const MainMenuMode *modes;
 
-                if (menuMain->mode == MODE_RECORD_PLAY1) {
-                    var_v0_3 = _mode1_5709;
+                if (mMain->mode == MODE_RECORD_PLAY1) {
+                    modes = _mode1_5709;
                 } else {
-                    var_v0_3 = _mode2_5710;
+                    modes = _mode2_5710;
                 }
-                _setMode(menuMain->watchMenuRef, var_v0_3[var_s2]);
-                var_s3++;
-                sp28--;
-                sp2C--;
-                soundIndex = SND_INDEX_62;
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_RECORD_MS;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_68;
+                _setMode(mMain->global, modes[select]);
+                panelDir++;
+                wndDir--;
+                kasaDir--;
+                sound = SND_INDEX_62;
+            } else if (trg & B_BUTTON) {
+                mMain->mode = MODE_RECORD_MS;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_68;
             }
             break;
 
         case MODE_TUTORIAL:
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                if (var_s2 == 0) {
-                    menuMain->mode = MODE_CONT;
-                    var_s3++;
-                    sp28--;
-                    sp30++;
-                    soundIndex = SND_INDEX_62;
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                if (select == 0) {
+                    mMain->mode = MODE_CONT;
+                    panelDir++;
+                    wndDir--;
+                    contDir++;
+                    sound = SND_INDEX_62;
                 } else {
-                    _setFadeDir(menuMain->watchMenuRef, 1);
-                    _setNextMain(menuMain->watchMenuRef, MAIN_MANUAL);
-                    evs_manual_no = var_s2 - 1;
-                    soundIndex = SND_INDEX_62;
+                    _setFadeDir(mMain->global, 1);
+                    _setNextMain(mMain->global, MAIN_MANUAL);
+                    evs_manual_no = select - 1;
+                    sound = SND_INDEX_62;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_OPTION;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_68;
+            } else if (trg & B_BUTTON) {
+                mMain->mode = MODE_OPTION;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_68;
             }
             break;
 
         case MODE_COUNT:
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                evs_vs_count = 3 - var_s2;
-                menuMain->mode = MODE_MISC;
-                menuMain->unk_0008--;
-                var_s3++;
-                sp38--;
-                soundIndex = SND_INDEX_62;
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_MISC;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_68;
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                evs_vs_count = 3 - select;
+                mMain->mode = MODE_MISC;
+                mMain->depth--;
+                panelDir++;
+                sndSelDir--;
+                sound = SND_INDEX_62;
+            } else if (trg & B_BUTTON) {
+                mMain->mode = MODE_MISC;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_68;
             }
             break;
 
         case MODE_CONT:
-            menuCont_setFade(&menuMain->unk_2658, 1, menuMain->unk_2658.miLabel[0].colorTime);
-            if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_TUTORIAL;
-                var_s3++;
-                sp28++;
-                sp30--;
-                soundIndex = SND_INDEX_68;
+            menuCont_setFade(&mMain->cont, 1, mMain->cont.miLabel[0].colorTime);
+            if (trg & B_BUTTON) {
+                mMain->mode = MODE_TUTORIAL;
+                panelDir++;
+                wndDir++;
+                contDir--;
+                sound = SND_INDEX_68;
             }
             break;
 
         case MODE_NAME:
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                switch (tbl_5735[var_s2]) {
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                switch (tbl_5735[select]) {
                     case MODE_NAME_NE2:
-                        _setMode(menuMain->watchMenuRef, MODE_NAME_NE2);
-                        var_s3++;
-                        sp28--;
-                        sp2C--;
-                        sp24--;
-                        soundIndex = SND_INDEX_62;
+                        _setMode(mMain->global, MODE_NAME_NE2);
+                        panelDir++;
+                        wndDir--;
+                        kasaDir--;
+                        nameDir--;
+                        sound = SND_INDEX_62;
                         break;
 
                     case MODE_NAME_DEL_YN:
-                        menuMain->mode = MODE_NAME_DEL_YN;
-                        menuMain->unk_17B4.unk_250.flags.finger = false;
-                        menuMain->unk_2B6C.select = 0;
-                        var_fp++;
-                        soundIndex = SND_INDEX_62;
+                        mMain->mode = MODE_NAME_DEL_YN;
+                        mMain->nameOp.cursor.flags.finger = false;
+                        mMain->yesNo.select = 0;
+                        ynDir++;
+                        sound = SND_INDEX_62;
                         break;
 
                     default:
                         break;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_NAME_NS;
-                var_s7++;
-                sp24--;
-                soundIndex = SND_INDEX_68;
+            } else if (trg & B_BUTTON) {
+                mMain->mode = MODE_NAME_NS;
+                nameSelDir++;
+                nameDir--;
+                sound = SND_INDEX_68;
             }
             break;
 
         case MODE_SOUND:
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                switch (var_s2) {
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                switch (select) {
                     case 0:
                     case 1:
-                        evs_stereo = var_s2 == 0 ? true : false;
+                        evs_stereo = select == 0 ? true : false;
                         dm_audio_set_stereo(evs_stereo);
-                        menuMain->mode = MODE_MISC;
-                        var_s3++;
-                        sp38--;
-                        soundIndex = SND_INDEX_62;
-                        if (menuMain->unk_0034 != SEQ_INDEX_12) {
+                        mMain->mode = MODE_MISC;
+                        panelDir++;
+                        sndSelDir--;
+                        sound = SND_INDEX_62;
+                        if (mMain->playSeqNo != SEQ_INDEX_12) {
                             dm_seq_play_fade(SEQ_INDEX_12, 0x14);
-                            menuMain->unk_0034 = SEQ_INDEX_12;
+                            mMain->playSeqNo = SEQ_INDEX_12;
                         }
                         break;
 
                     case 0x2:
-                        dm_seq_play_fade(menuMain->unk_1C64.unk_008, 0x14);
-                        menuMain->unk_0034 = menuMain->unk_1C64.unk_008;
+                        dm_seq_play_fade(mMain->sndSel.bgmNo, 0x14);
+                        mMain->playSeqNo = mMain->sndSel.bgmNo;
                         break;
 
                     case 0x3:
-                        dm_snd_play(menuMain->unk_1C64.unk_010);
+                        dm_snd_play(mMain->sndSel.sndNo);
                         break;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_MISC;
-                var_s3++;
-                sp38--;
-                soundIndex = SND_INDEX_68;
-                if (menuMain->unk_0034 != SEQ_INDEX_12) {
+            } else if (trg & B_BUTTON) {
+                mMain->mode = MODE_MISC;
+                panelDir++;
+                sndSelDir--;
+                sound = SND_INDEX_68;
+                if (mMain->playSeqNo != SEQ_INDEX_12) {
                     dm_seq_play_fade(SEQ_INDEX_12, 0x14);
-                    menuMain->unk_0034 = SEQ_INDEX_12;
+                    mMain->playSeqNo = SEQ_INDEX_12;
                 }
             }
             break;
 
         case MODE_NAME_DEL_YN:
-            menuMain->unk_2B6C.cursor.flags.finger = true;
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                switch (var_s2) {
+            mMain->yesNo.cursor.flags.finger = true;
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                switch (select) {
                     case 0x0:
-                        menuMain->mode = MODE_NAME_NS;
-                        sp24--;
-                        var_s7++;
-                        var_fp--;
-                        soundIndex = SND_INDEX_68;
+                        mMain->mode = MODE_NAME_NS;
+                        nameDir--;
+                        nameSelDir++;
+                        ynDir--;
+                        sound = SND_INDEX_68;
                         break;
 
                     case 0x1:
                         dm_init_save_mem(&evs_mem_data[evs_select_name_no[0]]);
-                        _eepErasePlayer(menuMain->watchMenuRef);
-                        menuMain->mode = MODE_NAME_DEL_MES;
-                        menuMain->unk_2B6C.cursor.flags.finger = false;
-                        soundIndex = SND_INDEX_70;
+                        _eepErasePlayer(mMain->global);
+                        mMain->mode = MODE_NAME_DEL_MES;
+                        mMain->yesNo.cursor.flags.finger = false;
+                        sound = SND_INDEX_70;
                         break;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_NAME;
-                menuMain->unk_17B4.unk_250.flags.finger = true;
-                var_fp--;
+            } else if (trg & B_BUTTON) {
+                mMain->mode = MODE_NAME;
+                mMain->nameOp.cursor.flags.finger = true;
+                ynDir--;
             }
             break;
 
         case MODE_NAME_DEL_MES:
-            if (keyTrg & ANY_BUTTON) {
-                menuMain->mode = MODE_NAME_NS;
-                sp24--;
-                var_s7++;
-                var_fp--;
-                soundIndex = SND_INDEX_62;
+            if (trg & ANY_BUTTON) {
+                mMain->mode = MODE_NAME_NS;
+                nameDir--;
+                nameSelDir++;
+                ynDir--;
+                sound = SND_INDEX_62;
             }
             break;
+
         case MODE_BACKUP:
-            sp20->cursor.flags.finger = true;
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                switch (var_s2) {
+            panel->cursor.flags.finger = true;
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                switch (select) {
                     case 0x0:
-                        menuMain->mode = MODE_OPTION;
-                        menuMain->unk_0008--;
-                        var_s3++;
-                        soundIndex = SND_INDEX_68;
+                        mMain->mode = MODE_OPTION;
+                        mMain->depth--;
+                        panelDir++;
+                        sound = SND_INDEX_68;
                         break;
 
                     case 0x1:
-                        menuMain->mode = MODE_BACKUP_YN;
-                        menuMain->unk_2B6C.select = 0;
-                        sp20->cursor.flags.finger = false;
-                        var_fp++;
-                        soundIndex = SND_INDEX_62;
+                        mMain->mode = MODE_BACKUP_YN;
+                        mMain->yesNo.select = 0;
+                        panel->cursor.flags.finger = false;
+                        ynDir++;
+                        sound = SND_INDEX_62;
                         break;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_OPTION;
-                menuMain->unk_0008--;
-                var_s3++;
-                soundIndex = SND_INDEX_68;
+            } else if (trg & B_BUTTON) {
+                mMain->mode = MODE_OPTION;
+                mMain->depth--;
+                panelDir++;
+                sound = SND_INDEX_68;
             }
             break;
 
         case MODE_BACKUP_YN:
-            menuMain->unk_2B6C.cursor.flags.finger = true;
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                switch (var_s2) {
+            mMain->yesNo.cursor.flags.finger = true;
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                switch (select) {
                     case 0x0:
-                        menuMain->mode = MODE_OPTION;
-                        menuMain->unk_0008--;
-                        var_fp--;
-                        var_s3++;
-                        soundIndex = SND_INDEX_68;
+                        mMain->mode = MODE_OPTION;
+                        mMain->depth--;
+                        ynDir--;
+                        panelDir++;
+                        sound = SND_INDEX_68;
                         break;
 
                     case 0x1:
-                        _eepEraseData(menuMain->watchMenuRef);
-                        menuMain->mode = MODE_BACKUP_MES;
-                        menuMain->unk_2B6C.cursor.flags.finger = false;
-                        soundIndex = SND_INDEX_70;
+                        _eepEraseData(mMain->global);
+                        mMain->mode = MODE_BACKUP_MES;
+                        mMain->yesNo.cursor.flags.finger = false;
+                        sound = SND_INDEX_70;
                         break;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                menuMain->mode = MODE_BACKUP;
-                var_fp--;
-                soundIndex = SND_INDEX_68;
+            } else if (trg & B_BUTTON) {
+                mMain->mode = MODE_BACKUP;
+                ynDir--;
+                sound = SND_INDEX_68;
             }
             break;
         case MODE_BACKUP_MES:
-            if (keyTrg & ANY_BUTTON) {
-                menuMain->mode = MODE_OPTION;
-                menuMain->unk_0008--;
-                var_fp--;
-                var_s3++;
-                soundIndex = SND_INDEX_62;
+            if (trg & ANY_BUTTON) {
+                mMain->mode = MODE_OPTION;
+                mMain->depth--;
+                ynDir--;
+                panelDir++;
+                sound = SND_INDEX_62;
             }
             break;
 
@@ -5729,141 +5849,144 @@ void menuMain_input(MenuMain *menuMain) {
             break;
     }
 
-    if (sp28 != 0) {
-        menuItem_setTransDir(&menuMain->unk_2388, sp28);
+    if (wndDir != 0) {
+        menuItem_setTransDir(&mMain->miMsgWnd, wndDir);
     }
-    if (sp2C != 0) {
-        menuItem_setTransDir(&menuMain->unk_2418, sp2C);
+    if (kasaDir != 0) {
+        menuItem_setTransDir(&mMain->miKaSaMaRu, kasaDir);
     }
-    if (var_fp != 0) {
-        menuYN_setFadeDir(&menuMain->unk_2B6C, var_fp);
+    if (ynDir != 0) {
+        menuYN_setFadeDir(&mMain->yesNo, ynDir);
     }
-    if (sp34 != 0) {
-        menuMes_setFadeDir(&menuMain->unk_31E4, sp34);
+    if (mesDir != 0) {
+        menuMes_setFadeDir(&mMain->message, mesDir);
     }
-    if (sp30 < 0) {
-        menuCont_setFade(&menuMain->unk_2658, -1, 1.0f);
-        menuCont_setFrame(&menuMain->unk_2658, -1, menuMain->unk_2658.miBase.transTime);
+    if (contDir < 0) {
+        menuCont_setFade(&mMain->cont, -1, 1.0f);
+        menuCont_setFrame(&mMain->cont, -1, mMain->cont.miBase.transTime);
     }
-    if (sp24 < 0) {
-        func_8004C820(&menuMain->unk_17B4, -1, 1.0f);
+    if (nameDir < 0) {
+        menuNameOpPanel_setFrame(&mMain->nameOp, -1, 1.0f);
     }
-    if (var_s7 < 0) {
-        func_8004BB14(&menuMain->unk_0D2C, -1, menuMain->unk_0D2C.unk_028.transTime);
+    if (nameSelDir < 0) {
+        menuNameSelPanel_setFrame(&mMain->nameSel, -1, mMain->nameSel.miBase.transTime);
     }
-    if (sp38 < 0) {
-        func_8004CCD0(&menuMain->unk_1C64, -1, menuMain->unk_1C64.unk_014.transTime);
+    if (sndSelDir < 0) {
+        menuSndSelPanel_setFrame(&mMain->sndSel, -1, mMain->sndSel.miBase.transTime);
     }
-    if (var_s3 != 0) {
-        menuMainPanel_setFrame(sp20, -1, sp20->miBase.transTime);
-        menuMain->unk_2300 ^= 1;
-        sp20 = &menuMain->unk_003C[menuMain->unk_2300];
+    if (panelDir != 0) {
+        menuMainPanel_setFrame(panel, -1, panel->miBase.transTime);
+        mMain->current ^= 1;
+        panel = &mMain->panel[mMain->current];
     }
 
-    if (menuMain->mode != _menuMain_lastMode) {
-        if (sp30 > 0) {
-            menuCont_setFrame(&menuMain->unk_2658, 1, menuMain->unk_2658.miBase.transTime);
-        } else if (sp24 > 0) {
-            bcopy(evs_mem_data[evs_select_name_no[0]].mem_name, menuMain->unk_17B4.unk_00C, MENUNAMEOPPANEL_UNK_LEN);
-            func_8004C820(&menuMain->unk_17B4, 1, 0.0f);
-        } else if (sp38 > 0) {
-            func_8004CCD0(&menuMain->unk_1C64, 1, menuMain->unk_1C64.unk_014.transTime);
-        } else if (var_s7 > 0) {
-            s32 var_a2_8 = 1;
-            f32 temp_fs0 = menuMain->unk_0D2C.unk_028.transTime;
+    if (mMain->mode != _menuMain_lastMode) {
+        if (contDir > 0) {
+            menuCont_setFrame(&mMain->cont, 1, mMain->cont.miBase.transTime);
+        } else if (nameDir > 0) {
+            bcopy(evs_mem_data[evs_select_name_no[0]].mem_name, mMain->nameOp.name, MENUNAMEOPPANEL_NAME_LEN);
+            menuNameOpPanel_setFrame(&mMain->nameOp, 1, 0.0f);
+        } else if (sndSelDir > 0) {
+            menuSndSelPanel_setFrame(&mMain->sndSel, 1, mMain->sndSel.miBase.transTime);
+        } else if (nameSelDir > 0) {
+            s32 playerCount = 1;
+            f32 time = mMain->nameSel.miBase.transTime;
 
-            switch (menuMain->mode) {
+            switch (mMain->mode) {
                 case MODE_VSMAN_NS:
                 case MODE_VSMAN_FL_NS:
                 case MODE_VSMAN_TA_NS:
-                    var_a2_8 = 2;
+                    playerCount = 2;
                     break;
 
                 default:
                     break;
             }
 
-            menuNameSelPanel_clear(&menuMain->unk_0D2C, menuMain->mode != MODE_NAME_NS, var_a2_8);
-            func_8004BB14(&menuMain->unk_0D2C, 1, temp_fs0);
-        } else if (var_s3 != 0) {
-            f32 temp_fs0_2 = sp20->miBase.transTime;
+            menuNameSelPanel_clear(&mMain->nameSel, mMain->mode != MODE_NAME_NS, playerCount);
+            menuNameSelPanel_setFrame(&mMain->nameSel, 1, time);
+        } else if (panelDir != 0) {
+            f32 time = panel->miBase.transTime;
 
-            menuMain_initPanel(menuMain, menuMain->mode, menuMain->unk_2300, menuMain->unk_000C[menuMain->unk_0008]);
-            menuMainPanel_setFrame(sp20, 1, temp_fs0_2);
+            menuMain_initPanel(mMain, mMain->mode, mMain->current, mMain->select[mMain->depth]);
+            menuMainPanel_setFrame(panel, 1, time);
         }
     }
 
-    _menuMain_lastMode = menuMain->mode;
-    _menuMain_lastDepth = menuMain->unk_0008;
+    _menuMain_lastMode = mMain->mode;
+    _menuMain_lastDepth = mMain->depth;
     for (i = 0; i < ARRAY_COUNTU(_menuMain_lastSelect); i++) {
-        _menuMain_lastSelect[i] = menuMain->unk_000C[i];
+        _menuMain_lastSelect[i] = mMain->select[i];
     }
 
-    SND_PLAY_INDEX(soundIndex);
+    SND_PLAY_INDEX(sound);
 }
 
-void menuMain_update(MenuMain *menuMain) {
-    MenuMainPanel *temp_s5 = &menuMain->unk_003C[menuMain->unk_2300];
-    SMenuItem *rootItem = _getRootItem(menuMain->watchMenuRef);
+/**
+ * Original name: menuMain_update
+ */
+void menuMain_update(MenuMain *mMain) {
+    MenuMainPanel *panel = &mMain->panel[mMain->current];
+    SMenuItem *miRoot = _getRootItem(mMain->global);
     SMenuItem *item;
     s32 i;
 
-    for (i = 0; i < ARRAY_COUNTU(menuMain->unk_003C); i++) {
-        func_8004B98C(&menuMain->unk_003C[i], rootItem);
+    for (i = 0; i < ARRAY_COUNTU(mMain->panel); i++) {
+        menuMainPanel_update(&mMain->panel[i], miRoot);
     }
 
-    menuNameSelPanel_update(&menuMain->unk_0D2C, rootItem);
-    func_8004CA30(&menuMain->unk_17B4, rootItem);
-    func_8004CFB8(&menuMain->unk_1C64, rootItem);
-    menuItem_update(&menuMain->unk_2388, rootItem);
+    menuNameSelPanel_update(&mMain->nameSel, miRoot);
+    menuNameOpPanel_update(&mMain->nameOp, miRoot);
+    menuSndSelPanel_update(&mMain->sndSel, miRoot);
+    menuItem_update(&mMain->miMsgWnd, miRoot);
 
-    item = &menuMain->unk_2388;
-    menuMain->msgWnd.posX = item->trans[0] + item->scale[0] * 6;
-    menuMain->msgWnd.posY = item->trans[1] + item->scale[1] * 6;
+    item = &mMain->miMsgWnd;
+    mMain->msgWnd.posX = item->trans[0] + item->scale[0] * 6;
+    mMain->msgWnd.posY = item->trans[1] + item->scale[1] * 6;
 
-    if (!menuMain_setMsgStr(menuMain, menuMain->mode, menuMain->unk_000C[menuMain->unk_0008])) {
-        msgWnd_update(&menuMain->msgWnd);
+    if (!menuMain_setMsgStr(mMain, mMain->mode, mMain->select[mMain->depth])) {
+        msgWnd_update(&mMain->msgWnd);
     }
 
-    menuItem_update(&menuMain->unk_2418, rootItem);
-    menuItem_setTransDir(&menuMain->unk_2538, menuMain->unk_0030);
-    menuItem_setScaleDir(&menuMain->unk_2538, menuMain->unk_0030);
-    menuItem_update(&menuMain->unk_2538, &menuMain->unk_2418);
-    menuItem_update(&menuMain->unk_24A8, &menuMain->unk_2538);
-    menuItem_update(&menuMain->unk_25C8, &menuMain->unk_2538);
+    menuItem_update(&mMain->miKaSaMaRu, miRoot);
+    menuItem_setTransDir(&mMain->miScrWnd, mMain->screenDir);
+    menuItem_setScaleDir(&mMain->miScrWnd, mMain->screenDir);
+    menuItem_update(&mMain->miScrWnd, &mMain->miKaSaMaRu);
+    menuItem_update(&mMain->miSmoke, &mMain->miScrWnd);
+    menuItem_update(&mMain->miScreen, &mMain->miScrWnd);
 
-    for (i = 0; i < ARRAY_COUNTU(menuMain->unk_25C8.color); i++) {
-        menuMain->unk_25C8.color[i] = rootItem->color[i];
+    for (i = 0; i < ARRAY_COUNTU(mMain->miScreen.color); i++) {
+        mMain->miScreen.color[i] = miRoot->color[i];
     }
 
-    menuCont_update(&menuMain->unk_2658, rootItem);
+    menuCont_update(&mMain->cont, miRoot);
 
-    menuMain->unk_0038 = WrapF(0.0f, 1.0f, menuMain->unk_0038 + DOUBLE_LITERAL(1.0 / 128));
+    mMain->kasaCount = WrapF(0.0f, 1.0f, mMain->kasaCount + DOUBLE_LITERAL(1.0 / 128));
 
-    menuYN_update(&menuMain->unk_2B6C, rootItem);
-    menuMes_update(&menuMain->unk_31E4, rootItem);
-    menuMain->unk_17B4.unk_250.flags.blink = true;
-    temp_s5->cursor.flags.blink = true;
+    menuYN_update(&mMain->yesNo, miRoot);
+    menuMes_update(&mMain->message, miRoot);
+    mMain->nameOp.cursor.flags.blink = true;
+    panel->cursor.flags.blink = true;
 
-    switch (menuMain->mode) {
+    switch (mMain->mode) {
         case MODE_NAME_DEL_YN:
         case MODE_NAME_DEL_MES:
-            menuMain->unk_17B4.unk_250.flags.blink = false;
+            mMain->nameOp.cursor.flags.blink = false;
             break;
 
         case MODE_BACKUP_YN:
         case MODE_BACKUP_MES:
-            temp_s5->cursor.flags.blink = false;
+            panel->cursor.flags.blink = false;
             break;
 
         default:
             break;
     }
 
-    switch (menuMain->mode) {
+    switch (mMain->mode) {
         case MODE_NAME_DEL_MES:
         case MODE_BACKUP_MES:
-            menuMain->unk_2B6C.cursor.flags.blink = false;
+            mMain->yesNo.cursor.flags.blink = false;
             break;
 
         default:
@@ -5875,23 +5998,26 @@ const s32 _pat_6137[] = {
     0, 1, 2, 3, 2, 1,
 };
 
-void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
+/**
+ * Original name: menuMain_update
+ */
+void menuMain_drawKaSaMaRu(MenuMain *mMain, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    Mtx *mtx = *_getMtxPtr(menuMain->watchMenuRef);
-    Vtx *vtx = *_getVtxPtr(menuMain->watchMenuRef);
-    f32 temp_fs2 = menuMain->unk_2538.scaleTime * 3.0f;
+    Mtx *mtx = *_getMtxPtr(mMain->global);
+    Vtx *vtx = *_getVtxPtr(mMain->global);
     SMenuItem *item;
+    TiTexData *texC;
+    TiTexData *texA;
     s32 i;
-    s32 var_s5;
-    s32 var_s1_3;
-    TiTexData *var_s3;
-    TiTexData *temp_v0_2;
-    f32 sp48[4][4];
-    f32 sp88[3];
-    s32 temp;
+    s32 width;
+    s32 height;
+    s32 size;
+    f32 mfRot[4][4];
+    f32 amp = mMain->miScrWnd.scaleTime * 3.0f;
+    f32 angle[3];
 
-    for (i = 0; i < ARRAY_COUNTU(sp88); i++) {
-        sp88[i] = WrapF(0.0f, 1.0f, menuMain->unk_0038 - (i * DOUBLE_LITERAL(0.125))) * DOUBLE_LITERAL(M_PI) * 2;
+    for (i = 0; i < ARRAY_COUNTU(angle); i++) {
+        angle[i] = WrapF(0.0f, 1.0f, mMain->kasaCount - (i * DOUBLE_LITERAL(0.125))) * DOUBLE_LITERAL(M_PI) * 2;
     }
 
     guOrtho(mtx, 0.0f, SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f, 1.0f, 10.0f, 1.0f);
@@ -5909,107 +6035,106 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
                                     G_TEXTURE_GEN_LINEAR | G_LOD | G_SHADING_SMOOTH | G_CLIPPING);
     gDPSetTexturePersp(gfx++, G_TP_NONE);
 
-    guRotateRPYF(sp48, 0.0f, 0.0f, sinf(sp88[0]) * (1.0f - menuMain->unk_2538.scaleTime) * 4.0f);
+    guRotateRPYF(mfRot, 0.0f, 0.0f, sinf(angle[0]) * (1.0f - mMain->miScrWnd.scaleTime) * 4.0f);
 
-    i = WrapI(0, 6, menuMain->unk_0038 * 6.0f * 12.0f);
-    if (!msgWnd_isSpeaking(&menuMain->msgWnd)) {
+    i = WrapI(0, 6, mMain->kasaCount * 6.0f * 12.0f);
+    if (!msgWnd_isSpeaking(&mMain->msgWnd)) {
         i = 0;
     }
 
-    item = &menuMain->unk_2418;
+    item = &mMain->miKaSaMaRu;
 
-    var_s3 = _getTexKasa(menuMain->watchMenuRef, _pat_6137[i] + 1);
-    temp_v0_2 = _getTexKasa(menuMain->watchMenuRef, 0);
+    texC = _getTexKasa(mMain->global, _pat_6137[i] + 1);
+    texA = _getTexKasa(mMain->global, 0);
 
-    var_s5 = MIN(var_s3->info[TI_INFO_IDX_WIDTH], temp_v0_2->info[TI_INFO_IDX_WIDTH]);
-    var_s1_3 = MIN(var_s3->info[TI_INFO_IDX_HEIGHT], temp_v0_2->info[TI_INFO_IDX_HEIGHT]);
+    width = MIN(texC->info[TI_INFO_IDX_WIDTH], texA->info[TI_INFO_IDX_WIDTH]);
+    height = MIN(texC->info[TI_INFO_IDX_HEIGHT], texA->info[TI_INFO_IDX_HEIGHT]);
 
-    if (!menuItem_outOfScreen(item, var_s5, var_s1_3)) {
+    if (!menuItem_outOfScreen(item, width, height)) {
         gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
 
         menuItem_setPrim(item, &gfx);
-        sp48[3][0] = item->trans[0];
-        sp48[3][1] = item->trans[1] + (sinf(sp88[0]) * temp_fs2);
-        guMtxF2L(sp48, mtx);
+        mfRot[3][0] = item->trans[0];
+        mfRot[3][1] = item->trans[1] + (sinf(angle[0]) * amp);
+        guMtxF2L(mfRot, mtx);
 
         gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx++;
 
-        RectAlphaTexTile(&gfx, &vtx, var_s5, var_s1_3, var_s3->texs[TI_TEX_TEX], var_s3->info[TI_INFO_IDX_WIDTH],
-                         temp_v0_2->texs[TI_TEX_TEX], temp_v0_2->info[TI_INFO_IDX_WIDTH], 0, 0, var_s5, var_s1_3, 0.0f,
-                         0.0f, var_s5, var_s1_3);
+        RectAlphaTexTile(&gfx, &vtx, width, height, texC->texs[TI_TEX_TEX], texC->info[TI_INFO_IDX_WIDTH],
+                         texA->texs[TI_TEX_TEX], texA->info[TI_INFO_IDX_WIDTH], 0, 0, width, height, 0.0f, 0.0f, width,
+                         height);
     }
 
-    item = &menuMain->unk_25C8;
-    if (menuMain->unk_002C < 0xC) {
-        var_s3 = _getTexMain(menuMain->watchMenuRef, 0);
-        i = menuMain->unk_002C;
-        temp = 12;
+    item = &mMain->miScreen;
+    if (mMain->screenNo < 0xC) {
+        texC = _getTexMain(mMain->global, 0);
+        i = mMain->screenNo;
+        size = 12;
     } else {
 #if VERSION_CN
         goto end;
 #else
-        var_s3 = _getTexMain(menuMain->watchMenuRef, 8);
-        i = menuMain->unk_002C - 0xC;
-        temp = 4;
+        texC = _getTexMain(mMain->global, 8);
+        i = mMain->screenNo - 0xC;
+        size = 4;
 #endif
     }
 
-    var_s5 = var_s3->info[TI_INFO_IDX_WIDTH];
-    var_s1_3 = var_s3->info[TI_INFO_IDX_HEIGHT] / temp;
+    width = texC->info[TI_INFO_IDX_WIDTH];
+    height = texC->info[TI_INFO_IDX_HEIGHT] / size;
 
-    if (!menuItem_outOfScreen(item, var_s3->info[TI_INFO_IDX_WIDTH], var_s3->info[TI_INFO_IDX_HEIGHT])) {
+    if (!menuItem_outOfScreen(item, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT])) {
         gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
         menuItem_setPrim(item, &gfx);
-        sp48[3][0] = item->trans[0];
-        sp48[3][1] = item->trans[1] + (sinf(sp88[2]) * temp_fs2);
-        guMtxF2L(sp48, mtx);
+        mfRot[3][0] = item->trans[0];
+        mfRot[3][1] = item->trans[1] + sinf(angle[2]) * amp;
+        guMtxF2L(mfRot, mtx);
 
         gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         mtx++;
 
-        RectTexTile8(&gfx, &vtx, var_s3->info[TI_INFO_IDX_WIDTH], var_s3->info[TI_INFO_IDX_HEIGHT],
-                     var_s3->texs[TI_TEX_TLUT], (u8 *)var_s3->texs[TI_TEX_TEX] + (var_s5 * var_s1_3 * i), 0, 0, var_s5,
-                     var_s1_3, 0, 0, var_s5 * item->scale[0], var_s1_3 * item->scale[1]);
+        RectTexTile8(&gfx, &vtx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT], texC->texs[TI_TEX_TLUT],
+                     (u8 *)texC->texs[TI_TEX_TEX] + (width * height * i), 0, 0, width, height, 0, 0,
+                     width * item->scale[0], height * item->scale[1]);
     }
 
     gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
 
-    for (i = 0; i < ARRAY_COUNT(sp88) - 1; i++) {
-        s32 spA0;
-        s32 var_fp;
+    for (i = 0; i < ARRAY_COUNT(angle) - 1; i++) {
+        s32 gapW;
+        s32 gapH;
 
         switch (i) {
             case 0:
-                item = &menuMain->unk_24A8;
-                var_s3 = _getTexMain(menuMain->watchMenuRef, 10);
-                spA0 = 0;
-                var_fp = 0;
+                item = &mMain->miSmoke;
+                texC = _getTexMain(mMain->global, 10);
+                gapW = 0;
+                gapH = 0;
                 break;
 
             case 1:
-                item = &menuMain->unk_2538;
-                var_s3 = _getTexMain(menuMain->watchMenuRef, 9);
-                spA0 = 0;
-                var_fp = 0;
+                item = &mMain->miScrWnd;
+                texC = _getTexMain(mMain->global, 9);
+                gapW = 0;
+                gapH = 0;
                 break;
         }
 
-        if (!menuItem_outOfScreen(item, var_s3->info[TI_INFO_IDX_WIDTH], var_s3->info[TI_INFO_IDX_HEIGHT])) {
+        if (!menuItem_outOfScreen(item, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT])) {
             menuItem_setPrim(item, &gfx);
-            sp48[3][0] = item->trans[0];
-            sp48[3][1] = item->trans[1] + (sinf(sp88[i + 1]) * temp_fs2);
-            guMtxF2L(sp48, mtx);
+            mfRot[3][0] = item->trans[0];
+            mfRot[3][1] = item->trans[1] + (sinf(angle[i + 1]) * amp);
+            guMtxF2L(mfRot, mtx);
 
             gSPMatrix(gfx++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             mtx++;
 
-            RectTexTile4i(&gfx, &vtx, var_s3->info[TI_INFO_IDX_WIDTH], var_s3->info[TI_INFO_IDX_HEIGHT],
-                          var_s3->texs[TI_TEX_TEX], 0, 0, var_s3->info[TI_INFO_IDX_WIDTH],
-                          var_s3->info[TI_INFO_IDX_HEIGHT], 0, 0,
-                          (var_s3->info[TI_INFO_IDX_WIDTH] + spA0) * item->scale[0],
-                          (var_s3->info[TI_INFO_IDX_HEIGHT] + var_fp) * item->scale[1]);
+            RectTexTile4i(&gfx, &vtx, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                          texC->texs[TI_TEX_TEX], 0, 0, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                          0, 0, (texC->info[TI_INFO_IDX_WIDTH] + gapW) * item->scale[0],
+                          (texC->info[TI_INFO_IDX_HEIGHT] + gapH) * item->scale[1]);
         }
     }
 
@@ -6017,36 +6142,39 @@ void menuMain_drawKaSaMaRu(MenuMain *menuMain, Gfx **gfxP) {
 end:
 #endif
 
-    *_getVtxPtr(menuMain->watchMenuRef) = vtx;
-    *_getMtxPtr(menuMain->watchMenuRef) = mtx;
+    *_getVtxPtr(mMain->global) = vtx;
+    *_getMtxPtr(mMain->global) = mtx;
 
     *gfxP = gfx;
 }
 
-void menuMain_draw(MenuMain *menuMain, Gfx **gfxP) {
+/**
+ * Original name: menuMain_draw
+ */
+void menuMain_draw(MenuMain *mMain, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 i;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    menuItem_drawTex(&menuMain->unk_2388, &gfx, _getTexMain(menuMain->watchMenuRef, 6), 0);
-    if (!menuItem_outOfScreen(&menuMain->unk_2388, menuMain->msgWnd.colStep * menuMain->msgWnd.colSize,
-                              menuMain->msgWnd.rowStep * menuMain->msgWnd.rowSize)) {
-        msgWnd_draw(&menuMain->msgWnd, &gfx);
+    menuItem_drawTex(&mMain->miMsgWnd, &gfx, _getTexMain(mMain->global, 6), 0);
+    if (!menuItem_outOfScreen(&mMain->miMsgWnd, mMain->msgWnd.colStep * mMain->msgWnd.colSize,
+                              mMain->msgWnd.rowStep * mMain->msgWnd.rowSize)) {
+        msgWnd_draw(&mMain->msgWnd, &gfx);
     }
 
-    menuNameOpPanel_draw(&menuMain->unk_17B4, &gfx);
-    menuNameSelPanel_draw(&menuMain->unk_0D2C, &gfx);
-    menuSndSelPanel_draw(&menuMain->unk_1C64, &gfx);
+    menuNameOpPanel_draw(&mMain->nameOp, &gfx);
+    menuNameSelPanel_draw(&mMain->nameSel, &gfx);
+    menuSndSelPanel_draw(&mMain->sndSel, &gfx);
 
-    for (i = 0; i < ARRAY_COUNTU(menuMain->unk_003C); i++) {
-        menuMainPanel_draw(&menuMain->unk_003C[i], &gfx);
+    for (i = 0; i < ARRAY_COUNTU(mMain->panel); i++) {
+        menuMainPanel_draw(&mMain->panel[i], &gfx);
     }
 
-    menuMain_drawKaSaMaRu(menuMain, &gfx);
-    menuCont_draw(&menuMain->unk_2658, &gfx);
-    menuYN_draw(&menuMain->unk_2B6C, &gfx);
-    menuMes_draw(&menuMain->unk_31E4, &gfx);
+    menuMain_drawKaSaMaRu(mMain, &gfx);
+    menuCont_draw(&mMain->cont, &gfx);
+    menuYN_draw(&mMain->yesNo, &gfx);
+    menuMes_draw(&mMain->message, &gfx);
 
     *gfxP = gfx;
 }
@@ -7654,7 +7782,7 @@ void func_80054A94(MenuPlay2 *menuPlay2, s32 arg1, f32 arg2) {
 
     for (i = 0; i < menuPlay2->unk_00C4; i++) {
         MenuPlay2Panel *temp_a0 = &menuPlay2->unk_00C8[i];
-        SMenuItem *item = &temp_a0->unk_0034;
+        SMenuItem *item = &temp_a0->miBase;
 
         item->transRange[0][0] = item->transRange[1][0] + _moveTbl_8521[i % ARRAY_COUNTU(_moveTbl_8521)];
         item->transStep = 0.05f;
@@ -7829,7 +7957,7 @@ void func_800550F4(MenuPlay2 *menuPlay2) {
 
     if (keyTrg & B_BUTTON) {
         menuPlay2->unk_0004 = 2;
-        menuPlay2->unk_6548.unk_008 = 0;
+        menuPlay2->unk_6548.flow = 0;
         _setFadeDir(menuPlay2->watchMenuRef, -1);
         _setNextMain(menuPlay2->watchMenuRef, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
@@ -7840,7 +7968,7 @@ bool func_80055154(MenuPlay2 *play2, s32 arg1, s32 arg2) {
     MenuPlay2Panel *play2Panel = &play2->unk_00C8[arg1];
     u32 keyLvl = _getKeyLvl(play2->watchMenuRef, arg2);
 
-    return (keyLvl & R_TRIG) && (play2Panel->unk_0028 == 0);
+    return (keyLvl & R_TRIG) && (play2Panel->flow == 0);
 }
 
 void func_800551BC(MenuPlay2 *menuPlay2, s32 index) {
@@ -7850,7 +7978,7 @@ void func_800551BC(MenuPlay2 *menuPlay2, s32 index) {
     for (i = 0; i < menuPlay2->unk_00C4; i++) {
         MenuPlay2Panel *temp_a0 = &menuPlay2->unk_00C8[i];
 
-        if (temp_a0->unk_0028 <= 0) {
+        if (temp_a0->flow <= 0) {
             menuPlay2Panel_copyConfig(temp_a0, temp_s3);
         }
     }
@@ -7863,7 +7991,7 @@ void func_80055254(MenuPlay2 *menuPlay2, s32 arg1) {
     for (i = 0; i < menuPlay2->unk_00C4; i++) {
         MenuPlay2Panel *temp_a0 = &menuPlay2->unk_00C8[i];
 
-        if (temp_a0->unk_0028 <= 0) {
+        if (temp_a0->flow <= 0) {
             menuPlay2Panel_copyCursor(temp_a0, temp_s3);
         }
     }
@@ -7898,10 +8026,10 @@ void menuPlay2_inputMan(MenuPlay2 *play2) {
         temp_s0 = &play2->unk_00C8[temp_a1_4];
 
         if (temp_a1_4 == 0) {
-            if (temp_s0->unk_0028 == 1) {
+            if (temp_s0->flow == 1) {
                 break;
             }
-        } else if (temp_s0->unk_0028 != 1) {
+        } else if (temp_s0->flow != 1) {
             break;
         }
     }
@@ -7914,16 +8042,12 @@ void menuPlay2_inputMan(MenuPlay2 *play2) {
         temp_a1_4 = play2->unk_0010[i];
         temp_s0 = &play2->unk_00C8[temp_a1_4];
         if ((play2->unk_0008 < 0) || (play2->unk_0008 == temp_a1_4)) {
-            s32 var_a3;
+            s32 var_a3 = !var_s7 || (temp_a1_4 != 0);
 
-            var_a3 = 0;
-            if (!var_s7 || (temp_a1_4 != 0)) {
-                var_a3 = 1;
-            }
-            menuPlay2Panel_input(temp_s0, temp_a1_4, 1, var_a3);
+            menuPlay2Panel_input(temp_s0, temp_a1_4, true, var_a3);
         }
 
-        switch (temp_s0->unk_0028) {
+        switch (temp_s0->flow) {
             case -0x1:
                 var_s5 += 1;
                 break;
@@ -7990,7 +8114,7 @@ void menuPlay2_inputCpu(MenuPlay2 *play2) {
         s32 temp_s0 = play2->unk_0024[i];
         MenuPlay2Panel *temp_s1 = &play2->unk_00C8[temp_s0];
 
-        if (temp_s1->unk_0028 == 1) {
+        if (temp_s1->flow == 1) {
             var_s2 = temp_s0;
             continue;
         }
@@ -7999,9 +8123,9 @@ void menuPlay2_inputCpu(MenuPlay2 *play2) {
             play2->unk_0008 = temp_s0;
         }
 
-        menuPlay2Panel_input(temp_s1, 0, 0, i == (play2->unk_0020 - 1));
-        if (temp_s1->unk_0028 == -1) {
-            play2->unk_00C8[var_s2].unk_0028 = temp_s1->unk_0028;
+        menuPlay2Panel_input(temp_s1, 0, false, i == (play2->unk_0020 - 1));
+        if (temp_s1->flow == -1) {
+            play2->unk_00C8[var_s2].flow = temp_s1->flow;
             if (var_s2 == 0) {
                 play2->unk_0004--;
             }
@@ -8019,11 +8143,11 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
     struct_evs_mem_data_config *temp_a2;
     s32 i;
 
-    if (menuPlay2->unk_00C8[0].unk_0034.transStep < 0.0f) {
+    if (menuPlay2->unk_00C8[0].miBase.transStep < 0.0f) {
         return;
     }
 
-    if (menuPlay2->unk_00C8[0].unk_0034.transTime < 1.0f) {
+    if (menuPlay2->unk_00C8[0].miBase.transTime < 1.0f) {
         return;
     }
 
@@ -8035,7 +8159,7 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
             for (i = 0; i < menuPlay2->unk_00C4; i++) {
                 play2Panel = &menuPlay2->unk_00C8[i];
 
-                play2Panel->unk_0028 = 1;
+                play2Panel->flow = 1;
             }
             SND_PLAY_INDEX(SND_INDEX_62);
         }
@@ -8047,30 +8171,30 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
             FALLTHROUGH;
 
         case 0:
-            func_8004E270(&menuPlay2->unk_6548, -1, menuPlay2->unk_6548.unk_010.transTime);
+            menuPlay2PanelSub_setFrame(&menuPlay2->unk_6548, -1, menuPlay2->unk_6548.miBase.transTime);
             menuPlay2_inputMan(menuPlay2);
             break;
 
         case 1:
-            func_8004E270(&menuPlay2->unk_6548, -1, menuPlay2->unk_6548.unk_010.transTime);
+            menuPlay2PanelSub_setFrame(&menuPlay2->unk_6548, -1, menuPlay2->unk_6548.miBase.transTime);
             menuPlay2_inputCpu(menuPlay2);
             break;
 
         case 2:
             menuPlay2->unk_0008 = -1;
-            func_8004E270(&menuPlay2->unk_6548, 1, menuPlay2->unk_6548.unk_010.transTime);
+            menuPlay2PanelSub_setFrame(&menuPlay2->unk_6548, 1, menuPlay2->unk_6548.miBase.transTime);
             if (menuPlay2PanelSub_input(&menuPlay2->unk_6548, 0)) {
-                switch (menuPlay2->unk_6548.unk_008) {
+                switch (menuPlay2->unk_6548.flow) {
                     case -1:
                         menuPlay2->unk_0004 -= 2;
                         for (i = 0; i < menuPlay2->unk_00C4; i++) {
-                            menuPlay2->unk_00C8[i].unk_0028 = -1;
-                            menuPlay2->unk_00C8[i].unk_0024 = 0;
+                            menuPlay2->unk_00C8[i].flow = -1;
+                            menuPlay2->unk_00C8[i].depth = 0;
                         }
 
-                        if (menuPlay2->unk_6548.unk_0A0.playNo >= 0) {
+                        if (menuPlay2->unk_6548.musicItem.playNo >= 0) {
                             dm_seq_play_fade(SEQ_INDEX_12, 0x14);
-                            menuPlay2->unk_6548.unk_0A0.playNo = -1;
+                            menuPlay2->unk_6548.musicItem.playNo = -1;
                         }
                         break;
 
@@ -8094,16 +8218,16 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
                 play2Panel = &menuPlay2->unk_00C8[i];
                 temp_a2 = &evs_mem_data[evs_select_name_no[i]].config;
 
-                if (play2Panel->unk_0004 != 0) {
-                    temp_a2->vm_fl_lv = play2Panel->unk_12BC.select;
-                } else if (play2Panel->unk_0008 != 0) {
-                    temp_a2->vm_ta_lv = play2Panel->unk_12BC.select;
+                if (play2Panel->flash) {
+                    temp_a2->vm_fl_lv = play2Panel->glvItem.select;
+                } else if (play2Panel->timeAt) {
+                    temp_a2->vm_ta_lv = play2Panel->glvItem.select;
                 } else {
-                    temp_a2->vm_lv = play2Panel->unk_0290.level;
+                    temp_a2->vm_lv = play2Panel->lvGauge.level;
                 }
-                temp_a2->vm_sp = play2Panel->unk_062C.select;
-                temp_a2->vm_st = menuPlay2->unk_6548.unk_940.number - 1;
-                temp_a2->vm_m = menuPlay2->unk_6548.unk_0A0.select;
+                temp_a2->vm_sp = play2Panel->speedItem.select;
+                temp_a2->vm_st = menuPlay2->unk_6548.stageNum.number - 1;
+                temp_a2->vm_m = menuPlay2->unk_6548.musicItem.select;
             }
             break;
 
@@ -8114,16 +8238,16 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
             for (i = 0; i < menuPlay2->unk_00C4; i++) {
                 play2Panel = &menuPlay2->unk_00C8[i];
 
-                if (play2Panel->unk_0004 != 0) {
-                    temp_a2->vc_fl_lv[i] = play2Panel->unk_12BC.select;
+                if (play2Panel->flash) {
+                    temp_a2->vc_fl_lv[i] = play2Panel->glvItem.select;
                 } else {
-                    temp_a2->vc_lv[i] = play2Panel->unk_0290.level;
+                    temp_a2->vc_lv[i] = play2Panel->lvGauge.level;
                 }
-                temp_a2->vc_sp[i] = play2Panel->unk_062C.select;
+                temp_a2->vc_sp[i] = play2Panel->speedItem.select;
             }
 
-            temp_a2->vc_st = menuPlay2->unk_6548.unk_940.number - 1;
-            temp_a2->vc_m = menuPlay2->unk_6548.unk_0A0.select;
+            temp_a2->vc_st = menuPlay2->unk_6548.stageNum.number - 1;
+            temp_a2->vc_m = menuPlay2->unk_6548.musicItem.select;
             break;
 
         default:
@@ -8135,16 +8259,16 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
             for (i = 0; i < menuPlay2->unk_00C4; i++) {
                 play2Panel = &menuPlay2->unk_00C8[i];
 
-                if (play2Panel->unk_0004 != 0) {
-                    evs_cfg_4p.p4_fl_lv[i] = play2Panel->unk_12BC.select;
+                if (play2Panel->flash) {
+                    evs_cfg_4p.p4_fl_lv[i] = play2Panel->glvItem.select;
                 } else {
-                    evs_cfg_4p.p4_lv[i] = play2Panel->unk_0290.level;
+                    evs_cfg_4p.p4_lv[i] = play2Panel->lvGauge.level;
                 }
-                evs_cfg_4p.p4_sp[i] = play2Panel->unk_062C.select;
+                evs_cfg_4p.p4_sp[i] = play2Panel->speedItem.select;
             }
 
-            evs_cfg_4p.p4_st = menuPlay2->unk_6548.unk_940.number - 1;
-            evs_cfg_4p.p4_m = menuPlay2->unk_6548.unk_0A0.select;
+            evs_cfg_4p.p4_st = menuPlay2->unk_6548.stageNum.number - 1;
+            evs_cfg_4p.p4_m = menuPlay2->unk_6548.musicItem.select;
             break;
     }
 
@@ -8152,25 +8276,25 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
         struct_game_state_data *ptr = &game_state_data[i];
         play2Panel = &menuPlay2->unk_00C8[i];
 
-        if (play2Panel->unk_0004 != 0) {
-            ptr->virus_level = _timeAttack_levelTable[play2Panel->unk_12BC.select];
-            ptr->game_level = play2Panel->unk_12BC.select;
-        } else if (play2Panel->unk_0008 != 0) {
-            ptr->virus_level = _timeAttack_levelTable[play2Panel->unk_12BC.select];
-            ptr->game_level = play2Panel->unk_12BC.select;
+        if (play2Panel->flash) {
+            ptr->virus_level = _timeAttack_levelTable[play2Panel->glvItem.select];
+            ptr->game_level = play2Panel->glvItem.select;
+        } else if (play2Panel->timeAt) {
+            ptr->virus_level = _timeAttack_levelTable[play2Panel->glvItem.select];
+            ptr->game_level = play2Panel->glvItem.select;
         } else {
-            ptr->virus_level = play2Panel->unk_0290.level;
+            ptr->virus_level = play2Panel->lvGauge.level;
         }
-        ptr->cap_def_speed = play2Panel->unk_062C.select;
+        ptr->cap_def_speed = play2Panel->speedItem.select;
     }
 
-    i = menuPlay2->unk_6548.unk_940.number - 1;
+    i = menuPlay2->unk_6548.stageNum.number - 1;
 
     story_proc_no = _bgDataNo_to_stageNo[i][1] + 1;
     story_proc_no += _bgDataNo_to_stageNo[i][0] * 0xC;
     evs_story_no = _bgDataNo_to_stageNo[i][1] + 1;
 
-    evs_seqnumb = menuPlay2->unk_6548.unk_0A0.select;
+    evs_seqnumb = menuPlay2->unk_6548.musicItem.select;
     evs_seqence = evs_seqnumb != 4;
     evs_game_time = 0;
 
@@ -10333,7 +10457,7 @@ void func_8005A2EC(struct_watchMenu *arg0) {
 
     switch (arg0->unk_111CC) {
         case MODE_MAIN:
-            func_8004F2D8(&arg0->unk_02678[index].menuMain);
+            menuMain_waitCancel(&arg0->unk_02678[index].menuMain);
             break;
 
         case MODE_STORY:

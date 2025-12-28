@@ -122,11 +122,13 @@ typedef struct struct_evs_mem_data_timeAt_data {
 #define MEM_USE_FLG_1 (1 << 0)
 #define MEM_USE_FLG_2 (1 << 1)
 
+#define MEM_NAME_LEN 4
+
 #define VSRESULT_LEN 2
 
 typedef struct struct_evs_mem_data {
     /* 0x00 */ u8 mem_use_flg; /* Original name: mem_use_flg */
-    /* 0x01 */ u8 mem_name[4]; /* Original name: mem_name */
+    /* 0x01 */ u8 mem_name[MEM_NAME_LEN]; /* Original name: mem_name */
     /* 0x08 */ s32 clear_stage[4][2]; /* Original name: clear_stage */
     /* 0x28 */ struct_evs_mem_data_story_data story_data[3]; /* Original name: story_data */
     /* 0x4C */ struct_evs_mem_data_level_data level_data[3]; /* Original name: level_data */
