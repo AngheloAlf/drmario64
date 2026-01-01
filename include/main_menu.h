@@ -878,7 +878,7 @@ void menuComLvPanel_draw(MenuComLvPanel *comLvPanelArr[], s32 count, Gfx **gfxP)
 void menuCont_setFade(MenuCont *cont, s32 dir, f32 time);
 void menuCont_setFrame(MenuCont *cont, s32 dir, s32 time);
 void menuCont_init(MenuCont *cont, SMenuAll *global, s32 x, s32 y);
-bool menuCont_input(MenuCont *cont, s32 arg1);
+bool menuCont_input(MenuCont *cont, s32 playerNo);
 void menuCont_update(MenuCont *cont, SMenuItem *parent);
 void menuCont_draw(MenuCont *cont, Gfx **gfxP);
 void menuMainPanel_setFrame(MenuMainPanel *mainPanel, s32 dir, f32 time);
@@ -1010,7 +1010,7 @@ void menuRankPanel_draw(MenuRankPanel **rankPanelArr, s32 count, Gfx **gfxP);
 void menuRank_setNameBaseScale(MenuRank *rank, UNK_TYPE dir, f32 time);
 void menuRank_setSlide(MenuRank *rank, UNK_TYPE buf, UNK_TYPE dir, f32 time, f32 vec);
 void menuRank_setFrame(MenuRank *rank, UNK_TYPE buf, UNK_TYPE dir, f32 time);
-void menuRank_initCommon(MenuRank *rank, s32 arg1);
+void menuRank_initCommon(MenuRank *rank, s32 buf);
 void menuRank_setPanel(MenuRank *rank, s32 buf, MainMenuMode mode, UNK_TYPE level);
 void menuRank_init(MenuRank *rank, SMenuAll *global, void **heapP);
 void menuRank_input(MenuRank *rank);
@@ -1018,57 +1018,57 @@ void menuRank_update(MenuRank *rank);
 void menuRank_draw(MenuRank *rank, Gfx **gfxP);
 
 void _eep_writingCallback(void *arg);
-void func_80059A58(void *arg);
-void func_80059AA4(void *arg);
-void func_80059AF0(SMenuAll *arg0);
-void _eepWritePlayer(SMenuAll *arg0);
-void _eepErasePlayer(SMenuAll *arg0);
-void _eepEraseData(SMenuAll *arg0);
+void _eep_writePlayer(void *arg);
+void _eep_eraseData(void *arg);
+void _eep_retrace(SMenuAll *global);
+void _eepWritePlayer(SMenuAll *global);
+void _eepErasePlayer(SMenuAll *global);
+void _eepEraseData(SMenuAll *global);
 
-void _waitRetrace(SMenuAll *watchMenuRef);
+void _waitRetrace(SMenuAll *global);
 
-Mtx **_getMtxPtr(SMenuAll *watchMenuRef);
-Vtx **_getVtxPtr(SMenuAll *watchMenuRef);
+Mtx **_getMtxPtr(SMenuAll *global);
+Vtx **_getVtxPtr(SMenuAll *global);
 
-struct TiTexData *_getTexChar(SMenuAll *watchMenuRef, s32 index);
-struct TiTexData *_getTexCommon(SMenuAll *watchMenuRef, s32 arg1);
-struct TiTexData *func_80059D14(SMenuAll *watchMenuRef, s32 arg1);
-struct TiTexData *_getTexLevel(SMenuAll *watchMenuRef, s32 index);
-struct TiTexData *_getTexMain(SMenuAll *watchMenuRef, s32 index);
-struct TiTexData *_getTexName(SMenuAll *arg0, s32 arg1);
-struct TiTexData *_getTexP2(SMenuAll *watchMenuRef, s32 index);
-struct TiTexData *_getTexP4(SMenuAll *watchMenuRef, s32 index);
-struct TiTexData *_getTexRank(SMenuAll *watchMenuRef, s32 index);
-struct TiTexData *_getTexSetup(SMenuAll *watchMenuRef, s32 index);
-struct TiTexData *_getTexStory(SMenuAll *arg0, s32 arg1);
-struct TiTexData *_getTexGameAl(SMenuAll *arg0, s32 arg1);
-struct TiTexData *_getTexGameP1(SMenuAll *arg0, s32 arg1);
-struct TiTexData *_getTexCont(SMenuAll *watchMenuRef, s32 arg1);
-struct TiTexData *_getTexTutol(SMenuAll *watchMenuRef, s32 arg1);
-struct TiTexData *_getTexKasa(SMenuAll *watchMenuRef, s32 index);
+struct TiTexData *_getTexChar(SMenuAll *global, s32 index);
+struct TiTexData *_getTexCommon(SMenuAll *global, s32 index);
+struct TiTexData *_getTexCredit(SMenuAll *global, s32 index);
+struct TiTexData *_getTexLevel(SMenuAll *global, s32 index);
+struct TiTexData *_getTexMain(SMenuAll *global, s32 index);
+struct TiTexData *_getTexName(SMenuAll *global, s32 index);
+struct TiTexData *_getTexP2(SMenuAll *global, s32 index);
+struct TiTexData *_getTexP4(SMenuAll *global, s32 index);
+struct TiTexData *_getTexRank(SMenuAll *global, s32 index);
+struct TiTexData *_getTexSetup(SMenuAll *global, s32 index);
+struct TiTexData *_getTexStory(SMenuAll *global, s32 index);
+struct TiTexData *_getTexGameAl(SMenuAll *global, s32 index);
+struct TiTexData *_getTexGameP1(SMenuAll *global, s32 index);
+struct TiTexData *_getTexCont(SMenuAll *global, s32 index);
+struct TiTexData *_getTexTutol(SMenuAll *global, s32 index);
+struct TiTexData *_getTexKasa(SMenuAll *global, s32 index);
 
-SMenuItem *_getRootItem(SMenuAll *watchMenuRef);
+SMenuItem *_getRootItem(SMenuAll *global);
 
-u32 _getKeyLvl(SMenuAll *watchMenuRef, s32 arg1);
-u32 _getKeyTrg(SMenuAll *watchMenuRef, s32 arg1);
-u32 _getKeyRep(SMenuAll *watchMenuRef, s32 arg1);
+u32 _getKeyLvl(SMenuAll *global, s32 contNo);
+u32 _getKeyTrg(SMenuAll *global, s32 contNo);
+u32 _getKeyRep(SMenuAll *global, s32 contNo);
 
-MainMenuMode _getMode(SMenuAll *watchMenuRef);
-MainMenuMode _getModeOld(SMenuAll *watchMenuRef);
-void _setMode(SMenuAll *watchMenuRef, MainMenuMode arg1);
+MainMenuMode _getMode(SMenuAll *global);
+MainMenuMode _getModeOld(SMenuAll *global);
+void _setMode(SMenuAll *global, MainMenuMode mode);
 
-void _setNextMain(SMenuAll *watchMenuRef, enum_main_no arg1);
-void _setTitle(SMenuAll *watchMenuRef, MainMenuMode arg1);
-void _setFadeDir(SMenuAll *watchMenuRef, s32 arg1);
-void menuAll_init(SMenuAll *arg0, UNK_PTR *arg1, NNSched *sc);
-void func_8005A2AC(SMenuAll *arg0);
-void func_8005A2EC(SMenuAll *arg0);
-void menuAll_changeMenu(SMenuAll *arg0);
+void _setNextMain(SMenuAll *global, enum_main_no nextMain);
+void _setTitle(SMenuAll *global, MainMenuMode mode);
+void _setFadeDir(SMenuAll *global, s32 dir);
+void menuAll_init(SMenuAll *all, UNK_PTR *heapP, NNSched *sc);
+void menuAll_exit(SMenuAll *all);
+void menuAll_waitCancel(SMenuAll *all);
+void menuAll_changeMenu(SMenuAll *all);
 
-void menuAll_input(SMenuAll *arg0);
-void menuAll_update(SMenuAll *arg0);
-void menuAll_drawBg(SMenuAll *arg0, Gfx **gfxP);
-void menuAll_draw(SMenuAll *arg0, Gfx **gfxP);
+void menuAll_input(SMenuAll *all);
+void menuAll_update(SMenuAll *all);
+void menuAll_drawBg(SMenuAll *all, Gfx **gfxP);
+void menuAll_draw(SMenuAll *all, Gfx **gfxP);
 enum_main_no main_menu(NNSched *sc);
 void graphic_menu(void);
 

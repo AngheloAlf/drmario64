@@ -74,7 +74,7 @@ void aifMake(struct struct_game_state_data *uupw);
 bool aifMake2(struct struct_game_state_data *uupw, s32 x, s32 y, s32 tateFlag, s32 revFlag);
 void aiHiruSideLineEraser(struct struct_game_state_data *xpw);
 bool aifEraseLineCore(s32 col, s32 row);
-s32 aifRensaCheckCore(struct struct_game_state_data *uupw, struct_aiFlag *aiFlagRef, u8 mx, u8 my, u8 mco, u8 mst,
+s32 aifRensaCheckCore(struct struct_game_state_data *uupw, struct_aiFlag *af, u8 mx, u8 my, u8 mco, u8 mst,
                       u8 sx, u8 sy, u8 sco, u8 sst);
 s32 aifRensaCheck(struct struct_game_state_data *uupw, struct_aiFlag *af);
 bool aifSearchLineCore(s32 mx, s32 my, s32 fg);

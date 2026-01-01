@@ -268,7 +268,7 @@ void rotate_capsel(GameMapCell *map, struct_game_state_data_now_cap *cap, s32 mo
 
 void dm_set_capsel(struct_game_state_data *state);
 void dm_capsel_speed_up(struct_game_state_data *state);
-bool dm_check_game_over(struct_game_state_data *state, GameMapCell *mapCells);
+bool dm_check_game_over(struct_game_state_data *state, GameMapCell *map);
 
 void dm_virus_anime(struct_game_state_data *state, GameMapCell *map);
 void dm_capsel_erase_anime(struct_game_state_data *state, GameMapCell *map);

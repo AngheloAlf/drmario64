@@ -10472,9 +10472,12 @@ void menuRank_draw(MenuRank *rank, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
+/**
+ * Original name: _eep_writingCallback
+ */
 void _eep_writingCallback(void *arg) {
-    SMenuAll *a = arg;
-    RecordWritingMessage *recMessage = &a->writingMsg;
+    SMenuAll *all = arg;
+    RecordWritingMessage *recMessage = &all->writingMsg;
     s32 x = (SCREEN_WIDTH - msgWnd_getWidth(&recMessage->messageWnd)) / 2;
     s32 y = SCREEN_HEIGHT - 32 - msgWnd_getHeight(&recMessage->messageWnd);
 
@@ -10483,168 +10486,273 @@ void _eep_writingCallback(void *arg) {
     setSleepTimer(500);
 }
 
-void func_80059A58(void *arg) {
-    SMenuAll *a = arg;
+/**
+ * Original name: _eep_writePlayer
+ */
+void _eep_writePlayer(void *arg) {
+    SMenuAll *all = arg;
 
-    EepRom_WriteAll(_eep_writingCallback, a);
-    a->eepRom--;
+    EepRom_WriteAll(_eep_writingCallback, all);
+    all->eepRom--;
 }
 
-void func_80059AA4(void *arg) {
-    SMenuAll *a = arg;
+/**
+ * Original name: _eep_eraseData
+ */
+void _eep_eraseData(void *arg) {
+    SMenuAll *all = arg;
 
-    EepRom_InitFirst(_eep_writingCallback, a);
-    a->eepRom--;
+    EepRom_InitFirst(_eep_writingCallback, all);
+    all->eepRom--;
 }
 
-void func_80059AF0(SMenuAll *arg0) {
-    while ((arg0->eepRom > 0) || !RecWritingMsg_isEnd(&arg0->writingMsg)) {
-        RecWritingMsg_calc(&arg0->writingMsg);
-        _waitRetrace(arg0);
+/**
+ * Original name: _eep_retrace
+ */
+void _eep_retrace(SMenuAll *global) {
+    while ((global->eepRom > 0) || !RecWritingMsg_isEnd(&global->writingMsg)) {
+        RecWritingMsg_calc(&global->writingMsg);
+        _waitRetrace(global);
     }
 }
 
-void _eepWritePlayer(SMenuAll *arg0) {
-    RecWritingMsg_setStr(&arg0->writingMsg, _mesWriting_mainmenu);
-    arg0->eepRom++;
-    BgTasksManager_SendTask(func_80059A58, arg0);
-    func_80059AF0(arg0);
+/**
+ * Original name: _eepWritePlayer
+ */
+void _eepWritePlayer(SMenuAll *global) {
+    RecWritingMsg_setStr(&global->writingMsg, _mesWriting_mainmenu);
+    global->eepRom++;
+    BgTasksManager_SendTask(_eep_writePlayer, global);
+    _eep_retrace(global);
 }
 
-void _eepErasePlayer(SMenuAll *arg0) {
-    RecWritingMsg_setStr(&arg0->writingMsg, _mesDeleting_mainmenu);
-    arg0->eepRom++;
-    BgTasksManager_SendTask(func_80059A58, arg0);
-    func_80059AF0(arg0);
+/**
+ * Original name: _eepErasePlayer
+ */
+void _eepErasePlayer(SMenuAll *global) {
+    RecWritingMsg_setStr(&global->writingMsg, _mesDeleting_mainmenu);
+    global->eepRom++;
+    BgTasksManager_SendTask(_eep_writePlayer, global);
+    _eep_retrace(global);
 }
 
-void _eepEraseData(SMenuAll *arg0) {
-    RecWritingMsg_setStr(&arg0->writingMsg, _mesDeleting_mainmenu);
-    arg0->eepRom++;
-    BgTasksManager_SendTask(func_80059AA4, arg0);
-    func_80059AF0(arg0);
+/**
+ * Original name: _eepEraseData
+ */
+void _eepEraseData(SMenuAll *global) {
+    RecWritingMsg_setStr(&global->writingMsg, _mesDeleting_mainmenu);
+    global->eepRom++;
+    BgTasksManager_SendTask(_eep_eraseData, global);
+    _eep_retrace(global);
 }
 
-void _waitRetrace(SMenuAll *watchMenuRef) {
-    osRecvMesg(&watchMenuRef->scMQ, NULL, OS_MESG_BLOCK);
+/**
+ * Original name: _waitRetrace
+ */
+void _waitRetrace(SMenuAll *global) {
+    osRecvMesg(&global->scMQ, NULL, OS_MESG_BLOCK);
 }
 
-Mtx **_getMtxPtr(SMenuAll *watchMenuRef) {
-    return &watchMenuRef->mtxPtr[gfx_gtask_no];
+/**
+ * Original name: _getMtxPtr
+ */
+Mtx **_getMtxPtr(SMenuAll *global) {
+    return &global->mtxPtr[gfx_gtask_no];
 }
 
-Vtx **_getVtxPtr(SMenuAll *watchMenuRef) {
-    return &watchMenuRef->vtxPtr[gfx_gtask_no];
+/**
+ * Original name: _getVtxPtr
+ */
+Vtx **_getVtxPtr(SMenuAll *global) {
+    return &global->vtxPtr[gfx_gtask_no];
 }
 
-TiTexData *_getTexChar(SMenuAll *watchMenuRef, s32 index) {
-    return &watchMenuRef->texChar[index];
+/**
+ * Original name: _getTexChar
+ */
+TiTexData *_getTexChar(SMenuAll *global, s32 index) {
+    return &global->texChar[index];
 }
 
-TiTexData *_getTexCommon(SMenuAll *watchMenuRef, s32 arg1) {
-    return &watchMenuRef->texCommon[arg1];
+/**
+ * Original name: _getTexCommon
+ */
+TiTexData *_getTexCommon(SMenuAll *global, s32 index) {
+    return &global->texCommon[index];
 }
 
-TiTexData *func_80059D14(SMenuAll *watchMenuRef, s32 arg1) {
-    return &watchMenuRef->texCredit[arg1];
+/**
+ * Original name: _getTexCredit
+ */
+TiTexData *_getTexCredit(SMenuAll *global, s32 index) {
+    return &global->texCredit[index];
 }
 
-TiTexData *_getTexLevel(SMenuAll *watchMenuRef, s32 index) {
-    return &watchMenuRef->texLevel[index];
+/**
+ * Original name: _getTexLevel
+ */
+TiTexData *_getTexLevel(SMenuAll *global, s32 index) {
+    return &global->texLevel[index];
 }
 
-TiTexData *_getTexMain(SMenuAll *watchMenuRef, s32 index) {
-    return &watchMenuRef->texMain[index];
+/**
+ * Original name: _getTexMain
+ */
+TiTexData *_getTexMain(SMenuAll *global, s32 index) {
+    return &global->texMain[index];
 }
 
-TiTexData *_getTexName(SMenuAll *arg0, s32 arg1) {
-    return &arg0->texName[arg1];
+/**
+ * Original name: _getTexName
+ */
+TiTexData *_getTexName(SMenuAll *global, s32 index) {
+    return &global->texName[index];
 }
 
-TiTexData *_getTexP2(SMenuAll *watchMenuRef, s32 index) {
-    return &watchMenuRef->texP2[index];
+/**
+ * Original name: _getTexP2
+ */
+TiTexData *_getTexP2(SMenuAll *global, s32 index) {
+    return &global->texP2[index];
 }
 
-TiTexData *_getTexP4(SMenuAll *watchMenuRef, s32 index) {
-    return &watchMenuRef->texP4[index];
+/**
+ * Original name: _getTexP4
+ */
+TiTexData *_getTexP4(SMenuAll *global, s32 index) {
+    return &global->texP4[index];
 }
 
-TiTexData *_getTexRank(SMenuAll *watchMenuRef, s32 index) {
-    return &watchMenuRef->texRank[index];
+/**
+ * Original name: _getTexRank
+ */
+TiTexData *_getTexRank(SMenuAll *global, s32 index) {
+    return &global->texRank[index];
 }
 
-TiTexData *_getTexSetup(SMenuAll *watchMenuRef, s32 index) {
-    return &watchMenuRef->texSetup[index];
+/**
+ * Original name: _getTexSetup
+ */
+TiTexData *_getTexSetup(SMenuAll *global, s32 index) {
+    return &global->texSetup[index];
 }
 
-TiTexData *_getTexStory(SMenuAll *arg0, s32 arg1) {
-    return &arg0->texStory[arg1];
+/**
+ * Original name: _getTexStory
+ */
+TiTexData *_getTexStory(SMenuAll *global, s32 index) {
+    return &global->texStory[index];
 }
 
-TiTexData *_getTexGameAl(SMenuAll *arg0, s32 arg1) {
-    return &arg0->texGameAl[arg1];
+/**
+ * Original name: _getTexGameAl
+ */
+TiTexData *_getTexGameAl(SMenuAll *global, s32 index) {
+    return &global->texGameAl[index];
 }
 
-TiTexData *_getTexGameP1(SMenuAll *arg0, s32 arg1) {
-    return &arg0->texGameP1[arg1];
+/**
+ * Original name: _getTexGameP1
+ */
+TiTexData *_getTexGameP1(SMenuAll *global, s32 index) {
+    return &global->texGameP1[index];
 }
 
-TiTexData *_getTexCont(SMenuAll *watchMenuRef, s32 arg1) {
-    return &watchMenuRef->texCont[arg1];
+/**
+ * Original name: _getTexCont
+ */
+TiTexData *_getTexCont(SMenuAll *global, s32 index) {
+    return &global->texCont[index];
 }
 
-TiTexData *_getTexTutol(SMenuAll *watchMenuRef, s32 arg1) {
-    return &watchMenuRef->texTutol[arg1];
+/**
+ * Original name: _getTexTutol
+ */
+TiTexData *_getTexTutol(SMenuAll *global, s32 index) {
+    return &global->texTutol[index];
 }
 
-TiTexData *_getTexKasa(SMenuAll *watchMenuRef, s32 index) {
-    return &watchMenuRef->texKasa[index];
+/**
+ * Original name: _getTexKasa
+ */
+TiTexData *_getTexKasa(SMenuAll *global, s32 index) {
+    return &global->texKasa[index];
 }
 
-SMenuItem *_getRootItem(SMenuAll *watchMenuRef) {
-    return &watchMenuRef->miRoot[0];
+/**
+ * Original name: _getRootItem
+ */
+SMenuItem *_getRootItem(SMenuAll *global) {
+    return &global->miRoot[0];
 }
 
-u32 _getKeyLvl(SMenuAll *watchMenuRef UNUSED, s32 arg1) {
-    return gControllerHoldButtons[main_joy[arg1]];
+/**
+ * Original name: _getKeyLvl
+ */
+u32 _getKeyLvl(SMenuAll *global UNUSED, s32 contNo) {
+    return gControllerHoldButtons[main_joy[contNo]];
 }
 
-u32 _getKeyTrg(SMenuAll *watchMenuRef UNUSED, s32 arg1) {
-    return gControllerPressedButtons[main_joy[arg1]];
+/**
+ * Original name: _getKeyTrg
+ */
+u32 _getKeyTrg(SMenuAll *global UNUSED, s32 contNo) {
+    return gControllerPressedButtons[main_joy[contNo]];
 }
 
-u32 _getKeyRep(SMenuAll *watchMenuRef UNUSED, s32 arg1) {
-    return joycur[main_joy[arg1]];
+/**
+ * Original name: _getKeyRep
+ */
+u32 _getKeyRep(SMenuAll *global UNUSED, s32 contNo) {
+    return joycur[main_joy[contNo]];
 }
 
-MainMenuMode _getMode(SMenuAll *watchMenuRef) {
-    return watchMenuRef->nowMode;
+/**
+ * Original name: _getMode
+ */
+MainMenuMode _getMode(SMenuAll *global) {
+    return global->nowMode;
 }
 
-MainMenuMode _getModeOld(SMenuAll *watchMenuRef) {
-    return watchMenuRef->oldMode;
+/**
+ * Original name: _getModeOld
+ */
+MainMenuMode _getModeOld(SMenuAll *global) {
+    return global->oldMode;
 }
 
-void _setMode(SMenuAll *watchMenuRef, MainMenuMode arg1) {
-    watchMenuRef->newMode = arg1;
+/**
+ * Original name: _setMode
+ */
+void _setMode(SMenuAll *global, MainMenuMode mode) {
+    global->newMode = mode;
 }
 
-void _setNextMain(SMenuAll *watchMenuRef, enum_main_no arg1) {
-    watchMenuRef->nextMain = arg1;
+/**
+ * Original name: _setNextMain
+ */
+void _setNextMain(SMenuAll *global, enum_main_no nextMain) {
+    global->nextMain = nextMain;
 }
 
-void _setTitle(SMenuAll *watchMenuRef, MainMenuMode arg1) {
-    menuTitle_setTitle(&watchMenuRef->title, arg1);
+/**
+ * Original name: _setTitle
+ */
+void _setTitle(SMenuAll *global, MainMenuMode mode) {
+    menuTitle_setTitle(&global->title, mode);
 }
 
-void _setFadeDir(SMenuAll *watchMenuRef, s32 arg1) {
-    if (arg1 < 0) {
-        if (watchMenuRef->fadeStep > 0.0f) {
-            watchMenuRef->fadeStep = -watchMenuRef->fadeStep;
+/**
+ * Original name: _setFadeDir
+ */
+void _setFadeDir(SMenuAll *global, s32 dir) {
+    if (dir < 0) {
+        if (global->fadeStep > 0.0f) {
+            global->fadeStep = -global->fadeStep;
         }
     } else {
-        if (watchMenuRef->fadeStep < 0.0f) {
-            watchMenuRef->fadeStep = -watchMenuRef->fadeStep;
+        if (global->fadeStep < 0.0f) {
+            global->fadeStep = -global->fadeStep;
         }
     }
 }
@@ -10652,88 +10760,88 @@ void _setFadeDir(SMenuAll *watchMenuRef, s32 arg1) {
 /**
  * Original name: menuAll_init
  */
-void menuAll_init(SMenuAll *arg0, UNK_PTR *arg1, NNSched *sc) {
-    UNK_PTR sp10 = *arg1;
-    UNK_PTR temp_v0;
+void menuAll_init(SMenuAll *all, void **heapP, NNSched *sc) {
+    void *heap = *heapP;
     s32 i;
     RomOffset(*pairArray)[ROMTABLEPAIR_MAX] = _romDataTbl;
 
-    arg0->sched = sc;
-    arg0->heapAll = sp10;
+    all->sched = sc;
+    all->heapAll = heap;
 
-    osCreateMesgQueue(&arg0->scMQ, arg0->scMsgBuf, ARRAY_COUNT(arg0->scMsgBuf));
-    nnScAddClient(sc, &arg0->scClient, &arg0->scMQ);
+    osCreateMesgQueue(&all->scMQ, all->scMsgBuf, ARRAY_COUNT(all->scMsgBuf));
+    nnScAddClient(sc, &all->scClient, &all->scMQ);
 
-    for (i = 0; i < ARRAY_COUNT(arg0->mtxBuf); i++) {
-        arg0->mtxPtr[i] = &arg0->mtxBuf[i][0];
-        arg0->vtxPtr[i] = &arg0->vtxBuf[i][0];
+    for (i = 0; i < ARRAY_COUNT(all->mtxBuf); i++) {
+        all->mtxPtr[i] = &all->mtxBuf[i][0];
+        all->vtxPtr[i] = &all->vtxBuf[i][0];
     }
 
-    sp10 = init_menu_bg(sp10, evs_level_21 != 0);
+    heap = init_menu_bg(heap, evs_level_21 != 0);
 
-    arg0->texChar = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_CHAR][ROMTABLEPAIR_START],
-                                  pairArray[ROMDATATBL_MENU_CHAR][ROMTABLEPAIR_END]);
-    arg0->texCommon = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_COMMON][ROMTABLEPAIR_START],
-                                    pairArray[ROMDATATBL_MENU_COMMON][ROMTABLEPAIR_END]);
-    arg0->texLevel = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_LEVEL][ROMTABLEPAIR_START],
-                                   pairArray[ROMDATATBL_MENU_LEVEL][ROMTABLEPAIR_END]);
-    arg0->texMain = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_MAIN][ROMTABLEPAIR_START],
-                                  pairArray[ROMDATATBL_MENU_MAIN][ROMTABLEPAIR_END]);
-    arg0->texName = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_NAME][ROMTABLEPAIR_START],
-                                  pairArray[ROMDATATBL_MENU_NAME][ROMTABLEPAIR_END]);
-    arg0->texP2 = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_P2][ROMTABLEPAIR_START],
-                                pairArray[ROMDATATBL_MENU_P2][ROMTABLEPAIR_END]);
-    arg0->texP4 = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_P4][ROMTABLEPAIR_START],
-                                pairArray[ROMDATATBL_MENU_P4][ROMTABLEPAIR_END]);
-    arg0->texRank = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_RANK][ROMTABLEPAIR_START],
-                                  pairArray[ROMDATATBL_MENU_RANK][ROMTABLEPAIR_END]);
-    arg0->texSetup = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_SETUP][ROMTABLEPAIR_START],
-                                   pairArray[ROMDATATBL_MENU_SETUP][ROMTABLEPAIR_END]);
-    arg0->texStory = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_STORY][ROMTABLEPAIR_START],
-                                   pairArray[ROMDATATBL_MENU_STORY][ROMTABLEPAIR_END]);
-    arg0->texGameAl = tiLoadTexData(&sp10, pairArray[ROMDATATBL_GAME_AL][ROMTABLEPAIR_START],
-                                    pairArray[ROMDATATBL_GAME_AL][ROMTABLEPAIR_END]);
-    arg0->texGameP1 = tiLoadTexData(&sp10, pairArray[ROMDATATBL_GAME_P1][ROMTABLEPAIR_START],
-                                    pairArray[ROMDATATBL_GAME_P1][ROMTABLEPAIR_END]);
-    arg0->texCont = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_CONT][ROMTABLEPAIR_START],
-                                  pairArray[ROMDATATBL_MENU_CONT][ROMTABLEPAIR_END]);
-    arg0->texTutol = tiLoadTexData(&sp10, pairArray[ROMDATATBL_TUTORIAL_KASA][ROMTABLEPAIR_START],
-                                   pairArray[ROMDATATBL_TUTORIAL_KASA][ROMTABLEPAIR_END]);
-    arg0->texKasa = tiLoadTexData(&sp10, pairArray[ROMDATATBL_MENU_KASA][ROMTABLEPAIR_START],
-                                  pairArray[ROMDATATBL_MENU_KASA][ROMTABLEPAIR_END]);
+    all->texChar = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_CHAR][ROMTABLEPAIR_START],
+                                 pairArray[ROMDATATBL_MENU_CHAR][ROMTABLEPAIR_END]);
+    all->texCommon = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_COMMON][ROMTABLEPAIR_START],
+                                   pairArray[ROMDATATBL_MENU_COMMON][ROMTABLEPAIR_END]);
+    all->texLevel = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_LEVEL][ROMTABLEPAIR_START],
+                                  pairArray[ROMDATATBL_MENU_LEVEL][ROMTABLEPAIR_END]);
+    all->texMain = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_MAIN][ROMTABLEPAIR_START],
+                                 pairArray[ROMDATATBL_MENU_MAIN][ROMTABLEPAIR_END]);
+    all->texName = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_NAME][ROMTABLEPAIR_START],
+                                 pairArray[ROMDATATBL_MENU_NAME][ROMTABLEPAIR_END]);
+    all->texP2 = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_P2][ROMTABLEPAIR_START],
+                               pairArray[ROMDATATBL_MENU_P2][ROMTABLEPAIR_END]);
+    all->texP4 = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_P4][ROMTABLEPAIR_START],
+                               pairArray[ROMDATATBL_MENU_P4][ROMTABLEPAIR_END]);
+    all->texRank = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_RANK][ROMTABLEPAIR_START],
+                                 pairArray[ROMDATATBL_MENU_RANK][ROMTABLEPAIR_END]);
+    all->texSetup = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_SETUP][ROMTABLEPAIR_START],
+                                  pairArray[ROMDATATBL_MENU_SETUP][ROMTABLEPAIR_END]);
+    all->texStory = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_STORY][ROMTABLEPAIR_START],
+                                  pairArray[ROMDATATBL_MENU_STORY][ROMTABLEPAIR_END]);
+    all->texGameAl = tiLoadTexData(&heap, pairArray[ROMDATATBL_GAME_AL][ROMTABLEPAIR_START],
+                                   pairArray[ROMDATATBL_GAME_AL][ROMTABLEPAIR_END]);
+    all->texGameP1 = tiLoadTexData(&heap, pairArray[ROMDATATBL_GAME_P1][ROMTABLEPAIR_START],
+                                   pairArray[ROMDATATBL_GAME_P1][ROMTABLEPAIR_END]);
+    all->texCont = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_CONT][ROMTABLEPAIR_START],
+                                 pairArray[ROMDATATBL_MENU_CONT][ROMTABLEPAIR_END]);
+    all->texTutol = tiLoadTexData(&heap, pairArray[ROMDATATBL_TUTORIAL_KASA][ROMTABLEPAIR_START],
+                                  pairArray[ROMDATATBL_TUTORIAL_KASA][ROMTABLEPAIR_END]);
+    all->texKasa = tiLoadTexData(&heap, pairArray[ROMDATATBL_MENU_KASA][ROMTABLEPAIR_START],
+                                 pairArray[ROMDATATBL_MENU_KASA][ROMTABLEPAIR_END]);
 
-    menuItem_init(&arg0->miRoot[0], 0, 0);
-    menuTitle_init(&arg0->title, arg0, 0x70, 0x12);
+    menuItem_init(&all->miRoot[0], 0, 0);
+    menuTitle_init(&all->title, all, 0x70, 0x12);
 
-    arg0->nowContext = 0;
-    arg0->oldContext = -1;
+    all->nowContext = 0;
+    all->oldContext = -1;
 
-    arg0->oldMode = arg0->nowMode = arg0->newMode = _menuAll_lastMode;
+    all->oldMode = all->nowMode = all->newMode = _menuAll_lastMode;
 
-    arg0->nextMain = MAIN_MENU;
+    all->nextMain = MAIN_MENU;
 
 #ifdef NN_SC_PERF
-    arg0->unk_cn_pad = false;
+    all->unk_cn_pad = false;
 #endif
 
-    arg0->fadeRatio = 1.0f;
+    all->fadeRatio = 1.0f;
 
-    arg0->eepRom = 0;
-    arg0->mainFirst = true;
-    arg0->grapFirst = true;
-    arg0->mainCount = 0;
+    all->eepRom = 0;
+    all->mainFirst = true;
+    all->grapFirst = true;
+    all->mainCount = 0;
 
-    arg0->grapCount = 0;
-    arg0->graphicThreadPri = 0x7F;
-    arg0->fadeStep = -(1.0f / 30.0f);
+    all->grapCount = 0;
+    all->graphicThreadPri = 0x7F;
+    all->fadeStep = -(1.0f / 30.0f);
 
-    RecWritingMsg_init(&arg0->writingMsg, &sp10);
-    arg0->heapSize = 0x60000;
+    RecWritingMsg_init(&all->writingMsg, &heap);
+    all->heapSize = 0x60000;
 
-    for (i = 0; i < ARRAY_COUNTU(arg0->heapEnd); i++) {
-        temp_v0 = ALIGN_PTR(sp10);
-        arg0->heapTop[i] = arg0->heapEnd[i] = temp_v0;
-        sp10 = temp_v0 + arg0->heapSize;
+    for (i = 0; i < ARRAY_COUNTU(all->heapEnd); i++) {
+        void *ptr = ALIGN_PTR(heap);
+
+        all->heapTop[i] = all->heapEnd[i] = ptr;
+        heap = ptr + all->heapSize;
     }
 
     for (i = 0; i < ARRAY_COUNT(game_state_data); i++) {
@@ -10742,30 +10850,36 @@ void menuAll_init(SMenuAll *arg0, UNK_PTR *arg1, NNSched *sc) {
     }
 
     evs_one_game_flg = 0;
-    *arg1 = sp10;
+    *heapP = heap;
 }
 
-void func_8005A2AC(SMenuAll *arg0) {
-    nnScRemoveClient(arg0->sched, &arg0->scClient);
-    _menuAll_lastMode = arg0->nowMode;
+/**
+ * Original name: menuAll_exit
+ */
+void menuAll_exit(SMenuAll *all) {
+    nnScRemoveClient(all->sched, &all->scClient);
+    _menuAll_lastMode = all->nowMode;
 }
 
-void func_8005A2EC(SMenuAll *arg0) {
-    s32 index = arg0->nowContext;
+/**
+ * Original name: menuAll_waitCancel
+ */
+void menuAll_waitCancel(SMenuAll *all) {
+    s32 cur = all->nowContext;
 
-    switch (arg0->nowMode) {
+    switch (all->nowMode) {
         case MODE_MAIN:
-            menuMain_waitCancel(&arg0->context[index].main);
+            menuMain_waitCancel(&all->context[cur].main);
             break;
 
         case MODE_STORY:
-            menuStory_waitCancel(&arg0->context[index].story);
+            menuStory_waitCancel(&all->context[cur].story);
             break;
 
         case MODE_LVSEL:
         case MODE_LVSEL_TQ:
         case MODE_LVSEL_TA:
-            menuLvSel_waitCancel(&arg0->context[index].lvSel);
+            menuLvSel_waitCancel(&all->context[cur].lvSel);
             break;
 
         case MODE_VSCOM:
@@ -10776,7 +10890,7 @@ void func_8005A2EC(SMenuAll *arg0) {
         case MODE_PLAY4_LV:
         case MODE_PLAY4_TB_LV:
         case MODE_PLAY4_FL_LV:
-            menuPlay2_waitCancel(&arg0->context[index].play2);
+            menuPlay2_waitCancel(&all->context[cur].play2);
             break;
 
         default:
@@ -10784,33 +10898,36 @@ void func_8005A2EC(SMenuAll *arg0) {
     }
 }
 
-void menuAll_changeMenu(SMenuAll *arg0) {
-    s32 index = arg0->nowContext;
+/**
+ * Original name: menuAll_changeMenu
+ */
+void menuAll_changeMenu(SMenuAll *all) {
+    s32 cur = all->nowContext;
 
-    arg0->heapEnd[index] = arg0->heapTop[index];
-    bzero(arg0->heapEnd[index], arg0->heapSize);
-    arg0->mainFirst = true;
-    arg0->grapFirst = true;
-    arg0->mainCount = 0;
-    arg0->grapCount = 0;
+    all->heapEnd[cur] = all->heapTop[cur];
+    bzero(all->heapEnd[cur], all->heapSize);
+    all->mainFirst = true;
+    all->grapFirst = true;
+    all->mainCount = 0;
+    all->grapCount = 0;
 
-    if (arg0->nowMode != MODE_MAIN) {
-        _setTitle(arg0, arg0->nowMode);
+    if (all->nowMode != MODE_MAIN) {
+        _setTitle(all, all->nowMode);
     }
 
-    switch (arg0->nowMode) {
+    switch (all->nowMode) {
         case MODE_MAIN:
-            menuMain_init(&arg0->context[index].main, arg0, &arg0->heapEnd[index]);
+            menuMain_init(&all->context[cur].main, all, &all->heapEnd[cur]);
             break;
 
         case MODE_STORY:
-            menuStory_init(&arg0->context[index].story, arg0, &arg0->heapEnd[index]);
+            menuStory_init(&all->context[cur].story, all, &all->heapEnd[cur]);
             break;
 
         case MODE_LVSEL:
         case MODE_LVSEL_TQ:
         case MODE_LVSEL_TA:
-            menuLvSel_init(&arg0->context[index].lvSel, arg0, &arg0->heapEnd[index]);
+            menuLvSel_init(&all->context[cur].lvSel, all, &all->heapEnd[cur]);
             break;
 
         case MODE_VSCOM:
@@ -10821,7 +10938,7 @@ void menuAll_changeMenu(SMenuAll *arg0) {
         case MODE_PLAY4_LV:
         case MODE_PLAY4_TB_LV:
         case MODE_PLAY4_FL_LV:
-            menuPlay2_init(&arg0->context[index].play2, arg0, &arg0->heapEnd[index]);
+            menuPlay2_init(&all->context[cur].play2, all, &all->heapEnd[cur]);
             break;
 
         case MODE_VSCOM_CH:
@@ -10832,7 +10949,7 @@ void menuAll_changeMenu(SMenuAll *arg0) {
         case MODE_PLAY4_CH:
         case MODE_PLAY4_TB_CH:
         case MODE_PLAY4_FL_CH:
-            menuChSel_init(&arg0->context[index].chSel, arg0, &arg0->heapEnd[index]);
+            menuChSel_init(&all->context[cur].chSel, all, &all->heapEnd[cur]);
             break;
 
         case MODE_STORY_NE:
@@ -10846,7 +10963,7 @@ void menuAll_changeMenu(SMenuAll *arg0) {
         case MODE_VSMAN_TA_NE:
         case MODE_NAME_NE:
         case MODE_NAME_NE2:
-            menuNmEnt_init(&arg0->context[index].nmEnt, arg0, &arg0->heapEnd[index]);
+            menuNmEnt_init(&all->context[cur].nmEnt, all, &all->heapEnd[cur]);
             break;
 
         case MODE_RECORD_ST:
@@ -10858,7 +10975,7 @@ void menuAll_changeMenu(SMenuAll *arg0) {
         case MODE_RECORD_VM:
         case MODE_RECORD_VM_FL:
         case MODE_RECORD_VM_TA:
-            menuRank_init(&arg0->context[index].rank, arg0, &arg0->heapEnd[index]);
+            menuRank_init(&all->context[cur].rank, all, &all->heapEnd[cur]);
             break;
 
         default:
@@ -10866,27 +10983,30 @@ void menuAll_changeMenu(SMenuAll *arg0) {
     }
 }
 
-void menuAll_input(SMenuAll *arg0) {
-    s32 index = arg0->nowContext;
+/**
+ * Original name: menuAll_input
+ */
+void menuAll_input(SMenuAll *all) {
+    s32 cur = all->nowContext;
 
-    if ((arg0->fadeStep > 0.0f) && (arg0->fadeRatio > 0.0f)) {
-        func_8005A2EC(arg0);
+    if ((all->fadeStep > 0.0f) && (all->fadeRatio > 0.0f)) {
+        menuAll_waitCancel(all);
         return;
     }
 
-    switch (arg0->nowMode) {
+    switch (all->nowMode) {
         case MODE_MAIN:
-            menuMain_input(&arg0->context[index].main);
+            menuMain_input(&all->context[cur].main);
             break;
 
         case MODE_STORY:
-            menuStory_input(&arg0->context[index].story);
+            menuStory_input(&all->context[cur].story);
             break;
 
         case MODE_LVSEL:
         case MODE_LVSEL_TQ:
         case MODE_LVSEL_TA:
-            menuLvSel_input(&arg0->context[index].lvSel);
+            menuLvSel_input(&all->context[cur].lvSel);
             break;
 
         case MODE_VSCOM:
@@ -10897,7 +11017,7 @@ void menuAll_input(SMenuAll *arg0) {
         case MODE_PLAY4_LV:
         case MODE_PLAY4_TB_LV:
         case MODE_PLAY4_FL_LV:
-            menuPlay2_input(&arg0->context[index].play2);
+            menuPlay2_input(&all->context[cur].play2);
             break;
 
         case MODE_VSCOM_CH:
@@ -10908,7 +11028,7 @@ void menuAll_input(SMenuAll *arg0) {
         case MODE_PLAY4_CH:
         case MODE_PLAY4_TB_CH:
         case MODE_PLAY4_FL_CH:
-            menuChSel_input(&arg0->context[index].chSel);
+            menuChSel_input(&all->context[cur].chSel);
             break;
 
         case MODE_STORY_NE:
@@ -10922,7 +11042,7 @@ void menuAll_input(SMenuAll *arg0) {
         case MODE_VSMAN_TA_NE:
         case MODE_NAME_NE:
         case MODE_NAME_NE2:
-            menuNmEnt_input(&arg0->context[index].nmEnt);
+            menuNmEnt_input(&all->context[cur].nmEnt);
             break;
 
         case MODE_RECORD_ST:
@@ -10934,7 +11054,7 @@ void menuAll_input(SMenuAll *arg0) {
         case MODE_RECORD_VM:
         case MODE_RECORD_VM_FL:
         case MODE_RECORD_VM_TA:
-            menuRank_input(&arg0->context[index].rank);
+            menuRank_input(&all->context[cur].rank);
             break;
 
         default:
@@ -10942,64 +11062,67 @@ void menuAll_input(SMenuAll *arg0) {
     }
 }
 
-void menuAll_update(SMenuAll *arg0) {
+/**
+ * Original name: menuAll_update
+ */
+void menuAll_update(SMenuAll *all) {
 #ifdef NN_SC_PERF
     s32 pad[2] UNUSED;
 #endif
-    SMenuItem *var_v1 = &arg0->miRoot[0];
-    MainMenuMode var_a0;
-    f32 temp_f2_2;
+    SMenuItem *item = &all->miRoot[0];
+    MainMenuMode mode;
+    f32 fade;
     s32 i;
-    s32 var_v1_2;
+    s32 j;
 
-    arg0->fadeRatio = CLAMP(arg0->fadeRatio + arg0->fadeStep, 0.0f, 1.0f);
+    all->fadeRatio = CLAMP(all->fadeRatio + all->fadeStep, 0.0f, 1.0f);
 
-    temp_f2_2 = (arg0->fadeRatio - DOUBLE_LITERAL(0.5)) * DOUBLE_LITERAL(1.2) + DOUBLE_LITERAL(0.5);
-    temp_f2_2 = DOUBLE_LITERAL(1) - CLAMP(temp_f2_2, 0.0f, 1.0f);
+    fade = (all->fadeRatio - DOUBLE_LITERAL(0.5)) * DOUBLE_LITERAL(1.2) + DOUBLE_LITERAL(0.5);
+    fade = DOUBLE_LITERAL(1) - CLAMP(fade, 0.0f, 1.0f);
 
     for (i = 0; i < 3; i++) {
-        var_v1->colorRange[1][i] = temp_f2_2;
-        var_v1->colorRange[0][i] = temp_f2_2;
+        item->colorRange[1][i] = fade;
+        item->colorRange[0][i] = fade;
     }
 
 #ifdef NN_SC_PERF
-    if (_getKeyTrg(arg0, 0) & Z_TRIG) {
-        arg0->unk_cn_pad = !arg0->unk_cn_pad;
+    if (_getKeyTrg(all, 0) & Z_TRIG) {
+        all->unk_cn_pad = !all->unk_cn_pad;
     }
 #endif
 
-    menuItem_updateN(arg0->miRoot, ARRAY_COUNT(arg0->miRoot), NULL);
-    menuTitle_update(&arg0->title, &arg0->miRoot[0]);
+    menuItem_updateN(all->miRoot, ARRAY_COUNT(all->miRoot), NULL);
+    menuTitle_update(&all->title, &all->miRoot[0]);
 
     for (i = 0; i < 2; i++) {
         if (i != 0) {
-            var_v1_2 = arg0->nowContext;
+            j = all->nowContext;
         } else {
-            var_v1_2 = arg0->oldContext;
+            j = all->oldContext;
         }
-        if (var_v1_2 < 0) {
+        if (j < 0) {
             continue;
         }
 
         if (i != 0) {
-            var_a0 = arg0->nowMode;
+            mode = all->nowMode;
         } else {
-            var_a0 = arg0->oldMode;
+            mode = all->oldMode;
         }
 
-        switch (var_a0) {
+        switch (mode) {
             case MODE_MAIN:
-                menuMain_update(&arg0->context[var_v1_2].main);
+                menuMain_update(&all->context[j].main);
                 break;
 
             case MODE_STORY:
-                menuStory_update(&arg0->context[var_v1_2].story);
+                menuStory_update(&all->context[j].story);
                 break;
 
             case MODE_LVSEL:
             case MODE_LVSEL_TQ:
             case MODE_LVSEL_TA:
-                menuLvSel_update(&arg0->context[var_v1_2].lvSel);
+                menuLvSel_update(&all->context[j].lvSel);
                 break;
 
             case MODE_VSCOM:
@@ -11010,7 +11133,7 @@ void menuAll_update(SMenuAll *arg0) {
             case MODE_PLAY4_LV:
             case MODE_PLAY4_TB_LV:
             case MODE_PLAY4_FL_LV:
-                menuPlay2_update(&arg0->context[var_v1_2].play2);
+                menuPlay2_update(&all->context[j].play2);
                 break;
 
             case MODE_VSCOM_CH:
@@ -11021,7 +11144,7 @@ void menuAll_update(SMenuAll *arg0) {
             case MODE_PLAY4_CH:
             case MODE_PLAY4_TB_CH:
             case MODE_PLAY4_FL_CH:
-                menuChSel_update(&arg0->context[var_v1_2].chSel);
+                menuChSel_update(&all->context[j].chSel);
                 break;
 
             case MODE_STORY_NE:
@@ -11035,7 +11158,7 @@ void menuAll_update(SMenuAll *arg0) {
             case MODE_VSMAN_TA_NE:
             case MODE_NAME_NE:
             case MODE_NAME_NE2:
-                menuNmEnt_update(&arg0->context[var_v1_2].nmEnt);
+                menuNmEnt_update(&all->context[j].nmEnt);
                 break;
 
             case MODE_RECORD_ST:
@@ -11047,7 +11170,7 @@ void menuAll_update(SMenuAll *arg0) {
             case MODE_RECORD_VM:
             case MODE_RECORD_VM_FL:
             case MODE_RECORD_VM_TA:
-                menuRank_update(&arg0->context[var_v1_2].rank);
+                menuRank_update(&all->context[j].rank);
                 break;
 
             default:
@@ -11055,86 +11178,92 @@ void menuAll_update(SMenuAll *arg0) {
         }
     }
 
-    arg0->mainFirst = false;
-    arg0->mainCount++;
+    all->mainFirst = false;
+    all->mainCount++;
 }
 
-void menuAll_drawBg(SMenuAll *arg0, Gfx **gfxP) {
+/**
+ * Original name: menuAll_drawBg
+ */
+void menuAll_drawBg(SMenuAll *all, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    SMenuItem *temp_s4 = &arg0->miRoot[0];
-    TiTexData *temp_s3;
+    SMenuItem *item = &all->miRoot[0];
+    TiTexData *tex;
     s32 i;
     bool cached;
 
-    menuItem_setPrim(temp_s4, &gfx);
-    draw_menu_bg(&gfx, temp_s4->trans[0] + 0.0f, -temp_s4->trans[1] - SCREEN_HEIGHT / 2);
+    menuItem_setPrim(item, &gfx);
+    draw_menu_bg(&gfx, item->trans[0] + 0.0f, -item->trans[1] - SCREEN_HEIGHT / 2);
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
-    menuItem_setPrim(temp_s4, &gfx);
+    menuItem_setPrim(item, &gfx);
 
     cached = false;
-    temp_s3 = _getTexCommon(arg0, 2);
+    tex = _getTexCommon(all, 2);
     for (i = 0; i < 5; i++) {
-        cached += menuItem_drawTex2(temp_s4, &gfx, temp_s3, cached, i << 6, 0, 1.0f, 1.0f);
+        cached += menuItem_drawTex2(item, &gfx, tex, cached, i << 6, 0, 1.0f, 1.0f);
     }
 
     for (; i < 10; i++) {
-        cached += menuItem_drawTex2(temp_s4, &gfx, temp_s3, cached, (i - 5) << 6, 200.0f, 1.0f, -1.0f);
+        cached += menuItem_drawTex2(item, &gfx, tex, cached, (i - 5) << 6, 200.0f, 1.0f, -1.0f);
     }
 
     *gfxP = gfx;
 }
 
-void menuAll_draw(SMenuAll *arg0, Gfx **gfxP) {
+/**
+ * Original name: menuAll_draw
+ */
+void menuAll_draw(SMenuAll *all, Gfx **gfxP) {
     s32 color;
     s32 i;
 
-    arg0->mtxPtr[gfx_gtask_no] = &arg0->mtxBuf[gfx_gtask_no][0];
-    arg0->vtxPtr[gfx_gtask_no] = &arg0->vtxBuf[gfx_gtask_no][0];
+    all->mtxPtr[gfx_gtask_no] = &all->mtxBuf[gfx_gtask_no][0];
+    all->vtxPtr[gfx_gtask_no] = &all->vtxBuf[gfx_gtask_no][0];
 
     color =
-        (((arg0->fadeRatio - DOUBLE_LITERAL(0.5)) * DOUBLE_LITERAL(1.2)) + DOUBLE_LITERAL(0.5)) * DOUBLE_LITERAL(255);
+        (((all->fadeRatio - DOUBLE_LITERAL(0.5)) * DOUBLE_LITERAL(1.2)) + DOUBLE_LITERAL(0.5)) * DOUBLE_LITERAL(255);
     color = CLAMP(color, 0, 255);
 
     gDPSetEnvColor(gGfxHead++, color, color, color, 255);
 
-    menuAll_drawBg(arg0, gfxP);
-    menuTitle_draw(&arg0->title, &gGfxHead);
+    menuAll_drawBg(all, gfxP);
+    menuTitle_draw(&all->title, &gGfxHead);
 
     for (i = 0; i < 2; i++) {
-        MainMenuMode var_a0;
+        MainMenuMode mode;
         s32 index;
 
         if (i != 0) {
-            index = arg0->nowContext;
+            index = all->nowContext;
         } else {
-            index = arg0->oldContext;
+            index = all->oldContext;
         }
         if (index < 0) {
             continue;
         }
 
         if (i != 0) {
-            var_a0 = arg0->nowMode;
+            mode = all->nowMode;
         } else {
-            var_a0 = arg0->oldMode;
+            mode = all->oldMode;
         }
 
         gDPSetEnvColor(gGfxHead++, color, color, color, 255);
 
-        switch (var_a0) {
+        switch (mode) {
             case MODE_MAIN:
-                menuMain_draw(&arg0->context[index].main, gfxP);
+                menuMain_draw(&all->context[index].main, gfxP);
                 break;
 
             case MODE_STORY:
-                menuStory_draw(&arg0->context[index].story, gfxP);
+                menuStory_draw(&all->context[index].story, gfxP);
                 break;
 
             case MODE_LVSEL:
             case MODE_LVSEL_TQ:
             case MODE_LVSEL_TA:
-                menuLvSel_draw(&arg0->context[index].lvSel, gfxP);
+                menuLvSel_draw(&all->context[index].lvSel, gfxP);
                 break;
 
             case MODE_VSCOM:
@@ -11145,7 +11274,7 @@ void menuAll_draw(SMenuAll *arg0, Gfx **gfxP) {
             case MODE_PLAY4_LV:
             case MODE_PLAY4_TB_LV:
             case MODE_PLAY4_FL_LV:
-                menuPlay2_draw(&arg0->context[index].play2, gfxP);
+                menuPlay2_draw(&all->context[index].play2, gfxP);
                 break;
 
             case MODE_VSCOM_CH:
@@ -11156,7 +11285,7 @@ void menuAll_draw(SMenuAll *arg0, Gfx **gfxP) {
             case MODE_PLAY4_CH:
             case MODE_PLAY4_TB_CH:
             case MODE_PLAY4_FL_CH:
-                menuChSel_draw(&arg0->context[index].chSel, gfxP);
+                menuChSel_draw(&all->context[index].chSel, gfxP);
                 break;
 
             case MODE_STORY_NE:
@@ -11170,7 +11299,7 @@ void menuAll_draw(SMenuAll *arg0, Gfx **gfxP) {
             case MODE_VSMAN_TA_NE:
             case MODE_NAME_NE:
             case MODE_NAME_NE2:
-                menuNmEnt_draw(&arg0->context[index].nmEnt, gfxP);
+                menuNmEnt_draw(&all->context[index].nmEnt, gfxP);
                 break;
 
             case MODE_RECORD_ST:
@@ -11182,7 +11311,7 @@ void menuAll_draw(SMenuAll *arg0, Gfx **gfxP) {
             case MODE_RECORD_VM:
             case MODE_RECORD_VM_FL:
             case MODE_RECORD_VM_TA:
-                menuRank_draw(&arg0->context[index].rank, gfxP);
+                menuRank_draw(&all->context[index].rank, gfxP);
                 break;
 
             default:
@@ -11190,18 +11319,18 @@ void menuAll_draw(SMenuAll *arg0, Gfx **gfxP) {
         }
     }
 
-    RecWritingMsg_draw(&arg0->writingMsg, &gGfxHead);
+    RecWritingMsg_draw(&all->writingMsg, &gGfxHead);
 
-    arg0->grapFirst = false;
-    arg0->grapCount++;
+    all->grapFirst = false;
+    all->grapCount++;
 }
 
 /**
  * Original name: main_menu
  */
 enum_main_no main_menu(NNSched *sc) {
-    UNK_PTR sp10 = Heap_bufferp;
-    SMenuAll *ptr = ALIGN_PTR(Heap_bufferp);
+    void *heap = Heap_bufferp;
+    SMenuAll *all = ALIGN_PTR(Heap_bufferp);
     s32 i;
 
     if (main_old == MAIN_TITLE) {
@@ -11212,10 +11341,10 @@ enum_main_no main_menu(NNSched *sc) {
     }
 
     BgTasksManager_Init();
-    sp10 = &ptr[1];
-    bzero(ptr, sizeof(SMenuAll));
-    watchMenu = ptr;
-    menuAll_init(ptr, &sp10, sc);
+    heap = &all[1];
+    bzero(all, sizeof(SMenuAll));
+    watchMenu = all;
+    menuAll_init(all, &heap, sc);
 
     evs_playmax = joyResponseCheck();
 
@@ -11228,16 +11357,16 @@ enum_main_no main_menu(NNSched *sc) {
     gGfxHead = gGfxGlist[gfx_gtask_no];
     dm_seq_play(SEQ_INDEX_12);
 
-    while ((ptr->nextMain == MAIN_MENU) || (ptr->fadeRatio < 1.0f)) {
+    while ((all->nextMain == MAIN_MENU) || (all->fadeRatio < 1.0f)) {
         if (graphic_no == GRAPHIC_NO_0) {
             while ((pendingGFX != 0) || (BgTasksManager_GetRemainingTasks() != 0)) {
-                _waitRetrace(ptr);
+                _waitRetrace(all);
             }
 
-            menuAll_changeMenu(ptr);
+            menuAll_changeMenu(all);
         }
 
-        if (ptr->eepRom > 0) {
+        if (all->eepRom > 0) {
             for (i = 0; i < MAXCONTROLLERS; i++) {
                 joycur[i] = 0;
                 gControllerPressedButtons[i] = 0;
@@ -11249,7 +11378,7 @@ enum_main_no main_menu(NNSched *sc) {
 
 #ifdef NN_SC_PERF
             while (D_80092F10_cn) {
-                _waitRetrace(ptr);
+                _waitRetrace(all);
                 joyProcCore();
                 graphic_no = GRAPHIC_NO_0;
                 dm_audio_update();
@@ -11257,21 +11386,21 @@ enum_main_no main_menu(NNSched *sc) {
 #endif
         }
 
-        _waitRetrace(ptr);
+        _waitRetrace(all);
 
 #ifdef NN_SC_PERF
         func_8002BC30_cn(ENUM_8002BA98_CN_ARG0_1);
 #endif
 
-        menuAll_input(ptr);
-        menuAll_update(ptr);
+        menuAll_input(all);
+        menuAll_update(all);
         dm_audio_update();
 
-        if (ptr->nowMode != ptr->newMode) {
-            ptr->oldMode = ptr->nowMode;
-            ptr->nowMode = ptr->newMode;
-            ptr->oldContext = ptr->nowContext;
-            ptr->nowContext ^= 1;
+        if (all->nowMode != all->newMode) {
+            all->oldMode = all->nowMode;
+            all->nowMode = all->newMode;
+            all->oldContext = all->nowContext;
+            all->nowContext ^= 1;
             graphic_no = GRAPHIC_NO_0;
         } else {
             graphic_no = GRAPHIC_NO_5;
@@ -11284,8 +11413,8 @@ enum_main_no main_menu(NNSched *sc) {
 
     graphic_no = GRAPHIC_NO_5;
 
-    while (ptr->graphicThreadPri != 0xF) {
-        osRecvMesg(&ptr->scMQ, NULL, OS_MESG_BLOCK);
+    while (all->graphicThreadPri != 0xF) {
+        osRecvMesg(&all->scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
@@ -11293,22 +11422,25 @@ enum_main_no main_menu(NNSched *sc) {
     dm_seq_stop();
 
     while ((pendingGFX != 0) || !dm_seq_is_stopped() || (BgTasksManager_GetRemainingTasks() != 0)) {
-        osRecvMesg(&ptr->scMQ, NULL, OS_MESG_BLOCK);
+        osRecvMesg(&all->scMQ, NULL, OS_MESG_BLOCK);
         dm_audio_update();
     }
 
-    func_8005A2AC(ptr);
+    menuAll_exit(all);
     BgTasksManager_Destroy();
 
-    return ptr->nextMain;
+    return all->nextMain;
 }
 
+/**
+ * Original name: graphic_menu
+ */
 void graphic_menu(void) {
-    SMenuAll *ptr = watchMenu;
+    SMenuAll *all = watchMenu;
 
-    if ((ptr->nextMain != MAIN_MENU) && (ptr->fadeRatio == 1.0f)) {
+    if ((all->nextMain != MAIN_MENU) && (all->fadeRatio == 1.0f)) {
         osSetThreadPri(NULL, THREAD_PRI_GRAPHIC);
-        ptr->graphicThreadPri = 0xF;
+        all->graphicThreadPri = 0xF;
         return;
     }
 
@@ -11325,10 +11457,10 @@ void graphic_menu(void) {
     osSetThreadPri(NULL, THREAD_PRI_GRAPHIC);
     F3RCPinitRtn();
     F3ClearFZRtn(0);
-    menuAll_draw(ptr, &gGfxHead);
+    menuAll_draw(all, &gGfxHead);
 
 #ifdef NN_SC_PERF
-    if (ptr->unk_cn_pad) {
+    if (all->unk_cn_pad) {
         func_8002BD7C_cn(&gGfxHead, 0x20, 0xB4);
     }
 #endif
