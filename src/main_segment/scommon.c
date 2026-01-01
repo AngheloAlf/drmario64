@@ -101,7 +101,7 @@ NNScPerf *nnsc_perf_ptr BSS;
 /* Automatically generated and unreferenced pad */
 s32 D_800F3E58 BSS;
 
-struct_watchMenu *watchMenu BSS;
+SMenuAll *watchMenu BSS;
 
 OSMesg B_800F3E60[1] BSS;
 
