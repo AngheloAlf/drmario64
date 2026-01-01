@@ -5,4 +5,8 @@
 #define MAX_PLAYERS 4
 #endif
 
+#ifndef EVS_SELECT_NAME_NO_COUNT
+#define EVS_SELECT_NAME_NO_COUNT 2
+#endif
+
 #endif

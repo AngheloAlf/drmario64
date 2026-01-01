@@ -6,12 +6,13 @@
 #include "libc/stdbool.h"
 
 #include "macros_defines.h"
+#include "defines.h"
 
-#include "msgwnd.h"
-#include "char_anime.h"
 #include "audio/snd_seq.h"
-#include "nnsched.h"
+#include "char_anime.h"
 #include "main.h"
+#include "msgwnd.h"
+#include "nnsched.h"
 #include "record.h"
 #include "recwritingmsg.h"
 #include "unk.h"
@@ -406,7 +407,7 @@ typedef struct MenuMain {
     /* 0x2658 */ MenuCont cont; /* Original name: cont */
     /* 0x2B6C */ MenuYN yesNo; /* Original name: yesNo */
     /* 0x31E4 */ MenuMes message; /* Original name: message */
-} MenuMain; // size >= 0x35B8
+} MenuMain; // size = 0x3558
 
 #define MENUSTORY_UNK_LEN 2U
 #define MENUSTORY_UNK_LEN_2 2U
@@ -414,119 +415,187 @@ typedef struct MenuMain {
 #define MENUSTORY_UNK_LEN_4 2U
 
 typedef struct MenuStory {
-    /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x0004 */ s32 unk_0004[4][2];
-    /* 0x0024 */ s32 unk_0024;
-    /* 0x0028 */ s32 unk_0028[3];
-    /* 0x0034 */ bool unk_0034;
-    /* 0x0038 */ void *unk_0038[2];
-    /* 0x0040 */ SMenuItem unk_0040;
-    /* 0x00D0 */ SMenuItem unk_00D0;
-    /* 0x0160 */ SMenuItem unk_0160[MENUSTORY_UNK_LEN];
-    /* 0x0280 */ SAnimeState unk_0280[MENUSTORY_UNK_LEN];
-    /* 0x0300 */ MenuCursor unk_0300[MENUSTORY_UNK_LEN];
-    /* 0x07C0 */ MenuSpeedAsk unk_07C0;
-    /* 0x085C */ MenuSpeedItem unk_085C;
-    /* 0x0EC0 */ MenuNumber unk_0EC0;
-    /* 0x0F6C */ SMenuItem unk_0F6C;
-    /* 0x0FFC */ SMenuItem unk_0FFC[MENUSTORY_UNK_LEN_2];
-    /* 0x111C */ SMenuItem unk_111C[MENUSTORY_UNK_LEN_4];
-    /* 0x123C */ SMenuItem unk_123C[MENUSTORY_UNK_LEN_2];
-    /* 0x135C */ MenuCursor unk_135C[MENUSTORY_UNK_LEN_3];
-} MenuStory; // size = 0x2D3C
+    /* 0x0000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x0004 */ s32 stageMax[4][2]; /* Original name: stageMax */
+    /* 0x0024 */ s32 depth; /* Original name: depth */
+    /* 0x0028 */ s32 select[3]; /* Original name: select */
+    /* 0x0034 */ bool loaded; /* Original name: loaded */
+    /* 0x0038 */ void *animeAddr[2]; /* Original name: animeAddr */
+    /* 0x0040 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x00D0 */ SMenuItem miCharName; /* Original name: miCharName */
+    /* 0x0160 */ SMenuItem miChar[MENUSTORY_UNK_LEN]; /* Original name: miChar */
+    /* 0x0280 */ SAnimeState animeState[MENUSTORY_UNK_LEN]; /* Original name: animeState */
+    /* 0x0300 */ MenuCursor charCursor[MENUSTORY_UNK_LEN]; /* Original name: charCursor */
+    /* 0x07C0 */ MenuSpeedAsk speedAsk; /* Original name: speedAsk */
+    /* 0x085C */ MenuSpeedItem speedItem; /* Original name: speedItem */
+    /* 0x0EC0 */ MenuNumber stageNum; /* Original name: stageNum */
+    /* 0x0F6C */ SMenuItem miStageBase; /* Original name: miStageBase */
+    /* 0x0FFC */ SMenuItem miStageBg[MENUSTORY_UNK_LEN_2]; /* Original name: miStageBg */
+    /* 0x111C */ SMenuItem miBgCursor[MENUSTORY_UNK_LEN_4]; /* Original name: miBgCursor */
+    /* 0x123C */ SMenuItem miWalk[MENUSTORY_UNK_LEN_2]; /* Original name: miWalk */
+    /* 0x135C */ MenuCursor cursor[MENUSTORY_UNK_LEN_3]; /* Original name: cursor */
+} MenuStory; // size = 0x1A7C
 
 
 #define MENULVSEL_UNK_162C_LEN 3
 
 typedef struct MenuLvSel {
-    /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x0004 */ MainMenuMode unk_0004;
-    /* 0x0008 */ SMenuItem unk_0008; // root?
-    /* 0x0098 */ SMenuItem unk_0098[2]; // panels?
-    /* 0x01B8 */ MenuNumber virusLvlNumber;
-    /* 0x0264 */ SMenuLvGauge virusLvlGauge;
-    /* 0x0564 */ MenuSpeedAsk speedIcon;
-    /* 0x0600 */ MenuSpeedItem speedSelector;
-    /* 0x0C64 */ MenuMusicItem musicSelector;
-    /* 0x1504 */ MenuBottle bottle;
-    /* 0x162C */ MenuCursor unk_162C[MENULVSEL_UNK_162C_LEN];
-    /* 0x1D4C */ SMenuItem capsuleSpeedIcon;
-    /* 0x1DDC */ SMenuItem musicIcon;
-    /* 0x1E6C */ MenuSpeedAsk gameLvlIcon;
-    /* 0x1F08 */ MenuSpeedItem gameLvlSelector;
-    /* 0x256C */ s32 unk_256C;
-    /* 0x2570 */ s32 unk_2570;
-} MenuLvSel; // size <= 0x75A4
+    /* 0x0000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x0004 */ MainMenuMode mode; /* Original name: mode */
+    /* 0x0008 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x0098 */ SMenuItem miPanel[2]; /* Original name: miPanel */
+    /* 0x01B8 */ MenuNumber lvNum; /* Original name: lvNum */ // virus level number
+    /* 0x0264 */ SMenuLvGauge lvGauge; /* Original name: lvGauge */ // virus level gauge
+    /* 0x0564 */ MenuSpeedAsk speedAsk; /* Original name: speedAsk */
+    /* 0x0600 */ MenuSpeedItem speedItem; /* Original name: speedItem */ // speed selector
+    /* 0x0C64 */ MenuMusicItem musicItem; /* Original name: musicItem */ // music selector
+    /* 0x1504 */ MenuBottle bottle; /* Original name: bottle */
+    /* 0x162C */ MenuCursor cursor[MENULVSEL_UNK_162C_LEN]; /* Original name: cursor */
+    /* 0x1D4C */ SMenuItem miCapsule; /* Original name: miCapsule */ // capsule speed icon
+    /* 0x1DDC */ SMenuItem miMusic; /* Original name: miMusic */ // music icon
+    /* 0x1E6C */ MenuSpeedAsk glvAsk; /* Original name: glvAsk */ // game level icon
+    /* 0x1F08 */ MenuSpeedItem glvItem; /* Original name: glvItem */ // game level selector
+    /* 0x256C */ s32 depth; /* Original name: depth */
+    /* 0x2570 */ s32 levelMax; /* Original name: levelMax */
+} MenuLvSel; // size = 0x75A4
 
 #define MENUCH_SEL_UNK_LEN 15U
 
 typedef struct MenuChSel {
-    /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x0004 */ s32 unk_0004;
-    /* 0x0008 */ s32 unk_0008[4];
-    /* 0x0018 */ s32 unk_0018[4];
-    /* 0x0028 */ s32 unk_0028;
-    /* 0x002C */ s32 unk_002C; // bool?
-    /* 0x0030 */ s32 unk_0030; /* ThinkLevel? */
-    /* 0x0034 */ s32 unk_0034;
-    /* 0x0038 */ s32 unk_0038;
-    /* 0x003C */ s32 unk_003C;
-    /* 0x0040 */ s32 unk_0040[4];
-    /* 0x0050 */ s32 unk_0050[4];
-    /* 0x0060 */ s32 unk_0060;
-    /* 0x0064 */ s32 unk_0064[4];
-    /* 0x0074 */ SMenuItem unk_0074;
-    /* 0x0104 */ SMenuItem unk_0104;
-    /* 0x0194 */ SMenuItem unk_0194[MENUCH_SEL_UNK_LEN];
-    /* 0x0A04 */ SMenuItem unk_0A04[MENUCH_SEL_UNK_LEN];
-    /* 0x1274 */ MenuComLvPanel unk_1274[MENUCH_SEL_UNK_LEN];
-    /* 0x23CC */ MenuCursor unk_23CC[4];
-} MenuChSel; // size >= 0x2D4C <= 0x75A4
+    /* 0x0000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x0004 */ s32 allCount; /* Original name: allCount */
+    /* 0x0008 */ s32 select[4]; /* Original name: select */
+    /* 0x0018 */ s32 depth[4]; /* Original name: depth */
+    /* 0x0028 */ s32 subDepth; /* Original name: subDepth */
+    /* 0x002C */ bool hardFlag; /* Original name: hardFlag */
+    /* 0x0030 */ s32 hardMode; /* Original name: hardMode */ /* ThinkLevel? */
+    /* 0x0034 */ s32 comLvId; /* Original name: comLvId */
+    /* 0x0038 */ s32 comLvPn; /* Original name: comLvPn */
+    /* 0x003C */ s32 playerCount; /* Original name: playerCount */
+    /* 0x0040 */ s32 playerTable[4]; /* Original name: playerTable */
+    /* 0x0050 */ s32 cpuFlag[4]; /* Original name: cpuFlag */
+    /* 0x0060 */ s32 cpuCount; /* Original name: cpuCount */
+    /* 0x0064 */ s32 cpuTable[4]; /* Original name: cpuTable */
+    /* 0x0074 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x0104 */ SMenuItem miHard; /* Original name: miHard */
+    /* 0x0194 */ SMenuItem miChar[MENUCH_SEL_UNK_LEN]; /* Original name: miChar */
+    /* 0x0A04 */ SMenuItem miCharFilt[MENUCH_SEL_UNK_LEN]; /* Original name: miCharFilt */
+    /* 0x1274 */ MenuComLvPanel comLv[MENUCH_SEL_UNK_LEN]; /* Original name: comLv */
+    /* 0x23CC */ MenuCursor cursor[4]; /* Original name: cursor */
+} MenuChSel; // size = 0x2D4C
+
+// TODO: make enums for all the depths
 
 typedef struct MenuPlay2 {
-    /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x0004 */ s32 unk_0004; // enum?
-    /* 0x0008 */ s32 unk_0008;
-    /* 0x000C */ s32 unk_000C;
-    /* 0x0010 */ s32 unk_0010[4];
-    /* 0x0020 */ s32 unk_0020;
-    /* 0x0024 */ s32 unk_0024[4];
-    /* 0x0034 */ SMenuItem unk_0034;
-    /* 0x00C4 */ s32 unk_00C4;
-    /* 0x00C8 */ MenuPlay2Panel unk_00C8[4];
-    /* 0x6548 */ MenuPlay2PanelSub unk_6548;
+    /* 0x0000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x0004 */ s32 depth; /* Original name: depth */
+    /* 0x0008 */ s32 master; /* Original name: master */
+    /* 0x000C */ s32 playerCount; /* Original name: playerCount */
+    /* 0x0010 */ s32 playerTable[4]; /* Original name: playerTable */
+    /* 0x0020 */ s32 cpuCount; /* Original name: cpuCount */
+    /* 0x0024 */ s32 cpuTable[4]; /* Original name: cpuTable */
+    /* 0x0034 */ SMenuItem miONaJi; /* Original name: miONaJi */
+    /* 0x00C4 */ s32 panelCount; /* Original name: panelCount */
+    /* 0x00C8 */ MenuPlay2Panel panel[4]; /* Original name: panel */
+    /* 0x6548 */ MenuPlay2PanelSub panelSub; /* Original name: panelSub */
 } MenuPlay2; // size = 0x75A4
 
 typedef struct MenuNmEnt {
-    /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x0004 */ s32 unk_0004;
-    /* 0x0008 */ s32 unk_0008;
-    /* 0x000C */ s32 unk_000C[2];
-    /* 0x0014 */ s32 unk_0014[2];
-    /* 0x001C */ s32 unk_001C[2][2];
-    /* 0x002C */ s8 unk_002C[2][4]; // char instead of s8?
-    /* 0x0034 */ s32 unk_0034[2];
-    /* 0x003C */ SMenuItem unk_003C;
-    /* 0x00CC */ SMenuItem unk_00CC;
-    /* 0x015C */ SMenuItem unk_015C;
-    /* 0x01EC */ SMenuItem unk_01EC;
-    /* 0x027C */ SMenuItem unk_027C;
-    /* 0x030C */ MenuCursor unk_030C;
-    /* 0x056C */ SMenuItem unk_056C;
-    /* 0x05FC */ SMenuItem unk_05FC;
+    /* 0x0000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x0004 */ s32 playerNo; /* Original name: playerNo */
+    /* 0x0008 */ s32 playerCount; /* Original name: playerCount */
+    /* 0x000C */ s32 flow[EVS_SELECT_NAME_NO_COUNT]; /* Original name: flow */
+    /* 0x0014 */ s32 pageNo[EVS_SELECT_NAME_NO_COUNT]; /* Original name: pageNo */
+    /* 0x001C */ s32 curPos[EVS_SELECT_NAME_NO_COUNT][2]; /* Original name: curPos */
+    /* 0x002C */ s8 name[EVS_SELECT_NAME_NO_COUNT][4]; /* Original name: name */
+    /* 0x0034 */ s32 namePos[EVS_SELECT_NAME_NO_COUNT]; /* Original name: namePos */
+    /* 0x003C */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x00CC */ SMenuItem miPanel; /* Original name: miPanel */
+    /* 0x015C */ SMenuItem miPlayerNo; /* Original name: miPlayerNo */
+    /* 0x01EC */ SMenuItem miTable; /* Original name: miTable */
+    /* 0x027C */ SMenuItem miCursor; /* Original name: miCursor */
+    /* 0x030C */ MenuCursor cursor; /* Original name: cursor */
+    /* 0x056C */ SMenuItem miName; /* Original name: miName */
+    /* 0x05FC */ SMenuItem miNamePos; /* Original name: miNamePos */
 } MenuNmEnt; // size >= 0x68C <= 0x75A4
 
 typedef struct MenuRankBase {
-    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x04 */ SMenuItem unk_04;
+    /* 0x00 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x04 */ SMenuItem miBase; /* Original name: miBase */
 } MenuRankBase; // size = 0x94
 
 typedef struct MenuRankNum {
-    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x04 */ s32 unk_04;
-    /* 0x08 */ SMenuItem unk_08;
+    /* 0x00 */ struct struct_watchMenu *global;
+    /* 0x04 */ s32 number;
+    /* 0x08 */ SMenuItem miBase;
 } MenuRankNum; // size = 0x98
 
+
+typedef enum menuRankFig_init {
+    /*  7 */ RANK_FIG_NUMBER = 7, /* Original name: RANK_FIG_NUMBER */
+    /*  8 */ RANK_FIG_TIME, /* Original name: RANK_FIG_TIME */
+    /*  9 */ RANK_FIG_RATIO, /* Original name: RANK_FIG_RATIO */
+    /* 10 */ RANK_FIG_LEVEL , /* Original name: RANK_FIG_LEVEL */
+    /* 11 */ RANK_FIG_TIME2 , /* Original name: RANK_FIG_TIME2 */
+    /* 12 */ RANK_FIG_CLEAR , /* Original name: RANK_FIG_CLEAR */
+    /* 13 */ RANK_FIG_ALL , /* Original name: RANK_FIG_ALL */
+    /* 14 */ RANK_FIG_SUM , /* Original name: RANK_FIG_SUM */
+} MenuRankFigType;
+
+#define MENURANKFIG_COLUMNS_MAX 10
+
+#define RANK_FIG_NUMBER_MAX_COL 7
+#define RANK_FIG_TIME_MAX_COL 5
+#define RANK_FIG_RATIO_MAX_COL 6
+#define RANK_FIG_LEVEL_MAX_COL 7
+#define RANK_FIG_TIME2_MAX_COL 6
+#define RANK_FIG_CLEAR_MAX_COL 5
+#define RANK_FIG_ALL_MAX_COL 3
+
+#if RANK_FIG_NUMBER_MAX_COL > MENURANKFIG_COLUMNS_MAX
+#error ""
+#endif
+#if RANK_FIG_TIME_MAX_COL > MENURANKFIG_COLUMNS_MAX
+#error ""
+#endif
+#if RANK_FIG_RATIO_MAX_COL > MENURANKFIG_COLUMNS_MAX
+#error ""
+#endif
+#if RANK_FIG_LEVEL_MAX_COL > MENURANKFIG_COLUMNS_MAX
+#error ""
+#endif
+#if RANK_FIG_TIME2_MAX_COL > MENURANKFIG_COLUMNS_MAX
+#error ""
+#endif
+#if RANK_FIG_CLEAR_MAX_COL > MENURANKFIG_COLUMNS_MAX
+#error ""
+#endif
+#if RANK_FIG_ALL_MAX_COL > MENURANKFIG_COLUMNS_MAX
+#error ""
+#endif
+
+typedef enum MenuRankFigVal {
+    /*  0 */ MENURANKFIGVALUE_0,
+    /*  1 */ MENURANKFIGVALUE_1,
+    /*  2 */ MENURANKFIGVALUE_2,
+    /*  3 */ MENURANKFIGVALUE_3,
+    /*  4 */ MENURANKFIGVALUE_4,
+    /*  5 */ MENURANKFIGVALUE_5,
+    /*  6 */ MENURANKFIGVALUE_6,
+    /*  7 */ MENURANKFIGVALUE_7,
+    /*  8 */ MENURANKFIGVALUE_8,
+    /*  9 */ MENURANKFIGVALUE_9,
+    /* 10 */ MENURANKFIGVALUE_C,
+    /* 11 */ MENURANKFIGVALUE_L,
+    /* 12 */ MENURANKFIGVALUE_E,
+    /* 13 */ MENURANKFIGVALUE_A,
+    /* 14 */ MENURANKFIGVALUE_R,
+    /* 15 */ MENURANKFIGVALUE_COLON,
+    /* 16 */ MENURANKFIGVALUE_PERCENTAGE,
+    /* 17 */ MENURANKFIGVALUE_DOT,
+    /* 18 */ MENURANKFIGVALUE_V,
+    /* 19 */ MENURANKFIGVALUE_MAX,
+} MenuRankFigVal;
 
 typedef enum MenuRankFigColor {
     /* 0 */ MENURANKFIG_COLOR_WHITE,
@@ -541,35 +610,34 @@ typedef enum MenuRankFigColor {
 } MenuRankFigColor;
 
 typedef struct MenuRankFig {
-    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x04 */ s32 unk_04; // enum?
-    /* 0x08 */ s32 unk_08; // enum?
-    /* 0x0C */ s32 unk_0C[7];
-    /* 0x28 */ UNK_TYPE1 unk_28[0xC];
-    /* 0x34 */ s32 unk_34;
-    /* 0x38 */ SMenuItem unk_38;
+    /* 0x00 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x04 */ MenuRankFigType type; /* Original name: type */
+    /* 0x08 */ s32 column; /* Original name: column */
+    /* 0x0C */ MenuRankFigVal columns[MENURANKFIG_COLUMNS_MAX]; /* Original name: columns */
+    /* 0x34 */ s32 number; /* Original name: number */
+    /* 0x38 */ SMenuItem miBase; /* Original name: miBase */
 } MenuRankFig; // size = 0xC8
 
 typedef struct MenuRankName {
-    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x04 */ u8 unk_04[4];
-    /* 0x08 */ SMenuItem unk_08;
+    /* 0x00 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x04 */ u8 name[4]; /* Original name: name */
+    /* 0x08 */ SMenuItem miBase; /* Original name: miBase */
 } MenuRankName; // size = 0x98
 
 typedef struct MenuRankLabel {
-    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
+    /* 0x00 */ struct struct_watchMenu *global;
     /* 0x04 */ s32 type;
-    /* 0x08 */ s32 id;
-    /* 0x0C */ SMenuItem unk_0C;
+    /* 0x08 */ s32 index;
+    /* 0x0C */ SMenuItem miBase;
 } MenuRankLabel; // size = 0x9C
 
 #define MENURANKHEADER_UNK_98 5
 
 typedef struct MenuRankHeader {
-    /* 0x00 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x04 */ s32 unk_04; // count of unk_98
-    /* 0x08 */ SMenuItem unk_08;
-    /* 0x98 */ MenuRankLabel unk_98[MENURANKHEADER_UNK_98];
+    /* 0x00 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x04 */ s32 labelCount; /* Original name: labelCount */ /* count of label */
+    /* 0x08 */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x98 */ MenuRankLabel label[MENURANKHEADER_UNK_98]; /* Original name: label */
 } MenuRankHeader; // size = 0x3A4
 
 typedef struct MenuRankPanel {
@@ -832,72 +900,74 @@ void menuMain_input(MenuMain *mMain);
 void menuMain_update(MenuMain *mMain);
 void menuMain_drawKaSaMaRu(MenuMain *mMain, Gfx **gfxP);
 void menuMain_draw(MenuMain *mMain, Gfx **gfxP);
-void func_800513F0(s32 arg0, s32 arg1, s32 arg2, s32 *xP, s32 *yP);
-void func_80051480(MenuStory *menuStory, s32 arg1, f32 arg2);
-void func_800514C4(void *arg);
-void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, void **heapP);
-void func_80051974(MenuStory *menuStory);
-s32 func_800519CC(MenuStory *menuStory);
+void menuStory_getCharPos(s32 charNo, s32 stageNo, s32 plane, s32 *x, s32 *y);
+void menuStory_setFrame(MenuStory *story, s32 dir, f32 time);
+void _menuStory_loadAnime(void *arg);
+void menuStory_init(MenuStory *story, struct_watchMenu *global, void **heapP);
+void menuStory_waitCancel(MenuStory *story);
+s32 menuStory_getLevel(MenuStory *story);
 s32 func_800519EC(MenuStory *menuStory);
-void menuStory_input(MenuStory *menuStory);
-void menuStory_update(MenuStory *menuStory);
-void menuStory_draw(MenuStory *menuStory, Gfx **gfxP);
-void func_800529FC(MenuLvSel *menuLvSel, s32 arg1, f32 arg2);
-void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, void **heapP);
-void func_80052DF0(MenuLvSel *menuLvSel);
-void menuLvSel_input(MenuLvSel *menuLvSel);
-void menuLvSel_update(MenuLvSel *menuLvSel);
-void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP);
-void func_8005380C(MenuChSel *menuChSel, s32 arg1, f32 arg2);
-void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, void **heapP);
-bool menuChSel_checkSelected(MenuChSel *menuChSel, s32 arg1, s32 arg2, s32 arg3);
-bool func_80053C84(MenuChSel *menuChSel, s32 arg1, s32 arg2);
-void menuChSel_input1(MenuChSel *menuChSel, s32 arg1, s32 arg2);
-void menuChSel_inputMan(MenuChSel *menuChSel);
-void menuChSel_inputCom(MenuChSel *menuChSel);
-void menuChSel_input(MenuChSel *menuChSel);
-void menuChSel_update(MenuChSel *menuChSel);
-void menuChSel_draw(MenuChSel *menuChSel, Gfx **gfxP);
-void func_80054A94(MenuPlay2 *menuPlay2, s32 arg1, f32 arg2);
-void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void **heapP);
-void func_800550F4(MenuPlay2 *menuPlay2);
-bool func_80055154(MenuPlay2 *play2, s32 arg1, s32 arg2);
-void func_800551BC(MenuPlay2 *menuPlay2, s32 index);
-void func_80055254(MenuPlay2 *menuPlay2, s32 arg1);
+void menuStory_input(MenuStory *story);
+void menuStory_update(MenuStory *story);
+void menuStory_draw(MenuStory *story, Gfx **gfxP);
+void menuLvSel_setFrame(MenuLvSel *lvSel, s32 dir, f32 time);
+void menuLvSel_init(MenuLvSel *lvSel, struct_watchMenu *global, void **heapP);
+void menuLvSel_waitCancel(MenuLvSel *lvSel);
+void menuLvSel_input(MenuLvSel *lvSel);
+void menuLvSel_update(MenuLvSel *lvSel);
+void menuLvSel_draw(MenuLvSel *lvSel, Gfx **gfxP);
+void menuChSel_setFrame(MenuChSel *chSel, s32 dir, f32 time);
+void menuChSel_init(MenuChSel *chSel, struct_watchMenu *global, void **heapP);
+bool menuChSel_checkSelected(MenuChSel *chSel, s32 playerNo, s32 charNo, s32 depth);
+bool menuChSel_checkMoveable(MenuChSel *chSel, s32 playerNo, s32 charNo);
+void menuChSel_input1(MenuChSel *chSel, s32 playerNo, s32 contNo);
+void menuChSel_inputMan(MenuChSel *chSel);
+void menuChSel_inputCom(MenuChSel *chSel);
+void menuChSel_input(MenuChSel *chSel);
+void menuChSel_update(MenuChSel *chSel);
+void menuChSel_draw(MenuChSel *chSel, Gfx **gfxP);
+void menuPlay2_setFrame(MenuPlay2 *play2, s32 dir, f32 time);
+void menuPlay2_init(MenuPlay2 *play2, struct_watchMenu *global, void **heapP);
+void menuPlay2_waitCancel(MenuPlay2 *play2);
+bool menuPlay2_checkInputMaster(MenuPlay2 *play2, s32 playerNo, s32 contNo);
+void menuPlay2_applyMasterConfig(MenuPlay2 *play2, s32 playerNo);
+void menuPlay2_applyMasterCursor(MenuPlay2 *menuPlay2, s32 arg1);
 void menuPlay2_inputMan(MenuPlay2 *play2);
 void menuPlay2_inputCpu(MenuPlay2 *play2);
-void menuPlay2_input(MenuPlay2 *menuPlay2);
-void menuPlay2_update(MenuPlay2 *menuPlay2);
-void menuPlay2_draw(MenuPlay2 *menuPlay2, Gfx **gfxP);
-void func_80055DFC(MenuNmEnt *menuNmEnt, s32 arg1, f32 arg2);
-void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *watchMenuRef, void **heapP);
-void func_800560D4(MenuNmEnt *nmEnt);
-void menuNmEnt_input(MenuNmEnt *menuNmEnt);
-void menuNmEnt_update(MenuNmEnt *menuNmEnt);
-void menuNmEnt_draw(MenuNmEnt *menuNmEnt, Gfx **gfxP);
-void func_80056C84(MenuRankBase *menuRankBase, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3);
-void func_80056CAC(MenuRankBase *arg0, SMenuItem *arg1);
+void menuPlay2_input(MenuPlay2 *play2);
+void menuPlay2_update(MenuPlay2 *play2);
+void menuPlay2_draw(MenuPlay2 *play2, Gfx **gfxP);
+void menuNmEnt_setFrame(MenuNmEnt *nmEnt, s32 dir, f32 time);
+void menuNmEnt_init(MenuNmEnt *nmEnt, struct_watchMenu *global, void **heapP);
+void _menuNmEnt_updateCallback(void *arg);
+void menuNmEnt_input(MenuNmEnt *nmEnt);
+void menuNmEnt_update(MenuNmEnt *nmEnt);
+void menuNmEnt_draw(MenuNmEnt *nmEnt, Gfx **gfxP);
+void menuRankBase_init(MenuRankBase *rankBase, struct_watchMenu *global, s32 x, s32 y);
+void menuRankBase_update(MenuRankBase *rankBase, SMenuItem *parent);
 void menuRankBase_draw(MenuRankBase *rankBaseArr[], s32 count, Gfx **gfxP);
-void func_80056DF0(MenuRankNum *menuRankNum, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4);
-void func_80056E1C(MenuRankNum *arg0, SMenuItem *arg1);
+void menuRankNum_init(MenuRankNum *rankNum, struct_watchMenu *global, s32 number, s32 x, s32 y);
+void menuRankNum_update(MenuRankNum *rankNum, SMenuItem *parent);
 void menuRankNum_draw(MenuRankNum *rankNumArr[], s32 count, Gfx **gfxP);
-void menuRankFig_init(MenuRankFig *menuRankFig, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3, MenuRankFigColor color, s32 arg5, s32 arg6);
-void menuRankFig_update(MenuRankFig *rankFig, SMenuItem *arg1);
+void menuRankFig_init(MenuRankFig *rankFig, struct_watchMenu *global, MenuRankFigType column, s32 number,
+                      MenuRankFigColor color, s32 x, s32 y);
+void menuRankFig_update(MenuRankFig *rankFig, SMenuItem *parent);
 void menuRankFig_draw(MenuRankFig *rankFigArr[], s32 count, Gfx **gfxP);
-void menuRankName_init(MenuRankName *menuRankName, struct_watchMenu *watchMenuRef, u8 arg2[4], s32 arg3, s32 arg4);
-void func_80057724(MenuRankName *arg0, SMenuItem *arg1);
+void menuRankName_init(MenuRankName *rankName, struct_watchMenu *global, const u8 name[4], s32 x, s32 y);
+void menuRankName_update(MenuRankName *rankName, SMenuItem *parent);
 void menuRankName_draw(MenuRankName *rankNameArr[], s32 count, Gfx **gfxP);
-void func_80057898(MenuRankLabel *menuRankLabel, struct_watchMenu *watchMenuRef, s32 type, s32 id, s32 x, s32 y);
-void func_800578C8(MenuRankLabel *arg0, SMenuItem *arg1);
+void menuRankLabel_init(MenuRankLabel *rankLabel, struct_watchMenu *global, s32 type, s32 index, s32 x, s32 y);
+void menuRankLabel_update(MenuRankLabel *rankLabel, SMenuItem *parent);
 void menuRankLabel_draw(MenuRankLabel *rankLabelArr[], s32 count, Gfx **gfxP);
-void func_80057AFC(MenuRankHeader *menuRankHeader, struct_watchMenu *watchMenuRef, const s32 *typeP, const s32 *idP, const s32 *xP, const s32 *yP, s32 count, s32 arg7, s32 arg8);
-void func_80057BE8(MenuRankHeader *rankHeader, SMenuItem *arg1);
+void menuRankHeader_init(MenuRankHeader *rankHeader, struct_watchMenu *global, const s32 *labelType,
+                         const s32 *labelIndex, const s32 *labelX, const s32 *labelY, s32 labelCount, s32 x, s32 y);
+void menuRankHeader_update(MenuRankHeader *rankHeader, SMenuItem *parent);
 void menuRankHeader_draw(MenuRankHeader *rankHeaderArr[], s32 count, Gfx **gfxP);
-void func_80057D24(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, u32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
-void func_80057E68(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-void func_80057F6C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-void func_8005806C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9);
-void func_800581C8(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
+void func_80057D24(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], u32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
+void func_80057E68(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4, s32 arg5, s32 arg6, s32 arg7);
+void func_80057F6C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4, s32 arg5, s32 arg6, s32 arg7);
+void func_8005806C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9);
+void func_800581C8(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
 void menuRankPanel_update(MenuRankPanel *arg0, SMenuItem *arg1);
 void menuRankPanel_draw(MenuRankPanel **arg0, s32 count, Gfx **gfxP);
 void menuRank_setNameBaseScale(MenuRank *menuRank, UNK_TYPE arg1, f32 arg2);

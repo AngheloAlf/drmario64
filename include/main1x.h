@@ -2,12 +2,12 @@
 #define MAIN1X_H
 
 #include "libultra.h"
+
+#include "defines.h"
 #include "main.h"
 
 // TODO: use MAXCONTROLLERS instead?
 #define STRUCT_EVS_CFG_4P_COUNT 4
-
-#define EVS_SELECT_NAME_NO_COUNT 2
 
 typedef struct struct_evs_cfg_4p {
     /* 0x00 */ u8 p4_team[STRUCT_EVS_CFG_4P_COUNT]; /* Original name: p4_team */

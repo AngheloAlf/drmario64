@@ -6153,11 +6153,13 @@ end:
  */
 void menuMain_draw(MenuMain *mMain, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
+    TiTexData *texC;
     s32 i;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    menuItem_drawTex(&mMain->miMsgWnd, &gfx, _getTexMain(mMain->global, 6), 0);
+    texC = _getTexMain(mMain->global, 6);
+    menuItem_drawTex(&mMain->miMsgWnd, &gfx, texC, 0);
     if (!menuItem_outOfScreen(&mMain->miMsgWnd, mMain->msgWnd.colStep * mMain->msgWnd.colSize,
                               mMain->msgWnd.rowStep * mMain->msgWnd.rowSize)) {
         msgWnd_draw(&mMain->msgWnd, &gfx);
@@ -6204,45 +6206,54 @@ const s32 _pos_6413[][9][2] = {
     },
 };
 
-void func_800513F0(s32 arg0, s32 arg1, s32 arg2, s32 *xP, s32 *yP) {
-    s32 var_v1 = 0;
+/**
+ * Original name: menuStory_getCharPos
+ */
+void menuStory_getCharPos(s32 charNo, s32 stageNo, s32 plane, s32 *x, s32 *y) {
+    s32 i = 0;
 
-    switch (arg2) {
+    switch (plane) {
         case 0:
-            var_v1 = CLAMP(arg1, 1, 4);
+            i = CLAMP(stageNo, 1, 4);
             break;
 
         case 1:
-            var_v1 = CLAMP(arg1, 5, 9);
+            i = CLAMP(stageNo, 5, 9);
             break;
     }
 
-    var_v1--;
+    i--;
 
-    *xP = _pos_6413[arg0][var_v1][0];
-    *yP = _pos_6413[arg0][var_v1][1];
+    *x = _pos_6413[charNo][i][0];
+    *y = _pos_6413[charNo][i][1];
 }
 
-void func_80051480(MenuStory *menuStory, s32 arg1, f32 arg2) {
-    SMenuItem *item = &menuStory->unk_0040;
+/**
+ * Original name: menuStory_setFrame
+ */
+void menuStory_setFrame(MenuStory *story, s32 dir, f32 time) {
+    SMenuItem *item = &story->miBase;
 
-    item->transTime = arg2;
+    item->transTime = time;
     item->transStep = 0.05f;
     item->transRange[0][1] = item->transRange[1][1] - 240.0f;
-    menuItem_setTransDir(item, arg1);
+    menuItem_setTransDir(item, dir);
 }
 
-void func_800514C4(void *arg) {
-    MenuStory *menuStory = arg;
-    CharAnimeMode var_s0;
+/**
+ * Original name: _menuStory_loadAnime
+ */
+void _menuStory_loadAnime(void *arg) {
+    MenuStory *story = arg;
+    CharAnimeMode i;
 
-    for (var_s0 = 0; var_s0 < ARRAY_COUNTU(menuStory->unk_0038); var_s0++) {
-        void *sp10 = menuStory->unk_0038[var_s0];
+    for (i = 0; i < ARRAY_COUNTU(story->animeAddr); i++) {
+        void *heap = story->animeAddr[i];
 
-        animeState_load(&menuStory->unk_0280[var_s0], &sp10, var_s0);
+        animeState_load(&story->animeState[i], &heap, i);
     }
 
-    menuStory->unk_0034 = true;
+    story->loaded = true;
 }
 
 const s32 _posChar_6445[][2] = {
@@ -6264,189 +6275,206 @@ const s32 _cursor_6447[][4] = {
 };
 static_assert(ARRAY_COUNT(_cursor_6447) == MENUSTORY_UNK_LEN_3, "");
 
-void menuStory_init(MenuStory *menuStory, struct_watchMenu *watchMenuRef, void **heapP) {
+/**
+ * Original name: menuStory_init
+ */
+void menuStory_init(MenuStory *story, struct_watchMenu *global, void **heapP) {
     void *heap = *heapP;
-    struct_evs_mem_data *var_v1 = &evs_mem_data[evs_select_name_no[0]];
-    struct_evs_mem_data_config *temp_s4 = &var_v1->config;
+    struct_evs_mem_data *mc = &evs_mem_data[evs_select_name_no[0]];
+    struct_evs_mem_data_config *cfg = &mc->config;
     s32 i;
-    CharAnimeMode var_s1_3;
+    CharAnimeMode animeMode;
     SMenuItem *item;
 
-    menuStory->watchMenuRef = watchMenuRef;
+    story->global = global;
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0004); i++) {
-        menuStory->unk_0004[i][0] = var_v1->clear_stage[i][0] + 1;
-        menuStory->unk_0004[i][1] = var_v1->clear_stage[i][1] + 1;
+    for (i = 0; i < ARRAY_COUNTU(story->stageMax); i++) {
+        story->stageMax[i][0] = mc->clear_stage[i][0] + 1;
+        story->stageMax[i][1] = mc->clear_stage[i][1] + 1;
     }
 
-    menuStory->unk_0024 = 0;
-    menuStory->unk_0028[0] = temp_s4->st_no;
-    menuStory->unk_0034 = false;
-    menuItem_init(&menuStory->unk_0040, 0x19, 0x2F);
-    menuStory->unk_0028[0] = temp_s4->st_no;
-    menuItem_init(&menuStory->unk_00D0, 0x45, 0x12);
+    story->depth = 0;
+    story->select[0] = cfg->st_no;
+    story->loaded = false;
+    menuItem_init(&story->miBase, 25, 47);
+    story->select[0] = cfg->st_no;
+    menuItem_init(&story->miCharName, 69, 18);
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0160); i++) {
-        menuItem_init(&menuStory->unk_0160[i], _posChar_6445[i][0], _posChar_6445[i][1]);
+    for (i = 0; i < ARRAY_COUNTU(story->miChar); i++) {
+        menuItem_init(&story->miChar[i], _posChar_6445[i][0], _posChar_6445[i][1]);
     }
 
-    for (var_s1_3 = CHARANIMEMODE_M; var_s1_3 < ARRAY_COUNTU(menuStory->unk_0038); var_s1_3++) {
-        size_t temp_v0_2;
+    for (animeMode = CHARANIMEMODE_M; animeMode < ARRAY_COUNTU(story->animeAddr); animeMode++) {
+        size_t size;
 
-        menuStory->unk_0038[var_s1_3] = ALIGN_PTR(heap);
-        temp_v0_2 = animeState_getDataSize(var_s1_3);
-        heap = menuStory->unk_0038[var_s1_3] + temp_v0_2;
+        story->animeAddr[animeMode] = ALIGN_PTR(heap);
+        size = animeState_getDataSize(animeMode);
+        heap = story->animeAddr[animeMode] + size;
     }
 
-    BgTasksManager_SendTask(func_800514C4, menuStory);
+    BgTasksManager_SendTask(_menuStory_loadAnime, story);
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0300); i++) {
-        menuCursor_init(&menuStory->unk_0300[i], watchMenuRef, CURSOR_ITEM, 0, _posChar_6445[i][0] - 0x18,
+    for (i = 0; i < ARRAY_COUNTU(story->charCursor); i++) {
+        menuCursor_init(&story->charCursor[i], global, CURSOR_ITEM, 0, _posChar_6445[i][0] - 0x18,
                         _posChar_6445[i][1] - 0x2C, 0x30, 0x2F);
     }
 
-    menuStory->unk_0028[1] = temp_s4->st_lv;
-    menuSpeedAsk_init(&menuStory->unk_07C0, watchMenuRef, 3, temp_s4->st_lv, 0x45, 0x3D);
-    menuSpeedItem_init(&menuStory->unk_085C, watchMenuRef, 3, 0, temp_s4->st_lv, 0x7D, 0x39, 0x34);
-    menuStory->unk_085C.flags.special = temp_s4->st_sh != 0;
+    story->select[1] = cfg->st_lv;
+    menuSpeedAsk_init(&story->speedAsk, global, 3, cfg->st_lv, 0x45, 0x3D);
+    menuSpeedItem_init(&story->speedItem, global, 3, 0, cfg->st_lv, 0x7D, 0x39, 0x34);
+    story->speedItem.flags.special = cfg->st_sh != 0;
 
-    menuStory->unk_0028[2] = temp_s4->st_st + 1;
-    menuNumber_init(&menuStory->unk_0EC0, watchMenuRef, 1, 1, temp_s4->st_st + 1, 0x65, 0x5A);
-    menuItem_init(&menuStory->unk_0F6C, 0x10, 0x6E);
+    story->select[2] = cfg->st_st + 1;
+    menuNumber_init(&story->stageNum, global, 1, 1, cfg->st_st + 1, 0x65, 0x5A);
+    menuItem_init(&story->miStageBase, 0x10, 0x6E);
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0FFC); i++) {
-        item = &menuStory->unk_0FFC[i];
+    for (i = 0; i < ARRAY_COUNTU(story->miStageBg); i++) {
+        item = &story->miStageBg[i];
 
         menuItem_init(item, 0, 0);
         menuItem_setColor_fade(item);
         item->colorStep = 0.05f;
     }
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_111C); i++) {
-        menuItem_init(&menuStory->unk_111C[i], _posBgCursor_6446[i][0], _posBgCursor_6446[i][1]);
-        menuItem_setColor_cursor(&menuStory->unk_111C[i]);
+    for (i = 0; i < ARRAY_COUNTU(story->miBgCursor); i++) {
+        menuItem_init(&story->miBgCursor[i], _posBgCursor_6446[i][0], _posBgCursor_6446[i][1]);
+        menuItem_setColor_cursor(&story->miBgCursor[i]);
     }
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_123C); i++) {
+    for (i = 0; i < ARRAY_COUNTU(story->miWalk); i++) {
         s32 x;
         s32 y;
 
-        func_800513F0(menuStory->unk_0028[0], menuStory->unk_0028[2], i, &x, &y);
-        menuItem_init(&menuStory->unk_123C[i], x, y);
+        menuStory_getCharPos(story->select[0], story->select[2], i, &x, &y);
+        menuItem_init(&story->miWalk[i], x, y);
     }
 
-    item = &menuStory->unk_111C[0];
+    item = &story->miBgCursor[0];
     item->scaleRange[0][0] = -item->scaleRange[0][0];
     item->scaleRange[1][0] = -item->scaleRange[1][0];
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_135C); i++) {
-        menuCursor_init(&menuStory->unk_135C[i], watchMenuRef, CURSOR_PANEL, 0, _cursor_6447[i][0], _cursor_6447[i][1],
+    for (i = 0; i < ARRAY_COUNTU(story->cursor); i++) {
+        menuCursor_init(&story->cursor[i], global, CURSOR_PANEL, 0, _cursor_6447[i][0], _cursor_6447[i][1],
                         _cursor_6447[i][2], _cursor_6447[i][3]);
     }
 
-    func_80051480(menuStory, 1, 0.0f);
+    menuStory_setFrame(story, 1, 0.0f);
     *heapP = heap;
 }
 
-void func_80051974(MenuStory *menuStory) {
-    u32 keyTrg = _getKeyTrg(menuStory->watchMenuRef, 0);
+/**
+ * Original name: menuStory_waitCancel
+ */
+void menuStory_waitCancel(MenuStory *story) {
+    u32 trg = _getKeyTrg(story->global, 0);
 
-    if (keyTrg & B_BUTTON) {
-        _setFadeDir(menuStory->watchMenuRef, -1);
-        _setNextMain(menuStory->watchMenuRef, MAIN_MENU);
+    if (trg & B_BUTTON) {
+        _setFadeDir(story->global, -1);
+        _setNextMain(story->global, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
 
-s32 func_800519CC(MenuStory *menuStory) {
-    s32 var_v1 = menuStory->unk_085C.select;
+/**
+ * Original name: menuStory_getLevel
+ */
+s32 menuStory_getLevel(MenuStory *story) {
+    s32 level = story->speedItem.select;
 
-    if (var_v1 == 2) {
-        var_v1 += menuStory->unk_085C.flags.special;
+    if (level == 2) {
+        level += story->speedItem.flags.special;
     }
-    return var_v1;
+    return level;
 }
 
-s32 func_800519EC(MenuStory *menuStory) {
-    return menuStory->unk_0004[func_800519CC(menuStory)][menuStory->unk_0028[0]];
+/**
+ * Original name: menuStory_getStageMax
+ */
+s32 menuStory_getStageMax(MenuStory *story) {
+    s32 level = menuStory_getLevel(story);
+
+    return story->stageMax[level][story->select[0]];
 }
 
-void menuStory_input(MenuStory *menuStory) {
-    struct_evs_mem_data_config *temp_s5 = &evs_mem_data[evs_select_name_no[0]].config;
-    u32 keyRep = _getKeyRep(menuStory->watchMenuRef, 0);
-    u32 keyTrg = _getKeyTrg(menuStory->watchMenuRef, 0);
-    SndIndex soundIndex = SND_INDEX_INVALID;
-    bool var_s6 = false;
-    s32 var_s0;
-    s32 var_a1;
+/**
+ * Original name: menuStory_input
+ */
+void menuStory_input(MenuStory *story) {
+    struct_evs_mem_data_config *cfg = &evs_mem_data[evs_select_name_no[0]].config;
+    u32 rep = _getKeyRep(story->global, 0);
+    u32 trg = _getKeyTrg(story->global, 0);
+    SndIndex sound = SND_INDEX_INVALID;
+    bool special = false;
+    s32 vec;
+    s32 select;
     long i;
 
-    if (menuStory->unk_0040.transTime != DOUBLE_LITERAL(1)) {
+    if (story->miBase.transTime != DOUBLE_LITERAL(1)) {
         return;
     }
 
-    var_s0 = 0;
-    if ((keyRep & U_JPAD) || (keyTrg & B_BUTTON)) {
-        var_s0--;
+    vec = 0;
+    if ((rep & U_JPAD) || (trg & B_BUTTON)) {
+        vec--;
     }
-    if ((keyRep & D_JPAD) || (keyTrg & (A_BUTTON | START_BUTTON))) {
-        var_s0++;
-    }
-
-    var_a1 = CLAMP(menuStory->unk_0024 + var_s0, 0, 2U);
-
-    if (var_a1 != menuStory->unk_0024) {
-        soundIndex = SND_INDEX_64;
-        menuStory->unk_0024 = var_a1;
+    if ((rep & D_JPAD) || (trg & (A_BUTTON | START_BUTTON))) {
+        vec++;
     }
 
-    if (keyTrg & 0x2000) {
-        if (menuStory->unk_0024 == 1) {
-            if (menuStory->unk_085C.select == 2) {
-                if (!menuStory->unk_085C.flags.special) {
-                    menuStory->unk_085C.flags.special = true;
-                    var_s6 = true;
+    select = CLAMP(story->depth + vec, 0, 2U);
+
+    if (select != story->depth) {
+        sound = SND_INDEX_64;
+        story->depth = select;
+    }
+
+    if (trg & Z_TRIG) {
+        if (story->depth == 1) {
+            if (story->speedItem.select == 2) {
+                if (!story->speedItem.flags.special) {
+                    story->speedItem.flags.special = true;
+                    special = true;
                 } else {
-                    menuStory->unk_085C.flags.special = false;
-                    soundIndex = SND_INDEX_62;
+                    story->speedItem.flags.special = false;
+                    sound = SND_INDEX_62;
                 }
             }
         }
     }
 
-    var_s0 = 0;
-    if (keyRep & L_JPAD) {
-        var_s0--;
+    vec = 0;
+    if (rep & L_JPAD) {
+        vec--;
     }
-    if (keyRep & R_JPAD) {
-        var_s0++;
+    if (rep & R_JPAD) {
+        vec++;
     }
 
-    switch (menuStory->unk_0024) {
+    switch (story->depth) {
         case 0x0:
-            var_a1 = CLAMP(menuStory->unk_0028[menuStory->unk_0024] + var_s0, 0, 1);
+            select = CLAMP(story->select[story->depth] + vec, 0, 1);
 
-            if (var_a1 != menuStory->unk_0028[menuStory->unk_0024]) {
-                soundIndex = SND_INDEX_63;
-                menuStory->unk_0028[menuStory->unk_0024] = var_a1;
+            if (select != story->select[story->depth]) {
+                sound = SND_INDEX_63;
+                story->select[story->depth] = select;
             }
             break;
 
         case 0x1:
-            menuSpeedItem_input(&menuStory->unk_085C, 0);
-            menuStory->unk_0028[menuStory->unk_0024] = menuStory->unk_085C.select;
+            menuSpeedItem_input(&story->speedItem, 0);
+            story->select[story->depth] = story->speedItem.select;
             break;
 
         case 0x2:
-            i = func_800519EC(menuStory);
-            var_a1 = CLAMP(menuStory->unk_0028[menuStory->unk_0024] + var_s0, 1, i);
+            i = menuStory_getStageMax(story);
+            select = CLAMP(story->select[story->depth] + vec, 1, i);
 
-            if (var_a1 != menuStory->unk_0028[menuStory->unk_0024]) {
-                soundIndex = SND_INDEX_63;
-                menuStory->unk_0028[menuStory->unk_0024] = var_a1;
+            if (select != story->select[story->depth]) {
+                sound = SND_INDEX_63;
+                story->select[story->depth] = select;
 
-                for (i = 0; i < ARRAY_COUNTU(menuStory->unk_123C); i++) {
-                    SMenuItem *item = &menuStory->unk_123C[i];
+                for (i = 0; i < ARRAY_COUNTU(story->miWalk); i++) {
+                    SMenuItem *item = &story->miWalk[i];
 
                     item->transTime = 0.0f;
                     item->transRange[0][0] = item->transRange[1][0];
@@ -6456,29 +6484,29 @@ void menuStory_input(MenuStory *menuStory) {
             break;
     }
 
-    i = func_800519EC(menuStory);
-    menuStory->unk_0028[2] = CLAMP(menuStory->unk_0028[2], 1, i);
+    i = menuStory_getStageMax(story);
+    story->select[2] = CLAMP(story->select[2], 1, i);
 
-    if (soundIndex <= SND_INDEX_INVALID) {
-        if ((keyTrg & (A_BUTTON | START_BUTTON)) && (menuStory->unk_0024 == 2)) {
-            _setFadeDir(menuStory->watchMenuRef, 1);
-            _setNextMain(menuStory->watchMenuRef, MAIN_STORY);
+    if (sound <= SND_INDEX_INVALID) {
+        if ((trg & (A_BUTTON | START_BUTTON)) && (story->depth == 2)) {
+            _setFadeDir(story->global, 1);
+            _setNextMain(story->global, MAIN_STORY);
 
-            temp_s5->st_lv = menuStory->unk_085C.select;
-            temp_s5->st_sh = menuStory->unk_085C.flags.special;
-            temp_s5->st_st = menuStory->unk_0EC0.number - 1;
-            temp_s5->st_no = menuStory->unk_0028[0];
+            cfg->st_lv = story->speedItem.select;
+            cfg->st_sh = story->speedItem.flags.special;
+            cfg->st_st = story->stageNum.number - 1;
+            cfg->st_no = story->select[0];
 
-            evs_story_level = func_800519CC(menuStory);
+            evs_story_level = menuStory_getLevel(story);
 
-            evs_story_no = menuStory->unk_0EC0.number;
+            evs_story_no = story->stageNum.number;
 
             i = (evs_story_no > 1) ? 1 : 0;
             game_state_data[0].game_retry = i;
             evs_one_game_flg = i;
 
-            story_proc_no = menuStory->unk_0EC0.number;
-            if (menuStory->unk_0028[0] == 1) {
+            story_proc_no = story->stageNum.number;
+            if (story->select[0] == 1) {
                 story_proc_no += 0xC;
             }
 
@@ -6486,23 +6514,23 @@ void menuStory_input(MenuStory *menuStory) {
             evs_game_time = 0;
 
             if (evs_story_level < 3) {
-                for (i = 0; i < 9; i++) {
+                for (i = 0; i < ARRAY_COUNT(evs_mem_data); i++) {
                     evs_high_score = MAX(evs_high_score, evs_mem_data[i].story_data[evs_story_level].score);
                 }
             }
 
-            soundIndex = SND_INDEX_62;
-        } else if ((keyTrg & B_BUTTON) && (menuStory->unk_0024 == 0)) {
-            _setMode(menuStory->watchMenuRef, MODE_MAIN);
-            func_80051480(menuStory, -1, 1.0f);
-            soundIndex = SND_INDEX_68;
+            sound = SND_INDEX_62;
+        } else if ((trg & B_BUTTON) && (story->depth == 0)) {
+            _setMode(story->global, MODE_MAIN);
+            menuStory_setFrame(story, -1, 1.0f);
+            sound = SND_INDEX_68;
         }
     }
 
-    if (var_s6) {
+    if (special) {
         dm_snd_play_strange_sound();
     } else {
-        SND_PLAY_INDEX(soundIndex);
+        SND_PLAY_INDEX(sound);
     }
 }
 
@@ -6513,112 +6541,115 @@ const s32 RO_800B0A50[] = {
     2,
 };
 
-void menuStory_update(MenuStory *menuStory) {
-    SMenuItem *rootItem = _getRootItem(menuStory->watchMenuRef);
+/**
+ * Original name: menuStory_update
+ */
+void menuStory_update(MenuStory *story) {
+    SMenuItem *miRoot = _getRootItem(story->global);
     MenuCursor *cursor;
     SMenuItem *item;
     s32 i;
     s32 j;
 
-    s32 sp20;
-    s32 sp24;
+    story->speedAsk.select = menuStory_getLevel(story);
+    story->stageNum.number = story->select[2];
 
-    menuStory->unk_07C0.select = func_800519CC(menuStory);
-    menuStory->unk_0EC0.number = menuStory->unk_0028[2];
+    menuItem_update(&story->miBase, miRoot);
 
-    menuItem_update(&menuStory->unk_0040, rootItem);
-
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0160); i++) {
-        menuItem_setColorDir(&menuStory->unk_0160[i], (i == menuStory->unk_0028[0]) ? 1 : -1);
+    for (i = 0; i < ARRAY_COUNTU(story->miChar); i++) {
+        menuItem_setColorDir(&story->miChar[i], (i == story->select[0]) ? 1 : -1);
     }
 
-    menuItem_update(&menuStory->unk_00D0, &menuStory->unk_0040);
-    menuItem_updateN(menuStory->unk_0160, ARRAY_COUNTU(menuStory->unk_0160), &menuStory->unk_0040);
+    menuItem_update(&story->miCharName, &story->miBase);
+    menuItem_updateN(story->miChar, ARRAY_COUNTU(story->miChar), &story->miBase);
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0280); i++) {
-        if (!menuStory->unk_0034) {
+    for (i = 0; i < ARRAY_COUNTU(story->animeState); i++) {
+        if (!story->loaded) {
             continue;
         }
 
-        animeState_update(&menuStory->unk_0280[i]);
+        animeState_update(&story->animeState[i]);
 
         for (j = 0; j < MENUITEM_COLOR_COUNT; j++) {
-            menuStory->unk_0280[i].primColor[j] = menuStory->unk_0160[0].color[j] * 255.0f;
+            story->animeState[i].primColor[j] = story->miChar[0].color[j] * 255.0f;
         }
     }
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0300); i++) {
-        cursor = &menuStory->unk_0300[i];
+    for (i = 0; i < ARRAY_COUNTU(story->charCursor); i++) {
+        cursor = &story->charCursor[i];
 
-        menuCursor_update(cursor, &menuStory->unk_0040);
+        menuCursor_update(cursor, &story->miBase);
     }
 
-    if (menuStory->unk_0024 != 1) {
-        menuStory->unk_085C.cursor.miBase.colorTime = 1.0f;
+    if (story->depth != 1) {
+        story->speedItem.cursor.miBase.colorTime = 1.0f;
     }
 
-    menuSpeedAsk_update(&menuStory->unk_07C0, &menuStory->unk_0040);
-    menuSpeedItem_update(&menuStory->unk_085C, &menuStory->unk_0040);
-    menuNumber_update(&menuStory->unk_0EC0, &menuStory->unk_0040);
+    menuSpeedAsk_update(&story->speedAsk, &story->miBase);
+    menuSpeedItem_update(&story->speedItem, &story->miBase);
+    menuNumber_update(&story->stageNum, &story->miBase);
 
-    menuItem_update(&menuStory->unk_0F6C, &menuStory->unk_0040);
+    menuItem_update(&story->miStageBase, &story->miBase);
 
-    i = (menuStory->unk_0028[2] >= 5) ? -1 : 1;
+    i = (story->select[2] >= 5) ? -1 : 1;
 
-    menuItem_setColorDir(&menuStory->unk_0FFC[0], i);
-    menuItem_setColorDir(&menuStory->unk_0FFC[1], -i);
-    menuItem_updateN(menuStory->unk_0FFC, ARRAY_COUNTU(menuStory->unk_0FFC), &menuStory->unk_0F6C);
+    menuItem_setColorDir(&story->miStageBg[0], i);
+    menuItem_setColorDir(&story->miStageBg[1], -i);
+    menuItem_updateN(story->miStageBg, ARRAY_COUNTU(story->miStageBg), &story->miStageBase);
 
     for (i = 0; i < MENUSTORY_UNK_LEN_2; i++) {
-        func_800513F0(menuStory->unk_0028[0], menuStory->unk_0028[2], i, &sp20, &sp24);
+        s32 x;
+        s32 y;
 
-        item = &menuStory->unk_123C[i];
-        menuItem_setTransHi(item, sp20, sp24);
-        menuItem_update(item, &menuStory->unk_0FFC[i]);
+        menuStory_getCharPos(story->select[0], story->select[2], i, &x, &y);
+
+        item = &story->miWalk[i];
+        menuItem_setTransHi(item, x, y);
+        menuItem_update(item, &story->miStageBg[i]);
     }
 
-    menuItem_updateN(menuStory->unk_111C, ARRAY_COUNTU(menuStory->unk_111C), &menuStory->unk_0F6C);
+    menuItem_updateN(story->miBgCursor, ARRAY_COUNTU(story->miBgCursor), &story->miStageBase);
 
-    item = menuStory->unk_111C;
-    i = func_800519EC(menuStory);
-    if ((menuStory->unk_0028[2] > 4) || (i < 5)) {
+    item = story->miBgCursor;
+    i = menuStory_getStageMax(story);
+    if ((story->select[2] > 4) || (i < 5)) {
         item[1].color[3] = 0.0f;
     }
-    if (menuStory->unk_0028[2] < 5) {
+    if (story->select[2] < 5) {
         item[0].color[3] = 0.0f;
     }
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_135C); i++) {
-        cursor = &menuStory->unk_135C[i];
+    for (i = 0; i < ARRAY_COUNTU(story->cursor); i++) {
+        cursor = &story->cursor[i];
 
-        menuCursor_update(cursor, &menuStory->unk_0040);
+        menuCursor_update(cursor, &story->miBase);
     }
 
-    j = menuStory->unk_0024 == 0;
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0300); i++) {
-        menuStory->unk_135C[0].flags.cursor = j;
-        menuStory->unk_0300[i].flags.blink = j;
-        menuStory->unk_0300[menuStory->unk_0028[0]].flags.finger = j && (i == menuStory->unk_0028[0]);
+    j = story->depth == 0;
+    for (i = 0; i < ARRAY_COUNTU(story->charCursor); i++) {
+        story->cursor[0].flags.cursor = j;
+        story->charCursor[i].flags.blink = j;
+        story->charCursor[story->select[0]].flags.finger = j && (i == story->select[0]);
     }
 
-    j = menuStory->unk_0024 == 1;
-    menuStory->unk_085C.flags.blink = j;
-    menuStory->unk_135C[1].flags.cursor = j;
-    menuStory->unk_085C.cursor.flags.finger = j;
+    j = story->depth == 1;
+    story->speedItem.flags.blink = j;
+    story->cursor[1].flags.cursor = j;
+    story->speedItem.cursor.flags.finger = j;
 
-    j = (menuStory->unk_0024 == 2);
-    menuStory->unk_135C[2].flags.cursor = j;
+    j = (story->depth == 2);
+    story->cursor[2].flags.cursor = j;
 
-    if (menuStory->unk_0024 == 2) {
+    if (story->depth == 2) {
         return;
     }
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_111C); i++) {
-        //! @bug/typo? It seems likely that this should be &menuStory->unk_111C[i] instead
-        item = menuStory->unk_111C;
+    for (i = 0; i < ARRAY_COUNTU(story->miBgCursor); i++) {
+        //! @bug/typo? It seems likely that this should be &story->miBgCursor[i] instead
+        item = story->miBgCursor;
 
         for (j = 0; j < MENUITEM_COLOR_COUNT - 1; j++) {
-            item->color[j] = item->colorRange[1][j] * rootItem->color[j];
+            item->color[j] = item->colorRange[1][j] * miRoot->color[j];
         }
     }
 }
@@ -6649,152 +6680,158 @@ const s32 _wchar_6931[] = {
     8,
 };
 
-void menuStory_draw(MenuStory *menuStory, Gfx **gfxP) {
+/**
+ * Original name: menuStory_draw
+ */
+void menuStory_draw(MenuStory *story, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     SMenuItem *item;
-    void *sp38[3];
+    void *list[3];
     s32 pad[3] UNUSED;
-    s32 var_s2_2;
+    s32 cached;
     s32 i;
-    TiTexData *temp_s1;
-    TiTexData *temp_v0;
+    TiTexData *texC;
+    TiTexData *texA;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    temp_v0 = _getTexStory(menuStory->watchMenuRef, 6);
-    menuItem_drawTex(&menuStory->unk_0040, &gfx, temp_v0, 0);
+    texC = _getTexStory(story->global, 6);
+    menuItem_drawTex(&story->miBase, &gfx, texC, 0);
 
     for (i = 0; i < MENUSTORY_UNK_LEN; i++) {
-        f32 temp_fs1;
-        f32 temp_fs0;
+        f32 x;
+        f32 y;
 
-        if (!menuStory->unk_0034) {
+        if (!story->loaded) {
             continue;
         }
 
-        item = &menuStory->unk_0160[i];
+        item = &story->miChar[i];
 
-        temp_fs1 = item->trans[0];
-        temp_fs0 = item->trans[1];
+        x = item->trans[0];
+        y = item->trans[1];
         item->trans[0] -= 26.0f;
         item->trans[1] -= 48.0f;
 
         if (!menuItem_outOfScreen(item, 0x40, 0x40)) {
-            s32 temp_ft1 = item->colorTime * 255.0f;
+            s32 alpha = item->colorTime * 255.0f;
 
-            gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, temp_ft1);
+            gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, alpha);
 
             gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
 
-            temp_v0 = _getTexStory(menuStory->watchMenuRef, 0xC);
-            tiStretchTexTile(&gfx, temp_v0, false, 0, 0, temp_v0->info[TI_INFO_IDX_WIDTH],
-                             temp_v0->info[TI_INFO_IDX_HEIGHT], item->trans[0], item->trans[1],
-                             temp_v0->info[TI_INFO_IDX_WIDTH], temp_v0->info[TI_INFO_IDX_HEIGHT]);
+            texC = _getTexStory(story->global, 0xC);
+            tiStretchTexTile(&gfx, texC, false, 0, 0, texC->info[TI_INFO_IDX_WIDTH], texC->info[TI_INFO_IDX_HEIGHT],
+                             item->trans[0], item->trans[1], texC->info[TI_INFO_IDX_WIDTH],
+                             texC->info[TI_INFO_IDX_HEIGHT]);
 
-            item->trans[0] = temp_fs1 + 5.0f;
-            item->trans[1] = temp_fs0 + 2.0f;
+            item->trans[0] = x + 5.0f;
+            item->trans[1] = y + 2.0f;
 
             gSPDisplayList(gfx++, fade_shadow_texture_init_dl);
 
-            gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, temp_ft1 >> 1);
+            gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, alpha >> 1);
 
-            animeState_draw(&menuStory->unk_0280[i], &gfx, item->trans[0], item->trans[1], 1.0f, 1.0f);
-            item->trans[0] = temp_fs1;
-            item->trans[1] = temp_fs0;
+            animeState_draw(&story->animeState[i], &gfx, item->trans[0], item->trans[1], 1.0f, 1.0f);
+            item->trans[0] = x;
+            item->trans[1] = y;
 
             gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
             menuItem_setPrim(item, &gfx);
-            animeState_draw(&menuStory->unk_0280[i], &gfx, item->trans[0], item->trans[1], 1.0f, 1.0f);
+            animeState_draw(&story->animeState[i], &gfx, item->trans[0], item->trans[1], 1.0f, 1.0f);
         }
 
-        item->trans[0] = temp_fs1;
-        item->trans[1] = temp_fs0;
+        item->trans[0] = x;
+        item->trans[1] = y;
     }
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_0FFC); i++) {
-        temp_v0 = _getTexStory(menuStory->watchMenuRef, _map_6928[menuStory->unk_0028[0]][i]);
-        menuItem_drawTex(&menuStory->unk_0FFC[i], &gfx, temp_v0, 0);
+    for (i = 0; i < ARRAY_COUNTU(story->miStageBg); i++) {
+        texC = _getTexStory(story->global, _map_6928[story->select[0]][i]);
+        menuItem_drawTex(&story->miStageBg[i], &gfx, texC, 0);
     }
 
     gSPDisplayList(gfx++, fade_intensity_texture_init_dl);
 
     for (i = 0; i < MENUSTORY_UNK_LEN_2; i++) {
-        s32 temp_s2;
-        s32 var_s0_2;
+        s32 x;
+        s32 w;
         s32 tempIndex;
 
-        item = &menuStory->unk_0FFC[i];
+        item = &story->miStageBg[i];
 
-        temp_v0 = _getTexStory(menuStory->watchMenuRef, _cover_6929[menuStory->unk_0028[0]][i]);
+        texC = _getTexStory(story->global, _cover_6929[story->select[0]][i]);
 
-        tempIndex = func_800519EC(menuStory);
+        tempIndex = menuStory_getStageMax(story);
 
-        var_s0_2 = _filter_6930[menuStory->unk_0028[0]][i][tempIndex - 1];
-        var_s0_2 = MIN(var_s0_2, temp_v0->info[TI_INFO_IDX_WIDTH] - 1);
+        x = _filter_6930[story->select[0]][i][tempIndex - 1];
+        x = MIN(x, texC->info[TI_INFO_IDX_WIDTH] - 1);
 
-        temp_s2 = temp_v0->info[TI_INFO_IDX_WIDTH] - var_s0_2;
-        if (!menuItem_outOfScreen(item, temp_s2, temp_v0->info[TI_INFO_IDX_HEIGHT])) {
+        w = texC->info[TI_INFO_IDX_WIDTH] - x;
+        if (!menuItem_outOfScreen(item, w, texC->info[TI_INFO_IDX_HEIGHT])) {
             gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, item->color[3] * 127.0f);
 
-            tiStretchTexTile(&gfx, temp_v0, false, var_s0_2, 0, temp_s2, temp_v0->info[TI_INFO_IDX_HEIGHT],
-                             item->trans[0] + var_s0_2, item->trans[1], temp_s2, temp_v0->info[TI_INFO_IDX_HEIGHT]);
+            tiStretchTexTile(&gfx, texC, false, x, 0, w, texC->info[TI_INFO_IDX_HEIGHT], item->trans[0] + x,
+                             item->trans[1], w, texC->info[TI_INFO_IDX_HEIGHT]);
         }
     }
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_123C); i++) {
-        temp_v0 = _getTexStory(menuStory->watchMenuRef, _wchar_6931[menuStory->unk_0028[0]]);
-        menuItem_drawTex(&menuStory->unk_123C[i], &gfx, temp_v0, 0);
+    for (i = 0; i < ARRAY_COUNTU(story->miWalk); i++) {
+        texC = _getTexStory(story->global, _wchar_6931[story->select[0]]);
+        menuItem_drawTex(&story->miWalk[i], &gfx, texC, 0);
     }
 
     gDPSetRenderMode(gfx++, G_RM_OPA_SURF, G_RM_OPA_SURF2);
 
-    temp_v0 = _getTexStory(menuStory->watchMenuRef, 5);
-    var_s2_2 = 0;
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_111C); i++) {
-        var_s2_2 += menuItem_drawTex(&menuStory->unk_111C[i], &gfx, temp_v0, var_s2_2);
+    texC = _getTexStory(story->global, 5);
+    cached = 0;
+    for (i = 0; i < ARRAY_COUNTU(story->miBgCursor); i++) {
+        cached += menuItem_drawTex(&story->miBgCursor[i], &gfx, texC, cached);
     }
 
-    sp38[0] = &menuStory->unk_0EC0;
-    menuNumber_draw((void *)sp38, 1, &gfx);
+    list[0] = &story->stageNum;
+    menuNumber_draw((void *)list, 1, &gfx);
 
-    sp38[0] = &menuStory->unk_07C0;
-    menuSpeedAsk_draw((void *)sp38, 1, &gfx);
+    list[0] = &story->speedAsk;
+    menuSpeedAsk_draw((void *)list, 1, &gfx);
 
-    sp38[0] = &menuStory->unk_085C;
-    menuSpeedItem_draw1((void *)sp38, 1, &gfx);
+    list[0] = &story->speedItem;
+    menuSpeedItem_draw1((void *)list, 1, &gfx);
 
     gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
 
-    temp_v0 = _getTexStory(menuStory->watchMenuRef, 1);
-    temp_s1 = _getTexStory(menuStory->watchMenuRef, 0);
-    menuItem_drawAlphaItem(&menuStory->unk_00D0, &gfx, temp_v0, temp_s1, false, 2, menuStory->unk_0028[0]);
+    texC = _getTexStory(story->global, 1);
+    texA = _getTexStory(story->global, 0);
+    menuItem_drawAlphaItem(&story->miCharName, &gfx, texC, texA, false, 2, story->select[0]);
 
-    for (i = 0; i < ARRAY_COUNTU(menuStory->unk_135C); i++) {
-        sp38[i] = &menuStory->unk_135C[i];
+    for (i = 0; i < ARRAY_COUNTU(story->cursor); i++) {
+        list[i] = &story->cursor[i];
     }
 
-    menuCursor_draw((void *)sp38, ARRAY_COUNTU(menuStory->unk_135C), &gfx);
+    menuCursor_draw((void *)list, ARRAY_COUNTU(story->cursor), &gfx);
 
-    sp38[0] = &menuStory->unk_085C;
-    menuSpeedItem_draw2((void *)sp38, 1, &gfx);
+    list[0] = &story->speedItem;
+    menuSpeedItem_draw2((void *)list, 1, &gfx);
 
     *gfxP = gfx;
 }
 
-void func_800529FC(MenuLvSel *menuLvSel, s32 arg1, f32 arg2) {
-    SMenuItem *item = &menuLvSel->unk_0008;
+/**
+ * Original name: menuLvSel_setFrame
+ */
+void menuLvSel_setFrame(MenuLvSel *lvSel, s32 dir, f32 time) {
+    SMenuItem *item = &lvSel->miBase;
 
-    item->transTime = arg2;
+    item->transTime = time;
     item->transStep = 0.05f;
-    item->transRange[0][1] = item->transRange[1][1] - 240.0f;
-    menuItem_setTransDir(item, arg1);
+    item->transRange[0][1] = item->transRange[1][1] - SCREEN_HEIGHT;
+    menuItem_setTransDir(item, dir);
 }
 
 const s32 _cursor_7325[][4] = {
@@ -6804,71 +6841,74 @@ const s32 _cursor_7325[][4] = {
 };
 static_assert(ARRAY_COUNT(_cursor_7325) == MENULVSEL_UNK_162C_LEN, "");
 
-void menuLvSel_init(MenuLvSel *menuLvSel, struct_watchMenu *watchMenuRef, void **heapP) {
-    struct_evs_mem_data *temp_s0 = &evs_mem_data[evs_select_name_no[0]];
+/**
+ * Original name: menuLvSel_init
+ */
+void menuLvSel_init(MenuLvSel *lvSel, struct_watchMenu *global, void **heapP) {
+    struct_evs_mem_data *mc = &evs_mem_data[evs_select_name_no[0]];
     void *heap = *heapP;
-    struct_evs_mem_data_config *temp_s2 = &temp_s0->config;
+    struct_evs_mem_data_config *cfg = &mc->config;
     s32 i;
 
-    menuLvSel->watchMenuRef = watchMenuRef;
+    lvSel->global = global;
 
-    menuLvSel->unk_0004 = _getMode(watchMenuRef);
-    menuLvSel->unk_256C = 0;
-    menuLvSel->unk_2570 = 20;
+    lvSel->mode = _getMode(global);
+    lvSel->depth = 0;
+    lvSel->levelMax = 20;
 
-    for (i = 0; i < ARRAY_COUNTU(temp_s0->level_data); i++) {
-        menuLvSel->unk_2570 = MAX(menuLvSel->unk_2570, temp_s0->level_data[i].c_level);
+    for (i = 0; i < ARRAY_COUNTU(mc->level_data); i++) {
+        lvSel->levelMax = MAX(lvSel->levelMax, mc->level_data[i].c_level);
     }
 
-    menuLvSel->unk_2570 = MIN(21, menuLvSel->unk_2570);
+    lvSel->levelMax = MIN(21, lvSel->levelMax);
 
-    menuItem_init(&menuLvSel->unk_0008, 0x19, 0x2F);
-    menuItem_init(menuLvSel->unk_0098, 0, 0);
-    menuItem_init(&menuLvSel->unk_0098[1], 0, 0x5F);
+    menuItem_init(&lvSel->miBase, 0x19, 0x2F);
+    menuItem_init(lvSel->miPanel, 0, 0);
+    menuItem_init(&lvSel->miPanel[1], 0, 0x5F);
 
-    switch (menuLvSel->unk_0004) {
+    switch (lvSel->mode) {
         case MODE_LVSEL_TQ:
-            menuSpeedAsk_init(&menuLvSel->gameLvlIcon, watchMenuRef, 3, temp_s2->p1_tq_lv, 0x44, 9);
-            menuSpeedItem_init(&menuLvSel->gameLvlSelector, watchMenuRef, 3, 0, temp_s2->p1_tq_lv, 0x82, 5, 0x2E);
+            menuSpeedAsk_init(&lvSel->glvAsk, global, 3, cfg->p1_tq_lv, 0x44, 9);
+            menuSpeedItem_init(&lvSel->glvItem, global, 3, 0, cfg->p1_tq_lv, 0x82, 5, 0x2E);
             break;
 
         case MODE_LVSEL_TA:
-            menuSpeedAsk_init(&menuLvSel->gameLvlIcon, watchMenuRef, 3, temp_s2->p1_ta_lv, 0x44, 9);
-            menuSpeedItem_init(&menuLvSel->gameLvlSelector, watchMenuRef, 3, 0, temp_s2->p1_ta_lv, 0x82, 5, 0x2E);
+            menuSpeedAsk_init(&lvSel->glvAsk, global, 3, cfg->p1_ta_lv, 0x44, 9);
+            menuSpeedItem_init(&lvSel->glvItem, global, 3, 0, cfg->p1_ta_lv, 0x82, 5, 0x2E);
             break;
 
         case MODE_LVSEL:
-            if (temp_s2->p1_lv <= menuLvSel->unk_2570) {
-                i = temp_s2->p1_lv;
+            if (cfg->p1_lv <= lvSel->levelMax) {
+                i = cfg->p1_lv;
             } else {
-                i = menuLvSel->unk_2570;
+                i = lvSel->levelMax;
             }
 
-            menuNumber_init(&menuLvSel->virusLvlNumber, watchMenuRef, 1, 2, i, 0x59, 5);
-            menuLvGauge_init(&menuLvSel->virusLvlGauge, watchMenuRef, 2, 0, i, 0x99, 0xF);
-            menuItem_setColorLow(&menuLvSel->virusLvlGauge.miBase, 1.0f, 0.5f);
-            menuLvSel->virusLvlGauge.levelMax = menuLvSel->unk_2570;
+            menuNumber_init(&lvSel->lvNum, global, 1, 2, i, 0x59, 5);
+            menuLvGauge_init(&lvSel->lvGauge, global, 2, 0, i, 0x99, 0xF);
+            menuItem_setColorLow(&lvSel->lvGauge.miBase, 1.0f, 0.5f);
+            lvSel->lvGauge.levelMax = lvSel->levelMax;
             break;
 
         default:
             break;
     }
 
-    menuSpeedAsk_init(&menuLvSel->speedIcon, watchMenuRef, 1, temp_s2->p1_sp, 0x44, 0x28);
-    menuSpeedItem_init(&menuLvSel->speedSelector, watchMenuRef, 1, 0, temp_s2->p1_sp, 0x82, 0x24, 0x2E);
+    menuSpeedAsk_init(&lvSel->speedAsk, global, 1, cfg->p1_sp, 0x44, 0x28);
+    menuSpeedItem_init(&lvSel->speedItem, global, 1, 0, cfg->p1_sp, 0x82, 0x24, 0x2E);
 
-    menuItem_setColorLow(&menuLvSel->speedSelector.miBase, 1.0f, 0.5f);
-    menuMusicItem_init(&menuLvSel->musicSelector, watchMenuRef, temp_s2->p1_m, 0x46, 0x46);
-    menuBottle_init(&menuLvSel->bottle, watchMenuRef, 0x19, 7);
+    menuItem_setColorLow(&lvSel->speedItem.miBase, 1.0f, 0.5f);
+    menuMusicItem_init(&lvSel->musicItem, global, cfg->p1_m, 0x46, 0x46);
+    menuBottle_init(&lvSel->bottle, global, 0x19, 7);
 
-    for (i = 0; i < ARRAY_COUNTU(menuLvSel->unk_162C); i++) {
-        menuCursor_init(&menuLvSel->unk_162C[i], watchMenuRef, CURSOR_PANEL, 0, _cursor_7325[i][0], _cursor_7325[i][1],
+    for (i = 0; i < ARRAY_COUNTU(lvSel->cursor); i++) {
+        menuCursor_init(&lvSel->cursor[i], global, CURSOR_PANEL, 0, _cursor_7325[i][0], _cursor_7325[i][1],
                         _cursor_7325[i][2], _cursor_7325[i][3]);
     }
 
-    menuItem_init(&menuLvSel->capsuleSpeedIcon, 0x56, 7);
-    menuItem_init(&menuLvSel->musicIcon, 0x99, 8);
-    func_800529FC(menuLvSel, 1, 0.0f);
+    menuItem_init(&lvSel->miCapsule, 0x56, 7);
+    menuItem_init(&lvSel->miMusic, 0x99, 8);
+    menuLvSel_setFrame(lvSel, 1, 0.0f);
 
     *heapP = heap;
 }
@@ -6880,53 +6920,59 @@ const s32 RO_800B0B44[] = {
     4,
 };
 
-void func_80052DF0(MenuLvSel *menuLvSel) {
-    u32 keyTrg = _getKeyTrg(menuLvSel->watchMenuRef, 0);
+/**
+ * Original name: menuLvSel_waitCancel
+ */
+void menuLvSel_waitCancel(MenuLvSel *lvSel) {
+    u32 trg = _getKeyTrg(lvSel->global, 0);
 
-    if (keyTrg & B_BUTTON) {
-        _setFadeDir(menuLvSel->watchMenuRef, -1);
-        _setNextMain(menuLvSel->watchMenuRef, MAIN_MENU);
+    if (trg & B_BUTTON) {
+        _setFadeDir(lvSel->global, -1);
+        _setNextMain(lvSel->global, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
 
-void menuLvSel_input(MenuLvSel *menuLvSel) {
-    struct_evs_mem_data_config *temp_s5 = &evs_mem_data[evs_select_name_no[0]].config;
-    u32 keyRep = _getKeyRep(menuLvSel->watchMenuRef, 0);
-    SndIndex sndIndex = SND_INDEX_INVALID;
-    struct_game_state_data *gameStateData = &game_state_data[0];
-    u32 keyTrg = _getKeyTrg(menuLvSel->watchMenuRef, 0);
-    s32 var_a0;
-    s32 var_v1;
+/**
+ * Original name: menuLvSel_input
+ */
+void menuLvSel_input(MenuLvSel *lvSel) {
+    struct_evs_mem_data_config *cfg = &evs_mem_data[evs_select_name_no[0]].config;
+    u32 rep = _getKeyRep(lvSel->global, 0);
+    SndIndex sound = SND_INDEX_INVALID;
+    struct_game_state_data *state = &game_state_data[0];
+    u32 trg = _getKeyTrg(lvSel->global, 0);
+    s32 select;
+    s32 vec;
 
-    if ((menuLvSel->unk_0008.transStep < 0.0f) || (menuLvSel->unk_0008.transTime < 1.0f)) {
+    if ((lvSel->miBase.transStep < 0.0f) || (lvSel->miBase.transTime < 1.0f)) {
         return;
     }
 
-    var_v1 = 0;
-    if ((keyRep & U_JPAD) || (keyTrg & B_BUTTON)) {
-        var_v1--;
+    vec = 0;
+    if ((rep & U_JPAD) || (trg & B_BUTTON)) {
+        vec--;
     }
-    if ((keyRep & D_JPAD) || (keyTrg & (A_BUTTON | START_BUTTON))) {
-        var_v1++;
-    }
-
-    var_a0 = CLAMP(menuLvSel->unk_256C + var_v1, 0, 2);
-    if (var_a0 != menuLvSel->unk_256C) {
-        sndIndex = SND_INDEX_64;
-        menuLvSel->unk_256C = var_a0;
+    if ((rep & D_JPAD) || (trg & (A_BUTTON | START_BUTTON))) {
+        vec++;
     }
 
-    switch (menuLvSel->unk_256C) {
+    select = CLAMP(lvSel->depth + vec, 0, 2);
+    if (select != lvSel->depth) {
+        sound = SND_INDEX_64;
+        lvSel->depth = select;
+    }
+
+    switch (lvSel->depth) {
         case 0x0:
-            switch (menuLvSel->unk_0004) {
+            switch (lvSel->mode) {
                 case MODE_LVSEL_TQ:
                 case MODE_LVSEL_TA:
-                    menuSpeedItem_input(&menuLvSel->gameLvlSelector, 0);
+                    menuSpeedItem_input(&lvSel->glvItem, 0);
                     break;
 
                 case MODE_LVSEL:
-                    menuLvGauge_input(&menuLvSel->virusLvlGauge, 0);
+                    menuLvGauge_input(&lvSel->lvGauge, 0);
                     break;
 
                 default:
@@ -6935,170 +6981,174 @@ void menuLvSel_input(MenuLvSel *menuLvSel) {
             break;
 
         case 0x1:
-            menuSpeedItem_input(&menuLvSel->speedSelector, 0);
+            menuSpeedItem_input(&lvSel->speedItem, 0);
             break;
 
         case 0x2:
-            menuMusicItem_input(&menuLvSel->musicSelector, 0);
+            menuMusicItem_input(&lvSel->musicItem, 0);
             break;
     }
 
-    if (sndIndex >= SND_INDEX_INVALID + 1) {
-        dm_snd_play(sndIndex);
+    if (sound >= SND_INDEX_INVALID + 1) {
+        dm_snd_play(sound);
         return;
     }
 
-    if ((keyTrg & (A_BUTTON | START_BUTTON)) && (menuLvSel->unk_256C == 2)) {
-        _setFadeDir(menuLvSel->watchMenuRef, 1);
-        _setNextMain(menuLvSel->watchMenuRef, MAIN_12);
+    if ((trg & (A_BUTTON | START_BUTTON)) && (lvSel->depth == 2)) {
+        _setFadeDir(lvSel->global, 1);
+        _setNextMain(lvSel->global, MAIN_12);
 
-        switch (menuLvSel->unk_0004) {
+        switch (lvSel->mode) {
             case MODE_LVSEL:
-                gameStateData->virus_level = menuLvSel->virusLvlGauge.level;
-                gameStateData->cap_def_speed = menuLvSel->speedSelector.select;
-                temp_s5->p1_lv = menuLvSel->virusLvlGauge.level;
+                state->virus_level = lvSel->lvGauge.level;
+                state->cap_def_speed = lvSel->speedItem.select;
+                cfg->p1_lv = lvSel->lvGauge.level;
                 break;
 
             case MODE_LVSEL_TQ:
-                gameStateData->virus_level = 0xA;
-                gameStateData->cap_def_speed = menuLvSel->speedSelector.select;
-                gameStateData->game_level = menuLvSel->gameLvlSelector.select;
-                temp_s5->p1_tq_lv = menuLvSel->gameLvlSelector.select;
+                state->virus_level = 0xA;
+                state->cap_def_speed = lvSel->speedItem.select;
+                state->game_level = lvSel->glvItem.select;
+                cfg->p1_tq_lv = lvSel->glvItem.select;
                 break;
 
             case MODE_LVSEL_TA:
-                gameStateData->virus_level = _timeAttack_levelTable[menuLvSel->gameLvlSelector.select];
-                gameStateData->cap_def_speed = menuLvSel->speedSelector.select;
-                gameStateData->game_level = menuLvSel->gameLvlSelector.select;
-                temp_s5->p1_ta_lv = menuLvSel->gameLvlSelector.select;
+                state->virus_level = _timeAttack_levelTable[lvSel->glvItem.select];
+                state->cap_def_speed = lvSel->speedItem.select;
+                state->game_level = lvSel->glvItem.select;
+                cfg->p1_ta_lv = lvSel->glvItem.select;
                 break;
 
             default:
                 break;
         }
 
-        temp_s5->p1_sp = menuLvSel->speedSelector.select;
-        temp_s5->p1_m = menuLvSel->musicSelector.select;
+        cfg->p1_sp = lvSel->speedItem.select;
+        cfg->p1_m = lvSel->musicItem.select;
 
-        evs_seqnumb = menuLvSel->musicSelector.select;
+        evs_seqnumb = lvSel->musicItem.select;
         evs_game_time = 0;
         evs_seqence = evs_seqnumb != 4;
-        sndIndex = SND_INDEX_62;
-    } else if ((keyTrg & B_BUTTON) && (menuLvSel->unk_256C == 0)) {
-        _setMode(menuLvSel->watchMenuRef, MODE_MAIN);
-        func_800529FC(menuLvSel, -1, 1.0f);
-        if (menuLvSel->musicSelector.playNo >= 0) {
+        sound = SND_INDEX_62;
+    } else if ((trg & B_BUTTON) && (lvSel->depth == 0)) {
+        _setMode(lvSel->global, MODE_MAIN);
+        menuLvSel_setFrame(lvSel, -1, 1.0f);
+        if (lvSel->musicItem.playNo >= 0) {
             dm_seq_play_fade(0xC, 0x14);
         }
-        sndIndex = SND_INDEX_68;
+        sound = SND_INDEX_68;
     }
 
-    if (sndIndex > SND_INDEX_INVALID) {
-        dm_snd_play(sndIndex);
-    }
+    SND_PLAY_INDEX(sound);
 }
 
-void menuLvSel_update(MenuLvSel *menuLvSel) {
-    SMenuItem *rootItem = _getRootItem(menuLvSel->watchMenuRef);
+/**
+ * Original name: menuLvSel_input
+ */
+void menuLvSel_update(MenuLvSel *lvSel) {
+    SMenuItem *miRoot = _getRootItem(lvSel->global);
     s32 i;
 
-    switch (menuLvSel->unk_0004) {
+    switch (lvSel->mode) {
         case MODE_LVSEL_TQ:
-            menuLvSel->bottle.level = menuLvSel->unk_0004;
-            menuLvSel->gameLvlIcon.select = menuLvSel->gameLvlSelector.select;
+            lvSel->bottle.level = lvSel->mode;
+            lvSel->glvAsk.select = lvSel->glvItem.select;
             break;
 
         case MODE_LVSEL_TA:
-            menuLvSel->gameLvlIcon.select = menuLvSel->gameLvlSelector.select;
-            menuLvSel->bottle.level = _timeAttack_levelTable[menuLvSel->gameLvlSelector.select];
+            lvSel->glvAsk.select = lvSel->glvItem.select;
+            lvSel->bottle.level = _timeAttack_levelTable[lvSel->glvItem.select];
             break;
 
         case MODE_LVSEL:
-            menuLvSel->virusLvlNumber.number = menuLvSel->virusLvlGauge.level;
-            menuLvSel->bottle.level = menuLvSel->virusLvlGauge.level;
+            lvSel->lvNum.number = lvSel->lvGauge.level;
+            lvSel->bottle.level = lvSel->lvGauge.level;
             break;
 
         default:
             break;
     }
 
-    menuLvSel->speedIcon.select = menuLvSel->speedSelector.select;
-    menuItem_update(&menuLvSel->unk_0008, rootItem);
-    menuItem_updateN(menuLvSel->unk_0098, ARRAY_COUNT(menuLvSel->unk_0098), &menuLvSel->unk_0008);
+    lvSel->speedAsk.select = lvSel->speedItem.select;
+    menuItem_update(&lvSel->miBase, miRoot);
+    menuItem_updateN(lvSel->miPanel, ARRAY_COUNT(lvSel->miPanel), &lvSel->miBase);
 
-    switch (menuLvSel->unk_0004) {
+    switch (lvSel->mode) {
         case MODE_LVSEL_TQ:
         case MODE_LVSEL_TA:
-            menuSpeedAsk_update(&menuLvSel->gameLvlIcon, &menuLvSel->unk_0008);
-            menuSpeedItem_update(&menuLvSel->gameLvlSelector, &menuLvSel->unk_0008);
+            menuSpeedAsk_update(&lvSel->glvAsk, &lvSel->miBase);
+            menuSpeedItem_update(&lvSel->glvItem, &lvSel->miBase);
             break;
 
         case MODE_LVSEL:
-            menuNumber_update(&menuLvSel->virusLvlNumber, &menuLvSel->unk_0008);
-            menuLvGauge_update(&menuLvSel->virusLvlGauge, &menuLvSel->unk_0008);
+            menuNumber_update(&lvSel->lvNum, &lvSel->miBase);
+            menuLvGauge_update(&lvSel->lvGauge, &lvSel->miBase);
             break;
 
         default:
             break;
     }
 
-    menuSpeedAsk_update(&menuLvSel->speedIcon, &menuLvSel->unk_0008);
-    menuSpeedItem_update(&menuLvSel->speedSelector, &menuLvSel->unk_0008);
-    menuMusicItem_update(&menuLvSel->musicSelector, &menuLvSel->unk_0008);
-    menuBottle_update(&menuLvSel->bottle, &menuLvSel->unk_0098[1]);
+    menuSpeedAsk_update(&lvSel->speedAsk, &lvSel->miBase);
+    menuSpeedItem_update(&lvSel->speedItem, &lvSel->miBase);
+    menuMusicItem_update(&lvSel->musicItem, &lvSel->miBase);
+    menuBottle_update(&lvSel->bottle, &lvSel->miPanel[1]);
 
-    for (i = 0; i < ARRAY_COUNTU(menuLvSel->unk_162C); i++) {
-        menuCursor_update(&menuLvSel->unk_162C[i], &menuLvSel->unk_0098[0]);
+    for (i = 0; i < ARRAY_COUNTU(lvSel->cursor); i++) {
+        menuCursor_update(&lvSel->cursor[i], &lvSel->miPanel[0]);
     }
 
-    menuItem_update(&menuLvSel->capsuleSpeedIcon, &menuLvSel->unk_0098[1]);
-    menuItem_update(&menuLvSel->musicIcon, &menuLvSel->unk_0098[1]);
+    menuItem_update(&lvSel->miCapsule, &lvSel->miPanel[1]);
+    menuItem_update(&lvSel->miMusic, &lvSel->miPanel[1]);
 
-    i = menuLvSel->unk_256C == 0;
-    switch (menuLvSel->unk_0004) {
+    i = lvSel->depth == 0;
+    switch (lvSel->mode) {
         case MODE_LVSEL:
-            menuLvSel->virusLvlGauge.cursor.flags.finger = i;
-            menuLvSel->virusLvlGauge.cursor.flags.blink = i;
+            lvSel->lvGauge.cursor.flags.finger = i;
+            lvSel->lvGauge.cursor.flags.blink = i;
             break;
 
         case MODE_LVSEL_TQ:
         case MODE_LVSEL_TA:
-            menuLvSel->gameLvlSelector.flags.blink = i;
-            menuLvSel->gameLvlSelector.cursor.flags.finger = i;
+            lvSel->glvItem.flags.blink = i;
+            lvSel->glvItem.cursor.flags.finger = i;
             break;
 
         default:
             break;
     }
-    menuLvSel->unk_162C[0].flags.cursor = i;
+    lvSel->cursor[0].flags.cursor = i;
 
-    i = menuLvSel->unk_256C == 1;
-    menuLvSel->speedSelector.flags.blink = i;
-    menuLvSel->speedSelector.cursor.flags.finger = i;
-    menuLvSel->unk_162C[1].flags.cursor = i;
+    i = lvSel->depth == 1;
+    lvSel->speedItem.flags.blink = i;
+    lvSel->speedItem.cursor.flags.finger = i;
+    lvSel->cursor[1].flags.cursor = i;
 
-    i = menuLvSel->unk_256C == 2;
-    menuLvSel->musicSelector.cursor.flags.finger = i;
-    menuLvSel->musicSelector.flags.blink = i;
-    menuLvSel->unk_162C[2].flags.cursor = i;
+    i = lvSel->depth == 2;
+    lvSel->musicItem.cursor.flags.finger = i;
+    lvSel->musicItem.flags.blink = i;
+    lvSel->cursor[2].flags.cursor = i;
 }
 
-void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
-    void *arr[8];
+/**
+ * Original name: menuLvSel_input
+ */
+void menuLvSel_draw(MenuLvSel *lvSel, Gfx **gfxP) {
+    void *list[8];
     Gfx *gfx = *gfxP;
     s32 i;
-    TiTexData *a2;
+    TiTexData *texC;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    switch (menuLvSel->unk_0004) {
+    switch (lvSel->mode) {
         case MODE_LVSEL:
-            a2 = _getTexLevel(menuLvSel->watchMenuRef, 4);
+            texC = _getTexLevel(lvSel->global, 4);
             break;
 
         case MODE_LVSEL_TQ:
         case MODE_LVSEL_TA:
-            a2 = _getTexLevel(menuLvSel->watchMenuRef, 5);
+            texC = _getTexLevel(lvSel->global, 5);
             break;
 
         default:
@@ -7106,25 +7156,23 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
             break;
     }
 
-    menuItem_drawTex(&menuLvSel->unk_0098[0], &gfx, a2, 0);
-    menuItem_drawTex(&menuLvSel->unk_0098[1], &gfx, _getTexLevel(menuLvSel->watchMenuRef, 1), 0);
-    if (menuLvSel->speedSelector.select > 0) {
-        menuItem_drawItem(&menuLvSel->capsuleSpeedIcon, &gfx, _getTexLevel(menuLvSel->watchMenuRef, 3), 0, 2,
-                          menuLvSel->speedSelector.select - 1);
+    menuItem_drawTex(&lvSel->miPanel[0], &gfx, texC, 0);
+    menuItem_drawTex(&lvSel->miPanel[1], &gfx, _getTexLevel(lvSel->global, 1), 0);
+    if (lvSel->speedItem.select > 0) {
+        menuItem_drawItem(&lvSel->miCapsule, &gfx, _getTexLevel(lvSel->global, 3), 0, 2, lvSel->speedItem.select - 1);
     }
-    if (menuLvSel->musicSelector.select < 4) {
-        menuItem_drawItem(&menuLvSel->musicIcon, &gfx, _getTexLevel(menuLvSel->watchMenuRef, 2), 0, 4,
-                          menuLvSel->musicSelector.select);
+    if (lvSel->musicItem.select < 4) {
+        menuItem_drawItem(&lvSel->miMusic, &gfx, _getTexLevel(lvSel->global, 2), 0, 4, lvSel->musicItem.select);
     }
 
-    switch (menuLvSel->unk_0004) {
+    switch (lvSel->mode) {
         case MODE_LVSEL:
-            if (menuLvSel->unk_2570 >= 21) {
-                f32 temp_fs0 = menuLvSel->unk_0098[0].trans[0];
+            if (lvSel->levelMax >= 21) {
+                f32 x = lvSel->miPanel[0].trans[0];
 
-                menuLvSel->unk_0098[0].trans[0] = temp_fs0 + 222.0f;
-                menuItem_drawTex(&menuLvSel->unk_0098[0], &gfx, _getTexLevel(menuLvSel->watchMenuRef, 6), 0);
-                menuLvSel->unk_0098[0].trans[0] = temp_fs0;
+                lvSel->miPanel[0].trans[0] = x + 222.0f;
+                menuItem_drawTex(&lvSel->miPanel[0], &gfx, _getTexLevel(lvSel->global, 6), 0);
+                lvSel->miPanel[0].trans[0] = x;
             }
             break;
 
@@ -7132,82 +7180,93 @@ void menuLvSel_draw(MenuLvSel *menuLvSel, Gfx **gfxP) {
             break;
     }
 
-    arr[0] = &menuLvSel->musicSelector;
-    menuMusicItem_draw1((MenuMusicItem **)&arr[0], 1, &gfx);
-    arr[1] = &menuLvSel->speedIcon;
-    arr[2] = &menuLvSel->speedSelector;
-    menuSpeedAsk_draw((MenuSpeedAsk **)&arr[1], 1, &gfx);
-    menuSpeedItem_draw1((MenuSpeedItem **)&arr[2], 1, &gfx);
+    list[0] = &lvSel->musicItem;
+    menuMusicItem_draw1((MenuMusicItem **)&list[0], 1, &gfx);
+    list[1] = &lvSel->speedAsk;
+    list[2] = &lvSel->speedItem;
+    menuSpeedAsk_draw((MenuSpeedAsk **)&list[1], 1, &gfx);
+    menuSpeedItem_draw1((MenuSpeedItem **)&list[2], 1, &gfx);
 
-    switch (menuLvSel->unk_0004) {
+    switch (lvSel->mode) {
         case MODE_LVSEL_TQ:
         case MODE_LVSEL_TA:
-            arr[3] = &menuLvSel->gameLvlIcon;
-            arr[4] = &menuLvSel->gameLvlSelector;
-            menuSpeedAsk_draw((MenuSpeedAsk **)&arr[3], 1, &gfx);
-            menuSpeedItem_draw1((MenuSpeedItem **)&arr[4], 1, &gfx);
+            list[3] = &lvSel->glvAsk;
+            list[4] = &lvSel->glvItem;
+            menuSpeedAsk_draw((MenuSpeedAsk **)&list[3], 1, &gfx);
+            menuSpeedItem_draw1((MenuSpeedItem **)&list[4], 1, &gfx);
             break;
 
         case MODE_LVSEL:
-            arr[3] = &menuLvSel->virusLvlNumber;
-            arr[4] = &menuLvSel->virusLvlGauge;
-            menuNumber_draw((void *)&arr[3], 1, &gfx);
-            menuLvGauge_draw1((void *)&arr[4], 1, &gfx);
+            list[3] = &lvSel->lvNum;
+            list[4] = &lvSel->lvGauge;
+            menuNumber_draw((void *)&list[3], 1, &gfx);
+            menuLvGauge_draw1((void *)&list[4], 1, &gfx);
             break;
 
         default:
             break;
     }
 
-    for (i = 0; i < ARRAY_COUNTU(menuLvSel->unk_162C); i++) {
-        arr[5 + i] = &menuLvSel->unk_162C[i];
+    for (i = 0; i < ARRAY_COUNTU(lvSel->cursor); i++) {
+        list[5 + i] = &lvSel->cursor[i];
     }
 
-    menuCursor_draw((MenuCursor **)&arr[5], ARRAY_COUNTU(menuLvSel->unk_162C), &gfx);
+    menuCursor_draw((MenuCursor **)&list[5], ARRAY_COUNTU(lvSel->cursor), &gfx);
 
-    menuMusicItem_draw2((MenuMusicItem **)&arr[0], 1, &gfx);
-    menuSpeedItem_draw2((MenuSpeedItem **)&arr[2], 1, &gfx);
+    menuMusicItem_draw2((MenuMusicItem **)&list[0], 1, &gfx);
+    menuSpeedItem_draw2((MenuSpeedItem **)&list[2], 1, &gfx);
 
-    switch (menuLvSel->unk_0004) {
+    switch (lvSel->mode) {
         case MODE_LVSEL_TQ:
         case MODE_LVSEL_TA:
-            menuSpeedItem_draw2((void *)&arr[4], 1, &gfx);
+            menuSpeedItem_draw2((void *)&list[4], 1, &gfx);
             break;
 
         case MODE_LVSEL:
-            menuLvGauge_draw2((void *)&arr[4], 1, &gfx);
+            menuLvGauge_draw2((void *)&list[4], 1, &gfx);
             break;
 
         default:
             break;
     }
 
-    menuBottle_draw(&menuLvSel->bottle, &gfx);
+    menuBottle_draw(&lvSel->bottle, &gfx);
 
     *gfxP = gfx;
 }
 
-void func_8005380C(MenuChSel *menuChSel, s32 arg1, f32 arg2) {
-    SMenuItem *item = &menuChSel->unk_0074;
+/**
+ * Original name: menuChSel_setFrame
+ */
+void menuChSel_setFrame(MenuChSel *chSel, s32 dir, f32 time) {
+    SMenuItem *item = &chSel->miBase;
 
-    item->transTime = arg2;
+    item->transTime = time;
     item->transStep = 0.05f;
-    item->transRange[0][1] = item->transRange[1][1] - 240.0f;
-    menuItem_setTransDir(item, arg1);
+    item->transRange[0][1] = item->transRange[1][1] - SCREEN_HEIGHT;
+    menuItem_setTransDir(item, dir);
 }
 
-const s32 _pos_7882[][2] = { { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 } };
+const s32 _pos_7882[][2] = {
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+    { 0, 0 },
+};
 
-void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, void **heapP UNUSED) {
-    MainMenuMode mode = _getMode(watchMenuRef);
+/**
+ * Original name: menuChSel_init
+ */
+void menuChSel_init(MenuChSel *chSel, struct_watchMenu *global, void **heapP UNUSED) {
+    MainMenuMode mode = _getMode(global);
     s32 i;
 
-    menuChSel->watchMenuRef = watchMenuRef;
-    menuChSel->unk_0028 = -1;
-    menuChSel->unk_002C = 0;
-    menuChSel->unk_0030 = 0;
-    menuChSel->unk_0034 = -1;
-    menuChSel->unk_0038 = -1;
+    chSel->global = global;
+    chSel->subDepth = -1;
+    chSel->hardFlag = false;
+    chSel->hardMode = 0;
+    chSel->comLvId = -1;
+    chSel->comLvPn = -1;
 
     switch (mode) {
         case MODE_VSCOM_CH:
@@ -7215,38 +7274,38 @@ void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, void *
         case MODE_VSMAN_CH:
         case MODE_VSMAN_FL_CH:
         case MODE_VSMAN_TA_CH:
-            menuChSel->unk_0004 = 2;
+            chSel->allCount = 2;
             break;
 
         case MODE_PLAY4_CH:
         case MODE_PLAY4_TB_CH:
         case MODE_PLAY4_FL_CH:
-            menuChSel->unk_0004 = 4;
+            chSel->allCount = 4;
             break;
 
         default:
             break;
     }
 
-    menuChSel->unk_003C = 0;
-    menuChSel->unk_0060 = 0;
-    menuItem_init(&menuChSel->unk_0104, 0xF9, 0x16);
-    menuItem_setColor_fade(&menuChSel->unk_0104);
+    chSel->playerCount = 0;
+    chSel->cpuCount = 0;
+    menuItem_init(&chSel->miHard, 0xF9, 0x16);
+    menuItem_setColor_fade(&chSel->miHard);
 
-    menuChSel->unk_0104.colorTime = 0.0f;
+    chSel->miHard.colorTime = 0.0f;
 
-    for (i = 0; i < menuChSel->unk_0004; i++) {
+    for (i = 0; i < chSel->allCount; i++) {
         s32 var_s3;
         struct_evs_mem_data_config *temp;
 
         if (game_state_data[i].player_type == PLAYERTYPE_0) {
-            menuChSel->unk_0040[menuChSel->unk_003C] = i;
-            menuChSel->unk_003C += 1;
-            menuChSel->unk_0050[i] = 0;
+            chSel->playerTable[chSel->playerCount] = i;
+            chSel->playerCount += 1;
+            chSel->cpuFlag[i] = 0;
         } else {
-            menuChSel->unk_0064[menuChSel->unk_0060] = i;
-            menuChSel->unk_0060 += 1;
-            menuChSel->unk_0050[i] = 1;
+            chSel->cpuTable[chSel->cpuCount] = i;
+            chSel->cpuCount += 1;
+            chSel->cpuFlag[i] = 1;
         }
 
         switch (mode) {
@@ -7273,42 +7332,44 @@ void menuChSel_init(MenuChSel *menuChSel, struct_watchMenu *watchMenuRef, void *
                 break;
         }
 
-        menuChSel->unk_0008[i] = var_s3;
-        menuChSel->unk_0018[i] = -1;
+        chSel->select[i] = var_s3;
+        chSel->depth[i] = -1;
     }
 
-    for (i = 0; i < menuChSel->unk_0004; i++) {
-        MenuCursor *cursor = &menuChSel->unk_23CC[i];
+    for (i = 0; i < chSel->allCount; i++) {
+        MenuCursor *cursor = &chSel->cursor[i];
 
-        menuCursor_init2(cursor, watchMenuRef, CURSOR_ITEM, menuChSel->unk_003C, menuChSel->unk_0060, i, 0, 0, 0x2C,
-                         0x2C);
+        menuCursor_init2(cursor, global, CURSOR_ITEM, chSel->playerCount, chSel->cpuCount, i, 0, 0, 0x2C, 0x2C);
         cursor->miPlayer.transRange[0][0] = cursor->miPlayer.transRange[1][0] = _pos_7882[i][0];
         cursor->miPlayer.transRange[0][1] = cursor->miPlayer.transRange[1][1] = _pos_7882[i][1];
     }
 
-    menuItem_init(&menuChSel->unk_0074, 0x12, 0x2F);
+    menuItem_init(&chSel->miBase, 0x12, 0x2F);
 
     for (i = 0; i < MENUCH_SEL_UNK_LEN; i++) {
-        menuItem_init(&menuChSel->unk_0194[i], ((i % 5) * 0x36) + 0xC, ((i / 5) * 0x35) + 0xC);
-        menuItem_init(&menuChSel->unk_0A04[i], 3, 3);
-        menuItem_setColorHi(&menuChSel->unk_0A04[i], 0.0f, 0.0f);
-        menuItem_setColorLow(&menuChSel->unk_0A04[i], 0.0f, 0.5f);
+        menuItem_init(&chSel->miChar[i], ((i % 5) * 0x36) + 0xC, ((i / 5) * 0x35) + 0xC);
+        menuItem_init(&chSel->miCharFilt[i], 3, 3);
+        menuItem_setColorHi(&chSel->miCharFilt[i], 0.0f, 0.0f);
+        menuItem_setColorLow(&chSel->miCharFilt[i], 0.0f, 0.5f);
     }
 
-    for (i = 0; i < ARRAY_COUNTU(menuChSel->unk_1274); i++) {
-        menuComLvPanel_init(&menuChSel->unk_1274[i], watchMenuRef, 0, -6, 0x1E);
-        menuComLvPanel_setFade(&menuChSel->unk_1274[i], -1, 0.0f);
+    for (i = 0; i < ARRAY_COUNTU(chSel->comLv); i++) {
+        menuComLvPanel_init(&chSel->comLv[i], global, 0, -6, 0x1E);
+        menuComLvPanel_setFade(&chSel->comLv[i], -1, 0.0f);
     }
 
-    func_8005380C(menuChSel, 1, 0.0f);
+    menuChSel_setFrame(chSel, 1, 0.0f);
 }
 
-bool menuChSel_checkSelected(MenuChSel *menuChSel, s32 arg1, s32 arg2, s32 arg3) {
+/**
+ * Original name: menuChSel_checkSelected
+ */
+bool menuChSel_checkSelected(MenuChSel *chSel, s32 playerNo, s32 charNo, s32 depth) {
     s32 i;
 
-    for (i = 0; i < menuChSel->unk_0004; i++) {
-        if ((i != arg1) && (menuChSel->unk_0008[i] == arg2)) {
-            if (menuChSel->unk_0018[i] >= arg3) {
+    for (i = 0; i < chSel->allCount; i++) {
+        if ((i != playerNo) && (chSel->select[i] == charNo)) {
+            if (chSel->depth[i] >= depth) {
                 return true;
             }
         }
@@ -7317,182 +7378,189 @@ bool menuChSel_checkSelected(MenuChSel *menuChSel, s32 arg1, s32 arg2, s32 arg3)
     return false;
 }
 
-bool func_80053C84(MenuChSel *menuChSel, s32 arg1, s32 arg2) {
-    if (menuChSel_checkSelected(menuChSel, arg1, arg2, 0)) {
+/**
+ * Original name: menuChSel_checkMoveable
+ */
+bool menuChSel_checkMoveable(MenuChSel *chSel, s32 playerNo, s32 charNo) {
+    if (menuChSel_checkSelected(chSel, playerNo, charNo, 0)) {
         return true;
     }
 
-    if ((arg2 == 0xD) && (evs_secret_flg[1] == 0)) {
+    if ((charNo == 0xD) && (evs_secret_flg[1] == 0)) {
         return true;
     }
 
-    if ((arg2 == 0xE) && (evs_secret_flg[0] == 0)) {
+    if ((charNo == 0xE) && (evs_secret_flg[0] == 0)) {
         return true;
     }
 
     return false;
 }
 
-void menuChSel_input1(MenuChSel *menuChSel, s32 arg1, s32 arg2) {
-    u32 keyRep = _getKeyRep(menuChSel->watchMenuRef, arg2);
-    u32 keyTrg = _getKeyTrg(menuChSel->watchMenuRef, arg2);
-    SndIndex soundIndex = SND_INDEX_INVALID;
-    u32 keyLvl = _getKeyLvl(menuChSel->watchMenuRef, arg2);
-    s32 var_a0;
+/**
+ * Original name: menuChSel_input1
+ */
+void menuChSel_input1(MenuChSel *chSel, s32 playerNo, s32 contNo) {
+    u32 rep = _getKeyRep(chSel->global, contNo);
+    u32 trg = _getKeyTrg(chSel->global, contNo);
+    SndIndex sound = SND_INDEX_INVALID;
+    u32 lvl = _getKeyLvl(chSel->global, contNo);
 
-    switch (menuChSel->unk_0018[arg1]) {
+    switch (chSel->depth[playerNo]) {
         case -0x1:
-            menuChSel->unk_0018[arg1] = 0;
+            chSel->depth[playerNo] = 0;
 
             FALLTHROUGH;
         case 0x0:
-            while (func_80053C84(menuChSel, arg1, menuChSel->unk_0008[arg1])) {
-                menuChSel->unk_0008[arg1] = WrapI(0, 0xF, menuChSel->unk_0008[arg1] + 1);
+            while (menuChSel_checkMoveable(chSel, playerNo, chSel->select[playerNo])) {
+                chSel->select[playerNo] = WrapI(0, 0xF, chSel->select[playerNo] + 1);
             }
 
-            if (keyTrg & (A_BUTTON | START_BUTTON)) {
-                if ((keyLvl & L_TRIG) && (menuChSel->unk_0060 != 0)) {
-                    var_a0 = 0;
-                    if ((menuChSel->unk_002C == 0) || (menuChSel->unk_0030 != 1)) {
-                        var_a0 = 1;
-                    }
-                    menuChSel->unk_002C = var_a0;
-                    menuChSel->unk_0030 = 1;
-                    soundIndex = SND_INDEX_62;
+            if (trg & (A_BUTTON | START_BUTTON)) {
+                if ((lvl & L_TRIG) && (chSel->cpuCount != 0)) {
+                    chSel->hardFlag = (!chSel->hardFlag || (chSel->hardMode != 1));
+                    chSel->hardMode = 1;
+                    sound = SND_INDEX_62;
                 } else {
-                    menuChSel->unk_0018[arg1]++;
-                    soundIndex = SND_INDEX_62;
+                    chSel->depth[playerNo]++;
+                    sound = SND_INDEX_62;
                 }
-            } else if (keyTrg & B_BUTTON) {
-                if ((keyLvl & L_TRIG) && (menuChSel->unk_0060 != 0)) {
-                    var_a0 = 0;
-                    if ((menuChSel->unk_002C == 0) || (menuChSel->unk_0030 != 2)) {
-                        var_a0 = 1;
-                    }
-                    menuChSel->unk_002C = var_a0;
-                    menuChSel->unk_0030 = 2;
-                    soundIndex = SND_INDEX_62;
+            } else if (trg & B_BUTTON) {
+                if ((lvl & L_TRIG) && (chSel->cpuCount != 0)) {
+                    chSel->hardFlag = (!chSel->hardFlag || (chSel->hardMode != 2));
+                    chSel->hardMode = 2;
+                    sound = SND_INDEX_62;
                 } else {
-                    menuChSel->unk_0018[arg1]--;
-                    soundIndex = SND_INDEX_68;
+                    chSel->depth[playerNo]--;
+                    sound = SND_INDEX_68;
                 }
             } else {
-                s32 var_a2 = menuChSel->unk_0008[arg1];
-                s32 temp_s4_2 = 0;
-                s32 temp_s6 = 0;
+                s32 var_a2 = chSel->select[playerNo];
+                s32 dy = 0;
+                s32 dx = 0;
 
-                if (keyRep & L_JPAD) {
-                    temp_s6--;
+                if (rep & L_JPAD) {
+                    dx--;
                 }
-                if (keyRep & R_JPAD) {
-                    temp_s6++;
-                }
-
-                if (keyRep & U_JPAD) {
-                    temp_s4_2--;
-                }
-                if (keyRep & D_JPAD) {
-                    temp_s4_2++;
+                if (rep & R_JPAD) {
+                    dx++;
                 }
 
-                if (((temp_s6 != 0) || (temp_s4_2 != 0))) {
-                    s32 var_s2 = menuChSel->unk_0008[arg1] % 5;
-                    s32 var_s1 = menuChSel->unk_0008[arg1] / 5;
+                if (rep & U_JPAD) {
+                    dy--;
+                }
+                if (rep & D_JPAD) {
+                    dy++;
+                }
+
+                if (((dx != 0) || (dy != 0))) {
+                    s32 var_s2 = chSel->select[playerNo] % 5;
+                    s32 var_s1 = chSel->select[playerNo] / 5;
                     s32 temp_s0;
 
                     do {
-                        var_s2 = WrapI(0, 5, var_s2 + temp_s6);
-                        var_s1 = WrapI(0, 3, var_s1 + temp_s4_2);
+                        var_s2 = WrapI(0, 5, var_s2 + dx);
+                        var_s1 = WrapI(0, 3, var_s1 + dy);
                         temp_s0 = var_s2 + (var_s1 * 5);
-                    } while (func_80053C84(menuChSel, arg1, temp_s0));
+                    } while (menuChSel_checkMoveable(chSel, playerNo, temp_s0));
                     var_a2 = temp_s0;
                 }
 
-                if (var_a2 != menuChSel->unk_0008[arg1]) {
-                    menuChSel->unk_0008[arg1] = var_a2;
-                    soundIndex = SND_INDEX_64;
+                if (var_a2 != chSel->select[playerNo]) {
+                    chSel->select[playerNo] = var_a2;
+                    sound = SND_INDEX_64;
                 }
             }
             break;
 
         case 0x1:
-            if (keyTrg & B_BUTTON) {
-                menuChSel->unk_0018[arg1] = 0;
-                soundIndex = SND_INDEX_68;
+            if (trg & B_BUTTON) {
+                chSel->depth[playerNo] = 0;
+                sound = SND_INDEX_68;
             }
             break;
     }
 
-    SND_PLAY_INDEX(soundIndex);
+    SND_PLAY_INDEX(sound);
 }
 
-void menuChSel_inputMan(MenuChSel *menuChSel) {
-    s32 var_s3;
-    s32 var_s4;
+/**
+ * Original name: menuChSel_inputMan
+ */
+void menuChSel_inputMan(MenuChSel *chSel) {
+    s32 cancel = 0;
+    s32 ok = 0;
     s32 i;
 
-    var_s3 = 0;
-    var_s4 = 0;
+    for (i = 0; i < chSel->playerCount; i++) {
+        menuChSel_input1(chSel, chSel->playerTable[i], chSel->playerTable[i]);
 
-    for (i = 0; i < menuChSel->unk_003C; i++) {
-        menuChSel_input1(menuChSel, menuChSel->unk_0040[i], menuChSel->unk_0040[i]);
-
-        switch (menuChSel->unk_0018[menuChSel->unk_0040[i]]) {
-            case -0x1:
-                var_s3 += 1;
+        switch (chSel->depth[chSel->playerTable[i]]) {
+            case -1:
+                cancel++;
                 break;
 
-            case 0x1:
-                var_s4 += 1;
+            case 1:
+                ok++;
                 break;
         }
     }
 
-    if (var_s3 != 0) {
-        _setMode(menuChSel->watchMenuRef, MODE_MAIN);
-        func_8005380C(menuChSel, -1, 1.0f);
-        menuChSel->unk_0028 -= 1;
+    if (cancel != 0) {
+        _setMode(chSel->global, MODE_MAIN);
+        menuChSel_setFrame(chSel, -1, 1.0f);
+        chSel->subDepth -= 1;
     }
 
-    if (var_s4 == menuChSel->unk_003C) {
-        menuChSel->unk_0028 += 1;
+    if (ok == chSel->playerCount) {
+        chSel->subDepth += 1;
     }
 }
 
-void menuChSel_inputCom(MenuChSel *menuChSel) {
+/**
+ * Original name: menuChSel_inputCom
+ */
+void menuChSel_inputCom(MenuChSel *chSel) {
     s32 temp_s2;
     s32 temp_s3;
     s32 i;
     s32 var_s5;
 
+#if 0
+    int pre; // r28
+    int playerNo; // r27
+    int select; // r26
+#endif
+
     var_s5 = 0;
-    for (i = 0; i < menuChSel->unk_0060; i++) {
-        temp_s2 = menuChSel->unk_0064[i];
-        temp_s3 = menuChSel->unk_0008[temp_s2];
-        if (menuChSel->unk_0018[temp_s2] == 1) {
+    for (i = 0; i < chSel->cpuCount; i++) {
+        temp_s2 = chSel->cpuTable[i];
+        temp_s3 = chSel->select[temp_s2];
+        if (chSel->depth[temp_s2] == 1) {
             var_s5 = temp_s2;
             continue;
         }
 
-        menuChSel_input1(menuChSel, temp_s2, 0);
+        menuChSel_input1(chSel, temp_s2, 0);
 
-        switch (menuChSel->unk_0018[temp_s2]) {
-            case -0x1:
-                menuChSel->unk_0034 = -1;
-                menuChSel->unk_0038 = -1;
-                menuChSel->unk_0018[var_s5]--;
-                menuChSel->unk_0028--;
+        switch (chSel->depth[temp_s2]) {
+            case -1:
+                chSel->comLvId = -1;
+                chSel->comLvPn = -1;
+                chSel->depth[var_s5]--;
+                chSel->subDepth--;
                 break;
-            case 0x0:
-                menuChSel->unk_0034 = temp_s3;
-                menuChSel->unk_0038 = temp_s2;
+
+            case 0:
+                chSel->comLvId = temp_s3;
+                chSel->comLvPn = temp_s2;
                 break;
         }
         break;
     }
 
-    if (i == menuChSel->unk_0060) {
-        menuChSel->unk_0028++;
+    if (i == chSel->cpuCount) {
+        chSel->subDepth++;
     }
 }
 
@@ -7500,45 +7568,48 @@ const s32 _charTbl_8108[] = {
     0, 1, 3, 9, 2, 4, 7, 8, 5, 6, 0xA, 0xB, 0xC, 0xE, 0xD,
 };
 
-void menuChSel_input(MenuChSel *menuChSel) {
+/**
+ * Original name: menuChSel_input
+ */
+void menuChSel_input(MenuChSel *chSel) {
     MainMenuMode mode;
-    struct_evs_mem_data_config *temp;
-    s32 var_s2;
+    struct_evs_mem_data_config *cfg;
+    s32 think_level;
     s32 i;
 
-    if ((menuChSel->unk_0074.transStep < 0.0f) || (menuChSel->unk_0074.transTime < 1.0f)) {
+    if ((chSel->miBase.transStep < 0.0f) || (chSel->miBase.transTime < 1.0f)) {
         return;
     }
 
-    switch (menuChSel->unk_0028) {
+    switch (chSel->subDepth) {
         case -0x1:
-            menuChSel->unk_0028 = 0;
+            chSel->subDepth = 0;
             FALLTHROUGH;
 
         case 0x0:
-            menuChSel_inputMan(menuChSel);
+            menuChSel_inputMan(chSel);
             break;
 
         case 0x1:
-            menuChSel_inputCom(menuChSel);
+            menuChSel_inputCom(chSel);
             break;
     }
 
-    if (menuChSel->unk_0028 < 2) {
+    if (chSel->subDepth < 2) {
         return;
     }
 
-    var_s2 = THINKLEVEL_0;
-    if (menuChSel->unk_002C != 0) {
-        var_s2 = menuChSel->unk_0030;
+    think_level = THINKLEVEL_0;
+    if (chSel->hardFlag) {
+        think_level = chSel->hardMode;
     }
 
-    switch (_getMode(menuChSel->watchMenuRef)) {
+    switch (_getMode(chSel->global)) {
         case MODE_VSCOM_CH:
         case MODE_VSCOM_FL_CH:
-            temp = &evs_mem_data[evs_select_name_no[0]].config;
-            for (i = 0; i < menuChSel->unk_0004; i++) {
-                temp->vc_no[i] = menuChSel->unk_0008[i];
+            cfg = &evs_mem_data[evs_select_name_no[0]].config;
+            for (i = 0; i < chSel->allCount; i++) {
+                cfg->vc_no[i] = chSel->select[i];
             }
             break;
 
@@ -7548,10 +7619,10 @@ void menuChSel_input(MenuChSel *menuChSel) {
             if (evs_select_name_no[0] == evs_select_name_no[1]) {
                 evs_mem_data[0].config.vm_no = 0;
             } else {
-                for (i = 0; i < menuChSel->unk_0004; i++) {
-                    temp = &evs_mem_data[evs_select_name_no[i]].config;
+                for (i = 0; i < chSel->allCount; i++) {
+                    cfg = &evs_mem_data[evs_select_name_no[i]].config;
 
-                    temp->vm_no = menuChSel->unk_0008[i];
+                    cfg->vm_no = chSel->select[i];
                 }
             }
             break;
@@ -7559,8 +7630,8 @@ void menuChSel_input(MenuChSel *menuChSel) {
         case MODE_PLAY4_CH:
         case MODE_PLAY4_TB_CH:
         case MODE_PLAY4_FL_CH:
-            for (i = 0; i < menuChSel->unk_0004; i++) {
-                evs_cfg_4p.p4_no[i] = menuChSel->unk_0008[i];
+            for (i = 0; i < chSel->allCount; i++) {
+                evs_cfg_4p.p4_no[i] = chSel->select[i];
             }
             break;
 
@@ -7568,7 +7639,7 @@ void menuChSel_input(MenuChSel *menuChSel) {
             break;
     }
 
-    switch (_getMode(menuChSel->watchMenuRef)) {
+    switch (_getMode(chSel->global)) {
         case MODE_VSCOM_CH:
             mode = MODE_VSCOM;
             break;
@@ -7606,15 +7677,15 @@ void menuChSel_input(MenuChSel *menuChSel) {
             break;
     }
 
-    for (i = 0; i < menuChSel->unk_0004; i++) {
-        struct_game_state_data *gameStateDataP = &game_state_data[i];
+    for (i = 0; i < chSel->allCount; i++) {
+        struct_game_state_data *state = &game_state_data[i];
 
-        gameStateDataP->charNo = _charTbl_8108[menuChSel->unk_0008[i]];
-        gameStateDataP->think_level = var_s2;
+        state->charNo = _charTbl_8108[chSel->select[i]];
+        state->think_level = think_level;
     }
 
-    _setMode(menuChSel->watchMenuRef, mode);
-    func_8005380C(menuChSel, -1, 1.0f);
+    _setMode(chSel->global, mode);
+    menuChSel_setFrame(chSel, -1, 1.0f);
 }
 
 const u8 _star_8183[] = {
@@ -7622,55 +7693,58 @@ const u8 _star_8183[] = {
 };
 static_assert(ARRAY_COUNT(_star_8183) == MENUCH_SEL_UNK_LEN, "");
 
-void menuChSel_update(MenuChSel *menuChSel) {
-    SMenuItem *rootItem = _getRootItem(menuChSel->watchMenuRef);
+/**
+ * Original name: menuChSel_update
+ */
+void menuChSel_update(MenuChSel *chSel) {
+    SMenuItem *miRoot = _getRootItem(chSel->global);
     s32 i;
     s32 var_a0;
 
-    menuItem_update(&menuChSel->unk_0074, rootItem);
+    menuItem_update(&chSel->miBase, miRoot);
 
-    switch (menuChSel->unk_0028) {
+    switch (chSel->subDepth) {
         case 0:
         case 1:
-            menuItem_setColorDir(&menuChSel->unk_0104, (menuChSel->unk_002C != 0) ? 1 : -1);
+            menuItem_setColorDir(&chSel->miHard, chSel->hardFlag ? 1 : -1);
             break;
 
         default:
-            menuItem_setColorDir(&menuChSel->unk_0104, -1);
+            menuItem_setColorDir(&chSel->miHard, -1);
             break;
     }
 
-    menuItem_update(&menuChSel->unk_0104, rootItem);
+    menuItem_update(&chSel->miHard, miRoot);
 
-    menuItem_updateN(menuChSel->unk_0194, ARRAY_COUNTU(menuChSel->unk_0194), &menuChSel->unk_0074);
+    menuItem_updateN(chSel->miChar, ARRAY_COUNTU(chSel->miChar), &chSel->miBase);
 
     for (i = 0; i < MENUCH_SEL_UNK_LEN; i++) {
-        if (menuChSel_checkSelected(menuChSel, -1, i, 1)) {
-            menuItem_setColorDir(&menuChSel->unk_0A04[i], -1);
+        if (menuChSel_checkSelected(chSel, -1, i, 1)) {
+            menuItem_setColorDir(&chSel->miCharFilt[i], -1);
         } else {
-            menuItem_setColorDir(&menuChSel->unk_0A04[i], 1);
+            menuItem_setColorDir(&chSel->miCharFilt[i], 1);
         }
 
-        menuItem_update(&menuChSel->unk_0A04[i], &menuChSel->unk_0194[i]);
+        menuItem_update(&chSel->miCharFilt[i], &chSel->miChar[i]);
     }
 
     for (i = 0; i < MENUCH_SEL_UNK_LEN; i++) {
         var_a0 = _star_8183[i];
-        if (menuChSel->unk_002C != 0) {
-            var_a0 += menuChSel->unk_0030;
+        if (chSel->hardFlag) {
+            var_a0 += chSel->hardMode;
         }
 
-        menuChSel->unk_1274[i].level = var_a0;
-        menuComLvPanel_setFadeDir(&menuChSel->unk_1274[i], (i == menuChSel->unk_0034) ? 1 : -1);
-        menuComLvPanel_update(&menuChSel->unk_1274[i], &menuChSel->unk_0194[i]);
+        chSel->comLv[i].level = var_a0;
+        menuComLvPanel_setFadeDir(&chSel->comLv[i], (i == chSel->comLvId) ? 1 : -1);
+        menuComLvPanel_update(&chSel->comLv[i], &chSel->miChar[i]);
     }
 
-    for (i = 0; i < menuChSel->unk_0004; i++) {
-        MenuCursor *cursor = &menuChSel->unk_23CC[i];
+    for (i = 0; i < chSel->allCount; i++) {
+        MenuCursor *cursor = &chSel->cursor[i];
 
-        menuCursor_update(cursor, &menuChSel->unk_0194[menuChSel->unk_0008[i]]);
+        menuCursor_update(cursor, &chSel->miChar[chSel->select[i]]);
 
-        switch (menuChSel->unk_0018[i]) {
+        switch (chSel->depth[i]) {
             case -1:
                 cursor->flags.cursor = false;
                 cursor->flags.player = false;
@@ -7704,39 +7778,46 @@ const s32 _pos_8298[][2] = {
 };
 static_assert(ARRAY_COUNT(_pos_8298) == ARRAY_COUNT(evs_secret_flg), "");
 
-void menuChSel_draw(MenuChSel *menuChSel, Gfx **gfxP) {
+/**
+ * Original name: menuChSel_draw
+ */
+void menuChSel_draw(MenuChSel *chSel, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    void *arr[MAX(ARRAY_COUNT(menuChSel->unk_23CC), ARRAY_COUNT(menuChSel->unk_1274))];
+    void *list[MAX(ARRAY_COUNT(chSel->cursor), ARRAY_COUNT(chSel->comLv))];
+    TiTexData *texC;
     SMenuItem *item;
     s32 i;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
-    menuItem_drawTex(&menuChSel->unk_0074, &gfx, _getTexChar(menuChSel->watchMenuRef, 5), 0);
+
+    texC = _getTexChar(chSel->global, 5);
+    menuItem_drawTex(&chSel->miBase, &gfx, texC, 0);
 
     for (i = 0; i < ARRAY_COUNT(evs_secret_flg); i++) {
         if (evs_secret_flg[i]) {
-            f32 temp_fs0;
-            f32 temp_fs1;
+            f32 x;
+            f32 y;
 
-            item = &menuChSel->unk_0194[14 - i];
-            temp_fs0 = item->trans[0];
-            temp_fs1 = item->trans[1];
+            item = &chSel->miChar[14 - i];
+            x = item->trans[0];
+            y = item->trans[1];
             item->trans[0] += _pos_8298[i][0];
             item->trans[1] += _pos_8298[i][1];
 
-            menuItem_drawTex(item, &gfx, _getTexChar(menuChSel->watchMenuRef, _tex_8297[i]), 0);
-            item->trans[0] = temp_fs0;
-            item->trans[1] = temp_fs1;
+            texC = _getTexChar(chSel->global, _tex_8297[i]);
+            menuItem_drawTex(item, &gfx, texC, 0);
+            item->trans[0] = x;
+            item->trans[1] = y;
         }
     }
 
     gSPDisplayList(gfx++, fade_fillrect_init_dl);
 
-    for (i = 0; i < ARRAY_COUNTU(menuChSel->unk_0A04); i++) {
+    for (i = 0; i < ARRAY_COUNTU(chSel->miCharFilt); i++) {
         s32 x;
         s32 y;
 
-        item = &menuChSel->unk_0A04[i];
+        item = &chSel->miCharFilt[i];
 
         if (item->color[3] == 1.0f) {
             continue;
@@ -7749,45 +7830,48 @@ void menuChSel_draw(MenuChSel *menuChSel, Gfx **gfxP) {
         gDPScisFillRectangle(gfx++, x, y, x + 38, y + 38);
     }
 
-    for (i = 0; i < menuChSel->unk_0004; i++) {
-        arr[i] = &menuChSel->unk_23CC[i];
+    for (i = 0; i < chSel->allCount; i++) {
+        list[i] = &chSel->cursor[i];
     }
 
-    menuCursor_draw((void *)arr, menuChSel->unk_0004, &gfx);
+    menuCursor_draw((void *)list, chSel->allCount, &gfx);
 
-    for (i = 0; i < ARRAY_COUNTU(menuChSel->unk_1274); i++) {
-        arr[i] = &menuChSel->unk_1274[i];
+    for (i = 0; i < ARRAY_COUNTU(chSel->comLv); i++) {
+        list[i] = &chSel->comLv[i];
     }
 
-    menuComLvPanel_draw((void *)arr, ARRAY_COUNTU(menuChSel->unk_1274), &gfx);
+    menuComLvPanel_draw((void *)list, ARRAY_COUNTU(chSel->comLv), &gfx);
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
 
-    if (menuChSel->unk_0030 > 0) {
-        menuItem_drawItem(&menuChSel->unk_0104, &gfx, _getTexChar(menuChSel->watchMenuRef, 2), 0, 2,
-                          menuChSel->unk_0030 - 1);
+    if (chSel->hardMode > 0) {
+        texC = _getTexChar(chSel->global, 2);
+        menuItem_drawItem(&chSel->miHard, &gfx, texC, 0, 2, chSel->hardMode - 1);
     }
 
     *gfxP = gfx;
 }
 
 const s32 _moveTbl_8521[] = {
-    0x140,
-    -0x140,
+    SCREEN_WIDTH,
+    -SCREEN_WIDTH,
 };
 
-void func_80054A94(MenuPlay2 *menuPlay2, s32 arg1, f32 arg2) {
+/**
+ * Original name: menuPlay2_setFrame
+ */
+void menuPlay2_setFrame(MenuPlay2 *play2, s32 dir, f32 time) {
     s32 i;
 
-    for (i = 0; i < menuPlay2->unk_00C4; i++) {
-        MenuPlay2Panel *temp_a0 = &menuPlay2->unk_00C8[i];
+    for (i = 0; i < play2->panelCount; i++) {
+        MenuPlay2Panel *temp_a0 = &play2->panel[i];
         SMenuItem *item = &temp_a0->miBase;
 
         item->transRange[0][0] = item->transRange[1][0] + _moveTbl_8521[i % ARRAY_COUNTU(_moveTbl_8521)];
         item->transStep = 0.05f;
-        item->transTime = arg2;
-        menuItem_setTransDir(item, arg1);
+        item->transTime = time;
+        menuItem_setTransDir(item, dir);
     }
 }
 
@@ -7808,134 +7892,137 @@ const s32 _panel4_8536[][2] = {
     { 0x19, 0xB7 },
 };
 
-void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void **heapP) {
-    struct_evs_mem_data_config *temp_s0;
-    struct_game_state_data *temp_s3_3;
-    s32 sp44;
-    s32 sp4C;
-    s32 var_s5;
+/**
+ * Original name: menuPlay2_init
+ */
+void menuPlay2_init(MenuPlay2 *play2, struct_watchMenu *global, void **heapP) {
+    struct_evs_mem_data_config *cfg;
+    struct_game_state_data *state;
+    s32 backNo;
+    s32 musicNo;
+    s32 virusLevel;
     s32 i;
 
-    menuPlay2->watchMenuRef = watchMenuRef;
-    menuPlay2->unk_0008 = -1;
-    menuPlay2->unk_0004 = -1;
+    play2->global = global;
+    play2->master = -1;
+    play2->depth = -1;
 
-    switch (_getMode(menuPlay2->watchMenuRef)) {
+    switch (_getMode(play2->global)) {
         case MODE_VSMAN:
         case MODE_VSMAN_FL:
         case MODE_VSMAN_TA:
-            temp_s0 = &evs_mem_data[evs_select_name_no[0]].config;
-            sp4C = temp_s0->vm_m;
-            sp44 = temp_s0->vm_st + 1;
+            cfg = &evs_mem_data[evs_select_name_no[0]].config;
+            musicNo = cfg->vm_m;
+            backNo = cfg->vm_st + 1;
 
-            menuPlay2->unk_000C = 2;
-            menuPlay2->unk_0010[0] = 0;
-            menuPlay2->unk_0010[1] = 1;
-            menuPlay2->unk_0020 = 0;
-            menuPlay2->unk_00C4 = 2;
+            play2->playerCount = 2;
+            play2->playerTable[0] = 0;
+            play2->playerTable[1] = 1;
+            play2->cpuCount = 0;
+            play2->panelCount = 2;
 
-            for (i = 0; i < menuPlay2->unk_00C4; i++) {
-                temp_s0 = &evs_mem_data[evs_select_name_no[i]].config;
-                temp_s3_3 = &game_state_data[i];
+            for (i = 0; i < play2->panelCount; i++) {
+                cfg = &evs_mem_data[evs_select_name_no[i]].config;
+                state = &game_state_data[i];
 
-                switch (_getMode(menuPlay2->watchMenuRef)) {
+                switch (_getMode(play2->global)) {
                     case MODE_VSMAN:
-                        var_s5 = temp_s0->vm_lv;
+                        virusLevel = cfg->vm_lv;
                         break;
 
                     case MODE_VSMAN_FL:
-                        var_s5 = temp_s0->vm_fl_lv;
+                        virusLevel = cfg->vm_fl_lv;
                         break;
 
                     case MODE_VSMAN_TA:
-                        var_s5 = temp_s0->vm_ta_lv;
+                        virusLevel = cfg->vm_ta_lv;
                         break;
 
                     default:
                         break;
                 }
 
-                menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, heapP, 1, menuPlay2->unk_000C,
-                                    menuPlay2->unk_0020, i, temp_s3_3->player_type == PLAYERTYPE_1, temp_s3_3->charNo,
-                                    var_s5, temp_s0->vm_sp, _panel2_8535[i][0], _panel2_8535[i][1]);
+                menuPlay2Panel_init(&play2->panel[i], global, heapP, 1, play2->playerCount, play2->cpuCount, i,
+                                    state->player_type == PLAYERTYPE_1, state->charNo, virusLevel, cfg->vm_sp,
+                                    _panel2_8535[i][0], _panel2_8535[i][1]);
             }
             break;
 
         case MODE_VSCOM:
         case MODE_VSCOM_FL:
-            temp_s0 = &evs_mem_data[evs_select_name_no[0]].config;
-            sp4C = temp_s0->vc_m;
-            sp44 = temp_s0->vc_st + 1;
+            cfg = &evs_mem_data[evs_select_name_no[0]].config;
+            musicNo = cfg->vc_m;
+            backNo = cfg->vc_st + 1;
 
-            menuPlay2->unk_000C = 1;
-            menuPlay2->unk_0010[0] = 0;
-            menuPlay2->unk_0020 = 1;
-            menuPlay2->unk_0024[0] = 1;
-            menuPlay2->unk_00C4 = 2;
+            play2->playerCount = 1;
+            play2->playerTable[0] = 0;
+            play2->cpuCount = 1;
+            play2->cpuTable[0] = 1;
+            play2->panelCount = 2;
 
-            for (i = 0; i < menuPlay2->unk_00C4; i++) {
-                temp_s3_3 = &game_state_data[i];
+            for (i = 0; i < play2->panelCount; i++) {
+                state = &game_state_data[i];
 
-                switch (_getMode(menuPlay2->watchMenuRef)) {
+                switch (_getMode(play2->global)) {
                     case MODE_VSCOM:
-                        var_s5 = temp_s0->vc_lv[i];
+                        virusLevel = cfg->vc_lv[i];
                         break;
 
                     case MODE_VSCOM_FL:
-                        var_s5 = temp_s0->vc_fl_lv[i];
+                        virusLevel = cfg->vc_fl_lv[i];
                         break;
 
                     default:
                         break;
                 }
 
-                menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, heapP, 1, menuPlay2->unk_000C,
-                                    menuPlay2->unk_0020, i, temp_s3_3->player_type == PLAYERTYPE_1, temp_s3_3->charNo,
-                                    var_s5, temp_s0->vc_sp[i], _panel2_8535[i][0], _panel2_8535[i][1]);
+                menuPlay2Panel_init(&play2->panel[i], global, heapP, 1, play2->playerCount, play2->cpuCount, i,
+                                    state->player_type == PLAYERTYPE_1, state->charNo, virusLevel, cfg->vc_sp[i],
+                                    _panel2_8535[i][0], _panel2_8535[i][1]);
             }
             break;
 
         case MODE_PLAY4_LV:
         case MODE_PLAY4_TB_LV:
         case MODE_PLAY4_FL_LV:
-            sp44 = evs_cfg_4p.p4_st + 1;
-            sp4C = evs_cfg_4p.p4_m;
+            backNo = evs_cfg_4p.p4_st + 1;
+            musicNo = evs_cfg_4p.p4_m;
 
-            menuPlay2->unk_000C = 0;
-            menuPlay2->unk_0020 = 0;
-            menuPlay2->unk_00C4 = 4;
+            play2->playerCount = 0;
+            play2->cpuCount = 0;
+            play2->panelCount = 4;
 
-            for (i = 0; i < menuPlay2->unk_00C4; i++) {
-                temp_s3_3 = &game_state_data[i];
+            for (i = 0; i < play2->panelCount; i++) {
+                state = &game_state_data[i];
 
-                if (temp_s3_3->player_type == PLAYERTYPE_1) {
-                    menuPlay2->unk_0024[menuPlay2->unk_0020] = i;
-                    menuPlay2->unk_0020 += 1;
+                if (state->player_type == PLAYERTYPE_1) {
+                    play2->cpuTable[play2->cpuCount] = i;
+                    play2->cpuCount += 1;
                 } else {
-                    menuPlay2->unk_0010[menuPlay2->unk_000C] = i;
-                    menuPlay2->unk_000C += 1;
+                    play2->playerTable[play2->playerCount] = i;
+                    play2->playerCount += 1;
                 }
             }
 
-            for (i = 0; i < menuPlay2->unk_00C4; i++) {
-                temp_s3_3 = &game_state_data[i];
-                switch (_getMode(menuPlay2->watchMenuRef)) {
+            for (i = 0; i < play2->panelCount; i++) {
+                state = &game_state_data[i];
+                switch (_getMode(play2->global)) {
                     case MODE_PLAY4_TB_LV:
                     case MODE_PLAY4_LV:
-                        var_s5 = evs_cfg_4p.p4_lv[i];
+                        virusLevel = evs_cfg_4p.p4_lv[i];
                         break;
 
                     case MODE_PLAY4_FL_LV:
-                        var_s5 = evs_cfg_4p.p4_fl_lv[i];
+                        virusLevel = evs_cfg_4p.p4_fl_lv[i];
                         break;
 
                     default:
                         break;
                 }
 
-                menuPlay2Panel_init(&menuPlay2->unk_00C8[i], watchMenuRef, heapP, 0, menuPlay2->unk_000C,
-                                    menuPlay2->unk_0020, i, temp_s3_3->player_type == PLAYERTYPE_1, temp_s3_3->charNo,
-                                    var_s5, evs_cfg_4p.p4_sp[i], _panel4_8536[i][0], _panel4_8536[i][1]);
+                menuPlay2Panel_init(&play2->panel[i], global, heapP, 0, play2->playerCount, play2->cpuCount, i,
+                                    state->player_type == PLAYERTYPE_1, state->charNo, virusLevel, evs_cfg_4p.p4_sp[i],
+                                    _panel4_8536[i][0], _panel4_8536[i][1]);
             }
             break;
 
@@ -7943,311 +8030,332 @@ void menuPlay2_init(MenuPlay2 *menuPlay2, struct_watchMenu *watchMenuRef, void *
             break;
     }
 
-    i = menuPlay2->unk_00C4 / 2 - 1;
-    menuItem_init(&menuPlay2->unk_0034, _onaji_8534[i][0], _onaji_8534[i][1]);
-    menuItem_setColor_fade(&menuPlay2->unk_0034);
-    menuPlay2->unk_0034.colorTime = 0.0f;
+    i = play2->panelCount / 2 - 1;
+    menuItem_init(&play2->miONaJi, _onaji_8534[i][0], _onaji_8534[i][1]);
+    menuItem_setColor_fade(&play2->miONaJi);
+    play2->miONaJi.colorTime = 0.0f;
 
-    menuPlay2PanelSub_init(&menuPlay2->unk_6548, watchMenuRef, heapP, sp44, sp4C, 0x19, 0x4B);
-    func_80054A94(menuPlay2, 1, 0);
+    menuPlay2PanelSub_init(&play2->panelSub, global, heapP, backNo, musicNo, 0x19, 0x4B);
+    menuPlay2_setFrame(play2, 1, 0);
 }
 
-void func_800550F4(MenuPlay2 *menuPlay2) {
-    u32 keyTrg = _getKeyTrg(menuPlay2->watchMenuRef, 0);
+/**
+ * Original name: menuPlay2_waitCancel
+ */
+void menuPlay2_waitCancel(MenuPlay2 *play2) {
+    u32 trg = _getKeyTrg(play2->global, 0);
 
-    if (keyTrg & B_BUTTON) {
-        menuPlay2->unk_0004 = 2;
-        menuPlay2->unk_6548.flow = 0;
-        _setFadeDir(menuPlay2->watchMenuRef, -1);
-        _setNextMain(menuPlay2->watchMenuRef, MAIN_MENU);
+    if (trg & B_BUTTON) {
+        play2->depth = 2;
+        play2->panelSub.flow = 0;
+        _setFadeDir(play2->global, -1);
+        _setNextMain(play2->global, MAIN_MENU);
         dm_snd_play(SND_INDEX_68);
     }
 }
 
-bool func_80055154(MenuPlay2 *play2, s32 arg1, s32 arg2) {
-    MenuPlay2Panel *play2Panel = &play2->unk_00C8[arg1];
-    u32 keyLvl = _getKeyLvl(play2->watchMenuRef, arg2);
+/**
+ * Original name: menuPlay2_checkInputMaster
+ */
+bool menuPlay2_checkInputMaster(MenuPlay2 *play2, s32 playerNo, s32 contNo) {
+    MenuPlay2Panel *panel = &play2->panel[playerNo];
+    u32 key = _getKeyLvl(play2->global, contNo);
 
-    return (keyLvl & R_TRIG) && (play2Panel->flow == 0);
+    return (key & R_TRIG) && (panel->flow == 0);
 }
 
-void func_800551BC(MenuPlay2 *menuPlay2, s32 index) {
-    MenuPlay2Panel *temp_s3 = &menuPlay2->unk_00C8[index];
+/**
+ * Original name: menuPlay2_applyMasterConfig
+ */
+void menuPlay2_applyMasterConfig(MenuPlay2 *play2, s32 playerNo) {
+    MenuPlay2Panel *master = &play2->panel[playerNo];
     s32 i;
 
-    for (i = 0; i < menuPlay2->unk_00C4; i++) {
-        MenuPlay2Panel *temp_a0 = &menuPlay2->unk_00C8[i];
+    for (i = 0; i < play2->panelCount; i++) {
+        MenuPlay2Panel *panel = &play2->panel[i];
 
-        if (temp_a0->flow <= 0) {
-            menuPlay2Panel_copyConfig(temp_a0, temp_s3);
+        if (panel->flow <= 0) {
+            menuPlay2Panel_copyConfig(panel, master);
         }
     }
 }
 
-void func_80055254(MenuPlay2 *menuPlay2, s32 arg1) {
-    MenuPlay2Panel *temp_s3 = &menuPlay2->unk_00C8[arg1];
+/**
+ * Original name: menuPlay2_applyMasterConfig
+ */
+void menuPlay2_applyMasterCursor(MenuPlay2 *menuPlay2, s32 arg1) {
+    MenuPlay2Panel *master = &menuPlay2->panel[arg1];
     s32 i;
 
-    for (i = 0; i < menuPlay2->unk_00C4; i++) {
-        MenuPlay2Panel *temp_a0 = &menuPlay2->unk_00C8[i];
+    for (i = 0; i < menuPlay2->panelCount; i++) {
+        MenuPlay2Panel *panel = &menuPlay2->panel[i];
 
-        if (temp_a0->flow <= 0) {
-            menuPlay2Panel_copyCursor(temp_a0, temp_s3);
+        if (panel->flow <= 0) {
+            menuPlay2Panel_copyCursor(panel, master);
         }
     }
 }
 
+/**
+ * Original name: menuPlay2_inputMan
+ */
 void menuPlay2_inputMan(MenuPlay2 *play2) {
-    MenuPlay2Panel *temp_s0;
-    MainMenuMode var_s6;
-    s32 temp_a1_4;
+    MenuPlay2Panel *panel;
+    MainMenuMode mode;
+    s32 playerNo;
     s32 i;
-    s32 var_s4;
-    s32 var_s5;
+    s32 ok;
+    s32 cancel;
     bool var_s7;
 
-    if (play2->unk_0008 >= 0) {
-        if (!func_80055154(play2, play2->unk_0008, play2->unk_0008)) {
-            play2->unk_0008 = -1;
+    if (play2->master >= 0) {
+        if (!menuPlay2_checkInputMaster(play2, play2->master, play2->master)) {
+            play2->master = -1;
         }
     }
 
-    if (play2->unk_0008 < 0) {
-        for (i = 0; i < play2->unk_000C; i++) {
-            if (func_80055154(play2, play2->unk_0010[i], play2->unk_0010[i])) {
-                play2->unk_0008 = play2->unk_0010[i];
+    if (play2->master < 0) {
+        for (i = 0; i < play2->playerCount; i++) {
+            if (menuPlay2_checkInputMaster(play2, play2->playerTable[i], play2->playerTable[i])) {
+                play2->master = play2->playerTable[i];
                 break;
             }
         }
     }
 
-    for (i = 0; i < play2->unk_000C; i++) {
-        temp_a1_4 = play2->unk_0010[i];
-        temp_s0 = &play2->unk_00C8[temp_a1_4];
+    for (i = 0; i < play2->playerCount; i++) {
+        playerNo = play2->playerTable[i];
+        panel = &play2->panel[playerNo];
 
-        if (temp_a1_4 == 0) {
-            if (temp_s0->flow == 1) {
+        if (playerNo == 0) {
+            if (panel->flow == 1) {
                 break;
             }
-        } else if (temp_s0->flow != 1) {
+        } else if (panel->flow != 1) {
             break;
         }
     }
 
-    var_s7 = (i == play2->unk_000C) && (play2->unk_0020 != 0);
-    var_s5 = 0;
+    var_s7 = (i == play2->playerCount) && (play2->cpuCount != 0);
+    cancel = 0;
 
-    var_s4 = 0;
-    for (i = 0; i < play2->unk_000C; i++) {
-        temp_a1_4 = play2->unk_0010[i];
-        temp_s0 = &play2->unk_00C8[temp_a1_4];
-        if ((play2->unk_0008 < 0) || (play2->unk_0008 == temp_a1_4)) {
-            s32 var_a3 = !var_s7 || (temp_a1_4 != 0);
+    ok = 0;
+    for (i = 0; i < play2->playerCount; i++) {
+        playerNo = play2->playerTable[i];
+        panel = &play2->panel[playerNo];
+        if ((play2->master < 0) || (play2->master == playerNo)) {
+            s32 bottomFlag = !var_s7 || (playerNo != 0);
 
-            menuPlay2Panel_input(temp_s0, temp_a1_4, true, var_a3);
+            menuPlay2Panel_input(panel, playerNo, true, bottomFlag);
         }
 
-        switch (temp_s0->flow) {
+        switch (panel->flow) {
             case -0x1:
-                var_s5 += 1;
+                cancel++;
                 break;
 
             case 0x1:
-                var_s4 += 1;
+                ok++;
                 break;
         }
     }
 
-    if (var_s5 != 0) {
-        switch (_getMode(play2->watchMenuRef)) {
+    if (cancel) {
+        switch (_getMode(play2->global)) {
             case MODE_VSMAN:
-                var_s6 = MODE_VSMAN_CH;
+                mode = MODE_VSMAN_CH;
                 break;
 
             case MODE_VSMAN_FL:
-                var_s6 = MODE_VSMAN_FL_CH;
+                mode = MODE_VSMAN_FL_CH;
                 break;
 
             case MODE_VSMAN_TA:
-                var_s6 = MODE_VSMAN_TA_CH;
+                mode = MODE_VSMAN_TA_CH;
                 break;
 
             case MODE_VSCOM:
-                var_s6 = MODE_VSCOM_CH;
+                mode = MODE_VSCOM_CH;
                 break;
 
             case MODE_VSCOM_FL:
-                var_s6 = MODE_VSCOM_FL_CH;
+                mode = MODE_VSCOM_FL_CH;
                 break;
 
             case MODE_PLAY4_LV:
-                var_s6 = MODE_PLAY4_CH;
+                mode = MODE_PLAY4_CH;
                 break;
 
             case MODE_PLAY4_TB_LV:
-                var_s6 = MODE_PLAY4_TB_CH;
+                mode = MODE_PLAY4_TB_CH;
                 break;
 
             case MODE_PLAY4_FL_LV:
-                var_s6 = MODE_PLAY4_FL_CH;
+                mode = MODE_PLAY4_FL_CH;
                 break;
 
             default:
                 break;
         }
 
-        play2->unk_0004 -= 1;
-        _setMode(play2->watchMenuRef, var_s6);
-        func_80054A94(play2, -1, 1.0f);
-    } else if (var_s4 == play2->unk_000C) {
-        play2->unk_0004 += 1;
+        play2->depth--;
+        _setMode(play2->global, mode);
+        menuPlay2_setFrame(play2, -1, 1.0f);
+    } else if (ok == play2->playerCount) {
+        play2->depth++;
     }
 }
 
+/**
+ * Original name: menuPlay2_inputCpu
+ */
 void menuPlay2_inputCpu(MenuPlay2 *play2) {
-    s32 var_s2 = 0;
+    s32 pre = 0;
     s32 i;
 
-    play2->unk_0008 = -1;
+    play2->master = -1;
 
-    for (i = 0; i < play2->unk_0020; i++) {
-        s32 temp_s0 = play2->unk_0024[i];
-        MenuPlay2Panel *temp_s1 = &play2->unk_00C8[temp_s0];
+    for (i = 0; i < play2->cpuCount; i++) {
+        s32 playerNo = play2->cpuTable[i];
+        MenuPlay2Panel *panel = &play2->panel[playerNo];
 
-        if (temp_s1->flow == 1) {
-            var_s2 = temp_s0;
+        if (panel->flow == 1) {
+            pre = playerNo;
             continue;
         }
 
-        if (func_80055154(play2, temp_s0, 0) != 0) {
-            play2->unk_0008 = temp_s0;
+        if (menuPlay2_checkInputMaster(play2, playerNo, 0) != 0) {
+            play2->master = playerNo;
         }
 
-        menuPlay2Panel_input(temp_s1, 0, false, i == (play2->unk_0020 - 1));
-        if (temp_s1->flow == -1) {
-            play2->unk_00C8[var_s2].flow = temp_s1->flow;
-            if (var_s2 == 0) {
-                play2->unk_0004--;
+        menuPlay2Panel_input(panel, 0, false, i == (play2->cpuCount - 1));
+        if (panel->flow == -1) {
+            play2->panel[pre].flow = panel->flow;
+            if (pre == 0) {
+                play2->depth--;
             }
         }
         break;
     }
 
-    if (i == play2->unk_0020) {
-        play2->unk_0004++;
+    if (i == play2->cpuCount) {
+        play2->depth++;
     }
 }
 
-void menuPlay2_input(MenuPlay2 *menuPlay2) {
-    MenuPlay2Panel *play2Panel;
-    struct_evs_mem_data_config *temp_a2;
+/**
+ * Original name: menuPlay2_input
+ */
+void menuPlay2_input(MenuPlay2 *play2) {
+    struct_evs_mem_data_config *cfg;
+    MenuPlay2Panel *panel;
     s32 i;
 
-    if (menuPlay2->unk_00C8[0].miBase.transStep < 0.0f) {
+    if (play2->panel[0].miBase.transStep < 0.0f) {
         return;
     }
 
-    if (menuPlay2->unk_00C8[0].miBase.transTime < 1.0f) {
+    if (play2->panel[0].miBase.transTime < 1.0f) {
         return;
     }
 
-    if (menuPlay2->unk_0008 >= 0) {
-        u32 keyTrg = _getKeyTrg(menuPlay2->watchMenuRef, menuPlay2->unk_0008);
-        u32 keyLvl = _getKeyLvl(menuPlay2->watchMenuRef, menuPlay2->unk_0008);
+    if (play2->master >= 0) {
+        u32 trg = _getKeyTrg(play2->global, play2->master);
+        u32 lvl = _getKeyLvl(play2->global, play2->master);
 
-        if ((keyLvl & R_TRIG) && (keyTrg & (A_BUTTON | START_BUTTON))) {
-            for (i = 0; i < menuPlay2->unk_00C4; i++) {
-                play2Panel = &menuPlay2->unk_00C8[i];
+        if ((lvl & R_TRIG) && (trg & (A_BUTTON | START_BUTTON))) {
+            for (i = 0; i < play2->panelCount; i++) {
+                panel = &play2->panel[i];
 
-                play2Panel->flow = 1;
+                panel->flow = 1;
             }
             SND_PLAY_INDEX(SND_INDEX_62);
         }
     }
 
-    switch (menuPlay2->unk_0004) {
+    switch (play2->depth) {
         case -1:
-            menuPlay2->unk_0004 = 0;
+            play2->depth = 0;
             FALLTHROUGH;
 
         case 0:
-            menuPlay2PanelSub_setFrame(&menuPlay2->unk_6548, -1, menuPlay2->unk_6548.miBase.transTime);
-            menuPlay2_inputMan(menuPlay2);
+            menuPlay2PanelSub_setFrame(&play2->panelSub, -1, play2->panelSub.miBase.transTime);
+            menuPlay2_inputMan(play2);
             break;
 
         case 1:
-            menuPlay2PanelSub_setFrame(&menuPlay2->unk_6548, -1, menuPlay2->unk_6548.miBase.transTime);
-            menuPlay2_inputCpu(menuPlay2);
+            menuPlay2PanelSub_setFrame(&play2->panelSub, -1, play2->panelSub.miBase.transTime);
+            menuPlay2_inputCpu(play2);
             break;
 
         case 2:
-            menuPlay2->unk_0008 = -1;
-            menuPlay2PanelSub_setFrame(&menuPlay2->unk_6548, 1, menuPlay2->unk_6548.miBase.transTime);
-            if (menuPlay2PanelSub_input(&menuPlay2->unk_6548, 0)) {
-                switch (menuPlay2->unk_6548.flow) {
+            play2->master = -1;
+            menuPlay2PanelSub_setFrame(&play2->panelSub, 1, play2->panelSub.miBase.transTime);
+            if (menuPlay2PanelSub_input(&play2->panelSub, 0)) {
+                switch (play2->panelSub.flow) {
                     case -1:
-                        menuPlay2->unk_0004 -= 2;
-                        for (i = 0; i < menuPlay2->unk_00C4; i++) {
-                            menuPlay2->unk_00C8[i].flow = -1;
-                            menuPlay2->unk_00C8[i].depth = 0;
+                        play2->depth -= 2;
+                        for (i = 0; i < play2->panelCount; i++) {
+                            play2->panel[i].flow = -1;
+                            play2->panel[i].depth = 0;
                         }
 
-                        if (menuPlay2->unk_6548.musicItem.playNo >= 0) {
+                        if (play2->panelSub.musicItem.playNo >= 0) {
                             dm_seq_play_fade(SEQ_INDEX_12, 0x14);
-                            menuPlay2->unk_6548.musicItem.playNo = -1;
+                            play2->panelSub.musicItem.playNo = -1;
                         }
                         break;
 
                     case 1:
-                        menuPlay2->unk_0004++;
+                        play2->depth++;
                         break;
                 }
             }
             break;
     }
 
-    if (menuPlay2->unk_0004 < 3) {
+    if (play2->depth < 3) {
         return;
     }
 
-    switch (_getMode(menuPlay2->watchMenuRef)) {
+    switch (_getMode(play2->global)) {
         case MODE_VSMAN:
         case MODE_VSMAN_FL:
         case MODE_VSMAN_TA:
-            for (i = 0; i < menuPlay2->unk_00C4; i++) {
-                play2Panel = &menuPlay2->unk_00C8[i];
-                temp_a2 = &evs_mem_data[evs_select_name_no[i]].config;
+            for (i = 0; i < play2->panelCount; i++) {
+                panel = &play2->panel[i];
+                cfg = &evs_mem_data[evs_select_name_no[i]].config;
 
-                if (play2Panel->flash) {
-                    temp_a2->vm_fl_lv = play2Panel->glvItem.select;
-                } else if (play2Panel->timeAt) {
-                    temp_a2->vm_ta_lv = play2Panel->glvItem.select;
+                if (panel->flash) {
+                    cfg->vm_fl_lv = panel->glvItem.select;
+                } else if (panel->timeAt) {
+                    cfg->vm_ta_lv = panel->glvItem.select;
                 } else {
-                    temp_a2->vm_lv = play2Panel->lvGauge.level;
+                    cfg->vm_lv = panel->lvGauge.level;
                 }
-                temp_a2->vm_sp = play2Panel->speedItem.select;
-                temp_a2->vm_st = menuPlay2->unk_6548.stageNum.number - 1;
-                temp_a2->vm_m = menuPlay2->unk_6548.musicItem.select;
+                cfg->vm_sp = panel->speedItem.select;
+                cfg->vm_st = play2->panelSub.stageNum.number - 1;
+                cfg->vm_m = play2->panelSub.musicItem.select;
             }
             break;
 
         case MODE_VSCOM:
         case MODE_VSCOM_FL:
-            temp_a2 = &evs_mem_data[evs_select_name_no[0]].config;
+            cfg = &evs_mem_data[evs_select_name_no[0]].config;
 
-            for (i = 0; i < menuPlay2->unk_00C4; i++) {
-                play2Panel = &menuPlay2->unk_00C8[i];
+            for (i = 0; i < play2->panelCount; i++) {
+                panel = &play2->panel[i];
 
-                if (play2Panel->flash) {
-                    temp_a2->vc_fl_lv[i] = play2Panel->glvItem.select;
+                if (panel->flash) {
+                    cfg->vc_fl_lv[i] = panel->glvItem.select;
                 } else {
-                    temp_a2->vc_lv[i] = play2Panel->lvGauge.level;
+                    cfg->vc_lv[i] = panel->lvGauge.level;
                 }
-                temp_a2->vc_sp[i] = play2Panel->speedItem.select;
+                cfg->vc_sp[i] = panel->speedItem.select;
             }
 
-            temp_a2->vc_st = menuPlay2->unk_6548.stageNum.number - 1;
-            temp_a2->vc_m = menuPlay2->unk_6548.musicItem.select;
+            cfg->vc_st = play2->panelSub.stageNum.number - 1;
+            cfg->vc_m = play2->panelSub.musicItem.select;
             break;
 
         default:
@@ -8256,183 +8364,203 @@ void menuPlay2_input(MenuPlay2 *menuPlay2) {
         case MODE_PLAY4_LV:
         case MODE_PLAY4_TB_LV:
         case MODE_PLAY4_FL_LV:
-            for (i = 0; i < menuPlay2->unk_00C4; i++) {
-                play2Panel = &menuPlay2->unk_00C8[i];
+            for (i = 0; i < play2->panelCount; i++) {
+                panel = &play2->panel[i];
 
-                if (play2Panel->flash) {
-                    evs_cfg_4p.p4_fl_lv[i] = play2Panel->glvItem.select;
+                if (panel->flash) {
+                    evs_cfg_4p.p4_fl_lv[i] = panel->glvItem.select;
                 } else {
-                    evs_cfg_4p.p4_lv[i] = play2Panel->lvGauge.level;
+                    evs_cfg_4p.p4_lv[i] = panel->lvGauge.level;
                 }
-                evs_cfg_4p.p4_sp[i] = play2Panel->speedItem.select;
+                evs_cfg_4p.p4_sp[i] = panel->speedItem.select;
             }
 
-            evs_cfg_4p.p4_st = menuPlay2->unk_6548.stageNum.number - 1;
-            evs_cfg_4p.p4_m = menuPlay2->unk_6548.musicItem.select;
+            evs_cfg_4p.p4_st = play2->panelSub.stageNum.number - 1;
+            evs_cfg_4p.p4_m = play2->panelSub.musicItem.select;
             break;
     }
 
-    for (i = 0; i < menuPlay2->unk_00C4; i++) {
-        struct_game_state_data *ptr = &game_state_data[i];
-        play2Panel = &menuPlay2->unk_00C8[i];
+    for (i = 0; i < play2->panelCount; i++) {
+        struct_game_state_data *state = &game_state_data[i];
 
-        if (play2Panel->flash) {
-            ptr->virus_level = _timeAttack_levelTable[play2Panel->glvItem.select];
-            ptr->game_level = play2Panel->glvItem.select;
-        } else if (play2Panel->timeAt) {
-            ptr->virus_level = _timeAttack_levelTable[play2Panel->glvItem.select];
-            ptr->game_level = play2Panel->glvItem.select;
+        panel = &play2->panel[i];
+
+        if (panel->flash) {
+            state->virus_level = _timeAttack_levelTable[panel->glvItem.select];
+            state->game_level = panel->glvItem.select;
+        } else if (panel->timeAt) {
+            state->virus_level = _timeAttack_levelTable[panel->glvItem.select];
+            state->game_level = panel->glvItem.select;
         } else {
-            ptr->virus_level = play2Panel->lvGauge.level;
+            state->virus_level = panel->lvGauge.level;
         }
-        ptr->cap_def_speed = play2Panel->speedItem.select;
+        state->cap_def_speed = panel->speedItem.select;
     }
 
-    i = menuPlay2->unk_6548.stageNum.number - 1;
+    i = play2->panelSub.stageNum.number - 1;
 
     story_proc_no = _bgDataNo_to_stageNo[i][1] + 1;
     story_proc_no += _bgDataNo_to_stageNo[i][0] * 0xC;
     evs_story_no = _bgDataNo_to_stageNo[i][1] + 1;
 
-    evs_seqnumb = menuPlay2->unk_6548.musicItem.select;
+    evs_seqnumb = play2->panelSub.musicItem.select;
     evs_seqence = evs_seqnumb != 4;
     evs_game_time = 0;
 
-    _setFadeDir(menuPlay2->watchMenuRef, 1);
-    _setNextMain(menuPlay2->watchMenuRef, MAIN_12);
+    _setFadeDir(play2->global, 1);
+    _setNextMain(play2->global, MAIN_12);
 }
 
-void menuPlay2_update(MenuPlay2 *menuPlay2) {
-    SMenuItem *rootItem = _getRootItem(menuPlay2->watchMenuRef);
+/**
+ * Original name: menuPlay2_update
+ */
+void menuPlay2_update(MenuPlay2 *play2) {
+    SMenuItem *miRoot = _getRootItem(play2->global);
     s32 i;
 
-    switch (menuPlay2->unk_0004) {
+    switch (play2->depth) {
         case 0:
         case 1:
-            menuItem_setColorDir(&menuPlay2->unk_0034, 1);
+            menuItem_setColorDir(&play2->miONaJi, 1);
             break;
 
         default:
-            menuItem_setColorDir(&menuPlay2->unk_0034, -1);
+            menuItem_setColorDir(&play2->miONaJi, -1);
             break;
     }
 
-    if (menuPlay2->unk_0008 >= 0) {
-        func_800551BC(menuPlay2, menuPlay2->unk_0008);
+    if (play2->master >= 0) {
+        menuPlay2_applyMasterConfig(play2, play2->master);
     }
 
-    for (i = 0; i < menuPlay2->unk_00C4; i++) {
-        menuPlay2Panel_update(&menuPlay2->unk_00C8[i], rootItem);
+    for (i = 0; i < play2->panelCount; i++) {
+        menuPlay2Panel_update(&play2->panel[i], miRoot);
     }
 
-    if (menuPlay2->unk_0008 >= 0) {
-        func_80055254(menuPlay2, menuPlay2->unk_0008);
+    if (play2->master >= 0) {
+        menuPlay2_applyMasterCursor(play2, play2->master);
     }
 
-    menuPlay2PanelSub_update(&menuPlay2->unk_6548, rootItem);
-    menuItem_update(&menuPlay2->unk_0034, rootItem);
+    menuPlay2PanelSub_update(&play2->panelSub, miRoot);
+    menuItem_update(&play2->miONaJi, miRoot);
 }
 
-void menuPlay2_draw(MenuPlay2 *menuPlay2, Gfx **gfxP) {
+/**
+ * Original name: menuPlay2_draw
+ */
+void menuPlay2_draw(MenuPlay2 *play2, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    SMenuItem *rootItem UNUSED = _getRootItem(menuPlay2->watchMenuRef);
-    MenuPlay2Panel *arr[menuPlay2->unk_00C4];
+    SMenuItem *miRoot UNUSED = _getRootItem(play2->global);
+    MenuPlay2Panel *list[play2->panelCount];
+    TiTexData *texC;
     s32 i;
 
-    for (i = 0; i < menuPlay2->unk_00C4; i++) {
-        arr[i] = &menuPlay2->unk_00C8[i];
+    for (i = 0; i < play2->panelCount; i++) {
+        list[i] = &play2->panel[i];
     }
-    menuPlay2Panel_draw(arr, menuPlay2->unk_00C4, &gfx);
+    menuPlay2Panel_draw(list, play2->panelCount, &gfx);
 
-    menuPlay2PanelSub_draw(&menuPlay2->unk_6548, &gfx);
+    menuPlay2PanelSub_draw(&play2->panelSub, &gfx);
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
     gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
 
-    menuItem_drawTex(&menuPlay2->unk_0034, &gfx, _getTexSetup(menuPlay2->watchMenuRef, 0x13), 0);
+    texC = _getTexSetup(play2->global, 0x13);
+    menuItem_drawTex(&play2->miONaJi, &gfx, texC, 0);
 
     *gfxP = gfx;
 }
 
-void func_80055DFC(MenuNmEnt *menuNmEnt, s32 arg1, f32 arg2) {
-    SMenuItem *item = &menuNmEnt->unk_003C;
+/**
+ * Original name: menuNmEnt_setFrame
+ */
+void menuNmEnt_setFrame(MenuNmEnt *nmEnt, s32 dir, f32 time) {
+    SMenuItem *item = &nmEnt->miBase;
 
-    item->transTime = arg2;
+    item->transTime = time;
     item->transStep = 0.05f;
     item->transRange[0][1] = item->transRange[1][1] - 240.0f;
-    menuItem_setTransDir(item, arg1);
+    menuItem_setTransDir(item, dir);
 }
 
-void menuNmEnt_init(MenuNmEnt *menuNmEnt, struct_watchMenu *watchMenuRef, void **heapP UNUSED) {
+/**
+ * Original name: menuNmEnt_init
+ */
+void menuNmEnt_init(MenuNmEnt *nmEnt, struct_watchMenu *global, void **heapP UNUSED) {
     s32 i;
 
-    menuNmEnt->watchMenuRef = watchMenuRef;
+    nmEnt->global = global;
 
-    switch (_getMode(watchMenuRef)) {
+    switch (_getMode(global)) {
         case MODE_VSMAN_NE:
         case MODE_VSMAN_FL_NE:
         case MODE_VSMAN_TA_NE:
-            menuNmEnt->unk_0008 = 2;
+            nmEnt->playerCount = 2;
             break;
 
         default:
-            menuNmEnt->unk_0008 = 1;
+            nmEnt->playerCount = 1;
             break;
     }
 
-    for (i = 0; i < menuNmEnt->unk_0008; i++) {
+    for (i = 0; i < nmEnt->playerCount; i++) {
         if (evs_select_name_no[i] != 8) {
-            u8 *ptr = &evs_mem_data[evs_select_name_no[i]].mem_use_flg;
+            u8 *mc = &evs_mem_data[evs_select_name_no[i]].mem_use_flg;
 
-            if (_getMode(watchMenuRef) == MODE_NAME_NE2) {
+            if (_getMode(global) == MODE_NAME_NE2) {
                 break;
             }
-            if (!(*ptr & MEM_USE_FLG_1)) {
+            if (!(*mc & MEM_USE_FLG_1)) {
                 break;
             }
         }
     }
 
-    menuNmEnt->unk_0004 = i;
+    nmEnt->playerNo = i;
 
-    for (i = 0; i < 2U; i++) {
-        menuNmEnt->unk_000C[i] = -1;
-        menuNmEnt->unk_0014[i] = 0;
-        menuNmEnt->unk_001C[i][0] = 0;
-        menuNmEnt->unk_001C[i][1] = 0;
+    for (i = 0; i < ARRAY_COUNTU(evs_select_name_no); i++) {
+        nmEnt->flow[i] = -1;
+        nmEnt->pageNo[i] = 0;
+        nmEnt->curPos[i][0] = 0;
+        nmEnt->curPos[i][1] = 0;
 
-        if ((_getMode(watchMenuRef) == MODE_NAME_NE2) && (evs_select_name_no[i] != 8)) {
-            bcopy(evs_mem_data[evs_select_name_no[i]].mem_name, menuNmEnt->unk_002C[i], sizeof(menuNmEnt->unk_002C[i]));
+        if ((_getMode(global) == MODE_NAME_NE2) && (evs_select_name_no[i] != 8)) {
+            bcopy(evs_mem_data[evs_select_name_no[i]].mem_name, nmEnt->name[i], sizeof(nmEnt->name[i]));
         } else {
             s32 j;
 
-            for (j = 0; j < ARRAY_COUNT(menuNmEnt->unk_002C[i]); j++) {
-                menuNmEnt->unk_002C[i][j] = 0;
+            for (j = 0; j < ARRAY_COUNT(nmEnt->name[i]); j++) {
+                nmEnt->name[i][j] = 0;
             }
         }
 
-        menuNmEnt->unk_0034[i] = 0;
+        nmEnt->namePos[i] = 0;
     }
 
-    menuItem_init(&menuNmEnt->unk_003C, 29, 98);
-    menuItem_init(&menuNmEnt->unk_00CC, 47, -47);
+    menuItem_init(&nmEnt->miBase, 29, 98);
+    menuItem_init(&nmEnt->miPanel, 47, -47);
 #if VERSION_US || VERSION_GW
-    menuItem_init(&menuNmEnt->unk_015C, 100, 5);
+    menuItem_init(&nmEnt->miPlayerNo, 100, 5);
 #elif VERSION_CN
-    menuItem_init(&menuNmEnt->unk_015C, 80, 7);
+    menuItem_init(&nmEnt->miPlayerNo, 80, 7);
 #else
 #error ""
 #endif
-    menuItem_init(&menuNmEnt->unk_01EC, 20, 7);
-    menuItem_init(&menuNmEnt->unk_027C, 0, 0);
-    menuCursor_init(&menuNmEnt->unk_030C, watchMenuRef, CURSOR_ITEM, menuNmEnt->unk_0004, -2, -2, 0x10, 0x10);
-    menuNmEnt->unk_030C.flags.finger = true;
-    menuItem_init(&menuNmEnt->unk_056C, 59, 23);
-    menuItem_init(&menuNmEnt->unk_05FC, 0, 16);
-    func_80055DFC(menuNmEnt, 1, 0.0f);
+    menuItem_init(&nmEnt->miTable, 20, 7);
+    menuItem_init(&nmEnt->miCursor, 0, 0);
+    menuCursor_init(&nmEnt->cursor, global, CURSOR_ITEM, nmEnt->playerNo, -2, -2, 0x10, 0x10);
+    nmEnt->cursor.flags.finger = true;
+    menuItem_init(&nmEnt->miName, 59, 23);
+    menuItem_init(&nmEnt->miNamePos, 0, 16);
+    menuNmEnt_setFrame(nmEnt, 1, 0.0f);
 }
 
-void func_800560D4(MenuNmEnt *nmEnt) {
+/**
+ * Original name: _menuNmEnt_updateCallback
+ */
+void _menuNmEnt_updateCallback(void *arg) {
+    MenuNmEnt *nmEnt = arg;
+
     menuNmEnt_update(nmEnt);
 }
 
@@ -8449,55 +8577,58 @@ const char *_nameEntry_charTable[] = {
     "________________________505152",
 };
 
-void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
-    u32 keyRep = _getKeyRep(menuNmEnt->watchMenuRef, menuNmEnt->unk_0004);
-    u32 keyTrg = _getKeyTrg(menuNmEnt->watchMenuRef, menuNmEnt->unk_0004);
+/**
+ * Original name: menuNmEnt_input
+ */
+void menuNmEnt_input(MenuNmEnt *nmEnt) {
+    u32 rep = _getKeyRep(nmEnt->global, nmEnt->playerNo);
+    u32 trg = _getKeyTrg(nmEnt->global, nmEnt->playerNo);
     s32 i;
-    s32 horizontal;
-    s32 vertical;
-    SndIndex soundIndex = SND_INDEX_INVALID;
+    s32 vx;
+    s32 vy;
+    SndIndex sound = SND_INDEX_INVALID;
     s32 sp20 = 0;
-    s32 sp24 = menuNmEnt->unk_0004;
+    s32 sp24 = nmEnt->playerNo;
 
-    if (menuNmEnt->unk_003C.transStep < 0.0f) {
+    if (nmEnt->miBase.transStep < 0.0f) {
         return;
     }
-    if (menuNmEnt->unk_003C.transTime < 1.0f) {
+    if (nmEnt->miBase.transTime < 1.0f) {
         return;
     }
 
-    vertical = 0;
-    horizontal = 0;
-    if (keyRep & L_JPAD) {
-        horizontal--;
+    vy = 0;
+    vx = 0;
+    if (rep & L_JPAD) {
+        vx--;
     }
-    if (keyRep & R_JPAD) {
-        horizontal++;
+    if (rep & R_JPAD) {
+        vx++;
     }
-    if (keyRep & U_JPAD) {
-        vertical--;
+    if (rep & U_JPAD) {
+        vy--;
     }
-    if (keyRep & D_JPAD) {
-        vertical++;
+    if (rep & D_JPAD) {
+        vy++;
     }
 
-    if ((horizontal != 0) || (vertical != 0)) {
-        bool var_s7 = false;
-        s32 var_s0 = menuNmEnt->unk_001C[sp24][0];
-        s32 var_s1 = menuNmEnt->unk_001C[sp24][1];
-        char *characterP;
+    if ((vx != 0) || (vy != 0)) {
+        bool flag = false;
+        s32 var_s0 = nmEnt->curPos[sp24][0];
+        s32 var_s1 = nmEnt->curPos[sp24][1];
+        char *c;
 
         do {
 #if VERSION_US || VERSION_GW
             // discard const
-            characterP = (char *)&_nameEntry_charTable[menuNmEnt->unk_0014[sp24]][(var_s0 + var_s1 * 0xF) * 2];
+            c = (char *)&_nameEntry_charTable[nmEnt->pageNo[sp24]][(var_s0 + var_s1 * 0xF) * 2];
 
-            if (isdigit(characterP[0]) && (horizontal != 0)) {
+            if (isdigit(c[0]) && (vx != 0)) {
                 s32 temp_lo;
                 s32 var_v0;
 
-                temp_lo = horizontal * (characterP[1] - '0');
-                if (horizontal > 0) {
+                temp_lo = vx * (c[1] - '0');
+                if (vx > 0) {
                     var_v0 = 3 - temp_lo;
                 } else {
                     var_v0 = -1 - temp_lo;
@@ -8505,274 +8636,279 @@ void menuNmEnt_input(MenuNmEnt *menuNmEnt) {
 
                 var_s0 = WrapI(0, 0xF, var_s0 + var_v0);
             } else {
-                var_s0 = WrapI(0, 0xF, var_s0 + horizontal);
+                var_s0 = WrapI(0, 0xF, var_s0 + vx);
             }
 
 #elif VERSION_CN
-            var_s0 = WrapI(0, 0xF, var_s0 + horizontal);
+            var_s0 = WrapI(0, 0xF, var_s0 + vx);
 #else
 #error ""
 #endif
-            var_s1 = WrapI(0, 9, var_s1 + vertical);
-            characterP = (char *)&_nameEntry_charTable[menuNmEnt->unk_0014[sp24]][((var_s0 + (var_s1 * 0xF)) * 2)];
-        } while (characterP[0] == '_');
+            var_s1 = WrapI(0, 9, var_s1 + vy);
+            c = (char *)&_nameEntry_charTable[nmEnt->pageNo[sp24]][((var_s0 + (var_s1 * 0xF)) * 2)];
+        } while (c[0] == '_');
 
-        if (characterP[0] & 0x80) {
-            menuNmEnt->unk_000C[sp24] = -1;
-            var_s7++;
-        } else if (isdigit(characterP[0])) {
-            menuNmEnt->unk_000C[sp24] = characterP[0] - '0';
-            var_s0 += '0' - characterP[1];
-            var_s7 = (var_s0 != menuNmEnt->unk_001C[sp24][0]) || (var_s1 != menuNmEnt->unk_001C[sp24][1]);
+        if (c[0] & 0x80) {
+            nmEnt->flow[sp24] = -1;
+            flag++;
+        } else if (isdigit(c[0])) {
+            nmEnt->flow[sp24] = c[0] - '0';
+            var_s0 += '0' - c[1];
+            flag = (var_s0 != nmEnt->curPos[sp24][0]) || (var_s1 != nmEnt->curPos[sp24][1]);
         }
 
-        if (var_s7) {
-            menuNmEnt->unk_001C[sp24][0] = var_s0;
-            menuNmEnt->unk_001C[sp24][1] = var_s1;
-            soundIndex = SND_INDEX_64;
+        if (flag) {
+            nmEnt->curPos[sp24][0] = var_s0;
+            nmEnt->curPos[sp24][1] = var_s1;
+            sound = SND_INDEX_64;
         }
     }
 
-    if ((keyTrg & START_BUTTON) && (menuNmEnt->unk_000C[sp24] != 5)) {
-        menuNmEnt->unk_000C[sp24] = 5;
-        menuNmEnt->unk_001C[sp24][0] = 0xC;
-        menuNmEnt->unk_001C[sp24][1] = 8;
-        soundIndex = SND_INDEX_62;
-    } else if (keyTrg & (A_BUTTON | START_BUTTON)) {
-        const char *characterP =
-            &_nameEntry_charTable[menuNmEnt->unk_0014[sp24]]
-                                 [(menuNmEnt->unk_001C[sp24][0] + (menuNmEnt->unk_001C[sp24][1] * 0xF)) * 2];
+    if ((trg & START_BUTTON) && (nmEnt->flow[sp24] != 5)) {
+        nmEnt->flow[sp24] = 5;
+        nmEnt->curPos[sp24][0] = 0xC;
+        nmEnt->curPos[sp24][1] = 8;
+        sound = SND_INDEX_62;
+    } else if (trg & (A_BUTTON | START_BUTTON)) {
+        const char *c =
+            &_nameEntry_charTable[nmEnt->pageNo[sp24]][(nmEnt->curPos[sp24][0] + (nmEnt->curPos[sp24][1] * 0xF)) * 2];
 
-        switch (menuNmEnt->unk_000C[sp24]) {
+        switch (nmEnt->flow[sp24]) {
             case -0x1:
-                if (menuNmEnt->unk_0034[sp24] < 4) {
-                    menuNmEnt->unk_002C[sp24][menuNmEnt->unk_0034[sp24]] = font2index(characterP);
-                    menuNmEnt->unk_0034[sp24]++;
-                    soundIndex = SND_INDEX_62;
+                if (nmEnt->namePos[sp24] < 4) {
+                    nmEnt->name[sp24][nmEnt->namePos[sp24]] = font2index(c);
+                    nmEnt->namePos[sp24]++;
+                    sound = SND_INDEX_62;
                 }
 
-                if (menuNmEnt->unk_0034[sp24] == 4) {
-                    menuNmEnt->unk_001C[sp24][0] = 0xC;
-                    menuNmEnt->unk_001C[sp24][1] = 8;
-                    menuNmEnt->unk_000C[sp24] = 5;
+                if (nmEnt->namePos[sp24] == 4) {
+                    nmEnt->curPos[sp24][0] = 0xC;
+                    nmEnt->curPos[sp24][1] = 8;
+                    nmEnt->flow[sp24] = 5;
                 }
                 break;
 
             case 0x3:
-                if (menuNmEnt->unk_0034[sp24] < 4) {
-                    menuNmEnt->unk_002C[sp24][menuNmEnt->unk_0034[sp24]] = 0;
-                    menuNmEnt->unk_0034[sp24]++;
-                    soundIndex = SND_INDEX_62;
+                if (nmEnt->namePos[sp24] < 4) {
+                    nmEnt->name[sp24][nmEnt->namePos[sp24]] = 0;
+                    nmEnt->namePos[sp24]++;
+                    sound = SND_INDEX_62;
                 }
 
-                if (menuNmEnt->unk_0034[sp24] == 4) {
-                    menuNmEnt->unk_001C[sp24][0] = 0xC;
-                    menuNmEnt->unk_001C[sp24][1] = 8;
-                    menuNmEnt->unk_000C[sp24] = 5;
+                if (nmEnt->namePos[sp24] == 4) {
+                    nmEnt->curPos[sp24][0] = 0xC;
+                    nmEnt->curPos[sp24][1] = 8;
+                    nmEnt->flow[sp24] = 5;
                 }
                 break;
 
             case 0x4:
-                if (menuNmEnt->unk_0034[sp24] > 0) {
-                    menuNmEnt->unk_0034[sp24]--;
-                    menuNmEnt->unk_002C[sp24][menuNmEnt->unk_0034[sp24]] = 0;
-                    soundIndex = SND_INDEX_68;
+                if (nmEnt->namePos[sp24] > 0) {
+                    nmEnt->namePos[sp24]--;
+                    nmEnt->name[sp24][nmEnt->namePos[sp24]] = 0;
+                    sound = SND_INDEX_68;
                 } else {
-                    soundIndex = SND_INDEX_71;
+                    sound = SND_INDEX_71;
                 }
                 break;
 
             case 0x5:
-                for (i = 0; i < ARRAY_COUNT(menuNmEnt->unk_002C[sp24]); i++) {
-                    if ((char)menuNmEnt->unk_002C[sp24][i] != 0) {
+                for (i = 0; i < ARRAY_COUNT(nmEnt->name[sp24]); i++) {
+                    if ((char)nmEnt->name[sp24][i] != 0) {
                         break;
                     }
                 }
 
-                if (i != ARRAY_COUNT(menuNmEnt->unk_002C[sp24])) {
+                if (i != ARRAY_COUNT(nmEnt->name[sp24])) {
                     sp20++;
-                    soundIndex = SND_INDEX_62;
+                    sound = SND_INDEX_62;
                 } else {
-                    soundIndex = SND_INDEX_71;
+                    sound = SND_INDEX_71;
                 }
                 break;
         }
-    } else if (keyTrg & B_BUTTON) {
-        if (menuNmEnt->unk_0034[sp24] > 0) {
-            menuNmEnt->unk_0034[sp24]--;
-            menuNmEnt->unk_002C[sp24][menuNmEnt->unk_0034[sp24]] = 0;
+    } else if (trg & B_BUTTON) {
+        if (nmEnt->namePos[sp24] > 0) {
+            nmEnt->namePos[sp24]--;
+            nmEnt->name[sp24][nmEnt->namePos[sp24]] = 0;
         } else {
             sp20--;
         }
-        soundIndex = SND_INDEX_68;
+        sound = SND_INDEX_68;
     }
 
     if (sp20 > 0) {
-        struct_evs_mem_data *temp_s1_2 = &evs_mem_data[evs_select_name_no[sp24]];
+        struct_evs_mem_data *mc = &evs_mem_data[evs_select_name_no[sp24]];
 
-        switch (_getMode(menuNmEnt->watchMenuRef)) {
+        switch (_getMode(nmEnt->global)) {
             case MODE_NAME_NE2:
                 break;
 
             default:
-                dm_init_save_mem(temp_s1_2);
+                dm_init_save_mem(mc);
                 break;
         }
 
-        temp_s1_2->mem_use_flg |= MEM_USE_FLG_1;
-        for (i = 0; i < ARRAY_COUNT(menuNmEnt->unk_002C[sp24]); i++) {
-            temp_s1_2->mem_name[i] = menuNmEnt->unk_002C[sp24][i];
+        mc->mem_use_flg |= MEM_USE_FLG_1;
+        for (i = 0; i < ARRAY_COUNT(nmEnt->name[sp24]); i++) {
+            mc->mem_name[i] = nmEnt->name[sp24][i];
         }
 
-        for (i = sp24 + 1; i < menuNmEnt->unk_0008; i++) {
+        for (i = sp24 + 1; i < nmEnt->playerCount; i++) {
             if (evs_select_name_no[i] != 8) {
-                struct_evs_mem_data *ptr = &evs_mem_data[evs_select_name_no[i]];
+                struct_evs_mem_data *mc = &evs_mem_data[evs_select_name_no[i]];
 
-                if (_getMode(menuNmEnt->watchMenuRef) == MODE_NAME_NE2) {
+                if (_getMode(nmEnt->global) == MODE_NAME_NE2) {
                     break;
                 }
-                if (!(ptr->mem_use_flg & MEM_USE_FLG_1)) {
+                if (!(mc->mem_use_flg & MEM_USE_FLG_1)) {
                     break;
                 }
             }
         }
 
-        if (i >= menuNmEnt->unk_0008) {
-            MainMenuMode sp30;
+        if (i >= nmEnt->playerCount) {
+            MainMenuMode mode;
 
-            _eepWritePlayer(menuNmEnt->watchMenuRef);
+            _eepWritePlayer(nmEnt->global);
 
-            switch (_getMode(menuNmEnt->watchMenuRef)) {
+            switch (_getMode(nmEnt->global)) {
                 case MODE_STORY_NE:
-                    sp30 = MODE_STORY;
+                    mode = MODE_STORY;
                     break;
 
                 case MODE_LVSEL_NE:
-                    sp30 = MODE_LVSEL;
+                    mode = MODE_LVSEL;
                     break;
 
                 case MODE_LVSEL_TQ_NE:
-                    sp30 = MODE_LVSEL_TQ;
+                    mode = MODE_LVSEL_TQ;
                     break;
 
                 case MODE_LVSEL_TA_NE:
-                    sp30 = MODE_LVSEL_TA;
+                    mode = MODE_LVSEL_TA;
                     break;
 
                 case MODE_VSCOM_NE:
-                    sp30 = MODE_VSCOM_CH;
+                    mode = MODE_VSCOM_CH;
                     break;
 
                 case MODE_VSCOM_FL_NE:
-                    sp30 = MODE_VSCOM_FL_CH;
+                    mode = MODE_VSCOM_FL_CH;
                     break;
 
                 case MODE_VSMAN_NE:
-                    sp30 = MODE_VSMAN_CH;
+                    mode = MODE_VSMAN_CH;
                     break;
 
                 case MODE_VSMAN_FL_NE:
-                    sp30 = MODE_VSMAN_FL_CH;
+                    mode = MODE_VSMAN_FL_CH;
                     break;
 
                 case MODE_VSMAN_TA_NE:
-                    sp30 = MODE_VSMAN_TA_CH;
+                    mode = MODE_VSMAN_TA_CH;
                     break;
 
                 case MODE_NAME_NE:
                 case MODE_NAME_NE2:
-                    sp30 = MODE_MAIN;
+                    mode = MODE_MAIN;
                     break;
 
                 default:
                     break;
             }
 
-            _setMode(menuNmEnt->watchMenuRef, sp30);
-            func_80055DFC(menuNmEnt, -1, 1.0f);
+            _setMode(nmEnt->global, mode);
+            menuNmEnt_setFrame(nmEnt, -1, 1.0f);
         } else {
-            menuNmEnt->unk_0004 = i;
+            nmEnt->playerNo = i;
         }
     } else if (sp20 < 0) {
         for (i = sp24 - 1; i >= 0; i--) {
             if (evs_select_name_no[i] != 8) {
-                struct_evs_mem_data *ptr = &evs_mem_data[evs_select_name_no[i]];
+                struct_evs_mem_data *mc = &evs_mem_data[evs_select_name_no[i]];
 
-                if (_getMode(menuNmEnt->watchMenuRef) == MODE_NAME_NE2) {
+                if (_getMode(nmEnt->global) == MODE_NAME_NE2) {
                     break;
                 }
-                if (!(ptr->mem_use_flg & MEM_USE_FLG_1)) {
+                if (!(mc->mem_use_flg & MEM_USE_FLG_1)) {
                     break;
                 }
             }
         }
 
         if (i < 0) {
-            switch (_getMode(menuNmEnt->watchMenuRef)) {
+            switch (_getMode(nmEnt->global)) {
                 case MODE_NAME_NE2:
-                    _setMode(menuNmEnt->watchMenuRef, MODE_MAIN);
+                    _setMode(nmEnt->global, MODE_MAIN);
                     break;
 
                 default:
-                    _setMode(menuNmEnt->watchMenuRef, MODE_MAIN);
+                    _setMode(nmEnt->global, MODE_MAIN);
                     break;
             }
 
-            func_80055DFC(menuNmEnt, -1, 1.0f);
+            menuNmEnt_setFrame(nmEnt, -1, 1.0f);
         } else {
-            menuNmEnt->unk_0004 = i;
+            nmEnt->playerNo = i;
         }
 
-        soundIndex = SND_INDEX_68;
+        sound = SND_INDEX_68;
     }
 
-    SND_PLAY_INDEX(soundIndex);
+    SND_PLAY_INDEX(sound);
 }
 
-void menuNmEnt_update(MenuNmEnt *menuNmEnt) {
-    SMenuItem *rootItem = _getRootItem(menuNmEnt->watchMenuRef);
+/**
+ * Original name: menuNmEnt_update
+ */
+void menuNmEnt_update(MenuNmEnt *nmEnt) {
+    SMenuItem *miRoot = _getRootItem(nmEnt->global);
 
-    menuItem_update(&menuNmEnt->unk_003C, rootItem);
-    menuItem_update(&menuNmEnt->unk_00CC, &menuNmEnt->unk_003C);
-    menuItem_update(&menuNmEnt->unk_015C, &menuNmEnt->unk_00CC);
-    menuItem_update(&menuNmEnt->unk_01EC, &menuNmEnt->unk_003C);
+    menuItem_update(&nmEnt->miBase, miRoot);
+    menuItem_update(&nmEnt->miPanel, &nmEnt->miBase);
+    menuItem_update(&nmEnt->miPlayerNo, &nmEnt->miPanel);
+    menuItem_update(&nmEnt->miTable, &nmEnt->miBase);
 
-    menuNmEnt->unk_030C.size[0] = (menuNmEnt->unk_000C[menuNmEnt->unk_0004] == -1) ? 0x10 : 0x32;
-    menuNmEnt->unk_030C.playerNo = menuNmEnt->unk_0004;
+    nmEnt->cursor.size[0] = (nmEnt->flow[nmEnt->playerNo] == -1) ? 0x10 : 0x32;
+    nmEnt->cursor.playerNo = nmEnt->playerNo;
 
-    menuItem_setTransHi(&menuNmEnt->unk_027C, menuNmEnt->unk_001C[menuNmEnt->unk_0004][0] * 0xF,
-                        menuNmEnt->unk_001C[menuNmEnt->unk_0004][1] * 0xD);
-    menuItem_update(&menuNmEnt->unk_027C, &menuNmEnt->unk_01EC);
-    menuCursor_update(&menuNmEnt->unk_030C, &menuNmEnt->unk_027C);
-    menuItem_update(&menuNmEnt->unk_056C, &menuNmEnt->unk_00CC);
-    menuNmEnt->unk_05FC.transRange[1][0] = menuNmEnt->unk_0034[menuNmEnt->unk_0004] * 0xD;
-    menuItem_update(&menuNmEnt->unk_05FC, &menuNmEnt->unk_056C);
+    menuItem_setTransHi(&nmEnt->miCursor, nmEnt->curPos[nmEnt->playerNo][0] * 0xF,
+                        nmEnt->curPos[nmEnt->playerNo][1] * 0xD);
+    menuItem_update(&nmEnt->miCursor, &nmEnt->miTable);
+    menuCursor_update(&nmEnt->cursor, &nmEnt->miCursor);
+    menuItem_update(&nmEnt->miName, &nmEnt->miPanel);
+    nmEnt->miNamePos.transRange[1][0] = nmEnt->namePos[nmEnt->playerNo] * 0xD;
+    menuItem_update(&nmEnt->miNamePos, &nmEnt->miName);
 }
 
-void menuNmEnt_draw(MenuNmEnt *menuNmEnt, Gfx **gfxP) {
+/**
+ * Original name: menuNmEnt_draw
+ */
+void menuNmEnt_draw(MenuNmEnt *nmEnt, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    MenuCursor *sp24[1];
-    TiTexData *temp_s1;
-    TiTexData *temp;
-    s32 var_s0;
-    s32 var_s1;
-    s32 var_s3;
-    s32 var_s4;
-    const char *var_s2;
+    MenuCursor *list[1];
+    TiTexData *texC;
+    TiTexData *texA;
+    const char *tbl;
+    s32 i;
+    s32 j;
+    s32 tx;
+    s32 ty;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    temp_s1 = _getTexName(menuNmEnt->watchMenuRef, 3);
-    menuItem_drawTex(&menuNmEnt->unk_00CC, &gfx, temp_s1, 0);
-    if (menuNmEnt->unk_0004 == 1) {
-        temp_s1 = _getTexName(menuNmEnt->watchMenuRef, 4);
-        menuItem_drawTex(&menuNmEnt->unk_015C, &gfx, temp_s1, 0);
+    texC = _getTexName(nmEnt->global, 3);
+    menuItem_drawTex(&nmEnt->miPanel, &gfx, texC, 0);
+    if (nmEnt->playerNo == 1) {
+        texC = _getTexName(nmEnt->global, 4);
+        menuItem_drawTex(&nmEnt->miPlayerNo, &gfx, texC, 0);
     }
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    temp_s1 = _getTexName(menuNmEnt->watchMenuRef, 2);
-    if (!menuItem_drawTex(&menuNmEnt->unk_003C, &gfx, temp_s1, 0)) {
+    texC = _getTexName(nmEnt->global, 2);
+    if (!menuItem_drawTex(&nmEnt->miBase, &gfx, texC, 0)) {
         return;
     }
 
@@ -8781,50 +8917,59 @@ void menuNmEnt_draw(MenuNmEnt *menuNmEnt, Gfx **gfxP) {
     gDPSetPrimColor(gfx++, 0, 0, 0, 0, 0, 255);
 
     // Draw keyboard
-    var_s3 = menuNmEnt->unk_01EC.trans[1];
-    var_s2 = _nameEntry_charTable[menuNmEnt->unk_0014[menuNmEnt->unk_0004]];
-    for (var_s4 = 0; var_s4 < 9; var_s4++) {
-        var_s0 = menuNmEnt->unk_01EC.trans[0];
+    ty = nmEnt->miTable.trans[1];
+    tbl = _nameEntry_charTable[nmEnt->pageNo[nmEnt->playerNo]];
+    for (i = 0; i < 9; i++) {
+        tx = nmEnt->miTable.trans[0];
 
-        for (var_s1 = 0; var_s1 < 0xF; var_s1++) {
-            if (*var_s2 & 0x80) {
-                fontXX_draw(&gfx, var_s0, var_s3, 12.0f, 12.0f, var_s2);
+        for (j = 0; j < 0xF; j++) {
+            if (*tbl & 0x80) {
+                fontXX_draw(&gfx, tx, ty, 12.0f, 12.0f, tbl);
             }
-            var_s0 += 0xF;
-            var_s2 += 2;
+            tx += 0xF;
+            tbl += 2;
         }
-        var_s3 += 0xD;
+        ty += 0xD;
     }
 
     // Draw selected characters
-    var_s0 = menuNmEnt->unk_056C.trans[0];
-    var_s3 = menuNmEnt->unk_056C.trans[1];
-    for (var_s4 = 0; var_s4 < 4; var_s4++) {
-        fontXX_drawID(&gfx, var_s0, var_s3, 12.0f, 12.0f, (u8)menuNmEnt->unk_002C[menuNmEnt->unk_0004][var_s4]);
-        var_s0 += 0xD;
+    tx = nmEnt->miName.trans[0];
+    ty = nmEnt->miName.trans[1];
+    for (i = 0; i < 4; i++) {
+        fontXX_drawID(&gfx, tx, ty, 12.0f, 12.0f, (u8)nmEnt->name[nmEnt->playerNo][i]);
+        tx += 0xD;
     }
 
     gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
 
-    temp_s1 = _getTexName(menuNmEnt->watchMenuRef, 0);
-    temp = _getTexName(menuNmEnt->watchMenuRef, 1);
-    menuItem_drawAlphaTex(&menuNmEnt->unk_05FC, &gfx, temp_s1, temp, 0);
+    texC = _getTexName(nmEnt->global, 0);
+    texA = _getTexName(nmEnt->global, 1);
+    menuItem_drawAlphaTex(&nmEnt->miNamePos, &gfx, texC, texA, 0);
 
-    sp24[0] = &menuNmEnt->unk_030C;
-    menuCursor_draw(sp24, 1, &gfx);
+    list[0] = &nmEnt->cursor;
+    menuCursor_draw(list, 1, &gfx);
 
     *gfxP = gfx;
 }
 
-void func_80056C84(MenuRankBase *menuRankBase, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3) {
-    menuRankBase->watchMenuRef = watchMenuRef;
-    menuItem_init(&menuRankBase->unk_04, arg2, arg3);
+/**
+ * Original name: menuRankBase_init
+ */
+void menuRankBase_init(MenuRankBase *rankBase, struct_watchMenu *global, s32 x, s32 y) {
+    rankBase->global = global;
+    menuItem_init(&rankBase->miBase, x, y);
 }
 
-void func_80056CAC(MenuRankBase *arg0, SMenuItem *arg1) {
-    menuItem_update(&arg0->unk_04, arg1);
+/**
+ * Original name: menuRankBase_update
+ */
+void menuRankBase_update(MenuRankBase *rankBase, SMenuItem *parent) {
+    menuItem_update(&rankBase->miBase, parent);
 }
 
+/**
+ * Original name: menuRankBase_draw
+ */
 void menuRankBase_draw(MenuRankBase *rankBaseArr[], s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 i;
@@ -8832,83 +8977,92 @@ void menuRankBase_draw(MenuRankBase *rankBaseArr[], s32 count, Gfx **gfxP) {
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
     for (i = 0; i < 2; i++) {
-        s32 var_s3 = 0;
+        s32 cached = 0;
         s32 j;
 
         for (j = 0; j < count; j++) {
-            MenuRankBase *temp_v0 = rankBaseArr[j];
-            SMenuItem *item = &temp_v0->unk_04;
-            f32 temp_fs0 = item->trans[1];
-            TiTexData *temp;
+            MenuRankBase *rankBase = rankBaseArr[j];
+            SMenuItem *item = &rankBase->miBase;
+            f32 y = item->trans[1];
+            TiTexData *texC;
 
-            item->trans[1] = temp_fs0 + i * 8;
-            temp = _getTexRank(temp_v0->watchMenuRef, 5);
-            var_s3 += menuItem_drawItem(item, &gfx, temp, var_s3, 2, i);
-            item->trans[1] = temp_fs0;
+            item->trans[1] = y + i * 8;
+            texC = _getTexRank(rankBase->global, 5);
+            cached += menuItem_drawItem(item, &gfx, texC, cached, 2, i);
+            item->trans[1] = y;
         }
     }
 
     *gfxP = gfx;
 }
 
-void func_80056DF0(MenuRankNum *menuRankNum, struct_watchMenu *watchMenuRef, s32 arg2, s32 arg3, s32 arg4) {
-    menuRankNum->watchMenuRef = watchMenuRef;
-    menuRankNum->unk_04 = arg2;
-    menuItem_init(&menuRankNum->unk_08, arg3, arg4);
+/**
+ * Original name: menuRankNum_init
+ */
+void menuRankNum_init(MenuRankNum *rankNum, struct_watchMenu *global, s32 number, s32 x, s32 y) {
+    rankNum->global = global;
+    rankNum->number = number;
+    menuItem_init(&rankNum->miBase, x, y);
 }
 
-void func_80056E1C(MenuRankNum *arg0, SMenuItem *arg1) {
-    menuItem_update(&arg0->unk_08, arg1);
+/**
+ * Original name: menuRankNum_update
+ */
+void menuRankNum_update(MenuRankNum *rankNum, SMenuItem *parent) {
+    menuItem_update(&rankNum->miBase, parent);
 }
 
+/**
+ * Original name: menuRankNum_draw
+ */
 void menuRankNum_draw(MenuRankNum *rankNumArr[], s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    s32 var_s6;
-    bool var_s4;
+    s32 i;
+    bool init;
     bool cached;
 
-    for (var_s6 = -1; var_s4 = false, cached = false, var_s6 < 0xA; var_s6++) {
-        s32 var_s7;
+    for (i = -1; init = false, cached = false, i < 10; i++) {
+        s32 j;
 
-        for (var_s7 = 0; var_s7 < count; var_s7++) {
-            MenuRankNum *rankNum = rankNumArr[var_s7];
-            SMenuItem *item = &rankNum->unk_08;
-            TiTexData *temp_s2;
-            TiTexData *temp_v0_2;
+        for (j = 0; j < count; j++) {
+            MenuRankNum *rankNum = rankNumArr[j];
+            SMenuItem *item = &rankNum->miBase;
+            TiTexData *texC;
+            TiTexData *texA;
 
-            if (var_s6 != rankNum->unk_04) {
+            if (i != rankNum->number) {
                 continue;
             }
 
-            if (var_s6 == -1) {
-                if (!var_s4) {
-                    var_s4 = true;
+            if (i == -1) {
+                if (!init) {
+                    init = true;
                     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
                 }
 
-                temp_s2 = _getTexRank(rankNum->watchMenuRef, 6);
-                cached += menuItem_drawTex(item, &gfx, temp_s2, cached);
+                texC = _getTexRank(rankNum->global, 6);
+                cached += menuItem_drawTex(item, &gfx, texC, cached);
             } else {
-                f32 temp_fs1;
-                f32 temp_fs0;
+                f32 x;
+                f32 y;
 
-                if (!var_s4) {
-                    var_s4 = true;
+                if (!init) {
+                    init = true;
                     gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
                 }
 
-                temp_s2 = _getTexGameP1(rankNum->watchMenuRef, 2);
-                temp_v0_2 = _getTexGameP1(rankNum->watchMenuRef, 6);
+                texC = _getTexGameP1(rankNum->global, 2);
+                texA = _getTexGameP1(rankNum->global, 6);
 
-                temp_fs1 = item->trans[0];
-                temp_fs0 = item->trans[1];
+                x = item->trans[0];
+                y = item->trans[1];
 
                 item->trans[0] += 2.0f;
                 item->trans[1] += 2.0f;
 
-                cached += menuItem_drawAlphaItem(item, &gfx, temp_s2, temp_v0_2, cached, 0xC, rankNum->unk_04 + 2);
-                item->trans[0] = temp_fs1;
-                item->trans[1] = temp_fs0;
+                cached += menuItem_drawAlphaItem(item, &gfx, texC, texA, cached, 0xC, rankNum->number + 2);
+                item->trans[0] = x;
+                item->trans[1] = y;
             }
         }
     }
@@ -8929,192 +9083,242 @@ const u8 _color_9658[][3] = {
 
 static_assert(ARRAY_COUNT(_color_9658) == MENURANKFIG_COLOR_MAX, "");
 
-void menuRankFig_init(MenuRankFig *menuRankFig, struct_watchMenu *watchMenuRef, u32 arg2, s32 arg3,
-                      MenuRankFigColor color, s32 arg5, s32 arg6) {
+/**
+ * Original name: menuRankFig_init
+ */
+void menuRankFig_init(MenuRankFig *rankFig, struct_watchMenu *global, MenuRankFigType column, s32 number,
+                      MenuRankFigColor color, s32 x, s32 y) {
     SMenuItem *item;
-    const u8 *ptr;
+    const u8 *colorP;
     s32 i;
 
-    menuRankFig->watchMenuRef = watchMenuRef;
-    if (arg2 <= ARRAY_COUNTU(menuRankFig->unk_0C)) {
-        menuRankFig->unk_04 = 7;
-        menuRankFig->unk_08 = arg2;
-    } else if (arg2 == 0x8) {
-        menuRankFig->unk_04 = arg2;
-        menuRankFig->unk_08 = 5;
-    } else if (arg2 == 0x9) {
-        menuRankFig->unk_04 = arg2;
-        menuRankFig->unk_08 = 6;
-    } else if (arg2 == 0xA) {
-        menuRankFig->unk_04 = arg2;
-        menuRankFig->unk_08 = 7;
-    } else if (arg2 == 0xB) {
-        menuRankFig->unk_04 = arg2;
-        menuRankFig->unk_08 = 6;
-    } else if (arg2 == 0xC) {
-        menuRankFig->unk_04 = arg2;
-        menuRankFig->unk_08 = 5;
-    } else if (arg2 == 0xD) {
-        menuRankFig->unk_04 = arg2;
-        menuRankFig->unk_08 = 3;
+    rankFig->global = global;
+    if (column <= RANK_FIG_NUMBER) {
+        rankFig->type = RANK_FIG_NUMBER;
+        rankFig->column = column;
+    } else if (column == RANK_FIG_TIME) {
+        rankFig->type = RANK_FIG_TIME;
+        rankFig->column = RANK_FIG_TIME_MAX_COL;
+    } else if (column == RANK_FIG_RATIO) {
+        rankFig->type = RANK_FIG_RATIO;
+        rankFig->column = RANK_FIG_RATIO_MAX_COL;
+    } else if (column == RANK_FIG_LEVEL) {
+        rankFig->type = RANK_FIG_LEVEL;
+        rankFig->column = RANK_FIG_LEVEL_MAX_COL;
+    } else if (column == RANK_FIG_TIME2) {
+        rankFig->type = RANK_FIG_TIME2;
+        rankFig->column = RANK_FIG_TIME2_MAX_COL;
+    } else if (column == RANK_FIG_CLEAR) {
+        rankFig->type = RANK_FIG_CLEAR;
+        rankFig->column = RANK_FIG_CLEAR_MAX_COL;
+    } else if (column == RANK_FIG_ALL) {
+        rankFig->type = RANK_FIG_ALL;
+        rankFig->column = RANK_FIG_ALL_MAX_COL;
     }
 
-    menuRankFig->unk_34 = arg3;
-    menuItem_init(&menuRankFig->unk_38, arg5, arg6);
+    rankFig->number = number;
+    menuItem_init(&rankFig->miBase, x, y);
 
-    item = &menuRankFig->unk_38;
-    ptr = _color_9658[color];
+    item = &rankFig->miBase;
+    colorP = _color_9658[color];
     for (i = 0; i < ARRAY_COUNT(_color_9658[color]); i++) {
-        item->colorRange[0][i] = item->colorRange[1][i] = ptr[i] * (DOUBLE_LITERAL(1) / 255);
+        item->colorRange[0][i] = item->colorRange[1][i] = colorP[i] * (DOUBLE_LITERAL(1) / 255);
     }
 }
 
-void menuRankFig_update(MenuRankFig *rankFig, SMenuItem *arg1) {
-    s32 var_t1 = rankFig->unk_34;
+/**
+ * Original name: menuRankFig_update
+ */
+void menuRankFig_update(MenuRankFig *rankFig, SMenuItem *parent) {
+    s32 n = rankFig->number;
     s32 i;
 
-    switch (rankFig->unk_04) {
-        case 0x7:
-            for (i = rankFig->unk_08 - 1; i >= 0; i--) {
-                rankFig->unk_0C[i] = var_t1 % 10;
-                var_t1 /= 10;
+    switch (rankFig->type) {
+        case RANK_FIG_NUMBER:
+            for (i = rankFig->column - 1; i >= 0; i--) {
+                rankFig->columns[i] = n % 10;
+                n /= 10;
             }
             break;
 
-        case 0x8:
-            rankFig->unk_0C[4] = var_t1 % 10;
-            var_t1 /= 10;
-            rankFig->unk_0C[3] = var_t1 % 6;
-            var_t1 /= 6;
-            rankFig->unk_0C[2] = 0xF;
-            rankFig->unk_0C[1] = var_t1 % 10;
-            var_t1 /= 10;
-            rankFig->unk_0C[0] = var_t1 % 10;
+        case RANK_FIG_TIME:
+            rankFig->columns[4] = n % 10;
+            n /= 10;
+            rankFig->columns[3] = n % 6;
+            n /= 6;
+            rankFig->columns[2] = MENURANKFIGVALUE_COLON;
+            rankFig->columns[1] = n % 10;
+            n /= 10;
+            rankFig->columns[0] = n % 10;
             break;
 
-        case 0x9:
-            rankFig->unk_0C[5] = 0x10;
-            rankFig->unk_0C[3] = 0x11;
-            rankFig->unk_0C[4] = var_t1 % 10;
-            var_t1 /= 10;
-            rankFig->unk_0C[2] = var_t1 % 10;
-            var_t1 /= 10;
-            rankFig->unk_0C[1] = var_t1 % 10;
-            var_t1 /= 10;
-            rankFig->unk_0C[0] = var_t1 % 10;
+        case RANK_FIG_RATIO:
+            rankFig->columns[5] = MENURANKFIGVALUE_PERCENTAGE;
+            rankFig->columns[3] = MENURANKFIGVALUE_DOT;
+            rankFig->columns[4] = n % 10;
+            n /= 10;
+            rankFig->columns[2] = n % 10;
+            n /= 10;
+            rankFig->columns[1] = n % 10;
+            n /= 10;
+            rankFig->columns[0] = n % 10;
             break;
 
-        case 0xA:
-            rankFig->unk_0C[6] = var_t1 % 10;
-            var_t1 /= 10;
-            rankFig->unk_0C[5] = var_t1 % 10;
-            rankFig->unk_0C[4] = 0xB;
-            rankFig->unk_0C[3] = 0xC;
-            rankFig->unk_0C[2] = 0x12;
-            rankFig->unk_0C[1] = 0xC;
-            rankFig->unk_0C[0] = 0xB;
+        case RANK_FIG_LEVEL:
+            rankFig->columns[6] = n % 10;
+            n /= 10;
+            rankFig->columns[5] = n % 10;
+            rankFig->columns[4] = MENURANKFIGVALUE_L;
+            rankFig->columns[3] = MENURANKFIGVALUE_E;
+            rankFig->columns[2] = MENURANKFIGVALUE_V;
+            rankFig->columns[1] = MENURANKFIGVALUE_E;
+            rankFig->columns[0] = MENURANKFIGVALUE_L;
             break;
 
-        case 0xB:
-            rankFig->unk_0C[5] = var_t1 % 10;
-            var_t1 /= 10;
-            rankFig->unk_0C[4] = 0xF;
-            rankFig->unk_0C[3] = var_t1 % 10;
-            var_t1 /= 10;
-            rankFig->unk_0C[2] = var_t1 % 6;
-            var_t1 /= 6;
-            rankFig->unk_0C[1] = 0xF;
-            rankFig->unk_0C[0] = var_t1 % 10;
+        case RANK_FIG_TIME2:
+            rankFig->columns[5] = n % 10;
+            n /= 10;
+            rankFig->columns[4] = MENURANKFIGVALUE_COLON;
+            rankFig->columns[3] = n % 10;
+            n /= 10;
+            rankFig->columns[2] = n % 6;
+            n /= 6;
+            rankFig->columns[1] = MENURANKFIGVALUE_COLON;
+            rankFig->columns[0] = n % 10;
             break;
 
-        case 0xC:
-            rankFig->unk_0C[0] = 0xA;
-            rankFig->unk_0C[1] = 0xB;
-            rankFig->unk_0C[2] = 0xC;
-            rankFig->unk_0C[3] = 0xD;
-            rankFig->unk_0C[4] = 0xE;
+        case RANK_FIG_CLEAR:
+            rankFig->columns[0] = MENURANKFIGVALUE_C;
+            rankFig->columns[1] = MENURANKFIGVALUE_L;
+            rankFig->columns[2] = MENURANKFIGVALUE_E;
+            rankFig->columns[3] = MENURANKFIGVALUE_A;
+            rankFig->columns[4] = MENURANKFIGVALUE_R;
             break;
 
-        case 0xD:
-            rankFig->unk_0C[0] = 0xD;
-            rankFig->unk_0C[1] = 0xB;
-            rankFig->unk_0C[2] = 0xB;
+        case RANK_FIG_ALL:
+            rankFig->columns[0] = MENURANKFIGVALUE_A;
+            rankFig->columns[1] = MENURANKFIGVALUE_L;
+            rankFig->columns[2] = MENURANKFIGVALUE_L;
+            break;
+
+        default:
             break;
     }
 
-    menuItem_update(&rankFig->unk_38, arg1);
+    menuItem_update(&rankFig->miBase, parent);
 }
 
-// shift-jis string
-char _code_9711[] = "０１２３４５６７８９ＣＬＥＡＲ：％．Ｖ";
+// shift-jis string. Note this is a singular string
+char _code_9711[] = {
+    "０" /* MENURANKFIGVALUE_0 */
+    "１" /* MENURANKFIGVALUE_1 */
+    "２" /* MENURANKFIGVALUE_2 */
+    "３" /* MENURANKFIGVALUE_3 */
+    "４" /* MENURANKFIGVALUE_4 */
+    "５" /* MENURANKFIGVALUE_5 */
+    "６" /* MENURANKFIGVALUE_6 */
+    "７" /* MENURANKFIGVALUE_7 */
+    "８" /* MENURANKFIGVALUE_8 */
+    "９" /* MENURANKFIGVALUE_9 */
+    "Ｃ" /* MENURANKFIGVALUE_C */
+    "Ｌ" /* MENURANKFIGVALUE_L */
+    "Ｅ" /* MENURANKFIGVALUE_E */
+    "Ａ" /* MENURANKFIGVALUE_A */
+    "Ｒ" /* MENURANKFIGVALUE_R */
+    "：" /* MENURANKFIGVALUE_COLON */
+    "％" /* MENURANKFIGVALUE_PERCENTAGE */
+    "．" /* MENURANKFIGVALUE_DOT */
+    "Ｖ" /* MENURANKFIGVALUE_V */
+};
 
 const s32 _posX_0_9712[] = {
-    0x00000000, 0x00000009, 0x00000012, 0x0000001B, 0x00000024,
-    0x0000002D, 0x00000036, 0x0000003F, 0x00000048, 0x00000051,
+    0 * 9, 1 * 9, 2 * 9, 3 * 9, 4 * 9, 5 * 9, 6 * 9, 7 * 9, 8 * 9, 9 * 9,
 };
+static_assert(ARRAY_COUNT(_posX_0_9712) == MENURANKFIG_COLUMNS_MAX, "");
+static_assert(ARRAY_COUNT(_posX_0_9712) >= RANK_FIG_NUMBER_MAX_COL, "");
+static_assert(ARRAY_COUNT(_posX_0_9712) >= RANK_FIG_LEVEL_MAX_COL, "");
+static_assert(ARRAY_COUNT(_posX_0_9712) >= RANK_FIG_CLEAR_MAX_COL, "");
+static_assert(ARRAY_COUNT(_posX_0_9712) >= RANK_FIG_ALL_MAX_COL, "");
 
 const s32 _posX_1_9713[] = {
-    0x00000000, 0x00000009, 0x00000010, 0x00000017, 0x00000020,
+    0 * 7, 1 * 7 + 2, 2 * 7 + 2, 3 * 7 + 2, 4 * 7 + 4,
 };
+static_assert(ARRAY_COUNT(_posX_1_9713) == RANK_FIG_TIME_MAX_COL, "");
 
 const s32 _posX_2_9714[] = {
-    0x00000000, 0x00000009, 0x00000012, 0x0000001B, 0x0000001F, 0x00000028,
+    0 * 9, 1 * 9, 2 * 9, 3 * 9, 4 * 9 - 5, 5 * 9 - 5,
 };
+static_assert(ARRAY_COUNT(_posX_2_9714) == RANK_FIG_RATIO_MAX_COL, "");
 
 const s32 _posX_4_9715[] = {
-    0x00000000, 0x00000007, 0x0000000E, 0x00000017, 0x0000001E, 0x00000025,
+    0 * 7, 1 * 7, 2 * 7, 3 * 7 + 2, 4 * 7 + 2, 5 * 7 + 2,
 };
+static_assert(ARRAY_COUNT(_posX_4_9715) == RANK_FIG_TIME2_MAX_COL, "");
 
 const s32 *_posX_tbl_9716[] = {
-    _posX_0_9712, _posX_1_9713, _posX_2_9714, _posX_0_9712, _posX_4_9715, _posX_0_9712, _posX_0_9712,
+    _posX_0_9712, /* RANK_FIG_NUMBER */
+    _posX_1_9713, /* RANK_FIG_TIME */
+    _posX_2_9714, /* RANK_FIG_RATIO */
+    _posX_0_9712, /* RANK_FIG_LEVEL */
+    _posX_4_9715, /* RANK_FIG_TIME2 */
+    _posX_0_9712, /* RANK_FIG_CLEAR */
+    _posX_0_9712, /* RANK_FIG_ALL */
 };
+static_assert(ARRAY_COUNT(_posX_tbl_9716) == RANK_FIG_SUM - RANK_FIG_NUMBER, "");
 
 MainMenuMode _menuAll_lastMode = MODE_MAIN;
 
-void menuRankFig_draw(MenuRankFig **rankFigArr, s32 count, Gfx **gfxP) {
+/**
+ * Original name: menuRankFig_draw
+ */
+void menuRankFig_draw(MenuRankFig *rankFigArr[], s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    f32 sp24 = 9.0f;
-    s32 i;
+    f32 step = 9.0f;
+    MenuRankFigVal i;
 
     font16_initDL2(&gfx);
 
     gDPSetTextureFilter(gfx++, G_TF_BILERP);
 
-    for (i = 0; i < 0x13U; i++) {
-        s32 index = font2index(&_code_9711[i * 2]);
+    for (i = 0; i < MENURANKFIGVALUE_MAX; i++) {
+        // shift-jis characters are 2 bytes wide (the non ascii ones)
+        s32 code = font2index(&_code_9711[i * 2]);
         s32 j;
 
         for (j = 0; j < count; j++) {
             MenuRankFig *rankFig = rankFigArr[j];
-            SMenuItem *item = &rankFig->unk_38;
+            SMenuItem *item = &rankFig->miBase;
             s32 k;
 
-            for (k = 0; k < rankFig->unk_08; k++) {
-                if ((i != rankFig->unk_0C[k]) || menuItem_outOfScreen(item, sp24, 0xC)) {
+            for (k = 0; k < rankFig->column; k++) {
+                if ((i != rankFig->columns[k]) || menuItem_outOfScreen(item, step, 0xC)) {
                     continue;
                 }
 
                 menuItem_setPrim(item, &gfx);
 
 #if VERSION_US || VERSION_GW
-                if (fontXX_drawID2(&gfx, item->trans[0] + _posX_tbl_9716[rankFig->unk_04 - 7][k] * item->scale[0],
-                                   item->trans[1], item->scale[0] * 9.0f, item->scale[1] * 12.0f, index)) {
-                    index = -1;
+                if (fontXX_drawID2(&gfx,
+                                   item->trans[0] + _posX_tbl_9716[rankFig->type - RANK_FIG_NUMBER][k] * item->scale[0],
+                                   item->trans[1], item->scale[0] * step, item->scale[1] * 12.0f, code)) {
+                    code = -1;
                 }
 #elif VERSION_CN
-                if ((rankFig->unk_08 >= 6) && (rankFig->unk_0C[0] == 0xB) && (rankFig->unk_0C[1] == 0xC) &&
-                    (rankFig->unk_0C[2] == 0x12) && (rankFig->unk_0C[3] == 0xC) &&
-                    (rankFig->unk_0C[4] == rankFig->unk_0C[0])) {
+                if ((rankFig->column >= 6) && (rankFig->columns[0] == MENURANKFIGVALUE_L) &&
+                    (rankFig->columns[1] == MENURANKFIGVALUE_E) && (rankFig->columns[2] == MENURANKFIGVALUE_V) &&
+                    (rankFig->columns[3] == MENURANKFIGVALUE_E) && (rankFig->columns[4] == MENURANKFIGVALUE_L)) {
                     if (k < 5) {
                         continue;
                     }
-                    fontXX_drawID2(&gfx, item->trans[0] + _posX_tbl_9716[rankFig->unk_04 - 7][k - 2] * item->scale[0],
-                                   item->trans[1], item->scale[0] * sp24, item->scale[1] * 12.0f, index);
+                    fontXX_drawID2(
+                        &gfx, item->trans[0] + _posX_tbl_9716[rankFig->type - RANK_FIG_NUMBER][k - 2] * item->scale[0],
+                        item->trans[1], item->scale[0] * step, item->scale[1] * 12.0f, code);
                 } else {
-                    fontXX_drawID2(&gfx, item->trans[0] + _posX_tbl_9716[rankFig->unk_04 - 7][k] * item->scale[0],
-                                   item->trans[1], item->scale[0] * sp24, item->scale[1] * 12.0f, index);
+                    fontXX_drawID2(&gfx,
+                                   item->trans[0] + _posX_tbl_9716[rankFig->type - RANK_FIG_NUMBER][k] * item->scale[0],
+                                   item->trans[1], item->scale[0] * step, item->scale[1] * 12.0f, code);
                 }
-                index = -1;
+                code = -1;
 #else
 #error ""
 #endif
@@ -9125,72 +9329,86 @@ void menuRankFig_draw(MenuRankFig **rankFigArr, s32 count, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-const u8 RO_800B1210[] = { 0x80, 0x80, 0x80 };
+const u8 _color_9791[] = { 0x80, 0x80, 0x80 };
 
-void menuRankName_init(MenuRankName *menuRankName, struct_watchMenu *watchMenuRef, u8 arg2[4], s32 arg3, s32 arg4) {
+/**
+ * Original name: menuRankName_init
+ */
+void menuRankName_init(MenuRankName *rankName, struct_watchMenu *global, const u8 name[4], s32 x, s32 y) {
     SMenuItem *item;
     s32 i;
 
-    menuRankName->watchMenuRef = watchMenuRef;
-    for (i = 0; i < ARRAY_COUNTU(menuRankName->unk_04); i++) {
-        menuRankName->unk_04[i] = arg2[i];
+    rankName->global = global;
+    for (i = 0; i < ARRAY_COUNTU(rankName->name); i++) {
+        rankName->name[i] = name[i];
     }
 
-    item = &menuRankName->unk_08;
-    menuItem_init(item, arg3, arg4);
+    item = &rankName->miBase;
+    menuItem_init(item, x, y);
 
-    for (i = 0; i < ARRAY_COUNT(RO_800B1210); i++) {
-        item->colorRange[0][i] = item->colorRange[1][i] = RO_800B1210[i] * (DOUBLE_LITERAL(1) / 255);
+    for (i = 0; i < ARRAY_COUNT(_color_9791); i++) {
+        item->colorRange[0][i] = item->colorRange[1][i] = _color_9791[i] * (DOUBLE_LITERAL(1) / 255);
     }
 }
 
-void func_80057724(MenuRankName *arg0, SMenuItem *arg1) {
-    menuItem_update(&arg0->unk_08, arg1);
+/**
+ * Original name: menuRankName_update
+ */
+void menuRankName_update(MenuRankName *rankName, SMenuItem *parent) {
+    menuItem_update(&rankName->miBase, parent);
 }
 
+/**
+ * Original name: menuRankName_draw
+ */
 void menuRankName_draw(MenuRankName *rankNameArr[], s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    SMenuItem *temp_s1;
-    MenuRankName *temp_s2;
-    f32 var_fs0;
-    s32 var_s0;
-    s32 var_s4;
+    SMenuItem *item;
+    MenuRankName *rankName;
+    f32 x;
+    s32 j;
+    s32 i;
     f32 temp = 13.0f;
 
     font16_initDL2(&gfx);
 
     gDPSetTextureFilter(gfx++, G_TF_BILERP);
 
-    for (var_s4 = 0; var_s4 < count; var_s4++) {
-        temp_s2 = rankNameArr[var_s4];
-        temp_s1 = &temp_s2->unk_08;
+    for (i = 0; i < count; i++) {
+        rankName = rankNameArr[i];
+        item = &rankName->miBase;
 
-        //! FAKE: temp + 39
-        if (menuItem_outOfScreen(temp_s1, temp + 39, 0xC)) {
+        if (menuItem_outOfScreen(item, temp + 39, 0xC)) {
             continue;
         }
 
-        var_fs0 = temp_s1->trans[0];
-        menuItem_setPrim(temp_s1, &gfx);
+        x = item->trans[0];
+        menuItem_setPrim(item, &gfx);
 
-        for (var_s0 = 0; var_s0 < 4; var_s0++) {
-            fontXX_drawID2(&gfx, var_fs0, temp_s1->trans[1], 12.0f, temp_s1->scale[1] * 12.0f, temp_s2->unk_04[var_s0]);
-            var_fs0 += temp;
+        for (j = 0; j < 4; j++) {
+            fontXX_drawID2(&gfx, x, item->trans[1], 12.0f, item->scale[1] * 12.0f, rankName->name[j]);
+            x += temp;
         }
     }
 
     *gfxP = gfx;
 }
 
-void func_80057898(MenuRankLabel *menuRankLabel, struct_watchMenu *watchMenuRef, s32 type, s32 id, s32 x, s32 y) {
-    menuRankLabel->watchMenuRef = watchMenuRef;
-    menuRankLabel->type = type;
-    menuRankLabel->id = id;
-    menuItem_init(&menuRankLabel->unk_0C, x, y);
+/**
+ * Original name: menuRankLabel_init
+ */
+void menuRankLabel_init(MenuRankLabel *rankLabel, struct_watchMenu *global, s32 type, s32 index, s32 x, s32 y) {
+    rankLabel->global = global;
+    rankLabel->type = type;
+    rankLabel->index = index;
+    menuItem_init(&rankLabel->miBase, x, y);
 }
 
-void func_800578C8(MenuRankLabel *arg0, SMenuItem *arg1) {
-    menuItem_update(&arg0->unk_0C, arg1);
+/**
+ * Original name: menuRankLabel_update
+ */
+void menuRankLabel_update(MenuRankLabel *rankLabel, SMenuItem *parent) {
+    menuItem_update(&rankLabel->miBase, parent);
 }
 
 const s32 _rows_9879[] = {
@@ -9210,44 +9428,47 @@ const s32 _choice_9881[] = {
     4, 5, 6, 0x1D, 0x1E, 0x1F, 0x20,
 };
 
+/**
+ * Original name: menuRankLabel_update
+ */
 void menuRankLabel_draw(MenuRankLabel *rankLabelArr[], s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 i;
-    s32 var_s5;
+    s32 rows;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    for (i = 0; var_s5 = _rows_9879[i], i < ARRAY_COUNT(_rows_9879); i++) {
+    for (i = 0; rows = _rows_9879[i], i < ARRAY_COUNT(_rows_9879); i++) {
         s32 j;
-        s32 var_s0;
+        s32 cached;
 
-        for (j = 0; var_s0 = 0, j < var_s5; j++) {
+        for (j = 0; cached = 0, j < rows; j++) {
             s32 k;
 
             for (k = 0; k < count; k++) {
                 MenuRankLabel *rankLabel = rankLabelArr[k];
-                SMenuItem *item = &rankLabel->unk_0C;
-                TiTexData *var_a2;
+                SMenuItem *item = &rankLabel->miBase;
+                TiTexData *texC;
 
-                if ((i != rankLabel->type) || (j != rankLabel->id)) {
+                if ((i != rankLabel->type) || (j != rankLabel->index)) {
                     continue;
                 }
 
                 switch (i) {
                     case 0:
-                        var_a2 = _getTexRank(rankLabel->watchMenuRef, 7);
-                        var_s0 += menuItem_drawItem(item, &gfx, var_a2, var_s0, var_s5, j);
+                        texC = _getTexRank(rankLabel->global, 7);
+                        cached += menuItem_drawItem(item, &gfx, texC, cached, rows, j);
                         break;
 
                     case 1:
                     case 2:
-                        var_a2 = _getTexRank(rankLabel->watchMenuRef, _tex_9880[i]);
-                        var_s0 += menuItem_drawItem(item, &gfx, var_a2, var_s0, var_s5, j);
+                        texC = _getTexRank(rankLabel->global, _tex_9880[i]);
+                        cached += menuItem_drawItem(item, &gfx, texC, cached, rows, j);
                         break;
 
                     case 3:
-                        var_a2 = _getTexCommon(rankLabel->watchMenuRef, 0xE);
-                        var_s0 += menuItem_drawItem(item, &gfx, var_a2, var_s0, 0x2F, _choice_9881[j]);
+                        texC = _getTexCommon(rankLabel->global, 0xE);
+                        cached += menuItem_drawItem(item, &gfx, texC, cached, 0x2F, _choice_9881[j]);
                         break;
                 }
             }
@@ -9257,63 +9478,72 @@ void menuRankLabel_draw(MenuRankLabel *rankLabelArr[], s32 count, Gfx **gfxP) {
     *gfxP = gfx;
 }
 
-void func_80057AFC(MenuRankHeader *menuRankHeader, struct_watchMenu *watchMenuRef, const s32 *typeP, const s32 *idP,
-                   const s32 *xP, const s32 *yP, s32 count, s32 arg7, s32 arg8) {
+/**
+ * Original name: menuRankHeader_init
+ */
+void menuRankHeader_init(MenuRankHeader *rankHeader, struct_watchMenu *global, const s32 *labelType,
+                         const s32 *labelIndex, const s32 *labelX, const s32 *labelY, s32 labelCount, s32 x, s32 y) {
     s32 i;
 
-    menuRankHeader->watchMenuRef = watchMenuRef;
-    menuRankHeader->unk_04 = count;
-    menuItem_init(&menuRankHeader->unk_08, arg7, arg8);
+    rankHeader->global = global;
+    rankHeader->labelCount = labelCount;
+    menuItem_init(&rankHeader->miBase, x, y);
 
-    for (i = 0; i < count; i++) {
-        func_80057898(&menuRankHeader->unk_98[i], watchMenuRef, typeP[i], idP[i], xP[i], yP[i]);
+    for (i = 0; i < labelCount; i++) {
+        menuRankLabel_init(&rankHeader->label[i], global, labelType[i], labelIndex[i], labelX[i], labelY[i]);
     }
 }
 
-void func_80057BE8(MenuRankHeader *rankHeader, SMenuItem *arg1) {
+/**
+ * Original name: menuRankHeader_update
+ */
+void menuRankHeader_update(MenuRankHeader *rankHeader, SMenuItem *parent) {
     s32 i;
 
-    menuItem_update(&rankHeader->unk_08, arg1);
+    menuItem_update(&rankHeader->miBase, parent);
 
-    for (i = 0; i < rankHeader->unk_04; i++) {
-        func_800578C8(&rankHeader->unk_98[i], &rankHeader->unk_08);
+    for (i = 0; i < rankHeader->labelCount; i++) {
+        menuRankLabel_update(&rankHeader->label[i], &rankHeader->miBase);
     }
 }
 
+/**
+ * Original name: menuRankHeader_draw
+ */
 void menuRankHeader_draw(MenuRankHeader *rankHeaderArr[], s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
     s32 newCount = 0;
-    MenuRankLabel *arr[count * 5];
+    MenuRankLabel *list[count * 5];
     s32 i;
 
     for (i = 0; i < count; i++) {
         MenuRankHeader *rankHeader = rankHeaderArr[i];
         s32 j;
 
-        for (j = 0; j < rankHeader->unk_04; j++) {
-            arr[newCount] = &rankHeader->unk_98[j];
+        for (j = 0; j < rankHeader->labelCount; j++) {
+            list[newCount] = &rankHeader->label[j];
             newCount++;
         }
     }
 
-    menuRankLabel_draw(arr, newCount, &gfx);
+    menuRankLabel_draw(list, newCount, &gfx);
 
     *gfxP = gfx;
 }
 
-void func_80057D24(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, u32 arg4, s32 arg5,
-                   s32 arg6, s32 arg7, s32 arg8) {
+void func_80057D24(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], u32 arg4,
+                   s32 arg5, s32 arg6, s32 arg7, s32 arg8) {
     s32 var_a2;
     s32 var_v1;
 
     menuRankPanel->watchMenuRef = watchMenuRef;
     menuRankPanel->unk_004 = 0;
 
-    func_80056C84(&menuRankPanel->unk_008, watchMenuRef, arg7, arg8);
-    func_80056DF0(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
+    menuRankBase_init(&menuRankPanel->unk_008, watchMenuRef, arg7, arg8);
+    menuRankNum_init(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
     menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x1A, 2);
-    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, 7, arg4, MENURANKFIG_COLOR_RED, 0x83, 2);
-    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 8, arg5, MENURANKFIG_COLOR_BLUE, 0xCD, 2);
+    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, RANK_FIG_NUMBER, arg4, MENURANKFIG_COLOR_RED, 0x83, 2);
+    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, RANK_FIG_TIME, arg5, MENURANKFIG_COLOR_BLUE, 0xCD, 2);
     var_v1 = 0x5A;
     if (arg6 < 0xA) {
         var_a2 = 1;
@@ -9324,43 +9554,43 @@ void func_80057D24(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef,
     menuRankFig_init(&menuRankPanel->unk_35C, watchMenuRef, var_a2, arg6, MENURANKFIG_COLOR_YELLOW, var_v1, 2);
 }
 
-void func_80057E68(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4, s32 arg5,
-                   s32 arg6, s32 arg7) {
+void func_80057E68(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4,
+                   s32 arg5, s32 arg6, s32 arg7) {
     menuRankPanel->watchMenuRef = watchMenuRef;
     menuRankPanel->unk_004 = 1;
 
-    func_80056C84(&menuRankPanel->unk_008, watchMenuRef, arg6, arg7);
-    func_80056DF0(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
+    menuRankBase_init(&menuRankPanel->unk_008, watchMenuRef, arg6, arg7);
+    menuRankNum_init(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
     menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x29, 2);
-    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, 0xAU, arg4, MENURANKFIG_COLOR_GREEN, 0x6A, 2);
-    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 7U, arg5, MENURANKFIG_COLOR_RED, 0xB7, 2);
+    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, RANK_FIG_LEVEL, arg4, MENURANKFIG_COLOR_GREEN, 0x6A, 2);
+    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, RANK_FIG_NUMBER, arg5, MENURANKFIG_COLOR_RED, 0xB7, 2);
 }
 
-void func_80057F6C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4, s32 arg5,
-                   s32 arg6, s32 arg7) {
+void func_80057F6C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4,
+                   s32 arg5, s32 arg6, s32 arg7) {
     menuRankPanel->watchMenuRef = watchMenuRef;
     menuRankPanel->unk_004 = 2;
 
-    func_80056C84(&menuRankPanel->unk_008, watchMenuRef, arg6, arg7);
-    func_80056DF0(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
+    menuRankBase_init(&menuRankPanel->unk_008, watchMenuRef, arg6, arg7);
+    menuRankNum_init(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
     menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x29, 2);
-    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, 8U, arg4, MENURANKFIG_COLOR_BLUE, 0x75, 2);
-    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 7U, arg5, MENURANKFIG_COLOR_RED, 0xB7, 2);
+    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, RANK_FIG_TIME, arg4, MENURANKFIG_COLOR_BLUE, 0x75, 2);
+    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, RANK_FIG_NUMBER, arg5, MENURANKFIG_COLOR_RED, 0xB7, 2);
 }
 
-void func_8005806C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4, s32 arg5,
-                   s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
+void func_8005806C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4,
+                   s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
     s32 var_a2;
     s32 var_v1;
 
     menuRankPanel->watchMenuRef = watchMenuRef;
     menuRankPanel->unk_004 = 3;
 
-    func_80056C84(&menuRankPanel->unk_008, watchMenuRef, arg8, arg9);
-    func_80056DF0(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
+    menuRankBase_init(&menuRankPanel->unk_008, watchMenuRef, arg8, arg9);
+    menuRankNum_init(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
     menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x1A, 2);
-    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, 7U, arg4, MENURANKFIG_COLOR_RED, 0x53, 2);
-    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 0xBU, arg5, MENURANKFIG_COLOR_BLUE, 0x99, 2);
+    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, RANK_FIG_NUMBER, arg4, MENURANKFIG_COLOR_RED, 0x53, 2);
+    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, RANK_FIG_TIME2, arg5, MENURANKFIG_COLOR_BLUE, 0x99, 2);
 
     if (arg6 < dm_get_first_virus_count_in_new_mode(arg7)) {
         var_a2 = 2;
@@ -9372,51 +9602,51 @@ void func_8005806C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef,
     menuRankFig_init(&menuRankPanel->unk_35C, watchMenuRef, var_a2, arg6, MENURANKFIG_COLOR_RED, var_v1, 2);
 }
 
-void func_800581C8(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, u8 *arg3, s32 arg4, s32 arg5,
-                   s32 arg6, s32 arg7, s32 arg8) {
+void func_800581C8(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4,
+                   s32 arg5, s32 arg6, s32 arg7, s32 arg8) {
     menuRankPanel->watchMenuRef = watchMenuRef;
     menuRankPanel->unk_004 = 4;
 
-    func_80056C84(&menuRankPanel->unk_008, watchMenuRef, arg7, arg8);
-    func_80056DF0(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
+    menuRankBase_init(&menuRankPanel->unk_008, watchMenuRef, arg7, arg8);
+    menuRankNum_init(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
     menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x1A, 2);
-    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, 9U, arg4, MENURANKFIG_COLOR_ORANGE, 0x5A, 2);
-    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 2U, arg5, MENURANKFIG_COLOR_PINK, 0xA7, 2);
-    menuRankFig_init(&menuRankPanel->unk_35C, watchMenuRef, 2U, arg6, MENURANKFIG_COLOR_CYAN, 0xD9, 2);
+    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, RANK_FIG_RATIO, arg4, MENURANKFIG_COLOR_ORANGE, 0x5A, 2);
+    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 2, arg5, MENURANKFIG_COLOR_PINK, 0xA7, 2);
+    menuRankFig_init(&menuRankPanel->unk_35C, watchMenuRef, 2, arg6, MENURANKFIG_COLOR_CYAN, 0xD9, 2);
 }
 
 void menuRankPanel_update(MenuRankPanel *arg0, SMenuItem *arg1) {
-    func_80056CAC(&arg0->unk_008, arg1);
-    func_80056E1C(&arg0->unk_09C, &arg0->unk_008.unk_04);
-    func_80057724(&arg0->unk_134, &arg0->unk_008.unk_04);
+    menuRankBase_update(&arg0->unk_008, arg1);
+    menuRankNum_update(&arg0->unk_09C, &arg0->unk_008.miBase);
+    menuRankName_update(&arg0->unk_134, &arg0->unk_008.miBase);
 
     switch (arg0->unk_004) {
         case 0x0:
-            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.unk_04);
-            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.unk_04);
-            menuRankFig_update(&arg0->unk_35C, &arg0->unk_008.unk_04);
+            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.miBase);
+            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.miBase);
+            menuRankFig_update(&arg0->unk_35C, &arg0->unk_008.miBase);
             break;
 
         case 0x1:
-            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.unk_04);
-            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.unk_04);
+            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.miBase);
+            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.miBase);
             break;
 
         case 0x2:
-            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.unk_04);
-            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.unk_04);
+            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.miBase);
+            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.miBase);
             break;
 
         case 0x3:
-            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.unk_04);
-            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.unk_04);
-            menuRankFig_update(&arg0->unk_35C, &arg0->unk_008.unk_04);
+            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.miBase);
+            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.miBase);
+            menuRankFig_update(&arg0->unk_35C, &arg0->unk_008.miBase);
             break;
 
         case 0x4:
-            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.unk_04);
-            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.unk_04);
-            menuRankFig_update(&arg0->unk_35C, &arg0->unk_008.unk_04);
+            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.miBase);
+            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.miBase);
+            menuRankFig_update(&arg0->unk_35C, &arg0->unk_008.miBase);
             break;
     }
 }
@@ -9510,7 +9740,7 @@ void menuRank_setSlide(MenuRank *menuRank, s32 arg1, s32 arg2, f32 arg3, f32 arg
     SMenuItem *item;
     s32 i;
 
-    item = &temp_s2->unk_0004.unk_08;
+    item = &temp_s2->unk_0004.miBase;
     item->transRange[0][0] = item->transRange[1][0] + arg4;
     item->transRange[0][1] = item->transRange[1][1];
     item->transStep = 0.05f;
@@ -9518,7 +9748,7 @@ void menuRank_setSlide(MenuRank *menuRank, s32 arg1, s32 arg2, f32 arg3, f32 arg
     menuItem_setTransDir(item, arg2);
 
     for (i = 0; i < temp_s2->unk_0000; i++) {
-        item = &temp_s2->unk_3A8[i].unk_008.unk_04;
+        item = &temp_s2->unk_3A8[i].unk_008.miBase;
 
         item->transRange[0][0] = item->transRange[1][0] + arg4;
         item->transRange[0][1] = item->transRange[1][1];
@@ -9530,7 +9760,7 @@ void menuRank_setSlide(MenuRank *menuRank, s32 arg1, s32 arg2, f32 arg3, f32 arg
     arg2 = (arg2 < 0) ? -1 : 1;
 
     for (i = 0; i < temp_s2->unk_0000; i++) {
-        item = &temp_s2->unk_3A8[i].unk_008.unk_04;
+        item = &temp_s2->unk_3A8[i].unk_008.miBase;
 
         item->transStep -= arg2 * 0.05 * i / (temp_s2->unk_0000 * 2);
         menuItem_setTransDir(item, arg2);
@@ -9547,7 +9777,7 @@ void menuRank_setFrame(MenuRank *menuRank, s32 arg1, s32 arg2, f32 arg3) {
     SMenuItem *item;
     s32 i;
 
-    item = &menuRank->unk_03BC.unk_0C;
+    item = &menuRank->unk_03BC.miBase;
     item->transRange[0][0] = item->transRange[1][0];
     item->transRange[0][1] = item->transRange[1][1] - 120.0f;
     item->transStep = 0.05f;
@@ -9564,7 +9794,7 @@ void menuRank_setFrame(MenuRank *menuRank, s32 arg1, s32 arg2, f32 arg3) {
         menuItem_setTransDir(item, arg2);
     }
 
-    item = &temp_fp->unk_0004.unk_08;
+    item = &temp_fp->unk_0004.miBase;
     item->transRange[0][0] = item->transRange[1][0];
     item->transRange[0][1] = item->transRange[1][1] - 120.0f;
     item->transStep = 0.05f;
@@ -9579,7 +9809,7 @@ void menuRank_setFrame(MenuRank *menuRank, s32 arg1, s32 arg2, f32 arg3) {
     menuItem_setTransDir(item, arg2);
 
     for (i = 0; i < temp_fp->unk_0000; i++) {
-        item = &temp_fp->unk_3A8[i].unk_008.unk_04;
+        item = &temp_fp->unk_3A8[i].unk_008.miBase;
 
         item->transRange[0][0] = item->transRange[1][0] + _pos_10346[i % ARRAY_COUNTU(_pos_10346)];
         item->transRange[0][1] = item->transRange[1][1];
@@ -9591,8 +9821,8 @@ void menuRank_setFrame(MenuRank *menuRank, s32 arg1, s32 arg2, f32 arg3) {
 
 void func_80058A24(MenuRank *menuRank, s32 arg1 UNUSED) {
     menuItem_init(&menuRank->unk_032C, 0xA4, 0x30);
-    func_80057898(&menuRank->unk_0458, menuRank->watchMenuRef, 1, 1, 2, 2);
-    func_80057898(&menuRank->unk_04F4, menuRank->watchMenuRef, 2, 1, 0x3E, 2);
+    menuRankLabel_init(&menuRank->unk_0458, menuRank->watchMenuRef, 1, 1, 2, 2);
+    menuRankLabel_init(&menuRank->unk_04F4, menuRank->watchMenuRef, 2, 1, 0x3E, 2);
 }
 
 const s32 _hedAllType_10392[] = {
@@ -9801,8 +10031,8 @@ void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, s32 arg3
             break;
     }
 
-    func_80057898(&menuRank->unk_03BC, menuRank->watchMenuRef, 3, sp3C, 0x23, 0x30);
-    func_80057AFC(&temp_s3->unk_0004, menuRank->watchMenuRef, _hedAllType_10392, idP, xP, yP, count, 0, -0x10);
+    menuRankLabel_init(&menuRank->unk_03BC, menuRank->watchMenuRef, 3, sp3C, 0x23, 0x30);
+    menuRankHeader_init(&temp_s3->unk_0004, menuRank->watchMenuRef, _hedAllType_10392, idP, xP, yP, count, 0, -0x10);
 
     for (i = 0; i < temp_s3->unk_0000; i++) {
         struct_evs_mem_data *ptr;
@@ -9829,7 +10059,7 @@ void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, s32 arg3
                 ptr = &evs_mem_data[var_s1];
                 temp_t0_2 = &ptr->level_data[arg3];
                 func_80057E68(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->level_rank[arg3][i], ptr->mem_name,
-                              (s32)temp_t0_2->c_level, temp_t0_2->score, 0, i * 0x11);
+                              temp_t0_2->c_level, temp_t0_2->score, 0, i * 0x11);
                 break;
 
             case MODE_RECORD_LS_TQ:
@@ -9909,7 +10139,7 @@ void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, s32 arg3
     }
 
     func_80058A24(menuRank, arg1);
-    menuRank->unk_04F4.id = arg3;
+    menuRank->unk_04F4.index = arg3;
 }
 
 const s32 _lr_10544[][2] = {
@@ -10003,7 +10233,7 @@ void menuRank_input(MenuRank *menuRank) {
         menuRank_setNameBaseScale(menuRank, 1, 0.0f);
     }
 
-    item = &temp_s0->unk_3A8[0].unk_008.unk_04;
+    item = &temp_s0->unk_3A8[0].unk_008.miBase;
     if ((item->transTime < 1.0f) || (item->transStep < 0.0f) || (item->scaleTime < 1.0f) || (item->scaleStep < 0.0f)) {
         return;
     }
@@ -10048,9 +10278,9 @@ void menuRank_update(MenuRank *menuRank) {
 
     menuItem_update(&menuRank->unk_032C, rootItem);
 
-    func_800578C8(&menuRank->unk_03BC, rootItem);
-    func_800578C8(&menuRank->unk_0458, &menuRank->unk_032C);
-    func_800578C8(&menuRank->unk_04F4, &menuRank->unk_032C);
+    menuRankLabel_update(&menuRank->unk_03BC, rootItem);
+    menuRankLabel_update(&menuRank->unk_0458, &menuRank->unk_032C);
+    menuRankLabel_update(&menuRank->unk_04F4, &menuRank->unk_032C);
 
     for (i = 0; i < 2; i++) {
         s32 index;
@@ -10069,7 +10299,7 @@ void menuRank_update(MenuRank *menuRank) {
             MenuRank_unk_590 *temp_s2 = &menuRank->unk_590[index];
             s32 j;
 
-            func_80057BE8(&temp_s2->unk_0004, &menuRank->unk_017C);
+            menuRankHeader_update(&temp_s2->unk_0004, &menuRank->unk_017C);
 
             for (j = 0; j < temp_s2->unk_0000; j++) {
                 menuRankPanel_update(&temp_s2->unk_3A8[j], &menuRank->unk_017C);
@@ -10103,19 +10333,19 @@ void menuRank_draw(MenuRank *menuRank, Gfx **gfxP) {
         sp18[1] = &menuRank->unk_04F4;
 
         if (menuRank->unk_032C.scaleStep < 0.0f) {
-            menuRank->unk_04F4.id = menuRank->unk_0010;
+            menuRank->unk_04F4.index = menuRank->unk_0010;
         } else {
-            menuRank->unk_04F4.id = menuRank->unk_000C;
+            menuRank->unk_04F4.index = menuRank->unk_000C;
         }
 
         switch (menuRank->unk_0004) {
             case MODE_RECORD_LS:
-                menuRank->unk_0458.id = 1;
-                menuRank->unk_04F4.id = menuRank->unk_04F4.id + 3;
+                menuRank->unk_0458.index = 1;
+                menuRank->unk_04F4.index = menuRank->unk_04F4.index + 3;
                 break;
 
             default:
-                menuRank->unk_0458.id = 0;
+                menuRank->unk_0458.index = 0;
                 break;
         }
 
@@ -10461,13 +10691,13 @@ void func_8005A2EC(struct_watchMenu *arg0) {
             break;
 
         case MODE_STORY:
-            func_80051974(&arg0->unk_02678[index].menuStory);
+            menuStory_waitCancel(&arg0->unk_02678[index].menuStory);
             break;
 
         case MODE_LVSEL:
         case MODE_LVSEL_TQ:
         case MODE_LVSEL_TA:
-            func_80052DF0(&arg0->unk_02678[index].menuLvSel);
+            menuLvSel_waitCancel(&arg0->unk_02678[index].menuLvSel);
             break;
 
         case MODE_VSCOM:
@@ -10478,7 +10708,7 @@ void func_8005A2EC(struct_watchMenu *arg0) {
         case MODE_PLAY4_LV:
         case MODE_PLAY4_TB_LV:
         case MODE_PLAY4_FL_LV:
-            func_800550F4(&arg0->unk_02678[index].menuPlay2);
+            menuPlay2_waitCancel(&arg0->unk_02678[index].menuPlay2);
             break;
 
         default:
