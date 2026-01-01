@@ -640,41 +640,72 @@ typedef struct MenuRankHeader {
     /* 0x98 */ MenuRankLabel label[MENURANKHEADER_UNK_98]; /* Original name: label */
 } MenuRankHeader; // size = 0x3A4
 
+
+typedef enum MenuRankPanelType {
+    /* 0 */ MENURANKPANELTYPE_OHA,
+    /* 1 */ MENURANKPANELTYPE_END,
+    /* 2 */ MENURANKPANELTYPE_TAIQ,
+    /* 3 */ MENURANKPANELTYPE_TIMEAT,
+    /* 4 */ MENURANKPANELTYPE_VS1,
+} MenuRankPanelType;
+
 typedef struct MenuRankPanel {
-    /* 0x000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x004 */ s32 unk_004;
-    /* 0x008 */ MenuRankBase unk_008;
-    /* 0x09C */ MenuRankNum unk_09C;
-    /* 0x134 */ MenuRankName unk_134;
-    /* 0x1CC */ MenuRankFig unk_1CC;
-    /* 0x294 */ MenuRankFig unk_294;
-    /* 0x35C */ MenuRankFig unk_35C;
+    /* 0x000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x004 */ MenuRankPanelType type; /* Original name: type */
+    /* 0x008 */ MenuRankBase base; /* Original name: base */
+    /* 0x09C */ MenuRankNum rank; /* Original name: rank */
+    /* 0x134 */ MenuRankName name; /* Original name: name */
+    /* 0x1CC */ union {
+        struct {
+            /* 0x1CC */ MenuRankFig score;
+            /* 0x294 */ MenuRankFig time;
+            /* 0x35C */ MenuRankFig stage;
+        } oha;
+        struct {
+            /* 0x1CC */ MenuRankFig level;
+            /* 0x294 */ MenuRankFig score;
+        } end;
+        struct {
+            /* 0x1CC */ MenuRankFig time;
+            /* 0x294 */ MenuRankFig score;
+        } taiQ;
+        struct {
+            /* 0x1CC */ MenuRankFig score;
+            /* 0x294 */ MenuRankFig time;
+            /* 0x35C */ MenuRankFig erase;
+        } timeAt;
+        struct {
+            /* 0x1CC */ MenuRankFig ratio;
+            /* 0x294 */ MenuRankFig win;
+            /* 0x35C */ MenuRankFig lose;
+        } vs1;
+    } misc;
 } MenuRankPanel; // size = 0x424
 
-typedef struct MenuRank_unk_590 {
-    /* 0x0000 */ s32 unk_0000;
-    /* 0x0004 */ MenuRankHeader unk_0004;
-    /* 0x03A8 */ MenuRankPanel unk_3A8[8];
-} MenuRank_unk_590; // size = 0x24C8
+typedef struct MenuRankCt {
+    /* 0x0000 */ s32 panelCount;
+    /* 0x0004 */ MenuRankHeader header;
+    /* 0x03A8 */ MenuRankPanel panel[8];
+} MenuRankCt; // size = 0x24C8
+
+#define MENURANK_MILR 2U
 
 typedef struct MenuRank {
-    /* 0x0000 */ struct struct_watchMenu *watchMenuRef;
-    /* 0x0004 */ MainMenuMode unk_0004;
-    /* 0x0008 */ UNK_TYPE unk_0008;
-    /* 0x000C */ UNK_TYPE unk_000C;
-    /* 0x0010 */ UNK_TYPE unk_0010;
-    /* 0x0014 */ UNK_TYPE unk_0014;
-    /* 0x0018 */ UNK_TYPE unk_0018;
-    /* 0x001C */ SRankSortInfo unk_001C;
-    /* 0x017C */ SMenuItem unk_017C;
-    /* 0x020C */ SMenuItem unk_020C[2];
-    /* 0x032C */ SMenuItem unk_032C;
-    /* 0x03BC */ MenuRankLabel unk_03BC;
-    /* 0x0458 */ MenuRankLabel unk_0458;
-    /* 0x04F4 */ MenuRankLabel unk_04F4;
-    /* 0x0590 */ MenuRank_unk_590 unk_590[2];
-    /* 0x4F20 */ UNK_TYPE1 unk_4F20[0x2684];
-} MenuRank; // size <= 0x75A4
+    /* 0x0000 */ struct struct_watchMenu *global; /* Original name: global */
+    /* 0x0004 */ MainMenuMode mode; /* Original name: mode */
+    /* 0x0008 */ bool vsFlag; /* Original name: vsFlag */
+    /* 0x000C */ s32 level; /* Original name: level */
+    /* 0x0010 */ s32 levelOld; /* Original name: levelOld */
+    /* 0x0014 */ s32 curBuf; /* Original name: curBuf */
+    /* 0x0018 */ s32 oldBuf; /* Original name: oldBuf */
+    /* 0x001C */ SRankSortInfo sortInfo; /* Original name: sortInfo */
+    /* 0x017C */ SMenuItem miBase; /* Original name: miBase */
+    /* 0x020C */ SMenuItem miLR[MENURANK_MILR]; /* Original name: miLR */
+    /* 0x032C */ SMenuItem miNameBase; /* Original name: miNameBase */
+    /* 0x03BC */ MenuRankLabel title; /* Original name: title */
+    /* 0x0458 */ MenuRankLabel nameLabel[2]; /* Original name: nameLabel */
+    /* 0x0590 */ MenuRankCt ct[2]; /* Original name: ct */
+} MenuRank; // size = 0x4F20
 
 
 
@@ -963,20 +994,25 @@ void menuRankHeader_init(MenuRankHeader *rankHeader, struct_watchMenu *global, c
                          const s32 *labelIndex, const s32 *labelX, const s32 *labelY, s32 labelCount, s32 x, s32 y);
 void menuRankHeader_update(MenuRankHeader *rankHeader, SMenuItem *parent);
 void menuRankHeader_draw(MenuRankHeader *rankHeaderArr[], s32 count, Gfx **gfxP);
-void func_80057D24(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], u32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
-void func_80057E68(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-void func_80057F6C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4, s32 arg5, s32 arg6, s32 arg7);
-void func_8005806C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9);
-void func_800581C8(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4, s32 arg5, s32 arg6, s32 arg7, s32 arg8);
-void menuRankPanel_update(MenuRankPanel *arg0, SMenuItem *arg1);
-void menuRankPanel_draw(MenuRankPanel **arg0, s32 count, Gfx **gfxP);
-void menuRank_setNameBaseScale(MenuRank *menuRank, UNK_TYPE arg1, f32 arg2);
-void menuRank_setSlide(MenuRank *menuRank, UNK_TYPE arg1, UNK_TYPE arg2, f32 arg3, f32 arg4);
-void menuRank_setFrame(MenuRank *menuRank, UNK_TYPE arg1, UNK_TYPE arg2, f32 arg3);
-void func_80058A24(MenuRank *menuRank, s32 arg1);
-void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, UNK_TYPE arg3);
-void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, void **heapP);
-void menuRank_input(MenuRank *menuRank);
+void menuRankPanel_initSt(MenuRankPanel *rankPanel, struct_watchMenu *global, s32 rank, const u8 name[4], s32 score,
+                          s32 time, s32 stage, s32 x, s32 y);
+void menuRankPanel_initLs(MenuRankPanel *rankPanel, struct_watchMenu *global, s32 rank, const u8 name[4], s32 level,
+                          s32 score, s32 x, s32 y);
+void menuRankPanel_initLsTq(MenuRankPanel *rankPanel, struct_watchMenu *global, s32 rank, const u8 name[4], s32 time,
+                            s32 score, s32 x, s32 y);
+void menuRankPanel_initLsTa(MenuRankPanel *rankPanel, struct_watchMenu *global, s32 rank, const u8 name[4], s32 score,
+                            s32 time, s32 erase, s32 level, s32 x, s32 y);
+void menuRankPanel_initVs1(MenuRankPanel *rankPanel, struct_watchMenu *global, s32 rank, const u8 name[4], s32 ratio,
+                           s32 win, s32 lose, s32 x, s32 y);
+void menuRankPanel_update(MenuRankPanel *rankPanel, SMenuItem *parent);
+void menuRankPanel_draw(MenuRankPanel **rankPanelArr, s32 count, Gfx **gfxP);
+void menuRank_setNameBaseScale(MenuRank *rank, UNK_TYPE dir, f32 time);
+void menuRank_setSlide(MenuRank *rank, UNK_TYPE buf, UNK_TYPE dir, f32 time, f32 vec);
+void menuRank_setFrame(MenuRank *rank, UNK_TYPE buf, UNK_TYPE dir, f32 time);
+void menuRank_initCommon(MenuRank *rank, s32 arg1);
+void menuRank_setPanel(MenuRank *rank, s32 buf, MainMenuMode mode, UNK_TYPE level);
+void menuRank_init(MenuRank *rank, struct_watchMenu *global, void **heapP);
+void menuRank_input(MenuRank *rank);
 void menuRank_update(MenuRank *menuRank);
 void menuRank_draw(MenuRank *menuRank, Gfx **gfxP);
 

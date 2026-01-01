@@ -9531,298 +9531,348 @@ void menuRankHeader_draw(MenuRankHeader *rankHeaderArr[], s32 count, Gfx **gfxP)
     *gfxP = gfx;
 }
 
-void func_80057D24(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], u32 arg4,
-                   s32 arg5, s32 arg6, s32 arg7, s32 arg8) {
-    s32 var_a2;
-    s32 var_v1;
+/**
+ * Original name: menuRankPanel_initSt
+ */
+void menuRankPanel_initSt(MenuRankPanel *rankPanel, struct_watchMenu *global, s32 rank, const u8 name[4], s32 score,
+                          s32 time, s32 stage, s32 x, s32 y) {
+    s32 col;
+    s32 pos;
 
-    menuRankPanel->watchMenuRef = watchMenuRef;
-    menuRankPanel->unk_004 = 0;
+    rankPanel->global = global;
+    rankPanel->type = MENURANKPANELTYPE_OHA;
 
-    menuRankBase_init(&menuRankPanel->unk_008, watchMenuRef, arg7, arg8);
-    menuRankNum_init(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
-    menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x1A, 2);
-    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, RANK_FIG_NUMBER, arg4, MENURANKFIG_COLOR_RED, 0x83, 2);
-    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, RANK_FIG_TIME, arg5, MENURANKFIG_COLOR_BLUE, 0xCD, 2);
-    var_v1 = 0x5A;
-    if (arg6 < 0xA) {
-        var_a2 = 1;
-        var_v1 = 0x63;
+    menuRankBase_init(&rankPanel->base, global, x, y);
+    menuRankNum_init(&rankPanel->rank, global, rank, 4, -1);
+    menuRankName_init(&rankPanel->name, global, name, 0x1A, 2);
+
+    menuRankFig_init(&rankPanel->misc.oha.score, global, RANK_FIG_NUMBER, score, MENURANKFIG_COLOR_RED, 0x83, 2);
+    menuRankFig_init(&rankPanel->misc.oha.time, global, RANK_FIG_TIME, time, MENURANKFIG_COLOR_BLUE, 0xCD, 2);
+
+    pos = 0x5A;
+    if (stage < 10) {
+        col = 1;
+        pos = 0x63;
     } else {
-        var_a2 = 0xD;
+        col = RANK_FIG_ALL;
     }
-    menuRankFig_init(&menuRankPanel->unk_35C, watchMenuRef, var_a2, arg6, MENURANKFIG_COLOR_YELLOW, var_v1, 2);
+    menuRankFig_init(&rankPanel->misc.oha.stage, global, col, stage, MENURANKFIG_COLOR_YELLOW, pos, 2);
 }
 
-void func_80057E68(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4,
-                   s32 arg5, s32 arg6, s32 arg7) {
-    menuRankPanel->watchMenuRef = watchMenuRef;
-    menuRankPanel->unk_004 = 1;
+/**
+ * Original name: menuRankPanel_initLs
+ */
+void menuRankPanel_initLs(MenuRankPanel *rankPanel, struct_watchMenu *global, s32 rank, const u8 name[4], s32 level,
+                          s32 score, s32 x, s32 y) {
+    rankPanel->global = global;
+    rankPanel->type = MENURANKPANELTYPE_END;
 
-    menuRankBase_init(&menuRankPanel->unk_008, watchMenuRef, arg6, arg7);
-    menuRankNum_init(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
-    menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x29, 2);
-    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, RANK_FIG_LEVEL, arg4, MENURANKFIG_COLOR_GREEN, 0x6A, 2);
-    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, RANK_FIG_NUMBER, arg5, MENURANKFIG_COLOR_RED, 0xB7, 2);
+    menuRankBase_init(&rankPanel->base, global, x, y);
+    menuRankNum_init(&rankPanel->rank, global, rank, 4, -1);
+    menuRankName_init(&rankPanel->name, global, name, 0x29, 2);
+
+    menuRankFig_init(&rankPanel->misc.end.level, global, RANK_FIG_LEVEL, level, MENURANKFIG_COLOR_GREEN, 0x6A, 2);
+    menuRankFig_init(&rankPanel->misc.end.score, global, RANK_FIG_NUMBER, score, MENURANKFIG_COLOR_RED, 0xB7, 2);
 }
 
-void func_80057F6C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4,
-                   s32 arg5, s32 arg6, s32 arg7) {
-    menuRankPanel->watchMenuRef = watchMenuRef;
-    menuRankPanel->unk_004 = 2;
+/**
+ * Original name: menuRankPanel_initLsTq
+ */
+void menuRankPanel_initLsTq(MenuRankPanel *rankPanel, struct_watchMenu *global, s32 rank, const u8 name[4], s32 time,
+                            s32 score, s32 x, s32 y) {
+    rankPanel->global = global;
+    rankPanel->type = MENURANKPANELTYPE_TAIQ;
 
-    menuRankBase_init(&menuRankPanel->unk_008, watchMenuRef, arg6, arg7);
-    menuRankNum_init(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
-    menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x29, 2);
-    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, RANK_FIG_TIME, arg4, MENURANKFIG_COLOR_BLUE, 0x75, 2);
-    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, RANK_FIG_NUMBER, arg5, MENURANKFIG_COLOR_RED, 0xB7, 2);
+    menuRankBase_init(&rankPanel->base, global, x, y);
+    menuRankNum_init(&rankPanel->rank, global, rank, 4, -1);
+    menuRankName_init(&rankPanel->name, global, name, 0x29, 2);
+
+    menuRankFig_init(&rankPanel->misc.taiQ.time, global, RANK_FIG_TIME, time, MENURANKFIG_COLOR_BLUE, 0x75, 2);
+    menuRankFig_init(&rankPanel->misc.taiQ.score, global, RANK_FIG_NUMBER, score, MENURANKFIG_COLOR_RED, 0xB7, 2);
 }
 
-void func_8005806C(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4,
-                   s32 arg5, s32 arg6, s32 arg7, s32 arg8, s32 arg9) {
-    s32 var_a2;
-    s32 var_v1;
+/**
+ * Original name: menuRankPanel_initLsTa
+ */
+void menuRankPanel_initLsTa(MenuRankPanel *rankPanel, struct_watchMenu *global, s32 rank, const u8 name[4], s32 score,
+                            s32 time, s32 erase, s32 level, s32 x, s32 y) {
+    s32 col;
+    s32 pos;
 
-    menuRankPanel->watchMenuRef = watchMenuRef;
-    menuRankPanel->unk_004 = 3;
+    rankPanel->global = global;
+    rankPanel->type = MENURANKPANELTYPE_TIMEAT;
 
-    menuRankBase_init(&menuRankPanel->unk_008, watchMenuRef, arg8, arg9);
-    menuRankNum_init(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
-    menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x1A, 2);
-    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, RANK_FIG_NUMBER, arg4, MENURANKFIG_COLOR_RED, 0x53, 2);
-    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, RANK_FIG_TIME2, arg5, MENURANKFIG_COLOR_BLUE, 0x99, 2);
+    menuRankBase_init(&rankPanel->base, global, x, y);
+    menuRankNum_init(&rankPanel->rank, global, rank, 4, -1);
+    menuRankName_init(&rankPanel->name, global, name, 0x1A, 2);
 
-    if (arg6 < dm_get_first_virus_count_in_new_mode(arg7)) {
-        var_a2 = 2;
-        var_v1 = 0xD9;
+    menuRankFig_init(&rankPanel->misc.timeAt.score, global, RANK_FIG_NUMBER, score, MENURANKFIG_COLOR_RED, 0x53, 2);
+    menuRankFig_init(&rankPanel->misc.timeAt.time, global, RANK_FIG_TIME2, time, MENURANKFIG_COLOR_BLUE, 0x99, 2);
+
+    if (erase < dm_get_first_virus_count_in_new_mode(level)) {
+        col = 2;
+        pos = 0xD9;
     } else {
-        var_a2 = 0xD;
-        var_v1 = 0xD5;
+        col = RANK_FIG_ALL;
+        pos = 0xD5;
     }
-    menuRankFig_init(&menuRankPanel->unk_35C, watchMenuRef, var_a2, arg6, MENURANKFIG_COLOR_RED, var_v1, 2);
+    menuRankFig_init(&rankPanel->misc.timeAt.erase, global, col, erase, MENURANKFIG_COLOR_RED, pos, 2);
 }
 
-void func_800581C8(MenuRankPanel *menuRankPanel, struct_watchMenu *watchMenuRef, s32 arg2, const u8 arg3[4], s32 arg4,
-                   s32 arg5, s32 arg6, s32 arg7, s32 arg8) {
-    menuRankPanel->watchMenuRef = watchMenuRef;
-    menuRankPanel->unk_004 = 4;
+/**
+ * Original name: menuRankPanel_initVs1
+ */
+void menuRankPanel_initVs1(MenuRankPanel *rankPanel, struct_watchMenu *global, s32 rank, const u8 name[4], s32 ratio,
+                           s32 win, s32 lose, s32 x, s32 y) {
+    rankPanel->global = global;
+    rankPanel->type = MENURANKPANELTYPE_VS1;
 
-    menuRankBase_init(&menuRankPanel->unk_008, watchMenuRef, arg7, arg8);
-    menuRankNum_init(&menuRankPanel->unk_09C, watchMenuRef, arg2, 4, -1);
-    menuRankName_init(&menuRankPanel->unk_134, watchMenuRef, arg3, 0x1A, 2);
-    menuRankFig_init(&menuRankPanel->unk_1CC, watchMenuRef, RANK_FIG_RATIO, arg4, MENURANKFIG_COLOR_ORANGE, 0x5A, 2);
-    menuRankFig_init(&menuRankPanel->unk_294, watchMenuRef, 2, arg5, MENURANKFIG_COLOR_PINK, 0xA7, 2);
-    menuRankFig_init(&menuRankPanel->unk_35C, watchMenuRef, 2, arg6, MENURANKFIG_COLOR_CYAN, 0xD9, 2);
+    menuRankBase_init(&rankPanel->base, global, x, y);
+    menuRankNum_init(&rankPanel->rank, global, rank, 4, -1);
+    menuRankName_init(&rankPanel->name, global, name, 0x1A, 2);
+
+    menuRankFig_init(&rankPanel->misc.vs1.ratio, global, RANK_FIG_RATIO, ratio, MENURANKFIG_COLOR_ORANGE, 0x5A, 2);
+    menuRankFig_init(&rankPanel->misc.vs1.win, global, 2, win, MENURANKFIG_COLOR_PINK, 0xA7, 2);
+    menuRankFig_init(&rankPanel->misc.vs1.lose, global, 2, lose, MENURANKFIG_COLOR_CYAN, 0xD9, 2);
 }
 
-void menuRankPanel_update(MenuRankPanel *arg0, SMenuItem *arg1) {
-    menuRankBase_update(&arg0->unk_008, arg1);
-    menuRankNum_update(&arg0->unk_09C, &arg0->unk_008.miBase);
-    menuRankName_update(&arg0->unk_134, &arg0->unk_008.miBase);
+/**
+ * Original name: menuRankPanel_update
+ */
+void menuRankPanel_update(MenuRankPanel *rankPanel, SMenuItem *parent) {
+    menuRankBase_update(&rankPanel->base, parent);
+    menuRankNum_update(&rankPanel->rank, &rankPanel->base.miBase);
+    menuRankName_update(&rankPanel->name, &rankPanel->base.miBase);
 
-    switch (arg0->unk_004) {
-        case 0x0:
-            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.miBase);
-            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.miBase);
-            menuRankFig_update(&arg0->unk_35C, &arg0->unk_008.miBase);
+    switch (rankPanel->type) {
+        case MENURANKPANELTYPE_OHA:
+            menuRankFig_update(&rankPanel->misc.oha.score, &rankPanel->base.miBase);
+            menuRankFig_update(&rankPanel->misc.oha.time, &rankPanel->base.miBase);
+            menuRankFig_update(&rankPanel->misc.oha.stage, &rankPanel->base.miBase);
             break;
 
-        case 0x1:
-            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.miBase);
-            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.miBase);
+        case MENURANKPANELTYPE_END:
+            menuRankFig_update(&rankPanel->misc.end.level, &rankPanel->base.miBase);
+            menuRankFig_update(&rankPanel->misc.end.score, &rankPanel->base.miBase);
             break;
 
-        case 0x2:
-            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.miBase);
-            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.miBase);
+        case MENURANKPANELTYPE_TAIQ:
+            menuRankFig_update(&rankPanel->misc.taiQ.time, &rankPanel->base.miBase);
+            menuRankFig_update(&rankPanel->misc.taiQ.score, &rankPanel->base.miBase);
             break;
 
-        case 0x3:
-            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.miBase);
-            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.miBase);
-            menuRankFig_update(&arg0->unk_35C, &arg0->unk_008.miBase);
+        case MENURANKPANELTYPE_TIMEAT:
+            menuRankFig_update(&rankPanel->misc.timeAt.score, &rankPanel->base.miBase);
+            menuRankFig_update(&rankPanel->misc.timeAt.time, &rankPanel->base.miBase);
+            menuRankFig_update(&rankPanel->misc.timeAt.erase, &rankPanel->base.miBase);
             break;
 
-        case 0x4:
-            menuRankFig_update(&arg0->unk_1CC, &arg0->unk_008.miBase);
-            menuRankFig_update(&arg0->unk_294, &arg0->unk_008.miBase);
-            menuRankFig_update(&arg0->unk_35C, &arg0->unk_008.miBase);
+        case MENURANKPANELTYPE_VS1:
+            menuRankFig_update(&rankPanel->misc.vs1.ratio, &rankPanel->base.miBase);
+            menuRankFig_update(&rankPanel->misc.vs1.win, &rankPanel->base.miBase);
+            menuRankFig_update(&rankPanel->misc.vs1.lose, &rankPanel->base.miBase);
             break;
     }
 }
 
-void menuRankPanel_draw(MenuRankPanel **arg0, s32 count, Gfx **gfxP) {
+/**
+ * Original name: menuRankPanel_draw
+ */
+void menuRankPanel_draw(MenuRankPanel *rankPanelArr[], s32 count, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
-    void *sp10[count * 4];
-    MenuRankPanel *temp_a2;
-    s32 var_a1;
+    void *list[count * 4];
+    MenuRankPanel *rankPanel;
     s32 i;
+    s32 j;
 
-    var_a1 = 0;
+    j = 0;
     for (i = 0; i < count; i++) {
-        temp_a2 = arg0[i];
+        rankPanel = rankPanelArr[i];
 
-        sp10[var_a1++] = &temp_a2->unk_008;
+        list[j++] = &rankPanel->base;
     }
-    menuRankBase_draw((void *)sp10, var_a1, &gfx);
+    menuRankBase_draw((void *)list, j, &gfx);
 
-    var_a1 = 0;
+    j = 0;
     for (i = 0; i < count; i++) {
-        temp_a2 = arg0[i];
+        rankPanel = rankPanelArr[i];
 
-        sp10[var_a1++] = &temp_a2->unk_09C;
+        list[j++] = &rankPanel->rank;
     }
-    menuRankNum_draw((void *)sp10, var_a1, &gfx);
+    menuRankNum_draw((void *)list, j, &gfx);
 
-    var_a1 = 0;
+    j = 0;
     for (i = 0; i < count; i++) {
-        temp_a2 = arg0[i];
+        rankPanel = rankPanelArr[i];
 
-        sp10[var_a1++] = &temp_a2->unk_134;
+        list[j++] = &rankPanel->name;
     }
-    menuRankName_draw((void *)sp10, var_a1, &gfx);
+    menuRankName_draw((void *)list, j, &gfx);
 
-    var_a1 = 0;
+    j = 0;
     for (i = 0; i < count; i++) {
-        temp_a2 = arg0[i];
+        rankPanel = rankPanelArr[i];
 
-        switch (temp_a2->unk_004) {
-            case 0x1:
-                sp10[var_a1++] = &temp_a2->unk_1CC;
-                sp10[var_a1++] = &temp_a2->unk_294;
+        switch (rankPanel->type) {
+            case MENURANKPANELTYPE_OHA:
+                list[j++] = &rankPanel->misc.oha.score;
+                list[j++] = &rankPanel->misc.oha.time;
+                list[j++] = &rankPanel->misc.oha.stage;
                 break;
 
-            case 0x2:
-                sp10[var_a1++] = &temp_a2->unk_294;
-                sp10[var_a1++] = &temp_a2->unk_1CC;
+            case MENURANKPANELTYPE_END:
+                list[j++] = &rankPanel->misc.end.level;
+                list[j++] = &rankPanel->misc.end.score;
                 break;
 
-            case 0x0:
-            case 0x3:
-            case 0x4:
-                sp10[var_a1++] = &temp_a2->unk_1CC;
-                sp10[var_a1++] = &temp_a2->unk_294;
-                sp10[var_a1++] = &temp_a2->unk_35C;
+            case MENURANKPANELTYPE_TAIQ:
+                list[j++] = &rankPanel->misc.taiQ.score;
+                list[j++] = &rankPanel->misc.taiQ.time;
+                break;
+
+            case MENURANKPANELTYPE_TIMEAT:
+                list[j++] = &rankPanel->misc.timeAt.score;
+                list[j++] = &rankPanel->misc.timeAt.time;
+                list[j++] = &rankPanel->misc.timeAt.erase;
+                break;
+
+            case MENURANKPANELTYPE_VS1:
+                list[j++] = &rankPanel->misc.vs1.ratio;
+                list[j++] = &rankPanel->misc.vs1.win;
+                list[j++] = &rankPanel->misc.vs1.lose;
                 break;
         }
     }
-    menuRankFig_draw((void *)sp10, var_a1, &gfx);
+    menuRankFig_draw((void *)list, j, &gfx);
 
     *gfxP = gfx;
 }
 
-void menuRank_setNameBaseScale(MenuRank *menuRank, s32 arg1, f32 arg2) {
-    SMenuItem *sp18[3];
+/**
+ * Original name: menuRank_setNameBaseScale
+ */
+void menuRank_setNameBaseScale(MenuRank *rank, s32 dir, f32 time) {
+    SMenuItem *list[3];
     s32 i;
 
-    sp18[0] = &menuRank->unk_032C;
-    sp18[1] = &menuRank->unk_020C[0];
-    sp18[2] = &menuRank->unk_020C[1];
-    for (i = 0; i < ARRAY_COUNTU(sp18); i++) {
-        SMenuItem *item = sp18[i];
+    list[0] = &rank->miNameBase;
+    list[1] = &rank->miLR[0];
+    list[2] = &rank->miLR[1];
+
+    for (i = 0; i < ARRAY_COUNTU(list); i++) {
+        SMenuItem *item = list[i];
         f32 temp = 8.0f;
 
         item->scaleRange[0][1] = 0.0f;
         item->transStep = 0.1f;
         item->scaleStep = 0.1f;
-        item->transTime = arg2;
-        item->scaleTime = arg2;
+        item->transTime = time;
+        item->scaleTime = time;
         item->transRange[0][0] = item->transRange[1][0];
         item->transRange[0][1] = item->transRange[1][1] + temp;
         item->scaleRange[0][0] = item->scaleRange[1][0];
-        menuItem_setTransDir(item, arg1);
-        menuItem_setScaleDir(item, arg1);
+        menuItem_setTransDir(item, dir);
+        menuItem_setScaleDir(item, dir);
     }
 }
 
-void menuRank_setSlide(MenuRank *menuRank, s32 arg1, s32 arg2, f32 arg3, f32 arg4) {
-    MenuRank_unk_590 *temp_s2 = &menuRank->unk_590[arg1];
+/**
+ * Original name: menuRank_setSlide
+ */
+void menuRank_setSlide(MenuRank *rank, s32 buf, s32 dir, f32 time, f32 vec) {
+    MenuRankCt *ct = &rank->ct[buf];
     SMenuItem *item;
     s32 i;
 
-    item = &temp_s2->unk_0004.miBase;
-    item->transRange[0][0] = item->transRange[1][0] + arg4;
+    item = &ct->header.miBase;
+    item->transRange[0][0] = item->transRange[1][0] + vec;
     item->transRange[0][1] = item->transRange[1][1];
     item->transStep = 0.05f;
-    item->transTime = arg3;
-    menuItem_setTransDir(item, arg2);
+    item->transTime = time;
+    menuItem_setTransDir(item, dir);
 
-    for (i = 0; i < temp_s2->unk_0000; i++) {
-        item = &temp_s2->unk_3A8[i].unk_008.miBase;
+    for (i = 0; i < ct->panelCount; i++) {
+        item = &ct->panel[i].base.miBase;
 
-        item->transRange[0][0] = item->transRange[1][0] + arg4;
+        item->transRange[0][0] = item->transRange[1][0] + vec;
         item->transRange[0][1] = item->transRange[1][1];
         item->transStep = 0.05f;
-        item->transTime = arg3;
-        menuItem_setTransDir(item, arg2);
+        item->transTime = time;
+        menuItem_setTransDir(item, dir);
     }
 
-    arg2 = (arg2 < 0) ? -1 : 1;
+    dir = (dir < 0) ? -1 : 1;
 
-    for (i = 0; i < temp_s2->unk_0000; i++) {
-        item = &temp_s2->unk_3A8[i].unk_008.miBase;
+    for (i = 0; i < ct->panelCount; i++) {
+        item = &ct->panel[i].base.miBase;
 
-        item->transStep -= arg2 * 0.05 * i / (temp_s2->unk_0000 * 2);
-        menuItem_setTransDir(item, arg2);
+        item->transStep -= dir * DOUBLE_LITERAL(0.05) * i / (ct->panelCount * 2);
+        menuItem_setTransDir(item, dir);
     }
 }
 
 const s32 _pos_10346[] = {
-    -0x140,
-    0x140,
+    -SCREEN_WIDTH,
+    SCREEN_WIDTH,
 };
 
-void menuRank_setFrame(MenuRank *menuRank, s32 arg1, s32 arg2, f32 arg3) {
-    MenuRank_unk_590 *temp_fp = &menuRank->unk_590[arg1];
+/**
+ * Original name: menuRank_setFrame
+ */
+void menuRank_setFrame(MenuRank *rank, s32 buf, s32 dir, f32 time) {
+    MenuRankCt *ct = &rank->ct[buf];
     SMenuItem *item;
     s32 i;
 
-    item = &menuRank->unk_03BC.miBase;
+    item = &rank->title.miBase;
     item->transRange[0][0] = item->transRange[1][0];
-    item->transRange[0][1] = item->transRange[1][1] - 120.0f;
+    item->transRange[0][1] = item->transRange[1][1] - SCREEN_HEIGHT / 2;
     item->transStep = 0.05f;
-    item->transTime = arg3;
-    menuItem_setTransDir(item, arg2);
+    item->transTime = time;
+    menuItem_setTransDir(item, dir);
 
-    for (i = 0; i < ARRAY_COUNTU(menuRank->unk_020C); i++) {
-        item = &menuRank->unk_020C[i];
+    for (i = 0; i < ARRAY_COUNTU(rank->miLR); i++) {
+        item = &rank->miLR[i];
 
         item->transRange[0][0] = item->transRange[1][0];
-        item->transRange[0][1] = item->transRange[1][1] - 120.0f;
+        item->transRange[0][1] = item->transRange[1][1] - SCREEN_HEIGHT / 2;
         item->transStep = 0.05f;
-        item->transTime = arg3;
-        menuItem_setTransDir(item, arg2);
+        item->transTime = time;
+        menuItem_setTransDir(item, dir);
     }
 
-    item = &temp_fp->unk_0004.miBase;
+    item = &ct->header.miBase;
     item->transRange[0][0] = item->transRange[1][0];
-    item->transRange[0][1] = item->transRange[1][1] - 120.0f;
+    item->transRange[0][1] = item->transRange[1][1] - SCREEN_HEIGHT / 2;
     item->transStep = 0.05f;
-    item->transTime = arg3;
-    menuItem_setTransDir(item, arg2);
+    item->transTime = time;
+    menuItem_setTransDir(item, dir);
 
-    item = &menuRank->unk_032C;
+    item = &rank->miNameBase;
     item->transRange[0][0] = item->transRange[1][0];
-    item->transRange[0][1] = item->transRange[1][1] - 120.0f;
+    item->transRange[0][1] = item->transRange[1][1] - SCREEN_HEIGHT / 2;
     item->transStep = 0.05f;
-    item->transTime = arg3;
-    menuItem_setTransDir(item, arg2);
+    item->transTime = time;
+    menuItem_setTransDir(item, dir);
 
-    for (i = 0; i < temp_fp->unk_0000; i++) {
-        item = &temp_fp->unk_3A8[i].unk_008.miBase;
+    for (i = 0; i < ct->panelCount; i++) {
+        item = &ct->panel[i].base.miBase;
 
         item->transRange[0][0] = item->transRange[1][0] + _pos_10346[i % ARRAY_COUNTU(_pos_10346)];
         item->transRange[0][1] = item->transRange[1][1];
         item->transStep = 0.05f;
-        item->transTime = arg3;
-        menuItem_setTransDir(item, arg2);
+        item->transTime = time;
+        menuItem_setTransDir(item, dir);
     }
 }
 
-void func_80058A24(MenuRank *menuRank, s32 arg1 UNUSED) {
-    menuItem_init(&menuRank->unk_032C, 0xA4, 0x30);
-    menuRankLabel_init(&menuRank->unk_0458, menuRank->watchMenuRef, 1, 1, 2, 2);
-    menuRankLabel_init(&menuRank->unk_04F4, menuRank->watchMenuRef, 2, 1, 0x3E, 2);
+/**
+ * Original name: menuRank_initCommon
+ */
+void menuRank_initCommon(MenuRank *rank, s32 buf UNUSED) {
+    menuItem_init(&rank->miNameBase, 0xA4, 0x30);
+    menuRankLabel_init(&rank->nameLabel[0], rank->global, 1, 1, 2, 2);
+    menuRankLabel_init(&rank->nameLabel[1], rank->global, 2, 1, 0x3E, 2);
 }
 
 const s32 _hedAllType_10392[] = {
@@ -9940,80 +9990,83 @@ static_assert(ARRAY_COUNT(_hedAllType_10392) >=
 
 static_assert(ARRAY_COUNT(_hedAllType_10392) <= MENURANKHEADER_UNK_98, "");
 
-void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, s32 arg3) {
-    MenuRank_unk_590 *temp_s3 = &menuRank->unk_590[arg1];
-    SRankSortInfo *temp_s2 = &menuRank->unk_001C;
-    const s32 *idP;
-    const s32 *xP;
-    const s32 *yP;
-    s32 sp3C;
-    s32 count;
+/**
+ * Original name: menuRank_setPanel
+ */
+void menuRank_setPanel(MenuRank *rank, s32 buf, MainMenuMode mode, s32 level) {
+    MenuRankCt *ct = &rank->ct[buf];
+    SRankSortInfo *si = &rank->sortInfo;
+    const s32 *headerId;
+    const s32 *headerX;
+    const s32 *headerY;
+    s32 titleNo;
+    s32 headerSize;
     s32 i;
 
-    temp_s3->unk_0000 = 8;
+    ct->panelCount = 8;
 
-    switch (arg2) {
+    switch (mode) {
         case MODE_RECORD_ST:
-            sp3C = 0;
+            titleNo = 0;
             break;
 
         case MODE_RECORD_LS:
-            sp3C = 1;
+            titleNo = 1;
             break;
 
         case MODE_RECORD_VC:
-            sp3C = 2;
+            titleNo = 2;
             break;
 
         case MODE_RECORD_VM:
-            sp3C = 3;
+            titleNo = 3;
             break;
 
         case MODE_RECORD_VC_FL:
         case MODE_RECORD_VM_FL:
-            sp3C = 4;
+            titleNo = 4;
             break;
 
         case MODE_RECORD_LS_TQ:
-            sp3C = 5;
+            titleNo = 5;
             break;
 
         case MODE_RECORD_LS_TA:
         case MODE_RECORD_VM_TA:
-            sp3C = 6;
+            titleNo = 6;
             break;
 
         default:
             break;
     }
 
-    switch (arg2) {
+    switch (mode) {
         case MODE_RECORD_ST:
-            count = ARRAY_COUNT(_hedStoryId_10393);
-            idP = _hedStoryId_10393;
-            xP = _hedStoryX_10394;
-            yP = _hedStoryY_10395;
+            headerSize = ARRAY_COUNT(_hedStoryId_10393);
+            headerId = _hedStoryId_10393;
+            headerX = _hedStoryX_10394;
+            headerY = _hedStoryY_10395;
             break;
 
         case MODE_RECORD_LS:
-            count = ARRAY_COUNT(_hedLevelId_10396);
-            idP = _hedLevelId_10396;
-            xP = _hedLevelX_10397;
-            yP = _hedLevelY_10398;
+            headerSize = ARRAY_COUNT(_hedLevelId_10396);
+            headerId = _hedLevelId_10396;
+            headerX = _hedLevelX_10397;
+            headerY = _hedLevelY_10398;
             break;
 
         case MODE_RECORD_LS_TQ:
-            count = ARRAY_COUNT(_hed1PTaiQId_10399);
-            idP = _hed1PTaiQId_10399;
-            xP = _hed1PTaiQX_10400;
-            yP = _hed1PTaiQY_10401;
+            headerSize = ARRAY_COUNT(_hed1PTaiQId_10399);
+            headerId = _hed1PTaiQId_10399;
+            headerX = _hed1PTaiQX_10400;
+            headerY = _hed1PTaiQY_10401;
             break;
 
         case MODE_RECORD_LS_TA:
-            count = ARRAY_COUNT(_hed1PTimeAtId_10402);
-            idP = _hed1PTimeAtId_10402;
-            xP = _hed1PTimeAtX_10403;
-            yP = _hed1PTimeAtY_10404;
+            headerSize = ARRAY_COUNT(_hed1PTimeAtId_10402);
+            headerId = _hed1PTimeAtId_10402;
+            headerX = _hed1PTimeAtX_10403;
+            headerY = _hed1PTimeAtY_10404;
             break;
 
         case MODE_RECORD_VC:
@@ -10021,116 +10074,116 @@ void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, s32 arg3
         case MODE_RECORD_VM:
         case MODE_RECORD_VM_FL:
         case MODE_RECORD_VM_TA:
-            count = ARRAY_COUNT(_hedVsId_10405);
-            idP = _hedVsId_10405;
-            xP = _hedVsX_10406;
-            yP = _hedVsY_10407;
+            headerSize = ARRAY_COUNT(_hedVsId_10405);
+            headerId = _hedVsId_10405;
+            headerX = _hedVsX_10406;
+            headerY = _hedVsY_10407;
             break;
 
         default:
             break;
     }
 
-    menuRankLabel_init(&menuRank->unk_03BC, menuRank->watchMenuRef, 3, sp3C, 0x23, 0x30);
-    menuRankHeader_init(&temp_s3->unk_0004, menuRank->watchMenuRef, _hedAllType_10392, idP, xP, yP, count, 0, -0x10);
+    menuRankLabel_init(&rank->title, rank->global, 3, titleNo, 0x23, 0x30);
+    menuRankHeader_init(&ct->header, rank->global, _hedAllType_10392, headerId, headerX, headerY, headerSize, 0, -0x10);
 
-    for (i = 0; i < temp_s3->unk_0000; i++) {
-        struct_evs_mem_data *ptr;
-        struct_evs_mem_data_story_data *temp_t0;
-        struct_evs_mem_data_level_data *temp_t0_2;
-        struct_evs_mem_data_taiQ_data *temp_t0_3;
-        struct_evs_mem_data_timeAt_data *temp_t0_4;
-        u16 *var_s4;
-        s32 var_s1;
-        u16 *var_s7;
-        u8 *var_s6;
+    for (i = 0; i < ct->panelCount; i++) {
+        struct_evs_mem_data *mc;
+        struct_evs_mem_data_story_data *ms;
+        struct_evs_mem_data_level_data *ml;
+        struct_evs_mem_data_taiQ_data *mq;
+        struct_evs_mem_data_timeAt_data *ma;
+        s32 sortId;
+        u16 *vsRes;
+        u16 *vsAve;
+        u8 *vsRnk;
 
-        switch (arg2) {
+        switch (mode) {
             case MODE_RECORD_ST:
-                var_s1 = temp_s2->story_sort[arg3][i];
-                ptr = &evs_mem_data[var_s1];
-                temp_t0 = &ptr->story_data[arg3];
-                func_80057D24(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->story_rank[arg3][i], ptr->mem_name,
-                              temp_t0->score, temp_t0->time, temp_t0->c_stage + 1, 0, i * 0x11);
+                sortId = si->story_sort[level][i];
+                mc = &evs_mem_data[sortId];
+                ms = &mc->story_data[level];
+                menuRankPanel_initSt(&ct->panel[i], rank->global, si->story_rank[level][i], mc->mem_name, ms->score,
+                                     ms->time, ms->c_stage + 1, 0, i * 0x11);
                 break;
 
             case MODE_RECORD_LS:
-                var_s1 = temp_s2->level_sort[arg3][i];
-                ptr = &evs_mem_data[var_s1];
-                temp_t0_2 = &ptr->level_data[arg3];
-                func_80057E68(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->level_rank[arg3][i], ptr->mem_name,
-                              temp_t0_2->c_level, temp_t0_2->score, 0, i * 0x11);
+                sortId = si->level_sort[level][i];
+                mc = &evs_mem_data[sortId];
+                ml = &mc->level_data[level];
+                menuRankPanel_initLs(&ct->panel[i], rank->global, si->level_rank[level][i], mc->mem_name, ml->c_level,
+                                     ml->score, 0, i * 0x11);
                 break;
 
             case MODE_RECORD_LS_TQ:
-                var_s1 = temp_s2->taiQ_sort[arg3][i];
-                ptr = &evs_mem_data[var_s1];
-                temp_t0_3 = &ptr->taiQ_data[arg3];
-                func_80057F6C(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->taiQ_rank[arg3][i], ptr->mem_name,
-                              temp_t0_3->time, temp_t0_3->score, 0, i * 0x11);
+                sortId = si->taiQ_sort[level][i];
+                mc = &evs_mem_data[sortId];
+                mq = &mc->taiQ_data[level];
+                menuRankPanel_initLsTq(&ct->panel[i], rank->global, si->taiQ_rank[level][i], mc->mem_name, mq->time,
+                                       mq->score, 0, i * 0x11);
                 break;
 
             case MODE_RECORD_LS_TA:
-                var_s1 = temp_s2->timeAt_sort[arg3][i];
-                ptr = &evs_mem_data[var_s1];
-                temp_t0_4 = &ptr->timeAt_data[arg3];
-                func_8005806C(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, temp_s2->timeAt_rank[arg3][i],
-                              ptr->mem_name, temp_t0_4->score, temp_t0_4->time, temp_t0_4->erase, arg3, 0, i * 0x11);
+                sortId = si->timeAt_sort[level][i];
+                mc = &evs_mem_data[sortId];
+                ma = &mc->timeAt_data[level];
+                menuRankPanel_initLsTa(&ct->panel[i], rank->global, si->timeAt_rank[level][i], mc->mem_name, ma->score,
+                                       ma->time, ma->erase, level, 0, i * 0x11);
                 break;
 
             case MODE_RECORD_VC:
-                var_s1 = temp_s2->vscom_sort[i];
-                ptr = &evs_mem_data[var_s1];
-                var_s7 = temp_s2->vscom_ave;
-                var_s6 = temp_s2->vscom_rank;
-                var_s4 = ptr->vscom_data;
+                sortId = si->vscom_sort[i];
+                mc = &evs_mem_data[sortId];
+                vsAve = si->vscom_ave;
+                vsRnk = si->vscom_rank;
+                vsRes = mc->vscom_data;
                 break;
 
             case MODE_RECORD_VC_FL:
-                var_s1 = temp_s2->vc_fl_sort[i];
-                ptr = &evs_mem_data[var_s1];
-                var_s7 = temp_s2->vc_fl_ave;
-                var_s6 = temp_s2->vc_fl_rank;
-                var_s4 = ptr->vc_fl_data;
+                sortId = si->vc_fl_sort[i];
+                mc = &evs_mem_data[sortId];
+                vsAve = si->vc_fl_ave;
+                vsRnk = si->vc_fl_rank;
+                vsRes = mc->vc_fl_data;
                 break;
 
             case MODE_RECORD_VM:
-                var_s1 = temp_s2->vsman_sort[i];
-                ptr = &evs_mem_data[var_s1];
-                var_s7 = temp_s2->vsman_ave;
-                var_s6 = temp_s2->vsman_rank;
-                var_s4 = ptr->vsman_data;
+                sortId = si->vsman_sort[i];
+                mc = &evs_mem_data[sortId];
+                vsAve = si->vsman_ave;
+                vsRnk = si->vsman_rank;
+                vsRes = mc->vsman_data;
                 break;
 
             case MODE_RECORD_VM_FL:
-                var_s1 = temp_s2->vm_fl_sort[i];
-                ptr = &evs_mem_data[var_s1];
-                var_s7 = temp_s2->vm_fl_ave;
-                var_s6 = temp_s2->vm_fl_rank;
-                var_s4 = ptr->vm_fl_data;
+                sortId = si->vm_fl_sort[i];
+                mc = &evs_mem_data[sortId];
+                vsAve = si->vm_fl_ave;
+                vsRnk = si->vm_fl_rank;
+                vsRes = mc->vm_fl_data;
                 break;
 
             case MODE_RECORD_VM_TA:
-                var_s1 = temp_s2->vm_ta_sort[i];
-                ptr = &evs_mem_data[var_s1];
-                var_s7 = temp_s2->vm_ta_ave;
-                var_s6 = temp_s2->vm_ta_rank;
-                var_s4 = ptr->vm_ta_data;
+                sortId = si->vm_ta_sort[i];
+                mc = &evs_mem_data[sortId];
+                vsAve = si->vm_ta_ave;
+                vsRnk = si->vm_ta_rank;
+                vsRes = mc->vm_ta_data;
                 break;
 
             default:
                 break;
         }
 
-        switch (arg2) {
+        switch (mode) {
             case MODE_RECORD_VC:
             case MODE_RECORD_VC_FL:
             case MODE_RECORD_VM:
             case MODE_RECORD_VM_FL:
             case MODE_RECORD_VM_TA:
-                ptr = &evs_mem_data[var_s1];
-                func_800581C8(&temp_s3->unk_3A8[i], menuRank->watchMenuRef, var_s6[i], ptr->mem_name, var_s7[var_s1],
-                              var_s4[0], var_s4[1], 0, i * 0x11);
+                mc = &evs_mem_data[sortId];
+                menuRankPanel_initVs1(&ct->panel[i], rank->global, vsRnk[i], mc->mem_name, vsAve[sortId], vsRes[0],
+                                      vsRes[1], 0, i * 0x11);
                 break;
 
             default:
@@ -10138,171 +10191,181 @@ void menuRank_setPanel(MenuRank *menuRank, s32 arg1, MainMenuMode arg2, s32 arg3
         }
     }
 
-    func_80058A24(menuRank, arg1);
-    menuRank->unk_04F4.index = arg3;
+    menuRank_initCommon(rank, buf);
+    rank->nameLabel[1].index = level;
 }
 
 const s32 _lr_10544[][2] = {
     { 0x23, 0x1E },
     { 0xDD, 0x1E },
 };
+static_assert(ARRAY_COUNT(_lr_10544) == MENURANK_MILR, "");
 
-void menuRank_init(MenuRank *menuRank, struct_watchMenu *watchMenuRef, void **heapP UNUSED) {
-    u32 i;
+/**
+ * Original name: menuRank_setPanel
+ */
+void menuRank_init(MenuRank *rank, struct_watchMenu *global, void **heapP UNUSED) {
+    s32 i;
 
-    menuRank->watchMenuRef = watchMenuRef;
-    menuRank->unk_0004 = _getMode(watchMenuRef);
-    switch (menuRank->unk_0004) {
-        case 0x35:
-        case 0x36:
-        case 0x38:
-        case 0x39:
-        case 0x3A:
-            menuRank->unk_0008 = 1;
+    rank->global = global;
+    rank->mode = _getMode(global);
+    switch (rank->mode) {
+        case MODE_RECORD_VC:
+        case MODE_RECORD_VC_FL:
+        case MODE_RECORD_VM:
+        case MODE_RECORD_VM_FL:
+        case MODE_RECORD_VM_TA:
+            rank->vsFlag = true;
             break;
 
         default:
-            menuRank->unk_0008 = 0;
+            rank->vsFlag = false;
             break;
     }
 
-    menuRank->unk_000C = 1;
-    menuRank->unk_0010 = 1;
-    menuRank->unk_0014 = 0;
-    menuRank->unk_0018 = -1;
-    menuItem_init(&menuRank->unk_017C, 0x23, 0x56);
+    rank->level = 1;
+    rank->levelOld = 1;
+    rank->curBuf = 0;
+    rank->oldBuf = -1;
+    menuItem_init(&rank->miBase, 0x23, 0x56);
 
-    for (i = 0; i < 2U; i++) {
-        menuItem_init(&menuRank->unk_020C[i], _lr_10544[i][0], _lr_10544[i][1]);
+    for (i = 0; i < MENURANK_MILR; i++) {
+        menuItem_init(&rank->miLR[i], _lr_10544[i][0], _lr_10544[i][1]);
     }
 
-    switch (menuRank->unk_0004) {
+    switch (rank->mode) {
         case MODE_RECORD_ST:
-            dm_data_mode_story_sort(&menuRank->unk_001C);
+            dm_data_mode_story_sort(&rank->sortInfo);
             break;
 
         case MODE_RECORD_LS:
-            dm_data_mode_level_sort(&menuRank->unk_001C);
+            dm_data_mode_level_sort(&rank->sortInfo);
             break;
 
         case MODE_RECORD_LS_TQ:
-            dm_data_mode_taiQ_sort(&menuRank->unk_001C);
+            dm_data_mode_taiQ_sort(&rank->sortInfo);
             break;
 
         case MODE_RECORD_LS_TA:
-            dm_data_mode_timeAt_sort(&menuRank->unk_001C);
+            dm_data_mode_timeAt_sort(&rank->sortInfo);
             break;
 
         case MODE_RECORD_VC:
-            dm_data_vscom_sort(&menuRank->unk_001C);
+            dm_data_vscom_sort(&rank->sortInfo);
             break;
 
         case MODE_RECORD_VC_FL:
-            dm_data_vc_fl_sort(&menuRank->unk_001C);
+            dm_data_vc_fl_sort(&rank->sortInfo);
             break;
 
         case MODE_RECORD_VM:
-            dm_data_vsman_sort(&menuRank->unk_001C);
+            dm_data_vsman_sort(&rank->sortInfo);
             break;
 
         case MODE_RECORD_VM_FL:
-            dm_data_vm_fl_sort(&menuRank->unk_001C);
+            dm_data_vm_fl_sort(&rank->sortInfo);
             break;
 
         case MODE_RECORD_VM_TA:
-            dm_data_vm_ta_sort(&menuRank->unk_001C);
+            dm_data_vm_ta_sort(&rank->sortInfo);
             break;
 
         default:
             break;
     }
 
-    menuRank_setPanel(menuRank, menuRank->unk_0014, menuRank->unk_0004, menuRank->unk_000C);
-    menuRank_setFrame(menuRank, menuRank->unk_0014, 1, 0.0f);
+    menuRank_setPanel(rank, rank->curBuf, rank->mode, rank->level);
+    menuRank_setFrame(rank, rank->curBuf, 1, 0.0f);
 }
 
-void menuRank_input(MenuRank *menuRank) {
-    MenuRank_unk_590 *temp_s0 = &menuRank->unk_590[menuRank->unk_0014];
-    u32 pressedButton = _getKeyTrg(menuRank->watchMenuRef, 0);
-    u32 keyRep UNUSED = _getKeyRep(menuRank->watchMenuRef, 0);
-    s32 direction = 0;
-    SndIndex sndIndex = SND_INDEX_INVALID;
-    SMenuItem *item = &menuRank->unk_032C;
+/**
+ * Original name: menuRank_input
+ */
+void menuRank_input(MenuRank *rank) {
+    MenuRankCt *ct = &rank->ct[rank->curBuf];
+    u32 trg = _getKeyTrg(rank->global, 0);
+    u32 rep UNUSED = _getKeyRep(rank->global, 0);
+    s32 vx = 0;
+    SndIndex sound = SND_INDEX_INVALID;
+    SMenuItem *item = &rank->miNameBase;
 
     if ((item->scaleTime == 0.0f) && (item->scaleStep < 0.0f)) {
-        menuRank_setNameBaseScale(menuRank, 1, 0.0f);
+        menuRank_setNameBaseScale(rank, 1, 0.0f);
     }
 
-    item = &temp_s0->unk_3A8[0].unk_008.miBase;
+    item = &ct->panel[0].base.miBase;
     if ((item->transTime < 1.0f) || (item->transStep < 0.0f) || (item->scaleTime < 1.0f) || (item->scaleStep < 0.0f)) {
         return;
     }
 
-    if (menuRank->unk_0008 == 0) {
-        if (pressedButton & (L_JPAD | L_TRIG)) {
-            direction--;
+    if (!rank->vsFlag) {
+        if (trg & (L_JPAD | L_TRIG)) {
+            vx--;
         }
-        if (pressedButton & (R_JPAD | R_TRIG)) {
-            direction++;
+        if (trg & (R_JPAD | R_TRIG)) {
+            vx++;
         }
     }
 
-    if (pressedButton & B_BUTTON) {
-        menuRank_setFrame(menuRank, menuRank->unk_0014, -1, 1.0f);
-        sndIndex = SND_INDEX_68;
-        _setMode(menuRank->watchMenuRef, MODE_MAIN);
-    } else if (direction != 0) {
-        menuRank->unk_0010 = menuRank->unk_000C;
+    if (trg & B_BUTTON) {
+        menuRank_setFrame(rank, rank->curBuf, -1, 1.0f);
+        sound = SND_INDEX_68;
+        _setMode(rank->global, MODE_MAIN);
+    } else if (vx != 0) {
+        rank->levelOld = rank->level;
 
-        menuRank->unk_000C = WrapI(0, 3, menuRank->unk_000C + direction);
-        sndIndex = SND_INDEX_63;
-        menuRank_setSlide(menuRank, menuRank->unk_0014, -1, 1.0f, -(direction * 0x140));
-        menuRank->unk_0018 = menuRank->unk_0014;
+        rank->level = WrapI(0, 3, rank->level + vx);
+        sound = SND_INDEX_63;
+        menuRank_setSlide(rank, rank->curBuf, -1, 1.0f, -(vx * SCREEN_WIDTH));
+        rank->oldBuf = rank->curBuf;
 
         // TODO: Check if changing `& 1` to `% 2U` makes sense
-        menuRank->unk_0014 = (menuRank->unk_0014 + 1) & 1;
-        menuRank_setPanel(menuRank, menuRank->unk_0014, menuRank->unk_0004, menuRank->unk_000C);
-        menuRank_setNameBaseScale(menuRank, -1, 1.0f);
-        menuRank_setSlide(menuRank, menuRank->unk_0014, 1, 0.0f, direction * 0x140);
+        rank->curBuf = (rank->curBuf + 1) % ARRAY_COUNTU(rank->nameLabel);
+        menuRank_setPanel(rank, rank->curBuf, rank->mode, rank->level);
+        menuRank_setNameBaseScale(rank, -1, 1.0f);
+        menuRank_setSlide(rank, rank->curBuf, 1, 0.0f, vx * SCREEN_WIDTH);
     }
 
-    SND_PLAY_INDEX(sndIndex);
+    SND_PLAY_INDEX(sound);
 }
 
-void menuRank_update(MenuRank *menuRank) {
-    SMenuItem *rootItem = _getRootItem(menuRank->watchMenuRef);
+/**
+ * Original name: menuRank_input
+ */
+void menuRank_update(MenuRank *rank) {
+    SMenuItem *miRoot = _getRootItem(rank->global);
     s32 i;
 
-    menuItem_update(&menuRank->unk_017C, rootItem);
-    menuItem_updateN(&menuRank->unk_020C[i], ARRAY_COUNT(menuRank->unk_020C), rootItem);
+    menuItem_update(&rank->miBase, miRoot);
+    menuItem_updateN(&rank->miLR[i], ARRAY_COUNT(rank->miLR), miRoot);
 
-    menuItem_update(&menuRank->unk_032C, rootItem);
+    menuItem_update(&rank->miNameBase, miRoot);
 
-    menuRankLabel_update(&menuRank->unk_03BC, rootItem);
-    menuRankLabel_update(&menuRank->unk_0458, &menuRank->unk_032C);
-    menuRankLabel_update(&menuRank->unk_04F4, &menuRank->unk_032C);
+    menuRankLabel_update(&rank->title, miRoot);
+    menuRankLabel_update(&rank->nameLabel[0], &rank->miNameBase);
+    menuRankLabel_update(&rank->nameLabel[1], &rank->miNameBase);
 
     for (i = 0; i < 2; i++) {
-        s32 index;
+        s32 buf;
 
         switch (i) {
             case 0:
-                index = menuRank->unk_0018;
+                buf = rank->oldBuf;
                 break;
 
             case 1:
-                index = menuRank->unk_0014;
+                buf = rank->curBuf;
                 break;
         }
 
-        if (index >= 0) {
-            MenuRank_unk_590 *temp_s2 = &menuRank->unk_590[index];
+        if (buf >= 0) {
+            MenuRankCt *ct = &rank->ct[buf];
             s32 j;
 
-            menuRankHeader_update(&temp_s2->unk_0004, &menuRank->unk_017C);
+            menuRankHeader_update(&ct->header, &rank->miBase);
 
-            for (j = 0; j < temp_s2->unk_0000; j++) {
-                menuRankPanel_update(&temp_s2->unk_3A8[j], &menuRank->unk_017C);
+            for (j = 0; j < ct->panelCount; j++) {
+                menuRankPanel_update(&ct->panel[j], &rank->miBase);
             }
         }
     }
@@ -10319,85 +10382,92 @@ const s32 _dir_10660[] = {
     1,
 };
 
-void menuRank_draw(MenuRank *menuRank, Gfx **gfxP) {
-    void *sp18[16];
+/**
+ * Original name: menuRank_draw
+ */
+void menuRank_draw(MenuRank *rank, Gfx **gfxP) {
     Gfx *gfx = *gfxP;
+    TiTexData *texC;
+    void *list[16];
     s32 i;
     s32 j;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
 
-    if (menuRank->unk_0008 == 0) {
-        menuItem_drawTex(&menuRank->unk_032C, &gfx, _getTexRank(menuRank->watchMenuRef, 3), 0);
-        sp18[0] = &menuRank->unk_0458;
-        sp18[1] = &menuRank->unk_04F4;
+    if (!rank->vsFlag) {
+        texC = _getTexRank(rank->global, 3);
+        menuItem_drawTex(&rank->miNameBase, &gfx, texC, 0);
+        list[0] = &rank->nameLabel[0];
+        list[1] = &rank->nameLabel[1];
 
-        if (menuRank->unk_032C.scaleStep < 0.0f) {
-            menuRank->unk_04F4.index = menuRank->unk_0010;
+        if (rank->miNameBase.scaleStep < 0.0f) {
+            rank->nameLabel[1].index = rank->levelOld;
         } else {
-            menuRank->unk_04F4.index = menuRank->unk_000C;
+            rank->nameLabel[1].index = rank->level;
         }
 
-        switch (menuRank->unk_0004) {
+        switch (rank->mode) {
             case MODE_RECORD_LS:
-                menuRank->unk_0458.index = 1;
-                menuRank->unk_04F4.index = menuRank->unk_04F4.index + 3;
+                rank->nameLabel[0].index = 1;
+                rank->nameLabel[1].index = rank->nameLabel[1].index + 3;
                 break;
 
             default:
-                menuRank->unk_0458.index = 0;
+                rank->nameLabel[0].index = 0;
                 break;
         }
 
-        menuRankLabel_draw((void *)sp18, 2, &gfx);
+        menuRankLabel_draw((void *)list, 2, &gfx);
 
-        for (i = 0; i < ARRAY_COUNTU(menuRank->unk_020C); i++) {
-            SMenuItem *temp_s0 = &menuRank->unk_020C[i];
-            f32 temp_fs0 = temp_s0->trans[0];
-            f32 temp_fs1 = temp_s0->trans[1];
-            s32 var_v0 = (temp_s0->scaleStep < 0.0f) ? menuRank->unk_0010 : menuRank->unk_000C;
+        for (i = 0; i < ARRAY_COUNTU(rank->miLR); i++) {
+            SMenuItem *item = &rank->miLR[i];
+            f32 x = item->trans[0];
+            f32 y = item->trans[1];
+            s32 level = (item->scaleStep < 0.0f) ? rank->levelOld : rank->level;
 
-            j = WrapI(0, 3, var_v0 + _dir_10660[i]);
-            if (menuRank->unk_0004 == MODE_RECORD_LS) {
+            j = WrapI(0, 3, level + _dir_10660[i]);
+            if (rank->mode == MODE_RECORD_LS) {
                 j += 3;
             }
 
-            menuItem_drawItem(temp_s0, &gfx, _getTexRank(menuRank->watchMenuRef, 4), 0, 2, i);
-            temp_s0->trans[0] += 12.0f;
-            temp_s0->trans[1] += 2.0f;
+            texC = _getTexRank(rank->global, 4);
+            menuItem_drawItem(item, &gfx, texC, 0, 2, i);
+            item->trans[0] += 12.0f;
+            item->trans[1] += 2.0f;
 
-            menuItem_drawItem(&menuRank->unk_020C[i], &gfx, _getTexRank(menuRank->watchMenuRef, 2), 0, 6, j);
-            temp_s0->trans[0] = temp_fs0;
-            temp_s0->trans[1] = temp_fs1;
+            texC = _getTexRank(rank->global, 2);
+            menuItem_drawItem(&rank->miLR[i], &gfx, texC, 0, 6, j);
+            item->trans[0] = x;
+            item->trans[1] = y;
         }
     }
 
-    sp18[0] = &menuRank->unk_03BC;
-    menuRankLabel_draw((void *)sp18, 1, &gfx);
+    list[0] = &rank->title;
+    menuRankLabel_draw((void *)list, 1, &gfx);
 
     for (i = 0; i < 2; i++) {
-        s32 var_s5;
+        s32 buf;
 
         switch (i) {
             case 0:
-                var_s5 = menuRank->unk_0018;
+                buf = rank->oldBuf;
                 break;
             case 1:
-                var_s5 = menuRank->unk_0014;
+                buf = rank->curBuf;
                 break;
         }
 
-        if (var_s5 >= 0) {
-            MenuRank_unk_590 *temp_s0_2 = &menuRank->unk_590[var_s5];
+        if (buf >= 0) {
+            MenuRankCt *ct = &rank->ct[buf];
 
-            sp18[0] = &temp_s0_2->unk_0004;
-            menuRankHeader_draw((void *)&sp18, 1, &gfx);
+            list[0] = &ct->header;
+            menuRankHeader_draw((void *)&list, 1, &gfx);
 
-            for (j = 0; j < temp_s0_2->unk_0000; j++) {
-                sp18[j] = &temp_s0_2->unk_3A8[j];
+            for (j = 0; j < ct->panelCount; j++) {
+                list[j] = &ct->panel[j];
             }
 
-            menuRankPanel_draw((void *)sp18, temp_s0_2->unk_0000, &gfx);
+            menuRankPanel_draw((void *)list, ct->panelCount, &gfx);
         }
     }
 
@@ -10407,8 +10477,8 @@ void menuRank_draw(MenuRank *menuRank, Gfx **gfxP) {
 void _eep_writingCallback(void *arg) {
     struct_watchMenu *a = arg;
     RecordWritingMessage *recMessage = &a->recMessage;
-    s32 x = (0x140 - msgWnd_getWidth(&recMessage->messageWnd)) / 2;
-    s32 y = 0xD0 - msgWnd_getHeight(&recMessage->messageWnd);
+    s32 x = (SCREEN_WIDTH - msgWnd_getWidth(&recMessage->messageWnd)) / 2;
+    s32 y = SCREEN_HEIGHT - 32 - msgWnd_getHeight(&recMessage->messageWnd);
 
     RecWritingMsg_setPos(recMessage, x, y);
     RecWritingMsg_start(recMessage);
@@ -10999,7 +11069,7 @@ void menuAll_drawBg(struct_watchMenu *arg0, Gfx **gfxP) {
     bool cached;
 
     menuItem_setPrim(temp_s4, &gfx);
-    draw_menu_bg(&gfx, temp_s4->trans[0] + 0.0f, -temp_s4->trans[1] - 120.0f);
+    draw_menu_bg(&gfx, temp_s4->trans[0] + 0.0f, -temp_s4->trans[1] - SCREEN_HEIGHT / 2);
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
     menuItem_setPrim(temp_s4, &gfx);
