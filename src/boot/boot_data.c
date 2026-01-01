@@ -2,7 +2,7 @@
  * Original filename: boot_data.c
  */
 
- #include "boot_data.h"
+#include "boot_data.h"
 
 #include "libc/assert.h"
 #include "segment_symbols.h"

@@ -728,7 +728,6 @@ typedef struct SMenuAll {
     /* 0x00004 */ NNScClient scClient;
     /* 0x0000C */ OSMesgQueue scMQ;
     /* 0x00024 */ OSMesg scMsgBuf[NN_SC_MAX_MESGS];
-    /* 0x00044 */ UNK_TYPE1 unk_00044[4]; // unused/pad?
     /* 0x00048 */ Mtx mtxBuf[3][0x10]; /* Original name: mtxBuf */
     /* 0x00C48 */ Vtx vtxBuf[3][0x80]; /* Original name: vtxBuf */
     /* 0x02448 */ Mtx *mtxPtr[3]; /* Original name: mtxPtr */
