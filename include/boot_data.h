@@ -1,5 +1,5 @@
-#ifndef ROM_OFFSETS_H
-#define ROM_OFFSETS_H
+#ifndef BOOT_DATA_H
+#define BOOT_DATA_H
 
 #include "other_types.h"
 

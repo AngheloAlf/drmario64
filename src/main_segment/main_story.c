@@ -9,7 +9,7 @@
 #include "libc/assert.h"
 
 #include "util.h"
-#include "rom_offsets.h"
+#include "boot_data.h"
 #include "audio/sound.h"
 #include "buffers.h"
 #include "tex_func.h"

@@ -12,7 +12,7 @@
 #include "audio/music_driver.h"
 #include "nnsched.h"
 
-#include "rom_offsets.h"
+#include "boot_data.h"
 #include "buffers.h"
 #include "main1x.h"
 #include "dm_thread.h"

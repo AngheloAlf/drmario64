@@ -106,7 +106,7 @@ segments:
 
       - { path: src/boot/util.o }
 
-      - { path: src/boot/rom_offsets.o }
+      - { path: src/boot/boot_data.o }
 
       - { path: src/gateway/003630.o }
 

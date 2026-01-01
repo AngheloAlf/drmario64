@@ -27,7 +27,7 @@
 #include "nnsched.h"
 #include "record.h"
 #include "replay.h"
-#include "rom_offsets.h"
+#include "boot_data.h"
 #include "static.h"
 #include "tex_func.h"
 #include "util.h"

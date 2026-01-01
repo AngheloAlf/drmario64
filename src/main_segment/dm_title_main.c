@@ -7,7 +7,7 @@
 #include "gcc/stdlib.h"
 #include "macros_defines.h"
 
-#include "rom_offsets.h"
+#include "boot_data.h"
 #include "audio/sound.h"
 #include "buffers.h"
 #include "dm_game_main.h"

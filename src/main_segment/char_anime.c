@@ -10,7 +10,7 @@
 #include "gcc/stdlib.h"
 #include "macros_defines.h"
 
-#include "rom_offsets.h"
+#include "boot_data.h"
 #include "segment_symbols.h"
 #include "util.h"
 #include "tex_func.h"

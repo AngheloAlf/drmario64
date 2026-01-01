@@ -3,7 +3,7 @@
 
 #include "libultra.h"
 #include "libc/stdbool.h"
-#include "rom_offsets.h"
+#include "boot_data.h"
 #include "macros_defines.h"
 
 struct NNSched;
