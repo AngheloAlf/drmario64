@@ -17,6 +17,8 @@
 #include "recwritingmsg.h"
 #include "unk.h"
 
+#include "assets/menu/menu_common.h"
+
 struct SMenuItem;
 struct SMenuAll;
 
@@ -135,7 +137,7 @@ typedef struct SMenuItem {
 typedef struct MenuTitle {
     /* 0x00 */ struct SMenuAll *global; /* Original name: global */
     /* 0x04 */ s32 current; /* Original name: current */
-    /* 0x08 */ s32 titleNo[MENUTITLE_TLT_COUNT]; /* Original name: titleNo */ // TODO: make enum?
+    /* 0x08 */ MenuCommonTiTexMenuTitlesNumber titleNo[MENUTITLE_TLT_COUNT]; /* Original name: titleNo */ // TODO: make enum?
     /* 0x10 */ SMenuItem miBase[MENUTITLE_TLT_COUNT]; /* Original name: miBase */
 } MenuTitle; // size = 0x130
 
@@ -274,16 +276,16 @@ typedef struct MenuCont {
     /* 0x484 */ SMenuItem miPushAnyKey[1]; /* Original name: miPushAnyKey */
 } MenuCont; // size >= 0x514
 
-#define MENUMAINPANEL_UNK_LEN (6)
+#define MENUMAINPANEL_PANEL_LEN (6)
 
 typedef struct MenuMainPanel {
     /* 0x000 */ struct SMenuAll *global; /* Original name: global */
     /* 0x004 */ UNUSED_MEMBER(s32 size); /* Original name: size */
     /* 0x008 */ s32 count; /* Original name: count */
     /* 0x00C */ s32 select; /* Original name: select */
-    /* 0x010 */ s32 indexes[MENUMAINPANEL_UNK_LEN]; /* Original name: indexes */
+    /* 0x010 */ MenuCommonTiTexMenuOptionsNumber indexes[MENUMAINPANEL_PANEL_LEN]; /* Original name: indexes */
     /* 0x028 */ SMenuItem miBase; /* Original name: miBase */
-    /* 0x0B8 */ SMenuItem miPanel[MENUMAINPANEL_UNK_LEN]; /* Original name: miPanel */
+    /* 0x0B8 */ SMenuItem miPanel[MENUMAINPANEL_PANEL_LEN]; /* Original name: miPanel */
     /* 0x418 */ MenuCursor cursor; /* Original name: cursor */
 } MenuMainPanel; // size = 0x678
 
@@ -303,6 +305,7 @@ typedef struct MenuNameSelPanel {
 } MenuNameSelPanel; // size = 0xA88
 
 #define MENUNAMEOPPANEL_NAME_LEN 4U
+#define MENUNAMEOPPANEL_PANEL_LEN 2
 
 typedef enum MenuNameOpPanelType {
     /* 0 */ MENUNAMEOPPANELTYPE_0,
@@ -317,7 +320,7 @@ typedef struct MenuNameOpPanel {
     /* 0x00C */ u8 name[MENUNAMEOPPANEL_NAME_LEN]; /* Original name: name */
     /* 0x010 */ SMenuItem miBase; /* Original name: miBase */
     /* 0x0A0 */ SMenuItem miName; /* Original name: miName */
-    /* 0x130 */ SMenuItem miPanel[2]; /* Original name: miPanel */
+    /* 0x130 */ SMenuItem miPanel[MENUNAMEOPPANEL_PANEL_LEN]; /* Original name: miPanel */
     /* 0x250 */ MenuCursor cursor; /* Original name: cursor */
 } MenuNameOpPanel; // size >= 0x4B0
 
@@ -881,7 +884,7 @@ bool menuCont_input(MenuCont *cont, s32 playerNo);
 void menuCont_update(MenuCont *cont, SMenuItem *parent);
 void menuCont_draw(MenuCont *cont, Gfx **gfxP);
 void menuMainPanel_setFrame(MenuMainPanel *mainPanel, s32 dir, f32 time);
-void menuMainPanel_init(MenuMainPanel *mainPanel, SMenuAll *global, s32 count, s32 select, const s32 *indexes,
+void menuMainPanel_init(MenuMainPanel *mainPanel, SMenuAll *global, s32 count, s32 select, const MenuCommonTiTexMenuOptionsNumber *indexes,
                         s32 x, s32 y);
 bool menuMainPanel_input(MenuMainPanel *mainPanel, s32 playerNo);
 void menuMainPanel_update(MenuMainPanel *mainPanel, SMenuItem *parent);
@@ -1030,7 +1033,7 @@ Mtx **_getMtxPtr(SMenuAll *global);
 Vtx **_getVtxPtr(SMenuAll *global);
 
 struct TiTexData *_getTexChar(SMenuAll *global, s32 index);
-struct TiTexData *_getTexCommon(SMenuAll *global, s32 index);
+struct TiTexData *_getTexCommon(SMenuAll *global, MenuCommonTiTex index);
 struct TiTexData *_getTexCredit(SMenuAll *global, s32 index);
 struct TiTexData *_getTexLevel(SMenuAll *global, s32 index);
 struct TiTexData *_getTexMain(SMenuAll *global, s32 index);

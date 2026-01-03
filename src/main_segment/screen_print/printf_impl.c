@@ -575,7 +575,8 @@ int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
                 goto prt_float;
 
             case 'E':
-            case 'e': {
+            case 'e':
+            {
                 int fsign;
                 int exp;
                 char *p;
@@ -602,7 +603,8 @@ int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
             }
 
             case 'G':
-            case 'g': {
+            case 'g':
+            {
                 double dval;
 
                 dval = va_arg(args, double);
@@ -618,7 +620,8 @@ int _kmcprt(Printer *arg0, const char *fmt, va_list args) {
                 goto prt_float;
             }
 
-            case 'n': {
+            case 'n':
+            {
                 int *np = va_arg(args, int *);
 
                 *np = n_ct;

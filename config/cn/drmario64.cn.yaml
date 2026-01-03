@@ -2363,9 +2363,9 @@ segments:
         dir: assets/menu/menu_common
         subsegments:
           - [0x428110]
-          - [0x428128, i4, menu_common_titexdata_00_texs_tex, 32, 32]
+          - [0x428128, i4, menu_common_cursor_alpha_texs_tex, 32, 32]
           - [0x428328]
-          - [0x428338, rgba16, menu_common_titexdata_01_texs_tex, 32, 32]
+          - [0x428338, rgba16, menu_common_cursor_texs_tex, 32, 32]
           - [0x428B38]
           - [0x428B48, palette, menu_common_titexdata_02_texs_tex]
           - [0x428B68, ci4, menu_common_titexdata_02_texs_tex, 64, 40]
@@ -2392,11 +2392,11 @@ segments:
           - [0x42B0D8]
           - [0x42B0E8, i4, menu_common_titexdata_13_texs_tex, 16, 10]
           - [0x42B138]
-          - [0x42B148, palette, menu_common_titexdata_14_texs_tex]
-          - [0x42B348, ci8, menu_common_titexdata_14_texs_tex, 128, 940]
+          - [0x42B148, palette, menu_common_menu_options_texs_tex]
+          - [0x42B348, ci8, menu_common_menu_options_texs_tex, 128, 940]
           - [0x448948]
-          - [0x448958, palette, menu_common_titexdata_15_texs_tex]
-          - [0x448B58, ci8, menu_common_titexdata_15_texs_tex, 96, 336]
+          - [0x448958, palette, menu_common_menu_titles_texs_tex]
+          - [0x448B58, ci8, menu_common_menu_titles_texs_tex, 96, 336]
           - [0x450958]
 
   - name: segment_menu_level # compressed

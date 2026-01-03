@@ -675,7 +675,7 @@ static_assert(ARRAY_COUNT(_musicItemColor) == MENUITEM_UNK_LEN3, "");
  * Original name: menuTitle_setTitle
  */
 void menuTitle_setTitle(MenuTitle *title, MainMenuMode mode) {
-    s32 titleNo = -1;
+    MenuCommonTiTexMenuTitlesNumber titleNo = MENUCOMMON_TITLES_NO_INVALID;
 
     switch (mode) {
         case MODE_MAIN:
@@ -686,7 +686,7 @@ void menuTitle_setTitle(MenuTitle *title, MainMenuMode mode) {
         case MODE_PLAY4_TYPE2:
         case MODE_PLAY4_TYPE3:
         case MODE_PLAY4_TYPE4:
-            titleNo = 0;
+            titleNo = MENUCOMMON_TITLES_NO_SELECT_MODE;
             break;
 
         case MODE_OPTION:
@@ -703,7 +703,7 @@ void menuTitle_setTitle(MenuTitle *title, MainMenuMode mode) {
         case MODE_SOUND:
         case MODE_COUNT:
         case MODE_SCORE:
-            titleNo = 1;
+            titleNo = MENUCOMMON_TITLES_NO_OPTIONS;
             break;
 
         case MODE_LVSEL_TA_NS:
@@ -713,12 +713,12 @@ void menuTitle_setTitle(MenuTitle *title, MainMenuMode mode) {
         case MODE_VSMAN_TA_NE:
         case MODE_VSMAN_TA_CH:
         case MODE_VSMAN_TA:
-            titleNo = 2;
+            titleNo = MENUCOMMON_TITLES_NO_SCORE_ATTACK;
             break;
 
         case MODE_PLAY4_TB_CH:
         case MODE_PLAY4_TB_LV:
-            titleNo = 3;
+            titleNo = MENUCOMMON_TITLES_NO_TEAM_BATTLE;
             break;
 
         case MODE_RECORD_MS:
@@ -733,38 +733,38 @@ void menuTitle_setTitle(MenuTitle *title, MainMenuMode mode) {
         case MODE_RECORD_VM:
         case MODE_RECORD_VM_FL:
         case MODE_RECORD_VM_TA:
-            titleNo = 4;
+            titleNo = MENUCOMMON_TITLES_NO_RECORDS;
             break;
 
         case MODE_LVSEL_NS:
         case MODE_LVSEL_NE:
         case MODE_LVSEL:
-            titleNo = 5;
+            titleNo = MENUCOMMON_TITLES_NO_CLASSIC;
             break;
 
         case MODE_STORY_NS:
         case MODE_STORY_NE:
         case MODE_STORY:
-            titleNo = 6;
+            titleNo = MENUCOMMON_TITLES_NO_STORY;
             break;
 
         case MODE_PLAY4_CH:
         case MODE_PLAY4_LV:
-            titleNo = 7;
+            titleNo = MENUCOMMON_TITLES_NO_4PLAYER_VS;
             break;
 
         case MODE_VSCOM_NS:
         case MODE_VSCOM_NE:
         case MODE_VSCOM_CH:
         case MODE_VSCOM:
-            titleNo = 8;
+            titleNo = MENUCOMMON_TITLES_NO_VS_COMPUTER;
             break;
 
         case MODE_VSMAN_NS:
         case MODE_VSMAN_NE:
         case MODE_VSMAN_CH:
         case MODE_VSMAN:
-            titleNo = 9;
+            titleNo = MENUCOMMON_TITLES_NO_2PLAYER_VS;
             break;
 
         case MODE_VSCOM_FL_NS:
@@ -777,13 +777,13 @@ void menuTitle_setTitle(MenuTitle *title, MainMenuMode mode) {
         case MODE_VSMAN_FL:
         case MODE_PLAY4_FL_CH:
         case MODE_PLAY4_FL_LV:
-            titleNo = 0xA;
+            titleNo = MENUCOMMON_TITLES_NO_FLASH;
             break;
 
         case MODE_LVSEL_TQ_NS:
         case MODE_LVSEL_TQ_NE:
         case MODE_LVSEL_TQ:
-            titleNo = 0xB;
+            titleNo = MENUCOMMON_TITLES_NO_MARATHON;
             break;
 
         default:
@@ -805,8 +805,8 @@ void menuTitle_init(MenuTitle *title, SMenuAll *global, s32 x, s32 y) {
 
     title->global = global;
     title->current = 0;
-    title->titleNo[0] = -1;
-    title->titleNo[1] = -1;
+    title->titleNo[0] = MENUCOMMON_TITLES_NO_INVALID;
+    title->titleNo[1] = MENUCOMMON_TITLES_NO_INVALID;
 
     for (i = 0; i < MENUTITLE_TLT_COUNT; i++) {
         menuItem_init(&title->miBase[i], x, y);
@@ -830,13 +830,13 @@ void menuTitle_draw(MenuTitle *title, Gfx **gfxP) {
     s32 i;
 
     gSPDisplayList(gfx++, fade_normal_texture_init_dl);
-    texC = _getTexCommon(title->global, 0xF);
+    texC = _getTexCommon(title->global, MENUCOMMON_TITLES);
 
     for (i = 0; i < MENUTITLE_TLT_COUNT; i++) {
         s32 j = INC_WRAP(title->current + i, MENUTITLE_TLT_COUNT);
         SMenuItem *item;
 
-        if (title->titleNo[j] < 0) {
+        if (title->titleNo[j] <= MENUCOMMON_TITLES_NO_INVALID) {
             continue;
         }
 
@@ -846,7 +846,7 @@ void menuTitle_draw(MenuTitle *title, Gfx **gfxP) {
         } else {
             gDPSetRenderMode(gfx++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
         }
-        menuItem_drawItem(&title->miBase[j], &gfx, texC, 0, 0xC, title->titleNo[j]);
+        menuItem_drawItem(&title->miBase[j], &gfx, texC, 0, MENUCOMMON_TITLES_NO_MAX, title->titleNo[j]);
     }
 
     *gfxP = gfx;
@@ -856,7 +856,11 @@ void menuTitle_draw(MenuTitle *title, Gfx **gfxP) {
  * Original name: _menuCursor_cursor_4_pattern
  */
 const s32 _menuCursor_cursor_4_pattern[] = {
-    0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+    MENUCOMMON_3 - 3, MENUCOMMON_3 - 3, MENUCOMMON_3 - 3, MENUCOMMON_3 - 3, MENUCOMMON_3 - 3, MENUCOMMON_3 - 3,
+    MENUCOMMON_4 - 3, MENUCOMMON_4 - 3, MENUCOMMON_4 - 3, MENUCOMMON_4 - 3, MENUCOMMON_4 - 3, MENUCOMMON_4 - 3,
+    MENUCOMMON_5 - 3, MENUCOMMON_5 - 3, MENUCOMMON_5 - 3, MENUCOMMON_5 - 3, MENUCOMMON_5 - 3, MENUCOMMON_5 - 3,
+    MENUCOMMON_4 - 3, MENUCOMMON_4 - 3, MENUCOMMON_4 - 3, MENUCOMMON_4 - 3, MENUCOMMON_4 - 3, MENUCOMMON_4 - 3,
+    MENUCOMMON_3 - 3, MENUCOMMON_3 - 3, MENUCOMMON_3 - 3, MENUCOMMON_3 - 3, MENUCOMMON_3 - 3, MENUCOMMON_3 - 3,
 };
 
 /**
@@ -990,17 +994,17 @@ void menuCursor_draw1(MenuCursor *cursorArr[], s32 count, Gfx **gxfP) {
 
         switch (i) {
             case CURSOR_ITEM:
-                k = 8;
+                k = MENUCOMMON_8;
                 var_s3 = 4;
                 break;
 
             case CURSOR_PANEL:
-                k = 6;
+                k = MENUCOMMON_6;
                 var_s3 = 3;
                 break;
 
             case CURSOR_WINDOW:
-                k = 7;
+                k = MENUCOMMON_7;
                 var_s3 = 0x10;
                 break;
 
@@ -1010,23 +1014,23 @@ void menuCursor_draw1(MenuCursor *cursorArr[], s32 count, Gfx **gxfP) {
                 break;
 
             case CURSOR_NEW_4P:
-                k = 9;
+                k = MENUCOMMON_9;
                 break;
 
             case CURSOR_NEW_MUSIC:
-                k = 0xA;
+                k = MENUCOMMON_10;
                 break;
 
             case CURSOR_NEW_SPEED:
-                k = 0xB;
+                k = MENUCOMMON_11;
                 break;
 
             case CURSOR_NEW_VIRUS_LV_L:
-                k = 0xC;
+                k = MENUCOMMON_12;
                 break;
 
             case CURSOR_NEW_VIRUS_LV_S:
-                k = 0xD;
+                k = MENUCOMMON_13;
                 break;
         }
 
@@ -1056,7 +1060,7 @@ void menuCursor_draw1(MenuCursor *cursorArr[], s32 count, Gfx **gxfP) {
                     k = item->colorTime * (ARRAY_COUNT(_menuCursor_cursor_4_pattern) - 1);
                     k = _menuCursor_cursor_4_pattern[k] + 3;
                 } else {
-                    k = 3;
+                    k = MENUCOMMON_3;
                 }
 
                 if (k != sp6C) {
@@ -1168,8 +1172,8 @@ void menuCursor_draw2(MenuCursor *cursorArr[], s32 count, Gfx **gxfP) {
         cursor = cursorArr[i];
 
         if (cursor->flags.finger) {
-            texC = _getTexCommon(cursor->global, 1);
-            texA = _getTexCommon(cursor->global, 0);
+            texC = _getTexCommon(cursor->global, MENUCOMMON_CURSOR);
+            texA = _getTexCommon(cursor->global, MENUCOMMON_CURSOR_ALPHA);
             cached += menuItem_drawAlphaTex(&cursor->miFinger, &gfx, texC, texA, cached);
         }
     }
@@ -2588,7 +2592,8 @@ void menuCont_draw(MenuCont *cont, Gfx **gfxP) {
         menuItem_drawTex(item, &gfx, texC, 0);
     }
 
-    menuItem_drawItem(cont->miLabel, &gfx, _getTexCommon(cont->global, 0xE), 0, 47, 19);
+    menuItem_drawItem(cont->miLabel, &gfx, _getTexCommon(cont->global, MENUCOMMON_OPTIONS), false,
+                      MENUCOMMON_OPTIONS_NO_MAX, MENUCOMMON_OPTIONS_NO_CONTROLS);
 
     gSPDisplayList(gfx++, fade_alpha_texture_init_dl);
 
@@ -2614,8 +2619,8 @@ void menuMainPanel_setFrame(MenuMainPanel *mainPanel, s32 dir, f32 time) {
 /**
  * Original name: menuMainPanel_init
  */
-void menuMainPanel_init(MenuMainPanel *mainPanel, SMenuAll *global, s32 count, s32 select, const s32 *indexes, s32 x,
-                        s32 y) {
+void menuMainPanel_init(MenuMainPanel *mainPanel, SMenuAll *global, s32 count, s32 select,
+                        const MenuCommonTiTexMenuOptionsNumber *indexes, s32 x, s32 y) {
     s32 i;
 
     mainPanel->global = global;
@@ -2706,9 +2711,9 @@ void menuMainPanel_draw(MenuMainPanel *mainPanel, Gfx **gfxP) {
     texC = _getTexMain(mainPanel->global, _panel_3220[mainPanel->count - 2]);
     menuItem_drawTex(&mainPanel->miBase, &gfx, texC, 0);
 
-    texC = _getTexCommon(mainPanel->global, 0xE);
+    texC = _getTexCommon(mainPanel->global, MENUCOMMON_OPTIONS);
     for (i = 0; i < mainPanel->count; i++) {
-        menuItem_drawItem(&mainPanel->miPanel[i], &gfx, texC, 0, 0x2F, mainPanel->indexes[i]);
+        menuItem_drawItem(&mainPanel->miPanel[i], &gfx, texC, false, 0x2F, mainPanel->indexes[i]);
     }
 
     list[0] = &mainPanel->cursor;
@@ -3184,9 +3189,9 @@ void menuNameOpPanel_update(MenuNameOpPanel *nameOpPanel, SMenuItem *parent) {
 /**
  * Original name: _panel_3859
  */
-const s32 _panel_3859[][2] = {
-    { 24, 25 }, // MENUNAMEOPPANELTYPE_0
-    { 28, 25 }, // MENUNAMEOPPANELTYPE_1
+const MenuCommonTiTexMenuOptionsNumber _panel_3859[][MENUNAMEOPPANEL_PANEL_LEN] = {
+    { MENUCOMMON_OPTIONS_NO_CHANGE_NAME, MENUCOMMON_OPTIONS_NO_DELETE_NAME }, // MENUNAMEOPPANELTYPE_0
+    { MENUCOMMON_OPTIONS_NO_CANCEL, MENUCOMMON_OPTIONS_NO_DELETE_NAME },      // MENUNAMEOPPANELTYPE_1
 };
 static_assert(ARRAY_COUNT(_panel_3859) == MENUNAMEOPPANELTYPE_MAX, "");
 
@@ -3205,9 +3210,10 @@ void menuNameOpPanel_draw(MenuNameOpPanel *nameOpPanel, Gfx **gfxP) {
     texC = _getTexMain(nameOpPanel->global, 2);
     menuItem_drawTex(&nameOpPanel->miBase, &gfx, texC, 0);
 
-    texC = _getTexCommon(nameOpPanel->global, 0xE);
+    texC = _getTexCommon(nameOpPanel->global, MENUCOMMON_OPTIONS);
     for (i = 0; i < ARRAY_COUNTU(nameOpPanel->miPanel); i++) {
-        menuItem_drawItem(&nameOpPanel->miPanel[i], &gfx, texC, 0, 0x2F, _panel_3859[nameOpPanel->type][i]);
+        menuItem_drawItem(&nameOpPanel->miPanel[i], &gfx, texC, false, MENUCOMMON_OPTIONS_NO_MAX,
+                          _panel_3859[nameOpPanel->type][i]);
     }
 
     texC = _getTexMain(nameOpPanel->global, 7);
@@ -3475,11 +3481,11 @@ void menuSndSelPanel_update(MenuSndSelPanel *sndSelPanel, SMenuItem *parentItem)
 /**
  * Original name: _panel_4108
  */
-const s32 _panel_4108[] = {
-    0x1A,
-    0x1B,
-    0x23,
-    0x24,
+const MenuCommonTiTexMenuOptionsNumber _panel_4108[] = {
+    MENUCOMMON_OPTIONS_NO_STEREO,
+    MENUCOMMON_OPTIONS_NO_MONO,
+    MENUCOMMON_OPTIONS_NO_BGM,
+    MENUCOMMON_OPTIONS_NO_SE,
 };
 static_assert(ARRAY_COUNT(_panel_4108) == MENUSNDSELPANEL_UNK_0A4_LEN, "");
 
@@ -3514,9 +3520,9 @@ void menuSndSelPanel_draw(MenuSndSelPanel *sndSelPanel, Gfx **gfxP) {
     item->trans[0] = x;
     item->trans[1] = y;
 
-    texC = _getTexCommon(sndSelPanel->global, 0xE);
+    texC = _getTexCommon(sndSelPanel->global, MENUCOMMON_OPTIONS);
     for (i = 0; i < ARRAY_COUNTU(sndSelPanel->miPanel); i++) {
-        menuItem_drawItem(&sndSelPanel->miPanel[i], &gfx, texC, 0, 0x2F, _panel_4108[i]);
+        menuItem_drawItem(&sndSelPanel->miPanel[i], &gfx, texC, false, MENUCOMMON_OPTIONS_NO_MAX, _panel_4108[i]);
     }
 
     for (i = 0; i < ARRAY_COUNTU(sndSelPanel->number); i++) {
@@ -4580,103 +4586,61 @@ bool menuMain_setMsgStr(MenuMain *mMain, MainMenuMode mode, s32 select) {
     return res;
 }
 
-const s32 _root_5339[] = {
-    0x00000000,
-    0x00000001,
-    0x00000002,
-    0x00000003,
-};
-static_assert(ARRAY_COUNT(_root_5339) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _play1_5340[] = {
-    0x00000005, 0x00000004, 0x00000006, 0x0000001E, 0x0000001F, 0x00000020,
-};
-static_assert(ARRAY_COUNT(_play1_5340) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _play2_5341[] = {
-    0x0000001D,
-    0x0000001E,
-    0x00000020,
-};
-static_assert(ARRAY_COUNT(_play2_5341) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _play4_5342[] = {
-    0x00000009,
-    0x0000000A,
-    0x0000000B,
-    0x0000000C,
-};
-static_assert(ARRAY_COUNT(_play4_5342) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _play4type_5343[] = {
-    0x00000025,
-    0x00000026,
-    0x0000001E,
-};
-static_assert(ARRAY_COUNT(_play4type_5343) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _option_5344[] = {
-    0x0000000D, 0x0000000E, 0x0000000F, 0x00000011, 0x0000002B,
-};
-static_assert(ARRAY_COUNT(_option_5344) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _recMs_5345[] = {
-    0x00000021,
-    0x00000022,
-};
-static_assert(ARRAY_COUNT(_recMs_5345) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _recMs1_5346[] = {
-    0x00000005, 0x00000004, 0x00000006, 0x0000001E, 0x0000001F, 0x00000020,
-};
-static_assert(ARRAY_COUNT(_recMs1_5346) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _recMs2_5347[] = {
-    0x0000001D,
-    0x0000001E,
-    0x00000020,
-};
-static_assert(ARRAY_COUNT(_recMs2_5347) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _tutorial_5348[] = {
-    0x00000013, 0x00000014, 0x00000015, 0x00000016, 0x00000017,
-};
-static_assert(ARRAY_COUNT(_tutorial_5348) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _count_5349[] = {
-    0x00000028,
-    0x00000029,
-    0x0000002A,
-};
-static_assert(ARRAY_COUNT(_count_5349) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _backup_5350[] = {
-    0x0000001C,
-    0x00000011,
-};
-static_assert(ARRAY_COUNT(_backup_5350) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _misc_5351[] = {
-    0x00000010,
-    0x00000027,
-    0x0000002C,
-};
-static_assert(ARRAY_COUNT(_misc_5351) <= MENUMAINPANEL_UNK_LEN, "");
-
-const s32 _score_5352[] = {
-    0x0000002D,
-    0x0000002E,
-};
-static_assert(ARRAY_COUNT(_score_5352) <= MENUMAINPANEL_UNK_LEN, "");
-
 /**
  * Original name: menuMain_initPanel
  */
 void menuMain_initPanel(MenuMain *mMain, MainMenuMode mode, s32 panelSw, s32 select) {
-    const s32 *table;
+    static const MenuCommonTiTexMenuOptionsNumber _root_5339[] = {
+        MENUCOMMON_OPTIONS_NO_ONE_PLAYER,
+        MENUCOMMON_OPTIONS_NO_TWO_PLAYER,
+        MENUCOMMON_OPTIONS_NO_MULTIPLAYER,
+        MENUCOMMON_OPTIONS_NO_OPTIONS,
+    };
+    static_assert(ARRAY_COUNT(_root_5339) <= MENUMAINPANEL_PANEL_LEN, "");
+
+    static const MenuCommonTiTexMenuOptionsNumber _play1_5340[] = {
+        MENUCOMMON_OPTIONS_NO_CLASSIC, MENUCOMMON_OPTIONS_NO_STORY,    MENUCOMMON_OPTIONS_NO_VS_COMPUTER,
+        MENUCOMMON_OPTIONS_NO_FLASH,   MENUCOMMON_OPTIONS_NO_MARATHON, MENUCOMMON_OPTIONS_NO_SCORE_ATTACK,
+    };
+    static_assert(ARRAY_COUNT(_play1_5340) <= MENUMAINPANEL_PANEL_LEN, "");
+
+    static const MenuCommonTiTexMenuOptionsNumber _play2_5341[] = {
+        MENUCOMMON_OPTIONS_NO_2_PLAYER_VS,
+        MENUCOMMON_OPTIONS_NO_FLASH,
+        MENUCOMMON_OPTIONS_NO_SCORE_ATTACK,
+    };
+    static_assert(ARRAY_COUNT(_play2_5341) <= MENUMAINPANEL_PANEL_LEN, "");
+
+    static const MenuCommonTiTexMenuOptionsNumber _play4_5342[] = {
+        MENUCOMMON_OPTIONS_NO_ONE_PLAYERS,
+        MENUCOMMON_OPTIONS_NO_TWO_PLAYERS,
+        MENUCOMMON_OPTIONS_NO_THREE_PLAYERS,
+        MENUCOMMON_OPTIONS_NO_FOUR_PLAYERS,
+    };
+    static_assert(ARRAY_COUNT(_play4_5342) <= MENUMAINPANEL_PANEL_LEN, "");
+
+    static const MenuCommonTiTexMenuOptionsNumber _play4type_5343[] = {
+        MENUCOMMON_OPTIONS_NO_4_PLAYER_VS,
+        MENUCOMMON_OPTIONS_NO_4_TEAM_BATTLE,
+        MENUCOMMON_OPTIONS_NO_FLASH,
+    };
+    static_assert(ARRAY_COUNT(_play4type_5343) <= MENUMAINPANEL_PANEL_LEN, "");
+
+    static const MenuCommonTiTexMenuOptionsNumber _option_5344[] = {
+        MENUCOMMON_OPTIONS_NO_RECORDS,           MENUCOMMON_OPTIONS_NO_HOW_TO_PLAY, MENUCOMMON_OPTIONS_NO_NAME,
+        MENUCOMMON_OPTIONS_NO_DELETE_SAVED_DATA, MENUCOMMON_OPTIONS_NO_OTHER,
+    };
+    static_assert(ARRAY_COUNT(_option_5344) <= MENUMAINPANEL_PANEL_LEN, "");
+
+    const MenuCommonTiTexMenuOptionsNumber *table;
     s32 count;
 
     switch (mode) {
+        case MODE_MAIN:
+            table = _root_5339;
+            count = ARRAY_COUNT(_root_5339);
+            break;
+
         case MODE_PLAY1:
             table = _play1_5340;
             count = ARRAY_COUNT(_play1_5340);
@@ -4706,46 +4670,103 @@ void menuMain_initPanel(MenuMain *mMain, MainMenuMode mode, s32 panelSw, s32 sel
             break;
 
         case MODE_RECORD_MS:
+        {
+            static const MenuCommonTiTexMenuOptionsNumber _recMs_5345[] = {
+                MENUCOMMON_OPTIONS_NO_REC_ONE_PLAYER,
+                MENUCOMMON_OPTIONS_NO_REC_TWO_PLAYER,
+            };
+            static_assert(ARRAY_COUNT(_recMs_5345) <= MENUMAINPANEL_PANEL_LEN, "");
+
             table = _recMs_5345;
             count = ARRAY_COUNT(_recMs_5345);
-            break;
+        } break;
 
         case MODE_RECORD_PLAY1:
+        {
+            static const MenuCommonTiTexMenuOptionsNumber _recMs1_5346[] = {
+                MENUCOMMON_OPTIONS_NO_CLASSIC, MENUCOMMON_OPTIONS_NO_STORY,    MENUCOMMON_OPTIONS_NO_VS_COMPUTER,
+                MENUCOMMON_OPTIONS_NO_FLASH,   MENUCOMMON_OPTIONS_NO_MARATHON, MENUCOMMON_OPTIONS_NO_SCORE_ATTACK,
+            };
+            static_assert(ARRAY_COUNT(_recMs1_5346) <= MENUMAINPANEL_PANEL_LEN, "");
+
             table = _recMs1_5346;
             count = ARRAY_COUNT(_recMs1_5346);
-            break;
+        } break;
 
         case MODE_RECORD_PLAY2:
+        {
+            static const MenuCommonTiTexMenuOptionsNumber _recMs2_5347[] = {
+                MENUCOMMON_OPTIONS_NO_2_PLAYER_VS,
+                MENUCOMMON_OPTIONS_NO_FLASH,
+                MENUCOMMON_OPTIONS_NO_SCORE_ATTACK,
+            };
+            static_assert(ARRAY_COUNT(_recMs2_5347) <= MENUMAINPANEL_PANEL_LEN, "");
+
             table = _recMs2_5347;
             count = ARRAY_COUNT(_recMs2_5347);
-            break;
+        } break;
 
         case MODE_TUTORIAL:
+        {
+            static const MenuCommonTiTexMenuOptionsNumber _tutorial_5348[] = {
+                MENUCOMMON_OPTIONS_NO_CONTROLS,          MENUCOMMON_OPTIONS_NO_BASIC_RULES,
+                MENUCOMMON_OPTIONS_NO_2_PLAYER_VS_RULE,  MENUCOMMON_OPTIONS_NO_4_PLAYER_VS_RULE,
+                MENUCOMMON_OPTIONS_NO_IMPROVE_YOUR_GAME,
+            };
+            static_assert(ARRAY_COUNT(_tutorial_5348) <= MENUMAINPANEL_PANEL_LEN, "");
+
             table = _tutorial_5348;
             count = ARRAY_COUNT(_tutorial_5348);
-            break;
+        } break;
 
         case MODE_COUNT:
+        {
+            static const MenuCommonTiTexMenuOptionsNumber _count_5349[] = {
+                MENUCOMMON_OPTIONS_NO_3,
+                MENUCOMMON_OPTIONS_NO_2,
+                MENUCOMMON_OPTIONS_NO_1,
+            };
+            static_assert(ARRAY_COUNT(_count_5349) <= MENUMAINPANEL_PANEL_LEN, "");
             table = _count_5349;
             count = ARRAY_COUNT(_count_5349);
-            break;
+        } break;
 
         case MODE_BACKUP:
+        {
+            static const MenuCommonTiTexMenuOptionsNumber _backup_5350[] = {
+                MENUCOMMON_OPTIONS_NO_CANCEL,
+                MENUCOMMON_OPTIONS_NO_DELETE_SAVED_DATA,
+            };
+            static_assert(ARRAY_COUNT(_backup_5350) <= MENUMAINPANEL_PANEL_LEN, "");
             table = _backup_5350;
             count = ARRAY_COUNT(_backup_5350);
-            break;
+        } break;
 
         case MODE_MISC:
+        {
+            static const MenuCommonTiTexMenuOptionsNumber _misc_5351[] = {
+                MENUCOMMON_OPTIONS_NO_SOUND,
+                MENUCOMMON_OPTIONS_NO_NUMBER_OF_GAMES,
+                MENUCOMMON_OPTIONS_NO_SCORE_DISPLAY,
+            };
+            static_assert(ARRAY_COUNT(_misc_5351) <= MENUMAINPANEL_PANEL_LEN, "");
+
             table = _misc_5351;
             count = ARRAY_COUNT(_misc_5351);
-            break;
+        } break;
 
         case MODE_SCORE:
+        {
+            static const MenuCommonTiTexMenuOptionsNumber _score_5352[] = {
+                MENUCOMMON_OPTIONS_NO_ON,
+                MENUCOMMON_OPTIONS_NO_OFF,
+            };
+            static_assert(ARRAY_COUNT(_score_5352) <= MENUMAINPANEL_PANEL_LEN, "");
+
             table = _score_5352;
             count = ARRAY_COUNT(_score_5352);
-            break;
+        } break;
 
-        case MODE_MAIN:
         default:
             table = _root_5339;
             count = ARRAY_COUNT(_root_5339);
@@ -9422,8 +9443,10 @@ const s32 _tex_9880[] = {
     1,
 };
 
-const s32 _choice_9881[] = {
-    4, 5, 6, 0x1D, 0x1E, 0x1F, 0x20,
+const MenuCommonTiTexMenuOptionsNumber _choice_9881[] = {
+    MENUCOMMON_OPTIONS_NO_STORY,        MENUCOMMON_OPTIONS_NO_CLASSIC, MENUCOMMON_OPTIONS_NO_VS_COMPUTER,
+    MENUCOMMON_OPTIONS_NO_2_PLAYER_VS,  MENUCOMMON_OPTIONS_NO_FLASH,   MENUCOMMON_OPTIONS_NO_MARATHON,
+    MENUCOMMON_OPTIONS_NO_SCORE_ATTACK,
 };
 
 /**
@@ -9465,8 +9488,9 @@ void menuRankLabel_draw(MenuRankLabel *rankLabelArr[], s32 count, Gfx **gfxP) {
                         break;
 
                     case 3:
-                        texC = _getTexCommon(rankLabel->global, 0xE);
-                        cached += menuItem_drawItem(item, &gfx, texC, cached, 0x2F, _choice_9881[j]);
+                        texC = _getTexCommon(rankLabel->global, MENUCOMMON_OPTIONS);
+                        cached +=
+                            menuItem_drawItem(item, &gfx, texC, cached, MENUCOMMON_OPTIONS_NO_MAX, _choice_9881[j]);
                         break;
                 }
             }
@@ -10577,7 +10601,7 @@ TiTexData *_getTexChar(SMenuAll *global, s32 index) {
 /**
  * Original name: _getTexCommon
  */
-TiTexData *_getTexCommon(SMenuAll *global, s32 index) {
+TiTexData *_getTexCommon(SMenuAll *global, MenuCommonTiTex index) {
     return &global->texCommon[index];
 }
 

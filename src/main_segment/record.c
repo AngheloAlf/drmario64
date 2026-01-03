@@ -550,7 +550,8 @@ bool _get1PLess(struct_evs_mem_data *mc1, struct_evs_mem_data *mc2, DataModeSort
     s32 lo;
 
     switch (mode) {
-        case _1P_STORY: {
+        case _1P_STORY:
+        {
             struct_evs_mem_data_story_data *story1 = &mc1->story_data[level];
             struct_evs_mem_data_story_data *story2 = &mc2->story_data[level];
 
@@ -566,7 +567,8 @@ bool _get1PLess(struct_evs_mem_data *mc1, struct_evs_mem_data *mc2, DataModeSort
             }
         } break;
 
-        case _1P_LEVEL: {
+        case _1P_LEVEL:
+        {
             struct_evs_mem_data_level_data *level1 = &mc1->level_data[level];
             struct_evs_mem_data_level_data *level2 = &mc2->level_data[level];
 
@@ -578,7 +580,8 @@ bool _get1PLess(struct_evs_mem_data *mc1, struct_evs_mem_data *mc2, DataModeSort
             }
         } break;
 
-        case _1P_TaiQ: {
+        case _1P_TaiQ:
+        {
             struct_evs_mem_data_taiQ_data *taiQ1 = &mc1->taiQ_data[level];
             struct_evs_mem_data_taiQ_data *taiQ2 = &mc2->taiQ_data[level];
 
@@ -590,7 +593,8 @@ bool _get1PLess(struct_evs_mem_data *mc1, struct_evs_mem_data *mc2, DataModeSort
             }
         } break;
 
-        case _1P_TimeAt: {
+        case _1P_TimeAt:
+        {
             struct_evs_mem_data_timeAt_data *timeAt1 = &mc1->timeAt_data[level];
             struct_evs_mem_data_timeAt_data *timeAt2 = &mc2->timeAt_data[level];
 

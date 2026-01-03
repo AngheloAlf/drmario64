@@ -11,7 +11,7 @@
 
 // Static/compile-time assertions
 
-#if __STDC_VERSION__ >= 201112L
+#if __STDC_VERSION__ >= 201112L || CC_CHECK
 # define static_assert(cond, msg) _Static_assert(cond, msg)
 #else
 # ifndef GLUE

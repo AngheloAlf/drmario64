@@ -4391,7 +4391,8 @@ DmMainCnt dm_game_main_1p(void) {
         state->cnd_static = dm_cnd_win;
 
         switch (evs_gamemode) {
-            case GMD_TIME_ATTACK: {
+            case GMD_TIME_ATTACK:
+            {
                 //! FAKE
                 s32 temp_v0;
 
@@ -8409,7 +8410,8 @@ void dm_game_graphic2(void) {
     switch (evs_gamesel) {
         case GSL_2PLAY:
         case GSL_VSCPU:
-        case GSL_2DEMO: {
+        case GSL_2DEMO:
+        {
             s32 bak = st->frame_move_count;
             bool visBoard = st->frame_move_count < FRAME_MOVEMENT_MAX;
             bool visScore = !st->bg_snapping;

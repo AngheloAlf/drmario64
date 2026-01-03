@@ -3,7 +3,18 @@ Language: Cpp
 UseTab: Never
 ColumnLimit: 120
 PointerAlignment: Right
-BreakBeforeBraces: Attach
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: true
+  AfterClass: false
+  AfterControlStatement: Never
+  AfterEnum: false
+  AfterFunction: false
+  AfterStruct: false
+  AfterUnion: false
+  BeforeElse: false
+  BeforeWhile: false
+  IndentBraces: false
 SpaceAfterCStyleCast: false
 Cpp11BracedListStyle: false
 IndentCaseLabels: true
