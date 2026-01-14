@@ -63,7 +63,7 @@ jobs:
           path: build/${{ matrix.version }}/drmario64.${{ matrix.version }}.map
 
       - name: Generate PJ64 symbols file
-        run: python3 tools/pj64_syms.py --version ${{ matrix.version }} -o drmario.${{ matrix.version }}.sym
+        run: uv run tools/pj64_syms.py --version ${{ matrix.version }} -o drmario.${{ matrix.version }}.sym
 
       - name: Upload PJ64 symbols file
         uses: actions/upload-artifact@v6
