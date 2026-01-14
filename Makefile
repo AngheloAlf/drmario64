@@ -127,7 +127,10 @@ else
     LD              := $(GNULD)
 endif
 
-SPLAT             ?= python3 -m splat split
+UV                ?= uv
+PYTHON            ?= uv run python
+
+SPLAT             ?= $(PYTHON) -m splat split
 SPLAT_YAML        ?= config/$(VERSION)/$(TARGET).$(VERSION).yaml
 
 SPLAT_FLAGS       ?=
@@ -153,13 +156,13 @@ else
     SLINKY_FLAGS    += --custom-options modding=false
 endif
 
-ROM_COMPRESSOR    ?= tools/compressor/rom_compressor.py
-ROM_DECOMPRESSOR  ?= tools/compressor/rom_decompressor.py
-SEGMENT_EXTRACTOR ?= tools/compressor/extract_compressed_segments.py
-CHECKSUMMER       ?= tools/checksummer.py
-MSG_REENCODER     ?= tools/buildtools/msg_reencoder.py
-INC_FROM_BIN      ?= tools/buildtools/inc_from_bin.py
-PIGMENT64         ?= pigment64
+ROM_COMPRESSOR    ?= $(PYTHON) tools/compressor/rom_compressor.py
+ROM_DECOMPRESSOR  ?= $(PYTHON) tools/compressor/rom_decompressor.py
+SEGMENT_EXTRACTOR ?= $(PYTHON) tools/compressor/extract_compressed_segments.py
+CHECKSUMMER       ?= $(PYTHON) tools/checksummer.py
+MSG_REENCODER     ?= $(PYTHON) tools/buildtools/msg_reencoder.py
+INC_FROM_BIN      ?= $(PYTHON) tools/buildtools/inc_from_bin.py
+PIGMENT64         ?= tools/pigment64/pigment64
 
 export SPIMDISASM_PANIC_RANGE_CHECK="True"
 
@@ -389,6 +392,7 @@ setup:
 	$(ROM_DECOMPRESSOR) $(BASEROM) $(BASEROM_UNCOMPRESSED) tools/compressor/compress_segments.$(VERSION).csv $(VERSION)
 	$(MAKE) -C tools
 	$(MAKE) $(LD_SCRIPT)
+	@echo "Setup done"
 
 extract:
 	$(RM) -r asm/$(VERSION) bin/$(VERSION)

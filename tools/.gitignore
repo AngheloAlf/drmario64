@@ -3,5 +3,6 @@ gcc_egcs/
 gcc_egcs_og/
 
 slinky/
+pigment64/
 
 libs/

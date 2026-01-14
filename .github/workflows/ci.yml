@@ -15,20 +15,19 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Install package requirements
-        run: sudo apt-get install -y make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip clang-format-14 clang-tidy-14
-
-      - name: Install Python dependencies
-        run: pip3 install -r requirements.txt
-
-      - name: Install Rust programs
+      - name: Install system dependencies
         run: |
-          cargo install pigment64 --version ">=0.3.0,<1.*"
+          sudo apt-get install -y make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu clang-format-14 clang-tidy-14
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+
+      - name: Sync uv
+        run: |
+          uv sync
 
       - name: Get extra dependencies
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           repository: ${{ secrets.SECRETREPO }}
           token: ${{ secrets.SECRETTOKEN }}
@@ -46,19 +45,19 @@ jobs:
         run: make -j $(nproc) WERROR=1 VERSION=${{ matrix.version }}
 
       - name: Print progress
-        run: python3 tools/progress.py --version ${{ matrix.version }}
+        run: uv run tools/progress.py --version ${{ matrix.version }}
 
       - name: Generate objdiff report
-        run: python3 -m mapfile_parser objdiff_report report.json --version ${{ matrix.version }}
+        run: uv run mapfile_parser objdiff_report report.json --version ${{ matrix.version }}
 
       - name: Upload progress report artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: ${{ matrix.version }}_report
           path: report.json
 
       - name: Upload map
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: drmario64.${{ matrix.version }}.map
           path: build/${{ matrix.version }}/drmario64.${{ matrix.version }}.map
@@ -67,7 +66,7 @@ jobs:
         run: python3 tools/pj64_syms.py --version ${{ matrix.version }} -o drmario.${{ matrix.version }}.sym
 
       - name: Upload PJ64 symbols file
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: drmario.${{ matrix.version }}.sym
           path: drmario.${{ matrix.version }}.sym

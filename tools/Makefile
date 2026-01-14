@@ -34,10 +34,13 @@ EGCS_BINUTILS   := $(EGCS_DIR)/as
 SLINKY_DIR      := slinky
 SLINKY          := $(SLINKY_DIR)/slinky-cli
 
-all: $(KMC_GCC) $(KMC_BINUTILS) $(EGCS_GCC) $(EGCS_BINUTILS) $(SLINKY)
+PIGMENT64_DIR   := pigment64
+PIGMENT64       := $(PIGMENT64_DIR)/pigment64
+
+all: $(KMC_GCC) $(KMC_BINUTILS) $(EGCS_GCC) $(EGCS_BINUTILS) $(SLINKY) $(PIGMENT64)
 
 clean:
-	$(RM) -rf $(KMC_DIR) gcc_kmc $(EGCS_DIR) gcc_egcs $(SLINKY_DIR)
+	$(RM) -rf $(KMC_DIR) gcc_kmc $(EGCS_DIR) gcc_egcs $(SLINKY_DIR) $(PIGMENT64_DIR)
 
 distclean: clean
 
@@ -68,5 +71,10 @@ $(SLINKY): | $(SLINKY_DIR)
 	tar xf slinky-cli-$(HOST_TRIPLE).tar.gz -C $(SLINKY_DIR)
 	$(RM) slinky-cli-$(HOST_TRIPLE).tar.gz
 
-$(KMC_DIR) $(EGCS_DIR) $(SLINKY_DIR):
+$(PIGMENT64): | $(PIGMENT64_DIR)
+	wget https://github.com/decompals/pigment64/releases/download/0.6.3/pigment64-$(HOST_TRIPLE).tar.gz
+	tar xf pigment64-$(HOST_TRIPLE).tar.gz -C $(PIGMENT64_DIR)
+	$(RM) pigment64-$(HOST_TRIPLE).tar.gz
+
+$(KMC_DIR) $(EGCS_DIR) $(SLINKY_DIR) $(PIGMENT64_DIR):
 	mkdir -p $@

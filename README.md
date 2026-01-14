@@ -33,71 +33,46 @@ The build process has the following package requirements:
 * clang
 * binutils-mips-linux-gnu
 * gcc-mips-linux-gnu
-* python3
-* pip3
-* venv
-* Rust
+* uv
 
-Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
+Under Debian / Ubuntu (which we recommend using), you can install most of them
+with the following commands:
 
 ```bash
 sudo apt update
-sudo apt install make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu python3 python3-pip python3-venv
+sudo apt install make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu
+sudo apt install make git build-essential binutils-mips-linux-gnu
 ```
 
-### Python dependencies
+### `uv`
 
-First you'll need to create a virtual environment for the python packages:
+We use `uv` to manage Python and its dependencies.
 
-```bash
-python3 -m venv .venv
-```
+See the official `uv` docs to install it:
+<https://docs.astral.sh/uv/getting-started/installation/>
 
-To start using the virtual environment on your current terminal run:
+Then run `uv sync` to install and update Python and any dependency needed.
 
-```bash
-source .venv/bin/activate
-```
-
-Take in mind for each new terminal you'll need to **active** the Python virtual
-environment again, there's no need to create the virtual environment again.
-
-Now you can install the Python dependencies, to do so run:
-
-```bash
-python3 -m pip install -U -r requirements.txt
-```
-
-### Rust dependencies
-
-To install Rust run the following command and follow the on-screen instructions
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-
-The following Rust programs are required by the build process:
-
-* pigment64
-
-To install those programs run the following commands:
-
-```bash
-cargo install pigment64 --version ">=0.3.0,<1.*"
-```
+If you need to run any Python script directly you can use either
+`uv run ./script.py` or enable the venv in your shell.
 
 ## Building
 
-Copy your big-endian Dr Mario 64 ROM into the repository's root directory and rename it to `baserom.us.z64`. Then run
+Copy your big-endian Dr Mario 64 ROM into the repository's `config/us`
+directory and rename it to `baserom.us.z64`. Then run the following commands to
+download the appropriate compiler versions, extract ROM data using splat, and
+build the files back into a rom.
+
+You can pass `-j N`, where `N` is the number of cores your processor has (you
+can know this value by using `nproc`), to speedup the build by parallelizing.
 
 ```bash
 make setup
-make lib
 make extract
 make
 ```
 
-to download the appropriate compiler versions, build libultra, extract data from the rom using splat, and build the files back into a rom. If successful, the last line of output should say
+If successful, the last line of output should say:
 
 ```bash
 build/us/drmario64.us.z64: OK
@@ -105,15 +80,24 @@ build/us/drmario64.us.z64: OK
 
 ### Other versions
 
-This repository supports for the iQue and the Gateway versions of this game too.
+This repository has support for the iQue and the Gateway versions of this game.
 
-To build any of this versions place your ROM in the root of the repo and rename it to `baserom.cn.z64` or `baserom.gw.z64`. Pass `VERSION=cn` or `VERSION=gw` to the above make commands.
+To build any of those versions place the corresponding ROM in the `config/cn/`
+or `config/gw` directories of the repo and rename the rom to either
+`baserom.cn.z64` or `baserom.gw.z64`, `cn` corresponding to the iQue version,
+while `gw` corresponds to the Gateway one.
+Run the above `make` commands but pass either `VERSION=cn` or `VERSION=gw` to
+build each version respectively.
 
 ## Contributing
 
 TODO: write some contributing guidelines.
 
 Smaller efforts are appreciated. Just open a PR and try to address any review comments left by other contributors c:
+
+This repository takes some heavy inspiration from the DWARF debug information
+dumped from the Gamecube release. You can access the DWARF dump in this
+repository: <https://github.com/AngheloAlf/puzzle_collection_dwarf>
 
 ### Important note
 
