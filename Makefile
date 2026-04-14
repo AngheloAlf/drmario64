@@ -130,7 +130,7 @@ endif
 UV                ?= uv
 PYTHON            ?= uv run python
 
-SPLAT             ?= $(PYTHON) -m splat split
+SPLAT             ?= $(PYTHON) -c 'print("meow")'
 SPLAT_YAML        ?= config/$(VERSION)/$(TARGET).$(VERSION).yaml
 
 SPLAT_FLAGS       ?=
