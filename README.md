@@ -30,6 +30,7 @@ The build process has the following package requirements:
 * make
 * git
 * build-essential
+* wget
 * clang
 * binutils-mips-linux-gnu
 * gcc-mips-linux-gnu
@@ -40,8 +41,7 @@ with the following commands:
 
 ```bash
 sudo apt update
-sudo apt install make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu
-sudo apt install make git build-essential binutils-mips-linux-gnu
+sudo apt install make git build-essential wget clang binutils-mips-linux-gnu gcc-mips-linux-gnu
 ```
 
 ### `uv`
