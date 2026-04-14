@@ -8,7 +8,7 @@ on:
 jobs:
   build_repo:
     # This is a *private* build container.
-    container: ghcr.io/AngheloAlf/drmario64-build:main
+    container: ghcr.io/agheloalf/drmario64-build:main
 
     name: Build repo (${{ matrix.version }})
     runs-on: ubuntu-latest
