@@ -24,7 +24,7 @@ jobs:
 
       - name: Install system dependencies
         run: |
-          sudo apt-get install -y make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu clang-format-14 clang-tidy-14
+          apt-get install -y make git build-essential clang binutils-mips-linux-gnu gcc-mips-linux-gnu clang-format-14 clang-tidy-14
           curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Sync uv
