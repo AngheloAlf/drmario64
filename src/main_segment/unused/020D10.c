@@ -176,6 +176,16 @@ void func_800394A0(Gfx **gfxP, Vtx *vtx, u16 *framebuffer, void **heapP) {
     *heapP = gfx;
 }
 
+typedef struct struct_func_8003974C_sp18_unk_00 {
+    /* 0x0 */ f32 unk_0;
+    /* 0x4 */ f32 unk_4;
+    /* 0x8 */ f32 unk_8;
+} struct_func_8003974C_sp18_unk_00; // size = 0xC
+
+typedef struct struct_func_8003974C_sp18 {
+    /* 0x00 */ struct_func_8003974C_sp18_unk_00 unk_00[0xF];
+} struct_func_8003974C_sp18; // size = 0xB4
+
 void func_8003974C(Vtx *vtx);
 
 #if VERSION_US
@@ -187,285 +197,105 @@ INCLUDE_ASM("asm/gw/nonmatchings/main_segment/unused/020D10", func_8003974C);
 #endif
 
 #if VERSION_CN
-#if 0
+#ifdef NON_MATCHING
 void func_8003974C(Vtx *vtx) {
-    ? spC;
-    ? sp10;
-    ? sp14;
-    ? sp18;
-    ? sp1C;
-    ? sp20;
-    f32 spE28;
-    f32 spE2C;
-    f32 spE30;
-    f32 spE38;
-    f32 spE3C;
-    f32 spE40;
-    ? *spE48;
-    ? *spE4C;
-    ? *spE50;
-    f32 *spE58;
-    f32 *spE5C;
-    f32 *spE60;
-    f32 *spE64;
-    f32 *spE68;
-    f32 *spE6C;
-    f32 *spE70;
-    Vtx *spE74;
-    s32 spE78;
-    ? *spE7C;
-    ? *spE80;
-    ? *spE84;
-    ? *temp_a0_2;
-    ? *var_t6;
-    ? *var_t7;
-    ? *var_t9;
-    Vtx *temp_a1;
-    Vtx *temp_a1_2;
-    Vtx *temp_a2;
-    Vtx *temp_a2_2;
-    Vtx *temp_a2_3;
-    Vtx *temp_a2_6;
-    Vtx *var_t4;
-    f32 *temp_v0;
-    f32 *var_a0;
-    f32 *var_a1;
-    f32 *var_a3;
-    f32 *var_a3_2;
-    f32 *var_fp;
-    f32 *var_s4;
-    f32 *var_s5;
-    f32 *var_s6;
-    f32 *var_s7;
-    f32 *var_t0;
-    f32 *var_t0_2;
-    f32 *var_t1;
-    f32 *var_t1_2;
-    f32 *var_t2;
-    f32 *var_t3;
-    f32 temp_fa0;
-    f32 temp_ft0;
-    f32 temp_ft1;
-    f32 temp_fv0;
-    f32 temp_fv0_2;
-    f32 temp_fv0_3;
-    f32 temp_fv0_4;
-    f32 temp_fv1;
-    f32 temp_fv1_2;
-    f32 var_ft0;
-    f32 var_fv1;
-    s32 temp_a0;
-    s32 temp_t2;
-    s32 var_a3_3;
-    s32 var_a3_4;
-    s32 var_s0;
-    s32 var_s0_2;
-    s32 var_s0_3;
-    s32 var_s0_4;
-    s32 var_s1;
-    s32 var_s1_2;
-    s32 var_s1_3;
-    s32 var_s1_4;
-    s32 var_s2;
-    s32 var_s3;
-    s32 var_t0_3;
-    s32 var_t0_4;
-    s32 var_t1_3;
-    s32 var_t1_4;
-    s32 var_t5;
-    s32 var_v0;
-    s32 var_v0_2;
-    u8 temp_v1;
-    u8 temp_v1_2;
-    void *temp_a1_3;
-    void *temp_a1_4;
-    void *temp_a1_5;
-    void *temp_a1_6;
-    void *temp_a2_4;
-    void *temp_a2_5;
-    void *temp_a2_7;
+    struct_func_8003974C_sp18 sp18[0x14];
+    f32 spE28[8];
 
-    var_t4 = vtx;
-    var_s1 = 0;
-    var_s0 = 0;
-    do {
-        temp_t2 = var_s1 + 1;
-        temp_v0 = &sp18 + (var_s1 * 0xB4);
-        var_t1 = temp_v0 + 8;
-        var_t0 = temp_v0 + 4;
-        var_a3 = temp_v0;
-loop_2:
-        temp_a2 = &var_t4[(temp_t2 * 0x10) + var_s0];
-        temp_a0 = (var_s1 * 0x10) + var_s0;
-        temp_a1 = &var_t4[temp_a0];
-        spE28 = (f32) (temp_a1->v.ob[0] - temp_a2->v.ob[0]);
-        temp_ft0 = (f32) (temp_a1->v.ob[1] - temp_a2->v.ob[1]);
-        spE2C = temp_ft0;
-        temp_a0_2 = &var_t4[temp_a0].unk_10;
-        temp_ft1 = (f32) (temp_a1->v.ob[2] - temp_a2->v.ob[2]);
-        spE30 = temp_ft1;
-        temp_fv0 = (f32) (temp_a0_2->unk_0 - temp_a1->v.ob[0]);
-        spE38 = temp_fv0;
-        temp_fv1 = (f32) (temp_a0_2->unk_2 - temp_a1->v.ob[1]);
-        spE3C = temp_fv1;
-        temp_fv0_2 = (f32) (temp_a0_2->unk_4 - temp_a1->v.ob[2]);
-        spE40 = temp_fv0_2;
-        *var_a3 = (temp_ft0 * temp_fv0_2) - (temp_ft1 * temp_fv1);
-        *var_t0 = (temp_ft1 * temp_fv0) - (spE28 * spE40);
-        var_s0 += 1;
-        var_a3 += 0xC;
-        var_t0 += 0xC;
-        *var_t1 = (spE28 * spE3C) - (temp_ft0 * spE38);
-        var_t1 += 0xC;
-        if (var_s0 < 0xF) {
-            goto loop_2;
+    Vtx *temp_a1;
+    Vtx *temp_a2;
+    Vtx *temp1;
+    struct_func_8003974C_sp18 *temp_v0;
+    f32 var_ft0;
+    s32 var_s0;
+    s32 var_s1;
+    s32 var_v0;
+    s32 temp2;
+
+    // var_t4 = vtx;
+
+    for (var_s1 = 0; var_s1 < 0x14; var_s1++) {
+        temp_v0 = &sp18[var_s1];
+
+        for (var_s0 = 0; var_s0 < 0xF; var_s0++) {
+            temp_a2 = &vtx[((var_s1 + 1) * 0x10) + var_s0];
+            temp_a1 = &vtx[var_s1 * 0x10 + var_s0];
+            temp1 = &vtx[var_s1 * 0x10 + var_s0 + 1];
+            spE28[0] = (f32)(temp_a1->v.ob[0] - temp_a2->v.ob[0]);
+            spE28[1] = (f32)(temp_a1->v.ob[1] - temp_a2->v.ob[1]);
+            spE28[2] = (f32)(temp_a1->v.ob[2] - temp_a2->v.ob[2]);
+            // no [3]
+            spE28[4] = (f32)(temp1->v.ob[0] - temp_a1->v.ob[0]);
+            spE28[5] = (f32)(temp1->v.ob[1] - temp_a1->v.ob[1]);
+            spE28[6] = (f32)(temp1->v.ob[2] - temp_a1->v.ob[2]);
+            temp_v0->unk_00[var_s0].unk_0 = (spE28[1] * spE28[6]) - (spE28[2] * spE28[5]);
+            temp_v0->unk_00[var_s0].unk_4 = (spE28[2] * spE28[4]) - (spE28[0] * spE28[6]);
+            temp_v0->unk_00[var_s0].unk_8 = (spE28[0] * spE28[5]) - (spE28[1] * spE28[4]);
         }
-        var_s1 = temp_t2;
-        var_s0 = 0;
-    } while (var_s1 < 0x14);
-    var_s1_2 = 1;
-    spE50 = &sp18;
-    spE48 = &sp1C;
-    var_s3 = 0;
-    var_s2 = 0xB4;
-    var_t9 = &sp14;
-    var_t7 = &sp10;
-    var_t6 = &spC;
-    spE4C = &sp20;
-    do {
-        var_s0_2 = 1;
-        var_t5 = var_s1_2 * 0x10;
-        var_t3 = var_s3 + var_t9 + 0xC;
-        var_t1_2 = var_s2 + var_t9 + 0xC;
-        var_a3_2 = var_s3 + var_t7 + 0xC;
-        var_a0 = var_s2 + var_t7 + 0xC;
-        var_s7 = var_s3 + var_t6 + 0xC;
-        var_s5 = var_s2 + var_t6 + 0xC;
-        var_t2 = var_s3 + spE4C + 0xC;
-        var_t0_2 = var_s2 + spE4C + 0xC;
-        var_a1 = var_s3 + spE48 + 0xC;
-        var_fp = var_s2 + spE48 + 0xC;
-        var_s6 = var_s3 + spE50 + 0xC;
-        var_s4 = var_s2 + spE50 + 0xC;
-loop_6:
-        temp_fv0_3 = *var_s4 + *var_s5 + *var_s6 + *var_s7;
-        spE28 = temp_fv0_3;
-        temp_fv1_2 = *var_fp + *var_a0 + *var_a1 + *var_a3_2;
-        spE2C = temp_fv1_2;
-        temp_fv0_4 = *var_t0_2 + *var_t1_2 + *var_t2 + *var_t3;
-        temp_fa0 = (temp_fv0_3 * temp_fv0_3) + (temp_fv1_2 * temp_fv1_2) + (temp_fv0_4 * temp_fv0_4);
-        var_fv1 = sqrtf(temp_fa0);
-        spE30 = temp_fv0_4;
-        if (var_fv1 != var_fv1) {
-            spE58 = var_a0;
-            spE5C = var_a1;
-            spE60 = var_a3_2;
-            spE64 = var_t0_2;
-            spE68 = var_t1_2;
-            spE6C = var_t2;
-            spE70 = var_t3;
-            spE74 = var_t4;
-            spE78 = var_t5;
-            spE7C = var_t6;
-            spE80 = var_t7;
-            spE84 = var_t9;
-            var_fv1 = sqrtf(temp_fa0);
+    }
+
+    for (var_s1 = 1; var_s1 < 0x14; var_s1++) {
+        for (var_s0 = 1; var_s0 < 0xF; var_s0++) {
+            spE28[0] = sp18[var_s1].unk_00[var_s0].unk_0 + sp18[var_s1].unk_00[var_s0 - 1].unk_0 +
+                       sp18[var_s1 - 1].unk_00[var_s0].unk_0 + sp18[var_s1 - 1].unk_00[var_s0 - 1].unk_0;
+            spE28[1] = sp18[var_s1].unk_00[var_s0].unk_4 + sp18[var_s1].unk_00[var_s0 - 1].unk_4 +
+                       sp18[var_s1 - 1].unk_00[var_s0].unk_4 + sp18[var_s1 - 1].unk_00[var_s0 - 1].unk_4;
+            spE28[2] = sp18[var_s1].unk_00[var_s0].unk_8 + sp18[var_s1].unk_00[var_s0 - 1].unk_8 +
+                       sp18[var_s1 - 1].unk_00[var_s0].unk_8 + sp18[var_s1 - 1].unk_00[var_s0 - 1].unk_8;
+
+            var_ft0 = sqrtf((spE28[0] * spE28[0]) + (spE28[1] * spE28[1]) + (spE28[2] * spE28[2]));
+            if (var_ft0 != 0.0f) {
+                var_ft0 = 127.0f / var_ft0;
+            }
+            temp_a2 = &vtx[var_s1 * 0x10 + var_s0];
+            temp_a2->v.cn[0] = (u8)(s32)(spE28[0] * var_ft0);
+            temp_a2->v.cn[1] = (u8)(s32)(spE28[1] * var_ft0);
+            temp_a2->v.cn[2] = (u8)(s32)(spE28[2] * var_ft0);
         }
-        var_ft0 = var_fv1;
-        if (var_ft0 != 0.0f) {
-            var_ft0 = 127.0f / var_ft0;
+    }
+
+    for (var_s1 = 0; var_s1 < 0x15; var_s1 += 0x14) {
+        for (var_s0 = 0; var_s0 < 0x10; var_s0 += 0xF) {
+            temp_a2 = &vtx[(var_s1 * 0x10) + var_s0];
+
+            var_v0 = ((var_s1 != 0) ? (var_s1 - 1) : 1) * 0x10;
+
+            temp2 = ((var_s0 != 0) ? (var_v0 - 1) : (var_v0 + 1));
+
+            temp_a1 = &vtx[temp2 + var_s0];
+            temp_a2->v.cn[0] = temp_a1->v.cn[0];
+            temp_a2->v.cn[1] = temp_a1->v.cn[1];
+            temp_a2->v.cn[2] = temp_a1->v.cn[2];
         }
-        temp_a2_2 = &var_t4[var_t5 + var_s0_2];
-        var_t3 += 0xC;
-        var_t2 += 0xC;
-        var_t1_2 += 0xC;
-        var_t0_2 += 0xC;
-        temp_a2_2->v.cn[0] = (u8) (s32) (spE28 * var_ft0);
-        var_a3_2 += 0xC;
-        var_a1 += 0xC;
-        var_a0 += 0xC;
-        var_fp += 0xC;
-        var_s7 += 0xC;
-        temp_a2_2->v.cn[1] = (u8) (s32) (spE2C * var_ft0);
-        var_s6 += 0xC;
-        var_s5 += 0xC;
-        var_s4 += 0xC;
-        var_s0_2 += 1;
-        temp_a2_2->v.cn[2] = (u8) (s32) (spE30 * var_ft0);
-        if (var_s0_2 < 0xF) {
-            goto loop_6;
-        }
-        var_s3 += 0xB4;
-        var_s1_2 += 1;
-        var_s2 += 0xB4;
-    } while (var_s1_2 < 0x14);
-    var_s1_3 = 0;
-    do {
-        var_s0_3 = 0;
-loop_14:
-        temp_a2_3 = &var_t4[(var_s1_3 * 0x10) + var_s0_3];
-        if (var_s1_3 != 0) {
-            var_v0 = (var_s1_3 - 1) * 0x10;
-        } else {
-            var_v0 = 0x10;
-        }
-        if (var_s0_3 == 0) {
-            var_v0_2 = var_v0 + 1;
-        } else {
-            var_v0_2 = var_v0 - 1 + var_s0_3;
-        }
-        temp_a1_2 = &var_t4[var_v0_2];
-        temp_a2_3->v.cn[0] = temp_a1_2->v.cn[0];
-        var_s0_3 += 0xF;
-        temp_a2_3->v.cn[1] = temp_a1_2->v.cn[1];
-        temp_a2_3->v.cn[2] = temp_a1_2->v.cn[2];
-        if (var_s0_3 < 0x10) {
-            goto loop_14;
-        }
-        var_s1_3 += 0x14;
-    } while (var_s1_3 < 0x15);
-    var_s1_4 = 1;
-    var_t1_3 = 0x1E0;
-    var_t0_3 = 0x1F0;
-    var_a3_3 = 0x110;
-    do {
-        temp_a2_4 = var_t4 + (var_s1_4 << 8);
-        temp_a1_3 = var_t4 + var_a3_3;
-        temp_v1 = var_t4->v.cn[var_a3_3];
-        var_a3_3 += 0x100;
-        temp_a2_4->unk_C = temp_v1;
-        var_s1_4 += 1;
-        temp_a2_4->unk_D = (u8) temp_a1_3->unk_D;
-        temp_a1_4 = var_t4 + var_t1_3;
-        var_t1_3 += 0x100;
-        temp_a2_4->unk_E = (u8) temp_a1_3->unk_E;
-        temp_a2_5 = var_t4 + var_t0_3;
-        var_t4->v.cn[var_t0_3] = temp_a1_4->unk_C;
-        var_t0_3 += 0x100;
-        temp_a2_5->unk_D = (u8) temp_a1_4->unk_D;
-        temp_a2_5->unk_E = (u8) temp_a1_4->unk_E;
-    } while (var_s1_4 < 0x14);
-    var_s0_4 = 1;
-    var_t1_4 = 0x1310;
-    var_t0_4 = 0x1410;
-    var_a3_4 = 0x110;
-    do {
-        temp_a2_6 = &var_t4[var_s0_4];
-        temp_a1_5 = var_t4 + var_a3_4;
-        temp_v1_2 = var_t4->v.cn[var_a3_4];
-        var_a3_4 += 0x10;
-        temp_a2_6->v.cn[0] = temp_v1_2;
-        var_s0_4 += 1;
-        temp_a2_6->v.cn[1] = temp_a1_5->unk_D;
-        temp_a1_6 = var_t4 + var_t1_4;
-        var_t1_4 += 0x10;
-        temp_a2_6->v.cn[2] = temp_a1_5->unk_E;
-        temp_a2_7 = var_t4 + var_t0_4;
-        var_t4->v.cn[var_t0_4] = temp_a1_6->unk_C;
-        var_t0_4 += 0x10;
-        temp_a2_7->unk_D = (u8) temp_a1_6->unk_D;
-        temp_a2_7->unk_E = (u8) temp_a1_6->unk_E;
-    } while (var_s0_4 < 0xF);
+    }
+
+    for (var_s1 = 1; var_s1 < 0x14; var_s1++) {
+        temp_a2 = &vtx[var_s1 * 0x10];
+        temp_a1 = &vtx[var_s1 * 0x10 + 1];
+        temp_a2->v.cn[0] = temp_a1->v.cn[0];
+        temp_a2->v.cn[1] = temp_a1->v.cn[1];
+        temp_a2->v.cn[2] = temp_a1->v.cn[2];
+
+        temp_a2 = &vtx[var_s1 * 0x10 + 0xF];
+        temp_a1 = &vtx[var_s1 * 0x10 + 0xE];
+        temp_a2->v.cn[0] = temp_a1->v.cn[0];
+        temp_a2->v.cn[1] = temp_a1->v.cn[1];
+        temp_a2->v.cn[2] = temp_a1->v.cn[2];
+    }
+
+    for (var_s0 = 1; var_s0 < 0xF; var_s0++) {
+        temp_a2 = &vtx[var_s0];
+        temp_a1 = &vtx[var_s0 + 0x10];
+        temp_a2->v.cn[0] = temp_a1->v.cn[0];
+        temp_a2->v.cn[1] = temp_a1->v.cn[1];
+        temp_a2->v.cn[2] = temp_a1->v.cn[2];
+
+        temp_a2 = &vtx[var_s0 + 0x140];
+        temp_a1 = &vtx[var_s0 + 0x130];
+        temp_a2->v.cn[0] = temp_a1->v.cn[0];
+        temp_a2->v.cn[1] = temp_a1->v.cn[1];
+        temp_a2->v.cn[2] = temp_a1->v.cn[2];
+    }
 }
 #else
 INCLUDE_ASM("asm/cn/nonmatchings/main_segment/unused/020D10", func_8003974C);
