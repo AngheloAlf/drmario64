@@ -176,72 +176,55 @@ void func_800394A0(Gfx **gfxP, Vtx *vtx, u16 *framebuffer, void **heapP) {
     *heapP = gfx;
 }
 
-typedef struct struct_func_8003974C_sp18_unk_00 {
+typedef struct struct_func_8003974C_sp18 {
     /* 0x0 */ f32 unk_0;
     /* 0x4 */ f32 unk_4;
     /* 0x8 */ f32 unk_8;
-} struct_func_8003974C_sp18_unk_00; // size = 0xC
+} struct_func_8003974C_sp18; // size = 0xC
 
-typedef struct struct_func_8003974C_sp18 {
-    /* 0x00 */ struct_func_8003974C_sp18_unk_00 unk_00[0xF];
-} struct_func_8003974C_sp18; // size = 0xB4
-
-void func_8003974C(Vtx *vtx);
-
-#if VERSION_US
-INCLUDE_ASM("asm/us/nonmatchings/main_segment/unused/020D10", func_8003974C);
-#endif
-
-#if VERSION_GW
-INCLUDE_ASM("asm/gw/nonmatchings/main_segment/unused/020D10", func_8003974C);
-#endif
-
-#if VERSION_CN
-#ifdef NON_MATCHING
 void func_8003974C(Vtx *vtx) {
-    struct_func_8003974C_sp18 sp18[0x14];
-    f32 spE28[8];
+    struct_func_8003974C_sp18 sp18[0x14][0xF];
+    f32 spE28[3];
+    f32 spE38[3];
 
     Vtx *temp_a1;
     Vtx *temp_a2;
     Vtx *temp1;
-    struct_func_8003974C_sp18 *temp_v0;
     f32 var_ft0;
     s32 var_s0;
     s32 var_s1;
-    s32 var_v0;
-    s32 temp2;
-
-    // var_t4 = vtx;
 
     for (var_s1 = 0; var_s1 < 0x14; var_s1++) {
-        temp_v0 = &sp18[var_s1];
 
         for (var_s0 = 0; var_s0 < 0xF; var_s0++) {
+            struct_func_8003974C_sp18 *temp_a3;
+
             temp_a2 = &vtx[((var_s1 + 1) * 0x10) + var_s0];
             temp_a1 = &vtx[var_s1 * 0x10 + var_s0];
             temp1 = &vtx[var_s1 * 0x10 + var_s0 + 1];
+
             spE28[0] = (f32)(temp_a1->v.ob[0] - temp_a2->v.ob[0]);
             spE28[1] = (f32)(temp_a1->v.ob[1] - temp_a2->v.ob[1]);
             spE28[2] = (f32)(temp_a1->v.ob[2] - temp_a2->v.ob[2]);
-            // no [3]
-            spE28[4] = (f32)(temp1->v.ob[0] - temp_a1->v.ob[0]);
-            spE28[5] = (f32)(temp1->v.ob[1] - temp_a1->v.ob[1]);
-            spE28[6] = (f32)(temp1->v.ob[2] - temp_a1->v.ob[2]);
-            temp_v0->unk_00[var_s0].unk_0 = (spE28[1] * spE28[6]) - (spE28[2] * spE28[5]);
-            temp_v0->unk_00[var_s0].unk_4 = (spE28[2] * spE28[4]) - (spE28[0] * spE28[6]);
-            temp_v0->unk_00[var_s0].unk_8 = (spE28[0] * spE28[5]) - (spE28[1] * spE28[4]);
+            spE38[0] = (f32)(temp1->v.ob[0] - temp_a1->v.ob[0]);
+            spE38[1] = (f32)(temp1->v.ob[1] - temp_a1->v.ob[1]);
+            spE38[2] = (f32)(temp1->v.ob[2] - temp_a1->v.ob[2]);
+
+            temp_a3 = &sp18[var_s1][var_s0];
+            temp_a3->unk_0 = (spE28[1] * spE38[2]) - (spE28[2] * spE38[1]);
+            temp_a3->unk_4 = (spE28[2] * spE38[0]) - (spE28[0] * spE38[2]);
+            temp_a3->unk_8 = (spE28[0] * spE38[1]) - (spE28[1] * spE38[0]);
         }
     }
 
     for (var_s1 = 1; var_s1 < 0x14; var_s1++) {
         for (var_s0 = 1; var_s0 < 0xF; var_s0++) {
-            spE28[0] = sp18[var_s1].unk_00[var_s0].unk_0 + sp18[var_s1].unk_00[var_s0 - 1].unk_0 +
-                       sp18[var_s1 - 1].unk_00[var_s0].unk_0 + sp18[var_s1 - 1].unk_00[var_s0 - 1].unk_0;
-            spE28[1] = sp18[var_s1].unk_00[var_s0].unk_4 + sp18[var_s1].unk_00[var_s0 - 1].unk_4 +
-                       sp18[var_s1 - 1].unk_00[var_s0].unk_4 + sp18[var_s1 - 1].unk_00[var_s0 - 1].unk_4;
-            spE28[2] = sp18[var_s1].unk_00[var_s0].unk_8 + sp18[var_s1].unk_00[var_s0 - 1].unk_8 +
-                       sp18[var_s1 - 1].unk_00[var_s0].unk_8 + sp18[var_s1 - 1].unk_00[var_s0 - 1].unk_8;
+            spE28[0] = sp18[var_s1][var_s0].unk_0 + sp18[var_s1][var_s0 - 1].unk_0 + sp18[var_s1 - 1][var_s0].unk_0 +
+                       sp18[var_s1 - 1][var_s0 - 1].unk_0;
+            spE28[1] = sp18[var_s1][var_s0].unk_4 + sp18[var_s1][var_s0 - 1].unk_4 + sp18[var_s1 - 1][var_s0].unk_4 +
+                       sp18[var_s1 - 1][var_s0 - 1].unk_4;
+            spE28[2] = sp18[var_s1][var_s0].unk_8 + sp18[var_s1][var_s0 - 1].unk_8 + sp18[var_s1 - 1][var_s0].unk_8 +
+                       sp18[var_s1 - 1][var_s0 - 1].unk_8;
 
             var_ft0 = sqrtf((spE28[0] * spE28[0]) + (spE28[1] * spE28[1]) + (spE28[2] * spE28[2]));
             if (var_ft0 != 0.0f) {
@@ -258,11 +241,7 @@ void func_8003974C(Vtx *vtx) {
         for (var_s0 = 0; var_s0 < 0x10; var_s0 += 0xF) {
             temp_a2 = &vtx[(var_s1 * 0x10) + var_s0];
 
-            var_v0 = ((var_s1 != 0) ? (var_s1 - 1) : 1) * 0x10;
-
-            temp2 = ((var_s0 != 0) ? (var_v0 - 1) : (var_v0 + 1));
-
-            temp_a1 = &vtx[temp2 + var_s0];
+            temp_a1 = &vtx[(var_s1 + (var_s1 ? -1 : 1)) * 16 + (var_s0 + (var_s0 ? -1 : 1))];
             temp_a2->v.cn[0] = temp_a1->v.cn[0];
             temp_a2->v.cn[1] = temp_a1->v.cn[1];
             temp_a2->v.cn[2] = temp_a1->v.cn[2];
@@ -297,10 +276,6 @@ void func_8003974C(Vtx *vtx) {
         temp_a2->v.cn[2] = temp_a1->v.cn[2];
     }
 }
-#else
-INCLUDE_ASM("asm/cn/nonmatchings/main_segment/unused/020D10", func_8003974C);
-#endif
-#endif
 
 void func_80039BE0(Vtx *vtx, f32 arg1, f32 arg2, f32 arg3) {
     f32 sp18[0x10];
