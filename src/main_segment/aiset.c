@@ -5,7 +5,6 @@
 #include "aiset.h"
 
 #include "libc/assert.h"
-#include "include_asm.h"
 #include "macros_defines.h"
 
 #include "dm_virus_init.h"
@@ -2218,355 +2217,339 @@ s32 aifSearchLineMS(struct_aiFlag *ag, s32 mx, s32 my, s32 mco, s32 sx, s32 sy, 
 /**
  * Original name: aiHiruAllPriSet
  */
-void aiHiruAllPriSet(struct_game_state_data *gameStateDataRef) {
-    struct_aiFlag *temp;
-    s32 sp30;
-    s32 temp_s0;
-    s32 temp2;
+void aiHiruAllPriSet(struct_game_state_data *xpw) {
+    struct_aiFlag *af;
+    s32 i;
+    s32 x;
+    s32 y;
     s32 var_s2;
     s32 var_t1;
     s32 var_s3_2;
 
+    u8 mx;
+    u8 my;
+    u8 mco;
+    u8 mst;
+    u8 sx;
+    u8 sy;
+    u8 sco;
+    u8 sst;
     u8 var_s0;
-    u8 var_s1;
-    u8 var_s7;
-    u8 var_s4;
-    u8 var_s5;
-    u8 var_s6;
-    u8 var_s3;
-    u8 var_v0_2;
-    u8 sp38;
     u8 sp3C;
     u8 sp40;
     u8 sp44;
 
-    for (sp30 = 0; sp30 < aiFlagCnt; sp30++) {
-        if (aiFlag[sp30].ok != 0) {
-            temp = &aiFlag[sp30];
+#if 0
+    int z; // r1+0x10
+    int f; // r1+0x10
+    int t; // r22
+
+    unsigned char rcr; // r14
+    unsigned char rcy; // r15
+    unsigned char rcb; // r16
+    unsigned char rco; // r1+0x10
+#endif
+
+    for (i = 0; i < aiFlagCnt; i++) {
+        if (aiFlag[i].ok != 0) {
+            af = &aiFlag[i];
 
             bcopy(aiFieldData, aif_field, sizeof(Unk_AIFEntry) * GAME_MAP_ROWS * GAME_MAP_COLUMNS);
 
-            temp_s0 = temp->x - 1;
-            temp2 = temp->y;
+            x = af->x - 1;
+            y = af->y;
             var_t1 = 0;
 
-            if (temp->tory == 0) {
-                var_s6 = temp_s0;
-                var_s7 = temp2;
-                var_s4 = 1;
-                var_s1 = temp_s0;
-                var_s3 = temp2 - 1;
+            if (af->tory == 0) {
+                mx = x;
+                my = y;
+                mst = 1;
+                sx = x;
+                sy = y - 1;
 
-                if (temp2 - 1 > 0) {
-                    sp38 = 0;
+                if (y - 1 > 0) {
+                    sst = 0;
                 }
 
-                if (temp->rev == 0) {
-                    var_s5 = aiNext[1];
-                    if (temp2 - 1 > 0) {
-                        var_v0_2 = aiNext[0];
+                if (af->rev == 0) {
+                    mco = aiNext[1];
+                    if (y - 1 > 0) {
+                        sco = aiNext[0];
                     }
                 } else {
-                    var_s5 = aiNext[0];
-                    if (temp2 - 1 > 0) {
-                        var_v0_2 = aiNext[1];
+                    mco = aiNext[0];
+                    if (y - 1 > 0) {
+                        sco = aiNext[1];
                     }
                 }
 
-                if (var_s7 != 0) {
-                    aif_field[var_s7][var_s6].st = var_s4;
-                    aif_field[var_s7][var_s6].co = var_s5;
+                if (my != 0) {
+                    aif_field[my][mx].st = mst;
+                    aif_field[my][mx].co = mco;
                 }
 
-                if (var_s3 != 0) {
-                    aif_field[var_s3][var_s1].st = sp38;
-                    aif_field[var_s3][var_s1].co = var_v0_2;
+                if (sy != 0) {
+                    aif_field[sy][sx].st = sst;
+                    aif_field[sy][sx].co = sco;
                 }
 
-                if (aif_field[temp2 - 1][temp_s0].co == aif_field[temp2][temp_s0].co) {
+                if (aif_field[y - 1][x].co == aif_field[y][x].co) {
                     var_t1 = 1;
                 }
-                var_s2 = aifSearchLineMS(temp, temp_s0, temp2, var_s5, temp_s0, temp2 - 1, var_v0_2, var_t1);
+                var_s2 = aifSearchLineMS(af, x, y, mco, x, y - 1, sco, var_t1);
             } else {
-                if (aif_field[temp2 + 1][temp_s0].st != 0xA) {
-                    var_s6 = temp_s0;
-                    var_s7 = temp2;
-                    var_s4 = 2;
-                    var_s1 = temp_s0 + 1;
-                    var_s3 = temp2;
-                    sp38 = 3;
-                    if (temp->rev == 0) {
-                        var_s5 = aiNext[0];
-                        var_v0_2 = aiNext[1];
+                if (aif_field[y + 1][x].st != 0xA) {
+                    mx = x;
+                    my = y;
+                    mst = 2;
+                    sx = x + 1;
+                    sy = y;
+                    sst = 3;
+                    if (af->rev == 0) {
+                        mco = aiNext[0];
+                        sco = aiNext[1];
                     } else {
-                        var_s5 = aiNext[1];
-                        var_v0_2 = aiNext[0];
+                        mco = aiNext[1];
+                        sco = aiNext[0];
                     }
                 } else {
-                    var_s6 = temp_s0 + 1;
-                    var_s7 = temp2;
-                    var_s4 = 3;
-                    var_s1 = temp_s0;
-                    var_s3 = temp2;
-                    sp38 = 2;
-                    if (temp->rev == 0) {
-                        var_s5 = aiNext[1];
-                        var_v0_2 = aiNext[0];
+                    mx = x + 1;
+                    my = y;
+                    mst = 3;
+                    sx = x;
+                    sy = y;
+                    sst = 2;
+                    if (af->rev == 0) {
+                        mco = aiNext[1];
+                        sco = aiNext[0];
                     } else {
-                        var_s5 = aiNext[0];
-                        var_v0_2 = aiNext[1];
+                        mco = aiNext[0];
+                        sco = aiNext[1];
                     }
                 }
-                if (var_s5 == var_v0_2) {
+                if (mco == sco) {
                     var_t1 = 1;
                 }
-                if (var_s7 != 0) {
-                    aif_field[var_s7][var_s6].st = var_s4;
-                    aif_field[var_s7][var_s6].co = var_s5;
+                if (my != 0) {
+                    aif_field[my][mx].st = mst;
+                    aif_field[my][mx].co = mco;
                 }
-                if (var_s3 != 0) {
-                    aif_field[var_s3][var_s1].st = sp38;
-                    aif_field[var_s3][var_s1].co = var_v0_2;
+                if (sy != 0) {
+                    aif_field[sy][sx].st = sst;
+                    aif_field[sy][sx].co = sco;
                 }
-                var_s2 = aifSearchLineMS(temp, var_s6, var_s7, var_s5, var_s1, var_s3, var_v0_2, var_t1);
+                var_s2 = aifSearchLineMS(af, mx, my, mco, sx, sy, sco, var_t1);
             }
 
             if ((var_s2 != 0) && (RensaP != 0)) {
                 if (var_s2 == 2) {
-                    var_s0 = var_s6;
-                    var_s6 = var_s1;
-                    var_s1 = var_s0;
+                    var_s0 = mx;
+                    mx = sx;
+                    sx = var_s0;
 
-                    var_s0 = var_s7;
-                    var_s7 = var_s3;
-                    var_s3 = var_s0;
+                    var_s0 = my;
+                    my = sy;
+                    sy = var_s0;
 
-                    var_s0 = var_s5;
-                    var_s5 = var_v0_2;
-                    var_v0_2 = var_s0;
+                    var_s0 = mco;
+                    mco = sco;
+                    sco = var_s0;
 
-                    var_s0 = var_s4;
-                    var_s4 = sp38;
-                    sp38 = var_s0;
+                    var_s0 = mst;
+                    mst = sst;
+                    sst = var_s0;
                 }
 
-                sp3C =
-                    aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1, var_s3, 0, sp38);
+                sp3C = aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 0, sst);
                 aiHiErR = aiHiEraseCtr;
-                sp40 =
-                    aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1, var_s3, 1, sp38);
+                sp40 = aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 1, sst);
                 aiHiErY = aiHiEraseCtr;
-                sp44 =
-                    aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1, var_s3, 2, sp38);
+                sp44 = aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 2, sst);
                 aiHiErB = aiHiEraseCtr;
 
                 var_s0 = 0;
-                if (var_s6 == var_s1) {
-                    if (var_s3 < var_s7) {
-                        var_s4 = 3;
-                        var_s1--;
-                        var_s3++;
-                        sp38 = 2;
-                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 0, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 1, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 2, sp38);
+                if (mx == sx) {
+                    if (sy < my) {
+                        mst = 3;
+                        sx--;
+                        sy++;
+                        sst = 2;
+                        if (xpw->blk[sy][sx].st == 0xA) {
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 0, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 1, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 2, sst);
                         }
 
-                        var_s4 = 2;
-                        var_s1 += 2;
-                        sp38 = 3;
-                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 0, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 1, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 2, sp38);
+                        mst = 2;
+                        sx += 2;
+                        sst = 3;
+                        if (xpw->blk[sy][sx].st == 0xA) {
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 0, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 1, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 2, sst);
                         }
                     } else {
-                        var_s4 = 3;
-                        var_s1--;
-                        var_s3--;
-                        sp38 = 2;
-                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 0, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 1, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 2, sp38);
+                        mst = 3;
+                        sx--;
+                        sy--;
+                        sst = 2;
+                        if (xpw->blk[sy][sx].st == 0xA) {
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 0, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 1, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 2, sst);
                         }
 
-                        var_s4 = 2;
-                        var_s1 += 2;
-                        sp38 = 3;
-                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 0, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 1, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 2, sp38);
+                        mst = 2;
+                        sx += 2;
+                        sst = 3;
+                        if (xpw->blk[sy][sx].st == 0xA) {
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 0, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 1, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 2, sst);
                         }
                     }
                 } else {
-                    if (var_s1 < var_s6) {
-                        var_s4 = 2;
-                        var_s1 += 2;
-                        sp38 = 3;
-                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 0, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 1, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 2, sp38);
+                    if (sx < mx) {
+                        mst = 2;
+                        sx += 2;
+                        sst = 3;
+                        if (xpw->blk[sy][sx].st == 0xA) {
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 0, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 1, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 2, sst);
                         }
 
-                        var_s4 = 1;
-                        var_s1--;
-                        var_s3--;
-                        sp38 = 0;
-                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 0, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 1, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 2, sp38);
+                        mst = 1;
+                        sx--;
+                        sy--;
+                        sst = 0;
+                        if (xpw->blk[sy][sx].st == 0xA) {
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 0, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 1, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 2, sst);
                         }
                     } else {
-                        var_s4 = 3;
-                        var_s1 -= 2;
-                        sp38 = 2;
-                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 0, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 1, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 2, sp38);
+                        mst = 3;
+                        sx -= 2;
+                        sst = 2;
+                        if (xpw->blk[sy][sx].st == 0xA) {
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 0, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 1, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 2, sst);
                         }
 
-                        var_s4 = 1;
-                        var_s1++;
-                        var_s3--;
-                        sp38 = 0;
-                        if (gameStateDataRef->blk[var_s3][var_s1].st == 0xA) {
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 0, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 1, sp38);
-                            var_s0 |= aifRensaCheckCore(gameStateDataRef, temp, var_s6, var_s7, var_s5, var_s4, var_s1,
-                                                        var_s3, 2, sp38);
+                        mst = 1;
+                        sx++;
+                        sy--;
+                        sst = 0;
+                        if (xpw->blk[sy][sx].st == 0xA) {
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 0, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 1, sst);
+                            var_s0 |= aifRensaCheckCore(xpw, af, mx, my, mco, mst, sx, sy, 2, sst);
                         }
                     }
                 }
 
-                switch (var_v0_2) {
+                switch (sco) {
                     case 0:
-                        temp->pri += aiHiErR * pri_point[7];
+                        af->pri += aiHiErR * pri_point[7];
                         if (sp3C != 0) {
                             if ((sp40 != 0) || (sp44 != 0) || (var_s0 != 0)) {
-                                temp->pri += RensaP * sp3C;
+                                af->pri += RensaP * sp3C;
                             } else {
-                                temp->pri += RensaP * sp3C;
+                                af->pri += RensaP * sp3C;
                             }
                         } else {
                             if ((sp40 != 0) || (sp44 != 0) || (var_s0 != 0)) {
-                                if (var_s7 >= 3U) {
-                                    temp->pri += RensaMP;
+                                if (my >= 3U) {
+                                    af->pri += RensaMP;
                                 }
                             } else {
-                                temp->pri += 0;
+                                af->pri += 0;
                             }
                         }
                         break;
 
                     case 1:
-                        temp->pri += aiHiErY * pri_point[7];
+                        af->pri += aiHiErY * pri_point[7];
                         if (sp40 != 0) {
                             if ((sp3C != 0) || (sp44 != 0) || (var_s0 != 0)) {
-                                temp->pri += RensaP * sp40;
+                                af->pri += RensaP * sp40;
                             } else {
-                                temp->pri += RensaP * sp40;
+                                af->pri += RensaP * sp40;
                             }
                         } else {
                             if ((sp3C != 0) || (sp44 != 0) || (var_s0 != 0)) {
-                                if (var_s7 >= 3U) {
-                                    temp->pri += RensaMP;
+                                if (my >= 3U) {
+                                    af->pri += RensaMP;
                                 }
                             } else {
-                                temp->pri += 0;
+                                af->pri += 0;
                             }
                         }
                         break;
 
                     case 2:
-                        temp->pri += (aiHiErB * pri_point[7]);
+                        af->pri += (aiHiErB * pri_point[7]);
                         if (sp44 != 0) {
                             if ((sp40 != 0) || (sp3C != 0) || (var_s0 != 0)) {
-                                temp->pri += RensaP * sp44;
+                                af->pri += RensaP * sp44;
                             } else {
-                                temp->pri += RensaP * sp44;
+                                af->pri += RensaP * sp44;
                             }
                         } else {
                             if ((sp40 != 0) || (sp3C != 0) || (var_s0 != 0)) {
-                                if (var_s7 >= 3U) {
-                                    temp->pri += RensaMP;
+                                if (my >= 3U) {
+                                    af->pri += RensaMP;
                                 }
                             } else {
-                                temp->pri += 0;
+                                af->pri += 0;
                             }
                         }
                         break;
                 }
             }
         } else {
-            aiFlag[sp30].pri = -0xF4240;
+            aiFlag[i].pri = -0xF4240;
         }
     }
 
-    if (gameStateDataRef->ai.aiRandFlag != 0) {
-        for (sp30 = var_s2 = 0, temp_s0 = -0xF4241; sp30 < aiFlagCnt; sp30++) {
+    if (xpw->ai.aiRandFlag) {
+        for (i = var_s2 = 0, x = -0xF4241; i < aiFlagCnt; i++) {
             if (aiPriOfs != 0) {
-                temp2 = genrand(aiPriOfs);
+                y = genrand(aiPriOfs);
             } else {
-                temp2 = 0;
+                y = 0;
             }
 
-            if (temp_s0 < aiFlag[sp30].pri + temp2) {
-                temp_s0 = aiFlag[sp30].pri + temp2;
-                var_s2 = sp30;
+            if (x < aiFlag[i].pri + y) {
+                x = aiFlag[i].pri + y;
+                var_s2 = i;
             }
         }
     } else {
-        for (sp30 = var_s2 = 0, temp_s0 = var_s3_2 = -0xF4241; sp30 < aiFlagCnt; sp30++) {
+        for (i = var_s2 = 0, x = var_s3_2 = -0xF4241; i < aiFlagCnt; i++) {
             if (aiPriOfs != 0) {
-                temp2 = genrand(aiPriOfs + 0x64);
+                y = genrand(aiPriOfs + 0x64);
             } else {
-                temp2 = genrand(0x64);
+                y = genrand(0x64);
             }
 
-            if (var_s3_2 < aiFlag[sp30].pri + temp2) {
-                var_s3_2 = aiFlag[sp30].pri + temp2;
-                if (temp_s0 < aiFlag[sp30].pri) {
-                    temp_s0 = aiFlag[sp30].pri;
+            if (var_s3_2 < aiFlag[i].pri + y) {
+                var_s3_2 = aiFlag[i].pri + y;
+                if (x < aiFlag[i].pri) {
+                    x = aiFlag[i].pri;
                 }
-                var_s2 = sp30;
+                var_s2 = i;
             }
 
-            if (aiFlag[var_s2].pri < temp_s0) {
-                gameStateDataRef->ai.aiRandFlag = 1;
+            if (aiFlag[var_s2].pri < x) {
+                xpw->ai.aiRandFlag = true;
             }
         }
     }
 
-    temp2 = aiFlag[var_s2].y;
+    y = aiFlag[var_s2].y;
     decide = var_s2;
 }
 

@@ -84,7 +84,7 @@ s32 aifMiniAloneCapNumberW(u8 x, u8 y, u8 f, s32 ec);
 
 s32 aifSearchLineMS(struct_aiFlag *ag, UNK_TYPE mx, UNK_TYPE my, UNK_TYPE mco, UNK_TYPE sx, UNK_TYPE sy, UNK_TYPE sco,
                     UNK_TYPE ec);
-void aiHiruAllPriSet(struct struct_game_state_data *gameStateDataRef);
+void aiHiruAllPriSet(struct struct_game_state_data *xpw);
 void aiSetCharacter(struct struct_game_state_data *xpw);
 void aifFieldCopy(struct struct_game_state_data *uupw);
 void aifPlaceSearch(void);
