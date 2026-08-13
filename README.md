@@ -15,8 +15,6 @@ Matching decomp of Dr. Mario 64
 
 [Progress graph :chart_with_upwards_trend:](https://decomp.dev/AngheloAlf/drmario64?mode=history)
 
-[Legacy progress graph :chart_with_upwards_trend:](https://angheloalf.github.io/drmario64/)
-
 ## Dependencies
 
 All the instructions assume the user is using a Debian/Ubuntu based Linux
